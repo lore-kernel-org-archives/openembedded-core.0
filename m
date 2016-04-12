@@ -1,41 +1,46 @@
-Return-Path: <sona.sarmadi@enea.com>
-Received: from smtp-out11.electric.net (smtp-out11.electric.net
-	[185.38.181.36])
-	by mail.openembedded.org (Postfix) with ESMTP id 69C9C71957
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 294A960119
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 10:20:59 +0000 (UTC)
-Received: from 1apvRK-0005OO-Tm by out11b.electric.net with emc1-ok (Exim 4.85)
-	(envelope-from <sona.sarmadi@enea.com>)
-	id 1apvRK-0005PN-Vl; Tue, 12 Apr 2016 03:20:58 -0700
-Received: by emcmailer; Tue, 12 Apr 2016 03:20:58 -0700
-Received: from [192.36.1.72] (helo=mx-3.enea.com)
-	by out11b.electric.net with smtp (Exim 4.85)
-	(envelope-from <sona.sarmadi@enea.com>)
-	id 1apvRK-0005OO-Tm; Tue, 12 Apr 2016 03:20:58 -0700
-Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
-	SESTOEX03.enea.se ([fe80::6ce7:7b51:1edf:e245%17]) with mapi id
-	14.03.0294.000; Tue, 12 Apr 2016 12:20:57 +0200
-From: Sona Sarmadi <sona.sarmadi@enea.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] bind: Upgrade 9.10.3-P3 -> 9.10.3-P4
-Thread-Index: AQHRlKQV61NASxzVNk6JLBFCOdOVU5+F/qCAgAAiCIA=
-Date: Tue, 12 Apr 2016 10:20:57 +0000
-Message-ID: <3230301C09DEF9499B442BBE162C5E48ABBA0E4A@SESTOEX04.enea.se>
-References: <1460456025-30856-1-git-send-email-sona.sarmadi@enea.com>
-	<CAJTo0Lao8YWTovmO5VeXQJaxSmzP-f76PPzk-tkEWuqf=uvQiA@mail.gmail.com>
-In-Reply-To: <CAJTo0Lao8YWTovmO5VeXQJaxSmzP-f76PPzk-tkEWuqf=uvQiA@mail.gmail.com>
-Accept-Language: sv-SE, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.16.142.231]
-MIME-Version: 1.0
-X-Outbound-IP: 192.36.1.72
-X-Env-From: sona.sarmadi@enea.com
-X-PolicySMART: 6030817
-X-Virus-Status: Scanned by VirusSMART (c)
-X-Virus-Status: Scanned by VirusSMART (s)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bind: Upgrade 9.10.3-P3 -> 9.10.3-P4
+	Tue, 12 Apr 2016 10:44:28 +0000 (UTC)
+Received: by mail-wm0-f49.google.com with SMTP id u206so22329746wme.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Apr 2016 03:44:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=O1KMN0gHDRyxwHr9Qeir2hLUl84N2mz3qj45GD5LhEk=;
+	b=Hr1Vkc7x+hIVjgCkiQcWHLs04McomRJOERV7V8LG2WjU0eqwuVkz8BEd6/4rYT4CB3
+	n5aHSPT8j0v8zSV46Z1hh9NcgLCNGKWaegMfQcm29f9fX+UsIihc6RdZLI5SFGf+pgps
+	hCjHHdG/TX7sFqMV1UhdC72gY7scBd/GMesx6i7SHqjsmQYT4/cJ9IhtDc6IjKqhuysr
+	ICK0mBtCbst5XaE4dyshPAVUJXVMAZzyJ6xz0+Tib6LIiyH20i0yxsAQjOKNQV03ABUR
+	NBvh669EorOjI3YO58EpCN90PQu7nw71J+7tAh5J5MoTyILA86JsuuuWaGyPFasfBCBu
+	639g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=O1KMN0gHDRyxwHr9Qeir2hLUl84N2mz3qj45GD5LhEk=;
+	b=WfDcTWsNApwOS5GxHy0hgXMrR0BzmD0Dau5J/nThah6avdluKXdocufRzQCZt76ZNs
+	1lf2wVrW1YhQa4Nv3XBB0JYRxDDzaevlPNVQ9senXua/pPfYLVYIBTvTMyfEj+V//oo9
+	A5L/rNM+r8CZJlaqt/tBGUDTHlybY8T1tc/BazurguNN+ETN0HFX2PtGVVhuEq0cZEXX
+	HqVhvxzzXerCLM3D10Lu8WjW4tMY+MP7pjDC4izFHV1AvNa8YPPi+I7kbwuUXvZ3Dppx
+	PkCzEMtKTCUJO1c+uDM1GErbaxjs0I0omtxjTjozSv+nayBEV/QfVM0GLOmHXc5YcXLZ
+	HPDQ==
+X-Gm-Message-State: AOPr4FUWFgBipCEa50Y8TCQYB1fbATsdVox2IFE4DJIad09DTTp2eZc0GZg4CngLW99j//cp
+X-Received: by 10.194.112.167 with SMTP id ir7mr2801496wjb.14.1460457868634;
+	Tue, 12 Apr 2016 03:44:28 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	m6sm32568995wje.21.2016.04.12.03.44.27
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 12 Apr 2016 03:44:27 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 12 Apr 2016 11:44:25 +0100
+Message-Id: <1460457865-21399-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.0.rc3
+Subject: [PATCH] image.bbclass: use max() instead of indexing booleans
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,105 +53,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Apr 2016 10:21:00 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_3230301C09DEF9499B442BBE162C5E48ABBA0E4ASESTOEX04enease_"
+X-List-Received-Date: Tue, 12 Apr 2016 10:44:30 -0000
 
---_000_3230301C09DEF9499B442BBE162C5E48ABBA0E4ASESTOEX04enease_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+There's some code dotted around OE that uses (a, b)[foo < bar] instead of the
+more idiomatic "test and a or b".  Or in this case, just max().
 
-U3VyZSwgSSBjYW4gdHJ5IOKYug0KDQpGcm9tOiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1
-cnRvbkBpbnRlbC5jb21dDQpTZW50OiBkZW4gMTIgYXByaWwgMjAxNiAxMjoxOQ0KVG86IFNvbmEg
-U2FybWFkaSA8c29uYS5zYXJtYWRpQGVuZWEuY29tPg0KQ2M6IE9FLWNvcmUgPG9wZW5lbWJlZGRl
-ZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQ
-QVRDSF0gYmluZDogVXBncmFkZSA5LjEwLjMtUDMgLT4gOS4xMC4zLVA0DQoNCg0KT24gMTIgQXBy
-aWwgMjAxNiBhdCAxMToxMywgU29uYSBTYXJtYWRpIDxzb25hLnNhcm1hZGlAZW5lYS5jb208bWFp
-bHRvOnNvbmEuc2FybWFkaUBlbmVhLmNvbT4+IHdyb3RlOg0KVGhlIHVwZ3JhZGUgYWRkcmVzc2Vz
-IGZvbGxvd2luZyB2dWxuZXJhYmlsaXRpZXM6DQogICBDVkUtMjAxNi0xMjg1DQogICBDVkUtMjAx
-Ni0xMjg2DQogICBDVkUtMjAxNi0yMDg4DQoNCkZpeGVzIFtZT0NUTyAjOTQwMCBhbmQgIzk0Mzhd
-Lg0KDQpSZWZlcmVuY2VzOg0KaHR0cHM6Ly9rYi5pc2Mub3JnL2FydGljbGUvQUEtMDEzNTINCmh0
-dHBzOi8va2IuaXNjLm9yZy9hcnRpY2xlL0FBLTAxMzUzDQpodHRwczovL2tiLmlzYy5vcmcvYXJ0
-aWNsZS9BQS0wMTM1MQ0KDQpGYXIgdG9vIGxhdGUgZm9yIHVwZ3JhZGVzIGluIG1hc3RlciwgY2Fu
-IHlvdSBmaXggdGhlIENWRXMgYXMgcGF0Y2hlcyBwbGVhc2U/DQoNClJvc3MNCg==
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/image.bbclass | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
---_000_3230301C09DEF9499B442BBE162C5E48ABBA0E4ASESTOEX04enease_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index ea77ab8..039feec 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -455,8 +455,7 @@ def get_rootfs_size(d):
+                                       d.getVar('IMAGE_ROOTFS', True)])
+     size_kb = int(output.split()[0])
+     base_size = size_kb * overhead_factor
+-    base_size = (base_size, rootfs_req_size)[base_size < rootfs_req_size] + \
+-        rootfs_extra_space
++    base_size = max(base_size, rootfs_req_size) + rootfs_extra_space
+ 
+     if base_size != int(base_size):
+         base_size = int(base_size + 1)
+@@ -544,4 +543,3 @@ do_bundle_initramfs () {
+ 	:
+ }
+ addtask bundle_initramfs after do_image_complete
+-
+-- 
+2.8.0.rc3
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-V2luZ2RpbmdzOw0KCXBhbm9zZS0xOjUgMCAwIDAgMCAwIDAgMCAwIDA7fQ0KQGZvbnQtZmFjZQ0K
-CXtmb250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsNCglwYW5vc2UtMToyIDQgNSAzIDUgNCA2IDMg
-MiA0O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1
-IDUgMiAyIDIgNCAzIDIgNDt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWws
-IGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGNtOw0KCW1hcmdpbi1ib3R0
-b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcg
-Um9tYW4iLHNlcmlmO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsNCgl7bXNvLXN0eWxlLXBy
-aW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQph
-OnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7bXNvLXN0eWxlLXByaW9yaXR5
-Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCnNwYW4u
-RW1haWxTdHlsZTE3DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFt
-aWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmOw0KCWNvbG9yOiMxRjQ5N0Q7fQ0KLk1zb0NocERlZmF1
-bHQNCgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0LW9ubHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmki
-LHNhbnMtc2VyaWY7fQ0KQHBhZ2UgV29yZFNlY3Rpb24xDQoJe3NpemU6NjEyLjBwdCA3OTIuMHB0
-Ow0KCW1hcmdpbjo3MC44NXB0IDcwLjg1cHQgNzAuODVwdCA3MC44NXB0O30NCmRpdi5Xb3JkU2Vj
-dGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lmIGd0ZSBtc28g
-OV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9IjEwMjYiIC8+
-DQo8L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlbGF5
-b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIxIiAvPg0KPC9v
-OnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJvZHkgbGFuZz0iRU4t
-VVMiIGxpbms9ImJsdWUiIHZsaW5rPSJwdXJwbGUiPg0KPGRpdiBjbGFzcz0iV29yZFNlY3Rpb24x
-Ij4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2Zv
-bnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj5T
-dXJlLCBJIGNhbiB0cnkNCjwvc3Bhbj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250
-LWZhbWlseTpXaW5nZGluZ3M7Y29sb3I6IzFGNDk3RCI+Sjwvc3Bhbj48c3BhbiBzdHlsZT0iZm9u
-dC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7
-Y29sb3I6IzFGNDk3RCI+PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1h
-bCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJy
-aSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFu
-PjwvcD4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkIGJsdWUgMS41
-cHQ7cGFkZGluZzowY20gMGNtIDBjbSA0LjBwdCI+DQo8ZGl2Pg0KPGRpdiBzdHlsZT0iYm9yZGVy
-Om5vbmU7Ym9yZGVyLXRvcDpzb2xpZCAjRTFFMUUxIDEuMHB0O3BhZGRpbmc6My4wcHQgMGNtIDBj
-bSAwY20iPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTox
-MS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmIj5Gcm9tOjwv
-c3Bhbj48L2I+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7
-Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmIj4gQnVydG9uLCBSb3NzIFttYWlsdG86cm9zcy5idXJ0
-b25AaW50ZWwuY29tXQ0KPGJyPg0KPGI+U2VudDo8L2I+IGRlbiAxMiBhcHJpbCAyMDE2IDEyOjE5
-PGJyPg0KPGI+VG86PC9iPiBTb25hIFNhcm1hZGkgJmx0O3NvbmEuc2FybWFkaUBlbmVhLmNvbSZn
-dDs8YnI+DQo8Yj5DYzo8L2I+IE9FLWNvcmUgJmx0O29wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9w
-ZW5lbWJlZGRlZC5vcmcmZ3Q7PGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29yZV0gW1BB
-VENIXSBiaW5kOiBVcGdyYWRlIDkuMTAuMy1QMyAtJmd0OyA5LjEwLjMtUDQ8bzpwPjwvbzpwPjwv
-c3Bhbj48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJz
-cDs8L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5i
-c3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPk9uIDEyIEFwcmlsIDIw
-MTYgYXQgMTE6MTMsIFNvbmEgU2FybWFkaSAmbHQ7PGEgaHJlZj0ibWFpbHRvOnNvbmEuc2FybWFk
-aUBlbmVhLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPnNvbmEuc2FybWFkaUBlbmVhLmNvbTwvYT4mZ3Q7
-IHdyb3RlOjxvOnA+PC9vOnA+PC9wPg0KPGJsb2NrcXVvdGUgc3R5bGU9ImJvcmRlcjpub25lO2Jv
-cmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7cGFkZGluZzowY20gMGNtIDBjbSA2LjBwdDtt
-YXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmlnaHQ6MGNtIj4NCjxkaXYgaWQ9Ijp4ajAiPg0KPHAg
-Y2xhc3M9Ik1zb05vcm1hbCI+VGhlIHVwZ3JhZGUgYWRkcmVzc2VzIGZvbGxvd2luZyB2dWxuZXJh
-YmlsaXRpZXM6PGJyPg0KJm5ic3A7ICZuYnNwO0NWRS0yMDE2LTEyODU8YnI+DQombmJzcDsgJm5i
-c3A7Q1ZFLTIwMTYtMTI4Njxicj4NCiZuYnNwOyAmbmJzcDtDVkUtMjAxNi0yMDg4PGJyPg0KPGJy
-Pg0KRml4ZXMgW1lPQ1RPICM5NDAwIGFuZCAjOTQzOF0uPGJyPg0KPGJyPg0KUmVmZXJlbmNlczo8
-YnI+DQo8YSBocmVmPSJodHRwczovL2tiLmlzYy5vcmcvYXJ0aWNsZS9BQS0wMTM1MiIgdGFyZ2V0
-PSJfYmxhbmsiPmh0dHBzOi8va2IuaXNjLm9yZy9hcnRpY2xlL0FBLTAxMzUyPC9hPjxicj4NCjxh
-IGhyZWY9Imh0dHBzOi8va2IuaXNjLm9yZy9hcnRpY2xlL0FBLTAxMzUzIiB0YXJnZXQ9Il9ibGFu
-ayI+aHR0cHM6Ly9rYi5pc2Mub3JnL2FydGljbGUvQUEtMDEzNTM8L2E+PGJyPg0KPGEgaHJlZj0i
-aHR0cHM6Ly9rYi5pc2Mub3JnL2FydGljbGUvQUEtMDEzNTEiIHRhcmdldD0iX2JsYW5rIj5odHRw
-czovL2tiLmlzYy5vcmcvYXJ0aWNsZS9BQS0wMTM1MTwvYT48bzpwPjwvbzpwPjwvcD4NCjwvZGl2
-Pg0KPC9ibG9ja3F1b3RlPg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48YnI+DQpGYXIg
-dG9vIGxhdGUgZm9yIHVwZ3JhZGVzIGluIG1hc3RlciwgY2FuIHlvdSBmaXggdGhlIENWRXMgYXMg
-cGF0Y2hlcyBwbGVhc2U/PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0i
-TXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNz
-PSJNc29Ob3JtYWwiPlJvc3M8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4N
-CjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
 
---_000_3230301C09DEF9499B442BBE162C5E48ABBA0E4ASESTOEX04enease_--
