@@ -1,46 +1,49 @@
 Return-Path: <danismostlikely@gmail.com>
-Received: from mail-pa0-f66.google.com (mail-pa0-f66.google.com
-	[209.85.220.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 8EDD46FEFA
+Received: from mail-pa0-f67.google.com (mail-pa0-f67.google.com
+	[209.85.220.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C7366FEFA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 18:25:35 +0000 (UTC)
-Received: by mail-pa0-f66.google.com with SMTP id k3so1903206pav.3
+	Tue, 12 Apr 2016 18:25:36 +0000 (UTC)
+Received: by mail-pa0-f67.google.com with SMTP id k3so1903221pav.3
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 12 Apr 2016 11:25:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=xJeG8fUFH2aYym5J4Io1ZxBCYD7d0aMMbirYzM5ujzw=;
-	b=B8dgqmTeBHdJ5mlpMjZ8PgLAOGKKGFoLjEhoCa+SHy5IJ8ZaCrvcDFxvEAjKOsEvzW
-	4dqxpSNeNt3sAqk0s15NRX2tsbr4rRcUX5znTmywy7H/am2iIK0vAzYNyzQA86GY36tk
-	cWH/m9CBJZx2BhL8/evuZmMr+Oue7jBKRyGFEia98Vkf6TtEmYdOCEcIc30kMOufrbGx
-	rzV800uZt48BAuw/QMrDz0SZxZVHdxEPNCpR5eeoVTb/Kj/JkJxymL9KzVz5Owd9n58I
-	2VbMLU66cnJ1X4KOAxbhaKO59UUdIUrXOp16nDM+Y520cR8K8KCejagjH4AAQ1KNJRMM
-	mysQ==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=U7NhzvJVdT05ynGzv3Agu0MFp6aG9g99DQ/jx4fkZ4Y=;
+	b=rMSzHUQ33T+BFo984u/PEH0iUL4iLzO7QS/Deu+9J9fB/wYdy+NYOTEbx4WyrBDhzz
+	qTfeuU7N9FhITwBzEKa7kVK5Au/wG6p5Vh9quVL4d/J09lb32nSG6AmbVGDQvrlz3WVE
+	clyaV3ObdgMj/iPOBvXzl3/sj9llaIj3iRAQ/VObkrIjnBW5dJqaTIU5mhJHWTtnZkHE
+	J8j3oR+WBlbZGdsJCCLoof1f2aNO3qnzRQVw0aOs5abL5OjEIjznurIWidEfyJUwhWpH
+	bBw+hBNxd9OiumpTkg9MBoGH9v/qnIAqfgJHUQ4OyTqHYkX7sM0vFFJsFrbgAo5NCp+Z
+	AyeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=xJeG8fUFH2aYym5J4Io1ZxBCYD7d0aMMbirYzM5ujzw=;
-	b=lXnOOCtfxYCo/p+/M2evd2xIQp6AU5Zm0ULVTNTLRSXquOnyweO4SwVc72r1dL/b11
-	i9uW/VSq7YqFISzeQehskjr+aMsbwPRtzpdNjPhN0DyvfSrfut45U82Rdp1lQ9yli4tr
-	E+/x7KpRgcdH8TOR3nT6voLaMPIz5mCpMv9Qi27tAem0Tyz0qtHZcqA1kM2Q5WPr6+GM
-	fAz1AOpNGoZ0PDxdTiLqB/ungAeDNooAdvkdZc/aGxVxHqJHo9LrCAPQ1NSmrFw1o5Ox
-	lI4L3Fp10M4b5KUNV05Wo34y1KhvvFo3M7x1Q1xQHsu7pKBASFUNwuLY1xX2zYeNy7Qv
-	+MRQ==
-X-Gm-Message-State: AOPr4FXX5dW6zYNuiAqYjPwQQho+mDod9OgpXKsh/5hmWz3AcTZiqw+L/x15GV1oneZ2VA==
-X-Received: by 10.66.241.106 with SMTP id wh10mr6662530pac.130.1460485536609; 
-	Tue, 12 Apr 2016 11:25:36 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=U7NhzvJVdT05ynGzv3Agu0MFp6aG9g99DQ/jx4fkZ4Y=;
+	b=MPfdMMgwqGM7n5qYbGhykBCYjIYhGvzV2rQeixfpaffFRrpfAJQN7l1VDZI9Toodxp
+	Hh6XkenfYs8+bywc+JHmNOI+nJa10Zurvyv6gB1G2oUq5TST4mekaBBtCHBI3TSPV7pe
+	RpR6teGWOsVcJXbw7INg8hEcu+PtVorjqXZVec9eqgW1f7ECP6+ruxFm+3RenMMnPVQU
+	H1KuS/wz4R5VZ5PL81xoejCclZRW2tiA9IDFV5NB57ZFV5icvgMMb5qyFlpayT2HmUIP
+	WcDxU7O57V4WZKP9O9Wlef1fR8WWzE4xiXYPN3lXmkVPvm3Be/+mfH4ndcdqRpFFvl2Z
+	Z/Tg==
+X-Gm-Message-State: AOPr4FU9UeiWkg/3rUuI11KvTdRogjzTG74bEidixPeTO19KdzDuOrtxdByqYmKicmI7mA==
+X-Received: by 10.66.27.208 with SMTP id v16mr6676259pag.35.1460485537580;
+	Tue, 12 Apr 2016 11:25:37 -0700 (PDT)
 Received: from mediabox.local (71-17-245-40.sktn.hsdb.sasknet.sk.ca.
 	[71.17.245.40]) by smtp.gmail.com with ESMTPSA id
-	ud5sm45385274pac.11.2016.04.12.11.25.35
+	ud5sm45385274pac.11.2016.04.12.11.25.36
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 12 Apr 2016 11:25:36 -0700 (PDT)
+	Tue, 12 Apr 2016 11:25:37 -0700 (PDT)
 From: Dan McGregor <danismostlikely@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Apr 2016 12:25:30 -0600
-Message-Id: <1460485532-13735-1-git-send-email-danismostlikely@gmail.com>
+Date: Tue, 12 Apr 2016 12:25:31 -0600
+Message-Id: <1460485532-13735-2-git-send-email-danismostlikely@gmail.com>
 X-Mailer: git-send-email 2.8.1
-Subject: [PATCH 1/3] sysvinit: make lastb.1 an alternative
+In-Reply-To: <1460485532-13735-1-git-send-email-danismostlikely@gmail.com>
+References: <1460485532-13735-1-git-send-email-danismostlikely@gmail.com>
+Subject: [PATCH 2/3] sudo: fix pam config on systemd systems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,33 +56,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Apr 2016 18:25:36 -0000
+X-List-Received-Date: Tue, 12 Apr 2016 18:25:37 -0000
 
 From: Dan McGregor <dan.mcgregor@usask.ca>
 
-util-linux has an alternative for it. Add it to sysvinit too.
+Pam_keyinit revoke causes issues on systemd systems. Make its use
+optional. This brings it in line with Fedora 23 and Centos 7.
 
 Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
 ---
- meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-extended/sudo/files/sudo.pam | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-index 0f0df85..884857a 100644
---- a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-@@ -53,9 +53,10 @@ ALTERNATIVE_LINK_NAME[pidof] = "${base_bindir}/pidof"
- ALTERNATIVE_${PN}-sulogin = "sulogin"
- ALTERNATIVE_LINK_NAME[sulogin] = "${base_sbindir}/sulogin"
- 
--ALTERNATIVE_${PN}-doc = "mountpoint.1 last.1 mesg.1 wall.1 sulogin.8 utmpdump.1"
-+ALTERNATIVE_${PN}-doc = "mountpoint.1 last.1 lastb.1 mesg.1 wall.1 sulogin.8 utmpdump.1"
- 
- ALTERNATIVE_LINK_NAME[last.1] = "${mandir}/man1/last.1"
-+ALTERNATIVE_LINK_NAME[lastb.1] = "${mandir}/man1/lastb.1"
- ALTERNATIVE_LINK_NAME[mesg.1] = "${mandir}/man1/mesg.1"
- ALTERNATIVE_LINK_NAME[mountpoint.1] = "${mandir}/man1/mountpoint.1"
- ALTERNATIVE_LINK_NAME[sulogin.8] = "${mandir}/man8/sulogin.8"
+diff --git a/meta/recipes-extended/sudo/files/sudo.pam b/meta/recipes-extended/sudo/files/sudo.pam
+index 5bc26e7..515eab0 100644
+--- a/meta/recipes-extended/sudo/files/sudo.pam
++++ b/meta/recipes-extended/sudo/files/sudo.pam
+@@ -2,5 +2,5 @@
+ auth       include      common-auth
+ account    include      common-account
+ password   include      common-password
+-session    required     pam_keyinit.so revoke
++session    optional     pam_keyinit.so revoke
+ session    required     pam_limits.so
 -- 
 2.8.1
 
