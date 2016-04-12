@@ -1,50 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
-	[209.85.213.173])
-	by mail.openembedded.org (Postfix) with ESMTP id DB10B60745
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 5CC7760745
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 11:55:36 +0000 (UTC)
-Received: by mail-ig0-f173.google.com with SMTP id g8so18346037igr.0
+	Tue, 12 Apr 2016 12:06:21 +0000 (UTC)
+Received: by mail-wm0-f51.google.com with SMTP id u206so25127452wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 04:55:37 -0700 (PDT)
+	Tue, 12 Apr 2016 05:06:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ZbHK67Ok6hiXkdDdzOvoK6UFl8cL2jmvyuvCz0ysHkw=;
-	b=paQ1VZ05YtaRHWbpVlb5L6/bjCrK9f9FWycJijp1IdqMvsPsF3p0Bh5+uxdvYXUb+0
-	lbwcpIqBlReV39EOqEK3XWzQxR/onEk8V0QcMa3MPcWm5g0phmVRA/D1ANW1eCvzpiu7
-	slt7/HycVjEDCirY4O49xkGhVeLLQDMQmKstJpoy2MDNqfczTIjtwvqgs5IzHRLGF88T
-	XdJCs9hcl3SylbmH7OQyHW7FtHiqZixlstGbpH8UnWsOPExnvmxYHosvgbVVWEjGwP0C
-	mN09eqNnqR1FCgxrBhhTKU4Q47+5ebNQFgsy3ZZ+3a3Mu9+uhfXRnbrVJJG/VyrtztD5
-	TJAQ==
+	h=from:to:subject:date:message-id;
+	bh=MD2txui09HRMR5YnPqJFF9ilQixFWi9GsZ0VfBVZeDQ=;
+	b=uBlTbhMCOPzlum1jANPqUvaXlWufv0IqqwSacoSudsFLf41EviEZnTOXTs+EFM8AA5
+	+PgkqcLBNbaJnTMyZKyGYdBB3ktjgwhTiJf8JRuQV8boH3pJ/9vzVnW5l5e5B8Rn/s1W
+	Ppv71lwuoI5jUSeN3QpWG6cG/HyTrRIjoWOsIPqNgvp2aFX3POusl53NH/SNZrwOsfm3
+	3WXVZum4TLO7jnGlEvdzZKAvbUgJtkQbVd46ts1lO4Reot7PzMxgnyjBCbtyR2nZkrh1
+	9Udt7VqU7kpVujrS6P5+6qrpEK/wiwiLWDBKp+SMYFw/RFlu8imQd5Et+CwXU2DZ4aHw
+	LNqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=ZbHK67Ok6hiXkdDdzOvoK6UFl8cL2jmvyuvCz0ysHkw=;
-	b=PZfulv/yXeDg9hcTLCLYirEtn6T5GJtVMPCCeF5dNCK0GnuKqUaPrjX5U7MGEk8W8f
-	cGhjLi5/tgaI1SdSrRXfv3+uuj33e2stXtoW9lmOW4Kt+V6DRhDKA3aJ2Inhi0SzcuUB
-	C/WUMprAJsnfTPhBMqjisJpOBFldRcRMT5t0lshs/wwd75OLeuQqwbQp3X6sAI7G0iin
-	UZP29m2WRukChirnzDiKsH4senxOeo43EmDSxkTKWydFZSx5xGLKUvn4lMUlyelpGYR/
-	DZxo/xps1uiS9FdRNhz56TqXHRewkpePyAsH3YtSR+p4lT2XceZqkdNk1D9jY4RjymHV
-	7AkA==
-X-Gm-Message-State: AD7BkJKNuSntgAayILXoWlTTnOLTBn0KWbnowNowhycepXasoOXH2QIAJyneRe6Fd+6Qea50CemIvQTnwq/Mfaah
-X-Received: by 10.50.155.67 with SMTP id vu3mr22966865igb.52.1460462136710;
-	Tue, 12 Apr 2016 04:55:36 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.132.24 with HTTP; Tue, 12 Apr 2016 04:55:17 -0700 (PDT)
-In-Reply-To: <CANFkWp=ynO2J38+k=mBH6Y3GFOb2kZhbM9zea2T09EL2BDZHxA@mail.gmail.com>
-References: <1460106859-14007-1-git-send-email-joshua.g.lock@intel.com>
-	<CANFkWp=ynO2J38+k=mBH6Y3GFOb2kZhbM9zea2T09EL2BDZHxA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 12 Apr 2016 12:55:17 +0100
-Message-ID: <CAJTo0LYFuh=jnJYkcZi6iZjFrG4k2=NtqfmZKx6aeSDuj40aMQ@mail.gmail.com>
-To: Alexander Kanevskiy <kad@kad.name>
-Cc: Joshua Lock <joshua.g.lock@intel.com>,
-	Joshua Lock <joshua.lock@collabora.co.uk>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] wic/utils/partitionedfs.py: assemble .wic images as sparse files
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=MD2txui09HRMR5YnPqJFF9ilQixFWi9GsZ0VfBVZeDQ=;
+	b=INrBqLr/7pbXtlwyKONfN4MgK07Gof3ynO4msRFq2YDk+lX4vCooUF7BuU7fJoHLCt
+	jkIRapJuM6FcJUSGv7gWVK+PS6PodeUFjTWFLBKFC1unN0cCgrBXdAKolxcfxzBhAMNq
+	2ADvhIipSzT9wus/fL56T7DhbvaP48vUiWJSms1j1wNMzS0kOmZqgc6WfLJbgkOraJAk
+	YEkjcBoaI/2ufwfZdFxds5mYwJH6PJwBA70/sJS2Ie7gmlu+koM2WQhTlrNuvUHct0LV
+	a92Rnfu6v2cCNIbbSmpoKdfxwvRo4o2xivZ420jvscCVmvf5hRuUYSvWEoZ80vTxvY68
+	1ZRA==
+X-Gm-Message-State: AOPr4FV9eUeWxQzefZe4+tvfVmZjLtjkn2SXQI7OChzbM1SyI+nurcA+KZpD7QNMp7hzXxLY
+X-Received: by 10.28.53.4 with SMTP id c4mr3951083wma.34.1460462781710;
+	Tue, 12 Apr 2016 05:06:21 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	qb8sm33056335wjc.24.2016.04.12.05.06.20
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 12 Apr 2016 05:06:21 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 12 Apr 2016 13:06:17 +0100
+Message-Id: <1460462778-3910-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.0.rc3
+Subject: [PATCH 1/2] Revert "wic/utils/partitionedfs.py: assemble .wic images as sparse files"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,43 +53,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Apr 2016 11:55:37 -0000
-Content-Type: multipart/alternative; boundary=001a1134dbecddf6b305304856d7
+X-List-Received-Date: Tue, 12 Apr 2016 12:06:24 -0000
 
---001a1134dbecddf6b305304856d7
-Content-Type: text/plain; charset=UTF-8
+It turns out that dd's conv=sparse doesn't look at the file extents, but simply
+checks if a "block" is all zero.  If the block of zero was meaningful it gets
+lost and if the image is subsequently written to media using a sparse-aware
+writer then the block of zeros won't be written at all.
 
-On 9 April 2016 at 11:36, Alexander Kanevskiy <kad@kad.name> wrote:
+This reverts commit 5fd592fbae2e046bcb8c3a6c3ef4993fe0400676.
 
-> This might be dangerous. Even in recent version of DD (coreutils 8.25), it
-> might not detect in source file mapped/unmapped blocks properly,
-> (just use is_nul() function to check if block contains only zeros, instead
-> of e.g. fiemap).
-> Result might be so, that in output file block which must be zeros is
-> actually become unmapped. And as consequence, if it might not be written to
-> destination drive.
->
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ scripts/lib/wic/utils/partitionedfs.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Agreed, I've a revert queued.
+diff --git a/scripts/lib/wic/utils/partitionedfs.py b/scripts/lib/wic/utils/partitionedfs.py
+index 3e2b420..5a103bb 100644
+--- a/scripts/lib/wic/utils/partitionedfs.py
++++ b/scripts/lib/wic/utils/partitionedfs.py
+@@ -340,7 +340,7 @@ class Image(object):
+             source = part['source_file']
+             if source:
+                 # install source_file contents into a partition
+-                cmd = "dd if=%s of=%s bs=%d seek=%d count=%d conv=notrunc,sparse" % \
++                cmd = "dd if=%s of=%s bs=%d seek=%d count=%d conv=notrunc" % \
+                       (source, image_file, self.sector_size,
+                        part['start'], part['size'])
+                 exec_cmd(cmd)
+-- 
+2.8.0.rc3
 
-Ross
 
---001a1134dbecddf6b305304856d7
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 9 April 2016 at 11:36, Alexander Kanevskiy <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:kad@kad.name" target=3D"_blank">kad@kad.name</a>&gt;</span> wrot=
-e:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
-eft:1px #ccc solid;padding-left:1ex"><div>This might be dangerous. Even in =
-recent version of DD (coreutils 8.25), it might not detect in source file m=
-apped/unmapped blocks properly,=C2=A0</div><div>(just use is_nul() function=
- to check if block contains only zeros, instead of e.g. fiemap).=C2=A0</div=
-><div>Result might be so, that in output file block which must be zeros is =
-actually become unmapped. And as consequence, if it might not be written to=
- destination drive.</div></blockquote></div><br>Agreed, I&#39;ve a revert q=
-ueued.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"=
->Ross</div></div>
-
---001a1134dbecddf6b305304856d7--
