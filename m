@@ -1,35 +1,31 @@
-Return-Path: <denis@denix.org>
-X-Greylist: delayed 3617 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 12 Apr 2016 20:10:55 UTC
-Received: from vms173015pub.verizon.net (vms173015pub.verizon.net
-	[206.46.173.15])
-	by mail.openembedded.org (Postfix) with ESMTP id C769262136
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id A92F565CBC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 20:10:55 +0000 (UTC)
-Received: from vz-proxy-l001.mx.aol.com ([64.236.82.153])
-	by vms173015.mailsrvcs.net
-	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul 16
-	2014)) with ESMTPA id <0O5J00KR7BXE0770@vms173015.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Tue, 12 Apr 2016 14:10:26 -0500 (CDT)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.1 cv=J+9Xl1TS c=1 sm=1 tr=0	a=FJ1kTJ0/xm5uTekQe8vMdQ==:117
-	a=kj9zAlcOel0A:10 a=kziv93cY1bsA:10	a=Q4-j1AaZAAAA:8
-	a=jiHmyLG-MPVS2z5qf5EA:9 a=CjuIK1q_8ugA:10
-Received: by 100.15.86.14 with SMTP id 17bc3572; Tue, 12 Apr 2016 19:10:26 GMT
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id C0872161F9A; Tue,
-	12 Apr 2016 15:10:25 -0400 (EDT)
-Date: Tue, 12 Apr 2016 15:10:25 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Dan McGregor <danismostlikely@gmail.com>
-Message-id: <20160412191025.GZ16135@denix.org>
-References: <1460485532-13735-1-git-send-email-danismostlikely@gmail.com>
-	<1460485532-13735-3-git-send-email-danismostlikely@gmail.com>
-MIME-version: 1.0
-In-reply-to: <1460485532-13735-3-git-send-email-danismostlikely@gmail.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
+	Tue, 12 Apr 2016 20:50:56 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u3CKouOa002741; Tue, 12 Apr 2016 21:50:56 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id bpLU6uHlO4Pg; Tue, 12 Apr 2016 21:50:56 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u3CKormk002736
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 12 Apr 2016 21:50:54 +0100
+Message-ID: <1460494253.9308.70.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mike Crowe <mac@mcrowe.com>
+Date: Tue, 12 Apr 2016 21:50:53 +0100
+In-Reply-To: <20160412185126.GA14627@mcrowe.com>
+References: <20160329125626.GA11712@mcrowe.com>
+	<1459260670.21672.25.camel@linuxfoundation.org>
+	<20160412185126.GA14627@mcrowe.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] git: update to 2.8.1
+Subject: Re: Over-pruning the sstate cache
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,65 +38,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Apr 2016 20:10:57 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Tue, 12 Apr 2016 20:51:00 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Passing -M parameter to git format-patch in this case would make better 
-result.
+On Tue, 2016-04-12 at 19:51 +0100, Mike Crowe wrote:
+> On Tuesday 29 March 2016 at 15:11:10 +0100, Richard Purdie wrote:
+> > On Tue, 2016-03-29 at 13:56 +0100, Mike Crowe wrote:
+> > > 80b3974081c4a8c604e23982a6db8fb32c616058 implies that at least
+> > > some
+> > > people
+> > > are pruning the sstate cache based on file access time.
+> > > 
+> > > Is there a recommended way to ensure that all the sstate cache
+> > > files
+> > > are
+> > > touched, even those that are not actually required to build the
+> > > image
+> > > currently due to task optimisation?
+> > > 
+> > > Does anyone have any better ideas?
+> > 
+> > generate the "locked-sigs" inc file (bitbake XXX -S none) and then
+> > with
+> > a script touch all the objects listed in that file?
+> 
+> I'm most of the way through writing a script to do this. I've
+> discovered
+> that the sstate filenames contain bits that aren't in the locked-sigs
+> file
+> such as ${PV}, ${PR}, ${TARGET_VENDOR}, ${TARGET_OS},
+> ${SSTATE_VERSION}.
+> The hash is the important bit for identifying the file uniquely so
+> these
+> bits can either be hard coded or wildcarded as appropriate.
+> 
+> There's also the need to apply native OS name prefix for native
+> packages.
+> 
+> Is there a a way of getting hold of those bits so I can avoid the
+> wildcards?
+
+In theory the key part is the hash, all the other pieces are there just
+to make human understandable filenames/layout (and would be encoded
+into the hash in most cases). Whilst we could generate that info, I'm
+not sure it would help much since the hashes should uniquely identify
+the files?
+
+Cheers,
+
+Richard
 
 
-On Tue, Apr 12, 2016 at 12:25:32PM -0600, Dan McGregor wrote:
-> From: Dan McGregor <dan.mcgregor@usask.ca>
-> 
-> Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
-> ---
->  meta/recipes-devtools/git/git_2.7.2.bb | 11 -----------
->  meta/recipes-devtools/git/git_2.8.1.bb | 11 +++++++++++
->  2 files changed, 11 insertions(+), 11 deletions(-)
->  delete mode 100644 meta/recipes-devtools/git/git_2.7.2.bb
->  create mode 100644 meta/recipes-devtools/git/git_2.8.1.bb
-> 
-> diff --git a/meta/recipes-devtools/git/git_2.7.2.bb b/meta/recipes-devtools/git/git_2.7.2.bb
-> deleted file mode 100644
-> index 3fd7151..0000000
-> --- a/meta/recipes-devtools/git/git_2.7.2.bb
-> +++ /dev/null
-> @@ -1,11 +0,0 @@
-> -require git.inc
-> -
-> -EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
-> -                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
-> -                 "
-> -EXTRA_OEMAKE += "NO_GETTEXT=1"
-> -
-> -SRC_URI[tarball.md5sum] = "162ddc6c9b243899ad67ebd6b1c166b1"
-> -SRC_URI[tarball.sha256sum] = "58959e3ef3046403216a157dfc683c4d7f0dd83365463b8dd87063ded940a0df"
-> -SRC_URI[manpages.md5sum] = "7bb067d6363f537b92c3b8b813ff9ed6"
-> -SRC_URI[manpages.sha256sum] = "e6b5481fd6e24a1d1b155ef17363b313d47025bf6da880737fa872ab78e24f15"
-> diff --git a/meta/recipes-devtools/git/git_2.8.1.bb b/meta/recipes-devtools/git/git_2.8.1.bb
-> new file mode 100644
-> index 0000000..8978b72
-> --- /dev/null
-> +++ b/meta/recipes-devtools/git/git_2.8.1.bb
-> @@ -0,0 +1,11 @@
-> +require git.inc
-> +
-> +EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
-> +                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
-> +                 "
-> +EXTRA_OEMAKE += "NO_GETTEXT=1"
-> +
-> +SRC_URI[tarball.md5sum] = "1a12555182c1e9f781bc30a5c5f9515e"
-> +SRC_URI[tarball.sha256sum] = "cfc66324179b9ed62ee02833f29d39935f4ab66874125a3ab9d5bb9055c0cb67"
-> +SRC_URI[manpages.md5sum] = "60552f15a90b9fcdc1b92b222e2d2379"
-> +SRC_URI[manpages.sha256sum] = "df46de0c172049f935cc3736361b263c5ff289b77077c73053e63ae83fcf43f4"
-> -- 
-> 2.8.1
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
 
