@@ -1,30 +1,20 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 78C3A6FF60
+Return-Path: <william.c.randle@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A59760043
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 14:54:23 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u3CEqiUD017436; Tue, 12 Apr 2016 15:54:21 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id vLFqGXIdYqbK; Tue, 12 Apr 2016 15:54:21 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u3CEsHtc017510
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 12 Apr 2016 15:54:18 +0100
-Message-ID: <1460472857.9308.63.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	openembedded-core@lists.openembedded.org
-Date: Tue, 12 Apr 2016 15:54:17 +0100
-In-Reply-To: <7251ce8da0aed3f9ad921daa66186a2c2fc6a932.1460467072.git.pkj@axis.com>
-References: <cover.1460467072.git.pkj@axis.com>
-	<7251ce8da0aed3f9ad921daa66186a2c2fc6a932.1460467072.git.pkj@axis.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: [PATCHv2 1/1] Revert "useradd.bbclass: remove user/group created by the package in clean* task"
+	Tue, 12 Apr 2016 15:22:26 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga101.fm.intel.com with ESMTP; 12 Apr 2016 08:22:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,474,1455004800"; d="scan'208";a="783342878"
+Received: from wcrandle-mobl1.jf.intel.com ([10.24.0.173])
+	by orsmga003.jf.intel.com with ESMTP; 12 Apr 2016 08:22:25 -0700
+From: Bill Randle <william.c.randle@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 12 Apr 2016 08:22:21 -0700
+Message-Id: <1460474541-3625-1-git-send-email-william.c.randle@intel.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCH] package.bbclass: handle links in sorted order
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,42 +27,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Apr 2016 14:54:24 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 12 Apr 2016 15:22:27 -0000
 
-On Tue, 2016-04-12 at 15:18 +0200, Peter Kjellerstedt wrote:
-> Removal of users/group when cleansstating a recipe as implemented
-> here
-> totally breaks when multiple recipes install the same user/groups.
-> 
-> This reverts commit b5304ce438666a7418746f4ddd32703ae3188089.
-> 
-> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> ---
->  meta/classes/sstate.bbclass  |  5 -----
->  meta/classes/useradd.bbclass | 29 -----------------------------
->  2 files changed, 34 deletions(-)
+When processing links, the directories are processed in unsorted order
+which can result in cases like /var/lock -> /run/lock handled before
+/var/run -> /run throwing an error for /var/run because /run already exists.
+Change the link processing to ensure links are processed in sorted order of
+the destination.
 
-This is one of these situations where we can't win.
+[YOCTO #9430]
 
-Without this code, there is no way to clean up these users out the
-sysroot. Having to tell people to "wipe TMPDIR" when the parameters
-used to create a user change for example is rather bad. It also has bad
-implications for build determinism and the expectation that a "clean"
-undoes the changes a recipe makes.
+Signed-off-by: Bill Randle <william.c.randle@intel.com>
+---
+ meta/classes/package.bbclass | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
-Have we ever documented we support the same user being created by
-multiple recipes?
-
-I'm open to proposals about how to fix this but an outright revert
-doesn't seem like the right thing to do. Making it optional so you can
-disable it for your multiple recipes case would perhaps be a better
-option for example.
-
-Cheers,
-
-Richard
-
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 4452e2f..894b729 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -727,6 +727,7 @@ python fixup_perms () {
+     dvar = d.getVar('PKGD', True)
+ 
+     fs_perms_table = {}
++    fs_link_table = {}
+ 
+     # By default all of the standard directories specified in
+     # bitbake.conf will get 0755 root:root.
+@@ -773,24 +774,27 @@ python fixup_perms () {
+                     continue
+                 entry = fs_perms_entry(d.expand(line))
+                 if entry and entry.path:
+-                    fs_perms_table[entry.path] = entry
++                    if entry.link:
++                        fs_link_table[entry.link] = entry
++                    else:
++                        fs_perms_table[entry.path] = entry
+             f.close()
+ 
+     # Debug -- list out in-memory table
+     #for dir in fs_perms_table:
+     #    bb.note("Fixup Perms: %s: %s" % (dir, str(fs_perms_table[dir])))
++    #for link in fs_link_table:
++    #    bb.note("Fixup Perms: %s: %s" % (link, str(fs_link_table[link])))
+ 
+     # We process links first, so we can go back and fixup directory ownership
+     # for any newly created directories
+-    for dir in fs_perms_table:
+-        if not fs_perms_table[dir].link:
+-            continue
+-
++    # Process in sorted order so /run gets created before /run/lock, etc.
++    for link in sorted(fs_link_table):
++        dir = fs_link_table[link].path
+         origin = dvar + dir
+         if not (cpath.exists(origin) and cpath.isdir(origin) and not cpath.islink(origin)):
+             continue
+ 
+-        link = fs_perms_table[dir].link
+         if link[0] == "/":
+             target = dvar + link
+             ptarget = link
+@@ -810,9 +814,6 @@ python fixup_perms () {
+         os.symlink(link, origin)
+ 
+     for dir in fs_perms_table:
+-        if fs_perms_table[dir].link:
+-            continue
+-
+         origin = dvar + dir
+         if not (cpath.exists(origin) and cpath.isdir(origin)):
+             continue
+-- 
+2.5.0
 
 
