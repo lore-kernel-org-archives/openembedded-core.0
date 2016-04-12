@@ -1,44 +1,50 @@
-Return-Path: <sona.sarmadi@enea.com>
-Received: from smtp-out10.electric.net (smtp-out10.electric.net
-	[185.38.180.40])
-	by mail.openembedded.org (Postfix) with ESMTP id 89EDE605BA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
+	[209.85.213.173])
+	by mail.openembedded.org (Postfix) with ESMTP id DB10B60745
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 11:22:58 +0000 (UTC)
-Received: from 1apwPH-0002AY-Ve by out10a.electric.net with emc1-ok (Exim 4.85)
-	(envelope-from <sona.sarmadi@enea.com>)
-	id 1apwPI-0002Bk-Tr; Tue, 12 Apr 2016 04:22:56 -0700
-Received: by emcmailer; Tue, 12 Apr 2016 04:22:56 -0700
-Received: from [192.36.1.72] (helo=mx-3.enea.com)
-	by out10a.electric.net with smtp (Exim 4.85)
-	(envelope-from <sona.sarmadi@enea.com>)
-	id 1apwPH-0002AY-Ve; Tue, 12 Apr 2016 04:22:55 -0700
-Received: from SESTOEX09.enea.se ([fe80::94d8:372f:210c:b4da]) by
-	SESTOEX08.enea.se ([fe80::1c3:4003:dc47:23c0%11]) with mapi id
-	14.03.0294.000; Tue, 12 Apr 2016 13:22:55 +0200
-From: Sona Sarmadi <sona.sarmadi@enea.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH][fido] bind: CVE-2016-1285 CVE-2016-1286
-Thread-Index: AQHRkVZtOvrfQxTvQkOkjDrFggpzjJ+GEVoAgAAj1/D//+CuAIAAIf4w
-Date: Tue, 12 Apr 2016 11:22:55 +0000
-Message-ID: <3230301C09DEF9499B442BBE162C5E48ABBA8F56@sestoex09.enea.se>
-References: <1460092326-34326-1-git-send-email-sona.sarmadi@enea.com>
-	<1460458938.3309.7.camel@linux.intel.com>
-	<3230301C09DEF9499B442BBE162C5E48ABBA7F11@sestoex09.enea.se>
-	<CAJTo0LYUZ0y6uQ9Y5qtQHR_aTEhCPbz3uHjPyDKXpY+Ho2Wpxg@mail.gmail.com>
-In-Reply-To: <CAJTo0LYUZ0y6uQ9Y5qtQHR_aTEhCPbz3uHjPyDKXpY+Ho2Wpxg@mail.gmail.com>
-Accept-Language: sv-SE, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.16.142.231]
+	Tue, 12 Apr 2016 11:55:36 +0000 (UTC)
+Received: by mail-ig0-f173.google.com with SMTP id g8so18346037igr.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Apr 2016 04:55:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=ZbHK67Ok6hiXkdDdzOvoK6UFl8cL2jmvyuvCz0ysHkw=;
+	b=paQ1VZ05YtaRHWbpVlb5L6/bjCrK9f9FWycJijp1IdqMvsPsF3p0Bh5+uxdvYXUb+0
+	lbwcpIqBlReV39EOqEK3XWzQxR/onEk8V0QcMa3MPcWm5g0phmVRA/D1ANW1eCvzpiu7
+	slt7/HycVjEDCirY4O49xkGhVeLLQDMQmKstJpoy2MDNqfczTIjtwvqgs5IzHRLGF88T
+	XdJCs9hcl3SylbmH7OQyHW7FtHiqZixlstGbpH8UnWsOPExnvmxYHosvgbVVWEjGwP0C
+	mN09eqNnqR1FCgxrBhhTKU4Q47+5ebNQFgsy3ZZ+3a3Mu9+uhfXRnbrVJJG/VyrtztD5
+	TJAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=ZbHK67Ok6hiXkdDdzOvoK6UFl8cL2jmvyuvCz0ysHkw=;
+	b=PZfulv/yXeDg9hcTLCLYirEtn6T5GJtVMPCCeF5dNCK0GnuKqUaPrjX5U7MGEk8W8f
+	cGhjLi5/tgaI1SdSrRXfv3+uuj33e2stXtoW9lmOW4Kt+V6DRhDKA3aJ2Inhi0SzcuUB
+	C/WUMprAJsnfTPhBMqjisJpOBFldRcRMT5t0lshs/wwd75OLeuQqwbQp3X6sAI7G0iin
+	UZP29m2WRukChirnzDiKsH4senxOeo43EmDSxkTKWydFZSx5xGLKUvn4lMUlyelpGYR/
+	DZxo/xps1uiS9FdRNhz56TqXHRewkpePyAsH3YtSR+p4lT2XceZqkdNk1D9jY4RjymHV
+	7AkA==
+X-Gm-Message-State: AD7BkJKNuSntgAayILXoWlTTnOLTBn0KWbnowNowhycepXasoOXH2QIAJyneRe6Fd+6Qea50CemIvQTnwq/Mfaah
+X-Received: by 10.50.155.67 with SMTP id vu3mr22966865igb.52.1460462136710;
+	Tue, 12 Apr 2016 04:55:36 -0700 (PDT)
 MIME-Version: 1.0
-X-Outbound-IP: 192.36.1.72
-X-Env-From: sona.sarmadi@enea.com
-X-PolicySMART: 6030817
-X-Virus-Status: Scanned by VirusSMART (c)
-X-Virus-Status: Scanned by VirusSMART (s)
-Cc: "openembedded-core@lists.openembedded.org"
+Received: by 10.107.132.24 with HTTP; Tue, 12 Apr 2016 04:55:17 -0700 (PDT)
+In-Reply-To: <CANFkWp=ynO2J38+k=mBH6Y3GFOb2kZhbM9zea2T09EL2BDZHxA@mail.gmail.com>
+References: <1460106859-14007-1-git-send-email-joshua.g.lock@intel.com>
+	<CANFkWp=ynO2J38+k=mBH6Y3GFOb2kZhbM9zea2T09EL2BDZHxA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 12 Apr 2016 12:55:17 +0100
+Message-ID: <CAJTo0LYFuh=jnJYkcZi6iZjFrG4k2=NtqfmZKx6aeSDuj40aMQ@mail.gmail.com>
+To: Alexander Kanevskiy <kad@kad.name>
+Cc: Joshua Lock <joshua.g.lock@intel.com>,
+	Joshua Lock <joshua.lock@collabora.co.uk>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][fido] bind: CVE-2016-1285 CVE-2016-1286
+Subject: Re: [PATCH 1/2] wic/utils/partitionedfs.py: assemble .wic images as sparse files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,103 +57,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Apr 2016 11:23:04 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_3230301C09DEF9499B442BBE162C5E48ABBA8F56sestoex09enease_"
+X-List-Received-Date: Tue, 12 Apr 2016 11:55:37 -0000
+Content-Type: multipart/alternative; boundary=001a1134dbecddf6b305304856d7
 
---_000_3230301C09DEF9499B442BBE162C5E48ABBA8F56sestoex09enease_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--001a1134dbecddf6b305304856d7
+Content-Type: text/plain; charset=UTF-8
 
-WWVzLCBUaGV5IGFyZSBhbGwgdGVzdGVkOyAgYnVpbGQgYmluZCAmIGJvb3QgY29yZSBpbWFnZSDi
-gKYgYnV0IEkgc2VuZCB0aGUgb2xkIHBhdGNoLCBzb3JyeSBhYm91dCB0aGlzIOKYuQ0KDQpGcm9t
-OiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQpTZW50OiBkZW4g
-MTIgYXByaWwgMjAxNiAxMzoxOA0KVG86IFNvbmEgU2FybWFkaSA8c29uYS5zYXJtYWRpQGVuZWEu
-Y29tPg0KQ2M6IEpvc2h1YSBHIExvY2sgPGpvc2h1YS5nLmxvY2tAbGludXguaW50ZWwuY29tPjsg
-b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KU3ViamVjdDogUmU6IFtP
-RS1jb3JlXSBbUEFUQ0hdW2ZpZG9dIGJpbmQ6IENWRS0yMDE2LTEyODUgQ1ZFLTIwMTYtMTI4Ng0K
-DQoNCk9uIDEyIEFwcmlsIDIwMTYgYXQgMTI6MTEsIFNvbmEgU2FybWFkaSA8c29uYS5zYXJtYWRp
-QGVuZWEuY29tPG1haWx0bzpzb25hLnNhcm1hZGlAZW5lYS5jb20+PiB3cm90ZToNCkkgZ3Vlc3Mg
-eW91IG5lZWQgdGhpcyBwYXRjaDogaHR0cHM6Ly9zb3VyY2UuaXNjLm9yZy9jZ2ktYmluL2dpdHdl
-Yi5jZ2k/cD1iaW5kOS5naXQ7YT1wYXRjaDtoPWEwNzhjOWVlYWU4YzJkYjdlZGYyYjE1ZmYxZDI1
-YTNhMjk3Yzc1MQ0KDQpXYXMgdGhpcyBwYXRjaCBub3QgYnVpbGQtdGVzdGVkIHRoZW4/ICBXaGVy
-ZSBhbnkgb2YgdGhlIGJpbmQgcGF0Y2hlcyBidWlsZC10ZXN0ZWQ/DQoNClJvc3MNCg==
+On 9 April 2016 at 11:36, Alexander Kanevskiy <kad@kad.name> wrote:
 
---_000_3230301C09DEF9499B442BBE162C5E48ABBA8F56sestoex09enease_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+> This might be dangerous. Even in recent version of DD (coreutils 8.25), it
+> might not detect in source file mapped/unmapped blocks properly,
+> (just use is_nul() function to check if block contains only zeros, instead
+> of e.g. fiemap).
+> Result might be so, that in output file block which must be zeros is
+> actually become unmapped. And as consequence, if it might not be written to
+> destination drive.
+>
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-V2luZ2RpbmdzOw0KCXBhbm9zZS0xOjUgMCAwIDAgMCAwIDAgMCAwIDA7fQ0KQGZvbnQtZmFjZQ0K
-CXtmb250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsNCglwYW5vc2UtMToyIDQgNSAzIDUgNCA2IDMg
-MiA0O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1
-IDUgMiAyIDIgNCAzIDIgNDt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWws
-IGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGNtOw0KCW1hcmdpbi1ib3R0
-b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcg
-Um9tYW4iLHNlcmlmO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsNCgl7bXNvLXN0eWxlLXBy
-aW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQph
-OnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7bXNvLXN0eWxlLXByaW9yaXR5
-Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCnNwYW4u
-RW1haWxTdHlsZTE3DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFt
-aWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmOw0KCWNvbG9yOiMxRjQ5N0Q7fQ0KLk1zb0NocERlZmF1
-bHQNCgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0LW9ubHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmki
-LHNhbnMtc2VyaWY7fQ0KQHBhZ2UgV29yZFNlY3Rpb24xDQoJe3NpemU6NjEyLjBwdCA3OTIuMHB0
-Ow0KCW1hcmdpbjo3MC44NXB0IDcwLjg1cHQgNzAuODVwdCA3MC44NXB0O30NCmRpdi5Xb3JkU2Vj
-dGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lmIGd0ZSBtc28g
-OV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9IjEwMjYiIC8+
-DQo8L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlbGF5
-b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIxIiAvPg0KPC9v
-OnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJvZHkgbGFuZz0iRU4t
-VVMiIGxpbms9ImJsdWUiIHZsaW5rPSJwdXJwbGUiPg0KPGRpdiBjbGFzcz0iV29yZFNlY3Rpb24x
-Ij4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2Zv
-bnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj5Z
-ZXMsIFRoZXkgYXJlIGFsbCB0ZXN0ZWQ7ICZuYnNwO2J1aWxkIGJpbmQgJmFtcDsgYm9vdCBjb3Jl
-IGltYWdlIOKApiBidXQgSSBzZW5kIHRoZSBvbGQgcGF0Y2gsIHNvcnJ5IGFib3V0IHRoaXMNCjwv
-c3Bhbj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTpXaW5nZGluZ3M7
-Y29sb3I6IzFGNDk3RCI+TDwvc3Bhbj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250
-LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+PG86
-cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZv
-bnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlm
-O2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXYgc3R5bGU9
-ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkIGJsdWUgMS41cHQ7cGFkZGluZzowY20gMGNt
-IDBjbSA0LjBwdCI+DQo8ZGl2Pg0KPGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLXRvcDpz
-b2xpZCAjRTFFMUUxIDEuMHB0O3BhZGRpbmc6My4wcHQgMGNtIDBjbSAwY20iPg0KPHAgY2xhc3M9
-Ik1zb05vcm1hbCI+PGI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6
-JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmIj5Gcm9tOjwvc3Bhbj48L2I+PHNwYW4gc3R5
-bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5z
-LXNlcmlmIj4gQnVydG9uLCBSb3NzIFttYWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0KPGJy
-Pg0KPGI+U2VudDo8L2I+IGRlbiAxMiBhcHJpbCAyMDE2IDEzOjE4PGJyPg0KPGI+VG86PC9iPiBT
-b25hIFNhcm1hZGkgJmx0O3NvbmEuc2FybWFkaUBlbmVhLmNvbSZndDs8YnI+DQo8Yj5DYzo8L2I+
-IEpvc2h1YSBHIExvY2sgJmx0O2pvc2h1YS5nLmxvY2tAbGludXguaW50ZWwuY29tJmd0Ozsgb3Bl
-bmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzxicj4NCjxiPlN1YmplY3Q6PC9i
-PiBSZTogW09FLWNvcmVdIFtQQVRDSF1bZmlkb10gYmluZDogQ1ZFLTIwMTYtMTI4NSBDVkUtMjAx
-Ni0xMjg2PG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxwIGNsYXNzPSJN
-c29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXY+DQo8cCBjbGFzcz0i
-TXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9y
-bWFsIj5PbiAxMiBBcHJpbCAyMDE2IGF0IDEyOjExLCBTb25hIFNhcm1hZGkgJmx0OzxhIGhyZWY9
-Im1haWx0bzpzb25hLnNhcm1hZGlAZW5lYS5jb20iIHRhcmdldD0iX2JsYW5rIj5zb25hLnNhcm1h
-ZGlAZW5lYS5jb208L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvcD4NCjxibG9ja3F1b3RlIHN0
-eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6
-MGNtIDBjbSAwY20gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7bWFyZ2luLXJpZ2h0OjBjbSI+DQo8
-ZGl2IGlkPSI6eHVtIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkkgZ3Vlc3MgeW91IG5lZWQgdGhp
-cyBwYXRjaDogPGEgaHJlZj0iaHR0cHM6Ly9zb3VyY2UuaXNjLm9yZy9jZ2ktYmluL2dpdHdlYi5j
-Z2k/cD1iaW5kOS5naXQ7YT1wYXRjaDtoPWEwNzhjOWVlYWU4YzJkYjdlZGYyYjE1ZmYxZDI1YTNh
-Mjk3Yzc1MSIgdGFyZ2V0PSJfYmxhbmsiPg0KaHR0cHM6Ly9zb3VyY2UuaXNjLm9yZy9jZ2ktYmlu
-L2dpdHdlYi5jZ2k/cD1iaW5kOS5naXQ7YT1wYXRjaDtoPWEwNzhjOWVlYWU4YzJkYjdlZGYyYjE1
-ZmYxZDI1YTNhMjk3Yzc1MTwvYT48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9ibG9ja3F1b3Rl
-Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48YnI+DQpXYXMgdGhpcyBwYXRjaCBub3Qg
-YnVpbGQtdGVzdGVkIHRoZW4/Jm5ic3A7IFdoZXJlIGFueSBvZiB0aGUgYmluZCBwYXRjaGVzIGJ1
-aWxkLXRlc3RlZD88bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29O
-b3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1z
-b05vcm1hbCI+Um9zczxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9k
-aXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
+Agreed, I've a revert queued.
 
---_000_3230301C09DEF9499B442BBE162C5E48ABBA8F56sestoex09enease_--
+Ross
+
+--001a1134dbecddf6b305304856d7
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 9 April 2016 at 11:36, Alexander Kanevskiy <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:kad@kad.name" target=3D"_blank">kad@kad.name</a>&gt;</span> wrot=
+e:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
+eft:1px #ccc solid;padding-left:1ex"><div>This might be dangerous. Even in =
+recent version of DD (coreutils 8.25), it might not detect in source file m=
+apped/unmapped blocks properly,=C2=A0</div><div>(just use is_nul() function=
+ to check if block contains only zeros, instead of e.g. fiemap).=C2=A0</div=
+><div>Result might be so, that in output file block which must be zeros is =
+actually become unmapped. And as consequence, if it might not be written to=
+ destination drive.</div></blockquote></div><br>Agreed, I&#39;ve a revert q=
+ueued.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"=
+>Ross</div></div>
+
+--001a1134dbecddf6b305304856d7--
