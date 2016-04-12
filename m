@@ -1,55 +1,46 @@
-Return-Path: <jefro.net@gmail.com>
-Received: from mail-lf0-f44.google.com (mail-lf0-f44.google.com
-	[209.85.215.44])
-	by mail.openembedded.org (Postfix) with ESMTP id DC5B860043;
-	Tue, 12 Apr 2016 15:24:49 +0000 (UTC)
-Received: by mail-lf0-f44.google.com with SMTP id j11so30208776lfb.1;
-	Tue, 12 Apr 2016 08:24:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=7P3wK01wjViqosdbzSIPrgQmppNkWqA9CKP0hIqj5yc=;
-	b=1HcPb09LFFBcBonuVX9WMg3qCpWuY/vJM5D8d+BtDANrLrZSvQobRziU3bTx2Vbb4p
-	lToRbKQwYi5VgSegDIDMM5vzgpvy93Z/Om7X0W2Aaz825B+HP2SiUClSJg2wNA3Za1T9
-	AQXkv2CIKqZcnmw31/k6WfA4B2Tugflxn9QHrH0bTInMEUkJBE+TXFEtC85fuQLt3VA7
-	4Sou5JOHakmHb4TNYJemaMcSYfZTI1fT0Zap1Bgd1Pl379dzeulKg+XzY0nHiTT97sfb
-	qIeb1Fi347/76ACcrB1ZvDYL64soJeoIcGN3QsvLwySiKAZghyFggjcMF31UrSNl8oVE
-	Wtmw==
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 137BA60123
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Apr 2016 16:32:51 +0000 (UTC)
+Received: by mail-wm0-f53.google.com with SMTP id f198so195050266wme.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Apr 2016 09:32:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=YqJCIDAsRAML+qVdcMgTIR6iZzE6i8pIB7KsB4bQzFY=;
+	b=Ir1yTEii4bNkc4oAzew6lQUHwRrhe0bUx+8Tqq1lSdUGfNXPtLwHLSb4fFNUc52Vas
+	Bpur8KwWjw+nlsKxgG7wc25FhKqR4Zq/kyQolT4Byo/9c3upvP7n2hcvxUlAhrd7YV2B
+	dGIqN/bhzMqDFNFnxPKGrk+O9gqIryN+3WCdfDJD9KaGb+IF/qIoQF9wMVckYkcfhURE
+	i8iGXAThqIe9IttcR+W6ZXoRYQYQcq2UNFkuL9K8MqpGuLAN+tdGoYU63nwXuOSPIkw6
+	nZMDPi0YoloogEXkbxnLnkmOWNm8STZHRh+xYFAe/IcuPP/f8jd5wrvubfpRAGQQ503+
+	0QFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=7P3wK01wjViqosdbzSIPrgQmppNkWqA9CKP0hIqj5yc=;
-	b=WpqZA4KjkTQzvmiyMSzuZhOH5vQCvWgYSGMVCaxcwI1I48EptD4vsT8rDJ/MyJylgQ
-	LLd66bCrAoNRA5BqZ2XeahfVqcJblacbnYplGgiRtT7DpQyooNjhUIrMmbGwh98mLqv4
-	MmCht0wxFfBMVtYrZca8wDnaxKyhTxi5AvQ/N6B6enkcg/pP7mQPXPzwNDXnCMGIKPjM
-	IEE0dLJwLjbMyHQV8aSV6ltmQOleyym3vnf+eX/YGEG81GYPZ+QYYbpIlMyOE6X666aK
-	hMNOrNgZoiLf08kR1k2JvTRslD2q/1I60FWag3g0niqB446cF8Czu/up8vloBHe3GQgu
-	VZ1g==
-X-Gm-Message-State: AOPr4FX6Cf1JcTM0VTeN0bgvJ8ECm5Tqic5u0WJTfvykX4VdaV+sf8raaqCLVJOm0+QR0SakoQXRscHyV1Ae8A==
-X-Received: by 10.25.37.135 with SMTP id l129mr1788348lfl.56.1460474688507;
-	Tue, 12 Apr 2016 08:24:48 -0700 (PDT)
-MIME-Version: 1.0
-Sender: jefro.net@gmail.com
-Received: by 10.112.8.68 with HTTP; Tue, 12 Apr 2016 08:24:28 -0700 (PDT)
-In-Reply-To: <CAHQecY4PBZ-PHi6SefradTq5o2PXKo0wbo-jid80hMc0bfkYgA@mail.gmail.com>
-References: <56DEF97F.9070306@balister.org> <1458767514382.89578@seescan.com>
-	<56F30D13.6030909@balister.org>
-	<2408177.Nm4BLto1dd@rjs-zotac.streifs.net>
-	<20160412013543.GV16135@denix.org> <570C52DB.6060901@balister.org>
-	<CAHQecY4PBZ-PHi6SefradTq5o2PXKo0wbo-jid80hMc0bfkYgA@mail.gmail.com>
-From: Jeff Osier-Mixon <jefro@jefro.net>
-Date: Tue, 12 Apr 2016 08:24:28 -0700
-X-Google-Sender-Auth: 55_6rAyW5V4eQnVPNa1LabfPd0U
-Message-ID: <CA+YB3rbjhPsvzN_b70qzXXop61cdzqKbi9H2pKBeo5yRoHhL7Q@mail.gmail.com>
-To: Tom King <ka6sox@gmail.com>
-Cc: "openembedded-members@lists.openembedded.org"
-	<openembedded-members@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>,
-	"openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	Yocto Project <yocto@yoctoproject.org>
-Subject: Re: [oe] [yocto] OEDAM, April 8 in San Diego after ELC
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=YqJCIDAsRAML+qVdcMgTIR6iZzE6i8pIB7KsB4bQzFY=;
+	b=QcTm5qbYpkdBWvaBDV4UHL2KEhICOka7nLCJMn9NNasAt3/a47N5oqgz4I+qEvxUPg
+	nWh+5GuaVucfUzpWxJJeI03INizU9NCXWK37u58rLfhZ4Evww9BmGGOyEMTMlGAHu5EP
+	DysT1BqHFSpMwjkY7yC3qH9u4qc31P3YHvnhaTMcIcJUXBG+12nMjKKLEPOO7T42yQbp
+	TOqVe4lRou3s2kKwcL3yqE88TWv7e8yxHtPnI0npriZp30zBbkubudcPFCIiO8MEpRps
+	/nUJyKAB+XcBI5HwRhFEOMLcsSjG+GBQrsaPPGrKmHGWlmimyne+PvDO/esAPv9AhiHK
+	aUqw==
+X-Gm-Message-State: AOPr4FWHwl8wY4hkJlE8ai8Ks90TWfgHUaqYSodGzAxwt5EbUG+03+C6iZWQuFpyUx3y7/w5
+X-Received: by 10.28.147.135 with SMTP id v129mr5972781wmd.65.1460478771958;
+	Tue, 12 Apr 2016 09:32:51 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	i5sm34196014wjx.15.2016.04.12.09.32.50
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 12 Apr 2016 09:32:51 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 12 Apr 2016 17:32:49 +0100
+Message-Id: <1460478769-13151-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.0.rc3
+Subject: [PATCH] sanity: allow sftp and ssh mirrors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,62 +53,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Apr 2016 15:24:50 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 12 Apr 2016 16:32:52 -0000
 
-Coming soon to a wiki page near you
+URLs in MIRRORS and PREMIRRORS are vetted against a hard-coded list of protocols
+which were missing sftp: and ssh:, so add them.
 
+[ YOCTO #9444 ]
 
-On Mon, Apr 11, 2016 at 6:48 PM, Tom King <ka6sox@gmail.com> wrote:
-> do we have meeting minutes posted someplace?
->
-> thanks
->
-> tom
->
-> On Mon, Apr 11, 2016 at 6:43 PM, Philip Balister <philip@balister.org>
-> wrote:
->>
->> On 04/11/2016 09:35 PM, Denys Dmytriyenko wrote:
->> > On Mon, Apr 11, 2016 at 03:35:21PM -0700, Rudolf J Streif wrote:
->> >> Hello Everyone:
->> >>
->> >> If you attended OEDAM last Friday in San Diego, I very much hope that
->> >> you enjoyed being here.
->> >>
->> >> The Catamaran Hotel, where we held the meeting, would very much
->> >> appreciate your feedback:
->> >>
->> >> www.catamaranresort.com/trip
->> >>
->> >> I hope you all had a safe trip back home,
->> >
->> > And huge thanks to Rudi and Jefro for their help in organizing the
->> > event!
->> >
->>
->> And an even bigger thanks to everyone that came to the meeting. You are
->> the people that make OpenEmbedded great!
->>
->> Philip
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/sanity.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index eda0ea9..77813e4 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -860,7 +860,7 @@ def check_sanity_everybuild(status, d):
+     mirror_vars = ['MIRRORS', 'PREMIRRORS', 'SSTATE_MIRRORS']
+     protocols = ['http', 'ftp', 'file', 'https', \
+                  'git', 'gitsm', 'hg', 'osc', 'p4', 'svn', \
+-                 'bzr', 'cvs', 'npm']
++                 'bzr', 'cvs', 'npm', 'sftp', 'ssh']
+     for mirror_var in mirror_vars:
+         mirrors = (d.getVar(mirror_var, True) or '').replace('\\n', '\n').split('\n')
+         for mirror_entry in mirrors:
 -- 
-Jeff Osier-Mixon
-Open Source Community Architect, Intel Corporation
+2.8.0.rc3
+
 
