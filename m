@@ -1,31 +1,29 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id A92F565CBC
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C845965CBC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 20:50:56 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u3CKouOa002741; Tue, 12 Apr 2016 21:50:56 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id bpLU6uHlO4Pg; Tue, 12 Apr 2016 21:50:56 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u3CKormk002736
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 12 Apr 2016 21:50:54 +0100
-Message-ID: <1460494253.9308.70.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mike Crowe <mac@mcrowe.com>
-Date: Tue, 12 Apr 2016 21:50:53 +0100
-In-Reply-To: <20160412185126.GA14627@mcrowe.com>
-References: <20160329125626.GA11712@mcrowe.com>
-	<1459260670.21672.25.camel@linuxfoundation.org>
-	<20160412185126.GA14627@mcrowe.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Over-pruning the sstate cache
+	Tue, 12 Apr 2016 21:05:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u3CL5aZe030114
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Tue, 12 Apr 2016 14:05:36 -0700
+Received: from server.local (128.224.22.93) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Tue, 12 Apr 2016 14:05:35 -0700
+To: Khem Raj <raj.khem@gmail.com>, Patches and discussions about the oe-core
+	layer <openembedded-core@lists.openembedded.org>
+References: <1458077979-23303-1-git-send-email-raj.khem@gmail.com>
+	<56E91CC8.9060907@dest-unreach.org>
+	<CAMKF1sp7C3zCHQBiJ=i5YYsHcXfkBX74qYXgZxYX-tqcwqrD+A@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <570D631F.5020503@windriver.com>
+Date: Tue, 12 Apr 2016 17:05:35 -0400
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
+	Gecko/20100101 Thunderbird/38.7.2
+MIME-Version: 1.0
+In-Reply-To: <CAMKF1sp7C3zCHQBiJ=i5YYsHcXfkBX74qYXgZxYX-tqcwqrD+A@mail.gmail.com>
+Subject: Re: [PATCH] Access c_ispeed and c_ospeed via APIs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,58 +36,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Apr 2016 20:51:00 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 12 Apr 2016 21:05:42 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2016-04-12 at 19:51 +0100, Mike Crowe wrote:
-> On Tuesday 29 March 2016 at 15:11:10 +0100, Richard Purdie wrote:
-> > On Tue, 2016-03-29 at 13:56 +0100, Mike Crowe wrote:
-> > > 80b3974081c4a8c604e23982a6db8fb32c616058 implies that at least
-> > > some
-> > > people
-> > > are pruning the sstate cache based on file access time.
-> > > 
-> > > Is there a recommended way to ensure that all the sstate cache
-> > > files
-> > > are
-> > > touched, even those that are not actually required to build the
-> > > image
-> > > currently due to task optimisation?
-> > > 
-> > > Does anyone have any better ideas?
-> > 
-> > generate the "locked-sigs" inc file (bitbake XXX -S none) and then
-> > with
-> > a script touch all the objects listed in that file?
-> 
-> I'm most of the way through writing a script to do this. I've
-> discovered
-> that the sstate filenames contain bits that aren't in the locked-sigs
-> file
-> such as ${PV}, ${PR}, ${TARGET_VENDOR}, ${TARGET_OS},
-> ${SSTATE_VERSION}.
-> The hash is the important bit for identifying the file uniquely so
-> these
-> bits can either be hard coded or wildcarded as appropriate.
-> 
-> There's also the need to apply native OS name prefix for native
-> packages.
-> 
-> Is there a a way of getting hold of those bits so I can avoid the
-> wildcards?
+On 2016-04-12 1:53 PM, Khem Raj wrote:
+> FYI
 
-In theory the key part is the hash, all the other pieces are there just
-to make human understandable filenames/layout (and would be encoded
-into the hash in most cases). Whilst we could generate that info, I'm
-not sure it would help much since the hashes should uniquely identify
-the files?
+Thanks. I can also confirm that when I dropped the patch, I'm
+back up and running assertion free.
 
-Cheers,
+Bruce
 
-Richard
-
-
-
+>
+> ---------- Forwarded message ----------
+> From: Gerhard Rieger <gerhard@dest-unreach.org>
+> Date: Wed, Mar 16, 2016 at 4:43 AM
+> Subject: Re: [PATCH] Access c_ispeed and c_ospeed via APIs
+> To: Khem Raj <raj.khem@gmail.com>
+>
+>
+> Thank you, I will check this patch!
+> - Gerhard
+>
+>
+> Am 15.03.2016 um 22:39 schrieb Khem Raj:
+>> Use cfsetispeed(), cfsetospeed(), cfgetispeed, and cfgetospeed()
+>> instead of operating on c_ispeed and c_ospeed termios structure
+>> members directly because they are not guaranteed to exist on all
+>> libc implementations
+>>
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ---
+>>   xioinitialize.c | 8 ++++----
+>>   1 file changed, 4 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/xioinitialize.c b/xioinitialize.c
+>> index 9f50155..632ca4c 100644
+>> --- a/xioinitialize.c
+>> +++ b/xioinitialize.c
+>> @@ -65,10 +65,10 @@ int xioinitialize(void) {
+>>   #if HAVE_TERMIOS_ISPEED && (ISPEED_OFFSET != -1) && (OSPEED_OFFSET != -1)
+>>   #if defined(ISPEED_OFFSET) && (ISPEED_OFFSET != -1)
+>>   #if defined(OSPEED_OFFSET) && (OSPEED_OFFSET != -1)
+>> -      tdata.termarg.c_ispeed = 0x56789abc;
+>> -      tdata.termarg.c_ospeed = 0x6789abcd;
+>> -      assert(tdata.termarg.c_ispeed == tdata.speeds[ISPEED_OFFSET]);
+>> -      assert(tdata.termarg.c_ospeed == tdata.speeds[OSPEED_OFFSET]);
+>> +      cfsetispeed(&tdata.termarg, 0x56789abc);
+>> +      cfsetospeed(&tdata.termarg, 0x6789abcd);
+>> +      assert(cfgetispeed(&tdata.termarg) == tdata.speeds[ISPEED_OFFSET]);
+>> +      assert(cfgetospeed(&tdata.termarg) == tdata.speeds[OSPEED_OFFSET]);
+>>   #endif
+>>   #endif
+>>   #endif
+>>
 
 
