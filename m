@@ -1,63 +1,32 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-pf0-f170.google.com (mail-pf0-f170.google.com
-	[209.85.192.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 3498760123
+Return-Path: <denis@denix.org>
+Received: from vms173025pub.verizon.net (vms173025pub.verizon.net
+	[206.46.173.25])
+	by mail.openembedded.org (Postfix) with ESMTP id C63D56E65F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 16:35:46 +0000 (UTC)
-Received: by mail-pf0-f170.google.com with SMTP id n1so16674646pfn.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 09:35:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=eVI/SDkBnmoYSIUTITH+FqFvBD3QW0CBECCBhMRq38k=;
-	b=rn4YekTglvqiXt53ambEzDNioqL02+4oW9DP8lOxIXDSYkaRqNbMZxNC17gLxco7Ih
-	gja++atKSqWP8ytyLIBlgXVHKEpx2nzHIPeu9Sd0wHzi3mRbwemep3xCBpbURk7ERSMx
-	UAgQKmiJAoOfMwfZZucDU7e4hZs214kkcZ3O93XOwTfh7pZ4LOLjOP9Tk5vxycW7I4fN
-	wSxWJ3rcccGUkXc8qTJ+iMtAKGTJblwz+9KCUNuLLcwnj2iZuaFqnxXWI9kNRAndG+z+
-	GeTV7AUL0q/3bZrMlqmg6+OAKWF+x7jaVkXNPq8A9YXtS+dFlfuwjfbiLhDdXR8qgS20
-	rw3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=eVI/SDkBnmoYSIUTITH+FqFvBD3QW0CBECCBhMRq38k=;
-	b=dcf32A0xJOGHCYpIr8uZJtw7hjpvpkqZfhzzGNh3So1Z18h+Sapm549fBk9d6UrgH0
-	nMqcowmcRs+POH6gAxOsRGqTbFrtE0B0elxuBKn81sxLHNeri8sNiRjzCINwxoPM2W9l
-	uuC0Rh05O/PYKWRpcRRgw9Vbh/8iq9SUFrG1TkAZNrrtjyCAteJWAcxcxohmDyrF7J3K
-	3J+ZqaXeX4MGxQvbk+rcMOfeNeUa4nyIP/QybQ3TDpAQK3ef0t4Og0GwL1YmoZuBTCsl
-	Hs7pPhyaMAAD5352EWloNQ6YiHf9dL/jkkVB/2cJN1W0eNwc0BgeMN1K1ENBOQNcpfz4
-	EzeA==
-X-Gm-Message-State: AOPr4FUmpsxWWwZHTghVAyY7kxLzA64belNvd+KLXU8QTPuk8ZhWko8HqUgxRKmEfmbbfw==
-X-Received: by 10.98.11.205 with SMTP id 74mr5910349pfl.98.1460478946845;
-	Tue, 12 Apr 2016 09:35:46 -0700 (PDT)
-Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com.
-	[209.85.220.46]) by smtp.gmail.com with ESMTPSA id
-	17sm44848093pfs.40.2016.04.12.09.35.44
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 12 Apr 2016 09:35:45 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-pa0-f46.google.com with SMTP id zm5so16409599pac.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 09:35:44 -0700 (PDT)
-MIME-Version: 1.0
-X-Received: by 10.67.6.10 with SMTP id cq10mr5922891pad.120.1460478944307;
-	Tue, 12 Apr 2016 09:35:44 -0700 (PDT)
-Received: by 10.67.3.163 with HTTP; Tue, 12 Apr 2016 09:35:44 -0700 (PDT)
-In-Reply-To: <1460472857.9308.63.camel@linuxfoundation.org>
-References: <cover.1460467072.git.pkj@axis.com>
-	<7251ce8da0aed3f9ad921daa66186a2c2fc6a932.1460467072.git.pkj@axis.com>
-	<1460472857.9308.63.camel@linuxfoundation.org>
-Date: Tue, 12 Apr 2016 13:35:44 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKobRBigE8Wur600MDdFgL+Z-3C7noAJyWfsjTE8d18vBA@mail.gmail.com>
-Message-ID: <CAP9ODKobRBigE8Wur600MDdFgL+Z-3C7noAJyWfsjTE8d18vBA@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 1/1] Revert "useradd.bbclass: remove user/group created by the package in clean* task"
+	Tue, 12 Apr 2016 16:51:43 +0000 (UTC)
+Received: from vz-proxy-l008.mx.aol.com ([64.236.82.153])
+	by vms173025.mailsrvcs.net
+	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul 16
+	2014)) with ESMTPA id <0O5J00BDP5HFXL80@vms173025.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Tue, 12 Apr 2016 11:51:26 -0500 (CDT)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.1 cv=J+9Xl1TS c=1 sm=1 tr=0	a=FJ1kTJ0/xm5uTekQe8vMdQ==:117
+	a=kj9zAlcOel0A:10 a=kziv93cY1bsA:10	a=QyXUC8HyAAAA:8 a=sozttTNsAAAA:8
+	a=Q4-j1AaZAAAA:8 a=omDvbwo6IvmZDESr-UUA:9	a=CjuIK1q_8ugA:10
+Received: by 100.15.86.14 with SMTP id 41fae76b; Tue, 12 Apr 2016 16:51:26 GMT
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 96854161F9A; Tue,
+	12 Apr 2016 12:51:15 -0400 (EDT)
+Date: Tue, 12 Apr 2016 12:51:15 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Bill Randle <william.c.randle@intel.com>
+Message-id: <20160412165115.GY16135@denix.org>
+References: <1460474541-3625-1-git-send-email-william.c.randle@intel.com>
+MIME-version: 1.0
+In-reply-to: <1460474541-3625-1-git-send-email-william.c.randle@intel.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] package.bbclass: handle links in sorted order
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,46 +39,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Apr 2016 16:35:47 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 12 Apr 2016 16:51:49 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-On Tue, Apr 12, 2016 at 11:54 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Tue, 2016-04-12 at 15:18 +0200, Peter Kjellerstedt wrote:
->> Removal of users/group when cleansstating a recipe as implemented
->> here
->> totally breaks when multiple recipes install the same user/groups.
->>
->> This reverts commit b5304ce438666a7418746f4ddd32703ae3188089.
->>
->> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
->> ---
->>  meta/classes/sstate.bbclass  |  5 -----
->>  meta/classes/useradd.bbclass | 29 -----------------------------
->>  2 files changed, 34 deletions(-)
->
-> This is one of these situations where we can't win.
->
-> Without this code, there is no way to clean up these users out the
-> sysroot. Having to tell people to "wipe TMPDIR" when the parameters
-> used to create a user change for example is rather bad. It also has bad
-> implications for build determinism and the expectation that a "clean"
-> undoes the changes a recipe makes.
->
-> Have we ever documented we support the same user being created by
-> multiple recipes?
->
-> I'm open to proposals about how to fix this but an outright revert
-> doesn't seem like the right thing to do. Making it optional so you can
-> disable it for your multiple recipes case would perhaps be a better
-> option for example.
+On Tue, Apr 12, 2016 at 08:22:21AM -0700, Bill Randle wrote:
+> When processing links, the directories are processed in unsorted order
+> which can result in cases like /var/lock -> /run/lock handled before
+> /var/run -> /run throwing an error for /var/run because /run already exists.
+> Change the link processing to ensure links are processed in sorted order of
+> the destination.
 
-I am not against the change by the timing; it should be merged in
-master as soon it is open for 2.2 work.
+Seems to resolve the issue for me.
 
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+> [YOCTO #9430]
+> 
+> Signed-off-by: Bill Randle <william.c.randle@intel.com>
+
+Reported-by: Denys Dmytriyenko <denys@ti.com>
+Tested-by: Denys Dmytriyenko <denys@ti.com>
+
+
+> ---
+>  meta/classes/package.bbclass | 19 ++++++++++---------
+>  1 file changed, 10 insertions(+), 9 deletions(-)
+> 
+> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+> index 4452e2f..894b729 100644
+> --- a/meta/classes/package.bbclass
+> +++ b/meta/classes/package.bbclass
+> @@ -727,6 +727,7 @@ python fixup_perms () {
+>      dvar = d.getVar('PKGD', True)
+>  
+>      fs_perms_table = {}
+> +    fs_link_table = {}
+>  
+>      # By default all of the standard directories specified in
+>      # bitbake.conf will get 0755 root:root.
+> @@ -773,24 +774,27 @@ python fixup_perms () {
+>                      continue
+>                  entry = fs_perms_entry(d.expand(line))
+>                  if entry and entry.path:
+> -                    fs_perms_table[entry.path] = entry
+> +                    if entry.link:
+> +                        fs_link_table[entry.link] = entry
+> +                    else:
+> +                        fs_perms_table[entry.path] = entry
+>              f.close()
+>  
+>      # Debug -- list out in-memory table
+>      #for dir in fs_perms_table:
+>      #    bb.note("Fixup Perms: %s: %s" % (dir, str(fs_perms_table[dir])))
+> +    #for link in fs_link_table:
+> +    #    bb.note("Fixup Perms: %s: %s" % (link, str(fs_link_table[link])))
+>  
+>      # We process links first, so we can go back and fixup directory ownership
+>      # for any newly created directories
+> -    for dir in fs_perms_table:
+> -        if not fs_perms_table[dir].link:
+> -            continue
+> -
+> +    # Process in sorted order so /run gets created before /run/lock, etc.
+> +    for link in sorted(fs_link_table):
+> +        dir = fs_link_table[link].path
+>          origin = dvar + dir
+>          if not (cpath.exists(origin) and cpath.isdir(origin) and not cpath.islink(origin)):
+>              continue
+>  
+> -        link = fs_perms_table[dir].link
+>          if link[0] == "/":
+>              target = dvar + link
+>              ptarget = link
+> @@ -810,9 +814,6 @@ python fixup_perms () {
+>          os.symlink(link, origin)
+>  
+>      for dir in fs_perms_table:
+> -        if fs_perms_table[dir].link:
+> -            continue
+> -
+>          origin = dvar + dir
+>          if not (cpath.exists(origin) and cpath.isdir(origin)):
+>              continue
+> -- 
+> 2.5.0
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
