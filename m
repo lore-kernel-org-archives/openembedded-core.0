@@ -1,20 +1,55 @@
-Return-Path: <william.c.randle@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A59760043
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 15:22:26 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP; 12 Apr 2016 08:22:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,474,1455004800"; d="scan'208";a="783342878"
-Received: from wcrandle-mobl1.jf.intel.com ([10.24.0.173])
-	by orsmga003.jf.intel.com with ESMTP; 12 Apr 2016 08:22:25 -0700
-From: Bill Randle <william.c.randle@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Apr 2016 08:22:21 -0700
-Message-Id: <1460474541-3625-1-git-send-email-william.c.randle@intel.com>
-X-Mailer: git-send-email 2.5.0
-Subject: [PATCH] package.bbclass: handle links in sorted order
+Return-Path: <jefro.net@gmail.com>
+Received: from mail-lf0-f44.google.com (mail-lf0-f44.google.com
+	[209.85.215.44])
+	by mail.openembedded.org (Postfix) with ESMTP id DC5B860043;
+	Tue, 12 Apr 2016 15:24:49 +0000 (UTC)
+Received: by mail-lf0-f44.google.com with SMTP id j11so30208776lfb.1;
+	Tue, 12 Apr 2016 08:24:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=7P3wK01wjViqosdbzSIPrgQmppNkWqA9CKP0hIqj5yc=;
+	b=1HcPb09LFFBcBonuVX9WMg3qCpWuY/vJM5D8d+BtDANrLrZSvQobRziU3bTx2Vbb4p
+	lToRbKQwYi5VgSegDIDMM5vzgpvy93Z/Om7X0W2Aaz825B+HP2SiUClSJg2wNA3Za1T9
+	AQXkv2CIKqZcnmw31/k6WfA4B2Tugflxn9QHrH0bTInMEUkJBE+TXFEtC85fuQLt3VA7
+	4Sou5JOHakmHb4TNYJemaMcSYfZTI1fT0Zap1Bgd1Pl379dzeulKg+XzY0nHiTT97sfb
+	qIeb1Fi347/76ACcrB1ZvDYL64soJeoIcGN3QsvLwySiKAZghyFggjcMF31UrSNl8oVE
+	Wtmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=7P3wK01wjViqosdbzSIPrgQmppNkWqA9CKP0hIqj5yc=;
+	b=WpqZA4KjkTQzvmiyMSzuZhOH5vQCvWgYSGMVCaxcwI1I48EptD4vsT8rDJ/MyJylgQ
+	LLd66bCrAoNRA5BqZ2XeahfVqcJblacbnYplGgiRtT7DpQyooNjhUIrMmbGwh98mLqv4
+	MmCht0wxFfBMVtYrZca8wDnaxKyhTxi5AvQ/N6B6enkcg/pP7mQPXPzwNDXnCMGIKPjM
+	IEE0dLJwLjbMyHQV8aSV6ltmQOleyym3vnf+eX/YGEG81GYPZ+QYYbpIlMyOE6X666aK
+	hMNOrNgZoiLf08kR1k2JvTRslD2q/1I60FWag3g0niqB446cF8Czu/up8vloBHe3GQgu
+	VZ1g==
+X-Gm-Message-State: AOPr4FX6Cf1JcTM0VTeN0bgvJ8ECm5Tqic5u0WJTfvykX4VdaV+sf8raaqCLVJOm0+QR0SakoQXRscHyV1Ae8A==
+X-Received: by 10.25.37.135 with SMTP id l129mr1788348lfl.56.1460474688507;
+	Tue, 12 Apr 2016 08:24:48 -0700 (PDT)
+MIME-Version: 1.0
+Sender: jefro.net@gmail.com
+Received: by 10.112.8.68 with HTTP; Tue, 12 Apr 2016 08:24:28 -0700 (PDT)
+In-Reply-To: <CAHQecY4PBZ-PHi6SefradTq5o2PXKo0wbo-jid80hMc0bfkYgA@mail.gmail.com>
+References: <56DEF97F.9070306@balister.org> <1458767514382.89578@seescan.com>
+	<56F30D13.6030909@balister.org>
+	<2408177.Nm4BLto1dd@rjs-zotac.streifs.net>
+	<20160412013543.GV16135@denix.org> <570C52DB.6060901@balister.org>
+	<CAHQecY4PBZ-PHi6SefradTq5o2PXKo0wbo-jid80hMc0bfkYgA@mail.gmail.com>
+From: Jeff Osier-Mixon <jefro@jefro.net>
+Date: Tue, 12 Apr 2016 08:24:28 -0700
+X-Google-Sender-Auth: 55_6rAyW5V4eQnVPNa1LabfPd0U
+Message-ID: <CA+YB3rbjhPsvzN_b70qzXXop61cdzqKbi9H2pKBeo5yRoHhL7Q@mail.gmail.com>
+To: Tom King <ka6sox@gmail.com>
+Cc: "openembedded-members@lists.openembedded.org"
+	<openembedded-members@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>,
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	Yocto Project <yocto@yoctoproject.org>
+Subject: Re: [oe] [yocto] OEDAM, April 8 in San Diego after ELC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,78 +62,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Apr 2016 15:22:27 -0000
+X-List-Received-Date: Tue, 12 Apr 2016 15:24:50 -0000
+Content-Type: text/plain; charset=UTF-8
 
-When processing links, the directories are processed in unsorted order
-which can result in cases like /var/lock -> /run/lock handled before
-/var/run -> /run throwing an error for /var/run because /run already exists.
-Change the link processing to ensure links are processed in sorted order of
-the destination.
+Coming soon to a wiki page near you
 
-[YOCTO #9430]
 
-Signed-off-by: Bill Randle <william.c.randle@intel.com>
----
- meta/classes/package.bbclass | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+On Mon, Apr 11, 2016 at 6:48 PM, Tom King <ka6sox@gmail.com> wrote:
+> do we have meeting minutes posted someplace?
+>
+> thanks
+>
+> tom
+>
+> On Mon, Apr 11, 2016 at 6:43 PM, Philip Balister <philip@balister.org>
+> wrote:
+>>
+>> On 04/11/2016 09:35 PM, Denys Dmytriyenko wrote:
+>> > On Mon, Apr 11, 2016 at 03:35:21PM -0700, Rudolf J Streif wrote:
+>> >> Hello Everyone:
+>> >>
+>> >> If you attended OEDAM last Friday in San Diego, I very much hope that
+>> >> you enjoyed being here.
+>> >>
+>> >> The Catamaran Hotel, where we held the meeting, would very much
+>> >> appreciate your feedback:
+>> >>
+>> >> www.catamaranresort.com/trip
+>> >>
+>> >> I hope you all had a safe trip back home,
+>> >
+>> > And huge thanks to Rudi and Jefro for their help in organizing the
+>> > event!
+>> >
+>>
+>> And an even bigger thanks to everyone that came to the meeting. You are
+>> the people that make OpenEmbedded great!
+>>
+>> Philip
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 4452e2f..894b729 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -727,6 +727,7 @@ python fixup_perms () {
-     dvar = d.getVar('PKGD', True)
- 
-     fs_perms_table = {}
-+    fs_link_table = {}
- 
-     # By default all of the standard directories specified in
-     # bitbake.conf will get 0755 root:root.
-@@ -773,24 +774,27 @@ python fixup_perms () {
-                     continue
-                 entry = fs_perms_entry(d.expand(line))
-                 if entry and entry.path:
--                    fs_perms_table[entry.path] = entry
-+                    if entry.link:
-+                        fs_link_table[entry.link] = entry
-+                    else:
-+                        fs_perms_table[entry.path] = entry
-             f.close()
- 
-     # Debug -- list out in-memory table
-     #for dir in fs_perms_table:
-     #    bb.note("Fixup Perms: %s: %s" % (dir, str(fs_perms_table[dir])))
-+    #for link in fs_link_table:
-+    #    bb.note("Fixup Perms: %s: %s" % (link, str(fs_link_table[link])))
- 
-     # We process links first, so we can go back and fixup directory ownership
-     # for any newly created directories
--    for dir in fs_perms_table:
--        if not fs_perms_table[dir].link:
--            continue
--
-+    # Process in sorted order so /run gets created before /run/lock, etc.
-+    for link in sorted(fs_link_table):
-+        dir = fs_link_table[link].path
-         origin = dvar + dir
-         if not (cpath.exists(origin) and cpath.isdir(origin) and not cpath.islink(origin)):
-             continue
- 
--        link = fs_perms_table[dir].link
-         if link[0] == "/":
-             target = dvar + link
-             ptarget = link
-@@ -810,9 +814,6 @@ python fixup_perms () {
-         os.symlink(link, origin)
- 
-     for dir in fs_perms_table:
--        if fs_perms_table[dir].link:
--            continue
--
-         origin = dvar + dir
-         if not (cpath.exists(origin) and cpath.isdir(origin)):
-             continue
+
+
 -- 
-2.5.0
-
+Jeff Osier-Mixon
+Open Source Community Architect, Intel Corporation
 
