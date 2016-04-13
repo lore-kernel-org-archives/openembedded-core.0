@@ -1,33 +1,48 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 77D346057A
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
+	[209.85.220.174])
+	by mail.openembedded.org (Postfix) with ESMTP id D9329605FE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Apr 2016 16:03:17 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga104.fm.intel.com with ESMTP; 13 Apr 2016 09:03:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,480,1455004800"; d="scan'208";a="784150726"
-Received: from mbabyjoh-mobl.fi.intel.com (HELO
-	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.71])
-	by orsmga003.jf.intel.com with ESMTP; 13 Apr 2016 09:03:16 -0700
-Date: Wed, 13 Apr 2016 19:04:10 +0300
-From: "Maxin B. John" <maxin.john@intel.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Message-ID: <20160413160410.GA11312@mbabyjoh-desk.ger.corp.intel.com>
-References: <cover.1460467072.git.pkj@axis.com>
-	<7251ce8da0aed3f9ad921daa66186a2c2fc6a932.1460467072.git.pkj@axis.com>
-	<1460472857.9308.63.camel@linuxfoundation.org>
-	<CAP9ODKobRBigE8Wur600MDdFgL+Z-3C7noAJyWfsjTE8d18vBA@mail.gmail.com>
-	<4550e71bd1f24135a2f6978294e25f94@XBOX02.axis.com>
-	<1460545515.9308.85.camel@linuxfoundation.org>
-	<5715165f841f46d0a50fb951acfbf0ac@XBOX02.axis.com>
-MIME-Version: 1.0
-In-Reply-To: <5715165f841f46d0a50fb951acfbf0ac@XBOX02.axis.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
-	"OE Core \(openembedded-core@lists.openembedded.org\)"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 1/1] Revert "useradd.bbclass: remove user/group created by the package in clean* task"
+	Wed, 13 Apr 2016 16:12:17 +0000 (UTC)
+Received: by mail-qk0-f174.google.com with SMTP id n63so10174485qkf.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Apr 2016 09:12:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=uUVo6tMbfssSj56vbAPUgfdMEEWwpw+5QDoqxV61A0o=;
+	b=qOIbjePsR+VyZNukF9pxaTUJ4oBlts30bCE9zZ+cWJUnnGG8jwttmZEjrx5y/woM9r
+	P1QyeQi5hfBUWJV0nU5gT7t1Tw/MIZnBJHAugyjtFaYkqnQCFziblpF8mxpTx5mY58MV
+	rm9/fYUHOJbgE9tXAMnaWqGh07sB9rGHtifPj3XsmHL/Uaf30TrBhj42Td7xuvGCqQ7E
+	E30ivKT9JTmmvDKZ9VGu/EEmv8JhlyUs0OTE1iDxuYi/O07FTlLrKSpl84gmaFx7bv7T
+	j03VPfkHPbVW6AlbiqZR6V+kv0Cabk3QAKYAlxJBdKAP5gH4xsbl76PrNTOa+lXSwHqJ
+	jaeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+	bh=uUVo6tMbfssSj56vbAPUgfdMEEWwpw+5QDoqxV61A0o=;
+	b=WYGo22vGVlcnLlXTFBjNXipKA6tnbYzipkE5rYziRiRA4WpHUZFXOFTQ47ntJaA7TY
+	L418iCWjpr4JI2j6k/Ryy+OtatoL9yWLZ3zxWTAgUrDw+t6qviJjLmCXOK/noEpCFquA
+	Zd0W8ftfUjbub2V/IS7BtFjuFihfY/na5yhnwXFenFzwEXj6xUuxR8FBkSdefUFN2x13
+	bHMditGwjUxERsb2DtkNT7i5OD/9Yccq44aY2hQsoTZb2QGDV+x0M+kNplpaAXUYWMsm
+	lz6gO3PYUmUTjZakJLViX2fmw1nAZV0N2csI26GO39T7svkQeaaFtTM+x1R99fGBVPbd
+	Er7A==
+X-Gm-Message-State: AOPr4FVPXlhd/UAvd+O449uvM+fPyBxkvmKlDXKgYeHIloM8LyfIZkMAvJ5FuEXBMFBdoA==
+X-Received: by 10.55.71.143 with SMTP id u137mr12723548qka.1.1460563936650;
+	Wed, 13 Apr 2016 09:12:16 -0700 (PDT)
+Received: from localhost.localdomain
+	(CPEe8de27b71faa-CMbcc810032faf.cpe.net.cable.rogers.com.
+	[99.224.124.24]) by smtp.gmail.com with ESMTPSA id
+	y123sm16264104qka.0.2016.04.13.09.12.14
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 13 Apr 2016 09:12:14 -0700 (PDT)
+Sender: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Wed, 13 Apr 2016 12:12:08 -0400
+Message-Id: <cover.1460563722.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/5] linux-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,81 +55,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Apr 2016 16:03:17 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 13 Apr 2016 16:12:18 -0000
 
-Hi Peter,
+Hi all,
 
-On Wed, Apr 13, 2016 at 03:14:09PM +0000, Peter Kjellerstedt wrote:
-> > -----Original Message-----
-> > From: Richard Purdie [mailto:richard.purdie@linuxfoundation.org]
-> > Sent: den 13 april 2016 13:05
-> > To: Peter Kjellerstedt; Otavio Salvador
-> > Cc: OE Core (openembedded-core@lists.openembedded.org)
-> > Subject: Re: [OE-core] [PATCHv2 1/1] Revert "useradd.bbclass: remove
-> > user/group created by the package in clean* task"
-> > 
-> > I am pretty frustrated with this thread. The reasons are perhaps not
-> > immediately obvious though.
-> > 
-> > The issue is that there are only a limited number of people who
-> > actually dive in and try and fix some of the underlying "core
-> > architecture" bugs. There is what I believe to be a pretty good patch
-> > here which does fix real world issues which have been reported into the
-> > bugzilla (its related to at least two bug reports). As such it has been
-> > seen as a bugfix. Its now clear it does have some side effects which
-> > weren't envisaged, some causing issues for a small number of meta-oe
-> > recipes, the others breaking a companies internal code.
-> > 
-> > Otavio wants it deferred to 2.2, Peter wants it abandoned entirely.
-> > 
-> > If I revert this, Peter is then happy and has zero incentive to do
-> > anything further. The pressure is still on the reopened bugs to try and
-> > fix this somehow and falls back to the usual suspects. There is a real
-> > world usability problem there.
-> 
-> Hold your horses. I definitely see the problem the change tried to 
-> address as one that needs to be fixed, and I am already looking at 
-> how to solve this properly (currently based on my second suggested 
-> solution). However, I do not know if I can fix it in time for Krogoth. 
-> Which is why I agree with Otavio that the change was introduced too 
-> late in the process, especially as it causes breakage for existing 
-> users.
+This series contains some changes that I've been gathering over the past
+week. Nothing serious, just BSP mainline backports, configuration tweaks
+to tiny (for usability) and a change to make aufs4 opt-in (versus always
+on).
 
-As the author of that patch, I am responsible for that regression and would 
-like to assist in fixing that particular problem. As you can see, I had no
-option to test your particular scenario as that recipe was not part of my oe-core 
-"world" build test. RP has already sent a patch to fix the "cyrus-sasl" recipe
-which had some troubles with this change.
+I've built and booted this for qemu* (standard and -rt).
 
-> > In a single isolated case, fine, we'd figure a way through this. I
-> > think I'm so frustrated as we see this all the time. Making a change to
-> > the core architecture is hard and gets ever harder, then we wonder why
-> > we don't have contributors. Part of this is having so many different
-> > workflows and corner cases.
-> > 
-> > I have pushed very hard to have more test cases, then its easier to
-> > determine if a patch causes regressions. Again though, few people are
-> > contributing to them outside the usual suspects.
-> 
-> Here I must show my lack of knowledge. How and where should I go about 
-> adding a regression test that verifies the support for that multiple 
-> recipes can add the same user/group? Since this does not test a 
-> specific recipe, but rather a part of the build framework, I do not 
-> know if, e.g., ptest is applicable (of which I have no experience 
-> either).
+Cheers,
 
-Just want to let you know that I am interested in working together to fix this one.
-As per my understanding, you have a library and an application, which depends on that 
-library. Both these packages creates the same user. 
+Bruce
 
-At this point, a package manager (eg: smart) doesn't remove the users when we remove the package.
-However, I am not sure about the situation where a package manager removes the users added by a 
-package when we remove it from the target device. In that case,wouldn't the removal of application, 
-remove the user which the library depends on ?
+The following changes since commit e912c468875ffea7e8070cb7813bca262d1cbb0b:
 
-Best Regards,
-Maxin
+  kbd: remove uclibc-stdarg.patch (2016-04-13 10:12:53 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (5):
+  linux-yocto/4.4: gpio-pca953x: fix the "drive" property cannot
+    read/write
+  linux-yocto/4.1: mainline SPI backports
+  linux-yocto/4.4: BXT enablement
+  linux-yocto: tiny and pin ctrl config updates
+  linux-yocto: make aufs4 optional
+
+ meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb   |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 18 +++++++++---------
+ meta/recipes-kernel/linux/linux-yocto_4.4.bb      | 18 +++++++++---------
+ 6 files changed, 26 insertions(+), 26 deletions(-)
+
+-- 
+2.5.0
 
 
