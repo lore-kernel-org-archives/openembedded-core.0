@@ -1,20 +1,47 @@
-Return-Path: <william.c.randle@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 6502373185
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-vk0-f67.google.com (mail-vk0-f67.google.com
+	[209.85.213.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 1BC027317D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Apr 2016 17:17:52 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP; 13 Apr 2016 10:17:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,480,1455004800"; d="scan'208";a="784204093"
-Received: from wcrandle-mobl1.jf.intel.com ([10.24.4.174])
-	by orsmga003.jf.intel.com with ESMTP; 13 Apr 2016 10:17:54 -0700
-From: Bill Randle <william.c.randle@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Apr 2016 10:17:42 -0700
-Message-Id: <1460567862-26398-1-git-send-email-william.c.randle@intel.com>
-X-Mailer: git-send-email 2.5.0
-Subject: [PATCH] ext-sdk-prepare.py: exclude do_rm_work from unexpected output; create unit test
+	Wed, 13 Apr 2016 17:30:07 +0000 (UTC)
+Received: by mail-vk0-f67.google.com with SMTP id a6so7290681vkh.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Apr 2016 10:30:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc; bh=hAYytxnBQy1kpUTZzv2ZuA8zhlzSA643aGOMcr8QqLQ=;
+	b=SL9Fb5cPalE9DIm9jIPaMuz2ieMxbksf/ZL2mcvyuQ5lfw6Z8Sw7R3Nd/XvIzLu5iM
+	cbByDJpjPgFcH1BorShFI91hiuBNTlqYD71MvZs+KPCm241sT/0w2WoGEOHri4n5+591
+	GROyKuBRM1HPRApOrqQBhrVTbdgcw33TDL/FPMKqStCYImnOfSkxBBslp33JZj3DkW3l
+	CRt6h05M3oBBE2ZUWLkjqsxnmOkL4VZPgVqTJ/Srn2baQ8GqsNMbxrlHEtmCFex6h7/V
+	c29LTqO2MJhv52SxQ3Zq7GxU4zpCbtxw5p0IXWIz7BcChGzrRGzaDRdzgR2JmwE7RoSZ
+	nVCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc;
+	bh=hAYytxnBQy1kpUTZzv2ZuA8zhlzSA643aGOMcr8QqLQ=;
+	b=TKuXT8uiyjL5MJECf/SqOWnBHUYGR0aP7VtR4q4vnmofqQWDaNO4CNQmZDhw8d2SP5
+	//ZycPSXRMf83hKlauy/xPuHkOyHGSzKyJs0mfURZmJ24LrXS8dNfFTJwtoMJwSNtUKP
+	Kx1ZR93sUcQwRdshZt13kwa7o5BCsOFaHXYVs5zGtyCjTz0O5ljUqvSEzM9/CNl6G/qS
+	Mq9cQcmbMTUDtYncV8H/1MROEp2hDaScKtQ0ihbffQDTQkOC+TZ79iurOfgH09CYIvjo
+	AnpiRLAm7XJnPOk4ty+YWEbmbDLBfe73Id7fYFog+NeXt+Ye9p60wWBXhdSUF+lLSrc9
+	fGBw==
+X-Gm-Message-State: AOPr4FU2bFRm7ce9PoUxTqMIiWEXO+ZJHLR2i0+zWikHfO/zSVZ8MaYS3nv8IDHOJdWu1HPEBwOh7c+ARxhhXg==
+MIME-Version: 1.0
+X-Received: by 10.159.36.240 with SMTP id 103mr5264443uar.98.1460568608258;
+	Wed, 13 Apr 2016 10:30:08 -0700 (PDT)
+Received: by 10.103.94.2 with HTTP; Wed, 13 Apr 2016 10:30:08 -0700 (PDT)
+In-Reply-To: <20160412165115.GY16135@denix.org>
+References: <1460474541-3625-1-git-send-email-william.c.randle@intel.com>
+	<20160412165115.GY16135@denix.org>
+Date: Wed, 13 Apr 2016 11:30:08 -0600
+Message-ID: <CACS+7ZTTJOohmfe_iY3Y5Hc_FpLVh8Jvbpx9tdBAbifS4COWaQ@mail.gmail.com>
+From: Dan McGregor <danismostlikely@gmail.com>
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] package.bbclass: handle links in sorted order
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,151 +54,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Apr 2016 17:17:54 -0000
+X-List-Received-Date: Wed, 13 Apr 2016 17:30:09 -0000
+Content-Type: text/plain; charset=UTF-8
 
-When installing the esdk with INHERIT += "rm_work", the script complains
-about do_rm_work as unexpected output from the bitbake run. This patch
-ignores any output lines with do_rm_work and further refactors the
-output comparison into its own function creates a new unit test to
-verify the fix. The unit test can be run direct from the command line or
-via oe-selftest.
+On 12 April 2016 at 10:51, Denys Dmytriyenko <denis@denix.org> wrote:
+> On Tue, Apr 12, 2016 at 08:22:21AM -0700, Bill Randle wrote:
+>> When processing links, the directories are processed in unsorted order
+>> which can result in cases like /var/lock -> /run/lock handled before
+>> /var/run -> /run throwing an error for /var/run because /run already exists.
+>> Change the link processing to ensure links are processed in sorted order of
+>> the destination.
+>
+> Seems to resolve the issue for me.
+>
+>
 
-[YOCTO #9019]
+For me it introduces a new issue. I use two perm files, the OE default
+one, and one that changes two links to real directories. The new
+packaging code complains that a link target exists as a directory,
+even though a subsequent rule sets it up as a directory.
 
-Signed-off-by: Bill Randle <william.c.randle@intel.com>
----
- meta/files/ext-sdk-prepare.py          | 27 +++++++-----
- meta/lib/oeqa/selftest/esdk_prepare.py | 75 ++++++++++++++++++++++++++++++++++
- 2 files changed, 91 insertions(+), 11 deletions(-)
- create mode 100755 meta/lib/oeqa/selftest/esdk_prepare.py
+I think during parsing it should remove links as it finds directories
+with the same path, and remove directories with the same path in the
+order it sees them, that way when it does the in order processing it
+uses the last definition in the permissions table.
 
-diff --git a/meta/files/ext-sdk-prepare.py b/meta/files/ext-sdk-prepare.py
-index 80db8bb..605e2eb 100644
---- a/meta/files/ext-sdk-prepare.py
-+++ b/meta/files/ext-sdk-prepare.py
-@@ -27,6 +27,21 @@ def exec_watch(cmd, **options):
- 
-     return process.returncode, buf
- 
-+def check_unexpected(lines, recipes):
-+    """Check for unexpected output lines from dry run"""
-+    unexpected = []
-+    for line in lines.splitlines():
-+        if 'Running task' in line:
-+            for recipe in recipes:
-+                if recipe in line:
-+                    break
-+            else:
-+                line = line.split('Running', 1)[-1]
-+                if 'do_rm_work' not in line:
-+                    unexpected.append(line.rstrip())
-+        elif 'Running setscene' in line:
-+            unexpected.append(line.rstrip())
-+    return unexpected
- 
- def main():
-     if len(sys.argv) < 2:
-@@ -67,17 +82,7 @@ def main():
- 
-     try:
-         out = subprocess.check_output('bitbake %s -n' % ' '.join(sdk_targets), stderr=subprocess.STDOUT, shell=True)
--        unexpected = []
--        for line in out.splitlines():
--            if 'Running task' in line:
--                for recipe in recipes:
--                    if recipe in line:
--                        break
--                else:
--                    line = line.split('Running', 1)[-1]
--                    unexpected.append(line.rstrip())
--            elif 'Running setscene' in line:
--                unexpected.append(line.rstrip())
-+        unexpected = check_unexpected(out, recipes)
-     except subprocess.CalledProcessError as e:
-         print('ERROR: Failed to execute dry-run:\n%s' % e.output)
-         return 1
-diff --git a/meta/lib/oeqa/selftest/esdk_prepare.py b/meta/lib/oeqa/selftest/esdk_prepare.py
-new file mode 100755
-index 0000000..1b36a0d
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/esdk_prepare.py
-@@ -0,0 +1,75 @@
-+#!/usr/bin/env python
-+
-+import shutil, tempfile
-+import sys
-+import os
-+import imp
-+import unittest
-+try:
-+    from oeqa.utils.commands import get_bb_var
-+except ImportError:
-+    pass
-+
-+# module under test
-+module_file_name = "ext-sdk-prepare.py"
-+module_path = ""
-+
-+class ExtSdkPrepareTest(unittest.TestCase):
-+
-+    """ unit test for fix for Yocto #9019 """
-+
-+    @classmethod
-+    def setUpClass(self):
-+        # copy module under test to temp dir
-+        self.test_dir = tempfile.mkdtemp()
-+        module_dest_path = os.path.join(self.test_dir, module_file_name)
-+        try:
-+            shutil.copy(module_path, self.test_dir)
-+            # load module under test
-+            self.test_mod = imp.load_source("", module_dest_path)
-+        except:
-+            print "error: unable to copy or load %s [src: %s, dst: %s]" % \
-+                    (module_file_name, module_path, module_dest_path)
-+            sys.exit(1)
-+
-+    def test_prepare_unexpected(self):
-+        # test data
-+        # note: pathnames have been truncated from the actual bitbake
-+        # output as they are not important for the test.
-+        test_data = ( 
-+            'NOTE: Running noexec task 9 of 6539 (ID: 28, quilt/quilt-native_0.64.bb, do_build)\n'
-+            'NOTE: Running task 10 of 6539 (ID: 29, quilt/quilt-native_0.64.bb, do_package)\n'
-+            'NOTE: Running task 11 of 6539 (ID: 30, quilt/quilt-native_0.64.bb, do_rm_work)\n'
-+            'NOTE: Running noexec task 6402 of 6539 (ID: 1, images/core-image-sato.bb, do_patch)\n'
-+            'NOTE: Running task 6538 of 6539 (ID: 14, images/core-image-sato.bb, do_rm_work)\n'
-+        )
-+        # expected warning output
-+        expected = [ (' task 10 of 6539 (ID: 29, quilt/quilt-native_0.64.bb, do_package)') ]
-+        # recipe to test, matching test input data
-+        recipes = [ "core-image-sato.bb" ]
-+
-+        # run the test
-+        output = self.test_mod.check_unexpected(test_data, recipes)
-+        self.assertEqual(output, expected)
-+
-+    @classmethod
-+    def tearDownClass(self):
-+        # remove temp dir
-+        shutil.rmtree(self.test_dir)
-+
-+if __name__ == '__main__':
-+    # running from command line - i.e., not under oe-selftest
-+    # directory containing module under test comes from command line
-+    if len(sys.argv) == 2 and os.path.isdir(sys.argv[1]):
-+        module_path = os.path.join(sys.argv[1], module_file_name)
-+        suite = unittest.TestLoader().loadTestsFromTestCase(ExtSdkPrepareTest)
-+        unittest.TextTestRunner().run(suite)
-+    else:
-+        progname = os.path.basename(sys.argv[0])
-+        print "%s: missing directory path" % progname
-+        print "usage: %s /path/to/directory-of(ext-sdk-prepare.py)" % progname
-+        sys.exit(1)
-+else:
-+    # running under oe-selftest
-+    # determine module source dir from COREBASE and expected path
-+    module_path = os.path.join(get_bb_var("COREBASE"), "meta", "files", module_file_name)
--- 
-2.5.0
 
+>> [YOCTO #9430]
+>>
+>> Signed-off-by: Bill Randle <william.c.randle@intel.com>
+>
+> Reported-by: Denys Dmytriyenko <denys@ti.com>
+> Tested-by: Denys Dmytriyenko <denys@ti.com>
+>
+>
+>> ---
+>>  meta/classes/package.bbclass | 19 ++++++++++---------
+>>  1 file changed, 10 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+>> index 4452e2f..894b729 100644
+>> --- a/meta/classes/package.bbclass
+>> +++ b/meta/classes/package.bbclass
+>> @@ -727,6 +727,7 @@ python fixup_perms () {
+>>      dvar = d.getVar('PKGD', True)
+>>
+>>      fs_perms_table = {}
+>> +    fs_link_table = {}
+>>
+>>      # By default all of the standard directories specified in
+>>      # bitbake.conf will get 0755 root:root.
+>> @@ -773,24 +774,27 @@ python fixup_perms () {
+>>                      continue
+>>                  entry = fs_perms_entry(d.expand(line))
+>>                  if entry and entry.path:
+>> -                    fs_perms_table[entry.path] = entry
+>> +                    if entry.link:
+>> +                        fs_link_table[entry.link] = entry
+>> +                    else:
+>> +                        fs_perms_table[entry.path] = entry
+>>              f.close()
+>>
+>>      # Debug -- list out in-memory table
+>>      #for dir in fs_perms_table:
+>>      #    bb.note("Fixup Perms: %s: %s" % (dir, str(fs_perms_table[dir])))
+>> +    #for link in fs_link_table:
+>> +    #    bb.note("Fixup Perms: %s: %s" % (link, str(fs_link_table[link])))
+>>
+>>      # We process links first, so we can go back and fixup directory ownership
+>>      # for any newly created directories
+>> -    for dir in fs_perms_table:
+>> -        if not fs_perms_table[dir].link:
+>> -            continue
+>> -
+>> +    # Process in sorted order so /run gets created before /run/lock, etc.
+>> +    for link in sorted(fs_link_table):
+>> +        dir = fs_link_table[link].path
+>>          origin = dvar + dir
+>>          if not (cpath.exists(origin) and cpath.isdir(origin) and not cpath.islink(origin)):
+>>              continue
+>>
+>> -        link = fs_perms_table[dir].link
+>>          if link[0] == "/":
+>>              target = dvar + link
+>>              ptarget = link
+>> @@ -810,9 +814,6 @@ python fixup_perms () {
+>>          os.symlink(link, origin)
+>>
+>>      for dir in fs_perms_table:
+>> -        if fs_perms_table[dir].link:
+>> -            continue
+>> -
+>>          origin = dvar + dir
+>>          if not (cpath.exists(origin) and cpath.isdir(origin)):
+>>              continue
+>> --
+>> 2.5.0
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
