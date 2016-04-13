@@ -1,37 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id BA227605FE
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9BC2B6057A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Apr 2016 16:29:48 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u3DGTh5c021173; Wed, 13 Apr 2016 17:29:43 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id R7A_Lutpf69D; Wed, 13 Apr 2016 17:29:43 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u3DGTcXe021167
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 13 Apr 2016 17:29:40 +0100
-Message-ID: <1460564978.9308.95.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, Otavio Salvador
-	<otavio.salvador@ossystems.com.br>
-Date: Wed, 13 Apr 2016 17:29:38 +0100
-In-Reply-To: <5715165f841f46d0a50fb951acfbf0ac@XBOX02.axis.com>
-References: <cover.1460467072.git.pkj@axis.com>
-	<7251ce8da0aed3f9ad921daa66186a2c2fc6a932.1460467072.git.pkj@axis.com>
-	<1460472857.9308.63.camel@linuxfoundation.org>
-	<CAP9ODKobRBigE8Wur600MDdFgL+Z-3C7noAJyWfsjTE8d18vBA@mail.gmail.com>
-	<4550e71bd1f24135a2f6978294e25f94@XBOX02.axis.com>
-	<1460545515.9308.85.camel@linuxfoundation.org>
-	<5715165f841f46d0a50fb951acfbf0ac@XBOX02.axis.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Cc: "OE Core \(openembedded-core@lists.openembedded.org\)"
+	Wed, 13 Apr 2016 17:15:25 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u3DHFOcq001789
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Wed, 13 Apr 2016 10:15:25 -0700
+Received: from server.local (147.11.119.99) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 13 Apr 2016 10:15:24 -0700
+To: Khem Raj <raj.khem@gmail.com>
+References: <1458077979-23303-1-git-send-email-raj.khem@gmail.com>
+	<56E91CC8.9060907@dest-unreach.org>
+	<CAMKF1sp7C3zCHQBiJ=i5YYsHcXfkBX74qYXgZxYX-tqcwqrD+A@mail.gmail.com>
+	<570D631F.5020503@windriver.com>
+	<CAMKF1srjaNz1dnZCHFkWn6=PyQ+w6Vb1FoF1rbDVCGaTCe3FrA@mail.gmail.com>
+	<CAMKF1srQ5ayOr3ha=YTTGBS-ovX8Ht41ODoNaSEHBGW9EfjFGA@mail.gmail.com>
+	<CAMKF1sqBwbkHWQBBzX8jbK0SoZtcMr6MO2ZSZ9dcMJJns6x+eQ@mail.gmail.com>
+	<CAMKF1sq1kqM7iair34+2ZoxZh24=wszYniJ4cyoBc2M9_XzEQw@mail.gmail.com>
+	<CAMKF1sou4V8jvOLKponmoR5gYsa8nEgXOa=ALF14Yyz23nrbEQ@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <570E7EAB.4030308@windriver.com>
+Date: Wed, 13 Apr 2016 13:15:23 -0400
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
+	Gecko/20100101 Thunderbird/38.7.2
+MIME-Version: 1.0
+In-Reply-To: <CAMKF1sou4V8jvOLKponmoR5gYsa8nEgXOa=ALF14Yyz23nrbEQ@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 1/1] Revert "useradd.bbclass: remove user/group created by the package in clean* task"
+Subject: Re: [PATCH] Access c_ispeed and c_ospeed via APIs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,83 +43,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Apr 2016 16:29:53 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 13 Apr 2016 17:15:26 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2016-04-13 at 15:14 +0000, Peter Kjellerstedt wrote:
-> > -----Original Message-----
-> > From: Richard Purdie [mailto:richard.purdie@linuxfoundation.org]
-> > Sent: den 13 april 2016 13:05
-> > To: Peter Kjellerstedt; Otavio Salvador
-> > Cc: OE Core (openembedded-core@lists.openembedded.org)
-> > Subject: Re: [OE-core] [PATCHv2 1/1] Revert "useradd.bbclass:
-> > remove
-> > user/group created by the package in clean* task"
-> > 
-> > I am pretty frustrated with this thread. The reasons are perhaps
-> > not
-> > immediately obvious though.
-> > 
-> > The issue is that there are only a limited number of people who
-> > actually dive in and try and fix some of the underlying "core
-> > architecture" bugs. There is what I believe to be a pretty good
-> > patch
-> > here which does fix real world issues which have been reported into
-> > the
-> > bugzilla (its related to at least two bug reports). As such it has
-> > been
-> > seen as a bugfix. Its now clear it does have some side effects
-> > which
-> > weren't envisaged, some causing issues for a small number of meta
-> > -oe
-> > recipes, the others breaking a companies internal code.
-> > 
-> > Otavio wants it deferred to 2.2, Peter wants it abandoned entirely.
-> > 
-> > If I revert this, Peter is then happy and has zero incentive to do
-> > anything further. The pressure is still on the reopened bugs to try
-> > and
-> > fix this somehow and falls back to the usual suspects. There is a
-> > real
-> > world usability problem there.
-> 
-> Hold your horses. I definitely see the problem the change tried to 
-> address as one that needs to be fixed, and I am already looking at 
-> how to solve this properly (currently based on my second suggested 
-> solution). However, I do not know if I can fix it in time for
-> Krogoth. 
-> Which is why I agree with Otavio that the change was introduced too 
-> late in the process, especially as it causes breakage for existing 
-> users.
+On 2016-04-13 11:57 AM, Khem Raj wrote:
+> On Tue, Apr 12, 2016 at 3:33 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>> I think I see the problem now. The constant should be converted to use Bnn
+>> values. When calling the baudrate apis. I will send a patch for you to test
+>> once I am close to computer
+>
+> I have sent a potential patch.
+>
+> http://lists.openembedded.org/pipermail/openembedded-core/2016-April/120229.html
+>
+>   It worked on musl env that I had ready here. Can you test it
+> with your env and make sure it works for you ?
 
-There is a comparatively neat way we could use pkgdata to track the
-provider of a given user, specifically:
+confirmed. I reverted my local change, applied this and socat is
+working without the assert.
 
-http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/wip
-&id=5cd646ea185eaafaa341f26310f2eddc75766175
+Bruce
 
-The above is a quick patch I've just put together which illustrates
-what could be done so that the user gets better warnings about
-conflicting users. It needs cleaning up but thought it worth sharing
-now as if might give some ideas.
+>
+>
+>
+>
+>>
+>> On Apr 12, 2016 6:20 PM, "Khem Raj" <raj.khem@gmail.com> wrote:
+>>
+>> Since you have it reproduced. Can you check which of the api call is
+>> failing?
+>>
+>> On Apr 12, 2016 5:05 PM, "Bruce Ashfield" <bruce.ashfield@windriver.com>
+>> wrote:
+>>>
+>>> On 2016-04-12 1:53 PM, Khem Raj wrote:
+>>>>
+>>>> FYI
+>>>
+>>>
+>>> Thanks. I can also confirm that when I dropped the patch, I'm
+>>> back up and running assertion free.
+>>>
+>>> Bruce
+>>>
+>>>>
+>>>> ---------- Forwarded message ----------
+>>>> From: Gerhard Rieger <gerhard@dest-unreach.org>
+>>>> Date: Wed, Mar 16, 2016 at 4:43 AM
+>>>> Subject: Re: [PATCH] Access c_ispeed and c_ospeed via APIs
+>>>> To: Khem Raj <raj.khem@gmail.com>
+>>>>
+>>>>
+>>>> Thank you, I will check this patch!
+>>>> - Gerhard
+>>>>
+>>>>
+>>>> Am 15.03.2016 um 22:39 schrieb Khem Raj:
+>>>>>
+>>>>> Use cfsetispeed(), cfsetospeed(), cfgetispeed, and cfgetospeed()
+>>>>> instead of operating on c_ispeed and c_ospeed termios structure
+>>>>> members directly because they are not guaranteed to exist on all
+>>>>> libc implementations
+>>>>>
+>>>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>>>>> ---
+>>>>>    xioinitialize.c | 8 ++++----
+>>>>>    1 file changed, 4 insertions(+), 4 deletions(-)
+>>>>>
+>>>>> diff --git a/xioinitialize.c b/xioinitialize.c
+>>>>> index 9f50155..632ca4c 100644
+>>>>> --- a/xioinitialize.c
+>>>>> +++ b/xioinitialize.c
+>>>>> @@ -65,10 +65,10 @@ int xioinitialize(void) {
+>>>>>    #if HAVE_TERMIOS_ISPEED && (ISPEED_OFFSET != -1) && (OSPEED_OFFSET !=
+>>>>> -1)
+>>>>>    #if defined(ISPEED_OFFSET) && (ISPEED_OFFSET != -1)
+>>>>>    #if defined(OSPEED_OFFSET) && (OSPEED_OFFSET != -1)
+>>>>> -      tdata.termarg.c_ispeed = 0x56789abc;
+>>>>> -      tdata.termarg.c_ospeed = 0x6789abcd;
+>>>>> -      assert(tdata.termarg.c_ispeed == tdata.speeds[ISPEED_OFFSET]);
+>>>>> -      assert(tdata.termarg.c_ospeed == tdata.speeds[OSPEED_OFFSET]);
+>>>>> +      cfsetispeed(&tdata.termarg, 0x56789abc);
+>>>>> +      cfsetospeed(&tdata.termarg, 0x6789abcd);
+>>>>> +      assert(cfgetispeed(&tdata.termarg) ==
+>>>>> tdata.speeds[ISPEED_OFFSET]);
+>>>>> +      assert(cfgetospeed(&tdata.termarg) ==
+>>>>> tdata.speeds[OSPEED_OFFSET]);
+>>>>>    #endif
+>>>>>    #endif
+>>>>>    #endif
+>>>>>
+>>>
+>>
 
-This is in keeping with how bitbake detects multiple providers of the
-same thing.
-
-> Here I must show my lack of knowledge. How and where should I go
-> about 
-> adding a regression test that verifies the support for that multiple 
-> recipes can add the same user/group? Since this does not test a 
-> specific recipe, but rather a part of the build framework, I do not 
-> know if, e.g., ptest is applicable (of which I have no experience 
-> either).
-
-oe-selftest would be the place to add something like this, see the
- /meta/lib/oeqa/selftest directory. We could add some test useradd
-recipes to meta-selftest.
-
-Cheers,
-
-Richard
 
