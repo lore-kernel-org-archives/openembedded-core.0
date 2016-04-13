@@ -1,46 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f182.google.com (mail-ig0-f182.google.com
-	[209.85.213.182])
-	by mail.openembedded.org (Postfix) with ESMTP id C47CD6011C
+Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
+	[209.85.223.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 1DC456011C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Apr 2016 09:31:56 +0000 (UTC)
-Received: by mail-ig0-f182.google.com with SMTP id f1so112967281igr.1
+	Wed, 13 Apr 2016 09:34:36 +0000 (UTC)
+Received: by mail-io0-f173.google.com with SMTP id g185so62769366ioa.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Apr 2016 02:31:57 -0700 (PDT)
+	Wed, 13 Apr 2016 02:34:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=RO8FDXE6qwB5vWFGOo/+wf52aLUhkas8+Pf7CvtysYU=;
-	b=VKOQcMJYJcCFsEJo+HU3YAGtyV7Axm0xhJgfEmkNNTcd53a60uo2sGJwKqlETqB6MI
-	yef+wWaC1A4V5JmBhlHr9Zo3UFVpsxjdTya/T5tW1UB+lTFZ9AY535AGTHGK5irJ8gu9
-	b9SNIflgjCuN+EORe2+gkMXsVXbNSfOwzKoMJ/IgMBn6GUBsE8JR1XFirgfjEP020gR6
-	Zc1vqW//KRYtc7tNa8aCiWln2lSESLiS9KKb5Uh6Ph0l5ZdEpT4mLrnp4INPo22DN8P3
-	ziu75Janf6u8RjHrabADJFcaRa7WaZln5BRfTqnMnjCg4/GoSZE4M5qluL4Qgvq+1BsB
-	yukA==
+	:cc; bh=rvkYf0zQ6S7vjpqi3bHeCyua7znHwCWMObf/+Yq1BPA=;
+	b=v/9p6PwGjidn5g6LIy05FGtQHGzVqs/FVChkZ9LimINFS+Ptyanp/BXLc4Ueve2wSA
+	mQqKLwfw3wbZ/szsJQMwynmGkhYvwbfYH4YLR8KhadGJV4XNeknLIbB/TerUbMOxHTsy
+	2sk8UI2INIMyu7U5GLMs2YymR9Igp2G3Iu65sbubiZGDOD76/DMISU8VLUCTYD6jWFTD
+	nzmi1t5xH6zntviFREcD+i0/EG5+R+Z4/7vykYMXO+HHIacjgMwWXR0SrS0FJldzEgta
+	ET1f7xoP2zLBGqfYNFI77s5HOSPe6nLB4M2mSlOnG/FZtYEBXlwog+HSedrWAjEJu2G4
+	WOnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=RO8FDXE6qwB5vWFGOo/+wf52aLUhkas8+Pf7CvtysYU=;
-	b=T2dLISJ7ZAesIlVbGonM0nXpWWkgiMxs4hN8xnMwFe8KdaJlLPm4BZAYK3dZHyz60Y
-	qHhAkAG3BJ6THXDK7xnhw6PtfD6T8Amd+tTfWNj6VCc9pQk9jzrRNGcqbx8srd2Dj0iE
-	Ji4uvh8Jg/3Xtu01lQmO3tYgRg72/2fav1pd/OgId5oRFeuD2HFPFxkitp4soUeLV0YE
-	xThPMtERnjatNTarpWs54cQP7cLnWgmP10afzpbTu4bD1GhVWxux1alMkcZKUQzQP+ya
-	uqPwh0xuOgCnkI99GOiuqZoGkCsbLltBpH0glEiTA/IIdWr/4quYYWfa2ElGwqBHdxWO
-	513Q==
-X-Gm-Message-State: AOPr4FVlixq2v+P5EYAUyZpZXn16BgXo5OyWzzGi8VSWlnjZLo6jCqcyqIt3Rrng2GqEal+X3DziykPB0en0n4eR
-X-Received: by 10.50.160.39 with SMTP id xh7mr3335440igb.64.1460539916797;
-	Wed, 13 Apr 2016 02:31:56 -0700 (PDT)
+	bh=rvkYf0zQ6S7vjpqi3bHeCyua7znHwCWMObf/+Yq1BPA=;
+	b=kh7/0TCXGrS0dkrNls/XCAYyRjhPKYCo4QsPjnakvCUMggyp4VqhdexWjVuGtaX8Yp
+	D+9bKVhxkZgYDoD9tCpEnHzNA0gQPX8cp2yVapMuHr8lqQf+eZcrZiN0S8irIRXEMTFo
+	XQRX1+4kNK7QXF8M75n1ni0Mlryk3rZLSuJ3xKDvh0WifbMUgP3z3MjLecHJ5XiqpU9O
+	C1RXSBSYHxZul1XwMiNkOw/O+rpPt3gktpiPAC+k/ET4mPmibLhJciu1PRjS6iOiZwgy
+	5PrGuvF6WV5Q7ZcUsO5zcVf4f3x7a2JjjsOhYqBbG5jv8X1GSi8JeZ13Pcx2vfWotZNx
+	719Q==
+X-Gm-Message-State: AOPr4FWHTAlXHxpE0461SIfl86cMglUbaq2NJTwOOBWq4mFN4JjOJpXrCyK3dIZSSQaG9VrcValHYMWgK1OZgWRp
+X-Received: by 10.107.16.104 with SMTP id y101mr8228447ioi.148.1460540077643; 
+	Wed, 13 Apr 2016 02:34:37 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.132.24 with HTTP; Wed, 13 Apr 2016 02:31:37 -0700 (PDT)
-In-Reply-To: <1460498887-18624-1-git-send-email-stephano.cetola@linux.intel.com>
-References: <1460498887-18624-1-git-send-email-stephano.cetola@linux.intel.com>
+Received: by 10.107.132.24 with HTTP; Wed, 13 Apr 2016 02:34:18 -0700 (PDT)
+In-Reply-To: <CAFkk2KSu80ndUE=KDJeVmU4_CLZTOpJXN7g9=-W=DEkn7Khs2g@mail.gmail.com>
+References: <CAFkk2KSu80ndUE=KDJeVmU4_CLZTOpJXN7g9=-W=DEkn7Khs2g@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 13 Apr 2016 10:31:37 +0100
-Message-ID: <CAJTo0LaBTGWYFv6BpopFf-=+EZBMPzf+gNvfmn4=3VuMda+k0Q@mail.gmail.com>
-To: Stephano Cetola <stephano.cetola@linux.intel.com>
+Date: Wed, 13 Apr 2016 10:34:18 +0100
+Message-ID: <CAJTo0LbAA06bkAEwFx9N6m15WdsjCSiaepejoB_swXo2oYNudQ@mail.gmail.com>
+To: Ulf Magnusson <ulfalizer@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] devtool: sdk-update fails on remote hosts
+Subject: Re: Build failures due to libtdb racing with libbsd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,76 +53,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Apr 2016 09:31:56 -0000
-Content-Type: multipart/alternative; boundary=001a1135ee9aec0a9e05305a721c
+X-List-Received-Date: Wed, 13 Apr 2016 09:34:42 -0000
+Content-Type: multipart/alternative; boundary=001a113ff020822e3a05305a7c83
 
---001a1135ee9aec0a9e05305a721c
+--001a113ff020822e3a05305a7c83
 Content-Type: text/plain; charset=UTF-8
 
-Hi Stephano,
+On 13 April 2016 at 10:07, Ulf Magnusson <ulfalizer@gmail.com> wrote:
 
-On 12 April 2016 at 23:08, Stephano Cetola <stephano.cetola@linux.intel.com>
-wrote:
-
-> This fixes bug #9426:
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=9426
+> The problem seems to be a race with building libbsd (and unlucky
+> timing in my build). Adding libbsd to DEPENDS fixes the problem.
 >
-> Skip .git folders when copying the build system.
+> For some added context, libtdb uses a nonstandard ./configure from the
+> Samba project based on a configuration utility called Waf that I'm a
+> complete noob on. Perhaps there is some way to disable libbsd support
+> instead.
 >
 
-The shortlog mentions remote hosts but I don't see how that is relevant.
-Also, reference bugzilla entries like [ YOCTO #9426 ] instead.
+This recipe is in meta-oe so this should be on the oe-devel list, not
+oe-core
 
-So something like this:
+And yes, it looks like tdb has a floating dependency on libbsd.  Someone
+would need to determine if it's best to depend on libbsd always, or tell
+tbd to not use libbsd even if it can find it at build time.
 
-"""
-devtool: don't copy .git when building the eSDK
-
-When creating an eSDK ensure that any .git directories are not included.
-
-[ YOCTO #9426 ]
-
-Signed-off-by: Stephano Cetola <stephano.cetola@linux.intel.com>
-"""
-
-Can you revise the commit message and resend?
-
-Cheers,
 Ross
 
---001a1135ee9aec0a9e05305a721c
+--001a113ff020822e3a05305a7c83
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Stephano,</div><div class=3D=
-"gmail_extra"><br><div class=3D"gmail_quote">On 12 April 2016 at 23:08, Ste=
-phano Cetola <span dir=3D"ltr">&lt;<a href=3D"mailto:stephano.cetola@linux.=
-intel.com" target=3D"_blank">stephano.cetola@linux.intel.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-st=
-yle:solid;padding-left:1ex"><div id=3D":1hk" class=3D"" style=3D"overflow:h=
-idden">This fixes bug #9426:<br>
-<a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D9426" rel=3D=
-"noreferrer" target=3D"_blank">https://bugzilla.yoctoproject.org/show_bug.c=
-gi?id=3D9426</a><br>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 13 April 2016 at 10:07, Ulf Magnusson <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:ulfalizer@gmail.com" target=3D"_blank">ulfalizer@gmail.com</a>&gt;</s=
+pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
+;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1mb" class=3D"a3s=
+" style=3D"overflow:hidden">The problem seems to be a race with building li=
+bbsd (and unlucky<br>
+timing in my build). Adding libbsd to DEPENDS fixes the problem.<br>
 <br>
-Skip .git folders when copying the build system.</div></blockquote></div><b=
-r>The shortlog mentions remote hosts but I don&#39;t see how that is releva=
-nt.=C2=A0 Also, reference bugzilla entries like [ YOCTO #9426 ] instead.</d=
-iv><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">So somet=
-hing like this:</div><div class=3D"gmail_extra"><br></div><div class=3D"gma=
-il_extra">&quot;&quot;&quot;</div><div class=3D"gmail_extra">devtool: don&#=
-39;t copy .git when building the eSDK</div><div class=3D"gmail_extra"><br><=
-/div><div class=3D"gmail_extra">When creating an eSDK ensure that any .git =
-directories are not included.</div><div class=3D"gmail_extra"><br></div><di=
-v class=3D"gmail_extra">[ YOCTO #9426 ]</div><div class=3D"gmail_extra"><br=
-></div><span style=3D"font-size:13px">Signed-off-by: Stephano Cetola &lt;</=
-span><a href=3D"mailto:stephano.cetola@linux.intel.com" style=3D"font-size:=
-13px">stephano.cetola@linux.intel.com</a><span style=3D"font-size:13px">&gt=
-;</span><br style=3D"font-size:13px"><div class=3D"gmail_extra">&quot;&quot=
-;&quot;<br></div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_e=
-xtra">Can you revise the commit message and resend?</div><div class=3D"gmai=
-l_extra"><br></div><div class=3D"gmail_extra">Cheers,</div><div class=3D"gm=
-ail_extra">Ross</div></div>
+For some added context, libtdb uses a nonstandard ./configure from the<br>
+Samba project based on a configuration utility called Waf that I&#39;m a<br=
+>
+complete noob on. Perhaps there is some way to disable libbsd support<br>
+instead.</div></blockquote></div><br>This recipe is in meta-oe so this shou=
+ld be on the oe-devel list, not oe-core</div><div class=3D"gmail_extra"><br=
+></div><div class=3D"gmail_extra">And yes, it looks like tdb has a floating=
+ dependency on libbsd.=C2=A0 Someone would need to determine if it&#39;s be=
+st to depend on libbsd always, or tell tbd to not use libbsd even if it can=
+ find it at build time.</div><div class=3D"gmail_extra"><br></div><div clas=
+s=3D"gmail_extra">Ross</div></div>
 
---001a1135ee9aec0a9e05305a721c--
+--001a113ff020822e3a05305a7c83--
