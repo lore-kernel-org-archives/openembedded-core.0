@@ -1,35 +1,46 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id D5D1160017
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 3972D60119
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Apr 2016 11:05:19 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u3DB5H9k003336; Wed, 13 Apr 2016 12:05:17 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 7nPTAsZ2fXcq; Wed, 13 Apr 2016 12:05:17 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u3DB5FAC003326
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 13 Apr 2016 12:05:17 +0100
-Message-ID: <1460545515.9308.85.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, Otavio Salvador
-	<otavio.salvador@ossystems.com.br>
-Date: Wed, 13 Apr 2016 12:05:15 +0100
-In-Reply-To: <4550e71bd1f24135a2f6978294e25f94@XBOX02.axis.com>
-References: <cover.1460467072.git.pkj@axis.com>
-	<7251ce8da0aed3f9ad921daa66186a2c2fc6a932.1460467072.git.pkj@axis.com>
-	<1460472857.9308.63.camel@linuxfoundation.org>
-	<CAP9ODKobRBigE8Wur600MDdFgL+Z-3C7noAJyWfsjTE8d18vBA@mail.gmail.com>
-	<4550e71bd1f24135a2f6978294e25f94@XBOX02.axis.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Cc: "OE Core \(openembedded-core@lists.openembedded.org\)"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 1/1] Revert "useradd.bbclass: remove user/group created by the package in clean* task"
+	Wed, 13 Apr 2016 11:22:18 +0000 (UTC)
+Received: by mail-wm0-f54.google.com with SMTP id n3so71755298wmn.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Apr 2016 04:22:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=wtaL3mK6jabTEUYDSTa+FWZggfPeP/A2ohP4PjDHoc8=;
+	b=uutE/QBLghYVN5Zo7sYKN6vaSg696MUS2gSQS7/8Lv9XPWWnCv9JHJSIbEb+8vyxO3
+	x/q40d7nXF5x18c3glXejfSoL9DHFU8+qqtat509z1Xti9H3MJxDw9DCEUa3jmvCgphg
+	6a8hbirpERB5Zgr6EwLZxKloPxg3ZSfA8A4zm6tUwBjYqF9O7I5msShACN4AkvdeCXF8
+	k6ZslTvtDB08DyuQZqS1UfGr6b26QmPACiOv9b+cSw0N+U/J+nZiVEP6xlcGyLgUL5e0
+	EE0yVh5GjVqEfxqlADAvFCvuNpihMM22Iye4FwdL5EGO9EQr3SL0OGo1ybS6sa8lvRoq
+	5drQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=wtaL3mK6jabTEUYDSTa+FWZggfPeP/A2ohP4PjDHoc8=;
+	b=OdDfaioTFMQ6O+gsr/tpjlS+9l9KdIMDd2oPHXGgznOzVjPgE8LiXVqWAzG+6TiPop
+	pM6seanvZvyAF65DZ6ASLTS5CqwDE5RQzpAoU0T65kwuPTTmq1izI7s+KsaSKS4hVHyN
+	XnARoeJ99rkfrFm72DBAvRBuGo0Ju/J/esqi2AiFZ0DwlWSJ2V4AzFzEsgscpqYyH9Np
+	fm8xG48WW1YS4LYS+qqZkYW90qpRdLsMKSqKQQ8j+udM/+1wtn7n3Je2XD80/N726ZAs
+	07RIBePx4j97yZCp8w0MufwMVg2QCAKlEqMED29h/K8kyYullcmzo9IasVVuCe93Xet2
+	aCug==
+X-Gm-Message-State: AOPr4FW4cMqgfZT/YTE78RhQ7NUT7D6xokHb1NoXkSCj79pzjmnZA9jZ+8kxDClZotrPZVOM
+X-Received: by 10.194.21.131 with SMTP id v3mr9121460wje.132.1460546538599;
+	Wed, 13 Apr 2016 04:22:18 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	w2sm17978671wjg.42.2016.04.13.04.22.17
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 13 Apr 2016 04:22:17 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 13 Apr 2016 12:22:16 +0100
+Message-Id: <1460546536-30603-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.0.rc3
+Subject: [PATCH] rootfs-postcommands: handle broken links when writing manifest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,52 +53,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Apr 2016 11:05:20 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 13 Apr 2016 11:22:21 -0000
 
-I am pretty frustrated with this thread. The reasons are perhaps not
-immediately obvious though.
+If the manifest link is broken then os.path.exists() returns False so the link
+isn't removed, resulting in the os.symlink() call failing as the file already
+exists.  Prevent this by using os.path.lexists to check that the symlink itself
+exists, not the target.
 
-The issue is that there are only a limited number of people who
-actually dive in and try and fix some of the underlying "core
-architecture" bugs. There is what I believe to be a pretty good patch
-here which does fix real world issues which have been reported into the
-bugzilla (its related to at least two bug reports). As such it has been
-seen as a bugfix. Its now clear it does have some side effects which
-weren't envisaged, some causing issues for a small number of meta-oe
-recipes, the others breaking a companies internal code.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/rootfs-postcommands.bbclass | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-Otavio wants it deferred to 2.2, Peter wants it abandoned entirely.
-
-If I revert this, Peter is then happy and has zero incentive to do
-anything further. The pressure is still on the reopened bugs to try and
-fix this somehow and falls back to the usual suspects. There is a real
-world usability problem there.
-
-In a single isolated case, fine, we'd figure a way through this. I
-think I'm so frustrated as we see this all the time. Making a change to
-the core architecture is hard and gets ever harder, then we wonder why
-we don't have contributors. Part of this is having so many different
-workflows and corner cases.
-
-I have pushed very hard to have more test cases, then its easier to
-determine if a patch causes regressions. Again though, few people are
-contributing to them outside the usual suspects.
-
-I'm therefore starting to think the correct answer to this thread is
-simply this:
-
-The patch doesn't break any of the current regression tests. If you
-have use cases like this you care about, you really should make sure we
-have test coverage for them, else you run the risk of exactly the
-problem we have here.
-
-I haven't honestly decided what to do but this latter conclusion is
-very tempting from where I'm sitting...
-
-Cheers,
-
-Richard
+diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
+index 56e810f..95d28af 100644
+--- a/meta/classes/rootfs-postcommands.bbclass
++++ b/meta/classes/rootfs-postcommands.bbclass
+@@ -225,7 +225,7 @@ python write_image_manifest () {
+ 
+     if os.path.exists(manifest_name):
+         manifest_link = deploy_dir + "/" + link_name + ".manifest"
+-        if os.path.exists(manifest_link):
++        if os.path.lexists(manifest_link):
+             if d.getVar('RM_OLD_IMAGE', True) == "1" and \
+                     os.path.exists(os.path.realpath(manifest_link)):
+                 os.remove(os.path.realpath(manifest_link))
+@@ -275,5 +275,3 @@ rootfs_check_host_user_contaminated () {
+ rootfs_sysroot_relativelinks () {
+ 	sysroot-relativelinks.py ${SDK_OUTPUT}/${SDKTARGETSYSROOT}
+ }
+-
+-
+-- 
+2.8.0.rc3
 
 
