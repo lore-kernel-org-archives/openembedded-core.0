@@ -1,48 +1,36 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-ob0-f180.google.com (mail-ob0-f180.google.com
-	[209.85.214.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 74EEA6FF9D
+Return-Path: <sona.sarmadi@enea.com>
+Received: from smtp-out10.electric.net (smtp-out10.electric.net
+	[185.38.180.33])
+	by mail.openembedded.org (Postfix) with ESMTP id A1B846E688
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Apr 2016 03:03:56 +0000 (UTC)
-Received: by mail-ob0-f180.google.com with SMTP id j9so24574122obd.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Apr 2016 20:03:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=2BucOlMz58e8NIHth3gpjBon3dKvRgVXtNOv1/Wr2wg=;
-	b=fKzjvL9DSLJKafoWTEMnx2aW71QqZSCi8/CXQ6kgSV4NhKsi/YgM1uqlMP6OjtB6Mr
-	wvKsZhPJcaz6gCu3fbRkskfqXlZhmyn3+KF4lqmqTnK3IZVPQDeyApufFTHsWl8KRSMZ
-	wAG5TI75uDC81LoqNeo0urNh1h1x8NUxWiMnCVV4VjaK90dcufc26gGfDzGiGupfSetU
-	6SaHLzXybisBUEyMTpJoOYqN49HIaI2lG1eFNBWwQWKGOYsdWti98CgZb2L414SSeoYx
-	OkWh3ahsOSZOFn1h4GJvw8dhtoAb04JfQuXTV+koaAupmGrqQBKRAq+FoDvlckoTGgnP
-	ugDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=2BucOlMz58e8NIHth3gpjBon3dKvRgVXtNOv1/Wr2wg=;
-	b=AnydjJOMo7Yj9fm77o8RLQ5z6BR2Og1OrafNsiTG+XddT1bhGy2J32qXAJzKT3Hjod
-	RnYmBN2vtfKdfWM6b3SFDy2Qox1bXwW/zSU4rlrg4Uq5uMGqWOpGYb7Vh0a6u00SXOgY
-	IgjaW9hqsfq7N6XuUSyOQTE6fSU65GdWXMrbCibDLw7KrB0PmmmiciLT432j+rdDoeio
-	CyxtWHDK3CzHxw077CCtSAsBaGtQBD/WuRnFCabzkhUMVidIGDKpR9btjq2XI407mfce
-	6CsPYtAYvoURe3sOFPT9rA8LCfErJo+F5XYUFvtqiHLojkInld1vjPdje0Bbgyt48JHE
-	DMQQ==
-X-Gm-Message-State: AOPr4FUFJO7Mg/eFXbdB3UY5ocHtNqlW9KWgbuGgVGUW0RxKA3NishvbQFwN1ic/k3M1uC/RSuJXeEA8SPbiXw==
+	Wed, 13 Apr 2016 06:32:18 +0000 (UTC)
+Received: from 1aqELZ-0004LC-Vx by out10c.electric.net with emc1-ok (Exim 4.85)
+	(envelope-from <sona.sarmadi@enea.com>) id 1aqELa-0004Qh-U5
+	for openembedded-core@lists.openembedded.org;
+	Tue, 12 Apr 2016 23:32:18 -0700
+Received: by emcmailer; Tue, 12 Apr 2016 23:32:18 -0700
+Received: from [192.36.1.72] (helo=mx-3.enea.com)
+	by out10c.electric.net with smtp (Exim 4.85)
+	(envelope-from <sona.sarmadi@enea.com>) id 1aqELZ-0004LC-Vx
+	for openembedded-core@lists.openembedded.org;
+	Tue, 12 Apr 2016 23:32:17 -0700
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.3.294.0;
+	Wed, 13 Apr 2016 08:32:17 +0200
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 13 Apr 2016 08:32:15 +0200
+Message-ID: <1460529135-43932-1-git-send-email-sona.sarmadi@enea.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-X-Received: by 10.182.110.198 with SMTP id ic6mr3305116obb.15.1460516636948;
-	Tue, 12 Apr 2016 20:03:56 -0700 (PDT)
-Received: by 10.157.5.101 with HTTP; Tue, 12 Apr 2016 20:03:56 -0700 (PDT)
-In-Reply-To: <570DB5CD.5050107@windriver.com>
-References: <cover.1460513113.git.liezhi.yang@windriver.com>
-	<CADkTA4PH7Vw8hGjpkBi0rsSgTXZf0KGZXR3XfiQAKyftBdV3ig@mail.gmail.com>
-	<570DB5CD.5050107@windriver.com>
-Date: Tue, 12 Apr 2016 23:03:56 -0400
-Message-ID: <CADkTA4OHE2V-ftLNQVEnjoqqjTORzcrv9ag00sNZgoMk4RNUhw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/1] linux-yocto-tiny: update SRCREV_meta to support /proc/sys
+Received-SPF: None (SESTOEX03.enea.se: sona.sarmadi@enea.com does not
+	designate permitted sender hosts)
+X-Outbound-IP: 192.36.1.72
+X-Env-From: sona.sarmadi@enea.com
+X-PolicySMART: 6030817
+X-Virus-Status: Scanned by VirusSMART (c)
+X-Virus-Status: Scanned by VirusSMART (s)
+Subject: [PATCH v2] bind: CVE-2016-1285 CVE-2016-1286
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,236 +43,627 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Apr 2016 03:03:57 -0000
-Content-Type: multipart/alternative; boundary=089e0112c0da557f760530550755
+X-List-Received-Date: Wed, 13 Apr 2016 06:32:23 -0000
+Content-Type: text/plain
 
---089e0112c0da557f760530550755
-Content-Type: text/plain; charset=UTF-8
+Fixes following vulnerabilities:
+CVE-2016-1285 bind: malformed packet sent to rndc can trigger assertion failure
+CVE-2016-1286 bind: malformed signature records for DNAME records can
+trigger assertion failure
 
-On Tue, Apr 12, 2016 at 10:58 PM, Robert Yang <liezhi.yang@windriver.com>
-wrote:
+[YOCTO #9400]
 
->
->
-> On 04/13/2016 10:53 AM, Bruce Ashfield wrote:
->
->>
->>
->> On Tue, Apr 12, 2016 at 10:07 PM, Robert Yang <liezhi.yang@windriver.com
->> <mailto:liezhi.yang@windriver.com>> wrote:
->>
->>     Hi RP,
->>     I'm sorry to say that I didn't send this yesterday was because I have
->> to
->>     wait until the kernel's part get merged (now it is done), otherwise I
->>     can't have the correct SRCREV.
->>
->>
->> You shouldn't be bumping the SRCREV at all. That's something that I do
->> when queuing
->> changes.
->>
->> In fact, I already have this done and have it under test.
->>
->> So please, don't merge this. I have it here and have it stacked with
->> other commits,
->> which will all come out tomorrow when my testing completes.
->>
->> This SRCREV bump is for more than the single change .. hence why I need
->> to do
->> the update.
->>
->
-> Got it, then please drop this.
->
->
-Thanks, and I won't hold you up. I'll be sending my queue out first thing
-in the morning.
+External References:
+https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2016-1285
+https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2016-1286
+https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-1285
+https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-1286
 
-Cheers,
+References to the Upstream commits and Security Advisories:
+===========================================================
+CVE-2016-1285: https://kb.isc.org/article/AA-01352
+https://source.isc.org/cgi-bin/gitweb.cgi?p=bind9.git;a=patch;
+h=70037e040e587329cec82123e12b9f4f7c945f67
 
-Bruce
+CVE-2016-1286_1: https://kb.isc.org/article/AA-01353
+https://source.isc.org/cgi-bin/gitweb.cgi?p=bind9.git;a=patch;
+h=a3d327bf1ceaaeabb20223d8de85166e940b9f12
 
+CVE-2016-1286_2: https://kb.isc.org/article/AA-01353
+https://source.isc.org/cgi-bin/gitweb.cgi?p=bind9.git;a=patch;
+h=7602be276a73a6eb5431c5acd9718e68a55e8b61
 
-> // Robert
->
->
->> Bruce
->>
->>
->>     // Robert
->>
->>     The following changes since commit
->> b3afe7d9bd25a943e947de3ec064ea245173c5a8:
->>
->>        archiver: Ensure sstate-inputdir directory is created (2016-04-12
->>     22:46:48 +0100)
->>
->>     are available in the git repository at:
->>
->>        git://git.openembedded.org/openembedded-core-contrib
->>     <http://git.openembedded.org/openembedded-core-contrib> rbt/sys
->>
->> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/sys
->>
->>     Robert Yang (1):
->>        linux-yocto-tiny: update SRCREV_meta to support /proc/sys
->>
->>       meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
->>     <http://linux-yocto-tiny_4.1.bb> | 2 +-
->>       meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
->>     <http://linux-yocto-tiny_4.4.bb> | 2 +-
->>       2 files changed, 2 insertions(+), 2 deletions(-)
->>
->>     --
->>     2.8.0
->>
->>     --
->>     _______________________________________________
->>     Openembedded-core mailing list
->>     Openembedded-core@lists.openembedded.org
->>     <mailto:Openembedded-core@lists.openembedded.org>
->>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->>
->>
->>
->> --
->> "Thou shalt not follow the NULL pointer, for chaos and madness await thee
->> at its
->> end"
->>
->
+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
+---
+ .../bind/bind/CVE-2016-1285.patch                  | 154 ++++++++++
+ .../bind/bind/CVE-2016-1286_1.patch                |  79 ++++++
+ .../bind/bind/CVE-2016-1286_2.patch                | 314 +++++++++++++++++++++
+ meta/recipes-connectivity/bind/bind_9.10.3-P3.bb   |   3 +
+ 4 files changed, 550 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-1285.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-1286_1.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-1286_2.patch
 
-
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2016-1285.patch b/meta/recipes-connectivity/bind/bind/CVE-2016-1285.patch
+new file mode 100644
+index 0000000..2149bd1
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind/CVE-2016-1285.patch
+@@ -0,0 +1,154 @@
++From 70037e040e587329cec82123e12b9f4f7c945f67 Mon Sep 17 00:00:00 2001
++From: Mark Andrews <marka@isc.org>
++Date: Thu, 18 Feb 2016 12:11:27 +1100
++Subject: [PATCH] 4318.   [security]      Malformed control messages can
++ trigger assertions                         in named and rndc. (CVE-2016-1285)
++ [RT #41666]
++
++(cherry picked from commit a2b15b3305acd52179e6f3dc7d073b07fbc40b8e)
++
++CVE: CVE-2016-1285
++Upstream-Status: Backport
++[Removed doc/arm/notes.xml changes from upstream patch]
++
++Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
++---
++ CHANGES                 |  3 +++
++ bin/named/control.c     |  2 +-
++ bin/named/controlconf.c |  2 +-
++ bin/rndc/rndc.c         |  8 ++++----
++ doc/arm/notes.xml       | 11 +++++++++++
++ lib/isccc/cc.c          | 14 +++++++-------
++ 6 files changed, 27 insertions(+), 13 deletions(-)
++
++diff --git a/CHANGES b/CHANGES
++index b9bd9ef..2c727d5 100644
++--- a/CHANGES
+++++ b/CHANGES
++@@ -1,3 +1,6 @@
+++4318.	[security]	Malformed control messages can trigger assertions
+++			in named and rndc. (CVE-2016-1285) [RT #41666]
+++
++ 	--- 9.10.3-P3 released ---
++ 
++ 4288.	[bug]		Fixed a regression in resolver.c:possibly_mark()
++diff --git a/bin/named/control.c b/bin/named/control.c
++index 8554335..81340ca 100644
++--- a/bin/named/control.c
+++++ b/bin/named/control.c
++@@ -69,7 +69,7 @@ ns_control_docommand(isccc_sexpr_t *message, isc_buffer_t *text) {
++ #endif
++ 
++ 	data = isccc_alist_lookup(message, "_data");
++-	if (data == NULL) {
+++	if (!isccc_alist_alistp(data)) {
++ 		/*
++ 		 * No data section.
++ 		 */
++diff --git a/bin/named/controlconf.c b/bin/named/controlconf.c
++index 765afdd..a39ab8b 100644
++--- a/bin/named/controlconf.c
+++++ b/bin/named/controlconf.c
++@@ -402,7 +402,7 @@ control_recvmessage(isc_task_t *task, isc_event_t *event) {
++ 	 * Limit exposure to replay attacks.
++ 	 */
++ 	_ctrl = isccc_alist_lookup(request, "_ctrl");
++-	if (_ctrl == NULL) {
+++	if (!isccc_alist_alistp(_ctrl)) {
++ 		log_invalid(&conn->ccmsg, ISC_R_FAILURE);
++ 		goto cleanup_request;
++ 	}
++diff --git a/bin/rndc/rndc.c b/bin/rndc/rndc.c
++index cb17050..b6e05c8 100644
++--- a/bin/rndc/rndc.c
+++++ b/bin/rndc/rndc.c
++@@ -255,8 +255,8 @@ rndc_recvdone(isc_task_t *task, isc_event_t *event) {
++ 	   isccc_cc_fromwire(&source, &response, algorithm, &secret));
++ 
++ 	data = isccc_alist_lookup(response, "_data");
++-	if (data == NULL)
++-		fatal("no data section in response");
+++	if (!isccc_alist_alistp(data))
+++		fatal("bad or missing data section in response");
++ 	result = isccc_cc_lookupstring(data, "err", &errormsg);
++ 	if (result == ISC_R_SUCCESS) {
++ 		failed = ISC_TRUE;
++@@ -321,8 +321,8 @@ rndc_recvnonce(isc_task_t *task, isc_event_t *event) {
++ 	   isccc_cc_fromwire(&source, &response, algorithm, &secret));
++ 
++ 	_ctrl = isccc_alist_lookup(response, "_ctrl");
++-	if (_ctrl == NULL)
++-		fatal("_ctrl section missing");
+++	if (!isccc_alist_alistp(_ctrl))
+++		fatal("bad or missing ctrl section in response");
++ 	nonce = 0;
++ 	if (isccc_cc_lookupuint32(_ctrl, "_nonce", &nonce) != ISC_R_SUCCESS)
++ 		nonce = 0;
++diff --git a/lib/isccc/cc.c b/lib/isccc/cc.c
++index 47a3b74..2bb961e 100644
++--- a/lib/isccc/cc.c
+++++ b/lib/isccc/cc.c
++@@ -403,13 +403,13 @@ verify(isccc_sexpr_t *alist, unsigned char *data, unsigned int length,
++ 	 * Extract digest.
++ 	 */
++ 	_auth = isccc_alist_lookup(alist, "_auth");
++-	if (_auth == NULL)
+++	if (!isccc_alist_alistp(_auth))
++ 		return (ISC_R_FAILURE);
++ 	if (algorithm == ISCCC_ALG_HMACMD5)
++ 		hmac = isccc_alist_lookup(_auth, "hmd5");
++ 	else
++ 		hmac = isccc_alist_lookup(_auth, "hsha");
++-	if (hmac == NULL)
+++	if (!isccc_sexpr_binaryp(hmac))
++ 		return (ISC_R_FAILURE);
++ 	/*
++ 	 * Compute digest.
++@@ -728,7 +728,7 @@ isccc_cc_createack(isccc_sexpr_t *message, isc_boolean_t ok,
++ 	REQUIRE(ackp != NULL && *ackp == NULL);
++ 
++ 	_ctrl = isccc_alist_lookup(message, "_ctrl");
++-	if (_ctrl == NULL ||
+++	if (!isccc_alist_alistp(_ctrl) ||
++ 	    isccc_cc_lookupuint32(_ctrl, "_ser", &serial) != ISC_R_SUCCESS ||
++ 	    isccc_cc_lookupuint32(_ctrl, "_tim", &t) != ISC_R_SUCCESS)
++ 		return (ISC_R_FAILURE);
++@@ -773,7 +773,7 @@ isccc_cc_isack(isccc_sexpr_t *message)
++ 	isccc_sexpr_t *_ctrl;
++ 
++ 	_ctrl = isccc_alist_lookup(message, "_ctrl");
++-	if (_ctrl == NULL)
+++	if (!isccc_alist_alistp(_ctrl))
++ 		return (ISC_FALSE);
++ 	if (isccc_cc_lookupstring(_ctrl, "_ack", NULL) == ISC_R_SUCCESS)
++ 		return (ISC_TRUE);
++@@ -786,7 +786,7 @@ isccc_cc_isreply(isccc_sexpr_t *message)
++ 	isccc_sexpr_t *_ctrl;
++ 
++ 	_ctrl = isccc_alist_lookup(message, "_ctrl");
++-	if (_ctrl == NULL)
+++	if (!isccc_alist_alistp(_ctrl))
++ 		return (ISC_FALSE);
++ 	if (isccc_cc_lookupstring(_ctrl, "_rpl", NULL) == ISC_R_SUCCESS)
++ 		return (ISC_TRUE);
++@@ -806,7 +806,7 @@ isccc_cc_createresponse(isccc_sexpr_t *message, isccc_time_t now,
++ 
++ 	_ctrl = isccc_alist_lookup(message, "_ctrl");
++ 	_data = isccc_alist_lookup(message, "_data");
++-	if (_ctrl == NULL || _data == NULL ||
+++	if (!isccc_alist_alistp(_ctrl) || !isccc_alist_alistp(_data) ||
++ 	    isccc_cc_lookupuint32(_ctrl, "_ser", &serial) != ISC_R_SUCCESS ||
++ 	    isccc_cc_lookupstring(_data, "type", &type) != ISC_R_SUCCESS)
++ 		return (ISC_R_FAILURE);
++@@ -995,7 +995,7 @@ isccc_cc_checkdup(isccc_symtab_t *symtab, isccc_sexpr_t *message,
++ 	isccc_sexpr_t *_ctrl;
++ 
++ 	_ctrl = isccc_alist_lookup(message, "_ctrl");
++-	if (_ctrl == NULL ||
+++	if (!isccc_alist_alistp(_ctrl) ||
++ 	    isccc_cc_lookupstring(_ctrl, "_ser", &_ser) != ISC_R_SUCCESS ||
++ 	    isccc_cc_lookupstring(_ctrl, "_tim", &_tim) != ISC_R_SUCCESS)
++ 		return (ISC_R_FAILURE);
++-- 
++1.9.1
++
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2016-1286_1.patch b/meta/recipes-connectivity/bind/bind/CVE-2016-1286_1.patch
+new file mode 100644
+index 0000000..ae5cc48
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind/CVE-2016-1286_1.patch
+@@ -0,0 +1,79 @@
++From a3d327bf1ceaaeabb20223d8de85166e940b9f12 Mon Sep 17 00:00:00 2001
++From: Mukund Sivaraman <muks@isc.org>
++Date: Mon, 22 Feb 2016 12:22:43 +0530
++Subject: [PATCH] Fix resolver assertion failure due to improper DNAME handling
++ (CVE-2016-1286) (#41753)
++
++(cherry picked from commit 5995fec51cc8bb7e53804e4936e60aa1537f3673)
++
++CVE: CVE-2016-1286
++Upstream-Status: Backport
++
++[Removed doc/arm/notes.xml changes from upstream patch.]
++
++Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
++---
++diff -ruN a/CHANGES b/CHANGES
++--- a/CHANGES	2016-04-13 07:28:44.940873629 +0200
+++++ b/CHANGES	2016-04-13 07:38:38.923167851 +0200
++@@ -1,3 +1,7 @@
+++4319.  [security]      Fix resolver assertion failure due to improper
+++                       DNAME handling when parsing fetch reply messages.
+++                       (CVE-2016-1286) [RT #41753]
+++
++ 4318.	[security]	Malformed control messages can trigger assertions
++ 			in named and rndc. (CVE-2016-1285) [RT #41666]
++ 
++diff -ruN a/lib/dns/resolver.c b/lib/dns/resolver.c
++--- a/lib/dns/resolver.c	2016-04-13 07:28:43.088953790 +0200
+++++ b/lib/dns/resolver.c	2016-04-13 07:38:20.411968925 +0200
++@@ -6967,21 +6967,26 @@
++ 				isc_boolean_t found_dname = ISC_FALSE;
++ 				dns_name_t *dname_name;
++ 
+++				/*
+++				 * Only pass DNAME or RRSIG(DNAME).
+++				 */
+++				if (rdataset->type != dns_rdatatype_dname &&
+++				    (rdataset->type != dns_rdatatype_rrsig ||
+++				     rdataset->covers != dns_rdatatype_dname))
+++					continue;
+++
+++				/*
+++				 * If we're not chaining, then the DNAME and
+++				 * its signature should not be external.
+++				 */
+++				if (!chaining && external) {
+++					log_formerr(fctx, "external DNAME");
+++					return (DNS_R_FORMERR);
+++				}
+++
++ 				found = ISC_FALSE;
++ 				aflag = 0;
++ 				if (rdataset->type == dns_rdatatype_dname) {
++-					/*
++-					 * We're looking for something else,
++-					 * but we found a DNAME.
++-					 *
++-					 * If we're not chaining, then the
++-					 * DNAME should not be external.
++-					 */
++-					if (!chaining && external) {
++-						log_formerr(fctx,
++-							    "external DNAME");
++-						return (DNS_R_FORMERR);
++-					}
++ 					found = ISC_TRUE;
++ 					want_chaining = ISC_TRUE;
++ 					POST(want_chaining);
++@@ -7010,9 +7015,7 @@
++ 							&fctx->domain)) {
++ 						return (DNS_R_SERVFAIL);
++ 					}
++-				} else if (rdataset->type == dns_rdatatype_rrsig
++-					   && rdataset->covers ==
++-					   dns_rdatatype_dname) {
+++				} else {
++ 					/*
++ 					 * We've found a signature that
++ 					 * covers the DNAME.
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2016-1286_2.patch b/meta/recipes-connectivity/bind/bind/CVE-2016-1286_2.patch
+new file mode 100644
+index 0000000..a31ea81
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind/CVE-2016-1286_2.patch
+@@ -0,0 +1,314 @@
++From 7602be276a73a6eb5431c5acd9718e68a55e8b61 Mon Sep 17 00:00:00 2001
++From: Mark Andrews <marka@isc.org>
++Date: Mon, 29 Feb 2016 07:16:48 +1100
++Subject: [PATCH] Part 2 of: 4319.   [security]      Fix resolver assertion
++ failure due to improper                         DNAME handling when parsing
++ fetch reply messages.                         (CVE-2016-1286) [RT #41753]
++
++(cherry picked from commit 2de89ee9de8c8da9dc153a754b02dcdbb7fe2374)
++Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
++---
++ lib/dns/resolver.c | 192 ++++++++++++++++++++++++++---------------------------
++ 1 file changed, 93 insertions(+), 99 deletions(-)
++
++diff --git a/lib/dns/resolver.c b/lib/dns/resolver.c
++index 70aba87..41e9df4 100644
++--- a/lib/dns/resolver.c
+++++ b/lib/dns/resolver.c
++@@ -6074,14 +6074,11 @@ cname_target(dns_rdataset_t *rdataset, dns_name_t *tname) {
++ }
++ 
++ static inline isc_result_t
++-dname_target(fetchctx_t *fctx, dns_rdataset_t *rdataset, dns_name_t *qname,
++-	     dns_name_t *oname, dns_fixedname_t *fixeddname)
+++dname_target(dns_rdataset_t *rdataset, dns_name_t *qname,
+++	     unsigned int nlabels, dns_fixedname_t *fixeddname)
++ {
++ 	isc_result_t result;
++ 	dns_rdata_t rdata = DNS_RDATA_INIT;
++-	unsigned int nlabels;
++-	int order;
++-	dns_namereln_t namereln;
++ 	dns_rdata_dname_t dname;
++ 	dns_fixedname_t prefix;
++ 
++@@ -6096,21 +6093,6 @@ dname_target(fetchctx_t *fctx, dns_rdataset_t *rdataset, dns_name_t *qname,
++ 	if (result != ISC_R_SUCCESS)
++ 		return (result);
++ 
++-	/*
++-	 * Get the prefix of qname.
++-	 */
++-	namereln = dns_name_fullcompare(qname, oname, &order, &nlabels);
++-	if (namereln != dns_namereln_subdomain) {
++-		char qbuf[DNS_NAME_FORMATSIZE];
++-		char obuf[DNS_NAME_FORMATSIZE];
++-
++-		dns_rdata_freestruct(&dname);
++-		dns_name_format(qname, qbuf, sizeof(qbuf));
++-		dns_name_format(oname, obuf, sizeof(obuf));
++-		log_formerr(fctx, "unrelated DNAME in answer: "
++-				   "%s is not in %s", qbuf, obuf);
++-		return (DNS_R_FORMERR);
++-	}
++ 	dns_fixedname_init(&prefix);
++ 	dns_name_split(qname, nlabels, dns_fixedname_name(&prefix), NULL);
++ 	dns_fixedname_init(fixeddname);
++@@ -6736,13 +6718,13 @@ static isc_result_t
++ answer_response(fetchctx_t *fctx) {
++ 	isc_result_t result;
++ 	dns_message_t *message;
++-	dns_name_t *name, *qname, tname, *ns_name;
+++	dns_name_t *name, *dname, *qname, tname, *ns_name;
++ 	dns_rdataset_t *rdataset, *ns_rdataset;
++ 	isc_boolean_t done, external, chaining, aa, found, want_chaining;
++ 	isc_boolean_t have_answer, found_cname, found_type, wanted_chaining;
++ 	unsigned int aflag;
++ 	dns_rdatatype_t type;
++-	dns_fixedname_t dname, fqname;
+++	dns_fixedname_t fdname, fqname;
++ 	dns_view_t *view;
++ 
++ 	FCTXTRACE("answer_response");
++@@ -6770,10 +6752,15 @@ answer_response(fetchctx_t *fctx) {
++ 	view = fctx->res->view;
++ 	result = dns_message_firstname(message, DNS_SECTION_ANSWER);
++ 	while (!done && result == ISC_R_SUCCESS) {
+++		dns_namereln_t namereln;
+++		int order;
+++		unsigned int nlabels;
+++
++ 		name = NULL;
++ 		dns_message_currentname(message, DNS_SECTION_ANSWER, &name);
++ 		external = ISC_TF(!dns_name_issubdomain(name, &fctx->domain));
++-		if (dns_name_equal(name, qname)) {
+++		namereln = dns_name_fullcompare(qname, name, &order, &nlabels);
+++		if (namereln == dns_namereln_equal) {
++ 			wanted_chaining = ISC_FALSE;
++ 			for (rdataset = ISC_LIST_HEAD(name->list);
++ 			     rdataset != NULL;
++@@ -6898,10 +6885,11 @@ answer_response(fetchctx_t *fctx) {
++ 						 */
++ 						INSIST(!external);
++ 						if (aflag ==
++-						    DNS_RDATASETATTR_ANSWER)
+++						    DNS_RDATASETATTR_ANSWER) {
++ 							have_answer = ISC_TRUE;
++-						name->attributes |=
++-							DNS_NAMEATTR_ANSWER;
+++							name->attributes |=
+++								DNS_NAMEATTR_ANSWER;
+++						}
++ 						rdataset->attributes |= aflag;
++ 						if (aa)
++ 							rdataset->trust =
++@@ -6956,6 +6944,8 @@ answer_response(fetchctx_t *fctx) {
++ 			if (wanted_chaining)
++ 				chaining = ISC_TRUE;
++ 		} else {
+++			dns_rdataset_t *dnameset = NULL;
+++
++ 			/*
++ 			 * Look for a DNAME (or its SIG).  Anything else is
++ 			 * ignored.
++@@ -6963,10 +6953,8 @@ answer_response(fetchctx_t *fctx) {
++ 			wanted_chaining = ISC_FALSE;
++ 			for (rdataset = ISC_LIST_HEAD(name->list);
++ 			     rdataset != NULL;
++-			     rdataset = ISC_LIST_NEXT(rdataset, link)) {
++-				isc_boolean_t found_dname = ISC_FALSE;
++-				dns_name_t *dname_name;
++-
+++			     rdataset = ISC_LIST_NEXT(rdataset, link))
+++			{
++ 				/*
++ 				 * Only pass DNAME or RRSIG(DNAME).
++ 				 */
++@@ -6980,20 +6968,41 @@ answer_response(fetchctx_t *fctx) {
++ 				 * its signature should not be external.
++ 				 */
++ 				if (!chaining && external) {
++-					log_formerr(fctx, "external DNAME");
+++					char qbuf[DNS_NAME_FORMATSIZE];
+++					char obuf[DNS_NAME_FORMATSIZE];
+++
+++					dns_name_format(name, qbuf,
+++							sizeof(qbuf));
+++					dns_name_format(&fctx->domain, obuf,
+++							sizeof(obuf));
+++					log_formerr(fctx, "external DNAME or "
+++						    "RRSIG covering DNAME "
+++						    "in answer: %s is "
+++						    "not in %s", qbuf, obuf);
+++					return (DNS_R_FORMERR);
+++				}
+++
+++				if (namereln != dns_namereln_subdomain) {
+++					char qbuf[DNS_NAME_FORMATSIZE];
+++					char obuf[DNS_NAME_FORMATSIZE];
+++
+++					dns_name_format(qname, qbuf,
+++							sizeof(qbuf));
+++					dns_name_format(name, obuf,
+++							sizeof(obuf));
+++					log_formerr(fctx, "unrelated DNAME "
+++						    "in answer: %s is "
+++						    "not in %s", qbuf, obuf);
++ 					return (DNS_R_FORMERR);
++ 				}
++ 
++-				found = ISC_FALSE;
++ 				aflag = 0;
++ 				if (rdataset->type == dns_rdatatype_dname) {
++-					found = ISC_TRUE;
++ 					want_chaining = ISC_TRUE;
++ 					POST(want_chaining);
++ 					aflag = DNS_RDATASETATTR_ANSWER;
++-					result = dname_target(fctx, rdataset,
++-							      qname, name,
++-							      &dname);
+++					result = dname_target(rdataset, qname,
+++							      nlabels, &fdname);
++ 					if (result == ISC_R_NOSPACE) {
++ 						/*
++ 						 * We can't construct the
++@@ -7005,14 +7014,12 @@ answer_response(fetchctx_t *fctx) {
++ 					} else if (result != ISC_R_SUCCESS)
++ 						return (result);
++ 					else
++-						found_dname = ISC_TRUE;
+++						dnameset = rdataset;
++ 
++-					dname_name = dns_fixedname_name(&dname);
+++					dname = dns_fixedname_name(&fdname);
++ 					if (!is_answertarget_allowed(view,
++-							qname,
++-							rdataset->type,
++-							dname_name,
++-							&fctx->domain)) {
+++							qname, rdataset->type,
+++							dname, &fctx->domain)) {
++ 						return (DNS_R_SERVFAIL);
++ 					}
++ 				} else {
++@@ -7020,73 +7027,60 @@ answer_response(fetchctx_t *fctx) {
++ 					 * We've found a signature that
++ 					 * covers the DNAME.
++ 					 */
++-					found = ISC_TRUE;
++ 					aflag = DNS_RDATASETATTR_ANSWERSIG;
++ 				}
++ 
++-				if (found) {
+++				/*
+++				 * We've found an answer to our
+++				 * question.
+++				 */
+++				name->attributes |= DNS_NAMEATTR_CACHE;
+++				rdataset->attributes |= DNS_RDATASETATTR_CACHE;
+++				rdataset->trust = dns_trust_answer;
+++				if (!chaining) {
++ 					/*
++-					 * We've found an answer to our
++-					 * question.
+++					 * This data is "the" answer to
+++					 * our question only if we're
+++					 * not chaining.
++ 					 */
++-					name->attributes |=
++-						DNS_NAMEATTR_CACHE;
++-					rdataset->attributes |=
++-						DNS_RDATASETATTR_CACHE;
++-					rdataset->trust = dns_trust_answer;
++-					if (!chaining) {
++-						/*
++-						 * This data is "the" answer
++-						 * to our question only if
++-						 * we're not chaining.
++-						 */
++-						INSIST(!external);
++-						if (aflag ==
++-						    DNS_RDATASETATTR_ANSWER)
++-							have_answer = ISC_TRUE;
+++					INSIST(!external);
+++					if (aflag == DNS_RDATASETATTR_ANSWER) {
+++						have_answer = ISC_TRUE;
++ 						name->attributes |=
++ 							DNS_NAMEATTR_ANSWER;
++-						rdataset->attributes |= aflag;
++-						if (aa)
++-							rdataset->trust =
++-							  dns_trust_authanswer;
++-					} else if (external) {
++-						rdataset->attributes |=
++-						    DNS_RDATASETATTR_EXTERNAL;
++-					}
++-
++-					/*
++-					 * DNAME chaining.
++-					 */
++-					if (found_dname) {
++-						/*
++-						 * Copy the dname into the
++-						 * qname fixed name.
++-						 *
++-						 * Although we check for
++-						 * failure of the copy
++-						 * operation, in practice it
++-						 * should never fail since
++-						 * we already know that the
++-						 * result fits in a fixedname.
++-						 */
++-						dns_fixedname_init(&fqname);
++-						result = dns_name_copy(
++-						  dns_fixedname_name(&dname),
++-						  dns_fixedname_name(&fqname),
++-						  NULL);
++-						if (result != ISC_R_SUCCESS)
++-							return (result);
++-						wanted_chaining = ISC_TRUE;
++-						name->attributes |=
++-							DNS_NAMEATTR_CHAINING;
++-						rdataset->attributes |=
++-						    DNS_RDATASETATTR_CHAINING;
++-						qname = dns_fixedname_name(
++-								   &fqname);
++ 					}
+++					rdataset->attributes |= aflag;
+++					if (aa)
+++						rdataset->trust =
+++						  dns_trust_authanswer;
+++				} else if (external) {
+++					rdataset->attributes |=
+++					    DNS_RDATASETATTR_EXTERNAL;
++ 				}
++ 			}
+++
+++			/*
+++			 * DNAME chaining.
+++			 */
+++			if (dnameset != NULL) {
+++				/*
+++				 * Copy the dname into the qname fixed name.
+++				 *
+++				 * Although we check for failure of the copy
+++				 * operation, in practice it should never fail
+++				 * since we already know that the  result fits
+++				 * in a fixedname.
+++				 */
+++				dns_fixedname_init(&fqname);
+++				qname = dns_fixedname_name(&fqname);
+++				result = dns_name_copy(dname, qname, NULL);
+++				if (result != ISC_R_SUCCESS)
+++					return (result);
+++				wanted_chaining = ISC_TRUE;
+++				name->attributes |= DNS_NAMEATTR_CHAINING;
+++				dnameset->attributes |=
+++					    DNS_RDATASETATTR_CHAINING;
+++			}
++ 			if (wanted_chaining)
++ 				chaining = ISC_TRUE;
++ 		}
++-- 
++1.9.1
++
+diff --git a/meta/recipes-connectivity/bind/bind_9.10.3-P3.bb b/meta/recipes-connectivity/bind/bind_9.10.3-P3.bb
+index fa057d5..3ad14b2 100644
+--- a/meta/recipes-connectivity/bind/bind_9.10.3-P3.bb
++++ b/meta/recipes-connectivity/bind/bind_9.10.3-P3.bb
+@@ -21,6 +21,9 @@ SRC_URI = "ftp://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+            file://bind-ensure-searching-for-json-headers-searches-sysr.patch \
+            file://0001-gen.c-extend-DIRNAMESIZE-from-256-to-512.patch \
+            file://0001-lib-dns-gen.c-fix-too-long-error.patch \
++           file://CVE-2016-1285.patch \
++           file://CVE-2016-1286_1.patch \
++           file://CVE-2016-1286_2.patch \
+            "
+ 
+ SRC_URI[md5sum] = "bcf7e772b616f7259420a3edc5df350a"
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
+1.9.1
 
---089e0112c0da557f760530550755
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Tue, Apr 12, 2016 at 10:58 PM, Robert Yang <span dir=3D"ltr">&lt;<a =
-href=3D"mailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@win=
-driver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span cl=
-ass=3D""><br>
-<br>
-On 04/13/2016 10:53 AM, Bruce Ashfield wrote:<br>
-</span><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
-left:1px #ccc solid;padding-left:1ex"><span class=3D"">
-<br>
-<br>
-On Tue, Apr 12, 2016 at 10:07 PM, Robert Yang &lt;<a href=3D"mailto:liezhi.=
-yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</a><br></sp=
-an><span class=3D"">
-&lt;mailto:<a href=3D"mailto:liezhi.yang@windriver.com" target=3D"_blank">l=
-iezhi.yang@windriver.com</a>&gt;&gt; wrote:<br>
-<br>
-=C2=A0 =C2=A0 Hi RP,<br>
-=C2=A0 =C2=A0 I&#39;m sorry to say that I didn&#39;t send this yesterday wa=
-s because I have to<br>
-=C2=A0 =C2=A0 wait until the kernel&#39;s part get merged (now it is done),=
- otherwise I<br>
-=C2=A0 =C2=A0 can&#39;t have the correct SRCREV.<br>
-<br>
-<br>
-You shouldn&#39;t be bumping the SRCREV at all. That&#39;s something that I=
- do when queuing<br>
-changes.<br>
-<br>
-In fact, I already have this done and have it under test.<br>
-<br>
-So please, don&#39;t merge this. I have it here and have it stacked with ot=
-her commits,<br>
-which will all come out tomorrow when my testing completes.<br>
-<br>
-This SRCREV bump is for more than the single change .. hence why I need to =
-do<br>
-the update.<br>
-</span></blockquote>
-<br>
-Got it, then please drop this.<br>
-<br></blockquote><div><br></div><div>Thanks, and I won&#39;t hold you up. I=
-&#39;ll be sending my queue out first thing in the morning.</div><div><br><=
-/div><div>Cheers,</div><div><br></div><div>Bruce</div><div>=C2=A0</div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #c=
-cc solid;padding-left:1ex">
-// Robert<br>
-<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><span class=3D"">
-<br>
-Bruce<br>
-<br>
-<br>
-=C2=A0 =C2=A0 // Robert<br>
-<br>
-=C2=A0 =C2=A0 The following changes since commit b3afe7d9bd25a943e947de3ec0=
-64ea245173c5a8:<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0archiver: Ensure sstate-inputdir directory is cr=
-eated (2016-04-12<br>
-=C2=A0 =C2=A0 22:46:48 +0100)<br>
-<br>
-=C2=A0 =C2=A0 are available in the git repository at:<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://git.openembedded.org/ope=
-nembedded-core-contrib" rel=3D"noreferrer" target=3D"_blank">git.openembedd=
-ed.org/openembedded-core-contrib</a><br></span>
-=C2=A0 =C2=A0 &lt;<a href=3D"http://git.openembedded.org/openembedded-core-=
-contrib" rel=3D"noreferrer" target=3D"_blank">http://git.openembedded.org/o=
-penembedded-core-contrib</a>&gt; rbt/sys<span class=3D""><br>
-=C2=A0 =C2=A0 <a href=3D"http://cgit.openembedded.org/cgit.cgi/openembedded=
--core-contrib/log/?h=3Drbt/sys" rel=3D"noreferrer" target=3D"_blank">http:/=
-/cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=3Drbt/sys<=
-/a><br>
-<br>
-=C2=A0 =C2=A0 Robert Yang (1):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0linux-yocto-tiny: update SRCREV_meta to support =
-/proc/sys<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 meta/recipes-kernel/linux/<a href=3D"http://linux-yoct=
-o-tiny_4.1.bb" rel=3D"noreferrer" target=3D"_blank">linux-yocto-tiny_4.1.bb=
-</a><br></span>
-=C2=A0 =C2=A0 &lt;<a href=3D"http://linux-yocto-tiny_4.1.bb" rel=3D"norefer=
-rer" target=3D"_blank">http://linux-yocto-tiny_4.1.bb</a>&gt; | 2 +-<br>
-=C2=A0 =C2=A0 =C2=A0 meta/recipes-kernel/linux/<a href=3D"http://linux-yoct=
-o-tiny_4.4.bb" rel=3D"noreferrer" target=3D"_blank">linux-yocto-tiny_4.4.bb=
-</a><br>
-=C2=A0 =C2=A0 &lt;<a href=3D"http://linux-yocto-tiny_4.4.bb" rel=3D"norefer=
-rer" target=3D"_blank">http://linux-yocto-tiny_4.4.bb</a>&gt; | 2 +-<span c=
-lass=3D""><br>
-=C2=A0 =C2=A0 =C2=A0 2 files changed, 2 insertions(+), 2 deletions(-)<br>
-<br>
-=C2=A0 =C2=A0 --<br>
-=C2=A0 =C2=A0 2.8.0<br>
-<br>
-=C2=A0 =C2=A0 --<br>
-=C2=A0 =C2=A0 _______________________________________________<br>
-=C2=A0 =C2=A0 Openembedded-core mailing list<br>
-=C2=A0 =C2=A0 <a href=3D"mailto:Openembedded-core@lists.openembedded.org" t=
-arget=3D"_blank">Openembedded-core@lists.openembedded.org</a><br></span>
-=C2=A0 =C2=A0 &lt;mailto:<a href=3D"mailto:Openembedded-core@lists.openembe=
-dded.org" target=3D"_blank">Openembedded-core@lists.openembedded.org</a>&gt=
-;<span class=3D""><br>
-=C2=A0 =C2=A0 <a href=3D"http://lists.openembedded.org/mailman/listinfo/ope=
-nembedded-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembed=
-ded.org/mailman/listinfo/openembedded-core</a><br>
-<br>
-<br>
-<br>
-<br>
---<br>
-&quot;Thou shalt not follow the NULL pointer, for chaos and madness await t=
-hee at its<br>
-end&quot;<br>
-</span></blockquote>
-</blockquote></div><br><br clear=3D"all"><div><br></div>-- <br><div class=
-=3D"gmail_signature">&quot;Thou shalt not follow the NULL pointer, for chao=
-s and madness await thee at its end&quot;</div>
-</div></div>
-
---089e0112c0da557f760530550755--
