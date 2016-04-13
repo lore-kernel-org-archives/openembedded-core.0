@@ -1,58 +1,39 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 93928607A5
+Return-Path: <mac@mcrowe.com>
+X-Greylist: delayed 457 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 13 Apr 2016 15:34:44 UTC
+Received: from avasout05.plus.net (avasout05.plus.net [84.93.230.250])
+	by mail.openembedded.org (Postfix) with ESMTP id 8529173169
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Apr 2016 15:14:12 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 5B6B018136;
-	Wed, 13 Apr 2016 17:14:11 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id VHlKZzu6V4bE; Wed, 13 Apr 2016 17:14:10 +0200 (CEST)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bastet.se.axis.com (Postfix) with ESMTP id 47081180D4;
-	Wed, 13 Apr 2016 17:14:10 +0200 (CEST)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 028341611;
-	Wed, 13 Apr 2016 17:14:10 +0200 (CEST)
-Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
-	by boulder.se.axis.com (Postfix) with ESMTP id EB81B766;
-	Wed, 13 Apr 2016 17:14:09 +0200 (CEST)
-Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
-	by thoth.se.axis.com (Postfix) with ESMTP id E9870109D;
-	Wed, 13 Apr 2016 17:14:09 +0200 (CEST)
-Received: from XBOX02.axis.com (10.0.5.16) by XBOX04.axis.com (10.0.5.18) with
-	Microsoft SMTP Server (TLS) id 15.0.1156.6;
-	Wed, 13 Apr 2016 17:14:09 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%22]) with mapi id
-	15.00.1156.000; Wed, 13 Apr 2016 17:14:09 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Otavio Salvador
-	<otavio.salvador@ossystems.com.br>
-Thread-Topic: [OE-core] [PATCHv2 1/1] Revert "useradd.bbclass: remove
-	user/group created by the package in clean* task"
-Thread-Index: AQHRlMs4Q4aNfnCqO02M11Hc7D8r4J+GZ5oAgAAl/qCAARAAgIAAKRdQ
-Date: Wed, 13 Apr 2016 15:14:09 +0000
-Message-ID: <5715165f841f46d0a50fb951acfbf0ac@XBOX02.axis.com>
-References: <cover.1460467072.git.pkj@axis.com>
-	<7251ce8da0aed3f9ad921daa66186a2c2fc6a932.1460467072.git.pkj@axis.com>
-	<1460472857.9308.63.camel@linuxfoundation.org>
-	<CAP9ODKobRBigE8Wur600MDdFgL+Z-3C7noAJyWfsjTE8d18vBA@mail.gmail.com>
-	<4550e71bd1f24135a2f6978294e25f94@XBOX02.axis.com>
-	<1460545515.9308.85.camel@linuxfoundation.org>
-In-Reply-To: <1460545515.9308.85.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.55]
+	Wed, 13 Apr 2016 15:34:44 +0000 (UTC)
+Received: from deneb ([80.229.24.9]) by avasout05 with smtp
+	id hrT51s0080BmcFC01rT6tn; Wed, 13 Apr 2016 16:27:06 +0100
+X-CM-Score: 0.00
+X-CNFS-Analysis: v=2.1 cv=Iat6Ijea c=1 sm=1 tr=0
+	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
+	a=L9H7d07YOLsA:10 a=9cW_t1CCXrUA:10 a=s5jvgZ67dGcA:10 a=kziv93cY1bsA:10
+	a=-An2I_7KAAAA:8 a=n8jgqLjJPfYFeFoXIKAA:9 a=CjuIK1q_8ugA:10
+	a=Sc8CNStod5HAc5t90EwA:9 a=5uX4msJQyvSBJEi7:21 a=buVCt8jQGOgHBdqW:21
+Received: from mac by deneb with local (Exim 4.84_2)
+	(envelope-from <mac@mcrowe.com>)
+	id 1aqMh6-000599-L1; Wed, 13 Apr 2016 16:27:04 +0100
+Date: Wed, 13 Apr 2016 16:27:04 +0100
+From: Mike Crowe <mac@mcrowe.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Message-ID: <20160413152704.GA19112@mcrowe.com>
+References: <20160329125626.GA11712@mcrowe.com>
+	<1459260670.21672.25.camel@linuxfoundation.org>
+	<20160412185126.GA14627@mcrowe.com>
+	<1460494253.9308.70.camel@linuxfoundation.org>
+	<CAP9ODKrgznCG2ezJLxF7fRsa13-ffD+3tLSttEegp832OoDFog@mail.gmail.com>
+	<20160413140103.GA14803@mcrowe.com>
+	<CAP9ODKpPEmPQuz7rJWfzCz5Rw4rpBHvBoRAg-FXktNd2nu6vRg@mail.gmail.com>
 MIME-Version: 1.0
-Cc: "OE Core \(openembedded-core@lists.openembedded.org\)"
+In-Reply-To: <CAP9ODKpPEmPQuz7rJWfzCz5Rw4rpBHvBoRAg-FXktNd2nu6vRg@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: Mike Crowe <mac@mcrowe.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 1/1] Revert "useradd.bbclass: remove user/group created by the package in clean* task"
+Subject: Re: Over-pruning the sstate cache
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,65 +46,149 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Apr 2016 15:14:13 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 13 Apr 2016 15:34:45 -0000
+X-Groupsio-MsgNum: 80838
+Content-Type: multipart/mixed; boundary="wRRV7LY7NUeQGEoC"
+Content-Disposition: inline
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSBbbWFp
-bHRvOnJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmddDQo+IFNlbnQ6IGRlbiAxMyBh
-cHJpbCAyMDE2IDEzOjA1DQo+IFRvOiBQZXRlciBLamVsbGVyc3RlZHQ7IE90YXZpbyBTYWx2YWRv
-cg0KPiBDYzogT0UgQ29yZSAob3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9y
-ZykNCj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0h2MiAxLzFdIFJldmVydCAidXNlcmFk
-ZC5iYmNsYXNzOiByZW1vdmUNCj4gdXNlci9ncm91cCBjcmVhdGVkIGJ5IHRoZSBwYWNrYWdlIGlu
-IGNsZWFuKiB0YXNrIg0KPiANCj4gSSBhbSBwcmV0dHkgZnJ1c3RyYXRlZCB3aXRoIHRoaXMgdGhy
-ZWFkLiBUaGUgcmVhc29ucyBhcmUgcGVyaGFwcyBub3QNCj4gaW1tZWRpYXRlbHkgb2J2aW91cyB0
-aG91Z2guDQo+IA0KPiBUaGUgaXNzdWUgaXMgdGhhdCB0aGVyZSBhcmUgb25seSBhIGxpbWl0ZWQg
-bnVtYmVyIG9mIHBlb3BsZSB3aG8NCj4gYWN0dWFsbHkgZGl2ZSBpbiBhbmQgdHJ5IGFuZCBmaXgg
-c29tZSBvZiB0aGUgdW5kZXJseWluZyAiY29yZQ0KPiBhcmNoaXRlY3R1cmUiIGJ1Z3MuIFRoZXJl
-IGlzIHdoYXQgSSBiZWxpZXZlIHRvIGJlIGEgcHJldHR5IGdvb2QgcGF0Y2gNCj4gaGVyZSB3aGlj
-aCBkb2VzIGZpeCByZWFsIHdvcmxkIGlzc3VlcyB3aGljaCBoYXZlIGJlZW4gcmVwb3J0ZWQgaW50
-byB0aGUNCj4gYnVnemlsbGEgKGl0cyByZWxhdGVkIHRvIGF0IGxlYXN0IHR3byBidWcgcmVwb3J0
-cykuIEFzIHN1Y2ggaXQgaGFzIGJlZW4NCj4gc2VlbiBhcyBhIGJ1Z2ZpeC4gSXRzIG5vdyBjbGVh
-ciBpdCBkb2VzIGhhdmUgc29tZSBzaWRlIGVmZmVjdHMgd2hpY2gNCj4gd2VyZW4ndCBlbnZpc2Fn
-ZWQsIHNvbWUgY2F1c2luZyBpc3N1ZXMgZm9yIGEgc21hbGwgbnVtYmVyIG9mIG1ldGEtb2UNCj4g
-cmVjaXBlcywgdGhlIG90aGVycyBicmVha2luZyBhIGNvbXBhbmllcyBpbnRlcm5hbCBjb2RlLg0K
-PiANCj4gT3RhdmlvIHdhbnRzIGl0IGRlZmVycmVkIHRvIDIuMiwgUGV0ZXIgd2FudHMgaXQgYWJh
-bmRvbmVkIGVudGlyZWx5Lg0KPiANCj4gSWYgSSByZXZlcnQgdGhpcywgUGV0ZXIgaXMgdGhlbiBo
-YXBweSBhbmQgaGFzIHplcm8gaW5jZW50aXZlIHRvIGRvDQo+IGFueXRoaW5nIGZ1cnRoZXIuIFRo
-ZSBwcmVzc3VyZSBpcyBzdGlsbCBvbiB0aGUgcmVvcGVuZWQgYnVncyB0byB0cnkgYW5kDQo+IGZp
-eCB0aGlzIHNvbWVob3cgYW5kIGZhbGxzIGJhY2sgdG8gdGhlIHVzdWFsIHN1c3BlY3RzLiBUaGVy
-ZSBpcyBhIHJlYWwNCj4gd29ybGQgdXNhYmlsaXR5IHByb2JsZW0gdGhlcmUuDQoNCkhvbGQgeW91
-ciBob3JzZXMuIEkgZGVmaW5pdGVseSBzZWUgdGhlIHByb2JsZW0gdGhlIGNoYW5nZSB0cmllZCB0
-byANCmFkZHJlc3MgYXMgb25lIHRoYXQgbmVlZHMgdG8gYmUgZml4ZWQsIGFuZCBJIGFtIGFscmVh
-ZHkgbG9va2luZyBhdCANCmhvdyB0byBzb2x2ZSB0aGlzIHByb3Blcmx5IChjdXJyZW50bHkgYmFz
-ZWQgb24gbXkgc2Vjb25kIHN1Z2dlc3RlZCANCnNvbHV0aW9uKS4gSG93ZXZlciwgSSBkbyBub3Qg
-a25vdyBpZiBJIGNhbiBmaXggaXQgaW4gdGltZSBmb3IgS3JvZ290aC4gDQpXaGljaCBpcyB3aHkg
-SSBhZ3JlZSB3aXRoIE90YXZpbyB0aGF0IHRoZSBjaGFuZ2Ugd2FzIGludHJvZHVjZWQgdG9vIA0K
-bGF0ZSBpbiB0aGUgcHJvY2VzcywgZXNwZWNpYWxseSBhcyBpdCBjYXVzZXMgYnJlYWthZ2UgZm9y
-IGV4aXN0aW5nIA0KdXNlcnMuDQoNCj4gSW4gYSBzaW5nbGUgaXNvbGF0ZWQgY2FzZSwgZmluZSwg
-d2UnZCBmaWd1cmUgYSB3YXkgdGhyb3VnaCB0aGlzLiBJDQo+IHRoaW5rIEknbSBzbyBmcnVzdHJh
-dGVkIGFzIHdlIHNlZSB0aGlzIGFsbCB0aGUgdGltZS4gTWFraW5nIGEgY2hhbmdlIHRvDQo+IHRo
-ZSBjb3JlIGFyY2hpdGVjdHVyZSBpcyBoYXJkIGFuZCBnZXRzIGV2ZXIgaGFyZGVyLCB0aGVuIHdl
-IHdvbmRlciB3aHkNCj4gd2UgZG9uJ3QgaGF2ZSBjb250cmlidXRvcnMuIFBhcnQgb2YgdGhpcyBp
-cyBoYXZpbmcgc28gbWFueSBkaWZmZXJlbnQNCj4gd29ya2Zsb3dzIGFuZCBjb3JuZXIgY2FzZXMu
-DQo+IA0KPiBJIGhhdmUgcHVzaGVkIHZlcnkgaGFyZCB0byBoYXZlIG1vcmUgdGVzdCBjYXNlcywg
-dGhlbiBpdHMgZWFzaWVyIHRvDQo+IGRldGVybWluZSBpZiBhIHBhdGNoIGNhdXNlcyByZWdyZXNz
-aW9ucy4gQWdhaW4gdGhvdWdoLCBmZXcgcGVvcGxlIGFyZQ0KPiBjb250cmlidXRpbmcgdG8gdGhl
-bSBvdXRzaWRlIHRoZSB1c3VhbCBzdXNwZWN0cy4NCg0KSGVyZSBJIG11c3Qgc2hvdyBteSBsYWNr
-IG9mIGtub3dsZWRnZS4gSG93IGFuZCB3aGVyZSBzaG91bGQgSSBnbyBhYm91dCANCmFkZGluZyBh
-IHJlZ3Jlc3Npb24gdGVzdCB0aGF0IHZlcmlmaWVzIHRoZSBzdXBwb3J0IGZvciB0aGF0IG11bHRp
-cGxlIA0KcmVjaXBlcyBjYW4gYWRkIHRoZSBzYW1lIHVzZXIvZ3JvdXA/IFNpbmNlIHRoaXMgZG9l
-cyBub3QgdGVzdCBhIA0Kc3BlY2lmaWMgcmVjaXBlLCBidXQgcmF0aGVyIGEgcGFydCBvZiB0aGUg
-YnVpbGQgZnJhbWV3b3JrLCBJIGRvIG5vdCANCmtub3cgaWYsIGUuZy4sIHB0ZXN0IGlzIGFwcGxp
-Y2FibGUgKG9mIHdoaWNoIEkgaGF2ZSBubyBleHBlcmllbmNlIA0KZWl0aGVyKS4NCg0KPiBJJ20g
-dGhlcmVmb3JlIHN0YXJ0aW5nIHRvIHRoaW5rIHRoZSBjb3JyZWN0IGFuc3dlciB0byB0aGlzIHRo
-cmVhZCBpcw0KPiBzaW1wbHkgdGhpczoNCj4gDQo+IFRoZSBwYXRjaCBkb2Vzbid0IGJyZWFrIGFu
-eSBvZiB0aGUgY3VycmVudCByZWdyZXNzaW9uIHRlc3RzLiBJZiB5b3UNCj4gaGF2ZSB1c2UgY2Fz
-ZXMgbGlrZSB0aGlzIHlvdSBjYXJlIGFib3V0LCB5b3UgcmVhbGx5IHNob3VsZCBtYWtlIHN1cmUg
-d2UNCj4gaGF2ZSB0ZXN0IGNvdmVyYWdlIGZvciB0aGVtLCBlbHNlIHlvdSBydW4gdGhlIHJpc2sg
-b2YgZXhhY3RseSB0aGUNCj4gcHJvYmxlbSB3ZSBoYXZlIGhlcmUuDQo+IA0KPiBJIGhhdmVuJ3Qg
-aG9uZXN0bHkgZGVjaWRlZCB3aGF0IHRvIGRvIGJ1dCB0aGlzIGxhdHRlciBjb25jbHVzaW9uIGlz
-DQo+IHZlcnkgdGVtcHRpbmcgZnJvbSB3aGVyZSBJJ20gc2l0dGluZy4uLg0KPiANCj4gQ2hlZXJz
-LA0KPiANCj4gUmljaGFyZA0KDQovL1BldGVyDQoNCg==
+--wRRV7LY7NUeQGEoC
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+On Wednesday 13 April 2016 at 11:11:11 -0300, Otavio Salvador wrote:
+> On Wed, Apr 13, 2016 at 11:01 AM, Mike Crowe <mac@mcrowe.com> wrote:
+> > On Wednesday 13 April 2016 at 10:47:13 -0300, Otavio Salvador wrote:
+> >> Couldn't this to be done, similar to the fetchall task?
+> >
+> > That's the sort of thing I was thinking of with my "all_populate_sysroot"
+> > task in my original question.
+> >
+> > But, I've a working script using Richard's method now. I'll share it once
+> > I've tested it a bit more.
+> 
+> Having it as a task allows it to avoid races and like, when running
+> inside of the BitBake. It also can reuse the metadata database
+> information and ought to be faster. Once you share the script I will
+> see if I can rework it to a task and see how it looks.
+
+I'm not really sure how much my (not very pretty) script will have in
+common with a task-based solution.
+
+I agree that integrating it into Bitbake would be better though. At the
+moment generating the locked-sigs.inc file is by far the slowest part of
+the operation though.
+
+Since you've requested it, here's the not-really-tested-properly script.
+
+Mike.
+
+--wRRV7LY7NUeQGEoC
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment; filename=touch-sstate
+
+#!/usr/bin/python2
+#
+# touch-sstate
+#
+#  Update atime on sstate-cache files for locked-sigs.inc file.
+#
+# Mike Crowe <mac@mcrowe.com>
+#
+# If nothing needs recompiling when building an image then bitbake
+# won't access the sstate files that are required to populate the
+# sysroot. This means that they might be expired as being unused. To
+# avoid the problem this script processes the "locked-sigs.inc" file
+# generated by running "bitbake XXX --dump-signatures=none".
+
+import glob
+import os
+import re
+import sys
+import time
+
+# These variables may need tweaking when the build environment changes
+native_lsb_string = "Debian-8"
+target_vendor = ""
+target_os = "oe-linux-gnueabi"
+host_os = "linux"
+sstate_version = "3"
+native_arches = [ 'x86-64' ]
+
+sstate_cache_dir = "sstate-cache/"
+
+# The start of a variable declaration that tells us the arch
+variable_re = re.compile('^SIGGEN_LOCKEDSIGS_t-([^ ]*) = \"\\\\$')
+
+# A single hash for a task
+sig_re = re.compile('^ *([^:]+):([^:]+):([^:]+) \\\\$')
+
+# Ignore the trailing quote, the final line and blank lines
+ignore_re = re.compile('^( *\")|(SIGGEN_LOCKEDSIGS_TYPES_)|$')
+
+arch1 = "noarch"
+arch2 = "noarch"
+
+def TouchMatches(pattern, deadline):
+    matches = glob.glob(pattern)
+    for match in matches:
+        # It's likely that we won't need to touch the file so it's
+        # cheaper to do the stat to check first than to always open
+        # the file for reading. The inode might be in cache but the
+        # file contents not.
+        if os.stat(match).st_atime < deadline:
+            print match
+
+            # We can't use os.utime for this since we may not own the
+            # file.
+            f = open(match, 'r')
+
+            # We actually have to read something from the file in
+            # order to update atime.
+            f.read(1)
+            f.close()
+        
+# In order to avoid unnecessarily thrashing the disk we only want to
+# modify the atime of the file if the atime is more than a day ago.
+# This matches the behaviour of the "relatime" mount option. We allow
+# a bit of leeway in case we take a long time to run and the expiry
+# script wants to expire stuff that's only more than a day old though.
+deadline = time.time() - 23 * 3600
+
+line_number = 0
+
+for line in open("locked-sigs.inc", "r"):
+    line_number += 1
+    line = line.rstrip()
+    variable_match = variable_re.match(line)
+    if variable_match:
+        arch = variable_match.group(1)
+        arch_underscore = arch.replace("-", "_")
+        if arch in native_arches:
+            dir = sstate_cache_dir + native_lsb_string + "/"
+            arch1 = arch_underscore + "-" + host_os
+            arch2 = arch_underscore
+        else:
+            dir = sstate_cache_dir
+            arch1 = arch_underscore + target_vendor + "-" + target_os
+            arch2 = arch_underscore
+    else:
+        sig_match = sig_re.match(line)
+        if sig_match:
+            pn = sig_match.group(1)
+            task = sig_match.group(2)[3:]
+            sig = sig_match.group(3)
+
+            arch_file = dir + sig[0:2] + "/sstate:" + pn + ":" + arch1 + ":*:*:" + arch2 + ":" + sstate_version + ":" + sig + "_" + task + ".tgz"
+            noarch_file = dir + sig[0:2] + "/sstate:" + pn + "::*:*::" + sstate_version + ":" + sig + "_" + task + ".tgz"
+
+            TouchMatches(arch_file, deadline)
+            TouchMatches(noarch_file, deadline)
+        elif ignore_re.match(line):
+            pass
+        else:
+            sys.stderr.write('touch-sstate: Unparsed line %d\n' % line_number)
+            sys.exit(1)
+        
+        
+
+--wRRV7LY7NUeQGEoC--
