@@ -1,46 +1,46 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f179.google.com (mail-pf0-f179.google.com
-	[209.85.192.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 01E7360119
+Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
+	[209.85.220.42])
+	by mail.openembedded.org (Postfix) with ESMTP id B837D6011B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Apr 2016 15:51:55 +0000 (UTC)
-Received: by mail-pf0-f179.google.com with SMTP id n1so36239616pfn.2
+	Wed, 13 Apr 2016 15:56:44 +0000 (UTC)
+Received: by mail-pa0-f42.google.com with SMTP id er2so7041116pad.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Apr 2016 08:51:56 -0700 (PDT)
+	Wed, 13 Apr 2016 08:56:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id;
-	bh=vHmS5RfVY788A79fG3zOGDhlazyW2faSiuIwVCKJXPk=;
-	b=Z+ixZdwSju/sENlHiv8bRNVxIsFsHLpvsOYeBYP262RvuGvoE8Yy8ufDopYtQJ7Mri
-	M84oHFrFdsBPPil7SvNu62qe7LuPYXl8yE5DCslP3HJOuA2I0CVHUrS81yWoGeHKdWDH
-	Z+Fc549TsIHP/6Sgu0KlIUbTh87X6F8lwYArYmTqRkxjhVUw69Bnw9HBmq6kqzVHevjD
-	H1pTGQcOHOzuWeG3Rxrb4bP8caPAGy+Qbc46QRwxF1tW9wyJNOqFun2fUn41OLkw/J3R
-	DXLB6IZc/I1PEj9B/X7no9bB+IGv8G4Ntv7JPrOMNcvmdQa60XEKi8afDpaotQv6wRAO
-	Ee1w==
+	bh=p0HnVPe0cbONfg7udyp8+Mph6WYDezR5gNkUbvUlr4Q=;
+	b=nNep3xiB3ltMSVlDPh45s9SFoZZ1jcvayi3gVxpq+v6S3TMzImswbEAtILyx7IiWdl
+	z/J2CLCKYKmKAnNtOWq8XhJjHypUu+ZAF0fhroU3JuIIkEM7b4IyLh4We4UxB0XFFGPP
+	LDrwUrTlrJ2/kTpAkLBpRRzST+Z1qeDVvPAI+STPVHZ99sNp7aZsLK+2vubCPsCh8j0L
+	AzfNj8RnEqp0yQ+//+7Xjx2OrmqGNUrW877wOW8M8Cd6ezpaUSlHmgrpJKo3GDPDab4e
+	KW4tt4GKFMN37plkzBm0Ew+w1Y93IR3MTzAc96F+tl3cwmTNa/Scg1snMIq8HfOffLS+
+	g8JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=vHmS5RfVY788A79fG3zOGDhlazyW2faSiuIwVCKJXPk=;
-	b=EVXDslbCJC5/6QDcSGikelVBpaH6DjxlWVjB9TJoCXIsY+lPlquNCeKp1vjR9sgBtD
-	Ffl1YIgJm4urKvpaZzQJEGiWDkKSqFtaN4k/U/bbzBQjQcz9xH70jok5RlMo06Fmqdd8
-	E/V+EjM3jASMKYzH1BTMFajQ1O6RBp3V9KOvsykgni49JoSeAabZY5gZFYHUGIEWXHnn
-	gSN5drBomRpwWPwvYqvYZw33XWtwkaa0QI0jo2C2VlMVIspMpx94n604ozlZkvaohRbA
-	yRDfATJR9gTXWifd8JfepSNJtptd/h3aUa6+BeOOtUuyr58+h4+0skycGUyG7WbC2XHf
-	TDBA==
-X-Gm-Message-State: AOPr4FUal9lLDIy1A1h9M+dGPynfSMjYUf9Lvsx7PHnPvPCiD50j0Q8R7THtcmiwiek3OA==
-X-Received: by 10.98.88.68 with SMTP id m65mr3367939pfb.4.1460562716249;
-	Wed, 13 Apr 2016 08:51:56 -0700 (PDT)
+	bh=p0HnVPe0cbONfg7udyp8+Mph6WYDezR5gNkUbvUlr4Q=;
+	b=TeMjHZiiTpHjkE+9442W3fAWKj6Mvqw3hwlemyUbvnRY68n84VncfkstrKUWZNOoYg
+	pI/iUC0V7m+DYXV6NdHNb2i69CjQmKBgjJmcfBF62d642OWUjcLzGP22kXmhfR/kNPtF
+	AXk0P9ZD0k5UsI/oYd7BA+HJO3PIcROPFUQ0i0N2VcFnZC0faTqeN/tc87iT6dqheaYO
+	zEtUgmIefbPGfX38h3CCqpQm7JFBPsUcQ134itKfSWNzFYa16cmdKT3ezIErhfWZ+4td
+	G3q5/Rx89J+8rjL1IBReuqKiJJupstDLEsABRiY1z3cOua+PSdbB7UEqm0pVxDduEpzm
+	Cpng==
+X-Gm-Message-State: AOPr4FW14BrJosOwoHjRjk9zepYDeGu6x8WLNb2KPp2ZxIcx+ZEvE/efHIHOBlN15kUcmQ==
+X-Received: by 10.66.199.66 with SMTP id ji2mr14017095pac.34.1460563005241;
+	Wed, 13 Apr 2016 08:56:45 -0700 (PDT)
 Received: from haswell.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
 	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	d19sm51932534pfj.92.2016.04.13.08.51.54
+	q72sm51994172pfa.70.2016.04.13.08.56.44
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 13 Apr 2016 08:51:55 -0700 (PDT)
+	Wed, 13 Apr 2016 08:56:44 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Apr 2016 08:50:04 -0700
-Message-Id: <1460562604-3500-1-git-send-email-raj.khem@gmail.com>
+Date: Wed, 13 Apr 2016 08:54:14 -0700
+Message-Id: <1460562854-3755-1-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.8.0
 Cc: bruce.ashfield@windriver.com
-Subject: [PATCH] site: Cache config vars for ccache
+Subject: [PATCH] socat: Use c_ispeed and c_ospeed based upon libc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,36 +53,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Apr 2016 15:51:58 -0000
+X-List-Received-Date: Wed, 13 Apr 2016 15:56:46 -0000
 
-ccache's configure tries to do a runtime test to
-determine hw_cv_func_snprintf_c99 and hw_cv_func_vsnprintf_c99
-which wont work in OE.
-
-c99 versions of these functions are provided on all
-supported libc implementations in OE-Core
+musl calls them __c_ispeed and __c_ospeed
+and we can not use get/set APIs because the get APIs
+will return the value from iflags and not from *speed
+element from termios struct
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/site/common-linux | 4 ++++
- 1 file changed, 4 insertions(+)
+ ...001-Access-c_ispeed-and-c_ospeed-via-APIs.patch | 53 ++++++++++++++--------
+ 1 file changed, 33 insertions(+), 20 deletions(-)
 
-diff --git a/meta/site/common-linux b/meta/site/common-linux
-index 21fcac1..0a752a4 100644
---- a/meta/site/common-linux
-+++ b/meta/site/common-linux
-@@ -42,6 +42,10 @@ bash_cv_job_control_missing=${bash_cv_job_control_missing=present}
- bash_cv_sys_named_pipes=${bash_cv_sys_named_pipes=present}
- bash_cv_unusable_rtsigs=${bash_cv_unusable_rtsigs=no}
+diff --git a/meta/recipes-connectivity/socat/socat/0001-Access-c_ispeed-and-c_ospeed-via-APIs.patch b/meta/recipes-connectivity/socat/socat/0001-Access-c_ispeed-and-c_ospeed-via-APIs.patch
+index 367b48f..c0e27f3 100644
+--- a/meta/recipes-connectivity/socat/socat/0001-Access-c_ispeed-and-c_ospeed-via-APIs.patch
++++ b/meta/recipes-connectivity/socat/socat/0001-Access-c_ispeed-and-c_ospeed-via-APIs.patch
+@@ -1,39 +1,52 @@
+-From 545d3dec8c91d6074516ffcfa79323ddf9d83839 Mon Sep 17 00:00:00 2001
++From fb10ab134d630705cae0c7be42437cc289af7d32 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Tue, 15 Mar 2016 21:36:02 +0000
+-Subject: [PATCH] Access c_ispeed and c_ospeed via APIs
++Subject: [PATCH] Use __c_ispeed and __c_ospeed on musl
  
-+# ccache
-+hw_cv_func_snprintf_c99=${hw_cv_func_snprintf_c99=yes}
-+hw_cv_func_vsnprintf_c99=${hw_cv_func_vsnprintf_c99=yes}
+-Use cfsetispeed(), cfsetospeed(), cfgetispeed, and cfgetospeed()
+-instead of operating on c_ispeed and c_ospeed termios structure
+-members directly because they are not guaranteed to exist on all
+-libc implementations
++Original intention of these asserts is to find if termios structure
++is mapped correctly to locally define union, the get* APIs for
++baudrate would not do the right thing since they do not return the
++value from c_ospeed/c_ispeed but the value which is stored in iflag
++for baudrate.
 +
- # coreutils
- gl_cv_func_fstatat_zero_flag=${gl_cv_func_fstatat_zero_flag=yes}
++So we check if we are on Linux but not using glibc then we use
++__c_ispeed and __c_ospeed as defined in musl, however these are
++internal elements of structs it should not have been used this
++way.
+ 
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
+ ---
+-Upstream-Status: Submitted
++Upstream-Status: Pending
+ 
+- xioinitialize.c | 8 ++++----
+- 1 file changed, 4 insertions(+), 4 deletions(-)
++ xioinitialize.c | 7 +++++++
++ 1 file changed, 7 insertions(+)
+ 
+ diff --git a/xioinitialize.c b/xioinitialize.c
+-index 9f50155..632ca4c 100644
++index 9f50155..8fb2e4c 100644
+ --- a/xioinitialize.c
+ +++ b/xioinitialize.c
+-@@ -65,10 +65,10 @@ int xioinitialize(void) {
++@@ -65,6 +65,12 @@ int xioinitialize(void) {
+  #if HAVE_TERMIOS_ISPEED && (ISPEED_OFFSET != -1) && (OSPEED_OFFSET != -1)
+  #if defined(ISPEED_OFFSET) && (ISPEED_OFFSET != -1)
+  #if defined(OSPEED_OFFSET) && (OSPEED_OFFSET != -1)
+--      tdata.termarg.c_ispeed = 0x56789abc;
+--      tdata.termarg.c_ospeed = 0x6789abcd;
+--      assert(tdata.termarg.c_ispeed == tdata.speeds[ISPEED_OFFSET]);
+--      assert(tdata.termarg.c_ospeed == tdata.speeds[OSPEED_OFFSET]);
+-+      cfsetispeed(&tdata.termarg, 0x56789abc);
+-+      cfsetospeed(&tdata.termarg, 0x6789abcd);
+-+      assert(cfgetispeed(&tdata.termarg) == tdata.speeds[ISPEED_OFFSET]);
+-+      assert(cfgetospeed(&tdata.termarg) == tdata.speeds[OSPEED_OFFSET]);
+++#if defined(__linux__) && !defined(__GLIBC__)
+++      tdata.termarg.__c_ispeed = 0x56789abc;
+++      tdata.termarg.__c_ospeed = 0x6789abcd;
+++      assert(tdata.termarg.__c_ispeed == tdata.speeds[ISPEED_OFFSET]);
+++      assert(tdata.termarg.__c_ospeed == tdata.speeds[OSPEED_OFFSET]);
+++#else
++       tdata.termarg.c_ispeed = 0x56789abc;
++       tdata.termarg.c_ospeed = 0x6789abcd;
++       assert(tdata.termarg.c_ispeed == tdata.speeds[ISPEED_OFFSET]);
++@@ -72,6 +78,7 @@ int xioinitialize(void) {
++ #endif
+  #endif
+  #endif
+++#endif
++    }
+  #endif
++ 
+ -- 
+-1.9.1
++2.8.0
  
 -- 
-2.7.4
+2.8.0
 
 
