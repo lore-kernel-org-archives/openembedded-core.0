@@ -1,44 +1,44 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
-	[209.85.223.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 1DC456011C
+Return-Path: <ulfalizer@gmail.com>
+Received: from mail-vk0-f44.google.com (mail-vk0-f44.google.com
+	[209.85.213.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 59A07612E5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Apr 2016 09:34:36 +0000 (UTC)
-Received: by mail-io0-f173.google.com with SMTP id g185so62769366ioa.2
+	Wed, 13 Apr 2016 09:38:40 +0000 (UTC)
+Received: by mail-vk0-f44.google.com with SMTP id c4so61596990vkb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Apr 2016 02:34:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=rvkYf0zQ6S7vjpqi3bHeCyua7znHwCWMObf/+Yq1BPA=;
-	b=v/9p6PwGjidn5g6LIy05FGtQHGzVqs/FVChkZ9LimINFS+Ptyanp/BXLc4Ueve2wSA
-	mQqKLwfw3wbZ/szsJQMwynmGkhYvwbfYH4YLR8KhadGJV4XNeknLIbB/TerUbMOxHTsy
-	2sk8UI2INIMyu7U5GLMs2YymR9Igp2G3Iu65sbubiZGDOD76/DMISU8VLUCTYD6jWFTD
-	nzmi1t5xH6zntviFREcD+i0/EG5+R+Z4/7vykYMXO+HHIacjgMwWXR0SrS0FJldzEgta
-	ET1f7xoP2zLBGqfYNFI77s5HOSPe6nLB4M2mSlOnG/FZtYEBXlwog+HSedrWAjEJu2G4
-	WOnA==
+	Wed, 13 Apr 2016 02:38:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc; bh=77NB/b68QwDspw0K+oRHxx0HPHbAlX7J00X3hx2xFg8=;
+	b=Q/E1XxZCyNIuGptNGQAiraIQFKSSB8QOpsbEyVKe4kpgvEke/5IY+XnH9oeiV4CRvJ
+	0XPhLXQ7aCHPsqYe1budA7DAcG3vRXg2eMFi2Rcodvas4+KOeeqBAFLyOghJTfZ0K48E
+	ngj1tgjj1yw//5CNu+g4haRtRTExh8GgqERb6MkRs3fjLFK7NphAEIotKEfhg3wYnVqQ
+	qp0wm6NOltHOFDuiYdiEbakW92K70+DmyuO2HncXw4g5sNY6RSbz+KyXGXou8/wAgZR/
+	k7FR+52s+IxIafPXnFKaNe/boPNdU3jDKXQNFm4a3iTglkIRJ2nZM7GEE9s3PfGclMtA
+	iksQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=rvkYf0zQ6S7vjpqi3bHeCyua7znHwCWMObf/+Yq1BPA=;
-	b=kh7/0TCXGrS0dkrNls/XCAYyRjhPKYCo4QsPjnakvCUMggyp4VqhdexWjVuGtaX8Yp
-	D+9bKVhxkZgYDoD9tCpEnHzNA0gQPX8cp2yVapMuHr8lqQf+eZcrZiN0S8irIRXEMTFo
-	XQRX1+4kNK7QXF8M75n1ni0Mlryk3rZLSuJ3xKDvh0WifbMUgP3z3MjLecHJ5XiqpU9O
-	C1RXSBSYHxZul1XwMiNkOw/O+rpPt3gktpiPAC+k/ET4mPmibLhJciu1PRjS6iOiZwgy
-	5PrGuvF6WV5Q7ZcUsO5zcVf4f3x7a2JjjsOhYqBbG5jv8X1GSi8JeZ13Pcx2vfWotZNx
-	719Q==
-X-Gm-Message-State: AOPr4FWHTAlXHxpE0461SIfl86cMglUbaq2NJTwOOBWq4mFN4JjOJpXrCyK3dIZSSQaG9VrcValHYMWgK1OZgWRp
-X-Received: by 10.107.16.104 with SMTP id y101mr8228447ioi.148.1460540077643; 
-	Wed, 13 Apr 2016 02:34:37 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc;
+	bh=77NB/b68QwDspw0K+oRHxx0HPHbAlX7J00X3hx2xFg8=;
+	b=E0geaFUhlop8hCMq+KZ/dKWBNECPxvF46qjdXY4WaFTDbjx74uM5txl/2rpsH4i618
+	vWMmMxhRuAlJwphkbwSWD9OxKMB3vR9BTRxWbf+8cb7s6BD5FeL9T2BGBlZi0q9H16bl
+	Oum9iuCWMQqs/pUH6IzZEh5EJraApAklIALOqsd/rJ3lpg87ACsh/ivXU4gbtCmOi4CW
+	DDLou9H7Irc4tFzERt1ruuCLHe+6eXjzwMh7B+xQZ4p8imymcK5z6g1quGSp+Z0kgWq3
+	kQ+jXxVR3a//hEZDxsq7QkWKCPXBRcPpBAm5gtPTsp14xs4QIgbfH6JgJ8ZFSbisHQCi
+	uLvw==
+X-Gm-Message-State: AOPr4FWb1BDS/swK4YHDFPQFtdE0Lrhtzfd6p7wvqYto+uTBy7GEwPgHx+2+VT0aciJ/JIYWSOkfcQJah/+aWg==
 MIME-Version: 1.0
-Received: by 10.107.132.24 with HTTP; Wed, 13 Apr 2016 02:34:18 -0700 (PDT)
-In-Reply-To: <CAFkk2KSu80ndUE=KDJeVmU4_CLZTOpJXN7g9=-W=DEkn7Khs2g@mail.gmail.com>
+X-Received: by 10.31.149.78 with SMTP id x75mr4377937vkd.103.1460540321703;
+	Wed, 13 Apr 2016 02:38:41 -0700 (PDT)
+Received: by 10.103.102.6 with HTTP; Wed, 13 Apr 2016 02:38:41 -0700 (PDT)
+In-Reply-To: <CAJTo0LbAA06bkAEwFx9N6m15WdsjCSiaepejoB_swXo2oYNudQ@mail.gmail.com>
 References: <CAFkk2KSu80ndUE=KDJeVmU4_CLZTOpJXN7g9=-W=DEkn7Khs2g@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 13 Apr 2016 10:34:18 +0100
-Message-ID: <CAJTo0LbAA06bkAEwFx9N6m15WdsjCSiaepejoB_swXo2oYNudQ@mail.gmail.com>
-To: Ulf Magnusson <ulfalizer@gmail.com>
+	<CAJTo0LbAA06bkAEwFx9N6m15WdsjCSiaepejoB_swXo2oYNudQ@mail.gmail.com>
+Date: Wed, 13 Apr 2016 11:38:41 +0200
+Message-ID: <CAFkk2KSKY7BSWqGfXsffqUsNJvBJ8y1f2t+JS9q+e3n1f8GCuw@mail.gmail.com>
+From: Ulf Magnusson <ulfalizer@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: Build failures due to libtdb racing with libbsd
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -53,55 +53,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Apr 2016 09:34:42 -0000
-Content-Type: multipart/alternative; boundary=001a113ff020822e3a05305a7c83
-
---001a113ff020822e3a05305a7c83
+X-List-Received-Date: Wed, 13 Apr 2016 09:38:41 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 13 April 2016 at 10:07, Ulf Magnusson <ulfalizer@gmail.com> wrote:
-
-> The problem seems to be a race with building libbsd (and unlucky
-> timing in my build). Adding libbsd to DEPENDS fixes the problem.
+On Wed, Apr 13, 2016 at 11:34 AM, Burton, Ross <ross.burton@intel.com> wrote:
 >
-> For some added context, libtdb uses a nonstandard ./configure from the
-> Samba project based on a configuration utility called Waf that I'm a
-> complete noob on. Perhaps there is some way to disable libbsd support
-> instead.
+> On 13 April 2016 at 10:07, Ulf Magnusson <ulfalizer@gmail.com> wrote:
+>>
+>> The problem seems to be a race with building libbsd (and unlucky
+>> timing in my build). Adding libbsd to DEPENDS fixes the problem.
+>>
+>> For some added context, libtdb uses a nonstandard ./configure from the
+>> Samba project based on a configuration utility called Waf that I'm a
+>> complete noob on. Perhaps there is some way to disable libbsd support
+>> instead.
 >
-
-This recipe is in meta-oe so this should be on the oe-devel list, not
-oe-core
-
-And yes, it looks like tdb has a floating dependency on libbsd.  Someone
-would need to determine if it's best to depend on libbsd always, or tell
-tbd to not use libbsd even if it can find it at build time.
-
-Ross
-
---001a113ff020822e3a05305a7c83
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 13 April 2016 at 10:07, Ulf Magnusson <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:ulfalizer@gmail.com" target=3D"_blank">ulfalizer@gmail.com</a>&gt;</s=
-pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
-;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1mb" class=3D"a3s=
-" style=3D"overflow:hidden">The problem seems to be a race with building li=
-bbsd (and unlucky<br>
-timing in my build). Adding libbsd to DEPENDS fixes the problem.<br>
-<br>
-For some added context, libtdb uses a nonstandard ./configure from the<br>
-Samba project based on a configuration utility called Waf that I&#39;m a<br=
 >
-complete noob on. Perhaps there is some way to disable libbsd support<br>
-instead.</div></blockquote></div><br>This recipe is in meta-oe so this shou=
-ld be on the oe-devel list, not oe-core</div><div class=3D"gmail_extra"><br=
-></div><div class=3D"gmail_extra">And yes, it looks like tdb has a floating=
- dependency on libbsd.=C2=A0 Someone would need to determine if it&#39;s be=
-st to depend on libbsd always, or tell tbd to not use libbsd even if it can=
- find it at build time.</div><div class=3D"gmail_extra"><br></div><div clas=
-s=3D"gmail_extra">Ross</div></div>
+> This recipe is in meta-oe so this should be on the oe-devel list, not
+> oe-core
+>
+> And yes, it looks like tdb has a floating dependency on libbsd.  Someone
+> would need to determine if it's best to depend on libbsd always, or tell tbd
+> to not use libbsd even if it can find it at build time.
+>
+> Ross
 
---001a113ff020822e3a05305a7c83--
+Okay, I'll send a copy to oe-devel.
+
+Cheers,
+Ulf
+
