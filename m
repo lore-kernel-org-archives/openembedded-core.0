@@ -1,36 +1,33 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 925A27317D
+Return-Path: <maxin.john@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 77D346057A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Apr 2016 15:59:10 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u3DFxACh015504
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 13 Apr 2016 08:59:10 -0700 (PDT)
-Received: from server.local (147.11.119.99) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 13 Apr 2016 08:59:09 -0700
-To: Khem Raj <raj.khem@gmail.com>
-References: <1458077979-23303-1-git-send-email-raj.khem@gmail.com>
-	<56E91CC8.9060907@dest-unreach.org>
-	<CAMKF1sp7C3zCHQBiJ=i5YYsHcXfkBX74qYXgZxYX-tqcwqrD+A@mail.gmail.com>
-	<570D631F.5020503@windriver.com>
-	<CAMKF1srjaNz1dnZCHFkWn6=PyQ+w6Vb1FoF1rbDVCGaTCe3FrA@mail.gmail.com>
-	<CAMKF1srQ5ayOr3ha=YTTGBS-ovX8Ht41ODoNaSEHBGW9EfjFGA@mail.gmail.com>
-	<CAMKF1sqBwbkHWQBBzX8jbK0SoZtcMr6MO2ZSZ9dcMJJns6x+eQ@mail.gmail.com>
-	<CAMKF1sq1kqM7iair34+2ZoxZh24=wszYniJ4cyoBc2M9_XzEQw@mail.gmail.com>
-	<CAMKF1sou4V8jvOLKponmoR5gYsa8nEgXOa=ALF14Yyz23nrbEQ@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <570E6CCD.3090706@windriver.com>
-Date: Wed, 13 Apr 2016 11:59:09 -0400
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.7.2
+	Wed, 13 Apr 2016 16:03:17 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga104.fm.intel.com with ESMTP; 13 Apr 2016 09:03:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,480,1455004800"; d="scan'208";a="784150726"
+Received: from mbabyjoh-mobl.fi.intel.com (HELO
+	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.71])
+	by orsmga003.jf.intel.com with ESMTP; 13 Apr 2016 09:03:16 -0700
+Date: Wed, 13 Apr 2016 19:04:10 +0300
+From: "Maxin B. John" <maxin.john@intel.com>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Message-ID: <20160413160410.GA11312@mbabyjoh-desk.ger.corp.intel.com>
+References: <cover.1460467072.git.pkj@axis.com>
+	<7251ce8da0aed3f9ad921daa66186a2c2fc6a932.1460467072.git.pkj@axis.com>
+	<1460472857.9308.63.camel@linuxfoundation.org>
+	<CAP9ODKobRBigE8Wur600MDdFgL+Z-3C7noAJyWfsjTE8d18vBA@mail.gmail.com>
+	<4550e71bd1f24135a2f6978294e25f94@XBOX02.axis.com>
+	<1460545515.9308.85.camel@linuxfoundation.org>
+	<5715165f841f46d0a50fb951acfbf0ac@XBOX02.axis.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1sou4V8jvOLKponmoR5gYsa8nEgXOa=ALF14Yyz23nrbEQ@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
+In-Reply-To: <5715165f841f46d0a50fb951acfbf0ac@XBOX02.axis.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
+	"OE Core \(openembedded-core@lists.openembedded.org\)"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Access c_ispeed and c_ospeed via APIs
+Subject: Re: [PATCHv2 1/1] Revert "useradd.bbclass: remove user/group created by the package in clean* task"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,99 +40,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Apr 2016 15:59:11 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 13 Apr 2016 16:03:17 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2016-04-13 11:57 AM, Khem Raj wrote:
-> On Tue, Apr 12, 2016 at 3:33 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> I think I see the problem now. The constant should be converted to use Bnn
->> values. When calling the baudrate apis. I will send a patch for you to test
->> once I am close to computer
->
-> I have sent a potential patch.
->
-> http://lists.openembedded.org/pipermail/openembedded-core/2016-April/120229.html
->
->   It worked on musl env that I had ready here. Can you test it
-> with your env and make sure it works for you ?
+Hi Peter,
 
-Will do. Launching builds now. I'll follow up once I know one way
-or another.
+On Wed, Apr 13, 2016 at 03:14:09PM +0000, Peter Kjellerstedt wrote:
+> > -----Original Message-----
+> > From: Richard Purdie [mailto:richard.purdie@linuxfoundation.org]
+> > Sent: den 13 april 2016 13:05
+> > To: Peter Kjellerstedt; Otavio Salvador
+> > Cc: OE Core (openembedded-core@lists.openembedded.org)
+> > Subject: Re: [OE-core] [PATCHv2 1/1] Revert "useradd.bbclass: remove
+> > user/group created by the package in clean* task"
+> > 
+> > I am pretty frustrated with this thread. The reasons are perhaps not
+> > immediately obvious though.
+> > 
+> > The issue is that there are only a limited number of people who
+> > actually dive in and try and fix some of the underlying "core
+> > architecture" bugs. There is what I believe to be a pretty good patch
+> > here which does fix real world issues which have been reported into the
+> > bugzilla (its related to at least two bug reports). As such it has been
+> > seen as a bugfix. Its now clear it does have some side effects which
+> > weren't envisaged, some causing issues for a small number of meta-oe
+> > recipes, the others breaking a companies internal code.
+> > 
+> > Otavio wants it deferred to 2.2, Peter wants it abandoned entirely.
+> > 
+> > If I revert this, Peter is then happy and has zero incentive to do
+> > anything further. The pressure is still on the reopened bugs to try and
+> > fix this somehow and falls back to the usual suspects. There is a real
+> > world usability problem there.
+> 
+> Hold your horses. I definitely see the problem the change tried to 
+> address as one that needs to be fixed, and I am already looking at 
+> how to solve this properly (currently based on my second suggested 
+> solution). However, I do not know if I can fix it in time for Krogoth. 
+> Which is why I agree with Otavio that the change was introduced too 
+> late in the process, especially as it causes breakage for existing 
+> users.
 
-Bruce
+As the author of that patch, I am responsible for that regression and would 
+like to assist in fixing that particular problem. As you can see, I had no
+option to test your particular scenario as that recipe was not part of my oe-core 
+"world" build test. RP has already sent a patch to fix the "cyrus-sasl" recipe
+which had some troubles with this change.
 
->
->
->
->
->>
->> On Apr 12, 2016 6:20 PM, "Khem Raj" <raj.khem@gmail.com> wrote:
->>
->> Since you have it reproduced. Can you check which of the api call is
->> failing?
->>
->> On Apr 12, 2016 5:05 PM, "Bruce Ashfield" <bruce.ashfield@windriver.com>
->> wrote:
->>>
->>> On 2016-04-12 1:53 PM, Khem Raj wrote:
->>>>
->>>> FYI
->>>
->>>
->>> Thanks. I can also confirm that when I dropped the patch, I'm
->>> back up and running assertion free.
->>>
->>> Bruce
->>>
->>>>
->>>> ---------- Forwarded message ----------
->>>> From: Gerhard Rieger <gerhard@dest-unreach.org>
->>>> Date: Wed, Mar 16, 2016 at 4:43 AM
->>>> Subject: Re: [PATCH] Access c_ispeed and c_ospeed via APIs
->>>> To: Khem Raj <raj.khem@gmail.com>
->>>>
->>>>
->>>> Thank you, I will check this patch!
->>>> - Gerhard
->>>>
->>>>
->>>> Am 15.03.2016 um 22:39 schrieb Khem Raj:
->>>>>
->>>>> Use cfsetispeed(), cfsetospeed(), cfgetispeed, and cfgetospeed()
->>>>> instead of operating on c_ispeed and c_ospeed termios structure
->>>>> members directly because they are not guaranteed to exist on all
->>>>> libc implementations
->>>>>
->>>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>>>> ---
->>>>>    xioinitialize.c | 8 ++++----
->>>>>    1 file changed, 4 insertions(+), 4 deletions(-)
->>>>>
->>>>> diff --git a/xioinitialize.c b/xioinitialize.c
->>>>> index 9f50155..632ca4c 100644
->>>>> --- a/xioinitialize.c
->>>>> +++ b/xioinitialize.c
->>>>> @@ -65,10 +65,10 @@ int xioinitialize(void) {
->>>>>    #if HAVE_TERMIOS_ISPEED && (ISPEED_OFFSET != -1) && (OSPEED_OFFSET !=
->>>>> -1)
->>>>>    #if defined(ISPEED_OFFSET) && (ISPEED_OFFSET != -1)
->>>>>    #if defined(OSPEED_OFFSET) && (OSPEED_OFFSET != -1)
->>>>> -      tdata.termarg.c_ispeed = 0x56789abc;
->>>>> -      tdata.termarg.c_ospeed = 0x6789abcd;
->>>>> -      assert(tdata.termarg.c_ispeed == tdata.speeds[ISPEED_OFFSET]);
->>>>> -      assert(tdata.termarg.c_ospeed == tdata.speeds[OSPEED_OFFSET]);
->>>>> +      cfsetispeed(&tdata.termarg, 0x56789abc);
->>>>> +      cfsetospeed(&tdata.termarg, 0x6789abcd);
->>>>> +      assert(cfgetispeed(&tdata.termarg) ==
->>>>> tdata.speeds[ISPEED_OFFSET]);
->>>>> +      assert(cfgetospeed(&tdata.termarg) ==
->>>>> tdata.speeds[OSPEED_OFFSET]);
->>>>>    #endif
->>>>>    #endif
->>>>>    #endif
->>>>>
->>>
->>
+> > In a single isolated case, fine, we'd figure a way through this. I
+> > think I'm so frustrated as we see this all the time. Making a change to
+> > the core architecture is hard and gets ever harder, then we wonder why
+> > we don't have contributors. Part of this is having so many different
+> > workflows and corner cases.
+> > 
+> > I have pushed very hard to have more test cases, then its easier to
+> > determine if a patch causes regressions. Again though, few people are
+> > contributing to them outside the usual suspects.
+> 
+> Here I must show my lack of knowledge. How and where should I go about 
+> adding a regression test that verifies the support for that multiple 
+> recipes can add the same user/group? Since this does not test a 
+> specific recipe, but rather a part of the build framework, I do not 
+> know if, e.g., ptest is applicable (of which I have no experience 
+> either).
+
+Just want to let you know that I am interested in working together to fix this one.
+As per my understanding, you have a library and an application, which depends on that 
+library. Both these packages creates the same user. 
+
+At this point, a package manager (eg: smart) doesn't remove the users when we remove the package.
+However, I am not sure about the situation where a package manager removes the users added by a 
+package when we remove it from the target device. In that case,wouldn't the removal of application, 
+remove the user which the library depends on ?
+
+Best Regards,
+Maxin
 
 
