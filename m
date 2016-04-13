@@ -1,33 +1,26 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.analogue-micro.com (mail.analogue-micro.com
-	[217.144.149.242])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D79B6612C
+Return-Path: <maxin.john@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 95E446AC3C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Apr 2016 12:13:44 +0000 (UTC)
-Received: by mail.analogue-micro.com (Postfix, from userid 999)
-	id 04D9468A01A; Wed, 13 Apr 2016 13:13:44 +0100 (BST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	loki.analogue-micro-ltd.com
-X-Spam-Level: **
-X-Spam-Status: No, score=2.5 required=5.0 tests=ALL_TRUSTED,BAYES_50,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
-	by mail.analogue-micro.com (Postfix) with ESMTP id 8A82668A019;
-	Wed, 13 Apr 2016 13:13:43 +0100 (BST)
-Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
-	by zeus.mlbassoc.com (Postfix) with ESMTP id 321DA6740343;
-	Wed, 13 Apr 2016 14:13:43 +0200 (CEST)
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+	Wed, 13 Apr 2016 12:23:19 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga101.jf.intel.com with ESMTP; 13 Apr 2016 05:23:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,479,1455004800"; d="scan'208";a="685555773"
+Received: from mbabyjoh-mobl.fi.intel.com (HELO
+	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.71])
+	by FMSMGA003.fm.intel.com with ESMTP; 13 Apr 2016 05:23:17 -0700
+Date: Wed, 13 Apr 2016 15:24:11 +0300
+From: "Maxin B. John" <maxin.john@intel.com>
+To: Gary Thomas <gary@mlbassoc.com>
+Message-ID: <20160413122411.GA11999@mbabyjoh-desk.ger.corp.intel.com>
 References: <1460448862-16134-1-git-send-email-jussi.kukkonen@intel.com>
 	<570E2F11.4070308@mlbassoc.com>
 	<CAHiDW_GLpb20KWeHX4s6BmcbmX4tAv9ORvbBqzbfaK5CMYQ8JA@mail.gmail.com>
-From: Gary Thomas <gary@mlbassoc.com>
-Message-ID: <570E37F7.3020309@mlbassoc.com>
-Date: Wed, 13 Apr 2016 14:13:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
+	<570E37F7.3020309@mlbassoc.com>
 MIME-Version: 1.0
-In-Reply-To: <CAHiDW_GLpb20KWeHX4s6BmcbmX4tAv9ORvbBqzbfaK5CMYQ8JA@mail.gmail.com>
+In-Reply-To: <570E37F7.3020309@mlbassoc.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] matchbox-keyboard: Hide desktop launcher
@@ -43,170 +36,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Apr 2016 12:13:47 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 13 Apr 2016 12:23:20 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2016-04-13 14:08, Jussi Kukkonen wrote:
-> On 13 April 2016 at 14:35, Gary Thomas <gary@mlbassoc.com <mailto:gary@mlbassoc.com>> wrote:
->
->     On 2016-04-12 10:14, Jussi Kukkonen wrote:
->
->         Add patch that hides the keyboard desktop launcher, remove patch that
->         tries and fails to make the keyboard a single-instance application.
->
->         The desktop launcher of matchbox-keyboard is a source of far more
->         problems than solutions: As an example there's supposed to be only
->         one instance running at a time but we give the user several ways to
->         start multiple instances (and the Matchbox WM Single-Instance
->         implementation is broken by both design and implementation).
->
->         After this patch the only instance of matchbox-keyboard is the
->         daemonized one that can be shown/hidden with the panel applet (when
->         there is not hardware keyboard). If an additional matchbox-keyboard
->         needs to be started for debug reasons, it can still be done from
->         command line.
->
->         Fixes [YOCTO #3093].
->
->         Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com <mailto:jussi.kukkonen@intel.com>>
->
->
->     Sadly, with this change (and the one it tries to fix), I no longer get
->     a pop-up matchbox keyboard on my touch-only device.  It used to work
->     great - any time I had a program wanting input, the keyboard would
->     appear until I pressed enter.  Now I get nothing and the keyboard icon
->     in the toolbar is also missing, so my touch based device (no physical
->     keyboard) is useless :-(
->
->     How can I get this behaviour back?  I tried bisecting the changes to find
->     the cause of the change, but it didn't really tell me much.
->
->
-> This commit _should_ not affect the panel applet or the daemonized keyboard, it really only hides the icon from the
-> desktop launcher.
->
-> Have you checked that your /etc/formfactor/machconfig contains "HAVE_KEYBOARD=0"? This value is used by
-> /etc/matchbox/session to decide whether to load the keyboard panel or not, and by .the Xsession script to decide whether
-> to start the daemonized keyboard or not.
+Hi,
 
-Has this or any of the files it depends on (/etc/formfactor/*) changed recently?
-As I said, as recently as mid February everything worked as expected, no longer.
-If something changed that I need to track, I'm happy to adapt.
+On Wed, Apr 13, 2016 at 02:13:43PM +0200, Gary Thomas wrote:
+> On 2016-04-13 14:08, Jussi Kukkonen wrote:
+> >On 13 April 2016 at 14:35, Gary Thomas <gary@mlbassoc.com <mailto:gary@mlbassoc.com>> wrote:
 
->         ---
+<snip>
+> >
+> >Have you checked that your /etc/formfactor/machconfig contains "HAVE_KEYBOARD=0"? This value is used by
+> >/etc/matchbox/session to decide whether to load the keyboard panel or not, and by .the Xsession script to decide whether
+> >to start the daemonized keyboard or not.
+> 
+> Has this or any of the files it depends on (/etc/formfactor/*) changed recently?
+> As I said, as recently as mid February everything worked as expected, no longer.
+> If something changed that I need to track, I'm happy to adapt.
 >
->         This change would have been nice to have much before release to give
->         people time to react (in the unlikely case that someone actually has a
->         reasonable use case for the launcher). Unfortunately I only thought of
->         this solution now.
->
->         Also available in the git repository at:
->
->             git://git.yoctoproject.org/poky-contrib <http://git.yoctoproject.org/poky-contrib> jku/hide-matchbox-keyboard
->         http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/hide-matchbox-keyboard
->
->         Cheers,
->             Jussi
->
->
->            ...ktop-file-Hide-the-keyboard-from-app-list.patch | 33 ++++++++++++++++++++++
->            .../matchbox-keyboard/files/single-instance.patch  | 23 ---------------
->            .../matchbox-keyboard/matchbox-keyboard_git.bb <http://matchbox-keyboard_git.bb>     |  2 +-
->            3 files changed, 34 insertions(+), 24 deletions(-)
->            create mode 100644
->         meta/recipes-sato/matchbox-keyboard/files/0001-desktop-file-Hide-the-keyboard-from-app-list.patch
->            delete mode 100644 meta/recipes-sato/matchbox-keyboard/files/single-instance.patch
->
->         diff --git a/meta/recipes-sato/matchbox-keyboard/files/0001-desktop-file-Hide-the-keyboard-from-app-list.patch
->         b/meta/recipes-sato/matchbox-keyboard/files/0001-desktop-file-Hide-the-keyboard-from-app-list.patch
->         new file mode 100644
->         index 0000000..6b7a5cf
->         --- /dev/null
->         +++ b/meta/recipes-sato/matchbox-keyboard/files/0001-desktop-file-Hide-the-keyboard-from-app-list.patch
->         @@ -0,0 +1,33 @@
->         +From 38da4cd575edb7463cfff241afff64c2f66ea09a Mon Sep 17 00:00:00 2001
->         +From: Jussi Kukkonen <jussi.kukkonen@intel.com <mailto:jussi.kukkonen@intel.com>>
->         +Date: Tue, 12 Apr 2016 09:40:37 +0300
->         +Subject: [PATCH] desktop file: Hide the keyboard from app list
->         +
->         +matchbox-keyboard is not a normal app and there's no need to start
->         +it via the desktop app grid when using Sato desktop:
->         +* when there's no hardware keyboard, the panel applet can be used to
->         +  show/hide the daemonized matchbox-keyboard
->         +* when there is a hardware keyboard, matchbox-keyboard can still be
->         +  started for debug purposes from command line or the applet can be
->         +  enabled by editing /etc/formfactor/machconfig
->         +
->         +So hide the keyboard from the desktop app list.
->         +
->         +Upstream-Status: Inappropriate [configuration]
->         +Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com <mailto:jussi.kukkonen@intel.com>>
->         +---
->         + matchbox-keyboard.desktop | 1 +
->         + 1 file changed, 1 insertion(+)
->         +
->         +diff --git a/matchbox-keyboard.desktop b/matchbox-keyboard.desktop
->         +index c092bfe..613d349 100644
->         +--- a/matchbox-keyboard.desktop
->         ++++ b/matchbox-keyboard.desktop
->         +@@ -6,3 +6,4 @@ Type=Application
->         + Icon=matchbox-keyboard.png
->         + Categories=Panel;Utility;MB
->         + X-MB-INPUT-MECHANSIM=True
->         ++NoDisplay=true
->         +--
->         +2.1.4
->         +
->         diff --git a/meta/recipes-sato/matchbox-keyboard/files/single-instance.patch
->         b/meta/recipes-sato/matchbox-keyboard/files/single-instance.patch
->         deleted file mode 100644
->         index 18b6c41..0000000
->         --- a/meta/recipes-sato/matchbox-keyboard/files/single-instance.patch
->         +++ /dev/null
->         @@ -1,23 +0,0 @@
->         -Multiple matchbox-keyboard instances would occupy whole screen and cause X
->         -window segfault(Bug 509). Making matchbox-keyboard singleton is one work
->         -around.
->         -
->         -This patch allow only one instance of matchbox-keyboard based on some mechanism
->         -in matchbox-desktop. In future, an applet and GTK-IM modules in
->         -matchbox-keyboard can be used to automatically map/unmap the virtual keyboard
->         -on demand.
->         -
->         -Signed-off-by: Zhai Edwin <edwin.zhai@intel.com <mailto:edwin.zhai@intel.com>>
->         -
->         -Upstream-Status: Inappropriate [configuration]
->         -
->         -Index: matchbox-keyboard/matchbox-keyboard.desktop
->         -===================================================================
->         ---- matchbox-keyboard.orig/matchbox-keyboard.desktop   2010-12-22 20:41:40.000000000 +0800
->         -+++ matchbox-keyboard/matchbox-keyboard.desktop        2010-12-22 20:42:12.000000000 +0800
->         -@@ -6,3 +6,5 @@
->         - Icon=matchbox-keyboard.png
->         - Categories=Panel;Utility;MB
->         - X-MB-INPUT-MECHANSIM=True
->         -+X-MB-SingleInstance=true
->         -+StartupNotify=true
->         diff --git a/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb <http://matchbox-keyboard_git.bb>
->         b/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb <http://matchbox-keyboard_git.bb>
->         index 183cba2..eba1970 100644
->         --- a/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb <http://matchbox-keyboard_git.bb>
->         +++ b/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb <http://matchbox-keyboard_git.bb>
->         @@ -15,7 +15,7 @@ PV = "0.0+git${SRCPV}"
->            PR = "r4"
->
->            SRC_URI = "git://git.yoctoproject.org/${BPN};branch=matchbox-keyboard-0-1
->         <http://git.yoctoproject.org/$%7BBPN%7D;branch=matchbox-keyboard-0-1> \
->         -           file://single-instance.patch \
->         +           file://0001-desktop-file-Hide-the-keyboard-from-app-list.patch \
->                       file://80matchboxkeyboard.sh"
->
->            S = "${WORKDIR}/git"
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+Yes, there was a change in Keyboard related logic in formfactor with this recent commit:
+
+commit 463fd5ee26c5037b0f4ecfe4bc6ed48945b3b07e
+Author: Ross Burton <ross.burton@intel.com>
+Date:   Thu Mar 3 16:56:43 2016 +0000
+
+ formfactor: assume a keyboard is plugged in
+        
+ A sensible assumption is that BSPs have a USB keyboard and mouse connected
+ unless told otherwise, so flip the logic in the formfactor config script that
+ previously assumed that a keyboard was not connected by default.
+                       
+ [ YOCTO #9174 ]
+                                
+(From OE-Core rev: a82ce3e477a475dccea3837eabacd9e93b873ee6)
+                                       
+ Signed-off-by: Ross Burton <ross.burton@intel.com>
+ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+ <snip>
+if [ -z "$HAVE_KEYBOARD" ]; then
+ -    HAVE_KEYBOARD=0
+ +    HAVE_KEYBOARD=1
+
+
+Best Regards,
+Maxin
 
