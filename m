@@ -1,43 +1,46 @@
-Return-Path: <denis@denix.org>
-X-Greylist: delayed 3604 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 14 Apr 2016 22:27:02 UTC
-Received: from vms173011pub.verizon.net (vms173011pub.verizon.net
-	[206.46.173.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A243606BF
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
+	[209.85.213.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E3D0601F6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Apr 2016 22:27:02 +0000 (UTC)
-Received: from vz-proxy-l007.mx.aol.com ([64.236.82.157])
-	by vms173011.mailsrvcs.net
-	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul 16
-	2014)) with ESMTPA id <0O5N007LW7KYC4A0@vms173011.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Thu, 14 Apr 2016 16:26:58 -0500 (CDT)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.1 cv=J+9Xl1TS c=1 sm=1 tr=0	a=EDyElNE8DnJcdewKkuvZJw==:117
-	a=kj9zAlcOel0A:10 a=kziv93cY1bsA:10	a=0gcC27t9AAAA:8 a=QyXUC8HyAAAA:8
-	a=aiIX5UjjAAAA:8 a=xNf9USuDAAAA:8	a=yWM8z59emEYaNkDQyRQA:9
-	a=CjuIK1q_8ugA:10
-Received: by 100.15.86.14 with SMTP id 35f83772; Thu, 14 Apr 2016 21:26:58 GMT
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id BAF7E161FAE; Thu,
-	14 Apr 2016 17:26:57 -0400 (EDT)
-Date: Thu, 14 Apr 2016 17:26:57 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Message-id: <20160414212657.GG16135@denix.org>
-References: <1458850608-50481-1-git-send-email-kad@kad.name>
-	<CAJ86T=Wbu31V7DqS2jcG8Kf+Ltq0vD9TR2k-XzGu89=BaM0QTg@mail.gmail.com>
-	<CANFkWpmtVDEPH0Ou9oarxRP=YPMqPdJCAD_bKGTF+90ocCkAmw@mail.gmail.com>
-	<CAJ86T=UUaCp8FK9V+oOwg4Cj7Hu_YH27VWvmRJ0MoP03dSS7Tg@mail.gmail.com>
-	<20160410184953.GH16135@denix.org>
-	<CAJTo0LY-OG4PL20oQA_KLwR+SxwtrUQjnzsPefGDRUUKZ0TJkA@mail.gmail.com>
-	<CAP9ODKpshEqCEGhOoJfv212xOJj_zHVf1Wja-oBEZhhMc-oq_Q@mail.gmail.com>
-	<20160414201217.GE16135@denix.org>
-	<CAP9ODKpN5BYcLwvT_jqcFoG6OCsu+6AcuHcL8=a6HgrjF+_VnA@mail.gmail.com>
-MIME-version: 1.0
-In-reply-to: <CAP9ODKpN5BYcLwvT_jqcFoG6OCsu+6AcuHcL8=a6HgrjF+_VnA@mail.gmail.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] image_types: use compress framework to produce checksums for images
+	Thu, 14 Apr 2016 22:38:27 +0000 (UTC)
+Received: by mail-ig0-f173.google.com with SMTP id kb1so4643047igb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Apr 2016 15:38:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=BsUgqE+fNDMO64mS4w1HnZjSLqkFmSw9JLDv20o44AI=;
+	b=GTaiVj3duJrlfxlpK4qRFXrsmDFUUYXZPCb2meetQPsrOCZDRURCYof1sjJQkFfPOd
+	LvXDhK/yyeiPv68ur0e240h6FXmTI1oLx05pIMPL8xFOh4pw++2uMZy/LRqLpbIlji8a
+	tBj2P4XGQ6zbsNSAzNc8d9roINwqCU6QdJxb7PFjofocV9D7D9Gk4cEvp+k8b8c4c2G4
+	drduo/fzKfFx331s59Ymxx7qGq+AxSw7/UPKIo3ojvGdTwurSq2D+dvnugnEKzrekEVz
+	IDIAdzy2/+x10rn8cuu++R+QEecLNSsbq8BwHdRZRTcTdHKLATlgBKy26xF+DmmOeRsf
+	Zccw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=BsUgqE+fNDMO64mS4w1HnZjSLqkFmSw9JLDv20o44AI=;
+	b=I5QNH04TLHPt11DdLyPMvQ5MbrDPr4tp8Xgcfha25/3CDTyrS1onKEErm9J26jPhlb
+	5WvHhPeW2CWtjvu2TVgBCjMpgwvLSUAP9fkPKUZ3KD+Z229uJFslojrloNjccRDnPQYK
+	dy1ke80+bA/AyACAi0m/uBW7orzKasA9Y9+dp+Qaga+CcGJ2zQQB5Th1l9Q6ZhGpyrxf
+	gPgxNYmr2+FkQHJPzA+IUiRJdxNbHQ17//PQZ8Ix6xrQ5AzO7L1hqdXK9iVI8iPM59w4
+	BxDpsHZQJ3d6+yvxgfUFefOagxXsHc8tZzZjH6wBEVSA8j4i/doIH2pigNQv2c0vRtOx
+	XF3A==
+X-Gm-Message-State: AOPr4FWogZItHXGP+WzLjLzLxyNKGVwMGdbbV8T0Qm9kDkf1gKznxIjgMWooM4Kcgu/PHw==
+X-Received: by 10.50.132.36 with SMTP id or4mr1133710igb.23.1460673508373;
+	Thu, 14 Apr 2016 15:38:28 -0700 (PDT)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id
+	q198sm26388488iod.6.2016.04.14.15.38.26
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 14 Apr 2016 15:38:27 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 14 Apr 2016 15:38:16 -0700
+Message-Id: <1460673496-15291-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] default-providers.inc: set openssl PREFERRED_PROVIDER to openssl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,38 +53,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Apr 2016 22:27:04 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Thu, 14 Apr 2016 22:38:28 -0000
 
-On Thu, Apr 14, 2016 at 05:31:56PM -0300, Otavio Salvador wrote:
-> On Thu, Apr 14, 2016 at 5:12 PM, Denys Dmytriyenko <denis@denix.org> wrote:
-> > On Thu, Apr 14, 2016 at 04:59:53PM -0300, Otavio Salvador wrote:
-> >> On Thu, Apr 14, 2016 at 4:53 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> >> >
-> >> > On 10 April 2016 at 19:49, Denys Dmytriyenko <denis@denix.org> wrote:
-> >> >>
-> >> >> BTW, at least for md5sum (not sure about sha*), isn't the de-facto
-> >> >> standard
-> >> >> extension .md5 and not .md5sum? Can we change it?
-> >> >
-> >> >
-> >> > Picking a random upstream (https://download.gnome.org/sources/glib/2.10/)
-> >> > shows that GNOME used .md5sum until they migrated over to sha256sum, so I'm
-> >> > not sure there's a de-facto standard as two equally reasonable options.
-> >>
-> >> Debian does as well, IIRC.
-> >
-> > Debian uses .dsc files for that...
-> 
-> For .iso files, for example, no.
-> 
-> See:
-> 
-> http://cdimage.debian.org/debian-cd/current/i386/iso-cd/
+Although the oe-core openssl recipe is currently the only provider of
+openssl, make the preference for using it explicit in anticipation of
+a libressl recipe being added to meta-oe.
 
-Nope, don't see it - all I see are .iso and .sign extensions...
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/conf/distro/include/default-providers.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
+diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
+index 5801b67..d5e8e42 100644
+--- a/meta/conf/distro/include/default-providers.inc
++++ b/meta/conf/distro/include/default-providers.inc
+@@ -53,3 +53,6 @@ PREFERRED_PROVIDER_bluez-hcidump ?= "${@bb.utils.contains('DISTRO_FEATURES','blu
+ # Alternative is ltp-ddt in meta-oe: meta-oe/recipes-devtools/ltp-ddt/ltp-ddt_0.0.4.bb
+ PREFERRED_PROVIDER_ltp ?= "ltp"
+ PREFERRED_PROVIDER_getopt ?= "util-linux-getopt"
++PREFERRED_PROVIDER_openssl ?= "openssl"
++PREFERRED_PROVIDER_openssl-native ?= "openssl-native"
++PREFERRED_PROVIDER_nativesdk-openssl ?= "nativesdk-openssl"
 -- 
-Denys
+1.9.1
+
 
