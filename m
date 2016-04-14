@@ -1,93 +1,53 @@
-Return-Path: <zhenhua.luo@nxp.com>
-Received: from na01-by2-obe.outbound.protection.outlook.com
-	(mail-by2on0075.outbound.protection.outlook.com [207.46.100.75])
-	by mail.openembedded.org (Postfix) with ESMTP id 4AB6A6FF5B
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 8554F73166
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Apr 2016 11:01:13 +0000 (UTC)
-Received: from BLUPR0301CA0001.namprd03.prod.outlook.com (10.162.113.139) by
-	BN1PR0301MB0705.namprd03.prod.outlook.com (10.160.78.12) with Microsoft
-	SMTP Server (TLS) id 15.1.453.26; Thu, 14 Apr 2016 09:26:49 +0000
-Received: from BY2FFO11FD016.protection.gbl (2a01:111:f400:7c0c::128) by
-	BLUPR0301CA0001.outlook.office365.com (2a01:111:e400:5259::11) with
-	Microsoft SMTP Server (TLS) id 15.1.466.19 via Frontend Transport;
-	Thu, 14 Apr 2016 09:26:49 +0000
-Authentication-Results: spf=fail (sender IP is 192.88.168.50)
-	smtp.mailfrom=nxp.com; nxp.com; dkim=none (message not signed)
-	header.d=none;nxp.com; dmarc=none action=none header.from=nxp.com;
-Received-SPF: Fail (protection.outlook.com: domain of nxp.com does not
-	designate 192.88.168.50 as permitted sender)
-	receiver=protection.outlook.com; 
-	client-ip=192.88.168.50; helo=tx30smr01.am.freescale.net;
-Received: from tx30smr01.am.freescale.net (192.88.168.50) by
-	BY2FFO11FD016.mail.protection.outlook.com (10.1.14.148) with Microsoft
-	SMTP Server (TLS) id 15.1.453.6 via Frontend Transport;
-	Thu, 14 Apr 2016 09:26:48 +0000
-Received: from sweet.ap.freescale.net (sweet.ap.freescale.net [10.193.20.55])
-	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	u3E9QjnW006750; Thu, 14 Apr 2016 02:26:47 -0700
-From: Zhenhua Luo <zhenhua.luo@nxp.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 14 Apr 2016 17:26:44 +0800
-Message-ID: <1460626004-27458-1-git-send-email-zhenhua.luo@nxp.com>
-X-Mailer: git-send-email 2.4.11
-X-EOPAttributedMessage: 0
-X-Matching-Connectors: 131050996088122419;
-	(91ab9b29-cfa4-454e-5278-08d120cd25b8); ()
-X-Forefront-Antispam-Report: CIP:192.88.168.50; IPV:NLI; CTRY:US; EFV:NLI;
-	SFV:NSPM;
-	SFS:(10009020)(6009001)(2980300002)(1110001)(1109001)(339900001)(189002)(199003)(2906002)(36756003)(5003940100001)(50986999)(1096002)(1220700001)(11100500001)(92566002)(189998001)(50466002)(50226001)(110136002)(86362001)(105606002)(85426001)(77096005)(5008740100001)(19580405001)(33646002)(586003)(47776003)(19580395003)(106466001)(229853001)(2351001)(48376002)(104016004)(4326007)(6806005)(87936001)(81166005)(7059030);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BN1PR0301MB0705;
-	H:tx30smr01.am.freescale.net; FPR:; SPF:Fail; MLV:sfv; MX:1; A:1;
-	LANG:en; 
-X-Microsoft-Exchange-Diagnostics: 1; BY2FFO11FD016;
-	1:zXEtEqvcPpQ6SA8xHtC8xzXbsEeHHogchGOuG8JCrUBf33oEqYDIBIDUc+PZdaBXf/2ovQdC4yWzpmRkngRv5n3Vye+YecdznsGktAWynWnAafAG2AePQCwM2qlAmExlMuMRRCMzO1jtwdjbHySM6ItPd9+BI2kNBY7AQmkq+e9IUHIdpNFQLjdI2aspTC7LqaL+iJ5k2ZJED16Vypf9iZhVK+GlSnmVxUlASscX9fE0Ir9X0CQIy8xQOIkfCiC2fc2Uwkfn5PX1ICYJm/iE614AiT/JY2V8hLDzDXaefxjX6XpG7a/SNQ/pUuQYFwJSGreJ+oL6DKOmuev9MXRTmpNWgudRRmUvwBZW5ghvmDSrT+6TOgtGG0VycZiCzmKDcOkUyihfY5MIBscQ6dXYd2y/GKYagB+5RZMFHXfsbo/gQbs9xQZ9eCV7jsiqq5yPNVGiz3NyaNo3W/w8+Qv5EYmrcqnB8BqEwVefwsBg4ALBn3KTblclFJ/EynycZE0iPWKN84vUMPOoJY8EOZjag7en01LbncWScw6X9sp+M6JFT0kX76LB12WOR1767CDJAWM91YS5kLoeyVQFftRp3ZoOd1HwcY1RTt++ti8bIqM7M7t8Mgax4AKqjQt3ExobaT6gcFYd63KbIPNC+K1c9IxuYmSFxqSKV7OsVMg1q+XHKWxmQj8u3JD/MlgOtH13
-MIME-Version: 1.0
-X-MS-Office365-Filtering-Correlation-Id: 3909d3a7-5ce2-4fc6-2c33-08d36446e7c2
-X-Microsoft-Exchange-Diagnostics: 1; BN1PR0301MB0705;
-	2:a3+OEzvX2+rkSVBwoNO3JlwPdnzdZIp3PXnibNsgGBhPw9CIKuu5AvDD0ASYzSriUYRRgmzgQo8BRyebARvrIKJJf7mh9yfRWXDhhOocYywdQGHdH0g2IzPXhRSC6DFvsFVHTP9XxuozV8Pyo+P1IvobLAzaQjy8GuX6jm0ll8t9aSKk2MyWNQqZVD1uwJj2;
-	3:0VUjwVf6Ec7Ppk6yJY7iSxawA+D+1ZY047yuxEg/7Qq2WlJXik7/K9jHCyHgCNM0qGKwLHgyk+/LucuuLpk5F2twsVF+uuaWbXVpyr9q9VXCSBbaKs4quIVt7axvqBT6rygcw5YjPzby0NPhxdqG9NBINLulKsvAXeajPerxBqw2gIfl6D1W6bQNBfTYXWlkKYk0ESDc01upv5bDUot2ENJdpbb9oycB7pmc1AZROx0=;
-	25:LHoISAT0RcfKDjCfPfw0/hrVEyaKJfeoMLKEr7miXXrPfLJL42R8203CW0lqIJJvJW/+p4Mgasm5OL5jk550dMFsdT4BeyEI934HW5gB0KEX9wjq5ZDqgC62g7P8GlO+Q7heOjds1jrGKhEdgdzlr+MIAhRD7UmXvJTBPH+JcicakOEE9z+AaHSbVmtQfpySxm0DPAUHFmdUHqXaCnO7tIOZqyIlIDMZI1PXreyYNG0ow9SROUEl2owcPOgJsL3z86xJItuOiTY53ZBWw+U2swfeEQjXkbZ3YEDVXDKBVAMM8KQ735GFNMo3EBDV5/9utcMGHUAPpBb64VpO/kcGHA==
-X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:BN1PR0301MB0705;
-X-Microsoft-Antispam-PRVS: <BN1PR0301MB07056605813C7F4A83F3FED1EE970@BN1PR0301MB0705.namprd03.prod.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:;
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(601004)(2401047)(5005006)(13017025)(13018025)(13024025)(13015025)(8121501046)(13023025)(10201501046)(3002001)(6055026);
-	SRVR:BN1PR0301MB0705; BCL:0; PCL:0; RULEID:(400006);
-	SRVR:BN1PR0301MB0705; 
-X-Microsoft-Exchange-Diagnostics: 1; BN1PR0301MB0705;
-	4:Dgit6/hh+0isIpzUMhj+te5heTk0ucg8tSZrVvNBqbRLW0RzZLhmLhYUW5vBVFmnXL3i1x2njTSq5KDMZngnGGtG3JJVregLI/Aop7LZjxlxHI6T+n6VHHgg/7P+GNMXWd9+luqDe1klLKqMlvEcr73Hc54uElNKjE7cozNMEVVhmTZIEyWO32iaI2kUHSfttVhnj+AJehNnkfLbuIjtW9H7dwWQjqZF/NuC2DPkY2+VCkXamVEqN44xxqiMTPEOMrM30EG1Ouc/6V6hWu1YMXysP3XIqKYUmGYZrElP/hTAy6fs3QIWrar6JGRrAJfR1QmmlGafUMXx5VbMO/Zl7skVBb2HJ+raPXczT5sQsJCOT36uRxoYOlhhTa9rvMvE8HH9ABUfoXUwcSKUWrSNS0LSORurtW64F9uS0T0yUzIAChL481NFjWTRiUapz72vh7moCUhqTlPubtkLdrwqZPm5r91HroQ8uUWwduTKpw8=
-X-Forefront-PRVS: 0912297777
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; BN1PR0301MB0705;
-	23:RYh7fTx9S0lPJg85V1u5kuk+RhEH1x0ml3cOin/?=
-	=?us-ascii?Q?huTgnkqvJ8siHg4gDlY9n+FcDARcZSgE3qfbCPE4rzBE2I9WhSnIRrn7OpTz?=
-	=?us-ascii?Q?LLkZktLKFT1pz0ioeCXjg0WORkM70xdGFqs7GpZDDNuY7bmxDknmVCpXvGVh?=
-	=?us-ascii?Q?5SXxdNu40+Po9CbZ7PiIo2UzloKILuD1rM1AWAKwY4kofrU5ieWMEcYvRWGB?=
-	=?us-ascii?Q?99zgGUIheoqpP91/5ipsWEP9Vv8kN2HkeWceS8lkZTFDM6byYTzUbXdVSCQb?=
-	=?us-ascii?Q?CprE219A92CmotUHPSGAG+S+3eCz+mJFi5sAHxkNPen3kp2tc80OcdrvHECa?=
-	=?us-ascii?Q?rzwfq6sKoHKLw1deQ1Bzh+QfDW81g3gB6VqDsppnq2GE0ekz/gZ46f8tj/x7?=
-	=?us-ascii?Q?LTiWmBO8F2ZfT5nCtO5Nva9m3L1BZRK00cFlLoKdYv6MQC+HOAIgfUN0eZ2w?=
-	=?us-ascii?Q?sirDM9RfbCodByXcHw2vImeg0ZEj7sQcZK5Gn7FhE+5+V9yk+eXlAMbMIeQe?=
-	=?us-ascii?Q?oToEg4YNBD+C3Ekw6w/n9XyIuy0GggpyzJ93h6H6C/mtAmvLsFrXFVbJJ59o?=
-	=?us-ascii?Q?pbBrrITi0iGzls/xkjKLGhIaCVdRNoz0YyEKRyqhcbjK2sE+2MHcnxetaGl8?=
-	=?us-ascii?Q?aq7JnMnq7FpSo/BjXp8hksgIgTmC3Nm3ZP/q939BUpdt2gQKFQXNWongX2m6?=
-	=?us-ascii?Q?eUT3C9NIaMlnM65TWSf0KCV22aUYkjCXz43nKGlcEFTPwO6a12LnTbWxLRFJ?=
-	=?us-ascii?Q?mw+RggqT2sp1p4SCFmoT/ubKnNMfToAbotpL+D9sb1Mth5spDZVK7k1aru0R?=
-	=?us-ascii?Q?mkw5SKYjTqBU1JXU8e1BuQEEx1tZRMNQEhd6twwNg9TYBKCy24GS/nJ/ocwU?=
-	=?us-ascii?Q?3fqm8GC0kXwYKEHBoyhtwrEZBM1P3hQW2hGOfyGDrdthmcnuG6ktGcTMlSYC?=
-	=?us-ascii?Q?N5s/ZOAgH8t9Dmvs5Hw1vdVq9HHplPtrkWVHw1a4S+kbjMRII+i0r7bnO2pR?=
-	=?us-ascii?Q?Sg5zqW6iLd0+xF3/44V4HgKrn?=
-X-Microsoft-Exchange-Diagnostics: 1; BN1PR0301MB0705;
-	5:5Q8cdS6Ey0GMCRbC7pKEnVQ0wCnfKIlnaI0QiU1zxUF9nNOuCfk6tDtW3b48Y5z53Y37lyvaKS6H/BA1Y571tXlFOCSLn4z8wdGr9s3iLr0kF5t/srMfXxk/uqvHF/qLZD8gxmdYVujU/AATUSYaVJf+GK3g97/uFAhopYCnhlw=;
-	24:iDQzGZGN1JH0TL6lITO1xyccHcqJ2hJ4Q1hR4vCd55ZZ1aBfLrNM4XUs0W2zklbhJ+CT2v/1vfh1FOGoZIOuPqYmyc5imQeDS0+qzRoKjTM=
-SpamDiagnosticOutput: 1:23
-SpamDiagnosticMetadata: NSPM
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2016 09:26:48.6250 (UTC)
-X-MS-Exchange-CrossTenant-Id: 5afe0b00-7697-4969-b663-5eab37d5f47e
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=5afe0b00-7697-4969-b663-5eab37d5f47e;
-	Ip=[192.88.168.50]; Helo=[tx30smr01.am.freescale.net]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN1PR0301MB0705
-Subject: [master/krogoth][oe-core PATCH] meta/classes/qemu.bbclass: set -cpu of ppce5500/ppce6500 to e500mc
+	Thu, 14 Apr 2016 11:36:41 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id EC60D2E08D
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Apr 2016 13:36:41 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id GvPuEbugiAkB
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Apr 2016 13:36:40 +0200 (CEST)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bes.se.axis.com (Postfix) with ESMTP id BE9CD2E0FD
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Apr 2016 13:36:40 +0200 (CEST)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id A8F70103B
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Apr 2016 13:36:40 +0200 (CEST)
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by boulder.se.axis.com (Postfix) with ESMTP id 9DA2A14A9
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Apr 2016 13:36:40 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by thoth.se.axis.com (Postfix) with ESMTP id 9BEFEFC8
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Apr 2016 13:36:40 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u3EBaean019350
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Apr 2016 13:36:40 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u3EBae3b019349
+	for openembedded-core@lists.openembedded.org;
+	Thu, 14 Apr 2016 13:36:40 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 14 Apr 2016 13:36:39 +0200
+Message-Id: <8ec5bf2cd65cc748fc508a4e6cac72593cfa8e77.1460633745.git.pkj@axis.com>
+X-Mailer: git-send-email 2.1.0
+In-Reply-To: <cover.1460633745.git.pkj@axis.com>
+References: <cover.1460633745.git.pkj@axis.com>
+In-Reply-To: <cover.1460633745.git.pkj@axis.com>
+References: <cover.1460633745.git.pkj@axis.com>
+Subject: [PATCH 1/1] shadow: Disable syslog for more commands
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -100,39 +60,213 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Apr 2016 11:01:15 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 14 Apr 2016 11:36:42 -0000
 
-The e5500 and e6500 cpu types are not supported by native qemu, set the value
-of -cpu to e500mc. Without this change, build will fail for packages which use
-qemuwrapper in compile phase due to the following error.
-| Unable to find CPU definition
+When building shadow-native, syslog was disabled for useradd and
+groupadd. This disables it also for groupdel, groupmems, groupmod,
+userdel and usermod (i.e., the use of syslog is now disabled for all
+commands supported by useradd_base.bbclass).
 
-e.g. gobject-introspection
-
-Signed-off-by: Zhenhua Luo <zhenhua.luo@nxp.com>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/classes/qemu.bbclass | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ .../0001-Disable-use-of-syslog-for-sysroot.patch   | 124 +++++++++++++++++++++
+ .../shadow/files/disable-syslog.patch              |  34 ------
+ meta/recipes-extended/shadow/shadow.inc            |   4 +-
+ 3 files changed, 126 insertions(+), 36 deletions(-)
+ create mode 100644 meta/recipes-extended/shadow/files/0001-Disable-use-of-syslog-for-sysroot.patch
+ delete mode 100644 meta/recipes-extended/shadow/files/disable-syslog.patch
 
-diff --git a/meta/classes/qemu.bbclass b/meta/classes/qemu.bbclass
-index f3d3be8..75739db 100644
---- a/meta/classes/qemu.bbclass
-+++ b/meta/classes/qemu.bbclass
-@@ -52,8 +52,8 @@ QEMU_OPTIONS[vardeps] += "QEMU_EXTRAOPTIONS_${PACKAGE_ARCH}"
+diff --git a/meta/recipes-extended/shadow/files/0001-Disable-use-of-syslog-for-sysroot.patch b/meta/recipes-extended/shadow/files/0001-Disable-use-of-syslog-for-sysroot.patch
+new file mode 100644
+index 0000000..a6f604b
+--- /dev/null
++++ b/meta/recipes-extended/shadow/files/0001-Disable-use-of-syslog-for-sysroot.patch
+@@ -0,0 +1,124 @@
++From 8cf3454d567f77233023be49a39a33e9f0836f89 Mon Sep 17 00:00:00 2001
++From: Scott Garman <scott.a.garman@intel.com>
++Date: Thu, 14 Apr 2016 12:28:57 +0200
++Subject: [PATCH] Disable use of syslog for sysroot
++
++Disable use of syslog to prevent sysroot user and group additions from
++writing entries to the host's syslog. This patch should only be used
++with the shadow-native recipe.
++
++Upstream-Status: Inappropriate [disable feature]
++
++Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
++---
++ src/groupadd.c  | 3 +++
++ src/groupdel.c  | 3 +++
++ src/groupmems.c | 3 +++
++ src/groupmod.c  | 3 +++
++ src/useradd.c   | 3 +++
++ src/userdel.c   | 3 +++
++ src/usermod.c   | 3 +++
++ 7 files changed, 21 insertions(+)
++
++diff --git a/src/groupadd.c b/src/groupadd.c
++index 39b4ec0..f716f57 100644
++--- a/src/groupadd.c
+++++ b/src/groupadd.c
++@@ -34,6 +34,9 @@
++ 
++ #ident "$Id$"
++ 
+++/* Disable use of syslog since we're running this command against a sysroot */
+++#undef USE_SYSLOG
+++
++ #include <ctype.h>
++ #include <fcntl.h>
++ #include <getopt.h>
++diff --git a/src/groupdel.c b/src/groupdel.c
++index da99347..46a679c 100644
++--- a/src/groupdel.c
+++++ b/src/groupdel.c
++@@ -34,6 +34,9 @@
++ 
++ #ident "$Id$"
++ 
+++/* Disable use of syslog since we're running this command against a sysroot */
+++#undef USE_SYSLOG
+++
++ #include <ctype.h>
++ #include <fcntl.h>
++ #include <grp.h>
++diff --git a/src/groupmems.c b/src/groupmems.c
++index e4f107f..95cb073 100644
++--- a/src/groupmems.c
+++++ b/src/groupmems.c
++@@ -32,6 +32,9 @@
++ 
++ #include <config.h>
++ 
+++/* Disable use of syslog since we're running this command against a sysroot */
+++#undef USE_SYSLOG
+++
++ #include <fcntl.h>
++ #include <getopt.h>
++ #include <grp.h>
++diff --git a/src/groupmod.c b/src/groupmod.c
++index d9d3807..6229737 100644
++--- a/src/groupmod.c
+++++ b/src/groupmod.c
++@@ -34,6 +34,9 @@
++ 
++ #ident "$Id$"
++ 
+++/* Disable use of syslog since we're running this command against a sysroot */
+++#undef USE_SYSLOG
+++
++ #include <ctype.h>
++ #include <fcntl.h>
++ #include <getopt.h>
++diff --git a/src/useradd.c b/src/useradd.c
++index e1ebf50..25679d8 100644
++--- a/src/useradd.c
+++++ b/src/useradd.c
++@@ -34,6 +34,9 @@
++ 
++ #ident "$Id$"
++ 
+++/* Disable use of syslog since we're running this command against a sysroot */
+++#undef USE_SYSLOG
+++
++ #include <assert.h>
++ #include <ctype.h>
++ #include <errno.h>
++diff --git a/src/userdel.c b/src/userdel.c
++index 19b12bc..a083929 100644
++--- a/src/userdel.c
+++++ b/src/userdel.c
++@@ -34,6 +34,9 @@
++ 
++ #ident "$Id$"
++ 
+++/* Disable use of syslog since we're running this command against a sysroot */
+++#undef USE_SYSLOG
+++
++ #include <errno.h>
++ #include <fcntl.h>
++ #include <getopt.h>
++diff --git a/src/usermod.c b/src/usermod.c
++index 685b50a..28e5cfc 100644
++--- a/src/usermod.c
+++++ b/src/usermod.c
++@@ -34,6 +34,9 @@
++ 
++ #ident "$Id$"
++ 
+++/* Disable use of syslog since we're running this command against a sysroot */
+++#undef USE_SYSLOG
+++
++ #include <ctype.h>
++ #include <errno.h>
++ #include <fcntl.h>
++-- 
++2.1.0
++
+diff --git a/meta/recipes-extended/shadow/files/disable-syslog.patch b/meta/recipes-extended/shadow/files/disable-syslog.patch
+deleted file mode 100644
+index 1943fd6..0000000
+--- a/meta/recipes-extended/shadow/files/disable-syslog.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-Disable use of syslog to prevent sysroot user and group additions from
+-writing entries to the host's syslog. This patch should only be used
+-with the shadow-native recipe.
+-
+-Upstream-Status: Inappropriate [disable feature]
+-
+-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+-
+-diff -urN shadow-4.1.4.3.orig//src/groupadd.c shadow-4.1.4.3/src/groupadd.c
+---- shadow-4.1.4.3.orig//src/groupadd.c	2011-02-13 09:58:16.000000000 -0800
+-+++ shadow-4.1.4.3/src/groupadd.c	2012-04-05 10:05:59.440001758 -0700
+-@@ -34,6 +34,9 @@
+- 
+- #ident "$Id: groupadd.c 3015 2009-06-05 22:16:56Z nekral-guest $"
+- 
+-+/* Disable use of syslog since we're running this command against a sysroot */
+-+#undef USE_SYSLOG
+-+
+- #include <ctype.h>
+- #include <fcntl.h>
+- #include <getopt.h>
+-diff -urN shadow-4.1.4.3.orig//src/useradd.c shadow-4.1.4.3/src/useradd.c
+---- shadow-4.1.4.3.orig//src/useradd.c	2011-02-13 09:58:16.000000000 -0800
+-+++ shadow-4.1.4.3/src/useradd.c	2012-04-05 10:06:25.076001315 -0700
+-@@ -34,6 +34,9 @@
+- 
+- #ident "$Id: useradd.c 3015 2009-06-05 22:16:56Z nekral-guest $"
+- 
+-+/* Disable use of syslog since we're running this command against a sysroot */
+-+#undef USE_SYSLOG
+-+
+- #include <assert.h>
+- #include <ctype.h>
+- #include <errno.h>
+diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
+index 4313ffe..d024b01 100644
+--- a/meta/recipes-extended/shadow/shadow.inc
++++ b/meta/recipes-extended/shadow/shadow.inc
+@@ -25,13 +25,13 @@ SRC_URI_append_class-target = " \
+            "
  
- QEMU_EXTRAOPTIONS_ppce500v2 = " -cpu e500v2"
- QEMU_EXTRAOPTIONS_ppce500mc = " -cpu e500mc"
--QEMU_EXTRAOPTIONS_ppce5500 = " -cpu e5500"
--QEMU_EXTRAOPTIONS_ppc64e5500 = " -cpu e5500"
--QEMU_EXTRAOPTIONS_ppce6500 = " -cpu e6500"
--QEMU_EXTRAOPTIONS_ppc64e6500 = " -cpu e6500"
-+QEMU_EXTRAOPTIONS_ppce5500 = " -cpu e500mc"
-+QEMU_EXTRAOPTIONS_ppc64e5500 = " -cpu e500mc"
-+QEMU_EXTRAOPTIONS_ppce6500 = " -cpu e500mc"
-+QEMU_EXTRAOPTIONS_ppc64e6500 = " -cpu e500mc"
- QEMU_EXTRAOPTIONS_ppc7400 = " -cpu 7400"
+ SRC_URI_append_class-native = " \
+-           file://disable-syslog.patch \
++           file://0001-Disable-use-of-syslog-for-sysroot.patch \
+            file://allow-for-setting-password-in-clear-text.patch \
+            file://commonio.c-fix-unexpected-open-failure-in-chroot-env.patch \
+            file://0001-useradd.c-create-parent-directories-when-necessary.patch \
+            "
+ SRC_URI_append_class-nativesdk = " \
+-           file://disable-syslog.patch \
++           file://0001-Disable-use-of-syslog-for-sysroot.patch \
+            "
+ 
+ SRC_URI[md5sum] = "2bfafe7d4962682d31b5eba65dba4fc8"
 -- 
-2.4.11
+2.1.0
 
 
