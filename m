@@ -1,47 +1,46 @@
-Return-Path: <fabio.berton@ossystems.com.br>
-Received: from mail-qg0-f67.google.com (mail-qg0-f67.google.com
-	[209.85.192.67])
-	by mail.openembedded.org (Postfix) with ESMTP id B119F60111
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id E76B46FFC8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Apr 2016 12:51:33 +0000 (UTC)
-Received: by mail-qg0-f67.google.com with SMTP id j35so7340084qge.1
+	Thu, 14 Apr 2016 13:31:39 +0000 (UTC)
+Received: by mail-wm0-f50.google.com with SMTP id n3so126331699wmn.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Apr 2016 05:51:34 -0700 (PDT)
+	Thu, 14 Apr 2016 06:31:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:organization;
-	bh=R318Zm3hk7HKqYAfcmCRb/HX0p3X84bjc3H8lADK6vk=;
-	b=uW5bTSzGJNUtY+7ngwFml8t4JVMJQbg0NtEEKhh9EvrWtoFFrF6+XniFjCOyuRIrty
-	+/VPH9IVHIRcgAfNkAhX8wO2UDgev9aLp/n8ov6NfLRbA0ZUIkyrfgpSN4l0eZHI5R3S
-	6Swm9uyWKQk+UyZK7R8o7NSurAAMmvWecVVhiMTvCgdWBnmIVlgSaBrEbLM7raGhrVVU
-	WJUpMV4zoVWIkCOq9M3MnxybiBwa/je9NuPorxHgAAbJVyaEaI8uzdkbgYlRMFfDu8NV
-	HbGURRYECdEnFZzllUBqnIskKnv7zBlic14F3xqUzy0ZU8Oa/wGzOuBNab938lfE1y5T
-	fiwg==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=wBP4LaUzY9NpwludbEksBBBNwmWTVT7sjChQw+PpfvU=;
+	b=qxZQgO2KZiGzKgWZb1IyZSCoaih9skpm53EThrr6ZWEIVaA6K5Xh8Bby7FNFSLaZ9b
+	HS4Jo95cqb6ArY6PjhAI6FE5PhmtCT7kBOYZzPGj9z1bu4xY7xIzTp827q94D5iEbygZ
+	9rgUESbLwp0u3udWjblw3N5APqsVXpPfzlEAflUpUj+3lU9+K8ohmqAbIrb9NDJf+wl/
+	ysCWK7mWaUMdCdWbNuE3uK454DGHn2z9j/dxciZ22vficllugM7Ilxt+608hE0J67pEu
+	bUy20w9iYXDt6HEAb0E1439gLnNeEw1Kyn5pocyTfLPsqwq+R30lYRvn1+cDBwZdUqEK
+	pVog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=R318Zm3hk7HKqYAfcmCRb/HX0p3X84bjc3H8lADK6vk=;
-	b=HFJwI2VtLb8HSF6opF9vvw/Y0hI6EaGHNs80j/lAR6WNHLs4UvkHV9qYCvWJR+W5s5
-	eNdGOQADSmY+hmbVu0qQP2flGhzGle60/5d3ggyUtzY17RfXC0qVpZLlTZW5wggQh5vu
-	JD81OUtp4kSb/8SFcJtzNe96LxBdSWWVpzBLM1xD5qHr3kiEjPJfMcVrR+WfPUxobS6X
-	upam/LUsvDn2TJFroWuWFyKReEQm2P9ijQ+tBgqsDFyyyg80CYeVyt9tc2dLLR43nXIL
-	1jBJ8FdRvbfR9USqG1f6g2FOmSJMMZZaoMDOwvyEJv0c3vaFEpnGJgoBlBNzNtu2UBni
-	ZL3Q==
-X-Gm-Message-State: AOPr4FW6Ts3PQniOb+MxQOa7MzvZqWjoM73dcGeIMdvgPo+9j0q8ifMcks3Ji1YuOw81pg==
-X-Received: by 10.140.93.9 with SMTP id c9mr17602315qge.74.1460638293851;
-	Thu, 14 Apr 2016 05:51:33 -0700 (PDT)
-Received: from monster.lab.ossystems.com.br ([187.23.154.250])
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=wBP4LaUzY9NpwludbEksBBBNwmWTVT7sjChQw+PpfvU=;
+	b=XiNkeke7Q6S67Wrl/JSwwW8VbkBKb91RPcPAW352Jt0u7UDKjfyhKDh+x5bzERtEQ2
+	u1N0xuRwFrEHKnTHumg2trR5C1nHZ95QcA3Fc44p/JQUHifGKZh/IC3m2zcWQQvDpDsO
+	gRUPs7FJ7A+XV4r3gAKXq8AzDABAQrDYO44sArshpXyVqPp0o+gcx2HYMyamDJf1UXye
+	Jd3Yn4YQxoPFopGgjukIv/053WUULUr2BkQzR5Ty4oq6ggC9UFK+UV7VINtceIDR/7i+
+	xOFIluAzHJG76oq3KWUL/q9qcH4w/5YpQ0kSIa4rrFRfQNvlEEPtOcCFFK7sMEFThLAr
+	4DBw==
+X-Gm-Message-State: AD7BkJL3pQ4pjqqUHKf6ASEpnn+YXjUAjlp0cuckoaB0ILDanwrzzFStYp6hCu84ayIHBd++
+X-Received: by 10.28.27.87 with SMTP id b84mr38357927wmb.7.1460640699446;
+	Thu, 14 Apr 2016 06:31:39 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
 	by smtp.gmail.com with ESMTPSA id
-	t32sm9171062qgd.43.2016.04.14.05.51.31
+	i206sm33380957wmf.1.2016.04.14.06.31.38
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 14 Apr 2016 05:51:32 -0700 (PDT)
-From: Fabio Berton <fabio.berton@ossystems.com.br>
+	Thu, 14 Apr 2016 06:31:38 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Apr 2016 09:51:06 -0300
-Message-Id: <1460638266-19801-1-git-send-email-fabio.berton@ossystems.com.br>
-X-Mailer: git-send-email 2.1.4
-Organization: O.S. Systems Software LTDA.
-Subject: [PATCH] dhcp: Enable update-rc.d service
+Date: Thu, 14 Apr 2016 14:31:35 +0100
+Message-Id: <1460640696-16164-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.0.rc3
+Subject: [PATCH 1/2] buildhistory: don't alter SDK creation stamps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,42 +53,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Apr 2016 12:51:34 -0000
+X-List-Received-Date: Thu, 14 Apr 2016 13:31:40 -0000
 
-do_install_append function installs init scripts but to enable this
-service we need to inherit update-rc.d class and set INITSCRIPT name
-and params.
+This class adds functions to the SDK creation hooks, so ensure that they're
+ignored in task stamps.
 
-Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-connectivity/dhcp/dhcp.inc | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ meta/classes/buildhistory.bbclass | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-connectivity/dhcp/dhcp.inc b/meta/recipes-connectivity/dhcp/dhcp.inc
-index 5703f1e..5e396f1 100644
---- a/meta/recipes-connectivity/dhcp/dhcp.inc
-+++ b/meta/recipes-connectivity/dhcp/dhcp.inc
-@@ -24,7 +24,7 @@ SRC_URI = "ftp://ftp.isc.org/isc/dhcp/${PV}/dhcp-${PV}.tar.gz \
- UPSTREAM_CHECK_URI = "ftp://ftp.isc.org/isc/dhcp/"
- UPSTREAM_CHECK_REGEX = "(?P<pver>\d+\.\d+\.(\d+?))/"
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index 0fa9b16..581d532 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -582,12 +582,16 @@ ROOTFS_POSTUNINSTALL_COMMAND += " buildhistory_list_installed_image ;\
+ IMAGE_POSTPROCESS_COMMAND += " buildhistory_get_imageinfo ; "
  
--inherit autotools systemd useradd
-+inherit autotools systemd useradd update-rc.d
- 
- USERADD_PACKAGES = "${PN}-server"
- USERADD_PARAM_${PN}-server = "--system --no-create-home --home-dir /var/run/${PN} --shell /bin/false --user-group ${PN}"
-@@ -36,6 +36,10 @@ SYSTEMD_AUTO_ENABLE_${PN}-server = "disable"
- SYSTEMD_SERVICE_${PN}-relay = "dhcrelay.service"
- SYSTEMD_AUTO_ENABLE_${PN}-relay = "disable"
- 
-+INITSCRIPT_PACKAGES = "dhcp-server"
-+INITSCRIPT_NAME_dhcp-server = "dhcp-server"
-+INITSCRIPT_PARAMS_dhcp-server = "defaults"
+ # We want these to be the last run so that we get called after complementary package installation
+-POPULATE_SDK_POST_TARGET_COMMAND_append = " buildhistory_list_installed_sdk_target ;\
+-                                            buildhistory_get_sdk_installed_target ; "
+-POPULATE_SDK_POST_HOST_COMMAND_append = " buildhistory_list_installed_sdk_host ;\
+-                                          buildhistory_get_sdk_installed_host ; "
++POPULATE_SDK_POST_TARGET_COMMAND_append = " buildhistory_list_installed_sdk_target;"
++POPULATE_SDK_POST_TARGET_COMMAND_append = " buildhistory_get_sdk_installed_target;"
++POPULATE_SDK_POST_TARGET_COMMAND[vardepvalueexclude] .= "| buildhistory_list_installed_sdk_target;| buildhistory_get_sdk_installed_target;"
 +
- TARGET_CFLAGS += "-D_GNU_SOURCE"
- EXTRA_OECONF = "--with-srv-lease-file=${localstatedir}/lib/dhcp/dhcpd.leases \
-                 --with-srv6-lease-file=${localstatedir}/lib/dhcp/dhcpd6.leases \
++POPULATE_SDK_POST_HOST_COMMAND_append = " buildhistory_list_installed_sdk_host;"
++POPULATE_SDK_POST_HOST_COMMAND_append = " buildhistory_get_sdk_installed_host;"
++POPULATE_SDK_POST_HOST_COMMAND[vardepvalueexclude] .= "| buildhistory_list_installed_sdk_host;| buildhistory_get_sdk_installed_host;"
+ 
+ SDK_POSTPROCESS_COMMAND_append = " buildhistory_get_sdkinfo ; buildhistory_get_extra_sdkinfo; "
++SDK_POSTPROCESS_COMMAND[vardepvalueexclude] .= "| buildhistory_get_sdkinfo ; buildhistory_get_extra_sdkinfo; "
+ 
+ def buildhistory_get_build_id(d):
+     if d.getVar('BB_WORKERCONTEXT', True) != '1':
 -- 
-2.1.4
+2.8.0.rc3
 
 
