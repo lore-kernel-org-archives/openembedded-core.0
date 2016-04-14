@@ -1,40 +1,37 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id F0C6D6010D
+Return-Path: <william.c.randle@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 99F5D6E5CB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Apr 2016 23:58:15 +0000 (UTC)
-Received: by mail-wm0-f47.google.com with SMTP id a140so124784207wma.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Apr 2016 16:58:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to;
-	bh=3J5Y6RuFmwr55Lb0Z7mz3FUoNmrEZK/DKFiZydZWJD8=;
-	b=aZxyYEjq81RvW08ESoMEtjq76Xy1SvhBc09EvyAl0pAq42FXfxsO9z5zA96485UL2v
-	Ak6rrUrqQb1lQO3wNS5aPQ1ej5j+WDOuynqKJaYbNW2JF32an70RsSkN+Iqc7gG+CFz3
-	szNCliaNNbpCxHGQF6z9/aZMZKzw8S3RuO7IkkGO7cp4Ss9eR+jEt5K7iB+N7ffhSY/G
-	dTCm1I7MV0eUjkSuz7cMm/yL+bzcdlaBRdzUjcrR+1ejvtX9cWWEbJ/XvaCm0d+UZzTQ
-	jTwEXS+RI3DM/i8b1GQ+S0OspJFDBCd7PkEAWIjkVrOWg2163NtpM6fRRVPZk9UZYfsb
-	fI2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-	bh=3J5Y6RuFmwr55Lb0Z7mz3FUoNmrEZK/DKFiZydZWJD8=;
-	b=W+dEHmPzx/8JzNcEV/mIvXfwWxePhP0Zqwh09JSRe9YZJtd9crnHBlfjs0/IZ5g0aM
-	D3G2ADqKtyIrO5F0jDppWYh9KGlYY1FJ24okquUo+/OOTU00ImBVgQHy0IcVgNvSzTPg
-	nu+bS97Ast4MAQayW/6KvrCPLbJGwjzxPuNTG9ehFR+pkQrb6VzBd6ONRGAICTyHNtv9
-	/lFe9O8qstaeGm+W4GbfpGMycKiNHKx0jTpJPkdn8sNTUbhX1xll2Ut6fcebw55oFk5r
-	acY1JZpLaRryjiYQmqFp1C0IcWZ5RzzAcTSxGvqJQ2JSJtrOOir9rztIK1rSm+GhdKHx
-	Sruw==
-X-Gm-Message-State: AOPr4FWBMoolIkkH8gOmIyUOjeUuRJf06qeajmHInHTfsKwbBg1jOMUkrSZZvrlXb5FMd4vZopUtL30FaMubsg==
+	Thu, 14 Apr 2016 00:14:30 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 13 Apr 2016 17:14:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,482,1455004800"; d="scan'208";a="944679632"
+Received: from orsmsx101.amr.corp.intel.com ([10.22.225.128])
+	by fmsmga001.fm.intel.com with ESMTP; 13 Apr 2016 17:14:31 -0700
+Received: from orsmsx162.amr.corp.intel.com (10.22.240.85) by
+	ORSMSX101.amr.corp.intel.com (10.22.225.128) with Microsoft SMTP Server
+	(TLS) id 14.3.248.2; Wed, 13 Apr 2016 17:14:30 -0700
+Received: from orsmsx105.amr.corp.intel.com ([169.254.2.68]) by
+	ORSMSX162.amr.corp.intel.com ([169.254.3.111]) with mapi id
+	14.03.0248.002; Wed, 13 Apr 2016 17:14:30 -0700
+From: "Randle, William C" <william.c.randle@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "danismostlikely@gmail.com"
+	<danismostlikely@gmail.com>
+Thread-Topic: [OE-core] [PATCH] package.bbclass: improve permission handling
+Thread-Index: AQHRldJvW5fAXzoPuEeuUutKSgCoXp+JDu0A
+Date: Thu, 14 Apr 2016 00:14:29 +0000
+Message-ID: <1460592870.21923.18.camel@intel.com>
+References: <1460569219.21923.2.camel@intel.com>
+	<1460585876-26239-1-git-send-email-danismostlikely@gmail.com>
+In-Reply-To: <1460585876-26239-1-git-send-email-danismostlikely@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.24.4.174]
 MIME-Version: 1.0
-X-Received: by 10.28.138.196 with SMTP id m187mr12741026wmd.61.1460591896088; 
-	Wed, 13 Apr 2016 16:58:16 -0700 (PDT)
-Received: by 10.194.235.3 with HTTP; Wed, 13 Apr 2016 16:58:16 -0700 (PDT)
-Date: Wed, 13 Apr 2016 16:58:16 -0700
-Message-ID: <CAJ86T=VDX8QpecxVbjEJNyxiymp9CeqcqYXV2-ARTML4ZdiAjw@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Warnings from autotools_copy_aclocals()
+Subject: Re: [PATCH] package.bbclass: improve permission handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,17 +44,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Apr 2016 23:58:16 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 14 Apr 2016 00:14:31 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <CB088442CE3E5443999A580B82CD0F32@intel.com>
+Content-Transfer-Encoding: base64
 
-Does anyone else see these type of warnings from
-autotools_copy_aclocals()? I don't remember exactly when they started
-(a few months ago at least, maybe more).
-
-  WARNING: gmp-4.2.1-r0 do_configure:
-/.../build-dcx960-debug/tmp/sstate-control/manifest-dcx960-debug-glibc-initial.populate_sysroot
-not found
-  WARNING: gmp-4.2.1-r0 do_configure:
-/.../build-dcx960-debug/tmp/sstate-control/manifest-dcx960-debug-libgcc-initial.populate_sysroot
-not found
+T24gV2VkLCAyMDE2LTA0LTEzIGF0IDE2OjE3IC0wNjAwLCBEYW4gTWNHcmVnb3Igd3JvdGU6DQoN
+CkZyb206IERhbiBNY0dyZWdvciA8ZGFuLm1jZ3JlZ29yQHVzYXNrLmNhPG1haWx0bzpkYW4ubWNn
+cmVnb3JAdXNhc2suY2E+Pg0KDQpDaGFuZ2UgZnNfbGlua190YWJsZSB0byBiZSBrZXllZCBieSBw
+YXRoLCBqdXN0IGxpa2UgZnNfcGVybXNfdGFibGUuDQpXaGVuIGEgbmV3IGVudHJ5IGlzIGNvbWlu
+ZyBpbiBmb3IgZWl0aGVyIHRhYmxlLCByZW1vdmUgYW55IHByZXZpb3VzDQplbnRyeSBmb3IgdGhh
+dCBwYXRoLiBUaGlzIHdheSBsYXRlciBwZXJtaXNzaW9uIGZpbGUgZW50cmllcyBvdmVycmlkZQ0K
+ZWFybGllciBvbmVzLg0KDQpbWU9DVE8gIzk0MzBdDQoNClNpZ25lZC1vZmYtYnk6IERhbiBNY0dy
+ZWdvciA8ZGFuLm1jZ3JlZ29yQHVzYXNrLmNhPG1haWx0bzpkYW4ubWNncmVnb3JAdXNhc2suY2E+
+Pg0KLS0tDQogbWV0YS9jbGFzc2VzL3BhY2thZ2UuYmJjbGFzcyB8IDExICsrKysrKysrLS0tDQog
+MSBmaWxlIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkNCg0KZGlmZiAt
+LWdpdCBhL21ldGEvY2xhc3Nlcy9wYWNrYWdlLmJiY2xhc3MgYi9tZXRhL2NsYXNzZXMvcGFja2Fn
+ZS5iYmNsYXNzDQppbmRleCA4OTRiNzI5Li43NmI5Zjg2IDEwMDY0NA0KLS0tIGEvbWV0YS9jbGFz
+c2VzL3BhY2thZ2UuYmJjbGFzcw0KKysrIGIvbWV0YS9jbGFzc2VzL3BhY2thZ2UuYmJjbGFzcw0K
+QEAgLTc3NSw5ICs3NzUsMTMgQEAgcHl0aG9uIGZpeHVwX3Blcm1zICgpIHsNCiAgICAgICAgICAg
+ICAgICAgZW50cnkgPSBmc19wZXJtc19lbnRyeShkLmV4cGFuZChsaW5lKSkNCiAgICAgICAgICAg
+ICAgICAgaWYgZW50cnkgYW5kIGVudHJ5LnBhdGg6DQogICAgICAgICAgICAgICAgICAgICBpZiBl
+bnRyeS5saW5rOg0KLSAgICAgICAgICAgICAgICAgICAgICAgIGZzX2xpbmtfdGFibGVbZW50cnku
+bGlua10gPSBlbnRyeQ0KKyAgICAgICAgICAgICAgICAgICAgICAgIGZzX2xpbmtfdGFibGVbZW50
+cnkucGF0aF0gPSBlbnRyeQ0KKyAgICAgICAgICAgICAgICAgICAgICAgIGlmIGVudHJ5LnBhdGgg
+aW4gZnNfcGVybXNfdGFibGU6DQorICAgICAgICAgICAgICAgICAgICAgICAgICAgIGZzX3Blcm1z
+X3RhYmxlLnBvcChlbnRyeS5wYXRoKQ0KICAgICAgICAgICAgICAgICAgICAgZWxzZToNCiAgICAg
+ICAgICAgICAgICAgICAgICAgICBmc19wZXJtc190YWJsZVtlbnRyeS5wYXRoXSA9IGVudHJ5DQor
+ICAgICAgICAgICAgICAgICAgICAgICAgaWYgZW50cnkucGF0aCBpbiBmc19saW5rX3RhYmxlOg0K
+KyAgICAgICAgICAgICAgICAgICAgICAgICAgICBmc19saW5rX3RhYmxlLnBvcChlbnRyeS5wYXRo
+KQ0KICAgICAgICAgICAgIGYuY2xvc2UoKQ0KDQogICAgICMgRGVidWcgLS0gbGlzdCBvdXQgaW4t
+bWVtb3J5IHRhYmxlDQpAQCAtNzg5LDggKzc5Myw5IEBAIHB5dGhvbiBmaXh1cF9wZXJtcyAoKSB7
+DQogICAgICMgV2UgcHJvY2VzcyBsaW5rcyBmaXJzdCwgc28gd2UgY2FuIGdvIGJhY2sgYW5kIGZp
+eHVwIGRpcmVjdG9yeSBvd25lcnNoaXANCiAgICAgIyBmb3IgYW55IG5ld2x5IGNyZWF0ZWQgZGly
+ZWN0b3JpZXMNCiAgICAgIyBQcm9jZXNzIGluIHNvcnRlZCBvcmRlciBzbyAvcnVuIGdldHMgY3Jl
+YXRlZCBiZWZvcmUgL3J1bi9sb2NrLCBldGMuDQotICAgIGZvciBsaW5rIGluIHNvcnRlZChmc19s
+aW5rX3RhYmxlKToNCi0gICAgICAgIGRpciA9IGZzX2xpbmtfdGFibGVbbGlua10ucGF0aA0KKyAg
+ICBmb3IgZW50cnkgaW4gc29ydGVkKGZzX2xpbmtfdGFibGUudmFsdWVzKCksIGtleT1sYW1iZGEg
+eDogeC5saW5rKToNCisgICAgICAgIGxpbmsgPSBlbnRyeS5saW5rDQorICAgICAgICBkaXIgPSBl
+bnRyeS5wYXRoDQogICAgICAgICBvcmlnaW4gPSBkdmFyICsgZGlyDQogICAgICAgICBpZiBub3Qg
+KGNwYXRoLmV4aXN0cyhvcmlnaW4pIGFuZCBjcGF0aC5pc2RpcihvcmlnaW4pIGFuZCBub3QgY3Bh
+dGguaXNsaW5rKG9yaWdpbikpOg0KICAgICAgICAgICAgIGNvbnRpbnVlDQotLQ0KMi44LjENCg0K
+DQoNClRoYW5rcywgRGFuISBUaGF0IGxvb2tzIGdvb2QgdG8gbWUuIE9uZSB0aG91Z2h0LCB0aG91
+Z2guIFNpbmNlIHlvdSdyZSBsb29raW5nIGZvciBwcmV2aW91cyBlbnRyaWVzIGluIHRoZSBhbHRl
+cm5hdGUgdGFibGVzIChwZXJtcyBpbiBsaW5rIHRhYmxlIGFuZCBsaW5rcyBpbiBwZXJtIHRhYmxl
+KSwgc2hvdWxkIHdlIGFsc28gY29uc2lkZXIgc2VhcmNoaW5nIHRoZSBzYW1lIHRhYmxlIChsaW5r
+IGluIGxpbmtzIGFuZCBwZXJtIGluIHBlcm1zKSBpbiBjYXNlIHNvbWVvbmUgdXNlZCBhIHByaXZh
+dGUvbG9jYWwgcGVybXMgZmlsZSB0byBvdmVycmlkZSBhIGRlZmF1bHQgKGUuZy4sIGNoYW5nZSBh
+IHN5bWxpbmsgL3Zhci9mb28gLT4gL3J1bi9mb28gdG8gL3Zhci9mb28gLT4gL3Zhci9iYXopLiBJ
+biB0aGlzIGNhc2UsIGl0IHdvdWxkIGtlZXAgdGhlIGxhc3Qgb25lIGZvdW5kLCBraW5kIG9mIGxp
+a2UgeW91J3JlIGRvaW5nIGhlcmUuIEp1c3QgYSB0aG91Z2h0Lg0KDQogICAgLUJpbGwNCg0K
 
