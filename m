@@ -1,60 +1,47 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-pf0-f174.google.com (mail-pf0-f174.google.com
-	[209.85.192.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 431E06FEF6
+Return-Path: <fabio.berton@ossystems.com.br>
+Received: from mail-qg0-f67.google.com (mail-qg0-f67.google.com
+	[209.85.192.67])
+	by mail.openembedded.org (Postfix) with ESMTP id B119F60111
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Apr 2016 12:37:35 +0000 (UTC)
-Received: by mail-pf0-f174.google.com with SMTP id 184so45945895pff.0
+	Thu, 14 Apr 2016 12:51:33 +0000 (UTC)
+Received: by mail-qg0-f67.google.com with SMTP id j35so7340084qge.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Apr 2016 05:37:36 -0700 (PDT)
+	Thu, 14 Apr 2016 05:51:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=b9B/mNJL/bX04nHE/Kzfd5PBNb76SIBaXGtkVi/ueHY=;
-	b=TfsqC38jJzqIv1nBJDuYaQ4/zENeA5zCZv2h2pMhgbiGTAs0zKFV0j5yTEQRx33Psq
-	HxlWGqFfKnNp1JiRzfIjk2XOoU3Vo4nLRNgkxmrXpyZrIksCPof4d5KttXjoxvoroRHt
-	zfJdNozFw8TsxYtJ6muBAOXQRAwjrlH6kz9sUoZolbYWmSdBEAVZtJf/tq2+RjMdKdeM
-	e7NvBXZgQNOqsmW64EctiKnQKVWT8C2MzQtXeWuN0hmvuLkEGGLG0QWUNeX5mKGlCEfR
-	sdlxKWHS1o4DWpHslBqCz9pywDDKpoPBEu2pSZloPSYSfblBXsXOjJ2lPcSSiEEaK4bZ
-	MvoA==
+	h=from:to:cc:subject:date:message-id:organization;
+	bh=R318Zm3hk7HKqYAfcmCRb/HX0p3X84bjc3H8lADK6vk=;
+	b=uW5bTSzGJNUtY+7ngwFml8t4JVMJQbg0NtEEKhh9EvrWtoFFrF6+XniFjCOyuRIrty
+	+/VPH9IVHIRcgAfNkAhX8wO2UDgev9aLp/n8ov6NfLRbA0ZUIkyrfgpSN4l0eZHI5R3S
+	6Swm9uyWKQk+UyZK7R8o7NSurAAMmvWecVVhiMTvCgdWBnmIVlgSaBrEbLM7raGhrVVU
+	WJUpMV4zoVWIkCOq9M3MnxybiBwa/je9NuPorxHgAAbJVyaEaI8uzdkbgYlRMFfDu8NV
+	HbGURRYECdEnFZzllUBqnIskKnv7zBlic14F3xqUzy0ZU8Oa/wGzOuBNab938lfE1y5T
+	fiwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=b9B/mNJL/bX04nHE/Kzfd5PBNb76SIBaXGtkVi/ueHY=;
-	b=EcLy+MVB07mR3X0qPn7IToTEfRCrfgqzauBD1jZ4hqnLblmncX9D0Xj5qg7bD2absc
-	jwU1KJUjip90P9EjfbkQV+Nyv6bOIve7jlYeZb3FivvM2evj32hOtAJlKsyw1/3q2PtE
-	HFnN6wnZtBiYXCxBdU6wV3S8WDWUucc4n1QjLsPZwnevYVM2gXmIU/l+J7CJRXFozExQ
-	zp6nl6DWNf1t5UjP5Xj+VG8vRRwTOarA7sZ+ATGgPj9V9ZsYxIyZVbSm+HbaDJvHUPy5
-	AF0GG3tphXcoAQY2GVHlUahQiFwZ5bJe7EPnStTSO+QemjQbQoC/v/eT6sybqaK4m2hR
-	EPwQ==
-X-Gm-Message-State: AOPr4FXvNFAjAZlj/djF0OewK8bFtZBhczyVc0ZyYZm467W5Cc4S6SbV52GWz9Zf2W7EIA==
-X-Received: by 10.98.19.2 with SMTP id b2mr20796168pfj.93.1460637456342;
-	Thu, 14 Apr 2016 05:37:36 -0700 (PDT)
-Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com.
-	[209.85.220.51]) by smtp.gmail.com with ESMTPSA id
-	f66sm57790917pff.8.2016.04.14.05.37.34
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 14 Apr 2016 05:37:35 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-pa0-f51.google.com with SMTP id zm5so44728265pac.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Apr 2016 05:37:34 -0700 (PDT)
-MIME-Version: 1.0
-X-Received: by 10.66.65.169 with SMTP id y9mr20852386pas.102.1460637454315;
-	Thu, 14 Apr 2016 05:37:34 -0700 (PDT)
-Received: by 10.67.3.163 with HTTP; Thu, 14 Apr 2016 05:37:34 -0700 (PDT)
-In-Reply-To: <1460626004-27458-1-git-send-email-zhenhua.luo@nxp.com>
-References: <1460626004-27458-1-git-send-email-zhenhua.luo@nxp.com>
-Date: Thu, 14 Apr 2016 09:37:34 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKq+xMa7fRK52NZWLfxYkOHovsdN91QTQuWCQqH9Ygomkg@mail.gmail.com>
-Message-ID: <CAP9ODKq+xMa7fRK52NZWLfxYkOHovsdN91QTQuWCQqH9Ygomkg@mail.gmail.com>
-To: Zhenhua Luo <zhenhua.luo@nxp.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [master/krogoth][oe-core PATCH] meta/classes/qemu.bbclass: set -cpu of ppce5500/ppce6500 to e500mc
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=R318Zm3hk7HKqYAfcmCRb/HX0p3X84bjc3H8lADK6vk=;
+	b=HFJwI2VtLb8HSF6opF9vvw/Y0hI6EaGHNs80j/lAR6WNHLs4UvkHV9qYCvWJR+W5s5
+	eNdGOQADSmY+hmbVu0qQP2flGhzGle60/5d3ggyUtzY17RfXC0qVpZLlTZW5wggQh5vu
+	JD81OUtp4kSb/8SFcJtzNe96LxBdSWWVpzBLM1xD5qHr3kiEjPJfMcVrR+WfPUxobS6X
+	upam/LUsvDn2TJFroWuWFyKReEQm2P9ijQ+tBgqsDFyyyg80CYeVyt9tc2dLLR43nXIL
+	1jBJ8FdRvbfR9USqG1f6g2FOmSJMMZZaoMDOwvyEJv0c3vaFEpnGJgoBlBNzNtu2UBni
+	ZL3Q==
+X-Gm-Message-State: AOPr4FW6Ts3PQniOb+MxQOa7MzvZqWjoM73dcGeIMdvgPo+9j0q8ifMcks3Ji1YuOw81pg==
+X-Received: by 10.140.93.9 with SMTP id c9mr17602315qge.74.1460638293851;
+	Thu, 14 Apr 2016 05:51:33 -0700 (PDT)
+Received: from monster.lab.ossystems.com.br ([187.23.154.250])
+	by smtp.gmail.com with ESMTPSA id
+	t32sm9171062qgd.43.2016.04.14.05.51.31
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 14 Apr 2016 05:51:32 -0700 (PDT)
+From: Fabio Berton <fabio.berton@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 14 Apr 2016 09:51:06 -0300
+Message-Id: <1460638266-19801-1-git-send-email-fabio.berton@ossystems.com.br>
+X-Mailer: git-send-email 2.1.4
+Organization: O.S. Systems Software LTDA.
+Subject: [PATCH] dhcp: Enable update-rc.d service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,23 +54,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Apr 2016 12:37:37 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 14 Apr 2016 12:51:34 -0000
 
-On Thu, Apr 14, 2016 at 6:26 AM, Zhenhua Luo <zhenhua.luo@nxp.com> wrote:
-> The e5500 and e6500 cpu types are not supported by native qemu, set the value
-> of -cpu to e500mc. Without this change, build will fail for packages which use
-> qemuwrapper in compile phase due to the following error.
-> | Unable to find CPU definition
->
-> e.g. gobject-introspection
->
-> Signed-off-by: Zhenhua Luo <zhenhua.luo@nxp.com>
+do_install_append function installs init scripts but to enable this
+service we need to inherit update-rc.d class and set INITSCRIPT name
+and params.
 
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+---
+ meta/recipes-connectivity/dhcp/dhcp.inc | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
+diff --git a/meta/recipes-connectivity/dhcp/dhcp.inc b/meta/recipes-connectivity/dhcp/dhcp.inc
+index 5703f1e..5e396f1 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp.inc
++++ b/meta/recipes-connectivity/dhcp/dhcp.inc
+@@ -24,7 +24,7 @@ SRC_URI = "ftp://ftp.isc.org/isc/dhcp/${PV}/dhcp-${PV}.tar.gz \
+ UPSTREAM_CHECK_URI = "ftp://ftp.isc.org/isc/dhcp/"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+\.\d+\.(\d+?))/"
+ 
+-inherit autotools systemd useradd
++inherit autotools systemd useradd update-rc.d
+ 
+ USERADD_PACKAGES = "${PN}-server"
+ USERADD_PARAM_${PN}-server = "--system --no-create-home --home-dir /var/run/${PN} --shell /bin/false --user-group ${PN}"
+@@ -36,6 +36,10 @@ SYSTEMD_AUTO_ENABLE_${PN}-server = "disable"
+ SYSTEMD_SERVICE_${PN}-relay = "dhcrelay.service"
+ SYSTEMD_AUTO_ENABLE_${PN}-relay = "disable"
+ 
++INITSCRIPT_PACKAGES = "dhcp-server"
++INITSCRIPT_NAME_dhcp-server = "dhcp-server"
++INITSCRIPT_PARAMS_dhcp-server = "defaults"
++
+ TARGET_CFLAGS += "-D_GNU_SOURCE"
+ EXTRA_OECONF = "--with-srv-lease-file=${localstatedir}/lib/dhcp/dhcpd.leases \
+                 --with-srv6-lease-file=${localstatedir}/lib/dhcp/dhcpd6.leases \
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.1.4
+
 
