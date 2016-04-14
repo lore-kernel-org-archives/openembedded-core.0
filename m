@@ -1,42 +1,25 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 68ADF73177
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 122A173177
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Apr 2016 11:46:32 +0000 (UTC)
+	Thu, 14 Apr 2016 11:50:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id AC3091810A;
-	Thu, 14 Apr 2016 13:46:31 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id 3-6zOTfozuAm; Thu, 14 Apr 2016 13:46:30 +0200 (CEST)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bastet.se.axis.com (Postfix) with ESMTP id 5E21318134;
-	Thu, 14 Apr 2016 13:46:30 +0200 (CEST)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 1BC5A1426;
-	Thu, 14 Apr 2016 13:46:30 +0200 (CEST)
-Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
-	by boulder.se.axis.com (Postfix) with ESMTP id 10D6914AD;
-	Thu, 14 Apr 2016 13:46:30 +0200 (CEST)
-Received: from XBOX01.axis.com (xbox01.axis.com [10.0.5.15])
-	by thoth.se.axis.com (Postfix) with ESMTP id 0E87BFC8;
-	Thu, 14 Apr 2016 13:46:30 +0200 (CEST)
-Received: from XBOX02.axis.com (10.0.5.16) by XBOX01.axis.com (10.0.5.15) with
-	Microsoft SMTP Server (TLS) id 15.0.1156.6;
-	Thu, 14 Apr 2016 13:46:30 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%22]) with mapi id
-	15.00.1156.000; Thu, 14 Apr 2016 13:46:29 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Otavio Salvador
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u3EBoYjY007682; Thu, 14 Apr 2016 12:50:34 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id brYSnfL6ZSOL; Thu, 14 Apr 2016 12:50:34 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u3EBoWrK007669
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 14 Apr 2016 12:50:33 +0100
+Message-ID: <1460634632.9308.169.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, Otavio Salvador
 	<otavio.salvador@ossystems.com.br>, "Maxin B. John" <maxin.john@intel.com>
-Thread-Topic: [OE-core] [PATCHv2 1/1] Revert "useradd.bbclass: remove
-	user/group created by the package in clean* task"
-Thread-Index: AQHRlMs4Q4aNfnCqO02M11Hc7D8r4J+GZ5oAgAAl/qCAARAAgIAAKRdQgAAxiwCAATDngIAAMmOA
-Date: Thu, 14 Apr 2016 11:46:29 +0000
-Message-ID: <5d0ce4d1b23e4a10adbb3552ff1525fb@XBOX02.axis.com>
+Date: Thu, 14 Apr 2016 12:50:32 +0100
+In-Reply-To: <5d0ce4d1b23e4a10adbb3552ff1525fb@XBOX02.axis.com>
 References: <cover.1460467072.git.pkj@axis.com>
 	<7251ce8da0aed3f9ad921daa66186a2c2fc6a932.1460467072.git.pkj@axis.com>
 	<1460472857.9308.63.camel@linuxfoundation.org>
@@ -46,13 +29,9 @@ References: <cover.1460467072.git.pkj@axis.com>
 	<5715165f841f46d0a50fb951acfbf0ac@XBOX02.axis.com>
 	<1460564978.9308.95.camel@linuxfoundation.org>
 	<1460630455.9308.168.camel@linuxfoundation.org>
-In-Reply-To: <1460630455.9308.168.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.55]
-MIME-Version: 1.0
+	<5d0ce4d1b23e4a10adbb3552ff1525fb@XBOX02.axis.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
 Cc: "OE Core \(openembedded-core@lists.openembedded.org\)"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCHv2 1/1] Revert "useradd.bbclass: remove user/group created by the package in clean* task"
@@ -68,49 +47,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Apr 2016 11:46:36 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 14 Apr 2016 11:50:42 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSBbbWFp
-bHRvOnJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmddDQo+IFNlbnQ6IGRlbiAxNCBh
-cHJpbCAyMDE2IDEyOjQxDQo+IFRvOiBQZXRlciBLamVsbGVyc3RlZHQ7IE90YXZpbyBTYWx2YWRv
-cg0KPiBDYzogT0UgQ29yZSAob3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9y
-ZykNCj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0h2MiAxLzFdIFJldmVydCAidXNlcmFk
-ZC5iYmNsYXNzOiByZW1vdmUNCj4gdXNlci9ncm91cCBjcmVhdGVkIGJ5IHRoZSBwYWNrYWdlIGlu
-IGNsZWFuKiB0YXNrIg0KPiANCj4gT24gV2VkLCAyMDE2LTA0LTEzIGF0IDE3OjI5ICswMTAwLCBS
-aWNoYXJkIFB1cmRpZSB3cm90ZToNCj4gPiBUaGVyZSBpcyBhIGNvbXBhcmF0aXZlbHkgbmVhdCB3
-YXkgd2UgY291bGQgdXNlIHBrZ2RhdGEgdG8gdHJhY2sgdGhlDQo+ID4gcHJvdmlkZXIgb2YgYSBn
-aXZlbiB1c2VyLCBzcGVjaWZpY2FsbHk6DQo+ID4NCj4gPiBodHRwOi8vZ2l0LnlvY3RvcHJvamVj
-dC5vcmcvY2dpdC5jZ2kvcG9reS1jb250cmliL2NvbW1pdC8/aD1ycHVyZGllL3dpcCZpZD01Y2Q2
-NDZlYTE4NWVhYWZhYTM0MWYyNjMxMGYyZWRkYzc1NzY2MTc1DQo+ID4NCj4gPiBUaGUgYWJvdmUg
-aXMgYSBxdWljayBwYXRjaCBJJ3ZlIGp1c3QgcHV0IHRvZ2V0aGVyIHdoaWNoIGlsbHVzdHJhdGVz
-DQo+ID4gd2hhdCBjb3VsZCBiZSBkb25lIHNvIHRoYXQgdGhlIHVzZXIgZ2V0cyBiZXR0ZXIgd2Fy
-bmluZ3MgYWJvdXQNCj4gPiBjb25mbGljdGluZyB1c2Vycy4gSXQgbmVlZHMgY2xlYW5pbmcgdXAg
-YnV0IHRob3VnaHQgaXQgd29ydGggc2hhcmluZw0KPiA+IG5vdyBhcyBpZiBtaWdodCBnaXZlIHNv
-bWUgaWRlYXMuDQo+ID4NCj4gPiBUaGlzIGlzIGluIGtlZXBpbmcgd2l0aCBob3cgYml0YmFrZSBk
-ZXRlY3RzIG11bHRpcGxlIHByb3ZpZGVycyBvZiB0aGUNCj4gPiBzYW1lIHRoaW5nLg0KPiANCj4g
-aHR0cDovL2dpdC55b2N0b3Byb2plY3Qub3JnL2NnaXQuY2dpL3Bva3ktY29udHJpYi9jb21taXQv
-P2g9cnB1cmRpZS93aXAmaWQ9YTM2MmU2ZGEwZWVjMWY3YTdkNGRiMTlkNDdmMTZiMWM3Mjk1NjJi
-YQ0KPiANCj4gaXMgYW4gaW1wcm92ZWQgdmVyc2lvbi4NCj4gDQo+ID4gPiBIZXJlIEkgbXVzdCBz
-aG93IG15IGxhY2sgb2Yga25vd2xlZGdlLiBIb3cgYW5kIHdoZXJlIHNob3VsZCBJIGdvDQo+ID4g
-PiBhYm91dA0KPiA+ID4gYWRkaW5nIGEgcmVncmVzc2lvbiB0ZXN0IHRoYXQgdmVyaWZpZXMgdGhl
-IHN1cHBvcnQgZm9yIHRoYXQNCj4gPiA+IG11bHRpcGxlDQo+ID4gPiByZWNpcGVzIGNhbiBhZGQg
-dGhlIHNhbWUgdXNlci9ncm91cD8gU2luY2UgdGhpcyBkb2VzIG5vdCB0ZXN0IGENCj4gPiA+IHNw
-ZWNpZmljIHJlY2lwZSwgYnV0IHJhdGhlciBhIHBhcnQgb2YgdGhlIGJ1aWxkIGZyYW1ld29yaywg
-SSBkbyBub3QNCj4gPiA+IGtub3cgaWYsIGUuZy4sIHB0ZXN0IGlzIGFwcGxpY2FibGUgKG9mIHdo
-aWNoIEkgaGF2ZSBubyBleHBlcmllbmNlDQo+ID4gPiBlaXRoZXIpLg0KPiA+DQo+ID4gb2Utc2Vs
-ZnRlc3Qgd291bGQgYmUgdGhlIHBsYWNlIHRvIGFkZCBzb21ldGhpbmcgbGlrZSB0aGlzLCBzZWUg
-dGhlDQo+ID4gIC9tZXRhL2xpYi9vZXFhL3NlbGZ0ZXN0IGRpcmVjdG9yeS4gV2UgY291bGQgYWRk
-IHNvbWUgdGVzdCB1c2VyYWRkDQo+ID4gcmVjaXBlcyB0byBtZXRhLXNlbGZ0ZXN0Lg0KPiANCj4g
-aHR0cDovL2dpdC55b2N0b3Byb2plY3Qub3JnL2NnaXQuY2dpL3Bva3ktY29udHJpYi9jb21taXQv
-P2g9cnB1cmRpZS93aXAmaWQ9MjMxMzRhN2Q4MzdiYzc5ODViYThlNzA2OWQ0MDU5MTNjMjA1NWEw
-NA0KPiANCj4gaXMgYSByZWFsbHkgc2ltcGxpc3RpYyBuZXcgc2VsZnRlc3QgZm9yIHVzZXJhZGQu
-IEl0IGRvZXMgaG93ZXZlciB0ZXN0DQo+IHRoZSBidWcgdGhlIG9yaWdpbmFsIHBhdGNoIGZpeGVz
-LiBUaGVyZSBhcmUgY2xlYXJseSBhIG11Y2ggd2lkZXIgcmFuZ2UNCj4gb2YgdGhpbmdzIGl0IGNv
-dWxkIHRlc3QsIEkganVzdCB3YW50ZWQgdG8gc2hvdyB0aGlzIGlzbid0IGhhcmQuDQo+IA0KPiBD
-aGVlcnMsDQo+IA0KPiBSaWNoYXJkDQoNCk9rLCB0aGlzIGxvb2tzIGxpa2UgYSBnb29kIHN0YXJ0
-IGZvciBtZSB0byBjb250aW51ZSB3b3JraW5nIG9uLg0KDQpXaGF0IGlzIHRoZSBlYXNpZXN0IHdh
-eSB0byBleGVjdXRlIHRoZSB1c2VyYWRkIHNlbGZ0ZXN0Pw0KDQovL1BldGVyDQoNCg==
+On Thu, 2016-04-14 at 11:46 +0000, Peter Kjellerstedt wrote:
+> Ok, this looks like a good start for me to continue working on.
+> 
+> What is the easiest way to execute the useradd selftest?
+
+oe-selftest --run-tests useradd.Useradd.test_useradd
+
+Cheers,
+
+Richard
 
