@@ -1,30 +1,60 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 0227D6FFFB
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-pf0-f181.google.com (mail-pf0-f181.google.com
+	[209.85.192.181])
+	by mail.openembedded.org (Postfix) with ESMTP id F062F65C5C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Apr 2016 13:53:17 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u3EDrHdb014319 for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Apr 2016 14:53:17 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id AMzKTj-yAyjY
+	Thu, 14 Apr 2016 14:42:23 +0000 (UTC)
+Received: by mail-pf0-f181.google.com with SMTP id n1so46681704pfn.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Apr 2016 14:53:17 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u3EDrEin014316
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	Thu, 14 Apr 2016 07:42:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=QjEYIUPTJWjUsd9PFSWJwtbS0Ri8EWH6uJfX/YtiQdo=;
+	b=iF9iHBBPa1V5B4/lprbVYh7+6NtCJESttN4A56Td6R4AFuc5nG47wuN/EG150TZAl7
+	9V0RobkUIsz5dlTOOk5ZRoofle9TQYAvJLpANiit+TVWVJylMpR0nlnhWmFmcYahnHd/
+	fylh0EFB5zGcUpsd1aVX6htjS6qFSl8rNx+sogMykQSRPC5w6KkcV5mnuBD4X4HnuwB1
+	2wH+kbZyTfTcTiUYqMUO7OKGJ1gnpsPIdRp4gKq5/2DM8MuRBAPkoqRe0TaVJNmGq0Jj
+	BUMrz6QPs2wXlml/RYBblMVp6EQWGorCYJHNbrcQQuEEmWMGlnJYvdwjw/Zd9cDBUtMv
+	cmzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=QjEYIUPTJWjUsd9PFSWJwtbS0Ri8EWH6uJfX/YtiQdo=;
+	b=NLD48KvvrBsV4cUNHb2s5PrraGA1aRsHBAMqLoTurXKbkFepnxd3y3LxUIqrasdqgn
+	SEFq+IBzzlhvQTJ02CDn351REAaLi7xdLV5A0St06cfNmV7P3EsTu0hm4LeglQgkzaeo
+	l5rMl7dDYJCJs+KbHju8d+032pCGEk2hxuXTxyUtgZUjwZLht1PcrfZ+PHMVjEwUPhi4
+	VcNLZbrC8oxFLaaC09g/l4l6i3FJtSrPygKraYoqbSqkTkvC7DFXyYc9zZMRNAFjaVc0
+	VMkzJ5tgpHYLG7FBDRAPegKcNG9ax7ABSWTjKL8XY4t8iRY5nqxiECr6BWj+aMvRD618
+	6+ww==
+X-Gm-Message-State: AOPr4FXelNEYjQECGINhneFABn0DX8XadnaBDhroLihX5eGtWAjiGAh+/OsTC49qTW7i2g==
+X-Received: by 10.98.89.22 with SMTP id n22mr21690634pfb.55.1460644944574;
+	Thu, 14 Apr 2016 07:42:24 -0700 (PDT)
+Received: from mail-pf0-f173.google.com (mail-pf0-f173.google.com.
+	[209.85.192.173]) by smtp.gmail.com with ESMTPSA id
+	ba9sm58584319pab.24.2016.04.14.07.42.23
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 14 Apr 2016 07:42:23 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-pf0-f173.google.com with SMTP id c20so46676105pfc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Apr 2016 14:53:15 +0100
-Message-ID: <1460641994.9308.179.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 14 Apr 2016 14:53:14 +0100
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: [PATCH] buildstats: Fix trackbacks for early task failures
+	Thu, 14 Apr 2016 07:42:23 -0700 (PDT)
+MIME-Version: 1.0
+X-Received: by 10.98.67.139 with SMTP id l11mr21652526pfi.112.1460644942824;
+	Thu, 14 Apr 2016 07:42:22 -0700 (PDT)
+Received: by 10.67.3.163 with HTTP; Thu, 14 Apr 2016 07:42:22 -0700 (PDT)
+In-Reply-To: <1460638266-19801-1-git-send-email-fabio.berton@ossystems.com.br>
+References: <1460638266-19801-1-git-send-email-fabio.berton@ossystems.com.br>
+Date: Thu, 14 Apr 2016 11:42:22 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKoDY+xq7VvsVY+ycQUbKBK7nF5jaCPkuh5L7WMno7+CjA@mail.gmail.com>
+Message-ID: <CAP9ODKoDY+xq7VvsVY+ycQUbKBK7nF5jaCPkuh5L7WMno7+CjA@mail.gmail.com>
+To: Fabio Berton <fabio.berton@ossystems.com.br>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] dhcp: Enable update-rc.d service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,30 +67,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Apr 2016 13:53:19 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 14 Apr 2016 14:42:24 -0000
+Content-Type: text/plain; charset=UTF-8
 
-If a failure occurs early in the task, its possible we can have a
-TaskFailed before the TaskStarted event can be triggered. This in
-turn causes another traceback as the directory buildstats writes 
-files into doesn't exist.
+On Thu, Apr 14, 2016 at 9:51 AM, Fabio Berton
+<fabio.berton@ossystems.com.br> wrote:
+> do_install_append function installs init scripts but to enable this
+> service we need to inherit update-rc.d class and set INITSCRIPT name
+> and params.
+>
+> Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
 
-Ensure the directory exists so we can see the original error.
-    
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
-diff --git a/meta/classes/buildstats.bbclass b/meta/classes/buildstats.bbclass
-index d381c93..ab72af5 100644
---- a/meta/classes/buildstats.bbclass
-+++ b/meta/classes/buildstats.bbclass
-@@ -195,6 +195,8 @@ python run_buildstats () {
-                 f.write("Uncompressed Rootfs size: %s" % rootfs_size)
- 
-     elif isinstance(e, bb.build.TaskFailed):
-+        # Can have a failure before TaskStarted so need to mkdir here too
-+        bb.utils.mkdirhier(taskdir)
-         write_task_data("failed", os.path.join(taskdir, e.task), e, d)
-         ########################################################################
-         # Lets make things easier and tell people where the build failed in
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
