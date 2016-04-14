@@ -1,60 +1,52 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-pf0-f181.google.com (mail-pf0-f181.google.com
-	[209.85.192.181])
-	by mail.openembedded.org (Postfix) with ESMTP id F062F65C5C
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-vk0-f67.google.com (mail-vk0-f67.google.com
+	[209.85.213.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 7075D6AC4B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Apr 2016 14:42:23 +0000 (UTC)
-Received: by mail-pf0-f181.google.com with SMTP id n1so46681704pfn.2
+	Thu, 14 Apr 2016 16:23:30 +0000 (UTC)
+Received: by mail-vk0-f67.google.com with SMTP id v68so11296405vka.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Apr 2016 07:42:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=QjEYIUPTJWjUsd9PFSWJwtbS0Ri8EWH6uJfX/YtiQdo=;
-	b=iF9iHBBPa1V5B4/lprbVYh7+6NtCJESttN4A56Td6R4AFuc5nG47wuN/EG150TZAl7
-	9V0RobkUIsz5dlTOOk5ZRoofle9TQYAvJLpANiit+TVWVJylMpR0nlnhWmFmcYahnHd/
-	fylh0EFB5zGcUpsd1aVX6htjS6qFSl8rNx+sogMykQSRPC5w6KkcV5mnuBD4X4HnuwB1
-	2wH+kbZyTfTcTiUYqMUO7OKGJ1gnpsPIdRp4gKq5/2DM8MuRBAPkoqRe0TaVJNmGq0Jj
-	BUMrz6QPs2wXlml/RYBblMVp6EQWGorCYJHNbrcQQuEEmWMGlnJYvdwjw/Zd9cDBUtMv
-	cmzA==
+	Thu, 14 Apr 2016 09:23:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc; bh=aZpTvKoRT0pgHMu1uC24SfIZJ5ipv7fO5d8YSdqUfcs=;
+	b=J4ko5QOpjGgNlxWVdY7MUN0YL9wMrG0ywbE3V1j/nTm9SoGlZaUvvWR3OI/XMQPc0w
+	AGlDY5QuYJoHWSMXIrYSAp/15oUEBt5BWXMYRmDpUxhiO8+/1MNCbUq5+O7nQiI8UPHz
+	3CtF82moe1NPjafn8ebkhEObzX4LbEwi/3D+U+bMssc6J+i+490DDXLQmfH4cmcr+5TG
+	JIQcZ8qfd26HXaBFhGigseuv/K/vkEYLGg4cCqdDhXmAYOaybbV07urB6F5USYmZCiMM
+	J0LeJQxh87JV1x7n+3o3KQpWhUITiVsVO1d+/J+kH+lIP+y+6F/Jt5mpucumVbM5YdIl
+	cwgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=QjEYIUPTJWjUsd9PFSWJwtbS0Ri8EWH6uJfX/YtiQdo=;
-	b=NLD48KvvrBsV4cUNHb2s5PrraGA1aRsHBAMqLoTurXKbkFepnxd3y3LxUIqrasdqgn
-	SEFq+IBzzlhvQTJ02CDn351REAaLi7xdLV5A0St06cfNmV7P3EsTu0hm4LeglQgkzaeo
-	l5rMl7dDYJCJs+KbHju8d+032pCGEk2hxuXTxyUtgZUjwZLht1PcrfZ+PHMVjEwUPhi4
-	VcNLZbrC8oxFLaaC09g/l4l6i3FJtSrPygKraYoqbSqkTkvC7DFXyYc9zZMRNAFjaVc0
-	VMkzJ5tgpHYLG7FBDRAPegKcNG9ax7ABSWTjKL8XY4t8iRY5nqxiECr6BWj+aMvRD618
-	6+ww==
-X-Gm-Message-State: AOPr4FXelNEYjQECGINhneFABn0DX8XadnaBDhroLihX5eGtWAjiGAh+/OsTC49qTW7i2g==
-X-Received: by 10.98.89.22 with SMTP id n22mr21690634pfb.55.1460644944574;
-	Thu, 14 Apr 2016 07:42:24 -0700 (PDT)
-Received: from mail-pf0-f173.google.com (mail-pf0-f173.google.com.
-	[209.85.192.173]) by smtp.gmail.com with ESMTPSA id
-	ba9sm58584319pab.24.2016.04.14.07.42.23
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 14 Apr 2016 07:42:23 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-pf0-f173.google.com with SMTP id c20so46676105pfc.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Apr 2016 07:42:23 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc;
+	bh=aZpTvKoRT0pgHMu1uC24SfIZJ5ipv7fO5d8YSdqUfcs=;
+	b=i2iAEMPsTgxdQQ4Bb4ugPv1nuzNHTdsIQpxFP17Gv4w8IZcumxLEkNis7n4TSQhcc7
+	/EIt0P+jvpl/zDOZ1V50x+1r32mMMmd8vEeW8oFVkDPv75JoBb3r3WUItNnNiKGMjPoS
+	+wjkMpEEG0sdtCydXwT9okt/4E3O/NDWw0hySjXMtDWbHCcKnu1n+/lQsBqb7wxtlL4I
+	Dl/4zcyKGfblOfvctAGqmtBUUY0X302xuFIMDsBxi7id/zrKNjBeLFtUWCi5w0J1stN1
+	Zu5U9rUdYHzEWOJ4A0Ym+ywTNcCYPalbkvOxvueSdcqq3tRjYAgicFiptGWeWDQ5cCKm
+	mwBQ==
+X-Gm-Message-State: AOPr4FV2pBGYFwsirzxDOxJyjV3rVD9CaUt6ZIbmW+NVH1Xjfky5cmMWNnZgRuck3j3H11y2onE4MBmFI2fluA==
 MIME-Version: 1.0
-X-Received: by 10.98.67.139 with SMTP id l11mr21652526pfi.112.1460644942824;
-	Thu, 14 Apr 2016 07:42:22 -0700 (PDT)
-Received: by 10.67.3.163 with HTTP; Thu, 14 Apr 2016 07:42:22 -0700 (PDT)
-In-Reply-To: <1460638266-19801-1-git-send-email-fabio.berton@ossystems.com.br>
-References: <1460638266-19801-1-git-send-email-fabio.berton@ossystems.com.br>
-Date: Thu, 14 Apr 2016 11:42:22 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKoDY+xq7VvsVY+ycQUbKBK7nF5jaCPkuh5L7WMno7+CjA@mail.gmail.com>
-Message-ID: <CAP9ODKoDY+xq7VvsVY+ycQUbKBK7nF5jaCPkuh5L7WMno7+CjA@mail.gmail.com>
-To: Fabio Berton <fabio.berton@ossystems.com.br>
+X-Received: by 10.31.42.198 with SMTP id q189mr7051935vkq.60.1460651010818;
+	Thu, 14 Apr 2016 09:23:30 -0700 (PDT)
+Received: by 10.103.94.2 with HTTP; Thu, 14 Apr 2016 09:23:30 -0700 (PDT)
+In-Reply-To: <5706FF8B.1060706@windriver.com>
+References: <cover.1460015043.git.liezhi.yang@windriver.com>
+	<0186a488dc4ff5d3daf5ef0d1fd54bb0e79763a7.1460015043.git.liezhi.yang@windriver.com>
+	<CACS+7ZQ55g1EQkWD5OQOH0zU=S1p9BRx_Nn8u5FKQmL3_-QEcw@mail.gmail.com>
+	<570664CD.4090501@windriver.com>
+	<CACS+7ZSOJg9gpWGKAKM2dA6Y6Se4wcj+DWFpjOdKS014fqZWYQ@mail.gmail.com>
+	<5706FF8B.1060706@windriver.com>
+Date: Thu, 14 Apr 2016 10:23:30 -0600
+Message-ID: <CACS+7ZSuQzcMLhv2DS37WHwOU24YLYbyw2ErrveqC2=8k5Mb7A@mail.gmail.com>
+From: Dan McGregor <danismostlikely@gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] dhcp: Enable update-rc.d service
+Subject: Re: [PATCH 1/1] fs-perms.txt: fix ROOT_HOME's permission
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,21 +59,158 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Apr 2016 14:42:24 -0000
+X-List-Received-Date: Thu, 14 Apr 2016 16:23:34 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Thu, Apr 14, 2016 at 9:51 AM, Fabio Berton
-<fabio.berton@ossystems.com.br> wrote:
-> do_install_append function installs init scripts but to enable this
-> service we need to inherit update-rc.d class and set INITSCRIPT name
-> and params.
+Richard,
+
+I believe you merged the wrong version of this patch.
+
+Dan
+
+On 7 April 2016 at 18:47, Robert Yang <liezhi.yang@windriver.com> wrote:
 >
-> Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
-
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
-
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+>
+> On 04/07/2016 11:55 PM, Dan McGregor wrote:
+>>
+>> On 7 April 2016 at 07:46, Robert Yang <liezhi.yang@windriver.com> wrote:
+>>>
+>>>
+>>>
+>>> On 04/07/2016 09:30 PM, Dan McGregor wrote:
+>>>>
+>>>>
+>>>> On 7 April 2016 at 01:50, Robert Yang <liezhi.yang@windriver.com> wrote:
+>>>>>
+>>>>>
+>>>>> It should be 0700 rather than 0755.
+>>>>>
+>>>>> Reported-by: Charles Chan <charles.wh.chan@gmail.com>
+>>>>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>>>>> ---
+>>>>>    meta/files/fs-perms.txt | 1 +
+>>>>>    1 file changed, 1 insertion(+)
+>>>>>
+>>>>> diff --git a/meta/files/fs-perms.txt b/meta/files/fs-perms.txt
+>>>>> index 109cbe5..1d74da7 100644
+>>>>> --- a/meta/files/fs-perms.txt
+>>>>> +++ b/meta/files/fs-perms.txt
+>>>>> @@ -51,6 +51,7 @@ ${localstatedir}/lock link    /run/lock
+>>>>>    ${localstatedir}/tmp   link    volatile/tmp
+>>>>>
+>>>>>    /home                          0755    root    root    false - - -
+>>>>> +${ROOT_HOME}                   0700    root    root    false - - -
+>>>>
+>>>>
+>>>>
+>>>> I'd like to see this in the section labelled "Special permissions from
+>>>> base-files" around line 58. I think that makes it more clear that this
+>>>> is a special permission setting.
+>>>
+>>>
+>>>
+>>> Thanks, updated in the repo:
+>>>
+>>>    git://git.openembedded.org/openembedded-core-contrib rbt/home
+>>>
+>>>
+>>> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/home
+>>>
+>>>
+>>> commit ccc59f44f5fc6c6ccef6b0fed58b0d582c9ee32b
+>>> Author: Robert Yang <liezhi.yang@windriver.com>
+>>> Date:   Tue Apr 5 22:34:25 2016 -0700
+>>>
+>>>      fs-perms.txt: fix ROOT_HOME's permission
+>>>
+>>>      It should be 0700 rather than 0755.
+>>>
+>>>      Reported-by: Charles Chan <charles.wh.chan@gmail.com>
+>>>      Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>>>
+>>> diff --git a/meta/files/fs-perms.txt b/meta/files/fs-perms.txt
+>>> index 109cbe5..6c1083c 100644
+>>> --- a/meta/files/fs-perms.txt
+>>> +++ b/meta/files/fs-perms.txt
+>>> @@ -59,6 +59,7 @@ ${localstatedir}/local                0755    root
+>>> root
+>>> false - - -
+>>>   # Set 1777
+>>>   /tmp                           01777   root    root    false - - -
+>>>   ${localstatedir}/volatile/tmp  01777   root    root    false - - -
+>>> +${ROOT_HOME}                   0700    root    root    false - - -
+>>>
+>>
+>> Thanks, this is the right track, but this implies that ${ROOT_HOME}
+>> should be mode 1777, how about:
+>>
+>> +
+>> +# Set 700
+>> +${ROOT_HOME}                   0700    root    root    false - - -
+>
+>
+> Thanks, updated in the repo:
+>
+>   git://git.openembedded.org/openembedded-core-contrib rbt/home
+>
+> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/home
+>
+>
+> commit 5d0c64fd55edc957d8fb6340c9842bf8498a485d
+> Author: Robert Yang <liezhi.yang@windriver.com>
+> Date:   Tue Apr 5 22:34:25 2016 -0700
+>
+>     fs-perms.txt: fix ROOT_HOME's permission
+>
+>     It should be 0700 rather than 0755.
+>
+>     Reported-by: Charles Chan <charles.wh.chan@gmail.com>
+>     Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>
+> diff --git a/meta/files/fs-perms.txt b/meta/files/fs-perms.txt
+> index 109cbe5..3d00e86 100644
+> --- a/meta/files/fs-perms.txt
+> +++ b/meta/files/fs-perms.txt
+> @@ -60,6 +60,9 @@ ${localstatedir}/local                0755    root    root
+> false - - -
+>  /tmp                           01777   root    root    false - - -
+>  ${localstatedir}/volatile/tmp  01777   root    root    false - - -
+>
+> +# Set 0700
+> +${ROOT_HOME}                   0700    root    root    false - - -
+> +
+>
+>  # Set 755-lsb
+>  /srv                           0755    root    root    false - - -
+>
+>
+> // Robert
+>
+>>
+>>>   # Set 755-lsb
+>>>   /srv                           0755    root    root    false - - -
+>>>
+>>>
+>>> // Robert
+>>>
+>>>
+>>>>
+>>>>
+>>>>>    /srv                           0755    root    root    false - - -
+>>>>>    ${prefix}/src                  0755    root    root    false - - -
+>>>>>    ${localstatedir}/local         0755    root    root    false - - -
+>>>>> --
+>>>>> 2.8.0
+>>>>>
+>>>>> --
+>>>>> _______________________________________________
+>>>>> Openembedded-core mailing list
+>>>>> Openembedded-core@lists.openembedded.org
+>>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>>
+>>>>
+>>>>
+>>>
+>>
+>
 
