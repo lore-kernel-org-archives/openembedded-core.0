@@ -1,45 +1,29 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ig0-f195.google.com (mail-ig0-f195.google.com
-	[209.85.213.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 22AA9602D9
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 272E160762
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Apr 2016 03:47:53 +0000 (UTC)
-Received: by mail-ig0-f195.google.com with SMTP id qu10so1425954igc.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Apr 2016 20:47:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=/fAjaHSMyORYY2RCeqXFnwu9TdC4EjTNitJZ9l1JmIs=;
-	b=l98WVb6MkvKQ2iMm3lBfhIX54GTPUCA2ZL8+kDalfhF2xptwu7alSyvlvt/LVTpfit
-	a+Agybyyl7xsLW8suyzk9m4NkEcLHKNChkOW5tfCI6w7f5H6xXUHJ0YVj3W6SL7PZw65
-	ClNbf29NwWEsVxoyH0Vu2kIHKkUKXjWdRHMnOaslGCBsGsYKDkg1q8knpNBhjMZWt4GQ
-	FXh85Wb8K+e1LpOB4PQno4o7smGgKY82nK7kki/1rhxiX4GwsFdEq8CZykEAo6m8l4w5
-	non+VIC2DqiyjCvLAA1MY3Nh/hi1NoEhycy6xWrvcDKQHt7cQS4lwfreczC3ATH8CHzs
-	mwNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=/fAjaHSMyORYY2RCeqXFnwu9TdC4EjTNitJZ9l1JmIs=;
-	b=lCkpEQZXzrRvDJ0rd5TvAI2K8G1O+I94s1b1/T+fWJb3tn1yH/cXwAfD/RXm0EVG1d
-	3nwk873hAGTpid5U/vwLZ2KY7EHE8m3FmVcxr76Qo1MogYtzPiYOwWNRf95GYBYnp7Z+
-	UoaJpKWfY85jmdaELOpRsyZFWxea+rR3PMepi4VY8+EGe8a2DGlhD2yHQ4qh50V5x9i3
-	J2ic8JlXE7xj3YVdDVpt/o7QasF5QtpO1Q64VR2mfnQ8wjSDuCy2lqSaBErN94GvSTId
-	QvVNENRdUnesUwjhFN5rwHji1dd2p9CRV0SACL3+PCL6sHhVyX9OS4hVW2GQaE2nz6Qe
-	LhNQ==
-X-Gm-Message-State: AOPr4FU0MgH5BRy+KTs+Cd+Oz/77HGHX5aWJoecgOq5Hm06GyLE64hiOIdCh72OFNtyg8g==
-X-Received: by 10.50.41.226 with SMTP id i2mr2097101igl.33.1460692073902;
-	Thu, 14 Apr 2016 20:47:53 -0700 (PDT)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id j7sm4752274igv.22.2016.04.14.20.47.52
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 14 Apr 2016 20:47:52 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Apr 2016 20:47:46 -0700
-Message-Id: <1460692066-24047-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] image.bbclass: don't emit redundant IMAGE_CMD_xxx functions
+	Fri, 15 Apr 2016 06:19:30 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u3F6JUmO004713
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 14 Apr 2016 23:19:30 -0700 (PDT)
+Received: from [128.224.162.236] (128.224.162.236) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 14 Apr 2016 23:19:29 -0700
+To: Bruce Ashfield <bruce.ashfield@windriver.com>,
+	<richard.purdie@linuxfoundation.org>
+References: <cover.1460563722.git.bruce.ashfield@windriver.com>
+	<83cc5f17761498dbf3dcd5bade28f5583f9bcfad.1460563722.git.bruce.ashfield@windriver.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <571087EF.9070000@windriver.com>
+Date: Fri, 15 Apr 2016 14:19:27 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
+MIME-Version: 1.0
+In-Reply-To: <83cc5f17761498dbf3dcd5bade28f5583f9bcfad.1460563722.git.bruce.ashfield@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 5/5] linux-yocto: make aufs4 optional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,40 +36,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Apr 2016 03:47:56 -0000
+X-List-Received-Date: Fri, 15 Apr 2016 06:19:32 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-IMAGE_CMD_xxx commands are always inlined within do_image_xxx.
 
-When IMAGE_CMD_xxx is defined as a function (e.g. IMAGE_CMD_btrfs,
-IMAGE_CMD_cpio, etc), a redundant copy of the function will be emitted
-by default. Remove IMAGE_CMD_xxx 'func' flags to prevent that.
+Hi Bruce,
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
+I got do_patch error when add features/aufs/aufs.scc:
 
-This has been tested and seems to work as expected, however I'm not
-100% sure I fully understand the implications of localdata -vs- d
-or realt -vs- t in this code, so please review before merging.
+KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/aufs/aufs.scc"
 
- meta/classes/image.bbclass | 4 ++++
- 1 file changed, 4 insertions(+)
+MACHINE = "qemux86-64"
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index f471f1a..ca6dda4 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -388,6 +388,10 @@ python () {
-             bb.fatal("No IMAGE_CMD defined for IMAGE_FSTYPES entry '%s' - possibly invalid type name or missing support class" % t)
-         cmds.append(localdata.expand("\tcd ${DEPLOY_DIR_IMAGE}"))
- 
-+        # Since a copy of IMAGE_CMD_xxx will be inlined within do_image_xxx,
-+        # prevent a redundant copy of IMAGE_CMD_xxx being emitted as a function.
-+        d.delVarFlag('IMAGE_CMD_' + realt, 'func')
-+
-         rm_tmp_images = set()
-         def gen_conversion_cmds(bt):
-             for ctype in ctypes:
--- 
-1.9.1
+$ bitbake virtual/kernel -ccleansstate && bitbake bitbake virtual/kernel
 
+|    mark --> aufs.scc
+|          patch aufs-kbuild-support.patch 
+(.kernel-meta/patches/standard/base/series)
+|          patch aufs4-base-support.patch 
+(.kernel-meta/patches/standard/base/series)
+|          patch aufs4-mmap-support.patch 
+(.kernel-meta/patches/standard/base/series)
+|          patch aufs4-standalone-module-support.patch 
+(.kernel-meta/patches/standard/base/series)
+|          patch aufs-core-filesystem.patch 
+(.kernel-meta/patches/standard/base/series)
+|    mark <-- aufs.scc
+| (1/5) aufs-kbuild-support.patch
+| [INFO]: check of 
+.kernel-meta/patches/standard/base/links/kernel-meta/features/aufs/aufs-kbuild-support.patch 
+with "git am" did not pass, trying reduced context.
+| [INFO]: Context reduced git-am of 
+.kernel-meta/patches/standard/base/links/kernel-meta/features/aufs/aufs-kbuild-support.patch 
+with "git am" did not work, trying "apply".
+| error: patch failed: fs/Kconfig:222
+| error: fs/Kconfig: patch does not apply
+| error: patch failed: include/uapi/linux/Kbuild:59
+| error: include/uapi/linux/Kbuild: patch does not apply
+| [ERROR]: Application of 
+.kernel-meta/patches/standard/base/links/kernel-meta/features/aufs/aufs-kbuild-support.patch 
+failed.
+|          Patch needs to be refreshed. Sample resolution script:
+|              .git/rebase-apply/resolve_rejects
+| ERROR. could not update git tree
+| WARNING: exit code 1 from a shell command.
+
+
+// Robert
+
+On 04/14/2016 12:12 AM, Bruce Ashfield wrote:
+> An always on configuration of aufs4 crept into the default kernel
+> configuration blocks.
+>
+> With this change, aufs-enable.scc can be used to turn on aufs via
+> a KERNEL_FEATURES entry. We can now have co-existing unionfs solutions
+> and can update them without breaking builds that haven't opted-in.
+>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+> ---
+>   meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb   |  4 ++--
+>   meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb |  4 ++--
+>   meta/recipes-kernel/linux/linux-yocto_4.4.bb      | 18 +++++++++---------
+>   3 files changed, 13 insertions(+), 13 deletions(-)
+>
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
+> index cb245eeb913a..d81ca13872c0 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
+> @@ -2,8 +2,8 @@ KBRANCH ?= "standard/preempt-rt"
+>
+>   require recipes-kernel/linux/linux-yocto.inc
+>
+> -SRCREV_machine ?= "328830680bc35257c83fc400d9d8e2ae94d86f77"
+> -SRCREV_meta ?= "ab0d998117cca8c55f7ca49ec98b843782bdd25b"
+> +SRCREV_machine ?= "2bc112a6ccd16800a4c45e47ccb3018a1042abdf"
+> +SRCREV_meta ?= "bcc65090840f51a6ac937297be5c22fe268d01ab"
+>
+>   SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.4.git;branch=${KBRANCH};name=machine \
+>              git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.4;destsuffix=${KMETA}"
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
+> index 2821f448e7f1..684e8809859a 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
+> @@ -9,8 +9,8 @@ LINUX_VERSION ?= "4.4.3"
+>   KMETA = "kernel-meta"
+>   KCONF_BSP_AUDIT_LEVEL = "2"
+>
+> -SRCREV_machine ?= "db28bb1e7a682362f58cc42fbb679022df9657a7"
+> -SRCREV_meta ?= "ab0d998117cca8c55f7ca49ec98b843782bdd25b"
+> +SRCREV_machine ?= "1a72cec834de2c80b5563f8afbeea7664fd5ee05"
+> +SRCREV_meta ?= "bcc65090840f51a6ac937297be5c22fe268d01ab"
+>
+>   PV = "${LINUX_VERSION}+git${SRCPV}"
+>
+> diff --git a/meta/recipes-kernel/linux/linux-yocto_4.4.bb b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
+> index 5509dd697bfb..3c5ee1bd43b2 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto_4.4.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
+> @@ -11,15 +11,15 @@ KBRANCH_qemux86  ?= "standard/base"
+>   KBRANCH_qemux86-64 ?= "standard/base"
+>   KBRANCH_qemumips64 ?= "standard/mti-malta64"
+>
+> -SRCREV_machine_qemuarm ?= "d0dae8a98254e7ddd8d9be107e33c3a492bccdae"
+> -SRCREV_machine_qemuarm64 ?= "db28bb1e7a682362f58cc42fbb679022df9657a7"
+> -SRCREV_machine_qemumips ?= "9024e9c842557e258a88470f8b1a772df18d9813"
+> -SRCREV_machine_qemuppc ?= "db28bb1e7a682362f58cc42fbb679022df9657a7"
+> -SRCREV_machine_qemux86 ?= "db28bb1e7a682362f58cc42fbb679022df9657a7"
+> -SRCREV_machine_qemux86-64 ?= "db28bb1e7a682362f58cc42fbb679022df9657a7"
+> -SRCREV_machine_qemumips64 ?= "88fb42ec863d20ccde57dd35da06d6221cfb4c03"
+> -SRCREV_machine ?= "db28bb1e7a682362f58cc42fbb679022df9657a7"
+> -SRCREV_meta ?= "ab0d998117cca8c55f7ca49ec98b843782bdd25b"
+> +SRCREV_machine_qemuarm ?= "ec9167bcb0ccd4897177c5e235af68b5890aa326"
+> +SRCREV_machine_qemuarm64 ?= "1a72cec834de2c80b5563f8afbeea7664fd5ee05"
+> +SRCREV_machine_qemumips ?= "900f98d3ab6498bc7f4ff6b7a489db3bca4e6417"
+> +SRCREV_machine_qemuppc ?= "1a72cec834de2c80b5563f8afbeea7664fd5ee05"
+> +SRCREV_machine_qemux86 ?= "1a72cec834de2c80b5563f8afbeea7664fd5ee05"
+> +SRCREV_machine_qemux86-64 ?= "1a72cec834de2c80b5563f8afbeea7664fd5ee05"
+> +SRCREV_machine_qemumips64 ?= "4b08dfb1fb3bc7659e8f3e13665597d9a9f0816d"
+> +SRCREV_machine ?= "1a72cec834de2c80b5563f8afbeea7664fd5ee05"
+> +SRCREV_meta ?= "bcc65090840f51a6ac937297be5c22fe268d01ab"
+>
+>   SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.4.git;name=machine;branch=${KBRANCH}; \
+>              git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.4;destsuffix=${KMETA}"
+>
 
