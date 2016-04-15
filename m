@@ -1,20 +1,46 @@
-Return-Path: <william.c.randle@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D84165C5C
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 0BCC0605BB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Apr 2016 22:22:47 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga102.jf.intel.com with ESMTP; 15 Apr 2016 15:22:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,489,1455004800"; d="scan'208";a="687012606"
-Received: from wcrandle-mobl1.amr.corp.intel.com ([10.254.30.128])
-	by FMSMGA003.fm.intel.com with ESMTP; 15 Apr 2016 15:22:46 -0700
-From: Bill Randle <william.c.randle@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Apr 2016 15:22:38 -0700
-Message-Id: <1460758958-6882-1-git-send-email-william.c.randle@intel.com>
-X-Mailer: git-send-email 2.5.0
-Subject: [PATCH] systemd: use OE core paths under /var/volatile for /var/tmp and /var/log
+	Fri, 15 Apr 2016 22:26:39 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id y144so9410989wmd.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Apr 2016 15:26:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc; bh=uqArB/e1la8AQ++G9IRNz2giJuqXRDbXWntwjgWj2UY=;
+	b=npDuhU6ezIbRBMEuwtTQrnCl0xggoM0F+2BzivNQ/0Phq06P7a888sO9u4N4cxz8MZ
+	UimdTgCK/TLlGqrxewcTtrfejsz9dsMFDxrgJboqtvc2axgt/hfjITxbMi6pBja+B7CM
+	aLj/01vr6hkz12U3DjKP90/PPhrQtTw3vfDv8cVLEf9AfnPpAoFe+oFCUi3PpPKI1hZ1
+	WWQqgkTT6E/Fp/+mqgIpmFWZV34ZJfkRJVhA5Cx84otDGPUq+JzIfGDrTOQ7F/VIRUg9
+	W3hGibbuwxxkaKpjxGOcf3/7cRErrsQSCr5hgkAZ7Zxtf06alP/0vKBwcRt3N48Dg8Xz
+	LxzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc;
+	bh=uqArB/e1la8AQ++G9IRNz2giJuqXRDbXWntwjgWj2UY=;
+	b=IVxtJkkIYMpJdtTbtLLfBEZKpaqJ/RBPzCvPu1UAf114HqtmKniT0HFFWsH7U5wil0
+	kmvq6+3kS/EsLkEmjN0MzNgUE9hkDt7EJo+i3MAO8fZiAwKJWyoY23kDWsG4YYfGT33H
+	jF6iA+tJMCcCTTbFfzq/G/3GY8ThSo9Z25qa6VU3EBofoQyITT3l4oqxYFyAP6KjcIPH
+	rwpqvnspLYnvjL1GcSKgLwM5PCBvr0G8UI5GJF3bzEtr2WR/+LS6uLs7pdGIZEJ5V2Br
+	nNHDHL8asvwcPtPuF2I4zTY3rMMgcLgo+pzsjGZQSgSI+UTowwoB8aGSNLTqCngXqMB2
+	xAVg==
+X-Gm-Message-State: AOPr4FXzosiWVSihaqYOcgnl/DE7jEHVm7KI+Gt8XwMo0ySLHZ/QSaDaij03Wnds9Mx1orGC9OrTT13x8Ks/KA==
+MIME-Version: 1.0
+X-Received: by 10.194.57.168 with SMTP id j8mr23856103wjq.43.1460759200048;
+	Fri, 15 Apr 2016 15:26:40 -0700 (PDT)
+Received: by 10.194.235.3 with HTTP; Fri, 15 Apr 2016 15:26:39 -0700 (PDT)
+In-Reply-To: <1460701188.9308.203.camel@linuxfoundation.org>
+References: <1459447989-25263-1-git-send-email-armccurdy@gmail.com>
+	<1459447989-25263-4-git-send-email-armccurdy@gmail.com>
+	<1460701188.9308.203.camel@linuxfoundation.org>
+Date: Fri, 15 Apr 2016 15:26:39 -0700
+Message-ID: <CAJ86T=W9XXiv_Eca4h_WuR4yOGHER7DK4U7P9Au2Cyr7MNn2Rw@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/4] base.bbclass: include PV in 'incompatible license but whitelisted' debug
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,113 +53,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Apr 2016 22:22:49 -0000
+X-List-Received-Date: Fri, 15 Apr 2016 22:26:40 -0000
+Content-Type: text/plain; charset=UTF-8
 
-OE uses /var/volatile/log and /var/volatile/tmp instead of
-/var/log and /var/tmp. By also making the change in these
-config files, it avoids systemd printing a warning message
-about /var/{log,tmp} already existing. Set directory perms on
-/var/volatile/tmp to match those systemd uses for /var/tmp.
+On Thu, Apr 14, 2016 at 11:19 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Thu, 2016-03-31 at 11:13 -0700, Andre McCurdy wrote:
+>> Referencing PN only is ambiguous if multiple versions of a recipe are
+>> present.
+>>
+>> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+>> ---
+>>  meta/classes/base.bbclass | 3 ++-
+>>  1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+>> index 67b3370..d91e059 100644
+>> --- a/meta/classes/base.bbclass
+>> +++ b/meta/classes/base.bbclass
+>> @@ -537,7 +537,8 @@ python () {
+>>                      raise bb.parse.SkipPackage("incompatible with
+>> license %s" % license)
+>>              elif pn in whitelist:
+>>                  if pn in incompatwl:
+>> -                    bb.note("INCLUDING " + pn + " as buildable
+>> despite INCOMPATIBLE_LICENSE because it has been whitelisted")
+>> +                    p = d.getVar('P', True)
+>> +                    bb.note("INCLUDING " + p + " as buildable
+>> despite INCOMPATIBLE_LICENSE because it has been whitelisted")
+>>
+>>      needsrcrev = False
+>>      srcuri = d.getVar('SRC_URI', True)
+>
+> FWIW, looking into this has been on my todo list. I've now merged a
+> patch and events generated from recipes during parsing are now
+> automatically prefixed with the recipe filename (we might not know
+> PN/PV at that point).
+>
+> Hopefully that means we can simplify some of these messages rather than
+> meaning we have to ensure every one contains PN/PV.
 
-[YOCTO #9424]
+Thanks. The bitbake change seems to work fine. It creates some very
+long lines though, as expected.
 
-Signed-off-by: Bill Randle <william.c.randle@intel.com>
----
- .../systemd/systemd/00-create-volatile.conf        | 10 ++--
- ...use-OE-core-paths-for-var-tmp-and-var-log.patch | 53 ++++++++++++++++++++++
- meta/recipes-core/systemd/systemd_229.bb           |  1 +
- 3 files changed, 59 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-core/systemd/systemd/0024-use-OE-core-paths-for-var-tmp-and-var-log.patch
+I'll be away next week, but I'll look into simplifying some of the
+messages when I get back (if no one beats me to it).
 
-diff --git a/meta/recipes-core/systemd/systemd/00-create-volatile.conf b/meta/recipes-core/systemd/systemd/00-create-volatile.conf
-index 87cbe1e..d6bba6c 100644
---- a/meta/recipes-core/systemd/systemd/00-create-volatile.conf
-+++ b/meta/recipes-core/systemd/systemd/00-create-volatile.conf
-@@ -1,7 +1,7 @@
--#This goes hand-in-hand with the base-files of OE-Core. The file must
--# be sorted before 'systemd.conf' becuase this attempts to create a file
-+# This goes hand-in-hand with the base-files of OE-Core. The file must
-+# be sorted before 'systemd.conf' because this attempts to create a file
- # inside /var/log.
- 
--
--d		/var/volatile/log		-	-	-	-
--d		/var/volatile/tmp		1777	-	-
-+d /var/volatile 0755 - - -
-+d /var/volatile/log 0755 - - -
-+q /var/volatile/tmp 1777 root root 30d
-diff --git a/meta/recipes-core/systemd/systemd/0024-use-OE-core-paths-for-var-tmp-and-var-log.patch b/meta/recipes-core/systemd/systemd/0024-use-OE-core-paths-for-var-tmp-and-var-log.patch
-new file mode 100644
-index 0000000..f12db3a
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0024-use-OE-core-paths-for-var-tmp-and-var-log.patch
-@@ -0,0 +1,53 @@
-+From d4e695e3afd92cc55a6d836a6973073beff4aba4 Mon Sep 17 00:00:00 2001
-+From: Bill Randle <william.c.randle@intel.com>
-+Date: Fri, 15 Apr 2016 14:34:16 -0700
-+Subject: [PATCH] systemd: use OE core paths for /var/tmp and /var/log
-+
-+OE uses /var/volatile/log and /var/volatile/tmp instead of
-+/var/log and /var/tmp. By also making the change in these
-+config files, it avoids systemd printing a warning message
-+about /var/{log,tmp} already existing.
-+
-+[YOCTO #9424]
-+
-+Upstream-Status: Inappropriate [OE specific]
-+
-+Signed-off-by: Bill Randle <william.c.randle@intel.com>
-+---
-+ tmpfiles.d/tmp.conf | 4 +++-
-+ tmpfiles.d/var.conf | 4 +++-
-+ 2 files changed, 6 insertions(+), 2 deletions(-)
-+
-+diff --git a/tmpfiles.d/tmp.conf b/tmpfiles.d/tmp.conf
-+index 6bbd1aa..4ca7af7 100644
-+--- a/tmpfiles.d/tmp.conf
-++++ b/tmpfiles.d/tmp.conf
-+@@ -9,7 +9,9 @@
-+ 
-+ # Clear tmp directories separately, to make them easier to override
-+ q /tmp 1777 root root 10d
-+-q /var/tmp 1777 root root 30d
-++# OE Core uses /var/volatile/tmp rather than /var/tmp
-++#q /var/tmp 1777 root root 30d
-++L /var/tmp - - - - /var/volatile/tmp
-+ 
-+ # Exclude namespace mountpoints created with PrivateTmp=yes
-+ x /tmp/systemd-private-%b-*
-+diff --git a/tmpfiles.d/var.conf b/tmpfiles.d/var.conf
-+index ae7952e..09d5fee 100644
-+--- a/tmpfiles.d/var.conf
-++++ b/tmpfiles.d/var.conf
-+@@ -11,7 +11,9 @@ q /var 0755 - - -
-+ 
-+ L /var/run - - - - ../run
-+ 
-+-d /var/log 0755 - - -
-++# OE Core uses /var/volatile/log rather than /var/log
-++#d /var/log 0755 - - -
-++L /var/log - - - - /var/volatile/log
-+ f /var/log/wtmp 0664 root utmp -
-+ f /var/log/btmp 0600 root utmp -
-+ 
-+-- 
-+2.5.0
-+
-diff --git a/meta/recipes-core/systemd/systemd_229.bb b/meta/recipes-core/systemd/systemd_229.bb
-index c23c749..9334065 100644
---- a/meta/recipes-core/systemd/systemd_229.bb
-+++ b/meta/recipes-core/systemd/systemd_229.bb
-@@ -54,6 +54,7 @@ SRC_URI = "git://github.com/systemd/systemd.git;protocol=git \
-            file://0021-include-missing.h-for-getting-secure_getenv-definiti.patch \
-            file://0022-socket-util-don-t-fail-if-libc-doesn-t-support-IDN.patch \
-            file://0023-build-sys-fix-build-with-libgrcypt-disabled.patch \
-+           file://0024-use-OE-core-paths-for-var-tmp-and-var-log.patch \
- "
- SRC_URI_append_libc-uclibc = "\
-            file://0002-units-Prefer-getty-to-agetty-in-console-setup-system.patch \
--- 
-2.5.0
-
+> Cheers,
+>
+> Richard
 
