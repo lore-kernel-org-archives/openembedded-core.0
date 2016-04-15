@@ -1,49 +1,49 @@
 Return-Path: <armccurdy@gmail.com>
 Received: from mail-io0-f194.google.com (mail-io0-f194.google.com
 	[209.85.223.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F7006E682
+	by mail.openembedded.org (Postfix) with ESMTP id 407CC6FF30
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Apr 2016 00:00:15 +0000 (UTC)
-Received: by mail-io0-f194.google.com with SMTP id u185so16836652iod.2
+	Sat, 16 Apr 2016 00:00:13 +0000 (UTC)
+Received: by mail-io0-f194.google.com with SMTP id g185so16937358ioa.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Apr 2016 17:00:16 -0700 (PDT)
+	Fri, 15 Apr 2016 17:00:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=l6vbsVDtH4fRvOdChsG2XtBHGcZSdrHEoYgVj0v37vY=;
-	b=Zt6UvaYlHOgu6IE5MT6IzTqZ3cFZj9mEkKSBN5syZrDuOnh70fU6vKpQvrwy+Lrbi1
-	sLZ7rgFo5Z/LW9k7q/Mu+uqVLY4O4kW+SJBS9lp6UAV2mwVJk9JBdOwrAnp8T3I1+16a
-	A3LSstxbsi320821Iu+qzymKjIMTUESgtGuEJvLmt/92R6WS6zN40ZWQ4hAFFVnxt8nd
-	PP3zcREVUOQyWhcAUK1k3x66tUwMIN89Yfq2zFdi+mcew9Mb+BHQ4JGszBMcdSrZJ0bA
-	VfXMtGn7dhKde+sWElfY9bJQD/0WXCpRGfRyqCbEqUFBjaAr8USJimyb5hSWCXyY8Ww1
-	grng==
+	bh=1XXKQr11/blKvJPIcCMaCKoYkoQs+bpiVQuwTTqh728=;
+	b=Z14V2hsMpdisnUjhlWVDU/O71D6NGddDthWpI30nPVeJV1acXlws4kAaGhnuMRx2B8
+	7kpKVtavolgYRG0u9XblbcmOXZyvkoCcVgCnK6a1j1jFSNq6GudVD+U18uUurIMm3nVN
+	nLDhd/It7Y5BpEG7myVROaMb2GBQSN6+sPcJxvZ0XReMBKCn6pGwRJvA+4HuWZrZxZ16
+	triH7isyL/HspdpdqK+SDt11N3SzU9JH/ibW8s7/XSDN86LC9grrS2JLHyuNSeFDLV5x
+	wLvPIYMmYLESQFu8ksiZHH9+lbM4tRS3e6OqYhZDTbQfEYKuC0vdgvs9c5y4cJJUR67k
+	gp0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=l6vbsVDtH4fRvOdChsG2XtBHGcZSdrHEoYgVj0v37vY=;
-	b=LtohA8A7Rf0kKY2IHTjKc5ByiIhndNCyeWsfLKZrdc5HTLSOw4nE7/HUn+xQwZpMjf
-	JgqsGF6VprPQUhiKGwqqRmO9cEWIaexLeLmGsMQPCPFeCKs5d3coasYengw5+iuGDPV5
-	6BAP23jOjrhCqLaLWB+SBcVDmvSVgZLQAYufvec835UqvrzkmdOWt++VIDR0Te3/6QXc
-	jMcyUTW9a8O3baEIrFcYRFwC2VCcFPuCYAuB/smTCQQe/RaIUoVQisHDQ2PNp23/hPDc
-	TL/LklxN5p21z6Yk6PnOktvhQsrqNrZP6mvDlNWUyURS5gLaTzr40w0aomlseqhVcME0
-	JrYQ==
-X-Gm-Message-State: AOPr4FVUnJOVyRkTcm4LWmebMdIJ7jDeXrBvuU5fCkSFwR2ev5I6SFhu29V8+o3pBGWP1g==
-X-Received: by 10.107.9.232 with SMTP id 101mr23963889ioj.49.1460764816319;
-	Fri, 15 Apr 2016 17:00:16 -0700 (PDT)
+	bh=1XXKQr11/blKvJPIcCMaCKoYkoQs+bpiVQuwTTqh728=;
+	b=RmfSPM99T7puUTLdEJINq+TVkaF1/RCc6H4xMaaFNWiX2MRzWDY4aUYCZQu0pf82e3
+	9b1FRBnZzRd3z8W+ifdXDk4FHPfzG9g/jzCP+mPSMgEGUeOcfGRO6xHsC+T6XCcdeEuV
+	PIkQBTfEdaz/Ohvb9/LZlqJnwFifHWXSA14F+ZISAwOPoQUBOR+blSO1j3JSXWcJK7T+
+	13TjvtL1XhwpCijhFHCR3C0IFJ6HlrI2MQVq3darBO3taWj064L4m4Grjrp9JBosHH+9
+	2JXQOQ4SPMBrtvg6p3S/cfqPYB/1i1Da1PvCEIHTscdUZKZ/Qpk76yMwIUDhoo78Z6mJ
+	jCXg==
+X-Gm-Message-State: AOPr4FWwPoA0tCplPIzKhRG9y9RukWdClyXZP1UScoa3liH0x1/QXIW8n39vyjS04zPMug==
+X-Received: by 10.107.132.78 with SMTP id g75mr26465773iod.50.1460764814556;
+	Fri, 15 Apr 2016 17:00:14 -0700 (PDT)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
 	by smtp.gmail.com with ESMTPSA id
-	a75sm30569006ioj.36.2016.04.15.17.00.15
+	a75sm30569006ioj.36.2016.04.15.17.00.13
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 15 Apr 2016 17:00:15 -0700 (PDT)
+	Fri, 15 Apr 2016 17:00:13 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Apr 2016 16:59:56 -0700
-Message-Id: <1460764798-12701-6-git-send-email-armccurdy@gmail.com>
+Date: Fri, 15 Apr 2016 16:59:55 -0700
+Message-Id: <1460764798-12701-5-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1460764798-12701-1-git-send-email-armccurdy@gmail.com>
 References: <1460764798-12701-1-git-send-email-armccurdy@gmail.com>
-Subject: [2.2][PATCH 5/7] harfbuzz: update 1.2.3 -> 1.2.4
+Subject: [2.2][PATCH 4/7] gnutls: update 3.4.10 -> 3.4.11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,44 +58,56 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sat, 16 Apr 2016 00:00:16 -0000
 
-Overview of changes leading to 1.2.4
-Thursday, March 17, 2016
-====================================
+* Version 3.4.11 (released 2016-04-11)
 
-- Synthesize GDEF glyph class for any glyph that does not have one in GDEF.
-  I really hope we don't discover broken fonts that shape badly with this
-  change.
-- Misc build and other minor fixes.
-- API changes:
-  - Added HB_NDEBUG.  It's fine for production systems to define this to
-    disable high-overhead debugging checks.  However, I also reduced the
-    overhead of those checks, so it's a non-issue right now.  You can
-    forget it.  Just not defining anything at all is fine.
+** libgnutls: Fixes in gnutls_record_get/set_state() with DTLS. Reported
+   by Fridolin Pokorny.
+
+** libgnutls: Fixes in DSA key generation under PKCS #11. Report and patches
+   by Jan Vcelak.
+
+** libgnutls: Corrected behavior of ALPN extension parsing during session
+   resumption. Report and patches by Yuriy M. Kaminskiy.
+
+** libgnutls: Corrected regression (since 3.4.0) in gnutls_server_name_set()
+   which caused it not to accept non-null-terminated hostnames. Reported
+   by Tim Ruehsen.
+
+** libgnutls: Corrected printing of the IP Adress name constraints.
+
+** ocsptool: use HTTP/1.0 for requests. This avoids issue with servers
+   serving chunk encoding which ocsptool doesn't support. Reported by Thomas
+   Klute.
+
+** certtool: do not require a CA for OCSP signing tag. This follows the
+   recommendations in RFC6960 in 4.2.2.2 which allow a CA to delegate OCSP
+   signing to another certificate without requiring it to be a CA. Reported
+   by Thomas Klute.
+
+** API and ABI modifications:
+No changes since last version.
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- .../harfbuzz/{harfbuzz_1.2.3.bb => harfbuzz_1.2.4.bb}                 | 4 ++--
+ meta/recipes-support/gnutls/{gnutls_3.4.10.bb => gnutls_3.4.11.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/harfbuzz/{harfbuzz_1.2.3.bb => harfbuzz_1.2.4.bb} (88%)
+ rename meta/recipes-support/gnutls/{gnutls_3.4.10.bb => gnutls_3.4.11.bb} (60%)
 
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_1.2.3.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_1.2.4.bb
-similarity index 88%
-rename from meta/recipes-graphics/harfbuzz/harfbuzz_1.2.3.bb
-rename to meta/recipes-graphics/harfbuzz/harfbuzz_1.2.4.bb
-index cfe885f..27001ec 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_1.2.3.bb
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_1.2.4.bb
-@@ -12,8 +12,8 @@ DEPENDS = "glib-2.0 cairo fontconfig freetype"
- 
- SRC_URI = "http://www.freedesktop.org/software/harfbuzz/release/${BP}.tar.bz2"
- 
--SRC_URI[md5sum] = "da8d97e262e6ef8288e1ae76369421bd"
--SRC_URI[sha256sum] = "8216d2404aaab7fde87be0365a90d64aa6c55928e104557cfcb37b54a096cb8c"
-+SRC_URI[md5sum] = "3898b890f13dce5ac7a01c5446021729"
-+SRC_URI[sha256sum] = "449dbdf12a8f94aedbdefaac831d8b1bf45e7decaa9192eaa4f74104ef9de491"
- 
- inherit autotools pkgconfig lib_package
- 
+diff --git a/meta/recipes-support/gnutls/gnutls_3.4.10.bb b/meta/recipes-support/gnutls/gnutls_3.4.11.bb
+similarity index 60%
+rename from meta/recipes-support/gnutls/gnutls_3.4.10.bb
+rename to meta/recipes-support/gnutls/gnutls_3.4.11.bb
+index 73f1fc0..4203548 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.4.10.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.4.11.bb
+@@ -4,5 +4,5 @@ SRC_URI += "file://correct_rpl_gettimeofday_signature.patch \
+             file://0001-configure.ac-fix-sed-command.patch \
+             file://use-pkg-config-to-locate-zlib.patch \
+            "
+-SRC_URI[md5sum] = "fe9a0dc5adf205122f01a3e7dac5f8dd"
+-SRC_URI[sha256sum] = "6a32c2b4acbd33ff7eefcbd1357009da04c94c60146ef61320b6c076b1bdf59f"
++SRC_URI[md5sum] = "4da148b5a0048aaac4961e2d9ba95798"
++SRC_URI[sha256sum] = "70ef9c9f95822d363036c6e6b5479750e5b7fc34f50e750c3464a98ec65a9ab8"
 -- 
 1.9.1
 
