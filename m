@@ -1,20 +1,48 @@
-Return-Path: <stephano.cetola@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 087836FF30
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BD3E370034
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Apr 2016 16:40:02 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga104.fm.intel.com with ESMTP; 15 Apr 2016 09:40:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,488,1455004800"; d="scan'208";a="785713950"
-Received: from unknown (HELO yocto-dev86.jf.intel.com) ([10.7.198.63])
-	by orsmga003.jf.intel.com with ESMTP; 15 Apr 2016 09:39:59 -0700
-From: Stephano Cetola <stephano.cetola@linux.intel.com>
+	Fri, 15 Apr 2016 17:30:09 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 39B0A180D3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Apr 2016 19:30:09 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id rl2va8zH0ta4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Apr 2016 19:30:08 +0200 (CEST)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bastet.se.axis.com (Postfix) with ESMTP id 22A38180C2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Apr 2016 19:30:08 +0200 (CEST)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 0459F163F
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Apr 2016 19:30:08 +0200 (CEST)
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by boulder.se.axis.com (Postfix) with ESMTP id EDCD214D5
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Apr 2016 19:30:07 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by thoth.se.axis.com (Postfix) with ESMTP id EC3C01039
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Apr 2016 19:30:07 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u3FHU7Nh014278
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Apr 2016 19:30:07 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u3FHU7Um014242
+	for openembedded-core@lists.openembedded.org;
+	Fri, 15 Apr 2016 19:30:07 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Apr 2016 09:40:29 -0700
-Message-Id: <1460738429-29956-1-git-send-email-stephano.cetola@linux.intel.com>
-X-Mailer: git-send-email 2.8.0
-Subject: [PATCH v2] devtool: sdk-update: reset git metadata on update
+Date: Fri, 15 Apr 2016 19:30:05 +0200
+Message-Id: <cover.1460741369.git.pkj@axis.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH 0/2] Correct oe-selftest usage information
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,62 +55,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Apr 2016 16:40:05 -0000
+X-List-Received-Date: Fri, 15 Apr 2016 17:30:10 -0000
 
-Replace git pull with fetch and reset to avoid the merge logic in the
-event that the layers repo in the published SDK we're updating to isn't
-fast-forward merge from the local repo.
+This corrects the usage information in the oe-selftest script, and
+corrects references to meta/lib/oeqa/selftest in some comments.
 
-Also add gitignore and committer info during publish to avoid errors and
-to be sure that the first commit has a dummy user in it.
+//Peter
 
-[ YOCTO #9368 ]
+The following changes since commit 20a0121b558b32179220e394a66cb90dc6ff3879:
 
-Signed-off-by: Stephano Cetola <stephano.cetola@linux.intel.com>
----
- scripts/lib/devtool/sdk.py | 10 ++++++++--
- scripts/oe-publish-sdk     |  4 ++--
- 2 files changed, 10 insertions(+), 4 deletions(-)
+  bitbake: bitbake-user-manual: Updated discussion about using "inherit" (2016-04-15 06:59:44 +0100)
 
-diff --git a/scripts/lib/devtool/sdk.py b/scripts/lib/devtool/sdk.py
-index b1905f9..a22841d 100644
---- a/scripts/lib/devtool/sdk.py
-+++ b/scripts/lib/devtool/sdk.py
-@@ -186,9 +186,15 @@ def sdk_update(args, config, basepath, workspace):
-                 return 0
-             # Update metadata
-             logger.debug("Updating metadata via git ...")
--            # Try using 'git pull', if failed, use 'git clone'
-+            #Check for the status before doing a fetch and reset
-             if os.path.exists(os.path.join(basepath, 'layers/.git')):
--                ret = subprocess.call("git pull %s/layers/.git" % updateserver, shell=True, cwd=layers_dir)
-+                out = subprocess.check_output("git status --porcelain", shell=True, cwd=layers_dir)
-+                if not out:
-+                    ret = subprocess.call("git fetch --all; git reset --hard", shell=True, cwd=layers_dir)
-+                else:
-+                    logger.error("Failed to update metadata as there have been changes made to it. Aborting.");
-+                    logger.error("Changed files:\n%s" % out);
-+                    return -1
-             else:
-                 ret = -1
-             if ret != 0:
-diff --git a/scripts/oe-publish-sdk b/scripts/oe-publish-sdk
-index e6cb7af..55872f2 100755
---- a/scripts/oe-publish-sdk
-+++ b/scripts/oe-publish-sdk
-@@ -114,9 +114,9 @@ def publish(args):
- 
-     # Setting up the git repo
-     if not is_remote:
--        cmd = 'set -e; mkdir -p %s/layers; cd %s/layers; if [ ! -e .git ]; then git init .; mv .git/hooks/post-update.sample .git/hooks/post-update; fi; git add -A .; git commit -q -m "init repo" || true; git update-server-info' % (destination, destination)
-+        cmd = 'set -e; mkdir -p %s/layers; cd %s/layers; if [ ! -e .git ]; then git init .; mv .git/hooks/post-update.sample .git/hooks/post-update; echo "*.pyc\n*.pyo" > .gitignore; fi; git add -A .; git config user.email "oe@oe.oe" && git config user.name "OE" && git commit -q -m "init repo" || true; git update-server-info' % (destination, destination)
-     else:
--        cmd = "ssh %s 'set -e; mkdir -p %s/layers; cd %s/layers; if [ ! -e .git ]; then git init .; mv .git/hooks/post-update.sample .git/hooks/post-update; fi; git add -A .; git commit -q -m \"init repo\" || true; git update-server-info'" % (host, destdir, destdir)
-+        cmd = "ssh %s 'set -e; mkdir -p %s/layers; cd %s/layers; if [ ! -e .git ]; then git init .; mv .git/hooks/post-update.sample .git/hooks/post-update; echo '*.pyc\n*.pyo' > .gitignore; fi; git add -A .; git config user.email 'oe@oe.oe' && git config user.name 'OE' && git commit -q -m \"init repo\" || true; git update-server-info'" % (host, destdir, destdir)
-     ret = subprocess.call(cmd, shell=True)
-     if ret == 0:
-         logger.info('SDK published successfully')
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib pkj/oe-selftest_usage
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/oe-selftest_usage
+
+Peter Kjellerstedt (2):
+  oe-selftest: Correct the usage examples
+  lib/oeqa/selftest/base.py: Correct a reference to
+    meta/lib/oeqa/selftest
+
+ meta/lib/oeqa/selftest/base.py | 2 +-
+ scripts/oe-selftest            | 8 ++++----
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+
 -- 
-2.8.0
+2.1.0
 
 
