@@ -1,41 +1,45 @@
-Return-Path: <christopher.w.clark@gmail.com>
-Received: from mail-ob0-f179.google.com (mail-ob0-f179.google.com
-	[209.85.214.179])
-	by mail.openembedded.org (Postfix) with ESMTP id A06A362137
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ig0-f195.google.com (mail-ig0-f195.google.com
+	[209.85.213.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 22AA9602D9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Apr 2016 03:28:22 +0000 (UTC)
-Received: by mail-ob0-f179.google.com with SMTP id j9so58401764obd.3
+	Fri, 15 Apr 2016 03:47:53 +0000 (UTC)
+Received: by mail-ig0-f195.google.com with SMTP id qu10so1425954igc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Apr 2016 20:28:23 -0700 (PDT)
+	Thu, 14 Apr 2016 20:47:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to;
-	bh=Q55ltwMMFHu3P685T8uL8pEJmYIRxe/HhpGxxItGyuE=;
-	b=c+2qds2HZ3qRg8/ZHuUh3oE2TDeMSzX1wQ3gxk4nm8hjLbB7TlFZSetDhKc2owNqV5
-	djlcvEZs1f5ooGiL4kwlqgwtFs7sYZANSDIwsy8n61QiiMkkz3jxrtzTZTZ8VPe/di5M
-	U5VkaC4oBqZEE9w10uC+Qv3v8DCqazqrNcVNBl7R+pVZvNEe9U0k7XmFaoxU0TBvt1hZ
-	IyJuCfxsrDjB2RxvEjR50+V2JvVEuTWAUKHsl2zUdre0bNPSmLmwzmwgBrlIUA/LP+ei
-	iGmiTCt1POAXQoZJwkNB220EHxGSDIQRfXcDmyTmN25A2nEbj3uft8IrkCDzCeggqp4K
-	lQYQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=/fAjaHSMyORYY2RCeqXFnwu9TdC4EjTNitJZ9l1JmIs=;
+	b=l98WVb6MkvKQ2iMm3lBfhIX54GTPUCA2ZL8+kDalfhF2xptwu7alSyvlvt/LVTpfit
+	a+Agybyyl7xsLW8suyzk9m4NkEcLHKNChkOW5tfCI6w7f5H6xXUHJ0YVj3W6SL7PZw65
+	ClNbf29NwWEsVxoyH0Vu2kIHKkUKXjWdRHMnOaslGCBsGsYKDkg1q8knpNBhjMZWt4GQ
+	FXh85Wb8K+e1LpOB4PQno4o7smGgKY82nK7kki/1rhxiX4GwsFdEq8CZykEAo6m8l4w5
+	non+VIC2DqiyjCvLAA1MY3Nh/hi1NoEhycy6xWrvcDKQHt7cQS4lwfreczC3ATH8CHzs
+	mwNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-	bh=Q55ltwMMFHu3P685T8uL8pEJmYIRxe/HhpGxxItGyuE=;
-	b=LN7DITWTRiX1z0Ff3t8/Y6XImxZc0nKC1uPWz7r877SM3zOBQ5sUPZf7kOYQOqPQVj
-	ijDenFZ7+KlVmFY5LBMWSGSrT/2I/PwaZwWvFuM5CyDjdF5kubVOL6IPA9yv8sga3J2u
-	JA9UuqSQB4trdvZpYCY2jZMMF0JAUeWs16syd0E/stAPebOoqBEjM642kNMpjhCUTXNg
-	WC5DiNGYKMF9/ej2mkJfTud/CvQHwWehFWsd9yTO0KFbEtXK0cu4zJK0OKk2l5cslFRF
-	ueAQs4sTdRDlSRLY/3+6Q86zJkMehcVdbJtY89Cw+sWgCnqQckct2RtPlBGurxXdRAXJ
-	BS4g==
-X-Gm-Message-State: AOPr4FX6zBNqQEtLEnj8FI+fo72c0YvfDDW1wBActS6MHKth/LmK5Ra1TxM7LWomNLjJHCIEiybyzY3oTKzugw==
-MIME-Version: 1.0
-X-Received: by 10.60.173.69 with SMTP id bi5mr10086689oec.59.1460690902609;
-	Thu, 14 Apr 2016 20:28:22 -0700 (PDT)
-Received: by 10.157.29.249 with HTTP; Thu, 14 Apr 2016 20:28:22 -0700 (PDT)
-Date: Thu, 14 Apr 2016 20:28:22 -0700
-Message-ID: <CACMJ4GZf4QeyZ3WBdr9rjg-iEz6h7kx0mJcSbp41yoEe+J0fCg@mail.gmail.com>
-From: Christopher Clark <christopher.w.clark@gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=/fAjaHSMyORYY2RCeqXFnwu9TdC4EjTNitJZ9l1JmIs=;
+	b=lCkpEQZXzrRvDJ0rd5TvAI2K8G1O+I94s1b1/T+fWJb3tn1yH/cXwAfD/RXm0EVG1d
+	3nwk873hAGTpid5U/vwLZ2KY7EHE8m3FmVcxr76Qo1MogYtzPiYOwWNRf95GYBYnp7Z+
+	UoaJpKWfY85jmdaELOpRsyZFWxea+rR3PMepi4VY8+EGe8a2DGlhD2yHQ4qh50V5x9i3
+	J2ic8JlXE7xj3YVdDVpt/o7QasF5QtpO1Q64VR2mfnQ8wjSDuCy2lqSaBErN94GvSTId
+	QvVNENRdUnesUwjhFN5rwHji1dd2p9CRV0SACL3+PCL6sHhVyX9OS4hVW2GQaE2nz6Qe
+	LhNQ==
+X-Gm-Message-State: AOPr4FU0MgH5BRy+KTs+Cd+Oz/77HGHX5aWJoecgOq5Hm06GyLE64hiOIdCh72OFNtyg8g==
+X-Received: by 10.50.41.226 with SMTP id i2mr2097101igl.33.1460692073902;
+	Thu, 14 Apr 2016 20:47:53 -0700 (PDT)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id j7sm4752274igv.22.2016.04.14.20.47.52
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 14 Apr 2016 20:47:52 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] linux-firmware: break out bnx2 mips firmware and WHENCE license
+Date: Thu, 14 Apr 2016 20:47:46 -0700
+Message-Id: <1460692066-24047-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] image.bbclass: don't emit redundant IMAGE_CMD_xxx functions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,93 +52,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Apr 2016 03:28:26 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 15 Apr 2016 03:47:56 -0000
 
-commit a19cfee10c1f1762da601125c17035cf7701ce91
-Author: Christopher Clark <christopher.clark6@baesystems.com>
-Date:   Thu Apr 14 17:00:20 2016 -0700
+IMAGE_CMD_xxx commands are always inlined within do_image_xxx.
 
-    linux-firmware: break out bnx2 mips firmware and WHENCE license
+When IMAGE_CMD_xxx is defined as a function (e.g. IMAGE_CMD_btrfs,
+IMAGE_CMD_cpio, etc), a redundant copy of the function will be emitted
+by default. Remove IMAGE_CMD_xxx 'func' flags to prevent that.
 
-    Break out the bnx2 mips firmware into an independent subpackage.
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
 
-    Since the bnx2 firmware license is contained in the common WHENCE file
-    also package that separately so that other firmware that is licensed
-    within that file may depend upon a standalone package containing it.
+This has been tested and seems to work as expected, however I'm not
+100% sure I fully understand the implications of localdata -vs- d
+or realt -vs- t in this code, so please review before merging.
 
-    Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
+ meta/classes/image.bbclass | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index a4e64d5..95a57d7 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -55,6 +55,7 @@ LICENSE = "\
-     & Firmware-xc4000 \
-     & Firmware-xc5000 \
-     & Firmware-xc5000c \
-+    & WHENCE \
- "
-
- LIC_FILES_CHKSUM = "\
-@@ -111,6 +112,7 @@ LIC_FILES_CHKSUM = "\
-     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
-     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
-     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
-+    file://WHENCE;md5=2ec7cdcaf7b1f57b77665b4d77b76e50 \
- "
-
- # These are not common licenses, set NO_GENERIC_LICENSE for them
-@@ -168,6 +170,7 @@ NO_GENERIC_LICENSE[Firmware-wl1251] = "LICENCE.wl1251"
- NO_GENERIC_LICENSE[Firmware-xc4000] = "LICENCE.xc4000"
- NO_GENERIC_LICENSE[Firmware-xc5000] = "LICENCE.xc5000"
- NO_GENERIC_LICENSE[Firmware-xc5000c] = "LICENCE.xc5000c"
-+NO_GENERIC_LICENSE[WHENCE] = "WHENCE"
-
- SRCREV = "5f8ca0c1db6106a2d6d7e85eee778917ff03c3de"
- PE = "1"
-@@ -227,6 +230,8 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
-              ${PN}-iwlwifi-7265d ${PN}-iwlwifi-8000c ${PN}-iwlwifi-8265 \
-              ${PN}-i915-license ${PN}-i915 \
-              ${PN}-adsp-sst-license ${PN}-adsp-sst \
-+             ${PN}-bnx2-mips \
-+             ${PN}-whence-license \
-              ${PN}-license \
-              "
-
-@@ -425,6 +430,19 @@ RDEPENDS_${PN}-bcm43340 += "${PN}-broadcom-license"
- RDEPENDS_${PN}-bcm4339 += "${PN}-broadcom-license"
- RDEPENDS_${PN}-bcm4354 += "${PN}-broadcom-license"
-
-+# For Broadcom bnx2-mips
-+#
-+# which is a separate case to the other Broadcom firmwares since its
-+# license is contained in the shared WHENCE file.
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index f471f1a..ca6dda4 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -388,6 +388,10 @@ python () {
+             bb.fatal("No IMAGE_CMD defined for IMAGE_FSTYPES entry '%s' - possibly invalid type name or missing support class" % t)
+         cmds.append(localdata.expand("\tcd ${DEPLOY_DIR_IMAGE}"))
+ 
++        # Since a copy of IMAGE_CMD_xxx will be inlined within do_image_xxx,
++        # prevent a redundant copy of IMAGE_CMD_xxx being emitted as a function.
++        d.delVarFlag('IMAGE_CMD_' + realt, 'func')
 +
-+LICENSE_${PN}-bnx2-mips = "WHENCE"
-+LICENSE_${PN}-whence-license = "WHENCE"
-+
-+FILES_${PN}-bnx2-mips = "/lib/firmware/bnx2/bnx2-mips-09-6.2.1b.fw"
-+FILES_${PN}-whence-license = "/lib/firmware/WHENCE"
-+
-+RDEPENDS_${PN}-bnx2-mips += "${PN}-whence-license"
-+
- # For iwlwifi
- LICENSE_${PN}-iwlwifi-135-6     = "Firmware-iwlwifi_firmware"
- LICENSE_${PN}-iwlwifi-3160-7    = "Firmware-iwlwifi_firmware"
-@@ -543,11 +561,13 @@ LICENSE_${PN} = "\
-     & Firmware-xc4000 \
-     & Firmware-xc5000 \
-     & Firmware-xc5000c \
-+    & WHENCE \
- "
+         rm_tmp_images = set()
+         def gen_conversion_cmds(bt):
+             for ctype in ctypes:
+-- 
+1.9.1
 
- FILES_${PN}-license += "/lib/firmware/LICEN*"
- FILES_${PN} += "/lib/firmware/*"
- RDEPENDS_${PN} += "${PN}-license"
-+RDEPENDS_${PN} += "${PN}-whence-license"
-
- # Make linux-firmware depend on all of the split-out packages.
- python populate_packages_prepend () {
 
