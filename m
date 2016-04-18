@@ -1,24 +1,46 @@
-Return-Path: <Catalin.Enache@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 719CD6067D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
+	[209.85.213.172])
+	by mail.openembedded.org (Postfix) with ESMTP id BA5DC60110
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Apr 2016 11:34:06 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u3IBY6XK016701
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 18 Apr 2016 12:16:51 +0000 (UTC)
+Received: by mail-ig0-f172.google.com with SMTP id y9so22612013igg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Apr 2016 04:34:07 -0700 (PDT)
-Received: from no3.corp.ad.wrs.com (128.224.124.137) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Mon, 18 Apr 2016 04:34:06 -0700
-From: Catalin Enache <catalin.enache@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 18 Apr 2016 14:37:03 +0300
-Message-ID: <1460979423-6171-1-git-send-email-catalin.enache@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Mon, 18 Apr 2016 05:16:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=5+MgHRa85KaugcX9TiKoAsjzyTpPycGyVT8kpbS0WlU=;
+	b=jKNpOIFZUNC4n1ChpbkObyb4QBAHh3MXjACd63GHCTwLw88GyDdtIQCVL4SdbWDX0+
+	ADXh0rTvfJAgkBsTa6QilwXqSN/GuzsZS9l41QsxNYKV7VoKtpaPst6aVM/J3Loe9UBF
+	ByCs1CDOfrMGOyli8QoAEosN6yWGON3WEOo+pjzXxzZ4/f0gCxbE0aXKcCRfN6YiXO0a
+	dLTiNwtojWiUTHBdCXt1IjyFB0te4ClrTYvFXZ+qGwIcZb+naCKDViiXPWEGU+s8BATx
+	UOcBPRjm5HfozbK2sfHQQM66XcL4J2md5Csmehzdlqml+pYJAiUojpwYxBRqMTByV2zZ
+	AueA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=5+MgHRa85KaugcX9TiKoAsjzyTpPycGyVT8kpbS0WlU=;
+	b=ZRnJHU8iE/XSZaEy0UiurGWa+1x7+elmbtvGcaN29/yVbrXxhxDURYJWQ5qX986Ci9
+	1sB2m3ILEnKRwkuP6xHYl0D17Kcq8jKDTB2RnXp/BOd2jOhpPF0jupdBUXX1jvkaHgTI
+	f340vtAMKxXdxqE6WQJ6RTkhWhhXK19nR+2gtZrtsMpDdO8CZdIrP3yLZ+WAp0IS5jin
+	3Dc45IVJjtlH/HSgcAkqJ2ycBnjsv8ZKIfR6FAScBXcqlVOQzmC+dRpAuyGF5HDWySPa
+	mBGEC/0q30D7uvKgHJcvLDRTNYk3XKB/skH6RRjlbh/MS7Ws2AllHg7F2iZD5OXPgSVg
+	gLyg==
+X-Gm-Message-State: AOPr4FXwIbbCLeMGpC2kMTWiPTzsbQvzs2LkpdfoPdFtvJZsf5uk8NvKC/CB3E1cP0l6mrZ51rchXNjejMz8B2ZN
+X-Received: by 10.50.155.67 with SMTP id vu3mr17816296igb.52.1460981812549;
+	Mon, 18 Apr 2016 05:16:52 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] dhcp: CVE-2016-2774
+Received: by 10.107.132.24 with HTTP; Mon, 18 Apr 2016 05:16:33 -0700 (PDT)
+In-Reply-To: <1460979423-6171-1-git-send-email-catalin.enache@windriver.com>
+References: <1460979423-6171-1-git-send-email-catalin.enache@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 18 Apr 2016 13:16:33 +0100
+Message-ID: <CAJTo0LbTRM37b4rC2Zq8mxEvDLrXCpk1D7w-WeeDW6jm=bJEsA@mail.gmail.com>
+To: Catalin Enache <catalin.enache@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] dhcp: CVE-2016-2774
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,108 +53,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Apr 2016 11:34:09 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 18 Apr 2016 12:16:54 -0000
+Content-Type: multipart/alternative; boundary=001a1134dbecf600360530c15571
 
-ISC DHCP 4.1.x before 4.1-ESV-R13 and 4.2.x and 4.3.x before
-4.3.4 does not restrict the number of concurrent TCP sessions,
-which allows remote attackers to cause a denial of service
-(INSIST assertion failure or request-processing outage)
-by establishing many sessions.
+--001a1134dbecf600360530c15571
+Content-Type: text/plain; charset=UTF-8
 
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-2774
+On 18 April 2016 at 12:37, Catalin Enache <catalin.enache@windriver.com>
+wrote:
 
-Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
----
- .../dhcp/dhcp/CVE-2016-2774.patch                  | 65 ++++++++++++++++++++++
- meta/recipes-connectivity/dhcp/dhcp_4.3.3.bb       |  1 +
- 2 files changed, 66 insertions(+)
- create mode 100644 meta/recipes-connectivity/dhcp/dhcp/CVE-2016-2774.patch
+> +From b9f56d578ebfd649b5d829960540859ac6ca931c Mon Sep 17 00:00:00 2001
+> +From: Catalin Enache <catalin.enache@windriver.com>
+> +Date: Tue, 12 Apr 2016 18:23:31 +0300
+> +Subject: [PATCH] Add patch to limit the value of an fd we accept for a
+> + connection.
+> +
+> +Upstream-Status: Backport
+> +
+> +By limiting the highest value we accept for an fd we limit the number
+> +of connections.
+> +
+> +Author: Shawn Routhier <sar@isc.org>
+> +Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
+>
 
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/CVE-2016-2774.patch b/meta/recipes-connectivity/dhcp/dhcp/CVE-2016-2774.patch
-new file mode 100644
-index 0000000..93ff54a
---- /dev/null
-+++ b/meta/recipes-connectivity/dhcp/dhcp/CVE-2016-2774.patch
-@@ -0,0 +1,65 @@
-+From b9f56d578ebfd649b5d829960540859ac6ca931c Mon Sep 17 00:00:00 2001
-+From: Catalin Enache <catalin.enache@windriver.com>
-+Date: Tue, 12 Apr 2016 18:23:31 +0300
-+Subject: [PATCH] Add patch to limit the value of an fd we accept for a
-+ connection.
-+
-+Upstream-Status: Backport
-+
-+By limiting the highest value we accept for an fd we limit the number
-+of connections.
-+
-+Author: Shawn Routhier <sar@isc.org>
-+Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
-+---
-+ includes/site.h   | 6 ++++++
-+ omapip/listener.c | 9 +++++++--
-+ 3 files changed, 18 insertions(+), 2 deletions(-)
-+
-+diff --git a/includes/site.h b/includes/site.h
-+index 9c33de3..df020c8 100644
-+--- a/includes/site.h
-++++ b/includes/site.h
-+@@ -290,6 +290,12 @@
-+    this option will be removed at some time. */
-+ /* #define INCLUDE_OLD_DHCP_ISC_ERROR_CODES */
-+ 
-++/* Limit the value of a file descriptor the serve will use
-++   when accepting a connecting request.  This can be used to
-++   limit the number of TCP connections that the server will
-++   allow at one time.  A value of 0 means there is no limit.*/
-++#define MAX_FD_VALUE 200
-++
-+ /* Include definitions for various options.  In general these
-+    should be left as is, but if you have already defined one
-+    of these and prefer your definition you can comment the 
-+diff --git a/omapip/listener.c b/omapip/listener.c
-+index 8bdcdbd..61473cf 100644
-+--- a/omapip/listener.c
-++++ b/omapip/listener.c
-+@@ -3,7 +3,7 @@
-+    Subroutines that support the generic listener object. */
-+ 
-+ /*
-+- * Copyright (c) 2012,2014 by Internet Systems Consortium, Inc. ("ISC")
-++ * Copyright (c) 2012,2014,2016 by Internet Systems Consortium, Inc. ("ISC")
-+  * Copyright (c) 2004,2007,2009 by Internet Systems Consortium, Inc. ("ISC")
-+  * Copyright (c) 1999-2003 by Internet Software Consortium
-+  *
-+@@ -233,7 +233,12 @@ isc_result_t omapi_accept (omapi_object_t *h)
-+ 			return ISC_R_NORESOURCES;
-+ 		return ISC_R_UNEXPECTED;
-+ 	}
-+-	
-++
-++	if ((MAX_FD_VALUE != 0) && (socket > MAX_FD_VALUE)) {
-++		close(socket);
-++		return (ISC_R_NORESOURCES);
-++	}
-++
-+ #if defined (TRACING)
-+ 	/* If we're recording a trace, remember the connection. */
-+ 	if (trace_record ()) {
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.3.3.bb b/meta/recipes-connectivity/dhcp/dhcp_4.3.3.bb
-index 970617f..4e8cd27 100644
---- a/meta/recipes-connectivity/dhcp/dhcp_4.3.3.bb
-+++ b/meta/recipes-connectivity/dhcp/dhcp_4.3.3.bb
-@@ -8,6 +8,7 @@ SRC_URI += "file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
-             file://replace-ifconfig-route.patch \
-             file://CVE-2015-8605.patch \
-             file://0001-site.h-enable-gentle-shutdown.patch \
-+            file://CVE-2016-2774.patch \
-            "
- 
- SRC_URI[md5sum] = "c5577b09c9017cdd319a11ff6364268e"
--- 
-2.7.4
+Please add a CVE: tag into the patch identifying the CVEs fixed (CVE:
+CVE-2016-2774 in this case).
 
+Ross
 
+--001a1134dbecf600360530c15571
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 18 April 2016 at 12:37, Catalin Enache <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:catalin.enache@windriver.com" target=3D"_blank">catalin.enache@windr=
+iver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
+=3D":ne" class=3D"a3s aXjCH">+From b9f56d578ebfd649b5d829960540859ac6ca931c=
+ Mon Sep 17 00:00:00 2001<br>
++From: Catalin Enache &lt;<a href=3D"mailto:catalin.enache@windriver.com">c=
+atalin.enache@windriver.com</a>&gt;<br>
++Date: Tue, 12 Apr 2016 18:23:31 +0300<br>
++Subject: [PATCH] Add patch to limit the value of an fd we accept for a<br>
++ connection.<br>
++<br>
++Upstream-Status: Backport<br>
++<br>
++By limiting the highest value we accept for an fd we limit the number<br>
++of connections.<br>
++<br>
++Author: Shawn Routhier &lt;<a href=3D"mailto:sar@isc.org">sar@isc.org</a>&=
+gt;<br>
++Signed-off-by: Catalin Enache &lt;<a href=3D"mailto:catalin.enache@windriv=
+er.com">catalin.enache@windriver.com</a>&gt;<br></div></blockquote><div><br=
+></div><div>Please add a CVE: tag into the patch identifying the CVEs fixed=
+ (CVE: CVE-2016-2774 in this case).</div><div><br></div><div>Ross=C2=A0</di=
+v></div></div></div>
+
+--001a1134dbecf600360530c15571--
