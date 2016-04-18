@@ -1,43 +1,46 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C0C5C606BF
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Apr 2016 18:50:19 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u3IIoHZg020752
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 18 Apr 2016 11:50:17 -0700
-Received: from soho-mhatle-m.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 18 Apr 2016 11:50:16 -0700
-To: =?UTF-8?Q?Andreas_M=c3=bcller?= <schnitzeltony@googlemail.com>, "Burton,
-	Ross" <ross.burton@intel.com>
-References: <cover.1459147231.git.hongxu.jia@windriver.com>
-	<62a9bef209d903048c1095d90387384115eb6fd5.1459147231.git.hongxu.jia@windriver.com>
-	<CALbNGRRL0O+j6axaHL3W2bKZLLyYEe1kxsiguZGL0=a1Lz8ryg@mail.gmail.com>
-	<571496CC.8010607@windriver.com>
-	<CALbNGRQwKQJxC+17UAoLBhhN9ZfXrYF4Ysur68NCD8v24Uavcw@mail.gmail.com>
-	<57149B89.2090607@windriver.com>
-	<CALbNGRTgnNYhN68zcDBKrhQ==fxP9wJ7wjj8pQ5jvMEgF=DF4g@mail.gmail.com>
-	<5714A30A.9000204@windriver.com>
-	<CALbNGRSBJSR4xMqCOUvu2yQcG38E=1UZBehkjmFZLdrtRyfamw@mail.gmail.com>
-	<5714AA1E.9020505@windriver.com>
-	<CALbNGRSe6B9-QRftL54DEEKrmCjxTt91K7FXk+CUzuGxjTvf5A@mail.gmail.com>
-	<5714DC35.7040206@windriver.com>
-	<CAJTo0LYTcA-c99-T_Z6q9Kn=X2C9Y1kBX+D6rzHrn+eLMUcSdA@mail.gmail.com>
-	<CALbNGRR0ySfXHZFgTAPGCi5sZXehjG3_vUzGobawrTW6-DOOVg@mail.gmail.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <57152C67.1030508@windriver.com>
-Date: Mon, 18 Apr 2016 13:50:15 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.7.2
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
+	[209.85.213.65])
+	by mail.openembedded.org (Postfix) with ESMTP id B6E2460116;
+	Mon, 18 Apr 2016 19:48:55 +0000 (UTC)
+Received: by mail-vk0-f65.google.com with SMTP id e185so24195785vkb.2;
+	Mon, 18 Apr 2016 12:48:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-transfer-encoding;
+	bh=8ld1aoC53j+Tv+fnD+71yHrYrA32ds6j7ogdYLsXVMk=;
+	b=MZBlR180FhKcuiL2L71JmUp8QWah36pVEhacV8eejjHKINucdh/5KyUpXMa4nN+PUR
+	sTG6hWtZFcpEf/mzqRr6UUL20fcP8JWhm17XGrgTjQrRlO14SgU8YVAB/nKMtNccHoSP
+	Kl7ZOb8aVdAh+5vfJK7Ukr1wU/HTH4u3Y0+DHVaeLy8NemJQMX+gni4uOBd6JgJgn/rG
+	SayGI5IbJy4W//rhJD2gUMwfSBiyVjQiAn/1AL5RVswyK/ZDe3QIGprvstm0Gsu9S8JG
+	15sIT3cfrCSRNui5hWSM4dbf4vJTjKScpfgLPBNlWFDlU3vbWUlyLNhfxf29wEQXHV89
+	h8tQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-transfer-encoding;
+	bh=8ld1aoC53j+Tv+fnD+71yHrYrA32ds6j7ogdYLsXVMk=;
+	b=VFJbcI162bjOeDyF3z1uzgYIAfvdABsk9cr9QALqryxeBPHqpiIkFNjYLCU59mpwQ5
+	3huUGmXnRu6D7/GiGTGGST7swUDMQkODalZLoG7a0MeS+3sUD15lT9smu7jGzFXdZTsC
+	mbh51CB8E0HjBbi41g+WoH7KOLhEiS0mPOUWOkOUlRIgt/oJjOoOvSgPhLD5ZPc6mDmc
+	gebl+BTOu5/5wbrstmDMcjCI6+fCHkTms0nPbVFuDuAbc4Hih+Zww45cFyPTVG558tDl
+	6JiVRga7c/mdR4URI5JPOAFkc35KKypWt75FIV9wO1Kq61IEcD83IDyJqtYoYO11jy4A
+	ZtlA==
+X-Gm-Message-State: AOPr4FWnWUk2aW2lgQ5BcGF17WARgeDzx/D/eYVTz+nxX+wM7pwzaFIVcf3clc+PipWgkubWeFP6PVnhQnuKOA==
 MIME-Version: 1.0
-In-Reply-To: <CALbNGRR0ySfXHZFgTAPGCi5sZXehjG3_vUzGobawrTW6-DOOVg@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 01/17] conf/bitbake.conf package.bbclass: fix dbg package not contain sources while -fdebug-prefix-map used
+X-Received: by 10.159.36.144 with SMTP id 16mr2544890uar.98.1461008936026;
+	Mon, 18 Apr 2016 12:48:56 -0700 (PDT)
+Received: by 10.103.94.2 with HTTP; Mon, 18 Apr 2016 12:48:55 -0700 (PDT)
+In-Reply-To: <B1D22563-F31B-4EF1-90D6-16EB391134D5@gmail.com>
+References: <B1D22563-F31B-4EF1-90D6-16EB391134D5@gmail.com>
+Date: Mon, 18 Apr 2016 13:48:55 -0600
+Message-ID: <CACS+7ZSpWgziO+GF++25dM7kgP4SZ_GDV+-DcEMQ_YUGyEEnfQ@mail.gmail.com>
+From: Dan McGregor <danismostlikely@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Yocto Project <yocto@yoctoproject.org>,
+	openembeded-devel <openembedded-devel@lists.openembedded.org>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFT] GCC 6 Recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,61 +53,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Apr 2016 18:50:23 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 18 Apr 2016 19:48:58 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 4/18/16 9:16 AM, Andreas Müller wrote:
-> On Mon, Apr 18, 2016 at 3:55 PM, Burton, Ross <ross.burton@intel.com> wrote:
->>
->> On 18 April 2016 at 14:08, Hongxu Jia <hongxu.jia@windriver.com> wrote:
->>>
->>> If sysroot is required, override DEBUG_FLAGS to remove -fdebug-prefix-map
->>
->>
->> We should probably get this in the release notes, as many people do indeed
->> want remote debug to work.
->>
->> Can you tell gdb the base path to use when looking for symbols?  I've not
->> done remote GDB for some time but wouldn't "set substitute-path /
->> //my/sysroot/" work?  Or maybe /usr /my/sysroot/usr?
->>
->> If gdb can't be told then instead of having to replace all of DEBUG_FLAGS it
->> would be neat if the prefix mapping variables where in another variable that
->> could just be unset.
->>
->> Ross
-> OK I think I could live with removing -fdebug-prefix-map for now.
-> 
-> A thought: We have the setting IMAGE_GEN_DEBUGFS - I have not yet
-> tested. As far as I understand it creates an unstripped sysroot and
-> does not affect target rootfs - is that correct? Does the sysroot
-> created by IMAGE_GEN_DEBUGFS contain the sources? If yes we could set
-> that as sysroot for gdb.
-> 
-> I think one of the problems we have here is that there is no reference
-> way documented (or it is outdated) how remote debugging is meant to be
-> performed.
+On 17 April 2016 at 23:15, Khem Raj <raj.khem@gmail.com> wrote:
+> Hello all,
+>
+> I have put together a potential gcc6 upgrade recipe set, and pushed the b=
+ranch to tree here
+>
+>
+> http://git.openembedded.org/openembedded-core-contrib/log/?h=3Dkraj/gcc-6
+>
+> and also at github fork of mine.
+>
+> https://github.com/kraj/openembedded-core/tree/kraj/master
+>
+> You need to set
+>
+> GCCVERSION =3D =E2=80=9C6.%=E2=80=9D
+>
+> in local.conf to enable it.
+>
+>
+> There are few recipes in OE-Core which still don=E2=80=99t compile e.g.
+>
+> see
+>
+> http://errors.yoctoproject.org/Errors/Build/14782/
+>
+> any help in fixing them or otherwise fixing other layers is appreciated.
+>
+> gcc6 is a major release for some info see
+>
+> https://gcc.gnu.org/gcc-6/changes.html
+>
+> and porting guide
+>
+> https://gcc.gnu.org/gcc-6/porting_to.html
+>
+>
 
-Remote debugging is setup to always assume the remote side has access to a
-debugable sysroot.  This isn't the project's sysroot, since that is transient,
-but a REAL matching sysroot to the main image.
-
-The easiest way to do this is to add the following to your local.conf:
-   IMAGE_GEN_DEBUGFS = '1'
-
-After this, look in your deploy directory and you will see the image to deploy
-to the target, and also a matching 'debug' chunk that you keep on your local
-host.  This way you -know- they are always in sync.
-
-There is class material from the various Yocto Project Dev Day classes on using
-this.
+I haven't built an image with gcc6 as the compiler yet, but I did
+check out your branch to try building with gcc 6 as the host compiler
+(Fedora 24). I needed a few more fixes, available at
+http://git.openembedded.org/openembedded-core-contrib/log/?h=3Ddankm/gcc-6.
+I fixed lzop, pkgconfig, and disabled werror on binutils.
+core-image-minimal appears to be well on its way to building.
 
 
-The alternative is tell GDB itself to map directories.  I don't remember offhand
-the right option, but GDB supports remapping a directory reference to an actual
-directory.  It should be pretty simple to re-map it -- but due to the transient
-nature of the sysroot directory in the build, I don't recommend doing it this way.
-
---Mark
+> Thanks
+>
+> -Khem
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
