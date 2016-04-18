@@ -1,25 +1,48 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4AA61607F8
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Apr 2016 03:27:49 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP; 17 Apr 2016 20:27:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,500,1455004800"; d="scan'208";a="786863178"
-Received: from mbmatesa-mobl1.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.172.151])
-	by orsmga003.jf.intel.com with ESMTP; 17 Apr 2016 20:27:36 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Apr 2016 15:27:07 +1200
-Message-Id: <12309dbca73c958f5f74fddde621d43ec55bd096.1460949989.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.5.5
-In-Reply-To: <cover.1460949989.git.paul.eggleton@linux.intel.com>
-References: <cover.1460949989.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1460949989.git.paul.eggleton@linux.intel.com>
-References: <cover.1460949989.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/1] buildtools-tarball: fix perl being included when building with ipk
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
+	[209.85.220.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 476C760667;
+	Mon, 18 Apr 2016 05:15:09 +0000 (UTC)
+Received: by mail-pa0-f51.google.com with SMTP id er2so46487418pad.3;
+	Sun, 17 Apr 2016 22:15:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:subject:date:message-id:to:mime-version;
+	bh=crAoWIkStZYz2CGbrCQkmprkIjS5bqLwlJ/vzLe3qTM=;
+	b=dWHVUt2RpLV6RxhYFYHRszDYr1cOhzPvjDSsyyGLNuJuWepnxcQWwI8wYlJ96CDUpj
+	5YSXoq1b8sNq+BhS8tiGdlF/0NELXJBWSjtXn1Sb9uXyiGV5QXeMJOEp5SC5yFp8inqC
+	2X3fAu0jXlMLQtaG4/LXq5W0OVTUAyRsrxfVdjTIitR5F4UxNHAgFtakgtVaklgdUYqe
+	Sr5qxYXXNz7Q9FKb17BKMgb5dZTHuzfotQwJb7DENe1GT8KiBWm2bqrDMjoN+d/Sgh15
+	c0Qzw8/82pFxODgR459w1Qrr95x4ox1vqVWEcfSjULAgVNovvzUk5WARPpwQFTlLjpMm
+	srIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:subject:date:message-id:to:mime-version;
+	bh=crAoWIkStZYz2CGbrCQkmprkIjS5bqLwlJ/vzLe3qTM=;
+	b=AKuE1FwVaVe8O4YpzSoERke7VX0YP9uCUGMH8TgkFX6HiBsLMWmljt3ib9ppzWu/Ai
+	0K/+BNrXCay5XaH1945I0gBntyCMJUS/KT96LjsX8alJTj5neSTmfwV0lP8+jhC6LI9b
+	pZK5gNXpsIk9zUCnuv8SlCfzEEzGwpj2UhDhRSTBT1DrSjc+zMkGwfxZKjud65lKmVYt
+	eMsT4FZMr1jAbRG7Il5aqzD0mViCSypF80SlHVy/kNtFZ8ZQU/7xiHrSHWpwo0OYN4Xu
+	kW/CnzHvY28ChROQeRzWy9i1+bmyLUO/QlcEMbNrAIrFbueshlY5euMCeEEfrFT1mis8
+	30sA==
+X-Gm-Message-State: AOPr4FUzYOULMmHV+t4pPiLfG0+q1BDcmhSOz85lqUWAmxU+47aXHvza9ko/r4ZCft/Vag==
+X-Received: by 10.66.62.232 with SMTP id b8mr46803647pas.104.1460956510485;
+	Sun, 17 Apr 2016 22:15:10 -0700 (PDT)
+Received: from ?IPv6:2601:646:8800:5a9a:bcd4:460b:c427:512f?
+	([2601:646:8800:5a9a:bcd4:460b:c427:512f])
+	by smtp.gmail.com with ESMTPSA id
+	y27sm80126857pfi.11.2016.04.17.22.15.08
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 17 Apr 2016 22:15:09 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+X-Pgp-Agent: GPGMail 2.6b2
+Date: Sun, 17 Apr 2016 22:15:03 -0700
+Message-Id: <B1D22563-F31B-4EF1-90D6-16EB391134D5@gmail.com>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>,
+	Yocto Project <yocto@yoctoproject.org>,
+	openembeded-devel <openembedded-devel@lists.openembedded.org>
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Mailer: Apple Mail (2.3124)
+Subject: [RFT] GCC 6 Recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,71 +55,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Apr 2016 03:27:49 -0000
+X-List-Received-Date: Mon, 18 Apr 2016 05:15:10 -0000
+X-Groupsio-MsgNum: 80934
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_D380721D-F5EE-491D-A6B6-0C25DCA60A6B";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-Due to some logic within opkg, a package with the name matching a
-dependency will always win over a package with that name in RPROVIDES -
-even if there is an RCONFLICTS (which is silently ignored), higher feed
-priority and version. The end result is that buildtools gets perl
-installed instead of the nativesdk-buildtools-perl-dummy package and
-that perl (with missing dependencies) gets used in preference to the
-host one, which is precisely what we were trying to avoid.
+--Apple-Mail=_D380721D-F5EE-491D-A6B6-0C25DCA60A6B
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
-This is almost certainly a bug in opkg, especially as the other
-package's dependencies aren't properly installed under these
-circumstances either. However, specifying RREPLACES works around this,
-and with no apparent side-effects is probably the safest solution for
-now.
+Hello all,
 
-At the same time I noticed that in prepending to SDK_PACKAGE_ARCHS we
-were actually ending up with a low priority for the dummy package feed
-rather than a high one, so change to append it instead. This has no
-effect on the packages that get installed at the moment, but should be
-done in case the package manager behaviour changes to factor in the feed
-priority in future.
-
-Fixes [YOCTO #9469].
-
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/recipes-core/meta/buildtools-tarball.bb              | 2 +-
- meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb | 3 ++-
- 2 files changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
-index 7186ac4..20e2c9b87 100644
---- a/meta/recipes-core/meta/buildtools-tarball.bb
-+++ b/meta/recipes-core/meta/buildtools-tarball.bb
-@@ -26,7 +26,7 @@ TOOLCHAIN_HOST_TASK ?= "\
-     nativesdk-texinfo \
-     "
- 
--SDK_PACKAGE_ARCHS =+ "buildtools-dummy-${SDKPKGSUFFIX}"
-+SDK_PACKAGE_ARCHS += "buildtools-dummy-${SDKPKGSUFFIX}"
- 
- TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-buildtools-nativesdk-standalone-${DISTRO_VERSION}"
- 
-diff --git a/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb b/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
-index 90784a9..2b96111 100644
---- a/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
-+++ b/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
-@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
- 
- inherit allarch
- 
--PR = "r1"
-+PR = "r2"
- 
- python() {
-     # Put the package somewhere separate to ensure it's never used except
-@@ -22,5 +22,6 @@ ALLOW_EMPTY_${PN} = "1"
- python populate_packages_prepend() {
-     d.appendVar(d.expand('RPROVIDES_${PN}'), '${PERLPACKAGES}')
-     d.appendVar(d.expand('RCONFLICTS_${PN}'), '${PERLPACKAGES}')
-+    d.appendVar(d.expand('RREPLACES_${PN}'), '${PERLPACKAGES}')
- }
- 
--- 
-2.5.5
+I have put together a potential gcc6 upgrade recipe set, and pushed the =
+branch to tree here
 
 
+http://git.openembedded.org/openembedded-core-contrib/log/?h=3Dkraj/gcc-6
+
+and also at github fork of mine.
+
+https://github.com/kraj/openembedded-core/tree/kraj/master
+
+You need to set
+
+GCCVERSION =3D =E2=80=9C6.%=E2=80=9D
+
+in local.conf to enable it.
+
+
+There are few recipes in OE-Core which still don=E2=80=99t compile e.g.
+
+see
+
+http://errors.yoctoproject.org/Errors/Build/14782/
+
+any help in fixing them or otherwise fixing other layers is appreciated.
+
+gcc6 is a major release for some info see
+
+https://gcc.gnu.org/gcc-6/changes.html
+
+and porting guide
+
+https://gcc.gnu.org/gcc-6/porting_to.html
+
+
+Thanks
+
+-Khem
+
+--Apple-Mail=_D380721D-F5EE-491D-A6B6-0C25DCA60A6B
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlcUbVwACgkQuwUzVZGdMxRPTACfUVB+XNWT+8+tZYfq38MBc5DQ
+d8YAoI475gdTOoaX/3suuYdeaqvgf83D
+=eSJK
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_D380721D-F5EE-491D-A6B6-0C25DCA60A6B--
