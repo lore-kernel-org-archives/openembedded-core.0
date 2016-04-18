@@ -1,24 +1,38 @@
-Return-Path: <Catalin.Enache@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DC4F4605FE
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 25DE9601A5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Apr 2016 12:49:19 +0000 (UTC)
+	Mon, 18 Apr 2016 13:08:10 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u3ICnJkM011206
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Apr 2016 05:49:19 -0700
-Received: from no3.corp.ad.wrs.com (128.224.124.137) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Mon, 18 Apr 2016 05:49:18 -0700
-From: Catalin Enache <catalin.enache@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 18 Apr 2016 15:52:16 +0300
-Message-ID: <1460983936-8037-1-git-send-email-catalin.enache@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u3ID89hU023656
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 18 Apr 2016 06:08:09 -0700 (PDT)
+Received: from [128.224.162.159] (128.224.162.159) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 18 Apr 2016 06:08:08 -0700
+To: =?UTF-8?Q?Andreas_M=c3=bcller?= <schnitzeltony@googlemail.com>
+References: <cover.1459147231.git.hongxu.jia@windriver.com>
+	<62a9bef209d903048c1095d90387384115eb6fd5.1459147231.git.hongxu.jia@windriver.com>
+	<CALbNGRRL0O+j6axaHL3W2bKZLLyYEe1kxsiguZGL0=a1Lz8ryg@mail.gmail.com>
+	<571496CC.8010607@windriver.com>
+	<CALbNGRQwKQJxC+17UAoLBhhN9ZfXrYF4Ysur68NCD8v24Uavcw@mail.gmail.com>
+	<57149B89.2090607@windriver.com>
+	<CALbNGRTgnNYhN68zcDBKrhQ==fxP9wJ7wjj8pQ5jvMEgF=DF4g@mail.gmail.com>
+	<5714A30A.9000204@windriver.com>
+	<CALbNGRSBJSR4xMqCOUvu2yQcG38E=1UZBehkjmFZLdrtRyfamw@mail.gmail.com>
+	<5714AA1E.9020505@windriver.com>
+	<CALbNGRSe6B9-QRftL54DEEKrmCjxTt91K7FXk+CUzuGxjTvf5A@mail.gmail.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <5714DC35.7040206@windriver.com>
+Date: Mon, 18 Apr 2016 21:08:05 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
 MIME-Version: 1.0
-Subject: [PATCH] dhcp: CVE-2016-2774
+In-Reply-To: <CALbNGRSe6B9-QRftL54DEEKrmCjxTt91K7FXk+CUzuGxjTvf5A@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 01/17] conf/bitbake.conf package.bbclass: fix dbg package not contain sources while -fdebug-prefix-map used
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,109 +45,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Apr 2016 12:49:20 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 18 Apr 2016 13:08:14 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-ISC DHCP 4.1.x before 4.1-ESV-R13 and 4.2.x and 4.3.x before
-4.3.4 does not restrict the number of concurrent TCP sessions,
-which allows remote attackers to cause a denial of service
-(INSIST assertion failure or request-processing outage)
-by establishing many sessions.
+On 04/18/2016 05:52 PM, Andreas Müller wrote:
+> On Mon, Apr 18, 2016 at 11:34 AM, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+>> On 04/18/2016 05:15 PM, Andreas Müller wrote:
+>>> So remote debugging is no more available for standard settings. I am
+>>> tempted to send a revert: Installing -dbg causes bloated images and
+>>> debugging on machine is slow and last resort only.
+>>
+>> I think we support remote debugging better since -fdebug-prefix-map used,
+>> It is easy to construct sources paths.
+>>
+>> Yours remote debug was limited to original build environment.
+>>
+>> //Hongxu
+>>
+>>> Andreas
+> OK I checked the documentation for this. You say setting sysroot is
+> broken now. How exactly is your suggested option for *remote*
+> debugging? And please note: Installing -dbg packages is not an option:
+In your case for remote debug with build environment,
 
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-2774
+My suggestions is:
 
-Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
----
- .../dhcp/dhcp/CVE-2016-2774.patch                  | 65 ++++++++++++++++++++++
- meta/recipes-connectivity/dhcp/dhcp_4.3.3.bb       |  1 +
- 2 files changed, 66 insertions(+)
- create mode 100644 meta/recipes-connectivity/dhcp/dhcp/CVE-2016-2774.patch
+Plan1:
 
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/CVE-2016-2774.patch b/meta/recipes-connectivity/dhcp/dhcp/CVE-2016-2774.patch
-new file mode 100644
-index 0000000..93ff54a
---- /dev/null
-+++ b/meta/recipes-connectivity/dhcp/dhcp/CVE-2016-2774.patch
-@@ -0,0 +1,65 @@
-+From b9f56d578ebfd649b5d829960540859ac6ca931c Mon Sep 17 00:00:00 2001
-+From: Catalin Enache <catalin.enache@windriver.com>
-+Date: Tue, 12 Apr 2016 18:23:31 +0300
-+Subject: [PATCH] Add patch to limit the value of an fd we accept for a
-+ connection.
-+
-+By limiting the highest value we accept for an fd we limit the number
-+of connections.
-+
-+Upstream-Status: Backport
-+CVE: CVE-2016-2774
-+
-+Author: Shawn Routhier <sar@isc.org>
-+Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
-+---
-+ includes/site.h   | 6 ++++++
-+ omapip/listener.c | 9 +++++++--
-+ 3 files changed, 18 insertions(+), 2 deletions(-)
-+
-+diff --git a/includes/site.h b/includes/site.h
-+index 9c33de3..df020c8 100644
-+--- a/includes/site.h
-++++ b/includes/site.h
-+@@ -290,6 +290,12 @@
-+    this option will be removed at some time. */
-+ /* #define INCLUDE_OLD_DHCP_ISC_ERROR_CODES */
-+ 
-++/* Limit the value of a file descriptor the serve will use
-++   when accepting a connecting request.  This can be used to
-++   limit the number of TCP connections that the server will
-++   allow at one time.  A value of 0 means there is no limit.*/
-++#define MAX_FD_VALUE 200
-++
-+ /* Include definitions for various options.  In general these
-+    should be left as is, but if you have already defined one
-+    of these and prefer your definition you can comment the 
-+diff --git a/omapip/listener.c b/omapip/listener.c
-+index 8bdcdbd..61473cf 100644
-+--- a/omapip/listener.c
-++++ b/omapip/listener.c
-+@@ -3,7 +3,7 @@
-+    Subroutines that support the generic listener object. */
-+ 
-+ /*
-+- * Copyright (c) 2012,2014 by Internet Systems Consortium, Inc. ("ISC")
-++ * Copyright (c) 2012,2014,2016 by Internet Systems Consortium, Inc. ("ISC")
-+  * Copyright (c) 2004,2007,2009 by Internet Systems Consortium, Inc. ("ISC")
-+  * Copyright (c) 1999-2003 by Internet Software Consortium
-+  *
-+@@ -233,7 +233,12 @@ isc_result_t omapi_accept (omapi_object_t *h)
-+ 			return ISC_R_NORESOURCES;
-+ 		return ISC_R_UNEXPECTED;
-+ 	}
-+-	
-++
-++	if ((MAX_FD_VALUE != 0) && (socket > MAX_FD_VALUE)) {
-++		close(socket);
-++		return (ISC_R_NORESOURCES);
-++	}
-++
-+ #if defined (TRACING)
-+ 	/* If we're recording a trace, remember the connection. */
-+ 	if (trace_record ()) {
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.3.3.bb b/meta/recipes-connectivity/dhcp/dhcp_4.3.3.bb
-index 970617f..4e8cd27 100644
---- a/meta/recipes-connectivity/dhcp/dhcp_4.3.3.bb
-+++ b/meta/recipes-connectivity/dhcp/dhcp_4.3.3.bb
-@@ -8,6 +8,7 @@ SRC_URI += "file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
-             file://replace-ifconfig-route.patch \
-             file://CVE-2015-8605.patch \
-             file://0001-site.h-enable-gentle-shutdown.patch \
-+            file://CVE-2016-2774.patch \
-            "
- 
- SRC_URI[md5sum] = "c5577b09c9017cdd319a11ff6364268e"
--- 
-2.7.4
+If sysroot is not required, just install extract *-dpb to /usr/src/ in host
+
+Plang2:
+
+If sysroot is required, override DEBUG_FLAGS to remove -fdebug-prefix-map
+
+//Hongxu
+
+
+> * It explodes image's size
+> * problems are caused by having only one -dbg per recipe: due to
+> dependencies conflicting packages are installed causing build to break
+> * it is terribly slow: All source code is transferred by network
+> during debugging
+> * a quick starting up of debugger is impossible - a new image has to be created.
+>
+> Andreas
 
 
