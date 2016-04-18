@@ -1,47 +1,43 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
-	[209.85.192.48])
-	by mail.openembedded.org (Postfix) with ESMTP id F043C601A5;
-	Mon, 18 Apr 2016 17:35:28 +0000 (UTC)
-Received: by mail-qg0-f48.google.com with SMTP id c6so120944891qga.1;
-	Mon, 18 Apr 2016 10:35:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=dKzklvT1piwXaXEsDs9QI4YaES7LMb7tXLMGq4+FhZg=;
-	b=acgNJVPt6UE2dLc4zxlw8iVVYdDCdxnUnR7X6++biFwT8lxqIB7FqFwnqTdIDLyNUu
-	vOFjXf989m8Q/lQ6lfQMu3q7GaUIAitGk3aFKYaBfZigvHHfl6CTe4YCgcM4A3066y0n
-	c2APkgGZX2YDdTEQc94NKvxbJdh5B9MfrH1ubj8gy/+lYlDoMoFQBNb/nRh2kiq0DpC1
-	rtlhwDo1QP2JEpx4XVicz+/d6TP4qxg3yr3ZSnBEfd5RHwyham/kF3a3F+KtLd4IBSyu
-	nrhR3hlBJjJL4Cf9k2V84KATx6Mgwwbsi7EcluOKjI7AB++0N16lBgqg41lLFMPWKKU8
-	DPDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=dKzklvT1piwXaXEsDs9QI4YaES7LMb7tXLMGq4+FhZg=;
-	b=d/GShAQXwDyuUDNdCyHYKIztq+caEh7bwL+kGJVA5WRcoEYCxvNa+QHxXtrYU24EqP
-	Sya9LDmU9c5BrC/HhPKKLtdHnxrE7P/XRfFoAjlasvZS/SLcZng5yHQleyhDhKhNTeuh
-	yz7+ClPar1tDOF5llEdfuVqvFtUhM9dFjO2dbQ60/m2oHQot/TIuN34h9qK7mMTcVXkI
-	w5nyFc+0MLHZ0QUECD2A/Ci2iVksHt24JrAIBI77nNVNoRs++G5FIqDVKbHPbPbwgLRv
-	dpR3i1nElggPWbB1gEBI1QHATI9kmHCJ+bZnoh74DWA4pCbFcYCEvf2tD1Iob3QuEnek
-	WhIw==
-X-Gm-Message-State: AOPr4FX/EzAtgaxHgPF6KZzOm8x1dNuXgA5Kv+RvdbrcS2twiwe/p5dtZer7r4hkQF+p5k7btBM5fy6yCjeEIw==
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C0C5C606BF
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Apr 2016 18:50:19 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u3IIoHZg020752
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Mon, 18 Apr 2016 11:50:17 -0700
+Received: from soho-mhatle-m.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 18 Apr 2016 11:50:16 -0700
+To: =?UTF-8?Q?Andreas_M=c3=bcller?= <schnitzeltony@googlemail.com>, "Burton,
+	Ross" <ross.burton@intel.com>
+References: <cover.1459147231.git.hongxu.jia@windriver.com>
+	<62a9bef209d903048c1095d90387384115eb6fd5.1459147231.git.hongxu.jia@windriver.com>
+	<CALbNGRRL0O+j6axaHL3W2bKZLLyYEe1kxsiguZGL0=a1Lz8ryg@mail.gmail.com>
+	<571496CC.8010607@windriver.com>
+	<CALbNGRQwKQJxC+17UAoLBhhN9ZfXrYF4Ysur68NCD8v24Uavcw@mail.gmail.com>
+	<57149B89.2090607@windriver.com>
+	<CALbNGRTgnNYhN68zcDBKrhQ==fxP9wJ7wjj8pQ5jvMEgF=DF4g@mail.gmail.com>
+	<5714A30A.9000204@windriver.com>
+	<CALbNGRSBJSR4xMqCOUvu2yQcG38E=1UZBehkjmFZLdrtRyfamw@mail.gmail.com>
+	<5714AA1E.9020505@windriver.com>
+	<CALbNGRSe6B9-QRftL54DEEKrmCjxTt91K7FXk+CUzuGxjTvf5A@mail.gmail.com>
+	<5714DC35.7040206@windriver.com>
+	<CAJTo0LYTcA-c99-T_Z6q9Kn=X2C9Y1kBX+D6rzHrn+eLMUcSdA@mail.gmail.com>
+	<CALbNGRR0ySfXHZFgTAPGCi5sZXehjG3_vUzGobawrTW6-DOOVg@mail.gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <57152C67.1030508@windriver.com>
+Date: Mon, 18 Apr 2016 13:50:15 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
+	Gecko/20100101 Thunderbird/38.7.2
 MIME-Version: 1.0
-X-Received: by 10.55.78.131 with SMTP id c125mr45250713qkb.71.1461000928523;
-	Mon, 18 Apr 2016 10:35:28 -0700 (PDT)
-Received: by 10.55.130.196 with HTTP; Mon, 18 Apr 2016 10:35:28 -0700 (PDT)
-Received: by 10.55.130.196 with HTTP; Mon, 18 Apr 2016 10:35:28 -0700 (PDT)
-In-Reply-To: <CAJTo0LZtDL-hbxXmYWdgf7HTZtSA4D2FgRKtx1+n6Rqxq50n=g@mail.gmail.com>
-References: <CAJTo0LZtDL-hbxXmYWdgf7HTZtSA4D2FgRKtx1+n6Rqxq50n=g@mail.gmail.com>
-Date: Mon, 18 Apr 2016 10:35:28 -0700
-Message-ID: <CAMKF1spGMHQMVP_-mrHYmDnjM+DPk0mktK_e+9G1bekuP6PnUA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: yocto@yoctoproject.org, openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
+In-Reply-To: <CALbNGRR0ySfXHZFgTAPGCi5sZXehjG3_vUzGobawrTW6-DOOVg@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: bugzilla.yoctoproject.org policy for bugs against multiple releases
+Subject: Re: [PATCH 01/17] conf/bitbake.conf package.bbclass: fix dbg package not contain sources while -fdebug-prefix-map used
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,84 +50,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Apr 2016 17:35:30 -0000
-Content-Type: multipart/alternative; boundary=001a114a73185c7e260530c5c932
+X-List-Received-Date: Mon, 18 Apr 2016 18:50:23 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
---001a114a73185c7e260530c5c932
-Content-Type: text/plain; charset=UTF-8
+On 4/18/16 9:16 AM, Andreas Müller wrote:
+> On Mon, Apr 18, 2016 at 3:55 PM, Burton, Ross <ross.burton@intel.com> wrote:
+>>
+>> On 18 April 2016 at 14:08, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+>>>
+>>> If sysroot is required, override DEBUG_FLAGS to remove -fdebug-prefix-map
+>>
+>>
+>> We should probably get this in the release notes, as many people do indeed
+>> want remote debug to work.
+>>
+>> Can you tell gdb the base path to use when looking for symbols?  I've not
+>> done remote GDB for some time but wouldn't "set substitute-path /
+>> //my/sysroot/" work?  Or maybe /usr /my/sysroot/usr?
+>>
+>> If gdb can't be told then instead of having to replace all of DEBUG_FLAGS it
+>> would be neat if the prefix mapping variables where in another variable that
+>> could just be unset.
+>>
+>> Ross
+> OK I think I could live with removing -fdebug-prefix-map for now.
+> 
+> A thought: We have the setting IMAGE_GEN_DEBUGFS - I have not yet
+> tested. As far as I understand it creates an unstripped sysroot and
+> does not affect target rootfs - is that correct? Does the sysroot
+> created by IMAGE_GEN_DEBUGFS contain the sources? If yes we could set
+> that as sysroot for gdb.
+> 
+> I think one of the problems we have here is that there is no reference
+> way documented (or it is outdated) how remote debugging is meant to be
+> performed.
 
-Can we have a possibility to select  field like "affected version" and have
-it such that multiple versions can be specified
-On Apr 18, 2016 3:27 AM, "Burton, Ross" <ross.burton@intel.com> wrote:
+Remote debugging is setup to always assume the remote side has access to a
+debugable sysroot.  This isn't the project's sysroot, since that is transient,
+but a REAL matching sysroot to the main image.
 
-> Hi,
->
-> At the moment we don't really have a policy for oe-core bugs in
-> bugzilla.yoctoproject.org that apply to multiple releases, for example
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=9400.  This is a CVE
-> bug that should be fixed in all supported branches, and indeed Sona has
-> sent patches for Fido/Dizzy/Jethro/master.  Of course now we've got to
-> track where these patches are in the submission process and ensure that we
-> don't drop any of these, but bugzilla only has a single target milestone
-> for each bug.
->
-> I propose that for bugs such as this we file a bug report for master and
-> then clone it (there's a Clone This Bug button at the bottom) for each
-> stable release that is affected.  Then each bug can have it's own target
-> milestone set and we can be sure that the patches don't get left out of
-> being merged and that QA can effectively verify each branch.
->
-> Any objection or feedback? (the first person to suggest moving to Jira
-> gets to manually review all CVEs from CVE-1999-0001 onwards are fixed in
-> krogoth).
->
-> Ross
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
+The easiest way to do this is to add the following to your local.conf:
+   IMAGE_GEN_DEBUGFS = '1'
 
---001a114a73185c7e260530c5c932
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+After this, look in your deploy directory and you will see the image to deploy
+to the target, and also a matching 'debug' chunk that you keep on your local
+host.  This way you -know- they are always in sync.
 
-<p dir=3D"ltr">Can we have a possibility to select=C2=A0 field like &quot;a=
-ffected version&quot; and have it such that multiple versions can be specif=
-ied</p>
-<div class=3D"gmail_quote">On Apr 18, 2016 3:27 AM, &quot;Burton, Ross&quot=
-; &lt;<a href=3D"mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt=
-; wrote:<br type=3D"attribution"><blockquote class=3D"gmail_quote" style=3D=
-"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D=
-"ltr">Hi,<div><br></div><div>At the moment we don&#39;t really have a polic=
-y for oe-core bugs in <a href=3D"http://bugzilla.yoctoproject.org" target=
-=3D"_blank">bugzilla.yoctoproject.org</a> that apply to multiple releases, =
-for example=C2=A0<a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?=
-id=3D9400" target=3D"_blank">https://bugzilla.yoctoproject.org/show_bug.cgi=
-?id=3D9400</a>.=C2=A0 This is a CVE bug that should be fixed in all support=
-ed branches, and indeed Sona has sent patches for Fido/Dizzy/Jethro/master.=
-=C2=A0 Of course now we&#39;ve got to track where these patches are in the =
-submission process and ensure that we don&#39;t drop any of these, but bugz=
-illa only has a single target milestone for each bug.</div><div><br></div><=
-div>I propose that for bugs such as this we file a bug report for master an=
-d then clone it (there&#39;s a Clone This Bug button at the bottom) for eac=
-h stable release that is affected.=C2=A0 Then each bug can have it&#39;s ow=
-n target milestone set and we can be sure that the patches don&#39;t get le=
-ft out of being merged and that QA can effectively verify each branch.</div=
-><div><br></div><div>Any objection or feedback? (the first person to sugges=
-t moving to Jira gets to manually review all CVEs from CVE-1999-0001 onward=
-s are fixed in krogoth).</div><div><br></div><div>Ross</div></div>
-<br>--<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-<br></blockquote></div>
+There is class material from the various Yocto Project Dev Day classes on using
+this.
 
---001a114a73185c7e260530c5c932--
+
+The alternative is tell GDB itself to map directories.  I don't remember offhand
+the right option, but GDB supports remapping a directory reference to an actual
+directory.  It should be pretty simple to re-map it -- but due to the transient
+nature of the sysroot directory in the build, I don't recommend doing it this way.
+
+--Mark
+
