@@ -1,57 +1,54 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
-	[209.85.213.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 30D9A606D0
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0643E65CC2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Apr 2016 09:52:28 +0000 (UTC)
-Received: by mail-vk0-f65.google.com with SMTP id a6so22091614vkh.1
+	Mon, 18 Apr 2016 09:57:56 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id A9A0118197
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Apr 2016 02:52:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-transfer-encoding;
-	bh=kySsAQ6NogQxC35kfxm9vGmBfGGJzwwzUcbbzxXzG2g=;
-	b=G3SKc+TF6fti4xhWMoDKWPGHm5GJN76jPbUfve8ZeWY24hP2aTLqoEAQsvaQ1ikXpY
-	TnXKR0bzP9fJkHzwPvVJqSwyeRlGxeQyIggNduitKEEPIWNdw7nkOQb6oZ+I1+BAx7fv
-	dEGxXyVBKsOXrEQ2OVjcxt2a18OGlWXhflwaj3pHq9b6frZeJcO7KIeOYUrTypJ5dJ7F
-	JD0MvOKnGfMLr7OCYVFIOyTnpJEuXinO8UED9IUKyyFSEtaTO5tYd8wOuSKw4xIA9jS0
-	IGWXCJ5UKVIz9sHBs5ltkbMr5kA6A3HTR8wDJkstg7MrDr9NJB26cCJu3Uy3i4plEcAW
-	vmsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-transfer-encoding;
-	bh=kySsAQ6NogQxC35kfxm9vGmBfGGJzwwzUcbbzxXzG2g=;
-	b=UJ5qgetaiiALH4DmN8WdC/AkzIVrK61ibi30azd7zQtsoQ6LN1IzAIQSffGhLVDBks
-	e/h/1YgBn26I11e849v1DbkC2Vp2eCFed54XvPhOa0mc2tCFdXhbhJjNHsPpz1ZpFa8m
-	P5idB/ZU9Z3pzVb8Z2utaGXST3ijpMjIFqw8Zh8Je0WE7ZsV1R8dxvAqOVlZD6nEr+fG
-	09drSZWnONu+hpZiQ1ytM1QMA3jqnEgFuFGwbIbo8Du4iyeV0xYoee3JFIfLzzjDfYbl
-	GLtAwAjWEoMvkT5Y4JLp0sPKZiKo957i+1vlbVvNqgazg55to9cgdq+dBaPynQr0XlQV
-	7oUQ==
-X-Gm-Message-State: AOPr4FXj+kAs1aEr87fQ5HRkMVdgDNBVrfoYW8jvn/lAGUJU8aPwyfkMGsUA9mi2nl82JLlXxfETagGuQG3a5g==
-MIME-Version: 1.0
-X-Received: by 10.159.36.15 with SMTP id 15mr5091950uaq.48.1460973149569; Mon,
-	18 Apr 2016 02:52:29 -0700 (PDT)
-Received: by 10.176.2.141 with HTTP; Mon, 18 Apr 2016 02:52:29 -0700 (PDT)
-In-Reply-To: <5714AA1E.9020505@windriver.com>
-References: <cover.1459147231.git.hongxu.jia@windriver.com>
-	<62a9bef209d903048c1095d90387384115eb6fd5.1459147231.git.hongxu.jia@windriver.com>
-	<CALbNGRRL0O+j6axaHL3W2bKZLLyYEe1kxsiguZGL0=a1Lz8ryg@mail.gmail.com>
-	<571496CC.8010607@windriver.com>
-	<CALbNGRQwKQJxC+17UAoLBhhN9ZfXrYF4Ysur68NCD8v24Uavcw@mail.gmail.com>
-	<57149B89.2090607@windriver.com>
-	<CALbNGRTgnNYhN68zcDBKrhQ==fxP9wJ7wjj8pQ5jvMEgF=DF4g@mail.gmail.com>
-	<5714A30A.9000204@windriver.com>
-	<CALbNGRSBJSR4xMqCOUvu2yQcG38E=1UZBehkjmFZLdrtRyfamw@mail.gmail.com>
-	<5714AA1E.9020505@windriver.com>
-Date: Mon, 18 Apr 2016 11:52:29 +0200
-Message-ID: <CALbNGRSe6B9-QRftL54DEEKrmCjxTt91K7FXk+CUzuGxjTvf5A@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Cc: Patches and discussions about the oe-core layer
+	Mon, 18 Apr 2016 11:57:56 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id qmUfrmGioJmy
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Apr 2016 11:57:56 +0200 (CEST)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bastet.se.axis.com (Postfix) with ESMTP id 4D72618178
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Apr 2016 11:57:56 +0200 (CEST)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 323CA169A
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Apr 2016 11:57:56 +0200 (CEST)
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by boulder.se.axis.com (Postfix) with ESMTP id 278E4FE6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Apr 2016 11:57:56 +0200 (CEST)
+Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
+	by thoth.se.axis.com (Postfix) with ESMTP id 25DA210D7
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Apr 2016 11:57:56 +0200 (CEST)
+Received: from XBOX02.axis.com (10.0.5.16) by XBOX02.axis.com (10.0.5.16) with
+	Microsoft SMTP Server (TLS) id 15.0.1156.6;
+	Mon, 18 Apr 2016 11:57:55 +0200
+Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
+	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%22]) with mapi id
+	15.00.1156.000; Mon, 18 Apr 2016 11:57:55 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: "OE Core (openembedded-core@lists.openembedded.org)"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 01/17] conf/bitbake.conf package.bbclass: fix dbg package not contain sources while -fdebug-prefix-map used
+Thread-Topic: file-rdeps warning from localedef
+Thread-Index: AdGZVTgZwoUpdcZKSAO9Hp5vGfU77w==
+Date: Mon, 18 Apr 2016 09:57:55 +0000
+Message-ID: <fb094f31248b402c90aafb3a1a4f4219@XBOX02.axis.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.55]
+MIME-Version: 1.0
+Subject: file-rdeps warning from localedef
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,39 +61,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Apr 2016 09:52:29 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 18 Apr 2016 09:57:57 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 18, 2016 at 11:34 AM, Hongxu Jia <hongxu.jia@windriver.com> wro=
-te:
-> On 04/18/2016 05:15 PM, Andreas M=C3=BCller wrote:
->>
->> So remote debugging is no more available for standard settings. I am
->> tempted to send a revert: Installing -dbg causes bloated images and
->> debugging on machine is slow and last resort only.
->
->
-> I think we support remote debugging better since -fdebug-prefix-map used,
-> It is easy to construct sources paths.
->
-> Yours remote debug was limited to original build environment.
->
-> //Hongxu
->
->> Andreas
->
-OK I checked the documentation for this. You say setting sysroot is
-broken now. How exactly is your suggested option for *remote*
-debugging? And please note: Installing -dbg packages is not an option:
+I got the following warning the other day when I built core-image-minimal=20
+(Poky master at 5c8124df):
 
-* It explodes image's size
-* problems are caused by having only one -dbg per recipe: due to
-dependencies conflicting packages are installed causing build to break
-* it is terribly slow: All source code is transferred by network
-during debugging
-* a quick starting up of debugger is impossible - a new image has to be cre=
-ated.
+  WARNING: glibc-locale-2.23-r0 do_package_qa: QA Issue:=20
+  /usr/bin/localedef contained in package localedef requires libc.so.6,=20
+  but no providers found in RDEPENDS_localedef? [file-rdeps]
 
-Andreas
+Is this known?
+
+//Peter
+
 
