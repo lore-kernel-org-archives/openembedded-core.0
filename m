@@ -1,46 +1,51 @@
-Return-Path: <danismostlikely@gmail.com>
-Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
-	[209.85.213.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B6E2460116;
-	Mon, 18 Apr 2016 19:48:55 +0000 (UTC)
-Received: by mail-vk0-f65.google.com with SMTP id e185so24195785vkb.2;
-	Mon, 18 Apr 2016 12:48:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-transfer-encoding;
-	bh=8ld1aoC53j+Tv+fnD+71yHrYrA32ds6j7ogdYLsXVMk=;
-	b=MZBlR180FhKcuiL2L71JmUp8QWah36pVEhacV8eejjHKINucdh/5KyUpXMa4nN+PUR
-	sTG6hWtZFcpEf/mzqRr6UUL20fcP8JWhm17XGrgTjQrRlO14SgU8YVAB/nKMtNccHoSP
-	Kl7ZOb8aVdAh+5vfJK7Ukr1wU/HTH4u3Y0+DHVaeLy8NemJQMX+gni4uOBd6JgJgn/rG
-	SayGI5IbJy4W//rhJD2gUMwfSBiyVjQiAn/1AL5RVswyK/ZDe3QIGprvstm0Gsu9S8JG
-	15sIT3cfrCSRNui5hWSM4dbf4vJTjKScpfgLPBNlWFDlU3vbWUlyLNhfxf29wEQXHV89
-	h8tQ==
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f181.google.com (mail-ig0-f181.google.com
+	[209.85.213.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D6D8602D9
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Apr 2016 20:07:56 +0000 (UTC)
+Received: by mail-ig0-f181.google.com with SMTP id g8so90288814igr.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Apr 2016 13:07:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=4/kFU3Gp3woG0875amcWqJmU8RAQ0KCQ0zwQRGHlqcs=;
+	b=V0mNSjN0JZ8DVjoKb4d/lzBo76vIIAtV3Vmmp3R8DaBhn/8pPiCr4s41K7zgJzFPuX
+	adlDPhpjFx2Ki0qQQJ1PGYyrhWEmZ46RDBbShpsY8n58TPpevxpbTiC66xFV6CyCARFW
+	V7xS/uCWHIXF6fAe5sQySQjWkp7L4UO0FfHwJ10dYHv2hjAT6kVciX8KQdJg5Ig4HyxD
+	+Rn8S2FLoqY8pLXxP2FHs/024ApOUuxQPAXvp2nVvYtdrtNr7IeK4qjFTHcsK2SZ0Nfy
+	8+GireFW5GRt22ZawXhQZVC0ZYxMu+XEFwmmFyYNqdHMdpdquuBOUvSROv3fz8DpVp6e
+	PmNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-transfer-encoding;
-	bh=8ld1aoC53j+Tv+fnD+71yHrYrA32ds6j7ogdYLsXVMk=;
-	b=VFJbcI162bjOeDyF3z1uzgYIAfvdABsk9cr9QALqryxeBPHqpiIkFNjYLCU59mpwQ5
-	3huUGmXnRu6D7/GiGTGGST7swUDMQkODalZLoG7a0MeS+3sUD15lT9smu7jGzFXdZTsC
-	mbh51CB8E0HjBbi41g+WoH7KOLhEiS0mPOUWOkOUlRIgt/oJjOoOvSgPhLD5ZPc6mDmc
-	gebl+BTOu5/5wbrstmDMcjCI6+fCHkTms0nPbVFuDuAbc4Hih+Zww45cFyPTVG558tDl
-	6JiVRga7c/mdR4URI5JPOAFkc35KKypWt75FIV9wO1Kq61IEcD83IDyJqtYoYO11jy4A
-	ZtlA==
-X-Gm-Message-State: AOPr4FWnWUk2aW2lgQ5BcGF17WARgeDzx/D/eYVTz+nxX+wM7pwzaFIVcf3clc+PipWgkubWeFP6PVnhQnuKOA==
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=4/kFU3Gp3woG0875amcWqJmU8RAQ0KCQ0zwQRGHlqcs=;
+	b=NSyM+dRhjKKC7oJ6TMI/fCQ8a4I8Enbi/eDx7wSRwOyqzQ00zJFPzQH5SrY30tDPbn
+	ScHkVHiALIzO8qmquwwJyWRFlnbuXZrkZ1viD3G55Y1gJgSNgwk4VgJcHAm6lvU8A+fG
+	QjzQKZtEyQEbEb9ueO3p4Q0Mn/B28LuXPedbulqV0ugCWrVCKmxLwHKPQqE2Y4PcSgCE
+	E2B4KPtJw9ytVmLvJybCQTRvlXQd5o0LDOb01dFNpto9Okv9Od0w05jH80IChamO1Azm
+	I5uxtIxEqP3DnY4zBewl5MmqUNhSQGOFvftST6d9pmZkhJ/imA3Gs/lRuBFbdpLuVS9s
+	kzzA==
+X-Gm-Message-State: AOPr4FWsWV/3ba3de3giQ63K0/yzX4ZFQIv6xYXJut7nN2WKdPgK6w6eIUSGLbf1gWDJ2DWgqNmrNB/J+UvZQF4M
+X-Received: by 10.50.155.67 with SMTP id vu3mr20206722igb.52.1461010077011;
+	Mon, 18 Apr 2016 13:07:57 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.159.36.144 with SMTP id 16mr2544890uar.98.1461008936026;
-	Mon, 18 Apr 2016 12:48:56 -0700 (PDT)
-Received: by 10.103.94.2 with HTTP; Mon, 18 Apr 2016 12:48:55 -0700 (PDT)
-In-Reply-To: <B1D22563-F31B-4EF1-90D6-16EB391134D5@gmail.com>
-References: <B1D22563-F31B-4EF1-90D6-16EB391134D5@gmail.com>
-Date: Mon, 18 Apr 2016 13:48:55 -0600
-Message-ID: <CACS+7ZSpWgziO+GF++25dM7kgP4SZ_GDV+-DcEMQ_YUGyEEnfQ@mail.gmail.com>
-From: Dan McGregor <danismostlikely@gmail.com>
+Received: by 10.107.132.24 with HTTP; Mon, 18 Apr 2016 13:07:37 -0700 (PDT)
+In-Reply-To: <CAMKF1spGMHQMVP_-mrHYmDnjM+DPk0mktK_e+9G1bekuP6PnUA@mail.gmail.com>
+References: <CAJTo0LZtDL-hbxXmYWdgf7HTZtSA4D2FgRKtx1+n6Rqxq50n=g@mail.gmail.com>
+	<CAMKF1spGMHQMVP_-mrHYmDnjM+DPk0mktK_e+9G1bekuP6PnUA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 18 Apr 2016 21:07:37 +0100
+Message-ID: <CAJTo0LaBDu6_2QZ+HvF5N0Mw9dEvbUbkW6H-6f=SFHYgootZtQ@mail.gmail.com>
 To: Khem Raj <raj.khem@gmail.com>
-Cc: Yocto Project <yocto@yoctoproject.org>,
-	openembeded-devel <openembedded-devel@lists.openembedded.org>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFT] GCC 6 Recipes
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: bugzilla.yoctoproject.org policy for bugs against multiple releases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,64 +58,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Apr 2016 19:48:58 -0000
+X-List-Received-Date: Mon, 18 Apr 2016 20:07:57 -0000
+Content-Type: multipart/alternative; boundary=001a1134dbeca769e00530c7eac0
+
+--001a1134dbeca769e00530c7eac0
 Content-Type: text/plain; charset=UTF-8
+
+On 18 April 2016 at 18:35, Khem Raj <raj.khem@gmail.com> wrote:
+
+> Can we have a possibility to select  field like "affected version" and
+> have it such that multiple versions can be specified
+>
+
+You'd then need to have the ability to set multiple target versions, and
+track each of those independently.  Without this you won't gain anything
+beyond leaving a comment saying "needs to be fixed in fido" or "patch sent
+for fido", there's no tracking.
+
+Ross
+
+--001a1134dbeca769e00530c7eac0
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On 17 April 2016 at 23:15, Khem Raj <raj.khem@gmail.com> wrote:
-> Hello all,
->
-> I have put together a potential gcc6 upgrade recipe set, and pushed the b=
-ranch to tree here
->
->
-> http://git.openembedded.org/openembedded-core-contrib/log/?h=3Dkraj/gcc-6
->
-> and also at github fork of mine.
->
-> https://github.com/kraj/openembedded-core/tree/kraj/master
->
-> You need to set
->
-> GCCVERSION =3D =E2=80=9C6.%=E2=80=9D
->
-> in local.conf to enable it.
->
->
-> There are few recipes in OE-Core which still don=E2=80=99t compile e.g.
->
-> see
->
-> http://errors.yoctoproject.org/Errors/Build/14782/
->
-> any help in fixing them or otherwise fixing other layers is appreciated.
->
-> gcc6 is a major release for some info see
->
-> https://gcc.gnu.org/gcc-6/changes.html
->
-> and porting guide
->
-> https://gcc.gnu.org/gcc-6/porting_to.html
->
->
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 18 April 2016 at 18:35, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto=
+:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wr=
+ote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
+-left:1px #ccc solid;padding-left:1ex"><p dir=3D"ltr">Can we have a possibi=
+lity to select=C2=A0 field like &quot;affected version&quot; and have it su=
+ch that multiple versions can be specified</p></blockquote><div><br></div><=
+div>You&#39;d then need to have the ability to set multiple target versions=
+, and track each of those independently.=C2=A0 Without this you won&#39;t g=
+ain anything beyond leaving a comment saying &quot;needs to be fixed in fid=
+o&quot; or &quot;patch sent for fido&quot;, there&#39;s no tracking.</div><=
+div><br></div><div>Ross</div></div></div></div>
 
-I haven't built an image with gcc6 as the compiler yet, but I did
-check out your branch to try building with gcc 6 as the host compiler
-(Fedora 24). I needed a few more fixes, available at
-http://git.openembedded.org/openembedded-core-contrib/log/?h=3Ddankm/gcc-6.
-I fixed lzop, pkgconfig, and disabled werror on binutils.
-core-image-minimal appears to be well on its way to building.
-
-
-> Thanks
->
-> -Khem
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
+--001a1134dbeca769e00530c7eac0--
