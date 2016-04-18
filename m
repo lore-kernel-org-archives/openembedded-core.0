@@ -1,45 +1,36 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
-	[209.85.213.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D0A560232
+Return-Path: <rbilovol@cisco.com>
+Received: from aer-iport-4.cisco.com (aer-iport-4.cisco.com [173.38.203.54])
+	by mail.openembedded.org (Postfix) with ESMTP id B5E3660796
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Apr 2016 10:26:44 +0000 (UTC)
-Received: by mail-ig0-f172.google.com with SMTP id y9so20599934igg.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Apr 2016 03:26:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=BNbPFyLSEmImdQxvJ5F3pE9C5EwBj9jt4s6We+t2WUg=;
-	b=Cai/heTCYpzQJH0qCI4T4qtM8L5l8QAf5nxRt/eeSzAbWpN7U3KsQ8rlw57UpPX3ZO
-	2PJZPb8ZugNPMFcXmkgKb7o3FDSTNt5K3tBJ8JcnV16nur7uySQ0zoqjolthM9yaM56S
-	9TmrN62K8fAVw5GHz2C4pWL2HgyoLSi7ga+v3ePbwfzL7bKAik7SWMaB++qnlnj+P/OF
-	MiEqaDt/9uAuvj22duuVKHVfcBUc1NuPETHVODkSHCu6b5+C6Eq08RgV9gkxKsRCd6ep
-	E49s4rH6pWrGg1x3ziyJyQd4RWbmEqsYNYZUFQGqoIKFyAmo8FjoNTguhU/1QK62b3PX
-	qg8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=BNbPFyLSEmImdQxvJ5F3pE9C5EwBj9jt4s6We+t2WUg=;
-	b=XV2LTdeOSagMWR09CQo2aw8TSkC4bVBO3rgsx72++7J+V4izo+jL0FuA5xF1Y9IiSx
-	S2N/OC4fimsOERGKr3ehS1+fCOpkJ6Ioc8iBCaR8QlC8vFTbGXvQtaUG5Llu78wr2kuJ
-	un/WmzG4khcBtE1I3UCJRbo+HxaGgpsz0opGHB36K0G1cnLrQSW5uWGlo2jSCCMzz8v5
-	z33F1fZ02jBYW2gFxQ8AOP8X5KXBTD0mYvVnV78/ucLo2uQFEfAqGMtG6ohGFdhyJwUP
-	siQrXZAM193X9OiUhik4HSZ9MBrOy4DoF1ZB/J52vbp7Zrxo87jyXg3gF5viZFZrE2rP
-	Wmpg==
-X-Gm-Message-State: AOPr4FWCa5OTya/xsaSxdYLUPrt3BVAvI6J9/QdjBDM9QeBaqiCtolWG81Wu53hu9wDvktY+8deMw+ah1fmGJI2U
-X-Received: by 10.50.78.8 with SMTP id x8mr18608894igw.78.1460975205539; Mon,
-	18 Apr 2016 03:26:45 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.132.24 with HTTP; Mon, 18 Apr 2016 03:26:26 -0700 (PDT)
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 18 Apr 2016 11:26:26 +0100
-Message-ID: <CAJTo0LZtDL-hbxXmYWdgf7HTZtSA4D2FgRKtx1+n6Rqxq50n=g@mail.gmail.com>
-To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>, 
-	openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>, 
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: bugzilla.yoctoproject.org policy for bugs against multiple releases
+	Mon, 18 Apr 2016 11:14:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=4743; q=dns/txt; s=iport;
+	t=1460978050; x=1462187650;
+	h=from:to:cc:subject:date:message-id;
+	bh=3vN7Yubq8qkH17n73XC6V4cLcgGJzmxjJvR5NesF1Cg=;
+	b=gvd6EN4PdHpdeNNxP0DvKBODUvA5FcukSRA5opqawuEWQQLXy+movJRf
+	38oTQkcAtlcZGv5nrxI32khRn/h77TpBSgjXDsMG+Priw4uriDJwlkkV2
+	VdokQO9JN67wHJqwVN/OeCkf+3le4EcH3dpizIHQ9f37vsUOW25PBRi8N g=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0CqBAAHwRRX/xbLJq1bhAt9uBWEDh6Fc?=
+	=?us-ascii?q?IF3AQEBAQEBZieEQQECfSwDAQJ+IYgpuiwBAQEHIAuGFo5gBY5DiUuFeIgWAoF?=
+	=?us-ascii?q?lTocphTECRY5mYoIEGoFNOTCJOgEBAQ?=
+X-IronPort-AV: E=Sophos;i="5.24,502,1454976000"; d="scan'208";a="637051441"
+Received: from aer-iport-nat.cisco.com (HELO aer-core-4.cisco.com)
+	([173.38.203.22])
+	by aer-iport-4.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	18 Apr 2016 11:14:08 +0000
+Received: from localhost ([10.61.173.88])
+	by aer-core-4.cisco.com (8.14.5/8.14.5) with ESMTP id u3IBE7DB027090;
+	Mon, 18 Apr 2016 11:14:07 GMT
+From: Ruslan Bilovol <rbilovol@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 18 Apr 2016 14:14:07 +0300
+Message-Id: <1460978047-3086-1-git-send-email-rbilovol@cisco.com>
+X-Mailer: git-send-email 1.9.1
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+Cc: xe-linux-external@cisco.com
+Subject: [PATCH] libunwind: backport aarch64_be support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,56 +43,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Apr 2016 10:26:45 -0000
-Content-Type: multipart/alternative; boundary=089e01183a4c274bd50530bfcc30
+X-List-Received-Date: Mon, 18 Apr 2016 11:14:09 -0000
 
---089e01183a4c274bd50530bfcc30
-Content-Type: text/plain; charset=UTF-8
+Backport 2 patches from v1.2-rc1 tag of libunwind git repo.
+These patches add aarch64_be support to this package.
 
-Hi,
+Signed-off-by: Ruslan Bilovol <rbilovol@cisco.com>
+---
+ ...roduce-build-support-for-aarch64_be-targe.patch | 33 +++++++++++++++++++++
+ ...-wrong-big_endian-flag-in-aarch64_be-case.patch | 34 ++++++++++++++++++++++
+ meta/recipes-support/libunwind/libunwind_1.1.bb    |  2 ++
+ 3 files changed, 69 insertions(+)
+ create mode 100644 meta/recipes-support/libunwind/libunwind-1.1/0001-aarch64-introduce-build-support-for-aarch64_be-targe.patch
+ create mode 100644 meta/recipes-support/libunwind/libunwind-1.1/0002-aarch64-fix-wrong-big_endian-flag-in-aarch64_be-case.patch
 
-At the moment we don't really have a policy for oe-core bugs in
-bugzilla.yoctoproject.org that apply to multiple releases, for example
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=9400.  This is a CVE bug
-that should be fixed in all supported branches, and indeed Sona has sent
-patches for Fido/Dizzy/Jethro/master.  Of course now we've got to track
-where these patches are in the submission process and ensure that we don't
-drop any of these, but bugzilla only has a single target milestone for each
-bug.
+diff --git a/meta/recipes-support/libunwind/libunwind-1.1/0001-aarch64-introduce-build-support-for-aarch64_be-targe.patch b/meta/recipes-support/libunwind/libunwind-1.1/0001-aarch64-introduce-build-support-for-aarch64_be-targe.patch
+new file mode 100644
+index 0000000..b8afb90
+--- /dev/null
++++ b/meta/recipes-support/libunwind/libunwind-1.1/0001-aarch64-introduce-build-support-for-aarch64_be-targe.patch
+@@ -0,0 +1,33 @@
++From 743668f66916b6bb03c92b04be5216400951ace6 Mon Sep 17 00:00:00 2001
++From: Victor Kamensky <victor.kamensky@linaro.org>
++Date: Wed, 3 Dec 2014 17:35:43 -0800
++Subject: [PATCH 1/2] aarch64: introduce build support for aarch64_be target
++
++Upstream-Status: backport
++
++Introduce support for aarch64_be, aarch64 big endian, target.
++We would like to reuse all code that was done for aarch64
++(little endian) target. So we do similar thing that is done
++for ARM v7 (arm) target for any aarch64* arch we set it
++just to aarch64.
++
++Signed-off-by: Victor Kamensky <victor.kamensky@linaro.org>
++---
++ configure.ac | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/configure.ac b/configure.ac
++index 582e71f..c59f526 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -88,6 +88,7 @@ AC_COMPILE_IFELSE([AC_LANG_SOURCE([[
++ 
++ AC_DEFUN([SET_ARCH],[
++     AS_CASE([$1],
+++        [aarch64*],[$2=aarch64],
++         [arm*],[$2=arm],
++         [i?86],[$2=x86],
++         [hppa*],[$2=hppa],
++-- 
++1.9.1
++
+diff --git a/meta/recipes-support/libunwind/libunwind-1.1/0002-aarch64-fix-wrong-big_endian-flag-in-aarch64_be-case.patch b/meta/recipes-support/libunwind/libunwind-1.1/0002-aarch64-fix-wrong-big_endian-flag-in-aarch64_be-case.patch
+new file mode 100644
+index 0000000..2ae4477
+--- /dev/null
++++ b/meta/recipes-support/libunwind/libunwind-1.1/0002-aarch64-fix-wrong-big_endian-flag-in-aarch64_be-case.patch
+@@ -0,0 +1,34 @@
++From 16e98c8cf37b006c3879ee57acc23c9af13c40d5 Mon Sep 17 00:00:00 2001
++From: Victor Kamensky <victor.kamensky@linaro.org>
++Date: Wed, 3 Dec 2014 17:35:44 -0800
++Subject: [PATCH 2/2] aarch64: fix wrong big_endian flag in aarch64_be case
++
++Upstream-Status: backport
++
++Set local_addr_space.big_endian flag according to current target
++endianness. Before it was set by memset to 0, which corresponds
++to little endian and it worked perfectly fine for aarch64.
++But it breaks aarch64_be because dwarf_readu16, dwarf_readu32,
++etc functions do not read values correctly since they operate
++with wrong idea about current target endianness.
++
++Signed-off-by: Victor Kamensky <victor.kamensky@linaro.org>
++---
++ src/aarch64/Ginit.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/src/aarch64/Ginit.c b/src/aarch64/Ginit.c
++index 0bc8997..b9181ef 100644
++--- a/src/aarch64/Ginit.c
+++++ b/src/aarch64/Ginit.c
++@@ -181,6 +181,7 @@ aarch64_local_addr_space_init (void)
++   local_addr_space.acc.access_fpreg = access_fpreg;
++   local_addr_space.acc.resume = aarch64_local_resume;
++   local_addr_space.acc.get_proc_name = get_static_proc_name;
+++  local_addr_space.big_endian = (__BYTE_ORDER == __BIG_ENDIAN);
++   unw_flush_cache (&local_addr_space, 0, 0);
++ }
++ 
++-- 
++1.9.1
++
+diff --git a/meta/recipes-support/libunwind/libunwind_1.1.bb b/meta/recipes-support/libunwind/libunwind_1.1.bb
+index aff8409..1e76c1a 100644
+--- a/meta/recipes-support/libunwind/libunwind_1.1.bb
++++ b/meta/recipes-support/libunwind/libunwind_1.1.bb
+@@ -8,6 +8,8 @@ SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
+            file://0001-Invalid-dwarf-opcodes-can-cause-references-beyond-th.patch \
+            file://Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch \
+            file://0001-backtrace-Use-only-with-glibc-and-uclibc.patch \
++           file://0001-aarch64-introduce-build-support-for-aarch64_be-targe.patch \
++           file://0002-aarch64-fix-wrong-big_endian-flag-in-aarch64_be-case.patch \
+ "
+ SRC_URI_append_libc-musl = "\
+            file://0001-x86-Stub-out-x86_local_resume.patch \
+-- 
+1.9.1
 
-I propose that for bugs such as this we file a bug report for master and
-then clone it (there's a Clone This Bug button at the bottom) for each
-stable release that is affected.  Then each bug can have it's own target
-milestone set and we can be sure that the patches don't get left out of
-being merged and that QA can effectively verify each branch.
 
-Any objection or feedback? (the first person to suggest moving to Jira gets
-to manually review all CVEs from CVE-1999-0001 onwards are fixed in
-krogoth).
-
-Ross
-
---089e01183a4c274bd50530bfcc30
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi,<div><br></div><div>At the moment we don&#39;t really h=
-ave a policy for oe-core bugs in <a href=3D"http://bugzilla.yoctoproject.or=
-g">bugzilla.yoctoproject.org</a> that apply to multiple releases, for examp=
-le=C2=A0<a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D9400=
-">https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D9400</a>.=C2=A0 This =
-is a CVE bug that should be fixed in all supported branches, and indeed Son=
-a has sent patches for Fido/Dizzy/Jethro/master.=C2=A0 Of course now we&#39=
-;ve got to track where these patches are in the submission process and ensu=
-re that we don&#39;t drop any of these, but bugzilla only has a single targ=
-et milestone for each bug.</div><div><br></div><div>I propose that for bugs=
- such as this we file a bug report for master and then clone it (there&#39;=
-s a Clone This Bug button at the bottom) for each stable release that is af=
-fected.=C2=A0 Then each bug can have it&#39;s own target milestone set and =
-we can be sure that the patches don&#39;t get left out of being merged and =
-that QA can effectively verify each branch.</div><div><br></div><div>Any ob=
-jection or feedback? (the first person to suggest moving to Jira gets to ma=
-nually review all CVEs from CVE-1999-0001 onwards are fixed in krogoth).</d=
-iv><div><br></div><div>Ross</div></div>
-
---089e01183a4c274bd50530bfcc30--
