@@ -1,17 +1,39 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 25DE9601A5
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f176.google.com (mail-ig0-f176.google.com
+	[209.85.213.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D7A6600B3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Apr 2016 13:08:10 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u3ID89hU023656
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 18 Apr 2016 06:08:09 -0700 (PDT)
-Received: from [128.224.162.159] (128.224.162.159) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 18 Apr 2016 06:08:08 -0700
-To: =?UTF-8?Q?Andreas_M=c3=bcller?= <schnitzeltony@googlemail.com>
+	Mon, 18 Apr 2016 13:55:38 +0000 (UTC)
+Received: by mail-ig0-f176.google.com with SMTP id kb1so15358701igb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Apr 2016 06:55:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=ilcaqXkfs+iVPibuSYJhLLz8KheacnHf/mWXqK3NWt0=;
+	b=I8orpo102xoOyWzG36npMObi8mMoDykchb3Ql2cS9eg9BVpqfAEVsFPvpFSgRp2ZjG
+	Fya5dc8CZH+q0v+0D0LUI5cvUsqWMrA7+ktktxBtjo9W0Hf/TE0E1CpNccRGkA8bkfK5
+	B3qg/kkH22SY9UP0lA2af+6051ljz8GRFZYmrXE/xF1AyfOAnR/Op7Rb0qXFCq5K9SaA
+	ONgqhJXgYA4Uw8iJghoU9KZGjv4D6Qev+iYgUiuH2kNUhPRH5CjJCJB0/xq8VM2Ws0Zo
+	rKVUq54KLJQ8dBdtAPTzVE96GgNwrsyopmypazdgM9QqSY1ZWNgazYxV0GPlT7ar0vs7
+	FU0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=ilcaqXkfs+iVPibuSYJhLLz8KheacnHf/mWXqK3NWt0=;
+	b=F49Ybra20s+0eOnSXSpGxtVYkctlKX4TW8sMme0100f0jNlxzYxlXV1UefmjUbw0/K
+	mKMDs6stEZzsT7KpfQpmppPDnZxBFJ1nsuGe2kPtDlL6NJtwf4Z63r/ciugv+sQwJNso
+	RKul3EIBPgaGGn+o+0nZIaSbn7ZNxVAG7wmDGbUzxIlOaLqK8gVQNblRuSC2u8ONwLbm
+	6SIQOaBqb/50j3OI9VZmZhfjZGicbkKAW0CxtcMYUmE/phZUwFQSYIRys+agdL0FbPWO
+	4I66SEl0iVCFx0zG5zloq7VvHZBgstL4Tv221qtRuRNTJ42HIJrEb2tSKUKpzwNJgMeR
+	eXkA==
+X-Gm-Message-State: AOPr4FXQmTHzLiIOin/9UXNlR7rOecD+NnHZjfEm285diTH+YahMMOhGsfDvO2VBnmiKV6Yl9u8YHJzs8sjEF6As
+X-Received: by 10.50.78.8 with SMTP id x8mr19745117igw.78.1460987739404; Mon,
+	18 Apr 2016 06:55:39 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.132.24 with HTTP; Mon, 18 Apr 2016 06:55:19 -0700 (PDT)
+In-Reply-To: <5714DC35.7040206@windriver.com>
 References: <cover.1459147231.git.hongxu.jia@windriver.com>
 	<62a9bef209d903048c1095d90387384115eb6fd5.1459147231.git.hongxu.jia@windriver.com>
 	<CALbNGRRL0O+j6axaHL3W2bKZLLyYEe1kxsiguZGL0=a1Lz8ryg@mail.gmail.com>
@@ -23,13 +45,11 @@ References: <cover.1459147231.git.hongxu.jia@windriver.com>
 	<CALbNGRSBJSR4xMqCOUvu2yQcG38E=1UZBehkjmFZLdrtRyfamw@mail.gmail.com>
 	<5714AA1E.9020505@windriver.com>
 	<CALbNGRSe6B9-QRftL54DEEKrmCjxTt91K7FXk+CUzuGxjTvf5A@mail.gmail.com>
-From: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <5714DC35.7040206@windriver.com>
-Date: Mon, 18 Apr 2016 21:08:05 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
-MIME-Version: 1.0
-In-Reply-To: <CALbNGRSe6B9-QRftL54DEEKrmCjxTt91K7FXk+CUzuGxjTvf5A@mail.gmail.com>
+	<5714DC35.7040206@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 18 Apr 2016 14:55:19 +0100
+Message-ID: <CAJTo0LYTcA-c99-T_Z6q9Kn=X2C9Y1kBX+D6rzHrn+eLMUcSdA@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 01/17] conf/bitbake.conf package.bbclass: fix dbg package not contain sources while -fdebug-prefix-map used
@@ -45,50 +65,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Apr 2016 13:08:14 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 18 Apr 2016 13:55:41 -0000
+Content-Type: multipart/alternative; boundary=089e01183a4c3abb7b0530c2b789
 
-On 04/18/2016 05:52 PM, Andreas Müller wrote:
-> On Mon, Apr 18, 2016 at 11:34 AM, Hongxu Jia <hongxu.jia@windriver.com> wrote:
->> On 04/18/2016 05:15 PM, Andreas Müller wrote:
->>> So remote debugging is no more available for standard settings. I am
->>> tempted to send a revert: Installing -dbg causes bloated images and
->>> debugging on machine is slow and last resort only.
->>
->> I think we support remote debugging better since -fdebug-prefix-map used,
->> It is easy to construct sources paths.
->>
->> Yours remote debug was limited to original build environment.
->>
->> //Hongxu
->>
->>> Andreas
-> OK I checked the documentation for this. You say setting sysroot is
-> broken now. How exactly is your suggested option for *remote*
-> debugging? And please note: Installing -dbg packages is not an option:
-In your case for remote debug with build environment,
+--089e01183a4c3abb7b0530c2b789
+Content-Type: text/plain; charset=UTF-8
 
-My suggestions is:
+On 18 April 2016 at 14:08, Hongxu Jia <hongxu.jia@windriver.com> wrote:
 
-Plan1:
-
-If sysroot is not required, just install extract *-dpb to /usr/src/ in host
-
-Plang2:
-
-If sysroot is required, override DEBUG_FLAGS to remove -fdebug-prefix-map
-
-//Hongxu
-
-
-> * It explodes image's size
-> * problems are caused by having only one -dbg per recipe: due to
-> dependencies conflicting packages are installed causing build to break
-> * it is terribly slow: All source code is transferred by network
-> during debugging
-> * a quick starting up of debugger is impossible - a new image has to be created.
+> If sysroot is required, override DEBUG_FLAGS to remove -fdebug-prefix-map
 >
-> Andreas
 
+We should probably get this in the release notes, as many people do indeed
+want remote debug to work.
 
+Can you tell gdb the base path to use when looking for symbols?  I've not
+done remote GDB for some time but wouldn't "set substitute-path /
+//my/sysroot/" work?  Or maybe /usr /my/sysroot/usr?
+
+If gdb can't be told then instead of having to replace all of DEBUG_FLAGS
+it would be neat if the prefix mapping variables where in another variable
+that could just be unset.
+
+Ross
+
+--089e01183a4c3abb7b0530c2b789
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 18 April 2016 at 14:08, Hongxu Jia <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:hongxu.jia@windriver.com" target=3D"_blank">hongxu.jia@windriver.com</a>=
+&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":c2" class=
+=3D"a3s aXjCH">If sysroot is required, override DEBUG_FLAGS to remove -fdeb=
+ug-prefix-map<br></div></blockquote><div><br></div><div>We should probably =
+get this in the release notes, as many people do indeed want remote debug t=
+o work.</div><div><br></div><div>Can you tell gdb the base path to use when=
+ looking for symbols?=C2=A0 I&#39;ve not done remote GDB for some time but =
+wouldn&#39;t &quot;set substitute-path / //my/sysroot/&quot; work?=C2=A0 Or=
+ maybe /usr /my/sysroot/usr?</div><div><br></div><div>If gdb can&#39;t be t=
+old then instead of having to replace all of DEBUG_FLAGS it would be neat i=
+f the prefix mapping variables where in another variable that could just be=
+ unset.</div><div><br></div><div>Ross</div></div></div></div>
+
+--089e01183a4c3abb7b0530c2b789--
