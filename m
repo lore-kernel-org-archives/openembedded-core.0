@@ -1,33 +1,24 @@
-Return-Path: <Noor_Ahsan@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id A785560796
+Return-Path: <Catalin.Enache@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 719CD6067D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Apr 2016 11:18:55 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-05.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1as7Cg-0002UW-Vh from Noor_Ahsan@mentor.com ;
-	Mon, 18 Apr 2016 04:18:55 -0700
-Received: from EU-MBX-01.mgc.mentorg.com ([169.254.1.18]) by
-	SVR-IES-FEM-05.mgc.mentorg.com ([137.202.0.112]) with mapi id
-	14.03.0224.002; Mon, 18 Apr 2016 12:18:53 +0100
-From: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
-To: sujith h <sujith.h@gmail.com>, OE-core
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] Fwd: [yocto][meta-qt5] How to increase depth of
-	qemuarm	from bootargs?
-Thread-Index: AQHRlutnAxtB8Njk+U2aR9JZRHhgVJ+Pme3A
-Date: Mon, 18 Apr 2016 11:18:53 +0000
-Message-ID: <365E1805BC95084CBE82381A0B8699940127D10813@EU-MBX-01.mgc.mentorg.com>
-References: <CADyYWLkKaW0fFjentEq7h9AgojtHyLRFRnmCd7heA+bTBX515w@mail.gmail.com>
-	<CADyYWL=A4MiQO8Vi+AGD397=kKVzULFTW0fr6c_WnUG_9O=Zkg@mail.gmail.com>
-In-Reply-To: <CADyYWL=A4MiQO8Vi+AGD397=kKVzULFTW0fr6c_WnUG_9O=Zkg@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.202.0.76]
+	Mon, 18 Apr 2016 11:34:06 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u3IBY6XK016701
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Apr 2016 04:34:07 -0700 (PDT)
+Received: from no3.corp.ad.wrs.com (128.224.124.137) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Mon, 18 Apr 2016 04:34:06 -0700
+From: Catalin Enache <catalin.enache@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 18 Apr 2016 14:37:03 +0300
+Message-ID: <1460979423-6171-1-git-send-email-catalin.enache@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: Re: [yocto][meta-qt5] How to increase depth of qemuarm	from bootargs?
+Subject: [PATCH] dhcp: CVE-2016-2774
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,188 +31,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Apr 2016 11:18:57 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_365E1805BC95084CBE82381A0B8699940127D10813EUMBX01mgcmen_"
+X-List-Received-Date: Mon, 18 Apr 2016 11:34:09 -0000
+Content-Type: text/plain
 
---_000_365E1805BC95084CBE82381A0B8699940127D10813EUMBX01mgcmen_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ISC DHCP 4.1.x before 4.1-ESV-R13 and 4.2.x and 4.3.x before
+4.3.4 does not restrict the number of concurrent TCP sessions,
+which allows remote attackers to cause a denial of service
+(INSIST assertion failure or request-processing outage)
+by establishing many sessions.
 
-SGVsbG8gR3V5cywNCg0KTmF5IGhlbHAgb24gdGhpcyBvbmUuIFdlIHRyaWVkIHFlbXV4ODYgYW5k
-IGVnbCBleGFtcGxlcyBhcmUgd29ya2luZyBmaW5lIG9uIHFlbXV4ODYuIFRoZSBkaWZmZXJlbmNl
-IGlzIGl0IGlzIHVzaW5nIFZNd2FyZSB2Z2EgZHJpdmVyLiBXZSB3ZXJlIG5vdCBhYmxlIHRvIGNo
-YW5nZSB0aGUgZHJpdmVyIG9uIHFlbXVhcm0uDQoNCk5vb3INCg0KRnJvbTogb3BlbmVtYmVkZGVk
-LWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnIFttYWlsdG86b3BlbmVtYmVkZGVk
-LWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnXSBPbiBCZWhhbGYgT2Ygc3VqaXRo
-IGgNClNlbnQ6IEZyaWRheSwgQXByaWwgMTUsIDIwMTYgMTI6NDkgUE0NClRvOiBPRS1jb3JlDQpT
-dWJqZWN0OiBbT0UtY29yZV0gRndkOiBbeW9jdG9dW21ldGEtcXQ1XSBIb3cgdG8gaW5jcmVhc2Ug
-ZGVwdGggb2YgcWVtdWFybSBmcm9tIGJvb3RhcmdzPw0KDQoNCi0tLS0tLS0tLS0gRm9yd2FyZGVk
-IG1lc3NhZ2UgLS0tLS0tLS0tLQ0KRnJvbTogc3VqaXRoIGggPHN1aml0aC5oQGdtYWlsLmNvbTxt
-YWlsdG86c3VqaXRoLmhAZ21haWwuY29tPj4NCkRhdGU6IFRodSwgQXByIDE0LCAyMDE2IGF0IDI6
-NTMgUE0NClN1YmplY3Q6IFt5b2N0b11bbWV0YS1xdDVdIEhvdyB0byBpbmNyZWFzZSBkZXB0aCBv
-ZiBxZW11YXJtIGZyb20gYm9vdGFyZ3M/DQpUbzogInlvY3RvQHlvY3RvcHJvamVjdC5vcmc8bWFp
-bHRvOnlvY3RvQHlvY3RvcHJvamVjdC5vcmc+IiA8eW9jdG9AeW9jdG9wcm9qZWN0Lm9yZzxtYWls
-dG86eW9jdG9AeW9jdG9wcm9qZWN0Lm9yZz4+DQpDYzogTm9vcl9BaHNhbkBtZW50b3IuY29tPG1h
-aWx0bzpOb29yX0Foc2FuQG1lbnRvci5jb20+DQoNCkhpIGFsbCwNCkkgYW0gdHJ5aW5nIHRvIGJ1
-aWxkIFF0NSBmcm9tIG1ldGEtcXQ1ICggbWFzdGVyIGJyYW5jaCApIHdpdGggcG9reSggbWFjaGlu
-ZSBpcyBxZW11YXJtKS4gVGhlIHF0YmFzZSBpcyBidWlsdCBzdWNjZXNzZnVsbHkgYW5kIGlzIGlu
-c3RhbGxlZCBpbnRvIGNvcmUtaW1hZ2Utc2F0by4gV2hlbiBJIHJ1biA6IHJ1bnFlbXUgcWVtdWFy
-bQ0KSSBjYW4gc2VlIHRoZSBtYXRjaGJveCB3aW5kb3cgbGF1bmNoZWQgc3VjY2Vzc2Z1bGx5LlRo
-ZSBxdGJhc2UgaXMgaGF2aW5nIGdsZXMyIGVuYWJsZWQgaW4gdGhlIFBBQ0tBR0VDT05GSUcgYW5k
-IGdsIGlzIHJlbW92ZWQgZnJvbSBQQUNLQUdFQ09ORklHLiBJbiBtZXNhIEkgaGF2ZSBlbmFibGVk
-IGdhbGxpdW0uIEkgZG8gc2VlIGEgcHJvYmxlbSB3aGVuIEkgdHJ5IHRvIHJ1biBxdGJhc2Ugb3Bl
-bmdsIGV4YW1wbGVzLlRoZSBndWkgZ2V0cyBkaXNwbGF5ZWQuIEJ1dCB0aGUgaW1hZ2UocykgYXNz
-b2NpYXRlZCB3aXRoIGl0IG5ldmVyIGRpc3BsYXlzLiBGb3IgZXhhbXBsZSBsZXRzIHNheSB0aGVy
-ZSBpcyBhbiBleGFtcGxlIGtub3duIGFzIGN1YmUuIFdoZW4gSSB0cnkgdG8gcnVuIGN1YmUgKCB3
-aXRoIC1wbGF0Zm9ybSB4Y2IpLCBJIGNvdWxkIHNlZSBhIGJsYWNrIHNjcmVlbi4gVGhlIGN1YmUg
-aW1hZ2UgbmV2ZXIgY29tZXMuIFNvIG15IHF1ZXJ5IGlzIGlmIGl0J3MgcG9zc2libGUgdG8gaW5j
-cmVhc2UgdGhlIGRlcHRoICggZGVmYXVsdCB1c2VkIGlzIDE2IGZvciBxZW11YXJtICkgdG8gMjQg
-dGhyb3VnaCBib290YXJncz8gSWYgc28gYSBoZWxwaW5nIGhhbmQgd291bGQgYmUgZ3JlYXQuIExl
-dCBtZSBrbm93IGlmIG1vcmUgaW5mb3JtYXRpb24gaXMgcmVxdWlyZWQgcmVnYXJkaW5nIG15IHNl
-dHVwLiBJIGhhdmUgcG9reSArIG1ldGEtcXQ1ICsgbWV0YS1vZSArIG1ldGEtcnVieSBsYXllcnMg
-aW4gYmJsYXllcnMuY29uZi4NClRoYW5rcywNClN1aml0aCBIDQoNCi0tDQrgtLjgtYHgtJzgtL/g
-tKTgtY0g4LS54LSw4LS/4LSm4LS+4LS44LSo4LWNDQpCYW5nYWxvcmUNCjxQcm9qZWN0PkNvbnRy
-aWJ1dG9yIHRvIEtERSBwcm9qZWN0DQo8UHJvamVjdD5Db250cmlidXRvciB0byBZb2N0byBwcm9q
-ZWN0DQpodHRwOi8vZmNpLndpa2lhLmNvbS93aWtpL0FudGktRFJNLUNhbXBhaWduDQo8QmxvZz4g
-aHR0cDovL3N1aml0aGguaW5mbw0KQy14IEMtYw0KDQoNCg0KLS0NCuC0uOC1geC0nOC0v+C0pOC1
-jSDgtLngtLDgtL/gtKbgtL7gtLjgtKjgtY0NCkJhbmdhbG9yZQ0KPFByb2plY3Q+Q29udHJpYnV0
-b3IgdG8gS0RFIHByb2plY3QNCjxQcm9qZWN0PkNvbnRyaWJ1dG9yIHRvIFlvY3RvIHByb2plY3QN
-Cmh0dHA6Ly9mY2kud2lraWEuY29tL3dpa2kvQW50aS1EUk0tQ2FtcGFpZ24NCjxCbG9nPiBodHRw
-Oi8vc3VqaXRoaC5pbmZvDQpDLXggQy1jDQo=
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-2774
 
---_000_365E1805BC95084CBE82381A0B8699940127D10813EUMBX01mgcmen_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
+---
+ .../dhcp/dhcp/CVE-2016-2774.patch                  | 65 ++++++++++++++++++++++
+ meta/recipes-connectivity/dhcp/dhcp_4.3.3.bb       |  1 +
+ 2 files changed, 66 insertions(+)
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp/CVE-2016-2774.patch
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUgMiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJ
-e2ZvbnQtZmFtaWx5OkthcnRpa2E7DQoJcGFub3NlLTE6MiAyIDUgMyAzIDQgNCA2IDIgMzt9DQov
-KiBTdHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1z
-b05vcm1hbA0KCXttYXJnaW46MGluOw0KCW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNp
-emU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcgUm9tYW4iLCJzZXJpZiI7fQ0KYTps
-aW5rLCBzcGFuLk1zb0h5cGVybGluaw0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6
-Ymx1ZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCmE6dmlzaXRlZCwgc3Bhbi5Nc29I
-eXBlcmxpbmtGb2xsb3dlZA0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6cHVycGxl
-Ow0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0Kc3Bhbi5ob2VuemINCgl7bXNvLXN0eWxl
-LW5hbWU6aG9lbnpiO30NCnNwYW4uRW1haWxTdHlsZTE4DQoJe21zby1zdHlsZS10eXBlOnBlcnNv
-bmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7DQoJY29sb3I6
-IzFGNDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25seTsN
-Cglmb250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiO30NCkBwYWdlIFdvcmRTZWN0aW9u
-MQ0KCXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4gMS4waW4gMS4waW4gMS4waW47
-fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9uMTt9DQotLT48L3N0eWxlPjwh
-LS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0cyB2OmV4dD0iZWRpdCIgc3Bp
-ZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1s
-Pg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRtYXAgdjpleHQ9ImVkaXQiIGRh
-dGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5kaWZdLS0+DQo8L2hlYWQ+DQo8
-Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxpbms9InB1cnBsZSI+DQo8ZGl2IGNsYXNz
-PSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQt
-c2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNl
-cmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPkhlbGxvIEd1eXMsPG86cD48L286cD48L3NwYW4+PC9w
-Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9u
-dC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9y
-OiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3Jt
-YWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGli
-cmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj5OYXkgaGVscCBv
-biB0aGlzIG9uZS4gV2UgdHJpZWQgcWVtdXg4NiBhbmQgZWdsIGV4YW1wbGVzIGFyZSB3b3JraW5n
-IGZpbmUgb24gcWVtdXg4Ni4gVGhlIGRpZmZlcmVuY2UgaXMgaXQgaXMgdXNpbmcgVk13YXJlIHZn
-YSBkcml2ZXIuIFdlIHdlcmUgbm90IGFibGUgdG8gY2hhbmdlDQogdGhlIGRyaXZlciBvbiBxZW11
-YXJtLjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0
-eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1
-b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bh
-bj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBw
-dDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7
-Y29sb3I6IzFGNDk3RCI+Tm9vcjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29O
-b3JtYWwiPjxhIG5hbWU9Il9NYWlsRW5kQ29tcG9zZSI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTox
-MS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1
-b3Q7O2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvYT48L3A+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZh
-bWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPkZyb206PC9z
-cGFuPjwvYj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtD
-YWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPiBvcGVuZW1iZWRkZWQtY29yZS1i
-b3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgW21haWx0bzpvcGVuZW1iZWRkZWQtY29yZS1i
-b3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmddDQo8Yj5PbiBCZWhhbGYgT2YgPC9iPnN1aml0
-aCBoPGJyPg0KPGI+U2VudDo8L2I+IEZyaWRheSwgQXByaWwgMTUsIDIwMTYgMTI6NDkgUE08YnI+
-DQo8Yj5Ubzo8L2I+IE9FLWNvcmU8YnI+DQo8Yj5TdWJqZWN0OjwvYj4gW09FLWNvcmVdIEZ3ZDog
-W3lvY3RvXVttZXRhLXF0NV0gSG93IHRvIGluY3JlYXNlIGRlcHRoIG9mIHFlbXVhcm0gZnJvbSBi
-b290YXJncz88bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpw
-PiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNw
-OzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2luLWJv
-dHRvbToxMi4wcHQiPi0tLS0tLS0tLS0gRm9yd2FyZGVkIG1lc3NhZ2UgLS0tLS0tLS0tLTxicj4N
-CkZyb206IDxiPnN1aml0aCBoPC9iPiAmbHQ7PGEgaHJlZj0ibWFpbHRvOnN1aml0aC5oQGdtYWls
-LmNvbSI+c3VqaXRoLmhAZ21haWwuY29tPC9hPiZndDs8YnI+DQpEYXRlOiBUaHUsIEFwciAxNCwg
-MjAxNiBhdCAyOjUzIFBNPGJyPg0KU3ViamVjdDogW3lvY3RvXVttZXRhLXF0NV0gSG93IHRvIGlu
-Y3JlYXNlIGRlcHRoIG9mIHFlbXVhcm0gZnJvbSBib290YXJncz88YnI+DQpUbzogJnF1b3Q7PGEg
-aHJlZj0ibWFpbHRvOnlvY3RvQHlvY3RvcHJvamVjdC5vcmciPnlvY3RvQHlvY3RvcHJvamVjdC5v
-cmc8L2E+JnF1b3Q7ICZsdDs8YSBocmVmPSJtYWlsdG86eW9jdG9AeW9jdG9wcm9qZWN0Lm9yZyI+
-eW9jdG9AeW9jdG9wcm9qZWN0Lm9yZzwvYT4mZ3Q7PGJyPg0KQ2M6IDxhIGhyZWY9Im1haWx0bzpO
-b29yX0Foc2FuQG1lbnRvci5jb20iPk5vb3JfQWhzYW5AbWVudG9yLmNvbTwvYT48YnI+DQo8YnI+
-DQo8bzpwPjwvbzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3Jt
-YWwiIHN0eWxlPSJtYXJnaW4tYm90dG9tOjEyLjBwdCI+SGkgYWxsLDxvOnA+PC9vOnA+PC9wPg0K
-PC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5JIGFtIHRyeWluZyB0byBidWlsZCBRdDUgZnJv
-bSBtZXRhLXF0NSAoIG1hc3RlciBicmFuY2ggKSB3aXRoIHBva3koIG1hY2hpbmUgaXMgcWVtdWFy
-bSkuIFRoZSBxdGJhc2UgaXMgYnVpbHQgc3VjY2Vzc2Z1bGx5IGFuZCBpcyBpbnN0YWxsZWQgaW50
-byBjb3JlLWltYWdlLXNhdG8uIFdoZW4gSSBydW4gOiBydW5xZW11IHFlbXVhcm08bzpwPjwvbzpw
-PjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4t
-Ym90dG9tOjEyLjBwdCI+SSBjYW4gc2VlIHRoZSBtYXRjaGJveCB3aW5kb3cgbGF1bmNoZWQgc3Vj
-Y2Vzc2Z1bGx5LlRoZSBxdGJhc2UgaXMgaGF2aW5nIGdsZXMyIGVuYWJsZWQgaW4gdGhlIFBBQ0tB
-R0VDT05GSUcgYW5kIGdsIGlzIHJlbW92ZWQgZnJvbSBQQUNLQUdFQ09ORklHLiBJbiBtZXNhIEkg
-aGF2ZSBlbmFibGVkIGdhbGxpdW0uIEkgZG8gc2VlIGEgcHJvYmxlbSB3aGVuIEkgdHJ5DQogdG8g
-cnVuIHF0YmFzZSBvcGVuZ2wgZXhhbXBsZXMuVGhlIGd1aSBnZXRzIGRpc3BsYXllZC4gQnV0IHRo
-ZSBpbWFnZShzKSBhc3NvY2lhdGVkIHdpdGggaXQgbmV2ZXIgZGlzcGxheXMuIEZvciBleGFtcGxl
-IGxldHMgc2F5IHRoZXJlIGlzIGFuIGV4YW1wbGUga25vd24gYXMgY3ViZS4gV2hlbiBJIHRyeSB0
-byBydW4gY3ViZSAoIHdpdGggLXBsYXRmb3JtIHhjYiksIEkgY291bGQgc2VlIGEgYmxhY2sgc2Ny
-ZWVuLiBUaGUgY3ViZSBpbWFnZSBuZXZlcg0KIGNvbWVzLiBTbyBteSBxdWVyeSBpcyBpZiBpdCdz
-IHBvc3NpYmxlIHRvIGluY3JlYXNlIHRoZSBkZXB0aCAoIGRlZmF1bHQgdXNlZCBpcyAxNiBmb3Ig
-cWVtdWFybSApIHRvIDI0IHRocm91Z2ggYm9vdGFyZ3M/IElmIHNvIGEgaGVscGluZyBoYW5kIHdv
-dWxkIGJlIGdyZWF0LiBMZXQgbWUga25vdyBpZiBtb3JlIGluZm9ybWF0aW9uIGlzIHJlcXVpcmVk
-IHJlZ2FyZGluZyBteSBzZXR1cC4gSSBoYXZlIHBva3kgJiM0MzsgbWV0YS1xdDUgJiM0MzsgbWV0
-YS1vZSAmIzQzOw0KIG1ldGEtcnVieSBsYXllcnMgaW4gYmJsYXllcnMuY29uZi48bzpwPjwvbzpw
-PjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlRoYW5rcyw8bzpwPjwv
-bzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlN1aml0aCBIPG86
-cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29O
-b3JtYWwiPjxzcGFuIHN0eWxlPSJjb2xvcjojODg4ODg4Ij48YnI+DQotLSA8bzpwPjwvbzpwPjwv
-c3Bhbj48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxkaXY+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJN
-c29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTomcXVvdDtLYXJ0aWthJnF1b3Q7LCZx
-dW90O3NlcmlmJnF1b3Q7O2NvbG9yOiM4ODg4ODgiPuC0uOC1geC0nOC0v+C0pOC1jTwvc3Bhbj48
-c3BhbiBzdHlsZT0iY29sb3I6Izg4ODg4OCI+DQo8L3NwYW4+PHNwYW4gc3R5bGU9ImZvbnQtZmFt
-aWx5OiZxdW90O0thcnRpa2EmcXVvdDssJnF1b3Q7c2VyaWYmcXVvdDs7Y29sb3I6Izg4ODg4OCI+
-4LS54LSw4LS/4LSm4LS+4LS44LSo4LWNPC9zcGFuPjxzcGFuIHN0eWxlPSJjb2xvcjojODg4ODg4
-Ij48YnI+DQpCYW5nYWxvcmU8YnI+DQombHQ7UHJvamVjdCZndDtDb250cmlidXRvciB0byBLREUg
-cHJvamVjdDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJN
-c29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJjb2xvcjojODg4ODg4Ij4mbHQ7UHJvamVjdCZndDtDb250
-cmlidXRvciB0byBZb2N0byBwcm9qZWN0PG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8
-ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImNvbG9yOiM4ODg4ODgiPjxh
-IGhyZWY9Imh0dHA6Ly9mY2kud2lraWEuY29tL3dpa2kvQW50aS1EUk0tQ2FtcGFpZ24iIHRhcmdl
-dD0iX2JsYW5rIj5odHRwOi8vZmNpLndpa2lhLmNvbS93aWtpL0FudGktRFJNLUNhbXBhaWduPC9h
-Pjxicj4NCiZsdDtCbG9nJmd0OyA8YSBocmVmPSJodHRwOi8vc3VqaXRoaC5pbmZvIiB0YXJnZXQ9
-Il9ibGFuayI+aHR0cDovL3N1aml0aGguaW5mbzwvYT48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8
-L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iY29sb3I6Izg4
-ODg4OCI+Qy14IEMtYzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rp
-dj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2
-Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGJyPg0KPGJyIGNsZWFyPSJhbGwiPg0KPGJyPg0KLS0g
-PG86cD48L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxkaXY+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNs
-YXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTomcXVvdDtLYXJ0aWthJnF1
-b3Q7LCZxdW90O3NlcmlmJnF1b3Q7Ij7gtLjgtYHgtJzgtL/gtKTgtY08L3NwYW4+IDxzcGFuIHN0
-eWxlPSJmb250LWZhbWlseTomcXVvdDtLYXJ0aWthJnF1b3Q7LCZxdW90O3NlcmlmJnF1b3Q7Ij4N
-CuC0ueC0sOC0v+C0puC0vuC0uOC0qOC1jTwvc3Bhbj48YnI+DQpCYW5nYWxvcmU8YnI+DQombHQ7
-UHJvamVjdCZndDtDb250cmlidXRvciB0byBLREUgcHJvamVjdDxvOnA+PC9vOnA+PC9wPg0KPC9k
-aXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Jmx0O1Byb2plY3QmZ3Q7Q29udHJpYnV0
-b3IgdG8gWW9jdG8gcHJvamVjdDxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xh
-c3M9Ik1zb05vcm1hbCI+PGEgaHJlZj0iaHR0cDovL2ZjaS53aWtpYS5jb20vd2lraS9BbnRpLURS
-TS1DYW1wYWlnbiIgdGFyZ2V0PSJfYmxhbmsiPmh0dHA6Ly9mY2kud2lraWEuY29tL3dpa2kvQW50
-aS1EUk0tQ2FtcGFpZ248L2E+PGJyPg0KJmx0O0Jsb2cmZ3Q7IDxhIGhyZWY9Imh0dHA6Ly9zdWpp
-dGhoLmluZm8iIHRhcmdldD0iX2JsYW5rIj5odHRwOi8vc3VqaXRoaC5pbmZvPC9hPjxvOnA+PC9v
-OnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Qy14IEMtYzxvOnA+
-PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2
-Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/CVE-2016-2774.patch b/meta/recipes-connectivity/dhcp/dhcp/CVE-2016-2774.patch
+new file mode 100644
+index 0000000..93ff54a
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcp/dhcp/CVE-2016-2774.patch
+@@ -0,0 +1,65 @@
++From b9f56d578ebfd649b5d829960540859ac6ca931c Mon Sep 17 00:00:00 2001
++From: Catalin Enache <catalin.enache@windriver.com>
++Date: Tue, 12 Apr 2016 18:23:31 +0300
++Subject: [PATCH] Add patch to limit the value of an fd we accept for a
++ connection.
++
++Upstream-Status: Backport
++
++By limiting the highest value we accept for an fd we limit the number
++of connections.
++
++Author: Shawn Routhier <sar@isc.org>
++Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
++---
++ includes/site.h   | 6 ++++++
++ omapip/listener.c | 9 +++++++--
++ 3 files changed, 18 insertions(+), 2 deletions(-)
++
++diff --git a/includes/site.h b/includes/site.h
++index 9c33de3..df020c8 100644
++--- a/includes/site.h
+++++ b/includes/site.h
++@@ -290,6 +290,12 @@
++    this option will be removed at some time. */
++ /* #define INCLUDE_OLD_DHCP_ISC_ERROR_CODES */
++ 
+++/* Limit the value of a file descriptor the serve will use
+++   when accepting a connecting request.  This can be used to
+++   limit the number of TCP connections that the server will
+++   allow at one time.  A value of 0 means there is no limit.*/
+++#define MAX_FD_VALUE 200
+++
++ /* Include definitions for various options.  In general these
++    should be left as is, but if you have already defined one
++    of these and prefer your definition you can comment the 
++diff --git a/omapip/listener.c b/omapip/listener.c
++index 8bdcdbd..61473cf 100644
++--- a/omapip/listener.c
+++++ b/omapip/listener.c
++@@ -3,7 +3,7 @@
++    Subroutines that support the generic listener object. */
++ 
++ /*
++- * Copyright (c) 2012,2014 by Internet Systems Consortium, Inc. ("ISC")
+++ * Copyright (c) 2012,2014,2016 by Internet Systems Consortium, Inc. ("ISC")
++  * Copyright (c) 2004,2007,2009 by Internet Systems Consortium, Inc. ("ISC")
++  * Copyright (c) 1999-2003 by Internet Software Consortium
++  *
++@@ -233,7 +233,12 @@ isc_result_t omapi_accept (omapi_object_t *h)
++ 			return ISC_R_NORESOURCES;
++ 		return ISC_R_UNEXPECTED;
++ 	}
++-	
+++
+++	if ((MAX_FD_VALUE != 0) && (socket > MAX_FD_VALUE)) {
+++		close(socket);
+++		return (ISC_R_NORESOURCES);
+++	}
+++
++ #if defined (TRACING)
++ 	/* If we're recording a trace, remember the connection. */
++ 	if (trace_record ()) {
++-- 
++2.7.4
++
+diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.3.3.bb b/meta/recipes-connectivity/dhcp/dhcp_4.3.3.bb
+index 970617f..4e8cd27 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp_4.3.3.bb
++++ b/meta/recipes-connectivity/dhcp/dhcp_4.3.3.bb
+@@ -8,6 +8,7 @@ SRC_URI += "file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
+             file://replace-ifconfig-route.patch \
+             file://CVE-2015-8605.patch \
+             file://0001-site.h-enable-gentle-shutdown.patch \
++            file://CVE-2016-2774.patch \
+            "
+ 
+ SRC_URI[md5sum] = "c5577b09c9017cdd319a11ff6364268e"
+-- 
+2.7.4
 
---_000_365E1805BC95084CBE82381A0B8699940127D10813EUMBX01mgcmen_--
+
