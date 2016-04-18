@@ -1,30 +1,24 @@
-Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id CD1DA60745
+Return-Path: <Catalin.Enache@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DC4F4605FE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Apr 2016 12:46:52 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u3ICkrLh004319 for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Apr 2016 07:46:53 -0500
-Received: from adi-pc-linux.emea.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016041807463748-21744 ;
-	Mon, 18 Apr 2016 07:46:37 -0500 
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Apr 2016 15:46:22 +0300
-Message-Id: <1460983582-15284-1-git-send-email-adrian.ratiu@ni.com>
-X-Mailer: git-send-email 2.8.0
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 04/18/2016 07:46:37 AM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 04/18/2016 07:46:37 AM,
-	Serialize complete at 04/18/2016 07:46:37 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-04-18_06:, , signatures=0
-Subject: [PATCH] wic: isoimage-isohybrid: implement grubefi menu logic
+	Mon, 18 Apr 2016 12:49:19 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u3ICnJkM011206
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Apr 2016 05:49:19 -0700
+Received: from no3.corp.ad.wrs.com (128.224.124.137) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Mon, 18 Apr 2016 05:49:18 -0700
+From: Catalin Enache <catalin.enache@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 18 Apr 2016 15:52:16 +0300
+Message-ID: <1460983936-8037-1-git-send-email-catalin.enache@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH] dhcp: CVE-2016-2774
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,89 +31,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Apr 2016 12:46:55 -0000
+X-List-Received-Date: Mon, 18 Apr 2016 12:49:20 -0000
+Content-Type: text/plain
 
-Right now isoimage-isohybrid creates a single boot menu entry "boot"
-and passes it the arguments supplied with "--append". There is logic
-for creating custom grub menus, but it is sadly not used. "boot" is
-hardcoded.
+ISC DHCP 4.1.x before 4.1-ESV-R13 and 4.2.x and 4.3.x before
+4.3.4 does not restrict the number of concurrent TCP sessions,
+which allows remote attackers to cause a denial of service
+(INSIST assertion failure or request-processing outage)
+by establishing many sessions.
 
-This change makes isoimage use the wic bootloader "--menu" argument to
-create its menus. The syntax used for menu specification was chosen so
-it does not conflict with the kernel parameter syntax (you can pass
-custom kernel arguments from the generated grub menu entries, like for
-example silent booting, thread affinity etc.).
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-2774
 
-The "--menu" argument syntax is as following. The argument supplies a
-collection of menu entry names and kernel parameters. Menu name entries
-can contain any ASCII character except | or : which are separators.
-Kernel parameters obey the syntax defined by the kernel documentation.
-| is the menu separator and : is the separator between the menu names
-and parameters.
-
-Example for use in wks files:
-  --menu "Menu Name:firstarg,secondard|Menu Name 2:anotherarg,otherarg"
-
-Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
 ---
- .../lib/wic/plugins/source/isoimage-isohybrid.py   | 35 ++++++++++++++++------
- 1 file changed, 26 insertions(+), 9 deletions(-)
+ .../dhcp/dhcp/CVE-2016-2774.patch                  | 65 ++++++++++++++++++++++
+ meta/recipes-connectivity/dhcp/dhcp_4.3.3.bb       |  1 +
+ 2 files changed, 66 insertions(+)
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp/CVE-2016-2774.patch
 
-diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-index bc99283..4b0b035 100644
---- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-+++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-@@ -101,23 +101,40 @@ class IsoImagePlugin(SourcePlugin):
-             splashline = ""
- 
-         bootloader = creator.ks.bootloader
-+        kernel = "/bzImage"
-+        default_options = bootloader.append
-+        default_menu_to_boot = "Default boot"
-+        grub_menus = ""
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/CVE-2016-2774.patch b/meta/recipes-connectivity/dhcp/dhcp/CVE-2016-2774.patch
+new file mode 100644
+index 0000000..93ff54a
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcp/dhcp/CVE-2016-2774.patch
+@@ -0,0 +1,65 @@
++From b9f56d578ebfd649b5d829960540859ac6ca931c Mon Sep 17 00:00:00 2001
++From: Catalin Enache <catalin.enache@windriver.com>
++Date: Tue, 12 Apr 2016 18:23:31 +0300
++Subject: [PATCH] Add patch to limit the value of an fd we accept for a
++ connection.
 +
-+        # menu separators are '|', custom boot args separated by ':', ex.
-+        # --menu "Menu Name:firstarg,secondard|Menu Name 2:anotherarg,otherarg"
-+        for menu in bootloader.menus.split('|'):
-+            menu_list = menu.split(":")
-+            menu_name = menu_list[0]
-+            grub_menu_options = ""
++By limiting the highest value we accept for an fd we limit the number
++of connections.
 +
-+            if (len(menu_list) > 1):
-+                menu_params = menu_list[1]
-+                for param in menu_params.split(','):
-+                    if param.lower() == "default":
-+                        default_menu_to_boot = menu_name
-+                    else: grub_menu_options += " " + param
++Upstream-Status: Backport
++CVE: CVE-2016-2774
 +
-+            grub_menus += "menuentry '%s' {\n" % menu_name
-+            grub_menus += "linux %s rootwait %s %s\n" % \
-+                (kernel, default_options, grub_menu_options)
-+            grub_menus += "initrd /initrd \n"
-+            grub_menus += "}\n"
++Author: Shawn Routhier <sar@isc.org>
++Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
++---
++ includes/site.h   | 6 ++++++
++ omapip/listener.c | 9 +++++++--
++ 3 files changed, 18 insertions(+), 2 deletions(-)
++
++diff --git a/includes/site.h b/includes/site.h
++index 9c33de3..df020c8 100644
++--- a/includes/site.h
+++++ b/includes/site.h
++@@ -290,6 +290,12 @@
++    this option will be removed at some time. */
++ /* #define INCLUDE_OLD_DHCP_ISC_ERROR_CODES */
++ 
+++/* Limit the value of a file descriptor the serve will use
+++   when accepting a connecting request.  This can be used to
+++   limit the number of TCP connections that the server will
+++   allow at one time.  A value of 0 means there is no limit.*/
+++#define MAX_FD_VALUE 200
+++
++ /* Include definitions for various options.  In general these
++    should be left as is, but if you have already defined one
++    of these and prefer your definition you can comment the 
++diff --git a/omapip/listener.c b/omapip/listener.c
++index 8bdcdbd..61473cf 100644
++--- a/omapip/listener.c
+++++ b/omapip/listener.c
++@@ -3,7 +3,7 @@
++    Subroutines that support the generic listener object. */
++ 
++ /*
++- * Copyright (c) 2012,2014 by Internet Systems Consortium, Inc. ("ISC")
+++ * Copyright (c) 2012,2014,2016 by Internet Systems Consortium, Inc. ("ISC")
++  * Copyright (c) 2004,2007,2009 by Internet Systems Consortium, Inc. ("ISC")
++  * Copyright (c) 1999-2003 by Internet Software Consortium
++  *
++@@ -233,7 +233,12 @@ isc_result_t omapi_accept (omapi_object_t *h)
++ 			return ISC_R_NORESOURCES;
++ 		return ISC_R_UNEXPECTED;
++ 	}
++-	
+++
+++	if ((MAX_FD_VALUE != 0) && (socket > MAX_FD_VALUE)) {
+++		close(socket);
+++		return (ISC_R_NORESOURCES);
+++	}
+++
++ #if defined (TRACING)
++ 	/* If we're recording a trace, remember the connection. */
++ 	if (trace_record ()) {
++-- 
++2.7.4
++
+diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.3.3.bb b/meta/recipes-connectivity/dhcp/dhcp_4.3.3.bb
+index 970617f..4e8cd27 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp_4.3.3.bb
++++ b/meta/recipes-connectivity/dhcp/dhcp_4.3.3.bb
+@@ -8,6 +8,7 @@ SRC_URI += "file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
+             file://replace-ifconfig-route.patch \
+             file://CVE-2015-8605.patch \
+             file://0001-site.h-enable-gentle-shutdown.patch \
++            file://CVE-2016-2774.patch \
+            "
  
-         grubefi_conf = ""
-         grubefi_conf += "serial --unit=0 --speed=115200 --word=8 "
-         grubefi_conf += "--parity=no --stop=1\n"
--        grubefi_conf += "default=boot\n"
-+        grubefi_conf += "default=%s\n" % default_menu_to_boot
-         grubefi_conf += "timeout=%s\n" % (bootloader.timeout or 10)
-         grubefi_conf += "\n"
-         grubefi_conf += "search --set=root --label %s " % part.label
-         grubefi_conf += "\n"
--        grubefi_conf += "menuentry 'boot'{\n"
--
--        kernel = "/bzImage"
--
--        grubefi_conf += "linux %s rootwait %s\n" \
--            % (kernel, bootloader.append)
--        grubefi_conf += "initrd /initrd \n"
--        grubefi_conf += "}\n"
-+        grubefi_conf += grub_menus
- 
-         if splashline:
-             grubefi_conf += "%s\n" % splashline
+ SRC_URI[md5sum] = "c5577b09c9017cdd319a11ff6364268e"
 -- 
-2.8.0
+2.7.4
 
 
