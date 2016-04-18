@@ -1,26 +1,36 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 178AE60722
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 796B260722
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Apr 2016 09:29:29 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u3I9TUSu013302
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Apr 2016 02:29:30 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 18 Apr 2016 02:29:29 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 18 Apr 2016 02:29:27 -0700
-Message-ID: <f4e17cb499c3e83333d197a65363587a5e5c2e51.1460971725.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.8.0
-In-Reply-To: <cover.1460971725.git.liezhi.yang@windriver.com>
-References: <cover.1460971725.git.liezhi.yang@windriver.com>
+	Mon, 18 Apr 2016 09:34:27 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u3I9YPWM006142
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=NO);
+	Mon, 18 Apr 2016 02:34:25 -0700
+Received: from [128.224.162.159] (128.224.162.159) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 18 Apr 2016 02:34:24 -0700
+To: =?UTF-8?Q?Andreas_M=c3=bcller?= <schnitzeltony@googlemail.com>
+References: <cover.1459147231.git.hongxu.jia@windriver.com>
+	<62a9bef209d903048c1095d90387384115eb6fd5.1459147231.git.hongxu.jia@windriver.com>
+	<CALbNGRRL0O+j6axaHL3W2bKZLLyYEe1kxsiguZGL0=a1Lz8ryg@mail.gmail.com>
+	<571496CC.8010607@windriver.com>
+	<CALbNGRQwKQJxC+17UAoLBhhN9ZfXrYF4Ysur68NCD8v24Uavcw@mail.gmail.com>
+	<57149B89.2090607@windriver.com>
+	<CALbNGRTgnNYhN68zcDBKrhQ==fxP9wJ7wjj8pQ5jvMEgF=DF4g@mail.gmail.com>
+	<5714A30A.9000204@windriver.com>
+	<CALbNGRSBJSR4xMqCOUvu2yQcG38E=1UZBehkjmFZLdrtRyfamw@mail.gmail.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <5714AA1E.9020505@windriver.com>
+Date: Mon, 18 Apr 2016 17:34:22 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
 MIME-Version: 1.0
-Subject: [PATCH 2/2] grub_git: set COMPATIBLE_HOST_armv7a to null
+In-Reply-To: <CALbNGRSBJSR4xMqCOUvu2yQcG38E=1UZBehkjmFZLdrtRyfamw@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 01/17] conf/bitbake.conf package.bbclass: fix dbg package not contain sources while -fdebug-prefix-map used
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,43 +43,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Apr 2016 09:29:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 18 Apr 2016 09:34:27 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-It doesn't work with armv7a:
-| build-grub-module-verifier: error: unsupported relocation 0x2b.
-| make[3]: *** [reboot.mod] Error 1
-| make[3]: *** Waiting for unfinished jobs....
-| build-grub-module-verifier: error: unsupported relocation 0x2b.
-| build-grub-module-verifier: error: unsupported relocation 0x2b.
-| make[3]: *** [halt.mod] Error 1
-| make[3]: *** [cat.mod] Error 1
-| build-grub-module-verifier: error: unsupported relocation 0x2b.
-| build-grub-module-verifier: error: unsupported relocation 0x2b.
-| build-grub-module-verifier: error: unsupported relocation 0x2b.
-| make[3]: *** [disk.mod] Error 1
-| make[3]: *** [gptsync.mod] Error 1
-| make[3]: *** [eval.mod] Error 1
-| build-grub-module-verifier: error:build-grub-module-verifier: error:  unsupported relocation 0x2bunsupported relocation 0x2b.
+On 04/18/2016 05:15 PM, Andreas Müller wrote:
+> So remote debugging is no more available for standard settings. I am
+> tempted to send a revert: Installing -dbg causes bloated images and
+> debugging on machine is slow and last resort only.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-bsp/grub/grub_git.bb | 1 +
- 1 file changed, 1 insertion(+)
+I think we support remote debugging better since -fdebug-prefix-map used,
+It is easy to construct sources paths.
 
-diff --git a/meta/recipes-bsp/grub/grub_git.bb b/meta/recipes-bsp/grub/grub_git.bb
-index 6919c9a..8f8c5ed 100644
---- a/meta/recipes-bsp/grub/grub_git.bb
-+++ b/meta/recipes-bsp/grub/grub_git.bb
-@@ -18,6 +18,7 @@ SRC_URI = "git://git.savannah.gnu.org/grub.git \
- S = "${WORKDIR}/git"
- 
- COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|aarch64.*)-(linux.*|freebsd.*)'
-+COMPATIBLE_HOST_armv7a = 'null'
- 
- inherit autotools gettext texinfo
- 
--- 
-2.8.0
+Yours remote debug was limited to original build environment.
+
+//Hongxu
+
+> Andreas
 
 
