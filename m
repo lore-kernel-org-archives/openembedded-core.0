@@ -1,27 +1,35 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 83C0F605FE
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B23B605BB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Apr 2016 22:35:32 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga103.fm.intel.com with ESMTP; 18 Apr 2016 15:35:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,503,1455004800"; d="scan'208";a="961460088"
-Received: from sadnan1-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.175.36])
-	by fmsmga002.fm.intel.com with ESMTP; 18 Apr 2016 15:35:31 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Denys Dmytriyenko <denis@denix.org>
-Date: Tue, 19 Apr 2016 10:35:29 +1200
-Message-ID: <1968586.YaUkzg8nud@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.4.6-301.fc23.x86_64; KDE/4.14.18; x86_64; ;
-	)
-In-Reply-To: <20160418221455.GJ16135@denix.org>
-References: <20160418221455.GJ16135@denix.org>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Package management DB in old-style SDK
+	Mon, 18 Apr 2016 22:45:58 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u3IMjwu7027588; Mon, 18 Apr 2016 23:45:58 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id DsgmfyWpfTwI; Mon, 18 Apr 2016 23:45:58 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u3IMjrYj027585
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 18 Apr 2016 23:45:54 +0100
+Message-ID: <1461019553.9308.223.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>, Martin Jansa
+	<martin.jansa@gmail.com>
+Date: Mon, 18 Apr 2016 23:45:53 +0100
+In-Reply-To: <CAP9ODKpZc=zKfUHtbJOJt5sTdXDkrEOMdKOZXBkxPUJCwmxFyg@mail.gmail.com>
+References: <1456610987-17836-1-git-send-email-Martin.Jansa@gmail.com>
+	<CAJTo0LaVL04OQaipNFn1hyCGruFZ7itmrxH00i=L+OkcsZexQw@mail.gmail.com>
+	<20160325105025.GC2555@jama>
+	<1458905339.3073.53.camel@linuxfoundation.org>
+	<20160325115503.GE2555@jama>
+	<CAP9ODKpZc=zKfUHtbJOJt5sTdXDkrEOMdKOZXBkxPUJCwmxFyg@mail.gmail.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][RFC] base.bbclass: Introduce EXTRA_CONF_PACKAGECONFIG variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,37 +42,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Apr 2016 22:35:35 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 18 Apr 2016 22:46:01 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi Denys,
-
-On Mon, 18 Apr 2016 18:14:55 Denys Dmytriyenko wrote:
-> I'm still using the old-style SDK (meta-toolchain) for our products due to
-> some code customizations in it and some of our use cases rely on the opkg
-> package management database being present in sysroots, so packages can be
-> manipulated in SDK with opkg command. It appears that /var/lib/opkg is now
-> empty and the package database is no longer supplied with the SDK.
+On Mon, 2016-04-18 at 19:31 -0300, Otavio Salvador wrote:
+> On Fri, Mar 25, 2016 at 8:55 AM, Martin Jansa <martin.jansa@gmail.com
+> > wrote:
+> > On Fri, Mar 25, 2016 at 11:28:59AM +0000, Richard Purdie wrote:
+> > > On Fri, 2016-03-25 at 11:50 +0100, Martin Jansa wrote:
+> > > > On Wed, Mar 02, 2016 at 12:40:31PM +0000, Burton, Ross wrote:
+> > > > > On 27 February 2016 at 22:09, Martin Jansa <
+> > > > > martin.jansa@gmail.com>
+> > > > > wrote:
+> > > > > 
+> > > > > > * add separate variable for configuration options generated
+> > > > > > from
+> > > > > >   PACKAGECONFIG setting, this helps other bbclasses and
+> > > > > > recipes
+> > > > > >   to take advantage of PACKAGECONFIG mechanism, without
+> > > > > > including
+> > > > > >   other options from EXTRA_OECONF
+> > > > > > * e.g. meta-qt5 recipes are abusing EXTRA_OECONF to get
+> > > > > > options
+> > > > > >   from PACKAGECONFIG:
+> > > > > >   EXTRA_QMAKEVARS_PRE +=
+> > > > > >   but with
+> > > > > >   conf/distro/include/no-static-libs.inc
+> > > > > >   it means getting --disable-static as invalid option
+> > > > > > inside
+> > > > > >   EXTRA_QMAKEVARS_PRE as reported by Alexandre Belloni who
+> > > > > > tried
+> > > > > >   to use poky with meta-qt5.
+> > > > > > * once we migrate all bbclasses and recipes to
+> > > > > > EXTRA_CONF_PACKAGECONFIG
+> > > > > >   we should also restrict EXTRA_OECONF append only to
+> > > > > > autotools.bbclass
+> > > > > >   like I did for cmake.bbclass
+> > > > > > 
+> > > > > 
+> > > > > Sorry, some of us have been a bit busy trying to get M3
+> > > > > stable.
+> > > > >  This does
+> > > > > look good and I'm for squeezing it into M3.
+> > > > 
+> > > > Any update on squeezing this?
+> > > > 
+> > > > meta-qt5 is still broken with default poky config
+> > > 
+> > > I'm a little confused, was there going to be another version with
+> > > some
+> > > tweaked variable names?
+> > 
+> > Was there some agreement about variable name?
 > 
-> I know about the new-style populate_sdk and the even newer Extensible SDK,
-> but not yet ready to convert our old use cases to that. Since there were
-> lots of changes around the way SDKs work in OE-Core in the past couple
-> releases, I'm failing to find the change that causes opkg DB to be missing
-> from the old style SDK. I'll appreciate any pointers in helping me debug
-> and/or fix this issue with my SDKs. Thanks.
+> meta-qt5 5.6 is using this so we need a final decision if it will be
+> merged or not. I am in favor it as I think it is clear enough.
 
-As far as ipk is concerned I think it was this commit: 
+It was an RFC and I still don't get a good feeling about the names
+used.
 
-  http://cgit.openembedded.org/openembedded-core/commit/?id=c8e0ec2da9ad4ce1c103966906a85f68c15400dd
+I suggested:
 
-Unfortunately it wasn't made optional.
+PACKAGECONFIG_CONFPARAMS
+or
+PACKAGECONFIG_CONFARGS
+
+as it then makes things slightly clearer these things are coming from
+PACKAGECONFIG. We have a namespace which is a bit of a mess and I'd
+prefer to try and improve with new things if we can...
+
+The fact meta-qt5 is already using this is bad, it really shouldn't be.
+We're also very close to the final build of 2.1 right now so this would
+be a very late change :/.
 
 Cheers,
-Paul
 
--- 
+Richard
 
-Paul Eggleton
-Intel Open Source Technology Centre
+
 
