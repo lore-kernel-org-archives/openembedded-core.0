@@ -1,36 +1,33 @@
-Return-Path: <rbilovol@cisco.com>
-Received: from aer-iport-4.cisco.com (aer-iport-4.cisco.com [173.38.203.54])
-	by mail.openembedded.org (Postfix) with ESMTP id B5E3660796
+Return-Path: <Noor_Ahsan@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id A785560796
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Apr 2016 11:14:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=4743; q=dns/txt; s=iport;
-	t=1460978050; x=1462187650;
-	h=from:to:cc:subject:date:message-id;
-	bh=3vN7Yubq8qkH17n73XC6V4cLcgGJzmxjJvR5NesF1Cg=;
-	b=gvd6EN4PdHpdeNNxP0DvKBODUvA5FcukSRA5opqawuEWQQLXy+movJRf
-	38oTQkcAtlcZGv5nrxI32khRn/h77TpBSgjXDsMG+Priw4uriDJwlkkV2
-	VdokQO9JN67wHJqwVN/OeCkf+3le4EcH3dpizIHQ9f37vsUOW25PBRi8N g=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0CqBAAHwRRX/xbLJq1bhAt9uBWEDh6Fc?=
-	=?us-ascii?q?IF3AQEBAQEBZieEQQECfSwDAQJ+IYgpuiwBAQEHIAuGFo5gBY5DiUuFeIgWAoF?=
-	=?us-ascii?q?lTocphTECRY5mYoIEGoFNOTCJOgEBAQ?=
-X-IronPort-AV: E=Sophos;i="5.24,502,1454976000"; d="scan'208";a="637051441"
-Received: from aer-iport-nat.cisco.com (HELO aer-core-4.cisco.com)
-	([173.38.203.22])
-	by aer-iport-4.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	18 Apr 2016 11:14:08 +0000
-Received: from localhost ([10.61.173.88])
-	by aer-core-4.cisco.com (8.14.5/8.14.5) with ESMTP id u3IBE7DB027090;
-	Mon, 18 Apr 2016 11:14:07 GMT
-From: Ruslan Bilovol <rbilovol@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Apr 2016 14:14:07 +0300
-Message-Id: <1460978047-3086-1-git-send-email-rbilovol@cisco.com>
-X-Mailer: git-send-email 1.9.1
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-Cc: xe-linux-external@cisco.com
-Subject: [PATCH] libunwind: backport aarch64_be support
+	Mon, 18 Apr 2016 11:18:55 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=SVR-IES-FEM-05.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtp 
+	id 1as7Cg-0002UW-Vh from Noor_Ahsan@mentor.com ;
+	Mon, 18 Apr 2016 04:18:55 -0700
+Received: from EU-MBX-01.mgc.mentorg.com ([169.254.1.18]) by
+	SVR-IES-FEM-05.mgc.mentorg.com ([137.202.0.112]) with mapi id
+	14.03.0224.002; Mon, 18 Apr 2016 12:18:53 +0100
+From: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
+To: sujith h <sujith.h@gmail.com>, OE-core
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] Fwd: [yocto][meta-qt5] How to increase depth of
+	qemuarm	from bootargs?
+Thread-Index: AQHRlutnAxtB8Njk+U2aR9JZRHhgVJ+Pme3A
+Date: Mon, 18 Apr 2016 11:18:53 +0000
+Message-ID: <365E1805BC95084CBE82381A0B8699940127D10813@EU-MBX-01.mgc.mentorg.com>
+References: <CADyYWLkKaW0fFjentEq7h9AgojtHyLRFRnmCd7heA+bTBX515w@mail.gmail.com>
+	<CADyYWL=A4MiQO8Vi+AGD397=kKVzULFTW0fr6c_WnUG_9O=Zkg@mail.gmail.com>
+In-Reply-To: <CADyYWL=A4MiQO8Vi+AGD397=kKVzULFTW0fr6c_WnUG_9O=Zkg@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [137.202.0.76]
+MIME-Version: 1.0
+Subject: Re: [yocto][meta-qt5] How to increase depth of qemuarm	from bootargs?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,113 +40,188 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Apr 2016 11:14:09 -0000
+X-List-Received-Date: Mon, 18 Apr 2016 11:18:57 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_365E1805BC95084CBE82381A0B8699940127D10813EUMBX01mgcmen_"
 
-Backport 2 patches from v1.2-rc1 tag of libunwind git repo.
-These patches add aarch64_be support to this package.
+--_000_365E1805BC95084CBE82381A0B8699940127D10813EUMBX01mgcmen_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Ruslan Bilovol <rbilovol@cisco.com>
----
- ...roduce-build-support-for-aarch64_be-targe.patch | 33 +++++++++++++++++++++
- ...-wrong-big_endian-flag-in-aarch64_be-case.patch | 34 ++++++++++++++++++++++
- meta/recipes-support/libunwind/libunwind_1.1.bb    |  2 ++
- 3 files changed, 69 insertions(+)
- create mode 100644 meta/recipes-support/libunwind/libunwind-1.1/0001-aarch64-introduce-build-support-for-aarch64_be-targe.patch
- create mode 100644 meta/recipes-support/libunwind/libunwind-1.1/0002-aarch64-fix-wrong-big_endian-flag-in-aarch64_be-case.patch
+SGVsbG8gR3V5cywNCg0KTmF5IGhlbHAgb24gdGhpcyBvbmUuIFdlIHRyaWVkIHFlbXV4ODYgYW5k
+IGVnbCBleGFtcGxlcyBhcmUgd29ya2luZyBmaW5lIG9uIHFlbXV4ODYuIFRoZSBkaWZmZXJlbmNl
+IGlzIGl0IGlzIHVzaW5nIFZNd2FyZSB2Z2EgZHJpdmVyLiBXZSB3ZXJlIG5vdCBhYmxlIHRvIGNo
+YW5nZSB0aGUgZHJpdmVyIG9uIHFlbXVhcm0uDQoNCk5vb3INCg0KRnJvbTogb3BlbmVtYmVkZGVk
+LWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnIFttYWlsdG86b3BlbmVtYmVkZGVk
+LWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnXSBPbiBCZWhhbGYgT2Ygc3VqaXRo
+IGgNClNlbnQ6IEZyaWRheSwgQXByaWwgMTUsIDIwMTYgMTI6NDkgUE0NClRvOiBPRS1jb3JlDQpT
+dWJqZWN0OiBbT0UtY29yZV0gRndkOiBbeW9jdG9dW21ldGEtcXQ1XSBIb3cgdG8gaW5jcmVhc2Ug
+ZGVwdGggb2YgcWVtdWFybSBmcm9tIGJvb3RhcmdzPw0KDQoNCi0tLS0tLS0tLS0gRm9yd2FyZGVk
+IG1lc3NhZ2UgLS0tLS0tLS0tLQ0KRnJvbTogc3VqaXRoIGggPHN1aml0aC5oQGdtYWlsLmNvbTxt
+YWlsdG86c3VqaXRoLmhAZ21haWwuY29tPj4NCkRhdGU6IFRodSwgQXByIDE0LCAyMDE2IGF0IDI6
+NTMgUE0NClN1YmplY3Q6IFt5b2N0b11bbWV0YS1xdDVdIEhvdyB0byBpbmNyZWFzZSBkZXB0aCBv
+ZiBxZW11YXJtIGZyb20gYm9vdGFyZ3M/DQpUbzogInlvY3RvQHlvY3RvcHJvamVjdC5vcmc8bWFp
+bHRvOnlvY3RvQHlvY3RvcHJvamVjdC5vcmc+IiA8eW9jdG9AeW9jdG9wcm9qZWN0Lm9yZzxtYWls
+dG86eW9jdG9AeW9jdG9wcm9qZWN0Lm9yZz4+DQpDYzogTm9vcl9BaHNhbkBtZW50b3IuY29tPG1h
+aWx0bzpOb29yX0Foc2FuQG1lbnRvci5jb20+DQoNCkhpIGFsbCwNCkkgYW0gdHJ5aW5nIHRvIGJ1
+aWxkIFF0NSBmcm9tIG1ldGEtcXQ1ICggbWFzdGVyIGJyYW5jaCApIHdpdGggcG9reSggbWFjaGlu
+ZSBpcyBxZW11YXJtKS4gVGhlIHF0YmFzZSBpcyBidWlsdCBzdWNjZXNzZnVsbHkgYW5kIGlzIGlu
+c3RhbGxlZCBpbnRvIGNvcmUtaW1hZ2Utc2F0by4gV2hlbiBJIHJ1biA6IHJ1bnFlbXUgcWVtdWFy
+bQ0KSSBjYW4gc2VlIHRoZSBtYXRjaGJveCB3aW5kb3cgbGF1bmNoZWQgc3VjY2Vzc2Z1bGx5LlRo
+ZSBxdGJhc2UgaXMgaGF2aW5nIGdsZXMyIGVuYWJsZWQgaW4gdGhlIFBBQ0tBR0VDT05GSUcgYW5k
+IGdsIGlzIHJlbW92ZWQgZnJvbSBQQUNLQUdFQ09ORklHLiBJbiBtZXNhIEkgaGF2ZSBlbmFibGVk
+IGdhbGxpdW0uIEkgZG8gc2VlIGEgcHJvYmxlbSB3aGVuIEkgdHJ5IHRvIHJ1biBxdGJhc2Ugb3Bl
+bmdsIGV4YW1wbGVzLlRoZSBndWkgZ2V0cyBkaXNwbGF5ZWQuIEJ1dCB0aGUgaW1hZ2UocykgYXNz
+b2NpYXRlZCB3aXRoIGl0IG5ldmVyIGRpc3BsYXlzLiBGb3IgZXhhbXBsZSBsZXRzIHNheSB0aGVy
+ZSBpcyBhbiBleGFtcGxlIGtub3duIGFzIGN1YmUuIFdoZW4gSSB0cnkgdG8gcnVuIGN1YmUgKCB3
+aXRoIC1wbGF0Zm9ybSB4Y2IpLCBJIGNvdWxkIHNlZSBhIGJsYWNrIHNjcmVlbi4gVGhlIGN1YmUg
+aW1hZ2UgbmV2ZXIgY29tZXMuIFNvIG15IHF1ZXJ5IGlzIGlmIGl0J3MgcG9zc2libGUgdG8gaW5j
+cmVhc2UgdGhlIGRlcHRoICggZGVmYXVsdCB1c2VkIGlzIDE2IGZvciBxZW11YXJtICkgdG8gMjQg
+dGhyb3VnaCBib290YXJncz8gSWYgc28gYSBoZWxwaW5nIGhhbmQgd291bGQgYmUgZ3JlYXQuIExl
+dCBtZSBrbm93IGlmIG1vcmUgaW5mb3JtYXRpb24gaXMgcmVxdWlyZWQgcmVnYXJkaW5nIG15IHNl
+dHVwLiBJIGhhdmUgcG9reSArIG1ldGEtcXQ1ICsgbWV0YS1vZSArIG1ldGEtcnVieSBsYXllcnMg
+aW4gYmJsYXllcnMuY29uZi4NClRoYW5rcywNClN1aml0aCBIDQoNCi0tDQrgtLjgtYHgtJzgtL/g
+tKTgtY0g4LS54LSw4LS/4LSm4LS+4LS44LSo4LWNDQpCYW5nYWxvcmUNCjxQcm9qZWN0PkNvbnRy
+aWJ1dG9yIHRvIEtERSBwcm9qZWN0DQo8UHJvamVjdD5Db250cmlidXRvciB0byBZb2N0byBwcm9q
+ZWN0DQpodHRwOi8vZmNpLndpa2lhLmNvbS93aWtpL0FudGktRFJNLUNhbXBhaWduDQo8QmxvZz4g
+aHR0cDovL3N1aml0aGguaW5mbw0KQy14IEMtYw0KDQoNCg0KLS0NCuC0uOC1geC0nOC0v+C0pOC1
+jSDgtLngtLDgtL/gtKbgtL7gtLjgtKjgtY0NCkJhbmdhbG9yZQ0KPFByb2plY3Q+Q29udHJpYnV0
+b3IgdG8gS0RFIHByb2plY3QNCjxQcm9qZWN0PkNvbnRyaWJ1dG9yIHRvIFlvY3RvIHByb2plY3QN
+Cmh0dHA6Ly9mY2kud2lraWEuY29tL3dpa2kvQW50aS1EUk0tQ2FtcGFpZ24NCjxCbG9nPiBodHRw
+Oi8vc3VqaXRoaC5pbmZvDQpDLXggQy1jDQo=
 
-diff --git a/meta/recipes-support/libunwind/libunwind-1.1/0001-aarch64-introduce-build-support-for-aarch64_be-targe.patch b/meta/recipes-support/libunwind/libunwind-1.1/0001-aarch64-introduce-build-support-for-aarch64_be-targe.patch
-new file mode 100644
-index 0000000..b8afb90
---- /dev/null
-+++ b/meta/recipes-support/libunwind/libunwind-1.1/0001-aarch64-introduce-build-support-for-aarch64_be-targe.patch
-@@ -0,0 +1,33 @@
-+From 743668f66916b6bb03c92b04be5216400951ace6 Mon Sep 17 00:00:00 2001
-+From: Victor Kamensky <victor.kamensky@linaro.org>
-+Date: Wed, 3 Dec 2014 17:35:43 -0800
-+Subject: [PATCH 1/2] aarch64: introduce build support for aarch64_be target
-+
-+Upstream-Status: backport
-+
-+Introduce support for aarch64_be, aarch64 big endian, target.
-+We would like to reuse all code that was done for aarch64
-+(little endian) target. So we do similar thing that is done
-+for ARM v7 (arm) target for any aarch64* arch we set it
-+just to aarch64.
-+
-+Signed-off-by: Victor Kamensky <victor.kamensky@linaro.org>
-+---
-+ configure.ac | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 582e71f..c59f526 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -88,6 +88,7 @@ AC_COMPILE_IFELSE([AC_LANG_SOURCE([[
-+ 
-+ AC_DEFUN([SET_ARCH],[
-+     AS_CASE([$1],
-++        [aarch64*],[$2=aarch64],
-+         [arm*],[$2=arm],
-+         [i?86],[$2=x86],
-+         [hppa*],[$2=hppa],
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-support/libunwind/libunwind-1.1/0002-aarch64-fix-wrong-big_endian-flag-in-aarch64_be-case.patch b/meta/recipes-support/libunwind/libunwind-1.1/0002-aarch64-fix-wrong-big_endian-flag-in-aarch64_be-case.patch
-new file mode 100644
-index 0000000..2ae4477
---- /dev/null
-+++ b/meta/recipes-support/libunwind/libunwind-1.1/0002-aarch64-fix-wrong-big_endian-flag-in-aarch64_be-case.patch
-@@ -0,0 +1,34 @@
-+From 16e98c8cf37b006c3879ee57acc23c9af13c40d5 Mon Sep 17 00:00:00 2001
-+From: Victor Kamensky <victor.kamensky@linaro.org>
-+Date: Wed, 3 Dec 2014 17:35:44 -0800
-+Subject: [PATCH 2/2] aarch64: fix wrong big_endian flag in aarch64_be case
-+
-+Upstream-Status: backport
-+
-+Set local_addr_space.big_endian flag according to current target
-+endianness. Before it was set by memset to 0, which corresponds
-+to little endian and it worked perfectly fine for aarch64.
-+But it breaks aarch64_be because dwarf_readu16, dwarf_readu32,
-+etc functions do not read values correctly since they operate
-+with wrong idea about current target endianness.
-+
-+Signed-off-by: Victor Kamensky <victor.kamensky@linaro.org>
-+---
-+ src/aarch64/Ginit.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/src/aarch64/Ginit.c b/src/aarch64/Ginit.c
-+index 0bc8997..b9181ef 100644
-+--- a/src/aarch64/Ginit.c
-++++ b/src/aarch64/Ginit.c
-+@@ -181,6 +181,7 @@ aarch64_local_addr_space_init (void)
-+   local_addr_space.acc.access_fpreg = access_fpreg;
-+   local_addr_space.acc.resume = aarch64_local_resume;
-+   local_addr_space.acc.get_proc_name = get_static_proc_name;
-++  local_addr_space.big_endian = (__BYTE_ORDER == __BIG_ENDIAN);
-+   unw_flush_cache (&local_addr_space, 0, 0);
-+ }
-+ 
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-support/libunwind/libunwind_1.1.bb b/meta/recipes-support/libunwind/libunwind_1.1.bb
-index aff8409..1e76c1a 100644
---- a/meta/recipes-support/libunwind/libunwind_1.1.bb
-+++ b/meta/recipes-support/libunwind/libunwind_1.1.bb
-@@ -8,6 +8,8 @@ SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
-            file://0001-Invalid-dwarf-opcodes-can-cause-references-beyond-th.patch \
-            file://Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch \
-            file://0001-backtrace-Use-only-with-glibc-and-uclibc.patch \
-+           file://0001-aarch64-introduce-build-support-for-aarch64_be-targe.patch \
-+           file://0002-aarch64-fix-wrong-big_endian-flag-in-aarch64_be-case.patch \
- "
- SRC_URI_append_libc-musl = "\
-            file://0001-x86-Stub-out-x86_local_resume.patch \
--- 
-1.9.1
+--_000_365E1805BC95084CBE82381A0B8699940127D10813EUMBX01mgcmen_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUgMiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJ
+e2ZvbnQtZmFtaWx5OkthcnRpa2E7DQoJcGFub3NlLTE6MiAyIDUgMyAzIDQgNCA2IDIgMzt9DQov
+KiBTdHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1z
+b05vcm1hbA0KCXttYXJnaW46MGluOw0KCW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNp
+emU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcgUm9tYW4iLCJzZXJpZiI7fQ0KYTps
+aW5rLCBzcGFuLk1zb0h5cGVybGluaw0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6
+Ymx1ZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCmE6dmlzaXRlZCwgc3Bhbi5Nc29I
+eXBlcmxpbmtGb2xsb3dlZA0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6cHVycGxl
+Ow0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0Kc3Bhbi5ob2VuemINCgl7bXNvLXN0eWxl
+LW5hbWU6aG9lbnpiO30NCnNwYW4uRW1haWxTdHlsZTE4DQoJe21zby1zdHlsZS10eXBlOnBlcnNv
+bmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7DQoJY29sb3I6
+IzFGNDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25seTsN
+Cglmb250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiO30NCkBwYWdlIFdvcmRTZWN0aW9u
+MQ0KCXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4gMS4waW4gMS4waW4gMS4waW47
+fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9uMTt9DQotLT48L3N0eWxlPjwh
+LS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0cyB2OmV4dD0iZWRpdCIgc3Bp
+ZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1s
+Pg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRtYXAgdjpleHQ9ImVkaXQiIGRh
+dGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5kaWZdLS0+DQo8L2hlYWQ+DQo8
+Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxpbms9InB1cnBsZSI+DQo8ZGl2IGNsYXNz
+PSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQt
+c2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNl
+cmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPkhlbGxvIEd1eXMsPG86cD48L286cD48L3NwYW4+PC9w
+Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9u
+dC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9y
+OiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3Jt
+YWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGli
+cmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj5OYXkgaGVscCBv
+biB0aGlzIG9uZS4gV2UgdHJpZWQgcWVtdXg4NiBhbmQgZWdsIGV4YW1wbGVzIGFyZSB3b3JraW5n
+IGZpbmUgb24gcWVtdXg4Ni4gVGhlIGRpZmZlcmVuY2UgaXMgaXQgaXMgdXNpbmcgVk13YXJlIHZn
+YSBkcml2ZXIuIFdlIHdlcmUgbm90IGFibGUgdG8gY2hhbmdlDQogdGhlIGRyaXZlciBvbiBxZW11
+YXJtLjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0
+eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1
+b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bh
+bj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBw
+dDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7
+Y29sb3I6IzFGNDk3RCI+Tm9vcjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29O
+b3JtYWwiPjxhIG5hbWU9Il9NYWlsRW5kQ29tcG9zZSI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTox
+MS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1
+b3Q7O2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvYT48L3A+DQo8cCBj
+bGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZh
+bWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPkZyb206PC9z
+cGFuPjwvYj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtD
+YWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPiBvcGVuZW1iZWRkZWQtY29yZS1i
+b3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgW21haWx0bzpvcGVuZW1iZWRkZWQtY29yZS1i
+b3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmddDQo8Yj5PbiBCZWhhbGYgT2YgPC9iPnN1aml0
+aCBoPGJyPg0KPGI+U2VudDo8L2I+IEZyaWRheSwgQXByaWwgMTUsIDIwMTYgMTI6NDkgUE08YnI+
+DQo8Yj5Ubzo8L2I+IE9FLWNvcmU8YnI+DQo8Yj5TdWJqZWN0OjwvYj4gW09FLWNvcmVdIEZ3ZDog
+W3lvY3RvXVttZXRhLXF0NV0gSG93IHRvIGluY3JlYXNlIGRlcHRoIG9mIHFlbXVhcm0gZnJvbSBi
+b290YXJncz88bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpw
+PiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNw
+OzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2luLWJv
+dHRvbToxMi4wcHQiPi0tLS0tLS0tLS0gRm9yd2FyZGVkIG1lc3NhZ2UgLS0tLS0tLS0tLTxicj4N
+CkZyb206IDxiPnN1aml0aCBoPC9iPiAmbHQ7PGEgaHJlZj0ibWFpbHRvOnN1aml0aC5oQGdtYWls
+LmNvbSI+c3VqaXRoLmhAZ21haWwuY29tPC9hPiZndDs8YnI+DQpEYXRlOiBUaHUsIEFwciAxNCwg
+MjAxNiBhdCAyOjUzIFBNPGJyPg0KU3ViamVjdDogW3lvY3RvXVttZXRhLXF0NV0gSG93IHRvIGlu
+Y3JlYXNlIGRlcHRoIG9mIHFlbXVhcm0gZnJvbSBib290YXJncz88YnI+DQpUbzogJnF1b3Q7PGEg
+aHJlZj0ibWFpbHRvOnlvY3RvQHlvY3RvcHJvamVjdC5vcmciPnlvY3RvQHlvY3RvcHJvamVjdC5v
+cmc8L2E+JnF1b3Q7ICZsdDs8YSBocmVmPSJtYWlsdG86eW9jdG9AeW9jdG9wcm9qZWN0Lm9yZyI+
+eW9jdG9AeW9jdG9wcm9qZWN0Lm9yZzwvYT4mZ3Q7PGJyPg0KQ2M6IDxhIGhyZWY9Im1haWx0bzpO
+b29yX0Foc2FuQG1lbnRvci5jb20iPk5vb3JfQWhzYW5AbWVudG9yLmNvbTwvYT48YnI+DQo8YnI+
+DQo8bzpwPjwvbzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3Jt
+YWwiIHN0eWxlPSJtYXJnaW4tYm90dG9tOjEyLjBwdCI+SGkgYWxsLDxvOnA+PC9vOnA+PC9wPg0K
+PC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5JIGFtIHRyeWluZyB0byBidWlsZCBRdDUgZnJv
+bSBtZXRhLXF0NSAoIG1hc3RlciBicmFuY2ggKSB3aXRoIHBva3koIG1hY2hpbmUgaXMgcWVtdWFy
+bSkuIFRoZSBxdGJhc2UgaXMgYnVpbHQgc3VjY2Vzc2Z1bGx5IGFuZCBpcyBpbnN0YWxsZWQgaW50
+byBjb3JlLWltYWdlLXNhdG8uIFdoZW4gSSBydW4gOiBydW5xZW11IHFlbXVhcm08bzpwPjwvbzpw
+PjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4t
+Ym90dG9tOjEyLjBwdCI+SSBjYW4gc2VlIHRoZSBtYXRjaGJveCB3aW5kb3cgbGF1bmNoZWQgc3Vj
+Y2Vzc2Z1bGx5LlRoZSBxdGJhc2UgaXMgaGF2aW5nIGdsZXMyIGVuYWJsZWQgaW4gdGhlIFBBQ0tB
+R0VDT05GSUcgYW5kIGdsIGlzIHJlbW92ZWQgZnJvbSBQQUNLQUdFQ09ORklHLiBJbiBtZXNhIEkg
+aGF2ZSBlbmFibGVkIGdhbGxpdW0uIEkgZG8gc2VlIGEgcHJvYmxlbSB3aGVuIEkgdHJ5DQogdG8g
+cnVuIHF0YmFzZSBvcGVuZ2wgZXhhbXBsZXMuVGhlIGd1aSBnZXRzIGRpc3BsYXllZC4gQnV0IHRo
+ZSBpbWFnZShzKSBhc3NvY2lhdGVkIHdpdGggaXQgbmV2ZXIgZGlzcGxheXMuIEZvciBleGFtcGxl
+IGxldHMgc2F5IHRoZXJlIGlzIGFuIGV4YW1wbGUga25vd24gYXMgY3ViZS4gV2hlbiBJIHRyeSB0
+byBydW4gY3ViZSAoIHdpdGggLXBsYXRmb3JtIHhjYiksIEkgY291bGQgc2VlIGEgYmxhY2sgc2Ny
+ZWVuLiBUaGUgY3ViZSBpbWFnZSBuZXZlcg0KIGNvbWVzLiBTbyBteSBxdWVyeSBpcyBpZiBpdCdz
+IHBvc3NpYmxlIHRvIGluY3JlYXNlIHRoZSBkZXB0aCAoIGRlZmF1bHQgdXNlZCBpcyAxNiBmb3Ig
+cWVtdWFybSApIHRvIDI0IHRocm91Z2ggYm9vdGFyZ3M/IElmIHNvIGEgaGVscGluZyBoYW5kIHdv
+dWxkIGJlIGdyZWF0LiBMZXQgbWUga25vdyBpZiBtb3JlIGluZm9ybWF0aW9uIGlzIHJlcXVpcmVk
+IHJlZ2FyZGluZyBteSBzZXR1cC4gSSBoYXZlIHBva3kgJiM0MzsgbWV0YS1xdDUgJiM0MzsgbWV0
+YS1vZSAmIzQzOw0KIG1ldGEtcnVieSBsYXllcnMgaW4gYmJsYXllcnMuY29uZi48bzpwPjwvbzpw
+PjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlRoYW5rcyw8bzpwPjwv
+bzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlN1aml0aCBIPG86
+cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29O
+b3JtYWwiPjxzcGFuIHN0eWxlPSJjb2xvcjojODg4ODg4Ij48YnI+DQotLSA8bzpwPjwvbzpwPjwv
+c3Bhbj48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxkaXY+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTomcXVvdDtLYXJ0aWthJnF1b3Q7LCZx
+dW90O3NlcmlmJnF1b3Q7O2NvbG9yOiM4ODg4ODgiPuC0uOC1geC0nOC0v+C0pOC1jTwvc3Bhbj48
+c3BhbiBzdHlsZT0iY29sb3I6Izg4ODg4OCI+DQo8L3NwYW4+PHNwYW4gc3R5bGU9ImZvbnQtZmFt
+aWx5OiZxdW90O0thcnRpa2EmcXVvdDssJnF1b3Q7c2VyaWYmcXVvdDs7Y29sb3I6Izg4ODg4OCI+
+4LS54LSw4LS/4LSm4LS+4LS44LSo4LWNPC9zcGFuPjxzcGFuIHN0eWxlPSJjb2xvcjojODg4ODg4
+Ij48YnI+DQpCYW5nYWxvcmU8YnI+DQombHQ7UHJvamVjdCZndDtDb250cmlidXRvciB0byBLREUg
+cHJvamVjdDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJjb2xvcjojODg4ODg4Ij4mbHQ7UHJvamVjdCZndDtDb250
+cmlidXRvciB0byBZb2N0byBwcm9qZWN0PG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8
+ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImNvbG9yOiM4ODg4ODgiPjxh
+IGhyZWY9Imh0dHA6Ly9mY2kud2lraWEuY29tL3dpa2kvQW50aS1EUk0tQ2FtcGFpZ24iIHRhcmdl
+dD0iX2JsYW5rIj5odHRwOi8vZmNpLndpa2lhLmNvbS93aWtpL0FudGktRFJNLUNhbXBhaWduPC9h
+Pjxicj4NCiZsdDtCbG9nJmd0OyA8YSBocmVmPSJodHRwOi8vc3VqaXRoaC5pbmZvIiB0YXJnZXQ9
+Il9ibGFuayI+aHR0cDovL3N1aml0aGguaW5mbzwvYT48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8
+L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iY29sb3I6Izg4
+ODg4OCI+Qy14IEMtYzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rp
+dj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2
+Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGJyPg0KPGJyIGNsZWFyPSJhbGwiPg0KPGJyPg0KLS0g
+PG86cD48L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxkaXY+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTomcXVvdDtLYXJ0aWthJnF1
+b3Q7LCZxdW90O3NlcmlmJnF1b3Q7Ij7gtLjgtYHgtJzgtL/gtKTgtY08L3NwYW4+IDxzcGFuIHN0
+eWxlPSJmb250LWZhbWlseTomcXVvdDtLYXJ0aWthJnF1b3Q7LCZxdW90O3NlcmlmJnF1b3Q7Ij4N
+CuC0ueC0sOC0v+C0puC0vuC0uOC0qOC1jTwvc3Bhbj48YnI+DQpCYW5nYWxvcmU8YnI+DQombHQ7
+UHJvamVjdCZndDtDb250cmlidXRvciB0byBLREUgcHJvamVjdDxvOnA+PC9vOnA+PC9wPg0KPC9k
+aXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Jmx0O1Byb2plY3QmZ3Q7Q29udHJpYnV0
+b3IgdG8gWW9jdG8gcHJvamVjdDxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xh
+c3M9Ik1zb05vcm1hbCI+PGEgaHJlZj0iaHR0cDovL2ZjaS53aWtpYS5jb20vd2lraS9BbnRpLURS
+TS1DYW1wYWlnbiIgdGFyZ2V0PSJfYmxhbmsiPmh0dHA6Ly9mY2kud2lraWEuY29tL3dpa2kvQW50
+aS1EUk0tQ2FtcGFpZ248L2E+PGJyPg0KJmx0O0Jsb2cmZ3Q7IDxhIGhyZWY9Imh0dHA6Ly9zdWpp
+dGhoLmluZm8iIHRhcmdldD0iX2JsYW5rIj5odHRwOi8vc3VqaXRoaC5pbmZvPC9hPjxvOnA+PC9v
+OnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Qy14IEMtYzxvOnA+
+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2
+Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
 
+--_000_365E1805BC95084CBE82381A0B8699940127D10813EUMBX01mgcmen_--
