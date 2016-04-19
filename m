@@ -1,49 +1,44 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
-	[209.85.192.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C81560107;
-	Tue, 19 Apr 2016 00:49:35 +0000 (UTC)
-Received: by mail-qg0-f50.google.com with SMTP id f74so534797qge.2;
-	Mon, 18 Apr 2016 17:49:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=0f5rostuAI/x96yA6I0BGUEnM/BIZh7RzPNmrxqjz20=;
-	b=rZGv4+STRIRichnlEJ8ilS8PWhyRecvDxzsV7H7Ub4e40QCw+e5eaUWwALHg3hfdfw
-	KMAYO9ciCOWkoGEfH7swIJczLQ6g7IXU7Jx7+lBw7SAJIJ7eBs9onjN87SAM8yR4qnwC
-	ptZnJW1DTBd3BNY/E6To8eIx/PgOLmX7oBuyui/MMX5a/lzxst0Pz97S/2tEEutgG+nE
-	IpADIkBcmS654HWckxu2EUM8ftSv98RcYOS5mxZZDrFW1vv5zjuRytWDtkHzdnEuaPH7
-	G/kq2pK7Q1ho1A1+Boa72/NoYN5isOswyp5jr0XDDbKdcaO8jTTdrxZvTpXswqJGZi2T
-	dTdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=0f5rostuAI/x96yA6I0BGUEnM/BIZh7RzPNmrxqjz20=;
-	b=lcwyv8daPZX8LyGaPlk0SOIIbB5okPGOPLhF16KVEaNB2ONAeItnPsPR/eRT5HYqhK
-	qLo1ueiKqT1zhmmQY5jOEJES/YIn9Slir6n61mUsrG9qVtkpdSsvgKb3yTtbouIaMm8K
-	9aI2IdYIBl1TMUdnR6N0XG2qHDbxbPZhPMmbE59FI56Yew3/2UUTxDNjlJCwOiit6FgF
-	F7xqYLfB6FeeCjknUIrWfful75zgpgkP95Gn1jt+o9ipJv5Dm0DQUd+E64j2Tn71WyuR
-	aGIP3i1XemsCxoEKbvbbVmx9dqMDTZzB7g4Jl8WEli1dReTby2/A4kYOlYv6fbiKbCXg
-	S19A==
-X-Gm-Message-State: AOPr4FVQ1pmR90ar6jjtu6mwfG9Hdzrlpys0tQJHGHqJ1t1t+KXYQe0qw34CC043a1agG1k260lflxgKO/Strg==
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C984860107
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Apr 2016 00:51:56 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u3J0pt5B019158
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 18 Apr 2016 17:51:55 -0700 (PDT)
+Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 18 Apr 2016 17:51:54 -0700
+To: =?UTF-8?Q?Andreas_M=c3=bcller?= <schnitzeltony@googlemail.com>
+References: <cover.1459147231.git.hongxu.jia@windriver.com>
+	<62a9bef209d903048c1095d90387384115eb6fd5.1459147231.git.hongxu.jia@windriver.com>
+	<CALbNGRRL0O+j6axaHL3W2bKZLLyYEe1kxsiguZGL0=a1Lz8ryg@mail.gmail.com>
+	<571496CC.8010607@windriver.com>
+	<CALbNGRQwKQJxC+17UAoLBhhN9ZfXrYF4Ysur68NCD8v24Uavcw@mail.gmail.com>
+	<57149B89.2090607@windriver.com>
+	<CALbNGRTgnNYhN68zcDBKrhQ==fxP9wJ7wjj8pQ5jvMEgF=DF4g@mail.gmail.com>
+	<5714A30A.9000204@windriver.com>
+	<CALbNGRSBJSR4xMqCOUvu2yQcG38E=1UZBehkjmFZLdrtRyfamw@mail.gmail.com>
+	<5714AA1E.9020505@windriver.com>
+	<CALbNGRSe6B9-QRftL54DEEKrmCjxTt91K7FXk+CUzuGxjTvf5A@mail.gmail.com>
+	<5714DC35.7040206@windriver.com>
+	<CAJTo0LYTcA-c99-T_Z6q9Kn=X2C9Y1kBX+D6rzHrn+eLMUcSdA@mail.gmail.com>
+	<CALbNGRR0ySfXHZFgTAPGCi5sZXehjG3_vUzGobawrTW6-DOOVg@mail.gmail.com>
+	<57152C67.1030508@windriver.com>
+	<CALbNGRRE5nxvd8-bCvGbhvTyt2qGpnurnyDdv+C=gz7SaWP9Hg@mail.gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <57158128.5070706@windriver.com>
+Date: Mon, 18 Apr 2016 19:51:52 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
+	Gecko/20100101 Thunderbird/38.7.2
 MIME-Version: 1.0
-X-Received: by 10.140.254.213 with SMTP id z204mr111455qhc.5.1461026975835;
-	Mon, 18 Apr 2016 17:49:35 -0700 (PDT)
-Received: by 10.55.130.196 with HTTP; Mon, 18 Apr 2016 17:49:35 -0700 (PDT)
-Received: by 10.55.130.196 with HTTP; Mon, 18 Apr 2016 17:49:35 -0700 (PDT)
-In-Reply-To: <1461019868.9308.224.camel@linuxfoundation.org>
-References: <CAJTo0LZtDL-hbxXmYWdgf7HTZtSA4D2FgRKtx1+n6Rqxq50n=g@mail.gmail.com>
-	<CAMKF1spGMHQMVP_-mrHYmDnjM+DPk0mktK_e+9G1bekuP6PnUA@mail.gmail.com>
-	<1461019868.9308.224.camel@linuxfoundation.org>
-Date: Mon, 18 Apr 2016 17:49:35 -0700
-Message-ID: <CAMKF1spKB=HXLipbo_qFBY6mo67LOWAB-uQxRA25ghZTwD=i5Q@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: yocto@yoctoproject.org, openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
+In-Reply-To: <CALbNGRRE5nxvd8-bCvGbhvTyt2qGpnurnyDdv+C=gz7SaWP9Hg@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: bugzilla.yoctoproject.org policy for bugs against multiple releases
+Subject: Re: [PATCH 01/17] conf/bitbake.conf package.bbclass: fix dbg package not contain sources while -fdebug-prefix-map used
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,55 +51,136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Apr 2016 00:49:36 -0000
-Content-Type: multipart/alternative; boundary=001a113aa030e6f0d00530cbd9cc
+X-List-Received-Date: Tue, 19 Apr 2016 00:51:56 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
---001a113aa030e6f0d00530cbd9cc
-Content-Type: text/plain; charset=UTF-8
+On 4/18/16 4:05 PM, Andreas Müller wrote:
+> On Mon, Apr 18, 2016 at 8:50 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
+>> On 4/18/16 9:16 AM, Andreas Müller wrote:
+>>> On Mon, Apr 18, 2016 at 3:55 PM, Burton, Ross <ross.burton@intel.com> wrote:
+>>>>
+>>>> On 18 April 2016 at 14:08, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+>>>>>
+>>>>> If sysroot is required, override DEBUG_FLAGS to remove -fdebug-prefix-map
+>>>>
+>>>>
+>>>> We should probably get this in the release notes, as many people do indeed
+>>>> want remote debug to work.
+>>>>
+>>>> Can you tell gdb the base path to use when looking for symbols?  I've not
+>>>> done remote GDB for some time but wouldn't "set substitute-path /
+>>>> //my/sysroot/" work?  Or maybe /usr /my/sysroot/usr?
+>>>>
+>>>> If gdb can't be told then instead of having to replace all of DEBUG_FLAGS it
+>>>> would be neat if the prefix mapping variables where in another variable that
+>>>> could just be unset.
+>>>>
+>>>> Ross
+>>> OK I think I could live with removing -fdebug-prefix-map for now.
+>>>
+>>> A thought: We have the setting IMAGE_GEN_DEBUGFS - I have not yet
+>>> tested. As far as I understand it creates an unstripped sysroot and
+>>> does not affect target rootfs - is that correct? Does the sysroot
+>>> created by IMAGE_GEN_DEBUGFS contain the sources? If yes we could set
+>>> that as sysroot for gdb.
+>>>
+>>> I think one of the problems we have here is that there is no reference
+>>> way documented (or it is outdated) how remote debugging is meant to be
+>>> performed.
+>>
+>> Remote debugging is setup to always assume the remote side has access to a
+>> debugable sysroot.
 
-On Apr 18, 2016 3:51 PM, "Richard Purdie" <
-richard.purdie@linuxfoundation.org> wrote:
->
-> On Mon, 2016-04-18 at 10:35 -0700, Khem Raj wrote:
-> > Can we have a possibility to select  field like "affected version"
-> > and have it such that multiple versions can be specified
->
-> That doesn't really allow us to mark version X as merged and version Y
-> as pending review though and as I understand it, that is the real issue
-> atm :/.
+Remote (target from host) is setup to always assume the -host- side has access
+to a debuggable sysroot.  The target -never- needs access, unless you are trying
+to run GDB on the target.
 
-May be bugzilla can be programmed to have such triggers. Having separate
-bug is not a good looking solution
->
-> Cheers,
->
-> Richard
+> Just that I get this right: remote = target? If yes: Where do you get
+> this from? Or - have you ever run a remote session with files taken
+> from target? I have: see caffeine/colleagues section below.
+>> This isn't the project's sysroot, since that is transient,
+>> but a REAL matching sysroot to the main image.
+> If you say transient: Do you mean status of last build. Isn't that
+> what I am usually looking for when debugging?
 
---001a113aa030e6f0d00530cbd9cc
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+It's transient.  There is no direct correlation between the contents of the
+image you are booting and the sysroot directory int he project/tmp/sysroot area.
+ The files MIGHT be related, but they are not the same.  The build project is
+only setup for actually building software.
 
-<p dir=3D"ltr"><br>
-On Apr 18, 2016 3:51 PM, &quot;Richard Purdie&quot; &lt;<a href=3D"mailto:r=
-ichard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&g=
-t; wrote:<br>
-&gt;<br>
-&gt; On Mon, 2016-04-18 at 10:35 -0700, Khem Raj wrote:<br>
-&gt; &gt; Can we have a possibility to select=C2=A0 field like &quot;affect=
-ed version&quot;<br>
-&gt; &gt; and have it such that multiple versions can be specified<br>
-&gt;<br>
-&gt; That doesn&#39;t really allow us to mark version X as merged and versi=
-on Y<br>
-&gt; as pending review though and as I understand it, that is the real issu=
-e<br>
-&gt; atm :/.</p>
-<p dir=3D"ltr">May be bugzilla can be programmed to have such triggers. Hav=
-ing separate bug is not a good looking solution<br>
-&gt;<br>
-&gt; Cheers,<br>
-&gt;<br>
-&gt; Richard<br>
-</p>
+To debug, you must you the -dbg packages that are created as part of the build.
+ Using the IMAGE_GEN_DEBUGFS automates this process.  Or you can individually
+grab (and unpack) the -dbg for the components you wish to debug.
 
---001a113aa030e6f0d00530cbd9cc--
+>> The easiest way to do this is to add the following to your local.conf:
+>>    IMAGE_GEN_DEBUGFS = '1'
+> This exactly what I've asked for in my previous mail - further comments below.
+>>
+>> After this, look in your deploy directory and you will see the image to deploy
+>> to the target, and also a matching 'debug' chunk that you keep on your local
+>> host.  This way you -know- they are always in sync.
+> You really want me to wait for building an full image after each
+> modification - I will either die for caffeine overdose or my
+> colleagues will kill me...
+
+How big is your filesystem?  Typically when I make a small change, it only takes
+me minutes to build a filesystem.. (I'm roughly similar to the core-image-base.)
+ I'm not changing key things like the toolchain or glibc, I'm changing
+individual applications with few downstream dependencies.
+
+You can always build the component by itself and simply pull the -dbg components
+out if you want.  That is certainly a short cut method to this.
+
+The non-dbg have the correct versions for deployment for runtime, while the -dbg
+has the corresponding debug information.  The sysroot though is not the right
+place for this, if you want to work around the system use the actual work
+location for the components themselves and copy the pieces from there.
+
+>>
+>> There is class material from the various Yocto Project Dev Day classes on using
+>> this.
+>>
+>>
+>> The alternative is tell GDB itself to map directories.  I don't remember offhand
+>> the right option, but GDB supports remapping a directory reference to an actual
+>> directory.  It should be pretty simple to re-map it -- but due to the transient
+>> nature of the sysroot directory in the build, I don't recommend doing it this way.
+>>
+> We are using remote debugging with build sysroot almost daily and we
+> do that since we use openembedded. The more I learn here it seems
+> nobody else does remote debugging. How do you fix bugs?
+
+I do remote debugging all the time, note -- for much of my work I'm still on
+2.0.  But the design of 2.1 (master) actually makes this easier then before, as
+all of the file references are finally correct -- instead of a mismatched set of
+target and host dependencies.
+
+I -always- use the -dbg versions when doing local (on target) or remote (host to
+target) debugging.  It takes no additional time, and it's easy to shortcut as I
+mentioned above.
+
+The sysroot is only appropriate for compiling against.
+
+> I'll remove -fdebug-prefix-map and wait till remote debugging breaks
+> again - maybe then completely. That scares me as I am loosing the
+> possiblity to start a remote debug session on an productive image
+> within seconds.
+
+Without the prefix maps, you won't get functional -dbg packages for remote
+debugging of deployed production systems.
+
+This is really the key here, we facilitate both development -and- production
+remote debug.  I don't know of any other (embedded) build system that is
+designed with production remote debug built in.  You never have to deploy
+symbols to your production images, but yet you can still cross debug them by
+simply keeping a copy of the -dbg (and as of recently the corresponding debugfs
+image.)  This ensures the code is not only debugable today, but in the future
+when your product has been deployed for a long time.
+
+--Mark
+
+> Andreas
+> 
+
+
