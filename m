@@ -1,45 +1,43 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 0947360722
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id AC83060722
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Apr 2016 12:57:27 +0000 (UTC)
-Received: by mail-wm0-f52.google.com with SMTP id n3so28263066wmn.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Apr 2016 05:57:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=erdSNe9cRO/MtxCNZ80gszkbi1GAsZ9pFt6B9v+s+BI=;
-	b=awgo76OgjhFPlAfDA4kmJhRqiCel5qI05xMF/DME4PRvTKol/rYGThpXpCtdGSpvvj
-	0PoiaJ0k7GiE2MG+B+igvS8BSxVwlAJDPpGqj7h7KHho6BSAuYVMDZT0gwCIWkQoFFfF
-	u62lL5uQmBn02pfVQ5KlhmadXHVCWfY/uyEcgPSdG0LNWbZKxeGFhOy+e4U1NgJqZnrw
-	mNhNxeOgsyyo87pHxqQe5HSkqiwOnsSOaMoZ9k54t101wQCD3GWez8MFaRQ5SXFlm/u9
-	DBjDKlXH14i4eUc6H/VO0hrhdPHind7hIVSLoCSV2i+6NJ36euVsHWYBmR7612RuAijG
-	a9uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=erdSNe9cRO/MtxCNZ80gszkbi1GAsZ9pFt6B9v+s+BI=;
-	b=Wl4f/g6fuKwQQ6p2Yqx9Hv0EvOumQ5NiukWU4ujCYsCCxMMbNBtt2pBuy2hpsu1S/1
-	FS+vLRpdNXLzkGOoZy5Nj4DuqjxnQaAtwNbiX9fsPHdz9WPVZu4lQ1MY3kr2oq2mpZqJ
-	Cilqsm5qhwSNpjnUmKQ5tqQzL3yx5/TY6/1qhT0qoe/UcwZClEo4XvqNu0c32TTIGqGn
-	VPZj0JJhieymIJm7DQ+oVnJo4QOg0CAbupDAiPHUVBigWigiJBGTH4FSogeGK94uO0jW
-	uYn/f3NedB7LQg0F1Gj6F5g9duetTi7ONKrU9QH0L8lybQt2BFcFpeSltNRynUmVsHPP
-	mbnA==
-X-Gm-Message-State: AOPr4FXEe6o8TGs87Fo52l+/dRfbQOJjuEUv1JkkiMRpj/6GRloWN03wKiTzBGMd7Qyvyhk7
-X-Received: by 10.28.173.15 with SMTP id w15mr3689497wme.32.1461070647832;
-	Tue, 19 Apr 2016 05:57:27 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id o1sm166017wjm.11.2016.04.19.05.57.26
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 19 Apr 2016 05:57:27 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Apr 2016 13:57:25 +0100
-Message-Id: <1461070645-22857-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.0.rc3
-Subject: [PATCH] perf: pass DESTDIR in EXTRA_OEMAKE
+	Tue, 19 Apr 2016 12:59:59 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u3JCxwS6002181
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 19 Apr 2016 05:59:58 -0700 (PDT)
+Received: from [128.224.162.159] (128.224.162.159) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Tue, 19 Apr 2016 05:59:57 -0700
+To: Mark Hatle <mark.hatle@windriver.com>, =?UTF-8?Q?Andreas_M=c3=bcller?=
+	<schnitzeltony@googlemail.com>
+References: <cover.1459147231.git.hongxu.jia@windriver.com>
+	<62a9bef209d903048c1095d90387384115eb6fd5.1459147231.git.hongxu.jia@windriver.com>
+	<CALbNGRRL0O+j6axaHL3W2bKZLLyYEe1kxsiguZGL0=a1Lz8ryg@mail.gmail.com>
+	<571496CC.8010607@windriver.com>
+	<CALbNGRQwKQJxC+17UAoLBhhN9ZfXrYF4Ysur68NCD8v24Uavcw@mail.gmail.com>
+	<57149B89.2090607@windriver.com>
+	<CALbNGRTgnNYhN68zcDBKrhQ==fxP9wJ7wjj8pQ5jvMEgF=DF4g@mail.gmail.com>
+	<5714A30A.9000204@windriver.com>
+	<CALbNGRSBJSR4xMqCOUvu2yQcG38E=1UZBehkjmFZLdrtRyfamw@mail.gmail.com>
+	<5714AA1E.9020505@windriver.com>
+	<CALbNGRSe6B9-QRftL54DEEKrmCjxTt91K7FXk+CUzuGxjTvf5A@mail.gmail.com>
+	<5714DC35.7040206@windriver.com>
+	<CAJTo0LYTcA-c99-T_Z6q9Kn=X2C9Y1kBX+D6rzHrn+eLMUcSdA@mail.gmail.com>
+	<CALbNGRR0ySfXHZFgTAPGCi5sZXehjG3_vUzGobawrTW6-DOOVg@mail.gmail.com>
+	<5715DF5B.5030406@windriver.com> <57162516.7000009@windriver.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <57162BC9.4010708@windriver.com>
+Date: Tue, 19 Apr 2016 20:59:53 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
+MIME-Version: 1.0
+In-Reply-To: <57162516.7000009@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 01/17] conf/bitbake.conf package.bbclass: fix dbg package not contain sources while -fdebug-prefix-map used
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,41 +50,146 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Apr 2016 12:57:29 -0000
+X-List-Received-Date: Tue, 19 Apr 2016 13:00:00 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Instead of passing DESTDIR just in the make install invocation, pass it in
-EXTRA_OEMAKE.  This appears to stop perf from rebuilding at instal time for me,
-which appears to be the trigger for the random build failure.
+On 04/19/2016 08:31 PM, Mark Hatle wrote:
+> On 4/19/16 2:33 AM, Hongxu Jia wrote:
+>> Hi all,
+>>
+>> With some investigation, there is an example to explain how to do remote debug.
+>>
+>> Also file [YOCTO #9481] for document.
+>>
+>> Hi Andreas,
+>>
+>> Would you please have a look the example, to see if it could fit your case.
+>>
+>> Example:
+>>
+>> 1. Build a image with gdbserver and gzip installed. The gzip
+>>     is the debug binary. Append the following to local.conf
+>> ...
+>> IMAGE_INSTALL_append = " gdbserver gzip"
+>> ...
+>>
+>> $ bitbake core-image-sato
+>>
+>> 2. Build gdb-cross for remote debug on host
+>>
+>> $ bitbake gdb-cross-i586
+>>
+>> 3. start qemu
+>>
+>> $ runqemu qemux86 core-image-sato
+>>
+>> 4. On host side, create symlink /usr/src/debug to
+>>     ${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS} which the
+>>     location of sources is /usr/src/debug.
+>>
+>> $ ln -snf /TOPDIR/tmp/work/i586-poky-linux /usr/src/debug
+> This is incorrect.  On the host you use the combination of:
+>
+> (gdb) set sysroot <your debug capable fs path>
+> (gdb) set substitute-path /usr/src/debug <your debug capable fs path>/usr/src/debug
+>
 
-[ YOCTO #9182 ]
+Yes! Yours is more reasonable. It is verified on my case:
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-kernel/perf/perf.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+4. On host side, Set a substitution rule for finding source files.
+    Replace /usr/src/debug with ${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}
 
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index c43f39c..3d6ffb3 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -88,6 +88,7 @@ EXTRA_OEMAKE = '\
- '
- 
- EXTRA_OEMAKE += "\
-+    'DESTDIR=${D}' \
-     'prefix=${prefix}' \
-     'bindir=${bindir}' \
-     'sharedir=${datadir}' \
-@@ -110,7 +111,7 @@ do_compile() {
- do_install() {
- 	# Linux kernel build system is expected to do the right thing
- 	unset CFLAGS
--	oe_runmake DESTDIR=${D} install
-+	oe_runmake install
- 	# we are checking for this make target to be compatible with older perf versions
- 	if [ "${@perf_feature_enabled('perf-scripting', 1, 0, d)}" = "1" ] && grep -q install-python_ext ${S}/tools/perf/Makefile*; then
- 		oe_runmake DESTDIR=${D} install-python_ext
--- 
-2.8.0.rc3
+(gdb) set substitute-path /usr/src/debug /TOPDIR/tmp/work/i586-poky-linux
+
+//Hongxu
+
+>> 5. On target side, ipaddr is 128.224.163.187,
+>>     run gdbserver to debug "gzip -h"
+>>
+>> root@qemux86-64:~# gdbserver localhost:1024 gzip -h
+>> Process gzip created; pid = 530
+>> Listening on port 1024
+>>
+>> 6. On host side, enter gzip's devshell
+>> $ bitbake -cdevshell gzip
+>>
+>> 7. On host side, run gdb-cross to remote debug gzip
+>>
+>> gzip-1.6# i586-poky-linux-gdb ../build/gzip
+>>
+>> 8. Use path ${STAGING_DIR_HOST} as the system root for
+>>     the program being debugged. Any absolute shared
+>>     library paths will be prefixed with path;
+>>
+>> (gdb) set sysroot /TOPDIR/tmp/sysroots/qemux86
+>>
+>>
+>> 9. Start remote target, set break point at help()
+>>
+>> (gdb) target remote 128.224.163.187:1024
+>> (gdb) break gzip.c:325
+>> (gdb) info break
+>> Num     Type           Disp Enb Address            What
+>> 1       breakpoint     keep y   0x0000000000401ec1 in main at
+>> /usr/src/debug/gzip/1.6-r0/gzip-1.6/gzip.c:325
+>> (gdb) c
+>> Continuing.
+>>
+>> Breakpoint 1, main (argc=2, argv=0x7fffffffeca8) at
+>> /usr/src/debug/gzip/1.6-r0/gzip-1.6/gzip.c:465
+>> 465                 help(); do_exit(OK); break;
+>> (gdb) list
+>> 460             case 'd':
+>> 461                 decompress = 1; break;
+>> 462             case 'f':
+>> 463                 force++; break;
+>> 464             case 'h': case 'H':
+>> 465                 help(); do_exit(OK); break;
+>> 466             case 'k':
+>> 467                 keep = 1; break;
+>> 468             case 'l':
+>> 469                 list = decompress = to_stdout = 1; break;
+>> (gdb) c
+>> Continuing.
+>> [Inferior 1 (process 1246) exited normally]
+>>
+>>
+>> 10. On target side, get output of "gzip -h"
+>> [snip]
+>> Remote debugging from host 128.224.153.74
+>> Usage: gzip [OPTION]... [FILE]...
+>> Compress or uncompress FILEs (by default, compress FILES in-place).
+>>
+>> Mandatory arguments to long options are mandatory for short options too.
+>>
+>>    -c, --stdout      write on standard output, keep original files unchanged
+>>    -d, --decompress  decompress
+>>    -f, --force       force overwrite of output file and compress links
+>>    -h, --help        give this help
+>>    -k, --keep        keep (don't delete) input files
+>>    -l, --list        list compressed file contents
+>>    -L, --license     display software license
+>>    -n, --no-name     do not save or restore the original name and time stamp
+>>    -N, --name        save or restore the original name and time stamp
+>>    -q, --quiet       suppress all warnings
+>>    -r, --recursive   operate recursively on directories
+>>    -S, --suffix=SUF  use suffix SUF on compressed files
+>>    -t, --test        test compressed file integrity
+>>    -v, --verbose     verbose mode
+>>    -V, --version     display version number
+>>    -1, --fast        compress faster
+>>    -9, --best        compress better
+>>
+>> With no FILE, or when FILE is -, read standard input.
+>>
+>> Report bugs to <bug-gzip@gnu.org>.
+>>
+>> Child exited with status 0
+>> GDBserver exiting
+>> [snip]
+>>
+>> //Hongxu
+>>
 
 
