@@ -1,39 +1,42 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
-	[209.85.220.195])
-	by mail.openembedded.org (Postfix) with ESMTP id B07666E630
+Received: from mail-qg0-f66.google.com (mail-qg0-f66.google.com
+	[209.85.192.66])
+	by mail.openembedded.org (Postfix) with ESMTP id E21076FFE8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Apr 2016 19:34:07 +0000 (UTC)
-Received: by mail-qk0-f195.google.com with SMTP id l68so1270999qkf.3
+	Tue, 19 Apr 2016 19:34:13 +0000 (UTC)
+Received: by mail-qg0-f66.google.com with SMTP id 7so2640572qgj.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Apr 2016 12:34:08 -0700 (PDT)
+	Tue, 19 Apr 2016 12:34:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=mmquJ/G6GLVr8FusgCA5QxxVyqyOABiadh2hop9qZag=;
-	b=J720t5SOshJPCOWnzqMhZjhuU4ONShTvaPg9fWhb+uAFtuiOYNa9DRi5vaqpuKcshs
-	uQbf+a5VZBUFNAE+rv/OUtyRAzEYhjKImvqL67T/nbQpe9lEvWGOk4dYcvZqi4tCGwHc
-	DqXcuV1odN0PCIvQA1n//XiakR6HvodUVtdQgNYPYFAQQqmhEv4IT7fEfSM0qeOX5k/2
-	QvOZLumdsHG8wA1c9uFm+z5zgwPWSVzleC4AGkny8WyCfBp+37OSGpCIkXCs+0In6arW
-	xvnwbt/scn3VmMk7Y68GpyP/4sUKGNNOcstYZajMxfZyj7LRBN9QN+T0QrGS4F43vc6V
-	1G/A==
-X-Gm-Message-State: AOPr4FXd+JZ4SXzucntiIZVxiljPebdeDtFAVoy/KhQtJtG0QZjoS1qJDILWyZwrNrCQyA==
-X-Received: by 10.55.73.74 with SMTP id w71mr6235428qka.60.1461094447942;
-	Tue, 19 Apr 2016 12:34:07 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:organization;
+	bh=IG32kcWzsddU3Py1bjYaAT87SG8/06GDt0LdJY4bCWU=;
+	b=O+Y6K08m/M3yIl613/XKihAdrcGplb3Md4DPt8U58Zlmu1p3XRGQXYk411y3S6F0pl
+	t5GxND2aCjeIdHHaNKmrJoRO3/kepOCUqwEDTce1u7DckqRy8SlE97kq4jPOlowzKmUm
+	8wGI5iH0mwaWW5Q6dEHNeQWp38pQ57W2CIhwd3Dzez5Mg+qo2Q/qQ8iw0+tIBFamBcfw
+	oQ4I3jvwhb1g/+imUFAreaet+QLRuUAL49aT/H49l4pJ8hATVwxOcXnCY6LtDVEFh0gI
+	wwfq/qljmuD6dXG59agRTUz37tDm/hLKzuUpHEPVkOKtU3rtkkJ0uwzXHnD+MCtrbL8a
+	tEEw==
+X-Gm-Message-State: AOPr4FVF+BD0n54r1Ctt1oLp7gNhG+5l2kVdpuoZ1GSuyRBOx0bI8FQD65eu3He0QbLTFA==
+X-Received: by 10.140.146.142 with SMTP id 136mr6282610qhs.30.1461094454145;
+	Tue, 19 Apr 2016 12:34:14 -0700 (PDT)
 Received: from localhost ([187.23.154.250]) by smtp.gmail.com with ESMTPSA id
-	s62sm23034774qhe.10.2016.04.19.12.34.04
+	l21sm29444986qgd.10.2016.04.19.12.34.10
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 19 Apr 2016 12:34:06 -0700 (PDT)
+	Tue, 19 Apr 2016 12:34:13 -0700 (PDT)
 Received: by localhost (sSMTP sendmail emulation);
-	Tue, 19 Apr 2016 16:34:01 -0300
+	Tue, 19 Apr 2016 16:34:08 -0300
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Tue, 19 Apr 2016 16:34:00 -0300
-Message-Id: <1461094441-3445-1-git-send-email-otavio@ossystems.com.br>
+Date: Tue, 19 Apr 2016 16:34:01 -0300
+Message-Id: <1461094441-3445-2-git-send-email-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.8.0
+In-Reply-To: <1461094441-3445-1-git-send-email-otavio@ossystems.com.br>
+References: <1461094441-3445-1-git-send-email-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
 Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH 1/2] syslinux.bbclass: The AUTO_SYSLINUXMENU value needs to be boolean
+Subject: [PATCH 2/2] syslinux.bbclass: Add AUTO_SYSLINUXMENU as variable dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,11 +49,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Apr 2016 19:34:08 -0000
+X-List-Received-Date: Tue, 19 Apr 2016 19:34:14 -0000
 
-The python code expects AUTO_SYSLINUXMENU to be a boolean value,
-otherwise the logic fails. This fixes the code comparing the value to
-"1" which is the value expected by the shell script code, counterpart.
+The value of AUTO_SYSLINUXMENU has impact on the generated
+configuration file so this needs to be added to the vardeps flag.
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
@@ -59,18 +61,15 @@ Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/classes/syslinux.bbclass b/meta/classes/syslinux.bbclass
-index defad73..fd04ac6 100644
+index fd04ac6..4f238e8 100644
 --- a/meta/classes/syslinux.bbclass
 +++ b/meta/classes/syslinux.bbclass
-@@ -121,7 +121,7 @@ python build_syslinux_cfg () {
-     if syslinux_serial:
-         cfgfile.write('SERIAL %s\n' % syslinux_serial)
+@@ -190,4 +190,4 @@ python build_syslinux_cfg () {
  
--    menu = d.getVar('AUTO_SYSLINUXMENU', True)
-+    menu = (d.getVar('AUTO_SYSLINUXMENU', True) == "1")
- 
-     if menu and syslinux_serial:
-         cfgfile.write('DEFAULT Graphics console %s\n' % (labels.split()[0]))
+     cfgfile.close()
+ }
+-build_syslinux_cfg[vardeps] += "APPEND"
++build_syslinux_cfg[vardeps] += "APPEND AUTO_SYSLINUXMENU"
 -- 
 2.8.0
 
