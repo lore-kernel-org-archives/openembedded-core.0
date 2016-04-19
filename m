@@ -1,48 +1,41 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-oi0-f44.google.com (mail-oi0-f44.google.com
-	[209.85.218.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 8FF126011B
+Return-Path: <tkilbourn@gmail.com>
+Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
+	[209.85.223.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 9ECD260290
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Apr 2016 21:02:08 +0000 (UTC)
-Received: by mail-oi0-f44.google.com with SMTP id r78so22155382oie.0
+	Tue, 19 Apr 2016 21:30:16 +0000 (UTC)
+Received: by mail-io0-f182.google.com with SMTP id 2so33209721ioy.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Apr 2016 14:02:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=2V30odttAkiNZ/MvtJZsa22YYJ0+ugi8M3bU9Vu2llE=;
-	b=K8nmkRsNB5zPM6Uhp7LgNwDD889AoNz/fajospInmCm0L4sUk7E6XZgfSiJ/hkc4mh
-	NOeOhNRiVDmLFH1okI0krrALwmLoWeBk06wZ7LMpHuY9JJ+3snFr1eVwGgLnVGF7wpZt
-	lRddOaj1r8OhDoT4QfD8MYuSfZ53AXo550kb8b4PIlfcTU1Nj9IPeJi9LPqq0GeSvawm
-	PpologEAorfj9zwP/1y/YDn1Ly41XEh+bhAVYnKl/eSkLtf3VINtY/oXWLJkRan0PoTb
-	8/Hr6O1Yj5d/sSgUrmyshOwiIte+loijjpEPVFx2rGyd2rirp50AJMXe6AwS09rjN6dO
-	ByCQ==
+	Tue, 19 Apr 2016 14:30:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=ih1sux5op6Xj6PAWHzqBE0IcmW5fdWG6tcWi+wc1dcg=;
+	b=u3UNVtUym94tmf/XwtXEXWDANygTcki/Ad6zpSMucYFSZTMyXQVZ+i4kUHCLIpwo+8
+	W459n2kuVLjQDFStGZ8K6PIaNZni5gCZ00Qh8f3PE2jA06BGDQr65xxSJoeThBYtmpU7
+	Q9o7KKO6rYCoLbZNh+dMzOw58Qdc6k5BTPu6F4WdrwUHKm6uPgS/efuL1+pO2ULRKYTk
+	yHE04mS6Gq1Y4KGoPVFFQharferleeFSKbRZQ/5gyjF7hNRlW3ckZpwtBkDneGdfCRr8
+	vcYNlsCTKTvL8lqMU8yBwT/X3uy12suDCq7PcV0ELzaTaz5vT24dR3BzD5aUPvYqm6sz
+	wC8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=2V30odttAkiNZ/MvtJZsa22YYJ0+ugi8M3bU9Vu2llE=;
-	b=TkEpCBHwA/r77dZVTbZMDj+d0jGDCGj7pSa6RhYE0TF++pQ4y3ei9gwDHZo56C/I1K
-	6SFMLRRRuaKhOl2v/2a048VAV/dJPvoCD5A2TziPHrTRhR2V2XvJV/xwfNdpf2g5Ni3y
-	uPreLXvQujpIkJ0KV5O/1IWs6BU4s5AJzhDIXYdmdgu5y3+2IQ1Upcv03Iiza1/4eq6h
-	zaqEb8n4q+gp+WSyuvWQs11suVdPJ+ABT71p36bg+O0rOvhIobOE82nV93TFf4vTuq1c
-	FR121SeIVlNp4AOBIfFSx9+wtpUcX3u5nlncRKWgu/5SMFDOv5OWuSt+sIDrVDeRXhQN
-	rqhw==
-X-Gm-Message-State: AOPr4FWjRL2b1ZrSol3+Hbgu2WGe/KK7Ud7FwnsHMQAdSk9hefHe+vke7KDu7FadZo84vO+pt+tszkP8VVHIoy4C
-X-Received: by 10.202.102.222 with SMTP id m91mr2146838oik.79.1461099728887;
-	Tue, 19 Apr 2016 14:02:08 -0700 (PDT)
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=ih1sux5op6Xj6PAWHzqBE0IcmW5fdWG6tcWi+wc1dcg=;
+	b=PI/dOL0CQdkf6EYV6swKymRWYYS2Qng8tlTKzTDtJHggf54YeLoKb+HcRaSb5+wiaJ
+	nMvzhhB5cpVmLRfg3U6xtcnbuz4iVGIQGllc2XWa10fYKRY4blf/5kKdQsU67IAnTGBv
+	JPECEB7cM+FnbnYveCe4e9N62WNwuPPHubQoKawdEHKqUCHV+dUhHO7GOXtandaORx54
+	4718mQXQIA5CBrW60m4NV9/G1ocN4fwBNvKhwyFUB+jBZpmKaBmXIApEyYjBLFCGRc0J
+	EpGi4JrDOukkNB7Yk18WnPpPkLnOxm38feT16DPJ3nqWfHz1fcOoqgnrJ047Bkuh31Cp
+	/WKA==
+X-Gm-Message-State: AOPr4FXkmBydBo/akxA5m6VCRWRiOEVeDSleitJdKXqMY7FTcBQdUF0Z3eEwTglbIB7w42En/zt7S03xNifmvg==
+X-Received: by 10.107.21.197 with SMTP id 188mr358778iov.59.1461101416690;
+	Tue, 19 Apr 2016 14:30:16 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.202.173.77 with HTTP; Tue, 19 Apr 2016 14:01:39 -0700 (PDT)
-In-Reply-To: <49E8A3AC-D4EF-4CCB-9CEA-1CA8E0A6425D@dominion.thruhere.net>
-References: <CAHiDW_FCskCiuL0bf0UwRWyR=nr0GYzGhf5fRuxMrkHz_j=kSQ@mail.gmail.com>
-	<49E8A3AC-D4EF-4CCB-9CEA-1CA8E0A6425D@dominion.thruhere.net>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Wed, 20 Apr 2016 00:01:39 +0300
-Message-ID: <CAHiDW_EFx5JvzNwY0=MmHNaf0=MMDA1CBz6Z8o3JhbqEtEwNVA@mail.gmail.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: xinput-calibrator startup question
+Received: by 10.79.6.144 with HTTP; Tue, 19 Apr 2016 14:29:47 -0700 (PDT)
+From: Tim Kilbourn <tkilbourn@gmail.com>
+Date: Tue, 19 Apr 2016 14:29:47 -0700
+Message-ID: <CABAVd_HkmrR4AbO3h-WKbcnTGSgNva0mJmWP=mxTCXnahhbo-w@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: backports for jethro
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,46 +48,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Apr 2016 21:02:10 -0000
+X-List-Received-Date: Tue, 19 Apr 2016 21:30:20 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 19 April 2016 at 21:24, Koen Kooi <koen@dominion.thruhere.net> wrote:
->
->> Op 19 apr. 2016, om 17:12 heeft Jussi Kukkonen <jussi.kukkonen@intel.com> het volgende geschreven:
->>
->> Hi Koen,
->>
->> I was looking at xinput-calibrator in preparation for bug 9365 "Remove
->> xtscal in preference of xinput-calibrator", and I'm wondering if you
->> remember the logic behind this commit:
->>
->> commit 6464bcd67d10ab9967ac83c27c413c1014be707e
->> Author: Koen Kooi <koen@dominion.thruhere.net>
->> Date:   Wed Apr 30 11:33:23 2014 +0200
->>
->>    xinput-calibrator: fix XDG launch
->>
->>    In the move from meta-oe to OE-core XDG based launched was dropped
->>    without noting it in the commit message, so fix that regression.
->>
->>    Gnome-session will now launch the calibrator again.
->>
->> The commit installs the app desktop file in the XDG autostart
->> directory. But we already have a XSession script for a similar purpose
->> -- the result in Sato is that xinput-calibrator runs twice (and I
->> would expect that to happen in gnome as well)?
->>
->> I'd like to either not install the desktop file or install it in
->> applications directory, so please let me know if the reasons for the
->> above commit might still be valid.
->
-> They are still valid, XDG is still the right place to launch it.
+What is the policy for backporting changes to released branches like
+jethro? I'm hitting an issue that was fixed in 2015 on master, but
+didn't get included in jethro 2.0.1. Is there any chance of having
+this cherrypicked so I can get the fix from the jethro branch in git?
 
-I was hoping for a little more detail... I wonder why is xdg autostart
-better than xsession in this case (this does not seem obvious to me)
-and if it is, shouldn't the xsession script have been removed when the
-autostart desktop file was added? It seems clear that the current
-setup is broken since both autostart methods are used.
+---------
+commit 9abcd309c098558360cde2bff65be840ead25f83
+Author: Robert Yang <liezhi.yang@windriver.com>
+Date:   Tue Nov 24 05:20:38 2015 -0800
 
-Jussi
+    boot-directdisk.bbclass: remove HDDIMG before create
+
+    Fixed when rebuild:
+    mkdosfs: file /path/to/hdd.image already exists
+
+    Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+    Signed-off-by: Ross Burton <ross.burton@intel.com>
 
