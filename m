@@ -1,49 +1,54 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B49E6FF23
+Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 8909C60616
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Apr 2016 16:22:23 +0000 (UTC)
-Received: by mail-wm0-f48.google.com with SMTP id v188so169220631wme.1
+	Tue, 19 Apr 2016 16:41:58 +0000 (UTC)
+Received: by mail-io0-f178.google.com with SMTP id g185so24703557ioa.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Apr 2016 09:22:24 -0700 (PDT)
+	Tue, 19 Apr 2016 09:41:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=3ILk0/QPW/O8jFjkf7vUi2ZTVsEv5ErClgo1UWfEugw=;
-	b=R5/P4P7tqsbiL0Wum6Y9yM2h14qPsTeqvmoR3zUGN0W2j6D61dfAs4RlEP9Ep1P4cn
-	tU0zyJhpa/5Io+YLB6ehosYR0xg7s73cMdxeUmBYd0upzyBVovfj7B9F8PjXqtshCv+D
-	Lr7e0Oowxm0zVyESUY85eHVeMOgpmQ9013K8m+/PWVQBYEz8eSy2Zylg/8vVKzh4eL/k
-	MlroDEPRsVs/Gt+Fga0fANoRrcB6lMMEhfvZp9e7O6M55CSUuc0hmmH0omK4hkYyuOYi
-	942FG2v0F+laGhVb8qpST8XVSMJ92lycysv9HdoY+/NqSsklqSrKZ63G/x00DK+3Ha33
-	U4xg==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=s/zvuVuK1uOgjkEtwQZXrFJKVHrEfE9RVBm0RKD2wLY=;
+	b=RM50zw+RTXA+0SJJXvRapInvH/vZrhRHeT0eiaZs4sGMvIU/UwqghH/Zz0PnpPMK5t
+	vcOwDjFJI+/JYrAHZnoqwTgjnPvZPG53aTuATrz7omJsp/9GkDQ0cwW1vpNKUYSL5XVO
+	jtYI6/9IiZOi7rE0Ffswf0qCYJZAFqcSk65rpShFsSWOSVBejSYzU6aYkIeGstxpikke
+	AZiA1TW3GSVVirQhnrnljlpOHbE7/wyLsOsPGvpTdTkY4wyhmZu2PHao5AK1FJcIBWpl
+	VKePN/0WT8FkxS8/PWm5F24v5xho90BE5WsmBTqB5SpuSb5fouMruoCDz/478Y3w3aZX
+	z/YA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=3ILk0/QPW/O8jFjkf7vUi2ZTVsEv5ErClgo1UWfEugw=;
-	b=ffTdzGbae7d4XadRyyyoImt/r8PG3gK9Bhlvbdspa+Zhfh8NNzhBT6fUgyRF8hcmOw
-	cDh8x57QRZCqoDOGLAJeuVL49USpCTcCPsIFBcwIGbTMlnSmEMpX3r/S77KWQ57lT8RB
-	y+SvAKBko9EqcpNopMeSVVppOWKgWdi5lF6HLI1l1Se5JFXb/p/SzmQGF7aXES1bJsoj
-	gS/LWGFKRHtAs7e91aJ970srR06h4ZKQqLo+vYMuGie9dJE2qXoIxQ5sAs7YJo/EHBpj
-	wBm08aqgzsOwZMj89+icRFT46AnFZncfNTzIGr3Vebquwycq2Xbn1TPyfo03IItLPpx3
-	m4IA==
-X-Gm-Message-State: AOPr4FXxN5FTGDkMWYLPBULe+KMz96mT35AwLfkqcry0dChg12EJRR07GdMwETOQGjyWl973
-X-Received: by 10.194.179.200 with SMTP id di8mr4043587wjc.50.1461082943590;
-	Tue, 19 Apr 2016 09:22:23 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	lh1sm1046271wjb.20.2016.04.19.09.22.22
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 19 Apr 2016 09:22:22 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Apr 2016 17:22:17 +0100
-Message-Id: <1461082937-23752-2-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.0.rc3
-In-Reply-To: <1461082937-23752-1-git-send-email-ross.burton@intel.com>
-References: <1461082937-23752-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 2/2] boost: improve configure
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=s/zvuVuK1uOgjkEtwQZXrFJKVHrEfE9RVBm0RKD2wLY=;
+	b=E8CrBXC+5xLGds9yAygX9KwiE40CC0LVOxDQwPQF8/nNjaBBRjJly1Kn7iXs9GeupU
+	Je0ApnNDdgL6L1179fB6D8HXd6QSxHYNEDdNWv5C9ARtpfuILcEX47IPW+/bPAAOzCrQ
+	0hKs4/ax+rjjVZpLB9OkSA4VPgB/bsl8i/0tF/a1+lA5zo9vjuni5cv/be1NNR4m4F8M
+	BKSiphfZPnaeOHziOpkbOnYQP3w+IVd8QeKZVxgOeweG8eP6m8yGbnRGCpW2yY/Uk1AF
+	x1/c+6fpNo5ICGBWMG26d0RzWQnv+IMpafpsI9t1A8M31MFxRxtdAqceYIrYFqvYQr8W
+	YRNQ==
+X-Gm-Message-State: AOPr4FUwkeVCSNOi94p3MHJOmGN1P2fjjlvysvRmfL3hqPp94FXEE5nk+wzvY+apUsJo80rmQ2jl95cnEp6RGgNo
+X-Received: by 10.107.134.84 with SMTP id i81mr4512446iod.99.1461084118838;
+	Tue, 19 Apr 2016 09:41:58 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.9.106 with HTTP; Tue, 19 Apr 2016 09:41:39 -0700 (PDT)
+In-Reply-To: <CABcZANm7+ewyU8d2iMkMM6uNB7ZSBhcToE3g=rKWkAxrGCP85w@mail.gmail.com>
+References: <CAJTo0LZtDL-hbxXmYWdgf7HTZtSA4D2FgRKtx1+n6Rqxq50n=g@mail.gmail.com>
+	<CAMKF1spGMHQMVP_-mrHYmDnjM+DPk0mktK_e+9G1bekuP6PnUA@mail.gmail.com>
+	<1461019868.9308.224.camel@linuxfoundation.org>
+	<CAMKF1spKB=HXLipbo_qFBY6mo67LOWAB-uQxRA25ghZTwD=i5Q@mail.gmail.com>
+	<CABcZANm7+ewyU8d2iMkMM6uNB7ZSBhcToE3g=rKWkAxrGCP85w@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 19 Apr 2016 17:41:39 +0100
+Message-ID: <CAJTo0LZ+xC=STKFwa2J4Kv1Pw4ruLeG2HhAZnxrQV5aJN56XOg@mail.gmail.com>
+To: Christopher Larson <clarson@kergoth.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	"yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>
+Subject: Re: bugzilla.yoctoproject.org policy for bugs against multiple releases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,67 +61,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Apr 2016 16:22:23 -0000
+X-List-Received-Date: Tue, 19 Apr 2016 16:41:58 -0000
+Content-Type: multipart/alternative; boundary=001a113febc8e4046c0530d927de
 
-Instead of adding a custom task (do_boostconfig) simply use the existing
-do_configure.
+--001a113febc8e4046c0530d927de
+Content-Type: text/plain; charset=UTF-8
 
-Ensure that there are no relative paths in do_configure.
+On 19 April 2016 at 03:17, Christopher Larson <clarson@kergoth.com> wrote:
 
-Instead of editing the user-config.jam sample file in the source tree (which is
-entirely comments) and extending it on every build, create a new user-config.jam
-in ${WORKDIR}.
+> There may be something better out there, and if we can find it, great, but
+> I think separate issues is better than not addressing the issue at all, but
+> only if the tooling is good enough to help reduce overhead on the part of
+> the devs dealing with it. Issue tracker overhead gets pretty frustrating at
+> times.
+>
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-support/boost/boost.inc | 20 ++++++++------------
- 1 file changed, 8 insertions(+), 12 deletions(-)
+There may be a way of dealing with this using flags.  If we had a flag for
+each release then we could add a flag for each release which is impacted by
+the bug, and track when they're resolved by changing flag state.
 
-diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
-index 92c7bcb..5696b6a 100644
---- a/meta/recipes-support/boost/boost.inc
-+++ b/meta/recipes-support/boost/boost.inc
-@@ -142,7 +142,7 @@ def get_boost_parallel_make(d):
- BOOST_PARALLEL_MAKE = "${@get_boost_parallel_make(d)}"
- BJAM_OPTS    = '${BOOST_PARALLEL_MAKE} -d+2 -q \
- 		${BJAM_TOOLS} \
--		-sBOOST_BUILD_USER_CONFIG=${S}/tools/build/example/user-config.jam \
-+		-sBOOST_BUILD_USER_CONFIG=${WORKDIR}/user-config.jam \
- 		--build-dir=${S}/${TARGET_SYS} \
- 		--disable-icu \
- 		${BJAM_EXTRA}'
-@@ -150,23 +150,19 @@ BJAM_OPTS    = '${BOOST_PARALLEL_MAKE} -d+2 -q \
- # Native compilation of bzip2 isn't working
- BJAM_OPTS_append_class-native = ' -sNO_BZIP2=1'
- 
--do_boostconfig() {
--	cp -f boost/config/platform/linux.hpp boost/config/platform/linux-gnueabi.hpp
-+do_configure() {
-+	cp -f ${S}/boost/config/platform/linux.hpp ${S}/boost/config/platform/linux-gnueabi.hpp
- 
- 	# D2194:Fixing the failure of "error: duplicate initialization of gcc with the following parameters" during compilation.
--	sed -i "/^using gcc : 4.3.1/d" ${S}/tools/build/example/user-config.jam
--	sed -i "/^using python : ${PYTHON_BASEVERSION}"/d ${S}/tools/build/example/user-config.jam
--	echo 'using gcc : 4.3.1 : ${CXX} : <cflags>"${CFLAGS}" <cxxflags>"${CXXFLAGS}" <linkflags>"${LDFLAGS}" ;' >> ${S}/tools/build/example/user-config.jam
--	echo "using python : ${PYTHON_BASEVERSION} : : ${STAGING_INCDIR}/python${PYTHON_BASEVERSION} ;" >> ${S}/tools/build/example/user-config.jam
--	echo "using python : 3.5 : : ${STAGING_INCDIR}/python3.5m ;" >> ${S}/tools/build/example/user-config.jam
-+	rm -f ${WORKDIR}/user-config.jam
-+	echo 'using gcc : 4.3.1 : ${CXX} : <cflags>"${CFLAGS}" <cxxflags>"${CXXFLAGS}" <linkflags>"${LDFLAGS}" ;' >> ${WORKDIR}/user-config.jam
-+	echo "using python : ${PYTHON_BASEVERSION} : : ${STAGING_INCDIR}/python${PYTHON_BASEVERSION} ;" >> ${WORKDIR}/user-config.jam
-+	echo "using python : 3.5 : : ${STAGING_INCDIR}/python3.5m ;" >> ${WORKDIR}/user-config.jam
- 
- 	CC="${BUILD_CC}" CFLAGS="${BUILD_CFLAGS}" ./bootstrap.sh --with-bjam=bjam --with-toolset=gcc --with-python-root=${PYTHON_ROOT}
--	sed -i '/^using python/d' project-config.jam
-+	sed -i '/^using python/d' ${S}/project-config.jam
- }
- 
--do_boostconfig[dirs] = "${S}"
--addtask do_boostconfig after do_patch before do_configure
--
- do_compile() {
- 	set -ex
- 	rm -rf ${S}/${TARGET_SYS}
--- 
-2.8.0.rc3
+Ross
 
+--001a113febc8e4046c0530d927de
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 19 April 2016 at 03:17, Christopher Larson <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:clarson@kergoth.com" target=3D"_blank">clarson@kergoth.com</a>&g=
+t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div cl=
+ass=3D"gmail_quote"><div>There may be something better out there, and if we=
+ can find it, great, but I think separate issues is better than not address=
+ing the issue at all, but only if the tooling is good enough to help reduce=
+ overhead on the part of the devs dealing with it. Issue tracker overhead g=
+ets pretty frustrating at times.</div></div></div>
+</blockquote></div><br>There may be a way of dealing with this using flags.=
+=C2=A0 If we had a flag for each release then we could add a flag for each =
+release which is impacted by the bug, and track when they&#39;re resolved b=
+y changing flag state.</div><div class=3D"gmail_extra"><br></div><div class=
+=3D"gmail_extra">Ross</div></div>
+
+--001a113febc8e4046c0530d927de--
