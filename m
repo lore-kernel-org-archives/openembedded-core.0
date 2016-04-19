@@ -1,29 +1,40 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id D8A776012C
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id AAC6C6072C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Apr 2016 01:38:27 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 18 Apr 2016 18:38:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,504,1455004800"; d="scan'208";a="957860863"
-Received: from sadnan1-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.175.36])
-	by orsmga002.jf.intel.com with ESMTP; 18 Apr 2016 18:38:26 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Denys Dmytriyenko <denis@denix.org>
-Date: Tue, 19 Apr 2016 13:38:23 +1200
-Message-ID: <1922089.IxRdTHIprx@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.4.6-301.fc23.x86_64; KDE/4.14.18; x86_64; ;
-	)
-In-Reply-To: <20160419010127.GK16135@denix.org>
-References: <20160418221455.GJ16135@denix.org>
-	<1968586.YaUkzg8nud@peggleto-mobl.ger.corp.intel.com>
-	<20160419010127.GK16135@denix.org>
+	Tue, 19 Apr 2016 01:46:10 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u3J1k6rV023442
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 18 Apr 2016 18:46:07 -0700 (PDT)
+Received: from [128.224.162.159] (128.224.162.159) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 18 Apr 2016 18:46:06 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1459147231.git.hongxu.jia@windriver.com>
+	<62a9bef209d903048c1095d90387384115eb6fd5.1459147231.git.hongxu.jia@windriver.com>
+	<CALbNGRRL0O+j6axaHL3W2bKZLLyYEe1kxsiguZGL0=a1Lz8ryg@mail.gmail.com>
+	<571496CC.8010607@windriver.com>
+	<CALbNGRQwKQJxC+17UAoLBhhN9ZfXrYF4Ysur68NCD8v24Uavcw@mail.gmail.com>
+	<57149B89.2090607@windriver.com>
+	<CALbNGRTgnNYhN68zcDBKrhQ==fxP9wJ7wjj8pQ5jvMEgF=DF4g@mail.gmail.com>
+	<5714A30A.9000204@windriver.com>
+	<CALbNGRSBJSR4xMqCOUvu2yQcG38E=1UZBehkjmFZLdrtRyfamw@mail.gmail.com>
+	<5714AA1E.9020505@windriver.com>
+	<CALbNGRSe6B9-QRftL54DEEKrmCjxTt91K7FXk+CUzuGxjTvf5A@mail.gmail.com>
+	<5714DC35.7040206@windriver.com>
+	<CAJTo0LYTcA-c99-T_Z6q9Kn=X2C9Y1kBX+D6rzHrn+eLMUcSdA@mail.gmail.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <57158DDA.5090003@windriver.com>
+Date: Tue, 19 Apr 2016 09:46:02 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Package management DB in old-style SDK
+In-Reply-To: <CAJTo0LYTcA-c99-T_Z6q9Kn=X2C9Y1kBX+D6rzHrn+eLMUcSdA@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 01/17] conf/bitbake.conf package.bbclass: fix dbg package not contain sources while -fdebug-prefix-map used
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,52 +47,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Apr 2016 01:38:30 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 19 Apr 2016 01:46:10 -0000
+Content-Type: multipart/alternative;
+	boundary="------------020005020700030703020803"
 
-On Mon, 18 Apr 2016 21:01:27 Denys Dmytriyenko wrote:
-> On Tue, Apr 19, 2016 at 10:35:29AM +1200, Paul Eggleton wrote:
-> > Hi Denys,
-> > On Mon, 18 Apr 2016 18:14:55 Denys Dmytriyenko wrote:
-> > > I'm still using the old-style SDK (meta-toolchain) for our products due
-> > > to some code customizations in it and some of our use cases rely on the
-> > > opkg package management database being present in sysroots, so packages
-> > > can be manipulated in SDK with opkg command. It appears that
-> > > /var/lib/opkg is now empty and the package database is no longer
-> > > supplied with the SDK.
-> > > 
-> > > I know about the new-style populate_sdk and the even newer Extensible
-> > > SDK, but not yet ready to convert our old use cases to that. Since there
-> > > were lots of changes around the way SDKs work in OE-Core in the past
-> > > couple releases, I'm failing to find the change that causes opkg DB to
-> > > be missing from the old style SDK. I'll appreciate any pointers in
-> > > helping me debug and/or fix this issue with my SDKs. Thanks.
-> > 
-> > As far as ipk is concerned I think it was this commit:
-> >   http://cgit.openembedded.org/openembedded-core/commit/?id=c8e0ec2da9ad4c
-> >   e1c103966906a85f68c15400dd> 
-> > Unfortunately it wasn't made optional.
-> 
-> Thanks, Paul!
-> 
-> Unfortunately, the change is in the library, which is quite difficult to
-> override in another layer...
-> 
-> Will there be any objections for making that change optional with the
-> default being like it is now, but with the ability to restore the old way
-> with a variable?
+--------------020005020700030703020803
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-As long as we make it have the same effect across the three different package 
-managers, no objection from me at least. Thinking about it we could even make 
-it switch based on package-management being in SDKIMAGE_FEATURES and then it 
-would be consistent with how it works for images as well.
+On 04/18/2016 09:55 PM, Burton, Ross wrote:
+>
+> On 18 April 2016 at 14:08, Hongxu Jia <hongxu.jia@windriver.com 
+> <mailto:hongxu.jia@windriver.com>> wrote:
+>
+>     If sysroot is required, override DEBUG_FLAGS to remove
+>     -fdebug-prefix-map
+>
+>
+> We should probably get this in the release notes, as many people do 
+> indeed want remote debug to work.
+>
+> Can you tell gdb the base path to use when looking for symbols?  I've 
+> not done remote GDB for some time but wouldn't "set substitute-path / 
+> //my/sysroot/" work?  Or maybe /usr /my/sysroot/usr?
+>
+> If gdb can't be told then instead of having to replace all of 
+> DEBUG_FLAGS it would be neat if the prefix mapping variables where in 
+> another variable that could just be unset.
+>
 
-Cheers,
-Paul
+OK, I will try to work on GDB to let remote debug to work.
 
--- 
+//Hongxu
 
-Paul Eggleton
-Intel Open Source Technology Centre
+> Ross
 
+
+--------------020005020700030703020803
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">On 04/18/2016 09:55 PM, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LYTcA-c99-T_Z6q9Kn=X2C9Y1kBX+D6rzHrn+eLMUcSdA@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 18 April 2016 at 14:08, Hongxu Jia
+            <span dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:hongxu.jia@windriver.com" target="_blank">hongxu.jia@windriver.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id=":c2" class="a3s aXjCH">If sysroot is required,
+                override DEBUG_FLAGS to remove -fdebug-prefix-map<br>
+              </div>
+            </blockquote>
+            <div><br>
+            </div>
+            <div>We should probably get this in the release notes, as
+              many people do indeed want remote debug to work.</div>
+            <div><br>
+            </div>
+            <div>Can you tell gdb the base path to use when looking for
+              symbols?  I've not done remote GDB for some time but
+              wouldn't "set substitute-path / //my/sysroot/" work?  Or
+              maybe /usr /my/sysroot/usr?</div>
+            <div><br>
+            </div>
+            <div>If gdb can't be told then instead of having to replace
+              all of DEBUG_FLAGS it would be neat if the prefix mapping
+              variables where in another variable that could just be
+              unset.</div>
+            <div><br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+    OK, I will try to work on GDB to let remote debug to work.<br>
+    <br>
+    //Hongxu<br>
+    <br>
+    <blockquote
+cite="mid:CAJTo0LYTcA-c99-T_Z6q9Kn=X2C9Y1kBX+D6rzHrn+eLMUcSdA@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra">
+          <div class="gmail_quote">
+            <div>Ross</div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------020005020700030703020803--
