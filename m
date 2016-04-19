@@ -1,46 +1,46 @@
-Return-Path: <eu@felipetonello.com>
-Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 39D5B62133
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
+	by mail.openembedded.org (Postfix) with ESMTP id D8FD56FEF6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Apr 2016 16:07:46 +0000 (UTC)
-Received: by mail-wm0-f44.google.com with SMTP id v188so168661299wme.1
+	Tue, 19 Apr 2016 16:22:21 +0000 (UTC)
+Received: by mail-wm0-f48.google.com with SMTP id e201so20280766wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Apr 2016 09:07:48 -0700 (PDT)
+	Tue, 19 Apr 2016 09:22:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=felipetonello-com.20150623.gappssmtp.com; s=20150623;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id;
-	bh=QoMQ1TCx9/yH7pmADcvteS3neYaX4RObp/Vcc+F14nU=;
-	b=EJr250ALW8tEM05ecEQdiWoCq9Lw+tXxhejMBP8JBuDfcMhgbt3Pn5b86qX4bXWvdG
-	7CAxR7ABtIE+PDIL7KX6ErUPhQYnQ9xhnduhnJi0yi8JFiPP26JPAz15mAk+UM6QN0r/
-	cAHdo2sW9AnNXvI6QyIJIOcLqHN+oC2rDHqPF8hCgiczvl7ZrFGv0S3dNi6jesSeUrlA
-	9kNkZMIkspcvqiED7HWFff8JgCN0oaStE3JWdl5UimXQA/lU2ucCyK22OnKM6yIJ6Kev
-	hIN34xT6qtz3GL++F6Zw7uwr42i88ndcVyWf2LZw6QL50vPL48w/a6oI4CG5bcxHh51r
-	yCnw==
+	bh=P8JTfg3lx+cPShkQxLnIXMmKsT4VWKByDIuPnnteuEY=;
+	b=h1XmYbaed2IHbxD68RRgVK0sDbmH1XroF/orzmnFYsc7gslFQ1G0eNRy02bk64jp7i
+	iObke59JvJ0h3FsfQZQfUTZFJWwJWD9My2zmgT3KfCmmlNo69vutFifDNMkm6a8VyCgS
+	89e51YVkSxC+xsNLNRJoYVEJvA72DWJCIlTBqLZLLfV6ZGUDJmjm2bdiFh6IJxiwTh/a
+	d5GzCQw7fnKdME7YNMI5PIw3BYJB3fXYm1O4fXsFZa5zI2uxj/9IuSOnbg7ZKDkZ7+dZ
+	oSrrtBePR0awqYFpL5+ktFA+bGhSv5fwUp7fS1IOy7wooWTbTIJzrrQGH36/XDFZz8ou
+	96Vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=QoMQ1TCx9/yH7pmADcvteS3neYaX4RObp/Vcc+F14nU=;
-	b=AS/F6CHqm3N6wCln8hiQxfk0UeNsL0ewZjJvnGaE/OrUveXDPlATxGPQwJzyaTTDcz
-	VezqpnZgVUCj3VIL13x4xNUkVETWCo8iKVw39cCzn75LsG8tHEyIfWSFOVfM87HjBpge
-	GKlqVepVikaJ3Xonk3YCZKuk7ZqLw8NJYhwkIUq1hXOlLMa8o1Qjs8YjZ25oX/OJrUST
-	YewQzNh4yFRirlVqdumrayloOtIGvCgRUrzyODyTPlgWOuHIRegxindIrGCJ4ODyoTsH
-	R6XdlV/9/x5M0//fsasDX8Y2GaQprHerS/fz63nVbRPeboCPQMPY56Gcm2ms37qRy9zm
-	h3uw==
-X-Gm-Message-State: AOPr4FWdafOGXMwOZr1mQhOpbsd8zyeWc3qFo4vsiBoV0hGecl2Sud17+leCLjXHBdl6fQ==
-X-Received: by 10.28.234.11 with SMTP id i11mr4551881wmh.76.1461082067287;
-	Tue, 19 Apr 2016 09:07:47 -0700 (PDT)
-Received: from felipe-arch.localdomain ([81.145.202.106])
+	bh=P8JTfg3lx+cPShkQxLnIXMmKsT4VWKByDIuPnnteuEY=;
+	b=U6NQNgDbZG4VakbTEpu01jqJaydWBBstKyKtsEqkPdV7DbWobvh1l2A2z4qrw/yyet
+	nEZ2tk11vX2aCFSR3PkGNdivCw7czeXSW3PW8i5B70bhqFMkyvQnQloQVZXa/CiCxA04
+	Z8/PGceopkqc+1LBcioi/rJ9tdIiwqaL46bJK/7RsQiyKGzpkaC4e2md/quHHNcxbj3m
+	0VjXH5shW7hBDg59cCyX25wlK8ioycEnqwb/3NRmWwlmzFN5yryQxwJwrjfuJPjAMevz
+	pAQgv/X5PL5Rn0DU/xl45xeqf+dw3EDlhRwhhAOwl/Irp5LIw1Jf/Y3WiUsm+56Y4ZNL
+	Sd8A==
+X-Gm-Message-State: AOPr4FXpnGOjZGjjjCSaZsCnkGPlSioWln3Oa0AAK5DNh+aHo/R+ixrDzYQaDPen195LzzAY
+X-Received: by 10.194.3.20 with SMTP id 20mr4679485wjy.59.1461082941977;
+	Tue, 19 Apr 2016 09:22:21 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
 	by smtp.gmail.com with ESMTPSA id
-	a202sm20407579wme.1.2016.04.19.09.07.46
+	lh1sm1046271wjb.20.2016.04.19.09.22.20
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 19 Apr 2016 09:07:46 -0700 (PDT)
-From: "Felipe F. Tonello" <eu@felipetonello.com>
+	Tue, 19 Apr 2016 09:22:21 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Apr 2016 17:10:56 +0100
-Message-Id: <1461082256-28654-1-git-send-email-eu@felipetonello.com>
-X-Mailer: git-send-email 2.8.0
-Subject: [PATCH] packagegroup-core-tools-profile: Enable valgrind on ARMv7a and above
+Date: Tue, 19 Apr 2016 17:22:16 +0100
+Message-Id: <1461082937-23752-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.0.rc3
+Subject: [PATCH 1/2] boost: delete the build directory before rebuilding
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,43 +53,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Apr 2016 16:07:47 -0000
+X-List-Received-Date: Tue, 19 Apr 2016 16:22:22 -0000
 
-Fixes: e5f41c221356 ("task-core-tools-profile: fix valgrind for arm and
-systemtap for mips")
+If there is an existing build directory when do enter do_compile() then delete
+it, as it contains the previous build.  If the rebuild was caused because
+dependencies have changed we want to ensure that a rebuild actually happens.
 
-Valgrind works on ARMv7a and above.
-
-Signed-off-by: Felipe F. Tonello <eu@felipetonello.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ meta/recipes-support/boost/boost.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-index ff2b5779a203..b6520d6779d7 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-@@ -59,7 +59,7 @@ LTTNGMODULES = "lttng-modules"
+diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+index 982446c..92c7bcb 100644
+--- a/meta/recipes-support/boost/boost.inc
++++ b/meta/recipes-support/boost/boost.inc
+@@ -169,6 +169,7 @@ addtask do_boostconfig after do_patch before do_configure
  
- BABELTRACE = "babeltrace"
- 
--# valgrind does not work on mips
-+# valgrind does not work on the following configurations/architectures
- 
- VALGRIND = "valgrind"
- VALGRIND_libc-uclibc = ""
-@@ -68,7 +68,9 @@ VALGRIND_mips = ""
- VALGRIND_mips64 = ""
- VALGRIND_mips64n32 = ""
- VALGRIND_nios2 = ""
--VALGRIND_arm = ""
-+VALGRIND_armv4 = ""
-+VALGRIND_armv5 = ""
-+VALGRIND_armv6 = ""
- VALGRIND_aarch64 = ""
- 
- RDEPENDS_${PN} = "\
+ do_compile() {
+ 	set -ex
++	rm -rf ${S}/${TARGET_SYS}
+ 	bjam ${BJAM_OPTS} --prefix=${prefix} \
+ 		--exec-prefix=${exec_prefix} \
+ 		--libdir=${libdir} \
 -- 
-2.8.0
+2.8.0.rc3
 
 
