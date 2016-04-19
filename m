@@ -1,20 +1,33 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 138356FF5D
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id EBC5B605BB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Apr 2016 11:23:33 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 19 Apr 2016 04:23:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,506,1455004800"; d="scan'208";a="935545165"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 19 Apr 2016 04:23:17 -0700
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Apr 2016 14:23:28 +0300
-Message-Id: <1461065008-31404-1-git-send-email-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.8.0.rc3
-Subject: [PATCH] git: update to 2.7.4
+	Tue, 19 Apr 2016 12:18:30 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u3JCIUZs025892; Tue, 19 Apr 2016 07:18:30 -0500
+Received: from adi-pc-linux.emea.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016041907181367-66561 ;
+	Tue, 19 Apr 2016 07:18:13 -0500 
+Date: Tue, 19 Apr 2016 15:17:56 +0300
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Message-ID: <20160419151756.65c09607@adi-pc-linux.emea.corp.natinst.com>
+In-Reply-To: <20160418132411.GA27403@linux.intel.com>
+References: <1460983582-15284-1-git-send-email-adrian.ratiu@ni.com>
+	<20160418132411.GA27403@linux.intel.com>
+Organization: National Instruments
+MIME-Version: 1.0
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 04/19/2016 07:18:13 AM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 04/19/2016 07:18:13 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-04-19_09:, , signatures=0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] wic: isoimage-isohybrid: implement grubefi menu logic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,54 +40,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Apr 2016 11:23:34 -0000
+X-List-Received-Date: Tue, 19 Apr 2016 12:18:33 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-This should also fix recent CVEs:
-https://ma.ttias.be/remote-code-execution-git-versions-client-server-2-7-1-cve-2016-2324-cve-2016-2315/
+Hello Ed,
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- meta/recipes-devtools/git/git_2.7.2.bb | 11 -----------
- meta/recipes-devtools/git/git_2.7.4.bb | 11 +++++++++++
- 2 files changed, 11 insertions(+), 11 deletions(-)
- delete mode 100644 meta/recipes-devtools/git/git_2.7.2.bb
- create mode 100644 meta/recipes-devtools/git/git_2.7.4.bb
+I've tested it on Jethro. Sorry about this. I'll look at the changes in wic=
+'s kickstart and redo/resubmit.
 
-diff --git a/meta/recipes-devtools/git/git_2.7.2.bb b/meta/recipes-devtools/git/git_2.7.2.bb
-deleted file mode 100644
-index 3fd7151..0000000
---- a/meta/recipes-devtools/git/git_2.7.2.bb
-+++ /dev/null
-@@ -1,11 +0,0 @@
--require git.inc
--
--EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
--                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
--                 "
--EXTRA_OEMAKE += "NO_GETTEXT=1"
--
--SRC_URI[tarball.md5sum] = "162ddc6c9b243899ad67ebd6b1c166b1"
--SRC_URI[tarball.sha256sum] = "58959e3ef3046403216a157dfc683c4d7f0dd83365463b8dd87063ded940a0df"
--SRC_URI[manpages.md5sum] = "7bb067d6363f537b92c3b8b813ff9ed6"
--SRC_URI[manpages.sha256sum] = "e6b5481fd6e24a1d1b155ef17363b313d47025bf6da880737fa872ab78e24f15"
-diff --git a/meta/recipes-devtools/git/git_2.7.4.bb b/meta/recipes-devtools/git/git_2.7.4.bb
-new file mode 100644
-index 0000000..bc72793
---- /dev/null
-+++ b/meta/recipes-devtools/git/git_2.7.4.bb
-@@ -0,0 +1,11 @@
-+require git.inc
-+
-+EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
-+                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
-+                 "
-+EXTRA_OEMAKE += "NO_GETTEXT=1"
-+
-+SRC_URI[tarball.md5sum] = "c64012d491e24c7d65cd389f75383d91"
-+SRC_URI[tarball.sha256sum] = "7104c4f5d948a75b499a954524cb281fe30c6649d8abe20982936f75ec1f275b"
-+SRC_URI[manpages.md5sum] = "58020dc13a5801c49f7986fef7027535"
-+SRC_URI[manpages.sha256sum] = "0dfe1931ad302873470e0280248e3aa50502b5edd00dcc3e9c9173667b6fea6a"
--- 
-2.8.0.rc3
+Thank you,
+Ioan
+
+On Mon, 18 Apr 2016 16:24:11 +0300
+Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
+
+> Hi Ioan-Adrian,
+>=20
+> Did you test if this patch works on master?
+> From the first look I'd say it will not work as --menu bootloader
+> option is not implemented there.
+>=20
+> On Mon, Apr 18, 2016 at 03:46:22PM +0300, Ioan-Adrian Ratiu wrote:
+> > Right now isoimage-isohybrid creates a single boot menu entry "boot"
+> > and passes it the arguments supplied with "--append". There is logic
+> > for creating custom grub menus, but it is sadly not used. "boot" is
+> > hardcoded.
+> >=20
+> > This change makes isoimage use the wic bootloader "--menu" argument to
+> > create its menus. The syntax used for menu specification was chosen so
+> > it does not conflict with the kernel parameter syntax (you can pass
+> > custom kernel arguments from the generated grub menu entries, like for
+> > example silent booting, thread affinity etc.).
+> >=20
+> > The "--menu" argument syntax is as following. The argument supplies a
+> > collection of menu entry names and kernel parameters. Menu name entries
+> > can contain any ASCII character except | or : which are separators.
+> > Kernel parameters obey the syntax defined by the kernel documentation.
+> > | is the menu separator and : is the separator between the menu names
+> > and parameters.
+> >=20
+> > Example for use in wks files:
+> >   --menu "Menu Name:firstarg,secondard|Menu Name 2:anotherarg,otherarg"
+> >=20
+> > Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+> > ---
+> >  .../lib/wic/plugins/source/isoimage-isohybrid.py   | 35 ++++++++++++++=
+++------
+> >  1 file changed, 26 insertions(+), 9 deletions(-)
+> >=20
+> > diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scr=
+ipts/lib/wic/plugins/source/isoimage-isohybrid.py
+> > index bc99283..4b0b035 100644
+> > --- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+> > +++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+> > @@ -101,23 +101,40 @@ class IsoImagePlugin(SourcePlugin):
+> >              splashline =3D ""
+> > =20
+> >          bootloader =3D creator.ks.bootloader
+> > +        kernel =3D "/bzImage"
+> > +        default=5Foptions =3D bootloader.append
+> > +        default=5Fmenu=5Fto=5Fboot =3D "Default boot"
+> > +        grub=5Fmenus =3D ""
+> > +
+> > +        # menu separators are '|', custom boot args separated by ':', =
+ex.
+> > +        # --menu "Menu Name:firstarg,secondard|Menu Name 2:anotherarg,=
+otherarg"
+> > +        for menu in bootloader.menus.split('|'):
+> > +            menu=5Flist =3D menu.split(":")
+> > +            menu=5Fname =3D menu=5Flist[0]
+> > +            grub=5Fmenu=5Foptions =3D ""
+> > +
+> > +            if (len(menu=5Flist) > 1):
+> > +                menu=5Fparams =3D menu=5Flist[1]
+> > +                for param in menu=5Fparams.split(','):
+> > +                    if param.lower() =3D=3D "default":
+> > +                        default=5Fmenu=5Fto=5Fboot =3D menu=5Fname
+> > +                    else: grub=5Fmenu=5Foptions +=3D " " + param
+> > +
+> > +            grub=5Fmenus +=3D "menuentry '%s' {\n" % menu=5Fname
+> > +            grub=5Fmenus +=3D "linux %s rootwait %s %s\n" % \
+> > +                (kernel, default=5Foptions, grub=5Fmenu=5Foptions)
+> > +            grub=5Fmenus +=3D "initrd /initrd \n"
+> > +            grub=5Fmenus +=3D "}\n"
+> > =20
+> >          grubefi=5Fconf =3D ""
+> >          grubefi=5Fconf +=3D "serial --unit=3D0 --speed=3D115200 --word=
+=3D8 "
+> >          grubefi=5Fconf +=3D "--parity=3Dno --stop=3D1\n"
+> > -        grubefi=5Fconf +=3D "default=3Dboot\n"
+> > +        grubefi=5Fconf +=3D "default=3D%s\n" % default=5Fmenu=5Fto=5Fb=
+oot
+> >          grubefi=5Fconf +=3D "timeout=3D%s\n" % (bootloader.timeout or =
+10)
+> >          grubefi=5Fconf +=3D "\n"
+> >          grubefi=5Fconf +=3D "search --set=3Droot --label %s " % part.l=
+abel
+> >          grubefi=5Fconf +=3D "\n"
+> > -        grubefi=5Fconf +=3D "menuentry 'boot'{\n"
+> > -
+> > -        kernel =3D "/bzImage"
+> > -
+> > -        grubefi=5Fconf +=3D "linux %s rootwait %s\n" \
+> > -            % (kernel, bootloader.append)
+> > -        grubefi=5Fconf +=3D "initrd /initrd \n"
+> > -        grubefi=5Fconf +=3D "}\n"
+> > +        grubefi=5Fconf +=3D grub=5Fmenus
+> > =20
+> >          if splashline:
+> >              grubefi=5Fconf +=3D "%s\n" % splashline =20
+>=20
+> --
+> Regards,
+> Ed
 
 
