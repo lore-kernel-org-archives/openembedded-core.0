@@ -1,57 +1,48 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 82D0D6FEE0
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 38104606A8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Apr 2016 09:49:03 +0000 (UTC)
-Received: by mail-wm0-f54.google.com with SMTP id u206so19830572wme.1
+	Tue, 19 Apr 2016 10:29:52 +0000 (UTC)
+Received: by mail-wm0-f43.google.com with SMTP id u206so21622287wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Apr 2016 02:49:04 -0700 (PDT)
+	Tue, 19 Apr 2016 03:29:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=vBXtK1vTojeFb5w4lKyLymXTKmm/PehqynbSYgdUA4Q=;
-	b=ckVEmbiAfX8vuqe8ZDB1rcE7Up2xRkMvASNlkvf9j1SzXzuL/ucVAZWgYBKmAp4XNm
-	WLb8HuxFeBQqTk0GO+dBq76fEUYYtaz+uTFTI9tibM+7Jg+M/yaR/+kY0KIPAlUbbZUk
-	MEj66QK4zc9GK1NqoVBIBDZl4E6/bU4bCYXitmSTJFmDRzSTXfhMs28EIin2RkUCwByG
-	VZekXlqnNIbLzXzFuZzyyXbCbJyClPkY67w364DZPz0IuOxszp1lCboTW4aXK6eE6sao
-	7zfZKuh14R96ueZzbMW5IFJU6E/cqmyI41v5/MXX0S2xQc8EPcwu9KEVEUlybQureKld
-	q1Eg==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=UCbbh9y/6/p9S+LViDl9XrxFiYaaEWIkiQvzcHnYMxo=;
+	b=Xhl8ptLk1sT7+cKNA/Spo/q2K6dxPkZsncKYshW2yIf2yrj9EGXEPdnLb/E6vfGD1f
+	6OgrlON8ELH/qT7eexAIVu5wlDWfFmqwomcRk1xfWgt9p/NDTJKs4RuggoZUfJM4TB/E
+	mM5aI4gV8DA4UGU/TcyM32TiF1+iSAlht8YwDSfvtC294xPIFYi3n5Fs7AhrFTAvE+HD
+	tuJEr3OOsu4g3v0o8ntGBqAOIs5KZh6vTVPesjvcW+5yZ6VzLskFxcH3/qagaaPboLyq
+	g6ki2iRNaBrQDPVUSpr+vCdyHpc5+qr6nZZ+rFT3ey3g6ZLtV/UNzWdBCS+Fcyja5egS
+	A8zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=vBXtK1vTojeFb5w4lKyLymXTKmm/PehqynbSYgdUA4Q=;
-	b=bsuZYOjXdnxtZwJEbxC5kViDRA7e2V70kO9QdEtjcatchR1uwn0CBbzhM2q0viftBE
-	o1tkXvDNqLBuDNiHWXWMHteFVkjGJnPK9ID4uaaZ9dNpa/04WdUzxq8YQVVMspOTLm0X
-	G6jT4n+xZhVvcPTCDog+R9S2/ZmZ5Xg3lhLZd95Y2ieE2S0TM80AGZwpyW6mBYRNwVTO
-	aXviixRFRJSHRd5z6147p7oXTMtq0Um7gFCx0/doFfhVDO9/fRhAhmL9z7nu1EfLfQnQ
-	xO+/Kp45O1CTcGBMtUu4cZq+/qNPeZTUwE8s2RlQp5NJ19k2DbYkhdWH4UQOgQa6iIEW
-	wnsQ==
-X-Gm-Message-State: AOPr4FXyZk/VYV5EHOYI1tsGhLP6F7d1hx8DBWwtD91SP93W1DMEuTW8bceQDx7CikrinA==
-X-Received: by 10.28.226.213 with SMTP id z204mr1951889wmg.99.1461059343083;
-	Tue, 19 Apr 2016 02:49:03 -0700 (PDT)
-Received: from localhost ([86.49.34.37]) by smtp.gmail.com with ESMTPSA id
-	dd10sm68700414wjb.38.2016.04.19.02.49.00
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=UCbbh9y/6/p9S+LViDl9XrxFiYaaEWIkiQvzcHnYMxo=;
+	b=N/sc6xT0H6uYt3TkZyOVRsw05X27ASnbKJP58wE98uiJYPip4wtRB40m7yfWUNkkz+
+	myhl4edOe5HGee+AbVSmCHjHej7T554SJsdLJCyk+6m6VozdKwWJBW1ZcDNx43oQOS6h
+	tCQo4bdQMiUH6RWD94A2a15FsvZ7a982/R+1e6zEjl+ULzdXNUZEVaqNIPt5oRANg/ek
+	ZuRZD2o2DqXnQqvBpF5Yb7hrxk654K4dzejii+w+SjblEO7GXnYfQ0WeBsiAVGmeS+N3
+	rsqdq0zO/THzBzU0F8yMUg+q1iGNBujJDhbzMJ3jAVhD5NyX3oF243K/ACRsPnxmwWer
+	5k6A==
+X-Gm-Message-State: AOPr4FXbllD/WFJgAEcslhlnMbTumLemUu11w0w6uv6r5KEm01+L6EvtXFROmIxb3PRwYg==
+X-Received: by 10.28.147.135 with SMTP id v129mr22299097wmd.65.1461061793112; 
+	Tue, 19 Apr 2016 03:29:53 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	ys9sm68567852wjc.35.2016.04.19.03.29.51
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 19 Apr 2016 02:49:00 -0700 (PDT)
+	Tue, 19 Apr 2016 03:29:51 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 19 Apr 2016 11:50:52 +0200
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Message-ID: <20160419095052.GB2562@jama>
-References: <1456610987-17836-1-git-send-email-Martin.Jansa@gmail.com>
-	<CAJTo0LaVL04OQaipNFn1hyCGruFZ7itmrxH00i=L+OkcsZexQw@mail.gmail.com>
-	<20160325105025.GC2555@jama>
-	<1458905339.3073.53.camel@linuxfoundation.org>
-	<20160325115503.GE2555@jama>
-	<CAP9ODKpZc=zKfUHtbJOJt5sTdXDkrEOMdKOZXBkxPUJCwmxFyg@mail.gmail.com>
-	<1461019553.9308.223.camel@linuxfoundation.org>
-	<CAP9ODKoNFy_=_q4mCDnr7hCbtKccmjAfwK=4Syrn8pd9UyJs4w@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAP9ODKoNFy_=_q4mCDnr7hCbtKccmjAfwK=4Syrn8pd9UyJs4w@mail.gmail.com>
-User-Agent: Mutt/1.6.0 (2016-04-01)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][RFC] base.bbclass: Introduce EXTRA_CONF_PACKAGECONFIG variable
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 19 Apr 2016 12:31:40 +0200
+Message-Id: <1461061900-27444-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.8.1
+In-Reply-To: <20160419095052.GB2562@jama>
+References: <20160419095052.GB2562@jama>
+Subject: [PATCH] base.bbclass: Introduce PACKAGECONFIG_CONFARGS variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,79 +55,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Apr 2016 09:49:05 -0000
-X-Groupsio-MsgNum: 81001
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="ftEhullJWpWg/VHq"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 19 Apr 2016 10:29:56 -0000
 
---ftEhullJWpWg/VHq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+* add separate variable for configuration options generated from
+  PACKAGECONFIG setting, this helps other bbclasses and recipes
+  to take advantage of PACKAGECONFIG mechanism, without including
+  other options from EXTRA_OECONF
+* e.g. meta-qt5 recipes are abusing EXTRA_OECONF to get options
+  from PACKAGECONFIG:
+  EXTRA_QMAKEVARS_PRE +=
+  but with
+  conf/distro/include/no-static-libs.inc
+  it means getting --disable-static as invalid option inside
+  EXTRA_QMAKEVARS_PRE as reported by Alexandre Belloni who tried
+  to use poky with meta-qt5.
+* once we migrate all bbclasses and recipes to PACKAGECONFIG_CONFARGS
+  we should also restrict EXTRA_OECONF append only to autotools.bbclass
+  like I did for cmake.bbclass
 
-On Mon, Apr 18, 2016 at 07:49:51PM -0300, Otavio Salvador wrote:
-> On Mon, Apr 18, 2016 at 7:45 PM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > On Mon, 2016-04-18 at 19:31 -0300, Otavio Salvador wrote:
-> >> On Fri, Mar 25, 2016 at 8:55 AM, Martin Jansa <martin.jansa@gmail.com
-> >> > wrote:
-> >> > Was there some agreement about variable name?
-> >>
-> >> meta-qt5 5.6 is using this so we need a final decision if it will be
-> >> merged or not. I am in favor it as I think it is clear enough.
-> >
-> > It was an RFC and I still don't get a good feeling about the names
-> > used.
-> >
-> > I suggested:
-> >
-> > PACKAGECONFIG_CONFPARAMS
-> > or
-> > PACKAGECONFIG_CONFARGS
->=20
-> I like CONFARGS.
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes/base.bbclass  | 9 ++++++---
+ meta/classes/cmake.bbclass | 2 ++
+ 2 files changed, 8 insertions(+), 3 deletions(-)
 
-I'll send patch with PACKAGECONFIG_CONFARGS and wait until it's merged
-somewhere, before updating usages of this in other layers (so that I
-don't need to redo it again if the name is changed again).
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index f9697a9..0259259 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -428,9 +428,12 @@ python () {
+                     extraconf.append(items[1])
+         appendVar('DEPENDS', extradeps)
+         appendVar('RDEPENDS_${PN}', extrardeps)
+-        if bb.data.inherits_class('cmake', d):
+-            appendVar('EXTRA_OECMAKE', extraconf)
+-        else:
++        appendVar('PACKAGECONFIG_CONFARGS', extraconf)
++
++        # TODO once are all recipes/bbclass abusign EXTRA_OECONF
++        # to get PACKAGECONFIG options fixed to use PACKAGECONFIG_CONFARGS
++        # move this append to autotools.bbclass
++        if not bb.data.inherits_class('cmake', d):
+             appendVar('EXTRA_OECONF', extraconf)
+ 
+     pn = d.getVar('PN', True)
+diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+index 22cd61e..02f313a 100644
+--- a/meta/classes/cmake.bbclass
++++ b/meta/classes/cmake.bbclass
+@@ -27,6 +27,8 @@ OECMAKE_EXTRA_ROOT_PATH ?= ""
+ OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM = "ONLY"
+ OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM_class-native = "BOTH"
+ 
++EXTRA_OECMAKE_append = " ${PACKAGECONFIG_CONFARGS}"
++
+ # CMake expects target architectures in the format of uname(2),
+ # which do not always match TARGET_ARCH, so all the necessary
+ # conversions should happen here.
+-- 
+2.8.1
 
-> > as it then makes things slightly clearer these things are coming from
-> > PACKAGECONFIG. We have a namespace which is a bit of a mess and I'd
-> > prefer to try and improve with new things if we can...
-> >
-> > The fact meta-qt5 is already using this is bad, it really shouldn't be.
-> > We're also very close to the final build of 2.1 right now so this would
-> > be a very late change :/.
 
-meta-qt5/master isn't using it, it's only in master-next, because
-without this change the builds are broken when people use
-openembedded-core/meta/conf/distro/include/no-static-libs.inc
-e.g. with default Poky config.
-
-> I think it is a safe change but I am fine in postponing it for 2.2. In
-> this case we need to revert the usage of it in meta-qt5 (which I also
-> support).
-
-Nothing needs to be reverted, because it wasn't merged in any permanent
-layer.
-
-If it doesn't go to 2.1 then I'll leave meta-qt5/krogoth version broken
-for Poky builds with no-static-libs.inc.
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---ftEhullJWpWg/VHq
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlcV/3sACgkQN1Ujt2V2gByz8gCeP+kLrWl8J4lyyo6mga7U5NwA
-sfAAn1cBuD/VLk2cRN6rUexl4tINiFWe
-=/aKX
------END PGP SIGNATURE-----
-
---ftEhullJWpWg/VHq--
