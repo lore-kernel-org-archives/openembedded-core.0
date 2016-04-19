@@ -1,46 +1,49 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f171.google.com (mail-pf0-f171.google.com
-	[209.85.192.171])
-	by mail.openembedded.org (Postfix) with ESMTP id E6B3F6013D
+Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
+	[209.85.220.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 806B76013D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Apr 2016 23:51:04 +0000 (UTC)
-Received: by mail-pf0-f171.google.com with SMTP id 184so11701701pff.0
+	Tue, 19 Apr 2016 23:51:06 +0000 (UTC)
+Received: by mail-pa0-f49.google.com with SMTP id fs9so11407848pac.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Apr 2016 16:51:05 -0700 (PDT)
+	Tue, 19 Apr 2016 16:51:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=nTYDQwLt4JXzkOAaTMxGJlrnxQQ6/XoxizwRhEkRT1k=;
-	b=fW+l5sOwFv1Jopg1sQFcHIwxZ0oLURxUNLoR2IGrA49RfIrlUFbIT22Ji6+9N3Eh6E
-	ekjBnB84j4cYFrSlPMWxClwng89o8lM+qKe9N7B5bTCaztvokjHD3/IR97deT9nBx536
-	tm/YcsLN0W0meAeC2zivUT+viN20ejQIXnzv6zsoIKw8CZTpha/T+zRV3MBv6Q0gGoBu
-	hByCmB6XWZgKaWNcg1Qe3JYjNpaJWs3DQcMbGrRhA970UDx02GSY1TunsYBKKrDjT/qT
-	/aJP89Np7QL8UcekPrH/cu07EBJg0O+dt8oNTaELIuREOA5Ct1WCTH300LSj+HCEOtTW
-	5ptQ==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=8cvZ0+z4cVFjrjJO5LH3oVRIKuQbvGgA26j1jrXFHfc=;
+	b=rnW8iCM7q7CUskJktYtD23X1F7iKA3YGkkgnti4AXB+/GHEsDwWb+MZUfcAtTYWJGg
+	l6APbpzAOx+klnj0sOowhmJSwy/jvaJh3NQEJ9h6ZDGQemuyzbasToB8z78zPkeVwwnj
+	/K53RFdxAIdZrLNiDEu1ONBlJGqCPs5LnkAIxJ6K2DX+3+vSD5xQ839u2HWRnhiR0osj
+	PdIMOHp2+z+xfi41vFmRZqx5pMX2YA9LafvdGxLuvdwdonrvL6t9EbaBpcSJOeFPK8UP
+	OXQs4YQM0eu0h+oERmToKFzxOw9GH8qIaL5XY5/EduLhBrfo0EwuFZQbpqsQz2GhHJQw
+	ll8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=nTYDQwLt4JXzkOAaTMxGJlrnxQQ6/XoxizwRhEkRT1k=;
-	b=ZJGiYABdLCfTzU6ZzUqZ8Va5EwSyk9aZxqh6LiVZzHWHhexzbqfmri3IDPQKCU6r8E
-	uuMR1GTEzYfrf6WZV1y9WkC859zunvrl6ts/VVkhf2Z76DoALtMX7sr+J4qW7nUzZvXD
-	E26SQ9MW2ze3IgCXD0RjwyV0bCMyJw2Bt5QfDsYt1/WzfEi45rVQUdmnA6mwoalhbv25
-	SEuqvQ5kyxHpYUkgWkmZjgWdFsF4eB/DWO6Zdoh14vaEsA5ZJvEjCErOTmSEg5XvPjj8
-	wEfGgLNqifF8yICrOAXlY8UZ+EEMXFK1mNwCkcNV++wyyYn24/nkeODg7reh7c4Fx26H
-	Hqgg==
-X-Gm-Message-State: AOPr4FWBlq4at85HjSnssOP/Nq7LUcQDcwn16dWoURwzProvWlLKszLm6yUMbgtX5kctAw==
-X-Received: by 10.98.20.150 with SMTP id 144mr8027543pfu.144.1461109865217;
-	Tue, 19 Apr 2016 16:51:05 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=8cvZ0+z4cVFjrjJO5LH3oVRIKuQbvGgA26j1jrXFHfc=;
+	b=cOsygDzJ1AebL/A8sbpjpVoprfG5pVyKgqUosZhUE8oZZAX4KxZ7khBVfiDAFdtGNH
+	v/j60/qDt1EvBeYbApeGR6yIBlpP8tljo8ZSzMrKdiX0LSLRF8EKBJ79msp3OeMEq1Rc
+	GdOj/EmcJd5V9foc7cpdC87BBpweqdbt9opYXXDrtZK3O2XucotB4hHmsostqaMlaGSU
+	Fa+LK+CcvLznXH6Lhuy2+d+PptDTWkAZ5cU6WEOSzFcJWWLWyYUuGPwW6lJV1yhI63+t
+	Hzs7SF9xn5/mbd/1cFKOM0nuiOhBfyM5rSj/7ui4hKlfN+XBHJ1/1YhYF/7kQJfTH7fa
+	Z5pw==
+X-Gm-Message-State: AOPr4FXMgmdNpCrxSpcPTQCJYeCT9FgEn8+4h06mUWeCcDz5vnRtfNXxaEdO2InoerBHYA==
+X-Received: by 10.66.254.74 with SMTP id ag10mr8004828pad.106.1461109866694;
+	Tue, 19 Apr 2016 16:51:06 -0700 (PDT)
 Received: from Pahoa2.mvista.com ([64.2.3.194])
 	by smtp.gmail.com with ESMTPSA id
-	d2sm53393632pfd.80.2016.04.19.16.51.03
+	d2sm53393632pfd.80.2016.04.19.16.51.05
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 19 Apr 2016 16:51:03 -0700 (PDT)
+	Tue, 19 Apr 2016 16:51:05 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	akuster@mvista.com
-Date: Tue, 19 Apr 2016 16:51:01 -0700
-Message-Id: <1461109862-23840-1-git-send-email-akuster808@gmail.com>
+Date: Tue, 19 Apr 2016 16:51:02 -0700
+Message-Id: <1461109862-23840-2-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.3.5
-Subject: [PATCH][master][krogoth][jethro][fido 1/2] tzcode: update to 2016d
+In-Reply-To: <1461109862-23840-1-git-send-email-akuster808@gmail.com>
+References: <1461109862-23840-1-git-send-email-akuster808@gmail.com>
+Subject: [PATCH][master][krogoth][jethro][fido 2/2] tzdata: update to 2016d
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,11 +56,9 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Apr 2016 23:51:06 -0000
+X-List-Received-Date: Tue, 19 Apr 2016 23:51:07 -0000
 
 From: Armin Kuster <akuster@mvista.com>
-
-they keep the versions in-sync. changes are all in data.
 
 Changes affecting future time stamps
 
@@ -89,31 +90,27 @@ invented time zone abbreviations with numeric abbreviations.
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- .../tzcode/{tzcode-native_2016c.bb => tzcode-native_2016d.bb}     | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-extended/tzcode/{tzcode-native_2016c.bb => tzcode-native_2016d.bb} (68%)
+ meta/recipes-extended/tzdata/{tzdata_2016c.bb => tzdata_2016d.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/tzdata/{tzdata_2016c.bb => tzdata_2016d.bb} (98%)
 
-diff --git a/meta/recipes-extended/tzcode/tzcode-native_2016c.bb b/meta/recipes-extended/tzcode/tzcode-native_2016d.bb
-similarity index 68%
-rename from meta/recipes-extended/tzcode/tzcode-native_2016c.bb
-rename to meta/recipes-extended/tzcode/tzcode-native_2016d.bb
-index 06b92ea..647ce2d 100644
---- a/meta/recipes-extended/tzcode/tzcode-native_2016c.bb
-+++ b/meta/recipes-extended/tzcode/tzcode-native_2016d.bb
-@@ -8,10 +8,10 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=76ae2becfcb9a685041c6f166b44c2c2"
- SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode \
-            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata"
+diff --git a/meta/recipes-extended/tzdata/tzdata_2016c.bb b/meta/recipes-extended/tzdata/tzdata_2016d.bb
+similarity index 98%
+rename from meta/recipes-extended/tzdata/tzdata_2016c.bb
+rename to meta/recipes-extended/tzdata/tzdata_2016d.bb
+index 5eb85b7..627a31a 100644
+--- a/meta/recipes-extended/tzdata/tzdata_2016c.bb
++++ b/meta/recipes-extended/tzdata/tzdata_2016d.bb
+@@ -8,8 +8,8 @@ DEPENDS = "tzcode-native"
  
--SRC_URI[tzcode.md5sum] = "ffb82ab0b588138759902b4627a6a80d"
--SRC_URI[tzcode.sha256sum] = "344b1bd486935bca2b7baa47db3b99b32211c45f31ec0d1ead8bacd103c5a416"
+ SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata"
+ 
 -SRC_URI[tzdata.md5sum] = "0330ccd16140d3b6438a18dae9b34b93"
 -SRC_URI[tzdata.sha256sum] = "8700d981e6f2007ac037dabb5d2b12f390e8629bbc30e564bc21cf0c069a2d48"
-+SRC_URI[tzcode.md5sum] = "06fc6fc111cd8dd681abdc5326529afd"
-+SRC_URI[tzcode.sha256sum] = "a8f33d6f87aef7e109e4769fc7f6e63637d52d07ddf6440a1a50df3d9a34e0ca"
 +SRC_URI[tzdata.md5sum] = "14bf84b6c2cdab0a9428991e0150ebe6"
 +SRC_URI[tzdata.sha256sum] = "d9554dfba0efd76053582bd89e8c7036ef12eee14fdd506675b08a5b59f0a1b4"
  
- S = "${WORKDIR}"
+ inherit allarch
  
 -- 
 2.3.5
