@@ -1,37 +1,45 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id B7C356FF01
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2538B60119
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Apr 2016 14:30:28 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 092893141DFF
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Apr 2016 16:30:28 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id lWIzV5K2whLh
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Apr 2016 16:30:24 +0200 (CEST)
-Received: from [172.22.22.61] (55d413ac.access.ecotel.net [85.212.19.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 671823141DFD
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Apr 2016 16:30:24 +0200 (CEST)
-To: openembedded-core@lists.openembedded.org
-References: <1461070003-12494-1-git-send-email-yannick.gicquel@iot.bzh>
-	<1461070003-12494-2-git-send-email-yannick.gicquel@iot.bzh>
-From: Andreas Oberritter <obi@opendreambox.org>
-X-Enigmail-Draft-Status: N1110
-Message-ID: <571640FF.4040000@opendreambox.org>
-Date: Tue, 19 Apr 2016 16:30:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
+	Tue, 19 Apr 2016 14:47:25 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u3JElNK7005274
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 19 Apr 2016 07:47:23 -0700 (PDT)
+Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Tue, 19 Apr 2016 07:47:22 -0700
+To: =?UTF-8?Q?Andreas_M=c3=bcller?= <schnitzeltony@googlemail.com>, Hongxu Jia
+	<hongxu.jia@windriver.com>
+References: <cover.1459147231.git.hongxu.jia@windriver.com>
+	<62a9bef209d903048c1095d90387384115eb6fd5.1459147231.git.hongxu.jia@windriver.com>
+	<CALbNGRRL0O+j6axaHL3W2bKZLLyYEe1kxsiguZGL0=a1Lz8ryg@mail.gmail.com>
+	<571496CC.8010607@windriver.com>
+	<CALbNGRQwKQJxC+17UAoLBhhN9ZfXrYF4Ysur68NCD8v24Uavcw@mail.gmail.com>
+	<57149B89.2090607@windriver.com>
+	<CALbNGRTgnNYhN68zcDBKrhQ==fxP9wJ7wjj8pQ5jvMEgF=DF4g@mail.gmail.com>
+	<5714A30A.9000204@windriver.com>
+	<CALbNGRSBJSR4xMqCOUvu2yQcG38E=1UZBehkjmFZLdrtRyfamw@mail.gmail.com>
+	<5714AA1E.9020505@windriver.com>
+	<CALbNGRSe6B9-QRftL54DEEKrmCjxTt91K7FXk+CUzuGxjTvf5A@mail.gmail.com>
+	<5714DC35.7040206@windriver.com>
+	<CAJTo0LYTcA-c99-T_Z6q9Kn=X2C9Y1kBX+D6rzHrn+eLMUcSdA@mail.gmail.com>
+	<CALbNGRR0ySfXHZFgTAPGCi5sZXehjG3_vUzGobawrTW6-DOOVg@mail.gmail.com>
+	<5715DF5B.5030406@windriver.com>
+	<CALbNGRQB-BUVH6qcQxey9CYOji-z8ydVA==qi5bx-ouBVpGaWw@mail.gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <571644F9.1080400@windriver.com>
+Date: Tue, 19 Apr 2016 09:47:21 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
+	Gecko/20100101 Thunderbird/38.7.2
 MIME-Version: 1.0
-In-Reply-To: <1461070003-12494-2-git-send-email-yannick.gicquel@iot.bzh>
-Subject: Re: [RFC PATCH 1/4] u-boot: basic support of device tree blob reassembly
+In-Reply-To: <CALbNGRQB-BUVH6qcQxey9CYOji-z8ydVA==qi5bx-ouBVpGaWw@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 01/17] conf/bitbake.conf package.bbclass: fix dbg package not contain sources while -fdebug-prefix-map used
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,106 +52,150 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Apr 2016 14:30:34 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 19 Apr 2016 14:47:26 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Hello Yannick,
-
-On 19.04.2016 14:46, Yannick Gicquel wrote:
-> This introduces a new task 'assemble_dtb' to handle the concatenation of U-Boot
-> without DTB and the compiled U-Boot DTB while using CONFIG_OF_SEPARATE.
-> Basically, this task merges the u-boot-nodtb.bin and the device tree blob using
-> the 'cat' command and overrides the u-boot.bin file which is generated
-> at the compilation step.
+On 4/19/16 9:11 AM, Andreas Müller wrote:
+> thanks a lot for your efforts. Do I understand this right: You suggest
+> to use build sysroot (on my own risk - as I did before) and make gdb
+> happy by linking sources?
 > 
-> This task is intended to be used in the verified-boot image generation process
-> after the kernel-fitimage class had appended a public key to the device tree
-> blob. It is placed after the do_deploy and before the do_install tasks and it
-> replaces the u-boot binaries in both deploy directory and build directory
-> in order to minimize the changes in later tasks.
+> Problem I see is that we have multiple package archs e.g
+> ARM/ARMThumb/Machine so ${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}
+> expands to multiple paths. But a script symlinking all together + set
+> substitute-path might help here...
 > 
-> Signed-off-by: Yannick Gicquel <yannick.gicquel@iot.bzh>
-> ---
->  meta/recipes-bsp/u-boot/u-boot-sign.inc | 21 +++++++++++++++++++++
->  meta/recipes-bsp/u-boot/u-boot.inc      | 22 ++++++++++++++++++++++
->  2 files changed, 43 insertions(+)
->  create mode 100644 meta/recipes-bsp/u-boot/u-boot-sign.inc
+> I will play around with this in the later...
 > 
-> diff --git a/meta/recipes-bsp/u-boot/u-boot-sign.inc b/meta/recipes-bsp/u-boot/u-boot-sign.inc
-> new file mode 100644
-> index 0000000..c88a2a1
-> --- /dev/null
-> +++ b/meta/recipes-bsp/u-boot/u-boot-sign.inc
-> @@ -0,0 +1,21 @@
-> +# This file is part of U-Boot verified boot support and is intended to be
-> +# included from u-boot recipe and from kernel-fitimage.bbclass
-> +#
-> +# The signature procedure requires the user to generate an RSA key and
-> +# certificate in a directory and to define the following variable:
-> +#
-> +# UBOOT_SIGN_KEYDIR = "/keys/directory"
-> +# UBOOT_SIGN_KEYNAME = "dev" # keys name in keydir (eg. "dev.crt", "dev.key")
-> +# UBOOT_SIGN_ENABLE = "1"
-> +#
-> +# The signature support is limited to the use of CONFIG_OF_SEPARATE in U-Boot.
-> +#
-> +# For more details, please refer to U-boot documentation.
-> +
-> +UBOOT_SIGN_ENABLE ?= "0"
-> +UBOOT_DTB_IMAGE ?= "u-boot-${MACHINE}-${PV}-${PR}.dtb"
-> +UBOOT_DTB_BINARY ?= "u-boot.dtb"
-> +UBOOT_DTB_SYMLINK ?= "u-boot-${MACHINE}.dtb"
-> +UBOOT_NODTB_IMAGE ?= "u-boot-nodtb-${MACHINE}-${PV}-${PR}.${UBOOT_SUFFIX}"
-> +UBOOT_NODTB_BINARY ?= "u-boot-nodtb.${UBOOT_SUFFIX}"
-> +UBOOT_NODTB_SYMLINK ?= "u-boot-nodtb-${MACHINE}.${UBOOT_SUFFIX}"
-> diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-> index 3ba866d..29b0b95 100644
-> --- a/meta/recipes-bsp/u-boot/u-boot.inc
-> +++ b/meta/recipes-bsp/u-boot/u-boot.inc
-> @@ -65,6 +65,28 @@ UBOOT_ENV_BINARY ?= "${UBOOT_ENV}.${UBOOT_ENV_SUFFIX}"
->  UBOOT_ENV_IMAGE ?= "${UBOOT_ENV}-${MACHINE}-${PV}-${PR}.${UBOOT_ENV_SUFFIX}"
->  UBOOT_ENV_SYMLINK ?= "${UBOOT_ENV}-${MACHINE}.${UBOOT_ENV_SUFFIX}"
->  
-> +# The use of verified boot requires to share environment variables with kernel
-> +# fitImage class as the mkimage call requires dtb filepath to append signature
-> +# public key.
-> +require u-boot-sign.inc
-> +
-> +do_assemble_dtb() {
-> +	# Concatenate U-Boot w/o DTB & DTB with public key
-> +	# (cf. kernel-fitimage.bbclass for more details)
-> +	cd ${DEPLOYDIR}
-> +	if [ "x${UBOOT_SIGN_ENABLE}" = "x1" ]; then
-> +		if [ -e "${UBOOT_NODTB_IMAGE}" -a -e "${UBOOT_DTB_IMAGE}" ]; then
-> +			cat ${UBOOT_NODTB_IMAGE} ${UBOOT_DTB_IMAGE} > ${UBOOT_IMAGE}
-> +			cat ${UBOOT_NODTB_IMAGE} ${UBOOT_DTB_IMAGE} > ${S}/${UBOOT_BINARY}
-
-in general, you should avoid writing to ${S} (source). It's better to
-write to ${B} (build).
-
-> +		else
-> +			bbwarn "Failure while adding public key to u-boot binary. Verified boot won't be available."
-> +		fi
-> +	fi
-> +}
-> +
-> +addtask assemble_dtb after do_deploy before do_install
-
-The task do_deploy executes after do_install. Does it really work this
-way? I think bitbake should try to detect this and error out.
-
-Maybe you could just use do_install_append and add the dependency below
-to do_install.
-
-Regards,
-Andreas
-
-> +do_assemble_dtb[depends] += "${@' ${PREFERRED_PROVIDER_virtual/kernel}:do_assemble_fitimage' if '${UBOOT_SIGN_ENABLE}' == '1' else ''}"
-> +
->  do_compile () {
->  	if [ "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', 'ld-is-gold', '', d)}" = "ld-is-gold" ] ; then
->  		sed -i 's/$(CROSS_COMPILE)ld$/$(CROSS_COMPILE)ld.bfd/g' config.mk
+> Andreas
 > 
+
+See Yocto Project bug #9481: https://bugzilla.yoctoproject.org/show_bug.cgi?id=9481
+
+Below are the steps that I have added that I hope will be documented in the YP
+2.1 documentation. (This matches current master.)
+
+I just went through and verified the steps on my local machine. As noted, there
+is currently a bug in the debugfs creation. RP helped me fix the 'rpm' case, but
+it appears ipkg support is broken in some way.
+
+
+
+1. Configure your build system to construct the companion debug filesystem
+
+In the local.conf:
+
+IMAGE_GEN_DEBUGFS = '1'
+IMAGE_FSTYPES_DEBUGFS = 'tar.bz2'
+
+The options above will cause the system to generate a special companion
+filesystem fragment, that contains the matching source and debug symbols to your
+deployable filesystem. It does this by looking at what is in the deployed
+filesystem, and pulling the corresponding -dbg packages.
+
+The companion debug filesystem is NOT a complete filesystem, but only contains
+the debug fragements. It must be combined with the full filesystem for
+debugging. (Later steps will show this.)
+
+2. Configure the system to include gdbserver in the target filesystem
+
+In the local.conf (or an image recipe):
+
+IMAGE_INSTALL_append = “ gdbserver"
+
+3. Build the environment
+
+Construct the image (and companion Debug Filesystem)
+bitbake <image>
+
+Build the cross GDB component and make it available for debugging
+
+Build the SDK that matches the image (this is best for a production build for
+later debugging, especially during long term maintenance)
+bitbake -c populate_sdk <image>
+
+or
+
+Build the minimal toolchain components that match the target (this is smaller
+then a typical SDK and only contains a minimal set of components to build simple
+test applications, as well as run the debugger)
+bitbake meta-toolchain
+
+or
+
+Build gdb itself within the build system (this produces a temporary copy of
+cross-gdb that can be used for debugging during development. It is the quickest
+approach, but the other methods are better for long term maintenance strategies.)
+bitbake gdb-cross-<arch>
+
+(Note: If you run bitbake gdb-cross, the system will give you a suggestion like
+gdb-cross-i586, the suggestion is likely the actual name you want to use.)
+
+4. Setup your environment
+
+4.1 Setup the debugfs
+
+$ mkdir debugfs
+$ cd debugfs
+$ tar xvfj <build dir>/tmp-glibc/deploy/images/<machine>/<image>.rootfs.tar.bz2
+$ tar xvfj <build dir>/tmp-glibc/deploy/images/<machine>/<image>-dbg.rootfs.tar.bz2
+
+4.2 Setup GDB
+
+Install the SDK (if you built one) and source the correct environment file. This
+will put it in your path.
+
+if using the build system gdb will be in
+<build>/<tmp>/sysroots/<host>/usr/bin/<arch>/<arch>-gdb
+
+5. Boot the target
+
+For QEMU, <link to runqemu docs…>
+
+(verify that your host can access the target via TCP)
+
+6. Debug a program
+
+6.1 Run gdbserver on the target, such as:
+
+(We’ll debug gzip in this example, see gdbserver docs for additional options)
+
+root@qemux86:~# gdbserver localhost:1234 /bin/gzip —help
+
+6.2 On the host, run gdb, configure it and connect to the target:
+
+$ cd <directory holding the debugfs dir>
+$ <arch>-gdb
+
+(gdb) set sysroot debugfs
+(gdb) set substitute-path /usr/src/debug debugfs/usr/src/debug
+(gdb) target remote <ip of target>:1234
+
+At this point everything should automatically load (matching binaries, symbols
+and headers.)
+
+Note: the gdb ‘set’ commands above can be placed into the users ~/.gdbinit GDB
+will automatically run whatever commands are in that file when it is started.
+
+
+7. Deploying WITHOUT a full image rebuild
+
+In many cases, during development you want a quick method to deploy a new binary
+to the target and debug it, without waiting for a full image build.
+
+One approach to this is to build the component you want to debug. Then directly
+copy the executable to BOTH the target and the host ‘debugfs’. If the binary is
+processed through the debug splitting in OE, you should also copy the debug
+items (the .debug contents and corresponding /usr/src/debug) from the work dir.
+
+Such as:
+
+$ bitbake bash
+$ bitbake -c devshell bash
+$ cd ..
+$ scp packages-split/bash/bin/bash <target>:/bin/bash
+$ cp -a packages-split/bash-dbg/* <path>/debugfs
+
 
 
