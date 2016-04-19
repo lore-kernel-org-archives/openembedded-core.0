@@ -1,50 +1,49 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
-	[209.85.223.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 5368560116;
-	Tue, 19 Apr 2016 02:17:39 +0000 (UTC)
-Received: by mail-io0-f173.google.com with SMTP id o126so5209685iod.0;
-	Mon, 18 Apr 2016 19:17:40 -0700 (PDT)
+Received: from mail-ig0-f175.google.com (mail-ig0-f175.google.com
+	[209.85.213.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 4189860116
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Apr 2016 02:20:02 +0000 (UTC)
+Received: by mail-ig0-f175.google.com with SMTP id y9so4879301igg.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Apr 2016 19:20:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=kergoth-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=JaM7UPcMV19lpmPo8wXUSKbW+780asOElM6OrMByUJc=;
-	b=egTMfOOlmw2JcRF4hmB7Qu8ofcTP/ko5KND/U7waB2tie6GUD5ggUklFdBoTj/M12W
-	WdmgYrZoJJASnAry+hVNWDD9pF7UYV9r3LrN+AowR516hUwqhH8J9ts6a0622ZxGtaHg
-	dOsRWtnxNfMmziTYTji1s6+uK3SiJVpo6E+8uZ1iHHY0M8tAJ3MjonVu+SIcdNRZ49RP
-	HD3N8DyRbAXE7XhpkTHM/ciiehI/oxnaZUdkTEEjswL/kLh/e/nqv+iDtCt3UrcV2+NH
-	iwYRfu5veMHxCQ3fJ8mtlRBF8Q2xuzmhrGdo1skeBhOFg7IjS/M2F6qsgrHtzavVNgaM
-	Z+Fg==
+	:cc; bh=bl+Vn3rJqVvScdnpecdwoBmyzkbGiWJW8FsxX38g6tY=;
+	b=1tjWYejwYBW58lpX25i006L/uwJ5gDSuwSk8ZkkiCIVeYgB2AG0s0dVTjXei79Q8nn
+	qJc3NdJ2dIUe2C7LWNqllRD+EH66ee1q2cr4MVoMrjsaK7S1fQ0ZKGtqpCRiF9s8cTQZ
+	eyl0Zen+geiqoj1EQeQVU3RU+z8UQY8pqhdaxwVzkB80ld1XHcHW+sUTTN6taEO4/Nrh
+	hq3juyDqjrTaX8MAk4wP4KcFIn1V4CKKs+UTfEYDeRiUvxCNm6HzORZEshlSyDEtEG1c
+	IOTDEB2GJ0CP5zEm/+FFMPHSrHTEYdaxru/EZ9iV0Ea0U6khUyCcWU2LHB+ab+019Tdd
+	qkoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=JaM7UPcMV19lpmPo8wXUSKbW+780asOElM6OrMByUJc=;
-	b=F+MZXZhC+FQj7Z7OMVjCFGi1QejN/Xi7yppbiA1i2yI9H27/YVwdvRjNaGj9EBJGeK
-	IHFsaW5mPpxGu3q3OSdJLZGy70++vrZMyGQZA6vOjvuGAMS5BTu+RnaI17CiUjKukTjx
-	INXryi0ATNwSbbifRmV0hywk5LuEHIw62eOU50J5pGIwahriEn43Vg7hB4beNDTLqBr6
-	s7hJGPKO7n4+f0ZsQBAPTpU2EAn8iLaKb9ujtp0Hr7f9pcPdlZrQzMao16BS5naqHS2A
-	ghx5k4crf2ohXdPAiGn4mEqdJp2J71yJzHQddFMO1OLi/cS1vOMAS9Ehbt0kILIbV3lx
-	T+nQ==
-X-Gm-Message-State: AOPr4FVXZD2huYdUNaMMB2BhnHkKQxxbyOSHSa7aeShOslmb0/r9c8udp6lYzwCo+kzmFkLvxvN7AIDAlIl+kw==
-X-Received: by 10.107.131.12 with SMTP id f12mr957101iod.126.1461032260419;
-	Mon, 18 Apr 2016 19:17:40 -0700 (PDT)
+	bh=bl+Vn3rJqVvScdnpecdwoBmyzkbGiWJW8FsxX38g6tY=;
+	b=QlVP2NDEylGhBA60yRMppXx82M7uGCc7oBIzgdGUy1XJC2i/eFwyQvpM9jJu83SvBl
+	WIYOjSSnBJzOKeFDnnzveUk/Mmdlhl9AOHdAGLzuqjWPedSKGOsbhZS3f1WaGvw+2yhg
+	9YcSQkTye+8KGlIacqKtlgtMW94i0/3xIORQONXLaBov8b8P2kN7is3n4I6q0nQGub8S
+	WAK2fpEbolaLktN78QSUnQmU/2CxCPBAr5xevHFMUGZrEDxkAzpnrQ2L8poJctB72qB8
+	Wt5pVA15X9GZBqRe7H/sQDxYl6T9x3Ux2wgyr8XVFyPusy7Sz6akPwuvApLVq4+ao/z6
+	qT5Q==
+X-Gm-Message-State: AOPr4FVgO/q6zc5IJE9dw5C2jDVeYBXLh2FTKseXU7V+pQ1PjsnKrBzSe5Gzt7BgfJxBal9gmeiG2+B6Ukv7Zw==
+X-Received: by 10.50.143.1 with SMTP id sa1mr11215926igb.20.1461032403456;
+	Mon, 18 Apr 2016 19:20:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAJTo0LZtDL-hbxXmYWdgf7HTZtSA4D2FgRKtx1+n6Rqxq50n=g@mail.gmail.com>
-	<CAMKF1spGMHQMVP_-mrHYmDnjM+DPk0mktK_e+9G1bekuP6PnUA@mail.gmail.com>
-	<1461019868.9308.224.camel@linuxfoundation.org>
-	<CAMKF1spKB=HXLipbo_qFBY6mo67LOWAB-uQxRA25ghZTwD=i5Q@mail.gmail.com>
-In-Reply-To: <CAMKF1spKB=HXLipbo_qFBY6mo67LOWAB-uQxRA25ghZTwD=i5Q@mail.gmail.com>
+References: <20160418221455.GJ16135@denix.org>
+	<1968586.YaUkzg8nud@peggleto-mobl.ger.corp.intel.com>
+	<20160419010127.GK16135@denix.org>
+	<1922089.IxRdTHIprx@peggleto-mobl.ger.corp.intel.com>
+In-Reply-To: <1922089.IxRdTHIprx@peggleto-mobl.ger.corp.intel.com>
 From: Christopher Larson <clarson@kergoth.com>
-Date: Tue, 19 Apr 2016 02:17:30 +0000
-Message-ID: <CABcZANm7+ewyU8d2iMkMM6uNB7ZSBhcToE3g=rKWkAxrGCP85w@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: yocto@yoctoproject.org, openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: bugzilla.yoctoproject.org policy for bugs against multiple releases
+Date: Tue, 19 Apr 2016 02:19:54 +0000
+Message-ID: <CABcZAN=1WiEymB0HFir+HGk5jqHQSCRGM=pDpGDfo_6gi1XQvg@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Denys Dmytriyenko <denis@denix.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Package management DB in old-style SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,74 +56,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Apr 2016 02:17:41 -0000
-Content-Type: multipart/alternative; boundary=001a113f31c2e345e40530cd1414
+X-List-Received-Date: Tue, 19 Apr 2016 02:20:06 -0000
+Content-Type: multipart/alternative; boundary=001a1134bdaa69f4b40530cd1dea
 
---001a113f31c2e345e40530cd1414
+--001a1134bdaa69f4b40530cd1dea
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Apr 18, 2016 at 5:50 PM Khem Raj <raj.khem@gmail.com> wrote:
+On Mon, Apr 18, 2016 at 6:38 PM Paul Eggleton <paul.eggleton@linux.intel.com>
+wrote:
 
->
-> On Apr 18, 2016 3:51 PM, "Richard Purdie" <
-> richard.purdie@linuxfoundation.org> wrote:
+> On Mon, 18 Apr 2016 21:01:27 Denys Dmytriyenko wrote:
+> > On Tue, Apr 19, 2016 at 10:35:29AM +1200, Paul Eggleton wrote:
+> > > Hi Denys,
+> > > On Mon, 18 Apr 2016 18:14:55 Denys Dmytriyenko wrote:
+> > > > I'm still using the old-style SDK (meta-toolchain) for our products
+> due
+> > > > to some code customizations in it and some of our use cases rely on
+> the
+> > > > opkg package management database being present in sysroots, so
+> packages
+> > > > can be manipulated in SDK with opkg command. It appears that
+> > > > /var/lib/opkg is now empty and the package database is no longer
+> > > > supplied with the SDK.
+> > > >
+> > > > I know about the new-style populate_sdk and the even newer Extensible
+> > > > SDK, but not yet ready to convert our old use cases to that. Since
+> there
+> > > > were lots of changes around the way SDKs work in OE-Core in the past
+> > > > couple releases, I'm failing to find the change that causes opkg DB
+> to
+> > > > be missing from the old style SDK. I'll appreciate any pointers in
+> > > > helping me debug and/or fix this issue with my SDKs. Thanks.
+> > >
+> > > As far as ipk is concerned I think it was this commit:
+> > >
+> http://cgit.openembedded.org/openembedded-core/commit/?id=c8e0ec2da9ad4c
+> > >   e1c103966906a85f68c15400dd>
+> > > Unfortunately it wasn't made optional.
 > >
-> > On Mon, 2016-04-18 at 10:35 -0700, Khem Raj wrote:
-> > > Can we have a possibility to select  field like "affected version"
-> > > and have it such that multiple versions can be specified
+> > Thanks, Paul!
 > >
-> > That doesn't really allow us to mark version X as merged and version Y
-> > as pending review though and as I understand it, that is the real issue
-> > atm :/.
->
-> May be bugzilla can be programmed to have such triggers. Having separate
-> bug is not a good looking solution
+> > Unfortunately, the change is in the library, which is quite difficult to
+> > override in another layer...
 >
 
-I'd agree that it's not ideal, but it's definitely a *common* solution in
-many bug tracking systems, since it's usually the only way to maintain
-separate states for each version. I know I've seen it done that way in
-bugzilla, jira, and others over the years.
 
-There may be something better out there, and if we can find it, great, but
-I think separate issues is better than not addressing the issue at all, but
-only if the tooling is good enough to help reduce overhead on the part of
-the devs dealing with it. Issue tracker overhead gets pretty frustrating at
-times.
+Actually, overriding a library is trivial given the way we do our python
+package. Copy meta/lib/oe/__init__.py into <your layer>/lib/oe/, copy
+meta/lib/oe/sdk.py to <your layer>/lib/oe/ and modify, and make sure your
+layer is prioritized correctly, and your forked version will be used in
+preference.
 
---001a113f31c2e345e40530cd1414
+It's not ideal, for the same reasons it's not ideal to override a class --
+you're stuck keeping it in sync, so for that reason I'd not recommend it,
+but it's not difficult to do the override :)
+
+--001a1134bdaa69f4b40530cd1dea
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><br><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Mon=
-, Apr 18, 2016 at 5:50 PM Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com=
-">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
-><p dir=3D"ltr"><br>
-On Apr 18, 2016 3:51 PM, &quot;Richard Purdie&quot; &lt;<a href=3D"mailto:r=
-ichard.purdie@linuxfoundation.org" target=3D"_blank">richard.purdie@linuxfo=
-undation.org</a>&gt; wrote:<br>
+, Apr 18, 2016 at 6:38 PM Paul Eggleton &lt;<a href=3D"mailto:paul.eggleton=
+@linux.intel.com">paul.eggleton@linux.intel.com</a>&gt; wrote:<br></div><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
+ccc solid;padding-left:1ex">On Mon, 18 Apr 2016 21:01:27 Denys Dmytriyenko =
+wrote:<br>
+&gt; On Tue, Apr 19, 2016 at 10:35:29AM +1200, Paul Eggleton wrote:<br>
+&gt; &gt; Hi Denys,<br>
+&gt; &gt; On Mon, 18 Apr 2016 18:14:55 Denys Dmytriyenko wrote:<br>
+&gt; &gt; &gt; I&#39;m still using the old-style SDK (meta-toolchain) for o=
+ur products due<br>
+&gt; &gt; &gt; to some code customizations in it and some of our use cases =
+rely on the<br>
+&gt; &gt; &gt; opkg package management database being present in sysroots, =
+so packages<br>
+&gt; &gt; &gt; can be manipulated in SDK with opkg command. It appears that=
+<br>
+&gt; &gt; &gt; /var/lib/opkg is now empty and the package database is no lo=
+nger<br>
+&gt; &gt; &gt; supplied with the SDK.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; I know about the new-style populate_sdk and the even newer E=
+xtensible<br>
+&gt; &gt; &gt; SDK, but not yet ready to convert our old use cases to that.=
+ Since there<br>
+&gt; &gt; &gt; were lots of changes around the way SDKs work in OE-Core in =
+the past<br>
+&gt; &gt; &gt; couple releases, I&#39;m failing to find the change that cau=
+ses opkg DB to<br>
+&gt; &gt; &gt; be missing from the old style SDK. I&#39;ll appreciate any p=
+ointers in<br>
+&gt; &gt; &gt; helping me debug and/or fix this issue with my SDKs. Thanks.=
+<br>
+&gt; &gt;<br>
+&gt; &gt; As far as ipk is concerned I think it was this commit:<br>
+&gt; &gt;=C2=A0 =C2=A0<a href=3D"http://cgit.openembedded.org/openembedded-=
+core/commit/?id=3Dc8e0ec2da9ad4c" rel=3D"noreferrer" target=3D"_blank">http=
+://cgit.openembedded.org/openembedded-core/commit/?id=3Dc8e0ec2da9ad4c</a><=
+br>
+&gt; &gt;=C2=A0 =C2=A0e1c103966906a85f68c15400dd&gt;<br>
+&gt; &gt; Unfortunately it wasn&#39;t made optional.<br>
 &gt;<br>
-&gt; On Mon, 2016-04-18 at 10:35 -0700, Khem Raj wrote:<br>
-&gt; &gt; Can we have a possibility to select=C2=A0 field like &quot;affect=
-ed version&quot;<br>
-&gt; &gt; and have it such that multiple versions can be specified<br>
+&gt; Thanks, Paul!<br>
 &gt;<br>
-&gt; That doesn&#39;t really allow us to mark version X as merged and versi=
-on Y<br>
-&gt; as pending review though and as I understand it, that is the real issu=
-e<br>
-&gt; atm :/.</p>
-<p dir=3D"ltr">May be bugzilla can be programmed to have such triggers. Hav=
-ing separate bug is not a good looking solution</p></blockquote><div><br></=
-div><div>I&#39;d agree that it&#39;s not ideal, but it&#39;s definitely a *=
-common* solution in many bug tracking systems, since it&#39;s usually the o=
-nly way to maintain separate states for each version. I know I&#39;ve seen =
-it done that way in bugzilla, jira, and others over the years.</div><div><b=
-r></div><div>There may be something better out there, and if we can find it=
-, great, but I think separate issues is better than not addressing the issu=
-e at all, but only if the tooling is good enough to help reduce overhead on=
- the part of the devs dealing with it. Issue tracker overhead gets pretty f=
-rustrating at times.</div></div></div>
+&gt; Unfortunately, the change is in the library, which is quite difficult =
+to<br>
+&gt; override in another layer...<br></blockquote><div><br></div><div><br><=
+/div><div>Actually, overriding a library is trivial given the way we do our=
+ python package. Copy meta/lib/oe/__init__.py into &lt;your layer&gt;/lib/o=
+e/, copy meta/lib/oe/sdk.py to &lt;your layer&gt;/lib/oe/ and modify, and m=
+ake sure your layer is prioritized correctly, and your forked version will =
+be used in preference.</div><div><br></div><div>It&#39;s not ideal, for the=
+ same reasons it&#39;s not ideal to override a class -- you&#39;re stuck ke=
+eping it in sync, so for that reason I&#39;d not recommend it, but it&#39;s=
+ not difficult to do the override :)</div></div></div>
 
---001a113f31c2e345e40530cd1414--
+--001a1134bdaa69f4b40530cd1dea--
