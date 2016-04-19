@@ -1,44 +1,33 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C1C366FF56
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id D5A376FF56
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Apr 2016 12:31:21 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u3JCVJrx026091
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 19 Apr 2016 05:31:19 -0700 (PDT)
-Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 19 Apr 2016 05:31:19 -0700
-To: Hongxu Jia <hongxu.jia@windriver.com>, =?UTF-8?Q?Andreas_M=c3=bcller?=
-	<schnitzeltony@googlemail.com>
-References: <cover.1459147231.git.hongxu.jia@windriver.com>
-	<62a9bef209d903048c1095d90387384115eb6fd5.1459147231.git.hongxu.jia@windriver.com>
-	<CALbNGRRL0O+j6axaHL3W2bKZLLyYEe1kxsiguZGL0=a1Lz8ryg@mail.gmail.com>
-	<571496CC.8010607@windriver.com>
-	<CALbNGRQwKQJxC+17UAoLBhhN9ZfXrYF4Ysur68NCD8v24Uavcw@mail.gmail.com>
-	<57149B89.2090607@windriver.com>
-	<CALbNGRTgnNYhN68zcDBKrhQ==fxP9wJ7wjj8pQ5jvMEgF=DF4g@mail.gmail.com>
-	<5714A30A.9000204@windriver.com>
-	<CALbNGRSBJSR4xMqCOUvu2yQcG38E=1UZBehkjmFZLdrtRyfamw@mail.gmail.com>
-	<5714AA1E.9020505@windriver.com>
-	<CALbNGRSe6B9-QRftL54DEEKrmCjxTt91K7FXk+CUzuGxjTvf5A@mail.gmail.com>
-	<5714DC35.7040206@windriver.com>
-	<CAJTo0LYTcA-c99-T_Z6q9Kn=X2C9Y1kBX+D6rzHrn+eLMUcSdA@mail.gmail.com>
-	<CALbNGRR0ySfXHZFgTAPGCi5sZXehjG3_vUzGobawrTW6-DOOVg@mail.gmail.com>
-	<5715DF5B.5030406@windriver.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <57162516.7000009@windriver.com>
-Date: Tue, 19 Apr 2016 07:31:18 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.7.2
+	Tue, 19 Apr 2016 12:35:27 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga102.jf.intel.com with ESMTP; 19 Apr 2016 05:35:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,506,1455004800"; d="scan'208";a="961875011"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga002.fm.intel.com with ESMTP; 19 Apr 2016 05:35:28 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.51])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 175B36A4006;
+	Tue, 19 Apr 2016 06:23:04 -0700 (PDT)
+Date: Tue, 19 Apr 2016 13:15:36 +0300
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+Message-ID: <20160419101536.GA7585@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <1460983582-15284-1-git-send-email-adrian.ratiu@ni.com>
+	<20160418132411.GA27403@linux.intel.com>
+	<20160419151756.65c09607@adi-pc-linux.emea.corp.natinst.com>
 MIME-Version: 1.0
-In-Reply-To: <5715DF5B.5030406@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 01/17] conf/bitbake.conf package.bbclass: fix dbg package not contain sources while -fdebug-prefix-map used
+In-Reply-To: <20160419151756.65c09607@adi-pc-linux.emea.corp.natinst.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] wic: isoimage-isohybrid: implement grubefi menu logic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,136 +40,126 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Apr 2016 12:31:23 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 19 Apr 2016 12:35:30 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 4/19/16 2:33 AM, Hongxu Jia wrote:
-> Hi all,
-> 
-> With some investigation, there is an example to explain how to do remote debug.
-> 
-> Also file [YOCTO #9481] for document.
-> 
-> Hi Andreas,
-> 
-> Would you please have a look the example, to see if it could fit your case.
-> 
-> Example:
-> 
-> 1. Build a image with gdbserver and gzip installed. The gzip
->    is the debug binary. Append the following to local.conf
-> ...
-> IMAGE_INSTALL_append = " gdbserver gzip"
-> ...
-> 
-> $ bitbake core-image-sato
-> 
-> 2. Build gdb-cross for remote debug on host
-> 
-> $ bitbake gdb-cross-i586
-> 
-> 3. start qemu
-> 
-> $ runqemu qemux86 core-image-sato
-> 
-> 4. On host side, create symlink /usr/src/debug to
->    ${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS} which the
->    location of sources is /usr/src/debug.
-> 
-> $ ln -snf /TOPDIR/tmp/work/i586-poky-linux /usr/src/debug
+Hi Ioan-Adrian,
 
-This is incorrect.  On the host you use the combination of:
+It's my fault as I've rewritten ks parser and missed --menu implementation.
+Let me know if you need my help with this.
 
-(gdb) set sysroot <your debug capable fs path>
-(gdb) set substitute-path /usr/src/debug <your debug capable fs path>/usr/src/debug
+It would be great if you also add test case for this feature to wic oe-selftest suite.
 
-> 5. On target side, ipaddr is 128.224.163.187,
->    run gdbserver to debug "gzip -h"
+Regards,
+Ed
+
+On Tue, Apr 19, 2016 at 03:17:56PM +0300, Ioan-Adrian Ratiu wrote:
+> Hello Ed,
 > 
-> root@qemux86-64:~# gdbserver localhost:1024 gzip -h
-> Process gzip created; pid = 530
-> Listening on port 1024
+> I've tested it on Jethro. Sorry about this. I'll look at the changes in wic's kickstart and redo/resubmit.
 > 
-> 6. On host side, enter gzip's devshell
-> $ bitbake -cdevshell gzip
+> Thank you,
+> Ioan
 > 
-> 7. On host side, run gdb-cross to remote debug gzip
+> On Mon, 18 Apr 2016 16:24:11 +0300
+> Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
 > 
-> gzip-1.6# i586-poky-linux-gdb ../build/gzip
-> 
-> 8. Use path ${STAGING_DIR_HOST} as the system root for
->    the program being debugged. Any absolute shared
->    library paths will be prefixed with path;
-> 
-> (gdb) set sysroot /TOPDIR/tmp/sysroots/qemux86
-> 
-> 
-> 9. Start remote target, set break point at help()
-> 
-> (gdb) target remote 128.224.163.187:1024
-> (gdb) break gzip.c:325
-> (gdb) info break
-> Num     Type           Disp Enb Address            What
-> 1       breakpoint     keep y   0x0000000000401ec1 in main at
-> /usr/src/debug/gzip/1.6-r0/gzip-1.6/gzip.c:325
-> (gdb) c
-> Continuing.
-> 
-> Breakpoint 1, main (argc=2, argv=0x7fffffffeca8) at
-> /usr/src/debug/gzip/1.6-r0/gzip-1.6/gzip.c:465
-> 465                 help(); do_exit(OK); break;
-> (gdb) list
-> 460             case 'd':
-> 461                 decompress = 1; break;
-> 462             case 'f':
-> 463                 force++; break;
-> 464             case 'h': case 'H':
-> 465                 help(); do_exit(OK); break;
-> 466             case 'k':
-> 467                 keep = 1; break;
-> 468             case 'l':
-> 469                 list = decompress = to_stdout = 1; break;
-> (gdb) c
-> Continuing.
-> [Inferior 1 (process 1246) exited normally]
-> 
-> 
-> 10. On target side, get output of "gzip -h"
-> [snip]
-> Remote debugging from host 128.224.153.74
-> Usage: gzip [OPTION]... [FILE]...
-> Compress or uncompress FILEs (by default, compress FILES in-place).
-> 
-> Mandatory arguments to long options are mandatory for short options too.
-> 
->   -c, --stdout      write on standard output, keep original files unchanged
->   -d, --decompress  decompress
->   -f, --force       force overwrite of output file and compress links
->   -h, --help        give this help
->   -k, --keep        keep (don't delete) input files
->   -l, --list        list compressed file contents
->   -L, --license     display software license
->   -n, --no-name     do not save or restore the original name and time stamp
->   -N, --name        save or restore the original name and time stamp
->   -q, --quiet       suppress all warnings
->   -r, --recursive   operate recursively on directories
->   -S, --suffix=SUF  use suffix SUF on compressed files
->   -t, --test        test compressed file integrity
->   -v, --verbose     verbose mode
->   -V, --version     display version number
->   -1, --fast        compress faster
->   -9, --best        compress better
-> 
-> With no FILE, or when FILE is -, read standard input.
-> 
-> Report bugs to <bug-gzip@gnu.org>.
-> 
-> Child exited with status 0
-> GDBserver exiting
-> [snip]
-> 
-> //Hongxu
+> > Hi Ioan-Adrian,
+> > 
+> > Did you test if this patch works on master?
+> > From the first look I'd say it will not work as --menu bootloader
+> > option is not implemented there.
+> > 
+> > On Mon, Apr 18, 2016 at 03:46:22PM +0300, Ioan-Adrian Ratiu wrote:
+> > > Right now isoimage-isohybrid creates a single boot menu entry "boot"
+> > > and passes it the arguments supplied with "--append". There is logic
+> > > for creating custom grub menus, but it is sadly not used. "boot" is
+> > > hardcoded.
+> > > 
+> > > This change makes isoimage use the wic bootloader "--menu" argument to
+> > > create its menus. The syntax used for menu specification was chosen so
+> > > it does not conflict with the kernel parameter syntax (you can pass
+> > > custom kernel arguments from the generated grub menu entries, like for
+> > > example silent booting, thread affinity etc.).
+> > > 
+> > > The "--menu" argument syntax is as following. The argument supplies a
+> > > collection of menu entry names and kernel parameters. Menu name entries
+> > > can contain any ASCII character except | or : which are separators.
+> > > Kernel parameters obey the syntax defined by the kernel documentation.
+> > > | is the menu separator and : is the separator between the menu names
+> > > and parameters.
+> > > 
+> > > Example for use in wks files:
+> > >   --menu "Menu Name:firstarg,secondard|Menu Name 2:anotherarg,otherarg"
+> > > 
+> > > Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+> > > ---
+> > >  .../lib/wic/plugins/source/isoimage-isohybrid.py   | 35 ++++++++++++++++------
+> > >  1 file changed, 26 insertions(+), 9 deletions(-)
+> > > 
+> > > diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+> > > index bc99283..4b0b035 100644
+> > > --- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+> > > +++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+> > > @@ -101,23 +101,40 @@ class IsoImagePlugin(SourcePlugin):
+> > >              splashline = ""
+> > >  
+> > >          bootloader = creator.ks.bootloader
+> > > +        kernel = "/bzImage"
+> > > +        default_options = bootloader.append
+> > > +        default_menu_to_boot = "Default boot"
+> > > +        grub_menus = ""
+> > > +
+> > > +        # menu separators are '|', custom boot args separated by ':', ex.
+> > > +        # --menu "Menu Name:firstarg,secondard|Menu Name 2:anotherarg,otherarg"
+> > > +        for menu in bootloader.menus.split('|'):
+> > > +            menu_list = menu.split(":")
+> > > +            menu_name = menu_list[0]
+> > > +            grub_menu_options = ""
+> > > +
+> > > +            if (len(menu_list) > 1):
+> > > +                menu_params = menu_list[1]
+> > > +                for param in menu_params.split(','):
+> > > +                    if param.lower() == "default":
+> > > +                        default_menu_to_boot = menu_name
+> > > +                    else: grub_menu_options += " " + param
+> > > +
+> > > +            grub_menus += "menuentry '%s' {\n" % menu_name
+> > > +            grub_menus += "linux %s rootwait %s %s\n" % \
+> > > +                (kernel, default_options, grub_menu_options)
+> > > +            grub_menus += "initrd /initrd \n"
+> > > +            grub_menus += "}\n"
+> > >  
+> > >          grubefi_conf = ""
+> > >          grubefi_conf += "serial --unit=0 --speed=115200 --word=8 "
+> > >          grubefi_conf += "--parity=no --stop=1\n"
+> > > -        grubefi_conf += "default=boot\n"
+> > > +        grubefi_conf += "default=%s\n" % default_menu_to_boot
+> > >          grubefi_conf += "timeout=%s\n" % (bootloader.timeout or 10)
+> > >          grubefi_conf += "\n"
+> > >          grubefi_conf += "search --set=root --label %s " % part.label
+> > >          grubefi_conf += "\n"
+> > > -        grubefi_conf += "menuentry 'boot'{\n"
+> > > -
+> > > -        kernel = "/bzImage"
+> > > -
+> > > -        grubefi_conf += "linux %s rootwait %s\n" \
+> > > -            % (kernel, bootloader.append)
+> > > -        grubefi_conf += "initrd /initrd \n"
+> > > -        grubefi_conf += "}\n"
+> > > +        grubefi_conf += grub_menus
+> > >  
+> > >          if splashline:
+> > >              grubefi_conf += "%s\n" % splashline  
+> > 
+> > --
+> > Regards,
+> > Ed
 > 
 
+-- 
+--
+Regards,
+Ed
 
