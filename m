@@ -1,33 +1,52 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id D5A376FF56
+Return-Path: <ygl@koumoul.net>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 17F0760232
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Apr 2016 12:35:27 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga102.jf.intel.com with ESMTP; 19 Apr 2016 05:35:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,506,1455004800"; d="scan'208";a="961875011"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 19 Apr 2016 05:35:28 -0700
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.51])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 175B36A4006;
-	Tue, 19 Apr 2016 06:23:04 -0700 (PDT)
-Date: Tue, 19 Apr 2016 13:15:36 +0300
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-Message-ID: <20160419101536.GA7585@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <1460983582-15284-1-git-send-email-adrian.ratiu@ni.com>
-	<20160418132411.GA27403@linux.intel.com>
-	<20160419151756.65c09607@adi-pc-linux.emea.corp.natinst.com>
-MIME-Version: 1.0
-In-Reply-To: <20160419151756.65c09607@adi-pc-linux.emea.corp.natinst.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] wic: isoimage-isohybrid: implement grubefi menu logic
+	Tue, 19 Apr 2016 12:47:30 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id n3so4895724wmn.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Apr 2016 05:47:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=koumoul.net; s=dkim;
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=iIhsG2UmhdPfcA5g50jDzCUKdxAaZMa/3FR0pSnKlwY=;
+	b=MSuUIxfIXRuoKNBO+W5r+y151ZLPVO0W9Quj9CiVmwjDrOdryNfViLkDCGItCiXaeT
+	hOGo2S4t2ezGTzkj9dUrmXwFg8WdVmesVucrBEgmf6MkZFwpd3K1b29cl3A6QsQmQf06
+	v0xGKiahrKclYfuopa/QFXsRAfTOcq2Sy+iVs=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=iot-bzh.20150623.gappssmtp.com; s=20150623;
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=iIhsG2UmhdPfcA5g50jDzCUKdxAaZMa/3FR0pSnKlwY=;
+	b=J6hGhHPcLmiNv3kKyPVQ+dntDlz+y93b3X7liWUh1//hbIRDcppyoaXXeJNpsWj0qE
+	yGEvQktJUxyKivX+1qlAlFg3Bjk4MvBUK2Uxora15KG+zEGkVAlOGrTdFRqCP58CT528
+	RmwtDYJxS8w+EEUSevMHBRUVeepCL963Cf2xpPqyZY6RKx9D9KjSs498T7qkvnq1cy4b
+	uklyeoNaJj86D+KcNRG6XESnGAXgB8zBwKEI/3BvkNEvBeqHmYT2Plfr4Ml2R8VKPG7W
+	WZEcfDJxzNpAL50ZUygon05eyQHOOcuK2lOZpJxVER511xz3RB+5bs0EPFqFXxbBCT7f
+	h9HA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+	bh=iIhsG2UmhdPfcA5g50jDzCUKdxAaZMa/3FR0pSnKlwY=;
+	b=P36WmHWafWMHbWpzZuOZQ/0QfWn0fCWIpyAvtmYjQGkwXml/M1QDPXha4bYyORyh5U
+	2daZYSTM3osWTkLOwtIGU69bcbT6iupfJcSoU0RsAbgCpAxwUvFQRtsVNYPaT9MmL24x
+	uEwA/V0AILl/1NsoWMsTLWqHs/3MtbH47QW4h8ZIqADXZfsHJGF0eToy7DUXtBQpU97S
+	GRs7VfpwU/kgremSyxgsg27MtchW19pXASFrop7GjAlCIjJymcRLvjO9AuJeieDdYFTU
+	1h1j4tJf3idgVp7UYc8JMH9DZevKa/xYy99MwwEA0drXsSASyfePguio5cOf9LChMr/x
+	d1CQ==
+X-Gm-Message-State: AOPr4FXyW/npIff1og8uFTW0zwYbiwHh17KfUAPOvnIRDoRkP8Pz2HW2Pa9RwPVoiXTQ4A==
+X-Received: by 10.194.103.198 with SMTP id fy6mr3478129wjb.48.1461070050307;
+	Tue, 19 Apr 2016 05:47:30 -0700 (PDT)
+Received: from pollux.vannes.iot (pat35-3-82-245-140-164.fbx.proxad.net.
+	[82.245.140.164]) by smtp.gmail.com with ESMTPSA id
+	g141sm4228868wme.0.2016.04.19.05.47.29
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 19 Apr 2016 05:47:29 -0700 (PDT)
+Sender: "Yannick Gicquel [ IoT.bzh ]" <ygl@koumoul.net>
+From: Yannick Gicquel <yannick.gicquel@iot.bzh>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 19 Apr 2016 14:46:39 +0200
+Message-Id: <1461070003-12494-1-git-send-email-yannick.gicquel@iot.bzh>
+X-Mailer: git-send-email 1.9.1
+Subject: [RFC PATCH 0/4] U-Boot verified boot basic support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,126 +59,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Apr 2016 12:35:30 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 19 Apr 2016 12:47:33 -0000
 
-Hi Ioan-Adrian,
+Hello,
 
-It's my fault as I've rewritten ks parser and missed --menu implementation.
-Let me know if you need my help with this.
+Please find a patchset proposal for U-Boot verified boot basic support.
+Before submitting those, I would like to ask people on this list some feedbacks
+on the way it's currently implemented.
 
-It would be great if you also add test case for this feature to wic oe-selftest suite.
+The verified boot support principle is to sign a kernel fitImage, thanks to an
+SSL keypair, and to append a public key in u-boot device tree blob to enable
+software integrity check at runtime.
 
-Regards,
-Ed
+The proposal depends on the U-Boot CONFIG_OF_SEPARATE which in effect splits
+U-Boot binaries allowing the DTB file to be outside the main u-boot binaries.
 
-On Tue, Apr 19, 2016 at 03:17:56PM +0300, Ioan-Adrian Ratiu wrote:
-> Hello Ed,
-> 
-> I've tested it on Jethro. Sorry about this. I'll look at the changes in wic's kickstart and redo/resubmit.
-> 
-> Thank you,
-> Ioan
-> 
-> On Mon, 18 Apr 2016 16:24:11 +0300
-> Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
-> 
-> > Hi Ioan-Adrian,
-> > 
-> > Did you test if this patch works on master?
-> > From the first look I'd say it will not work as --menu bootloader
-> > option is not implemented there.
-> > 
-> > On Mon, Apr 18, 2016 at 03:46:22PM +0300, Ioan-Adrian Ratiu wrote:
-> > > Right now isoimage-isohybrid creates a single boot menu entry "boot"
-> > > and passes it the arguments supplied with "--append". There is logic
-> > > for creating custom grub menus, but it is sadly not used. "boot" is
-> > > hardcoded.
-> > > 
-> > > This change makes isoimage use the wic bootloader "--menu" argument to
-> > > create its menus. The syntax used for menu specification was chosen so
-> > > it does not conflict with the kernel parameter syntax (you can pass
-> > > custom kernel arguments from the generated grub menu entries, like for
-> > > example silent booting, thread affinity etc.).
-> > > 
-> > > The "--menu" argument syntax is as following. The argument supplies a
-> > > collection of menu entry names and kernel parameters. Menu name entries
-> > > can contain any ASCII character except | or : which are separators.
-> > > Kernel parameters obey the syntax defined by the kernel documentation.
-> > > | is the menu separator and : is the separator between the menu names
-> > > and parameters.
-> > > 
-> > > Example for use in wks files:
-> > >   --menu "Menu Name:firstarg,secondard|Menu Name 2:anotherarg,otherarg"
-> > > 
-> > > Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-> > > ---
-> > >  .../lib/wic/plugins/source/isoimage-isohybrid.py   | 35 ++++++++++++++++------
-> > >  1 file changed, 26 insertions(+), 9 deletions(-)
-> > > 
-> > > diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-> > > index bc99283..4b0b035 100644
-> > > --- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-> > > +++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-> > > @@ -101,23 +101,40 @@ class IsoImagePlugin(SourcePlugin):
-> > >              splashline = ""
-> > >  
-> > >          bootloader = creator.ks.bootloader
-> > > +        kernel = "/bzImage"
-> > > +        default_options = bootloader.append
-> > > +        default_menu_to_boot = "Default boot"
-> > > +        grub_menus = ""
-> > > +
-> > > +        # menu separators are '|', custom boot args separated by ':', ex.
-> > > +        # --menu "Menu Name:firstarg,secondard|Menu Name 2:anotherarg,otherarg"
-> > > +        for menu in bootloader.menus.split('|'):
-> > > +            menu_list = menu.split(":")
-> > > +            menu_name = menu_list[0]
-> > > +            grub_menu_options = ""
-> > > +
-> > > +            if (len(menu_list) > 1):
-> > > +                menu_params = menu_list[1]
-> > > +                for param in menu_params.split(','):
-> > > +                    if param.lower() == "default":
-> > > +                        default_menu_to_boot = menu_name
-> > > +                    else: grub_menu_options += " " + param
-> > > +
-> > > +            grub_menus += "menuentry '%s' {\n" % menu_name
-> > > +            grub_menus += "linux %s rootwait %s %s\n" % \
-> > > +                (kernel, default_options, grub_menu_options)
-> > > +            grub_menus += "initrd /initrd \n"
-> > > +            grub_menus += "}\n"
-> > >  
-> > >          grubefi_conf = ""
-> > >          grubefi_conf += "serial --unit=0 --speed=115200 --word=8 "
-> > >          grubefi_conf += "--parity=no --stop=1\n"
-> > > -        grubefi_conf += "default=boot\n"
-> > > +        grubefi_conf += "default=%s\n" % default_menu_to_boot
-> > >          grubefi_conf += "timeout=%s\n" % (bootloader.timeout or 10)
-> > >          grubefi_conf += "\n"
-> > >          grubefi_conf += "search --set=root --label %s " % part.label
-> > >          grubefi_conf += "\n"
-> > > -        grubefi_conf += "menuentry 'boot'{\n"
-> > > -
-> > > -        kernel = "/bzImage"
-> > > -
-> > > -        grubefi_conf += "linux %s rootwait %s\n" \
-> > > -            % (kernel, bootloader.append)
-> > > -        grubefi_conf += "initrd /initrd \n"
-> > > -        grubefi_conf += "}\n"
-> > > +        grubefi_conf += grub_menus
-> > >  
-> > >          if splashline:
-> > >              grubefi_conf += "%s\n" % splashline  
-> > 
-> > --
-> > Regards,
-> > Ed
-> 
+Thus, regarding the current fitImage generation, the following is proposed:
+
+ - extend the generated fit-images.its file from kernel-fitimage.bbclass in
+   order to add a 'signature' tag to the configuration section, then add a call
+   to uboot-mkimage to sign the fitImage and append the public key to DTB file.
+
+ - add a task in u-boot.inc 'do_assemble_dtb' which concatenates the device
+   tree blob with public key to u-boot binary, and organize the u-boot and
+   virtual/kernel recipes' tasks this way:
+
+   u-boot:do_deploy -> virtual/kernel:do_assemble_fitimage -> u-boot:do_assemble_dtb
+
+To enable the verified boot, the following variables can be added in a 
+configuration file:
+
+   KERNEL_CLASSES ?= " kernel-fitimage "
+   KERNEL_IMAGETYPE ?= "fitImage"
+   UBOOT_SIGN_KEYDIR = "/signature/keys/directory"
+   UBOOT_SIGN_KEYNAME = "dev"
+   UBOOT_MKIMAGE_DTCOPTS = "-I dts -O dtb -p 2000"
+   UBOOT_SIGN_ENABLE = "1"
+
+Well, I don't know if these changes are the way to go, but at least I think
+this limits the codes changes and it propagates the feature to BSP layers which
+uses u-boot.inc. Anyway, I would be pleased to get feedback on this.
+
+Best regards,
+Yannick
+
+Yannick Gicquel (4):
+  u-boot: basic support of device tree blob reassembly
+  u-boot: deploy u-boot nodtb and dtb files
+  kernel: fitimage: support device tree compiler options
+  kernel: fitimage: basic support for fitimage signature
+
+ meta/classes/kernel-fitimage.bbclass    | 53 +++++++++++++++++++++++++++++++--
+ meta/recipes-bsp/u-boot/u-boot-sign.inc | 21 +++++++++++++
+ meta/recipes-bsp/u-boot/u-boot.inc      | 36 ++++++++++++++++++++++
+ 3 files changed, 108 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-bsp/u-boot/u-boot-sign.inc
 
 -- 
---
-Regards,
-Ed
+1.9.1
+
 
