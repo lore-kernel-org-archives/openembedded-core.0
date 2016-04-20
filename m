@@ -1,29 +1,35 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EACFB6E668
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id DA604606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Apr 2016 01:08:58 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u3K18m7k004737
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Tue, 19 Apr 2016 18:08:48 -0700
-Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 19 Apr 2016 18:08:47 -0700
-To: Tudor Florea <tudor.florea@enea.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <57166561.7020006@enea.com> <571672AD.9060706@windriver.com>
-	<5716CA2A.4050001@enea.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <5716D69E.5080506@windriver.com>
-Date: Tue, 19 Apr 2016 20:08:46 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.7.2
+	Wed, 20 Apr 2016 07:45:47 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u3K7jZb7025667; Wed, 20 Apr 2016 02:45:35 -0500
+Received: from adi-pc-linux.emea.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016042002451680-105803 ;
+	Wed, 20 Apr 2016 02:45:16 -0500 
+Date: Wed, 20 Apr 2016 10:45:05 +0300
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Message-ID: <20160420104505.7d92a5f9@adi-pc-linux.emea.corp.natinst.com>
+In-Reply-To: <20160419101536.GA7585@linux.intel.com>
+References: <1460983582-15284-1-git-send-email-adrian.ratiu@ni.com>
+	<20160418132411.GA27403@linux.intel.com>
+	<20160419151756.65c09607@adi-pc-linux.emea.corp.natinst.com>
+	<20160419101536.GA7585@linux.intel.com>
+Organization: National Instruments
 MIME-Version: 1.0
-In-Reply-To: <5716CA2A.4050001@enea.com>
-Subject: Re: rpm generation question
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 04/20/2016 02:45:17 AM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 04/20/2016 02:45:17 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-04-20_06:, , signatures=0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] wic: isoimage-isohybrid: implement grubefi menu logic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,90 +42,163 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Apr 2016 01:09:00 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 20 Apr 2016 07:45:48 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-On 4/19/16 7:15 PM, Tudor Florea wrote:
-> 
-> 
-> On 19/04/2016 21:02, Mark Hatle wrote:
->> On 4/19/16 12:05 PM, Tudor Florea wrote:
->>> As part of our test infrastructure we're attempting to install ptest
->>> packages (and execute the tests accordingly).
->>> Attempting to install ptest for valgrind fails with this error:
->>>
->>> error: Can't install valgrind-ptest-3.11.0-r0.1@ppce500mc: no package
->>> provides /this/is/a/bogus/interpreter/name
->>
->> You can turn off the file level requires and provides on a per package basis.
->>
->> SKIP_FILEDEPS_${PN}-ptest = '1'
-> 
-> Mark,
-> Thank you for the information provided.
-> Unfortunately this did not work as expected.
-> First issue: the dependency on bogus interpreter still exists with the
-> line above.
-> I was able to force remove this dependency by setting
-> MERGEPERFILEDEPS = "0"
-> on meta/classes/package_rpm.bbclass. Of course this is not a fix but
-> only a test. I'm not sure if there is something missing around.
-> 
-> The second issue: The rpm created this way can be installed using the
-> command:
-> rpm -ivH ./valgrind-ptest-3.11.0-r0.4.ppce500mc.rpm
-> but still fails when attempt to install using smart.
-> 
-> Is this second issue a bug or smart is supposed to work this way?
+Hello Ed,
 
-What is the error with smart.  If it's the same dependency error then it almost
-sounds like the feed database is out of sync.
+I've looked a little at the wic rewrites in master and they're really reall=
+y awesome!
 
---Mark
+Just to verify if I understood correctly: Now if I want custom menus in gru=
+b I
+can specify them directly in a custom .cfg supplied in the wks by the "conf=
+igfile"
+bootloader option, so there's no need anymore for that "--menu" option + al=
+l the
+ugly string parsing code from my previous patch.
 
-> 
-> Thank you,
->  Tudor.
-> 
->>
->> Otherwise (for rpm packages) the system will attempt to discover and use the
->> per-file interpreter and other dependencies.  Since ptest is only tests, and the
->> dependencies here are specific to tests -- it should be safe to disable them.
->>
->> (If that isn't the right approach for some reason, there are some other ways to
->> do a file level provide, but they're significantly more complicated and rarely
->> used.)
->>
->> --Mark
->>
->>>
->>> smart install valgrind-ptest-3.11.0-r0.1@ppce500mc
->>> Loading cache...
->>> Updating cache...
->>> ###############################################################################
->>> [100%]
->>>
->>> Computing transaction...
->>>
->>>  error: Can't install valgrind-ptest-3.11.0-r0.1@ppce500mc: no package
->>> provides /this/is/a/bogus/interpreter/name
->>>
->>>
->>> This is most probably caused by the file shell_badinterp contained in
->>> this package having the following contents:
->>>
->>> #! /this/is/a/bogus/interpreter/name
->>>
->>> true
->>>
->>> Does anyone have an idea how to get rid of this error?
->>> More specific: How can I exclude dependency on
->>> "/this/is/a/bogus/interpreter/name" for an rpm package?
->>>
->>> Thank you very much.
->>>   Tudor.
->>>
->>
+Is this correct?
+
+Thank you,
+Ioan
+
+On Tue, 19 Apr 2016 13:15:36 +0300
+Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
+
+> Hi Ioan-Adrian,
+>=20
+> It's my fault as I've rewritten ks parser and missed --menu implementatio=
+n.
+> Let me know if you need my help with this.
+>=20
+> It would be great if you also add test case for this feature to wic oe-se=
+lftest suite.
+>=20
+> Regards,
+> Ed
+>=20
+> On Tue, Apr 19, 2016 at 03:17:56PM +0300, Ioan-Adrian Ratiu wrote:
+> > Hello Ed,
+> >=20
+> > I've tested it on Jethro. Sorry about this. I'll look at the changes in=
+ wic's kickstart and redo/resubmit.
+> >=20
+> > Thank you,
+> > Ioan
+> >=20
+> > On Mon, 18 Apr 2016 16:24:11 +0300
+> > Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
+> >  =20
+> > > Hi Ioan-Adrian,
+> > >=20
+> > > Did you test if this patch works on master?
+> > > From the first look I'd say it will not work as --menu bootloader
+> > > option is not implemented there.
+> > >=20
+> > > On Mon, Apr 18, 2016 at 03:46:22PM +0300, Ioan-Adrian Ratiu wrote: =20
+> > > > Right now isoimage-isohybrid creates a single boot menu entry "boot"
+> > > > and passes it the arguments supplied with "--append". There is logic
+> > > > for creating custom grub menus, but it is sadly not used. "boot" is
+> > > > hardcoded.
+> > > >=20
+> > > > This change makes isoimage use the wic bootloader "--menu" argument=
+ to
+> > > > create its menus. The syntax used for menu specification was chosen=
+ so
+> > > > it does not conflict with the kernel parameter syntax (you can pass
+> > > > custom kernel arguments from the generated grub menu entries, like =
+for
+> > > > example silent booting, thread affinity etc.).
+> > > >=20
+> > > > The "--menu" argument syntax is as following. The argument supplies=
+ a
+> > > > collection of menu entry names and kernel parameters. Menu name ent=
+ries
+> > > > can contain any ASCII character except | or : which are separators.
+> > > > Kernel parameters obey the syntax defined by the kernel documentati=
+on.
+> > > > | is the menu separator and : is the separator between the menu nam=
+es
+> > > > and parameters.
+> > > >=20
+> > > > Example for use in wks files:
+> > > >   --menu "Menu Name:firstarg,secondard|Menu Name 2:anotherarg,other=
+arg"
+> > > >=20
+> > > > Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+> > > > ---
+> > > >  .../lib/wic/plugins/source/isoimage-isohybrid.py   | 35 ++++++++++=
+++++++------
+> > > >  1 file changed, 26 insertions(+), 9 deletions(-)
+> > > >=20
+> > > > diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b=
+/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+> > > > index bc99283..4b0b035 100644
+> > > > --- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+> > > > +++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+> > > > @@ -101,23 +101,40 @@ class IsoImagePlugin(SourcePlugin):
+> > > >              splashline =3D ""
+> > > > =20
+> > > >          bootloader =3D creator.ks.bootloader
+> > > > +        kernel =3D "/bzImage"
+> > > > +        default=5Foptions =3D bootloader.append
+> > > > +        default=5Fmenu=5Fto=5Fboot =3D "Default boot"
+> > > > +        grub=5Fmenus =3D ""
+> > > > +
+> > > > +        # menu separators are '|', custom boot args separated by '=
+:', ex.
+> > > > +        # --menu "Menu Name:firstarg,secondard|Menu Name 2:another=
+arg,otherarg"
+> > > > +        for menu in bootloader.menus.split('|'):
+> > > > +            menu=5Flist =3D menu.split(":")
+> > > > +            menu=5Fname =3D menu=5Flist[0]
+> > > > +            grub=5Fmenu=5Foptions =3D ""
+> > > > +
+> > > > +            if (len(menu=5Flist) > 1):
+> > > > +                menu=5Fparams =3D menu=5Flist[1]
+> > > > +                for param in menu=5Fparams.split(','):
+> > > > +                    if param.lower() =3D=3D "default":
+> > > > +                        default=5Fmenu=5Fto=5Fboot =3D menu=5Fname
+> > > > +                    else: grub=5Fmenu=5Foptions +=3D " " + param
+> > > > +
+> > > > +            grub=5Fmenus +=3D "menuentry '%s' {\n" % menu=5Fname
+> > > > +            grub=5Fmenus +=3D "linux %s rootwait %s %s\n" % \
+> > > > +                (kernel, default=5Foptions, grub=5Fmenu=5Foptions)
+> > > > +            grub=5Fmenus +=3D "initrd /initrd \n"
+> > > > +            grub=5Fmenus +=3D "}\n"
+> > > > =20
+> > > >          grubefi=5Fconf =3D ""
+> > > >          grubefi=5Fconf +=3D "serial --unit=3D0 --speed=3D115200 --=
+word=3D8 "
+> > > >          grubefi=5Fconf +=3D "--parity=3Dno --stop=3D1\n"
+> > > > -        grubefi=5Fconf +=3D "default=3Dboot\n"
+> > > > +        grubefi=5Fconf +=3D "default=3D%s\n" % default=5Fmenu=5Fto=
+=5Fboot
+> > > >          grubefi=5Fconf +=3D "timeout=3D%s\n" % (bootloader.timeout=
+ or 10)
+> > > >          grubefi=5Fconf +=3D "\n"
+> > > >          grubefi=5Fconf +=3D "search --set=3Droot --label %s " % pa=
+rt.label
+> > > >          grubefi=5Fconf +=3D "\n"
+> > > > -        grubefi=5Fconf +=3D "menuentry 'boot'{\n"
+> > > > -
+> > > > -        kernel =3D "/bzImage"
+> > > > -
+> > > > -        grubefi=5Fconf +=3D "linux %s rootwait %s\n" \
+> > > > -            % (kernel, bootloader.append)
+> > > > -        grubefi=5Fconf +=3D "initrd /initrd \n"
+> > > > -        grubefi=5Fconf +=3D "}\n"
+> > > > +        grubefi=5Fconf +=3D grub=5Fmenus
+> > > > =20
+> > > >          if splashline:
+> > > >              grubefi=5Fconf +=3D "%s\n" % splashline   =20
+> > >=20
+> > > --
+> > > Regards,
+> > > Ed =20
+> >  =20
+>=20
 
 
