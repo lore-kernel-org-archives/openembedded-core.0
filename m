@@ -1,52 +1,55 @@
 Return-Path: <ygl@koumoul.net>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id B68EF73163
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id DD41E73163
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Apr 2016 13:51:30 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id r12so3189411wme.0
+	Wed, 20 Apr 2016 13:51:31 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id e201so10794884wme.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Apr 2016 06:51:31 -0700 (PDT)
+	Wed, 20 Apr 2016 06:51:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=koumoul.net; s=dkim;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=QOA/fEVCgOM2FRgbcVL+XBGcJEPAstjQ1xVdamegWgo=;
-	b=XcgDtrHmzk8leiFJc1peBSfCKCVmCnp+U74kk4vL5Taaj/JqS8/XHUwkKPwcu8VErK
-	F2jsIdlHNVUiPDptaRAMZHpSBRoTfrXzwOpLykr06ST2+hRSEbVJWVxHg+ZkcRgcwA7O
-	L7qZR6jnZIo9w5a8LUep99+CMXVQRCssigmpA=
+	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=VEVkJAAVGfnQ1hzifhlp35Sy5D1/bglNrlcWPGBfvvE=;
+	b=eQmqApwNIyba4aSopYpJt7nDK1iBJ/RhJP1P32qTnNO8FP6SMukq8e2nvWFtijCYdp
+	XU71pzKDIUXgATZzQ30w5DanDCn2cyyXLuAN5rQp0w9n9kfV23kdOrVi3K6tQ9eTCzvM
+	kmYRVzrVX2AEqyAlrKSy/eTr/3O16pgJfZofQ=
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=iot-bzh.20150623.gappssmtp.com; s=20150623;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=QOA/fEVCgOM2FRgbcVL+XBGcJEPAstjQ1xVdamegWgo=;
-	b=BzLzK+OUf6H+d4KJOd2/kAYDc2oJ/tq3dCfr4TRHW+r9urkm/YZwm3zNvNIIrc31/m
-	aScSAbpzAluoGG6erucZP5RuAZlaoc9Q48h/Hqfk/U88o4DSrcbRgvl7g8k4hu1u0dPm
-	bYWubH80w2k0K5QM/krpC46Hoarxz5Ui4Q2NpQp9mz61W4SJrK6/BSftFU69jUdcSGIA
-	MabxLLS7suLxgnR2ZapXt+dB4GxnnQ8ZZ8umV3Jct7EJtnaB9zJFFRkOmCI3bi3ohpdw
-	m06JWk3B2I/PhDqPnjC5xAusU/mgpizoIIfMm62nRN5K0PIgYwOdhGvOYJcWQ3fR7E9V
-	szBQ==
+	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=VEVkJAAVGfnQ1hzifhlp35Sy5D1/bglNrlcWPGBfvvE=;
+	b=SRQZN0MsKTp0CFp7FHPXq4MuGmXvpRR/QT4XyyUkxYp67SMwCG3EadGyajC8x35snf
+	aDFv3BELLOcxpfTDVZoL5/fFs4AHuyrrEcbStaIMd3KHcVOsbra6+hH1XrENKrhtmFbv
+	Lg3sbfVtpjXU5aizDxCqWsbbxMe40x9+Pa/30hWuEpoamKWJRLpqiuD2sMbkQhqRJFKc
+	zZ5U57+pIB/7rMpzo9t3enK83j2h75eG3GW2n/8F37Lw3fB1a1dLE79eKBIYKloxwr1X
+	7mNbsSRB/d0lgoEtFqLx8PIy67Ft0xU/1tVW92jMb9Qi/UTKil/pNASvmPxzvqnovoV6
+	++VA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-	bh=QOA/fEVCgOM2FRgbcVL+XBGcJEPAstjQ1xVdamegWgo=;
-	b=UUXxHqhcj4gqMhEZNi6zvBYH/+a2zFnkyedqPrLTP1vjZCDFlDnkhwFxmlr9/IcYhV
-	aIKI6VNAHIPamyn/09c3lqZef7LfK3x/TQnw8faUKwkFp2/rwkJfEC6aulnX8YTSQ6ii
-	CoBIbzHFjQq+zZkNfKLJoTFP/IwTNRMzk2rWu9dE+lLSdvM5h/3Q5y6BTs3/KjPBVHWY
-	C9oe0ssNCtawi8lALzi9CYKOrZAZkJd8cL8S2+ClvOLTd9+KZRTKX0qVTJCmAfX9C0gw
-	Q6Fs91J5peFZv6Yh/hC1T18y6fB3MSdQ5OmKXgoPXAYIUCsbB+6SpkNEPHQaOnTx/jYF
-	dReQ==
-X-Gm-Message-State: AOPr4FUk+Rm3d0pXnvwSQsV6oVzxvlD4/Tx46FIhBnRMAPLIFg1gRguCcpXFervIcYTe2g==
-X-Received: by 10.194.71.171 with SMTP id w11mr10237742wju.36.1461160290730;
-	Wed, 20 Apr 2016 06:51:30 -0700 (PDT)
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+	:in-reply-to:references;
+	bh=VEVkJAAVGfnQ1hzifhlp35Sy5D1/bglNrlcWPGBfvvE=;
+	b=VYt+6TjwPHnGNf4DCZ1crMvukzsF2QgouxXR4ij2NNG6+4Iqcd4q9WX7jfmL9XbOdO
+	FsMZT4ZQ6YQE8ghfq9pebH61X0bz2DFuW86ZGVsyxVXoMDHM5hnQ2sQY8wtf12DS/LRZ
+	6Fs6SuP7PcBT6HrvQ1lRx+gc5e36TiFYx5h9SdYnTWvcXyIGyFxeXwyU4Sy9C7vSytvt
+	ydNuiDMCHOQraPIFkGjjZZVzCSQzCG2faswV4S4UM640Nl/IJ3db4r9+kz3X5zZG22mx
+	soDF4sKEgqzxfUqVJvFln3fWFJScB+01r6ELEqVrSi1NRFpgjQzFWzaeLbl4kiVYySrI
+	kpCA==
+X-Gm-Message-State: AOPr4FUQ9kaiBRm9A46jAJVn7e9IEL+18hIvINCl5JA7n0LOJhSfRF9TJWfBJkFzOjhl1Q==
+X-Received: by 10.194.230.97 with SMTP id sx1mr10328812wjc.0.1461160291672;
+	Wed, 20 Apr 2016 06:51:31 -0700 (PDT)
 Received: from pollux.vannes.iot (pat35-3-82-245-140-164.fbx.proxad.net.
 	[82.245.140.164])
-	by smtp.gmail.com with ESMTPSA id w3sm5770581wjt.0.2016.04.20.06.51.29
+	by smtp.gmail.com with ESMTPSA id w3sm5770581wjt.0.2016.04.20.06.51.30
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 20 Apr 2016 06:51:29 -0700 (PDT)
+	Wed, 20 Apr 2016 06:51:31 -0700 (PDT)
 Sender: "Yannick Gicquel [ IoT.bzh ]" <ygl@koumoul.net>
 From: Yannick Gicquel <yannick.gicquel@iot.bzh>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Apr 2016 15:50:35 +0200
-Message-Id: <1461160239-7799-1-git-send-email-yannick.gicquel@iot.bzh>
+Date: Wed, 20 Apr 2016 15:50:36 +0200
+Message-Id: <1461160239-7799-2-git-send-email-yannick.gicquel@iot.bzh>
 X-Mailer: git-send-email 1.9.1
-Subject: [RFC][PATCH v2 0/4] U-Boot verified boot basic support
+In-Reply-To: <1461160239-7799-1-git-send-email-yannick.gicquel@iot.bzh>
+References: <1461160239-7799-1-git-send-email-yannick.gicquel@iot.bzh>
+Subject: [RFC][PATCH v2 1/4] u-boot: basic support of dtb append for verified boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,25 +62,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Apr 2016 13:51:31 -0000
+X-List-Received-Date: Wed, 20 Apr 2016 13:51:32 -0000
 
-Changes since v1:
-  * Uses a class uboot-sign.bbclass file instead of include file.
-  * 'assemble_dtb' task removed and replace by do_install_prepend function
-    for u-boot recipe.
+This introduces a new uboot-sign.class to support U-Boot verified boot.
 
-Yannick Gicquel (4):
-  u-boot: basic support of dtb append for verified boot
-  u-boot: deploy u-boot-nodtb and dtb files
-  kernel: fitimage: support device tree compiler options
-  kernel: fitimage: basic support for fitimage signature
+This part delivers the new class file, with related environment variables, and
+a basic prepend to do_install task which performs the concatenation of the
+u-boot-nodtb.bin and the device tree blob. The 'cat' command used
+overrides the u-boot.bin in both DEPLOYDIR & build dir to propagate the
+changes in later tasks (do_install, do_package, etc.)
 
- meta/classes/kernel-fitimage.bbclass | 52 +++++++++++++++++++++++--
- meta/classes/uboot-sign.bbclass      | 75 ++++++++++++++++++++++++++++++++++++
- meta/recipes-bsp/u-boot/u-boot.inc   |  2 +-
- 3 files changed, 125 insertions(+), 4 deletions(-)
+Signed-off-by: Yannick Gicquel <yannick.gicquel@iot.bzh>
+---
+ meta/classes/uboot-sign.bbclass    | 59 ++++++++++++++++++++++++++++++++++++++
+ meta/recipes-bsp/u-boot/u-boot.inc |  2 +-
+ 2 files changed, 60 insertions(+), 1 deletion(-)
  create mode 100644 meta/classes/uboot-sign.bbclass
 
+diff --git a/meta/classes/uboot-sign.bbclass b/meta/classes/uboot-sign.bbclass
+new file mode 100644
+index 0000000..63a5181
+--- /dev/null
++++ b/meta/classes/uboot-sign.bbclass
+@@ -0,0 +1,59 @@
++# This file is part of U-Boot verified boot support and is intended to be
++# inherited from u-boot recipe and from kernel-fitimage.bbclass.
++#
++# The signature procedure requires the user to generate an RSA key and
++# certificate in a directory and to define the following variable:
++#
++#   UBOOT_SIGN_KEYDIR = "/keys/directory"
++#   UBOOT_SIGN_KEYNAME = "dev" # keys name in keydir (eg. "dev.crt", "dev.key")
++#   UBOOT_MKIMAGE_DTCOPTS = "-I dts -O dtb -p 2000"
++#   UBOOT_SIGN_ENABLE = "1"
++#
++# As verified boot depends on fitImage generation, following is also required:
++#
++#   KERNEL_CLASSES ?= " kernel-fitimage "
++#   KERNEL_IMAGETYPE ?= "fitImage"
++#
++# The signature support is limited to the use of CONFIG_OF_SEPARATE in U-Boot.
++#
++# The tasks sequence is as below, using DEPLOY_IMAGE_DIR as common place to
++# treat the device tree blob:
++#
++# u-boot:do_deploy -> virtual/kernel:do_assemble_fitimage -> u-boot:do_install
++#
++# For more details on signature process, please refer to U-boot documentation.
++
++# Signature activation.
++UBOOT_SIGN_ENABLE ?= "0"
++
++# Default value for deployment filenames.
++UBOOT_DTB_IMAGE ?= "u-boot-${MACHINE}-${PV}-${PR}.dtb"
++UBOOT_DTB_BINARY ?= "u-boot.dtb"
++UBOOT_DTB_SYMLINK ?= "u-boot-${MACHINE}.dtb"
++UBOOT_NODTB_IMAGE ?= "u-boot-nodtb-${MACHINE}-${PV}-${PR}.${UBOOT_SUFFIX}"
++UBOOT_NODTB_BINARY ?= "u-boot-nodtb.${UBOOT_SUFFIX}"
++UBOOT_NODTB_SYMLINK ?= "u-boot-nodtb-${MACHINE}.${UBOOT_SUFFIX}"
++
++#
++# Following is relevant only for u-boot recipes:
++#
++
++do_install_prepend_pn-u-boot () {
++	# Concatenate U-Boot w/o DTB & DTB with public key
++	# (cf. kernel-fitimage.bbclass for more details)
++	cd ${DEPLOYDIR}
++	if [ "x${UBOOT_SIGN_ENABLE}" = "x1" ]; then
++		if [ -e "${UBOOT_NODTB_IMAGE}" -a -e "${UBOOT_DTB_IMAGE}" ]; then
++			cat ${UBOOT_NODTB_IMAGE} ${UBOOT_DTB_IMAGE} > ${UBOOT_IMAGE}
++			cat ${UBOOT_NODTB_IMAGE} ${UBOOT_DTB_IMAGE} > ${B}/${UBOOT_BINARY}
++		else
++			bbwarn "Failure while adding public key to u-boot binary. Verified boot won't be available."
++		fi
++	fi
++}
++
++python () {
++	if d.getVar('UBOOT_SIGN_ENABLE', True) == '1' and d.getVar('PN', True) == 'u-boot':
++		kernel_pn = d.getVar('PREFERRED_PROVIDER_virtual/kernel', True)
++		d.appendVarFlag('do_install', 'depends', ' %s:do_assemble_fitimage' % kernel_pn)
++}
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index 3ba866d..037f35c 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -12,7 +12,7 @@ S = "${WORKDIR}/git"
+ 
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ 
+-inherit uboot-config deploy
++inherit uboot-config uboot-sign deploy
+ 
+ EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS}" V=1'
+ EXTRA_OEMAKE += 'HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}"'
 -- 
 1.9.1
 
