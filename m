@@ -1,32 +1,46 @@
-Return-Path: <dannenberg@ti.com>
-X-Greylist: delayed 951 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 20 Apr 2016 19:49:40 UTC
-Received: from arroyo.ext.ti.com (arroyo.ext.ti.com [192.94.94.40])
-	by mail.openembedded.org (Postfix) with ESMTP id BD794606D0
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
+	[209.85.213.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F88E60119
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Apr 2016 19:49:40 +0000 (UTC)
-Received: from dflxv15.itg.ti.com ([128.247.5.124])
-	by arroyo.ext.ti.com (8.13.7/8.13.7) with ESMTP id u3KJXnYW020835;
-	Wed, 20 Apr 2016 14:33:49 -0500
-Received: from DLEE71.ent.ti.com (dlee71.ent.ti.com [157.170.170.114])
-	by dflxv15.itg.ti.com (8.14.3/8.13.8) with ESMTP id u3KJXnxI001219;
-	Wed, 20 Apr 2016 14:33:49 -0500
-Received: from dflp33.itg.ti.com (10.64.6.16) by DLEE71.ent.ti.com
-	(157.170.170.114) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 20 Apr 2016 14:33:48 -0500
-Received: from borg.dal.design.ti.com (ileax41-snat.itg.ti.com
-	[10.172.224.153])	by dflp33.itg.ti.com (8.14.3/8.13.8) with ESMTP id
-	u3KJXmc1009584;	Wed, 20 Apr 2016 14:33:48 -0500
-Date: Wed, 20 Apr 2016 14:33:48 -0500
-From: Andreas Dannenberg <dannenberg@ti.com>
-To: Yannick Gicquel <yannick.gicquel@iot.bzh>
-Message-ID: <20160420193348.GA16786@borg.dal.design.ti.com>
-References: <1461160239-7799-2-git-send-email-yannick.gicquel@iot.bzh>
+	Wed, 20 Apr 2016 20:12:11 +0000 (UTC)
+Received: by mail-vk0-f65.google.com with SMTP id v68so7935199vka.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Apr 2016 13:12:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc; bh=vnot7uMABrODAyRLidnlO0r4r8xcpda5WbPCDrjAdMQ=;
+	b=lZVj1KfKEM66NE+X/dTjPeB1dPdB7ubM+p5wDTJZo09IIKy7ryTpX5c/Ap5tRPcdvO
+	lDHdv0NUKo83L6uH19ruilp4ViiRnVceVBc8RvUm6NX1S0J+/5vE6MNxyFe4qzsfr8GF
+	Pyz56h/sIHCqQ8CekwliqsjF/bxQTexNacj6+LNtbAcFhZOmagEb1ubXZEL17Scb5RwU
+	lv9Z3nawD9dyt9Qt5TNYYDYLKHw1gOm6ulVWBG09/HxzXkFdnXcalReeBRVaKt4lE+RV
+	JP/x1JVRkvdSId1WzAhb5+sji0FGQ+V8N4g3ozwuUZsxMjK/qgmsPAwwEHNk3TTch5pv
+	m/vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc;
+	bh=vnot7uMABrODAyRLidnlO0r4r8xcpda5WbPCDrjAdMQ=;
+	b=fyY1CSFs0hoUmpjZrH9UBEFh9aQSfWjka3TIifDe4rxEPHXLnI+ysT7A/8wLP/W5co
+	LK9xA8jdBhEGpuYBfklLm3iYE/BpQon03j7fZvvLKpg8xdpTQkPNpbgGFQA90Jkv4aAf
+	RRLnzsv1eoWQcfHrlU302q5PA+qVY92c6kJYKHWUk5zPfDbVJuh9J55geyNshgwoFNs1
+	XIl3OjDGe7CcNThwayjntNUgRXCPbWpvczI1iO290gz0vf+r491SDeRthBxXODZSeGX/
+	4toMw8h0FlLXl77cQOgpLFykskm/9iLxTYSdNfi9UlP1dT2HJgySF0rHfoCQf779Kyl/
+	CzyA==
+X-Gm-Message-State: AOPr4FWbqwOMpvu+lep18AxnUo03arO/baQta3x6dnqp8gL+zSAGyYh0XlmtfsUa95Bu/3ha+1m2/NiTwexmBw==
 MIME-Version: 1.0
-In-Reply-To: <1461160239-7799-2-git-send-email-yannick.gicquel@iot.bzh>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC, v2, 1/4] u-boot: basic support of dtb append for verified boot
+X-Received: by 10.176.1.117 with SMTP id 108mr5688183uak.49.1461183132320;
+	Wed, 20 Apr 2016 13:12:12 -0700 (PDT)
+Received: by 10.103.94.2 with HTTP; Wed, 20 Apr 2016 13:12:12 -0700 (PDT)
+In-Reply-To: <1461180303-2392-1-git-send-email-tkilbourn@gmail.com>
+References: <1461180303-2392-1-git-send-email-tkilbourn@gmail.com>
+Date: Wed, 20 Apr 2016 14:12:12 -0600
+Message-ID: <CACS+7ZQSAepGy-V3eRVC=44yJoT5HLE3NNA-Psh8z10qhuzf9g@mail.gmail.com>
+From: Dan McGregor <danismostlikely@gmail.com>
+To: Tim Kilbourn <tkilbourn@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] [jethro] boot-directdisk.bbclass: remove HDDIMG before create
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,30 +53,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Apr 2016 19:49:46 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 20 Apr 2016 20:12:13 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Wed, Apr 20, 2016 at 03:50:36PM +0200, Yannick Gicquel wrote:
-> This introduces a new uboot-sign.class to support U-Boot verified boot.
-> 
-> This part delivers the new class file, with related environment variables, and
-> a basic prepend to do_install task which performs the concatenation of the
-> u-boot-nodtb.bin and the device tree blob. The 'cat' command used
-> overrides the u-boot.bin in both DEPLOYDIR & build dir to propagate the
-> changes in later tasks (do_install, do_package, etc.)
-> 
-> Signed-off-by: Yannick Gicquel <yannick.gicquel@iot.bzh>
-> Reviewed-by: Tom Rini <trini@konsulko.com>
+On 20 April 2016 at 13:25, Tim Kilbourn <tkilbourn@gmail.com> wrote:
+> From: Robert Yang <liezhi.yang@windriver.com>
+>
+> Fixed when rebuild:
+> mkdosfs: file /path/to/hdd.image already exists
+>
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> (cherry-pick from 9abcd309c098558360cde2bff65be840ead25f83)
+> Signed-off-by: Tim Kilbourn <tkilbourn@gmail.com>
+> ---
+>  meta/classes/boot-directdisk.bbclass | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/classes/boot-directdisk.bbclass b/meta/classes/boot-directdisk.bbclass
+> index 600e21a..b324d89 100644
+> --- a/meta/classes/boot-directdisk.bbclass
+> +++ b/meta/classes/boot-directdisk.bbclass
+> @@ -121,6 +121,8 @@ build_boot_dd() {
+>         # done in blocks, thus the mod by 16 instead of 32.
+>         BLOCKS=$(expr $BLOCKS + $(expr 16 - $(expr $BLOCKS % 16)))
+>
+> +       # Remove it since mkdosfs would fail when it exists
+> +       rm -f $HDDIMG
+>         mkdosfs -n ${BOOTDD_VOLUME_ID} -S 512 -C $HDDIMG $BLOCKS
+>         mcopy -i $HDDIMG -s $HDDDIR/* ::/
+>
+> --
+> 1.9.1
+>
 
-Acked-by: Andreas Dannenberg <dannenberg@ti.com>
+This one has bitten us too. +1
 
 
-Thanks for the submission! Agreed with Tom, this will hopefully make the
-FIT-based authentication scheme easier and more accessible.
-
-
---
-Andreas Dannenberg
-Texas Instruments Inc
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
