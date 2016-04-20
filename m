@@ -1,49 +1,37 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
-	[209.85.220.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 806B76013D
+Return-Path: <Tudor.Florea@enea.com>
+Received: from smtp-out11.electric.net (smtp-out11.electric.net
+	[185.38.181.43])
+	by mail.openembedded.org (Postfix) with ESMTP id C846F60110
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Apr 2016 23:51:06 +0000 (UTC)
-Received: by mail-pa0-f49.google.com with SMTP id fs9so11407848pac.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Apr 2016 16:51:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=8cvZ0+z4cVFjrjJO5LH3oVRIKuQbvGgA26j1jrXFHfc=;
-	b=rnW8iCM7q7CUskJktYtD23X1F7iKA3YGkkgnti4AXB+/GHEsDwWb+MZUfcAtTYWJGg
-	l6APbpzAOx+klnj0sOowhmJSwy/jvaJh3NQEJ9h6ZDGQemuyzbasToB8z78zPkeVwwnj
-	/K53RFdxAIdZrLNiDEu1ONBlJGqCPs5LnkAIxJ6K2DX+3+vSD5xQ839u2HWRnhiR0osj
-	PdIMOHp2+z+xfi41vFmRZqx5pMX2YA9LafvdGxLuvdwdonrvL6t9EbaBpcSJOeFPK8UP
-	OXQs4YQM0eu0h+oERmToKFzxOw9GH8qIaL5XY5/EduLhBrfo0EwuFZQbpqsQz2GhHJQw
-	ll8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=8cvZ0+z4cVFjrjJO5LH3oVRIKuQbvGgA26j1jrXFHfc=;
-	b=cOsygDzJ1AebL/A8sbpjpVoprfG5pVyKgqUosZhUE8oZZAX4KxZ7khBVfiDAFdtGNH
-	v/j60/qDt1EvBeYbApeGR6yIBlpP8tljo8ZSzMrKdiX0LSLRF8EKBJ79msp3OeMEq1Rc
-	GdOj/EmcJd5V9foc7cpdC87BBpweqdbt9opYXXDrtZK3O2XucotB4hHmsostqaMlaGSU
-	Fa+LK+CcvLznXH6Lhuy2+d+PptDTWkAZ5cU6WEOSzFcJWWLWyYUuGPwW6lJV1yhI63+t
-	Hzs7SF9xn5/mbd/1cFKOM0nuiOhBfyM5rSj/7ui4hKlfN+XBHJ1/1YhYF/7kQJfTH7fa
-	Z5pw==
-X-Gm-Message-State: AOPr4FXMgmdNpCrxSpcPTQCJYeCT9FgEn8+4h06mUWeCcDz5vnRtfNXxaEdO2InoerBHYA==
-X-Received: by 10.66.254.74 with SMTP id ag10mr8004828pad.106.1461109866694;
-	Tue, 19 Apr 2016 16:51:06 -0700 (PDT)
-Received: from Pahoa2.mvista.com ([64.2.3.194])
-	by smtp.gmail.com with ESMTPSA id
-	d2sm53393632pfd.80.2016.04.19.16.51.05
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 19 Apr 2016 16:51:05 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	akuster@mvista.com
-Date: Tue, 19 Apr 2016 16:51:02 -0700
-Message-Id: <1461109862-23840-2-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.3.5
-In-Reply-To: <1461109862-23840-1-git-send-email-akuster808@gmail.com>
-References: <1461109862-23840-1-git-send-email-akuster808@gmail.com>
-Subject: [PATCH][master][krogoth][jethro][fido 2/2] tzdata: update to 2016d
+	Wed, 20 Apr 2016 00:15:41 +0000 (UTC)
+Received: from 1asfnv-0004Ou-Vp by out11b.electric.net with emc1-ok (Exim 4.87)
+	(envelope-from <Tudor.Florea@enea.com>)
+	id 1asfnw-0004PI-UR; Tue, 19 Apr 2016 17:15:40 -0700
+Received: by emcmailer; Tue, 19 Apr 2016 17:15:40 -0700
+Received: from [192.36.1.72] (helo=mx-3.enea.com)
+	by out11b.electric.net with esmtps (TLSv1:AES128-SHA:128) (Exim 4.87)
+	(envelope-from <Tudor.Florea@enea.com>)
+	id 1asfnv-0004Ou-Vp; Tue, 19 Apr 2016 17:15:39 -0700
+Received: from [IPv6:fda8:8b75:6fa6:1000:fd30:2bf4:e5ca:d126] (192.168.15.34)
+	by smtp.enea.com (172.21.1.209) with Microsoft SMTP Server id
+	14.3.294.0; Wed, 20 Apr 2016 02:15:39 +0200
+To: Mark Hatle <mark.hatle@windriver.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <57166561.7020006@enea.com> <571672AD.9060706@windriver.com>
+From: Tudor Florea <tudor.florea@enea.com>
+Message-ID: <5716CA2A.4050001@enea.com>
+Date: Wed, 20 Apr 2016 03:15:38 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101
+	Thunderbird/38.7.2
+MIME-Version: 1.0
+In-Reply-To: <571672AD.9060706@windriver.com>
+X-Originating-IP: [192.168.15.34]
+X-Outbound-IP: 192.36.1.72
+X-Env-From: Tudor.Florea@enea.com
+X-PolicySMART: 6030817
+X-Virus-Status: Scanned by VirusSMART (c)
+X-Virus-Status: Scanned by VirusSMART (s)
+Subject: Re: rpm generation question
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,63 +44,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Apr 2016 23:51:07 -0000
+X-List-Received-Date: Wed, 20 Apr 2016 00:15:43 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-From: Armin Kuster <akuster@mvista.com>
 
-Changes affecting future time stamps
 
-America/Caracas switches from -0430 to -04 on 2016-05-01 at 02:30.
-(Thanks to Alexander Krivenyshev for the heads-up.)
+On 19/04/2016 21:02, Mark Hatle wrote:
+> On 4/19/16 12:05 PM, Tudor Florea wrote:
+>> As part of our test infrastructure we're attempting to install ptest
+>> packages (and execute the tests accordingly).
+>> Attempting to install ptest for valgrind fails with this error:
+>>
+>> error: Can't install valgrind-ptest-3.11.0-r0.1@ppce500mc: no package
+>> provides /this/is/a/bogus/interpreter/name
+> 
+> You can turn off the file level requires and provides on a per package basis.
+> 
+> SKIP_FILEDEPS_${PN}-ptest = '1'
 
-Asia/Magadan switches from +10 to +11 on 2016-04-24 at 02:00.
-(Thanks to Alexander Krivenyshev and Matt Johnson.)
+Mark,
+Thank you for the information provided.
+Unfortunately this did not work as expected.
+First issue: the dependency on bogus interpreter still exists with the
+line above.
+I was able to force remove this dependency by setting
+MERGEPERFILEDEPS = "0"
+on meta/classes/package_rpm.bbclass. Of course this is not a fix but
+only a test. I'm not sure if there is something missing around.
 
-New zone Asia/Tomsk, split off from Asia/Novosibirsk. It covers
-Tomsk Oblast, Russia, which switches from +06 to +07 on 2016-05-29
-at 02:00.  (Thanks to Stepan Golosunov.)
+The second issue: The rpm created this way can be installed using the
+command:
+rpm -ivH ./valgrind-ptest-3.11.0-r0.4.ppce500mc.rpm
+but still fails when attempt to install using smart.
 
-Changes affecting past time stamps
+Is this second issue a bug or smart is supposed to work this way?
 
-New zone Europe/Kirov, split off from Europe/Volgograd.  It covers
-Kirov Oblast, Russia, which switched from +04/+05 to +03/+04 on
-1989-03-26 at 02:00, roughly a year after Europe/Volgograd made
-the same change.  (Thanks to Stepan Golosunov.)
 
-Russia and nearby locations had daylight-saving transitions on
-1992-03-29 at 02:00 and 1992-09-27 at 03:00, instead of on
-1992-03-28 at 23:00 and 1992-09-26 at 23:00.  (Thanks to Stepan
-Golosunov.)
+Thank you,
+ Tudor.
 
-Many corrections to historical time in Kazakhstan from 1991
-through 2005.  (Thanks to Stepan Golosunov.)  Replace Kazakhstan's
-invented time zone abbreviations with numeric abbreviations.
-
-Signed-off-by: Armin Kuster <akuster@mvista.com>
----
- meta/recipes-extended/tzdata/{tzdata_2016c.bb => tzdata_2016d.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/tzdata/{tzdata_2016c.bb => tzdata_2016d.bb} (98%)
-
-diff --git a/meta/recipes-extended/tzdata/tzdata_2016c.bb b/meta/recipes-extended/tzdata/tzdata_2016d.bb
-similarity index 98%
-rename from meta/recipes-extended/tzdata/tzdata_2016c.bb
-rename to meta/recipes-extended/tzdata/tzdata_2016d.bb
-index 5eb85b7..627a31a 100644
---- a/meta/recipes-extended/tzdata/tzdata_2016c.bb
-+++ b/meta/recipes-extended/tzdata/tzdata_2016d.bb
-@@ -8,8 +8,8 @@ DEPENDS = "tzcode-native"
- 
- SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata"
- 
--SRC_URI[tzdata.md5sum] = "0330ccd16140d3b6438a18dae9b34b93"
--SRC_URI[tzdata.sha256sum] = "8700d981e6f2007ac037dabb5d2b12f390e8629bbc30e564bc21cf0c069a2d48"
-+SRC_URI[tzdata.md5sum] = "14bf84b6c2cdab0a9428991e0150ebe6"
-+SRC_URI[tzdata.sha256sum] = "d9554dfba0efd76053582bd89e8c7036ef12eee14fdd506675b08a5b59f0a1b4"
- 
- inherit allarch
- 
--- 
-2.3.5
-
+> 
+> Otherwise (for rpm packages) the system will attempt to discover and use the
+> per-file interpreter and other dependencies.  Since ptest is only tests, and the
+> dependencies here are specific to tests -- it should be safe to disable them.
+> 
+> (If that isn't the right approach for some reason, there are some other ways to
+> do a file level provide, but they're significantly more complicated and rarely
+> used.)
+> 
+> --Mark
+> 
+>>
+>> smart install valgrind-ptest-3.11.0-r0.1@ppce500mc
+>> Loading cache...
+>> Updating cache...
+>> ###############################################################################
+>> [100%]
+>>
+>> Computing transaction...
+>>
+>>  error: Can't install valgrind-ptest-3.11.0-r0.1@ppce500mc: no package
+>> provides /this/is/a/bogus/interpreter/name
+>>
+>>
+>> This is most probably caused by the file shell_badinterp contained in
+>> this package having the following contents:
+>>
+>> #! /this/is/a/bogus/interpreter/name
+>>
+>> true
+>>
+>> Does anyone have an idea how to get rid of this error?
+>> More specific: How can I exclude dependency on
+>> "/this/is/a/bogus/interpreter/name" for an rpm package?
+>>
+>> Thank you very much.
+>>   Tudor.
+>>
+> 
 
