@@ -1,31 +1,65 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 53D7A6E681
+Return-Path: <ygl@koumoul.net>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 3EEED601F6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Apr 2016 10:36:14 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP; 20 Apr 2016 03:36:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,509,1455004800"; d="scan'208";a="788542368"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga003.jf.intel.com with ESMTP; 20 Apr 2016 03:36:15 -0700
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.51])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 0CA186A4083;
-	Wed, 20 Apr 2016 04:23:51 -0700 (PDT)
-Date: Wed, 20 Apr 2016 11:16:23 +0300
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-Message-ID: <20160420081623.GA15596@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <1461143852-2263-1-git-send-email-adrian.ratiu@ni.com>
+	Wed, 20 Apr 2016 13:36:39 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id l6so13815758wml.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Apr 2016 06:36:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=koumoul.net; s=dkim;
+	h=sender:reply-to:subject:references:to:from:organization:message-id
+	:date:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=B4SnqObRh61IdtDWTWZwFQfppa7+ZcFEIYUx2U6bGeQ=;
+	b=bQzpyyQ0BvewpKavnMoja9KaKLLLsqf+Scay+6WDwqPJCKToYimyRR+U6nifYOMQNx
+	X7RoivlGbK7Jtnf7HV5zUVoKxt2NQbKxEin42ErZUkFiGq26ekXlEFN0qa1u61inU/Yq
+	HE6jES39NL8X6fDJUM/j34JcpIZGXo/xUbsFc=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=iot-bzh.20150623.gappssmtp.com; s=20150623;
+	h=sender:reply-to:subject:references:to:from:organization:message-id
+	:date:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=B4SnqObRh61IdtDWTWZwFQfppa7+ZcFEIYUx2U6bGeQ=;
+	b=DssUWbsvod0IzQOU1xx+/cwPJepCk8VBTLikDfC/wf2MrTY0aEWUyb+G4FwZ0weqXZ
+	DnUb0a3YDs+JlNQaWY3x014X+k0gTNvJstmjAi/lXLAynuzjFqmxiFD0yOoPMc7DYSCW
+	84fow3iW4rMBPO4U35SazrNeH9zR2CU4e8RDoeRP0U8n3BLpil04Gy0dz2duAa3h01jW
+	3GpVI9Pydyf/Yr1khnpnuXkv85vPEuaAfmcqC7yx6wJfp9+RbXavCSHtQaUmzVKho8RR
+	0DBMWQZ5vZfuMg1K5VWJ5Qgieq3odznhpU32q3RsGYdbpBSXsu9SStr0jPMvM8SzuP6Q
+	Nbcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:sender:reply-to:subject:references:to:from
+	:organization:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding;
+	bh=B4SnqObRh61IdtDWTWZwFQfppa7+ZcFEIYUx2U6bGeQ=;
+	b=TjF0SiYEgDjJjuRtYPELloomT6rZdHkJiQODiEL3l+asF+lcHpJpLvT2rPTM7Am0Mq
+	YwOiC8R2FihAguTIRPyjJtuBMGeywN95kuRsJoGACELuUkGQKnbcEgpt9AufcLDKHkYz
+	Q7JExvvMppWdCq8jzBm1a96R7f3CTWDBEVVRZCXnrfuPhdOmSpxHCoBQKqUU1aiw0p5Q
+	99pYyO7rsD/C+HIKZKMaORpJd6Gsjc6oUxO04qUjAdMU0Gmczpd+b/AXxU19QbXhW/hO
+	UX+2Lu+sxSgZA3h+4AESb0NyhSsSQDmUkfWnbzS7sq+nXZJ01BffcbGqkxOoRH47JvTC
+	0P1w==
+X-Gm-Message-State: AOPr4FWC0dtcS4ZtQX6Puc+iogKRlgqqaCaHEmgmHXYPNL1aj6l0Y7j7LgBRfiVJCf7dNg==
+X-Received: by 10.28.53.193 with SMTP id c184mr12904227wma.93.1461159400049;
+	Wed, 20 Apr 2016 06:36:40 -0700 (PDT)
+Received: from [10.20.105.60] (pat35-3-82-245-140-164.fbx.proxad.net.
+	[82.245.140.164])
+	by smtp.gmail.com with ESMTPSA id s10sm5726076wjp.3.2016.04.20.06.36.39
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 20 Apr 2016 06:36:39 -0700 (PDT)
+Sender: "Yannick Gicquel [ IoT.bzh ]" <ygl@koumoul.net>
+Reply-To: yannick.gicquel@iot.bzh
+References: <1461070003-12494-1-git-send-email-yannick.gicquel@iot.bzh>
+	<1461070003-12494-2-git-send-email-yannick.gicquel@iot.bzh>
+	<571640FF.4040000@opendreambox.org> <57173D88.5040102@iot.bzh>
+	<20160420083737.GD3520@ad.chargestorm.se>
+To: openembedded-core@lists.openembedded.org, anders@chargestorm.se
+From: Yannick GICQUEL <yannick.gicquel@iot.bzh>
+Organization: IOT.bzh
+Message-ID: <571785ED.9020407@iot.bzh>
+Date: Wed, 20 Apr 2016 15:36:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
 MIME-Version: 1.0
-In-Reply-To: <1461143852-2263-1-git-send-email-adrian.ratiu@ni.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] wic: isoimage-isohybrid: add grubefi configfile support
+In-Reply-To: <20160420083737.GD3520@ad.chargestorm.se>
+Subject: Re: [RFC PATCH 1/4] u-boot: basic support of device tree blob reassembly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,114 +72,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Apr 2016 10:36:16 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 20 Apr 2016 13:36:41 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Ioan-Adrian,
 
-Thank you for the patch! My comment is below.
-Please, make sure your change doesn't break wic tests.
 
-On Wed, Apr 20, 2016 at 12:17:32PM +0300, Ioan-Adrian Ratiu wrote:
-> The latest wic kickstart refactoring introduced a bootloader option
-> "--configfile" which lets wks' specify a custom grub.cfg for use
-> while booting. This is very useful for creating stuff like boot menus.
-> 
-> This change lets isoimage-isohybrid use --configfile; if this option is
-> not specified in a wks, it generates a default cfg as before.
-> 
-> Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-> ---
->  .../lib/wic/plugins/source/isoimage-isohybrid.py   | 59 ++++++++++++++--------
->  1 file changed, 37 insertions(+), 22 deletions(-)
-> 
-> diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-> index bc99283..37d2fc2 100644
-> --- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-> +++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-> @@ -27,6 +27,7 @@ import glob
->  
->  from wic import msger
->  from wic.pluginbase import SourcePlugin
-> +from wic.utils.misc import get_custom_config
->  from wic.utils.oe.misc import exec_cmd, exec_native_cmd, get_bitbake_var
->  
->  class IsoImagePlugin(SourcePlugin):
-> @@ -94,33 +95,47 @@ class IsoImagePlugin(SourcePlugin):
->          """
->          Create loader-specific (grub-efi) config
->          """
-> -        splash = os.path.join(cr_workdir, "/EFI/boot/splash.jpg")
-> -        if os.path.exists(splash):
-> -            splashline = "menu background splash.jpg"
-> -        else:
-> -            splashline = ""
-> +        configfile = creator.ks.bootloader.configfile
-> +        custom_cfg = None
-> +        if configfile:
-> +            custom_cfg = get_custom_config(configfile)
-> +            if custom_cfg:
-> +                # Use a custom configuration for grub
-> +                grubefi_conf = custom_cfg
-> +                msger.debug("Using custom configuration file "
-> +                        "%s for grub.cfg" % configfile)
-> +            else:
-> +                msger.error("configfile is specified but failed to "
-> +                        "get it from %s." % configfile)
->  
-> -        bootloader = creator.ks.bootloader
-> +        if not custom_cfg:
-Looks like you don't need custom_cfg variable here. This code can be put
-into 'else' scope of 'if configfile' statement.
-> +            splash = os.path.join(cr_workdir, "/EFI/boot/splash.jpg")
-> +            if os.path.exists(splash):
-> +                splashline = "menu background splash.jpg"
-> +            else:
-> +                splashline = ""
+Le 20/04/2016 10:37, Anders Darander a écrit :
+> Just a comment on task ordering. Not sure that it really matters
+> though...
 >
-> -        grubefi_conf = ""
-> -        grubefi_conf += "serial --unit=0 --speed=115200 --word=8 "
-> -        grubefi_conf += "--parity=no --stop=1\n"
-> -        grubefi_conf += "default=boot\n"
-> -        grubefi_conf += "timeout=%s\n" % (bootloader.timeout or 10)
-> -        grubefi_conf += "\n"
-> -        grubefi_conf += "search --set=root --label %s " % part.label
-> -        grubefi_conf += "\n"
-> -        grubefi_conf += "menuentry 'boot'{\n"
-> +            bootloader = creator.ks.bootloader
->  
-> -        kernel = "/bzImage"
-> +            grubefi_conf = ""
-> +            grubefi_conf += "serial --unit=0 --speed=115200 --word=8 "
-> +            grubefi_conf += "--parity=no --stop=1\n"
-> +            grubefi_conf += "default=boot\n"
-> +            grubefi_conf += "timeout=%s\n" % (bootloader.timeout or 10)
-> +            grubefi_conf += "\n"
-> +            grubefi_conf += "search --set=root --label %s " % part.label
-> +            grubefi_conf += "\n"
-> +            grubefi_conf += "menuentry 'boot'{\n"
->  
-> -        grubefi_conf += "linux %s rootwait %s\n" \
-> -            % (kernel, bootloader.append)
-> -        grubefi_conf += "initrd /initrd \n"
-> -        grubefi_conf += "}\n"
-> +            kernel = "/bzImage"
->  
-> -        if splashline:
-> -            grubefi_conf += "%s\n" % splashline
-> +            grubefi_conf += "linux %s rootwait %s\n" \
-> +                            % (kernel, bootloader.append)
-> +            grubefi_conf += "initrd /initrd \n"
-> +            grubefi_conf += "}\n"
-> +
-> +            if splashline:
-> +                grubefi_conf += "%s\n" % splashline
->  
->          msger.debug("Writing grubefi config %s/EFI/BOOT/grub.cfg" \
->                          % cr_workdir)
+> * Yannick GICQUEL <yannick.gicquel@iot.bzh> [160420 10:28]:
+>> Le 19/04/2016 16:30, Andreas Oberritter a écrit :
+>>> Hello Yannick,
+>> Hi Andreas,
+>>> On 19.04.2016 14:46, Yannick Gicquel wrote:
+>>>> +addtask assemble_dtb after do_deploy before do_install
+>>> The task do_deploy executes after do_install. Does it really work this
+>>> way? I think bitbake should try to detect this and error out.
+>> I confirm do_deploy is executed before do_install.
+>> It looks like it is schedule this way by the last line of the file:
+>> addtask deploy before do_build after do_compile
+> Well, if task do_deploy is scheduled before do_install, that's just by
+> luck.
+>
+> The following line adds do_install:
+>
+> addtask install after do_compile
+>
+> Thus, the ordering between do_install and do_deploy isn't fixed. It
+> could be random, it could be based on alphabetical sorting, or the order
+> the tasks are added. However, it could easily change...
 
---
-Regards,
-Ed
+Thanks for the precision.
+I understand that ordering is not fixed as both tasks depends on do_compile.
+
+I am on the way to send a v2 and the tasks are now sequenced as below :
+    u-boot:do_deploy -> virtual/kernel:do_assemble_fitimage -> 
+u-boot:do_install
+
+Best regards,
+
+>
+> Cheers,
+> Anders
+>
+>> (I attached the log.task_order for reference - FYI, behavior is the same on
+>> jethro or today's master branch)
+
 
