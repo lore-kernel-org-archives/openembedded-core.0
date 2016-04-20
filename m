@@ -1,32 +1,48 @@
-Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 39C6660796
+Return-Path: <trini@konsulko.com>
+Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
+	[209.85.220.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 47FBE65CC3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Apr 2016 15:09:10 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u3KF94Qh005496 for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Apr 2016 10:09:08 -0500
-Received: from adi-pc-linux.emea.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016042010084850-124448 ;
-	Wed, 20 Apr 2016 10:08:48 -0500 
-Date: Wed, 20 Apr 2016 18:08:38 +0300
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-To: <openembedded-core@lists.openembedded.org>
-Message-ID: <20160420180838.49f65959@adi-pc-linux.emea.corp.natinst.com>
-In-Reply-To: <1461164775-2983-1-git-send-email-adrian.ratiu@ni.com>
-References: <1461164775-2983-1-git-send-email-adrian.ratiu@ni.com>
-Organization: National Instruments
+	Wed, 20 Apr 2016 15:23:19 +0000 (UTC)
+Received: by mail-qk0-f169.google.com with SMTP id r184so15415489qkc.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Apr 2016 08:23:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=gvovq6u+Yd1GBLd6gJgsPyVCrMdk4ftlYmXHC7EhL7A=;
+	b=EOuJ4p++4d+DvDy00uPmQbezr3M4Fr80vqVZLouZo92nJDOHjwkKAYAmK8EmenHAba
+	te21ecqMDAQRxKwU43bZ7n9lSlkXQdCgU6LO3WQakZebzMoWRhCnfLy7GPyOSyMobQVZ
+	oBvTq5yjT6i4m2YuB6XfI8v0VEwFGszBDJNLg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=gvovq6u+Yd1GBLd6gJgsPyVCrMdk4ftlYmXHC7EhL7A=;
+	b=T0nyEfXhHGRUSVQ3yfQXsa4t71fmuUzLE9w8VfrGy/rd8A6KQysHK17EsOPXaKEme/
+	kt4HbJGCd3q/mYVEeboTzx8JMxdxS1zg4KjUDBQbIGm1lYL17tfjLJ1cj9dHYUl9cnyT
+	vqSCwLRLkDus+p5MgJse8LVRUhyTfSWwu1pgiRsXS/GNknZ8EZlxovVRkCNjaRsQ0qQ1
+	F5tnC21kVNYq30Ed6fXyoowyk4xwcyTIex1tf32zddYc30nZzX0VGcfWMcwB2PYpGOdR
+	t1zxq+CVwvPNSCg6E522hLz8SstW5aRfjlsPCf3/Hj4ojeeUM4UIj26BztWxWR0IgC9e
+	l/JQ==
+X-Gm-Message-State: AOPr4FVXc4Mh+xDqzpN0UBATsMl68U6QINezkzHM7xQLsH7xJF51C9okg6Zb//WZmWruyw==
+X-Received: by 10.55.81.87 with SMTP id f84mr12225938qkb.10.1461165799650;
+	Wed, 20 Apr 2016 08:23:19 -0700 (PDT)
+Received: from bill-the-cat ([2001:470:8:32a:225:22ff:fec3:d28d])
+	by smtp.gmail.com with ESMTPSA id
+	126sm9582279qkh.19.2016.04.20.08.23.16
+	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
+	Wed, 20 Apr 2016 08:23:16 -0700 (PDT)
+Date: Wed, 20 Apr 2016 11:23:18 -0400
+From: Tom Rini <trini@konsulko.com>
+To: Yannick Gicquel <yannick.gicquel@iot.bzh>
+Message-ID: <20160420152318.GB1924@bill-the-cat>
+References: <1461160239-7799-1-git-send-email-yannick.gicquel@iot.bzh>
 MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 04/20/2016 10:08:48 AM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 04/20/2016 10:08:50 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-04-20_10:, , signatures=0
-Subject: Re: [PATCH] wic: isoimage-isohybrid: add grubefi configfile support
+In-Reply-To: <1461160239-7799-1-git-send-email-yannick.gicquel@iot.bzh>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC][PATCH v2 0/4] U-Boot verified boot basic support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,111 +55,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Apr 2016 15:09:13 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 20 Apr 2016 15:23:20 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I forgot to mention this is v2... sorry.
+On Wed, Apr 20, 2016 at 03:50:35PM +0200, Yannick Gicquel wrote:
 
-On Wed, 20 Apr 2016 18:06:15 +0300
-Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
+> Changes since v1:
+>   * Uses a class uboot-sign.bbclass file instead of include file.
+>   * 'assemble_dtb' task removed and replace by do_install_prepend function
+>     for u-boot recipe.
+> 
+> Yannick Gicquel (4):
+>   u-boot: basic support of dtb append for verified boot
+>   u-boot: deploy u-boot-nodtb and dtb files
+>   kernel: fitimage: support device tree compiler options
+>   kernel: fitimage: basic support for fitimage signature
+> 
+>  meta/classes/kernel-fitimage.bbclass | 52 +++++++++++++++++++++++--
+>  meta/classes/uboot-sign.bbclass      | 75 ++++++++++++++++++++++++++++++++++++
+>  meta/recipes-bsp/u-boot/u-boot.inc   |  2 +-
+>  3 files changed, 125 insertions(+), 4 deletions(-)
+>  create mode 100644 meta/classes/uboot-sign.bbclass
 
-> The latest wic kickstart refactoring introduced a bootloader option
-> "--configfile" which lets wks' specify a custom grub.cfg for use
-> while booting. This is very useful for creating stuff like boot menus.
->=20
-> This change lets isoimage-isohybrid use --configfile; if this option is
-> not specified in a wks, it generates a default cfg as before.
->=20
-> Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-> ---
->  .../lib/wic/plugins/source/isoimage-isohybrid.py   | 53 +++++++++++++---=
-------
->  1 file changed, 32 insertions(+), 21 deletions(-)
->=20
-> diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scrip=
-ts/lib/wic/plugins/source/isoimage-isohybrid.py
-> index bc99283..8440581 100644
-> --- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-> +++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-> @@ -27,6 +27,7 @@ import glob
-> =20
->  from wic import msger
->  from wic.pluginbase import SourcePlugin
-> +from wic.utils.misc import get=5Fcustom=5Fconfig
->  from wic.utils.oe.misc import exec=5Fcmd, exec=5Fnative=5Fcmd, get=5Fbit=
-bake=5Fvar
-> =20
->  class IsoImagePlugin(SourcePlugin):
-> @@ -94,33 +95,43 @@ class IsoImagePlugin(SourcePlugin):
->          """
->          Create loader-specific (grub-efi) config
->          """
-> -        splash =3D os.path.join(cr=5Fworkdir, "/EFI/boot/splash.jpg")
-> -        if os.path.exists(splash):
-> -            splashline =3D "menu background splash.jpg"
-> +        configfile =3D creator.ks.bootloader.configfile
-> +        if configfile:
-> +            grubefi=5Fconf =3D get=5Fcustom=5Fconfig(configfile)
-> +            if grubefi=5Fconf:
-> +                msger.debug("Using custom configuration file "
-> +                        "%s for grub.cfg" % configfile)
-> +            else:
-> +                msger.error("configfile is specified but failed to "
-> +                        "get it from %s." % configfile)
->          else:
-> -            splashline =3D ""
-> +            splash =3D os.path.join(cr=5Fworkdir, "/EFI/boot/splash.jpg")
-> +            if os.path.exists(splash):
-> +                splashline =3D "menu background splash.jpg"
-> +            else:
-> +                splashline =3D ""
-> =20
-> -        bootloader =3D creator.ks.bootloader
-> +            bootloader =3D creator.ks.bootloader
-> =20
-> -        grubefi=5Fconf =3D ""
-> -        grubefi=5Fconf +=3D "serial --unit=3D0 --speed=3D115200 --word=
-=3D8 "
-> -        grubefi=5Fconf +=3D "--parity=3Dno --stop=3D1\n"
-> -        grubefi=5Fconf +=3D "default=3Dboot\n"
-> -        grubefi=5Fconf +=3D "timeout=3D%s\n" % (bootloader.timeout or 10)
-> -        grubefi=5Fconf +=3D "\n"
-> -        grubefi=5Fconf +=3D "search --set=3Droot --label %s " % part.lab=
-el
-> -        grubefi=5Fconf +=3D "\n"
-> -        grubefi=5Fconf +=3D "menuentry 'boot'{\n"
-> +            grubefi=5Fconf =3D ""
-> +            grubefi=5Fconf +=3D "serial --unit=3D0 --speed=3D115200 --wo=
-rd=3D8 "
-> +            grubefi=5Fconf +=3D "--parity=3Dno --stop=3D1\n"
-> +            grubefi=5Fconf +=3D "default=3Dboot\n"
-> +            grubefi=5Fconf +=3D "timeout=3D%s\n" % (bootloader.timeout o=
-r 10)
-> +            grubefi=5Fconf +=3D "\n"
-> +            grubefi=5Fconf +=3D "search --set=3Droot --label %s " % part=
-.label
-> +            grubefi=5Fconf +=3D "\n"
-> +            grubefi=5Fconf +=3D "menuentry 'boot'{\n"
-> =20
-> -        kernel =3D "/bzImage"
-> +            kernel =3D "/bzImage"
-> =20
-> -        grubefi=5Fconf +=3D "linux %s rootwait %s\n" \
-> -            % (kernel, bootloader.append)
-> -        grubefi=5Fconf +=3D "initrd /initrd \n"
-> -        grubefi=5Fconf +=3D "}\n"
-> +            grubefi=5Fconf +=3D "linux %s rootwait %s\n" \
-> +                            % (kernel, bootloader.append)
-> +            grubefi=5Fconf +=3D "initrd /initrd \n"
-> +            grubefi=5Fconf +=3D "}\n"
-> =20
-> -        if splashline:
-> -            grubefi=5Fconf +=3D "%s\n" % splashline
-> +            if splashline:
-> +                grubefi=5Fconf +=3D "%s\n" % splashline
-> =20
->          msger.debug("Writing grubefi config %s/EFI/BOOT/grub.cfg" \
->                          % cr=5Fworkdir)
+Thanks for doing this.  It will hopefully make this knowledge more wide
+spread and thus more widely used.
 
+-- 
+Tom
 
