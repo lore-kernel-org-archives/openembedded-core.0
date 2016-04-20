@@ -1,48 +1,45 @@
-Return-Path: <bjorn.forsman@gmail.com>
-Received: from mail-lb0-f170.google.com (mail-lb0-f170.google.com
-	[209.85.217.170])
-	by mail.openembedded.org (Postfix) with ESMTP id AF550606BF
+Return-Path: <tkilbourn@gmail.com>
+Received: from mail-pf0-f179.google.com (mail-pf0-f179.google.com
+	[209.85.192.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 695126E667
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Apr 2016 18:24:36 +0000 (UTC)
-Received: by mail-lb0-f170.google.com with SMTP id u8so14092708lbk.0
+	Wed, 20 Apr 2016 19:24:53 +0000 (UTC)
+Received: by mail-pf0-f179.google.com with SMTP id e128so21124639pfe.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Apr 2016 11:24:37 -0700 (PDT)
+	Wed, 20 Apr 2016 12:24:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=pzaIqSoSD2lc3ZHVoKxw5AyLbltREFG7ZySSGRSWYZs=;
-	b=Ro7EiUoC7uYWqrKZKeK04zJwHBtV624cgFGwq62vhCN/TR10H0RTiPN7APHC+/bP++
-	im7C258vYNtm6EK7K+a8kjNZ1lNZ/+RIuxzB6sRE7HX+fz945w6ota1j9RVQcOFq/+JC
-	Y0AKkfDwzE6brUGSnoRAf2qgkUdgjIywYNxT8DuC88XPbRSbRnaNbykl5OBlSQ4psUBt
-	RqlyRMk1KEivIXkvJeNZjVx+77WTj8HTaxfCogCK2LwamBEdCK8/p2cotlSBZNj2Qwt9
-	N3zf4BLydTsIkRLEmNndCJWHQgSD+AYZXD+rGhlmtLjwPf2MuWxdSBor+W+e0xfj7URO
-	0yFg==
+	h=from:to:cc:subject:date:message-id;
+	bh=OcfVo3G1d/DhuMrOY4HUA6jZVPwIK1HVtlD5A2nOGMk=;
+	b=gt/sySy8bRLRFzI2BeXGuuABKps6NuPyqkhCIDEcDl5c+qcWM9tr500/CkKwuMbTdH
+	zblM+2MwxsvDZmQHIbXm0QKOgLo2zZ/ykQqZQWPvN09s/hTuGCwflAvb19mFY2pUPnWI
+	OdqITvAfz/BELK1SvLgDuT+B4ZxTUeOVdQxcZA9Ww9Hk8ttdbdoFl7DQYU/OGiiftbWU
+	gk2XsHmVkk3AS9GpEb7sj2CVUBSEtL3kYWYuYwgU3E2OeYd1hifHgvgDFUyFpo2g9YXa
+	lyVeWI9NYUxf0nbcdapbo+FVC+5RLQQiBlHF8auhSIkhuThl706dtoCk5qtdxP30aMXz
+	bLXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=pzaIqSoSD2lc3ZHVoKxw5AyLbltREFG7ZySSGRSWYZs=;
-	b=AcrdMMJlJ4RW+0utbWQt2F6yCx7JlWtGNnEmZq8TgbKKaixDbFnFN09q7dmrKo/LDU
-	ydbfvX0U1/WjLXY6C+q8KIU7zYpJ56NuevyJCmcdNvNIg9qKnZju2F60GaWj/uR1nqYJ
-	EmOfjC3f4OM1hkNqEg3maU6jWiDD7CSDShP/QRnd5GqWtYAGskKO/COsNQ69izcGC2/S
-	h2Rv+KX6FZazhG/0Kg/7djV47Zdg8dIB2SEUzCs5HHVjFnVewWCZD/LwzCOmKq8Q6ktu
-	UcOVuaSTHbi7TxxPvPUayu9SgqYPRABogJHbyLN4Xbvuw4YKo4dDamDNmz2zyiUr1CVv
-	Rhrw==
-X-Gm-Message-State: AOPr4FWyEM4MrkDRkCmPEyf0xMjyVhFadylF5s1pRWCQ+b7+JrtEED7tLvILnap29wA7eg==
-X-Received: by 10.112.22.131 with SMTP id d3mr4296083lbf.145.1461176675463;
-	Wed, 20 Apr 2016 11:24:35 -0700 (PDT)
-Received: from localhost (cm-84.208.208.120.getinternet.no. [84.208.208.120])
-	by smtp.gmail.com with ESMTPSA id
-	w125sm1320859lfa.10.2016.04.20.11.24.34
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 20 Apr 2016 11:24:34 -0700 (PDT)
-From: =?UTF-8?q?Bj=C3=B8rn=20Forsman?= <bjorn.forsman@gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=OcfVo3G1d/DhuMrOY4HUA6jZVPwIK1HVtlD5A2nOGMk=;
+	b=I2T/vxoxlA9Q3LEohJv0BM87slOMDWi81gdbUC1/WyH5nioTsqtOKbdo4fFajRS6Aw
+	A/aDhKzSGI1sdSbwuAV7O5RiHd46x+AXP29mqTqaY/tEp+lnTorV5IZH/PCVp1JD00kh
+	mBrJ3gunuG0pjt/enxI4snufM0f6ASJRsIBLx58b8mHr3zASnCwPQX4hxvO8s2lMuKlH
+	OygvkjrwxjuRT2Ha+YXWJ/49ra2vnrjydys3s7adLc+iNvQQSaW+5YvspTI4GrkzHwGl
+	F0bR/RlP8AmTAXCWPPYDKStyFqmW9zjRjqwOOd4DudkoqzI/lL8LJOmOQzUt0hafQjRR
+	118g==
+X-Gm-Message-State: AOPr4FU/QPs6hrO3Bxmh8tLDCUeZiD25L2EIg44/THyl1j/4kIxu2nP9LcK4gSnSClq4Pw==
+X-Received: by 10.98.10.202 with SMTP id 71mr3476317pfk.143.1461180294347;
+	Wed, 20 Apr 2016 12:24:54 -0700 (PDT)
+Received: from localhost.localdomain (c-69-181-67-47.hsd1.ca.comcast.net.
+	[69.181.67.47]) by smtp.gmail.com with ESMTPSA id
+	p26sm100095307pfi.84.2016.04.20.12.24.52
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 20 Apr 2016 12:24:53 -0700 (PDT)
+From: Tim Kilbourn <tkilbourn@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Apr 2016 20:24:34 +0200
-Message-Id: <1461176674-29389-1-git-send-email-bjorn.forsman@gmail.com>
-X-Mailer: git-send-email 2.5.4
-MIME-Version: 1.0
-Subject: [PATCH] [jethro] license.bbclass: fix warnings when run in unprivileged "container" env
+Date: Wed, 20 Apr 2016 12:25:03 -0700
+Message-Id: <1461180303-2392-1-git-send-email-tkilbourn@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] [jethro] boot-directdisk.bbclass: remove HDDIMG before create
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,61 +52,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Apr 2016 18:24:38 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 20 Apr 2016 19:24:54 -0000
 
-An unprivileged "container" environment like this[1] doesn't have root
-account (uid 0) which causes tons of "Invalid argument" warnings:
+From: Robert Yang <liezhi.yang@windriver.com>
 
-  $ bitbake ...
-  ...
-  WARNING: Could not copy license file [src] to [dest]: [Errno 22] Invalid argument: '[src]'
-  WARNING: Could not copy license file [src] to [dest]: [Errno 22] Invalid argument: '[src]'
-  WARNING: Could not copy license file [src] to [dest]: [Errno 22] Invalid argument: '[src]'
-  ...
+Fixed when rebuild:
+mkdosfs: file /path/to/hdd.image already exists
 
-Fix it by handling EINVAL similar to existing handling of EPERM (which
-was added for when not running under pseudo).
-
-[1]: The real environemnt is buildFHSUserEnv from NixOS/nixpkgs, but a
-  demonstration of the issue can be done like this:
-
-    $ touch f
-    $ unshare --user --mount chown 0:0 f
-    chown: changing ownership of ‘f’: Invalid argument
-
-(From OE-Core master rev: d00b2250a6afebd7d1373c04b4006290f0cd4043)
-
-Signed-off-by: Bjørn Forsman <bjorn.forsman@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+(cherry-pick from 9abcd309c098558360cde2bff65be840ead25f83)
+Signed-off-by: Tim Kilbourn <tkilbourn@gmail.com>
 ---
-Richard's sign-off is from the commit that went into master branch. I wasn't
-sure whether or not to keep it.
+ meta/classes/boot-directdisk.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
- meta/classes/license.bbclass | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
-
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index c714da3..db0fc51 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -189,9 +189,11 @@ def copy_license_files(lic_files_paths, destdir):
-                     os.chown(dst,0,0)
-                 except OSError as err:
-                     import errno
--                    if err.errno == errno.EPERM:
--                        # suppress "Operation not permitted" error, as
--                        # sometimes this function is not executed under pseudo
-+                    if err.errno in (errno.EPERM, errno.EINVAL):
-+                        # Suppress "Operation not permitted" error, as
-+                        # sometimes this function is not executed under pseudo.
-+                        # Also ignore "Invalid argument" errors that happen in
-+                        # some (unprivileged) container environments (no root).
-                         pass
-                     else:
-                         raise
+diff --git a/meta/classes/boot-directdisk.bbclass b/meta/classes/boot-directdisk.bbclass
+index 600e21a..b324d89 100644
+--- a/meta/classes/boot-directdisk.bbclass
++++ b/meta/classes/boot-directdisk.bbclass
+@@ -121,6 +121,8 @@ build_boot_dd() {
+ 	# done in blocks, thus the mod by 16 instead of 32.
+ 	BLOCKS=$(expr $BLOCKS + $(expr 16 - $(expr $BLOCKS % 16)))
+ 
++	# Remove it since mkdosfs would fail when it exists
++	rm -f $HDDIMG
+ 	mkdosfs -n ${BOOTDD_VOLUME_ID} -S 512 -C $HDDIMG $BLOCKS 
+ 	mcopy -i $HDDIMG -s $HDDDIR/* ::/
+ 
 -- 
-2.7.4
+1.9.1
 
 
