@@ -1,35 +1,62 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id C48626012C
+Return-Path: <anders@chargestorm.se>
+Received: from mail-lb0-f182.google.com (mail-lb0-f182.google.com
+	[209.85.217.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 622E16012C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Apr 2016 08:37:33 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 20 Apr 2016 01:37:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,509,1455004800"; d="scan'208";a="962551898"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 20 Apr 2016 01:37:34 -0700
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.51])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 3322A6A4002;
-	Wed, 20 Apr 2016 02:25:11 -0700 (PDT)
-Date: Wed, 20 Apr 2016 09:17:43 +0300
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-Message-ID: <20160420061743.GA12553@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <1460983582-15284-1-git-send-email-adrian.ratiu@ni.com>
-	<20160418132411.GA27403@linux.intel.com>
-	<20160419151756.65c09607@adi-pc-linux.emea.corp.natinst.com>
-	<20160419101536.GA7585@linux.intel.com>
-	<20160420104505.7d92a5f9@adi-pc-linux.emea.corp.natinst.com>
+	Wed, 20 Apr 2016 08:37:40 +0000 (UTC)
+Received: by mail-lb0-f182.google.com with SMTP id b1so4617513lbi.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Apr 2016 01:37:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
+	h=date:from:to:subject:message-id:mail-followup-to:references
+	:mime-version:content-disposition:content-transfer-encoding
+	:in-reply-to:organization:user-agent;
+	bh=0b3WiYmXoPYjmSfN58dvRzcgFX2w0eg69YZlcWMlYnY=;
+	b=r7/Kae6nBdByveouZ7BrlbXZ+05F2y+YvFmSq8Cm28D5GeJW5bATt8s4kGyHvJV9nb
+	lHWGMeZb8Fxi3NeqVnn4tpKwS0vJXjAx9stUnkNVOaQsiftmYYpSHmDfIK4B/UTcPbsB
+	Iuh7hqmzn2BlUMqdO0xiN2quGdN12FEGLOSQHwv4B5wzoAhTIyjjahieOadRn4saJAXX
+	W0PVdLucMw+l16yRR3qAPaw40xG6RgSLLGnGL7UlSTQ8W6g5dAAs2BPvEjFtF6BJzcZ1
+	wcrgkq4hDlJJ85+rGdcHMKoKxKtiDM9O6zF69C0+DFNFa0n0Q0vxVjyVtqIoKUU8VAcg
+	+lrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
+	:references:mime-version:content-disposition
+	:content-transfer-encoding:in-reply-to:organization:user-agent;
+	bh=0b3WiYmXoPYjmSfN58dvRzcgFX2w0eg69YZlcWMlYnY=;
+	b=aaKyek4+KIYWvuqQ5R2ZYsc1hFeNCYcv9OGE0mjSBeJhIdTpLph7335hlr/Q7jiDzE
+	UtIDoWw9q1n3FvFCq5UJocuMazqL7cthDM3arnpeq4o6/z8UdrhAYvyamVAddmPwbQ0Z
+	LttFzdQqfOzyZKsXVQOniHR7z6xuaMCPIK/zVukZerfRAprHFyIX7csQcXmo16wblh8K
+	kX7YpGBS8oVRMJnvzIyz5a7BzbuGeNdaTr1ZY3UqHmQ0l7QtIxE3tuTp5PZprKJMqiuV
+	LYenS36DrKQIcHNMIZ3d93kD7TaDA3txbrZ5W8WqoGDxekzp10hd6NW6Y7zB5+L3zqau
+	jatg==
+X-Gm-Message-State: AOPr4FW+xmCg8tsDUBHedf8YXj+kxNpcvLNHY+Q/jrRzJwEdTvMZT0iwfThVucvPwY3i/Q==
+X-Received: by 10.112.73.72 with SMTP id j8mr3201389lbv.143.1461141460438;
+	Wed, 20 Apr 2016 01:37:40 -0700 (PDT)
+Received: from ad.chargestorm.se (213-64-218-130-no126.business.telia.com.
+	[213.64.218.130]) by smtp.gmail.com with ESMTPSA id
+	e185sm873238lfg.45.2016.04.20.01.37.38
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 20 Apr 2016 01:37:39 -0700 (PDT)
+Date: Wed, 20 Apr 2016 10:37:37 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20160420083737.GD3520@ad.chargestorm.se>
+Mail-Followup-To: openembedded-core@lists.openembedded.org
+References: <1461070003-12494-1-git-send-email-yannick.gicquel@iot.bzh>
+	<1461070003-12494-2-git-send-email-yannick.gicquel@iot.bzh>
+	<571640FF.4040000@opendreambox.org> <57173D88.5040102@iot.bzh>
 MIME-Version: 1.0
-In-Reply-To: <20160420104505.7d92a5f9@adi-pc-linux.emea.corp.natinst.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] wic: isoimage-isohybrid: implement grubefi menu logic
+In-Reply-To: <57173D88.5040102@iot.bzh>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Subject: Re: [RFC PATCH 1/4] u-boot: basic support of device tree blob reassembly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,149 +69,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Apr 2016 08:37:34 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Wed, 20 Apr 2016 08:37:42 -0000
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 20, 2016 at 10:45:05AM +0300, Ioan-Adrian Ratiu wrote:
-> Hello Ed,
-> 
-> I've looked a little at the wic rewrites in master and they're really really awesome!
-> 
-> Just to verify if I understood correctly: Now if I want custom menus in grub I
-> can specify them directly in a custom .cfg supplied in the wks by the "configfile"
-> bootloader option, so there's no need anymore for that "--menu" option + all the
-> ugly string parsing code from my previous patch.
-> 
-> Is this correct?
 
-Yes, it's correct. Frankly I didn't think about this, but if it works
-for you it's great!
+Just a comment on task ordering. Not sure that it really matters
+though...
 
-Regards,
-Ed
+* Yannick GICQUEL <yannick.gicquel@iot.bzh> [160420 10:28]:
+> Le 19/04/2016 16:30, Andreas Oberritter a =E9crit :
+> >Hello Yannick,
+> Hi Andreas,
 
-> On Tue, 19 Apr 2016 13:15:36 +0300
-> Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
-> 
-> > Hi Ioan-Adrian,
-> > 
-> > It's my fault as I've rewritten ks parser and missed --menu implementation.
-> > Let me know if you need my help with this.
-> > 
-> > It would be great if you also add test case for this feature to wic oe-selftest suite.
-> > 
-> > Regards,
-> > Ed
-> > 
-> > On Tue, Apr 19, 2016 at 03:17:56PM +0300, Ioan-Adrian Ratiu wrote:
-> > > Hello Ed,
-> > > 
-> > > I've tested it on Jethro. Sorry about this. I'll look at the changes in wic's kickstart and redo/resubmit.
-> > > 
-> > > Thank you,
-> > > Ioan
-> > > 
-> > > On Mon, 18 Apr 2016 16:24:11 +0300
-> > > Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
-> > >   
-> > > > Hi Ioan-Adrian,
-> > > > 
-> > > > Did you test if this patch works on master?
-> > > > From the first look I'd say it will not work as --menu bootloader
-> > > > option is not implemented there.
-> > > > 
-> > > > On Mon, Apr 18, 2016 at 03:46:22PM +0300, Ioan-Adrian Ratiu wrote:  
-> > > > > Right now isoimage-isohybrid creates a single boot menu entry "boot"
-> > > > > and passes it the arguments supplied with "--append". There is logic
-> > > > > for creating custom grub menus, but it is sadly not used. "boot" is
-> > > > > hardcoded.
-> > > > > 
-> > > > > This change makes isoimage use the wic bootloader "--menu" argument to
-> > > > > create its menus. The syntax used for menu specification was chosen so
-> > > > > it does not conflict with the kernel parameter syntax (you can pass
-> > > > > custom kernel arguments from the generated grub menu entries, like for
-> > > > > example silent booting, thread affinity etc.).
-> > > > > 
-> > > > > The "--menu" argument syntax is as following. The argument supplies a
-> > > > > collection of menu entry names and kernel parameters. Menu name entries
-> > > > > can contain any ASCII character except | or : which are separators.
-> > > > > Kernel parameters obey the syntax defined by the kernel documentation.
-> > > > > | is the menu separator and : is the separator between the menu names
-> > > > > and parameters.
-> > > > > 
-> > > > > Example for use in wks files:
-> > > > >   --menu "Menu Name:firstarg,secondard|Menu Name 2:anotherarg,otherarg"
-> > > > > 
-> > > > > Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-> > > > > ---
-> > > > >  .../lib/wic/plugins/source/isoimage-isohybrid.py   | 35 ++++++++++++++++------
-> > > > >  1 file changed, 26 insertions(+), 9 deletions(-)
-> > > > > 
-> > > > > diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-> > > > > index bc99283..4b0b035 100644
-> > > > > --- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-> > > > > +++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-> > > > > @@ -101,23 +101,40 @@ class IsoImagePlugin(SourcePlugin):
-> > > > >              splashline = ""
-> > > > >  
-> > > > >          bootloader = creator.ks.bootloader
-> > > > > +        kernel = "/bzImage"
-> > > > > +        default_options = bootloader.append
-> > > > > +        default_menu_to_boot = "Default boot"
-> > > > > +        grub_menus = ""
-> > > > > +
-> > > > > +        # menu separators are '|', custom boot args separated by ':', ex.
-> > > > > +        # --menu "Menu Name:firstarg,secondard|Menu Name 2:anotherarg,otherarg"
-> > > > > +        for menu in bootloader.menus.split('|'):
-> > > > > +            menu_list = menu.split(":")
-> > > > > +            menu_name = menu_list[0]
-> > > > > +            grub_menu_options = ""
-> > > > > +
-> > > > > +            if (len(menu_list) > 1):
-> > > > > +                menu_params = menu_list[1]
-> > > > > +                for param in menu_params.split(','):
-> > > > > +                    if param.lower() == "default":
-> > > > > +                        default_menu_to_boot = menu_name
-> > > > > +                    else: grub_menu_options += " " + param
-> > > > > +
-> > > > > +            grub_menus += "menuentry '%s' {\n" % menu_name
-> > > > > +            grub_menus += "linux %s rootwait %s %s\n" % \
-> > > > > +                (kernel, default_options, grub_menu_options)
-> > > > > +            grub_menus += "initrd /initrd \n"
-> > > > > +            grub_menus += "}\n"
-> > > > >  
-> > > > >          grubefi_conf = ""
-> > > > >          grubefi_conf += "serial --unit=0 --speed=115200 --word=8 "
-> > > > >          grubefi_conf += "--parity=no --stop=1\n"
-> > > > > -        grubefi_conf += "default=boot\n"
-> > > > > +        grubefi_conf += "default=%s\n" % default_menu_to_boot
-> > > > >          grubefi_conf += "timeout=%s\n" % (bootloader.timeout or 10)
-> > > > >          grubefi_conf += "\n"
-> > > > >          grubefi_conf += "search --set=root --label %s " % part.label
-> > > > >          grubefi_conf += "\n"
-> > > > > -        grubefi_conf += "menuentry 'boot'{\n"
-> > > > > -
-> > > > > -        kernel = "/bzImage"
-> > > > > -
-> > > > > -        grubefi_conf += "linux %s rootwait %s\n" \
-> > > > > -            % (kernel, bootloader.append)
-> > > > > -        grubefi_conf += "initrd /initrd \n"
-> > > > > -        grubefi_conf += "}\n"
-> > > > > +        grubefi_conf += grub_menus
-> > > > >  
-> > > > >          if splashline:
-> > > > >              grubefi_conf += "%s\n" % splashline    
-> > > > 
-> > > > --
-> > > > Regards,
-> > > > Ed  
-> > >   
-> > 
-> 
+> >On 19.04.2016 14:46, Yannick Gicquel wrote:
+> >>+addtask assemble_dtb after do_deploy before do_install
+> >The task do_deploy executes after do_install. Does it really work this
+> >way? I think bitbake should try to detect this and error out.
+> I confirm do_deploy is executed before do_install.
+> It looks like it is schedule this way by the last line of the file:
 
--- 
---
-Regards,
-Ed
+> addtask deploy before do_build after do_compile
+
+Well, if task do_deploy is scheduled before do_install, that's just by
+luck.
+
+The following line adds do_install:
+
+addtask install after do_compile
+
+Thus, the ordering between do_install and do_deploy isn't fixed. It
+could be random, it could be based on alphabetical sorting, or the order
+the tasks are added. However, it could easily change...
+
+Cheers,
+Anders
+
+> (I attached the log.task_order for reference - FYI, behavior is the same =
+on
+> jethro or today's master branch)
+--=20
+Anders Darander, Senior System Architect
+ChargeStorm AB / eStorm AB
 
