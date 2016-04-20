@@ -1,49 +1,48 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
-	[209.85.192.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D2B17317C
+Return-Path: <bjorn.forsman@gmail.com>
+Received: from mail-lb0-f170.google.com (mail-lb0-f170.google.com
+	[209.85.217.170])
+	by mail.openembedded.org (Postfix) with ESMTP id AF550606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Apr 2016 15:23:43 +0000 (UTC)
-Received: by mail-qg0-f49.google.com with SMTP id f74so27151232qge.2
+	Wed, 20 Apr 2016 18:24:36 +0000 (UTC)
+Received: by mail-lb0-f170.google.com with SMTP id u8so14092708lbk.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Apr 2016 08:23:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=BQ3QrPO/8Tpc6aD+ufHcgVjJ2SgUORNBYl0WPnLKLNE=;
-	b=toBhE+Hjs6fG8wlgWLgYyC6HH7ngL0Mh8l64RZPvfaDZCmxz0UgFvQhA8lA0/fXFeS
-	qJQuxB4BFjJzI3wGopDsDe2RgOfQ98smAAy0zSUFk8z7dgTUVfT3BuYfW+X2NIA5JDuw
-	U4jGfJSJQLg90mcCMEXJHSw2i5/uLJy0llxCE=
+	Wed, 20 Apr 2016 11:24:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=pzaIqSoSD2lc3ZHVoKxw5AyLbltREFG7ZySSGRSWYZs=;
+	b=Ro7EiUoC7uYWqrKZKeK04zJwHBtV624cgFGwq62vhCN/TR10H0RTiPN7APHC+/bP++
+	im7C258vYNtm6EK7K+a8kjNZ1lNZ/+RIuxzB6sRE7HX+fz945w6ota1j9RVQcOFq/+JC
+	Y0AKkfDwzE6brUGSnoRAf2qgkUdgjIywYNxT8DuC88XPbRSbRnaNbykl5OBlSQ4psUBt
+	RqlyRMk1KEivIXkvJeNZjVx+77WTj8HTaxfCogCK2LwamBEdCK8/p2cotlSBZNj2Qwt9
+	N3zf4BLydTsIkRLEmNndCJWHQgSD+AYZXD+rGhlmtLjwPf2MuWxdSBor+W+e0xfj7URO
+	0yFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=BQ3QrPO/8Tpc6aD+ufHcgVjJ2SgUORNBYl0WPnLKLNE=;
-	b=faYcETx/NVY1GOO83CEHv1+E/SMS77SHmJcnNn8ASBRuqnONNqUdMetUWwW1NRfmL7
-	GVeR/wWTVBJrh1YarWY1qe0ov+dove/RzHAifKRTn+f23GloKMD0tq05J4dvA6cXZsuU
-	jTUGF3bGEKfrtMeHAcOH8i+DWNuGXH0aKF8cn3cp9tYpMNfhYJO4LDLzvJbxOQ0L4pUf
-	W13OFPvbufXakVO0BhhsXaOcY/fwNiZ3aclt49IsUOVFECJUrHfC1DPfM8qv6fpKW8aQ
-	bKKiVXNsfJe2B5tdUCXtdQvbExdXMNLKxVOFphVechGiPUm4nEusdMGx+qL2EV05TWCC
-	q8Sg==
-X-Gm-Message-State: AOPr4FVh9naNORJEIDBGnZAi6WHAYCcJOPP9NFMs7tyodUK+acGyaM59iDF1TvHsQaX/Uw==
-X-Received: by 10.140.217.208 with SMTP id n199mr12312915qhb.83.1461165824683; 
-	Wed, 20 Apr 2016 08:23:44 -0700 (PDT)
-Received: from bill-the-cat ([2001:470:8:32a:225:22ff:fec3:d28d])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=pzaIqSoSD2lc3ZHVoKxw5AyLbltREFG7ZySSGRSWYZs=;
+	b=AcrdMMJlJ4RW+0utbWQt2F6yCx7JlWtGNnEmZq8TgbKKaixDbFnFN09q7dmrKo/LDU
+	ydbfvX0U1/WjLXY6C+q8KIU7zYpJ56NuevyJCmcdNvNIg9qKnZju2F60GaWj/uR1nqYJ
+	EmOfjC3f4OM1hkNqEg3maU6jWiDD7CSDShP/QRnd5GqWtYAGskKO/COsNQ69izcGC2/S
+	h2Rv+KX6FZazhG/0Kg/7djV47Zdg8dIB2SEUzCs5HHVjFnVewWCZD/LwzCOmKq8Q6ktu
+	UcOVuaSTHbi7TxxPvPUayu9SgqYPRABogJHbyLN4Xbvuw4YKo4dDamDNmz2zyiUr1CVv
+	Rhrw==
+X-Gm-Message-State: AOPr4FWyEM4MrkDRkCmPEyf0xMjyVhFadylF5s1pRWCQ+b7+JrtEED7tLvILnap29wA7eg==
+X-Received: by 10.112.22.131 with SMTP id d3mr4296083lbf.145.1461176675463;
+	Wed, 20 Apr 2016 11:24:35 -0700 (PDT)
+Received: from localhost (cm-84.208.208.120.getinternet.no. [84.208.208.120])
 	by smtp.gmail.com with ESMTPSA id
-	f13sm28106334qhe.7.2016.04.20.08.23.43
-	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
-	Wed, 20 Apr 2016 08:23:44 -0700 (PDT)
-Date: Wed, 20 Apr 2016 11:23:46 -0400
-From: Tom Rini <trini@konsulko.com>
-To: Yannick Gicquel <yannick.gicquel@iot.bzh>
-Message-ID: <20160420152346.GF1924@bill-the-cat>
-References: <1461160239-7799-1-git-send-email-yannick.gicquel@iot.bzh>
-	<1461160239-7799-5-git-send-email-yannick.gicquel@iot.bzh>
+	w125sm1320859lfa.10.2016.04.20.11.24.34
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 20 Apr 2016 11:24:34 -0700 (PDT)
+From: =?UTF-8?q?Bj=C3=B8rn=20Forsman?= <bjorn.forsman@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 20 Apr 2016 20:24:34 +0200
+Message-Id: <1461176674-29389-1-git-send-email-bjorn.forsman@gmail.com>
+X-Mailer: git-send-email 2.5.4
 MIME-Version: 1.0
-In-Reply-To: <1461160239-7799-5-git-send-email-yannick.gicquel@iot.bzh>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC][PATCH v2 4/4] kernel: fitimage: basic support for fitimage signature
+Subject: [PATCH] [jethro] license.bbclass: fix warnings when run in unprivileged "container" env
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,28 +55,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Apr 2016 15:23:44 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 20 Apr 2016 18:24:38 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 20, 2016 at 03:50:39PM +0200, Yannick Gicquel wrote:
+An unprivileged "container" environment like this[1] doesn't have root
+account (uid 0) which causes tons of "Invalid argument" warnings:
 
-> This is an initial support of fitImage signature to enable U-Boot verified
-> boot. This feature is implemented by adding a signature tag to the
-> configuration section of the generated fit-image.its file.
-> 
-> When a UBOOT_SIGN_ENABLE variable is set to "1", the signature procedure is
-> activated and performs a second call to mkimage to sign the fitImage file and
-> to include the public key in the deployed U-Boot device tree blob. (This
-> implementation depends on the use of CONFIG_OF_SEPARATE in U-Boot.)
-> 
-> As the U-Boot device tree blob is appended in the deploy dir, a dependency
-> on 'u-boot:do_deploy' is added when the feature is activated.
-> 
-> Signed-off-by: Yannick Gicquel <yannick.gicquel@iot.bzh>
+  $ bitbake ...
+  ...
+  WARNING: Could not copy license file [src] to [dest]: [Errno 22] Invalid argument: '[src]'
+  WARNING: Could not copy license file [src] to [dest]: [Errno 22] Invalid argument: '[src]'
+  WARNING: Could not copy license file [src] to [dest]: [Errno 22] Invalid argument: '[src]'
+  ...
 
-Reviewed-by: Tom Rini <trini@konsulko.com>
+Fix it by handling EINVAL similar to existing handling of EPERM (which
+was added for when not running under pseudo).
 
+[1]: The real environemnt is buildFHSUserEnv from NixOS/nixpkgs, but a
+  demonstration of the issue can be done like this:
+
+    $ touch f
+    $ unshare --user --mount chown 0:0 f
+    chown: changing ownership of ‘f’: Invalid argument
+
+(From OE-Core master rev: d00b2250a6afebd7d1373c04b4006290f0cd4043)
+
+Signed-off-by: Bjørn Forsman <bjorn.forsman@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+Richard's sign-off is from the commit that went into master branch. I wasn't
+sure whether or not to keep it.
+
+ meta/classes/license.bbclass | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index c714da3..db0fc51 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -189,9 +189,11 @@ def copy_license_files(lic_files_paths, destdir):
+                     os.chown(dst,0,0)
+                 except OSError as err:
+                     import errno
+-                    if err.errno == errno.EPERM:
+-                        # suppress "Operation not permitted" error, as
+-                        # sometimes this function is not executed under pseudo
++                    if err.errno in (errno.EPERM, errno.EINVAL):
++                        # Suppress "Operation not permitted" error, as
++                        # sometimes this function is not executed under pseudo.
++                        # Also ignore "Invalid argument" errors that happen in
++                        # some (unprivileged) container environments (no root).
+                         pass
+                     else:
+                         raise
 -- 
-Tom
+2.7.4
+
 
