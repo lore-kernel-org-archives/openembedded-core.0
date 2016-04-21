@@ -1,27 +1,20 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E9386E681
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 2526171633
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Apr 2016 12:40:51 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga104.fm.intel.com with ESMTP; 21 Apr 2016 05:40:51 -0700
+	Thu, 21 Apr 2016 12:50:31 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga103.fm.intel.com with ESMTP; 21 Apr 2016 05:50:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,512,1455004800"; d="scan'208";a="937192649"
-Received: from jlock-mobl2.ger.corp.intel.com ([10.252.29.161])
-	by orsmga001.jf.intel.com with ESMTP; 21 Apr 2016 05:40:50 -0700
-Message-ID: <1461242448.3571.4.camel@linux.intel.com>
-From: Joshua G Lock <joshua.g.lock@linux.intel.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>, "Burton, Ross"
-	<ross.burton@intel.com>
-Date: Thu, 21 Apr 2016 13:40:48 +0100
-In-Reply-To: <alpine.LFD.2.20.1604210822220.6578@localhost.localdomain>
-References: <alpine.LFD.2.20.1604210738320.5726@localhost.localdomain>
-	<CAJTo0LakXXOvj9_aKmYxy4OdxgP6rOp5EqLZtAajp8iFf7qkuA@mail.gmail.com>
-	<alpine.LFD.2.20.1604210822220.6578@localhost.localdomain>
-X-Mailer: Evolution 3.18.5.2 (3.18.5.2-1.fc23) 
-Mime-Version: 1.0
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: trying to reconcile OE builds with rpm4-format rpm files built on centos 6
+X-IronPort-AV: E=Sophos;i="5.24,512,1455004800"; d="scan'208";a="689901486"
+Received: from theory.fi.intel.com ([10.237.72.196])
+	by FMSMGA003.fm.intel.com with ESMTP; 21 Apr 2016 05:50:32 -0700
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 Apr 2016 15:50:20 +0300
+Message-Id: <cover.1461235563.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/3] Add missing build dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,54 +27,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Apr 2016 12:40:53 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 21 Apr 2016 12:50:32 -0000
 
-On Thu, 2016-04-21 at 08:24 -0400, Robert P. J. Day wrote:
-> On Thu, 21 Apr 2016, Burton, Ross wrote:
-> > 
-> > On 21 April 2016 at 13:06, Robert P. J. Day <rpjday@crashcourse.ca>
-> > wrote:
-> >         next bit of muttering is, "can we downgrade the OE build to
-> > use
-> >       rpm4-format packages?", which is not a path down which i want
-> > to walk.
-> > 
-> > 
-> > Assuming that the obviously correct option of "build the packages
-> > inside OE" really is being written off for mysterious reasons, rpm4
-> > was only just removed from oe-core (though depending on what
-> > releases you're using you may have never noticed it be added and
-> > removed again).  So you could just recover that from history
-> > (oe-core a6e7a86f1635be9a688c56c25e9d215ea4d2cc84 removed it) and
-> > fix it up.
->   under the circumstances, that sounds like the simplest approach.
-> would we be losing any significant functionality downgrading to rpm4?
-> it's not my first choice, but if all that's required is to do basic
-> installs and upgrades, i suspect it will work just fine.
+I found some build issues by running a
+build/cleansstate/wipe-sysroot/re-build cycle on individual recipes.
 
-On the topic of RPM4 vs. RPM5 you should be able to find more details
-in the list archives, I easily found a brief summary by Mark Hatle in
-the Yocto Project mailing list archive:
+cheers
+ Jussi
 
-"There are some specific uses of RPM 4 in the YP, but I do caution
-against people just using it "because".  The RPM 5 version is generally
-better suited for the embedded world.  (There are been posts on more
-reasons on the oe-core lists in the past.  But as quick summary --
-dynamic architecture support, better cross compilation support, cross-
-endian support, more configurable for custom distributions, etc.)"
-http://article.gmane.org/gmane.linux.embedded.yocto.general/28654/
 
-We ended up removing RPM4 support because it was clear that it was
-broken when using SMART as a package manager and we didn't have the
-resources to fix it, nor any objections to its removal.
+The following changes since commit 6c1c01392d91f512e2949ad1d57a75a8077478ba:
 
-Some recent examples of the kinds of breakage:
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=8968
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=8969
+  build-appliance-image: Update to krogoth head revision (2016-04-19 21:26:33 +0100)
 
-Regards,
+are available in the git repository at:
 
-Joshua
+  git://git.yoctoproject.org/poky-contrib jku/build-fixes
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/build-fixes
+
+Jussi Kukkonen (3):
+  gobject-introspection: Depend on native flex and bison
+  connman-gnome: Depend on dbus-glib-native
+  matchbox-panel-2: Depend on dbus-glib-native
+
+ meta/recipes-connectivity/connman/connman-gnome_0.7.bb                  | 2 +-
+ .../recipes-gnome/gobject-introspection/gobject-introspection_1.46.0.bb | 2 +-
+ meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_git.bb              | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+-- 
+2.1.4
+
 
