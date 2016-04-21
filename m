@@ -1,47 +1,29 @@
-Return-Path: <sujith.h@gmail.com>
-Received: from mail-pf0-f181.google.com (mail-pf0-f181.google.com
-	[209.85.192.181])
-	by mail.openembedded.org (Postfix) with ESMTP id BCE7F71633
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 17D7D73180
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Apr 2016 12:51:56 +0000 (UTC)
-Received: by mail-pf0-f181.google.com with SMTP id e128so29859907pfe.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Apr 2016 05:51:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=M+L8o6r/hz3lwHjV6OwwkE2wZGmoaikfQ8Hiu2DhSKY=;
-	b=Hb9n8P5mvWctTlt36mdg0r9KPbuU65Q/xDNIdn3nVKEGDABrT6+6nCAttR8v1hnFzw
-	tCIc7Q7NrMSEVakZpVh26yVu31ZC1iLkLx8nCSX6zg+8ItwLQ+9seGfPJwC1N5Bdsthb
-	DPLmEGy07CV/v06DIBcnwonw3HuZmaXBR9gH+1RJWffBYClfzg2ddgrnbMlTxaIruV0l
-	+zgG/a8Mw21mmOxPJgjvRicEJfKveJCXV3L/NSXz5EE3rGTR2gI2k4HOdKworjtmQJ08
-	8sFuqsZjpCQGc5/DhQxLvLSAepDYrUqjrvs5zRII1XJO8fHBSD7ciu9GyTlwDq9tNK7d
-	n40A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=M+L8o6r/hz3lwHjV6OwwkE2wZGmoaikfQ8Hiu2DhSKY=;
-	b=Nu6dTV3/HIvY6xuOVOWWKNy8x0kYwZj4iHCKvfBqq8pQl5brR6ukHAvpy+EKhFkJYQ
-	sucuFex0s0cE04gEIJf4174I4cs9U2vshsRptlZNmVo9aQXRe+1gmiiCzc+zIpmXFd2b
-	DY0rvZKQxgBKAfkfA2WtdKt55HDHFehIHvmrmM+Xiy/75n7RVSPNC21wFmpz52k8yZZi
-	W2kATefjGJ8qwASLE9TdbZagHaAn5ofER5RtXRyiOMAjv1puSWnHK2mJiG/MYu3VzhBd
-	hzwfRgSvu07ELtonp6BEsJAvHluR6l+AaYsn/YJv8VNWgvdNy8v/AiCbTIYAMm4Xs8rD
-	2spA==
-X-Gm-Message-State: AOPr4FUkZmTKyQDt18WOfXVrTa6B5SZRE9lQAVPqN2Xe8j3EEmvcVeb6+uAER1x+53laCA==
-X-Received: by 10.98.89.141 with SMTP id k13mr20382318pfj.14.1461243117194;
-	Thu, 21 Apr 2016 05:51:57 -0700 (PDT)
-Received: from kdekidd0.inp-wifi.mentorg.com ([139.181.35.34])
-	by smtp.gmail.com with ESMTPSA id d3sm1102003pfc.25.2016.04.21.05.51.54
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 21 Apr 2016 05:51:56 -0700 (PDT)
-From: Sujith Haridasan <sujith.h@gmail.com>
-X-Google-Original-From: Sujith Haridasan <Sujith_Haridasan@mentor.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Apr 2016 18:21:37 +0530
-Message-Id: <1461243097-9546-1-git-send-email-Sujith_Haridasan@mentor.com>
-X-Mailer: git-send-email 1.9.1
-Cc: Sujith Haridasan <Sujith_Haridasan@mentor.com>,
-	Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH] gobject-introspection: fix floating dep on python-mako
+	Thu, 21 Apr 2016 13:13:41 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u3LDDWMx012576; Thu, 21 Apr 2016 14:13:32 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id DOzvYbVt2hm9; Thu, 21 Apr 2016 14:13:32 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u3LDDQih012572
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 21 Apr 2016 14:13:27 +0100
+Message-ID: <1461244406.31320.117.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>, OE Core mailing list
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 21 Apr 2016 14:13:26 +0100
+In-Reply-To: <alpine.LFD.2.20.1604210639150.4110@localhost.localdomain>
+References: <alpine.LFD.2.20.1604210639150.4110@localhost.localdomain>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: question about order of processing SRC_URI items
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,35 +36,151 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Apr 2016 12:51:56 -0000
+X-List-Received-Date: Thu, 21 Apr 2016 13:13:42 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Christopher Larson <chris_larson@mentor.com>
+On Thu, 2016-04-21 at 07:19 -0400, Robert P. J. Day wrote:
+>   i'm currently building up a BSP layer which is going to involve
+> quite a bit of FILESEXTRAPATHS and OVERRIDES and conditionals in my
+> kernel bbappend files so i want to make sure i understand the
+> processing order (or what there is of it).
+> 
+>   first, if one simply appends items to SRC_URI, as in:
+> 
+>   SRC_URI += " \
+> 	derp.scc \
+> 	gorp.scc \
+> 	...
+>   "
+> 
+> then regardless of how FILESOVERRIDES adjusts the search order in the
+> eventual FILESPATH, those items *must* be found somewhere, correct?
+> (this seems pretty obvious to me, but i've been burned by obvious
+> things before.)
 
-This was resulting in non-deterministic builds where g-ir-doc-tool may or may
-not exist depending on whether python-mako was built previously. Add
-a PACKAGECONFIG so the dependency is explicit.
+They need to be found somewhere, yes.
 
-Signed-off-by: Sujith H <sujith.h@gmail.com>
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-Signed-off-by: Sujith Haridasan <Sujith_Haridasan@mentor.com>
----
- .../recipes-gnome/gobject-introspection/gobject-introspection_1.46.0.bb | 2 ++
- 1 file changed, 2 insertions(+)
+>   next, i realize there are two forms of appending to SRC_URI:
+> 
+>  * SRC_URI +=
+>  * SRC_URI_append =
+> 
+> first, is there an aesthetic preference for one over the other if the
+> end result is the same? (just curious about what people here prefer
+> to
+> use.)
 
-diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.46.0.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.46.0.bb
-index 9b16147..67891a2 100644
---- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.46.0.bb
-+++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.46.0.bb
-@@ -108,6 +108,8 @@ EXTRA_OECONF_class-target += "--enable-host-gi \
-                               ${@bb.utils.contains('GI_DATA_ENABLED', 'True', '--enable-introspection-data', '--disable-introspection-data', d)} \
-                              "
- 
-+PACKAGECONFIG ?= ""
-+PACKAGECONFIG[doctool] = "--enable-doctool,--disable-doctool,python-mako,"
- 
- do_compile_prepend_class-target() {
-         # This prevents g-ir-scanner from writing cache data to $HOME
--- 
-1.9.1
+In general we should try and use += if possible as its simpler and
+easier to understand what it does.
 
+>   more significantly, i realize the final order of SRC_URI items
+> depending on which one you use might be different, as "_append"
+> leaves
+> the appending until the final stage of processing. so what this tells
+> me is that all of the items you list in SRC_URI should *not* be
+> order-dependent, is that a fair statement? or, IOW, if your layer
+> depends on the items in SRC_URI being processed in a specific order,
+> you probably need to rework your recipe file.
+
+Sometimes order is important, e.g. two patches which change the same
+set of files would need to be applied in the correct order.
+
+Some things don't matter though.
+
+>   (side note: i do realize that, in a single .scc file, the patches
+> listed will be applied in precisely that order, but that's a
+> different
+> issue and not relevant here.)
+> 
+>   next, if there are truly conditional SRC_URI items, the only way to
+> identify those is:
+> 
+>   SRC_URI_append_<override> = " ... blah blah ..."
+> 
+> you can't do this, can you?
+> 
+>   SRC_URI_<override> += " more stuff "
+
+You can do that but it won't do what you'd want (it would overwrite the
+original SRC_URI).
+
+> i don't think i've ever seen an example of the latter, but maybe i
+> just didn't look closely enough.
+
+That would be because it wouldn't do anything useful in most cases.
+
+>   and, finally, given that you can have a combination of SRC_URI
+> assignments and appends in the same .bbappend file:
+> 
+>   SRC_URI += "..."
+>   SRC_URI_append = "..."
+>   SRC_URI_append_<override> = "..."
+> 
+> that tells me that you *really* don't want any of that to be
+> order-dependent, as i mentioned before.
+
+Right, you'd have to be careful with this.
+
+>   is that about it? am i missing anything about SRC_URI definition
+> and
+> processing? thanks muchly.
+> 
+> rday
+> 
+> p.s.  oh, wait, two more curiosities. first, i still see the
+> occasional example of this in numerous layers, including oe-core:
+> 
+>     meta/recipes-support/attr/attr_2.4.47.bb:
+>         SRC_URI_append += "file://attr-Missing-configure.ac.patch \
+>         ^^^^^^^^^^^^^^^^^
+> 
+> pretty sure combining "SRC_URI_append" with "+=" is just as redundant
+> as ever, no? :-)
+
++= means there is a space prepended so its equivalent to:
+
+SRC_URI_append = " file://attr-Missing-configure.ac.patch \
+
+but we should remove such things.
+
+>   also, if the list of items in SRC_URI should be order-independent,
+> then it would seem to make little sense to specifically use:
+> 
+>   SRC_URI_prepend = "..."
+> 
+> anywhere, right? IOW, there should be no situation in which
+> specifically *prepending* to SRC_URI is necessary. but i found one
+> example in oe-core:
+> 
+>   meta/recipes-devtools/qemu/qemu_2.5.0.bb:
+> 
+> SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
+>             file://qemu-enlarge-env-entry-size.patch \
+>             file://Qemu-Arm-versatilepb-Add-memory-size
+> -checking.patch \
+>             file://no-valgrind.patch \
+>             file://CVE-2016-1568.patch \
+>             file://CVE-2016-2197.patch \
+>             file://CVE-2016-2198.patch \
+>             file://pathlimit.patch \
+>            "
+> SRC_URI_prepend = "
+> http://wiki.qemu-project.org/download/${BP}.tar.bz2"
+> SRC_URI[md5sum] = "f469f2330bbe76e3e39db10e9ac4f8db"
+> SRC_URI[sha256sum] =
+> "3443887401619fe33bfa5d900a4f2d6a79425ae2b7e43d5b8c36eb7a683772d4"
+> 
+>   uh ... yeah, i get that the above does the right thing but, come
+> on,
+> that just looks weird. is there a reason the qemu recipe deliberately
+> goes out of its way to do this?
+
+Its convention that the main source is at the top of SRC_URI. I
+therefore don't really have an issue with what the qemu recipe does but
+agree it could be cleaned up.
+
+Cheers,
+
+Richard
 
