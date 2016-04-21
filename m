@@ -1,23 +1,54 @@
-Return-Path: <stefan@agner.ch>
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by mail.openembedded.org (Postfix) with ESMTP id 30D8C607A4
+Return-Path: <max.oss.09@gmail.com>
+Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A61E6FF93
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Apr 2016 20:15:18 +0000 (UTC)
-Received: from seahawk.toradex.int
-	(75-146-58-181-Washington.hfc.comcastbusiness.net [75.146.58.181])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id B320B5C156A;
-	Thu, 21 Apr 2016 22:05:29 +0200 (CEST)
-From: Stefan Agner <stefan@agner.ch>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Apr 2016 13:07:56 -0700
-Message-Id: <1461269276-23269-1-git-send-email-stefan@agner.ch>
-X-Mailer: git-send-email 1.9.1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1461269130; bh=Vb9XpHS9OXgJaxzQmt0rJicfXR1OzAMe61HWfWMOP6U=;
-	h=From:To:Cc:Subject:Date:Message-Id;
-	b=DOJfRnUAxQHDo3e46YvCyL01yjG6YYr09z/7gjtGKmwNJSC130WlkMJ0wCcqMZrAgAJWWBEy4yXPJm8UgZLlRDU+DdwhJqapBzOHBbyaj38Yb2U6XzAd03wpm4KMkdCgJog0PIlCRCUe/B2TpmWG7MuOc11RHj0kZf6j/7e+Dcg=
-Cc: Stefan Agner <stefan.agner@toradex.com>
-Subject: [PATCH][jethro] opkg: backport fix for double remove of packges
+	Thu, 21 Apr 2016 21:55:38 +0000 (UTC)
+Received: by mail-wm0-f50.google.com with SMTP id e201so101673626wme.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Apr 2016 14:55:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=OkIckg6HasJSGmf4Nyt+F1KMhL5+mTL2voobJipLmS0=;
+	b=Toq7PMRrhY7ntCNxx7cPHd2KyKnA5xPGsRNxnFHf3a3wDVRS7TKuYDR6YcwSVGaRNW
+	kZ60lXYGVYHB7BWGKgc6gjZ+qpDZHj8JrIpn9ObWIxq48HfJOsuMb965xEf+iuO+kaGI
+	Ev7pxefQYOHA8mSxamy5/jfHjtO9pkRgIZFQ/k+rMeGQsWqNPBFdpmTyQE+C/VV60KAL
+	/0fmEMRsyWQe2qglxEWug4Hl2VdQuLdUgS65foywWz0Ov24eeHBGhgHOyG++GeiqFjV5
+	EXztK97nJzztw8keJvQUQssmlel6jY+OwCZzx+0jTZHqlQFAG7jKJ3ZizCpjskwirqCL
+	eOLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=OkIckg6HasJSGmf4Nyt+F1KMhL5+mTL2voobJipLmS0=;
+	b=mY/6o8drz5kNzl3v8wkksfzsLOyE5u0YwuXqvBwS+2Gdo2ww+SojeNp/uvEAQzGfL5
+	baGolzm9ZUXpVeD4IdkSPNtUdJgpjVgjZ1D7MzKMXE+zOvU4F23DjdunY7+AGF3Drdy1
+	hWWmvdKfZzdLweZQsWKYdygpmCBskvgCDj6D6jZjUJmwKjyIMzeBsFcKf/yfJfpmJAt1
+	fgwXhXzMj0J8V8+89CaeLVq2ajVcniaF4PELhG1AC0X9nedzPfEEkvm6EG9r7ZMRcBMM
+	zc3VBL8P40XTYN+u8unlqwjI6AsSBkRmBbcseUCv+Kci0XUyXTJGGFcUSLNAh0FcqJtI
+	Ey4Q==
+X-Gm-Message-State: AOPr4FWeaPA1tDXpcWW6GiqBmdbZPc8u05Ih4DcZqhhlvrrzjdk+c8uqHdFuKZPZfpz3MA==
+X-Received: by 10.194.103.98 with SMTP id fv2mr17724792wjb.23.1461275738613;
+	Thu, 21 Apr 2016 14:55:38 -0700 (PDT)
+Received: from Saturn.local.all (212-41-67-230.adsl.solnet.ch. [212.41.67.230])
+	by smtp.gmail.com with ESMTPSA id u3sm79661wmg.15.2016.04.21.14.55.37
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 21 Apr 2016 14:55:38 -0700 (PDT)
+Message-ID: <1461275736.6660.16.camel@gmail.com>
+From: Max Krummenacher <max.oss.09@gmail.com>
+To: Stefan Agner <stefan@agner.ch>, Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Thu, 21 Apr 2016 23:55:36 +0200
+In-Reply-To: <9867f0e90947c89a380b578d1985a015@agner.ch>
+References: <CAHiDW_FCskCiuL0bf0UwRWyR=nr0GYzGhf5fRuxMrkHz_j=kSQ@mail.gmail.com>
+	<49E8A3AC-D4EF-4CCB-9CEA-1CA8E0A6425D@dominion.thruhere.net>
+	<CAHiDW_EFx5JvzNwY0=MmHNaf0=MMDA1CBz6Z8o3JhbqEtEwNVA@mail.gmail.com>
+	<9867f0e90947c89a380b578d1985a015@agner.ch>
+X-Mailer: Evolution 3.16.5 
+Mime-Version: 1.0
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: xinput-calibrator startup question
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,153 +61,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Apr 2016 20:15:19 -0000
+X-List-Received-Date: Thu, 21 Apr 2016 21:55:39 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Stefan Agner <stefan.agner@toradex.com>
+Hi Stefan
 
-Backport the fix 7885da3974 ("pkg_get_provider_replacees: do not
-add installed pkg to replacee list"). This avoids opkg trying to
-remove a package twice e.g. when upgrading.
+Am Donnerstag, den 21.04.2016, 13:11 -0700 schrieb Stefan Agner:
+> On 2016-04-19 14:01, Jussi Kukkonen wrote:
+> > On 19 April 2016 at 21:24, Koen Kooi <koen@dominion.thruhere.net>
+> > wrote:
+> > > 
+> > > > Op 19 apr. 2016, om 17:12 heeft Jussi Kukkonen <
+> > > > jussi.kukkonen@intel.com> het volgende geschreven:
+> > > > 
+> > > > Hi Koen,
+> > > > 
+> > > > I was looking at xinput-calibrator in preparation for bug 9365
+> > > > "Remove
+> > > > xtscal in preference of xinput-calibrator", and I'm wondering
+> > > > if you
+> > > > remember the logic behind this commit:
+> > > > 
+> > > > commit 6464bcd67d10ab9967ac83c27c413c1014be707e
+> > > > Author: Koen Kooi <koen@dominion.thruhere.net>
+> > > > Date:   Wed Apr 30 11:33:23 2014 +0200
+> > > > 
+> > > >    xinput-calibrator: fix XDG launch
+> > > > 
+> > > >    In the move from meta-oe to OE-core XDG based launched was
+> > > > dropped
+> > > >    without noting it in the commit message, so fix that
+> > > > regression.
+> > > > 
+> > > >    Gnome-session will now launch the calibrator again.
+> > > > 
+> > > > The commit installs the app desktop file in the XDG autostart
+> > > > directory. But we already have a XSession script for a similar
+> > > > purpose
+> > > > -- the result in Sato is that xinput-calibrator runs twice (and
+> > > > I
+> > > > would expect that to happen in gnome as well)?
+> 
+> It does not run twice in our case (LXDE). Can you point to the
+> XSession
+> script you are referring to?
 
-Suggested-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
----
- ...vider_replacees-do-not-add-installed-pkg-.patch | 112 +++++++++++++++++++++
- meta/recipes-devtools/opkg/opkg_0.3.0.bb           |   1 +
- 2 files changed, 113 insertions(+)
- create mode 100644 meta/recipes-devtools/opkg/opkg/0001-pkg_get_provider_replacees-do-not-add-installed-pkg-.patch
+This is not entirely true.
 
-diff --git a/meta/recipes-devtools/opkg/opkg/0001-pkg_get_provider_replacees-do-not-add-installed-pkg-.patch b/meta/recipes-devtools/opkg/opkg/0001-pkg_get_provider_replacees-do-not-add-installed-pkg-.patch
-new file mode 100644
-index 0000000..29a9f59
---- /dev/null
-+++ b/meta/recipes-devtools/opkg/opkg/0001-pkg_get_provider_replacees-do-not-add-installed-pkg-.patch
-@@ -0,0 +1,112 @@
-+From c5acac4ca0633088ea3f2d92dc236a43593e13b7 Mon Sep 17 00:00:00 2001
-+From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-+Date: Tue, 12 Jan 2016 17:12:18 -0600
-+Subject: [PATCH] pkg_get_provider_replacees: do not add installed pkg to
-+ replacee list
-+
-+If package A replaces provider B, and B is provided by A,
-+pkg_get_provider_replacees incorrectly adds A to the list of B replacees
-+when A is installed. During an upgrade, pacakge A is removed during
-+pkg_remove_installed_replacees, then once more during the package
-+upgrade.
-+
-+Add check to skip the insertion of package A into the replacees vector
-+in pkg_get_provider_replacees.
-+
-+Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-+---
-+ libopkg/opkg_install.c     | 13 +++++++++----
-+ tests/Makefile             |  1 +
-+ tests/regress/issue8913.py | 44 ++++++++++++++++++++++++++++++++++++++++++++
-+ 3 files changed, 54 insertions(+), 4 deletions(-)
-+ create mode 100755 tests/regress/issue8913.py
-+
-+diff --git a/libopkg/opkg_install.c b/libopkg/opkg_install.c
-+index dbfafa5..c2db870 100644
-+--- a/libopkg/opkg_install.c
-++++ b/libopkg/opkg_install.c
-+@@ -427,10 +427,15 @@ static void pkg_get_provider_replacees(pkg_t * pkg,
-+             continue;
-+         for (j = 0; j < ap->pkgs->len; j++) {
-+             pkg_t *replacee = ap->pkgs->pkgs[j];
-+-            int installed = (replacee->state_status == SS_INSTALLED)
-+-                    || (replacee->state_status == SS_UNPACKED);
-+-            if (installed)
-+-                pkg_vec_insert(replacees, replacee);
-++            pkg_t *old = pkg_hash_fetch_installed_by_name(pkg->name);
-++            /* skip pkg if installed: it  will be removed during upgrade
-++             * issue 8913 */
-++            if (old != replacee) {
-++                int installed = (replacee->state_status == SS_INSTALLED)
-++                        || (replacee->state_status == SS_UNPACKED);
-++                if (installed)
-++                    pkg_vec_insert(replacees, replacee);
-++            }
-+         }
-+     }
-+ }
-+diff --git a/tests/Makefile b/tests/Makefile
-+index 707434f..d01e97b 100644
-+--- a/tests/Makefile
-++++ b/tests/Makefile
-+@@ -39,6 +39,7 @@ REGRESSION_TESTS := core/01_install.py \
-+ 		    regress/issue127.py \
-+ 		    regress/issue152.py \
-+ 		    regress/issue154.py \
-++		    regress/issue8913.py \
-+ 		    misc/filehash.py \
-+ 		    misc/update_loses_autoinstalled_flag.py
-+ RUN_TESTS := $(REGRESSION_TESTS:%.py=run-%.py)
-+diff --git a/tests/regress/issue8913.py b/tests/regress/issue8913.py
-+new file mode 100755
-+index 0000000..aaa940f
-+--- /dev/null
-++++ b/tests/regress/issue8913.py
-+@@ -0,0 +1,44 @@
-++#! /usr/bin/env python3
-++#
-++# Reporter: alejandro.delcastillo@ni.com
-++#
-++# What steps will reproduce the problem?
-++# ======================================
-++#
-++# 1.- Create package a (v 1.0) that Provides b and c, Replaces b, Conflicts with b.
-++#         install it
-++# 2.- Create package a (v 2.0) that Provides b and c, Replaces b, Conflicts with b.
-++#         upgrade
-++#
-++# What is the expected output? What do you see instead?
-++# =====================================================
-++#
-++# Upgrade fails
-++#
-++
-++import os
-++import opk, cfg, opkgcl
-++
-++opk.regress_init()
-++
-++o = opk.OpkGroup()
-++o.add(Package="a", Version="1.0", Provides="b, c", Replaces="b", Conflicts="b")
-++o.write_opk()
-++o.write_list()
-++
-++opkgcl.update()
-++
-++opkgcl.install("a", "--force-postinstall")
-++
-++o = opk.OpkGroup()
-++o.add(Package="a", Version="2.0", Provides="b, c", Replaces="b", Conflicts="b")
-++o.write_opk()
-++o.write_list()
-++
-++opkgcl.update()
-++status = opkgcl.upgrade("--force-postinstall")
-++
-++if not opkgcl.is_installed("a", "2.0"):
-++	opk.fail("New version of package 'a' available during upgrade but was not installed")
-++
-++opkgcl.remove("a")
-+-- 
-+2.8.0
-+
-diff --git a/meta/recipes-devtools/opkg/opkg_0.3.0.bb b/meta/recipes-devtools/opkg/opkg_0.3.0.bb
-index 5ad3e92..70110d5 100644
---- a/meta/recipes-devtools/opkg/opkg_0.3.0.bb
-+++ b/meta/recipes-devtools/opkg/opkg_0.3.0.bb
-@@ -21,6 +21,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz
-            file://0002-md5-Add-md5_to_string-function.patch \
-            file://0003-sha256-Add-sha256_to_string-function.patch \
-            file://0004-opkg_download-Use-short-cache-file-name.patch \
-+           file://0001-pkg_get_provider_replacees-do-not-add-installed-pkg-.patch \
- "
- 
- SRC_URI[md5sum] = "3412cdc71d78b98facc84b19331ec64e"
--- 
-1.9.1
+For the Colibri iMX.7 xinput-calibrator was launched twice initially.
+Once by the XDG launch and once by the XSession script
+/etc/X11/Xsession.d/30xinput_calibrate.sh.
 
+The formfactor file https://github.com/Freescale/meta-fsl-arm/blob/mast
+er/recipes-bsp/formfactor/formfactor/mx7/machconfig sets
+HAVE_TOUCHSCREEN=1.
+As a workaround we now override machconfig for our machine.
+
+So for me the question remains if installing xinput-calibrator by
+itself should launch the calibrator or if this should be conditional on
+a config provided by the formfactor package.
+
+Max
+
+> 
+> --
+> Stefan
 
