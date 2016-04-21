@@ -1,30 +1,24 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D88073182
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 5AD7B73177
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Apr 2016 12:50:47 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
-	via TCP (outbound) with ESMTPS id 20160421125046435_0486;
-	Thu, 21 Apr 2016 12:50:46 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [216.191.234.70] (port=15563 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1atE5c-0004SQ-LB; Thu, 21 Apr 2016 08:52:12 -0400
-Date: Thu, 21 Apr 2016 08:50:36 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: "Burton, Ross" <ross.burton@intel.com>
-In-Reply-To: <CAJTo0LakXXOvj9_aKmYxy4OdxgP6rOp5EqLZtAajp8iFf7qkuA@mail.gmail.com>
-Message-ID: <alpine.LFD.2.20.1604210848320.4088@localhost.localdomain>
-References: <alpine.LFD.2.20.1604210738320.5726@localhost.localdomain>
-	<CAJTo0LakXXOvj9_aKmYxy4OdxgP6rOp5EqLZtAajp8iFf7qkuA@mail.gmail.com>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
-MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: trying to reconcile OE builds with rpm4-format rpm files built on centos 6
+	Thu, 21 Apr 2016 12:50:48 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 21 Apr 2016 05:50:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,512,1455004800"; d="scan'208";a="937197915"
+Received: from theory.fi.intel.com ([10.237.72.196])
+	by orsmga001.jf.intel.com with ESMTP; 21 Apr 2016 05:50:48 -0700
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 Apr 2016 15:50:40 +0300
+Message-Id: <f556d757f06be093d2e4c084b94f4d829f67e49a.1461235563.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <ef643a07644ce1fb207503c2bcaa4148eb8c18ff.1461235563.git.jussi.kukkonen@intel.com>
+References: <ef643a07644ce1fb207503c2bcaa4148eb8c18ff.1461235563.git.jussi.kukkonen@intel.com>
+In-Reply-To: <cover.1461235563.git.jussi.kukkonen@intel.com>
+References: <cover.1461235563.git.jussi.kukkonen@intel.com>
+Subject: [PATCH 3/3] matchbox-panel-2: Depend on dbus-glib-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,47 +32,28 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 21 Apr 2016 12:50:48 -0000
-Content-Type: multipart/mixed; BOUNDARY="8323328-1522812898-1461243039=:4088"
 
---8323328-1522812898-1461243039=:4088
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+This is required for dbus-binding-tool.
 
-On Thu, 21 Apr 2016, Burton, Ross wrote:
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+---
+ meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->
-> On 21 April 2016 at 13:06, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
->         next bit of muttering is, "can we downgrade the OE build to use
->       rpm4-format packages?", which is not a path down which i want to walk.
->
->
-> Assuming that the obviously correct option of "build the packages
-> inside OE" really is being written off for mysterious reasons, rpm4
-> was only just removed from oe-core (though depending on what
-> releases you're using you may have never noticed it be added and
-> removed again).  So you could just recover that from history
-> (oe-core a6e7a86f1635be9a688c56c25e9d215ea4d2cc84 removed it) and
-> fix it up.
-
-  just to be clear, if i can dredge up the recipe for rpm_4, i'm
-assuming i'd want to specify that i want the "package-management"
-image feature, as well as stating:
-
-PREFERRED_VERSION_rpm = "4.%"
-PREFERRED_VERSION_rpm-native = "4.%"
-
-correct?
-
-rday
-
+diff --git a/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_git.bb b/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_git.bb
+index 98c3ae4..ff35b33 100644
+--- a/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_git.bb
++++ b/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_git.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+                     file://matchbox-panel/mb-panel.h;endline=10;md5=0b7db28f4b6863fb853d0467e590019a \
+                     file://applets/startup/startup.c;endline=22;md5=b0a64fbef3097d79f8264e6907a98f03"
+ 
+-DEPENDS = "gnome-common gtk+ startup-notification dbus dbus-glib"
++DEPENDS = "gnome-common gtk+ startup-notification dbus dbus-glib dbus-glib-native"
+ DEPENDS += " ${@bb.utils.contains("MACHINE_FEATURES", "acpi", "libacpi", "",d)}"
+ DEPENDS += " ${@bb.utils.contains("MACHINE_FEATURES", "apm", "apmd", "",d)}"
+ 
 -- 
+2.1.4
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
---8323328-1522812898-1461243039=:4088--
