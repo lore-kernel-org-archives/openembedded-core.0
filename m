@@ -1,45 +1,31 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A3F460249
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id AADC16FF9B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Apr 2016 15:45:47 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id l6so22487021wml.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Apr 2016 08:45:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=lNeW0ancLLv5BAm056EmJife0bWQtlBAZWHaMWIcLgY=;
-	b=uIG6z+6G2x3Ki2DxIlpQGKtORvHQroejx3MMIz6RUdpvpMd9uBc+3rvn+/dypRfuEc
-	y4MIzOMGfEj7sE+HL0hI4JPaCeenYy3eyIuGngiCrSqEmZ0Auhbfd3leDetFm0TLRwW1
-	xgLoj8naJsayvgu41x9BXuhHNb23aqERDPbVcyWBnBMHKKx4dvv2m07vUU4IQ0O7InD7
-	nSeo5rz+yZ3fw67su1EUHjwnQ52Yk1WypLT2rNCtCeiFFQjcEjua/NFIjQvXC2D6XtyY
-	BvTtNQgA3sqSWINxAYlIBFi3zvZnkmLUGWK6+qJIdvhFpu1w52VLMQNZtjqd9XqZhkG4
-	NjWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=lNeW0ancLLv5BAm056EmJife0bWQtlBAZWHaMWIcLgY=;
-	b=JbgKLYYLzcICo8sIorQRby8vTrC5kw79RkyTgN9DjnRbWt6chrU5MAZyX8C8VajMok
-	5LfVUz4q0b/kiPXA8ZfCL1d4XgRymKFBIRe1tW4H4fupFRNpfDTWwPYSw2c+DX6IJ1VG
-	Ut0spanrLWCdQpe7cSaFg5KB6/dqIDpu9NuOGgpHxtcepY0QmgmBocEEBlUpcvB6UvFz
-	INC2dzRBrf46Pu8UeZbf9MlLETvcSD5ggu9AsRO9Mokl1Lxjq0PoBMt0Y1WXZVZOH3pP
-	pPack7LB3NFNmb7E1u0WQmtBXOwys/zNOK+0tHRu8R1sdu5BAxmqVFcv7J/aLUI/g4/s
-	O1tw==
-X-Gm-Message-State: AOPr4FUB7hdqipPJ7gZlGlyP2d7skSwQlX1ZXAIAZgfNHz5wlfk+0CQ9BccCA3m5TO6X0A==
-X-Received: by 10.194.216.227 with SMTP id ot3mr16132798wjc.69.1461253547810; 
-	Thu, 21 Apr 2016 08:45:47 -0700 (PDT)
-Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by smtp.gmail.com with ESMTPSA id
-	kj9sm3466356wjb.14.2016.04.21.08.45.45
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 21 Apr 2016 08:45:46 -0700 (PDT)
-From: Christopher Larson <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Apr 2016 08:45:41 -0700
-Message-Id: <1461253541-14071-1-git-send-email-kergoth@gmail.com>
-X-Mailer: git-send-email 2.8.0
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH] recipetool.newappend: fix syntax error for 'not path_ok' error
+	Thu, 21 Apr 2016 16:56:56 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP; 21 Apr 2016 09:56:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,513,1455004800"; d="scan'208";a="950099752"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 21 Apr 2016 09:56:56 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.51])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 97CB86A4006;
+	Thu, 21 Apr 2016 10:44:32 -0700 (PDT)
+Date: Thu, 21 Apr 2016 17:37:04 +0300
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+Message-ID: <20160421143704.GA30824@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <36d7622248270bd13e2701d7a8c8caf66c67a128.1461233389.git.adrian.ratiu@ni.com>
+MIME-Version: 1.0
+In-Reply-To: <36d7622248270bd13e2701d7a8c8caf66c67a128.1461233389.git.adrian.ratiu@ni.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3 1/2] wic: isoimage-isohybrid: add grubefi configfile support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,29 +38,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Apr 2016 15:45:48 -0000
+X-List-Received-Date: Thu, 21 Apr 2016 16:56:58 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Christopher Larson <chris_larson@mentor.com>
+Hi Ioan-Adrian,
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- scripts/lib/recipetool/newappend.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Great! Thank you!
 
-diff --git a/scripts/lib/recipetool/newappend.py b/scripts/lib/recipetool/newappend.py
-index bdf0693..4fbb40a 100644
---- a/scripts/lib/recipetool/newappend.py
-+++ b/scripts/lib/recipetool/newappend.py
-@@ -81,7 +81,7 @@ def newappend(args):
-         return 1
- 
-     if not path_ok:
--        logger.warn('Unable to determine correct subdirectory path for bbappend file - check that what %s adds to BBFILES also matches .bbappend files. Using %s for now, but until you fix this the bbappend will not be applied.', os.path.join(destlayerdir, 'conf', 'layer.conf'), os.path.dirname(appendpath))
-+        logger.warn('Unable to determine correct subdirectory path for bbappend file - check that what %s adds to BBFILES also matches .bbappend files. Using %s for now, but until you fix this the bbappend will not be applied.', os.path.join(args.destlayer, 'conf', 'layer.conf'), os.path.dirname(append_path))
- 
-     layerdirs = [os.path.abspath(layerdir) for layerdir in rd.getVar('BBLAYERS', True).split()]
-     if not os.path.abspath(args.destlayer) in layerdirs:
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+
+On Thu, Apr 21, 2016 at 01:10:12PM +0300, Ioan-Adrian Ratiu wrote:
+> The latest wic kickstart refactoring introduced a bootloader option
+> "--configfile" which lets wks' specify a custom grub.cfg for use
+> while booting. This is very useful for creating stuff like boot menus.
+> 
+> This change lets isoimage-isohybrid use --configfile; if this option is
+> not specified in a wks, it generates a default cfg as before.
+> 
+> Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+> ---
+>  .../lib/wic/plugins/source/isoimage-isohybrid.py   | 53 +++++++++++++---------
+>  1 file changed, 32 insertions(+), 21 deletions(-)
+> 
+> diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+> index bc99283..8440581 100644
+> --- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+> +++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+> @@ -27,6 +27,7 @@ import glob
+>  
+>  from wic import msger
+>  from wic.pluginbase import SourcePlugin
+> +from wic.utils.misc import get_custom_config
+>  from wic.utils.oe.misc import exec_cmd, exec_native_cmd, get_bitbake_var
+>  
+>  class IsoImagePlugin(SourcePlugin):
+> @@ -94,33 +95,43 @@ class IsoImagePlugin(SourcePlugin):
+>          """
+>          Create loader-specific (grub-efi) config
+>          """
+> -        splash = os.path.join(cr_workdir, "/EFI/boot/splash.jpg")
+> -        if os.path.exists(splash):
+> -            splashline = "menu background splash.jpg"
+> +        configfile = creator.ks.bootloader.configfile
+> +        if configfile:
+> +            grubefi_conf = get_custom_config(configfile)
+> +            if grubefi_conf:
+> +                msger.debug("Using custom configuration file "
+> +                        "%s for grub.cfg" % configfile)
+> +            else:
+> +                msger.error("configfile is specified but failed to "
+> +                        "get it from %s." % configfile)
+>          else:
+> -            splashline = ""
+> +            splash = os.path.join(cr_workdir, "/EFI/boot/splash.jpg")
+> +            if os.path.exists(splash):
+> +                splashline = "menu background splash.jpg"
+> +            else:
+> +                splashline = ""
+>  
+> -        bootloader = creator.ks.bootloader
+> +            bootloader = creator.ks.bootloader
+>  
+> -        grubefi_conf = ""
+> -        grubefi_conf += "serial --unit=0 --speed=115200 --word=8 "
+> -        grubefi_conf += "--parity=no --stop=1\n"
+> -        grubefi_conf += "default=boot\n"
+> -        grubefi_conf += "timeout=%s\n" % (bootloader.timeout or 10)
+> -        grubefi_conf += "\n"
+> -        grubefi_conf += "search --set=root --label %s " % part.label
+> -        grubefi_conf += "\n"
+> -        grubefi_conf += "menuentry 'boot'{\n"
+> +            grubefi_conf = ""
+> +            grubefi_conf += "serial --unit=0 --speed=115200 --word=8 "
+> +            grubefi_conf += "--parity=no --stop=1\n"
+> +            grubefi_conf += "default=boot\n"
+> +            grubefi_conf += "timeout=%s\n" % (bootloader.timeout or 10)
+> +            grubefi_conf += "\n"
+> +            grubefi_conf += "search --set=root --label %s " % part.label
+> +            grubefi_conf += "\n"
+> +            grubefi_conf += "menuentry 'boot'{\n"
+>  
+> -        kernel = "/bzImage"
+> +            kernel = "/bzImage"
+>  
+> -        grubefi_conf += "linux %s rootwait %s\n" \
+> -            % (kernel, bootloader.append)
+> -        grubefi_conf += "initrd /initrd \n"
+> -        grubefi_conf += "}\n"
+> +            grubefi_conf += "linux %s rootwait %s\n" \
+> +                            % (kernel, bootloader.append)
+> +            grubefi_conf += "initrd /initrd \n"
+> +            grubefi_conf += "}\n"
+>  
+> -        if splashline:
+> -            grubefi_conf += "%s\n" % splashline
+> +            if splashline:
+> +                grubefi_conf += "%s\n" % splashline
+>  
+>          msger.debug("Writing grubefi config %s/EFI/BOOT/grub.cfg" \
+>                          % cr_workdir)
+> -- 
+> 2.8.0
+> 
+
 -- 
-2.8.0
-
+--
+Regards,
+Ed
 
