@@ -1,24 +1,30 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 204A673177
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D88073182
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Apr 2016 12:50:46 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 21 Apr 2016 05:50:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,512,1455004800"; d="scan'208";a="937197896"
-Received: from theory.fi.intel.com ([10.237.72.196])
-	by orsmga001.jf.intel.com with ESMTP; 21 Apr 2016 05:50:46 -0700
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Apr 2016 15:50:39 +0300
-Message-Id: <53542c5ce5ba60d87ee173265a2dca48c73bcc75.1461235563.git.jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <ef643a07644ce1fb207503c2bcaa4148eb8c18ff.1461235563.git.jussi.kukkonen@intel.com>
-References: <ef643a07644ce1fb207503c2bcaa4148eb8c18ff.1461235563.git.jussi.kukkonen@intel.com>
-In-Reply-To: <cover.1461235563.git.jussi.kukkonen@intel.com>
-References: <cover.1461235563.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 2/3] connman-gnome: Depend on dbus-glib-native
+	Thu, 21 Apr 2016 12:50:47 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
+	via TCP (outbound) with ESMTPS id 20160421125046435_0486;
+	Thu, 21 Apr 2016 12:50:46 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+Received: from [216.191.234.70] (port=15563 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1atE5c-0004SQ-LB; Thu, 21 Apr 2016 08:52:12 -0400
+Date: Thu, 21 Apr 2016 08:50:36 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: "Burton, Ross" <ross.burton@intel.com>
+In-Reply-To: <CAJTo0LakXXOvj9_aKmYxy4OdxgP6rOp5EqLZtAajp8iFf7qkuA@mail.gmail.com>
+Message-ID: <alpine.LFD.2.20.1604210848320.4088@localhost.localdomain>
+References: <alpine.LFD.2.20.1604210738320.5726@localhost.localdomain>
+	<CAJTo0LakXXOvj9_aKmYxy4OdxgP6rOp5EqLZtAajp8iFf7qkuA@mail.gmail.com>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+MIME-Version: 1.0
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: trying to reconcile OE builds with rpm4-format rpm files built on centos 6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,28 +38,47 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 21 Apr 2016 12:50:48 -0000
+Content-Type: multipart/mixed; BOUNDARY="8323328-1522812898-1461243039=:4088"
 
-This is required for dbus-binding-tool.
+--8323328-1522812898-1461243039=:4088
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
----
- meta/recipes-connectivity/connman/connman-gnome_0.7.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Thu, 21 Apr 2016, Burton, Ross wrote:
 
-diff --git a/meta/recipes-connectivity/connman/connman-gnome_0.7.bb b/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
-index 7b875f0..3521c7f 100644
---- a/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
-+++ b/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
-                     file://properties/main.c;beginline=1;endline=20;md5=50c77c81871308b033ab7a1504626afb \
-                     file://common/connman-dbus.c;beginline=1;endline=20;md5=de6b485c0e717a0236402d220187717a"
- 
--DEPENDS = "gtk+ dbus-glib intltool-native gettext-native"
-+DEPENDS = "gtk+ dbus-glib dbus-glib-native intltool-native gettext-native"
- 
- # 0.7 tag
- SRCREV = "cf3c325b23dae843c5499a113591cfbc98acb143"
+>
+> On 21 April 2016 at 13:06, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+>         next bit of muttering is, "can we downgrade the OE build to use
+>       rpm4-format packages?", which is not a path down which i want to walk.
+>
+>
+> Assuming that the obviously correct option of "build the packages
+> inside OE" really is being written off for mysterious reasons, rpm4
+> was only just removed from oe-core (though depending on what
+> releases you're using you may have never noticed it be added and
+> removed again).  So you could just recover that from history
+> (oe-core a6e7a86f1635be9a688c56c25e9d215ea4d2cc84 removed it) and
+> fix it up.
+
+  just to be clear, if i can dredge up the recipe for rpm_4, i'm
+assuming i'd want to specify that i want the "package-management"
+image feature, as well as stating:
+
+PREFERRED_VERSION_rpm = "4.%"
+PREFERRED_VERSION_rpm-native = "4.%"
+
+correct?
+
+rday
+
 -- 
-2.1.4
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
 
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
+--8323328-1522812898-1461243039=:4088--
