@@ -1,29 +1,48 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6813F606BF
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Apr 2016 01:01:28 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u3L117tl020437
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 20 Apr 2016 18:01:08 -0700 (PDT)
-Received: from [128.224.162.236] (128.224.162.236) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 20 Apr 2016 18:01:07 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1460971725.git.liezhi.yang@windriver.com>
-	<f4e17cb499c3e83333d197a65363587a5e5c2e51.1460971725.git.liezhi.yang@windriver.com>
-	<CAJTo0LatBdHwJXAMSbh4HRoUtOyo_5SzkuSYrbaxC8D0Ah3fVQ@mail.gmail.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <57182651.9050202@windriver.com>
-Date: Thu, 21 Apr 2016 09:01:05 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
+	[209.85.220.174])
+	by mail.openembedded.org (Postfix) with ESMTP id C7967700F0;
+	Thu, 21 Apr 2016 03:07:20 +0000 (UTC)
+Received: by mail-qk0-f174.google.com with SMTP id x7so21070420qkd.3;
+	Wed, 20 Apr 2016 20:07:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=99nbgXsXmrFLAkD3riYZQLZ9+k9OaekLdBFN9w3Du2k=;
+	b=uCyzHNlBobMEa7ypxJ4vCRAsoy7dfVnR8y9EZ4jYif3MpaDC5LL9UnbsOLJG7jDnfO
+	8/NFCsWHn6JJxDx40fj6RMnY0thuabEzwR8N6n4di3SvHJ3p1UUMboOvXCzYqZIQt/gM
+	qQTh8jA7ItXOV7O1O38mug30ttqHHyESJFEz4aSxU4YWz2slRiV+MwBAhxEKxJejhh64
+	PH7FYIUTcQHaOXOfA3E5vUHmM/QsXmQMcMwIF+E+1dsZnaGBRIHSfWc4XYAo5oDOy58+
+	d9Z63RMWsfmpy2QvARpZiJorKbV483RoI3ZTAiuZX3wrMw4wKeKm+zpu9Au73rHu8ttG
+	pAqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=99nbgXsXmrFLAkD3riYZQLZ9+k9OaekLdBFN9w3Du2k=;
+	b=IOFWeqK25T8X49cwDnww6cO6+5gp5NPkBd4Li6OnJ4pwHsvRFtE0f5SuieuI+ngSX2
+	Bb+dDui6T7EC4L1GBuCKv5+AUVQj3IM7+OG48k156Z7tf2OORJv+TJcG485pEzH01oXB
+	bPxXYWe2VSleCoqC4uhTAzGSNRe4F/aDnmZN9sYgn3zI9C8rGYuEI2bTRi5drpys6/2x
+	dmr5HKb/vzXIZNRGlJsHvUBCywD6tIMX8bq9kf1sNaiWmpbOO0/7dJ1cHCwwWxsUGfSm
+	0OgYfBMnQL+mGT7u2zvPMzOIPV23TTNXX8dRHFPQ+fYj1krK0sUVOe/pZTa/Hx6rJBe0
+	ie7w==
+X-Gm-Message-State: AOPr4FUxNloAtmFSonvQX5SJ0uZeDl8U8JgEtD8rQweE1pWa+0epTFBGdN+3NmfODa9FgjG0NJ2es+bVUVVB1Q==
+X-Received: by 10.55.78.131 with SMTP id c125mr16264359qkb.71.1461208040881;
+	Wed, 20 Apr 2016 20:07:20 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LatBdHwJXAMSbh4HRoUtOyo_5SzkuSYrbaxC8D0Ah3fVQ@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] grub_git: set COMPATIBLE_HOST_armv7a to null
+Received: by 10.55.130.196 with HTTP; Wed, 20 Apr 2016 20:06:51 -0700 (PDT)
+In-Reply-To: <CAMKF1spQn114r9dCAk9z7c3hw-NJp3pVoVP+f3gao2mhLTBHYg@mail.gmail.com>
+References: <B1D22563-F31B-4EF1-90D6-16EB391134D5@gmail.com>
+	<CACS+7ZSpWgziO+GF++25dM7kgP4SZ_GDV+-DcEMQ_YUGyEEnfQ@mail.gmail.com>
+	<CAMKF1spQn114r9dCAk9z7c3hw-NJp3pVoVP+f3gao2mhLTBHYg@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 20 Apr 2016 20:06:51 -0700
+Message-ID: <CAMKF1spwimpQwSE38B5jWmyZXwMKy6znMEF9p-NmTM4mGGr+4g@mail.gmail.com>
+To: Dan McGregor <danismostlikely@gmail.com>
+Cc: Yocto Project <yocto@yoctoproject.org>,
+	openembeded-devel <openembedded-devel@lists.openembedded.org>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFT] GCC 6 Recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,78 +55,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Apr 2016 01:01:30 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 21 Apr 2016 03:07:21 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+I have updated
+
+http://git.openembedded.org/openembedded-core-contrib/log/?h=3Dkraj/gcc-6
+
+With few more patches added now. Most of packages in OE-Core are
+building fine except linux-yocto on mips and ppc
+
+ppc
+http://errors.yoctoproject.org/Errors/Details/60423/
+
+mips
+http://errors.yoctoproject.org/Errors/Details/60427/
+
+and musl builds needs few more packages to be fixed. but things are
+looking good.
+
+Thanks
+-Khem
 
 
-
-On 04/21/2016 04:37 AM, Burton, Ross wrote:
-> Andre's comment from the last time you submitted this is still valid:
->
->     Unless you have verified that armv4, armv5, armv6 and armv7ve all work
->     correctly then blacklisting only armv7a is probably not the correct
->     approach.
+On Mon, Apr 18, 2016 at 6:13 PM, Khem Raj <raj.khem@gmail.com> wrote:
 >
 >
-> Have you tested all the other architectures?
-
-No, I will have a try.
-
-// Robert
-
+> On Mon, Apr 18, 2016 at 12:48 PM Dan McGregor <danismostlikely@gmail.com>
+> wrote:
+>>
+>> On 17 April 2016 at 23:15, Khem Raj <raj.khem@gmail.com> wrote:
+>> > Hello all,
+>> >
+>> > I have put together a potential gcc6 upgrade recipe set, and pushed th=
+e
+>> > branch to tree here
+>> >
+>> >
+>> > http://git.openembedded.org/openembedded-core-contrib/log/?h=3Dkraj/gc=
+c-6
+>> >
+>> > and also at github fork of mine.
+>> >
+>> > https://github.com/kraj/openembedded-core/tree/kraj/master
+>> >
+>> > You need to set
+>> >
+>> > GCCVERSION =3D =E2=80=9C6.%=E2=80=9D
+>> >
+>> > in local.conf to enable it.
+>> >
+>> >
+>> > There are few recipes in OE-Core which still don=E2=80=99t compile e.g=
+.
+>> >
+>> > see
+>> >
+>> > http://errors.yoctoproject.org/Errors/Build/14782/
+>> >
+>> > any help in fixing them or otherwise fixing other layers is appreciate=
+d.
+>> >
+>> > gcc6 is a major release for some info see
+>> >
+>> > https://gcc.gnu.org/gcc-6/changes.html
+>> >
+>> > and porting guide
+>> >
+>> > https://gcc.gnu.org/gcc-6/porting_to.html
+>> >
+>> >
+>>
+>> I haven't built an image with gcc6 as the compiler yet, but I did
+>> check out your branch to try building with gcc 6 as the host compiler
+>> (Fedora 24). I needed a few more fixes, available at
+>> http://git.openembedded.org/openembedded-core-contrib/log/?h=3Ddankm/gcc=
+-6.
+>> I fixed lzop, pkgconfig, and disabled werror on binutils.
+>> core-image-minimal appears to be well on its way to building.
+>>
 >
-> Ross
+> I had fixed lzop locally meanwhile. I cherry-picked the pkgconfig and
+> binutils fixes into my branch
 >
-> On 18 April 2016 at 10:29, Robert Yang <liezhi.yang@windriver.com
-> <mailto:liezhi.yang@windriver.com>> wrote:
->
->     It doesn't work with armv7a:
->     | build-grub-module-verifier: error: unsupported relocation 0x2b.
->     | make[3]: *** [reboot.mod] Error 1
->     | make[3]: *** Waiting for unfinished jobs....
->     | build-grub-module-verifier: error: unsupported relocation 0x2b.
->     | build-grub-module-verifier: error: unsupported relocation 0x2b.
->     | make[3]: *** [halt.mod] Error 1
->     | make[3]: *** [cat.mod] Error 1
->     | build-grub-module-verifier: error: unsupported relocation 0x2b.
->     | build-grub-module-verifier: error: unsupported relocation 0x2b.
->     | build-grub-module-verifier: error: unsupported relocation 0x2b.
->     | make[3]: *** [disk.mod] Error 1
->     | make[3]: *** [gptsync.mod] Error 1
->     | make[3]: *** [eval.mod] Error 1
->     | build-grub-module-verifier: error:build-grub-module-verifier: error:
->     unsupported relocation 0x2bunsupported relocation 0x2b.
->
->     Signed-off-by: Robert Yang <liezhi.yang@windriver.com
->     <mailto:liezhi.yang@windriver.com>>
->     ---
->       meta/recipes-bsp/grub/grub_git.bb <http://grub_git.bb> | 1 +
->       1 file changed, 1 insertion(+)
->
->     diff --git a/meta/recipes-bsp/grub/grub_git.bb <http://grub_git.bb>
->     b/meta/recipes-bsp/grub/grub_git.bb <http://grub_git.bb>
->     index 6919c9a..8f8c5ed 100644
->     --- a/meta/recipes-bsp/grub/grub_git.bb <http://grub_git.bb>
->     +++ b/meta/recipes-bsp/grub/grub_git.bb <http://grub_git.bb>
->     @@ -18,6 +18,7 @@ SRC_URI = "git://git.savannah.gnu.org/grub.git
->     <http://git.savannah.gnu.org/grub.git> \
->       S = "${WORKDIR}/git"
->
->       COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|aarch64.*)-(linux.*|freebsd.*)'
->     +COMPATIBLE_HOST_armv7a = 'null'
->
->       inherit autotools gettext texinfo
->
->     --
->     2.8.0
->
->     --
->     _______________________________________________
->     Openembedded-core mailing list
->     Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>
->     http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
+>>
+>>
+>> > Thanks
+>> >
+>> > -Khem
+>> >
+>> > --
+>> > _______________________________________________
+>> > Openembedded-core mailing list
+>> > Openembedded-core@lists.openembedded.org
+>> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>> >
 
