@@ -1,29 +1,29 @@
 Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp484.redcondor.net (smtp484.redcondor.net [208.80.204.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B6D360107
+Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
+	by mail.openembedded.org (Postfix) with ESMTP id A38EC6FF73
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Apr 2016 11:19:18 +0000 (UTC)
+	Thu, 21 Apr 2016 12:06:45 +0000 (UTC)
 Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp484.redcondor.net ({c48374e7-08df-40d9-a0de-96cc9883a037})
-	via TCP (outbound) with ESMTPS id 20160421111917310_0484
+	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
+	via TCP (outbound) with ESMTPS id 20160421120644370_0685
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Apr 2016 11:19:17 +0000
+	Thu, 21 Apr 2016 05:06:44 -0700
 X-RC-FROM: <rpjday@crashcourse.ca>
 X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [216.191.234.70] (port=37977 helo=crashcourse.ca)
+Received: from [216.191.234.70] (port=45889 helo=crashcourse.ca)
 	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
 	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1atCf6-0003ub-Nc for openembedded-core@lists.openembedded.org;
-	Thu, 21 Apr 2016 07:20:44 -0400
-Date: Thu, 21 Apr 2016 07:19:10 -0400 (EDT)
+	id 1atDP1-000887-Rl for openembedded-core@lists.openembedded.org;
+	Thu, 21 Apr 2016 08:08:11 -0400
+Date: Thu, 21 Apr 2016 08:06:35 -0400 (EDT)
 From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 X-X-Sender: rpjday@localhost.localdomain
 To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.20.1604210639150.4110@localhost.localdomain>
+Message-ID: <alpine.LFD.2.20.1604210738320.5726@localhost.localdomain>
 User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
 X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: question about order of processing SRC_URI items
+Subject: trying to reconcile OE builds with rpm4-format rpm files built on centos 6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,114 +36,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Apr 2016 11:19:23 -0000
+X-List-Received-Date: Thu, 21 Apr 2016 12:06:47 -0000
 Content-Type: text/plain; charset=US-ASCII
 
 
-  i'm currently building up a BSP layer which is going to involve
-quite a bit of FILESEXTRAPATHS and OVERRIDES and conditionals in my
-kernel bbappend files so i want to make sure i understand the
-processing order (or what there is of it).
+  looking for advice on how to most cleanly deal with the following.
+currently working on BSP layer to which some folks want to add RPMs
+that are currently (and for quite some time have been) built on a
+centos 6 system, which means those RPM files are in rpm4 format; ergo,
+they obviously don't play well with a system built with current OE/YP.
+so ... what to do?
 
-  first, if one simply appends items to SRC_URI, as in:
+  first, current muttering is, "grrrrrr ... why did OE migrate to
+rpm5?" i actually didn't really know the answer to that, so i poked
+around and found this:
 
-  SRC_URI += " \
-	derp.scc \
-	gorp.scc \
-	...
-  "
+  http://rpm5.org/community/rpm-users/0998.html
 
-then regardless of how FILESOVERRIDES adjusts the search order in the
-eventual FILESPATH, those items *must* be found somewhere, correct?
-(this seems pretty obvious to me, but i've been burned by obvious
-things before.)
+the mention of "more flexibility in cross compilation and control"
+makes perfect sense to me, but is there a more comprehensive writeup
+somewhere that lays out the rationale for the move to rpm5 that can be
+used in its defense?
 
-  next, i realize there are two forms of appending to SRC_URI:
+  next bit of muttering is, "can we downgrade the OE build to use
+rpm4-format packages?", which is not a path down which i want to walk.
 
- * SRC_URI +=
- * SRC_URI_append =
+  another option is to simply install a totally independent rpm5 on
+the centos 6 box, and use that exclusively for building packages to be
+installed on an OE system. has anyone done this? does it represent a
+sane/reasonable approach?
 
-first, is there an aesthetic preference for one over the other if the
-end result is the same? (just curious about what people here prefer to
-use.)
+  finally, my reaction to all of this is, "why not just write recipes
+for all that software so it can be built by OE?" but, as explained to
+me, the OE package build system is *heavily* tied to a much larger
+internal build process that resides on the centos 6 box, and there is
+a real reluctance to try to extract the OE component from the larger
+build process. the phrase that seems to pop up is, "not a chance in
+hell."
 
-  more significantly, i realize the final order of SRC_URI items
-depending on which one you use might be different, as "_append" leaves
-the appending until the final stage of processing. so what this tells
-me is that all of the items you list in SRC_URI should *not* be
-order-dependent, is that a fair statement? or, IOW, if your layer
-depends on the items in SRC_URI being processed in a specific order,
-you probably need to rework your recipe file.
+  so ... thoughts? short of ripping out that part of the build process
+and properly adding it as additional recipes to the OE build, is it
+possible to build and install rpm5 on a centos 6 box? as a test, i can
+try it for my fedora 23 system and, if that works, at least i can
+demonstrate proof-of-concept.
 
-  (side note: i do realize that, in a single .scc file, the patches
-listed will be applied in precisely that order, but that's a different
-issue and not relevant here.)
-
-  next, if there are truly conditional SRC_URI items, the only way to
-identify those is:
-
-  SRC_URI_append_<override> = " ... blah blah ..."
-
-you can't do this, can you?
-
-  SRC_URI_<override> += " more stuff "
-
-i don't think i've ever seen an example of the latter, but maybe i
-just didn't look closely enough.
-
-  and, finally, given that you can have a combination of SRC_URI
-assignments and appends in the same .bbappend file:
-
-  SRC_URI += "..."
-  SRC_URI_append = "..."
-  SRC_URI_append_<override> = "..."
-
-that tells me that you *really* don't want any of that to be
-order-dependent, as i mentioned before.
-
-  is that about it? am i missing anything about SRC_URI definition and
-processing? thanks muchly.
+  anyone done this? if it's possible, it would seem to be the simplest
+solution under the circumstances.
 
 rday
 
-p.s.  oh, wait, two more curiosities. first, i still see the
-occasional example of this in numerous layers, including oe-core:
+p.s. does adding the smart package manager into all of this make any
+difference? i'm pretty familiar with RPM packaging, but have barely
+looked at smart, and i don't know whether it would have any relevance
+to this issue.
 
-    meta/recipes-support/attr/attr_2.4.47.bb:
-        SRC_URI_append += "file://attr-Missing-configure.ac.patch \
-        ^^^^^^^^^^^^^^^^^
+-- 
 
-pretty sure combining "SRC_URI_append" with "+=" is just as redundant
-as ever, no? :-)
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
 
-  also, if the list of items in SRC_URI should be order-independent,
-then it would seem to make little sense to specifically use:
-
-  SRC_URI_prepend = "..."
-
-anywhere, right? IOW, there should be no situation in which
-specifically *prepending* to SRC_URI is necessary. but i found one
-example in oe-core:
-
-  meta/recipes-devtools/qemu/qemu_2.5.0.bb:
-
-SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
-            file://qemu-enlarge-env-entry-size.patch \
-            file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch \
-            file://no-valgrind.patch \
-            file://CVE-2016-1568.patch \
-            file://CVE-2016-2197.patch \
-            file://CVE-2016-2198.patch \
-            file://pathlimit.patch \
-           "
-SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
-SRC_URI[md5sum] = "f469f2330bbe76e3e39db10e9ac4f8db"
-SRC_URI[sha256sum] = "3443887401619fe33bfa5d900a4f2d6a79425ae2b7e43d5b8c36eb7a683772d4"
-
-  uh ... yeah, i get that the above does the right thing but, come on,
-that just looks weird. is there a reason the qemu recipe deliberately
-goes out of its way to do this?
-
-  ok, back to work ...
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
