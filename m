@@ -1,29 +1,30 @@
 Return-Path: <rpjday@crashcourse.ca>
 Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
-	by mail.openembedded.org (Postfix) with ESMTP id B2F6E60249
+	by mail.openembedded.org (Postfix) with ESMTP id E3DBC60291
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Apr 2016 13:45:30 +0000 (UTC)
+	Thu, 21 Apr 2016 13:56:27 +0000 (UTC)
 Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
-	via TCP (outbound) with ESMTPS id 20160421134526199_0486
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Apr 2016 13:45:26 +0000
+	via TCP (outbound) with ESMTPS id 20160421135626207_0486;
+	Thu, 21 Apr 2016 13:56:26 +0000
 X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [216.191.234.70] (port=37115 helo=crashcourse.ca)
+Received: from [216.191.234.70] (port=46235 helo=crashcourse.ca)
 	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
 	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1atEwY-0000aI-8n for openembedded-core@lists.openembedded.org;
-	Thu, 21 Apr 2016 09:46:54 -0400
-Date: Thu, 21 Apr 2016 09:45:18 -0400 (EDT)
+	id 1atF7B-0001SM-V4; Thu, 21 Apr 2016 09:57:54 -0400
+Date: Thu, 21 Apr 2016 09:56:17 -0400 (EDT)
 From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 X-X-Sender: rpjday@localhost.localdomain
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.20.1604210943570.24052@localhost.localdomain>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+In-Reply-To: <1461244406.31320.117.camel@linuxfoundation.org>
+Message-ID: <alpine.LFD.2.20.1604210951380.11134@localhost.localdomain>
+References: <alpine.LFD.2.20.1604210639150.4110@localhost.localdomain>
+	<1461244406.31320.117.camel@linuxfoundation.org>
 User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
 X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: [PATCH] attr: Remove redundant "+=" after "_append"
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: question about order of processing SRC_URI items
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,31 +37,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Apr 2016 13:45:32 -0000
+X-List-Received-Date: Thu, 21 Apr 2016 13:56:30 -0000
 Content-Type: text/plain; charset=US-ASCII
 
+On Thu, 21 Apr 2016, Richard Purdie wrote:
 
-Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+> In general we should try and use += if possible as its simpler and
+> easier to understand what it does.
 
----
+  regarding "_append +=", there are only two files left in oe-core
+that i will let someone else deal with if they want. first:
 
-diff --git a/meta/recipes-support/attr/attr_2.4.47.bb b/meta/recipes-support/attr/attr_2.4.47.bb
-index 44eee39..556c8e4 100644
---- a/meta/recipes-support/attr/attr_2.4.47.bb
-+++ b/meta/recipes-support/attr/attr_2.4.47.bb
-@@ -2,9 +2,9 @@ require attr.inc
+meta/recipes-extended/images/core-image-kernel-dev.bb:
 
- # configure.ac was missing from the release tarball. This should be fixed in
- # future releases of attr, remove this when updating the recipe.
--SRC_URI_append += "file://attr-Missing-configure.ac.patch \
--                   file://dont-use-decl-macros.patch \
--                  "
-+SRC_URI += "file://attr-Missing-configure.ac.patch \
-+            file://dont-use-decl-macros.patch \
-+           "
+  IMAGE_ROOTFS_EXTRA_SPACE_append += "+ 3000000"
 
- SRC_URI[md5sum] = "84f58dec00b60f2dc8fd1c9709291cc7"
- SRC_URI[sha256sum] = "25772f653ac5b2e3ceeb89df50e4688891e21f723c460636548971652af0a859"
+and there's this weirdness in meta/lib/oeqa/selftest/layerappend.py:
+
+... snip ...
+addtask build
+"""
+    append = """
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+
+SRC_URI_append = " file://appendtest.txt"
+
+sysroot_stage_all_append() {
+        install -m 644 ${WORKDIR}/appendtest.txt ${SYSROOT_DESTDIR}/
+}
+
+"""
+
+    append2 = """
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+
+SRC_URI_append += "file://appendtest.txt"
+
+
+
+  not quite sure what's going on there with those two variations of
+assignment to SRC_URI, so i'm just going to leave it alone.
 
 rday
 
