@@ -1,38 +1,32 @@
-Return-Path: <Tudor.Florea@enea.com>
-Received: from smtp-out11.electric.net (smtp-out11.electric.net
-	[185.38.181.39])
-	by mail.openembedded.org (Postfix) with ESMTP id AA92D605FE
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 0ACEC60017
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Apr 2016 08:36:18 +0000 (UTC)
-Received: from 1atA5y-0008Qw-U6 by out11a.electric.net with emc1-ok (Exim 4.87)
-	(envelope-from <Tudor.Florea@enea.com>) id 1atA5y-0008RL-V4
-	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Apr 2016 01:36:18 -0700
-Received: by emcmailer; Thu, 21 Apr 2016 01:36:18 -0700
-Received: from [192.36.1.72] (helo=mx-3.enea.com)
-	by out11a.electric.net with esmtps (TLSv1:AES128-SHA:128) (Exim 4.87)
-	(envelope-from <Tudor.Florea@enea.com>) id 1atA5y-0008Qw-U6
-	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Apr 2016 01:36:18 -0700
-Received: from sestofb11.enea.se (172.21.3.146) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 21 Apr 2016 10:36:17 +0200
-Received: by sestofb11.enea.se (Postfix, from userid 4200)	id 8AB742413C1;
-	Thu, 21 Apr 2016 10:36:17 +0200 (CEST)
-From: Tudor Florea <tudor.florea@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Apr 2016 10:36:16 +0200
-Message-ID: <1461227776-57543-1-git-send-email-tudor.florea@enea.com>
-X-Mailer: git-send-email 1.9.1
+	Thu, 21 Apr 2016 09:23:22 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 21 Apr 2016 02:23:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,512,1455004800"; d="scan'208";a="937088467"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 21 Apr 2016 02:23:23 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.51])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 0A05E6A4006;
+	Thu, 21 Apr 2016 03:10:59 -0700 (PDT)
+Date: Thu, 21 Apr 2016 10:03:31 +0300
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+Message-ID: <20160421070331.GA24300@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <1461164775-2983-1-git-send-email-adrian.ratiu@ni.com>
+	<20160420180838.49f65959@adi-pc-linux.emea.corp.natinst.com>
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX03.enea.se: tudor.florea@enea.com does not
-	designate permitted sender hosts)
-X-Outbound-IP: 192.36.1.72
-X-Env-From: Tudor.Florea@enea.com
-X-PolicySMART: 6030817
-X-Virus-Status: Scanned by VirusSMART (c)
-X-Virus-Status: Scanned by VirusSMART (s)
-Subject: [PATCH 1/1] valgrind: turn off the file level dependency
+In-Reply-To: <20160420180838.49f65959@adi-pc-linux.emea.corp.natinst.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] wic: isoimage-isohybrid: add grubefi configfile support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,43 +39,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Apr 2016 08:36:20 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 21 Apr 2016 09:23:23 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Attempting to install ptest for valgrind fails with this error:
+On Wed, Apr 20, 2016 at 06:08:38PM +0300, Ioan-Adrian Ratiu wrote:
+> I forgot to mention this is v2... sorry.
+> 
+> On Wed, 20 Apr 2016 18:06:15 +0300
+> Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
+> 
+> > The latest wic kickstart refactoring introduced a bootloader option
+> > "--configfile" which lets wks' specify a custom grub.cfg for use
+> > while booting. This is very useful for creating stuff like boot menus.
+> > 
+> > This change lets isoimage-isohybrid use --configfile; if this option is
+> > not specified in a wks, it generates a default cfg as before.
+> > 
+> > Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+> > ---
+> >  .../lib/wic/plugins/source/isoimage-isohybrid.py   | 53 +++++++++++++---------
+> >  1 file changed, 32 insertions(+), 21 deletions(-)
+> > 
+> > diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+> > index bc99283..8440581 100644
+> > --- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+> > +++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+> > @@ -27,6 +27,7 @@ import glob
+> >  
+> >  from wic import msger
+> >  from wic.pluginbase import SourcePlugin
+> > +from wic.utils.misc import get_custom_config
+> >  from wic.utils.oe.misc import exec_cmd, exec_native_cmd, get_bitbake_var
+> >  
+> >  class IsoImagePlugin(SourcePlugin):
+> > @@ -94,33 +95,43 @@ class IsoImagePlugin(SourcePlugin):
+> >          """
+> >          Create loader-specific (grub-efi) config
+> >          """
+> > -        splash = os.path.join(cr_workdir, "/EFI/boot/splash.jpg")
+> > -        if os.path.exists(splash):
+> > -            splashline = "menu background splash.jpg"
+> > +        configfile = creator.ks.bootloader.configfile
+> > +        if configfile:
+> > +            grubefi_conf = get_custom_config(configfile)
+> > +            if grubefi_conf:
+> > +                msger.debug("Using custom configuration file "
+> > +                        "%s for grub.cfg" % configfile)
+> > +            else:
+> > +                msger.error("configfile is specified but failed to "
+> > +                        "get it from %s." % configfile)
+> >          else:
+> > -            splashline = ""
+> > +            splash = os.path.join(cr_workdir, "/EFI/boot/splash.jpg")
+I know, it's not your code, but it looks like the result path(splash
+variable) will not include workdir. Look:
 
-error: Can't install valgrind-ptest-3.11.0-r0.1@ppce500mc: no package
-provides /this/is/a/bogus/interpreter/name
+In [2]: os.path.join('/path/to/workdir', '/EFI/boot/splash.jpg')
+Out[2]: '/EFI/boot/splash.jpg'
 
-This is because one of the tests contains a bogus interpreter path on purpose
-It is not enough to skip the QA warning about the missing dependency
-but the dependency have to be completely removed.
-Since this package contains oly tests it is safe to disable per file
-dependencies and rely on the ones per package.
+In [3]: os.path.join('/path/to/workdir/', '/EFI/boot/splash.jpg')
+Out[3]: '/EFI/boot/splash.jpg'
 
-Signed-off-by: Tudor Florea <tudor.florea@enea.com>
----
- meta/recipes-devtools/valgrind/valgrind_3.11.0.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+It works this way:
+In [4]: os.path.join('/path/to/workdir/', 'EFI/boot/splash.jpg')
+Out[4]: '/path/to/workdir/EFI/boot/splash.jpg'
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
-index 51c88bf..8240500 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
-@@ -68,9 +68,9 @@ RRECOMMENDS_${PN} += "${TCLIBC}-dbg"
- RDEPENDS_${PN}-ptest += " sed perl perl-module-file-glob"
- RDEPENDS_${PN}-ptest_append_libc-glibc = " glibc-utils"
- 
--# One of the tests contains a bogus interpreter path on purpose, and QA
--# check complains about it
--INSANE_SKIP_${PN}-ptest += "file-rdeps"
-+# One of the tests contains a bogus interpreter path on purpose.
-+# Skip file dependency check
-+SKIP_FILEDEPS_${PN}-ptest = '1'
- 
- do_compile_ptest() {
-     oe_runmake check
+> > +            if os.path.exists(splash):
+> > +                splashline = "menu background splash.jpg"
+> > +            else:
+> > +                splashline = ""
+> >  
+> > -        bootloader = creator.ks.bootloader
+> > +            bootloader = creator.ks.bootloader
+> >  
+> > -        grubefi_conf = ""
+> > -        grubefi_conf += "serial --unit=0 --speed=115200 --word=8 "
+> > -        grubefi_conf += "--parity=no --stop=1\n"
+> > -        grubefi_conf += "default=boot\n"
+> > -        grubefi_conf += "timeout=%s\n" % (bootloader.timeout or 10)
+> > -        grubefi_conf += "\n"
+> > -        grubefi_conf += "search --set=root --label %s " % part.label
+> > -        grubefi_conf += "\n"
+> > -        grubefi_conf += "menuentry 'boot'{\n"
+> > +            grubefi_conf = ""
+> > +            grubefi_conf += "serial --unit=0 --speed=115200 --word=8 "
+> > +            grubefi_conf += "--parity=no --stop=1\n"
+> > +            grubefi_conf += "default=boot\n"
+> > +            grubefi_conf += "timeout=%s\n" % (bootloader.timeout or 10)
+> > +            grubefi_conf += "\n"
+> > +            grubefi_conf += "search --set=root --label %s " % part.label
+> > +            grubefi_conf += "\n"
+> > +            grubefi_conf += "menuentry 'boot'{\n"
+> >  
+> > -        kernel = "/bzImage"
+> > +            kernel = "/bzImage"
+> >  
+> > -        grubefi_conf += "linux %s rootwait %s\n" \
+> > -            % (kernel, bootloader.append)
+> > -        grubefi_conf += "initrd /initrd \n"
+> > -        grubefi_conf += "}\n"
+> > +            grubefi_conf += "linux %s rootwait %s\n" \
+> > +                            % (kernel, bootloader.append)
+> > +            grubefi_conf += "initrd /initrd \n"
+> > +            grubefi_conf += "}\n"
+> >  
+> > -        if splashline:
+> > -            grubefi_conf += "%s\n" % splashline
+> > +            if splashline:
+> > +                grubefi_conf += "%s\n" % splashline
+> >  
+> >          msger.debug("Writing grubefi config %s/EFI/BOOT/grub.cfg" \
+> >                          % cr_workdir)
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 -- 
-1.9.1
-
+--
+Regards,
+Ed
 
