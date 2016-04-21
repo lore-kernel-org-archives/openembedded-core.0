@@ -1,30 +1,36 @@
-Return-Path: <Dengke.Du@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A0A5B6E630
+Return-Path: <fan.xin@jp.fujitsu.com>
+X-Greylist: delayed 670 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 21 Apr 2016 05:17:22 UTC
+Received: from mgwkm02.jp.fujitsu.com (mgwkm02.jp.fujitsu.com [202.219.69.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D3E860107
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Apr 2016 04:49:47 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u3L4nlaP021583
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 21 Apr 2016 05:17:22 +0000 (UTC)
+Received: from kw-mxq.gw.nic.fujitsu.com (unknown [192.168.231.130]) by
+	mgwkm02.jp.fujitsu.com with smtp
+	id 7e7c_6b00_9bfaac04_d0c4_4a45_ad2e_feea424cd101;
+	Thu, 21 Apr 2016 14:06:06 +0900
+Received: from g01jpfmpwkw01.exch.g01.fujitsu.local
+	(g01jpfmpwkw01.exch.g01.fujitsu.local [10.0.193.38])
+	by kw-mxq.gw.nic.fujitsu.com (Postfix) with ESMTP id 5167EAC02D7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Apr 2016 21:49:47 -0700 (PDT)
-Received: from [128.224.163.143] (128.224.163.143) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 20 Apr 2016 21:49:46 -0700
+	Thu, 21 Apr 2016 14:06:06 +0900 (JST)
+Received: from g01jpexchkw37.g01.fujitsu.local (unknown [10.0.193.4])
+	by g01jpfmpwkw01.exch.g01.fujitsu.local (Postfix) with ESMTP id
+	AB789692730 for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Apr 2016 14:06:05 +0900 (JST)
+Received: from localhost.localdomain (10.24.19.99) by
+	g01jpexchkw37.g01.fujitsu.local (10.0.193.67) with Microsoft SMTP
+	Server id 14.3.266.1; Thu, 21 Apr 2016 14:06:04 +0900
+From: Fan Xin <fan.xin@jp.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-References: <cover.1459917622.git.dengke.du@windriver.com>
-	<39560f98b94a3d0d24c44c7ff139aa1c605a8498.1459917622.git.dengke.du@windriver.com>
-	<57049583.8060608@windriver.com>
-	<1459932124.5713.1.camel@linux.intel.com>
-From: "dengke.du@windriver.com" <dengke.du@windriver.com>
-Message-ID: <57185BEC.9020406@windriver.com>
-Date: Thu, 21 Apr 2016 12:49:48 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
+Date: Thu, 21 Apr 2016 14:05:14 +0900
+Message-ID: <1461215114-5062-1-git-send-email-fan.xin@jp.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <1459932124.5713.1.camel@linux.intel.com>
-Subject: Re: [PATCH 1/1] coreutils: correct the case for class-native
+X-SecurityPolicyCheck-GC: OK by FENCE-Mail
+X-TM-AS-MML: disable
+Cc: Fan Xin <fan.xin@jp.fujitsu.com>
+Subject: [PATCH] Replace foomatic-filters with cups-filters
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,48 +43,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Apr 2016 04:49:49 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 21 Apr 2016 05:17:25 -0000
+Content-Type: text/plain
 
-But the nativesdk also need the do_install_append function to
-slove the many warnings.
+The foomatic-filters community is inactive and foomatic-filter package is unmaintained.
+(http://www.gossamer-threads.com/lists/gentoo/user/288184)
 
-//dengke
+The foomatic-rips is moved from foomatic-filters to cups-filters and
+maintained by cups-filters according to the cups-filter's NEWS.
+(http://bzr.linuxfoundation.org/loggerhead/openprinting/cups-filters/annotate/head:/NEWS)
 
-On 2016年04月06日 16:42, Joshua G Lock wrote:
-> On Wed, 2016-04-06 at 12:50 +0800, Robert Yang wrote:
->> On 04/06/2016 12:45 PM, Dengke Du wrote:
->>> The function of do_install_append_class-native for class-native
->>> had alread exist,so exclude the class-native in function
->>> do_install_append.
->>>
->>> Signed-off-by: Dengke Du <dengke.du@windriver.com>
->>> ---
->>>    meta/recipes-core/coreutils/coreutils_8.25.bb | 4 ++++
->>>    1 file changed, 4 insertions(+)
->>>
->>> diff --git a/meta/recipes-core/coreutils/coreutils_8.25.bb
->>> b/meta/recipes-core/coreutils/coreutils_8.25.bb
->>> index 419a693..e8e269a 100644
->>> --- a/meta/recipes-core/coreutils/coreutils_8.25.bb
->>> +++ b/meta/recipes-core/coreutils/coreutils_8.25.bb
->>> @@ -70,6 +70,10 @@ do_compile_prepend () {
->>>    }
->>>
->>>    do_install_append() {
->>> +	if [ "${CLASSOVERRIDE}" = "class-native" ]; then
->>> +		return
->>> +	fi
->>> +
-> If the do_install_append is only valid for the target it'd be cleaner
-> to use a target-specific override i.e.
->
-> do_install_append_class-target () {
-> }
->
-> Thanks,
->
-> Joshua
+Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
+---
+ meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
+index a29c3d7..13ef710 100644
+--- a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
++++ b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
+@@ -144,7 +144,7 @@ RDEPENDS_packagegroup-core-lsb-core = "\
+     file \
+     findutils \
+     fontconfig-utils \
+-    foomatic-filters \
++    cups-filters \
+     gawk \
+     ghostscript \
+     grep \
+-- 
+1.8.4.2
 
 
