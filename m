@@ -1,47 +1,27 @@
-Return-Path: <sujith.h@gmail.com>
-Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
-	[209.85.220.50])
-	by mail.openembedded.org (Postfix) with ESMTP id A554E73177
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E9386E681
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Apr 2016 12:29:48 +0000 (UTC)
-Received: by mail-pa0-f50.google.com with SMTP id r5so26139031pag.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Apr 2016 05:29:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=M+L8o6r/hz3lwHjV6OwwkE2wZGmoaikfQ8Hiu2DhSKY=;
-	b=Yf1u/zpUMjH+7arse5Szar1Xnh0S+vP1f7+Cvskjz5fe4+5H0tcSql0MD+P63kqcz2
-	hfWdddewCtTYeI2Rmi/GCwfWVVvFj3m7KlsUBdEojjcWOsuc/OHku++Q1tom+ROgQRaD
-	Fc37+iBWU1UjflouAv4y6kz+7mixkA/LheZ9gy3iLQlLCvL09DbtRWg1E6NNjwzBCkgM
-	5s5mrbGamev0rzReuYT5aMgfbG3XRPLKo45xx3t8bBrSjc0Nre0xkVjNVwmNfXtXytYi
-	Qm+5hFRY2wVh2EkPUS5OjYcmb97nqOrvCxHqQ8+MTuETJgSJMc7KB6SULrg+luCVEw6o
-	nzVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=M+L8o6r/hz3lwHjV6OwwkE2wZGmoaikfQ8Hiu2DhSKY=;
-	b=U1IVe1T5VkboewneqZ7rI9fJNm9nK1h5+MI0/3GFgRXGtr5HLDqtvLCA+PQBKb5NHK
-	2HsJUkrGFMLQhhPvy7zePohbmhDcFvz5Zj3ATE3daiBjdi6wqtUHEIK8H9ceiWTsZx+q
-	1sb7wJwf7P93TkVUSA9KtZpcBMmi3uqs05c2Gl0xI3se/Nmd861c371tbiMhzOeQ5Z5G
-	X1jXCYBxWEwZKDvuZEc6/ohMg1RLfLW5r42AkJI9q1lbg8HctlVfZm/P61PvzNyqghvJ
-	RWB8H7EYvQHX+F+wGZw2Y5tFuBib55OJikkM9D1a0Z36XLGpTiUeLLbzl51iAm5omRMJ
-	Yj6w==
-X-Gm-Message-State: AOPr4FWh0NiqSG3tsOuDmQsJsl43SUkgEPWOZD1axnvaf0A/Olwfco3nYm9ld2Sh0BIjTA==
-X-Received: by 10.66.66.77 with SMTP id d13mr20476581pat.75.1461241788967;
-	Thu, 21 Apr 2016 05:29:48 -0700 (PDT)
-Received: from kdekidd0.inp-wifi.mentorg.com ([139.181.35.34])
-	by smtp.gmail.com with ESMTPSA id 127sm889567pfe.72.2016.04.21.05.29.45
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 21 Apr 2016 05:29:48 -0700 (PDT)
-From: Sujith Haridasan <sujith.h@gmail.com>
-X-Google-Original-From: Sujith Haridasan <Sujith_Haridasan@mentor.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Apr 2016 17:59:35 +0530
-Message-Id: <1461241775-9474-1-git-send-email-Sujith_Haridasan@mentor.com>
-X-Mailer: git-send-email 1.9.1
-Cc: Sujith Haridasan <Sujith_Haridasan@mentor.com>,
-	Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH] gobject-introspection: fix floating dep on python-mako
+	Thu, 21 Apr 2016 12:40:51 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga104.fm.intel.com with ESMTP; 21 Apr 2016 05:40:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,512,1455004800"; d="scan'208";a="937192649"
+Received: from jlock-mobl2.ger.corp.intel.com ([10.252.29.161])
+	by orsmga001.jf.intel.com with ESMTP; 21 Apr 2016 05:40:50 -0700
+Message-ID: <1461242448.3571.4.camel@linux.intel.com>
+From: Joshua G Lock <joshua.g.lock@linux.intel.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>, "Burton, Ross"
+	<ross.burton@intel.com>
+Date: Thu, 21 Apr 2016 13:40:48 +0100
+In-Reply-To: <alpine.LFD.2.20.1604210822220.6578@localhost.localdomain>
+References: <alpine.LFD.2.20.1604210738320.5726@localhost.localdomain>
+	<CAJTo0LakXXOvj9_aKmYxy4OdxgP6rOp5EqLZtAajp8iFf7qkuA@mail.gmail.com>
+	<alpine.LFD.2.20.1604210822220.6578@localhost.localdomain>
+X-Mailer: Evolution 3.18.5.2 (3.18.5.2-1.fc23) 
+Mime-Version: 1.0
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: trying to reconcile OE builds with rpm4-format rpm files built on centos 6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,35 +34,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Apr 2016 12:29:49 -0000
+X-List-Received-Date: Thu, 21 Apr 2016 12:40:53 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-From: Christopher Larson <chris_larson@mentor.com>
+On Thu, 2016-04-21 at 08:24 -0400, Robert P. J. Day wrote:
+> On Thu, 21 Apr 2016, Burton, Ross wrote:
+> > 
+> > On 21 April 2016 at 13:06, Robert P. J. Day <rpjday@crashcourse.ca>
+> > wrote:
+> >         next bit of muttering is, "can we downgrade the OE build to
+> > use
+> >       rpm4-format packages?", which is not a path down which i want
+> > to walk.
+> > 
+> > 
+> > Assuming that the obviously correct option of "build the packages
+> > inside OE" really is being written off for mysterious reasons, rpm4
+> > was only just removed from oe-core (though depending on what
+> > releases you're using you may have never noticed it be added and
+> > removed again).  So you could just recover that from history
+> > (oe-core a6e7a86f1635be9a688c56c25e9d215ea4d2cc84 removed it) and
+> > fix it up.
+>   under the circumstances, that sounds like the simplest approach.
+> would we be losing any significant functionality downgrading to rpm4?
+> it's not my first choice, but if all that's required is to do basic
+> installs and upgrades, i suspect it will work just fine.
 
-This was resulting in non-deterministic builds where g-ir-doc-tool may or may
-not exist depending on whether python-mako was built previously. Add
-a PACKAGECONFIG so the dependency is explicit.
+On the topic of RPM4 vs. RPM5 you should be able to find more details
+in the list archives, I easily found a brief summary by Mark Hatle in
+the Yocto Project mailing list archive:
 
-Signed-off-by: Sujith H <sujith.h@gmail.com>
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-Signed-off-by: Sujith Haridasan <Sujith_Haridasan@mentor.com>
----
- .../recipes-gnome/gobject-introspection/gobject-introspection_1.46.0.bb | 2 ++
- 1 file changed, 2 insertions(+)
+"There are some specific uses of RPM 4 in the YP, but I do caution
+against people just using it "because".  The RPM 5 version is generally
+better suited for the embedded world.  (There are been posts on more
+reasons on the oe-core lists in the past.  But as quick summary --
+dynamic architecture support, better cross compilation support, cross-
+endian support, more configurable for custom distributions, etc.)"
+http://article.gmane.org/gmane.linux.embedded.yocto.general/28654/
 
-diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.46.0.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.46.0.bb
-index 9b16147..67891a2 100644
---- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.46.0.bb
-+++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.46.0.bb
-@@ -108,6 +108,8 @@ EXTRA_OECONF_class-target += "--enable-host-gi \
-                               ${@bb.utils.contains('GI_DATA_ENABLED', 'True', '--enable-introspection-data', '--disable-introspection-data', d)} \
-                              "
- 
-+PACKAGECONFIG ?= ""
-+PACKAGECONFIG[doctool] = "--enable-doctool,--disable-doctool,python-mako,"
- 
- do_compile_prepend_class-target() {
-         # This prevents g-ir-scanner from writing cache data to $HOME
--- 
-1.9.1
+We ended up removing RPM4 support because it was clear that it was
+broken when using SMART as a package manager and we didn't have the
+resources to fix it, nor any objections to its removal.
 
+Some recent examples of the kinds of breakage:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=8968
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=8969
+
+Regards,
+
+Joshua
 
