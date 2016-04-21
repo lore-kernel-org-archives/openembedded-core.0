@@ -1,34 +1,24 @@
-Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id D002360667
+Return-Path: <kad@kad.name>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 385FE60107
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Apr 2016 09:42:54 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u3L9gqd8020335; Thu, 21 Apr 2016 04:42:52 -0500
-Received: from adi-pc-linux.emea.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016042104423298-160989 ;
-	Thu, 21 Apr 2016 04:42:32 -0500 
-Date: Thu, 21 Apr 2016 12:42:22 +0300
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>
-Message-ID: <20160421124222.70717b89@adi-pc-linux.emea.corp.natinst.com>
-In-Reply-To: <20160421070331.GA24300@linux.intel.com>
-References: <1461164775-2983-1-git-send-email-adrian.ratiu@ni.com>
-	<20160420180838.49f65959@adi-pc-linux.emea.corp.natinst.com>
-	<20160421070331.GA24300@linux.intel.com>
-Organization: National Instruments
-MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 04/21/2016 04:42:33 AM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 04/21/2016 04:42:33 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-04-21_06:, , signatures=0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] wic: isoimage-isohybrid: add grubefi configfile support
+	Thu, 21 Apr 2016 09:47:27 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga103.fm.intel.com with ESMTP; 21 Apr 2016 02:47:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,512,1455004800"; d="scan'208";a="689831326"
+Received: from linux.intel.com ([10.23.219.25])
+	by FMSMGA003.fm.intel.com with ESMTP; 21 Apr 2016 02:47:29 -0700
+Received: from akanevsk-mac01.fi.intel.com (akanevsk-mac01.fi.intel.com
+	[10.237.68.34])
+	by linux.intel.com (Postfix) with ESMTP id 3A6F16A4006;
+	Thu, 21 Apr 2016 03:35:05 -0700 (PDT)
+From: "Alexander D. Kanevskiy" <kad@kad.name>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 Apr 2016 12:47:27 +0300
+Message-Id: <1461232047-5393-1-git-send-email-kad@kad.name>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] image.bbclass: don't execute compression commands multiple times
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,144 +31,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Apr 2016 09:42:56 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 21 Apr 2016 09:47:29 -0000
 
-On Thu, 21 Apr 2016 10:03:31 +0300
-Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
+In case of chained conversion methods are used via COMPRESS_CMD_*
+there is chance that some of steps would be executed multiple times.
 
-> On Wed, Apr 20, 2016 at 06:08:38PM +0300, Ioan-Adrian Ratiu wrote:
-> > I forgot to mention this is v2... sorry.
-> >=20
-> > On Wed, 20 Apr 2016 18:06:15 +0300
-> > Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
-> >  =20
-> > > The latest wic kickstart refactoring introduced a bootloader option
-> > > "--configfile" which lets wks' specify a custom grub.cfg for use
-> > > while booting. This is very useful for creating stuff like boot menus.
-> > >=20
-> > > This change lets isoimage-isohybrid use --configfile; if this option =
-is
-> > > not specified in a wks, it generates a default cfg as before.
-> > >=20
-> > > Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-> > > ---
-> > >  .../lib/wic/plugins/source/isoimage-isohybrid.py   | 53 ++++++++++++=
-+---------
-> > >  1 file changed, 32 insertions(+), 21 deletions(-)
-> > >=20
-> > > diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/s=
-cripts/lib/wic/plugins/source/isoimage-isohybrid.py
-> > > index bc99283..8440581 100644
-> > > --- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-> > > +++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-> > > @@ -27,6 +27,7 @@ import glob
-> > > =20
-> > >  from wic import msger
-> > >  from wic.pluginbase import SourcePlugin
-> > > +from wic.utils.misc import get=5Fcustom=5Fconfig
-> > >  from wic.utils.oe.misc import exec=5Fcmd, exec=5Fnative=5Fcmd, get=
-=5Fbitbake=5Fvar
-> > > =20
-> > >  class IsoImagePlugin(SourcePlugin):
-> > > @@ -94,33 +95,43 @@ class IsoImagePlugin(SourcePlugin):
-> > >          """
-> > >          Create loader-specific (grub-efi) config
-> > >          """
-> > > -        splash =3D os.path.join(cr=5Fworkdir, "/EFI/boot/splash.jpg")
-> > > -        if os.path.exists(splash):
-> > > -            splashline =3D "menu background splash.jpg"
-> > > +        configfile =3D creator.ks.bootloader.configfile
-> > > +        if configfile:
-> > > +            grubefi=5Fconf =3D get=5Fcustom=5Fconfig(configfile)
-> > > +            if grubefi=5Fconf:
-> > > +                msger.debug("Using custom configuration file "
-> > > +                        "%s for grub.cfg" % configfile)
-> > > +            else:
-> > > +                msger.error("configfile is specified but failed to "
-> > > +                        "get it from %s." % configfile)
-> > >          else:
-> > > -            splashline =3D ""
-> > > +            splash =3D os.path.join(cr=5Fworkdir, "/EFI/boot/splash.=
-jpg") =20
-> I know, it's not your code, but it looks like the result path(splash
-> variable) will not include workdir. Look:
->=20
-> In [2]: os.path.join('/path/to/workdir', '/EFI/boot/splash.jpg')
-> Out[2]: '/EFI/boot/splash.jpg'
->=20
-> In [3]: os.path.join('/path/to/workdir/', '/EFI/boot/splash.jpg')
-> Out[3]: '/EFI/boot/splash.jpg'
->=20
-> It works this way:
-> In [4]: os.path.join('/path/to/workdir/', 'EFI/boot/splash.jpg')
-> Out[4]: '/path/to/workdir/EFI/boot/splash.jpg'
->=20
+[YOCTO #9482]
 
-Thanks for spotting this. I'll send another patch to fix it.
+Signed-off-by: Alexander D. Kanevskiy <kad@kad.name>
+---
+ meta/classes/image.bbclass | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-Ioan
-
-> > > +            if os.path.exists(splash):
-> > > +                splashline =3D "menu background splash.jpg"
-> > > +            else:
-> > > +                splashline =3D ""
-> > > =20
-> > > -        bootloader =3D creator.ks.bootloader
-> > > +            bootloader =3D creator.ks.bootloader
-> > > =20
-> > > -        grubefi=5Fconf =3D ""
-> > > -        grubefi=5Fconf +=3D "serial --unit=3D0 --speed=3D115200 --wo=
-rd=3D8 "
-> > > -        grubefi=5Fconf +=3D "--parity=3Dno --stop=3D1\n"
-> > > -        grubefi=5Fconf +=3D "default=3Dboot\n"
-> > > -        grubefi=5Fconf +=3D "timeout=3D%s\n" % (bootloader.timeout o=
-r 10)
-> > > -        grubefi=5Fconf +=3D "\n"
-> > > -        grubefi=5Fconf +=3D "search --set=3Droot --label %s " % part=
-.label
-> > > -        grubefi=5Fconf +=3D "\n"
-> > > -        grubefi=5Fconf +=3D "menuentry 'boot'{\n"
-> > > +            grubefi=5Fconf =3D ""
-> > > +            grubefi=5Fconf +=3D "serial --unit=3D0 --speed=3D115200 =
---word=3D8 "
-> > > +            grubefi=5Fconf +=3D "--parity=3Dno --stop=3D1\n"
-> > > +            grubefi=5Fconf +=3D "default=3Dboot\n"
-> > > +            grubefi=5Fconf +=3D "timeout=3D%s\n" % (bootloader.timeo=
-ut or 10)
-> > > +            grubefi=5Fconf +=3D "\n"
-> > > +            grubefi=5Fconf +=3D "search --set=3Droot --label %s " % =
-part.label
-> > > +            grubefi=5Fconf +=3D "\n"
-> > > +            grubefi=5Fconf +=3D "menuentry 'boot'{\n"
-> > > =20
-> > > -        kernel =3D "/bzImage"
-> > > +            kernel =3D "/bzImage"
-> > > =20
-> > > -        grubefi=5Fconf +=3D "linux %s rootwait %s\n" \
-> > > -            % (kernel, bootloader.append)
-> > > -        grubefi=5Fconf +=3D "initrd /initrd \n"
-> > > -        grubefi=5Fconf +=3D "}\n"
-> > > +            grubefi=5Fconf +=3D "linux %s rootwait %s\n" \
-> > > +                            % (kernel, bootloader.append)
-> > > +            grubefi=5Fconf +=3D "initrd /initrd \n"
-> > > +            grubefi=5Fconf +=3D "}\n"
-> > > =20
-> > > -        if splashline:
-> > > -            grubefi=5Fconf +=3D "%s\n" % splashline
-> > > +            if splashline:
-> > > +                grubefi=5Fconf +=3D "%s\n" % splashline
-> > > =20
-> > >          msger.debug("Writing grubefi config %s/EFI/BOOT/grub.cfg" \
-> > >                          % cr=5Fworkdir) =20
-> >=20
-> > --=20
-> > =5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=
-=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core =20
->=20
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 8bfd241..5d6f4a3 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -398,9 +398,13 @@ python () {
+                     # Create input image first.
+                     gen_conversion_cmds(type)
+                     localdata.setVar('type', type)
+-                    cmds.append("\t" + localdata.getVar("COMPRESS_CMD_" + ctype, True))
++                    cmd = "\t" + localdata.getVar("COMPRESS_CMD_" + ctype, True)
++                    if cmd not in cmds:
++                        cmds.append(cmd)
+                     vardeps.add('COMPRESS_CMD_' + ctype)
+-                    subimages.append(type + "." + ctype)
++                    subimage = type + "." + ctype
++                    if subimage not in subimages:
++                        subimages.append(subimage)
+                     if type not in alltypes:
+                         rm_tmp_images.add(localdata.expand("${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"))
+ 
+-- 
+2.8.1
 
 
