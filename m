@@ -1,32 +1,27 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 0ACEC60017
+Return-Path: <maxin.john@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 38D316FFE5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Apr 2016 09:23:22 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 21 Apr 2016 02:23:23 -0700
+	Thu, 21 Apr 2016 09:24:26 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga103.fm.intel.com with ESMTP; 21 Apr 2016 02:24:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,512,1455004800"; d="scan'208";a="937088467"
+X-IronPort-AV: E=Sophos;i="5.24,512,1455004800"; d="scan'208";a="89201748"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 21 Apr 2016 02:23:23 -0700
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.51])
+	by fmsmga004.fm.intel.com with ESMTP; 21 Apr 2016 02:24:27 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.71])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 0A05E6A4006;
-	Thu, 21 Apr 2016 03:10:59 -0700 (PDT)
-Date: Thu, 21 Apr 2016 10:03:31 +0300
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-Message-ID: <20160421070331.GA24300@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <1461164775-2983-1-git-send-email-adrian.ratiu@ni.com>
-	<20160420180838.49f65959@adi-pc-linux.emea.corp.natinst.com>
-MIME-Version: 1.0
-In-Reply-To: <20160420180838.49f65959@adi-pc-linux.emea.corp.natinst.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] wic: isoimage-isohybrid: add grubefi configfile support
+	by linux.intel.com (Postfix) with ESMTP id 325DE6A4006
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Apr 2016 03:12:03 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 Apr 2016 12:24:07 +0300
+Message-Id: <1461230647-19298-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH] busybox: update flock behavior to match upstream
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,127 +34,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Apr 2016 09:23:23 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 21 Apr 2016 09:24:29 -0000
 
-On Wed, Apr 20, 2016 at 06:08:38PM +0300, Ioan-Adrian Ratiu wrote:
-> I forgot to mention this is v2... sorry.
-> 
-> On Wed, 20 Apr 2016 18:06:15 +0300
-> Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
-> 
-> > The latest wic kickstart refactoring introduced a bootloader option
-> > "--configfile" which lets wks' specify a custom grub.cfg for use
-> > while booting. This is very useful for creating stuff like boot menus.
-> > 
-> > This change lets isoimage-isohybrid use --configfile; if this option is
-> > not specified in a wks, it generates a default cfg as before.
-> > 
-> > Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-> > ---
-> >  .../lib/wic/plugins/source/isoimage-isohybrid.py   | 53 +++++++++++++---------
-> >  1 file changed, 32 insertions(+), 21 deletions(-)
-> > 
-> > diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-> > index bc99283..8440581 100644
-> > --- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-> > +++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-> > @@ -27,6 +27,7 @@ import glob
-> >  
-> >  from wic import msger
-> >  from wic.pluginbase import SourcePlugin
-> > +from wic.utils.misc import get_custom_config
-> >  from wic.utils.oe.misc import exec_cmd, exec_native_cmd, get_bitbake_var
-> >  
-> >  class IsoImagePlugin(SourcePlugin):
-> > @@ -94,33 +95,43 @@ class IsoImagePlugin(SourcePlugin):
-> >          """
-> >          Create loader-specific (grub-efi) config
-> >          """
-> > -        splash = os.path.join(cr_workdir, "/EFI/boot/splash.jpg")
-> > -        if os.path.exists(splash):
-> > -            splashline = "menu background splash.jpg"
-> > +        configfile = creator.ks.bootloader.configfile
-> > +        if configfile:
-> > +            grubefi_conf = get_custom_config(configfile)
-> > +            if grubefi_conf:
-> > +                msger.debug("Using custom configuration file "
-> > +                        "%s for grub.cfg" % configfile)
-> > +            else:
-> > +                msger.error("configfile is specified but failed to "
-> > +                        "get it from %s." % configfile)
-> >          else:
-> > -            splashline = ""
-> > +            splash = os.path.join(cr_workdir, "/EFI/boot/splash.jpg")
-I know, it's not your code, but it looks like the result path(splash
-variable) will not include workdir. Look:
+In "util-linux" implementation of flock, -c 'PROG ARGS' means run
+"sh -c 'PROG ARGS'". At present, busybox implementation doesn't follow it.
+That causes errors like the one listed below:
 
-In [2]: os.path.join('/path/to/workdir', '/EFI/boot/splash.jpg')
-Out[2]: '/EFI/boot/splash.jpg'
+smart install /media/cronie-1.5.0-r0.core2_64.rpm
+Updating cache...
+  <snip>
+  Output from cronie-1.5.0-r0@core2_64:
+  Running groupadd commands...
+  NOTE: cronie: Performing groupadd with [ --system crontab]
+  ERROR: cronie: groupadd command did not succeed.
+  error: %pre(cronie-1.5.0-r0.core2_64) scriptlet failed, exit status 1
+  error:   install: %pre scriptlet failed (2), skipping
+  cronie-1.5.0-r0.core2_64
 
-In [3]: os.path.join('/path/to/workdir/', '/EFI/boot/splash.jpg')
-Out[3]: '/EFI/boot/splash.jpg'
+This is because we use flock command in preinstall scripts in packages
+which create new groups/users.
 
-It works this way:
-In [4]: os.path.join('/path/to/workdir/', 'EFI/boot/splash.jpg')
-Out[4]: '/path/to/workdir/EFI/boot/splash.jpg'
+[YOCTO #9496]
 
-> > +            if os.path.exists(splash):
-> > +                splashline = "menu background splash.jpg"
-> > +            else:
-> > +                splashline = ""
-> >  
-> > -        bootloader = creator.ks.bootloader
-> > +            bootloader = creator.ks.bootloader
-> >  
-> > -        grubefi_conf = ""
-> > -        grubefi_conf += "serial --unit=0 --speed=115200 --word=8 "
-> > -        grubefi_conf += "--parity=no --stop=1\n"
-> > -        grubefi_conf += "default=boot\n"
-> > -        grubefi_conf += "timeout=%s\n" % (bootloader.timeout or 10)
-> > -        grubefi_conf += "\n"
-> > -        grubefi_conf += "search --set=root --label %s " % part.label
-> > -        grubefi_conf += "\n"
-> > -        grubefi_conf += "menuentry 'boot'{\n"
-> > +            grubefi_conf = ""
-> > +            grubefi_conf += "serial --unit=0 --speed=115200 --word=8 "
-> > +            grubefi_conf += "--parity=no --stop=1\n"
-> > +            grubefi_conf += "default=boot\n"
-> > +            grubefi_conf += "timeout=%s\n" % (bootloader.timeout or 10)
-> > +            grubefi_conf += "\n"
-> > +            grubefi_conf += "search --set=root --label %s " % part.label
-> > +            grubefi_conf += "\n"
-> > +            grubefi_conf += "menuentry 'boot'{\n"
-> >  
-> > -        kernel = "/bzImage"
-> > +            kernel = "/bzImage"
-> >  
-> > -        grubefi_conf += "linux %s rootwait %s\n" \
-> > -            % (kernel, bootloader.append)
-> > -        grubefi_conf += "initrd /initrd \n"
-> > -        grubefi_conf += "}\n"
-> > +            grubefi_conf += "linux %s rootwait %s\n" \
-> > +                            % (kernel, bootloader.append)
-> > +            grubefi_conf += "initrd /initrd \n"
-> > +            grubefi_conf += "}\n"
-> >  
-> > -        if splashline:
-> > -            grubefi_conf += "%s\n" % splashline
-> > +            if splashline:
-> > +                grubefi_conf += "%s\n" % splashline
-> >  
-> >          msger.debug("Writing grubefi config %s/EFI/BOOT/grub.cfg" \
-> >                          % cr_workdir)
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ ...e-the-behaviour-of-c-parameter-to-match-u.patch | 73 ++++++++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.24.1.bb        |  1 +
+ 2 files changed, 74 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-flock-update-the-behaviour-of-c-parameter-to-match-u.patch
 
+diff --git a/meta/recipes-core/busybox/busybox/0001-flock-update-the-behaviour-of-c-parameter-to-match-u.patch b/meta/recipes-core/busybox/busybox/0001-flock-update-the-behaviour-of-c-parameter-to-match-u.patch
+new file mode 100644
+index 0000000..8bcbd73
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/0001-flock-update-the-behaviour-of-c-parameter-to-match-u.patch
+@@ -0,0 +1,73 @@
++From 198f18addf1d814c2fefcb492f3b9fbd221669bb Mon Sep 17 00:00:00 2001
++From: "Maxin B. John" <maxin.john@intel.com>
++Date: Wed, 20 Apr 2016 18:24:45 +0300
++Subject: [PATCH] flock: update the behaviour of -c parameter to match upstream
++
++In upstream, -c 'PROG ARGS' means "run sh -c 'PROG ARGS'"
++
++function                                             old     new   delta
++flock_main                                           286     377     +91
++.rodata                                           155849  155890     +41
++
++Upstream-Status: Submitted
++[ http://lists.busybox.net/pipermail/busybox/2016-April/084142.html ]
++
++Signed-off-by: Maxin B. John <maxin.john@intel.com>
++---
++ util-linux/flock.c | 20 ++++++++++++++------
++ 1 file changed, 14 insertions(+), 6 deletions(-)
++
++diff --git a/util-linux/flock.c b/util-linux/flock.c
++index 05a747f..c85a25d 100644
++--- a/util-linux/flock.c
+++++ b/util-linux/flock.c
++@@ -20,6 +20,7 @@ int flock_main(int argc, char **argv) MAIN_EXTERNALLY_VISIBLE;
++ int flock_main(int argc UNUSED_PARAM, char **argv)
++ {
++ 	int mode, opt, fd;
+++    char *cmd_args[4];
++ 	enum {
++ 		OPT_s = (1 << 0),
++ 		OPT_x = (1 << 1),
++@@ -57,7 +58,6 @@ int flock_main(int argc UNUSED_PARAM, char **argv)
++ 	/* If it is "flock FILE -c PROG", then -c isn't caught by getopt32:
++ 	 * we use "+" in order to support "flock -opt FILE PROG -with-opts",
++ 	 * we need to remove -c by hand.
++-	 * TODO: in upstream, -c 'PROG ARGS' means "run sh -c 'PROG ARGS'"
++ 	 */
++ 	if (argv[0]
++ 	 && argv[0][0] == '-'
++@@ -65,7 +65,10 @@ int flock_main(int argc UNUSED_PARAM, char **argv)
++ 	    || (ENABLE_LONG_OPTS && strcmp(argv[0] + 1, "-command") == 0)
++ 	    )
++ 	) {
++-		argv++;
+++        if (argc != optind + 3)
+++            bb_error_msg_and_die("-c requires exactly one command argument");
+++        else
+++            argv++;
++ 	}
++ 
++ 	if (OPT_s == LOCK_SH && OPT_x == LOCK_EX && OPT_n == LOCK_NB && OPT_u == LOCK_UN) {
++@@ -89,9 +92,14 @@ int flock_main(int argc UNUSED_PARAM, char **argv)
++ 			return EXIT_FAILURE;
++ 		bb_perror_nomsg_and_die();
++ 	}
++-
++-	if (argv[0])
++-		return spawn_and_wait(argv);
++-
+++    if (argv[0]) {
+++        cmd_args[0] = getenv("SHELL");
+++        if (!cmd_args[0])
+++            cmd_args[0] = (char*)DEFAULT_SHELL;
+++        cmd_args[1] = (char*)"-c";
+++        cmd_args[2] = argv[0];
+++        cmd_args[3] = NULL;
+++        return spawn_and_wait(cmd_args);
+++    }
++ 	return EXIT_SUCCESS;
++ }
++-- 
++2.4.0
++
+diff --git a/meta/recipes-core/busybox/busybox_1.24.1.bb b/meta/recipes-core/busybox/busybox_1.24.1.bb
+index bdaa5a5..f699f99 100644
+--- a/meta/recipes-core/busybox/busybox_1.24.1.bb
++++ b/meta/recipes-core/busybox/busybox_1.24.1.bb
+@@ -32,6 +32,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://busybox-1.24.1-unzip.patch \
+            file://busybox-1.24.1-unzip-regression.patch \
+            file://busybox-1.24.1-truncate-open-mode.patch \
++           file://0001-flock-update-the-behaviour-of-c-parameter-to-match-u.patch \
+            file://mount-via-label.cfg \
+            file://sha1sum.cfg \
+            file://sha256sum.cfg \
 -- 
---
-Regards,
-Ed
+2.4.0
+
 
