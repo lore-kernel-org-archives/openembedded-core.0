@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 575A26011C
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 222186011C
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 22 Apr 2016 05:50:38 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u3M5ocsF021998
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u3M5odLI011146
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Apr 2016 22:50:38 -0700
+	Thu, 21 Apr 2016 22:50:39 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 21 Apr 2016 22:50:37 -0700
+	Thu, 21 Apr 2016 22:50:38 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Apr 2016 22:50:33 -0700
-Message-ID: <cover.1461304177.git.liezhi.yang@windriver.com>
+Date: Thu, 21 Apr 2016 22:50:34 -0700
+Message-ID: <3f6dbb5b91ab09dcdef74353d2e680b205c2c724.1461304177.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.8.0
+In-Reply-To: <cover.1461304177.git.liezhi.yang@windriver.com>
+References: <cover.1461304177.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/4] set COMPATIBLE_HOST for several recipes
+Subject: [PATCH 1/4] grub_git: set COMPATIBLE_HOST_armv7a to null
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,30 +33,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Apr 2016 05:50:38 -0000
+X-List-Received-Date: Fri, 22 Apr 2016 05:50:39 -0000
 Content-Type: text/plain
 
-The following changes since commit 9838f8d077d16e52ad592879d65a9e8350b93075:
+It doesn't work with armv7a:
+| build-grub-module-verifier: error: unsupported relocation 0x2b.
+| make[3]: *** [reboot.mod] Error 1
+| make[3]: *** Waiting for unfinished jobs....
+| build-grub-module-verifier: error: unsupported relocation 0x2b.
+| build-grub-module-verifier: error: unsupported relocation 0x2b.
+| make[3]: *** [halt.mod] Error 1
+| make[3]: *** [cat.mod] Error 1
+| build-grub-module-verifier: error: unsupported relocation 0x2b.
+| build-grub-module-verifier: error: unsupported relocation 0x2b.
+| build-grub-module-verifier: error: unsupported relocation 0x2b.
+| make[3]: *** [disk.mod] Error 1
+| make[3]: *** [gptsync.mod] Error 1
+| make[3]: *** [eval.mod] Error 1
+| build-grub-module-verifier: error:build-grub-module-verifier: error:  unsupported relocation 0x2bunsupported relocation 0x2b.
 
-  build-appliance-image: Update to krogoth head revision (2016-04-19 21:25:53 +0100)
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/recipes-bsp/grub/grub_git.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/arm
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/arm
-
-Robert Yang (4):
-  grub_git: set COMPATIBLE_HOST_armv7a to null
-  webkitgtk: set COMPATIBLE_HOST_armv4 to null
-  gnu-efi: set COMPATIBLE_HOST_armv4 to null
-  cogl-1.0: set COMPATIBLE_HOST_armv4 to null
-
- meta/recipes-bsp/gnu-efi/gnu-efi_3.0.3.bb    | 1 +
- meta/recipes-bsp/grub/grub_git.bb            | 1 +
- meta/recipes-graphics/cogl/cogl-1.0.inc      | 2 ++
- meta/recipes-sato/webkit/webkitgtk_2.10.7.bb | 1 +
- 4 files changed, 5 insertions(+)
-
+diff --git a/meta/recipes-bsp/grub/grub_git.bb b/meta/recipes-bsp/grub/grub_git.bb
+index 6919c9a..8f8c5ed 100644
+--- a/meta/recipes-bsp/grub/grub_git.bb
++++ b/meta/recipes-bsp/grub/grub_git.bb
+@@ -18,6 +18,7 @@ SRC_URI = "git://git.savannah.gnu.org/grub.git \
+ S = "${WORKDIR}/git"
+ 
+ COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|aarch64.*)-(linux.*|freebsd.*)'
++COMPATIBLE_HOST_armv7a = 'null'
+ 
+ inherit autotools gettext texinfo
+ 
 -- 
 2.8.0
 
