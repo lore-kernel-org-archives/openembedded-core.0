@@ -1,26 +1,30 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 09EED6011C
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E37E96011C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Apr 2016 05:44:35 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u3M5iZFw004588
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Apr 2016 22:44:36 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 21 Apr 2016 22:44:35 -0700
+	Fri, 22 Apr 2016 05:48:05 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u3M5m5sk021661
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Thu, 21 Apr 2016 22:48:06 -0700
+Received: from [128.224.162.236] (128.224.162.236) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 21 Apr 2016 22:48:04 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1460971725.git.liezhi.yang@windriver.com>
+	<f4e17cb499c3e83333d197a65363587a5e5c2e51.1460971725.git.liezhi.yang@windriver.com>
+	<CAJTo0LatBdHwJXAMSbh4HRoUtOyo_5SzkuSYrbaxC8D0Ah3fVQ@mail.gmail.com>
+	<57182651.9050202@windriver.com> <571981E1.3050503@windriver.com>
 From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Apr 2016 22:44:32 -0700
-Message-ID: <6a9c5646d388722ebf9579c152c42516112ba46d.1461303847.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.8.0
-In-Reply-To: <cover.1461303847.git.liezhi.yang@windriver.com>
-References: <cover.1461303847.git.liezhi.yang@windriver.com>
+Message-ID: <5719BB13.7060702@windriver.com>
+Date: Fri, 22 Apr 2016 13:48:03 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
 MIME-Version: 1.0
-Subject: [PATCH 1/2] directfb/pango/webkit: base_contains -> bb.utils.contains
+In-Reply-To: <571981E1.3050503@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] grub_git: set COMPATIBLE_HOST_armv7a to null
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,58 +37,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Apr 2016 05:44:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 22 Apr 2016 05:48:06 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-graphics/directfb/directfb.inc  | 2 +-
- meta/recipes-graphics/pango/pango_1.38.1.bb  | 2 +-
- meta/recipes-sato/webkit/webkitgtk_2.10.7.bb | 4 ++--
- 3 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-graphics/directfb/directfb.inc b/meta/recipes-graphics/directfb/directfb.inc
-index f6b7cbe..46748988 100644
---- a/meta/recipes-graphics/directfb/directfb.inc
-+++ b/meta/recipes-graphics/directfb/directfb.inc
-@@ -26,7 +26,7 @@ S = "${WORKDIR}/DirectFB-${PV}"
- LDFLAGS_append =" -lts -lm"
- 
- # Workaround for linking issues seen with armv7a + gold
--LDFLAGS_append_arm = "${@base_contains('DISTRO_FEATURES', 'ld-is-gold', ' -fuse-ld=bfd ', '', d)}"
-+LDFLAGS_append_arm = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', ' -fuse-ld=bfd ', '', d)}"
- 
- BINCONFIG = "${bindir}/directfb-config"
- 
-diff --git a/meta/recipes-graphics/pango/pango_1.38.1.bb b/meta/recipes-graphics/pango/pango_1.38.1.bb
-index 7fc65fd..756dac4 100644
---- a/meta/recipes-graphics/pango/pango_1.38.1.bb
-+++ b/meta/recipes-graphics/pango/pango_1.38.1.bb
-@@ -36,7 +36,7 @@ LIBV = "1.8.0"
- 
- # This binary needs to be compiled for the host architecture.  This isn't pretty!
- do_compile_prepend_class-target () {
--	if ${@base_contains('DISTRO_FEATURES', 'ptest', 'true', 'false', d)}; then
-+	if ${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'true', 'false', d)}; then
- 		make CC="${BUILD_CC}" CFLAGS="" LDFLAGS="" AM_CPPFLAGS="$(pkg-config-native --cflags glib-2.0)" gen_all_unicode_LDADD="$(pkg-config-native --libs glib-2.0)" -C ${B}/tests gen-all-unicode
- 	fi
- }
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.10.7.bb b/meta/recipes-sato/webkit/webkitgtk_2.10.7.bb
-index 8eb6b9f..d4f1d3b 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.10.7.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.10.7.bb
-@@ -34,8 +34,8 @@ DEPENDS = "zlib libsoup-2.4 curl libxml2 cairo libxslt libxt libidn gnutls \
- 	   ruby-native libnotify gstreamer1.0-plugins-bad \
-           "
- 
--PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'x11', 'wayland' ,d)} \
--                   ${@base_contains('DISTRO_FEATURES', 'opengl', 'webgl', '' ,d)} \
-+PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', 'wayland' ,d)} \
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'webgl', '' ,d)} \
-                    enchant \
-                    gtk2 \
-                    libsecret \
--- 
-2.8.0
 
+On 04/22/2016 09:44 AM, Robert Yang wrote:
+>
+>
+> On 04/21/2016 09:01 AM, Robert Yang wrote:
+>>
+>>
+>> On 04/21/2016 04:37 AM, Burton, Ross wrote:
+>>> Andre's comment from the last time you submitted this is still valid:
+>>>
+>>>     Unless you have verified that armv4, armv5, armv6 and armv7ve all work
+>>>     correctly then blacklisting only armv7a is probably not the correct
+>>>     approach.
+>>>
+>>>
+>>> Have you tested all the other architectures?
+>>
+>> No, I will have a try.
+>
+> I tried:
+> armv7a
+> armv7at
+> armv4
+> armv5
+
+Also armv6.
+
+// Robert
+
+>
+> There isn't anything *more* wrong with grub_git except armv7a, so I think
+> that mark it COMPATIBLE_HOST_armv7a = 'null' is OK, but I did find other recipes
+> failed to build, I will send a new PULL.
+>
+> We have quite a lot of arm tunes, I think that we need a script or tool to
+> auto test them. What's your opinion, please ?
+>
+> // Robert
+>
+>>
+>> // Robert
+>>
+>>>
+>>> Ross
+>>>
+>>> On 18 April 2016 at 10:29, Robert Yang <liezhi.yang@windriver.com
+>>> <mailto:liezhi.yang@windriver.com>> wrote:
+>>>
+>>>     It doesn't work with armv7a:
+>>>     | build-grub-module-verifier: error: unsupported relocation 0x2b.
+>>>     | make[3]: *** [reboot.mod] Error 1
+>>>     | make[3]: *** Waiting for unfinished jobs....
+>>>     | build-grub-module-verifier: error: unsupported relocation 0x2b.
+>>>     | build-grub-module-verifier: error: unsupported relocation 0x2b.
+>>>     | make[3]: *** [halt.mod] Error 1
+>>>     | make[3]: *** [cat.mod] Error 1
+>>>     | build-grub-module-verifier: error: unsupported relocation 0x2b.
+>>>     | build-grub-module-verifier: error: unsupported relocation 0x2b.
+>>>     | build-grub-module-verifier: error: unsupported relocation 0x2b.
+>>>     | make[3]: *** [disk.mod] Error 1
+>>>     | make[3]: *** [gptsync.mod] Error 1
+>>>     | make[3]: *** [eval.mod] Error 1
+>>>     | build-grub-module-verifier: error:build-grub-module-verifier: error:
+>>>     unsupported relocation 0x2bunsupported relocation 0x2b.
+>>>
+>>>     Signed-off-by: Robert Yang <liezhi.yang@windriver.com
+>>>     <mailto:liezhi.yang@windriver.com>>
+>>>     ---
+>>>       meta/recipes-bsp/grub/grub_git.bb <http://grub_git.bb> | 1 +
+>>>       1 file changed, 1 insertion(+)
+>>>
+>>>     diff --git a/meta/recipes-bsp/grub/grub_git.bb <http://grub_git.bb>
+>>>     b/meta/recipes-bsp/grub/grub_git.bb <http://grub_git.bb>
+>>>     index 6919c9a..8f8c5ed 100644
+>>>     --- a/meta/recipes-bsp/grub/grub_git.bb <http://grub_git.bb>
+>>>     +++ b/meta/recipes-bsp/grub/grub_git.bb <http://grub_git.bb>
+>>>     @@ -18,6 +18,7 @@ SRC_URI = "git://git.savannah.gnu.org/grub.git
+>>>     <http://git.savannah.gnu.org/grub.git> \
+>>>       S = "${WORKDIR}/git"
+>>>
+>>>       COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|aarch64.*)-(linux.*|freebsd.*)'
+>>>     +COMPATIBLE_HOST_armv7a = 'null'
+>>>
+>>>       inherit autotools gettext texinfo
+>>>
+>>>     --
+>>>     2.8.0
+>>>
+>>>     --
+>>>     _______________________________________________
+>>>     Openembedded-core mailing list
+>>>     Openembedded-core@lists.openembedded.org
+>>>     <mailto:Openembedded-core@lists.openembedded.org>
+>>>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>
+>>>
 
