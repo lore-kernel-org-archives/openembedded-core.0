@@ -1,45 +1,45 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-ig0-f182.google.com (mail-ig0-f182.google.com
-	[209.85.213.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D2A560116
+Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
+	[209.85.223.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E645602D9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Apr 2016 23:18:35 +0000 (UTC)
-Received: by mail-ig0-f182.google.com with SMTP id bi2so25836151igb.0
+	Fri, 22 Apr 2016 23:27:11 +0000 (UTC)
+Received: by mail-io0-f182.google.com with SMTP id d62so38832584iof.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Apr 2016 16:18:36 -0700 (PDT)
+	Fri, 22 Apr 2016 16:27:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=kergoth-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
-	bh=6a87BPTkvIp5dU9tCj47EzE6vbramwMZxBIfJCj/A58=;
-	b=Q7xXOBKCzihLln2mGkBctWgcV/t3+pqB9oxsUa/tZ9wxPo87cWdLJu/RjTTuDguhJ7
-	es+sSdVvY9a1DdG2A4+SHY4zh2ve3MKQtcDHLNyIZnhEiP/cryV7uSyJNVverBsYGET3
-	TftFsGclXqVFUfyokQb4xY4oaDCAXPnG9WvoWhHqqwVibevJoZdB8LahkW9xGsON9CSm
-	sS+TPO7S87OVqouQXucO10nBbiREM7l2138sHi1PDzaGZ4THoR7I28gLPep35sf+bT+C
-	PPTn3EkMgBtDWWONXxG/+9EA8neQpANCjJMHqW4Dplcp/nz5o+HYCd2C8QAn6dVsIzSS
-	nt2A==
+	bh=61n5HdczPGrqFfot6eLekjzrNlbxt3396wRIF4WjgwE=;
+	b=B5FKpyESynCVOp2gLVX/FONL3YtsYRpPbwM+tkgrJYmmCwywya4bWL3R5oUvWgudNW
+	xwas7CVUV3ABQd8AvTq/W3X24l8yOdDne5CIPkOuMibRMKRq8QxayrbPKjF+L77q3fwN
+	Pb8G8xc79ZkIw1xwAI5sp2MW+K/ry8BJUXuH97n4TzEFkRQ/B/qzpdK2wU3nLuPXDQ+g
+	O5nKIMpntRETbvmVwQcYAV9DVA6lXaMUZcmi1li5i1HpbpWHS10FV/y5Skf7skwYTrtE
+	4JO20dIP3K8klkp62/Lxr3l9XIQ3iLBn3nlMHNWawt34iVX9Vvw8xXEW7MELG0A0gTlp
+	+AQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to;
-	bh=6a87BPTkvIp5dU9tCj47EzE6vbramwMZxBIfJCj/A58=;
-	b=KmxRWwsk5ItCyNTJzpbZ583RNGogYr2LrGZzzdbq6GWgLmz5MjqbSXV13ZBIAVB32F
-	ztg4hWb0yE+l7OyAWHKlFz6Wn0Nd8jq6IkiWs/l44v3CWMXd6adiRvswewDJa4xlpUlh
-	bjW5qigUlVGlvah3vCp2LvcS404dJPNEXtEj1xA8rDT19wWqxFdfGXb6j9TfIyZsjOzZ
-	iFZu6ohtJvx7dh0RbcTJbUzDTXYPIwhrbk9iU7X9Zcf2YR7+bEMbVVFuCBKUYTYpgdW6
-	INbW/Q4Z9t1ZKAOhKHmjbiATUvCTlcqYmWv66T8TXcSHeucDv7wwSJqx8Wh0qPXhx9/2
-	kkrA==
-X-Gm-Message-State: AOPr4FVsBcNbp6Vgg0k1VmS6ohDphz9E+R+otm9PGSdJrGDI5sym7BFWxLzdxcKzjB6LUCOpaRyUlf+3feZ2HQ==
-X-Received: by 10.50.221.169 with SMTP id qf9mr164168igc.13.1461367116612;
-	Fri, 22 Apr 2016 16:18:36 -0700 (PDT)
+	bh=61n5HdczPGrqFfot6eLekjzrNlbxt3396wRIF4WjgwE=;
+	b=KGWF5zBntbWuJhZHdEsIW5RGZTDok9GN8GuAT4VY9/CAgL4KXNFcGAKnBs0GhGaxeY
+	mF/pmrOK3GO3WZfJUEvJhLXYoFj5yymMLsnxTiUHH7unQpa/296/3ibZwswqOcGh7AFJ
+	07S3Ouv7VCjh76Utge3NFRT1Rv/SXGvQTEGou6CTRcLSrFt/wwUg5BDVSqJuMh3jPwHT
+	tPXsgJyg9r9nUwcq0sAcqps/LoA9elEId5Gu3IZPzclPtC+jKqfxp1etk/ZFEN5bUdbz
+	vhENv5UZBJf58ZyRu897jQaRMGPNhyiHOTQaM3J/r4fUoKFPEhezAbNyxY1Aktj+Rd4v
+	pxxA==
+X-Gm-Message-State: AOPr4FXupDmC6Vryi2t69CsBrEshZgcvkE7Jcwq27bFE1jGfsOVafBav8gmdmrejsMLvKf1P7LFg7h3oyr+axw==
+X-Received: by 10.107.15.159 with SMTP id 31mr25863639iop.3.1461367632629;
+	Fri, 22 Apr 2016 16:27:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <alpine.LFD.2.20.1604221835420.5850@localhost.localdomain>
-In-Reply-To: <alpine.LFD.2.20.1604221835420.5850@localhost.localdomain>
+References: <571846A4.7010001@windriver.com>
+In-Reply-To: <571846A4.7010001@windriver.com>
 From: Christopher Larson <clarson@kergoth.com>
-Date: Fri, 22 Apr 2016 23:18:27 +0000
-Message-ID: <CABcZAN=Lnurd0rabaCTfs0+cOiQvTaaWL2pSzBmsho=joZjzmA@mail.gmail.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>, 
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: precise details on processing of multiple .bbappend files across multiple layers?
+Date: Fri, 22 Apr 2016 23:27:03 +0000
+Message-ID: <CABcZAN=riPYG7bLdh7tjaaTH+Rm2maV2gPYhACFrMZE8dpgNzg@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>, 
+	oe-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Add ovmf-native to make qemu-native/runqemu support boot UEFI image?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,106 +52,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Apr 2016 23:18:39 -0000
-Content-Type: multipart/alternative; boundary=f46d042ac020df4ca805311b0b82
+X-List-Received-Date: Fri, 22 Apr 2016 23:27:14 -0000
+Content-Type: multipart/alternative; boundary=001a113ee868a117a005311b2aee
 
---f46d042ac020df4ca805311b0b82
+--001a113ee868a117a005311b2aee
 Content-Type: text/plain; charset=UTF-8
 
-On Fri, Apr 22, 2016 at 3:48 PM Robert P. J. Day <rpjday@crashcourse.ca>
+On Wed, Apr 20, 2016 at 8:19 PM Robert Yang <liezhi.yang@windriver.com>
 wrote:
 
+> I'd like to add ovmf-native to make qemu-native/runqemu support
+> boot UEFI image, that will make us debug UEFI image much more easier,
+> without ovmf, we have to burn EFI image to a usb disk or cdrom,
+> then boot it on the real hardware, this is inconvenient. (Virtual
+> box can't boot our UEFI image, either, please see my last email
+> about virtualbox, we may fix it later.)
 >
->   i realize i should know the answer to this, but it's friday and i'm
-> tired. i want to know the precise processing order for the bbappend
-> files for a single recipe over multiple layers. (i realize it's
-> already a bad design if i have so many bbappend files for the same
-> recipe that i get confused knowing how they're processed. :-)
+> The ovmf is released under BSD license:
+> http://www.tianocore.org/ovmf/
+> The website says:
+> License information: BSD (May contain an additional exception if bundled
+> with
+> the FAT driver.)
 >
->   if i have a recipe, say, rday_1.2.3.bb, and numerous rday*bbappend
-> files spread across several layers, i already know that those layers
-> are processed in increasing priority, so that higher-priority layers
-> will overwrite the settings of lower-priority layers. so far, so good.
+> We don't use the prebuilt FAT driver, we will build it from ovmf source.
 >
->   now, in each layer, the selection of any bbappend file will be based
-> on specificity, so in my case, selection order might be:
+> I tried it in my local repo, it works.
 >
->   * rday_1.2.3.bbappend
->   * rday_1.%.bbappend
->   * rday_%.bbappend
+> We need to do:
+> 1) Add ovmf-native to oe-core.
+> 2) Move acpica from meta-oe to oe-core since ovmf-naive requires iasl
+> which is
+>     provided by acpica, we may also move acpitests to oe-core since it is
+> used
+>     for testing acpica, others are not needed.
+> 3) Update runqemu to make it can boot EFI image.
 >
-> and as long as that's true, i'm assuming that search order is
-> restarted for each layer, so that if i have:
+> Of course, this for master branch only.
 >
->   * layer priority 5, rday_1.2.%.bbappend
->   * layer priority 6, rday_1.%.bbappend
->
-> the first of the above will be processed, but will be superseded by
-> the second even though it is a more generic wildcard, correct?
->
-
-Yes, the specificity of the append isn't a factor in ordering today, as far
-as I know.
-
-
->   finally, if i have multiple layers with the same priority, what is
-> the processing order of bbappend files there? is it random? based on
-> wildcard specificity?
+> Any objections or comments, please ?
 >
 
-You should treat it as undefined. Don't rely on it. I *think* a recent
-patch went in to at least make it deterministic by sorting in some fashion,
-but afaik that's not guaranteed, and wasn't true in the past.
+Seems like a good idea to me. I'd love to be able to test EFI images in
+qemu, and there's an open issue in bugzilla about it.
 
---f46d042ac020df4ca805311b0b82
+--001a113ee868a117a005311b2aee
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Fri=
-, Apr 22, 2016 at 3:48 PM Robert P. J. Day &lt;<a href=3D"mailto:rpjday@cra=
-shcourse.ca">rpjday@crashcourse.ca</a>&gt; wrote:<br></div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
-ding-left:1ex"><br>
-=C2=A0 i realize i should know the answer to this, but it&#39;s friday and =
-i&#39;m<br>
-tired. i want to know the precise processing order for the bbappend<br>
-files for a single recipe over multiple layers. (i realize it&#39;s<br>
-already a bad design if i have so many bbappend files for the same<br>
-recipe that i get confused knowing how they&#39;re processed. :-)<br>
+<div dir=3D"ltr">On Wed, Apr 20, 2016 at 8:19 PM Robert Yang &lt;<a href=3D=
+"mailto:liezhi.yang@windriver.com">liezhi.yang@windriver.com</a>&gt; wrote:=
+<br><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">I&#39;d like =
+to add ovmf-native to make qemu-native/runqemu support<br>
+boot UEFI image, that will make us debug UEFI image much more easier,<br>
+without ovmf, we have to burn EFI image to a usb disk or cdrom,<br>
+then boot it on the real hardware, this is inconvenient. (Virtual<br>
+box can&#39;t boot our UEFI image, either, please see my last email<br>
+about virtualbox, we may fix it later.)<br>
 <br>
-=C2=A0 if i have a recipe, say, <a href=3D"http://rday_1.2.3.bb" rel=3D"nor=
-eferrer" target=3D"_blank">rday_1.2.3.bb</a>, and numerous rday*bbappend<br=
->
-files spread across several layers, i already know that those layers<br>
-are processed in increasing priority, so that higher-priority layers<br>
-will overwrite the settings of lower-priority layers. so far, so good.<br>
+The ovmf is released under BSD license:<br>
+<a href=3D"http://www.tianocore.org/ovmf/" rel=3D"noreferrer" target=3D"_bl=
+ank">http://www.tianocore.org/ovmf/</a><br>
+The website says:<br>
+License information: BSD (May contain an additional exception if bundled wi=
+th<br>
+the FAT driver.)<br>
 <br>
-=C2=A0 now, in each layer, the selection of any bbappend file will be based=
+We don&#39;t use the prebuilt FAT driver, we will build it from ovmf source=
+.<br>
 <br>
-on specificity, so in my case, selection order might be:<br>
+I tried it in my local repo, it works.<br>
 <br>
-=C2=A0 * rday_1.2.3.bbappend<br>
-=C2=A0 * rday_1.%.bbappend<br>
-=C2=A0 * rday_%.bbappend<br>
+We need to do:<br>
+1) Add ovmf-native to oe-core.<br>
+2) Move acpica from meta-oe to oe-core since ovmf-naive requires iasl which=
+ is<br>
+=C2=A0 =C2=A0 provided by acpica, we may also move acpitests to oe-core sin=
+ce it is used<br>
+=C2=A0 =C2=A0 for testing acpica, others are not needed.<br>
+3) Update runqemu to make it can boot EFI image.<br>
 <br>
-and as long as that&#39;s true, i&#39;m assuming that search order is<br>
-restarted for each layer, so that if i have:<br>
+Of course, this for master branch only.<br>
 <br>
-=C2=A0 * layer priority 5, rday_1.2.%.bbappend<br>
-=C2=A0 * layer priority 6, rday_1.%.bbappend<br>
-<br>
-the first of the above will be processed, but will be superseded by<br>
-the second even though it is a more generic wildcard, correct?<br></blockqu=
-ote><div><br></div><div>Yes, the specificity of the append isn&#39;t a fact=
-or in ordering today, as far as I know.</div><div>=C2=A0</div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;=
-padding-left:1ex">
-=C2=A0 finally, if i have multiple layers with the same priority, what is<b=
-r>
-the processing order of bbappend files there? is it random? based on<br>
-wildcard specificity?<br></blockquote><div><br></div><div>You should treat =
-it as undefined. Don&#39;t rely on it. I *think* a recent patch went in to =
-at least make it deterministic by sorting in some fashion, but afaik that&#=
-39;s not guaranteed, and wasn&#39;t true in the past.</div></div></div>
+Any objections or comments, please ?<br></blockquote><div><br></div><div>Se=
+ems like a good idea to me. I&#39;d love to be able to test EFI images in q=
+emu, and there&#39;s an open issue in bugzilla about it.</div></div></div>
 
---f46d042ac020df4ca805311b0b82--
+--001a113ee868a117a005311b2aee--
