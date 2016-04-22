@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B952570101
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 09EED6011C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Apr 2016 05:44:34 +0000 (UTC)
+	Fri, 22 Apr 2016 05:44:35 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u3M5iY9F010546
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u3M5iZFw004588
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Apr 2016 22:44:35 -0700 (PDT)
+	Thu, 21 Apr 2016 22:44:36 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 21 Apr 2016 22:44:34 -0700
+	Thu, 21 Apr 2016 22:44:35 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Apr 2016 22:44:31 -0700
-Message-ID: <cover.1461303847.git.liezhi.yang@windriver.com>
+Date: Thu, 21 Apr 2016 22:44:32 -0700
+Message-ID: <6a9c5646d388722ebf9579c152c42516112ba46d.1461303847.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.8.0
+In-Reply-To: <cover.1461303847.git.liezhi.yang@windriver.com>
+References: <cover.1461303847.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/2] ase_contains -> bb.utils.contains (master branch only)
+Subject: [PATCH 1/2] directfb/pango/webkit: base_contains -> bb.utils.contains
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,28 +33,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Apr 2016 05:44:37 -0000
+X-List-Received-Date: Fri, 22 Apr 2016 05:44:38 -0000
 Content-Type: text/plain
 
-The following changes since commit 9838f8d077d16e52ad592879d65a9e8350b93075:
-
-  build-appliance-image: Update to krogoth head revision (2016-04-19 21:25:53 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/warn
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/warn
-
-Robert Yang (2):
-  directfb/pango/webkit: base_contains -> bb.utils.contains
-  utils.bbclass: warn for deprecated base_contains
-
- meta/classes/utils.bbclass                   | 1 +
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  meta/recipes-graphics/directfb/directfb.inc  | 2 +-
  meta/recipes-graphics/pango/pango_1.38.1.bb  | 2 +-
  meta/recipes-sato/webkit/webkitgtk_2.10.7.bb | 4 ++--
- 4 files changed, 5 insertions(+), 4 deletions(-)
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
+diff --git a/meta/recipes-graphics/directfb/directfb.inc b/meta/recipes-graphics/directfb/directfb.inc
+index f6b7cbe..46748988 100644
+--- a/meta/recipes-graphics/directfb/directfb.inc
++++ b/meta/recipes-graphics/directfb/directfb.inc
+@@ -26,7 +26,7 @@ S = "${WORKDIR}/DirectFB-${PV}"
+ LDFLAGS_append =" -lts -lm"
+ 
+ # Workaround for linking issues seen with armv7a + gold
+-LDFLAGS_append_arm = "${@base_contains('DISTRO_FEATURES', 'ld-is-gold', ' -fuse-ld=bfd ', '', d)}"
++LDFLAGS_append_arm = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', ' -fuse-ld=bfd ', '', d)}"
+ 
+ BINCONFIG = "${bindir}/directfb-config"
+ 
+diff --git a/meta/recipes-graphics/pango/pango_1.38.1.bb b/meta/recipes-graphics/pango/pango_1.38.1.bb
+index 7fc65fd..756dac4 100644
+--- a/meta/recipes-graphics/pango/pango_1.38.1.bb
++++ b/meta/recipes-graphics/pango/pango_1.38.1.bb
+@@ -36,7 +36,7 @@ LIBV = "1.8.0"
+ 
+ # This binary needs to be compiled for the host architecture.  This isn't pretty!
+ do_compile_prepend_class-target () {
+-	if ${@base_contains('DISTRO_FEATURES', 'ptest', 'true', 'false', d)}; then
++	if ${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'true', 'false', d)}; then
+ 		make CC="${BUILD_CC}" CFLAGS="" LDFLAGS="" AM_CPPFLAGS="$(pkg-config-native --cflags glib-2.0)" gen_all_unicode_LDADD="$(pkg-config-native --libs glib-2.0)" -C ${B}/tests gen-all-unicode
+ 	fi
+ }
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.10.7.bb b/meta/recipes-sato/webkit/webkitgtk_2.10.7.bb
+index 8eb6b9f..d4f1d3b 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.10.7.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.10.7.bb
+@@ -34,8 +34,8 @@ DEPENDS = "zlib libsoup-2.4 curl libxml2 cairo libxslt libxt libidn gnutls \
+ 	   ruby-native libnotify gstreamer1.0-plugins-bad \
+           "
+ 
+-PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'x11', 'wayland' ,d)} \
+-                   ${@base_contains('DISTRO_FEATURES', 'opengl', 'webgl', '' ,d)} \
++PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', 'wayland' ,d)} \
++                   ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'webgl', '' ,d)} \
+                    enchant \
+                    gtk2 \
+                    libsecret \
 -- 
 2.8.0
 
