@@ -1,52 +1,54 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-io0-f196.google.com (mail-io0-f196.google.com
-	[209.85.223.196])
-	by mail.openembedded.org (Postfix) with ESMTP id B7E2D73190
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f175.google.com (mail-pf0-f175.google.com
+	[209.85.192.175])
+	by mail.openembedded.org (Postfix) with ESMTP id A84C6731A5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Apr 2016 17:04:14 +0000 (UTC)
-Received: by mail-io0-f196.google.com with SMTP id s2so15407266iod.3
+	Fri, 22 Apr 2016 17:21:24 +0000 (UTC)
+Received: by mail-pf0-f175.google.com with SMTP id e128so42984370pfe.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Apr 2016 10:04:15 -0700 (PDT)
+	Fri, 22 Apr 2016 10:21:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=Y/JboeuPQDzqQCIHq+ysHnlvLN419Tc5kbytdwewl6I=;
-	b=tj2AkhWxdpZIiaowKNMGfp1xEQPV1Ky3VSw9SYOnQRpjm3XeAxxH12ILYOJ1if+IZX
-	LRK/B+NOAuBi8ZVFAkYawhuwK4mKBl0+T1cN8MEnJiTW5nmFXLFpc3zHp2WSPxqyeAPt
-	Uh1uoBvgdjfTWcCCDqbS2ydGpPPYAajvKL+B/UyQS7H+7+PrPxs5g7tqtp/EqjN1MgZ2
-	FD5sobAuObEvomt6gbo3nftWyigaNZyC8zdC48bqthPgk1ryeysFblNYsmKcOFWwEpcK
-	B7hHmDc79EmtEsX5eyzdkzVh+2auoUH228c7K2tgelDEFJoxoUDHGUPB6Zv0uIkk0dji
-	MJkw==
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=uYT8RywIB6IofEPTsiYJQhB4HmEZ4QsSapX/N/u7aMk=;
+	b=dt+YaDQ+1W+M8sAaaJ3IHNWmG83cvQmGgkxV259ZBPn6lP6kRSW6aEUhvk6u/7sRAB
+	9qTUgZG1AGxqBtVwQsNjufWX/Gd5kbXzaj7K0AzkHBSh2Rj6CkPTyTzSMrplEjfHA5Ll
+	G2UZhsIIc6sOGBRV599nnkSIZnjFiUe8Woi4WhBUD1RCthdcR/aYrRSqrC5PNqx0BBD7
+	OemoE46cc5vAIgNmJ1SvwhwSxXKonDj2O+C6QwZ5H9ApDS1hbu49FosRn1GMRtTjGqqz
+	4rxDd9TqleI9B0eZslubrdlzW684jfTsDj6sShe9wr3for7lZJ4vO5Mv/GfNVHncL2ve
+	X6Kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=Y/JboeuPQDzqQCIHq+ysHnlvLN419Tc5kbytdwewl6I=;
-	b=L3WCeuy/zUHJwLRB8QSZhcu+cHsdeC8L9ERnVZNMGl2tYCF7Z8ajHB7QHSY8Hn3vr/
-	8DhGxT/baLQTfRKjH78HlbMZgRWmGs0CCEaSZGvDuIvRxG7oCN4OgDLaucLKiflxoVzY
-	SQiXxLCmxmDH1IC2X3klEBumOCYZ/jkl6RJR6XhQfUhweBnFuBbonjUiWu3j0TFtbAba
-	bzsWcl/7OWk7uUm5JZcuTrl0zEZghYkWu6Zvoe2hGNPg/+qltSayDcTcCLcjvAy6+oKt
-	HXPzMo3X5kV94ANeL2S0Ow0WKIkdvb7mMaJJj2JGfrw7JCSNmUvEKd9A2fVgnw3AQXLx
-	93Mg==
-X-Gm-Message-State: AOPr4FUXGm/Qrn0r5RJ1A/pgx16hW5L/NEKhSifMjZZsC/yi+mY29odd0kh4+9uDNy3C/A==
-X-Received: by 10.107.138.224 with SMTP id c93mr18979679ioj.143.1461344654768; 
-	Fri, 22 Apr 2016 10:04:14 -0700 (PDT)
-Received: from linux-yxv0 (dsl-67-55-28-109.acanac.net. [67.55.28.109])
-	by smtp.gmail.com with ESMTPSA id au6sm4430588igc.0.2016.04.22.10.04.13
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 22 Apr 2016 10:04:14 -0700 (PDT)
-Date: Fri, 22 Apr 2016 13:04:10 -0400
-From: Trevor Woerner <twoerner@gmail.com>
-To: "Jolley, Stephen K" <stephen.k.jolley@intel.com>
-Message-ID: <20160422170410.GB23308@linux-yxv0>
-References: <9ADD3FDE8B189B4AA2F8A3C711F8155E570F86EE@fmsmsx111.amr.corp.intel.com>
-MIME-Version: 1.0
-In-Reply-To: <9ADD3FDE8B189B4AA2F8A3C711F8155E570F86EE@fmsmsx111.amr.corp.intel.com>
-User-Agent: Mutt/1.6.0 (2016-04-01)
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Yocto Project Status WW17
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=uYT8RywIB6IofEPTsiYJQhB4HmEZ4QsSapX/N/u7aMk=;
+	b=Q7Zjvyzk2IUv7LHh6kRaKJAoQU3TnkDe2aQwPwjAvzhYEhEPO0UDErPL1ppNQrjQft
+	sv/H4aQXBGcfqoza/wvAjmb0ahSXZSB0CTY5YFFSyvnAsxPtcDdUS6pwVA0+KRiwj4w6
+	6xne4U/7OygZUlW56zEX601wYsSvXpIoGhWL6zaAnuTdpF3fC1wJSCJWRNAXU0MC313L
+	RBFkLB839Q66alKEy33hZyiIEhm1a9HhVzCuGOlp3jkLy/JoZdneHTlJFDXnbWCKqudd
+	7HiDr0KAjrqEOp1mMYW/suh5taLQjM07F08FYQafgl72bM/FtAcjrlwHEVB35H0ppMIH
+	qE2A==
+X-Gm-Message-State: AOPr4FXgV3J1WvHrRPnT1XQvBAW00MX/bzvzWz1Ad2Hjo1UG/QxArMlRiRxORaSWiYYfRw==
+X-Received: by 10.98.83.65 with SMTP id h62mr30089383pfb.130.1461345684898;
+	Fri, 22 Apr 2016 10:21:24 -0700 (PDT)
+Received: from ?IPv6:2601:646:8800:5a9a:c18c:a07a:68a6:1687?
+	([2601:646:8800:5a9a:c18c:a07a:68a6:1687])
+	by smtp.gmail.com with ESMTPSA id
+	t85sm9693604pfi.55.2016.04.22.10.21.23
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 22 Apr 2016 10:21:24 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Pgp-Agent: GPGMail 2.6b2
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <d0ca3b62bef9534383af9cbaa6b6a4e1e8a15862.1461329608.git.jussi.kukkonen@intel.com>
+Date: Fri, 22 Apr 2016 10:21:19 -0700
+Message-Id: <8CA21060-E04D-4FFF-97A9-4AA7E5FB780B@gmail.com>
+References: <b0e90c378280d55e73abbb3464b08c77bde64867.1461329608.git.jussi.kukkonen@intel.com>
+	<cover.1461329608.git.jussi.kukkonen@intel.com>
+	<d0ca3b62bef9534383af9cbaa6b6a4e1e8a15862.1461329608.git.jussi.kukkonen@intel.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+X-Mailer: Apple Mail (2.3124)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] gcc-sanitizers: Depend on target gcc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,13 +61,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Apr 2016 17:04:14 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Fri, 22 Apr 2016 17:21:26 -0000
+X-Groupsio-MsgNum: 81179
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_21291ECA-E824-4809-A6D0-B41BA563033D";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-On Fri 2016-04-22 @ 03:13:21 PM, Jolley, Stephen K wrote:
-> o   Encourage adoption of new tools (toaster, eSDK, CROPS)
+--Apple-Mail=_21291ECA-E824-4809-A6D0-B41BA563033D
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-Have the eSDK and CROPS projects been announced publicly? Are they available
-for us to "play with"?
 
+> On Apr 22, 2016, at 6:26 AM, Jussi Kukkonen <jussi.kukkonen@intel.com> =
+wrote:
+>=20
+> Without this the target gcc might not be in the sysroot
+> leading to configure failure.
+
+you might want to correct the comment to say cross gcc. Thats whats =
+added to DEPENDS here
+and not target gcc.
+
+>=20
+> Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+> ---
+> meta/recipes-devtools/gcc/gcc-sanitizers.inc | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers.inc =
+b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+> index 6091a0b..df4e297 100644
+> --- a/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+> @@ -50,7 +50,7 @@ do_install () {
+>=20
+> INHIBIT_DEFAULT_DEPS =3D "1"
+> ALLOW_EMPTY_${PN} =3D "1"
+> -DEPENDS =3D "gcc-runtime"
+> +DEPENDS =3D "gcc-runtime virtual/${TARGET_PREFIX}gcc"
+>=20
+> BBCLASSEXTEND =3D "nativesdk"
+>=20
+> --
+> 2.1.4
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+--Apple-Mail=_21291ECA-E824-4809-A6D0-B41BA563033D
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlcaXZMACgkQuwUzVZGdMxSpUwCffMxw7E1fH/iJdbO+xI1RkAcR
+uFsAn0KGeaEKzfvPTf2xOcemZLo0VG6z
+=r5cZ
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_21291ECA-E824-4809-A6D0-B41BA563033D--
