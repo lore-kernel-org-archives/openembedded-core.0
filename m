@@ -1,46 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
-	[209.85.213.178])
-	by mail.openembedded.org (Postfix) with ESMTP id BF0E1600B3
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 2BA08600B3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Apr 2016 11:47:56 +0000 (UTC)
-Received: by mail-ig0-f178.google.com with SMTP id bi2so11641502igb.0
+	Fri, 22 Apr 2016 11:51:57 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga104.fm.intel.com with ESMTP; 22 Apr 2016 04:51:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,517,1455004800"; d="scan'208";a="690452007"
+Received: from linux.intel.com ([10.23.219.25])
+	by FMSMGA003.fm.intel.com with ESMTP; 22 Apr 2016 04:51:59 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
+	by linux.intel.com (Postfix) with ESMTP id 000086A4002
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Apr 2016 04:47:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=t7o62+Y5i01h1wyykxdh8tyUx/XDqGH691WpiQirM/o=;
-	b=A+PWiDicrOviXo1IF8sM6eWN/IbEXunTz854R4t0QF3g0duzCWJ9NYglnQIfBohPFG
-	ht227eAMG99J4EWBtSpKxWn3BBqP5ggXa3TroiBD5T9cuVisaw2AGC2RW6+rGvkScs/1
-	qb99qJXkFyT3jlmTExQiZjfCyK6eHenXJ7us5AgwPGquxXF34GV1tWY9sAtzaQ3++V7O
-	FI8reTdEJ6/SrY1pj51wbrzb+2/z1MqZBaI+F9ba7pwO8n9jJrDIWVIUYhtk/KN3vk3S
-	ReZISyHHiVWezT+O8daLPU+hgO0NRxuB4nr7HdDCLVl6tv4bavlQr5kc1V+mKF1vVQHK
-	wJvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=t7o62+Y5i01h1wyykxdh8tyUx/XDqGH691WpiQirM/o=;
-	b=SNFUgVq5Tt2EIf8jqskYtTuoJnQJX7jiUiDVpvHwRu/5jfqG7M/DuJoe0Zh8uJrflS
-	zKTTG4H3V8q8YEJdLye+rneypXjlmbiXOyHRKmnvKWEIIUzaHGDqtGNISkvKBRS6sYE6
-	/7Xc7AuQwiAxvkQmKFXhX8pcY9DNwPmjym4WCe+XdZayHk0qtgXftVOAF9qYbBWotPXi
-	X/GX8BbwgyOwd/ESdiRux2hU0QhzEV8qQ9tNocWgHUGaDPemA6O4xe2n2RSMJ2g/6QCS
-	BxGWjOZFukbpkxsz+OHd2Q0Sd0/DuXR2S4CNu5hGlpojETXrVk8NMpAbskg4Pvymy+Gf
-	7OgA==
-X-Gm-Message-State: AOPr4FVrI/HudjKe3mOhJ6GqAZf08kffdDjjKYzLH0dcc9PQdMylr1d2xgvCEZ/v/Tbab592vezBTvdoqes0Qs5+
-X-Received: by 10.50.160.41 with SMTP id xh9mr3750495igb.64.1461325675976;
-	Fri, 22 Apr 2016 04:47:55 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.9.106 with HTTP; Fri, 22 Apr 2016 04:47:36 -0700 (PDT)
-In-Reply-To: <1461215114-5062-1-git-send-email-fan.xin@jp.fujitsu.com>
-References: <1461215114-5062-1-git-send-email-fan.xin@jp.fujitsu.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 22 Apr 2016 12:47:36 +0100
-Message-ID: <CAJTo0LZ8QS01A4eni=Ou5Yi_w7c=FZN0sRzaTaiaj5jQ5oEBEA@mail.gmail.com>
-To: Fan Xin <fan.xin@jp.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Replace foomatic-filters with cups-filters
+	Fri, 22 Apr 2016 05:39:34 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 22 Apr 2016 12:31:58 +0300
+Message-Id: <cover.1461317156.git.ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [wic][PATCH 0/6] new wks option --system-id
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,32 +31,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Apr 2016 11:47:58 -0000
-Content-Type: multipart/alternative; boundary=001a11380a16d176070531116542
+X-List-Received-Date: Fri, 22 Apr 2016 11:52:00 -0000
 
---001a11380a16d176070531116542
-Content-Type: text/plain; charset=UTF-8
+Hi,
 
-On 21 April 2016 at 06:05, Fan Xin <fan.xin@jp.fujitsu.com> wrote:
+This patchset contains implementation of --system-id option. The option sets
+system id for the partition if specified.
 
-> +    cups-filters \
->
+For example with this wks file:
 
-What recipe provides this package?
+part /boot --ondisk sda --align 1024 --fstype vfat --source bootimg-pcbios --size 64M   --system-id 1
+part /     --ondisk sda --align 1024 --fstype ext4 --source rootfs         --size 1000M --system-id 2
+part /opt  --ondisk sda --align 1024 --fstype ext4                         --size 1000M --system-id 3
 
-Ross
+The image layout is the following: (pay attention to the system ids 1,2,3)
 
---001a11380a16d176070531116542
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+   Device Boot Start     End   #cyls    #blocks   Id  System
+img/build/system-id-201604221223-sda.direct1         16    1040-   1025-     65552    1  FAT12
+img/build/system-id-201604221223-sda.direct2       1056   21855   20800    1331200    2  XENIX root
+img/build/system-id-201604221223-sda.direct3      21856   37855   16000    1024000    3  XENIX usr
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 21 April 2016 at 06:05, Fan Xin <span dir=3D"ltr">&lt;<a href=3D"mailto:=
-fan.xin@jp.fujitsu.com" target=3D"_blank">fan.xin@jp.fujitsu.com</a>&gt;</s=
-pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
-;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":21o" class=3D"a3s=
- aXjCH">+=C2=A0 =C2=A0 cups-filters \<br></div></blockquote></div><br>What =
-recipe provides this package?</div><div class=3D"gmail_extra"><br></div><di=
-v class=3D"gmail_extra">Ross</div></div>
+The following changes since commit 6c1c01392d91f512e2949ad1d57a75a8077478ba:
 
---001a11380a16d176070531116542--
+  build-appliance-image: Update to krogoth head revision (2016-04-19 21:26:33 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ed/wic/part-system-id-9096
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/wic/part-system-id-9096
+
+Ed Bartosh (6):
+  wic: add --system-id wks option
+  wic: add sfdisk to the list of utilities
+  wic: add system_id attribute to Partition
+  wic: add system_id argument to Image.add_partition
+  wic: set partition system id
+  wic: add help for --system-id option
+
+ scripts/lib/wic/help.py                |  4 ++++
+ scripts/lib/wic/imager/direct.py       |  3 ++-
+ scripts/lib/wic/ksparser.py            | 19 +++++++++++++++++++
+ scripts/lib/wic/partition.py           |  1 +
+ scripts/lib/wic/utils/oe/misc.py       |  1 +
+ scripts/lib/wic/utils/partitionedfs.py |  9 +++++++--
+ 6 files changed, 34 insertions(+), 3 deletions(-)
+
+--
+Regards,
+Ed
+
+
