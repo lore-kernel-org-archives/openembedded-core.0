@@ -1,32 +1,48 @@
-Return-Path: <Noor_Ahsan@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 20940607A4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
+	[209.85.213.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B7296FFD8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Apr 2016 12:53:11 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-05.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1ataa7-0004mf-K0 from Noor_Ahsan@mentor.com ;
-	Fri, 22 Apr 2016 05:53:12 -0700
-Received: from EU-MBX-01.mgc.mentorg.com ([169.254.1.18]) by
-	SVR-IES-FEM-05.mgc.mentorg.com ([137.202.0.112]) with mapi id
-	14.03.0224.002; Fri, 22 Apr 2016 13:53:10 +0100
-From: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] cups.inc: Fix ldflags warning.
-Thread-Index: AQHRnIFweOvUMHT+o0+uznzPAm3aZZ+V1UCAgAAdfmA=
-Date: Fri, 22 Apr 2016 12:53:09 +0000
-Message-ID: <365E1805BC95084CBE82381A0B8699940127D13BC9@EU-MBX-01.mgc.mentorg.com>
-References: <1461320780-50763-1-git-send-email-noor_ahsan@mentor.com>
-	<CAJTo0LZ2U9JjhW93v72tQR4q6DP3jFuWORa2+Thk6+V-B5nzvQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LZ2U9JjhW93v72tQR4q6DP3jFuWORa2+Thk6+V-B5nzvQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.202.0.76]
+	Fri, 22 Apr 2016 12:59:04 +0000 (UTC)
+Received: by mail-ig0-f174.google.com with SMTP id g8so15043791igr.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Apr 2016 05:59:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=z8Ly115ZbegNcEpg/5v9JUHKtusIr1TVopAONtmv2zQ=;
+	b=S1lFj6WwsYWH1OC6VsHXrVSRnYjUwcWOWT2CE0jQbIlW7sn+d1f+Pak1CAQfgPU4U4
+	6VLlff+/0MfHNP3lewmDA/W4aHXY9oLi+kz2Baf/59ZqHN+VL0eCvLxCZyROUEMS4aJO
+	1f9QBTyCmPBXNPIKebaI/dO6s+yBYOVs4ZrzPtBXhIN1nNCaiA8ZQgNQ3RJ5RZOYSyQq
+	qap2DDprZGR2vftfKD4GrTQ4WZhEV3Nif7v+u2GwAxFw6u3Eba6pflrNrxAxBpBXFpjN
+	a6MQi4r8zq47o/Unh0tWNFiHgR8QnDh4kCDU4UTbI4woYNc40OJAsi7kzpJw92ShsxgF
+	apZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=z8Ly115ZbegNcEpg/5v9JUHKtusIr1TVopAONtmv2zQ=;
+	b=LOYU/dmqsryJQQ86wavnIqYBTsLxqren+QkVpyECInzr2X/5ZSNovXvHjbO2MsEvVe
+	Y/4Ob/esuDx1YtzZahhR3uQ77FbHahtvn+KZ58Fli1qnDtt1hdxn1Njj6eTCpByLA+vE
+	V4xr0b8SubCZQIpsRTbS0IRZ7wPnrMsnyK17xXjWtMyK3ZXmxxe6pMFjEb5rCH03ENh7
+	vUIKasmWpRlsfrDcxM7c+5CUQLAYPfMfoWOA7cHUXNCa7Kl2DjdCLiWsNGU6B/aI6hJo
+	Osp+j8w9qKTVGN5I/3A0JGsCtE+NRaF8IDkGG8X7UmWIzEKHOlOZI9ruC8qTdsxXedU0
+	xCSQ==
+X-Gm-Message-State: AOPr4FW6VoaOvptJYiGVdaudibvai666EpQhcjQZN4sDzNnc0ErGshaGct7k0+9ycz3/73TvqMSYyRuiO/ns1eas
+X-Received: by 10.50.67.113 with SMTP id m17mr4206033igt.52.1461329945127;
+	Fri, 22 Apr 2016 05:59:05 -0700 (PDT)
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] cups.inc: Fix ldflags warning.
+Received: by 10.107.9.106 with HTTP; Fri, 22 Apr 2016 05:58:45 -0700 (PDT)
+In-Reply-To: <1461328888-5911-1-git-send-email-Sujith_Haridasan@mentor.com>
+References: <1461328888-5911-1-git-send-email-Sujith_Haridasan@mentor.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 22 Apr 2016 13:58:45 +0100
+Message-ID: <CAJTo0LaA_rkiUrAvGxiadD3OuKzozCyjEJpMSXD6qcG_3R6vPA@mail.gmail.com>
+To: Sujith Haridasan <sujith.h@gmail.com>
+Cc: Sujith Haridasan <Sujith_Haridasan@mentor.com>,
+	Christopher Larson <chris_larson@mentor.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] webkitgtk: package debug files properly and move -g removal to staging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,96 +55,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Apr 2016 12:53:12 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_365E1805BC95084CBE82381A0B8699940127D13BC9EUMBX01mgcmen_"
+X-List-Received-Date: Fri, 22 Apr 2016 12:59:06 -0000
+Content-Type: multipart/alternative; boundary=047d7bd753ea479b6d0531126452
 
---_000_365E1805BC95084CBE82381A0B8699940127D13BC9EUMBX01mgcmen_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--047d7bd753ea479b6d0531126452
+Content-Type: text/plain; charset=UTF-8
 
-WWVhaCwNCg0KU2VudCB1cGRhdGVkIHBhdGNoLg0KDQpOb29yDQoNCkZyb206IEJ1cnRvbiwgUm9z
-cyBbbWFpbHRvOnJvc3MuYnVydG9uQGludGVsLmNvbV0NClNlbnQ6IEZyaWRheSwgQXByaWwgMjIs
-IDIwMTYgNTowNyBQTQ0KVG86IEFoc2FuLCBOb29yDQpDYzogT0UtY29yZQ0KU3ViamVjdDogUmU6
-IFtPRS1jb3JlXSBbUEFUQ0hdIGN1cHMuaW5jOiBGaXggbGRmbGFncyB3YXJuaW5nLg0KDQoNCk9u
-IDIyIEFwcmlsIDIwMTYgYXQgMTE6MjYsIE5vb3IsIEFoc2FuIDxub29yX2Foc2FuQG1lbnRvci5j
-b208bWFpbHRvOm5vb3JfYWhzYW5AbWVudG9yLmNvbT4+IHdyb3RlOg0KKyAgICAgICAgICAgICAg
-ICJEU09GTEFHUz0nJHtMREZMQUdTfSciDQoNCk5vIHRyYWlsaW5nIHNsYXNoIHNvIHRoaXMgZG9l
-bnMndCBwYXJzZS4gIFlvdSBzaG91bGRuJ3QgbmVlZCBkb3VibGUgcXVvdGluZyBlaXRoZXIuDQoN
-ClJvc3MNCg==
+On 22 April 2016 at 13:41, Sujith Haridasan <sujith.h@gmail.com> wrote:
 
---_000_365E1805BC95084CBE82381A0B8699940127D13BC9EUMBX01mgcmen_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+> +FILES_${PN}-dbg += "${libdir}/webkit2gtk-4.0/injected-bundle/.debug \
+> +                    ${libdir}/webkitgtk/webkit2gtk-4.0/.debug/*"
+>
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
-Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIiwic2VyaWYi
-O30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0K
-CWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQsIHNw
-YW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9y
-OnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCnNwYW4uRW1haWxTdHlsZTE3
-DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJp
-Iiwic2Fucy1zZXJpZiI7DQoJY29sb3I6IzFGNDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28t
-c3R5bGUtdHlwZTpleHBvcnQtb25seTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2Vy
-aWYiO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46
-MS4waW4gMS4waW4gMS4waW4gMS4waW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRT
-ZWN0aW9uMTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVk
-ZWZhdWx0cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0t
-PjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0K
-PG86aWRtYXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+
-PCFbZW5kaWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxp
-bms9InB1cnBsZSI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05v
-cm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2Fs
-aWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPlllYWgsPG86
-cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZv
-bnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5z
-LXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4N
-CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQt
-ZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjoj
-MUY0OTdEIj5TZW50IHVwZGF0ZWQgcGF0Y2guPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xh
-c3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6
-JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0Qi
-PjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFu
-IHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDss
-JnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj5Ob29yPG86cD48L286cD48L3Nw
-YW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGEgbmFtZT0iX01haWxFbmRDb21wb3NlIj48
-c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1
-b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286
-cD48L3NwYW4+PC9hPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIHN0eWxlPSJm
-b250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fu
-cy1zZXJpZiZxdW90OyI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEu
-MHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90
-OyI+IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3MuYnVydG9uQGludGVsLmNvbV0NCjxicj4NCjxi
-PlNlbnQ6PC9iPiBGcmlkYXksIEFwcmlsIDIyLCAyMDE2IDU6MDcgUE08YnI+DQo8Yj5Ubzo8L2I+
-IEFoc2FuLCBOb29yPGJyPg0KPGI+Q2M6PC9iPiBPRS1jb3JlPGJyPg0KPGI+U3ViamVjdDo8L2I+
-IFJlOiBbT0UtY29yZV0gW1BBVENIXSBjdXBzLmluYzogRml4IGxkZmxhZ3Mgd2FybmluZy48bzpw
-PjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpw
-PjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286
-cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+T24gMjIgQXByaWwgMjAxNiBhdCAx
-MToyNiwgTm9vciwgQWhzYW4gJmx0OzxhIGhyZWY9Im1haWx0bzpub29yX2Foc2FuQG1lbnRvci5j
-b20iIHRhcmdldD0iX2JsYW5rIj5ub29yX2Foc2FuQG1lbnRvci5jb208L2E+Jmd0OyB3cm90ZTo8
-bzpwPjwvbzpwPjwvcD4NCjxibG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVm
-dDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGluIDBpbiAwaW4gNi4wcHQ7bWFyZ2luLWxl
-ZnQ6NC44cHQ7bWFyZ2luLXJpZ2h0OjBpbiI+DQo8ZGl2IGlkPSI6aHgiPg0KPHAgY2xhc3M9Ik1z
-b05vcm1hbCI+JiM0MzsmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAm
-bmJzcDsgJm5ic3A7JnF1b3Q7RFNPRkxBR1M9JyR7TERGTEFHU30nJnF1b3Q7PG86cD48L286cD48
-L3A+DQo8L2Rpdj4NCjwvYmxvY2txdW90ZT4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
-PGJyPg0KTm8gdHJhaWxpbmcgc2xhc2ggc28gdGhpcyBkb2Vucyd0IHBhcnNlLiZuYnNwOyBZb3Ug
-c2hvdWxkbid0IG5lZWQgZG91YmxlIHF1b3RpbmcgZWl0aGVyLjxvOnA+PC9vOnA+PC9wPg0KPC9k
-aXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8
-L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5Sb3NzPG86cD48L286cD48L3A+DQo8
-L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
+Debug packages are collected automatically, no need for FILES_PN-dbg
+anymore unless you want to package something that isn't .debug/.
 
---_000_365E1805BC95084CBE82381A0B8699940127D13BC9EUMBX01mgcmen_--
+Please verify patches against master when submitting!
+
+Ross
+
+--047d7bd753ea479b6d0531126452
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 22 April 2016 at 13:41, Sujith Haridasan <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:sujith.h@gmail.com" target=3D"_blank">sujith.h@gmail.com</a>&gt;=
+</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-=
+left-style:solid;padding-left:1ex"><div id=3D":3q8" class=3D"">+FILES_${PN}=
+-dbg +=3D &quot;${libdir}/webkit2gtk-4.0/injected-bundle/.debug \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${li=
+bdir}/webkitgtk/webkit2gtk-4.0/.debug/*&quot;<br></div></blockquote></div><=
+br>Debug packages are collected automatically, no need for FILES_PN-dbg any=
+more unless you want to package something that isn&#39;t .debug/.<br></div>=
+<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Please veri=
+fy patches against master when submitting!</div><div class=3D"gmail_extra">=
+<br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--047d7bd753ea479b6d0531126452--
