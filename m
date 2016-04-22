@@ -1,28 +1,46 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id D35D8731A5
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 02EE86E6B1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Apr 2016 11:52:53 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 22 Apr 2016 04:52:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,517,1455004800"; d="scan'208";a="964240717"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 22 Apr 2016 04:52:56 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id AC44B6A4002
+	Fri, 22 Apr 2016 12:07:36 +0000 (UTC)
+Received: by mail-io0-f176.google.com with SMTP id d62so23672723iof.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Apr 2016 05:40:31 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Apr 2016 12:32:04 +0300
-Message-Id: <f5f59fe39cb03943d4522f2e6b6c558ae733f4c5.1461317156.git.ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1461317156.git.ed.bartosh@linux.intel.com>
-References: <cover.1461317156.git.ed.bartosh@linux.intel.com>
-In-Reply-To: <cover.1461317156.git.ed.bartosh@linux.intel.com>
-References: <cover.1461317156.git.ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH 6/6] wic: add help for --system-id option
+	Fri, 22 Apr 2016 05:07:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=N1pPwxzX+EWH3LHKGzqVwa5Lx8FrjkhB6pFPQi26tcw=;
+	b=jk+N9dNRAXC/HJlkS9Kg5p70xJnks6ISxJpTYoEVjwhACSgzLjKTdfMNpURuwNKy/D
+	kRXqIyHq3NERd2CwVYVWJ4Xax7xrNOYi2hhRCd3ykfI74xzgDGcO8l8U5eEOvsfs8viV
+	NcAP6+00Y3X3g9LOK+CVWbIw7Fo50TLx8+Gy/dLSzquWKq6qkPRCyE2mgJ+wkpQrRGrx
+	9cWlmvZ95EHeVkN3Ilwv5WhKEKMeYARxzsh4hfhmI/mfaNB4XHqAXAJU2b9Wa5TYTO5F
+	dKZa1Qb/pEGFyucqmy+urwxQW+xVXj15xWNx3a1x5fZrA+VpdsNKndpS6Taqumv0HDEa
+	PAxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=N1pPwxzX+EWH3LHKGzqVwa5Lx8FrjkhB6pFPQi26tcw=;
+	b=gAYPgoDvBRlUegSbJXiY8YQx4373z5joQ75/xaYfv+bNRWKDz7RfGvZW+Rxg7rEJVe
+	CQWqx360WJWfS9FDj88MxUH/mRmoFzNkSoyiUpYrlfx0UqNSQnl9gemidQ/aOf2geZqi
+	0pG21/gj/pv2orf9XBiExX33vTRBooQZJcwX8kbCeAK4W9vLu8M21heHguEBAWjnxEtA
+	U1DV1MeNNgnYAPmmiBnopH5WF5iMp8D7T/SqE3L7u/X/9+jMBiPWhG9wzy789+h0++jP
+	qe8HBP+ugZWPQafJRM6waGsOR4X/tF0R1zDMG5XWUe0a6FNzRJ6OO7q2hUhACvz4B+PU
+	waHA==
+X-Gm-Message-State: AOPr4FWxnjLuKVxAS1GQFa9DncAWbOcWK9/TFkRQasRX5gJLCp97eeGca+ZUawEHMCveFTC5dA9FztBKG1TQXZhF
+X-Received: by 10.107.16.104 with SMTP id y101mr21518224ioi.148.1461326857113; 
+	Fri, 22 Apr 2016 05:07:37 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.9.106 with HTTP; Fri, 22 Apr 2016 05:07:17 -0700 (PDT)
+In-Reply-To: <1461320780-50763-1-git-send-email-noor_ahsan@mentor.com>
+References: <1461320780-50763-1-git-send-email-noor_ahsan@mentor.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 22 Apr 2016 13:07:17 +0100
+Message-ID: <CAJTo0LZ2U9JjhW93v72tQR4q6DP3jFuWORa2+Thk6+V-B5nzvQ@mail.gmail.com>
+To: "Noor, Ahsan" <noor_ahsan@mentor.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] cups.inc: Fix ldflags warning.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,34 +53,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Apr 2016 11:52:54 -0000
+X-List-Received-Date: Fri, 22 Apr 2016 12:07:37 -0000
+Content-Type: multipart/alternative; boundary=001a113ff0203831c5053111aca4
 
-Added explanation of --system-id option to the output of
-wic help kickstart.
+--001a113ff0203831c5053111aca4
+Content-Type: text/plain; charset=UTF-8
 
-[YOCTO #9096]
+On 22 April 2016 at 11:26, Noor, Ahsan <noor_ahsan@mentor.com> wrote:
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- scripts/lib/wic/help.py | 4 ++++
- 1 file changed, 4 insertions(+)
+> +               "DSOFLAGS='${LDFLAGS}'"
+>
 
-diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
-index 405d25a..394e3fd 100644
---- a/scripts/lib/wic/help.py
-+++ b/scripts/lib/wic/help.py
-@@ -738,6 +738,10 @@ DESCRIPTION
-                  in bootloader configuration before running wic. In this case .wks file can
-                  be generated or modified to set preconfigured parition UUID using this option.
- 
-+         --system-id: This option is specific to wic. It specifies partition system id. It's useful
-+                      for the harware that requires non-default partition system ids. The parameter
-+                      in one byte long hex number either with 0x prefix or without it.
-+
-     * bootloader
- 
-       This command allows the user to specify various bootloader
--- 
-2.1.4
+No trailing slash so this doens't parse.  You shouldn't need double quoting
+either.
 
+Ross
 
+--001a113ff0203831c5053111aca4
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 22 April 2016 at 11:26, Noor, Ahsan <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:noor_ahsan@mentor.com" target=3D"_blank">noor_ahsan@mentor.com</a>&gt;<=
+/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":hx" class=3D"a3=
+s aXjCH">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;DSOF=
+LAGS=3D&#39;${LDFLAGS}&#39;&quot;<br></div></blockquote></div><br>No traili=
+ng slash so this doens&#39;t parse.=C2=A0 You shouldn&#39;t need double quo=
+ting either.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_=
+extra">Ross</div></div>
+
+--001a113ff0203831c5053111aca4--
