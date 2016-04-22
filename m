@@ -1,45 +1,49 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
-	[209.85.223.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E645602D9
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
+	[209.85.213.68])
+	by mail.openembedded.org (Postfix) with ESMTP id F011062133
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Apr 2016 23:27:11 +0000 (UTC)
-Received: by mail-io0-f182.google.com with SMTP id d62so38832584iof.2
+	Fri, 22 Apr 2016 23:57:49 +0000 (UTC)
+Received: by mail-vk0-f68.google.com with SMTP id c189so482974vkb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Apr 2016 16:27:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kergoth-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
-	bh=61n5HdczPGrqFfot6eLekjzrNlbxt3396wRIF4WjgwE=;
-	b=B5FKpyESynCVOp2gLVX/FONL3YtsYRpPbwM+tkgrJYmmCwywya4bWL3R5oUvWgudNW
-	xwas7CVUV3ABQd8AvTq/W3X24l8yOdDne5CIPkOuMibRMKRq8QxayrbPKjF+L77q3fwN
-	Pb8G8xc79ZkIw1xwAI5sp2MW+K/ry8BJUXuH97n4TzEFkRQ/B/qzpdK2wU3nLuPXDQ+g
-	O5nKIMpntRETbvmVwQcYAV9DVA6lXaMUZcmi1li5i1HpbpWHS10FV/y5Skf7skwYTrtE
-	4JO20dIP3K8klkp62/Lxr3l9XIQ3iLBn3nlMHNWawt34iVX9Vvw8xXEW7MELG0A0gTlp
-	+AQg==
+	Fri, 22 Apr 2016 16:57:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc; bh=0AfzPS/a0RJ/ThltBpQe0+lCEslNTjKEGvRN+gwREGY=;
+	b=zk5sksCXryZJ1BknsFF2dDX4NlSxJK5YbooZGT2ABh+2eWfhcVGbyaMWmwYkW1rFVX
+	0Qn3lxoHwSK6Igo2Qv6KzQP62V8VZaf6Vb4Aywnmp7utx7hMTs3EFEeg93CBDDqUldCO
+	vTXuKrswGy732j8NddHOfCbVwjxcAQBAew77e33sW7McokmTPDd1MM3xF+fKNHrJZeY4
+	a71PhkqB/bFubtXS/mRvar82tNldSOCjnpfCk8DubjhUuK2uGqivifiMR4R+X3R+FbBW
+	xmQeL0T0dYL8O/DP99UyTVbiHhkJg5rHsszBz+Yb+FoXvlyjpxDN/kI8bzb/U+wnvfNK
+	kGJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to;
-	bh=61n5HdczPGrqFfot6eLekjzrNlbxt3396wRIF4WjgwE=;
-	b=KGWF5zBntbWuJhZHdEsIW5RGZTDok9GN8GuAT4VY9/CAgL4KXNFcGAKnBs0GhGaxeY
-	mF/pmrOK3GO3WZfJUEvJhLXYoFj5yymMLsnxTiUHH7unQpa/296/3ibZwswqOcGh7AFJ
-	07S3Ouv7VCjh76Utge3NFRT1Rv/SXGvQTEGou6CTRcLSrFt/wwUg5BDVSqJuMh3jPwHT
-	tPXsgJyg9r9nUwcq0sAcqps/LoA9elEId5Gu3IZPzclPtC+jKqfxp1etk/ZFEN5bUdbz
-	vhENv5UZBJf58ZyRu897jQaRMGPNhyiHOTQaM3J/r4fUoKFPEhezAbNyxY1Aktj+Rd4v
-	pxxA==
-X-Gm-Message-State: AOPr4FXupDmC6Vryi2t69CsBrEshZgcvkE7Jcwq27bFE1jGfsOVafBav8gmdmrejsMLvKf1P7LFg7h3oyr+axw==
-X-Received: by 10.107.15.159 with SMTP id 31mr25863639iop.3.1461367632629;
-	Fri, 22 Apr 2016 16:27:12 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc;
+	bh=0AfzPS/a0RJ/ThltBpQe0+lCEslNTjKEGvRN+gwREGY=;
+	b=DF68dJ2i1scZAmqLIC8asqwEK4Q2jvgeC74Wfi05CmvLX8EU2wmzimRB/ZfZzNYqD/
+	kp2ZRsV56uU/iplQNvsj0/UOdA0C28TD/vHnjtHD2tGr+WX+pmzikYLAdhFK2E1gfI5L
+	9ROaFHoQ1AaOwvaPjSrDBEX+fjJ7tCucfGbZwLekqyaaDk/AfqNoCGg8+JbGbm5P7oOM
+	xyuZjuruevFNjBBOrq6qHeisMYrDAeBPy7huimfULHYZJcLokNEHar/WoxSWV5JUFjBU
+	qb+kXFqTgrPcPt1o6KoJLXdlpxe+yFrWiF2kM2iux6vyT8uktfPRjFjKH9ttrsg5KCrn
+	iqmA==
+X-Gm-Message-State: AOPr4FV1unqKfw+d7Tk61zkW5ZuuW3j2KnbzSQoH6DdZRCkfFueiqpaJU8IgetfknzMWQOpgiMW4MJw47zTf8g==
 MIME-Version: 1.0
-References: <571846A4.7010001@windriver.com>
-In-Reply-To: <571846A4.7010001@windriver.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Fri, 22 Apr 2016 23:27:03 +0000
-Message-ID: <CABcZAN=riPYG7bLdh7tjaaTH+Rm2maV2gPYhACFrMZE8dpgNzg@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>, 
-	oe-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Add ovmf-native to make qemu-native/runqemu support boot UEFI image?
+X-Received: by 10.159.37.181 with SMTP id 50mr9895120uaf.146.1461369470058;
+	Fri, 22 Apr 2016 16:57:50 -0700 (PDT)
+Received: by 10.103.50.75 with HTTP; Fri, 22 Apr 2016 16:57:49 -0700 (PDT)
+Received: by 10.103.50.75 with HTTP; Fri, 22 Apr 2016 16:57:49 -0700 (PDT)
+In-Reply-To: <d0ca3b62bef9534383af9cbaa6b6a4e1e8a15862.1461329608.git.jussi.kukkonen@intel.com>
+References: <cover.1461329608.git.jussi.kukkonen@intel.com>
+	<b0e90c378280d55e73abbb3464b08c77bde64867.1461329608.git.jussi.kukkonen@intel.com>
+	<d0ca3b62bef9534383af9cbaa6b6a4e1e8a15862.1461329608.git.jussi.kukkonen@intel.com>
+Date: Fri, 22 Apr 2016 17:57:49 -0600
+Message-ID: <CACS+7ZRCcqiNudczj9PwnKztENvsF3T9r5ymWXKdmfhKTjXDhw@mail.gmail.com>
+From: Dan McGregor <danismostlikely@gmail.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] gcc-sanitizers: Depend on target gcc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,91 +56,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Apr 2016 23:27:14 -0000
-Content-Type: multipart/alternative; boundary=001a113ee868a117a005311b2aee
+X-List-Received-Date: Fri, 22 Apr 2016 23:57:50 -0000
+Content-Type: multipart/alternative; boundary=001a113979f626046505311b988b
 
---001a113ee868a117a005311b2aee
+--001a113979f626046505311b988b
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, Apr 20, 2016 at 8:19 PM Robert Yang <liezhi.yang@windriver.com>
-wrote:
-
-> I'd like to add ovmf-native to make qemu-native/runqemu support
-> boot UEFI image, that will make us debug UEFI image much more easier,
-> without ovmf, we have to burn EFI image to a usb disk or cdrom,
-> then boot it on the real hardware, this is inconvenient. (Virtual
-> box can't boot our UEFI image, either, please see my last email
-> about virtualbox, we may fix it later.)
+On 22 Apr 2016 7:27 a.m., "Jussi Kukkonen" <jussi.kukkonen@intel.com> wrote:
 >
-> The ovmf is released under BSD license:
-> http://www.tianocore.org/ovmf/
-> The website says:
-> License information: BSD (May contain an additional exception if bundled
-> with
-> the FAT driver.)
+> Without this the target gcc might not be in the sysroot
+> leading to configure failure.
 >
-> We don't use the prebuilt FAT driver, we will build it from ovmf source.
+> Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+> ---
+>  meta/recipes-devtools/gcc/gcc-sanitizers.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> I tried it in my local repo, it works.
+> diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+> index 6091a0b..df4e297 100644
+> --- a/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+> @@ -50,7 +50,7 @@ do_install () {
 >
-> We need to do:
-> 1) Add ovmf-native to oe-core.
-> 2) Move acpica from meta-oe to oe-core since ovmf-naive requires iasl
-> which is
->     provided by acpica, we may also move acpitests to oe-core since it is
-> used
->     for testing acpica, others are not needed.
-> 3) Update runqemu to make it can boot EFI image.
+>  INHIBIT_DEFAULT_DEPS = "1"
+>  ALLOW_EMPTY_${PN} = "1"
+> -DEPENDS = "gcc-runtime"
+> +DEPENDS = "gcc-runtime virtual/${TARGET_PREFIX}gcc"
 >
-> Of course, this for master branch only.
+>  BBCLASSEXTEND = "nativesdk"
 >
-> Any objections or comments, please ?
+> --
+> 2.1.4
 >
 
-Seems like a good idea to me. I'd love to be able to test EFI images in
-qemu, and there's an open issue in bugzilla about it.
+I agree with Khem. Otherwise looks good to me.
 
---001a113ee868a117a005311b2aee
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--001a113979f626046505311b988b
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">On Wed, Apr 20, 2016 at 8:19 PM Robert Yang &lt;<a href=3D=
-"mailto:liezhi.yang@windriver.com">liezhi.yang@windriver.com</a>&gt; wrote:=
-<br><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">I&#39;d like =
-to add ovmf-native to make qemu-native/runqemu support<br>
-boot UEFI image, that will make us debug UEFI image much more easier,<br>
-without ovmf, we have to burn EFI image to a usb disk or cdrom,<br>
-then boot it on the real hardware, this is inconvenient. (Virtual<br>
-box can&#39;t boot our UEFI image, either, please see my last email<br>
-about virtualbox, we may fix it later.)<br>
+<p dir=3D"ltr"><br>
+On 22 Apr 2016 7:27 a.m., &quot;Jussi Kukkonen&quot; &lt;<a href=3D"mailto:=
+jussi.kukkonen@intel.com">jussi.kukkonen@intel.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Without this the target gcc might not be in the sysroot<br>
+&gt; leading to configure failure.<br>
+&gt;<br>
+&gt; Signed-off-by: Jussi Kukkonen &lt;<a href=3D"mailto:jussi.kukkonen@int=
+el.com">jussi.kukkonen@intel.com</a>&gt;<br>
+&gt; ---<br>
+&gt; =C2=A0meta/recipes-devtools/gcc/gcc-sanitizers.inc | 2 +-<br>
+&gt; =C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers.inc b/meta/recip=
+es-devtools/gcc/gcc-sanitizers.inc<br>
+&gt; index 6091a0b..df4e297 100644<br>
+&gt; --- a/meta/recipes-devtools/gcc/gcc-sanitizers.inc<br>
+&gt; +++ b/meta/recipes-devtools/gcc/gcc-sanitizers.inc<br>
+&gt; @@ -50,7 +50,7 @@ do_install () {<br>
+&gt;<br>
+&gt; =C2=A0INHIBIT_DEFAULT_DEPS =3D &quot;1&quot;<br>
+&gt; =C2=A0ALLOW_EMPTY_${PN} =3D &quot;1&quot;<br>
+&gt; -DEPENDS =3D &quot;gcc-runtime&quot;<br>
+&gt; +DEPENDS =3D &quot;gcc-runtime virtual/${TARGET_PREFIX}gcc&quot;<br>
+&gt;<br>
+&gt; =C2=A0BBCLASSEXTEND =3D &quot;nativesdk&quot;<br>
+&gt;<br>
+&gt; --<br>
+&gt; 2.1.4<br>
+&gt;</p>
+<p dir=3D"ltr">I agree with Khem. Otherwise looks good to me.</p>
+<p dir=3D"ltr">&gt; --<br>
+&gt; _______________________________________________<br>
+&gt; Openembedded-core mailing list<br>
+&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
+ed-core@lists.openembedded.org</a><br>
+&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
+-core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a>=
 <br>
-The ovmf is released under BSD license:<br>
-<a href=3D"http://www.tianocore.org/ovmf/" rel=3D"noreferrer" target=3D"_bl=
-ank">http://www.tianocore.org/ovmf/</a><br>
-The website says:<br>
-License information: BSD (May contain an additional exception if bundled wi=
-th<br>
-the FAT driver.)<br>
-<br>
-We don&#39;t use the prebuilt FAT driver, we will build it from ovmf source=
-.<br>
-<br>
-I tried it in my local repo, it works.<br>
-<br>
-We need to do:<br>
-1) Add ovmf-native to oe-core.<br>
-2) Move acpica from meta-oe to oe-core since ovmf-naive requires iasl which=
- is<br>
-=C2=A0 =C2=A0 provided by acpica, we may also move acpitests to oe-core sin=
-ce it is used<br>
-=C2=A0 =C2=A0 for testing acpica, others are not needed.<br>
-3) Update runqemu to make it can boot EFI image.<br>
-<br>
-Of course, this for master branch only.<br>
-<br>
-Any objections or comments, please ?<br></blockquote><div><br></div><div>Se=
-ems like a good idea to me. I&#39;d love to be able to test EFI images in q=
-emu, and there&#39;s an open issue in bugzilla about it.</div></div></div>
+</p>
 
---001a113ee868a117a005311b2aee--
+--001a113979f626046505311b988b--
