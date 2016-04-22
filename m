@@ -1,25 +1,27 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 357086018C
+Return-Path: <Noor_Ahsan@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 5176E607A4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Apr 2016 12:45:38 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga104.fm.intel.com with ESMTP; 22 Apr 2016 05:45:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,517,1455004800"; d="scan'208";a="950713621"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 22 Apr 2016 05:45:39 -0700
-To: openembedded-core@lists.openembedded.org
-References: <1461328888-5911-1-git-send-email-Sujith_Haridasan@mentor.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <571A1D0B.7020406@linux.intel.com>
-Date: Fri, 22 Apr 2016 15:46:03 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Icedove/38.6.0
+	Fri, 22 Apr 2016 12:51:16 +0000 (UTC)
+Received: from svr-orw-fem-02x.mgc.mentorg.com ([147.34.96.206]
+	helo=SVR-ORW-FEM-02.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtp 
+	id 1ataYH-0004UZ-31 from Noor_Ahsan@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Fri, 22 Apr 2016 05:51:17 -0700
+Received: from gemini.alm.mentorg.com (147.34.91.1) by
+	svr-orw-fem-02.mgc.mentorg.com (147.34.96.168) with Microsoft SMTP
+	Server (TLS) id 14.3.224.2; Fri, 22 Apr 2016 05:51:16 -0700
+Received: from svr-pkl-eng-06.pkl.mentorg.com (svr-pkl-eng-06.pkl.mentorg.com
+	[137.202.156.65])	by gemini.alm.mentorg.com (8.14.4/8.14.4) with
+	ESMTP id u3MCpDxA016443;	Fri, 22 Apr 2016 07:51:15 -0500
+From: "Noor, Ahsan" <noor_ahsan@mentor.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 22 Apr 2016 17:51:11 +0500
+Message-ID: <1461329471-31091-1-git-send-email-noor_ahsan@mentor.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-In-Reply-To: <1461328888-5911-1-git-send-email-Sujith_Haridasan@mentor.com>
-Subject: Re: [PATCH] webkitgtk: package debug files properly and move -g removal to staging
+Subject: [PATCH V2] cups.inc: Fix ldflags warning.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,26 +34,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Apr 2016 12:45:40 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 22 Apr 2016 12:51:19 -0000
+Content-Type: text/plain
 
-On 04/22/2016 03:41 PM, Sujith Haridasan wrote:
+From: Noor Ahsan <noor_ahsan@mentor.com>
 
-> +# Link fails due to memory exhaustion, so disable debug info to reduce the
-> +# memory footprint
-> +DEBUG_FLAGS_remove = "-g"
-> +
+* While building following warning comes up
+QA Issue: No GNU_HASH in the elf binary: '...libcups.so.2' [ldflags]
+Fix this warning by settin DSOFLAGS.
 
-Wait a moment, if you do this then the debug package will be totally 
-useless, no?
+Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
+---
+ meta/recipes-extended/cups/cups.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
->   FILES_${PN} += "${libdir}/webkit2gtk-4.0/injected-bundle/libwebkit2gtkinjectedbundle.so"
-> +FILES_${PN}-dbg += "${libdir}/webkit2gtk-4.0/injected-bundle/.debug \
-> +                    ${libdir}/webkitgtk/webkit2gtk-4.0/.debug/*"
-
-What problem does this addition solve specifically?
-
-Alex
+diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
+index 4b2d214..da70b87 100644
+--- a/meta/recipes-extended/cups/cups.inc
++++ b/meta/recipes-extended/cups/cups.inc
+@@ -44,6 +44,7 @@ EXTRA_OECONF = " \
+                --without-perl \
+                --without-python \
+                --without-java \
++               DSOFLAGS='${LDFLAGS}' \
+                "
+ 
+ EXTRA_AUTORECONF += "--exclude=autoheader"
+-- 
+2.8.1
 
 
