@@ -1,43 +1,43 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 02EE86E6B1
+Received: from mail-ig0-f179.google.com (mail-ig0-f179.google.com
+	[209.85.213.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 90E5A7318A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Apr 2016 12:07:36 +0000 (UTC)
-Received: by mail-io0-f176.google.com with SMTP id d62so23672723iof.2
+	Fri, 22 Apr 2016 12:08:38 +0000 (UTC)
+Received: by mail-ig0-f179.google.com with SMTP id g8so13880094igr.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Apr 2016 05:07:37 -0700 (PDT)
+	Fri, 22 Apr 2016 05:08:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=N1pPwxzX+EWH3LHKGzqVwa5Lx8FrjkhB6pFPQi26tcw=;
-	b=jk+N9dNRAXC/HJlkS9Kg5p70xJnks6ISxJpTYoEVjwhACSgzLjKTdfMNpURuwNKy/D
-	kRXqIyHq3NERd2CwVYVWJ4Xax7xrNOYi2hhRCd3ykfI74xzgDGcO8l8U5eEOvsfs8viV
-	NcAP6+00Y3X3g9LOK+CVWbIw7Fo50TLx8+Gy/dLSzquWKq6qkPRCyE2mgJ+wkpQrRGrx
-	9cWlmvZ95EHeVkN3Ilwv5WhKEKMeYARxzsh4hfhmI/mfaNB4XHqAXAJU2b9Wa5TYTO5F
-	dKZa1Qb/pEGFyucqmy+urwxQW+xVXj15xWNx3a1x5fZrA+VpdsNKndpS6Taqumv0HDEa
-	PAxA==
+	:cc; bh=NLG1vcSfJBQgloafEHQyJReinC0GZ6iCK0w5IqNnqEA=;
+	b=H307qFNpo+OjAl2A+gcw0Gh3ysrdS24PB4Dr6jtw9I2JDfdYum7+fo5QY9CcVCb4LH
+	ieZDmcOo6CGqZzrvX7WT+sc1yp31Gft0mB1xP0ORR8xKv2L5whw+j0kt0I1zt4AmZHe7
+	/MqG31F1DCg1d8P96dTQLOZgM+NaC2NOHWWPf9brBG5k6VKcfMQyUNbGo+WXuPsJJYRg
+	aAqG2TWUuOAhI8295MuMPLby5O3VAIDSt1AQEMK/SCk0qoVXhAkvXWH55kkex7HlraRX
+	U8QadODI38281tz3lOnZ4f82dPoBUPB2OSQ58kC5oBs1BhsDLlBRs5Bqg7SEthamO/sC
+	4Cyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=N1pPwxzX+EWH3LHKGzqVwa5Lx8FrjkhB6pFPQi26tcw=;
-	b=gAYPgoDvBRlUegSbJXiY8YQx4373z5joQ75/xaYfv+bNRWKDz7RfGvZW+Rxg7rEJVe
-	CQWqx360WJWfS9FDj88MxUH/mRmoFzNkSoyiUpYrlfx0UqNSQnl9gemidQ/aOf2geZqi
-	0pG21/gj/pv2orf9XBiExX33vTRBooQZJcwX8kbCeAK4W9vLu8M21heHguEBAWjnxEtA
-	U1DV1MeNNgnYAPmmiBnopH5WF5iMp8D7T/SqE3L7u/X/9+jMBiPWhG9wzy789+h0++jP
-	qe8HBP+ugZWPQafJRM6waGsOR4X/tF0R1zDMG5XWUe0a6FNzRJ6OO7q2hUhACvz4B+PU
-	waHA==
-X-Gm-Message-State: AOPr4FWxnjLuKVxAS1GQFa9DncAWbOcWK9/TFkRQasRX5gJLCp97eeGca+ZUawEHMCveFTC5dA9FztBKG1TQXZhF
-X-Received: by 10.107.16.104 with SMTP id y101mr21518224ioi.148.1461326857113; 
-	Fri, 22 Apr 2016 05:07:37 -0700 (PDT)
+	bh=NLG1vcSfJBQgloafEHQyJReinC0GZ6iCK0w5IqNnqEA=;
+	b=hC7itxE00UyZ0FPOIWL3VsGGFWQvSm3UIG/jGgGSkWmKk2mhg6DQ5Ih64q8kaxtYTS
+	tVzJ4EQfEL9boiqjKuXjc7vsBZZEjimHKuhFpCJzPLhaEd/ZXCoFHYFjRKcN2AAJRAk9
+	JYuaCCKNcC5i/J/Wjqlw86qx9RSBXu5hnwmdcHhX3Nfqi2+TPa9ieFIRrcc5NlE5O5LX
+	LBOuYvIbAIwL2v0+RM+ZAcY+BNaokY7VCEwBwLUz6MdLTK/eo02Yi3QuydI6LVCCEVZ5
+	nKBPriYEiUeyAcknLzXcYM9suE+qfZxwL+G7Km3kmQTViUce+6+oOG7le63q34VQrlvk
+	NwBw==
+X-Gm-Message-State: AOPr4FV3UnbQU41CllQQe+pkOB4trNAe9HdLTS0BDA8MJWigIDZ2Nih8b2PMHc4swsAdxVyv+7foxQNZ4gyrnZ0S
+X-Received: by 10.50.233.40 with SMTP id tt8mr4115370igc.78.1461326918960;
+	Fri, 22 Apr 2016 05:08:38 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.9.106 with HTTP; Fri, 22 Apr 2016 05:07:17 -0700 (PDT)
+Received: by 10.107.9.106 with HTTP; Fri, 22 Apr 2016 05:08:19 -0700 (PDT)
 In-Reply-To: <1461320780-50763-1-git-send-email-noor_ahsan@mentor.com>
 References: <1461320780-50763-1-git-send-email-noor_ahsan@mentor.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 22 Apr 2016 13:07:17 +0100
-Message-ID: <CAJTo0LZ2U9JjhW93v72tQR4q6DP3jFuWORa2+Thk6+V-B5nzvQ@mail.gmail.com>
+Date: Fri, 22 Apr 2016 13:08:19 +0100
+Message-ID: <CAJTo0LbK8RCQTLsvqBH_2+YYbs4rdHHiX=T6zyeor=GgXfok0Q@mail.gmail.com>
 To: "Noor, Ahsan" <noor_ahsan@mentor.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] cups.inc: Fix ldflags warning.
@@ -53,23 +53,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Apr 2016 12:07:37 -0000
-Content-Type: multipart/alternative; boundary=001a113ff0203831c5053111aca4
+X-List-Received-Date: Fri, 22 Apr 2016 12:08:38 -0000
+Content-Type: multipart/alternative; boundary=f46d04287571e7e81b053111af6a
 
---001a113ff0203831c5053111aca4
+--f46d04287571e7e81b053111af6a
 Content-Type: text/plain; charset=UTF-8
 
 On 22 April 2016 at 11:26, Noor, Ahsan <noor_ahsan@mentor.com> wrote:
 
-> +               "DSOFLAGS='${LDFLAGS}'"
+> QA Issue: No GNU_HASH in the elf binary: '...libcups.so.2' [ldflags]
 >
 
-No trailing slash so this doens't parse.  You shouldn't need double quoting
-either.
+Are there special options needed to make that happen? I can't replicate it.
 
 Ross
 
---001a113ff0203831c5053111aca4
+--f46d04287571e7e81b053111af6a
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
@@ -78,10 +77,9 @@ On 22 April 2016 at 11:26, Noor, Ahsan <span dir=3D"ltr">&lt;<a href=3D"mai=
 lto:noor_ahsan@mentor.com" target=3D"_blank">noor_ahsan@mentor.com</a>&gt;<=
 /span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
 ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":hx" class=3D"a3=
-s aXjCH">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;DSOF=
-LAGS=3D&#39;${LDFLAGS}&#39;&quot;<br></div></blockquote></div><br>No traili=
-ng slash so this doens&#39;t parse.=C2=A0 You shouldn&#39;t need double quo=
-ting either.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_=
-extra">Ross</div></div>
+s aXjCH">QA Issue: No GNU_HASH in the elf binary: &#39;...libcups.so.2&#39;=
+ [ldflags]<br></div></blockquote></div><br>Are there special options needed=
+ to make that happen? I can&#39;t replicate it.</div><div class=3D"gmail_ex=
+tra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a113ff0203831c5053111aca4--
+--f46d04287571e7e81b053111af6a--
