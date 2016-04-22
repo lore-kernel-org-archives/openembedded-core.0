@@ -1,47 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f182.google.com (mail-ig0-f182.google.com
-	[209.85.213.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 61DED6018C
+Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
+	[209.85.213.178])
+	by mail.openembedded.org (Postfix) with ESMTP id BF0E1600B3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Apr 2016 11:16:13 +0000 (UTC)
-Received: by mail-ig0-f182.google.com with SMTP id f1so12909501igr.1
+	Fri, 22 Apr 2016 11:47:56 +0000 (UTC)
+Received: by mail-ig0-f178.google.com with SMTP id bi2so11641502igb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Apr 2016 04:16:14 -0700 (PDT)
+	Fri, 22 Apr 2016 04:47:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=eQ6frvbBzADVRtdDGXPfiHKZb8rC+552YNuEQdeP0+I=;
-	b=PsS3QAIBjyln/5qjLSeEN247NHlwkGNLPewKEd5Qg3WV5NqOfyp8c/9T2JETD0IAzh
-	T/rSiU6hz8bGIc4yEFK2kOM7RxUwDyuSz+aHTL0Rj6VNCU7GlGa77KWSPqFBCSlWPZ1T
-	6ZhHmvB1TraAfHSwqv9pKjOyWyfHEMdCY47aLnA6J7yOaxykZvInZsAo7l0E0i20FtB4
-	BjryxTsbbeNAErjF6ISYLbUcU/eu/YdIsEvAQFI7ZcB0vdROQnpG7to7CosW8kG8KdxQ
-	eCTxyvG3S+42YM2lVsFrm3SnAF/8mfm5qROvwYltn+tcwPZAInlfBsnO8JwdU8MhNvoN
-	mE9w==
+	:cc; bh=t7o62+Y5i01h1wyykxdh8tyUx/XDqGH691WpiQirM/o=;
+	b=A+PWiDicrOviXo1IF8sM6eWN/IbEXunTz854R4t0QF3g0duzCWJ9NYglnQIfBohPFG
+	ht227eAMG99J4EWBtSpKxWn3BBqP5ggXa3TroiBD5T9cuVisaw2AGC2RW6+rGvkScs/1
+	qb99qJXkFyT3jlmTExQiZjfCyK6eHenXJ7us5AgwPGquxXF34GV1tWY9sAtzaQ3++V7O
+	FI8reTdEJ6/SrY1pj51wbrzb+2/z1MqZBaI+F9ba7pwO8n9jJrDIWVIUYhtk/KN3vk3S
+	ReZISyHHiVWezT+O8daLPU+hgO0NRxuB4nr7HdDCLVl6tv4bavlQr5kc1V+mKF1vVQHK
+	wJvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=eQ6frvbBzADVRtdDGXPfiHKZb8rC+552YNuEQdeP0+I=;
-	b=nIxePN2OTPFDsycheEtw/Zn2ofvLSl8Fi3uKmy1YO+KSWFbTTwZ0blSBTXpqjvqVbA
-	IG8OVhpJhHIopOEm+L/1vp10RYPheRYyo7GZOdsERdPZZFKZflPiOQDH7qSmPYEzbI6Q
-	dk2X4UHkHUeVKe0AjVRdHkQNpvxcdQaZX3YcMj/0FMLK5n2EGaVM2djq/W6RTZ68Y28p
-	ElCeLFxshpe5UL2MhUXLVkiF6ZEDUDTGoBBzCcZBefaIwP+RJyI7Alvjb289hVCMeJuw
-	zho7kqdiOwUKTJe0KejyphTZZRvE0q84e3lqMRgIG62a46g4f5BjqSD0y6cU4huXosJ/
-	KSZQ==
-X-Gm-Message-State: AOPr4FVj9vr3CUajs4+rvBmyg57qmjsmALOCV9M5dltFaBTr+CfQC5O4nYL8ur86RXHWC/Q9TufvTsvusvl+74YP
-X-Received: by 10.50.18.111 with SMTP id v15mr3582644igd.64.1461323773289;
-	Fri, 22 Apr 2016 04:16:13 -0700 (PDT)
+	bh=t7o62+Y5i01h1wyykxdh8tyUx/XDqGH691WpiQirM/o=;
+	b=SNFUgVq5Tt2EIf8jqskYtTuoJnQJX7jiUiDVpvHwRu/5jfqG7M/DuJoe0Zh8uJrflS
+	zKTTG4H3V8q8YEJdLye+rneypXjlmbiXOyHRKmnvKWEIIUzaHGDqtGNISkvKBRS6sYE6
+	/7Xc7AuQwiAxvkQmKFXhX8pcY9DNwPmjym4WCe+XdZayHk0qtgXftVOAF9qYbBWotPXi
+	X/GX8BbwgyOwd/ESdiRux2hU0QhzEV8qQ9tNocWgHUGaDPemA6O4xe2n2RSMJ2g/6QCS
+	BxGWjOZFukbpkxsz+OHd2Q0Sd0/DuXR2S4CNu5hGlpojETXrVk8NMpAbskg4Pvymy+Gf
+	7OgA==
+X-Gm-Message-State: AOPr4FVrI/HudjKe3mOhJ6GqAZf08kffdDjjKYzLH0dcc9PQdMylr1d2xgvCEZ/v/Tbab592vezBTvdoqes0Qs5+
+X-Received: by 10.50.160.41 with SMTP id xh9mr3750495igb.64.1461325675976;
+	Fri, 22 Apr 2016 04:47:55 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.9.106 with HTTP; Fri, 22 Apr 2016 04:15:53 -0700 (PDT)
-In-Reply-To: <dc4e0e3653ac28bddfca011c39a7779bba5ec1b0.1461303847.git.liezhi.yang@windriver.com>
-References: <cover.1461303847.git.liezhi.yang@windriver.com>
-	<dc4e0e3653ac28bddfca011c39a7779bba5ec1b0.1461303847.git.liezhi.yang@windriver.com>
+Received: by 10.107.9.106 with HTTP; Fri, 22 Apr 2016 04:47:36 -0700 (PDT)
+In-Reply-To: <1461215114-5062-1-git-send-email-fan.xin@jp.fujitsu.com>
+References: <1461215114-5062-1-git-send-email-fan.xin@jp.fujitsu.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 22 Apr 2016 12:15:53 +0100
-Message-ID: <CAJTo0LYjvdtzq=q-f+BPNi7k3OraKV_Hez-TZmRucCWYmf0D8A@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
+Date: Fri, 22 Apr 2016 12:47:36 +0100
+Message-ID: <CAJTo0LZ8QS01A4eni=Ou5Yi_w7c=FZN0sRzaTaiaj5jQ5oEBEA@mail.gmail.com>
+To: Fan Xin <fan.xin@jp.fujitsu.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] utils.bbclass: warn for deprecated base_contains
+Subject: Re: [PATCH] Replace foomatic-filters with cups-filters
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,38 +53,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Apr 2016 11:16:15 -0000
-Content-Type: multipart/alternative; boundary=089e014953cc68c179053110f4e5
+X-List-Received-Date: Fri, 22 Apr 2016 11:47:58 -0000
+Content-Type: multipart/alternative; boundary=001a11380a16d176070531116542
 
---089e014953cc68c179053110f4e5
+--001a11380a16d176070531116542
 Content-Type: text/plain; charset=UTF-8
 
-On 22 April 2016 at 06:44, Robert Yang <liezhi.yang@windriver.com> wrote:
+On 21 April 2016 at 06:05, Fan Xin <fan.xin@jp.fujitsu.com> wrote:
 
-> +    bb.warn('base_contains is depracated, please use bb.utils.contains
-> instead.')
+> +    cups-filters \
 >
 
-WARN seems a bit excessive.  Would a NOTE be visible in the output?
-
-Also typo, "deprecated".
+What recipe provides this package?
 
 Ross
 
---089e014953cc68c179053110f4e5
+--001a11380a16d176070531116542
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 22 April 2016 at 06:44, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com<=
-/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2x" cla=
-ss=3D"a3s aXjCH">+=C2=A0 =C2=A0 bb.warn(&#39;base_contains is depracated, p=
-lease use bb.utils.contains instead.&#39;)<br></div></blockquote></div><br>=
-WARN seems a bit excessive.=C2=A0 Would a NOTE be visible in the output?</d=
-iv><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Also typ=
-o, &quot;deprecated&quot;.</div><div class=3D"gmail_extra"><br></div><div c=
-lass=3D"gmail_extra">Ross</div></div>
+On 21 April 2016 at 06:05, Fan Xin <span dir=3D"ltr">&lt;<a href=3D"mailto:=
+fan.xin@jp.fujitsu.com" target=3D"_blank">fan.xin@jp.fujitsu.com</a>&gt;</s=
+pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
+;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":21o" class=3D"a3s=
+ aXjCH">+=C2=A0 =C2=A0 cups-filters \<br></div></blockquote></div><br>What =
+recipe provides this package?</div><div class=3D"gmail_extra"><br></div><di=
+v class=3D"gmail_extra">Ross</div></div>
 
---089e014953cc68c179053110f4e5--
+--001a11380a16d176070531116542--
