@@ -1,26 +1,27 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EAF62731AF
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7620B60017
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Apr 2016 05:50:40 +0000 (UTC)
+	Fri, 22 Apr 2016 08:27:46 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u3M5ofsS011152
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u3M8RkIX025636
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Apr 2016 22:50:41 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 21 Apr 2016 22:50:41 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
+	Fri, 22 Apr 2016 01:27:47 -0700
+Received: from [128.224.162.236] (128.224.162.236) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Fri, 22 Apr 2016 01:27:46 -0700
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Apr 2016 22:50:37 -0700
-Message-ID: <0024e209ee398278253e35ff9ceba173b9faaa4b.1461304177.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.8.0
-In-Reply-To: <cover.1461304177.git.liezhi.yang@windriver.com>
-References: <cover.1461304177.git.liezhi.yang@windriver.com>
+References: <cover.1461033288.git.liezhi.yang@windriver.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <5719E07B.90001@windriver.com>
+Date: Fri, 22 Apr 2016 16:27:39 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
 MIME-Version: 1.0
-Subject: [PATCH 4/4] cogl-1.0: set COMPATIBLE_HOST_armv4 to null
+In-Reply-To: <cover.1461033288.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH 0/3] create-pull-request: 3 improvements (master branch only)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,32 +34,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Apr 2016 05:50:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 22 Apr 2016 08:27:48 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-It doesn't build with armv4:
-cogl-texture-deprecated.c  -fPIC -DPIC -o deprecated/.libs/cogl-texture-deprecated.o
-{standard input}: Assembler messages:
-{standard input}:831: Error: selected processor does not support `clz r3,r0' in ARM mode
-make[4]: *** [deprecated/cogl-fixed.lo] Error 1
-[snip]
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-graphics/cogl/cogl-1.0.inc | 2 ++
- 1 file changed, 2 insertions(+)
+I updated the patches a little:
 
-diff --git a/meta/recipes-graphics/cogl/cogl-1.0.inc b/meta/recipes-graphics/cogl/cogl-1.0.inc
-index 690ea3b..7a79aa7 100644
---- a/meta/recipes-graphics/cogl/cogl-1.0.inc
-+++ b/meta/recipes-graphics/cogl/cogl-1.0.inc
-@@ -73,3 +73,5 @@ FILES_libcogl-path = "${libdir}/libcogl-path${SOLIBS}"
- RPROVIDES_libcogl = "cogl-1.0"
- RCONFLICTS_libcogl = "cogl-1.0"
- RREPLACES_libcogl = "cogl-1.0"
-+
-+COMPATIBLE_HOST_armv4 = 'null'
--- 
-2.8.0
+* Updated the env var to avoid confusion:
+   CONTRIB_REMOTE -> CPR_CONTRIB_REMOTE
+   CONTRIB_AUTO_PUSH -> CPR_CONTRIB_AUTO_PUSH
 
+
+   git://git.openembedded.org/openembedded-core-contrib rbt/cpr
+   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/cpr
+
+Robert Yang (3):
+   create-pull-request: create branch on remote if not found
+   create-pull-request: read remote from env var CONTRIB_REMOTE
+   create-pull-request: set subject automatically for cover latter
+
+// Robert
+
+On 04/19/2016 10:45 AM, Robert Yang wrote:
+> The following changes since commit e003ef038819c10f351bb8268b377626c95bb077:
+>
+>    toasterconf.json: Update for krogoth release (2016-04-18 16:48:58 +0100)
+>
+> are available in the git repository at:
+>
+>    git://git.openembedded.org/openembedded-core-contrib rbt/cpr
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/cpr
+>
+> Robert Yang (3):
+>    create-pull-request: create branch on remote if not found
+>    create-pull-request: read remote from env var CONTRIB_REMOTE
+>    create-pull-request: set subject automatically for cover latter
+>
+>   scripts/create-pull-request | 78 +++++++++++++++++++++++++--------------------
+>   1 file changed, 43 insertions(+), 35 deletions(-)
+>
 
