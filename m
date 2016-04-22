@@ -1,28 +1,30 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C29B6FFD7
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 82AD66FFE5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Apr 2016 01:40:15 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u3M1eEa9020196
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 21 Apr 2016 18:40:15 -0700 (PDT)
-Received: from [128.224.162.236] (128.224.162.236) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 21 Apr 2016 18:40:14 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, oe-core
-	<openembedded-core@lists.openembedded.org>
-References: <57187FA8.5050804@windriver.com>
-	<1461224521.31320.112.camel@linuxfoundation.org>
+	Fri, 22 Apr 2016 01:44:16 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u3M1i3YZ015378
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Thu, 21 Apr 2016 18:44:04 -0700
+Received: from [128.224.162.236] (128.224.162.236) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 21 Apr 2016 18:44:03 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1460971725.git.liezhi.yang@windriver.com>
+	<f4e17cb499c3e83333d197a65363587a5e5c2e51.1460971725.git.liezhi.yang@windriver.com>
+	<CAJTo0LatBdHwJXAMSbh4HRoUtOyo_5SzkuSYrbaxC8D0Ah3fVQ@mail.gmail.com>
+	<57182651.9050202@windriver.com>
 From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <571980FC.3020100@windriver.com>
-Date: Fri, 22 Apr 2016 09:40:12 +0800
+Message-ID: <571981E1.3050503@windriver.com>
+Date: Fri, 22 Apr 2016 09:44:01 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
 	Thunderbird/38.6.0
 MIME-Version: 1.0
-In-Reply-To: <1461224521.31320.112.camel@linuxfoundation.org>
-Subject: Re: About PV = "0.0+git${SRCPV}"
+In-Reply-To: <57182651.9050202@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] grub_git: set COMPATIBLE_HOST_armv7a to null
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,43 +37,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Apr 2016 01:40:17 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Fri, 22 Apr 2016 01:44:16 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
-On 04/21/2016 03:42 PM, Richard Purdie wrote:
-> On Thu, 2016-04-21 at 15:22 +0800, Robert Yang wrote:
->> There are several recipes in oe-core which has:
->> PV = "0.0+git${SRCPV}"
->>
->> These recipes don't have a release version, so we use
->> "0.0+git${SRCPV}",
->> but the package manager such as opkg/rpm/smart may not upgrade them
->> correctly when the recipes is upgraded since we can't make sure that
->> SRCPV_new > SRCPV_old.
->>
->> How about we use date for these recipes which doesn't have a release
->> version? For example, if we integrate them to oe-core today, then
->> PV = "20160421". And when we upgrade them in the future, we can
->> change
->> the PV to that day. We can change all the current version 0.0 target
->> recipes to today, and add a sanity check for version 0.0.
+On 04/21/2016 09:01 AM, Robert Yang wrote:
 >
-> No, this is the whole idea behind having the PR Server which injects a
-> revision before the hash in SRCPV. We have the same problem with other
-> git recipes even where there are versions since the revision can change
-> and we need to be able to sort the versions correctly.
+>
+> On 04/21/2016 04:37 AM, Burton, Ross wrote:
+>> Andre's comment from the last time you submitted this is still valid:
+>>
+>>     Unless you have verified that armv4, armv5, armv6 and armv7ve all work
+>>     correctly then blacklisting only armv7a is probably not the correct
+>>     approach.
+>>
+>>
+>> Have you tested all the other architectures?
+>
+> No, I will have a try.
 
-Thanks, I saw that PR Server will change git0 -> git1 -> git2 when SRCREV
-is changed, it works.
+I tried:
+armv7a
+armv7at
+armv4
+armv5
+
+There isn't anything *more* wrong with grub_git except armv7a, so I think
+that mark it COMPATIBLE_HOST_armv7a = 'null' is OK, but I did find other recipes
+failed to build, I will send a new PULL.
+
+We have quite a lot of arm tunes, I think that we need a script or tool to
+auto test them. What's your opinion, please ?
 
 // Robert
 
 >
-> Cheers,
+> // Robert
 >
-> Richard
->
+>>
+>> Ross
+>>
+>> On 18 April 2016 at 10:29, Robert Yang <liezhi.yang@windriver.com
+>> <mailto:liezhi.yang@windriver.com>> wrote:
+>>
+>>     It doesn't work with armv7a:
+>>     | build-grub-module-verifier: error: unsupported relocation 0x2b.
+>>     | make[3]: *** [reboot.mod] Error 1
+>>     | make[3]: *** Waiting for unfinished jobs....
+>>     | build-grub-module-verifier: error: unsupported relocation 0x2b.
+>>     | build-grub-module-verifier: error: unsupported relocation 0x2b.
+>>     | make[3]: *** [halt.mod] Error 1
+>>     | make[3]: *** [cat.mod] Error 1
+>>     | build-grub-module-verifier: error: unsupported relocation 0x2b.
+>>     | build-grub-module-verifier: error: unsupported relocation 0x2b.
+>>     | build-grub-module-verifier: error: unsupported relocation 0x2b.
+>>     | make[3]: *** [disk.mod] Error 1
+>>     | make[3]: *** [gptsync.mod] Error 1
+>>     | make[3]: *** [eval.mod] Error 1
+>>     | build-grub-module-verifier: error:build-grub-module-verifier: error:
+>>     unsupported relocation 0x2bunsupported relocation 0x2b.
+>>
+>>     Signed-off-by: Robert Yang <liezhi.yang@windriver.com
+>>     <mailto:liezhi.yang@windriver.com>>
+>>     ---
+>>       meta/recipes-bsp/grub/grub_git.bb <http://grub_git.bb> | 1 +
+>>       1 file changed, 1 insertion(+)
+>>
+>>     diff --git a/meta/recipes-bsp/grub/grub_git.bb <http://grub_git.bb>
+>>     b/meta/recipes-bsp/grub/grub_git.bb <http://grub_git.bb>
+>>     index 6919c9a..8f8c5ed 100644
+>>     --- a/meta/recipes-bsp/grub/grub_git.bb <http://grub_git.bb>
+>>     +++ b/meta/recipes-bsp/grub/grub_git.bb <http://grub_git.bb>
+>>     @@ -18,6 +18,7 @@ SRC_URI = "git://git.savannah.gnu.org/grub.git
+>>     <http://git.savannah.gnu.org/grub.git> \
+>>       S = "${WORKDIR}/git"
+>>
+>>       COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|aarch64.*)-(linux.*|freebsd.*)'
+>>     +COMPATIBLE_HOST_armv7a = 'null'
+>>
+>>       inherit autotools gettext texinfo
+>>
+>>     --
+>>     2.8.0
+>>
+>>     --
+>>     _______________________________________________
+>>     Openembedded-core mailing list
+>>     Openembedded-core@lists.openembedded.org
+>>     <mailto:Openembedded-core@lists.openembedded.org>
+>>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>>
 
