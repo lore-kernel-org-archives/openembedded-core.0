@@ -1,48 +1,25 @@
-Return-Path: <sujith.h@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B4E0607A4
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 357086018C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Apr 2016 12:41:39 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id 145so2469161pfz.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Apr 2016 05:41:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=1IIUGLiNqUKN8CoqFDItIq103csXH8hrEiRUZD/piFs=;
-	b=FyGmZg+mkkjOPkeIeA7F7TujHnMOrDi4/VsJGBIWVTZ4Mq9kguk+0nfMFnMCV15lpo
-	rXe09PpFf5s1th/7dKsq5MYbr8ljrtmd+GZMj2AMC14E0fvdSISSvdL5xIXrkVlf4Myt
-	ftawFqhgE+cWnkmbtNRdXgnlk60kCERZiTggmOfTaheD3w9HrhLUHw3PdntRXX+7PSf7
-	MPgNmIxkFKl8ZWoXBuF018DxGXcdQcRdEu/XcRjx/Q3j9fU58LyTvXSrkQ+kyFI6vVZO
-	jsLubjRMO1DyQ/0oU4DvJQYYOjGyrAx3dEDyMVG8ppMkgfQdXBtJdDI84cbpZiDJTyWp
-	RItw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=1IIUGLiNqUKN8CoqFDItIq103csXH8hrEiRUZD/piFs=;
-	b=Ph9ABtVedjcfDu/sCmcm4Ldwd0/ra89gl1RuOrHT2BlYuhsOmcdjzNv5q+vHHgai9v
-	EOzDj2Rjto0sFUTUiLNU4Lw3bI0WLT01VX6eFJgsnIP+aRh9VhQklpEi01C9+WBTp3dO
-	3zAItLML8Q0adNNFmpMg/LyEssfhgcKLIK0Whk5AEvstXY9z2N8o5nja2my55K6NBl9j
-	ugMouP30by/YHoKrjN+PNvh35lE52Sc1WCBI29xthH1BmNZnEzU01bR3Fykp61+NVhFO
-	m3O+NF2ee2EfuvfcqhHAGEp0bMPCKdqdxK6zjII02HsmN2rrfaKLPdy6YTrQVNc199+6
-	4faA==
-X-Gm-Message-State: AOPr4FU/eVxM369HmdC1H0q5vVssVfcI4P1NT4EJWyrgaTQJBvzBPUVQc9ZjA7uVB1/9Cg==
-X-Received: by 10.98.19.151 with SMTP id 23mr18354365pft.62.1461328900526;
-	Fri, 22 Apr 2016 05:41:40 -0700 (PDT)
-Received: from kdekidd0.inp-wifi.mentorg.com ([139.181.35.34])
-	by smtp.gmail.com with ESMTPSA id
-	136sm8318842pfz.44.2016.04.22.05.41.38
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 22 Apr 2016 05:41:39 -0700 (PDT)
-From: Sujith Haridasan <sujith.h@gmail.com>
-X-Google-Original-From: Sujith Haridasan <Sujith_Haridasan@mentor.com>
+	Fri, 22 Apr 2016 12:45:38 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga104.fm.intel.com with ESMTP; 22 Apr 2016 05:45:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,517,1455004800"; d="scan'208";a="950713621"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga001.fm.intel.com with ESMTP; 22 Apr 2016 05:45:39 -0700
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Apr 2016 18:11:28 +0530
-Message-Id: <1461328888-5911-1-git-send-email-Sujith_Haridasan@mentor.com>
-X-Mailer: git-send-email 1.9.1
-Cc: Sujith Haridasan <Sujith_Haridasan@mentor.com>,
-	Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH] webkitgtk: package debug files properly and move -g removal to staging
+References: <1461328888-5911-1-git-send-email-Sujith_Haridasan@mentor.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <571A1D0B.7020406@linux.intel.com>
+Date: Fri, 22 Apr 2016 15:46:03 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Icedove/38.6.0
+MIME-Version: 1.0
+In-Reply-To: <1461328888-5911-1-git-send-email-Sujith_Haridasan@mentor.com>
+Subject: Re: [PATCH] webkitgtk: package debug files properly and move -g removal to staging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,39 +32,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Apr 2016 12:41:42 -0000
+X-List-Received-Date: Fri, 22 Apr 2016 12:45:40 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Fahad Usman <fahad_usman@mentor.com>
+On 04/22/2016 03:41 PM, Sujith Haridasan wrote:
 
-Package debug files properly to get rid of build time warnings.
-Remove -g option from the DEBUG_FLAGS.
+> +# Link fails due to memory exhaustion, so disable debug info to reduce the
+> +# memory footprint
+> +DEBUG_FLAGS_remove = "-g"
+> +
 
-Signed-off-by: Fahad Usman <fahad_usman@mentor.com>
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-Signed-off-by: Sujith Haridasan <Sujith_Haridasan@mentor.com>
----
- meta/recipes-sato/webkit/webkitgtk_2.10.7.bb | 6 ++++++
- 1 file changed, 6 insertions(+)
+Wait a moment, if you do this then the debug package will be totally 
+useless, no?
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.10.7.bb b/meta/recipes-sato/webkit/webkitgtk_2.10.7.bb
-index 8eb6b9f..49fa0bb 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.10.7.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.10.7.bb
-@@ -75,7 +75,13 @@ EXTRA_OECMAKE_append_aarch64 = " -DUSE_LD_GOLD=OFF "
- EXTRA_OECMAKE_append_mips = " -DENABLE_JIT=OFF "
- EXTRA_OECMAKE_append_mips64 = " -DENABLE_JIT=OFF "
- 
-+# Link fails due to memory exhaustion, so disable debug info to reduce the
-+# memory footprint
-+DEBUG_FLAGS_remove = "-g"
-+
- FILES_${PN} += "${libdir}/webkit2gtk-4.0/injected-bundle/libwebkit2gtkinjectedbundle.so"
-+FILES_${PN}-dbg += "${libdir}/webkit2gtk-4.0/injected-bundle/.debug \
-+                    ${libdir}/webkitgtk/webkit2gtk-4.0/.debug/*"
- 
- # http://errors.yoctoproject.org/Errors/Details/20370/
- ARM_INSTRUCTION_SET = "arm"
--- 
-1.9.1
+>   FILES_${PN} += "${libdir}/webkit2gtk-4.0/injected-bundle/libwebkit2gtkinjectedbundle.so"
+> +FILES_${PN}-dbg += "${libdir}/webkit2gtk-4.0/injected-bundle/.debug \
+> +                    ${libdir}/webkitgtk/webkit2gtk-4.0/.debug/*"
+
+What problem does this addition solve specifically?
+
+Alex
 
 
