@@ -1,48 +1,26 @@
-Return-Path: <sujith.h@gmail.com>
-Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
-	[209.85.220.170])
-	by mail.openembedded.org (Postfix) with ESMTP id DE19465CB5
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id CDC676E681
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Apr 2016 13:31:33 +0000 (UTC)
-Received: by mail-qk0-f170.google.com with SMTP id q76so26132369qke.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Apr 2016 06:31:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=okujcr8JeQ+tX0E7zZZT8dF7DXGtAWn+pS8Uj7Yk7C0=;
-	b=BNPL3PJFHtWxldGT8JHOc1yJkrkZpKg3Yl1yfMeJC3WVT2Rgu6SsZiYOc9yJSLYuis
-	1IkVb9xojkDE/FdGSsSkAt8WwRcypvpP0dJCGoKBTdStnjv6Ll2j+7/SrtZaVgkRC81H
-	Al8vYi/xbaFqS8rN2nPuYDVMNLutbln5CuDxt3dvGHZZfh5iJNLAZgsDFMDoB9mjC2X0
-	oHYydA6udt7QzlZCp6hpLkO1e6l//QFptoZ62pPixF+PrqbRFQDXdaH2KuZWXw3bnWEi
-	sJfOsTgknYEoD4YCsKNpJRy/rX8rOHjbWYX+GGqdWgoq25cqTZaUj9YzWfZPXWu0YPIc
-	GYEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=okujcr8JeQ+tX0E7zZZT8dF7DXGtAWn+pS8Uj7Yk7C0=;
-	b=jWE3Gvd2Bs4RVO8TS3mLgFXA+ncDH18/hASt4bFgul0bmzikV2nqWZ0L4dDDMeyEUe
-	EdzQ8ZC0DVQEi788JAIM4FtivMKbku+nJ9lo8Lvcfst6sdakFXIkdf4HJNOpw+KeUeyj
-	0c7JMWVT8BIGBfY1wJta0BN97cRYYw26W6Q7z+CCs0QvKJ/HiyPlg7OvlpxMksoBIdnW
-	bUhR3vGBVWf9nFsHivNwjxEQiJpTkYozaIV41v+IJlxq5sH4kZ+GNb9rlYi1JEZnRpg4
-	GUz+36bkvzaiDSVdnPQi4bETxEiMebN7tsxdq2tnfJqykdLwRvZOXgjipqccJk4GsPhM
-	IThg==
-X-Gm-Message-State: AOPr4FWVEbkDn2HV7lmNHWd3EvLCKY/3Mtqtua4ooEuS2BGYuw+JkXc4xplX4ysWVgz6byHBZ5erEGPB45dR3Q==
-X-Received: by 10.55.20.97 with SMTP id e94mr4593259qkh.199.1461331894082;
-	Fri, 22 Apr 2016 06:31:34 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.89.178 with HTTP; Fri, 22 Apr 2016 06:31:14 -0700 (PDT)
-In-Reply-To: <CAJTo0LaA_rkiUrAvGxiadD3OuKzozCyjEJpMSXD6qcG_3R6vPA@mail.gmail.com>
-References: <1461328888-5911-1-git-send-email-Sujith_Haridasan@mentor.com>
-	<CAJTo0LaA_rkiUrAvGxiadD3OuKzozCyjEJpMSXD6qcG_3R6vPA@mail.gmail.com>
-From: sujith h <sujith.h@gmail.com>
-Date: Fri, 22 Apr 2016 19:01:14 +0530
-Message-ID: <CADyYWLktf5mHsaiBBAVwhQMJrRJE7WLgGeS1t2cNQq3zzKBLxw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Sujith Haridasan <Sujith_Haridasan@mentor.com>,
-	Christopher Larson <chris_larson@mentor.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] webkitgtk: package debug files properly and move -g removal to staging
+	Fri, 22 Apr 2016 13:51:28 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u3MDpSmQ009244; Fri, 22 Apr 2016 14:51:28 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id cLLbfPk_aSTs; Fri, 22 Apr 2016 14:51:28 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u3MDpMLi009237
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 22 Apr 2016 14:51:23 +0100
+Message-ID: <1461333082.31320.121.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 22 Apr 2016 14:51:22 +0100
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: [PATCH] lib/oe/rootfs: Fix DEBUGFS generation when using opkg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,85 +33,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Apr 2016 13:31:34 -0000
-Content-Type: multipart/alternative; boundary=001a1144d2087225a1053112d8e3
+X-List-Received-Date: Fri, 22 Apr 2016 13:51:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a1144d2087225a1053112d8e3
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+When enabling extra DEBUGFS image generation with opkg, errors are seen like:
 
-On Fri, Apr 22, 2016 at 6:28 PM, Burton, Ross <ross.burton@intel.com> wrote=
-:
+ERROR: core-image-minimal-1.0-r0 do_rootfs: Cannot get the installed packages list. Command '/media/build1/poky/build/tmp/sysroots/x86_64-linux/usr/bin/opkg -f /media/build1/poky/build/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/opkg.conf -o /media/build1/poky/build/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/rootfs  --force_postinstall --prefer-arch-to-version   status' returned 0 and stderr:
+Collected errors:
+ * file_md5sum_alloc: Failed to open file /media/build1/poky/build/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/rootfs/etc/syslog-startup.conf.busybox: No such file or directory.
+ * file_md5sum_alloc: Failed to open file /media/build1/poky/build/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/rootfs/etc/fstab: No such file or directory.
 
->
-> On 22 April 2016 at 13:41, Sujith Haridasan <sujith.h@gmail.com> wrote:
->
->> +FILES_${PN}-dbg +=3D "${libdir}/webkit2gtk-4.0/injected-bundle/.debug \
->> +                    ${libdir}/webkitgtk/webkit2gtk-4.0/.debug/*"
->>
->
-> Debug packages are collected automatically, no need for FILES_PN-dbg
-> anymore unless you want to package something that isn't .debug/.
->
-> Please verify patches against master when submitting!
->
+basically for all CONFFILES in the image. This is due to the file rearranging
+the rootfs generation code does. If we preserve the /etc directory,
+the avoids the problem.
 
-Apologies for the inconvenience caused. This patch shouldn't have been sent
-for review.
+We need to tell copyfile to preserve symlinks since some are present in /etc.
 
->
-> Ross
->
+[YOCTO #9490]
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index a95e1b7..0546c1e 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -122,7 +122,7 @@ class Rootfs(object):
+         bb.note("  Copying back package database...")
+         for dir in dirs:
+             bb.utils.mkdirhier(self.image_rootfs + os.path.dirname(dir))
+-            shutil.copytree(self.image_rootfs + '-orig' + dir, self.image_rootfs + dir)
++            shutil.copytree(self.image_rootfs + '-orig' + dir, self.image_rootfs + dir, symlinks=True)
+ 
+         cpath = oe.cachedpath.CachedPath()
+         # Copy files located in /usr/lib/debug or /usr/src/debug
+@@ -907,7 +907,7 @@ class OpkgRootfs(DpkgOpkgRootfs):
+ 
+         self.pm.install_complementary()
+ 
+-        self._setup_dbg_rootfs(['/var/lib/opkg'])
++        self._setup_dbg_rootfs(['/etc', '/var/lib/opkg'])
+ 
+         execute_pre_post_process(self.d, opkg_post_process_cmds)
+ 
 
 
 
---=20
-=E0=B4=B8=E0=B5=81=E0=B4=9C=E0=B4=BF=E0=B4=A4=E0=B5=8D =E0=B4=B9=E0=B4=B0=
-=E0=B4=BF=E0=B4=A6=E0=B4=BE=E0=B4=B8=E0=B4=A8=E0=B5=8D
-Bangalore
-<Project>Contributor to KDE project
-<Project>Contributor to Yocto project
-http://fci.wikia.com/wiki/Anti-DRM-Campaign
-<Blog> http://sujithh.info
-C-x C-c
-
---001a1144d2087225a1053112d8e3
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Fri, Apr 22, 2016 at 6:28 PM, Burton, Ross <span dir=3D"ltr">&lt;<a =
-href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.c=
-om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"=
-><div class=3D"gmail_extra"><span class=3D""><br><div class=3D"gmail_quote"=
->On 22 April 2016 at 13:41, Sujith Haridasan <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:sujith.h@gmail.com" target=3D"_blank">sujith.h@gmail.com</a>&gt;=
-</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-=
-left-style:solid;padding-left:1ex"><div>+FILES_${PN}-dbg +=3D &quot;${libdi=
-r}/webkit2gtk-4.0/injected-bundle/.debug \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${li=
-bdir}/webkitgtk/webkit2gtk-4.0/.debug/*&quot;<br></div></blockquote></div><=
-br></span>Debug packages are collected automatically, no need for FILES_PN-=
-dbg anymore unless you want to package something that isn&#39;t .debug/.<br=
-></div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Plea=
-se verify patches against master when submitting!</div></div></blockquote><=
-div><br></div><div>Apologies for the inconvenience caused. This patch shoul=
-dn&#39;t have been sent for review. <br></div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
-"><div dir=3D"ltr"><span class=3D"HOEnZb"><font color=3D"#888888"><div clas=
-s=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></font></s=
-pan></div>
-</blockquote></div><br><br clear=3D"all"><br>-- <br><div class=3D"gmail_sig=
-nature"><div dir=3D"ltr"><div><div dir=3D"ltr"><div>=E0=B4=B8=E0=B5=81=E0=
-=B4=9C=E0=B4=BF=E0=B4=A4=E0=B5=8D =E0=B4=B9=E0=B4=B0=E0=B4=BF=E0=B4=A6=E0=
-=B4=BE=E0=B4=B8=E0=B4=A8=E0=B5=8D<br>Bangalore<br>&lt;Project&gt;Contributo=
-r to KDE project<br></div><div>&lt;Project&gt;Contributor to Yocto project<=
-br></div><div><a href=3D"http://fci.wikia.com/wiki/Anti-DRM-Campaign" targe=
-t=3D"_blank">http://fci.wikia.com/wiki/Anti-DRM-Campaign</a><br>&lt;Blog&gt=
-; <a href=3D"http://sujithh.info" target=3D"_blank">http://sujithh.info</a>=
-<br></div><div>C-x C-c<br></div></div></div></div></div>
-</div></div>
-
---001a1144d2087225a1053112d8e3--
