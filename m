@@ -1,26 +1,20 @@
-Return-Path: <Awais_Belal@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id CAE986FF9F
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 003AD65CB5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Apr 2016 13:25:11 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-01.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1atb51-0004XD-MM from Awais_Belal@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Apr 2016 06:25:08 -0700
-Received: from awais-Precision-M4700.pkl.mentorg.com (137.202.0.76) by
-	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
-	Server id 14.3.224.2; Fri, 22 Apr 2016 14:25:06 +0100
-From: Awais Belal <awais_belal@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 22 Apr 2016 18:24:49 +0500
-Message-ID: <1461331489-995-2-git-send-email-awais_belal@mentor.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1461331489-995-1-git-send-email-awais_belal@mentor.com>
-References: <1461331489-995-1-git-send-email-awais_belal@mentor.com>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] mesa-demos: provide option for disabling GLX demos
+	Fri, 22 Apr 2016 13:26:33 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga101.fm.intel.com with ESMTP; 22 Apr 2016 06:26:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,517,1455004800"; d="scan'208";a="89994665"
+Received: from theory.fi.intel.com ([10.237.72.196])
+	by fmsmga004.fm.intel.com with ESMTP; 22 Apr 2016 06:26:33 -0700
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 22 Apr 2016 16:26:28 +0300
+Message-Id: <cover.1461329608.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/2] Fix more potential build failures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,119 +27,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Apr 2016 13:25:13 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 22 Apr 2016 13:26:35 -0000
 
-There are platforms that default to EGL only configurations
-in which case the GLX applications are not required
-at all. Allow the user to control generation of these
-demos as needed through a configure switch.
+Decided to run a build/cleansstate/wipe-sysroot/re-build cycle for
+all recipes in world: Only found the intltool failures Ross already
+sent patches for and these two.
 
-Signed-off-by: Awais Belal <awais_belal@mentor.com>
----
- .../0012-only-build-GLX-demos-if-needed.patch      | 62 ++++++++++++++++++++++
- meta/recipes-graphics/mesa/mesa-demos_8.2.0.bb     |  4 +-
- 2 files changed, 65 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/mesa/mesa-demos/0012-only-build-GLX-demos-if-needed.patch
+ Jussi
 
-diff --git a/meta/recipes-graphics/mesa/mesa-demos/0012-only-build-GLX-demos-if-needed.patch b/meta/recipes-graphics/mesa/mesa-demos/0012-only-build-GLX-demos-if-needed.patch
-new file mode 100644
-index 0000000..e7be4df
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/mesa-demos/0012-only-build-GLX-demos-if-needed.patch
-@@ -0,0 +1,62 @@
-+From 322af294390a7f4e1524c5a79312be6cbebce988 Mon Sep 17 00:00:00 2001
-+From: Awais Belal <awais_belal@mentor.com>
-+Date: Wed, 11 Nov 2015 17:22:12 +0500
-+Subject: [PATCH] only build GLX demos if needed
-+
-+There are platforms that default to EGL only configurations
-+in which case the GLX applications are not required
-+at all. Allow the user to control generation of these
-+demos as needed through a configure switch.
-+
-+Signed-off-by: Awais Belal <awais_belal@mentor.com>
-+Upstream-Status: Pending
-+---
-+ configure.ac    | 9 +++++++++
-+ src/Makefile.am | 6 +++++-
-+ 2 files changed, 14 insertions(+), 1 deletion(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index f8ec7e3..1a4d96d 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -132,6 +132,11 @@ if test "x$enable_glu" = xyes; then
-+     DEMO_LIBS="$DEMO_LIBS $GLU_LIBS"
-+ fi
-+ 
-++AC_ARG_ENABLE([glx-demos],
-++    [AS_HELP_STRING([--enable-glx-demos],
-++        [enable GLX demos @<:@default=auto@:>@])],
-++    [glx_demos_enabled="$enableval"],
-++    [glx_demos_enabled=yes])
-+ AC_ARG_ENABLE([egl],
-+     [AS_HELP_STRING([--enable-egl],
-+         [enable EGL library @<:@default=auto@:>@])],
-+@@ -325,6 +333,7 @@ AC_SUBST([WAYLAND_LIBS])
-+ 
-+ AM_CONDITIONAL(HAVE_GLU, test "x$glu_enabled" = "xyes")
-+ AM_CONDITIONAL(HAVE_GLEW, test "x$glew_enabled" = "xyes")
-++AM_CONDITIONAL(HAVE_GLX, test "x$glx_demos_enabled" = "xyes")
-+ AM_CONDITIONAL(HAVE_EGL, test "x$egl_enabled" = "xyes")
-+ AM_CONDITIONAL(HAVE_GLESV1, test "x$glesv1_enabled" = "xyes")
-+ AM_CONDITIONAL(HAVE_GLESV2, test "x$glesv2_enabled" = "xyes")
-+diff --git a/src/Makefile.am b/src/Makefile.am
-+index 8b89dee..a4d7e8f 100644
-+--- a/src/Makefile.am
-++++ b/src/Makefile.am
-+@@ -44,8 +44,12 @@ SUBDIRS = \
-+ 	slang \
-+ 	tests \
-+ 	tools \
-+-	wgl \
-++	wgl
-++
-++if HAVE_GLX
-++SUBDIRS += \
-+ 	xdemos
-++endif
-+ 
-+ if HAVE_GLEW
-+ SUBDIRS += \
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-graphics/mesa/mesa-demos_8.2.0.bb b/meta/recipes-graphics/mesa/mesa-demos_8.2.0.bb
-index 2df9bba..a32a073 100644
---- a/meta/recipes-graphics/mesa/mesa-demos_8.2.0.bb
-+++ b/meta/recipes-graphics/mesa/mesa-demos_8.2.0.bb
-@@ -21,6 +21,7 @@ SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/demos/${PV}/${BPN}-${PV}.tar.bz2 \
-     file://0009-glsl-perf-Install-.glsl-.vert-.frag-files.patch \
-     file://0010-sharedtex_mt-fix-rendering-thread-hang.patch \
-     file://0011-drop-demos-dependant-on-obsolete-MESA_screen_surface.patch \
-+    file://0012-only-build-GLX-demos-if-needed.patch \
- "
- SRC_URI[md5sum] = "72613a2c8c013716db02e3ff59d29061"
- SRC_URI[sha256sum] = "e4bfecb5816ddd4b7b37c1bc876b63f1f7f06fda5879221a9774d0952f90ba92"
-@@ -29,7 +30,7 @@ inherit autotools pkgconfig distro_features_check
- # depends on virtual/egl, virtual/libgl ...
- REQUIRED_DISTRO_FEATURES = "opengl"
- 
--PACKAGECONFIG ?= "drm osmesa freetype2 gbm egl gles1 gles2 \
-+PACKAGECONFIG ?= "drm osmesa freetype2 gbm egl gles1 gles2 glx \
-                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 glew glu', '', d)}"
- 
- # The Wayland code doesn't work with Wayland 1.0, so disable it for now
-@@ -50,6 +51,7 @@ PACKAGECONFIG[wayland] = "--enable-wayland,--disable-wayland,virtual/libgl wayla
- PACKAGECONFIG[x11] = "--enable-x11,--disable-x11,virtual/libx11"
- PACKAGECONFIG[glew] = "--enable-glew,--disable-glew,glew"
- PACKAGECONFIG[glu] = "--enable-glu,--disable-glu,virtual/libgl"
-+PACKAGECONFIG[glx] = "--enable-glx-demos,--disable-glx-demos"
- 
- do_install_append() {
- 	# it can be completely empty when all PACKAGECONFIG options are disabled
+The following changes since commit 6c1c01392d91f512e2949ad1d57a75a8077478ba:
+
+  build-appliance-image: Update to krogoth head revision (2016-04-19 21:26:33 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/more-build-fixes
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/more-build-fixes
+
+Jussi Kukkonen (2):
+  babeltrace: Let autotools.bbclass run autoreconf
+  gcc-sanitizers: Depend on target gcc
+
+ meta/recipes-devtools/gcc/gcc-sanitizers.inc  | 2 +-
+ meta/recipes-kernel/lttng/babeltrace_1.3.1.bb | 4 ----
+ 2 files changed, 1 insertion(+), 5 deletions(-)
+
 -- 
-1.9.1
+2.1.4
 
 
