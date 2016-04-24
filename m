@@ -1,51 +1,45 @@
-Return-Path: <rep.dot.nop@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A72C70149
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
+	[209.85.192.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 386E160249
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Apr 2016 12:56:25 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id e201so15474262wme.2
+	Sun, 24 Apr 2016 16:39:26 +0000 (UTC)
+Received: by mail-qg0-f41.google.com with SMTP id f74so69126113qge.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Apr 2016 05:56:26 -0700 (PDT)
+	Sun, 24 Apr 2016 09:39:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=user-agent:in-reply-to:references:mime-version
-	:content-transfer-encoding:subject:from:date:to:message-id;
-	bh=PwP88nb6Kz+XupzWDC9vMY6yv1kJNTyzNSFgjv4Gvso=;
-	b=GPutJp2QbOqK6jzMH8RFdZKZASWK4uVIE0yJEqvz3okzSyjD+80Rfk14OVNveyGgw9
-	Y17f7yJUrmJjGy6WTSUt9OVLDrCJjXpBfbS2084bFPWncx9HIDhzK4X+97jSx8ncliM2
-	9zWfWq5sn93rxQSJkq/kECi/JmrcDvS/B37+GoxmE+Ratoi9asfOkGS48jmsGwEcD0sF
-	6pX21y5PnfUJajKcPNPZnqdluf3ZIOhjY99b43pMl1qNj5/gTcclIlcuzKogGcj2IcVK
-	oyb+V7A9wiFmPDSbjiAegBf86iaxydoMrIBPFggn41u5tl0IEkWxEjydeq/E4ymeubAJ
-	p7PQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=8TXf0DUWcEXZQfb5IZhJPNUqZ4ZZRHo7W4DYqf34me8=;
+	b=Xcne46xV0FiK3njyM7TrKgpatLCgX9StM40xjhUyEl6xKcRtkm09sK/ZuprldnXWU9
+	Y7F8vuoh7GWM83GCzLCgpWxq7EKXB+U32/iqAllX1HGUfLyeNb+LkrzNEGSFIoLpRaRC
+	c+Jj1RDihvgD2HouRWRzvg/odGoUXkBHXrWzqRYxjVCTjB6czh2E+N63wITXvqCLn8MD
+	mnNJUGySNXrtQuvppei5fNrvAzdSuLMvkpHi1WWQ3QVvc++15yIZEdQZH56wWnTEneE2
+	uS4Jph6zDdRSox/xu2Zffpg8npRDmWVsmzYjhRbkfTQeTaoWX/1yui/4XWjfts3tUNB0
+	DQ4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:user-agent:in-reply-to:references:mime-version
-	:content-transfer-encoding:subject:from:date:to:message-id;
-	bh=PwP88nb6Kz+XupzWDC9vMY6yv1kJNTyzNSFgjv4Gvso=;
-	b=hs3YTFiY8Wbs7UfyTEuFSwq9htbSUW6THcCe+yTJRbg9893r4KeMDUnHWnhVTD5tok
-	Iz6vy8coz/OrqFagHnZscFe2J8/Rtgq2MIrE6h4gYFiFPD0lFnotqhZr2x6EOLdt5jqr
-	V8f0TW1wZnIHfoXvOpLaxrik7qe2xM/tB0m50vScWJfpvfZt6D+ngeP6vTa8FAHH6JPm
-	mw4OqUTHp1NZnsctVJ94JxdZa3eb4ugLO/TN3Ffk7PjRyI44h1fYcPvFG9heTk4T8QKW
-	rxRw9zQhTEdRkX3Lv4Zf/dBRpgaUad+liyahpylJrTcawzoWJV//qKFr0IdbgqszGj/a
-	Qajg==
-X-Gm-Message-State: AOPr4FXePK8yKpl67JdaO+INg6mIUiyhn+XQpvfppM356H4/Pzir5eDYdguJCVk3Nq7mkQ==
-X-Received: by 10.194.117.70 with SMTP id kc6mr32628676wjb.94.1461502586041;
-	Sun, 24 Apr 2016 05:56:26 -0700 (PDT)
-Received: from [10.61.89.54] (089144227054.atnat0036.highway.a1.net.
-	[89.144.227.54]) by smtp.gmail.com with ESMTPSA id
-	r75sm12929625wme.18.2016.04.24.05.56.24
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 24 Apr 2016 05:56:25 -0700 (PDT)
-User-Agent: K-9 Mail for Android
-In-Reply-To: <57193029.7010209@iot.bzh>
-References: <1461160239-7799-1-git-send-email-yannick.gicquel@iot.bzh>
-	<1461160239-7799-2-git-send-email-yannick.gicquel@iot.bzh>
-	<5718DE65.1070402@opendreambox.org> <57193029.7010209@iot.bzh>
-MIME-Version: 1.0
-From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-Date: Sun, 24 Apr 2016 14:56:06 +0200
-To: yannick.gicquel@iot.bzh,openembedded-core@lists.openembedded.org
-Message-ID: <23696FBA-99EA-4563-BBFF-1BB57E9DEAC2@gmail.com>
-Subject: Re: [RFC][PATCH v2 1/4] u-boot: basic support of dtb append for verified boot
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=8TXf0DUWcEXZQfb5IZhJPNUqZ4ZZRHo7W4DYqf34me8=;
+	b=ZvV4EfW9OFWmOgGRtZPuxy6YqgwOnOV7h/pKeJBLZ9+gwtkU5AcCfYG3vVFTcBb+u2
+	+qBTpzg1WQ7sDevskwENDrYhYcZ4DS8FbenHaMQ+ig/dWEg9/lYQSw/0Nk2NpoWdvM6z
+	6u8jT0SZIlo2lPJ0PSEcS6bVvvzety/TDZb/xiCTqvd/x8ffJ+gljNHjfhiGDM9/tdXm
+	b/S/EBvy3i9pSbCvBAQPcY4XGv/ac5LllZihlHWUGLjP9J2yo/PtVf3nx6KTCB1xTTY5
+	mhUSFS1ZWeDQM9Pl4CDJkMuFdYbdFz9r6PAkNyvI5rFSvr2B9KLdiFpcjlsni7PJIvWl
+	cH9Q==
+X-Gm-Message-State: AOPr4FVHOO1xqyodZVCswuWwSWrUcVI/iRuL3qN2ocsYRGvBvPJGgEWJrywjKViBKplppQ==
+X-Received: by 10.140.197.130 with SMTP id s124mr32100384qha.17.1461515966566; 
+	Sun, 24 Apr 2016 09:39:26 -0700 (PDT)
+Received: from eos.sys.comcast.net (a-96-118-179-133.sys.comcast.net.
+	[96.118.179.133]) by smtp.gmail.com with ESMTPSA id
+	y200sm5756624qka.48.2016.04.24.09.39.25
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 24 Apr 2016 09:39:25 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 24 Apr 2016 16:39:20 +0000
+Message-Id: <1461515960-29048-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] systemd: Create missing sysusers offline
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,35 +52,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 24 Apr 2016 12:56:26 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain;
- charset=UTF-8
+X-List-Received-Date: Sun, 24 Apr 2016 16:39:27 -0000
 
-On April 21, 2016 9:55:21 PM GMT+02:00, Yannick GICQUEL <yannick.gicquel@iot.bzh> wrote:
+Some system users which are needed by systemd components were missing
+create these users knobbed with relevant packageconfig
 
->>> +do_install_prepend_pn-u-boot () {
->>> +	# Concatenate U-Boot w/o DTB & DTB with public key
->>> +	# (cf. kernel-fitimage.bbclass for more details)
->>> +	cd ${DEPLOYDIR}
->>> +	if [ "x${UBOOT_SIGN_ENABLE}" = "x1" ]; then
->>> +		if [ -e "${UBOOT_NODTB_IMAGE}" -a -e "${UBOOT_DTB_IMAGE}" ]; then
->>> +			cat ${UBOOT_NODTB_IMAGE} ${UBOOT_DTB_IMAGE} > ${UBOOT_IMAGE}
->>> +			cat ${UBOOT_NODTB_IMAGE} ${UBOOT_DTB_IMAGE} >
->${B}/${UBOOT_BINARY}
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/systemd/systemd_229.bb | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-
-+			cat ${UBOOT_NODTB_IMAGE} ${UBOOT_DTB_IMAGE} | tee ${B}/${UBOOT_BINARY} > ${UBOOT_IMAGE}
-
-thanks,
-
->>> +		else
->>> +			bbwarn "Failure while adding public key to u-boot binary.
->Verified boot won't be available."
->>> +		fi
->>> +	fi
->>> +}
->>> +
-
+diff --git a/meta/recipes-core/systemd/systemd_229.bb b/meta/recipes-core/systemd/systemd_229.bb
+index c23c749..8374dc1 100644
+--- a/meta/recipes-core/systemd/systemd_229.bb
++++ b/meta/recipes-core/systemd/systemd_229.bb
+@@ -319,10 +319,14 @@ PACKAGES =+ "\
+ SYSTEMD_PACKAGES = "${@bb.utils.contains('PACKAGECONFIG', 'binfmt', '${PN}-binfmt', '', d)}"
+ SYSTEMD_SERVICE_${PN}-binfmt = "systemd-binfmt.service"
+ 
+-USERADD_PACKAGES = "${PN}"
++USERADD_PACKAGES = "${PN} ${PN}-extra-utils"
+ USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '--system -d / -M --shell /bin/nologin systemd-journal-gateway;', '', d)}"
+ USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'timesyncd', '--system -d / -M --shell /bin/nologin systemd-timesync;', '', d)}"
++USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'networkd', '--system -d / -M --shell /bin/nologin systemd-network;', '', d)}"
++USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'coredump', '--system -d / -M --shell /bin/nologin systemd-coredump;', '', d)}"
++USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'resolved', '--system -d / -M --shell /bin/nologin systemd-resolve;', '', d)}"
+ GROUPADD_PARAM_${PN} = "-r lock; -r systemd-journal"
++USERADD_PARAM_${PN}-extra-utils += "--system -d / -M --shell /bin/nologin systemd-bus-proxy"
+ 
+ FILES_${PN}-analyze = "${bindir}/systemd-analyze"
+ 
+-- 
+1.9.1
 
 
