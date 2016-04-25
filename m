@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 80709606D0
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B2412606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Apr 2016 13:51:44 +0000 (UTC)
+	Mon, 25 Apr 2016 13:51:45 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u3PDpjWW017715
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u3PDpkk0009495
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Apr 2016 06:51:45 -0700 (PDT)
+	Mon, 25 Apr 2016 06:51:46 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
 	Mon, 25 Apr 2016 06:51:45 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 25 Apr 2016 06:51:39 -0700
-Message-ID: <e1d663a4f78339b9df14168beec65fa0d3a1e45f.1461592183.git.liezhi.yang@windriver.com>
+Date: Mon, 25 Apr 2016 06:51:40 -0700
+Message-ID: <4264e15fe14d6ef8fc99c1df40541f76cd19285f.1461592183.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1461592183.git.liezhi.yang@windriver.com>
 References: <cover.1461592183.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/6] insane.bbclass: package_qa_check_license -> do_qa_populate_lic
+Subject: [PATCH 3/6] packagegroup.bbclass: set LICENSE and LIC_FILES_CHKSUM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,63 +36,47 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 25 Apr 2016 13:51:45 -0000
 Content-Type: text/plain
 
-The package_qa_check_license() was in do_qa_configure which had a
-potential problem, when the recipe sets do_configure[noexec] = "1", then
-the license checking won't run, which may hidden license issues. Rename
-it to do_qa_populate_lic() and run in do_populate_lic[postfuncs] which
-is more reasonable (when no populate license, no license checking).
+* Use "??=" in bitbake.conf to set LICENSE, so that it can overrided by
+  packagegroup.bbclass and recipes.
+
+* Use "?=" to set LICENSE and LIC_FILES_CHKSUM to MIT by default
+  in packagegroup.bbclass, this won't impact any packagegroup recipes
+  which use non-MIT license, since they can be overrided by the recipe.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/insane.bbclass | 15 ++++++---------
- 1 file changed, 6 insertions(+), 9 deletions(-)
+ meta/classes/packagegroup.bbclass | 5 +++++
+ meta/conf/bitbake.conf            | 2 +-
+ 2 files changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index a1d23d0..df4816c 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -672,7 +672,9 @@ def package_qa_check_symlink_to_sysroot(path, name, d, elf, messages):
-                 trimmed = path.replace(os.path.join (d.getVar("PKGDEST", True), name), "")
-                 package_qa_add_message(messages, "symlink-to-sysroot", "Symlink %s in %s points to TMPDIR" % (trimmed, name))
+diff --git a/meta/classes/packagegroup.bbclass b/meta/classes/packagegroup.bbclass
+index 38bdbd3..3674894 100644
+--- a/meta/classes/packagegroup.bbclass
++++ b/meta/classes/packagegroup.bbclass
+@@ -14,6 +14,11 @@ PACKAGE_ARCH ?= "all"
+ # Fully expanded - so it applies the overrides as well
+ PACKAGE_ARCH_EXPANDED := "${PACKAGE_ARCH}"
  
--def package_qa_check_license(d):
-+# Check license variables
-+do_populate_lic[postfuncs] += "do_qa_populate_lic"
-+python do_qa_populate_lic() {
-     """
-     Check for changes in the license files 
-     """
-@@ -753,6 +755,7 @@ def package_qa_check_license(d):
-                 msg = pn + ": LIC_FILES_CHKSUM is not specified for " +  url
-                 msg = msg + "\n" + pn + ": The md5 checksum is " + md5chksum
-             package_qa_handle_error("license-checksum", msg, d)
-+}
++LICENSE ?= "MIT"
++LIC_FILES_CHKSUM ?= "${@oe.utils.ifelse(d.getVar('LICENSE', True) == 'MIT', \
++                     'file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420', \
++                    '')}"
++
+ inherit ${@oe.utils.ifelse(d.getVar('PACKAGE_ARCH_EXPANDED', True) == 'all', 'allarch', '')}
  
- def package_qa_check_staged(path,d):
-     """
-@@ -1208,12 +1211,6 @@ Rerun configure task after fixing this.""")
- Missing inherit gettext?""" % (gt, config))
+ # This automatically adds -dbg and -dev flavours of all PACKAGES
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 40796aa..66646c8 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -247,7 +247,7 @@ SUMMARY_${PN}-doc ?= "${SUMMARY} - Documentation files"
+ DESCRIPTION_${PN}-doc ?= "${DESCRIPTION}  \
+ This package contains documentation."
  
-     ###########################################################################
--    # Check license variables
--    ###########################################################################
--
--    package_qa_check_license(d)
--
--    ###########################################################################
-     # Check unrecognised configure options (with a white list)
-     ###########################################################################
-     if bb.data.inherits_class("autotools", d):
-@@ -1261,8 +1258,8 @@ python do_qa_unpack() {
- #addtask qa_staging after do_populate_sysroot before do_build
- do_populate_sysroot[postfuncs] += "do_qa_staging "
- 
--# Check broken config.log files, for packages requiring Gettext which don't
--# have it in DEPENDS and for correct LIC_FILES_CHKSUM
-+# Check broken config.log files, for packages requiring Gettext which
-+# don't have it in DEPENDS.
- #addtask qa_configure after do_configure before do_compile
- do_configure[postfuncs] += "do_qa_configure "
+-LICENSE = "INVALID"
++LICENSE ??= "INVALID"
+ MAINTAINER = "OE-Core Developers <openembedded-core@lists.openembedded.org>"
+ HOMEPAGE = ""
  
 -- 
 2.7.4
