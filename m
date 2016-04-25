@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id CA39A606D0
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 80709606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Apr 2016 13:51:43 +0000 (UTC)
+	Mon, 25 Apr 2016 13:51:44 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u3PDphQF009492
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u3PDpjWW017715
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Apr 2016 06:51:44 -0700 (PDT)
+	Mon, 25 Apr 2016 06:51:45 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 25 Apr 2016 06:51:43 -0700
+	Mon, 25 Apr 2016 06:51:45 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 25 Apr 2016 06:51:37 -0700
-Message-ID: <cover.1461592183.git.liezhi.yang@windriver.com>
+Date: Mon, 25 Apr 2016 06:51:39 -0700
+Message-ID: <e1d663a4f78339b9df14168beec65fa0d3a1e45f.1461592183.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1461592183.git.liezhi.yang@windriver.com>
+References: <cover.1461592183.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/6] insane.bbclass: package_qa_check_license -> do_qa_populate_lic
+Subject: [PATCH 2/6] insane.bbclass: package_qa_check_license -> do_qa_populate_lic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,57 +42,58 @@ the license checking won't run, which may hidden license issues. Rename
 it to do_qa_populate_lic() and run in do_populate_lic[postfuncs] which
 is more reasonable (when no populate license, no license checking).
 
-// Robert
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/classes/insane.bbclass | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
-The following changes since commit e2dbe5eb869b8336b91023b83d7ca866197efa73:
-
-  license.bbclass: make sure that image manifest dir exists (2016-04-22 16:28:47 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/lic
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/lic
-
-Robert Yang (6):
-  insane.bbclass: remove workdir from package_qa_check_license()
-  insane.bbclass: package_qa_check_license -> do_qa_populate_lic
-  packagegroup.bbclass: set LICENSE and LIC_FILES_CHKSUM
-  packagegroup-foo.bb: remove LICENSE = "MIT"
-  meta-world-pkgdata: add LIC_FILES_CHKSUM
-  libxsettings-client: fix LICENSE
-
- meta/classes/insane.bbclass                        | 15 ++++++---------
- meta/classes/packagegroup.bbclass                  |  5 +++++
- meta/conf/bitbake.conf                             |  2 +-
- meta/recipes-core/meta/meta-world-pkgdata.bb       |  2 ++
- .../packagegroups/packagegroup-base.bb             |  1 -
- .../packagegroups/packagegroup-core-boot.bb        |  1 -
- .../packagegroup-core-buildessential.bb            |  1 -
- .../packagegroup-core-eclipse-debug.bb             |  1 -
- .../packagegroups/packagegroup-core-nfs.bb         |  1 -
- .../packagegroups/packagegroup-core-sdk.bb         |  1 -
- .../packagegroup-core-ssh-dropbear.bb              |  1 -
- .../packagegroups/packagegroup-core-ssh-openssh.bb |  1 -
- .../packagegroup-core-standalone-sdk-target.bb     |  1 -
- .../packagegroups/packagegroup-core-tools-debug.bb |  1 -
- .../packagegroup-core-tools-profile.bb             |  1 -
- .../packagegroup-core-tools-testapps.bb            |  1 -
- .../packagegroups/packagegroup-cross-canadian.bb   |  1 -
- .../packagegroups/packagegroup-self-hosted.bb      |  1 -
- .../packagegroup-core-device-devel.bb              |  1 -
- .../packagegroup-core-full-cmdline.bb              |  1 -
- .../packagegroups/packagegroup-core-lsb.bb         |  1 -
- .../libxsettings-client/MIT-style-license          | 22 ----------------------
- .../libxsettings-client_0.10.bb                    | 13 ++-----------
- .../packagegroups/packagegroup-core-clutter.bb     |  1 -
- .../packagegroups/packagegroup-core-directfb.bb    |  1 -
- .../packagegroups/packagegroup-core-x11-base.bb    |  1 -
- .../packagegroups/packagegroup-core-x11-xserver.bb |  1 -
- .../packagegroups/packagegroup-core-x11.bb         |  1 -
- .../packagegroups/packagegroup-core-x11-sato.bb    |  1 -
- 29 files changed, 16 insertions(+), 66 deletions(-)
- delete mode 100644 meta/recipes-graphics/libxsettings-client/libxsettings-client/MIT-style-license
-
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index a1d23d0..df4816c 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -672,7 +672,9 @@ def package_qa_check_symlink_to_sysroot(path, name, d, elf, messages):
+                 trimmed = path.replace(os.path.join (d.getVar("PKGDEST", True), name), "")
+                 package_qa_add_message(messages, "symlink-to-sysroot", "Symlink %s in %s points to TMPDIR" % (trimmed, name))
+ 
+-def package_qa_check_license(d):
++# Check license variables
++do_populate_lic[postfuncs] += "do_qa_populate_lic"
++python do_qa_populate_lic() {
+     """
+     Check for changes in the license files 
+     """
+@@ -753,6 +755,7 @@ def package_qa_check_license(d):
+                 msg = pn + ": LIC_FILES_CHKSUM is not specified for " +  url
+                 msg = msg + "\n" + pn + ": The md5 checksum is " + md5chksum
+             package_qa_handle_error("license-checksum", msg, d)
++}
+ 
+ def package_qa_check_staged(path,d):
+     """
+@@ -1208,12 +1211,6 @@ Rerun configure task after fixing this.""")
+ Missing inherit gettext?""" % (gt, config))
+ 
+     ###########################################################################
+-    # Check license variables
+-    ###########################################################################
+-
+-    package_qa_check_license(d)
+-
+-    ###########################################################################
+     # Check unrecognised configure options (with a white list)
+     ###########################################################################
+     if bb.data.inherits_class("autotools", d):
+@@ -1261,8 +1258,8 @@ python do_qa_unpack() {
+ #addtask qa_staging after do_populate_sysroot before do_build
+ do_populate_sysroot[postfuncs] += "do_qa_staging "
+ 
+-# Check broken config.log files, for packages requiring Gettext which don't
+-# have it in DEPENDS and for correct LIC_FILES_CHKSUM
++# Check broken config.log files, for packages requiring Gettext which
++# don't have it in DEPENDS.
+ #addtask qa_configure after do_configure before do_compile
+ do_configure[postfuncs] += "do_qa_configure "
+ 
 -- 
 2.7.4
 
