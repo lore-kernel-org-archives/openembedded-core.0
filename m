@@ -1,53 +1,47 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
-	[209.85.220.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F6DE6FF5B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id A728D6B6EA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Apr 2016 15:11:08 +0000 (UTC)
-Received: by mail-pa0-f46.google.com with SMTP id r5so59577006pag.1
+	Mon, 25 Apr 2016 15:26:20 +0000 (UTC)
+Received: by mail-io0-f178.google.com with SMTP id u185so187163590iod.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Apr 2016 08:11:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding;
-	bh=jGBdYftgBcMsyDtnIpPP/FQMFbCGhFrOeRfNzW7yxRo=;
-	b=lyTOX7GtlIAOxWNrbRe9x6JK33adNSnRwN6ryDcUhzVvLOLn6YxuRhKtdXL6IWjBiA
-	vKKb40VnrsOqkbleqwO7qu8em7HjX1FXradVl+j0Vm9qfXoanxMOQP4/5beHZrfap0IG
-	PexQenw/n04Bwjhzx3CZ2lyn20QiGahdzM30NOEQWwgG0zvTkh2mxEuNf3/R5/MfSHRD
-	ZMU4uPHGZji+TRPJMrAyE9GvOamjEhqel5qjDkNIobRZzsoxISRPJjZEp3js2r69NlCd
-	EgeWwKo0iphZnGwemJjoPU2T4wM7fnXk7ImbZNBwLtGh+aNFk0GCxD4u27ja/F+i7vNt
-	FGWA==
+	Mon, 25 Apr 2016 08:26:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=rt9csakwgkMsYIL6aGQZtR+PrLoVQWzH/hP7hKczx/E=;
+	b=HNn4/ybcEZlCS0Nn15hoalArOy0O6H0QkeYwOVM0QmE5xspBtcqKm2hqB3qsYCoIam
+	zAGXI/aoDfRgYPwXuFns/Gs3K28tyWHMjhFq2M0WI497Q5XE0kI6vgDXZFsbNIocaaqt
+	Otdh3gKAMv15lL29QKAAQrf5g4mXXzQEYS4PUT1rRY9KCklxsf4i/ZvDGzPOm7uAe9fH
+	yEEPtHxC/J0Ph2itGMeguobth4Q9xJ3B2tFwBapyEALOhZ0tbHf20T7F1t1cUWF0fhEx
+	l5H508YiIcljQjd4KljS8l6bVdFcH1DuOHhQHdF4jBDwJvcT66sFcU2YY7ZTvR3J9EuW
+	zlcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=jGBdYftgBcMsyDtnIpPP/FQMFbCGhFrOeRfNzW7yxRo=;
-	b=fa4F3NQUbuQWlsDH9JkFkmgc09mY7a+bDUpikdfaLl0hX3HfDsabnZgjhKUOIPiFht
-	pRut1tv+YPar+yqZsdqmf8hy9fL1vB6URLZ8mW8VWQ3mKChznfirZpEJkonfkSC/fyGZ
-	cyav7hEtR6DMFdEivabCcPWJ7Gc1//irNq91Vc62wV4hTCc5vGDrhK4LM1MZ3V0w5nRp
-	DE3+b/iQcJgk3ji9nABVMGXHhDsZ4/OTIzBPgg/mf8teQL/l7MrSmOi8CvUui+lA7UC5
-	kUnxa5QEFlvscRNOla1KNaMsqXNdp4wX16QhLjMY60BvFiMBWM8non02boCvFOLMhhcJ
-	WWIg==
-X-Gm-Message-State: AOPr4FU/dajApU0107D32Tu/Y1WDNlttiUcFZx2mdGS3de933z3o5ys65ddzCaSB/mGT+g==
-X-Received: by 10.66.65.109 with SMTP id w13mr48908930pas.142.1461597069453;
-	Mon, 25 Apr 2016 08:11:09 -0700 (PDT)
-Received: from ?IPv6:2601:202:4000:1239:606d:9ea8:d7b2:ab08?
-	([2601:202:4000:1239:606d:9ea8:d7b2:ab08])
-	by smtp.googlemail.com with ESMTPSA id
-	wy7sm30874429pab.5.2016.04.25.08.11.07
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 25 Apr 2016 08:11:08 -0700 (PDT)
-To: openembedded-core@lists.openembedded.org
-References: <571E0BF3.8080408@linux.intel.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <571E3387.6090201@gmail.com>
-Date: Mon, 25 Apr 2016 08:11:03 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=rt9csakwgkMsYIL6aGQZtR+PrLoVQWzH/hP7hKczx/E=;
+	b=balJ0D/r2AhKQNActNCcoRzjq12QOn39G65z4CofYJLRMqaqfH9+/akpbNe3Ws4XY3
+	yyaQosH0DeXrV2XTrm5V4y6QlWjl83eDc2Cqmb5HBcBX4URPT+Y5acbL7maYa7f2bLCw
+	gddAM1UjwWr28RAuKe27jKgcgZHJPI7zUYHRXcPCqiR1I+nyLxSjMyyJc3IayUX/hJlo
+	ijiwHqrmHokbGpXIbUBrd5iTZBx4jCv86RUH0hW2v9yNz9ggoiWT7Gn0vcCJ6LpHBGty
+	DuB3FxEtfOHENSPbnMcZjcDQYjoe/adgxbSCQ/vgdnoM9F5dipYvlOJtYwe9YHcs5e3e
+	EEYQ==
+X-Gm-Message-State: AOPr4FWQsRy7gk9Mr4aFKverQwE93INDy+1xZDOZ5La51fABryF25yY1FMlPtN6U9+63l0hgntXLfrbtlbA+et1b
+X-Received: by 10.107.179.136 with SMTP id c130mr23646388iof.99.1461597981098; 
+	Mon, 25 Apr 2016 08:26:21 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <571E0BF3.8080408@linux.intel.com>
-Subject: Re: moving OpenEmbedded-core to Python 3
+Received: by 10.107.9.106 with HTTP; Mon, 25 Apr 2016 08:26:01 -0700 (PDT)
+In-Reply-To: <e76f32f4bb513453ffd80704adf19540b8f35d2a.1461592183.git.liezhi.yang@windriver.com>
+References: <cover.1461592183.git.liezhi.yang@windriver.com>
+	<e76f32f4bb513453ffd80704adf19540b8f35d2a.1461592183.git.liezhi.yang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 25 Apr 2016 16:26:01 +0100
+Message-ID: <CAJTo0LZgtTN+6M_Xvwm2zQAibJR0jBXB15eU12HfUtz2ERuYKA@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 6/6] libxsettings-client: fix LICENSE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,53 +54,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Apr 2016 15:11:09 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 25 Apr 2016 15:26:21 -0000
+Content-Type: multipart/alternative; boundary=001a1148578c77dbef053150ccbe
 
+--001a1148578c77dbef053150ccbe
+Content-Type: text/plain; charset=UTF-8
 
+On 25 April 2016 at 14:51, Robert Yang <liezhi.yang@windriver.com> wrote:
 
-On 04/25/2016 05:22 AM, Alexander Kanavin wrote:
-> Hello everyone,
-> 
-> we want to deprecate Python 2 in oe-core and set Python 3 as the
-> default, preferred choice. What does this mean?
+> The tarball has a COPYING file now, and is GPLv2+.
+>
 
-What is the target to make  Python3 default, 2.2?
+Just had a proper look at this.  The tarball has a COPYING that says GPL,
+but the source files are all clearly marked MIT.
 
-> 
-> 1) Introducing new Python 2 dependencies via new recipes or additional
-> DEPENDS etc. in existing recipes will be discouraged: you'll have to
-> provide a reason.
+Ross
 
-Will there be any kind of QA warning for these dependencies? this will
-help  scope how many recipes need to be looked at. there are a lot of
-layers out there.
+--001a1148578c77dbef053150ccbe
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> 2) Bitbake itself is at the moment Python 2 only - which will be addressed.
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 25 April 2016 at 14:51, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com<=
+/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
+0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1h5" cl=
+ass=3D"a3s aXjCH">The tarball has a COPYING file now, and is GPLv2+.<br></d=
+iv></blockquote></div><br>Just had a proper look at this.=C2=A0 The tarball=
+ has a COPYING that says GPL, but the source files are all clearly marked M=
+IT.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ro=
+ss</div></div>
 
-What will the env setup script display then?
-
-> 
-> 3) OE-core recipes that are currently dependent on Python 2 will be
-> moved to Python 3 whenever possible (e.g. when nothing in oe-core
-> requires them to be built against python 2). This may break some of your
-> code, so please do try any patchsets before they land in master (or
-> stable release), and suggest alternatives.
-> 
-> 4) Of course, there is a large mass of Python 2 code out there, which
-> may never be ported to Python 3, so Python 2 will continue to be
-> provided at least until it's no longer supported upstream (the current
-> date is 2020).
-> 
-> I'll prepare an initial patchset for review, so please keep an eye on it.
-
-thanks for doing the the initial work.
-
-- armin
-> 
-> 
-> Thanks,
-> Alex
-
+--001a1148578c77dbef053150ccbe--
