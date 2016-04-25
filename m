@@ -1,45 +1,46 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id D796C60290
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id D5FDD62137
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Apr 2016 19:54:17 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id r12so24547968wme.0
+	Mon, 25 Apr 2016 20:38:48 +0000 (UTC)
+Received: by mail-wm0-f53.google.com with SMTP id u206so146297846wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Apr 2016 12:54:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=BP7Mp+Wk2d0zvWN/Iy5UYK3f7/0W/Wl+4CjqKBP/neM=;
-	b=xrZXFV7D1poHVZMEgvDP4kKdGET7rqgS3TsgXNUDP5OIdjrHY9mFL2hDX7PNjfY1NO
-	CZ42Ub9qCX4FdjTp5V2BVYvIQ2WtZ41V2Rl6nJ1UE8V9NuQ0LBPczIzCsoARQuvPR4Rq
-	qVbRjPrNfYZAxFeY7Zw0vdsMNpCaI0Zx3N8g6hECxaN5HnEWz3EGmpDiwBBQr+rEsVIA
-	cHNLllXx3pRQRyh3kB8JN4Mg0w5oIg1ndzL1BobDOvGZRD911vxmUBOUtFf2HUGiTXj0
-	12bjVNR70YP45SO45mV6g/lh3utgfGx22LKw+eShuhfx6nXMpWIzS3EIdWIYa1Efnqq4
-	4uag==
+	Mon, 25 Apr 2016 13:38:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=PK/ZaILAd8BFAE3dE+lQ0Sy39s5RdPkyRzoIzSQNEfg=;
+	b=WhBm+M3QaRDZL5qFj6V7FN3xCrznNDUNW3N70MMVHX1AsFCTo2u/dxAtDheUaXxwXW
+	Lfxdu76wKtqmj8f0GUn44z/RM7K9lG6q3yTip+/+WAu52axDf3j1gVQIe2LhXQxoxQKG
+	yElS5z3lhObk+eV7hnPyJ3jtkeKUI6B+bBCOH1VoAvp2lL40Ic6eFn3SeEgFtxpkSJBd
+	93xcOenN1C+sAdwPfKp9TGMM3TD0qFCDPeJ4eRqMkc1AbsX+6MkE3dvchn34IiNo9KPt
+	7XMO2FOF34DuoMgw4kmcg2T8vbsdYcAFwT2IPClIO2KnGg+Uimglwkfge2/gtoiHhbMx
+	A9PA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=BP7Mp+Wk2d0zvWN/Iy5UYK3f7/0W/Wl+4CjqKBP/neM=;
-	b=cY8Nfr7BTDAmOpjQk60ifJJTBEQzALcOSe+HQEKMk7gxEN+8Cnfauny358vSZLXlyw
-	3A4p5oIgxxyoe9J9DgyXkEv7Yc+nAziAIvWnR4qi3kD/UVmazxsX0LFwIk0WLFFSy2TO
-	qaW9kgWE0i5IBjE8X0GMU9+IY0+vmBGyBkB+IRY0u0vONxP6k7VChwqYMMKn8jUmwftl
-	hl1RO8NMuMgqqVHkv5XG33BE0nZ2F7XdpdDv4vE5MuUJPXY8z66NFIw4FlxrOlKj9g6y
-	Wtm1cH5diLNTT/1fZMXbXq6OlJ1HrNk1AcMs5lRgZw5lJK/HRip/biudmTL1GYKGZ/qr
-	lNXQ==
-X-Gm-Message-State: AOPr4FV2WISKTXmjLmM/2rFy8kK5H7cjG62dmBiB5Bzrh4+o5SWQStfBfvYrLY+xQF3AcGjn1Hd3wXgYTZM+nw==
-MIME-Version: 1.0
-X-Received: by 10.28.138.196 with SMTP id m187mr13712902wmd.61.1461614057807; 
-	Mon, 25 Apr 2016 12:54:17 -0700 (PDT)
-Received: by 10.194.231.98 with HTTP; Mon, 25 Apr 2016 12:54:17 -0700 (PDT)
-In-Reply-To: <1460713909-5823-2-git-send-email-dv@pseudoterminal.org>
-References: <1460713909-5823-1-git-send-email-dv@pseudoterminal.org>
-	<1460713909-5823-2-git-send-email-dv@pseudoterminal.org>
-Date: Mon, 25 Apr 2016 12:54:17 -0700
-Message-ID: <CAJ86T=USu=kn89PqU=p4NZsViK3FkZ1yFUPooL+En3mwWbbynQ@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Carlos Rafael Giani <dv@pseudoterminal.org>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/8] gstreamer1.0: upgrade to version 1.8.0
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=PK/ZaILAd8BFAE3dE+lQ0Sy39s5RdPkyRzoIzSQNEfg=;
+	b=Enoy+Cylqr8y4nM76t4/DqeD2l7o9Ha4LMO602xvl2+PfQ8f1bk+wr2zIPmzRZSDsN
+	qkv22qlcEdAsPbt/fofOt8PVQenyH3qCErGKzB7R5PzBlR3JLV/PodT58nZayunjAWQw
+	WiMpAgI4Q6b1eLGyv804g61sBbZmKp290XRWm/hxTpBwAqO/Nr17i1NUihdkbmRNvjP2
+	QPSFvkJ5qzJ7UWLNIhSMtelkHZBTKo3IsWAy64+IkdEWdDu9ZX4SlkAB6EFaBYSGTeBv
+	jWM/Wd2mK5ewxH1exdJelFe8hkKoYHWJqxAA5X0ketmWX+2CMa8q+J5I0vT/jHJm+l+Q
+	MWnA==
+X-Gm-Message-State: AOPr4FV/lppD5ls2Y2EV3pUKjC7ER3UwKS4X0x+d62dblkXx2PFrR49sCuNLsPkXaNp7tupr
+X-Received: by 10.194.87.103 with SMTP id w7mr36786014wjz.13.1461616728812;
+	Mon, 25 Apr 2016 13:38:48 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	j6sm13520791wjb.29.2016.04.25.13.38.47
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 25 Apr 2016 13:38:47 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 25 Apr 2016 21:38:46 +0100
+Message-Id: <1461616726-5866-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.0.rc3
+Subject: [PATCH] oeqa/sstatetests: add http_proxy to no-op hash test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,120 +53,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Apr 2016 19:54:18 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 25 Apr 2016 20:38:49 -0000
 
-Hi Carlos,
+Add two values for http_proxy to verify that changing it doesn't change any
+unexpected tasks.
 
-On Fri, Apr 15, 2016 at 2:51 AM, Carlos Rafael Giani
-<dv@pseudoterminal.org> wrote:
-> The gst-inspect patch no longer applies, and according to upstream, is
-> not needed.
+As this causes uninative to fail to fetch, ensure that uninative is always
+disabled.
 
-I'd like to start testing gstreamer 1.8.x. Are these patches still
-your latest version? Or do you perhaps now have patches for gstreamer
-1.8.1?
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/lib/oeqa/selftest/sstatetests.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
->
-> Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
-> ---
->  meta/recipes-multimedia/gstreamer/gstreamer1.0.inc |  2 ++
->  .../0001-Fix-crash-with-gst-inspect.patch          | 28 ----------------------
->  ...gstreamer1.0_1.6.3.bb => gstreamer1.0_1.8.0.bb} |  5 ++--
->  .../gstreamer/gstreamer1.0_git.bb                  |  5 ----
->  4 files changed, 4 insertions(+), 36 deletions(-)
->  delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-Fix-crash-with-gst-inspect.patch
->  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.6.3.bb => gstreamer1.0_1.8.0.bb} (62%)
->
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
-> index 10b4668..86ac10c 100644
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
-> @@ -24,6 +24,8 @@ PACKAGECONFIG[check] = "--enable-check,--disable-check"
->  PACKAGECONFIG[debug] = "--enable-debug,--disable-debug"
->  PACKAGECONFIG[tests] = "--enable-tests,--disable-tests"
->  PACKAGECONFIG[valgrind] = "--enable-valgrind,--disable-valgrind,valgrind,"
-> +PACKAGECONFIG[gst-tracer-hooks] = "--enable-gst-tracer-hooks,--disable-gst-tracer-hooks,"
-> +PACKAGECONFIG[trace-historic] = "--enable-trace,--disable-trace,"
->
->  EXTRA_OECONF = " \
->      --disable-dependency-tracking \
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-Fix-crash-with-gst-inspect.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-Fix-crash-with-gst-inspect.patch
-> deleted file mode 100644
-> index 94f5cc5..0000000
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-Fix-crash-with-gst-inspect.patch
-> +++ /dev/null
-> @@ -1,28 +0,0 @@
-> -From 6b26f3dbf9bf577d71534ab7410de66d06e46ba2 Mon Sep 17 00:00:00 2001
-> -From: Carlos Rafael Giani <dv@pseudoterminal.org>
-> -Date: Sat, 6 Apr 2013 23:52:11 +0200
-> -Subject: [PATCH] Fix crash with gst-inspect Chris Lord <chris@openedhand.com>
-> -
-> -Upstream-Status: Pending
-> -
-> -Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
-> ----
-> - tools/gst-inspect.c | 2 +-
-> - 1 file changed, 1 insertion(+), 1 deletion(-)
-> -
-> -diff --git a/tools/gst-inspect.c b/tools/gst-inspect.c
-> -index 23b7c44..b79b02e 100644
-> ---- a/tools/gst-inspect.c
-> -+++ b/tools/gst-inspect.c
-> -@@ -1556,7 +1556,7 @@ main (int argc, char *argv[])
-> -   g_option_context_add_main_entries (ctx, options, GETTEXT_PACKAGE);
-> -   g_option_context_add_group (ctx, gst_init_get_option_group ());
-> -   if (!g_option_context_parse (ctx, &argc, &argv, &err)) {
-> --    g_printerr ("Error initializing: %s\n", err->message);
-> -+    g_printerr ("Error initializing: %s\n", err ? err->message : "(null)");
-> -     return -1;
-> -   }
-> -   g_option_context_free (ctx);
-> ---
-> -1.8.2
-> -
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.6.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.8.0.bb
-> similarity index 62%
-> rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.6.3.bb
-> rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.8.0.bb
-> index ba1b83b..7de0832 100644
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.6.3.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.8.0.bb
-> @@ -5,10 +5,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d \
->
->  SRC_URI = " \
->      http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.xz \
-> -    file://0001-Fix-crash-with-gst-inspect.patch \
->  "
->
-> -SRC_URI[md5sum] = "b4cdeb2b9cb20dd6ac022a4f417eae0d"
-> -SRC_URI[sha256sum] = "22f9568d67b87cf700a111f381144bd37cb93790a77e4e331db01fe854a37f24"
-> +SRC_URI[md5sum] = "6846d7289ec323c38c49b818171e955a"
-> +SRC_URI[sha256sum] = "947a314a212b5d94985d89b43440dbe66b696e12bbdf9a2f78967b98d74abedc"
->
->  S = "${WORKDIR}/gstreamer-${PV}"
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_git.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_git.bb
-> index 7715bb2..f04fc6e 100644
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_git.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_git.bb
-> @@ -20,11 +20,6 @@ SRCREV_FORMAT = "base"
->
->  S = "${WORKDIR}/git"
->
-> -# The option to configure tracer hooks was added prior to the 1.7.2 release
-> -# https://cgit.freedesktop.org/gstreamer/gstreamer/commit/?id=e5ca47236e4df4683707f0bcf99181a937d358d5
-> -PACKAGECONFIG[gst-tracer-hooks] = "--enable-gst-tracer-hooks,--disable-gst-tracer-hooks,"
-> -PACKAGECONFIG[trace-historic] = "--enable-trace,--disable-trace,"
-> -
->  do_configure_prepend() {
->         ${S}/autogen.sh --noconfigure
->  }
-> --
-> 2.5.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/lib/oeqa/selftest/sstatetests.py b/meta/lib/oeqa/selftest/sstatetests.py
+index acaf405..2c947bb 100644
+--- a/meta/lib/oeqa/selftest/sstatetests.py
++++ b/meta/lib/oeqa/selftest/sstatetests.py
+@@ -411,7 +411,8 @@ PARALLEL_MAKE = "-j 1"
+ DL_DIR = "${TOPDIR}/download1"
+ TIME = "111111"
+ DATE = "20161111"
+-INHERIT_remove = "buildstats-summary buildhistory"
++INHERIT_remove = "buildstats-summary buildhistory uninative"
++http_proxy = ""
+ """)
+         self.track_for_cleanup(topdir + "/tmp-sstatesamehash")
+         bitbake("world meta-toolchain -S none")
+@@ -422,7 +423,10 @@ PARALLEL_MAKE = "-j 2"
+ DL_DIR = "${TOPDIR}/download2"
+ TIME = "222222"
+ DATE = "20161212"
++# Always remove uninative as we're changing proxies
++INHERIT_remove = "uninative"
+ INHERIT += "buildstats-summary buildhistory"
++http_proxy = "http://example.com/"
+ """)
+         self.track_for_cleanup(topdir + "/tmp-sstatesamehash2")
+         bitbake("world meta-toolchain -S none")
+-- 
+2.8.0.rc3
+
 
