@@ -1,26 +1,53 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B6D9471951
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
+	[209.85.220.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F6DE6FF5B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Apr 2016 13:51:48 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u3PDpn1p009498
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 25 Apr 2016 15:11:08 +0000 (UTC)
+Received: by mail-pa0-f46.google.com with SMTP id r5so59577006pag.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Apr 2016 06:51:49 -0700 (PDT)
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 25 Apr 2016 06:51:48 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 25 Apr 2016 06:51:43 -0700
-Message-ID: <e76f32f4bb513453ffd80704adf19540b8f35d2a.1461592183.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Mon, 25 Apr 2016 08:11:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding;
+	bh=jGBdYftgBcMsyDtnIpPP/FQMFbCGhFrOeRfNzW7yxRo=;
+	b=lyTOX7GtlIAOxWNrbRe9x6JK33adNSnRwN6ryDcUhzVvLOLn6YxuRhKtdXL6IWjBiA
+	vKKb40VnrsOqkbleqwO7qu8em7HjX1FXradVl+j0Vm9qfXoanxMOQP4/5beHZrfap0IG
+	PexQenw/n04Bwjhzx3CZ2lyn20QiGahdzM30NOEQWwgG0zvTkh2mxEuNf3/R5/MfSHRD
+	ZMU4uPHGZji+TRPJMrAyE9GvOamjEhqel5qjDkNIobRZzsoxISRPJjZEp3js2r69NlCd
+	EgeWwKo0iphZnGwemJjoPU2T4wM7fnXk7ImbZNBwLtGh+aNFk0GCxD4u27ja/F+i7vNt
+	FGWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=jGBdYftgBcMsyDtnIpPP/FQMFbCGhFrOeRfNzW7yxRo=;
+	b=fa4F3NQUbuQWlsDH9JkFkmgc09mY7a+bDUpikdfaLl0hX3HfDsabnZgjhKUOIPiFht
+	pRut1tv+YPar+yqZsdqmf8hy9fL1vB6URLZ8mW8VWQ3mKChznfirZpEJkonfkSC/fyGZ
+	cyav7hEtR6DMFdEivabCcPWJ7Gc1//irNq91Vc62wV4hTCc5vGDrhK4LM1MZ3V0w5nRp
+	DE3+b/iQcJgk3ji9nABVMGXHhDsZ4/OTIzBPgg/mf8teQL/l7MrSmOi8CvUui+lA7UC5
+	kUnxa5QEFlvscRNOla1KNaMsqXNdp4wX16QhLjMY60BvFiMBWM8non02boCvFOLMhhcJ
+	WWIg==
+X-Gm-Message-State: AOPr4FU/dajApU0107D32Tu/Y1WDNlttiUcFZx2mdGS3de933z3o5ys65ddzCaSB/mGT+g==
+X-Received: by 10.66.65.109 with SMTP id w13mr48908930pas.142.1461597069453;
+	Mon, 25 Apr 2016 08:11:09 -0700 (PDT)
+Received: from ?IPv6:2601:202:4000:1239:606d:9ea8:d7b2:ab08?
+	([2601:202:4000:1239:606d:9ea8:d7b2:ab08])
+	by smtp.googlemail.com with ESMTPSA id
+	wy7sm30874429pab.5.2016.04.25.08.11.07
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 25 Apr 2016 08:11:08 -0700 (PDT)
+To: openembedded-core@lists.openembedded.org
+References: <571E0BF3.8080408@linux.intel.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <571E3387.6090201@gmail.com>
+Date: Mon, 25 Apr 2016 08:11:03 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.1
 MIME-Version: 1.0
-In-Reply-To: <cover.1461592183.git.liezhi.yang@windriver.com>
-References: <cover.1461592183.git.liezhi.yang@windriver.com>
-Subject: [PATCH 6/6] libxsettings-client: fix LICENSE
+In-Reply-To: <571E0BF3.8080408@linux.intel.com>
+Subject: Re: moving OpenEmbedded-core to Python 3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,83 +60,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Apr 2016 13:51:49 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 25 Apr 2016 15:11:09 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-The tarball has a COPYING file now, and is GPLv2+.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../libxsettings-client/MIT-style-license          | 22 ----------------------
- .../libxsettings-client_0.10.bb                    | 13 ++-----------
- 2 files changed, 2 insertions(+), 33 deletions(-)
- delete mode 100644 meta/recipes-graphics/libxsettings-client/libxsettings-client/MIT-style-license
 
-diff --git a/meta/recipes-graphics/libxsettings-client/libxsettings-client/MIT-style-license b/meta/recipes-graphics/libxsettings-client/libxsettings-client/MIT-style-license
-deleted file mode 100644
-index 628de98..0000000
---- a/meta/recipes-graphics/libxsettings-client/libxsettings-client/MIT-style-license
-+++ /dev/null
-@@ -1,22 +0,0 @@
--/*
-- * Copyright © 2001 Red Hat, Inc.
-- *
-- * Permission to use, copy, modify, distribute, and sell this software and its
-- * documentation for any purpose is hereby granted without fee, provided that
-- * the above copyright notice appear in all copies and that both that
-- * copyright notice and this permission notice appear in supporting
-- * documentation, and that the name of Red Hat not be used in advertising or
-- * publicity pertaining to distribution of the software without specific,
-- * written prior permission.  Red Hat makes no representations about the
-- * suitability of this software for any purpose.  It is provided "as is"
-- * without express or implied warranty.
-- *
-- * RED HAT DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL
-- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL RED HAT
-- * BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
-- * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION
-- * OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
-- * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-- *
-- * Author:  Owen Taylor, Red Hat, Inc.
-- */
-diff --git a/meta/recipes-graphics/libxsettings-client/libxsettings-client_0.10.bb b/meta/recipes-graphics/libxsettings-client/libxsettings-client_0.10.bb
-index 67c5e27..2999653 100644
---- a/meta/recipes-graphics/libxsettings-client/libxsettings-client_0.10.bb
-+++ b/meta/recipes-graphics/libxsettings-client/libxsettings-client_0.10.bb
-@@ -6,8 +6,8 @@ desktop."
- HOMEPAGE = "http://matchbox-project.org/sources/optional-dependencies/"
- BUGTRACKER = "http://bugzilla.yoctoproject.org/"
- SECTION = "x/libs"
--LICENSE = "MIT-style"
--LIC_FILES_CHKSUM = "file://COPYING;md5=7cfac9d2d4dc3694cc7eb605cf32a69b \
-+LICENSE = "GPLv2+"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     file://xsettings-client.h;endline=22;md5=7cfac9d2d4dc3694cc7eb605cf32a69b \
-                     file://xsettings-common.h;endline=22;md5=7cfac9d2d4dc3694cc7eb605cf32a69b"
- DEPENDS = "virtual/libx11"
-@@ -17,7 +17,6 @@ PR = "r5"
- headers = "xsettings-common.h xsettings-client.h"
- 
- SRC_URI = "http://downloads.yoctoproject.org/releases/matchbox/optional-dependencies/Xsettings-client-0.10.tar.gz \
--        file://MIT-style-license \
-         file://link-x11.patch;apply=yes \
-         file://obsolete_automake_macros.patch \
- "
-@@ -30,11 +29,3 @@ S = "${WORKDIR}/Xsettings-client-0.10"
- inherit autotools gettext distro_features_check
- # depends on virtual/libx11
- REQUIRED_DISTRO_FEATURES = "x11"
--
--do_configure_prepend() {
--    # This package doesn't ship with its own COPYING file and
--    # autotools will install a GPLv2 one instead of the actual MIT-style license here.
--    # Add the correct license here to avoid confusion.
--    cp -f ${WORKDIR}/MIT-style-license ${S}/COPYING
--}
--
--- 
-2.7.4
+On 04/25/2016 05:22 AM, Alexander Kanavin wrote:
+> Hello everyone,
+> 
+> we want to deprecate Python 2 in oe-core and set Python 3 as the
+> default, preferred choice. What does this mean?
 
+What is the target to make  Python3 default, 2.2?
+
+> 
+> 1) Introducing new Python 2 dependencies via new recipes or additional
+> DEPENDS etc. in existing recipes will be discouraged: you'll have to
+> provide a reason.
+
+Will there be any kind of QA warning for these dependencies? this will
+help  scope how many recipes need to be looked at. there are a lot of
+layers out there.
+
+> 
+> 2) Bitbake itself is at the moment Python 2 only - which will be addressed.
+
+What will the env setup script display then?
+
+> 
+> 3) OE-core recipes that are currently dependent on Python 2 will be
+> moved to Python 3 whenever possible (e.g. when nothing in oe-core
+> requires them to be built against python 2). This may break some of your
+> code, so please do try any patchsets before they land in master (or
+> stable release), and suggest alternatives.
+> 
+> 4) Of course, there is a large mass of Python 2 code out there, which
+> may never be ported to Python 3, so Python 2 will continue to be
+> provided at least until it's no longer supported upstream (the current
+> date is 2020).
+> 
+> I'll prepare an initial patchset for review, so please keep an eye on it.
+
+thanks for doing the the initial work.
+
+- armin
+> 
+> 
+> Thanks,
+> Alex
 
