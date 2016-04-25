@@ -1,46 +1,41 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 62CF66FEF5
+Return-Path: <sm0ketst@stigmatedbrain.net>
+X-Greylist: delayed 547 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 25 Apr 2016 21:21:51 UTC
+Received: from slow1-d.mail.gandi.net (slow1-d.mail.gandi.net [217.70.178.86])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C1196E666
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Apr 2016 21:14:47 +0000 (UTC)
-Received: by mail-wm0-f41.google.com with SMTP id n3so148311537wmn.0
+	Mon, 25 Apr 2016 21:21:51 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
+	[217.70.183.195])
+	by slow1-d.mail.gandi.net (Postfix) with ESMTP id ACA2F486246
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Apr 2016 14:14:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=Zkq0mOTR1dWDrfLfVAP2xUW1ECJluCnU2rDscZh7fM4=;
-	b=1+p7nOhaFuX93DvkCT8EBtK+1VkkHVsxChkXUb/S+MC0CVIeQ4mB1K2s/3mbGzSE9b
-	jV+hMUikbV6qbGFETBqzTbpXldqkDgwzEI6f2GwNLbRsESlOfpFtdRe30WHoGJ/0t71D
-	j8YWkMsEFCj3ehpdzPd2+tP3PXXxTHiHCCMHcbcPjOvNGq5FAA4potyf2nROWpcXTWhX
-	Q+EIJS6XqYwuhvBwhvoJcUotazYKUd5X7IsQCbNhJktvewxBLYrnhPUPZhzBbsnS6nYW
-	Z72ptTWFO5EKrXw9jeetkx4in+Ak/y1uqFA/LL95rLz4kDZaSgcGh8bJK9eAVt2YPPwV
-	u+6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=Zkq0mOTR1dWDrfLfVAP2xUW1ECJluCnU2rDscZh7fM4=;
-	b=ljkeHZ4xyEf5wWQS7spuXAcZLmETdOVsovGtnn7dt5bNaKHajUqg3G1q5lm4ZmiyvS
-	sQea0ZRVvq9GwYbQ6SgtqjoMRXp8p5JfjF05C7wopwc+nSm00tokDADT8RCwSKiccDjg
-	jVEk7rvFRGKX8uwDYYwnIuab/Z9hsxRVnogHAVvctd80DJ61KZpJrMJMPghWHda/sDWB
-	fbIR59cvKvhhYjRrYFqU6ukyqnldztDi5yB5bYzv0TmlCW2zLLhxDDInpC/mC3r7f6IR
-	bL1bCNT1kmUERKtnxJK7ghc0cBFF6zRz7GiB91IcEV3Ad5qrapSfr21AKA3ZVjbgzgKR
-	t/lw==
-X-Gm-Message-State: AOPr4FWB8r57YAcnLWQEaGGYLegCL9x+z1DG5Qr1gAtKWN7fSee3pFBVwCpeNl2sIiZmvlAe
-X-Received: by 10.28.45.216 with SMTP id t207mr14144751wmt.40.1461618887094;
-	Mon, 25 Apr 2016 14:14:47 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	u187sm9425684wmu.21.2016.04.25.14.14.46
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 25 Apr 2016 14:14:46 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Mon, 25 Apr 2016 23:09:48 +0200 (CEST)
+Received: from mfilter44-d.gandi.net (mfilter44-d.gandi.net [217.70.178.175])
+	by relay3-d.mail.gandi.net (Postfix) with ESMTP id 65573A80D5
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Apr 2016 23:09:45 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mfilter44-d.gandi.net
+Received: from relay3-d.mail.gandi.net ([IPv6:::ffff:217.70.183.195])
+	by mfilter44-d.gandi.net (mfilter44-d.gandi.net [::ffff:10.0.15.180])
+	(amavisd-new, port 10024) with ESMTP id KxblL-p6A8ba
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Apr 2016 23:09:43 +0200 (CEST)
+X-Originating-IP: 84.198.60.41
+Received: from [192.168.1.124] (d54C63C29.access.telenet.be [84.198.60.41])
+	(Authenticated sender: sm0ketst@stigmatedbrain.net)
+	by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id B4469A80DC
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Apr 2016 23:09:43 +0200 (CEST)
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Apr 2016 22:14:44 +0100
-Message-Id: <1461618884-7038-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.0.rc3
-Subject: [PATCH] oeqa/sstatetests: remove temporary DL_DIRs in noop_samesigs
+References: <E88D0531F83F3744B03D1A909A2B070F5C52C7@ORSMSX110.amr.corp.intel.com>
+From: "J.J. Garcia" <sm0ketst@stigmatedbrain.net>
+Message-ID: <571E8724.2060308@stigmatedbrain.net>
+Date: Mon, 25 Apr 2016 23:07:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Icedove/38.7.0
+MIME-Version: 1.0
+In-Reply-To: <E88D0531F83F3744B03D1A909A2B070F5C52C7@ORSMSX110.amr.corp.intel.com>
+Subject: Re: textinfo failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,34 +48,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Apr 2016 21:14:47 -0000
+X-List-Received-Date: Mon, 25 Apr 2016 21:21:52 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/lib/oeqa/selftest/sstatetests.py | 2 ++
- 1 file changed, 2 insertions(+)
+Hi!
 
-diff --git a/meta/lib/oeqa/selftest/sstatetests.py b/meta/lib/oeqa/selftest/sstatetests.py
-index 2c947bb..ad59146 100644
---- a/meta/lib/oeqa/selftest/sstatetests.py
-+++ b/meta/lib/oeqa/selftest/sstatetests.py
-@@ -415,6 +415,7 @@ INHERIT_remove = "buildstats-summary buildhistory uninative"
- http_proxy = ""
- """)
-         self.track_for_cleanup(topdir + "/tmp-sstatesamehash")
-+        self.track_for_cleanup(topdir + "/download1")
-         bitbake("world meta-toolchain -S none")
-         self.write_config("""
- TMPDIR = "${TOPDIR}/tmp-sstatesamehash2"
-@@ -429,6 +430,7 @@ INHERIT += "buildstats-summary buildhistory"
- http_proxy = "http://example.com/"
- """)
-         self.track_for_cleanup(topdir + "/tmp-sstatesamehash2")
-+        self.track_for_cleanup(topdir + "/download2")
-         bitbake("world meta-toolchain -S none")
- 
-         def get_files(d):
--- 
-2.8.0.rc3
+I think I'm having the same issue with the dummy makeinfo.
+
+--> assert arg[0] != '-' or arg[1] == '-' or 'E' not in arg or \
+
+According to
+http://lists.openembedded.org/pipermail/openembedded-core/2014-June/093459.html
+
+The pathname contains '/OE/...' and mine contains /disk/WDCWD10EAVS/...
+
+The 'E'.
+
+?
+
+JJ
+
+
+
+
+
 
 
