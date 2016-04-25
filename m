@@ -1,46 +1,35 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id D5FDD62137
+Return-Path: <tristan.vanberkom@codethink.co.uk>
+X-Greylist: delayed 308 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 25 Apr 2016 20:41:55 UTC
+Received: from ducie-dc1.codethink.co.uk (ducie-dc1.codethink.co.uk
+	[185.25.241.215])
+	by mail.openembedded.org (Postfix) with ESMTP id DD7E662137
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Apr 2016 20:38:48 +0000 (UTC)
-Received: by mail-wm0-f53.google.com with SMTP id u206so146297846wme.1
+	Mon, 25 Apr 2016 20:41:55 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by ducie-dc1.codethink.co.uk (Postfix) with ESMTP id D2FF04627C5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Apr 2016 13:38:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=PK/ZaILAd8BFAE3dE+lQ0Sy39s5RdPkyRzoIzSQNEfg=;
-	b=WhBm+M3QaRDZL5qFj6V7FN3xCrznNDUNW3N70MMVHX1AsFCTo2u/dxAtDheUaXxwXW
-	Lfxdu76wKtqmj8f0GUn44z/RM7K9lG6q3yTip+/+WAu52axDf3j1gVQIe2LhXQxoxQKG
-	yElS5z3lhObk+eV7hnPyJ3jtkeKUI6B+bBCOH1VoAvp2lL40Ic6eFn3SeEgFtxpkSJBd
-	93xcOenN1C+sAdwPfKp9TGMM3TD0qFCDPeJ4eRqMkc1AbsX+6MkE3dvchn34IiNo9KPt
-	7XMO2FOF34DuoMgw4kmcg2T8vbsdYcAFwT2IPClIO2KnGg+Uimglwkfge2/gtoiHhbMx
-	A9PA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=PK/ZaILAd8BFAE3dE+lQ0Sy39s5RdPkyRzoIzSQNEfg=;
-	b=Enoy+Cylqr8y4nM76t4/DqeD2l7o9Ha4LMO602xvl2+PfQ8f1bk+wr2zIPmzRZSDsN
-	qkv22qlcEdAsPbt/fofOt8PVQenyH3qCErGKzB7R5PzBlR3JLV/PodT58nZayunjAWQw
-	WiMpAgI4Q6b1eLGyv804g61sBbZmKp290XRWm/hxTpBwAqO/Nr17i1NUihdkbmRNvjP2
-	QPSFvkJ5qzJ7UWLNIhSMtelkHZBTKo3IsWAy64+IkdEWdDu9ZX4SlkAB6EFaBYSGTeBv
-	jWM/Wd2mK5ewxH1exdJelFe8hkKoYHWJqxAA5X0ketmWX+2CMa8q+J5I0vT/jHJm+l+Q
-	MWnA==
-X-Gm-Message-State: AOPr4FV/lppD5ls2Y2EV3pUKjC7ER3UwKS4X0x+d62dblkXx2PFrR49sCuNLsPkXaNp7tupr
-X-Received: by 10.194.87.103 with SMTP id w7mr36786014wjz.13.1461616728812;
-	Mon, 25 Apr 2016 13:38:48 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	j6sm13520791wjb.29.2016.04.25.13.38.47
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 25 Apr 2016 13:38:47 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Mon, 25 Apr 2016 21:41:55 +0100 (BST)
+X-Virus-Scanned: Debian amavisd-new at ducie-dc1.codethink.co.uk
+Received: from ducie-dc1.codethink.co.uk ([127.0.0.1])
+	by localhost (ducie-dc1.codethink.co.uk [127.0.0.1]) (amavisd-new,
+	port 10024) with ESMTP id gpS5VugxUO1f
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Apr 2016 21:41:53 +0100 (BST)
+Received: from think (unknown [208.113.48.59])
+	by ducie-dc1.codethink.co.uk (Postfix) with ESMTPSA id 0D6EB46174E
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Apr 2016 21:41:52 +0100 (BST)
+Message-ID: <1461616910.4356.18.camel@codethink.co.uk>
+From: Tristan Van Berkom <tristan.vanberkom@codethink.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Apr 2016 21:38:46 +0100
-Message-Id: <1461616726-5866-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.0.rc3
-Subject: [PATCH] oeqa/sstatetests: add http_proxy to no-op hash test
+Date: Mon, 25 Apr 2016 16:41:50 -0400
+In-Reply-To: <1461616586-25202-1-git-send-email-tristan.vanberkom@codethink.co.uk>
+References: <1461616586-25202-1-git-send-email-tristan.vanberkom@codethink.co.uk>
+Organization: Codethink LTD
+X-Mailer: Evolution 3.18.3-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH] cross-localedef-native_2.22.bb: Use autotools configure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,45 +42,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Apr 2016 20:38:49 -0000
+X-List-Received-Date: Mon, 25 Apr 2016 20:41:58 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Add two values for http_proxy to verify that changing it doesn't change any
-unexpected tasks.
+Hi,
 
-As this causes uninative to fail to fetch, ensure that uninative is always
-disabled.
+This patch is also discussed in bug 9508:
+ https://bugzilla.yoctoproject.org/show_bug.cgi?id=9508
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/lib/oeqa/selftest/sstatetests.py | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Sorry for messing up the subject line, it should have been [OE-core],
+this is just my first git send-email and I copy pasted from:
+ http://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded
 
-diff --git a/meta/lib/oeqa/selftest/sstatetests.py b/meta/lib/oeqa/selftest/sstatetests.py
-index acaf405..2c947bb 100644
---- a/meta/lib/oeqa/selftest/sstatetests.py
-+++ b/meta/lib/oeqa/selftest/sstatetests.py
-@@ -411,7 +411,8 @@ PARALLEL_MAKE = "-j 1"
- DL_DIR = "${TOPDIR}/download1"
- TIME = "111111"
- DATE = "20161111"
--INHERIT_remove = "buildstats-summary buildhistory"
-+INHERIT_remove = "buildstats-summary buildhistory uninative"
-+http_proxy = ""
- """)
-         self.track_for_cleanup(topdir + "/tmp-sstatesamehash")
-         bitbake("world meta-toolchain -S none")
-@@ -422,7 +423,10 @@ PARALLEL_MAKE = "-j 2"
- DL_DIR = "${TOPDIR}/download2"
- TIME = "222222"
- DATE = "20161212"
-+# Always remove uninative as we're changing proxies
-+INHERIT_remove = "uninative"
- INHERIT += "buildstats-summary buildhistory"
-+http_proxy = "http://example.com/"
- """)
-         self.track_for_cleanup(topdir + "/tmp-sstatesamehash2")
-         bitbake("world meta-toolchain -S none")
--- 
-2.8.0.rc3
+Cheers,
+   -Tristan
+
+On Mon, 2016-04-25 at 16:36 -0400, Tristan Van Berkom wrote:
+> Use the autotools default configure commands and just tell autotools
+> where to run configure from.
+> 
+> This fixes the build when running on an aarch64 host, which the
+> prebuilt
+> configure scripts with glibc 2.22 do not recognize.
+> ---
+>  meta/recipes-core/glibc/cross-localedef-native_2.22.bb | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
+> 
+> diff --git a/meta/recipes-core/glibc/cross-localedef-native_2.22.bb
+> b/meta/recipes-core/glibc/cross-localedef-native_2.22.bb
+> index 3aefe74..7e484fa 100644
+> --- a/meta/recipes-core/glibc/cross-localedef-native_2.22.bb
+> +++ b/meta/recipes-core/glibc/cross-localedef-native_2.22.bb
+> @@ -9,6 +9,10 @@ LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b3
+> 6d3209f380deb394b213 \
+>        file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
+>  
+>  
+> +# Tell autotools that we're working in the localedef directory
+> +#
+> +AUTOTOOLS_SCRIPT_PATH = "${S}/localedef"
+> +
+>  inherit native
+>  inherit autotools
+>  
+> @@ -49,11 +53,6 @@ S = "${WORKDIR}/git"
+>  EXTRA_OECONF = "--with-glibc=${S}"
+>  CFLAGS += "-fgnu89-inline -std=gnu99 -DIS_IN\(x\)='0'"
+>  
+> -do_configure () {
+> -	${S}/localedef/configure ${EXTRA_OECONF}
+> -}
+> -
+> -
+>  do_install() {
+>  	install -d ${D}${bindir}
+>  	install -m 0755 ${B}/localedef ${D}${bindir}/cross-localedef
 
 
