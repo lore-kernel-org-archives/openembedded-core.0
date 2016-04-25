@@ -1,26 +1,46 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 235F36FF25
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
+	[209.85.223.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 26CF66067C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Apr 2016 08:47:45 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u3P8lj5S030298
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Mon, 25 Apr 2016 09:11:22 +0000 (UTC)
+Received: by mail-io0-f180.google.com with SMTP id u185so177249087iod.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Apr 2016 01:47:46 -0700
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 25 Apr 2016 01:47:45 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 25 Apr 2016 01:47:43 -0700
-Message-ID: <88fe1fb034a5c7ad5c70b8a70861f9a5465e37d4.1461573928.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.8.0
-In-Reply-To: <cover.1461573928.git.liezhi.yang@windriver.com>
-References: <cover.1461573928.git.liezhi.yang@windriver.com>
+	Mon, 25 Apr 2016 02:11:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=dUQ7PCCg1joNBddgEynna2ViyULhtxWUG/uB4PIyGS8=;
+	b=1RmBP/LtmPBHIndlEH1DWXKEma+1J1Rgxf4zB9oTS5ElT8vKB8fNvouFIyptpTqbZ0
+	/SrA9nRe+lZ8iD2NEOZ4eVE7MnedL6zMVOYlKOqtxIvrxDjuioBhpksgcXHCzCoxqCxt
+	WtcMYfTyVy95d471D0Lsr8curzREYVb8FbWhTJDmpO4GKSQZVeSGuHvicTqoXKuldS2i
+	juVF9LCuev/NJ8/Xn9pk2PjQc4RpTjFJjnCIiUyvYZXGAu9ZH51KxdB8aWQqEDyBpset
+	UnNY4ouWT45aurBSEbYcQN8PkozGRq/I+Qj2i33H7D5FLf8WilJSRcxRlTy/bzxpmLFR
+	uFXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=dUQ7PCCg1joNBddgEynna2ViyULhtxWUG/uB4PIyGS8=;
+	b=e0AUCSOununSM8VeLuFZQJ9/IJSGo/Oi67VAaXZVYoqdrYNsy7FK2bHb3nb8RAU3ix
+	ewEzUzoicqaozHs19RAOQh6D7ovQBGvB+FSEs3CxECnk2IuaIQAXJ+BvMhS5c0npj//E
+	JQWpDLobesu6YodbQrgSpXdHR2W59D/e8KpwmNmLSYg4+k02Y13aYvgsRLXpLbMFJesm
+	OWwLH8KiyEkbSwiUYEZF01RgfkHLnFYaUm+MVQ1gq90cBj0DcnirW9Ecil0IwGG+Ke87
+	XaWVvt7zTEbq3/BxVNLxt6drQ/2s4HaqjOa70DOnBSz+NLFAndleahj7c5ak9lLYnqEG
+	kiwg==
+X-Gm-Message-State: AOPr4FUPF2WCKsc7abr/GUvqUTdF6/b8mOEIUnJVyZEBsUo61Is1HbAMv/rBViBPwwfV8d1vk4LWx3TXGr6qWGw8
+X-Received: by 10.107.51.213 with SMTP id z204mr12778454ioz.148.1461575483293; 
+	Mon, 25 Apr 2016 02:11:23 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 1/1] oe-buildenv-internal: add BBPATH_EXTRA to BB_ENV_EXTRAWHITE_OE
+Received: by 10.107.9.106 with HTTP; Mon, 25 Apr 2016 02:11:03 -0700 (PDT)
+In-Reply-To: <1461569133-13241-1-git-send-email-obi@opendreambox.org>
+References: <1461569133-13241-1-git-send-email-obi@opendreambox.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 25 Apr 2016 10:11:03 +0100
+Message-ID: <CAJTo0La317pVNc9NLZTc3coUS94v40SBND00RbC-aa7mtex5dw@mail.gmail.com>
+To: Andreas Oberritter <obi@opendreambox.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] rpm: explicitly disable tomcrypt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,44 +53,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Apr 2016 08:47:46 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 25 Apr 2016 09:11:23 -0000
+Content-Type: multipart/alternative; boundary=001a11440cd07e966705314b8ffc
 
-So that user can easily make their own conf files such as conf/site.conf
-work. For example, poky's default BBPATH in bblayers.conf is:
-BBPATH = "${TOPDIR}"
-Will change it to:
-BBPATH_EXTRA ??= ""
-BBPATH = "${BBPATH_EXTRA}${TOPDIR}"
+--001a11440cd07e966705314b8ffc
+Content-Type: text/plain; charset=UTF-8
 
-When user sets BBPATH_EXTRA in env to their own dir which contains
-conf/site.conf, it will work.
+On 25 April 2016 at 08:25, Andreas Oberritter <obi@opendreambox.org> wrote:
 
-Note, BBPATH_EXTRA must end with ":", we can't set BBPATH as
-"${BBPATH_EXTRA}:${TOPDIR}" since the sanity would fail when
-BBPATH_EXTRA is null.
+> Configure autodetects libtomcrypt, but then it adds libtommath to
+> $LIBS and fails to link subsequent tests if it's unavailable.
+>
 
-[YOCTO #7837]
+There was a patch last week to add a PACKAGECONFIG instead, so I'll pick
+that instead of this.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- scripts/oe-buildenv-internal | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Ross
 
-diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal
-index e04db03..81ee784 100755
---- a/scripts/oe-buildenv-internal
-+++ b/scripts/oe-buildenv-internal
-@@ -114,7 +114,7 @@ BB_ENV_EXTRAWHITE_OE="MACHINE DISTRO TCMODE TCLIBC HTTP_PROXY http_proxy \
- HTTPS_PROXY https_proxy FTP_PROXY ftp_proxy FTPS_PROXY ftps_proxy ALL_PROXY \
- all_proxy NO_PROXY no_proxy SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY \
- SDKMACHINE BB_NUMBER_THREADS BB_NO_NETWORK PARALLEL_MAKE GIT_PROXY_COMMAND \
--SOCKS5_PASSWD SOCKS5_USER SCREENDIR STAMPS_DIR"
-+SOCKS5_PASSWD SOCKS5_USER SCREENDIR STAMPS_DIR BBPATH_EXTRA"
- 
- BB_ENV_EXTRAWHITE="$(echo $BB_ENV_EXTRAWHITE $BB_ENV_EXTRAWHITE_OE | tr ' ' '\n' | LC_ALL=C sort --unique | tr '\n' ' ')"
- 
--- 
-2.8.0
+--001a11440cd07e966705314b8ffc
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 25 April 2016 at 08:25, Andreas Oberritter <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:obi@opendreambox.org" target=3D"_blank">obi@opendreambox.org</a>=
+&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":mo" class=
+=3D"a3s aXjCH">Configure autodetects libtomcrypt, but then it adds libtomma=
+th to<br>
+$LIBS and fails to link subsequent tests if it&#39;s unavailable.<br></div>=
+</blockquote></div><br>There was a patch last week to add a PACKAGECONFIG i=
+nstead, so I&#39;ll pick that instead of this.</div><div class=3D"gmail_ext=
+ra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
+--001a11440cd07e966705314b8ffc--
