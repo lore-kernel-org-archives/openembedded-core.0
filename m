@@ -1,16 +1,24 @@
-Return-Path: <obi@opendreambox.org>
-X-Greylist: delayed 434 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 25 Apr 2016 07:32:51 UTC
-Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 849966E666
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 55D786FF25
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Apr 2016 07:32:51 +0000 (UTC)
-From: Andreas Oberritter <obi@opendreambox.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Apr 2016 09:25:33 +0200
-Message-Id: <1461569133-13241-1-git-send-email-obi@opendreambox.org>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] rpm: explicitly disable tomcrypt
+	Mon, 25 Apr 2016 08:47:44 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u3P8liu3020597
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Apr 2016 01:47:45 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 25 Apr 2016 01:47:44 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 25 Apr 2016 01:47:42 -0700
+Message-ID: <cover.1461573928.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.8.0
+MIME-Version: 1.0
+Subject: [PATCH 0/1] oe-buildenv-internal: add BBPATH_EXTRA to BB_ENV_EXTRAWHITE_OE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -23,35 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Apr 2016 07:32:52 -0000
+X-List-Received-Date: Mon, 25 Apr 2016 08:47:45 -0000
+Content-Type: text/plain
 
-Configure autodetects libtomcrypt, but then it adds libtommath to
-$LIBS and fails to link subsequent tests if it's unavailable.
+The following changes since commit e2dbe5eb869b8336b91023b83d7ca866197efa73:
 
-| checking for pcre.h... yes
-| checking for pcre_compile in -lpcre... no
-| checking whether to build with PCRE library... no
-| ++ executing failure action
-| configure: error: unable to find usable PCRE library
+  license.bbclass: make sure that image manifest dir exists (2016-04-22 16:28:47 +0100)
 
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
----
- meta/recipes-devtools/rpm/rpm_5.4.16.bb | 1 +
- 1 file changed, 1 insertion(+)
+are available in the git repository at:
 
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.16.bb b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-index cbdca88..f2c12d2 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-@@ -328,6 +328,7 @@ EXTRA_OECONF += "--verbose \
- 		--without-ruby \
- 		--without-squirrel \
- 		--without-sasl2 \
-+		--without-tomcrypt \
- 		--with-build-extlibdep \
- 		--with-build-maxextlibdep \
- 		--without-valgrind \
+  git://git.openembedded.org/openembedded-core-contrib rbt/bb
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/bb
+
+Robert Yang (1):
+  oe-buildenv-internal: add BBPATH_EXTRA to BB_ENV_EXTRAWHITE_OE
+
+ scripts/oe-buildenv-internal | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 -- 
-1.9.1
+2.8.0
 
 
