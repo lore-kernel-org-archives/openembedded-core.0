@@ -1,26 +1,49 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E52073166
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-oi0-f52.google.com (mail-oi0-f52.google.com
+	[209.85.218.52])
+	by mail.openembedded.org (Postfix) with ESMTP id D096E605FE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Apr 2016 01:10:44 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u3P1AiRR002118
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 25 Apr 2016 06:48:59 +0000 (UTC)
+Received: by mail-oi0-f52.google.com with SMTP id r78so168299938oie.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Apr 2016 18:10:45 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Sun, 24 Apr 2016 18:10:44 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 24 Apr 2016 18:10:38 -0700
-Message-ID: <fe73ff799d2f9dd94492d683be04defeb3254834.1461546574.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.8.0
-In-Reply-To: <cover.1461546574.git.liezhi.yang@windriver.com>
-References: <cover.1461546574.git.liezhi.yang@windriver.com>
+	Sun, 24 Apr 2016 23:49:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
+	bh=xT/eECrwYnXmjFoj/3xdkw2LRepMMaSAHUiTxhPDus0=;
+	b=KZKWQPrVokIq9a/V/+5fYytO67momuaE3NGi3/nl+AFRhTtCqg7baVjCG4eNXfms3n
+	17VXcpT50w17zAb6Z93AdE9QZlsgU1hkZkIJrZOanHPROzsWB2xuMYTf6+XnMG9MAxM2
+	uF12HeBy1DHPhpMYaYxe4z4apo7RgeGVcHTyThgHuOW/Flq3aAC55aLL8Viv4+6k/R2O
+	FM1K29EWkn8/Hv5v/h3yP5e4plcghcPJPT6QkUsPtelnBlL7DtesinW7FlaDoXNw+yLQ
+	I10Kr+GH5/pMON3sjjl/lGkDyeD45Z5bTDZK41tcQbBj+i6LVMQS0M9q68aFOK6nthag
+	/lkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to;
+	bh=xT/eECrwYnXmjFoj/3xdkw2LRepMMaSAHUiTxhPDus0=;
+	b=dUFygAawRZeMTxEg1VOjelpu0z6shiWGxesuSY053xFANIj15w+p1K4XK5CT+aIj8Z
+	LfbA1fTr5PQ/ZUq3T3a4e7JYY77I4zEjcivUeoo5jWLC1ShyNUXEpdt6zOrCGcdfrv/G
+	v9Qd7sEf5qHyaJF3FwbIAGsmqaFAowLoavcV8DrQrZ/GEHShBpluhQu+bx7d6/80+gCn
+	HfBKMhJFCGVttnNO5KOf98IHfNa3dZLc8Nv8ktRh/GWH8y0HFNwKSxqQyQmCGiJz+nYW
+	zHaXsacKvIqLkuV2CUbIRrFkSm5nIQ11f3JtR3nESxWGhqMK1mNph8riv1DIfLG8d0nf
+	IaZg==
+X-Gm-Message-State: AOPr4FUIspLRTBPXJmghSU1LqL6aIaQT3FDG5rNl+wCReuasla+Y+DJSgGRfgonFAIt+adisSr2fJhOkEWDdcfiD
+X-Received: by 10.157.12.168 with SMTP id b37mr12737680otb.4.1461566939945;
+	Sun, 24 Apr 2016 23:48:59 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 6/6] boot-directdisk.bbclass: remove HDDIMG before create
+Received: by 10.202.173.193 with HTTP; Sun, 24 Apr 2016 23:48:30 -0700 (PDT)
+In-Reply-To: <8CA21060-E04D-4FFF-97A9-4AA7E5FB780B@gmail.com>
+References: <b0e90c378280d55e73abbb3464b08c77bde64867.1461329608.git.jussi.kukkonen@intel.com>
+	<cover.1461329608.git.jussi.kukkonen@intel.com>
+	<d0ca3b62bef9534383af9cbaa6b6a4e1e8a15862.1461329608.git.jussi.kukkonen@intel.com>
+	<8CA21060-E04D-4FFF-97A9-4AA7E5FB780B@gmail.com>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Mon, 25 Apr 2016 09:48:30 +0300
+Message-ID: <CAHiDW_GpSd1YYxNQx=XiL8jFWBtL+TcTy9VkFahEkQmiiW87ow@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] gcc-sanitizers: Depend on target gcc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,35 +56,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Apr 2016 01:10:44 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 25 Apr 2016 06:49:00 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Fixed when rebuild:
-mkdosfs: file /path/to/hdd.image already exists
+On 22 April 2016 at 20:21, Khem Raj <raj.khem@gmail.com> wrote:
+>> On Apr 22, 2016, at 6:26 AM, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
+>>
+>> Without this the target gcc might not be in the sysroot
+>> leading to configure failure.
+>
+> you might want to correct the comment to say cross gcc. Thats whats added to DEPENDS here
+> and not target gcc.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-(cherry-pick from 9abcd309c098558360cde2bff65be840ead25f83)
-Signed-off-by: Tim Kilbourn <tkilbourn@gmail.com>
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/boot-directdisk.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+Thanks. I've force pushed the above change in the repo:
 
-diff --git a/meta/classes/boot-directdisk.bbclass b/meta/classes/boot-directdisk.bbclass
-index 600e21a..b324d89 100644
---- a/meta/classes/boot-directdisk.bbclass
-+++ b/meta/classes/boot-directdisk.bbclass
-@@ -121,6 +121,8 @@ build_boot_dd() {
- 	# done in blocks, thus the mod by 16 instead of 32.
- 	BLOCKS=$(expr $BLOCKS + $(expr 16 - $(expr $BLOCKS % 16)))
- 
-+	# Remove it since mkdosfs would fail when it exists
-+	rm -f $HDDIMG
- 	mkdosfs -n ${BOOTDD_VOLUME_ID} -S 512 -C $HDDIMG $BLOCKS 
- 	mcopy -i $HDDIMG -s $HDDDIR/* ::/
- 
--- 
-2.8.0
+  git://git.yoctoproject.org/poky-contrib jku/more-build-fixes
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/more-build-fixes
 
+Jussi
 
