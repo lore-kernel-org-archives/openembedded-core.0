@@ -1,24 +1,26 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 8971F6FF5B
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CC1D86FF5D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Apr 2016 12:21:45 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 25 Apr 2016 05:21:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,532,1455004800"; d="scan'208";a="962192119"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga002.jf.intel.com with ESMTP; 25 Apr 2016 05:21:44 -0700
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <571E0BF3.8080408@linux.intel.com>
-Date: Mon, 25 Apr 2016 15:22:11 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Icedove/38.6.0
+	Mon, 25 Apr 2016 13:51:44 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u3PDpiSJ005834
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Apr 2016 06:51:45 -0700
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 25 Apr 2016 06:51:44 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 25 Apr 2016 06:51:38 -0700
+Message-ID: <58417b3b5bd553a55771a9a5f9fbcc7a5c7138ba.1461592183.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1461592183.git.liezhi.yang@windriver.com>
+References: <cover.1461592183.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: moving OpenEmbedded-core to Python 3
+Subject: [PATCH 1/6] insane.bbclass: remove workdir from package_qa_check_license()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,35 +33,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Apr 2016 12:21:49 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 25 Apr 2016 13:51:45 -0000
+Content-Type: text/plain
 
-Hello everyone,
+The parameter workdir is not used in package_qa_check_license()
 
-we want to deprecate Python 2 in oe-core and set Python 3 as the 
-default, preferred choice. What does this mean?
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/classes/insane.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-1) Introducing new Python 2 dependencies via new recipes or additional 
-DEPENDS etc. in existing recipes will be discouraged: you'll have to 
-provide a reason.
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index c57b217..a1d23d0 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -672,7 +672,7 @@ def package_qa_check_symlink_to_sysroot(path, name, d, elf, messages):
+                 trimmed = path.replace(os.path.join (d.getVar("PKGDEST", True), name), "")
+                 package_qa_add_message(messages, "symlink-to-sysroot", "Symlink %s in %s points to TMPDIR" % (trimmed, name))
+ 
+-def package_qa_check_license(workdir, d):
++def package_qa_check_license(d):
+     """
+     Check for changes in the license files 
+     """
+@@ -1211,7 +1211,7 @@ Missing inherit gettext?""" % (gt, config))
+     # Check license variables
+     ###########################################################################
+ 
+-    package_qa_check_license(workdir, d)
++    package_qa_check_license(d)
+ 
+     ###########################################################################
+     # Check unrecognised configure options (with a white list)
+-- 
+2.7.4
 
-2) Bitbake itself is at the moment Python 2 only - which will be addressed.
-
-3) OE-core recipes that are currently dependent on Python 2 will be 
-moved to Python 3 whenever possible (e.g. when nothing in oe-core 
-requires them to be built against python 2). This may break some of your 
-code, so please do try any patchsets before they land in master (or 
-stable release), and suggest alternatives.
-
-4) Of course, there is a large mass of Python 2 code out there, which 
-may never be ported to Python 3, so Python 2 will continue to be 
-provided at least until it's no longer supported upstream (the current 
-date is 2020).
-
-I'll prepare an initial patchset for review, so please keep an eye on it.
-
-
-Thanks,
-Alex
 
