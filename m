@@ -1,29 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 138137317C
+Return-Path: <maxin.john@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id A255E70100
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Apr 2016 08:41:38 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u3Q8fMvQ029405; Tue, 26 Apr 2016 09:41:22 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 9yHg-G2kUNGn; Tue, 26 Apr 2016 09:41:22 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u3Q8fGIb029401
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 26 Apr 2016 09:41:17 +0100
-Message-ID: <1461660076.31320.145.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Tristan Van Berkom <tristan.vanberkom@codethink.co.uk>,
-	openembedded-core@lists.openembedded.org
-Date: Tue, 26 Apr 2016 09:41:16 +0100
-In-Reply-To: <1461617044-25526-1-git-send-email-tristan.vanberkom@codethink.co.uk>
-References: <1461617044-25526-1-git-send-email-tristan.vanberkom@codethink.co.uk>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/4] gcc-cross-initial: Split all-gcc and configure-target-libgcc
+	Tue, 26 Apr 2016 08:48:42 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga104.fm.intel.com with ESMTP; 26 Apr 2016 01:48:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,536,1455004800"; d="scan'208";a="92043312"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga004.fm.intel.com with ESMTP; 26 Apr 2016 01:48:42 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 0F9186A4002
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Apr 2016 02:36:18 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Apr 2016 11:48:22 +0300
+Message-Id: <1461660505-24823-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH 0/3] Fix some dependencies and QA Issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,42 +34,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Apr 2016 08:41:39 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 26 Apr 2016 08:48:43 -0000
 
-On Mon, 2016-04-25 at 16:44 -0400, Tristan Van Berkom wrote:
-> Serializing this fixes build on aarch64
-> ---
->  meta/recipes-devtools/gcc/gcc-cross-initial.inc | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-devtools/gcc/gcc-cross-initial.inc
-> b/meta/recipes-devtools/gcc/gcc-cross-initial.inc
-> index c0fa139..98aae45 100644
-> --- a/meta/recipes-devtools/gcc/gcc-cross-initial.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-cross-initial.inc
-> @@ -43,7 +43,8 @@ do_configure_prepend () {
->  }
->  
->  do_compile () {
-> -    oe_runmake all-gcc configure-target-libgcc
-> +    oe_runmake all-gcc
-> +    oe_runmake configure-target-libgcc
->  }
->  do_install () {
->  	( cd ${B}/${TARGET_SYS}/libgcc; oe_runmake 'DESTDIR=${D}'
-> install-unwind_h )
+Fix for some QA issues observed while building core-image-minimal with uclibc
 
-I'd note we have been doing aarch64 builds for a while and not run into
-this. What was the actual failure?
+Maxin B. John (3):
+  popt: fix dependencies and QA Issue
+  bash: fix dependencies and QA Issue
+  libxml2: fix dependencies and QA Issues
 
-Can we fix the underlying aarch64 problem, rather than breaking
-parallelism for everyone else this appears to be working for?
+ meta/recipes-core/libxml/libxml2_2.9.3.bb | 2 +-
+ meta/recipes-extended/bash/bash.inc       | 2 +-
+ meta/recipes-support/popt/popt_1.16.bb    | 2 ++
+ 3 files changed, 4 insertions(+), 2 deletions(-)
 
-Cheers,
-
-Richard
-
+-- 
+2.4.0
 
 
