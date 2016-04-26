@@ -1,52 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
-	[209.85.213.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F8F8607A5
+Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D3A560761
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Apr 2016 16:56:23 +0000 (UTC)
-Received: by mail-ig0-f177.google.com with SMTP id bi2so102910360igb.0
+	Tue, 26 Apr 2016 19:06:54 +0000 (UTC)
+Received: by mail-io0-f176.google.com with SMTP id 190so19721903iow.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Apr 2016 09:56:24 -0700 (PDT)
+	Tue, 26 Apr 2016 12:06:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=JPh4OVUWZtMmTe7Uq3O2Uokxg2QQeqDAvgm5E6wElAA=;
-	b=XjFWQEM+sbYp8pr/Cxe5hufVSX2h+D7CeM93778gQcWwwcPK8kmHFOu8snXfhOi8aJ
-	2+XxUgLkAOcrUG9aBrkgp0BdroRL1oe8rtwl5IcOtjQ3/G5u0bnYclhT27tmiEqwYKgR
-	zTfYj8PML+YghQomAQDvX7AiO3WOio32RHIOIN2EO6Lwiiz4GrB5E0qw27b5mxVosKOw
-	RWhoBNBpVDA3r9N6Dg+QDrXDkSe+3wHQDdf+Wx7dEmOtEedItEPfKlakiKisY7LdVuY1
-	EJjSMKzuXvc5w3PurF6fdgDnXgvH6wv41hUrMxaavU9qYCXmBtdHlgcoJZEmqBTVVhKM
-	KWZQ==
+	:cc; bh=epht39EoUX0/ZAY3N4E9sF2bVdSatRUqd0of8zyhzrM=;
+	b=cuhV+gQ6WEa6IvV9SXk9TiELZ5sfatPibnEtw+u/FAOf6wFIPb8yN2o861EmJANaOW
+	7FUULzUR8TkPPtvv6V98jiYatW0s6CPgoTBYD3C++wGdNQ7hYsgQ8TGWlwMhgkjQ6V+J
+	HiNiL0nocv6Ig2JbJNEAxooLdnnlgRQGlEHwYycpyXazlWBVa+/iSdu5HRW9h/5Xj6Ls
+	fkgwOAJJOZmitdrIn7xvbmMBrb5a6eUs2yrYGJcgMtzsAnqeh4Q1D2PowVzm5sSBmPln
+	lygtRl39FbuHPcADGphi2jUmiVNLEpEL/m+bg7geJ/9K4ugqVm7OLmuHafAZYSv8Zmds
+	059A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=JPh4OVUWZtMmTe7Uq3O2Uokxg2QQeqDAvgm5E6wElAA=;
-	b=YstCbF2Pje2iK8LVeFbSe0yer4OSXHfa3JOAm0dYonK+ds+9aRYUncqdg0NaSwMiRh
-	S2zv458okVGdT96OVRVeAeU8CVYITsRY1lCB6/uLH8rRF15GaetNVFuzN+DaCTw19QrY
-	RmKTaCd4BG4Yj6tcTqqmUrNQxMFHYnjKUrjND1KkK6BxMZncUHIFb2xoy5LhWWP1b5af
-	dLE+thFRW6/ppLwEZe608HxWzOVFFAfaSKc84cA2vInG/VuPVCWPgj8qukyYWLRJo3vr
-	b2++2sCb4e0BOnodTiPP8orDIiyyl7aKp0EC2G2NrTlmERYHPzbryFu3WVLMDx5Vh93e
-	Sjig==
-X-Gm-Message-State: AOPr4FVYdOUAJIkTIzKS+ldS2PlG6goLGb51Fo7seGXXiT7bP652ygv9QN0gOyXM78g3ramr4UXG5PbqJnQJqVHs
-X-Received: by 10.50.150.1 with SMTP id ue1mr19975565igb.52.1461689783914;
-	Tue, 26 Apr 2016 09:56:23 -0700 (PDT)
+	bh=epht39EoUX0/ZAY3N4E9sF2bVdSatRUqd0of8zyhzrM=;
+	b=YqFpzG2XHPT/QmpPjScOghz8X9IJiej/B4vwPziWuQ1fK7QyO+sgio4pF2RqQZSO9l
+	8HaUa1ZBIFOT+29K1wuEUdqYE/jS8fNJc+KP5GeTAF5bg9JmLLHF4iqL4EIIGHNZQRcq
+	4+0f/LVtxdk54bVAQTHNnbCACcnLc18usBMf2WeIm+jmVStBuRMOdPDJwu1iKIaXjavJ
+	RJ/7GXSE+00dEauJKXVD5IvQfFbWwEdLjp/loZwaIY7tJSqdRT8bblhWGdo+yRFdKeTJ
+	Ifs2agcpy8jEbyQdxKDfPsv6EL+W1pQY86hxTflP3z0AJcmPL1T4S8Ke7mD7MVEnqLLB
+	ab1w==
+X-Gm-Message-State: AOPr4FVuZDFOBhfpiaa+XpGHt5wz9h9P8b4sZV97EIjO+iAkwb4D6JJ76FpzXhEdIY1+R22cfnF/FuE5zSbKQ/+y
+X-Received: by 10.107.179.136 with SMTP id c130mr5230408iof.99.1461697615029; 
+	Tue, 26 Apr 2016 12:06:55 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.9.106 with HTTP; Tue, 26 Apr 2016 09:56:04 -0700 (PDT)
-In-Reply-To: <5F23E860-0BC7-4F5B-B4BD-E251F8DB0DD9@gmail.com>
-References: <cover.1461592183.git.liezhi.yang@windriver.com>
-	<e76f32f4bb513453ffd80704adf19540b8f35d2a.1461592183.git.liezhi.yang@windriver.com>
-	<CAJTo0LZgtTN+6M_Xvwm2zQAibJR0jBXB15eU12HfUtz2ERuYKA@mail.gmail.com>
-	<571EB9F9.3060602@windriver.com>
-	<CAJTo0LZN4Y1vFOJJrMxsapm9LL=KT05_KV2C63fH5QkEjZw3og@mail.gmail.com>
-	<CAPhnLPDJ3hfHJLRYPHQOz47A1oFrtuM_FevmvAtRpCTp5eChng@mail.gmail.com>
-	<5F23E860-0BC7-4F5B-B4BD-E251F8DB0DD9@gmail.com>
+Received: by 10.107.9.106 with HTTP; Tue, 26 Apr 2016 12:06:35 -0700 (PDT)
+In-Reply-To: <CAJTo0LaE9PTEG6zsasGc_H6ngw4Oq=BFZBTZQ4ynszdtUTV3QQ@mail.gmail.com>
+References: <20160422000519.GR16135@denix.org>
+	<CABcZANmiDeW-B13vE3X0gjX_QfxV5iihD9ZnUKAU=wovnEuxBg@mail.gmail.com>
+	<CAJTo0LaE9PTEG6zsasGc_H6ngw4Oq=BFZBTZQ4ynszdtUTV3QQ@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 26 Apr 2016 17:56:04 +0100
-Message-ID: <CAJTo0La2F5fQdikrV6ZNHSKLfOPsNxBtLQPn9-kAf3FnEMz8xQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 26 Apr 2016 20:06:35 +0100
+Message-ID: <CAJTo0LYfkePDuqUQ2WMNZ-v6JqfPZv1wA2KrKPw1qGojmzpa7A@mail.gmail.com>
+To: Christopher Larson <clarson@kergoth.com>,
+	Denys Dmytriyenko <denis@denix.org>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 6/6] libxsettings-client: fix LICENSE
+Subject: Re: mesa, libgbm and weston
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,36 +56,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Apr 2016 16:56:25 -0000
-Content-Type: multipart/alternative; boundary=001a11c30f0a57d1050531662cce
+X-List-Received-Date: Tue, 26 Apr 2016 19:06:56 -0000
+Content-Type: multipart/alternative; boundary=001a1148578c1d0dec053167ff13
 
---001a11c30f0a57d1050531662cce
+--001a1148578c1d0dec053167ff13
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On 26 April 2016 at 17:43, Khem Raj <raj.khem@gmail.com> wrote:
+On 26 April 2016 at 12:36, Burton, Ross <ross.burton@intel.com> wrote:
 
-> It may be good to send a query to concerned folks at redhat and clarify
-> so we don=E2=80=99t have to make assumptions.
->
+> We used virtual/mesa to mean "the Mesa APIs and so on" so libgbm is
+> covered by this.  Of course at the time there was only one implementation
+> in mesa.  Now that there are genuine alternative reimplementations of
+> libgdm then I agree that a virtual/libgbm is a good move, and replacing all
+> of the virtual/mesa instances that are actually just for libgdm.
 
-Owen just confirmed on IRC that this code is MIT.
+
+Just had a chat with a friendly graphics developer.  Currently libgbm is
+tied to the drivers and GL stack implementation, so it makes perfect sense
+that mesa's libgbm should probably be renamed along with the GL bits to
+libgbm-mesa, and other drivers ship their own libgbm, and we have a
+virtual/libgbm to pick between.
+
+Patches welcome from someone who has relevant hardware to test it actually
+works.
 
 Ross
 
---001a11c30f0a57d1050531662cce
+--001a1148578c1d0dec053167ff13
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 26 April 2016 at 17:43, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto=
-:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wr=
-ote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
--left:1px #ccc solid;padding-left:1ex"><div id=3D":3xm" class=3D"a3s aXjCH"=
->It may be good to send a query to concerned folks at redhat and clarify<br=
->
-so we don=E2=80=99t have to make assumptions.</div></blockquote></div><br>O=
-wen just confirmed on IRC that this code is MIT.</div><div class=3D"gmail_e=
-xtra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+On 26 April 2016 at 12:36, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;=
+</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex">We used virtual/mesa to me=
+an &quot;the Mesa APIs and so on&quot; so libgbm is covered by this.=C2=A0 =
+Of course at the time there was only one implementation in mesa.=C2=A0 Now =
+that there are genuine alternative reimplementations of libgdm then I agree=
+ that a virtual/libgbm is a good move, and replacing all of the virtual/mes=
+a instances that are actually just for libgdm.</blockquote></div><br>Just h=
+ad a chat with a friendly graphics developer.=C2=A0 Currently libgbm is tie=
+d to the drivers and GL stack implementation, so it makes perfect sense tha=
+t mesa&#39;s libgbm should probably be renamed along with the GL bits to li=
+bgbm-mesa, and other drivers ship their own libgbm, and we have a virtual/l=
+ibgbm to pick between.</div><div class=3D"gmail_extra"><br></div><div class=
+=3D"gmail_extra">Patches welcome from someone who has relevant hardware to =
+test it actually works.</div><div class=3D"gmail_extra"><br></div><div clas=
+s=3D"gmail_extra">Ross</div></div>
 
---001a11c30f0a57d1050531662cce--
+--001a1148578c1d0dec053167ff13--
