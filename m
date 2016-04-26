@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D5DA70149
+	by mail.openembedded.org (Postfix) with ESMTP id 0DFE2731C1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Apr 2016 12:46:48 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga103.jf.intel.com with ESMTP; 26 Apr 2016 05:46:49 -0700
+	Tue, 26 Apr 2016 12:46:59 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP; 26 Apr 2016 05:47:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,536,1455004800"; d="scan'208";a="92153197"
+X-IronPort-AV: E=Sophos;i="5.24,536,1455004800"; d="scan'208";a="940453954"
 Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga004.fm.intel.com with ESMTP; 26 Apr 2016 05:46:49 -0700
+	by orsmga001.jf.intel.com with ESMTP; 26 Apr 2016 05:47:00 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id 26B016A4002
+	by linux.intel.com (Postfix) with ESMTP id 1BE2D6A4002
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Apr 2016 06:34:24 -0700 (PDT)
+	Tue, 26 Apr 2016 06:34:35 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Apr 2016 13:26:24 +0300
-Message-Id: <0c521760d7fdb18f21dde58a68fdc60f39efdfb4.1461664163.git.ed.bartosh@linux.intel.com>
+Date: Tue, 26 Apr 2016 13:26:25 +0300
+Message-Id: <7416c3ba19f26fe6eea485fefad4db4881f829ad.1461664163.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1461664163.git.ed.bartosh@linux.intel.com>
 References: <cover.1461664163.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1461664163.git.ed.bartosh@linux.intel.com>
 References: <cover.1461664163.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 2/3] image types: add bmap generation option
+Subject: [PATCH 3/3] selftest: add bmap test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,50 +35,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Apr 2016 12:46:48 -0000
+X-List-Received-Date: Tue, 26 Apr 2016 12:46:59 -0000
 
-From: "Alexander D. Kanevskiy" <kad@kad.name>
+Added test_bmap to imagefeatures tests.
+It tests if bmap file is generated for the images and
+if the image is sparse.
 
-bmap image conversion type allows to create block map files
-for sparse images. Bmap file can be used together with bmap-tools
-for efficiently flash images to raw devices (hdd or usb drive)
-
-[YOCTO #9414]
-
-Signed-off-by: Alexander D. Kanevskiy <kad@kad.name>
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/classes/image_types.bbclass | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/imagefeatures.py | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 53af7ca..19f89f3 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -262,7 +262,7 @@ IMAGE_TYPES = " \
-     wic wic.gz wic.bz2 wic.lzma \
- "
+diff --git a/meta/lib/oeqa/selftest/imagefeatures.py b/meta/lib/oeqa/selftest/imagefeatures.py
+index 8a53899..08e382f 100644
+--- a/meta/lib/oeqa/selftest/imagefeatures.py
++++ b/meta/lib/oeqa/selftest/imagefeatures.py
+@@ -98,3 +98,30 @@ class ImageFeatures(oeSelfTest):
+         # Build a core-image-weston
+         bitbake('core-image-weston')
  
--COMPRESSIONTYPES = "gz bz2 lzma xz lz4 sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum"
-+COMPRESSIONTYPES = "gz bz2 lzma xz lz4 sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap"
- COMPRESS_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
- COMPRESS_CMD_gz = "gzip -f -9 -c ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
- COMPRESS_CMD_bz2 = "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
-@@ -275,12 +275,14 @@ COMPRESS_CMD_sha224sum = "sha224sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} >
- COMPRESS_CMD_sha256sum = "sha256sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha256sum"
- COMPRESS_CMD_sha384sum = "sha384sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha384sum"
- COMPRESS_CMD_sha512sum = "sha512sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha512sum"
-+COMPRESS_CMD_bmap = "bmaptool create ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} -o ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.bmap"
- COMPRESS_DEPENDS_lzma = "xz-native"
- COMPRESS_DEPENDS_gz = ""
- COMPRESS_DEPENDS_bz2 = "pbzip2-native"
- COMPRESS_DEPENDS_xz = "xz-native"
- COMPRESS_DEPENDS_lz4 = "lz4-native"
- COMPRESS_DEPENDS_sum = "mtd-utils-native"
-+COMPRESS_DEPENDS_bmap = "bmap-tools-native"
- 
- RUNNABLE_IMAGE_TYPES ?= "ext2 ext3 ext4"
- RUNNABLE_MACHINE_PATTERNS ?= "qemu"
++    def test_bmap(self):
++        """
++        Summary:     Check bmap support
++        Expected:    1. core-image-minimal can be build with bmap support
++                     2. core-image-minimal is sparse
++        Product:     oe-core
++        Author:      Ed Bartosh <ed.bartosh@linux.intel.com>
++        """
++
++        features = 'IMAGE_FSTYPES += " ext4 ext4.bmap"'
++        self.write_config(features)
++
++        image_name = 'core-image-minimal'
++        bitbake(image_name)
++
++        deploy_dir = get_bb_var('DEPLOY_DIR_IMAGE')
++        link_name = get_bb_var('IMAGE_LINK_NAME', image_name)
++        image_path = os.path.join(deploy_dir, "%s.ext4" % link_name)
++        bmap_path = "%s.bmap" % image_path
++
++        # check if result image and bmap file are in deploy directory
++        self.assertTrue(os.path.exists(image_path))
++        self.assertTrue(os.path.exists(bmap_path))
++
++        # check if result image is sparse
++        image_stat = os.stat(image_path)
++        self.assertTrue(image_stat.st_size > image_stat.st_blocks * 512)
 -- 
 2.1.4
 
