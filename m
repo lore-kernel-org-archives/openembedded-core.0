@@ -1,38 +1,48 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 520E86FEFA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
+	[209.85.213.170])
+	by mail.openembedded.org (Postfix) with ESMTP id D410C6FEE0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Apr 2016 11:03:06 +0000 (UTC)
-Received: by mail-wm0-f54.google.com with SMTP id u206so2413527wme.1
+	Tue, 26 Apr 2016 11:36:29 +0000 (UTC)
+Received: by mail-ig0-f170.google.com with SMTP id u5so7652534igk.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Apr 2016 04:03:07 -0700 (PDT)
+	Tue, 26 Apr 2016 04:36:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=OSdNokSyxsTkxJf3/NM/BSj+tujx7UWlrf1F1vSxmqY=;
+	b=cZ2X3eNbG9nIffSTXfnxb+liB0LMsUge0PFJhFJdVu9FmltQ/Z3M5IRB8NDA+eaLZP
+	hnCCZ7pYgb/+/65ZvImmoY1IRBVFaEWDKrZOoqQ3LBTi3kkCpbZJ0KqcQ7PO3XoJ4PLn
+	9iOWtH48ycSyCF/hrJwzm4tQae2ZyvfiwcApaq0vJxoS5MYpPMntkx8++YE0VNuoa3hc
+	v70gPqAMsT17AtIh8FTCZseE7Uy3Onor2TEdjzxB3iXu5mGimsRsQBddDNGyO+ZiR99Z
+	S9i284ZqrQIAVKzAZe7VmGLvQFTmOqzmTleJhsowk/qFrptnlH0pppNgRw3zu6mPjtsL
+	atLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=3j0aAuwy029ujJ+hSnebQL2UkhyEe75GcYKom+OVmoE=;
-	b=NZPXitwsrGnfoD7rtLyIONjqKP14eTtmjPq6qCyrvDA5JyNdpEL4xsSlEcQQptbnsC
-	0TAjCeIYkpXJRkmyLd44JE6FdfizKthEqvDMKFujnWhWPYa3Q2HhR6rhLyOzGU95PkZO
-	3KTMSWOy+Yb2L1e8HqWGnXYjlASQrx5uMzstbgnrocirfbnERBPJsP5EP8Nzv8DbYGNL
-	ScED6duyfnyFPXV4DuWeYXlIBFXeBM2pcEQOIlpeATLjMoold9x5NGS26MLwwNVvZkUX
-	1SKos/XINFtYiDqXKkjsD9QxDhoowCQQbE7gOxwIVU6ykEKahNeoYStyb+X1vFvDgwDv
-	SGLQ==
-X-Gm-Message-State: AOPr4FXeyVRUzRI4SgT72r4SX3lXRrAjvLErYtFwr3URt83O5KIOtKFY9z5xiheZ9l9FCw==
-X-Received: by 10.28.230.137 with SMTP id e9mr3159457wmi.0.1461668586766;
-	Tue, 26 Apr 2016 04:03:06 -0700 (PDT)
-Received: from localhost.localdomain ([185.46.212.56])
-	by smtp.gmail.com with ESMTPSA id
-	e140sm23551016wma.13.2016.04.26.04.03.05
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 26 Apr 2016 04:03:05 -0700 (PDT)
-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Apr 2016 12:03:02 +0100
-Message-Id: <1461668582-14069-1-git-send-email-git@andred.net>
-X-Mailer: git-send-email 2.8.1
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=OSdNokSyxsTkxJf3/NM/BSj+tujx7UWlrf1F1vSxmqY=;
+	b=mdEn563DgJBDH66cDtUZze6TVUcn7nPKqlNPJ3tn8P2Wov2CZoqLH/UDnWWJQkxYPm
+	DHaRXmaLEoce6a8HHIcKg6BtrwTy6boLepmY/252zMdpoP7PPa/RLTNoTpHZiQwxPuZI
+	20eUt9By9wxu4oyf0hMscsBcDARdD7scrjUCBGMrjI4qEBgQycNydMI8e0BN23HbXuJk
+	DVc0Z+nqM2kRIcf83W+2aGUpLemYFGRRTH9UbI5b2tQBiSrVECKScQr8b/tJR2XX5tC+
+	hnCE94EA+KB8C4ki+F0+HFeRMmhw73yEc0ZbyPq4Xd4d1YuDRxEtQ24jk6nqAQKUOG96
+	CByA==
+X-Gm-Message-State: AOPr4FWZVGDzJPufGOAmIZcg67+qo4jYYX656gPf7dUPzwz2phLbER+lN47n0vUYnk0I0/WITJ4XTEQEyXKIoQ9d
+X-Received: by 10.50.18.111 with SMTP id v15mr17868221igd.64.1461670589783;
+	Tue, 26 Apr 2016 04:36:29 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] tune-mips32r2.inc: add soft-float variants
+Received: by 10.107.9.106 with HTTP; Tue, 26 Apr 2016 04:36:10 -0700 (PDT)
+In-Reply-To: <CABcZANmiDeW-B13vE3X0gjX_QfxV5iihD9ZnUKAU=wovnEuxBg@mail.gmail.com>
+References: <20160422000519.GR16135@denix.org>
+	<CABcZANmiDeW-B13vE3X0gjX_QfxV5iihD9ZnUKAU=wovnEuxBg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 26 Apr 2016 12:36:10 +0100
+Message-ID: <CAJTo0LaE9PTEG6zsasGc_H6ngw4Oq=BFZBTZQ4ynszdtUTV3QQ@mail.gmail.com>
+To: Christopher Larson <clarson@kergoth.com>,
+	Denys Dmytriyenko <denis@denix.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: mesa, libgbm and weston
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,45 +55,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Apr 2016 11:03:07 -0000
+X-List-Received-Date: Tue, 26 Apr 2016 11:36:31 -0000
+Content-Type: multipart/alternative; boundary=089e014953cc48a282053161b4b1
+
+--089e014953cc48a282053161b4b1
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-From: André Draszik <adraszik@tycoint.com>
+On 22 April 2016 at 01:27, Christopher Larson <clarson@kergoth.com> wrote:
 
-Signed-off-by: André Draszik <adraszik@tycoint.com>
----
- meta/conf/machine/include/tune-mips32r2.inc | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+> 1. Change weston recipe in oe-core to depend on libgbm instead of
+>> virtual/mesa
+>> assuming that it is provided by mesa recipe and it works for other
+>> platforms.
+>>
+>
+> I'd say this, either libgbm or virtual/libgbm.
+>
 
-diff --git a/meta/conf/machine/include/tune-mips32r2.inc b/meta/conf/machine/include/tune-mips32r2.inc
-index 0e95ec8..5e398cb 100644
---- a/meta/conf/machine/include/tune-mips32r2.inc
-+++ b/meta/conf/machine/include/tune-mips32r2.inc
-@@ -6,6 +6,7 @@ TUNEVALID[mips32r2] = "Enable mips32r2 specific processor optimizations"
- TUNECONFLICTS[mips32r2] = "n64 n32"
- TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'mips32r2', ' -march=mips32r2', '', d)}"
- 
-+# hard float
- AVAILTUNES += "mips32r2 mips32r2el"
- 
- TUNE_FEATURES_tune-mips32r2 = "${TUNE_FEATURES_tune-mips} mips32r2"
-@@ -15,3 +16,14 @@ PACKAGE_EXTRA_ARCHS_tune-mips32r2 = "mips mips32 mips32r2"
- TUNE_FEATURES_tune-mips32r2el = "${TUNE_FEATURES_tune-mipsel} mips32r2"
- MIPSPKGSFX_VARIANT_tune-mips32r2el = "mips32r2el"
- PACKAGE_EXTRA_ARCHS_tune-mips32r2el = "mipsel mips32el mips32r2el"
-+
-+# soft float
-+AVAILTUNES += "mips32r2-nf mips32r2el-nf"
-+
-+TUNE_FEATURES_tune-mips32r2-nf = "${TUNE_FEATURES_tune-mips-nf} mips32r2"
-+MIPSPKGSFX_VARIANT_tune-mips32r2-nf = "mips32r2"
-+PACKAGE_EXTRA_ARCHS_tune-mips32r2-nf = "mips-nf mips32-nf mips32r2-nf"
-+
-+TUNE_FEATURES_tune-mips32r2el-nf = "${TUNE_FEATURES_tune-mipsel-nf} mips32r2"
-+MIPSPKGSFX_VARIANT_tune-mips32r2el-nf = "mips32r2el"
-+PACKAGE_EXTRA_ARCHS_tune-mips32r2el-nf = "mipsel-nf mips32el-nf mips32r2el-nf"
--- 
-2.8.1
+We used virtual/mesa to mean "the Mesa APIs and so on" so libgbm is covered
+by this.  Of course at the time there was only one implementation in mesa.
+Now that there are genuine alternative reimplementations of libgdm then I
+agree that a virtual/libgbm is a good move, and replacing all of the
+virtual/mesa instances that are actually just for libgdm.
 
+Ross
 
+--089e014953cc48a282053161b4b1
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 22 April 2016 at 01:27, Christopher Larson <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:clarson@kergoth.com" target=3D"_blank">clarson@kergoth.com</a>&g=
+t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D""><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
+solid;padding-left:1ex">1. Change weston recipe in oe-core to depend on lib=
+gbm instead of virtual/mesa<br>
+assuming that it is provided by mesa recipe and it works for other platform=
+s.<br></blockquote><div><br></div></span><div>I&#39;d say this, either libg=
+bm or virtual/libgbm.=C2=A0</div></blockquote></div><br>We used virtual/mes=
+a to mean &quot;the Mesa APIs and so on&quot; so libgbm is covered by this.=
+=C2=A0 Of course at the time there was only one implementation in mesa.=C2=
+=A0 Now that there are genuine alternative reimplementations of libgdm then=
+ I agree that a virtual/libgbm is a good move, and replacing all of the vir=
+tual/mesa instances that are actually just for libgdm.</div><div class=3D"g=
+mail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--089e014953cc48a282053161b4b1--
