@@ -1,65 +1,33 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
-	[209.85.220.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 8045F6FF01
+Return-Path: <denis@denix.org>
+Received: from vms173023pub.verizon.net (vms173023pub.verizon.net
+	[206.46.173.23])
+	by mail.openembedded.org (Postfix) with ESMTP id E54DE73176
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Apr 2016 14:49:22 +0000 (UTC)
-Received: by mail-pa0-f48.google.com with SMTP id r5so7492094pag.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Apr 2016 07:49:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=Fsml3EAWepWxfbCfwfXKsdUcuH88ZEkqCxE4NQVke3Y=;
-	b=jekAqynPB9XxhfRFDqp0gAASQmm6QpmxRXx9YvgsNeJGVL0WRQ88G+PCNxzkj+vp0/
-	gXarrJiQvssHo8+r1ZFiN6fMAC/gTpd+fSbVfVxc5GPeBQQYq2TkrAJLZfCSdEFFXZ5E
-	NmkC5iiJEhVBzIsAt5TkaVhvssdRrRtqMuiEPBymvOhiypBlygMhWDtt5Z74/kgsd7Mx
-	/4IOIrmVaxhO9BlizazHKRwAVwGPHxNOAkto+QWtg1lKwLTr1EyPtO4IK/aaMjV36/xV
-	XTTewcbLholHrOeiomNlCuS+cGfVCa0bWiDkdJ/8U0vgPDqm1qpkWtOzd4atWFS0RUOI
-	SlAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=Fsml3EAWepWxfbCfwfXKsdUcuH88ZEkqCxE4NQVke3Y=;
-	b=inIydkN18E7/g+Sy2FyZmK/1n3xZBR7ax6z+dCU+ghbk75zqGCZwDTs1stsKGkDJWu
-	PiOSUpF+25RiLpmAllAA6Ee9DnNuVG86D3B30HovHVXURAVQ0jolzjD2jn6cpEGzU+yQ
-	LW277yWztg0a6KPI07t2p/pceJlQgl+HkiGiXxdrgZcGMajph56LuwOXzFsaCKHr5U+m
-	Ye55tzGSnWaT4kEs6oP9BCavAz5Q810zd6IA5eA4WgAE/5w5cuoaD/pULLzdfTDh9rLj
-	ffUU+idutPYF1ymvr2TyxYr/y59wqPioOk6F1ZMyEIJjcmjfgYJ8j+TYDriaob/3e0oX
-	w6xw==
-X-Gm-Message-State: AOPr4FWhKFQpF8dl8CL2KkbKaluh+/lYzpN/prcEUm2gionFIGJxygJdQanh6i3LuoNHMg==
-X-Received: by 10.66.67.11 with SMTP id j11mr4164363pat.45.1461682163469;
-	Tue, 26 Apr 2016 07:49:23 -0700 (PDT)
-Received: from mail-pf0-f171.google.com (mail-pf0-f171.google.com.
-	[209.85.192.171]) by smtp.gmail.com with ESMTPSA id
-	79sm37646056pfq.65.2016.04.26.07.49.21
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 26 Apr 2016 07:49:22 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-pf0-f171.google.com with SMTP id c189so7738425pfb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Apr 2016 07:49:21 -0700 (PDT)
-MIME-Version: 1.0
-X-Received: by 10.98.87.11 with SMTP id l11mr4132804pfb.95.1461682161473; Tue,
-	26 Apr 2016 07:49:21 -0700 (PDT)
-Received: by 10.66.231.37 with HTTP; Tue, 26 Apr 2016 07:49:21 -0700 (PDT)
-In-Reply-To: <20160426142703.GE31113@denix.org>
-References: <20160422000519.GR16135@denix.org>
-	<CABcZANmiDeW-B13vE3X0gjX_QfxV5iihD9ZnUKAU=wovnEuxBg@mail.gmail.com>
-	<20160425165011.GV16135@denix.org>
-	<CAJTo0LZCgoyt8GyvbkhvsK4_Q8v5MgU3O+0FFXGaajyyiDS0Zg@mail.gmail.com>
-	<CAJTo0Lb3pwi-BewA3kyU+QhgP2_s5uXd=vXH0fXRA8wM-9fMgg@mail.gmail.com>
-	<20160426142703.GE31113@denix.org>
-Date: Tue, 26 Apr 2016 11:49:21 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKra2rghspNPLPJ+sXHDGUK0QN3+ebvdiQPeGp+vZcqj7A@mail.gmail.com>
-Message-ID: <CAP9ODKra2rghspNPLPJ+sXHDGUK0QN3+ebvdiQPeGp+vZcqj7A@mail.gmail.com>
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: Christopher Larson <clarson@kergoth.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: mesa, libgbm and weston
+	Tue, 26 Apr 2016 14:49:40 +0000 (UTC)
+Received: from vz-proxy-l004.mx.aol.com ([64.236.82.151])
+	by vms173023.mailsrvcs.net
+	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul 16
+	2014)) with ESMTPA id <0O6800CT3X6EVB60@vms173023.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Tue, 26 Apr 2016 09:49:26 -0500 (CDT)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.1 cv=WcjxEBVX c=1 sm=1 tr=0	a=eaPqxu9IKnv3tbb7QsXVMw==:117
+	a=kj9zAlcOel0A:10 a=kziv93cY1bsA:10	a=QyXUC8HyAAAA:8 a=sozttTNsAAAA:8
+	a=Q4-j1AaZAAAA:8 a=V0IbOGlxgwdGvxh1dlsA:9	a=CjuIK1q_8ugA:10
+Received: by 100.15.86.14 with SMTP id 57793dfe; Tue, 26 Apr 2016 14:49:26 GMT
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id C6511161FC7; Tue,
+	26 Apr 2016 10:49:25 -0400 (EDT)
+Date: Tue, 26 Apr 2016 10:49:25 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Ross Burton <ross.burton@intel.com>
+Message-id: <20160426144925.GG31113@denix.org>
+References: <1461679103-2828-1-git-send-email-ross.burton@intel.com>
+	<1461679103-2828-2-git-send-email-ross.burton@intel.com>
+MIME-version: 1.0
+In-reply-to: <1461679103-2828-2-git-send-email-ross.burton@intel.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] mesa: add PACKAGECONFIG for gbm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -72,33 +40,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Apr 2016 14:49:23 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 26 Apr 2016 14:49:42 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-On Tue, Apr 26, 2016 at 11:27 AM, Denys Dmytriyenko <denis@denix.org> wrote:
-> On Tue, Apr 26, 2016 at 03:00:59PM +0100, Burton, Ross wrote:
->> On 26 April 2016 at 12:59, Burton, Ross <ross.burton@intel.com> wrote:
->>
->> > I added a PACKAGECONFIG for libgbm to mesa.inc, enabled it for mesa and
->> > disabled it for mesa-gl, and mesa-gl still build fine but didn't ship a
->> > libgbm.
->> >
->> > I've forgotten the details about all of this: does mesa-gl shipping libgbm
->> > make sense at all?  Or in the real world will BSPs either use mesa or their
->> > own GLES driver + their own libgbm + mesa-gl if required?
->> >
->>
->> I've just sent a couple of mesa patches, can you see if these help?
->
-> Thanks, making few builds now to test those.
->
-> What about virtual/libgbm package and updating mesa's PROVIDES list?
+On Tue, Apr 26, 2016 at 02:58:23PM +0100, Ross Burton wrote:
+> gbm is an optional library and some environments (for example, mesa-gl where
+> there are separate drivers that provide libgbm) may not want to build it.
+> 
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
 
-I think it would make it even more flexible; I am in favor of it.
+I was now able to build mesa-gl with TI SGX GLES and own libgbm. Thanks!
+
+Acked-by: Denys Dmytriyenko <denys@ti.com>
 
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+> ---
+>  meta/recipes-graphics/mesa/mesa.inc | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+> index 442479a..a4e5351 100644
+> --- a/meta/recipes-graphics/mesa/mesa.inc
+> +++ b/meta/recipes-graphics/mesa/mesa.inc
+> @@ -24,11 +24,13 @@ REQUIRED_DISTRO_FEATURES = "opengl"
+>  
+>  EXTRA_OECONF = "--enable-shared-glapi"
+>  
+> -PACKAGECONFIG ??= "egl gles dri ${MESA_CRYPTO} \
+> +PACKAGECONFIG ??= "gbm egl gles dri ${MESA_CRYPTO} \
+>  		${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}\
+>  		${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)}\
+>  		"
+>  
+> +PACKAGECONFIG[gbm] = "--enable-gbm,--disable-gbm"
+> +
+>  X11_DEPS = "xf86driproto glproto virtual/libx11 libxext libxxf86vm libxdamage libxfixes"
+>  PACKAGECONFIG[x11] = "--enable-glx-tls,--disable-glx,${X11_DEPS}"
+>  PACKAGECONFIG[xvmc] = "--enable-xvmc,--disable-xvmc,libxvmc"
+> @@ -37,7 +39,7 @@ PACKAGECONFIG[wayland] = ",,wayland-native wayland"
+>  DRIDRIVERS = "swrast"
+>  DRIDRIVERS_append_x86 = ",radeon,r200,nouveau,i965,i915"
+>  DRIDRIVERS_append_x86-64 = ",radeon,r200,nouveau,i965,i915"
+> -PACKAGECONFIG[dri] = "--enable-dri --with-dri-drivers=${DRIDRIVERS} --enable-gbm, --disable-dri, dri2proto libdrm"
+> +PACKAGECONFIG[dri] = "--enable-dri --with-dri-drivers=${DRIDRIVERS}, --disable-dri, dri2proto libdrm"
+>  PACKAGECONFIG[dri3] = "--enable-dri3, --disable-dri3, dri3proto presentproto libxshmfence"
+>  
+>  PACKAGECONFIG[gles] = "--enable-gles1 --enable-gles2, --disable-gles1 --disable-gles2"
+> -- 
+> 2.8.0.rc3
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
