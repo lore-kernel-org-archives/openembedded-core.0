@@ -1,49 +1,50 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 1657270101
+Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
+	[209.85.223.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 05A0D60118
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Apr 2016 13:58:33 +0000 (UTC)
-Received: by mail-wm0-f45.google.com with SMTP id e201so113851435wme.0
+	Tue, 26 Apr 2016 14:01:18 +0000 (UTC)
+Received: by mail-io0-f177.google.com with SMTP id f89so16543089ioi.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Apr 2016 06:58:34 -0700 (PDT)
+	Tue, 26 Apr 2016 07:01:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=LOuh9s7fRV880gOISaqsTc8ZoFOCbFIHhBYIwl5LUEM=;
-	b=Q86LTXWcUOQ7l1GZep7yByotbegTcehmAH9+p79tQIYRXq9SOvgdyJCcjP7N6byugx
-	aGfNB/wNilWS+XZbLkKEbQHNe7e8bgct1cUxheIPiFz0up1pnDpmoYGCw0hgO7mhhx47
-	rulb5c/CVHsfC7IWLY6whPtCDgJjzhw47MB/e0gZK9m1qHzez7T/ep5QlV4IjfIAAIog
-	NyOoKxaush805DJtM00T7vhf9l2+ljbn+UGW5u2FxnlAaJ/84NheA9jvJVXQy9ZGMcXR
-	Ev9Hidhe4yXlFxqJxYkRNUqgfGgQt1oR8v7LhfscDiBuJipWKsxhuA5JHSUFOFWAEw9x
-	yqjA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=gOGPGxlTj5FfZLxHbuCoqFOw8iwB4jic79Y/2QtJjeo=;
+	b=bnF/g4Z16Wpy72FVjbw1gqQklF9eFQzY4Fa4soy5Ry+olcvMUy9EMHWy4uqZOWo9Ul
+	KWM9+veFSfCV3EQiYtczc/rFFMSshbzq75D0cgmzr9f10VAS//V6ZKaPuqH/4rPz2smC
+	PFhh2zUuqtc7eQbk/t1d5tNrOLxZXImV8AorgOVJUyM/PrlDnhpT48AVlEX6weclDVsZ
+	NO6tIQwP1JuhlEGGDu5XCViF+D+Gna80S2DkzynHLJ59tcukJ9erCxDp0upmEtC2ueWD
+	YP6+TutybmbsstcAs9LBx36HVp/o5VirvXiGzVoYUSVguhcOrv49M0qKoUtXMmdThdZ9
+	GNhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=LOuh9s7fRV880gOISaqsTc8ZoFOCbFIHhBYIwl5LUEM=;
-	b=S06wJekm7+r+3y2DIxi4znpzdNwRbhxqYDcXcObrvaGtrTpm3ul8fj7tVesAoWsv+n
-	EJhVTeMjdIyOx8lUDPlF6+cZ9Pd03zkaEf/3RE+FOC4a4yy2zGc/GJ5/Rw/kkpwyokph
-	wPxqPl9YEX7t+gfmNueegFJXPoXwjaFBkqh1Qyy3FM6YyRCdo0Tq0X/c7mgPAQ9CpR21
-	me594fbuYcay3xGDNJtx9mwZkzgFqwfBWQKPsfJIDjGFv7KkrT+S5cfQzng92ysmchlW
-	cWdGW+cyKbi5TLVWhZq+L8nOUBVOP7UZCBVioTS7LGWItLRhtZ7m/DuKGXwzE+K+Zv1t
-	6FUQ==
-X-Gm-Message-State: AOPr4FX01g3XrQNza/Qot0mb+xtdU4WykGItgAKyN2FZEH6WKxk6eiB5L31ekmCmqKRQ40cz
-X-Received: by 10.28.129.6 with SMTP id c6mr4093496wmd.75.1461679108506;
-	Tue, 26 Apr 2016 06:58:28 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	y91sm3354887wmh.10.2016.04.26.06.58.27
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 26 Apr 2016 06:58:27 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Apr 2016 14:58:23 +0100
-Message-Id: <1461679103-2828-2-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.0.rc3
-In-Reply-To: <1461679103-2828-1-git-send-email-ross.burton@intel.com>
-References: <1461679103-2828-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 2/2] mesa: add PACKAGECONFIG for gbm
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=gOGPGxlTj5FfZLxHbuCoqFOw8iwB4jic79Y/2QtJjeo=;
+	b=lJrqsvzzQbT5GWcc15WKKJcp8j1dWUCwUX/JVwnPqaup8SDhzsq6ZZqM+fks19dyp9
+	AIiebsJRWUvPPDYxNZ0Ahg1EyyHpdQ1eR/QWrAM++5l3lv9gkztR+pecxnxTeksJxo8y
+	gYgIZXm3s6AEt8Y+1okH9crjh7anrjSvH4w5ubsY6XBwxQSQJGWYQxWDjSd4CCt3E1Tu
+	faYNZ4pPsk9OdYDNYWNGGOATSrLtMM8rIg60JeteuwFOcAX5VeloXzh3F3ZPQT3HsiGO
+	cy7lNwmS15axxcf91Vc7XQOKKayK5AjbbRKwqw0IKi3bwgT080e6my+ZD77yJvRLpHW2
+	KC0A==
+X-Gm-Message-State: AOPr4FWuVXMBOu8q7GrxmdlCYOIxjnDi1y9I682CAd1U4FGYrvRW47wzBW6VLLNuuhT6Sz3BNbnZrxCyu+T+7lFw
+X-Received: by 10.107.51.213 with SMTP id z204mr3436561ioz.148.1461679279100; 
+	Tue, 26 Apr 2016 07:01:19 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.9.106 with HTTP; Tue, 26 Apr 2016 07:00:59 -0700 (PDT)
+In-Reply-To: <CAJTo0LZCgoyt8GyvbkhvsK4_Q8v5MgU3O+0FFXGaajyyiDS0Zg@mail.gmail.com>
+References: <20160422000519.GR16135@denix.org>
+	<CABcZANmiDeW-B13vE3X0gjX_QfxV5iihD9ZnUKAU=wovnEuxBg@mail.gmail.com>
+	<20160425165011.GV16135@denix.org>
+	<CAJTo0LZCgoyt8GyvbkhvsK4_Q8v5MgU3O+0FFXGaajyyiDS0Zg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 26 Apr 2016 15:00:59 +0100
+Message-ID: <CAJTo0Lb3pwi-BewA3kyU+QhgP2_s5uXd=vXH0fXRA8wM-9fMgg@mail.gmail.com>
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: Christopher Larson <clarson@kergoth.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: mesa, libgbm and weston
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,45 +57,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Apr 2016 13:58:34 -0000
+X-List-Received-Date: Tue, 26 Apr 2016 14:01:19 -0000
+Content-Type: multipart/alternative; boundary=001a11440cd034f05b053163ba85
 
-gbm is an optional library and some environments (for example, mesa-gl where
-there are separate drivers that provide libgbm) may not want to build it.
+--001a11440cd034f05b053163ba85
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/mesa/mesa.inc | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+On 26 April 2016 at 12:59, Burton, Ross <ross.burton@intel.com> wrote:
 
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 442479a..a4e5351 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -24,11 +24,13 @@ REQUIRED_DISTRO_FEATURES = "opengl"
- 
- EXTRA_OECONF = "--enable-shared-glapi"
- 
--PACKAGECONFIG ??= "egl gles dri ${MESA_CRYPTO} \
-+PACKAGECONFIG ??= "gbm egl gles dri ${MESA_CRYPTO} \
- 		${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}\
- 		${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)}\
- 		"
- 
-+PACKAGECONFIG[gbm] = "--enable-gbm,--disable-gbm"
-+
- X11_DEPS = "xf86driproto glproto virtual/libx11 libxext libxxf86vm libxdamage libxfixes"
- PACKAGECONFIG[x11] = "--enable-glx-tls,--disable-glx,${X11_DEPS}"
- PACKAGECONFIG[xvmc] = "--enable-xvmc,--disable-xvmc,libxvmc"
-@@ -37,7 +39,7 @@ PACKAGECONFIG[wayland] = ",,wayland-native wayland"
- DRIDRIVERS = "swrast"
- DRIDRIVERS_append_x86 = ",radeon,r200,nouveau,i965,i915"
- DRIDRIVERS_append_x86-64 = ",radeon,r200,nouveau,i965,i915"
--PACKAGECONFIG[dri] = "--enable-dri --with-dri-drivers=${DRIDRIVERS} --enable-gbm, --disable-dri, dri2proto libdrm"
-+PACKAGECONFIG[dri] = "--enable-dri --with-dri-drivers=${DRIDRIVERS}, --disable-dri, dri2proto libdrm"
- PACKAGECONFIG[dri3] = "--enable-dri3, --disable-dri3, dri3proto presentproto libxshmfence"
- 
- PACKAGECONFIG[gles] = "--enable-gles1 --enable-gles2, --disable-gles1 --disable-gles2"
--- 
-2.8.0.rc3
+> I added a PACKAGECONFIG for libgbm to mesa.inc, enabled it for mesa and
+> disabled it for mesa-gl, and mesa-gl still build fine but didn't ship a
+> libgbm.
+>
+> I've forgotten the details about all of this: does mesa-gl shipping libgbm
+> make sense at all?  Or in the real world will BSPs either use mesa or their
+> own GLES driver + their own libgbm + mesa-gl if required?
+>
 
+I've just sent a couple of mesa patches, can you see if these help?
 
+Ross
+
+--001a11440cd034f05b053163ba85
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 26 April 2016 at 12:59, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;=
+</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex"><div>I added a PACKAGECONF=
+IG for libgbm to mesa.inc, enabled it for mesa and disabled it for mesa-gl,=
+ and mesa-gl still build fine but didn&#39;t ship a libgbm.</div><div><br><=
+/div><div>I&#39;ve forgotten the details about all of this: does mesa-gl sh=
+ipping libgbm make sense at all?=C2=A0 Or in the real world will BSPs eithe=
+r use mesa or their own GLES driver + their own libgbm + mesa-gl if require=
+d?</div></blockquote><div><br></div><div>I&#39;ve just sent a couple of mes=
+a patches, can you see if these help?</div><div><br></div><div>Ross=C2=A0</=
+div></div><br></div></div>
+
+--001a11440cd034f05b053163ba85--
