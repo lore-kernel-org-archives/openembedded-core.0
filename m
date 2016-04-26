@@ -1,29 +1,30 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C6B270100
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C77471E63
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Apr 2016 08:48:48 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga102.jf.intel.com with ESMTP; 26 Apr 2016 01:48:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,536,1455004800"; d="scan'208";a="92043342"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga004.fm.intel.com with ESMTP; 26 Apr 2016 01:48:49 -0700
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 521BD6A4002
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Apr 2016 02:36:25 -0700 (PDT)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Apr 2016 11:48:25 +0300
-Message-Id: <1461660505-24823-4-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-In-Reply-To: <1461660505-24823-1-git-send-email-maxin.john@intel.com>
-References: <1461660505-24823-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 3/3] libxml2: fix dependencies and QA Issues
+	Tue, 26 Apr 2016 08:56:05 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u3Q8u6vH030036; Tue, 26 Apr 2016 09:56:06 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id e8Bv9vEqxFB3; Tue, 26 Apr 2016 09:56:05 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u3Q8u3dk030033
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 26 Apr 2016 09:56:04 +0100
+Message-ID: <1461660963.31320.147.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Robert Yang <liezhi.yang@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 26 Apr 2016 09:56:03 +0100
+In-Reply-To: <e1d663a4f78339b9df14168beec65fa0d3a1e45f.1461592183.git.liezhi.yang@windriver.com>
+References: <cover.1461592183.git.liezhi.yang@windriver.com>
+	<e1d663a4f78339b9df14168beec65fa0d3a1e45f.1461592183.git.liezhi.yang@windriver.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 2/6] insane.bbclass: package_qa_check_license -> do_qa_populate_lic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,37 +37,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Apr 2016 08:48:49 -0000
+X-List-Received-Date: Tue, 26 Apr 2016 08:56:07 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Fix the following QA warnings:
+On Mon, 2016-04-25 at 06:51 -0700, Robert Yang wrote:
+> The package_qa_check_license() was in do_qa_configure which had a
+> potential problem, when the recipe sets do_configure[noexec] = "1",
+> then
+> the license checking won't run, which may hidden license issues.
+> Rename
+> it to do_qa_populate_lic() and run in do_populate_lic[postfuncs]
+> which
+> is more reasonable (when no populate license, no license checking).
+> 
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  meta/classes/insane.bbclass | 15 ++++++---------
+>  1 file changed, 6 insertions(+), 9 deletions(-)
 
-WARNING: libxml2-2.9.3-r0 do_package_qa: QA Issue: libxml2 rdepends on
-libiconv, but it isn't a build dependency, missing libiconv in DEPENDS
-or PACKAGECONFIG? [build-deps]
+There is a convention that "do_" as a function prefix means its a task.
+In this case its not a task but a function, so can you use a different
+prefix please?
 
-WARNING: libxml2-2.9.3-r0 do_package_qa: QA Issue: libxml2-python
-rdepends on libiconv, but it isn't a build dependency, missing libiconv
-in DEPENDS or PACKAGECONFIG? [build-deps]
+Cheers,
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- meta/recipes-core/libxml/libxml2_2.9.3.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.3.bb b/meta/recipes-core/libxml/libxml2_2.9.3.bb
-index 9c9873f..481346c 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.3.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.3.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://Copyright;md5=2044417e2e5006b65a8b9067b683fcf1 \
-                     file://list.c;beginline=4;endline=13;md5=cdbfa3dee51c099edb04e39f762ee907 \
-                     file://trio.c;beginline=5;endline=14;md5=6c025753c86d958722ec76e94cae932e"
- 
--DEPENDS = "zlib"
-+DEPENDS = "zlib virtual/libiconv"
- 
- SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
-            http://www.w3.org/XML/Test/xmlts20080827.tar.gz;name=testtar \
--- 
-2.4.0
-
+Richard
 
