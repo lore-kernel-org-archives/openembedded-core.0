@@ -1,30 +1,29 @@
-Return-Path: <denis@denix.org>
-Received: from vms173011pub.verizon.net (vms173011pub.verizon.net
-	[206.46.173.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 294CE60249
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6705E60249
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Apr 2016 00:38:41 +0000 (UTC)
-Received: from vz-proxy-l006.mx.aol.com ([64.236.82.153])
-	by vms173011.mailsrvcs.net
-	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul 16
-	2014)) with ESMTPA id <0O6700IW9TS2EM50@vms173011.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Mon, 25 Apr 2016 19:38:26 -0500 (CDT)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.1 cv=WpDWSorv c=1 sm=1 tr=0	a=FJ1kTJ0/xm5uTekQe8vMdQ==:117
-	a=kziv93cY1bsA:10 a=sozttTNsAAAA:8	a=mDV3o1hIAAAA:8
-	a=Oe5AkTeDd5ir9bbEqjoA:9 a=enP4xquki5MA:10
-Received: by 100.15.86.14 with SMTP id 6aea45d3; Tue, 26 Apr 2016 00:38:26 GMT
-Received: from localhost.localdomain (elrond [192.168.0.7])
-	by gandalf.denix.org (Postfix) with ESMTP id 136A5161BC9;	Mon,
-	25 Apr 2016 20:38:26 -0400 (EDT)
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Apr 2016 20:38:24 -0400
-Message-id: <1461631104-25529-1-git-send-email-denis@denix.org>
-X-Mailer: git-send-email 2.2.0
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: [PATCH] arch-armv7ve: inherit armv7a tunes file
+	Tue, 26 Apr 2016 00:44:45 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u3Q0iiZ1016538
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 25 Apr 2016 17:44:44 -0700 (PDT)
+Received: from [128.224.162.236] (128.224.162.236) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 25 Apr 2016 17:44:42 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1461592183.git.liezhi.yang@windriver.com>
+	<e76f32f4bb513453ffd80704adf19540b8f35d2a.1461592183.git.liezhi.yang@windriver.com>
+	<CAJTo0LZgtTN+6M_Xvwm2zQAibJR0jBXB15eU12HfUtz2ERuYKA@mail.gmail.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <571EB9F9.3060602@windriver.com>
+Date: Tue, 26 Apr 2016 08:44:41 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LZgtTN+6M_Xvwm2zQAibJR0jBXB15eU12HfUtz2ERuYKA@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 6/6] libxsettings-client: fix LICENSE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,84 +36,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Apr 2016 00:38:43 -0000
+X-List-Received-Date: Tue, 26 Apr 2016 00:44:48 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-From: Denys Dmytriyenko <denys@ti.com>
 
-armv7a is a subset of armv7ve:
-https://gcc.gnu.org/onlinedocs/gcc/ARM-Options.html
 
-   -march=armv7ve is the armv7-a architecture with virtualization extensions.
+On 04/25/2016 11:26 PM, Burton, Ross wrote:
+>
+> On 25 April 2016 at 14:51, Robert Yang <liezhi.yang@windriver.com
+> <mailto:liezhi.yang@windriver.com>> wrote:
+>
+>     The tarball has a COPYING file now, and is GPLv2+.
+>
+>
+> Just had a proper look at this.  The tarball has a COPYING that says GPL, but
+> the source files are all clearly marked MIT.
 
-By inheriting armv7a from armv7ve it's possible for e.g. Cortex-A15 machines
-to include tune-cortexa15.inc and have a full range of optimizations, but
-set DEFAULTTUNE as "armv7a" to produce binaries compatible with Cortex-A8
-machines, etc.
+Thanks, did you mean the following text ? I can't find MIT license there.
 
-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
----
- meta/conf/machine/include/arm/arch-armv7ve.inc | 19 +++++++++----------
- 1 file changed, 9 insertions(+), 10 deletions(-)
+/*
+  * Copyright © 2001 Red Hat, Inc
+  *
+  * Permission to use, copy, modify, distribute, and sell this software and its
+  * documentation for any purpose is hereby granted without fee, provided that
+  * the above copyright notice appear in all copies and that both that
+  * copyright notice and this permission notice appear in supporting
+  * documentation, and that the name of Red Hat not be used in advertising or
+  * publicity pertaining to distribution of the software without specific,
+  * written prior permission.  Red Hat makes no representations about the
+  * suitability of this software for any purpose.  It is provided "as is"
+  * without express or implied warranty.
+  *
+  * RED HAT DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL
+  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL RED HAT
+  * BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+  * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION
+  * OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
+  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+  *
+  * Author:  Owen Taylor, Red Hat, Inc.
+  */
 
-diff --git a/meta/conf/machine/include/arm/arch-armv7ve.inc b/meta/conf/machine/include/arm/arch-armv7ve.inc
-index 79e1ef6..e13156c 100644
---- a/meta/conf/machine/include/arm/arch-armv7ve.inc
-+++ b/meta/conf/machine/include/arm/arch-armv7ve.inc
-@@ -5,8 +5,7 @@ TUNECONFLICTS[armv7ve] = "armv4 armv5 armv6 armv7 armv7a"
- TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7ve', ' -march=armv7ve', '', d)}"
- MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv7ve', 'armv7ve:', '' ,d)}"
- 
--require conf/machine/include/arm/arch-armv6.inc
--require conf/machine/include/arm/feature-arm-neon.inc
-+require conf/machine/include/arm/arch-armv7a.inc
- 
- # Little Endian base configs
- AVAILTUNES += "armv7ve armv7vet armv7ve-vfpv3d16 armv7vet-vfpv3d16 armv7ve-vfpv3 armv7vet-vfpv3 armv7ve-neon armv7vet-neon armv7ve-neon-vfpv4 armv7vet-neon-vfpv4"
-@@ -30,8 +29,8 @@ TUNE_FEATURES_tune-armv7ve-neon        = "${TUNE_FEATURES_tune-armv7ve}  neon"
- TUNE_FEATURES_tune-armv7vet-neon       = "${TUNE_FEATURES_tune-armv7vet} neon"
- TUNE_FEATURES_tune-armv7ve-neon-vfpv4  = "${TUNE_FEATURES_tune-armv7ve-neon}  vfpv4"
- TUNE_FEATURES_tune-armv7vet-neon-vfpv4 = "${TUNE_FEATURES_tune-armv7vet-neon} vfpv4"
--PACKAGE_EXTRA_ARCHS_tune-armv7ve             = "${PACKAGE_EXTRA_ARCHS_tune-armv6}  armv7ve armv7ve-vfp"
--PACKAGE_EXTRA_ARCHS_tune-armv7vet            = "${PACKAGE_EXTRA_ARCHS_tune-armv6t} armv7ve armv7ve-vfp armv7vet2-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv7ve             = "${PACKAGE_EXTRA_ARCHS_tune-armv7a}  armv7ve armv7ve-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv7vet            = "${PACKAGE_EXTRA_ARCHS_tune-armv7at} armv7ve armv7ve-vfp armv7vet2-vfp"
- PACKAGE_EXTRA_ARCHS_tune-armv7ve-vfpv3d16    = "${PACKAGE_EXTRA_ARCHS_tune-armv7ve}  armv7ve-vfpv3d16"
- PACKAGE_EXTRA_ARCHS_tune-armv7vet-vfpv3d16   = "${PACKAGE_EXTRA_ARCHS_tune-armv7vet} armv7ve-vfpv3d16 armv7vet2-vfpv3d16"
- PACKAGE_EXTRA_ARCHS_tune-armv7ve-vfpv3       = "${PACKAGE_EXTRA_ARCHS_tune-armv7ve-vfpv3d16}  armv7ve-vfpv3"
-@@ -63,8 +62,8 @@ TUNE_FEATURES_tune-armv7vehf-neon        = "${TUNE_FEATURES_tune-armv7ve-neon}
- TUNE_FEATURES_tune-armv7vethf-neon       = "${TUNE_FEATURES_tune-armv7vet-neon}       callconvention-hard"
- TUNE_FEATURES_tune-armv7vehf-neon-vfpv4  = "${TUNE_FEATURES_tune-armv7ve-neon-vfpv4}  callconvention-hard"
- TUNE_FEATURES_tune-armv7vethf-neon-vfpv4 = "${TUNE_FEATURES_tune-armv7vet-neon-vfpv4} callconvention-hard"
--PACKAGE_EXTRA_ARCHS_tune-armv7vehf             = "${PACKAGE_EXTRA_ARCHS_tune-armv6hf}  armv7vehf-vfp"
--PACKAGE_EXTRA_ARCHS_tune-armv7vethf            = "${PACKAGE_EXTRA_ARCHS_tune-armv6thf} armv7vehf-vfp armv7vet2hf-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv7vehf             = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf}  armv7vehf-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv7vethf            = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf} armv7vehf-vfp armv7vet2hf-vfp"
- PACKAGE_EXTRA_ARCHS_tune-armv7vehf-vfpv3d16    = "${PACKAGE_EXTRA_ARCHS_tune-armv7vehf}  armv7vehf-vfpv3d16"
- PACKAGE_EXTRA_ARCHS_tune-armv7vethf-vfpv3d16   = "${PACKAGE_EXTRA_ARCHS_tune-armv7vethf} armv7vehf-vfpv3d16 armv7vet2hf-vfpv3d16"
- PACKAGE_EXTRA_ARCHS_tune-armv7vehf-vfpv3       = "${PACKAGE_EXTRA_ARCHS_tune-armv7vehf-vfpv3d16}  armv7vehf-vfpv3"
-@@ -96,8 +95,8 @@ TUNE_FEATURES_tune-armv7veb-neon        = "${TUNE_FEATURES_tune-armv7ve-neon}
- TUNE_FEATURES_tune-armv7vetb-neon       = "${TUNE_FEATURES_tune-armv7vet-neon}       bigendian"
- TUNE_FEATURES_tune-armv7veb-neon-vfpv4  = "${TUNE_FEATURES_tune-armv7ve-neon-vfpv4}  bigendian"
- TUNE_FEATURES_tune-armv7vetb-neon-vfpv4 = "${TUNE_FEATURES_tune-armv7vet-neon-vfpv4} bigendian"
--PACKAGE_EXTRA_ARCHS_tune-armv7veb             = "${PACKAGE_EXTRA_ARCHS_tune-armv6b}  armv7veb-vfp"
--PACKAGE_EXTRA_ARCHS_tune-armv7vetb            = "${PACKAGE_EXTRA_ARCHS_tune-armv6tb} armv7veb-vfp armv7vet2b-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv7veb             = "${PACKAGE_EXTRA_ARCHS_tune-armv7ab}  armv7veb-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv7vetb            = "${PACKAGE_EXTRA_ARCHS_tune-armv7atb} armv7veb-vfp armv7vet2b-vfp"
- PACKAGE_EXTRA_ARCHS_tune-armv7veb-vfpv3d16    = "${PACKAGE_EXTRA_ARCHS_tune-armv7veb}  armv7veb-vfpv3d16"
- PACKAGE_EXTRA_ARCHS_tune-armv7vetb-vfpv3d16   = "${PACKAGE_EXTRA_ARCHS_tune-armv7vetb} armv7veb-vfpv3d16 armv7vet2b-vfpv3d16"
- PACKAGE_EXTRA_ARCHS_tune-armv7veb-vfpv3       = "${PACKAGE_EXTRA_ARCHS_tune-armv7veb-vfpv3d16}  armv7veb-vfpv3"
-@@ -129,8 +128,8 @@ TUNE_FEATURES_tune-armv7vehfb-neon        = "${TUNE_FEATURES_tune-armv7vehf-neon
- TUNE_FEATURES_tune-armv7vethfb-neon       = "${TUNE_FEATURES_tune-armv7vethf-neon}       bigendian"
- TUNE_FEATURES_tune-armv7vehfb-neon-vfpv4  = "${TUNE_FEATURES_tune-armv7vehf-neon-vfpv4}  bigendian"
- TUNE_FEATURES_tune-armv7vethfb-neon-vfpv4 = "${TUNE_FEATURES_tune-armv7vethf-neon-vfpv4} bigendian"
--PACKAGE_EXTRA_ARCHS_tune-armv7vehfb             = "${PACKAGE_EXTRA_ARCHS_tune-armv6hfb}  armv7vehfb-vfp"
--PACKAGE_EXTRA_ARCHS_tune-armv7vethfb            = "${PACKAGE_EXTRA_ARCHS_tune-armv6thfb} armv7vehfb-vfp armv7vet2hfb-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv7vehfb             = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahfb}  armv7vehfb-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv7vethfb            = "${PACKAGE_EXTRA_ARCHS_tune-armv7athfb} armv7vehfb-vfp armv7vet2hfb-vfp"
- PACKAGE_EXTRA_ARCHS_tune-armv7vehfb-vfpv3d16    = "${PACKAGE_EXTRA_ARCHS_tune-armv7vehfb}  armv7vehfb-vfpv3d16"
- PACKAGE_EXTRA_ARCHS_tune-armv7vethfb-vfpv3d16   = "${PACKAGE_EXTRA_ARCHS_tune-armv7vethfb} armv7vehfb-vfpv3d16 armv7vet2hfb-vfpv3d16"
- PACKAGE_EXTRA_ARCHS_tune-armv7vehfb-vfpv3       = "${PACKAGE_EXTRA_ARCHS_tune-armv7vehfb-vfpv3d16}  armv7vehfb-vfpv3"
--- 
-2.2.0
+// Robert
 
+>
+> Ross
 
