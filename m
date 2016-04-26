@@ -1,25 +1,46 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 283C16067D
+Return-Path: <kergoth@gmail.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 22F22606A8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Apr 2016 03:42:02 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u3Q3g2GY007088
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 26 Apr 2016 04:56:22 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id 145so448545pfz.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Apr 2016 20:42:03 -0700 (PDT)
-Received: from [128.224.162.236] (128.224.162.236) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 25 Apr 2016 20:42:01 -0700
-To: oe-core <openembedded-core@lists.openembedded.org>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <571EE388.7040107@windriver.com>
-Date: Tue, 26 Apr 2016 11:42:00 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
-MIME-Version: 1.0
-Subject: Make runqemu knows nothing about machine
+	Mon, 25 Apr 2016 21:56:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=YNMd+bxDqRyhDuYhS1Kq/jWsiDqJZTAZEy/DS3/221o=;
+	b=V3UPhs/55Wm01ffPu/yC+gD8bGuMuTaw4AyfHLt7vF47fZb5EHfYCMA1kC/QkuRdAw
+	ZOpf72ARiat2GEXbD+3lQX1Lz4mFreDEbEYK8GcDWbi+oq/K4qlyFF4WM5ROS7PWvW8g
+	pJjPrDexXW0zm7vsH8Hh2UqxXvSi4omL/KFbImm9c90OQwFa9Y0Go/NCmSNL9fEQmUTv
+	OFMScEuE8b03ynqSBHkxDHC2bGzBHDxxkuZfREZ0KGrFhl5q24J6zD/m4K+axDb6xUZ7
+	kLQbIbkeWypVYhqjdClmwWYfpYKCSbetFgxB0CD6HZ1qjTpMHiLbqQHVxwL2Y9wF0UDp
+	qR0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=YNMd+bxDqRyhDuYhS1Kq/jWsiDqJZTAZEy/DS3/221o=;
+	b=hQO7mzTLMWj3Qk1Ujj+Y/ckc9NEjpM7ujPZkViu022WTlfhrxU+L/2FgT0h2dqC5KC
+	v1cHfA5v2L0kCWyoU7DFk9/jjqRK4Fk+9G3U7pyEMm74cltp+m34QWn53Qif1idF1RsZ
+	6m4bwSvA7s3gOPlgL90FlylOMyIKv+Z7sUhwM+ndlKAS9buA4vQnXHiY//dp0YX/B/Fs
+	4SB6VRuAHI+3z0z5bSWS0U6H8ZX2obicihxj43GXyshCfuJ9oWoz+h0yQbN0ETnkUhdR
+	6uF6X0vcBr8YtdttpSh33TfffwuJnTN3e2mod9n4SSgisPFlQyLMtO8u7YllIYH0DaFY
+	gKwA==
+X-Gm-Message-State: AOPr4FVqwA6gKZjF4HSSoXr64qR+c4A7q/blmrYgjTc7qxiumdWIJ/VfBGmhq2u9thY8HA==
+X-Received: by 10.98.81.195 with SMTP id f186mr809284pfb.30.1461646583690;
+	Mon, 25 Apr 2016 21:56:23 -0700 (PDT)
+Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by smtp.gmail.com with ESMTPSA id
+	y128sm1022774pfb.13.2016.04.25.21.56.21
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 25 Apr 2016 21:56:21 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 25 Apr 2016 21:56:18 -0700
+Message-Id: <1461646578-13426-1-git-send-email-kergoth@gmail.com>
+X-Mailer: git-send-email 2.8.0
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH] ddimage: if 'pv' is installed, use it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,38 +53,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Apr 2016 03:42:03 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 26 Apr 2016 04:56:23 -0000
 
-Hello,
+From: Christopher Larson <chris_larson@mentor.com>
 
-The qemu-native can boot a lot of machines, but oe-core's runqemu can only
-boot a few of them which are hardcoded into runqemu. I'd like to change
-it little to make it drop the hardcode and can boot more machines. Here
-are some basic thoughts, please feel free to give your comments.
+This gives us a progress bar for the image write, which is quite helpful. See
+https://www.ivarch.com/programs/pv.shtml.
 
-runqemu is a helpful script which can help us boot images easily, but it
-has a lot of hard code for machine + args. I'd like to remove these from
-runqemu, and make it as a frame. The logical is that, who knows clearly
-about whether qemu can boot the machine and how to boot it (args), the
-answer is the machine/bsp developer, so we can:
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+---
+ scripts/contrib/ddimage | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-* Add a var like QEMU_SUPPORTED = "yes/no" in the bsp conf file (default to no)
-* Add a var like QEMU_BOOT_ARGS = "foo" if there are special args.
-* Let do_rootfs or do_image_foo write data such as QEMU_BOOT_ARGS to
-   DEPLOY_DIR_IMAGE/runqemu/ or tmp/deploy/images/runqemu/, we can treat
-   the "runqemu/" dir as a database, and anything we need there, for example,
-   efi/pcbios, root args, and so on. We won't miss anything since all the
-   images which can be boot by runqemu are built by oe-core.
-* Then we can easily add supported machine to runqemu from the bsp itself
-   without change runqemu.
-
-I will start working on it if there is no objections, and make sure it won't
-break any current supported machines.
-
+diff --git a/scripts/contrib/ddimage b/scripts/contrib/ddimage
+index a503f11..ab92995 100755
+--- a/scripts/contrib/ddimage
++++ b/scripts/contrib/ddimage
+@@ -100,5 +100,9 @@ if [ "$RESPONSE" != "y" ]; then
+ fi
+ 
+ echo "Writing image..."
+-dd if="$IMAGE" of="$DEVICE" bs="$BLOCKSIZE"
++if which pv >/dev/null 2>&1; then
++	pv "$IMAGE" | dd of="$DEVICE" bs="$BLOCKSIZE"
++else
++	dd if="$IMAGE" of="$DEVICE" bs="$BLOCKSIZE"
++fi
+ sync
 -- 
-Thanks
+2.8.0
 
-Robert
 
