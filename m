@@ -1,24 +1,38 @@
-Return-Path: <dv@pseudoterminal.org>
-Received: from ptmx.org (ptmx.org [178.63.28.110])
-	by mail.openembedded.org (Postfix) with ESMTP id 0849E6FFD4
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 520E86FEFA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Apr 2016 09:51:59 +0000 (UTC)
-Received: from [172.16.1.4] (62-178-118-86.cable.dynamic.surfer.at
-	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id AD3042CC5C;
-	Tue, 26 Apr 2016 11:51:58 +0200 (CEST)
-To: Andre McCurdy <armccurdy@gmail.com>
-References: <1460713909-5823-1-git-send-email-dv@pseudoterminal.org>
-	<1460713909-5823-2-git-send-email-dv@pseudoterminal.org>
-	<CAJ86T=USu=kn89PqU=p4NZsViK3FkZ1yFUPooL+En3mwWbbynQ@mail.gmail.com>
-From: Carlos Rafael Giani <dv@pseudoterminal.org>
-Message-ID: <571F3A3D.5020400@pseudoterminal.org>
-Date: Tue, 26 Apr 2016 11:51:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
+	Tue, 26 Apr 2016 11:03:06 +0000 (UTC)
+Received: by mail-wm0-f54.google.com with SMTP id u206so2413527wme.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Apr 2016 04:03:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=3j0aAuwy029ujJ+hSnebQL2UkhyEe75GcYKom+OVmoE=;
+	b=NZPXitwsrGnfoD7rtLyIONjqKP14eTtmjPq6qCyrvDA5JyNdpEL4xsSlEcQQptbnsC
+	0TAjCeIYkpXJRkmyLd44JE6FdfizKthEqvDMKFujnWhWPYa3Q2HhR6rhLyOzGU95PkZO
+	3KTMSWOy+Yb2L1e8HqWGnXYjlASQrx5uMzstbgnrocirfbnERBPJsP5EP8Nzv8DbYGNL
+	ScED6duyfnyFPXV4DuWeYXlIBFXeBM2pcEQOIlpeATLjMoold9x5NGS26MLwwNVvZkUX
+	1SKos/XINFtYiDqXKkjsD9QxDhoowCQQbE7gOxwIVU6ykEKahNeoYStyb+X1vFvDgwDv
+	SGLQ==
+X-Gm-Message-State: AOPr4FXeyVRUzRI4SgT72r4SX3lXRrAjvLErYtFwr3URt83O5KIOtKFY9z5xiheZ9l9FCw==
+X-Received: by 10.28.230.137 with SMTP id e9mr3159457wmi.0.1461668586766;
+	Tue, 26 Apr 2016 04:03:06 -0700 (PDT)
+Received: from localhost.localdomain ([185.46.212.56])
+	by smtp.gmail.com with ESMTPSA id
+	e140sm23551016wma.13.2016.04.26.04.03.05
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 26 Apr 2016 04:03:05 -0700 (PDT)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Apr 2016 12:03:02 +0100
+Message-Id: <1461668582-14069-1-git-send-email-git@andred.net>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-In-Reply-To: <CAJ86T=USu=kn89PqU=p4NZsViK3FkZ1yFUPooL+En3mwWbbynQ@mail.gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/8] gstreamer1.0: upgrade to version 1.8.0
+Subject: [PATCH] tune-mips32r2.inc: add soft-float variants
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,123 +45,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Apr 2016 09:52:00 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 26 Apr 2016 11:03:07 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-I'll post 1.8.1 recipes tomorrow.
+From: André Draszik <adraszik@tycoint.com>
 
-On 2016-04-25 21:54, Andre McCurdy wrote:
-> Hi Carlos,
->
-> On Fri, Apr 15, 2016 at 2:51 AM, Carlos Rafael Giani
-> <dv@pseudoterminal.org> wrote:
->> The gst-inspect patch no longer applies, and according to upstream, is
->> not needed.
-> I'd like to start testing gstreamer 1.8.x. Are these patches still
-> your latest version? Or do you perhaps now have patches for gstreamer
-> 1.8.1?
->
->> Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
->> ---
->>   meta/recipes-multimedia/gstreamer/gstreamer1.0.inc |  2 ++
->>   .../0001-Fix-crash-with-gst-inspect.patch          | 28 ----------------------
->>   ...gstreamer1.0_1.6.3.bb => gstreamer1.0_1.8.0.bb} |  5 ++--
->>   .../gstreamer/gstreamer1.0_git.bb                  |  5 ----
->>   4 files changed, 4 insertions(+), 36 deletions(-)
->>   delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-Fix-crash-with-gst-inspect.patch
->>   rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.6.3.bb => gstreamer1.0_1.8.0.bb} (62%)
->>
->> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
->> index 10b4668..86ac10c 100644
->> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
->> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
->> @@ -24,6 +24,8 @@ PACKAGECONFIG[check] = "--enable-check,--disable-check"
->>   PACKAGECONFIG[debug] = "--enable-debug,--disable-debug"
->>   PACKAGECONFIG[tests] = "--enable-tests,--disable-tests"
->>   PACKAGECONFIG[valgrind] = "--enable-valgrind,--disable-valgrind,valgrind,"
->> +PACKAGECONFIG[gst-tracer-hooks] = "--enable-gst-tracer-hooks,--disable-gst-tracer-hooks,"
->> +PACKAGECONFIG[trace-historic] = "--enable-trace,--disable-trace,"
->>
->>   EXTRA_OECONF = " \
->>       --disable-dependency-tracking \
->> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-Fix-crash-with-gst-inspect.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-Fix-crash-with-gst-inspect.patch
->> deleted file mode 100644
->> index 94f5cc5..0000000
->> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-Fix-crash-with-gst-inspect.patch
->> +++ /dev/null
->> @@ -1,28 +0,0 @@
->> -From 6b26f3dbf9bf577d71534ab7410de66d06e46ba2 Mon Sep 17 00:00:00 2001
->> -From: Carlos Rafael Giani <dv@pseudoterminal.org>
->> -Date: Sat, 6 Apr 2013 23:52:11 +0200
->> -Subject: [PATCH] Fix crash with gst-inspect Chris Lord <chris@openedhand.com>
->> -
->> -Upstream-Status: Pending
->> -
->> -Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
->> ----
->> - tools/gst-inspect.c | 2 +-
->> - 1 file changed, 1 insertion(+), 1 deletion(-)
->> -
->> -diff --git a/tools/gst-inspect.c b/tools/gst-inspect.c
->> -index 23b7c44..b79b02e 100644
->> ---- a/tools/gst-inspect.c
->> -+++ b/tools/gst-inspect.c
->> -@@ -1556,7 +1556,7 @@ main (int argc, char *argv[])
->> -   g_option_context_add_main_entries (ctx, options, GETTEXT_PACKAGE);
->> -   g_option_context_add_group (ctx, gst_init_get_option_group ());
->> -   if (!g_option_context_parse (ctx, &argc, &argv, &err)) {
->> --    g_printerr ("Error initializing: %s\n", err->message);
->> -+    g_printerr ("Error initializing: %s\n", err ? err->message : "(null)");
->> -     return -1;
->> -   }
->> -   g_option_context_free (ctx);
->> ---
->> -1.8.2
->> -
->> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.6.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.8.0.bb
->> similarity index 62%
->> rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.6.3.bb
->> rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.8.0.bb
->> index ba1b83b..7de0832 100644
->> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.6.3.bb
->> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.8.0.bb
->> @@ -5,10 +5,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d \
->>
->>   SRC_URI = " \
->>       http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.xz \
->> -    file://0001-Fix-crash-with-gst-inspect.patch \
->>   "
->>
->> -SRC_URI[md5sum] = "b4cdeb2b9cb20dd6ac022a4f417eae0d"
->> -SRC_URI[sha256sum] = "22f9568d67b87cf700a111f381144bd37cb93790a77e4e331db01fe854a37f24"
->> +SRC_URI[md5sum] = "6846d7289ec323c38c49b818171e955a"
->> +SRC_URI[sha256sum] = "947a314a212b5d94985d89b43440dbe66b696e12bbdf9a2f78967b98d74abedc"
->>
->>   S = "${WORKDIR}/gstreamer-${PV}"
->> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_git.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_git.bb
->> index 7715bb2..f04fc6e 100644
->> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_git.bb
->> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_git.bb
->> @@ -20,11 +20,6 @@ SRCREV_FORMAT = "base"
->>
->>   S = "${WORKDIR}/git"
->>
->> -# The option to configure tracer hooks was added prior to the 1.7.2 release
->> -# https://cgit.freedesktop.org/gstreamer/gstreamer/commit/?id=e5ca47236e4df4683707f0bcf99181a937d358d5
->> -PACKAGECONFIG[gst-tracer-hooks] = "--enable-gst-tracer-hooks,--disable-gst-tracer-hooks,"
->> -PACKAGECONFIG[trace-historic] = "--enable-trace,--disable-trace,"
->> -
->>   do_configure_prepend() {
->>          ${S}/autogen.sh --noconfigure
->>   }
->> --
->> 2.5.0
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: André Draszik <adraszik@tycoint.com>
+---
+ meta/conf/machine/include/tune-mips32r2.inc | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/meta/conf/machine/include/tune-mips32r2.inc b/meta/conf/machine/include/tune-mips32r2.inc
+index 0e95ec8..5e398cb 100644
+--- a/meta/conf/machine/include/tune-mips32r2.inc
++++ b/meta/conf/machine/include/tune-mips32r2.inc
+@@ -6,6 +6,7 @@ TUNEVALID[mips32r2] = "Enable mips32r2 specific processor optimizations"
+ TUNECONFLICTS[mips32r2] = "n64 n32"
+ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'mips32r2', ' -march=mips32r2', '', d)}"
+ 
++# hard float
+ AVAILTUNES += "mips32r2 mips32r2el"
+ 
+ TUNE_FEATURES_tune-mips32r2 = "${TUNE_FEATURES_tune-mips} mips32r2"
+@@ -15,3 +16,14 @@ PACKAGE_EXTRA_ARCHS_tune-mips32r2 = "mips mips32 mips32r2"
+ TUNE_FEATURES_tune-mips32r2el = "${TUNE_FEATURES_tune-mipsel} mips32r2"
+ MIPSPKGSFX_VARIANT_tune-mips32r2el = "mips32r2el"
+ PACKAGE_EXTRA_ARCHS_tune-mips32r2el = "mipsel mips32el mips32r2el"
++
++# soft float
++AVAILTUNES += "mips32r2-nf mips32r2el-nf"
++
++TUNE_FEATURES_tune-mips32r2-nf = "${TUNE_FEATURES_tune-mips-nf} mips32r2"
++MIPSPKGSFX_VARIANT_tune-mips32r2-nf = "mips32r2"
++PACKAGE_EXTRA_ARCHS_tune-mips32r2-nf = "mips-nf mips32-nf mips32r2-nf"
++
++TUNE_FEATURES_tune-mips32r2el-nf = "${TUNE_FEATURES_tune-mipsel-nf} mips32r2"
++MIPSPKGSFX_VARIANT_tune-mips32r2el-nf = "mips32r2el"
++PACKAGE_EXTRA_ARCHS_tune-mips32r2el-nf = "mipsel-nf mips32el-nf mips32r2el-nf"
+-- 
+2.8.1
 
 
