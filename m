@@ -1,48 +1,53 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id E4B19731E0
+	by mail.openembedded.org (Postfix) with ESMTP id E3C506011C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Apr 2016 19:50:02 +0000 (UTC)
+	Tue, 26 Apr 2016 19:50:01 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 9D5572E113
+	by bes.se.axis.com (Postfix) with ESMTP id 573DE2E128
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Apr 2016 21:50:02 +0200 (CEST)
+	Tue, 26 Apr 2016 21:50:01 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
 Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id e2g8jatBzgKy
+	port 10024) with LMTP id 00c0lnNv8TXi
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 26 Apr 2016 21:50:00 +0200 (CEST)
 Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bes.se.axis.com (Postfix) with ESMTP id A8F762E062
+	by bes.se.axis.com (Postfix) with ESMTP id ADD232E113
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 26 Apr 2016 21:50:00 +0200 (CEST)
 Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 8B9BBF88
+	by postfix.imss71 (Postfix) with ESMTP id 980A81516
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 26 Apr 2016 21:50:00 +0200 (CEST)
-Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.se.axis.com (Postfix) with ESMTP id 80DB5A2A
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by boulder.se.axis.com (Postfix) with ESMTP id 8D5ED145B
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 26 Apr 2016 21:50:00 +0200 (CEST)
 Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id 7F0E7106F
+	by thoth.se.axis.com (Postfix) with ESMTP id 8B9BA109F
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 26 Apr 2016 21:50:00 +0200 (CEST)
 Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u3QJo0s4022767
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u3QJo0Bf022771
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 26 Apr 2016 21:50:00 +0200
 Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u3QJo0Ho022766
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u3QJo0Hk022770
 	for openembedded-core@lists.openembedded.org;
 	Tue, 26 Apr 2016 21:50:00 +0200
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Apr 2016 21:49:57 +0200
-Message-Id: <cover.1461700116.git.pkj@axis.com>
+Date: Tue, 26 Apr 2016 21:49:58 +0200
+Message-Id: <80df31c476967370f13a104cc5a777cd5127ef1b.1461700116.git.pkj@axis.com>
 X-Mailer: git-send-email 2.1.0
-Subject: [PATCH 0/1] Improve how to determine METADATA_REVISION
+In-Reply-To: <cover.1461700116.git.pkj@axis.com>
+References: <cover.1461700116.git.pkj@axis.com>
+In-Reply-To: <cover.1461700116.git.pkj@axis.com>
+References: <cover.1461700116.git.pkj@axis.com>
+Subject: [PATCH 1/1] metadata_scm.bbclass: Do not assume ${COREBASE} is a Git repo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,43 +62,42 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 26 Apr 2016 19:50:04 -0000
 
-We noticed that METADATA_REVISION was always set to '<unknown>' in our
-builds. It turned out that this was because the code in
-metadata_scm.bbclass that sets it assumed that ${COREBASE} contains a
-repository. This may be true when working with Poky, but is not
-necessarily true for other setups. E.g., in our setup we clone Poky,
-OpenEmbedded and other repositories using the repo tool and then
-create symbolic links from the base directory to the parts that we
-want. Since ${COREBASE} is defined based on the path to the meta
-layer, it should be a better option to use ${COREBASE}/meta when
-looking for the SCM meta information.
+The functions base_detect_revision() and base_detect_branch() try to
+extract SCM meta information from the path returned by
+base_get_scmbasepath(), which currently returns ${COREBASE}. However,
+making the assumption that ${COREBASE} contains SCM meta information
+can be false. It is true for Poky, but not necessarily other
+environments. A better option is to look for the SCM meta information
+based on the meta layer.
 
-Since this works as expected for Git but not SVN, I removed the option
-to call base_get_metadata_svn_revision() from
-base_detect_revision(). I doubt this should affect anyone (partly
-based on the comment in base_get_metadata_svn_revision()), but if this
-is not acceptable, it should be trivial to change the code so the meta
-directory is only used when looking for Git meta information. However,
-since it would require the introduction of two functions to wrap the
-Git functions, I refrained from this option until requested otherwise.
-
-//Peter
-
-The following changes since commit a9b503b268e94d311f892fa00c5d6bd9ffdb228e:
-
-  license.bbclass: make sure that image manifest dir exists (2016-04-22 16:28:57 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib pkj/metadata_scm
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/metadata_scm
-
-Peter Kjellerstedt (1):
-  metadata_scm.bbclass: Do not assume ${COREBASE} is a Git repo
-
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
  meta/classes/metadata_scm.bbclass | 5 ++---
  1 file changed, 2 insertions(+), 3 deletions(-)
 
+diff --git a/meta/classes/metadata_scm.bbclass b/meta/classes/metadata_scm.bbclass
+index 0f7f423..2e6fac2 100644
+--- a/meta/classes/metadata_scm.bbclass
++++ b/meta/classes/metadata_scm.bbclass
+@@ -4,8 +4,7 @@ METADATA_REVISION ?= "${@base_detect_revision(d)}"
+ def base_detect_revision(d):
+     path = base_get_scmbasepath(d)
+ 
+-    scms = [base_get_metadata_git_revision, \
+-            base_get_metadata_svn_revision]
++    scms = [base_get_metadata_git_revision]
+ 
+     for scm in scms:
+         rev = scm(path, d)
+@@ -27,7 +26,7 @@ def base_detect_branch(d):
+     return "<unknown>"
+ 
+ def base_get_scmbasepath(d):
+-    return d.getVar( 'COREBASE', True)
++    return os.path.join(d.getVar('COREBASE', True), 'meta')
+ 
+ def base_get_metadata_monotone_branch(path, d):
+     monotone_branch = "<unknown>"
 -- 
 2.1.0
 
