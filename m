@@ -1,38 +1,38 @@
 Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C1C060119
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 47DE660119
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Apr 2016 09:28:04 +0000 (UTC)
-Received: by mail-wm0-f42.google.com with SMTP id n3so28622720wmn.0
+	Tue, 26 Apr 2016 09:29:31 +0000 (UTC)
+Received: by mail-wm0-f43.google.com with SMTP id n3so28735015wmn.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Apr 2016 02:28:05 -0700 (PDT)
+	Tue, 26 Apr 2016 02:29:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
 	bh=HYL5Rg+ZIMMRnvBPuoIfHHPrae3dupJwuOdywLWbYzw=;
-	b=c95tbMCE1XxMl6YBavLI2wThreiUy9JmekgIrfhayePCWiEkrNn5LKCKuIBxqxiz5N
-	L91kmTPdacSLUJIZ2KYhNhc8iIdBkurjMaiF7VyToK/Wc8v9PxMB4ai611hgstnnCmPC
-	j16jt+z4K6sOo3cPj0meH0GmTJbISH4t3wBCRLJeFUewMdWkGQ0H+uy8sIDWgFbmHSZ0
-	a9WhRFlZuFh84zaQTQj68tynC8p62juf5jgehYDadM6ivwVqTafb+UcfVtdwCVtzFios
-	wQxCQwtdD8RibYrahS7rSFz3cIid9VoQ8DLaksoP3nCKhLzmiYc0PI+8DhKFy2yDss2X
-	vJeQ==
-X-Gm-Message-State: AOPr4FVhn6DEDjfiVCXjoq2e7tLJDDmQx/MYq3ocaYh+LVKkXlf25QPG1bpWFhZyF3fA+w==
-X-Received: by 10.28.153.129 with SMTP id b123mr2571743wme.1.1461662885133;
-	Tue, 26 Apr 2016 02:28:05 -0700 (PDT)
+	b=h/8vo8M8tXznrZ/Pe1JY9iXNOlZKbQD4YgCOYOnZBA3ig4Uwe5o4yIZFOp7icR2QFH
+	Trl8Ves43Wt/Q6kFqye0PxlLfbU555U7z/rFORSFpEi8p6cuRCo2Xsj0DC8Nm50FIld7
+	ETunDvQRl6zRR8O5zzTULRHlfk/xp2WYo1s7VxWF/MllSF2Rq7eo+60UvTxh6LBEO85s
+	Ybo7iqHVyQ+mu/j4YS29ycsf/xKbhpsKTxGRIEz65aYTB+beiYwBQkP98pOmhlc05zaW
+	JmUJvM86o28+uFsA984CNWT1nvgMm6xQmPXOULJZ6EdodLub1qcw7ob+frRHqS4i/bBk
+	j05Q==
+X-Gm-Message-State: AOPr4FWcT+JZ0PChUTfr7hXadC7c2r4Kn73ds7a/3OTAy/LE2Knw1tDTjY4/v0/fxtCB0w==
+X-Received: by 10.194.201.37 with SMTP id jx5mr1851510wjc.60.1461662971866;
+	Tue, 26 Apr 2016 02:29:31 -0700 (PDT)
 Received: from localhost.localdomain ([185.46.212.56])
 	by smtp.gmail.com with ESMTPSA id
-	c85sm27035365wmd.0.2016.04.26.02.28.03
+	i11sm27898496wjn.36.2016.04.26.02.29.30
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 26 Apr 2016 02:28:04 -0700 (PDT)
+	Tue, 26 Apr 2016 02:29:31 -0700 (PDT)
 From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Apr 2016 10:27:59 +0100
-Message-Id: <1461662879-21557-1-git-send-email-git@andred.net>
+Date: Tue, 26 Apr 2016 10:29:27 +0100
+Message-Id: <1461662967-22851-1-git-send-email-git@andred.net>
 X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-Subject: [PATCH] feature-arm-neon.inc: restore vfpv3-d16 support
+Subject: [PATCH][krogoth] feature-arm-neon.inc: restore vfpv3-d16 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,7 +45,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Apr 2016 09:28:06 -0000
+X-List-Received-Date: Tue, 26 Apr 2016 09:29:35 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
