@@ -1,46 +1,30 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
-	[209.85.220.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 13D3C60722
+Return-Path: <denis@denix.org>
+Received: from vms173011pub.verizon.net (vms173011pub.verizon.net
+	[206.46.173.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 294CE60249
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Apr 2016 00:29:48 +0000 (UTC)
-Received: by mail-pa0-f53.google.com with SMTP id bt5so17283010pac.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Apr 2016 17:29:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=mlUAszF8H7Hpj4GfJvgdBBZ6SRxmheCA5GXjKKpzY+Q=;
-	b=hlSwVa+sHqNPnUyF88bMYfmm/EdUA6U84118XxQ+FP+ofS6nvABPFRlHZaozxpr6UC
-	vTVk6DwzWWG9bTSAqmQMAcX39HX8AqXCKj9QQ+i1h90IBURrWoKVUyNG25D6NLcphrGL
-	0OkCGseV+OIykz5uTM1NYbcgvkgGdOgNscEJvhigvew6+GiRyDvdPyI5tdVcilWHx3wS
-	XCwL5B9pS3mDAmciXkdf7NWRJf6t2CM0pQbntE9kOH0EvSoBERW/HHLwwqXgEHB87l9u
-	RpBNuQKanfap3LnyNifKn0usiopxRudi8zt+pEfWG0lGRRiwjtqsSS6Ztvb2fk54sZM0
-	XIxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=mlUAszF8H7Hpj4GfJvgdBBZ6SRxmheCA5GXjKKpzY+Q=;
-	b=ks396JiyimecTEteqpnT6acBZT9N9aaGmO8d1sXGMxC/PLfRD45aoc67j5dgZL+1Oa
-	DuwB0nVhYnLnxARFpS5AXNb9/fnMQeq5aa5gnDOBbNdBS2twRUHRgStzV8mICQ4NHM+6
-	4R7GsCAa/BJivqu8Z4l5QBzh81KRpb8/lOWy47eAtkvXv9pbpqvegIgWBytjZf/7eA0C
-	sUtLhhcPON7sq16auYxpKuExaoR4ShjvJZIaPx56k9IWm9aB8v9folefkel1l0xjdfJh
-	CPTWgfpbpbFtOXsYK/72TZnrhm4W7Ky7UTuGVgZd1QtaCFo1bR9P3K3XQ0rAqa4cVYTK
-	PqQw==
-X-Gm-Message-State: AOPr4FV2BciFdciC10Q8WwSD3QsHkrbtqHrQL/vzMY+y6IOxOqSz9BfsZWJqfJF/u8BpGg==
-X-Received: by 10.66.229.6 with SMTP id sm6mr409163pac.2.1461630589391;
-	Mon, 25 Apr 2016 17:29:49 -0700 (PDT)
-Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
-	zn12sm14681603pab.14.2016.04.25.17.29.47
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 25 Apr 2016 17:29:47 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
+	Tue, 26 Apr 2016 00:38:41 +0000 (UTC)
+Received: from vz-proxy-l006.mx.aol.com ([64.236.82.153])
+	by vms173011.mailsrvcs.net
+	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul 16
+	2014)) with ESMTPA id <0O6700IW9TS2EM50@vms173011.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Mon, 25 Apr 2016 19:38:26 -0500 (CDT)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.1 cv=WpDWSorv c=1 sm=1 tr=0	a=FJ1kTJ0/xm5uTekQe8vMdQ==:117
+	a=kziv93cY1bsA:10 a=sozttTNsAAAA:8	a=mDV3o1hIAAAA:8
+	a=Oe5AkTeDd5ir9bbEqjoA:9 a=enP4xquki5MA:10
+Received: by 100.15.86.14 with SMTP id 6aea45d3; Tue, 26 Apr 2016 00:38:26 GMT
+Received: from localhost.localdomain (elrond [192.168.0.7])
+	by gandalf.denix.org (Postfix) with ESMTP id 136A5161BC9;	Mon,
+	25 Apr 2016 20:38:26 -0400 (EDT)
+From: Denys Dmytriyenko <denis@denix.org>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Apr 2016 17:29:41 -0700
-Message-Id: <1461630581-26018-1-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.3.5
-Cc: Armin Kuster <akuster@mvista.com>
-Subject: [master][kergoth][PATCH] tiff: Security fixes CVE-2015-8665 and CVE-2015-8683
+Date: Mon, 25 Apr 2016 20:38:24 -0400
+Message-id: <1461631104-25529-1-git-send-email-denis@denix.org>
+X-Mailer: git-send-email 2.2.0
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: [PATCH] arch-armv7ve: inherit armv7a tunes file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,177 +37,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Apr 2016 00:29:49 -0000
+X-List-Received-Date: Tue, 26 Apr 2016 00:38:43 -0000
 
-From: Armin Kuster <akuster@mvista.com>
+From: Denys Dmytriyenko <denys@ti.com>
 
-same fix for both CVE's
+armv7a is a subset of armv7ve:
+https://gcc.gnu.org/onlinedocs/gcc/ARM-Options.html
 
-tiff <= 4.0.6
+   -march=armv7ve is the armv7-a architecture with virtualization extensions.
 
-Signed-off-by: Armin Kuster <akuster@mvista.com>
+By inheriting armv7a from armv7ve it's possible for e.g. Cortex-A15 machines
+to include tune-cortexa15.inc and have a full range of optimizations, but
+set DEFAULTTUNE as "armv7a" to produce binaries compatible with Cortex-A8
+machines, etc.
+
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
 ---
- .../libtiff/files/CVE-2015-8665_8683.patch         | 137 +++++++++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.0.6.bb      |   1 +
- 2 files changed, 138 insertions(+)
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2015-8665_8683.patch
+ meta/conf/machine/include/arm/arch-armv7ve.inc | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
 
-diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2015-8665_8683.patch b/meta/recipes-multimedia/libtiff/files/CVE-2015-8665_8683.patch
-new file mode 100644
-index 0000000..39c5059
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/files/CVE-2015-8665_8683.patch
-@@ -0,0 +1,137 @@
-+From f94a29a822f5528d2334592760fbb7938f15eb55 Mon Sep 17 00:00:00 2001
-+From: erouault <erouault>
-+Date: Sat, 26 Dec 2015 17:32:03 +0000
-+Subject: [PATCH] * libtiff/tif_getimage.c: fix out-of-bound reads in
-+ TIFFRGBAImage interface in case of unsupported values of
-+ SamplesPerPixel/ExtraSamples for LogLUV / CIELab. Add explicit call to
-+ TIFFRGBAImageOK() in TIFFRGBAImageBegin(). Fix CVE-2015-8665 reported by
-+ limingxing and CVE-2015-8683 reported by zzf of Alibaba.
-+
-+Upstream-Status: Backport
-+CVE: CVE-2015-8665
-+CVE: CVE-2015-8683
-+https://github.com/vadz/libtiff/commit/f94a29a822f5528d2334592760fbb7938f15eb55
-+
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+---
-+ ChangeLog              |  8 ++++++++
-+ libtiff/tif_getimage.c | 35 ++++++++++++++++++++++-------------
-+ 2 files changed, 30 insertions(+), 13 deletions(-)
-+
-+Index: tiff-4.0.6/libtiff/tif_getimage.c
-+===================================================================
-+--- tiff-4.0.6.orig/libtiff/tif_getimage.c
-++++ tiff-4.0.6/libtiff/tif_getimage.c
-+@@ -182,20 +182,22 @@ TIFFRGBAImageOK(TIFF* tif, char emsg[102
-+ 				    "Planarconfiguration", td->td_planarconfig);
-+ 				return (0);
-+ 			}
-+-			if( td->td_samplesperpixel != 3 )
-++			if( td->td_samplesperpixel != 3 || colorchannels != 3 )
-+             {
-+                 sprintf(emsg,
-+-                        "Sorry, can not handle image with %s=%d",
-+-                        "Samples/pixel", td->td_samplesperpixel);
-++                        "Sorry, can not handle image with %s=%d, %s=%d",
-++                        "Samples/pixel", td->td_samplesperpixel,
-++                        "colorchannels", colorchannels);
-+                 return 0;
-+             }
-+ 			break;
-+ 		case PHOTOMETRIC_CIELAB:
-+-            if( td->td_samplesperpixel != 3 || td->td_bitspersample != 8 )
-++            if( td->td_samplesperpixel != 3 || colorchannels != 3 || td->td_bitspersample != 8 )
-+             {
-+                 sprintf(emsg,
-+-                        "Sorry, can not handle image with %s=%d and %s=%d",
-++                        "Sorry, can not handle image with %s=%d, %s=%d and %s=%d",
-+                         "Samples/pixel", td->td_samplesperpixel,
-++                        "colorchannels", colorchannels,
-+                         "Bits/sample", td->td_bitspersample);
-+                 return 0;
-+             }
-+@@ -255,6 +257,9 @@ TIFFRGBAImageBegin(TIFFRGBAImage* img, T
-+ 	int colorchannels;
-+ 	uint16 *red_orig, *green_orig, *blue_orig;
-+ 	int n_color;
-++	
-++	if( !TIFFRGBAImageOK(tif, emsg) )
-++		return 0;
-+ 
-+ 	/* Initialize to normal values */
-+ 	img->row_offset = 0;
-+@@ -2508,29 +2513,33 @@ PickContigCase(TIFFRGBAImage* img)
-+ 		case PHOTOMETRIC_RGB:
-+ 			switch (img->bitspersample) {
-+ 				case 8:
-+-					if (img->alpha == EXTRASAMPLE_ASSOCALPHA)
-++					if (img->alpha == EXTRASAMPLE_ASSOCALPHA &&
-++						img->samplesperpixel >= 4)
-+ 						img->put.contig = putRGBAAcontig8bittile;
-+-					else if (img->alpha == EXTRASAMPLE_UNASSALPHA)
-++					else if (img->alpha == EXTRASAMPLE_UNASSALPHA &&
-++							 img->samplesperpixel >= 4)
-+ 					{
-+ 						if (BuildMapUaToAa(img))
-+ 							img->put.contig = putRGBUAcontig8bittile;
-+ 					}
-+-					else
-++					else if( img->samplesperpixel >= 3 )
-+ 						img->put.contig = putRGBcontig8bittile;
-+ 					break;
-+ 				case 16:
-+-					if (img->alpha == EXTRASAMPLE_ASSOCALPHA)
-++					if (img->alpha == EXTRASAMPLE_ASSOCALPHA &&
-++						img->samplesperpixel >=4 )
-+ 					{
-+ 						if (BuildMapBitdepth16To8(img))
-+ 							img->put.contig = putRGBAAcontig16bittile;
-+ 					}
-+-					else if (img->alpha == EXTRASAMPLE_UNASSALPHA)
-++					else if (img->alpha == EXTRASAMPLE_UNASSALPHA &&
-++							 img->samplesperpixel >=4 )
-+ 					{
-+ 						if (BuildMapBitdepth16To8(img) &&
-+ 						    BuildMapUaToAa(img))
-+ 							img->put.contig = putRGBUAcontig16bittile;
-+ 					}
-+-					else
-++					else if( img->samplesperpixel >=3 )
-+ 					{
-+ 						if (BuildMapBitdepth16To8(img))
-+ 							img->put.contig = putRGBcontig16bittile;
-+@@ -2539,7 +2548,7 @@ PickContigCase(TIFFRGBAImage* img)
-+ 			}
-+ 			break;
-+ 		case PHOTOMETRIC_SEPARATED:
-+-			if (buildMap(img)) {
-++			if (img->samplesperpixel >=4 && buildMap(img)) {
-+ 				if (img->bitspersample == 8) {
-+ 					if (!img->Map)
-+ 						img->put.contig = putRGBcontig8bitCMYKtile;
-+@@ -2635,7 +2644,7 @@ PickContigCase(TIFFRGBAImage* img)
-+ 			}
-+ 			break;
-+ 		case PHOTOMETRIC_CIELAB:
-+-			if (buildMap(img)) {
-++			if (img->samplesperpixel == 3 && buildMap(img)) {
-+ 				if (img->bitspersample == 8)
-+ 					img->put.contig = initCIELabConversion(img);
-+ 				break;
-+Index: tiff-4.0.6/ChangeLog
-+===================================================================
-+--- tiff-4.0.6.orig/ChangeLog
-++++ tiff-4.0.6/ChangeLog
-+@@ -1,3 +1,11 @@
-++2015-12-26  Even Rouault <even.rouault at spatialys.com>
-++
-++   * libtiff/tif_getimage.c: fix out-of-bound reads in TIFFRGBAImage
-++   interface in case of unsupported values of SamplesPerPixel/ExtraSamples
-++   for LogLUV / CIELab. Add explicit call to TIFFRGBAImageOK() in
-++   TIFFRGBAImageBegin(). Fix CVE-2015-8665 reported by limingxing and
-++   CVE-2015-8683 reported by zzf of Alibaba.
-++
-+ 2015-09-12  Bob Friesenhahn  <bfriesen@simple.dallas.tx.us>
-+ 
-+ 	* libtiff 4.0.6 released.
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb b/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb
-index e2e24e0..810a5e4 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb
-@@ -5,6 +5,7 @@ HOMEPAGE = "http://www.remotesensing.org/libtiff/"
+diff --git a/meta/conf/machine/include/arm/arch-armv7ve.inc b/meta/conf/machine/include/arm/arch-armv7ve.inc
+index 79e1ef6..e13156c 100644
+--- a/meta/conf/machine/include/arm/arch-armv7ve.inc
++++ b/meta/conf/machine/include/arm/arch-armv7ve.inc
+@@ -5,8 +5,7 @@ TUNECONFLICTS[armv7ve] = "armv4 armv5 armv6 armv7 armv7a"
+ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7ve', ' -march=armv7ve', '', d)}"
+ MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv7ve', 'armv7ve:', '' ,d)}"
  
- SRC_URI = "ftp://ftp.remotesensing.org/pub/libtiff/tiff-${PV}.tar.gz \
-            file://libtool2.patch \
-+           file://CVE-2015-8665_8683.patch \
-           "
+-require conf/machine/include/arm/arch-armv6.inc
+-require conf/machine/include/arm/feature-arm-neon.inc
++require conf/machine/include/arm/arch-armv7a.inc
  
- SRC_URI[md5sum] = "d1d2e940dea0b5ad435f21f03d96dd72"
+ # Little Endian base configs
+ AVAILTUNES += "armv7ve armv7vet armv7ve-vfpv3d16 armv7vet-vfpv3d16 armv7ve-vfpv3 armv7vet-vfpv3 armv7ve-neon armv7vet-neon armv7ve-neon-vfpv4 armv7vet-neon-vfpv4"
+@@ -30,8 +29,8 @@ TUNE_FEATURES_tune-armv7ve-neon        = "${TUNE_FEATURES_tune-armv7ve}  neon"
+ TUNE_FEATURES_tune-armv7vet-neon       = "${TUNE_FEATURES_tune-armv7vet} neon"
+ TUNE_FEATURES_tune-armv7ve-neon-vfpv4  = "${TUNE_FEATURES_tune-armv7ve-neon}  vfpv4"
+ TUNE_FEATURES_tune-armv7vet-neon-vfpv4 = "${TUNE_FEATURES_tune-armv7vet-neon} vfpv4"
+-PACKAGE_EXTRA_ARCHS_tune-armv7ve             = "${PACKAGE_EXTRA_ARCHS_tune-armv6}  armv7ve armv7ve-vfp"
+-PACKAGE_EXTRA_ARCHS_tune-armv7vet            = "${PACKAGE_EXTRA_ARCHS_tune-armv6t} armv7ve armv7ve-vfp armv7vet2-vfp"
++PACKAGE_EXTRA_ARCHS_tune-armv7ve             = "${PACKAGE_EXTRA_ARCHS_tune-armv7a}  armv7ve armv7ve-vfp"
++PACKAGE_EXTRA_ARCHS_tune-armv7vet            = "${PACKAGE_EXTRA_ARCHS_tune-armv7at} armv7ve armv7ve-vfp armv7vet2-vfp"
+ PACKAGE_EXTRA_ARCHS_tune-armv7ve-vfpv3d16    = "${PACKAGE_EXTRA_ARCHS_tune-armv7ve}  armv7ve-vfpv3d16"
+ PACKAGE_EXTRA_ARCHS_tune-armv7vet-vfpv3d16   = "${PACKAGE_EXTRA_ARCHS_tune-armv7vet} armv7ve-vfpv3d16 armv7vet2-vfpv3d16"
+ PACKAGE_EXTRA_ARCHS_tune-armv7ve-vfpv3       = "${PACKAGE_EXTRA_ARCHS_tune-armv7ve-vfpv3d16}  armv7ve-vfpv3"
+@@ -63,8 +62,8 @@ TUNE_FEATURES_tune-armv7vehf-neon        = "${TUNE_FEATURES_tune-armv7ve-neon}
+ TUNE_FEATURES_tune-armv7vethf-neon       = "${TUNE_FEATURES_tune-armv7vet-neon}       callconvention-hard"
+ TUNE_FEATURES_tune-armv7vehf-neon-vfpv4  = "${TUNE_FEATURES_tune-armv7ve-neon-vfpv4}  callconvention-hard"
+ TUNE_FEATURES_tune-armv7vethf-neon-vfpv4 = "${TUNE_FEATURES_tune-armv7vet-neon-vfpv4} callconvention-hard"
+-PACKAGE_EXTRA_ARCHS_tune-armv7vehf             = "${PACKAGE_EXTRA_ARCHS_tune-armv6hf}  armv7vehf-vfp"
+-PACKAGE_EXTRA_ARCHS_tune-armv7vethf            = "${PACKAGE_EXTRA_ARCHS_tune-armv6thf} armv7vehf-vfp armv7vet2hf-vfp"
++PACKAGE_EXTRA_ARCHS_tune-armv7vehf             = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf}  armv7vehf-vfp"
++PACKAGE_EXTRA_ARCHS_tune-armv7vethf            = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf} armv7vehf-vfp armv7vet2hf-vfp"
+ PACKAGE_EXTRA_ARCHS_tune-armv7vehf-vfpv3d16    = "${PACKAGE_EXTRA_ARCHS_tune-armv7vehf}  armv7vehf-vfpv3d16"
+ PACKAGE_EXTRA_ARCHS_tune-armv7vethf-vfpv3d16   = "${PACKAGE_EXTRA_ARCHS_tune-armv7vethf} armv7vehf-vfpv3d16 armv7vet2hf-vfpv3d16"
+ PACKAGE_EXTRA_ARCHS_tune-armv7vehf-vfpv3       = "${PACKAGE_EXTRA_ARCHS_tune-armv7vehf-vfpv3d16}  armv7vehf-vfpv3"
+@@ -96,8 +95,8 @@ TUNE_FEATURES_tune-armv7veb-neon        = "${TUNE_FEATURES_tune-armv7ve-neon}
+ TUNE_FEATURES_tune-armv7vetb-neon       = "${TUNE_FEATURES_tune-armv7vet-neon}       bigendian"
+ TUNE_FEATURES_tune-armv7veb-neon-vfpv4  = "${TUNE_FEATURES_tune-armv7ve-neon-vfpv4}  bigendian"
+ TUNE_FEATURES_tune-armv7vetb-neon-vfpv4 = "${TUNE_FEATURES_tune-armv7vet-neon-vfpv4} bigendian"
+-PACKAGE_EXTRA_ARCHS_tune-armv7veb             = "${PACKAGE_EXTRA_ARCHS_tune-armv6b}  armv7veb-vfp"
+-PACKAGE_EXTRA_ARCHS_tune-armv7vetb            = "${PACKAGE_EXTRA_ARCHS_tune-armv6tb} armv7veb-vfp armv7vet2b-vfp"
++PACKAGE_EXTRA_ARCHS_tune-armv7veb             = "${PACKAGE_EXTRA_ARCHS_tune-armv7ab}  armv7veb-vfp"
++PACKAGE_EXTRA_ARCHS_tune-armv7vetb            = "${PACKAGE_EXTRA_ARCHS_tune-armv7atb} armv7veb-vfp armv7vet2b-vfp"
+ PACKAGE_EXTRA_ARCHS_tune-armv7veb-vfpv3d16    = "${PACKAGE_EXTRA_ARCHS_tune-armv7veb}  armv7veb-vfpv3d16"
+ PACKAGE_EXTRA_ARCHS_tune-armv7vetb-vfpv3d16   = "${PACKAGE_EXTRA_ARCHS_tune-armv7vetb} armv7veb-vfpv3d16 armv7vet2b-vfpv3d16"
+ PACKAGE_EXTRA_ARCHS_tune-armv7veb-vfpv3       = "${PACKAGE_EXTRA_ARCHS_tune-armv7veb-vfpv3d16}  armv7veb-vfpv3"
+@@ -129,8 +128,8 @@ TUNE_FEATURES_tune-armv7vehfb-neon        = "${TUNE_FEATURES_tune-armv7vehf-neon
+ TUNE_FEATURES_tune-armv7vethfb-neon       = "${TUNE_FEATURES_tune-armv7vethf-neon}       bigendian"
+ TUNE_FEATURES_tune-armv7vehfb-neon-vfpv4  = "${TUNE_FEATURES_tune-armv7vehf-neon-vfpv4}  bigendian"
+ TUNE_FEATURES_tune-armv7vethfb-neon-vfpv4 = "${TUNE_FEATURES_tune-armv7vethf-neon-vfpv4} bigendian"
+-PACKAGE_EXTRA_ARCHS_tune-armv7vehfb             = "${PACKAGE_EXTRA_ARCHS_tune-armv6hfb}  armv7vehfb-vfp"
+-PACKAGE_EXTRA_ARCHS_tune-armv7vethfb            = "${PACKAGE_EXTRA_ARCHS_tune-armv6thfb} armv7vehfb-vfp armv7vet2hfb-vfp"
++PACKAGE_EXTRA_ARCHS_tune-armv7vehfb             = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahfb}  armv7vehfb-vfp"
++PACKAGE_EXTRA_ARCHS_tune-armv7vethfb            = "${PACKAGE_EXTRA_ARCHS_tune-armv7athfb} armv7vehfb-vfp armv7vet2hfb-vfp"
+ PACKAGE_EXTRA_ARCHS_tune-armv7vehfb-vfpv3d16    = "${PACKAGE_EXTRA_ARCHS_tune-armv7vehfb}  armv7vehfb-vfpv3d16"
+ PACKAGE_EXTRA_ARCHS_tune-armv7vethfb-vfpv3d16   = "${PACKAGE_EXTRA_ARCHS_tune-armv7vethfb} armv7vehfb-vfpv3d16 armv7vet2hfb-vfpv3d16"
+ PACKAGE_EXTRA_ARCHS_tune-armv7vehfb-vfpv3       = "${PACKAGE_EXTRA_ARCHS_tune-armv7vehfb-vfpv3d16}  armv7vehfb-vfpv3"
 -- 
-2.3.5
+2.2.0
 
 
