@@ -1,37 +1,33 @@
 Return-Path: <denis@denix.org>
-Received: from vms173007pub.verizon.net (vms173007pub.verizon.net
-	[206.46.173.7])
-	by mail.openembedded.org (Postfix) with ESMTP id C305C7317C
+Received: from vms173019pub.verizon.net (vms173019pub.verizon.net
+	[206.46.173.19])
+	by mail.openembedded.org (Postfix) with ESMTP id 48CB16067D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Apr 2016 14:27:22 +0000 (UTC)
-Received: from vz-proxy-l004.mx.aol.com ([64.236.82.151])
-	by vms173007.mailsrvcs.net
+	Tue, 26 Apr 2016 14:34:25 +0000 (UTC)
+Received: from vz-proxy-l005.mx.aol.com ([64.236.82.152])
+	by vms173019.mailsrvcs.net
 	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul 16
-	2014)) with ESMTPA id <0O6800NNHW530Y10@vms173007.mailsrvcs.net> for
+	2014)) with ESMTPA id <0O6800DJKWHEEX10@vms173019.mailsrvcs.net> for
 	openembedded-core@lists.openembedded.org;
-	Tue, 26 Apr 2016 09:27:04 -0500 (CDT)
+	Tue, 26 Apr 2016 09:34:26 -0500 (CDT)
 X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.1 cv=btqxfxui c=1 sm=1 tr=0	a=eaPqxu9IKnv3tbb7QsXVMw==:117
-	a=kj9zAlcOel0A:10 a=kziv93cY1bsA:10	a=QyXUC8HyAAAA:8
-	a=xWB0KWXArKKFzLZs9yAA:9 a=CjuIK1q_8ugA:10
-Received: by 100.15.86.14 with SMTP id 53342f85; Tue, 26 Apr 2016 14:27:04 GMT
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id A0239161FC7; Tue,
-	26 Apr 2016 10:27:03 -0400 (EDT)
-Date: Tue, 26 Apr 2016 10:27:03 -0400
+X-CMAE-Analysis: v=2.1 cv=WcjxEBVX c=1 sm=1 tr=0	a=a3t/a0oOYlYu/nGe1mf8ZA==:117
+	a=kj9zAlcOel0A:10 a=kziv93cY1bsA:10	a=t7CeM3EgAAAA:8 a=Q4-j1AaZAAAA:8
+	a=uQSJor8-Dk161V8S1KMA:9	a=CjuIK1q_8ugA:10
+Received: by 100.15.86.14 with SMTP id 03f6e26f; Tue, 26 Apr 2016 14:34:26 GMT
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 8137B161FC7; Tue,
+	26 Apr 2016 10:34:25 -0400 (EDT)
+Date: Tue, 26 Apr 2016 10:34:25 -0400
 From: Denys Dmytriyenko <denis@denix.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-id: <20160426142703.GE31113@denix.org>
-References: <20160422000519.GR16135@denix.org>
-	<CABcZANmiDeW-B13vE3X0gjX_QfxV5iihD9ZnUKAU=wovnEuxBg@mail.gmail.com>
-	<20160425165011.GV16135@denix.org>
-	<CAJTo0LZCgoyt8GyvbkhvsK4_Q8v5MgU3O+0FFXGaajyyiDS0Zg@mail.gmail.com>
-	<CAJTo0Lb3pwi-BewA3kyU+QhgP2_s5uXd=vXH0fXRA8wM-9fMgg@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Message-id: <20160426143425.GF31113@denix.org>
+References: <cover.1461650616.git.liezhi.yang@windriver.com>
+	<c53c41d6a33a354b8030e5a4b325aeb2753e9258.1461650616.git.liezhi.yang@windriver.com>
 MIME-version: 1.0
-In-reply-to: <CAJTo0Lb3pwi-BewA3kyU+QhgP2_s5uXd=vXH0fXRA8wM-9fMgg@mail.gmail.com>
+In-reply-to: <c53c41d6a33a354b8030e5a4b325aeb2753e9258.1461650616.git.liezhi.yang@windriver.com>
 User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Christopher Larson <clarson@kergoth.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: mesa, libgbm and weston
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] coreutils: fix for native and nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,28 +40,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Apr 2016 14:27:23 -0000
+X-List-Received-Date: Tue, 26 Apr 2016 14:34:27 -0000
 Content-type: text/plain; charset=us-ascii
 Content-disposition: inline
 
-On Tue, Apr 26, 2016 at 03:00:59PM +0100, Burton, Ross wrote:
-> On 26 April 2016 at 12:59, Burton, Ross <ross.burton@intel.com> wrote:
+On Mon, Apr 25, 2016 at 11:04:37PM -0700, Robert Yang wrote:
+> From: Dengke Du <dengke.du@windriver.com>
 > 
-> > I added a PACKAGECONFIG for libgbm to mesa.inc, enabled it for mesa and
-> > disabled it for mesa-gl, and mesa-gl still build fine but didn't ship a
-> > libgbm.
-> >
-> > I've forgotten the details about all of this: does mesa-gl shipping libgbm
-> > make sense at all?  Or in the real world will BSPs either use mesa or their
-> > own GLES driver + their own libgbm + mesa-gl if required?
-> >
+> The do_install_append is used for moving/renaming for ALTERNATIVE, but
+> it breaks native, for example there is no ln, but ln.coreutils, that
+> makes coreutils-native don't work. This patch fixes the problem.
 > 
-> I've just sent a couple of mesa patches, can you see if these help?
+> Signed-off-by: Dengke Du <dengke.du@windriver.com>
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  meta/recipes-core/coreutils/coreutils_8.25.bb | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/meta/recipes-core/coreutils/coreutils_8.25.bb b/meta/recipes-core/coreutils/coreutils_8.25.bb
+> index 419a693..77b3862 100644
+> --- a/meta/recipes-core/coreutils/coreutils_8.25.bb
+> +++ b/meta/recipes-core/coreutils/coreutils_8.25.bb
+> @@ -70,6 +70,11 @@ do_compile_prepend () {
+>  }
+>  
+>  do_install_append() {
+> +	if [ "${CLASSOVERRIDE}" = "class-native" ]; then
+> +		rm -f ${D}${STAGING_BINDIR_NATIVE}/groups
+> +		return
+> +	fi
 
-Thanks, making few builds now to test those.
+Would that skip the rest of do_install_append() for class-native due to the 
+return call? Is it expected?
 
-What about virtual/libgbm package and updating mesa's PROVIDES list?
 
--- 
-Denys
+>  	for i in df mktemp base64; do mv ${D}${bindir}/$i ${D}${bindir}/$i.${BPN}; done
+>  
+>  	install -d ${D}${base_bindir}
+> @@ -91,11 +96,6 @@ do_install_append() {
+>  	cp -a ${D}${mandir}/man1/test.1 ${D}${mandir}/man1/lbracket.1.${BPN}
+>  }
+>  
+> -do_install_append_class-native(){
+> -	# remove groups to fix conflict with shadow-native
+> -	rm -f ${D}${STAGING_BINDIR_NATIVE}/groups
+> -}
+> -
+>  inherit update-alternatives
+>  
+>  ALTERNATIVE_PRIORITY = "100"
+> -- 
+> 2.7.4
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
