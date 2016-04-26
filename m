@@ -1,53 +1,52 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
-	[209.85.220.46])
-	by mail.openembedded.org (Postfix) with ESMTP id BC8E5607A5
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
+	[209.85.213.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F8F8607A5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Apr 2016 16:53:00 +0000 (UTC)
-Received: by mail-pa0-f46.google.com with SMTP id zm5so9509266pac.0
+	Tue, 26 Apr 2016 16:56:23 +0000 (UTC)
+Received: by mail-ig0-f177.google.com with SMTP id bi2so102910360igb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Apr 2016 09:53:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=LDc8mfdypcevmHogy9UE/PC+FlXJBd75TErg0UJizCM=;
-	b=1EzLR3Tml4c3Bv/HYS03zYSWTOPuapqSqjtrmSkO3pp/P57PUeHyW23bU+ACK8ukKN
-	TQJ/Nc2kR2uWwkplngJW+evFBVr6qHaI+CUYfSe6X4hRuJYw+7vU+cbnNFRQ9NmwGoDi
-	l1ncGy7ZY6Aj7G8oL+maqV040sNgbzWIGXhYg0kucj8YCfXqY+WHuZ58F43ODjYINlVv
-	YokJMsURgQ8od9dxgrsNgTJnp1XxxnBd9XUSbphqil46y1i9alfvC3wLF/EyIFLXwNJm
-	73FgJkzyFtmIygCxxgdm/NIyekOq8mhJIKvKo8NTlDQ75SxAm0Y15KSBmV6dw2vlHO13
-	fYKA==
+	Tue, 26 Apr 2016 09:56:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=JPh4OVUWZtMmTe7Uq3O2Uokxg2QQeqDAvgm5E6wElAA=;
+	b=XjFWQEM+sbYp8pr/Cxe5hufVSX2h+D7CeM93778gQcWwwcPK8kmHFOu8snXfhOi8aJ
+	2+XxUgLkAOcrUG9aBrkgp0BdroRL1oe8rtwl5IcOtjQ3/G5u0bnYclhT27tmiEqwYKgR
+	zTfYj8PML+YghQomAQDvX7AiO3WOio32RHIOIN2EO6Lwiiz4GrB5E0qw27b5mxVosKOw
+	RWhoBNBpVDA3r9N6Dg+QDrXDkSe+3wHQDdf+Wx7dEmOtEedItEPfKlakiKisY7LdVuY1
+	EJjSMKzuXvc5w3PurF6fdgDnXgvH6wv41hUrMxaavU9qYCXmBtdHlgcoJZEmqBTVVhKM
+	KWZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=LDc8mfdypcevmHogy9UE/PC+FlXJBd75TErg0UJizCM=;
-	b=g4WjWP0b33gm65n+m+fps+wbYmWPXo0MDuQc1Bnog1r9B0mkIRCUNuH4bU+oNU09rk
-	nAAsFRwohRc6EAfeGsE4eRCyAUrtfiLIZMFUzvgRV93HEXlfsioYZyeX5+FVxRVAmGpo
-	X3lafNXc7CERSCRUmuOi/jpbye6UiXpEbbjFGgBDIC5Xi1XQU9J/3OORn8lnmlOBXMk0
-	IbNs/LgzYg4ePwW/LOh7aJwjdltYem8mo0dPUYo6SQevYUHLZJK893+ydwHEQsrrt3R1
-	8NgB3f3vCZtRLEgy7+Fde03tQ82jECmE1LnJFf+hkoY5hrdn6BeLEMQrEhuVsSKD+rIu
-	0BpA==
-X-Gm-Message-State: AOPr4FWBl2oIJpuc/PjTCYDmWPa2EUXNGSUxUwCkeN6YdBb1J5rOLaHfz255AI+W2rZFPA==
-X-Received: by 10.66.65.133 with SMTP id x5mr5181288pas.108.1461689581045;
-	Tue, 26 Apr 2016 09:53:01 -0700 (PDT)
-Received: from ?IPv6:2601:646:8800:5a9a:b93e:176b:d03b:ac8e?
-	([2601:646:8800:5a9a:b93e:176b:d03b:ac8e])
-	by smtp.gmail.com with ESMTPSA id
-	ut1sm39583631pac.46.2016.04.26.09.53.00
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 26 Apr 2016 09:53:00 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1461660076.31320.145.camel@linuxfoundation.org>
-Date: Tue, 26 Apr 2016 09:52:59 -0700
-Message-Id: <A81C2DE0-AC8A-49FD-95B7-C8C8F3BBEFD8@gmail.com>
-References: <1461617044-25526-1-git-send-email-tristan.vanberkom@codethink.co.uk>
-	<1461660076.31320.145.camel@linuxfoundation.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Mailer: Apple Mail (2.3124)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/4] gcc-cross-initial: Split all-gcc and configure-target-libgcc
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=JPh4OVUWZtMmTe7Uq3O2Uokxg2QQeqDAvgm5E6wElAA=;
+	b=YstCbF2Pje2iK8LVeFbSe0yer4OSXHfa3JOAm0dYonK+ds+9aRYUncqdg0NaSwMiRh
+	S2zv458okVGdT96OVRVeAeU8CVYITsRY1lCB6/uLH8rRF15GaetNVFuzN+DaCTw19QrY
+	RmKTaCd4BG4Yj6tcTqqmUrNQxMFHYnjKUrjND1KkK6BxMZncUHIFb2xoy5LhWWP1b5af
+	dLE+thFRW6/ppLwEZe608HxWzOVFFAfaSKc84cA2vInG/VuPVCWPgj8qukyYWLRJo3vr
+	b2++2sCb4e0BOnodTiPP8orDIiyyl7aKp0EC2G2NrTlmERYHPzbryFu3WVLMDx5Vh93e
+	Sjig==
+X-Gm-Message-State: AOPr4FVYdOUAJIkTIzKS+ldS2PlG6goLGb51Fo7seGXXiT7bP652ygv9QN0gOyXM78g3ramr4UXG5PbqJnQJqVHs
+X-Received: by 10.50.150.1 with SMTP id ue1mr19975565igb.52.1461689783914;
+	Tue, 26 Apr 2016 09:56:23 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.9.106 with HTTP; Tue, 26 Apr 2016 09:56:04 -0700 (PDT)
+In-Reply-To: <5F23E860-0BC7-4F5B-B4BD-E251F8DB0DD9@gmail.com>
+References: <cover.1461592183.git.liezhi.yang@windriver.com>
+	<e76f32f4bb513453ffd80704adf19540b8f35d2a.1461592183.git.liezhi.yang@windriver.com>
+	<CAJTo0LZgtTN+6M_Xvwm2zQAibJR0jBXB15eU12HfUtz2ERuYKA@mail.gmail.com>
+	<571EB9F9.3060602@windriver.com>
+	<CAJTo0LZN4Y1vFOJJrMxsapm9LL=KT05_KV2C63fH5QkEjZw3og@mail.gmail.com>
+	<CAPhnLPDJ3hfHJLRYPHQOz47A1oFrtuM_FevmvAtRpCTp5eChng@mail.gmail.com>
+	<5F23E860-0BC7-4F5B-B4BD-E251F8DB0DD9@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 26 Apr 2016 17:56:04 +0100
+Message-ID: <CAJTo0La2F5fQdikrV6ZNHSKLfOPsNxBtLQPn9-kAf3FnEMz8xQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 6/6] libxsettings-client: fix LICENSE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,81 +59,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Apr 2016 16:53:00 -0000
-X-Groupsio-MsgNum: 81275
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_6FB995E1-1B8F-42B3-970E-FD1721021885";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Tue, 26 Apr 2016 16:56:25 -0000
+Content-Type: multipart/alternative; boundary=001a11c30f0a57d1050531662cce
 
---Apple-Mail=_6FB995E1-1B8F-42B3-970E-FD1721021885
+--001a11c30f0a57d1050531662cce
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
 
+On 26 April 2016 at 17:43, Khem Raj <raj.khem@gmail.com> wrote:
 
-> On Apr 26, 2016, at 1:41 AM, Richard Purdie =
-<richard.purdie@linuxfoundation.org> wrote:
->=20
-> On Mon, 2016-04-25 at 16:44 -0400, Tristan Van Berkom wrote:
->> Serializing this fixes build on aarch64
->> ---
->> meta/recipes-devtools/gcc/gcc-cross-initial.inc | 3 ++-
->> 1 file changed, 2 insertions(+), 1 deletion(-)
->>=20
->> diff --git a/meta/recipes-devtools/gcc/gcc-cross-initial.inc
->> b/meta/recipes-devtools/gcc/gcc-cross-initial.inc
->> index c0fa139..98aae45 100644
->> --- a/meta/recipes-devtools/gcc/gcc-cross-initial.inc
->> +++ b/meta/recipes-devtools/gcc/gcc-cross-initial.inc
->> @@ -43,7 +43,8 @@ do_configure_prepend () {
->> }
->>=20
->> do_compile () {
->> -    oe_runmake all-gcc configure-target-libgcc
->> +    oe_runmake all-gcc
->> +    oe_runmake configure-target-libgcc
->> }
->> do_install () {
->> 	( cd ${B}/${TARGET_SYS}/libgcc; oe_runmake 'DESTDIR=3D${D}'
->> install-unwind_h )
->=20
-> I'd note we have been doing aarch64 builds for a while and not run =
-into
-> this. What was the actual failure?
->=20
-> Can we fix the underlying aarch64 problem, rather than breaking
-> parallelism for everyone else this appears to be working for?
->=20
+> It may be good to send a query to concerned folks at redhat and clarify
+> so we don=E2=80=99t have to make assumptions.
+>
 
-I agree. and please add the relevant short error message that you were =
-seeing
+Owen just confirmed on IRC that this code is MIT.
 
-> Cheers,
->=20
-> Richard
->=20
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Ross
 
+--001a11c30f0a57d1050531662cce
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
---Apple-Mail=_6FB995E1-1B8F-42B3-970E-FD1721021885
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 26 April 2016 at 17:43, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto=
+:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wr=
+ote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
+-left:1px #ccc solid;padding-left:1ex"><div id=3D":3xm" class=3D"a3s aXjCH"=
+>It may be good to send a query to concerned folks at redhat and clarify<br=
+>
+so we don=E2=80=99t have to make assumptions.</div></blockquote></div><br>O=
+wen just confirmed on IRC that this code is MIT.</div><div class=3D"gmail_e=
+xtra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlcfnOsACgkQuwUzVZGdMxScOQCeITKxhrJkWLnmX/kFd5xdS658
-EBsAoIc33iypv0AYm6WT3b5cssU3yYcN
-=Wjbw
------END PGP SIGNATURE-----
-
---Apple-Mail=_6FB995E1-1B8F-42B3-970E-FD1721021885--
+--001a11c30f0a57d1050531662cce--
