@@ -1,49 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
-	[209.85.213.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D16A60123
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 041916E630
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Apr 2016 11:59:23 +0000 (UTC)
-Received: by mail-ig0-f170.google.com with SMTP id bi2so94205883igb.0
+	Tue, 26 Apr 2016 12:46:18 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP; 26 Apr 2016 05:46:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,536,1455004800"; d="scan'208";a="962981349"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga002.jf.intel.com with ESMTP; 26 Apr 2016 05:46:19 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
+	by linux.intel.com (Postfix) with ESMTP id 093CD6A4002
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Apr 2016 04:59:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=s9/4ZOPIYhxHdjSNalGX/6Bwi+qnKjv/wMSvXXa9L6A=;
-	b=gTXfVtj18jyGRe+yq/5TNGcxc/6q1BFuDaAotpyD5TDubOWXuk0wrEUJ8QE6XvgO0h
-	nRs29d8pE0rVPKLHeKJrhf8UBnJK9rEWRP7AOOHeqbLwUme2sMENHgZ1b4u/oJWHHY0S
-	dmKRio1P54EGzTMIl0K6Cin8sGnlGzUv0rbgPh+9I5JAcHLekgO1ya6E23vVlYhexMBk
-	XoewR5b2Nf6qqviPAC4JmuTvb1ZYJgf77phQ7yw4BI/SS7ScCgLPuYIPRg1jUfXIUdpq
-	OVf2NzzVzyWfj+w75NA71Ysx5eAIOe0AvPA59lztaDZ5o332X0kJEjUrs0sq60tl94Fv
-	MRMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=s9/4ZOPIYhxHdjSNalGX/6Bwi+qnKjv/wMSvXXa9L6A=;
-	b=EfYAMFGi8fvwEuDysh0PNOsNcTfo3aAI3EhD5Dx2Kob8bOwXq/CZC3d8tAOY0g8v6i
-	XnMhDvJYDagkp9DKlMbaQk4PkM0e1lpQ94aopVOO2XlAv271LQLrYldcLV+rzUnkvQQp
-	zGzu6cAm/YvQlaQrCW3XXrtzZ3j6VX1pCe6kkxqwj/UZ7bJObwQl9ClR4H3BTZl/2I13
-	otFNYgSClAM+uInHpZhg615R8qpfWeweXaz61bTAVTpY04MfGiC8w736mjD5cuSBfj1/
-	4ZAggpuCeaBAgVLPzs1XnPVKo4nTy7bPblBAuYP4vci6JHci5cOZWy++V6o63NN9HShL
-	XRzQ==
-X-Gm-Message-State: AOPr4FXQJdW8rUNLBewAqkETAmVcciE+HmK007q1eoM6ygac1gIxSaSVWUIQiwj6OcYH8/su3F4DPQKA89g5eHPu
-X-Received: by 10.50.18.111 with SMTP id v15mr17974899igd.64.1461671964798;
-	Tue, 26 Apr 2016 04:59:24 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.9.106 with HTTP; Tue, 26 Apr 2016 04:59:05 -0700 (PDT)
-In-Reply-To: <20160425165011.GV16135@denix.org>
-References: <20160422000519.GR16135@denix.org>
-	<CABcZANmiDeW-B13vE3X0gjX_QfxV5iihD9ZnUKAU=wovnEuxBg@mail.gmail.com>
-	<20160425165011.GV16135@denix.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 26 Apr 2016 12:59:05 +0100
-Message-ID: <CAJTo0LZCgoyt8GyvbkhvsK4_Q8v5MgU3O+0FFXGaajyyiDS0Zg@mail.gmail.com>
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: Christopher Larson <clarson@kergoth.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: mesa, libgbm and weston
+	Tue, 26 Apr 2016 06:33:54 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Apr 2016 13:26:22 +0300
+Message-Id: <cover.1461664163.git.ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/3] bmaptool support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,58 +31,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Apr 2016 11:59:27 -0000
-Content-Type: multipart/alternative; boundary=089e014953cc3d7b640531620614
+X-List-Received-Date: Tue, 26 Apr 2016 12:46:19 -0000
 
---089e014953cc3d7b640531620614
-Content-Type: text/plain; charset=UTF-8
+Hi,
 
-On 25 April 2016 at 17:50, Denys Dmytriyenko <denis@denix.org> wrote:
+This patchset adds ability to use bmaptool to flash images faster than
+using traditional methods.
 
-> One other thing I was thinking is how to avoid conflict between separate
-> libgbm and the one provided by mesa-gl. As mesa-gl may be useful for
-> providing
-> SW rendering for OpenGL, while leaving OpenGLES to a separate provider,
-> like
-> SGX. Unfortunately, mesa-gl also provides libgbm - would PACKAGECONFIG to
-> use
-> a standalone external libgbm work and be acceptable here?
->
+Bmaptool is a generic tool for creating the block map (bmap) for a file
+and and copying files using the block map. The idea is that large file
+containing unused blocks, like raw system image files, can be copied or
+flashed a lot faster with bmaptool than with traditional tools like
+"dd" or "cp".
 
-I added a PACKAGECONFIG for libgbm to mesa.inc, enabled it for mesa and
-disabled it for mesa-gl, and mesa-gl still build fine but didn't ship a
-libgbm.
+Here is an example of flashing image using dd and bmaptool showing
+around 25% performance gain in flashing time:
 
-I've forgotten the details about all of this: does mesa-gl shipping libgbm
-make sense at all?  Or in the real world will BSPs either use mesa or their
-own GLES driver + their own libgbm + mesa-gl if required?
+> ls -slh
+ 19M -rw-r--r-- 1 ed ed  26M Apr 26 11:36 core-image-minimal-qemux86-64-20160426083554.rootfs.ext4
+4.0K -rw-r--r-- 1 ed ed 2.7K Apr 26 11:36 core-image-minimal-qemux86-64-20160426083554.rootfs.ext4.bmap
 
-Ross
+> time dd if=core-image-minimal-qemux86-64-20160426083554.rootfs.ext4 of=/dev/sdb
+52302+0 records in
+52302+0 records out
+26778624 bytes (27 MB) copied, 2.51183 s, 10.7 MB/s
 
---089e014953cc3d7b640531620614
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+real    0m2.515s
+user    0m0.014s
+sys     0m0.329s
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 25 April 2016 at 17:50, Denys Dmytriyenko <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:denis@denix.org" target=3D"_blank">denis@denix.org</a>&gt;</span=
-> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex"><div id=3D":3bq" class=3D"a3s aX=
-jCH">One other thing I was thinking is how to avoid conflict between separa=
-te<br>
-libgbm and the one provided by mesa-gl. As mesa-gl may be useful for provid=
-ing<br>
-SW rendering for OpenGL, while leaving OpenGLES to a separate provider, lik=
-e<br>
-SGX. Unfortunately, mesa-gl also provides libgbm - would PACKAGECONFIG to u=
-se<br>
-a standalone external libgbm work and be acceptable here?</div></blockquote=
-><div><br></div><div>I added a PACKAGECONFIG for libgbm to mesa.inc, enable=
-d it for mesa and disabled it for mesa-gl, and mesa-gl still build fine but=
- didn&#39;t ship a libgbm.</div><div><br></div><div>I&#39;ve forgotten the =
-details about all of this: does mesa-gl shipping libgbm make sense at all?=
-=C2=A0 Or in the real world will BSPs either use mesa or their own GLES dri=
-ver + their own libgbm + mesa-gl if required?</div><div><br></div><div>Ross=
-</div></div></div></div>
+> time bmaptool copy core-image-minimal-qemux86-64-20160426083554.rootfs.ext4 /dev/sdb
+bmaptool: info: discovered bmap file 'core-image-minimal-qemux86-64-20160426083554.rootfs.ext4.bmap'
+bmaptool: info: block map format version 2.0
+bmaptool: info: 6538 blocks of size 4096 (25.5 MiB), mapped 4799 blocks (18.7 MiB or 73.4%)
+bmaptool: info: copying image 'core-image-minimal-qemux86-64-20160426083554.rootfs.ext4' to block device '/dev/sdb' using bmap file 'core-image-minimal-qemux86-64-20160426083554.rootfs.ext4.bmap'
+bmaptool: info: 100% copied
+bmaptool: info: synchronizing '/dev/sdb'
+bmaptool: info: copying time: 1.8s, copying speed 10.3 MiB/sec
 
---089e014953cc3d7b640531620614--
+real    0m1.909s
+user    0m0.226s
+sys     0m0.052s
+
+The test was repeated 5 times with the same image and the same usb stick device.
+
+The following changes since commit a9b503b268e94d311f892fa00c5d6bd9ffdb228e:
+
+  license.bbclass: make sure that image manifest dir exists (2016-04-22 16:28:57 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ed/oe-core/bmap-tools-9414
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/oe-core/bmap-tools-9414
+
+Alexander D. Kanevskiy (2):
+  bmap-tools: utility to create block map files
+  image types: add bmap generation option
+
+Ed Bartosh (1):
+  selftest: add bmap test
+
+ meta/classes/image_types.bbclass                  |  4 ++-
+ meta/lib/oeqa/selftest/imagefeatures.py           | 27 +++++++++++++++
+ meta/recipes-support/bmap-tools/bmap-tools_3.2.bb | 41 +++++++++++++++++++++++
+ 3 files changed, 71 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/bmap-tools/bmap-tools_3.2.bb
+
+--
+Regards,
+Ed
+
+
