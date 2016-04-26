@@ -1,27 +1,24 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8BCA56612C
+Return-Path: <dv@pseudoterminal.org>
+Received: from ptmx.org (ptmx.org [178.63.28.110])
+	by mail.openembedded.org (Postfix) with ESMTP id 0849E6FFD4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Apr 2016 09:44:44 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u3Q9iiSL018440
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Apr 2016 02:44:45 -0700 (PDT)
-Received: from [128.224.162.236] (128.224.162.236) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 26 Apr 2016 02:44:43 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1461304177.git.liezhi.yang@windriver.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <571F388A.4050307@windriver.com>
-Date: Tue, 26 Apr 2016 17:44:42 +0800
+	Tue, 26 Apr 2016 09:51:59 +0000 (UTC)
+Received: from [172.16.1.4] (62-178-118-86.cable.dynamic.surfer.at
+	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id AD3042CC5C;
+	Tue, 26 Apr 2016 11:51:58 +0200 (CEST)
+To: Andre McCurdy <armccurdy@gmail.com>
+References: <1460713909-5823-1-git-send-email-dv@pseudoterminal.org>
+	<1460713909-5823-2-git-send-email-dv@pseudoterminal.org>
+	<CAJ86T=USu=kn89PqU=p4NZsViK3FkZ1yFUPooL+En3mwWbbynQ@mail.gmail.com>
+From: Carlos Rafael Giani <dv@pseudoterminal.org>
+Message-ID: <571F3A3D.5020400@pseudoterminal.org>
+Date: Tue, 26 Apr 2016 11:51:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
 	Thunderbird/38.6.0
 MIME-Version: 1.0
-In-Reply-To: <cover.1461304177.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 0/4] set COMPATIBLE_HOST for several recipes
+In-Reply-To: <CAJ86T=USu=kn89PqU=p4NZsViK3FkZ1yFUPooL+En3mwWbbynQ@mail.gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/8] gstreamer1.0: upgrade to version 1.8.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,100 +31,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Apr 2016 09:44:44 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Tue, 26 Apr 2016 09:52:00 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
+I'll post 1.8.1 recipes tomorrow.
 
-On 04/22/2016 01:50 PM, Robert Yang wrote:
-> The following changes since commit 9838f8d077d16e52ad592879d65a9e8350b93075:
+On 2016-04-25 21:54, Andre McCurdy wrote:
+> Hi Carlos,
 >
->    build-appliance-image: Update to krogoth head revision (2016-04-19 21:25:53 +0100)
+> On Fri, Apr 15, 2016 at 2:51 AM, Carlos Rafael Giani
+> <dv@pseudoterminal.org> wrote:
+>> The gst-inspect patch no longer applies, and according to upstream, is
+>> not needed.
+> I'd like to start testing gstreamer 1.8.x. Are these patches still
+> your latest version? Or do you perhaps now have patches for gstreamer
+> 1.8.1?
 >
-> are available in the git repository at:
->
->    git://git.openembedded.org/openembedded-core-contrib rbt/arm
+>> Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
+>> ---
+>>   meta/recipes-multimedia/gstreamer/gstreamer1.0.inc |  2 ++
+>>   .../0001-Fix-crash-with-gst-inspect.patch          | 28 ----------------------
+>>   ...gstreamer1.0_1.6.3.bb => gstreamer1.0_1.8.0.bb} |  5 ++--
+>>   .../gstreamer/gstreamer1.0_git.bb                  |  5 ----
+>>   4 files changed, 4 insertions(+), 36 deletions(-)
+>>   delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-Fix-crash-with-gst-inspect.patch
+>>   rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.6.3.bb => gstreamer1.0_1.8.0.bb} (62%)
+>>
+>> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
+>> index 10b4668..86ac10c 100644
+>> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
+>> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
+>> @@ -24,6 +24,8 @@ PACKAGECONFIG[check] = "--enable-check,--disable-check"
+>>   PACKAGECONFIG[debug] = "--enable-debug,--disable-debug"
+>>   PACKAGECONFIG[tests] = "--enable-tests,--disable-tests"
+>>   PACKAGECONFIG[valgrind] = "--enable-valgrind,--disable-valgrind,valgrind,"
+>> +PACKAGECONFIG[gst-tracer-hooks] = "--enable-gst-tracer-hooks,--disable-gst-tracer-hooks,"
+>> +PACKAGECONFIG[trace-historic] = "--enable-trace,--disable-trace,"
+>>
+>>   EXTRA_OECONF = " \
+>>       --disable-dependency-tracking \
+>> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-Fix-crash-with-gst-inspect.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-Fix-crash-with-gst-inspect.patch
+>> deleted file mode 100644
+>> index 94f5cc5..0000000
+>> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-Fix-crash-with-gst-inspect.patch
+>> +++ /dev/null
+>> @@ -1,28 +0,0 @@
+>> -From 6b26f3dbf9bf577d71534ab7410de66d06e46ba2 Mon Sep 17 00:00:00 2001
+>> -From: Carlos Rafael Giani <dv@pseudoterminal.org>
+>> -Date: Sat, 6 Apr 2013 23:52:11 +0200
+>> -Subject: [PATCH] Fix crash with gst-inspect Chris Lord <chris@openedhand.com>
+>> -
+>> -Upstream-Status: Pending
+>> -
+>> -Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
+>> ----
+>> - tools/gst-inspect.c | 2 +-
+>> - 1 file changed, 1 insertion(+), 1 deletion(-)
+>> -
+>> -diff --git a/tools/gst-inspect.c b/tools/gst-inspect.c
+>> -index 23b7c44..b79b02e 100644
+>> ---- a/tools/gst-inspect.c
+>> -+++ b/tools/gst-inspect.c
+>> -@@ -1556,7 +1556,7 @@ main (int argc, char *argv[])
+>> -   g_option_context_add_main_entries (ctx, options, GETTEXT_PACKAGE);
+>> -   g_option_context_add_group (ctx, gst_init_get_option_group ());
+>> -   if (!g_option_context_parse (ctx, &argc, &argv, &err)) {
+>> --    g_printerr ("Error initializing: %s\n", err->message);
+>> -+    g_printerr ("Error initializing: %s\n", err ? err->message : "(null)");
+>> -     return -1;
+>> -   }
+>> -   g_option_context_free (ctx);
+>> ---
+>> -1.8.2
+>> -
+>> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.6.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.8.0.bb
+>> similarity index 62%
+>> rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.6.3.bb
+>> rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.8.0.bb
+>> index ba1b83b..7de0832 100644
+>> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.6.3.bb
+>> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.8.0.bb
+>> @@ -5,10 +5,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d \
+>>
+>>   SRC_URI = " \
+>>       http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.xz \
+>> -    file://0001-Fix-crash-with-gst-inspect.patch \
+>>   "
+>>
+>> -SRC_URI[md5sum] = "b4cdeb2b9cb20dd6ac022a4f417eae0d"
+>> -SRC_URI[sha256sum] = "22f9568d67b87cf700a111f381144bd37cb93790a77e4e331db01fe854a37f24"
+>> +SRC_URI[md5sum] = "6846d7289ec323c38c49b818171e955a"
+>> +SRC_URI[sha256sum] = "947a314a212b5d94985d89b43440dbe66b696e12bbdf9a2f78967b98d74abedc"
+>>
+>>   S = "${WORKDIR}/gstreamer-${PV}"
+>> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_git.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_git.bb
+>> index 7715bb2..f04fc6e 100644
+>> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_git.bb
+>> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_git.bb
+>> @@ -20,11 +20,6 @@ SRCREV_FORMAT = "base"
+>>
+>>   S = "${WORKDIR}/git"
+>>
+>> -# The option to configure tracer hooks was added prior to the 1.7.2 release
+>> -# https://cgit.freedesktop.org/gstreamer/gstreamer/commit/?id=e5ca47236e4df4683707f0bcf99181a937d358d5
+>> -PACKAGECONFIG[gst-tracer-hooks] = "--enable-gst-tracer-hooks,--disable-gst-tracer-hooks,"
+>> -PACKAGECONFIG[trace-historic] = "--enable-trace,--disable-trace,"
+>> -
+>>   do_configure_prepend() {
+>>          ${S}/autogen.sh --noconfigure
+>>   }
+>> --
+>> 2.5.0
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Updated patch 2/4 in the repo again according to bug:
-
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=9474
-Bug 9474 - epiphany doesn't work on ARM
-
-So also turn off JIT on armv7a.
-
-Author: Robert Yang <liezhi.yang@windriver.com>
-Date:   Wed Apr 20 23:16:47 2016 -0700
-
-     webkitgtk: turn off JIT on armv4 and armv7a
-
-     * It doesn't build on armv4:
-     {standard input}: Assembler messages:
-     {standard input}:52: Error: selected processor does not support `blx 
-llint_throw_stack_overflow_error' in ARM mode
-     {standard input}:126: Error: selected processor does not support `bkpt #0' 
-in ARM mode
-     {standard input}:128: Error: selected processor does not support `blx r0' 
-in ARM mode
-     {standard input}:134: Error: selected processor does not support `bkpt #0' 
-in ARM mode
-     {standard input}:185: Error: selected processor does not support `blx 
-llint_throw_stack_overflow_error' in ARM mode
-     {standard input}:256: Error: selected processor does not support `blx r4' 
-in ARM mode
-     {standard input}:310: Error: selected processor does not support `movw 
-r2,#:lower16:.Lllint_op_enter-.LrelativePCBase' in ARM mode
-     {standard input}:311: Error: selected processor does not support `movt 
-r2,#:upper16:.Lllint_op_enter-.LrelativePCBase' in ARM mode
-     {standard input}:315: Error: selected processor does not support `movw 
-r2,#:lower16:.Lllint_op_get_scope-.LrelativePCBase' in ARM mode
-     {standard input}:316: Error: selected processor does not support `movt 
-r2,#:upper16:.Lllint_op_get_scope-.LrelativePCBase' in ARM mode
-     [snip]
-
-     * It can build on armv7a, but doesn't work on runtime, cause
-       displaying problems or ephiphany hang.
-
-     [YOCTO #9474]
-
-     Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.10.7.bb 
-b/meta/recipes-sato/webkit/webkitgtk_2.10.7.bb
-index d4f1d3b..d089851 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.10.7.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.10.7.bb
-@@ -63,9 +63,14 @@ EXTRA_OECMAKE = " \
-  EXTRA_OECMAKE_append_powerpc = " -DENABLE_JIT=OFF "
-  EXTRA_OECMAKE_append_powerpc64 = " -DENABLE_JIT=OFF "
-
--# ARM JIT code does not build on ARMv5/6 anymore, apparently they test only on 
-v7 onwards
-+# ARM JIT code does not build on ARMv4/5/6 anymore
-  EXTRA_OECMAKE_append_armv5 = " -DENABLE_JIT=OFF "
-  EXTRA_OECMAKE_append_armv6 = " -DENABLE_JIT=OFF "
-+EXTRA_OECMAKE_append_armv4 = " -DENABLE_JIT=OFF "
-+
-+# ARM JIT can build on armv7a, but doesnt' work on runtime, cause
-+# displaying problems or ephiphany hang.
-+EXTRA_OECMAKE_append_armv7a = " -DENABLE_JIT=OFF "
-
-  # binutils 2.25.1 has a bug on aarch64:
-  # https://sourceware.org/bugzilla/show_bug.cgi?id=18430
-
-// Robert
-
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/arm
->
-> Robert Yang (4):
->    grub_git: set COMPATIBLE_HOST_armv7a to null
->    webkitgtk: set COMPATIBLE_HOST_armv4 to null
->    gnu-efi: set COMPATIBLE_HOST_armv4 to null
->    cogl-1.0: set COMPATIBLE_HOST_armv4 to null
->
->   meta/recipes-bsp/gnu-efi/gnu-efi_3.0.3.bb    | 1 +
->   meta/recipes-bsp/grub/grub_git.bb            | 1 +
->   meta/recipes-graphics/cogl/cogl-1.0.inc      | 2 ++
->   meta/recipes-sato/webkit/webkitgtk_2.10.7.bb | 1 +
->   4 files changed, 5 insertions(+)
->
 
