@@ -1,29 +1,51 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D42B2731E6
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id D3464731DA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Apr 2016 02:28:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u3R2SaSU028896
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 26 Apr 2016 19:28:36 -0700 (PDT)
-Received: from [128.224.162.236] (128.224.162.236) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 26 Apr 2016 19:28:35 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1461592183.git.liezhi.yang@windriver.com>
-	<e1d663a4f78339b9df14168beec65fa0d3a1e45f.1461592183.git.liezhi.yang@windriver.com>
-	<1461660963.31320.147.camel@linuxfoundation.org>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <572023D2.2040202@windriver.com>
-Date: Wed, 27 Apr 2016 10:28:34 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
+	Wed, 27 Apr 2016 08:02:30 +0000 (UTC)
+Received: by mail-io0-f176.google.com with SMTP id f89so39291282ioi.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Apr 2016 01:02:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=xzY107jOBTLu9LSJhH41o1pUGJuuyJozMAbT+OT/Jo4=;
+	b=wpzQDB7KDjLicsSEDCPULhYN6dLGevMl67xPdHICD1EIJOrCPaLt/Xw8BiU2QIptsw
+	35KD1B25ogH+MWU5pykEFfWOAJFM3mpmncZqUPenLOqlWC88vFnozVN+h2vPjFlW8sO3
+	QixCcJlC02woh4oLGclnAsEWWuA6lkh6N6gv9Fel1oxdpljPu0aOjlArqhugMqmKsNg8
+	+o9xG3Yatu05f6uz6J38mt65fuLj0XJL3avotvqZsOIskxAB4rquhyxM/rDyWnsioOXT
+	rLD1mxJvGWqzuGoeIpvgno0VEeXZHwFgfvcEkWb72uF/fKYIAhYtg9wpXYsVYX7w50Rb
+	XV/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=xzY107jOBTLu9LSJhH41o1pUGJuuyJozMAbT+OT/Jo4=;
+	b=Gz2Evr25mlKnF8oQwHm+HnxDkeHh0PF4c9SZg8xFO2Tfydo7G6FnXEi3SLoCUMxmF9
+	dkY3mpcaPEoV2jZXWgb9HUjnK/eghStjFowDeWCse+XXAsTD3PjYD2PbqTbyaCJrMXIe
+	5NPVPzlfWGijLTvojGxAwGf7PIrXtxB/mtyczr4eC+1v/qA9fKBQgDtW15e7aH4Op8ov
+	EnoM5uRS18eKChrYaZsZlmbPCpOHZsZ3WX5RFZEHPXSdACvYdR74Q0ebzVFDhGblyvU1
+	gJU87Yin0Q44TnnKxa/dcqvSy5P8vTaWsuC1NCwYbkRRDL50Xn1dwEZ1c5VIZnmAkqFp
+	/9DA==
+X-Gm-Message-State: AOPr4FVMFL7K8ftomPIyPidkQB1xHIi67HpVbCuHAw3oRAn9QnA4Jy5TGQOCjyC3pDNR7vx0fLIoggwxnmcTj1Pe
+X-Received: by 10.107.179.136 with SMTP id c130mr8274655iof.99.1461744151369; 
+	Wed, 27 Apr 2016 01:02:31 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1461660963.31320.147.camel@linuxfoundation.org>
-Subject: Re: [PATCH 2/6] insane.bbclass: package_qa_check_license -> do_qa_populate_lic
+Received: by 10.107.9.106 with HTTP; Wed, 27 Apr 2016 01:02:11 -0700 (PDT)
+In-Reply-To: <CAMKF1spwimpQwSE38B5jWmyZXwMKy6znMEF9p-NmTM4mGGr+4g@mail.gmail.com>
+References: <B1D22563-F31B-4EF1-90D6-16EB391134D5@gmail.com>
+	<CACS+7ZSpWgziO+GF++25dM7kgP4SZ_GDV+-DcEMQ_YUGyEEnfQ@mail.gmail.com>
+	<CAMKF1spQn114r9dCAk9z7c3hw-NJp3pVoVP+f3gao2mhLTBHYg@mail.gmail.com>
+	<CAMKF1spwimpQwSE38B5jWmyZXwMKy6znMEF9p-NmTM4mGGr+4g@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 27 Apr 2016 09:02:11 +0100
+Message-ID: <CAJTo0Lb25x1H44nGn05d6qBVLDpyiaZ3XW40fdrAWcP_D+qYwg@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Yocto Project <yocto@yoctoproject.org>,
+	openembeded-devel <openembedded-devel@lists.openembedded.org>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [yocto] [RFT] GCC 6 Recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,46 +58,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Apr 2016 02:28:38 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 27 Apr 2016 08:02:32 -0000
+Content-Type: multipart/alternative; boundary=001a1148578ce52413053172d4b0
 
+--001a1148578ce52413053172d4b0
+Content-Type: text/plain; charset=UTF-8
 
+On 21 April 2016 at 04:06, Khem Raj <raj.khem@gmail.com> wrote:
 
-On 04/26/2016 04:56 PM, Richard Purdie wrote:
-> On Mon, 2016-04-25 at 06:51 -0700, Robert Yang wrote:
->> The package_qa_check_license() was in do_qa_configure which had a
->> potential problem, when the recipe sets do_configure[noexec] = "1",
->> then
->> the license checking won't run, which may hidden license issues.
->> Rename
->> it to do_qa_populate_lic() and run in do_populate_lic[postfuncs]
->> which
->> is more reasonable (when no populate license, no license checking).
->>
->> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->> ---
->>   meta/classes/insane.bbclass | 15 ++++++---------
->>   1 file changed, 6 insertions(+), 9 deletions(-)
+> I have updated
 >
-> There is a convention that "do_" as a function prefix means its a task.
-> In this case its not a task but a function, so can you use a different
-> prefix please?
-
-I had updated the code in V2, but there are others 3 use do_<foo> in
-insane.bbclass which are funtions, not tasks:
-
-do_populate_sysroot[postfuncs] += "do_qa_staging "
-do_configure[postfuncs] += "do_qa_configure "
-do_unpack[postfuncs] += "do_qa_unpack"
-
-What shall we do on them, please ? Keep them or update them?
-
-// Robert
-
+> http://git.openembedded.org/openembedded-core-contrib/log/?h=kraj/gcc-6
 >
-> Cheers,
->
-> Richard
+> With few more patches added now. Most of packages in OE-Core are
+> building fine except linux-yocto on mips and ppc
 >
 
+I threw this at the autobuilder.  Lots of c++ failures on various
+architectures.
+
+https://autobuilder.yoctoproject.org/main/tgrid, the row for SHA 91ef.
+
+Ross
+
+--001a1148578ce52413053172d4b0
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 21 April 2016 at 04:06, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto=
+:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wr=
+ote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
+;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-style=
+:solid;padding-left:1ex"><div id=3D":3tq" class=3D"">I have updated<br>
+<br>
+<a href=3D"http://git.openembedded.org/openembedded-core-contrib/log/?h=3Dk=
+raj/gcc-6" rel=3D"noreferrer" target=3D"_blank">http://git.openembedded.org=
+/openembedded-core-contrib/log/?h=3Dkraj/gcc-6</a><br>
+<br>
+With few more patches added now. Most of packages in OE-Core are<br>
+building fine except linux-yocto on mips and ppc</div></blockquote></div><b=
+r>I threw this at the autobuilder.=C2=A0 Lots of c++ failures on various ar=
+chitectures.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_=
+extra"><a href=3D"https://autobuilder.yoctoproject.org/main/tgrid">https://=
+autobuilder.yoctoproject.org/main/tgrid</a>, the row for SHA 91ef.<br></div=
+><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div>=
+</div>
+
+--001a1148578ce52413053172d4b0--
