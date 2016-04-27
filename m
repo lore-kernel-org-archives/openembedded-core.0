@@ -1,30 +1,45 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id BD5566B6EA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id D6B4B73281
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Apr 2016 13:03:37 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u3RD3aXJ019939; Wed, 27 Apr 2016 14:03:36 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ASLBqwBWrOvQ; Wed, 27 Apr 2016 14:03:36 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u3RD3WP8019911
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 27 Apr 2016 14:03:33 +0100
-Message-ID: <1461762212.31320.182.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Matt Madison <matt@madison.systems>,
-	openembedded-core@lists.openembedded.org
-Date: Wed, 27 Apr 2016 14:03:32 +0100
-In-Reply-To: <1461760323-27285-2-git-send-email-matt@madison.systems>
-References: <1461760323-27285-1-git-send-email-matt@madison.systems>
-	<1461760323-27285-2-git-send-email-matt@madison.systems>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/1] image.bbclass: don't expand IMAGE_CMD when setting do_image task
+	Wed, 27 Apr 2016 13:04:12 +0000 (UTC)
+Received: by mail-wm0-f53.google.com with SMTP id e201so37921037wme.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Apr 2016 06:04:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=0bGXzofdBOIksT/LcTkIh28PgS2u4jMrMVamqy1Kwks=;
+	b=rFC3qYyEI3VB0s+zhgyyq1eBDT1D+X8xsJq/xhmJN3xwYp5hbRK9G8tEswQq+dbFkc
+	Iajo1iQFreIIDl9yuRCUKhX8g6e3gbVotpVtYK2iDJZZkHAtXgO4zeRwpik6sOAo0yly
+	cj5MyBTrx1gCMZp18zUsWKMwzmxYDg2U+DQzR3OqPycpNw5t5geS5o29vS55U6Kf1qg+
+	3CzbSgCJso+dRRiKqDRkcxSJfyX1Or0khOOaVlOIy5/Ju3M8Vd9/uK+XpsHYOeHtMRK7
+	lAi6z3ejTXr2WI3cexLLmvgSK2mG40maO0KYvHyEk48Z2pUAuqYq9sch4fs7GRmzzD7Y
+	J+mQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=0bGXzofdBOIksT/LcTkIh28PgS2u4jMrMVamqy1Kwks=;
+	b=F55udNK5/dKDGf7cUYbGl62zagC3KhEtYecqlmUbdP39Q5puWq0bdjCgvkwa4vv/pJ
+	2Rhyi3GxaJRM9kWD5RIjWPZ9T/Xd4+QyL3gNfGNaINMHxZ2EzdVez4D2TAUSoztkxLPj
+	tVDWSFyLM9RQikqiBCC6v64dZSxukstJIdqn0Ir1dp2aZmKIwlO/koGQhnD5ZvdtZgAA
+	xJ/u6y1FzuRwyYf9mb79iuObFN0X09srh/IwB61aIcobKDE9VDppPUmKUIJIWyB6Kq/y
+	cXxgd7aY40eBr4SFcWa+MNz4oq+TR7vv+6jk19CGlH5OahG3wOK7BQZvfAWiARDVUZSt
+	rA9g==
+X-Gm-Message-State: AOPr4FWrpku2zYZlMia0e8uXQdxsLzFhgG/Qf6b92QMaULCoK74dIyCet6gWeqEum2SmXahy
+X-Received: by 10.28.48.145 with SMTP id w139mr23577140wmw.51.1461762252480;
+	Wed, 27 Apr 2016 06:04:12 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id s10sm4034781wjp.3.2016.04.27.06.04.11
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 27 Apr 2016 06:04:11 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 27 Apr 2016 14:04:10 +0100
+Message-Id: <1461762250-30434-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.0.rc3
+Subject: [PATCH] webkitgtk: remove gnome-common dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,42 +52,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Apr 2016 13:03:40 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 27 Apr 2016 13:04:13 -0000
 
-On Wed, 2016-04-27 at 05:32 -0700, Matt Madison wrote:
-> Expanding it causes the do_image_x function to include values of
-> variables that may contain date/time stamps, rather than references
-> to the variable names, leading to spurious taskhash mismatch errors.
-> 
-> Signed-off-by: Matt Madison <matt@madison.systems>
-> ---
->  meta/classes/image.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index 8bfd241..d695d30 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -380,7 +380,7 @@ python () {
->          localdata.delVar('DATETIME')
->          localdata.delVar('TMPDIR')
->  
-> -        image_cmd = localdata.getVar("IMAGE_CMD", True)
-> +        image_cmd = localdata.getVar("IMAGE_CMD", False)
->          vardeps.add('IMAGE_CMD_' + realt)
->          if image_cmd:
->              cmds.append("\t" + image_cmd)
+webkitgtk ported to CMake long ago, so by definition can't use gnome-common's
+autoconf macros anymore.
 
-You can't do this since there are some variables that need to be
-expanded using the values from the current localdata copy of the data
-store (such as the type variable).
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-sato/webkit/webkitgtk_2.10.7.bb | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-We'd previously tried to avoid DATETIME contanination by removing the
-problem bases with the delVar calls just above this.
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.10.7.bb b/meta/recipes-sato/webkit/webkitgtk_2.10.7.bb
+index d4f1d3b..269ae4b 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.10.7.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.10.7.bb
+@@ -29,7 +29,7 @@ REQUIRED_DISTRO_FEATURES = "x11"
+ 
+ DEPENDS = "zlib libsoup-2.4 curl libxml2 cairo libxslt libxt libidn gnutls \
+            gtk+3 gstreamer1.0 gstreamer1.0-plugins-base flex-native gperf-native sqlite3 \
+-	   pango icu bison-native gnome-common gawk intltool-native libwebp \
++	   pango icu bison-native gawk intltool-native libwebp \
+ 	   atk udev harfbuzz jpeg libpng pulseaudio librsvg libtheora libvorbis libxcomposite libxtst \
+ 	   ruby-native libnotify gstreamer1.0-plugins-bad \
+           "
+@@ -85,4 +85,3 @@ ARM_INSTRUCTION_SET = "arm"
+ # qemu: uncaught target signal 11 (Segmentation fault) - core dumped
+ # Segmentation fault
+ EXTRA_OECMAKE_append_powerpc = " -DENABLE_INTROSPECTION=OFF "
+-
+-- 
+2.8.0.rc3
 
-Cheers,
-
-Richard
 
