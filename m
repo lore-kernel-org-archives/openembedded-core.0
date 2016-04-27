@@ -1,46 +1,33 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D88E731D8
+Return-Path: <lixin.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id EB136601F6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Apr 2016 08:28:37 +0000 (UTC)
-Received: by mail-wm0-f47.google.com with SMTP id e201so27734188wme.0
+	Wed, 27 Apr 2016 08:34:45 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; 
+   d="scan'208";a="6010369"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 27 Apr 2016 16:34:39 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 0DF40409257A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Apr 2016 01:28:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=xAX1sYGworp8RWo+3NttyIwpIaZ+gUxAcNyNbGwCNTE=;
-	b=VsVVt9cgha6amHJIb+w8z5kUWLpPeBYHcRnR+kC/hw3ZIn2rmqBXbtf1oQRGNVBnDb
-	P91opp2bTtsAy//nQQP3u1/xKrxjiJXI0PIv5JBuAX5w81TG0/RRjkyniE3643+a3GJf
-	e1CsGbp6c1Z8S6DIcxupDpzWxR7m6IRMuLFXtr0e0EYBXgPKiYpYTqspTQCKDYuXn2qZ
-	6YgAqopdd+WkhalQ4WJXVyo5a5KYpfeuPegHKmKt3MxDJF64i98ptPKGixrr0sIs1DAc
-	Bh0rMmt9z5q4RTbJWgmNyZZ/LLFnfqHno+rUPjVLRbLOsVMkrfikkauIwssPq3tGODuV
-	MnyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=xAX1sYGworp8RWo+3NttyIwpIaZ+gUxAcNyNbGwCNTE=;
-	b=cyJTCI+iRQ0rT1sSjUxbGChCY+dfcQIBLqOJOCvBmbM3QKFBNlvWpgs4qvVPyjRz4Q
-	VJp61XtpevKLF+giLGcDa8Xvg8YWgqlR4nSHYf4CIBhq0SBJvczDBxKVhpxVyc8Bb/5a
-	RhkHl7npDkD/o40+m5lIvh2jwO/ZwpbXaxlEaDwR+I/r0hD6yIYLml+Y5eCqHQj6xlKx
-	SgfvHSo5z5d1s1KWJ8NAj6p3CzNgTq93zRAQ6LmIYfzjlCoLOZiseBtfLVQhQVb7PVTO
-	xy9esD1Injei4WgyAP5nMsadpspoWr/d1UJsCzGMIAQTSRu3DWAxBGePJltqhaWOfhZb
-	FOYw==
-X-Gm-Message-State: AOPr4FWZuGP/fpc5Ds3ueJtwohXNVwU8BwYb7zY6JQOSeXbghhSOBTe45LLHqf+x6vc0o552
-X-Received: by 10.194.107.6 with SMTP id gy6mr7807834wjb.20.1461745717878;
-	Wed, 27 Apr 2016 01:28:37 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	u12sm7178081wmu.12.2016.04.27.01.28.37
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 27 Apr 2016 01:28:37 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Apr 2016 09:28:35 +0100
-Message-Id: <1461745715-7370-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.0.rc3
-Subject: [PATCH] qemu: remove explicit but redundant native build dependencies
+	Wed, 27 Apr 2016 16:34:37 +0800 (CST)
+Received: from localhost.localdomain (10.167.226.31) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.279.2; Wed, 27 Apr 2016 16:34:36 +0800
+From: Li Xin <lixin.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 27 Apr 2016 11:34:34 +0300
+Message-ID: <1461746074-1830-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <CAEGpDuZdDjKoWa3oDGUjmYSDEnKX=T+9CKd4dGG7xXiDnNOyfg@mail.gmail.com>
+References: <CAEGpDuZdDjKoWa3oDGUjmYSDEnKX=T+9CKd4dGG7xXiDnNOyfg@mail.gmail.com>
+MIME-Version: 1.0
+X-Originating-IP: [10.167.226.31]
+X-yoursite-MailScanner-ID: 0DF40409257A.AE2C1
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: lixin.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH v2] mdadm: add systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,37 +40,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Apr 2016 08:28:38 -0000
+X-List-Received-Date: Wed, 27 Apr 2016 08:34:48 -0000
+Content-Type: text/plain
 
-qemu-native was optionally depending on libxext-native if the DISTRO_FEATURES
-included x11.  This dependency was required back when we didn't build
-libsdl-native and causes an undesirable relationship between DISTRO_FEATURES and
-qemu-native.
+Add mdadm.service to support systemd systems and add
+configuration file.
 
-As the dependency isn't required anymore, remove it.
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ meta/recipes-extended/mdadm/files/mdadm.service | 13 +++++++++++++
+ meta/recipes-extended/mdadm/mdadm_3.4.bb        | 14 +++++++++++++-
+ 2 files changed, 26 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/mdadm/files/mdadm.service
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 95fe66f..36d600f 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -97,9 +97,8 @@ PACKAGECONFIG ??= " \
- 	"
- PACKAGECONFIG_class-native ??= "fdt alsa uuid"
- PACKAGECONFIG_class-nativesdk ??= "fdt sdl"
--NATIVEDEPS = ""
--NATIVEDEPS_class-native = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'libxext-native', '',d)}"
--PACKAGECONFIG[sdl] = "--enable-sdl,--disable-sdl,libsdl ${NATIVEDEPS},"
+diff --git a/meta/recipes-extended/mdadm/files/mdadm.service b/meta/recipes-extended/mdadm/files/mdadm.service
+new file mode 100644
+index 0000000..3664ceb
+--- /dev/null
++++ b/meta/recipes-extended/mdadm/files/mdadm.service
+@@ -0,0 +1,13 @@
++[Unit]
++Description=Software RAID monitoring and management
++After=syslog.target
++ConditionPathExists=@sysconfdir@/mdadm.conf
 +
-+PACKAGECONFIG[sdl] = "--enable-sdl,--disable-sdl,libsdl"
- PACKAGECONFIG[virtfs] = "--enable-virtfs --enable-attr,--disable-virtfs,libcap attr,"
- PACKAGECONFIG[aio] = "--enable-linux-aio,--disable-linux-aio,libaio,"
- PACKAGECONFIG[xfs] = "--enable-xfsctl,--disable-xfsctl,xfsprogs,"
++[Service]
++Type=forking
++PIDFile=@localstatedir@/run/mdadm/mdadm.pid
++EnvironmentFile=-@sysconfdir@/sysconfig/mdmonitor
++ExecStart=@basesbindir@/mdadm --monitor --scan -f --pid-file=@localstatedir@/run/mdadm/mdadm.pid
++
++[Install]
++WantedBy=multi-user.target
+diff --git a/meta/recipes-extended/mdadm/mdadm_3.4.bb b/meta/recipes-extended/mdadm/mdadm_3.4.bb
+index 142dfdd..3ceef4b 100644
+--- a/meta/recipes-extended/mdadm/mdadm_3.4.bb
++++ b/meta/recipes-extended/mdadm/mdadm_3.4.bb
+@@ -19,12 +19,13 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
+            file://0001-Fix-some-type-comparison-problems.patch \
+            file://0001-Fix-the-path-of-corosync-and-dlm-header-files-check.patch \
+            file://run-ptest \
++           file://mdadm.service \
+ 	  "
+ SRC_URI[md5sum] = "04b8b21f637540350f8517c7e68d3c63"
+ SRC_URI[sha256sum] = "27d0be4627d38a12ddcd1c1c3721d649d4e89e1093914497e22b57245cda8808"
+ 
+ CFLAGS += "-fno-strict-aliasing"
+-inherit autotools-brokensep
++inherit autotools-brokensep systemd
+ 
+ EXTRA_OEMAKE = 'CHECK_RUN_DIR=0 CXFLAGS="${CFLAGS}"'
+ # PPC64 and MIPS64 uses long long for u64 in the kernel, but powerpc's asm/types.h
+@@ -42,8 +43,19 @@ do_compile() {
+ do_install() {
+ 	export STRIP=""
+ 	autotools_do_install
++	install -d ${D}/${sysconfdir}/
++	install -m 644 ${S}/mdadm.conf-example ${D}${sysconfdir}/
++	install -d ${D}${systemd_unitdir}/system
++	install -m 644 ${WORKDIR}/mdadm.service ${D}${systemd_system_unitdir}
++	sed -i -e 's,@basesbindir@,${base_sbindir},g' \
++		-e 's,@localstatedir@,${localstatedir},g' \
++		-e 's,@sysconfdir@,${sysconfdir},g' \
++		${D}${systemd_unitdir}/system/mdadm.service
++
+ }
+ 
++SYSTEMD_SERVICE_${PN} = "mdadm.service"
++
+ FILES_${PN} += "${base_libdir}/udev/rules.d/*.rules"
+ 
+ inherit ptest
 -- 
-2.8.0.rc3
+1.8.4.2
+
+
 
 
