@@ -1,51 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id D3464731DA
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D88E731D8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Apr 2016 08:02:30 +0000 (UTC)
-Received: by mail-io0-f176.google.com with SMTP id f89so39291282ioi.0
+	Wed, 27 Apr 2016 08:28:37 +0000 (UTC)
+Received: by mail-wm0-f47.google.com with SMTP id e201so27734188wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Apr 2016 01:02:31 -0700 (PDT)
+	Wed, 27 Apr 2016 01:28:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=xzY107jOBTLu9LSJhH41o1pUGJuuyJozMAbT+OT/Jo4=;
-	b=wpzQDB7KDjLicsSEDCPULhYN6dLGevMl67xPdHICD1EIJOrCPaLt/Xw8BiU2QIptsw
-	35KD1B25ogH+MWU5pykEFfWOAJFM3mpmncZqUPenLOqlWC88vFnozVN+h2vPjFlW8sO3
-	QixCcJlC02woh4oLGclnAsEWWuA6lkh6N6gv9Fel1oxdpljPu0aOjlArqhugMqmKsNg8
-	+o9xG3Yatu05f6uz6J38mt65fuLj0XJL3avotvqZsOIskxAB4rquhyxM/rDyWnsioOXT
-	rLD1mxJvGWqzuGoeIpvgno0VEeXZHwFgfvcEkWb72uF/fKYIAhYtg9wpXYsVYX7w50Rb
-	XV/Q==
+	h=from:to:subject:date:message-id;
+	bh=xAX1sYGworp8RWo+3NttyIwpIaZ+gUxAcNyNbGwCNTE=;
+	b=VsVVt9cgha6amHJIb+w8z5kUWLpPeBYHcRnR+kC/hw3ZIn2rmqBXbtf1oQRGNVBnDb
+	P91opp2bTtsAy//nQQP3u1/xKrxjiJXI0PIv5JBuAX5w81TG0/RRjkyniE3643+a3GJf
+	e1CsGbp6c1Z8S6DIcxupDpzWxR7m6IRMuLFXtr0e0EYBXgPKiYpYTqspTQCKDYuXn2qZ
+	6YgAqopdd+WkhalQ4WJXVyo5a5KYpfeuPegHKmKt3MxDJF64i98ptPKGixrr0sIs1DAc
+	Bh0rMmt9z5q4RTbJWgmNyZZ/LLFnfqHno+rUPjVLRbLOsVMkrfikkauIwssPq3tGODuV
+	MnyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=xzY107jOBTLu9LSJhH41o1pUGJuuyJozMAbT+OT/Jo4=;
-	b=Gz2Evr25mlKnF8oQwHm+HnxDkeHh0PF4c9SZg8xFO2Tfydo7G6FnXEi3SLoCUMxmF9
-	dkY3mpcaPEoV2jZXWgb9HUjnK/eghStjFowDeWCse+XXAsTD3PjYD2PbqTbyaCJrMXIe
-	5NPVPzlfWGijLTvojGxAwGf7PIrXtxB/mtyczr4eC+1v/qA9fKBQgDtW15e7aH4Op8ov
-	EnoM5uRS18eKChrYaZsZlmbPCpOHZsZ3WX5RFZEHPXSdACvYdR74Q0ebzVFDhGblyvU1
-	gJU87Yin0Q44TnnKxa/dcqvSy5P8vTaWsuC1NCwYbkRRDL50Xn1dwEZ1c5VIZnmAkqFp
-	/9DA==
-X-Gm-Message-State: AOPr4FVMFL7K8ftomPIyPidkQB1xHIi67HpVbCuHAw3oRAn9QnA4Jy5TGQOCjyC3pDNR7vx0fLIoggwxnmcTj1Pe
-X-Received: by 10.107.179.136 with SMTP id c130mr8274655iof.99.1461744151369; 
-	Wed, 27 Apr 2016 01:02:31 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.9.106 with HTTP; Wed, 27 Apr 2016 01:02:11 -0700 (PDT)
-In-Reply-To: <CAMKF1spwimpQwSE38B5jWmyZXwMKy6znMEF9p-NmTM4mGGr+4g@mail.gmail.com>
-References: <B1D22563-F31B-4EF1-90D6-16EB391134D5@gmail.com>
-	<CACS+7ZSpWgziO+GF++25dM7kgP4SZ_GDV+-DcEMQ_YUGyEEnfQ@mail.gmail.com>
-	<CAMKF1spQn114r9dCAk9z7c3hw-NJp3pVoVP+f3gao2mhLTBHYg@mail.gmail.com>
-	<CAMKF1spwimpQwSE38B5jWmyZXwMKy6znMEF9p-NmTM4mGGr+4g@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 27 Apr 2016 09:02:11 +0100
-Message-ID: <CAJTo0Lb25x1H44nGn05d6qBVLDpyiaZ3XW40fdrAWcP_D+qYwg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Yocto Project <yocto@yoctoproject.org>,
-	openembeded-devel <openembedded-devel@lists.openembedded.org>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] [RFT] GCC 6 Recipes
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=xAX1sYGworp8RWo+3NttyIwpIaZ+gUxAcNyNbGwCNTE=;
+	b=cyJTCI+iRQ0rT1sSjUxbGChCY+dfcQIBLqOJOCvBmbM3QKFBNlvWpgs4qvVPyjRz4Q
+	VJp61XtpevKLF+giLGcDa8Xvg8YWgqlR4nSHYf4CIBhq0SBJvczDBxKVhpxVyc8Bb/5a
+	RhkHl7npDkD/o40+m5lIvh2jwO/ZwpbXaxlEaDwR+I/r0hD6yIYLml+Y5eCqHQj6xlKx
+	SgfvHSo5z5d1s1KWJ8NAj6p3CzNgTq93zRAQ6LmIYfzjlCoLOZiseBtfLVQhQVb7PVTO
+	xy9esD1Injei4WgyAP5nMsadpspoWr/d1UJsCzGMIAQTSRu3DWAxBGePJltqhaWOfhZb
+	FOYw==
+X-Gm-Message-State: AOPr4FWZuGP/fpc5Ds3ueJtwohXNVwU8BwYb7zY6JQOSeXbghhSOBTe45LLHqf+x6vc0o552
+X-Received: by 10.194.107.6 with SMTP id gy6mr7807834wjb.20.1461745717878;
+	Wed, 27 Apr 2016 01:28:37 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	u12sm7178081wmu.12.2016.04.27.01.28.37
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 27 Apr 2016 01:28:37 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 27 Apr 2016 09:28:35 +0100
+Message-Id: <1461745715-7370-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.0.rc3
+Subject: [PATCH] qemu: remove explicit but redundant native build dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,51 +53,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Apr 2016 08:02:32 -0000
-Content-Type: multipart/alternative; boundary=001a1148578ce52413053172d4b0
+X-List-Received-Date: Wed, 27 Apr 2016 08:28:38 -0000
 
---001a1148578ce52413053172d4b0
-Content-Type: text/plain; charset=UTF-8
+qemu-native was optionally depending on libxext-native if the DISTRO_FEATURES
+included x11.  This dependency was required back when we didn't build
+libsdl-native and causes an undesirable relationship between DISTRO_FEATURES and
+qemu-native.
 
-On 21 April 2016 at 04:06, Khem Raj <raj.khem@gmail.com> wrote:
+As the dependency isn't required anymore, remove it.
 
-> I have updated
->
-> http://git.openembedded.org/openembedded-core-contrib/log/?h=kraj/gcc-6
->
-> With few more patches added now. Most of packages in OE-Core are
-> building fine except linux-yocto on mips and ppc
->
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-I threw this at the autobuilder.  Lots of c++ failures on various
-architectures.
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 95fe66f..36d600f 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -97,9 +97,8 @@ PACKAGECONFIG ??= " \
+ 	"
+ PACKAGECONFIG_class-native ??= "fdt alsa uuid"
+ PACKAGECONFIG_class-nativesdk ??= "fdt sdl"
+-NATIVEDEPS = ""
+-NATIVEDEPS_class-native = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'libxext-native', '',d)}"
+-PACKAGECONFIG[sdl] = "--enable-sdl,--disable-sdl,libsdl ${NATIVEDEPS},"
++
++PACKAGECONFIG[sdl] = "--enable-sdl,--disable-sdl,libsdl"
+ PACKAGECONFIG[virtfs] = "--enable-virtfs --enable-attr,--disable-virtfs,libcap attr,"
+ PACKAGECONFIG[aio] = "--enable-linux-aio,--disable-linux-aio,libaio,"
+ PACKAGECONFIG[xfs] = "--enable-xfsctl,--disable-xfsctl,xfsprogs,"
+-- 
+2.8.0.rc3
 
-https://autobuilder.yoctoproject.org/main/tgrid, the row for SHA 91ef.
 
-Ross
-
---001a1148578ce52413053172d4b0
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 21 April 2016 at 04:06, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto=
-:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wr=
-ote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
-;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-style=
-:solid;padding-left:1ex"><div id=3D":3tq" class=3D"">I have updated<br>
-<br>
-<a href=3D"http://git.openembedded.org/openembedded-core-contrib/log/?h=3Dk=
-raj/gcc-6" rel=3D"noreferrer" target=3D"_blank">http://git.openembedded.org=
-/openembedded-core-contrib/log/?h=3Dkraj/gcc-6</a><br>
-<br>
-With few more patches added now. Most of packages in OE-Core are<br>
-building fine except linux-yocto on mips and ppc</div></blockquote></div><b=
-r>I threw this at the autobuilder.=C2=A0 Lots of c++ failures on various ar=
-chitectures.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_=
-extra"><a href=3D"https://autobuilder.yoctoproject.org/main/tgrid">https://=
-autobuilder.yoctoproject.org/main/tgrid</a>, the row for SHA 91ef.<br></div=
-><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div>=
-</div>
-
---001a1148578ce52413053172d4b0--
