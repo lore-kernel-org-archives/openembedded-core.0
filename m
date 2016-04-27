@@ -1,25 +1,49 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 65E9373281
+Return-Path: <matt@madison.systems>
+Received: from mail-lf0-f42.google.com (mail-lf0-f42.google.com
+	[209.85.215.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B26D65CBB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Apr 2016 13:07:12 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP; 27 Apr 2016 06:06:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,541,1455004800"; d="scan'208";a="793467212"
-Received: from wlee9-mobl3.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.141.75])
-	by orsmga003.jf.intel.com with ESMTP; 27 Apr 2016 06:06:58 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Apr 2016 01:06:19 +1200
-Message-Id: <32728ba0a630ec2c4f3c97653e3176161922c5b8.1461762339.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.5.5
-In-Reply-To: <cover.1461762339.git.paul.eggleton@linux.intel.com>
-References: <cover.1461762339.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1461762339.git.paul.eggleton@linux.intel.com>
-References: <cover.1461762339.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 2/2] recipetool: create: fix falling back to declared license for npm packages
+	Wed, 27 Apr 2016 14:19:36 +0000 (UTC)
+Received: by mail-lf0-f42.google.com with SMTP id u64so51706919lff.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Apr 2016 07:19:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=madison-systems.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc; bh=0fqwQ17uWgywwcbDSe1uM/rMIsq8/VN47/AZ4PPHdSc=;
+	b=1/2lfrvOLnt8+p1gGOkzhHUJKbpA1olSYQhB7XeuG7uJHNu5eNMLD5V0jE0Xz1v9Y3
+	tUKSKVszmqFN7rnedwLotaKgd/8aOD1Qv8V/5srP8XNvezWVNSDIue+k8NSnU8KUDYl/
+	0+Qr8SW4AKOoSlaep4J4zQT8jsblwRquRpvKwtwt3ew5St6qiIOf1RAkRLwDyhiED71m
+	RG/EwyL01bMo8P0n9+AAJwFZzNeB0l2tkdiLP7V/3HvUc6qqvyrkj5BzlOeycJJANXGG
+	8SRzYLlgxZV+R2+QZdpscKB5faCYsl/W/4wMzDmLdyYIRjQzBiM9x+hUfOKFRUI1I3GY
+	xXgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc;
+	bh=0fqwQ17uWgywwcbDSe1uM/rMIsq8/VN47/AZ4PPHdSc=;
+	b=AVs+U+xExslS01lZ8ivA/0n6G1bGXi7KyL1v10cDjWzh+o/7ZTq0Fpt7leQpSfKJOy
+	Slbiea/CjHfmwJCHINOh7zo0KMU1fpieZNYGzGLaXRzfl6KMzCDwVPpliSLkBqHZJgDC
+	+aEPshGcZo5XVpRzuvm68NwYoCWDrIZGZebEH14YMHeKD+5hxTmsyBy8k8l5o7U6HIGQ
+	VJ9RaaySYYiHMSXWU+PYoHoxITmvAzxJub2/akWZrnIZV7lfb1dfS9wyaXt4wLj3H95s
+	C4AldU+HRoKajtsLsCjdjnWzb+Qhbaq30+mTERk8TsKjuuzyk9mSHjxWaWWyd8kTv9k4
+	p5GQ==
+X-Gm-Message-State: AOPr4FXkpvmzPpElHWrh0qp+oy0q0bAvW2fGH6mc53tcEWl5djd8QwrKa4C3AdqJN8w2EC29A3pxwviqSCgffA==
+MIME-Version: 1.0
+X-Received: by 10.25.163.211 with SMTP id m202mr3150843lfe.73.1461766776169;
+	Wed, 27 Apr 2016 07:19:36 -0700 (PDT)
+Received: by 10.25.31.131 with HTTP; Wed, 27 Apr 2016 07:19:36 -0700 (PDT)
+In-Reply-To: <1461762212.31320.182.camel@linuxfoundation.org>
+References: <1461760323-27285-1-git-send-email-matt@madison.systems>
+	<1461760323-27285-2-git-send-email-matt@madison.systems>
+	<1461762212.31320.182.camel@linuxfoundation.org>
+Date: Wed, 27 Apr 2016 07:19:36 -0700
+Message-ID: <CAGgRHJohN6OXYd8hSSiAChMaCxiaFmu=cXiYP+EK9RV6GMmj8A@mail.gmail.com>
+From: Matt Madison <matt@madison.systems>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] image.bbclass: don't expand IMAGE_CMD when setting do_image task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,50 +56,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Apr 2016 13:07:12 -0000
+X-List-Received-Date: Wed, 27 Apr 2016 14:19:39 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Fix two problems falling back to the "license" field from package.json
-when no license file is present:
-1) The function that was supposed to return the license field value was
-   always explicitly returning None, and this was never noticed (because
-   the test cases never exercised the fallback as they provided license
-   files for each module).
-2) Fix the main package not falling back because it had a default of an
-   empty list, which evaluates to '' instead of 'Unknown'.
+On Wed, Apr 27, 2016 at 6:03 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Wed, 2016-04-27 at 05:32 -0700, Matt Madison wrote:
+>> Expanding it causes the do_image_x function to include values of
+>> variables that may contain date/time stamps, rather than references
+>> to the variable names, leading to spurious taskhash mismatch errors.
+>>
+>> Signed-off-by: Matt Madison <matt@madison.systems>
+>> ---
+>>  meta/classes/image.bbclass | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+>> index 8bfd241..d695d30 100644
+>> --- a/meta/classes/image.bbclass
+>> +++ b/meta/classes/image.bbclass
+>> @@ -380,7 +380,7 @@ python () {
+>>          localdata.delVar('DATETIME')
+>>          localdata.delVar('TMPDIR')
+>>
+>> -        image_cmd = localdata.getVar("IMAGE_CMD", True)
+>> +        image_cmd = localdata.getVar("IMAGE_CMD", False)
+>>          vardeps.add('IMAGE_CMD_' + realt)
+>>          if image_cmd:
+>>              cmds.append("\t" + image_cmd)
+>
+> You can't do this since there are some variables that need to be
+> expanded using the values from the current localdata copy of the data
+> store (such as the type variable).
+>
+> We'd previously tried to avoid DATETIME contanination by removing the
+> problem bases with the delVar calls just above this.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- scripts/lib/recipetool/create.py     | 2 +-
- scripts/lib/recipetool/create_npm.py | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Rats.  That approach isn't working, at least for me - the recursive
+expansion is causing the values of the date/time sensitive variables
+to be present in the value of the IMAGE_CMD_type variable, so that
+variable changes with each expansion.  I've hacked around the problem
+by avoiding direct references to any variable that depends directly or
+indirectly on ${DATETIME}, but I was really hoping for something
+cleaner.
 
-diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index bb9fb9b..aade40b 100644
---- a/scripts/lib/recipetool/create.py
-+++ b/scripts/lib/recipetool/create.py
-@@ -854,7 +854,7 @@ def split_pkg_licenses(licvalues, packages, outlines, fallback_licenses=None, pn
-             pkglicenses[pn].append(license)
-     outlicenses = {}
-     for pkgname in packages:
--        license = ' '.join(list(set(pkglicenses.get(pkgname, ['Unknown']))))
-+        license = ' '.join(list(set(pkglicenses.get(pkgname, ['Unknown'])))) or 'Unknown'
-         if license == 'Unknown' and pkgname in fallback_licenses:
-             license = fallback_licenses[pkgname]
-         outlines.append('LICENSE_%s = "%s"' % (pkgname, license))
-diff --git a/scripts/lib/recipetool/create_npm.py b/scripts/lib/recipetool/create_npm.py
-index b3ffcdb..cc4fb42 100644
---- a/scripts/lib/recipetool/create_npm.py
-+++ b/scripts/lib/recipetool/create_npm.py
-@@ -45,7 +45,7 @@ class NpmRecipeHandler(RecipeHandler):
-             license = data['license']
-             if isinstance(license, dict):
-                 license = license.get('type', None)
--        return None
-+        return license
- 
-     def _shrinkwrap(self, srctree, localfilesdir, extravalues, lines_before):
-         try:
--- 
-2.5.5
+There are other variables that can cause this, too - ${DATE} and
+${TIME} by themselves, for example, which aren't deleted.
 
+Thanks,
+-Matt
+
+>
+> Cheers,
+>
+> Richard
 
