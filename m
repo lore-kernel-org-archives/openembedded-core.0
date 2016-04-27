@@ -1,25 +1,46 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id A48E86FF56
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D483731E6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Apr 2016 12:51:24 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga101.fm.intel.com with ESMTP; 27 Apr 2016 05:51:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,541,1455004800"; d="scan'208";a="92883877"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga004.fm.intel.com with ESMTP; 27 Apr 2016 05:51:25 -0700
+	Wed, 27 Apr 2016 12:56:56 +0000 (UTC)
+Received: by mail-wm0-f54.google.com with SMTP id u206so48135641wme.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Apr 2016 05:56:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=7pWnzv+ZPjbBTVRz3SRqmzFnT4ecxaQibNhlv4+piLI=;
+	b=voi4A2ntNDO8iMwjOdF0FmKNchK6ePAkJO6ujPY0BjbkYuFovgF3fGzd/mNQ+9Kj56
+	0YH/l0O/R4yTZv8eaDTI/RQQ811Mp4chReMjqny6qXaSINQNHRyMDkGqWSH77b8inShQ
+	4uxSKeTZLAIr/HSm7vSFkQHVYOH9WeBJmDOjAQJejK1rkZFxyIYth1RyQhpoNC1m1FvK
+	HNd1XpqTNuRZvG33zI3ugZ/EM24IolkCZg3wNfy9wChhHQvoUo4gqVvEymyQsPddtDXd
+	jjmX9uD6uHF+hKfjQg999/KOUAFmljEZC9wYw8yxmMPkNurpDxErPFUf2knfU8H8Fsiy
+	6TPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=7pWnzv+ZPjbBTVRz3SRqmzFnT4ecxaQibNhlv4+piLI=;
+	b=aWQcgXwk9bsMivagfuSIFVPU7JBn+5IT807oKNpLl6m6GQwkM5BCUeSMNySYuVAAiZ
+	VNovuNbUDQo04MLdAOKo3g3fXxhIIyhsYzMdA8R6Ium9ydmhNg2jJGhgG2i5Js2zJrNq
+	0xQhD89M/LuyUkY2R6ly2wWp7VaNLf8E1QT1ripCMrvdqXWri9UzqrFRGoY7t0JoKZJP
+	w/ikxQg0c05htLKtjegikIHxv5T0w109h8UUjJ3FCvIWQtsFY8/YuNt3tLlhCpP6CIR1
+	dBhgobpLGD75shTHSsHcA4isJmhcr86n+oYDkvOmfaGEGDIOBgQLbcLTgrx3skO8ftKh
+	0Wqw==
+X-Gm-Message-State: AOPr4FX/Ut5/ye3K6C+rC1UAuAJv0ky2FCBfF49PP3SXQjuGfvhlaN0Gm0HCpuS2vMhRgmGQ
+X-Received: by 10.28.125.138 with SMTP id y132mr9822804wmc.90.1461761817283;
+	Wed, 27 Apr 2016 05:56:57 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	r123sm8376474wmg.20.2016.04.27.05.56.56
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 27 Apr 2016 05:56:56 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <571E0BF3.8080408@linux.intel.com> <571E3387.6090201@gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <5720B5EB.80309@linux.intel.com>
-Date: Wed, 27 Apr 2016 15:51:55 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Icedove/38.6.0
-MIME-Version: 1.0
-In-Reply-To: <571E3387.6090201@gmail.com>
-Subject: Re: moving OpenEmbedded-core to Python 3
+Date: Wed, 27 Apr 2016 13:56:53 +0100
+Message-Id: <1461761814-30036-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.0.rc3
+Subject: [PATCH 1/2] python-pygobject: remove redundant gnome-common dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,42 +53,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Apr 2016 12:51:26 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 27 Apr 2016 12:56:58 -0000
 
-On 04/25/2016 06:11 PM, akuster808 wrote:
->> we want to deprecate Python 2 in oe-core and set Python 3 as the
->> default, preferred choice. What does this mean?
->
-> What is the target to make  Python3 default, 2.2?
+The gnomebase class already depends on gnome-common-native, so there's no need
+to depend on it again.
 
-There is no specific target when the task is 'totally done', it's an 
-ongoing activity that will span multiple releases. I plan to have the 
-initial patchset merged into master in 2.2 cycle, but there's more work 
-to be done when upstream components currently stuck in python 2 will 
-finally more to python 3, and fixing up any loose ends, obscure 
-regressions etc.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-devtools/python/python-pygobject_3.18.2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->> 1) Introducing new Python 2 dependencies via new recipes or additional
->> DEPENDS etc. in existing recipes will be discouraged: you'll have to
->> provide a reason.
->
-> Will there be any kind of QA warning for these dependencies? this will
-> help  scope how many recipes need to be looked at. there are a lot of
-> layers out there.
+diff --git a/meta/recipes-devtools/python/python-pygobject_3.18.2.bb b/meta/recipes-devtools/python/python-pygobject_3.18.2.bb
+index a9871fe..00c5079 100644
+--- a/meta/recipes-devtools/python/python-pygobject_3.18.2.bb
++++ b/meta/recipes-devtools/python/python-pygobject_3.18.2.bb
+@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
+ 
+ inherit autotools pkgconfig gnomebase distutils-base gobject-introspection
+ 
+-DEPENDS += "python glib-2.0 gnome-common"
++DEPENDS += "python glib-2.0"
+ 
+ SRCNAME="pygobject"
+ SRC_URI = " \
+-- 
+2.8.0.rc3
 
-I think there will not be. There are too many recipes in oe-core that 
-are python 2 only (and even more outside of oe-core), and it's too much 
-work to add warning suppressions to them all. Also, we don't want to 
-force python 3 transition on anyone outside of oe-core, people can do it 
-at their own pace and schedule.
-
->> 2) Bitbake itself is at the moment Python 2 only - which will be addressed.
->
-> What will the env setup script display then?
-
-This is a question for bitbake developers I guess, not me.
-
-Alex
 
