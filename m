@@ -1,52 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
-	[209.85.213.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 710DC73204
+Return-Path: <Yuanjie.Huang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 59284607A4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Apr 2016 08:53:28 +0000 (UTC)
-Received: by mail-ig0-f174.google.com with SMTP id u10so66540697igr.1
+	Wed, 27 Apr 2016 09:32:56 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u3R9WuIc001508
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Apr 2016 01:53:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=lwfa8BJL5SYaBWticY86LwIaK5uEYAXoozuNZGY7ZJE=;
-	b=uU4bykzP8wjB05IQjqoOZDhe/+ujSOsOBMWftGzHTTbfO6ABjPwArAXHPknb8tQqQn
-	H0/QK8CB3AZqeE6bRLHvke4llZK6p+8YCHSnyhiP39L8ez+l45QgiRBXKDXIR4sycg5J
-	naojKFyn0Op4D5+9H66EBg5jVly4Nwwj94b/AJM6pl6QcTVTcqiGltdl4jDR5ggNgTOF
-	yfcAryPoBACLJIw/sPlXDkWGA0uBN9VwYUk+TYtuEQpiSZK8jeAzB1l60nRcjg8zpaBZ
-	Uo7HLk3aFZ8u+YNL9Nub0lHkiBy7rWWeu2aZj93/7DrrmbWh2P56yiTAo/GgoeU419KP
-	7Bew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=lwfa8BJL5SYaBWticY86LwIaK5uEYAXoozuNZGY7ZJE=;
-	b=XlU0wanBLpkfzPqcAm+hdRYc+HWovH22rrtT/cM2vkV3v5BmDMrHN3pe7CAtywrzdL
-	ES+id+QEk1k0N9kxi5kqO6617UFzhGPQuXKOhoDJqZzjqXaCM25gw/yRwzjs7WMninJ/
-	9h7AnI/9RXAzi2wyeOJNpfNHR2nQrtsh2ZOIOjLi7LUpjPPYwUttqoztincBPzn7kj8M
-	2yfvukcPT44bRf995IIEaHhFMolMEud8XJPYaJ09LUihoaVpnXCOK8hYHd12jCKkzBaJ
-	BUFzvfrmaQ3+wXpz14qlKcBTn167ok5BhpdnnyvKDJKns9bKv8v7ZxpzYjlkJpamkhLA
-	qB8g==
-X-Gm-Message-State: AOPr4FUBgWuCQfDR+f49oMVRe7n+llTBghm+3fnQ41/UlJXEHh873Z5RKr0QSbspsf3pdYvVGJnfy4/wsBUN7QZu
-X-Received: by 10.50.150.1 with SMTP id ue1mr24101938igb.52.1461747209154;
-	Wed, 27 Apr 2016 01:53:29 -0700 (PDT)
+	Wed, 27 Apr 2016 02:32:56 -0700 (PDT)
+Received: from ala-lpd-susbld2.wrs.com (147.11.105.122) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.248.2; Wed, 27 Apr 2016 02:32:55 -0700
+From: Yuanjie Huang <yuanjie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 27 Apr 2016 02:32:55 -0700
+Message-ID: <1461749575-8912-1-git-send-email-yuanjie.huang@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Received: by 10.107.9.106 with HTTP; Wed, 27 Apr 2016 01:53:09 -0700 (PDT)
-In-Reply-To: <CAJTo0Lb25x1H44nGn05d6qBVLDpyiaZ3XW40fdrAWcP_D+qYwg@mail.gmail.com>
-References: <B1D22563-F31B-4EF1-90D6-16EB391134D5@gmail.com>
-	<CACS+7ZSpWgziO+GF++25dM7kgP4SZ_GDV+-DcEMQ_YUGyEEnfQ@mail.gmail.com>
-	<CAMKF1spQn114r9dCAk9z7c3hw-NJp3pVoVP+f3gao2mhLTBHYg@mail.gmail.com>
-	<CAMKF1spwimpQwSE38B5jWmyZXwMKy6znMEF9p-NmTM4mGGr+4g@mail.gmail.com>
-	<CAJTo0Lb25x1H44nGn05d6qBVLDpyiaZ3XW40fdrAWcP_D+qYwg@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 27 Apr 2016 09:53:09 +0100
-Message-ID: <CAJTo0LZZ3Hs_yrm5ceik4j8Orv-UQ9T72Wu=R_PCRKw4Y9-WCw@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Yocto Project <yocto@yoctoproject.org>,
-	openembeded-devel <openembedded-devel@lists.openembedded.org>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] [RFT] GCC 6 Recipes
+Subject: [jethro][PATCH] glibc: Fix CVE-2015-8778
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,74 +31,245 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Apr 2016 08:53:30 -0000
-Content-Type: multipart/alternative; boundary=001a11c30f0a274d2e0531738b5a
+X-List-Received-Date: Wed, 27 Apr 2016 09:32:56 -0000
+Content-Type: text/plain
 
---001a11c30f0a274d2e0531738b5a
-Content-Type: text/plain; charset=UTF-8
+CVE: CVE-2015-8778
 
-Finally made errors.yp do the right thing:
-http://errors.yoctoproject.org/Errors/Latest/?filter=91ef7bf5ad13304827e2ef06738f7fc28ed650f6&type=commit
-is a list of all the failures.
+Improve check against integer wraparound in hcreate_r [BZ #18240]
 
-Ross
+This is an integer overflow in hcreate and hcreate_r which can result in
+an out-of-bound memory access.  This could lead to application crashes
+or, potentially, arbitrary code execution.
 
-On 27 April 2016 at 09:02, Burton, Ross <ross.burton@intel.com> wrote:
+Upstream-Status: Backport [2.23]
+(cherry-picked from commit bae7c7c7, 4bd228c8)
 
->
-> On 21 April 2016 at 04:06, Khem Raj <raj.khem@gmail.com> wrote:
->
->> I have updated
->>
->> http://git.openembedded.org/openembedded-core-contrib/log/?h=kraj/gcc-6
->>
->> With few more patches added now. Most of packages in OE-Core are
->> building fine except linux-yocto on mips and ppc
->>
->
-> I threw this at the autobuilder.  Lots of c++ failures on various
-> architectures.
->
-> https://autobuilder.yoctoproject.org/main/tgrid, the row for SHA 91ef.
->
-> Ross
->
+Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
+---
+ meta/recipes-core/glibc/glibc/CVE-2015-8778.patch | 199 ++++++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.22.bb             |   1 +
+ 2 files changed, 200 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2015-8778.patch
 
---001a11c30f0a274d2e0531738b5a
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2015-8778.patch b/meta/recipes-core/glibc/glibc/CVE-2015-8778.patch
+new file mode 100644
+index 0000000..c505c10
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/CVE-2015-8778.patch
+@@ -0,0 +1,199 @@
++From d0f05d1e39adb336a8bbccbc276a344e6ff427e3 Mon Sep 17 00:00:00 2001
++From: Florian Weimer <fweimer@redhat.com>
++Date: Thu, 28 Jan 2016 13:59:11 +0100
++Subject: [PATCH] Improve check against integer wraparound in hcreate_r [BZ
++ #18240]
++
++CVE: CVE-2015-8778
++
++Improve check against integer wraparound in hcreate_r [BZ #18240]
++
++This is an integer overflow in hcreate and hcreate_r which can result in
++an out-of-bound memory access.  This could lead to application crashes
++or, potentially, arbitrary code execution.
++
++Upstream-Status: Backport [2.23]
++(cherry-picked from commit bae7c7c7, 4bd228c8)
++
++Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
++---
++ ChangeLog        |  6 +++++
++ NEWS             |  2 +-
++ misc/Makefile    |  2 +-
++ misc/bug18240.c  | 75 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++ misc/hsearch_r.c | 28 ++++++++++++---------
++ 5 files changed, 100 insertions(+), 13 deletions(-)
++ create mode 100644 misc/bug18240.c
++
++diff --git a/ChangeLog b/ChangeLog
++index b7701d1..a9dc8a2 100644
++--- a/ChangeLog
+++++ b/ChangeLog
++@@ -1,3 +1,9 @@
+++2016-01-27  Paul Eggert  <eggert@cs.ucla.edu>
+++
+++	[BZ #18240]
+++	* misc/hsearch_r.c (isprime, __hcreate_r): Protect against
+++	unsigned int wraparound.
+++
++ 2016-02-15  Carlos O'Donell  <carlos@redhat.com>
++ 
++    [BZ #18665]
++diff --git a/NEWS b/NEWS
++index cda7a73..fd77c27 100644
++--- a/NEWS
+++++ b/NEWS
++@@ -9,7 +9,7 @@ Version 2.22.1
++ 
++ * The following bugs are resolved with this release:
++ 
++-  18778, 18781, 18787, 17905.
+++  18240, 18778, 18781, 18787, 17905.
++ 
++ Version 2.22
++ 
++diff --git a/misc/Makefile b/misc/Makefile
++index e6b7c23..463a238 100644
++--- a/misc/Makefile
+++++ b/misc/Makefile
++@@ -83,7 +83,7 @@ install-lib := libg.a
++ gpl2lgpl := error.c error.h
++ 
++ tests := tst-dirname tst-tsearch tst-fdset tst-mntent tst-hsearch \
++-	 tst-pselect tst-insremque tst-mntent2 bug-hsearch1
+++	 tst-pselect tst-insremque tst-mntent2 bug-hsearch1 bug18240
++ tests-$(OPTION_POSIX_WIDE_CHAR_DEVICE_IO) += tst-error1
++ tests-$(OPTION_EGLIBC_FCVT) += tst-efgcvt
++ ifeq ($(run-built-tests),yes)
++diff --git a/misc/bug18240.c b/misc/bug18240.c
++new file mode 100644
++index 0000000..4b26865
++--- /dev/null
+++++ b/misc/bug18240.c
++@@ -0,0 +1,75 @@
+++/* Test integer wraparound in hcreate.
+++   Copyright (C) 2016 Free Software Foundation, Inc.
+++   This file is part of the GNU C Library.
+++
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, see
+++   <http://www.gnu.org/licenses/>.  */
+++
+++#include <errno.h>
+++#include <limits.h>
+++#include <search.h>
+++#include <stdbool.h>
+++#include <stdio.h>
+++#include <stdlib.h>
+++
+++static void
+++test_size (size_t size)
+++{
+++  int res = hcreate (size);
+++  if (res == 0)
+++    {
+++      if (errno == ENOMEM)
+++        return;
+++      printf ("error: hcreate (%zu): %m\n", size);
+++      exit (1);
+++    }
+++  char *keys[100];
+++  for (int i = 0; i < 100; ++i)
+++    {
+++      if (asprintf (keys + i, "%d", i) < 0)
+++        {
+++          printf ("error: asprintf: %m\n");
+++          exit (1);
+++        }
+++      ENTRY e = { keys[i], (char *) "value" };
+++      if (hsearch (e, ENTER) == NULL)
+++        {
+++          printf ("error: hsearch (\"%s\"): %m\n", keys[i]);
+++          exit (1);
+++        }
+++    }
+++  hdestroy ();
+++
+++  for (int i = 0; i < 100; ++i)
+++    free (keys[i]);
+++}
+++
+++static int
+++do_test (void)
+++{
+++  test_size (500);
+++  test_size (-1);
+++  test_size (-3);
+++  test_size (INT_MAX - 2);
+++  test_size (INT_MAX - 1);
+++  test_size (INT_MAX);
+++  test_size (((unsigned) INT_MAX) + 1);
+++  test_size (UINT_MAX - 2);
+++  test_size (UINT_MAX - 1);
+++  test_size (UINT_MAX);
+++  return 0;
+++}
+++
+++#define TEST_FUNCTION do_test ()
+++#include "../test-skeleton.c"
++diff --git a/misc/hsearch_r.c b/misc/hsearch_r.c
++index 9f55e84..6000ce2 100644
++--- a/misc/hsearch_r.c
+++++ b/misc/hsearch_r.c
++@@ -46,15 +46,12 @@ static int
++ isprime (unsigned int number)
++ {
++   /* no even number will be passed */
++-  unsigned int div = 3;
++-
++-  while (div * div < number && number % div != 0)
++-    div += 2;
++-
++-  return number % div != 0;
+++  for (unsigned int div = 3; div <= number / div; div += 2)
+++    if (number % div == 0)
+++      return 0;
+++  return 1;
++ }
++ 
++-
++ /* Before using the hash table we must allocate memory for it.
++    Test for an existing table are done. We allocate one element
++    more as the found prime number says. This is done for more effective
++@@ -81,10 +78,19 @@ __hcreate_r (nel, htab)
++      use will not work.  */
++   if (nel < 3)
++     nel = 3;
++-  /* Change nel to the first prime number not smaller as nel. */
++-  nel |= 1;      /* make odd */
++-  while (!isprime (nel))
++-    nel += 2;
+++
+++  /* Change nel to the first prime number in the range [nel, UINT_MAX - 2],
+++     The '- 2' means 'nel += 2' cannot overflow.  */
+++  for (nel |= 1; ; nel += 2)
+++    {
+++      if (UINT_MAX - 2 < nel)
+++	{
+++	  __set_errno (ENOMEM);
+++	  return 0;
+++	}
+++      if (isprime (nel))
+++	break;
+++    }
++ 
++   htab->size = nel;
++   htab->filled = 0;
++-- 
++2.7.4
++
+diff --git a/meta/recipes-core/glibc/glibc_2.22.bb b/meta/recipes-core/glibc/glibc_2.22.bb
+index a13b7f9..7b25847 100644
+--- a/meta/recipes-core/glibc/glibc_2.22.bb
++++ b/meta/recipes-core/glibc/glibc_2.22.bb
+@@ -47,6 +47,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://CVE-2015-9761_2.patch \
+            file://CVE-2015-8776.patch \
+            file://CVE-2015-7547.patch \
++           file://CVE-2015-8778.patch \
+ "
+ 
+ SRC_URI += "\
+-- 
+2.7.4
 
-<div dir=3D"ltr">Finally made errors.yp do the right thing:=C2=A0<a href=3D=
-"http://errors.yoctoproject.org/Errors/Latest/?filter=3D91ef7bf5ad13304827e=
-2ef06738f7fc28ed650f6&amp;type=3Dcommit">http://errors.yoctoproject.org/Err=
-ors/Latest/?filter=3D91ef7bf5ad13304827e2ef06738f7fc28ed650f6&amp;type=3Dco=
-mmit</a> is a list of all the failures.<div><br></div><div>Ross</div></div>=
-<div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On 27 April 2016 =
-at 09:02, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"mailto:ross.burton@=
-intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;</span> wrote:<br=
-><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
-px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_extra"=
-><span class=3D""><br><div class=3D"gmail_quote">On 21 April 2016 at 04:06,=
- Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:raj.khem@gmail.com" targe=
-t=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wrote:<br><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;bo=
-rder-left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex">=
-<div>I have updated<br>
-<br>
-<a href=3D"http://git.openembedded.org/openembedded-core-contrib/log/?h=3Dk=
-raj/gcc-6" rel=3D"noreferrer" target=3D"_blank">http://git.openembedded.org=
-/openembedded-core-contrib/log/?h=3Dkraj/gcc-6</a><br>
-<br>
-With few more patches added now. Most of packages in OE-Core are<br>
-building fine except linux-yocto on mips and ppc</div></blockquote></div><b=
-r></span>I threw this at the autobuilder.=C2=A0 Lots of c++ failures on var=
-ious architectures.</div><div class=3D"gmail_extra"><br></div><div class=3D=
-"gmail_extra"><a href=3D"https://autobuilder.yoctoproject.org/main/tgrid" t=
-arget=3D"_blank">https://autobuilder.yoctoproject.org/main/tgrid</a>, the r=
-ow for SHA 91ef.<span class=3D"HOEnZb"><font color=3D"#888888"><br></font><=
-/span></div><span class=3D"HOEnZb"><font color=3D"#888888"><div class=3D"gm=
-ail_extra"><br></div><div class=3D"gmail_extra">Ross</div></font></span></d=
-iv>
-</blockquote></div><br></div>
 
---001a11c30f0a274d2e0531738b5a--
