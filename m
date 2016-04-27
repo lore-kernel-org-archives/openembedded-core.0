@@ -1,47 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id DA81D734B8
+Return-Path: <tristan.vanberkom@codethink.co.uk>
+Received: from ducie-dc1.codethink.co.uk (ducie-dc1.codethink.co.uk
+	[185.25.241.215])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E214606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Apr 2016 20:53:17 +0000 (UTC)
-Received: by mail-io0-f171.google.com with SMTP id u185so67649880iod.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Apr 2016 13:53:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=XSSt0gqa+uXuyely3ayK2Qr7aDp29oj9mhRkxFJ0TRo=;
-	b=c3tsIUWzHYIewBQ8hVTUlxT7IlaTkWt+UOEVWmPF/5AqV4hRFgwMWFPrHn7d456EQN
-	9/xzEdnr9+SNVm0gBcRlYEaH0leqEPwr3NOEjjtmWHBiXGkloZkgfqZxRqc1nfuT63x3
-	Wtd0e+iTyLxTjOCWtk+S+Cfkhf2208Ly/hXKEFgPceXlJfUtBbAOHtKePut1zpIqBQ0a
-	QwDA3runkra2Q182b6F8v26+H353CHNjuu/gEbsmc4DUnOYRYU2DFle6XJ/t3gJaBpeI
-	WU5OFQc/fCAOpg957RJjVwouyonOTKpV95L8QOq1JQUreJS2yN30u9wFbSaO1z1+S7GX
-	HBaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=XSSt0gqa+uXuyely3ayK2Qr7aDp29oj9mhRkxFJ0TRo=;
-	b=GY1dd4gw7yasvN/7NyJhkTw8HSFO3DuoXAphgdbq8mlg8ilQVqZENONaRxAxvePOjF
-	MdF79Eb7oZfSkwogylf24vzPAU788yFZtZjwmet1ykaucB9sQfVbudt0S3bvR1SgKxSK
-	tSCiFnJlsvwZINZLf8VOXe4vlZ1a8/JkqSPvkkMeOsBFYBqpqU1/+7q7QjHY9FjVoWy6
-	SvbKjbOfkI4TWestozAcl2oK0jKQAs68m47FBxYksul2Q4qd20kJuG/cBvqhUqHYdU4S
-	ZXxd3b7qVuAk4QZhluXDLKYwfXZqWfaAoZldMZ04gZqSUI80QnlUnDuCk+eXuZ4kPGPm
-	RqMg==
-X-Gm-Message-State: AOPr4FUcXDmij/Fz4Pest1i+h6sa/TUIA3l+cYfEfDpYllyAfs4L0N+eZOOO+fTo0qd3JJ4VlY7/QxE6pO9LYut2
-X-Received: by 10.107.51.213 with SMTP id z204mr12027684ioz.148.1461790398598; 
-	Wed, 27 Apr 2016 13:53:18 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.9.106 with HTTP; Wed, 27 Apr 2016 13:52:59 -0700 (PDT)
-In-Reply-To: <1461331489-995-2-git-send-email-awais_belal@mentor.com>
-References: <1461331489-995-1-git-send-email-awais_belal@mentor.com>
-	<1461331489-995-2-git-send-email-awais_belal@mentor.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 27 Apr 2016 21:52:59 +0100
-Message-ID: <CAJTo0Lb+rS0yUSLq6KSYE4iN0yxFOowsjTNY3H=6S5ogVfg3aQ@mail.gmail.com>
-To: Awais Belal <awais_belal@mentor.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] mesa-demos: provide option for disabling GLX demos
+	Wed, 27 Apr 2016 21:40:38 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by ducie-dc1.codethink.co.uk (Postfix) with ESMTP id B2812461CB8;
+	Wed, 27 Apr 2016 22:40:38 +0100 (BST)
+X-Virus-Scanned: Debian amavisd-new at ducie-dc1.codethink.co.uk
+Received: from ducie-dc1.codethink.co.uk ([127.0.0.1])
+	by localhost (ducie-dc1.codethink.co.uk [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id NFUULPI+thJq; Wed, 27 Apr 2016 22:40:34 +0100 (BST)
+Received: from think.local (modemcable077.52-176-173.mc.videotron.ca
+	[173.176.52.77])
+	by ducie-dc1.codethink.co.uk (Postfix) with ESMTPSA id 5551E460367;
+	Wed, 27 Apr 2016 22:40:34 +0100 (BST)
+From: Tristan Van Berkom <tristan.vanberkom@codethink.co.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 27 Apr 2016 17:39:40 -0400
+Message-Id: <1461793180-7861-1-git-send-email-tristan.vanberkom@codethink.co.uk>
+X-Mailer: git-send-email 2.8.0.rc3
+Subject: [PATCH][jethro] binutils: backport bug fix to the 2.25 branch for jethro
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,38 +34,205 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Apr 2016 20:53:21 -0000
-Content-Type: multipart/alternative; boundary=001a11440cd071f2af05317d991d
+X-List-Received-Date: Wed, 27 Apr 2016 21:40:40 -0000
 
---001a11440cd071f2af05317d991d
-Content-Type: text/plain; charset=UTF-8
+We fail to build webkit on aarch64 due to this binutils bug:
 
-On 22 April 2016 at 14:24, Awais Belal <awais_belal@mentor.com> wrote:
+   https://sourceware.org/bugzilla/show_bug.cgi?id=19353
 
-> +PACKAGECONFIG ?= "drm osmesa freetype2 gbm egl gles1 gles2 glx \
->                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11
-> glew glu', '', d)}"
->
+Applying patch which fixes this, stripped out changelog entry
+from patch to make it apply without error.
+---
+ meta/recipes-devtools/binutils/binutils-2.25.1.inc |   1 +
+ ...plying-TLSDESC-relocs-without-TLS-segment.patch | 166 +++++++++++++++++++++
+ 2 files changed, 167 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/fix-internal-error-when-applying-TLSDESC-relocs-without-TLS-segment.patch
 
-Shouldn't glx be inside the x11 DISTRO_FEATURE check?
+diff --git a/meta/recipes-devtools/binutils/binutils-2.25.1.inc b/meta/recipes-devtools/binutils/binutils-2.25.1.inc
+index f3817fa..c7db9e0 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.25.1.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.25.1.inc
+@@ -35,6 +35,7 @@ SRC_URI = "\
+      file://0015-Fix-dynamic-list-so-that-symbols-not-in-the-list-are.patch \
+      file://binutils-octeon3.patch \
+      file://add-thunderx-support-for-gas.patch \
++     file://fix-internal-error-when-applying-TLSDESC-relocs-without-TLS-segment.patch \
+      "
+ S  = "${WORKDIR}/git"
+ 
+diff --git a/meta/recipes-devtools/binutils/binutils/fix-internal-error-when-applying-TLSDESC-relocs-without-TLS-segment.patch b/meta/recipes-devtools/binutils/binutils/fix-internal-error-when-applying-TLSDESC-relocs-without-TLS-segment.patch
+new file mode 100644
+index 0000000..df9d54c
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/fix-internal-error-when-applying-TLSDESC-relocs-without-TLS-segment.patch
+@@ -0,0 +1,166 @@
++From d21f123b0ead1806416cf0dafae12bec4cca8920 Mon Sep 17 00:00:00 2001
++From: Cary Coutant <ccoutant@gmail.com>
++Date: Mon, 11 Jan 2016 23:57:44 -0800
++Subject: [PATCH] Fix internal error when applying TLSDESC relocations with no TLS segment.
++
++gold/
++	PR gold/19353
++	* aarch64.cc (Target_aarch64::relocate_tls): Don't insist that
++	we have a TLS segment for GD-to-IE optimization.
++	* i386.cc (Target_i386::tls_gd_to_ie): Remove tls_segment parameter.
++	Adjust all calls.
++	(Target_i386::tls_desc_gd_to_ie): Likewise.
++	(Target_i386::relocate_tls): Don't insist that we have a TLS segment
++	for TLSDESC GD-to-IE optimizations.
++	* x86_64.cc (Target_x86_64::tls_gd_to_ie): Remove tls_segment parameter.
++	Adjust all calls.
++	(Target_x86_64::tls_desc_gd_to_ie): Likewise.
++	(Target_x86_64::relocate_tls): Don't insist that we have a TLS segment
++	for TLSDESC GD-to-IE optimizations.
++---
++ gold/aarch64.cc |    6 ------
++ gold/i386.cc    |   14 ++------------
++ gold/x86_64.cc  |   14 ++------------
++ 4 files changed, 20 insertions(+), 30 deletions(-)
++
++diff --git a/gold/aarch64.cc b/gold/aarch64.cc
++index 20f2f4f..5ad061b 100644
++--- a/gold/aarch64.cc
+++++ b/gold/aarch64.cc
++@@ -7422,12 +7422,6 @@ Target_aarch64<size, big_endian>::Relocate::relocate_tls(
++ 	      }
++ 	    if (tlsopt == tls::TLSOPT_TO_IE)
++ 	      {
++-		if (tls_segment == NULL)
++-		  {
++-		    gold_assert(parameters->errors()->error_count() > 0
++-				|| issue_undefined_symbol_error(gsym));
++-		    return aarch64_reloc_funcs::STATUS_BAD_RELOC;
++-		  }
++ 		return tls_desc_gd_to_ie(relinfo, target, rela, r_type,
++ 					 view, psymval, got_entry_address,
++ 					 address);
++diff --git a/gold/i386.cc b/gold/i386.cc
++index 82886d4..a7168a8 100644
++--- a/gold/i386.cc
+++++ b/gold/i386.cc
++@@ -668,7 +668,6 @@ class Target_i386 : public Sized_target<32, false>
++     // Do a TLS General-Dynamic to Initial-Exec transition.
++     inline void
++     tls_gd_to_ie(const Relocate_info<32, false>*, size_t relnum,
++-		 Output_segment* tls_segment,
++ 		 const elfcpp::Rel<32, false>&, unsigned int r_type,
++ 		 elfcpp::Elf_types<32>::Elf_Addr value,
++ 		 unsigned char* view,
++@@ -687,7 +686,6 @@ class Target_i386 : public Sized_target<32, false>
++     // transition.
++     inline void
++     tls_desc_gd_to_ie(const Relocate_info<32, false>*, size_t relnum,
++-		      Output_segment* tls_segment,
++ 		      const elfcpp::Rel<32, false>&, unsigned int r_type,
++ 		      elfcpp::Elf_types<32>::Elf_Addr value,
++ 		      unsigned char* view,
++@@ -3054,7 +3052,7 @@ Target_i386::Relocate::relocate_tls(const Relocate_info<32, false>* relinfo,
++ 	    }
++ 	  if (optimized_type == tls::TLSOPT_TO_IE)
++ 	    {
++-	      this->tls_gd_to_ie(relinfo, relnum, tls_segment, rel, r_type,
+++	      this->tls_gd_to_ie(relinfo, relnum, rel, r_type,
++ 				 got_offset, view, view_size);
++ 	      break;
++ 	    }
++@@ -3116,13 +3114,7 @@ Target_i386::Relocate::relocate_tls(const Relocate_info<32, false>* relinfo,
++ 	    }
++ 	  if (optimized_type == tls::TLSOPT_TO_IE)
++ 	    {
++-	      if (tls_segment == NULL)
++-		{
++-		  gold_assert(parameters->errors()->error_count() > 0
++-			      || issue_undefined_symbol_error(gsym));
++-		  return;
++-		}
++-	      this->tls_desc_gd_to_ie(relinfo, relnum, tls_segment, rel, r_type,
+++	      this->tls_desc_gd_to_ie(relinfo, relnum, rel, r_type,
++ 				      got_offset, view, view_size);
++ 	      break;
++ 	    }
++@@ -3354,7 +3346,6 @@ Target_i386::Relocate::tls_gd_to_le(const Relocate_info<32, false>* relinfo,
++ inline void
++ Target_i386::Relocate::tls_gd_to_ie(const Relocate_info<32, false>* relinfo,
++ 				    size_t relnum,
++-				    Output_segment*,
++ 				    const elfcpp::Rel<32, false>& rel,
++ 				    unsigned int,
++ 				    elfcpp::Elf_types<32>::Elf_Addr value,
++@@ -3449,7 +3440,6 @@ inline void
++ Target_i386::Relocate::tls_desc_gd_to_ie(
++     const Relocate_info<32, false>* relinfo,
++     size_t relnum,
++-    Output_segment*,
++     const elfcpp::Rel<32, false>& rel,
++     unsigned int r_type,
++     elfcpp::Elf_types<32>::Elf_Addr value,
++diff --git a/gold/x86_64.cc b/gold/x86_64.cc
++index 3cfc064..4ad5afc 100644
++--- a/gold/x86_64.cc
+++++ b/gold/x86_64.cc
++@@ -816,7 +816,6 @@ class Target_x86_64 : public Sized_target<size, false>
++     // Do a TLS General-Dynamic to Initial-Exec transition.
++     inline void
++     tls_gd_to_ie(const Relocate_info<size, false>*, size_t relnum,
++-		 Output_segment* tls_segment,
++ 		 const elfcpp::Rela<size, false>&, unsigned int r_type,
++ 		 typename elfcpp::Elf_types<size>::Elf_Addr value,
++ 		 unsigned char* view,
++@@ -835,7 +834,6 @@ class Target_x86_64 : public Sized_target<size, false>
++     // Do a TLSDESC-style General-Dynamic to Initial-Exec transition.
++     inline void
++     tls_desc_gd_to_ie(const Relocate_info<size, false>*, size_t relnum,
++-		      Output_segment* tls_segment,
++ 		      const elfcpp::Rela<size, false>&, unsigned int r_type,
++ 		      typename elfcpp::Elf_types<size>::Elf_Addr value,
++ 		      unsigned char* view,
++@@ -3733,7 +3731,7 @@ Target_x86_64<size>::Relocate::relocate_tls(
++ 	  if (optimized_type == tls::TLSOPT_TO_IE)
++ 	    {
++ 	      value = target->got_plt_section()->address() + got_offset;
++-	      this->tls_gd_to_ie(relinfo, relnum, tls_segment, rela, r_type,
+++	      this->tls_gd_to_ie(relinfo, relnum, rela, r_type,
++ 				 value, view, address, view_size);
++ 	      break;
++ 	    }
++@@ -3800,14 +3798,8 @@ Target_x86_64<size>::Relocate::relocate_tls(
++ 	    }
++ 	  if (optimized_type == tls::TLSOPT_TO_IE)
++ 	    {
++-	      if (tls_segment == NULL)
++-		{
++-		  gold_assert(parameters->errors()->error_count() > 0
++-			      || issue_undefined_symbol_error(gsym));
++-		  return;
++-		}
++ 	      value = target->got_plt_section()->address() + got_offset;
++-	      this->tls_desc_gd_to_ie(relinfo, relnum, tls_segment,
+++	      this->tls_desc_gd_to_ie(relinfo, relnum,
++ 				      rela, r_type, value, view, address,
++ 				      view_size);
++ 	      break;
++@@ -3973,7 +3965,6 @@ inline void
++ Target_x86_64<size>::Relocate::tls_gd_to_ie(
++     const Relocate_info<size, false>* relinfo,
++     size_t relnum,
++-    Output_segment*,
++     const elfcpp::Rela<size, false>& rela,
++     unsigned int,
++     typename elfcpp::Elf_types<size>::Elf_Addr value,
++@@ -4085,7 +4076,6 @@ inline void
++ Target_x86_64<size>::Relocate::tls_desc_gd_to_ie(
++     const Relocate_info<size, false>* relinfo,
++     size_t relnum,
++-    Output_segment*,
++     const elfcpp::Rela<size, false>& rela,
++     unsigned int r_type,
++     typename elfcpp::Elf_types<size>::Elf_Addr value,
++-- 
++1.7.1
++
+-- 
+2.8.0.rc3
 
-Ross
 
---001a11440cd071f2af05317d991d
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 22 April 2016 at 14:24, Awais Belal <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:awais_belal@mentor.com" target=3D"_blank">awais_belal@mentor.com</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4xl" class=3D=
-"a3s aXjCH">+PACKAGECONFIG ?=3D &quot;drm osmesa freetype2 gbm egl gles1 gl=
-es2 glx \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${@bb.=
-utils.contains(&#39;DISTRO_FEATURES&#39;, &#39;x11&#39;, &#39;x11 glew glu&=
-#39;, &#39;&#39;, d)}&quot;<br></div></blockquote></div><br>Shouldn&#39;t g=
-lx be inside the x11 DISTRO_FEATURE check?</div><div class=3D"gmail_extra">=
-<br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a11440cd071f2af05317d991d--
