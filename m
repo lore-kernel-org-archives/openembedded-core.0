@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id DADED73204
+	by mail.openembedded.org (Postfix) with ESMTP id 93D7B7570D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Apr 2016 11:56:57 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP; 27 Apr 2016 04:56:58 -0700
+	Wed, 27 Apr 2016 11:56:59 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP; 27 Apr 2016 04:57:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,541,1455004800"; d="scan'208";a="941250341"
+X-IronPort-AV: E=Sophos;i="5.24,541,1455004800"; d="scan'208";a="953979552"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 27 Apr 2016 04:56:57 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 27 Apr 2016 04:56:57 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id 599F76A4008
+	by linux.intel.com (Postfix) with ESMTP id DED7D6A4006
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Apr 2016 05:44:33 -0700 (PDT)
+	Wed, 27 Apr 2016 05:44:29 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Apr 2016 12:36:31 +0300
-Message-Id: <38028bb45db4860a801be78c5fcd165b1e9872ee.1461749328.git.ed.bartosh@linux.intel.com>
+Date: Wed, 27 Apr 2016 12:36:30 +0300
+Message-Id: <c32880f5e89776d3515079d6c8ebe86111cb10ed.1461749328.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1461749328.git.ed.bartosh@linux.intel.com>
 References: <cover.1461749328.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1461749328.git.ed.bartosh@linux.intel.com>
 References: <cover.1461749328.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH v2 2/3] image types: add bmap generation option
+Subject: [PATCH v2 1/3] bmap-tools: initial commit, version 3.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,50 +35,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Apr 2016 11:56:58 -0000
+X-List-Received-Date: Wed, 27 Apr 2016 11:56:59 -0000
 
-From: "Alexander D. Kanevskiy" <kad@kad.name>
+Bmap-tools - tools to generate block map (AKA bmap) and flash images
+using bmap. Bmaptool is a generic tool for creating the block map
+(bmap) for a file and copying files using the block map.
 
-bmap image conversion type allows to create block map files
-for sparse images. Bmap file can be used together with bmap-tools
-for efficiently flash images to raw devices (hdd or usb drive)
+The idea is that large file containing unused blocks, like raw system
+image files, can be copied or flashed a lot faster with bmaptool than
+with traditional tools like "dd" or "cp".
 
 [YOCTO #9414]
 
-Signed-off-by: Alexander D. Kanevskiy <kad@kad.name>
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/classes/image_types.bbclass | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-support/bmap-tools/bmap-tools_3.2.bb | 24 +++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+ create mode 100644 meta/recipes-support/bmap-tools/bmap-tools_3.2.bb
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 53af7ca..19f89f3 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -262,7 +262,7 @@ IMAGE_TYPES = " \
-     wic wic.gz wic.bz2 wic.lzma \
- "
- 
--COMPRESSIONTYPES = "gz bz2 lzma xz lz4 sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum"
-+COMPRESSIONTYPES = "gz bz2 lzma xz lz4 sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap"
- COMPRESS_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
- COMPRESS_CMD_gz = "gzip -f -9 -c ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
- COMPRESS_CMD_bz2 = "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
-@@ -275,12 +275,14 @@ COMPRESS_CMD_sha224sum = "sha224sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} >
- COMPRESS_CMD_sha256sum = "sha256sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha256sum"
- COMPRESS_CMD_sha384sum = "sha384sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha384sum"
- COMPRESS_CMD_sha512sum = "sha512sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha512sum"
-+COMPRESS_CMD_bmap = "bmaptool create ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} -o ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.bmap"
- COMPRESS_DEPENDS_lzma = "xz-native"
- COMPRESS_DEPENDS_gz = ""
- COMPRESS_DEPENDS_bz2 = "pbzip2-native"
- COMPRESS_DEPENDS_xz = "xz-native"
- COMPRESS_DEPENDS_lz4 = "lz4-native"
- COMPRESS_DEPENDS_sum = "mtd-utils-native"
-+COMPRESS_DEPENDS_bmap = "bmap-tools-native"
- 
- RUNNABLE_IMAGE_TYPES ?= "ext2 ext3 ext4"
- RUNNABLE_MACHINE_PATTERNS ?= "qemu"
+diff --git a/meta/recipes-support/bmap-tools/bmap-tools_3.2.bb b/meta/recipes-support/bmap-tools/bmap-tools_3.2.bb
+new file mode 100644
+index 0000000..e10f5fd
+--- /dev/null
++++ b/meta/recipes-support/bmap-tools/bmap-tools_3.2.bb
+@@ -0,0 +1,24 @@
++SUMMARY = "Tools to generate block map (AKA bmap) and flash images using bmap"
++DESCRIPTION = "Bmap-tools - tools to generate block map (AKA bmap) and flash images using \
++bmap. Bmaptool is a generic tool for creating the block map (bmap) for a file, \
++and copying files using the block map. The idea is that large file containing \
++unused blocks, like raw system image files, can be copied or flashed a lot \
++faster with bmaptool than with traditional tools like "dd" or "cp"."
++HOMEPAGE = "http://git.infradead.org/users/dedekind/bmap-tools.git"
++SECTION = "console/utils"
++LICENSE = "GPLv2"
++LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
++
++SRC_URI = "ftp://ftp.infradead.org/pub/${BPN}/${BPN}-${PV}.tgz"
++SRC_URI[md5sum] = "92cdad1cb4dfa0cca7176c8e22752616"
++SRC_URI[sha256sum] = "cc6c7f7dc0a37e2a32deb127308e24e6c4b80bfb54f3803c308efab02bf2d434"
++
++RDEPENDS_${PN} = "python-core python-compression"
++
++inherit setuptools
++
++BBCLASSEXTEND = "native"
++
++do_install_append_class-native() {
++    sed -i -e 's|^#!.*/usr/bin/env python|#! /usr/bin/env nativepython|' ${D}${bindir}/bmaptool
++}
 -- 
 2.1.4
 
