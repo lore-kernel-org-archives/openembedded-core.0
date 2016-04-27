@@ -1,49 +1,45 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-yw0-f177.google.com (mail-yw0-f177.google.com
-	[209.85.161.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 0FE25600B3
+Return-Path: <kergoth@gmail.com>
+Received: from mail-pa0-f67.google.com (mail-pa0-f67.google.com
+	[209.85.220.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 33C2E731C6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Apr 2016 22:15:41 +0000 (UTC)
-Received: by mail-yw0-f177.google.com with SMTP id o66so103310618ywc.3
+	Wed, 27 Apr 2016 23:23:54 +0000 (UTC)
+Received: by mail-pa0-f67.google.com with SMTP id zy2so7527343pac.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Apr 2016 15:15:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=TPQ8Y92rLyOc7SvrDxqhOwoEyFDUaUky9IDT/3vCgJU=;
-	b=o6Fs2W212eJM/RTVWnCGq+HF+pDbW1duTIfxpREfLtZ/TXJ819j2q4RIAwBe2v+sRY
-	N9A+hnSLTgq3MaLkDe71vDfPrlFC4UPR8+EGniVzSvzup+Xb+b7iirLlxuybniQVGy1v
-	KShPuNhq+Lz8l9TDQWPHtyJw4BYLmuAEc/qsM=
+	Wed, 27 Apr 2016 16:23:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=DmNIoCqXv0hCLEiAEV4nMxjR5lq6fYA/AXZ1s3aONl4=;
+	b=jGWs1waAG67UHFT9e+1EkZmlgrW8GlC+ZBsc1ImmXsqHcbkurjXcGZZJUbf1hC4QXT
+	6V6d9uvv07HIfOAFcSK3zBcIZxaRA1OAWwtCOsSezc+j0qg4bzePPxWHMCoPWexDjQxB
+	Z4Czo0knGMVJdzNXhX+oECYpjWM8dDOowNB6+jKkubfboa21JAp6RY/Pq5n3LgVyynDK
+	C7yRLF81SIYUzhe4xYro7FBDmT4BlMm7Rds5OIvVZg0TMwVppCp1ii+MtnCyLLSCNf+a
+	R5+Y7sQ7OV2zSXXaNTNRJN8HLqGdgdHGenY+5fYvwmz4VmWxFH0p6IkqiK2IAxLjakAs
+	cxjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=TPQ8Y92rLyOc7SvrDxqhOwoEyFDUaUky9IDT/3vCgJU=;
-	b=TvtWrjNZMcpmRKvwWoZZtSqOvCnd1CsHKggmcApwI5ihrM8hkXB4OQrV5smC46ZTHC
-	uw1unldlmJKE+isX9TH6kBvtRV1ilQRSA61p0VtLjvwGDBy7Xk1B3Mi/H9RGhDyK/0jr
-	Ekj254BRcbbh0fjGNWW52dx6LuSaXVvMd1XuTYBP1lbfQVlDPSC99n8YqaxK111kbjIb
-	oExemERsHarzxqyzSMrRHn3My/Ld91ts4SNXrxIqVZf1sHtp2P9aMbDxqHLopTIw9FF+
-	h8mWHu0TbsBxDzR77W+hAIOFu34NUsUTHqNPTgu29iCohxfkRzZA/yhNuiQrpX0q3fhW
-	uQog==
-X-Gm-Message-State: AOPr4FU7kqT0z6nmXiKd6ilqLp/r8KwPAhVuVFOYjwLMb6fBd2oncJvzoWIGbUPAisuhhQ==
-X-Received: by 10.129.89.134 with SMTP id n128mr7202229ywb.102.1461795342427; 
-	Wed, 27 Apr 2016 15:15:42 -0700 (PDT)
-Received: from bill-the-cat ([2001:470:8:32a:a8f1:8916:9925:ea71])
-	by smtp.gmail.com with ESMTPSA id
-	l186sm3085079ywe.29.2016.04.27.15.15.41
-	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
-	Wed, 27 Apr 2016 15:15:42 -0700 (PDT)
-Date: Wed, 27 Apr 2016 18:15:40 -0400
-From: Tom Rini <trini@konsulko.com>
-To: Yannick Gicquel <yannick.gicquel@iot.bzh>
-Message-ID: <20160427221540.GE19598@bill-the-cat>
-References: <1461766856-27881-1-git-send-email-yannick.gicquel@iot.bzh>
-	<1461766856-27881-5-git-send-email-yannick.gicquel@iot.bzh>
-MIME-Version: 1.0
-In-Reply-To: <1461766856-27881-5-git-send-email-yannick.gicquel@iot.bzh>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3 4/4] kernel: fitimage: basic support for fitimage signature
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=DmNIoCqXv0hCLEiAEV4nMxjR5lq6fYA/AXZ1s3aONl4=;
+	b=G5A10EU/2CEJvTpHaE18u0LNoD7pgg8+VojkwePNJtmJgypPZV7lZ/62C+w4Xps2n6
+	BAtFJ0RlR9ErIPIGK+CLBChD/r1gHpvYO7nat9VBkZm1+atJxyZHONMdesw29z0C4wUK
+	uDt8Ekf48hRyV2zQvhLP7rLl+Ug1hgjbs+GoSDsAq+dJHdt5v2WoSXVJJ2yWdnUKq+Jg
+	3riKHCkaMMDXY5XNH7JG3PdlSnif4IbtkPbS5jOlFcnXb3InIGLwmzgkzabS/EhQAxts
+	Whb49wGKKAhJi0c7/R4aLp7RsBsOm/LpbAtnFkfmHXvgac7IVZvqawJD6i5nepbNcZxp
+	9RrQ==
+X-Gm-Message-State: AOPr4FUKQBNoXfGwYO6ERCPizD40fxFFKdbHn7DmGmNuD/8T07WY+JC3KNEc4gd0LJ4gCw==
+X-Received: by 10.66.100.228 with SMTP id fb4mr15690147pab.84.1461799435460;
+	Wed, 27 Apr 2016 16:23:55 -0700 (PDT)
+Received: from quark.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by smtp.gmail.com with ESMTPSA id 17sm9309917pfp.96.2016.04.27.16.23.52
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 27 Apr 2016 16:23:54 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 27 Apr 2016 16:23:34 -0700
+Message-Id: <cover.1461790921.git.chris_larson@mentor.com>
+X-Mailer: git-send-email 2.8.0
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [for-master][PATCH 0/4] A few argparse_oe changes/fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,28 +52,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Apr 2016 22:15:42 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 27 Apr 2016 23:23:56 -0000
 
-On Wed, Apr 27, 2016 at 04:20:56PM +0200, Yannick Gicquel wrote:
+From: Christopher Larson <chris_larson@mentor.com>
 
-> This is an initial support of fitImage signature to enable U-Boot verified
-> boot. This feature is implemented by adding a signature tag to the
-> configuration section of the generated fit-image.its file.
-> 
-> When a UBOOT_SIGN_ENABLE variable is set to "1", the signature procedure is
-> activated and performs a second call to mkimage to sign the fitImage file and
-> to include the public key in the deployed U-Boot device tree blob. (This
-> implementation depends on the use of CONFIG_OF_SEPARATE in U-Boot.)
-> 
-> As the U-Boot device tree blob is appended in the deploy dir, a dependency
-> on 'u-boot:do_deploy' is added when the feature is activated.
-> 
-> Signed-off-by: Yannick Gicquel <yannick.gicquel@iot.bzh>
+The following changes since commit e2dbe5eb869b8336b91023b83d7ca866197efa73:
 
-Reviewed-by: Tom Rini <trini@konsulko.com>
+  license.bbclass: make sure that image manifest dir exists (2016-04-22 16:28:47 +0100)
+
+are available in the git repository at:
+
+  git://github.com/kergoth/openembedded-core argparse-oe-fixes
+  https://github.com/kergoth/openembedded-core/tree/argparse-oe-fixes
+
+Christopher Larson (4):
+  scripts/lib/argparse_oe: show self.prog in the error message
+  scripts/lib/argparse_oe: show subparser help for unrecognized args
+  scripts/lib/argparse_oe: simplify options title change
+  scripts/lib/argparse_oe: also change 'positional arguments' to
+    'arguments'
+
+ scripts/lib/argparse_oe.py | 64 +++++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 52 insertions(+), 12 deletions(-)
 
 -- 
-Tom
+2.8.0
+
 
