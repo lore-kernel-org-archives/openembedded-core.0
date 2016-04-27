@@ -1,56 +1,49 @@
 Return-Path: <trini@konsulko.com>
-Received: from mail-yw0-f178.google.com (mail-yw0-f178.google.com
-	[209.85.161.178])
-	by mail.openembedded.org (Postfix) with ESMTP id E6D926FF97
+Received: from mail-yw0-f175.google.com (mail-yw0-f175.google.com
+	[209.85.161.175])
+	by mail.openembedded.org (Postfix) with ESMTP id EB0F16FF97
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Apr 2016 22:10:07 +0000 (UTC)
-Received: by mail-yw0-f178.google.com with SMTP id g133so90810114ywb.2
+	Wed, 27 Apr 2016 22:15:28 +0000 (UTC)
+Received: by mail-yw0-f175.google.com with SMTP id o66so103305616ywc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Apr 2016 15:10:09 -0700 (PDT)
+	Wed, 27 Apr 2016 15:15:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-disposition:in-reply-to:user-agent;
-	bh=lz1rAL4sIDVw8RUnD4gCv3yW7B8uX5g/KlVywsCJVX0=;
-	b=LtYWcUsfee40TifJhdYOeyozptTQJ2GOi8nxyuN3bslIynXjrnB2jlEMyNe7/smng8
-	0auXWTF+kKtdsEXNciT9kGLQo7P+k5R3Gri/MPkDw/ozhhjtHA5lsixshCB5e0BeSeVe
-	KZOhFp1+Qv55mqwXojw6rRbEvbCQQwSeDGk4A=
+	bh=11TDTQ5d9zp45IUwG3lVXA9vaGSJHeB1giuh6gFuu4M=;
+	b=fUuXybMQGkmFRblt6KOOxF9otggvrfFORu5NwPUxyJh0mKPNZhk96WJv04gdj1aHMj
+	Avd1UdnuVpGdpppdp8TWd4arWMYwFbvTMfQhElJJmHP8Qw7Gfyu4OLOXF1b92g9HmhPh
+	1tMxnF19mM5UF577FhViecBKIAOYm0L8Csi8I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=lz1rAL4sIDVw8RUnD4gCv3yW7B8uX5g/KlVywsCJVX0=;
-	b=gNGmh4V+TNgbs4NL+mnt71ms/8Wu62iq/YKPCQ/eb4cR+EQGJUfvJG/3bQMi63WMjJ
-	wEL/cEUPGfxo2rSPF+zH9gTr3sU/6azUqiv4BBVEaApw567NxY33Y9TDo8YAvzJC3i+I
-	Xs2Pmq6TlVhggFP56Xr9i48/s7HiMEhCgo7ubPSZRJQENGjrCXUtfvM0amiGyHDKQbmU
-	sGjHgJWw3+uLikWe5qB7dZfNbWa1fS8rmspLPVXxu6QW9DTCf/H9g8V53h1KMC12QOH/
-	5xz2dIBmBR0X85KHQyeauqJslzDvXyfn2DNh9OLVobaRy2HDT5WZEOPEdtAZWg0rSCwL
-	SDKQ==
-X-Gm-Message-State: AOPr4FUKRXzVMLxXvlkiMOGjfp7XGgKBss4kW3b1fsEhiHVhOkn0OISAOB4/ZgNX7XcK5g==
-X-Received: by 10.13.221.142 with SMTP id g136mr7157947ywe.59.1461795008629;
-	Wed, 27 Apr 2016 15:10:08 -0700 (PDT)
+	bh=11TDTQ5d9zp45IUwG3lVXA9vaGSJHeB1giuh6gFuu4M=;
+	b=M5JG29W8Vvt+X2jdR7Z/63V7suL/uk7nKeqOF646CfGpvvr4PwIQoW19JB1Q7jpk5B
+	WZVFpyYFpgmGOIdQdkZoDcyCQnPvxe7KTN0gsXtlMdTd858PhUzmeph+KpG7DLgNjw2N
+	iOXC5vDocL+lA+3bnCtrI7NCuK9R3HA1cODC6fvC33TDCBzXXbY5Cd5vr67lNMSIRCXE
+	WzTTB6aumhUKU0N8mfsgYvP9tkLSy2s1eO/E0rLFMIhtqKH75b6nasB/pv5smBUNssv9
+	15tpH7KXGL+Qw1G2y2xWytn1pGQj5M5zwa/ir5Knl3KquzeMhslcpUs6NE865WpG70M1
+	ifYA==
+X-Gm-Message-State: AOPr4FVcKrXoOK2zohhfqJip9r5Wd+PQgDv2IbEdA82F86DBKstA4oPXGn6twqmeo/UQjQ==
+X-Received: by 10.37.97.73 with SMTP id v70mr6329459ybb.39.1461795329161;
+	Wed, 27 Apr 2016 15:15:29 -0700 (PDT)
 Received: from bill-the-cat ([2001:470:8:32a:a8f1:8916:9925:ea71])
 	by smtp.gmail.com with ESMTPSA id
-	c196sm3073007ywb.24.2016.04.27.15.10.07
+	p17sm3064945ywp.45.2016.04.27.15.15.27
 	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
-	Wed, 27 Apr 2016 15:10:07 -0700 (PDT)
-Date: Wed, 27 Apr 2016 18:10:05 -0400
+	Wed, 27 Apr 2016 15:15:27 -0700 (PDT)
+Date: Wed, 27 Apr 2016 18:15:25 -0400
 From: Tom Rini <trini@konsulko.com>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20160427221005.GA19598@bill-the-cat>
-References: <B1D22563-F31B-4EF1-90D6-16EB391134D5@gmail.com>
-	<CACS+7ZSpWgziO+GF++25dM7kgP4SZ_GDV+-DcEMQ_YUGyEEnfQ@mail.gmail.com>
-	<CAMKF1spQn114r9dCAk9z7c3hw-NJp3pVoVP+f3gao2mhLTBHYg@mail.gmail.com>
-	<CAMKF1spwimpQwSE38B5jWmyZXwMKy6znMEF9p-NmTM4mGGr+4g@mail.gmail.com>
-	<CAJTo0Lb25x1H44nGn05d6qBVLDpyiaZ3XW40fdrAWcP_D+qYwg@mail.gmail.com>
-	<CAJTo0LZZ3Hs_yrm5ceik4j8Orv-UQ9T72Wu=R_PCRKw4Y9-WCw@mail.gmail.com>
-	<CAMKF1sozR3_Mhy5PKSaKCo7S2yHrtLzTNrUURFhN38gV0AbkYQ@mail.gmail.com>
+To: Yannick Gicquel <yannick.gicquel@iot.bzh>
+Message-ID: <20160427221525.GB19598@bill-the-cat>
+References: <1461766856-27881-1-git-send-email-yannick.gicquel@iot.bzh>
+	<1461766856-27881-2-git-send-email-yannick.gicquel@iot.bzh>
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1sozR3_Mhy5PKSaKCo7S2yHrtLzTNrUURFhN38gV0AbkYQ@mail.gmail.com>
+In-Reply-To: <1461766856-27881-2-git-send-email-yannick.gicquel@iot.bzh>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Yocto Project <yocto@yoctoproject.org>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>,
-	openembeded-devel <openembedded-devel@lists.openembedded.org>
-Subject: Re: [yocto] [RFT] GCC 6 Recipes
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3 1/4] u-boot: basic support of dtb append for verified boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,31 +56,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Apr 2016 22:10:10 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Wed, 27 Apr 2016 22:15:34 -0000
+X-Groupsio-MsgNum: 81331
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="lrZ03NoBR/3+SXJZ"
 Content-Disposition: inline
 
-On Wed, Apr 27, 2016 at 10:53:52AM -0700, Khem Raj wrote:
-> thanks I think most of them come to these categories. So any help in
-> fixing them is welcome.
-> 
-> 1. kernel older than 4.4, backport needed fixed into these branches or
-> move to newer kernels.
-> 2. uboot dont have gcc6 compiler header files, backport the needed fixes
+--lrZ03NoBR/3+SXJZ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-9b2c282b348dfe966bbba967dc7a45ce817cce50 from mainline.
+On Wed, Apr 27, 2016 at 04:20:53PM +0200, Yannick Gicquel wrote:
 
-> 2. meta-qt4 needs to use gnu++98
-> 3. gcc6 providing its own stdlib.h in libstdc++
-> 4. gcc6 swtiching to gnu++14 for C++ as default.
-> 5. GPLv2-only versions of recipes are simply old will need fixing
-> 
-> I will take a stab at fixing the nativesdk recipes which is mostly due
-> to stdlib.h issue.
+> This introduces a new uboot-sign.class to support U-Boot verified boot.
+>=20
+> This part delivers the new class file, with related environment variables=
+, and
+> a new task intended to run before do_install task and which performs the
+> concatenation of the u-boot-nodtb.bin and the device tree blob. The 'cat'
+> command used overrides the u-boot.bin in both DEPLOYDIR & build dir to
+> propagate the changes in later tasks (do_install, do_package, etc.)
+>=20
+> Signed-off-by: Yannick Gicquel <yannick.gicquel@iot.bzh>
 
-Please do, I'd like to see some SDKs so I can get more U-Boot testing
-done with gcc-6 :)
+Reviewed-by: Tom Rini <trini@konsulko.com>
 
--- 
+--=20
 Tom
 
+--lrZ03NoBR/3+SXJZ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBAgAGBQJXITn9AAoJEIf59jXTHXZSEBAP/3fhImE4t5FrVAko0ONipkqm
+wWn+iNBZHpSxsGUHDtQNCNJ8SCN1PtokEOhVbhVNQR61Q5cXxD52dVlMdH86Uy3H
+YAude6yM6W8QrdtVkdJAu5+CxhTxZJdrffbSHNhDoDb3svPlQ2WhhHQzVeSB8cOu
+ljdUSRIYfu4ZBzD01ant5baVROXlqBotUgkqFYcoMcll600BX3dL128C2SOorZE1
+m4UPA4vijjWsLnOYqaM09+NGEd9EMcfZT0aQwJ+vQ3/cMYd03yBws7+G91o1vxli
+s1yGiVQctzWKOAqfJT5/XHFYH7YZrqcXQEWq5Y0PdSGbEhmVIyHEoUyfA1Kr2v9R
+jeyEYpaQJYOZKzqBSqFz7DeyRU0G7o7j5Os0H5iurKSJ815E/8nYZqt6o4WEnyPJ
+CC9uCZFwlU1A8P/cfisbDQ/Y7ldr6CACzKRHiuL9BgsIZ0BevP/ESkAZLrbGSPzo
+dJ+vtWO/wv3ASV97nxx8up67O0uDfP2psOyFO/bMqAXwgAvVZZ1lDfRJiZbGSEXz
+3rMqRSwEuRcYJiq/E5CHoL1R2XKL1DUmMLThCpkv9+nzvVr96WxXuoITKYSrGSif
+SWvT5Nebj1NaPnqG5JhmLifX0pJKO3b07duZKjFvtSAXuC+n1CkpYIIB3BO5YD/L
+jGblykul4fi35gcpS4NG
+=Jmoy
+-----END PGP SIGNATURE-----
+
+--lrZ03NoBR/3+SXJZ--
