@@ -1,25 +1,31 @@
 Return-Path: <ed.bartosh@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A3D676294
+	by mail.openembedded.org (Postfix) with ESMTP id B2070731D8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Apr 2016 09:35:31 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 28 Apr 2016 02:35:33 -0700
+	Thu, 28 Apr 2016 11:13:36 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga102.jf.intel.com with ESMTP; 28 Apr 2016 04:13:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,546,1455004800"; d="scan'208";a="954660189"
+X-IronPort-AV: E=Sophos;i="5.24,546,1455004800"; d="scan'208";a="693679014"
 Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 28 Apr 2016 02:35:32 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id E10C96A4007;
-	Thu, 28 Apr 2016 03:23:07 -0700 (PDT)
+	by FMSMGA003.fm.intel.com with ESMTP; 28 Apr 2016 04:13:36 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.51])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 497B16A4007
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Apr 2016 05:01:12 -0700 (PDT)
+Date: Thu, 28 Apr 2016 11:53:27 +0300
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Apr 2016 10:14:55 +0300
-Message-Id: <1461827697-16934-4-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1461827697-16934-1-git-send-email-ed.bartosh@linux.intel.com>
+Message-ID: <20160428085327.GA4269@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
 References: <1461827697-16934-1-git-send-email-ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH 4/6] wic: moved DiskImage to direct.py
+MIME-Version: 1.0
+In-Reply-To: <1461827697-16934-1-git-send-email-ed.bartosh@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [wic][PATCH 1/6] wic: use truncate utility to create sparse file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,115 +38,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Apr 2016 09:35:34 -0000
+X-List-Received-Date: Thu, 28 Apr 2016 11:13:37 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Moved DiskImage class from utils/fs_related.py to
-imager/direct.py as it's only used there.
+Please, igrnore. I'll send updated patchset today.
 
-Removed fs_related module as it doesn't contain anything
-except of DiskImage.
+On Thu, Apr 28, 2016 at 10:14:52AM +0300, Ed Bartosh wrote:
+> Used truncate instead of dd to create wic image for the
+> following reasons:
+>  - truncate syntax is much more clear
+>  - dd requires additional calculations of the image size
+>    in blocks
+>  - the way dd was used in the code is not entirely correct.
+>    It was still writing one block to the file, which made it not
+>    100% sparse.
+> 
+> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+> ---
+>  scripts/lib/wic/utils/fs_related.py | 12 +++---------
+>  1 file changed, 3 insertions(+), 9 deletions(-)
+> 
+> diff --git a/scripts/lib/wic/utils/fs_related.py b/scripts/lib/wic/utils/fs_related.py
+> index 2e74461..2658dcf 100644
+> --- a/scripts/lib/wic/utils/fs_related.py
+> +++ b/scripts/lib/wic/utils/fs_related.py
+> @@ -71,14 +71,8 @@ class DiskImage(Disk):
+>      def create(self):
+>          if self.device is not None:
+>              return
+> -
+> -        blocks = self.size / 1024
+> -        if self.size - blocks * 1024:
+> -            blocks += 1
+> -
+> -        # create disk image
+> -        dd_cmd = "dd if=/dev/zero of=%s bs=1024 seek=%d count=1" % \
+> -            (self.image_file, blocks)
+> -        exec_cmd(dd_cmd)
+> +        # create sparse disk image
+> +        cmd = "truncate %s -s %s" % (self.image_file, self.size)
+> +        exec_cmd(cmd)
+>  
+>          self.device = self.image_file
+> -- 
+> 2.1.4
+> 
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- scripts/lib/wic/imager/direct.py    | 23 ++++++++++++++++++++--
- scripts/lib/wic/utils/fs_related.py | 39 -------------------------------------
- 2 files changed, 21 insertions(+), 41 deletions(-)
- delete mode 100644 scripts/lib/wic/utils/fs_related.py
-
-diff --git a/scripts/lib/wic/imager/direct.py b/scripts/lib/wic/imager/direct.py
-index a1b4249..699f9a5 100644
---- a/scripts/lib/wic/imager/direct.py
-+++ b/scripts/lib/wic/imager/direct.py
-@@ -28,7 +28,6 @@ import os
- import shutil
- 
- from wic import msger
--from wic.utils import fs_related
- from wic.utils.oe.misc import get_bitbake_var
- from wic.utils.partitionedfs import Image
- from wic.utils.errors import CreatorError, ImageError
-@@ -40,6 +39,26 @@ disk_methods = {
-     "do_install_disk":None,
- }
- 
-+class DiskImage():
-+    """
-+    A Disk backed by a file.
-+    """
-+    def __init__(self, device, size):
-+        self.size = size
-+        self.device = device
-+        self.created = False
-+
-+    def exists(self):
-+        return os.path.exists(self.device)
-+
-+    def create(self):
-+        if self.created:
-+            return
-+        # create sparse disk image
-+        cmd = "truncate %s -s %s" % (self.device, self.size)
-+        exec_cmd(cmd)
-+        self.created = True
-+
- class DirectImageCreator(BaseImageCreator):
-     """
-     Installs a system into a file containing a partitioned disk image.
-@@ -279,7 +298,7 @@ class DirectImageCreator(BaseImageCreator):
-             full_path = self._full_path(self.__imgdir, disk_name, "direct")
-             msger.debug("Adding disk %s as %s with size %s bytes" \
-                         % (disk_name, full_path, disk['min_size']))
--            disk_obj = fs_related.DiskImage(full_path, disk['min_size'])
-+            disk_obj = DiskImage(full_path, disk['min_size'])
-             self.__disks[disk_name] = disk_obj
-             self.__image.add_disk(disk_name, disk_obj)
- 
-diff --git a/scripts/lib/wic/utils/fs_related.py b/scripts/lib/wic/utils/fs_related.py
-deleted file mode 100644
-index fc3c174..0000000
---- a/scripts/lib/wic/utils/fs_related.py
-+++ /dev/null
-@@ -1,39 +0,0 @@
--#!/usr/bin/env python -tt
--#
--# Copyright (c) 2007, Red Hat, Inc.
--# Copyright (c) 2009, 2010, 2011 Intel, Inc.
--#
--# This program is free software; you can redistribute it and/or modify it
--# under the terms of the GNU General Public License as published by the Free
--# Software Foundation; version 2 of the License
--#
--# This program is distributed in the hope that it will be useful, but
--# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
--# or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
--# for more details.
--#
--# You should have received a copy of the GNU General Public License along
--# with this program; if not, write to the Free Software Foundation, Inc., 59
--# Temple Place - Suite 330, Boston, MA 02111-1307, USA.
--
--from wic.utils.oe.misc import exec_cmd
--
--class DiskImage():
--    """
--    A Disk backed by a file.
--    """
--    def __init__(self, device, size):
--        self.size = size
--        self.device = device
--        self.created = False
--
--    def exists(self):
--        return os.path.exists(self.device)
--
--    def create(self):
--        if self.created:
--            return
--        # create sparse disk image
--        cmd = "truncate %s -s %s" % (self.device, self.size)
--        exec_cmd(cmd)
--        self.created = True
 -- 
-2.1.4
-
+--
+Regards,
+Ed
 
