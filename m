@@ -1,20 +1,22 @@
 Return-Path: <dv@pseudoterminal.org>
 Received: from ptmx.org (ptmx.org [178.63.28.110])
-	by mail.openembedded.org (Postfix) with ESMTP id 3338577025
+	by mail.openembedded.org (Postfix) with ESMTP id 69AA365CBB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Apr 2016 18:25:33 +0000 (UTC)
-Received: from localhost.localdomain (62-178-118-86.cable.dynamic.surfer.at
-	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id E06A138F7B
+	Thu, 28 Apr 2016 19:05:24 +0000 (UTC)
+Received: from [172.16.1.4] (62-178-118-86.cable.dynamic.surfer.at
+	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id 6ABE538D1A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Apr 2016 20:25:32 +0200 (CEST)
-From: Carlos Rafael Giani <dv@pseudoterminal.org>
+	Thu, 28 Apr 2016 21:05:23 +0200 (CEST)
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Apr 2016 20:25:18 +0200
-Message-Id: <1461867918-2638-8-git-send-email-dv@pseudoterminal.org>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <1461867918-2638-1-git-send-email-dv@pseudoterminal.org>
 References: <1461867918-2638-1-git-send-email-dv@pseudoterminal.org>
-Subject: [meta-oe][PATCH v2 8/8] gstreamer1.0-rtsp-server: upgrade to version 1.8.1
+From: Carlos Rafael Giani <dv@pseudoterminal.org>
+Message-ID: <57225EF3.9030003@pseudoterminal.org>
+Date: Thu, 28 Apr 2016 21:05:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
+MIME-Version: 1.0
+In-Reply-To: <1461867918-2638-1-git-send-email-dv@pseudoterminal.org>
+Subject: Re: [meta-oe][PATCH v2 1/8] orc: update to 0.4.25
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,57 +29,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Apr 2016 18:25:33 -0000
+X-List-Received-Date: Thu, 28 Apr 2016 19:05:25 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
----
- meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc      | 4 ++++
- meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.6.2.bb | 6 ------
- meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.8.1.bb | 6 ++++++
- 3 files changed, 10 insertions(+), 6 deletions(-)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.6.2.bb
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.8.1.bb
+For some reason, these patches were sent with the meta-oe tag. Sorry for 
+that. Resending.
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc
-index ae6d364..8fc90f1 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc
-@@ -15,6 +15,10 @@ S = "${WORKDIR}/${PNREAL}-${PV}"
- 
- inherit autotools pkgconfig upstream-version-is-even gobject-introspection
- 
-+# Starting with 1.8.0 gst-rtsp-server includes dependency-less plugins as well
-+LIBV = "1.0"
-+require gst-plugins-package.inc
-+
- delete_pkg_m4_file() {
-         # This m4 file is out of date and is missing PKG_CONFIG_SYSROOT_PATH tweaks which we need for introspection
-         rm "${S}/common/m4/pkg.m4" || true
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.6.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.6.2.bb
-deleted file mode 100644
-index 5bdae6c..0000000
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.6.2.bb
-+++ /dev/null
-@@ -1,6 +0,0 @@
--include gstreamer1.0-rtsp-server.inc
--
--LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d"
--
--SRC_URI[md5sum] = "a1cafefb5fc14ac5d7e7d8cdbdfa9694"
--SRC_URI[sha256sum] = "0f51f9879556c0950203c766b09a1b62f1f25b17f9a7d516e01b13ecf93c8858"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.8.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.8.1.bb
-new file mode 100644
-index 0000000..395c43a
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.8.1.bb
-@@ -0,0 +1,6 @@
-+include gstreamer1.0-rtsp-server.inc
-+
-+LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d"
-+
-+SRC_URI[md5sum] = "0a5966df7f3d74cccfcededdcacd8212"
-+SRC_URI[sha256sum] = "6fa8d9ce5b6f6f3309ab9eae14739af4f5666e259cdc64d0667d284ab17eb12e"
--- 
-2.5.0
+On 2016-04-28 20:25, Carlos Rafael Giani wrote:
+> This version fixes a bug in the build scripts that caused it to believe
+> it is being built for Android if a "liblog.so" is found in the sysroot.
+>
+> Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
+> ---
+>   meta/recipes-devtools/orc/{orc_0.4.24.bb => orc_0.4.25.bb} | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>   rename meta/recipes-devtools/orc/{orc_0.4.24.bb => orc_0.4.25.bb} (84%)
+>
+> diff --git a/meta/recipes-devtools/orc/orc_0.4.24.bb b/meta/recipes-devtools/orc/orc_0.4.25.bb
+> similarity index 84%
+> rename from meta/recipes-devtools/orc/orc_0.4.24.bb
+> rename to meta/recipes-devtools/orc/orc_0.4.25.bb
+> index 520f88d..f3bde46 100644
+> --- a/meta/recipes-devtools/orc/orc_0.4.24.bb
+> +++ b/meta/recipes-devtools/orc/orc_0.4.25.bb
+> @@ -5,8 +5,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1400bd9d09e8af56b9ec982b3d85797e"
+>   
+>   SRC_URI = "http://gstreamer.freedesktop.org/src/orc/orc-${PV}.tar.xz"
+>   
+> -SRC_URI[md5sum] = "9e793ec34c0e20339659dd4bbbf62135"
+> -SRC_URI[sha256sum] = "338cd493b5247300149821c6312bdf7422a3593ae98691fc75d7e4fe727bd39b"
+> +SRC_URI[md5sum] = "8582a28b15f53110c88d8043d9f55bcf"
+> +SRC_URI[sha256sum] = "c1b1d54a58f26d483f0b3881538984789fe5d5460ab8fab74a1cacbd3d1c53d1"
+>   
+>   inherit autotools pkgconfig
+>   
 
 
