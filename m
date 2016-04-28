@@ -1,58 +1,20 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-yw0-f174.google.com (mail-yw0-f174.google.com
-	[209.85.161.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C96A6FF3D
+Return-Path: <dv@pseudoterminal.org>
+Received: from ptmx.org (ptmx.org [178.63.28.110])
+	by mail.openembedded.org (Postfix) with ESMTP id 2DFC076DE1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Apr 2016 18:24:24 +0000 (UTC)
-Received: by mail-yw0-f174.google.com with SMTP id t10so135833121ywa.0
+	Thu, 28 Apr 2016 18:25:31 +0000 (UTC)
+Received: from localhost.localdomain (62-178-118-86.cable.dynamic.surfer.at
+	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id C52C038F75
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Apr 2016 11:24:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=7GiUuP0lrTGoceeVweNMAOJb9diE0bqhXsZT4dxD+k4=;
-	b=rUW3ocYpJHJFuQ0ZtLbDvKSwWY56P9R/ga8ge67fMrI+vEfeGlWNzSllm468kNT58s
-	WocUGWMqHQw96+dHlUPW32w6hn/THFf5YG3GVA4dUKBOS+K5E6Y6zMFMJXW1nXXbex+q
-	ZzFvI7PBTjyvEOvQJL2+tcESmpkAoQ8/5YdmA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=7GiUuP0lrTGoceeVweNMAOJb9diE0bqhXsZT4dxD+k4=;
-	b=Vpf0W8W1yGAGLxzDGUtiDoKniCWxMrBj1EZtsCTnWrX05epsms0lMdh/B96Dri8VJn
-	G13TsiFLEoNhEEm7yTr86dsaXkFBB/ogxaO1GhnwCVASUCQw4zu0t59n4cvkK99OoWZl
-	02dqiPOjnTwBBpQmfUq34/ob/ISUm6jMrr+iHHuN5p1UK2SRNqO7FT4IoLEQen3BSnAd
-	tEqgLE/iF74GjR8aTiS/A6iN6DyzW7ApuuVGYa5zhQIaOsyqCPdEnQGF+Y748Fg/xhp0
-	+FAOgqMU90rUGxaSuX8wSdMhS968a+x6um2J5TnhfRuOEMLvnEadKg6lA+QEO1ThciVl
-	WKhw==
-X-Gm-Message-State: AOPr4FXLLLqDwf92UAN3CuXSJfKMvg/JSfI0hWPJ3VQt1OY0aR70g/rbDNQiBQH4XodFJQ==
-X-Received: by 10.37.97.73 with SMTP id v70mr8930095ybb.39.1461866494216;
-	Thu, 28 Apr 2016 11:01:34 -0700 (PDT)
-Received: from bill-the-cat ([2001:470:8:32a:a8f1:8916:9925:ea71])
-	by smtp.gmail.com with ESMTPSA id r8sm5287981ywb.20.2016.04.28.11.01.32
-	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
-	Thu, 28 Apr 2016 11:01:33 -0700 (PDT)
-Date: Thu, 28 Apr 2016 14:01:31 -0400
-From: Tom Rini <trini@konsulko.com>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20160428180131.GN19598@bill-the-cat>
-References: <CACS+7ZSpWgziO+GF++25dM7kgP4SZ_GDV+-DcEMQ_YUGyEEnfQ@mail.gmail.com>
-	<CAMKF1spQn114r9dCAk9z7c3hw-NJp3pVoVP+f3gao2mhLTBHYg@mail.gmail.com>
-	<CAMKF1spwimpQwSE38B5jWmyZXwMKy6znMEF9p-NmTM4mGGr+4g@mail.gmail.com>
-	<CAJTo0Lb25x1H44nGn05d6qBVLDpyiaZ3XW40fdrAWcP_D+qYwg@mail.gmail.com>
-	<CAJTo0LZZ3Hs_yrm5ceik4j8Orv-UQ9T72Wu=R_PCRKw4Y9-WCw@mail.gmail.com>
-	<CAMKF1sozR3_Mhy5PKSaKCo7S2yHrtLzTNrUURFhN38gV0AbkYQ@mail.gmail.com>
-	<20160427221005.GA19598@bill-the-cat>
-	<403123E7-85F1-4CBF-9D6C-E6377B89D5EA@gmail.com>
-	<20160428121437.GJ19598@bill-the-cat>
-	<CAMKF1spK=tkagRSRCyWzipHt8v1atfuhZahQOQ8UZ0FiCs+UsQ@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1spK=tkagRSRCyWzipHt8v1atfuhZahQOQ8UZ0FiCs+UsQ@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Yocto Project <yocto@yoctoproject.org>,
-	openembeded-devel <openembedded-devel@lists.openembedded.org>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] [RFT] GCC 6 Recipes
+	Thu, 28 Apr 2016 20:25:31 +0200 (CEST)
+From: Carlos Rafael Giani <dv@pseudoterminal.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 28 Apr 2016 20:25:12 +0200
+Message-Id: <1461867918-2638-2-git-send-email-dv@pseudoterminal.org>
+X-Mailer: git-send-email 2.5.0
+In-Reply-To: <1461867918-2638-1-git-send-email-dv@pseudoterminal.org>
+References: <1461867918-2638-1-git-send-email-dv@pseudoterminal.org>
+Subject: [meta-oe][PATCH v2 2/8] gstreamer1.0: upgrade to version 1.8.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,62 +27,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Apr 2016 18:24:24 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 28 Apr 2016 18:25:32 -0000
 
-On Thu, Apr 28, 2016 at 07:01:34AM -0700, Khem Raj wrote:
-> On Thu, Apr 28, 2016 at 5:14 AM, Tom Rini <trini@konsulko.com> wrote:
-> > On Thu, Apr 28, 2016 at 12:08:46AM -0700, Khem Raj wrote:
-> >>
-> >> > On Apr 27, 2016, at 3:10 PM, Tom Rini <trini@konsulko.com> wrote:
-> >> >
-> >> > On Wed, Apr 27, 2016 at 10:53:52AM -0700, Khem Raj wrote:
-> >> >> thanks I think most of them come to these categories. So any help in
-> >> >> fixing them is welcome.
-> >> >>
-> >> >> 1. kernel older than 4.4, backport needed fixed into these branches or
-> >> >> move to newer kernels.
-> >> >> 2. uboot dont have gcc6 compiler header files, backport the needed fixes
-> >> >
-> >> > 9b2c282b348dfe966bbba967dc7a45ce817cce50 from mainline.
-> >> >
-> >> >> 2. meta-qt4 needs to use gnu++98
-> >> >> 3. gcc6 providing its own stdlib.h in libstdc++
-> >> >> 4. gcc6 swtiching to gnu++14 for C++ as default.
-> >> >> 5. GPLv2-only versions of recipes are simply old will need fixing
-> >> >>
-> >> >> I will take a stab at fixing the nativesdk recipes which is mostly due
-> >> >> to stdlib.h issue.
-> >> >
-> >> > Please do, I'd like to see some SDKs so I can get more U-Boot testing
-> >> > done with gcc-6 :)
-> >> >
-> >>
-> >> I have pushed couple of more fixes which should now fix the nativesdk issues and SDKs should be building
-> >>
-> >> Tree is here. Let me know how it goes.
-> >>
-> >> http://git.openembedded.org/openembedded-core-contrib/log/?h=kraj/gcc-6
-> >>
-> >> and also to github
-> >>
-> >> https://github.com/kraj/openembedded-core/tree/kraj/master
-> >
-> > debian/jessie, nodistro, MACHINE=qemux86. bitbake busybox:
-> > | make[1]: Leaving directory
-> > '/home2/trini/oe-gcc-6/openembedded-core/build/tmp-glibc/work/x86_64-linux/gcc-cross-initial-i586/6.0.0-r0/gcc-6.0.0/build.x86_64-linux.i586-oe-linux/gcc'
-> > | cp: cannot create regular file
-> > '/home2/trini/oe-gcc-6/openembedded-core/build/tmp-glibc/work/x86_64-linux/gcc-cross-initial-i586/6.0.0-r0/image/home2/trini/oe-gcc-6/openembedded-core/build/tmp-glibc/sysroots/x86_64-linux/usr/lib/i586-oe-linux.gcc-cross-initial-i586/gcc/i586-oe-linux/6.0.1/include/limits.h':
-> > No such file or directory
-> >
-> > Doing MACHINE=qemux86-64 provides a similar error.  Thanks!
-> 
-> I forgot to rename recipes to 6.1 after I did the gcc rebase since 6.1
-> released yesterday. Anyway done now. please retry.
+The gst-inspect patch no longer applies, and according to upstream, is
+not needed.
 
-Making progress now, thanks!
+Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
+---
+ meta/recipes-multimedia/gstreamer/gstreamer1.0.inc |  2 ++
+ .../0001-Fix-crash-with-gst-inspect.patch          | 28 ----------------------
+ ...gstreamer1.0_1.6.3.bb => gstreamer1.0_1.8.1.bb} |  5 ++--
+ .../gstreamer/gstreamer1.0_git.bb                  |  5 ----
+ 4 files changed, 4 insertions(+), 36 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-Fix-crash-with-gst-inspect.patch
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.6.3.bb => gstreamer1.0_1.8.1.bb} (62%)
 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
+index 10b4668..86ac10c 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
+@@ -24,6 +24,8 @@ PACKAGECONFIG[check] = "--enable-check,--disable-check"
+ PACKAGECONFIG[debug] = "--enable-debug,--disable-debug"
+ PACKAGECONFIG[tests] = "--enable-tests,--disable-tests"
+ PACKAGECONFIG[valgrind] = "--enable-valgrind,--disable-valgrind,valgrind,"
++PACKAGECONFIG[gst-tracer-hooks] = "--enable-gst-tracer-hooks,--disable-gst-tracer-hooks,"
++PACKAGECONFIG[trace-historic] = "--enable-trace,--disable-trace,"
+ 
+ EXTRA_OECONF = " \
+     --disable-dependency-tracking \
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-Fix-crash-with-gst-inspect.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-Fix-crash-with-gst-inspect.patch
+deleted file mode 100644
+index 94f5cc5..0000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-Fix-crash-with-gst-inspect.patch
++++ /dev/null
+@@ -1,28 +0,0 @@
+-From 6b26f3dbf9bf577d71534ab7410de66d06e46ba2 Mon Sep 17 00:00:00 2001
+-From: Carlos Rafael Giani <dv@pseudoterminal.org>
+-Date: Sat, 6 Apr 2013 23:52:11 +0200
+-Subject: [PATCH] Fix crash with gst-inspect Chris Lord <chris@openedhand.com>
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
+----
+- tools/gst-inspect.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/tools/gst-inspect.c b/tools/gst-inspect.c
+-index 23b7c44..b79b02e 100644
+---- a/tools/gst-inspect.c
+-+++ b/tools/gst-inspect.c
+-@@ -1556,7 +1556,7 @@ main (int argc, char *argv[])
+-   g_option_context_add_main_entries (ctx, options, GETTEXT_PACKAGE);
+-   g_option_context_add_group (ctx, gst_init_get_option_group ());
+-   if (!g_option_context_parse (ctx, &argc, &argv, &err)) {
+--    g_printerr ("Error initializing: %s\n", err->message);
+-+    g_printerr ("Error initializing: %s\n", err ? err->message : "(null)");
+-     return -1;
+-   }
+-   g_option_context_free (ctx);
+--- 
+-1.8.2
+-
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.6.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.8.1.bb
+similarity index 62%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.6.3.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.8.1.bb
+index ba1b83b..475ebf9 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.6.3.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.8.1.bb
+@@ -5,10 +5,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d \
+ 
+ SRC_URI = " \
+     http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.xz \
+-    file://0001-Fix-crash-with-gst-inspect.patch \
+ "
+ 
+-SRC_URI[md5sum] = "b4cdeb2b9cb20dd6ac022a4f417eae0d"
+-SRC_URI[sha256sum] = "22f9568d67b87cf700a111f381144bd37cb93790a77e4e331db01fe854a37f24"
++SRC_URI[md5sum] = "711ada79b63e47ac96adb4e5444dc908"
++SRC_URI[sha256sum] = "5a3722fb9302dd977c17ced4240293dc777cb716dc98c8cca63d75c27e5e3107"
+ 
+ S = "${WORKDIR}/gstreamer-${PV}"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_git.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_git.bb
+index 7715bb2..f04fc6e 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_git.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_git.bb
+@@ -20,11 +20,6 @@ SRCREV_FORMAT = "base"
+ 
+ S = "${WORKDIR}/git"
+ 
+-# The option to configure tracer hooks was added prior to the 1.7.2 release
+-# https://cgit.freedesktop.org/gstreamer/gstreamer/commit/?id=e5ca47236e4df4683707f0bcf99181a937d358d5
+-PACKAGECONFIG[gst-tracer-hooks] = "--enable-gst-tracer-hooks,--disable-gst-tracer-hooks,"
+-PACKAGECONFIG[trace-historic] = "--enable-trace,--disable-trace,"
+-
+ do_configure_prepend() {
+ 	${S}/autogen.sh --noconfigure
+ }
 -- 
-Tom
+2.5.0
+
 
