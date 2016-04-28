@@ -1,46 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 98BE4731D1
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f68.google.com (mail-pa0-f68.google.com
+	[209.85.220.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C9FF6FF3D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Apr 2016 16:42:18 +0000 (UTC)
-Received: by mail-wm0-f53.google.com with SMTP id n129so72521842wmn.1
+	Thu, 28 Apr 2016 18:23:33 +0000 (UTC)
+Received: by mail-pa0-f68.google.com with SMTP id vv3so11697542pab.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Apr 2016 09:42:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=Mw3Hm198MnGDG8pOxwmp8j1rLK17WDAbdJFUdj9aQxA=;
-	b=zEe5CDCWKBwPvcClUmigZGyNE5JjqEBs2z1qjNguJFZg7X77HHCVgggU/0h4F6syrX
-	1tjdhGbHE7mFF2qipZIrAJ3g4VYh6KdXlORbUaFTCsPKqGHz6WPC9xIkOh0QPznLJvoJ
-	CYJDNPC7hs0viLIUf6j0jLSVSwizrVoTBAZhaJvZPPg42fYfRuwRJ6F3O0PxEE7otFbP
-	4dCpDE3wA8KbdWbpJoCN+hDEXhon1xhWFFzGv0Ik04JkH1/m2qjdOAQypnRxW/52T8Xf
-	HI8fK0rDVTchJ9zGFs39GKI6cq2hXNAO2FtpwmSQuHaR3NxEkIRSDjG89t7N1cnQtfxQ
-	FKfQ==
+	Thu, 28 Apr 2016 11:23:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=jAc/d/eLPuohz0Ipperb3Majg5ofOZhPeQvdkW01EWA=;
+	b=f3JOlvBQs3730bJwnLSEdgyFJ2QTsrLngHpZcPVeq1ibyi3/TlJZ4aOulS67zG0llI
+	CI19jZIJRheTRNiK/3QIXh9sekXP3lV1m2mwgXLPgzotfntt8Cci1woN+3JPI526/zRb
+	yj1TkdPgsu/1nw7NVfhyKw/7U5fKK5jesyLdoU0zHxsxO2WFSsSPRSLRnmDxQM5UxBbe
+	U0gSgvUv1/zn3CX8LKutpv7Xb0Q31pEYx+VkKVfS5d0OVfFEDvL6VTsS3djZhUHYuvlz
+	vQ88uvICT9/mwlThu+v4ShE8q6ko+NKPXH115o27i/lt75AkO+/cmS5yXZwZ2gm8ECy5
+	lUyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=Mw3Hm198MnGDG8pOxwmp8j1rLK17WDAbdJFUdj9aQxA=;
-	b=VoimBsqE5yz1fUkVMbXmnLun7sbP09+8mXSztr1aYLSP5mjB+3xfxUbvYRREoxcfQ3
-	zrcTFaqcK0HzY7ibHdG2iw6GFLvHPQMmQrNIM2PpWXI7AjnDUk0OPizrvPb+lgqCr2uF
-	7bEpCyc7P4rMkifNhfuxBpSkR3S5PiKREmgvKAxR7astYuc3qXnkxtlYijaSXcUbsDRl
-	rVpZ18k2n8+XFwMPQ9fzA1a+d87i3uEPUUL229Lt8ZGeaiW7/oGwaHMKB7QbHgQ+sSRm
-	h3zEYhd9dv1uU6t2b0N+pnbveSzLUmK0pyiqUSxbgGIZ9a8J1TwI/Uorz97rs4gyL4+k
-	39zg==
-X-Gm-Message-State: AOPr4FXhszyW5OPpqL1YzNgu0HuiwZpAaww6HORIK6rm5TWIRWK6ZhGkfX3XbNCm+m/L8/2j
-X-Received: by 10.194.238.34 with SMTP id vh2mr18844261wjc.157.1461861738388; 
-	Thu, 28 Apr 2016 09:42:18 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	yr1sm10537971wjc.9.2016.04.28.09.42.17
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=jAc/d/eLPuohz0Ipperb3Majg5ofOZhPeQvdkW01EWA=;
+	b=VU+gGNtTCMnXsPu/iU73J0HNxIRjLxQsE60l8uP0IqjavsAUsZoNAx0ZdyOiZkPeHU
+	u/OL7NkCHwyXYkFGC2+5qbOWjuD1bTQTdmKYmLlZ7MJR3R8gwUKxmPqT7lv/g7IbsX63
+	vTxzwnJpqii2FwTs5EqGHQLkEU2EOArdreLDBlhGXAXeSV+TBTaJuCuXFCUU9DssbMtA
+	p47jnLntykIdahconP86n4OU0pLSqCzdCvTkSdq4FXSKVjUUgR7Taq9Br+GQTllM0ETW
+	r6oURwo9iVXauObSYJ5qDV6c+CGZxnl5beOVgGCjpJkACLyg0x1X9pJi0QG+iTQ3Kw8E
+	Malw==
+X-Gm-Message-State: AOPr4FWjWCpThImGiDkj/4JuFjMU2452tFp4SMx9grX311Qo28r3dZKmc/+pbnAxHAf0Uw==
+X-Received: by 10.66.118.70 with SMTP id kk6mr22755672pab.74.1461867814654;
+	Thu, 28 Apr 2016 11:23:34 -0700 (PDT)
+Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
+	z17sm16834986pfi.61.2016.04.28.11.23.32
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 28 Apr 2016 09:42:17 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Thu, 28 Apr 2016 11:23:33 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Apr 2016 17:42:16 +0100
-Message-Id: <1461861736-29652-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.0.rc3
-Subject: [PATCH] autotools: add default for CACHED_CONFIGUREVARS
+Date: Thu, 28 Apr 2016 11:23:30 -0700
+Message-Id: <1461867811-7837-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.3.5
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: [master][krogoth][PATCH 1/2] qemu: Security fix CVE-2016-2857
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,30 +53,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Apr 2016 16:42:19 -0000
+X-List-Received-Date: Thu, 28 Apr 2016 18:23:36 -0000
 
-Ensure that this variable has a default value so that we don't get debug
-messages that the variable couldn't be expanded.
+From: Armin Kuster <akuster@mvista.com>
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- meta/classes/autotools.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+ .../recipes-devtools/qemu/qemu/CVE-2016-2857.patch | 51 ++++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu_2.5.0.bb           |  1 +
+ 2 files changed, 52 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-2857.patch
 
-diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
-index 22880cc..c92ca78 100644
---- a/meta/classes/autotools.bbclass
-+++ b/meta/classes/autotools.bbclass
-@@ -77,6 +77,8 @@ CONFIGUREOPTS = " --build=${BUILD_SYS} \
- 		  ${@append_libtool_sysroot(d)}"
- CONFIGUREOPT_DEPTRACK ?= "--disable-dependency-tracking"
- 
-+CACHED_CONFIGUREVARS ?= ""
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2016-2857.patch b/meta/recipes-devtools/qemu/qemu/CVE-2016-2857.patch
+new file mode 100644
+index 0000000..73cfa2a
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2016-2857.patch
+@@ -0,0 +1,51 @@
++From 362786f14a753d8a5256ef97d7c10ed576d6572b Mon Sep 17 00:00:00 2001
++From: Prasad J Pandit <pjp@fedoraproject.org>
++Date: Wed, 2 Mar 2016 17:29:58 +0530
++Subject: [PATCH] net: check packet payload length
 +
- AUTOTOOLS_SCRIPT_PATH ?= "${S}"
- CONFIGURE_SCRIPT ?= "${AUTOTOOLS_SCRIPT_PATH}/configure"
- 
++While computing IP checksum, 'net_checksum_calculate' reads
++payload length from the packet. It could exceed the given 'data'
++buffer size. Add a check to avoid it.
++
++Reported-by: Liu Ling <liuling-it@360.cn>
++Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
++Signed-off-by: Jason Wang <jasowang@redhat.com>
++
++Upstream-Status: Backport
++CVE: CVE-2016-2857
++
++http://git.qemu.org/?p=qemu.git;a=commit;h=362786f14a753d8a5256ef97d7c10ed576d6572b
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ net/checksum.c | 10 ++++++++--
++ 1 file changed, 8 insertions(+), 2 deletions(-)
++
++Index: qemu-2.5.0/net/checksum.c
++===================================================================
++--- qemu-2.5.0.orig/net/checksum.c
+++++ qemu-2.5.0/net/checksum.c
++@@ -59,6 +59,11 @@ void net_checksum_calculate(uint8_t *dat
++     int hlen, plen, proto, csum_offset;
++     uint16_t csum;
++ 
+++    /* Ensure data has complete L2 & L3 headers. */
+++    if (length < 14 + 20) {
+++        return;
+++    }
+++
++     if ((data[14] & 0xf0) != 0x40)
++ 	return; /* not IPv4 */
++     hlen  = (data[14] & 0x0f) * 4;
++@@ -76,8 +81,9 @@ void net_checksum_calculate(uint8_t *dat
++ 	return;
++     }
++ 
++-    if (plen < csum_offset+2)
++-	return;
+++    if (plen < csum_offset + 2 || 14 + hlen + plen > length) {
+++        return;
+++    }
++ 
++     data[14+hlen+csum_offset]   = 0;
++     data[14+hlen+csum_offset+1] = 0;
+diff --git a/meta/recipes-devtools/qemu/qemu_2.5.0.bb b/meta/recipes-devtools/qemu/qemu_2.5.0.bb
+index e9d9a8d..7622386 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.5.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.5.0.bb
+@@ -11,6 +11,7 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
+             file://CVE-2016-2197.patch \
+             file://CVE-2016-2198.patch \
+             file://pathlimit.patch \
++            file://CVE-2016-2857.patch \
+            "
+ SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
+ SRC_URI[md5sum] = "f469f2330bbe76e3e39db10e9ac4f8db"
 -- 
-2.8.0.rc3
+2.3.5
 
 
