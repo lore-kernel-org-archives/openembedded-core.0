@@ -1,20 +1,20 @@
 Return-Path: <dv@pseudoterminal.org>
 Received: from ptmx.org (ptmx.org [178.63.28.110])
-	by mail.openembedded.org (Postfix) with ESMTP id BC80476B7C
+	by mail.openembedded.org (Postfix) with ESMTP id 339EC77011
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Apr 2016 19:06:52 +0000 (UTC)
+	Thu, 28 Apr 2016 19:06:53 +0000 (UTC)
 Received: from localhost.localdomain (62-178-118-86.cable.dynamic.surfer.at
-	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id 2B6F638F7C
+	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id 663BD38F7D
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 28 Apr 2016 21:06:53 +0200 (CEST)
 From: Carlos Rafael Giani <dv@pseudoterminal.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Apr 2016 21:06:32 +0200
-Message-Id: <1461870393-3545-7-git-send-email-dv@pseudoterminal.org>
+Date: Thu, 28 Apr 2016 21:06:33 +0200
+Message-Id: <1461870393-3545-8-git-send-email-dv@pseudoterminal.org>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <1461870393-3545-1-git-send-email-dv@pseudoterminal.org>
 References: <1461870393-3545-1-git-send-email-dv@pseudoterminal.org>
-Subject: [PATCH v2 7/8] gstreamer1.0-libav: upgrade to version 1.8.1
+Subject: [PATCH v2 8/8] gstreamer1.0-rtsp-server: upgrade to version 1.8.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,31 +27,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Apr 2016 19:06:53 -0000
+X-List-Received-Date: Thu, 28 Apr 2016 19:06:54 -0000
 
 Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
 ---
- .../{gstreamer1.0-libav_1.6.3.bb => gstreamer1.0-libav_1.8.1.bb}      | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.6.3.bb => gstreamer1.0-libav_1.8.1.bb} (87%)
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc      | 4 ++++
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.6.2.bb | 6 ------
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.8.1.bb | 6 ++++++
+ 3 files changed, 10 insertions(+), 6 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.6.2.bb
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.8.1.bb
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.6.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.8.1.bb
-similarity index 87%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.6.3.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.8.1.bb
-index 687230a..bb770bf 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.6.3.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.8.1.bb
-@@ -14,7 +14,7 @@ SRC_URI = " \
-     file://workaround-to-build-gst-libav-for-i586-with-gcc.patch \
- "
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc
+index ae6d364..8fc90f1 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc
+@@ -15,6 +15,10 @@ S = "${WORKDIR}/${PNREAL}-${PV}"
  
--SRC_URI[md5sum] = "cfe9a06913d4fd4067e9e47f6e05fac2"
--SRC_URI[sha256sum] = "857b9c060a0337de38c6d26238c47352433c02eabf26c2f860c854dbc35bd4ab"
-+SRC_URI[md5sum] = "85f1a047606ca9e08493d7b6b42df462"
-+SRC_URI[sha256sum] = "44a49108c3531b5ac4f346a2247cd7fbafb0e8ab394394cb6d75a70300b38933"
+ inherit autotools pkgconfig upstream-version-is-even gobject-introspection
  
- S = "${WORKDIR}/gst-libav-${PV}"
++# Starting with 1.8.0 gst-rtsp-server includes dependency-less plugins as well
++LIBV = "1.0"
++require gst-plugins-package.inc
++
+ delete_pkg_m4_file() {
+         # This m4 file is out of date and is missing PKG_CONFIG_SYSROOT_PATH tweaks which we need for introspection
+         rm "${S}/common/m4/pkg.m4" || true
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.6.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.6.2.bb
+deleted file mode 100644
+index 5bdae6c..0000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.6.2.bb
++++ /dev/null
+@@ -1,6 +0,0 @@
+-include gstreamer1.0-rtsp-server.inc
+-
+-LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d"
+-
+-SRC_URI[md5sum] = "a1cafefb5fc14ac5d7e7d8cdbdfa9694"
+-SRC_URI[sha256sum] = "0f51f9879556c0950203c766b09a1b62f1f25b17f9a7d516e01b13ecf93c8858"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.8.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.8.1.bb
+new file mode 100644
+index 0000000..395c43a
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.8.1.bb
+@@ -0,0 +1,6 @@
++include gstreamer1.0-rtsp-server.inc
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d"
++
++SRC_URI[md5sum] = "0a5966df7f3d74cccfcededdcacd8212"
++SRC_URI[sha256sum] = "6fa8d9ce5b6f6f3309ab9eae14739af4f5666e259cdc64d0667d284ab17eb12e"
 -- 
 2.5.0
 
