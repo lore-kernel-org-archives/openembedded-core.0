@@ -1,20 +1,22 @@
 Return-Path: <joshua.g.lock@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id AD03E6FF9D
+	by mail.openembedded.org (Postfix) with ESMTP id 5C2336FF9D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Apr 2016 13:27:47 +0000 (UTC)
+	Thu, 28 Apr 2016 13:27:48 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP; 28 Apr 2016 06:27:48 -0700
+	by fmsmga103.fm.intel.com with ESMTP; 28 Apr 2016 06:27:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,546,1455004800"; d="scan'208";a="942100577"
+X-IronPort-AV: E=Sophos;i="5.24,546,1455004800"; d="scan'208";a="942100583"
 Received: from jlock-mobl2.ger.corp.intel.com ([10.252.13.137])
-	by orsmga001.jf.intel.com with ESMTP; 28 Apr 2016 06:27:48 -0700
+	by orsmga001.jf.intel.com with ESMTP; 28 Apr 2016 06:27:49 -0700
 From: Joshua Lock <joshua.g.lock@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Apr 2016 14:27:44 +0100
-Message-Id: <1461850065-8839-1-git-send-email-joshua.g.lock@intel.com>
+Date: Thu, 28 Apr 2016 14:27:45 +0100
+Message-Id: <1461850065-8839-2-git-send-email-joshua.g.lock@intel.com>
 X-Mailer: git-send-email 2.5.5
-Subject: [PATCH 1/2] security_flags: turn potential string format security issues into an error
+In-Reply-To: <1461850065-8839-1-git-send-email-joshua.g.lock@intel.com>
+References: <1461850065-8839-1-git-send-email-joshua.g.lock@intel.com>
+Subject: [PATCH 2/2] packagegroup-core-lsb: fix whitespace in meta-qt* warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,79 +29,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Apr 2016 13:27:47 -0000
+X-List-Received-Date: Thu, 28 Apr 2016 13:27:48 -0000
 
-Add "-Wformat -Wformat-security -Werror=format-security" to the default
-SECURITY_CFLAGS to catch potential security vulnerabilities due to the
-misuse of various string formatting functions.
+Without these extra space characters the messages are ill-formatted, i.e:
+'The meta-qt3 layer should be added, this layer provides Qt 3.xlibraries.
+Its intended use is for passing LSB tests as Qt3 isa requirement for LSB.'
 
-These flags are widely used in distributions such as Fedora and Ubuntu,
-however we have 15 recipes in OE-Core which fail to build with these
-flags included and thus the flags are removed for:
-- busybox
-- console-tools
-- cmake
-- expect
-- gcc
-- gettext
-- kexec-tools
-- leafpad
-- libuser
-- ltp
-- makedevs
-- oh-puzzles
-- stat
-- unzip
-- zip
-
-[YOCTO #9488]
+Changes to:
+'The meta-qt3 layer should be added, this layer provides Qt 3.x libraries.
+Its intended use is for passing LSB tests as Qt3 is a requirement for LSB.'
 
 Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
 ---
- meta/conf/distro/include/security_flags.inc | 24 ++++++++++++++++++++++--
- 1 file changed, 22 insertions(+), 2 deletions(-)
+ meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-index ff5f34e..5755d28 100644
---- a/meta/conf/distro/include/security_flags.inc
-+++ b/meta/conf/distro/include/security_flags.inc
-@@ -9,8 +9,11 @@
- # -O0 which then results in a compiler warning.
- lcl_maybe_fortify = "${@base_conditional('DEBUG_BUILD','1','','-D_FORTIFY_SOURCE=2',d)}"
+diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
+index a29c3d7..fb533ce 100644
+--- a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
++++ b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
+@@ -206,8 +206,8 @@ def get_libqt3(d):
+         if 'qt3' in d.getVar('BBFILE_COLLECTIONS', False) or "":
+             return 'libqt-mt3'
  
--SECURITY_CFLAGS ?= "-fstack-protector-strong -pie -fpie ${lcl_maybe_fortify}"
--SECURITY_NO_PIE_CFLAGS ?= "-fstack-protector-strong ${lcl_maybe_fortify}"
-+# Error on use of format strings that represent possible security problems
-+SECURITY_STRINGFORMAT ?= "-Wformat -Wformat-security -Werror=format-security"
-+
-+SECURITY_CFLAGS ?= "-fstack-protector-strong -pie -fpie ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
-+SECURITY_NO_PIE_CFLAGS ?= "-fstack-protector-strong ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
+-        bb.warn('The meta-qt3 layer should be added, this layer provides Qt 3.x' \
+-                'libraries. Its intended use is for passing LSB tests as Qt3 is' \
++        bb.warn('The meta-qt3 layer should be added, this layer provides Qt 3.x ' \
++                'libraries. Its intended use is for passing LSB tests as Qt3 is ' \
+                 'a requirement for LSB.')
+     return ''
  
- SECURITY_LDFLAGS ?= "-fstack-protector-strong -Wl,-z,relro,-z,now"
- SECURITY_X_LDFLAGS ?= "-fstack-protector-strong -Wl,-z,relro"
-@@ -92,6 +95,23 @@ SECURITY_CFLAGS_pn-zlib = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-ltp = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-pulseaudio = "${SECURITY_NO_PIE_CFLAGS}"
+@@ -229,8 +229,8 @@ def get_libqt4(d):
+         if 'qt4' in d.getVar('BBFILE_COLLECTIONS', False) or "":
+             return d.getVar('QT4PKGS', False)
  
-+# Recipes which fail to compile when elevating -Wformat-security to an error
-+SECURITY_STRINGFORMAT_pn-busybox = ""
-+SECURITY_STRINGFORMAT_pn-console-tools = ""
-+SECURITY_STRINGFORMAT_pn-cmake = ""
-+SECURITY_STRINGFORMAT_pn-expect = ""
-+SECURITY_STRINGFORMAT_pn-gcc = ""
-+SECURITY_STRINGFORMAT_pn-gettext = ""
-+SECURITY_STRINGFORMAT_pn-kexec-tools = ""
-+SECURITY_STRINGFORMAT_pn-leafpad = ""
-+SECURITY_STRINGFORMAT_pn-libuser = ""
-+SECURITY_STRINGFORMAT_pn-ltp = ""
-+SECURITY_STRINGFORMAT_pn-makedevs = ""
-+SECURITY_STRINGFORMAT_pn-oh-puzzles = ""
-+SECURITY_STRINGFORMAT_pn-stat = ""
-+SECURITY_STRINGFORMAT_pn-unzip = ""
-+SECURITY_STRINGFORMAT_pn-zip = ""
-+
- TARGET_CFLAGS_append_class-target = " ${SECURITY_CFLAGS}"
- TARGET_LDFLAGS_append_class-target = " ${SECURITY_LDFLAGS}"
+-        bb.warn('The meta-qt4 layer should be added, this layer provides Qt 4.x' \
+-                'libraries. Its intended use is for passing LSB tests as Qt4 is' \
++        bb.warn('The meta-qt4 layer should be added, this layer provides Qt 4.x ' \
++                'libraries. Its intended use is for passing LSB tests as Qt4 is ' \
+                 'a requirement for LSB.')
+     return ''
  
 -- 
 2.5.5
