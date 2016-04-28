@@ -1,48 +1,51 @@
-Return-Path: <elizabeth.flanagan@intel.com>
-Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
-	[209.85.223.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 6601B6E630
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
+	[209.85.220.53])
+	by mail.openembedded.org (Postfix) with ESMTP id DF36D76DE1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Apr 2016 15:58:38 +0000 (UTC)
-Received: by mail-io0-f180.google.com with SMTP id d62so81299538iof.2
+	Thu, 28 Apr 2016 15:58:46 +0000 (UTC)
+Received: by mail-pa0-f53.google.com with SMTP id r5so33986996pag.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Apr 2016 08:58:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=xl4kz2ckxdqi8NjJDZZytpbPTUmyatHYr9ngH20pgYA=;
-	b=IEqreedH80DXaAbs+fQXlxKPQy1uezdhKtZ3Mbj2cR0r3kNLPWu3PKJwStNpjYCKEl
-	1YbEnLTDk6mrR6y+7PnIaLP6GCDZ+NIYQHVaxRuSLlbXpr8dfOMFnYDeivN+/lt1vxhJ
-	TLCj24gSJAcZbhc1gMpBeKDIBBQT2o8KGRRmdvx3n9s8qMCx1MOqyK5Fm+cm8jswhotZ
-	uleTlVwuvVZ53NFwSX0EwlNVj3nmWe3BCtklROI6oHe6nsk8gR7wwNdzuZmvpcGAiqxK
-	UIkrJz60/zTKwz35qfA7m0mnQseKiK1KYZwNc1+MS6qCZqNtCixKLo1whUNZLuiMtP+M
-	ZYhA==
+	Thu, 28 Apr 2016 08:58:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=Z/Ys6KwKAPkcAta6FmroH9bQ0TeBJI17LIfeRKxUGok=;
+	b=OZp2UcVZkYNUM5SAL0WNrDRoTyl6WV7Eq1dG3+icuLxI7JZlYrT7/bhb3eMV9Iyn3E
+	hxzVTCzPS19N+Q1pDMd7Sda/MIxPxWffzfffnizFIqlLm/oXHHyVabbueAW7D4WYdi53
+	gXoWM+47Zk8Wok8+PjYAvhK1R44aT7K3t8InJ+7fh7BBtoK8hd+TefWTqfKE1f0FP2ES
+	Irz132Nqf7+bB7gRIVPV7QDJZd7CibnZScgTuSpNHl+vuGSUgwA0Px5agzrMleP4kzBx
+	+mfbe31CIEpMzZvVeq4Fn7o3ZhbpLHaHzarJHu3i/4x95KwY/4GCzk5Nh2lhHDb0YJeJ
+	cakA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=xl4kz2ckxdqi8NjJDZZytpbPTUmyatHYr9ngH20pgYA=;
-	b=C7wE2zr3xmML+EzJ3kk7HndMwe6RR/qpPSzZ9/Nu259FixkoediL6YU1Sq6bvBpXYt
-	8ukiRV/pOp1PPjM/nKoTTm5fjjGpYKjBG2xke/1u5C2+fXLh5Udfp0XXX8x0GWXFSr15
-	alIp2jRPKmhvB8/dFkqKgyhFKKHFwGVUVliFERva8nhfc2OsDN9Te/yEgdYYMYWSOhUE
-	csiyAVoSVHibJ7VjIOsP/74dxCUx9Cv+m8UqEDrdwXV7Zl62CioU15rL2HtaT64NO2JA
-	Qn8xZgPvVZQj/4fbKYacpQ31YeUWCITuv2amCXqWC7LamBe095wC67aGpMx316crtoEa
-	m2/Q==
-X-Gm-Message-State: AOPr4FVpDVTHVLFpGNWr/r1hTn1O1AmYPQcTOdQSH7CwxBiTRCTv19Hkm9tVQnjpjR8MpPBPckK+ooXUcrBIHu8k
-X-Received: by 10.107.57.9 with SMTP id g9mr12515323ioa.89.1461859118780; Thu,
-	28 Apr 2016 08:58:38 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.3.140 with HTTP; Thu, 28 Apr 2016 08:57:59 -0700 (PDT)
-In-Reply-To: <f9ed8be8f57f410b8900cfed94902161@XBOX02.axis.com>
-References: <1461847758-6323-1-git-send-email-elizabeth.flanagan@intel.com>
-	<f9ed8be8f57f410b8900cfed94902161@XBOX02.axis.com>
-From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
-Date: Thu, 28 Apr 2016 16:57:59 +0100
-Message-ID: <CAPhnLPDnMnPQV5YQwbXbaTpJTW_3ngUT1LAWfJe=dQnvJb_cBQ@mail.gmail.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] common-licenses: Refresh to current SPDX license list
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=Z/Ys6KwKAPkcAta6FmroH9bQ0TeBJI17LIfeRKxUGok=;
+	b=dCXgWYcdG6OcSRe0zGfYcNog7YaJrk0WZzZ5szlvKeL/3ysPRdU+7WFv9Qmr+srVRY
+	2HfGDxLGMIHs2yV+AhBwHQlSvMpGr/mrcs6EY/fC7ROzQZC89lww5ARjZ1UT41+5L3Xk
+	mmhqB39EPl2HIe06JKFq9GApr/CafauxMqO9hKsh22rdJRmZ1CpZDeK6sZKr91/kcoSH
+	rgw8JYttXwEV+cuqGf03C72H0J81ddKzJ2usoB3gglrLSOuQZx4h8ffIqoeR2PJqr+qU
+	LprqAV1NLaRbzMJaTHygBW0rLs2gpbTbMw03KCVPfKWijMxplqOpv3hSJ0H4gwZc1ma5
+	Hj2A==
+X-Gm-Message-State: AOPr4FUIX5lmnqw8H3nK2FtyD6g3BPFVoO1/aD+VfTGJIR9qpNXNvCM+qu5mqFRG15Tx3A==
+X-Received: by 10.66.63.98 with SMTP id f2mr21868280pas.123.1461859126894;
+	Thu, 28 Apr 2016 08:58:46 -0700 (PDT)
+Received: from [192.168.0.76] (c-76-102-32-192.hsd1.ca.comcast.net.
+	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
+	rw2sm16377448pab.30.2016.04.28.08.58.45
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 28 Apr 2016 08:58:46 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Pgp-Agent: GPGMail 2.6b2
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1461850065-8839-1-git-send-email-joshua.g.lock@intel.com>
+Date: Thu, 28 Apr 2016 08:58:41 -0700
+Message-Id: <996BAFC5-CEC6-4296-A8BD-E7EA383A754F@gmail.com>
+References: <1461850065-8839-1-git-send-email-joshua.g.lock@intel.com>
+To: Joshua Lock <joshua.g.lock@intel.com>
+X-Mailer: Apple Mail (2.3124)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] security_flags: turn potential string format security issues into an error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,75 +58,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Apr 2016 15:58:39 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 28 Apr 2016 15:58:48 -0000
+X-Groupsio-MsgNum: 81372
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_DFDE65F7-A100-43CF-BCFE-82AB07A56C9C";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-On 28 April 2016 at 16:27, Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
->> -----Original Message-----
->> From: openembedded-core-bounces@lists.openembedded.org
->> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
->> Elizabeth Flanagan
->> Sent: den 28 april 2016 14:49
->> To: openembedded-core@lists.openembedded.org
->> Subject: [OE-core] [PATCH] common-licenses: Refresh to current SPDX
->> license list
->>
->> This commit pulls the SPDX license list and license text from
->> http://git.spdx.org/license-list.git and reworks it slightly
->> (remove .txt extention and remove GPL+ licenses).
->>
->> Eventually we should probably consider using the actual repository
->> without edits.
->>
->> It adds quite a number of new licenses and formats the license
->> text we have so that it matches what is currently in the SPDX
->> tree.
->>
->> This patch also adds these licenses to SRC_DISTRIBUTE_LICENSES in
->> conf/licenses.conf
->>
->> I've avoided adding these to the SPDX mapping variable as most of
->> that was only needed for backwards compatibility.
->>
->> Signed-off-by: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
->> ---
->>  meta/conf/licenses.conf                            | 101 ++-
->>  meta/files/common-licenses/AAL                     |  66 +-
->
-> [cut]
->
->> diff --git a/meta/files/common-licenses/AAL b/meta/files/common-
->> licenses/AAL
->> index 5484226..95c25cd 100644
->> --- a/meta/files/common-licenses/AAL
->> +++ b/meta/files/common-licenses/AAL
->> @@ -1,51 +1,23 @@
->> +Attribution Assurance License
->>
->> -Attribution Assurance License
->> -Copyright (c) 2002 by AUTHOR
->> -PROFESSIONAL IDENTIFICATION * URL
->> -"PROMOTIONAL SLOGAN FOR AUTHOR`S PROFESSIONAL PRACTICE"
->> +Copyright (c) <<var;name=copyright;original=2002 by AUTHOR PROFESSIONAL IDENTIFICATION * URL "PROMOTIONAL SLOGAN FOR AUTHOR'S PROFESSIONAL PRACTICE";match=.+>>
->
-> The license texts as taken directly from the SPDX repository do
-> not seem suitable for inclusion in an image as they are full of
-> conditional <<...>> tags as per above. You probably need to post-
-> process the files and replace all tags with something suitable...
->
-
-Agreed. Let me look at that and I'll repost.
-
--b
-
-> //Peter
->
+--Apple-Mail=_DFDE65F7-A100-43CF-BCFE-82AB07A56C9C
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
 
+> On Apr 28, 2016, at 6:27 AM, Joshua Lock <joshua.g.lock@intel.com> =
+wrote:
+>=20
+> -SECURITY_CFLAGS ?=3D "-fstack-protector-strong -pie -fpie =
+${lcl_maybe_fortify}"
+> -SECURITY_NO_PIE_CFLAGS ?=3D "-fstack-protector-strong =
+${lcl_maybe_fortify}"
+> +# Error on use of format strings that represent possible security =
+problems
+> +SECURITY_STRINGFORMAT ?=3D "-Wformat -Wformat-security =
+-Werror=3Dformat-security"
+> +
+> +SECURITY_CFLAGS ?=3D "-fstack-protector-strong -pie -fpie =
+${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
+> +SECURITY_NO_PIE_CFLAGS ?=3D "-fstack-protector-strong =
+${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
+>=20
+> SECURITY_LDFLAGS ?=3D "-fstack-protector-strong -Wl,-z,relro,-z,now"
+> SECURITY_X_LDFLAGS ?=3D "-fstack-protector-strong -Wl,-z,relro"
+> @@ -92,6 +95,23 @@ SECURITY_CFLAGS_pn-zlib =3D =
+"${SECURITY_NO_PIE_CFLAGS}"
+> SECURITY_CFLAGS_pn-ltp =3D "${SECURITY_NO_PIE_CFLAGS}"
+> SECURITY_CFLAGS_pn-pulseaudio =3D "${SECURITY_NO_PIE_CFLAGS}"
+>=20
+> +# Recipes which fail to compile when elevating -Wformat-security to =
+an error
+> +SECURITY_STRINGFORMAT_pn-busybox =3D ""
+> +SECURITY_STRINGFORMAT_pn-console-tools =3D ""
+> +SECURITY_STRINGFORMAT_pn-cmake =3D ""
+> +SECURITY_STRINGFORMAT_pn-expect =3D ""
+> +SECURITY_STRINGFORMAT_pn-gcc =3D ""
+> +SECURITY_STRINGFORMAT_pn-gettext =3D ""
+> +SECURITY_STRINGFORMAT_pn-kexec-tools =3D ""
+> +SECURITY_STRINGFORMAT_pn-leafpad =3D ""
+> +SECURITY_STRINGFORMAT_pn-libuser =3D ""
+> +SECURITY_STRINGFORMAT_pn-ltp =3D ""
+> +SECURITY_STRINGFORMAT_pn-makedevs =3D ""
+> +SECURITY_STRINGFORMAT_pn-oh-puzzles =3D ""
+> +SECURITY_STRINGFORMAT_pn-stat =3D ""
+> +SECURITY_STRINGFORMAT_pn-unzip =3D ""
+> +SECURITY_STRINGFORMAT_pn-zip =3D ""
 
--- 
-Elizabeth Flanagan
-Yocto Project
-Build and Release
+Can we use _remove operation instead of introducing a new variable and =
+emptying it out here.
 
+--Apple-Mail=_DFDE65F7-A100-43CF-BCFE-82AB07A56C9C
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlciMzUACgkQuwUzVZGdMxSTxQCfc5tG9onUZaZboQJcnyqykQmN
+EYgAn3TnauPq+BJPUBY1hDSdSzIoS+Ad
+=O7Tb
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_DFDE65F7-A100-43CF-BCFE-82AB07A56C9C--
