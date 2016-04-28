@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id B68C5731E6
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id C961F766E1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Apr 2016 13:18:33 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP; 28 Apr 2016 06:18:16 -0700
+	Thu, 28 Apr 2016 13:18:50 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 28 Apr 2016 06:18:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,546,1455004800"; d="scan'208";a="942094759"
+X-IronPort-AV: E=Sophos;i="5.24,546,1455004800"; d="scan'208";a="954777064"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 28 Apr 2016 06:18:15 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 28 Apr 2016 06:18:06 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id 415DD6A4008
+	by linux.intel.com (Postfix) with ESMTP id 139A76A4007
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Apr 2016 07:05:50 -0700 (PDT)
+	Thu, 28 Apr 2016 07:05:41 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Apr 2016 13:58:09 +0300
-Message-Id: <377ce26a3c4e75d3f51680a41bb907c80c47273d.1461834510.git.ed.bartosh@linux.intel.com>
+Date: Thu, 28 Apr 2016 13:58:04 +0300
+Message-Id: <774790c3233d0591850069bd6083dea3e6b7cf23.1461834510.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1461834510.git.ed.bartosh@linux.intel.com>
 References: <cover.1461834510.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1461834510.git.ed.bartosh@linux.intel.com>
 References: <cover.1461834510.git.ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH v2 6/8] wic: add sparse_copy API
+Subject: [wic][PATCH v2 1/8] wic: use truncate utility to create sparse files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,62 +35,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Apr 2016 13:18:34 -0000
+X-List-Received-Date: Thu, 28 Apr 2016 13:18:50 -0000
 
-In order to make wic images sparse sparse_copy function has been
-copied from meta-ostro:
-https://github.com/kad/meta-ostro/blob/master/meta-ostro/lib/image-dsk.py
-This function uses filemap APIs to copy source sparse file into
-destination file preserving sparseness.
-
-The function has been modified to satisfy wic requirements:
-parameter 'skip' has been added.
+Used truncate instead of dd to create wic images for the
+following reasons:
+ - dd doesn't preserve sparseness
+ - truncate syntax is much more clear
+ - dd requires additional calculations of the image size
+   in blocks
+ - the way dd was used in the code is not always correct.
+   In some cases it was writing one block to the file which makes
+   it not 100% sparse.
 
 [YOCTO #9099]
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/filemap.py | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ scripts/lib/wic/partition.py        | 20 +++++---------------
+ scripts/lib/wic/utils/fs_related.py | 12 +++---------
+ 2 files changed, 8 insertions(+), 24 deletions(-)
 
-diff --git a/scripts/lib/wic/filemap.py b/scripts/lib/wic/filemap.py
-index 1d04328..f8b2ba7 100644
---- a/scripts/lib/wic/filemap.py
-+++ b/scripts/lib/wic/filemap.py
-@@ -529,3 +529,33 @@ def filemap(image, log=None):
-         return FilemapFiemap(image, log)
-     except ErrorNotSupp:
-         return FilemapSeek(image, log)
-+
-+def sparse_copy(src_fname, dst_fname, offset=0, skip=0):
-+    """Efficiently copy sparse file to or into another file."""
-+    fmap = filemap(src_fname)
-+    try:
-+        dst_file = open(dst_fname, 'r+b')
-+    except IOError:
-+        dst_file = open(dst_fname, 'wb')
-+
-+    for first, last in fmap.get_mapped_ranges(0, fmap.blocks_cnt):
-+        start = first * fmap.block_size
-+        end = (last + 1) * fmap.block_size
-+
-+        if start < skip < end:
-+            start = skip
-+
-+        fmap._f_image.seek(start, os.SEEK_SET)
-+        dst_file.seek(offset + start, os.SEEK_SET)
-+
-+        chunk_size = 1024 * 1024
-+        to_read = end - start
-+        read = 0
-+
-+        while read < to_read:
-+            if read + chunk_size > to_read:
-+                chunk_size = to_read - read
-+            chunk = fmap._f_image.read(chunk_size)
-+            dst_file.write(chunk)
-+            read += chunk_size
-+    dst_file.close()
+diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+index f40d1bc..2ee64a2 100644
+--- a/scripts/lib/wic/partition.py
++++ b/scripts/lib/wic/partition.py
+@@ -219,9 +219,7 @@ class Partition(object):
+         msger.debug("Added %d extra blocks to %s to get to %d total blocks" % \
+                     (extra_blocks, self.mountpoint, rootfs_size))
+ 
+-        dd_cmd = "dd if=/dev/zero of=%s bs=1024 seek=%d count=0 bs=1k" % \
+-            (rootfs, rootfs_size)
+-        exec_cmd(dd_cmd)
++        exec_cmd("truncate %s -s %d" % (rootfs, rootfs_size * 1024))
+ 
+         extra_imagecmd = "-i 8192"
+ 
+@@ -254,9 +252,7 @@ class Partition(object):
+         msger.debug("Added %d extra blocks to %s to get to %d total blocks" % \
+                     (extra_blocks, self.mountpoint, rootfs_size))
+ 
+-        dd_cmd = "dd if=/dev/zero of=%s bs=1024 seek=%d count=0 bs=1k" % \
+-            (rootfs, rootfs_size)
+-        exec_cmd(dd_cmd)
++        exec_cmd("truncate %s -s %d" % (rootfs, rootfs_size * 1024))
+ 
+         label_str = ""
+         if self.label:
+@@ -319,9 +315,7 @@ class Partition(object):
+         """
+         Prepare an empty ext2/3/4 partition.
+         """
+-        dd_cmd = "dd if=/dev/zero of=%s bs=1k seek=%d count=0" % \
+-            (rootfs, self.size)
+-        exec_cmd(dd_cmd)
++        exec_cmd("truncate %s -s %d" % (rootfs, self.size * 1024))
+ 
+         extra_imagecmd = "-i 8192"
+ 
+@@ -338,9 +332,7 @@ class Partition(object):
+         """
+         Prepare an empty btrfs partition.
+         """
+-        dd_cmd = "dd if=/dev/zero of=%s bs=1k seek=%d count=0" % \
+-            (rootfs, self.size)
+-        exec_cmd(dd_cmd)
++        exec_cmd("truncate %s -s %d" % (rootfs, self.size * 1024))
+ 
+         label_str = ""
+         if self.label:
+@@ -401,9 +393,7 @@ class Partition(object):
+         """
+         path = "%s/fs.%s" % (cr_workdir, self.fstype)
+ 
+-        dd_cmd = "dd if=/dev/zero of=%s bs=1k seek=%d count=0" % \
+-            (path, self.size)
+-        exec_cmd(dd_cmd)
++        exec_cmd("truncate %s -s %d" % (path, self.size * 1024))
+ 
+         import uuid
+         label_str = ""
+diff --git a/scripts/lib/wic/utils/fs_related.py b/scripts/lib/wic/utils/fs_related.py
+index 2e74461..2658dcf 100644
+--- a/scripts/lib/wic/utils/fs_related.py
++++ b/scripts/lib/wic/utils/fs_related.py
+@@ -71,14 +71,8 @@ class DiskImage(Disk):
+     def create(self):
+         if self.device is not None:
+             return
+-
+-        blocks = self.size / 1024
+-        if self.size - blocks * 1024:
+-            blocks += 1
+-
+-        # create disk image
+-        dd_cmd = "dd if=/dev/zero of=%s bs=1024 seek=%d count=1" % \
+-            (self.image_file, blocks)
+-        exec_cmd(dd_cmd)
++        # create sparse disk image
++        cmd = "truncate %s -s %s" % (self.image_file, self.size)
++        exec_cmd(cmd)
+ 
+         self.device = self.image_file
 -- 
 2.1.4
 
