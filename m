@@ -1,48 +1,48 @@
 Return-Path: <akuster808@gmail.com>
 Received: from mail-pa0-f67.google.com (mail-pa0-f67.google.com
 	[209.85.220.67])
-	by mail.openembedded.org (Postfix) with ESMTP id D2DAA73E3B
+	by mail.openembedded.org (Postfix) with ESMTP id E7D51731C6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Apr 2016 00:47:27 +0000 (UTC)
-Received: by mail-pa0-f67.google.com with SMTP id i5so6649792pag.3
+	Thu, 28 Apr 2016 00:47:28 +0000 (UTC)
+Received: by mail-pa0-f67.google.com with SMTP id vv3so7660299pab.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Apr 2016 17:47:28 -0700 (PDT)
+	Wed, 27 Apr 2016 17:47:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=S2J8JYyAlOnKDbxWjHG4ehlqqwArMEVbbTmF5WZfMRY=;
-	b=d3PT9qTmZ+Tz7oMozJfq2mWuOvUar06IYeM56semOxy5z1XSwWgoBZy8i635uyfcud
-	RqRg6ToZM6TILGTJ8Sw5ITAuQvRy9uxPb+MkntOvFZILTKoQl28TdcbT8K8UFQlpf1Md
-	v6Nu4VK51u84MAkQJmbPC+oTxUM71SgRd8/zVURUYB0HcgARZHAa3V3SjhT8o05mlToB
-	EJeCaLSZihpSl76L0PZxuKYrRtRusQTweSrKn+qeXRBwgxL7vCtGPxrMX589x61gs+6Q
-	Bs3oNyz7TbWn8oND1HBtY5+Mey7kJbhEp189VTb2VKcaKRrRR27mfRYaZs+/0mLlNjA4
-	2EKA==
+	bh=W/1AOoU35rxmx0XmkkdveVZdSluif007d5r8/DYiS+Q=;
+	b=h3td4lx5AffpHPcZpa+TzITuVzWIb2LcFb7s8Vv3L5OSkoX+kkO80IrpClL4OFbO5I
+	SgKf8vVz3XjG5U6+WiFwlwz6zsU3dCvPq4ftaoQrMoDjK6hnycZ5k2j7hPQEvGfWWcMS
+	AyjTwhMZyChG9rQ47Jo6lfYamDI6UA0yT2dkgvTI+5eybIo0Th8tGmpEhyiw3kWyXUiB
+	RHYHYO1SCY/QXuzKZj1TVVP0t0h9ea0O2AINydcsgID4R3Gc7pF0cs5bNdMeI0g6b/TQ
+	M6Zhuu8g7LzyccKOeaEVsNiloJUJwLOBacmvKjB4jX/QHkeVXlp3inAu1vSwZt9keqcJ
+	ILvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=S2J8JYyAlOnKDbxWjHG4ehlqqwArMEVbbTmF5WZfMRY=;
-	b=aN+o28i5WxjBSZs8BboowoHoqyIuiF+f/oAWv22bxQGc+PCslSBGJjwr7Xa4MVpsr+
-	Gq++RU6Bzz4q9HraVCvwxQuM4QipH06LP+K8mox2YgU3JoJGxHYrGTPE4TBkPke3iOiP
-	51LRB2a9ODh/gZuHsU2Jz2VrN05qQg4Y2qEH9bup/DA4OgU8w7HQnoQBjGJe9/wYIyvr
-	fUIYhnWkHbwuyajGMtbB8ohYTC3iExZLhBxyaKohs0Je4IYC1Er20KoyMomv3haEU6Xc
-	VKeALSitd0acgbqYeAwNj07ePZDFskRKFnmkelHvZSWt0/vwa72+WjvSQt3AIpiw6jeL
-	CnWw==
-X-Gm-Message-State: AOPr4FUt2a/58SNB1V31RYCMQKzwCduRRqbnnWTm+B2wM0AC4b47W0jXeI0xnVFAO4y/ig==
-X-Received: by 10.66.184.40 with SMTP id er8mr16604632pac.134.1461804448364;
-	Wed, 27 Apr 2016 17:47:28 -0700 (PDT)
+	bh=W/1AOoU35rxmx0XmkkdveVZdSluif007d5r8/DYiS+Q=;
+	b=JKBpardmxg3omm58iikKWxm0m9QW8SV/xU4pKSYLqy9G9Ho3WEHjSk7Q5W71T8Ls7W
+	JBkOpwHsVIwVR+ViIgHamJTXl5wpqVK5ICXXN8L7y0qTumqoe/KWfcA3BrlWPOZ9GydF
+	/iIzWuiLDOxvaO5n79II43kHTEzwmqhtEAsvYIOxG5zcxDiADxZh0ZcOkynsJ3r5lZZg
+	SKCIrRMJBWVGL+q+GOT50bqS982UmAaqfWRkY6ICjlPzj7A6alA9OkoLinSkyfEpziLv
+	QGa0BqLjYAIt1Rxq6I8A8cxxI1U/7e0Lr9vrLEuqAsb3FzqytazKY20qrNI7sI+x6Tvs
+	LLXA==
+X-Gm-Message-State: AOPr4FWXDuWow38xyPYGBGjlLCyW9+rBl/BkHEuXdwEsU5HKAlbkX18e6cNASfpmJlZnsQ==
+X-Received: by 10.66.153.174 with SMTP id vh14mr16461314pab.131.1461804449962; 
+	Wed, 27 Apr 2016 17:47:29 -0700 (PDT)
 Received: from Pahoa2.mvista.com ([64.2.3.194])
-	by smtp.gmail.com with ESMTPSA id m12sm9636649pfi.5.2016.04.27.17.47.26
+	by smtp.gmail.com with ESMTPSA id m12sm9636649pfi.5.2016.04.27.17.47.28
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 27 Apr 2016 17:47:26 -0700 (PDT)
+	Wed, 27 Apr 2016 17:47:28 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Apr 2016 17:47:21 -0700
-Message-Id: <1461804443-13094-2-git-send-email-akuster808@gmail.com>
+Date: Wed, 27 Apr 2016 17:47:22 -0700
+Message-Id: <1461804443-13094-3-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.3.5
 In-Reply-To: <1461804443-13094-1-git-send-email-akuster808@gmail.com>
 References: <1461804443-13094-1-git-send-email-akuster808@gmail.com>
 Cc: Armin Kuster <akuster@mvista.com>
-Subject: [master][krogoth][PATCH 2/4] busybox: Security Fix CVE-2016-2148
+Subject: [master][krogoth][PATCH 3/4] busybox: Security fix CVE-2016-2147
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,7 +55,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Apr 2016 00:47:28 -0000
+X-List-Received-Date: Thu, 28 Apr 2016 00:47:29 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
@@ -63,100 +63,124 @@ busybox <= 1.24.2
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- .../busybox/busybox/CVE-2016-2148.patch            | 74 ++++++++++++++++++++++
- meta/recipes-core/busybox/busybox_1.24.1.bb        |  1 +
- 2 files changed, 75 insertions(+)
- create mode 100644 meta/recipes-core/busybox/busybox/CVE-2016-2148.patch
+ .../busybox/busybox/CVE-2016-2147.patch            | 57 ++++++++++++++++++++++
+ .../busybox/busybox/CVE-2016-2147_2.patch          | 32 ++++++++++++
+ meta/recipes-core/busybox/busybox_1.24.1.bb        |  2 +
+ 3 files changed, 91 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/CVE-2016-2147.patch
+ create mode 100644 meta/recipes-core/busybox/busybox/CVE-2016-2147_2.patch
 
-diff --git a/meta/recipes-core/busybox/busybox/CVE-2016-2148.patch b/meta/recipes-core/busybox/busybox/CVE-2016-2148.patch
+diff --git a/meta/recipes-core/busybox/busybox/CVE-2016-2147.patch b/meta/recipes-core/busybox/busybox/CVE-2016-2147.patch
 new file mode 100644
-index 0000000..af04a7f
+index 0000000..84cae6a
 --- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/CVE-2016-2148.patch
-@@ -0,0 +1,74 @@
-+From 352f79acbd759c14399e39baef21fc4ffe180ac2 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-core/busybox/busybox/CVE-2016-2147.patch
+@@ -0,0 +1,57 @@
++From d474ffc68290e0a83651c4432eeabfa62cd51e87 Mon Sep 17 00:00:00 2001
 +From: Denys Vlasenko <vda.linux@googlemail.com>
-+Date: Fri, 26 Feb 2016 15:54:56 +0100
-+Subject: [PATCH] udhcpc: fix OPTION_6RD parsing (could overflow its malloced
-+ buffer)
++Date: Thu, 10 Mar 2016 11:47:58 +0100
++Subject: [PATCH] udhcp: fix a SEGV on malformed RFC1035-encoded domain name
 +
 +Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
 +
 +Upstream-Status: Backport
-+CVE: CVE-2016-2148
-+https://git.busybox.net/busybox/commit/?id=352f79
++CVE: CVE-2016-2147
++
++https://git.busybox.net/busybox/commit/?id=d474ffc
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ networking/udhcp/domain_codec.c | 13 +++++++++----
++ 1 file changed, 9 insertions(+), 4 deletions(-)
++
++Index: busybox-1.23.2/networking/udhcp/domain_codec.c
++===================================================================
++--- busybox-1.23.2.orig/networking/udhcp/domain_codec.c
+++++ busybox-1.23.2/networking/udhcp/domain_codec.c
++@@ -63,11 +63,10 @@ char* FAST_FUNC dname_dec(const uint8_t
++ 				if (crtpos + *c + 1 > clen) /* label too long? abort */
++ 					return NULL;
++ 				if (dst)
++-					memcpy(dst + len, c + 1, *c);
+++					/* \3com ---> "com." */
+++					((char*)mempcpy(dst + len, c + 1, *c))[0] = '.';
++ 				len += *c + 1;
++ 				crtpos += *c + 1;
++-				if (dst)
++-					dst[len - 1] = '.';
++ 			} else {
++ 				/* NUL: end of current domain name */
++ 				if (retpos == 0) {
++@@ -78,7 +77,10 @@ char* FAST_FUNC dname_dec(const uint8_t
++ 					crtpos = retpos;
++ 					retpos = depth = 0;
++ 				}
++-				if (dst)
+++				if (dst && len != 0)
+++					/* \4host\3com\0\4host and we are at \0:
+++					 * \3com was converted to "com.", change dot to space.
+++					 */
++ 					dst[len - 1] = ' ';
++ 			}
++ 
++@@ -228,6 +230,9 @@ int main(int argc, char **argv)
++ 	int len;
++ 	uint8_t *encoded;
++ 
+++        uint8_t str[6] = { 0x00, 0x00, 0x02, 0x65, 0x65, 0x00 };
+++        printf("NUL:'%s'\n",   dname_dec(str, 6, ""));
+++
++ #define DNAME_DEC(encoded,pre) dname_dec((uint8_t*)(encoded), sizeof(encoded), (pre))
++ 	printf("'%s'\n",       DNAME_DEC("\4host\3com\0", "test1:"));
++ 	printf("test2:'%s'\n", DNAME_DEC("\4host\3com\0\4host\3com\0", ""));
+diff --git a/meta/recipes-core/busybox/busybox/CVE-2016-2147_2.patch b/meta/recipes-core/busybox/busybox/CVE-2016-2147_2.patch
+new file mode 100644
+index 0000000..1473d46
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/CVE-2016-2147_2.patch
+@@ -0,0 +1,32 @@
++From 1b7c17391de66502dd7a97c866e0a33681edbb1f Mon Sep 17 00:00:00 2001
++From: Denys Vlasenko <vda.linux@googlemail.com>
++Date: Fri, 11 Mar 2016 00:26:58 +0100
++Subject: [PATCH] udhcpc: fix a warning in debug code
++
++Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
++Upsteam-Status: Backport
++CVE: CVE-2016-2147 regression fix
++
++https://git.busybox.net/busybox/commit/?id=1b7c17
 +
 +Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
 +---
-+ networking/udhcp/common.c | 15 +++++++++++++--
-+ networking/udhcp/dhcpc.c  |  4 ++--
-+ 2 files changed, 15 insertions(+), 4 deletions(-)
++ networking/udhcp/domain_codec.c | 1 +
++ 1 file changed, 1 insertion(+)
 +
-+Index: busybox-1.23.2/networking/udhcp/common.c
-+===================================================================
-+--- busybox-1.23.2.orig/networking/udhcp/common.c
-++++ busybox-1.23.2/networking/udhcp/common.c
-+@@ -142,7 +142,7 @@ const char dhcp_option_strings[] ALIGN1
-+  * udhcp_str2optset: to determine how many bytes to allocate.
-+  * xmalloc_optname_optval: to estimate string length
-+  * from binary option length: (option[LEN] / dhcp_option_lengths[opt_type])
-+- * is the number of elements, multiply in by one element's string width
-++ * is the number of elements, multiply it by one element's string width
-+  * (len_of_option_as_string[opt_type]) and you know how wide string you need.
++diff --git a/networking/udhcp/domain_codec.c b/networking/udhcp/domain_codec.c
++index cee31f1..5a923cc 100644
++--- a/networking/udhcp/domain_codec.c
+++++ b/networking/udhcp/domain_codec.c
++@@ -7,6 +7,7 @@
++  * Licensed under GPLv2 or later, see file LICENSE in this source tree.
 +  */
-+ const uint8_t dhcp_option_lengths[] ALIGN1 = {
-+@@ -162,7 +162,18 @@ const uint8_t dhcp_option_lengths[] ALIG
-+ 	[OPTION_S32] =     4,
-+ 	/* Just like OPTION_STRING, we use minimum length here */
-+ 	[OPTION_STATIC_ROUTES] = 5,
-+-	[OPTION_6RD] =    22,  /* ignored by udhcp_str2optset */
-++	[OPTION_6RD] =    12,  /* ignored by udhcp_str2optset */
-++	/* The above value was chosen as follows:
-++	 * len_of_option_as_string[] for this option is >60: it's a string of the form
-++	 * "32 128 ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff 255.255.255.255 ".
-++	 * Each additional ipv4 address takes 4 bytes in binary option and appends
-++	 * another "255.255.255.255 " 16-byte string. We can set [OPTION_6RD] = 4
-++	 * but this severely overestimates string length: instead of 16 bytes,
-++	 * it adds >60 for every 4 bytes in binary option.
-++	 * We cheat and declare here that option is in units of 12 bytes.
-++	 * This adds more than 60 bytes for every three ipv4 addresses - more than enough.
-++	 * (Even 16 instead of 12 should work, but let's be paranoid).
-++	 */
-+ };
-+ 
-+ 
-+Index: busybox-1.23.2/networking/udhcp/dhcpc.c
-+===================================================================
-+--- busybox-1.23.2.orig/networking/udhcp/dhcpc.c
-++++ busybox-1.23.2/networking/udhcp/dhcpc.c
-+@@ -103,7 +103,7 @@ static const uint8_t len_of_option_as_st
-+ 	[OPTION_IP              ] = sizeof("255.255.255.255 "),
-+ 	[OPTION_IP_PAIR         ] = sizeof("255.255.255.255 ") * 2,
-+ 	[OPTION_STATIC_ROUTES   ] = sizeof("255.255.255.255/32 255.255.255.255 "),
-+-	[OPTION_6RD             ] = sizeof("32 128 ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff 255.255.255.255 "),
-++	[OPTION_6RD             ] = sizeof("132 128 ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff 255.255.255.255 "),
-+ 	[OPTION_STRING          ] = 1,
-+ 	[OPTION_STRING_HOST     ] = 1,
-+ #if ENABLE_FEATURE_UDHCP_RFC3397
-+@@ -214,7 +214,7 @@ static NOINLINE char *xmalloc_optname_op
-+ 	type = optflag->flags & OPTION_TYPE_MASK;
-+ 	optlen = dhcp_option_lengths[type];
-+ 	upper_length = len_of_option_as_string[type]
-+-		* ((unsigned)(len + optlen - 1) / (unsigned)optlen);
-++		* ((unsigned)(len + optlen) / (unsigned)optlen);
-+ 
-+ 	dest = ret = xmalloc(upper_length + strlen(opt_name) + 2);
-+ 	dest += sprintf(ret, "%s=", opt_name);
++ #ifdef DNS_COMPR_TESTING
+++# define _GNU_SOURCE
++ # define FAST_FUNC /* nothing */
++ # define xmalloc malloc
++ # include <stdlib.h>
++-- 
++2.3.5
++
 diff --git a/meta/recipes-core/busybox/busybox_1.24.1.bb b/meta/recipes-core/busybox/busybox_1.24.1.bb
-index f699f99..61fc878 100644
+index 61fc878..82fc64f 100644
 --- a/meta/recipes-core/busybox/busybox_1.24.1.bb
 +++ b/meta/recipes-core/busybox/busybox_1.24.1.bb
-@@ -44,6 +44,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://rcS \
+@@ -45,6 +45,8 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
             file://rcK \
             file://runlevel \
-+           file://CVE-2016-2148.patch \
+            file://CVE-2016-2148.patch \
++           file://CVE-2016-2147.patch \
++           file://CVE-2016-2147_2.patch \
  "
  SRC_URI_append_libc-musl = " file://musl.cfg "
  
