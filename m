@@ -1,46 +1,32 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 2304B70149
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id D44EC60088
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Apr 2016 10:56:23 +0000 (UTC)
-Received: by mail-wm0-f51.google.com with SMTP id g17so29846613wme.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Apr 2016 03:56:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=sApu7b7ZGy4V6BhdJo3FXNNaYQxROw+j3vKvAX6W/gg=;
-	b=WEJ/smFGoFNNTtj0gVceT6mcwMAz9+HLwsGvlbqWhK1lFehdycAsFYXV+/OaN/y/I4
-	RnlS1kEOOITMLyaUmWiD0iHUWcfAwZOc2c+9zDg7rGUxReNV66GNoeBgBSLg/6PAxfR3
-	yHz1EfBWijOgldbpT4DIuIipoasYHGDaoYco8HtkoE/2q/W7oM2qUMGXe88nWN9FIyJw
-	wDeDJBQ/Ch5grqJuaNPfe7YQfP2MtwtScOBsxEU+TYqbIv3YLb9ssL4lh86YzUP9MfQ+
-	/6ihpOY4fs5zkku2xzlakz3NcZdbvzzPJENlq+N9q8WUfIuN9i5hI2itEteytspak3KF
-	XSrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=sApu7b7ZGy4V6BhdJo3FXNNaYQxROw+j3vKvAX6W/gg=;
-	b=Bg7Zqz0h8ZGBlCMeV/DuuBPgIvmb+yXHAjG2YSt3yUWXXCVzzWqx4mHMx12qTub/Kx
-	/jKymZpJCj970FdaYttbP8dSVlv07M17f3ndZ6/M267g5r3MVL2Fz5XNALcnUB6zvHey
-	lEnvLLIdJZsLdHgOdN3UGuMRv43yHh1IkLtP763MtpY8AH4dcc/oDIY4R3ZC+gigySeg
-	mzP1px7U3Rnf2uEJHzZqhB8AI+3d3QVEBkcVgVIg66tmS/DAkBZH0xRMcNDlSKUo6h/X
-	IwT7T3Cq41orSl/5NZfW1uNW28W25qnTZufx27nM4jLlHChDlwWji4uv9hRPdo6wAElT
-	gf4Q==
-X-Gm-Message-State: AOPr4FXkqTQSGuwMMxQRV3alBkIBh9YBqwx9qJ8WmFaTLKRJHtmaqWuaa3UbiROlHQQ9wJVE
-X-Received: by 10.194.143.51 with SMTP id sb19mr21297199wjb.98.1461927383863; 
-	Fri, 29 Apr 2016 03:56:23 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	ck9sm14238739wjc.22.2016.04.29.03.56.23
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 29 Apr 2016 03:56:23 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 29 Apr 2016 11:56:21 +0100
-Message-Id: <1461927381-14091-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.0.rc3
-Subject: [PATCH] bitbake.conf: change APACHE_MIRROR to point at archive.apache.org
+	Fri, 29 Apr 2016 11:10:57 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u3TBAr73011627; Fri, 29 Apr 2016 12:10:53 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id jJAtf_WgiQ4u; Fri, 29 Apr 2016 12:10:53 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u3TBAlRA011624
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 29 Apr 2016 12:10:48 +0100
+Message-ID: <1461928247.3166.1.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ian Geiser <geiseri@geekcentral.pub>
+Date: Fri, 29 Apr 2016 12:10:47 +0100
+In-Reply-To: <15461a3e2b1.db27b2f76194.3175716769885720576@geekcentral.pub>
+References: <1461871306-2466-1-git-send-email-geiseri@geekcentral.pub>
+	<1461917940.5465.74.camel@linuxfoundation.org>
+	<15461a3e2b1.db27b2f76194.3175716769885720576@geekcentral.pub>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Cc: "<openembedded-core@lists.openembedded.org>"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Allow different filesystems to be used for VM images.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,34 +39,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Apr 2016 10:56:24 -0000
+X-List-Received-Date: Fri, 29 Apr 2016 11:10:59 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The official download servers www.[country].apace.org only host the latest
-release, so the URL is only valid when the recipe is fully up to date.
+On Fri, 2016-04-29 at 06:50 -0400, Ian Geiser wrote:
+>  ---- On Fri, 29 Apr 2016 04:19:00 -0400 Richard Purdie <
+> richard.purdie@linuxfoundation.org> wrote ---- 
+>  > On Thu, 2016-04-28 at 15:21 -0400, Ian Reinhart Geiser wrote: 
+>  > > This allows for things like btrfs to be used vs just ext4. 
+>  > > The default value of ext4 is kept so there is no functional 
+>  > > change unless ROOTFS_TYPE is set in the inherting recipe. 
+>  > >  
+>  > > Signed-off-by: Ian Reinhart Geiser <geiseri@geekcentral.pub> 
+>  > > --- 
+>  > >  meta/classes/image-vm.bbclass | 13 +++++++------ 
+>  > >  1 file changed, 7 insertions(+), 6 deletions(-) 
+>  >  
+>  >  
+>  > This seems reasonable but could I ask you to use a variable name
+> with 
+>  > "VM" in the name please? 
+>  >  
+>  > I appreciate some of the existing ones don't do this but moving
+> forward 
+>  > we need to try and better namespace some of these class specific 
+>  > variables and this seems like a good place to start. 
+>  >  
+>  > VM_ROOTFS_TYPE would be better for example (or VMIMG_ROOTFS_TYPE).
+>  >  
+> The other ones have foo_VM in the name.  Would ROOTFS_TYPE_VM be
+> acceptable?
 
-In the general case this isn't a problem as our mirror list includes
-archive.apache.org, but the upstream URI checking (the checkuri task) fails as
-that explicitly doesn't use the mirrors.
+I'd really prefer to try and use a prefix since otherwise its harder to
+know this is from the VM class rather than the rootfs classes which
+already heavily use ROOTFS_*...
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cheers,
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 66646c8..1c4175f 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -572,7 +572,7 @@ BBLAYERS_FETCH_DIR ??= "${COREBASE}"
- # Download locations and utilities.
- ##################################################################
- 
--APACHE_MIRROR = "http://www.eu.apache.org/dist/"
-+APACHE_MIRROR = "http://archive.apache.org/dist"
- DEBIAN_MIRROR = "ftp://ftp.debian.org/debian/pool"
- GENTOO_MIRROR = "http://distfiles.gentoo.org/distfiles"
- GNOME_GIT = "git://git.gnome.org"
--- 
-2.8.0.rc3
-
+Richard
 
