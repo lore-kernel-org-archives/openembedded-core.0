@@ -1,48 +1,46 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 81CCF770D0
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qg0-f44.google.com (mail-qg0-f44.google.com
+	[209.85.192.44])
+	by mail.openembedded.org (Postfix) with ESMTP id D420D6FF97
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Apr 2016 17:46:08 +0000 (UTC)
-Received: by mail-wm0-f47.google.com with SMTP id g17so48012038wme.1
+	Fri, 29 Apr 2016 20:35:20 +0000 (UTC)
+Received: by mail-qg0-f44.google.com with SMTP id 90so32046552qgz.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Apr 2016 10:46:09 -0700 (PDT)
+	Fri, 29 Apr 2016 13:35:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=ER7xvoUi+zKMvtucV1CSgUZNa6kbqtINcpo3al0uDKo=;
-	b=Q4deHwvcPUOIQGz6t1HAQQk5B2eNLIADRDMC/jeMfhsCWxtlAx+aZXWcK52hbJh6PG
-	qlRP7Wg4Wf1qlwXwmR8WitQabAvCpz3XdfCf9X2WpzngRccVYkl5fPctAShHDdKCPGVi
-	lNklCmx+6qgANTXPaTFXMbn8ihPH8n5iyL6WJ+dOQO2NF0g3U0gz/jvpUT8xlw9Zcvba
-	AzlrjHjGxxtgNRNYbxmaJDwBtgVRlPVqd04xOmfGrHYIIQCbwKkctwTWc8IOz8dIYGyc
-	3dxZxJm3FTmk05bQxbf/BlWmLe95rdsRgtWdQohlnlDeVLUmCu1f8haeiIsGPHuHqDsj
-	GY3A==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=5mPM1MBde4N4DoERIn8sbULAuzJUpDzf6/rPIZwaap8=;
+	b=J5Hgg0fS8nd/n5dpU5TkylzuuvkX0qxfOUK8ZByS9ctm952RgX1PqLIypUWiauWxed
+	CtzxvIilvfOelrabN8W8ZZsKpgA0MOUAREfOEiI/58HmvDSf/BLRyBVEny2FEJspKHMZ
+	XfplDTtwf0cFfMjZG4Y7SWAc+rv30e1ECI7Qj+FqeLB1MYmdrrdFz4TJuACFiJ+dpIyz
+	xPFvS0m4vs86WkQwAeRVRee8kfkk4k1QKcnyImNNEkK0zpB9yhNqz7jCk5g0pyKfHz17
+	hrNQUK8Ju64iSfrYyoFmPzZkWr0WTCM2BZ3A+5Q5Py94+h3NYlAOdmFTe8SF/kxRtzdk
+	wBDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=ER7xvoUi+zKMvtucV1CSgUZNa6kbqtINcpo3al0uDKo=;
-	b=EnPzJUEfFi7rCHj+3vE87w9ZPNvag8vFf+ZDJ69PYAWuY6VsjP8PKF5lxnvUZ9Pc4f
-	jnqcz0ADuhOROiVBib+MZv9Xbg5eZmeqFVcd/9gt8un38HPoQCqwwrXg2CTVT5e5PtTY
-	jzZXleTl+pCpb+dRpmCoxtxlsNrgsx++i/NYUwk6CD60SP4xEE10fuOQfFpUG7gyz1lX
-	tzPdUVvy78+G8N0zbVx57CX+6c8TTwMo0NxP/y2S7bU894RXckDaeyJlY1j2HHNH2BQq
-	YxKExtNKD0zqLj/WTfYpGLL/pkT5pZoE9cqQiLT4yMEPqH2QquIojspCJZXOp58lmyu8
-	2zdA==
-X-Gm-Message-State: AOPr4FXUtpqw/WLUtWIW78yRyOCW9shPCBs0jfR9bJk3y5hxvvWXrL0LNzf66dSX9Ktz5g==
-X-Received: by 10.194.115.39 with SMTP id jl7mr841563wjb.81.1461951968325;
-	Fri, 29 Apr 2016 10:46:08 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	g132sm4392484wme.0.2016.04.29.10.46.06
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 29 Apr 2016 10:46:06 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 29 Apr 2016 19:46:10 +0200
-Message-Id: <1461951970-1225-2-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <1461951970-1225-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1461951970-1225-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: [PATCH 2/2] core-image-{minimal, testmaster}-initramfs: set COMPATIBLE_HOST
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=5mPM1MBde4N4DoERIn8sbULAuzJUpDzf6/rPIZwaap8=;
+	b=h01AYhjNM3x0LsySK1UfjrWe1F/uBFKLTYYv3sFYS34y8huWqYWs0EABEP4TNCDofV
+	+m3AxhVqVJBkqzLMgD0G7pKH0WDb9C6q/0rH8giQvVXz6hHNKb5iQ/bF1QrYgajMHd31
+	56TPbf/qdY9BwH1gdVaNoSF6XIAM/MRFBWBODilaNsqMT0nynoSkLwNX/tqPuoTug1JT
+	IbSOExIQ4d7juAwWCy3DUrt9V3BCNnaQ11UDRu1Z5qAMVVZo+PS3Qfv/GxkYhlMubMcE
+	k8bp0W/O3l17Q8SZDXAIkfIwOofUUk5qayk3rkZiOBN+10OiQteQ73B8re79aImSrYlx
+	yr1Q==
+X-Gm-Message-State: AOPr4FWpTk6VxFPV5PuQ9YgEYb4IojCr6BAMSTQZPfa16RhtltGVSVvKpm67fb5FkidYPT5r90DJCOypWjoMXw==
+X-Received: by 10.140.196.74 with SMTP id r71mr21755560qha.41.1461962121079;
+	Fri, 29 Apr 2016 13:35:21 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.55.130.196 with HTTP; Fri, 29 Apr 2016 13:34:51 -0700 (PDT)
+In-Reply-To: <1461761088-15117-1-git-send-email-alexander.kanavin@linux.intel.com>
+References: <1461761088-15117-1-git-send-email-alexander.kanavin@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 29 Apr 2016 13:34:51 -0700
+Message-ID: <CAMKF1spLRX=XrS+Kf8GeC=XufwtTPxQJ-oeEQHH1ay2sOZb4Wg@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] arch-powerpc64.inc: disable the use of qemu usermode on ppc64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,54 +53,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Apr 2016 17:46:09 -0000
+X-List-Received-Date: Fri, 29 Apr 2016 20:35:23 -0000
+Content-Type: text/plain; charset=UTF-8
 
-* use the same COMPATIBLE_HOST restriction as initramfs-live-install(-testfs)
-  to resolve ugly error when trying to build them e.g. for ARM:
+On Wed, Apr 27, 2016 at 5:44 AM, Alexander Kanavin
+<alexander.kanavin@linux.intel.com> wrote:
+> It simply does not work at all:
+> https://lists.yoctoproject.org/pipermail/yocto/2016-April/029698.html
+>
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> ---
+>  meta/conf/machine/include/powerpc/arch-powerpc64.inc | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/meta/conf/machine/include/powerpc/arch-powerpc64.inc b/meta/conf/machine/include/powerpc/arch-powerpc64.inc
+> index 49419b6..f751c6b 100644
+> --- a/meta/conf/machine/include/powerpc/arch-powerpc64.inc
+> +++ b/meta/conf/machine/include/powerpc/arch-powerpc64.inc
+> @@ -7,6 +7,9 @@ TUNECONFLICTS[m64] = "m32 nf"
+>  TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'm64', ' -m64', '', d)}"
+>  TUNE_ARCH .= "${@bb.utils.contains('TUNE_FEATURES', [ 'm64' ], 'powerpc64', '', d)}"
+>
+> +# user mode qemu doesn't support ppc64
+> +MACHINE_FEATURES_BACKFILL_CONSIDERED_append = " ${@bb.utils.contains('TUNE_FEATURES', 'm64', 'qemu-usermode', '', d)}"
+> +
 
-  ERROR: Nothing RPROVIDES 'initramfs-live-install-testfs' (but /home/jenkins/oe/world/shr-core/openembedded-core/meta/recipes-extended/images/core-image-testmaster-initramfs.bb RDEPENDS on or otherwise requires it)
-  ERROR: initramfs-live-install-testfs was skipped: incompatible with host arm-oe-linux-gnueabi (not in COMPATIBLE_HOST)
-  NOTE: Runtime target 'initramfs-live-install-testfs' is unbuildable, removing...
-  Missing or unbuildable dependency chain was: ['initramfs-live-install-testfs']
-  ERROR: Required build target 'core-image-testmaster-initramfs' has no buildable providers.
-  Missing or unbuildable dependency chain was: ['core-image-testmaster-initramfs', 'initramfs-live-install-testfs']
+should we replace qemu-ppc with qemu-ppc64 instead of disabling it
 
-  ERROR: Nothing RPROVIDES 'initramfs-live-install' (but /home/jenkins/oe/world/shr-core/openembedded-core/meta/recipes-core/images/core-image-minimal-initramfs.bb RDEPENDS on or otherwise requires it)
-  ERROR: initramfs-live-install was skipped: incompatible with host arm-oe-linux-gnueabi (not in COMPATIBLE_HOST)
-  NOTE: Runtime target 'initramfs-live-install' is unbuildable, removing...
-  Missing or unbuildable dependency chain was: ['initramfs-live-install']
-  ERROR: Required build target 'core-image-minimal-initramfs' has no buildable providers.
-  Missing or unbuildable dependency chain was: ['core-image-minimal-initramfs', 'initramfs-live-install']
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-core/images/core-image-minimal-initramfs.bb        | 3 +++
- meta/recipes-extended/images/core-image-testmaster-initramfs.bb | 3 +++
- 2 files changed, 6 insertions(+)
-
-diff --git a/meta/recipes-core/images/core-image-minimal-initramfs.bb b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-index 8d7c0d2..5794a25 100644
---- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
-+++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-@@ -20,3 +20,6 @@ IMAGE_ROOTFS_SIZE = "8192"
- IMAGE_ROOTFS_EXTRA_SPACE = "0"
- 
- BAD_RECOMMENDATIONS += "busybox-syslog"
-+
-+# Use the same restriction as initramfs-live-install
-+COMPATIBLE_HOST = "(i.86|x86_64).*-linux"
-diff --git a/meta/recipes-extended/images/core-image-testmaster-initramfs.bb b/meta/recipes-extended/images/core-image-testmaster-initramfs.bb
-index ad1407c..09a6d16 100644
---- a/meta/recipes-extended/images/core-image-testmaster-initramfs.bb
-+++ b/meta/recipes-extended/images/core-image-testmaster-initramfs.bb
-@@ -18,3 +18,6 @@ inherit core-image
- IMAGE_ROOTFS_SIZE = "8192"
- IMAGE_ROOTFS_EXTRA_SPACE = "0"
- BAD_RECOMMENDATIONS += "busybox-syslog"
-+
-+# Use the same restriction as initramfs-live-install-testfs
-+COMPATIBLE_HOST = "(i.86|x86_64).*-linux"
--- 
-2.8.1
-
+>  AVAILTUNES += "powerpc64"
+>  TUNE_FEATURES_tune-powerpc64 = "m64 fpu-hard"
+>  BASE_LIB_tune-powerpc64 = "lib64"
+> --
+> 2.8.0.rc3
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
