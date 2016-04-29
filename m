@@ -1,48 +1,59 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id C3A33770C6
+	by mail.openembedded.org (Postfix) with ESMTP id 8C904770C6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Apr 2016 17:03:52 +0000 (UTC)
+	Fri, 29 Apr 2016 17:04:37 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 820ED2E213
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Apr 2016 19:03:51 +0200 (CEST)
+	by bes.se.axis.com (Postfix) with ESMTP id A04F32E21C;
+	Fri, 29 Apr 2016 19:04:37 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
 Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id fKXjNNotcEgx
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Apr 2016 19:03:47 +0200 (CEST)
+	port 10024)
+	with LMTP id nUivkQOIVZ1D; Fri, 29 Apr 2016 19:04:36 +0200 (CEST)
 Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bes.se.axis.com (Postfix) with ESMTP id 2A6F12E1D3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Apr 2016 19:03:47 +0200 (CEST)
+	by bes.se.axis.com (Postfix) with ESMTP id C99A92E1D3;
+	Fri, 29 Apr 2016 19:04:36 +0200 (CEST)
 Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 0CEF315A2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Apr 2016 19:03:47 +0200 (CEST)
-Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.se.axis.com (Postfix) with ESMTP id 022021562
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Apr 2016 19:03:47 +0200 (CEST)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id 004B810E2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Apr 2016 19:03:47 +0200 (CEST)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u3TH3kNg011350
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Apr 2016 19:03:46 +0200
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u3TH3kRO011349
-	for openembedded-core@lists.openembedded.org;
-	Fri, 29 Apr 2016 19:03:46 +0200
+	by postfix.imss71 (Postfix) with ESMTP id B079115B6;
+	Fri, 29 Apr 2016 19:04:36 +0200 (CEST)
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by boulder.se.axis.com (Postfix) with ESMTP id A5A5F15A2;
+	Fri, 29 Apr 2016 19:04:36 +0200 (CEST)
+Received: from XBOX01.axis.com (xbox01.axis.com [10.0.5.15])
+	by thoth.se.axis.com (Postfix) with ESMTP id A3B28102A;
+	Fri, 29 Apr 2016 19:04:36 +0200 (CEST)
+Received: from xbox12.axis.com (10.0.5.26) by XBOX01.axis.com (10.0.5.15) with
+	Microsoft SMTP Server (TLS) id 15.0.1156.6;
+	Fri, 29 Apr 2016 19:04:36 +0200
+Received: from XBOX02.axis.com (10.0.5.16) by xbox12.axis.com (10.0.5.26) with
+	Microsoft SMTP Server (TLS) id 15.0.1156.6;
+	Fri, 29 Apr 2016 19:04:36 +0200
+Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
+	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%22]) with mapi id
+	15.00.1156.000; Fri, 29 Apr 2016 19:04:36 +0200
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 29 Apr 2016 19:03:44 +0200
-Message-Id: <cover.1461949389.git.pkj@axis.com>
-X-Mailer: git-send-email 2.1.0
-Subject: [PATCHv2 0/1] Improve how to determine METADATA_REVISION
+To: Christopher Larson <clarson@kergoth.com>
+Thread-Topic: [OE-core] [PATCH 1/1] metadata_scm.bbclass: Do not assume
+	${COREBASE} is a Git repo
+Thread-Index: AQHRoMMwN+hDDSArfEqroKVsmMmb6p+fC5+ggABidgCAAcKrQA==
+Date: Fri, 29 Apr 2016 17:04:36 +0000
+Message-ID: <db985820653d42cda17ec12536b2fb0a@XBOX02.axis.com>
+References: <cover.1461700116.git.pkj@axis.com>
+	<80df31c476967370f13a104cc5a777cd5127ef1b.1461700116.git.pkj@axis.com>
+	<CABcZANmw0D1xZsFQZYYxyQDwbj3P_8Ab1CO0k52f2XpKbUUwFg@mail.gmail.com>
+	<fe76014a152542ac8ef2113f0406524d@XBOX02.axis.com>
+	<CABcZAN=gOTC06DM5jAntbt6iPaf35J5ydy9gHtw8ZRpR7BCGxw@mail.gmail.com>
+In-Reply-To: <CABcZAN=gOTC06DM5jAntbt6iPaf35J5ydy9gHtw8ZRpR7BCGxw@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.55]
+MIME-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] metadata_scm.bbclass: Do not assume ${COREBASE} is a Git repo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,49 +66,144 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Apr 2016 17:03:53 -0000
+X-List-Received-Date: Fri, 29 Apr 2016 17:04:39 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_db985820653d42cda17ec12536b2fb0aXBOX02axiscom_"
 
-We noticed that METADATA_REVISION was always set to '<unknown>' in our
-builds. It turned out that this was because the code in
-metadata_scm.bbclass that sets it assumed that ${COREBASE} contains a
-repository. This may be true when working with Poky, but is not
-necessarily true for other setups. E.g., in our setup we clone Poky,
-OpenEmbedded and other repositories using the repo tool and then
-create symbolic links from the base directory to the parts that we
-want. Since ${COREBASE} is defined based on the path to the meta
-layer, it should be a better option to use ${COREBASE}/meta when
-looking for the SCM meta information.
+--_000_db985820653d42cda17ec12536b2fb0aXBOX02axiscom_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Since this works as expected for Git but not SVN, I removed the option
-to call base_get_metadata_svn_revision() from
-base_detect_revision(). I doubt this should affect anyone (partly
-based on the comment in base_get_metadata_svn_revision()), but if this
-is not acceptable, it should be trivial to change the code so the meta
-directory is only used when looking for Git meta information. However,
-since it would require the introduction of two functions to wrap the
-Git functions, I refrained from this option until requested otherwise.
+SSBoYXZlIHNlbnQgYW4gdXBkYXRlZCBwYXRjaCBub3cgd2l0aCB0aGUgY29tbWl0IG1lc3NhZ2Ug
+YW1lbmRlZC4NCg0KLy9QZXRlcg0KDQpGcm9tOiBrZXJnb3RoQGdtYWlsLmNvbSBbbWFpbHRvOmtl
+cmdvdGhAZ21haWwuY29tXSBPbiBCZWhhbGYgT2YgQ2hyaXN0b3BoZXIgTGFyc29uDQpTZW50OiBk
+ZW4gMjggYXByaWwgMjAxNiAxODoxMQ0KVG86IFBldGVyIEtqZWxsZXJzdGVkdA0KQ2M6IFBhdGNo
+ZXMgYW5kIGRpc2N1c3Npb25zIGFib3V0IHRoZSBvZS1jb3JlIGxheWVyDQpTdWJqZWN0OiBSZTog
+W09FLWNvcmVdIFtQQVRDSCAxLzFdIG1ldGFkYXRhX3NjbS5iYmNsYXNzOiBEbyBub3QgYXNzdW1l
+ICR7Q09SRUJBU0V9IGlzIGEgR2l0IHJlcG8NCg0KT24gVGh1LCBBcHIgMjgsIDIwMTYgYXQgNzoz
+NCBBTSwgUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb208bWFp
+bHRvOnBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT4+IHdyb3RlOg0KWWVzLCBpdCB3YXMgaW50
+ZW50aW9uYWwuIEkgbWVudGlvbmVkIHRoaXMgaW4gdGhlIGNvdmVyIGxldHRlci4gSSBjYW4gb2Yg
+Y291cnNlIGFkZCBzb21ldGhpbmcgYWJvdXQgaXQgdG8gdGhlIGNvbW1pdCBtZXNzYWdlIGFzIHdl
+bGwgaWYgeW91IGxpa2UuDQoNClRoYXQncyB3aGF0IGEgY29tbWl0IG1lc3NhZ2UgaXMgZm9yLCB5
+ZXMsIHRvIGRlc2NyaWJlIHdoeSBzb21ldGhpbmcgaXMgYmVpbmcgY2hhbmdlZC4gVGhlIGNvdmVy
+IGxldHRlciBpc24ndCBnb2luZyB0byBlbmQgdXAgaW4gdGhlIGdpdCBoaXN0b3J5LiBJZiBpdCBo
+YXNuJ3QgeWV0IGJlZW4gbWVyZ2VkLCBJIHRoaW5rIGl0J2QgYmUgbmljZSB0byBnZXQgaXQgaW1w
+cm92ZWQsIHNvIHNvbWVvbmUgbG9va2luZyBhdCB0aGUgbG9ncyBsYXRlciB1bmRlcnN0YW5kcyB0
+aGUgaW50ZW50aW9uLiBUaGFua3MuDQoNCg0KLSAgICBzY21zID0gW2Jhc2VfZ2V0X21ldGFkYXRh
+X2dpdF9yZXZpc2lvbiwgXA0KLSAgICAgICAgICAgIGJhc2VfZ2V0X21ldGFkYXRhX3N2bl9yZXZp
+c2lvbl0NCisgICAgc2NtcyA9IFtiYXNlX2dldF9tZXRhZGF0YV9naXRfcmV2aXNpb25dDQoNCldh
+cyB0aGlzIGNoYW5nZSBpbnRlbmRlZD8gQmVjYXVzZSBpdCBkb2Vzbid0IG1hdGNoIHVwIHdpdGgg
+dGhlIGNvbW1pdCBtZXNzYWdlLCBhcyBmYXIgYXMgSSBjYW4gc2VlLg0KLS0NCkNocmlzdG9waGVy
+IExhcnNvbg0KY2xhcnNvbiBhdCBrZXJnb3RoIGRvdCBjb20NCkZvdW5kZXIgLSBCaXRCYWtlLCBP
+cGVuRW1iZWRkZWQsIE9wZW5aYXVydXMNCk1haW50YWluZXIgLSBUc2xpYg0KU2VuaW9yIFNvZnR3
+YXJlIEVuZ2luZWVyLCBNZW50b3IgR3JhcGhpY3MNCg==
 
-PATCHv2: Added note about the removed call to
-base_get_metadata_svn_revision() to the commit message.
+--_000_db985820653d42cda17ec12536b2fb0aXBOX02axiscom_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-//Peter
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
+IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
+Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
+DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
+b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
+Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
+dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxNw0K
+CXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIs
+c2Fucy1zZXJpZjsNCgljb2xvcjojOTQzNjM0Ow0KCWZvbnQtd2VpZ2h0Om5vcm1hbDsNCglmb250
+LXN0eWxlOm5vcm1hbDsNCgl0ZXh0LWRlY29yYXRpb246bm9uZSBub25lO30NCi5Nc29DaHBEZWZh
+dWx0DQoJe21zby1zdHlsZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJp
+IixzYW5zLXNlcmlmO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjYxMi4wcHQgNzkyLjBw
+dDsNCgltYXJnaW46NzIuMHB0IDcyLjBwdCA3Mi4wcHQgNzIuMHB0O30NCmRpdi5Xb3JkU2VjdGlv
+bjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lmIGd0ZSBtc28gOV0+
+PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9IjEwMjYiIC8+DQo8
+L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlbGF5b3V0
+IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIxIiAvPg0KPC9vOnNo
+YXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJvZHkgbGFuZz0iRU4tVVMi
+IGxpbms9ImJsdWUiIHZsaW5rPSJwdXJwbGUiPg0KPGRpdiBjbGFzcz0iV29yZFNlY3Rpb24xIj4N
+CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQt
+ZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojOTQzNjM0Ij5JIGhh
+dmUgc2VudCBhbiB1cGRhdGVkIHBhdGNoIG5vdyB3aXRoIHRoZSBjb21taXQgbWVzc2FnZSBhbWVu
+ZGVkLjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0
+eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fu
+cy1zZXJpZjtjb2xvcjojOTQzNjM0Ij48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBj
+bGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWls
+eTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6Izk0MzYzNCI+Ly9QZXRlcjxv
+OnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJm
+b250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJp
+Zjtjb2xvcjojOTQzNjM0Ij48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2IHN0eWxl
+PSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCBibHVlIDEuNXB0O3BhZGRpbmc6MGNtIDBj
+bSAwY20gNC4wcHQiPg0KPGRpdj4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6
+c29saWQgI0UxRTFFMSAxLjBwdDtwYWRkaW5nOjMuMHB0IDBjbSAwY20gMGNtIj4NCjxwIGNsYXNz
+PSJNc29Ob3JtYWwiPjxiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5
+OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIHN0
+eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fu
+cy1zZXJpZiI+IGtlcmdvdGhAZ21haWwuY29tIFttYWlsdG86a2VyZ290aEBnbWFpbC5jb21dDQo8
+Yj5PbiBCZWhhbGYgT2YgPC9iPkNocmlzdG9waGVyIExhcnNvbjxicj4NCjxiPlNlbnQ6PC9iPiBk
+ZW4gMjggYXByaWwgMjAxNiAxODoxMTxicj4NCjxiPlRvOjwvYj4gUGV0ZXIgS2plbGxlcnN0ZWR0
+PGJyPg0KPGI+Q2M6PC9iPiBQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29y
+ZSBsYXllcjxicj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW09FLWNvcmVdIFtQQVRDSCAxLzFdIG1l
+dGFkYXRhX3NjbS5iYmNsYXNzOiBEbyBub3QgYXNzdW1lICR7Q09SRUJBU0V9IGlzIGEgR2l0IHJl
+cG88bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05v
+cm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
+T24gVGh1LCBBcHIgMjgsIDIwMTYgYXQgNzozNCBBTSwgUGV0ZXIgS2plbGxlcnN0ZWR0ICZsdDs8
+YSBocmVmPSJtYWlsdG86cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tIiB0YXJnZXQ9Il9ibGFu
+ayI+cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPC9hPiZndDsgd3JvdGU6PG86cD48L286cD48
+L3A+DQo8ZGl2Pg0KPGRpdj4NCjxibG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXIt
+bGVmdDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGNtIDBjbSAwY20gNi4wcHQ7bWFyZ2lu
+LWxlZnQ6NC44cHQ7bWFyZ2luLXJpZ2h0OjBjbSI+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiIHN0eWxlPSJtc28tbWFyZ2luLXRvcC1hbHQ6YXV0bzttc28tbWFyZ2luLWJvdHRv
+bS1hbHQ6YXV0byI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1
+b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiM5NDM2MzQiPlllcywgaXQgd2FzIGlu
+dGVudGlvbmFsLiBJIG1lbnRpb25lZCB0aGlzIGluIHRoZSBjb3ZlciBsZXR0ZXIuIEkgY2FuIG9m
+IGNvdXJzZSBhZGQgc29tZXRoaW5nIGFib3V0DQogaXQgdG8gdGhlIGNvbW1pdCBtZXNzYWdlIGFz
+IHdlbGwgaWYgeW91IGxpa2UuPC9zcGFuPjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4N
+CjwvYmxvY2txdW90ZT4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwv
+bzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlRoYXQncyB3aGF0
+IGEgY29tbWl0IG1lc3NhZ2UgaXMgZm9yLCB5ZXMsIHRvIGRlc2NyaWJlIHdoeSBzb21ldGhpbmcg
+aXMgYmVpbmcgY2hhbmdlZC4gVGhlIGNvdmVyIGxldHRlciBpc24ndCBnb2luZyB0byBlbmQgdXAg
+aW4gdGhlIGdpdCBoaXN0b3J5LiBJZiBpdCBoYXNuJ3QgeWV0IGJlZW4gbWVyZ2VkLCBJIHRoaW5r
+IGl0J2QgYmUgbmljZSB0byBnZXQgaXQgaW1wcm92ZWQsIHNvIHNvbWVvbmUgbG9va2luZyBhdA0K
+IHRoZSBsb2dzIGxhdGVyIHVuZGVyc3RhbmRzIHRoZSBpbnRlbnRpb24uIFRoYW5rcy48bzpwPjwv
+bzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPiZuYnNwOzxvOnA+
+PC9vOnA+PC9wPg0KPC9kaXY+DQo8YmxvY2txdW90ZSBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVy
+LWxlZnQ6c29saWQgI0NDQ0NDQyAxLjBwdDtwYWRkaW5nOjBjbSAwY20gMGNtIDYuMHB0O21hcmdp
+bi1sZWZ0OjQuOHB0O21hcmdpbi1yaWdodDowY20iPg0KPGRpdj4NCjxkaXY+DQo8ZGl2IHN0eWxl
+PSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCBibHVlIDEuNXB0O3BhZGRpbmc6MGNtIDBj
+bSAwY20gNC4wcHQiPg0KPGRpdj4NCjxkaXY+DQo8ZGl2Pg0KPGRpdj4NCjxkaXY+DQo8YmxvY2tx
+dW90ZSBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgI0NDQ0NDQyAxLjBwdDtw
+YWRkaW5nOjBjbSAwY20gMGNtIDYuMHB0O21hcmdpbi1sZWZ0OjQuOHB0O21hcmdpbi10b3A6NS4w
+cHQ7bWFyZ2luLXJpZ2h0OjBjbTttYXJnaW4tYm90dG9tOjUuMHB0Ij4NCjxwIGNsYXNzPSJNc29O
+b3JtYWwiIHN0eWxlPSJtc28tbWFyZ2luLXRvcC1hbHQ6YXV0bzttc28tbWFyZ2luLWJvdHRvbS1h
+bHQ6YXV0byI+PGJyPg0KLSZuYnNwOyAmbmJzcDsgc2NtcyA9IFtiYXNlX2dldF9tZXRhZGF0YV9n
+aXRfcmV2aXNpb24sIFw8YnI+DQotJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAm
+bmJzcDsgYmFzZV9nZXRfbWV0YWRhdGFfc3ZuX3JldmlzaW9uXTxicj4NCiYjNDM7Jm5ic3A7ICZu
+YnNwOyBzY21zID0gW2Jhc2VfZ2V0X21ldGFkYXRhX2dpdF9yZXZpc2lvbl08bzpwPjwvbzpwPjwv
+cD4NCjwvYmxvY2txdW90ZT4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibXNv
+LW1hcmdpbi10b3AtYWx0OmF1dG87bXNvLW1hcmdpbi1ib3R0b20tYWx0OmF1dG8iPiZuYnNwOzxv
+OnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9
+Im1zby1tYXJnaW4tdG9wLWFsdDphdXRvO21zby1tYXJnaW4tYm90dG9tLWFsdDphdXRvIj5XYXMg
+dGhpcyBjaGFuZ2UgaW50ZW5kZWQ/IEJlY2F1c2UgaXQgZG9lc24ndCBtYXRjaCB1cCB3aXRoIHRo
+ZSBjb21taXQgbWVzc2FnZSwgYXMgZmFyIGFzIEkgY2FuIHNlZS48bzpwPjwvbzpwPjwvcD4NCjwv
+ZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9k
+aXY+DQo8L2Rpdj4NCjwvYmxvY2txdW90ZT4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
+LS0gPG86cD48L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Q2hyaXN0b3Bo
+ZXIgTGFyc29uPGJyPg0KY2xhcnNvbiBhdCBrZXJnb3RoIGRvdCBjb208YnI+DQpGb3VuZGVyIC0g
+Qml0QmFrZSwgT3BlbkVtYmVkZGVkLCBPcGVuWmF1cnVzPGJyPg0KTWFpbnRhaW5lciAtIFRzbGli
+PGJyPg0KU2VuaW9yIFNvZnR3YXJlIEVuZ2luZWVyLCBNZW50b3IgR3JhcGhpY3M8bzpwPjwvbzpw
+PjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8
+L2h0bWw+DQo=
 
-The following changes since commit f7b520878babbaa7527151f22c031ae160512753:
-
-  poky: Switch to post release name/version (2016-04-29 07:58:46 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib pkj/metadata_scm
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/metadata_scm
-
-Peter Kjellerstedt (1):
-  metadata_scm.bbclass: Do not assume ${COREBASE} is a Git repo
-
- meta/classes/metadata_scm.bbclass | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
--- 
-2.1.0
-
-
+--_000_db985820653d42cda17ec12536b2fb0aXBOX02axiscom_--
