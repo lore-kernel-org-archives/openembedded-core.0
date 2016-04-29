@@ -1,29 +1,29 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F1E871951
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 2461F6FF25
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Apr 2016 04:55:59 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP; 28 Apr 2016 21:56:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,550,1455004800"; d="scan'208";a="942620776"
-Received: from ychia3-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.143.114])
-	by orsmga001.jf.intel.com with ESMTP; 28 Apr 2016 21:55:57 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Alexander Kanevskiy <kad@kad.name>, Ed Bartosh <ed.bartosh@linux.intel.com>
-Date: Fri, 29 Apr 2016 16:55:55 +1200
-Message-ID: <9947705.d0hNahSzfP@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.4.7-300.fc23.x86_64; KDE/4.14.18; x86_64; ;
-	)
-In-Reply-To: <CANFkWpnEAFoBRf=oAnKLUasuVhxDgoYswk_o0s3HFT-4W8yiMw@mail.gmail.com>
-References: <cover.1461749328.git.ed.bartosh@linux.intel.com>
-	<c32880f5e89776d3515079d6c8ebe86111cb10ed.1461749328.git.ed.bartosh@linux.intel.com>
-	<CANFkWpnEAFoBRf=oAnKLUasuVhxDgoYswk_o0s3HFT-4W8yiMw@mail.gmail.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 1/3] bmap-tools: initial commit, version 3.2
+	Fri, 29 Apr 2016 08:19:12 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u3T8J6DJ002785; Fri, 29 Apr 2016 09:19:06 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id kHFU6ceUBP-D; Fri, 29 Apr 2016 09:19:06 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u3T8J0O4002778
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 29 Apr 2016 09:19:02 +0100
+Message-ID: <1461917940.5465.74.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ian Reinhart Geiser <geiseri@geekcentral.pub>,
+	openembedded-core@lists.openembedded.org
+Date: Fri, 29 Apr 2016 09:19:00 +0100
+In-Reply-To: <1461871306-2466-1-git-send-email-geiseri@geekcentral.pub>
+References: <1461871306-2466-1-git-send-email-geiseri@geekcentral.pub>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH] Allow different filesystems to be used for VM images.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,90 +36,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Apr 2016 04:56:00 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 29 Apr 2016 08:19:15 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, 29 Apr 2016 01:07:56 Alexander Kanevskiy wrote:
-> On Wed, Apr 27, 2016 at 12:36 PM, Ed Bartosh <ed.bartosh@linux.intel.com>
+On Thu, 2016-04-28 at 15:21 -0400, Ian Reinhart Geiser wrote:
+> This allows for things like btrfs to be used vs just ext4.
+> The default value of ext4 is kept so there is no functional
+> change unless ROOTFS_TYPE is set in the inherting recipe.
 > 
-> wrote:
-> > Bmap-tools - tools to generate block map (AKA bmap) and flash images
-> > using bmap. Bmaptool is a generic tool for creating the block map
-> > (bmap) for a file and copying files using the block map.
-> > 
-> > The idea is that large file containing unused blocks, like raw system
-> > image files, can be copied or flashed a lot faster with bmaptool than
-> > with traditional tools like "dd" or "cp".
-> > 
-> > [YOCTO #9414]
-> > 
-> > Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-> > ---
-> > 
-> >  meta/recipes-support/bmap-tools/bmap-tools_3.2.bb | 24
-> > 
-> > +++++++++++++++++++++++
-> > 
-> >  1 file changed, 24 insertions(+)
-> >  create mode 100644 meta/recipes-support/bmap-tools/bmap-tools_3.2.bb
-> > 
-> > diff --git a/meta/recipes-support/bmap-tools/bmap-tools_3.2.bb
-> > b/meta/recipes-support/bmap-tools/bmap-tools_3.2.bb
-> > new file mode 100644
-> > index 0000000..e10f5fd
-> > --- /dev/null
-> > +++ b/meta/recipes-support/bmap-tools/bmap-tools_3.2.bb
-> > @@ -0,0 +1,24 @@
-> > +SUMMARY = "Tools to generate block map (AKA bmap) and flash images using
-> > bmap"
-> > +DESCRIPTION = "Bmap-tools - tools to generate block map (AKA bmap) and
-> > flash images using \
-> > +bmap. Bmaptool is a generic tool for creating the block map (bmap) for a
-> > file, \
-> > +and copying files using the block map. The idea is that large file
-> > containing \
-> > +unused blocks, like raw system image files, can be copied or flashed a
-> > lot \
-> > +faster with bmaptool than with traditional tools like "dd" or "cp"."
-> > +HOMEPAGE = "http://git.infradead.org/users/dedekind/bmap-tools.git"
-> > +SECTION = "console/utils"
-> > +LICENSE = "GPLv2"
-> > +LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
-> > +
-> > +SRC_URI = "ftp://ftp.infradead.org/pub/${BPN}/${BPN}-${PV}.tgz"
-> > +SRC_URI[md5sum] = "92cdad1cb4dfa0cca7176c8e22752616"
-> > +SRC_URI[sha256sum] =
-> > "cc6c7f7dc0a37e2a32deb127308e24e6c4b80bfb54f3803c308efab02bf2d434"
-> > +
-> > +RDEPENDS_${PN} = "python-core python-compression"
-> > +
-> > +inherit setuptools
-> > +
-> > +BBCLASSEXTEND = "native"
-> > +
-> > +do_install_append_class-native() {
-> > +    sed -i -e 's|^#!.*/usr/bin/env python|#! /usr/bin/env nativepython|'
-> > ${D}${bindir}/bmaptool
-> > +}
-> 
-> better to use recipe that would create in deploy/tools standalone version
-> of the tool.
-> Otherwise, there is no easy way for user to utilize generated bmap files.
+> Signed-off-by: Ian Reinhart Geiser <geiseri@geekcentral.pub>
+> ---
+>  meta/classes/image-vm.bbclass | 13 +++++++------
+>  1 file changed, 7 insertions(+), 6 deletions(-)
 
-You both probably have had notification already, but just to close the loop I 
-found the issue with the do_deploy version, see the comments on bug 9414:
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=9414
+This seems reasonable but could I ask you to use a variable name with
+"VM" in the name please?
+
+I appreciate some of the existing ones don't do this but moving forward
+we need to try and better namespace some of these class specific
+variables and this seems like a good place to start.
+
+VM_ROOTFS_TYPE would be better for example (or VMIMG_ROOTFS_TYPE).
 
 Cheers,
-Paul
 
-Cheers,
-Paul
+Richard
 
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+> diff --git a/meta/classes/image-vm.bbclass b/meta/classes/image
+> -vm.bbclass
+> index 47f7326..50d93d5 100644
+> --- a/meta/classes/image-vm.bbclass
+> +++ b/meta/classes/image-vm.bbclass
+> @@ -23,16 +23,17 @@ do_bootdirectdisk[depends] += "dosfstools
+> -native:do_populate_sysroot \
+>                                 syslinux-native:do_populate_sysroot \
+>                                 parted-native:do_populate_sysroot \
+>                                 mtools-native:do_populate_sysroot \
+> -                               ${PN}:do_image_ext4 \
+> +                               ${PN}:do_image_${ROOTFS_TYPE} \
+>                                 "
+>  
+> -IMAGE_TYPEDEP_vmdk = "ext4"
+> -IMAGE_TYPEDEP_vdi = "ext4"
+> -IMAGE_TYPEDEP_qcow2 = "ext4"
+> -IMAGE_TYPEDEP_hdddirect = "ext4"
+> +IMAGE_TYPEDEP_vmdk = "${ROOTFS_TYPE}"
+> +IMAGE_TYPEDEP_vdi = "${ROOTFS_TYPE}"
+> +IMAGE_TYPEDEP_qcow2 = "${ROOTFS_TYPE}"
+> +IMAGE_TYPEDEP_hdddirect = "${ROOTFS_TYPE}"
+>  IMAGE_TYPES_MASKED += "vmdk vdi qcow2 hdddirect"
+>  
+> -ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.ext4"
+> +ROOTFS_TYPE ?= "ext4"
+> +ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.${ROOTFS_TYPE}"
+>  
+>  # Used by bootloader
+>  LABELS_VM ?= "boot"
+> -- 
+> 2.8.0.rc3
+> 
+> 
 
