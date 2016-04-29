@@ -1,28 +1,29 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 61D0B731F4
+Return-Path: <diego.ml@zoho.com>
+X-Greylist: delayed 903 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 29 Apr 2016 10:40:45 UTC
+Received: from sender153-mail.zoho.com (sender153-mail.zoho.com
+	[74.201.84.153])
+	by mail.openembedded.org (Postfix) with ESMTP id 300E06067C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Apr 2016 10:09:11 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u3TA9Bvf026662
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 29 Apr 2016 03:09:11 -0700 (PDT)
-Received: from [128.224.162.236] (128.224.162.236) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Fri, 29 Apr 2016 03:09:10 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, oe-core
-	<openembedded-core@lists.openembedded.org>
-References: <571EE388.7040107@windriver.com>
-	<1461923108.5465.87.camel@linuxfoundation.org>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <572332C5.4000706@windriver.com>
-Date: Fri, 29 Apr 2016 18:09:09 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.7.2
-MIME-Version: 1.0
-In-Reply-To: <1461923108.5465.87.camel@linuxfoundation.org>
-Subject: Re: Make runqemu knows nothing about machine
+	Fri, 29 Apr 2016 10:40:45 +0000 (UTC)
+DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws; s=zapps768; d=zoho.com; 
+	h=from:to:cc:subject:date:message-id; 
+	b=LxGRfCIkhRbQeLUzG1/pv0wYaIltkLDKtbBl6h/dVFMW5GYeAy7XoufaimNZiL1OEZxuOvOA7+6V
+	aiJxIqjHhTijCRN0heJmKXDX8SXWyuXlalMPyIQXpUy0ZpzfoHy4  
+Received: from localhost.localdomain
+	(host65-246-static.10-188-b.business.telecomitalia.it
+	[188.10.246.65]) by mx.zohomail.com
+	with SMTPS id 1461925530729749.3577307438001;
+	Fri, 29 Apr 2016 03:25:30 -0700 (PDT)
+From: Diego Rondini <diego.ml@zoho.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 29 Apr 2016 12:24:09 +0200
+Message-Id: <1461925449-5768-1-git-send-email-diego.ml@zoho.com>
+X-Mailer: git-send-email 1.9.1
+X-ZohoMail: Z_23712318 SPT_1 SLF_E
+X-Zoho-Virus-Status: 2
+Cc: Diego Rondini <diego.ml@zoho.com>
+Subject: [PATCH] base-files: add some safety checks in profile
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,97 +36,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Apr 2016 10:09:12 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 29 Apr 2016 10:40:48 -0000
+
+Add some safety checks when sourcing files in /etc/profile.d/, in particular:
+- source only *.sh files, not every file. This is the practice in use in both
+  Fedora and Debian/Ubuntu (see
+  https://help.ubuntu.com/community/EnvironmentVariables#A.2Fetc.2Fprofile.d.2F.2A.sh);
+- check the input is actually a file and is readable. This check is especially
+  important if profile.d is empty, as "*.sh" will get expanded only if
+  profile.d is not empty. Previously if profile.d was present but empty,
+  "/etc/profile.d/*" was sourced causing errors on login and breaking stuff, for
+  example X startup.
+
+Signed-off-by: Diego Rondini <diego.ml@zoho.com>
+---
+ meta/recipes-core/base-files/base-files/profile | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-core/base-files/base-files/profile b/meta/recipes-core/base-files/base-files/profile
+index 53c2680..e98e786 100644
+--- a/meta/recipes-core/base-files/base-files/profile
++++ b/meta/recipes-core/base-files/base-files/profile
+@@ -20,8 +20,10 @@ if [ "$PS1" ]; then
+ fi
+ 
+ if [ -d /etc/profile.d ]; then
+-  for i in /etc/profile.d/* ; do
+-    . $i
++  for i in /etc/profile.d/*.sh ; do
++    if [ -f $i -a -r $i ]; then
++      . $i
++    fi
+   done
+   unset i
+ fi
+-- 
+1.9.1
 
 
-
-On 04/29/2016 05:45 PM, Richard Purdie wrote:
-> On Tue, 2016-04-26 at 11:42 +0800, Robert Yang wrote:
->> Hello,
->>
->> The qemu-native can boot a lot of machines, but oe-core's runqemu can
->> only
->> boot a few of them which are hardcoded into runqemu. I'd like to
->> change
->> it little to make it drop the hardcode and can boot more machines.
->> Here
->> are some basic thoughts, please feel free to give your comments.
->>
->> runqemu is a helpful script which can help us boot images easily, but
->> it
->> has a lot of hard code for machine + args. I'd like to remove these
->> from
->> runqemu, and make it as a frame. The logical is that, who knows
->> clearly
->> about whether qemu can boot the machine and how to boot it (args),
->> the
->> answer is the machine/bsp developer, so we can:
->>
->> * Add a var like QEMU_SUPPORTED = "yes/no" in the bsp conf file
->> (default to no)
->> * Add a var like QEMU_BOOT_ARGS = "foo" if there are special args.
->> * Let do_rootfs or do_image_foo write data such as QEMU_BOOT_ARGS to
->>     DEPLOY_DIR_IMAGE/runqemu/ or tmp/deploy/images/runqemu/, we can
->> treat
->>     the "runqemu/" dir as a database, and anything we need there, for
->> example,
->>     efi/pcbios, root args, and so on. We won't miss anything since all
->> the
->>     images which can be boot by runqemu are built by oe-core.
->> * Then we can easily add supported machine to runqemu from the bsp
->> itself
->>     without change runqemu.
->>
->> I will start working on it if there is no objections, and make sure
->> it won't
->> break any current supported machines.
->
-> I guess we have some decisions to make. Firstly, is that script better
-> in shell or python at this point? Originally, shell made sense but I'm
-> starting to wonder if it would be clearer in python.
->
-> If we left it as shell, I'd envisaged it going through something like
-> BBPATH and sourcing files from each of the layers to build up its own
-> list of supported machines. The trouble is we can't easily get BBPATH
-> in the shell environment since we can't assume bitbake and we ideally
-> want it to work outside of our build environment.
-
-Thanks for the reply, my thought is that move part of the implementation
-into a class called runqemu.bbclass (or other names), and leave the runqemu
-as a shell script, when QEMU_BOOT_SUPPORTED = "1", runqemu.bbclass will
-create a:
-tmp/deploy/images/<machine>/runqemu
-
-And the content in runqemu can be: (for example, arm)
-QEMU="/path/to/sysroots/x86_64-linux/usr/bin/qemu-system-arm -m 128 -machine 
-versatilepb  "
-TUNE_ARCH="arm"
-QEMU_DEFAULT_KERNEL="zImage-qemuarm.bin"
-QEMU_DEFAULT_FSTYPE="ext4"
-QEMU_MEM="-m 128"
-[maybe more]
-
-All of these variables can be defined in bsp layer or conf files. I will
-add some default values there according to TUNE_ARCH, so that the bsp may
-not need do anything to boot from qemu when QEMU_BOOT_SUPPORTED = "1".
-
-// Robert
-
->
-> With the development of devtool, I'm wondering if runqemu should become
-> another such "command", written in python and working in any of the
-> environments we'd expect devtool to work (eSDK, main build). If we did
-> that, we'd have the layers and could easily access BBPATH and search
-> for additional modules to add support for additional machines.
->
-> Thoughts?
->
-> Cheers,
->
-> Richard
->
->
->
 
