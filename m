@@ -1,37 +1,60 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 292FB605BA
+Return-Path: <anders@chargestorm.se>
+Received: from mail-lf0-f53.google.com (mail-lf0-f53.google.com
+	[209.85.215.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A807731C8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 May 2016 08:02:50 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga104.fm.intel.com with ESMTP; 02 May 2016 01:02:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,566,1455004800"; d="scan'208";a="695437722"
-Received: from linux.intel.com ([10.23.219.25])
-	by FMSMGA003.fm.intel.com with ESMTP; 02 May 2016 01:02:52 -0700
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.51])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 9A4C06A4007;
-	Mon,  2 May 2016 01:50:25 -0700 (PDT)
-Date: Mon, 2 May 2016 08:43:00 +0300
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Alexander Kanevskiy <kad@kad.name>
-Message-ID: <20160502054300.GA6563@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <cover.1461749328.git.ed.bartosh@linux.intel.com>
-	<c32880f5e89776d3515079d6c8ebe86111cb10ed.1461749328.git.ed.bartosh@linux.intel.com>
-	<CANFkWpnEAFoBRf=oAnKLUasuVhxDgoYswk_o0s3HFT-4W8yiMw@mail.gmail.com>
-	<9947705.d0hNahSzfP@peggleto-mobl.ger.corp.intel.com>
-	<CANFkWpkNKn84OYakUYmD7piyyK=9TLbf=+yM+Zy2mJnqg=wdjA@mail.gmail.com>
+	Mon,  2 May 2016 08:20:29 +0000 (UTC)
+Received: by mail-lf0-f53.google.com with SMTP id j8so47850583lfd.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 02 May 2016 01:20:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
+	h=date:from:to:cc:subject:message-id:mail-followup-to:references
+	:mime-version:content-disposition:in-reply-to:organization
+	:user-agent; bh=k8xzeOVp9oNbBbNgmDh14PUk7nYn0lB3CyYAyPcMEuM=;
+	b=wZmaRjMD6WppZKytScgi7tqfr9p5FHRPReIdWhPotcuyWpoBU1sR4cSEXjdkSaKHfh
+	elavFC+5EGZOm1SffVJDxO802NU8rgdbOkdfH10/xnxAFOGMcBwHmyv+oK2hkg5kc4oX
+	XazX1OSoMON/zW7iKUr9SIfMc4J5FfT5BfnDXpIuEOaskG3J6pPUcs4FPeyOQWPoxAmx
+	c51JZHEirsGmVEmZS8g/IuEGH95szzBF3+RmRdvhvtK/rFgZUDm79ClVNv1Fk8yHYAMe
+	LN2/WtG9WOUlGSMA/BADaIlP2gW5ZaSaY4552LkrjFq7oDa3utdAjRh/A+SCehVLxeGO
+	J8Xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id
+	:mail-followup-to:references:mime-version:content-disposition
+	:in-reply-to:organization:user-agent;
+	bh=k8xzeOVp9oNbBbNgmDh14PUk7nYn0lB3CyYAyPcMEuM=;
+	b=Rd/FvOXOAPMovjFMC5G2Btn/p67w3mJfNd5M8NcXcZMEfF7X3ASDMntmUbVs/MznMQ
+	9lp1B4QTbpK1OVCce4hO3nbWdAgreUXXzcmnr77i0bZlLa/RAyBQTCV+mfqi4wT+nmSR
+	BgB2RqEjdS04PF0onClUtKTJPOh6EX2HLogbFswanVqj8TdD/mc4s8MDPq7ERRTDMXTY
+	RCZmslXGnKTAVU9V1VW8OaRtOAaIe6UUAaABQaCztWV2XANww8+Qt/Hy7my9aVN3rIXX
+	PWNR/jlhgGEVV8YJRMLuES5ocX7SLXWERLYF4IroHtp2WnJ2pKObhVC4UfPWX1nwZTO/
+	jv7g==
+X-Gm-Message-State: AOPr4FUMxWTjrjMNStR7rLdKUtIgXS0Php7pVXLmWvvrTPyoztoKEnPgGE/tvGHWARWu5A==
+X-Received: by 10.112.135.230 with SMTP id pv6mr14247486lbb.68.1462177228350; 
+	Mon, 02 May 2016 01:20:28 -0700 (PDT)
+Received: from ad.chargestorm.se (213-64-218-130-no126.business.telia.com.
+	[213.64.218.130]) by smtp.gmail.com with ESMTPSA id
+	up3sm3961602lbb.15.2016.05.02.01.20.26
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 02 May 2016 01:20:27 -0700 (PDT)
+Date: Mon, 2 May 2016 10:20:25 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20160502082025.GB3522@ad.chargestorm.se>
+Mail-Followup-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+References: <1461333082.31320.121.camel@linuxfoundation.org>
 MIME-Version: 1.0
-In-Reply-To: <CANFkWpkNKn84OYakUYmD7piyyK=9TLbf=+yM+Zy2mJnqg=wdjA@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/3] bmap-tools: initial commit, version 3.2
+In-Reply-To: <1461333082.31320.121.camel@linuxfoundation.org>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.6.0 (2016-04-01)
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] lib/oe/rootfs: Fix DEBUGFS generation when using opkg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,49 +67,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 May 2016 08:02:53 -0000
+X-List-Received-Date: Mon, 02 May 2016 08:20:32 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Fri, Apr 29, 2016 at 11:38:38AM +0300, Alexander Kanevskiy wrote:
-> On Fri, Apr 29, 2016 at 7:55 AM, Paul Eggleton <
-> paul.eggleton@linux.intel.com> wrote:
-> 
-> > On Fri, 29 Apr 2016 01:07:56 Alexander Kanevskiy wrote:
-> > > On Wed, Apr 27, 2016 at 12:36 PM, Ed Bartosh <ed.bartosh@linux.intel.com
-> > >
-> > >
-> > > wrote:
-> > > > Bmap-tools - tools to generate block map (AKA bmap) and flash images
-> > > > using bmap. Bmaptool is a generic tool for creating the block map
-> > > > (bmap) for a file and copying files using the block map.
-> > > >
-> > > > The idea is that large file containing unused blocks, like raw system
-> > > > image files, can be copied or flashed a lot faster with bmaptool than
-> > > > with traditional tools like "dd" or "cp".
-> > > >
-> > > > [YOCTO #9414]
-> > > >
-> > > > Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-> > >
-> > > better to use recipe that would create in deploy/tools standalone version
-> > > of the tool.
-> > > Otherwise, there is no easy way for user to utilize generated bmap files.
-> >
-> > You both probably have had notification already, but just to close the
-> > loop I
-> > found the issue with the do_deploy version, see the comments on bug 9414:
-> >
-> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=9414
-> >
-> >
-> Thank you Paul for your help! Your fix mentioned in the bug for do_depoly
-> is indeed the best solution.
->
+Hi,
+* Richard Purdie <richard.purdie@linuxfoundation.org> [160422 15:52]:
 
-OK. I'll add this functionality back in a separate patch.
+> When enabling extra DEBUGFS image generation with opkg, errors are seen like:
 
---
-Regards,
-Ed
+> ERROR: core-image-minimal-1.0-r0 do_rootfs: Cannot get the installed packages list. Command '/media/build1/poky/build/tmp/sysroots/x86_64-linux/usr/bin/opkg -f /media/build1/poky/build/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/opkg.conf -o /media/build1/poky/build/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/rootfs  --force_postinstall --prefer-arch-to-version   status' returned 0 and stderr:
+> Collected errors:
+>  * file_md5sum_alloc: Failed to open file /media/build1/poky/build/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/rootfs/etc/syslog-startup.conf.busybox: No such file or directory.
+>  * file_md5sum_alloc: Failed to open file /media/build1/poky/build/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/rootfs/etc/fstab: No such file or directory.
+
+> basically for all CONFFILES in the image. This is due to the file rearranging
+> the rootfs generation code does. If we preserve the /etc directory,
+> the avoids the problem.
+
+> We need to tell copyfile to preserve symlinks since some are present in /etc.
+
+Thanks for the patch. It fixes the issue on e.g. core-image-minimal.
+
+Unfortunately, on more complex images, we'll still fail with e.g.:
+
+ERROR: core-image-minimal-1.0-r0 do_rootfs: Cannot get the installed packages list. Command '/mnt/cs-builds/anders/poky-play/build/tmp-glibc/sysroots/x86_64-linux/usr/bin/opkg -f /mnt/cs-builds/anders/poky-play/build/tmp-glibc/work/qemux86-oe-linux/core-image-minimal/1.0-r0/opkg.conf -o /mnt/cs-builds/anders/poky-play/build/tmp-glibc/work/qemux86-oe-linux/core-image-minimal/1.0-r0/rootfs --force_postinstall --prefer-arch-to-version   status' returned 0 and stderr:
+Collected errors:
+ * file_md5sum_alloc: Failed to open file /mnt/cs-builds/anders/poky-play/build/tmp-glibc/work/qemux86-oe-linux/core-image-minimal/1.0-r0/rootfs/usr/lib/ssl/openssl.cnf: No such file or directory.
+
+I'd guess that all packages that have CONFFILES outside of /etc will
+suffer from this...
+
+I've updated #9490 with this info.
+
+Cheers,
+Anders
+-- 
+Anders Darander, Senior System Architect
+ChargeStorm AB / eStorm AB
 
