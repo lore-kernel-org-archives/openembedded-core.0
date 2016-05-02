@@ -1,28 +1,46 @@
-Return-Path: <randy.e.witt@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 5CE2D6FFF7
+Return-Path: <kergoth@gmail.com>
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id CC18B606D1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 May 2016 17:51:33 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP; 02 May 2016 10:51:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,568,1455004800"; d="scan'208";a="797076869"
-Received: from bitbang.jf.intel.com (HELO [10.7.199.65]) ([10.7.199.65])
-	by orsmga003.jf.intel.com with ESMTP; 02 May 2016 10:51:31 -0700
-To: Robert Yang <liezhi.yang@windriver.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	oe-core <openembedded-core@lists.openembedded.org>
-References: <571EE388.7040107@windriver.com>
-	<1461923108.5465.87.camel@linuxfoundation.org>
-	<572332C5.4000706@windriver.com>
-From: Randy Witt <randy.e.witt@linux.intel.com>
-Message-ID: <572793A3.3060102@linux.intel.com>
-Date: Mon, 2 May 2016 10:51:31 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.7.1
-MIME-Version: 1.0
-In-Reply-To: <572332C5.4000706@windriver.com>
-Subject: Re: Make runqemu knows nothing about machine
+	Mon,  2 May 2016 19:24:01 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id r187so21491489pfr.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 02 May 2016 12:24:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=pidRvLCJgP4+tos+sBEaoX6RmMMOR3zsTXI2l4gWQSY=;
+	b=zrTS0FXT4KxqxV1EStloCLfDTNhtrocHjHOt4uEa+WwGJseimcAAaNqWQFMt4nwdAQ
+	kChcHlbnQdNOOiGJQ96nUUAKBcEteZXz1eTUvFID+l/D9ftP3v4G4XiSdsg3S2lqlw7U
+	vFNATu2BiS36+e0RX4nRbuFLyGQUdhVlpoxaw8S/IR/rDl+RPT8oDePbuOa9H4M5dV1o
+	pU3aIVa2u9mDuozHgNLDHteVOzwVBTa0N3uzaiffb2cGx6GjmGjNZHUeRq1pTqyhKkV5
+	6N5rrUfznrTqEKzUSM0zlCQ+aVX4LoJuGYpmP+fwwLDmUvD9apBz2bAOpXwr8UGZBCVj
+	bmOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=pidRvLCJgP4+tos+sBEaoX6RmMMOR3zsTXI2l4gWQSY=;
+	b=VSrMSWRuE/BDGQPh3lBS1xPpD1RTQJw21VTv//J0hxRAY3sSivA+LkjPtwKEPkXfMf
+	4PIz0+75hbPrulJVrREAh5Q7ZJ/QqXFEfvvC5LWfhSHoqH8C9QMrO2VA87oI2GXZi1AD
+	uLsf9bI7a0HzWebujLxzxyyGEp6hl5gKrPuMK3X1yzfy9y4bSrEQCMZvpN4t3RMUD5yf
+	BT7HsHCXFqqTPwRvxHkKWhyBTw9DVD69F/6MdF57X2sVEUAiGu3UQ66OXEbpTV5YpZq6
+	duoc85pEJDXFJf4K2AXpk0YQkERtWd76ePxauckBwVTkfd6UeKfYyg1LOFcVm25Rkvfy
+	8GZQ==
+X-Gm-Message-State: AOPr4FUeaG8LovNSfer/N73PkJewiEyyxEfLqchdM7Um4/9tnn5gzLsJjgn8mv+LyR6ZhA==
+X-Received: by 10.98.87.220 with SMTP id i89mr53458215pfj.107.1462217041636;
+	Mon, 02 May 2016 12:24:01 -0700 (PDT)
+Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by smtp.gmail.com with ESMTPSA id
+	o2sm15767473pfi.85.2016.05.02.12.23.58
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 02 May 2016 12:23:59 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  2 May 2016 12:23:54 -0700
+Message-Id: <cover.1462216694.git.chris_larson@mentor.com>
+X-Mailer: git-send-email 2.8.0
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [for-master][RFC PATCH 0/3] Support template files for wic wks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,104 +53,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 May 2016 17:51:36 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 02 May 2016 19:24:05 -0000
 
-On 04/29/2016 03:09 AM, Robert Yang wrote:
->
->
-> On 04/29/2016 05:45 PM, Richard Purdie wrote:
->> On Tue, 2016-04-26 at 11:42 +0800, Robert Yang wrote:
->>> Hello,
->>>
->>> The qemu-native can boot a lot of machines, but oe-core's runqemu can
->>> only
->>> boot a few of them which are hardcoded into runqemu. I'd like to
->>> change
->>> it little to make it drop the hardcode and can boot more machines.
->>> Here
->>> are some basic thoughts, please feel free to give your comments.
->>>
->>> runqemu is a helpful script which can help us boot images easily, but
->>> it
->>> has a lot of hard code for machine + args. I'd like to remove these
->>> from
->>> runqemu, and make it as a frame. The logical is that, who knows
->>> clearly
->>> about whether qemu can boot the machine and how to boot it (args),
->>> the
->>> answer is the machine/bsp developer, so we can:
->>>
->>> * Add a var like QEMU_SUPPORTED = "yes/no" in the bsp conf file
->>> (default to no)
->>> * Add a var like QEMU_BOOT_ARGS = "foo" if there are special args.
->>> * Let do_rootfs or do_image_foo write data such as QEMU_BOOT_ARGS to
->>>     DEPLOY_DIR_IMAGE/runqemu/ or tmp/deploy/images/runqemu/, we can
->>> treat
->>>     the "runqemu/" dir as a database, and anything we need there, for
->>> example,
->>>     efi/pcbios, root args, and so on. We won't miss anything since all
->>> the
->>>     images which can be boot by runqemu are built by oe-core.
->>> * Then we can easily add supported machine to runqemu from the bsp
->>> itself
->>>     without change runqemu.
->>>
->>> I will start working on it if there is no objections, and make sure
->>> it won't
->>> break any current supported machines.
->>
->> I guess we have some decisions to make. Firstly, is that script better
->> in shell or python at this point? Originally, shell made sense but I'm
->> starting to wonder if it would be clearer in python.
->>
->> If we left it as shell, I'd envisaged it going through something like
->> BBPATH and sourcing files from each of the layers to build up its own
->> list of supported machines. The trouble is we can't easily get BBPATH
->> in the shell environment since we can't assume bitbake and we ideally
->> want it to work outside of our build environment.
->
-> Thanks for the reply, my thought is that move part of the implementation
-> into a class called runqemu.bbclass (or other names), and leave the runqemu
-> as a shell script, when QEMU_BOOT_SUPPORTED = "1", runqemu.bbclass will
-> create a:
-> tmp/deploy/images/<machine>/runqemu
->
-> And the content in runqemu can be: (for example, arm)
-> QEMU="/path/to/sysroots/x86_64-linux/usr/bin/qemu-system-arm -m 128 -machine
-> versatilepb  "
-> TUNE_ARCH="arm"
-> QEMU_DEFAULT_KERNEL="zImage-qemuarm.bin"
-> QEMU_DEFAULT_FSTYPE="ext4"
-> QEMU_MEM="-m 128"
-> [maybe more]
+From: Christopher Larson <chris_larson@mentor.com>
 
-Would it be better to just have a meta-qemu-config-[whateverarch]-native that 
-publishes the config file? Then it could also publish the config in different 
-forms such as  json/yaml/ini for users who don't want to use runqemu, but still 
-need to know the *required* args. They might want to ignore the rest.
+This adds support for .wks.in files as WKS_FILE.
 
-> All of these variables can be defined in bsp layer or conf files. I will
-> add some default values there according to TUNE_ARCH, so that the bsp may
-> not need do anything to boot from qemu when QEMU_BOOT_SUPPORTED = "1".
->
-> // Robert
->
->>
->> With the development of devtool, I'm wondering if runqemu should become
->> another such "command", written in python and working in any of the
->> environments we'd expect devtool to work (eSDK, main build). If we did
->> that, we'd have the layers and could easily access BBPATH and search
->> for additional modules to add support for additional machines.
->>
->> Thoughts?
->>
->> Cheers,
->>
->> Richard
->>
->>
->>
+These files are treated as the contents of a bitbake variable, so usual
+bitbake variable references are supported. I considered using another
+templating mechanism, for example the one used by yocto-layer, but then we'd
+end up largely mapping metadata variables to template fields anyway, which is
+a pointless indirection. Let bitbake expand the variables directly instead.
+
+This feature lets us, for example, reference ${APPEND} in --append, and avoid
+hardcoding the serial console tty in the wks file, and let the user's changes
+to APPEND affect wic the way they do the other image construction mechanisms.
+
+The template is read in and set in a variable at parse time, so changes to the
+variables referenced by the template will result in rebuilding the image.
+
+It's been suggested that the name should better reflect how its contents are
+used, i.e. .bbin or so. I've also considered including something like 'bbv' or
+similar, to indicate its contents are that of a bitbake value. I think this
+should be discussed.
+
+I'd love to hear questions or comments on this. I think the value is clear,
+and it's something we need to solve, but I'd like to hear if others agree or
+disagree on that, and whether this implementation is appropriate.
+
+
+The following changes since commit 1a0e56630c5c27d8899dd0979ae0b86bbe227881:
+
+  utils.bbclass: note for deprecated base_contains (2016-04-29 07:53:58 +0100)
+
+are available in the git repository at:
+
+  git://github.com/kergoth/openembedded-core wks.in
+  https://github.com/kergoth/openembedded-core/tree/wks.in
+
+Christopher Larson (3):
+  image.bbclass: append to prefuncs/postfuncs for do_image_*
+  image_types.bbclass: add intermediate var for WKS_FILE_CHECKSUM
+  image_types.bbclass: support template .wks.in files for wic
+
+ meta/classes/image.bbclass       |  4 ++--
+ meta/classes/image_types.bbclass | 38 +++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 39 insertions(+), 3 deletions(-)
+
+-- 
+2.8.0
 
 
