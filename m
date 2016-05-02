@@ -1,46 +1,49 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
-	[209.85.223.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 1BA5865CBC
+Received: from mail-ig0-f182.google.com (mail-ig0-f182.google.com
+	[209.85.213.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 87F9B731CD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 May 2016 13:27:27 +0000 (UTC)
-Received: by mail-io0-f179.google.com with SMTP id 190so161839619iow.1
+	Mon,  2 May 2016 13:27:32 +0000 (UTC)
+Received: by mail-ig0-f182.google.com with SMTP id s8so73458830ign.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 May 2016 06:27:28 -0700 (PDT)
+	Mon, 02 May 2016 06:27:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=/1b8mmNLoPnVgn0/ii/ePKekCQgwIyp/4PwCVDAUXp0=;
-	b=ScNBgGDXSFq4EDUCXyJrpEhDLqaBToKB/syiqMu14wnR4gKbU4bo05iYY5brJpx7dN
-	dyP7uel29KeQkFeKx1vM6jyNHQuABOxmcLvG1KhPj5Yh72sYVQQ5Lfmp+MjUj4isq+dl
-	dUd0GepmVLfjimUg9YeQHwDXmpk/2HjZSDcpc+qao9gjy1x7hHHonYX9/9iTMIzKMqcE
-	9vED2WXQgrmAFpsj4yXRrwBvg7PO/jXJqV3YEzS4OGrl2lf+QRmLRAB5gVZZjU/ZXLym
-	IXfEVEu+8wDyLHAfrqPxZhZSHhhfNrlERVlT+5qE+ecAVBXGfjSiGZq1e/Pfus3Xyf6I
-	1w+w==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=IioVusYCCMQ8HjLhP8VwZnVkd573GzkYTY+v05tUNxs=;
+	b=pzXWDafb5soQFePDbqVGFYGr8d4RNZIUE7cIrVAX/D+M9POGbLvjAzQqPyy8otccj3
+	JSpoQqZ/tDnssBUgI/9XVWB+zfuNPNYppCwBKUeUX2snqKLhDFdzB9aNvUJPUrbQN+KE
+	5/Zsf/ug4h4UlKExElPs0WarrGB5bFhcqueTxZQ8Xq6EQ2/FNsNDW1dfOXF8LS/IJrF0
+	XUsiE92WLBbV7Uz3gjI6NW0XmOw8LC+Ui4RlyPp/mUTDXTTwDwgzBDHcH92nrFGDwQPF
+	dgKetJez2i61xNtxDfmnQ208TRCk4uG0rSryxDbdLNsc5K/jIadzkBWfTVHYusW76phO
+	GkLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=/1b8mmNLoPnVgn0/ii/ePKekCQgwIyp/4PwCVDAUXp0=;
-	b=CLvB/uxA9KImTFkzQdjit0jl+hwYqzytBJ6YgQLd0JbBOEZQpxrxHKDI3fPJosCj/D
-	Ce3ITEepl5uM3akQn7NEQqgBhuqWknNeUJA/KZZBYVb7edYsZeq9rB7bKjaLnhWajzz+
-	mgmwV24EmKWO7/r/oMz82l2zNYP4AsJ1cRiJmbaebUMroIxgfHTqC4+XSyU/wewqq2bf
-	OYlWMx7Z5RQYLyZD8PuWaHbcfu/6JBqhG3cWPnsDXf+2VINnZl47cC9Ghxg4q8Oh34P9
-	pDo6gP1xJiANNXz//IEsnPEGcV8NydKvKXYq98bbLOhXs8TxBOmFDvbkyNYwcVaiSifM
-	1wHg==
-X-Gm-Message-State: AOPr4FU1XY1NVlkoSBpb5g15TJhp942p9fFLVHFpZSCJwHLG0xh4WFXkEE1gyxl8+c/ZTBtb
-X-Received: by 10.107.130.160 with SMTP id m32mr44414850ioi.137.1462195647734; 
-	Mon, 02 May 2016 06:27:27 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=IioVusYCCMQ8HjLhP8VwZnVkd573GzkYTY+v05tUNxs=;
+	b=cK0gqaTPRe+g71Hew4quf2Kyc98jdIpeMxjBuBZ5FN84Klq2JE8EZdGZiF7X1AS7GO
+	Sw8WYxbpJ086arI6rVvAEQZa+y9PQm3rUEzF7MdD1fgPXc5viF1m2q/x//JZ97EunU0I
+	PQ0Bh8lwiLldIe7nDXEu7X5BSCQwrS8Qk+ygcXfnpN9kvovMvwM9oFVM1ViohHRaEXQJ
+	tRDJcNJjOSLfobSB5GX5w/mShF9XG/ECr4GUQv6XW/0RORwKBVjt30CTXIN/JnnYPa6H
+	EUchquJSvqETji1Ya6urUGScyr40Szr+HcHjYA9+0TnSjqQDnWxI9ANxpzYsko22wipy
+	Zlpw==
+X-Gm-Message-State: AOPr4FUJU1hISrOnjAf6XBIgUcZC4RpQ2XajKAB4Nu+GMhVzGEJIDZIRiTcVrMskGDhaGdMY
+X-Received: by 10.50.155.6 with SMTP id vs6mr19911355igb.79.1462195652733;
+	Mon, 02 May 2016 06:27:32 -0700 (PDT)
 Received: from pohly-desktop.fritz.box (p5DE8DB4C.dip0.t-ipconnect.de.
-	[93.232.219.76])
-	by smtp.gmail.com with ESMTPSA id au6sm9294874igc.0.2016.05.02.06.27.26
+	[93.232.219.76]) by smtp.gmail.com with ESMTPSA id
+	69sm18286189ioo.20.2016.05.02.06.27.31
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 02 May 2016 06:27:27 -0700 (PDT)
+	Mon, 02 May 2016 06:27:31 -0700 (PDT)
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 May 2016 15:27:20 +0200
-Message-Id: <cover.1462195334.git.patrick.ohly@intel.com>
+Date: Mon,  2 May 2016 15:27:26 +0200
+Message-Id: <baeb6e18d0a535ad2ac62fe4ea12515a78fce88a.1462195334.git.patrick.ohly@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 0/3] combo-layer import with history
+In-Reply-To: <cover.1462195334.git.patrick.ohly@intel.com>
+References: <cover.1462195334.git.patrick.ohly@intel.com>
+Subject: [PATCH 1/3] combo-layer: dummy "update with history"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,42 +56,162 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 May 2016 13:27:30 -0000
+X-List-Received-Date: Mon, 02 May 2016 13:27:34 -0000
 
-In Ostro OS we recently struggled with importing repositories that had
-non-linear histories and duplicated patches; traditional "combo-layer
-update" fails to import those because it cannot flatten the upstream
-changes into a linear set of patches.
+When setting "history = True" in combo-layer.conf consistently for the
+components involved in an update or using "update" together with the
+"--history" command line flag, a new mode for updating will be used
+that does not rely on exporting/importing patches.
 
-This enhanced combo-layer can deal with that by completely
-re-implementing the update action such that it copies file trees
-around instead of patches.
+A config setting is used because it should be used consistently by
+everyone using the same config, without having to remember to use an
+additional command line parameter.
 
-This adds basically another code path. It could also be maintained
-separately, but as it might also be of interest to others, adding this
-to OE-core is probably better, even though it makes the code more
-complicated.
+There are no real global settings, so the setting is checked
+separately for each component although the setting has to be set
+consistently. This restriction could be removed later.
 
-Probably some serious refactoring is due at some point, but that
-should better be done only after defining some good test cases.
+In practice, putting "history" into the "[DEFAULT]" section is the
+easiest approach for configuring it.
 
-The following changes since commit 1a0e56630c5c27d8899dd0979ae0b86bbe227881:
+The actual code changes split up action_update and the
+combo-layer.conf handling in preparation for this new mode, without
+implementing the mode itself.
 
-  utils.bbclass: note for deprecated base_contains (2016-04-29 07:53:58 +0100)
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+---
+ scripts/combo-layer | 82 ++++++++++++++++++++++++++++++++++++++---------------
+ 1 file changed, 59 insertions(+), 23 deletions(-)
 
-are available in the git repository at:
-
-  git://github.com/pohly/openembedded-core combo-layer-update-history
-  https://github.com/pohly/openembedded-core/tree/combo-layer-update-history
-
-Patrick Ohly (3):
-  combo-layer: dummy "update with history"
-  combo-layer: runcmd() enhancements
-  combo-layer: implement "update with history"
-
- scripts/combo-layer | 475 +++++++++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 449 insertions(+), 26 deletions(-)
-
+diff --git a/scripts/combo-layer b/scripts/combo-layer
+index 9127041..41d69f8 100755
+--- a/scripts/combo-layer
++++ b/scripts/combo-layer
+@@ -73,7 +73,7 @@ class Configuration(object):
+                 else:
+                     # Apply special type transformations for some properties.
+                     # Type matches the RawConfigParser.get*() methods.
+-                    types = {'signoff': 'boolean', 'update': 'boolean'}
++                    types = {'signoff': 'boolean', 'update': 'boolean', 'history': 'boolean'}
+                     if name in types:
+                         value = getattr(parser, 'get' + types[name])(section, name)
+                     self.repos[repo][name] = value
+@@ -610,8 +610,12 @@ def action_pull(conf, args):
+ def action_update(conf, args):
+     """
+         update the component repos
+-        generate the patch list
+-        apply the generated patches
++        either:
++           generate the patch list
++           apply the generated patches
++        or:
++           re-creates the entire component history and merges them
++           into the current branch with a merge commit
+     """
+     components = [arg.split(':')[0] for arg in args[1:]]
+     revisions = {}
+@@ -624,10 +628,23 @@ def action_update(conf, args):
+     # make sure combo repo is clean
+     check_repo_clean(os.getcwd())
+ 
+-    import uuid
+-    patch_dir = "patch-%s" % uuid.uuid4()
+-    if not os.path.exists(patch_dir):
+-        os.mkdir(patch_dir)
++    # Check whether we keep the component histories. Must be
++    # set either via --history command line parameter or consistently
++    # in combo-layer.conf. Mixing modes is (currently, and probably
++    # permanently because it would be complicated) not supported.
++    if conf.history:
++        history = True
++    else:
++        history = None
++        for name in repos:
++            repo = conf.repos[name]
++            repo_history = repo.get('history', True)
++            logger.error('%s: %s' % (name, repo_history))
++            if history is None:
++                history = repo_history
++            elif history != repo_history:
++                logger.error("'history' property is set inconsistently")
++                sys.exit(1)
+ 
+     # Step 1: update the component repos
+     if conf.nopull:
+@@ -635,6 +652,18 @@ def action_update(conf, args):
+     else:
+         action_pull(conf, ['arg0'] + components)
+ 
++    if history:
++        logger.error("update with history not implemented yet")
++        sys.exit(1)
++    else:
++        update_with_patches(conf, components, revisions, repos)
++
++def update_with_patches(conf, components, revisions, repos):
++    import uuid
++    patch_dir = "patch-%s" % uuid.uuid4()
++    if not os.path.exists(patch_dir):
++        os.mkdir(patch_dir)
++
+     for name in repos:
+         revision = revisions.get(name, None)
+         repo = conf.repos[name]
+@@ -711,6 +740,21 @@ def action_update(conf, args):
+     runcmd("rm -rf %s" % patch_dir)
+ 
+     # Step 7: commit the updated config file if it's being tracked
++    commit_conf_file(conf, components)
++
++def conf_commit_msg(conf, components):
++    # create the "components" string
++    component_str = "all components"
++    if len(components) > 0:
++        # otherwise tell which components were actually changed
++        component_str = ", ".join(components)
++
++    # expand the template with known values
++    template = Template(conf.commit_msg_template)
++    msg = template.substitute(components = component_str)
++    return msg
++
++def commit_conf_file(conf, components, commit=True):
+     relpath = os.path.relpath(conf.conffile)
+     try:
+         output = runcmd("git status --porcelain %s" % relpath, printerr=False)
+@@ -718,23 +762,15 @@ def action_update(conf, args):
+         # Outside the repository
+         output = None
+     if output:
+-        logger.info("Committing updated configuration file")
+         if output.lstrip().startswith("M"):
+-
+-            # create the "components" string
+-            component_str = "all components"
+-            if len(components) > 0:
+-                # otherwise tell which components were actually changed
+-                component_str = ", ".join(components)
+-
+-            # expand the template with known values
+-            template = Template(conf.commit_msg_template)
+-            raw_msg = template.substitute(components = component_str)
+-
+-            # sanitize the string before using it in command line
+-            msg = raw_msg.replace('"', '\\"')
+-
+-            runcmd('git commit -m "%s" %s' % (msg, relpath))
++            logger.info("Committing updated configuration file")
++            if commit:
++                msg = conf_commit_msg(conf, components)
++                runcmd('git commit -m'.split() + [msg, relpath])
++            else:
++                runcmd('git add %s' % relpath)
++            return True
++    return False
+ 
+ def apply_patchlist(conf, repos):
+     """
 -- 
 2.1.4
 
