@@ -1,28 +1,20 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id B0B9F73181
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 91FE86FF3D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 May 2016 10:13:39 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga101.jf.intel.com with ESMTP; 02 May 2016 03:13:40 -0700
+	Mon,  2 May 2016 12:16:47 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 02 May 2016 05:16:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,566,1455004800"; d="scan'208";a="796776599"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga003.jf.intel.com with ESMTP; 02 May 2016 03:13:40 -0700
-To: Khem Raj <raj.khem@gmail.com>
-References: <571E0BF3.8080408@linux.intel.com>
-	<CAMKF1sq+Bk+74RQbdevy9U6QtVpJ1UB_ghq5THHf4=jNK0271A@mail.gmail.com>
+X-IronPort-AV: E=Sophos;i="5.24,567,1455004800"; d="scan'208";a="957081269"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga001.fm.intel.com with ESMTP; 02 May 2016 05:16:38 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <57272877.7000905@linux.intel.com>
-Date: Mon, 2 May 2016 13:14:15 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Icedove/38.6.0
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1sq+Bk+74RQbdevy9U6QtVpJ1UB_ghq5THHf4=jNK0271A@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: moving OpenEmbedded-core to Python 3
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  2 May 2016 15:17:12 +0300
+Message-Id: <1462191432-9516-1-git-send-email-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] gobject-introspection.bbclass: disable introspection for -native recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,44 +27,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 May 2016 10:13:41 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 02 May 2016 12:16:50 -0000
 
-On 04/29/2016 11:43 PM, Khem Raj wrote:
+It is not necessary for native, adds to the build time, and pulls
+in the unneeded qemu-native dependency.
 
-> Can you clarify the scope, are you addressing the case where target
-> images would prefer python3
-> and you are making sure that packages that use python on target are
-> ready for using it.
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ meta/classes/gobject-introspection.bbclass | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-There is no way to set a 'preference' for Python 3. Either version of 
-Python is pulled into images either through dependencies, or explicit 
-inclusion into some package list.
-
-I'm going to move recipes that are dependent on Python 2 to Python 3, 
-whenever possible. I'm not porting the upstream code from Python 2 from 
-Python 3, just configuring the recipes to use Python 3, when the Python 
-code in them has already been ported.
-
-> bitbake itself is a separate task but then we do write scriptlets that
-> are executed as part of
-> build, are you addressing those too ?
-
-Not sure what you mean here exactly, but if the scriptlets are executed 
-by bitbake, then I'm not addressing that.
-
-> Thirdly, there is general pythonic code in metadata meant to control
-> build policies
-
-Again, can you provide an example?
-
-> Which of these are you addressing specifically.
-
-Please start using the question mark (?), so I can see more easily what 
-is a question when responding.
-
-Thanks,
-Alex
+diff --git a/meta/classes/gobject-introspection.bbclass b/meta/classes/gobject-introspection.bbclass
+index 2d73e40..d320b5b 100644
+--- a/meta/classes/gobject-introspection.bbclass
++++ b/meta/classes/gobject-introspection.bbclass
+@@ -3,13 +3,21 @@
+ # This sets up autoconf-based recipes to build introspection data (or not),
+ # depending on distro and machine features (see gobject-introspection-data class).
+ inherit gobject-introspection-data
+-EXTRA_OECONF_prepend = "${@bb.utils.contains('GI_DATA_ENABLED', 'True', '--enable-introspection', '--disable-introspection', d)} "
++EXTRA_OECONF_prepend_class-target = "${@bb.utils.contains('GI_DATA_ENABLED', 'True', '--enable-introspection', '--disable-introspection', d)} "
++
++# When building native recipes, disable introspection, as it is not necessary,
++# pulls in additional dependencies, and makes build times longer
++EXTRA_OECONF_prepend_class-native = "--disable-introspection "
+ 
+ UNKNOWN_CONFIGURE_WHITELIST_append = " --enable-introspection --disable-introspection"
+ 
+ # Generating introspection data depends on a combination of native and target
+ # introspection tools, and qemu to run the target tools.
+-DEPENDS_append = " gobject-introspection gobject-introspection-native qemu-native"
++DEPENDS_append_class-target = " gobject-introspection gobject-introspection-native qemu-native"
++
++# Even though introspection is disable on -native, gobject-introspection package is still
++# needed for m4 macros.
++DEPENDS_append_class-native = " gobject-introspection-native"
+ 
+ # This is necessary for python scripts to succeed - distutils fails if these
+ # are not set
+-- 
+2.8.1
 
 
