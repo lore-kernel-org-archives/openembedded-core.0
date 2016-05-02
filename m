@@ -1,49 +1,46 @@
-Return-Path: <danismostlikely@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 7079F731B5
+Return-Path: <kergoth@gmail.com>
+Received: from mail-pa0-f67.google.com (mail-pa0-f67.google.com
+	[209.85.220.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B2DB731A3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 May 2016 19:53:05 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id r187so21530376pfr.2
+	Mon,  2 May 2016 20:09:31 +0000 (UTC)
+Received: by mail-pa0-f67.google.com with SMTP id i5so18413020pag.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 May 2016 12:53:06 -0700 (PDT)
+	Mon, 02 May 2016 13:09:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=POXke7+mMIl8f3NpMjPv5XekWCxtb6naXe1pSKQsXk0=;
-	b=XDPjH2+GnF0K9861E9gQroSdise4FILyTH1n3QnJk0fDqnKrBNWn21+gtsl2xRijcA
-	mGmDNIOgn5ni6T2wj38IyNsCpR5bH62WjOylm60+XwCArhsZzbIQxHXBfZJZM6BEPwpk
-	INPtdJOoysW37O0N+AER60IYFWbieXNGUi/r8X2GrYDBu7CfK3x1cBQCBB/yrs9NbaIG
-	RUXnhepHaLsdx/tq6/SMGJzkB5ID3dxRmAEvWtDdQe7CX0JQ0XJnpNu5YtaI98DFlNul
-	H6bfYXd7inHSUjPfh4EyMgLVSPSND/EAe2bmqYargAcAjUZjJFbAZf9kEnX0WC19z6fs
-	Aggw==
+	h=from:to:cc:subject:date:message-id;
+	bh=6SA6j+duC0K2+VN9GMzkQdoAyF/A6Wn869BcHBQSvJQ=;
+	b=zr5dx37GvLH89y2hh4YNvLP0tBqp7jfDvPYmsT5MkLDm2eh1oLJWnQ8vSgkvCq5sH9
+	NyFJJqjvldfJcyBbzJtUnb90HzbFRTqbfVmpR/LregbHyWJgBWYS1IPQRefVVYdlkCmE
+	yAS0GzZE1pXMyM4QZMreKef62ZFMo7Xr0sCew8jUtEsVqNxpwSzEVC7Uj3UEYKlwf2m8
+	XM2IjLaWqXCorXknoZwcIM07wspFmNoFWfmmelEgzVldFxmL6nKz2Z8mzR2FJXQ62Rpv
+	ot7KbAPilXpZ3hd95t/KAZOvr2Ux4R/wt4VZWzEL6dq5KMZITxO1s3sOJVNmuNtJ7eZB
+	9BNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=POXke7+mMIl8f3NpMjPv5XekWCxtb6naXe1pSKQsXk0=;
-	b=XsittGJYmb0GBKZx7HiTCGKgI6sjohjrbhLOvH0pDcE50K5WQQFbIQ+5h8i3d7aazt
-	YAxq43PZD6/HFnKPChlX59TN73Xu9e1B2kR4tDWSLwDPE7vhcajJCzXzvPFuA/L+shlf
-	zszeAPcZ2MIUDLWyVTqPQAyw2ruXFPkILIkawXBTtd407xK1XdjchAOI0ePOYjWioRxM
-	Qp9ZoEOHNy6oXffiGn6oU5+a4HAipi69UQSb8KLroWJqWsiRqbEKmLT8B/HxPkxymvVi
-	JTg0rjhvQk2TkKL/UnFShAyTzLm2H+eXQLzg8uXa7NLBhQKgFSqTeAmYSDjyZJiR2BDp
-	bmww==
-X-Gm-Message-State: AOPr4FXUpyPaBJIE7kxPvSPvz0N1o1P55YUxBB6jDWIDYmrGEeAPbbOY7IXsINIw5/5zVA==
-X-Received: by 10.98.38.66 with SMTP id m63mr53850656pfm.57.1462218786044;
-	Mon, 02 May 2016 12:53:06 -0700 (PDT)
-Received: from mediabox.local (71-17-245-40.sktn.hsdb.sasknet.sk.ca.
-	[71.17.245.40]) by smtp.gmail.com with ESMTPSA id
-	199sm47426160pfc.15.2016.05.02.12.53.05
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 02 May 2016 12:53:05 -0700 (PDT)
-From: Dan McGregor <danismostlikely@gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=6SA6j+duC0K2+VN9GMzkQdoAyF/A6Wn869BcHBQSvJQ=;
+	b=LMROipsiOs6hkJ/PHr6ZH2JwMW9VwnR9oWLNMXq/WEmmziXPuQzLI1JkBNGGJe5Duu
+	GgK0BRvivExmGGCKceXRgsHUZ7YvNW3xTNMBxKhulVtVnOK+hP/F0YIqt261OdKNuU1q
+	utxYfwRSd8ZRzRSrs2qZoJCMW/UuQzSxKt+QAaFkIiT+0Bsqbbk9Nc3XhCsNavAiMyol
+	et4DlL87+ErCWa5NHZTMKURME3Hs7d3P5Vx/QFtldnBQEasFRSpjt/6hVy006bOfs+rH
+	4SMfgfrunv0NnjzWaCL7Hw8dXmZvVyRCPI8GJWRAucTLa3ReSVLsJpfSMRTExubZZOa7
+	Pwlw==
+X-Gm-Message-State: AOPr4FUXAZw/ZIhDlqN8id4/LRq1yEfU3kZ5ETq1QJxg0QwhQArangANmQHpEKRfCnpECw==
+X-Received: by 10.66.172.165 with SMTP id bd5mr55203027pac.128.1462219772056; 
+	Mon, 02 May 2016 13:09:32 -0700 (PDT)
+Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by smtp.gmail.com with ESMTPSA id
+	lz5sm47795540pab.34.2016.05.02.13.09.28
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 02 May 2016 13:09:29 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 May 2016 13:53:04 -0600
-Message-Id: <1462218784-20252-1-git-send-email-danismostlikely@gmail.com>
-X-Mailer: git-send-email 2.8.2
-In-Reply-To: <1462218652-20142-1-git-send-email-danismostlikely@gmail.com>
-References: <1462218652-20142-1-git-send-email-danismostlikely@gmail.com>
-Subject: [PATCH] git: update to 2.8.2
+Date: Mon,  2 May 2016 13:09:25 -0700
+Message-Id: <1462219765-18957-1-git-send-email-kergoth@gmail.com>
+X-Mailer: git-send-email 2.8.0
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [master][PATCH] gcc-cross{, -canadian}: remove --with-linker-hash-style
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,38 +53,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 May 2016 19:53:09 -0000
+X-List-Received-Date: Mon, 02 May 2016 20:09:33 -0000
 
-From: Dan McGregor <dan.mcgregor@usask.ca>
+From: Christopher Larson <chris_larson@mentor.com>
 
-Now that krogoth has been released, update git to the latest release.
+We explicitly set the hash style to gnu in our LDFLAGS. Setting the default to
+this in the toolchain, while convenient, actually hides bugs, as a failure to
+obey LDFLAGS isn't noticed. By removing this, it's not dissimilar to how we
+poison the sysroot -- rather than relying on the default, notice right away if
+somoeone isn't obeying the needed flags.
 
-Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
+This will result in a failure to obey LDFLAGS causing a GNU_HASH QA failure,
+which is what's often seen with external toolchains. This brings us all on the
+same page, and makes sure a failure to obey LDFLAGS is seen early.
+
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- meta/recipes-devtools/git/{git_2.7.4.bb => git_2.8.2.bb} | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/git/{git_2.7.4.bb => git_2.8.2.bb} (39%)
+ meta/recipes-devtools/gcc/gcc-4.9.inc | 1 -
+ meta/recipes-devtools/gcc/gcc-5.3.inc | 1 -
+ 2 files changed, 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/git/git_2.7.4.bb b/meta/recipes-devtools/git/git_2.8.2.bb
-similarity index 39%
-rename from meta/recipes-devtools/git/git_2.7.4.bb
-rename to meta/recipes-devtools/git/git_2.8.2.bb
-index bc72793..b3ce4f8 100644
---- a/meta/recipes-devtools/git/git_2.7.4.bb
-+++ b/meta/recipes-devtools/git/git_2.8.2.bb
-@@ -5,7 +5,7 @@ EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
-                  "
- EXTRA_OEMAKE += "NO_GETTEXT=1"
- 
--SRC_URI[tarball.md5sum] = "c64012d491e24c7d65cd389f75383d91"
--SRC_URI[tarball.sha256sum] = "7104c4f5d948a75b499a954524cb281fe30c6649d8abe20982936f75ec1f275b"
--SRC_URI[manpages.md5sum] = "58020dc13a5801c49f7986fef7027535"
--SRC_URI[manpages.sha256sum] = "0dfe1931ad302873470e0280248e3aa50502b5edd00dcc3e9c9173667b6fea6a"
-+SRC_URI[tarball.md5sum] = "3022d8ebf64b35b9704d5adf54b256f9"
-+SRC_URI[tarball.sha256sum] = "a029c37ee2e0bb1efea5c4af827ff5afdb3356ec42fc19c1d40216d99e97e148"
-+SRC_URI[manpages.md5sum] = "8c9da11aeb45b4a286ba766e25aaf3ab"
-+SRC_URI[manpages.sha256sum] = "82d322211aade626d1eb3bcf3b76730bfdd2fcc9c189950fb0a8bdd69c383e2f"
+diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
+index 7e03f31..c187918 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.9.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
+@@ -111,7 +111,6 @@ EXTRA_OECONF_BASE = "\
+     --disable-bootstrap \
+     --disable-libmudflap \
+     --with-system-zlib \
+-    --with-linker-hash-style=${LINKER_HASH_STYLE} \
+     --enable-linker-build-id \
+     --with-ppl=no \
+     --with-cloog=no \
+diff --git a/meta/recipes-devtools/gcc/gcc-5.3.inc b/meta/recipes-devtools/gcc/gcc-5.3.inc
+index 9808be1..f2eda18 100644
+--- a/meta/recipes-devtools/gcc/gcc-5.3.inc
++++ b/meta/recipes-devtools/gcc/gcc-5.3.inc
+@@ -112,7 +112,6 @@ EXTRA_OECONF_BASE = "\
+     --disable-bootstrap \
+     --disable-libmudflap \
+     --with-system-zlib \
+-    --with-linker-hash-style=${LINKER_HASH_STYLE} \
+     --enable-linker-build-id \
+     --with-ppl=no \
+     --with-cloog=no \
 -- 
-2.8.2
+2.8.0
 
 
