@@ -1,52 +1,24 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
-	[209.85.220.65])
-	by mail.openembedded.org (Postfix) with ESMTP id C5608606D1
+Return-Path: <mariano.lopez@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 2EDAA731A8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 May 2016 19:24:13 +0000 (UTC)
-Received: by mail-pa0-f65.google.com with SMTP id i5so18361088pag.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 May 2016 12:24:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=N0bA0W3oMb48KmYWlsVGYSY1ZruvYV7aWIPeICQEzw4=;
-	b=ARqu6TiXf1Ocrn8xrtqMFlEI/RTpL8kVYy1m132zHdvMZHpKDxnaPCZ4/ZwaZV+dqM
-	SzSqCxnjUWL9dla+NZMvzyDm6JHHx4EROSAFw4Kututs8lW/Ahq8IhN05upsvgCUa5cY
-	/y39mEfbZBVKjmJQoWbufTxsQEJNT72fchKC6gkcKCl4/pOpHKw77lX7pJ4FNzl/2+G6
-	QC6gC1uwl10jXX71Z0H9X5PPF5jGPXuorh/xOOjCuezBGpWIelPzY7QLEhrODdQ1v1gL
-	WEWjPYSXfNz4seIsfcooGZ8/M/wybTmqU+FJ9R4rTvtosNmc+93H0L8h33ffYDEoJ7Xd
-	9FCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:in-reply-to:references;
-	bh=N0bA0W3oMb48KmYWlsVGYSY1ZruvYV7aWIPeICQEzw4=;
-	b=Fw9V0YoFgFvqOlkvlmr+JaSmPjtInwQl/AmxFvfu/7EFgif4H+ORj9Ok3xd4Ur4o/Z
-	4gCd1abLCQCMlr7a+rM1NWSrad6RWe0xEE3SdLBm8p63AteFVjYGYr6DvD8Qr/+1/3Vm
-	YMsjDTCHKfiDdwWgd6ITlfGfhs0greRGvaK/QbinswEvbbovfiv6DqIQ0F6hOj/CI/rz
-	rqFlb9O7ZtjL3MFZR8BspF74YSrFlqWlTP0GgDHwimI4PWxoVLktvMsjongY3BJ0ASGH
-	nOuAQM4pvPiq7MqUJWxUrDzRRgnYB43GI2Yeqll8QyumjfkB5viTd+9jmwr0LWjKaEZY
-	PFMg==
-X-Gm-Message-State: AOPr4FUhDizyFD+K9TsMeazKfF/05v8W4ffgGIUKUgpob0AxiN3RznyA77PEtbnGyzvpog==
-X-Received: by 10.66.41.107 with SMTP id e11mr54362443pal.15.1462217054349;
-	Mon, 02 May 2016 12:24:14 -0700 (PDT)
-Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by smtp.gmail.com with ESMTPSA id
-	rw2sm47630613pab.30.2016.05.02.12.24.12
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 02 May 2016 12:24:12 -0700 (PDT)
-From: Christopher Larson <kergoth@gmail.com>
+	Mon,  2 May 2016 19:31:02 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 02 May 2016 12:31:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,568,1455004800"; d="scan'208";a="971017872"
+Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
+	([10.54.69.55])
+	by fmsmga002.fm.intel.com with ESMTP; 02 May 2016 12:31:03 -0700
+From: mariano.lopez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 May 2016 12:24:04 -0700
-Message-Id: <923e29abfcf835e2a4749ec7eb3dfe6389b2df39.1462216694.git.chris_larson@mentor.com>
-X-Mailer: git-send-email 2.8.0
-In-Reply-To: <082b1dc91bca7617570284bc7f46511ffc037ddd.1462216694.git.chris_larson@mentor.com>
-References: <082b1dc91bca7617570284bc7f46511ffc037ddd.1462216694.git.chris_larson@mentor.com>
-In-Reply-To: <cover.1462216694.git.chris_larson@mentor.com>
-References: <cover.1462216694.git.chris_larson@mentor.com>
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [for-master][RFC PATCH 3/3] image_types.bbclass: support template .wks.in files for wic
+Date: Mon,  2 May 2016 11:27:10 +0000
+Message-Id: <f9b227a491fa86e74f5f84df68fd7181b1f9bd37.1462188303.git.mariano.lopez@linux.intel.com>
+X-Mailer: git-send-email 2.6.6
+MIME-Version: 1.0
+In-Reply-To: <cover.1462188303.git.mariano.lopez@linux.intel.com>
+References: <cover.1462188303.git.mariano.lopez@linux.intel.com>
+Subject: [PATCH 1/1] sshcontrol.py: Add methods to copy dirs and delete files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,79 +31,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 May 2016 19:24:14 -0000
+X-List-Received-Date: Mon, 02 May 2016 19:31:05 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Christopher Larson <chris_larson@mentor.com>
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-These files are treated as the contents of a bitbake variable, so usual
-bitbake variable references are supported. I considered using another
-templating mechanism, for example the one used by yocto-layer, but then we'd
-end up largely mapping metadata variables to template fields anyway, which is
-a pointless indirection. Let bitbake expand the variables directly instead.
+This patch add new methods to SSHControl class. These methods
+include:
+    - Copy a dir to DUT
+    - Delete a file in the DUT
+    - Delete a directory in the DUT (if empty)
+    - Delete a directory structure in the DUT
 
-This feature lets us, for example, reference ${APPEND} in --append, and avoid
-hardcoding the serial console tty in the wks file, and let the user's changes
-to APPEND affect wic the way they do the other image construction mechanisms.
+[YOCTO #9565]
 
-The template is read in and set in a variable at parse time, so changes to the
-variables referenced by the template will result in rebuilding the image.
-
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- meta/classes/image_types.bbclass | 35 +++++++++++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+ meta/lib/oeqa/utils/sshcontrol.py | 83 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 83 insertions(+)
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index eed0373..90b5a46 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -206,6 +206,16 @@ IMAGE_CMD_wic () {
- }
- IMAGE_CMD_wic[vardepsexclude] = "WKS_FULL_PATH WKS_FILES"
- 
-+python process_wks_template () {
-+    """Write out expanded template contents to WKS_FULL_PATH."""
-+    template_body = d.getVar('_WKS_TEMPLATE', True)
-+    if template_body:
-+        wks_file = d.getVar('WKS_FULL_PATH', True)
-+        with open(wks_file, 'w') as f:
-+            f.write(template_body)
-+}
-+do_image_wic[prefuncs] += 'process_wks_template'
+diff --git a/meta/lib/oeqa/utils/sshcontrol.py b/meta/lib/oeqa/utils/sshcontrol.py
+index 1658744..15618cc 100644
+--- a/meta/lib/oeqa/utils/sshcontrol.py
++++ b/meta/lib/oeqa/utils/sshcontrol.py
+@@ -151,3 +151,86 @@ class SSHControl(object):
+     def copy_from(self, remotepath, localpath):
+         command = self.scp + ['%s@%s:%s' % (self.user, self.ip, remotepath), localpath]
+         return self._internal_run(command, ignore_status=False)
 +
- # Rebuild when the wks file or vars in WICVARS change
- USING_WIC = "${@bb.utils.contains_any('IMAGE_FSTYPES', 'wic ' + ' '.join('wic.%s' % c for c in '${COMPRESSIONTYPES}'.split()), '1', '', d)}"
- WKS_FILE_CHECKSUM = "${@'${WKS_FULL_PATH}:%s' % os.path.exists('${WKS_FULL_PATH}') if '${USING_WIC}' else ''}"
-@@ -298,3 +308,28 @@ IMAGE_TYPES_MASKED ?= ""
- # The WICVARS variable is used to define list of bitbake variables used in wic code
- # variables from this list is written to <image>.env file
- WICVARS ?= "BBLAYERS DEPLOY_DIR_IMAGE HDDDIR IMAGE_BASENAME IMAGE_BOOT_FILES IMAGE_LINK_NAME IMAGE_ROOTFS INITRAMFS_FSTYPES INITRD ISODIR MACHINE_ARCH ROOTFS_SIZE STAGING_DATADIR STAGING_DIR_NATIVE STAGING_LIBDIR TARGET_SYS"
++    def copy_dir_to(self, localpath, remotepath):
++        """
++        Copy recursively localpath directory to remotepath in target.
++        """
 +
-+python () {
-+    """Read in and set up wks file template for wic."""
-+    if d.getVar('USING_WIC', True):
-+        wks_file_u = d.getVar('WKS_FULL_PATH', False)
-+        wks_file = d.expand(wks_file_u)
-+        base, ext = os.path.splitext(wks_file)
-+        if ext == '.in' and os.path.exists(wks_file):
-+            wks_out_file = os.path.join(d.getVar('WORKDIR', True), os.path.basename(base))
-+            d.setVar('WKS_FULL_PATH', wks_out_file)
-+            d.setVar('WKS_TEMPLATE_PATH', wks_file_u)
-+            d.setVar('WKS_FILE_CHECKSUM', '${WKS_TEMPLATE_PATH}:True')
++        for root, dirs, files in os.walk(localpath):
++            # Create directories in the target as needed
++            for d in dirs:
++                tmp_dir = os.path.join(root, d).replace(localpath, "")
++                new_dir = os.path.join(remotepath, tmp_dir.lstrip("/"))
++                cmd = "mkdir -p %s" % new_dir
++                self.run(cmd)
 +
-+            try:
-+                with open(wks_file, 'r') as f:
-+                    body = f.read()
-+            except (IOError, OSError) as exc:
-+                pass
-+            else:
-+                # Previously, I used expandWithRefs to get the dependency list
-+                # and add it to WICVARS, but there's no point re-parsing the
-+                # file in process_wks_template as well, so just put it in
-+                # a variable and let the metadata deal with the deps.
-+                d.setVar('_WKS_TEMPLATE', body)
-+}
++            # Copy files into the target
++            for f in files:
++                tmp_file = os.path.join(root, f).replace(localpath, "")
++                dst_file = os.path.join(remotepath, tmp_file.lstrip("/"))
++                src_file = os.path.join(root, f)
++                self.copy_to(src_file, dst_file)
++
++
++    def delete_files(self, remotepath, files):
++        """
++        Delete files in target's remote path.
++        """
++
++        cmd = "rm"
++        if not isinstance(files, list):
++            files = [files]
++
++        for f in files:
++            cmd = "%s %s" % (cmd, os.path.join(remotepath, f))
++
++        self.run(cmd)
++
++
++    def delete_dir(self, remotepath):
++        """
++        Delete remotepath directory in target.
++        """
++
++        cmd = "rmdir %s" % remotepath
++        self.run(cmd)
++
++
++    def delete_dir_structure(self, localpath, remotepath):
++        """
++        Delete recursively localpath structure directory in target's remotepath.
++
++        This function is very usefult to delete a package that is installed in
++        the DUT and the host running the test has such package extracted in tmp
++        directory.
++
++        Example:
++            pwd: /home/user/tmp
++            tree:   .
++                    └── work
++                        ├── dir1
++                        │   └── file1
++                        └── dir2
++
++            localpath = "/home/user/tmp" and remotepath = "/home/user"
++
++            With the above variables this function will try to delete the
++            directory in the DUT in this order:
++                /home/user/work/dir1/file1
++                /home/user/work/dir1        (if dir is empty)
++                /home/user/work/dir2        (if dir is empty)
++                /home/user/work             (if dir is empty)
++        """
++
++        for root, dirs, files in os.walk(localpath, topdown=False):
++            # Delete files first
++            tmpdir = os.path.join(root).replace(localpath, "")
++            remotedir = os.path.join(remotepath, tmpdir.lstrip("/"))
++            self.delete_files(remotedir, files)
++
++            # Remove dirs if empty
++            for d in dirs:
++                tmpdir = os.path.join(root, d).replace(localpath, "")
++                remotedir = os.path.join(remotepath, tmpdir.lstrip("/"))
++                self.delete_dir(remotepath)
 -- 
-2.8.0
+2.6.6
 
 
