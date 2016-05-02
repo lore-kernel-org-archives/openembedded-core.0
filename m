@@ -1,45 +1,48 @@
 Return-Path: <danismostlikely@gmail.com>
-Received: from mail-pa0-f68.google.com (mail-pa0-f68.google.com
-	[209.85.220.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 78F63731B5
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 7079F731B5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 May 2016 19:50:56 +0000 (UTC)
-Received: by mail-pa0-f68.google.com with SMTP id i5so18392000pag.3
+	Mon,  2 May 2016 19:53:05 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id r187so21530376pfr.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 May 2016 12:50:57 -0700 (PDT)
+	Mon, 02 May 2016 12:53:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
+	h=from:to:subject:date:message-id:in-reply-to:references;
 	bh=POXke7+mMIl8f3NpMjPv5XekWCxtb6naXe1pSKQsXk0=;
-	b=zHgBxny7vsLKGo+h9/Jx/OFgIL5JWFGuyB4WYywFsuM/1T8eGcUv04axKRmS6ca7n+
-	MNNjQYBUSFBtte8PbRNl6c99az+gRj0Rv4rjSL7bYiNUCbmEqkOitGCZ+/CPussMxaBL
-	+7BC7G/34QLn17ccJilji68MDkJuyPRrzh3yB5ecBwur8zDp0tYjWw3kmP8f8qpLjWK2
-	LVv2l3ym+dVSp7rjfPhgICz/gJWAOmYwLrquLps2kOSqu6UkYgMd1Q8YKGApyXnKAluW
-	wYebkjU3iWNZsv+le7Btgcnv3EZjaC+0Bq3PcvB8Elwe1vJTOqyeUXEkWC61cGe4SYuE
-	0Brg==
+	b=XDPjH2+GnF0K9861E9gQroSdise4FILyTH1n3QnJk0fDqnKrBNWn21+gtsl2xRijcA
+	mGmDNIOgn5ni6T2wj38IyNsCpR5bH62WjOylm60+XwCArhsZzbIQxHXBfZJZM6BEPwpk
+	INPtdJOoysW37O0N+AER60IYFWbieXNGUi/r8X2GrYDBu7CfK3x1cBQCBB/yrs9NbaIG
+	RUXnhepHaLsdx/tq6/SMGJzkB5ID3dxRmAEvWtDdQe7CX0JQ0XJnpNu5YtaI98DFlNul
+	H6bfYXd7inHSUjPfh4EyMgLVSPSND/EAe2bmqYargAcAjUZjJFbAZf9kEnX0WC19z6fs
+	Aggw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
 	bh=POXke7+mMIl8f3NpMjPv5XekWCxtb6naXe1pSKQsXk0=;
-	b=gFouSwZkOT4FYa/Mejka0qLWlWDy2BlXysHwEPiXFUJW8cRYD/DTKevkbxEAIWfDpH
-	2eerEfJOTdWb6m+RyK+P7UsRQLTZqn5BNtVANbrfwYPw9wo37X9dWH/Njtk7LiW/Er/C
-	ehiRL6gwhg0Zxwvoqv4lrpJouv1RnANt8Pz1whm3WJYntxDzKi5bAmwW0YVQ/YzUoLhg
-	shwf7RoxlOBdsi68Pc7XfPC/M+epv3O4hk1wziyfGmSXtX3txPgLGRkJGlx5p8mEDLCK
-	Bb3C8vWo6Emj1piLFcs7xEobqzQ1Y2Wv+TAispb5Sb7dmMD6poDt5Y9kHPDIPNosGgSD
-	kWQA==
-X-Gm-Message-State: AOPr4FW84KFUw3JWOk6EUH1dpahdBcjaAtOi1RyROiJS1pu5VrKk5LrA3+sCl2Sbb+17RQ==
-X-Received: by 10.66.222.3 with SMTP id qi3mr54166562pac.24.1462218656924;
-	Mon, 02 May 2016 12:50:56 -0700 (PDT)
+	b=XsittGJYmb0GBKZx7HiTCGKgI6sjohjrbhLOvH0pDcE50K5WQQFbIQ+5h8i3d7aazt
+	YAxq43PZD6/HFnKPChlX59TN73Xu9e1B2kR4tDWSLwDPE7vhcajJCzXzvPFuA/L+shlf
+	zszeAPcZ2MIUDLWyVTqPQAyw2ruXFPkILIkawXBTtd407xK1XdjchAOI0ePOYjWioRxM
+	Qp9ZoEOHNy6oXffiGn6oU5+a4HAipi69UQSb8KLroWJqWsiRqbEKmLT8B/HxPkxymvVi
+	JTg0rjhvQk2TkKL/UnFShAyTzLm2H+eXQLzg8uXa7NLBhQKgFSqTeAmYSDjyZJiR2BDp
+	bmww==
+X-Gm-Message-State: AOPr4FXUpyPaBJIE7kxPvSPvz0N1o1P55YUxBB6jDWIDYmrGEeAPbbOY7IXsINIw5/5zVA==
+X-Received: by 10.98.38.66 with SMTP id m63mr53850656pfm.57.1462218786044;
+	Mon, 02 May 2016 12:53:06 -0700 (PDT)
 Received: from mediabox.local (71-17-245-40.sktn.hsdb.sasknet.sk.ca.
 	[71.17.245.40]) by smtp.gmail.com with ESMTPSA id
-	r73sm47362146pfi.4.2016.05.02.12.50.55
+	199sm47426160pfc.15.2016.05.02.12.53.05
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 02 May 2016 12:50:56 -0700 (PDT)
+	Mon, 02 May 2016 12:53:05 -0700 (PDT)
 From: Dan McGregor <danismostlikely@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 May 2016 13:50:52 -0600
-Message-Id: <1462218652-20142-1-git-send-email-danismostlikely@gmail.com>
+Date: Mon,  2 May 2016 13:53:04 -0600
+Message-Id: <1462218784-20252-1-git-send-email-danismostlikely@gmail.com>
 X-Mailer: git-send-email 2.8.2
+In-Reply-To: <1462218652-20142-1-git-send-email-danismostlikely@gmail.com>
+References: <1462218652-20142-1-git-send-email-danismostlikely@gmail.com>
 Subject: [PATCH] git: update to 2.8.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -53,7 +56,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 May 2016 19:50:58 -0000
+X-List-Received-Date: Mon, 02 May 2016 19:53:09 -0000
 
 From: Dan McGregor <dan.mcgregor@usask.ca>
 
