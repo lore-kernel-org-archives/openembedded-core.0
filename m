@@ -1,46 +1,41 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-pa0-f67.google.com (mail-pa0-f67.google.com
-	[209.85.220.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B2DB731A3
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
+	[209.85.220.52])
+	by mail.openembedded.org (Postfix) with ESMTP id DC6307317C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 May 2016 20:09:31 +0000 (UTC)
-Received: by mail-pa0-f67.google.com with SMTP id i5so18413020pag.3
+	Mon,  2 May 2016 20:13:57 +0000 (UTC)
+Received: by mail-pa0-f52.google.com with SMTP id xk12so7314801pac.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 May 2016 13:09:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=6SA6j+duC0K2+VN9GMzkQdoAyF/A6Wn869BcHBQSvJQ=;
-	b=zr5dx37GvLH89y2hh4YNvLP0tBqp7jfDvPYmsT5MkLDm2eh1oLJWnQ8vSgkvCq5sH9
-	NyFJJqjvldfJcyBbzJtUnb90HzbFRTqbfVmpR/LregbHyWJgBWYS1IPQRefVVYdlkCmE
-	yAS0GzZE1pXMyM4QZMreKef62ZFMo7Xr0sCew8jUtEsVqNxpwSzEVC7Uj3UEYKlwf2m8
-	XM2IjLaWqXCorXknoZwcIM07wspFmNoFWfmmelEgzVldFxmL6nKz2Z8mzR2FJXQ62Rpv
-	ot7KbAPilXpZ3hd95t/KAZOvr2Ux4R/wt4VZWzEL6dq5KMZITxO1s3sOJVNmuNtJ7eZB
-	9BNA==
+	Mon, 02 May 2016 13:13:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=6SA6j+duC0K2+VN9GMzkQdoAyF/A6Wn869BcHBQSvJQ=;
-	b=LMROipsiOs6hkJ/PHr6ZH2JwMW9VwnR9oWLNMXq/WEmmziXPuQzLI1JkBNGGJe5Duu
-	GgK0BRvivExmGGCKceXRgsHUZ7YvNW3xTNMBxKhulVtVnOK+hP/F0YIqt261OdKNuU1q
-	utxYfwRSd8ZRzRSrs2qZoJCMW/UuQzSxKt+QAaFkIiT+0Bsqbbk9Nc3XhCsNavAiMyol
-	et4DlL87+ErCWa5NHZTMKURME3Hs7d3P5Vx/QFtldnBQEasFRSpjt/6hVy006bOfs+rH
-	4SMfgfrunv0NnjzWaCL7Hw8dXmZvVyRCPI8GJWRAucTLa3ReSVLsJpfSMRTExubZZOa7
-	Pwlw==
-X-Gm-Message-State: AOPr4FUXAZw/ZIhDlqN8id4/LRq1yEfU3kZ5ETq1QJxg0QwhQArangANmQHpEKRfCnpECw==
-X-Received: by 10.66.172.165 with SMTP id bd5mr55203027pac.128.1462219772056; 
-	Mon, 02 May 2016 13:09:32 -0700 (PDT)
-Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by smtp.gmail.com with ESMTPSA id
-	lz5sm47795540pab.34.2016.05.02.13.09.28
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 02 May 2016 13:09:29 -0700 (PDT)
-From: Christopher Larson <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 May 2016 13:09:25 -0700
-Message-Id: <1462219765-18957-1-git-send-email-kergoth@gmail.com>
-X-Mailer: git-send-email 2.8.0
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [master][PATCH] gcc-cross{, -canadian}: remove --with-linker-hash-style
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=qfPUSXcb0ewBkRq3PT3BZMiJc5sY9YgVkU/2tdKrgJs=;
+	b=Do11JMzleUPZxmsXOvIS3L+FqPLWgtZCWyfzLKqD1DsJwhOvas1tuujyrZcQ5GIDrU
+	tPmD1wnhRNinHcrd2AVbrVIriJ7PsD7nQi9yUnY3Fy0Cu3G1zb4S5mYOOJ5hfbWW5glL
+	+EJijYnfDxX2G1WRpgeHdUkwlAOCrhDcpBGKYjJUoQSTth9y0wmMd5JKeQXGPoUSPiec
+	hmg8hqN5s0Pqak5droUEzpZdyTqlyyCDrvErmiWWpefpGyK8qD4bOMv6p+azCn6sR+yQ
+	lEDm8hezi5wVnhT8DDv7IVsxUBD6pVo+LTqVdmtoXnAtdugx+tBcCBtbZ/dEIW7WciFN
+	7gEg==
+X-Gm-Message-State: AOPr4FXsNg6JzTRI8VF1F2eyE9JBpcw0XZnZ6TSGrELpPd2kNdT6PGzoPOlbqjnbtbKGDg==
+X-Received: by 10.66.72.137 with SMTP id d9mr43908253pav.151.1462220038342;
+	Mon, 02 May 2016 13:13:58 -0700 (PDT)
+Received: from localhost ([187.23.154.250]) by smtp.gmail.com with ESMTPSA id
+	t8sm47766183paw.16.2016.05.02.13.13.53
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 02 May 2016 13:13:57 -0700 (PDT)
+Received: by localhost (sSMTP sendmail emulation);
+	Mon, 02 May 2016 17:13:51 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Mon,  2 May 2016 17:13:36 -0300
+Message-Id: <1462220023-17811-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.8.2
+Organization: O.S. Systems Software LTDA.
+Cc: prabhu.sundararaj@nxp.com, Otavio Salvador <otavio@ossystems.com.br>,
+	neenareddy.busireddy@nxp.com,
+	meta-freescale Mailing List <meta-freescale@yoctoproject.org>
+Subject: [oe-core PATCH 0/7] Improve Xwayland integration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,51 +48,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 May 2016 20:09:33 -0000
+X-List-Received-Date: Mon, 02 May 2016 20:13:58 -0000
 
-From: Christopher Larson <chris_larson@mentor.com>
+Up to now, to make Xwayland to work it required several manual hacks
+and it was difficult to make an image which had support for it out of
+box.
 
-We explicitly set the hash style to gnu in our LDFLAGS. Setting the default to
-this in the toolchain, while convenient, actually hides bugs, as a failure to
-obey LDFLAGS isn't noticed. By removing this, it's not dissimilar to how we
-poison the sysroot -- rather than relying on the default, notice right away if
-somoeone isn't obeying the needed flags.
+This patchset intends to set the base for it. It enables weston-init
+to be extended to support Xwayland launch when needed.
 
-This will result in a failure to obey LDFLAGS causing a GNU_HASH QA failure,
-which is what's often seen with external toolchains. This brings us all on the
-same page, and makes sure a failure to obey LDFLAGS is seen early.
+There are still some issues to be done:
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- meta/recipes-devtools/gcc/gcc-4.9.inc | 1 -
- meta/recipes-devtools/gcc/gcc-5.3.inc | 1 -
- 2 files changed, 2 deletions(-)
+ - how to make Xwayland fit on the packagegroups?
+ - does core-image.bbclass ought to include a xwayland feature?
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
-index 7e03f31..c187918 100644
---- a/meta/recipes-devtools/gcc/gcc-4.9.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
-@@ -111,7 +111,6 @@ EXTRA_OECONF_BASE = "\
-     --disable-bootstrap \
-     --disable-libmudflap \
-     --with-system-zlib \
--    --with-linker-hash-style=${LINKER_HASH_STYLE} \
-     --enable-linker-build-id \
-     --with-ppl=no \
-     --with-cloog=no \
-diff --git a/meta/recipes-devtools/gcc/gcc-5.3.inc b/meta/recipes-devtools/gcc/gcc-5.3.inc
-index 9808be1..f2eda18 100644
---- a/meta/recipes-devtools/gcc/gcc-5.3.inc
-+++ b/meta/recipes-devtools/gcc/gcc-5.3.inc
-@@ -112,7 +112,6 @@ EXTRA_OECONF_BASE = "\
-     --disable-bootstrap \
-     --disable-libmudflap \
-     --with-system-zlib \
--    --with-linker-hash-style=${LINKER_HASH_STYLE} \
-     --enable-linker-build-id \
-     --with-ppl=no \
-     --with-cloog=no \
+Yet, this patchset seems good to be reviewed and possibly merged.
+
+
+Otavio Salvador (7):
+  weston: Enable XWayland when X11 and Wayland support are available
+  weston: Remove XWayland dependencies on PACKAGECONFIG
+  weston-init: Rework do_install to use install -D option
+  weston-init: Rework init sequence to avoid code duplication
+  weston-init: Error out if loading a nested instance
+  weston-init: Add module support for the weston-start helper
+  xserver-xorg: Add Xwayland initialization support using weston-start
+
+ meta/recipes-graphics/wayland/weston-init.bb       | 11 ++-
+ meta/recipes-graphics/wayland/weston-init/init     |  9 +--
+ .../wayland/weston-init/weston-start               | 78 ++++++++++++++++++++++
+ .../wayland/weston-init/weston.service             |  5 +-
+ meta/recipes-graphics/wayland/weston_1.9.0.bb      |  5 +-
+ .../recipes-graphics/xorg-xserver/xserver-xorg.inc |  9 ++-
+ .../xorg-xserver/xserver-xorg/xwayland             |  6 ++
+ 7 files changed, 101 insertions(+), 22 deletions(-)
+ create mode 100755 meta/recipes-graphics/wayland/weston-init/weston-start
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/xwayland
+
 -- 
-2.8.0
+2.8.2
 
 
