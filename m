@@ -1,55 +1,54 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
-	[209.85.220.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 235F976A51
+Received: from mail-pf0-f173.google.com (mail-pf0-f173.google.com
+	[209.85.192.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F53C6E668
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 May 2016 21:37:47 +0000 (UTC)
-Received: by mail-pa0-f47.google.com with SMTP id xk12so589015pac.0
+	Mon,  2 May 2016 21:43:51 +0000 (UTC)
+Received: by mail-pf0-f173.google.com with SMTP id 206so656553pfu.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 May 2016 14:37:49 -0700 (PDT)
+	Mon, 02 May 2016 14:43:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=wwNXG735bOjdzHCRNCfDlVFZ/gFb8hflKWAt+ohYGFo=;
-	b=fsgPPGhIQrvkL6Z/ZWz5HhiX2K/ws0iIKz6MdBeu4xhGOzyAwkJGSjHq9kMwJPUdT7
-	ZDPkBRnJjAVltOWGQyWjSC6RFMUcKlTfCDZeTwgq/a0ar4ZtME6ni30k00gYgdlumyph
-	YmvLlatPdnQYV6b6RqjpnOkqMtJRE1ta0lJPU0LoGD214twF7KhxTmcp5HkBXbFMbLxi
-	vTUbZThYkqxAd3Ovqiiv51hyIrKlXawyAF7EGYDi6J1pHCC1ol6XAknKYjn1qkhZ17g/
-	h5p+nCN2TfWYLQHFVEpbgprMc9VuX/Grm3rXq5+4ut6D3unbXhISWEoEZDk5TQoaTwCv
-	F4bQ==
+	:to; bh=LNGX2l2En9ShFRfWHiM9RiTEN7oFo7gv3DZFBxZGSN8=;
+	b=QwlHP1rfAU0LX/3zbn6XvdG1uxHEBll3Xbc09yqgjtSwvJIUveuMGvujxq5CksPhqV
+	z5eeaW05QYlcwsOmjNBVcUuaJlLbpdTOHhJonY1iij/LQVLcbH5X/sd4ZDu5vJtXodw2
+	1N3VVaQgET2oNNDV6d0ECZR2wedLBXQJWeDjYhK8SqOeKvXUQG1V2QhTNsnFEVMFzCUh
+	wSu8nHQxzT2X29zWIF82UMmFmHfn1NyGCcergAqhuQAApMcnzMfEdS0oKzbUIlabZeiQ
+	vvTGD+Vk2fdETNRa4j3N+crmLcacf4WoSz7RgL6ipcZ+5HelRyg7phtDcH99UHdd+OR2
+	AS8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
 	:message-id:references:to;
-	bh=wwNXG735bOjdzHCRNCfDlVFZ/gFb8hflKWAt+ohYGFo=;
-	b=KiQUcA7yO78bvMoHmoz3waNQ2XS8XqKyM8TI5vjdBgoamzG4rvZQQAhGzW5F/dZK5n
-	jrr1XsmKBdjB9WkAqZvRAXvl1IkzKCbCS81NZ7+faKSgnqEIi/Ra4PRhgPDOnO4fYGhk
-	nrvMsoi41y3TLgXdiagX4faT3aeOQJwWrdEtzIzeLGdZ2fXvRimnfPCSWSvxAPqahrIW
-	YfOqzsTmlVaIK2vg1N/Llh33CTAKvKoPE4H1gqWt51FHX0G+A77+xUFrVt8j8DDAgVes
-	H7Q18w16s0q4zP9fyppZsKUlhXSi7Qpei0BrtySrdgxV7HF6QhOEKQi3O4wiFEhz1Lsf
-	5WxQ==
-X-Gm-Message-State: AOPr4FUVEnX8Ek1lZv0zVi2ah+5mi+AZ6BA9xFQj5JhH0eQ9J8piws3zXTEomMbt1MAD2Q==
-X-Received: by 10.66.21.102 with SMTP id u6mr51867455pae.118.1462225068325;
-	Mon, 02 May 2016 14:37:48 -0700 (PDT)
+	bh=LNGX2l2En9ShFRfWHiM9RiTEN7oFo7gv3DZFBxZGSN8=;
+	b=PSS2Km6JjG7W8iA4earbGakfiFovlcjZvm8Bta85ix/83UYavwOEAZi8EKU3rTePsw
+	K3B4X6pk/UbaMWFvkyk2/jz5MM5SXvZYpKFOfRJDQcquUawuBb0NhJEf2eE4PCUuMDzs
+	5y7IwsX5gGt2a3DcNaERriSUjl7f/ES07HF+UBedbSfUsztx2HOVZjmS8H62SCExxrzL
+	S7jkhc3LUjIe9Ied5Zbr2wNfTMOvA39GyxCMm2E19dzOqLZClGJjyqYA2zkScCKSFvv0
+	3mz482sNCz7VOfwejaz2nzlCXFg+yPk+Ipfl9eRrEycLvUIP66yhIgpxS65/RN3MCweM
+	UiMw==
+X-Gm-Message-State: AOPr4FWw0MVUOIAHaH/pk8G1AzwQC0zEBp0uQz51HU7nzBVZHf2V5VgfNgIiBlrcaOoL2w==
+X-Received: by 10.98.52.195 with SMTP id b186mr55197153pfa.9.1462225431866;
+	Mon, 02 May 2016 14:43:51 -0700 (PDT)
 Received: from ?IPv6:2601:646:8800:5a9a:8dc7:7f44:e6aa:c692?
 	([2601:646:8800:5a9a:8dc7:7f44:e6aa:c692])
-	by smtp.gmail.com with ESMTPSA id
-	fh14sm113395pab.31.2016.05.02.14.37.47
+	by smtp.gmail.com with ESMTPSA id 133sm171054pfw.35.2016.05.02.14.43.51
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 02 May 2016 14:37:47 -0700 (PDT)
+	Mon, 02 May 2016 14:43:51 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
 X-Pgp-Agent: GPGMail 2.6b2
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CABcZAN=ECJ15QzuHx-a2aovhS3hagRJuo3u-kazjZ4xnHjt=zA@mail.gmail.com>
-Date: Mon, 2 May 2016 14:37:43 -0700
-Message-Id: <A4EC8338-0993-408B-9D4C-2E388348B3B0@gmail.com>
-References: <1462219765-18957-1-git-send-email-kergoth@gmail.com>
-	<B873B241-2AB0-4CDA-B4CF-7AEA166BEE68@gmail.com>
-	<CABcZAN=ECJ15QzuHx-a2aovhS3hagRJuo3u-kazjZ4xnHjt=zA@mail.gmail.com>
-To: Christopher Larson <kergoth@gmail.com>
+In-Reply-To: <57272877.7000905@linux.intel.com>
+Date: Mon, 2 May 2016 14:43:47 -0700
+Message-Id: <1DE0A7DC-F9C7-479D-A174-F1364487DDCF@gmail.com>
+References: <571E0BF3.8080408@linux.intel.com>
+	<CAMKF1sq+Bk+74RQbdevy9U6QtVpJ1UB_ghq5THHf4=jNK0271A@mail.gmail.com>
+	<57272877.7000905@linux.intel.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 X-Mailer: Apple Mail (2.3124)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [master][PATCH] gcc-cross{, -canadian}: remove --with-linker-hash-style
+Subject: Re: moving OpenEmbedded-core to Python 3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,190 +61,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 May 2016 21:37:48 -0000
-X-Groupsio-MsgNum: 81483
+X-List-Received-Date: Mon, 02 May 2016 21:43:52 -0000
+X-Groupsio-MsgNum: 81484
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_7E5AAF30-31CA-48D7-B0C7-5CC54FEA2B8E";
+	boundary="Apple-Mail=_631C95C5-8FE7-413E-96B9-F23DF917E444";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_7E5AAF30-31CA-48D7-B0C7-5CC54FEA2B8E
-Content-Type: multipart/alternative;
-	boundary="Apple-Mail=_34C4EB9A-4A24-47C8-B0C8-20433E441DEC"
-
---Apple-Mail=_34C4EB9A-4A24-47C8-B0C8-20433E441DEC
+--Apple-Mail=_631C95C5-8FE7-413E-96B9-F23DF917E444
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
-	charset=utf-8
+	charset=us-ascii
 
 
-> On May 2, 2016, at 1:37 PM, Christopher Larson <kergoth@gmail.com> =
-wrote:
+> On May 2, 2016, at 3:14 AM, Alexander Kanavin =
+<alexander.kanavin@linux.intel.com> wrote:
 >=20
+> On 04/29/2016 11:43 PM, Khem Raj wrote:
 >=20
+>> Can you clarify the scope, are you addressing the case where target
+>> images would prefer python3
+>> and you are making sure that packages that use python on target are
+>> ready for using it.
 >=20
-> On Mon, May 2, 2016 at 8:34 PM, Khem Raj <raj.khem@gmail.com =
-<mailto:raj.khem@gmail.com>> wrote:
+> There is no way to set a 'preference' for Python 3. Either version of =
+Python is pulled into images either through dependencies, or explicit =
+inclusion into some package list.
 >=20
-> > On May 2, 2016, at 1:09 PM, Christopher Larson <kergoth@gmail.com =
-<mailto:kergoth@gmail.com>> wrote:
-> >
-> > From: Christopher Larson <chris_larson@mentor.com =
-<mailto:chris_larson@mentor.com>>
-> >
-> > We explicitly set the hash style to gnu in our LDFLAGS. Setting the =
-default to
-> > this in the toolchain, while convenient, actually hides bugs, as a =
-failure to
-> > obey LDFLAGS isn't noticed. By removing this, it's not dissimilar to =
-how we
-> > poison the sysroot -- rather than relying on the default, notice =
-right away if
-> > somoeone isn't obeying the needed flags.
-> >
-> > This will result in a failure to obey LDFLAGS causing a GNU_HASH QA =
-failure,
-> > which is what's often seen with external toolchains. This brings us =
-all on the
-> > same page, and makes sure a failure to obey LDFLAGS is seen early.
-> >
->=20
->=20
-> Default or gnu linkers is to use sysv for legacy reasons and by =
-passing this option
-> to configuring the toolchain we want to make sure that components are =
-using sane defaults
-> even if they have not configured these options.
->=20
-> But that's not what we want. We want to know when we're not passing =
-arguments we need to be passing. For example, the sysroot is poisoned =
-today, so we *know* when the user is trying to run it without =
---sysroot=3D.
+> I'm going to move recipes that are dependent on Python 2 to Python 3, =
+whenever possible. I'm not porting the upstream code from Python 2 from =
+Python 3, just configuring the recipes to use Python 3, when the Python =
+code in them has already been ported.
 
-application makefiles can ignore environment e.g. CC, CXX, LD etc and =
-get into same situations.
-as an application writer I may not be interested in using cross =
-compilation specific nuances.  We may not
-be able to solve it completely
+OK, that is a safer bet.
 
 >=20
-> if you do not pass the right linker flags from compiler driver and =
-also ignore
-> the LDFLAGS then you now have a safe pass for the app to build without =
-GNU hash
-> while I understand it will spread the external toolchain=E2=80=99s =
-pains into internal toolchain
-> I fail to understand the benefit of doing this otherwise.
+>> bitbake itself is a separate task but then we do write scriptlets =
+that
+>> are executed as part of
+>> build, are you addressing those too ?
 >=20
-> Silently ignoring the fact that recipes ignore LDFLAGS is not good =
-default behavior, and this is precisely what oe-core is doing today. If =
-you know of a better way to detect that in another QA check, I'm =
-certainly open to hearing it.
+> Not sure what you mean here exactly, but if the scriptlets are =
+executed by bitbake, then I'm not addressing that.
 
-linker would emit .hash for sysv and .gnu.hash section for gnu hash in =
-final ELF, may be adding a QA check for that would be enough ?
+I was referring to bitbake itself needs python2 to run but if we have =
+code like classes etc. or external fetchers
+with assume python2 since bitbake is python2
 
-> --
-> Christopher Larson
-> kergoth at gmail dot com
-> Founder - BitBake, OpenEmbedded, OpenZaurus
-> Maintainer - Tslib
-> Senior Software Engineer, Mentor Graphics
+>=20
+>> Thirdly, there is general pythonic code in metadata meant to control
+>> build policies
+>=20
+> Again, can you provide an example?
+
+Snippets are all around in metadata where we use python snippets inside =
+recipes or configuration metadata. in general we should
+be using python3 more, but scoping these changes clearly would help to =
+set the expectations from user point of view.
+
+>=20
+>> Which of these are you addressing specifically.
+>=20
+> Please start using the question mark (?), so I can see more easily =
+what is a question when responding.
+>=20
 
 
---Apple-Mail=_34C4EB9A-4A24-47C8-B0C8-20433E441DEC
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=utf-8
 
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
-charset=3Dutf-8"></head><body style=3D"word-wrap: break-word; =
--webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
-class=3D""><br class=3D""><div><blockquote type=3D"cite" class=3D""><div =
-class=3D"">On May 2, 2016, at 1:37 PM, Christopher Larson &lt;<a =
-href=3D"mailto:kergoth@gmail.com" class=3D"">kergoth@gmail.com</a>&gt; =
-wrote:</div><br class=3D"Apple-interchange-newline"><div class=3D""><div =
-dir=3D"ltr" class=3D""><br class=3D""><div class=3D"gmail_extra"><br =
-class=3D""><div class=3D"gmail_quote">On Mon, May 2, 2016 at 8:34 PM, =
-Khem Raj <span dir=3D"ltr" class=3D"">&lt;<a =
-href=3D"mailto:raj.khem@gmail.com" target=3D"_blank" =
-class=3D"">raj.khem@gmail.com</a>&gt;</span> wrote:<br =
-class=3D""><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D""><br =
-class=3D"">
-&gt; On May 2, 2016, at 1:09 PM, Christopher Larson &lt;<a =
-href=3D"mailto:kergoth@gmail.com" class=3D"">kergoth@gmail.com</a>&gt; =
-wrote:<br class=3D"">
-&gt;<br class=3D"">
-&gt; From: Christopher Larson &lt;<a =
-href=3D"mailto:chris_larson@mentor.com" =
-class=3D"">chris_larson@mentor.com</a>&gt;<br class=3D"">
-&gt;<br class=3D"">
-&gt; We explicitly set the hash style to gnu in our LDFLAGS. Setting the =
-default to<br class=3D"">
-&gt; this in the toolchain, while convenient, actually hides bugs, as a =
-failure to<br class=3D"">
-&gt; obey LDFLAGS isn't noticed. By removing this, it's not dissimilar =
-to how we<br class=3D"">
-&gt; poison the sysroot -- rather than relying on the default, notice =
-right away if<br class=3D"">
-&gt; somoeone isn't obeying the needed flags.<br class=3D"">
-&gt;<br class=3D"">
-&gt; This will result in a failure to obey LDFLAGS causing a GNU_HASH QA =
-failure,<br class=3D"">
-&gt; which is what's often seen with external toolchains. This brings us =
-all on the<br class=3D"">
-&gt; same page, and makes sure a failure to obey LDFLAGS is seen =
-early.<br class=3D"">
-&gt;<br class=3D"">
-<br class=3D"">
-<br class=3D"">
-</span>Default or gnu linkers is to use sysv for legacy reasons and by =
-passing this option<br class=3D"">
-to configuring the toolchain we want to make sure that components are =
-using sane defaults<br class=3D"">
-even if they have not configured these options.<br =
-class=3D""></blockquote><div class=3D""><br class=3D""></div><div =
-class=3D"">But that's not what we want. We want to know when we're not =
-passing arguments we need to be passing. For example, the sysroot is =
-poisoned today, so we *know* when the user is trying to run it without =
---sysroot=3D.</div></div></div></div></div></blockquote><div><br =
-class=3D""></div><div>application makefiles can ignore environment e.g. =
-CC, CXX, LD etc and get into same situations.</div><div>as an =
-application writer I may not be interested in using cross compilation =
-specific nuances. &nbsp;We may not</div><div>be able to solve it =
-completely&nbsp;</div>&nbsp;<br class=3D""><blockquote type=3D"cite" =
-class=3D""><div class=3D""><div dir=3D"ltr" class=3D""><div =
-class=3D"gmail_extra"><div class=3D"gmail_quote"><div class=3D""><br =
-class=3D""></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex">
-if you do not pass the right linker flags from compiler driver and also =
-ignore<br class=3D"">
-the LDFLAGS then you now have a safe pass for the app to build without =
-GNU hash<br class=3D"">
-while I understand it will spread the external toolchain=E2=80=99s pains =
-into internal toolchain<br class=3D"">
-I fail to understand the benefit of doing this =
-otherwise.</blockquote></div><br clear=3D"all" class=3D""><div =
-class=3D"">Silently ignoring the fact that recipes ignore LDFLAGS is not =
-good default behavior, and this is precisely what oe-core is doing =
-today. If you know of a better way to detect that in another QA check, =
-I'm certainly open to hearing =
-it.</div></div></div></div></blockquote><div><br =
-class=3D""></div><div>linker would emit .hash for sysv and .gnu.hash =
-section for gnu hash in final ELF, may be adding a QA check for that =
-would be enough ?</div><br class=3D""><blockquote type=3D"cite" =
-class=3D""><div class=3D""><div dir=3D"ltr" class=3D""><div =
-class=3D"gmail_extra">-- <br class=3D""><div =
-class=3D"gmail_signature"><div dir=3D"ltr" class=3D"">Christopher =
-Larson<br class=3D"">kergoth at gmail dot com<br class=3D"">Founder - =
-BitBake, OpenEmbedded, OpenZaurus<br class=3D"">Maintainer - Tslib<br =
-class=3D"">Senior Software Engineer, Mentor Graphics</div></div>
-</div></div>
-</div></blockquote></div><br class=3D""></body></html>=
+> Thanks,
+> Alex
+>=20
 
---Apple-Mail=_34C4EB9A-4A24-47C8-B0C8-20433E441DEC--
 
---Apple-Mail=_7E5AAF30-31CA-48D7-B0C7-5CC54FEA2B8E
+--Apple-Mail=_631C95C5-8FE7-413E-96B9-F23DF917E444
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -256,9 +143,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlcnyKoACgkQuwUzVZGdMxSp5QCgjOvuKEVmbdIDKD6QLUl0+LbA
-UqEAnAt6XOMShjbHNC6QUwKCkIJymdb1
-=SpJN
+iEYEARECAAYFAlcnyhYACgkQuwUzVZGdMxSK3gCfc1HSHsubX5X71ab8pmFrnjGi
+ZCEAnRNeIEIykMs39eQDaHtJwhpXCLBU
+=Gc05
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_7E5AAF30-31CA-48D7-B0C7-5CC54FEA2B8E--
+--Apple-Mail=_631C95C5-8FE7-413E-96B9-F23DF917E444--
