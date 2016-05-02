@@ -1,36 +1,36 @@
 Return-Path: <otavio.salvador@gmail.com>
 Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
 	[209.85.220.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 35B8A73232
+	by mail.openembedded.org (Postfix) with ESMTP id 08DDE73204
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 May 2016 20:14:04 +0000 (UTC)
-Received: by mail-pa0-f45.google.com with SMTP id iv1so78532545pac.2
+	Mon,  2 May 2016 20:14:13 +0000 (UTC)
+Received: by mail-pa0-f45.google.com with SMTP id xk12so7317886pac.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 May 2016 13:14:06 -0700 (PDT)
+	Mon, 02 May 2016 13:14:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:organization;
-	bh=mtRxOP5bWDJW7QDQpd2Ks6IP9gzku46sdOMAB+alEmM=;
-	b=dZAs1Gws/deiIOUg18meab2IsFIN95RkIU82iNqfVY1mQcD6c/hRB2aBUzJujUIfK8
-	x7etxugtC1th6DEY5jJ1Q4zLAnn32SVqgsuF9TnEjDWiK9PwfU/YvbTAj/qj7oxhtS3W
-	KqtLoEmVLe0Ur5jfuqOqPrr52ozZdNP/Md2FZpB58/tjWk6gpnyKUtzypN6kCfaq5gZt
-	PznWKyephHEfpVh1hYM4Si0P+49guwowuYCtHBWT4IcGA7JNMFftiIpdYZrgyPyhEpt/
-	nEZif9fLq+LPhgHn4qyAtQWMD2MYpods9SbFk76ZBipJyOay6y231HN4IFjatESH0i99
-	2aVQ==
-X-Gm-Message-State: AOPr4FV+Cz/GUEEowcNiPNjAX1CKJEE69s0RQ7+cT5Aq9GJJtwQEbpx7w6BKxMZjjZwNCg==
-X-Received: by 10.66.25.243 with SMTP id f19mr54470265pag.11.1462220045811;
-	Mon, 02 May 2016 13:14:05 -0700 (PDT)
+	bh=8biDGNrhVP0i18SaOgef/m5MfeIfZjmsuZ9lgwrW9gE=;
+	b=mOwR0EFZuPjUC09e1cRkAPdhKwLeZMf/+1iqhSoCR3Pp9MSSaTnAp3SqW+mRDx4m/y
+	XCKRryxKFnE9AKD20RShrReOKM07I6gIGQDsiuWjqHlOupOjqKemzIKysxJYjI70qorv
+	muEkpVzxGQRTWnGbmmRpOgC4Q/GUBN4915B6ec5c2+QsMcLf9eckHbbZFxwAPbbu2ZZf
+	aMiif5Fyp2YrYZdiP9eMBFxoDn0YCc6Jf+5w1ZM/EvL7k1fC6gMvJeCD+RShP5b0MFYx
+	FATEgXF1PDACs9tT7vZweuJR901JUI9RdmYCQ6x2IKuyZ4x4qQ0X0PUxZ4O3xsuF9jjE
+	BCuw==
+X-Gm-Message-State: AOPr4FUefWKAPWIitLY/CJM61bWPfASwFSKtULlNbNHWX0GJI/7MOcx5/rF19EzQ77wL5A==
+X-Received: by 10.66.142.232 with SMTP id rz8mr31348888pab.22.1462220054060;
+	Mon, 02 May 2016 13:14:14 -0700 (PDT)
 Received: from localhost ([187.23.154.250]) by smtp.gmail.com with ESMTPSA id
-	bf4sm47326202pac.4.2016.05.02.13.14.01
+	s64sm47464065pfi.77.2016.05.02.13.14.09
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 02 May 2016 13:14:04 -0700 (PDT)
+	Mon, 02 May 2016 13:14:12 -0700 (PDT)
 Received: by localhost (sSMTP sendmail emulation);
-	Mon, 02 May 2016 17:13:58 -0300
+	Mon, 02 May 2016 17:14:06 -0300
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Mon,  2 May 2016 17:13:37 -0300
-Message-Id: <1462220023-17811-2-git-send-email-otavio@ossystems.com.br>
+Date: Mon,  2 May 2016 17:13:38 -0300
+Message-Id: <1462220023-17811-3-git-send-email-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.8.2
 In-Reply-To: <1462220023-17811-1-git-send-email-otavio@ossystems.com.br>
 References: <1462220023-17811-1-git-send-email-otavio@ossystems.com.br>
@@ -38,7 +38,7 @@ Organization: O.S. Systems Software LTDA.
 Cc: prabhu.sundararaj@nxp.com, Otavio Salvador <otavio@ossystems.com.br>,
 	neenareddy.busireddy@nxp.com,
 	meta-freescale Mailing List <meta-freescale@yoctoproject.org>
-Subject: [oe-core PATCH 1/7] weston: Enable XWayland when X11 and Wayland support are available
+Subject: [oe-core PATCH 2/7] weston: Remove XWayland dependencies on PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,29 +51,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 May 2016 20:14:07 -0000
+X-List-Received-Date: Mon, 02 May 2016 20:14:13 -0000
 
-When the DISTRO has X11, Wayland and PAM support enabled, XWayland ought to
-be enabled by default.
+Instead of adding partial dependencies we list the PACKAGECONFIG
+options that are required. Those are: X11, Wayland and PAM.
+
+The previous value were redudant with X11 PACKAGECONFIG option and as
+it is a requirement, for XWayland, it can be removed to easy
+maintenance.
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
 
- meta/recipes-graphics/wayland/weston_1.9.0.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-graphics/wayland/weston_1.9.0.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/meta/recipes-graphics/wayland/weston_1.9.0.bb b/meta/recipes-graphics/wayland/weston_1.9.0.bb
-index 16a788d..370c38c 100644
+index 370c38c..8940410 100644
 --- a/meta/recipes-graphics/wayland/weston_1.9.0.bb
 +++ b/meta/recipes-graphics/wayland/weston_1.9.0.bb
-@@ -40,6 +40,7 @@ EXTRA_OECONF_append_qemux86-64 = "\
- 		"
- PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'kms fbdev wayland egl', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 wayland pam', 'xwayland', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'launch', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
-                   "
+@@ -73,8 +73,8 @@ PACKAGECONFIG[webp] = "--enable-webp,--disable-webp,libwebp"
+ PACKAGECONFIG[libunwind] = "--enable-libunwind,--disable-libunwind,libunwind"
+ # Weston with systemd-login support
+ PACKAGECONFIG[systemd] = "--enable-systemd-login,--disable-systemd-login,systemd dbus"
+-# Weston with Xwayland support
+-PACKAGECONFIG[xwayland] = "--enable-xwayland,--disable-xwayland,libxcb libxcursor cairo"
++# Weston with Xwayland support (requires X11, Wayland and PAM)
++PACKAGECONFIG[xwayland] = "--enable-xwayland,--disable-xwayland"
+ # colord CMS support
+ PACKAGECONFIG[colord] = "--enable-colord,--disable-colord,colord"
+ 
 -- 
 2.8.2
 
