@@ -1,55 +1,42 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
-	[209.85.220.44])
-	by mail.openembedded.org (Postfix) with ESMTP id C3B177318F
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id B480B731F7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 May 2016 15:46:50 +0000 (UTC)
-Received: by mail-pa0-f44.google.com with SMTP id bt5so75094924pac.3
+	Mon,  2 May 2016 15:56:58 +0000 (UTC)
+Received: by mail-wm0-f51.google.com with SMTP id e201so112637002wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 May 2016 08:46:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=dOnFuU+A0XVhhelRIUuhV3UlVJ7ZZbMWLPAzI+2dvX8=;
-	b=dOB19PyGvi0HQLxIuW/T8IHDbd2nqJaEG2HiNo8jCVqJODuK/bkI8pV0wpRw7fzbew
-	IlzM2b+gpuaaI/w0pQf0uHL8Dt5nta8xqFxfpK4nJ9pVQS/2lH/Z9QTZQvcZRTIWn3oD
-	M0cOftVdOzuRUO4K+us1X9AyN+7kEzdaLTHAuZrHeLan+EjMOhGQNHJuaZwOaTHnJbxQ
-	NHnkcbbhttJTZrDsOkUey+1OvCdAWlAYcq754LEm67zZp9xwTqtWl70ajwCtkRG7uP8r
-	hjqfjtBKqboSAZsZ1g8SbE8nHmG/bGVUMf2ruz4kFm90+QVsOR/Krc4dujOoK2frmTw5
-	4+CA==
+	Mon, 02 May 2016 08:56:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=gZqKRzhokNXWFEqNeZKX5SxUsA+yVpqP5/B/IxHs7no=;
+	b=PBGujjQJ8sZ19XMEgm8zo0QjLs3yUK1SrAl61k3qjTeAj9qegEhJz8tqKjPmJN8rDI
+	a8TT3MYqlNzXheIpm2m5ETAcROtYs4FNl+GVJlLgu5yADEqJCKqaz4fY4JMYBSqUCDdg
+	kkXmBmpNx0ucVlr5xqYtZxqlvMFLUqhBKMtdg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=dOnFuU+A0XVhhelRIUuhV3UlVJ7ZZbMWLPAzI+2dvX8=;
-	b=nK59qR4+NwYIYusYt2Z3fV4y+lJjOi3EBKtELWuy2//17BunqFBas7Unr9YEp50s+j
-	tdgg8Hg+mwviCb49FO9gD6ZAXy71N+lU7o8S/mKyUiSWa6OMKKHGXnaAPwvTp5Gtb9Vd
-	pIwSD+e40AC4Qn0JPAuKZK7xu18gIqWZ7XSoq0wo9inmF9jf576V22Z2oyAdzdV0LLMs
-	5OQURAUXm/PdbLlAVApIqAUNnv2RPSgn+52Hq9yy/F6sbKlsWN3FF0fcNVRnfS2q4/iP
-	u2UFnG4nNKFqx3xibdpwot5MSS70w/fLzNdHlriQyFVBmSJsOZLRkRj906EhJhPqJio4
-	aBVw==
-X-Gm-Message-State: AOPr4FXsDMZ+QHnxZTQHFzNjt96BvFE2W8hBWfNZRmyCapBF+SDB0/l84tgOm8KhD0nSog==
-X-Received: by 10.66.241.73 with SMTP id wg9mr24039515pac.91.1462204011129;
-	Mon, 02 May 2016 08:46:51 -0700 (PDT)
-Received: from ?IPv6:2601:646:8800:5a9a:ecc3:a3e8:c0db:d2ff?
-	([2601:646:8800:5a9a:ecc3:a3e8:c0db:d2ff])
-	by smtp.gmail.com with ESMTPSA id
-	s124sm28636244pfb.63.2016.05.02.08.46.49
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 02 May 2016 08:46:50 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <5727269A.30405@linux.intel.com>
-Date: Mon, 2 May 2016 08:46:49 -0700
-Message-Id: <95CD514D-A18A-4D04-9A00-AD1034D843EA@gmail.com>
-References: <1461761088-15117-1-git-send-email-alexander.kanavin@linux.intel.com>
-	<CAMKF1spLRX=XrS+Kf8GeC=XufwtTPxQJ-oeEQHH1ay2sOZb4Wg@mail.gmail.com>
-	<5727269A.30405@linux.intel.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-X-Mailer: Apple Mail (2.3124)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] arch-powerpc64.inc: disable the use of qemu usermode on ppc64
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=gZqKRzhokNXWFEqNeZKX5SxUsA+yVpqP5/B/IxHs7no=;
+	b=d8p3c5hOaVJC3aeBeufl+yRQz3CYxpQJkw2SU+/JXlMya9enp4aXus2s2Vd86gR4/6
+	GZt8Z+m8ghcUjEYPyHXrlCpRKJyJ4btVxbEh+JzlVbxqDOJOM3bx3O9s2T8bT5vMOGCg
+	fROZLItKc6SiZc6IXQCRWh3ayBM8ENHS4QIELO50bltz/L3jHePCYxFwhNOjGX3+OD7K
+	L6n0gpCyJubT/Fowh0OF9u/bBPkn/1QrPbk9cmg24f6toCoUfSxi4PostwA2TSnalbbP
+	6kO8uVldiuTaqjleg6dsN2vRqnSYABMlBVmt6tNzF9kzsteyIVdFRtF76gJGV9WKlEDE
+	tZFw==
+X-Gm-Message-State: AOPr4FUYNxNFlU6e3PKUIX9cFG/KmpNuXs4FRslWJGfZ33/SMWdB9Ck2xFKX7YZd4xiSO74R
+X-Received: by 10.28.154.2 with SMTP id c2mr20281600wme.9.1462204618855;
+	Mon, 02 May 2016 08:56:58 -0700 (PDT)
+Received: from localhost.localdomain (gau06-1-78-243-126-63.fbx.proxad.net.
+	[78.243.126.63]) by smtp.gmail.com with ESMTPSA id
+	xt9sm31057029wjb.17.2016.05.02.08.56.57
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 02 May 2016 08:56:57 -0700 (PDT)
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  2 May 2016 17:56:32 +0200
+Message-Id: <1462204592-22025-1-git-send-email-nicolas.dechesne@linaro.org>
+X-Mailer: git-send-email 2.8.1
+Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Subject: [PATCH] bluez5: move btmgmt to common READLINE section
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,43 +49,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 May 2016 15:46:52 -0000
-X-Groupsio-MsgNum: 81452
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_1ACAF1D9-70CE-4181-980A-321F80B8527F";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Mon, 02 May 2016 15:57:00 -0000
 
---Apple-Mail=_1ACAF1D9-70CE-4181-980A-321F80B8527F
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+Upstream in 5.33 btmgmt was moved from experimental to common READLINE section,
+in commit e4f0c5582f1fe3451d5588243adba9de1ed68b80, but this was never updated
+in the recipe.
+
+Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+---
+ meta/recipes-connectivity/bluez5/bluez5_5.37.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.37.bb b/meta/recipes-connectivity/bluez5/bluez5_5.37.bb
+index db20f79..d7a9940 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5_5.37.bb
++++ b/meta/recipes-connectivity/bluez5/bluez5_5.37.bb
+@@ -13,6 +13,7 @@ NOINST_TOOLS_READLINE ?= " \
+     tools/obex-server-tool \
+     tools/bluetooth-player \
+     tools/obexctl \
++    tools/btmgmt \
+ "
+ 
+ # noinst programs in Makefile.tools that are conditional on EXPERIMENTAL
+@@ -37,7 +38,6 @@ NOINST_TOOLS_EXPERIMENTAL ?= " \
+     tools/hwdb \
+     tools/hcieventmask \
+     tools/hcisecfilter \
+-    tools/btmgmt \
+     tools/btinfo \
+     tools/btattach \
+     tools/btsnoop \
+-- 
+2.8.1
 
 
-> On May 2, 2016, at 3:06 AM, Alexander Kanavin =
-<alexander.kanavin@linux.intel.com> wrote:
->=20
-> On 04/29/2016 11:34 PM, Khem Raj wrote:
->> should we replace qemu-ppc with qemu-ppc64 instead of disabling it
->=20
-> qemu-ppc64 is already used on 64 bit powerpc, the problem is that it =
-always crashes.
-
-Do we need to adjust the emulated machine parameter ?
-
---Apple-Mail=_1ACAF1D9-70CE-4181-980A-321F80B8527F
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlcndmkACgkQuwUzVZGdMxRpSACghIOFtyegCd+gXJ3CrInbADRr
-pXEAnAlMtkqWmFNDgWgs5Qes9jX3DF1X
-=BA3d
------END PGP SIGNATURE-----
-
---Apple-Mail=_1ACAF1D9-70CE-4181-980A-321F80B8527F--
