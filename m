@@ -1,53 +1,24 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
-	[209.85.223.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 163EA65CBC
+Return-Path: <philip@balister.org>
+Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
+	by mail.openembedded.org (Postfix) with SMTP id 52508731C4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 May 2016 13:39:32 +0000 (UTC)
-Received: by mail-io0-f181.google.com with SMTP id u185so195991149iod.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 May 2016 06:39:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=gn9W8u6rdPEZ35hxfxCzfR/mlUYJCmQ4uJzYPCtbwvA=;
-	b=kKeMBOV7UhjhvwWsr+v0baZ/dZkPPPinSqs9GB0eq37dNJzKuvlz4VZrquamuY6oQz
-	muq4x5mZQZsuH2ZMUY7QmYHdEt9QX6LSFoIcekcfdyac5YVyJbWk/MlW5SyvfkeL7X2a
-	h/3rNBi3ZYOh1nlW6MawM9ek37d6mrJXZ2LBnK1VNhjvl1q+0wvc4N7JpOcvOvnFJU68
-	GbwCnglgUiSB2ncEqu1W/GLbrN6jWg15tqIWvnmY9GFDzbGAwoN4H666N8L4hyLkZ/dk
-	C+cOiNX1+BItlWdF8bud+grFOQ/ivtJfSYd1YQovz2sb06XH41yDwp/5hHwju1IU5q80
-	SaNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=gn9W8u6rdPEZ35hxfxCzfR/mlUYJCmQ4uJzYPCtbwvA=;
-	b=EpO6SPptz+2VFpj6SRSKPxXKQIUqu54WXWXpEKo575avVoHgChglQ0W+ha2TaA3pxc
-	8Gg9IWWPmyOPGMh46By00KF2MFteYc3bj7mjXXqsezlO0mfK8qONz3P+eMw6xA6CcNEw
-	2VUWUJAuLGj+J5WrbbsEMyy8i0c6c/yQ4US4dNGwGF5ldrK9GIrosus2fYma/P27sHbc
-	kJ3z9e5C74AZn77b5p/r6V7mXIPzNx4Kwo+u7+whZh6yuww+SpiEy5Xc0t1SOlCqiFKR
-	fryx6+FYldCuMObQhTe6aPV4QHnZP00UU25uTtil9TWl1CDQzZz3hnmroP6rgpsDaHEh
-	kr2w==
-X-Gm-Message-State: AOPr4FU1mJBnl4dsT3GEXEl7ipxd8/pwTXsFYoLgW/zQ7eY9a30sbh5+lneynL+RdsI8cXtt
-X-Received: by 10.107.11.18 with SMTP id v18mr43428360ioi.184.1462196373141;
-	Mon, 02 May 2016 06:39:33 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8DB4C.dip0.t-ipconnect.de. [93.232.219.76])
-	by smtp.gmail.com with ESMTPSA id
-	zp20sm9851410igc.13.2016.05.02.06.39.31
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 02 May 2016 06:39:32 -0700 (PDT)
-Message-ID: <1462196370.30857.70.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Mon, 02 May 2016 15:39:30 +0200
-In-Reply-To: <1461333082.31320.121.camel@linuxfoundation.org>
-References: <1461333082.31320.121.camel@linuxfoundation.org>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] lib/oe/rootfs: Fix DEBUGFS generation when using opkg
+	Mon,  2 May 2016 13:56:34 +0000 (UTC)
+Received: (qmail 23011 invoked by uid 1003); 2 May 2016 13:56:34 -0000
+Received: from unknown (HELO ?192.168.11.140?)
+	(philip@opensdr.com@108.44.118.32)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	2 May 2016 13:56:34 -0000
+To: Ed Bartosh <ed.bartosh@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <cover.1461834510.git.ed.bartosh@linux.intel.com>
+From: Philip Balister <philip@balister.org>
+Message-ID: <3406b2f8-f64b-07d1-a2d3-99bfde54e686@balister.org>
+Date: Mon, 2 May 2016 09:56:33 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.0
+MIME-Version: 1.0
+In-Reply-To: <cover.1461834510.git.ed.bartosh@linux.intel.com>
+Subject: Re: [wic][PATCH v2 0/8] make wic images sparse (#9099)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,43 +31,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 May 2016 13:39:35 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 02 May 2016 13:56:42 -0000
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2016-04-22 at 14:51 +0100, Richard Purdie wrote:
-> When enabling extra DEBUGFS image generation with opkg, errors are seen like:
+On 04/28/2016 06:58 AM, Ed Bartosh wrote:
+> Hi,
 > 
-> ERROR: core-image-minimal-1.0-r0 do_rootfs: Cannot get the installed packages list. Command '/media/build1/poky/build/tmp/sysroots/x86_64-linux/usr/bin/opkg -f /media/build1/poky/build/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/opkg.conf -o /media/build1/poky/build/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/rootfs  --force_postinstall --prefer-arch-to-version   status' returned 0 and stderr:
-> Collected errors:
->  * file_md5sum_alloc: Failed to open
-> file /media/build1/poky/build/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/rootfs/etc/syslog-startup.conf.busybox: No such file or directory.
->  * file_md5sum_alloc: Failed to open
-> file /media/build1/poky/build/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/rootfs/etc/fstab: No such file or directory.
+> This patchset is a preparation for bmaptool support for wic. Using bmaptool
+> makes sense only if images are sparsed and this is what's implemented here.
+
+Minor nit, I find bmaptool makes sense even when images are not sparse.
+It does check if existing partitions are mounted and seems a little
+faster than dd.
+
+Philip
+
 > 
-> basically for all CONFFILES in the image. This is due to the file
-> rearranging
-> the rootfs generation code does. If we preserve the /etc directory,
-> the avoids the problem.
-
-It avoids the problem, but it does not address the root cause (IMHO).
-Should opkg really complain about missing configuration files? It is
-perhaps an edge case, but besides editing a configuration file
-*removing* it entirely may also be a valid user modification.
-
-The usage of opkg here is during image building, but the operation
-itself (opkg status) is not specific to image creation and thus should
-be able to handle arbitrary states of /etc and the config files in
-general.
-
--- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
-
+> Nice side effect of this work is that making images sparse not only makes
+> flashing faster. It also makes the process of assembling an image much faster.
+> 
+> Here is how it works:
+> - wic from master branch spends 36 sec to create an image:
+> $ time wic create test.wks -e core-image-minimal -o img/
+> ...
+> real    0m36.878s
+> user    2m0.496s
+> sys     0m18.444s
+> 
+> - sparse-aware wic spends 8 seconds to create the same image:
+> $ time wic create test.wks -e core-image-minimal -o img/
+> ...
+> real    0m8.672s
+> user    0m7.292s
+> sys     0m1.212s
+> 
+> The final image is very sparse, which explains why sparse-aware wic is so fast:
+> $ ls -lhs img/build/test-201604281219-sda.direct
+> 28M -rw-r--r-- 1 ed users 2.4G Apr 28 12:19 img/build/test-201604281219-sda.direct
+> 
+> bmaptool reports 1.1% of mapped blocks:
+> $ PATH=tmp/sysroots/x86_64-linux/usr/bin/ bmaptool create img/build/test-201604281219-sda.direct -o img/build/test-201604281219-sda.direct.bmap
+> $ grep 'mapped blocks' img/build/test-201604281219-sda.direct.bmap
+>     <!-- Count of mapped blocks: 27.2 MiB or 1.1%    -->
+> 
+> Flashing is also a lot faster with bmaptool comparing to using dd:
+> 
+> time PATH=./tmp/sysroots/x86_64-linux/usr/bin/ bmaptool copy img/build/test-201604281606-sda.direct /dev/sdb
+> bmaptool: info: discovered bmap file 'img/build/test-201604281606-sda.direct.bmap'
+> bmaptool: info: block map format version 2.0
+> bmaptool: info: 605696 blocks of size 4096 (2.3 GiB), mapped 6986 blocks (27.3 MiB or 1.2%)
+> bmaptool: info: copying image 'test-201604281606-sda.direct' to block device '/dev/sdb' using bmap file 'test-201604281606-sda.direct.bmap'
+> bmaptool: info: 100% copied
+> bmaptool: info: synchronizing '/dev/sdb'
+> bmaptool: info: copying time: 1.5s, copying speed 17.9 MiB/sec
+> 
+> real    0m1.621s
+> user    0m0.225s
+> sys     0m0.089s
+> 
+> time dd if=img/build/test-201604281606-sda.direct of=/dev/sdb bs=4M
+> 591+1 records in
+> 591+1 records out
+> 2480930816 bytes (2.5 GB) copied, 107.483 s, 23.1 MB/s
+> 
+> real    1m47.485s
+> user    0m0.001s
+> sys     0m4.324s
+> 
+> The following changes since commit 111f44cacf25799dc296b8e300b571d798067fdc:
+> 
+>   selftest: add bmap test (2016-04-27 12:26:59 +0300)
+> 
+> are available in the git repository at:
+> 
+>   git://git.yoctoproject.org/poky-contrib ed/wic/sparse-9099
+>   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/wic/sparse-9099
+> 
+> Ed Bartosh (8):
+>   wic: use truncate utility to create sparse files
+>   wic: get rid of inheritance Disk->DiskImage
+>   wic: get rid of fs_related.makedirs
+>   wic: moved DiskImage to direct.py
+>   wic: add FIEMAP and SEEK_HOLE / SEEK_DATA APIs
+>   wic: add sparse_copy API
+>   wic: use sparse_copy to copy partitions
+>   wic: use sparse_copy to preserve sparseness
+> 
+>  scripts/lib/wic/filemap.py                | 561 ++++++++++++++++++++++++++++++
+>  scripts/lib/wic/imager/direct.py          |  23 +-
+>  scripts/lib/wic/partition.py              |  20 +-
+>  scripts/lib/wic/plugins/source/rawcopy.py |   7 +-
+>  scripts/lib/wic/utils/fs_related.py       |  84 -----
+>  scripts/lib/wic/utils/partitionedfs.py    |   6 +-
+>  6 files changed, 592 insertions(+), 109 deletions(-)
+>  create mode 100644 scripts/lib/wic/filemap.py
+>  delete mode 100644 scripts/lib/wic/utils/fs_related.py
+> 
+> --
+> Regards,
+> Ed
+> 
 
