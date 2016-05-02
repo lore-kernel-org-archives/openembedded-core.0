@@ -1,46 +1,49 @@
 Return-Path: <kergoth@gmail.com>
 Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
 	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id CC18B606D1
+	by mail.openembedded.org (Postfix) with ESMTP id B62C4731E6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 May 2016 19:24:01 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id r187so21491489pfr.2
+	Mon,  2 May 2016 19:24:09 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id 145so18383670pfz.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 May 2016 12:24:02 -0700 (PDT)
+	Mon, 02 May 2016 12:24:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=pidRvLCJgP4+tos+sBEaoX6RmMMOR3zsTXI2l4gWQSY=;
-	b=zrTS0FXT4KxqxV1EStloCLfDTNhtrocHjHOt4uEa+WwGJseimcAAaNqWQFMt4nwdAQ
-	kChcHlbnQdNOOiGJQ96nUUAKBcEteZXz1eTUvFID+l/D9ftP3v4G4XiSdsg3S2lqlw7U
-	vFNATu2BiS36+e0RX4nRbuFLyGQUdhVlpoxaw8S/IR/rDl+RPT8oDePbuOa9H4M5dV1o
-	pU3aIVa2u9mDuozHgNLDHteVOzwVBTa0N3uzaiffb2cGx6GjmGjNZHUeRq1pTqyhKkV5
-	6N5rrUfznrTqEKzUSM0zlCQ+aVX4LoJuGYpmP+fwwLDmUvD9apBz2bAOpXwr8UGZBCVj
-	bmOQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=IRwHUvTKtqw/enKuo4rFwW7BVMCItscVXxl0q+QRY88=;
+	b=thdFelOKoQKsQ4w4aff5YHy8JHawcERxm/g5d1zooag5rFUd9JmNM0iRCwRYcTN+nk
+	HThlo/GPpz3IwkvoS5d+mhdCQNSyTtGG+7W3H5hJ14Mpq3z+T5dlpI3Rwgjacn98L0HW
+	bCp/qsXdei+BQoAIoFnBPtnp7MVnWnJZeNvxA36gKeo3BixQm1nhB14sp32YT+pSt2WG
+	eCnna/+MkWxTTPA6J4io1e4gptv56nO0ZcdSSM2S5QpHWzE2QqkvlfXDqJBafdRf/xD9
+	Mrhb4LR3ebCv14+eDTQrSPhwjTt8kXiXJ8p0kPrERs3m/2Y5L+/73Ay2FWIgyUn5oqOV
+	JTeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=pidRvLCJgP4+tos+sBEaoX6RmMMOR3zsTXI2l4gWQSY=;
-	b=VSrMSWRuE/BDGQPh3lBS1xPpD1RTQJw21VTv//J0hxRAY3sSivA+LkjPtwKEPkXfMf
-	4PIz0+75hbPrulJVrREAh5Q7ZJ/QqXFEfvvC5LWfhSHoqH8C9QMrO2VA87oI2GXZi1AD
-	uLsf9bI7a0HzWebujLxzxyyGEp6hl5gKrPuMK3X1yzfy9y4bSrEQCMZvpN4t3RMUD5yf
-	BT7HsHCXFqqTPwRvxHkKWhyBTw9DVD69F/6MdF57X2sVEUAiGu3UQ66OXEbpTV5YpZq6
-	duoc85pEJDXFJf4K2AXpk0YQkERtWd76ePxauckBwVTkfd6UeKfYyg1LOFcVm25Rkvfy
-	8GZQ==
-X-Gm-Message-State: AOPr4FUeaG8LovNSfer/N73PkJewiEyyxEfLqchdM7Um4/9tnn5gzLsJjgn8mv+LyR6ZhA==
-X-Received: by 10.98.87.220 with SMTP id i89mr53458215pfj.107.1462217041636;
-	Mon, 02 May 2016 12:24:01 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=IRwHUvTKtqw/enKuo4rFwW7BVMCItscVXxl0q+QRY88=;
+	b=gdRwf4a5154SwjpRkHrs/HkNtnFAPGLKuxnC7oVjGMK4njT4Xv3sZNUr2PofGVfgyP
+	tWrZQM1LNVDFJm5UzDDJqd2lOwC5bSf5iv+bYC6Vo2IVxrIYCDbp9/WhcmMlqUkV5Mel
+	ArRiApvyrZ6hIl4NnTbl8a6iLhFfVxSwjplPTGt3zXr1j+whw4Uo7TnO7rCFoKvO9QrS
+	0YbfYA2ZbhjaGIK0cyVHtA8VUsNSc/H54/2JHxNdt83ve5+gHP6SpblQj1HM4BeRGS8L
+	ZzzKsfW50IVGG6YksJ+R2eEg/mt9styHCkKJKL1joRaQH6pUDPoY7VSmHQjMJmfknJz1
+	dVdA==
+X-Gm-Message-State: AOPr4FWIRgFe2Lv2DT8Xiy3LltJZsVNbmrHMeMc7C+1C1jmda8Bvu6sVQqHrD4EGyfudCA==
+X-Received: by 10.98.2.16 with SMTP id 16mr54343621pfc.148.1462217050581;
+	Mon, 02 May 2016 12:24:10 -0700 (PDT)
 Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
 	by smtp.gmail.com with ESMTPSA id
-	o2sm15767473pfi.85.2016.05.02.12.23.58
+	rw2sm47630613pab.30.2016.05.02.12.24.08
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 02 May 2016 12:23:59 -0700 (PDT)
+	Mon, 02 May 2016 12:24:09 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 May 2016 12:23:54 -0700
-Message-Id: <cover.1462216694.git.chris_larson@mentor.com>
+Date: Mon,  2 May 2016 12:24:02 -0700
+Message-Id: <082b1dc91bca7617570284bc7f46511ffc037ddd.1462216694.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 2.8.0
+In-Reply-To: <cover.1462216694.git.chris_larson@mentor.com>
+References: <cover.1462216694.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [for-master][RFC PATCH 0/3] Support template files for wic wks
+Subject: [for-master][RFC PATCH 1/3] image.bbclass: append to prefuncs/postfuncs for do_image_*
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,53 +56,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 May 2016 19:24:05 -0000
+X-List-Received-Date: Mon, 02 May 2016 19:24:11 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-This adds support for .wks.in files as WKS_FILE.
+These are list style variables, so append to them rather than blowing away any
+existing value.
 
-These files are treated as the contents of a bitbake variable, so usual
-bitbake variable references are supported. I considered using another
-templating mechanism, for example the one used by yocto-layer, but then we'd
-end up largely mapping metadata variables to template fields anyway, which is
-a pointless indirection. Let bitbake expand the variables directly instead.
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+---
+ meta/classes/image.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-This feature lets us, for example, reference ${APPEND} in --append, and avoid
-hardcoding the serial console tty in the wks file, and let the user's changes
-to APPEND affect wic the way they do the other image construction mechanisms.
-
-The template is read in and set in a variable at parse time, so changes to the
-variables referenced by the template will result in rebuilding the image.
-
-It's been suggested that the name should better reflect how its contents are
-used, i.e. .bbin or so. I've also considered including something like 'bbv' or
-similar, to indicate its contents are that of a bitbake value. I think this
-should be discussed.
-
-I'd love to hear questions or comments on this. I think the value is clear,
-and it's something we need to solve, but I'd like to hear if others agree or
-disagree on that, and whether this implementation is appropriate.
-
-
-The following changes since commit 1a0e56630c5c27d8899dd0979ae0b86bbe227881:
-
-  utils.bbclass: note for deprecated base_contains (2016-04-29 07:53:58 +0100)
-
-are available in the git repository at:
-
-  git://github.com/kergoth/openembedded-core wks.in
-  https://github.com/kergoth/openembedded-core/tree/wks.in
-
-Christopher Larson (3):
-  image.bbclass: append to prefuncs/postfuncs for do_image_*
-  image_types.bbclass: add intermediate var for WKS_FILE_CHECKSUM
-  image_types.bbclass: support template .wks.in files for wic
-
- meta/classes/image.bbclass       |  4 ++--
- meta/classes/image_types.bbclass | 38 +++++++++++++++++++++++++++++++++++++-
- 2 files changed, 39 insertions(+), 3 deletions(-)
-
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 4542e95..bcb96aa 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -436,9 +436,9 @@ python () {
+         d.setVar('do_image_%s' % t, '\n'.join(cmds))
+         d.setVarFlag('do_image_%s' % t, 'func', '1')
+         d.setVarFlag('do_image_%s' % t, 'fakeroot', '1')
+-        d.setVarFlag('do_image_%s' % t, 'prefuncs', debug + 'set_image_size')
+-        d.setVarFlag('do_image_%s' % t, 'postfuncs', 'create_symlinks')
+         d.setVarFlag('do_image_%s' % t, 'subimages', ' '.join(subimages))
++        d.appendVarFlag('do_image_%s' % t, 'prefuncs', ' ' + debug + 'set_image_size')
++        d.appendVarFlag('do_image_%s' % t, 'postfuncs', ' create_symlinks')
+         d.appendVarFlag('do_image_%s' % t, 'vardeps', ' '.join(vardeps))
+         d.appendVarFlag('do_image_%s' % t, 'vardepsexclude', 'DATETIME')
+ 
 -- 
 2.8.0
 
