@@ -1,20 +1,46 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 91FE86FF3D
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
+	[209.85.223.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 1BA5865CBC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 May 2016 12:16:47 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 02 May 2016 05:16:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,567,1455004800"; d="scan'208";a="957081269"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 02 May 2016 05:16:38 -0700
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+	Mon,  2 May 2016 13:27:27 +0000 (UTC)
+Received: by mail-io0-f179.google.com with SMTP id 190so161839619iow.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 02 May 2016 06:27:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=/1b8mmNLoPnVgn0/ii/ePKekCQgwIyp/4PwCVDAUXp0=;
+	b=ScNBgGDXSFq4EDUCXyJrpEhDLqaBToKB/syiqMu14wnR4gKbU4bo05iYY5brJpx7dN
+	dyP7uel29KeQkFeKx1vM6jyNHQuABOxmcLvG1KhPj5Yh72sYVQQ5Lfmp+MjUj4isq+dl
+	dUd0GepmVLfjimUg9YeQHwDXmpk/2HjZSDcpc+qao9gjy1x7hHHonYX9/9iTMIzKMqcE
+	9vED2WXQgrmAFpsj4yXRrwBvg7PO/jXJqV3YEzS4OGrl2lf+QRmLRAB5gVZZjU/ZXLym
+	IXfEVEu+8wDyLHAfrqPxZhZSHhhfNrlERVlT+5qE+ecAVBXGfjSiGZq1e/Pfus3Xyf6I
+	1w+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=/1b8mmNLoPnVgn0/ii/ePKekCQgwIyp/4PwCVDAUXp0=;
+	b=CLvB/uxA9KImTFkzQdjit0jl+hwYqzytBJ6YgQLd0JbBOEZQpxrxHKDI3fPJosCj/D
+	Ce3ITEepl5uM3akQn7NEQqgBhuqWknNeUJA/KZZBYVb7edYsZeq9rB7bKjaLnhWajzz+
+	mgmwV24EmKWO7/r/oMz82l2zNYP4AsJ1cRiJmbaebUMroIxgfHTqC4+XSyU/wewqq2bf
+	OYlWMx7Z5RQYLyZD8PuWaHbcfu/6JBqhG3cWPnsDXf+2VINnZl47cC9Ghxg4q8Oh34P9
+	pDo6gP1xJiANNXz//IEsnPEGcV8NydKvKXYq98bbLOhXs8TxBOmFDvbkyNYwcVaiSifM
+	1wHg==
+X-Gm-Message-State: AOPr4FU1XY1NVlkoSBpb5g15TJhp942p9fFLVHFpZSCJwHLG0xh4WFXkEE1gyxl8+c/ZTBtb
+X-Received: by 10.107.130.160 with SMTP id m32mr44414850ioi.137.1462195647734; 
+	Mon, 02 May 2016 06:27:27 -0700 (PDT)
+Received: from pohly-desktop.fritz.box (p5DE8DB4C.dip0.t-ipconnect.de.
+	[93.232.219.76])
+	by smtp.gmail.com with ESMTPSA id au6sm9294874igc.0.2016.05.02.06.27.26
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 02 May 2016 06:27:27 -0700 (PDT)
+From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 May 2016 15:17:12 +0300
-Message-Id: <1462191432-9516-1-git-send-email-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] gobject-introspection.bbclass: disable introspection for -native recipes
+Date: Mon,  2 May 2016 15:27:20 +0200
+Message-Id: <cover.1462195334.git.patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/3] combo-layer import with history
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,45 +53,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 May 2016 12:16:50 -0000
+X-List-Received-Date: Mon, 02 May 2016 13:27:30 -0000
 
-It is not necessary for native, adds to the build time, and pulls
-in the unneeded qemu-native dependency.
+In Ostro OS we recently struggled with importing repositories that had
+non-linear histories and duplicated patches; traditional "combo-layer
+update" fails to import those because it cannot flatten the upstream
+changes into a linear set of patches.
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- meta/classes/gobject-introspection.bbclass | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+This enhanced combo-layer can deal with that by completely
+re-implementing the update action such that it copies file trees
+around instead of patches.
 
-diff --git a/meta/classes/gobject-introspection.bbclass b/meta/classes/gobject-introspection.bbclass
-index 2d73e40..d320b5b 100644
---- a/meta/classes/gobject-introspection.bbclass
-+++ b/meta/classes/gobject-introspection.bbclass
-@@ -3,13 +3,21 @@
- # This sets up autoconf-based recipes to build introspection data (or not),
- # depending on distro and machine features (see gobject-introspection-data class).
- inherit gobject-introspection-data
--EXTRA_OECONF_prepend = "${@bb.utils.contains('GI_DATA_ENABLED', 'True', '--enable-introspection', '--disable-introspection', d)} "
-+EXTRA_OECONF_prepend_class-target = "${@bb.utils.contains('GI_DATA_ENABLED', 'True', '--enable-introspection', '--disable-introspection', d)} "
-+
-+# When building native recipes, disable introspection, as it is not necessary,
-+# pulls in additional dependencies, and makes build times longer
-+EXTRA_OECONF_prepend_class-native = "--disable-introspection "
- 
- UNKNOWN_CONFIGURE_WHITELIST_append = " --enable-introspection --disable-introspection"
- 
- # Generating introspection data depends on a combination of native and target
- # introspection tools, and qemu to run the target tools.
--DEPENDS_append = " gobject-introspection gobject-introspection-native qemu-native"
-+DEPENDS_append_class-target = " gobject-introspection gobject-introspection-native qemu-native"
-+
-+# Even though introspection is disable on -native, gobject-introspection package is still
-+# needed for m4 macros.
-+DEPENDS_append_class-native = " gobject-introspection-native"
- 
- # This is necessary for python scripts to succeed - distutils fails if these
- # are not set
+This adds basically another code path. It could also be maintained
+separately, but as it might also be of interest to others, adding this
+to OE-core is probably better, even though it makes the code more
+complicated.
+
+Probably some serious refactoring is due at some point, but that
+should better be done only after defining some good test cases.
+
+The following changes since commit 1a0e56630c5c27d8899dd0979ae0b86bbe227881:
+
+  utils.bbclass: note for deprecated base_contains (2016-04-29 07:53:58 +0100)
+
+are available in the git repository at:
+
+  git://github.com/pohly/openembedded-core combo-layer-update-history
+  https://github.com/pohly/openembedded-core/tree/combo-layer-update-history
+
+Patrick Ohly (3):
+  combo-layer: dummy "update with history"
+  combo-layer: runcmd() enhancements
+  combo-layer: implement "update with history"
+
+ scripts/combo-layer | 475 +++++++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 449 insertions(+), 26 deletions(-)
+
 -- 
-2.8.1
+2.1.4
 
 
