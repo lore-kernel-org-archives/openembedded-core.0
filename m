@@ -1,49 +1,52 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-ig0-f182.google.com (mail-ig0-f182.google.com
-	[209.85.213.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 87F9B731CD
+Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
+	[209.85.223.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F32E731CD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 May 2016 13:27:32 +0000 (UTC)
-Received: by mail-ig0-f182.google.com with SMTP id s8so73458830ign.0
+	Mon,  2 May 2016 13:27:34 +0000 (UTC)
+Received: by mail-io0-f177.google.com with SMTP id d62so167326614iof.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 May 2016 06:27:33 -0700 (PDT)
+	Mon, 02 May 2016 06:27:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=IioVusYCCMQ8HjLhP8VwZnVkd573GzkYTY+v05tUNxs=;
-	b=pzXWDafb5soQFePDbqVGFYGr8d4RNZIUE7cIrVAX/D+M9POGbLvjAzQqPyy8otccj3
-	JSpoQqZ/tDnssBUgI/9XVWB+zfuNPNYppCwBKUeUX2snqKLhDFdzB9aNvUJPUrbQN+KE
-	5/Zsf/ug4h4UlKExElPs0WarrGB5bFhcqueTxZQ8Xq6EQ2/FNsNDW1dfOXF8LS/IJrF0
-	XUsiE92WLBbV7Uz3gjI6NW0XmOw8LC+Ui4RlyPp/mUTDXTTwDwgzBDHcH92nrFGDwQPF
-	dgKetJez2i61xNtxDfmnQ208TRCk4uG0rSryxDbdLNsc5K/jIadzkBWfTVHYusW76phO
-	GkLQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:in-reply-to:references;
+	bh=gxa4HO5EITvY3HXEA6TlThIOyId7D4NehDR0ihyD1Sw=;
+	b=SA+MK49Bu2I2ngC37gF0CaiKJ1plFrQRCLWA6ayVKwIZlZ74ZRm16G3++32mL/xGuq
+	pPU4QMEsTOF8QtdsUvImhFx8gu9nhaImhbgLP2lcgZONAPws2AGrpHmdsw9O6balsC3O
+	K2ilPnqWGHfCNlhwuTwrmHuSbDI3TovM07DSswS+qbqAhFnVRxc1SIgpVp422x/Zprex
+	UoLSgWh7CZ2m17p1+Od+5VTJkMm2x2VUGxFGAdgHem6CObWpi+UHZlpW9xoVd/W5/ofS
+	aR/jdgvdpk9LAGcpU4r4ZvCxJ8q7cjgmO775tkg/g+AhwzXdJSG6xx8mrfQhAKCe+cF8
+	C9yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=IioVusYCCMQ8HjLhP8VwZnVkd573GzkYTY+v05tUNxs=;
-	b=cK0gqaTPRe+g71Hew4quf2Kyc98jdIpeMxjBuBZ5FN84Klq2JE8EZdGZiF7X1AS7GO
-	Sw8WYxbpJ086arI6rVvAEQZa+y9PQm3rUEzF7MdD1fgPXc5viF1m2q/x//JZ97EunU0I
-	PQ0Bh8lwiLldIe7nDXEu7X5BSCQwrS8Qk+ygcXfnpN9kvovMvwM9oFVM1ViohHRaEXQJ
-	tRDJcNJjOSLfobSB5GX5w/mShF9XG/ECr4GUQv6XW/0RORwKBVjt30CTXIN/JnnYPa6H
-	EUchquJSvqETji1Ya6urUGScyr40Szr+HcHjYA9+0TnSjqQDnWxI9ANxpzYsko22wipy
-	Zlpw==
-X-Gm-Message-State: AOPr4FUJU1hISrOnjAf6XBIgUcZC4RpQ2XajKAB4Nu+GMhVzGEJIDZIRiTcVrMskGDhaGdMY
-X-Received: by 10.50.155.6 with SMTP id vs6mr19911355igb.79.1462195652733;
-	Mon, 02 May 2016 06:27:32 -0700 (PDT)
+	:references:in-reply-to:references;
+	bh=gxa4HO5EITvY3HXEA6TlThIOyId7D4NehDR0ihyD1Sw=;
+	b=HuoEEk8Lf8mgDfKeD9LfqAZOfOj/5OMEPcAd+WlULdHRmGA/QHWwpmNxSMbX9C8xhs
+	q2dnAn/h7nHaFV5GVRfg1sbxoe9EEKVjhtfwzPjzFGKmPfIDSFytGA6zwD9FwfCD+C1t
+	zy0TOiVst+HsM5ltpIVC6YbFEy0Z0IMMuTN1oaPPKa+vo1pddEb5APK+JKmct3QQmQTV
+	TEEiW/iN+AlXGBEtChLWCYJSHG6ZICjS8on0ZaZPtr06x7+IMTSBI1AQ3NVRE+pdRPKb
+	297zEHxdQd8iQWfHDfEn5DOi8HHiO6vllVj16psTds8FH6dDZTZCM4AnAeqK+I71zGMA
+	XV+g==
+X-Gm-Message-State: AOPr4FVE9+vYP28x1acI9HPIT5Oyxr6mlMCOq1uSRbZr3xJ7sRFSX2HeTbLwOAczAHcjAIND
+X-Received: by 10.107.2.70 with SMTP id 67mr41569595ioc.70.1462195654912;
+	Mon, 02 May 2016 06:27:34 -0700 (PDT)
 Received: from pohly-desktop.fritz.box (p5DE8DB4C.dip0.t-ipconnect.de.
 	[93.232.219.76]) by smtp.gmail.com with ESMTPSA id
-	69sm18286189ioo.20.2016.05.02.06.27.31
+	69sm18286189ioo.20.2016.05.02.06.27.33
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 02 May 2016 06:27:31 -0700 (PDT)
+	Mon, 02 May 2016 06:27:34 -0700 (PDT)
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 May 2016 15:27:26 +0200
-Message-Id: <baeb6e18d0a535ad2ac62fe4ea12515a78fce88a.1462195334.git.patrick.ohly@intel.com>
+Date: Mon,  2 May 2016 15:27:27 +0200
+Message-Id: <c02aff2c0148ae8c938be22026fc42eb9a5b9db7.1462195334.git.patrick.ohly@intel.com>
 X-Mailer: git-send-email 2.1.4
+In-Reply-To: <baeb6e18d0a535ad2ac62fe4ea12515a78fce88a.1462195334.git.patrick.ohly@intel.com>
+References: <baeb6e18d0a535ad2ac62fe4ea12515a78fce88a.1462195334.git.patrick.ohly@intel.com>
 In-Reply-To: <cover.1462195334.git.patrick.ohly@intel.com>
 References: <cover.1462195334.git.patrick.ohly@intel.com>
-Subject: [PATCH 1/3] combo-layer: dummy "update with history"
+Subject: [PATCH 2/3] combo-layer: runcmd() enhancements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,162 +59,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 May 2016 13:27:34 -0000
+X-List-Received-Date: Mon, 02 May 2016 13:27:35 -0000
 
-When setting "history = True" in combo-layer.conf consistently for the
-components involved in an update or using "update" together with the
-"--history" command line flag, a new mode for updating will be used
-that does not rely on exporting/importing patches.
+Allow setting the environment. Due to a subprocess quirk, it must
+always be set explicitly (reuses the one from the previous call if not
+set, instead of falling back to os.environ).
 
-A config setting is used because it should be used consistently by
-everyone using the same config, without having to remember to use an
-additional command line parameter.
-
-There are no real global settings, so the setting is checked
-separately for each component although the setting has to be set
-consistently. This restriction could be removed later.
-
-In practice, putting "history" into the "[DEFAULT]" section is the
-easiest approach for configuring it.
-
-The actual code changes split up action_update and the
-combo-layer.conf handling in preparation for this new mode, without
-implementing the mode itself.
+Embedding nul characters will be useful for parsing git output more
+reliably; support dumping such output a bit better.
 
 Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 ---
- scripts/combo-layer | 82 ++++++++++++++++++++++++++++++++++++++---------------
- 1 file changed, 59 insertions(+), 23 deletions(-)
+ scripts/combo-layer | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/scripts/combo-layer b/scripts/combo-layer
-index 9127041..41d69f8 100755
+index 41d69f8..9297d59 100755
 --- a/scripts/combo-layer
 +++ b/scripts/combo-layer
-@@ -73,7 +73,7 @@ class Configuration(object):
-                 else:
-                     # Apply special type transformations for some properties.
-                     # Type matches the RawConfigParser.get*() methods.
--                    types = {'signoff': 'boolean', 'update': 'boolean'}
-+                    types = {'signoff': 'boolean', 'update': 'boolean', 'history': 'boolean'}
-                     if name in types:
-                         value = getattr(parser, 'get' + types[name])(section, name)
-                     self.repos[repo][name] = value
-@@ -610,8 +610,12 @@ def action_pull(conf, args):
- def action_update(conf, args):
-     """
-         update the component repos
--        generate the patch list
--        apply the generated patches
-+        either:
-+           generate the patch list
-+           apply the generated patches
-+        or:
-+           re-creates the entire component history and merges them
-+           into the current branch with a merge commit
-     """
-     components = [arg.split(':')[0] for arg in args[1:]]
-     revisions = {}
-@@ -624,10 +628,23 @@ def action_update(conf, args):
-     # make sure combo repo is clean
-     check_repo_clean(os.getcwd())
+@@ -174,7 +174,7 @@ class Configuration(object):
+             logger.error("ERROR: patchutils package is missing, please install it (e.g. # apt-get install patchutils)")
+             sys.exit(1)
  
--    import uuid
--    patch_dir = "patch-%s" % uuid.uuid4()
--    if not os.path.exists(patch_dir):
--        os.mkdir(patch_dir)
-+    # Check whether we keep the component histories. Must be
-+    # set either via --history command line parameter or consistently
-+    # in combo-layer.conf. Mixing modes is (currently, and probably
-+    # permanently because it would be complicated) not supported.
-+    if conf.history:
-+        history = True
-+    else:
-+        history = None
-+        for name in repos:
-+            repo = conf.repos[name]
-+            repo_history = repo.get('history', True)
-+            logger.error('%s: %s' % (name, repo_history))
-+            if history is None:
-+                history = repo_history
-+            elif history != repo_history:
-+                logger.error("'history' property is set inconsistently")
-+                sys.exit(1)
- 
-     # Step 1: update the component repos
-     if conf.nopull:
-@@ -635,6 +652,18 @@ def action_update(conf, args):
+-def runcmd(cmd,destdir=None,printerr=True,out=None):
++def runcmd(cmd,destdir=None,printerr=True,out=None,env=None):
+     """
+         execute command, raise CalledProcessError if fail
+         return output if succeed
+@@ -186,7 +186,7 @@ def runcmd(cmd,destdir=None,printerr=True,out=None):
      else:
-         action_pull(conf, ['arg0'] + components)
- 
-+    if history:
-+        logger.error("update with history not implemented yet")
-+        sys.exit(1)
-+    else:
-+        update_with_patches(conf, components, revisions, repos)
-+
-+def update_with_patches(conf, components, revisions, repos):
-+    import uuid
-+    patch_dir = "patch-%s" % uuid.uuid4()
-+    if not os.path.exists(patch_dir):
-+        os.mkdir(patch_dir)
-+
-     for name in repos:
-         revision = revisions.get(name, None)
-         repo = conf.repos[name]
-@@ -711,6 +740,21 @@ def action_update(conf, args):
-     runcmd("rm -rf %s" % patch_dir)
- 
-     # Step 7: commit the updated config file if it's being tracked
-+    commit_conf_file(conf, components)
-+
-+def conf_commit_msg(conf, components):
-+    # create the "components" string
-+    component_str = "all components"
-+    if len(components) > 0:
-+        # otherwise tell which components were actually changed
-+        component_str = ", ".join(components)
-+
-+    # expand the template with known values
-+    template = Template(conf.commit_msg_template)
-+    msg = template.substitute(components = component_str)
-+    return msg
-+
-+def commit_conf_file(conf, components, commit=True):
-     relpath = os.path.relpath(conf.conffile)
+         err = os.tmpfile()
      try:
-         output = runcmd("git status --porcelain %s" % relpath, printerr=False)
-@@ -718,23 +762,15 @@ def action_update(conf, args):
-         # Outside the repository
-         output = None
-     if output:
--        logger.info("Committing updated configuration file")
-         if output.lstrip().startswith("M"):
--
--            # create the "components" string
--            component_str = "all components"
--            if len(components) > 0:
--                # otherwise tell which components were actually changed
--                component_str = ", ".join(components)
--
--            # expand the template with known values
--            template = Template(conf.commit_msg_template)
--            raw_msg = template.substitute(components = component_str)
--
--            # sanitize the string before using it in command line
--            msg = raw_msg.replace('"', '\\"')
--
--            runcmd('git commit -m "%s" %s' % (msg, relpath))
-+            logger.info("Committing updated configuration file")
-+            if commit:
-+                msg = conf_commit_msg(conf, components)
-+                runcmd('git commit -m'.split() + [msg, relpath])
-+            else:
-+                runcmd('git add %s' % relpath)
-+            return True
-+    return False
+-        subprocess.check_call(cmd, stdout=out, stderr=err, cwd=destdir, shell=isinstance(cmd, str))
++        subprocess.check_call(cmd, stdout=out, stderr=err, cwd=destdir, shell=isinstance(cmd, str), env=env or os.environ)
+     except subprocess.CalledProcessError,e:
+         err.seek(0)
+         if printerr:
+@@ -195,7 +195,7 @@ def runcmd(cmd,destdir=None,printerr=True,out=None):
  
- def apply_patchlist(conf, repos):
-     """
+     err.seek(0)
+     output = err.read()
+-    logger.debug("output: %s" % output )
++    logger.debug("output: %s" % output.replace(chr(0), '\\0'))
+     return output
+ 
+ def action_init(conf, args):
 -- 
 2.1.4
 
