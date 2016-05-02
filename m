@@ -1,36 +1,36 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
-	[209.85.220.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 08DDE73204
+Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
+	[209.85.220.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D83A73204
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 May 2016 20:14:13 +0000 (UTC)
-Received: by mail-pa0-f45.google.com with SMTP id xk12so7317886pac.0
+	Mon,  2 May 2016 20:14:20 +0000 (UTC)
+Received: by mail-pa0-f53.google.com with SMTP id bt5so78051183pac.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 May 2016 13:14:14 -0700 (PDT)
+	Mon, 02 May 2016 13:14:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:organization;
-	bh=8biDGNrhVP0i18SaOgef/m5MfeIfZjmsuZ9lgwrW9gE=;
-	b=mOwR0EFZuPjUC09e1cRkAPdhKwLeZMf/+1iqhSoCR3Pp9MSSaTnAp3SqW+mRDx4m/y
-	XCKRryxKFnE9AKD20RShrReOKM07I6gIGQDsiuWjqHlOupOjqKemzIKysxJYjI70qorv
-	muEkpVzxGQRTWnGbmmRpOgC4Q/GUBN4915B6ec5c2+QsMcLf9eckHbbZFxwAPbbu2ZZf
-	aMiif5Fyp2YrYZdiP9eMBFxoDn0YCc6Jf+5w1ZM/EvL7k1fC6gMvJeCD+RShP5b0MFYx
-	FATEgXF1PDACs9tT7vZweuJR901JUI9RdmYCQ6x2IKuyZ4x4qQ0X0PUxZ4O3xsuF9jjE
-	BCuw==
-X-Gm-Message-State: AOPr4FUefWKAPWIitLY/CJM61bWPfASwFSKtULlNbNHWX0GJI/7MOcx5/rF19EzQ77wL5A==
-X-Received: by 10.66.142.232 with SMTP id rz8mr31348888pab.22.1462220054060;
-	Mon, 02 May 2016 13:14:14 -0700 (PDT)
+	bh=HvXjUuNYa+qrrj+lqXtoutyAW9vWBZmGYQK+q+fAPJM=;
+	b=h2JGtPqqHMOXAeY4Rbukaf5/tzbnkqNZS85YBxBoMVnNNC37RFSaeqqzyqXZsYtwX9
+	C1AdGolZVEnkHa0fejvmEb3eINMvBdD2yPPq3FjXa1MD15tOz3D4054cSCIxW4QCi1vx
+	olvyQmb1OiE8ZUvuHTab1ZSr8opT775CWC2KmezDMhy+2Q0NAaipgQ/599z3w8BhD0QH
+	eYtS1C1PfXeWuh6Vl63/pRG/mWX6058fQhuj3BRqTgT3T9/tVfxmoy1qs1saYuhxgjT5
+	RViwolT7DrtBGWmLpiWNTz8hS+zY0DOQXVEeuuGuAAgD5d9T5O568+P4MqPNY3FXIHTc
+	+tNw==
+X-Gm-Message-State: AOPr4FU5JYolhnpX1UoQx6XskkDT/BpvnhVexOgsaBccANaQt7B7HqEcM/n1t36u84fT0g==
+X-Received: by 10.66.218.161 with SMTP id ph1mr53686312pac.83.1462220061127;
+	Mon, 02 May 2016 13:14:21 -0700 (PDT)
 Received: from localhost ([187.23.154.250]) by smtp.gmail.com with ESMTPSA id
-	s64sm47464065pfi.77.2016.05.02.13.14.09
+	h88sm47521673pfd.10.2016.05.02.13.14.16
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 02 May 2016 13:14:12 -0700 (PDT)
+	Mon, 02 May 2016 13:14:20 -0700 (PDT)
 Received: by localhost (sSMTP sendmail emulation);
-	Mon, 02 May 2016 17:14:06 -0300
+	Mon, 02 May 2016 17:14:14 -0300
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Mon,  2 May 2016 17:13:38 -0300
-Message-Id: <1462220023-17811-3-git-send-email-otavio@ossystems.com.br>
+Date: Mon,  2 May 2016 17:13:39 -0300
+Message-Id: <1462220023-17811-4-git-send-email-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.8.2
 In-Reply-To: <1462220023-17811-1-git-send-email-otavio@ossystems.com.br>
 References: <1462220023-17811-1-git-send-email-otavio@ossystems.com.br>
@@ -38,7 +38,7 @@ Organization: O.S. Systems Software LTDA.
 Cc: prabhu.sundararaj@nxp.com, Otavio Salvador <otavio@ossystems.com.br>,
 	neenareddy.busireddy@nxp.com,
 	meta-freescale Mailing List <meta-freescale@yoctoproject.org>
-Subject: [oe-core PATCH 2/7] weston: Remove XWayland dependencies on PACKAGECONFIG
+Subject: [oe-core PATCH 3/7] weston-init: Rework do_install to use install -D option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,36 +51,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 May 2016 20:14:13 -0000
+X-List-Received-Date: Mon, 02 May 2016 20:14:21 -0000
 
-Instead of adding partial dependencies we list the PACKAGECONFIG
-options that are required. Those are: X11, Wayland and PAM.
-
-The previous value were redudant with X11 PACKAGECONFIG option and as
-it is a requirement, for XWayland, it can be removed to easy
-maintenance.
+The install -D allow for the parent directories to be created in a
+single command line, reducing the code and number of fork during the
+build.
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
 
- meta/recipes-graphics/wayland/weston_1.9.0.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-graphics/wayland/weston-init.bb | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-graphics/wayland/weston_1.9.0.bb b/meta/recipes-graphics/wayland/weston_1.9.0.bb
-index 370c38c..8940410 100644
---- a/meta/recipes-graphics/wayland/weston_1.9.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_1.9.0.bb
-@@ -73,8 +73,8 @@ PACKAGECONFIG[webp] = "--enable-webp,--disable-webp,libwebp"
- PACKAGECONFIG[libunwind] = "--enable-libunwind,--disable-libunwind,libunwind"
- # Weston with systemd-login support
- PACKAGECONFIG[systemd] = "--enable-systemd-login,--disable-systemd-login,systemd dbus"
--# Weston with Xwayland support
--PACKAGECONFIG[xwayland] = "--enable-xwayland,--disable-xwayland,libxcb libxcursor cairo"
-+# Weston with Xwayland support (requires X11, Wayland and PAM)
-+PACKAGECONFIG[xwayland] = "--enable-xwayland,--disable-xwayland"
- # colord CMS support
- PACKAGECONFIG[colord] = "--enable-colord,--disable-colord,colord"
+diff --git a/meta/recipes-graphics/wayland/weston-init.bb b/meta/recipes-graphics/wayland/weston-init.bb
+index 653541e..4ad62cf 100644
+--- a/meta/recipes-graphics/wayland/weston-init.bb
++++ b/meta/recipes-graphics/wayland/weston-init.bb
+@@ -8,11 +8,8 @@ SRC_URI = "file://init \
+ S = "${WORKDIR}"
  
+ do_install() {
+-	install -d ${D}/${sysconfdir}/init.d
+-	install -m755 ${WORKDIR}/init ${D}/${sysconfdir}/init.d/weston
+-
+-	install -d ${D}${systemd_system_unitdir}
+-	install -m0644 ${WORKDIR}/weston.service ${D}${systemd_system_unitdir}
++	install -Dm755 ${WORKDIR}/init ${D}/${sysconfdir}/init.d/weston
++	install -Dm0644 ${WORKDIR}/weston.service ${D}${systemd_system_unitdir}/weston.service
+ }
+ 
+ inherit allarch update-rc.d distro_features_check systemd
 -- 
 2.8.2
 
