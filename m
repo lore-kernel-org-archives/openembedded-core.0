@@ -1,60 +1,45 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-ig0-f195.google.com (mail-ig0-f195.google.com
-	[209.85.213.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 707CE6012C
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 97A556FF9D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 May 2016 20:23:08 +0000 (UTC)
-Received: by mail-ig0-f195.google.com with SMTP id jn6so400116igb.2
+	Tue,  3 May 2016 23:46:07 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id r187so3599088pfr.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 May 2016 13:23:09 -0700 (PDT)
+	Tue, 03 May 2016 16:46:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=wsjdmVVRjPih4vM+R83gp9FfKMXXVtHDVW2EGg17jcc=;
-	b=fBioXFFLwU/C2itHnE9mMey+a0SIosAGCH5zbHYPjaIHBV0KzjTwVtzhzh1iDmev+z
-	mYx3237BRIddfx+DR99J1rESwqBvvGplcUOyfI26v4FvizxJ5arIRV88FG71hG2t2rQP
-	tL4Cnyj/sGciYpZHzTkzRZ9+Ud5UroMl/1bIYwfc7CozXFLOTXGHHdCTgZU586sAeSvB
-	zPqJwYfFwvvmDEBeK0SaTzI5U4ydewc/7PumTrD1irWzIAB0yaS1d1Ry/ogkDVHf/T5D
-	Lddv6nv1xKijtjv7Mm3bXQHEk0eyqoUiWwPI1vmtetDEySTnQdYdCyHh/Unu4C9JPN+p
-	20mw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kergoth-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=wsjdmVVRjPih4vM+R83gp9FfKMXXVtHDVW2EGg17jcc=;
-	b=qP8iArGhe5/7BmWCyDQ3zMMh7vE6KN0MQ14TVB5+r8yReoLzL4xyngD5N8af2hBeLF
-	CE9bikfnbwGwfUT76bXCBrVE3Z4kZxW5ds1yHHb+uK9S9BfaZniCt42+49hpbR7SHiHH
-	y3OwdJBHYBQu0a5SYTJr/C16JR0cXvatqS0TiZY8984X8VytrdoPCCAgW9Ia36yHWT3B
-	Nt/GRVQrNkJoQsozgI+snBe4cPjaoasIDpktV5KfTwpeOLoS/rbIgrBRMzb03Ee1wT3d
-	p9qEks9figvEEbJ9ehhXpvMvktffOx2OD4MXndwW7S6ZLGut+cVhE4vImZhGSi3P+oBj
-	0/uA==
+	h=from:to:subject:date:message-id;
+	bh=iHCAy8CP5Pha1s471EpbSw5LcJ49eIeh5KRLOPO7pz4=;
+	b=JQo19CV0TgdIWnb77WtT9fcBfI7mnTiV46AdwhTCT95PRbAkDkHxLnOgc/xw7LxHYa
+	qxMuFbw2rUEHBS5o4/QX1NKHg79fxc5tZive7o5qMTV/2vFjme7l8cBdMtQ5mofgjwBQ
+	expLbLc84e+h6Hx+7ifKqPcZQn3YPl4phr8/k5ZADvv7OvNK0TTujatB3OgnBA3AHEb1
+	ycqVx53WbvWICHpesJxA1uJFint5g8tM4ue1/wn8uRauKuxhY4lyMb328QzykyEMke8o
+	FlzH6YYkOB5nAV6u4mZsj1xPmmsTUvQ0B8Twc5QU6z9rgaRk/T9qCarSHw8+DBPsrI/e
+	OrKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=wsjdmVVRjPih4vM+R83gp9FfKMXXVtHDVW2EGg17jcc=;
-	b=Tyfj8ptUNpO5YWbBG10gNBxzopIZhB2RZrVLQCNXzu//WGl5cGer0y9NsSdb0izon7
-	XGbuaCgee8crulBRnp1QdtntN4h2VKusv4xxdyOib9Is7YQJKqpjkZn1vMUqkcBXXsh8
-	1qBDmSczEcAodR6Qn83pDYlGB5Jrb5WWgiY9D8q3eAaR9vm8xHLdNomcJbEGHIExaBVb
-	ktlenzZwjCvfWX6XdOvIMpXt1l6J/FPh0VPhT7mJCCYGvEoYMEXxlRY7C0bz+fu1MOLP
-	NA8z6NzsPONGc2nujP3Vz2f/sYtPu3dufAqRNZf/KcwkAUxRo4zdnsglc0aNdtb99SEx
-	MiAA==
-X-Gm-Message-State: AOPr4FXW9osBMCAxAeSy8N3fWTN/YDnOD1nev2JZxXII3cWToGoSoM45jHWoUCz2FZ7nAKokNedV0OMbxMKFBQ==
-X-Received: by 10.50.123.161 with SMTP id mb1mr2318848igb.20.1462306988270;
-	Tue, 03 May 2016 13:23:08 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.79.134.70 with HTTP; Tue, 3 May 2016 13:22:48 -0700 (PDT)
-In-Reply-To: <cover.1462191317.git.ed.bartosh@linux.intel.com>
-References: <cover.1462191317.git.ed.bartosh@linux.intel.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Tue, 3 May 2016 20:22:48 +0000
-X-Google-Sender-Auth: gczXnUzP6CWCKPxVHVZ4sbLIf34
-Message-ID: <CABcZANk5bn=H6Q7SyMH9tmZFECoaicv55cJYVuyfxYsPRR_MNg@mail.gmail.com>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 0/6] bmaptool support
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=iHCAy8CP5Pha1s471EpbSw5LcJ49eIeh5KRLOPO7pz4=;
+	b=NXiILS7C3WC48yKpUjlJDYmhuzHyI5xRk58UyAxbXI+Zb2MJj6DobjnCtxh8Kgmq9p
+	7zPip0U/CEYGELzDEAxmQKTuOiwmX07CT9ewiMbTHWPinGlzsWo1unrKof8h/IdZr9IE
+	iRw0qiQKH2KFpheTLs3zAgewtfdeJPPxfnB25WokkIu1zmSKTB3guSPEacShNqTiYbDv
+	pOBxwQoY9PZDsQw0BWFMz1EuZcxPgcvyRmQgQLKNxkgh08P1DJQZslmyxSqYWYXw8u5B
+	k8LrKlm0fHz2iPk7vyoyshScaOMm3Dt7EClnvMI1z0k+8QV+J0aDuXBTNtkq71ZqYaTZ
+	09+g==
+X-Gm-Message-State: AOPr4FU9uMFrVfFo0SK46KnAJbsDx+QXthYSL1rVufWEXpKe3qPvCGBUUta2r/A6JEG8uw==
+X-Received: by 10.98.90.130 with SMTP id o124mr7611739pfb.115.1462319168115;
+	Tue, 03 May 2016 16:46:08 -0700 (PDT)
+Received: from Pahoa2.mvista.com ([64.2.3.194])
+	by smtp.gmail.com with ESMTPSA id e7sm767005pfa.28.2016.05.03.16.46.06
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 03 May 2016 16:46:06 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: akuster@mvista.com,
+	openembedded-core@lists.openembedded.org
+Date: Tue,  3 May 2016 16:46:05 -0700
+Message-Id: <1462319165-24307-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.3.5
+Subject: [master][krogoth][PATCH] openssl: Security fix via update to 1.0.2h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,162 +52,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 May 2016 20:23:09 -0000
-Content-Type: multipart/alternative; boundary=001a1135e7ea96e6490531f5e043
+X-List-Received-Date: Tue, 03 May 2016 23:46:08 -0000
 
---001a1135e7ea96e6490531f5e043
-Content-Type: text/plain; charset=UTF-8
+From: Armin Kuster <akuster@mvista.com>
 
-On Mon, May 2, 2016 at 12:22 PM, Ed Bartosh <ed.bartosh@linux.intel.com>
-wrote:
+CVE-2016-2105
+CVE-2016-2106
+CVE-2016-2109
+CVE-2016-2176
 
-> Hi,
->
-> This patchset adds ability to use bmaptool to flash images faster than
-> using traditional methods. It contains bmap-tools recipe and generation
-> of .bmap files for the images generated by bitbake and wic.
->
-> Bmaptool is a generic tool for creating the block map (bmap) for a file
-> and and copying files using the block map. The idea is that large file
-> containing unused blocks, like raw system image files, can be copied or
-> flashed a lot faster with bmaptool than with traditional tools like
-> "dd" or "cp".
->
-> Here is an example of flashing image using dd and bmaptool showing
-> around 25% performance gain in flashing time:
->
-> > ls -slh
->  19M -rw-r--r-- 1 ed ed  26M Apr 26 11:36
-> core-image-minimal-qemux86-64-20160426083554.rootfs.ext4
-> 4.0K -rw-r--r-- 1 ed ed 2.7K Apr 26 11:36
-> core-image-minimal-qemux86-64-20160426083554.rootfs.ext4.bmap
->
-> > time dd if=core-image-minimal-qemux86-64-20160426083554.rootfs.ext4
-> of=/dev/sdb
-> 52302+0 records in
-> 52302+0 records out
-> 26778624 bytes (27 MB) copied, 2.51183 s, 10.7 MB/s
->
-> real    0m2.515s
-> user    0m0.014s
-> sys     0m0.329s
->
-> > time bmaptool copy
-> core-image-minimal-qemux86-64-20160426083554.rootfs.ext4 /dev/sdb
-> bmaptool: info: discovered bmap file
-> 'core-image-minimal-qemux86-64-20160426083554.rootfs.ext4.bmap'
-> bmaptool: info: block map format version 2.0
-> bmaptool: info: 6538 blocks of size 4096 (25.5 MiB), mapped 4799 blocks
-> (18.7 MiB or 73.4%)
-> bmaptool: info: copying image
-> 'core-image-minimal-qemux86-64-20160426083554.rootfs.ext4' to block device
-> '/dev/sdb' using bmap file
-> 'core-image-minimal-qemux86-64-20160426083554.rootfs.ext4.bmap'
-> bmaptool: info: 100% copied
-> bmaptool: info: synchronizing '/dev/sdb'
-> bmaptool: info: copying time: 1.8s, copying speed 10.3 MiB/sec
->
-> real    0m1.909s
-> user    0m0.226s
-> sys     0m0.052s
->
-> The test was repeated 5 times with the same image and the same usb stick
-> device.
->
-> Changes in v2: Combined Alexander's and my bmap-tools recipes.
->                Got rid of generating standalone script as it breaks build
-> of bmap-tools-native.
->
-> Changes in v3: Returned back generation of standalone bmaptool script
->                Implemented --bmap option for wic
->                Added test case to test bmap generation by wic --bmap
+https://www.openssl.org/news/secadv/20160503.txt
 
+fixup openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
 
-I just wanted to say, this + the sparseness series is just awesome. Such a
-timesaver in my test cycle, particularly on my old macbook which has a usb
-2.0 sd card reader :)
+drop crypto_use_bigint_in_x86-64_perl.patch as that fix is in latest.
+
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+---
+ ...oid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch | 14 +++++++-------
+ .../openssl/{openssl_1.0.2g.bb => openssl_1.0.2h.bb}       |  6 ++----
+ 2 files changed, 9 insertions(+), 11 deletions(-)
+ rename meta/recipes-connectivity/openssl/{openssl_1.0.2g.bb => openssl_1.0.2h.bb} (91%)
+
+diff --git a/meta/recipes-connectivity/openssl/openssl/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch b/meta/recipes-connectivity/openssl/openssl/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
+index cebc8cf..f736e5c 100644
+--- a/meta/recipes-connectivity/openssl/openssl/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
++++ b/meta/recipes-connectivity/openssl/openssl/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
+@@ -8,16 +8,16 @@ http://www.mail-archive.com/openssl-dev@openssl.org/msg32860.html
+ 
+ Signed-off-by: Xufeng Zhang <xufeng.zhang@windriver.com>
+ ---
+-Index: openssl-1.0.2/crypto/evp/digest.c
++Index: openssl-1.0.2h/crypto/evp/digest.c
+ ===================================================================
+---- openssl-1.0.2.orig/crypto/evp/digest.c
+-+++ openssl-1.0.2/crypto/evp/digest.c
+-@@ -208,7 +208,7 @@ int EVP_DigestInit_ex(EVP_MD_CTX *ctx, c
+-         return 0;
++--- openssl-1.0.2h.orig/crypto/evp/digest.c
+++++ openssl-1.0.2h/crypto/evp/digest.c
++@@ -211,7 +211,7 @@ int EVP_DigestInit_ex(EVP_MD_CTX *ctx, c
++         type = ctx->digest;
+      }
+  #endif
+ -    if (ctx->digest != type) {
+ +    if (type && (ctx->digest != type)) {
+-         if (ctx->digest && ctx->digest->ctx_size)
++         if (ctx->digest && ctx->digest->ctx_size) {
+              OPENSSL_free(ctx->md_data);
+-         ctx->digest = type;
++             ctx->md_data = NULL;
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2g.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2h.bb
+similarity index 91%
+rename from meta/recipes-connectivity/openssl/openssl_1.0.2g.bb
+rename to meta/recipes-connectivity/openssl/openssl_1.0.2h.bb
+index 290f129..ae65992 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2g.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2h.bb
+@@ -34,15 +34,13 @@ SRC_URI += "file://find.pl;subdir=${BP}/util/ \
+             file://openssl-fix-des.pod-error.patch \
+             file://Makefiles-ptest.patch \
+             file://ptest-deps.patch \
+-            file://crypto_use_bigint_in_x86-64_perl.patch \
+             file://openssl-1.0.2a-x32-asm.patch \
+             file://ptest_makefile_deps.patch  \
+             file://configure-musl-target.patch \
+             file://parallel.patch \
+            "
+-
+-SRC_URI[md5sum] = "f3c710c045cdee5fd114feb69feba7aa"
+-SRC_URI[sha256sum] = "b784b1b3907ce39abf4098702dade6365522a253ad1552e267a9a0e89594aa33"
++SRC_URI[md5sum] = "9392e65072ce4b614c1392eefc1f23d0"
++SRC_URI[sha256sum] = "1d4007e53aad94a5b2002fe045ee7bb0b3d98f1a47f8b2bc851dcd1c74332919"
+ 
+ PACKAGES =+ "${PN}-engines"
+ FILES_${PN}-engines = "${libdir}/ssl/engines/*.so ${libdir}/engines"
 -- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+2.3.5
 
---001a1135e7ea96e6490531f5e043
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Mon, May 2, 2016 at 12:22 PM, Ed Bartosh <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:ed.bartosh@linux.intel.com" target=3D"_blank">ed.bartosh@linux=
-.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Hi,<br>
-<br>
-This patchset adds ability to use bmaptool to flash images faster than<br>
-using traditional methods. It contains bmap-tools recipe and generation<br>
-of .bmap files for the images generated by bitbake and wic.<br>
-<br>
-Bmaptool is a generic tool for creating the block map (bmap) for a file<br>
-and and copying files using the block map. The idea is that large file<br>
-containing unused blocks, like raw system image files, can be copied or<br>
-flashed a lot faster with bmaptool than with traditional tools like<br>
-&quot;dd&quot; or &quot;cp&quot;.<br>
-<br>
-Here is an example of flashing image using dd and bmaptool showing<br>
-around 25% performance gain in flashing time:<br>
-<br>
-&gt; ls -slh<br>
-=C2=A019M -rw-r--r-- 1 ed ed=C2=A0 26M Apr 26 11:36 core-image-minimal-qemu=
-x86-64-20160426083554.rootfs.ext4<br>
-4.0K -rw-r--r-- 1 ed ed 2.7K Apr 26 11:36 core-image-minimal-qemux86-64-201=
-60426083554.rootfs.ext4.bmap<br>
-<br>
-&gt; time dd if=3Dcore-image-minimal-qemux86-64-20160426083554.rootfs.ext4 =
-of=3D/dev/sdb<br>
-52302+0 records in<br>
-52302+0 records out<br>
-26778624 bytes (27 MB) copied, 2.51183 s, 10.7 MB/s<br>
-<br>
-real=C2=A0 =C2=A0 0m2.515s<br>
-user=C2=A0 =C2=A0 0m0.014s<br>
-sys=C2=A0 =C2=A0 =C2=A00m0.329s<br>
-<br>
-&gt; time bmaptool copy core-image-minimal-qemux86-64-20160426083554.rootfs=
-.ext4 /dev/sdb<br>
-bmaptool: info: discovered bmap file &#39;core-image-minimal-qemux86-64-201=
-60426083554.rootfs.ext4.bmap&#39;<br>
-bmaptool: info: block map format version 2.0<br>
-bmaptool: info: 6538 blocks of size 4096 (25.5 MiB), mapped 4799 blocks (18=
-.7 MiB or 73.4%)<br>
-bmaptool: info: copying image &#39;core-image-minimal-qemux86-64-2016042608=
-3554.rootfs.ext4&#39; to block device &#39;/dev/sdb&#39; using bmap file &#=
-39;core-image-minimal-qemux86-64-20160426083554.rootfs.ext4.bmap&#39;<br>
-bmaptool: info: 100% copied<br>
-bmaptool: info: synchronizing &#39;/dev/sdb&#39;<br>
-bmaptool: info: copying time: 1.8s, copying speed 10.3 MiB/sec<br>
-<br>
-real=C2=A0 =C2=A0 0m1.909s<br>
-user=C2=A0 =C2=A0 0m0.226s<br>
-sys=C2=A0 =C2=A0 =C2=A00m0.052s<br>
-<br>
-The test was repeated 5 times with the same image and the same usb stick de=
-vice.<br>
-<br>
-Changes in v2: Combined Alexander&#39;s and my bmap-tools recipes.<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Got rid of generatin=
-g standalone script as it breaks build of bmap-tools-native.<br>
-<br>
-Changes in v3: Returned back generation of standalone bmaptool script<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Implemented --bmap o=
-ption for wic<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Added test case to t=
-est bmap generation by wic --bmap</blockquote><div><br></div><div>I just wa=
-nted to say, this + the sparseness series is just awesome. Such a timesaver=
- in my test cycle, particularly on my old macbook which has a usb 2.0 sd ca=
-rd reader :)=C2=A0</div></div>-- <br><div class=3D"gmail_signature">Christo=
-pher Larson<br>clarson at kergoth dot com<br>Founder - BitBake, OpenEmbedde=
-d, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engineer, Mentor Gra=
-phics</div>
-</div></div>
-
---001a1135e7ea96e6490531f5e043--
