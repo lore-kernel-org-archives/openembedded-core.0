@@ -1,32 +1,29 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 63DBF70178
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
+	by mail.openembedded.org (Postfix) with ESMTP id 82DEB6E687
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 May 2016 09:47:15 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga102.jf.intel.com with ESMTP; 03 May 2016 02:47:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,572,1455004800"; d="scan'208";a="96181575"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga004.fm.intel.com with ESMTP; 03 May 2016 02:47:16 -0700
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.51])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id E35D56A4006;
-	Tue,  3 May 2016 03:34:49 -0700 (PDT)
-Date: Tue, 3 May 2016 10:27:24 +0300
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Christopher Larson <kergoth@gmail.com>
-Message-ID: <20160503072724.GA6303@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <1462233963-14800-1-git-send-email-kergoth@gmail.com>
+	Tue,  3 May 2016 10:54:01 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
+	via TCP (outbound) with ESMTPS id 20160503105401160_0684
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 03 May 2016 10:54:01 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [216.191.234.70] (port=23871 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1axXzH-0007Qx-Hv for openembedded-core@lists.openembedded.org;
+	Tue, 03 May 2016 06:55:31 -0400
+Date: Tue, 3 May 2016 06:53:40 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1605030649490.20066@localhost.localdomain>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-In-Reply-To: <1462233963-14800-1-git-send-email-kergoth@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Christopher Larson <chris_larson@mentor.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] image_types.bbclass: add WIC_CREATE_EXTRA_ARGS
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: how can i tell which default kernel config OE started with?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,66 +36,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 May 2016 09:47:16 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 03 May 2016 10:54:03 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-Hi Christopher,
 
-Thank you for the patch! I like the idea.
+  (actually, working in wind river linux but i suspect the answer will
+be the same.)
 
-Would you mind adding or modifying wic oe-selftest to cover this?
+  i've defined a target board and, rather than supplying a full
+"defconfig" file as a starting point for kernel configuration, my BSP
+layer starts by applying a "kernel_baseline.cfg" file which contains
+only a couple hundred settings that i am particularly interested in.
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+  so, given that, how can i tell what OE chose as a starting point for
+a .config file before beginning to apply my kernel config fragments?
+i'm poking around in the log files of the build, but i can't seem to
+see where the "configme" process selects a starting point. am i just
+missing the obvious? i want to see the .config file *before* any of my
+fragments are applied.
 
-PS: You've mentioned --bmap as a possible use case scenario for this. I
-don't think this is the case as it's simpler to use wic.bmap image
-type to achieve this. It's implemented by this patchset:
-http://lists.openembedded.org/pipermail/openembedded-core/2016-April/120644.html
-
-On Mon, May 02, 2016 at 05:06:03PM -0700, Christopher Larson wrote:
-> From: Christopher Larson <chris_larson@mentor.com>
-> 
-> This'll be of use to pass things like --bmap.
-> 
-> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-> ---
->  meta/classes/image_types.bbclass | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-> index 19f89f3..385d47e 100644
-> --- a/meta/classes/image_types.bbclass
-> +++ b/meta/classes/image_types.bbclass
-> @@ -193,6 +193,8 @@ def wks_search(files, search_path):
->              if searched:
->                  return searched
->  
-> +WIC_CREATE_EXTRA_ARGS ?= ""
-> +
->  IMAGE_CMD_wic () {
->  	out="${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}"
->  	wks="${WKS_FULL_PATH}"
-> @@ -200,7 +202,7 @@ IMAGE_CMD_wic () {
->  		bbfatal "No kickstart files from WKS_FILES were found: ${WKS_FILES}. Please set WKS_FILE or WKS_FILES appropriately."
->  	fi
->  
-> -	BUILDDIR="${TOPDIR}" wic create "$wks" --vars "${STAGING_DIR_TARGET}/imgdata/" -e "${IMAGE_BASENAME}" -o "$out/"
-> +	BUILDDIR="${TOPDIR}" wic create "$wks" --vars "${STAGING_DIR_TARGET}/imgdata/" -e "${IMAGE_BASENAME}" -o "$out/" ${WIC_CREATE_EXTRA_ARGS}
->  	mv "$out/build/$(basename "${wks%.wks}")"*.direct "$out${IMAGE_NAME_SUFFIX}.wic"
->  	rm -rf "$out/"
->  }
-> -- 
-> 2.8.0
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+rday
 
 -- 
---
-Regards,
-Ed
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
 
