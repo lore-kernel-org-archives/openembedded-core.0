@@ -1,29 +1,30 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 82DEB6E687
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A5F76011A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 May 2016 10:54:01 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
-	via TCP (outbound) with ESMTPS id 20160503105401160_0684
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 May 2016 10:54:01 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [216.191.234.70] (port=23871 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1axXzH-0007Qx-Hv for openembedded-core@lists.openembedded.org;
-	Tue, 03 May 2016 06:55:31 -0400
-Date: Tue, 3 May 2016 06:53:40 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.20.1605030649490.20066@localhost.localdomain>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+	Tue,  3 May 2016 11:26:03 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP; 03 May 2016 04:26:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,572,1455004800"; d="scan'208";a="967607901"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga002.jf.intel.com with ESMTP; 03 May 2016 04:26:03 -0700
+To: Khem Raj <raj.khem@gmail.com>
+References: <1461761088-15117-1-git-send-email-alexander.kanavin@linux.intel.com>
+	<CAMKF1spLRX=XrS+Kf8GeC=XufwtTPxQJ-oeEQHH1ay2sOZb4Wg@mail.gmail.com>
+	<5727269A.30405@linux.intel.com>
+	<95CD514D-A18A-4D04-9A00-AD1034D843EA@gmail.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <57288AF0.5010303@linux.intel.com>
+Date: Tue, 3 May 2016 14:26:40 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Icedove/38.6.0
 MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: how can i tell which default kernel config OE started with?
+In-Reply-To: <95CD514D-A18A-4D04-9A00-AD1034D843EA@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] arch-powerpc64.inc: disable the use of qemu usermode on ppc64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,35 +37,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 May 2016 10:54:03 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Tue, 03 May 2016 11:26:04 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 05/02/2016 06:46 PM, Khem Raj wrote:
 
-  (actually, working in wind river linux but i suspect the answer will
-be the same.)
+>>> should we replace qemu-ppc with qemu-ppc64 instead of disabling it
+>>
+>> qemu-ppc64 is already used on 64 bit powerpc, the problem is that it always crashes.
+>
+> Do we need to adjust the emulated machine parameter ?
 
-  i've defined a target board and, rather than supplying a full
-"defconfig" file as a starting point for kernel configuration, my BSP
-layer starts by applying a "kernel_baseline.cfg" file which contains
-only a couple hundred settings that i am particularly interested in.
+I don't see how. The CPU list produced by 'qemu-ppc64 -cpu help' does 
+not include anything that resembles e5500/6500 or Power5/6/7 (the 64 bit 
+ppc chips that oe-core has definitions for), and I'm not a powerpc 
+expert by any measure, so I can't investigate the problem any further. 
+It needs to be looked at by someone who is actually working with that 
+hardware.
 
-  so, given that, how can i tell what OE chose as a starting point for
-a .config file before beginning to apply my kernel config fragments?
-i'm poking around in the log files of the build, but i can't seem to
-see where the "configme" process selects a starting point. am i just
-missing the obvious? i want to see the .config file *before* any of my
-fragments are applied.
+The best we can do now is disable use of qemu, so that builds that 
+target ppc64 don't fail.
 
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+Alex
 
 
