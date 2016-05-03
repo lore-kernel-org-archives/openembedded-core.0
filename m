@@ -1,35 +1,61 @@
-Return-Path: <denis@denix.org>
-Received: from vms173021pub.verizon.net (vms173021pub.verizon.net
-	[206.46.173.21])
-	by mail.openembedded.org (Postfix) with ESMTP id C094260043
+Return-Path: <kergoth@gmail.com>
+Received: from mail-io0-f194.google.com (mail-io0-f194.google.com
+	[209.85.223.194])
+	by mail.openembedded.org (Postfix) with ESMTP id A234C6FFED
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 May 2016 18:49:05 +0000 (UTC)
-Received: from vz-proxy-l008.mx.aol.com ([64.236.82.153])
-	by vms173021.mailsrvcs.net
-	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul 16
-	2014)) with ESMTPA id <0O6M00LTA6X3Q160@vms173021.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Tue, 03 May 2016 13:48:39 -0500 (CDT)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.1 cv=EdU1O6SC c=1 sm=1 tr=0	a=FJ1kTJ0/xm5uTekQe8vMdQ==:117
-	a=8nJEP1OIZ-IA:10 a=yrkiwgmsf1kA:10	a=VwQbUJbxAAAA:8 a=CEtC_dnCAAAA:8
-	a=JqEG_dyiAAAA:8 a=jU4qhlNgAAAA:8	a=Q4-j1AaZAAAA:8
-	a=knBSBKHGuYGI9Ncj7G0A:9 a=wPNLvfGTeEIA:10
-Received: by 100.15.86.14 with SMTP id 2e379934; Tue, 03 May 2016 18:48:39 GMT
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id B78BA161FDE; Tue,
-	3 May 2016 14:48:38 -0400 (EDT)
-Date: Tue, 03 May 2016 14:48:38 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Message-id: <20160503184838.GE27602@denix.org>
-References: <alpine.LFD.2.20.1605031245360.6672@localhost.localdomain>
-	<CADkTA4PPYfetBymZ1mii_sc7f71za-V0dBbcgApHyhDHwxKyVw@mail.gmail.com>
-	<alpine.LFD.2.20.1605031421460.12750@localhost.localdomain>
-MIME-version: 1.0
-In-reply-to: <alpine.LFD.2.20.1605031421460.12750@localhost.localdomain>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: clarifying details about "is not set" lines in kernel config fragment files
+	Tue,  3 May 2016 19:31:19 +0000 (UTC)
+Received: by mail-io0-f194.google.com with SMTP id u185so3657738iod.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 03 May 2016 12:31:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=Et46cCbw2Ck/7E4p/VAZ+Y4hdWpJsj4paoD7i3235mU=;
+	b=ASgQ2bLVTgk0vthR1JiWR2JvGs3k1oN5ldSkIjU2HRDbQyyGkYrACFfqMpNhcbNm9p
+	IN3T329fVJnP4QxXpFZnUYWjcuN3Dp2LEd+PZFM+MaUcdkA44YqqFCUejabnY8s5E3Ib
+	VWibPgiY74p+QY4D51s9Ya6r77/IYPi2E00gF85OEKN7vSHufSROj5X+0p4JeWIJQZrt
+	ABQ2eh6ksZouh3SO2lpMmj7hgzsUFVnV2lHx3Ke0OQibmj2Rw686I5B2/zO1pOryTez8
+	Gkw4R611ziNbxi5P91j8gBvw3TkIp3apZPHAUB91UvHNyNQi+Z5InKbHTsiJ9cAJ3/Zy
+	D58Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kergoth-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=Et46cCbw2Ck/7E4p/VAZ+Y4hdWpJsj4paoD7i3235mU=;
+	b=OJzyVYmIk6QzkVC03VSp7NOXKLtp5DNKW5UbeqjQtnAuJJJJlNgmUYB9SNb8L5NDDS
+	KUiO5Dm94sfFP+rNixsJrCUnQTeiCVcFCXDm45RNN6ULAKg9zoKrN1HaBMnVWanRavjW
+	yqO3KARycBykjMDvGCOL5nSPV/439j+UFK9YmAZdidlVIMZ8zXY29uakkhapA+/BcGSp
+	brv5ZV0YlOwj/YGD5JMq5kiCQeGxF8F6E7xqAoxYi5/9Z4HFaPb1pqGQNprQk4e9rpii
+	9WCOShMEhivRjw+5mSHqgoDa4ISAtixh7bwi2fO6X12qYdeifXr9fw6zfwFaYNE7w2QZ
+	6h6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=Et46cCbw2Ck/7E4p/VAZ+Y4hdWpJsj4paoD7i3235mU=;
+	b=jluMMfJXc6hulEf/FE54jYjMpo2U8p8hXWADQhqKPjcHM8o2W6afQLGGjBGktuzYiQ
+	q5KKAl7CKMKF0fvL6nRBGHihkY8sIdALgYbiPer7rzfBNDKHV5YjUfmaoevNdp/xkdEE
+	dJ2lEJDf+hfr67b1Yk0daNqfdQsdv6Gnw05GoW5wr4K0KJKXiaBx9E6esZpRMaOcHu0N
+	IfE1AZmJZxCLn/u9PKIEQC9FDb5AHNRLahDpEIH+VQrMWObg5ys2ydkGWk7bz6hopC8B
+	m+H8V2yf2r8TKALy9ETPEcFwCR8GC+v2QC7fDvsLz2XtX3D1GhvVFvZEqe0lCW3VLlH8
+	btrg==
+X-Gm-Message-State: AOPr4FWXwrFQ56qqQYCQDoLx7pxl99N/zcNj/Ax0ri3idWkKslIk4ESb+CdkOd30byFGBtgKbTnvEW5sfxiDRg==
+X-Received: by 10.107.2.70 with SMTP id 67mr5775347ioc.70.1462303879909; Tue,
+	03 May 2016 12:31:19 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.79.134.70 with HTTP; Tue, 3 May 2016 12:31:00 -0700 (PDT)
+In-Reply-To: <9d32811fe04ce49bdc20891453d37819447d7f88.1462191317.git.ed.bartosh@linux.intel.com>
+References: <cover.1462191317.git.ed.bartosh@linux.intel.com>
+	<9d32811fe04ce49bdc20891453d37819447d7f88.1462191317.git.ed.bartosh@linux.intel.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Tue, 3 May 2016 19:31:00 +0000
+X-Google-Sender-Auth: PPonZuHwLSgaI1W5xxxQbFG8zt4
+Message-ID: <CABcZANkwedfVVu2cxREq2Qp2UECdtAfrcgZ5V9LfVPtkR5sjaA@mail.gmail.com>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3 4/6] bmap-tools: generate standalone script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,56 +68,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 May 2016 18:49:05 -0000
-Content-type: text/plain; charset=iso-8859-1
-Content-disposition: inline
-Content-transfer-encoding: 8bit
+X-List-Received-Date: Tue, 03 May 2016 19:31:20 -0000
+Content-Type: multipart/alternative; boundary=001a113968145121eb0531f5279a
 
-On Tue, May 03, 2016 at 02:27:38PM -0400, Robert P. J. Day wrote:
-> On Tue, 3 May 2016, Bruce Ashfield wrote:
-> 
-> > On Tue, May 3, 2016 at 1:04 PM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
-> >
-> >         oddly, in the current YP kernel dev manual, i don't see the
-> >       phrase "is not set" explained anywhere in the entire doc,
-> >       which is weird since it seems like it would be important.
-> >
-> > The manuals don't cover the mechanics of how the mainline kernel is
-> > configured. Just the same way the don't cover the configuration
-> > language for any number of packages in the system.
-> 
->   assuming i'm understanding your position, that's where i'm going to
-> *strongly* disagree. people who work with the mainline kernel in a
-> non-OE environment don't use kernel config fragment files. period.
-> AFAIK (and correct me if i'm wrong), .cfg kernel config fragment files
-> are exclusively an OE/YP thing, so there is no reason for normal
-> kernel developers to understand how they work.
+--001a113968145121eb0531f5279a
+Content-Type: text/plain; charset=UTF-8
 
-You are *strongly* wrong! I know many kernel developers using this:
-https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/scripts/kconfig/merge_config.sh
+On Mon, May 2, 2016 at 12:22 PM, Ed Bartosh <ed.bartosh@linux.intel.com>
+wrote:
 
+> Generated standalone bmaptool script that is more convenient
+> to use than native script. It can be run straight from
+> its location ./tmp/deploy/tools/bmaptool. The script doesn't
+> depend on anything except Python.
+>
+> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+>
 
->   knowing how regular kernel configuration works, and how kernel
-> config fragment files are processed to aid in that process, are two
-> *entirely* different things, and how those files are processed is,
-> IMHO, most assuredly the responsibility of the OE/YP docs to explain.
-> 
-> rday
-> 
-> -- 
-> 
-> ========================================================================
-> Robert P. J. Day                                 Ottawa, Ontario, CANADA
->                         http://crashcourse.ca
-> 
-> Twitter:                                       http://twitter.com/rpjday
-> LinkedIn:                               http://ca.linkedin.com/in/rpjday
-> ========================================================================
+You're right that this is very handy, but we hit a problem when building
+from shared state. This uses do_deploy to deploy bmaptool into
+DEPLOY_DIR_IMAGE, but IMAGE_DEPENDS only depends on do_populate_sysroot,
+not do_deploy, so an image build from sstate won't write this script out.
 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+I don't know the right way to fix this, but it's a problem. I just ran into
+it :)
+-- 
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
+--001a113968145121eb0531f5279a
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Mon, May 2, 2016 at 12:22 PM, Ed Bartosh <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:ed.bartosh@linux.intel.com" target=3D"_blank">ed.bartosh@linux=
+.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Generate=
+d standalone bmaptool script that is more convenient<br>
+to use than native script. It can be run straight from<br>
+its location ./tmp/deploy/tools/bmaptool. The script doesn&#39;t<br>
+depend on anything except Python.<br>
+<br>
+Signed-off-by: Ed Bartosh &lt;<a href=3D"mailto:ed.bartosh@linux.intel.com"=
+>ed.bartosh@linux.intel.com</a>&gt;<br></blockquote><div><br></div><div>You=
+&#39;re right that this is very handy, but we hit a problem when building f=
+rom shared state. This uses do_deploy to deploy bmaptool into DEPLOY_DIR_IM=
+AGE, but IMAGE_DEPENDS only depends on do_populate_sysroot, not do_deploy, =
+so an image build from sstate won&#39;t write this script out.</div><div><b=
+r></div><div>I don&#39;t know the right way to fix this, but it&#39;s a pro=
+blem. I just ran into it :)</div></div>-- <br><div class=3D"gmail_signature=
+">Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBake, Op=
+enEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engineer, M=
+entor Graphics</div>
+</div></div>
+
+--001a113968145121eb0531f5279a--
