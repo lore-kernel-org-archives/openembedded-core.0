@@ -1,29 +1,29 @@
 Return-Path: <maxin.john@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 723D17318F
+	by mail.openembedded.org (Postfix) with ESMTP id 480F27318F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 May 2016 14:49:55 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP; 03 May 2016 07:49:56 -0700
+	Tue,  3 May 2016 14:49:57 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 03 May 2016 07:49:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,572,1455004800"; d="scan'208";a="696140397"
+X-IronPort-AV: E=Sophos;i="5.24,572,1455004800"; d="scan'208";a="957918156"
 Received: from linux.intel.com ([10.23.219.25])
-	by FMSMGA003.fm.intel.com with ESMTP; 03 May 2016 07:49:57 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 03 May 2016 07:49:58 -0700
 Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
 	[10.237.72.71])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id B3C336A4006
+	by linux.intel.com (Postfix) with ESMTP id 8E90E6A4006
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 May 2016 08:37:30 -0700 (PDT)
+	Tue,  3 May 2016 08:37:32 -0700 (PDT)
 From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 May 2016 17:49:45 +0300
-Message-Id: <1462286989-22848-7-git-send-email-maxin.john@intel.com>
+Date: Tue,  3 May 2016 17:49:46 +0300
+Message-Id: <1462286989-22848-8-git-send-email-maxin.john@intel.com>
 X-Mailer: git-send-email 2.4.0
 In-Reply-To: <1462286989-22848-1-git-send-email-maxin.john@intel.com>
 References: <1462286989-22848-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 06/10] mc: upgrade to 4.8.16
+Subject: [PATCH 07/10] orc: upgrade to 0.4.25
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,128 +36,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 May 2016 14:49:55 -0000
+X-List-Received-Date: Tue, 03 May 2016 14:49:57 -0000
 
-4.8.15 -> 4.8.16
+0.4.24 -> 0.4.25
 
 Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- meta/recipes-extended/mc/mc_4.8.15.bb | 49 -----------------------------------
- meta/recipes-extended/mc/mc_4.8.16.bb | 49 +++++++++++++++++++++++++++++++++++
- 2 files changed, 49 insertions(+), 49 deletions(-)
- delete mode 100644 meta/recipes-extended/mc/mc_4.8.15.bb
- create mode 100644 meta/recipes-extended/mc/mc_4.8.16.bb
+ meta/recipes-devtools/orc/orc_0.4.24.bb | 27 ---------------------------
+ meta/recipes-devtools/orc/orc_0.4.25.bb | 27 +++++++++++++++++++++++++++
+ 2 files changed, 27 insertions(+), 27 deletions(-)
+ delete mode 100644 meta/recipes-devtools/orc/orc_0.4.24.bb
+ create mode 100644 meta/recipes-devtools/orc/orc_0.4.25.bb
 
-diff --git a/meta/recipes-extended/mc/mc_4.8.15.bb b/meta/recipes-extended/mc/mc_4.8.15.bb
+diff --git a/meta/recipes-devtools/orc/orc_0.4.24.bb b/meta/recipes-devtools/orc/orc_0.4.24.bb
 deleted file mode 100644
-index 6c3a16a..0000000
---- a/meta/recipes-extended/mc/mc_4.8.15.bb
+index 520f88d..0000000
+--- a/meta/recipes-devtools/orc/orc_0.4.24.bb
 +++ /dev/null
-@@ -1,49 +0,0 @@
--SUMMARY = "Midnight Commander is an ncurses based file manager"
--HOMEPAGE = "http://www.midnight-commander.org/"
--LICENSE = "GPLv3"
--LIC_FILES_CHKSUM = "file://COPYING;md5=270bbafe360e73f9840bd7981621f9c2"
--SECTION = "console/utils"
--DEPENDS = "ncurses glib-2.0 util-linux"
--RDEPENDS_${PN} = "ncurses-terminfo"
+@@ -1,27 +0,0 @@
+-SUMMARY = "Optimised Inner Loop Runtime Compiler"
+-HOMEPAGE = "http://gstreamer.freedesktop.org/modules/orc.html"
+-LICENSE = "BSD-2-Clause & BSD-3-Clause"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=1400bd9d09e8af56b9ec982b3d85797e"
 -
--SRC_URI = "http://www.midnight-commander.org/downloads/${BPN}-${PV}.tar.bz2 \
--           "
--SRC_URI[md5sum] = "db48ce26ba425a61edc51930e94227fd"
--SRC_URI[sha256sum] = "f74e3da70410975cdeb27ee9a66d1dd812250b6d3ede364bca728dd5a48e5471"
+-SRC_URI = "http://gstreamer.freedesktop.org/src/orc/orc-${PV}.tar.xz"
 -
--inherit autotools gettext pkgconfig
+-SRC_URI[md5sum] = "9e793ec34c0e20339659dd4bbbf62135"
+-SRC_URI[sha256sum] = "338cd493b5247300149821c6312bdf7422a3593ae98691fc75d7e4fe727bd39b"
 -
--#
--# Both Samba (smb) and sftp require package delivered from meta-openembedded
--#
--PACKAGECONFIG ??= ""
--PACKAGECONFIG[smb] = "--enable-vfs-smb,--disable-vfs-smb,samba,"
--PACKAGECONFIG[sftp] = "--enable-vfs-sftp,--disable-vfs-sftp,libssh2,"
+-inherit autotools pkgconfig
 -
--EXTRA_OECONF = "--with-screen=ncurses --without-gpm-mouse --without-x"
+-BBCLASSEXTEND = "native nativesdk"
 -
--do_install_append () {
--	sed -i -e '1s,#!.*perl,#!${bindir}/env perl,' ${D}${libexecdir}/mc/extfs.d/*
--	sed -i -e '1s,#!.*python,#!${bindir}/env python,' ${D}${libexecdir}/mc/extfs.d/*
+-PACKAGES =+ "orc-examples"
+-PACKAGES_DYNAMIC += "^liborc-.*"
+-FILES_orc-examples = "${libdir}/orc/*"
+-FILES_${PN} = "${bindir}/*"
+-
+-python populate_packages_prepend () {
+-    libdir = d.expand('${libdir}')
+-    do_split_packages(d, libdir, '^lib(.*)\.so\.*', 'lib%s', 'ORC %s library', extra_depends='', allow_links=True)
 -}
 -
--PACKAGES =+ "${BPN}-helpers-perl ${BPN}-helpers-python ${BPN}-helpers ${BPN}-fish"
--
--SUMMARY_${BPN}-helpers-perl = "Midnight Commander Perl-based helper scripts"
--FILES_${BPN}-helpers-perl = "${libexecdir}/mc/extfs.d/a+ ${libexecdir}/mc/extfs.d/apt+ \
--                             ${libexecdir}/mc/extfs.d/deb ${libexecdir}/mc/extfs.d/deba \
--                             ${libexecdir}/mc/extfs.d/debd ${libexecdir}/mc/extfs.d/dpkg+ \
--                             ${libexecdir}/mc/extfs.d/mailfs ${libexecdir}/mc/extfs.d/patchfs \ 
--                             ${libexecdir}/mc/extfs.d/rpms+ ${libexecdir}/mc/extfs.d/ulib \ 
--                             ${libexecdir}/mc/extfs.d/uzip"
--RDEPENDS_${BPN}-helpers-perl = "perl"
--
--SUMMARY_${BPN}-helpers-python = "Midnight Commander Python-based helper scripts"
--FILES_${BPN}-helpers-python = "${libexecdir}/mc/extfs.d/s3+ ${libexecdir}/mc/extfs.d/uc1541"
--RDEPENDS_${BPN}-helpers-python = "python"
--
--SUMMARY_${BPN}-helpers = "Midnight Commander shell helper scripts"
--FILES_${BPN}-helpers = "${libexecdir}/mc/extfs.d/* ${libexecdir}/mc/ext.d/*"
--
--SUMMARY_${BPN}-fish = "Midnight Commander Fish scripts"
--FILES_${BPN}-fish = "${libexecdir}/mc/fish"
-diff --git a/meta/recipes-extended/mc/mc_4.8.16.bb b/meta/recipes-extended/mc/mc_4.8.16.bb
+-do_compile_prepend_class-native () {
+-    sed -i -e 's#/tmp#.#g' ${S}/orc/orccodemem.c
+-}
+diff --git a/meta/recipes-devtools/orc/orc_0.4.25.bb b/meta/recipes-devtools/orc/orc_0.4.25.bb
 new file mode 100644
-index 0000000..16ed6a9
+index 0000000..f3bde46
 --- /dev/null
-+++ b/meta/recipes-extended/mc/mc_4.8.16.bb
-@@ -0,0 +1,49 @@
-+SUMMARY = "Midnight Commander is an ncurses based file manager"
-+HOMEPAGE = "http://www.midnight-commander.org/"
-+LICENSE = "GPLv3"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=270bbafe360e73f9840bd7981621f9c2"
-+SECTION = "console/utils"
-+DEPENDS = "ncurses glib-2.0 util-linux"
-+RDEPENDS_${PN} = "ncurses-terminfo"
++++ b/meta/recipes-devtools/orc/orc_0.4.25.bb
+@@ -0,0 +1,27 @@
++SUMMARY = "Optimised Inner Loop Runtime Compiler"
++HOMEPAGE = "http://gstreamer.freedesktop.org/modules/orc.html"
++LICENSE = "BSD-2-Clause & BSD-3-Clause"
++LIC_FILES_CHKSUM = "file://COPYING;md5=1400bd9d09e8af56b9ec982b3d85797e"
 +
-+SRC_URI = "http://www.midnight-commander.org/downloads/${BPN}-${PV}.tar.bz2 \
-+           "
-+SRC_URI[md5sum] = "b93706dfe66ffe4f61c1a2650798d207"
-+SRC_URI[sha256sum] = "c37ea495df93f6d375a3ce59cdcf0f3a3690338526205347b03a316daebdaaf8"
++SRC_URI = "http://gstreamer.freedesktop.org/src/orc/orc-${PV}.tar.xz"
 +
-+inherit autotools gettext pkgconfig
++SRC_URI[md5sum] = "8582a28b15f53110c88d8043d9f55bcf"
++SRC_URI[sha256sum] = "c1b1d54a58f26d483f0b3881538984789fe5d5460ab8fab74a1cacbd3d1c53d1"
 +
-+#
-+# Both Samba (smb) and sftp require package delivered from meta-openembedded
-+#
-+PACKAGECONFIG ??= ""
-+PACKAGECONFIG[smb] = "--enable-vfs-smb,--disable-vfs-smb,samba,"
-+PACKAGECONFIG[sftp] = "--enable-vfs-sftp,--disable-vfs-sftp,libssh2,"
++inherit autotools pkgconfig
 +
-+EXTRA_OECONF = "--with-screen=ncurses --without-gpm-mouse --without-x"
++BBCLASSEXTEND = "native nativesdk"
 +
-+do_install_append () {
-+	sed -i -e '1s,#!.*perl,#!${bindir}/env perl,' ${D}${libexecdir}/mc/extfs.d/*
-+	sed -i -e '1s,#!.*python,#!${bindir}/env python,' ${D}${libexecdir}/mc/extfs.d/*
++PACKAGES =+ "orc-examples"
++PACKAGES_DYNAMIC += "^liborc-.*"
++FILES_orc-examples = "${libdir}/orc/*"
++FILES_${PN} = "${bindir}/*"
++
++python populate_packages_prepend () {
++    libdir = d.expand('${libdir}')
++    do_split_packages(d, libdir, '^lib(.*)\.so\.*', 'lib%s', 'ORC %s library', extra_depends='', allow_links=True)
 +}
 +
-+PACKAGES =+ "${BPN}-helpers-perl ${BPN}-helpers-python ${BPN}-helpers ${BPN}-fish"
-+
-+SUMMARY_${BPN}-helpers-perl = "Midnight Commander Perl-based helper scripts"
-+FILES_${BPN}-helpers-perl = "${libexecdir}/mc/extfs.d/a+ ${libexecdir}/mc/extfs.d/apt+ \
-+                             ${libexecdir}/mc/extfs.d/deb ${libexecdir}/mc/extfs.d/deba \
-+                             ${libexecdir}/mc/extfs.d/debd ${libexecdir}/mc/extfs.d/dpkg+ \
-+                             ${libexecdir}/mc/extfs.d/mailfs ${libexecdir}/mc/extfs.d/patchfs \ 
-+                             ${libexecdir}/mc/extfs.d/rpms+ ${libexecdir}/mc/extfs.d/ulib \ 
-+                             ${libexecdir}/mc/extfs.d/uzip"
-+RDEPENDS_${BPN}-helpers-perl = "perl"
-+
-+SUMMARY_${BPN}-helpers-python = "Midnight Commander Python-based helper scripts"
-+FILES_${BPN}-helpers-python = "${libexecdir}/mc/extfs.d/s3+ ${libexecdir}/mc/extfs.d/uc1541"
-+RDEPENDS_${BPN}-helpers-python = "python"
-+
-+SUMMARY_${BPN}-helpers = "Midnight Commander shell helper scripts"
-+FILES_${BPN}-helpers = "${libexecdir}/mc/extfs.d/* ${libexecdir}/mc/ext.d/*"
-+
-+SUMMARY_${BPN}-fish = "Midnight Commander Fish scripts"
-+FILES_${BPN}-fish = "${libexecdir}/mc/fish"
++do_compile_prepend_class-native () {
++    sed -i -e 's#/tmp#.#g' ${S}/orc/orccodemem.c
++}
 -- 
 2.4.0
 
