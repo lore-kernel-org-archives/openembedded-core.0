@@ -1,44 +1,32 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-pf0-f181.google.com (mail-pf0-f181.google.com
-	[209.85.192.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 83BFD731DD
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
+	by mail.openembedded.org (Postfix) with ESMTP id 8FD0770018
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 May 2016 20:01:50 +0000 (UTC)
-Received: by mail-pf0-f181.google.com with SMTP id y69so14860022pfb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 May 2016 13:01:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:organization;
-	bh=up+9ar8FMGL/jq0fKTJJIHxdEEqPsNor2+xBgXjwEjg=;
-	b=nK5KAmmEjLNEV6fXe6JS+bEtYiZ9usxRrxBsOgdYFaudEwJzI5tR41sNxb1vpw50Xl
-	Cb8xstpdSI6IxkmAHILC1/aaL3Il7xI0lfqNmJ9gdbHdpZmZJ9zApi9VKDe4L/QoAgpW
-	aYE5FfIIguAhbJNj0/BG1tu5WwORMnukKJfsn8M0ItSgvQIua0eNo5JiNJFGDsbd+9Cc
-	gnhGD4ha2doXdmMRNDX/hqrl7cBYJ+q312vuEw1L7Losu9qF90I0O7SfyE3VCSAagW3A
-	fdflRX0Ha5mqbKNnUTjar69asfpIA8ZprNahuO/bd6LfhUAuY593bmTIbhw/Tqs5QSHa
-	tVMQ==
-X-Gm-Message-State: AOPr4FWzwiZdw6rxo94igTPkGNLFXzIUK/cWs37UFG/WzEXurf4WqSjywunj2oBK31sepA==
-X-Received: by 10.98.93.5 with SMTP id r5mr6225619pfb.15.1462305711539;
-	Tue, 03 May 2016 13:01:51 -0700 (PDT)
-Received: from localhost ([187.23.154.250])
-	by smtp.gmail.com with ESMTPSA id 8sm69594pfk.69.2016.05.03.13.01.47
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 03 May 2016 13:01:50 -0700 (PDT)
-Received: by localhost (sSMTP sendmail emulation);
-	Tue, 03 May 2016 17:01:45 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Tue,  3 May 2016 17:00:51 -0300
-Message-Id: <1462305651-16593-8-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.8.2
-In-Reply-To: <1462305651-16593-1-git-send-email-otavio@ossystems.com.br>
-References: <1462305651-16593-1-git-send-email-otavio@ossystems.com.br>
-Organization: O.S. Systems Software LTDA.
-Cc: prabhu.sundararaj@nxp.com, Otavio Salvador <otavio@ossystems.com.br>,
-	neenareddy.busireddy@nxp.com,
-	meta-freescale Mailing List <meta-freescale@yoctoproject.org>
-Subject: [oe-core PATCH v2 7/7] weston: Add Xwayland initialization support using weston-start
+	Tue,  3 May 2016 20:06:13 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
+	via TCP (outbound) with ESMTPS id 20160503200611222_0685;
+	Tue, 03 May 2016 13:06:11 -0700
+X-RC-FROM: <rpjday@crashcourse.ca>
+Received: from [99.240.204.5] (port=57082 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1axgbc-000334-Dl; Tue, 03 May 2016 16:07:40 -0400
+Date: Tue, 3 May 2016 16:05:49 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: Tom Rini <trini@konsulko.com>
+In-Reply-To: <20160503184521.GA7884@bill-the-cat>
+Message-ID: <alpine.LFD.2.20.1605031601040.2840@localhost.localdomain>
+References: <alpine.LFD.2.20.1605031245360.6672@localhost.localdomain>
+	<CADkTA4PPYfetBymZ1mii_sc7f71za-V0dBbcgApHyhDHwxKyVw@mail.gmail.com>
+	<alpine.LFD.2.20.1605031421460.12750@localhost.localdomain>
+	<20160503184521.GA7884@bill-the-cat>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+MIME-Version: 1.0
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: clarifying details about "is not set" lines in kernel config fragment files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,62 +39,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 May 2016 20:01:50 -0000
+X-List-Received-Date: Tue, 03 May 2016 20:06:15 -0000
+Content-Type: multipart/mixed; BOUNDARY="8323328-1743029563-1462305952=:2840"
 
-The weston-start script now supports loading modules so the Xwayland
-support can be loaded optionally. Use this to load Weston accordingly.
+--8323328-1743029563-1462305952=:2840
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8BIT
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
+On Tue, 3 May 2016, Tom Rini wrote:
 
-Changes in v2:
-- Move weston-start module to weston package
-- Stop using weston-launch
+> On Tue, May 03, 2016 at 02:27:38PM -0400, Robert P. J. Day wrote:
+> > On Tue, 3 May 2016, Bruce Ashfield wrote:
+> >
+> > > On Tue, May 3, 2016 at 1:04 PM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+> > >
+> > >         oddly, in the current YP kernel dev manual, i don't see the
+> > >       phrase "is not set" explained anywhere in the entire doc,
+> > >       which is weird since it seems like it would be important.
+> > >
+> > > The manuals don't cover the mechanics of how the mainline kernel
+> > > is configured. Just the same way the don't cover the
+> > > configuration language for any number of packages in the system.
+> >
+> >   assuming i'm understanding your position, that's where i'm going
+> > to *strongly* disagree. people who work with the mainline kernel
+> > in a non-OE environment don't use kernel config fragment files.
+> > period. AFAIK (and correct me if i'm wrong), .cfg kernel config
+> > fragment files are exclusively an OE/YP thing, so there is no
+> > reason for normal kernel developers to understand how they work.
+>
+> Or maybe to be more clear, does the manual spell out that these .cfg
+> files are Kconfig fragments and follow the normal syntax rules
+> Kconfig uses?  If not, it really should.  If so, maybe it should
+> also contain a reference to the external authority on this syntax?
 
- meta/recipes-graphics/wayland/weston/xwayland.weston-start | 7 +++++++
- meta/recipes-graphics/wayland/weston_1.9.0.bb              | 7 ++++++-
- 2 files changed, 13 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/wayland/weston/xwayland.weston-start
+  saying they're regular Kconfig fragments might be technically
+correct, but still doesn't explain the *possibilities* as to what can
+go into them, and the consequences (or necessity) of adding your own
+"is not set" lines, and why you'd want to do that.
 
-diff --git a/meta/recipes-graphics/wayland/weston/xwayland.weston-start b/meta/recipes-graphics/wayland/weston/xwayland.weston-start
-new file mode 100644
-index 0000000..b483c97
---- /dev/null
-+++ b/meta/recipes-graphics/wayland/weston/xwayland.weston-start
-@@ -0,0 +1,7 @@
-+#!/bin/sh
-+
-+if type Xwayland  >/dev/null 2>/dev/null; then
-+	mkdir -p /tmp/.X11-unix
-+
-+	add_weston_argument "--modules=xwayland.so"
-+fi
-diff --git a/meta/recipes-graphics/wayland/weston_1.9.0.bb b/meta/recipes-graphics/wayland/weston_1.9.0.bb
-index 2e42880..07bb30e 100644
---- a/meta/recipes-graphics/wayland/weston_1.9.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_1.9.0.bb
-@@ -13,6 +13,7 @@ SRC_URI = "http://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-            file://0001-make-error-portable.patch \
-            file://libsystemd.patch \
-            file://explicit-enable-disable-systemd.patch \
-+           file://xwayland.weston-start \
- "
- SRC_URI[md5sum] = "66bbba12f546570b4d97f676bc79a28e"
- SRC_URI[sha256sum] = "9c1b03f3184fa0b0dfdf67e215048085156e1a2ca344af6613fed36794ac48cf"
-@@ -89,7 +90,11 @@ do_install_append() {
- 
- 		install -d ${D}${datadir}/icons/hicolor/48x48/apps
- 		install ${WORKDIR}/weston.png ${D}${datadir}/icons/hicolor/48x48/apps
--        fi
-+	fi
-+
-+	if [ "${@bb.utils.contains('PACKAGECONFIG', 'xwayland', 'yes', 'no', d)}" = "yes" ]; then
-+		install -Dm 644 ${WORKDIR}/xwayland.weston-start ${D}${datadir}/weston-start/xwayland
-+	fi
- }
- 
- PACKAGES += "${PN}-examples"
+  i don't see a long-winded explanation -- no more than a few
+paragraphs would suffice to make it clear what developers can do.
+
+rday
+
 -- 
-2.8.2
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
 
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
+--8323328-1743029563-1462305952=:2840--
