@@ -1,62 +1,43 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-ig0-f194.google.com (mail-ig0-f194.google.com
-	[209.85.213.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 5986C62135
+Return-Path: <fabio.berton@ossystems.com.br>
+Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
+	[209.85.215.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 388386FF4E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 May 2016 16:07:51 +0000 (UTC)
-Received: by mail-ig0-f194.google.com with SMTP id c3so2718984igl.3
+	Tue,  3 May 2016 16:25:19 +0000 (UTC)
+Received: by mail-lf0-f65.google.com with SMTP id p64so2860551lfg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 May 2016 09:07:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to; bh=PYAX+h+p8g8yUivt0AiRQKphqFtIwaEGuOk2E6wWum4=;
-	b=VWSyOd36tyentNFgRbOiv/zdLfVCDWScEp35860dYFhSsnxTUgE3+5uhs8AnttWeHR
-	HF+WuEtPKXXu5LbUvcZpDnaEuRPEpq9CeitTAYl2ai47DkB3JdPR9VicJ9oLZP16Ai+D
-	+q9R6TquaTKPEQ4P38hVP5bdVA1BEO4tVDM5c2kExg+6DOeRw19wvmMrextaW/D6K/YC
-	7NO50RwPFwlUuJjUjYjLfyA6MsoR9ISMPmrmO9A2HiaCF6+FS36Ie+0XEpc1xgw3MjcS
-	pBGg+K34YZOu5eDHmJOqhFxAua/kXFkmFFjMNBZTVj7rryvk+7ZVjg324yApII6wvhwB
-	W0iw==
+	Tue, 03 May 2016 09:25:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kergoth-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to; bh=PYAX+h+p8g8yUivt0AiRQKphqFtIwaEGuOk2E6wWum4=;
-	b=e1GJ4iidl/fAGrcydwPC4ZofjW77Sp8YuFlCN212fIF2sTMheS7DY9Y4HHntEYe0y1
-	BEAmTaURUVHEfpDraiV5j42rrBELX2Jj3p3JaeZUx947AKlhbkmV9TIEdPYy0fzRGjnd
-	ClNPHFtYB5dlXpMgPE0x3KxYPENbtRSpPe4qDbFxuILZR6jz/wdrPlAzlY6sZHNeNJIB
-	D2WNzcRMh6osSvM7zkNCBnavZmJVTJo6rGLNa4run9jdoq91DcSzmbMb/IoY/M0FLfH3
-	fC9Nq4NhhOGk4dWnJ7Y1xc5TTIQFooTg3PBrKIIs9/1sLL79LSjxDYfy90erMeNEUAcM
-	NWVw==
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=DR8zKD9sd8oamMVb+i/9+v9lezGIiz28uybSDpxznAw=;
+	b=Gwehu7aCR9DoQ0/OWrZFriC3R3ZhdEo3hH9NHDpneXQ6Jv3BZig59TW24Ipt+j+5KF
+	bCo0kgMLZipxgZwZxtpiRgZYRwWKjxIfw4qAz7VPOO6ymtbOjqgF7r4hKlX8G/re5xcC
+	GU/nULFaaxyHJtD90GWZbIxEqEtc8lx38yChQYLs1SVHHDH9cUweLvuPHz68NFm/E/Uo
+	uTMByiIWTfLCwkOhKJvi2/9f/xDL4SV9MkJ4BIdD2Cbx3Xu4DkPlKsclSoY1S74W7viB
+	XPSUWadxCGaV/Q+8ViArxleRnT7CoajjcdaIuH13i3Z3ZIIhDPQxtjAWqL5m/DuaWIUH
+	fAHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to;
-	bh=PYAX+h+p8g8yUivt0AiRQKphqFtIwaEGuOk2E6wWum4=;
-	b=C3WMQJgAkOXeR/kpVJ4z86qbRNik5ssSH2uQohK/nt1Z2vPMZK3qXYu+PRhSMb4F+6
-	Nvb5g5ynIhywlrcMSz1tQZzB+GJh+mVOZOwjUfOfnZCVxkiaXEyiwQurcoSyGH38NH7t
-	VCGEZAvEAo6I78iUCGbcQaYfUBEto8TQcUdAZfw9L1pdrlg+bpjlx4YfZDYzPLGqhpXj
-	W293ljAhqAZtZuz4QexYhsw+SCYLpgOo6ri+tzQVND8xBJRHMbcMvqflJIDn4Gx2YvQR
-	LHurB5e4+IQPBZ56SQezL901n9W2U+NWjHHcyVAvu/EEEa38X1LRUDQHR1FA/nHgIxc2
-	xxaw==
-X-Gm-Message-State: AOPr4FUviLtKk2zYCd8f1KI1nLO3r6+Q2uU29uGEwopB8TxAL/0z+mYsDy7qjYn/niB9I9HkThGKhabA02sVeg==
-X-Received: by 10.50.221.169 with SMTP id qf9mr4464164igc.13.1462291672265;
-	Tue, 03 May 2016 09:07:52 -0700 (PDT)
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=DR8zKD9sd8oamMVb+i/9+v9lezGIiz28uybSDpxznAw=;
+	b=VRE4Jd33hzv+8cZ3R7uwGPrwLgKdeS0PJCkK7YcTyWUl9SG3Si2AjUZ4gSp9by6s/a
+	2BibcXsEKl9vwbzkVdzP+tb9FImQwxhEH5j2WTd1zmSq50kLeuwDqeO/G7FLH8HNhFqE
+	oOL2IjJw62nvnLhMFsev0T6Yh7LVhBOAufGTwJBpEzpSVAFob9RmL6WWY2rPE7ZvFMgc
+	ufR7mAIAbnReEYgiwn48x6UHrFc3l+yosyPOJgSn6UtTRYOsC9QY40ga7dmMnIEOUZY3
+	4RgeHwSdC+dFHQuKO3RiIvKm28bMq1hpJuO85f4Tt41+VqfdWRiEQZRaK7vx1Mt0tosP
+	P7Mg==
+X-Gm-Message-State: AOPr4FWSX1gN7M2sj609sZg2RUNkL1cwX0Vn5jM1jlvc7URAlaGIe6TtfgOhc7pbDsD0W1M7fOqDyGsIt5e1Wg==
+X-Received: by 10.25.165.129 with SMTP id o123mr1579464lfe.105.1462292718660; 
+	Tue, 03 May 2016 09:25:18 -0700 (PDT)
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.79.134.70 with HTTP; Tue, 3 May 2016 09:07:32 -0700 (PDT)
-In-Reply-To: <20160503091142.GA4828@ad.chargestorm.se>
-References: <1462219765-18957-1-git-send-email-kergoth@gmail.com>
-	<B873B241-2AB0-4CDA-B4CF-7AEA166BEE68@gmail.com>
-	<CABcZAN=ECJ15QzuHx-a2aovhS3hagRJuo3u-kazjZ4xnHjt=zA@mail.gmail.com>
-	<A4EC8338-0993-408B-9D4C-2E388348B3B0@gmail.com>
-	<20160503080913.GA2851@jama>
-	<20160503091142.GA4828@ad.chargestorm.se>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Tue, 3 May 2016 16:07:32 +0000
-X-Google-Sender-Auth: jO0hdznZ7uAjvl_wyqW3eM5KeyI
-Message-ID: <CABcZANnFt8Ko5G8i5DJjk4iVOb5VuZbiyrgSkAqKsW4kqQUUaw@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [master][PATCH] gcc-cross{, -canadian}: remove --with-linker-hash-style
+Received: by 10.25.22.193 with HTTP; Tue, 3 May 2016 09:24:49 -0700 (PDT)
+X-Originating-IP: [187.23.154.250]
+From: Fabio Berton <fabio.berton@ossystems.com.br>
+Date: Tue, 3 May 2016 13:24:49 -0300
+Message-ID: <CAAPZna1xLfbyYUKa+qcLfeGCv=mqg7JwWtirfAbqfM+TCu5m7g@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: npm class usage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,63 +50,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 May 2016 16:07:54 -0000
-Content-Type: multipart/alternative; boundary=f46d042ac020af15950531f24f9a
+X-List-Received-Date: Tue, 03 May 2016 16:25:21 -0000
+Content-Type: multipart/alternative; boundary=001a113fb15c0dd8280531f28e0f
 
---f46d042ac020af15950531f24f9a
+--001a113fb15c0dd8280531f28e0f
 Content-Type: text/plain; charset=UTF-8
 
-On Tue, May 3, 2016 at 9:11 AM, Anders Darander <anders@chargestorm.se>
-wrote:
+Hi all!
 
-> * Martin Jansa <martin.jansa@gmail.com> [160503 10:08]:
->
-> > It would be nice to really poison the value if possible
-> > --with-linker-hash-style=YOU_NEED_TO_RESPECT_LDFLAGS
-> > to cause linker call to fail when someone is using oe-core toolchain
-> > outside OE itself (so might ignore LDFLAGS, but without running the
-> > QA check).
->
-> This sounds like a nice idea; making it comparible to how the sysroot is
-> poisoned.
->
+I'm trying to install some recipes that use npm class and I have two
+questions.
 
-Doesn't look like that's allowed, the argument only allows specific styles.
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+1 - Why use S = "${WORKDIR}/npmpkg"? This not work for me.
 
---f46d042ac020af15950531f24f9a
+2 - Using option --no-registry inside npm_do_compile task I get this error:
+
+| npm ERR! Registry not defined and registry files not found:
+"/home/user/prj/build/tmp/work/all-linux-musleabi/gulp-cli/1.2.1-r0/npm_cache/noregistry/wreck/.cache.json",
+"/home/user/prj/build/tmp/work/all-linux-musleabi/gulp-cli/1.2.1-r0/npm_cache/wreck/.cache.json".
+| npm ERR!
+| npm ERR! If you need help, you may report this error at:
+| npm ERR!     <https://github.com/npm/npm/issues>
+| npm ERR! Linux 3.18.0-trunk-amd64
+| npm ERR! argv
+"/home/user/prj/build/tmp/sysroots/x86_64-linux/usr/bin/node"
+"/home/user/prj/build/tmp/sysroots/x86_64-linux/usr/bin/npm"
+"--arch=arm" "--production" "--no-registry" "install"
+| npm ERR! node v4.4.1
+| npm ERR! npm  v2.14.20
+
+I found this issue https://github.com/npm/npm/issues/5509 and using
+--cache-min 99999 instead of --no-registry this error doesn't appears and
+build works fine.
+
+I noticed that nodejs recipe is using this patch
+https://github.com/bendaaron/meta-oe-dev/commit/3e02a40d689a7002547215473a00606d8213ce0c
+but seems not fix for me.
+
+I'm missing something to use this class?
+
+Regards.
+
+--001a113fb15c0dd8280531f28e0f
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Tue, May 3, 2016 at 9:11 AM, Anders Darander <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:anders@chargestorm.se" target=3D"_blank">anders@chargestorm.se=
-</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
-:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2lg" c=
-lass=3D"a3s aXjCH">* Martin Jansa &lt;<a href=3D"mailto:martin.jansa@gmail.=
-com">martin.jansa@gmail.com</a>&gt; [160503 <span class=3D"aBn" tabindex=3D=
-"0"><span class=3D"aQJ">10:08</span></span>]:<br>
-<span class=3D""><br>
-&gt; It would be nice to really poison the value if possible<br>
-&gt; --with-linker-hash-style=3DYOU_NEED_TO_RESPECT_LDFLAGS<br>
-&gt; to cause linker call to fail when someone is using oe-core toolchain<b=
-r>
-&gt; outside OE itself (so might ignore LDFLAGS, but without running the<br=
->
-&gt; QA check).<br>
-<br>
-</span>This sounds like a nice idea; making it comparible to how the sysroo=
-t is<br>
-poisoned.</div></blockquote></div><br>Doesn&#39;t look like that&#39;s allo=
-wed, the argument only allows specific styles.<br>-- <br><div class=3D"gmai=
-l_signature">Christopher Larson<br>clarson at kergoth dot com<br>Founder - =
-BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software =
-Engineer, Mentor Graphics</div>
-</div></div>
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:monospac=
+e,monospace;font-size:small">Hi all!<br><br>I&#39;m trying to install some =
+recipes that use npm class and I have two questions.<br><br>1 - Why use S =
+=3D &quot;${WORKDIR}/npmpkg&quot;? This not work for me.<br><br>2 - Using o=
+ption --no-registry inside npm_do_compile task I get this error:<br><br>| n=
+pm ERR! Registry not defined and registry files not found:<br>&quot;/home/u=
+ser/prj/build/tmp/work/all-linux-musleabi/gulp-cli/1.2.1-r0/npm_cache/noreg=
+istry/wreck/.cache.json&quot;,<br>&quot;/home/user/prj/build/tmp/work/all-l=
+inux-musleabi/gulp-cli/1.2.1-r0/npm_cache/wreck/.cache.json&quot;.<br>| npm=
+ ERR!<br>| npm ERR! If you need help, you may report this error at:<br>| np=
+m ERR!=C2=A0=C2=A0=C2=A0=C2=A0 &lt;<a href=3D"https://github.com/npm/npm/is=
+sues">https://github.com/npm/npm/issues</a>&gt;<br>| npm ERR! Linux 3.18.0-=
+trunk-amd64<br>| npm ERR! argv &quot;/home/user/prj/build/tmp/sysroots/x86_=
+64-linux/usr/bin/node&quot;<br>&quot;/home/user/prj/build/tmp/sysroots/x86_=
+64-linux/usr/bin/npm&quot;<br>&quot;--arch=3Darm&quot; &quot;--production&q=
+uot; &quot;--no-registry&quot; &quot;install&quot;<br>| npm ERR! node v4.4.=
+1<br>| npm ERR! npm=C2=A0 v2.14.20<br><br>I found this issue <a href=3D"htt=
+ps://github.com/npm/npm/issues/5509">https://github.com/npm/npm/issues/5509=
+</a> and using<br>--cache-min 99999 instead of --no-registry this error doe=
+sn&#39;t appears and build works fine.<br><br>I noticed that nodejs recipe =
+is using this patch <a href=3D"https://github.com/bendaaron/meta-oe-dev/com=
+mit/3e02a40d689a7002547215473a00606d8213ce0c">https://github.com/bendaaron/=
+meta-oe-dev/commit/3e02a40d689a7002547215473a00606d8213ce0c</a><br>but seem=
+s not fix for me.<br><br>I&#39;m missing something to use this class?<br><b=
+r>Regards.<br><br></div></div>
 
---f46d042ac020af15950531f24f9a--
+--001a113fb15c0dd8280531f28e0f--
