@@ -1,47 +1,45 @@
-Return-Path: <anders@chargestorm.se>
-Received: from mail-lf0-f45.google.com (mail-lf0-f45.google.com
-	[209.85.215.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 57B7260125
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-ob0-f170.google.com (mail-ob0-f170.google.com
+	[209.85.214.170])
+	by mail.openembedded.org (Postfix) with ESMTP id C4A6B6FFF7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 May 2016 11:57:27 +0000 (UTC)
-Received: by mail-lf0-f45.google.com with SMTP id y84so18951871lfc.0
+	Tue,  3 May 2016 12:28:12 +0000 (UTC)
+Received: by mail-ob0-f170.google.com with SMTP id n10so5413315obb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 May 2016 04:57:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=n5x1kXQpPoA1dtsuLkQ3zjedWWwlgAHa4GdXGJumzww=;
-	b=XlmUZ9FlvId0PowqA+kxLzff5jt0DMo367L+gbPdyqXGf6PrC1bdA/80exRXC4c6E5
-	VDARZqK1/4O6EfY/HaJuodJJSpTR6k8kucPRnrHhNa6vkwCaMcinCv0/vDG/Be9cT7UY
-	ERVHSZAgUFEZmlGXDstE5TZrU9HzBghHOtoqjnyaNgojakqvY+SY2r9AGGiN3A7HqDPm
-	pGfcK71RptdCDtm829CSlZQpIUlPQsCoAg/72A0RnnptM4ga7omPlyGSOZPr47puBENU
-	8cQ7b1Kl+/JwnORWgz64p11sybILWcndmPy4aGZhCPSaEBn0qY2bqJFQ8K/TOaZo7WIr
-	n1tQ==
+	Tue, 03 May 2016 05:28:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc; bh=dc7MRJ8n6P+IfWBdzdoCQ2SbIbKjryeDbybxR7W8Pi4=;
+	b=z+tFE8SgYiERDbeW10u0T3v/L1/0JpJFJeQxQej557ZEFV4uucavJlQDs1OJf4EZVG
+	e2QVUXIE9LNolfBwnBWSLWpvcdax71WKZskA1daXJIOK/oXRVmMLN10yirWozVZ2k0uY
+	glzNfECSO4bFLtq6N3jU6b0VJx6KVdmGL+RdBA0qeHvaW71Dy0QVgglO/fmP20XSn7ZM
+	AMvmowItfxOIgZ9ADxIun5ThQFQLeqnfYjreGilKyIXlCUIHELaq9vMO27+tjyMz6J/e
+	fexcOb4SY29k8O3Xaf0APcUVt/IaP/4WGGugK1Uud+vAkoZIyvT0IWc6CMR0r0n7y4y3
+	JF7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=n5x1kXQpPoA1dtsuLkQ3zjedWWwlgAHa4GdXGJumzww=;
-	b=KcNJY5pPJu5rnca9pbJvlAweGjH3IChckhFrTmjHJti+2BqwbvgUwv+zyFjT6756Lc
-	PueVpDgj82FFiijzfh2h9aktEgkEeQVVZ6HrmI2FlvYeezAwlxoji/ij2hEJm5MwL4aN
-	Shl5/zGGRH9lqnKf4k0hio1rAVf1BeBsT4K5mGp/XkjA28Td6BiwuBxKw57qdfiKmxjU
-	pJpCQ5k6Mrv0jhL0npwrcE5FEV0U+labjbCxvkxm4r1UHW+JQSjby0yi+8PeN0vynC9c
-	CbPIfajo8iJrNDMR7BCe2ADfpZ5D9Hy6uja8lRL/T9+P91PCNDQGXSWBjb5+rkgKEuKO
-	lang==
-X-Gm-Message-State: AOPr4FUjViw21UAYxIg7b9gjQKMts9pMYBLKxdtTGt+2NisMl5stzUakWtYNSv2vPlHWSg==
-X-Received: by 10.25.18.215 with SMTP id 84mr1007690lfs.154.1462276647158;
-	Tue, 03 May 2016 04:57:27 -0700 (PDT)
-Received: from localhost (213-64-218-130-no126.business.telia.com.
-	[213.64.218.130]) by smtp.gmail.com with ESMTPSA id
-	k190sm459796lfb.34.2016.05.03.04.57.26
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 03 May 2016 04:57:26 -0700 (PDT)
-From: Anders Darander <anders@chargestorm.se>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 May 2016 13:57:16 +0200
-Message-Id: <1462276636-17946-1-git-send-email-anders@chargestorm.se>
-X-Mailer: git-send-email 2.8.1
-Cc: Anders Darander <anders@chargestorm.se>
-Subject: [PATCH] lib/oe/rootfs: Fix DEBUGFS generation for opkg & openssl-cnf
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc;
+	bh=dc7MRJ8n6P+IfWBdzdoCQ2SbIbKjryeDbybxR7W8Pi4=;
+	b=Rhi6CDVEBz/nR4MVHEEKoj/+nG2LAio6DKlk17+KMdyu1NHT9isTY1m48szfriiF9/
+	wlbAuB8cYiGHPTmtsDBnx9mRhyM0HIwA2b8ByDlNm1hruT/KyKQuTo0V8y7+3aoO1nXH
+	8Hc0BXCpIrQJE+rHYjqJThlI6OOGcz/7n40gGlljDRvDo6mq7oR8FzErrOsQYUGYDM3R
+	n7fXMjDeu6Os0pRER0YKE3H3Jey/kDazLi9dNDzBuxCtsIQb90ULrbN5zs/AW/RhsnKK
+	bAUKo1TnZ0MJOi/tV61xB5itV7w8sohTIjm+nORgAcMoEsgWv6ctoaH/7AaOty6IeoQM
+	NKLA==
+X-Gm-Message-State: AOPr4FUx402pac3gc6SOeDRXdUfMZEaBV3s78caQlP2QA73ERIbChZXaBA1giSOiTzeK73eZ3xuZd8tu2AYAJQ==
+MIME-Version: 1.0
+X-Received: by 10.182.174.10 with SMTP id bo10mr1035947obc.38.1462278493208;
+	Tue, 03 May 2016 05:28:13 -0700 (PDT)
+Received: by 10.157.32.135 with HTTP; Tue, 3 May 2016 05:28:13 -0700 (PDT)
+In-Reply-To: <alpine.LFD.2.20.1605030649490.20066@localhost.localdomain>
+References: <alpine.LFD.2.20.1605030649490.20066@localhost.localdomain>
+Date: Tue, 3 May 2016 08:28:13 -0400
+Message-ID: <CADkTA4OwEaX6pCpuuiXxuMqY_++NLS+W6pnH0siNvXD0SwhWOg@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: how can i tell which default kernel config OE started with?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,38 +52,143 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 May 2016 11:57:30 -0000
+X-List-Received-Date: Tue, 03 May 2016 12:28:12 -0000
+Content-Type: multipart/alternative; boundary=e89a8f643e3c268be80531ef3e0b
 
-When enabling extra DEBUGFS image generation with opkg, the following error is
-seen when openssl-cnf is included in the image.
+--e89a8f643e3c268be80531ef3e0b
+Content-Type: text/plain; charset=UTF-8
 
-Collected errors:
- * file_md5sum_alloc: Failed to open file /mnt/cs-builds/anders/oe-build/build-ccu/tmp/work/ccu-oe-linux-gnueabi/ccu-image/1.0-r0/rootfs/usr/lib/ssl/openssl.cnf: No such file or directory.
+On Tue, May 3, 2016 at 6:53 AM, Robert P. J. Day <rpjday@crashcourse.ca>
+wrote:
 
-Lots of similar issues was fixed by an earlier commit in oe-core,
-5084ed9401250ed269a49d27b303806ab173c5d5, but openssl-cnf is outside of that fix.
+>
+>   (actually, working in wind river linux but i suspect the answer will
+> be the same.)
+>
+>   i've defined a target board and, rather than supplying a full
+> "defconfig" file as a starting point for kernel configuration, my BSP
+> layer starts by applying a "kernel_baseline.cfg" file which contains
+> only a couple hundred settings that i am particularly interested in.
+>
+>   so, given that, how can i tell what OE chose as a starting point for
+> a .config file before beginning to apply my kernel config fragments?
+> i'm poking around in the log files of the build, but i can't seem to
+> see where the "configme" process selects a starting point. am i just
+> missing the obvious? i want to see the .config file *before* any of my
+> fragments are applied.
+>
 
-Followup to [YOCTO #9490]
+If you haven't specified a defconfig (in-tree, or in your layer), and are
+only using fragments, then it will
+be the first fragment. There's no logic to go out and find a baseline,
+since it would almost always not
+be what someone wanted.
 
-Signed-off-by: Anders Darander <anders@chargestorm.se>
----
- meta/lib/oe/rootfs.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cheers,
 
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index 0546c1e..95fd3ab 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -907,7 +907,7 @@ class OpkgRootfs(DpkgOpkgRootfs):
- 
-         self.pm.install_complementary()
- 
--        self._setup_dbg_rootfs(['/etc', '/var/lib/opkg'])
-+        self._setup_dbg_rootfs(['/etc', '/var/lib/opkg', '/usr/lib/ssl'])
- 
-         execute_pre_post_process(self.d, opkg_post_process_cmds)
- 
+Bruce
+
+
+>
+> rday
+>
+> --
+>
+> ========================================================================
+> Robert P. J. Day                                 Ottawa, Ontario, CANADA
+>                         http://crashcourse.ca
+>
+> Twitter:                                       http://twitter.com/rpjday
+> LinkedIn:                               http://ca.linkedin.com/in/rpjday
+> ========================================================================
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+
+
 -- 
-2.8.1
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
 
+--e89a8f643e3c268be80531ef3e0b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Tue, May 3, 2016 at 6:53 AM, Robert P. J. Day <span dir=3D"ltr">&lt;=
+<a href=3D"mailto:rpjday@crashcourse.ca" target=3D"_blank">rpjday@crashcour=
+se.ca</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
+=C2=A0 (actually, working in wind river linux but i suspect the answer will=
+<br>
+be the same.)<br>
+<br>
+=C2=A0 i&#39;ve defined a target board and, rather than supplying a full<br=
+>
+&quot;defconfig&quot; file as a starting point for kernel configuration, my=
+ BSP<br>
+layer starts by applying a &quot;kernel_baseline.cfg&quot; file which conta=
+ins<br>
+only a couple hundred settings that i am particularly interested in.<br>
+<br>
+=C2=A0 so, given that, how can i tell what OE chose as a starting point for=
+<br>
+a .config file before beginning to apply my kernel config fragments?<br>
+i&#39;m poking around in the log files of the build, but i can&#39;t seem t=
+o<br>
+see where the &quot;configme&quot; process selects a starting point. am i j=
+ust<br>
+missing the obvious? i want to see the .config file *before* any of my<br>
+fragments are applied.<br></blockquote><div><br></div><div>If you haven&#39=
+;t specified a defconfig (in-tree, or in your layer), and are only using fr=
+agments, then it will</div><div>be the first fragment. There&#39;s no logic=
+ to go out and find a baseline, since it would almost always not</div><div>=
+be what someone wanted.</div><div><br></div><div>Cheers,</div><div><br></di=
+v><div>Bruce</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+rday<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+--<br>
+<br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+Robert P. J. Day=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Ottawa, Ontario,=
+ CANADA<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 <a href=3D"http://crashcourse.ca" rel=3D"noreferrer" target=3D"_=
+blank">http://crashcourse.ca</a><br>
+<br>
+Twitter:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a=
+ href=3D"http://twitter.com/rpjday" rel=3D"noreferrer" target=3D"_blank">ht=
+tp://twitter.com/rpjday</a><br>
+LinkedIn:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://ca.linkedin.=
+com/in/rpjday" rel=3D"noreferrer" target=3D"_blank">http://ca.linkedin.com/=
+in/rpjday</a><br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+<br>
+--<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
+r><div class=3D"gmail_signature">&quot;Thou shalt not follow the NULL point=
+er, for chaos and madness await thee at its end&quot;</div>
+</div></div>
+
+--e89a8f643e3c268be80531ef3e0b--
