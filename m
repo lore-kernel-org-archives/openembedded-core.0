@@ -1,30 +1,32 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A5F76011A
+Return-Path: <geiseri@geekcentral.pub>
+Received: from sender163-mail.zoho.com (sender163-mail.zoho.com
+	[74.201.84.163])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C88760125
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 May 2016 11:26:03 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 03 May 2016 04:26:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,572,1455004800"; d="scan'208";a="967607901"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga002.jf.intel.com with ESMTP; 03 May 2016 04:26:03 -0700
-To: Khem Raj <raj.khem@gmail.com>
-References: <1461761088-15117-1-git-send-email-alexander.kanavin@linux.intel.com>
-	<CAMKF1spLRX=XrS+Kf8GeC=XufwtTPxQJ-oeEQHH1ay2sOZb4Wg@mail.gmail.com>
-	<5727269A.30405@linux.intel.com>
-	<95CD514D-A18A-4D04-9A00-AD1034D843EA@gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <57288AF0.5010303@linux.intel.com>
-Date: Tue, 3 May 2016 14:26:40 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Icedove/38.6.0
+	Tue,  3 May 2016 11:55:14 +0000 (UTC)
+DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws; s=zoho; d=geekcentral.pub; 
+	h=date:from:to:cc:message-id:in-reply-to:references:subject:mime-version:content-type:user-agent;
+	b=RwpiGyE+KV2IxLHic/xKhu0V2WHWL8I5JB/Yh6bnEhwDWhmVdFeUznOKZqfMEjWhPITs5OF4mHat
+	IJEjBsc+AZyHsMotaZQfi8XkOuSkvpCKjK2/arR/Ure217qSMBsftiTTgLY2KoI1zlZsJc/lWAup
+	xIjbQC4OeW4uZnURo2g=  
+Received: from mail.zoho.com by mx.zohomail.com
+	with SMTP id 1462276512330169.63448196354614;
+	Tue, 3 May 2016 04:55:12 -0700 (PDT)
+Date: Tue, 03 May 2016 07:55:12 -0400
+From: Ian Geiser <geiseri@geekcentral.pub>
+To: "Ian Reinhart Geiser" <geiseri@geekcentral.pub>
+Message-ID: <1547678da14.11ea2eb8718367.335561670221363303@geekcentral.pub>
+In-Reply-To: <1461933709-22049-1-git-send-email-geiseri@geekcentral.pub>
+References: <1461933709-22049-1-git-send-email-geiseri@geekcentral.pub>
 MIME-Version: 1.0
-In-Reply-To: <95CD514D-A18A-4D04-9A00-AD1034D843EA@gmail.com>
-Cc: Patches and discussions about the oe-core layer
+X-Priority: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
+X-ZohoMail: Z_60737559 SPT_1 Z_60732476 SPT_1 SLF_D
+X-Zoho-Virus-Status: 2
+Cc: "<openembedded-core@lists.openembedded.org>"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] arch-powerpc64.inc: disable the use of qemu usermode on ppc64
+Subject: Re: [PATCH v2] Allow different filesystems to be used for VM images.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,28 +39,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 May 2016 11:26:04 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Tue, 03 May 2016 11:55:16 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 05/02/2016 06:46 PM, Khem Raj wrote:
 
->>> should we replace qemu-ppc with qemu-ppc64 instead of disabling it
->>
->> qemu-ppc64 is already used on 64 bit powerpc, the problem is that it always crashes.
->
-> Do we need to adjust the emulated machine parameter ?
+What is the status of this patch?
 
-I don't see how. The CPU list produced by 'qemu-ppc64 -cpu help' does 
-not include anything that resembles e5500/6500 or Power5/6/7 (the 64 bit 
-ppc chips that oe-core has definitions for), and I'm not a powerpc 
-expert by any measure, so I can't investigate the problem any further. 
-It needs to be looked at by someone who is actually working with that 
-hardware.
-
-The best we can do now is disable use of qemu, so that builds that 
-target ppc64 don't fail.
-
-Alex
+ ---- On Fri, 29 Apr 2016 08:41:49 -0400 Ian Reinhart Geiser <geiseri@geekcentral.pub> wrote ---- 
+ > This allows for things like btrfs to be used vs just ext4. 
+ > The default value of ext4 is kept so there is no functional 
+ > change unless VM_ROOTFS_TYPE is set in the inherting recipe. 
+ >  
+ > Signed-off-by: Ian Reinhart Geiser <geiseri@geekcentral.pub> 
+ > --- 
+ >  meta/classes/image-vm.bbclass | 13 +++++++------ 
+ >  1 file changed, 7 insertions(+), 6 deletions(-) 
+ >  
+ > diff --git a/meta/classes/image-vm.bbclass b/meta/classes/image-vm.bbclass 
+ > index 47f7326..2bbd9d3 100644 
+ > --- a/meta/classes/image-vm.bbclass 
+ > +++ b/meta/classes/image-vm.bbclass 
+ > @@ -23,16 +23,17 @@ do_bootdirectdisk[depends] += "dosfstools-native:do_populate_sysroot \ 
+ >                                 syslinux-native:do_populate_sysroot \ 
+ >                                 parted-native:do_populate_sysroot \ 
+ >                                 mtools-native:do_populate_sysroot \ 
+ > -                               ${PN}:do_image_ext4 \ 
+ > +                               ${PN}:do_image_${VM_ROOTFS_TYPE} \ 
+ >                                 " 
+ >   
+ > -IMAGE_TYPEDEP_vmdk = "ext4" 
+ > -IMAGE_TYPEDEP_vdi = "ext4" 
+ > -IMAGE_TYPEDEP_qcow2 = "ext4" 
+ > -IMAGE_TYPEDEP_hdddirect = "ext4" 
+ > +IMAGE_TYPEDEP_vmdk = "${VM_ROOTFS_TYPE}" 
+ > +IMAGE_TYPEDEP_vdi = "${VM_ROOTFS_TYPE}" 
+ > +IMAGE_TYPEDEP_qcow2 = "${VM_ROOTFS_TYPE}" 
+ > +IMAGE_TYPEDEP_hdddirect = "${VM_ROOTFS_TYPE}" 
+ >  IMAGE_TYPES_MASKED += "vmdk vdi qcow2 hdddirect" 
+ >   
+ > -ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.ext4" 
+ > +VM_ROOTFS_TYPE ?= "ext4" 
+ > +ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.${VM_ROOTFS_TYPE}" 
+ >   
+ >  # Used by bootloader 
+ >  LABELS_VM ?= "boot" 
+ > --  
+ > 2.8.1 
+ >  
+ > 
 
 
