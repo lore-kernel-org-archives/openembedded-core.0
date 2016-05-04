@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 58E17731FA
+	by mail.openembedded.org (Postfix) with ESMTP id 80971731FC
 	for <openembedded-core@lists.openembedded.org>;
 	Wed,  4 May 2016 15:27:41 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga104.fm.intel.com with ESMTP; 04 May 2016 08:27:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,577,1455004800"; d="scan'208";a="972537009"
+X-IronPort-AV: E=Sophos;i="5.24,577,1455004800"; d="scan'208";a="972537022"
 Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 04 May 2016 08:27:32 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 04 May 2016 08:27:33 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id D40AA6A4008
+	by linux.intel.com (Postfix) with ESMTP id 050A06A4007
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 May 2016 09:15:06 -0700 (PDT)
+	Wed,  4 May 2016 09:15:07 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 May 2016 16:06:20 +0300
-Message-Id: <b6e73f08882d8796e574af9ddadc2957a70a0bd5.1462365339.git.ed.bartosh@linux.intel.com>
+Date: Wed,  4 May 2016 16:06:21 +0300
+Message-Id: <27644c46f2f07cfcf801b3c77ab3bbcc50f55935.1462365339.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1462365339.git.ed.bartosh@linux.intel.com>
 References: <cover.1462365339.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1462365339.git.ed.bartosh@linux.intel.com>
 References: <cover.1462365339.git.ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH 07/14] wic: remove unused functions
+Subject: [wic][PATCH 08/14] wic: refactor pluginbase
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,120 +35,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 May 2016 15:27:41 -0000
+X-List-Received-Date: Wed, 04 May 2016 15:27:42 -0000
 
-Removed 'raw', 'ask', 'choice' and 'pause' functions from
-msger.py as they're not used in wic code and some of them
-use raw_input, which is not present in Python 3.
+Wic plugin machinery implemented using metaclasses.
+
+Reimplemented plugin machinery using this advice from
+https://wiki.python.org/moin/PortingToPy3k/BilingualQuickRef
+Syntax for creating instances with different metaclasses is very
+different between Python 2 and 3. Use the ability to call type instances
+as a way to portably create such instances.
+
+Now it should work under both Python 2 and Python 3.
 
 [YOCTO #9412]
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/msger.py | 69 +-----------------------------------------------
- 1 file changed, 1 insertion(+), 68 deletions(-)
+ scripts/lib/wic/pluginbase.py | 42 ++++++++++++++----------------------------
+ 1 file changed, 14 insertions(+), 28 deletions(-)
 
-diff --git a/scripts/lib/wic/msger.py b/scripts/lib/wic/msger.py
-index b737554..2340ac2 100644
---- a/scripts/lib/wic/msger.py
-+++ b/scripts/lib/wic/msger.py
-@@ -21,18 +21,14 @@ import sys
- import re
- import time
+diff --git a/scripts/lib/wic/pluginbase.py b/scripts/lib/wic/pluginbase.py
+index ee8fe95..e737dee 100644
+--- a/scripts/lib/wic/pluginbase.py
++++ b/scripts/lib/wic/pluginbase.py
+@@ -15,34 +15,26 @@
+ # with this program; if not, write to the Free Software Foundation, Inc., 59
+ # Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  
--__ALL__ = ['set_mode',
--           'get_loglevel',
-+__ALL__ = ['get_loglevel',
-            'set_loglevel',
-            'set_logfile',
--           'raw',
-            'debug',
-            'verbose',
-            'info',
-            'warning',
-            'error',
--           'ask',
--           'pause',
-           ]
+-from wic import msger
+-
+-class _Plugin(object):
+-    class __metaclass__(type):
+-        def __init__(cls, name, bases, attrs):
+-            if not hasattr(cls, 'plugins'):
+-                cls.plugins = {}
+-
+-            elif 'wic_plugin_type' in attrs:
+-                if attrs['wic_plugin_type'] not in cls.plugins:
+-                    cls.plugins[attrs['wic_plugin_type']] = {}
++__all__ = ['ImagerPlugin', 'SourcePlugin', 'get_plugins']
  
- # COLORs in ANSI
-@@ -182,9 +178,6 @@ def log(msg=''):
-     if msg:
-         LOG_CONTENT += msg
+-            elif hasattr(cls, 'wic_plugin_type') and 'name' in attrs:
+-                cls.plugins[cls.wic_plugin_type][attrs['name']] = cls
++import sys
++from collections import defaultdict
  
--def raw(msg=''):
--    _general_print('', NO_COLOR, msg)
--
- def info(msg):
-     head, msg = _split_msg('Info', msg)
-     _general_print(head, INFO_COLOR, msg)
-@@ -206,66 +199,6 @@ def error(msg):
-     _color_perror(head, ERR_COLOR, msg)
-     sys.exit(1)
+-        def show_plugins(cls):
+-            for cls in cls.plugins[cls.wic_plugin_type]:
+-                print cls
++from wic import msger
  
--def ask(msg, default=True):
--    _general_print('\rQ', ASK_COLOR, '')
--    try:
--        if default:
--            msg += '(Y/n) '
--        else:
--            msg += '(y/N) '
--        if INTERACTIVE:
--            while True:
--                repl = raw_input(msg)
--                if repl.lower() == 'y':
--                    return True
--                elif repl.lower() == 'n':
--                    return False
--                elif not repl.strip():
--                    # <Enter>
--                    return default
+-        def get_plugins(cls):
+-            return cls.plugins
++class PluginMeta(type):
++    plugins = defaultdict(dict)
++    def __new__(cls, name, bases, attrs):
++        class_type = type.__new__(cls, name, bases, attrs)
++        if 'name' in attrs:
++            cls.plugins[class_type.wic_plugin_type][attrs['name']] = class_type
+ 
++        return class_type
+ 
+-class ImagerPlugin(_Plugin):
++class ImagerPlugin(PluginMeta("Plugin", (), {})):
+     wic_plugin_type = "imager"
+ 
 -
--                # else loop
--        else:
--            if default:
--                msg += ' Y'
--            else:
--                msg += ' N'
--            _general_print('', NO_COLOR, msg)
--
--            return default
--    except KeyboardInterrupt:
--        sys.stdout.write('\n')
--        sys.exit(2)
--
--def choice(msg, choices, default=0):
--    if default >= len(choices):
+-class SourcePlugin(_Plugin):
++class SourcePlugin(PluginMeta("Plugin", (), {})):
+     wic_plugin_type = "source"
+     """
+     The methods that can be implemented by --source plugins.
+@@ -99,10 +91,4 @@ class SourcePlugin(_Plugin):
+         msger.debug("SourcePlugin: do_prepare_partition: part: %s" % part)
+ 
+ def get_plugins(typen):
+-    plugins = ImagerPlugin.get_plugins()
+-    if typen in plugins:
+-        return plugins[typen]
+-    else:
 -        return None
--    _general_print('\rQ', ASK_COLOR, '')
--    try:
--        msg += " [%s] " % '/'.join(choices)
--        if INTERACTIVE:
--            while True:
--                repl = raw_input(msg)
--                if repl in choices:
--                    return repl
--                elif not repl.strip():
--                    return choices[default]
--        else:
--            msg += choices[default]
--            _general_print('', NO_COLOR, msg)
 -
--            return choices[default]
--    except KeyboardInterrupt:
--        sys.stdout.write('\n')
--        sys.exit(2)
--
--def pause(msg=None):
--    if INTERACTIVE:
--        _general_print('\rQ', ASK_COLOR, '')
--        if msg is None:
--            msg = 'press <ENTER> to continue ...'
--        raw_input(msg)
--
- def set_logfile(fpath):
-     global LOG_FILE_FP
- 
+-__all__ = ['ImagerPlugin', 'SourcePlugin', 'get_plugins']
++    return PluginMeta.plugins.get(typen)
 -- 
 2.1.4
 
