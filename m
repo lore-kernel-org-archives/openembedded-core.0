@@ -1,47 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
-	[209.85.223.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 1A925612E5
+Return-Path: <brendan.le.foll@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 2CC236FF5B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 May 2016 14:01:49 +0000 (UTC)
-Received: by mail-io0-f173.google.com with SMTP id d62so54628946iof.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 May 2016 07:01:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=FiCg5xFCaktiy+0pdyQ8YcBhJvludj49JPCwhQP0Uwk=;
-	b=zh9+FZBvqVM3t58EwUUSoUtFcbyPK80aSrgZgVEv+Kb0EWb/8z87Lx5Kl5YVfHF+H6
-	CnaM9ytB8talbQz0s4a7m0g7ZBaiMBloFZCZHYj8MK+HwCCD61P5ZDHgfEwBZzKuTJP1
-	66Mf9UV5/wvCDTgNfXXZjNR4zbryWLHK/YUFOif265egwpfVpjN3jD5zIa7QycqFHAXY
-	ZhEZ83GtHvn2oFZyUoYYBKqsjpPrMj8Fcj5ZcdhgFdrrW+mR1fTz5YNikc5AYQKSqMTL
-	yH7sQAwrmFTLVZ0iYUsimg6y/enwUZXG5skMDlOVAJCjPek0P65jxNobZFpLQK8gCMHf
-	esuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=FiCg5xFCaktiy+0pdyQ8YcBhJvludj49JPCwhQP0Uwk=;
-	b=Ct3vV2RLOlyEbVXfvdQ/2VEz0lRCDVty/3yF2P8ESvk9RpuLgbk1ZkL1fsmxtO4Nht
-	vs3dFkODC8JOSkAf8uVIti++rEKPiiM448goV+8aioN+vKN/bCRCoFkNh+TIyjALVwOG
-	OjPntfz8cI6aEAeq5wZcqMaM87P6b8raKmgxMcTavquFcAwOc4KzH4K/rxlTB0vuT4B9
-	GADjCUsEzKaviOep50y8ZwrvbcrWty8SjH5bGVhi9/7lmLUkOYaWwgQjKsLNZWV1fXY7
-	5kN6DHt3tY3HfyPiTXs8RIaPJgPPHzvJM8PS12j2KDVddDJA4LfseMV5sNaUd2sCovi/
-	wCBA==
-X-Gm-Message-State: AOPr4FWt6dQV8UiRFzTIvbYTVY8ZhzwYU4E0XxN2J0A2FGjtR+Gze7ds82nQX4F7PUYX+O31Ee146ImKXdQfSMGy
-X-Received: by 10.107.135.211 with SMTP id r80mr11426031ioi.133.1462370510183; 
-	Wed, 04 May 2016 07:01:50 -0700 (PDT)
+	Wed,  4 May 2016 14:37:45 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga104.fm.intel.com with ESMTP; 04 May 2016 07:37:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,577,1455004800"; d="scan'208";a="958767481"
+Received: from jupiter.iwi.intel.com (HELO jupiter.localdomain)
+	([172.28.33.51])
+	by fmsmga001.fm.intel.com with ESMTP; 04 May 2016 07:37:39 -0700
+Date: Wed, 4 May 2016 15:38:06 +0100
+From: Brendan Le Foll <brendan.le.foll@intel.com>
+To: Fabio Berton <fabio.berton@ossystems.com.br>
+Message-ID: <20160504143806.GA12969@jupiter.localdomain>
+References: <CAAPZna1xLfbyYUKa+qcLfeGCv=mqg7JwWtirfAbqfM+TCu5m7g@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 10.107.34.142 with HTTP; Wed, 4 May 2016 07:01:30 -0700 (PDT)
-In-Reply-To: <1462219765-18957-1-git-send-email-kergoth@gmail.com>
-References: <1462219765-18957-1-git-send-email-kergoth@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 4 May 2016 15:01:30 +0100
-Message-ID: <CAJTo0LadzExDXkkX9a6r1TTO2aQhTQ+kY82mV_-BLqs6jYnFFA@mail.gmail.com>
-To: Christopher Larson <kergoth@gmail.com>
-Cc: Christopher Larson <chris_larson@mentor.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [master][PATCH] gcc-cross{, -canadian}: remove --with-linker-hash-style
+In-Reply-To: <CAAPZna1xLfbyYUKa+qcLfeGCv=mqg7JwWtirfAbqfM+TCu5m7g@mail.gmail.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+User-Agent: Mutt/1.6.1 (2016-04-27)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: npm class usage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,48 +34,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 May 2016 14:01:50 -0000
-Content-Type: multipart/alternative; boundary=001a113ed20acabed3053204aa3b
+X-List-Received-Date: Wed, 04 May 2016 14:37:49 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---001a113ed20acabed3053204aa3b
-Content-Type: text/plain; charset=UTF-8
+On Tue, May 03, 2016 at 01:24:49PM -0300, Fabio Berton wrote:
+>    Hi all!
+>    I'm trying to install some recipes that use npm class and I have two
+>    questions.
+>    1 - Why use S = "${WORKDIR}/npmpkg"? This not work for me.
 
-On 2 May 2016 at 21:09, Christopher Larson <kergoth@gmail.com> wrote:
+That's surprising the fetcher basically extracts it that way so the
+class just defaults to that location as 'the right thing'. Do you have
+an example recipe that isn't working that I could take a look at?
 
-> This will result in a failure to obey LDFLAGS causing a GNU_HASH QA
-> failure,
-> which is what's often seen with external toolchains. This brings us all on
-> the
-> same page, and makes sure a failure to obey LDFLAGS is seen early.
->
+>    2 - Using option --no-registry inside npm_do_compile task I get this
+>    error:
+>    | npm ERR! Registry not defined and registry files not found:
+>    "/home/user/prj/build/tmp/work/all-linux-musleabi/gulp-cli/1.2.1-r0/npm
+>    _cache/noregistry/wreck/.cache.json",
+>    "/home/user/prj/build/tmp/work/all-linux-musleabi/gulp-cli/1.2.1-r0/npm
+>    _cache/wreck/.cache.json".
+>    | npm ERR!
+>    | npm ERR! If you need help, you may report this error at:
+>    | npm ERR!     <[1]https://github.com/npm/npm/issues>
+>    | npm ERR! Linux 3.18.0-trunk-amd64
+>    | npm ERR! argv
+>    "/home/user/prj/build/tmp/sysroots/x86_64-linux/usr/bin/node"
+>    "/home/user/prj/build/tmp/sysroots/x86_64-linux/usr/bin/npm"
+>    "--arch=arm" "--production" "--no-registry" "install"
+>    | npm ERR! node v4.4.1
+>    | npm ERR! npm  v2.14.20
+>    I found this issue [2]https://github.com/npm/npm/issues/5509 and using
+>    --cache-min 99999 instead of --no-registry this error doesn't appears
+>    and build works fine.
+>    I noticed that nodejs recipe is using this patch
+>    [3]https://github.com/bendaaron/meta-oe-dev/commit/3e02a40d689a70025472
+>    15473a00606d8213ce0c
+>    but seems not fix for me.
 
-I love the idea, but:
+So I saw this, and ignored it since --no-registry was working fine for
+me with that patch and then with 4.2.x. It seems the cache-min option
+doesn't always work as intented.
 
-ERROR: libgcc-5.3.0-r0 do_package_qa: QA Issue: No GNU_HASH in the elf
-binary:
-'/data/poky-master/tmp-glibc/work/corei7-64-poky-linux/libgcc/5.3.0-r0/packages-split/libgcc/lib/libgcc_s.so.1'
-[ldflags]
+I fired up a build with 4.4.x from
+https://github.com/ostroproject/meta-iot-web/blob/master/recipes-devtools/nodejs/nodejs_4.4.1.bb
+and it seemed to build ok for me with --no-registry.
 
-Ross
+Cheers,
+Brendan
 
---001a113ed20acabed3053204aa3b
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 2 May 2016 at 21:09, Christopher Larson <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:kergoth@gmail.com" target=3D"_blank">kergoth@gmail.com</a>&gt;</spa=
-n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-=
-style:solid;padding-left:1ex"><div id=3D":2sm" class=3D"">This will result =
-in a failure to obey LDFLAGS causing a GNU_HASH QA failure,<br>
-which is what&#39;s often seen with external toolchains. This brings us all=
- on the<br>
-same page, and makes sure a failure to obey LDFLAGS is seen early.</div></b=
-lockquote></div><br>I love the idea, but:</div><div class=3D"gmail_extra"><=
-br>ERROR: libgcc-5.3.0-r0 do_package_qa: QA Issue: No GNU_HASH in the elf b=
-inary: &#39;/data/poky-master/tmp-glibc/work/corei7-64-poky-linux/libgcc/5.=
-3.0-r0/packages-split/libgcc/lib/libgcc_s.so.1&#39; [ldflags]</div><div cla=
-ss=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a113ed20acabed3053204aa3b--
