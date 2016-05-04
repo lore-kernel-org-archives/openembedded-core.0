@@ -1,20 +1,47 @@
-Return-Path: <ismo.puustinen@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 3199170016
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
+	[209.85.223.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A925612E5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 May 2016 13:08:30 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga101.jf.intel.com with ESMTP; 04 May 2016 06:06:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,577,1455004800"; d="scan'208";a="798655899"
-Received: from ipuustin-desk.fi.intel.com ([10.237.72.160])
-	by orsmga003.jf.intel.com with ESMTP; 04 May 2016 06:06:54 -0700
-From: Ismo Puustinen <ismo.puustinen@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 May 2016 16:06:46 +0300
-Message-Id: <1462367206-1466-1-git-send-email-ismo.puustinen@intel.com>
-X-Mailer: git-send-email 2.5.5
-Subject: [PATCH v2] libpcre: Fix CVE-2016-3191
+	Wed,  4 May 2016 14:01:49 +0000 (UTC)
+Received: by mail-io0-f173.google.com with SMTP id d62so54628946iof.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 04 May 2016 07:01:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=FiCg5xFCaktiy+0pdyQ8YcBhJvludj49JPCwhQP0Uwk=;
+	b=zh9+FZBvqVM3t58EwUUSoUtFcbyPK80aSrgZgVEv+Kb0EWb/8z87Lx5Kl5YVfHF+H6
+	CnaM9ytB8talbQz0s4a7m0g7ZBaiMBloFZCZHYj8MK+HwCCD61P5ZDHgfEwBZzKuTJP1
+	66Mf9UV5/wvCDTgNfXXZjNR4zbryWLHK/YUFOif265egwpfVpjN3jD5zIa7QycqFHAXY
+	ZhEZ83GtHvn2oFZyUoYYBKqsjpPrMj8Fcj5ZcdhgFdrrW+mR1fTz5YNikc5AYQKSqMTL
+	yH7sQAwrmFTLVZ0iYUsimg6y/enwUZXG5skMDlOVAJCjPek0P65jxNobZFpLQK8gCMHf
+	esuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=FiCg5xFCaktiy+0pdyQ8YcBhJvludj49JPCwhQP0Uwk=;
+	b=Ct3vV2RLOlyEbVXfvdQ/2VEz0lRCDVty/3yF2P8ESvk9RpuLgbk1ZkL1fsmxtO4Nht
+	vs3dFkODC8JOSkAf8uVIti++rEKPiiM448goV+8aioN+vKN/bCRCoFkNh+TIyjALVwOG
+	OjPntfz8cI6aEAeq5wZcqMaM87P6b8raKmgxMcTavquFcAwOc4KzH4K/rxlTB0vuT4B9
+	GADjCUsEzKaviOep50y8ZwrvbcrWty8SjH5bGVhi9/7lmLUkOYaWwgQjKsLNZWV1fXY7
+	5kN6DHt3tY3HfyPiTXs8RIaPJgPPHzvJM8PS12j2KDVddDJA4LfseMV5sNaUd2sCovi/
+	wCBA==
+X-Gm-Message-State: AOPr4FWt6dQV8UiRFzTIvbYTVY8ZhzwYU4E0XxN2J0A2FGjtR+Gze7ds82nQX4F7PUYX+O31Ee146ImKXdQfSMGy
+X-Received: by 10.107.135.211 with SMTP id r80mr11426031ioi.133.1462370510183; 
+	Wed, 04 May 2016 07:01:50 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.34.142 with HTTP; Wed, 4 May 2016 07:01:30 -0700 (PDT)
+In-Reply-To: <1462219765-18957-1-git-send-email-kergoth@gmail.com>
+References: <1462219765-18957-1-git-send-email-kergoth@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 4 May 2016 15:01:30 +0100
+Message-ID: <CAJTo0LadzExDXkkX9a6r1TTO2aQhTQ+kY82mV_-BLqs6jYnFFA@mail.gmail.com>
+To: Christopher Larson <kergoth@gmail.com>
+Cc: Christopher Larson <chris_larson@mentor.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [master][PATCH] gcc-cross{, -canadian}: remove --with-linker-hash-style
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,214 +54,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 May 2016 13:08:33 -0000
+X-List-Received-Date: Wed, 04 May 2016 14:01:50 -0000
+Content-Type: multipart/alternative; boundary=001a113ed20acabed3053204aa3b
 
-Fix workspace overflow for (*ACCEPT) with deeply nested parentheses.
+--001a113ed20acabed3053204aa3b
+Content-Type: text/plain; charset=UTF-8
 
-The patch is from libpcre version control at
-http://vcs.pcre.org/pcre?view=revision&revision=1631 with the ChangeLog
-part removed. Original author is Philip Hazel.
+On 2 May 2016 at 21:09, Christopher Larson <kergoth@gmail.com> wrote:
 
-Signed-off-by: Ismo Puustinen <ismo.puustinen@intel.com>
----
- .../libpcre/libpcre/CVE-2016-3191.patch            | 174 +++++++++++++++++++++
- meta/recipes-support/libpcre/libpcre_8.38.bb       |   1 +
- 2 files changed, 175 insertions(+)
- create mode 100644 meta/recipes-support/libpcre/libpcre/CVE-2016-3191.patch
+> This will result in a failure to obey LDFLAGS causing a GNU_HASH QA
+> failure,
+> which is what's often seen with external toolchains. This brings us all on
+> the
+> same page, and makes sure a failure to obey LDFLAGS is seen early.
+>
 
-diff --git a/meta/recipes-support/libpcre/libpcre/CVE-2016-3191.patch b/meta/recipes-support/libpcre/libpcre/CVE-2016-3191.patch
-new file mode 100644
-index 0000000..ba8cbfd
---- /dev/null
-+++ b/meta/recipes-support/libpcre/libpcre/CVE-2016-3191.patch
-@@ -0,0 +1,174 @@
-+From 568fcc16a0a335250aee06a104fc5df98d2a8779 Mon Sep 17 00:00:00 2001
-+From: Ismo Puustinen <ismo.puustinen@intel.com>
-+Date: Wed, 4 May 2016 15:43:22 +0300
-+Subject: [PATCH] Fix workspace overflow for (*ACCEPT) with deeply nested
-+ parentheses.
-+
-+The patch is from libpcre version control at
-+http://vcs.pcre.org/pcre?view=revision&revision=1631 with the ChangeLog
-+part removed. Original author is Philip Hazel.
-+
-+Upstream-Status: Accepted [8.39]
-+CVE: CVE-2016-3191
-+
-+Signed-off-by: Ismo Puustinen <ismo.puustinen@intel.com>
-+---
-+ pcre_compile.c           | 23 +++++++++++++++++++----
-+ pcre_internal.h          |  4 ++--
-+ pcreposix.c              |  5 +++--
-+ testdata/testinput11     |  2 ++
-+ testdata/testoutput11-16 |  3 +++
-+ testdata/testoutput11-32 |  3 +++
-+ testdata/testoutput11-8  |  3 +++
-+ 7 files changed, 35 insertions(+), 8 deletions(-)
-+
-+diff --git a/pcre_compile.c b/pcre_compile.c
-+index 4d3b313..1bc2b7f 100644
-+--- a/pcre_compile.c
-++++ b/pcre_compile.c
-+@@ -6,7 +6,7 @@
-+ and semantics are as close as possible to those of the Perl 5 language.
-+ 
-+                        Written by Philip Hazel
-+-           Copyright (c) 1997-2014 University of Cambridge
-++           Copyright (c) 1997-2016 University of Cambridge
-+ 
-+ -----------------------------------------------------------------------------
-+ Redistribution and use in source and binary forms, with or without
-+@@ -560,6 +560,7 @@ static const char error_texts[] =
-+   /* 85 */
-+   "parentheses are too deeply nested (stack check)\0"
-+   "digits missing in \\x{} or \\o{}\0"
-++  "regular expression is too complicated\0"
-+   ;
-+ 
-+ /* Table to identify digits and hex digits. This is used when compiling
-+@@ -4591,7 +4592,8 @@ for (;; ptr++)
-+     if (code > cd->start_workspace + cd->workspace_size -
-+         WORK_SIZE_SAFETY_MARGIN)                       /* Check for overrun */
-+       {
-+-      *errorcodeptr = ERR52;
-++      *errorcodeptr = (code >= cd->start_workspace + cd->workspace_size)?
-++        ERR52 : ERR87;
-+       goto FAILED;
-+       }
-+ 
-+@@ -6604,8 +6606,21 @@ for (;; ptr++)
-+             cd->had_accept = TRUE;
-+             for (oc = cd->open_caps; oc != NULL; oc = oc->next)
-+               {
-+-              *code++ = OP_CLOSE;
-+-              PUT2INC(code, 0, oc->number);
-++              if (lengthptr != NULL)
-++                {
-++#ifdef COMPILE_PCRE8
-++                *lengthptr += 1 + IMM2_SIZE;
-++#elif defined COMPILE_PCRE16
-++                *lengthptr += 2 + IMM2_SIZE;
-++#elif defined COMPILE_PCRE32
-++                *lengthptr += 4 + IMM2_SIZE;
-++#endif
-++                }
-++              else
-++                {
-++                *code++ = OP_CLOSE;
-++                PUT2INC(code, 0, oc->number);
-++                }
-+               }
-+             setverb = *code++ =
-+               (cd->assert_depth > 0)? OP_ASSERT_ACCEPT : OP_ACCEPT;
-+diff --git a/pcre_internal.h b/pcre_internal.h
-+index f7a5ee7..dbfe80e 100644
-+--- a/pcre_internal.h
-++++ b/pcre_internal.h
-+@@ -7,7 +7,7 @@
-+ and semantics are as close as possible to those of the Perl 5 language.
-+ 
-+                        Written by Philip Hazel
-+-           Copyright (c) 1997-2014 University of Cambridge
-++           Copyright (c) 1997-2016 University of Cambridge
-+ 
-+ -----------------------------------------------------------------------------
-+ Redistribution and use in source and binary forms, with or without
-+@@ -2289,7 +2289,7 @@ enum { ERR0,  ERR1,  ERR2,  ERR3,  ERR4,  ERR5,  ERR6,  ERR7,  ERR8,  ERR9,
-+        ERR50, ERR51, ERR52, ERR53, ERR54, ERR55, ERR56, ERR57, ERR58, ERR59,
-+        ERR60, ERR61, ERR62, ERR63, ERR64, ERR65, ERR66, ERR67, ERR68, ERR69,
-+        ERR70, ERR71, ERR72, ERR73, ERR74, ERR75, ERR76, ERR77, ERR78, ERR79,
-+-       ERR80, ERR81, ERR82, ERR83, ERR84, ERR85, ERR86, ERRCOUNT };
-++       ERR80, ERR81, ERR82, ERR83, ERR84, ERR85, ERR86, ERR87, ERRCOUNT };
-+ 
-+ /* JIT compiling modes. The function list is indexed by them. */
-+ 
-+diff --git a/pcreposix.c b/pcreposix.c
-+index f024423..5736c65 100644
-+--- a/pcreposix.c
-++++ b/pcreposix.c
-+@@ -6,7 +6,7 @@
-+ and semantics are as close as possible to those of the Perl 5 language.
-+ 
-+                        Written by Philip Hazel
-+-           Copyright (c) 1997-2014 University of Cambridge
-++           Copyright (c) 1997-2016 University of Cambridge
-+ 
-+ -----------------------------------------------------------------------------
-+ Redistribution and use in source and binary forms, with or without
-+@@ -173,7 +173,8 @@ static const int eint[] = {
-+   REG_BADPAT,  /* group name must start with a non-digit */
-+   /* 85 */
-+   REG_BADPAT,  /* parentheses too deeply nested (stack check) */
-+-  REG_BADPAT   /* missing digits in \x{} or \o{} */
-++  REG_BADPAT,  /* missing digits in \x{} or \o{} */
-++  REG_BADPAT   /* pattern too complicated */
-+ };
-+ 
-+ /* Table of texts corresponding to POSIX error codes */
-+diff --git a/testdata/testinput11 b/testdata/testinput11
-+index ac9d228..6f0989a 100644
-+--- a/testdata/testinput11
-++++ b/testdata/testinput11
-+@@ -138,4 +138,6 @@ is required for these tests. --/
-+ 
-+ /.((?2)(?R)\1)()/B
-+ 
-++/([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00](*ACCEPT)/
-++
-+ /-- End of testinput11 --/
-+diff --git a/testdata/testoutput11-16 b/testdata/testoutput11-16
-+index 9a0a12d..6e8ff4c 100644
-+--- a/testdata/testoutput11-16
-++++ b/testdata/testoutput11-16
-+@@ -765,4 +765,7 @@ Memory allocation (code space): 14
-+  25     End
-+ ------------------------------------------------------------------
-+ 
-++/([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00](*ACCEPT)/
-++Failed: regular expression is too complicated at offset 490
-++
-+ /-- End of testinput11 --/
-+diff --git a/testdata/testoutput11-32 b/testdata/testoutput11-32
-+index 57e5da0..710646b 100644
-+--- a/testdata/testoutput11-32
-++++ b/testdata/testoutput11-32
-+@@ -765,4 +765,7 @@ Memory allocation (code space): 28
-+  25     End
-+ ------------------------------------------------------------------
-+ 
-++/([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00](*ACCEPT)/
-++Failed: missing ) at offset 509
-++
-+ /-- End of testinput11 --/
-+diff --git a/testdata/testoutput11-8 b/testdata/testoutput11-8
-+index 748548a..173fc33 100644
-+--- a/testdata/testoutput11-8
-++++ b/testdata/testoutput11-8
-+@@ -765,4 +765,7 @@ Memory allocation (code space): 10
-+  38     End
-+ ------------------------------------------------------------------
-+ 
-++/([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00](*ACCEPT)/
-++Failed: missing ) at offset 509
-++
-+ /-- End of testinput11 --/
-+-- 
-+2.5.5
-+
-diff --git a/meta/recipes-support/libpcre/libpcre_8.38.bb b/meta/recipes-support/libpcre/libpcre_8.38.bb
-index 384c2fe..e4cd375 100644
---- a/meta/recipes-support/libpcre/libpcre_8.38.bb
-+++ b/meta/recipes-support/libpcre/libpcre_8.38.bb
-@@ -10,6 +10,7 @@ LIC_FILES_CHKSUM = "file://LICENCE;md5=7e4937814aee14758c1c95b59c80c44d"
- SRC_URI = "ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-${PV}.tar.bz2 \
-            file://pcre-cross.patch \
-            file://fix-pcre-name-collision.patch \
-+           file://CVE-2016-3191.patch \
-            file://run-ptest \
-            file://Makefile \
- "
--- 
-2.5.5
+I love the idea, but:
 
+ERROR: libgcc-5.3.0-r0 do_package_qa: QA Issue: No GNU_HASH in the elf
+binary:
+'/data/poky-master/tmp-glibc/work/corei7-64-poky-linux/libgcc/5.3.0-r0/packages-split/libgcc/lib/libgcc_s.so.1'
+[ldflags]
 
+Ross
+
+--001a113ed20acabed3053204aa3b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 2 May 2016 at 21:09, Christopher Larson <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:kergoth@gmail.com" target=3D"_blank">kergoth@gmail.com</a>&gt;</spa=
+n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-=
+style:solid;padding-left:1ex"><div id=3D":2sm" class=3D"">This will result =
+in a failure to obey LDFLAGS causing a GNU_HASH QA failure,<br>
+which is what&#39;s often seen with external toolchains. This brings us all=
+ on the<br>
+same page, and makes sure a failure to obey LDFLAGS is seen early.</div></b=
+lockquote></div><br>I love the idea, but:</div><div class=3D"gmail_extra"><=
+br>ERROR: libgcc-5.3.0-r0 do_package_qa: QA Issue: No GNU_HASH in the elf b=
+inary: &#39;/data/poky-master/tmp-glibc/work/corei7-64-poky-linux/libgcc/5.=
+3.0-r0/packages-split/libgcc/lib/libgcc_s.so.1&#39; [ldflags]</div><div cla=
+ss=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a113ed20acabed3053204aa3b--
