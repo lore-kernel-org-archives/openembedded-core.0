@@ -1,27 +1,29 @@
 Return-Path: <maxin.john@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id D72F56FEF5
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 86941731BC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 May 2016 08:20:19 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP; 04 May 2016 01:20:20 -0700
+	Wed,  4 May 2016 08:20:25 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP; 04 May 2016 01:20:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,576,1455004800"; d="scan'208";a="945864476"
+X-IronPort-AV: E=Sophos;i="5.24,576,1455004800"; d="scan'208";a="696623219"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 04 May 2016 01:20:20 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 04 May 2016 01:20:25 -0700
 Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
 	[10.237.72.71])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 2677F6A4007
+	by linux.intel.com (Postfix) with ESMTP id B44146A4007
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 May 2016 02:07:53 -0700 (PDT)
+	Wed,  4 May 2016 02:07:59 -0700 (PDT)
 From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 May 2016 11:20:14 +0300
-Message-Id: <1462350024-29932-1-git-send-email-maxin.john@intel.com>
+Date: Wed,  4 May 2016 11:20:15 +0300
+Message-Id: <1462350024-29932-2-git-send-email-maxin.john@intel.com>
 X-Mailer: git-send-email 2.4.0
-Subject: [PATCH 00/10] package version upgrades
+In-Reply-To: <1462350024-29932-1-git-send-email-maxin.john@intel.com>
+References: <1462350024-29932-1-git-send-email-maxin.john@intel.com>
+Subject: [PATCH 01/10] acpid: upgrade to 2.0.27
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,55 +36,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 May 2016 08:20:20 -0000
+X-List-Received-Date: Wed, 04 May 2016 08:20:29 -0000
 
+2.0.26 -> 2.0.27
 
-Resending the package upgrades with -M1
+Remove upstreamed patch:
+0001-Fix-out-of-source-build.patch
 
-Maxin B. John (10):
-  acpid: upgrade to 2.0.27
-  ethtool: upgrade to 4.5
-  pkgconfig: update to version 0.29.1
-  libtasn1: upgrade to 4.8
-  bluez5: upgrade to 5.39
-  mc: upgrade to 4.8.16
-  orc: upgrade to 0.4.25
-  harfbuzz: upgrade to 1.2.6
-  sqlite3: upgrade to 3.12.2
-  iproute2: upgrade to version 4.5.0
-
- .../acpid/acpid/0001-Fix-out-of-source-build.patch | 46 ----------
- meta/recipes-bsp/acpid/acpid_2.0.26.bb             |  9 --
- meta/recipes-bsp/acpid/acpid_2.0.27.bb             |  7 ++
- .../bluez5/{bluez5_5.37.bb => bluez5_5.39.bb}      |  4 +-
- .../iproute2/iproute2/iproute2-4.3.0-musl.patch    | 97 +++++++++-------------
- .../iproute2/iproute2-fix-building-with-musl.patch | 24 ------
- .../{iproute2_4.4.0.bb => iproute2_4.5.0.bb}       |  5 +-
- .../orc/{orc_0.4.24.bb => orc_0.4.25.bb}           |  4 +-
- meta/recipes-devtools/pkgconfig/pkgconfig_git.bb   |  4 +-
- .../ethtool/{ethtool_4.2.bb => ethtool_4.5.bb}     |  4 +-
- .../mc/{mc_4.8.15.bb => mc_4.8.16.bb}              |  4 +-
- .../{harfbuzz_1.2.3.bb => harfbuzz_1.2.6.bb}       |  4 +-
- .../gnutls/{libtasn1_4.7.bb => libtasn1_4.8.bb}    |  4 +-
- .../sqlite/sqlite3/fix-disable-static-shell.patch  | 61 --------------
- meta/recipes-support/sqlite/sqlite3_3.11.0.bb      | 11 ---
- meta/recipes-support/sqlite/sqlite3_3.12.2.bb      |  9 ++
- 16 files changed, 69 insertions(+), 228 deletions(-)
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ .../acpid/acpid/0001-Fix-out-of-source-build.patch | 46 ----------------------
+ meta/recipes-bsp/acpid/acpid_2.0.26.bb             |  9 -----
+ meta/recipes-bsp/acpid/acpid_2.0.27.bb             |  7 ++++
+ 3 files changed, 7 insertions(+), 55 deletions(-)
  delete mode 100644 meta/recipes-bsp/acpid/acpid/0001-Fix-out-of-source-build.patch
  delete mode 100644 meta/recipes-bsp/acpid/acpid_2.0.26.bb
  create mode 100644 meta/recipes-bsp/acpid/acpid_2.0.27.bb
- rename meta/recipes-connectivity/bluez5/{bluez5_5.37.bb => bluez5_5.39.bb} (89%)
- delete mode 100644 meta/recipes-connectivity/iproute2/iproute2/iproute2-fix-building-with-musl.patch
- rename meta/recipes-connectivity/iproute2/{iproute2_4.4.0.bb => iproute2_4.5.0.bb} (63%)
- rename meta/recipes-devtools/orc/{orc_0.4.24.bb => orc_0.4.25.bb} (84%)
- rename meta/recipes-extended/ethtool/{ethtool_4.2.bb => ethtool_4.5.bb} (88%)
- rename meta/recipes-extended/mc/{mc_4.8.15.bb => mc_4.8.16.bb} (93%)
- rename meta/recipes-graphics/harfbuzz/{harfbuzz_1.2.3.bb => harfbuzz_1.2.6.bb} (88%)
- rename meta/recipes-support/gnutls/{libtasn1_4.7.bb => libtasn1_4.8.bb} (81%)
- delete mode 100644 meta/recipes-support/sqlite/sqlite3/fix-disable-static-shell.patch
- delete mode 100644 meta/recipes-support/sqlite/sqlite3_3.11.0.bb
- create mode 100644 meta/recipes-support/sqlite/sqlite3_3.12.2.bb
 
+diff --git a/meta/recipes-bsp/acpid/acpid/0001-Fix-out-of-source-build.patch b/meta/recipes-bsp/acpid/acpid/0001-Fix-out-of-source-build.patch
+deleted file mode 100644
+index d1aa3aa..0000000
+--- a/meta/recipes-bsp/acpid/acpid/0001-Fix-out-of-source-build.patch
++++ /dev/null
+@@ -1,46 +0,0 @@
+-From 5d32b65af750e2007730f3d55a552a186aed81a6 Mon Sep 17 00:00:00 2001
+-From: "Maxin B. John" <maxin.john@intel.com>
+-Date: Wed, 20 Jan 2016 14:08:29 +0200
+-Subject: [PATCH] Fix out of source build
+-
+-Since the source directory contains another config.h, the build
+-directory should be searched first.
+-
+-Upstream-Status: Submitted
+-[https://sourceforge.net/p/acpid2/tickets/10/]
+-
+-Signed-off-by: Maxin B. John <maxin.john@intel.com>
+----
+- sock.c      | 2 +-
+- ud_socket.c | 2 +-
+- 2 files changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/sock.c b/sock.c
+-index 644d460..9e04501 100644
+---- a/sock.c
+-+++ b/sock.c
+-@@ -21,7 +21,7 @@
+-  */
+- 
+- #ifdef HAVE_CONFIG_H
+--#include "config.h"
+-+#include <config.h>
+- #endif
+- 
+- #include <unistd.h>
+-diff --git a/ud_socket.c b/ud_socket.c
+-index 1790917..83b2aa9 100644
+---- a/ud_socket.c
+-+++ b/ud_socket.c
+-@@ -4,7 +4,7 @@
+-  */
+- 
+- #ifdef HAVE_CONFIG_H
+--#include "config.h"
+-+#include <config.h>
+- #endif
+- 
+- #include <stdio.h>
+--- 
+-2.4.0
+-
+diff --git a/meta/recipes-bsp/acpid/acpid_2.0.26.bb b/meta/recipes-bsp/acpid/acpid_2.0.26.bb
+deleted file mode 100644
+index c3bd51f..0000000
+--- a/meta/recipes-bsp/acpid/acpid_2.0.26.bb
++++ /dev/null
+@@ -1,9 +0,0 @@
+-require acpid.inc
+-
+-SRC_URI += "file://0001-Fix-out-of-source-build.patch"
+-
+-LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
+-                    file://acpid.h;endline=24;md5=324a9cf225ae69ddaad1bf9d942115b5"
+-
+-SRC_URI[md5sum] = "f6d772e35ed907f1cc14ad1a546fd473"
+-SRC_URI[sha256sum] = "8384f37e4f260f50183e2e20039823d8f06aed9db56924fe92097b7e0b2e0343"
+diff --git a/meta/recipes-bsp/acpid/acpid_2.0.27.bb b/meta/recipes-bsp/acpid/acpid_2.0.27.bb
+new file mode 100644
+index 0000000..509fcfe
+--- /dev/null
++++ b/meta/recipes-bsp/acpid/acpid_2.0.27.bb
+@@ -0,0 +1,7 @@
++require acpid.inc
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
++                    file://acpid.h;endline=24;md5=324a9cf225ae69ddaad1bf9d942115b5"
++
++SRC_URI[md5sum] = "e41bdf628e122edb4342fca432ea7db9"
++SRC_URI[sha256sum] = "820c223e53cc11d9d7229fb1ffc2c2205f1054082c80f83f5a4ec4df16d3a616"
 -- 
 2.4.0
 
