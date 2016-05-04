@@ -1,49 +1,20 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-oi0-f50.google.com (mail-oi0-f50.google.com
-	[209.85.218.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D8116FF4E
+Return-Path: <ismo.puustinen@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 3199170016
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 May 2016 12:13:57 +0000 (UTC)
-Received: by mail-oi0-f50.google.com with SMTP id x201so62306676oif.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 May 2016 05:13:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=BJBI5HxxKnz1P4EHFWl8v//Qs/Ba3+inUdvpY9A3knk=;
-	b=Xs8qM1Kvb1pWD3Q1176V1oKLx5kfd26FtdfjC9Y8sXNtZ6LJyvmf1JcIblI4DtPBH4
-	X1+Yij8HtVs5HfwjyNrYdHJTGeVULdYCiRXZI6GPx+Zf9/a2DJyVJS1aG1c7nx4F7sUm
-	Eq2f3Hf63kGUOqj0Zcdch374iSRYTdnxt+V18/fke2U98OLssi53TBIIbIQe0mdmU5bF
-	1hVETd5i5w+nhimrgp2EH7/THi5D13DDBIUOqtFK95lzY5ZrkzGlezHuyT7lZQ4zaSyl
-	rNc/zT09t9YSzgormvQDm5LfWctI5oumPNhJdK7sV2rvrDicypwQ9qE/Qp84CzdmtpCj
-	L1tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=BJBI5HxxKnz1P4EHFWl8v//Qs/Ba3+inUdvpY9A3knk=;
-	b=S7wwXej7EzAl8NygVvfBk1DJIXooXasV4zJER1V38Uk74NJ/3aqN7OVFOl/PRcDetY
-	ci2iM5tU4jzRvvJ6cIXaPEEkk4gOyBOS2BXGFVE73AcR6uBAZXrif+R9/J5/YPJv9zJC
-	+dN/FDbi6Wqwle46coRe4ZXIR8Xc8du12f46Y31YWWG3s8aJQVeDpZlXOnKT6MxDt8SQ
-	8SNKWiWlFwRrJqkQZNHbifdzRJidtBZ6FvCR50+0CAuwVZpvREMsjXaTIXJbJOAPd62D
-	cJZeusDW8nsRmwzyOcU2D6jiIf2hBzozLrOWwBrqcdb/smkIDFSRgvs+HfBgNga0QylX
-	zU2w==
-X-Gm-Message-State: AOPr4FXoIIGThONBaVxFDKfXTGFAEntfFwB70XThQ8Vhik6Z9rd2PMCfGJo5IURTIKOPdIK9gtrNjALtjs9/zw==
-MIME-Version: 1.0
-X-Received: by 10.202.170.65 with SMTP id t62mr3759042oie.60.1462364038145;
-	Wed, 04 May 2016 05:13:58 -0700 (PDT)
-Received: by 10.157.32.135 with HTTP; Wed, 4 May 2016 05:13:58 -0700 (PDT)
-In-Reply-To: <alpine.LFD.2.20.1605040637480.12063@localhost.localdomain>
-References: <alpine.LFD.2.20.1605031245360.6672@localhost.localdomain>
-	<CADkTA4PPYfetBymZ1mii_sc7f71za-V0dBbcgApHyhDHwxKyVw@mail.gmail.com>
-	<alpine.LFD.2.20.1605031421460.12750@localhost.localdomain>
-	<CADkTA4Ocu2L9GoBM4YadkGZJq+2Pd8UFA2acSeX4MSibEo-ZtA@mail.gmail.com>
-	<alpine.LFD.2.20.1605040637480.12063@localhost.localdomain>
-Date: Wed, 4 May 2016 08:13:58 -0400
-Message-ID: <CADkTA4MHDcPatUBzXLMV92xFb5vWFbO+Zy--XyB-32AQLdNUgw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: clarifying details about "is not set" lines in kernel config fragment files
+	Wed,  4 May 2016 13:08:30 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga101.jf.intel.com with ESMTP; 04 May 2016 06:06:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,577,1455004800"; d="scan'208";a="798655899"
+Received: from ipuustin-desk.fi.intel.com ([10.237.72.160])
+	by orsmga003.jf.intel.com with ESMTP; 04 May 2016 06:06:54 -0700
+From: Ismo Puustinen <ismo.puustinen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  4 May 2016 16:06:46 +0300
+Message-Id: <1462367206-1466-1-git-send-email-ismo.puustinen@intel.com>
+X-Mailer: git-send-email 2.5.5
+Subject: [PATCH v2] libpcre: Fix CVE-2016-3191
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,157 +27,214 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 May 2016 12:14:00 -0000
-Content-Type: multipart/alternative; boundary=001a113c352c06b5cb0532032973
+X-List-Received-Date: Wed, 04 May 2016 13:08:33 -0000
 
---001a113c352c06b5cb0532032973
-Content-Type: text/plain; charset=UTF-8
+Fix workspace overflow for (*ACCEPT) with deeply nested parentheses.
 
-On Wed, May 4, 2016 at 6:41 AM, Robert P. J. Day <rpjday@crashcourse.ca>
-wrote:
+The patch is from libpcre version control at
+http://vcs.pcre.org/pcre?view=revision&revision=1631 with the ChangeLog
+part removed. Original author is Philip Hazel.
 
->
->   one more question about fragments which i'm fairly sure i know the
-> answer to, but will be embarrassed about if i'm wrong.
->
->   if i want to set a kernel option in a fragment, i'm fairly certain i
-> need to *explicitly* set all options it depends on, correct?
-> otherwise, that option is left unselected.
->
+Signed-off-by: Ismo Puustinen <ismo.puustinen@intel.com>
+---
+ .../libpcre/libpcre/CVE-2016-3191.patch            | 174 +++++++++++++++++++++
+ meta/recipes-support/libpcre/libpcre_8.38.bb       |   1 +
+ 2 files changed, 175 insertions(+)
+ create mode 100644 meta/recipes-support/libpcre/libpcre/CVE-2016-3191.patch
 
-Correct.
-
-
->
->   is there any warning in a log file that mentions that happening?
->
->
-The kconfig audit will indicate that the value didn't make it into the
-final .config, and
-if the option has been tagged "hardware", then that warning is dumped to
-the screen
-for the developer to see.
-
-More audit information is available within the kernel build itself, and
-IIRC that is
-covered in the more detailed guides.
-
-Right now, it can't tell you what was missing .. but there's no a library
-that I can
-potentially use to get that information, and I've raised an enhancement bug
-for 2.2
-to not only output why an option didn't make they final .config .. but why
-it was
-dropped.
-
-
-> rday
->
-> p.s. oh, and i think someone mentioned this earlier ... what happens
-> if i explicitly set one option, then explicitly "not set" another
-> option that is "select"ed by that first option? who wins?
->
->
-Last through the gate. Ordering matters. But the "redefinition" of the value
-is logged in the audit output
-
-Bruce
-
-
->   ok, back to work ...
->
-> --
->
-> ========================================================================
-> Robert P. J. Day                                 Ottawa, Ontario, CANADA
->                         http://crashcourse.ca
->
-> Twitter:                                       http://twitter.com/rpjday
-> LinkedIn:                               http://ca.linkedin.com/in/rpjday
-> ========================================================================
->
->
->
-
-
+diff --git a/meta/recipes-support/libpcre/libpcre/CVE-2016-3191.patch b/meta/recipes-support/libpcre/libpcre/CVE-2016-3191.patch
+new file mode 100644
+index 0000000..ba8cbfd
+--- /dev/null
++++ b/meta/recipes-support/libpcre/libpcre/CVE-2016-3191.patch
+@@ -0,0 +1,174 @@
++From 568fcc16a0a335250aee06a104fc5df98d2a8779 Mon Sep 17 00:00:00 2001
++From: Ismo Puustinen <ismo.puustinen@intel.com>
++Date: Wed, 4 May 2016 15:43:22 +0300
++Subject: [PATCH] Fix workspace overflow for (*ACCEPT) with deeply nested
++ parentheses.
++
++The patch is from libpcre version control at
++http://vcs.pcre.org/pcre?view=revision&revision=1631 with the ChangeLog
++part removed. Original author is Philip Hazel.
++
++Upstream-Status: Accepted [8.39]
++CVE: CVE-2016-3191
++
++Signed-off-by: Ismo Puustinen <ismo.puustinen@intel.com>
++---
++ pcre_compile.c           | 23 +++++++++++++++++++----
++ pcre_internal.h          |  4 ++--
++ pcreposix.c              |  5 +++--
++ testdata/testinput11     |  2 ++
++ testdata/testoutput11-16 |  3 +++
++ testdata/testoutput11-32 |  3 +++
++ testdata/testoutput11-8  |  3 +++
++ 7 files changed, 35 insertions(+), 8 deletions(-)
++
++diff --git a/pcre_compile.c b/pcre_compile.c
++index 4d3b313..1bc2b7f 100644
++--- a/pcre_compile.c
+++++ b/pcre_compile.c
++@@ -6,7 +6,7 @@
++ and semantics are as close as possible to those of the Perl 5 language.
++ 
++                        Written by Philip Hazel
++-           Copyright (c) 1997-2014 University of Cambridge
+++           Copyright (c) 1997-2016 University of Cambridge
++ 
++ -----------------------------------------------------------------------------
++ Redistribution and use in source and binary forms, with or without
++@@ -560,6 +560,7 @@ static const char error_texts[] =
++   /* 85 */
++   "parentheses are too deeply nested (stack check)\0"
++   "digits missing in \\x{} or \\o{}\0"
+++  "regular expression is too complicated\0"
++   ;
++ 
++ /* Table to identify digits and hex digits. This is used when compiling
++@@ -4591,7 +4592,8 @@ for (;; ptr++)
++     if (code > cd->start_workspace + cd->workspace_size -
++         WORK_SIZE_SAFETY_MARGIN)                       /* Check for overrun */
++       {
++-      *errorcodeptr = ERR52;
+++      *errorcodeptr = (code >= cd->start_workspace + cd->workspace_size)?
+++        ERR52 : ERR87;
++       goto FAILED;
++       }
++ 
++@@ -6604,8 +6606,21 @@ for (;; ptr++)
++             cd->had_accept = TRUE;
++             for (oc = cd->open_caps; oc != NULL; oc = oc->next)
++               {
++-              *code++ = OP_CLOSE;
++-              PUT2INC(code, 0, oc->number);
+++              if (lengthptr != NULL)
+++                {
+++#ifdef COMPILE_PCRE8
+++                *lengthptr += 1 + IMM2_SIZE;
+++#elif defined COMPILE_PCRE16
+++                *lengthptr += 2 + IMM2_SIZE;
+++#elif defined COMPILE_PCRE32
+++                *lengthptr += 4 + IMM2_SIZE;
+++#endif
+++                }
+++              else
+++                {
+++                *code++ = OP_CLOSE;
+++                PUT2INC(code, 0, oc->number);
+++                }
++               }
++             setverb = *code++ =
++               (cd->assert_depth > 0)? OP_ASSERT_ACCEPT : OP_ACCEPT;
++diff --git a/pcre_internal.h b/pcre_internal.h
++index f7a5ee7..dbfe80e 100644
++--- a/pcre_internal.h
+++++ b/pcre_internal.h
++@@ -7,7 +7,7 @@
++ and semantics are as close as possible to those of the Perl 5 language.
++ 
++                        Written by Philip Hazel
++-           Copyright (c) 1997-2014 University of Cambridge
+++           Copyright (c) 1997-2016 University of Cambridge
++ 
++ -----------------------------------------------------------------------------
++ Redistribution and use in source and binary forms, with or without
++@@ -2289,7 +2289,7 @@ enum { ERR0,  ERR1,  ERR2,  ERR3,  ERR4,  ERR5,  ERR6,  ERR7,  ERR8,  ERR9,
++        ERR50, ERR51, ERR52, ERR53, ERR54, ERR55, ERR56, ERR57, ERR58, ERR59,
++        ERR60, ERR61, ERR62, ERR63, ERR64, ERR65, ERR66, ERR67, ERR68, ERR69,
++        ERR70, ERR71, ERR72, ERR73, ERR74, ERR75, ERR76, ERR77, ERR78, ERR79,
++-       ERR80, ERR81, ERR82, ERR83, ERR84, ERR85, ERR86, ERRCOUNT };
+++       ERR80, ERR81, ERR82, ERR83, ERR84, ERR85, ERR86, ERR87, ERRCOUNT };
++ 
++ /* JIT compiling modes. The function list is indexed by them. */
++ 
++diff --git a/pcreposix.c b/pcreposix.c
++index f024423..5736c65 100644
++--- a/pcreposix.c
+++++ b/pcreposix.c
++@@ -6,7 +6,7 @@
++ and semantics are as close as possible to those of the Perl 5 language.
++ 
++                        Written by Philip Hazel
++-           Copyright (c) 1997-2014 University of Cambridge
+++           Copyright (c) 1997-2016 University of Cambridge
++ 
++ -----------------------------------------------------------------------------
++ Redistribution and use in source and binary forms, with or without
++@@ -173,7 +173,8 @@ static const int eint[] = {
++   REG_BADPAT,  /* group name must start with a non-digit */
++   /* 85 */
++   REG_BADPAT,  /* parentheses too deeply nested (stack check) */
++-  REG_BADPAT   /* missing digits in \x{} or \o{} */
+++  REG_BADPAT,  /* missing digits in \x{} or \o{} */
+++  REG_BADPAT   /* pattern too complicated */
++ };
++ 
++ /* Table of texts corresponding to POSIX error codes */
++diff --git a/testdata/testinput11 b/testdata/testinput11
++index ac9d228..6f0989a 100644
++--- a/testdata/testinput11
+++++ b/testdata/testinput11
++@@ -138,4 +138,6 @@ is required for these tests. --/
++ 
++ /.((?2)(?R)\1)()/B
++ 
+++/([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00](*ACCEPT)/
+++
++ /-- End of testinput11 --/
++diff --git a/testdata/testoutput11-16 b/testdata/testoutput11-16
++index 9a0a12d..6e8ff4c 100644
++--- a/testdata/testoutput11-16
+++++ b/testdata/testoutput11-16
++@@ -765,4 +765,7 @@ Memory allocation (code space): 14
++  25     End
++ ------------------------------------------------------------------
++ 
+++/([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00](*ACCEPT)/
+++Failed: regular expression is too complicated at offset 490
+++
++ /-- End of testinput11 --/
++diff --git a/testdata/testoutput11-32 b/testdata/testoutput11-32
++index 57e5da0..710646b 100644
++--- a/testdata/testoutput11-32
+++++ b/testdata/testoutput11-32
++@@ -765,4 +765,7 @@ Memory allocation (code space): 28
++  25     End
++ ------------------------------------------------------------------
++ 
+++/([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00](*ACCEPT)/
+++Failed: missing ) at offset 509
+++
++ /-- End of testinput11 --/
++diff --git a/testdata/testoutput11-8 b/testdata/testoutput11-8
++index 748548a..173fc33 100644
++--- a/testdata/testoutput11-8
+++++ b/testdata/testoutput11-8
++@@ -765,4 +765,7 @@ Memory allocation (code space): 10
++  38     End
++ ------------------------------------------------------------------
++ 
+++/([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00]([00](*ACCEPT)/
+++Failed: missing ) at offset 509
+++
++ /-- End of testinput11 --/
++-- 
++2.5.5
++
+diff --git a/meta/recipes-support/libpcre/libpcre_8.38.bb b/meta/recipes-support/libpcre/libpcre_8.38.bb
+index 384c2fe..e4cd375 100644
+--- a/meta/recipes-support/libpcre/libpcre_8.38.bb
++++ b/meta/recipes-support/libpcre/libpcre_8.38.bb
+@@ -10,6 +10,7 @@ LIC_FILES_CHKSUM = "file://LICENCE;md5=7e4937814aee14758c1c95b59c80c44d"
+ SRC_URI = "ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-${PV}.tar.bz2 \
+            file://pcre-cross.patch \
+            file://fix-pcre-name-collision.patch \
++           file://CVE-2016-3191.patch \
+            file://run-ptest \
+            file://Makefile \
+ "
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
+2.5.5
 
---001a113c352c06b5cb0532032973
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Wed, May 4, 2016 at 6:41 AM, Robert P. J. Day <span dir=3D"ltr">&lt;=
-<a href=3D"mailto:rpjday@crashcourse.ca" target=3D"_blank">rpjday@crashcour=
-se.ca</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-=C2=A0 one more question about fragments which i&#39;m fairly sure i know t=
-he<br>
-answer to, but will be embarrassed about if i&#39;m wrong.<br>
-<br>
-=C2=A0 if i want to set a kernel option in a fragment, i&#39;m fairly certa=
-in i<br>
-need to *explicitly* set all options it depends on, correct?<br>
-otherwise, that option is left unselected.<br></blockquote><div><br></div><=
-div>Correct.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-=C2=A0 is there any warning in a log file that mentions that happening?<br>
-<br></blockquote><div><br></div><div>The kconfig audit will indicate that t=
-he value didn&#39;t make it into the final .config, and</div><div>if the op=
-tion has been tagged &quot;hardware&quot;, then that warning is dumped to t=
-he screen</div><div>for the developer to see.</div><div><br></div><div>More=
- audit information is available within the kernel build itself, and IIRC th=
-at is</div><div>covered in the more detailed guides.</div><div><br></div><d=
-iv>Right now, it can&#39;t tell you what was missing .. but there&#39;s no =
-a library that I can</div><div>potentially use to get that information, and=
- I&#39;ve raised an enhancement bug for 2.2</div><div>to not only output wh=
-y an option didn&#39;t make they final .config .. but why it was</div><div>=
-dropped.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-rday<br>
-<br>
-p.s. oh, and i think someone mentioned this earlier ... what happens<br>
-if i explicitly set one option, then explicitly &quot;not set&quot; another=
-<br>
-option that is &quot;select&quot;ed by that first option? who wins?<br>
-<br></blockquote><div><br></div><div>Last through the gate. Ordering matter=
-s. But the &quot;redefinition&quot; of the value</div><div>is logged in the=
- audit output</div><div><br></div><div>Bruce</div><div>=C2=A0</div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
-olid;padding-left:1ex">
-=C2=A0 ok, back to work ...<br>
-<div class=3D"HOEnZb"><div class=3D"h5"><br>
---<br>
-<br>
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
-Robert P. J. Day=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Ottawa, Ontario,=
- CANADA<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 <a href=3D"http://crashcourse.ca" rel=3D"noreferrer" target=3D"_=
-blank">http://crashcourse.ca</a><br>
-<br>
-Twitter:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a=
- href=3D"http://twitter.com/rpjday" rel=3D"noreferrer" target=3D"_blank">ht=
-tp://twitter.com/rpjday</a><br>
-LinkedIn:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://ca.linkedin.=
-com/in/rpjday" rel=3D"noreferrer" target=3D"_blank">http://ca.linkedin.com/=
-in/rpjday</a><br>
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
-<br>
-<br>
-</div></div></blockquote></div><br><br clear=3D"all"><div><br></div>-- <br>=
-<div class=3D"gmail_signature">&quot;Thou shalt not follow the NULL pointer=
-, for chaos and madness await thee at its end&quot;</div>
-</div></div>
-
---001a113c352c06b5cb0532032973--
