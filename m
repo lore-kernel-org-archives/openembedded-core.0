@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 912FA731E5
+	by mail.openembedded.org (Postfix) with ESMTP id EA484731D7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 May 2016 15:27:30 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga102.fm.intel.com with ESMTP; 04 May 2016 08:27:31 -0700
+	Wed,  4 May 2016 15:27:39 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 04 May 2016 08:27:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,577,1455004800"; d="scan'208";a="97149141"
+X-IronPort-AV: E=Sophos;i="5.24,577,1455004800"; d="scan'208";a="958806731"
 Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga004.fm.intel.com with ESMTP; 04 May 2016 08:27:31 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 04 May 2016 08:27:40 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id AD8886A4007
+	by linux.intel.com (Postfix) with ESMTP id BC9A16A4007
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 May 2016 09:15:05 -0700 (PDT)
+	Wed,  4 May 2016 09:15:14 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 May 2016 16:06:19 +0300
-Message-Id: <dd7721afa86db629556d9545066786598891c552.1462365339.git.ed.bartosh@linux.intel.com>
+Date: Wed,  4 May 2016 16:06:27 +0300
+Message-Id: <1a650d6550f4683ed2a7ae446ff56855e7a4625e.1462365339.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1462365339.git.ed.bartosh@linux.intel.com>
 References: <cover.1462365339.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1462365339.git.ed.bartosh@linux.intel.com>
 References: <cover.1462365339.git.ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH 06/14] wic: use new syntax of 'except' statement
+Subject: [wic][PATCH 14/14] wic: use next builtin instead of .next method
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,60 +35,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 May 2016 15:27:31 -0000
+X-List-Received-Date: Wed, 04 May 2016 15:27:40 -0000
 
-New syntax 'except Exception as err' is supported by Python >= 2.7.
-Old syntax 'except Exception, err' is not supported by Python 3.
-
-Used new syntax to be able to run wic on Python 3.
+Generators in Python 3 don't have .next method. It's recommended
+to use 'next' builtin instead. As it also present in Python >= 2.6
+it should make wic code compatible with both Python 2 and Python 3.
 
 [YOCTO #9412]
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/imager/direct.py | 2 +-
- scripts/lib/wic/plugin.py        | 2 +-
- scripts/lib/wic/utils/runner.py  | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ scripts/lib/wic/filemap.py | 2 +-
+ scripts/lib/wic/msger.py   | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/lib/wic/imager/direct.py b/scripts/lib/wic/imager/direct.py
-index 319ec16..5a3b655 100644
---- a/scripts/lib/wic/imager/direct.py
-+++ b/scripts/lib/wic/imager/direct.py
-@@ -395,6 +395,6 @@ class DirectImageCreator(BaseImageCreator):
-         if not self.__image is None:
-             try:
-                 self.__image.cleanup()
--            except ImageError, err:
-+            except ImageError as err:
-                 msger.warning("%s" % err)
+diff --git a/scripts/lib/wic/filemap.py b/scripts/lib/wic/filemap.py
+index 2778be5..f3240ba 100644
+--- a/scripts/lib/wic/filemap.py
++++ b/scripts/lib/wic/filemap.py
+@@ -482,7 +482,7 @@ class FilemapFiemap(_FilemapBase):
+         self._log.debug("FilemapFiemap: get_mapped_ranges(%d,  %d(%d))"
+                         % (start, count, start + count - 1))
+         iterator = self._do_get_mapped_ranges(start, count)
+-        first_prev, last_prev = iterator.next()
++        first_prev, last_prev = next(iterator)
  
-diff --git a/scripts/lib/wic/plugin.py b/scripts/lib/wic/plugin.py
-index 83af9b0..dcbaa08 100644
---- a/scripts/lib/wic/plugin.py
-+++ b/scripts/lib/wic/plugin.py
-@@ -97,7 +97,7 @@ class PluginMgr():
-                             self.plugin_dirs[pdir] = True
-                             msger.debug("Plugin module %s:%s imported"\
-                                         % (mod, pymod.__file__))
--                        except ImportError, err:
-+                        except ImportError as err:
-                             msg = 'Failed to load plugin %s/%s: %s' \
-                                 % (os.path.basename(pdir), mod, err)
-                             msger.warning(msg)
-diff --git a/scripts/lib/wic/utils/runner.py b/scripts/lib/wic/utils/runner.py
-index 7431917..737751b 100644
---- a/scripts/lib/wic/utils/runner.py
-+++ b/scripts/lib/wic/utils/runner.py
-@@ -67,7 +67,7 @@ def runtool(cmdln_or_args, catch=1):
-         (sout, serr) = process.communicate()
-         # combine stdout and stderr, filter None out
-         out = ''.join(filter(None, [sout, serr]))
--    except OSError, err:
-+    except OSError as err:
-         if err.errno == 2:
-             # [Errno 2] No such file or directory
-             msger.error('Cannot run command: %s, lost dependency?' % cmd)
+         for first, last in iterator:
+             if last_prev == first - 1:
+diff --git a/scripts/lib/wic/msger.py b/scripts/lib/wic/msger.py
+index 4d8e704..fb8336d 100644
+--- a/scripts/lib/wic/msger.py
++++ b/scripts/lib/wic/msger.py
+@@ -148,7 +148,7 @@ def _split_msg(head, msg):
+     return head, msg
+ 
+ def get_loglevel():
+-    return (k for k, v in LOG_LEVELS.items() if v == LOG_LEVEL).next()
++    return next((k for k, v in LOG_LEVELS.items() if v == LOG_LEVEL))
+ 
+ def set_loglevel(level):
+     global LOG_LEVEL
 -- 
 2.1.4
 
