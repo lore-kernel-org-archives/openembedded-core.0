@@ -1,26 +1,32 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A02D70101
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F63A600B3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 May 2016 09:57:54 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 04 May 2016 02:57:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,576,1455004800"; d="scan'208";a="958577780"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 04 May 2016 02:57:53 -0700
-To: openembedded-core@lists.openembedded.org
-References: <1461867811-7837-1-git-send-email-akuster808@gmail.com>
-	<1462355553.6485.5.camel@linux.intel.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <5729C7C7.4080002@linux.intel.com>
-Date: Wed, 4 May 2016 12:58:31 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Icedove/38.6.0
+	Wed,  4 May 2016 10:18:31 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
+	via TCP (outbound) with ESMTPS id 20160504101828831_0486;
+	Wed, 04 May 2016 10:18:28 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+Received: from [216.191.234.70] (port=26167 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1axtuP-0005T4-OG; Wed, 04 May 2016 06:19:57 -0400
+Date: Wed, 4 May 2016 06:18:04 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: Tom Rini <trini@konsulko.com>
+In-Reply-To: <20160503184521.GA7884@bill-the-cat>
+Message-ID: <alpine.LFD.2.20.1605040607420.11477@localhost.localdomain>
+References: <alpine.LFD.2.20.1605031245360.6672@localhost.localdomain>
+	<CADkTA4PPYfetBymZ1mii_sc7f71za-V0dBbcgApHyhDHwxKyVw@mail.gmail.com>
+	<alpine.LFD.2.20.1605031421460.12750@localhost.localdomain>
+	<20160503184521.GA7884@bill-the-cat>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-In-Reply-To: <1462355553.6485.5.camel@linux.intel.com>
-Subject: Re: [master][krogoth][PATCH 1/2] qemu: Security fix CVE-2016-2857
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: clarifying details about "is not set" lines in kernel config fragment files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +39,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 May 2016 09:57:55 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 04 May 2016 10:18:35 -0000
+Content-Type: multipart/mixed; BOUNDARY="8323328-494978038-1462357087=:11477"
 
-On 05/04/2016 12:52 PM, Joshua G Lock wrote:
-> I've been seeing:
+--8323328-494978038-1462357087=:11477
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8BIT
+
+On Tue, 3 May 2016, Tom Rini wrote:
+
+> On Tue, May 03, 2016 at 02:27:38PM -0400, Robert P. J. Day wrote:
+> > On Tue, 3 May 2016, Bruce Ashfield wrote:
+> >
+> > > On Tue, May 3, 2016 at 1:04 PM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+> > >
+> > >         oddly, in the current YP kernel dev manual, i don't see the
+> > >       phrase "is not set" explained anywhere in the entire doc,
+> > >       which is weird since it seems like it would be important.
+> > >
+> > > The manuals don't cover the mechanics of how the mainline kernel
+> > > is configured. Just the same way the don't cover the
+> > > configuration language for any number of packages in the system.
+> >
+> >   assuming i'm understanding your position, that's where i'm going
+> > to *strongly* disagree. people who work with the mainline kernel
+> > in a non-OE environment don't use kernel config fragment files.
+> > period. AFAIK (and correct me if i'm wrong), .cfg kernel config
+> > fragment files are exclusively an OE/YP thing, so there is no
+> > reason for normal kernel developers to understand how they work.
 >
-> "qemu: uncaught target signal 11 (Segmentation fault) - core dumped"
->
-> when trying to build gobject-introspection for qemux86 recently and
-> narrowed it down to this change, if I revert this patch the use of
-> qemu-native by gobject-introspection no longer causes a segmentation
-> fault.
->
-> Are we missing some related patches for this CVE fix? I haven't dug
-> into the details, but noticed that Fedora's CVE-2016-2857 diffstat[1]
-> is much larger than ours[2].
+> Or maybe to be more clear, does the manual spell out that these .cfg
+> files are Kconfig fragments and follow the normal syntax rules
+> Kconfig uses?  If not, it really should.  If so, maybe it should
+> also contain a reference to the external authority on this syntax?
 
-Also this patch is included in qemu 2.5.1 release that happened several 
-weeks ago, so maybe we should update master to that instead.
+  "1.1 Overview" of the current kernel dev manual states:
 
-Also 2.6.0 will appear any day now.
+"In particular, the kernel tools allow you to generate configuration
+fragments that specify only what you must, and nothing more.
+Configuration fragments only need to contain the highest level visible
+CONFIG options as presented by the Linux kernel menuconfig system."
 
+  so that opening bit really doesn't provide all the detail one needs,
+*especially* if one is a newcomer. (and, yes, i'm sure experienced
+kernel hackers are aware of kernel config fragment processing but,
+seriously, is anyone trying to make the case you need to be an
+experienced kernel hacker to use YP? please tell me that's not the
+position you're taking.)
 
-Alex
+  further on, one reads:
 
+"Note:
 
+"The build system applies the configurations from the defconfig file
+before applying any subsequent configuration fragments. The final
+kernel configuration is a combination of the configurations in the
+defconfig file and any configuration fragments you provide. You need
+to realize that if you have any configuration fragments, the build
+system applies these on top of and after applying the existing
+defconfig file configurations."
+
+  so ... lots of mention of "applying" fragments with no explanation
+of what "applying" means. i'm not suggesting a comprehensive tutorial
+on the application of kernel config fragments in the manual, but the
+idea that one can talk about fragments and have *no* mention of the
+value of an "# ... is not set" fragment line and when to use it
+strikes me as absurd.
+
+  i think a *lot* of potential confusion could be averted with at most
+3 or 4 paragraphs briefly describing what goes into a fragment, and
+why it's there. or you could stand on principle and leave confused
+readers to fend for themselves. tough decision there.
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
+--8323328-494978038-1462357087=:11477--
