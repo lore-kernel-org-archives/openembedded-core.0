@@ -1,48 +1,46 @@
-Return-Path: <fabio.berton@ossystems.com.br>
-Received: from mail-lf0-f45.google.com (mail-lf0-f45.google.com
-	[209.85.215.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 71A4B62132
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
+	[209.85.223.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 0232960722
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 May 2016 14:53:38 +0000 (UTC)
-Received: by mail-lf0-f45.google.com with SMTP id u64so63159564lff.3
+	Wed,  4 May 2016 15:01:19 +0000 (UTC)
+Received: by mail-io0-f180.google.com with SMTP id f89so56552984ioi.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 May 2016 07:53:39 -0700 (PDT)
+	Wed, 04 May 2016 08:01:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=xzNkwReYbSLuLS1dPEdJBlZsiuBl3lXelSIvFQ8zDwI=;
-	b=OG/LgoBugLZC211iSeTjmo7QDhkblxxDETOQeO+S/j8A36V/5ZT2GYI4L1bEJP8DmU
-	zs6BkLbpbLo6QrhFSxutDw/zBzUSoHO0rtmECCpz1jOYrGcK9PjLm/GZIdZMEItkdog7
-	JVhQL8tAinGO3etesr1kwqlfp7KLsJSe8g7MwZ6MowuKI+oxmwbOl3Z94G5HgFvdmucL
-	iiCo8WgoWoY4rmYE6GxICxP1N9CYI8lBpdfT2xUfmWamVSOAFUYu9dJ7g3j/V9swZ0AM
-	nlL6rxBSbI5NEo697dRBQ8jMQ3hg6Q6v/IrjvOgSMxqF2ATEkM/83ZSV9KYZcG3RE2zU
-	+SWg==
+	:cc; bh=ras0T30dkY+CZlugZOTD3w7IebuekyTT6dbHtNiMP1I=;
+	b=0b7X+UlOOFBpHoH948po/4HTr+DVsbB5AzouvCdUQGvA/wsQmxSAIP3ELQZO0DFnqF
+	poRuaOELEue/oKZ+eaBfYRKlxvL91KoUBc70f1AMlh3dyuDtEC4YwkCrtsOXPt/2rcog
+	WubFNPcq86QUpEWl8soYmwXMrX970c6LeQP/nT8+KJ5iPQNEWMzGD1dq8Uv1eJzN0FaB
+	qk/XZikoJSz0N/Zav26qsE00hRJKcQMWwZrfV7RZPLN6dDEkFdZ1FtWnoomJBVw7xqPU
+	LYwnUawY8M0+n6psz494HYhvNO6AKcVBSyIa4kUZV93Av7liqJafiSbHDa5aI+VN+HcD
+	QNrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=xzNkwReYbSLuLS1dPEdJBlZsiuBl3lXelSIvFQ8zDwI=;
-	b=Yxa+eQzo+2CP/TM562o9L4WqlpjhfmTpBi+y41vYoeXST28ZutbszoJ7vUvDPy/HkA
-	C0FPJ9QttBATpet4Inkr9BuBDPMsbQamOdkrOkERhp5KuzHTt9zZyutNqC56KqcawAFn
-	jffiw0dHqaTI8rQBwLvzn+Ib5bBekCfJSh/+N68PBn7mcF27fJ2sv2ulizlZkYVk19KO
-	bF0rBkXQeldUq4NGtxJnz3lEp7Jm91uGPxQflzB/7qRyHBa268mbE9xKxSRxbocoiGVz
-	8xBzP84DgIB7oGMUvv46ACMgSkWQrp0MfSAZgCNoud5k+YqdRcVNeI9s9OS/TZnOVq8V
-	2sgA==
-X-Gm-Message-State: AOPr4FXAS6+0NPfjN6gJYJK2DmpP1iH70ZS4pn1BC9VrHrScdGY2mHSit6SMlEGhX4P7ivppgZOxKYilbYhK5g==
-X-Received: by 10.112.189.1 with SMTP id ge1mr4238273lbc.9.1462373617946; Wed,
-	04 May 2016 07:53:37 -0700 (PDT)
+	bh=ras0T30dkY+CZlugZOTD3w7IebuekyTT6dbHtNiMP1I=;
+	b=Ewl8O07nmlLAYWJqxzkVAbWDSnDco02i3cH0U8tiS0ypr7WAed+jy22hmirT04C4pn
+	cQRnEYmt32VzQXe+rAXr1gGmZaO5f+JquGXR4B3o/KOwAfhcjU1GoIoKnYqQme2rcUH9
+	BLhF+WMFFvxAwX5LlbW+b9KXPAfSmjh8U5YPUBdnpduC3LQLTp+A8sKzFquUn05POQBF
+	/2nr5Ommn82BnMBlTQ6fVPGtx8RXrjnZtaAi5KaGgtzXvEQN9NQamzJFUKkWRB84Xkif
+	kleWkZX4TNxl3oANFnc1yGbH30WbvsCa9w9NSmbB/9+ixcSvh6hHtIuzKHYpMkoq1szx
+	C+zw==
+X-Gm-Message-State: AOPr4FUXbzgvOynrFH9eZrGR/+z1+H5K0QVFEoSYXXlb+eMrBm9TE19fR4PpPJs7vfwwQpRAug18t9aCrSh3vaUn
+X-Received: by 10.107.179.136 with SMTP id c130mr10644400iof.99.1462374079903; 
+	Wed, 04 May 2016 08:01:19 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.25.22.193 with HTTP; Wed, 4 May 2016 07:53:08 -0700 (PDT)
-X-Originating-IP: [187.23.154.250]
-In-Reply-To: <20160504143806.GA12969@jupiter.localdomain>
-References: <CAAPZna1xLfbyYUKa+qcLfeGCv=mqg7JwWtirfAbqfM+TCu5m7g@mail.gmail.com>
-	<20160504143806.GA12969@jupiter.localdomain>
-From: Fabio Berton <fabio.berton@ossystems.com.br>
-Date: Wed, 4 May 2016 11:53:08 -0300
-Message-ID: <CAAPZna1M5ibZ8J2vOZ5PmJqAHVwNn=vR8mKrmYmuQ-YdLWopfw@mail.gmail.com>
-To: Brendan Le Foll <brendan.le.foll@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: npm class usage
+Received: by 10.107.34.142 with HTTP; Wed, 4 May 2016 08:01:00 -0700 (PDT)
+In-Reply-To: <1462191432-9516-1-git-send-email-alexander.kanavin@linux.intel.com>
+References: <1462191432-9516-1-git-send-email-alexander.kanavin@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 4 May 2016 16:01:00 +0100
+Message-ID: <CAJTo0LY3nQr2GOKx_3h+TmozU2kipSiPj0PRqQ-daLczwPft2w@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gobject-introspection.bbclass: disable introspection for -native recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,188 +53,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 May 2016 14:53:39 -0000
-Content-Type: multipart/alternative; boundary=001a11c36f7006e8b70532056448
+X-List-Received-Date: Wed, 04 May 2016 15:01:21 -0000
+Content-Type: multipart/alternative; boundary=001a1148578c902a750532057f2d
 
---001a11c36f7006e8b70532056448
+--001a1148578c902a750532057f2d
 Content-Type: text/plain; charset=UTF-8
 
-Hi Brendan,
+On 2 May 2016 at 13:17, Alexander Kanavin <alexander.kanavin@linux.intel.com
+> wrote:
 
-Thanks for reply.
-
-I'm trying to use npm class with this layer
-https://github.com/imyller/meta-nodejs
-
-For example, I changed this recipe
-https://github.com/imyller/meta-nodejs/blob/master/recipes/grunt/grunt-cli_1.1.0.bb
-to use npm class provided by oe-core and removed all classes from
-meta-nodejs.
-
-I can install grunt-cli If I remove S = ${WORKDIR}/npmpkg and
---no-registry option.
-
-I put PREFERRED_VERSION_nodejs-native on local.conf to set nodejs version
-and I tried with all versions available on meta-nodejs and meta-oe version,
-that has patch to enable --no-registry.
-
-I'll try with nodejs version that you're using.
-
-
-On Wed, May 4, 2016 at 11:38 AM, Brendan Le Foll <brendan.le.foll@intel.com>
-wrote:
-
-> On Tue, May 03, 2016 at 01:24:49PM -0300, Fabio Berton wrote:
-> >    Hi all!
-> >    I'm trying to install some recipes that use npm class and I have two
-> >    questions.
-> >    1 - Why use S = "${WORKDIR}/npmpkg"? This not work for me.
+> -EXTRA_OECONF_prepend = "${@bb.utils.contains('GI_DATA_ENABLED', 'True',
+> '--enable-introspection', '--disable-introspection', d)} "
+> +EXTRA_OECONF_prepend_class-target =
+> "${@bb.utils.contains('GI_DATA_ENABLED', 'True', '--enable-introspection',
+> '--disable-introspection', d)} "
+> +
+> +# When building native recipes, disable introspection, as it is not
+> necessary,
+> +# pulls in additional dependencies, and makes build times longer
+> +EXTRA_OECONF_prepend_class-native = "--disable-introspection "
 >
-> That's surprising the fetcher basically extracts it that way so the
-> class just defaults to that location as 'the right thing'. Do you have
-> an example recipe that isn't working that I could take a look at?
+>  UNKNOWN_CONFIGURE_WHITELIST_append = " --enable-introspection
+> --disable-introspection"
 >
-> >    2 - Using option --no-registry inside npm_do_compile task I get this
-> >    error:
-> >    | npm ERR! Registry not defined and registry files not found:
-> >
-> "/home/user/prj/build/tmp/work/all-linux-musleabi/gulp-cli/1.2.1-r0/npm
-> >    _cache/noregistry/wreck/.cache.json",
-> >
-> "/home/user/prj/build/tmp/work/all-linux-musleabi/gulp-cli/1.2.1-r0/npm
-> >    _cache/wreck/.cache.json".
-> >    | npm ERR!
-> >    | npm ERR! If you need help, you may report this error at:
-> >    | npm ERR!     <[1]https://github.com/npm/npm/issues>
-> >    | npm ERR! Linux 3.18.0-trunk-amd64
-> >    | npm ERR! argv
-> >    "/home/user/prj/build/tmp/sysroots/x86_64-linux/usr/bin/node"
-> >    "/home/user/prj/build/tmp/sysroots/x86_64-linux/usr/bin/npm"
-> >    "--arch=arm" "--production" "--no-registry" "install"
-> >    | npm ERR! node v4.4.1
-> >    | npm ERR! npm  v2.14.20
-> >    I found this issue [2]https://github.com/npm/npm/issues/5509 and
-> using
-> >    --cache-min 99999 instead of --no-registry this error doesn't appears
-> >    and build works fine.
-> >    I noticed that nodejs recipe is using this patch
-> >    [3]
-> https://github.com/bendaaron/meta-oe-dev/commit/3e02a40d689a70025472
-> >    15473a00606d8213ce0c
-> >    but seems not fix for me.
->
-> So I saw this, and ignored it since --no-registry was working fine for
-> me with that patch and then with 4.2.x. It seems the cache-min option
-> doesn't always work as intented.
->
-> I fired up a build with 4.4.x from
->
-> https://github.com/ostroproject/meta-iot-web/blob/master/recipes-devtools/nodejs/nodejs_4.4.1.bb
-> and it seemed to build ok for me with --no-registry.
->
-> Cheers,
-> Brendan
+>  # Generating introspection data depends on a combination of native and
+> target
+>  # introspection tools, and qemu to run the target tools.
+> -DEPENDS_append = " gobject-introspection gobject-introspection-native
+> qemu-native"
+> +DEPENDS_append_class-target = " gobject-introspection
+> gobject-introspection-native qemu-native"
+> +
+> +# Even though introspection is disable on -native, gobject-introspection
+> package is still
+> +# needed for m4 macros.
+> +DEPENDS_append_class-native = " gobject-introspection-native"
 >
 
---001a11c36f7006e8b70532056448
+This leaves the nativesdk case undefined.  We probably want it enabled for
+nativesdk?
+
+Ross
+
+--001a1148578c902a750532057f2d
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:monospac=
-e,monospace;font-size:small">Hi Brendan,<br><br></div><div class=3D"gmail_d=
-efault" style=3D"font-family:monospace,monospace;font-size:small">Thanks fo=
-r reply.<br><br></div><div class=3D"gmail_default" style=3D"font-family:mon=
-ospace,monospace;font-size:small">I&#39;m trying to use npm class with this=
- layer <a href=3D"https://github.com/imyller/meta-nodejs">https://github.co=
-m/imyller/meta-nodejs</a><br><br></div><div class=3D"gmail_default" style=
-=3D"font-family:monospace,monospace;font-size:small">For example, I changed=
- this recipe <a href=3D"https://github.com/imyller/meta-nodejs/blob/master/=
-recipes/grunt/grunt-cli_1.1.0.bb">https://github.com/imyller/meta-nodejs/bl=
-ob/master/recipes/grunt/grunt-cli_1.1.0.bb</a> to use npm class provided by=
- oe-core and removed all classes from meta-nodejs. <br><br></div><div class=
-=3D"gmail_default" style=3D"font-family:monospace,monospace;font-size:small=
-">I can install grunt-cli If I remove S =3D ${WORKDIR}/npmpkg and <br> --no=
--registry option.<br><br></div><div class=3D"gmail_default" style=3D"font-f=
-amily:monospace,monospace;font-size:small">I put PREFERRED_VERSION_nodejs-n=
-ative on local.conf to set nodejs version and I tried with all versions ava=
-ilable on meta-nodejs and meta-oe version, that has patch to enable  --no-r=
-egistry.<br><br></div><div class=3D"gmail_default" style=3D"font-family:mon=
-ospace,monospace;font-size:small">I&#39;ll try with nodejs version that you=
-&#39;re using.<br></div><div class=3D"gmail_default" style=3D"font-family:m=
-onospace,monospace;font-size:small"><br></div></div><div class=3D"gmail_ext=
-ra"><br><div class=3D"gmail_quote">On Wed, May 4, 2016 at 11:38 AM, Brendan=
- Le Foll <span dir=3D"ltr">&lt;<a href=3D"mailto:brendan.le.foll@intel.com"=
- target=3D"_blank">brendan.le.foll@intel.com</a>&gt;</span> wrote:<br><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
-c solid;padding-left:1ex"><span class=3D"">On Tue, May 03, 2016 at 01:24:49=
-PM -0300, Fabio Berton wrote:<br>
-&gt;=C2=A0 =C2=A0 Hi all!<br>
-&gt;=C2=A0 =C2=A0 I&#39;m trying to install some recipes that use npm class=
- and I have two<br>
-&gt;=C2=A0 =C2=A0 questions.<br>
-&gt;=C2=A0 =C2=A0 1 - Why use S =3D &quot;${WORKDIR}/npmpkg&quot;? This not=
- work for me.<br>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 2 May 2016 at 13:17, Alexander Kanavin <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander.kanav=
+in@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
+<div id=3D":27l" class=3D"a3s aXjCH">-EXTRA_OECONF_prepend =3D &quot;${@bb.=
+utils.contains(&#39;GI_DATA_ENABLED&#39;, &#39;True&#39;, &#39;--enable-int=
+rospection&#39;, &#39;--disable-introspection&#39;, d)} &quot;<br>
++EXTRA_OECONF_prepend_class-target =3D &quot;${@bb.utils.contains(&#39;GI_D=
+ATA_ENABLED&#39;, &#39;True&#39;, &#39;--enable-introspection&#39;, &#39;--=
+disable-introspection&#39;, d)} &quot;<br>
++<br>
++# When building native recipes, disable introspection, as it is not necess=
+ary,<br>
++# pulls in additional dependencies, and makes build times longer<br>
++EXTRA_OECONF_prepend_class-native =3D &quot;--disable-introspection &quot;=
 <br>
-</span>That&#39;s surprising the fetcher basically extracts it that way so =
-the<br>
-class just defaults to that location as &#39;the right thing&#39;. Do you h=
-ave<br>
-an example recipe that isn&#39;t working that I could take a look at?<br>
-<span class=3D""><br>
-&gt;=C2=A0 =C2=A0 2 - Using option --no-registry inside npm_do_compile task=
- I get this<br>
-&gt;=C2=A0 =C2=A0 error:<br>
-&gt;=C2=A0 =C2=A0 | npm ERR! Registry not defined and registry files not fo=
-und:<br>
-&gt;=C2=A0 =C2=A0 &quot;/home/user/prj/build/tmp/work/all-linux-musleabi/gu=
-lp-cli/1.2.1-r0/npm<br>
-&gt;=C2=A0 =C2=A0 _cache/noregistry/wreck/.cache.json&quot;,<br>
-&gt;=C2=A0 =C2=A0 &quot;/home/user/prj/build/tmp/work/all-linux-musleabi/gu=
-lp-cli/1.2.1-r0/npm<br>
-&gt;=C2=A0 =C2=A0 _cache/wreck/.cache.json&quot;.<br>
-&gt;=C2=A0 =C2=A0 | npm ERR!<br>
-&gt;=C2=A0 =C2=A0 | npm ERR! If you need help, you may report this error at=
-:<br>
-</span>&gt;=C2=A0 =C2=A0 | npm ERR!=C2=A0 =C2=A0 =C2=A0&lt;[1]<a href=3D"ht=
-tps://github.com/npm/npm/issues" rel=3D"noreferrer" target=3D"_blank">https=
-://github.com/npm/npm/issues</a>&gt;<br>
-<span class=3D"">&gt;=C2=A0 =C2=A0 | npm ERR! Linux 3.18.0-trunk-amd64<br>
-&gt;=C2=A0 =C2=A0 | npm ERR! argv<br>
-&gt;=C2=A0 =C2=A0 &quot;/home/user/prj/build/tmp/sysroots/x86_64-linux/usr/=
-bin/node&quot;<br>
-&gt;=C2=A0 =C2=A0 &quot;/home/user/prj/build/tmp/sysroots/x86_64-linux/usr/=
-bin/npm&quot;<br>
-&gt;=C2=A0 =C2=A0 &quot;--arch=3Darm&quot; &quot;--production&quot; &quot;-=
--no-registry&quot; &quot;install&quot;<br>
-&gt;=C2=A0 =C2=A0 | npm ERR! node v4.4.1<br>
-&gt;=C2=A0 =C2=A0 | npm ERR! npm=C2=A0 v2.14.20<br>
-</span>&gt;=C2=A0 =C2=A0 I found this issue [2]<a href=3D"https://github.co=
-m/npm/npm/issues/5509" rel=3D"noreferrer" target=3D"_blank">https://github.=
-com/npm/npm/issues/5509</a> and using<br>
-<span class=3D"">&gt;=C2=A0 =C2=A0 --cache-min 99999 instead of --no-regist=
-ry this error doesn&#39;t appears<br>
-&gt;=C2=A0 =C2=A0 and build works fine.<br>
-&gt;=C2=A0 =C2=A0 I noticed that nodejs recipe is using this patch<br>
-</span>&gt;=C2=A0 =C2=A0 [3]<a href=3D"https://github.com/bendaaron/meta-oe=
--dev/commit/3e02a40d689a70025472" rel=3D"noreferrer" target=3D"_blank">http=
-s://github.com/bendaaron/meta-oe-dev/commit/3e02a40d689a70025472</a><br>
-<span class=3D"">&gt;=C2=A0 =C2=A0 15473a00606d8213ce0c<br>
-&gt;=C2=A0 =C2=A0 but seems not fix for me.<br>
 <br>
-</span>So I saw this, and ignored it since --no-registry was working fine f=
-or<br>
-me with that patch and then with 4.2.x. It seems the cache-min option<br>
-doesn&#39;t always work as intented.<br>
+=C2=A0UNKNOWN_CONFIGURE_WHITELIST_append =3D &quot; --enable-introspection =
+--disable-introspection&quot;<br>
 <br>
-I fired up a build with 4.4.x from<br>
-<a href=3D"https://github.com/ostroproject/meta-iot-web/blob/master/recipes=
--devtools/nodejs/nodejs_4.4.1.bb" rel=3D"noreferrer" target=3D"_blank">http=
-s://github.com/ostroproject/meta-iot-web/blob/master/recipes-devtools/nodej=
-s/nodejs_4.4.1.bb</a><br>
-and it seemed to build ok for me with --no-registry.<br>
-<br>
-Cheers,<br>
-Brendan<br>
-</blockquote></div><br></div>
+=C2=A0# Generating introspection data depends on a combination of native an=
+d target<br>
+=C2=A0# introspection tools, and qemu to run the target tools.<br>
+-DEPENDS_append =3D &quot; gobject-introspection gobject-introspection-nati=
+ve qemu-native&quot;<br>
++DEPENDS_append_class-target =3D &quot; gobject-introspection gobject-intro=
+spection-native qemu-native&quot;<br>
++<br>
++# Even though introspection is disable on -native, gobject-introspection p=
+ackage is still<br>
++# needed for m4 macros.<br>
++DEPENDS_append_class-native =3D &quot; gobject-introspection-native&quot;<=
+/div></blockquote></div><br>This leaves the nativesdk case undefined.=C2=A0=
+ We probably want it enabled for nativesdk?</div><div class=3D"gmail_extra"=
+><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a11c36f7006e8b70532056448--
+--001a1148578c902a750532057f2d--
