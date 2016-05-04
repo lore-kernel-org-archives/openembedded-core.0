@@ -1,45 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
-	[209.85.223.179])
-	by mail.openembedded.org (Postfix) with ESMTP id E2DCF600B3
+Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
+	[209.85.223.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 8AEAE60232
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 May 2016 19:40:58 +0000 (UTC)
-Received: by mail-io0-f179.google.com with SMTP id f89so64827203ioi.0
+	Wed,  4 May 2016 21:10:47 +0000 (UTC)
+Received: by mail-io0-f174.google.com with SMTP id d62so67165755iof.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 May 2016 12:40:59 -0700 (PDT)
+	Wed, 04 May 2016 14:10:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
-	bh=lwg3ZyvblM2CH7mOhsLHdWpJmaD1V20paOTgT6yfnxI=;
-	b=D57IMRU0UPd4DZx2LHVQm6WkaN94MrNQN2NHtO2ry3VGN85125xIsHRJ+ZvTajiTR+
-	74qfhETWokEOPQsDXfseAVrTtYiS1NFRhLOFIoIXahNJCTqkrZ7pIiP6iB0LBhS1T4QK
-	AQBcSm/21ncsUhF7tEqJjxxrydeVYHJmU5UiM2qJWc763ugAZaZSLmGUkk1NQJM7x9vS
-	7Rq/7q/lK3aloVvUJfCWUXfsZ0/RgUrgocJ54j/hcQn1D2mmmyKpnn+o51L78RnnSbL9
-	kT7f/Qb+k38w2gXr5Ni4f6+567HzKN/1J8vSctylYj4pbuu5+DhPXmhTTic/7lpMVwkK
-	7B6g==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=A9J8fkl6aHkm/0at45RWuaLTOtdRhEj/raWT1UekHJc=;
+	b=EuxYD0faHcC1xMvdac5KynR9UpyhiLEbt0P5Aw1i9KF6lLJ7T+Br6emVs721GrkhZf
+	Wkjq7VuymV3xYs0ERnnd5QF8RAnPpy6K93UpZX8z7nYJiwzuhjc/Gbzpc40bbuEjfspc
+	fC4gze6qjplu9B+5j/+YHBECAuDiaHj2Twr7VjAMyBaeUDv9qRVVulMiSVWDN6owt5bZ
+	WofUSiR9fhEw6RErdX0xLmxT4CAOHkIScmkr4HorUj+NNAErNTnSFjK+H8fqfv8o3OI5
+	BxsOV/ik4vOyM4LaaC59sYkrX5vORORdh9DV7iz1mn2XHFz0P3EYFUGrrQc3YPNKBdnd
+	75xA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to;
-	bh=lwg3ZyvblM2CH7mOhsLHdWpJmaD1V20paOTgT6yfnxI=;
-	b=LdmAnyEqW9SCRoZRoYRDVOet/WGihrTzjTyYN1VYiagQimuIFA24t5cVOCOc2CnTFi
-	3BHxMG6GfaFyzyKKkrTw31+E1F+T4v7zn20TWxu6fTG1bNRBapERW9uiaMxJLSwvcBh4
-	EuRQBD/kL9eqoMxnUto3wX1tifhZfVXA1lu8IaBOuYe0iHO+pEhKT29kHVcRx9hv1iYK
-	sS06qdNBUc/1Hb8s6d7gWw6TntJqMt1gjqCfs2KaR22gsKHWozWqk+LkchQ+yYcTZd7U
-	kwy6TCtGDSfRSIheuFBu6jLlYHRYs2wPF/ZJ4E7/K7X1mI5TwPomAd0qVRJxt8rkyl4J
-	zOeA==
-X-Gm-Message-State: AOPr4FX/WSwm/GdIKUVQl5amzzakLqLHLuYbJEwpkd9mutv2Bp+gAbX2TMKLK8VbYOTBZO/ZMkCO/7iQ1KPztURn
-X-Received: by 10.107.51.213 with SMTP id z204mr11985040ioz.148.1462390859045; 
-	Wed, 04 May 2016 12:40:59 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=A9J8fkl6aHkm/0at45RWuaLTOtdRhEj/raWT1UekHJc=;
+	b=h7+GtWsfWaI3cOm7zwTm21j4pYH7yLWcbFrLwn3MLVEVdkRXk0av8Sm8W4g6JjJ9Vj
+	0JosxntQWg66kxReEctcmpv66pkZZJ4Ab5c4Ny5PabFTGkLQ61cKkc/WIHcr2b4jvLyW
+	Ow7tN2v2GKJbIH38ZbxM8Z/72FIt8E4Qyi9fuF7TTnGsU5pkfKtWMGz2+HOpJDMG0TMQ
+	p1EAwf9OjO3FyvXKiZOWw06ITPB7WexupHXNDIS4UJZlj9ZKWyuuao1j5amRmzRCPGeC
+	AAi+iWFy8kKdveRyOFpl3RedVlUMBNv01L24uMmaqdxSXRJt3j49RWBhgg/5kYavoTwz
+	nR5Q==
+X-Gm-Message-State: AOPr4FVelFCelrTSHGs2TBolhOFCbCLjswHMKSLUmxNs4eNmL7dvhATMovqmDhzFib+DdYLWflh4pCygKUEHwzNl
+X-Received: by 10.107.179.136 with SMTP id c130mr12644614iof.99.1462396248292; 
+	Wed, 04 May 2016 14:10:48 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.34.142 with HTTP; Wed, 4 May 2016 12:40:39 -0700 (PDT)
-In-Reply-To: <1462390102-32254-1-git-send-email-ross.burton@intel.com>
-References: <1462390102-32254-1-git-send-email-ross.burton@intel.com>
+Received: by 10.107.34.142 with HTTP; Wed, 4 May 2016 14:10:28 -0700 (PDT)
+In-Reply-To: <f9b227a491fa86e74f5f84df68fd7181b1f9bd37.1462188303.git.mariano.lopez@linux.intel.com>
+References: <cover.1462188303.git.mariano.lopez@linux.intel.com>
+	<f9b227a491fa86e74f5f84df68fd7181b1f9bd37.1462188303.git.mariano.lopez@linux.intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 4 May 2016 20:40:39 +0100
-Message-ID: <CAJTo0Lb=rOr6V-O_CHv16_EXtTU9Ju=HHVoDUiZgRkx8O6BwUQ@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] image_types: fix image/compression dependency collection
+Date: Wed, 4 May 2016 22:10:28 +0100
+Message-ID: <CAJTo0Lb97awuHSD0BeNb+j7_LR3xYTeLXN4td+qQ-0kREor84A@mail.gmail.com>
+To: Mariano Lopez <mariano.lopez@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] sshcontrol.py: Add methods to copy dirs and delete files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,32 +54,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 May 2016 19:40:59 -0000
-Content-Type: multipart/alternative; boundary=001a11440cd0ad56050532096795
+X-List-Received-Date: Wed, 04 May 2016 21:10:48 -0000
+Content-Type: multipart/alternative; boundary=001a1148578ce6901805320aa88f
 
---001a11440cd0ad56050532096795
+--001a1148578ce6901805320aa88f
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 4 May 2016 at 20:28, Ross Burton <ross.burton@intel.com> wrote:
+On 2 May 2016 at 12:27, <mariano.lopez@linux.intel.com> wrote:
 
-> +    bb.warn(str(deps))
+> +            tree:   .
+> +                    =E2=94=94=E2=94=80=E2=94=80 work
+> +                        =E2=94=9C=E2=94=80=E2=94=80 dir1
+> +                        =E2=94=82   =E2=94=94=E2=94=80=E2=94=80 file1
+> +                        =E2=94=94=E2=94=80=E2=94=80 dir2
 >
 
-Removed this in my branch, sorry!
+This is very pretty, but:
+
+SyntaxError: Non-ASCII character '\xe2' in file
+/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/me=
+ta/lib/oeqa/utils/sshcontrol.py
+on line 212, but no encoding declared; see
+http://python.org/dev/peps/pep-0263/ for details
+
+Add encoding tags or ASCIIfy the comments, please.
 
 Ross
 
---001a11440cd0ad56050532096795
+--001a1148578ce6901805320aa88f
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 4 May 2016 at 20:28, Ross Burton <span dir=3D"ltr">&lt;<a href=3D"mailto=
-:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;</sp=
-an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex"><div id=3D":21u" class=3D"a3s =
-aXjCH">+=C2=A0 =C2=A0 bb.warn(str(deps))<br></div></blockquote></div><br>Re=
-moved this in my branch, sorry!</div><div class=3D"gmail_extra"><br></div><=
-div class=3D"gmail_extra">Ross</div></div>
+On 2 May 2016 at 12:27,  <span dir=3D"ltr">&lt;<a href=3D"mailto:mariano.lo=
+pez@linux.intel.com" target=3D"_blank">mariano.lopez@linux.intel.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border=
+-left-style:solid;padding-left:1ex"><div id=3D":1ij" class=3D"">+=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tree:=C2=A0 =C2=A0.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =E2=
+=94=94=E2=94=80=E2=94=80 work<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =E2=94=9C=E2=94=80=E2=94=80 dir1<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=94=E2=94=80=E2=94=80 file1<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =E2=94=94=E2=94=80=E2=94=80 dir2</div></blockquote></div><br>Thi=
+s is very pretty, but:</div><br>SyntaxError: Non-ASCII character &#39;\xe2&=
+#39; in file /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-self=
+test/build/meta/lib/oeqa/utils/sshcontrol.py on line 212, but no encoding d=
+eclared; see <a href=3D"http://python.org/dev/peps/pep-0263/">http://python=
+.org/dev/peps/pep-0263/</a> for details<div><br></div><div>Add encoding tag=
+s or ASCIIfy the comments, please.</div><div><br></div><div>Ross</div></div=
+>
 
---001a11440cd0ad56050532096795--
+--001a1148578ce6901805320aa88f--
