@@ -1,46 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 2FA3A70016
+Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com
+	[209.85.213.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 788AC731B9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 May 2016 19:28:25 +0000 (UTC)
-Received: by mail-wm0-f42.google.com with SMTP id a17so111723122wme.0
+	Wed,  4 May 2016 19:31:51 +0000 (UTC)
+Received: by mail-ig0-f169.google.com with SMTP id bi2so158436286igb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 May 2016 12:28:26 -0700 (PDT)
+	Wed, 04 May 2016 12:31:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=JVwQ0qLm7L3R9X3lnxwB2ddDbc8j53fNjvymNn7U05Y=;
-	b=z3MbcdroHmMoHG1fcjOT+2jggauEKoPQLAErUwd2FXDmLjVyS44rib9DOwJLHCt8j7
-	eYxrktbw3LRoiHe0s0uwgWbov41zcGRanxj/TS+XE7h3AkKovlPgRdDvS80x1t25HT8u
-	8vKaMd8zMyI6iCvt6j5RJczTxHwLh+lQ/zYLsarwikwB6nQ467jAzQvkycXfCle9Pls+
-	RR+qUY4xGpxk+jizL2DeHLcpiSFC46CQiL6Trts5ykG8M/P54eIz8fPJ12R76Ay5inCJ
-	sP5O5tlghEQW1H24RWotgpS6qAm5piCp7iAA8Y9AMMzFqlwMUCuv0hzQ+anKzJEXOIPV
-	p94A==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=qZeRs7h5lGx2QtQOB81TxF4JlWjmTW2gwE/Zb40yCZk=;
+	b=paCc6ggKwZijntP8zZjGguCcagWV5s/vXSjywEbUVr+lAHaL/h7/Q5+Tt3GzHKdmvI
+	3IOXtiUh82k/znMJB9P2L6mw8+4M17in2paaq3Tdh3lSZN83QRdo9nFhROdBxRNuLOLO
+	Ode/etgzCWMRe1gJUMbTiYEgTsIJD7v4SkmPsF1lA/tJZGKCnytSK9AywWQai8zBfObH
+	a7qRnHNP+5Jn+zZlPYzXJ6zaPisfmF+m4hCuc7128u2ud13rR2TgC9D+YVsSw4LvuE7r
+	uUWtnLgGUO4SQcEayoN1rbAAAui6jtsMyY7ZF0V78s/dGmPvcVA6XQb+O/Ls/UD0seg7
+	Iemg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=JVwQ0qLm7L3R9X3lnxwB2ddDbc8j53fNjvymNn7U05Y=;
-	b=baxmR69P1bRKFV+9INNMRd9I4VCDXJewGr/gYfzq3cD5k+G6iQFhI2xuu2kFML9NnT
-	IfPtObefuEqD1tpn8vEbtuzCSt4gigRpXqhiwzFKOStQQnnApwPVex2ekuSLZbRrwcj9
-	VdTGrcc9cZr+k90uI1R1OjHzTHEdkGseFqhrt3ki9daAaGbOg3NPhIazLkbPHqXTseZC
-	7kxwkZe3wZLZqAZ1ezu9Ok9RhCw4ZBsy/Q2uWlCdva3vu0iDaHA3BL46XJcS6pvjl/WD
-	lS0kmeRs+eFXqA3IJoQpG2RrcLhMjEhPFpccxVnrSyyWIy4IBslRZ+tjNABQRpyetafA
-	ivHA==
-X-Gm-Message-State: AOPr4FUT2/mlZhA6RBFjmnkhNvyOUbPqoeMc/56w9RdfMBr5o/XE5D6UwswBHt8m205BdrDs
-X-Received: by 10.194.223.41 with SMTP id qr9mr3278595wjc.61.1462390105473;
-	Wed, 04 May 2016 12:28:25 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	ck9sm5860245wjc.22.2016.05.04.12.28.24
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 04 May 2016 12:28:24 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 May 2016 20:28:22 +0100
-Message-Id: <1462390102-32254-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.0.rc3
-Subject: [PATCH] image_types: fix image/compression dependency collection
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=qZeRs7h5lGx2QtQOB81TxF4JlWjmTW2gwE/Zb40yCZk=;
+	b=fKqBr/QpHOMt24vykELxoVPxgJkUcgi/8yg1p0oC4J9qQX4aiqqjGhFj6kJc+5D3ax
+	BcmfKvSuNGghMtiTa3RKwZGC8KX1t1sYdJCwPt/YHGDc13pFKI3FLU/rUa5PgE2GpnkO
+	EsViEHYfFuEWQYrymZSeeTex5Wi/kQpuzosVx/wo8MoM/I6+dkWjHElzxgQjMDX8xCqd
+	mWBCo/YtY0g7X9FHrPHzOd11uSzeodTxhFebelseo6Yr9/veA2uT6XxdXMXKnF4eRPY4
+	VoZEkxFYTTMMyag8dy2WONaWqV035KZal+0bIrINk1KzapBnZ+EYruINAdg37QZPcKhx
+	R6Dw==
+X-Gm-Message-State: AOPr4FVpdpWZxfNrJQWVXWe2jgwlJ8yX+bpIrVUQyml+clrcPayJTRl1N+jjHn2aWFptrDbv3dysr8iOORPHWXoB
+X-Received: by 10.50.60.132 with SMTP id h4mr32962706igr.78.1462390311266;
+	Wed, 04 May 2016 12:31:51 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.34.142 with HTTP; Wed, 4 May 2016 12:31:31 -0700 (PDT)
+In-Reply-To: <1547678da14.11ea2eb8718367.335561670221363303@geekcentral.pub>
+References: <1461933709-22049-1-git-send-email-geiseri@geekcentral.pub>
+	<1547678da14.11ea2eb8718367.335561670221363303@geekcentral.pub>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 4 May 2016 20:31:31 +0100
+Message-ID: <CAJTo0LZfkzOW6HnYaqS3zSXdS4YbSpvxrmWn14FXE-eNBUwG0Q@mail.gmail.com>
+To: Ian Geiser <geiseri@geekcentral.pub>
+Cc: "<openembedded-core@lists.openembedded.org>"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] Allow different filesystems to be used for VM images.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,71 +55,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 May 2016 19:28:28 -0000
+X-List-Received-Date: Wed, 04 May 2016 19:31:53 -0000
+Content-Type: multipart/alternative; boundary=bcaec5015c9b06ee620532094782
 
-As compressions can be chained (i.e. cpio.bz2.md5sum) we need to walk the fstype
-list to collect the dependencies from each step.
+--bcaec5015c9b06ee620532094782
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/image_types.bbclass | 37 +++++++++++++++++--------------------
- 1 file changed, 17 insertions(+), 20 deletions(-)
+On 3 May 2016 at 12:55, Ian Geiser <geiseri@geekcentral.pub> wrote:
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 0b9758e..9ca157f 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -11,32 +11,29 @@ IMAGE_ROOTFS_ALIGNMENT ?= "1"
- 
- def imagetypes_getdepends(d):
-     def adddep(depstr, deps):
--        for i in (depstr or "").split():
--            if i not in deps:
--                deps.append(i)
-+        for d in (depstr or "").split():
-+            # Add task dependency if not already present
-+            if ":" not in d:
-+                d += ":do_populate_sysroot"
-+            deps.add(d)
- 
--    deps = []
--    ctypes = d.getVar('COMPRESSIONTYPES', True).split()
-     fstypes = set((d.getVar('IMAGE_FSTYPES', True) or "").split())
-     fstypes |= set((d.getVar('IMAGE_FSTYPES_DEBUGFS', True) or "").split())
--    for type in fstypes:
--        if type in ["vmdk", "vdi", "qcow2", "hdddirect", "live", "iso", "hddimg"]:
--            type = "ext4"
--        basetype = type
--        for ctype in ctypes:
--            if type.endswith("." + ctype):
--                basetype = type[:-len("." + ctype)]
--                adddep(d.getVar("COMPRESS_DEPENDS_%s" % ctype, True), deps)
--                break
-+
-+    deps = set()
-+    for typestring in fstypes:
-+        types = typestring.split(".")
-+        basetype, resttypes = types[0], types[1:]
-+
-+        adddep(d.getVar('IMAGE_DEPENDS_%s' % basetype, True) , deps)
-         for typedepends in (d.getVar("IMAGE_TYPEDEP_%s" % basetype, True) or "").split():
-             adddep(d.getVar('IMAGE_DEPENDS_%s' % typedepends, True) , deps)
--        adddep(d.getVar('IMAGE_DEPENDS_%s' % basetype, True) , deps)
--
--    depstr = ""
--    for dep in deps:
--        depstr += " " + dep + ":do_populate_sysroot"
--    return depstr
-+        for ctype in resttypes:
-+            adddep(d.getVar("COMPRESS_DEPENDS_%s" % ctype, True), deps)
- 
-+    # Sort the set so that ordering is consistant
-+    bb.warn(str(deps))
-+    return " ".join(sorted(deps))
- 
- XZ_COMPRESSION_LEVEL ?= "-e -6"
- XZ_INTEGRITY_CHECK ?= "crc32"
--- 
-2.8.0.rc3
+> What is the status of this patch?
+>
 
+It's merged into my staging branch, so should be in master soon.
 
+Ross
+
+--bcaec5015c9b06ee620532094782
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 3 May 2016 at 12:55, Ian Geiser <span dir=3D"ltr">&lt;<a href=3D"mailto:=
+geiseri@geekcentral.pub" target=3D"_blank">geiseri@geekcentral.pub</a>&gt;<=
+/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3un" class=3D"a=
+3s aXjCH">What is the status of this patch?<br></div></blockquote></div><br=
+>It&#39;s merged into my staging branch, so should be in master soon.</div>=
+<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div><=
+/div>
+
+--bcaec5015c9b06ee620532094782--
