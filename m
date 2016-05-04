@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id DDFDA73212
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 0CCBD6E666
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 May 2016 15:27:41 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga104.fm.intel.com with ESMTP; 04 May 2016 08:27:40 -0700
+	Wed,  4 May 2016 15:27:50 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga101.jf.intel.com with ESMTP; 04 May 2016 08:27:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,577,1455004800"; d="scan'208";a="972537069"
+X-IronPort-AV: E=Sophos;i="5.24,577,1455004800"; d="scan'208";a="798781826"
 Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 04 May 2016 08:27:39 -0700
+	by orsmga003.jf.intel.com with ESMTP; 04 May 2016 08:27:35 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id A13D66A4083
+	by linux.intel.com (Postfix) with ESMTP id 2BA5C6A4007
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 May 2016 09:15:13 -0700 (PDT)
+	Wed,  4 May 2016 09:15:08 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 May 2016 16:06:26 +0300
-Message-Id: <8a9be5c905f1536c6cf9a176c3e2ba4928fe5670.1462365339.git.ed.bartosh@linux.intel.com>
+Date: Wed,  4 May 2016 16:06:22 +0300
+Message-Id: <c9be36de41ae255e2341d0bf56f9eb785c80b2de.1462365339.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1462365339.git.ed.bartosh@linux.intel.com>
 References: <cover.1462365339.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1462365339.git.ed.bartosh@linux.intel.com>
 References: <cover.1462365339.git.ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH 13/14] wic: don't encode unicode strings
+Subject: [wic][PATCH 09/14] wic: don't use L suffix for integers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,44 +35,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 May 2016 15:27:42 -0000
+X-List-Received-Date: Wed, 04 May 2016 15:27:51 -0000
 
-Removed check for unicode type as it doesn't work in Python 3.
-This check is not needed for wic as all its output seem to be
-strings. This allows to run code under both pythons.
+This suffix is not supported by Python 3. Wic code works
+without it on Python 2 too, so it's safe to remove it.
 
 [YOCTO #9412]
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/msger.py | 7 -------
- 1 file changed, 7 deletions(-)
+ scripts/lib/wic/ksparser.py | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/scripts/lib/wic/msger.py b/scripts/lib/wic/msger.py
-index 2340ac2..4d8e704 100644
---- a/scripts/lib/wic/msger.py
-+++ b/scripts/lib/wic/msger.py
-@@ -66,10 +66,6 @@ def _general_print(head, color, msg=None, stream=None, level='normal'):
-         # skip
-         return
+diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
+index 27bc1c7..6887a7d 100644
+--- a/scripts/lib/wic/ksparser.py
++++ b/scripts/lib/wic/ksparser.py
+@@ -51,7 +51,7 @@ def sizetype(arg):
+     Converts size string in <num>[K|k|M|G] format into the integer value
+     """
+     if arg.isdigit():
+-        return int(arg) * 1024L
++        return int(arg) * 1024
  
--    # encode raw 'unicode' str to utf8 encoded str
--    if msg and isinstance(msg, unicode):
--        msg = msg.encode('utf-8', 'ignore')
--
-     errormsg = ''
-     if CATCHERR_BUFFILE_FD > 0:
-         size = os.lseek(CATCHERR_BUFFILE_FD, 0, os.SEEK_END)
-@@ -118,9 +114,6 @@ def _color_print(head, color, msg, stream, level):
-                 newline = True
+     if not arg[:-1].isdigit():
+         raise ArgumentTypeError("Invalid size: %r" % arg)
+@@ -60,9 +60,9 @@ def sizetype(arg):
+     if arg.endswith("k") or arg.endswith("K"):
+         return size
+     if arg.endswith("M"):
+-        return size * 1024L
++        return size * 1024
+     if arg.endswith("G"):
+-        return size * 1024L * 1024L
++        return size * 1024 * 1024
  
-     if msg is not None:
--        if isinstance(msg, unicode):
--            msg = msg.encode('utf8', 'ignore')
--
-         stream.write('%s%s' % (head, msg))
-         if newline:
-             stream.write('\n')
+     raise ArgumentTypeError("Invalid size: %r" % arg)
+ 
+@@ -127,7 +127,7 @@ class KickStart():
+         part.add_argument('mountpoint')
+         part.add_argument('--active', action='store_true')
+         part.add_argument('--align', type=int)
+-        part.add_argument("--extra-space", type=sizetype, default=10*1024L)
++        part.add_argument("--extra-space", type=sizetype, default=10*1024)
+         part.add_argument('--fsoptions', dest='fsopts')
+         part.add_argument('--fstype')
+         part.add_argument('--label')
 -- 
 2.1.4
 
