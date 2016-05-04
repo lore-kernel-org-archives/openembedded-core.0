@@ -1,29 +1,24 @@
-Return-Path: <brendan.le.foll@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id EE02160722
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id D980C6E666
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 May 2016 15:09:20 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga101.jf.intel.com with ESMTP; 04 May 2016 08:07:07 -0700
+	Wed,  4 May 2016 15:26:19 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga104.fm.intel.com with ESMTP; 04 May 2016 08:26:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,577,1455004800"; d="scan'208";a="798764485"
-Received: from jupiter.iwi.intel.com (HELO jupiter.localdomain)
-	([172.28.33.51])
-	by orsmga003.jf.intel.com with ESMTP; 04 May 2016 08:07:05 -0700
-Date: Wed, 4 May 2016 16:07:32 +0100
-From: Brendan Le Foll <brendan.le.foll@intel.com>
-To: Fabio Berton <fabio.berton@ossystems.com.br>
-Message-ID: <20160504150732.GB12969@jupiter.localdomain>
-References: <CAAPZna1xLfbyYUKa+qcLfeGCv=mqg7JwWtirfAbqfM+TCu5m7g@mail.gmail.com>
-	<20160504143806.GA12969@jupiter.localdomain>
-	<CAAPZna1M5ibZ8J2vOZ5PmJqAHVwNn=vR8mKrmYmuQ-YdLWopfw@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAAPZna1M5ibZ8J2vOZ5PmJqAHVwNn=vR8mKrmYmuQ-YdLWopfw@mail.gmail.com>
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
-	Swindon SN3 1RJ
-User-Agent: Mutt/1.6.1 (2016-04-27)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: npm class usage
+X-IronPort-AV: E=Sophos;i="5.24,577,1455004800"; d="scan'208";a="958805560"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 04 May 2016 08:26:19 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
+	by linux.intel.com (Postfix) with ESMTP id 003F36A4007
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  4 May 2016 09:13:53 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  4 May 2016 16:06:13 +0300
+Message-Id: <cover.1462365339.git.ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [wic][PATCH 00/14] Python 3 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,111 +31,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 May 2016 15:09:22 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 04 May 2016 15:26:20 -0000
 
-On Wed, May 04, 2016 at 11:53:08AM -0300, Fabio Berton wrote:
->    Hi Brendan,
->    Thanks for reply.
->    I'm trying to use npm class with this layer
->    [1]https://github.com/imyller/meta-nodejs
->    For example, I changed this recipe
->    [2]https://github.com/imyller/meta-nodejs/blob/master/recipes/grunt/gru
->    nt-cli_1.1.0.bb to use npm class provided by oe-core and removed all
->    classes from meta-nodejs.
+Hi,
 
-I'm not sure where that npm class is from but it's not the one from
-openembedded-core? With that npm.bbclass I'm able to build grunt-cli with a
-simple recipe like this:
+This is a first set of changes implementing Python 3 support for wic.
+As bitbake codebase is not ported to Python 3 yet I tried to avoid
+using bitbake APIs as much as possible.
+With this set of changes wic can be run on both Python 2 and Python 3.
 
-SUMMARY = "Grunt.js command line wrapper"
-HOMEPAGE = "http://gruntjs.com/"
-SECTION = "js/devel"
-LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://README.md;md5=a24cc788ab726e615aa5bf0168c5d77d"
-SRC_URI = "npm://registry.npmjs.org;name=${PN};version=${PV}"                                                                                                                  
-inherit npm 
+These commands work and produce rootfs of the same size:
+python3.4 ../scripts/wic create my-kickstart-file.wks -e core-image-minimal -v ./tmp/sysroots/qemux86-64/imgdata/ -o img/
+python2.7 ../scripts/wic create my-kickstart-file.wks -e core-image-minimal -v ./tmp/sysroots/qemux86-64/imgdata/ -o img/
 
-Does that help? Note the license isn't downloaded by npm so I cheekily took the
-README.md for the md5 license check ;-) That probably needs to get fixed, using
-the package.json would likely be nicer...
+Functionality that requires bb/lib such es wic -e <image> doesn't work.
 
-Cheers,
-Brendan
+The following changes since commit 7587285a21cd1e3465640bf9871f3fd65cca4e07:
 
->    I can install grunt-cli If I remove S = ${WORKDIR}/npmpkg and
->    --no-registry option.
->    I put PREFERRED_VERSION_nodejs-native on local.conf to set nodejs
->    version and I tried with all versions available on meta-nodejs and
->    meta-oe version, that has patch to enable --no-registry.
->    I'll try with nodejs version that you're using.
-> 
->    On Wed, May 4, 2016 at 11:38 AM, Brendan Le Foll
->    <[3]brendan.le.foll@intel.com> wrote:
-> 
->      On Tue, May 03, 2016 at 01:24:49PM -0300, Fabio Berton wrote:
->      >    Hi all!
->      >    I'm trying to install some recipes that use npm class and I
->      have two
->      >    questions.
->      >    1 - Why use S = "${WORKDIR}/npmpkg"? This not work for me.
->      That's surprising the fetcher basically extracts it that way so the
->      class just defaults to that location as 'the right thing'. Do you
->      have
->      an example recipe that isn't working that I could take a look at?
->      >    2 - Using option --no-registry inside npm_do_compile task I get
->      this
->      >    error:
->      >    | npm ERR! Registry not defined and registry files not found:
->      >
->      "/home/user/prj/build/tmp/work/all-linux-musleabi/gulp-cli/1.2.1-r0/
->      npm
->      >    _cache/noregistry/wreck/.cache.json",
->      >
->      "/home/user/prj/build/tmp/work/all-linux-musleabi/gulp-cli/1.2.1-r0/
->      npm
->      >    _cache/wreck/.cache.json".
->      >    | npm ERR!
->      >    | npm ERR! If you need help, you may report this error at:
->      >    | npm ERR!     <[1][4]https://github.com/npm/npm/issues>
->      >    | npm ERR! Linux 3.18.0-trunk-amd64
->      >    | npm ERR! argv
->      >    "/home/user/prj/build/tmp/sysroots/x86_64-linux/usr/bin/node"
->      >    "/home/user/prj/build/tmp/sysroots/x86_64-linux/usr/bin/npm"
->      >    "--arch=arm" "--production" "--no-registry" "install"
->      >    | npm ERR! node v4.4.1
->      >    | npm ERR! npm  v2.14.20
->      >    I found this issue [2][5]https://github.com/npm/npm/issues/5509
->      and using
->      >    --cache-min 99999 instead of --no-registry this error doesn't
->      appears
->      >    and build works fine.
->      >    I noticed that nodejs recipe is using this patch
->      >
->      [3][6]https://github.com/bendaaron/meta-oe-dev/commit/3e02a40d689a70
->      025472
->      >    15473a00606d8213ce0c
->      >    but seems not fix for me.
->      So I saw this, and ignored it since --no-registry was working fine
->      for
->      me with that patch and then with 4.2.x. It seems the cache-min
->      option
->      doesn't always work as intented.
->      I fired up a build with 4.4.x from
->      [7]https://github.com/ostroproject/meta-iot-web/blob/master/recipes-
->      devtools/nodejs/nodejs_4.4.1.bb
->      and it seemed to build ok for me with --no-registry.
->      Cheers,
->      Brendan
-> 
-> References
-> 
->    1. https://github.com/imyller/meta-nodejs
->    2. https://github.com/imyller/meta-nodejs/blob/master/recipes/grunt/grunt-cli_1.1.0.bb
->    3. mailto:brendan.le.foll@intel.com
->    4. https://github.com/npm/npm/issues
->    5. https://github.com/npm/npm/issues/5509
->    6. https://github.com/bendaaron/meta-oe-dev/commit/3e02a40d689a70025472
->    7. https://github.com/ostroproject/meta-iot-web/blob/master/recipes-devtools/nodejs/nodejs_4.4.1.bb
+  scripts/lib/bsp/kernel.py: force patching when branch is machine branch is re-use (2016-04-29 12:11:20 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ed/wic/python3-9412
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/wic/python3-9412
+
+Ed Bartosh (14):
+  wic: replace print statements with print function
+  wic: use items instead of iteritems
+  wic: don't use dict.keys and dict.has_key
+  wic: don't inherit classes from object
+  wic: remove with_statement imports
+  wic: use new syntax of 'except' statement
+  wic: remove unused functions
+  wic: refactor pluginbase
+  wic: don't use L suffix for integers
+  wic: use find_executable in favor of bb.utils.which
+  wic: use // operator instead of /
+  wic: decode output of subprocess.communicate
+  wic: don't encode unicode strings
+  wic: use next builtin instead of .next method
+
+ scripts/lib/wic/conf.py                |  2 +-
+ scripts/lib/wic/creator.py             |  4 +-
+ scripts/lib/wic/engine.py              | 20 ++++-----
+ scripts/lib/wic/filemap.py             | 16 +++----
+ scripts/lib/wic/help.py                |  4 +-
+ scripts/lib/wic/imager/baseimager.py   |  5 +--
+ scripts/lib/wic/imager/direct.py       |  2 +-
+ scripts/lib/wic/ksparser.py            | 10 ++---
+ scripts/lib/wic/msger.py               | 78 +---------------------------------
+ scripts/lib/wic/partition.py           |  2 +-
+ scripts/lib/wic/plugin.py              | 10 ++---
+ scripts/lib/wic/pluginbase.py          | 42 ++++++------------
+ scripts/lib/wic/utils/oe/misc.py       | 18 +++-----
+ scripts/lib/wic/utils/partitionedfs.py | 14 +++---
+ scripts/lib/wic/utils/runner.py        |  6 +--
+ scripts/wic                            | 43 ++++++++++---------
+ 16 files changed, 91 insertions(+), 185 deletions(-)
+
+-- 
+2.1.4
+
 
