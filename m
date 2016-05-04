@@ -1,46 +1,46 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-ig0-f175.google.com (mail-ig0-f175.google.com
-	[209.85.213.175])
-	by mail.openembedded.org (Postfix) with ESMTP id D2FE670178
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FA3A70016
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 May 2016 19:11:20 +0000 (UTC)
-Received: by mail-ig0-f175.google.com with SMTP id s8so56953298ign.0
+	Wed,  4 May 2016 19:28:25 +0000 (UTC)
+Received: by mail-wm0-f42.google.com with SMTP id a17so111723122wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 May 2016 12:11:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=7WXqCLZqa1W6kTeo9wFN4PwWqKYRsvYEAQwbUu8II/Y=;
-	b=Ud9j5Z2JZdLvXfb3Vc3bWnOWUum/Lgdq2AamEATwDfxIZn7Ohk6yJ9VM7BvzfaZijO
-	96nN6o9icJztn1qVfgIuZCyvaR7I7ED8j8KjXKs4dLYAPEq5sPjMWBUSAMiODUK4jQr2
-	1pY01Zb3bw8JKa5/ti9WKbwJICo+HAPFOHglDn3rc7UrHeYq7Ytys+U4QEmr7qP+6Fed
-	crH0tOYbzyg+QLVCRhNq/Q44jQSzgglWfYek8Br68pJI0ZBGxsor1A/SxY7ri5wl8VNu
-	twWjWaaJNlkIzkBs4lKe9s/Ew1e+vClTcqoOcRzaudcqIdO5vViILDOJjctBdf6+3245
-	lV+Q==
+	Wed, 04 May 2016 12:28:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=JVwQ0qLm7L3R9X3lnxwB2ddDbc8j53fNjvymNn7U05Y=;
+	b=z3MbcdroHmMoHG1fcjOT+2jggauEKoPQLAErUwd2FXDmLjVyS44rib9DOwJLHCt8j7
+	eYxrktbw3LRoiHe0s0uwgWbov41zcGRanxj/TS+XE7h3AkKovlPgRdDvS80x1t25HT8u
+	8vKaMd8zMyI6iCvt6j5RJczTxHwLh+lQ/zYLsarwikwB6nQ467jAzQvkycXfCle9Pls+
+	RR+qUY4xGpxk+jizL2DeHLcpiSFC46CQiL6Trts5ykG8M/P54eIz8fPJ12R76Ay5inCJ
+	sP5O5tlghEQW1H24RWotgpS6qAm5piCp7iAA8Y9AMMzFqlwMUCuv0hzQ+anKzJEXOIPV
+	p94A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=7WXqCLZqa1W6kTeo9wFN4PwWqKYRsvYEAQwbUu8II/Y=;
-	b=e3I3kkoxMP2i5ydfgStTHz9DgYOHKmDZ+o7E+ct/MQL3EuPAqVMs2DSj86lW7H1BLR
-	usaFKp7GzgCnsMASMVvcscgEAiyJlup7XTSPr8CTuiNij+VHCjQXYUOFolx9QUpSkoJF
-	5w7phoXQY6VMWBLZ6l346FO/b/JXbaVdOEPikQ7nWOAi+SD6GpTzDxTT96kpmobDuoG5
-	OxE5JmUxhmtVqX6stV48CggzQNxyCJXm330ahhbMIWonPDcag3hETqOseyB0uzbfyTx2
-	u4RObfD6HaeQcW+Ojej+BQnQsBm8t6UvRere6mVtjJlr955NEgg/xOIM0LbQ3vLNhZEO
-	HyrQ==
-X-Gm-Message-State: AOPr4FVyhqRjZRE77quWVu4BQT829uZ9fpxyS2V61b6bTAXE+BEtPjNVFqoWHLoCz5JK2rF3BWDdZmGWs+3TJQ==
-X-Received: by 10.50.65.42 with SMTP id u10mr9896165igs.13.1462389080690; Wed,
-	04 May 2016 12:11:20 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.79.134.70 with HTTP; Wed, 4 May 2016 12:11:01 -0700 (PDT)
-In-Reply-To: <CAJTo0LadzExDXkkX9a6r1TTO2aQhTQ+kY82mV_-BLqs6jYnFFA@mail.gmail.com>
-References: <1462219765-18957-1-git-send-email-kergoth@gmail.com>
-	<CAJTo0LadzExDXkkX9a6r1TTO2aQhTQ+kY82mV_-BLqs6jYnFFA@mail.gmail.com>
-From: Christopher Larson <kergoth@gmail.com>
-Date: Wed, 4 May 2016 19:11:01 +0000
-Message-ID: <CABcZANmJe_UvZ6zeuMTwiyx9X+xY9ATD9XVW7ESrskMtjPL4YQ@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [master][PATCH] gcc-cross{, -canadian}: remove --with-linker-hash-style
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=JVwQ0qLm7L3R9X3lnxwB2ddDbc8j53fNjvymNn7U05Y=;
+	b=baxmR69P1bRKFV+9INNMRd9I4VCDXJewGr/gYfzq3cD5k+G6iQFhI2xuu2kFML9NnT
+	IfPtObefuEqD1tpn8vEbtuzCSt4gigRpXqhiwzFKOStQQnnApwPVex2ekuSLZbRrwcj9
+	VdTGrcc9cZr+k90uI1R1OjHzTHEdkGseFqhrt3ki9daAaGbOg3NPhIazLkbPHqXTseZC
+	7kxwkZe3wZLZqAZ1ezu9Ok9RhCw4ZBsy/Q2uWlCdva3vu0iDaHA3BL46XJcS6pvjl/WD
+	lS0kmeRs+eFXqA3IJoQpG2RrcLhMjEhPFpccxVnrSyyWIy4IBslRZ+tjNABQRpyetafA
+	ivHA==
+X-Gm-Message-State: AOPr4FUT2/mlZhA6RBFjmnkhNvyOUbPqoeMc/56w9RdfMBr5o/XE5D6UwswBHt8m205BdrDs
+X-Received: by 10.194.223.41 with SMTP id qr9mr3278595wjc.61.1462390105473;
+	Wed, 04 May 2016 12:28:25 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	ck9sm5860245wjc.22.2016.05.04.12.28.24
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 04 May 2016 12:28:24 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  4 May 2016 20:28:22 +0100
+Message-Id: <1462390102-32254-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.0.rc3
+Subject: [PATCH] image_types: fix image/compression dependency collection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,73 +53,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 May 2016 19:11:21 -0000
-Content-Type: multipart/alternative; boundary=047d7b414330ad99e9053208fd8b
+X-List-Received-Date: Wed, 04 May 2016 19:28:28 -0000
 
---047d7b414330ad99e9053208fd8b
-Content-Type: text/plain; charset=UTF-8
+As compressions can be chained (i.e. cpio.bz2.md5sum) we need to walk the fstype
+list to collect the dependencies from each step.
 
-On Wed, May 4, 2016 at 2:01 PM, Burton, Ross <ross.burton@intel.com> wrote:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/image_types.bbclass | 37 +++++++++++++++++--------------------
+ 1 file changed, 17 insertions(+), 20 deletions(-)
 
->
-> On 2 May 2016 at 21:09, Christopher Larson <kergoth@gmail.com> wrote:
->
->> This will result in a failure to obey LDFLAGS causing a GNU_HASH QA
->> failure,
->> which is what's often seen with external toolchains. This brings us all
->> on the
->> same page, and makes sure a failure to obey LDFLAGS is seen early.
->>
->
-> I love the idea, but:
->
-> ERROR: libgcc-5.3.0-r0 do_package_qa: QA Issue: No GNU_HASH in the elf
-> binary:
-> '/data/poky-master/tmp-glibc/work/corei7-64-poky-linux/libgcc/5.3.0-r0/packages-split/libgcc/lib/libgcc_s.so.1'
-> [ldflags]
->
-> Ross
->
-
-No idea how I missed this, since I did test builds, but I'll submit a patch
-to oe-core shortly. Thanks :)
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 0b9758e..9ca157f 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -11,32 +11,29 @@ IMAGE_ROOTFS_ALIGNMENT ?= "1"
+ 
+ def imagetypes_getdepends(d):
+     def adddep(depstr, deps):
+-        for i in (depstr or "").split():
+-            if i not in deps:
+-                deps.append(i)
++        for d in (depstr or "").split():
++            # Add task dependency if not already present
++            if ":" not in d:
++                d += ":do_populate_sysroot"
++            deps.add(d)
+ 
+-    deps = []
+-    ctypes = d.getVar('COMPRESSIONTYPES', True).split()
+     fstypes = set((d.getVar('IMAGE_FSTYPES', True) or "").split())
+     fstypes |= set((d.getVar('IMAGE_FSTYPES_DEBUGFS', True) or "").split())
+-    for type in fstypes:
+-        if type in ["vmdk", "vdi", "qcow2", "hdddirect", "live", "iso", "hddimg"]:
+-            type = "ext4"
+-        basetype = type
+-        for ctype in ctypes:
+-            if type.endswith("." + ctype):
+-                basetype = type[:-len("." + ctype)]
+-                adddep(d.getVar("COMPRESS_DEPENDS_%s" % ctype, True), deps)
+-                break
++
++    deps = set()
++    for typestring in fstypes:
++        types = typestring.split(".")
++        basetype, resttypes = types[0], types[1:]
++
++        adddep(d.getVar('IMAGE_DEPENDS_%s' % basetype, True) , deps)
+         for typedepends in (d.getVar("IMAGE_TYPEDEP_%s" % basetype, True) or "").split():
+             adddep(d.getVar('IMAGE_DEPENDS_%s' % typedepends, True) , deps)
+-        adddep(d.getVar('IMAGE_DEPENDS_%s' % basetype, True) , deps)
+-
+-    depstr = ""
+-    for dep in deps:
+-        depstr += " " + dep + ":do_populate_sysroot"
+-    return depstr
++        for ctype in resttypes:
++            adddep(d.getVar("COMPRESS_DEPENDS_%s" % ctype, True), deps)
+ 
++    # Sort the set so that ordering is consistant
++    bb.warn(str(deps))
++    return " ".join(sorted(deps))
+ 
+ XZ_COMPRESSION_LEVEL ?= "-e -6"
+ XZ_INTEGRITY_CHECK ?= "crc32"
 -- 
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+2.8.0.rc3
 
---047d7b414330ad99e9053208fd8b
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Wed, May 4, 2016 at 2:01 PM, Burton, Ross <span dir=3D"ltr">&lt;<a h=
-ref=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.co=
-m</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">=
-<div class=3D"gmail_extra"><span class=3D""><br><div class=3D"gmail_quote">=
-On 2 May 2016 at 21:09, Christopher Larson <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:kergoth@gmail.com" target=3D"_blank">kergoth@gmail.com</a>&gt;</spa=
-n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-=
-style:solid;padding-left:1ex"><div>This will result in a failure to obey LD=
-FLAGS causing a GNU_HASH QA failure,<br>
-which is what&#39;s often seen with external toolchains. This brings us all=
- on the<br>
-same page, and makes sure a failure to obey LDFLAGS is seen early.</div></b=
-lockquote></div><br></span>I love the idea, but:</div><div class=3D"gmail_e=
-xtra"><br>ERROR: libgcc-5.3.0-r0 do_package_qa: QA Issue: No GNU_HASH in th=
-e elf binary: &#39;/data/poky-master/tmp-glibc/work/corei7-64-poky-linux/li=
-bgcc/5.3.0-r0/packages-split/libgcc/lib/libgcc_s.so.1&#39; [ldflags]</div><=
-span class=3D"HOEnZb"><font color=3D"#888888"><div class=3D"gmail_extra"><b=
-r></div><div class=3D"gmail_extra">Ross</div></font></span></div>
-</blockquote></div><br>No idea how I missed this, since I did test builds, =
-but I&#39;ll submit a patch to oe-core shortly. Thanks :)<br>-- <br><div cl=
-ass=3D"gmail_signature"><div dir=3D"ltr">Christopher Larson<br>kergoth at g=
-mail dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer -=
- Tslib<br>Senior Software Engineer, Mentor Graphics</div></div>
-</div></div>
-
---047d7b414330ad99e9053208fd8b--
