@@ -1,29 +1,27 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id D3FE06FFD7
+Return-Path: <maxin.john@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id D72F56FEF5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 May 2016 05:30:53 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 03 May 2016 22:30:42 -0700
+	Wed,  4 May 2016 08:20:19 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP; 04 May 2016 01:20:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,575,1455004800"; d="scan'208";a="958429963"
-Received: from pchoo-mobl5.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.143.131])
-	by fmsmga001.fm.intel.com with ESMTP; 03 May 2016 22:30:39 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Maxin B. John" <maxin.john@intel.com>
-Date: Wed, 04 May 2016 17:30:33 +1200
-Message-ID: <1787825.IkZ0s2asgU@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.4.8-300.fc23.x86_64; KDE/4.14.18; x86_64; ;
-	)
-In-Reply-To: <20160503164557.GA28091@mbabyjoh-desk.ger.corp.intel.com>
-References: <1462286989-22848-1-git-send-email-maxin.john@intel.com>
-	<20160503164101.GA20238@jama>
-	<20160503164557.GA28091@mbabyjoh-desk.ger.corp.intel.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 06/10] mc: upgrade to 4.8.16
+X-IronPort-AV: E=Sophos;i="5.24,576,1455004800"; d="scan'208";a="945864476"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 04 May 2016 01:20:20 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 2677F6A4007
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  4 May 2016 02:07:53 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  4 May 2016 11:20:14 +0300
+Message-Id: <1462350024-29932-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH 00/10] package version upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,31 +34,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 May 2016 05:30:57 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 04 May 2016 08:20:20 -0000
 
-On Tue, 03 May 2016 19:45:57 Maxin B. John wrote:
-> On Tue, May 03, 2016 at 06:41:01PM +0200, Martin Jansa wrote:
-> > On Tue, May 03, 2016 at 05:49:45PM +0300, Maxin B. John wrote:
-> > > 4.8.15 -> 4.8.16
-> > 
-> > Can you please use -M when sending the patches, it's much easier to
-> > review.
-> 
-> Thanks. Noticed it after sending the patch. Sorry for the inconvenience.
 
-FYI if you use the create/-pull-request/send-pull-request scripts this is 
-taken care of. I believe you can also set this in your git configuration as 
-well:
+Resending the package upgrades with -M1
 
-git config --global diff.renames true
+Maxin B. John (10):
+  acpid: upgrade to 2.0.27
+  ethtool: upgrade to 4.5
+  pkgconfig: update to version 0.29.1
+  libtasn1: upgrade to 4.8
+  bluez5: upgrade to 5.39
+  mc: upgrade to 4.8.16
+  orc: upgrade to 0.4.25
+  harfbuzz: upgrade to 1.2.6
+  sqlite3: upgrade to 3.12.2
+  iproute2: upgrade to version 4.5.0
 
-Cheers,
-Paul
+ .../acpid/acpid/0001-Fix-out-of-source-build.patch | 46 ----------
+ meta/recipes-bsp/acpid/acpid_2.0.26.bb             |  9 --
+ meta/recipes-bsp/acpid/acpid_2.0.27.bb             |  7 ++
+ .../bluez5/{bluez5_5.37.bb => bluez5_5.39.bb}      |  4 +-
+ .../iproute2/iproute2/iproute2-4.3.0-musl.patch    | 97 +++++++++-------------
+ .../iproute2/iproute2-fix-building-with-musl.patch | 24 ------
+ .../{iproute2_4.4.0.bb => iproute2_4.5.0.bb}       |  5 +-
+ .../orc/{orc_0.4.24.bb => orc_0.4.25.bb}           |  4 +-
+ meta/recipes-devtools/pkgconfig/pkgconfig_git.bb   |  4 +-
+ .../ethtool/{ethtool_4.2.bb => ethtool_4.5.bb}     |  4 +-
+ .../mc/{mc_4.8.15.bb => mc_4.8.16.bb}              |  4 +-
+ .../{harfbuzz_1.2.3.bb => harfbuzz_1.2.6.bb}       |  4 +-
+ .../gnutls/{libtasn1_4.7.bb => libtasn1_4.8.bb}    |  4 +-
+ .../sqlite/sqlite3/fix-disable-static-shell.patch  | 61 --------------
+ meta/recipes-support/sqlite/sqlite3_3.11.0.bb      | 11 ---
+ meta/recipes-support/sqlite/sqlite3_3.12.2.bb      |  9 ++
+ 16 files changed, 69 insertions(+), 228 deletions(-)
+ delete mode 100644 meta/recipes-bsp/acpid/acpid/0001-Fix-out-of-source-build.patch
+ delete mode 100644 meta/recipes-bsp/acpid/acpid_2.0.26.bb
+ create mode 100644 meta/recipes-bsp/acpid/acpid_2.0.27.bb
+ rename meta/recipes-connectivity/bluez5/{bluez5_5.37.bb => bluez5_5.39.bb} (89%)
+ delete mode 100644 meta/recipes-connectivity/iproute2/iproute2/iproute2-fix-building-with-musl.patch
+ rename meta/recipes-connectivity/iproute2/{iproute2_4.4.0.bb => iproute2_4.5.0.bb} (63%)
+ rename meta/recipes-devtools/orc/{orc_0.4.24.bb => orc_0.4.25.bb} (84%)
+ rename meta/recipes-extended/ethtool/{ethtool_4.2.bb => ethtool_4.5.bb} (88%)
+ rename meta/recipes-extended/mc/{mc_4.8.15.bb => mc_4.8.16.bb} (93%)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz_1.2.3.bb => harfbuzz_1.2.6.bb} (88%)
+ rename meta/recipes-support/gnutls/{libtasn1_4.7.bb => libtasn1_4.8.bb} (81%)
+ delete mode 100644 meta/recipes-support/sqlite/sqlite3/fix-disable-static-shell.patch
+ delete mode 100644 meta/recipes-support/sqlite/sqlite3_3.11.0.bb
+ create mode 100644 meta/recipes-support/sqlite/sqlite3_3.12.2.bb
 
 -- 
+2.4.0
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
