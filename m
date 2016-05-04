@@ -1,47 +1,44 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 8AEAE60232
+Return-Path: <kergoth@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id B756C6FFD4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 May 2016 21:10:47 +0000 (UTC)
-Received: by mail-io0-f174.google.com with SMTP id d62so67165755iof.2
+	Wed,  4 May 2016 21:52:58 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id r12so13294992wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 May 2016 14:10:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=A9J8fkl6aHkm/0at45RWuaLTOtdRhEj/raWT1UekHJc=;
-	b=EuxYD0faHcC1xMvdac5KynR9UpyhiLEbt0P5Aw1i9KF6lLJ7T+Br6emVs721GrkhZf
-	Wkjq7VuymV3xYs0ERnnd5QF8RAnPpy6K93UpZX8z7nYJiwzuhjc/Gbzpc40bbuEjfspc
-	fC4gze6qjplu9B+5j/+YHBECAuDiaHj2Twr7VjAMyBaeUDv9qRVVulMiSVWDN6owt5bZ
-	WofUSiR9fhEw6RErdX0xLmxT4CAOHkIScmkr4HorUj+NNAErNTnSFjK+H8fqfv8o3OI5
-	BxsOV/ik4vOyM4LaaC59sYkrX5vORORdh9DV7iz1mn2XHFz0P3EYFUGrrQc3YPNKBdnd
-	75xA==
+	Wed, 04 May 2016 14:52:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=COgAeQbyJA7gJH+OY7uOoG+M4bURE7q+98+MRkIFDv0=;
+	b=eNVLyRxiJdX12m3GXwBWQw/Tgb1AtekATfIbWu2U1QEpHuOfsSDfvf2e360JetKUnh
+	jXMjGpd1ZeyUY1ermORDsZ4gU8ooCy7KIPlUIRhABshQHuPyAulNFWKQYqCRatFliGTn
+	cqad5G0l8MT6tel8zOiRERt5eN391J/t5tGjb6W8lEwq6iz9d369USWJ/rOnwsREpOLm
+	ecTcDIpsRF5MO01EOXLsLT0SBSLsh+Uv5uSxgciJ7yTihhb/srrytHHhSJor5GjSYgMa
+	InERX9sXnp90EaVwn5dC0WizgwaSrQ7clZXw4wyO0XdRh61HBzEBEjWgMdi5EYC0P1K0
+	SXKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=A9J8fkl6aHkm/0at45RWuaLTOtdRhEj/raWT1UekHJc=;
-	b=h7+GtWsfWaI3cOm7zwTm21j4pYH7yLWcbFrLwn3MLVEVdkRXk0av8Sm8W4g6JjJ9Vj
-	0JosxntQWg66kxReEctcmpv66pkZZJ4Ab5c4Ny5PabFTGkLQ61cKkc/WIHcr2b4jvLyW
-	Ow7tN2v2GKJbIH38ZbxM8Z/72FIt8E4Qyi9fuF7TTnGsU5pkfKtWMGz2+HOpJDMG0TMQ
-	p1EAwf9OjO3FyvXKiZOWw06ITPB7WexupHXNDIS4UJZlj9ZKWyuuao1j5amRmzRCPGeC
-	AAi+iWFy8kKdveRyOFpl3RedVlUMBNv01L24uMmaqdxSXRJt3j49RWBhgg/5kYavoTwz
-	nR5Q==
-X-Gm-Message-State: AOPr4FVelFCelrTSHGs2TBolhOFCbCLjswHMKSLUmxNs4eNmL7dvhATMovqmDhzFib+DdYLWflh4pCygKUEHwzNl
-X-Received: by 10.107.179.136 with SMTP id c130mr12644614iof.99.1462396248292; 
-	Wed, 04 May 2016 14:10:48 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.34.142 with HTTP; Wed, 4 May 2016 14:10:28 -0700 (PDT)
-In-Reply-To: <f9b227a491fa86e74f5f84df68fd7181b1f9bd37.1462188303.git.mariano.lopez@linux.intel.com>
-References: <cover.1462188303.git.mariano.lopez@linux.intel.com>
-	<f9b227a491fa86e74f5f84df68fd7181b1f9bd37.1462188303.git.mariano.lopez@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 4 May 2016 22:10:28 +0100
-Message-ID: <CAJTo0Lb97awuHSD0BeNb+j7_LR3xYTeLXN4td+qQ-0kREor84A@mail.gmail.com>
-To: Mariano Lopez <mariano.lopez@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] sshcontrol.py: Add methods to copy dirs and delete files
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=COgAeQbyJA7gJH+OY7uOoG+M4bURE7q+98+MRkIFDv0=;
+	b=BU/Y7JqrxDD834AqCpoLL3jppgFfn1ItDXBoW/bFnuv5kzI2r12k53tbML0xDpBM+b
+	FMvwmGXmSGOBTSHPAfWdmzwGA9bYG2UFO5EVx7t0LIemQjTYRm36maqTDq1x9OeqSAaw
+	z14zv7UIT4ZffOSxiu7vMd8GGJbhmPVBnQIHCY+49GSeg/OIC1+J/MVjZUZgqJW0/GmB
+	kcUsFnp5qfFwrvIPkHjvuaykmLCJBokdru2NvJCZuJofZF2VmzrNN/Hyw1K4a6ZhMo+P
+	vJm0bFuIy4rIVmBkOhVuuswxH3MwgmE3kHzaXViSQ4OVAGGC7l/QN8IQqeuS3M010IVf
+	Yn8A==
+X-Gm-Message-State: AOPr4FWiKpZ16R5u7bbtNqWEIT/qOrmbtxpADWr/A6fNQUNSeLUQ52nuDn10CMYQZ9gyPQ==
+X-Received: by 10.194.230.97 with SMTP id sx1mr12136979wjc.0.1462398778463;
+	Wed, 04 May 2016 14:52:58 -0700 (PDT)
+Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by smtp.gmail.com with ESMTPSA id gk4sm6364887wjd.7.2016.05.04.14.52.55
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 04 May 2016 14:52:56 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  4 May 2016 14:52:49 -0700
+Message-Id: <1462398769-28796-1-git-send-email-kergoth@gmail.com>
+X-Mailer: git-send-email 2.8.0
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH] gcc: obey ldflags in the link of libgcc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,59 +51,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 May 2016 21:10:48 -0000
-Content-Type: multipart/alternative; boundary=001a1148578ce6901805320aa88f
+X-List-Received-Date: Wed, 04 May 2016 21:53:02 -0000
 
---001a1148578ce6901805320aa88f
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+From: Christopher Larson <chris_larson@mentor.com>
 
-On 2 May 2016 at 12:27, <mariano.lopez@linux.intel.com> wrote:
+Explicitly obey it, the way it should, rather than only relying on
+--with-linker-hash-style.
 
-> +            tree:   .
-> +                    =E2=94=94=E2=94=80=E2=94=80 work
-> +                        =E2=94=9C=E2=94=80=E2=94=80 dir1
-> +                        =E2=94=82   =E2=94=94=E2=94=80=E2=94=80 file1
-> +                        =E2=94=94=E2=94=80=E2=94=80 dir2
->
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+---
+ meta/recipes-devtools/gcc/gcc-4.9.inc                    |  1 +
+ .../gcc/gcc-4.9/0075-libgcc-use-ldflags.patch            | 16 ++++++++++++++++
+ meta/recipes-devtools/gcc/gcc-5.3.inc                    |  1 +
+ .../gcc/gcc-5.3/0059-libgcc-use-ldflags.patch            | 16 ++++++++++++++++
+ 4 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0075-libgcc-use-ldflags.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-5.3/0059-libgcc-use-ldflags.patch
 
-This is very pretty, but:
+diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
+index c187918..bb50205 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.9.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
+@@ -90,6 +90,7 @@ SRC_URI = "\
+     file://0072-support-ffile-prefix-map.patch \
+     file://0073-Reuse-fdebug-prefix-map-to-replace-ffile-prefix-map.patch \
+     file://0074-fdebug-prefix-map-support-to-remap-relative-path.patch \
++    file://0075-libgcc-use-ldflags.patch \
+ "
+ SRC_URI[md5sum] = "6f831b4d251872736e8e9cc09746f327"
+ SRC_URI[sha256sum] = "2332b2a5a321b57508b9031354a8503af6fdfb868b8c1748d33028d100a8b67e"
+diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0075-libgcc-use-ldflags.patch b/meta/recipes-devtools/gcc/gcc-4.9/0075-libgcc-use-ldflags.patch
+new file mode 100644
+index 0000000..325b72a
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-4.9/0075-libgcc-use-ldflags.patch
+@@ -0,0 +1,16 @@
++Link libgcc using LDFLAGS, not just SHLIB_LDFLAGS
++
++Signed-off-by: Christopher Larson <chris_larson@mentor.com>
++Upstream-Status: Pending
++
++--- gcc-5.3.0.orig/libgcc/config/t-slibgcc
+++++ gcc-5.3.0/libgcc/config/t-slibgcc
++@@ -32,7 +32,7 @@ SHLIB_INSTALL_SOLINK = $(LN_S) $(SHLIB_S
++ 	$(DESTDIR)$(slibdir)$(SHLIB_SLIBDIR_QUAL)/$(SHLIB_SOLINK)
++ 
++ SHLIB_LINK = $(CC) $(LIBGCC2_CFLAGS) -shared -nodefaultlibs \
++-	$(SHLIB_LDFLAGS) \
+++	$(LDFLAGS) $(SHLIB_LDFLAGS) \
++ 	-o $(SHLIB_DIR)/$(SHLIB_SONAME).tmp @multilib_flags@ \
++ 	$(SHLIB_OBJS) $(SHLIB_LC) && \
++ 	rm -f $(SHLIB_DIR)/$(SHLIB_SOLINK) && \
+diff --git a/meta/recipes-devtools/gcc/gcc-5.3.inc b/meta/recipes-devtools/gcc/gcc-5.3.inc
+index f2eda18..ad56145 100644
+--- a/meta/recipes-devtools/gcc/gcc-5.3.inc
++++ b/meta/recipes-devtools/gcc/gcc-5.3.inc
+@@ -88,6 +88,7 @@ SRC_URI = "\
+            file://0056-Enable-libc-provide-ssp-and-gcc_cv_target_dl_iterate.patch \
+            file://0057-unwind-fix-for-musl.patch \
+            file://0058-fdebug-prefix-map-support-to-remap-relative-path.patch \
++           file://0059-libgcc-use-ldflags.patch \
+ "
+ 
+ BACKPORTS = ""
+diff --git a/meta/recipes-devtools/gcc/gcc-5.3/0059-libgcc-use-ldflags.patch b/meta/recipes-devtools/gcc/gcc-5.3/0059-libgcc-use-ldflags.patch
+new file mode 100644
+index 0000000..325b72a
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-5.3/0059-libgcc-use-ldflags.patch
+@@ -0,0 +1,16 @@
++Link libgcc using LDFLAGS, not just SHLIB_LDFLAGS
++
++Signed-off-by: Christopher Larson <chris_larson@mentor.com>
++Upstream-Status: Pending
++
++--- gcc-5.3.0.orig/libgcc/config/t-slibgcc
+++++ gcc-5.3.0/libgcc/config/t-slibgcc
++@@ -32,7 +32,7 @@ SHLIB_INSTALL_SOLINK = $(LN_S) $(SHLIB_S
++ 	$(DESTDIR)$(slibdir)$(SHLIB_SLIBDIR_QUAL)/$(SHLIB_SOLINK)
++ 
++ SHLIB_LINK = $(CC) $(LIBGCC2_CFLAGS) -shared -nodefaultlibs \
++-	$(SHLIB_LDFLAGS) \
+++	$(LDFLAGS) $(SHLIB_LDFLAGS) \
++ 	-o $(SHLIB_DIR)/$(SHLIB_SONAME).tmp @multilib_flags@ \
++ 	$(SHLIB_OBJS) $(SHLIB_LC) && \
++ 	rm -f $(SHLIB_DIR)/$(SHLIB_SOLINK) && \
+-- 
+2.8.0
 
-SyntaxError: Non-ASCII character '\xe2' in file
-/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/me=
-ta/lib/oeqa/utils/sshcontrol.py
-on line 212, but no encoding declared; see
-http://python.org/dev/peps/pep-0263/ for details
 
-Add encoding tags or ASCIIfy the comments, please.
-
-Ross
-
---001a1148578ce6901805320aa88f
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 2 May 2016 at 12:27,  <span dir=3D"ltr">&lt;<a href=3D"mailto:mariano.lo=
-pez@linux.intel.com" target=3D"_blank">mariano.lopez@linux.intel.com</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border=
--left-style:solid;padding-left:1ex"><div id=3D":1ij" class=3D"">+=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tree:=C2=A0 =C2=A0.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =E2=
-=94=94=E2=94=80=E2=94=80 work<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =E2=94=9C=E2=94=80=E2=94=80 dir1<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =E2=94=82=C2=A0=C2=A0 =E2=94=94=E2=94=80=E2=94=80 file1<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =E2=94=94=E2=94=80=E2=94=80 dir2</div></blockquote></div><br>Thi=
-s is very pretty, but:</div><br>SyntaxError: Non-ASCII character &#39;\xe2&=
-#39; in file /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-self=
-test/build/meta/lib/oeqa/utils/sshcontrol.py on line 212, but no encoding d=
-eclared; see <a href=3D"http://python.org/dev/peps/pep-0263/">http://python=
-.org/dev/peps/pep-0263/</a> for details<div><br></div><div>Add encoding tag=
-s or ASCIIfy the comments, please.</div><div><br></div><div>Ross</div></div=
->
-
---001a1148578ce6901805320aa88f--
