@@ -1,62 +1,55 @@
-Return-Path: <bartlomiej.kucharczyk@nokia.com>
-X-Greylist: delayed 10796 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 05 May 2016 22:20:27 UTC
-Received: from emea01-am1-obe.outbound.protection.outlook.com
-	(mail-am1on0142.outbound.protection.outlook.com [157.56.112.142])
-	by mail.openembedded.org (Postfix) with ESMTP id 78FD9731E0
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f179.google.com (mail-pf0-f179.google.com
+	[209.85.192.179])
+	by mail.openembedded.org (Postfix) with ESMTP id F179B606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 May 2016 22:20:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nokia.onmicrosoft.com; 
-	s=selector1-nokia-com;
-	h=From:To:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=1qnTg2H5WuEAy1oB5g0ZZ9apH8I7kCGk0eFedq+gXJc=;
-	b=OJY7FFSEGnAVzhqxVs6GhN1T+IcXVx3Zn1cmD60PHBsw54BSbhs56N6LMFjf9VZTlPjAPCH9HxyBRn31t4WPRXmg9hQ6urTpRxIgVMywe7Ll5GWgjaFpqct4PnCgejzx7tjLId28MLp9MnFRW8D5DgQUD4QXRLVSn4ps6v8DXGo=
-Received: from DBXPR07MB239.eurprd07.prod.outlook.com (10.141.11.18) by
-	DBXPR07MB239.eurprd07.prod.outlook.com (10.141.11.18) with Microsoft
-	SMTP Server (TLS) id 15.1.466.12; Thu, 5 May 2016 18:48:34 +0000
-Received: from DBXPR07MB239.eurprd07.prod.outlook.com ([10.141.11.18]) by
-	DBXPR07MB239.eurprd07.prod.outlook.com ([10.141.11.18]) with mapi id
-	15.01.0466.029; Thu, 5 May 2016 18:48:34 +0000
-From: "Kucharczyk, Bartlomiej (Nokia - PL/Wroclaw)"
-	<bartlomiej.kucharczyk@nokia.com>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Thread-Topic: How to force BitBake to track dependency to METADATA_REVISION?
-Thread-Index: AdGm/HmzYSUtO8YdRD+Yb3Ba5Zji7A==
-Date: Thu, 5 May 2016 18:48:34 +0000
-Message-ID: <DBXPR07MB23993DC9B9946851B629E21F97C0@DBXPR07MB239.eurprd07.prod.outlook.com>
-Accept-Language: pl-PL, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: lists.openembedded.org; dkim=none (message not signed)
-	header.d=none; lists.openembedded.org;
-	dmarc=none action=none header.from=nokia.com;
-x-originating-ip: [131.228.2.18]
-x-ms-office365-filtering-correlation-id: a69bf1b9-9598-4651-79d4-08d37515dcbc
-x-microsoft-exchange-diagnostics: 1; DBXPR07MB239;
-	5:5Ozrlpum9ch5XNk2YBHKLs1NxrgEGWWYXvCOey5BWGL7XDaefqnOVe1K3UwEYK39bvXBQCSIvnrH048rrUo8YDXJGBFSWy/ZQ/om5kzRtcFzv0wwgAWh9KVfLX9WpZYiIEVRpk+dJXgQyx1rySyMHVOaHzQZz68wQbQd6eon7FccD+0VVvR+5DuCxZ5WXSX5;
-	24:vdz4Y/bCrHpOnl6ziLwCUNH29VIEkBpvLCqTyin7nPjuU5kxIveEtSiWvIk7UfUIzIxd8wgNKKBUGyUMTKkCpVXKjE24oW3ql7cEVsFI1k4=;
-	7:CmgLIFJvRsNTYy8BFZTGDJGHPL1HeTrHBGi590N6KHsl4XrBNwLjO6O0aE8Ehj66hXJYI061fOG3M/5RupFp926sCbZ534AfxYodU/kBCyqSA8eJ2H4Rb1r9N4tETdV/XilDOJjJ1Fq7+atyEWABYyXNWKXM8x9bybeQdPuWT8Ly1hvH5scPZO24w5OQXycpTISf5shda5rQLq07F1/rc8+XLCbZd4gmnwCQMPPsT9k=
-x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:DBXPR07MB239;
-x-microsoft-antispam-prvs: <DBXPR07MB2396BEB6D8CFFBE04241390F97C0@DBXPR07MB239.eurprd07.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:;
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(9101521098)(601004)(2401047)(8121501046)(5005006)(10201501046)(3002001);
-	SRVR:DBXPR07MB239; BCL:0; PCL:0; RULEID:; SRVR:DBXPR07MB239; 
-x-forefront-prvs: 0933E9FD8D
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(6009001)(1220700001)(3280700002)(5002640100001)(6116002)(2906002)(189998001)(3846002)(92566002)(11100500001)(3660700001)(229853001)(74316001)(86362001)(5004730100002)(102836003)(450100001)(33656002)(586003)(81166005)(5008740100001)(122556002)(54356999)(66066001)(50986999)(110136002)(107886002)(77096005)(87936001)(5003600100002)(19580395003)(10400500002)(76576001)(9686002)(8936002)(2900100001);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:DBXPR07MB239;
-	H:DBXPR07MB239.eurprd07.prod.outlook.com; FPR:; SPF:None;
-	MLV:sfv; LANG:en; 
-spamdiagnosticoutput: 1:23
-spamdiagnosticmetadata: NSPM
-MIME-Version: 1.0
-X-OriginatorOrg: nokia.com
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 May 2016 18:48:34.5599 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 5d471751-9675-428d-917b-70f44f9630b0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBXPR07MB239
-Subject: How to force BitBake to track dependency to METADATA_REVISION?
+	Thu,  5 May 2016 22:30:26 +0000 (UTC)
+Received: by mail-pf0-f179.google.com with SMTP id 77so42083170pfv.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 May 2016 15:30:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=JthNh+14OG80JITdlg0ytObHbdYWnIiMhTgCJAbCQDM=;
+	b=rnzcEZ9lRAqCPM1UmipH85yZ6hn8f1+w+CR5gOWrQtYQMi3Q9vjsw1RjO2jlVmJT/O
+	lbkd9iM2sHgbebhvocopbQArrhODQkJmdU76makxeAYExNbi7kHBbBlVUo2HK3oWCkNR
+	I0ptFS984fyeawgX29a7BBggwczTKYNlvpqJh3SnYv0ZT+746BsTILan4Kti5oC2tQwx
+	T1DXgxVA/tMRKjwIFctau9G79JhpG0JPh8qG4oYqT0K3YgJ5l99c8IRiFv9cF8OrX7Zl
+	0BuP+eG2bL2luRhGifCy9w9OTtEPXksqu6eYt97R84NtLC61C2y69719VwBVXobb0ZTU
+	6hnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=JthNh+14OG80JITdlg0ytObHbdYWnIiMhTgCJAbCQDM=;
+	b=bUHdK+D9PxmEyxSrqE4MVxoPIz7Obb8GRbhkFLjL03TJHThHI21xHBEbfgjnOEsKfl
+	P7OHjOK2JV9UT9OlACgB426cqf+KBmN0/gXorTAIYkwkkvZoJT0pRkF7oF+ujQhydtGD
+	3w61DZwmagwSGKACVNYVt/0COecS7AP1KAhSn/nEFgfG3Mow5lY+COmZfZPeKmgnMdDS
+	45dy7BqP1UafF0BaaPfWFulYUkEZBRPLbMaw1Z5wNa7d8AlEkVMvWryGY1K+8rEc9Bud
+	4jgdoEJgV0nCnpJUcul1ZOexhzWg0Q//Zqd433oRrLn9r66OHMx6UUbtFUxettzUzHci
+	eosg==
+X-Gm-Message-State: AOPr4FXjKfI2y2Q80kIk2NhTprLsSqNBhTTzh1YbTEYIIwLV9e4KaH2awpsUakPnQAc6hw==
+X-Received: by 10.98.18.195 with SMTP id 64mr24255367pfs.152.1462487427574;
+	Thu, 05 May 2016 15:30:27 -0700 (PDT)
+Received: from ?IPv6:2601:646:8800:5a9a:e855:e0cf:9b6c:1f91?
+	([2601:646:8800:5a9a:e855:e0cf:9b6c:1f91])
+	by smtp.gmail.com with ESMTPSA id
+	ba9sm16023928pab.24.2016.05.05.15.30.25
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 05 May 2016 15:30:26 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Pgp-Agent: GPGMail 2.6b2
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <46bd326e540e30daf021a489c4a1c30568712f39.1462476586.git.chris_larson@mentor.com>
+Date: Thu, 5 May 2016 15:30:20 -0700
+Message-Id: <769BD719-C37F-4A96-88B6-BB6EB87640D0@gmail.com>
+References: <e944ff3a1104badb75b034a6ec399805d1796c38.1462476586.git.chris_larson@mentor.com>
+	<cover.1462476586.git.chris_larson@mentor.com>
+	<46bd326e540e30daf021a489c4a1c30568712f39.1462476586.git.chris_larson@mentor.com>
+To: Christopher Larson <kergoth@gmail.com>
+X-Mailer: Apple Mail (2.3124)
+Cc: Christopher Larson <chris_larson@mentor.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [master][PATCH 3/3] pong-clock: obey CFLAGS, LDFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,33 +62,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 May 2016 22:20:29 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 05 May 2016 22:30:29 -0000
+X-Groupsio-MsgNum: 81647
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_622294CB-28EF-4627-ACAC-1EF66591C7A9";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
+
+--Apple-Mail=_622294CB-28EF-4627-ACAC-1EF66591C7A9
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-Hello!
 
-I am trying to use METADATA_REVISION variable (defined in metadata_scm.bbcl=
-ass) in my recipe, but BitBake does not rebuild the task when git revision =
-of the repository changes.
-Setting [vardeps] does not help.
+> On May 5, 2016, at 12:30 PM, Christopher Larson <kergoth@gmail.com> =
+wrote:
+>=20
+> From: Christopher Larson <chris_larson@mentor.com>
+>=20
+> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+> ---
+> meta/recipes-graphics/pong-clock/pong-clock_1.0.bb | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-graphics/pong-clock/pong-clock_1.0.bb =
+b/meta/recipes-graphics/pong-clock/pong-clock_1.0.bb
+> index 0e1a792..6c3bcd8 100644
+> --- a/meta/recipes-graphics/pong-clock/pong-clock_1.0.bb
+> +++ b/meta/recipes-graphics/pong-clock/pong-clock_1.0.bb
+> @@ -13,7 +13,7 @@ LIC_FILES_CHKSUM =3D =
+"file://pong-clock-no-flicker.c;beginline=3D1;endline=3D23;md5=3Ddd
+> S =3D "${WORKDIR}"
+>=20
+> do_compile () {
+> -	${CC} -o pong-clock pong-clock-no-flicker.c `pkg-config --cflags =
+--libs x11 xau xdmcp`
+> +	${CC} ${CFLAGS} ${LDFLAGS} -o pong-clock pong-clock-no-flicker.c =
+`pkg-config --cflags --libs x11 xau xdmcl`
 
-I suspect this may be related to the fact that METADATA_REVISION is defined=
- this way:
-	METADATA_REVISION ?=3D "${@base_detect_revision(d)}"
-And BitBake does not expand this to the proper value, thus does not see any=
- difference.
+This could be improved if compile and link steps are done separately and =
+you see the effect what I was making a point
+from user point of view the toolchain is integrated.
 
-Does anyone have any suggestion how to tackle this issue, and force BitBake=
- to properly track dependency to METADATA_REVISION value?
+$CC hello.c
 
-My original task is:
-Package feeds/SDK installers are versioned (git metadata revision). I am tr=
-ying to create an opkg.conf file which will contain such versioned package =
-feeds URL in SDK installer. For build reproducibility, and user convenience=
-.
+should produce a a.out which can be executed.
 
-Thanks in advance!
-Bartek
+> }
+>=20
+> do_install () {
+> --
+> 2.8.0
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+
+--Apple-Mail=_622294CB-28EF-4627-ACAC-1EF66591C7A9
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlcryYEACgkQuwUzVZGdMxSSSwCdHfyAEFy1N7/Lm43F+W/XSRl5
+VDAAn1PlBu3ZERd4fISCp3Bes9EvxKV2
+=/9IA
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_622294CB-28EF-4627-ACAC-1EF66591C7A9--
