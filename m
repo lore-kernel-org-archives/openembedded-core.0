@@ -1,49 +1,52 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-ig0-f195.google.com (mail-ig0-f195.google.com
-	[209.85.213.195])
-	by mail.openembedded.org (Postfix) with ESMTP id D6BA16010B
+Received: from mail-io0-f195.google.com (mail-io0-f195.google.com
+	[209.85.223.195])
+	by mail.openembedded.org (Postfix) with ESMTP id C83BB731E5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 May 2016 19:31:01 +0000 (UTC)
-Received: by mail-ig0-f195.google.com with SMTP id rc4so3004246igc.0
+	Thu,  5 May 2016 19:31:03 +0000 (UTC)
+Received: by mail-io0-f195.google.com with SMTP id x35so10529302ioi.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 May 2016 12:31:02 -0700 (PDT)
+	Thu, 05 May 2016 12:31:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=wNkMWKNvbFocluRFEPy32vzuQTPMeUT/a4fqewWZP5E=;
-	b=PWf7A0dHyVr5iP/XJTEfOX1I3cFXSwcpZRsFNsXXFOlTSeSXqpKg1jMYHa8guRZljm
-	CeAYQV+8BrMNvYzqupn7gpPgGLEIZWh6srR/vtf3NQb1jADLrzOfUngG/MGCM3FKo36l
-	zCruY629ABTZGEOJAewqzOB0OZUMpaJAMOonEHG3ao/KzTPA4RbcpLrutpzLtRYn4bHC
-	7kBNbWmIWgu15TbJyf28Md0ZmldfTiXNW15zVd+ffdj1iCJso//5jqHDsh8VJuz4287G
-	fjTDOGJfGPkBjSFU+wa/eefYJ4b0fh00+huqMdZrL78s7AESVyedMcCvR7YSy2CQUotF
-	GyVQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:in-reply-to:references;
+	bh=Q9q8T1exLN9CmBQAfrkdez584uR8VvwU7q4/tw6yCq8=;
+	b=OPGKpBdrxavy3Y9EjnmzVuyvTPOpgGIghpHda8ALRptlU7D3E0TzzF+voX07qO6HAG
+	g1lDKDcDu7xF9QSgaZfTgeYHKyGyTncCDQa++GwwulNo4xDNHu/H5OrUQytbkWojhLBH
+	2aD002IL7BTrtP/AmjzbuTEE5kGSVp4BuD+G11ANK9MazUur8q6BRd2Ecq76MZVMcXdU
+	uFlk1ehRgdyNxcFas4CrPOwo3QZXmuUHOdhwJkQVi/lGOgkjWz9rQekcrtsozW/QrRV7
+	aqC8SgJJGGwVTd6nhSggNz2Zwy7UJrd+WsIoHq3Q5v2QXvzW0+DanXpHw0aRrF0gX51T
+	yuuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=wNkMWKNvbFocluRFEPy32vzuQTPMeUT/a4fqewWZP5E=;
-	b=U0yUg7Zj5jnYD0fMJBL3q1tqDPbcefi9IOfcJUJjsc6hAMQQ5uOwhZymJkdPq5GP/1
-	VDyeSSye6SdteiT/jjzeT/JQQB1th7Ga4Jae1ychd42ra8Ut+XcwjyYzdP3t8yp5NPfZ
-	YYtXs8GIPHTuRm5keoauqZtWPLW+f1NuqqdvXhF1WSbgRHpS0H1NIQdnZ7yB6JW88xZg
-	+Jwo+T5QuNe5EsGBv4ljtVnUWAxcFrBmfrdrqMN33jtR9iKJLQNhqr+b78tS8jYsbs7+
-	9vo+xETudrvPQJzUGrIcnbmS4HpWSeDS3zIJfG40IJdUTKjcpQI7+y8ylH6TcfOym2Md
-	2nlw==
-X-Gm-Message-State: AOPr4FWR9XB6LLqLUsB/2MfZA1G4HamY3p8QXn8xiRLrj1NmUbMHjr42c6PKAXU0flpalw==
-X-Received: by 10.50.116.169 with SMTP id jx9mr5975562igb.21.1462476662162;
-	Thu, 05 May 2016 12:31:02 -0700 (PDT)
+	:references:in-reply-to:references;
+	bh=Q9q8T1exLN9CmBQAfrkdez584uR8VvwU7q4/tw6yCq8=;
+	b=ahBXeD6r5JGPyVBujB17khBNFQU3/mp+k7ZQjJwEyZmV5HokEq8IeSsFBWh5KGdISj
+	XKo4zVdkR+2beZcZJBHGkwvZBo7pBDPPNx4CKy9xY6Yvaz6Hsh7xCd9PhWcHnEAZdckR
+	i6bV8vBX04EimAOVSO8PqAuKsQo7GExUtiQ8vWxARDA9R0E0N6hLCoGxjyaDfQK4UqHY
+	12zX007nVUGW9dxjp1BS2ryX0qiU8j+jmtq0v8gpiv+PlD8BYFDjR12sgXZmjUGY37E/
+	9a1Y1XphBSLqlvGSjTiEQV3fLPW+cPwZ73tLKBmkcfobRegxUMyb/mbInBBQyQLR5EG5
+	pCJA==
+X-Gm-Message-State: AOPr4FU7w7AY6TGphxFMO+/j7ZVB2+VJ0rSS2X2Ljwxo00cIDdCq0MzusSsCM4uyhFboVg==
+X-Received: by 10.107.141.201 with SMTP id p192mr20598587iod.173.1462476664028;
+	Thu, 05 May 2016 12:31:04 -0700 (PDT)
 Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
 	by smtp.gmail.com with ESMTPSA id
-	g186sm4660680iof.27.2016.05.05.12.31.00
+	g186sm4660680iof.27.2016.05.05.12.31.02
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 05 May 2016 12:31:00 -0700 (PDT)
+	Thu, 05 May 2016 12:31:02 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 May 2016 12:30:54 -0700
-Message-Id: <e944ff3a1104badb75b034a6ec399805d1796c38.1462476586.git.chris_larson@mentor.com>
+Date: Thu,  5 May 2016 12:30:55 -0700
+Message-Id: <289ee855c6244dfd7a5b1e0f2a4a27ad236ac60c.1462476586.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 2.8.0
+In-Reply-To: <e944ff3a1104badb75b034a6ec399805d1796c38.1462476586.git.chris_larson@mentor.com>
+References: <e944ff3a1104badb75b034a6ec399805d1796c38.1462476586.git.chris_larson@mentor.com>
 In-Reply-To: <cover.1462476586.git.chris_larson@mentor.com>
 References: <cover.1462476586.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [master][PATCH 1/3] ruby: obey LDFLAGS for the link of libruby
+Subject: [master][PATCH 2/3] mkelfimage: obey LDFLAGS, sort out HOST_ flags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,65 +59,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 May 2016 19:31:02 -0000
+X-List-Received-Date: Thu, 05 May 2016 19:31:04 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
+We weren't consistent in the HOST_ (aka BUILD_) and non-HOST_ flags, so we
+were using BUILD_CPPFLAGS to compile target stuff, for example. Sort that out,
+and make sure we obey LDFLAGS.
+
 Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- meta/recipes-devtools/ruby/ruby.inc                |  3 ++-
- ...0002-Obey-LDFLAGS-for-the-link-of-libruby.patch | 28 ++++++++++++++++++++++
- 2 files changed, 30 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch
+ ...HOST_-vs-non-HOST_-flags-and-obey-LDFLAGS.patch | 73 ++++++++++++++++++++++
+ meta/recipes-devtools/mkelfimage/mkelfimage_git.bb |  5 +-
+ 2 files changed, 76 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/mkelfimage/mkelfimage/0002-Sort-out-HOST_-vs-non-HOST_-flags-and-obey-LDFLAGS.patch
 
-diff --git a/meta/recipes-devtools/ruby/ruby.inc b/meta/recipes-devtools/ruby/ruby.inc
-index 313e752..fde67e9 100644
---- a/meta/recipes-devtools/ruby/ruby.inc
-+++ b/meta/recipes-devtools/ruby/ruby.inc
-@@ -20,7 +20,8 @@ DEPENDS_class-native = "openssl-native libyaml-native"
- SHRT_VER = "${@oe.utils.trim_version("${PV}", 2)}"
- SRC_URI = "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.tar.gz \
-            file://extmk.patch \
--"
-+           file://0002-Obey-LDFLAGS-for-the-link-of-libruby.patch \
-+           "
- 
- inherit autotools
- 
-diff --git a/meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch b/meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch
+diff --git a/meta/recipes-devtools/mkelfimage/mkelfimage/0002-Sort-out-HOST_-vs-non-HOST_-flags-and-obey-LDFLAGS.patch b/meta/recipes-devtools/mkelfimage/mkelfimage/0002-Sort-out-HOST_-vs-non-HOST_-flags-and-obey-LDFLAGS.patch
 new file mode 100644
-index 0000000..b0114ba
+index 0000000..8139edc
 --- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch
-@@ -0,0 +1,28 @@
++++ b/meta/recipes-devtools/mkelfimage/mkelfimage/0002-Sort-out-HOST_-vs-non-HOST_-flags-and-obey-LDFLAGS.patch
+@@ -0,0 +1,73 @@
 +Upstream-Status: Pending
 +
-+From 306e95a9818d39d3349075aac9609e062b0f19ce Mon Sep 17 00:00:00 2001
++From ef21bb404cb5dbfbaa95b693c9705da2fd7e7472 Mon Sep 17 00:00:00 2001
 +From: Christopher Larson <chris_larson@mentor.com>
-+Date: Thu, 5 May 2016 10:59:07 -0700
-+Subject: [PATCH 2/2] Obey LDFLAGS for the link of libruby
++Date: Thu, 5 May 2016 11:49:24 -0700
++Subject: Sort out HOST_ vs non-HOST_ flags, and obey LDFLAGS
 +
 +Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 +---
-+ Makefile.in | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ Makefile.conf.in | 3 +++
++ configure.ac     | 6 +++++-
++ main/Makefile    | 4 ++--
++ 3 files changed, 10 insertions(+), 3 deletions(-)
 +
-+diff --git a/Makefile.in b/Makefile.in
-+index 7da2488..5b4aea1 100644
-+--- a/Makefile.in
-++++ b/Makefile.in
-+@@ -75,7 +75,7 @@ EXTLIBS =
-+ LIBS = @LIBS@ $(EXTLIBS)
-+ MISSING = @LIBOBJS@ @ALLOCA@
-+ LDSHARED = @LIBRUBY_LDSHARED@
-+-DLDFLAGS = @LIBRUBY_DLDFLAGS@ $(XLDFLAGS) $(ARCH_FLAG)
-++DLDFLAGS = @LIBRUBY_DLDFLAGS@ @LDFLAGS@ $(XLDFLAGS) $(ARCH_FLAG)
-+ SOLIBS = @SOLIBS@
-+ MAINLIBS = @MAINLIBS@
-+ ARCHMINIOBJS = @MINIOBJS@
++diff --git a/Makefile.conf.in b/Makefile.conf.in
++index 4645e44..dcb6cf2 100644
++--- a/Makefile.conf.in
+++++ b/Makefile.conf.in
++@@ -17,6 +17,9 @@ DEFS=@DEFS@
++ LIBS=@LIBS@
++ HOST_CC=@HOST_CC@
++ HOST_CFLAGS=@HOST_CFLAGS@  $(DEFS)
+++CC=@CC@
+++CFLAGS=@CFLAGS@ $(DEFS)
+++LDFLAGS=@LDFLAGS@
++ 
++ I386_CC     =@I386_CC@
++ I386_LD     =@I386_LD@
++diff --git a/configure.ac b/configure.ac
++index d8bd7aa..2962a4a 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -175,7 +175,8 @@ fi
++ 
++ dnl ---Output variables...
++ 
++-HOST_CFLAGS="$HOST_CFLAGS -O2 -Wall \$(HOST_CPPFLAGS)"
+++CFLAGS="${CFLAGS:--O2} -Wall \$(CPPFLAGS)"
+++HOST_CFLAGS="${HOST_CFLAGS:--O2} -Wall \$(HOST_CPPFLAGS)"
++ 
++ dnl TODO: figure out how to set these appropriately for compilers other than gcc
++ I386_CFLAGS="$I386_CFLAGS -Os -ffreestanding -Wall -W -Wno-format \$(I386_CPPFLAGS)"
++@@ -189,6 +190,9 @@ IA64_LDFLAGS='-static --warn-multiple-gp --warn-common'
++ 
++ AC_SUBST([HOST_CC])
++ AC_SUBST([HOST_CFLAGS])
+++AC_SUBST([CC])
+++AC_SUBST([CFLAGS])
+++AC_SUBST([LDFLAGS])
++ 
++ AC_SUBST([I386_CC])
++ AC_SUBST([I386_LD])
++diff --git a/main/Makefile b/main/Makefile
++index d9fb1d8..cd53613 100644
++--- a/main/Makefile
+++++ b/main/Makefile
++@@ -4,11 +4,11 @@ MKELF_OBJS=$(OBJDIR)/main/mkelfImage.o \
++ 
++ $(OBJDIR)/sbin/mkelfImage: $(MKELF_OBJS) $(DEPS)
++ 	$(MKDIR) -p $(@D)
++-	$(CC) $(HOST_CFLAGS) $(MKELF_OBJS) -o $@ $(LIBS)
+++	$(CC) $(CFLAGS) $(LDFLAGS) $(MKELF_OBJS) -o $@ $(LIBS)
++ 
++ $(OBJDIR)/main/mkelfImage.o: main/mkelfImage.c include/mkelfImage.h $(DEPS)
++ 	$(MKDIR) -p $(@D)
++-	$(CC) $(HOST_CFLAGS) -c $< -o $@
+++	$(CC) $(CFLAGS) -c $< -o $@
++ 
++ $(OBJDIR)/man/man8/mkelfImage.8: main/mkelfImage.man
++ 	$(MKDIR) -p $(@D)
 +-- 
 +2.8.0
 +
+diff --git a/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
+index 92435cd..9fcccb4 100644
+--- a/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
++++ b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
+@@ -13,8 +13,9 @@ http://review.coreboot.org/gitweb?p=coreboot.git;a=commit;h=34fc4ab80b507739e258
+ DEPENDS += "zlib"
+ 
+ SRC_URI = "git://review.coreboot.org/p/coreboot;protocol=http \
+-           file://cross-compile.patch   \
+-          "
++           file://cross-compile.patch \
++           file://0002-Sort-out-HOST_-vs-non-HOST_-flags-and-obey-LDFLAGS.patch \
++           "
+ SRC_URI_append_class-native = " \
+            file://fix-makefile-to-find-libz.patch   \
+ "
 -- 
 2.8.0
 
