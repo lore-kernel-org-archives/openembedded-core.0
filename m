@@ -1,50 +1,45 @@
-Return-Path: <fabio.berton@ossystems.com.br>
-Received: from mail-lf0-f50.google.com (mail-lf0-f50.google.com
-	[209.85.215.50])
-	by mail.openembedded.org (Postfix) with ESMTP id CE474731CA
+Return-Path: <kergoth@gmail.com>
+Received: from mail-ig0-f194.google.com (mail-ig0-f194.google.com
+	[209.85.213.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 877706012C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 May 2016 18:22:53 +0000 (UTC)
-Received: by mail-lf0-f50.google.com with SMTP id m64so105606118lfd.1
+	Thu,  5 May 2016 19:30:52 +0000 (UTC)
+Received: by mail-ig0-f194.google.com with SMTP id jn6so2977563igb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 May 2016 11:22:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=/YDeEYdxaBq5i0Kv14ZZAJimAapT+N0u9J+9BT0Mm+Q=;
-	b=rOQB8pVNByzysgQtBsafCCH0tUDYdvPWSZG128wKBWfrYE9/AsrwXKdIVq2kOzicGA
-	An3GZxMGWylWQjiyfkMNMtt4mHmLy9eoZG0X/RxbZqwN4crz3XJ2T2vXB6zo0E5zccMj
-	WGErS7uZFwqcsl2K0hRhxZEws3fdKndkfDs5X+XfQRrsx+pZvj8yEvXPBSCra+zovvZe
-	U2RVaIS02R525YOTRLvosWxlhn5mgfEyRb54KgIzXqboPju+yn3n/q5GdZxx2dnfcBE7
-	NiC8nT/oVrgyrkErWP+83wcwrYze8kBbf9vpwrxHkFxzT3YUWSmFQHQpUYFnCpl7lOAe
-	M8qg==
+	Thu, 05 May 2016 12:30:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=DbCtApl6l6tYhJjvpkhUyjatYrhBe+/L4bWZkYu6zpg=;
+	b=LRBNx2NV5zol6EkbZ8mTV+NFK6SAXsJxMTu9AyjMId/vUZwMz+wHGAUdJauMuG51SC
+	FM4GnK/84oKzYLwRvprGTjz6RmJm/+S0IUqFtvqqDR/0ZArGsTBzfHptDZdKhBnQ2lmy
+	kLwrurJ7kwTnjrLtInIRaBxWPhoDZq5h3Wl4pGenPhDoSTezJrofT/OeK/18rGy9EnBw
+	VIe1DjFZmgz2s6/Nsl6Yd5ikot25nEPPLWBiK4OIREHLYeABtbSXve/EzC5C+pCO1lWa
+	bDR6gGD7CTaezPq5TRS/C5sxFlqMuvtGFGsX/YK3XHSSR4/7aTuWJXPD16dVAL/1GUFr
+	BY1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=/YDeEYdxaBq5i0Kv14ZZAJimAapT+N0u9J+9BT0Mm+Q=;
-	b=Ek8Y1FuIJKzoP/5bFOdG0SoIi3gVqU0naF2VXwCGbqD8cdfHr0x96ojfBLHh+74+1+
-	jcuBVIifSaFq581Ycfn/7J0bRtwWoDPsZyWIacambdToqeQ+AYV8+javoobD8o/qpjtH
-	ZZ/UTsDgdWj5vYrbySBP4GFfv3z2aKVNeKW00mHRNK3Z9RA5vbkExfqxbny6f/xE5lFy
-	HoRqbEAZp5seAua6qRUaDFToOvfdazTZBQqdlGb00sJnzZT/rIM542qD+Ei9S7g+ZxfO
-	pMgNrYfRNAmVMkWJ42tErrdHy02QSGmUovcMT8i1XKIv4tT2CrE+sezKLmOMk6g6imWp
-	JvQQ==
-X-Gm-Message-State: AOPr4FXStX0KVbLntViFJNT5JWNUowbreqSjgKAehAj9TQE04ZHh9O0QZfAWqwaaljKYwHcPc4Z+AiIMQ2tiJw==
-X-Received: by 10.25.146.6 with SMTP id u6mr6700915lfd.60.1462472572947; Thu,
-	05 May 2016 11:22:52 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.25.22.193 with HTTP; Thu, 5 May 2016 11:22:23 -0700 (PDT)
-X-Originating-IP: [187.23.154.250]
-In-Reply-To: <4689592.jhB3FmLTaB@peggleto-mobl.ger.corp.intel.com>
-References: <CAAPZna1xLfbyYUKa+qcLfeGCv=mqg7JwWtirfAbqfM+TCu5m7g@mail.gmail.com>
-	<20160505105743.GA22250@jupiter.localdomain>
-	<CAAPZna3uDZab3jtmQYkiR+DR4k5UN_OYhJHcod0G02rdsmtTUQ@mail.gmail.com>
-	<4689592.jhB3FmLTaB@peggleto-mobl.ger.corp.intel.com>
-From: Fabio Berton <fabio.berton@ossystems.com.br>
-Date: Thu, 5 May 2016 15:22:23 -0300
-Message-ID: <CAAPZna1wStNSgiuYwuSOOF7=f_54GOKrOiEhRMBiFeBygFSHpA@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: npm class usage
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=DbCtApl6l6tYhJjvpkhUyjatYrhBe+/L4bWZkYu6zpg=;
+	b=FzE37Y4sIuR53FpcLM4KlP1EP1xsOn/QlUYjpLA2Z8GeG2u/Zo3lC7tV0JQXRVVRAr
+	s7TyQKKzxdKv7AVdrW83T8n4v+fraYbNi4tIvGeSgSOmpixcVlR6X8tZNAaZYYaaSBiP
+	2A5g8oEZFIvnaj+vA82QHhF+RjHsmDmQUbK83u7SaPyYNLWhcxHWE+9TTOGZacryTq6M
+	KisiTS5NYPmWKdr2UHR2Ck3nI6oJkQDppA4u8nx8L2B6cVexT+dLlV4DaHvAfw1qhQpe
+	df/OyRQbqmUlcve6dN5zX45uQjzK6PHmZm5YGkO5bF6h6U8JuAlOVnOELi3mLAuwHHLF
+	9DXQ==
+X-Gm-Message-State: AOPr4FX0elSiSJdAgaPQm1G0owotWXEDMAg/RKQovcyYY3T3KfGUq3bXG1X5P6gXE6CGQQ==
+X-Received: by 10.50.102.207 with SMTP id fq15mr6053566igb.94.1462476653255;
+	Thu, 05 May 2016 12:30:53 -0700 (PDT)
+Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by smtp.gmail.com with ESMTPSA id ni7sm2295382igb.0.2016.05.05.12.30.50
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 05 May 2016 12:30:50 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  5 May 2016 12:30:44 -0700
+Message-Id: <cover.1462476586.git.chris_larson@mentor.com>
+X-Mailer: git-send-email 2.8.0
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [master][PATCH 0/3] Fix a few recipes to obey LDFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,215 +52,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 May 2016 18:22:54 -0000
-Content-Type: multipart/alternative; boundary=001a114029483467c105321c6eb3
+X-List-Received-Date: Thu, 05 May 2016 19:30:53 -0000
 
---001a114029483467c105321c6eb3
-Content-Type: text/plain; charset=UTF-8
+From: Christopher Larson <chris_larson@mentor.com>
 
-Yes, this patch fix this problem.
+The following changes since commit 1a0e56630c5c27d8899dd0979ae0b86bbe227881:
 
-Thanks!
+  utils.bbclass: note for deprecated base_contains (2016-04-29 07:53:58 +0100)
 
-On Thu, May 5, 2016 at 3:13 PM, Paul Eggleton <paul.eggleton@linux.intel.com
-> wrote:
+are available in the git repository at:
 
-> Right, this is the problem Brendan was describing - I believe I sent a
-> patch
-> to fix this already:
->
-> http://patchwork.openembedded.org/patch/121039/
->
-> Cheers,
-> Paul
->
-> On Thu, 05 May 2016 09:51:53 Fabio Berton wrote:
-> > Hi Paul,
-> >
-> > When running:
-> > recipetool create "npm://registry.npmjs.org
-> ;name=grunt-cli;version=1.1.0"
-> >
-> > I get this error:
-> >
-> > NOTE: Unpacking abbrev-1.0.7.tgz to
-> > /tmp/recipetool-tXXZDi/npmpkg/node_modules/nopt/node_modules/abbrev/
-> > Traceback (most recent call last):
-> >   File "sources/openembedded-core/scripts/recipetool", line 116, in
-> <module>
-> > ret = main()
-> >   File "sources/openembedded-core/scripts/recipetool", line 107, in main
-> >     ret = args.func(args)
-> >   File "sources/openembedded-core/scripts/lib/recipetool/create.py", line
-> > 561, in create_recipe
-> >     handler.process(srctree_use, classes, lines_before, lines_after,
-> > handled, extravalues)
-> >   File "sources/openembedded-core/scripts/lib/recipetool/create_npm.py",
-> > line 133, in process
-> >     license = self._handle_license(pdata)
-> >   File "sources/openembedded-core/scripts/lib/recipetool/create_npm.py",
-> > line 44, in _handle_license
-> >     if 'license' in data:
-> > TypeError: argument of type 'NoneType' is not iterable
-> >
-> >
-> > On Thu, May 5, 2016 at 7:57 AM, Brendan Le Foll <
-> brendan.le.foll@intel.com>
-> >
-> > wrote:
-> > > On Thu, May 05, 2016 at 07:10:43PM +1200, Paul Eggleton wrote:
-> > > > Note also that devtool add / recipetool create are capable of
-> creating
-> > >
-> > > pretty
-> > >
-> > > > complete recipes for npm packages where licenses are also correctly
-> set
-> > >
-> > > per
-> > >
-> > > > package (so you get them in the image manifest). I'd strongly
-> recommend
-> > >
-> > > using
-> > >
-> > > > it for this; if you have any issues please let me know.
-> > >
-> > > So actually it errors in this case because of a test package in the
-> > > resolve module (this shows the issue quicker/easier) see:
-> > > $ recipetool create "npm://registry.npmjs.org
-> ;name=resolve;version=1.1.7"
-> > >
-> > > There's a node_modules dir inside test/ it gets taken as if npm had
-> > > resolved/download a dep when in fact it hasn't. Since node packages
-> > > can and do ship their own deps with them sometimes, I think the only
-> > > fix would be in npm_split_package_dirs to walk 1 level of the ${PN}
-> > > dir only so that:
-> > >
-> > > ${PN}/node_modules -> taken
-> > > ${PN}/tests/node_modules -> ignored
-> > > ${PN}/node_modules/${PN}/node_modules -> taken
-> > >
-> > > Cheers,
-> > > Brendan
->
-> --
->
-> Paul Eggleton
-> Intel Open Source Technology Centre
->
+  git://github.com/kergoth/openembedded-core more-ldflags-fixes
+  https://github.com/kergoth/openembedded-core/tree/more-ldflags-fixes
 
---001a114029483467c105321c6eb3
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Christopher Larson (3):
+  ruby: obey LDFLAGS for the link of libruby
+  mkelfimage: obey LDFLAGS, sort out HOST_ flags
+  pong-clock: obey CFLAGS, LDFLAGS
 
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:monospac=
-e,monospace;font-size:small">Yes, this patch fix this problem.<br><br></div=
-><div class=3D"gmail_default" style=3D"font-family:monospace,monospace;font=
--size:small">Thanks!<br></div></div><div class=3D"gmail_extra"><br><div cla=
-ss=3D"gmail_quote">On Thu, May 5, 2016 at 3:13 PM, Paul Eggleton <span dir=
-=3D"ltr">&lt;<a href=3D"mailto:paul.eggleton@linux.intel.com" target=3D"_bl=
-ank">paul.eggleton@linux.intel.com</a>&gt;</span> wrote:<br><blockquote cla=
-ss=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pa=
-dding-left:1ex">Right, this is the problem Brendan was describing - I belie=
-ve I sent a patch<br>
-to fix this already:<br>
-<br>
-<a href=3D"http://patchwork.openembedded.org/patch/121039/" rel=3D"noreferr=
-er" target=3D"_blank">http://patchwork.openembedded.org/patch/121039/</a><b=
-r>
-<br>
-Cheers,<br>
-Paul<br>
-<div class=3D"HOEnZb"><div class=3D"h5"><br>
-On Thu, 05 May 2016 09:51:53 Fabio Berton wrote:<br>
-&gt; Hi Paul,<br>
-&gt;<br>
-&gt; When running:<br>
-&gt; recipetool create &quot;npm://<a href=3D"http://registry.npmjs.org" re=
-l=3D"noreferrer" target=3D"_blank">registry.npmjs.org</a>;name=3Dgrunt-cli;=
-version=3D1.1.0&quot;<br>
-&gt;<br>
-&gt; I get this error:<br>
-&gt;<br>
-&gt; NOTE: Unpacking abbrev-1.0.7.tgz to<br>
-&gt; /tmp/recipetool-tXXZDi/npmpkg/node_modules/nopt/node_modules/abbrev/<b=
-r>
-&gt; Traceback (most recent call last):<br>
-&gt;=C2=A0 =C2=A0File &quot;sources/openembedded-core/scripts/recipetool&qu=
-ot;, line 116, in &lt;module&gt;<br>
-&gt; ret =3D main()<br>
-&gt;=C2=A0 =C2=A0File &quot;sources/openembedded-core/scripts/recipetool&qu=
-ot;, line 107, in main<br>
-&gt;=C2=A0 =C2=A0 =C2=A0ret =3D args.func(args)<br>
-&gt;=C2=A0 =C2=A0File &quot;sources/openembedded-core/scripts/lib/recipetoo=
-l/create.py&quot;, line<br>
-&gt; 561, in create_recipe<br>
-&gt;=C2=A0 =C2=A0 =C2=A0handler.process(srctree_use, classes, lines_before,=
- lines_after,<br>
-&gt; handled, extravalues)<br>
-&gt;=C2=A0 =C2=A0File &quot;sources/openembedded-core/scripts/lib/recipetoo=
-l/create_npm.py&quot;,<br>
-&gt; line 133, in process<br>
-&gt;=C2=A0 =C2=A0 =C2=A0license =3D self._handle_license(pdata)<br>
-&gt;=C2=A0 =C2=A0File &quot;sources/openembedded-core/scripts/lib/recipetoo=
-l/create_npm.py&quot;,<br>
-&gt; line 44, in _handle_license<br>
-&gt;=C2=A0 =C2=A0 =C2=A0if &#39;license&#39; in data:<br>
-&gt; TypeError: argument of type &#39;NoneType&#39; is not iterable<br>
-&gt;<br>
-&gt;<br>
-&gt; On Thu, May 5, 2016 at 7:57 AM, Brendan Le Foll &lt;<a href=3D"mailto:=
-brendan.le.foll@intel.com">brendan.le.foll@intel.com</a>&gt;<br>
-&gt;<br>
-&gt; wrote:<br>
-&gt; &gt; On Thu, May 05, 2016 at 07:10:43PM +1200, Paul Eggleton wrote:<br=
->
-&gt; &gt; &gt; Note also that devtool add / recipetool create are capable o=
-f creating<br>
-&gt; &gt;<br>
-&gt; &gt; pretty<br>
-&gt; &gt;<br>
-&gt; &gt; &gt; complete recipes for npm packages where licenses are also co=
-rrectly set<br>
-&gt; &gt;<br>
-&gt; &gt; per<br>
-&gt; &gt;<br>
-&gt; &gt; &gt; package (so you get them in the image manifest). I&#39;d str=
-ongly recommend<br>
-&gt; &gt;<br>
-&gt; &gt; using<br>
-&gt; &gt;<br>
-&gt; &gt; &gt; it for this; if you have any issues please let me know.<br>
-&gt; &gt;<br>
-&gt; &gt; So actually it errors in this case because of a test package in t=
-he<br>
-&gt; &gt; resolve module (this shows the issue quicker/easier) see:<br>
-&gt; &gt; $ recipetool create &quot;npm://<a href=3D"http://registry.npmjs.=
-org" rel=3D"noreferrer" target=3D"_blank">registry.npmjs.org</a>;name=3Dres=
-olve;version=3D1.1.7&quot;<br>
-&gt; &gt;<br>
-&gt; &gt; There&#39;s a node_modules dir inside test/ it gets taken as if n=
-pm had<br>
-&gt; &gt; resolved/download a dep when in fact it hasn&#39;t. Since node pa=
-ckages<br>
-&gt; &gt; can and do ship their own deps with them sometimes, I think the o=
-nly<br>
-&gt; &gt; fix would be in npm_split_package_dirs to walk 1 level of the ${P=
-N}<br>
-&gt; &gt; dir only so that:<br>
-&gt; &gt;<br>
-&gt; &gt; ${PN}/node_modules -&gt; taken<br>
-&gt; &gt; ${PN}/tests/node_modules -&gt; ignored<br>
-&gt; &gt; ${PN}/node_modules/${PN}/node_modules -&gt; taken<br>
-&gt; &gt;<br>
-&gt; &gt; Cheers,<br>
-&gt; &gt; Brendan<br>
-<br>
-</div></div><div class=3D"HOEnZb"><div class=3D"h5">--<br>
-<br>
-Paul Eggleton<br>
-Intel Open Source Technology Centre<br>
-</div></div></blockquote></div><br></div>
+ ...HOST_-vs-non-HOST_-flags-and-obey-LDFLAGS.patch | 73 ++++++++++++++++++++++
+ meta/recipes-devtools/mkelfimage/mkelfimage_git.bb |  5 +-
+ meta/recipes-devtools/ruby/ruby.inc                |  3 +-
+ ...0002-Obey-LDFLAGS-for-the-link-of-libruby.patch | 28 +++++++++
+ meta/recipes-graphics/pong-clock/pong-clock_1.0.bb |  2 +-
+ 5 files changed, 107 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-devtools/mkelfimage/mkelfimage/0002-Sort-out-HOST_-vs-non-HOST_-flags-and-obey-LDFLAGS.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch
 
---001a114029483467c105321c6eb3--
+-- 
+2.8.0
+
+
