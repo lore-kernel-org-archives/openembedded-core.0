@@ -1,30 +1,29 @@
-Return-Path: <brendan.le.foll@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id BE63E6FF78
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D6486012C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 May 2016 10:57:16 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga103.fm.intel.com with ESMTP; 05 May 2016 03:57:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,581,1455004800"; d="scan'208";a="973190310"
-Received: from jupiter.iwi.intel.com (HELO jupiter.localdomain)
-	([172.28.33.51])
-	by fmsmga002.fm.intel.com with ESMTP; 05 May 2016 03:57:17 -0700
-Date: Thu, 5 May 2016 11:57:43 +0100
-From: Brendan Le Foll <brendan.le.foll@intel.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Message-ID: <20160505105743.GA22250@jupiter.localdomain>
-References: <CAAPZna1xLfbyYUKa+qcLfeGCv=mqg7JwWtirfAbqfM+TCu5m7g@mail.gmail.com>
-	<20160504170600.GA14676@jupiter.localdomain>
-	<CAAPZna0WB0OjbEzo7eh6NctTcrm78O+fAtnFNwb-Ksgscg1x7w@mail.gmail.com>
-	<7618991.MRiH0pG9k0@peggleto-mobl.ger.corp.intel.com>
+	Thu,  5 May 2016 12:16:00 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
+	via TCP (outbound) with ESMTPS id 20160505121600948_0685
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 May 2016 05:16:00 -0700
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [216.191.234.70] (port=30018 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1ayIDk-0007Pu-3S for openembedded-core@lists.openembedded.org;
+	Thu, 05 May 2016 08:17:32 -0400
+Date: Thu, 5 May 2016 08:15:37 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1605050800120.26815@localhost.localdomain>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-In-Reply-To: <7618991.MRiH0pG9k0@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
-	Swindon SN3 1RJ
-User-Agent: Mutt/1.6.1 (2016-04-27)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: npm class usage
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: an rpm question: can i get an update/install history relative to a baseline?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,30 +36,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 May 2016 10:57:16 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 05 May 2016 12:16:01 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-On Thu, May 05, 2016 at 07:10:43PM +1200, Paul Eggleton wrote:
-> Note also that devtool add / recipetool create are capable of creating pretty 
-> complete recipes for npm packages where licenses are also correctly set per 
-> package (so you get them in the image manifest). I'd strongly recommend using 
-> it for this; if you have any issues please let me know.
 
-So actually it errors in this case because of a test package in the
-resolve module (this shows the issue quicker/easier) see:
-$ recipetool create "npm://registry.npmjs.org;name=resolve;version=1.1.7"
+  i'm sure there's a trivial answer to this, but here's what i'm
+after. say i use OE to build an image for a target board, rpm-based,
+load it and start running it -- imagine i say this is "version 1.0".
+as time goes by, i occasionally update existing packages or install
+new packages for extra functionality. at any time, i'd like to
+generate a "change manifest" relative to the original installation;
+IOW, just a changelog of what's happened *only* since the original
+install. that should be simple, but wait, it gets better.
 
-There's a node_modules dir inside test/ it gets taken as if npm had
-resolved/download a dep when in fact it hasn't. Since node packages
-can and do ship their own deps with them sometimes, I think the only
-fix would be in npm_split_package_dirs to walk 1 level of the ${PN}
-dir only so that:
+  eventually, a new release, say "1.1" comes out, and a full upgrade
+to that new release is done. at that point, i want to reset the
+baseline for the change manifest relative to 1.1, so the new change
+manifest appears empty, and starts tracking changes from that new
+version. and so on, and so on.
 
-${PN}/node_modules -> taken
-${PN}/tests/node_modules -> ignored
-${PN}/node_modules/${PN}/node_modules -> taken
+  or, now that i think about it, i guess i want the general ability to
+query the change manifest relative to any "official" release, assuming
+i can identify when an official release is applied to the system.
 
-Cheers,
-Brendan
+  is there a simple rpm command to do this? i can see a utility called
+rpm-manifest:
+
+  https://github.com/jumanjiman/rpm-manifest
+
+that will at least tell me that *something* changed, but doesn't go
+into detail.
+
+  so what overlooked feature of rpm (or the smart package manager, if
+need be) am i missing?
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
+
 
