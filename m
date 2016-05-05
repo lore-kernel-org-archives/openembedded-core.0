@@ -1,52 +1,60 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 4656A71951
+Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
+	[209.85.213.177])
+	by mail.openembedded.org (Postfix) with ESMTP id B880E731F2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 May 2016 22:59:46 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id y7so9174713pfb.0
+	Thu,  5 May 2016 23:09:07 +0000 (UTC)
+Received: by mail-ig0-f177.google.com with SMTP id u10so30644135igr.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 May 2016 15:59:47 -0700 (PDT)
+	Thu, 05 May 2016 16:09:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=uMoU1pp18gu3L7lsF70VyIjrnFX3r8FzV9FyqNbRlh0=;
-	b=NF1ZOGZkBZINNOWfK4lrUo1/eymaAhhXHsfpJ7Jz+orN4qJdmPn6734LbxL6vj1DST
-	kvoaDcZ+1iGWyOtvyoRDBXh4W9DD+98+bpCBWMlzDk7xee4Z22syXbjkUdqVxVGEibIX
-	wC1Z/fGEOncqRdvBmr6+Vk7xhR1Fasl4B6S2GrsABwh4jbrTbtTi+/XhWNXMHIKSoLr/
-	GEbPlCWa4wdpNSlz0v04eE8s2YFdshzPGX/68vvXazfiOol32CYhMJKuKJoOafhp4uq3
-	rhy+Ken/rDqakZJv+IKfeOt646i92tOQsEbgIucwcFG7CdTXkww5/lEuwv6VAOABqd51
-	kL1g==
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=T4wRd6AWGaedW90LXrRn0QEDJfawJya8mxsEXIBOKK4=;
+	b=tMSLMRO1Ukkie1c4cTOYtXwVuRFVUyKnNc/LDTA3JTMGaA5CiQc9GlVtuwy4RZTbqH
+	yD8USjLd9rw5v32lA0nmGeTbbppJQClD9XzxpGhK0hA4yuzbLdDtcVBP0YzH03E0vm5M
+	f2qOKG9/n/jaY/CKE4h/KSTb6NWIr1m1luwvR7bKsr9R7VX2EITNhHLyO4Eu6W2psnsv
+	Pmrs9UQmiCUbnA4b4G4PubowFp/9q+DFkatG5eS6rY/lg+MkGtA2sTtB6GE4cf2iRiEA
+	ICFx+WjfbFp4bvVnnFRAiKt2cweYZRg2B5CLdTvqbF10CFv/oGIp87woOLqj5avuxQGL
+	3EOw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kergoth-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=T4wRd6AWGaedW90LXrRn0QEDJfawJya8mxsEXIBOKK4=;
+	b=LLPOj64Ixlm3+hzl+GZLJiVl9fyW7QGXxt0c1CofwtAJCxco5jgmsA/HBQAEWDsb7u
+	MmarbmrOPR5EvnuBqg7uObFO7jzEyk2fCYKSSYPdqUD+bPzMoJMA991AcxZLQf4O3R1h
+	G12kRiShGUkRa37hp0uzDMXD5B+x/eVI2Nm5tarSHjK5zCu2uQplGsdSvxaDVtLHyVCr
+	P2hyj3maOT5lnil4GQNh8TtpWpuZbKd0q75MtA/Wr4kGVeh8fnICtH9e8aXc+AIk0OTi
+	b0EeG9NLRIFYcnKSZf0QdVaCQTyfHWqZZD+Ag4KSkeRsMDfzgf5uea/65H1oY5KSg7S1
+	3LNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:in-reply-to:references;
-	bh=uMoU1pp18gu3L7lsF70VyIjrnFX3r8FzV9FyqNbRlh0=;
-	b=QcQWv7YRImLo0ayYoXaTMOB9zJfsnuqbWd1qsAjBLZEn2nuY608PlvAOqQu8xIeQk3
-	CYzNlm9cB/UA1qiwEFtyDoHeETz2BoUumiZbOM1f5+8qbqQFbarbQQhcduK6FClBU00L
-	cb8kpAfj9mxBmvqgZJR/zJoOb/5hq5qMcyNVM8n5p0ChdOvJqQu6x1TqZucr6SBqdLjO
-	nOpu5mNikDyfcXZ2aRZKhyTphFfuJat/ISP59h1NlMrVKfVEn9e+R17b5RM1hIPjXZCn
-	BPXp0Lol5EB/J2V8jhrQsgzXfWT6GwPTXkKJsscLm0vEHfcYuoAD4NK0XT6SCTuWknEX
-	bCgg==
-X-Gm-Message-State: AOPr4FV46+Wcuq512S2oyYz7vH8cFUR1sDIzk77F5UKe8DMV7FZ2Ypk0jti02EA4dqihvQ==
-X-Received: by 10.98.78.132 with SMTP id c126mr24210083pfb.129.1462489187466; 
-	Thu, 05 May 2016 15:59:47 -0700 (PDT)
-Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by smtp.gmail.com with ESMTPSA id
-	k78sm16016023pfk.70.2016.05.05.15.59.45
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 05 May 2016 15:59:45 -0700 (PDT)
-From: Christopher Larson <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 May 2016 15:59:42 -0700
-Message-Id: <e889a21f09e4bcbddd05ee90a914600d33540dfa.1462489051.git.chris_larson@mentor.com>
-X-Mailer: git-send-email 2.8.0
-In-Reply-To: <289ee855c6244dfd7a5b1e0f2a4a27ad236ac60c.1462476586.git.chris_larson@mentor.com>
-References: <289ee855c6244dfd7a5b1e0f2a4a27ad236ac60c.1462476586.git.chris_larson@mentor.com>
-In-Reply-To: <cover.1462489051.git.chris_larson@mentor.com>
-References: <cover.1462489051.git.chris_larson@mentor.com>
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [master][PATCHv2 2/3] mkelfimage: obey LDFLAGS, sort out HOST_ flags
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=T4wRd6AWGaedW90LXrRn0QEDJfawJya8mxsEXIBOKK4=;
+	b=HWafncFkqzrGZH3GF21EnHsipzNm0PYVRFFGvZe4NrqXwe9eRdOnugTEhUFoHxPZjr
+	UYS5k/IGIs/r/6yulbE+L/KC4tw7eKOqg9Wg3z5o8UZlujm6ElkuTrLmgEI5r9d/ekdu
+	yb9TN9Tez3wDUL+daqrzUCwsWK2RboG+q5DhJAkMbTbmlIahhDHfTXDopqkTOnt0d9oN
+	9IH+vcxcK4BobxWazppOHKjFcJZJv3B8dfnj1t9Lb1vK2hn355eO9zz5lCrN7TSKNW6k
+	UJwsmdmTQ0cO9ZVNMve5dYlMSg22yCdnuZ+iViLL4QCST6jGFVr0VXgUKlg0Z8T02/zA
+	zZLA==
+X-Gm-Message-State: AOPr4FXrARtQda52yOzkTbUYDfYn945l8v6r9Lv4/UaSDNiCzkljz9Tw8OeUEMGf1fM7Q1OnQ0lmcukamJnJtQ==
+X-Received: by 10.50.65.42 with SMTP id u10mr6881298igs.13.1462489747938; Thu,
+	05 May 2016 16:09:07 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.79.134.70 with HTTP; Thu, 5 May 2016 16:08:48 -0700 (PDT)
+In-Reply-To: <DBXPR07MB23993DC9B9946851B629E21F97C0@DBXPR07MB239.eurprd07.prod.outlook.com>
+References: <DBXPR07MB23993DC9B9946851B629E21F97C0@DBXPR07MB239.eurprd07.prod.outlook.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Thu, 5 May 2016 16:08:48 -0700
+X-Google-Sender-Auth: rCBcpj1aQT_Ln9V0rOo26-JBMxo
+Message-ID: <CABcZANniNW9XRsATUvu=D0nSMWh2paEWPED2xZRjo2z6VBKvBg@mail.gmail.com>
+To: "Kucharczyk,
+	Bartlomiej (Nokia - PL/Wroclaw)" <bartlomiej.kucharczyk@nokia.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: How to force BitBake to track dependency to METADATA_REVISION?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,169 +67,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 May 2016 22:59:48 -0000
+X-List-Received-Date: Thu, 05 May 2016 23:09:09 -0000
+Content-Type: multipart/alternative; boundary=047d7b414330e9e67c0532206db7
 
-From: Christopher Larson <chris_larson@mentor.com>
+--047d7b414330e9e67c0532206db7
+Content-Type: text/plain; charset=UTF-8
 
-We weren't consistent in the HOST_ (aka BUILD_) and non-HOST_ flags, so we
-were using BUILD_CPPFLAGS to compile target stuff, for example. Sort that out,
-and make sure we obey LDFLAGS.
+On Thu, May 5, 2016 at 11:48 AM, Kucharczyk, Bartlomiej (Nokia -
+PL/Wroclaw) <bartlomiej.kucharczyk@nokia.com> wrote:
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- .../mkelfimage/mkelfimage/cross-compile.patch      | 86 +++++++++++++++-------
- meta/recipes-devtools/mkelfimage/mkelfimage_git.bb |  4 +-
- 2 files changed, 63 insertions(+), 27 deletions(-)
+> I am trying to use METADATA_REVISION variable (defined in
+> metadata_scm.bbclass) in my recipe, but BitBake does not rebuild the task
+> when git revision of the repository changes.
+> Setting [vardeps] does not help.
+>
+> I suspect this may be related to the fact that METADATA_REVISION is
+> defined this way:
+>         METADATA_REVISION ?= "${@base_detect_revision(d)}"
+> And BitBake does not expand this to the proper value, thus does not see
+> any difference.
+>
+> Does anyone have any suggestion how to tackle this issue, and force
+> BitBake to properly track dependency to METADATA_REVISION value?
+>
+> My original task is:
+> Package feeds/SDK installers are versioned (git metadata revision). I am
+> trying to create an opkg.conf file which will contain such versioned
+> package feeds URL in SDK installer. For build reproducibility, and user
+> convenience.
+>
 
-diff --git a/meta/recipes-devtools/mkelfimage/mkelfimage/cross-compile.patch b/meta/recipes-devtools/mkelfimage/mkelfimage/cross-compile.patch
-index 7692709..2ae4b61 100644
---- a/meta/recipes-devtools/mkelfimage/mkelfimage/cross-compile.patch
-+++ b/meta/recipes-devtools/mkelfimage/mkelfimage/cross-compile.patch
-@@ -1,13 +1,43 @@
--make the tool to be cross compilable.
-+From dc2712119d6832e24a9b7bed9ed4ce5ae03ce0a3 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sat, 14 Jul 2012 14:14:07 -0700
-+Subject: [PATCH] mkelfimage: Fix cross build
-+
-+Make the tool to be cross compilable, by separating the variables for build
-+tools from those for the target. Also modified to obey LDFLAGS.
- 
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-+
- Upstream-Status: Pending
- 
--Index: mkelfImage/configure.ac
--===================================================================
----- mkelfImage.orig/configure.ac	2012-07-14 14:04:48.964898667 -0700
--+++ mkelfImage/configure.ac	2012-07-14 14:10:47.800916083 -0700
--@@ -70,6 +70,9 @@
-+---
-+ util/mkelfImage/Makefile.conf.in    | 3 +++
-+ util/mkelfImage/configure.ac        | 7 +++++--
-+ util/mkelfImage/linux-i386/Makefile | 2 +-
-+ util/mkelfImage/linux-ia64/Makefile | 2 +-
-+ util/mkelfImage/main/Makefile       | 4 ++--
-+ 5 files changed, 12 insertions(+), 6 deletions(-)
-+
-+diff --git a/util/mkelfImage/Makefile.conf.in b/util/mkelfImage/Makefile.conf.in
-+index 4645e44..dcb6cf2 100644
-+--- a/util/mkelfImage/Makefile.conf.in
-++++ b/util/mkelfImage/Makefile.conf.in
-+@@ -17,6 +17,9 @@ DEFS=@DEFS@
-+ LIBS=@LIBS@
-+ HOST_CC=@HOST_CC@
-+ HOST_CFLAGS=@HOST_CFLAGS@  $(DEFS)
-++CC=@CC@
-++CFLAGS=@CFLAGS@ $(DEFS)
-++LDFLAGS=@LDFLAGS@
-+ 
-+ I386_CC     =@I386_CC@
-+ I386_LD     =@I386_LD@
-+diff --git a/util/mkelfImage/configure.ac b/util/mkelfImage/configure.ac
-+index 652b952..0f2ac72 100644
-+--- a/util/mkelfImage/configure.ac
-++++ b/util/mkelfImage/configure.ac
-+@@ -70,6 +70,9 @@ if test "with_default" != no ; then
-  		AC_MSG_ERROR([cc not found])
-  	fi
-  	eval "${with_default}_CC='$CC'"
-@@ -17,19 +47,22 @@ Index: mkelfImage/configure.ac
-  	AC_PROG_CPP
-  	if test "$CPP" = no; then
-  		AC_MSG_ERROR([cpp not found])
--@@ -172,7 +175,6 @@
-+@@ -172,8 +175,8 @@ fi
-  
-  dnl ---Output variables...
-  
- -HOST_CC=$CC
-- HOST_CFLAGS="$HOST_CFLAGS -O2 -Wall \$(HOST_CPPFLAGS)"
-+-HOST_CFLAGS="$HOST_CFLAGS -O2 -Wall \$(HOST_CPPFLAGS)"
-++CFLAGS="${CFLAGS:--O2} -Wall \$(CPPFLAGS)"
-++HOST_CFLAGS="${HOST_CFLAGS:--O2} -Wall \$(HOST_CPPFLAGS)"
-  
-  dnl TODO: figure out how to set these appropriately for compilers other than gcc
--Index: mkelfImage/linux-i386/Makefile
--===================================================================
----- mkelfImage.orig/linux-i386/Makefile	2012-07-14 14:04:48.964898667 -0700
--+++ mkelfImage/linux-i386/Makefile	2012-07-14 14:04:49.032898671 -0700
--@@ -4,7 +4,7 @@
-+ I386_CFLAGS="$I386_CFLAGS -Os -ffreestanding -Wall -W -Wno-format \$(I386_CPPFLAGS)"
-+diff --git a/util/mkelfImage/linux-i386/Makefile b/util/mkelfImage/linux-i386/Makefile
-+index 51531d6..7e8aa3c 100644
-+--- a/util/mkelfImage/linux-i386/Makefile
-++++ b/util/mkelfImage/linux-i386/Makefile
-+@@ -4,7 +4,7 @@ LI386_DEP=Makefile Makefile.conf $(LI386_DIR)/Makefile
-  
-  $(LI386_OBJ)/mkelf-linux-i386.o: $(LI386_DIR)/mkelf-linux-i386.c $(LI386_DIR)/convert.bin.c $(LI386_DEP)
-  	$(MKDIR) -p $(@D)
-@@ -38,11 +71,11 @@ Index: mkelfImage/linux-i386/Makefile
-  
-  
-  ifdef I386_CC
--Index: mkelfImage/linux-ia64/Makefile
--===================================================================
----- mkelfImage.orig/linux-ia64/Makefile	2012-07-14 14:04:48.964898667 -0700
--+++ mkelfImage/linux-ia64/Makefile	2012-07-14 14:04:49.032898671 -0700
--@@ -4,7 +4,7 @@
-+diff --git a/util/mkelfImage/linux-ia64/Makefile b/util/mkelfImage/linux-ia64/Makefile
-+index 38f5d8c..5df8870 100644
-+--- a/util/mkelfImage/linux-ia64/Makefile
-++++ b/util/mkelfImage/linux-ia64/Makefile
-+@@ -4,7 +4,7 @@ LIA64_DEP=Makefile Makefile.conf $(LIA64_DIR)/Makefile
-  
-  $(LIA64_OBJ)/mkelf-linux-ia64.o: $(LIA64_DIR)/mkelf-linux-ia64.c $(LIA64_DIR)/convert.bin.c $(LIA64_DEP)
-  	$(MKDIR) -p $(@D)
-@@ -51,21 +84,24 @@ Index: mkelfImage/linux-ia64/Makefile
-  
-  ifdef IA64_CC
-  
--Index: mkelfImage/main/Makefile
--===================================================================
----- mkelfImage.orig/main/Makefile	2012-07-14 14:04:48.964898667 -0700
--+++ mkelfImage/main/Makefile	2012-07-14 14:04:49.032898671 -0700
--@@ -4,11 +4,11 @@
-+diff --git a/util/mkelfImage/main/Makefile b/util/mkelfImage/main/Makefile
-+index 403b0a4..cd53613 100644
-+--- a/util/mkelfImage/main/Makefile
-++++ b/util/mkelfImage/main/Makefile
-+@@ -4,11 +4,11 @@ MKELF_OBJS=$(OBJDIR)/main/mkelfImage.o \
-  
-  $(OBJDIR)/sbin/mkelfImage: $(MKELF_OBJS) $(DEPS)
-  	$(MKDIR) -p $(@D)
- -	$(HOST_CC) $(HOST_CFLAGS) $(MKELF_OBJS) -o $@ $(LIBS)
--+	$(CC) $(HOST_CFLAGS) $(MKELF_OBJS) -o $@ $(LIBS)
-++	$(CC) $(CFLAGS) $(LDFLAGS) $(MKELF_OBJS) -o $@ $(LIBS)
-  
-  $(OBJDIR)/main/mkelfImage.o: main/mkelfImage.c include/mkelfImage.h $(DEPS)
-  	$(MKDIR) -p $(@D)
- -	$(HOST_CC) $(HOST_CFLAGS) -c $< -o $@
--+	$(CC) $(HOST_CFLAGS) -c $< -o $@
-++	$(CC) $(CFLAGS) -c $< -o $@
-  
-  $(OBJDIR)/man/man8/mkelfImage.8: main/mkelfImage.man
-  	$(MKDIR) -p $(@D)
-+-- 
-+2.8.0
-+
-diff --git a/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
-index 92435cd..d7a4429 100644
---- a/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
-+++ b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
-@@ -13,8 +13,8 @@ http://review.coreboot.org/gitweb?p=coreboot.git;a=commit;h=34fc4ab80b507739e258
- DEPENDS += "zlib"
- 
- SRC_URI = "git://review.coreboot.org/p/coreboot;protocol=http \
--           file://cross-compile.patch   \
--          "
-+           file://cross-compile.patch \
-+           "
- SRC_URI_append_class-native = " \
-            file://fix-makefile-to-find-libz.patch   \
- "
+Bitbake tracks unexpanded forms of variables, not expanded. So it's
+literally storing '${@base_detect_revision(d)}" in the checksum, not the
+actual revision.
+
+METADATA_REVISION[vardepvalue] = "${METADATA_REVISION}" in your recipe will
+do it.
 -- 
-2.8.0
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
+--047d7b414330e9e67c0532206db7
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Thu, May 5, 2016 at 11:48 AM, Kucharczyk, Bartlomiej (Nokia - PL/Wroclaw=
+) <span dir=3D"ltr">&lt;<a href=3D"mailto:bartlomiej.kucharczyk@nokia.com" =
+target=3D"_blank">bartlomiej.kucharczyk@nokia.com</a>&gt;</span> wrote:<br>=
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div id=3D":1u2" class=3D"a3s aXjCH">I am tr=
+ying to use METADATA_REVISION variable (defined in metadata_scm.bbclass) in=
+ my recipe, but BitBake does not rebuild the task when git revision of the =
+repository changes.<br>
+Setting [vardeps] does not help.<br>
+<br>
+I suspect this may be related to the fact that METADATA_REVISION is defined=
+ this way:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 METADATA_REVISION ?=3D &quot;${@base_detect_rev=
+ision(d)}&quot;<br>
+And BitBake does not expand this to the proper value, thus does not see any=
+ difference.<br>
+<br>
+Does anyone have any suggestion how to tackle this issue, and force BitBake=
+ to properly track dependency to METADATA_REVISION value?<br>
+<br>
+My original task is:<br>
+Package feeds/SDK installers are versioned (git metadata revision). I am tr=
+ying to create an opkg.conf file which will contain such versioned package =
+feeds URL in SDK installer. For build reproducibility, and user convenience=
+.</div></blockquote></div><br>Bitbake tracks unexpanded forms of variables,=
+ not expanded. So it&#39;s literally storing &#39;${@base_detect_revision(d=
+)}&quot; in the checksum, not the actual revision.</div><div class=3D"gmail=
+_extra"><br></div><div class=3D"gmail_extra">METADATA_REVISION[vardepvalue]=
+ =3D &quot;${METADATA_REVISION}&quot; in your recipe will do it.<br>-- <br>=
+<div class=3D"gmail_signature">Christopher Larson<br>clarson at kergoth dot=
+ com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<b=
+r>Senior Software Engineer, Mentor Graphics</div>
+</div></div>
+
+--047d7b414330e9e67c0532206db7--
