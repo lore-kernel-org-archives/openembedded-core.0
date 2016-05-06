@@ -1,33 +1,48 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B4CC6E630
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
+	[209.85.213.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B84071951
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 May 2016 10:49:29 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u46AmZH6023059; Fri, 6 May 2016 11:49:28 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id YJWDyRaHOvBA; Fri,  6 May 2016 11:49:28 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u46AnM9P023140
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 6 May 2016 11:49:24 +0100
-Message-ID: <1462531762.21674.135.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Kucharczyk, Bartlomiej (Nokia - PL/Wroclaw)"
-	<bartlomiej.kucharczyk@nokia.com>, EXT Christopher Larson
-	<clarson@kergoth.com>
-Date: Fri, 06 May 2016 11:49:22 +0100
-In-Reply-To: <AM3PR07MB22889D01AF1F38A1664FBB3F97D0@AM3PR07MB228.eurprd07.prod.outlook.com>
-References: <DBXPR07MB23993DC9B9946851B629E21F97C0@DBXPR07MB239.eurprd07.prod.outlook.com>
-	<CABcZANniNW9XRsATUvu=D0nSMWh2paEWPED2xZRjo2z6VBKvBg@mail.gmail.com>
-	<AM3PR07MB22889D01AF1F38A1664FBB3F97D0@AM3PR07MB228.eurprd07.prod.outlook.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
+	Fri,  6 May 2016 11:24:13 +0000 (UTC)
+Received: by mail-ig0-f178.google.com with SMTP id bi2so42544627igb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 06 May 2016 04:24:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=VvTBgGuKfHRsZpuTjX7Q5QW4UgI1evuPtjuBUDStSoI=;
+	b=xLlPoNLn6krThl4CkFv555PfvS+dNP920abG5y/KJjhNPdUwHBHrF39b9w+NsnP1ZA
+	MBs30xiJZpouWjXY5iEXZtH2ZfC49oxWvAhule4ALuXqs7vM1fMKwq9yKmAaVGeFxdrI
+	vydRtl8+WBNDiPkj7LRxw9KR0Q4mVpKJbiQ+BPOXPotEoQEo8AGcVGvJVil6FYVV/pvZ
+	FNX12rrmSw+9/K/ZiqPOU/MyezzDOZv7OMxTbnYhDhBCM1woP/wFK2JBOZlWlchc6wEV
+	+M33aoI7jH4gbXuvLpgBjo4Kp0geNMs8ADXLkb5trpbYRNN9aC9GrUcAJjU9UXVcRryF
+	3G1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=VvTBgGuKfHRsZpuTjX7Q5QW4UgI1evuPtjuBUDStSoI=;
+	b=Im1pXdP70bkBIRcniUNhg+BjfGphYXSnNr+/Wt0l0LlD8xXmcTSNnZ4Na70YprD/s9
+	GpFJ6Z7KmE4HoAf0BVOPLBKr3Q5lntu94m5ntE/90+dyZTcJMpE7f4l3zkHFae+WDKsX
+	++zk59bCWHB+CP7Iv4pJ/SUapp4yJHTBSNxGGMiNVXtyWQpJSvX3Co104CmW8zlylw/E
+	wn+wf3dA+le3AoKTWGnLZbZvEkEQiANfnGDx2E32A6Fxfkwipq6fKsMk0MubUatKYq86
+	Nv4qnQnH/LvAcDI/yul+vZV7Yxp2rDz2wDZDeKtgULa4KBOqtXtk8BzFKre8l97vjdvh
+	NZ8A==
+X-Gm-Message-State: AOPr4FWXg4nV6OUZ9PeqMVerMvLoep9X6uyCuxlBlwipua3K/xo/WFkWn+PZXLKqSlloG+epNj3eS8tKUn2qgMzS
+X-Received: by 10.50.62.20 with SMTP id u20mr9592906igr.52.1462533854552; Fri,
+	06 May 2016 04:24:14 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.34.142 with HTTP; Fri, 6 May 2016 04:23:55 -0700 (PDT)
+In-Reply-To: <9ac61a33-ea21-17d4-a7d5-c5c2e94fad86@windriver.com>
+References: <1461084427.31320.25.camel@linuxfoundation.org>
+	<20160505154748.GA23370@jama>
+	<9ac61a33-ea21-17d4-a7d5-c5c2e94fad86@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 6 May 2016 12:23:55 +0100
+Message-ID: <CAJTo0LZ5KNk2eLC=fD7+PxzrcRrq_-UVG3etOeHOx3vL616RPg@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: How to force BitBake to track dependency to METADATA_REVISION?
+Subject: Re: [PATCH] image_types: Ensure rootfs dependencies cover DEBUGFS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,56 +55,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 May 2016 10:49:32 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 06 May 2016 11:24:15 -0000
+Content-Type: multipart/alternative; boundary=047d7bdca606df7fad05322ab224
 
-On Fri, 2016-05-06 at 10:10 +0000, Kucharczyk, Bartlomiej (Nokia -
-PL/Wroclaw) wrote:
-> > Bitbake tracks unexpanded forms of variables, not expanded. So it's
-> > literally storing '${@base_detect_revision(d)}" in the checksum,
-> > not the actual revision.
-> > METADATA_REVISION[vardepvalue] = "${METADATA_REVISION}" in your
-> > recipe will do it.
-> 
-> Hello! 
-> 
-> Thanks for your answer. I've tried to use vardepvalue, but it does
-> not work... After I build it for the second time (after bumping git
-> revision), nothing is rebuilt.
-> 
->     $ bitbake test
->     ...
->     NOTE: Tasks Summary: Attempted 251 tasks of which 0 didn't need
-> to be rerun and all succeeded.
->     ...
->     $ echo "" >> ../README
->     $ git commit -m"test" ../README
->     $ bitbake test
->     ...
->     NOTE: Tasks Summary: Attempted 251 tasks of which 251 didn't need
-> to be rerun and all succeeded.
->     ...
-> 
-> My test recipe is:
-> 
->     $ cat ../meta/recipes-devtools/test/test_1.0.bb
->     LICENSE = "CLOSED"
->     INHIBIT_DEFAULT_DEPS = "1"
->     METADATA_REVISION[vardepvalue] = "${METADATA_REVISION}"
->     do_compile(){
->         echo "${METADATA_REVISION}" > "${S}/testfile"
->     }
-> 
-> Any suggestions?
+--047d7bdca606df7fad05322ab224
+Content-Type: text/plain; charset=UTF-8
 
-The problem is probably the cache. It has no knowledge of when it needs
-to reparse to see if this value has changed. If you set BB_DONT_CACHE =
-"1" in the recipe, does that help?
+On 5 May 2016 at 16:55, Mark Hatle <mark.hatle@windriver.com> wrote:
 
-Cheers,
+> I thought this had been fixed.
+>
+> IMAGE_FSTYPES_DEBUGFS -should- be set to default to:
+>
+> IMAGE_FSTYPES_DEBUGFS ?= "${IMAGE_FSTYPES}"
+>
+> I usually set it to "tar.gz" myself.
+>
+> So this is a bug, and we definitely need to fix it.  :P
+>
 
-Richard
+Nope, nothing in oe-core sets that.  Can some at WR send a patch?
 
+Ross
 
+--047d7bdca606df7fad05322ab224
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 5 May 2016 at 16:55, Mark Hatle <span dir=3D"ltr">&lt;<a href=3D"mailto:=
+mark.hatle@windriver.com" target=3D"_blank">mark.hatle@windriver.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1j6" class=3D=
+"a3s aXjCH">I thought this had been fixed.<br>
+<br>
+IMAGE_FSTYPES_DEBUGFS -should- be set to default to:<br>
+<br>
+IMAGE_FSTYPES_DEBUGFS ?=3D &quot;${IMAGE_FSTYPES}&quot;<br>
+<br>
+I usually set it to &quot;tar.gz&quot; myself.<br>
+<br>
+So this is a bug, and we definitely need to fix it.=C2=A0 :P</div></blockqu=
+ote></div><br>Nope, nothing in oe-core sets that.=C2=A0 Can some at WR send=
+ a patch?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ext=
+ra">Ross</div></div>
+
+--047d7bdca606df7fad05322ab224--
