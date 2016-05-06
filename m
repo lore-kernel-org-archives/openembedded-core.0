@@ -1,46 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 7ED89731CB
+Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
+	[209.85.223.180])
+	by mail.openembedded.org (Postfix) with ESMTP id C48ED731CB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 May 2016 11:26:42 +0000 (UTC)
-Received: by mail-wm0-f50.google.com with SMTP id g17so72786564wme.1
+	Fri,  6 May 2016 11:27:22 +0000 (UTC)
+Received: by mail-io0-f180.google.com with SMTP id f89so111106093ioi.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 May 2016 04:26:43 -0700 (PDT)
+	Fri, 06 May 2016 04:27:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=hHQ26y45el3XeZKkF/WXAn7JNB0hUOQeXi8YhqPifUM=;
-	b=q/wE+PGFyMQqSXRNxHoLyt1dCajYuLiRI42qeWEtvQXI2orwYUaj4XtaoYq6ZJUDfZ
-	kt7qsy6npT6ffQUE4Uyv04Vwu8eduSUwzXsSKbUf0guX6M4j407Zl3AQtWHdjeVa7VNP
-	rFiVzvBnF62Cdi8P+CKFWPah8W9nrntwjkIMOnqdbpuYbTDl8tsd6UAnfmO9rAiKsIin
-	nsMdXYz7WsfitggXnHfLFm2GrlseGENMu0sNRVU7UJoIOcS5afMPR1PQyeuOucdlM0+k
-	McARQVIKO3YVnQK+z5yrah0Vu4mTk5ZYgAlpu5eOjtMBS6dlhWHp7ABBo8z3HpIv4L5f
-	sdhA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=c6M6omJwz3fP91Qa7w2bi8UUYtcTWIkzsFbu5ab47WY=;
+	b=FJA3r+ZPNOEJY1NqE/sJ1QSMZ8YRwrQ2F5pXeN3TXso5fByjDiV2f2Ml+KmCaYZamm
+	sDXwGe2HsCAoRbkfQaNKJPrPetIZW06pwb1on8Axar8XOAs9KmRk/5tL5WwA4SuGcL10
+	1I+I2YgIOhere0fgY8vErS/IMiDE68TvPgCl+dFyyTfE0mgM0otm2y1xXHEewNEs82Vm
+	jEe2+ORo3QJ0DfZItKS0cwfVHHbcYi/8BrlwACVaLo+DTW+bdA3ePvJIkjNkGiRxlynm
+	HVtzA2OxAe4SNR2/oeRR3LwL5J6Cm/V5Uqu8VKdZaIFAUIdjEpu0Qi1UOGm3QHewK5Te
+	L7tQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=hHQ26y45el3XeZKkF/WXAn7JNB0hUOQeXi8YhqPifUM=;
-	b=WJd6+zAGhLYuslig7rVRMoiNfQTl2ZMRcsul2LA/YekugXDBc/yx6kI0S0YRoFABqw
-	GqE1TPuk0zknVK9aI4qk9y5dMjH0PxGvuMt1DGQE95rCwIe6N47kcyNZh1nC6J0YDH5Y
-	oOgamGewL8dZGo+bVEd6hkWVp4MANCSYiaibXcvnJfcOCSGPpbnfBLybgo9GICIIZ51u
-	54yBa3UvpKOfnRiv3LkoPzGgx5U0I5tGz6eece6Uhkug7J2okMgK/OVELX0dRDIXef39
-	fAR36ztfKKs71x8Rs9xxZNRrcw3J4CWWGMggmBqpByKBudhZpHBOXpg03tUHyEpy6cOq
-	Rm7Q==
-X-Gm-Message-State: AOPr4FVJiZrX3GyXoIzgIilrGkCeBvwaVKx7mXr/Q2iXwJSvAPz0g5nk6VZSdMjEUMLmaqgc
-X-Received: by 10.28.169.69 with SMTP id s66mr8673803wme.83.1462534002768;
-	Fri, 06 May 2016 04:26:42 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	i4sm14516971wjj.49.2016.05.06.04.26.41
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 06 May 2016 04:26:42 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 May 2016 12:26:40 +0100
-Message-Id: <1462534000-18539-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.0.rc3
-Subject: [PATCH] bitbake.conf: add default for IMAGE_FSTYPES_DEBUGFS
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=c6M6omJwz3fP91Qa7w2bi8UUYtcTWIkzsFbu5ab47WY=;
+	b=crSpM4W35CHIPaQdkIgxHdSgEaQ8nczNy1leQeBNi2gDzGAedcbJLGGBxyAuD9sCRq
+	4HruF70138Zb4Rf1ro2mDqhOti8Z8Mee6zwwzBh6WKyhcOE5xfxYPUg6AVBRD+btE8qS
+	0+S80W0OG/e7q3sPxJrOh9KU6rLdyX4lUb+OWyY2AEyAldf2ry9cz1cozWYEh4tjtsED
+	Wm45v+Qd85tdpfQSkLaHLWn+hmo+NJTzg0kMvdsxsnkuJPgdjmnFZ15+VRC7O1EjbeDu
+	qq/dnZ1F+vNn9lQ07gtIWknJmAo57wbhwO06Cz/XagFlmdLg3LB/laUYB6FZw/IN1L+X
+	+XEQ==
+X-Gm-Message-State: AOPr4FVWDgNTkEJxmRB+eoDJk20OsB4Gqraw4Cdlh1bFfnXTrpaH6wQgRZlr7rR/YrmzzsvCHpK/1DwxYSh/SWaN
+X-Received: by 10.107.135.211 with SMTP id r80mr24690529ioi.133.1462534043035; 
+	Fri, 06 May 2016 04:27:23 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.34.142 with HTTP; Fri, 6 May 2016 04:27:03 -0700 (PDT)
+In-Reply-To: <CAJTo0LZ5KNk2eLC=fD7+PxzrcRrq_-UVG3etOeHOx3vL616RPg@mail.gmail.com>
+References: <1461084427.31320.25.camel@linuxfoundation.org>
+	<20160505154748.GA23370@jama>
+	<9ac61a33-ea21-17d4-a7d5-c5c2e94fad86@windriver.com>
+	<CAJTo0LZ5KNk2eLC=fD7+PxzrcRrq_-UVG3etOeHOx3vL616RPg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 6 May 2016 12:27:03 +0100
+Message-ID: <CAJTo0LZoZgj=OmUuOq6KVfLebg4-QK3-ys+F2MSfcqsHqCnmeA@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] image_types: Ensure rootfs dependencies cover DEBUGFS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,29 +56,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 May 2016 11:26:48 -0000
+X-List-Received-Date: Fri, 06 May 2016 11:27:22 -0000
+Content-Type: multipart/alternative; boundary=001a113ed20a1b89c405322abecc
 
-If debug filesystem generation is enabled but this isn't assigned then the
-generation code throws exceptions.
+--001a113ed20a1b89c405322abecc
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/conf/bitbake.conf | 1 +
- 1 file changed, 1 insertion(+)
+On 6 May 2016 at 12:23, Burton, Ross <ross.burton@intel.com> wrote:
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 1c4175f..8e02e91 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -713,6 +713,7 @@ require conf/sanity.conf
- DL_DIR ?= "${TOPDIR}/downloads"
- SSTATE_DIR ?= "${TOPDIR}/sstate-cache"
- IMAGE_FSTYPES ?= "tar.gz"
-+IMAGE_FSTYPES_DEBUGFS ?= "${IMAGE_FSTYPES}"
- 
- INITRAMFS_FSTYPES ?= "cpio.gz"
- # The maximum size in Kbytes for the generated initramfs image size.
--- 
-2.8.0.rc3
+> Nope, nothing in oe-core sets that.  Can some at WR send a patch?
+>
 
+Never mind, just sent it using your example.
 
+Ross
+
+--001a113ed20a1b89c405322abecc
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 6 May 2016 at 12:23, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;</s=
+pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
+;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_extra">No=
+pe, nothing in oe-core sets that.=C2=A0 Can some at WR send a patch?</div><=
+/blockquote><div><br></div><div>Never mind, just sent it using your example=
+.</div><div><br></div><div>Ross=C2=A0</div></div><br></div></div>
+
+--001a113ed20a1b89c405322abecc--
