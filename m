@@ -1,32 +1,41 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 8BA48731C0
+Return-Path: <christopher.w.clark@gmail.com>
+Received: from mail-oi0-f43.google.com (mail-oi0-f43.google.com
+	[209.85.218.43])
+	by mail.openembedded.org (Postfix) with ESMTP id CD0DE73289
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 May 2016 17:31:58 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga104.fm.intel.com with ESMTP; 06 May 2016 10:31:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,587,1455004800"; d="scan'208";a="974227571"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 06 May 2016 10:31:59 -0700
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.51])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id BE5746A4007;
-	Fri,  6 May 2016 11:19:32 -0700 (PDT)
-Date: Fri, 6 May 2016 18:12:08 +0300
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Christopher Larson <kergoth@gmail.com>
-Message-ID: <20160506151208.GA32046@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <cover.1462216694.git.chris_larson@mentor.com>
+	Fri,  6 May 2016 18:17:48 +0000 (UTC)
+Received: by mail-oi0-f43.google.com with SMTP id v145so147759665oie.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 06 May 2016 11:17:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to;
+	bh=yX6tAqgAOrSMG+DUhMbX7AydEARcAV6k19xfXwJuhbk=;
+	b=wAYNEBtA6MaU39tyNtBvJvbndZ3jz1vqiZFnTK631bGcjKSp/djUmcV7deXfvnCQM6
+	VCLlR0mAOXr8zn2PW2/pOZDHjYWGlAqntAL1lUEh/E0CWW0Fz4no3qFqUlI/TnWLNLJ5
+	T/t/VngoDy6xrjulXrIX7F4GA+V7dcu2j1PCpcDF9xxIITrMmCg8vnerh+Bhg8OK/AsW
+	myWUkJ6BL7rCO0ywJu2U9kElAsRyPgQRHAJdxBZMuoqdiBrcFpjxcCV1S2ud2n88mPX0
+	fryWBxzWuAtnIijacTkqls8c+2MEO48Ylgn7ccitDMQ3EnQp7xIgmYjbR2r2W6fZqxIN
+	AgXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+	bh=yX6tAqgAOrSMG+DUhMbX7AydEARcAV6k19xfXwJuhbk=;
+	b=ETh8PmH7WakH+nJnpp/rltbqvnPvwQc5nSAuCVYvP43Sj+5s9RUYZ1xcllTYlwT2x7
+	F/3B+cean29MtWej57uIF1tyV0gybVgXv2PaiATHifnlhwxYTdb/ZRgdb3FYgsJzsJmO
+	RyMcub91+0YHMmBdMJ63h98YPgjowU+rcvFwfhO77wPYA1Bc7ZfrVPR54qEhPjm/l5/r
+	nH8qlotYdNyEAgGTfgL2TAKbRi4bcdxWRxyV9oDs4XGyAtLPkQFUSOZdZtNIt5nvAuWd
+	JLL5buoXChtNgT6d+G9Dl/NUjzrSJJ6KlbLpN8VPGlK9+tnAfxuz+oP5IBhss3F3kNgz
+	q+Dw==
+X-Gm-Message-State: AOPr4FWYXSHABak78+pjtuT7ks6eRkYjcX1ve3wdxY6gka1Y3PmNjZwS7cyzZq/jaBrhb5E4snRiHvFITlIe7A==
 MIME-Version: 1.0
-In-Reply-To: <cover.1462216694.git.chris_larson@mentor.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Christopher Larson <chris_larson@mentor.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [for-master][RFC PATCH 0/3] Support template files for wic wks
+X-Received: by 10.157.9.137 with SMTP id q9mr10139082otd.101.1462558668736;
+	Fri, 06 May 2016 11:17:48 -0700 (PDT)
+Received: by 10.157.29.214 with HTTP; Fri, 6 May 2016 11:17:48 -0700 (PDT)
+Date: Fri, 6 May 2016 11:17:48 -0700
+Message-ID: <CACMJ4GY1NYE5WjmXa3A7XAg__yy6dPkCLDg8ht9TC_02G8q4Bg@mail.gmail.com>
+From: Christopher Clark <christopher.w.clark@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] linux-firmware : break out all bnx2 firmwares
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,70 +48,205 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 May 2016 17:32:00 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 06 May 2016 18:17:51 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Mon, May 02, 2016 at 12:23:54PM -0700, Christopher Larson wrote:
-> From: Christopher Larson <chris_larson@mentor.com>
-> 
-> This adds support for .wks.in files as WKS_FILE.
-> 
-> These files are treated as the contents of a bitbake variable, so usual
-> bitbake variable references are supported. I considered using another
-> templating mechanism, for example the one used by yocto-layer, but then we'd
-> end up largely mapping metadata variables to template fields anyway, which is
-> a pointless indirection. Let bitbake expand the variables directly instead.
-> 
-> This feature lets us, for example, reference ${APPEND} in --append, and avoid
-> hardcoding the serial console tty in the wks file, and let the user's changes
-> to APPEND affect wic the way they do the other image construction mechanisms.
-> 
-> The template is read in and set in a variable at parse time, so changes to the
-> variables referenced by the template will result in rebuilding the image.
-> 
-> It's been suggested that the name should better reflect how its contents are
-> used, i.e. .bbin or so. I've also considered including something like 'bbv' or
-> similar, to indicate its contents are that of a bitbake value. I think this
-> should be discussed.
-> 
-> I'd love to hear questions or comments on this. I think the value is clear,
-> and it's something we need to solve, but I'd like to hear if others agree or
-> disagree on that, and whether this implementation is appropriate.
-> 
-The patchset looks good to me, but I'd also like to hear opinions of
-people more experienced in image creation internals.
+From 81c448f89c679af258d0a3640592709dd066bbfb Mon Sep 17 00:00:00 2001
+From: Christopher Clark <christopher.clark6@baesystems.com>
+Date: Fri, 6 May 2016 11:06:29 -0700
+Subject: [PATCH] linux-firmware : break out all bnx2 firmwares
 
-> 
-> The following changes since commit 1a0e56630c5c27d8899dd0979ae0b86bbe227881:
-> 
->   utils.bbclass: note for deprecated base_contains (2016-04-29 07:53:58 +0100)
-> 
-> are available in the git repository at:
-> 
->   git://github.com/kergoth/openembedded-core wks.in
->   https://github.com/kergoth/openembedded-core/tree/wks.in
-> 
-> Christopher Larson (3):
->   image.bbclass: append to prefuncs/postfuncs for do_image_*
->   image_types.bbclass: add intermediate var for WKS_FILE_CHECKSUM
->   image_types.bbclass: support template .wks.in files for wic
-> 
->  meta/classes/image.bbclass       |  4 ++--
->  meta/classes/image_types.bbclass | 38 +++++++++++++++++++++++++++++++++++++-
->  2 files changed, 39 insertions(+), 3 deletions(-)
-> 
-> -- 
-> 2.8.0
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Break out each bnx2 firmware into an independent subpackage.
+Create a bnx2 package that depends upon all individual bnx2 subpackages.
 
+Remove the earlier bnx2-mips package that only contained the most
+recent bnx2-mips firmware.
+
+Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
+---
+ .../linux-firmware/linux-firmware_git.bb           | 129 ++++++++++++++++++++-
+ 1 file changed, 124 insertions(+), 5 deletions(-)
+
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+index 95a57d7..41c7020 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+@@ -230,7 +230,31 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
+              ${PN}-iwlwifi-7265d ${PN}-iwlwifi-8000c ${PN}-iwlwifi-8265 \
+              ${PN}-i915-license ${PN}-i915 \
+              ${PN}-adsp-sst-license ${PN}-adsp-sst \
+-             ${PN}-bnx2-mips \
++             ${PN}-bnx2 \
++             ${PN}-bnx2-mips-06-4-6-16 \
++             ${PN}-bnx2-mips-06-5-0-0-j3 \
++             ${PN}-bnx2-mips-06-5-0-0-j6 \
++             ${PN}-bnx2-mips-06-6-0-15 \
++             ${PN}-bnx2-mips-06-6-2-1 \
++             ${PN}-bnx2-mips-06-6-2-3 \
++             ${PN}-bnx2-mips-09-4-6-17 \
++             ${PN}-bnx2-mips-09-5-0-0-j15 \
++             ${PN}-bnx2-mips-09-5-0-0-j3 \
++             ${PN}-bnx2-mips-09-5-0-0-j9 \
++             ${PN}-bnx2-mips-09-6-0-17 \
++             ${PN}-bnx2-mips-09-6-2-1a \
++             ${PN}-bnx2-mips-09-6-2-1b \
++             ${PN}-bnx2-mips-09-6-2-1 \
++             ${PN}-bnx2-rv2p-06-4-6-16 \
++             ${PN}-bnx2-rv2p-06-5-0-0-j3 \
++             ${PN}-bnx2-rv2p-06-6-0-15 \
++             ${PN}-bnx2-rv2p-09-4-6-15 \
++             ${PN}-bnx2-rv2p-09-5-0-0-j10 \
++             ${PN}-bnx2-rv2p-09-5-0-0-j3 \
++             ${PN}-bnx2-rv2p-09-6-0-17 \
++             ${PN}-bnx2-rv2p-09ax-5-0-0-j10 \
++             ${PN}-bnx2-rv2p-09ax-5-0-0-j3 \
++             ${PN}-bnx2-rv2p-09ax-6-0-17 \
+              ${PN}-whence-license \
+              ${PN}-license \
+              "
+@@ -430,18 +454,113 @@ RDEPENDS_${PN}-bcm43340 += "${PN}-broadcom-license"
+ RDEPENDS_${PN}-bcm4339 += "${PN}-broadcom-license"
+ RDEPENDS_${PN}-bcm4354 += "${PN}-broadcom-license"
+
+-# For Broadcom bnx2-mips
++# For Broadcom bnx2
+ #
+ # which is a separate case to the other Broadcom firmwares since its
+ # license is contained in the shared WHENCE file.
+
+-LICENSE_${PN}-bnx2-mips = "WHENCE"
++LICENSE_${PN}-bnx2 = "WHENCE"
++LICENSE_${PN}-bnx2-mips-06-4-6-16      = "WHENCE"
++LICENSE_${PN}-bnx2-mips-06-5-0-0-j3    = "WHENCE"
++LICENSE_${PN}-bnx2-mips-06-5-0-0-j6    = "WHENCE"
++LICENSE_${PN}-bnx2-mips-06-6-0-15      = "WHENCE"
++LICENSE_${PN}-bnx2-mips-06-6-2-1       = "WHENCE"
++LICENSE_${PN}-bnx2-mips-06-6-2-3       = "WHENCE"
++LICENSE_${PN}-bnx2-mips-09-4-6-17      = "WHENCE"
++LICENSE_${PN}-bnx2-mips-09-5-0-0-j15   = "WHENCE"
++LICENSE_${PN}-bnx2-mips-09-5-0-0-j3    = "WHENCE"
++LICENSE_${PN}-bnx2-mips-09-5-0-0-j9    = "WHENCE"
++LICENSE_${PN}-bnx2-mips-09-6-0-17      = "WHENCE"
++LICENSE_${PN}-bnx2-mips-09-6-2-1a      = "WHENCE"
++LICENSE_${PN}-bnx2-mips-09-6-2-1b      = "WHENCE"
++LICENSE_${PN}-bnx2-mips-09-6-2-1       = "WHENCE"
++LICENSE_${PN}-bnx2-rv2p-06-4-6-16      = "WHENCE"
++LICENSE_${PN}-bnx2-rv2p-06-5-0-0-j3    = "WHENCE"
++LICENSE_${PN}-bnx2-rv2p-06-6-0-15      = "WHENCE"
++LICENSE_${PN}-bnx2-rv2p-09-4-6-15      = "WHENCE"
++LICENSE_${PN}-bnx2-rv2p-09-5-0-0-j10   = "WHENCE"
++LICENSE_${PN}-bnx2-rv2p-09-5-0-0-j3    = "WHENCE"
++LICENSE_${PN}-bnx2-rv2p-09-6-0-17      = "WHENCE"
++LICENSE_${PN}-bnx2-rv2p-09ax-5-0-0-j10 = "WHENCE"
++LICENSE_${PN}-bnx2-rv2p-09ax-5-0-0-j3  = "WHENCE"
++LICENSE_${PN}-bnx2-rv2p-09ax-6-0-17    = "WHENCE"
+ LICENSE_${PN}-whence-license = "WHENCE"
+
+-FILES_${PN}-bnx2-mips = "/lib/firmware/bnx2/bnx2-mips-09-6.2.1b.fw"
++FILES_${PN}-bnx2-mips-06-4-6-16      =
+"/lib/firmware/bnx2/bnx2-mips-06-4.6.16.fw"
++FILES_${PN}-bnx2-mips-06-5-0-0-j3    =
+"/lib/firmware/bnx2/bnx2-mips-06-5.0.0.j3.fw"
++FILES_${PN}-bnx2-mips-06-5-0-0-j6    =
+"/lib/firmware/bnx2/bnx2-mips-06-5.0.0.j6.fw"
++FILES_${PN}-bnx2-mips-06-6-0-15      =
+"/lib/firmware/bnx2/bnx2-mips-06-6.0.15.fw"
++FILES_${PN}-bnx2-mips-06-6-2-1       =
+"/lib/firmware/bnx2/bnx2-mips-06-6.2.1.fw"
++FILES_${PN}-bnx2-mips-06-6-2-3       =
+"/lib/firmware/bnx2/bnx2-mips-06-6.2.3.fw"
++FILES_${PN}-bnx2-mips-09-4-6-17      =
+"/lib/firmware/bnx2/bnx2-mips-09-4.6.17.fw"
++FILES_${PN}-bnx2-mips-09-5-0-0-j15   =
+"/lib/firmware/bnx2/bnx2-mips-09-5.0.0.j15.fw"
++FILES_${PN}-bnx2-mips-09-5-0-0-j3    =
+"/lib/firmware/bnx2/bnx2-mips-09-5.0.0.j3.fw"
++FILES_${PN}-bnx2-mips-09-5-0-0-j9    =
+"/lib/firmware/bnx2/bnx2-mips-09-5.0.0.j9.fw"
++FILES_${PN}-bnx2-mips-09-6-0-17      =
+"/lib/firmware/bnx2/bnx2-mips-09-6.0.17.fw"
++FILES_${PN}-bnx2-mips-09-6-2-1a      =
+"/lib/firmware/bnx2/bnx2-mips-09-6.2.1a.fw"
++FILES_${PN}-bnx2-mips-09-6-2-1b      =
+"/lib/firmware/bnx2/bnx2-mips-09-6.2.1b.fw"
++FILES_${PN}-bnx2-mips-09-6-2-1       =
+"/lib/firmware/bnx2/bnx2-mips-09-6.2.1.fw"
++FILES_${PN}-bnx2-rv2p-06-4-6-16      =
+"/lib/firmware/bnx2/bnx2-rv2p-06-4.6.16.fw"
++FILES_${PN}-bnx2-rv2p-06-5-0-0-j3    =
+"/lib/firmware/bnx2/bnx2-rv2p-06-5.0.0.j3.fw"
++FILES_${PN}-bnx2-rv2p-06-6-0-15      =
+"/lib/firmware/bnx2/bnx2-rv2p-06-6.0.15.fw"
++FILES_${PN}-bnx2-rv2p-09-4-6-15      =
+"/lib/firmware/bnx2/bnx2-rv2p-09-4.6.15.fw"
++FILES_${PN}-bnx2-rv2p-09-5-0-0-j10   =
+"/lib/firmware/bnx2/bnx2-rv2p-09-5.0.0.j10.fw"
++FILES_${PN}-bnx2-rv2p-09-5-0-0-j3    =
+"/lib/firmware/bnx2/bnx2-rv2p-09-5.0.0.j3.fw"
++FILES_${PN}-bnx2-rv2p-09-6-0-17      =
+"/lib/firmware/bnx2/bnx2-rv2p-09-6.0.17.fw"
++FILES_${PN}-bnx2-rv2p-09ax-5-0-0-j10 =
+"/lib/firmware/bnx2/bnx2-rv2p-09ax-5.0.0.j10.fw"
++FILES_${PN}-bnx2-rv2p-09ax-5-0-0-j3  =
+"/lib/firmware/bnx2/bnx2-rv2p-09ax-5.0.0.j3.fw"
++FILES_${PN}-bnx2-rv2p-09ax-6-0-17    =
+"/lib/firmware/bnx2/bnx2-rv2p-09ax-6.0.17.fw"
+ FILES_${PN}-whence-license = "/lib/firmware/WHENCE"
+
+-RDEPENDS_${PN}-bnx2-mips += "${PN}-whence-license"
++RDEPENDS_${PN}-bnx2-mips-06-4-6-16      += "${PN}-whence-license"
++RDEPENDS_${PN}-bnx2-mips-06-5-0-0-j3    += "${PN}-whence-license"
++RDEPENDS_${PN}-bnx2-mips-06-5-0-0-j6    += "${PN}-whence-license"
++RDEPENDS_${PN}-bnx2-mips-06-6-0-15      += "${PN}-whence-license"
++RDEPENDS_${PN}-bnx2-mips-06-6-2-1       += "${PN}-whence-license"
++RDEPENDS_${PN}-bnx2-mips-06-6-2-3       += "${PN}-whence-license"
++RDEPENDS_${PN}-bnx2-mips-09-4-6-17      += "${PN}-whence-license"
++RDEPENDS_${PN}-bnx2-mips-09-5-0-0-j15   += "${PN}-whence-license"
++RDEPENDS_${PN}-bnx2-mips-09-5-0-0-j3    += "${PN}-whence-license"
++RDEPENDS_${PN}-bnx2-mips-09-5-0-0-j9    += "${PN}-whence-license"
++RDEPENDS_${PN}-bnx2-mips-09-6-0-17      += "${PN}-whence-license"
++RDEPENDS_${PN}-bnx2-mips-09-6-2-1a      += "${PN}-whence-license"
++RDEPENDS_${PN}-bnx2-mips-09-6-2-1b      += "${PN}-whence-license"
++RDEPENDS_${PN}-bnx2-mips-09-6-2-1       += "${PN}-whence-license"
++RDEPENDS_${PN}-bnx2-rv2p-06-4-6-16      += "${PN}-whence-license"
++RDEPENDS_${PN}-bnx2-rv2p-06-5-0-0-j3    += "${PN}-whence-license"
++RDEPENDS_${PN}-bnx2-rv2p-06-6-0-15      += "${PN}-whence-license"
++RDEPENDS_${PN}-bnx2-rv2p-09-4-6-15      += "${PN}-whence-license"
++RDEPENDS_${PN}-bnx2-rv2p-09-5-0-0-j10   += "${PN}-whence-license"
++RDEPENDS_${PN}-bnx2-rv2p-09-5-0-0-j3    += "${PN}-whence-license"
++RDEPENDS_${PN}-bnx2-rv2p-09-6-0-17      += "${PN}-whence-license"
++RDEPENDS_${PN}-bnx2-rv2p-09ax-5-0-0-j10 += "${PN}-whence-license"
++RDEPENDS_${PN}-bnx2-rv2p-09ax-5-0-0-j3  += "${PN}-whence-license"
++RDEPENDS_${PN}-bnx2-rv2p-09ax-6-0-17    += "${PN}-whence-license"
++RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-mips-06-4-6-16"
++RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-mips-06-5-0-0-j3"
++RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-mips-06-5-0-0-j6"
++RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-mips-06-6-0-15"
++RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-mips-06-6-2-1"
++RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-mips-06-6-2-3"
++RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-mips-09-4-6-17"
++RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-mips-09-5-0-0-j15"
++RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-mips-09-5-0-0-j3"
++RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-mips-09-5-0-0-j9"
++RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-mips-09-6-0-17"
++RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-mips-09-6-2-1a"
++RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-mips-09-6-2-1b"
++RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-mips-09-6-2-1"
++RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-rv2p-06-4-6-16"
++RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-rv2p-06-5-0-0-j3"
++RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-rv2p-06-6-0-15"
++RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-rv2p-09-4-6-15"
++RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-rv2p-09-5-0-0-j10"
++RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-rv2p-09-5-0-0-j3"
++RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-rv2p-09-6-0-17"
++RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-rv2p-09ax-5-0-0-j10"
++RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-rv2p-09ax-5-0-0-j3"
++RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-rv2p-09ax-6-0-17"
++RDEPENDS_${PN}-bnx2 += "${PN}-whence-license"
+
+ # For iwlwifi
+ LICENSE_${PN}-iwlwifi-135-6     = "Firmware-iwlwifi_firmware"
 -- 
---
-Regards,
-Ed
+2.1.4
 
