@@ -1,49 +1,51 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
-	[209.85.223.180])
-	by mail.openembedded.org (Postfix) with ESMTP id C48ED731CB
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id E1A81612E5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 May 2016 11:27:22 +0000 (UTC)
-Received: by mail-io0-f180.google.com with SMTP id f89so111106093ioi.0
+	Fri,  6 May 2016 11:39:01 +0000 (UTC)
+Received: by mail-wm0-f51.google.com with SMTP id e201so54305621wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 May 2016 04:27:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=c6M6omJwz3fP91Qa7w2bi8UUYtcTWIkzsFbu5ab47WY=;
-	b=FJA3r+ZPNOEJY1NqE/sJ1QSMZ8YRwrQ2F5pXeN3TXso5fByjDiV2f2Ml+KmCaYZamm
-	sDXwGe2HsCAoRbkfQaNKJPrPetIZW06pwb1on8Axar8XOAs9KmRk/5tL5WwA4SuGcL10
-	1I+I2YgIOhere0fgY8vErS/IMiDE68TvPgCl+dFyyTfE0mgM0otm2y1xXHEewNEs82Vm
-	jEe2+ORo3QJ0DfZItKS0cwfVHHbcYi/8BrlwACVaLo+DTW+bdA3ePvJIkjNkGiRxlynm
-	HVtzA2OxAe4SNR2/oeRR3LwL5J6Cm/V5Uqu8VKdZaIFAUIdjEpu0Qi1UOGm3QHewK5Te
-	L7tQ==
+	Fri, 06 May 2016 04:39:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=TCCv/D1mDw46d4Sa0VAshqggQ9P7Jgc930XQEl+SHho=;
+	b=yvGkKplY51IOHsA6Ml4pe+ml7sgixJGwnVI7Z/70MktI5X2E8saS/st+kwu2zqmbQk
+	xS7V8YlPiUOq0cdjrCKhonPYlq0e8Lri5ANAWFhkXDUVJJXxr9apAJwH8nAnKskYJb2L
+	EyhrDo+tfinrqSKtktBC88qGZX9fKNIuHbacsHn508kjXPn+pABr3Aqh14Bbqx0BrDoC
+	GNYvBp3elHzSmv00W2inyeZm5eb10yQw1Jn5VHFfLgo0lVQulHOZKolq3dTdUkFGGjV0
+	UXR1ZKFE3P/pSCJa2hJkcHq848mZjZL4DBgJ5mfIEgcrIK5OEEivfZoPQvGeOcsZUZi3
+	OLww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=c6M6omJwz3fP91Qa7w2bi8UUYtcTWIkzsFbu5ab47WY=;
-	b=crSpM4W35CHIPaQdkIgxHdSgEaQ8nczNy1leQeBNi2gDzGAedcbJLGGBxyAuD9sCRq
-	4HruF70138Zb4Rf1ro2mDqhOti8Z8Mee6zwwzBh6WKyhcOE5xfxYPUg6AVBRD+btE8qS
-	0+S80W0OG/e7q3sPxJrOh9KU6rLdyX4lUb+OWyY2AEyAldf2ry9cz1cozWYEh4tjtsED
-	Wm45v+Qd85tdpfQSkLaHLWn+hmo+NJTzg0kMvdsxsnkuJPgdjmnFZ15+VRC7O1EjbeDu
-	qq/dnZ1F+vNn9lQ07gtIWknJmAo57wbhwO06Cz/XagFlmdLg3LB/laUYB6FZw/IN1L+X
-	+XEQ==
-X-Gm-Message-State: AOPr4FVWDgNTkEJxmRB+eoDJk20OsB4Gqraw4Cdlh1bFfnXTrpaH6wQgRZlr7rR/YrmzzsvCHpK/1DwxYSh/SWaN
-X-Received: by 10.107.135.211 with SMTP id r80mr24690529ioi.133.1462534043035; 
-	Fri, 06 May 2016 04:27:23 -0700 (PDT)
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=TCCv/D1mDw46d4Sa0VAshqggQ9P7Jgc930XQEl+SHho=;
+	b=EpswTvs3TQsZ7n13WqolTDkMngc645ZVAvminRNHr97HbwhDocM33BP124yL8aFJNu
+	xZR857OSJj7aUn4iV8YwyX6zu2Lp42jEsZzdep9tNHKl+C7k/39hVSyspfhZPRWi5Exd
+	uBhZIa+0FvS+ogcOHIL3y1nEnexcrU/s7wOvX+uSm4tZ/W6ZCC54YgdXxiN6OX6s2SMd
+	h/0hU1KllOxNnUD/lu75LOD7j83QzBsTOiYErKCFYUZ+o72ew8XMos5dw6BrA+ibTSDJ
+	ragC/ou9iprwRZgGFUI58QqdKG9RWa/7AEpwC1t0pRsw3SPtwtw4Yf7Zzd6XSvhR7niG
+	/j8Q==
+X-Gm-Message-State: AOPr4FXOOTV7rzA9vs01JYhLA78SiwRcHb4PD5FuJQRILNSfKeStrE9JR8fyKjEWx50jYQ==
+X-Received: by 10.28.140.12 with SMTP id o12mr8840710wmd.19.1462534742316;
+	Fri, 06 May 2016 04:39:02 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	m140sm7974378wma.24.2016.05.06.04.39.01
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 06 May 2016 04:39:01 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Fri, 6 May 2016 13:40:32 +0200
+To: Ross Burton <ross.burton@intel.com>
+Message-ID: <20160506114032.GC2544@jama>
+References: <1462534000-18539-1-git-send-email-ross.burton@intel.com>
 MIME-Version: 1.0
-Received: by 10.107.34.142 with HTTP; Fri, 6 May 2016 04:27:03 -0700 (PDT)
-In-Reply-To: <CAJTo0LZ5KNk2eLC=fD7+PxzrcRrq_-UVG3etOeHOx3vL616RPg@mail.gmail.com>
-References: <1461084427.31320.25.camel@linuxfoundation.org>
-	<20160505154748.GA23370@jama>
-	<9ac61a33-ea21-17d4-a7d5-c5c2e94fad86@windriver.com>
-	<CAJTo0LZ5KNk2eLC=fD7+PxzrcRrq_-UVG3etOeHOx3vL616RPg@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 6 May 2016 12:27:03 +0100
-Message-ID: <CAJTo0LZoZgj=OmUuOq6KVfLebg4-QK3-ys+F2MSfcqsHqCnmeA@mail.gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] image_types: Ensure rootfs dependencies cover DEBUGFS
+In-Reply-To: <1462534000-18539-1-git-send-email-ross.burton@intel.com>
+User-Agent: Mutt/1.6.1 (2016-04-27)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] bitbake.conf: add default for IMAGE_FSTYPES_DEBUGFS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,32 +58,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 May 2016 11:27:22 -0000
-Content-Type: multipart/alternative; boundary=001a113ed20a1b89c405322abecc
+X-List-Received-Date: Fri, 06 May 2016 11:39:04 -0000
+X-Groupsio-MsgNum: 81667
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="GZVR6ND4mMseVXL/"
+Content-Disposition: inline
 
---001a113ed20a1b89c405322abecc
-Content-Type: text/plain; charset=UTF-8
-
-On 6 May 2016 at 12:23, Burton, Ross <ross.burton@intel.com> wrote:
-
-> Nope, nothing in oe-core sets that.  Can some at WR send a patch?
->
-
-Never mind, just sent it using your example.
-
-Ross
-
---001a113ed20a1b89c405322abecc
-Content-Type: text/html; charset=UTF-8
+--GZVR6ND4mMseVXL/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 6 May 2016 at 12:23, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;</s=
-pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
-;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_extra">No=
-pe, nothing in oe-core sets that.=C2=A0 Can some at WR send a patch?</div><=
-/blockquote><div><br></div><div>Never mind, just sent it using your example=
-.</div><div><br></div><div>Ross=C2=A0</div></div><br></div></div>
+On Fri, May 06, 2016 at 12:26:40PM +0100, Ross Burton wrote:
+> If debug filesystem generation is enabled but this isn't assigned then the
+> generation code throws exceptions.
 
---001a113ed20a1b89c405322abecc--
+Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
+
+Thanks
+
+>=20
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/conf/bitbake.conf | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 1c4175f..8e02e91 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -713,6 +713,7 @@ require conf/sanity.conf
+>  DL_DIR ?=3D "${TOPDIR}/downloads"
+>  SSTATE_DIR ?=3D "${TOPDIR}/sstate-cache"
+>  IMAGE_FSTYPES ?=3D "tar.gz"
+> +IMAGE_FSTYPES_DEBUGFS ?=3D "${IMAGE_FSTYPES}"
+> =20
+>  INITRAMFS_FSTYPES ?=3D "cpio.gz"
+>  # The maximum size in Kbytes for the generated initramfs image size.
+> --=20
+> 2.8.0.rc3
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--GZVR6ND4mMseVXL/
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlcsgq8ACgkQN1Ujt2V2gBxwHgCgl0MxvNXj6hVVQ1YZ7dADW746
+oV8An3+xIjbXUZ7lAL1OTptbrMWJLY0p
+=9Acf
+-----END PGP SIGNATURE-----
+
+--GZVR6ND4mMseVXL/--
