@@ -1,46 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E5D673259
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 7725C7391A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 May 2016 07:11:59 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id 145so9946823pfz.1
+	Fri,  6 May 2016 07:12:01 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id r187so11661233pfr.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 May 2016 00:12:00 -0700 (PDT)
+	Fri, 06 May 2016 00:12:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=xN+zjDTABI3QISr31l9e01AlSovg+ITsLIwkJ8OkdqM=;
-	b=XC51S3xFPrfazv+BfoTpku4TJQr8+ECM5ddsOBc/dSVoEGM7X5thTknLKR7oFmAHPv
-	74RtODvEXFt+MQroNv9Ewdlie9WsuRtLP88f07waOTTABetiUE11B98Vg+XA9pvI/0V3
-	v+IbKHAtQ1ZiW5ExkVq3+B3VGKErt2lzn80KqmcyOMQRiKkyetxDWE1uK9EYSZLvjoIs
-	7inSi7DItJke31M++ywv+Ko6eNH3R7d3J2mxs5EKqjNtBH5KMV4pDgfEb+RxtFPlnqGG
-	q8hSsiPI/rKFpN7tGIOwo/8knvelB8iyRsaHJqnHNDgNCsGOclUxI78alMEbsqHrdF7+
-	THNA==
+	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+	:content-transfer-encoding;
+	bh=LRCWaH8dik40xbCZjPWGMdkPIMtZ4IcV8lEhjX+jREk=;
+	b=GWPE99LvRSEn+CbX8lYKC4R7T//rLW2ooVJNxjfZ2H12FAPpWciXXUVhNFE8mnCctR
+	WDLIEL53cq60Hprg5wG7jwYNx+DmauKKkOuMgUDjVtxrtxMNCsB22dmAHTQfoanaWTt4
+	Ob+xntF7MTRPehKl69Gg3XDxrRSJQP3BvAY9H/QCkrn2CsqPVJS4lEQyD4v1QLyfUIeE
+	zh6ekGiAI6NgRr0ob11r4zwIX4xdEcCdZuM/xA5L+QFoYnBr6E0jfe5OL80G9KCfD9Ei
+	oCQoT+p4VwTOeSbvtsEglkvyUQkqOv5+k6laQ1j7GAKB1JzOsV8ZiE90xaHCFz/TQYwN
+	qKtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=xN+zjDTABI3QISr31l9e01AlSovg+ITsLIwkJ8OkdqM=;
-	b=cfILY99a6Tvi+nIE2IOJZOwUKr4Q3WLJrn691oG0iLH/+GohqGKN1X7q8k3YZqhHI2
-	zr8R2DWu8bCsa/CHXRGQGXK/Ja/RSEbQQdd6CjJALSysVbPJOZlMfe81uopsnSYssSF3
-	Sbez0422kEB0QZBqgSjy0WuN47SDk+v8eMOkDJKX5pbZtZGfr+AqyZ39QYFImGYvfojw
-	RD2XVPwXBtJIEgKWbyQrZwmr8+EU/d2szi3rJIlfEg6c+GcASz7CBJBj81wonQ5OWj2t
-	3UUnHG5FSXBYU3nWg9OvE9XJgQJiLcHR6OpMD94HTyGLBgjyuz5WVWcMjtj4Y0Eckqj+
-	cOrw==
-X-Gm-Message-State: AOPr4FUjUqrsQ933dl+6ICwTgAcBVnzEExy27MdP1C7JDlsbzG+pKEXmgVXSTBwmfwrdAQ==
-X-Received: by 10.98.98.69 with SMTP id w66mr15969783pfb.20.1462518720783;
-	Fri, 06 May 2016 00:12:00 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=LRCWaH8dik40xbCZjPWGMdkPIMtZ4IcV8lEhjX+jREk=;
+	b=Mb8+kw3IQQEz12dHbIXyinNV/y9e3BKr6CLbyH1W6lsH/JTOJMxJNJLEhECS3AUk2M
+	4vikkWzuLWW6xYVGw/XHfce2U/SwDHvY0H2et7I31hsXBHtmxRdAKmC8yhteMGkPt3tn
+	BKeTYd6nWp6+kHw08q2NYpfYXgLS8xb/Pn97hjEh9a8gVy6V1+tLKfozTsJSs67ne982
+	tKTHv5AtvAoO/4II6oKdwEfa5s809Y+j4Z1rWneyTXdW4kFU845VZ3SkhOhQSzu1Ag/T
+	D0YRI27azyCcoWYPvZGmRZAe/Vs1Vuc+dWcyVGpSGryy9e/Rm0ximnC0u3TZKvom9jGL
+	yqlQ==
+X-Gm-Message-State: AOPr4FVxIthUUWKuvhGDn6GmRfILm2JIXM6RoxIUGiIdAmCKfbolMjeN3O9CWAhG6590jA==
+X-Received: by 10.98.44.81 with SMTP id s78mr17851931pfs.56.1462518722915;
+	Fri, 06 May 2016 00:12:02 -0700 (PDT)
 Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
-	q129sm18417191pfb.16.2016.05.06.00.11.59
+	q129sm18417191pfb.16.2016.05.06.00.12.00
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 06 May 2016 00:11:59 -0700 (PDT)
+	Fri, 06 May 2016 00:12:01 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: akuster@mvista.com,
 	openembedded-core@lists.openembedded.org
-Date: Fri,  6 May 2016 00:11:54 -0700
-Message-Id: <1462518717-2629-1-git-send-email-akuster808@gmail.com>
+Date: Fri,  6 May 2016 00:11:55 -0700
+Message-Id: <1462518717-2629-2-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.3.5
-Subject: [master][krogoth][PATCH 1/4] gcc: Security fix CVE-2016-4488
+In-Reply-To: <1462518717-2629-1-git-send-email-akuster808@gmail.com>
+References: <1462518717-2629-1-git-send-email-akuster808@gmail.com>
+MIME-Version: 1.0
+Subject: [master][krogoth][PATCH 2/4] gcc: Security fix CVE-2016-4489
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,108 +58,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 May 2016 07:12:00 -0000
+X-List-Received-Date: Fri, 06 May 2016 07:12:02 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 From: Armin Kuster <akuster@mvista.com>
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
  meta/recipes-devtools/gcc/gcc-5.3.inc              |  1 +
- .../gcc/gcc-5.3/CVE-2016-4488.patch                | 73 ++++++++++++++++++++++
- 2 files changed, 74 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-5.3/CVE-2016-4488.patch
+ .../gcc/gcc-5.3/CVE-2016-4489.patch                | 56 ++++++++++++++++++++++
+ 2 files changed, 57 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-5.3/CVE-2016-4489.patch
 
 diff --git a/meta/recipes-devtools/gcc/gcc-5.3.inc b/meta/recipes-devtools/gcc/gcc-5.3.inc
-index 9808be1..2ea5952 100644
+index 2ea5952..692758d 100644
 --- a/meta/recipes-devtools/gcc/gcc-5.3.inc
 +++ b/meta/recipes-devtools/gcc/gcc-5.3.inc
-@@ -88,6 +88,7 @@ SRC_URI = "\
-            file://0056-Enable-libc-provide-ssp-and-gcc_cv_target_dl_iterate.patch \
+@@ -89,6 +89,7 @@ SRC_URI = "\
             file://0057-unwind-fix-for-musl.patch \
             file://0058-fdebug-prefix-map-support-to-remap-relative-path.patch \
-+           file://CVE-2016-4488.patch \
+            file://CVE-2016-4488.patch \
++           file://CVE-2016-4489.patch \
  "
  
  BACKPORTS = ""
-diff --git a/meta/recipes-devtools/gcc/gcc-5.3/CVE-2016-4488.patch b/meta/recipes-devtools/gcc/gcc-5.3/CVE-2016-4488.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-5.3/CVE-2016-4489.patch b/meta/recipes-devtools/gcc/gcc-5.3/CVE-2016-4489.patch
 new file mode 100644
-index 0000000..30e0ffe
+index 0000000..68a0f85
 --- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-5.3/CVE-2016-4488.patch
-@@ -0,0 +1,73 @@
-+From be3004dc350a820a5b0320b34bd05673ba534058 Mon Sep 17 00:00:00 2001
-+From: law <law@138bc75d-0d04-0410-961f-82ee72b054a4>
-+Date: Thu, 31 Mar 2016 17:20:53 +0000
-+Subject: [PATCH] 	* cplus-dem.c (squangle_mop_up): Zero bsize/ksize
-+ after freeing 	btypevec/ktypevec. 	* testsuite/demangle-expected: Add
-+ coverage tests.
++++ b/meta/recipes-devtools/gcc/gcc-5.3/CVE-2016-4489.patch
+@@ -0,0 +1,56 @@
++From 053ec2207203a194d2ae82e2f164009aad3f14d2 Mon Sep 17 00:00:00 2001
++From: bernds <bernds@138bc75d-0d04-0410-961f-82ee72b054a4>
++Date: Fri, 8 Apr 2016 12:06:59 +0000
++Subject: [PATCH] =?UTF-8?q?Handle=20an=20overflow=20case=20(PR70498,=20pat?=
++ =?UTF-8?q?ch=20by=20Marcel=20B=C3=B6hme).?=
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@234645 138bc75d-0d04-0410-961f-82ee72b054a4
++	PR c++/70498
++	* cplus-dem.c (gnu_special): Handle case where consume_count returns
++	-1.
++
++
++
++git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@234828 138bc75d-0d04-0410-961f-82ee72b054a4
 +
 +Upstream-Status: Backport
-+CVE:  CVE-2016-4488
++CVE: CVE-2016-4489
 +
-+patched ChangeLog and demangle-expected as patch is from tip.
 +Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+
 +---
-+ libiberty/ChangeLog                   |  7 +++++++
-+ libiberty/cplus-dem.c                 |  2 ++
-+ libiberty/testsuite/demangle-expected | 10 ++++++++++
-+ 3 files changed, 19 insertions(+)
++ libiberty/ChangeLog   | 6 ++++++
++ libiberty/cplus-dem.c | 5 +++++
++ 2 files changed, 11 insertions(+)
 +
-+Index: gcc-5.3.0/libiberty/cplus-dem.c
-+===================================================================
-+--- gcc-5.3.0.orig/libiberty/cplus-dem.c
-++++ gcc-5.3.0/libiberty/cplus-dem.c
-+@@ -1237,11 +1237,13 @@ squangle_mop_up (struct work_stuff *work
-+     {
-+       free ((char *) work -> btypevec);
-+       work->btypevec = NULL;
-++      work->bsize = 0;
-+     }
-+   if (work -> ktypevec != NULL)
-+     {
-+       free ((char *) work -> ktypevec);
-+       work->ktypevec = NULL;
-++      work->ksize = 0;
-+     }
-+ }
-+ 
-+Index: gcc-5.3.0/libiberty/testsuite/demangle-expected
-+===================================================================
-+--- gcc-5.3.0.orig/libiberty/testsuite/demangle-expected
-++++ gcc-5.3.0/libiberty/testsuite/demangle-expected
-+@@ -4356,3 +4356,13 @@ _QueueNotification_QueueController__$4PP
-+ --format=gnu-v3
-+ _Z1fSsB3fooS_
-+ f(std::string[abi:foo], std::string[abi:foo])
-++#
-++# Tests a use-after-free problem
-++
-++_Q.__0
-++::Q.(void)
-++#
-++# Tests a use-after-free problem
-++
-++_Q10-__9cafebabe.
-++cafebabe.::-(void)
 +Index: gcc-5.3.0/libiberty/ChangeLog
 +===================================================================
 +--- gcc-5.3.0.orig/libiberty/ChangeLog
 ++++ gcc-5.3.0/libiberty/ChangeLog
-+@@ -1,3 +1,10 @@
-++2016-03-31  Mikhail Maltsev  <maltsevm@gmail.com>
-++           Marcel Bohme  boehme.marcel@gmail.com
++@@ -1,3 +1,9 @@
+++2016-04-08  Marcel Böhme  <boehme.marcel@gmail.com>
 ++
-++       * cplus-dem.c (squangle_mop_up): Zero bsize/ksize after freeing
-++       btypevec/ktypevec.
-++       * testsuite/demangle-expected: Add coverage tests.
+++	PR c++/70498
+++	* cplus-dem.c (gnu_special): Handle case where consume_count returns
+++	-1.
 ++
-+ 2015-12-04  Release Manager
++ 2016-03-31  Mikhail Maltsev  <maltsevm@gmail.com>
++            Marcel Bohme  boehme.marcel@gmail.com
 + 
-+ 	* GCC 5.3.0 released.
++Index: gcc-5.3.0/libiberty/cplus-dem.c
++===================================================================
++--- gcc-5.3.0.orig/libiberty/cplus-dem.c
+++++ gcc-5.3.0/libiberty/cplus-dem.c
++@@ -3001,6 +3001,11 @@ gnu_special (struct work_stuff *work, co
++ 		      success = 1;
++ 		      break;
++ 		    }
+++		  else if (n == -1)
+++		    {
+++		      success = 0;
+++		      break;
+++		    }
++ 		}
++ 	      else
++ 		{
 -- 
 2.3.5
 
