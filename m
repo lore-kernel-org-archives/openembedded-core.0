@@ -1,27 +1,24 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 711F260290
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A56573259
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 May 2016 15:50:52 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 06 May 2016 08:50:54 -0700
+	Fri,  6 May 2016 17:18:42 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga101.jf.intel.com with ESMTP; 06 May 2016 10:18:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,587,1455004800"; d="scan'208";a="947703022"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 06 May 2016 08:50:53 -0700
+X-IronPort-AV: E=Sophos;i="5.24,587,1455004800"; d="scan'208";a="98551804"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga004.fm.intel.com with ESMTP; 06 May 2016 10:18:42 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
+	by linux.intel.com (Postfix) with ESMTP id 7DAC26A4007
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  6 May 2016 11:06:16 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <1461867811-7837-1-git-send-email-akuster808@gmail.com>
-	<1462355553.6485.5.camel@linux.intel.com> <572A0450.10100@mvista.com>
-	<1462400231.6485.19.camel@linux.intel.com> <572CBC7E.9080407@gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <572CBD85.8040500@linux.intel.com>
-Date: Fri, 6 May 2016 18:51:33 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Icedove/38.6.0
-MIME-Version: 1.0
-In-Reply-To: <572CBC7E.9080407@gmail.com>
-Subject: Re: [master][krogoth][PATCH 1/2] qemu: Security fix CVE-2016-2857
+Date: Fri,  6 May 2016 17:58:43 +0300
+Message-Id: <cover.1462545440.git.ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [RFC][PATCH 0/7] image creation improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,24 +31,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 May 2016 15:50:56 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 06 May 2016 17:18:43 -0000
 
-On 05/06/2016 06:47 PM, akuster808 wrote:
+Hi,
 
-> I can not reproduce this issue. I have used two different build systems.
-> I have another I will try.
->
-> so the testcase be?
->
-> 1) bitbake core-image-sato
-> 2) runqemu qemux86
+This patchset contains various improvements for the image creation functionality
+made by Patchick Ohly during his work on bug #9076:
+ - added support for zip compression
+ - fixed dependency calculation for conversion chaining
+ - converted vmdk/vdi/qcow2 image types into conversion commands
+ - renamed COMPRESSION variables to CONVERSION as the term "compression"
+   is no longer accurate
+ - prioritized specialized image creation methods over using conversion chaining
 
-3) verify that you have a bunch of .gir and .typelib files on that image 
-(or in target sysroot)
+The changes look reasonable to me. However, it would be good to hear other
+people opinions as some changes are quite complex.
 
+The following changes since commit 912e372bd3097b1475df2689f9aec88dd3198976:
 
-Alex
+  scripts/lib/bsp/kernel.py: force patching when branch is machine branch is re-use (2016-05-06 10:32:24 +0100)
 
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ed/oe-core/image-type-9076
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/oe-core/image-type-9076
+
+Patrick Ohly (7):
+  image_types: add support for zip compression
+  image.bbclass: support duplicate compression types
+  image.bbclass: fix dependency calculation when using conversion
+    chaining
+  image.bbclass: additional output in create_symlinks
+  image creation: support converting masked types
+  image.bbclass: rename COMPRESS(ION) to CONVERSION
+  image.bbclass: prefer specialized image creation methods over chaining
+
+ meta/classes/image-live.bbclass                    |   2 +-
+ meta/classes/image-vm.bbclass                      |  31 +---
+ meta/classes/image.bbclass                         | 186 +++++++++++++++------
+ meta/classes/image_types.bbclass                   | 104 ++++++------
+ meta/classes/image_types_uboot.bbclass             |  18 +-
+ meta/conf/documentation.conf                       |   1 -
+ .../images/build-appliance-image_14.0.0.bb         |   6 +-
+ 7 files changed, 204 insertions(+), 144 deletions(-)
+
+-- 
+Regards,
+Ed
 
