@@ -1,41 +1,41 @@
-Return-Path: <christopher.w.clark@gmail.com>
-Received: from mail-oi0-f43.google.com (mail-oi0-f43.google.com
-	[209.85.218.43])
-	by mail.openembedded.org (Postfix) with ESMTP id CD0DE73289
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qg0-f54.google.com (mail-qg0-f54.google.com
+	[209.85.192.54])
+	by mail.openembedded.org (Postfix) with ESMTP id ADB386FFD7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 May 2016 18:17:48 +0000 (UTC)
-Received: by mail-oi0-f43.google.com with SMTP id v145so147759665oie.0
+	Fri,  6 May 2016 20:43:48 +0000 (UTC)
+Received: by mail-qg0-f54.google.com with SMTP id f92so62623559qgf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 May 2016 11:17:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to;
-	bh=yX6tAqgAOrSMG+DUhMbX7AydEARcAV6k19xfXwJuhbk=;
-	b=wAYNEBtA6MaU39tyNtBvJvbndZ3jz1vqiZFnTK631bGcjKSp/djUmcV7deXfvnCQM6
-	VCLlR0mAOXr8zn2PW2/pOZDHjYWGlAqntAL1lUEh/E0CWW0Fz4no3qFqUlI/TnWLNLJ5
-	T/t/VngoDy6xrjulXrIX7F4GA+V7dcu2j1PCpcDF9xxIITrMmCg8vnerh+Bhg8OK/AsW
-	myWUkJ6BL7rCO0ywJu2U9kElAsRyPgQRHAJdxBZMuoqdiBrcFpjxcCV1S2ud2n88mPX0
-	fryWBxzWuAtnIijacTkqls8c+2MEO48Ylgn7ccitDMQ3EnQp7xIgmYjbR2r2W6fZqxIN
-	AgXA==
+	Fri, 06 May 2016 13:43:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-	bh=yX6tAqgAOrSMG+DUhMbX7AydEARcAV6k19xfXwJuhbk=;
-	b=ETh8PmH7WakH+nJnpp/rltbqvnPvwQc5nSAuCVYvP43Sj+5s9RUYZ1xcllTYlwT2x7
-	F/3B+cean29MtWej57uIF1tyV0gybVgXv2PaiATHifnlhwxYTdb/ZRgdb3FYgsJzsJmO
-	RyMcub91+0YHMmBdMJ63h98YPgjowU+rcvFwfhO77wPYA1Bc7ZfrVPR54qEhPjm/l5/r
-	nH8qlotYdNyEAgGTfgL2TAKbRi4bcdxWRxyV9oDs4XGyAtLPkQFUSOZdZtNIt5nvAuWd
-	JLL5buoXChtNgT6d+G9Dl/NUjzrSJJ6KlbLpN8VPGlK9+tnAfxuz+oP5IBhss3F3kNgz
-	q+Dw==
-X-Gm-Message-State: AOPr4FWYXSHABak78+pjtuT7ks6eRkYjcX1ve3wdxY6gka1Y3PmNjZwS7cyzZq/jaBrhb5E4snRiHvFITlIe7A==
-MIME-Version: 1.0
-X-Received: by 10.157.9.137 with SMTP id q9mr10139082otd.101.1462558668736;
-	Fri, 06 May 2016 11:17:48 -0700 (PDT)
-Received: by 10.157.29.214 with HTTP; Fri, 6 May 2016 11:17:48 -0700 (PDT)
-Date: Fri, 6 May 2016 11:17:48 -0700
-Message-ID: <CACMJ4GY1NYE5WjmXa3A7XAg__yy6dPkCLDg8ht9TC_02G8q4Bg@mail.gmail.com>
-From: Christopher Clark <christopher.w.clark@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] linux-firmware : break out all bnx2 firmwares
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=jUUWtlx0CpoH9LWbw1WxvE2QDxAKKLbiZMP9tgySvzw=;
+	b=ZY/UAonMfPpsbTOXPc6qRs8JwFlgYY4SeEEKRqBTliMDh9iKsq9IU8yzJLZN00vdey
+	N+QQ6BiFD5Rfm80RoMYErtIbt9xLMqV6jWQkjv5VWxvCImIiTQG097gqwPSoRYgSHhix
+	QK7hSFPGKh5A/pplHRM2n7LkCAbrLlygIS0xCT/1yITypmrmOJoU8z6AelzkrWtiYJjx
+	6XdYVlpgR2fN8MG2xqTCMseHKCZIFoMrc2sqQs+WMrFDCEh89TBDLw0bPIo74ZThZW4p
+	xa6FqteQkbb9pR8MQiiRHXg5RN87Ccq2lUNCjOYzeEtwBv3e1srBSSyrFj8/52qzvD++
+	t7Rg==
+X-Gm-Message-State: AOPr4FVsAg9S/zY5CSNkG6MEamQmLgY8aRS4N6+/tD7w2c60nIrs2QzdTEElihoXSktEXg==
+X-Received: by 10.140.235.14 with SMTP id g14mr22377034qhc.86.1462567429062;
+	Fri, 06 May 2016 13:43:49 -0700 (PDT)
+Received: from localhost ([187.23.154.250]) by smtp.gmail.com with ESMTPSA id
+	f65sm6483509qke.46.2016.05.06.13.43.44
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 06 May 2016 13:43:47 -0700 (PDT)
+Received: by localhost (sSMTP sendmail emulation);
+	Fri, 06 May 2016 17:43:41 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Fri,  6 May 2016 17:43:29 -0300
+Message-Id: <1462567419-3459-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.8.2
+Organization: O.S. Systems Software LTDA.
+Cc: prabhu.sundararaj@nxp.com, Otavio Salvador <otavio@ossystems.com.br>,
+	neenareddy.busireddy@nxp.com,
+	meta-freescale Mailing List <meta-freescale@yoctoproject.org>
+Subject: [oe-core PATCH v4 00/10] Improve Xwayland integration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,205 +48,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 May 2016 18:17:51 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 06 May 2016 20:43:49 -0000
 
-From 81c448f89c679af258d0a3640592709dd066bbfb Mon Sep 17 00:00:00 2001
-From: Christopher Clark <christopher.clark6@baesystems.com>
-Date: Fri, 6 May 2016 11:06:29 -0700
-Subject: [PATCH] linux-firmware : break out all bnx2 firmwares
+Up to now, to make Xwayland to work it required several manual hacks
+and it was difficult to make an image which had support for it out of
+box.
 
-Break out each bnx2 firmware into an independent subpackage.
-Create a bnx2 package that depends upon all individual bnx2 subpackages.
+This patchset intends to set the base for it. It enables weston-init
+to be extended to support Xwayland launch when needed.
 
-Remove the earlier bnx2-mips package that only contained the most
-recent bnx2-mips firmware.
+There are still some issues to be done:
 
-Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
----
- .../linux-firmware/linux-firmware_git.bb           | 129 ++++++++++++++++++++-
- 1 file changed, 124 insertions(+), 5 deletions(-)
+ - how to make Xwayland fit on the packagegroups?
+ - does core-image.bbclass ought to include a xwayland feature?
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index 95a57d7..41c7020 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -230,7 +230,31 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
-              ${PN}-iwlwifi-7265d ${PN}-iwlwifi-8000c ${PN}-iwlwifi-8265 \
-              ${PN}-i915-license ${PN}-i915 \
-              ${PN}-adsp-sst-license ${PN}-adsp-sst \
--             ${PN}-bnx2-mips \
-+             ${PN}-bnx2 \
-+             ${PN}-bnx2-mips-06-4-6-16 \
-+             ${PN}-bnx2-mips-06-5-0-0-j3 \
-+             ${PN}-bnx2-mips-06-5-0-0-j6 \
-+             ${PN}-bnx2-mips-06-6-0-15 \
-+             ${PN}-bnx2-mips-06-6-2-1 \
-+             ${PN}-bnx2-mips-06-6-2-3 \
-+             ${PN}-bnx2-mips-09-4-6-17 \
-+             ${PN}-bnx2-mips-09-5-0-0-j15 \
-+             ${PN}-bnx2-mips-09-5-0-0-j3 \
-+             ${PN}-bnx2-mips-09-5-0-0-j9 \
-+             ${PN}-bnx2-mips-09-6-0-17 \
-+             ${PN}-bnx2-mips-09-6-2-1a \
-+             ${PN}-bnx2-mips-09-6-2-1b \
-+             ${PN}-bnx2-mips-09-6-2-1 \
-+             ${PN}-bnx2-rv2p-06-4-6-16 \
-+             ${PN}-bnx2-rv2p-06-5-0-0-j3 \
-+             ${PN}-bnx2-rv2p-06-6-0-15 \
-+             ${PN}-bnx2-rv2p-09-4-6-15 \
-+             ${PN}-bnx2-rv2p-09-5-0-0-j10 \
-+             ${PN}-bnx2-rv2p-09-5-0-0-j3 \
-+             ${PN}-bnx2-rv2p-09-6-0-17 \
-+             ${PN}-bnx2-rv2p-09ax-5-0-0-j10 \
-+             ${PN}-bnx2-rv2p-09ax-5-0-0-j3 \
-+             ${PN}-bnx2-rv2p-09ax-6-0-17 \
-              ${PN}-whence-license \
-              ${PN}-license \
-              "
-@@ -430,18 +454,113 @@ RDEPENDS_${PN}-bcm43340 += "${PN}-broadcom-license"
- RDEPENDS_${PN}-bcm4339 += "${PN}-broadcom-license"
- RDEPENDS_${PN}-bcm4354 += "${PN}-broadcom-license"
+Yet, this patchset seems good to be reviewed and possibly merged.
 
--# For Broadcom bnx2-mips
-+# For Broadcom bnx2
- #
- # which is a separate case to the other Broadcom firmwares since its
- # license is contained in the shared WHENCE file.
+Changes in v4:
+- New patch.
+- New patch.
+- Use --log= for weston call
 
--LICENSE_${PN}-bnx2-mips = "WHENCE"
-+LICENSE_${PN}-bnx2 = "WHENCE"
-+LICENSE_${PN}-bnx2-mips-06-4-6-16      = "WHENCE"
-+LICENSE_${PN}-bnx2-mips-06-5-0-0-j3    = "WHENCE"
-+LICENSE_${PN}-bnx2-mips-06-5-0-0-j6    = "WHENCE"
-+LICENSE_${PN}-bnx2-mips-06-6-0-15      = "WHENCE"
-+LICENSE_${PN}-bnx2-mips-06-6-2-1       = "WHENCE"
-+LICENSE_${PN}-bnx2-mips-06-6-2-3       = "WHENCE"
-+LICENSE_${PN}-bnx2-mips-09-4-6-17      = "WHENCE"
-+LICENSE_${PN}-bnx2-mips-09-5-0-0-j15   = "WHENCE"
-+LICENSE_${PN}-bnx2-mips-09-5-0-0-j3    = "WHENCE"
-+LICENSE_${PN}-bnx2-mips-09-5-0-0-j9    = "WHENCE"
-+LICENSE_${PN}-bnx2-mips-09-6-0-17      = "WHENCE"
-+LICENSE_${PN}-bnx2-mips-09-6-2-1a      = "WHENCE"
-+LICENSE_${PN}-bnx2-mips-09-6-2-1b      = "WHENCE"
-+LICENSE_${PN}-bnx2-mips-09-6-2-1       = "WHENCE"
-+LICENSE_${PN}-bnx2-rv2p-06-4-6-16      = "WHENCE"
-+LICENSE_${PN}-bnx2-rv2p-06-5-0-0-j3    = "WHENCE"
-+LICENSE_${PN}-bnx2-rv2p-06-6-0-15      = "WHENCE"
-+LICENSE_${PN}-bnx2-rv2p-09-4-6-15      = "WHENCE"
-+LICENSE_${PN}-bnx2-rv2p-09-5-0-0-j10   = "WHENCE"
-+LICENSE_${PN}-bnx2-rv2p-09-5-0-0-j3    = "WHENCE"
-+LICENSE_${PN}-bnx2-rv2p-09-6-0-17      = "WHENCE"
-+LICENSE_${PN}-bnx2-rv2p-09ax-5-0-0-j10 = "WHENCE"
-+LICENSE_${PN}-bnx2-rv2p-09ax-5-0-0-j3  = "WHENCE"
-+LICENSE_${PN}-bnx2-rv2p-09ax-6-0-17    = "WHENCE"
- LICENSE_${PN}-whence-license = "WHENCE"
+Changes in v3:
+- Fix log redirection
+- Fix argument pass for openvt
+- New patch.
 
--FILES_${PN}-bnx2-mips = "/lib/firmware/bnx2/bnx2-mips-09-6.2.1b.fw"
-+FILES_${PN}-bnx2-mips-06-4-6-16      =
-"/lib/firmware/bnx2/bnx2-mips-06-4.6.16.fw"
-+FILES_${PN}-bnx2-mips-06-5-0-0-j3    =
-"/lib/firmware/bnx2/bnx2-mips-06-5.0.0.j3.fw"
-+FILES_${PN}-bnx2-mips-06-5-0-0-j6    =
-"/lib/firmware/bnx2/bnx2-mips-06-5.0.0.j6.fw"
-+FILES_${PN}-bnx2-mips-06-6-0-15      =
-"/lib/firmware/bnx2/bnx2-mips-06-6.0.15.fw"
-+FILES_${PN}-bnx2-mips-06-6-2-1       =
-"/lib/firmware/bnx2/bnx2-mips-06-6.2.1.fw"
-+FILES_${PN}-bnx2-mips-06-6-2-3       =
-"/lib/firmware/bnx2/bnx2-mips-06-6.2.3.fw"
-+FILES_${PN}-bnx2-mips-09-4-6-17      =
-"/lib/firmware/bnx2/bnx2-mips-09-4.6.17.fw"
-+FILES_${PN}-bnx2-mips-09-5-0-0-j15   =
-"/lib/firmware/bnx2/bnx2-mips-09-5.0.0.j15.fw"
-+FILES_${PN}-bnx2-mips-09-5-0-0-j3    =
-"/lib/firmware/bnx2/bnx2-mips-09-5.0.0.j3.fw"
-+FILES_${PN}-bnx2-mips-09-5-0-0-j9    =
-"/lib/firmware/bnx2/bnx2-mips-09-5.0.0.j9.fw"
-+FILES_${PN}-bnx2-mips-09-6-0-17      =
-"/lib/firmware/bnx2/bnx2-mips-09-6.0.17.fw"
-+FILES_${PN}-bnx2-mips-09-6-2-1a      =
-"/lib/firmware/bnx2/bnx2-mips-09-6.2.1a.fw"
-+FILES_${PN}-bnx2-mips-09-6-2-1b      =
-"/lib/firmware/bnx2/bnx2-mips-09-6.2.1b.fw"
-+FILES_${PN}-bnx2-mips-09-6-2-1       =
-"/lib/firmware/bnx2/bnx2-mips-09-6.2.1.fw"
-+FILES_${PN}-bnx2-rv2p-06-4-6-16      =
-"/lib/firmware/bnx2/bnx2-rv2p-06-4.6.16.fw"
-+FILES_${PN}-bnx2-rv2p-06-5-0-0-j3    =
-"/lib/firmware/bnx2/bnx2-rv2p-06-5.0.0.j3.fw"
-+FILES_${PN}-bnx2-rv2p-06-6-0-15      =
-"/lib/firmware/bnx2/bnx2-rv2p-06-6.0.15.fw"
-+FILES_${PN}-bnx2-rv2p-09-4-6-15      =
-"/lib/firmware/bnx2/bnx2-rv2p-09-4.6.15.fw"
-+FILES_${PN}-bnx2-rv2p-09-5-0-0-j10   =
-"/lib/firmware/bnx2/bnx2-rv2p-09-5.0.0.j10.fw"
-+FILES_${PN}-bnx2-rv2p-09-5-0-0-j3    =
-"/lib/firmware/bnx2/bnx2-rv2p-09-5.0.0.j3.fw"
-+FILES_${PN}-bnx2-rv2p-09-6-0-17      =
-"/lib/firmware/bnx2/bnx2-rv2p-09-6.0.17.fw"
-+FILES_${PN}-bnx2-rv2p-09ax-5-0-0-j10 =
-"/lib/firmware/bnx2/bnx2-rv2p-09ax-5.0.0.j10.fw"
-+FILES_${PN}-bnx2-rv2p-09ax-5-0-0-j3  =
-"/lib/firmware/bnx2/bnx2-rv2p-09ax-5.0.0.j3.fw"
-+FILES_${PN}-bnx2-rv2p-09ax-6-0-17    =
-"/lib/firmware/bnx2/bnx2-rv2p-09ax-6.0.17.fw"
- FILES_${PN}-whence-license = "/lib/firmware/WHENCE"
+Changes in v2:
+- Remove PAM requirement
+- Remove PAM requirement
+- Drop weston-lunch use as it requires PAM
+- Move weston-start module to weston package
+- Stop using weston-launch
 
--RDEPENDS_${PN}-bnx2-mips += "${PN}-whence-license"
-+RDEPENDS_${PN}-bnx2-mips-06-4-6-16      += "${PN}-whence-license"
-+RDEPENDS_${PN}-bnx2-mips-06-5-0-0-j3    += "${PN}-whence-license"
-+RDEPENDS_${PN}-bnx2-mips-06-5-0-0-j6    += "${PN}-whence-license"
-+RDEPENDS_${PN}-bnx2-mips-06-6-0-15      += "${PN}-whence-license"
-+RDEPENDS_${PN}-bnx2-mips-06-6-2-1       += "${PN}-whence-license"
-+RDEPENDS_${PN}-bnx2-mips-06-6-2-3       += "${PN}-whence-license"
-+RDEPENDS_${PN}-bnx2-mips-09-4-6-17      += "${PN}-whence-license"
-+RDEPENDS_${PN}-bnx2-mips-09-5-0-0-j15   += "${PN}-whence-license"
-+RDEPENDS_${PN}-bnx2-mips-09-5-0-0-j3    += "${PN}-whence-license"
-+RDEPENDS_${PN}-bnx2-mips-09-5-0-0-j9    += "${PN}-whence-license"
-+RDEPENDS_${PN}-bnx2-mips-09-6-0-17      += "${PN}-whence-license"
-+RDEPENDS_${PN}-bnx2-mips-09-6-2-1a      += "${PN}-whence-license"
-+RDEPENDS_${PN}-bnx2-mips-09-6-2-1b      += "${PN}-whence-license"
-+RDEPENDS_${PN}-bnx2-mips-09-6-2-1       += "${PN}-whence-license"
-+RDEPENDS_${PN}-bnx2-rv2p-06-4-6-16      += "${PN}-whence-license"
-+RDEPENDS_${PN}-bnx2-rv2p-06-5-0-0-j3    += "${PN}-whence-license"
-+RDEPENDS_${PN}-bnx2-rv2p-06-6-0-15      += "${PN}-whence-license"
-+RDEPENDS_${PN}-bnx2-rv2p-09-4-6-15      += "${PN}-whence-license"
-+RDEPENDS_${PN}-bnx2-rv2p-09-5-0-0-j10   += "${PN}-whence-license"
-+RDEPENDS_${PN}-bnx2-rv2p-09-5-0-0-j3    += "${PN}-whence-license"
-+RDEPENDS_${PN}-bnx2-rv2p-09-6-0-17      += "${PN}-whence-license"
-+RDEPENDS_${PN}-bnx2-rv2p-09ax-5-0-0-j10 += "${PN}-whence-license"
-+RDEPENDS_${PN}-bnx2-rv2p-09ax-5-0-0-j3  += "${PN}-whence-license"
-+RDEPENDS_${PN}-bnx2-rv2p-09ax-6-0-17    += "${PN}-whence-license"
-+RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-mips-06-4-6-16"
-+RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-mips-06-5-0-0-j3"
-+RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-mips-06-5-0-0-j6"
-+RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-mips-06-6-0-15"
-+RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-mips-06-6-2-1"
-+RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-mips-06-6-2-3"
-+RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-mips-09-4-6-17"
-+RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-mips-09-5-0-0-j15"
-+RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-mips-09-5-0-0-j3"
-+RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-mips-09-5-0-0-j9"
-+RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-mips-09-6-0-17"
-+RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-mips-09-6-2-1a"
-+RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-mips-09-6-2-1b"
-+RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-mips-09-6-2-1"
-+RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-rv2p-06-4-6-16"
-+RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-rv2p-06-5-0-0-j3"
-+RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-rv2p-06-6-0-15"
-+RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-rv2p-09-4-6-15"
-+RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-rv2p-09-5-0-0-j10"
-+RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-rv2p-09-5-0-0-j3"
-+RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-rv2p-09-6-0-17"
-+RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-rv2p-09ax-5-0-0-j10"
-+RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-rv2p-09ax-5-0-0-j3"
-+RDEPENDS_${PN}-bnx2 += "${PN}-bnx2-rv2p-09ax-6-0-17"
-+RDEPENDS_${PN}-bnx2 += "${PN}-whence-license"
+Otavio Salvador (10):
+  weston: Enable XWayland when X11 and Wayland support are available
+  weston: Remove XWayland dependencies on PACKAGECONFIG
+  weston: Fix SystemD service description
+  weston: Add PACKAGECONFIG option for 'clients'
+  weston-init: Rework do_install to use install -D option
+  weston-init: Rework init sequence to avoid code duplication
+  weston-init: Error out if loading a nested instance
+  weston-init: Add module support for the weston-start helper
+  weston: Add Xwayland initialization support using weston-start
+  core-image-weston: If X11 is enabled, add XWayland support
 
- # For iwlwifi
- LICENSE_${PN}-iwlwifi-135-6     = "Firmware-iwlwifi_firmware"
+ meta/recipes-graphics/images/core-image-weston.bb  |  1 +
+ meta/recipes-graphics/wayland/weston-init.bb       | 11 ++--
+ meta/recipes-graphics/wayland/weston-init/init     |  9 +--
+ .../wayland/weston-init/weston-start               | 67 ++++++++++++++++++++++
+ .../wayland/weston-init/weston.service             |  7 +--
+ .../wayland/weston/xwayland.weston-start           |  7 +++
+ meta/recipes-graphics/wayland/weston_1.9.0.bb      | 19 +++---
+ 7 files changed, 95 insertions(+), 26 deletions(-)
+ create mode 100755 meta/recipes-graphics/wayland/weston-init/weston-start
+ create mode 100644 meta/recipes-graphics/wayland/weston/xwayland.weston-start
+
 -- 
-2.1.4
+2.8.2
+
 
