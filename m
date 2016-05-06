@@ -1,51 +1,24 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id E1A81612E5
+Return-Path: <Catalin.Enache@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CAB0731A3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 May 2016 11:39:01 +0000 (UTC)
-Received: by mail-wm0-f51.google.com with SMTP id e201so54305621wme.0
+	Fri,  6 May 2016 12:10:08 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u46CA94C019273
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 May 2016 04:39:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=TCCv/D1mDw46d4Sa0VAshqggQ9P7Jgc930XQEl+SHho=;
-	b=yvGkKplY51IOHsA6Ml4pe+ml7sgixJGwnVI7Z/70MktI5X2E8saS/st+kwu2zqmbQk
-	xS7V8YlPiUOq0cdjrCKhonPYlq0e8Lri5ANAWFhkXDUVJJXxr9apAJwH8nAnKskYJb2L
-	EyhrDo+tfinrqSKtktBC88qGZX9fKNIuHbacsHn508kjXPn+pABr3Aqh14Bbqx0BrDoC
-	GNYvBp3elHzSmv00W2inyeZm5eb10yQw1Jn5VHFfLgo0lVQulHOZKolq3dTdUkFGGjV0
-	UXR1ZKFE3P/pSCJa2hJkcHq848mZjZL4DBgJ5mfIEgcrIK5OEEivfZoPQvGeOcsZUZi3
-	OLww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=TCCv/D1mDw46d4Sa0VAshqggQ9P7Jgc930XQEl+SHho=;
-	b=EpswTvs3TQsZ7n13WqolTDkMngc645ZVAvminRNHr97HbwhDocM33BP124yL8aFJNu
-	xZR857OSJj7aUn4iV8YwyX6zu2Lp42jEsZzdep9tNHKl+C7k/39hVSyspfhZPRWi5Exd
-	uBhZIa+0FvS+ogcOHIL3y1nEnexcrU/s7wOvX+uSm4tZ/W6ZCC54YgdXxiN6OX6s2SMd
-	h/0hU1KllOxNnUD/lu75LOD7j83QzBsTOiYErKCFYUZ+o72ew8XMos5dw6BrA+ibTSDJ
-	ragC/ou9iprwRZgGFUI58QqdKG9RWa/7AEpwC1t0pRsw3SPtwtw4Yf7Zzd6XSvhR7niG
-	/j8Q==
-X-Gm-Message-State: AOPr4FXOOTV7rzA9vs01JYhLA78SiwRcHb4PD5FuJQRILNSfKeStrE9JR8fyKjEWx50jYQ==
-X-Received: by 10.28.140.12 with SMTP id o12mr8840710wmd.19.1462534742316;
-	Fri, 06 May 2016 04:39:02 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	m140sm7974378wma.24.2016.05.06.04.39.01
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 06 May 2016 04:39:01 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 6 May 2016 13:40:32 +0200
-To: Ross Burton <ross.burton@intel.com>
-Message-ID: <20160506114032.GC2544@jama>
-References: <1462534000-18539-1-git-send-email-ross.burton@intel.com>
+	Fri, 6 May 2016 05:10:09 -0700 (PDT)
+Received: from no3.corp.ad.wrs.com (128.224.124.137) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.248.2; Fri, 6 May 2016 05:10:08 -0700
+From: Catalin Enache <catalin.enache@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 6 May 2016 15:13:50 +0300
+Message-ID: <1462536830-30243-1-git-send-email-catalin.enache@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <1462534000-18539-1-git-send-email-ross.burton@intel.com>
-User-Agent: Mutt/1.6.1 (2016-04-27)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] bitbake.conf: add default for IMAGE_FSTYPES_DEBUGFS
+Subject: [PATCH] grub-efi: run autogen.sh before configure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,65 +31,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 May 2016 11:39:04 -0000
-X-Groupsio-MsgNum: 81667
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="GZVR6ND4mMseVXL/"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 06 May 2016 12:10:09 -0000
+Content-Type: text/plain
 
---GZVR6ND4mMseVXL/
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+When adding new source files from upstream the autogen.sh
+script needs to be run.
 
-On Fri, May 06, 2016 at 12:26:40PM +0100, Ross Burton wrote:
-> If debug filesystem generation is enabled but this isn't assigned then the
-> generation code throws exceptions.
+Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
+---
+ meta/recipes-bsp/grub/grub-efi_2.00.bb | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
+diff --git a/meta/recipes-bsp/grub/grub-efi_2.00.bb b/meta/recipes-bsp/grub/grub-efi_2.00.bb
+index 5a0dc95..62ded6e 100644
+--- a/meta/recipes-bsp/grub/grub-efi_2.00.bb
++++ b/meta/recipes-bsp/grub/grub-efi_2.00.bb
+@@ -2,6 +2,7 @@ require grub2.inc
+ 
+ DEPENDS_class-target = "grub-efi-native"
+ RDEPENDS_${PN}_class-target = "diffutils freetype"
++DEPENDS += "autogen-native"
+ PR = "r3"
+ 
+ SRC_URI += " \
+@@ -39,6 +40,11 @@ EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'largefile', '--enable-
+ # and many other places in the grub code when compiled with some native gcc compilers (specifically, gentoo)
+ CFLAGS_append_class-native = " -Wno-error=trampolines"
+ 
++do_configure_prepend() {
++    ( cd ${S}
++    ${S}/autogen.sh )
++}
++
+ do_install_class-native() {
+ 	install -d ${D}${bindir}
+ 	install -m 755 grub-mkimage ${D}${bindir}
+-- 
+2.7.4
 
-Thanks
 
->=20
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/conf/bitbake.conf | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 1c4175f..8e02e91 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -713,6 +713,7 @@ require conf/sanity.conf
->  DL_DIR ?=3D "${TOPDIR}/downloads"
->  SSTATE_DIR ?=3D "${TOPDIR}/sstate-cache"
->  IMAGE_FSTYPES ?=3D "tar.gz"
-> +IMAGE_FSTYPES_DEBUGFS ?=3D "${IMAGE_FSTYPES}"
-> =20
->  INITRAMFS_FSTYPES ?=3D "cpio.gz"
->  # The maximum size in Kbytes for the generated initramfs image size.
-> --=20
-> 2.8.0.rc3
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---GZVR6ND4mMseVXL/
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlcsgq8ACgkQN1Ujt2V2gBxwHgCgl0MxvNXj6hVVQ1YZ7dADW746
-oV8An3+xIjbXUZ7lAL1OTptbrMWJLY0p
-=9Acf
------END PGP SIGNATURE-----
-
---GZVR6ND4mMseVXL/--
