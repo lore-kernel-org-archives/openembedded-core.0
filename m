@@ -1,28 +1,32 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 87DD075CF1
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 8BA48731C0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 May 2016 17:19:22 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP; 06 May 2016 10:19:23 -0700
+	Fri,  6 May 2016 17:31:58 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga104.fm.intel.com with ESMTP; 06 May 2016 10:31:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,587,1455004800"; d="scan'208";a="697932913"
+X-IronPort-AV: E=Sophos;i="5.24,587,1455004800"; d="scan'208";a="974227571"
 Received: from linux.intel.com ([10.23.219.25])
-	by FMSMGA003.fm.intel.com with ESMTP; 06 May 2016 10:19:24 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id 241726A4007
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 May 2016 11:06:56 -0700 (PDT)
+	by fmsmga002.fm.intel.com with ESMTP; 06 May 2016 10:31:59 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.51])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id BE5746A4007;
+	Fri,  6 May 2016 11:19:32 -0700 (PDT)
+Date: Fri, 6 May 2016 18:12:08 +0300
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 May 2016 17:58:50 +0300
-Message-Id: <dcc4514c78d1f8e16c4431578d429a6856516808.1462545440.git.ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1462545440.git.ed.bartosh@linux.intel.com>
-References: <cover.1462545440.git.ed.bartosh@linux.intel.com>
-In-Reply-To: <cover.1462545440.git.ed.bartosh@linux.intel.com>
-References: <cover.1462545440.git.ed.bartosh@linux.intel.com>
-Subject: [RFC][PATCH 7/7] image.bbclass: prefer specialized image creation methods over chaining
+To: Christopher Larson <kergoth@gmail.com>
+Message-ID: <20160506151208.GA32046@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <cover.1462216694.git.chris_larson@mentor.com>
+MIME-Version: 1.0
+In-Reply-To: <cover.1462216694.git.chris_larson@mentor.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Christopher Larson <chris_larson@mentor.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [for-master][RFC PATCH 0/3] Support template files for wic wks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,126 +39,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 May 2016 17:19:22 -0000
+X-List-Received-Date: Fri, 06 May 2016 17:32:00 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Patrick Ohly <patrick.ohly@intel.com>
+On Mon, May 02, 2016 at 12:23:54PM -0700, Christopher Larson wrote:
+> From: Christopher Larson <chris_larson@mentor.com>
+> 
+> This adds support for .wks.in files as WKS_FILE.
+> 
+> These files are treated as the contents of a bitbake variable, so usual
+> bitbake variable references are supported. I considered using another
+> templating mechanism, for example the one used by yocto-layer, but then we'd
+> end up largely mapping metadata variables to template fields anyway, which is
+> a pointless indirection. Let bitbake expand the variables directly instead.
+> 
+> This feature lets us, for example, reference ${APPEND} in --append, and avoid
+> hardcoding the serial console tty in the wks file, and let the user's changes
+> to APPEND affect wic the way they do the other image construction mechanisms.
+> 
+> The template is read in and set in a variable at parse time, so changes to the
+> variables referenced by the template will result in rebuilding the image.
+> 
+> It's been suggested that the name should better reflect how its contents are
+> used, i.e. .bbin or so. I've also considered including something like 'bbv' or
+> similar, to indicate its contents are that of a bitbake value. I think this
+> should be discussed.
+> 
+> I'd love to hear questions or comments on this. I think the value is clear,
+> and it's something we need to solve, but I'd like to hear if others agree or
+> disagree on that, and whether this implementation is appropriate.
+> 
+The patchset looks good to me, but I'd also like to hear opinions of
+people more experienced in image creation internals.
 
-If a certain image type can be created both by applying conversion
-commands to a base type as well as via a specialized command (like a
-fictious IMAGE_CMD_ext4.xz, or some dedicated task, as indicated by
-IMAGE_TYPES_MASKED = ext4.xz), then pick the more specialized method
-and skip generating the conversion commands.
+> 
+> The following changes since commit 1a0e56630c5c27d8899dd0979ae0b86bbe227881:
+> 
+>   utils.bbclass: note for deprecated base_contains (2016-04-29 07:53:58 +0100)
+> 
+> are available in the git repository at:
+> 
+>   git://github.com/kergoth/openembedded-core wks.in
+>   https://github.com/kergoth/openembedded-core/tree/wks.in
+> 
+> Christopher Larson (3):
+>   image.bbclass: append to prefuncs/postfuncs for do_image_*
+>   image_types.bbclass: add intermediate var for WKS_FILE_CHECKSUM
+>   image_types.bbclass: support template .wks.in files for wic
+> 
+>  meta/classes/image.bbclass       |  4 ++--
+>  meta/classes/image_types.bbclass | 38 +++++++++++++++++++++++++++++++++++++-
+>  2 files changed, 39 insertions(+), 3 deletions(-)
+> 
+> -- 
+> 2.8.0
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-That way developers can choose between using the builtin conversion
-support or re-implementing certain types, for example more efficiently
-without intermediate files.
-
-Fixes: [YOCTO #9076]
-
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- meta/classes/image.bbclass | 37 ++++++++++++++++++++++++++-----------
- 1 file changed, 26 insertions(+), 11 deletions(-)
-
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 5c68b01..06c0918 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -149,10 +149,20 @@ inherit ${IMAGE_TYPE_live}
- IMAGE_TYPE_vm = '${@ "image-vm" if image_type_active("hdddirect", d) else ""}'
- inherit ${IMAGE_TYPE_vm}
- 
--def image_split_type(type, allctypes):
-+def image_split_type(type, allctypes, d):
-     '''Returns (basetype, set of compression types in use).'''
-     basetype = type
-     compressiontypes = set()
-+
-+    # Abort stripping the type further if "basetype" has a matching
-+    # IMAGE_CMD or is a masked image type. For example, if there
-+    # was a fictional IMAGE_CMD_ext4.xz which creates a compressed
-+    # file directly, then we should use that instead of using
-+    # IMAGE_CMD_ext4 + CONVERSION_CMD_xz.
-+    if d.getVar('IMAGE_CMD_' + basetype, True) or \
-+        basetype in d.getVar('IMAGE_TYPES_MASKED', True).split():
-+            return (basetype, compressiontypes)
-+
-     for ctype in allctypes:
-         if type.endswith("." + ctype):
-              basetype = type[:-len("." + ctype)]
-@@ -161,7 +171,7 @@ def image_split_type(type, allctypes):
- 
-     if basetype != type:
-         # New base type itself might be generated by a conversion command.
--        basetype, newctypes = image_split_type(basetype, allctypes)
-+        basetype, newctypes = image_split_type(basetype, allctypes, d)
-         compressiontypes.update(newctypes)
- 
-     return (basetype, compressiontypes)
-@@ -178,7 +188,7 @@ def image_getdepends(d):
-     deps = []
-     ctypes = set(d.getVar('CONVERSIONTYPES', True).split())
-     for type in (d.getVar('IMAGE_FSTYPES', True) or "").split():
--        basetype, compressiontypes = image_split_type(type, ctypes)
-+        basetype, compressiontypes = image_split_type(type, ctypes, d)
-         for ctype in compressiontypes:
-             adddep(d.getVar("CONVERSION_DEPENDS_%s" % ctype, True) if d.getVar("CONVERSION_CMD_%s" % ctype, True)
-                    else d.getVar("COMPRESSION_DEPENDS_%s" % ctype, True),
-@@ -369,7 +379,7 @@ python () {
-             alltypes.append("debugfs_" + t)
- 
-     def _add_type(t):
--        baset = image_split_type(t, ctypes)[0]
-+        baset = image_split_type(t, ctypes, d)[0]
-         input_t = t
-         if baset not in basetypes:
-             basetypes[baset]= []
-@@ -388,7 +398,7 @@ python () {
-             if dep not in alltypes:
-                 alltypes.append(dep)
-             _add_type(dep)
--            basedep = image_split_type(dep, ctypes)[0]
-+            basedep = image_split_type(dep, ctypes, d)[0]
-             typedeps[baset].add(basedep)
- 
-         if baset != input_t:
-@@ -439,14 +449,17 @@ python () {
-         d.delVarFlag('IMAGE_CMD_' + realt, 'func')
- 
-         rm_tmp_images = set()
--        def gen_conversion_cmds(bt):
-+        def gen_conversion_cmds(basetype, type):
-+            if basetype == type:
-+                # Done, no further conversions needed.
-+                return
-             for ctype in ctypes:
--                if bt.endswith("." + ctype):
--                    type = bt[0:-len(ctype) - 1]
-+                if type.endswith("." + ctype):
-+                    type = type[0:-len(ctype) - 1]
-                     if type.startswith("debugfs_"):
-                         type = type[8:]
-                     # Create input image first.
--                    gen_conversion_cmds(type)
-+                    gen_conversion_cmds(basetype, type)
-                     localdata.setVar('type', type)
-                     cmd = "\t" + (localdata.getVar("CONVERSION_CMD_" + ctype, True) or localdata.getVar("COMPRESS_CMD_" + ctype, True))
-                     if cmd not in cmds:
-@@ -459,8 +472,10 @@ python () {
-                     if type not in alltypes:
-                         rm_tmp_images.add(localdata.expand("${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"))
- 
--        for bt in basetypes[t]:
--            gen_conversion_cmds(bt)
-+        for type in basetypes[t]:
-+            # Probably t == bt, but better check explicitly, perhaps that'll change.
-+            bt = image_split_type(type, ctypes, d)[0]
-+            gen_conversion_cmds(bt, type)
- 
-         localdata.setVar('type', realt)
-         if t not in alltypes:
 -- 
-2.1.4
-
+--
+Regards,
+Ed
 
