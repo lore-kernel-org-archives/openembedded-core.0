@@ -1,33 +1,45 @@
-Return-Path: <lixin.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 88CC473176
+Return-Path: <rwoodsmall@gmail.com>
+Received: from mail-io0-f169.google.com (mail-io0-f169.google.com
+	[209.85.223.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D613731D4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 May 2016 01:21:23 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; 
-   d="scan'208";a="6270539"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 06 May 2016 09:21:16 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 0010842B4AF3
+	Fri,  6 May 2016 03:58:32 +0000 (UTC)
+Received: by mail-io0-f169.google.com with SMTP id 190so104170302iow.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 May 2016 09:21:15 +0800 (CST)
-Received: from localhost.localdomain (10.167.226.31) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.279.2; Fri, 6 May 2016 09:21:15 +0800
-From: Li Xin <lixin.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 6 May 2016 04:20:56 +0300
-Message-ID: <1462497656-1813-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <CAEGpDuaj29ciwevzMPUwHkzeEgRyheE8rB=JQ_Ft67Fr9gAeWg@mail.gmail.com>
-References: <CAEGpDuaj29ciwevzMPUwHkzeEgRyheE8rB=JQ_Ft67Fr9gAeWg@mail.gmail.com>
-MIME-Version: 1.0
-X-Originating-IP: [10.167.226.31]
-X-yoursite-MailScanner-ID: 0010842B4AF3.AF2A0
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: lixin.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH v3] mdadm: add systemd support
+	Thu, 05 May 2016 20:58:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=NSvP6vpusUtn0KGnEVBapvTXKzo4QoeVm1OUzVcFZOE=;
+	b=NYPuqMNfukbsAIsCV4ZYjuHtiQxvJzuyc8ynWW17+7Up2Q6XKo0+gdOR+XEQeZAHdh
+	DjgeNAfTvwuXpzc2jAOY7qihx5PdHVACF67R40pzZENtKlBksep1RXi2adVgRLbBsWa3
+	VNjvMJ6xSwoVaIVbYicikPYqaRYRS/Z63+vESf/PiCxHAL3y/qCabQQrHzch8Vjyo+QA
+	6ezEL3aX2Ix8Gy0CpI1rbpG/p4DR7rT/cgOPuf42oJH/YSqNSZKaa1lKe9FCZ/75lvE6
+	Qa2hvfHmn0sfjkh30ZRChHs/2t9LB41dr2nULqgNAzn5/vGHssySr3Vt9d/IHU371pnC
+	QHYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=NSvP6vpusUtn0KGnEVBapvTXKzo4QoeVm1OUzVcFZOE=;
+	b=QUl0rhvxvG52VP80Y/CkG4046trnwcYnfTFhlUf0/VzwSZR51jXjl24+TCtpJrcJ9e
+	COYGYsHLc62VjneLpXPkPZxlFCvULQT2xhAnOiGAr9FOqvjgkmOfPy4953MDzPaxfCOK
+	GkAGqlUjbes5MeoI2Ntz58ae0reKb55JR/kxEU/JvRhIqXvGmxhbBtRN6cewkoN48xG2
+	FBUKvoJtz+tjyyUQ8bKLQYcTfNN7/w3Jq3RFU0FxlCTl7Irv5Ks5vK8xfPdvm/m5lcqK
+	cVQqPzulzdmI2KIpNgDcyClIBvv6eXIyetpUNqEagjKw7GmjP18tvhVmipYGLHdECuYw
+	V09w==
+X-Gm-Message-State: AOPr4FXMqIqiyM3NR1uXYhVLpdhDJlrJB599qD/kmYKfQJ07wCPryJ6lP+nFroxA9jZ6tg==
+X-Received: by 10.107.146.134 with SMTP id u128mr21562869iod.189.1462507113311;
+	Thu, 05 May 2016 20:58:33 -0700 (PDT)
+Received: from ip-192-168-130-158.compute.local
+	(71-14-83-136.dhcp.stls.mo.charter.com. [71.14.83.136])
+	by smtp.gmail.com with ESMTPSA id yb2sm3260109igc.9.2016.05.05.20.58.32
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 05 May 2016 20:58:32 -0700 (PDT)
+From: ryan woodsmall <rwoodsmall@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  6 May 2016 03:58:28 +0000
+Message-Id: <1462507108-17945-1-git-send-email-rwoodsmall@gmail.com>
+X-Mailer: git-send-email 2.6.4
+Subject: [PATCH] Make static lib builds (DISABLE_STATIC) configurable from local.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,80 +52,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 May 2016 01:21:24 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 06 May 2016 03:58:33 -0000
 
-Add mdadm.service to support systemd systems and add
-configuration file.
+Static libraries are mostly usable in very small embedded systems.
+The addiiton of musl-libc support allows very small "single binary" systems,
+and static linking allows no shared lib deps on these types of builds.
 
-Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
+Signed-off-by: ryan woodsmall <rwoodsmall@gmail.com>
 ---
- meta/recipes-extended/mdadm/files/mdadm.service | 13 +++++++++++++
- meta/recipes-extended/mdadm/mdadm_3.4.bb        | 14 +++++++++++++-
- 2 files changed, 26 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/mdadm/files/mdadm.service
+ meta/conf/distro/include/no-static-libs.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/mdadm/files/mdadm.service b/meta/recipes-extended/mdadm/files/mdadm.service
-new file mode 100644
-index 0000000..3664ceb
---- /dev/null
-+++ b/meta/recipes-extended/mdadm/files/mdadm.service
-@@ -0,0 +1,13 @@
-+[Unit]
-+Description=Software RAID monitoring and management
-+After=syslog.target
-+ConditionPathExists=@sysconfdir@/mdadm.conf
-+
-+[Service]
-+Type=forking
-+PIDFile=@localstatedir@/run/mdadm/mdadm.pid
-+EnvironmentFile=-@sysconfdir@/sysconfig/mdmonitor
-+ExecStart=@basesbindir@/mdadm --monitor --scan -f --pid-file=@localstatedir@/run/mdadm/mdadm.pid
-+
-+[Install]
-+WantedBy=multi-user.target
-diff --git a/meta/recipes-extended/mdadm/mdadm_3.4.bb b/meta/recipes-extended/mdadm/mdadm_3.4.bb
-index 142dfdd..2e7b155 100644
---- a/meta/recipes-extended/mdadm/mdadm_3.4.bb
-+++ b/meta/recipes-extended/mdadm/mdadm_3.4.bb
-@@ -19,12 +19,13 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
-            file://0001-Fix-some-type-comparison-problems.patch \
-            file://0001-Fix-the-path-of-corosync-and-dlm-header-files-check.patch \
-            file://run-ptest \
-+           file://mdadm.service \
- 	  "
- SRC_URI[md5sum] = "04b8b21f637540350f8517c7e68d3c63"
- SRC_URI[sha256sum] = "27d0be4627d38a12ddcd1c1c3721d649d4e89e1093914497e22b57245cda8808"
+diff --git a/meta/conf/distro/include/no-static-libs.inc b/meta/conf/distro/include/no-static-libs.inc
+index 13a7918..83472d5 100644
+--- a/meta/conf/distro/include/no-static-libs.inc
++++ b/meta/conf/distro/include/no-static-libs.inc
+@@ -1,4 +1,4 @@
+-DISABLE_STATIC = " --disable-static"
++DISABLE_STATIC ?= " --disable-static"
  
- CFLAGS += "-fno-strict-aliasing"
--inherit autotools-brokensep
-+inherit autotools-brokensep systemd
+ # qemu aborts on unrecognised option
+ DISABLE_STATIC_pn-qemu = ""
+@@ -32,4 +32,4 @@ DISABLE_STATIC_pn-libusb1-native = ""
  
- EXTRA_OEMAKE = 'CHECK_RUN_DIR=0 CXFLAGS="${CFLAGS}"'
- # PPC64 and MIPS64 uses long long for u64 in the kernel, but powerpc's asm/types.h
-@@ -42,8 +43,19 @@ do_compile() {
- do_install() {
- 	export STRIP=""
- 	autotools_do_install
-+	install -d ${D}/${sysconfdir}/
-+	install -m 644 ${S}/mdadm.conf-example ${D}${sysconfdir}/
-+	install -d ${D}${systemd_unitdir}/system
-+	install -m 644 ${WORKDIR}/mdadm.service ${D}${systemd_system_unitdir}
-+	sed -i -e 's,@basesbindir@,${base_sbindir},g' \
-+		-e 's,@localstatedir@,${localstatedir},g' \
-+		-e 's,@sysconfdir@,${sysconfdir},g' \
-+		${D}${systemd_system_unitdir}/mdadm.service
-+
- }
+ EXTRA_OECONF_append = "${DISABLE_STATIC}"
  
-+SYSTEMD_SERVICE_${PN} = "mdadm.service"
-+
- FILES_${PN} += "${base_libdir}/udev/rules.d/*.rules"
- 
- inherit ptest
+-EXTRA_OECMAKE_append_pn-libical = "-DSHARED_ONLY=True"
++EXTRA_OECMAKE_append_pn-libical ?= "-DSHARED_ONLY=True"
 -- 
-1.8.4.2
-
-
+2.6.4
 
 
