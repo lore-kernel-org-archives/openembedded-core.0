@@ -1,60 +1,33 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
-	[209.85.213.177])
-	by mail.openembedded.org (Postfix) with ESMTP id B880E731F2
+Return-Path: <lixin.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 88CC473176
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 May 2016 23:09:07 +0000 (UTC)
-Received: by mail-ig0-f177.google.com with SMTP id u10so30644135igr.1
+	Fri,  6 May 2016 01:21:23 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; 
+   d="scan'208";a="6270539"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 06 May 2016 09:21:16 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 0010842B4AF3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 May 2016 16:09:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=T4wRd6AWGaedW90LXrRn0QEDJfawJya8mxsEXIBOKK4=;
-	b=tMSLMRO1Ukkie1c4cTOYtXwVuRFVUyKnNc/LDTA3JTMGaA5CiQc9GlVtuwy4RZTbqH
-	yD8USjLd9rw5v32lA0nmGeTbbppJQClD9XzxpGhK0hA4yuzbLdDtcVBP0YzH03E0vm5M
-	f2qOKG9/n/jaY/CKE4h/KSTb6NWIr1m1luwvR7bKsr9R7VX2EITNhHLyO4Eu6W2psnsv
-	Pmrs9UQmiCUbnA4b4G4PubowFp/9q+DFkatG5eS6rY/lg+MkGtA2sTtB6GE4cf2iRiEA
-	ICFx+WjfbFp4bvVnnFRAiKt2cweYZRg2B5CLdTvqbF10CFv/oGIp87woOLqj5avuxQGL
-	3EOw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kergoth-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=T4wRd6AWGaedW90LXrRn0QEDJfawJya8mxsEXIBOKK4=;
-	b=LLPOj64Ixlm3+hzl+GZLJiVl9fyW7QGXxt0c1CofwtAJCxco5jgmsA/HBQAEWDsb7u
-	MmarbmrOPR5EvnuBqg7uObFO7jzEyk2fCYKSSYPdqUD+bPzMoJMA991AcxZLQf4O3R1h
-	G12kRiShGUkRa37hp0uzDMXD5B+x/eVI2Nm5tarSHjK5zCu2uQplGsdSvxaDVtLHyVCr
-	P2hyj3maOT5lnil4GQNh8TtpWpuZbKd0q75MtA/Wr4kGVeh8fnICtH9e8aXc+AIk0OTi
-	b0EeG9NLRIFYcnKSZf0QdVaCQTyfHWqZZD+Ag4KSkeRsMDfzgf5uea/65H1oY5KSg7S1
-	3LNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=T4wRd6AWGaedW90LXrRn0QEDJfawJya8mxsEXIBOKK4=;
-	b=HWafncFkqzrGZH3GF21EnHsipzNm0PYVRFFGvZe4NrqXwe9eRdOnugTEhUFoHxPZjr
-	UYS5k/IGIs/r/6yulbE+L/KC4tw7eKOqg9Wg3z5o8UZlujm6ElkuTrLmgEI5r9d/ekdu
-	yb9TN9Tez3wDUL+daqrzUCwsWK2RboG+q5DhJAkMbTbmlIahhDHfTXDopqkTOnt0d9oN
-	9IH+vcxcK4BobxWazppOHKjFcJZJv3B8dfnj1t9Lb1vK2hn355eO9zz5lCrN7TSKNW6k
-	UJwsmdmTQ0cO9ZVNMve5dYlMSg22yCdnuZ+iViLL4QCST6jGFVr0VXgUKlg0Z8T02/zA
-	zZLA==
-X-Gm-Message-State: AOPr4FXrARtQda52yOzkTbUYDfYn945l8v6r9Lv4/UaSDNiCzkljz9Tw8OeUEMGf1fM7Q1OnQ0lmcukamJnJtQ==
-X-Received: by 10.50.65.42 with SMTP id u10mr6881298igs.13.1462489747938; Thu,
-	05 May 2016 16:09:07 -0700 (PDT)
+	Fri,  6 May 2016 09:21:15 +0800 (CST)
+Received: from localhost.localdomain (10.167.226.31) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.279.2; Fri, 6 May 2016 09:21:15 +0800
+From: Li Xin <lixin.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 6 May 2016 04:20:56 +0300
+Message-ID: <1462497656-1813-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <CAEGpDuaj29ciwevzMPUwHkzeEgRyheE8rB=JQ_Ft67Fr9gAeWg@mail.gmail.com>
+References: <CAEGpDuaj29ciwevzMPUwHkzeEgRyheE8rB=JQ_Ft67Fr9gAeWg@mail.gmail.com>
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.79.134.70 with HTTP; Thu, 5 May 2016 16:08:48 -0700 (PDT)
-In-Reply-To: <DBXPR07MB23993DC9B9946851B629E21F97C0@DBXPR07MB239.eurprd07.prod.outlook.com>
-References: <DBXPR07MB23993DC9B9946851B629E21F97C0@DBXPR07MB239.eurprd07.prod.outlook.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Thu, 5 May 2016 16:08:48 -0700
-X-Google-Sender-Auth: rCBcpj1aQT_Ln9V0rOo26-JBMxo
-Message-ID: <CABcZANniNW9XRsATUvu=D0nSMWh2paEWPED2xZRjo2z6VBKvBg@mail.gmail.com>
-To: "Kucharczyk,
-	Bartlomiej (Nokia - PL/Wroclaw)" <bartlomiej.kucharczyk@nokia.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: How to force BitBake to track dependency to METADATA_REVISION?
+X-Originating-IP: [10.167.226.31]
+X-yoursite-MailScanner-ID: 0010842B4AF3.AF2A0
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: lixin.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH v3] mdadm: add systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,86 +40,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 May 2016 23:09:09 -0000
-Content-Type: multipart/alternative; boundary=047d7b414330e9e67c0532206db7
+X-List-Received-Date: Fri, 06 May 2016 01:21:24 -0000
+Content-Type: text/plain
 
---047d7b414330e9e67c0532206db7
-Content-Type: text/plain; charset=UTF-8
+Add mdadm.service to support systemd systems and add
+configuration file.
 
-On Thu, May 5, 2016 at 11:48 AM, Kucharczyk, Bartlomiej (Nokia -
-PL/Wroclaw) <bartlomiej.kucharczyk@nokia.com> wrote:
+Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
+---
+ meta/recipes-extended/mdadm/files/mdadm.service | 13 +++++++++++++
+ meta/recipes-extended/mdadm/mdadm_3.4.bb        | 14 +++++++++++++-
+ 2 files changed, 26 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/mdadm/files/mdadm.service
 
-> I am trying to use METADATA_REVISION variable (defined in
-> metadata_scm.bbclass) in my recipe, but BitBake does not rebuild the task
-> when git revision of the repository changes.
-> Setting [vardeps] does not help.
->
-> I suspect this may be related to the fact that METADATA_REVISION is
-> defined this way:
->         METADATA_REVISION ?= "${@base_detect_revision(d)}"
-> And BitBake does not expand this to the proper value, thus does not see
-> any difference.
->
-> Does anyone have any suggestion how to tackle this issue, and force
-> BitBake to properly track dependency to METADATA_REVISION value?
->
-> My original task is:
-> Package feeds/SDK installers are versioned (git metadata revision). I am
-> trying to create an opkg.conf file which will contain such versioned
-> package feeds URL in SDK installer. For build reproducibility, and user
-> convenience.
->
-
-Bitbake tracks unexpanded forms of variables, not expanded. So it's
-literally storing '${@base_detect_revision(d)}" in the checksum, not the
-actual revision.
-
-METADATA_REVISION[vardepvalue] = "${METADATA_REVISION}" in your recipe will
-do it.
+diff --git a/meta/recipes-extended/mdadm/files/mdadm.service b/meta/recipes-extended/mdadm/files/mdadm.service
+new file mode 100644
+index 0000000..3664ceb
+--- /dev/null
++++ b/meta/recipes-extended/mdadm/files/mdadm.service
+@@ -0,0 +1,13 @@
++[Unit]
++Description=Software RAID monitoring and management
++After=syslog.target
++ConditionPathExists=@sysconfdir@/mdadm.conf
++
++[Service]
++Type=forking
++PIDFile=@localstatedir@/run/mdadm/mdadm.pid
++EnvironmentFile=-@sysconfdir@/sysconfig/mdmonitor
++ExecStart=@basesbindir@/mdadm --monitor --scan -f --pid-file=@localstatedir@/run/mdadm/mdadm.pid
++
++[Install]
++WantedBy=multi-user.target
+diff --git a/meta/recipes-extended/mdadm/mdadm_3.4.bb b/meta/recipes-extended/mdadm/mdadm_3.4.bb
+index 142dfdd..2e7b155 100644
+--- a/meta/recipes-extended/mdadm/mdadm_3.4.bb
++++ b/meta/recipes-extended/mdadm/mdadm_3.4.bb
+@@ -19,12 +19,13 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
+            file://0001-Fix-some-type-comparison-problems.patch \
+            file://0001-Fix-the-path-of-corosync-and-dlm-header-files-check.patch \
+            file://run-ptest \
++           file://mdadm.service \
+ 	  "
+ SRC_URI[md5sum] = "04b8b21f637540350f8517c7e68d3c63"
+ SRC_URI[sha256sum] = "27d0be4627d38a12ddcd1c1c3721d649d4e89e1093914497e22b57245cda8808"
+ 
+ CFLAGS += "-fno-strict-aliasing"
+-inherit autotools-brokensep
++inherit autotools-brokensep systemd
+ 
+ EXTRA_OEMAKE = 'CHECK_RUN_DIR=0 CXFLAGS="${CFLAGS}"'
+ # PPC64 and MIPS64 uses long long for u64 in the kernel, but powerpc's asm/types.h
+@@ -42,8 +43,19 @@ do_compile() {
+ do_install() {
+ 	export STRIP=""
+ 	autotools_do_install
++	install -d ${D}/${sysconfdir}/
++	install -m 644 ${S}/mdadm.conf-example ${D}${sysconfdir}/
++	install -d ${D}${systemd_unitdir}/system
++	install -m 644 ${WORKDIR}/mdadm.service ${D}${systemd_system_unitdir}
++	sed -i -e 's,@basesbindir@,${base_sbindir},g' \
++		-e 's,@localstatedir@,${localstatedir},g' \
++		-e 's,@sysconfdir@,${sysconfdir},g' \
++		${D}${systemd_system_unitdir}/mdadm.service
++
+ }
+ 
++SYSTEMD_SERVICE_${PN} = "mdadm.service"
++
+ FILES_${PN} += "${base_libdir}/udev/rules.d/*.rules"
+ 
+ inherit ptest
 -- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+1.8.4.2
 
---047d7b414330e9e67c0532206db7
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Thu, May 5, 2016 at 11:48 AM, Kucharczyk, Bartlomiej (Nokia - PL/Wroclaw=
-) <span dir=3D"ltr">&lt;<a href=3D"mailto:bartlomiej.kucharczyk@nokia.com" =
-target=3D"_blank">bartlomiej.kucharczyk@nokia.com</a>&gt;</span> wrote:<br>=
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div id=3D":1u2" class=3D"a3s aXjCH">I am tr=
-ying to use METADATA_REVISION variable (defined in metadata_scm.bbclass) in=
- my recipe, but BitBake does not rebuild the task when git revision of the =
-repository changes.<br>
-Setting [vardeps] does not help.<br>
-<br>
-I suspect this may be related to the fact that METADATA_REVISION is defined=
- this way:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 METADATA_REVISION ?=3D &quot;${@base_detect_rev=
-ision(d)}&quot;<br>
-And BitBake does not expand this to the proper value, thus does not see any=
- difference.<br>
-<br>
-Does anyone have any suggestion how to tackle this issue, and force BitBake=
- to properly track dependency to METADATA_REVISION value?<br>
-<br>
-My original task is:<br>
-Package feeds/SDK installers are versioned (git metadata revision). I am tr=
-ying to create an opkg.conf file which will contain such versioned package =
-feeds URL in SDK installer. For build reproducibility, and user convenience=
-.</div></blockquote></div><br>Bitbake tracks unexpanded forms of variables,=
- not expanded. So it&#39;s literally storing &#39;${@base_detect_revision(d=
-)}&quot; in the checksum, not the actual revision.</div><div class=3D"gmail=
-_extra"><br></div><div class=3D"gmail_extra">METADATA_REVISION[vardepvalue]=
- =3D &quot;${METADATA_REVISION}&quot; in your recipe will do it.<br>-- <br>=
-<div class=3D"gmail_signature">Christopher Larson<br>clarson at kergoth dot=
- com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<b=
-r>Senior Software Engineer, Mentor Graphics</div>
-</div></div>
 
---047d7b414330e9e67c0532206db7--
+
