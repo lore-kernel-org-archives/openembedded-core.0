@@ -1,36 +1,36 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
-	[209.85.220.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C7A775D4B
+Received: from mail-qg0-f47.google.com (mail-qg0-f47.google.com
+	[209.85.192.47])
+	by mail.openembedded.org (Postfix) with ESMTP id DF1856FEFA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 May 2016 20:44:02 +0000 (UTC)
-Received: by mail-qk0-f174.google.com with SMTP id n63so67125280qkf.0
+	Fri,  6 May 2016 20:44:08 +0000 (UTC)
+Received: by mail-qg0-f47.google.com with SMTP id f92so62628067qgf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 May 2016 13:44:03 -0700 (PDT)
+	Fri, 06 May 2016 13:44:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:organization;
-	bh=REKTnM1KnILVzH9/Hm56JRAEPCOSLUf4JKM5AOcwENY=;
-	b=fGg2JX82wWb9ufLiz4f9JW6lJ7kU/qal+8m5t15OCIFvDmtVZw1YSndtDdpmdvd8Um
-	M1sDap+s6wc3lC8FkU288XS+YNFuxEVlpjTqUyTdj/e6e2hdQ1+3gwyPtSALEq127Sov
-	E4yUppAshBHmRuWKvRT/Oney34teBHAYDG7bqDTnS0lsMnfljEM0Pe8a+nEwxd97TstU
-	lLpjylIEt4MxA6jsn9x26fX0ahHk0oWJS/QtYO5pfw/HqRc863+QU4NOc7pjpff6iKwi
-	lv0L4mG5yYiDHloFvLZTZq3DYPrLvscxFtNdqhNUosQ5DZwotpAGtJvbXucOVOVnLWgo
-	E+hA==
-X-Gm-Message-State: AOPr4FWaJcVNlkxK9UQYvTweXusEDbufHdvGS8CJIF8qya0M2EuWrLelzwKRT0g+HACk6w==
-X-Received: by 10.55.15.229 with SMTP id 98mr3996536qkp.53.1462567442857;
-	Fri, 06 May 2016 13:44:02 -0700 (PDT)
+	bh=2PQD4kluD4EFdWLTsh59JhDW41zBO3HkrXUOJT+YLio=;
+	b=CHfiZeyY77v4nTX0OMTK8Z+ou9JW1BnwnraZVVZPYDIyFJJWiIdDIn2QlMqcCItWUv
+	fw020gBGIh670NhfU5+6G3ZmVdu+uOPZY/MFgzPLOSRjwx7rlVSyS/YwRCI3TDJnS0pw
+	1duo7txrwKt01NAVqgsAzURMJQ/XYvZ+kN9lbfYw4PcrEi//pzeFXaQq757xHJdyqm+4
+	WZ0A4WEfU0nL7DhCzd/ZxWbo7pnIyvI0JqqPdEB9EHFI3m7bYjUjznKoqWrYGYiTeTzr
+	dFbdMeGsow2zyqRGWQHf8CLbVnpu+tWhTG0WV7hxzuI6rCN93X07LGJrE0LJ/sL+aEqr
+	Atxg==
+X-Gm-Message-State: AOPr4FXmhDrx1/J1qlaodXnTNhLAXWp/ok5FrIxQcna99aWyPqX4LRyynjt6qyrNu7VlJg==
+X-Received: by 10.140.23.37 with SMTP id 34mr22288936qgo.14.1462567449265;
+	Fri, 06 May 2016 13:44:09 -0700 (PDT)
 Received: from localhost ([187.23.154.250]) by smtp.gmail.com with ESMTPSA id
-	s66sm6450320qha.44.2016.05.06.13.43.58
+	x129sm5784863qhc.29.2016.05.06.13.44.05
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 06 May 2016 13:44:01 -0700 (PDT)
+	Fri, 06 May 2016 13:44:08 -0700 (PDT)
 Received: by localhost (sSMTP sendmail emulation);
-	Fri, 06 May 2016 17:43:56 -0300
+	Fri, 06 May 2016 17:44:03 -0300
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Fri,  6 May 2016 17:43:31 -0300
-Message-Id: <1462567419-3459-3-git-send-email-otavio@ossystems.com.br>
+Date: Fri,  6 May 2016 17:43:32 -0300
+Message-Id: <1462567419-3459-4-git-send-email-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.8.2
 In-Reply-To: <1462567419-3459-1-git-send-email-otavio@ossystems.com.br>
 References: <1462567419-3459-1-git-send-email-otavio@ossystems.com.br>
@@ -38,7 +38,7 @@ Organization: O.S. Systems Software LTDA.
 Cc: prabhu.sundararaj@nxp.com, Otavio Salvador <otavio@ossystems.com.br>,
 	neenareddy.busireddy@nxp.com,
 	meta-freescale Mailing List <meta-freescale@yoctoproject.org>
-Subject: [oe-core PATCH v4 02/10] weston: Remove XWayland dependencies on PACKAGECONFIG
+Subject: [oe-core PATCH v4 03/10] weston: Fix SystemD service description
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,41 +51,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 May 2016 20:44:02 -0000
+X-List-Received-Date: Fri, 06 May 2016 20:44:09 -0000
 
-Instead of adding partial dependencies we list the PACKAGECONFIG
-options that are required. Those are: X11 and Wayland.
+This improves the log shawn in boot. Now it shows:
 
-The previous value were redudant with X11 PACKAGECONFIG option and as
-it is a requirement, for XWayland, it can be removed to easy
-maintenance.
+  [  OK  ] Started Weston Wayland Compositor
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
 
-Changes in v4: None
+Changes in v4:
+- New patch.
+
 Changes in v3: None
-Changes in v2:
-- Remove PAM requirement
+Changes in v2: None
 
- meta/recipes-graphics/wayland/weston_1.9.0.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-graphics/wayland/weston-init/weston.service | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/wayland/weston_1.9.0.bb b/meta/recipes-graphics/wayland/weston_1.9.0.bb
-index 124a16c..2e42880 100644
---- a/meta/recipes-graphics/wayland/weston_1.9.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_1.9.0.bb
-@@ -73,8 +73,8 @@ PACKAGECONFIG[webp] = "--enable-webp,--disable-webp,libwebp"
- PACKAGECONFIG[libunwind] = "--enable-libunwind,--disable-libunwind,libunwind"
- # Weston with systemd-login support
- PACKAGECONFIG[systemd] = "--enable-systemd-login,--disable-systemd-login,systemd dbus"
--# Weston with Xwayland support
--PACKAGECONFIG[xwayland] = "--enable-xwayland,--disable-xwayland,libxcb libxcursor cairo"
-+# Weston with Xwayland support (requires X11 and Wayland)
-+PACKAGECONFIG[xwayland] = "--enable-xwayland,--disable-xwayland"
- # colord CMS support
- PACKAGECONFIG[colord] = "--enable-colord,--disable-colord,colord"
+diff --git a/meta/recipes-graphics/wayland/weston-init/weston.service b/meta/recipes-graphics/wayland/weston-init/weston.service
+index 4f1f7ff..12aedb7 100644
+--- a/meta/recipes-graphics/wayland/weston-init/weston.service
++++ b/meta/recipes-graphics/wayland/weston-init/weston.service
+@@ -1,5 +1,5 @@
+ [Unit]
+-Description=Weston Wayland compositor startup
++Description=Weston Wayland Compositor
+ RequiresMountsFor=/run
  
+ [Service]
 -- 
 2.8.2
 
