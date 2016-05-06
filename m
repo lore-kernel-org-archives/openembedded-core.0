@@ -1,41 +1,44 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qg0-f54.google.com (mail-qg0-f54.google.com
-	[209.85.192.54])
-	by mail.openembedded.org (Postfix) with ESMTP id ADB386FFD7
+Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
+	[209.85.220.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 07A366FFD7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 May 2016 20:43:48 +0000 (UTC)
-Received: by mail-qg0-f54.google.com with SMTP id f92so62623559qgf.0
+	Fri,  6 May 2016 20:43:55 +0000 (UTC)
+Received: by mail-qk0-f169.google.com with SMTP id n63so67123825qkf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 May 2016 13:43:49 -0700 (PDT)
+	Fri, 06 May 2016 13:43:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=jUUWtlx0CpoH9LWbw1WxvE2QDxAKKLbiZMP9tgySvzw=;
-	b=ZY/UAonMfPpsbTOXPc6qRs8JwFlgYY4SeEEKRqBTliMDh9iKsq9IU8yzJLZN00vdey
-	N+QQ6BiFD5Rfm80RoMYErtIbt9xLMqV6jWQkjv5VWxvCImIiTQG097gqwPSoRYgSHhix
-	QK7hSFPGKh5A/pplHRM2n7LkCAbrLlygIS0xCT/1yITypmrmOJoU8z6AelzkrWtiYJjx
-	6XdYVlpgR2fN8MG2xqTCMseHKCZIFoMrc2sqQs+WMrFDCEh89TBDLw0bPIo74ZThZW4p
-	xa6FqteQkbb9pR8MQiiRHXg5RN87Ccq2lUNCjOYzeEtwBv3e1srBSSyrFj8/52qzvD++
-	t7Rg==
-X-Gm-Message-State: AOPr4FVsAg9S/zY5CSNkG6MEamQmLgY8aRS4N6+/tD7w2c60nIrs2QzdTEElihoXSktEXg==
-X-Received: by 10.140.235.14 with SMTP id g14mr22377034qhc.86.1462567429062;
-	Fri, 06 May 2016 13:43:49 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:organization;
+	bh=VFYIesXQ0P3TyaZLRiGY/TSWgtkFSx8Z36T85ehBvYk=;
+	b=fBOG7J8srdkGUQ3Zc2EploH0Id727VkKOdrVQBkI0t3b40DWhy6J1KUxTBbvS2n+oa
+	ir9HwTSImv5HIisp9Fl2nbtSzPEXVJVncfvqhXXLYY3cVSbM+eeKB8MSdJS9UDaBFttl
+	RxfeUPBuqfERvwwUmJ9yK7bAzTrjf6b0NDojdjG6Ati4/AiHRlzgDZzLVAVpQO48EEr3
+	MChKAg2uK/0E9NJYeGoXJ77fxI/88a5nGoSw393IlepG3+YtQjdyHP/BlSHsF+7/GKjM
+	W01CCVuE3Au+MuzvwXVK0jClmkiIkr4o6I3lcwCxfKFYWop0D+MDEXJ8k1/0s4AiXgc9
+	ByFw==
+X-Gm-Message-State: AOPr4FXIVgvENOMIs37b1KcpmBX4hbkt9ag0M58ICCvl0bKTF30JL+d4lrikEr228ZF3ug==
+X-Received: by 10.55.26.1 with SMTP id a1mr234602qka.85.1462567436115;
+	Fri, 06 May 2016 13:43:56 -0700 (PDT)
 Received: from localhost ([187.23.154.250]) by smtp.gmail.com with ESMTPSA id
-	f65sm6483509qke.46.2016.05.06.13.43.44
+	x202sm6423085qhx.30.2016.05.06.13.43.51
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 06 May 2016 13:43:47 -0700 (PDT)
+	Fri, 06 May 2016 13:43:54 -0700 (PDT)
 Received: by localhost (sSMTP sendmail emulation);
-	Fri, 06 May 2016 17:43:41 -0300
+	Fri, 06 May 2016 17:43:49 -0300
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Fri,  6 May 2016 17:43:29 -0300
-Message-Id: <1462567419-3459-1-git-send-email-otavio@ossystems.com.br>
+Date: Fri,  6 May 2016 17:43:30 -0300
+Message-Id: <1462567419-3459-2-git-send-email-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.8.2
+In-Reply-To: <1462567419-3459-1-git-send-email-otavio@ossystems.com.br>
+References: <1462567419-3459-1-git-send-email-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
 Cc: prabhu.sundararaj@nxp.com, Otavio Salvador <otavio@ossystems.com.br>,
 	neenareddy.busireddy@nxp.com,
 	meta-freescale Mailing List <meta-freescale@yoctoproject.org>
-Subject: [oe-core PATCH v4 00/10] Improve Xwayland integration
+Subject: [oe-core PATCH v4 01/10] weston: Enable XWayland when X11 and Wayland support are available
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,62 +51,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 May 2016 20:43:49 -0000
+X-List-Received-Date: Fri, 06 May 2016 20:43:56 -0000
 
-Up to now, to make Xwayland to work it required several manual hacks
-and it was difficult to make an image which had support for it out of
-box.
+When the DISTRO has X11 and Wayland support enabled, XWayland ought to
+be enabled by default.
 
-This patchset intends to set the base for it. It enables weston-init
-to be extended to support Xwayland launch when needed.
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
 
-There are still some issues to be done:
-
- - how to make Xwayland fit on the packagegroups?
- - does core-image.bbclass ought to include a xwayland feature?
-
-Yet, this patchset seems good to be reviewed and possibly merged.
-
-Changes in v4:
-- New patch.
-- New patch.
-- Use --log= for weston call
-
-Changes in v3:
-- Fix log redirection
-- Fix argument pass for openvt
-- New patch.
-
+Changes in v4: None
+Changes in v3: None
 Changes in v2:
 - Remove PAM requirement
-- Remove PAM requirement
-- Drop weston-lunch use as it requires PAM
-- Move weston-start module to weston package
-- Stop using weston-launch
 
-Otavio Salvador (10):
-  weston: Enable XWayland when X11 and Wayland support are available
-  weston: Remove XWayland dependencies on PACKAGECONFIG
-  weston: Fix SystemD service description
-  weston: Add PACKAGECONFIG option for 'clients'
-  weston-init: Rework do_install to use install -D option
-  weston-init: Rework init sequence to avoid code duplication
-  weston-init: Error out if loading a nested instance
-  weston-init: Add module support for the weston-start helper
-  weston: Add Xwayland initialization support using weston-start
-  core-image-weston: If X11 is enabled, add XWayland support
+ meta/recipes-graphics/wayland/weston_1.9.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
- meta/recipes-graphics/images/core-image-weston.bb  |  1 +
- meta/recipes-graphics/wayland/weston-init.bb       | 11 ++--
- meta/recipes-graphics/wayland/weston-init/init     |  9 +--
- .../wayland/weston-init/weston-start               | 67 ++++++++++++++++++++++
- .../wayland/weston-init/weston.service             |  7 +--
- .../wayland/weston/xwayland.weston-start           |  7 +++
- meta/recipes-graphics/wayland/weston_1.9.0.bb      | 19 +++---
- 7 files changed, 95 insertions(+), 26 deletions(-)
- create mode 100755 meta/recipes-graphics/wayland/weston-init/weston-start
- create mode 100644 meta/recipes-graphics/wayland/weston/xwayland.weston-start
-
+diff --git a/meta/recipes-graphics/wayland/weston_1.9.0.bb b/meta/recipes-graphics/wayland/weston_1.9.0.bb
+index 16a788d..124a16c 100644
+--- a/meta/recipes-graphics/wayland/weston_1.9.0.bb
++++ b/meta/recipes-graphics/wayland/weston_1.9.0.bb
+@@ -40,6 +40,7 @@ EXTRA_OECONF_append_qemux86-64 = "\
+ 		"
+ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'kms fbdev wayland egl', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
++                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 wayland', 'xwayland', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'launch', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
+                   "
 -- 
 2.8.2
 
