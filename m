@@ -1,53 +1,20 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f172.google.com (mail-pf0-f172.google.com
-	[209.85.192.172])
-	by mail.openembedded.org (Postfix) with ESMTP id B8CAE6B6EA
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C65F76FFA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 May 2016 14:13:51 +0000 (UTC)
-Received: by mail-pf0-f172.google.com with SMTP id c189so51882923pfb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 May 2016 07:13:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=4NtEP8xZ51yNYzdVrAq0sYln7A3xanyfF5REV/63kww=;
-	b=qXF+MQEAz0plpK0F8+w9P9PyuGwWg6Jpo4Ttfq2e5hN1nxFgq4H/DKY37P0JYRSs0M
-	DHEHm3NuvTwHyDvTByfYSFM+UqG6UWY2n62nLZAV/KJr+0jirZvSLTsdKYXPm0iP7782
-	MyC0+BW4sF+3j9TeIC14LKX0DPHx3oyGtrLNiCXISzFfYuuRtsdqW9GvT2r5fOFuTZYg
-	y/4jkPySq18YwMS1Ji9aE8IW2lX7oGbegoGsVRORE8Ih6vq7Rt2vGh7iEjwczn89dYvx
-	m+RNuHDuVjQJuLdvs53wILTIJmDSHILWUqv45Lyhj/zotpP8UMAB/m8wkQLKwjsnoZ2h
-	VljA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=4NtEP8xZ51yNYzdVrAq0sYln7A3xanyfF5REV/63kww=;
-	b=H7MCE2XTU5c7Z9GNHUOjjae9Zp6OnXjvcVBvlYYMXG8AZy1+HsibWGbVuhmzqviDG5
-	MLNW67hJsvych10sIVfJKVzZjkQMxpfSAd3vC4vkKzPgcPTviL2Pb1fjhaoEP3vl/S2p
-	ds+bmItXeU06hxsz4J8tm1Sb7MgoAEA4DmlQvtLf5aEH0QI7PU03FoSP6SmvDhlJrSWb
-	Jxxri+JEZX14yNbIhek2rguCJnLdz9KLdSyYlL4r0RxnS4pelMa/bWns2B+IVgsm5MVJ
-	7UanWYcIUIHQoAkAqs13iTKsKHab+zi38hHwHXMal2XjXD5gKJhJiOvPxyLmpw0kHTxq
-	8ZqA==
-X-Gm-Message-State: AOPr4FXG0DicJopQhiFB2x5hJ8za/HxwArRbL2craGHSG3raXqCnHjLHDKJwNwy/RzG9FQ==
-X-Received: by 10.98.109.197 with SMTP id i188mr29086785pfc.88.1462544031939; 
-	Fri, 06 May 2016 07:13:51 -0700 (PDT)
-Received: from ?IPv6:2601:646:8800:5a9a:7d5a:e5f2:4cd9:25ad?
-	([2601:646:8800:5a9a:7d5a:e5f2:4cd9:25ad])
-	by smtp.gmail.com with ESMTPSA id
-	y128sm21510630pfb.13.2016.05.06.07.13.50
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 06 May 2016 07:13:50 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <3e695d04-c762-c199-3f8f-142b74bf90e6@windriver.com>
-Date: Fri, 6 May 2016 07:13:46 -0700
-Message-Id: <1A010AA0-37A1-4C03-AC4A-6232D6FFAC0F@gmail.com>
-References: <1462534000-18539-1-git-send-email-ross.burton@intel.com>
-	<3e695d04-c762-c199-3f8f-142b74bf90e6@windriver.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-X-Mailer: Apple Mail (2.3124)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] bitbake.conf: add default for IMAGE_FSTYPES_DEBUGFS
+	Fri,  6 May 2016 14:34:18 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP; 06 May 2016 07:34:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,587,1455004800"; d="scan'208";a="947646244"
+Received: from jlock-mobl2.ger.corp.intel.com ([10.252.20.187])
+	by orsmga001.jf.intel.com with ESMTP; 06 May 2016 07:34:18 -0700
+From: Joshua Lock <joshua.g.lock@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  6 May 2016 15:34:11 +0100
+Message-Id: <cover.1462544086.git.joshua.g.lock@intel.com>
+X-Mailer: git-send-email 2.5.5
+Subject: [Fido][PATCH 00/21] Consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,77 +27,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 May 2016 14:13:51 -0000
-X-Groupsio-MsgNum: 81672
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_D1DF1041-9AEF-48EE-9267-1A04D2892F1E";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Fri, 06 May 2016 14:34:20 -0000
 
---Apple-Mail=_D1DF1041-9AEF-48EE-9267-1A04D2892F1E
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+The following changes consist of:
+* security fixes
+* tzdata & tzcode backports
+* fido specific fixes submitted by the community
+* backports to support building on the updated Yocto Project autobuilder
+  cluster, with various newer distro versions than when fido was last released
 
+A slightly divergent poky repository, with the correct change backported from
+meta-yocto to update that local.conf.sample, has been pushed to:
 
-> On May 6, 2016, at 6:51 AM, Mark Hatle <mark.hatle@windriver.com> =
-wrote:
->=20
-> On 5/6/16 6:26 AM, Ross Burton wrote:
->> If debug filesystem generation is enabled but this isn't assigned =
-then the
->> generation code throws exceptions.
->>=20
->> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> Acked-by: Mark Hatle <mark.hatle@windriver.com>
->=20
-> (This is the patch that I thought had been sent before.. obviously =
-didn't happen..)
->=20
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=joshuagl/fido-next
 
-Please bring this to krogoth as well.
+The following changes since commit 1ebf604cae8d9bd3d2c10d06cd126e79e13732ee:
 
-> Thanks!
-> --Mark
->=20
->> ---
->> meta/conf/bitbake.conf | 1 +
->> 1 file changed, 1 insertion(+)
->>=20
->> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
->> index 1c4175f..8e02e91 100644
->> --- a/meta/conf/bitbake.conf
->> +++ b/meta/conf/bitbake.conf
->> @@ -713,6 +713,7 @@ require conf/sanity.conf
->> DL_DIR ?=3D "${TOPDIR}/downloads"
->> SSTATE_DIR ?=3D "${TOPDIR}/sstate-cache"
->> IMAGE_FSTYPES ?=3D "tar.gz"
->> +IMAGE_FSTYPES_DEBUGFS ?=3D "${IMAGE_FSTYPES}"
->>=20
->> INITRAMFS_FSTYPES ?=3D "cpio.gz"
->> # The maximum size in Kbytes for the generated initramfs image size.
->>=20
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+  build-appliance-image: Update to fido head revision (2016-03-13 10:52:37 +0000)
 
+are available in the git repository at:
 
---Apple-Mail=_D1DF1041-9AEF-48EE-9267-1A04D2892F1E
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
+  git://git.openembedded.org/openembedded-core-contrib joshuagl/fido-next
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=joshuagl/fido-next
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
+Armin Kuster (6):
+  tzdata: update to 2016b
+  tzcode: update to 2016b
+  tzdata: update to 2016c
+  tzcode: update to 2016c
+  tzcode: update to 2016d
+  tzdata: update to 2016d
 
-iEYEARECAAYFAlcspp4ACgkQuwUzVZGdMxR49gCbBQemCHLLkJLGt1o1CjbS/qDX
-gRgAnRNQC8DDZu0s9Th8ivXEu3/sqKj1
-=wsmp
------END PGP SIGNATURE-----
+Brad Mouring (2):
+  busybox: Backport patch to fix zcip false-conflict
+  busybox_git: Fix SRCREV
 
---Apple-Mail=_D1DF1041-9AEF-48EE-9267-1A04D2892F1E--
+Joshua Lock (1):
+  gtk+_2.24.25: backport a fix for building with newer host perl
+
+Mariano Lopez (1):
+  dhcp: CVE-2015-8605
+
+Richard Purdie (3):
+  testimage: Handle ipk/deb packaging format tests correctly
+  scripts/oe-pkgdata-util: Fix variable name in error handling
+  populate_sdk_base: Ensure PKGDATA_DIR exists
+
+Robert Yang (2):
+  libsdl: depends on libglu when x11
+  libsdl: depends on libglu when both x11 and opengl
+
+Ross Burton (5):
+  Revert "libsdl: depends on libglu when x11"
+  libsdl: expand PACKAGECONFIG and enable native builds
+  base: check for existing prefix when expanding names in PACKAGECONFIG
+  xorg-lib: allow native building without x11 DISTRO_FEATURES
+  conf/local.conf.sample: comment out ASSUME_PROVIDED=libsdl-native
+
+Sona Sarmadi (1):
+  bind: CVE-2016-1285 CVE-2016-1286
+
+ meta/classes/base.bbclass                          |   5 +-
+ meta/classes/populate_sdk_base.bbclass             |   2 +-
+ meta/classes/testimage.bbclass                     |   6 +-
+ meta/conf/local.conf.sample                        |   7 +-
+ .../bind/bind/CVE-2016-1285.patch                  | 141 +++++++++
+ .../bind/bind/CVE-2016-1286_1.patch                |  78 +++++
+ .../bind/bind/CVE-2016-1286_2.patch                | 318 +++++++++++++++++++++
+ .../bind/bind/fix-typo-in-CVE-2016-1285.patch      |  31 ++
+ meta/recipes-connectivity/bind/bind_9.9.5.bb       |   4 +
+ .../dhcp/dhcp/CVE-2015-8605.patch                  | 101 +++++++
+ .../dhcp/dhcp/CVE-2015-8605_1.patch                | 131 +++++++++
+ meta/recipes-connectivity/dhcp/dhcp_4.3.1.bb       |   2 +
+ ...wrong-comparison-of-source-IP-with-our-IP.patch |  34 +++
+ meta/recipes-core/busybox/busybox_1.23.1.bb        |   1 +
+ meta/recipes-core/busybox/busybox_git.bb           |   2 +-
+ ...code-native_2016a.bb => tzcode-native_2016d.bb} |  12 +-
+ .../tzdata/{tzdata_2016a.bb => tzdata_2016d.bb}    |   6 +-
+ .../gtk+/gtk+/Avoid-perl-warnings.patch            |  75 +++++
+ meta/recipes-gnome/gtk+/gtk+_2.24.25.bb            |   1 +
+ meta/recipes-graphics/libsdl/libsdl_1.2.15.bb      |  34 +--
+ meta/recipes-graphics/xorg-lib/xorg-lib-common.inc |   1 +
+ scripts/oe-pkgdata-util                            |   2 +-
+ 22 files changed, 960 insertions(+), 34 deletions(-)
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-1285.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-1286_1.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-1286_2.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/fix-typo-in-CVE-2016-1285.patch
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605.patch
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605_1.patch
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-zcip-fix-wrong-comparison-of-source-IP-with-our-IP.patch
+ rename meta/recipes-extended/tzcode/{tzcode-native_2016a.bb => tzcode-native_2016d.bb} (48%)
+ rename meta/recipes-extended/tzdata/{tzdata_2016a.bb => tzdata_2016d.bb} (97%)
+ create mode 100644 meta/recipes-gnome/gtk+/gtk+/Avoid-perl-warnings.patch
+
+--
+2.5.5
+
