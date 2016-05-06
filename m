@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 5129B75C61
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E9F875C61
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 May 2016 17:19:07 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga104.fm.intel.com with ESMTP; 06 May 2016 10:19:09 -0700
+	Fri,  6 May 2016 17:19:10 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP; 06 May 2016 10:19:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,587,1455004800"; d="scan'208";a="974219506"
+X-IronPort-AV: E=Sophos;i="5.24,587,1455004800"; d="scan'208";a="970285330"
 Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 06 May 2016 10:19:08 -0700
+	by orsmga002.jf.intel.com with ESMTP; 06 May 2016 10:19:11 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id 57E366A4007
+	by linux.intel.com (Postfix) with ESMTP id 505B96A4007
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 May 2016 11:06:42 -0700 (PDT)
+	Fri,  6 May 2016 11:06:45 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 May 2016 17:58:45 +0300
-Message-Id: <830b24567c00109edbcb64eef2337abd938e3481.1462545440.git.ed.bartosh@linux.intel.com>
+Date: Fri,  6 May 2016 17:58:46 +0300
+Message-Id: <1070e0d04088141c34a0d9266d8ba0e85d14c9dc.1462545440.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1462545440.git.ed.bartosh@linux.intel.com>
 References: <cover.1462545440.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1462545440.git.ed.bartosh@linux.intel.com>
 References: <cover.1462545440.git.ed.bartosh@linux.intel.com>
-Subject: [RFC][PATCH 2/7] image.bbclass: support duplicate compression types
+Subject: [RFC][PATCH 3/7] image.bbclass: fix dependency calculation when using conversion chaining
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,63 +35,185 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 May 2016 17:19:08 -0000
+X-List-Received-Date: Fri, 06 May 2016 17:19:11 -0000
 
 From: Patrick Ohly <patrick.ohly@intel.com>
 
-When a derived distro adds a certain type, say zip, to
-COMPRESSIONTYPES and later OE-core does the same, we end up with the
-type being listed twice, and that would have undesired effects
-(commands generated twice).
+When using conversion chaining (for example example: .dsk.vdi.xz),
+the imagetypes_getdepends() did not properly detect all compression
+commands (thus skipping the corresponding COMPRESS_DEPENDS) and
+the base type, leading to missing dependencies of the image's do_rootfs
+task.
 
-So to support such loosely coupled extension, we de-duplicated the
-list of types first.
+This is not a big problem in practice because in those cases where
+conversion chaining is useful (as in the example above), the missing
+dependency is qemu-native, which typically gets built anyway.
 
-Alternatively, such a situation could also be treated as error. But that
-seems unnecessary because typically commands for the same type will also
-do the same thing.
+The solution moves imagetypes_getdepends() to image.bbclass because that
+is the only place where it gets used and rewrites it so that it and
+generating the image commands use a new common utility method, image_split_type().
+
+imagetypes_getdepends() had hard-coded special treatment for certain
+image types. This gets replaced with setting the normal IMAGE_DEPENDS
+variables for these types.
+
+[YOCTO #9076]
 
 Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/classes/image.bbclass       | 10 +++++++++-
- meta/classes/image_types.bbclass |  2 +-
- 2 files changed, 10 insertions(+), 2 deletions(-)
+ meta/classes/image.bbclass       | 61 +++++++++++++++++++++++++++++-----------
+ meta/classes/image_types.bbclass | 36 +++++-------------------
+ 2 files changed, 52 insertions(+), 45 deletions(-)
 
 diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 4542e95..56a4ddd 100644
+index 56a4ddd..7b79e3a 100644
 --- a/meta/classes/image.bbclass
 +++ b/meta/classes/image.bbclass
-@@ -297,7 +297,15 @@ python setup_debugfs () {
+@@ -142,8 +142,50 @@ inherit ${IMAGE_TYPE_live}
+ IMAGE_TYPE_vm = '${@bb.utils.contains_any("IMAGE_FSTYPES", ["vmdk", "vdi", "qcow2", "hdddirect"], "image-vm", "", d)}'
+ inherit ${IMAGE_TYPE_vm}
  
- python () {
-     vardeps = set()
--    ctypes = d.getVar('COMPRESSIONTYPES', True).split()
-+    # We allow COMPRESSIONTYPES to have duplicates. That avoids breaking
-+    # derived distros when OE-core or some other layer independently adds
-+    # the same type. There is still only one command for each type, but
-+    # presumably the commands will do the same when the type is the same,
-+    # even when added in different places.
-+    #
-+    # Without de-duplication, gen_conversion_cmds() below
-+    # would create the same compression command multiple times.
++def image_split_type(type, allctypes):
++    '''Returns (basetype, set of compression types in use).'''
++    basetype = type
++    compressiontypes = set()
++    for ctype in allctypes:
++        if type.endswith("." + ctype):
++             basetype = type[:-len("." + ctype)]
++             compressiontypes.add(ctype)
++             break
++
++    if basetype != type:
++        # New base type itself might be generated by a conversion command.
++        basetype, newctypes = image_split_type(basetype, allctypes)
++        compressiontypes.update(newctypes)
++
++    return (basetype, compressiontypes)
++
++
++def image_getdepends(d):
++    def adddep(depstr, deps):
++        # It is not an error if the dependency was not set,
++        # simply do nothing in that case.
++        for i in (depstr or "").split():
++            if i not in deps:
++                deps.append(i)
++
++    deps = []
 +    ctypes = set(d.getVar('COMPRESSIONTYPES', True).split())
++    for type in (d.getVar('IMAGE_FSTYPES', True) or "").split():
++        basetype, compressiontypes = image_split_type(type, ctypes)
++        for ctype in compressiontypes:
++            adddep(d.getVar("COMPRESS_DEPENDS_%s" % ctype, True), deps)
++        for typedepends in (d.getVar("IMAGE_TYPEDEP_%s" % basetype, True) or "").split():
++            adddep(d.getVar('IMAGE_DEPENDS_%s' % typedepends, True) , deps)
++        adddep(d.getVar('IMAGE_DEPENDS_%s' % basetype, True) , deps)
++
++    depstr = ""
++    for dep in deps:
++        depstr += " " + dep + ":do_populate_sysroot"
++    return depstr
++
++
+ python () {
+-    deps = " " + imagetypes_getdepends(d)
++    deps = " " + image_getdepends(d)
+     d.appendVarFlag('do_rootfs', 'depends', deps)
+ 
+     deps = ""
+@@ -308,19 +350,6 @@ python () {
+     ctypes = set(d.getVar('COMPRESSIONTYPES', True).split())
      old_overrides = d.getVar('OVERRIDES', 0)
  
-     def _image_base_type(type):
+-    def _image_base_type(type):
+-        basetype = type
+-        for ctype in ctypes:
+-            if type.endswith("." + ctype):
+-                basetype = type[:-len("." + ctype)]
+-                break
+-
+-        if basetype != type:
+-            # New base type itself might be generated by a conversion command.
+-            basetype = _image_base_type(basetype)
+-
+-        return basetype
+-
+     basetypes = {}
+     alltypes = d.getVar('IMAGE_FSTYPES', True).split()
+     typedeps = {}
+@@ -331,7 +360,7 @@ python () {
+             alltypes.append("debugfs_" + t)
+ 
+     def _add_type(t):
+-        baset = _image_base_type(t)
++        baset = image_split_type(t, ctypes)[0]
+         input_t = t
+         if baset not in basetypes:
+             basetypes[baset]= []
+@@ -350,7 +379,7 @@ python () {
+             if dep not in alltypes:
+                 alltypes.append(dep)
+             _add_type(dep)
+-            basedep = _image_base_type(dep)
++            basedep = image_split_type(dep, ctypes)[0]
+             typedeps[baset].add(basedep)
+ 
+         if baset != input_t:
 diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index d13bdf5..40a4a1b 100644
+index 40a4a1b..e2b7ebb 100644
 --- a/meta/classes/image_types.bbclass
 +++ b/meta/classes/image_types.bbclass
-@@ -16,7 +16,7 @@ def imagetypes_getdepends(d):
-                 deps.append(i)
+@@ -9,35 +9,6 @@ IMAGE_NAME_SUFFIX ??= ".rootfs"
+ # set this value to 2048 (2MiB alignment).
+ IMAGE_ROOTFS_ALIGNMENT ?= "1"
  
-     deps = []
--    ctypes = d.getVar('COMPRESSIONTYPES', True).split()
-+    ctypes = set(d.getVar('COMPRESSIONTYPES', True).split())
-     fstypes = set((d.getVar('IMAGE_FSTYPES', True) or "").split())
-     fstypes |= set((d.getVar('IMAGE_FSTYPES_DEBUGFS', True) or "").split())
-     for type in fstypes:
+-def imagetypes_getdepends(d):
+-    def adddep(depstr, deps):
+-        for i in (depstr or "").split():
+-            if i not in deps:
+-                deps.append(i)
+-
+-    deps = []
+-    ctypes = set(d.getVar('COMPRESSIONTYPES', True).split())
+-    fstypes = set((d.getVar('IMAGE_FSTYPES', True) or "").split())
+-    fstypes |= set((d.getVar('IMAGE_FSTYPES_DEBUGFS', True) or "").split())
+-    for type in fstypes:
+-        if type in ["vmdk", "vdi", "qcow2", "hdddirect", "live", "iso", "hddimg"]:
+-            type = "ext4"
+-        basetype = type
+-        for ctype in ctypes:
+-            if type.endswith("." + ctype):
+-                basetype = type[:-len("." + ctype)]
+-                adddep(d.getVar("COMPRESS_DEPENDS_%s" % ctype, True), deps)
+-                break
+-        for typedepends in (d.getVar("IMAGE_TYPEDEP_%s" % basetype, True) or "").split():
+-            adddep(d.getVar('IMAGE_DEPENDS_%s' % typedepends, True) , deps)
+-        adddep(d.getVar('IMAGE_DEPENDS_%s' % basetype, True) , deps)
+-
+-    depstr = ""
+-    for dep in deps:
+-        depstr += " " + dep + ":do_populate_sysroot"
+-    return depstr
+-
+-
+ XZ_COMPRESSION_LEVEL ?= "-e -6"
+ XZ_INTEGRITY_CHECK ?= "crc32"
+ XZ_THREADS ?= "-T 0"
+@@ -242,6 +213,13 @@ IMAGE_DEPENDS_ubifs = "mtd-utils-native"
+ IMAGE_DEPENDS_multiubi = "mtd-utils-native"
+ IMAGE_DEPENDS_wic = "parted-native"
+ 
++# Same dependencies as in ext4. image_getdepends() shouldn't
++# have to hard-code this, so just define it normally in
++# variables.
++IMAGE_DEPENDS_live = "${IMAGE_DEPENDS_ext4}"
++IMAGE_DEPENDS_iso = "${IMAGE_DEPENDS_ext4}"
++IMAGE_DEPENDS_hddimg = "${IMAGE_DEPENDS_ext4}"
++
+ # This variable is available to request which values are suitable for IMAGE_FSTYPES
+ IMAGE_TYPES = " \
+     jffs2 jffs2.sum \
 -- 
 2.1.4
 
