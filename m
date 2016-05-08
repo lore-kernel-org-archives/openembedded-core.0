@@ -1,18 +1,31 @@
-Return-Path: <dv@pseudoterminal.org>
-Received: from ptmx.org (ptmx.org [178.63.28.110])
-	by mail.openembedded.org (Postfix) with ESMTP id 9631A6E668
+Return-Path: <marex@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 57E4960043
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 May 2016 17:33:30 +0000 (UTC)
-Received: from localhost.localdomain (62-178-118-86.cable.dynamic.surfer.at
-	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id 4B5F33948A
-	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 May 2016 19:33:30 +0200 (CEST)
-From: Carlos Rafael Giani <dv@pseudoterminal.org>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  8 May 2016 19:33:18 +0200
-Message-Id: <1462728798-10477-1-git-send-email-dv@pseudoterminal.org>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] gst-player: Remove recipe: gstplayer is part of -bad package since 1.8
+	Sun,  8 May 2016 17:55:50 +0000 (UTC)
+Received: from mail.nefkom.net (unknown [192.168.8.184])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3r2tTy3vMRz3hk62;
+	Sun,  8 May 2016 19:55:50 +0200 (CEST)
+X-Auth-Info: rKBFLN0v4RuJd/lzzmJoAWZPBO9uVshZXyr2vhHYEBE=
+Received: from [IPv6:::1] (unknown [195.140.253.167])
+	(using TLSv1 with cipher DHE-RSA-CAMELLIA256-SHA (256/256 bits))
+	(No client certificate requested)
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3r2tTy2cQmzvdWS; 
+	Sun,  8 May 2016 19:55:50 +0200 (CEST)
+Message-ID: <572F7DA7.8020904@denx.de>
+Date: Sun, 08 May 2016 19:55:51 +0200
+From: Marek Vasut <marex@denx.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Icedove/31.7.0
+MIME-Version: 1.0
+To: Khem Raj <raj.khem@gmail.com>
+References: <1462712432-6214-1-git-send-email-marex@denx.de>
+	<81F5E78B-F4F8-44E9-8E21-2F5225D18C00@gmail.com>
+	<572F751E.2030604@denx.de>
+	<CAMKF1sp1aRCsY_oB3xXTsYmmXdzqmDoMX60E59fWdAib0tsDrw@mail.gmail.com>
+In-Reply-To: <CAMKF1sp1aRCsY_oB3xXTsYmmXdzqmDoMX60E59fWdAib0tsDrw@mail.gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] bitbake: Oldest kernel for nios2 is 3.19
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,60 +38,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 08 May 2016 17:33:32 -0000
+X-List-Received-Date: Sun, 08 May 2016 17:55:53 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
----
- .../recipes-multimedia/gstreamer/gst-player_git.bb | 39 ----------------------
- 1 file changed, 39 deletions(-)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gst-player_git.bb
+On 05/08/2016 07:31 PM, Khem Raj wrote:
+> I was just trying to avoid patch conflict :)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-player_git.bb b/meta/recipes-multimedia/gstreamer/gst-player_git.bb
-deleted file mode 100644
-index 8129169..0000000
---- a/meta/recipes-multimedia/gstreamer/gst-player_git.bb
-+++ /dev/null
-@@ -1,39 +0,0 @@
--SUMMARY = "GStreamer playback helper library and examples"
--LICENSE = "LGPL-2.0+"
--LIC_FILES_CHKSUM = "file://lib/gst/player/gstplayer.c;beginline=1;endline=19;md5=03aeca9d8295f811817909075a15ff65"
--
--DEPENDS = "glib-2.0 gstreamer1.0 gstreamer1.0-plugins-base gtk+"
--
--SRC_URI = "git://github.com/sdroege/gst-player.git \
--           file://filechooser.patch \
--           file://gtk2.patch \
--           file://Fix-pause-play.patch \
--           file://Add-error-signal-emission-for-missing-plugins.patch \
--           file://gst-player.desktop"
--
--SRCREV = "5386c5b984d40ef5434673ed62204e69aaf52645"
--
--S = "${WORKDIR}/git"
--
--inherit autotools gtk-doc lib_package pkgconfig distro_features_check gobject-introspection
--
--ANY_OF_DISTRO_FEATURES = "${GTK2DISTROFEATURES}"
--
--do_configure_prepend() {
--	touch ${S}/ChangeLog
--}
--
--EXTRA_OECONF += "ac_cv_path_VALGRIND=no ac_cv_path_GDB=no"
--
--do_install_append() {
--	install -m 0644 -D ${WORKDIR}/gst-player.desktop ${D}${datadir}/applications/gst-player.desktop
--}
--
--FILES_${PN}-bin += "${datadir}/applications/*.desktop"
--
--RDEPENDS_${PN}-bin = "gstreamer1.0-plugins-base-playback"
--RRECOMMENDS_${PN}-bin = "gstreamer1.0-plugins-base-meta \
--                         gstreamer1.0-plugins-good-meta \
--                         gstreamer1.0-plugins-bad-meta \
--                         ${@bb.utils.contains("LICENSE_FLAGS_WHITELIST", "commercial", "gstreamer1.0-libav", "", d)} \
--                         ${@bb.utils.contains("LICENSE_FLAGS_WHITELIST", "commercial", "gstreamer1.0-plugins-ugly-meta", "", d)}"
+If you want me to repost updated patch, just let me know, but the fix
+will be really trivial in this case ;-)
+
+> On Sun, May 8, 2016 at 10:19 AM Marek Vasut <marex@denx.de
+> <mailto:marex@denx.de>> wrote:
+> 
+>     On 05/08/2016 07:06 PM, Khem Raj wrote:
+>     >
+>     >> On May 8, 2016, at 6:00 AM, Marek Vasut <marex@denx.de
+>     <mailto:marex@denx.de>> wrote:
+>     >>
+>     >> The oldest kernel version for nios2 is 3.19.0, set it so, otherwise
+>     >> qemu-nios2 -r ${OLDEST_KERNEL} fails with "FATAL: kernel too old"
+>     >> message from glibc.
+>     >>
+>     >> Signed-off-by: Marek Vasut <marex@denx.de <mailto:marex@denx.de>>
+>     >> Cc: Richard Purdie <richard.purdie@linuxfoundation.org
+>     <mailto:richard.purdie@linuxfoundation.org>>
+>     >> ---
+>     >> meta/conf/bitbake.conf | 1 +
+>     >> 1 file changed, 1 insertion(+)
+>     >>
+>     >> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+>     >> index 1c4175f..2f5db22 100644
+>     >> --- a/meta/conf/bitbake.conf
+>     >> +++ b/meta/conf/bitbake.conf
+>     >> @@ -405,6 +405,7 @@ SDKPATHNATIVE = "${SDKPATH}/sysroots/${SDK_SYS}"
+>     >>
+>     >> OLDEST_KERNEL = "2.6.32"
+>     >> OLDEST_KERNEL_aarch64 = "3.14"
+>     >> +OLDEST_KERNEL_nios2 = “3.19"
+>     >
+>     > if you don’t need it on krogoth, then I would suggest to hold this
+>     patch for master since
+>     > I have a series which upgrades glibc to 2.24 and 2.24 needs 3.x
+>     minimum
+>     >
+>     > see
+>     >
+>     >
+>     https://github.com/kraj/openembedded-core/commit/1be5ebb2e1e2d39936d13ce158db29954bc6dabe
+> 
+>     I don't mind either way. I need 3.19, not 3.2 though, so your patch does
+>     not help me if I understand it correctly.
+> 
+>     >> STAGING_KERNEL_DIR = "${TMPDIR}/work-shared/${MACHINE}/kernel-source"
+>     >> STAGING_KERNEL_BUILDDIR =
+>     "${TMPDIR}/work-shared/${MACHINE}/kernel-build-artifacts"
+>     >>
+>     >> --
+>     >> 2.7.0
+>     >>
+>     >> --
+>     >> _______________________________________________
+>     >> Openembedded-core mailing list
+>     >> Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>     >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>     >
+> 
+> 
+>     --
+>     Best regards,
+>     Marek Vasut
+> 
+
+
 -- 
-2.7.4
-
+Best regards,
+Marek Vasut
 
