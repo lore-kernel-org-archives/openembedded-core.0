@@ -1,22 +1,36 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id C450B70100
+Return-Path: <jeremy.rosen@smile.fr>
+Received: from idris.smile.fr (idris.smile.fr [91.216.209.19])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D85860670
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 May 2016 13:00:36 +0000 (UTC)
-Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3r2lxJ4wjwz3hjPS;
-	Sun,  8 May 2016 15:00:36 +0200 (CEST)
-X-Auth-Info: YdK8mL78XE/Jut3vyU3nmTiDN5AGmUbUQqfaGn4WVms=
-Received: from chi.lan (unknown [195.140.253.167])
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3r2lxJ35VJzvdWS;
-	Sun,  8 May 2016 15:00:36 +0200 (CEST)
-From: Marek Vasut <marex@denx.de>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  8 May 2016 15:00:32 +0200
-Message-Id: <1462712432-6214-1-git-send-email-marex@denx.de>
-X-Mailer: git-send-email 2.7.0
-Cc: Marek Vasut <marex@denx.de>
-Subject: [PATCH] bitbake: Oldest kernel for nios2 is 3.19
+	Sun,  8 May 2016 16:05:56 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by idris.smile.fr (Postfix) with ESMTP id 3B9021EE081B
+	for <openembedded-core@lists.openembedded.org>;
+	Sun,  8 May 2016 18:05:57 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at smile.fr
+Received: from idris.smile.fr ([127.0.0.1])
+	by localhost (bluemind-mta.prod.vitry.intranet [127.0.0.1])
+	(amavisd-new, port 10024) with ESMTP id hDX86l15kPqj
+	for <openembedded-core@lists.openembedded.org>;
+	Sun,  8 May 2016 18:05:57 +0200 (CEST)
+Received: from bluemind.smile.fr (bluemind.prod.vitry.intranet [10.10.1.35])
+	by idris.smile.fr (Postfix) with ESMTP id 1271E1EE07CA
+	for <openembedded-core@lists.openembedded.org>;
+	Sun,  8 May 2016 18:05:57 +0200 (CEST)
+Received: from localhost.localdomain (localhost [127.0.0.1])
+	by bluemind.smile.fr (Postfix) with ESMTP id 0FF0C5460416
+	for <openembedded-core@lists.openembedded.org>;
+	Sun,  8 May 2016 18:05:57 +0200 (CEST)
+MIME-Version: 1.0
+Date: Sun, 08 May 2016 18:05:57 +0200
+From: Jeremy ROSEN <jeremy.rosen@smile.fr>
+To: <openembedded-core@lists.openembedded.org>
+In-Reply-To: <cover.1462216694.git.chris_larson@mentor.com>
+References: <cover.1462216694.git.chris_larson@mentor.com>
+Message-ID: <e9b4b7a9c7391a30eb2c08ef245e70d8@smile.fr>
+X-Sender: jeremy.rosen@smile.fr
+User-Agent: Roundcube Webmail/0.8.5
+Subject: Re: [for-master][RFC PATCH 0/3] Support template files for wic wks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,31 +43,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 08 May 2016 13:00:40 -0000
+X-List-Received-Date: Sun, 08 May 2016 16:05:58 -0000
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
 
-The oldest kernel version for nios2 is 3.19.0, set it so, otherwise
-qemu-nios2 -r ${OLDEST_KERNEL} fails with "FATAL: kernel too old"
-message from glibc.
 
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/conf/bitbake.conf | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 1c4175f..2f5db22 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -405,6 +405,7 @@ SDKPATHNATIVE = "${SDKPATH}/sysroots/${SDK_SYS}"
- 
- OLDEST_KERNEL = "2.6.32"
- OLDEST_KERNEL_aarch64 = "3.14"
-+OLDEST_KERNEL_nios2 = "3.19"
- STAGING_KERNEL_DIR = "${TMPDIR}/work-shared/${MACHINE}/kernel-source"
- STAGING_KERNEL_BUILDDIR = "${TMPDIR}/work-shared/${MACHINE}/kernel-build-artifacts"
- 
--- 
-2.7.0
+
+
+Le 02/05/2016 21:23, Christopher Larson a écrit :
+> From: Christopher Larson <chris_larson@mentor.com>
+> 
+> This adds support for .wks.in files as WKS_FILE.
+> 
+> These files are treated as the contents of a bitbake variable, so 
+> usual
+> bitbake variable references are supported. I considered using another
+> templating mechanism, for example the one used by yocto-layer, but 
+> then we'd
+> end up largely mapping metadata variables to template fields anyway, 
+> which is
+> a pointless indirection. Let bitbake expand the variables directly 
+> instead.
+> 
+> This feature lets us, for example, reference ${APPEND} in --append, 
+> and avoid
+> hardcoding the serial console tty in the wks file, and let the user's 
+> changes
+> to APPEND affect wic the way they do the other image construction 
+> mechanisms.
+> 
+> The template is read in and set in a variable at parse time, so 
+> changes to the
+> variables referenced by the template will result in rebuilding the 
+> image.
+> 
+> It's been suggested that the name should better reflect how its 
+> contents are
+> used, i.e. .bbin or so. I've also considered including something like 
+> 'bbv' or
+> similar, to indicate its contents are that of a bitbake value. I think 
+> this
+> should be discussed.
+> 
+> I'd love to hear questions or comments on this. I think the value is 
+> clear,
+> and it's something we need to solve, but I'd like to hear if others 
+> agree or
+> disagree on that, and whether this implementation is appropriate.
+> 
+> 
+
+
+We have been discussing this a bit with Chris on IRC and i'll add a 
+couple of thoughts we had so that discussion isn't completely lost.
+
+As a final user of yocto, I find the need for templating in wic very 
+usefull, it would allow me to specify disk size in the machine 
+specification and adapt the wic image accordingly, or use different disk 
+names ( mmcblk vs sda)
+
+however my need is more generic and I think it would be interesting to 
+consider a bigger problem : using yocto variables in configuration 
+files. (I mean files in /etc/ here, not yocto configuration)
+
+It is a pretty common problem to have to tailor configuration files for 
+particular machines, distro features, optional dependencies etc... this 
+is possible to do using OVERRIDES but it can only be done at the 
+whole-file level, not within a configuration file. Moreover it makes 
+some complex cases very tricky. let's present an example
+
+It is pretty common to need to include the build-machine's ip address 
+in a configuration file. This can be usefull to send logs if the build 
+machine is also the developer's machine. The ip address of the build 
+machine can be easily obtained via python and put into the bitbake 
+environement, but using that variable to set a value in a random file in 
+/etc is pretty tricky.
+
+similarly, I like to include my public ssh key as an authorized key for 
+root on my builds, il makes testing way easier
+
+I think having a generic templating mechanism that would recognise some 
+source files as needing template extension would be awesome. I don't 
+understand fully how bitbake/yocto works, so I can't design a complete 
+archtecture, but here are a couple of thought we had with Chris on IRC
+
+* recognise *.in in the same way *.patch are recognized. Is there a 
+risk of improper expansion ? maybe specify that templating is needed as 
+a parameter in SRC_URI
+* should expansion be in do_fetch or do_patch or somewhere else... 
+images tend to skip do_patch, but do_fetch is on the bitbake side IIUC. 
+would that be a problem ?
+* interaction with sstate and rebuilding needs to be considered... 
+changes need to be detected post-templating obviously
+
+Overall, I really like the idea of this patch, there are lot of things 
+in a .wks that need expansion, but I think there is even more in every 
+other configuration file of the system.
+
+Hope my random thoughts helped
+
+Regards
+
+Jérémy Rosen
 
 
