@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id ACB88731D8
+	by mail.openembedded.org (Postfix) with ESMTP id 9DF64731C6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 May 2016 23:58:26 +0000 (UTC)
+	Sun,  8 May 2016 23:58:29 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP; 08 May 2016 16:58:27 -0700
+	by orsmga103.jf.intel.com with ESMTP; 08 May 2016 16:58:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,598,1455004800"; d="scan'208";a="801873924"
+X-IronPort-AV: E=Sophos;i="5.24,598,1455004800"; d="scan'208";a="801873941"
 Received: from hschan-mobl1.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.140.99])
-	by orsmga003.jf.intel.com with ESMTP; 08 May 2016 16:58:24 -0700
+	by orsmga003.jf.intel.com with ESMTP; 08 May 2016 16:58:28 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 May 2016 11:58:10 +1200
-Message-Id: <0348ef35090a51cf4f89fd3beec3e730b4a4d7ff.1462751689.git.paul.eggleton@linux.intel.com>
+Date: Mon,  9 May 2016 11:58:11 +1200
+Message-Id: <eb016e1073f3390514b97006c33b337fe526673e.1462751689.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.5
 In-Reply-To: <cover.1462751689.git.paul.eggleton@linux.intel.com>
 References: <cover.1462751689.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1462751689.git.paul.eggleton@linux.intel.com>
 References: <cover.1462751689.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/2] classes/insane: do not force LIC_FILES_CHKSUM unless SRC_URI is set
+Subject: [PATCH 2/2] Drop unneeded LIC_FILES_CHKSUM values
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,44 +32,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 08 May 2016 23:58:26 -0000
+X-List-Received-Date: Sun, 08 May 2016 23:58:29 -0000
 
-Recipes such as images and packagegroups don't actually fetch or build
-any source, so there's really no point having LIC_FILES_CHKSUM set.
-Forcing users to set it (as we have done for images inheriting
-image.bbclass) just makes things more difficult for the user for no
-discernable benefit. The easiest way to adjust this check is simply to
-skip it if SRC_URI is not set since this is a pretty good indicator that
-no source is being pulled in.
+With the changes to insane.bbclass we don't need LIC_FILES_CHKSUM to be
+set for recipes that don't actually pull in any source.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/classes/insane.bbclass | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta-selftest/recipes-test/images/test-empty-image.bb  | 1 -
+ meta-selftest/recipes-test/images/wic-image-minimal.bb | 2 --
+ meta/classes/core-image.bbclass                        | 5 +----
+ meta/classes/packagegroup.bbclass                      | 3 ---
+ meta/recipes-core/meta/meta-world-pkgdata.bb           | 1 -
+ meta/recipes-graphics/images/core-image-directfb.bb    | 4 ----
+ 6 files changed, 1 insertion(+), 15 deletions(-)
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 097dc3a..0b151c2 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -681,15 +681,15 @@ python populate_lic_qa_checksum() {
-     import tempfile
-     sane = True
+diff --git a/meta-selftest/recipes-test/images/test-empty-image.bb b/meta-selftest/recipes-test/images/test-empty-image.bb
+index 7847f83..88d8d61 100644
+--- a/meta-selftest/recipes-test/images/test-empty-image.bb
++++ b/meta-selftest/recipes-test/images/test-empty-image.bb
+@@ -2,6 +2,5 @@ SUMMARY = "An empty image."
+ IMAGE_INSTALL = ""
+ IMAGE_LINGUAS = ""
+ PACKAGE_INSTALL = ""
+-LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
  
--    lic_files = d.getVar('LIC_FILES_CHKSUM', True)
-+    lic_files = d.getVar('LIC_FILES_CHKSUM', True) or ''
-     lic = d.getVar('LICENSE', True)
-     pn = d.getVar('PN', True)
+ inherit image
+diff --git a/meta-selftest/recipes-test/images/wic-image-minimal.bb b/meta-selftest/recipes-test/images/wic-image-minimal.bb
+index 754689f..a294ba7 100644
+--- a/meta-selftest/recipes-test/images/wic-image-minimal.bb
++++ b/meta-selftest/recipes-test/images/wic-image-minimal.bb
+@@ -9,8 +9,6 @@ RM_OLD_IMAGE = "1"
  
-     if lic == "CLOSED":
-         return
+ DEPENDS = "syslinux syslinux-native parted-native dosfstools-native mtools-native gptfdisk-native"
  
--    if not lic_files:
--        package_qa_handle_error("license-checksum", pn + ": Recipe file does not have license file information (LIC_FILES_CHKSUM)", d)
-+    if not lic_files and d.getVar('SRC_URI', True):
-+        package_qa_handle_error("license-checksum", pn + ": Recipe file fetches files and does not have license file information (LIC_FILES_CHKSUM)", d)
-         return
+-LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+-
+ # core-image-minimal is referenced in .wks, so we need its rootfs
+ # to be ready before our rootfs
+ do_rootfs[depends] += "core-image-minimal:do_image core-image-minimal:do_rootfs_wicenv"
+diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
+index 705cad8..da51409 100644
+--- a/meta/classes/core-image.bbclass
++++ b/meta/classes/core-image.bbclass
+@@ -1,10 +1,7 @@
+ # Common code for generating core reference images
+ #
+ # Copyright (C) 2007-2011 Linux Foundation
+-
+-LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690 \
+-                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+-
++#
+ # IMAGE_FEATURES control content of the core reference images
+ # 
+ # By default we install packagegroup-core-boot and packagegroup-base-extended packages;
+diff --git a/meta/classes/packagegroup.bbclass b/meta/classes/packagegroup.bbclass
+index 3674894..3928c8a 100644
+--- a/meta/classes/packagegroup.bbclass
++++ b/meta/classes/packagegroup.bbclass
+@@ -15,9 +15,6 @@ PACKAGE_ARCH ?= "all"
+ PACKAGE_ARCH_EXPANDED := "${PACKAGE_ARCH}"
  
-     srcdir = d.getVar('S', True)
+ LICENSE ?= "MIT"
+-LIC_FILES_CHKSUM ?= "${@oe.utils.ifelse(d.getVar('LICENSE', True) == 'MIT', \
+-                     'file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420', \
+-                    '')}"
+ 
+ inherit ${@oe.utils.ifelse(d.getVar('PACKAGE_ARCH_EXPANDED', True) == 'all', 'allarch', '')}
+ 
+diff --git a/meta/recipes-core/meta/meta-world-pkgdata.bb b/meta/recipes-core/meta/meta-world-pkgdata.bb
+index b3989cd..81c8647 100644
+--- a/meta/recipes-core/meta/meta-world-pkgdata.bb
++++ b/meta/recipes-core/meta/meta-world-pkgdata.bb
+@@ -1,6 +1,5 @@
+ SUMMARY = "Pulls in pkgdata for world"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM ?= "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ 
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
+diff --git a/meta/recipes-graphics/images/core-image-directfb.bb b/meta/recipes-graphics/images/core-image-directfb.bb
+index 5641195..c6ce658 100644
+--- a/meta/recipes-graphics/images/core-image-directfb.bb
++++ b/meta/recipes-graphics/images/core-image-directfb.bb
+@@ -1,10 +1,6 @@
+ SUMMARY = "An image that uses DirectFB instead of X11"
+ LICENSE = "MIT"
+ 
+-
+-LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690 \
+-                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+-
+ inherit core-image distro_features_check
+ 
+ REQUIRED_DISTRO_FEATURES = "directfb"
 -- 
 2.5.5
 
