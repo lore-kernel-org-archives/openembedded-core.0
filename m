@@ -1,36 +1,36 @@
-Return-Path: <jeremy.rosen@smile.fr>
-Received: from idris.smile.fr (idris.smile.fr [91.216.209.19])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D85860670
+Return-Path: <obi@opendreambox.org>
+Received: from mail.dream-property.net (mail.dream-property.net
+	[82.149.226.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F9777016E
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 May 2016 16:05:56 +0000 (UTC)
+	Sun,  8 May 2016 16:33:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by idris.smile.fr (Postfix) with ESMTP id 3B9021EE081B
+	by mail.dream-property.net (Postfix) with ESMTP id 1058B31422B0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 May 2016 18:05:57 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at smile.fr
-Received: from idris.smile.fr ([127.0.0.1])
-	by localhost (bluemind-mta.prod.vitry.intranet [127.0.0.1])
-	(amavisd-new, port 10024) with ESMTP id hDX86l15kPqj
+	Sun,  8 May 2016 18:33:25 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id JtRk3HH13PRI
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 May 2016 18:05:57 +0200 (CEST)
-Received: from bluemind.smile.fr (bluemind.prod.vitry.intranet [10.10.1.35])
-	by idris.smile.fr (Postfix) with ESMTP id 1271E1EE07CA
+	Sun,  8 May 2016 18:33:22 +0200 (CEST)
+Received: from [172.22.22.61] (55d4630e.access.ecotel.net [85.212.99.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id 9592C31422AF
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 May 2016 18:05:57 +0200 (CEST)
-Received: from localhost.localdomain (localhost [127.0.0.1])
-	by bluemind.smile.fr (Postfix) with ESMTP id 0FF0C5460416
-	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 May 2016 18:05:57 +0200 (CEST)
+	Sun,  8 May 2016 18:33:22 +0200 (CEST)
+To: openembedded-core@lists.openembedded.org
+References: <1462706513-5019-1-git-send-email-marex@denx.de>
+From: Andreas Oberritter <obi@opendreambox.org>
+X-Enigmail-Draft-Status: N1110
+Message-ID: <572F6A52.3090509@opendreambox.org>
+Date: Sun, 8 May 2016 18:33:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.7.2
 MIME-Version: 1.0
-Date: Sun, 08 May 2016 18:05:57 +0200
-From: Jeremy ROSEN <jeremy.rosen@smile.fr>
-To: <openembedded-core@lists.openembedded.org>
-In-Reply-To: <cover.1462216694.git.chris_larson@mentor.com>
-References: <cover.1462216694.git.chris_larson@mentor.com>
-Message-ID: <e9b4b7a9c7391a30eb2c08ef245e70d8@smile.fr>
-X-Sender: jeremy.rosen@smile.fr
-User-Agent: Roundcube Webmail/0.8.5
-Subject: Re: [for-master][RFC PATCH 0/3] Support template files for wic wks
+In-Reply-To: <1462706513-5019-1-git-send-email-marex@denx.de>
+Subject: Re: [PATCH] kernel: fitimage: Repair misuse of shell test command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,109 +43,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 08 May 2016 16:05:58 -0000
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 08 May 2016 16:33:27 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
+Hi Marek,
 
-
-
-
-Le 02/05/2016 21:23, Christopher Larson a écrit :
-> From: Christopher Larson <chris_larson@mentor.com>
+On 08.05.2016 13:21, Marek Vasut wrote:
+> The kernel fitImage must be amended with signature if and only if
+> UBOOT_SIGN_ENABLE = 1 . In the current case, the UBOOT_SIGN_ENABLE
+> could be either 0 (default) or 1 , which test -n always correctly
+> interprets as non-empty string, thus always true. This does not
+> match the logic above though, so replace the test with check which
+> passes only for UBOOT_SIGN_ENABLE = 1 .
 > 
-> This adds support for .wks.in files as WKS_FILE.
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Yannick Gicquel <yannick.gicquel@iot.bzh>
+> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/classes/kernel-fitimage.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> ---
+> NOTE: It'd be real nice if I was CCed on the original patches
+> NOTE: I'm not convinced that UBOOT_SIGN_ENABLE is the right name
+>       for this variable, since the signed object is really the
+>       fitImage and U-Boot only verifies the signature. Maybe we
+>       should rename it, is it still possible ?
 > 
-> These files are treated as the contents of a bitbake variable, so 
-> usual
-> bitbake variable references are supported. I considered using another
-> templating mechanism, for example the one used by yocto-layer, but 
-> then we'd
-> end up largely mapping metadata variables to template fields anyway, 
-> which is
-> a pointless indirection. Let bitbake expand the variables directly 
-> instead.
-> 
-> This feature lets us, for example, reference ${APPEND} in --append, 
-> and avoid
-> hardcoding the serial console tty in the wks file, and let the user's 
-> changes
-> to APPEND affect wic the way they do the other image construction 
-> mechanisms.
-> 
-> The template is read in and set in a variable at parse time, so 
-> changes to the
-> variables referenced by the template will result in rebuilding the 
-> image.
-> 
-> It's been suggested that the name should better reflect how its 
-> contents are
-> used, i.e. .bbin or so. I've also considered including something like 
-> 'bbv' or
-> similar, to indicate its contents are that of a bitbake value. I think 
-> this
-> should be discussed.
-> 
-> I'd love to hear questions or comments on this. I think the value is 
-> clear,
-> and it's something we need to solve, but I'd like to hear if others 
-> agree or
-> disagree on that, and whether this implementation is appropriate.
-> 
-> 
+> diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+> index 809bd4d..298eda2 100644
+> --- a/meta/classes/kernel-fitimage.bbclass
+> +++ b/meta/classes/kernel-fitimage.bbclass
+> @@ -250,7 +250,7 @@ do_assemble_fitimage() {
+>  		#
+>  		# Step 5: Sign the image and add public key to U-Boot dtb
+>  		#
+> -		if test -n "${UBOOT_SIGN_ENABLE}"; then
+> +		if [ "x${UBOOT_SIGN_ENABLE}" = "x1" ] ; then
 
+just a nitpick about coding style, but I think you should remove the
+extra x. Most people add it, because they have seen it somewhere else,
+but it doesn't make much sense if the variable is both enclosed in
+quotes and has very little likeliness to get set to a valid option for
+'test' returning true.
 
-We have been discussing this a bit with Chris on IRC and i'll add a 
-couple of thoughts we had so that discussion isn't completely lost.
+Leaving the extra x out improves readability for shell novices and, in
+general (but not in this case), the ability to grep using whole word
+matches.
 
-As a final user of yocto, I find the need for templating in wic very 
-usefull, it would allow me to specify disk size in the machine 
-specification and adapt the wic image accordingly, or use different disk 
-names ( mmcblk vs sda)
-
-however my need is more generic and I think it would be interesting to 
-consider a bigger problem : using yocto variables in configuration 
-files. (I mean files in /etc/ here, not yocto configuration)
-
-It is a pretty common problem to have to tailor configuration files for 
-particular machines, distro features, optional dependencies etc... this 
-is possible to do using OVERRIDES but it can only be done at the 
-whole-file level, not within a configuration file. Moreover it makes 
-some complex cases very tricky. let's present an example
-
-It is pretty common to need to include the build-machine's ip address 
-in a configuration file. This can be usefull to send logs if the build 
-machine is also the developer's machine. The ip address of the build 
-machine can be easily obtained via python and put into the bitbake 
-environement, but using that variable to set a value in a random file in 
-/etc is pretty tricky.
-
-similarly, I like to include my public ssh key as an authorized key for 
-root on my builds, il makes testing way easier
-
-I think having a generic templating mechanism that would recognise some 
-source files as needing template extension would be awesome. I don't 
-understand fully how bitbake/yocto works, so I can't design a complete 
-archtecture, but here are a couple of thought we had with Chris on IRC
-
-* recognise *.in in the same way *.patch are recognized. Is there a 
-risk of improper expansion ? maybe specify that templating is needed as 
-a parameter in SRC_URI
-* should expansion be in do_fetch or do_patch or somewhere else... 
-images tend to skip do_patch, but do_fetch is on the bitbake side IIUC. 
-would that be a problem ?
-* interaction with sstate and rebuilding needs to be considered... 
-changes need to be detected post-templating obviously
-
-Overall, I really like the idea of this patch, there are lot of things 
-in a .wks that need expansion, but I think there is even more in every 
-other configuration file of the system.
-
-Hope my random thoughts helped
-
-Regards
-
-Jérémy Rosen
-
+Regards,
+Andreas
 
