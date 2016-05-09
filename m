@@ -1,52 +1,45 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 29EE373167
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-oi0-f44.google.com (mail-oi0-f44.google.com
+	[209.85.218.44])
+	by mail.openembedded.org (Postfix) with ESMTP id F117F605FF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 May 2016 12:15:32 +0000 (UTC)
-Received: by mail-wm0-f50.google.com with SMTP id a17so183483986wme.0
+	Mon,  9 May 2016 12:43:20 +0000 (UTC)
+Received: by mail-oi0-f44.google.com with SMTP id x201so208527050oif.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 May 2016 05:15:34 -0700 (PDT)
+	Mon, 09 May 2016 05:43:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=TS8hEUXfZEvmL9x8Li1qeve7pssFy83PZ08kQ/EU0NQ=;
-	b=U+6LXF2if64P7RaG8vWEdk0npi1r07fPBEQbjfqPma+4tJry8cpNUq4+ut8Xf2MmRb
-	u5LGb1LO72bcFDfYZcNuWNmsfBKzKUk60nOjj6Lw7SGj6PA6rg2McLx/SExlIYmZPq9G
-	jbseobO0cDAfeNd7amqGExv9RX9mf4QR2+71MjRf1aPIpEhFQo+iczfYLRYCLWdkBy8O
-	MznNHZz1+OdjPzaT29oCov7U+qD35yjYCK12eg2Jzuc9DX2d25BlLCKmIoAlQf6FmxfM
-	SiABUqcoWsZhmf5geqGUDOCg3fHxetPDwB5Tf9Hc7MTy+eg5jrFESlbdXabzLiCE+wn0
-	7EMg==
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc; bh=9fsC8D8fm6HC/XlrGDwj1cIjbQPGVpj/MBO1Ivf4EJ4=;
+	b=uMP/QZpueXIxfE1QUw34ButTajWkAktejsw40P0xFWttWOkK6NmIOVoI9eGk0z4YTz
+	BkejYAyk9wyOsbOJl55k3NtzdEidSjBAvABmzo6Gy+XzuuYi3vN7S168MS19/oLVl+0L
+	egkW3px45jBEjKM6YweTrbx+qhataUx2oiVwNrpkfm78GMrvRLpmnl0iO0qXt16kH1Rl
+	9GSCaMljw6hlLwjTX56//qwweDpxUiORMhwq5O/N8qOgkE4kFvNN4ua3rjTV3mWUaJz9
+	8xAYBmI8a4XMgtvL8JAcgA3rSf8ZcGt8/W1N4gLO1g/8kdtRIh1tfdrFiiuWuNwjqoyu
+	3jUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=TS8hEUXfZEvmL9x8Li1qeve7pssFy83PZ08kQ/EU0NQ=;
-	b=agXyLSWxz0BCMWxlpZSVWAyTvatM6VTjhhH7ioBmdh2DpCkr1sOS4CAkiNSNfsYevq
-	INM9f/kBdQAGZwkaPp3B0QM1urBGtQdT5kws755yCdkbCBFRj7WTjc5lF+0M4i6LpEWO
-	y2pHDCMXo2f42Y/G4I1S9hlHU2ahElU5PrlruHgL7WRUgESrroKrYYmS/1cxz9BLNKZU
-	6oT0jk5CtGlfG8xtTkv6JooRrr47fs65MoMg/TPW8jFQ8hpCdodavVhK8l2TK4oaIHo0
-	Da7OhQ4qZNfXDgF9WSxf8q1xBh+fSNWJPsDPXZctQs+uSaVuCRAVJmNV2fLHs+0QG+GB
-	YVZg==
-X-Gm-Message-State: AOPr4FVsGfAjXfNG/SyGaaalv8k5ZBnMEqmy+pPVOyJy7D3Ib7m7EHoEd/NP7TYHT8Ti8w==
-X-Received: by 10.28.45.216 with SMTP id t207mr10617319wmt.40.1462796133308;
-	Mon, 09 May 2016 05:15:33 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	v143sm24193598wmv.4.2016.05.09.05.15.31
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 09 May 2016 05:15:31 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 9 May 2016 14:15:41 +0200
-To: Armin Kuster <akuster808@gmail.com>
-Message-ID: <20160509121541.GA2560@jama>
-References: <1461109862-23840-1-git-send-email-akuster808@gmail.com>
-	<1461109862-23840-2-git-send-email-akuster808@gmail.com>
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc;
+	bh=9fsC8D8fm6HC/XlrGDwj1cIjbQPGVpj/MBO1Ivf4EJ4=;
+	b=mh/AewDIn0c7ZF7OyfyZfrxJsjtyY2NnXoi4mz6UCN/1w7oIGLPmi5J3QRlNbHTHPu
+	dyZ+JXWyuchojwYuaBcwgx3VZ0IB9jdCncTAbqSY4Mfe4koWY+qQwItVGJmBEReDCV8z
+	nzb2DiidvsCRw+3OqE05SrmF9zHAMZ/s0//9A2UjT71dwWkwZuNnSLOPZhQT9t1AQn5r
+	iMDeiExW07/kuUgMz4GUflULo0rUi679Gzi10Mn/H/UdvtCZ72QQ5KRf2hlue++MTrIp
+	YqlJoePd0qeHZMjapqfhY2f4pUy4G9o2DrUv62C92p3rDeKDew6ABzkwfHMbEikZ9Idg
+	nJGg==
+X-Gm-Message-State: AOPr4FXOlkuHBBQsw3Qah5FrgvGrZQNloFwFiwZfgf8lswofJEJU1ntR5iS4jv74tsERsM/0PPJslELb+8qODg==
 MIME-Version: 1.0
-In-Reply-To: <1461109862-23840-2-git-send-email-akuster808@gmail.com>
-User-Agent: Mutt/1.6.1 (2016-04-27)
-Cc: akuster@mvista.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH][master][krogoth][jethro][fido 2/2] tzdata: update to 2016d
+X-Received: by 10.202.46.139 with SMTP id u133mr15044637oiu.16.1462797801453; 
+	Mon, 09 May 2016 05:43:21 -0700 (PDT)
+Received: by 10.157.32.135 with HTTP; Mon, 9 May 2016 05:43:21 -0700 (PDT)
+In-Reply-To: <alpine.LFD.2.20.1605090630480.21387@localhost.localdomain>
+References: <alpine.LFD.2.20.1605090630480.21387@localhost.localdomain>
+Date: Mon, 9 May 2016 08:43:21 -0400
+Message-ID: <CADkTA4PzYTZhbgm0g=wnjfoK0hEDiDKKWqU7PePb=BxnerAXaw@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: should a SRC_URI referring to "rday.cfg" look for "rday.scc"?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,78 +52,179 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 May 2016 12:15:34 -0000
-X-Groupsio-MsgNum: 81736
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="bg08WKrSYDhXBjb5"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 09 May 2016 12:43:22 -0000
+Content-Type: multipart/alternative; boundary=001a1137c99c557fd205326827f1
 
---bg08WKrSYDhXBjb5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+--001a1137c99c557fd205326827f1
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, Apr 19, 2016 at 04:51:02PM -0700, Armin Kuster wrote:
-> From: Armin Kuster <akuster@mvista.com>
->=20
-> Changes affecting future time stamps
->=20
+On Mon, May 9, 2016 at 6:39 AM, Robert P. J. Day <rpjday@crashcourse.ca>
+wrote:
 
-Please get this into jethro soon, now version in fido is newer (2016d)
-than in jethro (2016c)
+>
+>   (aside: this is with wind river linux 8 and i dropped bruce a note
+> about it, but i really should keep this stuff on the mailing list.)
+>
+>   not sure if this is a WRL issue, or more general OE or YP issue, but
+> i was doing a kernel config yesterday, and my SRC_URI included, say,
+> "rday.scc", which incorporated both kernel config fragments and
+> patches, and that worked fine.
+>
+>   eventually, after massive refactoring, all that was left of that
+> item was some kernel configuration which was already in "rday.cfg", so
+> i edited SRC_URI and replaced "rday.scc" with "rday.cfg", but i left
+> that old "rday.scc" in that directory (with its referent patches),
+> assuming it would be ignored.
+>
+>   did a clean and configure and got:
+>
+>   | DEBUG: Executing shell function do_kernel_metadata
+> | ERROR: could not find patch rday.patch, included from
+> .../rday.scc ...
+>
+>   it *appears* that, even though SRC_URI now refers to (among other
+> things) just "rday.cfg", it looks like the configure step is *still*
+> trying to process "rday.scc", which contains a reference to a now
+> non-existent patch, hence the failure.
+>
+>   if i just remove (or rename) "rday.scc", then things work fine. is
+> this expected behaviour? is there some reason that if SRC_URI
+> includes, say "derf.cfg", the configuration will automatically look
+> for and try to process "derf.scc"? or am i just doing something silly?
+>
 
-> Signed-off-by: Armin Kuster <akuster@mvista.com>
-> ---
->  meta/recipes-extended/tzdata/{tzdata_2016c.bb =3D> tzdata_2016d.bb} | 4 =
-++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-extended/tzdata/{tzdata_2016c.bb =3D> tzdata_2016d.b=
-b} (98%)
->=20
-> diff --git a/meta/recipes-extended/tzdata/tzdata_2016c.bb b/meta/recipes-=
-extended/tzdata/tzdata_2016d.bb
-> similarity index 98%
-> rename from meta/recipes-extended/tzdata/tzdata_2016c.bb
-> rename to meta/recipes-extended/tzdata/tzdata_2016d.bb
-> index 5eb85b7..627a31a 100644
-> --- a/meta/recipes-extended/tzdata/tzdata_2016c.bb
-> +++ b/meta/recipes-extended/tzdata/tzdata_2016d.bb
-> @@ -8,8 +8,8 @@ DEPENDS =3D "tzcode-native"
-> =20
->  SRC_URI =3D "http://www.iana.org/time-zones/repository/releases/tzdata${=
-PV}.tar.gz;name=3Dtzdata"
-> =20
-> -SRC_URI[tzdata.md5sum] =3D "0330ccd16140d3b6438a18dae9b34b93"
-> -SRC_URI[tzdata.sha256sum] =3D "8700d981e6f2007ac037dabb5d2b12f390e8629bb=
-c30e564bc21cf0c069a2d48"
-> +SRC_URI[tzdata.md5sum] =3D "14bf84b6c2cdab0a9428991e0150ebe6"
-> +SRC_URI[tzdata.sha256sum] =3D "d9554dfba0efd76053582bd89e8c7036ef12eee14=
-fdd506675b08a5b59f0a1b4"
-> =20
->  inherit allarch
-> =20
-> --=20
-> 2.3.5
->=20
-> --=20
+There's no automatic inclusions like that. Take a look at your meta-series
+and see if
+there's an explicit reference to the .scc file.
+
+Otherwise, I'll have to try and reproduce it here.
+
+Bruce
+
+
+>
+> rday
+>
+> --
+>
+> ========================================================================
+> Robert P. J. Day                                 Ottawa, Ontario, CANADA
+>                         http://crashcourse.ca
+>
+> Twitter:                                       http://twitter.com/rpjday
+> LinkedIn:                               http://ca.linkedin.com/in/rpjday
+> ========================================================================
+>
+>
+>
+> --
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---bg08WKrSYDhXBjb5
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
 
-iEYEARECAAYFAlcwf2oACgkQN1Ujt2V2gByJGQCdEbU5L2h7VI/fGPCWAITzXSAa
-7dkAn0cOfhBWlmkxhDuJfbGOmzma1uYw
-=K1eK
------END PGP SIGNATURE-----
+--001a1137c99c557fd205326827f1
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
---bg08WKrSYDhXBjb5--
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Mon, May 9, 2016 at 6:39 AM, Robert P. J. Day <span dir=3D"ltr">&lt;=
+<a href=3D"mailto:rpjday@crashcourse.ca" target=3D"_blank">rpjday@crashcour=
+se.ca</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
+=C2=A0 (aside: this is with wind river linux 8 and i dropped bruce a note<b=
+r>
+about it, but i really should keep this stuff on the mailing list.)<br>
+<br>
+=C2=A0 not sure if this is a WRL issue, or more general OE or YP issue, but=
+<br>
+i was doing a kernel config yesterday, and my SRC_URI included, say,<br>
+&quot;rday.scc&quot;, which incorporated both kernel config fragments and<b=
+r>
+patches, and that worked fine.<br>
+<br>
+=C2=A0 eventually, after massive refactoring, all that was left of that<br>
+item was some kernel configuration which was already in &quot;rday.cfg&quot=
+;, so<br>
+i edited SRC_URI and replaced &quot;rday.scc&quot; with &quot;rday.cfg&quot=
+;, but i left<br>
+that old &quot;rday.scc&quot; in that directory (with its referent patches)=
+,<br>
+assuming it would be ignored.<br>
+<br>
+=C2=A0 did a clean and configure and got:<br>
+<br>
+=C2=A0 | DEBUG: Executing shell function do_kernel_metadata<br>
+| ERROR: could not find patch rday.patch, included from<br>
+.../rday.scc ...<br>
+<br>
+=C2=A0 it *appears* that, even though SRC_URI now refers to (among other<br=
+>
+things) just &quot;rday.cfg&quot;, it looks like the configure step is *sti=
+ll*<br>
+trying to process &quot;rday.scc&quot;, which contains a reference to a now=
+<br>
+non-existent patch, hence the failure.<br>
+<br>
+=C2=A0 if i just remove (or rename) &quot;rday.scc&quot;, then things work =
+fine. is<br>
+this expected behaviour? is there some reason that if SRC_URI<br>
+includes, say &quot;derf.cfg&quot;, the configuration will automatically lo=
+ok<br>
+for and try to process &quot;derf.scc&quot;? or am i just doing something s=
+illy?<br></blockquote><div><br></div><div>There&#39;s no automatic inclusio=
+ns like that. Take a look at your meta-series and see if=C2=A0</div><div>th=
+ere&#39;s an explicit reference to the .scc file.</div><div><br></div><div>=
+Otherwise, I&#39;ll have to try and reproduce it here.</div><div><br></div>=
+<div>Bruce</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+rday<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+--<br>
+<br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+Robert P. J. Day=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Ottawa, Ontario,=
+ CANADA<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 <a href=3D"http://crashcourse.ca" rel=3D"noreferrer" target=3D"_=
+blank">http://crashcourse.ca</a><br>
+<br>
+Twitter:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a=
+ href=3D"http://twitter.com/rpjday" rel=3D"noreferrer" target=3D"_blank">ht=
+tp://twitter.com/rpjday</a><br>
+LinkedIn:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://ca.linkedin.=
+com/in/rpjday" rel=3D"noreferrer" target=3D"_blank">http://ca.linkedin.com/=
+in/rpjday</a><br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+<br>
+<br>
+<br>
+--<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
+r><div class=3D"gmail_signature">&quot;Thou shalt not follow the NULL point=
+er, for chaos and madness await thee at its end&quot;</div>
+</div></div>
+
+--001a1137c99c557fd205326827f1--
