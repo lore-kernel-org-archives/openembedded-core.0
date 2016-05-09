@@ -1,30 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id CFCE070031
+	by mail.openembedded.org (Postfix) with ESMTP id 2727870031
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 May 2016 13:09:39 +0000 (UTC)
+	Mon,  9 May 2016 13:12:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u49D9drS015909 for <openembedded-core@lists.openembedded.org>;
-	Mon, 9 May 2016 14:09:39 +0100
+	u49DCMYW016193 for <openembedded-core@lists.openembedded.org>;
+	Mon, 9 May 2016 14:12:22 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id QSFzQRV5kzDR
+	with LMTP id ewybE8OD1NTB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 May 2016 14:09:39 +0100 (BST)
+	Mon,  9 May 2016 14:12:22 +0100 (BST)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u49D9biq015905
+	u49DCGnS016184
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 9 May 2016 14:09:38 +0100
-Message-ID: <1462799377.21831.137.camel@linuxfoundation.org>
+	Mon, 9 May 2016 14:12:17 +0100
+Message-ID: <1462799536.21831.140.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 09 May 2016 14:09:37 +0100
+Date: Mon, 09 May 2016 14:12:16 +0100
 X-Mailer: Evolution 3.16.5-1ubuntu3.1 
 Mime-Version: 1.0
-Subject: [PATCH] image: Fix IMAGE_FEATURES determinism issue
+Subject: [PATCH] update-alternatives: Fix determinism issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,32 +37,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 May 2016 13:09:40 -0000
+X-List-Received-Date: Mon, 09 May 2016 13:12:28 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-remain_features uses a dict which means the order is not deterministic. This
-can lead to the task hash changing depending on the state of the memory at
-parse time. This is particularly noticeable under python v3.
+getVarFlags returns a dict and there is therefore no sort order. This
+means the order of the X_VARDEPS_X variables can change and hence the 
+task checksums can change. This can lead to rebuilds of any parts of 
+the system using update-alternatives and their dependees. This is a
+particular issue under python v3.
 
-Since the dict is helpful in constructing the data, pass the data through 
-sort() so the order is always deterministic.
+Add in a sort to make the order of the variables deterministic.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 1fb1964..a1772ad 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -166,7 +166,7 @@ python () {
-         if temp:
-             bb.fatal("%s contains conflicting IMAGE_FEATURES %s %s" % (d.getVar('PN', True), feature, ' '.join(list(temp))))
+diff --git a/meta/classes/update-alternatives.bbclass b/meta/classes/update-alternatives.bbclass
+index 70a8185..1fdd681 100644
+--- a/meta/classes/update-alternatives.bbclass
++++ b/meta/classes/update-alternatives.bbclass
+@@ -71,14 +71,14 @@ def gen_updatealternativesvardeps(d):
  
--    d.setVar('IMAGE_FEATURES', ' '.join(list(remain_features)))
-+    d.setVar('IMAGE_FEATURES', ' '.join(sorted(list(remain_features))))
+     # First compute them for non_pkg versions
+     for v in vars:
+-        for flag in (d.getVarFlags(v) or {}):
++        for flag in sorted((d.getVarFlags(v) or {}).keys()):
+             if flag == "doc" or flag == "vardeps" or flag == "vardepsexp":
+                 continue
+             d.appendVar('%s_VARDEPS' % (v), ' %s:%s' % (flag, d.getVarFlag(v, flag, False)))
  
-     check_image_features(d)
-     initramfs_image = d.getVar('INITRAMFS_IMAGE', True) or ""
-
+     for p in pkgs:
+         for v in vars:
+-            for flag in (d.getVarFlags("%s_%s" % (v,p)) or {}):
++            for flag in sorted((d.getVarFlags("%s_%s" % (v,p)) or {}).keys()):
+                 if flag == "doc" or flag == "vardeps" or flag == "vardepsexp":
+                     continue
+                 d.appendVar('%s_VARDEPS_%s' % (v,p), ' %s:%s' % (flag, d.getVarFlag('%s_%s' % (v,p), flag, False)))
+-- 
+cgit v0.10.2
 
 
