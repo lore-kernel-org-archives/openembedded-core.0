@@ -1,28 +1,24 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A552565C5C
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id C184F73163
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 May 2016 02:08:59 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u4928vsh001334
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 8 May 2016 19:08:57 -0700 (PDT)
-Received: from server.local (147.11.118.135) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Sun, 8 May 2016 19:08:56 -0700
-To: akuster808 <akuster808@gmail.com>, <richard.purdie@linuxfoundation.org>
-References: <cover.1462383941.git.bruce.ashfield@windriver.com>
-	<572E676E.1070400@gmail.com>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <6ea0237e-9c62-458f-ec03-d6321f2b3941@windriver.com>
-Date: Sun, 8 May 2016 22:08:55 -0400
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
-	Gecko/20100101 Thunderbird/45.0
-MIME-Version: 1.0
-In-Reply-To: <572E676E.1070400@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/11][master][krogoth] kernel-yocto: consolidated pull request
+	Mon,  9 May 2016 04:44:41 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga102.fm.intel.com with ESMTP; 08 May 2016 21:44:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,599,1455004800"; d="scan'208";a="99608785"
+Received: from hschan-mobl1.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.140.99])
+	by fmsmga004.fm.intel.com with ESMTP; 08 May 2016 21:44:34 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  9 May 2016 16:43:26 +1200
+Message-Id: <cover.1462768634.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.5.5
+Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
+	Tom Zanussi <tom.zanussi@intel.com>,
+	Otavio Salvador <otavio@ossystems.com.br>
+Subject: [RFC PATCH 0/6] Kernel configuration check for recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,72 +31,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 May 2016 02:09:01 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 09 May 2016 04:44:45 -0000
 
-On 2016-05-07 6:08 PM, akuster808 wrote:
-> On 5/4/16 10:53 AM, Bruce Ashfield wrote:
->> Hi all,
->>
->> The following is a consolidated set of changes for the 4.1, 4.4 linux-yocto
->> kernel, as well as the kern-tools.
->>
->> All of these are bug fixes, minor configuration changes or -stable updates.
->> I've had most of them queued since before the 2.1 release, but was waiting
->> for the dust to settle before sending them out.
->
-> I pulled this in to Krogoth for prelim testing. I will wait for them to
-> hit master before adding to a pull request.
+Add the capability for other recipes to verify that kernel
+configuration options they depend upon at runtime are present, and warn
+if they are missing. This seems functional enough to me but is still in
+RFC - please let me know if it looks OK to you or I've missed anything
+(no doubt there are recipes we could add the checks to, I refer mainly
+to the mechanism itself).
 
-perfect.
 
-Bruce
+Please review the following changes for suitability for inclusion. If you have
+any objections or suggestions for improvement, please respond to the patches. If
+you agree with the changes, please provide your Acked-by.
 
->
-> thanks,
-> armin
->>
->> These are all appropriate for master and krogoth.
->>
->> Build (and boot) tested on qemu*, all arches.
->>
->> Bruce
->>
->> The following changes since commit f7b520878babbaa7527151f22c031ae160512753:
->>
->>   poky: Switch to post release name/version (2016-04-29 07:58:46 +0100)
->>
->> are available in the git repository at:
->>
->>   git://git.pokylinux.org/poky-contrib zedd/kernel
->>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
->>
->> Bruce Ashfield (11):
->>   linux-yocto/uvesafb: print error message when task timeout occurs
->>   linux-yocto/4.4: sched/cgroup: Fix/cleanup cgroup teardown/init
->>   kern-tools: handle directories with, or without, trailing /
->>   kernel-yocto: allow branch auditing to be suspended
->>   linux-yocto/4.1: update to v4.1.22
->>   linux-yocto/4.1: make ltsi content available
->>   linux-yocto/4.4: BXT mmc fixes + PUNIT, tubropower, and telemetry
->>     backport
->>   linux-yocto/4.4: skylake configuration
->>   linux-yocto/4.4: broxton enablement and refactoring
->>   linux-yocto/4.4: bump to v4.4.8
->>   linux-yocto-rt/4.1: update to rt23
->>
->>  meta/classes/kernel-yocto.bbclass                  | 23 +++++++++++++---------
->>  .../kern-tools/kern-tools-native_git.bb            |  2 +-
->>  meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb    |  6 +++---
->>  meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb    |  4 ++--
->>  meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb  |  6 +++---
->>  meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb  |  4 ++--
->>  meta/recipes-kernel/linux/linux-yocto.inc          |  1 +
->>  meta/recipes-kernel/linux/linux-yocto_4.1.bb       | 20 +++++++++----------
->>  meta/recipes-kernel/linux/linux-yocto_4.4.bb       | 18 ++++++++---------
->>  9 files changed, 45 insertions(+), 39 deletions(-)
->>
->
+The following changes since commit ece101be5158beee709cdfbb85ecdbdc8d9fb864:
+
+  test-empty-image: Fix LIC_FILES_CHKSUM typo (2016-05-06 10:47:59 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/kernel-check
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/kernel-check
+
+Paul Eggleton (6):
+  classes/kernel-check: add a class to check kernel config options
+  eudev: check for required kernel config options
+  systemd: check for required kernel config options
+  classes/kernel: fix typo
+  classes/kernel: check OLDEST_KERNEL at configure time
+  classes/image: check kernel config supports IMAGE_FSTYPES items
+
+ meta/classes/image.bbclass               | 23 ++++++++
+ meta/classes/image_types.bbclass         | 11 ++++
+ meta/classes/kernel-check.bbclass        | 97 ++++++++++++++++++++++++++++++++
+ meta/classes/kernel.bbclass              | 16 +++++-
+ meta/recipes-core/systemd/systemd_229.bb | 19 ++++++-
+ meta/recipes-core/udev/eudev_3.1.5.bb    | 22 +++++++-
+ 6 files changed, 185 insertions(+), 3 deletions(-)
+ create mode 100644 meta/classes/kernel-check.bbclass
+
+-- 
+2.5.5
 
 
