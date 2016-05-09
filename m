@@ -1,20 +1,22 @@
 Return-Path: <stephano.cetola@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 69C97731C7
+	by mail.openembedded.org (Postfix) with ESMTP id 85987731D1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 May 2016 23:41:27 +0000 (UTC)
+	Mon,  9 May 2016 23:41:28 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 09 May 2016 16:41:28 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 09 May 2016 16:41:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,602,1455004800"; d="scan'208";a="949592045"
+X-IronPort-AV: E=Sophos;i="5.24,602,1455004800"; d="scan'208";a="949592050"
 Received: from unknown (HELO yocto-dev86.jf.intel.com) ([10.7.198.63])
-	by orsmga001.jf.intel.com with ESMTP; 09 May 2016 16:41:27 -0700
+	by orsmga001.jf.intel.com with ESMTP; 09 May 2016 16:41:28 -0700
 From: Stephano Cetola <stephano.cetola@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 May 2016 16:42:24 -0700
-Message-Id: <1462837346-27095-1-git-send-email-stephano.cetola@linux.intel.com>
+Date: Mon,  9 May 2016 16:42:25 -0700
+Message-Id: <1462837346-27095-2-git-send-email-stephano.cetola@linux.intel.com>
 X-Mailer: git-send-email 2.8.0
-Subject: [PATCH v2 0/2] Create systemd users at build time
+In-Reply-To: <1462837346-27095-1-git-send-email-stephano.cetola@linux.intel.com>
+References: <1462837346-27095-1-git-send-email-stephano.cetola@linux.intel.com>
+Subject: [PATCH v2 1/2] systemd: add sysusers config option to defaults
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,33 +31,37 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 09 May 2016 23:41:29 -0000
 
-Systemd has a config option sysusers which creates any users or groups that
-systemd needs on first boot. There is a rootfs-postcommand that creates these
-users in case the filesystem is readonly, however it does not take into
-account any staicids that the user may have set.
+Without the sysusers config option, the build will not know which users
+need to be added for systemd. This is especially necessary if the
+filesystem is readonly, as these users cannot be added at runtime.
 
-By adding these users at build time, we allow a check for staticids, which would
-otherwise have been skipped.
+Signed-off-by: Stephano Cetola <stephano.cetola@linux.intel.com>
+---
+ meta/recipes-core/systemd/systemd_229.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-This issue was initially raised by a fix that was added to Ostro OS. See
-Patrick's comments for more info on that.
-
-[ YOCTO #9497 ]
-
-Changed since v1:
-* added oe-core prefix to subject line
-
-Stephano Cetola (2):
-  systemd: add sysusers config option to defaults
-  systemd: add users/groups at build rather than runtime
-
- meta/classes/rootfs-postcommands.bbclass | 66 +++++++++++++++++++++-----------
- meta/classes/useradd-staticids.bbclass   | 56 +--------------------------
- meta/recipes-core/systemd/systemd_229.bb |  4 +-
- useradd-staticids-list.bbclass           | 56 +++++++++++++++++++++++++++
- 4 files changed, 103 insertions(+), 79 deletions(-)
- create mode 100644 useradd-staticids-list.bbclass
-
+diff --git a/meta/recipes-core/systemd/systemd_229.bb b/meta/recipes-core/systemd/systemd_229.bb
+index c23c749..aba73df 100644
+--- a/meta/recipes-core/systemd/systemd_229.bb
++++ b/meta/recipes-core/systemd/systemd_229.bb
+@@ -23,6 +23,7 @@ DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl rea
+ SECTION = "base/shell"
+ 
+ inherit useradd pkgconfig autotools perlnative update-rc.d update-alternatives qemu systemd ptest gettext bash-completion
++USERADDEXTENSION += " useradd-staticids"
+ 
+ SRCREV = "714c62b46379abb7558c544665522aca91691e10"
+ 
+@@ -80,7 +81,8 @@ PACKAGECONFIG ??= "xz \
+                    quotacheck \
+                    bootchart \
+                    hostnamed \
+-                   ${@bb.utils.contains('TCLIBC', 'glibc', 'myhostname sysusers', '', d)} \
++                   sysusers \
++                   ${@bb.utils.contains('TCLIBC', 'glibc', 'myhostname', '', d)} \
+                    hibernate \
+                    timedated \
+                    timesyncd \
 -- 
 2.8.0
 
