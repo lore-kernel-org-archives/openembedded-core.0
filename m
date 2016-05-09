@@ -1,51 +1,51 @@
 Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com
-	[209.85.218.54])
-	by mail.openembedded.org (Postfix) with ESMTP id C9E6B6FEFA
+Received: from mail-oi0-f48.google.com (mail-oi0-f48.google.com
+	[209.85.218.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 21B406FEFA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 May 2016 20:58:37 +0000 (UTC)
-Received: by mail-oi0-f54.google.com with SMTP id k142so225451935oib.1
+	Mon,  9 May 2016 21:00:26 +0000 (UTC)
+Received: by mail-oi0-f48.google.com with SMTP id k142so225504182oib.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 May 2016 13:58:38 -0700 (PDT)
+	Mon, 09 May 2016 14:00:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=O8UZ+rAojI9OPPYK+2dGAeeYSednxhSFoafvPENJZII=;
-	b=ZEz55CSNVy9RLhTcGFee9AaknhWrVmivc2XNApknTI5XdW0Wdy0aiUQlYL1dAueVg4
-	oLm+C/ODVM7w6abcB8Yr3YO2l5f9wDKz727ICWL5HJUHCblIzlyZDTpI27XFSLXLkqn4
-	pbQYYuRBgr96nUHEPCwFSVyOd2bA9s993d3CDV+htgyJrsEK56+HYyHL/uzHlF63Iw0t
-	Q+FQb13eiOukYtNG+k2V7J9FCcRPiKbFVQar51u/FfeyI10leMVwHoW9WbFJnhz1acZu
-	EgmOQEf2srOHmeD1aPXB+m+gP3If3C+jV1Apdx/Jj2hbUbBKaKJsRur89T7qfvpJPSPA
-	Vr/g==
+	:cc; bh=WGbeCExyjWd0fBMDAdJytDfdNuJwBopUm68Wb9GSD2U=;
+	b=dYUher51PDaCNLq+eHge1SYr2RMkFbO4sNY5Lj5MacyX+Ms2bu/tdvfL4/FJqPpBdB
+	hfLuMP0s5TZY4bz+/OrgSynie1fkiiw5N0iRY3YBOS6hBd2TdxOp0LLoQY970GOvaDD1
+	oga8Y50Md2QOGN3VXbnwrfVmFXDIJDZkHa5eYFQIXbK11WQ0sePnT/7QrZ9Kx2466cMs
+	IPdA9zVpsWeDsZOfvwfBw8TDaYPuVPQsf27sWrEamOe+i5QeCTwnf1aMaFpiRgRt7ilq
+	VUedcUtNsmQ61f6HTBua9grWSHxDMBiCBO8S6zl5iTvA7BK+kyRP1a0KpT+TZ2x2eZCb
+	bxAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:date
 	:message-id:subject:from:to:cc;
-	bh=O8UZ+rAojI9OPPYK+2dGAeeYSednxhSFoafvPENJZII=;
-	b=TzuY63rIboXzkx9Ai6EwqvnZEak6xq5t1OIzXvM6Ax/+8fnUKBEOkq/CeRLLcw5VhN
-	obn3zWTkG+cG0BxCEvcsKRjUCQ2Jd8bg7Mtvmh46C72vX+gHr2jgcbIF6rKf1C/s1enG
-	6RPtflE12863mK59+F5t+lp4mOUejW4wpCpwuxT6i4Q4AhoiubZKSm+BEtHBbVH93095
-	Htg96qgqBBVpaILZ934cBKm1xvaXclrSUkLWBY6mhcHLVqFUhCO0epyrrqji919+s3jF
-	smiMNm8FAlcp/kdkKhmJ3D2Jpw9u0bGzlEWKnBNvrqfV5BkRKH5zBrwl18VgA7uUdv+2
-	T0jA==
-X-Gm-Message-State: AOPr4FV2267SX5ElARjFhPcr5YRkrRHwX/HuhL+ROTrawxf+994ogXcaJ3A2IvGw//skMkzL5+t4f6uablk7Pg==
+	bh=WGbeCExyjWd0fBMDAdJytDfdNuJwBopUm68Wb9GSD2U=;
+	b=ltmLdL80XxsjZvfKlNb1m3nEISt8+p14Vdl+CIvNVJYm/mygZCBDuYyPhlsQMf5WGn
+	cDp9RHd+Zkn8J/Bgw6ZbwCy5gtU2sY0IAluuCSLjobubCQylLhIJpgz00u2g8KQAFvAd
+	WUlMRM3yVSWcw1f3Hp/Ip6sIuTgEFiF2p6/5Mo3QSXKQWco473IdiOtbANuv+5Ky/Z7l
+	7UnOdAZAGOVC9TA1qgOzir3yoOpTYJ5E6pGbZnidLhawWCg9e10PurUO8sariwTcQdi8
+	iyHi9ta1zDMjco+DFNBaYpK8Gbp/cz6MEHryLfjE+M5IP3TgTCsqSZBKIBpGyfiBuTT0
+	T/Dw==
+X-Gm-Message-State: AOPr4FXVulisJvxev0SgUouEgisxzsFOugiiwZM44DPKGHKjxt65wffZZ/PsgEM+5tsv3mlFxn3cNpZ8QmQwTA==
 MIME-Version: 1.0
-X-Received: by 10.202.196.72 with SMTP id u69mr14246723oif.116.1462827518214; 
-	Mon, 09 May 2016 13:58:38 -0700 (PDT)
-Received: by 10.157.32.135 with HTTP; Mon, 9 May 2016 13:58:38 -0700 (PDT)
-In-Reply-To: <2777859.s7KusZZa7x@peggleto-mobl.ger.corp.intel.com>
+X-Received: by 10.157.37.45 with SMTP id k42mr1189766otb.119.1462827626957;
+	Mon, 09 May 2016 14:00:26 -0700 (PDT)
+Received: by 10.157.32.135 with HTTP; Mon, 9 May 2016 14:00:26 -0700 (PDT)
+In-Reply-To: <3267336.bjdYRHqI9p@peggleto-mobl.ger.corp.intel.com>
 References: <cover.1462768634.git.paul.eggleton@linux.intel.com>
-	<29259d2220b8e6e577a3efaa160b77e3366fb6d5.1462768634.git.paul.eggleton@linux.intel.com>
-	<CADkTA4MGn2Ju0X-AKeyOJ0ba-kZ6v8XGDr2JcPk5zXWADzyMnA@mail.gmail.com>
-	<2777859.s7KusZZa7x@peggleto-mobl.ger.corp.intel.com>
-Date: Mon, 9 May 2016 16:58:38 -0400
-Message-ID: <CADkTA4NDup8ztA0uf9N-dCtgTMn1Z4DXPvpN5sjbMsDwver2+w@mail.gmail.com>
+	<85ffd927c7834f4111ae1740b8aad5a9c444b7aa.1462768634.git.paul.eggleton@linux.intel.com>
+	<CADkTA4MmTBTg+Wp-Cwp4eRNzbpp+Sp=5B1Yf4Lc_qUrDwsaaNA@mail.gmail.com>
+	<3267336.bjdYRHqI9p@peggleto-mobl.ger.corp.intel.com>
+Date: Mon, 9 May 2016 17:00:26 -0400
+Message-ID: <CADkTA4MbORD4RPb9dG9Fw-7T1pXLQBbjn+cyfaEJ=vVOw6UJLw@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: Paul Eggleton <paul.eggleton@linux.intel.com>
 Cc: Tom Zanussi <tom.zanussi@intel.com>,
 	Otavio Salvador <otavio@ossystems.com.br>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH 6/6] classes/image: check kernel config supports IMAGE_FSTYPES items
+Subject: Re: [RFC PATCH 1/6] classes/kernel-check: add a class to check kernel config options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,94 +58,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 May 2016 20:58:38 -0000
-Content-Type: multipart/alternative; boundary=001a11352a4e974a5905326f1282
+X-List-Received-Date: Mon, 09 May 2016 21:00:29 -0000
+Content-Type: multipart/alternative; boundary=001a11352e461296a305326f1910
 
---001a11352a4e974a5905326f1282
+--001a11352e461296a305326f1910
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, May 9, 2016 at 4:45 PM, Paul Eggleton <paul.eggleton@linux.intel.com
+On Mon, May 9, 2016 at 4:53 PM, Paul Eggleton <paul.eggleton@linux.intel.com
 > wrote:
 
-> Hi Bruce,
->
-> On Mon, 09 May 2016 08:05:06 Bruce Ashfield wrote:
+> On Mon, 09 May 2016 07:59:43 Bruce Ashfield wrote:
 > > On Mon, May 9, 2016 at 12:43 AM, Paul Eggleton <
 > > paul.eggleton@linux.intel.com> wrote:
-> > > A lot of the IMAGE_FSTYPES items require the appropriate filesystem
-> > > driver to be enabled in the kernel configuration; e.g. in order to read
-> > > a btrfs filesystem, the kernel must enable CONFIG_BTRFS_FS. Add a check
-> > > to ensure that is the case.
+> > > Some user-space software has specific requirements about the kernel
+> > > configuration options selected. This class allows a recipe to
+> explicitly
+> > > state the kernel configuration options it needs (through a
+> > > REQUIRED_KERNEL_OPTIONS variable). This is a space separated list,
+> where
+> > >
+> > > each item is one of:
+> > >   (a) an option name (e.g. CONFIG_FHANDLE, in which case CONFIG_FHANDLE
+> > >
+> > >       must be set to y or m to match)
+> > >
+> > >   (b) optionname=value (e.g. CONFIG_FHANDLE=y, in which case
+> > >
+> > >       CONFIG_FHANDLE must be set to y). If the specified value is n,
+> > >       it will also match if the option is not present.
+> > >
+> > >   (c) optionname1|optionname2|... (e.g.
+> > >
+> > >       CONFIG_EXT2_FS|CONFIG_EXT4_USE_FOR_EXT23, meaning that either
+> > >       CONFIG_EXT2_FS or CONFIG_EXT4_USE_FOR_EXT23 must be set to y or
+> > >       m to match).
 > >
-> > So what's the overall design for this ? Is it documented anywhere ? This
+> > This duplicates code that is already in the kconf_check routines, which
+> > I've already made generic (and added dependency information) for the 2.2
+> > release ... so call me confused that I've never heard about this until
+> now
+> > :(
+>
+> I guess I didn't look hard enough, I'll have to take a look at that. This
 > is
-> > something that we talked about a couple of years and I have reservations
-> and
-> > objections to the current implementation.
-> >
-> > .. but since I can only see bits and chunks of patches, I'd rather read
-> > something complete and offer some more detailed feedback.
-> >
-> > Bottom line: I see a slippery slope to tightly specified option that
-> depend
-> > on kernel versions, I see kernel options sprayed all over layers, etc,
-> etc.
-> > Which is exactly what we've been trying to avoid with the centralized
-> kernel
-> > meta-data, and again, there's a mechanism that I finished early this
-> year to
-> > extend those options to any kernel, enforce, warn, error, etc .. but now,
-> > I'll just toss it into the bin.
->
-> There's no design written out beyond what you see in the associated bug:
->
->   https://bugzilla.yoctoproject.org/show_bug.cgi?id=5574
->
-> The situation I am trying to avoid is the exact one mentioned by a
-> commenter
-> on that bug - which is that if I build my rootfs in a particular way, and
-> couple it with a particular kernel configuration, I want the build system
-> to
-> tell me if those are going to be incompatible. The current situation where
-> the
-> you don't find out until the system doesn't boot (and you may not get any
-> meaningful error message at that point anyway) isn't great.
->
-> You mention hardware in your reply to Chris, but this mostly isn't about
-> hardware - it's about dependencies on software features of the kernel from
+> why the series is RFC (and I included you on CC ;)
 >
 
-I only brought up h/w to point out the slippery slope, and that if you are
-going to
-solve one class of options, eventually it will lead to someone asking for
-others
-and then the ability to set them. We then have a tight binding and
-distributed
-knowledge of the kernel specifics.
+Noted :) I read the patches before the 0/N .. and it was Monday morning
+before coffee.
 
-
-> userspace. I'm perfectly happy if we go for alternative solution, but to my
-> mind whatever solution we come up with needs to be something whereby if you
-> enable something in userspace that the kernel as currently configured isn't
-> going to be able to support, you at least get a warning at build time.
->
-
-What you describe is almost exactly what KERNEL_FEATURES + the existing
-Kconfig
-audit does. That mechanism does the audit for software and h/w features via
-a level
-of abstraction (the name of the feature, versus the kernel options
-themselves).
-
-I'm about 75% of the way to extended that to any kernel (not just
-linux-yocto) and
-exposing the "required" and "optional" kconfig support (that has been
-around for
-about 1.5 years .. just no one has asked for it :D
-
-That's why I'm trying to understand what exactly is missing and is being
-solved
-here, so I can decide whether to drop my changes or not.
+Don't look TOO closely as your eyes will bleed, but the basics are there.
+My recent
+work has been to clean it up so I can apply it to an arbitrary kernel.
 
 Bruce
 
@@ -166,100 +130,67 @@ Bruce
 "Thou shalt not follow the NULL pointer, for chaos and madness await thee
 at its end"
 
---001a11352a4e974a5905326f1282
+--001a11352e461296a305326f1910
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Mon, May 9, 2016 at 4:45 PM, Paul Eggleton <span dir=3D"ltr">&lt;<a =
+te">On Mon, May 9, 2016 at 4:53 PM, Paul Eggleton <span dir=3D"ltr">&lt;<a =
 href=3D"mailto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.egglet=
 on@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quot=
 e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
-Hi Bruce,<br>
-<span class=3D""><br>
-On Mon, 09 May 2016 08:05:06 Bruce Ashfield wrote:<br>
+<span class=3D"">On Mon, 09 May 2016 07:59:43 Bruce Ashfield wrote:<br>
 &gt; On Mon, May 9, 2016 at 12:43 AM, Paul Eggleton &lt;<br>
 &gt; <a href=3D"mailto:paul.eggleton@linux.intel.com">paul.eggleton@linux.i=
 ntel.com</a>&gt; wrote:<br>
-&gt; &gt; A lot of the IMAGE_FSTYPES items require the appropriate filesyst=
-em<br>
-&gt; &gt; driver to be enabled in the kernel configuration; e.g. in order t=
-o read<br>
-&gt; &gt; a btrfs filesystem, the kernel must enable CONFIG_BTRFS_FS. Add a=
- check<br>
-&gt; &gt; to ensure that is the case.<br>
+&gt; &gt; Some user-space software has specific requirements about the kern=
+el<br>
+&gt; &gt; configuration options selected. This class allows a recipe to exp=
+licitly<br>
+&gt; &gt; state the kernel configuration options it needs (through a<br>
+&gt; &gt; REQUIRED_KERNEL_OPTIONS variable). This is a space separated list=
+, where<br>
+&gt; &gt;<br>
+&gt; &gt; each item is one of:<br>
+&gt; &gt;=C2=A0 =C2=A0(a) an option name (e.g. CONFIG_FHANDLE, in which cas=
+e CONFIG_FHANDLE<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0must be set to y or m to match)<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 =C2=A0(b) optionname=3Dvalue (e.g. CONFIG_FHANDLE=3Dy, in w=
+hich case<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0CONFIG_FHANDLE must be set to y). If th=
+e specified value is n,<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0it will also match if the option is not=
+ present.<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 =C2=A0(c) optionname1|optionname2|... (e.g.<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0CONFIG_EXT2_FS|CONFIG_EXT4_USE_FOR_EXT2=
+3, meaning that either<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0CONFIG_EXT2_FS or CONFIG_EXT4_USE_FOR_E=
+XT23 must be set to y or<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0m to match).<br>
 &gt;<br>
-&gt; So what&#39;s the overall design for this ? Is it documented anywhere =
-? This is<br>
-&gt; something that we talked about a couple of years and I have reservatio=
-ns and<br>
-&gt; objections to the current implementation.<br>
-&gt;<br>
-&gt; .. but since I can only see bits and chunks of patches, I&#39;d rather=
- read<br>
-&gt; something complete and offer some more detailed feedback.<br>
-&gt;<br>
-&gt; Bottom line: I see a slippery slope to tightly specified option that d=
-epend<br>
-&gt; on kernel versions, I see kernel options sprayed all over layers, etc,=
- etc.<br>
-&gt; Which is exactly what we&#39;ve been trying to avoid with the centrali=
-zed kernel<br>
-&gt; meta-data, and again, there&#39;s a mechanism that I finished early th=
-is year to<br>
-&gt; extend those options to any kernel, enforce, warn, error, etc .. but n=
-ow,<br>
-&gt; I&#39;ll just toss it into the bin.<br>
+&gt; This duplicates code that is already in the kconf_check routines, whic=
+h<br>
+&gt; I&#39;ve already made generic (and added dependency information) for t=
+he 2.2<br>
+&gt; release ... so call me confused that I&#39;ve never heard about this u=
+ntil now<br>
+&gt; :(<br>
 <br>
-</span>There&#39;s no design written out beyond what you see in the associa=
-ted bug:<br>
-<br>
-=C2=A0 <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D5574"=
- rel=3D"noreferrer" target=3D"_blank">https://bugzilla.yoctoproject.org/sho=
-w_bug.cgi?id=3D5574</a><br>
-<br>
-The situation I am trying to avoid is the exact one mentioned by a commente=
-r<br>
-on that bug - which is that if I build my rootfs in a particular way, and<b=
-r>
-couple it with a particular kernel configuration, I want the build system t=
-o<br>
-tell me if those are going to be incompatible. The current situation where =
-the<br>
-you don&#39;t find out until the system doesn&#39;t boot (and you may not g=
-et any<br>
-meaningful error message at that point anyway) isn&#39;t great.<br>
-<br>
-You mention hardware in your reply to Chris, but this mostly isn&#39;t abou=
-t<br>
-hardware - it&#39;s about dependencies on software features of the kernel f=
-rom<br></blockquote><div><br></div><div>I only brought up h/w to point out =
-the slippery slope, and that if you are going to</div><div>solve one class =
-of options, eventually it will lead to someone asking for others</div><div>=
-and then the ability to set them. We then have a tight binding and distribu=
-ted</div><div>knowledge of the kernel specifics.</div><div>=C2=A0</div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #c=
-cc solid;padding-left:1ex">
-userspace. I&#39;m perfectly happy if we go for alternative solution, but t=
-o my<br>
-mind whatever solution we come up with needs to be something whereby if you=
-<br>
-enable something in userspace that the kernel as currently configured isn&#=
-39;t<br>
-going to be able to support, you at least get a warning at build time.<br><=
-/blockquote><div><br></div><div>What you describe is almost exactly what KE=
-RNEL_FEATURES + the existing Kconfig</div><div>audit does. That mechanism d=
-oes the audit for software and h/w features via a level</div><div>of abstra=
-ction (the name of the feature, versus the kernel options themselves).</div=
-><div><br></div><div>I&#39;m about 75% of the way to extended that to any k=
-ernel (not just linux-yocto) and</div><div>exposing the &quot;required&quot=
-; and &quot;optional&quot; kconfig support (that has been around for</div><=
-div>about 1.5 years .. just no one has asked for it :D</div><div><br></div>=
-<div>That&#39;s why I&#39;m trying to understand what exactly is missing an=
-d is being solved</div><div>here, so I can decide whether to drop my change=
-s or not.</div><div><br></div><div>Bruce</div><div>=C2=A0</div><blockquote =
-class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
-;padding-left:1ex">
+</span>I guess I didn&#39;t look hard enough, I&#39;ll have to take a look =
+at that. This is<br>
+why the series is RFC (and I included you on CC ;)<br></blockquote><div><br=
+></div><div>Noted :) I read the patches before the 0/N .. and it was Monday=
+ morning before coffee.</div><div><br></div><div>Don&#39;t look TOO closely=
+ as your eyes will bleed, but the basics are there. My recent</div><div>wor=
+k has been to clean it up so I can apply it to an arbitrary kernel.</div><d=
+iv><br></div><div>Bruce</div><div>=C2=A0</div><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
+">
 <br>
 Cheers,<br>
 Paul<br>
@@ -273,4 +204,4 @@ r><div class=3D"gmail_signature">&quot;Thou shalt not follow the NULL point=
 er, for chaos and madness await thee at its end&quot;</div>
 </div></div>
 
---001a11352a4e974a5905326f1282--
+--001a11352e461296a305326f1910--
