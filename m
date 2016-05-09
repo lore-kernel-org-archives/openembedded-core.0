@@ -1,26 +1,29 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 61B9F7016E
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
+	by mail.openembedded.org (Postfix) with ESMTP id 2076762135
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 May 2016 09:32:34 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u499WZwp032125
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Mon,  9 May 2016 10:40:23 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
+	via TCP (outbound) with ESMTPS id 20160509104021095_0486
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 9 May 2016 02:32:35 -0700
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 9 May 2016 02:32:34 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 9 May 2016 02:32:33 -0700
-Message-ID: <812e9ff48cb08a0513ae6e9a8499654f0a217ddc.1462786325.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.8.0
-In-Reply-To: <cover.1462786325.git.liezhi.yang@windriver.com>
-References: <cover.1462786325.git.liezhi.yang@windriver.com>
+	Mon, 09 May 2016 10:40:21 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [216.191.234.70] (port=51886 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1azidM-0002eu-Kv for openembedded-core@lists.openembedded.org;
+	Mon, 09 May 2016 06:41:52 -0400
+Date: Mon, 9 May 2016 06:39:53 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1605090630480.21387@localhost.localdomain>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-Subject: [PATCH 1/1] linux-dummy: set INHIBIT_DEFAULT_DEPS
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: should a SRC_URI referring to "rday.cfg" look for "rday.scc"?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +36,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 May 2016 09:32:35 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 09 May 2016 10:40:25 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-It doesn't need them.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-kernel/linux/linux-dummy.bb | 2 ++
- 1 file changed, 2 insertions(+)
+  (aside: this is with wind river linux 8 and i dropped bruce a note
+about it, but i really should keep this stuff on the mailing list.)
 
-diff --git a/meta/recipes-kernel/linux/linux-dummy.bb b/meta/recipes-kernel/linux/linux-dummy.bb
-index cc0e4e6..994ac74 100644
---- a/meta/recipes-kernel/linux/linux-dummy.bb
-+++ b/meta/recipes-kernel/linux/linux-dummy.bb
-@@ -18,6 +18,8 @@ FILES_kernel-modules = ""
- ALLOW_EMPTY_kernel-modules = "1"
- DESCRIPTION_kernel-modules = "Kernel modules meta package"
- 
-+INHIBIT_DEFAULT_DEPS = "1"
-+
- #COMPATIBLE_MACHINE = "your_machine"
- 
- PR = "r1"
+  not sure if this is a WRL issue, or more general OE or YP issue, but
+i was doing a kernel config yesterday, and my SRC_URI included, say,
+"rday.scc", which incorporated both kernel config fragments and
+patches, and that worked fine.
+
+  eventually, after massive refactoring, all that was left of that
+item was some kernel configuration which was already in "rday.cfg", so
+i edited SRC_URI and replaced "rday.scc" with "rday.cfg", but i left
+that old "rday.scc" in that directory (with its referent patches),
+assuming it would be ignored.
+
+  did a clean and configure and got:
+
+  | DEBUG: Executing shell function do_kernel_metadata
+| ERROR: could not find patch rday.patch, included from
+.../rday.scc ...
+
+  it *appears* that, even though SRC_URI now refers to (among other
+things) just "rday.cfg", it looks like the configure step is *still*
+trying to process "rday.scc", which contains a reference to a now
+non-existent patch, hence the failure.
+
+  if i just remove (or rename) "rday.scc", then things work fine. is
+this expected behaviour? is there some reason that if SRC_URI
+includes, say "derf.cfg", the configuration will automatically look
+for and try to process "derf.scc"? or am i just doing something silly?
+
+rday
+
 -- 
-2.8.0
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
+
 
 
