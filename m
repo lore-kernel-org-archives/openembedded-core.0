@@ -1,48 +1,52 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-ob0-f172.google.com (mail-ob0-f172.google.com
-	[209.85.214.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D94673167
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 29EE373167
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 May 2016 12:08:54 +0000 (UTC)
-Received: by mail-ob0-f172.google.com with SMTP id x1so81630597obt.0
+	Mon,  9 May 2016 12:15:32 +0000 (UTC)
+Received: by mail-wm0-f50.google.com with SMTP id a17so183483986wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 May 2016 05:08:55 -0700 (PDT)
+	Mon, 09 May 2016 05:15:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=mwkM8yLWSmXT/xueantjEkXTAgqv2SjM+1zr5qEx/yM=;
-	b=iMuUAyLYo3ggWbOd9/6uJSTQvHY4t3BSNvKRRoQc5G6ZslAo8/Yc8iw7nVTapMUAJo
-	3XpK7A8TmgFUge3B1v5H9f9F/AL7DcqQWsbfvRqZtGkYhywi/w+0Z/mUT4U3K7tDgiRC
-	goavEBuZdFaBlevFsOgXtEU54Po0dniLAk6wPfkoCONWfAJWWG9hsKCffj2878awJeZg
-	Roj7+ghleicN5MjvMkA8c06Ux0F138l5iWrhZyuE9sL3PNr9Jd3GBkW9xS5ojdO+QvsQ
-	jgEo+JcTfqB/dvy78raxSlaqZovTE18V6s/HKciZO0kmPu0Rm7WmpBrqbetHvNn/Tgc+
-	h8Ig==
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=TS8hEUXfZEvmL9x8Li1qeve7pssFy83PZ08kQ/EU0NQ=;
+	b=U+6LXF2if64P7RaG8vWEdk0npi1r07fPBEQbjfqPma+4tJry8cpNUq4+ut8Xf2MmRb
+	u5LGb1LO72bcFDfYZcNuWNmsfBKzKUk60nOjj6Lw7SGj6PA6rg2McLx/SExlIYmZPq9G
+	jbseobO0cDAfeNd7amqGExv9RX9mf4QR2+71MjRf1aPIpEhFQo+iczfYLRYCLWdkBy8O
+	MznNHZz1+OdjPzaT29oCov7U+qD35yjYCK12eg2Jzuc9DX2d25BlLCKmIoAlQf6FmxfM
+	SiABUqcoWsZhmf5geqGUDOCg3fHxetPDwB5Tf9Hc7MTy+eg5jrFESlbdXabzLiCE+wn0
+	7EMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=mwkM8yLWSmXT/xueantjEkXTAgqv2SjM+1zr5qEx/yM=;
-	b=aL4OZSgbFQd/25593i5F+gqsHFDT8ib7K9uPPDgcjq26FKCEZOvCSIHda8EqwBICt8
-	QE8r5F2t/qUZLvNO+8aMJLSGUOl3pss8zg0YNgKgtrbCymE1KMDNNv8qFiiJA61AAOZn
-	RO7hZJ5isPuxzIOT7D333apq9CQVnsYBScG/jPRev844sEewguDfgwAZ2eBvbTO8GXkq
-	700HKhfhf2uaRDa3DR2xXdy941CX17bYO5LkMJduWXlWLFEor8+vTgFK1Pn3QkS5PMpp
-	93oWUMEkaRyA6LHyWgjfcZvSc58ZE9H+n+5yOxovxJaMKptCXJCkbyRpEnfW1CPDlbjk
-	eh8w==
-X-Gm-Message-State: AOPr4FVgkRHf8Ux/J+oyslAP99mlyhvVaRXK0lrAioUCbxgTy7nCeeZSgcyHmc6JiFNk7RkoXCYsSaYtd/3Gkw==
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=TS8hEUXfZEvmL9x8Li1qeve7pssFy83PZ08kQ/EU0NQ=;
+	b=agXyLSWxz0BCMWxlpZSVWAyTvatM6VTjhhH7ioBmdh2DpCkr1sOS4CAkiNSNfsYevq
+	INM9f/kBdQAGZwkaPp3B0QM1urBGtQdT5kws755yCdkbCBFRj7WTjc5lF+0M4i6LpEWO
+	y2pHDCMXo2f42Y/G4I1S9hlHU2ahElU5PrlruHgL7WRUgESrroKrYYmS/1cxz9BLNKZU
+	6oT0jk5CtGlfG8xtTkv6JooRrr47fs65MoMg/TPW8jFQ8hpCdodavVhK8l2TK4oaIHo0
+	Da7OhQ4qZNfXDgF9WSxf8q1xBh+fSNWJPsDPXZctQs+uSaVuCRAVJmNV2fLHs+0QG+GB
+	YVZg==
+X-Gm-Message-State: AOPr4FVsGfAjXfNG/SyGaaalv8k5ZBnMEqmy+pPVOyJy7D3Ib7m7EHoEd/NP7TYHT8Ti8w==
+X-Received: by 10.28.45.216 with SMTP id t207mr10617319wmt.40.1462796133308;
+	Mon, 09 May 2016 05:15:33 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	v143sm24193598wmv.4.2016.05.09.05.15.31
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 09 May 2016 05:15:31 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 9 May 2016 14:15:41 +0200
+To: Armin Kuster <akuster808@gmail.com>
+Message-ID: <20160509121541.GA2560@jama>
+References: <1461109862-23840-1-git-send-email-akuster808@gmail.com>
+	<1461109862-23840-2-git-send-email-akuster808@gmail.com>
 MIME-Version: 1.0
-X-Received: by 10.182.190.43 with SMTP id gn11mr15828711obc.15.1462795735565; 
-	Mon, 09 May 2016 05:08:55 -0700 (PDT)
-Received: by 10.157.32.135 with HTTP; Mon, 9 May 2016 05:08:55 -0700 (PDT)
-In-Reply-To: <cover.1462768634.git.paul.eggleton@linux.intel.com>
-References: <cover.1462768634.git.paul.eggleton@linux.intel.com>
-Date: Mon, 9 May 2016 08:08:55 -0400
-Message-ID: <CADkTA4OUeFUdVVqoLaTH6+yW+E6rL6sbz4pZnBn1e6RnMOUCgg@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Tom Zanussi <tom.zanussi@intel.com>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH 0/6] Kernel configuration check for recipes
+In-Reply-To: <1461109862-23840-2-git-send-email-akuster808@gmail.com>
+User-Agent: Mutt/1.6.1 (2016-04-27)
+Cc: akuster@mvista.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH][master][krogoth][jethro][fido 2/2] tzdata: update to 2016d
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,189 +59,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 May 2016 12:08:55 -0000
-Content-Type: multipart/alternative; boundary=f46d0418273a32973c053267ac98
+X-List-Received-Date: Mon, 09 May 2016 12:15:34 -0000
+X-Groupsio-MsgNum: 81736
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="bg08WKrSYDhXBjb5"
+Content-Disposition: inline
 
---f46d0418273a32973c053267ac98
-Content-Type: text/plain; charset=UTF-8
+--bg08WKrSYDhXBjb5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 9, 2016 at 12:43 AM, Paul Eggleton <
-paul.eggleton@linux.intel.com> wrote:
+On Tue, Apr 19, 2016 at 04:51:02PM -0700, Armin Kuster wrote:
+> From: Armin Kuster <akuster@mvista.com>
+>=20
+> Changes affecting future time stamps
+>=20
 
-> Add the capability for other recipes to verify that kernel
-> configuration options they depend upon at runtime are present, and warn
-> if they are missing. This seems functional enough to me but is still in
-> RFC - please let me know if it looks OK to you or I've missed anything
-> (no doubt there are recipes we could add the checks to, I refer mainly
-> to the mechanism itself).
->
->
-> Please review the following changes for suitability for inclusion. If you
-> have
-> any objections or suggestions for improvement, please respond to the
-> patches. If
-> you agree with the changes, please provide your Acked-by.
->
->
-See my replies to the patches. I'm sure it won't matter in the end, but
-this is a duplication
-of the mechanisms that we already have in the kernel config check phase. I
-have a whole
-set of changes that I completed early this year that extends that mechanism
-to any kernel
-(not just kernel-yocto) classes. In that mechanism there's the concept of
-"required" and
-"optional" Kconfig options. If they aren't present in the final .config, we
-warn and optionally
-error (this is versus the currently mechanism of only warning if boot
-critical options are
-dropped).
+Please get this into jethro soon, now version in fido is newer (2016d)
+than in jethro (2016c)
 
-I'm betting that the follow on to this series will be "Hey recipes should
-set the options for the kernel if
-they really need them" .. which IMHO is an incredibly bad idea.
-
-Cheers,
-
-Bruce
-
-
-> The following changes since commit
-> ece101be5158beee709cdfbb85ecdbdc8d9fb864:
->
->   test-empty-image: Fix LIC_FILES_CHKSUM typo (2016-05-06 10:47:59 +0100)
->
-> are available in the git repository at:
->
->   git://git.openembedded.org/openembedded-core-contrib paule/kernel-check
->
-> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/kernel-check
->
-> Paul Eggleton (6):
->   classes/kernel-check: add a class to check kernel config options
->   eudev: check for required kernel config options
->   systemd: check for required kernel config options
->   classes/kernel: fix typo
->   classes/kernel: check OLDEST_KERNEL at configure time
->   classes/image: check kernel config supports IMAGE_FSTYPES items
->
->  meta/classes/image.bbclass               | 23 ++++++++
->  meta/classes/image_types.bbclass         | 11 ++++
->  meta/classes/kernel-check.bbclass        | 97
-> ++++++++++++++++++++++++++++++++
->  meta/classes/kernel.bbclass              | 16 +++++-
->  meta/recipes-core/systemd/systemd_229.bb | 19 ++++++-
->  meta/recipes-core/udev/eudev_3.1.5.bb    | 22 +++++++-
->  6 files changed, 185 insertions(+), 3 deletions(-)
->  create mode 100644 meta/classes/kernel-check.bbclass
->
-> --
-> 2.5.5
->
-> --
+> Signed-off-by: Armin Kuster <akuster@mvista.com>
+> ---
+>  meta/recipes-extended/tzdata/{tzdata_2016c.bb =3D> tzdata_2016d.bb} | 4 =
+++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-extended/tzdata/{tzdata_2016c.bb =3D> tzdata_2016d.b=
+b} (98%)
+>=20
+> diff --git a/meta/recipes-extended/tzdata/tzdata_2016c.bb b/meta/recipes-=
+extended/tzdata/tzdata_2016d.bb
+> similarity index 98%
+> rename from meta/recipes-extended/tzdata/tzdata_2016c.bb
+> rename to meta/recipes-extended/tzdata/tzdata_2016d.bb
+> index 5eb85b7..627a31a 100644
+> --- a/meta/recipes-extended/tzdata/tzdata_2016c.bb
+> +++ b/meta/recipes-extended/tzdata/tzdata_2016d.bb
+> @@ -8,8 +8,8 @@ DEPENDS =3D "tzcode-native"
+> =20
+>  SRC_URI =3D "http://www.iana.org/time-zones/repository/releases/tzdata${=
+PV}.tar.gz;name=3Dtzdata"
+> =20
+> -SRC_URI[tzdata.md5sum] =3D "0330ccd16140d3b6438a18dae9b34b93"
+> -SRC_URI[tzdata.sha256sum] =3D "8700d981e6f2007ac037dabb5d2b12f390e8629bb=
+c30e564bc21cf0c069a2d48"
+> +SRC_URI[tzdata.md5sum] =3D "14bf84b6c2cdab0a9428991e0150ebe6"
+> +SRC_URI[tzdata.sha256sum] =3D "d9554dfba0efd76053582bd89e8c7036ef12eee14=
+fdd506675b08a5b59f0a1b4"
+> =20
+>  inherit allarch
+> =20
+> --=20
+> 2.3.5
+>=20
+> --=20
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--bg08WKrSYDhXBjb5
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
---f46d0418273a32973c053267ac98
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+iEYEARECAAYFAlcwf2oACgkQN1Ujt2V2gByJGQCdEbU5L2h7VI/fGPCWAITzXSAa
+7dkAn0cOfhBWlmkxhDuJfbGOmzma1uYw
+=K1eK
+-----END PGP SIGNATURE-----
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Mon, May 9, 2016 at 12:43 AM, Paul Eggleton <span dir=3D"ltr">&lt;<a=
- href=3D"mailto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.eggle=
-ton@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
->Add the capability for other recipes to verify that kernel<br>
-configuration options they depend upon at runtime are present, and warn<br>
-if they are missing. This seems functional enough to me but is still in<br>
-RFC - please let me know if it looks OK to you or I&#39;ve missed anything<=
-br>
-(no doubt there are recipes we could add the checks to, I refer mainly<br>
-to the mechanism itself).<br>
-<br>
-<br>
-Please review the following changes for suitability for inclusion. If you h=
-ave<br>
-any objections or suggestions for improvement, please respond to the patche=
-s. If<br>
-you agree with the changes, please provide your Acked-by.<br>
-<br></blockquote><div><br></div><div>See my replies to the patches. I&#39;m=
- sure it won&#39;t matter in the end, but this is a duplication</div><div>o=
-f the mechanisms that we already have in the kernel config check phase. I h=
-ave a whole</div><div>set of changes that I completed early this year that =
-extends that mechanism to any kernel</div><div>(not just kernel-yocto) clas=
-ses. In that mechanism there&#39;s the concept of &quot;required&quot; and<=
-/div><div>&quot;optional&quot; Kconfig options. If they aren&#39;t present =
-in the final .config, we warn and optionally</div><div>error (this is versu=
-s the currently mechanism of only warning if boot critical options are</div=
-><div>dropped).</div><div><br></div><div>I&#39;m betting that the follow on=
- to this series will be &quot;Hey recipes should set the options for the ke=
-rnel if</div><div>they really need them&quot; .. which IMHO is an incredibl=
-y bad idea.</div><div><br></div><div>Cheers,</div><div><br></div><div>Bruce=
-</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-The following changes since commit ece101be5158beee709cdfbb85ecdbdc8d9fb864=
-:<br>
-<br>
-=C2=A0 test-empty-image: Fix LIC_FILES_CHKSUM typo (2016-05-06 10:47:59 +01=
-00)<br>
-<br>
-are available in the git repository at:<br>
-<br>
-=C2=A0 git://<a href=3D"http://git.openembedded.org/openembedded-core-contr=
-ib" rel=3D"noreferrer" target=3D"_blank">git.openembedded.org/openembedded-=
-core-contrib</a> paule/kernel-check<br>
-=C2=A0 <a href=3D"http://cgit.openembedded.org/cgit.cgi/openembedded-core-c=
-ontrib/log/?h=3Dpaule/kernel-check" rel=3D"noreferrer" target=3D"_blank">ht=
-tp://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=3Dpaul=
-e/kernel-check</a><br>
-<br>
-Paul Eggleton (6):<br>
-=C2=A0 classes/kernel-check: add a class to check kernel config options<br>
-=C2=A0 eudev: check for required kernel config options<br>
-=C2=A0 systemd: check for required kernel config options<br>
-=C2=A0 classes/kernel: fix typo<br>
-=C2=A0 classes/kernel: check OLDEST_KERNEL at configure time<br>
-=C2=A0 classes/image: check kernel config supports IMAGE_FSTYPES items<br>
-<br>
-=C2=A0meta/classes/image.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0| 23 ++++++++<br>
-=C2=A0meta/classes/image_types.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 1=
-1 ++++<br>
-=C2=A0meta/classes/kernel-check.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 97 +++=
-+++++++++++++++++++++++++++++<br>
-=C2=A0meta/classes/kernel.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 | 16 +++++-<br>
-=C2=A0meta/recipes-core/systemd/<a href=3D"http://systemd_229.bb" rel=3D"no=
-referrer" target=3D"_blank">systemd_229.bb</a> | 19 ++++++-<br>
-=C2=A0meta/recipes-core/udev/<a href=3D"http://eudev_3.1.5.bb" rel=3D"noref=
-errer" target=3D"_blank">eudev_3.1.5.bb</a>=C2=A0 =C2=A0 | 22 +++++++-<br>
-=C2=A06 files changed, 185 insertions(+), 3 deletions(-)<br>
-=C2=A0create mode 100644 meta/classes/kernel-check.bbclass<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
---<br>
-2.5.5<br>
-<br>
---<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
-r><div class=3D"gmail_signature">&quot;Thou shalt not follow the NULL point=
-er, for chaos and madness await thee at its end&quot;</div>
-</div></div>
-
---f46d0418273a32973c053267ac98--
+--bg08WKrSYDhXBjb5--
