@@ -1,35 +1,46 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id BABFA6FF97
+Return-Path: <kergoth@gmail.com>
+Received: from mail-io0-f196.google.com (mail-io0-f196.google.com
+	[209.85.223.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 747DE6FF97
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 May 2016 16:36:12 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP; 09 May 2016 09:35:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,601,1455004800"; 
-	d="scan'208,217";a="962039715"
-Received: from orsmsx103.amr.corp.intel.com ([10.22.225.130])
-	by fmsmga001.fm.intel.com with ESMTP; 09 May 2016 09:35:41 -0700
-Received: from orsmsx112.amr.corp.intel.com ([169.254.3.229]) by
-	ORSMSX103.amr.corp.intel.com ([169.254.5.227]) with mapi id
-	14.03.0248.002; Mon, 9 May 2016 09:35:40 -0700
-From: "Bystricky, Juro" <juro.bystricky@intel.com>
-To: Christopher Larson <kergoth@gmail.com>, "Burton, Ross"
-	<ross.burton@intel.com>
-Thread-Topic: [OE-core] [master][PATCH] gcc-cross{,	-canadian}: remove
-	--with-linker-hash-style
-Thread-Index: AQHRpK6aUh7SENNG2EmYhFjwnQPpMZ+pRuUAgABWe4CABzjhsA==
-Date: Mon, 9 May 2016 16:35:40 +0000
-Message-ID: <6E51916E4A1F32428260031F4C7CD2B61181DEFA@ORSMSX112.amr.corp.intel.com>
+	Mon,  9 May 2016 16:39:28 +0000 (UTC)
+Received: by mail-io0-f196.google.com with SMTP id k129so19144894iof.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 09 May 2016 09:39:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=QyIIVf/y2fVBu1D2JPR3iLzW/Ybep477yQHxX7YkAOs=;
+	b=qEtc22zLwrosnoUnJ7kdII27F7MC2ZmN38Ab93AlL93nsjtEXwa8a07u03SDk4CUjW
+	jplicDW8CZukAItzEOQr+rZTD9N8XrGbGF4cilf9GYL9gBJkFHyZfP+FVVlxhkM9P+6o
+	hf2i5cg5G+d+YtI/UVL61Ervp9MfvlwJFm5Xr6i24jWfpSjBfL6sWs8Trorh9rv67QSI
+	QVD8GqODmCfu/EiZ+oqidmcvmzuA1zeRVekXaX4sznUgAhkMcgy2WzFBNsbqt6YLhGSp
+	LRU3w4CPoDKQV2/kuh3SHdq+vNwm9hGRI6d/SsM3/Rzp3zdTYa2zJripVU/Rt84d5vfT
+	TOVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=QyIIVf/y2fVBu1D2JPR3iLzW/Ybep477yQHxX7YkAOs=;
+	b=VuWFIGOwXxbgG/SrNj+xm6izFhcvPYyO+8vxM8MjkT5KqgNvpDA2YBPxcfTp+v5gC4
+	5clkwEc7C6igdVaRatx+0L5dpcxeoETemGdTB/yU7Kv5kU7eQpT/rOqhLj+jCcQMPD26
+	J07lcxxqbnatFAuP7p9ZRHczyYOiZvI59lxm+e+ihw+fjjllHBRnBDHY27q+2lvhIQZT
+	HCOCBkEFPkY+mX4oWq3XVXKLd+9jkCDjfMwdDGZLNqG4xTWl8abWPueALCjBhMKR3kWt
+	4elSkEgdmNOlPIhLloR1YZFEB6aIQ2YKx7VYxDfsam7/3CEcaRCrjmhNjpIrvorgW0AB
+	OzBw==
+X-Gm-Message-State: AOPr4FVBvUZni69LS/vv1oWsm/SfrlYThX3AUjFqxVOb84DStsNhZICILCDf2gyWt3wiQpiVMWxzt4TnIXSLIw==
+X-Received: by 10.107.2.70 with SMTP id 67mr39983184ioc.70.1462811968857; Mon,
+	09 May 2016 09:39:28 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.79.134.70 with HTTP; Mon, 9 May 2016 09:39:09 -0700 (PDT)
+In-Reply-To: <6E51916E4A1F32428260031F4C7CD2B61181DEFA@ORSMSX112.amr.corp.intel.com>
 References: <1462219765-18957-1-git-send-email-kergoth@gmail.com>
 	<CAJTo0LadzExDXkkX9a6r1TTO2aQhTQ+kY82mV_-BLqs6jYnFFA@mail.gmail.com>
 	<CABcZANmJe_UvZ6zeuMTwiyx9X+xY9ATD9XVW7ESrskMtjPL4YQ@mail.gmail.com>
-In-Reply-To: <CABcZANmJe_UvZ6zeuMTwiyx9X+xY9ATD9XVW7ESrskMtjPL4YQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.139]
-MIME-Version: 1.0
+	<6E51916E4A1F32428260031F4C7CD2B61181DEFA@ORSMSX112.amr.corp.intel.com>
+From: Christopher Larson <kergoth@gmail.com>
+Date: Mon, 9 May 2016 09:39:09 -0700
+Message-ID: <CABcZAN=jh=+8PMVw2YMw41Aax1hmssjOVe24SG9XhjB4HgQuwQ@mail.gmail.com>
+To: "Bystricky, Juro" <juro.bystricky@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [master][PATCH] gcc-cross{, -canadian}: remove --with-linker-hash-style
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -44,199 +55,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 May 2016 16:36:13 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_6E51916E4A1F32428260031F4C7CD2B61181DEFAORSMSX112amrcor_"
+X-List-Received-Date: Mon, 09 May 2016 16:39:30 -0000
+Content-Type: multipart/alternative; boundary=001a11396814c6eda905326b7350
 
---_000_6E51916E4A1F32428260031F4C7CD2B61181DEFAORSMSX112amrcor_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--001a11396814c6eda905326b7350
+Content-Type: text/plain; charset=UTF-8
 
-VHdvIGFkZGl0aW9uYWwgR05VX0hBU0ggcmVsYXRlZCBlcnJvcnMgd2VyZSBvYnNlcnZlZCAoYnJl
-YWtpbmcgc29tZSBidWlsZHMpIHRoYXQgc2VlbSB0byBiZSByZWxhdGVkIHRvIHRoZSBwYXRjaDoN
-Cg0KRVJST1I6IGJhc2gtMy4yLjQ4LXIxMSBkb19wYWNrYWdlX3FhOiBRQSBJc3N1ZTogTm8gR05V
-X0hBU0ggaW4gdGhlIGVsZiBiaW5hcnk6ICcvaG9tZS9wb2t5YnVpbGQveW9jdG8tYXV0b2J1aWxk
-ZXIveW9jdG8td29ya2VyL25pZ2h0bHktbm9uLWdwbDMvYnVpbGQvYnVpbGQvdG1wL3dvcmsvaTU4
-Ni1wb2t5LWxpbnV4L2Jhc2gvMy4yLjQ4LXIxMS9wYWNrYWdlcy1zcGxpdC9iYXNoLXB0ZXN0L3Vz
-ci9saWIvYmFzaC9wdGVzdC90ZXN0cy9yZWNobycNCk5vIEdOVV9IQVNIIGluIHRoZSBlbGYgYmlu
-YXJ5OiAnL2hvbWUvcG9reWJ1aWxkL3lvY3RvLWF1dG9idWlsZGVyL3lvY3RvLXdvcmtlci9uaWdo
-dGx5LW5vbi1ncGwzL2J1aWxkL2J1aWxkL3RtcC93b3JrL2k1ODYtcG9reS1saW51eC9iYXNoLzMu
-Mi40OC1yMTEvcGFja2FnZXMtc3BsaXQvYmFzaC1wdGVzdC91c3IvbGliL2Jhc2gvcHRlc3QvdGVz
-dHMvemVjaG8nDQpObyBHTlVfSEFTSCBpbiB0aGUgZWxmIGJpbmFyeTogJy9ob21lL3Bva3lidWls
-ZC95b2N0by1hdXRvYnVpbGRlci95b2N0by13b3JrZXIvbmlnaHRseS1ub24tZ3BsMy9idWlsZC9i
-dWlsZC90bXAvd29yay9pNTg2LXBva3ktbGludXgvYmFzaC8zLjIuNDgtcjExL3BhY2thZ2VzLXNw
-bGl0L2Jhc2gtcHRlc3QvdXNyL2xpYi9iYXNoL3B0ZXN0L3Rlc3RzL3ByaW50ZW52JyBbbGRmbGFn
-c10NCkVSUk9SOiBiYXNoLTMuMi40OC1yMTEgZG9fcGFja2FnZV9xYTogUUEgcnVuIGZvdW5kIGZh
-dGFsIGVycm9ycy4gUGxlYXNlIGNvbnNpZGVyIGZpeGluZyB0aGVtLg0KDQoNCkVSUk9SOiBzZXJ2
-aWNlLTAuMS1yMCBkb19wYWNrYWdlX3FhOiBRQSBJc3N1ZTogTm8gR05VX0hBU0ggaW4gdGhlIGVs
-ZiBiaW5hcnk6ICcvaG9tZS9wb2t5YnVpbGQveW9jdG8tYXV0b2J1aWxkZXIveW9jdG8td29ya2Vy
-L25pZ2h0bHktcWEtc2tlbGV0b24vYnVpbGQvYnVpbGQvdG1wL3dvcmsvY29yZTItNjQtcG9reS1s
-aW51eC9zZXJ2aWNlLzAuMS1yMC9wYWNrYWdlcy1zcGxpdC9zZXJ2aWNlL3Vzci9zYmluL3NrZWxl
-dG9uLXRlc3QnIFtsZGZsYWdzXQ0KDQpKdXJvDQoNCg0KDQpGcm9tOiBvcGVuZW1iZWRkZWQtY29y
-ZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgW21haWx0bzpvcGVuZW1iZWRkZWQtY29y
-ZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmddIE9uIEJlaGFsZiBPZiBDaHJpc3RvcGhl
-ciBMYXJzb24NClNlbnQ6IFdlZG5lc2RheSwgTWF5IDQsIDIwMTYgMTI6MTEgUE0NClRvOiBCdXJ0
-b24sIFJvc3MgPHJvc3MuYnVydG9uQGludGVsLmNvbT4NCkNjOiBPRS1jb3JlIDxvcGVuZW1iZWRk
-ZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBb
-bWFzdGVyXVtQQVRDSF0gZ2NjLWNyb3NzeywgLWNhbmFkaWFufTogcmVtb3ZlIC0td2l0aC1saW5r
-ZXItaGFzaC1zdHlsZQ0KDQoNCg0KT24gV2VkLCBNYXkgNCwgMjAxNiBhdCAyOjAxIFBNLCBCdXJ0
-b24sIFJvc3MgPHJvc3MuYnVydG9uQGludGVsLmNvbTxtYWlsdG86cm9zcy5idXJ0b25AaW50ZWwu
-Y29tPj4gd3JvdGU6DQoNCk9uIDIgTWF5IDIwMTYgYXQgMjE6MDksIENocmlzdG9waGVyIExhcnNv
-biA8a2VyZ290aEBnbWFpbC5jb208bWFpbHRvOmtlcmdvdGhAZ21haWwuY29tPj4gd3JvdGU6DQpU
-aGlzIHdpbGwgcmVzdWx0IGluIGEgZmFpbHVyZSB0byBvYmV5IExERkxBR1MgY2F1c2luZyBhIEdO
-VV9IQVNIIFFBIGZhaWx1cmUsDQp3aGljaCBpcyB3aGF0J3Mgb2Z0ZW4gc2VlbiB3aXRoIGV4dGVy
-bmFsIHRvb2xjaGFpbnMuIFRoaXMgYnJpbmdzIHVzIGFsbCBvbiB0aGUNCnNhbWUgcGFnZSwgYW5k
-IG1ha2VzIHN1cmUgYSBmYWlsdXJlIHRvIG9iZXkgTERGTEFHUyBpcyBzZWVuIGVhcmx5Lg0KDQpJ
-IGxvdmUgdGhlIGlkZWEsIGJ1dDoNCg0KRVJST1I6IGxpYmdjYy01LjMuMC1yMCBkb19wYWNrYWdl
-X3FhOiBRQSBJc3N1ZTogTm8gR05VX0hBU0ggaW4gdGhlIGVsZiBiaW5hcnk6ICcvZGF0YS9wb2t5
-LW1hc3Rlci90bXAtZ2xpYmMvd29yay9jb3JlaTctNjQtcG9reS1saW51eC9saWJnY2MvNS4zLjAt
-cjAvcGFja2FnZXMtc3BsaXQvbGliZ2NjL2xpYi9saWJnY2Nfcy5zby4xJyBbbGRmbGFnc10NCg0K
-Um9zcw0KDQpObyBpZGVhIGhvdyBJIG1pc3NlZCB0aGlzLCBzaW5jZSBJIGRpZCB0ZXN0IGJ1aWxk
-cywgYnV0IEknbGwgc3VibWl0IGEgcGF0Y2ggdG8gb2UtY29yZSBzaG9ydGx5LiBUaGFua3MgOikN
-Ci0tDQpDaHJpc3RvcGhlciBMYXJzb24NCmtlcmdvdGggYXQgZ21haWwgZG90IGNvbQ0KRm91bmRl
-ciAtIEJpdEJha2UsIE9wZW5FbWJlZGRlZCwgT3BlblphdXJ1cw0KTWFpbnRhaW5lciAtIFRzbGli
-DQpTZW5pb3IgU29mdHdhcmUgRW5naW5lZXIsIE1lbnRvciBHcmFwaGljcw0K
+On Mon, May 9, 2016 at 9:35 AM, Bystricky, Juro <juro.bystricky@intel.com>
+wrote:
 
---_000_6E51916E4A1F32428260031F4C7CD2B61181DEFAORSMSX112amrcor_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+> Two additional GNU_HASH related errors were observed (breaking some
+> builds) that seem to be related to the patch:
+>
+>
+>
+> ERROR: bash-3.2.48-r11 do_package_qa: QA Issue: No GNU_HASH in the elf
+> binary:
+> '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-non-gpl3/build/build/tmp/work/i586-poky-linux/bash/3.2.48-r11/packages-split/bash-ptest/usr/lib/bash/ptest/tests/recho'
+>
+> No GNU_HASH in the elf binary:
+> '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-non-gpl3/build/build/tmp/work/i586-poky-linux/bash/3.2.48-r11/packages-split/bash-ptest/usr/lib/bash/ptest/tests/zecho'
+>
+> No GNU_HASH in the elf binary:
+> '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-non-gpl3/build/build/tmp/work/i586-poky-linux/bash/3.2.48-r11/packages-split/bash-ptest/usr/lib/bash/ptest/tests/printenv'
+> [ldflags]
+>
+> ERROR: bash-3.2.48-r11 do_package_qa: QA run found fatal errors. Please
+> consider fixing them.
+>
+>
+>
+>
+>
+> ERROR: service-0.1-r0 do_package_qa: QA Issue: No GNU_HASH in the elf
+> binary:
+> '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-skeleton/build/build/tmp/work/core2-64-poky-linux/service/0.1-r0/packages-split/service/usr/sbin/skeleton-test'
+> [ldflags]
+>
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
-Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
-DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
-b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
-Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
-dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLmhvZW56Yg0KCXttc28t
-c3R5bGUtbmFtZTpob2VuemI7fQ0Kc3Bhbi5FbWFpbFN0eWxlMTgNCgl7bXNvLXN0eWxlLXR5cGU6
-cGVyc29uYWwtcmVwbHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLHNhbnMtc2VyaWY7DQoJY29s
-b3I6IzFGNDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25s
-eTsNCglmb250LXNpemU6MTAuMHB0Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlm
-O30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4w
-aW4gMS4waW4gMS4waW4gMS4waW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0
-aW9uMTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZh
-dWx0cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwh
-LS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86
-aWRtYXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFb
-ZW5kaWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxpbms9
-InB1cnBsZSI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1h
-bCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJy
-aSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPlR3byBhZGRpdGlvbmFsIEdOVV9IQVNI
-IHJlbGF0ZWQgZXJyb3JzIHdlcmUgb2JzZXJ2ZWQgKGJyZWFraW5nIHNvbWUgYnVpbGRzKSB0aGF0
-IHNlZW0gdG8gYmUgcmVsYXRlZCB0byB0aGUgcGF0Y2g6PG86cD48L286cD48L3NwYW4+PC9wPg0K
-PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1m
-YW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxvOnA+
-Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxl
-PSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1z
-ZXJpZjtjb2xvcjojMUY0OTdEIj5FUlJPUjogYmFzaC0zLjIuNDgtcjExIGRvX3BhY2thZ2VfcWE6
-IFFBIElzc3VlOiBObyBHTlVfSEFTSCBpbiB0aGUgZWxmIGJpbmFyeTogJy9ob21lL3Bva3lidWls
-ZC95b2N0by1hdXRvYnVpbGRlci95b2N0by13b3JrZXIvbmlnaHRseS1ub24tZ3BsMy9idWlsZC9i
-dWlsZC90bXAvd29yay9pNTg2LXBva3ktbGludXgvYmFzaC8zLjIuNDgtcjExL3BhY2thZ2VzLXNw
-bGl0L2Jhc2gtcHRlc3QvdXNyL2xpYi9iYXNoL3B0ZXN0L3Rlc3RzL3JlY2hvJzxvOnA+PC9vOnA+
-PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6
-MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjoj
-MUY0OTdEIj5ObyBHTlVfSEFTSCBpbiB0aGUgZWxmIGJpbmFyeTogJy9ob21lL3Bva3lidWlsZC95
-b2N0by1hdXRvYnVpbGRlci95b2N0by13b3JrZXIvbmlnaHRseS1ub24tZ3BsMy9idWlsZC9idWls
-ZC90bXAvd29yay9pNTg2LXBva3ktbGludXgvYmFzaC8zLjIuNDgtcjExL3BhY2thZ2VzLXNwbGl0
-L2Jhc2gtcHRlc3QvdXNyL2xpYi9iYXNoL3B0ZXN0L3Rlc3RzL3plY2hvJzxvOnA+PC9vOnA+PC9z
-cGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEu
-MHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0
-OTdEIj5ObyBHTlVfSEFTSCBpbiB0aGUgZWxmIGJpbmFyeTogJy9ob21lL3Bva3lidWlsZC95b2N0
-by1hdXRvYnVpbGRlci95b2N0by13b3JrZXIvbmlnaHRseS1ub24tZ3BsMy9idWlsZC9idWlsZC90
-bXAvd29yay9pNTg2LXBva3ktbGludXgvYmFzaC8zLjIuNDgtcjExL3BhY2thZ2VzLXNwbGl0L2Jh
-c2gtcHRlc3QvdXNyL2xpYi9iYXNoL3B0ZXN0L3Rlc3RzL3ByaW50ZW52Jw0KIFtsZGZsYWdzXTxv
-OnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJm
-b250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJp
-Zjtjb2xvcjojMUY0OTdEIj5FUlJPUjogYmFzaC0zLjIuNDgtcjExIGRvX3BhY2thZ2VfcWE6IFFB
-IHJ1biBmb3VuZCBmYXRhbCBlcnJvcnMuIFBsZWFzZSBjb25zaWRlciBmaXhpbmcgdGhlbS48bzpw
-PjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9u
-dC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7
-Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1z
-b05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7
-Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+
-PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6
-MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjoj
-MUY0OTdEIj5FUlJPUjogc2VydmljZS0wLjEtcjAgZG9fcGFja2FnZV9xYTogUUEgSXNzdWU6IE5v
-IEdOVV9IQVNIIGluIHRoZSBlbGYgYmluYXJ5OiAnL2hvbWUvcG9reWJ1aWxkL3lvY3RvLWF1dG9i
-dWlsZGVyL3lvY3RvLXdvcmtlci9uaWdodGx5LXFhLXNrZWxldG9uL2J1aWxkL2J1aWxkL3RtcC93
-b3JrL2NvcmUyLTY0LXBva3ktbGludXgvc2VydmljZS8wLjEtcjAvcGFja2FnZXMtc3BsaXQvc2Vy
-dmljZS91c3Ivc2Jpbi9za2VsZXRvbi10ZXN0Jw0KIFtsZGZsYWdzXTxvOnA+PC9vOnA+PC9zcGFu
-PjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0
-O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdE
-Ij48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3Bh
-biBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7
-LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+SnVybzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFt
-aWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj48bzpwPiZu
-YnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0i
-Zm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2Vy
-aWY7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9
-Ik1zb05vcm1hbCI+PGEgbmFtZT0iX01haWxFbmRDb21wb3NlIj48c3BhbiBzdHlsZT0iZm9udC1z
-aXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29s
-b3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9hPjwvcD4NCjxkaXYgc3R5bGU9
-ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkIGJsdWUgMS41cHQ7cGFkZGluZzowaW4gMGlu
-IDBpbiA0LjBwdCI+DQo8ZGl2Pg0KPGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLXRvcDpz
-b2xpZCAjRTFFMUUxIDEuMHB0O3BhZGRpbmc6My4wcHQgMGluIDBpbiAwaW4iPg0KPHAgY2xhc3M9
-Ik1zb05vcm1hbCI+PGI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6
-JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmIj5Gcm9tOjwvc3Bhbj48L2I+PHNwYW4gc3R5
-bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5z
-LXNlcmlmIj4gb3BlbmVtYmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
-IFttYWlsdG86b3BlbmVtYmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
-XQ0KPGI+T24gQmVoYWxmIE9mIDwvYj5DaHJpc3RvcGhlciBMYXJzb248YnI+DQo8Yj5TZW50Ojwv
-Yj4gV2VkbmVzZGF5LCBNYXkgNCwgMjAxNiAxMjoxMSBQTTxicj4NCjxiPlRvOjwvYj4gQnVydG9u
-LCBSb3NzICZsdDtyb3NzLmJ1cnRvbkBpbnRlbC5jb20mZ3Q7PGJyPg0KPGI+Q2M6PC9iPiBPRS1j
-b3JlICZsdDtvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnJmd0Ozxicj4N
-CjxiPlN1YmplY3Q6PC9iPiBSZTogW09FLWNvcmVdIFttYXN0ZXJdW1BBVENIXSBnY2MtY3Jvc3N7
-LCAtY2FuYWRpYW59OiByZW1vdmUgLS13aXRoLWxpbmtlci1oYXNoLXN0eWxlPG86cD48L286cD48
-L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5i
-c3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9v
-OnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9w
-Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPk9uIFdlZCwgTWF5IDQsIDIwMTYgYXQgMjow
-MSBQTSwgQnVydG9uLCBSb3NzICZsdDs8YSBocmVmPSJtYWlsdG86cm9zcy5idXJ0b25AaW50ZWwu
-Y29tIiB0YXJnZXQ9Il9ibGFuayI+cm9zcy5idXJ0b25AaW50ZWwuY29tPC9hPiZndDsgd3JvdGU6
-PG86cD48L286cD48L3A+DQo8YmxvY2txdW90ZSBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxl
-ZnQ6c29saWQgI0NDQ0NDQyAxLjBwdDtwYWRkaW5nOjBpbiAwaW4gMGluIDYuMHB0O21hcmdpbi1s
-ZWZ0OjQuOHB0O21hcmdpbi10b3A6NS4wcHQ7bWFyZ2luLXJpZ2h0OjBpbjttYXJnaW4tYm90dG9t
-OjUuMHB0Ij4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8
-L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+T24gMiBNYXkgMjAxNiBhdCAy
-MTowOSwgQ2hyaXN0b3BoZXIgTGFyc29uICZsdDs8YSBocmVmPSJtYWlsdG86a2VyZ290aEBnbWFp
-bC5jb20iIHRhcmdldD0iX2JsYW5rIj5rZXJnb3RoQGdtYWlsLmNvbTwvYT4mZ3Q7IHdyb3RlOjxv
-OnA+PC9vOnA+PC9wPg0KPGJsb2NrcXVvdGUgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0
-OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7cGFkZGluZzowaW4gMGluIDBpbiA2LjBwdDttYXJnaW4tbGVm
-dDo0LjhwdDttYXJnaW4tdG9wOjUuMHB0O21hcmdpbi1yaWdodDowaW47bWFyZ2luLWJvdHRvbTo1
-LjBwdCI+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+VGhpcyB3aWxsIHJlc3VsdCBpbiBh
-IGZhaWx1cmUgdG8gb2JleSBMREZMQUdTIGNhdXNpbmcgYSBHTlVfSEFTSCBRQSBmYWlsdXJlLDxi
-cj4NCndoaWNoIGlzIHdoYXQncyBvZnRlbiBzZWVuIHdpdGggZXh0ZXJuYWwgdG9vbGNoYWlucy4g
-VGhpcyBicmluZ3MgdXMgYWxsIG9uIHRoZTxicj4NCnNhbWUgcGFnZSwgYW5kIG1ha2VzIHN1cmUg
-YSBmYWlsdXJlIHRvIG9iZXkgTERGTEFHUyBpcyBzZWVuIGVhcmx5LjxvOnA+PC9vOnA+PC9wPg0K
-PC9kaXY+DQo8L2Jsb2NrcXVvdGU+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxicj4N
-CkkgbG92ZSB0aGUgaWRlYSwgYnV0OjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAg
-Y2xhc3M9Ik1zb05vcm1hbCI+PGJyPg0KRVJST1I6IGxpYmdjYy01LjMuMC1yMCBkb19wYWNrYWdl
-X3FhOiBRQSBJc3N1ZTogTm8gR05VX0hBU0ggaW4gdGhlIGVsZiBiaW5hcnk6ICcvZGF0YS9wb2t5
-LW1hc3Rlci90bXAtZ2xpYmMvd29yay9jb3JlaTctNjQtcG9reS1saW51eC9saWJnY2MvNS4zLjAt
-cjAvcGFja2FnZXMtc3BsaXQvbGliZ2NjL2xpYi9saWJnY2Nfcy5zby4xJyBbbGRmbGFnc108bzpw
-PjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0
-eWxlPSJjb2xvcjojODg4ODg4Ij48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4N
-CjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iY29sb3I6Izg4ODg4OCI+
-Um9zczxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Jsb2NrcXVvdGU+
-DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxicj4NCk5vIGlkZWEgaG93IEkgbWlzc2Vk
-IHRoaXMsIHNpbmNlIEkgZGlkIHRlc3QgYnVpbGRzLCBidXQgSSdsbCBzdWJtaXQgYSBwYXRjaCB0
-byBvZS1jb3JlIHNob3J0bHkuIFRoYW5rcyA6KTxicj4NCi0tIDxvOnA+PC9vOnA+PC9wPg0KPGRp
-dj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5DaHJpc3RvcGhlciBMYXJzb248YnI+DQpr
-ZXJnb3RoIGF0IGdtYWlsIGRvdCBjb208YnI+DQpGb3VuZGVyIC0gQml0QmFrZSwgT3BlbkVtYmVk
-ZGVkLCBPcGVuWmF1cnVzPGJyPg0KTWFpbnRhaW5lciAtIFRzbGliPGJyPg0KU2VuaW9yIFNvZnR3
-YXJlIEVuZ2luZWVyLCBNZW50b3IgR3JhcGhpY3M8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9k
-aXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
+Huh, I must not have had ptest enabled in my test builds. Thanks, will take
+a look.
+-- 
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
---_000_6E51916E4A1F32428260031F4C7CD2B61181DEFAORSMSX112amrcor_--
+--001a11396814c6eda905326b7350
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Mon, May 9, 2016 at 9:35 AM, Bystricky, Juro <span dir=3D"ltr">&lt;<=
+a href=3D"mailto:juro.bystricky@intel.com" target=3D"_blank">juro.bystricky=
+@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+
+
+
+
+
+<div lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">Two additional GNU_HASH related error=
+s were observed (breaking some builds) that seem to be related to the patch=
+:<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d"><u></u>=C2=A0<u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">ERROR: bash-3.2.48-r11 do_package_qa:=
+ QA Issue: No GNU_HASH in the elf binary: &#39;/home/pokybuild/yocto-autobu=
+ilder/yocto-worker/nightly-non-gpl3/build/build/tmp/work/i586-poky-linux/ba=
+sh/3.2.48-r11/packages-split/bash-ptest/usr/lib/bash/ptest/tests/recho&#39;=
+<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">No GNU_HASH in the elf binary: &#39;/=
+home/pokybuild/yocto-autobuilder/yocto-worker/nightly-non-gpl3/build/build/=
+tmp/work/i586-poky-linux/bash/3.2.48-r11/packages-split/bash-ptest/usr/lib/=
+bash/ptest/tests/zecho&#39;<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">No GNU_HASH in the elf binary: &#39;/=
+home/pokybuild/yocto-autobuilder/yocto-worker/nightly-non-gpl3/build/build/=
+tmp/work/i586-poky-linux/bash/3.2.48-r11/packages-split/bash-ptest/usr/lib/=
+bash/ptest/tests/printenv&#39;
+ [ldflags]<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">ERROR: bash-3.2.48-r11 do_package_qa:=
+ QA run found fatal errors. Please consider fixing them.<u></u><u></u></spa=
+n></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d"><u></u>=C2=A0<u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d"><u></u>=C2=A0<u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">ERROR: service-0.1-r0 do_package_qa: =
+QA Issue: No GNU_HASH in the elf binary: &#39;/home/pokybuild/yocto-autobui=
+lder/yocto-worker/nightly-qa-skeleton/build/build/tmp/work/core2-64-poky-li=
+nux/service/0.1-r0/packages-split/service/usr/sbin/skeleton-test&#39;
+ [ldflags]</span></p></div></div></blockquote><div><br></div><div>Huh, I mu=
+st not have had ptest enabled in my test builds. Thanks, will take a look.<=
+/div></div>-- <br><div class=3D"gmail_signature"><div dir=3D"ltr">Christoph=
+er Larson<br>kergoth at gmail dot com<br>Founder - BitBake, OpenEmbedded, O=
+penZaurus<br>Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphic=
+s</div></div>
+</div></div>
+
+--001a11396814c6eda905326b7350--
