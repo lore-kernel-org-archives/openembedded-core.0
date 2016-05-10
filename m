@@ -1,63 +1,54 @@
-Return-Path: <neenareddy.busireddy@nxp.com>
-X-Greylist: delayed 946 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 10 May 2016 18:28:21 UTC
-Received: from emea01-db3-obe.outbound.protection.outlook.com
-	(mail-db3on0070.outbound.protection.outlook.com [157.55.234.70])
-	by mail.openembedded.org (Postfix) with ESMTP id 240A46072C
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f178.google.com (mail-pf0-f178.google.com
+	[209.85.192.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 9DF0F62137
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 May 2016 18:28:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com; 
-	s=selector1-nxp-com;
-	h=From:To:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=IZNAJl1YRFkUS3nkOcYYT8eH0wlfQIi+O2uQYwx78Ss=;
-	b=wZ+r/4jEwZqTNoGJ3SCzfGYVouzb3eQB9/xfvLcLXi535Pq3VIcT/sCu+4OAalo60lbrBns+DJm3hgv2I7J0F64R7xuUE+AmBtQWHGBOnAsaNwzMB5iy57C6LfA3hK3KdllBtfAozkR/vsNHBjcGHEEKr3cGbGvK7gi7t+rxbmI=
-Received: from VI1PR04MB1583.eurprd04.prod.outlook.com (10.164.84.141) by
-	VI1PR04MB1583.eurprd04.prod.outlook.com (10.164.84.141) with Microsoft
-	SMTP Server (TLS) id 15.1.492.11; Tue, 10 May 2016 18:12:34 +0000
-Received: from VI1PR04MB1583.eurprd04.prod.outlook.com ([10.164.84.141]) by
-	VI1PR04MB1583.eurprd04.prod.outlook.com ([10.164.84.141]) with mapi id
-	15.01.0492.016; Tue, 10 May 2016 18:12:34 +0000
-From: Neena Busireddy <neenareddy.busireddy@nxp.com>
-To: "openembedded-core@lists.openembedded.org"
+	Tue, 10 May 2016 19:01:57 +0000 (UTC)
+Received: by mail-pf0-f178.google.com with SMTP id c189so9188746pfb.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 May 2016 12:01:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=UzhplqlCoxpD6CnVEtNmQ5DCHPME3r7C4v3vlQLIRXw=;
+	b=uGr5ouCVJf+F7x4JpKJkVPui61+ynG1d6Tt5hHQFfBCDUT0QoZfqXdD3f8LjoikNyx
+	i9Zyj3pNolrx0WX+lwqZ2StxW5L1YHIwUuB0iOsfAGvuQbfaoUb0XeP3ASCmPc/ATPv+
+	QRSnR9Y949EHn7ai9z56eOgp0MAbKjP8qCAEjlvL2Rm3bJumn3cDbkx7Jy49PEU1ijek
+	SXdhoZhLbbdHg2Guq4PjeuHHDw+K+oFUAq4LgORHHhrNDmLNjTiDnYAYDDaRmquGb06o
+	7+mZ+1fkbeL0ZxhJJTU0A2DCCNlOv+4vmLVs7SlA4oLyjcS1tcL2kFjATE3rtPKkGet6
+	BchQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=UzhplqlCoxpD6CnVEtNmQ5DCHPME3r7C4v3vlQLIRXw=;
+	b=MV5o5Jp0zJw/5m76DItuumzybWnp3N+wUieIHx3lEJqLvvS5kNhiEr6p7dIhVpta+u
+	zznRfatoC/DiyDmc3+t0VO62vJPAYpNdi7vlP0xoqd2jGaJHsFzmjoM/PefjFfHH0q52
+	7IyiQuV/nF12IsoDyP2VTgqVZm39uuiBI+o2/Mkf259AyFee9+7H4aQkOdt1iP8Cj5+Y
+	HvUCaTrZ9+bex+LAFLey8seC/6b/MUdrDxP3E72oyqiwiXXfifPCfbsmoXaw7ek2qOrm
+	rdzvGe8n0BYfkKnLueWfUyR5IWu1+NXpEuHJ6ljwKPAqdPrlg2DanRaSHyz/sJmcPWx0
+	u6Pw==
+X-Gm-Message-State: AOPr4FWrOkz2DYG0N6qhDaup+bOfDeAvl0i/WpQeIXRdX9+57DtJtQBbtea2MlmQcEyyOA==
+X-Received: by 10.98.90.7 with SMTP id o7mr60713543pfb.110.1462906917939;
+	Tue, 10 May 2016 12:01:57 -0700 (PDT)
+Received: from ?IPv6:2601:646:8800:5a9a:5c9e:1d92:71:ee77?
+	([2601:646:8800:5a9a:5c9e:1d92:71:ee77])
+	by smtp.gmail.com with ESMTPSA id
+	zs16sm6292158pab.13.2016.05.10.12.01.56
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 10 May 2016 12:01:56 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Pgp-Agent: GPGMail 2.6b2
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <VI1PR04MB1583BDC40DA6D580FE8F6C3591710@VI1PR04MB1583.eurprd04.prod.outlook.com>
+Date: Tue, 10 May 2016 12:02:10 -0700
+Message-Id: <02AD60DD-1B28-43A5-B5AD-8755233AA005@gmail.com>
+References: <VI1PR04MB1583BDC40DA6D580FE8F6C3591710@VI1PR04MB1583.eurprd04.prod.outlook.com>
+To: Neena Busireddy <neenareddy.busireddy@nxp.com>
+X-Mailer: Apple Mail (2.3124)
+Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] proposal: replace GLUT with FreeGLUT
-Thread-Index: AdGq54YcQBQPfsyrS+qvQPveYmH1oA==
-Date: Tue, 10 May 2016 18:12:34 +0000
-Message-ID: <VI1PR04MB1583BDC40DA6D580FE8F6C3591710@VI1PR04MB1583.eurprd04.prod.outlook.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: lists.openembedded.org; dkim=none (message not signed)
-	header.d=none; lists.openembedded.org;
-	dmarc=none action=none header.from=nxp.com;
-x-originating-ip: [192.88.168.49]
-x-ms-office365-filtering-correlation-id: cd3be866-1287-4e66-a271-08d378fea96b
-x-microsoft-exchange-diagnostics: 1; VI1PR04MB1583;
-	5:TMtGpRTJzSNrhYFJXiFhsZirlOy/iuczQFcKHoW5l4e9GK8AhXzvwsKLRuibV/BNEW4Qcx5FDUuO09zZ8W/2NY3k30mlGXhFziuDma6ROLBb3fAfXK8pPa1JavE7z2dBKbhJ2D0eCcIwjTE45hHtMg==;
-	24:9fNE4ENLVSZBNRnoavSG17R4Q0vLdDSie7wTTsGm82iP9v1ODqtPX2AB1xmxhM0Fs1n+2pCofHQGGp3D+hSjKL6/y/8QV2E7WsTVHS5qa7k=;
-	7:72tBZauybme2nYkHfOf2qkPM6aWEws4vGtaS3xesSAn1hmTn1l9ohvwDp/+S/5IWgJhiTatVBNoLWyreQk4YlykzVFLspHLwtbxKVM1S3cc8ogfkDhI+iR6CF3reLmHDHETEp8gkeG72Gc1B9q4FAjeuD0hR6aB0xSSqYzydow/AD/UOtwlW4zLlY0csx/tR
-x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:VI1PR04MB1583;
-x-microsoft-antispam-prvs: <VI1PR04MB1583BC7E4A9D534F1ED59DBE91710@VI1PR04MB1583.eurprd04.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:;
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(601004)(2401047)(5005006)(8121501046)(3002001)(10201501046)(6055026);
-	SRVR:VI1PR04MB1583; BCL:0; PCL:0; RULEID:; SRVR:VI1PR04MB1583; 
-x-forefront-prvs: 0938781D02
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(5002640100001)(19625215002)(33656002)(586003)(6116002)(18717965001)(102836003)(790700001)(16236675004)(3846002)(1220700001)(11100500001)(3660700001)(9326002)(9686002)(2900100001)(8936002)(3280700002)(76576001)(2501003)(122556002)(5003600100002)(19300405004)(4326007)(5008740100001)(19580395003)(50986999)(92566002)(2906002)(19609705001)(54356999)(19617315012)(86362001)(5004730100002)(10400500002)(66066001)(77096005)(15975445007)(2351001)(229853001)(189998001)(110136002)(81166006);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR04MB1583;
-	H:VI1PR04MB1583.eurprd04.prod.outlook.com; FPR:; SPF:None;
-	MLV:sfv; LANG:en; 
-spamdiagnosticoutput: 1:23
-spamdiagnosticmetadata: NSPM
-MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 May 2016 18:12:34.6926 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB1583
-Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Subject: proposal: replace GLUT with FreeGLUT
+Subject: Re: proposal: replace GLUT with FreeGLUT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,121 +61,209 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 May 2016 18:28:22 -0000
-Content-Language: en-US
+X-List-Received-Date: Tue, 10 May 2016 19:01:57 -0000
+X-Groupsio-MsgNum: 81819
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_C5CE991B-5B7C-460F-A7DC-64B05C09330E";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
+
+--Apple-Mail=_C5CE991B-5B7C-460F-A7DC-64B05C09330E
 Content-Type: multipart/alternative;
-	boundary="_000_VI1PR04MB1583BDC40DA6D580FE8F6C3591710VI1PR04MB1583eurp_"
+	boundary="Apple-Mail=_8C2B7B4F-3C91-4B17-A60B-0DECBAB701BE"
 
---_000_VI1PR04MB1583BDC40DA6D580FE8F6C3591710VI1PR04MB1583eurp_
-Content-Type: text/plain; charset="us-ascii"
+--Apple-Mail=_8C2B7B4F-3C91-4B17-A60B-0DECBAB701BE
 Content-Transfer-Encoding: quoted-printable
-
-Hello,
-
-GLUT is dead upstream for almost three years now ( https://cgit.freedesktop=
-.org/mesa/glut/  ) and it makes sense to replace GLUT with FreeGLUT .
-Some of the reasons to replace with FreeGLUT are listed here :
-http://freeglut.sourceforge.net/
-
-Also, current mesa-glut recipe does not generate GLUT library. I tested thi=
-s when I enabled GLUT in mesa-demos.
-
-I discussed this issue with Otavio and he suggested to replace GLUT with Fr=
-eeGLUT and upgrade mesa-demos to 8.3.
-
-Any suggestions or thoughts?
+Content-Type: text/plain;
+	charset=us-ascii
 
 
-Thanks,
-Neena
+> On May 10, 2016, at 11:12 AM, Neena Busireddy =
+<neenareddy.busireddy@nxp.com> wrote:
+>=20
+> Hello,
+>=20
+> GLUT is dead upstream for almost three years now ( =
+https://cgit.freedesktop.org/mesa/glut/ =
+<https://cgit.freedesktop.org/mesa/glut/>  ) and it makes sense to =
+replace GLUT with FreeGLUT .
+> Some of the reasons to replace with FreeGLUT are listed here :
+> http://freeglut.sourceforge.net/ <http://freeglut.sourceforge.net/>
+>=20
+> Also, current mesa-glut recipe does not generate GLUT library. I =
+tested this when I enabled GLUT in mesa-demos.
+>=20
+> I discussed this issue with Otavio and he suggested to replace GLUT =
+with FreeGLUT and upgrade mesa-demos to 8.3.
+>=20
+> Any suggestions or thoughts?
 
+This is a good move. other distros use freeglut too so you can drive =
+some stability out of that
+>=20
+>=20
+> Thanks,
+> Neena
+>=20
+>=20
+>=20
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org =
+<mailto:Openembedded-core@lists.openembedded.org>
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core =
+<http://lists.openembedded.org/mailman/listinfo/openembedded-core>
 
-
-
-
---_000_VI1PR04MB1583BDC40DA6D580FE8F6C3591710VI1PR04MB1583eurp_
-Content-Type: text/html; charset="us-ascii"
+--Apple-Mail=_8C2B7B4F-3C91-4B17-A60B-0DECBAB701BE
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=us-ascii
 
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 12 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri","sans-serif";}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:blue;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:purple;
-	text-decoration:underline;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri","sans-serif";
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal">Hello,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">GLUT is dead upstream for almost three years now ( <=
-a href=3D"https://cgit.freedesktop.org/mesa/glut/">
-https://cgit.freedesktop.org/mesa/glut/</a>&nbsp; ) and it makes sense to r=
-eplace GLUT with FreeGLUT .<o:p></o:p></p>
-<p class=3D"MsoNormal">Some of the reasons to replace with FreeGLUT are lis=
-ted here :<o:p></o:p></p>
-<p class=3D"MsoNormal"><a href=3D"http://freeglut.sourceforge.net/">http://=
-freeglut.sourceforge.net/</a>
-<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Also, current mesa-glut recipe does not generate GLU=
-T library. I tested this when I enabled GLUT in mesa-demos.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">I discussed this issue with Otavio and he suggested =
-to replace GLUT with FreeGLUT and upgrade mesa-demos to 8.3.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Any suggestions or thoughts?<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Thanks,<o:p></o:p></p>
-<p class=3D"MsoNormal">Neena<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-</body>
-</html>
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
+charset=3Dus-ascii"></head><body style=3D"word-wrap: break-word; =
+-webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
+class=3D""><br class=3D""><div><blockquote type=3D"cite" class=3D""><div =
+class=3D"">On May 10, 2016, at 11:12 AM, Neena Busireddy &lt;<a =
+href=3D"mailto:neenareddy.busireddy@nxp.com" =
+class=3D"">neenareddy.busireddy@nxp.com</a>&gt; wrote:</div><br =
+class=3D"Apple-interchange-newline"><div class=3D""><div =
+class=3D"WordSection1" style=3D"page: WordSection1; font-family: Ubuntu; =
+font-size: 14px; font-style: normal; font-variant-caps: normal; =
+font-weight: normal; letter-spacing: normal; orphans: auto; text-align: =
+start; text-indent: 0px; text-transform: none; white-space: normal; =
+widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><div =
+style=3D"margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: =
+Calibri, sans-serif;" class=3D"">Hello,<o:p class=3D""></o:p></div><div =
+style=3D"margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: =
+Calibri, sans-serif;" class=3D""><o:p class=3D"">&nbsp;</o:p></div><div =
+style=3D"margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: =
+Calibri, sans-serif;" class=3D"">GLUT is dead upstream for almost three =
+years now (<span class=3D"Apple-converted-space">&nbsp;</span><a =
+href=3D"https://cgit.freedesktop.org/mesa/glut/" style=3D"color: purple; =
+text-decoration: underline;" =
+class=3D"">https://cgit.freedesktop.org/mesa/glut/</a>&nbsp; ) and it =
+makes sense to replace GLUT with FreeGLUT .<o:p =
+class=3D""></o:p></div><div style=3D"margin: 0in 0in 0.0001pt; =
+font-size: 11pt; font-family: Calibri, sans-serif;" class=3D"">Some of =
+the reasons to replace with FreeGLUT are listed here :<o:p =
+class=3D""></o:p></div><div style=3D"margin: 0in 0in 0.0001pt; =
+font-size: 11pt; font-family: Calibri, sans-serif;" class=3D""><a =
+href=3D"http://freeglut.sourceforge.net/" style=3D"color: purple; =
+text-decoration: underline;" =
+class=3D"">http://freeglut.sourceforge.net/</a><o:p =
+class=3D""></o:p></div><div style=3D"margin: 0in 0in 0.0001pt; =
+font-size: 11pt; font-family: Calibri, sans-serif;" class=3D""><o:p =
+class=3D"">&nbsp;</o:p></div><div style=3D"margin: 0in 0in 0.0001pt; =
+font-size: 11pt; font-family: Calibri, sans-serif;" class=3D"">Also, =
+current mesa-glut recipe does not generate GLUT library. I tested this =
+when I enabled GLUT in mesa-demos.<o:p class=3D""></o:p></div><div =
+style=3D"margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: =
+Calibri, sans-serif;" class=3D""><o:p class=3D"">&nbsp;</o:p></div><div =
+style=3D"margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: =
+Calibri, sans-serif;" class=3D"">I discussed this issue with Otavio and =
+he suggested to replace GLUT with FreeGLUT and upgrade mesa-demos to =
+8.3.<o:p class=3D""></o:p></div><div style=3D"margin: 0in 0in 0.0001pt; =
+font-size: 11pt; font-family: Calibri, sans-serif;" class=3D""><o:p =
+class=3D"">&nbsp;</o:p></div><div style=3D"margin: 0in 0in 0.0001pt; =
+font-size: 11pt; font-family: Calibri, sans-serif;" class=3D"">Any =
+suggestions or thoughts?</div></div></div></blockquote><div><br =
+class=3D""></div><div>This is a good move. other distros use freeglut =
+too so you can drive some stability out of that&nbsp;</div><blockquote =
+type=3D"cite" class=3D""><div class=3D""><div class=3D"WordSection1" =
+style=3D"page: WordSection1; font-family: Ubuntu; font-size: 14px; =
+font-style: normal; font-variant-caps: normal; font-weight: normal; =
+letter-spacing: normal; orphans: auto; text-align: start; text-indent: =
+0px; text-transform: none; white-space: normal; widows: auto; =
+word-spacing: 0px; -webkit-text-stroke-width: 0px;"><div style=3D"margin: =
+0in 0in 0.0001pt; font-size: 11pt; font-family: Calibri, sans-serif;" =
+class=3D""><o:p class=3D""></o:p></div><div style=3D"margin: 0in 0in =
+0.0001pt; font-size: 11pt; font-family: Calibri, sans-serif;" =
+class=3D""><o:p class=3D"">&nbsp;</o:p></div><div style=3D"margin: 0in =
+0in 0.0001pt; font-size: 11pt; font-family: Calibri, sans-serif;" =
+class=3D""><o:p class=3D"">&nbsp;</o:p></div><div style=3D"margin: 0in =
+0in 0.0001pt; font-size: 11pt; font-family: Calibri, sans-serif;" =
+class=3D"">Thanks,<o:p class=3D""></o:p></div><div style=3D"margin: 0in =
+0in 0.0001pt; font-size: 11pt; font-family: Calibri, sans-serif;" =
+class=3D"">Neena<o:p class=3D""></o:p></div><div style=3D"margin: 0in =
+0in 0.0001pt; font-size: 11pt; font-family: Calibri, sans-serif;" =
+class=3D""><o:p class=3D"">&nbsp;</o:p></div><div style=3D"margin: 0in =
+0in 0.0001pt; font-size: 11pt; font-family: Calibri, sans-serif;" =
+class=3D""><o:p class=3D"">&nbsp;</o:p></div><div style=3D"margin: 0in =
+0in 0.0001pt; font-size: 11pt; font-family: Calibri, sans-serif;" =
+class=3D""><o:p class=3D"">&nbsp;</o:p></div><div style=3D"margin: 0in =
+0in 0.0001pt; font-size: 11pt; font-family: Calibri, sans-serif;" =
+class=3D""><o:p class=3D"">&nbsp;</o:p></div></div><span =
+style=3D"font-family: Ubuntu; font-size: 14px; font-style: normal; =
+font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
+orphans: auto; text-align: start; text-indent: 0px; text-transform: =
+none; white-space: normal; widows: auto; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; float: none; display: inline =
+!important;" class=3D"">--<span =
+class=3D"Apple-converted-space">&nbsp;</span></span><br =
+style=3D"font-family: Ubuntu; font-size: 14px; font-style: normal; =
+font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
+orphans: auto; text-align: start; text-indent: 0px; text-transform: =
+none; white-space: normal; widows: auto; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px;" class=3D""><span style=3D"font-family: =
+Ubuntu; font-size: 14px; font-style: normal; font-variant-caps: normal; =
+font-weight: normal; letter-spacing: normal; orphans: auto; text-align: =
+start; text-indent: 0px; text-transform: none; white-space: normal; =
+widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: =
+none; display: inline !important;" =
+class=3D"">_______________________________________________</span><br =
+style=3D"font-family: Ubuntu; font-size: 14px; font-style: normal; =
+font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
+orphans: auto; text-align: start; text-indent: 0px; text-transform: =
+none; white-space: normal; widows: auto; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px;" class=3D""><span style=3D"font-family: =
+Ubuntu; font-size: 14px; font-style: normal; font-variant-caps: normal; =
+font-weight: normal; letter-spacing: normal; orphans: auto; text-align: =
+start; text-indent: 0px; text-transform: none; white-space: normal; =
+widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: =
+none; display: inline !important;" class=3D"">Openembedded-core mailing =
+list</span><br style=3D"font-family: Ubuntu; font-size: 14px; =
+font-style: normal; font-variant-caps: normal; font-weight: normal; =
+letter-spacing: normal; orphans: auto; text-align: start; text-indent: =
+0px; text-transform: none; white-space: normal; widows: auto; =
+word-spacing: 0px; -webkit-text-stroke-width: 0px;" class=3D""><a =
+href=3D"mailto:Openembedded-core@lists.openembedded.org" style=3D"color: =
+purple; text-decoration: underline; font-family: Ubuntu; font-size: =
+14px; font-style: normal; font-variant-caps: normal; font-weight: =
+normal; letter-spacing: normal; orphans: auto; text-align: start; =
+text-indent: 0px; text-transform: none; white-space: normal; widows: =
+auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;" =
+class=3D"">Openembedded-core@lists.openembedded.org</a><br =
+style=3D"font-family: Ubuntu; font-size: 14px; font-style: normal; =
+font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
+orphans: auto; text-align: start; text-indent: 0px; text-transform: =
+none; white-space: normal; widows: auto; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px;" class=3D""><a =
+href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core" =
+style=3D"color: purple; text-decoration: underline; font-family: Ubuntu; =
+font-size: 14px; font-style: normal; font-variant-caps: normal; =
+font-weight: normal; letter-spacing: normal; orphans: auto; text-align: =
+start; text-indent: 0px; text-transform: none; white-space: normal; =
+widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;" =
+class=3D"">http://lists.openembedded.org/mailman/listinfo/openembedded-cor=
+e</a></div></blockquote></div><br class=3D""></body></html>=
 
---_000_VI1PR04MB1583BDC40DA6D580FE8F6C3591710VI1PR04MB1583eurp_--
+--Apple-Mail=_8C2B7B4F-3C91-4B17-A60B-0DECBAB701BE--
+
+--Apple-Mail=_C5CE991B-5B7C-460F-A7DC-64B05C09330E
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlcyMDUACgkQuwUzVZGdMxSOOwCeNb7cbqUbHGH2zapKxVE8SAJ0
+vWIAn3YndaTpoIhJzEE1Hd/0tBeftWz7
+=xard
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_C5CE991B-5B7C-460F-A7DC-64B05C09330E--
