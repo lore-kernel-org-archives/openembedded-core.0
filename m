@@ -1,54 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f178.google.com (mail-pf0-f178.google.com
-	[209.85.192.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 9DF0F62137
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f176.google.com (mail-ig0-f176.google.com
+	[209.85.213.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 565536011A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 May 2016 19:01:57 +0000 (UTC)
-Received: by mail-pf0-f178.google.com with SMTP id c189so9188746pfb.3
+	Tue, 10 May 2016 21:32:59 +0000 (UTC)
+Received: by mail-ig0-f176.google.com with SMTP id c3so21088206igl.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 May 2016 12:01:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=UzhplqlCoxpD6CnVEtNmQ5DCHPME3r7C4v3vlQLIRXw=;
-	b=uGr5ouCVJf+F7x4JpKJkVPui61+ynG1d6Tt5hHQFfBCDUT0QoZfqXdD3f8LjoikNyx
-	i9Zyj3pNolrx0WX+lwqZ2StxW5L1YHIwUuB0iOsfAGvuQbfaoUb0XeP3ASCmPc/ATPv+
-	QRSnR9Y949EHn7ai9z56eOgp0MAbKjP8qCAEjlvL2Rm3bJumn3cDbkx7Jy49PEU1ijek
-	SXdhoZhLbbdHg2Guq4PjeuHHDw+K+oFUAq4LgORHHhrNDmLNjTiDnYAYDDaRmquGb06o
-	7+mZ+1fkbeL0ZxhJJTU0A2DCCNlOv+4vmLVs7SlA4oLyjcS1tcL2kFjATE3rtPKkGet6
-	BchQ==
+	Tue, 10 May 2016 14:33:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=t0SP7Uv+zP08YqJlJnQAeoCeKgo35P2ZXrzGX23UvSk=;
+	b=dJWIUv79u0JR1nw7RVBqc8jPSKVLMm1XzRncjpdMrOGe48vOaWHTnIGf8PWV0Q6c4T
+	7NUHkZMgeonHWO/1rVEXkY0KU9qSL0uF0JK5bhUgTY0pRVvsIXoBYw+z6H8Vk0S8vZoa
+	ygDU97cRUjPgkM4fJOElMwRyk56/cwX06yzlnkxJyD25fvSQDBJlTbVZjs/8kUdfXasw
+	OHKW8xXKx0wCtPkgWaeu+Lx9zlfTUE8Cj6pdiyahzMvSx5+QA2iMCcenw0a5B5RHyfFw
+	SZdhvpTgXJRUAJyMOYLCZuLgGtrkbHj1hpV2dQ9GAfcizBHgueZXvOjhto2qtRLeFRY9
+	ZLRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=UzhplqlCoxpD6CnVEtNmQ5DCHPME3r7C4v3vlQLIRXw=;
-	b=MV5o5Jp0zJw/5m76DItuumzybWnp3N+wUieIHx3lEJqLvvS5kNhiEr6p7dIhVpta+u
-	zznRfatoC/DiyDmc3+t0VO62vJPAYpNdi7vlP0xoqd2jGaJHsFzmjoM/PefjFfHH0q52
-	7IyiQuV/nF12IsoDyP2VTgqVZm39uuiBI+o2/Mkf259AyFee9+7H4aQkOdt1iP8Cj5+Y
-	HvUCaTrZ9+bex+LAFLey8seC/6b/MUdrDxP3E72oyqiwiXXfifPCfbsmoXaw7ek2qOrm
-	rdzvGe8n0BYfkKnLueWfUyR5IWu1+NXpEuHJ6ljwKPAqdPrlg2DanRaSHyz/sJmcPWx0
-	u6Pw==
-X-Gm-Message-State: AOPr4FWrOkz2DYG0N6qhDaup+bOfDeAvl0i/WpQeIXRdX9+57DtJtQBbtea2MlmQcEyyOA==
-X-Received: by 10.98.90.7 with SMTP id o7mr60713543pfb.110.1462906917939;
-	Tue, 10 May 2016 12:01:57 -0700 (PDT)
-Received: from ?IPv6:2601:646:8800:5a9a:5c9e:1d92:71:ee77?
-	([2601:646:8800:5a9a:5c9e:1d92:71:ee77])
-	by smtp.gmail.com with ESMTPSA id
-	zs16sm6292158pab.13.2016.05.10.12.01.56
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 10 May 2016 12:01:56 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <VI1PR04MB1583BDC40DA6D580FE8F6C3591710@VI1PR04MB1583.eurprd04.prod.outlook.com>
-Date: Tue, 10 May 2016 12:02:10 -0700
-Message-Id: <02AD60DD-1B28-43A5-B5AD-8755233AA005@gmail.com>
-References: <VI1PR04MB1583BDC40DA6D580FE8F6C3591710@VI1PR04MB1583.eurprd04.prod.outlook.com>
-To: Neena Busireddy <neenareddy.busireddy@nxp.com>
-X-Mailer: Apple Mail (2.3124)
-Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: proposal: replace GLUT with FreeGLUT
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=t0SP7Uv+zP08YqJlJnQAeoCeKgo35P2ZXrzGX23UvSk=;
+	b=QKk8GgXQFOcc3/+wPPVEkzpnCD9531jtcIo5QCfG8K6M5qpnmOK7HVbHSEpTJ8F3Ic
+	RHHaATHoxmnbawH5LAZQ6AnTObuss9MHK0u56wpFdWeGcZqwpjfP3YNSRUSdKzJVLyHL
+	qUyZLgROjMgYuyrEDcm4QczdTlexYeSpECLpxYScAecAWSCUB1iEBgtpowNBeF5ETlaz
+	75Fjo0Gyn6xtDSh5YIGEgY2aa8UEKXyfy3m1oJVKlUWu/d2Jw9RKHH3NHX2Yr1y3jIWV
+	fC4b5jdD1w5ZiIVrCDDswDxEezrakfbxXRwbuKWqL+q3Q7vMWKmh97M/YAGBBw0o9eeA
+	phcg==
+X-Gm-Message-State: AOPr4FVwAeiXEB3Knj8qJePo3enhaBsv3E6CsCs9Dockdrp7X8igy1EfVF2PN91FR+FtwZrKTsQ0Oc74szWkhxrJ
+X-Received: by 10.50.119.67 with SMTP id ks3mr373108igb.78.1462915979901; Tue,
+	10 May 2016 14:32:59 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.162.6 with HTTP; Tue, 10 May 2016 14:32:40 -0700 (PDT)
+In-Reply-To: <1462824426-19768-1-git-send-email-tom.hochstein@nxp.com>
+References: <1462824426-19768-1-git-send-email-tom.hochstein@nxp.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 10 May 2016 22:32:40 +0100
+Message-ID: <CAJTo0LamyW7i_byya7HY3bi4uLYga1nFUTs7yvkpz42XXyMVtA@mail.gmail.com>
+To: Tom Hochstein <tom.hochstein@nxp.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] mesa-demos: OpenVG demos with single frame need eglSwapBuffer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,209 +53,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 May 2016 19:01:57 -0000
-X-Groupsio-MsgNum: 81819
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_C5CE991B-5B7C-460F-A7DC-64B05C09330E";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Tue, 10 May 2016 21:33:01 -0000
+Content-Type: multipart/alternative; boundary=089e011847f6519803053283abf7
 
---Apple-Mail=_C5CE991B-5B7C-460F-A7DC-64B05C09330E
-Content-Type: multipart/alternative;
-	boundary="Apple-Mail=_8C2B7B4F-3C91-4B17-A60B-0DECBAB701BE"
+--089e011847f6519803053283abf7
+Content-Type: text/plain; charset=UTF-8
 
---Apple-Mail=_8C2B7B4F-3C91-4B17-A60B-0DECBAB701BE
+On 9 May 2016 at 21:07, Tom Hochstein <tom.hochstein@nxp.com> wrote:
+
+> +Upstream status: Pending
+>
+
+This is a machine-readable tag, so please use the correct form
+Upstream-Status: Pending.
+
+We're collecting quite a list of patches, should we simply ensure they're
+all upstream and switch to git?
+
+Ross
+
+--089e011847f6519803053283abf7
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 9 May 2016 at 21:07, Tom Hochstein <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:tom.hochstein@nxp.com" target=3D"_blank">tom.hochstein@nxp.com</a>&gt;</=
+span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3i1" class=3D"a3=
+s aXjCH">+Upstream status: Pending<br></div></blockquote></div><br>This is =
+a machine-readable tag, so please use the correct form Upstream-Status: Pen=
+ding.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">=
+We&#39;re collecting quite a list of patches, should we simply ensure they&=
+#39;re all upstream and switch to git?</div><div class=3D"gmail_extra"><br>=
+</div><div class=3D"gmail_extra">Ross</div></div>
 
-> On May 10, 2016, at 11:12 AM, Neena Busireddy =
-<neenareddy.busireddy@nxp.com> wrote:
->=20
-> Hello,
->=20
-> GLUT is dead upstream for almost three years now ( =
-https://cgit.freedesktop.org/mesa/glut/ =
-<https://cgit.freedesktop.org/mesa/glut/>  ) and it makes sense to =
-replace GLUT with FreeGLUT .
-> Some of the reasons to replace with FreeGLUT are listed here :
-> http://freeglut.sourceforge.net/ <http://freeglut.sourceforge.net/>
->=20
-> Also, current mesa-glut recipe does not generate GLUT library. I =
-tested this when I enabled GLUT in mesa-demos.
->=20
-> I discussed this issue with Otavio and he suggested to replace GLUT =
-with FreeGLUT and upgrade mesa-demos to 8.3.
->=20
-> Any suggestions or thoughts?
-
-This is a good move. other distros use freeglut too so you can drive =
-some stability out of that
->=20
->=20
-> Thanks,
-> Neena
->=20
->=20
->=20
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org =
-<mailto:Openembedded-core@lists.openembedded.org>
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core =
-<http://lists.openembedded.org/mailman/listinfo/openembedded-core>
-
---Apple-Mail=_8C2B7B4F-3C91-4B17-A60B-0DECBAB701BE
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=us-ascii
-
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
-charset=3Dus-ascii"></head><body style=3D"word-wrap: break-word; =
--webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
-class=3D""><br class=3D""><div><blockquote type=3D"cite" class=3D""><div =
-class=3D"">On May 10, 2016, at 11:12 AM, Neena Busireddy &lt;<a =
-href=3D"mailto:neenareddy.busireddy@nxp.com" =
-class=3D"">neenareddy.busireddy@nxp.com</a>&gt; wrote:</div><br =
-class=3D"Apple-interchange-newline"><div class=3D""><div =
-class=3D"WordSection1" style=3D"page: WordSection1; font-family: Ubuntu; =
-font-size: 14px; font-style: normal; font-variant-caps: normal; =
-font-weight: normal; letter-spacing: normal; orphans: auto; text-align: =
-start; text-indent: 0px; text-transform: none; white-space: normal; =
-widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><div =
-style=3D"margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: =
-Calibri, sans-serif;" class=3D"">Hello,<o:p class=3D""></o:p></div><div =
-style=3D"margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: =
-Calibri, sans-serif;" class=3D""><o:p class=3D"">&nbsp;</o:p></div><div =
-style=3D"margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: =
-Calibri, sans-serif;" class=3D"">GLUT is dead upstream for almost three =
-years now (<span class=3D"Apple-converted-space">&nbsp;</span><a =
-href=3D"https://cgit.freedesktop.org/mesa/glut/" style=3D"color: purple; =
-text-decoration: underline;" =
-class=3D"">https://cgit.freedesktop.org/mesa/glut/</a>&nbsp; ) and it =
-makes sense to replace GLUT with FreeGLUT .<o:p =
-class=3D""></o:p></div><div style=3D"margin: 0in 0in 0.0001pt; =
-font-size: 11pt; font-family: Calibri, sans-serif;" class=3D"">Some of =
-the reasons to replace with FreeGLUT are listed here :<o:p =
-class=3D""></o:p></div><div style=3D"margin: 0in 0in 0.0001pt; =
-font-size: 11pt; font-family: Calibri, sans-serif;" class=3D""><a =
-href=3D"http://freeglut.sourceforge.net/" style=3D"color: purple; =
-text-decoration: underline;" =
-class=3D"">http://freeglut.sourceforge.net/</a><o:p =
-class=3D""></o:p></div><div style=3D"margin: 0in 0in 0.0001pt; =
-font-size: 11pt; font-family: Calibri, sans-serif;" class=3D""><o:p =
-class=3D"">&nbsp;</o:p></div><div style=3D"margin: 0in 0in 0.0001pt; =
-font-size: 11pt; font-family: Calibri, sans-serif;" class=3D"">Also, =
-current mesa-glut recipe does not generate GLUT library. I tested this =
-when I enabled GLUT in mesa-demos.<o:p class=3D""></o:p></div><div =
-style=3D"margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: =
-Calibri, sans-serif;" class=3D""><o:p class=3D"">&nbsp;</o:p></div><div =
-style=3D"margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: =
-Calibri, sans-serif;" class=3D"">I discussed this issue with Otavio and =
-he suggested to replace GLUT with FreeGLUT and upgrade mesa-demos to =
-8.3.<o:p class=3D""></o:p></div><div style=3D"margin: 0in 0in 0.0001pt; =
-font-size: 11pt; font-family: Calibri, sans-serif;" class=3D""><o:p =
-class=3D"">&nbsp;</o:p></div><div style=3D"margin: 0in 0in 0.0001pt; =
-font-size: 11pt; font-family: Calibri, sans-serif;" class=3D"">Any =
-suggestions or thoughts?</div></div></div></blockquote><div><br =
-class=3D""></div><div>This is a good move. other distros use freeglut =
-too so you can drive some stability out of that&nbsp;</div><blockquote =
-type=3D"cite" class=3D""><div class=3D""><div class=3D"WordSection1" =
-style=3D"page: WordSection1; font-family: Ubuntu; font-size: 14px; =
-font-style: normal; font-variant-caps: normal; font-weight: normal; =
-letter-spacing: normal; orphans: auto; text-align: start; text-indent: =
-0px; text-transform: none; white-space: normal; widows: auto; =
-word-spacing: 0px; -webkit-text-stroke-width: 0px;"><div style=3D"margin: =
-0in 0in 0.0001pt; font-size: 11pt; font-family: Calibri, sans-serif;" =
-class=3D""><o:p class=3D""></o:p></div><div style=3D"margin: 0in 0in =
-0.0001pt; font-size: 11pt; font-family: Calibri, sans-serif;" =
-class=3D""><o:p class=3D"">&nbsp;</o:p></div><div style=3D"margin: 0in =
-0in 0.0001pt; font-size: 11pt; font-family: Calibri, sans-serif;" =
-class=3D""><o:p class=3D"">&nbsp;</o:p></div><div style=3D"margin: 0in =
-0in 0.0001pt; font-size: 11pt; font-family: Calibri, sans-serif;" =
-class=3D"">Thanks,<o:p class=3D""></o:p></div><div style=3D"margin: 0in =
-0in 0.0001pt; font-size: 11pt; font-family: Calibri, sans-serif;" =
-class=3D"">Neena<o:p class=3D""></o:p></div><div style=3D"margin: 0in =
-0in 0.0001pt; font-size: 11pt; font-family: Calibri, sans-serif;" =
-class=3D""><o:p class=3D"">&nbsp;</o:p></div><div style=3D"margin: 0in =
-0in 0.0001pt; font-size: 11pt; font-family: Calibri, sans-serif;" =
-class=3D""><o:p class=3D"">&nbsp;</o:p></div><div style=3D"margin: 0in =
-0in 0.0001pt; font-size: 11pt; font-family: Calibri, sans-serif;" =
-class=3D""><o:p class=3D"">&nbsp;</o:p></div><div style=3D"margin: 0in =
-0in 0.0001pt; font-size: 11pt; font-family: Calibri, sans-serif;" =
-class=3D""><o:p class=3D"">&nbsp;</o:p></div></div><span =
-style=3D"font-family: Ubuntu; font-size: 14px; font-style: normal; =
-font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
-orphans: auto; text-align: start; text-indent: 0px; text-transform: =
-none; white-space: normal; widows: auto; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; float: none; display: inline =
-!important;" class=3D"">--<span =
-class=3D"Apple-converted-space">&nbsp;</span></span><br =
-style=3D"font-family: Ubuntu; font-size: 14px; font-style: normal; =
-font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
-orphans: auto; text-align: start; text-indent: 0px; text-transform: =
-none; white-space: normal; widows: auto; word-spacing: 0px; =
--webkit-text-stroke-width: 0px;" class=3D""><span style=3D"font-family: =
-Ubuntu; font-size: 14px; font-style: normal; font-variant-caps: normal; =
-font-weight: normal; letter-spacing: normal; orphans: auto; text-align: =
-start; text-indent: 0px; text-transform: none; white-space: normal; =
-widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: =
-none; display: inline !important;" =
-class=3D"">_______________________________________________</span><br =
-style=3D"font-family: Ubuntu; font-size: 14px; font-style: normal; =
-font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
-orphans: auto; text-align: start; text-indent: 0px; text-transform: =
-none; white-space: normal; widows: auto; word-spacing: 0px; =
--webkit-text-stroke-width: 0px;" class=3D""><span style=3D"font-family: =
-Ubuntu; font-size: 14px; font-style: normal; font-variant-caps: normal; =
-font-weight: normal; letter-spacing: normal; orphans: auto; text-align: =
-start; text-indent: 0px; text-transform: none; white-space: normal; =
-widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: =
-none; display: inline !important;" class=3D"">Openembedded-core mailing =
-list</span><br style=3D"font-family: Ubuntu; font-size: 14px; =
-font-style: normal; font-variant-caps: normal; font-weight: normal; =
-letter-spacing: normal; orphans: auto; text-align: start; text-indent: =
-0px; text-transform: none; white-space: normal; widows: auto; =
-word-spacing: 0px; -webkit-text-stroke-width: 0px;" class=3D""><a =
-href=3D"mailto:Openembedded-core@lists.openembedded.org" style=3D"color: =
-purple; text-decoration: underline; font-family: Ubuntu; font-size: =
-14px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; orphans: auto; text-align: start; =
-text-indent: 0px; text-transform: none; white-space: normal; widows: =
-auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;" =
-class=3D"">Openembedded-core@lists.openembedded.org</a><br =
-style=3D"font-family: Ubuntu; font-size: 14px; font-style: normal; =
-font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
-orphans: auto; text-align: start; text-indent: 0px; text-transform: =
-none; white-space: normal; widows: auto; word-spacing: 0px; =
--webkit-text-stroke-width: 0px;" class=3D""><a =
-href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core" =
-style=3D"color: purple; text-decoration: underline; font-family: Ubuntu; =
-font-size: 14px; font-style: normal; font-variant-caps: normal; =
-font-weight: normal; letter-spacing: normal; orphans: auto; text-align: =
-start; text-indent: 0px; text-transform: none; white-space: normal; =
-widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;" =
-class=3D"">http://lists.openembedded.org/mailman/listinfo/openembedded-cor=
-e</a></div></blockquote></div><br class=3D""></body></html>=
-
---Apple-Mail=_8C2B7B4F-3C91-4B17-A60B-0DECBAB701BE--
-
---Apple-Mail=_C5CE991B-5B7C-460F-A7DC-64B05C09330E
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlcyMDUACgkQuwUzVZGdMxSOOwCeNb7cbqUbHGH2zapKxVE8SAJ0
-vWIAn3YndaTpoIhJzEE1Hd/0tBeftWz7
-=xard
------END PGP SIGNATURE-----
-
---Apple-Mail=_C5CE991B-5B7C-460F-A7DC-64B05C09330E--
+--089e011847f6519803053283abf7--
