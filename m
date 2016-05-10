@@ -1,49 +1,46 @@
 Return-Path: <danismostlikely@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 715AE70022
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id E7FC473243
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 May 2016 16:03:44 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id g132so1254499pfb.3
+	Tue, 10 May 2016 16:04:50 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id r187so1485027pfr.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 May 2016 09:03:45 -0700 (PDT)
+	Tue, 10 May 2016 09:04:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=aG+RD7UfTxskThfQzK5Q5fyab+MdLiv2D5TrvGNerFs=;
-	b=AsnTkA5s87SmBAHi+Citm4wuFNBa4K/TwK9Sk2W/VHzXLVGSyrQoQ5gh74Ffi4t9rD
-	hpp0dyMEAM2nCBMinFahm2HQlAFGh5q7mup065C4GLwmrChsERUjUjy68eecb/hz2TAD
-	YGZdKXOIf5m7kolPNIQxRz9q4g/P+dtJM7bKK5/HYClUR/1XpLQeR3RPSS42Y94oMGHR
-	mtWIYeUy5kfevrOZbuCzP+woOImxL8J0lQ5QF9FSfYhOagHhgbxduuNeLpkIfvhXXLgI
-	BSgD5K9WS2YjWNKspxhSwjXQQQan4WE0b+GvRs5BjjXkWrnBNFOxe+B9KioHybhbbmEE
-	SgLw==
+	h=from:to:subject:date:message-id;
+	bh=xGyw36BGkoabzRuXPP+JVBCPA14lKh+SOGdFRo0eoxg=;
+	b=ayj+bdVl0g8lQfrAtD9aPOeYkVreW4RN1QItXaSAXKSKgOFHJ/O2O3WbbWdGJbBPmu
+	hGwVtKfQV/nHw0fht+W1mRYVQWvxPnvve/4z0K8MEmj9dFZibrB7qjXVa4I3TAAMgCiT
+	FdgBPA8Lc0ytc/iOTEZK4E2yGkzHdyOZUAwSzbZIQDo9suCzPxNlYPwqvR5yxQHUZBdR
+	lferDe6X5KlEOtrYpNul/oyTyRbIFWMTijRW2UlWYDxwrqwaBJ0dSlKyih5mCYcQsyCW
+	uBijEKiUi6BxQ7bUEOpaSUym4WtWOV4FNBcYwH/CThoD5I6ocbwBw0mux5gHdvSvZCSp
+	jE8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=aG+RD7UfTxskThfQzK5Q5fyab+MdLiv2D5TrvGNerFs=;
-	b=T5evPXyQpW24AvOB7Ms72D2AGdqnOR11UkWr4vQVtk/po8IT1jLwlfkJVuukPth8cM
-	h+tClDSDk7buKyA8yPGYucoogb3re0FcI7lH895wNWQ2Ns2ftH3aLa1Oz/acBV3lb1bm
-	PdjvlxR5wARaj5xLRDn2ZKceGNjd7YzaMVEgRkXL6cRL/J/sjKtyivMQopDx2lU7v0di
-	2VfEfGhGByMcdvXzZ/+S8MH3k52tcVkgRXvhKGlsAQQqBBt8UjDVvhTdf85lV2tGyNHX
-	C29lmdGx9+ZSVBLMuY95fvZ4VlqPsA+YV3xwE8ZmJwcI/h1GrIt8Uakk9BVi3RP4+0Js
-	aJMA==
-X-Gm-Message-State: AOPr4FWmkysJRqwAZqf+mDCT4/9syrIb8wQpMhybFXxCrWAYetEqhoy9rZHti1mkKx4Wig==
-X-Received: by 10.98.81.195 with SMTP id f186mr59622361pfb.30.1462896225599;
-	Tue, 10 May 2016 09:03:45 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=xGyw36BGkoabzRuXPP+JVBCPA14lKh+SOGdFRo0eoxg=;
+	b=HPaMA17s45oCw5RwHuU0ZdXjh2VEjqWLcwmfrMPfPTfdmEMQ7ti0Hm7qJzIU9edStY
+	QGtu/sYJeTDBb/EqiBxaQ74Cj7ROAdAkdshv9wKB2itRhc5fUMmunZYXH4vGdJkfqeBh
+	v9eG0WAvLFOc8oQ0eihnP73UC7HGXgqlDh9St7szDg4jzWlNolaWBVUHZ1AXDqCZVDo2
+	gxwvfM6J8FRadJoAgOP7DFcpEJNbl2vgRZXszFWaos72IXYld8AxA09NU0He74fjjcHt
+	GZ2aC+EH0g3R/F1BKtSr/DEMQJXGHKgV4gCWWx7XIbSyQbBW8lW83lsUWVGYrTHC8woo
+	f4OQ==
+X-Gm-Message-State: AOPr4FULhp+iqDsAJXGXtn43Ii+CgT8pnTrAISBAeDcBfc/2uJK/uif7uJoqF6tOexqlEA==
+X-Received: by 10.98.98.69 with SMTP id w66mr48860792pfb.20.1462896291379;
+	Tue, 10 May 2016 09:04:51 -0700 (PDT)
 Received: from mediabox.local (71-17-245-40.sktn.hsdb.sasknet.sk.ca.
 	[71.17.245.40]) by smtp.gmail.com with ESMTPSA id
-	to9sm5528651pab.27.2016.05.10.09.03.44
+	ez6sm5569097pab.12.2016.05.10.09.04.50
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 10 May 2016 09:03:44 -0700 (PDT)
+	Tue, 10 May 2016 09:04:50 -0700 (PDT)
 From: danismostlikely@gmail.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 May 2016 10:03:41 -0600
-Message-Id: <1462896221-15574-1-git-send-email-danismostlikely@gmail.com>
+Date: Tue, 10 May 2016 10:04:46 -0600
+Message-Id: <1462896289-15644-1-git-send-email-danismostlikely@gmail.com>
 X-Mailer: git-send-email 2.8.2
-In-Reply-To: <1462828461-8181-1-git-send-email-danismostlikely@gmail.com>
-References: <1462828461-8181-1-git-send-email-danismostlikely@gmail.com>
-Subject: [master][krogoth][PATCH v2 1/5] gcc-5.3: backport gperf fixes
+Subject: [master][krogoth][PATCH v2 2/5] gcc 4.9: backport gperf fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,7 +53,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 May 2016 16:03:45 -0000
+X-List-Received-Date: Tue, 10 May 2016 16:04:51 -0000
 
 From: Dan McGregor <danismostlikely@gmail.com>
 
@@ -70,34 +67,34 @@ is GCC 6.
 
 Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.com>
 ---
- meta/recipes-devtools/gcc/gcc-5.3.inc              |   1 +
- .../gcc/gcc-5.3/0059-remove-prototypes-cfns.patch  | 153 +++++++++++++++++++++
+ meta/recipes-devtools/gcc/gcc-4.9.inc              |   1 +
+ .../gcc/gcc-4.9/0075-remove-prototypes-cfns.patch  | 153 +++++++++++++++++++++
  2 files changed, 154 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-5.3/0059-remove-prototypes-cfns.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0075-remove-prototypes-cfns.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-5.3.inc b/meta/recipes-devtools/gcc/gcc-5.3.inc
-index 9808be1..3da7e54 100644
---- a/meta/recipes-devtools/gcc/gcc-5.3.inc
-+++ b/meta/recipes-devtools/gcc/gcc-5.3.inc
-@@ -88,6 +88,7 @@ SRC_URI = "\
-            file://0056-Enable-libc-provide-ssp-and-gcc_cv_target_dl_iterate.patch \
-            file://0057-unwind-fix-for-musl.patch \
-            file://0058-fdebug-prefix-map-support-to-remap-relative-path.patch \
-+           file://0059-remove-prototypes-cfns.patch \
+diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
+index 7e03f31..2be0599 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.9.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
+@@ -90,6 +90,7 @@ SRC_URI = "\
+     file://0072-support-ffile-prefix-map.patch \
+     file://0073-Reuse-fdebug-prefix-map-to-replace-ffile-prefix-map.patch \
+     file://0074-fdebug-prefix-map-support-to-remap-relative-path.patch \
++    file://0075-remove-prototypes-cfns.patch \
  "
- 
- BACKPORTS = ""
-diff --git a/meta/recipes-devtools/gcc/gcc-5.3/0059-remove-prototypes-cfns.patch b/meta/recipes-devtools/gcc/gcc-5.3/0059-remove-prototypes-cfns.patch
+ SRC_URI[md5sum] = "6f831b4d251872736e8e9cc09746f327"
+ SRC_URI[sha256sum] = "2332b2a5a321b57508b9031354a8503af6fdfb868b8c1748d33028d100a8b67e"
+diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0075-remove-prototypes-cfns.patch b/meta/recipes-devtools/gcc/gcc-4.9/0075-remove-prototypes-cfns.patch
 new file mode 100644
-index 0000000..2452b6f
+index 0000000..2954f2e
 --- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-5.3/0059-remove-prototypes-cfns.patch
++++ b/meta/recipes-devtools/gcc/gcc-4.9/0075-remove-prototypes-cfns.patch
 @@ -0,0 +1,153 @@
 +Upstream-Status: backport
 +
-+From 1e5f1089dec3af328fd03125d6778f666d0bd4e4 Mon Sep 17 00:00:00 2001
++From 8c3fa311caa86f61b4e28d1563d1110b44340fb2 Mon Sep 17 00:00:00 2001
 +From: edlinger <edlinger@138bc75d-0d04-0410-961f-82ee72b054a4>
-+Date: Thu, 25 Feb 2016 15:33:50 +0000
++Date: Thu, 25 Feb 2016 15:36:41 +0000
 +Subject: [PATCH] 2016-02-25  Bernd Edlinger  <bernd.edlinger@hotmail.de>
 +
 +        Backported from mainline
@@ -119,7 +116,7 @@ index 0000000..2452b6f
 + 5 files changed, 31 insertions(+), 37 deletions(-)
 +
 +diff --git a/gcc/cp/Make-lang.in b/gcc/cp/Make-lang.in
-+index e98beb1..b09fb02 100644
++index bd1c1d7..a0ea0d4 100644
 +--- a/gcc/cp/Make-lang.in
 ++++ b/gcc/cp/Make-lang.in
 +@@ -111,7 +111,7 @@ else
@@ -132,14 +129,14 @@ index 0000000..2452b6f
 + 
 + #
 +diff --git a/gcc/cp/cfns.gperf b/gcc/cp/cfns.gperf
-+index 68acd3d..214ecf6 100644
++index 05ca753..d9b16b8 100644
 +--- a/gcc/cp/cfns.gperf
 ++++ b/gcc/cp/cfns.gperf
 +@@ -1,3 +1,5 @@
 ++%language=C++
 ++%define class-name libc_name
 + %{
-+ /* Copyright (C) 2000-2015 Free Software Foundation, Inc.
++ /* Copyright (C) 2000-2014 Free Software Foundation, Inc.
 + 
 +@@ -16,14 +18,6 @@ for more details.
 + You should have received a copy of the GNU General Public License
@@ -157,7 +154,7 @@ index 0000000..2452b6f
 + %%
 + # The standard C library functions, for feeding to gperf; the result is used
 +diff --git a/gcc/cp/cfns.h b/gcc/cp/cfns.h
-+index 1c6665d..596f413 100644
++index c845ddf..65801d1 100644
 +--- a/gcc/cp/cfns.h
 ++++ b/gcc/cp/cfns.h
 +@@ -1,5 +1,5 @@
@@ -175,7 +172,7 @@ index 0000000..2452b6f
 +-#line 1 "cfns.gperf"
 ++#line 3 "cfns.gperf"
 + 
-+ /* Copyright (C) 2000-2015 Free Software Foundation, Inc.
++ /* Copyright (C) 2000-2014 Free Software Foundation, Inc.
 + 
 +@@ -47,25 +47,18 @@ for more details.
 + You should have received a copy of the GNU General Public License
@@ -230,10 +227,10 @@ index 0000000..2452b6f
 +   enum
 +     {
 +diff --git a/gcc/cp/except.c b/gcc/cp/except.c
-+index 3ff1ce6..2f2e396 100644
++index 221971a..32340f5 100644
 +--- a/gcc/cp/except.c
 ++++ b/gcc/cp/except.c
-+@@ -1040,7 +1040,8 @@ nothrow_libfn_p (const_tree fn)
++@@ -1030,7 +1030,8 @@ nothrow_libfn_p (const_tree fn)
 +      unless the system headers are playing rename tricks, and if
 +      they are, we don't want to be confused by them.  */
 +   id = DECL_NAME (fn);
