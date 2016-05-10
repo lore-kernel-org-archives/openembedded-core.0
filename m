@@ -1,48 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
-	[209.85.223.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 93BA46011A
+Return-Path: <tom.zanussi@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 891B360043
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 May 2016 21:43:10 +0000 (UTC)
-Received: by mail-io0-f173.google.com with SMTP id d62so32581599iof.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 May 2016 14:43:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=v7gQsY4PXO0xVlOsGkAJwzX8n/xS2NtOIuXnDUTHrVw=;
-	b=vNkX+LFiXSDwXfH0nOcexrY0tKUnca3cszAhyqVU38Bl7Qrm+aRmCvI3pllzbyhyie
-	gs1xauCOfQQS+zPgA83ggjIUo2ueU38D3IYKnxC8pB3mImCpklJxaeke0RTXoSLGtZGh
-	wMUtxg5UIiTGu2LcpsgDqYqgFsimWxPwAHVgiXNjlvoPPwrCLivaQfP+IGYQT4fus9qB
-	zEYkf5a0O/WoDgXLz0F0azdAOotF+NKiMmsbjYyPemCzY7nAcKbfXucFyKRBMz4Dt32N
-	Ep9NVB+EEbJdlsOjVav0Xd56l7xzJAYG0kkfzR3B93Lg0raIJEdcR03qeH5miubC6KGM
-	6/5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=v7gQsY4PXO0xVlOsGkAJwzX8n/xS2NtOIuXnDUTHrVw=;
-	b=mh96pWZwq1sI1nfTqC1Aewg+P/Ut69+xV/1D+BPjsFKTQoXtBV1Gj7mCYV7bLZoxHK
-	1rXS2YYuHZWXV4Asd85uHf4rAoFGJEyGK+XuTiwBGGQj2pJecoPZE9D8CWUXNMDuvcMP
-	G97xujklrmEqsmWtD4dkNSOm6ATGoSQXCqxQ4WI0/WpyeIFylGaTs7Q/9rprkNU8/Yit
-	T1yuuLc8etFYpfWW5R13bRjP8Vy6UkglD7N0H8pPeW/Faql9C4ciGkdXFnQ9fWup7Awy
-	fB1eFE6Fu+6P27XEwIRhESUPfiJ+GcxMf7Hqy1HM0Uk9z2hYJEVIU1CkOomf78/0QaAH
-	XpTQ==
-X-Gm-Message-State: AOPr4FVODOZUR5Zv88SldAEHuHBH6PezjgOAcdSA41XNPaCJTJdi8+I/SmtmUh6OKTDqyYqVSL63UJAbNC2kDtTL
-X-Received: by 10.107.135.211 with SMTP id r80mr346583ioi.133.1462916590997;
-	Tue, 10 May 2016 14:43:10 -0700 (PDT)
+	Tue, 10 May 2016 21:50:07 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga103.jf.intel.com with ESMTP; 10 May 2016 14:50:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,606,1455004800"; d="scan'208";a="803402675"
+Received: from tzanussi-mobl.amr.corp.intel.com ([10.254.118.22])
+	by orsmga003.jf.intel.com with ESMTP; 10 May 2016 14:50:06 -0700
+Message-ID: <5732578D.8040203@linux.intel.com>
+Date: Tue, 10 May 2016 16:50:05 -0500
+From: Tom Zanussi <tom.zanussi@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-Received: by 10.107.162.6 with HTTP; Tue, 10 May 2016 14:42:51 -0700 (PDT)
-In-Reply-To: <VI1PR04MB1583BDC40DA6D580FE8F6C3591710@VI1PR04MB1583.eurprd04.prod.outlook.com>
-References: <VI1PR04MB1583BDC40DA6D580FE8F6C3591710@VI1PR04MB1583.eurprd04.prod.outlook.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 10 May 2016 22:42:51 +0100
-Message-ID: <CAJTo0LY9C+-hkUxT5yTQkfMF5kggDByFabzxP-PEC=WzC9=_6A@mail.gmail.com>
-To: Neena Busireddy <neenareddy.busireddy@nxp.com>
-Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
-	"openembedded-core@lists.openembedded.org"
+To: liezhi.yang@windriver.com
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: proposal: replace GLUT with FreeGLUT
+Subject: [PATCH][jethro] Revert "kernel/kernel-arch: Explicitly mapping between, i386/x86_64 and x86 for kernel ARCH"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,71 +31,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 May 2016 21:43:11 -0000
-Content-Type: multipart/alternative; boundary=001a113ed20abe3991053283cfd3
+X-List-Received-Date: Tue, 10 May 2016 21:50:09 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
---001a113ed20abe3991053283cfd3
-Content-Type: text/plain; charset=UTF-8
+This reverts commit a6f52930a68d8462e23486d51cdda715072dd752.
 
-On 10 May 2016 at 19:12, Neena Busireddy <neenareddy.busireddy@nxp.com>
-wrote:
+In addition to also causing the problem in [YOCTO #9579], this commit
+was reverted in krogoth and master but wasn't reverted in jethro but
+should be.  The original revert message was:
 
-> GLUT is dead upstream for almost three years now (
-> https://cgit.freedesktop.org/mesa/glut/  ) and it makes sense to replace
-> GLUT with FreeGLUT .
->
-> Some of the reasons to replace with FreeGLUT are listed here :
->
-> http://freeglut.sourceforge.net/
->
->
->
-> Also, current mesa-glut recipe does not generate GLUT library. I tested
-> this when I enabled GLUT in mesa-demos.
->
->
->
-> I discussed this issue with Otavio and he suggested to replace GLUT with
-> FreeGLUT and upgrade mesa-demos to 8.3.
->
+This reverts commit 8d310b24927d0f348fb431895f0583733db2aad0.
 
-You might want to CC oe-devel too, as mesa-glut is part of meta-oe.
+That commit completely breaks KBUILD_DEFCONFIG because it relies on
+$ARCH to match between the target OE arch and the kernel subdirectory
+containing the defconfigs. In the kernel all defconfigs for everything
+x86-based (including x86_64) is stored in dir arch/x86/configs/
 
-I'm surprised that mesa-glut doesn't build the glut library, but I have no
-interest in glut so you can do whatever you want in my opinion. :)
+kernel-yocto.bbclass correctly searches for all the defconfigs inside
+${S}/arch/${ARCH}/configs/${KBUILD_DEFCONFIG}
 
-Ross
+Commit 8d310b249 makes it search in wrong places and _only_ if you
+define TARGET_ARCH = "athlon" will it search x86 which is nonsensical.
 
---001a113ed20abe3991053283cfd3
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+The commit further adds an if clause to hack the mungled kernel arches
+back to their original values (ugh) in do_shared_workdir which is run
+after do compile, but of course the build breaks before that in
+do_kernel_metadata because of the KBUILD_DEFCONFIG mentioned above (so
+that hack is useless).
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 10 May 2016 at 19:12, Neena Busireddy <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:neenareddy.busireddy@nxp.com" target=3D"_blank">neenareddy.busireddy@=
-nxp.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
-"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><p class=3D=
-"MsoNormal">GLUT is dead upstream for almost three years now ( <a href=3D"h=
-ttps://cgit.freedesktop.org/mesa/glut/" target=3D"_blank">
-https://cgit.freedesktop.org/mesa/glut/</a>=C2=A0 ) and it makes sense to r=
-eplace GLUT with FreeGLUT .<u></u><u></u></p>
-<p class=3D"MsoNormal">Some of the reasons to replace with FreeGLUT are lis=
-ted here :<u></u><u></u></p>
-<p class=3D"MsoNormal"><a href=3D"http://freeglut.sourceforge.net/" target=
-=3D"_blank">http://freeglut.sourceforge.net/</a>
-<u></u><u></u></p>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<p class=3D"MsoNormal">Also, current mesa-glut recipe does not generate GLU=
-T library. I tested this when I enabled GLUT in mesa-demos.<u></u><u></u></=
-p>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<p class=3D"MsoNormal">I discussed this issue with Otavio and he suggested =
-to replace GLUT with FreeGLUT and upgrade mesa-demos to 8.3.</p></blockquot=
-e></div><br>You might want to CC oe-devel too, as mesa-glut is part of meta=
--oe.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">I=
-&#39;m surprised that mesa-glut doesn&#39;t build the glut library, but I h=
-ave no interest in glut so you can do whatever you want in my opinion. :)</=
-div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</d=
-iv></div>
+Please fix that corner case bug in another way which does not completely
+screw up the kernel arch mapping & defconfig logic. If 64bit configs are
+generated in the kernel for 32bit machines because the host is asked,
+then it it a bug in the kernel, it is of no use to hack around it in OE.
 
---001a113ed20abe3991053283cfd3--
+(From OE-Core rev: bc02a478a5d4a5de7b3943ed809d5c22711f5b1f)
+
+Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
+---
+ meta/classes/kernel-arch.bbclass |  4 +---
+ meta/classes/kernel.bbclass      | 15 +++------------
+ 2 files changed, 4 insertions(+), 15 deletions(-)
+
+diff --git a/meta/classes/kernel-arch.bbclass b/meta/classes/kernel-arch.bbclass
+index d8b180e..3ed5986 100644
+--- a/meta/classes/kernel-arch.bbclass
++++ b/meta/classes/kernel-arch.bbclass
+@@ -21,9 +21,7 @@ def map_kernel_arch(a, d):
+ 
+     valid_archs = d.getVar('valid_archs', True).split()
+ 
+-    if   re.match('i.86$', a):                  return 'i386'
+-    elif re.match('x86.64$', a):                return 'x86_64'
+-    elif re.match('athlon$', a):                return 'x86'
++    if   re.match('(i.86|athlon|x86.64)$', a):  return 'x86'
+     elif re.match('armeb$', a):                 return 'arm'
+     elif re.match('aarch64$', a):               return 'arm64'
+     elif re.match('aarch64_be$', a):            return 'arm64'
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index ee3e9a0..5e8b6cf 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -309,18 +309,9 @@ do_shared_workdir () {
+ 		cp -fR include/generated/* $kerneldir/include/generated/
+ 	fi
+ 
+-	# When ARCH is set to i386 or x86_64, we need to map ARCH to the real name of src
+-	# dir (x86) under arch/ of kenrel tree, so that we can find correct source to copy.
+-
+-	if [ "${ARCH}" = "i386" ] || [ "${ARCH}" = "x86_64" ]; then
+-		KERNEL_SRCARCH=x86
+-	else
+-		KERNEL_SRCARCH=${ARCH}
+-	fi
+-
+-	if [ -d arch/${KERNEL_SRCARCH}/include/generated ]; then
+-		mkdir -p $kerneldir/arch/${KERNEL_SRCARCH}/include/generated/
+-		cp -fR arch/${KERNEL_SRCARCH}/include/generated/* $kerneldir/arch/${KERNEL_SRCARCH}/include/generated/
++	if [ -d arch/${ARCH}/include/generated ]; then
++		mkdir -p $kerneldir/arch/${ARCH}/include/generated/
++		cp -fR arch/${ARCH}/include/generated/* $kerneldir/arch/${ARCH}/include/generated/
+ 	fi
+ }
+ 
+-- 
+1.9.3
+
