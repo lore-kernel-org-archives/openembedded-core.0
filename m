@@ -1,49 +1,46 @@
 Return-Path: <danismostlikely@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id C503973232
+Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
+	[209.85.220.65])
+	by mail.openembedded.org (Postfix) with ESMTP id DF71B73216
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 May 2016 16:04:53 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id y7so1265237pfb.0
+	Tue, 10 May 2016 16:22:10 +0000 (UTC)
+Received: by mail-pa0-f65.google.com with SMTP id gh9so1230983pac.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 May 2016 09:04:54 -0700 (PDT)
+	Tue, 10 May 2016 09:22:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=v/ZDfoMNzIAE/oAGxnOC70HDLUqWtCxIc2G/UIy9j6c=;
-	b=AL0TK39KJ0oF2VQTDZg8QR4PraGV6f1y8sUfKk97DEC1Z2TdWlx5shajbK+Y0SBx9Z
-	l4wICC/QRf6SaKwq5R0pGseBZkhJSGYJatGjYkg1ZvX59NLv43VLsos8KqwHy2D31clP
-	rNM6cZfWjixC6nm461qQwC/nF5FYvs8zM+7V5tXpGxXImAIibiBVXxGJx6TrZNjnOt0i
-	vZoJOW/sljZJtfi2CootBhzyVW1dHyxrQwAf/4ZcNXkCE0bb0ZvoVXv5wxM8MLnKGLBS
-	YJU5TSCXNyOmJwaTPme/FFRYBX+UoGrwTmT2yUITtXsoKkmWy0cyhj1mF9WkE1c41NIx
-	WMkg==
+	h=from:to:subject:date:message-id;
+	bh=C2xk5zOEx6NVnsMuAwc1aNGxR4vo59KZr84XvY1YVNA=;
+	b=ru/3IKWyBVMbyxfCJCmua4teeVhReur8iuXlBNTdRD/noauBkDhBI6hWHzloJN8U2c
+	6JoB5GPs30Hu8/u3xVIg1iZVrfysV4BlNdEv8b/tI7q3kY4JzvhJkfy3eP+rQjLcsLWX
+	uSnxqluz4CKJ4uta0Mq5fcpPY4m2dGv09gKfw3SUBXZ4kdHyJQmBfBis8/5ifO941GiD
+	uo5uOOwKM68/VxS5uAjOxr5xQXqiwVXesEFLIBeIWNeXU83ltCHSIpszVknxgFib4Ozp
+	11zaz/QMp6zS8Tg89pqCwDQK/BWKOY+odYJFg29GAiqSqCEbyYM/t+HuloNKXixaNqJw
+	Ya6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=v/ZDfoMNzIAE/oAGxnOC70HDLUqWtCxIc2G/UIy9j6c=;
-	b=OMz1JDPDgiB6/Gpl8oES2jzLfP5muUhEXBeTLNnUU3Cytl+W0d4j1Rq0nwtj0p3gzK
-	gSQF6IXtWdrwWwUd64IG08D0/DOSeZaIAkIDo6Yj3AgOKH8KLeEloaSxN3QoLBOK4qA3
-	Rrug1OpzMpYxqgpZd9DMHXTbts7xZ1N0GUzUC3dlYLt+b/NYSHj1GfVRUgKrtIYt435a
-	f/M8tp37uf859e6XHitIZ5EpRO6HIMAI+lFGyB72q66IFpstzkEQGcblEbJYx1aE3e6x
-	Ks59Bro6HGGU6mgymtOwDxI+b4RRoaFJVtGrpobdzFtsdhm/lSltreU4mj6wqbiGlsfL
-	Iknw==
-X-Gm-Message-State: AOPr4FXdWkXMougW9mukPY3QgrbBUaKmXpTHGl1LbabYxK/GTvs219JUKPdMXHLLbx7agQ==
-X-Received: by 10.98.79.213 with SMTP id f82mr59016348pfj.65.1462896294199;
-	Tue, 10 May 2016 09:04:54 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=C2xk5zOEx6NVnsMuAwc1aNGxR4vo59KZr84XvY1YVNA=;
+	b=ZxF3yzO6ilY84RmTOMcktvPkXE9uIRiEMc/GDroMh3vKQ4yIgnXtsGYkIfr+7u9Wy9
+	hzyPEOQh43xZLmoBQC0lkY8Ypmf8p4CZHS6kkCZJt/sZKU2r9byQQfip1rmZKi0epTQm
+	t3Q2ZhzfB1FgVc46rFUxwy/rDZTUrIyp4tNO+IYq6Xos8ZCF6nLkfyTIGA3A8XbbRDy4
+	X8PH0Txta5TVUpZk4ccz/wfNjRATHIGQIC263pcOHextinccUK9LOKJX+4hCVxdoZBB9
+	8AnUuU7nZbmPQpqBufm6OeWngPhbcY8LNOX1gznb6JgtgVf15amk2fvesuKKCf4zOvEt
+	Zjlw==
+X-Gm-Message-State: AOPr4FVjpduIOZvUKv3JsYwIf8p8eo/Hh5BFwy0xUli8kfFCr/tu0a/qV0UGhdtWrZuIig==
+X-Received: by 10.66.148.2 with SMTP id to2mr59876217pab.72.1462897331411;
+	Tue, 10 May 2016 09:22:11 -0700 (PDT)
 Received: from mediabox.local (71-17-245-40.sktn.hsdb.sasknet.sk.ca.
-	[71.17.245.40]) by smtp.gmail.com with ESMTPSA id
-	ez6sm5569097pab.12.2016.05.10.09.04.53
+	[71.17.245.40])
+	by smtp.gmail.com with ESMTPSA id z9sm5594172pfa.84.2016.05.10.09.22.10
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 10 May 2016 09:04:53 -0700 (PDT)
+	Tue, 10 May 2016 09:22:10 -0700 (PDT)
 From: danismostlikely@gmail.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 May 2016 10:04:49 -0600
-Message-Id: <1462896289-15644-4-git-send-email-danismostlikely@gmail.com>
+Date: Tue, 10 May 2016 10:22:09 -0600
+Message-Id: <1462897329-21485-1-git-send-email-danismostlikely@gmail.com>
 X-Mailer: git-send-email 2.8.2
-In-Reply-To: <1462896289-15644-1-git-send-email-danismostlikely@gmail.com>
-References: <1462896289-15644-1-git-send-email-danismostlikely@gmail.com>
-Subject: [master][krogoth][PATCH 5/5] pkgconfig: fix build with host gcc 6
+Subject: [master][PATCH v2] pkgconfig: Fix build with gcc-6 and upgrade to 0.29.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,25 +53,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 May 2016 16:04:54 -0000
+X-List-Received-Date: Tue, 10 May 2016 16:22:11 -0000
 
 From: Dan McGregor <danismostlikely@gmail.com>
 
 From: Daniel McGregor <daniel.mcgregor@vecima.com>
 
-This simply disables the glib-2.0 warning identified by that recipe.
-This package depends on host glib, so we can't patch it.
+glib patch is backported from glib-2.0 upstream
+eventually we will throw it away once pkgconfig
+moves to newer glib
 
 Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/pkgconfig/pkgconfig_git.bb | 1 +
- 1 file changed, 1 insertion(+)
+ ...e-Move-warning-pragma-outside-of-function.patch | 39 ++++++++++++++++++++++
+ meta/recipes-devtools/pkgconfig/pkgconfig_git.bb   |  6 ++--
+ 2 files changed, 43 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/pkgconfig/pkgconfig/0001-gdate-Move-warning-pragma-outside-of-function.patch
 
+diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig/0001-gdate-Move-warning-pragma-outside-of-function.patch b/meta/recipes-devtools/pkgconfig/pkgconfig/0001-gdate-Move-warning-pragma-outside-of-function.patch
+new file mode 100644
+index 0000000..14c8293
+--- /dev/null
++++ b/meta/recipes-devtools/pkgconfig/pkgconfig/0001-gdate-Move-warning-pragma-outside-of-function.patch
+@@ -0,0 +1,39 @@
++From 946d36266d8a30f04fe34d3183bf4929141934d2 Mon Sep 17 00:00:00 2001
++From: coypu <coypu@sdf.org>
++Date: Wed, 2 Mar 2016 19:38:48 +0200
++Subject: [PATCH] gdate: Move warning pragma outside of function
++
++Commit 0817af40e8c74c721c30f6ef482b1f53d12044c7 breaks the build on
++older versions of GCC, which don't allow pragma inside functions.
++
++https://bugzilla.gnome.org/761550
++---
++Upstream-Status: Backport
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++ glib/glib/gdate.c | 5 +++++
++ 1 file changed, 5 insertions(+)
++
++diff --git a/glib/glib/gdate.c b/glib/glib/gdate.c
++index 1978cf7..20e6c4a 100644
++--- a/glib/glib/gdate.c
+++++ b/glib/glib/gdate.c
++@@ -2439,6 +2439,9 @@ win32_strftime_helper (const GDate     *d,
++  *
++  * Returns: number of characters written to the buffer, or 0 the buffer was too small
++  */
+++#pragma GCC diagnostic push
+++#pragma GCC diagnostic ignored "-Wformat-nonliteral"
+++
++ gsize     
++ g_date_strftime (gchar       *s, 
++                  gsize        slen, 
++@@ -2549,3 +2552,5 @@ g_date_strftime (gchar       *s,
++   return retval;
++ #endif
++ }
+++
+++#pragma GCC diagnostic pop
++-- 
++1.9.1
++
 diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
-index d34f608..88c99cd 100644
+index d34f608..f654eee 100644
 --- a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
 +++ b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
-@@ -27,6 +27,7 @@ inherit autotools
+@@ -12,12 +12,13 @@ DEPENDS = "glib-2.0"
+ DEPENDS_class-native = ""
+ DEPENDS_class-nativesdk = ""
+ 
+-SRCREV = "5914edfe9604abfedd220103cbac382fc4d268bb"
+-PV = "0.29+git${SRCPV}"
++SRCREV = "87152c05be88ca8be71a3a563f275b3686d32c28"
++PV = "0.29.1+git${SRCPV}"
+ 
+ SRC_URI = "git://anongit.freedesktop.org/pkg-config \
+            file://pkg-config-native.in \
+            file://fix-glib-configure-libtool-usage.patch \
++           file://0001-gdate-Move-warning-pragma-outside-of-function.patch \
+            "
+ 
+ S = "${WORKDIR}/git"
+@@ -27,6 +28,7 @@ inherit autotools
  EXTRA_OECONF = "--without-internal-glib"
  EXTRA_OECONF_class-native = "--with-internal-glib"
  EXTRA_OECONF_class-nativesdk = "--with-internal-glib"
