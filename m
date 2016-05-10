@@ -1,52 +1,63 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f180.google.com (mail-pf0-f180.google.com
-	[209.85.192.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D64D6FF3D
+Return-Path: <neenareddy.busireddy@nxp.com>
+X-Greylist: delayed 946 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 10 May 2016 18:28:21 UTC
+Received: from emea01-db3-obe.outbound.protection.outlook.com
+	(mail-db3on0070.outbound.protection.outlook.com [157.55.234.70])
+	by mail.openembedded.org (Postfix) with ESMTP id 240A46072C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 May 2016 17:34:31 +0000 (UTC)
-Received: by mail-pf0-f180.google.com with SMTP id y69so8102915pfb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 May 2016 10:34:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=B2D8J3N9b6I6gwkawyQyXGIkVxEcvd3V+F8NroYztTc=;
-	b=VQrd/VQkAtHP9tdp03ATMU50kcaWvZADIt6qPuoFjfIcqZZfRcsBNdEhy/e0XArN9V
-	p0xLpAj0ihiow8u70PSmm0a1tRhJwYM60RDHWzo1jXLYuQ9n1mRq0z+p/uksnG7lKiMj
-	k+gZFKctONGZstaCVSTgLwThcQ2FEywSRgZ7bCjqg3doL9zxxRDmbm7NNxY1gbkHLGRR
-	ZDyYkhT0Bx6bL16QhqZczL7DNp58ZNMKL7NZ25AECncsMshgBsDckh82i6pOWjaUSp45
-	9Oe41CFdMmHlJWrglDea8dtMPjIQAzQeGsbtMqaVM8Wcmlsqn5l65KigITHgf8MymwNb
-	mmKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=B2D8J3N9b6I6gwkawyQyXGIkVxEcvd3V+F8NroYztTc=;
-	b=h7nXrlptN7TRnau1419IHHaQAQkGkqLd3IezhhaEa59PezltEMCJ0LUEOWMTp7VLd5
-	zSg9xka8OfpZbaSOqV+Ysct7G4JeIZ/FjGaakahZdYhYe0sOMe4cFXfRjilLArZJVTXg
-	K8R9npTKyCWS47FlPpmogxJPWS93Z66iehKSudqgjEr4rmKlZKLMcWi717x2lR5V9EK6
-	HqKAlhv0/TvqncKZM6wM/6hx3uUrcfQjvJ8bUoNX3HTfdMIP1z5W7R28yAjW4x8AXQOQ
-	6g7UdnD70mc+iuzb+5UZnCcEH+JYl19dwfd5v/9sf2gZvoPxjiBnuhpiZfRafib4L4NO
-	MFmw==
-X-Gm-Message-State: AOPr4FXds89HoN1ZShnCKiVJ6pofDt5eGCmWqX+7lzxfSWH9v3U7g90yJekMUtDSdSbh4w==
-X-Received: by 10.98.29.137 with SMTP id d131mr60220991pfd.2.1462901672646;
-	Tue, 10 May 2016 10:34:32 -0700 (PDT)
-Received: from ?IPv6:2601:646:8800:5a9a:849:3ad9:b6cc:ba75?
-	([2601:646:8800:5a9a:849:3ad9:b6cc:ba75])
-	by smtp.gmail.com with ESMTPSA id
-	p187sm5984985pfb.3.2016.05.10.10.34.31
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 10 May 2016 10:34:31 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1462897329-21485-1-git-send-email-danismostlikely@gmail.com>
-Date: Tue, 10 May 2016 10:34:43 -0700
-Message-Id: <9ACA7F12-D225-4D8D-AA96-B03F5356FB29@gmail.com>
-References: <1462897329-21485-1-git-send-email-danismostlikely@gmail.com>
-To: danismostlikely@gmail.com
-X-Mailer: Apple Mail (2.3124)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [master][PATCH v2] pkgconfig: Fix build with gcc-6 and upgrade to 0.29.1
+	Tue, 10 May 2016 18:28:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com; 
+	s=selector1-nxp-com;
+	h=From:To:Date:Subject:Message-ID:Content-Type:MIME-Version;
+	bh=IZNAJl1YRFkUS3nkOcYYT8eH0wlfQIi+O2uQYwx78Ss=;
+	b=wZ+r/4jEwZqTNoGJ3SCzfGYVouzb3eQB9/xfvLcLXi535Pq3VIcT/sCu+4OAalo60lbrBns+DJm3hgv2I7J0F64R7xuUE+AmBtQWHGBOnAsaNwzMB5iy57C6LfA3hK3KdllBtfAozkR/vsNHBjcGHEEKr3cGbGvK7gi7t+rxbmI=
+Received: from VI1PR04MB1583.eurprd04.prod.outlook.com (10.164.84.141) by
+	VI1PR04MB1583.eurprd04.prod.outlook.com (10.164.84.141) with Microsoft
+	SMTP Server (TLS) id 15.1.492.11; Tue, 10 May 2016 18:12:34 +0000
+Received: from VI1PR04MB1583.eurprd04.prod.outlook.com ([10.164.84.141]) by
+	VI1PR04MB1583.eurprd04.prod.outlook.com ([10.164.84.141]) with mapi id
+	15.01.0492.016; Tue, 10 May 2016 18:12:34 +0000
+From: Neena Busireddy <neenareddy.busireddy@nxp.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] proposal: replace GLUT with FreeGLUT
+Thread-Index: AdGq54YcQBQPfsyrS+qvQPveYmH1oA==
+Date: Tue, 10 May 2016 18:12:34 +0000
+Message-ID: <VI1PR04MB1583BDC40DA6D580FE8F6C3591710@VI1PR04MB1583.eurprd04.prod.outlook.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: lists.openembedded.org; dkim=none (message not signed)
+	header.d=none; lists.openembedded.org;
+	dmarc=none action=none header.from=nxp.com;
+x-originating-ip: [192.88.168.49]
+x-ms-office365-filtering-correlation-id: cd3be866-1287-4e66-a271-08d378fea96b
+x-microsoft-exchange-diagnostics: 1; VI1PR04MB1583;
+	5:TMtGpRTJzSNrhYFJXiFhsZirlOy/iuczQFcKHoW5l4e9GK8AhXzvwsKLRuibV/BNEW4Qcx5FDUuO09zZ8W/2NY3k30mlGXhFziuDma6ROLBb3fAfXK8pPa1JavE7z2dBKbhJ2D0eCcIwjTE45hHtMg==;
+	24:9fNE4ENLVSZBNRnoavSG17R4Q0vLdDSie7wTTsGm82iP9v1ODqtPX2AB1xmxhM0Fs1n+2pCofHQGGp3D+hSjKL6/y/8QV2E7WsTVHS5qa7k=;
+	7:72tBZauybme2nYkHfOf2qkPM6aWEws4vGtaS3xesSAn1hmTn1l9ohvwDp/+S/5IWgJhiTatVBNoLWyreQk4YlykzVFLspHLwtbxKVM1S3cc8ogfkDhI+iR6CF3reLmHDHETEp8gkeG72Gc1B9q4FAjeuD0hR6aB0xSSqYzydow/AD/UOtwlW4zLlY0csx/tR
+x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:VI1PR04MB1583;
+x-microsoft-antispam-prvs: <VI1PR04MB1583BC7E4A9D534F1ED59DBE91710@VI1PR04MB1583.eurprd04.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:;
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(601004)(2401047)(5005006)(8121501046)(3002001)(10201501046)(6055026);
+	SRVR:VI1PR04MB1583; BCL:0; PCL:0; RULEID:; SRVR:VI1PR04MB1583; 
+x-forefront-prvs: 0938781D02
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(5002640100001)(19625215002)(33656002)(586003)(6116002)(18717965001)(102836003)(790700001)(16236675004)(3846002)(1220700001)(11100500001)(3660700001)(9326002)(9686002)(2900100001)(8936002)(3280700002)(76576001)(2501003)(122556002)(5003600100002)(19300405004)(4326007)(5008740100001)(19580395003)(50986999)(92566002)(2906002)(19609705001)(54356999)(19617315012)(86362001)(5004730100002)(10400500002)(66066001)(77096005)(15975445007)(2351001)(229853001)(189998001)(110136002)(81166006);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR04MB1583;
+	H:VI1PR04MB1583.eurprd04.prod.outlook.com; FPR:; SPF:None;
+	MLV:sfv; LANG:en; 
+spamdiagnosticoutput: 1:23
+spamdiagnosticmetadata: NSPM
+MIME-Version: 1.0
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 May 2016 18:12:34.6926 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB1583
+Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Subject: proposal: replace GLUT with FreeGLUT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,151 +70,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 May 2016 17:34:34 -0000
-X-Groupsio-MsgNum: 81817
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_1F58AAF6-1D74-40FB-9A30-8C5FFC30A984";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Tue, 10 May 2016 18:28:22 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_VI1PR04MB1583BDC40DA6D580FE8F6C3591710VI1PR04MB1583eurp_"
 
---Apple-Mail=_1F58AAF6-1D74-40FB-9A30-8C5FFC30A984
+--_000_VI1PR04MB1583BDC40DA6D580FE8F6C3591710VI1PR04MB1583eurp_
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
 
-Please look into my gcc-6 branch, this is fixed with
+Hello,
 
-=
-http://git.openembedded.org/openembedded-core-contrib/commit/?h=3Dkraj/gcc=
--6&id=3D64ff9cec84c28348fda7ec5b8e1d98cfe94c7949
+GLUT is dead upstream for almost three years now ( https://cgit.freedesktop=
+.org/mesa/glut/  ) and it makes sense to replace GLUT with FreeGLUT .
+Some of the reasons to replace with FreeGLUT are listed here :
+http://freeglut.sourceforge.net/
 
-> On May 10, 2016, at 9:22 AM, danismostlikely@gmail.com wrote:
->=20
-> From: Dan McGregor <danismostlikely@gmail.com>
->=20
-> From: Daniel McGregor <daniel.mcgregor@vecima.com>
->=20
-> glib patch is backported from glib-2.0 upstream
-> eventually we will throw it away once pkgconfig
-> moves to newer glib
->=20
-> Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.com>
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
-> ...e-Move-warning-pragma-outside-of-function.patch | 39 =
-++++++++++++++++++++++
-> meta/recipes-devtools/pkgconfig/pkgconfig_git.bb   |  6 ++--
-> 2 files changed, 43 insertions(+), 2 deletions(-)
-> create mode 100644 =
-meta/recipes-devtools/pkgconfig/pkgconfig/0001-gdate-Move-warning-pragma-o=
-utside-of-function.patch
->=20
-> diff --git =
-a/meta/recipes-devtools/pkgconfig/pkgconfig/0001-gdate-Move-warning-pragma=
--outside-of-function.patch =
-b/meta/recipes-devtools/pkgconfig/pkgconfig/0001-gdate-Move-warning-pragma=
--outside-of-function.patch
-> new file mode 100644
-> index 0000000..14c8293
-> --- /dev/null
-> +++ =
-b/meta/recipes-devtools/pkgconfig/pkgconfig/0001-gdate-Move-warning-pragma=
--outside-of-function.patch
-> @@ -0,0 +1,39 @@
-> +=46rom 946d36266d8a30f04fe34d3183bf4929141934d2 Mon Sep 17 00:00:00 =
-2001
-> +From: coypu <coypu@sdf.org>
-> +Date: Wed, 2 Mar 2016 19:38:48 +0200
-> +Subject: [PATCH] gdate: Move warning pragma outside of function
-> +
-> +Commit 0817af40e8c74c721c30f6ef482b1f53d12044c7 breaks the build on
-> +older versions of GCC, which don't allow pragma inside functions.
-> +
-> +https://bugzilla.gnome.org/761550
-> +---
-> +Upstream-Status: Backport
-> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> +
-> + glib/glib/gdate.c | 5 +++++
-> + 1 file changed, 5 insertions(+)
-> +
-> +diff --git a/glib/glib/gdate.c b/glib/glib/gdate.c
-> +index 1978cf7..20e6c4a 100644
-> +--- a/glib/glib/gdate.c
-> ++++ b/glib/glib/gdate.c
-> +@@ -2439,6 +2439,9 @@ win32_strftime_helper (const GDate     *d,
-> +  *
-> +  * Returns: number of characters written to the buffer, or 0 the =
-buffer was too small
-> +  */
-> ++#pragma GCC diagnostic push
-> ++#pragma GCC diagnostic ignored "-Wformat-nonliteral"
-> ++
-> + gsize
-> + g_date_strftime (gchar       *s,
-> +                  gsize        slen,
-> +@@ -2549,3 +2552,5 @@ g_date_strftime (gchar       *s,
-> +   return retval;
-> + #endif
-> + }
-> ++
-> ++#pragma GCC diagnostic pop
-> +--
-> +1.9.1
-> +
-> diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb =
-b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
-> index d34f608..f654eee 100644
-> --- a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
-> +++ b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
-> @@ -12,12 +12,13 @@ DEPENDS =3D "glib-2.0"
-> DEPENDS_class-native =3D ""
-> DEPENDS_class-nativesdk =3D ""
->=20
-> -SRCREV =3D "5914edfe9604abfedd220103cbac382fc4d268bb"
-> -PV =3D "0.29+git${SRCPV}"
-> +SRCREV =3D "87152c05be88ca8be71a3a563f275b3686d32c28"
-> +PV =3D "0.29.1+git${SRCPV}"
->=20
-> SRC_URI =3D "git://anongit.freedesktop.org/pkg-config \
->            file://pkg-config-native.in \
->            file://fix-glib-configure-libtool-usage.patch \
-> +           =
-file://0001-gdate-Move-warning-pragma-outside-of-function.patch \
->            "
->=20
-> S =3D "${WORKDIR}/git"
-> @@ -27,6 +28,7 @@ inherit autotools
-> EXTRA_OECONF =3D "--without-internal-glib"
-> EXTRA_OECONF_class-native =3D "--with-internal-glib"
-> EXTRA_OECONF_class-nativesdk =3D "--with-internal-glib"
-> +CFLAGS_append_class-native =3D " -Wno-error=3Dformat-nonliteral"
->=20
-> acpaths =3D "-I ."
->=20
-> --
-> 2.8.2
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Also, current mesa-glut recipe does not generate GLUT library. I tested thi=
+s when I enabled GLUT in mesa-demos.
+
+I discussed this issue with Otavio and he suggested to replace GLUT with Fr=
+eeGLUT and upgrade mesa-demos to 8.3.
+
+Any suggestions or thoughts?
 
 
---Apple-Mail=_1F58AAF6-1D74-40FB-9A30-8C5FFC30A984
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
+Thanks,
+Neena
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlcyG7cACgkQuwUzVZGdMxQHEQCeNANhKM6phwX5JgywzoKdh6H8
-NxQAnjOXuNZW71W43UTONWaz/zFbLFK4
-=ymP+
------END PGP SIGNATURE-----
 
---Apple-Mail=_1F58AAF6-1D74-40FB-9A30-8C5FFC30A984--
+
+
+--_000_VI1PR04MB1583BDC40DA6D580FE8F6C3591710VI1PR04MB1583eurp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 12 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri","sans-serif";
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">Hello,<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">GLUT is dead upstream for almost three years now ( <=
+a href=3D"https://cgit.freedesktop.org/mesa/glut/">
+https://cgit.freedesktop.org/mesa/glut/</a>&nbsp; ) and it makes sense to r=
+eplace GLUT with FreeGLUT .<o:p></o:p></p>
+<p class=3D"MsoNormal">Some of the reasons to replace with FreeGLUT are lis=
+ted here :<o:p></o:p></p>
+<p class=3D"MsoNormal"><a href=3D"http://freeglut.sourceforge.net/">http://=
+freeglut.sourceforge.net/</a>
+<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Also, current mesa-glut recipe does not generate GLU=
+T library. I tested this when I enabled GLUT in mesa-demos.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">I discussed this issue with Otavio and he suggested =
+to replace GLUT with FreeGLUT and upgrade mesa-demos to 8.3.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Any suggestions or thoughts?<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Thanks,<o:p></o:p></p>
+<p class=3D"MsoNormal">Neena<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_VI1PR04MB1583BDC40DA6D580FE8F6C3591710VI1PR04MB1583eurp_--
