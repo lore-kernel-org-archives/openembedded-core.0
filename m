@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 125066E6B1
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C12CB6E6B1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 May 2016 08:14:07 +0000 (UTC)
+	Tue, 10 May 2016 08:14:08 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u4A8E7f2025945
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u4A8E8BR022798
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 May 2016 01:14:07 -0700 (PDT)
+	Tue, 10 May 2016 01:14:09 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 10 May 2016 01:14:06 -0700
+	Tue, 10 May 2016 01:14:07 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 10 May 2016 01:13:58 -0700
-Message-ID: <cover.1462867278.git.liezhi.yang@windriver.com>
+Date: Tue, 10 May 2016 01:13:59 -0700
+Message-ID: <a3a4ecac5e2b86715220ca18e6fdffef9de2c151.1462867278.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1462867278.git.liezhi.yang@windriver.com>
+References: <cover.1462867278.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [RFC PATCH 0/8] [WIP] runqemu/runqemu-internal: refactor it
+Subject: [RFC PATCH 1/8] qemu-boot.bbclass: add it for runqemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,110 +36,90 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 10 May 2016 08:14:08 -0000
 Content-Type: text/plain
 
-Hello,
+It saves vars in ${DEPLOY_DIR_IMAGE}/qemu-boot, and scritps/runqemu will
+invoke it, so that runqemu can work easier.
 
-This is still WIP, I send this out to make sure that I won't walk on
-wrong way too far. Please feel free to give any comments.
+The class will be inherited when QEMU_BOOT_SUPPORTED = "1", default 0
+which is set in bitbake.conf.
 
-TODO:
-* Update the one which uses runqemu, such as oeqa
-* Boot EFI image
-* Boot multilib image such as lib32-foo
-* Change the vars name such as QEMU_SYSTEM_OPTIONS and
-  QEMU_SECOND_SERIAL_OPT
-* More testing
-
-
-=== Taken from patch 8/8's commit message:
-* Why refactor
-  The old runqemu had hardcoded machine knowledge, which limited its
-  usage, for example, qemu-system-foo can boot the target, but runqemu
-  can't, and we need edit runqemu/runqemu-internal a lot to support boot
-  it.
-
-* Brief introduction on implemention
-  The basic thought is that, machine/bsp developer knows clearly on
-  whether qemu can boot the target or not (QEMU_BOOT_SUPPORTED = "1" or
-  "0"), and how to boot it, so we leave these settings in the machine's
-  configuration.
-  - qemu-boot.bbclass will write machine's info to
-    ${DEPLOY_DIR_IMAGE}/qemu-boot, and runqemu will invoke it.
-  - We need use "runqemu -m <machine>" rather than "runqemu <machine>"
-    since the scripts knows nothing about machine any more, and the
-    similar to other old options, this is good for future's extension.
-  - I have updated all the machine's configuration except qemush4, since
-    I can't find this machine anywhere.
-  - Several machines such as genericx86 and genericx86-64 can be boot by
-    new runqemu without any changes.
-  - Added help info for supported options such as slirp and audio.
-
-* Usage
-Usage: runqemu <options>
-    -m <machine>, specify machine
-    -k <kernel>, specify kernel
-    -r <rootfs>, specify disk image, rootfs or nfs dir
-    -t <fstype>, specify fstypes, supported types:
-                 ext[234], jffs2, btrfs, cpio.gz(ramfs), cpio, hddimg,
-                 hdddirect, vmdk, wic, qcow2, vdi
-    -n, nographic, disables video console
-    -K, enable KVM when running x86 and x86-64 (VT-capable CPU required)
-    -V, enables KVM with VHOST support when running x86 and x86-64 (VT-capable CPU required)
-    -v, publicvnc - enable a VNC server open to all hosts
-    -u, slirp mode, use user mode networking (no root privilege is required)
-    -a, support audio
-    -s, enable a serial console on /dev/ttyS0
-    -q <qemuparams> - specify custom parameters to QEMU
-    -b <bootparams> - specify custom kernel parameters during boot
-    -p <portnum>, tcp serial port number
-    -B <biosdir>, bios directory
-    -F <biosfilename>, bios filename.
-
-    Examples:
-      runqemu -m qemuarm -n
-      runqemu -m qemuarm -t ext4
-      runqemu -m qemux86-64 -r core-image-sato -t ext4
-      runqemu -m qemux86 -r path/to/nfsrootdir/
-      runqemu -r path/to/deploy/dir/image/file.vmdk
-      runqemu -m qemumips -q "-m 256"
-      runqemu -m qemuppc -b "psplash=false"
-
-// Robert
-
-The following changes since commit ece101be5158beee709cdfbb85ecdbdc8d9fb864:
-
-  test-empty-image: Fix LIC_FILES_CHKSUM typo (2016-05-06 10:47:59 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/runqemu
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/runqemu
-
-Robert Yang (8):
-  qemu-boot.bbclass: add it for runqemu
-  qemu.inc: set QEMU_BOOT_SUPPORTED to 1
-  qemuarm.conf: set vars for runqemu
-  arch-arm64.inc: set vars for runqemu
-  arch-x86.inc: set vars for runqemu
-  arch-mips.inc: set vars for runqemu
-  arch-powerpc.inc: set vars for runqemu
-  runqemu/runqemu-internal: refactor it
-
- meta/classes/image.bbclass                         |   3 +
- meta/classes/qemu-boot.bbclass                     |  39 ++
- meta/conf/bitbake.conf                             |   3 +
- meta/conf/machine/include/arm/arch-arm64.inc       |   7 +
- meta/conf/machine/include/arm/arch-armv6.inc       |   2 +
- meta/conf/machine/include/mips/arch-mips.inc       |   5 +
- meta/conf/machine/include/powerpc/arch-powerpc.inc |   5 +
- meta/conf/machine/include/qemu.inc                 |   2 +
- meta/conf/machine/include/tune-cortexa8.inc        |   2 +
- meta/conf/machine/include/x86/arch-x86.inc         |   6 +
- meta/conf/machine/qemuarm.conf                     |   3 +
- scripts/runqemu                                    | 603 +++++++-----------
- scripts/runqemu-internal                           | 678 +++++++--------------
- 13 files changed, 505 insertions(+), 853 deletions(-)
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/classes/image.bbclass     |  3 +++
+ meta/classes/qemu-boot.bbclass | 39 +++++++++++++++++++++++++++++++++++++++
+ meta/conf/bitbake.conf         |  3 +++
+ 3 files changed, 45 insertions(+)
  create mode 100644 meta/classes/qemu-boot.bbclass
 
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 4542e95..2985d5e 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -22,6 +22,9 @@ INHIBIT_DEFAULT_DEPS = "1"
+ TESTIMAGECLASS = "${@base_conditional('TEST_IMAGE', '1', 'testimage-auto', '', d)}"
+ inherit ${TESTIMAGECLASS}
+ 
++QEMU_BOOT_CLASS = "${@base_conditional('QEMU_BOOT_SUPPORTED', '1', 'qemu-boot', '', d)}"
++inherit ${QEMU_BOOT_CLASS}
++
+ # IMAGE_FEATURES may contain any available package group
+ IMAGE_FEATURES ?= ""
+ IMAGE_FEATURES[type] = "list"
+diff --git a/meta/classes/qemu-boot.bbclass b/meta/classes/qemu-boot.bbclass
+new file mode 100644
+index 0000000..efee12c
+--- /dev/null
++++ b/meta/classes/qemu-boot.bbclass
+@@ -0,0 +1,39 @@
++QEMU_NAME ?= ""
++QEMU_MAHINE_SUBTYPE ?= ""
++QEMU_CPU_SUBTYPE ?= ""
++QEMU_CPU_SUBTYPE_KVM ?= ""
++QEMU_MEM ?= "-m 256"
++QEMU_SYSTEM_OPTIONS ?= ""
++QEMU_SECOND_SERIAL_OPT ?= "-serial mon:stdio -serial null"
++QEMU_KERNEL_OPTIONS ?= ""
++QEMU_DEFAULT_KERNEL ?= "${KERNEL_IMAGETYPE}-${MACHINE}.bin"
++QEMU_DEFAULT_FSTYPE ?= "ext4"
++QEMU_DTB ?= ""
++QEMU_UI_OPTIONS ?= "-show-cursor -usb -usbdevice tablet"
++
++QEMU_OPTIONS ?= "${QEMU_SYSTEM_OPTIONS} ${QEMU_MEM} ${QEMU_MAHINE_SUBTYPE}"
++
++do_qemu_vars[dirs] = "${DEPLOY_DIR_IMAGE}"
++do_qemu_vars() {
++cat > ${DEPLOY_DIR_IMAGE}/qemu-boot <<_EOF
++QEMU_NAME="${QEMU_NAME}"
++QEMU_OPTIONS="${QEMU_OPTIONS}"
++TUNE_ARCH="${TUNE_ARCH}"
++QEMU_DEFAULT_KERNEL="${QEMU_DEFAULT_KERNEL}"
++QEMU_DEFAULT_FSTYPE="${QEMU_DEFAULT_FSTYPE}"
++QEMU_MEM="${QEMU_MEM}"
++QEMU_CPU_SUBTYPE="${QEMU_CPU_SUBTYPE}"
++QEMU_CPU_SUBTYPE_KVM="${QEMU_CPU_SUBTYPE_KVM}"
++QEMU_SECOND_SERIAL_OPT="${QEMU_SECOND_SERIAL_OPT}"
++QEMU_KERNEL_OPTIONS="${QEMU_KERNEL_OPTIONS}"
++DEPLOY_DIR_IMAGE="${DEPLOY_DIR_IMAGE}"
++MACHINE="${MACHINE}"
++STAGING_DIR_NATIVE="${STAGING_DIR_NATIVE}"
++STAGING_BINDIR_NATIVE="${STAGING_BINDIR_NATIVE}"
++STAGING_DIR_HOST="${STAGING_DIR_HOST}"
++QEMU_DTB="${QEMU_DTB}"
++QEMU_UI_OPTIONS="${QEMU_UI_OPTIONS}"
++_EOF
++}
++
++addtask do_qemu_vars before do_build
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 1c4175f..6e4865c 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -818,3 +818,6 @@ BB_SIGNATURE_EXCLUDE_FLAGS ?= "doc deps depends \
+ 
+ MLPREFIX ??= ""
+ MULTILIB_VARIANTS ??= ""
++
++# Supported run by qemu or not
++QEMU_BOOT_SUPPORTED ?= "0"
 -- 
 2.7.4
 
