@@ -1,51 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f68.google.com (mail-pa0-f68.google.com
-	[209.85.220.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 908A673695
+Received: from mail-pa0-f67.google.com (mail-pa0-f67.google.com
+	[209.85.220.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 54F2775C60
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 May 2016 17:36:09 +0000 (UTC)
-Received: by mail-pa0-f68.google.com with SMTP id zy2so4801264pac.2
+	Wed, 11 May 2016 17:36:10 +0000 (UTC)
+Received: by mail-pa0-f67.google.com with SMTP id yl2so4046532pac.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 May 2016 10:36:10 -0700 (PDT)
+	Wed, 11 May 2016 10:36:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=sf8yQLPYIroJkYr1zfYutbKjuq1G3CNT4UxNrWFE0AA=;
-	b=mVS8wo8IsPaNPsbwrBssFe9O1Zs2ygSBR+c5oph/a6baSVHpAAqZ3j+PchjVD3zVme
-	ir7PGaslNUtRbgjq0J57H2E2OqSCfYS54NiyOhVExAgZwcTYThzL6NLEQLcOaKZruiaF
-	UcbLOVfzFZ3e+xi+hu5WE2N/Eq6fkDd6FvRiOeR7QYPrzYaFwEyDSmwcioElJyIcURBt
-	6R/CTN2T6K4CIfmRYdekybUCpsi3YfXZ/hafz/6IPhWW99In+l6UVSWqvHJpmc7kvshc
-	e3JfoOy1LDD3hXW/LaXPjlJD2zYVs1Fy6yAaP85EOev/62srITV4xhrTyqOBcfEMhwLK
-	phXg==
+	bh=jNXf2XoaYMNHdRYRYbF5OS+TyVxptfffO9JOaPk8DCI=;
+	b=iXOvrCWmp8l/odMpMJLHYKp68ijsrP/3AMiug6AArCcGwECN+xsSUBR7SIxZohmbl/
+	hMD5Vum7w97VrGlLoEJ7Plm+zE+Bfn3mIoCOzgy4Z+sj1fqssB5DXGp5oceugoj7p8f8
+	FBomJaRgsLG92cSqJdldsEBlceYe/O71Qdn2DmCIiZWGk+14KBvabYf2zdkAi5VhCyEU
+	fpPR9O+HUJnAFKx1v+AP9TQ0qYh5KIWt/Ytfy4zEFPGdIY5ivUSsoCiIJOxNrwa1mDoJ
+	cKNBqq4Hw/xbymprj63Ct8Lbuaz/GBihiuYo7qbL7uZ5AHIhRrIuOoJlxUudSTg8dPSR
+	4NzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=sf8yQLPYIroJkYr1zfYutbKjuq1G3CNT4UxNrWFE0AA=;
-	b=e02Mo+jPYyWNRKKDWT1WPf7K1RA9/rbkMEH6MrKYf4VfTRIW2IwO4YHafCSdEad5RH
-	uY5hOybyj0zsV4pr7ru+CMdyahfa/kBcllKji4KIUV7Sb8TjUUzGVzHiAS9N04ESQG+h
-	yIK7kOZY1o++JcU6EjZx5IHGKRkTBtVyC9rKd5EMhwtavMWxtX6AOqMWrS/UKnhNPMaM
-	4dzPCtpl6hhpZBT0qzO4SMniwEbbd88mzqGIKoQi1TXQfoTA6n9jXAwIeH3CjOFzdqvf
-	HRN+NkyPpbQMqvFmgEB1ljqOiw3vNgdQCEaJIXXCeiIH+7w6sS4IWQDdtXNaMW+GVa0I
-	kJOw==
-X-Gm-Message-State: AOPr4FV0U70LC25klPANXKJYBvzWznDG9ADCWfK/qtpCI4t/UyHuYj/6pHp4sE3xom/sWA==
-X-Received: by 10.66.33.1 with SMTP id n1mr6770102pai.65.1462988170486;
-	Wed, 11 May 2016 10:36:10 -0700 (PDT)
+	bh=jNXf2XoaYMNHdRYRYbF5OS+TyVxptfffO9JOaPk8DCI=;
+	b=k6XhLyVJZUumuMWfabr1J+GH1nnwtP9c7OqijRKXOD4A4aqmxB1Ss4brsuvVjlAZXD
+	6SZM+AFihh2DDBAWHDZp4DQ1m8E1R0m+B8r8nrHqqghhPVaiNBSt68c3r52jCS93V9iF
+	o85rrvzr9AOUa0pRwm7m7ImfJBTmUuvx7nJyG0lB5ZlDXjw76s1aGOakJgKTWrXIgsmv
+	TFKKvd+ANTAdvIlryqRxx9Y61AtTVRhlTgsVhLfyQevVpMbQiuhI8jzpUCctaUWu37mO
+	Nkdm/DHV2kQic9fySaGBvJqeTHR41XJU4rVNCeDbXemlEvQLYsm/Ypk1ccCu/QuK8ny4
+	sXdg==
+X-Gm-Message-State: AOPr4FW29mmbKryNXftpJV4DdXZ/nQHwqHfgU2AngpAlkf5NukMXttmaXHfOv/O9dnRfzQ==
+X-Received: by 10.66.27.164 with SMTP id u4mr6680116pag.112.1462988171254;
+	Wed, 11 May 2016 10:36:11 -0700 (PDT)
 Received: from haswell.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
 	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	a5sm13669903pat.19.2016.05.11.10.36.09
+	a5sm13669903pat.19.2016.05.11.10.36.10
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 11 May 2016 10:36:09 -0700 (PDT)
+	Wed, 11 May 2016 10:36:10 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 May 2016 10:35:20 -0700
-Message-Id: <32524eeef8dd3331bc014fd20a63d0f389774710.1462987863.git.raj.khem@gmail.com>
+Date: Wed, 11 May 2016 10:35:21 -0700
+Message-Id: <2c4a85a78d98c32bbd311fee753dddeececf3f17.1462987863.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.8.2
 In-Reply-To: <2e51e9b5fb3911436afc1becd5feb9351b896fa4.1462987863.git.raj.khem@gmail.com>
 References: <2e51e9b5fb3911436afc1becd5feb9351b896fa4.1462987863.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1462987863.git.raj.khem@gmail.com>
 References: <cover.1462987863.git.raj.khem@gmail.com>
-Subject: [PATCH 17/42] libc-common.bbclass: Use sed instead of grep
+Subject: [PATCH 18/42] conf: bump minimum kernel to 3.2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,36 +60,43 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 11 May 2016 17:36:10 -0000
 
-Squash two install cmds into one
-Replace grep with sed substitution logic, optimizes
-away mv cmd
+glibc 2.24 have raised the bar for minimum supported kernel
+for more details see
+
+http://repo.or.cz/glibc.git/commit/5b4ecd3f95695ef593e4474b4ab5a117291ba5fc
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes/libc-common.bbclass | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ meta/classes/populate_sdk_base.bbclass | 2 +-
+ meta/conf/bitbake.conf                 | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/libc-common.bbclass b/meta/classes/libc-common.bbclass
-index bbc8016..11b0065 100644
---- a/meta/classes/libc-common.bbclass
-+++ b/meta/classes/libc-common.bbclass
-@@ -4,14 +4,12 @@ do_install() {
- 		h=`echo $r|sed -e's,\.x$,.h,'`
- 		install -m 0644 ${S}/sunrpc/rpcsvc/$h ${D}/${includedir}/rpcsvc/
- 	done
--	install -d ${D}/${sysconfdir}/ 
--	install -m 0644 ${WORKDIR}/etc/ld.so.conf ${D}/${sysconfdir}/
-+	install -Dm 0644 ${WORKDIR}/etc/ld.so.conf ${D}/${sysconfdir}/ld.so.conf
- 	install -d ${D}${localedir}
- 	make -f ${WORKDIR}/generate-supported.mk IN="${S}/localedata/SUPPORTED" OUT="${WORKDIR}/SUPPORTED"
- 	# get rid of some broken files...
- 	for i in ${GLIBC_BROKEN_LOCALES}; do
--		grep -v $i ${WORKDIR}/SUPPORTED > ${WORKDIR}/SUPPORTED.tmp
--		mv ${WORKDIR}/SUPPORTED.tmp ${WORKDIR}/SUPPORTED
-+		sed -i "/$i/d" ${WORKDIR}/SUPPORTED
- 	done
- 	rm -f ${D}${sysconfdir}/rpc
- 	rm -rf ${D}${datadir}/zoneinfo
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index 008bb57..645a7f4 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -90,7 +90,7 @@ SDK_POSTPROCESS_COMMAND = " create_sdk_files; check_sdk_sysroots; tar_sdk; ${SDK
+ # Some archs override this, we need the nativesdk version
+ # turns out this is hard to get from the datastore due to TRANSLATED_TARGET_ARCH
+ # manipulation.
+-SDK_OLDEST_KERNEL = "2.6.32"
++SDK_OLDEST_KERNEL = "3.2.0"
+ 
+ fakeroot python do_populate_sdk() {
+     from oe.sdk import populate_sdk
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 8e02e91..07d171d 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -403,7 +403,7 @@ SDKPATHNATIVE = "${SDKPATH}/sysroots/${SDK_SYS}"
+ # Kernel info.
+ ##################################################################
+ 
+-OLDEST_KERNEL = "2.6.32"
++OLDEST_KERNEL = "3.2.0"
+ OLDEST_KERNEL_aarch64 = "3.14"
+ STAGING_KERNEL_DIR = "${TMPDIR}/work-shared/${MACHINE}/kernel-source"
+ STAGING_KERNEL_BUILDDIR = "${TMPDIR}/work-shared/${MACHINE}/kernel-build-artifacts"
 -- 
 2.8.2
 
