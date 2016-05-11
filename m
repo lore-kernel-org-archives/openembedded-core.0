@@ -1,40 +1,43 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
-	[209.85.220.195])
-	by mail.openembedded.org (Postfix) with ESMTP id C13F665CC2
+Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
+	[209.85.220.196])
+	by mail.openembedded.org (Postfix) with ESMTP id DDFE365CC2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 May 2016 14:30:51 +0000 (UTC)
-Received: by mail-qk0-f195.google.com with SMTP id n62so2850395qkc.2
+	Wed, 11 May 2016 14:30:58 +0000 (UTC)
+Received: by mail-qk0-f196.google.com with SMTP id l68so3183498qkf.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 May 2016 07:30:52 -0700 (PDT)
+	Wed, 11 May 2016 07:30:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=4jp7Pbr/l0BMy0MTMBTuQ/Nvp/8Hh0F6HziUj/oOze8=;
-	b=HLrWl/cGgTOKpXQuuyZ4VliYvg65IKQe7/0AjCKMNqhf1C7xx/VkOYR/PGTdcwtyKf
-	vMtl22SwJwUieCOay5/AmlDXGa5t+yOtOE6tNSVxHYAq7adHD5PSUDch9R2WeLayNGCR
-	POcgI86cSiDutnSTmCpw8CF04WJFUbslEoWBbaRjIjqdXNFuCMYnr5CGcw4YAKNbrgIh
-	4beKuKLDDOwcCE0neN8yQnBHr2DsAnYVMHh8onawYqd8+34241PXAsI0Pmwfp6Wa/UMl
-	xpbMlp/VaNGs2rO+St8CqaumgkHbwSy8WlKV7xfnPWbq9UYRLO11RCGF3zyUOvAV9ac3
-	+Wcg==
-X-Gm-Message-State: AOPr4FWjQuHvGC8Ei/YPPO7PVMKCa4+UaIWkToW03zfN2e1M3DCMXqQdWm7qyJEYMmvOnw==
-X-Received: by 10.55.59.74 with SMTP id i71mr4088356qka.50.1462977051991;
-	Wed, 11 May 2016 07:30:51 -0700 (PDT)
-Received: from localhost ([187.23.154.250]) by smtp.gmail.com with ESMTPSA id
-	r127sm3535668qkf.47.2016.05.11.07.30.47
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:organization;
+	bh=oucPqrKSoxrjBSQ6TbPuVx0Sl/Yhl3YFTmnCV2zPTBk=;
+	b=GKgSyv3IPXkOYdQAxGYiYY+ILK1YLwh2Ks7IQpHxZiWCqFNc/B7kPJyt0OzP1GlRL7
+	lrXNpUG2FT6PAihEIfwn6UfXxEAoYfq7+ypiX9cR/xWB+UYmLcfHcQNPLI5Qp20qkOuB
+	6hy4+eM/j3vouATfbMuR2yUEBi91iFE36RIMJi7DTJfirGUhwPbucoO0GyZJ97fyX8Hc
+	qSpzOiVLftWzYcADRjKVgeZVOt+kv2828Vk2D1UbQCk35oRzpPpJGUF+373sbP3ugPnD
+	YrU0szj8DeDVWecAV+p1rddhGdF7orAlW+oQHR6X+OoqdOnWh5jB1Dzse7v//+Dvca3s
+	vfkw==
+X-Gm-Message-State: AOPr4FV48dEouz1gCg0ltQ22OT96vWcq9pr2fuW1b4DCe2LgQmvpNeGbObHAgHi0bBprRA==
+X-Received: by 10.55.40.38 with SMTP id o38mr2242831qkh.156.1462977059256;
+	Wed, 11 May 2016 07:30:59 -0700 (PDT)
+Received: from localhost ([187.23.154.250])
+	by smtp.gmail.com with ESMTPSA id o37sm2500969qgd.5.2016.05.11.07.30.54
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 11 May 2016 07:30:50 -0700 (PDT)
+	Wed, 11 May 2016 07:30:58 -0700 (PDT)
 Received: by localhost (sSMTP sendmail emulation);
-	Wed, 11 May 2016 11:30:44 -0300
+	Wed, 11 May 2016 11:30:52 -0300
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Wed, 11 May 2016 11:30:31 -0300
-Message-Id: <1462977042-7436-1-git-send-email-otavio@ossystems.com.br>
+Date: Wed, 11 May 2016 11:30:32 -0300
+Message-Id: <1462977042-7436-2-git-send-email-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.8.2
+In-Reply-To: <1462977042-7436-1-git-send-email-otavio@ossystems.com.br>
+References: <1462977042-7436-1-git-send-email-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
 Cc: prabhu.sundararaj@nxp.com, Otavio Salvador <otavio@ossystems.com.br>,
 	meta-freescale Mailing List <meta-freescale@yoctoproject.org>
-Subject: [oe-core PATCH v5 00/11] Improve Weston and Xwayland integration
+Subject: [oe-core PATCH v5 01/11] weston: weston-launch: Handle invalid command line options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,80 +50,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 May 2016 14:30:52 -0000
+X-List-Received-Date: Wed, 11 May 2016 14:30:59 -0000
 
-Up to now, to make Xwayland to work it required several manual hacks
-and it was difficult to make an image which had support for it out of
-box.
+From: Tom Hochstein <tom.hochstein@nxp.com>
 
-This patchset intends to set the base for it. It enables weston-init
-to be extended to support Xwayland launch when needed.
+Exit the program if an unrecognized command line option is found.
 
-While working on it, some improvements on weston and weston-init were
-done. The patches:
-
-  weston: Fix SystemD service description
-  weston: Add PACKAGECONFIG option for 'clients'
-  weston: Enable XWayland when X11 and Wayland support are available
-  weston: Remove XWayland dependencies on PACKAGECONFIG
-  weston-init: Rework do_install to use install -D option
-
-Seem to be ready to be merged.
-
-The other patches are still being worked on and should not be merged
-yet. There are still some issues to be done:
-
- - how to make Xwayland fit on the packagegroups?
- - does core-image.bbclass ought to include a xwayland feature?
+Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
 
 Changes in v5:
 - New patch.
 
-Changes in v4:
-- New patch.
-- New patch.
-- Use --log= for weston call
+Changes in v4: None
+Changes in v3: None
+Changes in v2: None
 
-Changes in v3:
-- Fix log redirection
-- Fix argument pass for openvt
-- New patch.
-
-Changes in v2:
-- Remove PAM requirement
-- Remove PAM requirement
-- Drop weston-lunch use as it requires PAM
-- Move weston-start module to weston package
-- Stop using weston-launch
-
-Otavio Salvador (10):
-  weston: Fix SystemD service description
-  weston: Add PACKAGECONFIG option for 'clients'
-  weston: Enable XWayland when X11 and Wayland support are available
-  weston: Remove XWayland dependencies on PACKAGECONFIG
-  weston-init: Rework do_install to use install -D option
-  weston-init: Rework init sequence to avoid code duplication
-  weston-init: Error out if loading a nested instance
-  weston-init: Add module support for the weston-start helper
-  weston: Add Xwayland initialization support using weston-start
-  core-image-weston: If X11 is enabled, add XWayland support
-
-Tom Hochstein (1):
-  weston: weston-launch: Handle invalid command line options
-
- meta/recipes-graphics/images/core-image-weston.bb  |  1 +
- meta/recipes-graphics/wayland/weston-init.bb       | 11 ++--
- meta/recipes-graphics/wayland/weston-init/init     |  9 +--
- .../wayland/weston-init/weston-start               | 67 ++++++++++++++++++++++
- .../wayland/weston-init/weston.service             |  7 +--
- ...eston-launch-exit-for-unrecognized-option.patch | 33 +++++++++++
- .../wayland/weston/xwayland.weston-start           |  7 +++
- meta/recipes-graphics/wayland/weston_1.9.0.bb      | 20 ++++---
- 8 files changed, 129 insertions(+), 26 deletions(-)
- create mode 100755 meta/recipes-graphics/wayland/weston-init/weston-start
+ ...eston-launch-exit-for-unrecognized-option.patch | 33 ++++++++++++++++++++++
+ meta/recipes-graphics/wayland/weston_1.9.0.bb      |  1 +
+ 2 files changed, 34 insertions(+)
  create mode 100644 meta/recipes-graphics/wayland/weston/make-weston-launch-exit-for-unrecognized-option.patch
- create mode 100644 meta/recipes-graphics/wayland/weston/xwayland.weston-start
 
+diff --git a/meta/recipes-graphics/wayland/weston/make-weston-launch-exit-for-unrecognized-option.patch b/meta/recipes-graphics/wayland/weston/make-weston-launch-exit-for-unrecognized-option.patch
+new file mode 100644
+index 0000000..25c8683
+--- /dev/null
++++ b/meta/recipes-graphics/wayland/weston/make-weston-launch-exit-for-unrecognized-option.patch
+@@ -0,0 +1,33 @@
++From e8b615250f700f7854b423aaaf0a0aeea92c05a9 Mon Sep 17 00:00:00 2001
++From: Tom Hochstein <tom.hochstein@nxp.com>
++Date: Sat, 7 May 2016 08:51:58 -0300
++Subject: [PATCH] weston-launch: Handle invalid command line options
++Organization: O.S. Systems Software LTDA.
++
++Exit the program if an unrecognized command line option is found.
++
++Upstream-Status: Submitted
++
++Signed-off-by; Tom Hochstein <tom.hochstein@nxp.com>
++Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
++---
++
++ src/weston-launch.c | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/src/weston-launch.c b/src/weston-launch.c
++index b8dfb17..9987d8e 100644
++--- a/src/weston-launch.c
+++++ b/src/weston-launch.c
++@@ -703,6 +703,8 @@ main(int argc, char *argv[])
++ 		case 'h':
++ 			help("weston-launch");
++ 			exit(EXIT_FAILURE);
+++		default:
+++			exit(EXIT_FAILURE);
++ 		}
++ 	}
++ 
++-- 
++2.8.2
++
+diff --git a/meta/recipes-graphics/wayland/weston_1.9.0.bb b/meta/recipes-graphics/wayland/weston_1.9.0.bb
+index 16a788d..c87f053 100644
+--- a/meta/recipes-graphics/wayland/weston_1.9.0.bb
++++ b/meta/recipes-graphics/wayland/weston_1.9.0.bb
+@@ -13,6 +13,7 @@ SRC_URI = "http://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+            file://0001-make-error-portable.patch \
+            file://libsystemd.patch \
+            file://explicit-enable-disable-systemd.patch \
++           file://make-weston-launch-exit-for-unrecognized-option.patch \
+ "
+ SRC_URI[md5sum] = "66bbba12f546570b4d97f676bc79a28e"
+ SRC_URI[sha256sum] = "9c1b03f3184fa0b0dfdf67e215048085156e1a2ca344af6613fed36794ac48cf"
 -- 
 2.8.2
 
