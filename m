@@ -1,43 +1,45 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qg0-f65.google.com (mail-qg0-f65.google.com
-	[209.85.192.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 132B2700FD
+Return-Path: <kergoth@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id EE9216FF9D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 May 2016 14:32:12 +0000 (UTC)
-Received: by mail-qg0-f65.google.com with SMTP id e35so3071123qge.1
+	Wed, 11 May 2016 16:25:35 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id r12so10505826wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 May 2016 07:32:13 -0700 (PDT)
+	Wed, 11 May 2016 09:25:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=46ONi/TbhtQkM1fsl6gTMOlSP1jEgok2o46hv7sXT7E=;
+	b=YCJ7KIca/s9zjP9x/mcYr7rXe/hd5FuhAfWOsJE5LpHqzD7S9vkLYw/GY+DM02Nz5C
+	kae9R6QfAPdvrqUSuwB+NfYZ/zBaZm+p9w6aOJN2v6Qolke94w0IUDzoBU7MgeS7yPWf
+	HVR5FnRhsgcHUH5sf10JDK8zQnWTiNrTTpHyAsH8Bck/nCGjIYMIhCU+E6QAodhBEKA3
+	6UrZaX5qmeF9gWWihg8WCJZgrK7gdAu5oKksYCQsOCaZsnSUIWu35UwsFQwv8pz0WbTX
+	DeYN2m8JaSgAfw61pBQ40pGLtxt65aG0AHxlfpKUgFZCNIMSwUuB3ERq0uWxTPdPeE+x
+	APzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:organization;
-	bh=DWQcDa+0Gi9Bx5bfpfgJICIJ2gjBm84gDwJOEH5TrDE=;
-	b=KgMHOack7lkdw0Wk/e4IiB2PWcuUAp6gkRPQtaUqZuucmTs+d9082JhVvrK5pnyZhD
-	Tvr+hlGsXJmh+bchk/t0FuamX7PIwEv7ZRva5MZpqKCcKxg1G0sAk1kaClvbgDJyo2t0
-	I/YXPNYZyfIEVQuhjDhaOlXGPQ5Mr4dAMxE8k+/Z5dH9E1bb2wet+qVphhjak42kMQIE
-	A4HA4qZfz/nb8Y1CtAGxJOCWwkMaKv9CYzKNsO5m3U1Ovh8eNTvHOB5CcZWCZVHJQjWv
-	zEkctE7uTnFIcnRekCOwKlfAm79nR8YoPCQZaAaVla4/UEoB+WRRF/XXlTcUfschOOTx
-	ue1g==
-X-Gm-Message-State: AOPr4FU6RxOmbj6NaTC++tpb/Jv95pzf7EOLbaIE2pSRadwVlqc4Nac9Ap0GY+NWOR4PGw==
-X-Received: by 10.140.39.243 with SMTP id v106mr3832199qgv.23.1462977133325;
-	Wed, 11 May 2016 07:32:13 -0700 (PDT)
-Received: from localhost ([187.23.154.250]) by smtp.gmail.com with ESMTPSA id
-	r66sm3514385qhe.47.2016.05.11.07.32.08
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 11 May 2016 07:32:12 -0700 (PDT)
-Received: by localhost (sSMTP sendmail emulation);
-	Wed, 11 May 2016 11:32:06 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Wed, 11 May 2016 11:30:42 -0300
-Message-Id: <1462977042-7436-12-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.8.2
-In-Reply-To: <1462977042-7436-1-git-send-email-otavio@ossystems.com.br>
-References: <1462977042-7436-1-git-send-email-otavio@ossystems.com.br>
-Organization: O.S. Systems Software LTDA.
-Cc: prabhu.sundararaj@nxp.com, Otavio Salvador <otavio@ossystems.com.br>,
-	meta-freescale Mailing List <meta-freescale@yoctoproject.org>
-Subject: [oe-core PATCH v5 11/11] core-image-weston: If X11 is enabled, add XWayland support
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=46ONi/TbhtQkM1fsl6gTMOlSP1jEgok2o46hv7sXT7E=;
+	b=lVfZrwBJ5ROs/1TecFvqA1yAPxoWtJBPP8ooPytoxKqBIVBbT8hyBN9tz9rfYwMpBq
+	na08VPVIU4eX4/WV3sLSpq4QPe0p3TPe6rB5i61iK2rISAuNCZMOG6WnZ1GWeWFqzYYP
+	ek7OHMGqEBUkKcUcqX5zFXsq6/rRlUivN7P9Uwulhyp8/g/ZcnBlBkNxBa/tlhbk3Ent
+	18HvtH8FMuz23ZigVmU69PtXAhbmufMFYvilI1hCzd4/3I1XNEeTk+q9azphltJx2+Gk
+	h9RWb01X6SyBeCx48tfgtmc6AYn20Dii9S/GXWZHT3h69ZryjulakaA2Ldtorjwmpt9H
+	aPsg==
+X-Gm-Message-State: AOPr4FWCJo9Jm/I4j87DmzfCod/p7BgC5IHL7An5xM2eHNoyl3tcYRNk2NaYk6HYc0fTZw==
+X-Received: by 10.195.11.34 with SMTP id ef2mr4698743wjd.101.1462983935610;
+	Wed, 11 May 2016 09:25:35 -0700 (PDT)
+Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by smtp.gmail.com with ESMTPSA id
+	o73sm36852345wme.16.2016.05.11.09.25.33
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 11 May 2016 09:25:33 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 11 May 2016 09:25:27 -0700
+Message-Id: <1462983927-19691-1-git-send-email-kergoth@gmail.com>
+X-Mailer: git-send-email 2.8.0
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH] pseudo: obey our LDFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,34 +52,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 May 2016 14:32:13 -0000
+X-List-Received-Date: Wed, 11 May 2016 16:25:36 -0000
 
-When the distribution has X11 and Wayland backends, we enable XWayland
-support.
+From: Christopher Larson <chris_larson@mentor.com>
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
+ .../pseudo/pseudo/obey-ldflags.patch               | 48 ++++++++++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_1.7.5.bb       | 16 ++++----
+ 2 files changed, 56 insertions(+), 8 deletions(-)
+ create mode 100644 meta/recipes-devtools/pseudo/pseudo/obey-ldflags.patch
 
-Changes in v5: None
-Changes in v4: None
-Changes in v3:
-- New patch.
-
-Changes in v2: None
-
- meta/recipes-graphics/images/core-image-weston.bb | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-graphics/images/core-image-weston.bb b/meta/recipes-graphics/images/core-image-weston.bb
-index 52e271d..c65c1e3 100644
---- a/meta/recipes-graphics/images/core-image-weston.bb
-+++ b/meta/recipes-graphics/images/core-image-weston.bb
-@@ -9,3 +9,4 @@ inherit core-image distro_features_check
- REQUIRED_DISTRO_FEATURES = "wayland"
+diff --git a/meta/recipes-devtools/pseudo/pseudo/obey-ldflags.patch b/meta/recipes-devtools/pseudo/pseudo/obey-ldflags.patch
+new file mode 100644
+index 0000000..7e4c629
+--- /dev/null
++++ b/meta/recipes-devtools/pseudo/pseudo/obey-ldflags.patch
+@@ -0,0 +1,48 @@
++From 0ace81a687355a3c55caa161b51972a82f5c413f Mon Sep 17 00:00:00 2001
++From: Christopher Larson <chris_larson@mentor.com>
++Date: Mon, 9 May 2016 17:00:57 -0700
++Subject: [PATCH] Obey external LDFLAGS the way we obey CFLAGS
++
++Signed-off-by: Christopher Larson <chris_larson@mentor.com>
++---
++ Makefile.in | 8 ++++----
++ 1 file changed, 4 insertions(+), 4 deletions(-)
++
++diff --git a/Makefile.in b/Makefile.in
++index 6511814..22ef625 100644
++--- a/Makefile.in
+++++ b/Makefile.in
++@@ -109,26 +109,26 @@ pseudo: $(PSEUDO)
++ $(PSEUDO): $(BIN) pseudo.o $(SHOBJS) $(DBOBJS) pseudo_client.o pseudo_server.o pseudo_ipc.o
++ 	$(CC) $(CFLAGS) $(CFLAGS_PSEUDO) -o $(PSEUDO) \
++ 		pseudo.o pseudo_server.o pseudo_client.o pseudo_ipc.o \
++-		$(DBOBJS) $(SHOBJS) $(DB_LDFLAGS) $(CLIENT_LDFLAGS)
+++		$(DBOBJS) $(SHOBJS) $(LDFLAGS) $(DB_LDFLAGS) $(CLIENT_LDFLAGS)
++ 
++ pseudolog: $(PSEUDOLOG)
++ 
++ $(PSEUDOLOG): $(BIN) pseudolog.o $(SHOBJS) $(DBOBJS) pseudo_client.o pseudo_ipc.o
++ 	$(CC) $(CFLAGS) $(CFLAGS_PSEUDO) -o $(PSEUDOLOG) pseudolog.o pseudo_client.o pseudo_ipc.o \
++-		$(DBOBJS) $(SHOBJS) $(DB_LDFLAGS) $(CLIENT_LDFLAGS)
+++		$(DBOBJS) $(SHOBJS) $(LDFLAGS) $(DB_LDFLAGS) $(CLIENT_LDFLAGS)
++ 
++ pseudodb: $(PSEUDODB)
++ 
++ $(PSEUDODB): $(BIN) pseudodb.o $(SHOBJS) $(DBOBJS) pseudo_ipc.o
++ 	$(CC) $(CFLAGS) $(CFLAGS_PSEUDO) -o $(PSEUDODB) pseudodb.o \
++-		$(DBOBJS) $(SHOBJS) pseudo_ipc.o $(DB_LDFLAGS) $(CLIENT_LDFLAGS)
+++		$(DBOBJS) $(SHOBJS) pseudo_ipc.o $(LDFLAGS) $(DB_LDFLAGS) $(CLIENT_LDFLAGS)
++ 
++ libpseudo: $(LIBPSEUDO)
++ 
++ $(LIBPSEUDO): $(LIB) $(WRAPOBJS) pseudo_client.o pseudo_ipc.o $(SHOBJS)
++ 	$(CC) $(CFLAGS) $(CFLAGS_PSEUDO) -shared -o $(LIBPSEUDO) \
++ 		pseudo_client.o pseudo_ipc.o \
++-		$(WRAPOBJS) $(SHOBJS) $(CLIENT_LDFLAGS)
+++		$(WRAPOBJS) $(SHOBJS) $(LDFLAGS) $(CLIENT_LDFLAGS)
++ 
++ # *everything* now relies on stuff that's generated in the
++ # wrapper process.
++-- 
++2.8.0
++
+diff --git a/meta/recipes-devtools/pseudo/pseudo_1.7.5.bb b/meta/recipes-devtools/pseudo/pseudo_1.7.5.bb
+index d90e644..dfb9b39 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_1.7.5.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_1.7.5.bb
+@@ -1,13 +1,13 @@
+ require pseudo.inc
  
- CORE_IMAGE_BASE_INSTALL += "weston weston-init weston-examples gtk+3-demo clutter-1.0-examples"
-+CORE_IMAGE_BASE_INSTALL += "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xserver-xorg-xwayland', '', d)}"
+-SRC_URI = " \
+-    http://downloads.yoctoproject.org/releases/pseudo/${BPN}-${PV}.tar.bz2 \
+-    file://0001-configure-Prune-PIE-flags.patch \
+-    file://fallback-passwd \
+-    file://fallback-group \
+-    file://moreretries.patch \
+-    file://handle-remove-xattr.patch \
+-"
++SRC_URI = "http://downloads.yoctoproject.org/releases/pseudo/${BPN}-${PV}.tar.bz2 \
++           file://0001-configure-Prune-PIE-flags.patch \
++           file://fallback-passwd \
++           file://fallback-group \
++           file://moreretries.patch \
++           file://handle-remove-xattr.patch \
++           file://obey-ldflags.patch \
++           "
+ 
+ SRC_URI[md5sum] = "c10209938f03128d0c193f041ff3596d"
+ SRC_URI[sha256sum] = "fd89cadec984d3b8202aca465898b1bb4350e0d63ba9aa9ac899f6f50270e688"
 -- 
-2.8.2
+2.8.0
 
 
