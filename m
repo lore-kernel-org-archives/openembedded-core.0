@@ -1,51 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
-	[209.85.220.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 999CF770CD
+Received: from mail-pa0-f67.google.com (mail-pa0-f67.google.com
+	[209.85.220.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 60E95770DE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 May 2016 17:36:28 +0000 (UTC)
-Received: by mail-pa0-f65.google.com with SMTP id i5so4047975pag.3
+	Wed, 11 May 2016 17:36:29 +0000 (UTC)
+Received: by mail-pa0-f67.google.com with SMTP id zy2so4801761pac.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 May 2016 10:36:29 -0700 (PDT)
+	Wed, 11 May 2016 10:36:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=xNeodsDQMg+/JY0dCkzq/HDuh4SH5dRbeRlzthcERH8=;
-	b=FrVI6cjLeSDDEm6Ng03vDpPJLvr3D52fBYeEsESAyZiCAywpCYKeJ1DFAxtqKDMsgp
-	8EURT0dy+Tii65YRrR3MQyM3eppVf/JQ60o0ISNFLyERupRurHRVNzSuFdgLuhHjhcC0
-	A4V3t1erBDahP7EExlmRIGIFDYnMZM6D3A5RPKlHAqCMGXIn8fMv89maBIw+Lz1Z6/xF
-	hFARv+HjvQMNstmobeFvw5qsR564OYP7wes4IjpGrH3PPBhjlVeJ8NTXKhuG/VPinL0h
-	RE5XCr2EBCNOd4PW45A9X8D3t6rnXHMefn1bwBuGt3oPndGi0tHzMrNVd3OYOhSq1IOR
-	vuQA==
+	bh=OcNxR1lOzjX/yzXC8c3lrAtoIZHmvUse40rcBfV6hcY=;
+	b=qMIHxel+XxSEcXo5NlB2wkOZRU0ad/B6rxgXzuL/wCtG4VIc1nfs2qw6RdsEWIBI6A
+	lACbBzaI2bqJpkxAEhUzN/oKPK2Xr/OovtXF1WkQHUVUlgkMnL3RhGYZsnUbgg8hg6Ln
+	XlVqeUTmCOaIgTWOxCXcTtvptme0ChCANG9AGKJlT9gczJFZMSM0vyldp5xE4RH1Q6Kz
+	cC6Uuu8yj9o+UYtIAUzTfe6MinHusBQ8j8GRYKHIHem+nA+EzjfvbOTPR2biA/Cbx5Cs
+	TmAZpEHYBzk8vnytvAI5ia9vGlYoop5XCXNvmSzDXgpp2gn8l1e0f5DwETYSjsMeaEXf
+	UV1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=xNeodsDQMg+/JY0dCkzq/HDuh4SH5dRbeRlzthcERH8=;
-	b=YwyGU7+FJxuOg1nPjBw/1ImwQyNMw1c1Lb+SF7F0xGIK2WSjJb050fLFzXuZO3S1w7
-	a3yLYBhzi6FN3fWX5KoOupY1pS2iHiuxfxLDIqRciE+zdRPBFo+NEak9FsTzZ+I9GZ1F
-	SwpDRHgJI8CPxLa0IwNvOtqXj1Ls6uoEp85+LnR0nts+IQRkGpq36fJ5YDY+lzq5e/YX
-	OfaqHw/ITLlR4PxgxVfp72K2fYI/498TDJ7Gr4a8eP0ovmQ196j69e8fDcutGk0br+CW
-	xhR+A/XKTTQo4k3ZLYAwwmr9DxCmYwjvw/y9XT7TgDgAf5NJ0wRymtbpDjCO/bImjF/8
-	P9rA==
-X-Gm-Message-State: AOPr4FXoBz7ko+IIWeEaVO05Y+cC9pSEOCpRtz3xdY+AYsP4bd6JQ2P3i5DO3yO5bMvw8A==
-X-Received: by 10.66.33.1 with SMTP id n1mr6772139pai.65.1462988189649;
-	Wed, 11 May 2016 10:36:29 -0700 (PDT)
+	bh=OcNxR1lOzjX/yzXC8c3lrAtoIZHmvUse40rcBfV6hcY=;
+	b=EJEdzuNcL4TvBjeGoykPw3TQyzgn9JOsolWEmEv8JuBKgLdA/ukQgkPzQ/Gduc9qFP
+	Z503bZ+dwAA8aSgN8VvIwZXlzE0+E1NM9kk9ewTU/TbP86cpTuCQrqEbzuf3ubUIzVc0
+	kDDeuFmiGf1KRQwGsOUrE/+zcoxmpAn7H2CsjCnv1EJjCR8v6S8lweOxhPDSVZBMA5vt
+	PekzyGrkNuPQBK3SJFIaLQSlx6mVjHrtNp+qhgzTV77Xd7dBNUF27wEEaNZOD94tsfVb
+	//0hnpg45M6yFKsM1qSF6Q3Rz6HPiv2TJXL+5jj75XOILXYB20V2mSvreyFuQ5jcsOat
+	J3WQ==
+X-Gm-Message-State: AOPr4FUphY0oIsN0wofuJ3tTrql7dF2Mo/EAPhGHYqm3RzohdzbP8zNdqc/lorMKOvsNxQ==
+X-Received: by 10.66.14.198 with SMTP id r6mr6876473pac.48.1462988190438;
+	Wed, 11 May 2016 10:36:30 -0700 (PDT)
 Received: from haswell.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
 	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	a5sm13669903pat.19.2016.05.11.10.36.28
+	a5sm13669903pat.19.2016.05.11.10.36.29
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
 	Wed, 11 May 2016 10:36:29 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 May 2016 10:35:42 -0700
-Message-Id: <10250cc81c08bc1bde2ceea15028608faa3b27d1.1462987863.git.raj.khem@gmail.com>
+Date: Wed, 11 May 2016 10:35:43 -0700
+Message-Id: <1a7be143b7ae34c13cd0d917c0e8edce07192246.1462987863.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.8.2
 In-Reply-To: <2e51e9b5fb3911436afc1becd5feb9351b896fa4.1462987863.git.raj.khem@gmail.com>
 References: <2e51e9b5fb3911436afc1becd5feb9351b896fa4.1462987863.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1462987863.git.raj.khem@gmail.com>
 References: <cover.1462987863.git.raj.khem@gmail.com>
-Subject: [PATCH 39/42] distcc: Upgrade to 3.2
+Subject: [PATCH 40/42] ruby: Upgrade to 2.2.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,82 +60,43 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 11 May 2016 17:36:29 -0000
 
-Helps compiling with clang as a side effect
+This is latest in 2.2 series, helps with compile
+using clang
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../distcc/{distcc_3.1.bb => distcc_3.2.bb}                |  8 ++++----
- meta/recipes-devtools/distcc/files/separatebuilddir.patch  | 14 +++++++-------
- 2 files changed, 11 insertions(+), 11 deletions(-)
- rename meta/recipes-devtools/distcc/{distcc_3.1.bb => distcc_3.2.bb} (91%)
+ meta/recipes-devtools/ruby/{ruby_2.2.2.bb => ruby_2.2.5.bb} | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
+ rename meta/recipes-devtools/ruby/{ruby_2.2.2.bb => ruby_2.2.5.bb} (86%)
 
-diff --git a/meta/recipes-devtools/distcc/distcc_3.1.bb b/meta/recipes-devtools/distcc/distcc_3.2.bb
-similarity index 91%
-rename from meta/recipes-devtools/distcc/distcc_3.1.bb
-rename to meta/recipes-devtools/distcc/distcc_3.2.bb
-index f8879c8..600ec96 100644
---- a/meta/recipes-devtools/distcc/distcc_3.1.bb
-+++ b/meta/recipes-devtools/distcc/distcc_3.2.bb
-@@ -5,7 +5,7 @@ SECTION = "devel"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+diff --git a/meta/recipes-devtools/ruby/ruby_2.2.2.bb b/meta/recipes-devtools/ruby/ruby_2.2.5.bb
+similarity index 86%
+rename from meta/recipes-devtools/ruby/ruby_2.2.2.bb
+rename to meta/recipes-devtools/ruby/ruby_2.2.5.bb
+index 6715023..5a64582 100644
+--- a/meta/recipes-devtools/ruby/ruby_2.2.2.bb
++++ b/meta/recipes-devtools/ruby/ruby_2.2.5.bb
+@@ -1,7 +1,7 @@
+ require ruby.inc
  
--DEPENDS = "avahi"
-+DEPENDS = "avahi binutils"
+-SRC_URI[md5sum] = "326e99ddc75381c7b50c85f7089f3260"
+-SRC_URI[sha256sum] = "5ffc0f317e429e6b29d4a98ac521c3ce65481bfd22a8cf845fa02a7b113d9b44"
++SRC_URI[md5sum] = "bd8e349d4fb2c75d90817649674f94be"
++SRC_URI[sha256sum] = "30c4b31697a4ca4ea0c8db8ad30cf45e6690a0f09687e5d483c933c03ca335e3"
  
- GTKCONFIG = "gtk"
- GTKCONFIG_libc-uclibc = ""
-@@ -17,19 +17,19 @@ PACKAGECONFIG[popt] = "--without-included-popt,--with-included-popt,popt"
+ # it's unknown to configure script, but then passed to extconf.rb
+ # maybe it's not really needed as we're hardcoding the result with
+@@ -23,10 +23,6 @@ EXTRA_OECONF = "\
+     --enable-load-relative \
+ "
  
- RRECOMMENDS_${PN} = "avahi-daemon"
- 
--SRC_URI = "git://github.com/distcc/distcc.git \
-+SRC_URI = "git://github.com/distcc/distcc.git;branch=${PV} \
-            file://separatebuilddir.patch \
-            file://0001-zeroconf-Include-fcntl.h.patch \
-            file://default \
-            file://distccmon-gnome.desktop \
-            file://distcc \
-            file://distcc.service"
--SRCREV = "9a172d3d20042754a30c0cd9a5d63fd1a8120c31"
-+SRCREV = "d8b18df3e9dcbe4f092bed565835d3975e99432c"
- S = "${WORKDIR}/git"
- 
- inherit autotools pkgconfig update-rc.d useradd systemd
- 
--EXTRA_OECONF += "--disable-Werror PYTHON=/dev/null"
-+EXTRA_OECONF += "--disable-Werror PYTHON='' --disable-pump-mode"
- 
- USERADD_PACKAGES = "${PN}"
- USERADD_PARAM_${PN} = "--system \
-diff --git a/meta/recipes-devtools/distcc/files/separatebuilddir.patch b/meta/recipes-devtools/distcc/files/separatebuilddir.patch
-index b9e3e42..7580b55 100644
---- a/meta/recipes-devtools/distcc/files/separatebuilddir.patch
-+++ b/meta/recipes-devtools/distcc/files/separatebuilddir.patch
-@@ -6,16 +6,16 @@ RP 2013/3/8
- 
- Upstream-Status: Pending
- 
--Index: distcc-3.1/Makefile.in
-+Index: git/Makefile.in
- ===================================================================
----- distcc-3.1.orig/Makefile.in	2008-12-02 21:50:31.000000000 +0000
--+++ distcc-3.1/Makefile.in	2013-03-08 10:49:24.224400937 +0000
--@@ -1088,7 +1088,7 @@
-+--- git.orig/Makefile.in
-++++ git/Makefile.in
-+@@ -1117,7 +1117,7 @@ install-example: $(example_DOCS)
-  install-gnome-data: $(gnome_data)
-  	$(mkinstalldirs) "$(DESTDIR)$(pkgdatadir)"
-- 	for p in $(gnome_data); do				\
---	$(INSTALL_DATA) "$$p" "$(DESTDIR)$(pkgdatadir)" || exit 1; \
--+	$(INSTALL_DATA) "$(srcdir)/$$p" "$(DESTDIR)$(pkgdatadir)" || exit 1; \
-+ 	for p in $(gnome_data); do \
-+-	  $(INSTALL_DATA) "$$p" "$(DESTDIR)$(pkgdatadir)" || exit 1; \
-++	  $(INSTALL_DATA) "$(srcdir)/$$p" "$(DESTDIR)$(pkgdatadir)" || exit 1; \
-  	done
-  
-  install-conf: $(conf_files) $(default_files)
+-EXTRA_OEMAKE = " \
+-    LIBRUBYARG='-lruby-static' \
+-"
+-
+ do_install() {
+     oe_runmake 'DESTDIR=${D}' install
+ }
 -- 
 2.8.2
 
