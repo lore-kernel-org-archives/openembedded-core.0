@@ -1,51 +1,52 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f66.google.com (mail-pa0-f66.google.com
-	[209.85.220.66])
-	by mail.openembedded.org (Postfix) with ESMTP id D95C66FFD8
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D95A73176
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 May 2016 17:36:04 +0000 (UTC)
-Received: by mail-pa0-f66.google.com with SMTP id yl2so4046367pac.1
+	Wed, 11 May 2016 17:36:05 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id y7so4253406pfb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 May 2016 10:36:05 -0700 (PDT)
+	Wed, 11 May 2016 10:36:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=SMedKlufJuO1jvgLingoUorb90/lvEyXRR36ATqKEl4=;
-	b=MzpZvsHJ4Dn3pyaFsxZf7qeJrVfW6Z82M2W1jc2ipRzmgCZr2OxjyRUGouoPJ7ijJ6
-	vUTBfNZB6n5+0nIGK33qFhRsHFjVMW+I70haVxPso8ZMGnvOiiFNwFoXAueVQNXq+Zvs
-	seNWWENjPM9CsdMn/dq33bn3oYGbNGrVEgS2VM2/QHZ4XCYVzKi0drMwGM9Se9CsmeC7
-	OeK3BvNmDSwsuM+kyPQhx2h6MsY1SGG13c6IXyDCxBlgJxI6KqhJ30m1l0NmgXAiJTiu
-	R0+F2GiwkLb/S7owKhqbw9g7AziMHDxztw/vh7pt90Qz/XoQoaFid++WU0IOkGB+7yLP
-	4kuA==
+	bh=81YxJ2PmsriUbgMvKsVxuj0JbzfYL2Y3a3ZxRWEDZ4Y=;
+	b=D91tbXt30Vw9zg7mEO89x4BDDWCIn4qSDXZx3r57IMG8fsQRgkyzDR8f8a3o5f7EY1
+	yLgfc6ZyzCVFfaMe/Tl47OFv+sfjIKS7cJ9QfCgkSqUw4+Cs1QuV4N/vDo8cm5iTVKLp
+	cEtOm5FvI4D483PyGi6LDNOy/dLiEqiIc20PUSleySfzl4HiYmRyufbSqDcw03bTklBe
+	WzliEMDsJ4YICdTUUUcxvvTsMWSJkxmFIP2TMloRUMYoDj4FqMAMcasH1U1wdeKZlEBi
+	0sdPMG8aPka3ZuCPrhrq/+lHNqL8oUKNECEEbMLDqJ9ShBSDwWiS9gBLDfyZ3t3xg2MN
+	ObVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=SMedKlufJuO1jvgLingoUorb90/lvEyXRR36ATqKEl4=;
-	b=PsfEPx25VHzaBtYGg3apMeN5G4zLFwKod49+q3KYNc9zQxCFx9PIpHKuOL6sqpVPqr
-	C50KyQ7KtAyIj4+xcU5Qk29c0dD7RE4Yi45P+t7sTBb5qYNfK4Xk/9dsCbtBR5/bzSR0
-	Tj7VBsiBd8OnS8AvlLk2N4TuJDV8i3j9etGsMYyTMXKEz6kEtAKVTjMMo/nfBDo60ESe
-	rmVFwL+GMOuGHHoN6QmmkodUqBF0xYVY7bECy5BLUmjObvXZ47UFP3Bg8BbjkNxDGeDK
-	yhpBKrz8MxF7BmNV/LRZXdyjUhLLPE+pp43RF0r28EhagU4qBomIhO3t9PLigcnIyYPZ
-	TkLg==
-X-Gm-Message-State: AOPr4FWjTVO4krSCNjJp14Tg0UQUfS7xU7LyIZSofvg20a0yPkqlLDT+dzFzuIMdOlXoVA==
-X-Received: by 10.66.151.104 with SMTP id up8mr5071625pab.134.1462988165345;
-	Wed, 11 May 2016 10:36:05 -0700 (PDT)
+	bh=81YxJ2PmsriUbgMvKsVxuj0JbzfYL2Y3a3ZxRWEDZ4Y=;
+	b=gTf1kLdCcJ112tJbvSJWOTP3kbB1VnJaeF3BWIytradymJL4oS03kxk4towJH0Bv9e
+	2iWXx7AOEKTWbl143esItJhwUY2zJnfeSVJ0xal6tBdN19M0jp80Zb0dk977RRZzBE1d
+	/c60IPurWn3yp3+nX/r1pdePkMaCVIF9trRsTWUHYnKEh1X0BchW5g/zPAtdQCk7ZMrS
+	v6I9QL3vb+4rbrX7dYOgFu9yGQyHHw+m2quOYp4gp4mJ30bj+TyeVuPtHQ1C+dXIWFTa
+	bNszkFw2at/NC+vrk8R4OE+GElyJqgPHFlzFvhRYjEw99vj7nTdKtULoBCY7AQciqoXz
+	RcNA==
+X-Gm-Message-State: AOPr4FUUmhUsmmi0BNgBrn6aiAV3oSLaD97UjOAMGvIoFG4VuD04Zz0y7TFkn1IBnxnSUg==
+X-Received: by 10.98.79.213 with SMTP id f82mr6682184pfj.65.1462988166287;
+	Wed, 11 May 2016 10:36:06 -0700 (PDT)
 Received: from haswell.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
 	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	a5sm13669903pat.19.2016.05.11.10.36.04
+	a5sm13669903pat.19.2016.05.11.10.36.05
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 11 May 2016 10:36:04 -0700 (PDT)
+	Wed, 11 May 2016 10:36:05 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 May 2016 10:35:14 -0700
-Message-Id: <5a5984ba5790598d92f9db507b5a74d8284d8e86.1462987863.git.raj.khem@gmail.com>
+Date: Wed, 11 May 2016 10:35:15 -0700
+Message-Id: <f43026942116101aca5ddb8a08c4b1734e832aaf.1462987863.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.8.2
 In-Reply-To: <2e51e9b5fb3911436afc1becd5feb9351b896fa4.1462987863.git.raj.khem@gmail.com>
 References: <2e51e9b5fb3911436afc1becd5feb9351b896fa4.1462987863.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1462987863.git.raj.khem@gmail.com>
 References: <cover.1462987863.git.raj.khem@gmail.com>
-Subject: [PATCH 11/42] nss: Upgrade to 3.23
+Cc: Dan McGregor <dan.mcgregor@usask.ca>
+Subject: [PATCH 12/42] pkgconfig: Fix build with gcc-6 and upgrade to 0.29.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,64 +61,76 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 11 May 2016 17:36:05 -0000
 
-Disable Werror on native builds. This helps
-in building nss-native on build hosts which have
-gcc < 4.9 eg. ubuntu 14.04
+From: Dan McGregor <dan.mcgregor@usask.ca>
 
-The real issue is that we use headers from native
-staging sysroot and it has the updated glibc headers
-which then ends up with errors e.g.
-
-| In function 'memset',
-|     inlined from 'sec_PKCS7Encrypt' at p7local.c:715:14:
-| /usr/include/x86_64-linux-gnu/bits/string3.h:81:30: error: call to '__warn_memset_zero_len' declared with attribute warning: memset used with constant zero length parameter; this could be due to transposed parameters [-Werror]
-|        __warn_memset_zero_len ();
-|                               ^
-| cc1: all warnings being treated as errors
-| make[2]: *** [Linux3.4_x86_64_glibc_PTH_64_OPT.OBJ/p7local.o] Error 1
+glib patch is backported from glib-2.0 upstream
+eventually we will throw it away once pkgconfig
+moves to newer glib
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-support/nss/{nss_3.21.bb => nss_3.23.bb} | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-support/nss/{nss_3.21.bb => nss_3.23.bb} (97%)
+ ...e-Move-warning-pragma-outside-of-function.patch | 39 ++++++++++++++++++++++
+ meta/recipes-devtools/pkgconfig/pkgconfig_git.bb   |  1 +
+ 2 files changed, 40 insertions(+)
+ create mode 100644 meta/recipes-devtools/pkgconfig/pkgconfig/0001-gdate-Move-warning-pragma-outside-of-function.patch
 
-diff --git a/meta/recipes-support/nss/nss_3.21.bb b/meta/recipes-support/nss/nss_3.23.bb
-similarity index 97%
-rename from meta/recipes-support/nss/nss_3.21.bb
-rename to meta/recipes-support/nss/nss_3.23.bb
-index d2e2411..2663ff7 100644
---- a/meta/recipes-support/nss/nss_3.21.bb
-+++ b/meta/recipes-support/nss/nss_3.23.bb
-@@ -15,7 +15,7 @@ LIC_FILES_CHKSUM = "file://nss/COPYING;md5=3b1e88e1b9c0b5a4b2881d46cce06a18 \
-                     file://nss/lib/freebl/mpi/doc/LICENSE-MPL;md5=5d425c8f3157dbf212db2ec53d9e5132"
+diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig/0001-gdate-Move-warning-pragma-outside-of-function.patch b/meta/recipes-devtools/pkgconfig/pkgconfig/0001-gdate-Move-warning-pragma-outside-of-function.patch
+new file mode 100644
+index 0000000..14c8293
+--- /dev/null
++++ b/meta/recipes-devtools/pkgconfig/pkgconfig/0001-gdate-Move-warning-pragma-outside-of-function.patch
+@@ -0,0 +1,39 @@
++From 946d36266d8a30f04fe34d3183bf4929141934d2 Mon Sep 17 00:00:00 2001
++From: coypu <coypu@sdf.org>
++Date: Wed, 2 Mar 2016 19:38:48 +0200
++Subject: [PATCH] gdate: Move warning pragma outside of function
++
++Commit 0817af40e8c74c721c30f6ef482b1f53d12044c7 breaks the build on
++older versions of GCC, which don't allow pragma inside functions.
++
++https://bugzilla.gnome.org/761550
++---
++Upstream-Status: Backport
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++ glib/glib/gdate.c | 5 +++++
++ 1 file changed, 5 insertions(+)
++
++diff --git a/glib/glib/gdate.c b/glib/glib/gdate.c
++index 1978cf7..20e6c4a 100644
++--- a/glib/glib/gdate.c
+++++ b/glib/glib/gdate.c
++@@ -2439,6 +2439,9 @@ win32_strftime_helper (const GDate     *d,
++  *
++  * Returns: number of characters written to the buffer, or 0 the buffer was too small
++  */
+++#pragma GCC diagnostic push
+++#pragma GCC diagnostic ignored "-Wformat-nonliteral"
+++
++ gsize     
++ g_date_strftime (gchar       *s, 
++                  gsize        slen, 
++@@ -2549,3 +2552,5 @@ g_date_strftime (gchar       *s,
++   return retval;
++ #endif
++ }
+++
+++#pragma GCC diagnostic pop
++-- 
++1.9.1
++
+diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
+index d7634e3..86503b5 100644
+--- a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
++++ b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
+@@ -18,6 +18,7 @@ PV = "0.29.1+git${SRCPV}"
+ SRC_URI = "git://anongit.freedesktop.org/pkg-config \
+            file://pkg-config-native.in \
+            file://fix-glib-configure-libtool-usage.patch \
++           file://0001-gdate-Move-warning-pragma-outside-of-function.patch \
+            "
  
- SRC_URI = "\
--    http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_3_21_RTM/src/${BP}.tar.gz \
-+    http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_3_23_RTM/src/${BP}.tar.gz \
-     file://nss-fix-support-cross-compiling.patch \
-     file://nss-no-rpath-for-cross-compiling.patch \
-     file://nss-fix-incorrect-shebang-of-perl.patch \
-@@ -24,9 +24,8 @@ SRC_URI = "\
-     file://nss.pc.in \
-     file://signlibs.sh \
- "
--
--SRC_URI[md5sum] = "3c8b2ed880dd3a8d86c9e0151afe6eba"
--SRC_URI[sha256sum] = "3f7a5b027d7cdd5c0e4ff7544da33fdc6f56c2f8c27fff02938fd4a6fbe87239"
-+SRC_URI[md5sum] = "21c3fed84441b2ab4c50ac626f6517e7"
-+SRC_URI[sha256sum] = "94b383e31c9671e9dfcca81084a8a813817e8f05a57f54533509b318d26e11cf"
- 
- UPSTREAM_CHECK_URI = "https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/NSS_Releases"
- UPSTREAM_CHECK_REGEX = "NSS_(?P<pver>.+)_release_notes"
-@@ -49,6 +48,7 @@ do_configure_prepend_libc-musl () {
- do_compile_prepend_class-native() {
-     export NSPR_INCLUDE_DIR=${STAGING_INCDIR_NATIVE}
-     export NSPR_LIB_DIR=${STAGING_LIBDIR_NATIVE}
-+    export NSS_ENABLE_WERROR=0
- }
- 
- do_compile_prepend_class-nativesdk() {
+ S = "${WORKDIR}/git"
 -- 
 2.8.2
 
