@@ -1,51 +1,53 @@
 Return-Path: <raj.khem@gmail.com>
 Received: from mail-pa0-f66.google.com (mail-pa0-f66.google.com
 	[209.85.220.66])
-	by mail.openembedded.org (Postfix) with ESMTP id DFE9C731E6
+	by mail.openembedded.org (Postfix) with ESMTP id 109E26FF78
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 May 2016 17:36:30 +0000 (UTC)
-Received: by mail-pa0-f66.google.com with SMTP id i5so4048022pag.3
+	Wed, 11 May 2016 17:41:45 +0000 (UTC)
+Received: by mail-pa0-f66.google.com with SMTP id yl2so4055388pac.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 May 2016 10:36:32 -0700 (PDT)
+	Wed, 11 May 2016 10:41:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=FORGP0ivsSq0zy5hPqTD2gkRy19CtiHwMKXJP9ZOjaY=;
-	b=o5SFWrRU/4jlNPrE+SK45xQNo3e5qOKRlbhNDi990suxR8RCadWMpd8SVuN1AZsYOB
-	3dbKbAxMKUOD1c47AfP4vuACrE/9yMMvbMwKnFGeKW+UiyfKSzJU6hh1bjFBUNl918Fp
-	TTM9wFLv+Axa8FF97nHAtzr5vHHCfb17JNlXhmIoNLBeC0zDvUEcDbJVkD4LQL7VvqmA
-	Dwk1raIpNua9JP3c1aJMLsQyL54ZIobGxcp5qmT2XcCM8sLb8jhtNPiZQ/afAQRb2sGj
-	usTIFc9x9/izydHK8/wMzyBDpcySUzvbJtHAbrK3e2ZHojaXP4Tvv58aExz31IexQHhO
-	HSXg==
+	h=mime-version:subject:from:in-reply-to:date:message-id:references:to; 
+	bh=DLihP1i7vvF1q2UisFOSDDaO9NYDGE1cztR8BvVsdbk=;
+	b=nh41fEnQto8JHIosZKH3B6nvmaBEV/mrqo9iZsAFfTraSJYTlKSQaLPO+tgWRuDSMX
+	/QKbxSYCunO8HFIl2vGKJP++5mR6tgEmjhe4H5kcgny0EVVOwzbO0t49p+D9kdJF6xri
+	8bXJxFu2ORU2NhIk1JugBMMRg+Eikoz0640xXfdQF5p12gUVd8TJ9dz6hYZPBCsXHPMs
+	dSd5HP3ZpGpzB5dr3VD8elwiG6NowZX64FMTTLhKmt6fyRF9vZZQapAB9v/ssqEw/NFc
+	6CjXLukYrOtberYi8NI5YYv9Z+ekIjHkHiCslVQucX3wuDEc5sXvZY+hQ64KaQUAqmwM
+	jeoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:in-reply-to:references;
-	bh=FORGP0ivsSq0zy5hPqTD2gkRy19CtiHwMKXJP9ZOjaY=;
-	b=dSvIdo7ykf6V5hmAYGy/FnY4BmuQyu5Ohw99tW9SFWcs8492XQFOQW0rZy7zNoJfL2
-	fU46qXd4YDjLm/EldvCsD6AkwJFuPq8xjZXfBRUGUQF2HDLIkJj0R01zBNuN16AYYYuq
-	NrPYuL527CudJkFw/EsRwmYrIxkiLy/nPnjIQN8lcUU/vcnSjiqBrmPo6pw9Iml0vqm6
-	j9PNhJfRDo8gfnH2bbSf46oAPuEzMcQA7GOXcljUeOHecaoJTE+hzDCmQgvBOJVORMMF
-	4rteykmNItdncFNLFCH/f4RGhEZ78YnFK8cUczXT80nHopU6yhGe+kHosGmPtTpI/Cny
-	6ivQ==
-X-Gm-Message-State: AOPr4FWcdKsKJ+bWVGM3Ue0UcihGZceVPX2loEubo8i0/zKAGTupzsTB4/YNaSMGFyA9cQ==
-X-Received: by 10.66.182.161 with SMTP id ef1mr6629451pac.40.1462988191944;
-	Wed, 11 May 2016 10:36:31 -0700 (PDT)
-Received: from haswell.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
+	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date
+	:message-id:references:to;
+	bh=DLihP1i7vvF1q2UisFOSDDaO9NYDGE1cztR8BvVsdbk=;
+	b=jnAoFHrGDFjX30FHJH15IN8ZrA83jySDLu0mEsO9ngU9ybZEfYJGBdjiwcB3XAZjIP
+	e5JyDvWVAS3sV6xNQ7pR5rEHXTOvte8dqvRb64SSAac9ifjNq/nHxl4qNZPWymqkpFFF
+	2dMLg3ulC8kNbdFjLkDFdaBvZhPURlVmr5Wb5nr3ehhDDMDB4qbDOSVMqPyOzWF2NI7u
+	JpLwojw4LzkzLtLl8dhrBrl8nrXVXWy98YkODrXAqcgIrcYDNQLLlNzqOCwdi0jUXnIf
+	JkSnEtSvX1pi+fCKjuG30UXv89sMFfZXnlpElBwJykpGSHBrFUhLLWDLypFZyNS9OFeL
+	UAUQ==
+X-Gm-Message-State: AOPr4FXalkF8KB7p0Zly3T3hXMoQoYDB813clREliLZieQI6w1Mm3v3LeN9tQ70oiC0XTQ==
+X-Received: by 10.66.76.74 with SMTP id i10mr6829107paw.31.1462988506245;
+	Wed, 11 May 2016 10:41:46 -0700 (PDT)
+Received: from [192.168.0.76] (c-76-102-32-192.hsd1.ca.comcast.net.
 	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	a5sm13669903pat.19.2016.05.11.10.36.31
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 11 May 2016 10:36:31 -0700 (PDT)
+	e184sm13695207pfe.14.2016.05.11.10.41.44
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 11 May 2016 10:41:44 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Pgp-Agent: GPGMail 2.6b2
 From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 May 2016 10:35:45 -0700
-Message-Id: <f40e547fc31a4909b0f20d05e092f34f61b2bfc3.1462987863.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 2.8.2
-In-Reply-To: <2e51e9b5fb3911436afc1becd5feb9351b896fa4.1462987863.git.raj.khem@gmail.com>
+In-Reply-To: <a8409df2464eab600c31aad9ab849703304d8a23.1462987863.git.raj.khem@gmail.com>
+Date: Wed, 11 May 2016 10:42:02 -0700
+Message-Id: <07B3E086-2999-4D73-A834-6ED08AFA9992@gmail.com>
 References: <2e51e9b5fb3911436afc1becd5feb9351b896fa4.1462987863.git.raj.khem@gmail.com>
-In-Reply-To: <cover.1462987863.git.raj.khem@gmail.com>
-References: <cover.1462987863.git.raj.khem@gmail.com>
-Subject: [PATCH 42/42] gcc-runtime, libgcc: Symlink c++ header and startup files in target_triplet for SDK use
+	<cover.1462987863.git.raj.khem@gmail.com>
+	<a8409df2464eab600c31aad9ab849703304d8a23.1462987863.git.raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+X-Mailer: Apple Mail (2.3124)
+Subject: Re: [PATCH 26/42] strace: Remove pipe.expected
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,98 +60,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 May 2016 17:36:31 -0000
+X-List-Received-Date: Wed, 11 May 2016 17:41:47 -0000
+X-Groupsio-MsgNum: 81929
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_63034EDE-AA9A-441E-8E07-AC23B976DADF";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-We build SDKs such that gcc-cross-candian is built for only one
-target *-*-linux and then use -muclibc or -mmusl to let it compile
-code for other libc variants. This works fine when libc = glibc
-however it does not work for c++ programs when libc != glibc since
-there are c++ headers installed under ${includedir}/c++/${BINV}/${TARGET_SYS}
-which is fine when gcc-runtime and gcc-cross-candian uses same --target options
-gxx includedir searches in right triplet, but it fails with musl/uclibc
-since gcc will look for glibc based triplet but gcc-runtime will install
-them under musl/uclibc triplet.
-
-This patch symlinks the musl/uclibc triplet to glibc triplet when libc != glibc
-
-This fixes SDKs for musl/uclibc
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/classes/cross-canadian.bbclass       |  1 +
- meta/recipes-devtools/gcc/gcc-runtime.inc | 12 ++++++++++++
- meta/recipes-devtools/gcc/libgcc.inc      | 12 ++++++++++++
- 3 files changed, 25 insertions(+)
-
-diff --git a/meta/classes/cross-canadian.bbclass b/meta/classes/cross-canadian.bbclass
-index e07b1bd..d35451d 100644
---- a/meta/classes/cross-canadian.bbclass
-+++ b/meta/classes/cross-canadian.bbclass
-@@ -68,6 +68,7 @@ python () {
-     elif tarch == "mips64":
-         d.appendVar("CANADIANEXTRAOS", " linux-gnun32 linux-uclibcn32 linux-musln32")
-     if tarch == "arm" or tarch == "armeb":
-+        d.appendVar("CANADIANEXTRAOS", " linux-musleabi linux-uclibceabi")
-         d.setVar("TARGET_OS", "linux-gnueabi")
-     else:
-         d.setVar("TARGET_OS", "linux")
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-index 8639c1c..99f50f8 100644
---- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-+++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-@@ -73,9 +73,21 @@ do_install () {
- 	if [ "${TARGET_VENDOR_MULTILIB_ORIGINAL}" != "" -a "${TARGET_VENDOR}" != "${TARGET_VENDOR_MULTILIB_ORIGINAL}" ]; then
- 		ln -s ${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-${TARGET_OS}
- 	fi
-+
-+}
-+
-+do_install_append_class-target () {
- 	if [ "${TARGET_OS}" = "linux-gnuspe" ]; then
- 		ln -s ${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux
- 	fi
-+	if [ "${TCLIBC}" != "glibc" ]; then
-+		case "${TARGET_OS}" in
-+			"linux-musl" | "linux-uclibc" | "linux-*spe") extra_target_os="linux";;
-+			"linux-musleabi" | "linux-uclibceabi") extra_target_os="linux-gnueabi";;
-+			*) extra_target_os="linux";;
-+		esac
-+		ln -s ${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-$extra_target_os
-+	fi
- 	chown -R root:root ${D}
- }
- 
-diff --git a/meta/recipes-devtools/gcc/libgcc.inc b/meta/recipes-devtools/gcc/libgcc.inc
-index 6837786..4770394 100644
---- a/meta/recipes-devtools/gcc/libgcc.inc
-+++ b/meta/recipes-devtools/gcc/libgcc.inc
-@@ -2,6 +2,17 @@ require libgcc-common.inc
- 
- DEPENDS = "virtual/${TARGET_PREFIX}gcc virtual/${TARGET_PREFIX}g++"
- 
-+do_install_append_class-target () {
-+	if [ "${TCLIBC}" != "glibc" ]; then
-+		case "${TARGET_OS}" in
-+			"linux-musl" | "linux-uclibc" | "linux-*spe") extra_target_os="linux";;
-+			"linux-musleabi" | "linux-uclibceabi") extra_target_os="linux-gnueabi";;
-+			*) extra_target_os="linux";;
-+		esac
-+		ln -s ${TARGET_SYS} ${D}${libdir}/${TARGET_ARCH}${TARGET_VENDOR}-$extra_target_os
-+	fi
-+}
-+
- PACKAGES = "\
-     ${PN} \
-     ${PN}-dev \
-@@ -19,6 +30,7 @@ FILES_${PN}-dev = "\
-     ${base_libdir}/libgcc*.so \
-     ${@base_conditional('BASETARGET_SYS', '${TARGET_SYS}', '', '${libdir}/${BASETARGET_SYS}', d)} \
-     ${libdir}/${TARGET_SYS}/${BINV}* \
-+    ${libdir}/${TARGET_ARCH}${TARGET_VENDOR}* \
- "
- 
- LIBGCCBUILDTREENAME = "gcc-build-internal-"
--- 
-2.8.2
+--Apple-Mail=_63034EDE-AA9A-441E-8E07-AC23B976DADF
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
 
+> On May 11, 2016, at 10:35 AM, Khem Raj <raj.khem@gmail.com> wrote:
+>=20
+> file utility on some OSes e.g. archlinux'like
+> which use file 5.26 can not recognise a file
+> in strace testsuite e.g.
+>=20
+
+
+> file ./strace-4.11/tests/pipe.expected
+> ./strace-4.11/tests/pipe.expected: ERROR: EOF computing DER offset
+>=20
+
+
+this is due to a bug in archlinux file utility, please drop it. I have =
+also removed it from pull branch
+
+
+> This ends up in QA errors
+> ERROR: strace-4.11-r0 do_populate_sysroot: split_and_strip_files: =
+'file =
+/a/build/tmp-glibc/work/cortexa7hf-neon-vfpv4-oe-linux-gnueabi/strace/4.11=
+-r0/sysroot-destdir/usr/lib/strace/ptest/tests/pipe.expected' failed
+>=20
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+> meta/recipes-devtools/strace/strace_4.11.bb | 1 +
+> 1 file changed, 1 insertion(+)
+>=20
+> diff --git a/meta/recipes-devtools/strace/strace_4.11.bb =
+b/meta/recipes-devtools/strace/strace_4.11.bb
+> index 7391388..a787df2 100644
+> --- a/meta/recipes-devtools/strace/strace_4.11.bb
+> +++ b/meta/recipes-devtools/strace/strace_4.11.bb
+> @@ -46,6 +46,7 @@ do_compile_ptest() {
+> do_install_ptest() {
+> 	oe_runmake -C ${TESTDIR} install-ptest BUILDDIR=3D${B} =
+DESTDIR=3D${D}${PTEST_PATH} TESTDIR=3D${TESTDIR}
+> 	sed -i -e '/^src/s/strace.*[1-9]/ptest/' =
+${D}/${PTEST_PATH}/${TESTDIR}/Makefile
+> +	rm -rf ${D}${libdir}/strace/ptest/tests/pipe.expected
+> }
+>=20
+> BBCLASSEXTEND =3D "native"
+> --
+> 2.8.2
+>=20
+
+
+--Apple-Mail=_63034EDE-AA9A-441E-8E07-AC23B976DADF
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlczbu4ACgkQuwUzVZGdMxQkfwCfTY+lA/dqDAdL5jUQo29TsboO
+4TsAn3q5ujphsgoOUGDM8FEcivkjpmBH
+=w7sX
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_63034EDE-AA9A-441E-8E07-AC23B976DADF--
