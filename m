@@ -1,51 +1,52 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f68.google.com (mail-pa0-f68.google.com
-	[209.85.220.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 411A576806
+Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
+	[209.85.220.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 914E677081
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 May 2016 17:36:25 +0000 (UTC)
-Received: by mail-pa0-f68.google.com with SMTP id yl2so4046869pac.1
+	Wed, 11 May 2016 17:36:26 +0000 (UTC)
+Received: by mail-pa0-f65.google.com with SMTP id zy2so4801676pac.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 May 2016 10:36:26 -0700 (PDT)
+	Wed, 11 May 2016 10:36:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=EKBesTDHUX5HOJtWy9X0kmcrnuveThQ0Ehj1sgpZGmY=;
-	b=ltj/xT4hIIlVMahE3eayavD8ecxnurG6Uh4JOTjk8FVc41mXH/BPk5dmF5gC5yOx3q
-	Vqe0HllsdOnvx6HRXfZF5e3cpvaPc6pmEMSW9Wf/NirCQZT0sRps8QUQKG87aODlqaBa
-	2seYDDMg9wkyCnP5Eticfi4/wj+GAPYY1p4/q8++rKN8zfdHTkfZdwk+3tLYk4zXBtDe
-	U4QPmNqACKDEkl5huUo5oH9iJKlo7QEIQF9GTe+h7YOxEQ79gxLWLtKADpyz80TA3irj
-	uelkdgUOrraliBRdah0kKSD4UCy7ErPPRpZ5l2Id3IgD+tFM4ssoSWG4AE0d0UnpMuqP
-	Ltgw==
+	bh=h3U0fnLDUqkhwJ/ocpUEY3p5+Tb1w991pvhJkzCZKBA=;
+	b=fX9ThNu8XZqJ7iK0hlIBKF76PbU/0hYAwgr8tG0cKegIKpee3narfvA3IUla/Qi4pS
+	BwCAEVH/2NlBsso5PXctIo3NkZ4CrlFcro89NDQ0NpNAWyfNh/FeTeAUMQgOlJ4T/hej
+	r9fN66XKvwjoO283TAQMn4FRsY6nklWXPw6/yC3YN43tI3flMeYfNJB6KyDSi1cbDmAR
+	Zho62ML08aw9sZQQHnoU/PHW0SrvMKSDB2+07OvirkQU0Jy/58JMOeiI8vmpDa/EmsGS
+	6HrYGfpXoznfpEtHatUi9h8j15VXnIsr+VCsk2z8VXvFnFw2cK1PeYOyx284IN38olTk
+	NBww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=EKBesTDHUX5HOJtWy9X0kmcrnuveThQ0Ehj1sgpZGmY=;
-	b=BqZA3pdn6VW0jJIMlb5Mu+IEt4uKO8vVZF6P8k7U36VtW82i0ZdNq2fbreSoKwdxto
-	zBCZaYr5mq0xmcXTFOnl9Vn7yQpmsrxNYnjizzBvzd6W3ulZ0xPuQYbygFXo8ljJGDID
-	WVu6trdOqbBIDp5EyqYWWhV16sUYREQPH0l5l8cXYNt+4gX95hWH3f/n9uUef0Yti5hR
-	V6Ige7CO1pjK7t6H1CZy9CFPdrp4R0EKWyD6DuINSQ/N5wBKqMS1mUfA/R+I4/YnMzkQ
-	yYUTzHf/5Ww+Ki7Mda4t30nb5t9OJV7yfE+J+3J4ZTJi/jnlzmZ77++/4oEcGBhgK8ql
-	r9Kg==
-X-Gm-Message-State: AOPr4FVwImnWlp/ilG1XwRnaT+1Hj1VstrYPNbjrmwhJdjRZH6iLbIZI/BjvLvXLqQY5QQ==
-X-Received: by 10.66.67.11 with SMTP id j11mr6781406pat.45.1462988186320;
-	Wed, 11 May 2016 10:36:26 -0700 (PDT)
+	bh=h3U0fnLDUqkhwJ/ocpUEY3p5+Tb1w991pvhJkzCZKBA=;
+	b=nIbM5C/8mud7n9IZGBynoYleJal7f7Vw1tmQurdoC0n6/Etv9gc7E7po71125TWLxJ
+	fxbAjStlMXcxqvNgRQZSb3TtO64UtZNEKUAMGmj5OzJBQlfNLd+557ooF/OwJ+OUH07T
+	wCVCEKfqwiYg7gwA21zkppJ+dvb9VlFnh5AAcWdaML/VgsvIUtUdFacfZKVsDOcYc/hI
+	ftjRN2FPvEaECct8AOkenPv7z3JX8iSTjqKch/+/njA41S4STOmquo9WfkTCwjQ1fA/i
+	ad+i4IfynRU9mBmt8l3BCime2F0lMwOVawh9cGBRya7vuf1gldFPIZQHE2Jri1tu52oF
+	q14w==
+X-Gm-Message-State: AOPr4FVVTHvu5F8xQhFKlS50+vuVC4pV6NFCs0XSAP/0AIWpEbBnDWSjiBmfOirJ0HAJrg==
+X-Received: by 10.66.151.104 with SMTP id up8mr5074023pab.134.1462988187276;
+	Wed, 11 May 2016 10:36:27 -0700 (PDT)
 Received: from haswell.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
 	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	a5sm13669903pat.19.2016.05.11.10.36.25
+	a5sm13669903pat.19.2016.05.11.10.36.26
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 11 May 2016 10:36:25 -0700 (PDT)
+	Wed, 11 May 2016 10:36:26 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 May 2016 10:35:38 -0700
-Message-Id: <6a922b1f6efd06f9fd473a6b56b0b179756b8a0e.1462987863.git.raj.khem@gmail.com>
+Date: Wed, 11 May 2016 10:35:39 -0700
+Message-Id: <d4ffe7c40a1f35b550edb4c37addc832346e300c.1462987863.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.8.2
 In-Reply-To: <2e51e9b5fb3911436afc1becd5feb9351b896fa4.1462987863.git.raj.khem@gmail.com>
 References: <2e51e9b5fb3911436afc1becd5feb9351b896fa4.1462987863.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1462987863.git.raj.khem@gmail.com>
 References: <cover.1462987863.git.raj.khem@gmail.com>
-Subject: [PATCH 35/42] tcmode-default: Bump gcc,glibc,gdb
+Cc: Marek Vasut <marex@denx.de>
+Subject: [PATCH 36/42] bitbake: Oldest kernel for nios2 is 3.19
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,33 +59,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 May 2016 17:36:25 -0000
+X-List-Received-Date: Wed, 11 May 2016 17:36:26 -0000
 
-gcc 6.1, glibc 2.24, gdb 7.11
+From: Marek Vasut <marex@denx.de>
 
+The oldest kernel version for nios2 is 3.19.0, set it so, otherwise
+qemu-nios2 -r ${OLDEST_KERNEL} fails with "FATAL: kernel too old"
+message from glibc.
+
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/conf/distro/include/tcmode-default.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/conf/bitbake.conf | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index c412420..d3a4351 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -22,11 +22,11 @@ PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}libc-initial = "${TCLIBC}-initial"
- PREFERRED_PROVIDER_virtual/nativesdk-${SDK_PREFIX}libc-initial ?= "nativesdk-glibc-initial"
- PREFERRED_PROVIDER_virtual/gettext ??= "gettext"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 9c865d7..382dadc 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -405,6 +405,8 @@ SDKPATHNATIVE = "${SDKPATH}/sysroots/${SDK_SYS}"
  
--GCCVERSION ?= "5.3%"
-+GCCVERSION ?= "6.1%"
- SDKGCCVERSION ?= "${GCCVERSION}"
- BINUVERSION ?= "2.26%"
--GDBVERSION ?= "7.10%"
--GLIBCVERSION ?= "2.23"
-+GDBVERSION ?= "7.11%"
-+GLIBCVERSION ?= "2.24"
- UCLIBCVERSION ?= "1.0%"
- LINUXLIBCVERSION ?= "4.4"
+ OLDEST_KERNEL = "3.2.0"
+ OLDEST_KERNEL_aarch64 = "3.14"
++OLDEST_KERNEL_nios2 = "3.19"
++
+ STAGING_KERNEL_DIR = "${TMPDIR}/work-shared/${MACHINE}/kernel-source"
+ STAGING_KERNEL_BUILDDIR = "${TMPDIR}/work-shared/${MACHINE}/kernel-build-artifacts"
  
 -- 
 2.8.2
