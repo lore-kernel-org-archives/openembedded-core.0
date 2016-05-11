@@ -1,22 +1,22 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 66838605FE
+	by mail.openembedded.org (Postfix) with ESMTP id 5D98370022
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 May 2016 05:44:50 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u4B5inDv003985
+	Wed, 11 May 2016 06:22:31 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u4B6MUog004783
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Tue, 10 May 2016 22:44:50 -0700
-Received: from [128.224.163.137] (128.224.163.137) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 10 May 2016 22:44:49 -0700
+	Tue, 10 May 2016 23:22:30 -0700
+Received: from [128.224.163.137] (128.224.163.137) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Tue, 10 May 2016 23:22:29 -0700
 To: Armin Kuster <akuster808@gmail.com>, <akuster@mvista.com>,
 	<openembedded-core@lists.openembedded.org>
 References: <1462319165-24307-1-git-send-email-akuster808@gmail.com>
 From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <5732C6CF.6000800@windriver.com>
-Date: Wed, 11 May 2016 13:44:47 +0800
+Message-ID: <5732CFA3.7080302@windriver.com>
+Date: Wed, 11 May 2016 14:22:27 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
 	Thunderbird/38.7.2
 MIME-Version: 1.0
@@ -34,7 +34,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 May 2016 05:44:51 -0000
+X-List-Received-Date: Wed, 11 May 2016 06:22:31 -0000
 Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
@@ -53,6 +53,12 @@ On 05/04/2016 07:46 AM, Armin Kuster wrote:
 > fixup openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
 >
 > drop crypto_use_bigint_in_x86-64_perl.patch as that fix is in latest.
+
+After I looked into the code, it seems that this patch is not in latest code ?
+It is a backported patch from gentoo.
+
+// Robert
+
 >
 > Signed-off-by: Armin Kuster <akuster@mvista.com>
 > ---
@@ -101,14 +107,6 @@ On 05/04/2016 07:46 AM, Armin Kuster wrote:
 >               file://Makefiles-ptest.patch \
 >               file://ptest-deps.patch \
 > -            file://crypto_use_bigint_in_x86-64_perl.patch \
-
-Hi,
-
-Please remove file crypto_use_bigint_in_x86-64_perl.patch if it is not needed 
-any more.
-
-// Robert
-
 >               file://openssl-1.0.2a-x32-asm.patch \
 >               file://ptest_makefile_deps.patch  \
 >               file://configure-musl-target.patch \
