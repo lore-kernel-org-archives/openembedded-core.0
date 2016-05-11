@@ -1,43 +1,43 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
-	[209.85.220.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B73370031
+Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
+	[209.85.220.194])
+	by mail.openembedded.org (Postfix) with ESMTP id D4FEC70031
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 May 2016 14:31:06 +0000 (UTC)
-Received: by mail-qk0-f196.google.com with SMTP id i7so3189853qkd.1
+	Wed, 11 May 2016 14:31:13 +0000 (UTC)
+Received: by mail-qk0-f194.google.com with SMTP id q184so3200189qkf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 May 2016 07:31:07 -0700 (PDT)
+	Wed, 11 May 2016 07:31:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:organization;
-	bh=PPidu5SepWZzu0jbO9kAb0kVSiso75R45//MLnbtYWY=;
-	b=Ru3FuV+n1anZI58RkaTCdztDLI3r55iodJWYHkh9jLHo7O2/CzHxsuRmU9exu/iNXp
-	hxbBmzsxWTqTt7m8rGdHsjD+Zr+MpPdW2XDauNSLCD2R70gkyNtBDdjtPs7GM24o1Dsl
-	6JKKcnpUidnn5kWn/Mpm+vS+2hYu9x8TapaLvof4nwJD4E3D7v/RkD2bsqh0T2oQa2gp
-	fvj9EtJ5km9K99mYRhxYUu/e3Ay9nm15UdlmV2NhM/TsN5b8Ja9PwDYduFLokhII2bl1
-	7FfSFEHlS5HOyp0gTgikHUMBptYy0I+b/+Go+NSMgCbzc/Kg+cbqp91ddnlmFVI6yj8v
-	CExw==
-X-Gm-Message-State: AOPr4FUpPeZ79vSIkmF9s4GhSnbON9+IVfEJPLMmuyDHbv8dNk+yWH7Vxm3u+Y1kXTqe8A==
-X-Received: by 10.55.96.197 with SMTP id u188mr4029863qkb.151.1462977067135;
-	Wed, 11 May 2016 07:31:07 -0700 (PDT)
+	bh=ShiWdIPBFJsGaDTtUEfc97YoAojijU47TKdVrq52Ix8=;
+	b=FahR/IWCjU7wPHHga2WALR1b3jfryeklhDkSMF0U6BrNWQEHWwsJlMoMg5BVpuQs+u
+	ik84IXLEtnV2nKuQvIvIe9hFYw6mYMRG47/Eyoe4CpL6JTUOX8rIft8zk5tTFw9QOp3/
+	aEQa51nq7scckj0tjxa98cz3uao6RnhzyQyE46C3X1bHgvV0wk2op14QXXDlm0YcrwIW
+	anIXfgYSZqGfGA6jocVG+34wpe+zZ0CJG8/tBHcb6t8bm/JamaYr/Et09fLz4/8U8DfO
+	XC/2SSRFmyuPwOi9MUB/oqqJyzGPuWLcGTA8fgWdRXIaKJeHBEK83EOhlYp/6Qe8Yb51
+	A+GQ==
+X-Gm-Message-State: AOPr4FVuanMrdDV4ctEYfYx/PjeNnJ7nmmOkPhD81qWD93G/33Qm8nyZWFPy84cil4rYjw==
+X-Received: by 10.55.180.133 with SMTP id d127mr3926241qkf.131.1462977074264; 
+	Wed, 11 May 2016 07:31:14 -0700 (PDT)
 Received: from localhost ([187.23.154.250]) by smtp.gmail.com with ESMTPSA id
-	a207sm3544469qkb.28.2016.05.11.07.31.01
+	p138sm3505895qhb.46.2016.05.11.07.31.09
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 11 May 2016 07:31:05 -0700 (PDT)
+	Wed, 11 May 2016 07:31:13 -0700 (PDT)
 Received: by localhost (sSMTP sendmail emulation);
-	Wed, 11 May 2016 11:30:59 -0300
+	Wed, 11 May 2016 11:31:07 -0300
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Wed, 11 May 2016 11:30:33 -0300
-Message-Id: <1462977042-7436-3-git-send-email-otavio@ossystems.com.br>
+Date: Wed, 11 May 2016 11:30:34 -0300
+Message-Id: <1462977042-7436-4-git-send-email-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.8.2
 In-Reply-To: <1462977042-7436-1-git-send-email-otavio@ossystems.com.br>
 References: <1462977042-7436-1-git-send-email-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
 Cc: prabhu.sundararaj@nxp.com, Otavio Salvador <otavio@ossystems.com.br>,
 	meta-freescale Mailing List <meta-freescale@yoctoproject.org>
-Subject: [oe-core PATCH v5 02/11] weston: Fix SystemD service description
+Subject: [oe-core PATCH v5 03/11] weston: Add PACKAGECONFIG option for 'clients'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,11 +50,9 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 May 2016 14:31:06 -0000
+X-List-Received-Date: Wed, 11 May 2016 14:31:15 -0000
 
-This improves the log shawn in boot. Now it shows:
-
-  [  OK  ] Started Weston Wayland Compositor
+This allow Weston to be build without the clients.
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
@@ -66,20 +64,41 @@ Changes in v4:
 Changes in v3: None
 Changes in v2: None
 
- meta/recipes-graphics/wayland/weston-init/weston.service | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-graphics/wayland/weston_1.9.0.bb | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston.service b/meta/recipes-graphics/wayland/weston-init/weston.service
-index 4f1f7ff..12aedb7 100644
---- a/meta/recipes-graphics/wayland/weston-init/weston.service
-+++ b/meta/recipes-graphics/wayland/weston-init/weston.service
-@@ -1,5 +1,5 @@
- [Unit]
--Description=Weston Wayland compositor startup
-+Description=Weston Wayland Compositor
- RequiresMountsFor=/run
+diff --git a/meta/recipes-graphics/wayland/weston_1.9.0.bb b/meta/recipes-graphics/wayland/weston_1.9.0.bb
+index c87f053..f703f39 100644
+--- a/meta/recipes-graphics/wayland/weston_1.9.0.bb
++++ b/meta/recipes-graphics/wayland/weston_1.9.0.bb
+@@ -26,9 +26,6 @@ DEPENDS = "libxkbcommon gdk-pixbuf pixman cairo glib-2.0 jpeg"
+ DEPENDS += "wayland libinput virtual/egl pango wayland-native"
  
- [Service]
+ EXTRA_OECONF = "--enable-setuid-install \
+-                --enable-simple-clients \
+-                --enable-clients \
+-                --enable-demo-clients-install \
+                 --disable-rpi-compositor \
+                 --disable-rdp-compositor \
+                 "
+@@ -43,7 +40,7 @@ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'kms fbdev
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'launch', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
+-                  "
++                   clients"
+ #
+ # Compositor choices
+ #
+@@ -77,6 +74,8 @@ PACKAGECONFIG[systemd] = "--enable-systemd-login,--disable-systemd-login,systemd
+ PACKAGECONFIG[xwayland] = "--enable-xwayland,--disable-xwayland,libxcb libxcursor cairo"
+ # colord CMS support
+ PACKAGECONFIG[colord] = "--enable-colord,--disable-colord,colord"
++# Clients support
++PACKAGECONFIG[clients] = "--enable-clients --enable-simple-clients --enable-demo-clients-install,--disable-clients --disable-simple-clients"
+ 
+ do_install_append() {
+ 	# Weston doesn't need the .la files to load modules, so wipe them
 -- 
 2.8.2
 
