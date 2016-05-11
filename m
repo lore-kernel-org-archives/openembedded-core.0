@@ -1,26 +1,45 @@
-Return-Path: <stephano.cetola@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id A39BB6FEFA
+Return-Path: <k4230r6@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id F0E9362135
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 May 2016 19:04:39 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 11 May 2016 12:04:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,608,1455004800"; d="scan'208";a="951193138"
-Received: from ctaylor1-mobl3.amr.corp.intel.com ([10.254.183.134])
-	by orsmga001.jf.intel.com with ESMTP; 11 May 2016 12:04:39 -0700
-Date: Wed, 11 May 2016 12:04:39 -0700
-From: Stephano Cetola <stephano.cetola@linux.intel.com>
-To: "Puustinen, Ismo" <ismo.puustinen@intel.com>
-Message-ID: <20160511190439.GA54030@ctaylor1-mobl3.amr.corp.intel.com>
-References: <1462837346-27095-1-git-send-email-stephano.cetola@linux.intel.com>
-	<1462963597.11059.13.camel@intel.com>
-MIME-Version: 1.0
-In-Reply-To: <1462963597.11059.13.camel@intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 0/2] Create systemd users at build time
+	Wed, 11 May 2016 19:18:55 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id r12so11413071wme.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 May 2016 12:18:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=VTPq//GWPI8ShM5xmtRiXv1lvGCu/+gvA8iANL52/gI=;
+	b=v8fSBCBqCxQWgB115cdWUB9/Z0NtMXXcWWK0TRqlkN3qZzZgIm0nDK/D9hq5YqKZXd
+	QwhDIDPsWQATV3mhlzKgJ0vyv4TNZNaYWbRrjFo6culaV5eOh63lFMYuESCzoNrt9ZIV
+	rG6OUo3kYcCxk1X87o51Y8eGnnKNDU97N50rGltpQJNVGWYQhxi/99n57a5BX1RJD2OY
+	ZZPKA0HOqAKeUv7mk9dmTetlgk6UiU7rO3/QxposKExTd6s/XAQ3Qz1yOPh++EGaIjE3
+	xBEcC1TuYtVramFJzW+nFuF0LtMVQwIqa7A/UHJtdm1NVW6BC3p4/z4+jqIAF2128XiE
+	95Vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=VTPq//GWPI8ShM5xmtRiXv1lvGCu/+gvA8iANL52/gI=;
+	b=Cfzocyv3M6eNtNDfKBF1BNn6ahNJoX+wmr0EUCYxTEvtIJVeeP6o2QeRS6hH+LK7QM
+	AzXXMxJCzhCqryjYZKaksUMOsHAuY513KVoRUBeSnQKM7w+lRImfV32UC7R8yf0o+Ftr
+	S+0r0otlwLfO0KXpTKWqUIJF4g1SwEC1nF3Cw5nC0zPt/jRlXQPJ6I8zpLMylwMfpFUO
+	0N7U9UVnZfvuJ0L1bvkMx0draqsQ9hTREMF5/0XVyrVLf67IWpj4eJqt2Tl60lt348G0
+	B5FzC6zuETt2vxe8iqOQB2JN8eBVCv76dVH2mB128yqPMIQEvInuq7oCzDm+02++rq3G
+	nK7w==
+X-Gm-Message-State: AOPr4FWo9/1VsKq6qeXlbxvqsEFmk7XqN6bRqyui9M7fHxrSC2+WuY14qylySZwSSVAqSg==
+X-Received: by 10.194.116.9 with SMTP id js9mr6306855wjb.112.1462994336172;
+	Wed, 11 May 2016 12:18:56 -0700 (PDT)
+Received: from quadros.fritz.box
+	(HSI-KBW-078-043-133-099.hsi4.kabel-badenwuerttemberg.de.
+	[78.43.133.99]) by smtp.gmail.com with ESMTPSA id
+	w9sm35639092wme.19.2016.05.11.12.18.54
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 11 May 2016 12:18:55 -0700 (PDT)
+From: Christian Ege <k4230r6@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 11 May 2016 21:18:48 +0200
+Message-Id: <1462994328-28828-1-git-send-email-k4230r6@gmail.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] bluez5: fixed path to bluetoothd in sysvinit script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,36 +52,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 May 2016 19:04:39 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 11 May 2016 19:18:56 -0000
 
-On 05/11, Puustinen, Ismo wrote:
-> On Mon, 2016-05-09 at 16:42 -0700, Stephano Cetola wrote:
-> > Systemd has a config option sysusers which creates any users or
-> > groups that
-> > systemd needs on first boot. There is a rootfs-postcommand that
-> > creates these
-> > users in case the filesystem is readonly, however it does not take
-> > into
-> > account any staicids that the user may have set.
-> > 
-> > By adding these users at build time, we allow a check for staticids,
-> > which would
-> > otherwise have been skipped.
-> 
-> I think this is a valuable feature. However, have you considered adding
-> the "m" and "r" options too? I think that at least "m" would be
-> worthwhile to implement, since it's important to be able to add users
-> to different groups for privilege management.
-> 
-> Ismo
+Within the sysvinit script the path to bluetoothd is wrong. Because of this
+the init scripts silently terminates without any message
 
-I added "--system" to both useradd and groupadd, and I believe that is
-the same as "-r". Please correct me if I am wrong there.
+Signed-off-by: Christian Ege <k4230r6@gmail.com>
+---
+ meta/recipes-connectivity/bluez5/bluez5.inc  | 4 ++++
+ meta/recipes-connectivity/bluez5/bluez5/init | 2 +-
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-I do not see how the "-m" option would help with groups. I thought that
-simply added a skeleton home directory. Could you give me an example?
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index 9063629..b3cd8ed 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -61,6 +61,10 @@ do_install_append() {
+ 	    install -m 0644 ${S}/profiles/input/input.conf ${D}/${sysconfdir}/bluetooth/
+ 	fi
+ 
++  if [ -f ${D}/${sysconfdir}/init.d/bluetooth ]; then
++    sed -i -e 's#@LIBEXECDIR@#${libexecdir}#g' ${D}/${sysconfdir}/init.d/bluetooth
++  fi
++
+ 	# Install desired tools that upstream leaves in build area
+         for f in ${NOINST_TOOLS} ; do
+ 	    install -m 755 ${B}/$f ${D}/${bindir}
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/init b/meta/recipes-connectivity/bluez5/bluez5/init
+index 1606a5c..489e9b9 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5/init
++++ b/meta/recipes-connectivity/bluez5/bluez5/init
+@@ -3,7 +3,7 @@
+ PATH=/sbin:/bin:/usr/sbin:/usr/bin
+ DESC=bluetooth
+ 
+-DAEMON=/usr/lib/bluez5/bluetooth/bluetoothd
++DAEMON=@LIBEXECDIR@/bluetooth/bluetoothd
+ 
+ # If you want to be ignore error of "org.freedesktop.hostname1",
+ # please enable NOPLUGIN_OPTION.
+-- 
+2.1.4
 
-Stephano
 
