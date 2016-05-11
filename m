@@ -1,51 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 867B97317D
+Received: from mail-pa0-f66.google.com (mail-pa0-f66.google.com
+	[209.85.220.66])
+	by mail.openembedded.org (Postfix) with ESMTP id D95C66FFD8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 May 2016 17:36:03 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id r187so5033078pfr.2
+	Wed, 11 May 2016 17:36:04 +0000 (UTC)
+Received: by mail-pa0-f66.google.com with SMTP id yl2so4046367pac.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 May 2016 10:36:04 -0700 (PDT)
+	Wed, 11 May 2016 10:36:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=jl6eFa9DUHyb0NHxFf0kPgcEEA9qPhB5CB+aj+x0I9I=;
-	b=qs3jKGfZljp6yzRVeDofhUSTmi4bo/zxRhiM6Ov7LCZhXj/YxltUw5/I/zVbHSgQdj
-	Y+KWV5mzMRDIGIKXcgavPyJal2upBzOKzAQa4m3vRed+QV+2bm7OmYGori62xl7GlPay
-	ttGLi+AfMvOFrYDHi62NczOWWTtGTUN7ZXEdRQ11mVQQuxavIFSjlixYyWKRI/Vg43b9
-	Hssh3nOs9JfrIWjwYk7AREf5cYi6c0tzknMe7ijfhuSqj5BwlhMm0uZnlie8uyjttmei
-	KcK5Uo4ouKFe6lwmDAAo9c8F+snEmEKr06zQGgNgtMyS4Jy4JqzG6ybAV39BX71AH+Cv
-	ezKA==
+	bh=SMedKlufJuO1jvgLingoUorb90/lvEyXRR36ATqKEl4=;
+	b=MzpZvsHJ4Dn3pyaFsxZf7qeJrVfW6Z82M2W1jc2ipRzmgCZr2OxjyRUGouoPJ7ijJ6
+	vUTBfNZB6n5+0nIGK33qFhRsHFjVMW+I70haVxPso8ZMGnvOiiFNwFoXAueVQNXq+Zvs
+	seNWWENjPM9CsdMn/dq33bn3oYGbNGrVEgS2VM2/QHZ4XCYVzKi0drMwGM9Se9CsmeC7
+	OeK3BvNmDSwsuM+kyPQhx2h6MsY1SGG13c6IXyDCxBlgJxI6KqhJ30m1l0NmgXAiJTiu
+	R0+F2GiwkLb/S7owKhqbw9g7AziMHDxztw/vh7pt90Qz/XoQoaFid++WU0IOkGB+7yLP
+	4kuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=jl6eFa9DUHyb0NHxFf0kPgcEEA9qPhB5CB+aj+x0I9I=;
-	b=j1WDtsgqoEJ+G1wc6GLOGzftZ//v4ljI/KCIyp/zjzjXfYcz0E75CEYvE1Izy/2usM
-	5mv6iaqdgAWrflafhBxyH6PU0TLx5jVLehYR3jZgjRFAmN4dw5nprnPKDNfC7N9zfrTW
-	qp2iPbWoRTfz8Bl5IsGX+IDSqzw1XR98phgKkZQ1BP5o389rXF/fUuyXphUxDXPQ4quB
-	Yl6rv37JHUfVTlfc+mPz/BbqNcBnt89Q4qO7VFVzPNvJ22PRk95xR5ihMGMQRV9ZPdP1
-	i8i1MBzljQk0Vrk1qSxaLubuD/bbbRRGm0WEr8AffOFe9agWA/NKCSpyz/u4osB/OVeu
-	Pwig==
-X-Gm-Message-State: AOPr4FUaiXXkt7MW0+44yB1M4Dj9C+UNysqdFa1HLmDKLyv0eEjZAb2+VfxUr5r/9YnTzA==
-X-Received: by 10.98.10.202 with SMTP id 71mr6658035pfk.143.1462988164589;
-	Wed, 11 May 2016 10:36:04 -0700 (PDT)
+	bh=SMedKlufJuO1jvgLingoUorb90/lvEyXRR36ATqKEl4=;
+	b=PsfEPx25VHzaBtYGg3apMeN5G4zLFwKod49+q3KYNc9zQxCFx9PIpHKuOL6sqpVPqr
+	C50KyQ7KtAyIj4+xcU5Qk29c0dD7RE4Yi45P+t7sTBb5qYNfK4Xk/9dsCbtBR5/bzSR0
+	Tj7VBsiBd8OnS8AvlLk2N4TuJDV8i3j9etGsMYyTMXKEz6kEtAKVTjMMo/nfBDo60ESe
+	rmVFwL+GMOuGHHoN6QmmkodUqBF0xYVY7bECy5BLUmjObvXZ47UFP3Bg8BbjkNxDGeDK
+	yhpBKrz8MxF7BmNV/LRZXdyjUhLLPE+pp43RF0r28EhagU4qBomIhO3t9PLigcnIyYPZ
+	TkLg==
+X-Gm-Message-State: AOPr4FWjTVO4krSCNjJp14Tg0UQUfS7xU7LyIZSofvg20a0yPkqlLDT+dzFzuIMdOlXoVA==
+X-Received: by 10.66.151.104 with SMTP id up8mr5071625pab.134.1462988165345;
+	Wed, 11 May 2016 10:36:05 -0700 (PDT)
 Received: from haswell.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
 	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	a5sm13669903pat.19.2016.05.11.10.36.03
+	a5sm13669903pat.19.2016.05.11.10.36.04
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 11 May 2016 10:36:03 -0700 (PDT)
+	Wed, 11 May 2016 10:36:04 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 May 2016 10:35:13 -0700
-Message-Id: <cb4da2951062f943f2a814f97e3145c1cb3e560b.1462987863.git.raj.khem@gmail.com>
+Date: Wed, 11 May 2016 10:35:14 -0700
+Message-Id: <5a5984ba5790598d92f9db507b5a74d8284d8e86.1462987863.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.8.2
 In-Reply-To: <2e51e9b5fb3911436afc1becd5feb9351b896fa4.1462987863.git.raj.khem@gmail.com>
 References: <2e51e9b5fb3911436afc1becd5feb9351b896fa4.1462987863.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1462987863.git.raj.khem@gmail.com>
 References: <cover.1462987863.git.raj.khem@gmail.com>
-Subject: [PATCH 10/42] mdadm: Fix gcc 6 warnings
+Subject: [PATCH 11/42] nss: Upgrade to 3.23
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,72 +58,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 May 2016 17:36:04 -0000
+X-List-Received-Date: Wed, 11 May 2016 17:36:05 -0000
+
+Disable Werror on native builds. This helps
+in building nss-native on build hosts which have
+gcc < 4.9 eg. ubuntu 14.04
+
+The real issue is that we use headers from native
+staging sysroot and it has the updated glibc headers
+which then ends up with errors e.g.
+
+| In function 'memset',
+|     inlined from 'sec_PKCS7Encrypt' at p7local.c:715:14:
+| /usr/include/x86_64-linux-gnu/bits/string3.h:81:30: error: call to '__warn_memset_zero_len' declared with attribute warning: memset used with constant zero length parameter; this could be due to transposed parameters [-Werror]
+|        __warn_memset_zero_len ();
+|                               ^
+| cc1: all warnings being treated as errors
+| make[2]: *** [Linux3.4_x86_64_glibc_PTH_64_OPT.OBJ/p7local.o] Error 1
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../0001-raid6check-Fix-if-else-indentation.patch  | 37 ++++++++++++++++++++++
- meta/recipes-extended/mdadm/mdadm_3.4.bb           |  3 +-
- 2 files changed, 39 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/mdadm/files/0001-raid6check-Fix-if-else-indentation.patch
+ meta/recipes-support/nss/{nss_3.21.bb => nss_3.23.bb} | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-support/nss/{nss_3.21.bb => nss_3.23.bb} (97%)
 
-diff --git a/meta/recipes-extended/mdadm/files/0001-raid6check-Fix-if-else-indentation.patch b/meta/recipes-extended/mdadm/files/0001-raid6check-Fix-if-else-indentation.patch
-new file mode 100644
-index 0000000..0b34b84
---- /dev/null
-+++ b/meta/recipes-extended/mdadm/files/0001-raid6check-Fix-if-else-indentation.patch
-@@ -0,0 +1,37 @@
-+From 1b0aa1debf6fbe9923c9aac671d2894f76c32f9d Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 20 Apr 2016 16:38:13 +0000
-+Subject: [PATCH] raid6check: Fix if-else indentation
-+
-+gcc 6 warns about ambiguity due to this indentation
-+| raid6check.c: In function 'manual_repair':
-+| raid6check.c:267:4: error: this 'else' clause does not guard... [-Werror=misleading-indentation]
-+|     else
-+|     ^~~~
-+| raid6check.c:269:5: note: ...this statement, but the latter is misleadingly indented as if it is guarded by the 'else'
-+|      printf("Repairing D(%d) and P\n", failed_data);
-+|      ^~~~~~
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+Upstream-Status: Submitted
-+
-+ raid6check.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/raid6check.c b/raid6check.c
-+index ad7ffe7..409b1b6 100644
-+--- a/raid6check.c
-++++ b/raid6check.c
-+@@ -266,7 +266,7 @@ int manual_repair(int chunk_size, int syndrome_disks,
-+ 				failed_data = failed_slot2;
-+ 			else
-+ 				failed_data = failed_slot1;
-+-				printf("Repairing D(%d) and P\n", failed_data);
-++			printf("Repairing D(%d) and P\n", failed_data);
-+ 			raid6_datap_recov(syndrome_disks+2, chunk_size,
-+ 					  failed_data, (uint8_t**)blocks, 1);
-+ 		} else {
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-extended/mdadm/mdadm_3.4.bb b/meta/recipes-extended/mdadm/mdadm_3.4.bb
-index 142dfdd..0e55de4 100644
---- a/meta/recipes-extended/mdadm/mdadm_3.4.bb
-+++ b/meta/recipes-extended/mdadm/mdadm_3.4.bb
-@@ -19,7 +19,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
-            file://0001-Fix-some-type-comparison-problems.patch \
-            file://0001-Fix-the-path-of-corosync-and-dlm-header-files-check.patch \
-            file://run-ptest \
--	  "
-+           file://0001-raid6check-Fix-if-else-indentation.patch \
-+           "
- SRC_URI[md5sum] = "04b8b21f637540350f8517c7e68d3c63"
- SRC_URI[sha256sum] = "27d0be4627d38a12ddcd1c1c3721d649d4e89e1093914497e22b57245cda8808"
+diff --git a/meta/recipes-support/nss/nss_3.21.bb b/meta/recipes-support/nss/nss_3.23.bb
+similarity index 97%
+rename from meta/recipes-support/nss/nss_3.21.bb
+rename to meta/recipes-support/nss/nss_3.23.bb
+index d2e2411..2663ff7 100644
+--- a/meta/recipes-support/nss/nss_3.21.bb
++++ b/meta/recipes-support/nss/nss_3.23.bb
+@@ -15,7 +15,7 @@ LIC_FILES_CHKSUM = "file://nss/COPYING;md5=3b1e88e1b9c0b5a4b2881d46cce06a18 \
+                     file://nss/lib/freebl/mpi/doc/LICENSE-MPL;md5=5d425c8f3157dbf212db2ec53d9e5132"
  
+ SRC_URI = "\
+-    http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_3_21_RTM/src/${BP}.tar.gz \
++    http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_3_23_RTM/src/${BP}.tar.gz \
+     file://nss-fix-support-cross-compiling.patch \
+     file://nss-no-rpath-for-cross-compiling.patch \
+     file://nss-fix-incorrect-shebang-of-perl.patch \
+@@ -24,9 +24,8 @@ SRC_URI = "\
+     file://nss.pc.in \
+     file://signlibs.sh \
+ "
+-
+-SRC_URI[md5sum] = "3c8b2ed880dd3a8d86c9e0151afe6eba"
+-SRC_URI[sha256sum] = "3f7a5b027d7cdd5c0e4ff7544da33fdc6f56c2f8c27fff02938fd4a6fbe87239"
++SRC_URI[md5sum] = "21c3fed84441b2ab4c50ac626f6517e7"
++SRC_URI[sha256sum] = "94b383e31c9671e9dfcca81084a8a813817e8f05a57f54533509b318d26e11cf"
+ 
+ UPSTREAM_CHECK_URI = "https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/NSS_Releases"
+ UPSTREAM_CHECK_REGEX = "NSS_(?P<pver>.+)_release_notes"
+@@ -49,6 +48,7 @@ do_configure_prepend_libc-musl () {
+ do_compile_prepend_class-native() {
+     export NSPR_INCLUDE_DIR=${STAGING_INCDIR_NATIVE}
+     export NSPR_LIB_DIR=${STAGING_LIBDIR_NATIVE}
++    export NSS_ENABLE_WERROR=0
+ }
+ 
+ do_compile_prepend_class-nativesdk() {
 -- 
 2.8.2
 
