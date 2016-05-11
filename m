@@ -1,51 +1,53 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 4050672DC4
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 60B0B6FFD8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 May 2016 17:36:17 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id g132so4243654pfb.3
+	Wed, 11 May 2016 17:36:18 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id y7so4253743pfb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 May 2016 10:36:18 -0700 (PDT)
+	Wed, 11 May 2016 10:36:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=HM0YCM8REYqkpCJI22uC3kPphoyF5G3yIvok/q+zM98=;
-	b=SOnKMs9GiF2iOZRCxT5Cxk/EnYOXelp9XArbuGA0dhNGQIuwk06Ozb2IH13QAm2Pq+
-	nsTAx/PGxykNCcqCvVuWdQLSpPqSwqIo1IAP/t2UKqlEWaUhOd3gwefjNIrIKjIFkFDG
-	8r5GHiwZYkerTn8JfwvghCOShyOr/UeVeEjPBgRoiuHjGqNtLSMWQLtRbVtQIAnvfysH
-	QKzVZ7uXu7sPVSDWSECWxU3G2RrW9X4hQyLGmZ6ZQyig4M1pX+o0ugFn6IqClJaltEqx
-	XwEr3x8dRBPeRaVCCFlKNIq9eDq19vJ45bjVc4MlVnHZeAlcjn63nhokl1Ow5v8NOrRY
-	Ej0Q==
+	:in-reply-to:references:mime-version:content-transfer-encoding;
+	bh=wCQYiQSL0ISpXTUknNUysBVNOoQL88jAUedixWGdf6I=;
+	b=cT/PwN7ldOAqMHq4r6OFZC4On2eAp7NRxDdtJah/kgVBReYXiDclymKabJ62VygzT9
+	tsbFVJb76neTsOgZ3Zf4aNfBgC6Xm54DhNauIoPHVp1wfqkAKWbx8KzJY4E4917LeVf9
+	1mLHF5MrL0mHmMNu4IyB78M7NSrIhcX7tYgjc05iOPScjsa/1uiWpqxdXuM70Xnh/inq
+	jI1CxFQ8Yw0Xbc8DRmQD+n+zyr6nw9rvqi4B+F4oVXe/qy6/iIZg5jDBHJY4iYzH7KQV
+	F8ZvQccyyF7q8HlkN74PZ+DtUAkbMfPdDW4Q0vCWmuatygZgwnx0kLzAtoU0RF2BaVxL
+	ZTmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:in-reply-to:references;
-	bh=HM0YCM8REYqkpCJI22uC3kPphoyF5G3yIvok/q+zM98=;
-	b=GHKIXXSbcU+KrirIBVzI/P4XPSn41E0RgZOx/ObMnDWsf8/SyQjjns7UkM9mbDXNIk
-	EHP25082IaSRvUCA3dRMwsS6zaIHK0ouj4Y1sAhI2/vOi6BMAkQnDmi/hBG9nvPecHmn
-	nFtc8URyj2MznURk+8dvOsGZABndERF/8/HtP6gBKBtYkNBcgTkVJnAcQEOpQy/60711
-	E6MSDgPgAarQ7yVC03Hl8LwL2Mv6xVGPPEqYqRslc3nXUgE9wkc8xQs3F0yFor6Oj1+g
-	RguKoIM+jSiXAJ09AoxuUCrOk7RrlaOIOAEDmIZbqOiSZWnvbVOZGbCm5uxVFvbcQ53T
-	djLQ==
-X-Gm-Message-State: AOPr4FVE84BLqPEdJAT3ttqeQDkcsY8iZ84XzOBMrpCghvSAfPbbacTuvhrN1VLmslFiYw==
-X-Received: by 10.98.24.208 with SMTP id 199mr6682443pfy.160.1462988178286;
-	Wed, 11 May 2016 10:36:18 -0700 (PDT)
+	:references:in-reply-to:references:mime-version
+	:content-transfer-encoding;
+	bh=wCQYiQSL0ISpXTUknNUysBVNOoQL88jAUedixWGdf6I=;
+	b=IVzepG0lsueWhnGOnwJhRmqJvjkjCAq41CgXbCQ9Ovi0nYeHXUfhS5NA2oYZTv2b6A
+	VHbXNsiXiRxF+8GyQZqiAhaqlh3LExm+0NoyCYXp13fD+wKXQ4PTfg/CAX9BvM++be0c
+	hInd2mYC1wocq449mfzyp+7/zbX/o8ECjUbVEnCI+HqRhvdg6QqN0zGlw7pwkw1F99wG
+	+Jyh7J7KPUvVYnPJ6qkrVcYGjaRoWbQ2CGrUEMeWuqGpNOzSSzwZeBXgbHdJ8O5eyEDE
+	rLoyEiEAzFrsfUAh/aomQLBmqOrJl4t975MulVMNLNbIM4gnSTBu5si4kqBv0CPcaRNN
+	RqjQ==
+X-Gm-Message-State: AOPr4FVbAQF1+f5BvapzTNSeYngQwDZr+G+KTKNez1TKAIDcaYX7FQB0yKP6svKI0AlZbQ==
+X-Received: by 10.98.79.213 with SMTP id f82mr6683669pfj.65.1462988179421;
+	Wed, 11 May 2016 10:36:19 -0700 (PDT)
 Received: from haswell.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
 	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	a5sm13669903pat.19.2016.05.11.10.36.17
+	a5sm13669903pat.19.2016.05.11.10.36.18
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 11 May 2016 10:36:17 -0700 (PDT)
+	Wed, 11 May 2016 10:36:18 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 May 2016 10:35:29 -0700
-Message-Id: <a8409df2464eab600c31aad9ab849703304d8a23.1462987863.git.raj.khem@gmail.com>
+Date: Wed, 11 May 2016 10:35:30 -0700
+Message-Id: <0940645f301000b19ccedb441d3149cf5f5b0fbd.1462987863.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.8.2
 In-Reply-To: <2e51e9b5fb3911436afc1becd5feb9351b896fa4.1462987863.git.raj.khem@gmail.com>
 References: <2e51e9b5fb3911436afc1becd5feb9351b896fa4.1462987863.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1462987863.git.raj.khem@gmail.com>
 References: <cover.1462987863.git.raj.khem@gmail.com>
-Subject: [PATCH 26/42] strace: Remove pipe.expected
+MIME-Version: 1.0
+Subject: [PATCH 27/42] musl: Upgrade to tip of tree
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,35 +60,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 May 2016 17:36:17 -0000
+X-List-Received-Date: Wed, 11 May 2016 17:36:18 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-file utility on some OSes e.g. archlinux'like
-which use file 5.26 can not recognise a file
-in strace testsuite e.g.
+COPYRIGHT file was changed to clarfiy the MIT Licence
+which resulted in checksum change, see
 
-file ./strace-4.11/tests/pipe.expected
-./strace-4.11/tests/pipe.expected: ERROR: EOF computing DER offset
+http://git.musl-libc.org/cgit/musl/commit/?id=f0a61399330bae42beeb27d6ecd05570b3382a60
 
-This ends up in QA errors
-ERROR: strace-4.11-r0 do_populate_sysroot: split_and_strip_files: 'file /a/build/tmp-glibc/work/cortexa7hf-neon-vfpv4-oe-linux-gnueabi/strace/4.11-r0/sysroot-destdir/usr/lib/strace/ptest/tests/pipe.expected' failed
+below are changes in upgrade
+
+Andrew Kelley (1):
+      fix incorrect protocol name and number for egp
+
+Bobby Bingham (1):
+      add powerpc64 port
+
+LeMay, Michael (1):
+      fix redundant processing of --build flag in configure script
+
+Petr Vaněk (1):
+      remove dead store in res_msend
+
+Rich Felker (10):
+      fix undefined pointer comparison in stdio-internal __toread
+      fix regression disabling use of pause instruction for x86 a_spin
+      fix read past end of haystack buffer for short needles in memmem
+      add support for mips and mips64 r6 isa
+      add mips n32 port (ILP32 ABI for mips64)
+      fix thread structure/dtv-pointer corruption on powerpc
+      fix FILE buffer underflow in ungetwc
+      update COPYRIGHT file to clarify that permissions apply for all files
+      follow standard configure behavior for cross compile prefix
+      fix spurious trailing whitespace in powerpc & powerpc64 bits/errno.h
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/strace/strace_4.11.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-core/musl/musl.inc    | 2 +-
+ meta/recipes-core/musl/musl_git.bb | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/strace/strace_4.11.bb b/meta/recipes-devtools/strace/strace_4.11.bb
-index 7391388..a787df2 100644
---- a/meta/recipes-devtools/strace/strace_4.11.bb
-+++ b/meta/recipes-devtools/strace/strace_4.11.bb
-@@ -46,6 +46,7 @@ do_compile_ptest() {
- do_install_ptest() {
- 	oe_runmake -C ${TESTDIR} install-ptest BUILDDIR=${B} DESTDIR=${D}${PTEST_PATH} TESTDIR=${TESTDIR}
- 	sed -i -e '/^src/s/strace.*[1-9]/ptest/' ${D}/${PTEST_PATH}/${TESTDIR}/Makefile
-+	rm -rf ${D}${libdir}/strace/ptest/tests/pipe.expected
- }
+diff --git a/meta/recipes-core/musl/musl.inc b/meta/recipes-core/musl/musl.inc
+index d27867f..5e6cd01 100644
+--- a/meta/recipes-core/musl/musl.inc
++++ b/meta/recipes-core/musl/musl.inc
+@@ -9,7 +9,7 @@ standards-conformance and safety."
+ HOMEPAGE = "http://www.musl-libc.org/"
+ LICENSE = "MIT"
+ SECTION = "libs"
+-LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=082411391b4d1ace0d30f4c84317cc05"
++LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=7928b7ad32ceda04932478e330e52f7f"
  
- BBCLASSEXTEND = "native"
+ PATH_prepend = "${STAGING_BINDIR_TOOLCHAIN}.${STAGINGCC}:"
+ TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_TCBOOTSTRAP}"
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index d4f9819..1e33b2d 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -3,7 +3,7 @@
+ 
+ require musl.inc
+ 
+-SRCREV = "5978eb703ce0e64dd778a88c1ffffb76fe5e2202"
++SRCREV = "49631b7b6c8b8c055aae5b6948930c219b95fdef"
+ 
+ PV = "1.1.14+git${SRCPV}"
+ 
 -- 
 2.8.2
 
