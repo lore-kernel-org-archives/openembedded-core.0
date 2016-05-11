@@ -1,21 +1,25 @@
 Return-Path: <mariano.lopez@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id A8A136E630
+	by mail.openembedded.org (Postfix) with ESMTP id 84ECD70149
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 May 2016 20:36:12 +0000 (UTC)
+	Wed, 11 May 2016 20:36:15 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 11 May 2016 13:36:13 -0700
+	by orsmga102.jf.intel.com with ESMTP; 11 May 2016 13:36:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,609,1455004800"; d="scan'208";a="951263659"
+X-IronPort-AV: E=Sophos;i="5.24,609,1455004800"; d="scan'208";a="951263680"
 Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
 	([10.54.69.55])
-	by orsmga001.jf.intel.com with ESMTP; 11 May 2016 13:36:13 -0700
+	by orsmga001.jf.intel.com with ESMTP; 11 May 2016 13:36:16 -0700
 From: mariano.lopez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 May 2016 12:31:55 +0000
-Message-Id: <cover.1462969737.git.mariano.lopez@linux.intel.com>
+Date: Wed, 11 May 2016 12:31:56 +0000
+Message-Id: <c51b4f36eb7c3a057f10e3d9f424a8f239850b24.1462969737.git.mariano.lopez@linux.intel.com>
 X-Mailer: git-send-email 2.6.6
-Subject: [PATCH 0/3] Add extract() method to package manager
+In-Reply-To: <cover.1462969737.git.mariano.lopez@linux.intel.com>
+References: <cover.1462969737.git.mariano.lopez@linux.intel.com>
+In-Reply-To: <cover.1462969737.git.mariano.lopez@linux.intel.com>
+References: <cover.1462969737.git.mariano.lopez@linux.intel.com>
+Subject: [PATCH 1/3] package_manager.py: Move opkg_query() outside of Indexer class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,30 +32,159 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 May 2016 20:36:14 -0000
+X-List-Received-Date: Wed, 11 May 2016 20:36:15 -0000
 
 From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-Sometimes it is needed to have the content of a package outside of an image,
-these series add this capability using a temp directory.
+When using the opkg and apt-get package managers the function
+opkg_query() can be useful when query for package information.
 
-The following changes since commit 7ca60ec8bff7656b4e52f5a4d238913e851da089:
+This change moves the function outside the Indexer class so
+the Indexer, OpkgPM, DpkgPM can benefit from it.
 
-  test-empty-image: Fix LIC_FILES_CHKSUM typo (2016-05-06 10:48:06 +0100)
+[YOCTO #9569]
 
-are available in the git repository at:
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+---
+ meta/lib/oe/package_manager.py | 104 ++++++++++++++++++++---------------------
+ 1 file changed, 51 insertions(+), 53 deletions(-)
 
-  git://git.yoctoproject.org/poky-contrib mariano/bug9569
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mariano/bug9569
-
-Mariano Lopez (3):
-  package_manager.py: Move opkg_query() outside of Indexer class
-  package_manager.py: Add extract() method for opkg and dpkg
-  package_manager.py: Add extract() method for RPM package manager
-
- meta/lib/oe/package_manager.py | 312 +++++++++++++++++++++++++++++++++--------
- 1 file changed, 257 insertions(+), 55 deletions(-)
-
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index b4b359a..427518d 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -27,6 +27,55 @@ def create_index(arg):
+ 
+     return None
+ 
++"""
++This method parse the output from the package managerand return
++a dictionary with the information of the packages. This is used
++when the packages are in deb or ipk format.
++"""
++def opkg_query(cmd_output):
++    verregex = re.compile(' \([=<>]* [^ )]*\)')
++    output = dict()
++    filename = ""
++    dep = []
++    pkg = ""
++    for line in cmd_output.splitlines():
++        line = line.rstrip()
++        if ':' in line:
++            if line.startswith("Package: "):
++                pkg = line.split(": ")[1]
++            elif line.startswith("Architecture: "):
++                arch = line.split(": ")[1]
++            elif line.startswith("Version: "):
++                ver = line.split(": ")[1]
++            elif line.startswith("File: "):
++                filename = line.split(": ")[1]
++            elif line.startswith("Depends: "):
++                depends = verregex.sub('', line.split(": ")[1])
++                for depend in depends.split(", "):
++                    dep.append(depend)
++            elif line.startswith("Recommends: "):
++                recommends = verregex.sub('', line.split(": ")[1])
++                for recommend in recommends.split(", "):
++                    dep.append("%s [REC]" % recommend)
++        else:
++            # IPK doesn't include the filename
++            if not filename:
++                filename = "%s_%s_%s.ipk" % (pkg, ver, arch)
++            if pkg:
++                output[pkg] = {"arch":arch, "ver":ver,
++                        "filename":filename, "deps": dep }
++            pkg = ""
++            filename = ""
++            dep = []
++
++    if pkg:
++        if not filename:
++            filename = "%s_%s_%s.ipk" % (pkg, ver, arch)
++        output[pkg] = {"arch":arch, "ver":ver,
++                "filename":filename, "deps": dep }
++
++    return output
++
+ 
+ class Indexer(object):
+     __metaclass__ = ABCMeta
+@@ -293,57 +342,6 @@ class PkgsList(object):
+         pass
+ 
+ 
+-    """
+-    This method parse the output from the package manager
+-    and return a dictionary with the information of the
+-    installed packages. This is used whne the packages are
+-    in deb or ipk format
+-    """
+-    def opkg_query(self, cmd_output):
+-        verregex = re.compile(' \([=<>]* [^ )]*\)')
+-        output = dict()
+-        filename = ""
+-        dep = []
+-        pkg = ""
+-        for line in cmd_output.splitlines():
+-            line = line.rstrip()
+-            if ':' in line:
+-                if line.startswith("Package: "):
+-                    pkg = line.split(": ")[1]
+-                elif line.startswith("Architecture: "):
+-                    arch = line.split(": ")[1]
+-                elif line.startswith("Version: "):
+-                    ver = line.split(": ")[1]
+-                elif line.startswith("File: "):
+-                    filename = line.split(": ")[1]
+-                elif line.startswith("Depends: "):
+-                    depends = verregex.sub('', line.split(": ")[1])
+-                    for depend in depends.split(", "):
+-                        dep.append(depend)
+-                elif line.startswith("Recommends: "):
+-                    recommends = verregex.sub('', line.split(": ")[1])
+-                    for recommend in recommends.split(", "):
+-                        dep.append("%s [REC]" % recommend)
+-            else:
+-                # IPK doesn't include the filename
+-                if not filename:
+-                    filename = "%s_%s_%s.ipk" % (pkg, ver, arch)
+-                if pkg:
+-                    output[pkg] = {"arch":arch, "ver":ver,
+-                            "filename":filename, "deps": dep }
+-                pkg = ""
+-                filename = ""
+-                dep = []
+-
+-        if pkg:
+-            if not filename:
+-                filename = "%s_%s_%s.ipk" % (pkg, ver, arch)
+-            output[pkg] = {"arch":arch, "ver":ver,
+-                    "filename":filename, "deps": dep }
+-
+-        return output
+-
+-
+ class RpmPkgsList(PkgsList):
+     def __init__(self, d, rootfs_dir, arch_var=None, os_var=None):
+         super(RpmPkgsList, self).__init__(d, rootfs_dir)
+@@ -479,7 +477,7 @@ class OpkgPkgsList(PkgsList):
+             bb.fatal("Cannot get the installed packages list. Command '%s' "
+                      "returned %d and stderr:\n%s" % (cmd, p.returncode, cmd_stderr))
+ 
+-        return self.opkg_query(cmd_output)
++        return opkg_query(cmd_output)
+ 
+ 
+ class DpkgPkgsList(PkgsList):
+@@ -497,7 +495,7 @@ class DpkgPkgsList(PkgsList):
+             bb.fatal("Cannot get the installed packages list. Command '%s' "
+                      "returned %d:\n%s" % (' '.join(cmd), e.returncode, e.output))
+ 
+-        return self.opkg_query(cmd_output)
++        return opkg_query(cmd_output)
+ 
+ 
+ class PackageManager(object):
 -- 
 2.6.6
 
