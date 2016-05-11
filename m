@@ -1,53 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f66.google.com (mail-pa0-f66.google.com
-	[209.85.220.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 109E26FF78
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 0AED56FF5B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 May 2016 17:41:45 +0000 (UTC)
-Received: by mail-pa0-f66.google.com with SMTP id yl2so4055388pac.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 May 2016 10:41:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:subject:from:in-reply-to:date:message-id:references:to; 
-	bh=DLihP1i7vvF1q2UisFOSDDaO9NYDGE1cztR8BvVsdbk=;
-	b=nh41fEnQto8JHIosZKH3B6nvmaBEV/mrqo9iZsAFfTraSJYTlKSQaLPO+tgWRuDSMX
-	/QKbxSYCunO8HFIl2vGKJP++5mR6tgEmjhe4H5kcgny0EVVOwzbO0t49p+D9kdJF6xri
-	8bXJxFu2ORU2NhIk1JugBMMRg+Eikoz0640xXfdQF5p12gUVd8TJ9dz6hYZPBCsXHPMs
-	dSd5HP3ZpGpzB5dr3VD8elwiG6NowZX64FMTTLhKmt6fyRF9vZZQapAB9v/ssqEw/NFc
-	6CjXLukYrOtberYi8NI5YYv9Z+ekIjHkHiCslVQucX3wuDEc5sXvZY+hQ64KaQUAqmwM
-	jeoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date
-	:message-id:references:to;
-	bh=DLihP1i7vvF1q2UisFOSDDaO9NYDGE1cztR8BvVsdbk=;
-	b=jnAoFHrGDFjX30FHJH15IN8ZrA83jySDLu0mEsO9ngU9ybZEfYJGBdjiwcB3XAZjIP
-	e5JyDvWVAS3sV6xNQ7pR5rEHXTOvte8dqvRb64SSAac9ifjNq/nHxl4qNZPWymqkpFFF
-	2dMLg3ulC8kNbdFjLkDFdaBvZhPURlVmr5Wb5nr3ehhDDMDB4qbDOSVMqPyOzWF2NI7u
-	JpLwojw4LzkzLtLl8dhrBrl8nrXVXWy98YkODrXAqcgIrcYDNQLLlNzqOCwdi0jUXnIf
-	JkSnEtSvX1pi+fCKjuG30UXv89sMFfZXnlpElBwJykpGSHBrFUhLLWDLypFZyNS9OFeL
-	UAUQ==
-X-Gm-Message-State: AOPr4FXalkF8KB7p0Zly3T3hXMoQoYDB813clREliLZieQI6w1Mm3v3LeN9tQ70oiC0XTQ==
-X-Received: by 10.66.76.74 with SMTP id i10mr6829107paw.31.1462988506245;
-	Wed, 11 May 2016 10:41:46 -0700 (PDT)
-Received: from [192.168.0.76] (c-76-102-32-192.hsd1.ca.comcast.net.
-	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	e184sm13695207pfe.14.2016.05.11.10.41.44
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 11 May 2016 10:41:44 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <a8409df2464eab600c31aad9ab849703304d8a23.1462987863.git.raj.khem@gmail.com>
-Date: Wed, 11 May 2016 10:42:02 -0700
-Message-Id: <07B3E086-2999-4D73-A834-6ED08AFA9992@gmail.com>
-References: <2e51e9b5fb3911436afc1becd5feb9351b896fa4.1462987863.git.raj.khem@gmail.com>
-	<cover.1462987863.git.raj.khem@gmail.com>
-	<a8409df2464eab600c31aad9ab849703304d8a23.1462987863.git.raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-X-Mailer: Apple Mail (2.3124)
-Subject: Re: [PATCH 26/42] strace: Remove pipe.expected
+	Wed, 11 May 2016 18:15:57 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u4BIFvr3013279
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 11 May 2016 11:15:57 -0700 (PDT)
+Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 11 May 2016 11:15:56 -0700
+To: Christopher Larson <kergoth@gmail.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <1462983927-19691-1-git-send-email-kergoth@gmail.com>
+	<b5bb8c60-377b-8885-54e8-aecdde4b94db@windriver.com>
+	<CABcZANmj9PDNgLamFtJLyJ9CSBPC8u5Onpk_=mqhkwbdGbuxaw@mail.gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <52f70664-5981-b80c-a596-1cda00506554@windriver.com>
+Date: Wed, 11 May 2016 13:15:55 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
+	Gecko/20100101 Thunderbird/45.0
+MIME-Version: 1.0
+In-Reply-To: <CABcZANmj9PDNgLamFtJLyJ9CSBPC8u5Onpk_=mqhkwbdGbuxaw@mail.gmail.com>
+Subject: Re: [PATCH] pseudo: obey our LDFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,80 +37,149 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 May 2016 17:41:47 -0000
-X-Groupsio-MsgNum: 81929
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_63034EDE-AA9A-441E-8E07-AC23B976DADF";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_63034EDE-AA9A-441E-8E07-AC23B976DADF
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
-
-
-> On May 11, 2016, at 10:35 AM, Khem Raj <raj.khem@gmail.com> wrote:
->=20
-> file utility on some OSes e.g. archlinux'like
-> which use file 5.26 can not recognise a file
-> in strace testsuite e.g.
->=20
-
-
-> file ./strace-4.11/tests/pipe.expected
-> ./strace-4.11/tests/pipe.expected: ERROR: EOF computing DER offset
->=20
-
-
-this is due to a bug in archlinux file utility, please drop it. I have =
-also removed it from pull branch
-
-
-> This ends up in QA errors
-> ERROR: strace-4.11-r0 do_populate_sysroot: split_and_strip_files: =
-'file =
-/a/build/tmp-glibc/work/cortexa7hf-neon-vfpv4-oe-linux-gnueabi/strace/4.11=
--r0/sysroot-destdir/usr/lib/strace/ptest/tests/pipe.expected' failed
->=20
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
-> meta/recipes-devtools/strace/strace_4.11.bb | 1 +
-> 1 file changed, 1 insertion(+)
->=20
-> diff --git a/meta/recipes-devtools/strace/strace_4.11.bb =
-b/meta/recipes-devtools/strace/strace_4.11.bb
-> index 7391388..a787df2 100644
-> --- a/meta/recipes-devtools/strace/strace_4.11.bb
-> +++ b/meta/recipes-devtools/strace/strace_4.11.bb
-> @@ -46,6 +46,7 @@ do_compile_ptest() {
-> do_install_ptest() {
-> 	oe_runmake -C ${TESTDIR} install-ptest BUILDDIR=3D${B} =
-DESTDIR=3D${D}${PTEST_PATH} TESTDIR=3D${TESTDIR}
-> 	sed -i -e '/^src/s/strace.*[1-9]/ptest/' =
-${D}/${PTEST_PATH}/${TESTDIR}/Makefile
-> +	rm -rf ${D}${libdir}/strace/ptest/tests/pipe.expected
-> }
->=20
-> BBCLASSEXTEND =3D "native"
-> --
-> 2.8.2
->=20
-
-
---Apple-Mail=_63034EDE-AA9A-441E-8E07-AC23B976DADF
+X-List-Received-Date: Wed, 11 May 2016 18:15:58 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
+On 5/11/16 12:14 PM, Christopher Larson wrote:
+> Hmm, interesting. It doesn't actually appear to be using LDFLAGS from the
+> environment at all just now. I'll take another look. Thanks.
 
-iEYEARECAAYFAlczbu4ACgkQuwUzVZGdMxQkfwCfTY+lA/dqDAdL5jUQo29TsboO
-4TsAn3q5ujphsgoOUGDM8FEcivkjpmBH
-=w7sX
------END PGP SIGNATURE-----
+CFLAGS and LDFLAGS should have been loaded and sanitized by the 'configure'
+front end.  If this is not happening any longer -- then behavior has changed (or
+my understanding of the behavior is wrong.)
 
---Apple-Mail=_63034EDE-AA9A-441E-8E07-AC23B976DADF--
+End result, everything specified in CFLAGS and LDFLAGS that is machine neutral
+(i.e. not -m32, or -march=i586) should be preserved and used (unless
+specifically removed for another reason.)
+
+--Mark
+
+> On Wed, May 11, 2016 at 9:33 AM Mark Hatle <mark.hatle@windriver.com
+> <mailto:mark.hatle@windriver.com>> wrote:
+> 
+>     On 5/11/16 11:25 AM, Christopher Larson wrote:
+>     > From: Christopher Larson <chris_larson@mentor.com
+>     <mailto:chris_larson@mentor.com>>
+>     >
+>     > Signed-off-by: Christopher Larson <chris_larson@mentor.com
+>     <mailto:chris_larson@mentor.com>>
+>     > ---
+>     >  .../pseudo/pseudo/obey-ldflags.patch               | 48
+>     ++++++++++++++++++++++
+>     >  meta/recipes-devtools/pseudo/pseudo_1.7.5.bb <http://pseudo_1.7.5.bb>   
+>        | 16 ++++----
+>     >  2 files changed, 56 insertions(+), 8 deletions(-)
+>     >  create mode 100644 meta/recipes-devtools/pseudo/pseudo/obey-ldflags.patch
+>     >
+>     > diff --git a/meta/recipes-devtools/pseudo/pseudo/obey-ldflags.patch
+>     b/meta/recipes-devtools/pseudo/pseudo/obey-ldflags.patch
+>     > new file mode 100644
+>     > index 0000000..7e4c629
+>     > --- /dev/null
+>     > +++ b/meta/recipes-devtools/pseudo/pseudo/obey-ldflags.patch
+>     > @@ -0,0 +1,48 @@
+>     > +From 0ace81a687355a3c55caa161b51972a82f5c413f Mon Sep 17 00:00:00 2001
+>     > +From: Christopher Larson <chris_larson@mentor.com
+>     <mailto:chris_larson@mentor.com>>
+>     > +Date: Mon, 9 May 2016 17:00:57 -0700
+>     > +Subject: [PATCH] Obey external LDFLAGS the way we obey CFLAGS
+>     > +
+>     > +Signed-off-by: Christopher Larson <chris_larson@mentor.com
+>     <mailto:chris_larson@mentor.com>>
+>     > +---
+>     > + Makefile.in | 8 ++++----
+>     > + 1 file changed, 4 insertions(+), 4 deletions(-)
+>     > +
+>     > +diff --git a/Makefile.in b/Makefile.in
+>     > +index 6511814..22ef625 100644
+>     > +--- a/Makefile.in
+>     > ++++ b/Makefile.in
+>     > +@@ -109,26 +109,26 @@ pseudo: $(PSEUDO)
+>     > + $(PSEUDO): $(BIN) pseudo.o $(SHOBJS) $(DBOBJS) pseudo_client.o
+>     pseudo_server.o pseudo_ipc.o
+>     > +     $(CC) $(CFLAGS) $(CFLAGS_PSEUDO) -o $(PSEUDO) \
+>     > +             pseudo.o pseudo_server.o pseudo_client.o pseudo_ipc.o \
+>     > +-            $(DBOBJS) $(SHOBJS) $(DB_LDFLAGS) $(CLIENT_LDFLAGS)
+>     > ++            $(DBOBJS) $(SHOBJS) $(LDFLAGS) $(DB_LDFLAGS) $(CLIENT_LDFLAGS)
+> 
+>     I may be wrong, but I thought the 'client_ldflags' was supposed to inherit the
+>     LDFLAGS, allowing them to be sanitized.
+> 
+>     The issue was that pseudo was in a strange situation where it may have to build
+>     both 32-bit and 64-bit clients in order to function properly.
+> 
+>     (Perhaps my memory is out of date and it's no longer a concern?)
+> 
+>     --Mark
+> 
+>     > +
+>     > + pseudolog: $(PSEUDOLOG)
+>     > +
+>     > + $(PSEUDOLOG): $(BIN) pseudolog.o $(SHOBJS) $(DBOBJS) pseudo_client.o
+>     pseudo_ipc.o
+>     > +     $(CC) $(CFLAGS) $(CFLAGS_PSEUDO) -o $(PSEUDOLOG) pseudolog.o
+>     pseudo_client.o pseudo_ipc.o \
+>     > +-            $(DBOBJS) $(SHOBJS) $(DB_LDFLAGS) $(CLIENT_LDFLAGS)
+>     > ++            $(DBOBJS) $(SHOBJS) $(LDFLAGS) $(DB_LDFLAGS) $(CLIENT_LDFLAGS)
+>     > +
+>     > + pseudodb: $(PSEUDODB)
+>     > +
+>     > + $(PSEUDODB): $(BIN) pseudodb.o $(SHOBJS) $(DBOBJS) pseudo_ipc.o
+>     > +     $(CC) $(CFLAGS) $(CFLAGS_PSEUDO) -o $(PSEUDODB) pseudodb.o \
+>     > +-            $(DBOBJS) $(SHOBJS) pseudo_ipc.o $(DB_LDFLAGS) $(CLIENT_LDFLAGS)
+>     > ++            $(DBOBJS) $(SHOBJS) pseudo_ipc.o $(LDFLAGS) $(DB_LDFLAGS)
+>     $(CLIENT_LDFLAGS)
+>     > +
+>     > + libpseudo: $(LIBPSEUDO)
+>     > +
+>     > + $(LIBPSEUDO): $(LIB) $(WRAPOBJS) pseudo_client.o pseudo_ipc.o $(SHOBJS)
+>     > +     $(CC) $(CFLAGS) $(CFLAGS_PSEUDO) -shared -o $(LIBPSEUDO) \
+>     > +             pseudo_client.o pseudo_ipc.o \
+>     > +-            $(WRAPOBJS) $(SHOBJS) $(CLIENT_LDFLAGS)
+>     > ++            $(WRAPOBJS) $(SHOBJS) $(LDFLAGS) $(CLIENT_LDFLAGS)
+>     > +
+>     > + # *everything* now relies on stuff that's generated in the
+>     > + # wrapper process.
+>     > +--
+>     > +2.8.0
+>     > +
+>     > diff --git a/meta/recipes-devtools/pseudo/pseudo_1.7.5.bb
+>     <http://pseudo_1.7.5.bb> b/meta/recipes-devtools/pseudo/pseudo_1.7.5.bb
+>     <http://pseudo_1.7.5.bb>
+>     > index d90e644..dfb9b39 100644
+>     > --- a/meta/recipes-devtools/pseudo/pseudo_1.7.5.bb <http://pseudo_1.7.5.bb>
+>     > +++ b/meta/recipes-devtools/pseudo/pseudo_1.7.5.bb <http://pseudo_1.7.5.bb>
+>     > @@ -1,13 +1,13 @@
+>     >  require pseudo.inc
+>     >
+>     > -SRC_URI = " \
+>     > -   
+>     http://downloads.yoctoproject.org/releases/pseudo/${BPN}-${PV}.tar.bz2
+>     <http://downloads.yoctoproject.org/releases/pseudo/$%7BBPN%7D-$%7BPV%7D.tar.bz2>
+>     \
+>     > -    file://0001-configure-Prune-PIE-flags.patch \
+>     > -    file://fallback-passwd \
+>     > -    file://fallback-group \
+>     > -    file://moreretries.patch \
+>     > -    file://handle-remove-xattr.patch \
+>     > -"
+>     > +SRC_URI =
+>     "http://downloads.yoctoproject.org/releases/pseudo/${BPN}-${PV}.tar.bz2
+>     <http://downloads.yoctoproject.org/releases/pseudo/$%7BBPN%7D-$%7BPV%7D.tar.bz2>
+>     \
+>     > +           file://0001-configure-Prune-PIE-flags.patch \
+>     > +           file://fallback-passwd \
+>     > +           file://fallback-group \
+>     > +           file://moreretries.patch \
+>     > +           file://handle-remove-xattr.patch \
+>     > +           file://obey-ldflags.patch \
+>     > +           "
+>     >
+>     >  SRC_URI[md5sum] = "c10209938f03128d0c193f041ff3596d"
+>     >  SRC_URI[sha256sum] =
+>     "fd89cadec984d3b8202aca465898b1bb4350e0d63ba9aa9ac899f6f50270e688"
+>     >
+> 
+
+
