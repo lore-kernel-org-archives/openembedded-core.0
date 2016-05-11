@@ -1,53 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 60B0B6FFD8
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 737EF73219
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 May 2016 17:36:18 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id y7so4253743pfb.0
+	Wed, 11 May 2016 17:36:19 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id r187so5033500pfr.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 May 2016 10:36:19 -0700 (PDT)
+	Wed, 11 May 2016 10:36:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references:mime-version:content-transfer-encoding;
-	bh=wCQYiQSL0ISpXTUknNUysBVNOoQL88jAUedixWGdf6I=;
-	b=cT/PwN7ldOAqMHq4r6OFZC4On2eAp7NRxDdtJah/kgVBReYXiDclymKabJ62VygzT9
-	tsbFVJb76neTsOgZ3Zf4aNfBgC6Xm54DhNauIoPHVp1wfqkAKWbx8KzJY4E4917LeVf9
-	1mLHF5MrL0mHmMNu4IyB78M7NSrIhcX7tYgjc05iOPScjsa/1uiWpqxdXuM70Xnh/inq
-	jI1CxFQ8Yw0Xbc8DRmQD+n+zyr6nw9rvqi4B+F4oVXe/qy6/iIZg5jDBHJY4iYzH7KQV
-	F8ZvQccyyF7q8HlkN74PZ+DtUAkbMfPdDW4Q0vCWmuatygZgwnx0kLzAtoU0RF2BaVxL
-	ZTmw==
+	:in-reply-to:references;
+	bh=2OH7wxbzwIuNQJzmlSXVQmUlYYra1BYaKwipRguWIVY=;
+	b=smWTDyfI63mSEzxNVqCG8pNwDl2Qq2NSzInP0Yr1d1HgdoQEugIPNBjbes0jprQ0ZP
+	mNw2V3i7gZkncnmpRaEj+VRlgZOwCjuT1HZp7onSnvxUa8UHT4rX/pnlUgWGEd5l6Mhf
+	5upH17WYyatKLkU/4L+FGjQFvXdyu+IxffFathsrwc6rMrwm+16H7qilLAKmsF4ZOqW8
+	Obd8vS4UahGtwC3LpulVgk07Ov3aOoRnFJOZrGBmjoIMtYQq36ml+5R39b29/WK2R+7h
+	OezOdqemznlqvXXdFiiDGG1RbdzvzAfU3cbmtV1lfXECM+//TUewWvLC3IOemR69wrh6
+	ctyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=wCQYiQSL0ISpXTUknNUysBVNOoQL88jAUedixWGdf6I=;
-	b=IVzepG0lsueWhnGOnwJhRmqJvjkjCAq41CgXbCQ9Ovi0nYeHXUfhS5NA2oYZTv2b6A
-	VHbXNsiXiRxF+8GyQZqiAhaqlh3LExm+0NoyCYXp13fD+wKXQ4PTfg/CAX9BvM++be0c
-	hInd2mYC1wocq449mfzyp+7/zbX/o8ECjUbVEnCI+HqRhvdg6QqN0zGlw7pwkw1F99wG
-	+Jyh7J7KPUvVYnPJ6qkrVcYGjaRoWbQ2CGrUEMeWuqGpNOzSSzwZeBXgbHdJ8O5eyEDE
-	rLoyEiEAzFrsfUAh/aomQLBmqOrJl4t975MulVMNLNbIM4gnSTBu5si4kqBv0CPcaRNN
-	RqjQ==
-X-Gm-Message-State: AOPr4FVbAQF1+f5BvapzTNSeYngQwDZr+G+KTKNez1TKAIDcaYX7FQB0yKP6svKI0AlZbQ==
-X-Received: by 10.98.79.213 with SMTP id f82mr6683669pfj.65.1462988179421;
-	Wed, 11 May 2016 10:36:19 -0700 (PDT)
+	:references:in-reply-to:references;
+	bh=2OH7wxbzwIuNQJzmlSXVQmUlYYra1BYaKwipRguWIVY=;
+	b=LmBmC9iUBhmX/uFi5szMUhtIEJjJiItKmm6M8Ga/3g4kgApqhaatxJw+5tCa66I6pw
+	pZ1+Npb2lWhHEqtTvPiTJOjE1WDe7y4c+oSM/nFaDDMxf96jvWY9QuzCEHDJqcsEGc1Z
+	WNkvkNJLlSmyMD9UnHQh1c3KwjDtVc7lveHal4oBZOSFxpZGpAPL5NE4LPfdewfzkcYk
+	kAFOEoqAVEKrwsByCbC+2J4ZkK9GgBD8AxEMczS2wY5ZALRO9+upkkA05225diQXOgyZ
+	x3eAa/7qtL69crr6O2CopVxBd9AfM2ZsY7v8LGohyqhTmNoUqFqXxO0MzLZrJ9e+slPR
+	V0Cw==
+X-Gm-Message-State: AOPr4FU9rJEvOGO8Aymy/llZcP//HHrvmuJV9RMe7UcZZ3Kek6VPz2OO2GU6BHAKbv/+ug==
+X-Received: by 10.98.27.129 with SMTP id b123mr6752811pfb.111.1462988180514;
+	Wed, 11 May 2016 10:36:20 -0700 (PDT)
 Received: from haswell.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
 	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	a5sm13669903pat.19.2016.05.11.10.36.18
+	a5sm13669903pat.19.2016.05.11.10.36.19
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 11 May 2016 10:36:18 -0700 (PDT)
+	Wed, 11 May 2016 10:36:19 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 May 2016 10:35:30 -0700
-Message-Id: <0940645f301000b19ccedb441d3149cf5f5b0fbd.1462987863.git.raj.khem@gmail.com>
+Date: Wed, 11 May 2016 10:35:31 -0700
+Message-Id: <76190162922fd9826e52de43dadbf79c2cb2364c.1462987863.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.8.2
 In-Reply-To: <2e51e9b5fb3911436afc1becd5feb9351b896fa4.1462987863.git.raj.khem@gmail.com>
 References: <2e51e9b5fb3911436afc1becd5feb9351b896fa4.1462987863.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1462987863.git.raj.khem@gmail.com>
 References: <cover.1462987863.git.raj.khem@gmail.com>
-MIME-Version: 1.0
-Subject: [PATCH 27/42] musl: Upgrade to tip of tree
+Subject: [PATCH 28/42] libgcc: Ensure that gcc configure options are passed to libgcc too
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,73 +58,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 May 2016 17:36:18 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 11 May 2016 17:36:19 -0000
 
-COPYRIGHT file was changed to clarfiy the MIT Licence
-which resulted in checksum change, see
-
-http://git.musl-libc.org/cgit/musl/commit/?id=f0a61399330bae42beeb27d6ecd05570b3382a60
-
-below are changes in upgrade
-
-Andrew Kelley (1):
-      fix incorrect protocol name and number for egp
-
-Bobby Bingham (1):
-      add powerpc64 port
-
-LeMay, Michael (1):
-      fix redundant processing of --build flag in configure script
-
-Petr Vaněk (1):
-      remove dead store in res_msend
-
-Rich Felker (10):
-      fix undefined pointer comparison in stdio-internal __toread
-      fix regression disabling use of pause instruction for x86 a_spin
-      fix read past end of haystack buffer for short needles in memmem
-      add support for mips and mips64 r6 isa
-      add mips n32 port (ILP32 ABI for mips64)
-      fix thread structure/dtv-pointer corruption on powerpc
-      fix FILE buffer underflow in ungetwc
-      update COPYRIGHT file to clarify that permissions apply for all files
-      follow standard configure behavior for cross compile prefix
-      fix spurious trailing whitespace in powerpc & powerpc64 bits/errno.h
+libgcc uses certain options from EXTRA_OECONF as well, curently we are
+ignoring them, as a result we do not configure libgcc to match cross gcc
+in some cases e.g. ppc/musl should have used 64bit long doubles but
+it went for 128-ldbls which is default, works on glibc but not on musl
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/musl/musl.inc    | 2 +-
- meta/recipes-core/musl/musl_git.bb | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/gcc/gcc-common.inc    | 2 ++
+ meta/recipes-devtools/gcc/libgcc-common.inc | 7 +++++++
+ 2 files changed, 9 insertions(+)
 
-diff --git a/meta/recipes-core/musl/musl.inc b/meta/recipes-core/musl/musl.inc
-index d27867f..5e6cd01 100644
---- a/meta/recipes-core/musl/musl.inc
-+++ b/meta/recipes-core/musl/musl.inc
-@@ -9,7 +9,7 @@ standards-conformance and safety."
- HOMEPAGE = "http://www.musl-libc.org/"
- LICENSE = "MIT"
- SECTION = "libs"
--LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=082411391b4d1ace0d30f4c84317cc05"
-+LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=7928b7ad32ceda04932478e330e52f7f"
+diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
+index e4fd4d6..f540b4d 100644
+--- a/meta/recipes-devtools/gcc/gcc-common.inc
++++ b/meta/recipes-devtools/gcc/gcc-common.inc
+@@ -33,6 +33,8 @@ def get_gcc_ppc_plt_settings(bb, d):
+ def get_long_double_setting(bb, d):
+     if d.getVar('TRANSLATED_TARGET_ARCH', True) in [ 'powerpc', 'powerpc64' ] and d.getVar('TCLIBC', True) in [ 'uclibc', 'glibc' ]:
+         return "--with-long-double-128"
++    else:
++        return "--without-long-double-128"
+     return ""
  
- PATH_prepend = "${STAGING_BINDIR_TOOLCHAIN}.${STAGINGCC}:"
- TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_TCBOOTSTRAP}"
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index d4f9819..1e33b2d 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -3,7 +3,7 @@
+ def get_gcc_multiarch_setting(bb, d):
+diff --git a/meta/recipes-devtools/gcc/libgcc-common.inc b/meta/recipes-devtools/gcc/libgcc-common.inc
+index dae07e9..e6d31bc 100644
+--- a/meta/recipes-devtools/gcc/libgcc-common.inc
++++ b/meta/recipes-devtools/gcc/libgcc-common.inc
+@@ -4,6 +4,13 @@ require gcc-shared-source.inc
  
- require musl.inc
+ INHIBIT_DEFAULT_DEPS = "1"
  
--SRCREV = "5978eb703ce0e64dd778a88c1ffffb76fe5e2202"
-+SRCREV = "49631b7b6c8b8c055aae5b6948930c219b95fdef"
- 
- PV = "1.1.14+git${SRCPV}"
- 
++EXTRA_OECONF += "\
++    ${@get_gcc_mips_plt_setting(bb, d)} \
++    ${@get_gcc_ppc_plt_settings(bb, d)} \
++    ${@get_long_double_setting(bb, d)} \
++    ${@get_gcc_multiarch_setting(bb, d)} \
++"
++
+ do_configure () {
+ 	target=`echo ${TARGET_SYS} | sed -e s#-${SDKPKGSUFFIX}##`
+ 	install -d ${D}${base_libdir} ${D}${libdir}
 -- 
 2.8.2
 
