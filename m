@@ -1,53 +1,33 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id AFBD273181
+Return-Path: <ismo.puustinen@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 00ADC60797
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 May 2016 10:39:24 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id 145so3500022pfz.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 May 2016 03:39:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding;
-	bh=9b7RuX0QBbYQjAwGuG5l7W/kRnPbhRavAbyJuXWWZrQ=;
-	b=o3HRaO+mKs9ibuwfoIJdmxEORQ62M/uP1aHv0jzWRHsvZ8JcCYAz/rhHw/eIqNczKi
-	792VOOQ+pcLwT9693IEl6Au/9OT/PUNTeeFO2F2kQcxE8FhRbjGzdsf36N5K09UDIqEx
-	xJY8JxfsQRmc56MAPa8bsUTHcf/uhd5m4XaXRo0SCbekkETKyadg0hOkB+0aUN/tos9k
-	TF9VeVgXaCVIJprhVySj2fC+g4XM/kS/qMJRQEF1gErjjJEN2Z7MX/JeFUHGAUCeplKq
-	5pKiWDiDAsiuMqgQ8hGh8EFpMW4UcvSBwKEu3KRAsNy1F9C6qgvE4iUnWnq1hgVAxuVH
-	J+4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=9b7RuX0QBbYQjAwGuG5l7W/kRnPbhRavAbyJuXWWZrQ=;
-	b=TT7+A9bgLrjWgy2eCJvGlWueDfOTvA/sXTMU3mFvonXoM1W38dOGAqSfxxXUVfF0Re
-	UER8re6njLXoBrdjKq1s93DAxSn1OPh441tkB2zDGGuq9RpsS2JiV/6zoWhQgoKoIq9A
-	QM97GDxHrvCotukwy94bzQV8NwXHO/w5GYDEmsD0UYTgCijM1Y8wk4v3bPAtSwHs6ywA
-	1DdRQGPlw5Loe3/YE8N9wY8sdRFfRFVrpn5xVMMBvJHrrEccLKwihRPx1csUnqAvmdJu
-	Bd59yShGi1X9G5TgUYR/OoQr57vKHcrz4gXyLQKtWCSIXiMYH617bR6CXe4EXoKzObGF
-	ZvEg==
-X-Gm-Message-State: AOPr4FWG9VJLQMfGHSoe6zUuM6XjOpISEJWJCdqAWskQdqyc0x/w82er7j06wv/m7DPHNg==
-X-Received: by 10.98.29.137 with SMTP id d131mr3786504pfd.2.1462963165020;
-	Wed, 11 May 2016 03:39:25 -0700 (PDT)
-Received: from ?IPv6:2601:202:4000:1239:d479:c1c3:6c29:187a?
-	([2601:202:4000:1239:d479:c1c3:6c29:187a])
-	by smtp.googlemail.com with ESMTPSA id
-	t14sm11126944pfj.12.2016.05.11.03.39.23
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 11 May 2016 03:39:23 -0700 (PDT)
-To: Robert Yang <liezhi.yang@windriver.com>,
-	openembedded-core@lists.openembedded.org
-References: <cover.1462952554.git.liezhi.yang@windriver.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <57330BDA.5080009@gmail.com>
-Date: Wed, 11 May 2016 03:39:22 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
+	Wed, 11 May 2016 10:46:41 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP; 11 May 2016 03:46:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,608,1455004800"; d="scan'208";a="973382123"
+Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
+	by orsmga002.jf.intel.com with ESMTP; 11 May 2016 03:46:41 -0700
+Received: from irsmsx107.ger.corp.intel.com ([169.254.10.133]) by
+	IRSMSX104.ger.corp.intel.com ([169.254.5.226]) with mapi id
+	14.03.0248.002; Wed, 11 May 2016 11:46:39 +0100
+From: "Puustinen, Ismo" <ismo.puustinen@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>,
+	"stephano.cetola@linux.intel.com" <stephano.cetola@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH v2 0/2] Create systemd users at build time
+Thread-Index: AQHRqkxlcvHHIM/kHU6E1O9g4gO1up+zf2yA
+Date: Wed, 11 May 2016 10:46:38 +0000
+Message-ID: <1462963597.11059.13.camel@intel.com>
+References: <1462837346-27095-1-git-send-email-stephano.cetola@linux.intel.com>
+In-Reply-To: <1462837346-27095-1-git-send-email-stephano.cetola@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.237.72.160]
 MIME-Version: 1.0
-In-Reply-To: <cover.1462952554.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 0/1] [jethro] openssl: 1.0.2d -> 1.0.2h (mainly for CVEs)
+Subject: Re: [PATCH v2 0/2] Create systemd users at build time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,57 +40,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 May 2016 10:39:24 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 11 May 2016 10:46:43 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <BDBFC84795F66F47B94D4481A81741B2@intel.com>
+Content-Transfer-Encoding: base64
 
-
-
-On 05/11/2016 12:43 AM, Robert Yang wrote:
-> The following changes since commit 69b49e8dc45cf60defba547d93e663df42c92127:
-> 
->   boot-directdisk.bbclass: remove HDDIMG before create (2016-05-09 14:37:19 +0100)
-> 
-> are available in the git repository at:
-> 
->   git://git.openembedded.org/openembedded-core-contrib rbt/openssl
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/openssl
-> 
-> Robert Yang (1):
->   openssl: 1.0.2d -> 1.0.2h (mainly for CVEs)
-
-Thank you. that saved my some work.
-
-- armin
-
-> 
->  .../openssl/0001-Add-test-for-CVE-2015-3194.patch  |  66 ---
->  ...64-mont5.pl-fix-carry-propagating-bug-CVE.patch | 101 ----
->  .../CVE-2015-3194-1-Add-PSS-parameter-check.patch  |  45 --
->  ...CVE-2015-3195-Fix-leak-with-ASN.1-combine.patch |  66 ---
->  .../openssl/openssl/CVE-2015-3197.patch            |  63 ---
->  .../openssl/openssl/CVE-2016-0701_1.patch          | 102 ----
->  .../openssl/openssl/CVE-2016-0701_2.patch          | 156 ------
->  .../openssl/openssl/CVE-2016-0800.patch            | 198 -------
->  .../openssl/openssl/CVE-2016-0800_2.patch          | 592 ---------------------
->  .../openssl/openssl/CVE-2016-0800_3.patch          | 503 -----------------
->  .../openssl/crypto_use_bigint_in_x86-64_perl.patch |  14 +-
->  .../openssl/debian1.0.2/block_diginotar.patch      |  17 +-
->  .../{debian => debian1.0.2}/version-script.patch   |  35 +-
->  ...-pointer-dereference-in-EVP_DigestInit_ex.patch |  14 +-
->  .../{openssl_1.0.2d.bb => openssl_1.0.2h.bb}       |  18 +-
->  15 files changed, 40 insertions(+), 1950 deletions(-)
->  delete mode 100644 meta/recipes-connectivity/openssl/openssl/0001-Add-test-for-CVE-2015-3194.patch
->  delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2015-3193-bn-asm-x86_64-mont5.pl-fix-carry-propagating-bug-CVE.patch
->  delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2015-3194-1-Add-PSS-parameter-check.patch
->  delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2015-3195-Fix-leak-with-ASN.1-combine.patch
->  delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2015-3197.patch
->  delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-0701_1.patch
->  delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-0701_2.patch
->  delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-0800.patch
->  delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-0800_2.patch
->  delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2016-0800_3.patch
->  rename meta/recipes-connectivity/openssl/openssl/{debian => debian1.0.2}/version-script.patch (99%)
->  rename meta/recipes-connectivity/openssl/{openssl_1.0.2d.bb => openssl_1.0.2h.bb} (73%)
-> 
+T24gTW9uLCAyMDE2LTA1LTA5IGF0IDE2OjQyIC0wNzAwLCBTdGVwaGFubyBDZXRvbGEgd3JvdGU6
+DQo+IFN5c3RlbWQgaGFzIGEgY29uZmlnIG9wdGlvbiBzeXN1c2VycyB3aGljaCBjcmVhdGVzIGFu
+eSB1c2VycyBvcg0KPiBncm91cHMgdGhhdA0KPiBzeXN0ZW1kIG5lZWRzIG9uIGZpcnN0IGJvb3Qu
+IFRoZXJlIGlzIGEgcm9vdGZzLXBvc3Rjb21tYW5kIHRoYXQNCj4gY3JlYXRlcyB0aGVzZQ0KPiB1
+c2VycyBpbiBjYXNlIHRoZSBmaWxlc3lzdGVtIGlzIHJlYWRvbmx5LCBob3dldmVyIGl0IGRvZXMg
+bm90IHRha2UNCj4gaW50bw0KPiBhY2NvdW50IGFueSBzdGFpY2lkcyB0aGF0IHRoZSB1c2VyIG1h
+eSBoYXZlIHNldC4NCj4gDQo+IEJ5IGFkZGluZyB0aGVzZSB1c2VycyBhdCBidWlsZCB0aW1lLCB3
+ZSBhbGxvdyBhIGNoZWNrIGZvciBzdGF0aWNpZHMsDQo+IHdoaWNoIHdvdWxkDQo+IG90aGVyd2lz
+ZSBoYXZlIGJlZW4gc2tpcHBlZC4NCg0KSSB0aGluayB0aGlzIGlzIGEgdmFsdWFibGUgZmVhdHVy
+ZS4gSG93ZXZlciwgaGF2ZSB5b3UgY29uc2lkZXJlZCBhZGRpbmcNCnRoZSAibSIgYW5kICJyIiBv
+cHRpb25zIHRvbz8gSSB0aGluayB0aGF0IGF0IGxlYXN0ICJtIiB3b3VsZCBiZQ0Kd29ydGh3aGls
+ZSB0byBpbXBsZW1lbnQsIHNpbmNlIGl0J3MgaW1wb3J0YW50IHRvIGJlIGFibGUgdG8gYWRkIHVz
+ZXJzDQp0byBkaWZmZXJlbnQgZ3JvdXBzIGZvciBwcml2aWxlZ2UgbWFuYWdlbWVudC4NCg0KSXNt
+bw==
 
