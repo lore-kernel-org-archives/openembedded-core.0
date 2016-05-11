@@ -1,26 +1,31 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0139B731A8
+Return-Path: <petter@technux.se>
+X-Greylist: delayed 364 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 11 May 2016 04:41:14 UTC
+Received: from bin-vsp-out-03.atm.binero.net (bin-mail-out-05.binero.net
+	[195.74.38.228])
+	by mail.openembedded.org (Postfix) with ESMTP id B5EDB70034
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 May 2016 03:07:14 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u4B37EDM021151
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 11 May 2016 04:41:14 +0000 (UTC)
+X-Halon-ID: bb3df1ac-1731-11e6-81fe-0050569116f7
+Authorized-sender: petter@technux.se
+Received: from webmail.binero.se (unknown [195.74.38.9])
+	by bin-vsp-out-03.atm.binero.net (Halon Mail Gateway) with ESMTPA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 May 2016 20:07:14 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 10 May 2016 20:07:13 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 10 May 2016 20:07:08 -0700
-Message-ID: <b0c4f415b541f48b70f3daa7fb56ed5abf49b965.1462935990.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.8.0
-In-Reply-To: <cover.1462935990.git.liezhi.yang@windriver.com>
-References: <cover.1462935990.git.liezhi.yang@windriver.com>
+	Wed, 11 May 2016 06:35:04 +0200 (CEST)
 MIME-Version: 1.0
-Subject: [PATCH 2/5] binutils: backport bug fix to the 2.25 branch for jethro
+Date: Wed, 11 May 2016 06:34:59 +0200
+From: =?UTF-8?Q?Petter_Mab=C3=A4cker?= <petter@technux.se>
+To: <openembedded-core@lists.openembedded.org>
+Organization: Technux
+Reply-To: <petter@technux.se>
+Mail-Reply-To: <petter@technux.se>
+In-Reply-To: <E7380AB9-2F38-424E-BF79-E60ECCF611D2@linux.intel.com>
+References: <1458665220-26223-1-git-send-email-markus.lehtonen@linux.intel.com>
+	<E7380AB9-2F38-424E-BF79-E60ECCF611D2@linux.intel.com>
+Message-ID: <524a1de66f35c2ecce1a709da93bfa65@technux.se>
+X-Sender: petter@technux.se
+User-Agent: Binero Webmail/0.8.4
+Subject: Re: [PATCH v3] base.bbclass wipe ${S} before unpacking source
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,208 +38,146 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 May 2016 03:07:17 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 11 May 2016 04:41:16 -0000
+Content-Type: multipart/alternative;
+	boundary="=_99146e3fd5c745228911db9d3c065c87"
 
-From: Tristan Van Berkom <tristan.vanberkom@codethink.co.uk>
+--=_99146e3fd5c745228911db9d3c065c87
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
 
-We fail to build webkit on aarch64 due to this binutils bug:
-
-   https://sourceware.org/bugzilla/show_bug.cgi?id=19353
-
-Applying patch which fixes this, stripped out changelog entry
-from patch to make it apply without error.
----
- meta/recipes-devtools/binutils/binutils-2.25.1.inc |   1 +
- ...plying-TLSDESC-relocs-without-TLS-segment.patch | 166 +++++++++++++++++++++
- 2 files changed, 167 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/fix-internal-error-when-applying-TLSDESC-relocs-without-TLS-segment.patch
-
-diff --git a/meta/recipes-devtools/binutils/binutils-2.25.1.inc b/meta/recipes-devtools/binutils/binutils-2.25.1.inc
-index f3817fa..c7db9e0 100644
---- a/meta/recipes-devtools/binutils/binutils-2.25.1.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.25.1.inc
-@@ -35,6 +35,7 @@ SRC_URI = "\
-      file://0015-Fix-dynamic-list-so-that-symbols-not-in-the-list-are.patch \
-      file://binutils-octeon3.patch \
-      file://add-thunderx-support-for-gas.patch \
-+     file://fix-internal-error-when-applying-TLSDESC-relocs-without-TLS-segment.patch \
-      "
- S  = "${WORKDIR}/git"
  
-diff --git a/meta/recipes-devtools/binutils/binutils/fix-internal-error-when-applying-TLSDESC-relocs-without-TLS-segment.patch b/meta/recipes-devtools/binutils/binutils/fix-internal-error-when-applying-TLSDESC-relocs-without-TLS-segment.patch
-new file mode 100644
-index 0000000..df9d54c
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/fix-internal-error-when-applying-TLSDESC-relocs-without-TLS-segment.patch
-@@ -0,0 +1,166 @@
-+From d21f123b0ead1806416cf0dafae12bec4cca8920 Mon Sep 17 00:00:00 2001
-+From: Cary Coutant <ccoutant@gmail.com>
-+Date: Mon, 11 Jan 2016 23:57:44 -0800
-+Subject: [PATCH] Fix internal error when applying TLSDESC relocations with no TLS segment.
-+
-+gold/
-+	PR gold/19353
-+	* aarch64.cc (Target_aarch64::relocate_tls): Don't insist that
-+	we have a TLS segment for GD-to-IE optimization.
-+	* i386.cc (Target_i386::tls_gd_to_ie): Remove tls_segment parameter.
-+	Adjust all calls.
-+	(Target_i386::tls_desc_gd_to_ie): Likewise.
-+	(Target_i386::relocate_tls): Don't insist that we have a TLS segment
-+	for TLSDESC GD-to-IE optimizations.
-+	* x86_64.cc (Target_x86_64::tls_gd_to_ie): Remove tls_segment parameter.
-+	Adjust all calls.
-+	(Target_x86_64::tls_desc_gd_to_ie): Likewise.
-+	(Target_x86_64::relocate_tls): Don't insist that we have a TLS segment
-+	for TLSDESC GD-to-IE optimizations.
-+---
-+ gold/aarch64.cc |    6 ------
-+ gold/i386.cc    |   14 ++------------
-+ gold/x86_64.cc  |   14 ++------------
-+ 4 files changed, 20 insertions(+), 30 deletions(-)
-+
-+diff --git a/gold/aarch64.cc b/gold/aarch64.cc
-+index 20f2f4f..5ad061b 100644
-+--- a/gold/aarch64.cc
-++++ b/gold/aarch64.cc
-+@@ -7422,12 +7422,6 @@ Target_aarch64<size, big_endian>::Relocate::relocate_tls(
-+ 	      }
-+ 	    if (tlsopt == tls::TLSOPT_TO_IE)
-+ 	      {
-+-		if (tls_segment == NULL)
-+-		  {
-+-		    gold_assert(parameters->errors()->error_count() > 0
-+-				|| issue_undefined_symbol_error(gsym));
-+-		    return aarch64_reloc_funcs::STATUS_BAD_RELOC;
-+-		  }
-+ 		return tls_desc_gd_to_ie(relinfo, target, rela, r_type,
-+ 					 view, psymval, got_entry_address,
-+ 					 address);
-+diff --git a/gold/i386.cc b/gold/i386.cc
-+index 82886d4..a7168a8 100644
-+--- a/gold/i386.cc
-++++ b/gold/i386.cc
-+@@ -668,7 +668,6 @@ class Target_i386 : public Sized_target<32, false>
-+     // Do a TLS General-Dynamic to Initial-Exec transition.
-+     inline void
-+     tls_gd_to_ie(const Relocate_info<32, false>*, size_t relnum,
-+-		 Output_segment* tls_segment,
-+ 		 const elfcpp::Rel<32, false>&, unsigned int r_type,
-+ 		 elfcpp::Elf_types<32>::Elf_Addr value,
-+ 		 unsigned char* view,
-+@@ -687,7 +686,6 @@ class Target_i386 : public Sized_target<32, false>
-+     // transition.
-+     inline void
-+     tls_desc_gd_to_ie(const Relocate_info<32, false>*, size_t relnum,
-+-		      Output_segment* tls_segment,
-+ 		      const elfcpp::Rel<32, false>&, unsigned int r_type,
-+ 		      elfcpp::Elf_types<32>::Elf_Addr value,
-+ 		      unsigned char* view,
-+@@ -3054,7 +3052,7 @@ Target_i386::Relocate::relocate_tls(const Relocate_info<32, false>* relinfo,
-+ 	    }
-+ 	  if (optimized_type == tls::TLSOPT_TO_IE)
-+ 	    {
-+-	      this->tls_gd_to_ie(relinfo, relnum, tls_segment, rel, r_type,
-++	      this->tls_gd_to_ie(relinfo, relnum, rel, r_type,
-+ 				 got_offset, view, view_size);
-+ 	      break;
-+ 	    }
-+@@ -3116,13 +3114,7 @@ Target_i386::Relocate::relocate_tls(const Relocate_info<32, false>* relinfo,
-+ 	    }
-+ 	  if (optimized_type == tls::TLSOPT_TO_IE)
-+ 	    {
-+-	      if (tls_segment == NULL)
-+-		{
-+-		  gold_assert(parameters->errors()->error_count() > 0
-+-			      || issue_undefined_symbol_error(gsym));
-+-		  return;
-+-		}
-+-	      this->tls_desc_gd_to_ie(relinfo, relnum, tls_segment, rel, r_type,
-++	      this->tls_desc_gd_to_ie(relinfo, relnum, rel, r_type,
-+ 				      got_offset, view, view_size);
-+ 	      break;
-+ 	    }
-+@@ -3354,7 +3346,6 @@ Target_i386::Relocate::tls_gd_to_le(const Relocate_info<32, false>* relinfo,
-+ inline void
-+ Target_i386::Relocate::tls_gd_to_ie(const Relocate_info<32, false>* relinfo,
-+ 				    size_t relnum,
-+-				    Output_segment*,
-+ 				    const elfcpp::Rel<32, false>& rel,
-+ 				    unsigned int,
-+ 				    elfcpp::Elf_types<32>::Elf_Addr value,
-+@@ -3449,7 +3440,6 @@ inline void
-+ Target_i386::Relocate::tls_desc_gd_to_ie(
-+     const Relocate_info<32, false>* relinfo,
-+     size_t relnum,
-+-    Output_segment*,
-+     const elfcpp::Rel<32, false>& rel,
-+     unsigned int r_type,
-+     elfcpp::Elf_types<32>::Elf_Addr value,
-+diff --git a/gold/x86_64.cc b/gold/x86_64.cc
-+index 3cfc064..4ad5afc 100644
-+--- a/gold/x86_64.cc
-++++ b/gold/x86_64.cc
-+@@ -816,7 +816,6 @@ class Target_x86_64 : public Sized_target<size, false>
-+     // Do a TLS General-Dynamic to Initial-Exec transition.
-+     inline void
-+     tls_gd_to_ie(const Relocate_info<size, false>*, size_t relnum,
-+-		 Output_segment* tls_segment,
-+ 		 const elfcpp::Rela<size, false>&, unsigned int r_type,
-+ 		 typename elfcpp::Elf_types<size>::Elf_Addr value,
-+ 		 unsigned char* view,
-+@@ -835,7 +834,6 @@ class Target_x86_64 : public Sized_target<size, false>
-+     // Do a TLSDESC-style General-Dynamic to Initial-Exec transition.
-+     inline void
-+     tls_desc_gd_to_ie(const Relocate_info<size, false>*, size_t relnum,
-+-		      Output_segment* tls_segment,
-+ 		      const elfcpp::Rela<size, false>&, unsigned int r_type,
-+ 		      typename elfcpp::Elf_types<size>::Elf_Addr value,
-+ 		      unsigned char* view,
-+@@ -3733,7 +3731,7 @@ Target_x86_64<size>::Relocate::relocate_tls(
-+ 	  if (optimized_type == tls::TLSOPT_TO_IE)
-+ 	    {
-+ 	      value = target->got_plt_section()->address() + got_offset;
-+-	      this->tls_gd_to_ie(relinfo, relnum, tls_segment, rela, r_type,
-++	      this->tls_gd_to_ie(relinfo, relnum, rela, r_type,
-+ 				 value, view, address, view_size);
-+ 	      break;
-+ 	    }
-+@@ -3800,14 +3798,8 @@ Target_x86_64<size>::Relocate::relocate_tls(
-+ 	    }
-+ 	  if (optimized_type == tls::TLSOPT_TO_IE)
-+ 	    {
-+-	      if (tls_segment == NULL)
-+-		{
-+-		  gold_assert(parameters->errors()->error_count() > 0
-+-			      || issue_undefined_symbol_error(gsym));
-+-		  return;
-+-		}
-+ 	      value = target->got_plt_section()->address() + got_offset;
-+-	      this->tls_desc_gd_to_ie(relinfo, relnum, tls_segment,
-++	      this->tls_desc_gd_to_ie(relinfo, relnum,
-+ 				      rela, r_type, value, view, address,
-+ 				      view_size);
-+ 	      break;
-+@@ -3973,7 +3965,6 @@ inline void
-+ Target_x86_64<size>::Relocate::tls_gd_to_ie(
-+     const Relocate_info<size, false>* relinfo,
-+     size_t relnum,
-+-    Output_segment*,
-+     const elfcpp::Rela<size, false>& rela,
-+     unsigned int,
-+     typename elfcpp::Elf_types<size>::Elf_Addr value,
-+@@ -4085,7 +4076,6 @@ inline void
-+ Target_x86_64<size>::Relocate::tls_desc_gd_to_ie(
-+     const Relocate_info<size, false>* relinfo,
-+     size_t relnum,
-+-    Output_segment*,
-+     const elfcpp::Rela<size, false>& rela,
-+     unsigned int r_type,
-+     typename elfcpp::Elf_types<size>::Elf_Addr value,
-+-- 
-+1.7.1
-+
--- 
-2.8.0
+
+Hi Markus, 
+
+From my point of view it looks good, and all feedback
+from v2 of the patch seems to have been handled as well. 
+
+BR
+Petter
+
+Petter Mabäcker
+
+Technux
+<petter@technux.se>
+www.technux.se
+
+2016-05-10 09:56 skrev Markus
+Lehtonen: 
+
+> Ping,
+> 
+> Any comments on this one?
+> 
+> Discussion on v2
+of the patch:
+>
+http://lists.openembedded.org/pipermail/openembedded-core/2016-March/119295.html
+[2]
+> 
+> Cheers,
+> Markus
+> 
+> On 22/03/16 18:47, "Markus Lehtonen"
+<openembedded-core-bounces@lists.openembedded.org on behalf of
+markus.lehtonen@linux.intel.com> wrote:
+> 
+>> Make sure that we have a
+pristine source tree after do_unpack. [YOCTO #9064] Signed-off-by:
+Markus Lehtonen <markus.lehtonen@linux.intel.com> ---
+meta/classes/base.bbclass | 12 ++---------- 1 file changed, 2
+insertions(+), 10 deletions(-) diff --git a/meta/classes/base.bbclass
+b/meta/classes/base.bbclass index e066dc9..2acb2b6 100644 ---
+a/meta/classes/base.bbclass +++ b/meta/classes/base.bbclass @@ -133,23
++133,15 @@ python base_do_fetch() { addtask unpack after do_fetch
+do_unpack[dirs] = "${WORKDIR}" +do_unpack[cleandirs] = "${@d.getVar('S',
+True) if d.getVar('S', True) != d.getVar('WORKDIR', True) else
+os.path.join(d.getVar('S', True), 'patches')}" python base_do_unpack() {
+src_uri = (d.getVar('SRC_URI', True) or "").split() if len(src_uri) ==
+0: return - rootdir = d.getVar('WORKDIR', True) - - # Ensure that we
+cleanup ${S}/patches - # TODO: Investigate if we can remove - # the
+entire ${S} in this case. - s_dir = d.getVar('S', True) - p_dir =
+os.path.join(s_dir, 'patches') - bb.utils.remove(p_dir, True) - try:
+fetcher = bb.fetch2.Fetch(src_uri, d) - fetcher.unpack(rootdir) +
+fetcher.unpack(d.getVar('WORKDIR', True)) except
+bb.fetch2.BBFetchException as e: raise bb.build.FuncFailed(e) } -- 2.6.2
+-- _______________________________________________ Openembedded-core
+mailing list Openembedded-core@lists.openembedded.org
+http://lists.openembedded.org/mailman/listinfo/openembedded-core [1]
 
 
+
+Links:
+------
+[1]
+http://lists.openembedded.org/mailman/listinfo/openembedded-core
+[2]
+http://lists.openembedded.org/pipermail/openembedded-core/2016-March/119295.html
+
+--=_99146e3fd5c745228911db9d3c065c87
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset=UTF-8
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html><body style=3D'font-family: Helvetica,Arial,sans-serif'>
+<pre>Hi Markus,=20
+
+From my point of view it looks good, and all feedback from v2 of the patch =
+seems to have been handled as well.=20
+
+BR Petter<br /><br /></pre>
+<pre>Petter Mab&auml;cker
+
+Technux &lt;petter@technux.se&gt;
+www.technux.se</pre>
+<p>2016-05-10 09:56 skrev Markus Lehtonen:</p>
+<blockquote type=3D"cite" style=3D"padding-left:5px; border-left:#1010ff 2p=
+x solid; margin-left:5px; width:100%"><!-- html ignored --><!-- head ignore=
+d --><!-- meta ignored -->
+<pre>Ping,
+
+Any comments on this one?
+
+Discussion on v2 of the patch:
+<a href=3D"http://lists.openembedded.org/pipermail/openembedded-core/2016-M=
+arch/119295.html">http://lists.openembedded.org/pipermail/openembedded-core=
+/2016-March/119295.html</a>
+
+Cheers,
+  Markus
+
+
+
+On 22/03/16 18:47, "Markus Lehtonen" &lt;<a href=3D"mailto:openembedded-cor=
+e-bounces@lists.openembedded.org">openembedded-core-bounces@lists.openembed=
+ded.org</a> on behalf of <a href=3D"mailto:markus.lehtonen@linux.intel.com"=
+>markus.lehtonen@linux.intel.com</a>&gt; wrote:</pre>
+<blockquote type=3D"cite" style=3D"padding-left:5px; border-left:#1010ff 2p=
+x solid; margin-left:5px; width:100%">Make sure that we have a pristine sou=
+rce tree after do_unpack. [YOCTO #9064] Signed-off-by: Markus Lehtonen &lt;=
+<a href=3D"mailto:markus.lehtonen@linux.intel.com">markus.lehtonen@linux.in=
+tel.com</a>&gt; --- meta/classes/base.bbclass | 12 ++---------- 1 file chan=
+ged, 2 insertions(+), 10 deletions(-) diff --git a/meta/classes/base.bbclas=
+s b/meta/classes/base.bbclass index e066dc9..2acb2b6 100644 --- a/meta/clas=
+ses/base.bbclass +++ b/meta/classes/base.bbclass @@ -133,23 +133,15 @@ pyth=
+on base_do_fetch() { addtask unpack after do_fetch do_unpack[dirs] =3D "${W=
+ORKDIR}" +do_unpack[cleandirs] =3D "<a href=3D"mailto:${@d.getVar">${@d.get=
+Var</a>('S', True) if d.getVar('S', True) !=3D d.getVar('WORKDIR', True) el=
+se os.path.join(d.getVar('S', True), 'patches')}" python base_do_unpack() {=
+ src_uri =3D (d.getVar('SRC_URI', True) or "").split() if len(src_uri) =3D=
+=3D 0: return - rootdir =3D d.getVar('WORKDIR', True) - - # Ensure that we =
+cleanup ${S}/patches - # TODO: Investigate if we can remove - # the entire =
+${S} in this case. - s_dir =3D d.getVar('S', True) - p_dir =3D os.path.join=
+(s_dir, 'patches') - bb.utils.remove(p_dir, True) - try: fetcher =3D bb.fet=
+ch2.Fetch(src_uri, d) - fetcher.unpack(rootdir) + fetcher.unpack(d.getVar('=
+WORKDIR', True)) except bb.fetch2.BBFetchException as e: raise bb.build.Fun=
+cFailed(e) } -- 2.6.2 <span class=3D"sig">-- ______________________________=
+_________________ Openembedded-core mailing list <a href=3D"mailto:Openembe=
+dded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org<=
+/a> <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-=
+core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a> =
+</span></blockquote>
+</blockquote>
+</body></html>
+
+--=_99146e3fd5c745228911db9d3c065c87--
