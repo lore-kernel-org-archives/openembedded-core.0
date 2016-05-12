@@ -1,28 +1,46 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 99192608B7
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id D6F5160721
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 May 2016 19:05:40 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 12 May 2016 12:05:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,610,1455004800"; d="scan'208";a="964707652"
-Received: from mlopezva-mobl2.zpn.intel.com (HELO [10.219.5.49])
-	([10.219.5.49])
-	by fmsmga001.fm.intel.com with ESMTP; 12 May 2016 12:05:40 -0700
-To: Joshua G Lock <joshua.g.lock@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <cover.1462969737.git.mariano.lopez@linux.intel.com>
-	<1c3ceaa93f95993002acd3ce3e1a07bea1ffd6b1.1462969737.git.mariano.lopez@linux.intel.com>
-	<1463045464.3794.6.camel@linux.intel.com>
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
-Message-ID: <5734D407.1000005@linux.intel.com>
-Date: Thu, 12 May 2016 14:05:43 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
-MIME-Version: 1.0
-In-Reply-To: <1463045464.3794.6.camel@linux.intel.com>
-Subject: Re: [PATCH 3/3] package_manager.py: Add extract() method for RPM package manager
+	Thu, 12 May 2016 19:21:07 +0000 (UTC)
+Received: by mail-wm0-f41.google.com with SMTP id v200so41103398wmv.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 May 2016 12:21:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=WZaD15wFLmrziAgLg/nPrDYjrIClQxZm9Qxf+SIJ4TE=;
+	b=ZhjUZC0yVG3sELu8dZA6eOmiB3FvtV4FL6lPrB0oUs0/9J8lrOlBOuL+2IhlMlf46s
+	2qHrp82nQdyx/sC1xBtkzXdhpTI8d4ndYJ198kr5tpgfSduFGAKJCG8A6G1a8Ojx1vn5
+	pQyh4FXVaA0S5uAf13SG4buReU0SAqbPzKrDMY4CURUxPjs5fbrxMxzruqpMr1mOs2rm
+	Q1m5LGcBTIxt0lur7/MhyE7fJPJ3f7jGpUnTIuQdCrzzBUi+bZcGam8F2FuyZEzDgzFq
+	g+EniPINCzWxtXlO4aIvPIOD+UECm0vPcqpibVrBV7Xk00o4Zh5lirsjzyOcGEzxJXhA
+	mt1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=WZaD15wFLmrziAgLg/nPrDYjrIClQxZm9Qxf+SIJ4TE=;
+	b=jUe/unzzZdExmfVhBIzS1a16/NvRWyl+Lm6cbjT5L3a2ud24YQQ9ipNoGfznm5X9Lg
+	945XGP/n4NOuNI/o966QLOpRhCnnFsj+6AZfqTee20nigfFHe2b8sIQAYsYMzyI/QSAS
+	zJhydjj9eDZyzeedW1VOz1V6ZX1uxj7xRB4Eex2uyNdCxtcsPbRt5ffhg7IkgGIm7DNI
+	XM+H7+fv6/NskAdlx20B4Z0/9VozW5X8C+IlOxU3GYI/8pYT6Ntf7zQM78fBmCRfx0hG
+	zPVIX81PNRKgw2BT+YP3hJYZFGMCRp6NApIdMG7twSnt4b8TyWcuN7f7UafF5XCVNLZv
+	Md6A==
+X-Gm-Message-State: AOPr4FXR5Vfg6/627e2Eq/OgvRgLcE3gNxtaL8v35EH+CgzqoOI21KREKEFCoBHYHtV6XUWP
+X-Received: by 10.194.72.103 with SMTP id c7mr12433732wjv.65.1463080867898;
+	Thu, 12 May 2016 12:21:07 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	az2sm14879502wjc.6.2016.05.12.12.21.07
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 12 May 2016 12:21:07 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 12 May 2016 20:21:05 +0100
+Message-Id: <1463080865-26480-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.0.rc3
+Subject: [PATCH] cmake: enable verbose builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,28 +53,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 May 2016 19:05:41 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 12 May 2016 19:21:08 -0000
 
-On 05/12/2016 04:31 AM, Joshua G Lock wrote:
-> On Wed, 2016-05-11 at 12:31 +0000, mariano.lopez@linux.intel.com wrote:
->> From: Mariano Lopez <mariano.lopez@linux.intel.com>
->>
->> +        #Parse output
->> +        for line in output.splitlines():
->> +            line = line.rstrip()
->> +            if line.startswith("Name:"):
->> +                pkg = line.split(": ")[1]
->> +            elif line.startswith("Version:"):
->> +                tmp_str = line.split(": ")[1]
->> +                ver, arch = tmp_str.split("@")
->> +                break
-> Could pkg, ver and arch be potentially undefined here?
->
->
+To help debugging build problems pass VERBOSE=1 to make so that the makefiles
+print their commands, just like we do with autotools.
 
-I'll send a v2 with default values
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/cmake.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Mariano Lopez
+diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+index 02f313a..e788310 100644
+--- a/meta/classes/cmake.bbclass
++++ b/meta/classes/cmake.bbclass
+@@ -126,7 +126,7 @@ cmake_do_configure() {
+ 
+ cmake_do_compile()  {
+ 	cd ${B}
+-	base_do_compile
++	base_do_compile VERBOSE=1
+ }
+ 
+ cmake_do_install() {
+-- 
+2.8.0.rc3
+
 
