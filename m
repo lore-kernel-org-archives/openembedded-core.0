@@ -1,49 +1,55 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ob0-f195.google.com (mail-ob0-f195.google.com
-	[209.85.214.195])
-	by mail.openembedded.org (Postfix) with ESMTP id E869C60118
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
+	[209.85.218.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B9D36FF78
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 May 2016 14:26:33 +0000 (UTC)
-Received: by mail-ob0-f195.google.com with SMTP id n2so1633283obo.1
+	Thu, 12 May 2016 14:27:21 +0000 (UTC)
+Received: by mail-oi0-f65.google.com with SMTP id w198so12603721oiw.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 May 2016 07:26:34 -0700 (PDT)
+	Thu, 12 May 2016 07:27:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=Y3Dks64KZuAjQ8R1UhXKFONUUgY4sDn+X2r3Y2vt7Ow=;
-	b=tmY9OunWigraR1CX6mRpCgfQFtFHmzxzPvCuaM3B7bGPZ9PJ2FwfX2N1WY0hBComq+
-	+81/PaYA+HydcBgaSv4+giqrC2MDN48EApSOGFKTuu1hEgw6EUZeWyNU9boQLUj2xARu
-	50mcSlOOwkqFtMaAkz9Y6Ttw+35t31B+xoA+Lh4Ltyhyfy3vIm7HtzYScYEPAb3TMQ2U
-	CZ61FqhzcJo5A8gKLmsO9JVt03rhOxWFV0XK6ZpaOYsl8MTv7alFqWr8XdxIkXz6Mo/E
-	dejOSP15T6ouzWBBgDLmSeSj70LL/E5BQTL1hGLRjwIkpKDVKXdZN+udiB6ID4lw/vUn
-	e2ig==
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc; bh=Mo1GzAyKBau15UK0KvR8MCzb03noVpf1kGzJlppVn3A=;
+	b=xzLyEIru+M3MqPVcD/a25kzE1tCm+d3ual6CSKshWBdQVMIkuPItI2vo0FVFJ5ckVz
+	tsKNWQbEpCdLxIk0xJ916Zi6jkej8mBPcINpCiO/0UtdybSp+iBvzhataKXYjSPqO86O
+	c01T2WE/yl0IaROUU+ncGjlZgzJHNrDzFocZX15bXCxH9nGqA299uf0qda1MVbLULZjd
+	5h/YzU8hBoU6j9EM1Dwtum8/uTROqkIHFiav3idPPRuovVSomn9F+tijqt9M2RL8c3h9
+	WAONrL1v/cZa1AQBt4foWwYl6tJKGxQUkXiozso8jdjlRDaDmyrdqkZr9jEy7k832Fvb
+	8ofQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=Y3Dks64KZuAjQ8R1UhXKFONUUgY4sDn+X2r3Y2vt7Ow=;
-	b=iEVcDBSJydBrhOBtW6J4kF9y3D3yoGxBKZrONVw7YkQNOusaLUoLg5bn3xGGpvWW1q
-	t5Dtl/IfT/rZLx+/mnIJvCTukMdLzy8gI4lwEBJPfnse7M7+KQN3V1Tpu3GbRxEVe3dN
-	42zRuxQM4JmQOMR8xb4k9/9ZAEWSG5PId8n8dIMrnt3i5yhHqsom6OP/ctDrcc+9e4UQ
-	0xMUaLMSPat9CCoQTs0skBHzkQO/ilZv3LDRvws0dMou2HwK/CX4qmZhUxjWVbhfFOTY
-	ajahkIlirGCgZ2Z2cUCjx91nDSnmYBAVSEAkDVLE+mTJKPazbNG5/77ChOwKoycgQyAU
-	6aLA==
-X-Gm-Message-State: AOPr4FVhNVTLh+kbyHo8cx9EMUP2k6EsK7tgN0bkEs/bdEYinLTccEiWcwthijbh63P/X/+rGqlpjnu4jU+Y7Q==
-X-Received: by 10.140.150.20 with SMTP id 20mr10287773qhw.98.1463063167489;
-	Thu, 12 May 2016 07:26:07 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc;
+	bh=Mo1GzAyKBau15UK0KvR8MCzb03noVpf1kGzJlppVn3A=;
+	b=NfYx8OokFsy1Lp1Frn0KZS1lheq/NDCUC/FR38yUW75uxZLQRc2sa3YuAm9hpQoTMR
+	L+8LwhMMxQYDvJc0IjotMMLJcVROg6iOGZuVBJ6OaKKCdVAHe0uZB1sY0e73M/i6FWjc
+	iK4JmDYoHLPNfte8ulSzgzrJ+oQKVMjtWHIyzlnXAqLfaRP09JEdlfJnk4pn+F9w5XW1
+	UrXzRELxnYZ2RAcUOooeszzEqneBGD3oohBKfpAJ94/gG8JuznH8pGC/Rsj8iResaGXx
+	ThGKJSAWVQrlEGI/qmqsI1pe2vE/Yauy5KoJZ8shg67umRnfe1XRu9DQuPy7Pr/B4O4R
+	TnYg==
+X-Gm-Message-State: AOPr4FVtsNMEHggM2BS7xnYqZbFAR6W6QyvvG5FYopA/ct7BqmrTwPdIi09uZdeGqaFQHS2iPH4skxEhxawDlg==
 MIME-Version: 1.0
-Received: by 10.55.130.196 with HTTP; Thu, 12 May 2016 07:25:38 -0700 (PDT)
-In-Reply-To: <1463046684.29915.33.camel@andred.net>
-References: <1461662879-21557-1-git-send-email-git@andred.net>
-	<571935B4-DB58-4820-BBEA-AA6668098755@gmail.com>
-	<1463046684.29915.33.camel@andred.net>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 12 May 2016 07:25:38 -0700
-Message-ID: <CAMKF1spC5gcZy_M2q6FcUcfqqBDf+spr0k9wzOkcY-PBFGpB1Q@mail.gmail.com>
-To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
+X-Received: by 10.202.196.72 with SMTP id u69mr4909621oif.116.1463063242422;
+	Thu, 12 May 2016 07:27:22 -0700 (PDT)
+Received: by 10.157.32.135 with HTTP; Thu, 12 May 2016 07:27:22 -0700 (PDT)
+In-Reply-To: <CAMKF1sq8GmdowYQf6cyVJZxmXWzi7y+usAe-wpTVq2kjztXEQA@mail.gmail.com>
+References: <cover.1462987863.git.raj.khem@gmail.com>
+	<2e51e9b5fb3911436afc1becd5feb9351b896fa4.1462987863.git.raj.khem@gmail.com>
+	<1d16314288f1f93b21bacd0016d23abcab52b501.1462987863.git.raj.khem@gmail.com>
+	<CADkTA4P6hCQBMgNXZZY80OTSH2vuxjw0h27fgNvN8p22u8riAQ@mail.gmail.com>
+	<CAMKF1srqdFXR4jD12MFL1rwco2aCyKYwh7dwKnNbC6xnu6ON0Q@mail.gmail.com>
+	<CADkTA4O+yfpCXFzpqWcE1sC0TKD6TH2Xfbt7xiA3ncxBkYikTg@mail.gmail.com>
+	<CAMKF1sonno53gN+P8=Sdxems6pZnDEGqMCMNzObJsqByPjda7A@mail.gmail.com>
+	<CADkTA4M3S=rRWD8+-j+qo0jCJ1AmSJjNEDOy61+AXMLJwRmv8w@mail.gmail.com>
+	<CADkTA4MXrL5Z+TwOU=O9dJseT-mFWKBNka1D2Gvb+740zQ+jYg@mail.gmail.com>
+	<CAMKF1sq8GmdowYQf6cyVJZxmXWzi7y+usAe-wpTVq2kjztXEQA@mail.gmail.com>
+Date: Thu, 12 May 2016 10:27:22 -0400
+Message-ID: <CADkTA4Me6=MAUfLRVdtb0KYua1ut3ofuKxGESr4m-8gB2ZAdBw@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] feature-arm-neon.inc: restore vfpv3-d16 support
+Subject: Re: [PATCH 22/42] linux-yocto: Fix build on ppc with gcc-6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,129 +62,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 May 2016 14:26:35 -0000
+X-List-Received-Date: Thu, 12 May 2016 14:27:23 -0000
+Content-Type: multipart/alternative; boundary=001a11352a4ed946490532a5f496
+
+--001a11352a4ed946490532a5f496
 Content-Type: text/plain; charset=UTF-8
+
+On Thu, May 12, 2016 at 10:21 AM, Khem Raj <raj.khem@gmail.com> wrote:
+
+> On Thu, May 12, 2016 at 6:28 AM, Bruce Ashfield
+> <bruce.ashfield@gmail.com> wrote:
+> >
+> > The patches are not integrated into linux-yocto-4.4 and I added the patch
+> > I've
+> > attached o my zedd/kernel poky-contrib branch:
+>
+> Nice, is this branch already proposed for merge ?
+>
+
+Yes. I stacked it on top of the -stable updates I sent yesterday, so it is
+proposed to merge
+for master and krogoth.
+
+Bruce
+
+
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
+
+--001a11352a4ed946490532a5f496
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 12, 2016 at 2:51 AM, Andr=C3=A9 Draszik <git@andred.net> wrote:
-> OK. Any suggestions for how to best fix that?
->
-> I could be more specific and .replace('vfpv3-d16', 'vfpv3d16') only, but
-> that seems ugly :-)
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Thu, May 12, 2016 at 10:21 AM, Khem Raj <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">On Thu, =
+May 12, 2016 at 6:28 AM, Bruce Ashfield<br>
+&lt;<a href=3D"mailto:bruce.ashfield@gmail.com">bruce.ashfield@gmail.com</a=
+>&gt; wrote:<br>
+&gt;<br>
+&gt; The patches are not integrated into linux-yocto-4.4 and I added the pa=
+tch<br>
+&gt; I&#39;ve<br>
+&gt; attached o my zedd/kernel poky-contrib branch:<br>
+<br>
+</span>Nice, is this branch already proposed for merge ?<br></blockquote><d=
+iv><br></div><div>Yes. I stacked it on top of the -stable updates I sent ye=
+sterday, so it is proposed to merge</div><div>for master and krogoth.</div>=
+<div><br></div><div>Bruce</div><div>=C2=A0</div></div><br><br clear=3D"all"=
+><div><br></div>-- <br><div class=3D"gmail_signature">&quot;Thou shalt not =
+follow the NULL pointer, for chaos and madness await thee at its end&quot;<=
+/div>
+</div></div>
 
-There seem to be no other usecase where '-' is used in fpu names so it
-should be ok
-
->
->
-> Thanks,
-> Andr=C3=A9
->
-> On Mi, 2016-05-11 at 11:55 -0700, Khem Raj wrote:
->> This causes raspberrypi2 not parse anymore
->>
->> ERROR:  OE-core's config sanity checker detected a potential
->> misconfiguration.
->>     Either fix the cause of this error or at your own risk disable the
->> checker (see sanity.conf).
->>     Following is the list of potential problems / advisories:
->>
->>     Error, the PACKAGE_ARCHS variable (all any noarch armv5hf-vfp
->> armv5thf-vfp armv5ehf-vfp armv5tehf-vfp armv6hf-vfp a
->> rmv6thf-vfp armv7ahf-vfp armv7at2hf-vfp armv7vehf-vfp armv7vet2hf-vfp
->> armv7vehf-neon armv7vet2hf-neon armv7vehf-neon-vf
->> pv4 armv7vet2hf-neon-vfpv4 cortexa7hf-vfp cortexa7hf-neon cortexa7hf-neo=
-n-
->> vfpv4 cortexa7t2hf-vfp cortexa7t2hf-neon cort
->> exa7t2hf-neon-vfpv4 raspberrypi3) for DEFAULTTUNE (cortexa7thf-neon-vfpv=
-4)
->> does not contain TUNE_PKGARCH (cortexa7hf-ne
->> onvfpv4).
->>
->>
->> >
->> > On Apr 26, 2016, at 2:27 AM, Andr=C3=A9 Draszik <git@andred.net> wrote=
-:
->> >
->> > Commit 6661718 (feature-arm-{neon,vfp}.inc: refactor and fix issues)
->> > effectively changed the gcc -mfpu=3D option from -mfpu=3Dvfpv3-d16 to
->> > -mfpu=3Dvfpv3d16, which gcc doesn't understand.
->> >
->> > Restore the original value.
->> >
->> > After doing that, we also need to adjust ARMPKGSFX_FPU which should
->> > contain the same value without dash '-' as it is used that way
->> > throughout.
->> >
->> > Signed-off-by: Andr=C3=A9 Draszik <git@andred.net>
->> > ---
->> > meta/conf/machine/include/arm/feature-arm-neon.inc | 2 +-
->> > meta/conf/machine/include/arm/feature-arm-vfp.inc  | 2 +-
->> > 2 files changed, 2 insertions(+), 2 deletions(-)
->> >
->> > diff --git a/meta/conf/machine/include/arm/feature-arm-neon.inc
->> > b/meta/conf/machine/include/arm/feature-arm-neon.inc
->> > index 50d9175..b34af8e 100644
->> > --- a/meta/conf/machine/include/arm/feature-arm-neon.inc
->> > +++ b/meta/conf/machine/include/arm/feature-arm-neon.inc
->> > @@ -8,7 +8,7 @@ TUNEVALID[neon] =3D "Enable Neon SIMD accelerator unit=
-."
->> > TUNE_CCARGS_MFPU .=3D "${@bb.utils.contains('TUNE_FEATURES', 'neon', '
->> > neon', '', d)}"
->> >
->> > TUNEVALID[vfpv3d16] =3D "Enable Vector Floating Point Version 3 with 1=
-6
->> > registers (vfpv3-d16) unit."
->> > -TUNE_CCARGS_MFPU .=3D "${@bb.utils.contains('TUNE_FEATURES', 'vfpv3d1=
-6',
->> > ' vfpv3d16', '', d)}"
->> > +TUNE_CCARGS_MFPU .=3D "${@bb.utils.contains('TUNE_FEATURES', 'vfpv3d1=
-6',
->> > ' vfpv3-d16', '', d)}"
->> >
->> > TUNEVALID[vfpv3] =3D "Enable Vector Floating Point Version 3 with 32
->> > registers (vfpv3) unit."
->> > TUNE_CCARGS_MFPU .=3D "${@bb.utils.contains('TUNE_FEATURES', 'vfpv3', =
-'
->> > vfpv3', '' , d)}"
->> > diff --git a/meta/conf/machine/include/arm/feature-arm-vfp.inc
->> > b/meta/conf/machine/include/arm/feature-arm-vfp.inc
->> > index 4247255..bd366a1 100644
->> > --- a/meta/conf/machine/include/arm/feature-arm-vfp.inc
->> > +++ b/meta/conf/machine/include/arm/feature-arm-vfp.inc
->> > @@ -6,7 +6,7 @@ TUNEVALID[vfp] =3D "Enable Vector Floating Point (vfp)
->> > unit."
->> > TUNE_CCARGS_MFPU .=3D "${@bb.utils.contains('TUNE_FEATURES', 'vfp', '
->> > vfp', '', d)}"
->> >
->> > TUNE_CCARGS  .=3D "${@ (' -mfpu=3D%s ' % d.getVar('TUNE_CCARGS_MFPU',
->> > True).split()[-1]) if (d.getVar('TUNE_CCARGS_MFPU', True) !=3D '') els=
-e
->> > ''}"
->> > -ARMPKGSFX_FPU =3D "${@ ('-%s'        % d.getVar('TUNE_CCARGS_MFPU',
->> > True).split()[-1]) if (d.getVar('TUNE_CCARGS_MFPU', True) !=3D '') els=
-e
->> > ''}"
->> > +ARMPKGSFX_FPU =3D "${@ ('-%s'        % d.getVar('TUNE_CCARGS_MFPU',
->> > True).split()[-1].replace('-', '')) if (d.getVar('TUNE_CCARGS_MFPU',
->> > True) !=3D '') else ''}"
->> >
->> > TUNEVALID[callconvention-hard] =3D "Enable EABI hard float call
->> > convention, requires VFP."
->> > TUNE_CCARGS_MFLOAT =3D "${@ bb.utils.contains('TUNE_FEATURES',
->> > 'callconvention-hard', 'hard', 'softfp', d) if
->> > (d.getVar('TUNE_CCARGS_MFPU', True) !=3D '') else '' }"
->> > --
->> > 2.8.1
->> >
->> > --
->> > _______________________________________________
->> > Openembedded-core mailing list
->> > Openembedded-core@lists.openembedded.org
->> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
+--001a11352a4ed946490532a5f496--
