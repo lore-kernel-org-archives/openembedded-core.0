@@ -1,25 +1,25 @@
 Return-Path: <mariano.lopez@linux.intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 354296FFF7
+	by mail.openembedded.org (Postfix) with ESMTP id C63F16FFF7
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 May 2016 19:32:38 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by fmsmga104.fm.intel.com with ESMTP; 12 May 2016 12:32:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,610,1455004800"; d="scan'208";a="952039877"
+X-IronPort-AV: E=Sophos;i="5.24,610,1455004800"; d="scan'208";a="952039887"
 Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
 	([10.54.69.55])
-	by orsmga001.jf.intel.com with ESMTP; 12 May 2016 12:32:40 -0700
+	by orsmga001.jf.intel.com with ESMTP; 12 May 2016 12:32:41 -0700
 From: mariano.lopez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 May 2016 11:28:13 +0000
-Message-Id: <8d755407204af26c39e9d797a5412e525ad52682.1463052157.git.mariano.lopez@linux.intel.com>
+Date: Thu, 12 May 2016 11:28:14 +0000
+Message-Id: <754b2256cc13b91c3cefe106399c8b9e689f6ccf.1463052157.git.mariano.lopez@linux.intel.com>
 X-Mailer: git-send-email 2.6.6
 In-Reply-To: <cover.1463052157.git.mariano.lopez@linux.intel.com>
 References: <cover.1463052157.git.mariano.lopez@linux.intel.com>
 In-Reply-To: <cover.1463052157.git.mariano.lopez@linux.intel.com>
 References: <cover.1463052157.git.mariano.lopez@linux.intel.com>
-Subject: [PATCHv2 2/3] package_manager.py: Add extract() method for opkg and dpkg
+Subject: [PATCHv2 3/3] package_manager.py: Add extract() method for RPM package manager
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,169 +32,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 May 2016 19:32:38 -0000
+X-List-Received-Date: Thu, 12 May 2016 19:32:39 -0000
 
 From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-Sometimes it is needed to have the content of a package outside
-the recipe context.  This new method extract the content of an
-IPK/DEB file to a tmpdir, without actually installing the package.
-
-A new OpkgDpkgPM class was added to share the code for opkg and dpkg.
-
-There were need some changes to opkg_query() in order to use it
-with apt-cache output. Also set default values to avoid UnboundLocalError
+This new method extract the content of RPM file to a tmpdir,
+without actually installing the package.
 
 [YOCTO #9569]
 
 Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- meta/lib/oe/package_manager.py | 140 +++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 134 insertions(+), 6 deletions(-)
+ meta/lib/oe/package_manager.py | 85 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 85 insertions(+)
 
 diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 427518d..f5517a4 100644
+index f5517a4..1eedeb8 100644
 --- a/meta/lib/oe/package_manager.py
 +++ b/meta/lib/oe/package_manager.py
-@@ -35,9 +35,12 @@ when the packages are in deb or ipk format.
- def opkg_query(cmd_output):
-     verregex = re.compile(' \([=<>]* [^ )]*\)')
-     output = dict()
-+    pkg = ""
-+    arch = ""
-+    ver = ""
-     filename = ""
-     dep = []
--    pkg = ""
-+    pkgarch = ""
-     for line in cmd_output.splitlines():
-         line = line.rstrip()
-         if ':' in line:
-@@ -47,8 +50,10 @@ def opkg_query(cmd_output):
-                 arch = line.split(": ")[1]
-             elif line.startswith("Version: "):
-                 ver = line.split(": ")[1]
--            elif line.startswith("File: "):
-+            elif line.startswith("File: ") or line.startswith("Filename:"):
-                 filename = line.split(": ")[1]
-+                if "/" in filename:
-+                    filename = os.path.basename(filename)
-             elif line.startswith("Depends: "):
-                 depends = verregex.sub('', line.split(": ")[1])
-                 for depend in depends.split(", "):
-@@ -57,16 +62,23 @@ def opkg_query(cmd_output):
-                 recommends = verregex.sub('', line.split(": ")[1])
-                 for recommend in recommends.split(", "):
-                     dep.append("%s [REC]" % recommend)
--        else:
-+            elif line.startswith("PackageArch: "):
-+                pkgarch = line.split(": ")[1]
-+
-+        # When there is a blank line save the package information
-+        elif not line:
-             # IPK doesn't include the filename
-             if not filename:
-                 filename = "%s_%s_%s.ipk" % (pkg, ver, arch)
-             if pkg:
-                 output[pkg] = {"arch":arch, "ver":ver,
--                        "filename":filename, "deps": dep }
-+                        "filename":filename, "deps": dep, "pkgarch":pkgarch }
-             pkg = ""
-+            arch = ""
-+            ver = ""
-             filename = ""
-             dep = []
-+            pkgarch = ""
- 
-     if pkg:
-         if not filename:
-@@ -1397,7 +1409,70 @@ class RpmPM(PackageManager):
+@@ -1408,6 +1408,91 @@ class RpmPM(PackageManager):
+         for f in rpm_db_locks:
              bb.utils.remove(f, True)
- 
- 
--class OpkgPM(PackageManager):
-+class OpkgDpkgPM(PackageManager):
-+    """
-+    This is an abstract class. Do not instantiate this directly.
-+    """
-+    def __init__(self, d):
-+        super(OpkgDpkgPM, self).__init__(d)
-+
-+    """
-+    Returns a dictionary with the package info.
-+
-+    This method extracts the common parts for Opkg and Dpkg
-+    """
-+    def package_info(self, pkg, cmd):
-+
-+        try:
-+            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
-+        except subprocess.CalledProcessError as e:
-+            bb.fatal("Unable to list available packages. Command '%s' "
-+                     "returned %d:\n%s" % (cmd, e.returncode, e.output))
-+        return opkg_query(output)
-+
-+    """
-+    Returns the path to a tmpdir where resides the contents of a package.
-+
-+    Deleting the tmpdir is responsability of the caller.
-+
-+    This method extracts the common parts for Opkg and Dpkg
-+    """
-+    def extract(self, pkg, pkg_path):
-+
-+        ar_cmd = bb.utils.which(os.getenv("PATH"), "ar")
-+        tar_cmd = bb.utils.which(os.getenv("PATH"), "tar")
-+
-+        if not os.path.isfile(pkg_path):
-+            bb.fatal("Unable to extract package for '%s'."
-+                     "File %s doesn't exists" % (pkg, pkg_path))
-+
-+        tmp_dir = tempfile.mkdtemp()
-+        current_dir = os.getcwd()
-+        os.chdir(tmp_dir)
-+
-+        try:
-+            cmd = "%s x %s" % (ar_cmd, pkg_path)
-+            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
-+            cmd = "%s xf data.tar.*" % tar_cmd
-+            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
-+        except subprocess.CalledProcessError as e:
-+            bb.utils.remove(tmp_dir, recurse=True)
-+            bb.fatal("Unable to extract %s package. Command '%s' "
-+                     "returned %d:\n%s" % (pkg_path, cmd, e.returncode, e.output))
-+        except OSError as e:
-+            bb.utils.remove(tmp_dir, recurse=True)
-+            bb.fatal("Unable to extract %s package. Command '%s' "
-+                     "returned %d:\n%s at %s" % (pkg_path, cmd, e.errno, e.strerror, e.filename))
-+
-+        bb.note("Extracted %s to %s" % (pkg_path, tmp_dir))
-+        bb.utils.remove(os.path.join(tmp_dir, "debian-binary"))
-+        bb.utils.remove(os.path.join(tmp_dir, "control.tar.gz"))
-+        os.chdir(current_dir)
-+
-+        return tmp_dir
-+
-+
-+class OpkgPM(OpkgDpkgPM):
-     def __init__(self, d, target_rootfs, config_file, archs, task_name='target'):
-         super(OpkgPM, self).__init__(d)
- 
-@@ -1732,8 +1807,34 @@ class OpkgPM(PackageManager):
-                             self.opkg_dir,
-                             symlinks=True)
  
 +    """
 +    Returns a dictionary with the package info.
 +    """
 +    def package_info(self, pkg):
-+        cmd = "%s %s info %s" % (self.opkg_cmd, self.opkg_args, pkg)
-+        return super(OpkgPM, self).package_info(pkg, cmd)
++        cmd = "%s %s info --urls %s" % (self.smart_cmd, self.smart_opt, pkg)
++        try:
++            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
++        except subprocess.CalledProcessError as e:
++            bb.fatal("Unable to list available packages. Command '%s' "
++                     "returned %d:\n%s" % (cmd, e.returncode, e.output))
++
++        # Set default values to avoid UnboundLocalError
++        arch = ""
++        ver = ""
++        filename = ""
++
++        #Parse output
++        for line in output.splitlines():
++            line = line.rstrip()
++            if line.startswith("Name:"):
++                pkg = line.split(": ")[1]
++            elif line.startswith("Version:"):
++                tmp_str = line.split(": ")[1]
++                ver, arch = tmp_str.split("@")
++                break
++
++        # Get filename
++        index = re.search("^URLs", output, re.MULTILINE)
++        tmp_str = output[index.end():]
++        for line in tmp_str.splitlines():
++            if "/" in line:
++                line = line.lstrip()
++                filename = line.split(" ")[0]
++                break
++
++        # To have the same data type than other package_info methods
++        pkg_dict = {}
++        pkg_dict[pkg] = {"arch":arch, "ver":ver, "filename":filename}
++
++        return pkg_dict
 +
 +    """
 +    Returns the path to a tmpdir where resides the contents of a package.
 +
 +    Deleting the tmpdir is responsability of the caller.
++
 +    """
 +    def extract(self, pkg):
 +        pkg_info = self.package_info(pkg)
@@ -206,57 +111,37 @@ index 427518d..f5517a4 100644
 +        pkg_filename = pkg_info[pkg]["filename"]
 +        pkg_path = os.path.join(self.deploy_dir, pkg_arch, pkg_filename)
 +
-+        tmp_dir = super(OpkgPM, self).extract(pkg, pkg_path)
-+        bb.utils.remove(os.path.join(tmp_dir, "data.tar.gz"))
++        cpio_cmd = bb.utils.which(os.getenv("PATH"), "cpio")
++        rpm2cpio_cmd = bb.utils.which(os.getenv("PATH"), "rpm2cpio")
++
++        if not os.path.isfile(pkg_path):
++            bb.fatal("Unable to extract package for '%s'."
++                     "File %s doesn't exists" % (pkg, pkg_path))
++
++        tmp_dir = tempfile.mkdtemp()
++        current_dir = os.getcwd()
++        os.chdir(tmp_dir)
++
++        try:
++            cmd = "%s %s | %s -idmv" % (rpm2cpio_cmd, pkg_path, cpio_cmd)
++            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
++        except subprocess.CalledProcessError as e:
++            bb.utils.remove(tmp_dir, recurse=True)
++            bb.fatal("Unable to extract %s package. Command '%s' "
++                     "returned %d:\n%s" % (pkg_path, cmd, e.returncode, e.output))
++        except OSError as e:
++            bb.utils.remove(tmp_dir, recurse=True)
++            bb.fatal("Unable to extract %s package. Command '%s' "
++                     "returned %d:\n%s at %s" % (pkg_path, cmd, e.errno, e.strerror, e.filename))
++
++        bb.note("Extracted %s to %s" % (pkg_path, tmp_dir))
++        os.chdir(current_dir)
 +
 +        return tmp_dir
- 
--class DpkgPM(PackageManager):
-+class DpkgPM(OpkgDpkgPM):
-     def __init__(self, d, target_rootfs, archs, base_archs, apt_conf_dir=None):
-         super(DpkgPM, self).__init__(d)
-         self.target_rootfs = target_rootfs
-@@ -1744,6 +1845,7 @@ class DpkgPM(PackageManager):
-             self.apt_conf_dir = apt_conf_dir
-         self.apt_conf_file = os.path.join(self.apt_conf_dir, "apt.conf")
-         self.apt_get_cmd = bb.utils.which(os.getenv('PATH'), "apt-get")
-+        self.apt_cache_cmd = bb.utils.which(os.getenv('PATH'), "apt-cache")
- 
-         self.apt_args = d.getVar("APT_ARGS", True)
- 
-@@ -2027,6 +2129,32 @@ class DpkgPM(PackageManager):
-     def list_installed(self):
-         return DpkgPkgsList(self.d, self.target_rootfs).list_pkgs()
- 
-+    """
-+    Returns a dictionary with the package info.
-+    """
-+    def package_info(self, pkg):
-+        cmd = "%s show %s" % (self.apt_cache_cmd, pkg)
-+        return super(DpkgPM, self).package_info(pkg, cmd)
 +
-+    """
-+    Returns the path to a tmpdir where resides the contents of a package.
-+
-+    Deleting the tmpdir is responsability of the caller.
-+    """
-+    def extract(self, pkg):
-+        pkg_info = self.package_info(pkg)
-+        if not pkg_info:
-+            bb.fatal("Unable to get information for package '%s' while "
-+                     "trying to extract the package."  % pkg)
-+
-+        pkg_arch = pkg_info[pkg]["pkgarch"]
-+        pkg_filename = pkg_info[pkg]["filename"]
-+        pkg_path = os.path.join(self.deploy_dir, pkg_arch, pkg_filename)
-+
-+        tmp_dir = super(DpkgPM, self).extract(pkg, pkg_path)
-+        bb.utils.remove(os.path.join(tmp_dir, "data.tar.xz"))
-+
-+        return tmp_dir
  
- def generate_index_files(d):
-     classes = d.getVar('PACKAGE_CLASSES', True).replace("package_", "").split()
+ class OpkgDpkgPM(PackageManager):
+     """
 -- 
 2.6.6
 
