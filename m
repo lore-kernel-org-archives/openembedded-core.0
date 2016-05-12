@@ -1,53 +1,53 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B44A865CBC
+	by mail.openembedded.org (Postfix) with ESMTP id B5343700F3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 May 2016 08:38:14 +0000 (UTC)
+	Thu, 12 May 2016 08:38:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id A7BC01815B
+	by bastet.se.axis.com (Postfix) with ESMTP id 12B341815A
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 May 2016 10:38:14 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
 Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id T+DjGuJ3W9b3
+	port 10024) with LMTP id EosNkf6kBBjH
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 May 2016 10:38:14 +0200 (CEST)
+	Thu, 12 May 2016 10:38:13 +0200 (CEST)
 Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bastet.se.axis.com (Postfix) with ESMTP id 90DD918150
+	by bastet.se.axis.com (Postfix) with ESMTP id 726E21814B
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 May 2016 10:38:13 +0200 (CEST)
 Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 7AAF3176A
+	by postfix.imss71 (Postfix) with ESMTP id 581AB15E7
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 May 2016 10:38:13 +0200 (CEST)
-Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.se.axis.com (Postfix) with ESMTP id 79C601769
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by boulder.se.axis.com (Postfix) with ESMTP id 4B2C4176C
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 May 2016 10:38:13 +0200 (CEST)
 Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id 757FB104C
+	by thoth.se.axis.com (Postfix) with ESMTP id 4942710E2
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 May 2016 10:38:13 +0200 (CEST)
 Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u4C8cDlC002028
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u4C8cDlX002009
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 May 2016 10:38:13 +0200
 Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u4C8cDAm002027
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u4C8cD12002008
 	for openembedded-core@lists.openembedded.org;
 	Thu, 12 May 2016 10:38:13 +0200
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 May 2016 10:37:56 +0200
-Message-Id: <a831e47b427d8986a1748e3e67a6bfcf9cb51675.1463042237.git.pkj@axis.com>
+Date: Thu, 12 May 2016 10:37:52 +0200
+Message-Id: <c044a00c888e3359e64270e57067df9d648f9896.1463042237.git.pkj@axis.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1463042237.git.pkj@axis.com>
 References: <cover.1463042237.git.pkj@axis.com>
 In-Reply-To: <cover.1463042237.git.pkj@axis.com>
 References: <cover.1463042237.git.pkj@axis.com>
-Subject: [PATCHv2 09/16] signing-keys: Use SYSROOT_DIRS to add dirs to stage in sysroot
+Subject: [PATCHv2 05/16] tcl: Use SYSROOT_DIRS to add dirs to stage in sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,33 +63,25 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 12 May 2016 08:38:15 -0000
 
 ---
- meta/recipes-core/meta/signing-keys.bb | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ meta/recipes-devtools/tcltk/tcl_8.6.4.bb | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/meta/recipes-core/meta/signing-keys.bb b/meta/recipes-core/meta/signing-keys.bb
-index e843301..ea7400b 100644
---- a/meta/recipes-core/meta/signing-keys.bb
-+++ b/meta/recipes-core/meta/signing-keys.bb
-@@ -12,6 +12,8 @@ inherit allarch deploy
- EXCLUDE_FROM_WORLD = "1"
- INHIBIT_DEFAULT_DEPS = "1"
- 
-+SYSROOT_DIRS += "${sysconfdir}/pki"
-+
- PACKAGES =+ "${PN}-ipk ${PN}-rpm ${PN}-packagefeed"
- 
- FILES_${PN}-rpm = "${sysconfdir}/pki/rpm-gpg"
-@@ -54,10 +56,6 @@ do_install () {
-     fi
+diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.4.bb b/meta/recipes-devtools/tcltk/tcl_8.6.4.bb
+index 8e92b3e..61be81d 100644
+--- a/meta/recipes-devtools/tcltk/tcl_8.6.4.bb
++++ b/meta/recipes-devtools/tcltk/tcl_8.6.4.bb
+@@ -68,10 +68,7 @@ do_install() {
+ 	done
  }
  
--sysroot_stage_all_append () {
--    sysroot_stage_dir ${D}${sysconfdir}/pki ${SYSROOT_DESTDIR}${sysconfdir}/pki
+-SYSROOT_PREPROCESS_FUNCS += "tcl_sysroot_preprocess"
+-tcl_sysroot_preprocess () {
+-	sysroot_stage_dir ${D}${bindir_crossscripts} ${SYSROOT_DESTDIR}${bindir_crossscripts}
 -}
--
- do_deploy () {
-     if [ -f "${B}/rpm-key" ]; then
-         install -D -m 0644 "${B}/rpm-key" "${DEPLOYDIR}/RPM-GPG-KEY-${DISTRO_VERSION}"
++SYSROOT_DIRS += "${bindir_crossscripts}"
+ 
+ PACKAGES =+ "tcl-lib"
+ FILES_tcl-lib = "${libdir}/libtcl8.6.so.*"
 -- 
 2.1.0
 
