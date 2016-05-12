@@ -1,46 +1,52 @@
-Return-Path: <michael.g.wood@intel.com>
-Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id E1FCC60118
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-lb0-f195.google.com (mail-lb0-f195.google.com
+	[209.85.217.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 433E56FFC7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 May 2016 13:32:11 +0000 (UTC)
-Received: by mail-wm0-f49.google.com with SMTP id n129so259687721wmn.1
+	Thu, 12 May 2016 14:16:03 +0000 (UTC)
+Received: by mail-lb0-f195.google.com with SMTP id mx9so1447634lbb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 May 2016 06:32:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=cc4FKsKGVR49unAErerbL72bsdygckWnD/ZL/w3ApwU=;
-	b=Pkd9kP+i0UYtiPaWeWbJkfVIFrh9nz9SOEOcRTBaf9oUWKt+klBcdviSySehDuvQ6U
-	TEAXEr6gHJEj0LAjq3qqBX6FxHZ9726A8JuUJbf2ZiqO6YIswi43w/YkH0sSTUo3Uhdp
-	1slTPPzRJ1Hl2zOXPQxy7Kbq27TcNaKaPhSSLUJCPb9VhDCu2caiwlM1B2PsD45sNFmh
-	6Pcg1hPHOU7mjFDALOnHnIw710KoLScUnS9qzyIdKuQaPantKb3tzJgh2zaWnmZuu1nS
-	j5ceX29bfIavhD5nTOjqKC2Xk3vdYO2zQayi8jkOfqIrbiN3HSp8MEiNjc/gmTOtukUn
-	bmDg==
+	Thu, 12 May 2016 07:16:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=Y71bMPMyivuXi45EcgDjmpOp6TJLqXwY52jmxEhXRd4=;
+	b=eXZ7ZQMBcD4LOqQPETGWBIdIRwjnZGE+Ie6kBsagm3X6dSZxh9g/UZ6dKoceQnqqdC
+	TiQSmWPNUWLkjElOQodUZC8hklhW+vSvQLgbM37MQN1iCzX+myIPaWMyn1k6nmBEdyFW
+	iXluNJQyA5y7WCaMXfx+4+lWKRu58AWl+wRachj2YUFNwGqIuDaoElLxf3z+Cc+ARRLU
+	q++BnnhBFR/uHDMBYI7czlxKEs35ONZWIVd+S6n6m8uWbfdcGBEm5opHKxpTvsEPvtZl
+	rZCoaw4PS/H3nnj0Cz+kuKQZpkIivUS5aYlWMNtbTZAPJgdxl4Tsh6hrxdKogn1ELUkl
+	Gh9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=cc4FKsKGVR49unAErerbL72bsdygckWnD/ZL/w3ApwU=;
-	b=S2by8juIkJdbg1rOdp76C/eMs8TFC0AV6EJQQSRVac5bdTtbCSdlCLUZVy6aHbujuE
-	5aDRHgt2c1EjNkGWLW4SW5AvWXP+lJ0Fsl9/Nz/wXkVbqRvmFYNUHhpONkecPaJVYX1M
-	pGssja15lfpdhvCv/O0UhwNZ+Cw3CWgjwjqDG0cABxJmQdEpYEPHxngPEMIRABjbnLup
-	ZaTF3GW+dh+Px4Nl2aVxtapyLLrhZTsxVBQPG0tKx7r2L75jHSpzgiRy27NASluiLPmh
-	rN7ZQXjN6MOm1x2NBS67EVOWgv35djHqHVZITA60AzxjNdiZwUHPspeDTlXAezF/64Ks
-	J3Vg==
-X-Gm-Message-State: AOPr4FU0g0XlIvRJUa5IML4KqVEdDTeWKMa2onLvsQauw/lJQu6LezIj0mqanCV4l/qkcM06
-X-Received: by 10.28.25.129 with SMTP id 123mr6381134wmz.10.1463059931570;
-	Thu, 12 May 2016 06:32:11 -0700 (PDT)
-Received: from orion.icx.intel.com ([83.217.123.106])
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=Y71bMPMyivuXi45EcgDjmpOp6TJLqXwY52jmxEhXRd4=;
+	b=SxNi2FyJl+NVQHczpDV+ip7NbmGnUYRzyeKkjUhj3r1zptCfTZo4D6pIRcWjDsAV/x
+	5jaNgkvLJj2PtqkCeXu3ohl+jEwWXHDdxNqAQ151IOgIYcDBWWVqlyVd8dqmnv2yvPr+
+	jma7Iu2bYiSjaBTnc0z/ZJfL9jR5wUvNH17JF4MdAmixI+y7Sx4x3ROu5iB/yJky4sHh
+	wNH9Zhato1LcZ8Hnev0pJ9Z8GoTeBDtP/7Nkr8V0C/Xa4rsLx7PMhFG3QdTR+YtSeK5V
+	yhSvqhkFA3oFynkVIhxcB0BXrbPutzPhToLPbHpci4BumTQK4sfXQxQkjYqlzk8KBEJS
+	wx+A==
+X-Gm-Message-State: AOPr4FX3KthOzzFmKDE6kQkrW6b8Uv1xp02QAbwsm+zdkNlIyZniqKy3IRHjqBUdhkTkDw==
+X-Received: by 10.28.137.14 with SMTP id l14mr10483809wmd.64.1463062563349;
+	Thu, 12 May 2016 07:16:03 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
 	by smtp.gmail.com with ESMTPSA id
-	m20sm13901749wma.23.2016.05.12.06.32.10
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 12 May 2016 06:32:11 -0700 (PDT)
-From: Michael Wood <michael.g.wood@intel.com>
-To: openembedded-core@lists.openembedded.org, ross.burton@intel.com,
-	elizabeth.flanagan@intel.com
-Date: Thu, 12 May 2016 14:31:58 +0100
-Message-Id: <1463059918-9077-1-git-send-email-michael.g.wood@intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] report-error: Replace the build directory path in the error text
+	xt9sm13655203wjb.17.2016.05.12.07.16.02
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 12 May 2016 07:16:02 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 12 May 2016 16:16:45 +0200
+To: Joshua Lock <joshua.g.lock@intel.com>
+Message-ID: <20160512141645.GA2567@jama>
+References: <cover.1463054447.git.joshua.g.lock@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <cover.1463054447.git.joshua.g.lock@intel.com>
+User-Agent: Mutt/1.6.1 (2016-04-27)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [fido][PATCH 0/1] Undo ABI breakage in OpenSSL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,35 +59,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 May 2016 13:32:12 -0000
+X-List-Received-Date: Thu, 12 May 2016 14:16:05 -0000
+X-Groupsio-MsgNum: 82009
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="J2SCkAp4GZ/dPZZf"
+Content-Disposition: inline
 
-Replace the TOPDIR in the output error file so that the error report once
-submitted can then be more easily matched to find duplicate error
-reports. This also reduces the need to manually redact any information that
-might be in the error log path such as hostnames or home directories.
+--J2SCkAp4GZ/dPZZf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Michael Wood <michael.g.wood@intel.com>
----
- meta/classes/report-error.bbclass | 5 +++++
- 1 file changed, 5 insertions(+)
+On Thu, May 12, 2016 at 01:06:33PM +0100, Joshua Lock wrote:
+> The backported upgrade to OpenSSL 1.0.2h introduced a newer version of
+> Debian's linker version-script which breaks the OpenSSL ABI.
+> This isn't desirable for a stable release, thus the attached patch reverts
+> the linker-version changes and simply adds the 2 new symbols required by
+> 1.0.2h.
+>=20
+> Thanks to Martin Jansa for spotting the issue and suggesting a fix.
 
-diff --git a/meta/classes/report-error.bbclass b/meta/classes/report-error.bbclass
-index 82b5bcd..20d2bef 100644
---- a/meta/classes/report-error.bbclass
-+++ b/meta/classes/report-error.bbclass
-@@ -58,6 +58,11 @@ python errorreport_handler () {
-                 try:
-                     logFile = codecs.open(log, 'r', 'utf-8')
-                     logdata = logFile.read()
-+
-+                    topdir = e.data.getVar('TOPDIR', True)
-+                    if topdir:
-+                        logdata = logdata.replace(topdir, ' ')
-+
-                     logFile.close()
-                 except:
-                     logdata = "Unable to read log file"
--- 
-2.7.4
+Thanks for following it and getting it merged so quickly.
 
+It was already merged in fido, can we get the same to jethro (which was
+also recently upgraded to 1.0.2h)?
 
+Small downside is that the same 1.0.2h version in fido and jethro will
+have different ABI than 1.0.2h in krogoth (unless someone updates the
+version there as suggested by Andre in:
+http://lists.openembedded.org/pipermail/openembedded-core/2016-March/118433=
+=2Ehtml
+).
+
+Krogoth was released with this ABI, so it's something users have
+to deal with when upgrading to newer Yocto release (and this won't be
+the only component with different ABI).
+
+> The following changes since commit e7c46ce3e59cb4fd770e76ae006c0166d0dd52=
+65:
+>=20
+>   build-appliance-image: Update to fido head revision (2016-05-11 18:00:1=
+5 +0100)
+>=20
+> are available in the git repository at:
+>=20
+>   git://git.openembedded.org/openembedded-core-contrib joshuagl/fido-next
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=
+=3Djoshuagl/fido-next
+>=20
+> Joshua Lock (1):
+>   openssl: prevent ABI break from earlier fido releases
+>=20
+>  .../openssl/debian1.0.2/version-script.patch       | 31 +++++++++++++++-=
+------
+>  1 file changed, 22 insertions(+), 9 deletions(-)
+>=20
+> --=20
+> 2.5.5
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--J2SCkAp4GZ/dPZZf
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlc0h80ACgkQN1Ujt2V2gBxLhwCgjJt2DqRXMC+POrRiug+gbLcn
+qtwAoLY999/f6cfNUGASi5II/HJGjwUw
+=MEdn
+-----END PGP SIGNATURE-----
+
+--J2SCkAp4GZ/dPZZf--
