@@ -1,53 +1,53 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E0A070101
+	by mail.openembedded.org (Postfix) with ESMTP id EB4A5731D8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 May 2016 08:38:16 +0000 (UTC)
+	Thu, 12 May 2016 08:38:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 9B4DC1815A
+	by bastet.se.axis.com (Postfix) with ESMTP id 790101815C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 May 2016 10:38:16 +0200 (CEST)
+	Thu, 12 May 2016 10:38:15 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
 Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id oXbrKnTQs08g
+	port 10024) with LMTP id rlmVcrfG1I59
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 May 2016 10:38:15 +0200 (CEST)
+	Thu, 12 May 2016 10:38:13 +0200 (CEST)
 Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bastet.se.axis.com (Postfix) with ESMTP id BB7FD18156
+	by bastet.se.axis.com (Postfix) with ESMTP id 7BD561814C
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 May 2016 10:38:13 +0200 (CEST)
 Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id A6C98176A
+	by postfix.imss71 (Postfix) with ESMTP id 66BE2176B
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 May 2016 10:38:13 +0200 (CEST)
 Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
-	by boulder.se.axis.com (Postfix) with ESMTP id A5D981766
+	by boulder.se.axis.com (Postfix) with ESMTP id 630A71771
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 May 2016 10:38:13 +0200 (CEST)
 Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id A14AC10E2
+	by thoth.se.axis.com (Postfix) with ESMTP id 5F79510E2
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 May 2016 10:38:13 +0200 (CEST)
 Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u4C8cDgh002050
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u4C8cDHl002020
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 May 2016 10:38:13 +0200
 Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u4C8cDRm002046
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u4C8cDaL002019
 	for openembedded-core@lists.openembedded.org;
 	Thu, 12 May 2016 10:38:13 +0200
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 May 2016 10:38:00 +0200
-Message-Id: <d4f84351e5db236691bbb86dc9975c9409da62bf.1463042237.git.pkj@axis.com>
+Date: Thu, 12 May 2016 10:37:54 +0200
+Message-Id: <0b10293ea25fe6363290fd4592f49f070fb4d2d1.1463042237.git.pkj@axis.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1463042237.git.pkj@axis.com>
 References: <cover.1463042237.git.pkj@axis.com>
 In-Reply-To: <cover.1463042237.git.pkj@axis.com>
 References: <cover.1463042237.git.pkj@axis.com>
-Subject: [PATCHv2 13/16] gettext: Use SYSROOT_DIRS_BLACKLIST to exclude dirs from the sysroot
+Subject: [PATCHv2 07/16] depmodwrapper-cross: Use SYSROOT_DIRS to add dirs to stage in sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,26 +63,25 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 12 May 2016 08:38:17 -0000
 
 ---
- meta/recipes-core/gettext/gettext_0.16.1.bb | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/meta/recipes-core/gettext/gettext_0.16.1.bb b/meta/recipes-core/gettext/gettext_0.16.1.bb
-index cd0b759..6095c83 100644
---- a/meta/recipes-core/gettext/gettext_0.16.1.bb
-+++ b/meta/recipes-core/gettext/gettext_0.16.1.bb
-@@ -102,11 +102,6 @@ do_install_append() {
- # available, and we don't want to use older macros from the target gettext in
- # a non-gplv3 build, so kill them and let dependent recipes rely on
- # gettext-native.
--
--SYSROOT_PREPROCESS_FUNCS += "remove_sysroot_m4_macros"
--
--remove_sysroot_m4_macros () {
--    rm -r "${SYSROOT_DESTDIR}${datadir}/aclocal"
--}
-+SYSROOT_DIRS_BLACKLIST += "${datadir}/aclocal"
+diff --git a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
+index c2c2589..5c7dd52 100644
+--- a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
++++ b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
+@@ -41,10 +41,6 @@ EOF
+ 	chmod +x ${D}${bindir_crossscripts}/depmodwrapper
+ }
  
- BBCLASSEXTEND = "native nativesdk"
+-SYSROOT_PREPROCESS_FUNCS += "depmodwrapper_sysroot_preprocess"
+-
+-depmodwrapper_sysroot_preprocess () {
+-	sysroot_stage_dir ${D}${bindir_crossscripts} ${SYSROOT_DESTDIR}${bindir_crossscripts}
+-}
++SYSROOT_DIRS += "${bindir_crossscripts}"
+ 
+ inherit nopackages
 -- 
 2.1.0
 
