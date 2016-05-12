@@ -1,26 +1,40 @@
-Return-Path: <Zhe.He@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 58010605FE
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id E22A5605FE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 May 2016 09:49:00 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u4C9n0U7015414
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Thu, 12 May 2016 09:51:33 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id r12so14928129wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 May 2016 02:49:01 -0700
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 12 May 2016 02:49:00 -0700
-From: <zhe.he@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 12 May 2016 05:48:56 -0400
-Message-ID: <1f37fe5af2c41d0a4e1aa5543466a48d3ae41ddc.1463045021.git.zhe.he@windriver.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <cover.1463045020.git.zhe.he@windriver.com>
-References: <cover.1463045020.git.zhe.he@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH v4 2/2] kernel: Make symbol link to vmlinuz in boot directory
+	Thu, 12 May 2016 02:51:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=APxR757WVSlrEQci9py1llsV4ghFkvaLX9w5gUoVh3s=;
+	b=POmc7Wa9X/CV2henp2qwtPB1KjcmjITfVvCcMSlmRXXfAIFUnd2sQaoYzuyXGmyjeZ
+	5bp9viVCs7j6gODuQ6KjxRK7qJdLG9GP1eESXg9raoi0UalQCQjYQnP8utdFVFM63Bv/
+	DDljzim/pBDwt4Di/y2gXAdZ5xGCJq7eKgk21c+ICNMc6HoDZdLFwHzBsqabp9bS0gy1
+	sPZnUnAnbQkuGvrZ56g1gnED89J82VLmW3yDR9UJmJjxuZGbfQ7jV+MNghoHucpJmqDB
+	zrWG+iXoKO7a1rpsDDtHkXMm+07bXlm0kD1sAxAkfoV68XsRD1d0QIiOeAG9fAVATngB
+	mi3w==
+X-Gm-Message-State: AOPr4FUzHcYD9Vu1S6CbzWFL0EdBtWkN5XG7t1m5R7yLiuBiFMiz0ulM/mMLYw9QqCTgJA==
+X-Received: by 10.194.139.104 with SMTP id qx8mr8469118wjb.14.1463046693773;
+	Thu, 12 May 2016 02:51:33 -0700 (PDT)
+Received: from localhost ([185.46.212.56]) by smtp.gmail.com with ESMTPSA id
+	m14sm12946233wmc.4.2016.05.12.02.51.32
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 12 May 2016 02:51:32 -0700 (PDT)
+Message-ID: <1463046684.29915.33.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 12 May 2016 10:51:24 +0100
+In-Reply-To: <571935B4-DB58-4820-BBEA-AA6668098755@gmail.com>
+References: <1461662879-21557-1-git-send-email-git@andred.net>
+	<571935B4-DB58-4820-BBEA-AA6668098755@gmail.com>
+X-Mailer: Evolution 3.18.5.1-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH] feature-arm-neon.inc: restore vfpv3-d16 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,84 +47,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 May 2016 09:49:03 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 12 May 2016 09:51:35 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-From: He Zhe <zhe.he@windriver.com>
+OK. Any suggestions for how to best fix that?
 
-Rename do_kernel_link_vmlinux to do_kernel_link_images and make a
-symbol link to vmlinuz(if exists) for reference in arch/$arch/boot
-directory.
+I could be more specific and .replace('vfpv3-d16', 'vfpv3d16') only, but
+that seems ugly :-)
 
-Signen-off-by: He Zhe <zhe.he@windriver.com>
----
- meta/classes/kernel.bbclass               | 13 ++++++++-----
- meta/conf/documentation.conf              |  2 +-
- meta/recipes-kernel/linux/linux-yocto.inc |  2 +-
- 3 files changed, 10 insertions(+), 7 deletions(-)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 775c827..28d0936 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -474,15 +474,18 @@ python split_kernel_packages () {
- }
- 
- # Many scripts want to look in arch/$arch/boot for the bootable
--# image. This poses a problem for vmlinux based booting. This 
--# task arranges to have vmlinux appear in the normalized directory
--# location.
--do_kernel_link_vmlinux() {
-+# image. This poses a problem for vmlinux and vmlinuz based
-+# booting. This task arranges to have vmlinux and vmlinuz appear
-+# in the normalized directory location.
-+do_kernel_link_images() {
- 	if [ ! -d "${B}/arch/${ARCH}/boot" ]; then
- 		mkdir ${B}/arch/${ARCH}/boot
- 	fi
- 	cd ${B}/arch/${ARCH}/boot
- 	ln -sf ../../../vmlinux
-+	if [ -f ../../../vmlinuz ]; then
-+		ln -sf ../../../vmlinuz
-+	fi
- }
- 
- do_strip() {
-@@ -512,7 +515,7 @@ do_strip() {
- }
- do_strip[dirs] = "${B}"
- 
--addtask do_strip before do_sizecheck after do_kernel_link_vmlinux
-+addtask do_strip before do_sizecheck after do_kernel_link_images
- 
- # Support checking the kernel size since some kernels need to reside in partitions
- # with a fixed length or there is a limit in transferring the kernel to memory
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index dcc324c..c0025f5 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -28,7 +28,7 @@ do_install_ptest_base[doc] = "Copies the runtime test suite files from the compi
- do_kernel_checkout[doc] = "Checks out source/meta branches for a linux-yocto style kernel"
- do_kernel_configcheck[doc] = "Validates the kernel configuration for a linux-yocto style kernel"
- do_kernel_configme[doc] = "Assembles the kernel configuration for a linux-yocto style kernel"
--do_kernel_link_vmlinux[doc] = "Creates a symbolic link in arch/$arch/boot for vmlinux kernel images"
-+do_kernel_link_images[doc] = "Creates a symbolic link in arch/$arch/boot for vmlinux and vmlinuz kernel images"
- do_listtasks[doc] = "Lists all defined tasks for a target"
- do_menuconfig[doc] = "Runs 'make menuconfig' for the kernel"
- do_package[doc] = "Analyzes the content of the holding area and splits it into subsets based on available packages and files"
-diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
-index 6b161fc..fd68786 100644
---- a/meta/recipes-kernel/linux/linux-yocto.inc
-+++ b/meta/recipes-kernel/linux/linux-yocto.inc
-@@ -52,6 +52,6 @@ do_install_append(){
- }
- 
- # extra tasks
--addtask kernel_link_vmlinux after do_compile before do_install
-+addtask kernel_link_images after do_compile before do_install
- addtask validate_branches before do_patch after do_kernel_checkout
- addtask kernel_configcheck after do_configure before do_compile
--- 
-2.8.1
+Thanks,
+André
 
+On Mi, 2016-05-11 at 11:55 -0700, Khem Raj wrote:
+> This causes raspberrypi2 not parse anymore
+> 
+> ERROR:  OE-core's config sanity checker detected a potential
+> misconfiguration.
+>     Either fix the cause of this error or at your own risk disable the
+> checker (see sanity.conf).
+>     Following is the list of potential problems / advisories:
+> 
+>     Error, the PACKAGE_ARCHS variable (all any noarch armv5hf-vfp
+> armv5thf-vfp armv5ehf-vfp armv5tehf-vfp armv6hf-vfp a
+> rmv6thf-vfp armv7ahf-vfp armv7at2hf-vfp armv7vehf-vfp armv7vet2hf-vfp
+> armv7vehf-neon armv7vet2hf-neon armv7vehf-neon-vf
+> pv4 armv7vet2hf-neon-vfpv4 cortexa7hf-vfp cortexa7hf-neon cortexa7hf-neon-
+> vfpv4 cortexa7t2hf-vfp cortexa7t2hf-neon cort
+> exa7t2hf-neon-vfpv4 raspberrypi3) for DEFAULTTUNE (cortexa7thf-neon-vfpv4) 
+> does not contain TUNE_PKGARCH (cortexa7hf-ne
+> onvfpv4).
+> 
+> 
+> > 
+> > On Apr 26, 2016, at 2:27 AM, André Draszik <git@andred.net> wrote:
+> > 
+> > Commit 6661718 (feature-arm-{neon,vfp}.inc: refactor and fix issues)
+> > effectively changed the gcc -mfpu= option from -mfpu=vfpv3-d16 to
+> > -mfpu=vfpv3d16, which gcc doesn't understand.
+> > 
+> > Restore the original value.
+> > 
+> > After doing that, we also need to adjust ARMPKGSFX_FPU which should
+> > contain the same value without dash '-' as it is used that way
+> > throughout.
+> > 
+> > Signed-off-by: André Draszik <git@andred.net>
+> > ---
+> > meta/conf/machine/include/arm/feature-arm-neon.inc | 2 +-
+> > meta/conf/machine/include/arm/feature-arm-vfp.inc  | 2 +-
+> > 2 files changed, 2 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/meta/conf/machine/include/arm/feature-arm-neon.inc
+> > b/meta/conf/machine/include/arm/feature-arm-neon.inc
+> > index 50d9175..b34af8e 100644
+> > --- a/meta/conf/machine/include/arm/feature-arm-neon.inc
+> > +++ b/meta/conf/machine/include/arm/feature-arm-neon.inc
+> > @@ -8,7 +8,7 @@ TUNEVALID[neon] = "Enable Neon SIMD accelerator unit."
+> > TUNE_CCARGS_MFPU .= "${@bb.utils.contains('TUNE_FEATURES', 'neon', '
+> > neon', '', d)}"
+> > 
+> > TUNEVALID[vfpv3d16] = "Enable Vector Floating Point Version 3 with 16
+> > registers (vfpv3-d16) unit."
+> > -TUNE_CCARGS_MFPU .= "${@bb.utils.contains('TUNE_FEATURES', 'vfpv3d16',
+> > ' vfpv3d16', '', d)}"
+> > +TUNE_CCARGS_MFPU .= "${@bb.utils.contains('TUNE_FEATURES', 'vfpv3d16',
+> > ' vfpv3-d16', '', d)}"
+> > 
+> > TUNEVALID[vfpv3] = "Enable Vector Floating Point Version 3 with 32
+> > registers (vfpv3) unit."
+> > TUNE_CCARGS_MFPU .= "${@bb.utils.contains('TUNE_FEATURES', 'vfpv3', '
+> > vfpv3', '' , d)}"
+> > diff --git a/meta/conf/machine/include/arm/feature-arm-vfp.inc
+> > b/meta/conf/machine/include/arm/feature-arm-vfp.inc
+> > index 4247255..bd366a1 100644
+> > --- a/meta/conf/machine/include/arm/feature-arm-vfp.inc
+> > +++ b/meta/conf/machine/include/arm/feature-arm-vfp.inc
+> > @@ -6,7 +6,7 @@ TUNEVALID[vfp] = "Enable Vector Floating Point (vfp)
+> > unit."
+> > TUNE_CCARGS_MFPU .= "${@bb.utils.contains('TUNE_FEATURES', 'vfp', '
+> > vfp', '', d)}"
+> > 
+> > TUNE_CCARGS  .= "${@ (' -mfpu=%s ' % d.getVar('TUNE_CCARGS_MFPU',
+> > True).split()[-1]) if (d.getVar('TUNE_CCARGS_MFPU', True) != '') else
+> > ''}"
+> > -ARMPKGSFX_FPU = "${@ ('-%s'        % d.getVar('TUNE_CCARGS_MFPU',
+> > True).split()[-1]) if (d.getVar('TUNE_CCARGS_MFPU', True) != '') else
+> > ''}"
+> > +ARMPKGSFX_FPU = "${@ ('-%s'        % d.getVar('TUNE_CCARGS_MFPU',
+> > True).split()[-1].replace('-', '')) if (d.getVar('TUNE_CCARGS_MFPU',
+> > True) != '') else ''}"
+> > 
+> > TUNEVALID[callconvention-hard] = "Enable EABI hard float call
+> > convention, requires VFP."
+> > TUNE_CCARGS_MFLOAT = "${@ bb.utils.contains('TUNE_FEATURES',
+> > 'callconvention-hard', 'hard', 'softfp', d) if
+> > (d.getVar('TUNE_CCARGS_MFPU', True) != '') else '' }"
+> > --
+> > 2.8.1
+> > 
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
