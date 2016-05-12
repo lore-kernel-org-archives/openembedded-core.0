@@ -1,53 +1,53 @@
 Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 90BE370101
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E0A070101
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 May 2016 08:38:15 +0000 (UTC)
+	Thu, 12 May 2016 08:38:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id B3F5B2E1F4
+	by bastet.se.axis.com (Postfix) with ESMTP id 9B4DC1815A
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 May 2016 10:38:16 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id oXbrKnTQs08g
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 May 2016 10:38:15 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id 5mNiu1wWuQdq
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 May 2016 10:38:13 +0200 (CEST)
 Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bes.se.axis.com (Postfix) with ESMTP id 723EF2E1FD
+	by bastet.se.axis.com (Postfix) with ESMTP id BB7FD18156
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 May 2016 10:38:13 +0200 (CEST)
 Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 5A9CD1770
+	by postfix.imss71 (Postfix) with ESMTP id A6C98176A
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 May 2016 10:38:13 +0200 (CEST)
-Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.se.axis.com (Postfix) with ESMTP id 59C4B1769
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by boulder.se.axis.com (Postfix) with ESMTP id A5D981766
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 May 2016 10:38:13 +0200 (CEST)
 Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id 544D4104C
+	by thoth.se.axis.com (Postfix) with ESMTP id A14AC10E2
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 May 2016 10:38:13 +0200 (CEST)
 Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u4C8cDo1002013
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u4C8cDgh002050
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 May 2016 10:38:13 +0200
 Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u4C8cDMG002012
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u4C8cDRm002046
 	for openembedded-core@lists.openembedded.org;
 	Thu, 12 May 2016 10:38:13 +0200
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 May 2016 10:37:53 +0200
-Message-Id: <18a174b77d8778a17879955cf1db43ee73c9921a.1463042237.git.pkj@axis.com>
+Date: Thu, 12 May 2016 10:38:00 +0200
+Message-Id: <d4f84351e5db236691bbb86dc9975c9409da62bf.1463042237.git.pkj@axis.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1463042237.git.pkj@axis.com>
 References: <cover.1463042237.git.pkj@axis.com>
 In-Reply-To: <cover.1463042237.git.pkj@axis.com>
 References: <cover.1463042237.git.pkj@axis.com>
-Subject: [PATCHv2 06/16] shadow-sysroot: Use SYSROOT_DIRS to add dirs to stage in sysroot
+Subject: [PATCHv2 13/16] gettext: Use SYSROOT_DIRS_BLACKLIST to exclude dirs from the sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,31 +60,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 May 2016 08:38:15 -0000
+X-List-Received-Date: Thu, 12 May 2016 08:38:17 -0000
 
 ---
- meta/recipes-extended/shadow/shadow-sysroot_4.2.1.bb | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ meta/recipes-core/gettext/gettext_0.16.1.bb | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/meta/recipes-extended/shadow/shadow-sysroot_4.2.1.bb b/meta/recipes-extended/shadow/shadow-sysroot_4.2.1.bb
-index 697569c..ef01462 100644
---- a/meta/recipes-extended/shadow/shadow-sysroot_4.2.1.bb
-+++ b/meta/recipes-extended/shadow/shadow-sysroot_4.2.1.bb
-@@ -21,12 +21,10 @@ S = "${WORKDIR}"
- 
- do_install() {
- 	install -d ${D}${sysconfdir}
--	install -p -m 755 ${S}/login.defs_shadow-sysroot ${D}${sysconfdir}/login.defs
-+	install -p -m 644 ${S}/login.defs_shadow-sysroot ${D}${sysconfdir}/login.defs
- }
- 
--sysroot_stage_all() {
--	sysroot_stage_dir ${D} ${SYSROOT_DESTDIR}
+diff --git a/meta/recipes-core/gettext/gettext_0.16.1.bb b/meta/recipes-core/gettext/gettext_0.16.1.bb
+index cd0b759..6095c83 100644
+--- a/meta/recipes-core/gettext/gettext_0.16.1.bb
++++ b/meta/recipes-core/gettext/gettext_0.16.1.bb
+@@ -102,11 +102,6 @@ do_install_append() {
+ # available, and we don't want to use older macros from the target gettext in
+ # a non-gplv3 build, so kill them and let dependent recipes rely on
+ # gettext-native.
+-
+-SYSROOT_PREPROCESS_FUNCS += "remove_sysroot_m4_macros"
+-
+-remove_sysroot_m4_macros () {
+-    rm -r "${SYSROOT_DESTDIR}${datadir}/aclocal"
 -}
-+SYSROOT_DIRS += "${sysconfdir}"
++SYSROOT_DIRS_BLACKLIST += "${datadir}/aclocal"
  
- # don't create any packages
- # otherwise: dbus-dev depends on shadow-sysroot-dev which depends on shadow-sysroot 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.1.0
 
