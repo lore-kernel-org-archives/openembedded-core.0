@@ -1,54 +1,20 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f66.google.com (mail-pa0-f66.google.com
-	[209.85.220.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 608C46FEFA
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id B17296FF9F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 May 2016 06:25:53 +0000 (UTC)
-Received: by mail-pa0-f66.google.com with SMTP id gh9so5289085pac.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 May 2016 23:25:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:subject:from:in-reply-to:date:message-id:references:to; 
-	bh=ZCdZKBJLZf8BNnyBOn1sCMgbFFP0E8SJ0aerrTsBgUA=;
-	b=LYH0MM2rFUuQIj2IZ2spubrd38+YQ4CbF6QLjEKk24RNhLJsk9ctTzLCPzkikHg7kQ
-	g0G344R4tPKscky7Vok7Sx1e9LfLChs/pJc3YWeJ8HZiwsRvxIZb0DFMg9YmaO9TaE6V
-	9rRpOevaNEQ23vPYEk5hlcwCVop2sUTB8iiRsg5v/1f9Brr7tUKR+raXlxaRZJk2+/eD
-	cooQ0QtFqzuYogB6xk/+2Y7pkSdzfCcluwKeURkuu41puy15eJKBzh+EzbQJENlvvafH
-	urPN1eWDNYO/zBYSILw5q4n2HGZk/5jKkB/jUFqTTXyfHWe8RzaFfhCL+ORf3zRg+Upk
-	iw7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date
-	:message-id:references:to;
-	bh=ZCdZKBJLZf8BNnyBOn1sCMgbFFP0E8SJ0aerrTsBgUA=;
-	b=dXzWQ9ShNQuOgIm4/Ru7U519ZORo9TCj+PsDvdCoNoiREvYDsxO5Gsb0GBNQspBwio
-	xSGKED3iDqWNTaDkzSLiczDN2NT/Fhlnvlc5Ocpb1D2BhrC1sK7PZ4/Fgs5INICMHItT
-	3SRTPCtaR9lPzaGGMtZcBxJdc/s46evrI3WtpLJ+vI3FVp0mfj4fgdV0sVItGfbe73L2
-	+jE1XSVWvQfsKqxaxdeRK6SH5pgETAfrHwyunt6Va1z/vlXotVICtiKnlP2u6/y6oKwZ
-	P2hOsV8BGpS6tcfXBRWAO8N+bUTYBFzWzIwZIF6nGk4YHq2Lej1HRqAFATYWVnkeg1gh
-	B2ww==
-X-Gm-Message-State: AOPr4FWzbwK31FyXxoQSAwgOjR+lXTznYTg+Honi+yRFB3ENHStKIvAj8a1f5W/yIh5Kmw==
-X-Received: by 10.66.246.71 with SMTP id xu7mr11051436pac.17.1463034354747;
-	Wed, 11 May 2016 23:25:54 -0700 (PDT)
-Received: from ?IPv6:2601:646:8800:5a9a:7cb8:9b45:b830:2c9b?
-	([2601:646:8800:5a9a:7cb8:9b45:b830:2c9b])
-	by smtp.gmail.com with ESMTPSA id
-	lq10sm16722583pab.36.2016.05.11.23.25.53
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 11 May 2016 23:25:54 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <27b4d9f57e6002d301331cd1c6cfb86fdcdca923.1462987863.git.raj.khem@gmail.com>
-Date: Wed, 11 May 2016 23:26:14 -0700
-Message-Id: <32AD852E-48C0-40A8-9A5C-BC6993D0F6BA@gmail.com>
-References: <2e51e9b5fb3911436afc1becd5feb9351b896fa4.1462987863.git.raj.khem@gmail.com>
-	<cover.1462987863.git.raj.khem@gmail.com>
-	<27b4d9f57e6002d301331cd1c6cfb86fdcdca923.1462987863.git.raj.khem@gmail.com>
+	Thu, 12 May 2016 07:20:12 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP; 12 May 2016 00:20:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,609,1455004800"; d="scan'208";a="974144173"
+Received: from theory.fi.intel.com ([10.237.72.196])
+	by orsmga002.jf.intel.com with ESMTP; 12 May 2016 00:20:11 -0700
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-X-Mailer: Apple Mail (2.3124)
-Subject: Re: [PATCH 24/42] python-native: Point to expat in native sysroot
+Date: Thu, 12 May 2016 10:20:00 +0300
+Message-Id: <cover.1463035854.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 00/13] Upgrades around graphics stack
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,81 +27,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 May 2016 06:25:54 -0000
-X-Groupsio-MsgNum: 81956
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_448EEF3B-E77E-4FFF-9034-4FD999C0FCC3";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Thu, 12 May 2016 07:20:15 -0000
 
---Apple-Mail=_448EEF3B-E77E-4FFF-9034-4FD999C0FCC3
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+Upgrades around X, Wayland and Mesa. Mostly point upgrades but the
+Wayland upgrade is a fairly major one: their next release is also
+around the corner so if there are problems you can drop wayland-
+related bits and I can fix things in time for 1.11.
 
-Added missed dependency on expat-native as well is required pushed a v2 =
-of this patch as well. It was saught during world build on musl
+These have been sanity tested with sato and weston images. piglit
+results are in line with previous mesa releases (~98% pass rate for
+non-skipped tests on a NUC with Intel HD 5000).
+
+Please take a look at the wayland-protocols patch: the recipe produces
+a -dev package only, I wasn't sure if that's a thing I can/should do?
+
+Thanks,
+  Jussi
+
+The following changes since commit 7ca60ec8bff7656b4e52f5a4d238913e851da089:
+
+  test-empty-image: Fix LIC_FILES_CHKSUM typo (2016-05-06 10:48:06 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/gfx-upgrades
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/gfx-upgrades
+
+Jussi Kukkonen (13):
+  xserver-xorg: Upgrade 1.18.0 -> 1.18.3
+  xrandr: Upgrade to 1.5.0
+  xkeyboard-config: Upgrade to 2.17
+  libinput: Upgrade 1.1.4 -> 1.3.0
+  xf86-input-evdev: Upgrade 2.10.1 -> 2.10.2
+  videoproto: Upgrade 2.3.2 -> 2.3.3
+  libxkbcommon: Upgrade 0.5.0 -> 0.6.1
+  libdrm: Upgrade 2.4.67 -> 2.4.68
+  mesa: Upgrade 11.1.1 -> 11.2.2
+  pixman: Upgrade 0.32.8 -> 0.34.0
+  wayland: Upgrade 1.9.0 -> 1.10.0
+  wayland-protocols: Add recipe
+  weston: Upgrade 1.9.0 -> 1.10.0
+
+ .../drm/{libdrm_2.4.67.bb => libdrm_2.4.68.bb}     |  4 +-
+ .../mesa/{mesa-gl_11.1.1.bb => mesa-gl_11.2.2.bb}  |  0
+ .../mesa/{mesa_11.1.1.bb => mesa_11.2.2.bb}        |  4 +-
+ .../{libinput_1.1.4.bb => libinput_1.3.0.bb}       |  5 +-
+ .../wayland-protocols/dont-use-AC_CANONICAL.patch  | 29 +++++++++
+ .../wayland/wayland-protocols_1.3.bb               | 19 ++++++
+ .../{wayland_1.9.0.bb => wayland_1.10.0.bb}        |  6 +-
+ ...c-Use-PKG_CONFIG_SYSROOT_DIR-for-protocol.patch | 30 ++++++++++
+ .../weston/explicit-enable-disable-systemd.patch   | 70 ----------------------
+ .../wayland/weston/libsystemd.patch                | 53 ----------------
+ .../weston/make-lcms-explicitly-configurable.patch | 43 -------------
+ .../wayland/{weston_1.9.0.bb => weston_1.10.0.bb}  | 10 ++--
+ .../xorg-app/{xrandr_1.4.3.bb => xrandr_1.5.0.bb}  |  4 +-
+ ...-evdev_2.10.1.bb => xf86-input-evdev_2.10.2.bb} |  4 +-
+ ...libxkbcommon_0.5.0.bb => libxkbcommon_0.6.1.bb} |  6 +-
+ ...0001-v3-test-add-a-check-for-FE_DIVBYZERO.patch | 65 --------------------
+ .../xorg-lib/pixman/mips-export-revert.patch       | 22 -------
+ .../{pixman_0.32.8.bb => pixman_0.34.0.bb}         |  6 +-
+ ...ard-config_2.16.bb => xkeyboard-config_2.17.bb} |  4 +-
+ .../{videoproto_2.3.2.bb => videoproto_2.3.3.bb}   |  4 +-
+ ....ac-Use-libsystemd-in-REQUIRED_LIBS-check.patch | 50 ----------------
+ .../modesetting_libdrm_requirements.patch          | 30 ----------
+ ...erver-xorg_1.18.0.bb => xserver-xorg_1.18.3.bb} |  8 +--
+ 23 files changed, 108 insertions(+), 368 deletions(-)
+ rename meta/recipes-graphics/drm/{libdrm_2.4.67.bb => libdrm_2.4.68.bb} (92%)
+ rename meta/recipes-graphics/mesa/{mesa-gl_11.1.1.bb => mesa-gl_11.2.2.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_11.1.1.bb => mesa_11.2.2.bb} (80%)
+ rename meta/recipes-graphics/wayland/{libinput_1.1.4.bb => libinput_1.3.0.bb} (75%)
+ create mode 100644 meta/recipes-graphics/wayland/wayland-protocols/dont-use-AC_CANONICAL.patch
+ create mode 100644 meta/recipes-graphics/wayland/wayland-protocols_1.3.bb
+ rename meta/recipes-graphics/wayland/{wayland_1.9.0.bb => wayland_1.10.0.bb} (89%)
+ create mode 100644 meta/recipes-graphics/wayland/weston/0001-configure.ac-Use-PKG_CONFIG_SYSROOT_DIR-for-protocol.patch
+ delete mode 100644 meta/recipes-graphics/wayland/weston/explicit-enable-disable-systemd.patch
+ delete mode 100644 meta/recipes-graphics/wayland/weston/libsystemd.patch
+ delete mode 100644 meta/recipes-graphics/wayland/weston/make-lcms-explicitly-configurable.patch
+ rename meta/recipes-graphics/wayland/{weston_1.9.0.bb => weston_1.10.0.bb} (92%)
+ rename meta/recipes-graphics/xorg-app/{xrandr_1.4.3.bb => xrandr_1.5.0.bb} (72%)
+ rename meta/recipes-graphics/xorg-driver/{xf86-input-evdev_2.10.1.bb => xf86-input-evdev_2.10.2.bb} (83%)
+ rename meta/recipes-graphics/xorg-lib/{libxkbcommon_0.5.0.bb => libxkbcommon_0.6.1.bb} (75%)
+ delete mode 100644 meta/recipes-graphics/xorg-lib/pixman/0001-v3-test-add-a-check-for-FE_DIVBYZERO.patch
+ delete mode 100644 meta/recipes-graphics/xorg-lib/pixman/mips-export-revert.patch
+ rename meta/recipes-graphics/xorg-lib/{pixman_0.32.8.bb => pixman_0.34.0.bb} (85%)
+ rename meta/recipes-graphics/xorg-lib/{xkeyboard-config_2.16.bb => xkeyboard-config_2.17.bb} (88%)
+ rename meta/recipes-graphics/xorg-proto/{videoproto_2.3.2.bb => videoproto_2.3.3.bb} (69%)
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/configure.ac-Use-libsystemd-in-REQUIRED_LIBS-check.patch
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/modesetting_libdrm_requirements.patch
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.18.0.bb => xserver-xorg_1.18.3.bb} (72%)
+
+-- 
+2.1.4
 
 
-> On May 11, 2016, at 10:35 AM, Khem Raj <raj.khem@gmail.com> wrote:
->=20
-> This fixes inconsistency where expat dependency is
-> then depending upon build host having it or not having it
->=20
-> Fixes errors like
-> WARNING: renaming "pyexpat" since importing it failed: =
-build/lib.linux-x86_64-2.7/pyexpat.so: undefined symbol: =
-XML_SetCommentHandler
->=20
-> also reported here
-> https://dev.openwrt.org/ticket/20087
->=20
-> This work due to the fact that we use -isystem pointing to native =
-sysroot
-> so the search order of native includedir is moved after buildhosts =
-system
-> includdirs. Moment we replace it with -I, build falls apart
->=20
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
-> meta/recipes-devtools/python/python-native_2.7.11.bb | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-devtools/python/python-native_2.7.11.bb =
-b/meta/recipes-devtools/python/python-native_2.7.11.bb
-> index 4c204a4..add8868 100644
-> --- a/meta/recipes-devtools/python/python-native_2.7.11.bb
-> +++ b/meta/recipes-devtools/python/python-native_2.7.11.bb
-> @@ -27,7 +27,7 @@ inherit native
->=20
-> RPROVIDES +=3D "python-distutils-native python-compression-native =
-python-textutils-native python-codecs-native python-core-native =
-python-unittest-native"
->=20
-> -EXTRA_OECONF_append =3D " --bindir=3D${bindir}/${PN}"
-> +EXTRA_OECONF_append =3D " --bindir=3D${bindir}/${PN} =
---with-system-expat=3D${STAGING_DIR_HOST}"
->=20
-> EXTRA_OEMAKE =3D '\
->   BUILD_SYS=3D"" \
-> --
-> 2.8.2
->=20
-
-
---Apple-Mail=_448EEF3B-E77E-4FFF-9034-4FD999C0FCC3
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlc0IgoACgkQuwUzVZGdMxQ6UQCeJ2Y3RIa9nV6E8pSxDo3MWshr
-IP0AnjEzAVVpCvx5d+iUMJGMa48x3Urb
-=2Twa
------END PGP SIGNATURE-----
-
---Apple-Mail=_448EEF3B-E77E-4FFF-9034-4FD999C0FCC3--
