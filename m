@@ -1,50 +1,45 @@
-Return-Path: <danismostlikely@gmail.com>
-Received: from mail-vk0-f67.google.com (mail-vk0-f67.google.com
-	[209.85.213.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 309A6601D3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 May 2016 23:30:18 +0000 (UTC)
-Received: by mail-vk0-f67.google.com with SMTP id s184so10182303vkb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 May 2016 16:30:19 -0700 (PDT)
+Return-Path: <jefro.net@gmail.com>
+Received: from mail-lf0-f45.google.com (mail-lf0-f45.google.com
+	[209.85.215.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 2ED06601D3;
+	Thu, 12 May 2016 23:32:21 +0000 (UTC)
+Received: by mail-lf0-f45.google.com with SMTP id u64so80210941lff.3;
+	Thu, 12 May 2016 16:32:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=39i5yqMRGMxG3maiIQTMoXLDkNCBqUHgUgT53WgP+CQ=;
-	b=dHzDImYxoYDAzmJtcOeYUUXyGtw6zu4e9xQLih4jJ882d2V+T6dpQhL/GqMxyAde0z
-	Qq6DX+1x4NI2U9GJM4uHacE9d40sjIFUp9lvEd1xfbUCa2PjPqNLUQ96xTlevNnxM1k8
-	KNXJdOWDZUnmkYdWH0pt2uo47AeqFNPsk96N3BgZOFGLo/0u7rdGKvr4Mzv0rk/IpR9d
-	jPJ0NliVaDsSBlVOypvMshzA1xVxhQiOMCLk2tPdGe6XKNanfnhNe1CoX8qD36vS/By1
-	W/ByaFjAnGSP6HEqNZp7UERW1kjNsfM1DCSTFDwAIyL7H8c530MZOppAt2A0AosLhmW/
-	/vBQ==
+	h=mime-version:sender:from:date:message-id:subject:to;
+	bh=hbSOPW3BogUYq3Q7svvrZR0dMQvcExQdvo31ACvoYMs=;
+	b=x3Dw5RCn6u/ORGj5xRwjWx0XS6h/If+ljoEOAT4zXDI0FuBMYKkmI1YtskQ9iJUfmV
+	Wkzo9xJXIDrAeJdr2xYYlNBx2Cqh9IXQAoeW1QHOrYYR0VOVbEPEgFKNNKbHQAGaw89Z
+	qG8tlbwrZgTxn1CD2pENX4eHZH9FoVQidTyHM4peWqbbYc66voqscebANiAQQdvHm/iK
+	B2HGqVoMoviAzOIIENhMyAor5ZbXxuJzlFF/1rYYZpK9fyOl5o3D0mQn0gq4W5iOmc6/
+	jWlrweETTec2wl9h6muHx1N7cjTaM4/0xZCN9pcc0kCtUVofcS8SjDv9bQgcFpkNZjl6
+	w+eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=39i5yqMRGMxG3maiIQTMoXLDkNCBqUHgUgT53WgP+CQ=;
-	b=Q20z/3TfW1wFSBGSayHfZvWX2SeqZmF7lur+Oy2ax9CxWGKwML5Y+IpQ2DZ9/utEj1
-	mvZ8RBKg5uBwjNg0DqFL62JrWfWAGN0gms66TQuz2euss1flab4qGtxfNilxwp1n+a62
-	sN2SuIkNg2AVkct2OR0ZigLj8qwISVwy0EUqY5AZTveWOxSxynlMcqgRL95lzUAykrR1
-	cNYtaHzg9IHoBXLQHNwCg0Rd2AUhe15+syn2STSWhsqoLJsGk6eaNffMG6a4uiqmVlbw
-	yKS4e4QybBZfh8MzJ4qLeMTvuZJGPDtrVcZ2sIeA6tQHWAmpqhZHog10B/9FVXkMMg4i
-	6mPA==
-X-Gm-Message-State: AOPr4FXkWdHoUrrz9t2zBwj8+qIkab4mipWmKbLMY+PS5uAxE9C2CBUhA/fHXCqCsnyT3339zPjpwle/O0X7Iw==
+	h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+	:to; bh=hbSOPW3BogUYq3Q7svvrZR0dMQvcExQdvo31ACvoYMs=;
+	b=UNS+kyJflQ/0tUOulGraFU8AA8UrdmOnX4wigriAfd1ekOy5PtRosUqNqUe0edn2V0
+	katoODJhA5YMYJjPyfGpuFOjmQgAMS1Q0OJPryFahKQ1OVVk1iPCBXzUWX6PY1A1pXek
+	Zaon4NsrMmgdWgo0xbstGTReiuCA8JEiJFgK1yCrphEKLS41PHxXjId5uqhVhXXf13mH
+	WA8n2TOzbyNy2VBqFEpUIO63RJG0S1DcGXKJ82+N3XpagsgSHVnSHHS4hOrMAB3qE3WY
+	eur4GZZcN6ns2sj5cE6YANLO5YMd/Hvvd2y0dmEesUzF1HNDpa77Ewxu+UMZbEuuqDp3
+	tzrA==
+X-Gm-Message-State: AOPr4FU6w+0HiNN7oAmdlwTcZ+wvG3r4I4PkmpfY3Mf0Cp6zX8+WhT2i9+UA2LOZSfLD0FkoSsleIqI+bGjj0A==
+X-Received: by 10.25.17.212 with SMTP id 81mr5507402lfr.38.1463095940637; Thu,
+	12 May 2016 16:32:20 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.31.55.135 with SMTP id e129mr5899359vka.12.1463095819143;
-	Thu, 12 May 2016 16:30:19 -0700 (PDT)
-Received: by 10.103.50.75 with HTTP; Thu, 12 May 2016 16:30:18 -0700 (PDT)
-Received: by 10.103.50.75 with HTTP; Thu, 12 May 2016 16:30:18 -0700 (PDT)
-In-Reply-To: <1463066087.9746.15.camel@linuxfoundation.org>
-References: <1463058769-8498-1-git-send-email-adrian.ratiu@ni.com>
-	<CAMKF1sp-cXec1TAWfdVus_Hg46QxF5SMx+7yk5T-MhsUxsEz8Q@mail.gmail.com>
-	<20160512174542.332fae80@adi-pc-linux.emea.corp.natinst.com>
-	<1463066087.9746.15.camel@linuxfoundation.org>
-Date: Thu, 12 May 2016 17:30:18 -0600
-Message-ID: <CACS+7ZQ_2wUFZFYQv_dskVrrEEYF2TAKEjS0eRnLx7qYEd-nfw@mail.gmail.com>
-From: Dan McGregor <danismostlikely@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc-4.9: fix build with gcc 6
+Sender: jefro.net@gmail.com
+Received: by 10.112.139.200 with HTTP; Thu, 12 May 2016 16:32:01 -0700 (PDT)
+From: Jeff Osier-Mixon <jefro@jefro.net>
+Date: Thu, 12 May 2016 16:32:01 -0700
+X-Google-Sender-Auth: iyvrgr56baqyxeTKqnStdlj25pA
+Message-ID: <CA+YB3rZCfCiLQEg5Br78ZQ=6QJQiXnh_pGTr0-XFQZFkwniYLA@mail.gmail.com>
+To: "openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>, 
+	"openembedded-members@lists.openembedded.org"
+	<openembedded-members@lists.openembedded.org>, 
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Please help edit OEDAM minutes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,112 +52,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 May 2016 23:30:19 -0000
-Content-Type: multipart/alternative; boundary=001a1144728e928e520532ad8a12
-
---001a1144728e928e520532ad8a12
+X-List-Received-Date: Thu, 12 May 2016 23:32:22 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 12 May 2016 9:15 a.m., "Richard Purdie" <
-richard.purdie@linuxfoundation.org> wrote:
->
-> On Thu, 2016-05-12 at 17:45 +0300, Ioan-Adrian Ratiu wrote:
-> > On Thu, 12 May 2016 07:38:00 -0700
-> > Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > > On Thu, May 12, 2016 at 6:12 AM, Ioan-Adrian Ratiu <
-> > > adrian.ratiu@ni.com> wrote:
-> > > > Building gcc-cross 4.9.3 with gcc 6 fails with the following
-> > > > error:
-> > > >
-> > > > error: 'const char* libc_name_p(const char*, unsigned int)'
-> > > > redeclared inline with 'gnu_inline' attribute
-> > > >
-> > > > This is a backport of the upstream fix.
-> > >
-> > > I have seen couple of such patches being proposed. I was of the
-> > > opinion to drop 4.9 from master however if we still want to
-> > > refresh it the I would propose that we change the SRC_URI to point
-> > > to
-> > > latest on gcc-4_9-branch and remove any backports
-> > > we have done since 4.9.3 release. It can also be merged into
-> > > krogoth.
-> > > Then we can latest decide if we want to keep 4.9 in
-> > > 2.2 release or not. Would you be able to test such a patch
-> >
-> > Actually I'm all for dropping gcc 4 from master. It's about time IMO.
-> >
-> > I need this patch to fix the build in krogoth and was just waiting
-> > for
-> > feedback on master before I sent this patch there.
-> >
-> > I'll resend for krogoth directly then :)
->
-> Since several people are hitting this and we have the patch, lets merge
-> it, then drop 4.9 as a followup.
->
+I admit defeat. I have been "trying to get to" the OEDAM minutes for a
+month and I am clearly not getting to it, so I am now getting out of
+the way. We are crowdsourcing these minutes, because collaborative
+effort is what we do best.
 
-I also sent a patch for gcc 5.3. It has the same issue.
+My raw notes from the meeting are here. If you were present, please
+help edit, fill in gaps, etc.
 
-> Cheers,
->
-> Richard
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+https://docs.google.com/document/d/1rPvy-QQkP0Z4a0PGOBkljfzGGzFVWREDz18vZzWyL9s/edit?usp=sharing
 
---001a1144728e928e520532ad8a12
-Content-Type: text/html; charset=UTF-8
 
-<p dir="ltr"><br>
-On 12 May 2016 9:15 a.m., &quot;Richard Purdie&quot; &lt;<a href="mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
-&gt;<br>
-&gt; On Thu, 2016-05-12 at 17:45 +0300, Ioan-Adrian Ratiu wrote:<br>
-&gt; &gt; On Thu, 12 May 2016 07:38:00 -0700<br>
-&gt; &gt; Khem Raj &lt;<a href="mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br>
-&gt; &gt;<br>
-&gt; &gt; &gt; On Thu, May 12, 2016 at 6:12 AM, Ioan-Adrian Ratiu &lt;<br>
-&gt; &gt; &gt; <a href="mailto:adrian.ratiu@ni.com">adrian.ratiu@ni.com</a>&gt; wrote:<br>
-&gt; &gt; &gt; &gt; Building gcc-cross 4.9.3 with gcc 6 fails with the following<br>
-&gt; &gt; &gt; &gt; error:<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; error: &#39;const char* libc_name_p(const char*, unsigned int)&#39;<br>
-&gt; &gt; &gt; &gt; redeclared inline with &#39;gnu_inline&#39; attribute<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; This is a backport of the upstream fix.<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; I have seen couple of such patches being proposed. I was of the<br>
-&gt; &gt; &gt; opinion to drop 4.9 from master however if we still want to<br>
-&gt; &gt; &gt; refresh it the I would propose that we change the SRC_URI to point<br>
-&gt; &gt; &gt; to<br>
-&gt; &gt; &gt; latest on gcc-4_9-branch and remove any backports<br>
-&gt; &gt; &gt; we have done since 4.9.3 release. It can also be merged into<br>
-&gt; &gt; &gt; krogoth.<br>
-&gt; &gt; &gt; Then we can latest decide if we want to keep 4.9 in<br>
-&gt; &gt; &gt; 2.2 release or not. Would you be able to test such a patch<br>
-&gt; &gt;<br>
-&gt; &gt; Actually I&#39;m all for dropping gcc 4 from master. It&#39;s about time IMO.<br>
-&gt; &gt;<br>
-&gt; &gt; I need this patch to fix the build in krogoth and was just waiting<br>
-&gt; &gt; for<br>
-&gt; &gt; feedback on master before I sent this patch there.<br>
-&gt; &gt;<br>
-&gt; &gt; I&#39;ll resend for krogoth directly then :)<br>
-&gt;<br>
-&gt; Since several people are hitting this and we have the patch, lets merge<br>
-&gt; it, then drop 4.9 as a followup.<br>
-&gt;</p>
-<p dir="ltr">I also sent a patch for gcc 5.3. It has the same issue.<br></p>
-<p dir="ltr">&gt; Cheers,<br>
-&gt;<br>
-&gt; Richard<br>
-&gt; --<br>
-&gt; _______________________________________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a><br>
-&gt; <a href="http://lists.openembedded.org/mailman/listinfo/openembedded-core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a><br>
-</p>
+-- 
+Jeff Osier-Mixon - Open Source Community Engineer, Intel Corporation
 
---001a1144728e928e520532ad8a12--
