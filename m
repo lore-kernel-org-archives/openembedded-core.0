@@ -1,53 +1,53 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AF10700F3
+	by mail.openembedded.org (Postfix) with ESMTP id 3F0E7700F3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 May 2016 08:38:19 +0000 (UTC)
+	Thu, 12 May 2016 08:38:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 27A9018092
+	by bastet.se.axis.com (Postfix) with ESMTP id A1F941814E
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 May 2016 10:38:20 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
 Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id xc8lE3bpa+4L
+	port 10024) with LMTP id qtwNTTDzZZCL
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 May 2016 10:38:13 +0200 (CEST)
 Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bastet.se.axis.com (Postfix) with ESMTP id 860E31814E
+	by bastet.se.axis.com (Postfix) with ESMTP id 55CB81813E
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 May 2016 10:38:13 +0200 (CEST)
 Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 6CDA0176C
+	by postfix.imss71 (Postfix) with ESMTP id 3A9BA176A
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 May 2016 10:38:13 +0200 (CEST)
 Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
-	by boulder.se.axis.com (Postfix) with ESMTP id 6B8421774
+	by boulder.se.axis.com (Postfix) with ESMTP id 2CCE01769
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 May 2016 10:38:13 +0200 (CEST)
 Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id 69DE210E2
+	by thoth.se.axis.com (Postfix) with ESMTP id 2981A10E2
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 May 2016 10:38:13 +0200 (CEST)
 Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u4C8cDV7002024
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u4C8cDSd001997
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 May 2016 10:38:13 +0200
 Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u4C8cDDB002023
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u4C8cDOn001993
 	for openembedded-core@lists.openembedded.org;
 	Thu, 12 May 2016 10:38:13 +0200
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 May 2016 10:37:55 +0200
-Message-Id: <b1ff5b24caad2a72e1ddb7fa9c45f1b680332b8a.1463042237.git.pkj@axis.com>
+Date: Thu, 12 May 2016 10:37:49 +0200
+Message-Id: <a1de619f869b98063e718aec0c1f3a97714d0731.1463042237.git.pkj@axis.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1463042237.git.pkj@axis.com>
 References: <cover.1463042237.git.pkj@axis.com>
 In-Reply-To: <cover.1463042237.git.pkj@axis.com>
 References: <cover.1463042237.git.pkj@axis.com>
-Subject: [PATCHv2 08/16] base-files: Use SYSROOT_DIRS to add dirs to stage in sysroot
+Subject: [PATCHv2 02/16] u-boot-fw-utils: Use SYSROOT_DIRS to add dirs to stage in sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,32 +60,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 May 2016 08:38:19 -0000
+X-List-Received-Date: Thu, 12 May 2016 08:38:20 -0000
 
 ---
- meta/recipes-core/base-files/base-files_3.0.14.bb | 5 +----
+ meta/recipes-bsp/u-boot/u-boot-fw-utils_2016.03.bb | 5 +----
  1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
-index d391707..5333110 100644
---- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-+++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-@@ -165,9 +165,7 @@ do_install_append_linuxstdbase() {
-         done
+diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2016.03.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2016.03.bb
+index dfda5c1..79f1548 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2016.03.bb
++++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2016.03.bb
+@@ -40,10 +40,7 @@ do_install_class-cross () {
+ 	install -m 755 ${S}/tools/env/fw_printenv ${D}${bindir_cross}/fw_setenv
  }
  
--sysroot_stage_all_append () {
--	sysroot_stage_dir ${D}${sysconfdir}/skel ${SYSROOT_DESTDIR}${sysconfdir}/skel
+-SYSROOT_PREPROCESS_FUNCS_class-cross = "uboot_fw_utils_cross"
+-uboot_fw_utils_cross() {
+-	sysroot_stage_dir ${D}${bindir_cross} ${SYSROOT_DESTDIR}${bindir_cross}
 -}
-+SYSROOT_DIRS += "${sysconfdir}/skel"
++SYSROOT_DIRS_append_class-cross = " ${bindir_cross}"
  
- PACKAGES = "${PN}-doc ${PN} ${PN}-dev ${PN}-dbg"
- FILES_${PN} = "/"
-@@ -177,4 +175,3 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
- 
- CONFFILES_${PN} = "${sysconfdir}/fstab ${@['', '${sysconfdir}/hostname'][(d.getVar('hostname', True) != '')]} ${sysconfdir}/shells"
- CONFFILES_${PN} += "${sysconfdir}/motd ${sysconfdir}/nsswitch.conf ${sysconfdir}/profile"
--
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ BBCLASSEXTEND = "cross"
 -- 
 2.1.0
 
