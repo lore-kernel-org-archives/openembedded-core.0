@@ -1,53 +1,53 @@
 Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 575A3700F3
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 90BE370101
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 May 2016 08:38:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id CFAC61814C
+	by bes.se.axis.com (Postfix) with ESMTP id B3F5B2E1F4
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 May 2016 10:38:15 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
 X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id CxCFUhTrmhqL
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id 5mNiu1wWuQdq
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 May 2016 10:38:14 +0200 (CEST)
+	Thu, 12 May 2016 10:38:13 +0200 (CEST)
 Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bastet.se.axis.com (Postfix) with ESMTP id 992EA18152
+	by bes.se.axis.com (Postfix) with ESMTP id 723EF2E1FD
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 May 2016 10:38:13 +0200 (CEST)
 Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 83AFC15E7
+	by postfix.imss71 (Postfix) with ESMTP id 5A9CD1770
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 May 2016 10:38:13 +0200 (CEST)
-Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
-	by boulder.se.axis.com (Postfix) with ESMTP id 820E81771
+Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
+	by boulder.se.axis.com (Postfix) with ESMTP id 59C4B1769
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 May 2016 10:38:13 +0200 (CEST)
 Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id 807A410E2
+	by seth.se.axis.com (Postfix) with ESMTP id 544D4104C
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 May 2016 10:38:13 +0200 (CEST)
 Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u4C8cDuh002035
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u4C8cDo1002013
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 May 2016 10:38:13 +0200
 Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u4C8cDZI002034
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u4C8cDMG002012
 	for openembedded-core@lists.openembedded.org;
 	Thu, 12 May 2016 10:38:13 +0200
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 May 2016 10:37:57 +0200
-Message-Id: <aa4506c193d2646329204a26fa8975c1a7d69a80.1463042237.git.pkj@axis.com>
+Date: Thu, 12 May 2016 10:37:53 +0200
+Message-Id: <18a174b77d8778a17879955cf1db43ee73c9921a.1463042237.git.pkj@axis.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1463042237.git.pkj@axis.com>
 References: <cover.1463042237.git.pkj@axis.com>
 In-Reply-To: <cover.1463042237.git.pkj@axis.com>
 References: <cover.1463042237.git.pkj@axis.com>
-Subject: [PATCHv2 10/16] vala.inc: Use SYSROOT_DIRS to add dirs to stage in sysroot
+Subject: [PATCHv2 06/16] shadow-sysroot: Use SYSROOT_DIRS to add dirs to stage in sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,35 +63,28 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 12 May 2016 08:38:15 -0000
 
 ---
- meta/recipes-devtools/vala/vala.inc | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+ meta/recipes-extended/shadow/shadow-sysroot_4.2.1.bb | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/vala/vala.inc b/meta/recipes-devtools/vala/vala.inc
-index 2a8875f..37aa38f 100644
---- a/meta/recipes-devtools/vala/vala.inc
-+++ b/meta/recipes-devtools/vala/vala.inc
-@@ -36,15 +36,14 @@ do_install_append_class-target() {
-         install ${B}/vapigen-wrapper ${D}${bindir}/
+diff --git a/meta/recipes-extended/shadow/shadow-sysroot_4.2.1.bb b/meta/recipes-extended/shadow/shadow-sysroot_4.2.1.bb
+index 697569c..ef01462 100644
+--- a/meta/recipes-extended/shadow/shadow-sysroot_4.2.1.bb
++++ b/meta/recipes-extended/shadow/shadow-sysroot_4.2.1.bb
+@@ -21,12 +21,10 @@ S = "${WORKDIR}"
+ 
+ do_install() {
+ 	install -d ${D}${sysconfdir}
+-	install -p -m 755 ${S}/login.defs_shadow-sysroot ${D}${sysconfdir}/login.defs
++	install -p -m 644 ${S}/login.defs_shadow-sysroot ${D}${sysconfdir}/login.defs
  }
  
-+# Put vapigen wrapper into target sysroot so that it can be used when building
-+# vapi files.
-+SYSROOT_DIRS_append_class-target = " ${bindir}"
+-sysroot_stage_all() {
+-	sysroot_stage_dir ${D} ${SYSROOT_DESTDIR}
+-}
++SYSROOT_DIRS += "${sysconfdir}"
  
--SYSROOT_PREPROCESS_FUNCS_append_class-target += "vapigen_sysroot_preprocess"
--
-+SYSROOT_PREPROCESS_FUNCS_append_class-target = " vapigen_sysroot_preprocess"
- vapigen_sysroot_preprocess() {
--        # Put vapigen wrapper into target sysroot so that it can be used when building vapi files.
--        sysroot_stage_dir ${D}${bindir} ${SYSROOT_DESTDIR}${bindir}
--
--        # Also, tweak the vapigen name in vapigen pkgconfig file, so that it picks up our
--        # wrapper.
-+        # Tweak the vapigen name in the vapigen pkgconfig file, so that it picks
-+        # up our wrapper.
-         sed -i \
-            -e "s|vapigen=.*|vapigen=${bindir}/vapigen-wrapper|" \
-            ${SYSROOT_DESTDIR}${datadir}/pkgconfig/vapigen-${SHRT_VER}.pc
+ # don't create any packages
+ # otherwise: dbus-dev depends on shadow-sysroot-dev which depends on shadow-sysroot 
 -- 
 2.1.0
 
