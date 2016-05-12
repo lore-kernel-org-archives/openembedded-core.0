@@ -1,25 +1,21 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id C63F16FFF7
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id F1298606A8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 May 2016 19:32:38 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga104.fm.intel.com with ESMTP; 12 May 2016 12:32:39 -0700
+	Thu, 12 May 2016 21:18:23 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP; 12 May 2016 14:18:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,610,1455004800"; d="scan'208";a="952039887"
-Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
-	([10.54.69.55])
-	by orsmga001.jf.intel.com with ESMTP; 12 May 2016 12:32:41 -0700
-From: mariano.lopez@linux.intel.com
+X-IronPort-AV: E=Sophos;i="5.24,610,1455004800"; d="scan'208";a="974681177"
+Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.164])
+	by orsmga002.jf.intel.com with ESMTP; 12 May 2016 14:18:08 -0700
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 May 2016 11:28:14 +0000
-Message-Id: <754b2256cc13b91c3cefe106399c8b9e689f6ccf.1463052157.git.mariano.lopez@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-In-Reply-To: <cover.1463052157.git.mariano.lopez@linux.intel.com>
-References: <cover.1463052157.git.mariano.lopez@linux.intel.com>
-In-Reply-To: <cover.1463052157.git.mariano.lopez@linux.intel.com>
-References: <cover.1463052157.git.mariano.lopez@linux.intel.com>
-Subject: [PATCHv2 3/3] package_manager.py: Add extract() method for RPM package manager
+Date: Thu, 12 May 2016 16:18:40 -0500
+Message-Id: <1463087920-28798-1-git-send-email-anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+MIME-Version: 1.0
+Subject: [PATCH] qemu: Upgrade to 2.5.1.1 for fix CVE-2016-3710 and CVE-2016-3712
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,117 +28,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 May 2016 19:32:39 -0000
+X-List-Received-Date: Thu, 12 May 2016 21:18:24 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+This is a minor upgrade only comes with security fixes in qemu VGA
+and UART code to avoid corruptions.
 
-This new method extract the content of RPM file to a tmpdir,
-without actually installing the package.
+For review details,
+http://git.qemu.org/?p=qemu.git;a=log;h=v2.5.1.1
 
-[YOCTO #9569]
-
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- meta/lib/oe/package_manager.py | 85 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 85 insertions(+)
+ meta/recipes-devtools/qemu/{qemu_2.5.1.bb => qemu_2.5.1.1.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/qemu/{qemu_2.5.1.bb => qemu_2.5.1.1.bb} (88%)
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index f5517a4..1eedeb8 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -1408,6 +1408,91 @@ class RpmPM(PackageManager):
-         for f in rpm_db_locks:
-             bb.utils.remove(f, True)
+diff --git a/meta/recipes-devtools/qemu/qemu_2.5.1.bb b/meta/recipes-devtools/qemu/qemu_2.5.1.1.bb
+similarity index 88%
+rename from meta/recipes-devtools/qemu/qemu_2.5.1.bb
+rename to meta/recipes-devtools/qemu/qemu_2.5.1.1.bb
+index 3db6e36..ba2dfc6 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.5.1.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.5.1.1.bb
+@@ -15,8 +15,8 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
+             file://CVE-2016-2858.patch \
+            "
+ SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
+-SRC_URI[md5sum] = "42e73182dea8b9213fa7050e168a4615"
+-SRC_URI[sha256sum] = "028752c33bb786abbfe496ba57315dc5a7d0a33b5a7a767f6d7a29020c525d2c"
++SRC_URI[md5sum] = "f5ff0e71398b9e428b4f177001ba4285"
++SRC_URI[sha256sum] = "28d9946e43765a44ccccca3cba5f4f9034f2759ec1f2ce16594ddb6776c8efe6"
  
-+    """
-+    Returns a dictionary with the package info.
-+    """
-+    def package_info(self, pkg):
-+        cmd = "%s %s info --urls %s" % (self.smart_cmd, self.smart_opt, pkg)
-+        try:
-+            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
-+        except subprocess.CalledProcessError as e:
-+            bb.fatal("Unable to list available packages. Command '%s' "
-+                     "returned %d:\n%s" % (cmd, e.returncode, e.output))
-+
-+        # Set default values to avoid UnboundLocalError
-+        arch = ""
-+        ver = ""
-+        filename = ""
-+
-+        #Parse output
-+        for line in output.splitlines():
-+            line = line.rstrip()
-+            if line.startswith("Name:"):
-+                pkg = line.split(": ")[1]
-+            elif line.startswith("Version:"):
-+                tmp_str = line.split(": ")[1]
-+                ver, arch = tmp_str.split("@")
-+                break
-+
-+        # Get filename
-+        index = re.search("^URLs", output, re.MULTILINE)
-+        tmp_str = output[index.end():]
-+        for line in tmp_str.splitlines():
-+            if "/" in line:
-+                line = line.lstrip()
-+                filename = line.split(" ")[0]
-+                break
-+
-+        # To have the same data type than other package_info methods
-+        pkg_dict = {}
-+        pkg_dict[pkg] = {"arch":arch, "ver":ver, "filename":filename}
-+
-+        return pkg_dict
-+
-+    """
-+    Returns the path to a tmpdir where resides the contents of a package.
-+
-+    Deleting the tmpdir is responsability of the caller.
-+
-+    """
-+    def extract(self, pkg):
-+        pkg_info = self.package_info(pkg)
-+        if not pkg_info:
-+            bb.fatal("Unable to get information for package '%s' while "
-+                     "trying to extract the package."  % pkg)
-+
-+        pkg_arch = pkg_info[pkg]["arch"]
-+        pkg_filename = pkg_info[pkg]["filename"]
-+        pkg_path = os.path.join(self.deploy_dir, pkg_arch, pkg_filename)
-+
-+        cpio_cmd = bb.utils.which(os.getenv("PATH"), "cpio")
-+        rpm2cpio_cmd = bb.utils.which(os.getenv("PATH"), "rpm2cpio")
-+
-+        if not os.path.isfile(pkg_path):
-+            bb.fatal("Unable to extract package for '%s'."
-+                     "File %s doesn't exists" % (pkg, pkg_path))
-+
-+        tmp_dir = tempfile.mkdtemp()
-+        current_dir = os.getcwd()
-+        os.chdir(tmp_dir)
-+
-+        try:
-+            cmd = "%s %s | %s -idmv" % (rpm2cpio_cmd, pkg_path, cpio_cmd)
-+            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
-+        except subprocess.CalledProcessError as e:
-+            bb.utils.remove(tmp_dir, recurse=True)
-+            bb.fatal("Unable to extract %s package. Command '%s' "
-+                     "returned %d:\n%s" % (pkg_path, cmd, e.returncode, e.output))
-+        except OSError as e:
-+            bb.utils.remove(tmp_dir, recurse=True)
-+            bb.fatal("Unable to extract %s package. Command '%s' "
-+                     "returned %d:\n%s at %s" % (pkg_path, cmd, e.errno, e.strerror, e.filename))
-+
-+        bb.note("Extracted %s to %s" % (pkg_path, tmp_dir))
-+        os.chdir(current_dir)
-+
-+        return tmp_dir
-+
+ COMPATIBLE_HOST_class-target_mips64 = "null"
  
- class OpkgDpkgPM(PackageManager):
-     """
 -- 
-2.6.6
+2.1.4
 
 
