@@ -1,40 +1,35 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id E22A5605FE
+Return-Path: <ismo.puustinen@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 54F7A60670
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 May 2016 09:51:33 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id r12so14928129wme.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 May 2016 02:51:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=APxR757WVSlrEQci9py1llsV4ghFkvaLX9w5gUoVh3s=;
-	b=POmc7Wa9X/CV2henp2qwtPB1KjcmjITfVvCcMSlmRXXfAIFUnd2sQaoYzuyXGmyjeZ
-	5bp9viVCs7j6gODuQ6KjxRK7qJdLG9GP1eESXg9raoi0UalQCQjYQnP8utdFVFM63Bv/
-	DDljzim/pBDwt4Di/y2gXAdZ5xGCJq7eKgk21c+ICNMc6HoDZdLFwHzBsqabp9bS0gy1
-	sPZnUnAnbQkuGvrZ56g1gnED89J82VLmW3yDR9UJmJjxuZGbfQ7jV+MNghoHucpJmqDB
-	zrWG+iXoKO7a1rpsDDtHkXMm+07bXlm0kD1sAxAkfoV68XsRD1d0QIiOeAG9fAVATngB
-	mi3w==
-X-Gm-Message-State: AOPr4FUzHcYD9Vu1S6CbzWFL0EdBtWkN5XG7t1m5R7yLiuBiFMiz0ulM/mMLYw9QqCTgJA==
-X-Received: by 10.194.139.104 with SMTP id qx8mr8469118wjb.14.1463046693773;
-	Thu, 12 May 2016 02:51:33 -0700 (PDT)
-Received: from localhost ([185.46.212.56]) by smtp.gmail.com with ESMTPSA id
-	m14sm12946233wmc.4.2016.05.12.02.51.32
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 12 May 2016 02:51:32 -0700 (PDT)
-Message-ID: <1463046684.29915.33.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 May 2016 10:51:24 +0100
-In-Reply-To: <571935B4-DB58-4820-BBEA-AA6668098755@gmail.com>
-References: <1461662879-21557-1-git-send-email-git@andred.net>
-	<571935B4-DB58-4820-BBEA-AA6668098755@gmail.com>
-X-Mailer: Evolution 3.18.5.1-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH] feature-arm-neon.inc: restore vfpv3-d16 support
+	Thu, 12 May 2016 11:17:32 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 12 May 2016 04:17:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,609,1455004800"; d="scan'208";a="978298613"
+Received: from irsmsx152.ger.corp.intel.com ([163.33.192.66])
+	by fmsmga002.fm.intel.com with ESMTP; 12 May 2016 04:17:32 -0700
+Received: from irsmsx107.ger.corp.intel.com ([169.254.10.133]) by
+	IRSMSX152.ger.corp.intel.com ([169.254.6.54]) with mapi id
+	14.03.0248.002; Thu, 12 May 2016 12:17:31 +0100
+From: "Puustinen, Ismo" <ismo.puustinen@intel.com>
+To: "stephano.cetola@linux.intel.com" <stephano.cetola@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH v2 0/2] Create systemd users at build time
+Thread-Index: AQHRqkxlcvHHIM/kHU6E1O9g4gO1up+zf2yAgACLJoCAAQ/RgA==
+Date: Thu, 12 May 2016 11:17:30 +0000
+Message-ID: <1463051851.16808.27.camel@intel.com>
+References: <1462837346-27095-1-git-send-email-stephano.cetola@linux.intel.com>
+	<1462963597.11059.13.camel@intel.com>
+	<20160511190439.GA54030@ctaylor1-mobl3.amr.corp.intel.com>
+In-Reply-To: <20160511190439.GA54030@ctaylor1-mobl3.amr.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.237.72.160]
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 0/2] Create systemd users at build time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,109 +42,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 May 2016 09:51:35 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 12 May 2016 11:17:35 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <C8A27C5BF961BA4D95697D14274B632C@intel.com>
+Content-Transfer-Encoding: base64
 
-OK. Any suggestions for how to best fix that?
-
-I could be more specific and .replace('vfpv3-d16', 'vfpv3d16') only, but
-that seems ugly :-)
-
-
-Thanks,
-André
-
-On Mi, 2016-05-11 at 11:55 -0700, Khem Raj wrote:
-> This causes raspberrypi2 not parse anymore
-> 
-> ERROR:  OE-core's config sanity checker detected a potential
-> misconfiguration.
->     Either fix the cause of this error or at your own risk disable the
-> checker (see sanity.conf).
->     Following is the list of potential problems / advisories:
-> 
->     Error, the PACKAGE_ARCHS variable (all any noarch armv5hf-vfp
-> armv5thf-vfp armv5ehf-vfp armv5tehf-vfp armv6hf-vfp a
-> rmv6thf-vfp armv7ahf-vfp armv7at2hf-vfp armv7vehf-vfp armv7vet2hf-vfp
-> armv7vehf-neon armv7vet2hf-neon armv7vehf-neon-vf
-> pv4 armv7vet2hf-neon-vfpv4 cortexa7hf-vfp cortexa7hf-neon cortexa7hf-neon-
-> vfpv4 cortexa7t2hf-vfp cortexa7t2hf-neon cort
-> exa7t2hf-neon-vfpv4 raspberrypi3) for DEFAULTTUNE (cortexa7thf-neon-vfpv4) 
-> does not contain TUNE_PKGARCH (cortexa7hf-ne
-> onvfpv4).
-> 
-> 
-> > 
-> > On Apr 26, 2016, at 2:27 AM, André Draszik <git@andred.net> wrote:
-> > 
-> > Commit 6661718 (feature-arm-{neon,vfp}.inc: refactor and fix issues)
-> > effectively changed the gcc -mfpu= option from -mfpu=vfpv3-d16 to
-> > -mfpu=vfpv3d16, which gcc doesn't understand.
-> > 
-> > Restore the original value.
-> > 
-> > After doing that, we also need to adjust ARMPKGSFX_FPU which should
-> > contain the same value without dash '-' as it is used that way
-> > throughout.
-> > 
-> > Signed-off-by: André Draszik <git@andred.net>
-> > ---
-> > meta/conf/machine/include/arm/feature-arm-neon.inc | 2 +-
-> > meta/conf/machine/include/arm/feature-arm-vfp.inc  | 2 +-
-> > 2 files changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/meta/conf/machine/include/arm/feature-arm-neon.inc
-> > b/meta/conf/machine/include/arm/feature-arm-neon.inc
-> > index 50d9175..b34af8e 100644
-> > --- a/meta/conf/machine/include/arm/feature-arm-neon.inc
-> > +++ b/meta/conf/machine/include/arm/feature-arm-neon.inc
-> > @@ -8,7 +8,7 @@ TUNEVALID[neon] = "Enable Neon SIMD accelerator unit."
-> > TUNE_CCARGS_MFPU .= "${@bb.utils.contains('TUNE_FEATURES', 'neon', '
-> > neon', '', d)}"
-> > 
-> > TUNEVALID[vfpv3d16] = "Enable Vector Floating Point Version 3 with 16
-> > registers (vfpv3-d16) unit."
-> > -TUNE_CCARGS_MFPU .= "${@bb.utils.contains('TUNE_FEATURES', 'vfpv3d16',
-> > ' vfpv3d16', '', d)}"
-> > +TUNE_CCARGS_MFPU .= "${@bb.utils.contains('TUNE_FEATURES', 'vfpv3d16',
-> > ' vfpv3-d16', '', d)}"
-> > 
-> > TUNEVALID[vfpv3] = "Enable Vector Floating Point Version 3 with 32
-> > registers (vfpv3) unit."
-> > TUNE_CCARGS_MFPU .= "${@bb.utils.contains('TUNE_FEATURES', 'vfpv3', '
-> > vfpv3', '' , d)}"
-> > diff --git a/meta/conf/machine/include/arm/feature-arm-vfp.inc
-> > b/meta/conf/machine/include/arm/feature-arm-vfp.inc
-> > index 4247255..bd366a1 100644
-> > --- a/meta/conf/machine/include/arm/feature-arm-vfp.inc
-> > +++ b/meta/conf/machine/include/arm/feature-arm-vfp.inc
-> > @@ -6,7 +6,7 @@ TUNEVALID[vfp] = "Enable Vector Floating Point (vfp)
-> > unit."
-> > TUNE_CCARGS_MFPU .= "${@bb.utils.contains('TUNE_FEATURES', 'vfp', '
-> > vfp', '', d)}"
-> > 
-> > TUNE_CCARGS  .= "${@ (' -mfpu=%s ' % d.getVar('TUNE_CCARGS_MFPU',
-> > True).split()[-1]) if (d.getVar('TUNE_CCARGS_MFPU', True) != '') else
-> > ''}"
-> > -ARMPKGSFX_FPU = "${@ ('-%s'        % d.getVar('TUNE_CCARGS_MFPU',
-> > True).split()[-1]) if (d.getVar('TUNE_CCARGS_MFPU', True) != '') else
-> > ''}"
-> > +ARMPKGSFX_FPU = "${@ ('-%s'        % d.getVar('TUNE_CCARGS_MFPU',
-> > True).split()[-1].replace('-', '')) if (d.getVar('TUNE_CCARGS_MFPU',
-> > True) != '') else ''}"
-> > 
-> > TUNEVALID[callconvention-hard] = "Enable EABI hard float call
-> > convention, requires VFP."
-> > TUNE_CCARGS_MFLOAT = "${@ bb.utils.contains('TUNE_FEATURES',
-> > 'callconvention-hard', 'hard', 'softfp', d) if
-> > (d.getVar('TUNE_CCARGS_MFPU', True) != '') else '' }"
-> > --
-> > 2.8.1
-> > 
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+T24gV2VkLCAyMDE2LTA1LTExIGF0IDEyOjA0IC0wNzAwLCBTdGVwaGFubyBDZXRvbGEgd3JvdGU6
+DQo+ID4gSSB0aGluayB0aGlzIGlzIGEgdmFsdWFibGUgZmVhdHVyZS4gSG93ZXZlciwgaGF2ZSB5
+b3UgY29uc2lkZXJlZA0KPiA+IGFkZGluZw0KPiA+IHRoZSAibSIgYW5kICJyIiBvcHRpb25zIHRv
+bz8gSSB0aGluayB0aGF0IGF0IGxlYXN0ICJtIiB3b3VsZCBiZQ0KPiA+IHdvcnRod2hpbGUgdG8g
+aW1wbGVtZW50LCBzaW5jZSBpdCdzIGltcG9ydGFudCB0byBiZSBhYmxlIHRvIGFkZA0KPiA+IHVz
+ZXJzDQo+ID4gdG8gZGlmZmVyZW50IGdyb3VwcyBmb3IgcHJpdmlsZWdlIG1hbmFnZW1lbnQuDQo+
+DQo+IEkgYWRkZWQgIi0tc3lzdGVtIiB0byBib3RoIHVzZXJhZGQgYW5kIGdyb3VwYWRkLCBhbmQg
+SSBiZWxpZXZlIHRoYXQNCj4gaXMNCj4gdGhlIHNhbWUgYXMgIi1yIi4gUGxlYXNlIGNvcnJlY3Qg
+bWUgaWYgSSBhbSB3cm9uZyB0aGVyZS4NCj4gDQo+IEkgZG8gbm90IHNlZSBob3cgdGhlICItbSIg
+b3B0aW9uIHdvdWxkIGhlbHAgd2l0aCBncm91cHMuIEkgdGhvdWdodA0KPiB0aGF0DQo+IHNpbXBs
+eSBhZGRlZCBhIHNrZWxldG9uIGhvbWUgZGlyZWN0b3J5LiBDb3VsZCB5b3UgZ2l2ZSBtZSBhbiBl
+eGFtcGxlPw0KDQpJIG1lYW4gdGhhdCB3aGVuIHlvdSBwYXJzZSB0aGUgc3lzdXNlcnMuZCBjb25m
+aWd1cmF0aW9uIGZpbGUNCmluwqBjcmVhdGVfc3lzdGVtZF9zeXN1c2VycygpIGZ1bmN0aW9uLCB5
+b3Ugb25seSBwYXJzZSB0aGUgbGluZXMNCnN0YXJ0aW5nIHdpdGggJ3UnIGFuZCAnZycuIFlvdSBh
+cmUgc2tpcHBpbmcgJ20nIGFuZCAncicuIFNlZToNCg0KaHR0cHM6Ly93d3cuZnJlZWRlc2t0b3Au
+b3JnL3NvZnR3YXJlL3N5c3RlbWQvbWFuL3N5c3VzZXJzLmQuaHRtbA0KDQpXaGF0IEknbSBhZnRl
+ciBpcyBhIGdlbmVyaWMgbWVjaGFuaXNtIGZvciByZWFkaW5nIGFsbCBzeXN1c2Vycy5kLw0KY29u
+ZmlndXJhdGlvbiBmaWxlcyBkdXJpbmcgaW1hZ2UgY3JlYXRpb24gYW5kIGNyZWF0aW5nIHRoZSBu
+ZWNlc3NhcnkNCnVzZXJzIGFuZCBncm91cHMgZHVyaW5nIHRoYXQgdGltZS4gWW91IGNvdWxkIGFs
+c28gc2VwYXJhdGUgbWVjaGFuaXNtDQphbmQgcG9saWN5LCBtZWFuaW5nIHRoYXQgdGhlIGxpc3Qg
+b2YgZmlsZXMgdG8gcGFyc2UgY291bGQgY29tZSBmcm9tDQpvdXRzaWRlIG9mIHRoZSBjcmVhdGVf
+c3lzdGVtZF9zeXN1c2VycygpIGZ1bmN0aW9uLg0KDQpJc21v
 
