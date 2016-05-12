@@ -1,32 +1,28 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E2F965C8A
+Return-Path: <stephano.cetola@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 725566FF5B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 May 2016 15:14:49 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u4CFEmje019810; Thu, 12 May 2016 16:14:49 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id jSsfRWICXlJn; Thu, 12 May 2016 16:14:49 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u4CFEl2t019797
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 12 May 2016 16:14:48 +0100
-Message-ID: <1463066087.9746.15.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>, Khem Raj <raj.khem@gmail.com>
-Date: Thu, 12 May 2016 16:14:47 +0100
-In-Reply-To: <20160512174542.332fae80@adi-pc-linux.emea.corp.natinst.com>
-References: <1463058769-8498-1-git-send-email-adrian.ratiu@ni.com>
-	<CAMKF1sp-cXec1TAWfdVus_Hg46QxF5SMx+7yk5T-MhsUxsEz8Q@mail.gmail.com>
-	<20160512174542.332fae80@adi-pc-linux.emea.corp.natinst.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
+	Thu, 12 May 2016 15:30:48 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP; 12 May 2016 08:30:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,610,1455004800"; d="scan'208";a="804815960"
+Received: from ssailer-mobl2.amr.corp.intel.com ([10.254.2.179])
+	by orsmga003.jf.intel.com with ESMTP; 12 May 2016 08:30:49 -0700
+Date: Thu, 12 May 2016 08:30:49 -0700
+From: Stephano Cetola <stephano.cetola@linux.intel.com>
+To: "Puustinen, Ismo" <ismo.puustinen@intel.com>
+Message-ID: <20160512153049.GA1719@ssailer-mobl2.amr.corp.intel.com>
+References: <1462837346-27095-1-git-send-email-stephano.cetola@linux.intel.com>
+	<1462963597.11059.13.camel@intel.com>
+	<20160511190439.GA54030@ctaylor1-mobl3.amr.corp.intel.com>
+	<1463051851.16808.27.camel@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <1463051851.16808.27.camel@intel.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc-4.9: fix build with gcc 6
+Subject: Re: [PATCH v2 0/2] Create systemd users at build time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,46 +35,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 May 2016 15:14:51 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 12 May 2016 15:30:51 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2016-05-12 at 17:45 +0300, Ioan-Adrian Ratiu wrote:
-> On Thu, 12 May 2016 07:38:00 -0700
-> Khem Raj <raj.khem@gmail.com> wrote:
-> 
-> > On Thu, May 12, 2016 at 6:12 AM, Ioan-Adrian Ratiu <
-> > adrian.ratiu@ni.com> wrote:
-> > > Building gcc-cross 4.9.3 with gcc 6 fails with the following
-> > > error:
-> > > 
-> > > error: 'const char* libc_name_p(const char*, unsigned int)'
-> > > redeclared inline with 'gnu_inline' attribute
-> > > 
-> > > This is a backport of the upstream fix.  
+On 05/12, Puustinen, Ismo wrote:
+> On Wed, 2016-05-11 at 12:04 -0700, Stephano Cetola wrote:
+> > > I think this is a valuable feature. However, have you considered
+> > > adding
+> > > the "m" and "r" options too? I think that at least "m" would be
+> > > worthwhile to implement, since it's important to be able to add
+> > > users
+> > > to different groups for privilege management.
+> >
+> > I added "--system" to both useradd and groupadd, and I believe that
+> > is
+> > the same as "-r". Please correct me if I am wrong there.
 > > 
-> > I have seen couple of such patches being proposed. I was of the
-> > opinion to drop 4.9 from master however if we still want to
-> > refresh it the I would propose that we change the SRC_URI to point
-> > to
-> > latest on gcc-4_9-branch and remove any backports
-> > we have done since 4.9.3 release. It can also be merged into
-> > krogoth.
-> > Then we can latest decide if we want to keep 4.9 in
-> > 2.2 release or not. Would you be able to test such a patch
+> > I do not see how the "-m" option would help with groups. I thought
+> > that
+> > simply added a skeleton home directory. Could you give me an example?
 > 
-> Actually I'm all for dropping gcc 4 from master. It's about time IMO.
+> I mean that when you parse the sysusers.d configuration file
+> in create_systemd_sysusers() function, you only parse the lines
+> starting with 'u' and 'g'. You are skipping 'm' and 'r'. See:
 > 
-> I need this patch to fix the build in krogoth and was just waiting
-> for
-> feedback on master before I sent this patch there.
+> https://www.freedesktop.org/software/systemd/man/sysusers.d.html
 > 
-> I'll resend for krogoth directly then :)
+> What I'm after is a generic mechanism for reading all sysusers.d/
+> configuration files during image creation and creating the necessary
+> users and groups during that time. You could also separate mechanism
+> and policy, meaning that the list of files to parse could come from
+> outside of the create_systemd_sysusers() function.
+> 
+> Ismo
 
-Since several people are hitting this and we have the patch, lets merge
-it, then drop 4.9 as a followup.
+Ah, I see.  Yes, I agree this would be of value. I think that "m" should
+be straight forward to implement, though "r" might get a little
+complicated with the staticids class. I'll look into both of these.
 
 Cheers,
-
-Richard
+Stephano
 
