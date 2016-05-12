@@ -1,28 +1,39 @@
-Return-Path: <stephano.cetola@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 725566FF5B
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
+	[209.85.220.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 60C326FF5B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 May 2016 15:30:48 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP; 12 May 2016 08:30:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,610,1455004800"; d="scan'208";a="804815960"
-Received: from ssailer-mobl2.amr.corp.intel.com ([10.254.2.179])
-	by orsmga003.jf.intel.com with ESMTP; 12 May 2016 08:30:49 -0700
-Date: Thu, 12 May 2016 08:30:49 -0700
-From: Stephano Cetola <stephano.cetola@linux.intel.com>
-To: "Puustinen, Ismo" <ismo.puustinen@intel.com>
-Message-ID: <20160512153049.GA1719@ssailer-mobl2.amr.corp.intel.com>
-References: <1462837346-27095-1-git-send-email-stephano.cetola@linux.intel.com>
-	<1462963597.11059.13.camel@intel.com>
-	<20160511190439.GA54030@ctaylor1-mobl3.amr.corp.intel.com>
-	<1463051851.16808.27.camel@intel.com>
-MIME-Version: 1.0
-In-Reply-To: <1463051851.16808.27.camel@intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 0/2] Create systemd users at build time
+	Thu, 12 May 2016 15:33:39 +0000 (UTC)
+Received: by mail-qk0-f196.google.com with SMTP id n62so78557qkc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 May 2016 08:33:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=Vx9ZB1tJIqwOlGFBluENueQ6zkJxa+Adg3IY3eya9XI=;
+	b=mMkGtLizzSiwyy7tWYSSVtfiYwrQNehL0Vt6wVhYeWvAHxg0uph3LR4E164tyo6opJ
+	l2R9OemrmAWOHFQItV1i6YvKQxjfmPyF5ZqYbO33co0uwIlRYFNLPxnrAJij5/ppSLxT
+	/RxLmKPnFdPn4a2uS1DjAOO1nCznL5PcghzQRjlEJlOTRPNCzEX9BD835ekJzt2mYhvv
+	Dh6uOOvbKhtaQMQFZSS2Jt3KgWPJ9sNNJw4LiKW5BjtTTOO1lRpR9T/hiKKQxncBdH3f
+	Pgel79+z4YbDvk5002GLaNhg00QQSAEHME64HgmCINDvg6+pT/naiLUr5cOlTf3nI7EO
+	Fhsw==
+X-Gm-Message-State: AOPr4FVP5FDyYg2PxBN5dytAkKOv+p1cXRXsE2D19Hy7bNM/0xKOCnNgTmdBmox/BYh6EQ==
+X-Received: by 10.55.77.216 with SMTP id a207mr10859836qkb.80.1463067217123;
+	Thu, 12 May 2016 08:33:37 -0700 (PDT)
+Received: from localhost ([187.23.154.250]) by smtp.gmail.com with ESMTPSA id
+	c68sm6276467qgc.12.2016.05.12.08.33.33
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 12 May 2016 08:33:35 -0700 (PDT)
+Received: by localhost (sSMTP sendmail emulation);
+	Thu, 12 May 2016 12:33:31 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Thu, 12 May 2016 12:33:26 -0300
+Message-Id: <1463067206-11570-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.8.2
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] weston: Use HTTPS for tarball download
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,46 +46,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 May 2016 15:30:51 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 12 May 2016 15:33:40 -0000
 
-On 05/12, Puustinen, Ismo wrote:
-> On Wed, 2016-05-11 at 12:04 -0700, Stephano Cetola wrote:
-> > > I think this is a valuable feature. However, have you considered
-> > > adding
-> > > the "m" and "r" options too? I think that at least "m" would be
-> > > worthwhile to implement, since it's important to be able to add
-> > > users
-> > > to different groups for privilege management.
-> >
-> > I added "--system" to both useradd and groupadd, and I believe that
-> > is
-> > the same as "-r". Please correct me if I am wrong there.
-> > 
-> > I do not see how the "-m" option would help with groups. I thought
-> > that
-> > simply added a skeleton home directory. Could you give me an example?
-> 
-> I mean that when you parse the sysusers.d configuration file
-> in create_systemd_sysusers() function, you only parse the lines
-> starting with 'u' and 'g'. You are skipping 'm' and 'r'. See:
-> 
-> https://www.freedesktop.org/software/systemd/man/sysusers.d.html
-> 
-> What I'm after is a generic mechanism for reading all sysusers.d/
-> configuration files during image creation and creating the necessary
-> users and groups during that time. You could also separate mechanism
-> and policy, meaning that the list of files to parse could come from
-> outside of the create_systemd_sysusers() function.
-> 
-> Ismo
+The tarball now is served just on the HTTPS URI, thus update the
+SRC_URI.
 
-Ah, I see.  Yes, I agree this would be of value. I think that "m" should
-be straight forward to implement, though "r" might get a little
-complicated with the staticids class. I'll look into both of these.
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ meta/recipes-graphics/wayland/weston_1.10.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Cheers,
-Stephano
+diff --git a/meta/recipes-graphics/wayland/weston_1.10.0.bb b/meta/recipes-graphics/wayland/weston_1.10.0.bb
+index 150d2bf..dc0a614 100644
+--- a/meta/recipes-graphics/wayland/weston_1.10.0.bb
++++ b/meta/recipes-graphics/wayland/weston_1.10.0.bb
+@@ -5,7 +5,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d79ee9e66bb0f95d3386a7acae780b70 \
+                     file://src/compositor.c;endline=23;md5=1d535fed266cf39f6d8c0647f52ac331"
+ 
+-SRC_URI = "http://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
++SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+            file://weston.png \
+            file://weston.desktop \
+            file://make-libwebp-explicitly-configurable.patch \
+-- 
+2.8.2
+
 
