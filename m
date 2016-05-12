@@ -1,37 +1,27 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id BC5186014F
+Return-Path: <maxin.john@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id DEDD060119
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 May 2016 12:58:11 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 47252314232D
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 May 2016 14:58:11 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id 434VLycIWxsI
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 May 2016 14:58:09 +0200 (CEST)
-Received: from [172.22.22.61] (55d47763.access.ecotel.net [85.212.119.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	Thu, 12 May 2016 13:16:45 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga102.jf.intel.com with ESMTP; 12 May 2016 06:16:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,610,1455004800"; d="scan'208";a="701054140"
+Received: from linux.intel.com ([10.23.219.25])
+	by FMSMGA003.fm.intel.com with ESMTP; 12 May 2016 06:16:37 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 02F5831422D5
+	by linux.intel.com (Postfix) with ESMTP id 8DE716A4007
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 May 2016 14:58:08 +0200 (CEST)
+	Thu, 12 May 2016 07:04:08 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <2e51e9b5fb3911436afc1becd5feb9351b896fa4.1462987863.git.raj.khem@gmail.com>
-	<8119a147b7f487ed489f90ad444ee15856cb35a7.1462987863.git.raj.khem@gmail.com>
-From: Andreas Oberritter <obi@opendreambox.org>
-X-Enigmail-Draft-Status: N1110
-Message-ID: <57347DDF.3070103@opendreambox.org>
-Date: Thu, 12 May 2016 14:58:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.7.2
-MIME-Version: 1.0
-In-Reply-To: <8119a147b7f487ed489f90ad444ee15856cb35a7.1462987863.git.raj.khem@gmail.com>
-Subject: Re: [PATCH 16/42] busybox/mdev: Ensure /sys is mounted before using it
+Date: Thu, 12 May 2016 16:16:51 +0300
+Message-Id: <1463059013-4222-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH 1/3] ofono: update to 1.18
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,44 +34,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 May 2016 12:58:12 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 12 May 2016 13:16:47 -0000
 
-Dear Khem,
+1.17 -> 1.18
 
-On 11.05.2016 19:35, Khem Raj wrote:
-> echo would fail if /sys is not mounted and boot would abort
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ meta/recipes-connectivity/ofono/{ofono_1.17.bb => ofono_1.18.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/ofono/{ofono_1.17.bb => ofono_1.18.bb} (59%)
 
-this sentence still doesn't make sense (hint: /proc).
-
-Regards,
-Andreas
-
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/recipes-core/busybox/files/mdev | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-core/busybox/files/mdev b/meta/recipes-core/busybox/files/mdev
-> index 9625247..8c9c06e 100755
-> --- a/meta/recipes-core/busybox/files/mdev
-> +++ b/meta/recipes-core/busybox/files/mdev
-> @@ -1,10 +1,12 @@
->  #!/bin/sh
-> -
-> +mount -t proc proc /proc
-> +mount -t sysfs sysfs /sys
->  mount -t tmpfs tmpfs /dev  -o size=64k,mode=0755
->  mkdir /dev/pts /dev/shm
->  chmod 777 /dev/shm
->  mount -t devpts devpts /dev/pts
->  touch /dev/mdev.seq
-> +#sysctl -w kernel.hotplug=/sbin/mdev
->  echo "/sbin/mdev" > /proc/sys/kernel/hotplug
->  mdev -s
->  
-> 
+diff --git a/meta/recipes-connectivity/ofono/ofono_1.17.bb b/meta/recipes-connectivity/ofono/ofono_1.18.bb
+similarity index 59%
+rename from meta/recipes-connectivity/ofono/ofono_1.17.bb
+rename to meta/recipes-connectivity/ofono/ofono_1.18.bb
+index 947f9d7..79d3dd0 100644
+--- a/meta/recipes-connectivity/ofono/ofono_1.17.bb
++++ b/meta/recipes-connectivity/ofono/ofono_1.18.bb
+@@ -5,7 +5,7 @@ SRC_URI  = "\
+   file://ofono \
+   file://Revert-test-Convert-to-Python-3.patch \
+ "
+-SRC_URI[md5sum] = "d280b1d267ba5bf391d2a898fea7c748"
+-SRC_URI[sha256sum] = "cbf20f07fd15253c682b23c1786d517f505c3688f7c4ea93da777e1523b89635"
++SRC_URI[md5sum] = "0a6b37c8ace891cb2a7ca5d121043a0a"
++SRC_URI[sha256sum] = "53cdbf342913f46bce4827241c60e24255a3d43a94945edf77482ae5b312d51f"
+ 
+ CFLAGS_append_libc-uclibc = " -D_GNU_SOURCE"
+-- 
+2.4.0
 
 
