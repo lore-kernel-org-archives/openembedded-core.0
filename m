@@ -1,29 +1,53 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id D3F3C60796
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f67.google.com (mail-pa0-f67.google.com
+	[209.85.220.67])
+	by mail.openembedded.org (Postfix) with ESMTP id EBB1E73174
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 May 2016 17:06:09 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u4DH68Je022121; Fri, 13 May 2016 18:06:08 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id whhKNLG2p6o7; Fri, 13 May 2016 18:06:07 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u4DH62O0022115
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 13 May 2016 18:06:03 +0100
-Message-ID: <1463159162.9746.117.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Fri, 13 May 2016 18:06:02 +0100
-In-Reply-To: <cover.1462545440.git.ed.bartosh@linux.intel.com>
-References: <cover.1462545440.git.ed.bartosh@linux.intel.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: [RFC][PATCH 0/7] image creation improvements
+	Fri, 13 May 2016 17:09:02 +0000 (UTC)
+Received: by mail-pa0-f67.google.com with SMTP id yl2so8925471pac.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 May 2016 10:09:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=ZFF5t3TXzJMJlvgtmCNjieIrHVisB6N9UT6MlRtYyNo=;
+	b=iRjIdiKU+JrbELiENyPR6CbrbufGJ48E8rxb9lzB8yyh7VeG+XNkBAOxEDCacTLMFp
+	v4MDhS8CfJ3/uYMpVfVt+YXfTzhfTesSFjGcw9q2Q7CntdzkPe3naJIggWAHhGM6025m
+	ExireMQesmQCPGabvGR+iEA3iUiDglaRPxPB6/wN1apORdHRhvgjgYfwxeAWyMU8lcdH
+	IuMqkU/5Y7qQkIsnI7+ZxaOQGHu4OUdTft/A1u0gHQ45lUVzHh5H5p59xZrL98gSybcc
+	PFs5q2iSL718NjLBo631H4cD3pf4PPzdDJ1xPIxKkHHf9g8NfwHwhS9v8vdcGHbBRN6c
+	nUwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=ZFF5t3TXzJMJlvgtmCNjieIrHVisB6N9UT6MlRtYyNo=;
+	b=YywsgIvjzx4Ho40Bjvl6o2SBv/4zzvPrVGsLH1izAPeHDEKuTsJYQ8AfEoXTb/LeVJ
+	d6trQvGU8awDtzDd596W/1SrEb6NMYBvALWlnH4Mny1M1BSSh9/H1xxRB2T3phVpuCIG
+	bMImpmwiEgc4oLiGRpmqZZ+mIDHujOkvqIF5baPX6zlaO99tnze9kdzGIPwfoYj0gCCA
+	buQWsYRokyhXuu6j0saCHkWNjbkvjw2+BFmkqNk/Y1P5bLVRry29nDDt12Q4pSKOalMU
+	psHiPeWEJKBR/CvHEBcxiqFjS3ZSDITfZx1Yja7dWVx6VFkIzfNLfU48vX4p8ojDQ6DD
+	P3GA==
+X-Gm-Message-State: AOPr4FXJeqpcF6xoLiLBwBo65H21Eu1ZvP84n3H1unkFWoZhMINdrZ93pS4B2xKtQLA0iw==
+X-Received: by 10.66.151.104 with SMTP id up8mr23246592pab.134.1463159343322; 
+	Fri, 13 May 2016 10:09:03 -0700 (PDT)
+Received: from ?IPv6:2601:646:8800:5a9a:90dc:14f3:602d:85ba?
+	([2601:646:8800:5a9a:90dc:14f3:602d:85ba])
+	by smtp.gmail.com with ESMTPSA id
+	kb15sm28790682pad.28.2016.05.13.10.09.01
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 13 May 2016 10:09:01 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Pgp-Agent: GPGMail 2.6b2
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1463126191-24272-1-git-send-email-git@andred.net>
+Date: Fri, 13 May 2016 10:08:57 -0700
+Message-Id: <55B50CC1-24B9-47C3-8120-1794775A93D0@gmail.com>
+References: <1463066880-17505-1-git-send-email-git@andred.net>
+	<1463126191-24272-1-git-send-email-git@andred.net>
+To: =?utf-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
+X-Mailer: Apple Mail (2.3124)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3][krogoth] feature-arm-neon.inc: restore vfpv3-d16 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,37 +60,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 May 2016 17:06:11 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 13 May 2016 17:09:03 -0000
+X-Groupsio-MsgNum: 82081
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_890A5F15-23BF-4510-B2AC-ECBD9DA0088A";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
+
+--Apple-Mail=_890A5F15-23BF-4510-B2AC-ECBD9DA0088A
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
+
+
+> On May 13, 2016, at 12:56 AM, Andr=C3=A9 Draszik <git@andred.net> =
+wrote:
+>=20
+> Commit 6661718 (feature-arm-{neon,vfp}.inc: refactor and fix issues)
+> effectively changed the gcc -mfpu=3D option from -mfpu=3Dvfpv3-d16 to
+> -mfpu=3Dvfpv3d16, which gcc doesn't understand.
+>=20
+> Restore the original value.
+>=20
+> After doing that, we also need to adjust ARMPKGSFX_FPU which should
+> contain the same value without dash '-' as it is used that way
+> throughout.
+
+
+V1 worked fine for my case. V3 doesnt even apply. Can you rebase it on =
+top of master and resend ?
+
+>=20
+> Signed-off-by: Andr=C3=A9 Draszik <git@andred.net>
+> ---
+> meta/conf/machine/include/arm/feature-arm-neon.inc | 2 +-
+> meta/conf/machine/include/arm/feature-arm-vfp.inc  | 2 +-
+> 2 files changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/conf/machine/include/arm/feature-arm-neon.inc =
+b/meta/conf/machine/include/arm/feature-arm-neon.inc
+> index 50d9175..b34af8e 100644
+> --- a/meta/conf/machine/include/arm/feature-arm-neon.inc
+> +++ b/meta/conf/machine/include/arm/feature-arm-neon.inc
+> @@ -8,7 +8,7 @@ TUNEVALID[neon] =3D "Enable Neon SIMD accelerator =
+unit."
+> TUNE_CCARGS_MFPU .=3D "${@bb.utils.contains('TUNE_FEATURES', 'neon', ' =
+neon', '', d)}"
+>=20
+> TUNEVALID[vfpv3d16] =3D "Enable Vector Floating Point Version 3 with =
+16 registers (vfpv3-d16) unit."
+> -TUNE_CCARGS_MFPU .=3D "${@bb.utils.contains('TUNE_FEATURES', =
+'vfpv3d16', ' vfpv3d16', '', d)}"
+> +TUNE_CCARGS_MFPU .=3D "${@bb.utils.contains('TUNE_FEATURES', =
+'vfpv3d16', ' vfpv3-d16', '', d)}"
+>=20
+> TUNEVALID[vfpv3] =3D "Enable Vector Floating Point Version 3 with 32 =
+registers (vfpv3) unit."
+> TUNE_CCARGS_MFPU .=3D "${@bb.utils.contains('TUNE_FEATURES', 'vfpv3', =
+' vfpv3', '' , d)}"
+> diff --git a/meta/conf/machine/include/arm/feature-arm-vfp.inc =
+b/meta/conf/machine/include/arm/feature-arm-vfp.inc
+> index 4247255..9ef31e7 100644
+> --- a/meta/conf/machine/include/arm/feature-arm-vfp.inc
+> +++ b/meta/conf/machine/include/arm/feature-arm-vfp.inc
+> @@ -6,7 +6,7 @@ TUNEVALID[vfp] =3D "Enable Vector Floating Point (vfp) =
+unit."
+> TUNE_CCARGS_MFPU .=3D "${@bb.utils.contains('TUNE_FEATURES', 'vfp', ' =
+vfp', '', d)}"
+>=20
+> TUNE_CCARGS  .=3D "${@ (' -mfpu=3D%s ' % d.getVar('TUNE_CCARGS_MFPU', =
+True).split()[-1]) if (d.getVar('TUNE_CCARGS_MFPU', True) !=3D '') else =
+''}"
+> -ARMPKGSFX_FPU =3D "${@ ('-%s'        % d.getVar('TUNE_CCARGS_MFPU', =
+True).split()[-1]) if (d.getVar('TUNE_CCARGS_MFPU', True) !=3D '') else =
+''}"
+> +ARMPKGSFX_FPU =3D "${@ ('-%s'        % d.getVar('TUNE_CCARGS_MFPU', =
+True).split()[-1].replace('vfpv3-d16', 'vfpv3d16')) if =
+(d.getVar('TUNE_CCARGS_MFPU', True) !=3D '') else ''}"
+>=20
+> TUNEVALID[callconvention-hard] =3D "Enable EABI hard float call =
+convention, requires VFP."
+> TUNE_CCARGS_MFLOAT =3D "${@ bb.utils.contains('TUNE_FEATURES', =
+'callconvention-hard', 'hard', 'softfp', d) if =
+(d.getVar('TUNE_CCARGS_MFPU', True) !=3D '') else '' }"
+> --
+> 2.8.1
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+--Apple-Mail=_890A5F15-23BF-4510-B2AC-ECBD9DA0088A
 Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
 
-On Fri, 2016-05-06 at 17:58 +0300, Ed Bartosh wrote:
-> Hi,
-> 
-> This patchset contains various improvements for the image creation
-> functionality
-> made by Patchick Ohly during his work on bug #9076:
->  - added support for zip compression
->  - fixed dependency calculation for conversion chaining
->  - converted vmdk/vdi/qcow2 image types into conversion commands
->  - renamed COMPRESSION variables to CONVERSION as the term
-> "compression"
->    is no longer accurate
->  - prioritized specialized image creation methods over using
-> conversion chaining
-> 
-> The changes look reasonable to me. However, it would be good to hear
-> other
-> people opinions as some changes are quite complex.
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
 
-Ross made some changes to the imagetypes code and I suspect this series
-won't apply on top of them. I also don't like moving that dependency
-code to image.bbclass, even if its the only caller. The idea is to keep
-the "image types" code into its own class.
+iEYEARECAAYFAlc2Ci0ACgkQuwUzVZGdMxQTCACfVpqhr32ExGBhc5S1lvf9841L
+LNcAn3Em363mLNpCQMkIhaEKxIpY6jB6
+=OSuG
+-----END PGP SIGNATURE-----
 
-I'll queue the zip piece but the rest probably needs to be rebased...
-
-Cheers,
-
-Richard
-
+--Apple-Mail=_890A5F15-23BF-4510-B2AC-ECBD9DA0088A--
