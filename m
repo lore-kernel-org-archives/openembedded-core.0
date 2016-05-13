@@ -1,54 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f67.google.com (mail-pa0-f67.google.com
-	[209.85.220.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 13D3765C5C
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-ig0-f179.google.com (mail-ig0-f179.google.com
+	[209.85.213.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 631EB6067C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 May 2016 16:48:42 +0000 (UTC)
-Received: by mail-pa0-f67.google.com with SMTP id i5so8907721pag.3
+	Fri, 13 May 2016 16:56:56 +0000 (UTC)
+Received: by mail-ig0-f179.google.com with SMTP id qe5so11709797igc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 May 2016 09:48:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=54UbtE8LX8K6T25Df8LQutXKk6x29BzedZMYKNLaQxY=;
-	b=YK59jhNGOiOO3I4zdDkqtnbtxF11qask/9DHsqY+KRV6e2G3iTnPVlM0IuJRCDj8rk
-	dUwmKUDOSgB/hlRKVMgrld8mAZQ6s333WXwZSFDu3vjkvCbg5SO1nl5ZcQkqV7o8tEWg
-	LshkF/DBr69RpgidCSvLr1jXJ+p3uGKu7XXPT87i7Bizxod7y6xTKIXGxrUFOEPqKJJr
-	FZm0bCLIkYc2LeKf0KWQjiaLixPYGdWyCgoa902yx0VaD6gds2BNE/rj6Gk+4r/hWwpe
-	aRyHKo1AuhBpYaTqhk3ix436M9TfL+tHYEQRYj9qkgRGHKbvEd+icSmEzz9O9vmHZdDz
-	SxBA==
+	Fri, 13 May 2016 09:56:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=DSlqL4fX/OzafaYZnPqo4yUSLQv7tmCQn16fMc6plxE=;
+	b=CkcEJ51bwQeGG98cX6C1EGzvv9GkMJSBpFx4jrOSoqx83R5RblzajP5pykGVN1DoZm
+	JIgAeGb77ldY469SYLKtLCbvB4kolLsLMdTLbMcELMaUAeUCp+KVQ6ZnbNKGS6dBYMT4
+	s1vif4ZPObkNo/vVG7WtysQ0HR8A2JtZ56zq9wsZaBFa2piIv6zngKZvDHilhDY805JH
+	7M4CRcsPDJD0hVyTx1N+Rts5gtos0DUjcyNCMvxCWn0B42Sy3zFElfm4TjgSftDxYhgu
+	isddZIqMLZ9i3LFI6HjQlPHw1pGjcjKxMbde0QTK1QIso3WgUlTgQUY5f4XRQuxYVK6W
+	YGDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=54UbtE8LX8K6T25Df8LQutXKk6x29BzedZMYKNLaQxY=;
-	b=QzAPEm4NcKBNSZ6uJaWide/9c35nL9bv5mu/PuPvclpe8Vtkx9hG/21vN8s32e5ChQ
-	tgVMabeLXwf5SfdtfP3X+RDwjaba4WrAOsCubdWOJdJLRCJad5Mm1rXAAFl9DfYRC2tA
-	4wFoSccjN9GcvWUplVol2SQXkfeFTUX6PFAO+0Y+5EPzRoQMuXRmNjmU9tUi+aQxCYha
-	/00rmGqT8xpMR9mF8KZufQNQQZq4K0+aChFVBrBykxFxudn7Gyt21umtvUu7/J1WwZbN
-	sIn6ssV/NVig0cBl++fyz137HVHURrCuKnxKNXyJBW2f2QRSUmTXp95zUORTthGsLgQx
-	hPsA==
-X-Gm-Message-State: AOPr4FXsVHcj0bWAOw9SaCuamwnawyghboCXwT/NJxcHgRUbMThraMhksE242kH0VcdJpA==
-X-Received: by 10.66.21.102 with SMTP id u6mr24665416pae.118.1463158123883;
-	Fri, 13 May 2016 09:48:43 -0700 (PDT)
-Received: from ?IPv6:2601:646:8800:5a9a:90dc:14f3:602d:85ba?
-	([2601:646:8800:5a9a:90dc:14f3:602d:85ba])
-	by smtp.gmail.com with ESMTPSA id
-	q129sm28694606pfb.16.2016.05.13.09.48.42
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 13 May 2016 09:48:43 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1463143636.9746.96.camel@linuxfoundation.org>
-Date: Fri, 13 May 2016 09:48:37 -0700
-Message-Id: <7E1834D0-3D23-4A55-84AF-5F244A863B4C@gmail.com>
-References: <cover.1462987863.git.raj.khem@gmail.com>
-	<1463143636.9746.96.camel@linuxfoundation.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Mailer: Apple Mail (2.3124)
-Cc: Marek Vasut <marex@denx.de>, Dan McGregor <dan.mcgregor@usask.ca>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/42] GCC/GDB/Binutils Upgrades
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=DSlqL4fX/OzafaYZnPqo4yUSLQv7tmCQn16fMc6plxE=;
+	b=dru4IX/wSaUdYvjeB+DTV6mv3JwUXmlhxebhJnfyy7uqKJSuPHJfL/Uvh9CvXfyOc5
+	P1fFrhRfBlb8SPYlYDIjWmRU9m+oeYNEWL2f2ySQVDABgHIewbmsMQbA2qplQoDA6wdO
+	DzYrXgB4YOj2sh9093ZtrtSfbNPMUEWee3hKTuffQl+bRg9xhtugGpPIulGtP5MFvuf1
+	kEHPwNmRyjPXdUayTBiQ+DCS8btZtmIpBOO3iAS4Hl/6FwBgC02693TYqbJVhC+PCUYW
+	LVx5sm2htTNOUigG/yVXLiFJciPWdi6MBd9DXFMLq/0IwJCmrnl3G+jim6QK5ZEhKfPV
+	HFaw==
+X-Gm-Message-State: AOPr4FX636krbCEpSl2NheiNPHZk+Ub/xzuN4Y/NvrYSCv9DbS5PlXrykwDy1TdqN2XUrFGn
+X-Received: by 10.50.224.148 with SMTP id rc20mr2958176igc.39.1463158617179;
+	Fri, 13 May 2016 09:56:57 -0700 (PDT)
+Received: from pohly-desktop.fritz.box (p5DE8DAE6.dip0.t-ipconnect.de.
+	[93.232.218.230]) by smtp.gmail.com with ESMTPSA id
+	z138sm1286070itc.2.2016.05.13.09.56.55
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 13 May 2016 09:56:56 -0700 (PDT)
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 13 May 2016 18:56:51 +0200
+Message-Id: <cover.1463158480.git.patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/2] fixes for combo-layer update history mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,76 +53,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 May 2016 16:48:43 -0000
-X-Groupsio-MsgNum: 82076
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_84E60BE9-9BAA-4A62-9C00-864AB15DFD09";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Fri, 13 May 2016 16:56:58 -0000
 
---Apple-Mail=_84E60BE9-9BAA-4A62-9C00-864AB15DFD09
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+The first fix is urgent: the default mode was accidentally changed
+from the traditional "apply patches" to "import the history".
 
+The second fix is less urgent but still useful for those who
+actually use the new mode.
 
-> On May 13, 2016, at 5:47 AM, Richard Purdie =
-<richard.purdie@linuxfoundation.org> wrote:
->=20
-> On Wed, 2016-05-11 at 10:35 -0700, Khem Raj wrote:
->> This patchset covers gcc 6 upgrade along with gdb 7.11
->> and glibc 2.24 ( upcoming ) release.
->>=20
->> Rest of upgrades are necessaciated by gcc-6 due to backports
->> that were already in newer versions of packages
->>=20
->> It has been boot tested with core-image-minimal on all qemu
->> machines
->>=20
->> The following changes since commit
->> a5970809a2f01dbd152684266e2a3d946d896620:
->>=20
->>  oeqa/lic-checksum: Update after recent LIC_FILES_CHKSUM changes
->> (2016-05-11 10:33:16 +0100)
->>=20
->> are available in the git repository at:
->>=20
->>  git://git.openembedded.org/openembedded-core-contrib kraj/gcc-6
->>  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log
->> /?h=3Dkraj/gcc-6
->=20
-> I went through and included a subset of this into -next, with a view =
-to
-> getting the basic pieces out the way. There were a number of pieces I
-> didn't get in the first pass, either due to v2's which I couldn't
-> easily update to, a failure on the autobuilder, or that the change was
-> significant and I wanted to get the "easy" bulk of the patches out the
-> way before for example the gcc version switch.
->=20
-> If you could therefore rebase against master, fix the systemd issue =
-and
-> resend what is left that would be extremely helpful, thanks!
+The following changes since commit fcaaabb401fffcda4db9a7d1f927a2a404e4776d:
 
-I have rebased with master, dropped systemd patch and added a rpi fix
-sent another pull request with remaining patches.
+  gcc-runtime, libgcc: Symlink c++ header and startup files in target_triplet for SDK use (2016-05-13 13:40:53 +0100)
 
-Thank you
--Khem
+are available in the git repository at:
+
+  git://github.com/pohly/openembedded-core combo-layer-history-fixes
+  https://github.com/pohly/openembedded-core/tree/combo-layer-history-fixes
+
+Patrick Ohly (2):
+  combo-layer: fix default "update" mode
+  combo-layer: avoid too long command lines in update with history
+
+ scripts/combo-layer | 34 ++++++++++++++++++++++++++++++----
+ 1 file changed, 30 insertions(+), 4 deletions(-)
+
+-- 
+2.1.4
 
 
---Apple-Mail=_84E60BE9-9BAA-4A62-9C00-864AB15DFD09
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlc2BWkACgkQuwUzVZGdMxR2YwCdFRt+1mFlVKfRBqV9N0r68IOT
-K0kAn0kIOkjFASNi4gklva4xHvLqFquI
-=cFlM
------END PGP SIGNATURE-----
-
---Apple-Mail=_84E60BE9-9BAA-4A62-9C00-864AB15DFD09--
