@@ -1,29 +1,52 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 1A4026FFD4
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 May 2016 12:47:24 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u4DClKnJ008857; Fri, 13 May 2016 13:47:20 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id SfFJNjZ0gUP9; Fri, 13 May 2016 13:47:20 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u4DClGKf008853
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 13 May 2016 13:47:17 +0100
-Message-ID: <1463143636.9746.96.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Fri, 13 May 2016 13:47:16 +0100
-In-Reply-To: <cover.1462987863.git.raj.khem@gmail.com>
-References: <cover.1462987863.git.raj.khem@gmail.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Cc: Marek Vasut <marex@denx.de>, Dan McGregor <dan.mcgregor@usask.ca>
-Subject: Re: [PATCH 00/42] GCC/GDB/Binutils Upgrades
+Return-Path: <twoerner@gmail.com>
+Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
+	[209.85.223.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 28A646011C;
+	Fri, 13 May 2016 13:57:10 +0000 (UTC)
+Received: by mail-io0-f177.google.com with SMTP id f89so133179796ioi.0;
+	Fri, 13 May 2016 06:57:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=xDBtc+l8a8RIg5sBcv27MuZnS7H8NRJQuYRt+/1PlfA=;
+	b=z6dbZ9VjymE+/c5dccu4Cl+msu52D/NiQ071KO0gJrRmNK2J44G0KHmRgFaJJ3Tidh
+	e9tA3jrCqYENa1cj54vETiTityl0S3KtTb/QNLXJNtmcbDY2gv661KQ5JnYVnuuW94Kh
+	OPn4SGn4AN78X1xptvLZe4TYMjOzU2aSN5V8cySF6Ic0Gk5LM6JJLqfXaVPhpshApihy
+	3DwRsIg6YGr5Z4j8zBpyq9pcasb3NaBNzF48W+/eQ7s5m0apCP6lLfyIDGwL22VPiFS8
+	a3kZbKXHwqQBbN8AcNiaxCP/tvRgsDVcW5H9BV8MZVX65aNw3mx8g5qvuwMAovjXVJhg
+	A19Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=xDBtc+l8a8RIg5sBcv27MuZnS7H8NRJQuYRt+/1PlfA=;
+	b=adH7Fcjsx9+M5RYxxUDRNc3IokaSz2sSFRFPMtdfS/DQBiRqT3A1eJcXM/wFOGpHf+
+	/1w537kgDsgKGrVXN3Y6EXXpCICqC/KV+li4Mvpa7dR+SCRbGX910XoVzda+OM/X1ke4
+	9rMpofVj01DMMxmtmgBGkQTxzyKqUhbY1xMoMmzr0FBjuwPpB/yH1jdJupUg3mfopi5r
+	MHaE7h5pveGWAU47z8oNsHzI8wGNURPocFrnZa4tQ94/KKFp8UjpMYy2dD1cU+UDgx81
+	rlISMg00I/VZUlNIlnTMBlbXNK4roooK02jrtjWCOYulVAjWrl+NRMKXwWxQzlS4CeaV
+	qzbA==
+X-Gm-Message-State: AOPr4FVcrS/UVNRva/ezQ8xoGbTzyM2qiOFdnH7PccHnw8Clcuh81hLprFyQYUVkFAmjFQ==
+X-Received: by 10.107.8.19 with SMTP id 19mr12287241ioi.60.1463147831244;
+	Fri, 13 May 2016 06:57:11 -0700 (PDT)
+Received: from linux-fl6i (dsl-67-55-28-109.acanac.net. [67.55.28.109])
+	by smtp.gmail.com with ESMTPSA id k16sm999765itb.11.2016.05.13.06.57.10
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 13 May 2016 06:57:10 -0700 (PDT)
+Date: Fri, 13 May 2016 09:57:07 -0400
+From: Trevor Woerner <twoerner@gmail.com>
+To: Jeff Osier-Mixon <jefro@jefro.net>
+Message-ID: <20160513135707.GA30983@linux-fl6i>
+References: <CA+YB3rZCfCiLQEg5Br78ZQ=6QJQiXnh_pGTr0-XFQZFkwniYLA@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CA+YB3rZCfCiLQEg5Br78ZQ=6QJQiXnh_pGTr0-XFQZFkwniYLA@mail.gmail.com>
+User-Agent: Mutt/1.6.0 (2016-04-01)
+Cc: "openembedded-members@lists.openembedded.org"
+	<openembedded-members@lists.openembedded.org>,
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Please help edit OEDAM minutes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,43 +59,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 May 2016 12:47:25 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 13 May 2016 13:57:12 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Wed, 2016-05-11 at 10:35 -0700, Khem Raj wrote:
-> This patchset covers gcc 6 upgrade along with gdb 7.11
-> and glibc 2.24 ( upcoming ) release.
+On Thu 2016-05-12 @ 04:32:01 PM, Jeff Osier-Mixon wrote:
+> I admit defeat. I have been "trying to get to" the OEDAM minutes for a
+> month and I am clearly not getting to it, so I am now getting out of
+> the way. We are crowdsourcing these minutes, because collaborative
+> effort is what we do best.
 > 
-> Rest of upgrades are necessaciated by gcc-6 due to backports
-> that were already in newer versions of packages
+> My raw notes from the meeting are here. If you were present, please
+> help edit, fill in gaps, etc.
 > 
-> It has been boot tested with core-image-minimal on all qemu
-> machines
-> 
-> The following changes since commit
-> a5970809a2f01dbd152684266e2a3d946d896620:
-> 
->   oeqa/lic-checksum: Update after recent LIC_FILES_CHKSUM changes
-> (2016-05-11 10:33:16 +0100)
-> 
-> are available in the git repository at:
-> 
->   git://git.openembedded.org/openembedded-core-contrib kraj/gcc-6
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log
-> /?h=kraj/gcc-6
+> https://docs.google.com/document/d/1rPvy-QQkP0Z4a0PGOBkljfzGGzFVWREDz18vZzWyL9s/edit?usp=sharing
 
-I went through and included a subset of this into -next, with a view to
-getting the basic pieces out the way. There were a number of pieces I
-didn't get in the first pass, either due to v2's which I couldn't
-easily update to, a failure on the autobuilder, or that the change was
-significant and I wanted to get the "easy" bulk of the patches out the
-way before for example the gcc version switch.
-
-If you could therefore rebase against master, fix the systemd issue and
-resend what is left that would be extremely helpful, thanks!
-
-Cheers,
-
-Richard
+Ok, I'll take a stab at some formatting and stuff.
 
