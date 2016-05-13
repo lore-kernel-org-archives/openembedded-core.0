@@ -1,30 +1,54 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 21D4D73174
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 May 2016 17:14:12 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u4DHDxi2022722; Fri, 13 May 2016 18:13:59 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 7ISoCTqH_m6M; Fri, 13 May 2016 18:13:59 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u4DHDr0l022717
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 13 May 2016 18:13:54 +0100
-Message-ID: <1463159633.9746.121.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Fri, 13 May 2016 18:13:53 +0100
-In-Reply-To: <9d32811fe04ce49bdc20891453d37819447d7f88.1462191317.git.ed.bartosh@linux.intel.com>
-References: <cover.1462191317.git.ed.bartosh@linux.intel.com>
-	<9d32811fe04ce49bdc20891453d37819447d7f88.1462191317.git.ed.bartosh@linux.intel.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH v3 4/6] bmap-tools: generate standalone script
+Return-Path: <twoerner@gmail.com>
+Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 18D8060762;
+	Fri, 13 May 2016 17:24:04 +0000 (UTC)
+Received: by mail-io0-f176.google.com with SMTP id 190so141146742iow.1;
+	Fri, 13 May 2016 10:24:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=AYJ0FBGoj/hPYLaXeXzScmmmtc74HLnkhLJcZqWGK+c=;
+	b=aDsP7EYz6Em72+U5AaHlfs/wheY+kcQd7r/G2HfTQ27nWsMxxKnQxdQsnj+36W0peY
+	hQPftCyGdlmH3lueEeQILx1zW7BlBpqmVfXmQMP9tb/uU/C/MwtcRkDOxMJb7lslSAvr
+	91Kr7rkOmc4lZ5OfPlKSO2PqLnBzMcIe9RzUb8HGIK83es2d8J4pe70T/z1fVVMeUuyi
+	YL0q79Ihoy0M0xDIpsCKHbmULFYOzDiHQ9V8iALMrubjPmZFMn3aIK6VL8hw52xRN7Rs
+	VguWzCuxPkQTfUAWyjJ/9Hn5V7AV2jnb2iDSME+O5eFBHEk3O57PuKCrMK1x0L9ijHFb
+	ITJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=AYJ0FBGoj/hPYLaXeXzScmmmtc74HLnkhLJcZqWGK+c=;
+	b=nNWUo6s4Yc2qiYZAR2SA9ffaxaD8oKsFm1HLrdPzU/8YjUpsjG3LNEsMq0tI/QerAd
+	/yG1jf+T9TVFGKEH74iTvS3fqUeux9J4PnTzoBX3VSnSfPukMHN8Y2hRjOQfMeChSoVI
+	YLiDgJrdBW4DrmrnEv6goZ5+NEJ5TTiiShdHFfJW2NvVNiOYKjKV7D90LvG6abSg7dWM
+	SVnAFadZkTTLKVH9ET+5//ukocjlppLh7jhmHvORNH8/Ka6+KfiyQexHUXVRIZUQf75r
+	MgZFx1uKaG6Qtlvta5duIR+Uf/Gvvx2MF0CTTGy6LwVvMaM8BQ642DijnEYSdkcA0joq
+	/bOg==
+X-Gm-Message-State: AOPr4FVJPmNwV/2wuO5+SfWVdHnyY+1+sXh+RbpoV5jxXw6o9KoHTE8cNJTQMLi2DAh9vA==
+X-Received: by 10.107.157.203 with SMTP id g194mr14246771ioe.82.1463160245251; 
+	Fri, 13 May 2016 10:24:05 -0700 (PDT)
+Received: from linux-fl6i (dsl-67-55-28-109.acanac.net. [67.55.28.109])
+	by smtp.gmail.com with ESMTPSA id
+	g34sm4597218ioj.12.2016.05.13.10.24.04
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 13 May 2016 10:24:04 -0700 (PDT)
+Date: Fri, 13 May 2016 13:24:01 -0400
+From: Trevor Woerner <twoerner@gmail.com>
+To: Jeff Osier-Mixon <jefro@jefro.net>
+Message-ID: <20160513172401.GC30983@linux-fl6i>
+References: <CA+YB3rZCfCiLQEg5Br78ZQ=6QJQiXnh_pGTr0-XFQZFkwniYLA@mail.gmail.com>
+	<20160513135707.GA30983@linux-fl6i>
+MIME-Version: 1.0
+In-Reply-To: <20160513135707.GA30983@linux-fl6i>
+User-Agent: Mutt/1.6.0 (2016-04-01)
+Cc: "openembedded-members@lists.openembedded.org"
+	<openembedded-members@lists.openembedded.org>,
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Please help edit OEDAM minutes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,66 +61,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 May 2016 17:14:13 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 13 May 2016 17:24:06 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Mon, 2016-05-02 at 15:22 +0300, Ed Bartosh wrote:
-> Generated standalone bmaptool script that is more convenient
-> to use than native script. It can be run straight from
-> its location ./tmp/deploy/tools/bmaptool. The script doesn't
-> depend on anything except Python.
+On Fri 2016-05-13 @ 09:57:07 AM, Trevor Woerner wrote:
+> On Thu 2016-05-12 @ 04:32:01 PM, Jeff Osier-Mixon wrote:
+> > I admit defeat. I have been "trying to get to" the OEDAM minutes for a
+> > month and I am clearly not getting to it, so I am now getting out of
+> > the way. We are crowdsourcing these minutes, because collaborative
+> > effort is what we do best.
+> > 
+> > My raw notes from the meeting are here. If you were present, please
+> > help edit, fill in gaps, etc.
+> > 
+> > https://docs.google.com/document/d/1rPvy-QQkP0Z4a0PGOBkljfzGGzFVWREDz18vZzWyL9s/edit?usp=sharing
 > 
-> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-> ---
->  meta/recipes-support/bmap-tools/bmap-tools_3.2.bb | 20
-> +++++++++++++++++++-
->  1 file changed, 19 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-support/bmap-tools/bmap-tools_3.2.bb
-> b/meta/recipes-support/bmap-tools/bmap-tools_3.2.bb
-> index e10f5fd..0f95788 100644
-> --- a/meta/recipes-support/bmap-tools/bmap-tools_3.2.bb
-> +++ b/meta/recipes-support/bmap-tools/bmap-tools_3.2.bb
-> @@ -15,10 +15,28 @@ SRC_URI[sha256sum] =
-> "cc6c7f7dc0a37e2a32deb127308e24e6c4b80bfb54f3803c308efab02b
->  
->  RDEPENDS_${PN} = "python-core python-compression"
->  
-> -inherit setuptools
-> +inherit setuptools deploy
->  
->  BBCLASSEXTEND = "native"
->  
->  do_install_append_class-native() {
->      sed -i -e 's|^#!.*/usr/bin/env python|#! /usr/bin/env
-> nativepython|' ${D}${bindir}/bmaptool
->  }
-> +
-> +do_deploy[sstate-outputdirs] = "${DEPLOY_DIR_TOOLS}"
-> +do_deploy[stamp-extra-info] = ""
-> +do_deploy_class-native() {
-> +    cp bmaptool __main__.py
-> +    python -m zipfile -c bmaptool.zip bmaptools __main__.py
-> +    echo '#!/usr/bin/env python' | cat - bmaptool.zip > bmaptool
-> -standalone
-> +    install -d ${DEPLOYDIR}
-> +    install -m 0755 bmaptool-standalone ${DEPLOYDIR}/bmaptool-${PV}
-> +    rm -f ${DEPLOYDIR}/bmaptool
-> +    ln -sf ./bmaptool-${PV} ${DEPLOYDIR}/bmaptool
-> +}
-> +
-> +do_deploy() {
-> +    :
-> +}
-> +
-> +addtask deploy before do_package after do_install
+> Ok, I'll take a stab at some formatting and stuff.
 
-I'm not sure if we want to do this in the first place. Regardless, the
-addtask here is incorrect too.
+I've reformatted the notes (hope you like/prefer it?). Also, any place where
+comments were recorded and attributed to me I tried to expand them to full
+sentences and add the things I remember saying :-)
 
-Cheers,
+If everyone took 30 minutes to check/expand on anything attributed to them
+that'd be great.
 
-Richard
-
+Best regards,
+	Trevor
 
