@@ -1,34 +1,40 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.analogue-micro.com (mail.analogue-micro.com
-	[217.144.149.242])
-	by mail.openembedded.org (Postfix) with ESMTP id C456F70101
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 4282160667
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 May 2016 07:46:59 +0000 (UTC)
-Received: by mail.analogue-micro.com (Postfix, from userid 999)
-	id 5EA2368A01A; Fri, 13 May 2016 08:47:00 +0100 (BST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	loki.analogue-micro-ltd.com
-X-Spam-Level: *
-X-Spam-Status: No, score=1.7 required=5.0 tests=ALL_TRUSTED,BAYES_40,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
-	by mail.analogue-micro.com (Postfix) with ESMTP id B08DC68A019;
-	Fri, 13 May 2016 08:46:59 +0100 (BST)
-Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
-	by zeus.mlbassoc.com (Postfix) with ESMTP id 74FAB67400A0;
-	Fri, 13 May 2016 09:46:59 +0200 (CEST)
+	Fri, 13 May 2016 07:56:35 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id r12so2044883wme.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 May 2016 00:56:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=ffZUAJolE9mkT3MVeh5pZpgZ9v4UPd9fS7RdsmErp9Y=;
+	b=E5aFxjyv5lR3KlbQMG/YSowE7CC7m4b3RlnaYfuJquEjVhY5Jg+MTk1xzKRXbqCQzr
+	Bh2F3FacLixTe4p3UpuN1Q7+isd7Ur4fQaszvyu3A9lHbrAzwfck9rhKgqjPYrW3RYDK
+	fR3bAyCNi32Qg7mSdRuwaYPs2PaXEYxQJOzL0Pc7MavABrQirYHHtTwCSSb1VfNU0KKh
+	qX5TOtJ005dVTnCoqAOOfVRz8ciXcGicEP3KrZf9WuMit90sfBA9qfXJSQ8tdQk97hkl
+	qmDmx5pwUnJNvlLVy/4BwlRtHiGl2+YEfNd6ZgzDhq7DmCB+BpcGBr//9ueNROCkoSHz
+	T4mw==
+X-Gm-Message-State: AOPr4FU0L0CNhbYkxK3+XC4yJCV7UqLvFiVEYj+mBsOWh+8B5UC/IBxzR9C8Eiq0j+ZoZw==
+X-Received: by 10.28.30.148 with SMTP id e142mr1985384wme.69.1463126195427;
+	Fri, 13 May 2016 00:56:35 -0700 (PDT)
+Received: from localhost.localdomain ([185.46.212.56])
+	by smtp.gmail.com with ESMTPSA id
+	r123sm1886892wmg.20.2016.05.13.00.56.33
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 13 May 2016 00:56:34 -0700 (PDT)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-References: <573578BA.80207@windriver.com>
-	<CAAQYJAsKMD38pM5nPCGPorcwKb0OqDpA2YYy0q6MxURjn=DBKg@mail.gmail.com>
-	<573580E5.7090404@windriver.com>
-From: Gary Thomas <gary@mlbassoc.com>
-Message-ID: <57358673.3030701@mlbassoc.com>
-Date: Fri, 13 May 2016 09:46:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.7.2
+Date: Fri, 13 May 2016 08:56:31 +0100
+Message-Id: <1463126191-24272-1-git-send-email-git@andred.net>
+X-Mailer: git-send-email 2.8.1
+In-Reply-To: <1463066880-17505-1-git-send-email-git@andred.net>
+References: <1463066880-17505-1-git-send-email-git@andred.net>
 MIME-Version: 1.0
-In-Reply-To: <573580E5.7090404@windriver.com>
-Subject: Re: krogoth's core-image-minimal is much bigger than jethro's
+Subject: [PATCH v3][krogoth] feature-arm-neon.inc: restore vfpv3-d16 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,95 +47,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 May 2016 07:47:00 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 13 May 2016 07:56:37 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 2016-05-13 09:23, Robert Yang wrote:
->
->
-> On 05/13/2016 03:07 PM, Andrea Adami wrote:
->> On Fri, May 13, 2016 at 8:48 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
->>>
->>> * For ext4:
->>>    11M -> 26M
->>>    The similar to vmdk, qcow2 and iso.
->>>
->>> * For tar.bz2:
->>>    2.7M -> 4.5M
->>>
->>> The main problem is eudev-hwdb which would be 12M after installed, jethro
->>> doesn't use this, but udev by default, and it's gone in krogoth.
->>> $ du -sh core-image-minimal/1.0-r0/rootfs/etc/udev/*
->>> 0        core-image-minimal/1.0-r0/rootfs/etc/udev/cache.data
->>> 6.4M     core-image-minimal/1.0-r0/rootfs/etc/udev/hwdb.bin
->>> 5.2M     core-image-minimal/1.0-r0/rootfs/etc/udev/hwdb.d
->>> 8.0K     core-image-minimal/1.0-r0/rootfs/etc/udev/rules.d
->>> 4.0K     core-image-minimal/1.0-r0/rootfs/etc/udev/udev.conf
->>>
->>> Is there an easier way to fix this problem, please ? It's not a good
->>> news for the user who uses core-imag-minimal/udev when they want to
->>> upgrade to krogoth. And this would hurt the small device which uses
->>> udev.
->>>
->>
->> Somehow we have to explicitely opt-out:
->>
->> +BAD_RECOMMENDATIONS += "eudev-hwdb"
->
-> Does udev still work without eudev-hwdb, please ?
+Commit 6661718 (feature-arm-{neon,vfp}.inc: refactor and fix issues)
+effectively changed the gcc -mfpu= option from -mfpu=vfpv3-d16 to
+-mfpu=vfpv3d16, which gcc doesn't understand.
 
-Yes, it works fine, even with hotplug devices.
+Restore the original value.
 
->
-> // Robert
->
->>
->> IMHO for embedded devices it would be better to disable by default and
->> let the distro/machine add a specific RRECOMMEND.
->>
->> Regards
->> Andrea
->>
->>>
->>> The conf is:
->>> MACHINE = "qemux86-64"
->>> DISTRO = "poky"
->>> PACKAGE_CLASSES = "package_rpm"
->>> EXTRA_IMAGE_FEATURES = "debug-tweaks"
->>> USER_CLASSES = "buildstats image-mklibs"
->>>
->>> $ bitbake core-image-minimal
->>>
->>> For jethro:
->>> $ ls -lh core-image-minimal-qemux86-64-20160513061306.rootfs.ext4
->>> 11M  core-image-minimal-qemux86-64-20160513061306.rootfs.ext4
->>> $ du -sh core-image-minimal-qemux86-64-20160513061306.rootfs.ext4
->>> 7.9M core-image-minimal-qemux86-64-20160513061306.rootfs.ext4
->>>
->>> For krogoth:
->>>
->>> $ ls -lh core-image-minimal-qemux86-64-20160513061459.rootfs.ext4
->>> 26M core-image-minimal-qemux86-64-20160513061459.rootfs.ext4
->>>
->>> $ du -sh core-image-minimal-qemux86-64-20160513061459.rootfs.ext4
->>> core-image-minimal-qemux86-64-20160513061459.rootfs.ext4
->>>
->>> --
->>> Thanks
->>>
->>> Robert
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
+After doing that, we also need to adjust ARMPKGSFX_FPU which should
+contain the same value without dash '-' as it is used that way
+throughout.
 
+Signed-off-by: André Draszik <git@andred.net>
+---
+ meta/conf/machine/include/arm/feature-arm-neon.inc | 2 +-
+ meta/conf/machine/include/arm/feature-arm-vfp.inc  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/meta/conf/machine/include/arm/feature-arm-neon.inc b/meta/conf/machine/include/arm/feature-arm-neon.inc
+index 50d9175..b34af8e 100644
+--- a/meta/conf/machine/include/arm/feature-arm-neon.inc
++++ b/meta/conf/machine/include/arm/feature-arm-neon.inc
+@@ -8,7 +8,7 @@ TUNEVALID[neon] = "Enable Neon SIMD accelerator unit."
+ TUNE_CCARGS_MFPU .= "${@bb.utils.contains('TUNE_FEATURES', 'neon', ' neon', '', d)}"
+ 
+ TUNEVALID[vfpv3d16] = "Enable Vector Floating Point Version 3 with 16 registers (vfpv3-d16) unit."
+-TUNE_CCARGS_MFPU .= "${@bb.utils.contains('TUNE_FEATURES', 'vfpv3d16', ' vfpv3d16', '', d)}"
++TUNE_CCARGS_MFPU .= "${@bb.utils.contains('TUNE_FEATURES', 'vfpv3d16', ' vfpv3-d16', '', d)}"
+ 
+ TUNEVALID[vfpv3] = "Enable Vector Floating Point Version 3 with 32 registers (vfpv3) unit."
+ TUNE_CCARGS_MFPU .= "${@bb.utils.contains('TUNE_FEATURES', 'vfpv3', ' vfpv3', '' , d)}"
+diff --git a/meta/conf/machine/include/arm/feature-arm-vfp.inc b/meta/conf/machine/include/arm/feature-arm-vfp.inc
+index 4247255..9ef31e7 100644
+--- a/meta/conf/machine/include/arm/feature-arm-vfp.inc
++++ b/meta/conf/machine/include/arm/feature-arm-vfp.inc
+@@ -6,7 +6,7 @@ TUNEVALID[vfp] = "Enable Vector Floating Point (vfp) unit."
+ TUNE_CCARGS_MFPU .= "${@bb.utils.contains('TUNE_FEATURES', 'vfp', ' vfp', '', d)}"
+ 
+ TUNE_CCARGS  .= "${@ (' -mfpu=%s ' % d.getVar('TUNE_CCARGS_MFPU', True).split()[-1]) if (d.getVar('TUNE_CCARGS_MFPU', True) != '') else ''}"
+-ARMPKGSFX_FPU = "${@ ('-%s'        % d.getVar('TUNE_CCARGS_MFPU', True).split()[-1]) if (d.getVar('TUNE_CCARGS_MFPU', True) != '') else ''}"
++ARMPKGSFX_FPU = "${@ ('-%s'        % d.getVar('TUNE_CCARGS_MFPU', True).split()[-1].replace('vfpv3-d16', 'vfpv3d16')) if (d.getVar('TUNE_CCARGS_MFPU', True) != '') else ''}"
+ 
+ TUNEVALID[callconvention-hard] = "Enable EABI hard float call convention, requires VFP."
+ TUNE_CCARGS_MFLOAT = "${@ bb.utils.contains('TUNE_FEATURES', 'callconvention-hard', 'hard', 'softfp', d) if (d.getVar('TUNE_CCARGS_MFPU', True) != '') else '' }"
 -- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+2.8.1
+
 
