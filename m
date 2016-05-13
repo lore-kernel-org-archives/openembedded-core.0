@@ -1,51 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
-	[209.85.220.194])
-	by mail.openembedded.org (Postfix) with ESMTP id C8C2C605BB
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
+	[209.85.220.65])
+	by mail.openembedded.org (Postfix) with ESMTP id D9F3E6FF01
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 May 2016 21:05:23 +0000 (UTC)
-Received: by mail-qk0-f194.google.com with SMTP id n62so3207475qkc.2
+	Fri, 13 May 2016 23:50:00 +0000 (UTC)
+Received: by mail-pa0-f65.google.com with SMTP id yl2so9510249pac.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 May 2016 14:05:24 -0700 (PDT)
+	Fri, 13 May 2016 16:50:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=qLs8w1NtmZy+bDuPJtmekugQ6R7XMAoEoKpCzmJk67U=;
-	b=u25ycYyj1LmuXBlxMFXJVRErUwZbE1RPFw571M8eGYyHEoftcP41Tj1DUmuQlowKhU
-	c2vdDHtc8TfXjegqkp0pLeE6LzPMHAcC6s8gLKAQYyHtg5j/N5gbbd9K1MNGmfRdA8sD
-	6UbYSgcP5FtndOnWuJ2I7nmoUJOfjiFjJiLQoPupSSu881Ue+A9/fpLqj12vCviPRo5i
-	afy9NTHfku93tLDByvLN6R/b3Fx+IqodwAYov2ByjZKOFRQw03ejSQJl2oLCn7vLuM1J
-	hVRbMy/G5iSRaKCRKQd5Ssx4gydUMuh9eOTuKan4mSuGNe6YW1TXDP/AE4M2GKRcO13x
-	BDew==
+	h=from:to:cc:subject:date:message-id;
+	bh=+IrbnELQ29GyGwMvsvpdRjM2IpvEVjoveSZlN/6dwkI=;
+	b=UmjiFQrtoDYzV/fsseRQk7/fyHNF6W2vT/ZoZ9MD+lm2PHL8ECSwXmiPBY2wJ+zP5I
+	o6L5edoJB8Ex2UnhRFDxE02ZVoEzwx1P8i/sYOCJ4bjs36ZLrdlNtyi4jGZyTdDhEWhv
+	qefrBYYb7Cj6/SkI2RicrRvIrjlIzCBSPi3Ttwz95JAd3WBrLvg+QQ/Hocfsox3AFMG+
+	g3ay9xOL8/AyPyNtWKqL6klOzGDAQ4krwzYEphxYkNJ8kGBr/+Yl8yjud5lylhhEncq8
+	q/v41+xZYi0e1b8qVfROC/hZS+voEjbml3dmyd3xqyIUxhY6V88dRxVqiY8R4cinSY6L
+	qY6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=qLs8w1NtmZy+bDuPJtmekugQ6R7XMAoEoKpCzmJk67U=;
-	b=T1lI32oGxG8PS3q1zUVVCgnQpi1jN5RwdB4t1eAwVChtpu2yl0lZhFcLFl5BtdeNcz
-	Nj6AzD6F5Ld8DjIfhA1yj6Sm9Odg6wH7+2X7gRjWMmMS8f+DxQTEV6MKZ4zDWatmRFjC
-	xqwdweFBBH48ArXx20DM3dU7QtO9s2vaePWradgXgKxo3E1qQJbl+iYQQI3Mc71ezq28
-	snZFlBb+YcxCJltOhhXPyPNMXFY1chyLI3wTR3uoSsQAVYI4soTMW34vZ9rkDwEQ8CSV
-	FKfvA+99MYDVoksuclijm6m16YNG6nt/ntqL2EU6mTVLoWOxlBsj4oHkMIbZNvTjHC4C
-	IRYw==
-X-Gm-Message-State: AOPr4FVERb+bHR6KLuY3VMQmcsH5GvP1X0Nn8DDLHu8a1IMl6IZIjh+7koAKOs5b7y506JOQAB7karsSErorSw==
-X-Received: by 10.55.207.214 with SMTP id v83mr877957qkl.152.1463173523870;
-	Fri, 13 May 2016 14:05:23 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.55.130.196 with HTTP; Fri, 13 May 2016 14:04:54 -0700 (PDT)
-In-Reply-To: <57363E81.5000208@gmail.com>
-References: <1462518717-2629-1-git-send-email-akuster808@gmail.com>
-	<1462518717-2629-4-git-send-email-akuster808@gmail.com>
-	<5735FDE6.7040905@gmail.com>
-	<6A115323-D3B1-4B36-AE2F-C9B38AC329D6@gmail.com>
-	<57363E81.5000208@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 13 May 2016 14:04:54 -0700
-Message-ID: <CAMKF1soj3+QQkKwV2vvH7RdpHO=0oN5472vf081yUQAqu1s7qg@mail.gmail.com>
-To: akuster808 <akuster808@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [master][krogoth][PATCH 4/4] gcc: Security fix CVE-2016-4490
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=+IrbnELQ29GyGwMvsvpdRjM2IpvEVjoveSZlN/6dwkI=;
+	b=Y46ndcVp+iduUwwDlcqAedmmHJKKMZQoB4i6cKq94AdjMqBGl8lI8MvDbNsuU1/1x4
+	pEg2Dj4Lvdxr6o0gbKSWGDX7RzznrAElmIL10JpZMzo02PSoN6m/c5NbfgcHlQshSYto
+	Mj81ghDqfmy0mX/tCbj3CfJMTxriMwDEiMhhJK9a3d1d39JG/AgnFSuGhyjuY4pSf2xo
+	tNqYznjRvTgn6COr1KU7Xv63s/I3j4m+HdL8IAlvUkGDDEyDonBYBtt0xbd8GAZ4jYjS
+	dZeZ8jpU/5ktUfAQQ18Vhps4Osfse4Hb0GIDwTk0ciucKUnftsSAUesCUnUTvCFc9tyX
+	OSVQ==
+X-Gm-Message-State: AOPr4FWG3WmBOD5BdQ8wRVPI8ufPw6Wjpf+G3bC0q66nTkpdSxbRxbsnhe5wLOMOab+dVw==
+X-Received: by 10.66.230.195 with SMTP id ta3mr27229610pac.150.1463183401348; 
+	Fri, 13 May 2016 16:50:01 -0700 (PDT)
+Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
+	o2sm29876606pfi.85.2016.05.13.16.49.59
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 13 May 2016 16:50:00 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	liezhi.yang@windriver.com
+Date: Fri, 13 May 2016 16:49:58 -0700
+Message-Id: <1463183398-30980-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.3.5
+Cc: Joshua Lock <joshua.g.lock@intel.com>, Armin Kuster <akuster@mvista.com>
+Subject: [jethro][PATCH] openssl: prevent ABI break from earlier jethro releases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,365 +54,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 May 2016 21:05:26 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 13 May 2016 23:50:02 -0000
 
-On Fri, May 13, 2016 at 1:52 PM, akuster808 <akuster808@gmail.com> wrote:
->
->
-> On 05/13/2016 11:07 AM, Khem Raj wrote:
->> Thanks for noting. We will update gcc-6 to latest on gcc-6 branch someti=
-me later and hopefully it will come in
->> please keep an eye on it
->
-> sure, np
->
-> So here is the problem. Per process, this fix can not be propagated to
-> the any stable branch until Master has the solution.
->
-> Now I believe there are times for exceptions and this is one of them. We
-> are in the middle for a major package update and odds are this issue
-> will resolved itself before 2.2 code freeze. It will become an issue if
-> it is still open at that point. A new patch will be required then.
->
-> So I hope folks wont have too much of an issue if this fix is in the
-> stable branches while we manage what happens in master in this case.
+From: Joshua Lock <joshua.g.lock@intel.com>
 
-I guess its ok as long as we keep track of it.
+The backported upgrade to 1.0.2h included an updated GNU LD
+version-script which results in an ABI change. In order to try and
+respect ABI for existing binaries built against fido this commit
+partially reverts the version-script to maintain the existing ABI
+and instead only add the new symbols required by 1.0.2h.
 
+Suggested-by: Martin Jansa <martin.jansa@gmail.com>
+(From OE-Core rev: 480db6be99f9a53d8657b31b846f0079ee1a124f)
 
->
-> - Armin
->
->
->>
->>> On May 13, 2016, at 9:16 AM, akuster808 <akuster808@gmail.com> wrote:
->>>
->>> this fix is not in gcc 6.0
->>>
->>> On 05/06/2016 12:11 AM, Armin Kuster wrote:
->>>> From: Armin Kuster <akuster@mvista.com>
->>>>
->>>> Signed-off-by: Armin Kuster <akuster@mvista.com>
->>>> ---
->>>> meta/recipes-devtools/gcc/gcc-5.3.inc              |   1 +
->>>> .../gcc/gcc-5.3/CVE-2016-4490.patch                | 270 +++++++++++++=
-++++++++
->>>> 2 files changed, 271 insertions(+)
->>>> create mode 100644 meta/recipes-devtools/gcc/gcc-5.3/CVE-2016-4490.pat=
-ch
->>>>
->>>> diff --git a/meta/recipes-devtools/gcc/gcc-5.3.inc b/meta/recipes-devt=
-ools/gcc/gcc-5.3.inc
->>>> index 5fede2a..445d003 100644
->>>> --- a/meta/recipes-devtools/gcc/gcc-5.3.inc
->>>> +++ b/meta/recipes-devtools/gcc/gcc-5.3.inc
->>>> @@ -91,6 +91,7 @@ SRC_URI =3D "\
->>>>            file://CVE-2016-4488.patch \
->>>>            file://CVE-2016-4489.patch \
->>>>            file://CVE-2016-2226.patch \
->>>> +           file://CVE-2016-4490.patch \
->>>> "
->>>>
->>>> BACKPORTS =3D ""
->>>> diff --git a/meta/recipes-devtools/gcc/gcc-5.3/CVE-2016-4490.patch b/m=
-eta/recipes-devtools/gcc/gcc-5.3/CVE-2016-4490.patch
->>>> new file mode 100644
->>>> index 0000000..4a9ed69
->>>> --- /dev/null
->>>> +++ b/meta/recipes-devtools/gcc/gcc-5.3/CVE-2016-4490.patch
->>>> @@ -0,0 +1,270 @@
->>>> +From 7d235b1b5ea35352c54957ef5530d9a02c46962f Mon Sep 17 00:00:00 200=
-1
->>>> +From: bernds <bernds@138bc75d-0d04-0410-961f-82ee72b054a4>
->>>> +Date: Mon, 2 May 2016 17:06:40 +0000
->>>> +Subject: [PATCH] =3D?UTF-8?q?Demangler=3D20integer=3D20overflow=3D20f=
-ixes=3D20from?=3D
->>>> + =3D?UTF-8?q?=3D20Marcel=3D20B=3DC3=3DB6hme.?=3D
->>>> +MIME-Version: 1.0
->>>> +Content-Type: text/plain; charset=3DUTF-8
->>>> +Content-Transfer-Encoding: 8bit
->>>> +
->>>> +   PR c++/70498
->>>> +   * cp-demangle.c: Parse numbers as integer instead of long to avoid
->>>> +   overflow after sanity checks. Include <limits.h> if available.
->>>> +   (INT_MAX): Define if necessary.
->>>> +   (d_make_template_param): Takes integer argument instead of long.
->>>> +   (d_make_function_param): Likewise.
->>>> +   (d_append_num): Likewise.
->>>> +   (d_identifier): Likewise.
->>>> +   (d_number): Parse as and return integer.
->>>> +   (d_compact_number): Handle overflow.
->>>> +   (d_source_name): Change variable type to integer for parsed number=
-.
->>>> +   (d_java_resource): Likewise.
->>>> +   (d_special_name): Likewise.
->>>> +   (d_discriminator): Likewise.
->>>> +   (d_unnamed_type): Likewise.
->>>> +   * testsuite/demangle-expected: Add regression test cases.
->>>> +
->>>> +
->>>> +
->>>> +git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@235767 138bc75d-0d04-=
-0410-961f-82ee72b054a4
->>>> +
->>>> +Upstream-Status: Backport
->>>> +
->>>> +CVE: CVE-2016-4490
->>>> +hand applied ChangeLog
->>>> +
->>>> +Signed-off-by: Armin Kuster <akuster@mvista.com>
->>>> +
->>>> +---
->>>> + libiberty/ChangeLog                   | 19 +++++++++++++
->>>> + libiberty/cp-demangle.c               | 52 ++++++++++++++++++++-----=
-----------
->>>> + libiberty/testsuite/demangle-expected | 14 ++++++++--
->>>> + 3 files changed, 61 insertions(+), 24 deletions(-)
->>>> +
->>>> +Index: gcc-5.3.0/libiberty/cp-demangle.c
->>>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->>>> +--- gcc-5.3.0.orig/libiberty/cp-demangle.c
->>>> ++++ gcc-5.3.0/libiberty/cp-demangle.c
->>>> +@@ -124,6 +124,13 @@ extern char *alloca ();
->>>> + # endif /* alloca */
->>>> + #endif /* HAVE_ALLOCA_H */
->>>> +
->>>> ++#ifdef HAVE_LIMITS_H
->>>> ++#include <limits.h>
->>>> ++#endif
->>>> ++#ifndef INT_MAX
->>>> ++# define INT_MAX       (int)(((unsigned int) ~0) >> 1)          /* 0=
-x7FFFFFFF */
->>>> ++#endif
->>>> ++
->>>> + #include "ansidecl.h"
->>>> + #include "libiberty.h"
->>>> + #include "demangle.h"
->>>> +@@ -394,7 +401,7 @@ d_make_dtor (struct d_info *, enum gnu_v
->>>> +              struct demangle_component *);
->>>> +
->>>> + static struct demangle_component *
->>>> +-d_make_template_param (struct d_info *, long);
->>>> ++d_make_template_param (struct d_info *, int);
->>>> +
->>>> + static struct demangle_component *
->>>> + d_make_sub (struct d_info *, const char *, int);
->>>> +@@ -417,7 +424,7 @@ static struct demangle_component *d_unqu
->>>> +
->>>> + static struct demangle_component *d_source_name (struct d_info *);
->>>> +
->>>> +-static long d_number (struct d_info *);
->>>> ++static int d_number (struct d_info *);
->>>> +
->>>> + static struct demangle_component *d_identifier (struct d_info *, int=
-);
->>>> +
->>>> +@@ -1105,7 +1112,7 @@ d_make_dtor (struct d_info *di, enum gnu
->>>> + /* Add a new template parameter.  */
->>>> +
->>>> + static struct demangle_component *
->>>> +-d_make_template_param (struct d_info *di, long i)
->>>> ++d_make_template_param (struct d_info *di, int i)
->>>> + {
->>>> +   struct demangle_component *p;
->>>> +
->>>> +@@ -1121,7 +1128,7 @@ d_make_template_param (struct d_info *di
->>>> + /* Add a new function parameter.  */
->>>> +
->>>> + static struct demangle_component *
->>>> +-d_make_function_param (struct d_info *di, long i)
->>>> ++d_make_function_param (struct d_info *di, int i)
->>>> + {
->>>> +   struct demangle_component *p;
->>>> +
->>>> +@@ -1595,7 +1602,7 @@ d_unqualified_name (struct d_info *di)
->>>> + static struct demangle_component *
->>>> + d_source_name (struct d_info *di)
->>>> + {
->>>> +-  long len;
->>>> ++  int len;
->>>> +   struct demangle_component *ret;
->>>> +
->>>> +   len =3D d_number (di);
->>>> +@@ -1608,12 +1615,12 @@ d_source_name (struct d_info *di)
->>>> +
->>>> + /* number ::=3D [n] <(non-negative decimal integer)>  */
->>>> +
->>>> +-static long
->>>> ++static int
->>>> + d_number (struct d_info *di)
->>>> + {
->>>> +   int negative;
->>>> +   char peek;
->>>> +-  long ret;
->>>> ++  int ret;
->>>> +
->>>> +   negative =3D 0;
->>>> +   peek =3D d_peek_char (di);
->>>> +@@ -1840,7 +1847,7 @@ d_java_resource (struct d_info *di)
->>>> + {
->>>> +   struct demangle_component *p =3D NULL;
->>>> +   struct demangle_component *next =3D NULL;
->>>> +-  long len, i;
->>>> ++  int len, i;
->>>> +   char c;
->>>> +   const char *str;
->>>> +
->>>> +@@ -1982,7 +1989,7 @@ d_special_name (struct d_info *di)
->>>> +   case 'C':
->>>> +     {
->>>> +       struct demangle_component *derived_type;
->>>> +-      long offset;
->>>> ++      int offset;
->>>> +       struct demangle_component *base_type;
->>>> +
->>>> +       derived_type =3D cplus_demangle_type (di);
->>>> +@@ -2905,10 +2912,10 @@ d_pointer_to_member_type (struct d_info
->>>> +
->>>> + /* <non-negative number> _ */
->>>> +
->>>> +-static long
->>>> ++static int
->>>> + d_compact_number (struct d_info *di)
->>>> + {
->>>> +-  long num;
->>>> ++  int num;
->>>> +   if (d_peek_char (di) =3D=3D '_')
->>>> +     num =3D 0;
->>>> +   else if (d_peek_char (di) =3D=3D 'n')
->>>> +@@ -2916,7 +2923,7 @@ d_compact_number (struct d_info *di)
->>>> +   else
->>>> +     num =3D d_number (di) + 1;
->>>> +
->>>> +-  if (! d_check_char (di, '_'))
->>>> ++  if (num < 0 || ! d_check_char (di, '_'))
->>>> +     return -1;
->>>> +   return num;
->>>> + }
->>>> +@@ -2928,7 +2935,7 @@ d_compact_number (struct d_info *di)
->>>> + static struct demangle_component *
->>>> + d_template_param (struct d_info *di)
->>>> + {
->>>> +-  long param;
->>>> ++  int param;
->>>> +
->>>> +   if (! d_check_char (di, 'T'))
->>>> +     return NULL;
->>>> +@@ -3130,9 +3137,10 @@ d_expression_1 (struct d_info *di)
->>>> +   }
->>>> +       else
->>>> +   {
->>>> +-    index =3D d_compact_number (di) + 1;
->>>> +-    if (index =3D=3D 0)
->>>> ++    index =3D d_compact_number (di);
->>>> ++    if (index =3D=3D INT_MAX || index =3D=3D -1)
->>>> +       return NULL;
->>>> ++    index ++;
->>>> +   }
->>>> +       return d_make_function_param (di, index);
->>>> +     }
->>>> +@@ -3455,7 +3463,7 @@ d_local_name (struct d_info *di)
->>>> + static int
->>>> + d_discriminator (struct d_info *di)
->>>> + {
->>>> +-  long discrim;
->>>> ++  int discrim;
->>>> +
->>>> +   if (d_peek_char (di) !=3D '_')
->>>> +     return 1;
->>>> +@@ -3511,7 +3519,7 @@ static struct demangle_component *
->>>> + d_unnamed_type (struct d_info *di)
->>>> + {
->>>> +   struct demangle_component *ret;
->>>> +-  long num;
->>>> ++  int num;
->>>> +
->>>> +   if (! d_check_char (di, 'U'))
->>>> +     return NULL;
->>>> +@@ -4037,10 +4045,10 @@ d_append_string (struct d_print_info *dp
->>>> + }
->>>> +
->>>> + static inline void
->>>> +-d_append_num (struct d_print_info *dpi, long l)
->>>> ++d_append_num (struct d_print_info *dpi, int l)
->>>> + {
->>>> +   char buf[25];
->>>> +-  sprintf (buf,"%ld", l);
->>>> ++  sprintf (buf,"%d", l);
->>>> +   d_append_string (dpi, buf);
->>>> + }
->>>> +
->>>> +Index: gcc-5.3.0/libiberty/testsuite/demangle-expected
->>>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->>>> +--- gcc-5.3.0.orig/libiberty/testsuite/demangle-expected
->>>> ++++ gcc-5.3.0/libiberty/testsuite/demangle-expected
->>>> +@@ -4357,12 +4357,22 @@ _QueueNotification_QueueController__$4PP
->>>> + _Z1fSsB3fooS_
->>>> + f(std::string[abi:foo], std::string[abi:foo])
->>>> + #
->>>> +-# Tests a use-after-free problem
->>>> ++# Tests a use-after-free problem PR70481
->>>> +
->>>> + _Q.__0
->>>> + ::Q.(void)
->>>> + #
->>>> +-# Tests a use-after-free problem
->>>> ++# Tests a use-after-free problem PR70481
->>>> +
->>>> + _Q10-__9cafebabe.
->>>> + cafebabe.::-(void)
->>>> ++#
->>>> ++# Tests integer overflow problem PR70492
->>>> ++
->>>> ++__vt_90000000000cafebabe
->>>> ++__vt_90000000000cafebabe
->>>> ++#
->>>> ++# Tests write access violation PR70498
->>>> ++
->>>> ++_Z80800000000000000000000
->>>> ++_Z80800000000000000000000
->>>> +Index: gcc-5.3.0/libiberty/ChangeLog
->>>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->>>> +--- gcc-5.3.0.orig/libiberty/ChangeLog
->>>> ++++ gcc-5.3.0/libiberty/ChangeLog
->>>> +@@ -1,3 +1,22 @@
->>>> ++2016-05-02  Marcel B=C3=B6hme  <boehme.marcel@gmail.com>
->>>> ++
->>>> ++   PR c++/70498
->>>> ++   * cp-demangle.c: Parse numbers as integer instead of long to avoi=
-d
->>>> ++   overflow after sanity checks. Include <limits.h> if available.
->>>> ++   (INT_MAX): Define if necessary.
->>>> ++   (d_make_template_param): Takes integer argument instead of long.
->>>> ++   (d_make_function_param): Likewise.
->>>> ++   (d_append_num): Likewise.
->>>> ++   (d_identifier): Likewise.
->>>> ++   (d_number): Parse as and return integer.
->>>> ++   (d_compact_number): Handle overflow.
->>>> ++   (d_source_name): Change variable type to integer for parsed numbe=
-r.
->>>> ++   (d_java_resource): Likewise.
->>>> ++   (d_special_name): Likewise.
->>>> ++   (d_discriminator): Likewise.
->>>> ++   (d_unnamed_type): Likewise.
->>>> ++   * testsuite/demangle-expected: Add regression test cases.
->>>> ++
->>>> + 2016-04-08  Marcel B=C3=B6hme  <boehme.marcel@gmail.com>
->>>> +
->>>> +   PR c++/69687
->>>>
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
+Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+---
+ .../openssl/debian1.0.2/version-script.patch       | 31 +++++++++++++++-------
+ 1 file changed, 22 insertions(+), 9 deletions(-)
+
+diff --git a/meta/recipes-connectivity/openssl/openssl/debian1.0.2/version-script.patch b/meta/recipes-connectivity/openssl/openssl/debian1.0.2/version-script.patch
+index 29f11a2..f53efdb 100644
+--- a/meta/recipes-connectivity/openssl/openssl/debian1.0.2/version-script.patch
++++ b/meta/recipes-connectivity/openssl/openssl/debian1.0.2/version-script.patch
+@@ -15,8 +15,8 @@ Index: openssl-1.0.2~beta1.obsolete.0.0498436515490575/openssl.ld
+ ===================================================================
+ --- /dev/null	1970-01-01 00:00:00.000000000 +0000
+ +++ openssl-1.0.2~beta1.obsolete.0.0498436515490575/openssl.ld	2014-02-24 22:19:08.601827266 +0100
+-@@ -0,0 +1,4608 @@
+-+OPENSSL_1.0.2d {
++@@ -0,0 +1,4621 @@
+++OPENSSL_1.0.0 {
+ +	global:
+ +		BIO_f_ssl;
+ +		BIO_new_buffer_ssl_connect;
+@@ -4314,6 +4314,14 @@ Index: openssl-1.0.2~beta1.obsolete.0.0498436515490575/openssl.ld
+ +		CRYPTO_cbc128_decrypt;
+ +		CRYPTO_cfb128_encrypt;
+ +		CRYPTO_cfb128_8_encrypt;
+++
+++	local:
+++		*;
+++};
+++
+++
+++OPENSSL_1.0.1 {
+++	global:
+ +		SSL_renegotiate_abbreviated;
+ +		TLSv1_1_method;
+ +		TLSv1_1_client_method;
+@@ -4475,7 +4483,15 @@ Index: openssl-1.0.2~beta1.obsolete.0.0498436515490575/openssl.ld
+ +		BIO_s_datagram_sctp;
+ +		BIO_dgram_is_sctp;
+ +		BIO_dgram_sctp_notification_cb;
+++} OPENSSL_1.0.0;
+++
+++OPENSSL_1.0.1d {
+++	global:
+ +		CRYPTO_memcmp;
+++} OPENSSL_1.0.1;
+++
+++OPENSSL_1.0.2 {
+++	global:
+ +		SSL_CTX_set_alpn_protos;
+ +		SSL_set_alpn_protos;
+ +		SSL_CTX_set_alpn_select_cb;
+@@ -4613,23 +4629,20 @@ Index: openssl-1.0.2~beta1.obsolete.0.0498436515490575/openssl.ld
+ +		BUF_strnlen;
+ +		sk_deep_copy;
+ +		SSL_test_functions;
+-+
+-+	local:
+-+		*;
+-+};
+++} OPENSSL_1.0.1d;
+ +
+ +OPENSSL_1.0.2g {
+ +       global:
+ +               SRP_VBASE_get1_by_user;
+ +               SRP_user_pwd_free;
+-+} OPENSSL_1.0.2d;
+++} OPENSSL_1.0.2;
+ +
+ Index: openssl-1.0.2~beta1.obsolete.0.0498436515490575/engines/openssl.ld
+ ===================================================================
+ --- /dev/null	1970-01-01 00:00:00.000000000 +0000
+ +++ openssl-1.0.2~beta1.obsolete.0.0498436515490575/engines/openssl.ld	2014-02-24 21:02:30.000000000 +0100
+ @@ -0,0 +1,10 @@
+-+OPENSSL_1.0.2 {
+++OPENSSL_1.0.0 {
+ +	global:
+ +		bind_engine;
+ +		v_check;
+@@ -4644,7 +4657,7 @@ Index: openssl-1.0.2~beta1.obsolete.0.0498436515490575/engines/ccgost/openssl.ld
+ --- /dev/null	1970-01-01 00:00:00.000000000 +0000
+ +++ openssl-1.0.2~beta1.obsolete.0.0498436515490575/engines/ccgost/openssl.ld	2014-02-24 21:02:30.000000000 +0100
+ @@ -0,0 +1,10 @@
+-+OPENSSL_1.0.2 {
+++OPENSSL_1.0.0 {
+ +	global:
+ +		bind_engine;
+ +		v_check;
+-- 
+2.3.5
+
 
