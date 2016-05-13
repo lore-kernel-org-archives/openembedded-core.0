@@ -1,51 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 5376373219
+Received: from mail-pa0-f67.google.com (mail-pa0-f67.google.com
+	[209.85.220.67])
+	by mail.openembedded.org (Postfix) with ESMTP id A7B5273212
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 May 2016 16:47:04 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id y7so9711596pfb.0
+	Fri, 13 May 2016 16:47:02 +0000 (UTC)
+Received: by mail-pa0-f67.google.com with SMTP id zy2so10477892pac.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 May 2016 09:47:05 -0700 (PDT)
+	Fri, 13 May 2016 09:47:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=EKBesTDHUX5HOJtWy9X0kmcrnuveThQ0Ehj1sgpZGmY=;
-	b=c87VqqaHTkOZRzqp3RE17PeZAxs2s7oHFRfzPoHVDWqEHFIq/ZZELRmWjM1bEBA3g8
-	mC7y0GIX/l6PqOEJ2VCvfI4jaALAy9XxN4XELp/4uqquc6yg1DsPF6PYygtdkBkjZrn7
-	d2sYYHI5xBa70Gx4h1zKCV+TBoHzwM4NzyRcC4wT8m9ctWzDfXI75nNpBLhFS4PfGftO
-	HfxMILKCt1Gl1MXvGf3INizcjX+gcTnioAJl6ORdlNx3oXFoQVPRktu7e4iIsTRC8zKG
-	4tgBY4CRC0m9KNabij7dHVNkB+0a1ZzdIayYTKRleY0ug+t4w2uuT2FJDVhG1DE7JD2z
-	wtTQ==
+	bh=CFZ4sO8aSREE9ADLImy8gXA4+z+Y/Kxw2Rq1wOJWEvw=;
+	b=yBiKABduKulli+PUQnW2k3nepchgsDcL3ajzHL8235jBJsIirgg0G73sm2s+t6q4hm
+	sJgM2aVOFTDIZ2bmeJFZqDzW2kXRv59QTkItblrqaWfL870qeQJuA4wHRAEt4YPUXuNY
+	ArFDsSFShA0prgG89U2VtOPwoZRHyuqvBm/qQ3DH6RxqcoWFTs3HkKnKUVKa5zKzoyi2
+	R66I+rpqOxr6rJEXFEpAPy7dgNNI1QVBd8MlmE3oYIfxHZmkAmQbOLY81q7NSfwMpGBr
+	oHfltfpdDGcyuawgNrZnbROXZOC+z0p2X5BtMICyzyYiDszgvTo+qFr7dLeEk3/6u+80
+	g3PQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=EKBesTDHUX5HOJtWy9X0kmcrnuveThQ0Ehj1sgpZGmY=;
-	b=VZ6SlFlGSAqMnM3LOAQ8f3mDJIGOQ1fLWGgpkfz9LoYgQB4IJlfKrJZz8cFcrcXn1x
-	gCutHq05C6EfuEoT2WgWHIj/M3GIXYIQTnyVM2cqw9xRbn2FJrADXWTquoqg9V4211Le
-	MqgGTJZkG43Sg6Bdxvma5Y3Y/3sAlebpMKaNzzvXMcBGPMolv+ewG5jO620vQscqGXyv
-	V7+v1cJw1E36AqAEvP4EVUiLZxmCtws5r4SJsmeOm9axQrzm9f/3QmCq7T48OTgpq33/
-	B/hKPjsItdJAvrbVKW+5Vl5hfpEkoHH0ZehOFUTFAIpSBA3AHh8rSVNZc313l3IiBPtb
-	7u/A==
-X-Gm-Message-State: AOPr4FVPZY7yeo+ZxAAOuNDmLrYkvRpl9ZKjigk9+6sD1Jv6O4lvjivuemHsdDscJb9KYA==
-X-Received: by 10.98.41.70 with SMTP id p67mr24582307pfp.93.1463158025276;
-	Fri, 13 May 2016 09:47:05 -0700 (PDT)
+	bh=CFZ4sO8aSREE9ADLImy8gXA4+z+Y/Kxw2Rq1wOJWEvw=;
+	b=S8p+fkMXHxz9Zzv20+PySNCDe6EfOgaKVuXIuSAMWYCgaIVJjQPuSba2PoLT4EYYcT
+	/ryUfMQ0Q2/l3B+RMn2jL8DT5ybYOhvRypGPYNP3LaksbKrkhbJp4KQmv5NoKs2uXIG3
+	BXv3sP5EcqMhPrWVyQ965gFIMCoqfyeDFfvsl44YawIz1lFZhDbhEvSlpNw4JpfNfh26
+	MPjdtE6j75WF2vFUk+05D4AYKRukOtUhKHWuHT/C5cZewojoBCTXs3lJiq9E1HgxScKR
+	f+8OaEGJPdSgObVu9L43gvsGRd9XYv3LCbytCefA61CtkAwPOY2jO6dbZtCPR5CM151V
+	y95g==
+X-Gm-Message-State: AOPr4FUxMGJGCN5Qd5HqTSnIVmklUDTk41jmVIaBLatD7QpYbVXUWLwVWCHZ1jBMwbk6FA==
+X-Received: by 10.67.15.9 with SMTP id fk9mr24223177pad.77.1463158023698;
+	Fri, 13 May 2016 09:47:03 -0700 (PDT)
 Received: from haswell.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
 	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	uw2sm28725174pac.10.2016.05.13.09.47.04
+	uw2sm28725174pac.10.2016.05.13.09.47.02
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 13 May 2016 09:47:04 -0700 (PDT)
+	Fri, 13 May 2016 09:47:03 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 May 2016 09:46:52 -0700
-Message-Id: <2cc568062314cdddd5ff2f60dd6d9685b3b12831.1463157783.git.raj.khem@gmail.com>
+Date: Fri, 13 May 2016 09:46:50 -0700
+Message-Id: <835021c9b331284213c201dbf4b8a2c61b6c9891.1463157783.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.8.2
 In-Reply-To: <fa9c2d513cff678eebb231d4cf5991ea37061b34.1463157783.git.raj.khem@gmail.com>
 References: <fa9c2d513cff678eebb231d4cf5991ea37061b34.1463157783.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1463157783.git.raj.khem@gmail.com>
 References: <cover.1463157783.git.raj.khem@gmail.com>
-Subject: [PATCH 4/6] tcmode-default: Bump gcc,glibc,gdb
+Subject: [PATCH 2/6] python-native: Point to expat in native sysroot and add missing dep on expat-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,32 +60,53 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 13 May 2016 16:47:06 -0000
 
-gcc 6.1, glibc 2.24, gdb 7.11
+This fixes inconsistency where expat dependency is
+then depending upon build host having it or not having it
+
+Fixes errors like
+WARNING: renaming "pyexpat" since importing it failed: build/lib.linux-x86_64-2.7/pyexpat.so: undefined symbol: XML_SetCommentHandler
+
+also reported here
+https://dev.openwrt.org/ticket/20087
+
+This work due to the fact that we use -isystem pointing to native sysroot
+so the search order of native includedir is moved after buildhosts system
+includdirs. Moment we replace it with -I, build falls apart
+
+This also fixes the error
+
+Caught exception: <type 'exceptions.ImportError'> ImportError('No module named _elementtree',)
+
+where gobject-introspection-native fails to find _elementtree
+which is only compiled if expat is available
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/conf/distro/include/tcmode-default.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-devtools/python/python-native_2.7.11.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index c412420..d3a4351 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -22,11 +22,11 @@ PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}libc-initial = "${TCLIBC}-initial"
- PREFERRED_PROVIDER_virtual/nativesdk-${SDK_PREFIX}libc-initial ?= "nativesdk-glibc-initial"
- PREFERRED_PROVIDER_virtual/gettext ??= "gettext"
+diff --git a/meta/recipes-devtools/python/python-native_2.7.11.bb b/meta/recipes-devtools/python/python-native_2.7.11.bb
+index 4c204a4..abb69fc 100644
+--- a/meta/recipes-devtools/python/python-native_2.7.11.bb
++++ b/meta/recipes-devtools/python/python-native_2.7.11.bb
+@@ -1,7 +1,7 @@
+ require python.inc
  
--GCCVERSION ?= "5.3%"
-+GCCVERSION ?= "6.1%"
- SDKGCCVERSION ?= "${GCCVERSION}"
- BINUVERSION ?= "2.26%"
--GDBVERSION ?= "7.10%"
--GLIBCVERSION ?= "2.23"
-+GDBVERSION ?= "7.11%"
-+GLIBCVERSION ?= "2.24"
- UCLIBCVERSION ?= "1.0%"
- LINUXLIBCVERSION ?= "4.4"
+ EXTRANATIVEPATH += "bzip2-native"
+-DEPENDS = "openssl-native bzip2-replacement-native zlib-native readline-native sqlite3-native"
++DEPENDS = "openssl-native bzip2-replacement-native zlib-native readline-native sqlite3-native expat-native"
+ PR = "${INC_PR}.1"
  
+ SRC_URI += "\
+@@ -27,7 +27,7 @@ inherit native
+ 
+ RPROVIDES += "python-distutils-native python-compression-native python-textutils-native python-codecs-native python-core-native python-unittest-native"
+ 
+-EXTRA_OECONF_append = " --bindir=${bindir}/${PN}"
++EXTRA_OECONF_append = " --bindir=${bindir}/${PN} --with-system-expat=${STAGING_DIR_HOST}"
+ 
+ EXTRA_OEMAKE = '\
+   BUILD_SYS="" \
 -- 
 2.8.2
 
