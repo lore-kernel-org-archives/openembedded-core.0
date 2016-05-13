@@ -1,21 +1,21 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 530616E681
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 96F186E681
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 May 2016 03:33:31 +0000 (UTC)
+	Fri, 13 May 2016 03:37:18 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u4D3XR5t010755
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u4D3bIhk000016
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 May 2016 20:33:27 -0700
+	Thu, 12 May 2016 20:37:19 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 12 May 2016 20:33:26 -0700
+	Thu, 12 May 2016 20:37:18 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 12 May 2016 20:33:26 -0700
-Message-ID: <1463110406-10064-1-git-send-email-liezhi.yang@windriver.com>
+Date: Thu, 12 May 2016 20:37:18 -0700
+Message-ID: <1463110638-35447-1-git-send-email-liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.8.0
 MIME-Version: 1.0
 Subject: [meta-oe] [PATCH V2] rrdtool: only unset PERLHOSTLIB in do_configure
@@ -31,7 +31,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 May 2016 03:33:32 -0000
+X-List-Received-Date: Fri, 13 May 2016 03:37:21 -0000
 Content-Type: text/plain
 
 The do_compile requires it, otherwise it can't find the native module
