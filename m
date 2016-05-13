@@ -1,27 +1,25 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 968B66E681
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9EDC4606D1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 May 2016 03:39:46 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u4D3dlQb000022
+	Fri, 13 May 2016 06:48:28 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u4D6mSOb013330
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 May 2016 20:39:47 -0700 (PDT)
-Received: from [128.224.162.214] (128.224.162.214) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 12 May 2016 20:39:46 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <1463110638-35447-1-git-send-email-liezhi.yang@windriver.com>
+	Thu, 12 May 2016 23:48:28 -0700 (PDT)
+Received: from [128.224.162.214] (128.224.162.214) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 12 May 2016 23:48:28 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <57354C81.5090800@windriver.com>
-Date: Fri, 13 May 2016 11:39:45 +0800
+To: oe-core <openembedded-core@lists.openembedded.org>
+Message-ID: <573578BA.80207@windriver.com>
+Date: Fri, 13 May 2016 14:48:26 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
 	Thunderbird/38.7.2
 MIME-Version: 1.0
-In-Reply-To: <1463110638-35447-1-git-send-email-liezhi.yang@windriver.com>
-Subject: Re: [meta-oe] [PATCH V2] rrdtool: only unset PERLHOSTLIB in do_configure
+Subject: krogoth's core-image-minimal is much bigger than jethro's
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,43 +32,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 May 2016 03:39:46 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Fri, 13 May 2016 06:48:31 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
-I'm very sorry, they should go into oe-devel.
+* For ext4:
+   11M -> 26M
+   The similar to vmdk, qcow2 and iso.
 
-// Robert
+* For tar.bz2:
+   2.7M -> 4.5M
 
-On 05/13/2016 11:37 AM, Robert Yang wrote:
-> The do_compile requires it, otherwise it can't find the native module
-> correctly when perl-native is mirrored from another build.
->
-> Fixed:
-> | Compilation failed in require.
-> | BEGIN failed--compilation aborted.
-> | Can't locate loadable object for module File::Glob in @INC
->
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->   meta-oe/recipes-extended/rrdtool/rrdtool_1.5.4.bb | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta-oe/recipes-extended/rrdtool/rrdtool_1.5.4.bb b/meta-oe/recipes-extended/rrdtool/rrdtool_1.5.4.bb
-> index 216aafc..73a5d0e 100644
-> --- a/meta-oe/recipes-extended/rrdtool/rrdtool_1.5.4.bb
-> +++ b/meta-oe/recipes-extended/rrdtool/rrdtool_1.5.4.bb
-> @@ -58,9 +58,9 @@ export STAGING_INCDIR
->   # emulate cpan_do_configure
->   EXTRA_OEMAKE = ' PERL5LIB="${PERL_ARCHLIB}" '
->   # Avoid do_configure error on some hosts
-> -export PERLHOSTLIB = ""
->
->   do_configure() {
-> +    unset PERLHOSTLIB
->       #fix the pkglib problem with newer automake
->       #perl
->       sed -i -e "s|-Wl,--rpath -Wl,\$rp||g" \
->
+The main problem is eudev-hwdb which would be 12M after installed, jethro
+doesn't use this, but udev by default, and it's gone in krogoth.
+$ du -sh core-image-minimal/1.0-r0/rootfs/etc/udev/*
+0        core-image-minimal/1.0-r0/rootfs/etc/udev/cache.data
+6.4M     core-image-minimal/1.0-r0/rootfs/etc/udev/hwdb.bin
+5.2M     core-image-minimal/1.0-r0/rootfs/etc/udev/hwdb.d
+8.0K     core-image-minimal/1.0-r0/rootfs/etc/udev/rules.d
+4.0K     core-image-minimal/1.0-r0/rootfs/etc/udev/udev.conf
+
+Is there an easier way to fix this problem, please ? It's not a good
+news for the user who uses core-imag-minimal/udev when they want to
+upgrade to krogoth. And this would hurt the small device which uses
+udev.
+
+
+The conf is:
+MACHINE = "qemux86-64"
+DISTRO = "poky"
+PACKAGE_CLASSES = "package_rpm"
+EXTRA_IMAGE_FEATURES = "debug-tweaks"
+USER_CLASSES = "buildstats image-mklibs"
+
+$ bitbake core-image-minimal
+
+For jethro:
+$ ls -lh core-image-minimal-qemux86-64-20160513061306.rootfs.ext4
+11M  core-image-minimal-qemux86-64-20160513061306.rootfs.ext4
+$ du -sh core-image-minimal-qemux86-64-20160513061306.rootfs.ext4
+7.9M core-image-minimal-qemux86-64-20160513061306.rootfs.ext4
+
+For krogoth:
+
+$ ls -lh core-image-minimal-qemux86-64-20160513061459.rootfs.ext4
+26M core-image-minimal-qemux86-64-20160513061459.rootfs.ext4
+
+$ du -sh core-image-minimal-qemux86-64-20160513061459.rootfs.ext4
+core-image-minimal-qemux86-64-20160513061459.rootfs.ext4
+
+-- 
+Thanks
+
+Robert
 
