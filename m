@@ -1,45 +1,24 @@
-Return-Path: <jefro.net@gmail.com>
-Received: from mail-lf0-f45.google.com (mail-lf0-f45.google.com
-	[209.85.215.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 2ED06601D3;
-	Thu, 12 May 2016 23:32:21 +0000 (UTC)
-Received: by mail-lf0-f45.google.com with SMTP id u64so80210941lff.3;
-	Thu, 12 May 2016 16:32:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:from:date:message-id:subject:to;
-	bh=hbSOPW3BogUYq3Q7svvrZR0dMQvcExQdvo31ACvoYMs=;
-	b=x3Dw5RCn6u/ORGj5xRwjWx0XS6h/If+ljoEOAT4zXDI0FuBMYKkmI1YtskQ9iJUfmV
-	Wkzo9xJXIDrAeJdr2xYYlNBx2Cqh9IXQAoeW1QHOrYYR0VOVbEPEgFKNNKbHQAGaw89Z
-	qG8tlbwrZgTxn1CD2pENX4eHZH9FoVQidTyHM4peWqbbYc66voqscebANiAQQdvHm/iK
-	B2HGqVoMoviAzOIIENhMyAor5ZbXxuJzlFF/1rYYZpK9fyOl5o3D0mQn0gq4W5iOmc6/
-	jWlrweETTec2wl9h6muHx1N7cjTaM4/0xZCN9pcc0kCtUVofcS8SjDv9bQgcFpkNZjl6
-	w+eQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-	:to; bh=hbSOPW3BogUYq3Q7svvrZR0dMQvcExQdvo31ACvoYMs=;
-	b=UNS+kyJflQ/0tUOulGraFU8AA8UrdmOnX4wigriAfd1ekOy5PtRosUqNqUe0edn2V0
-	katoODJhA5YMYJjPyfGpuFOjmQgAMS1Q0OJPryFahKQ1OVVk1iPCBXzUWX6PY1A1pXek
-	Zaon4NsrMmgdWgo0xbstGTReiuCA8JEiJFgK1yCrphEKLS41PHxXjId5uqhVhXXf13mH
-	WA8n2TOzbyNy2VBqFEpUIO63RJG0S1DcGXKJ82+N3XpagsgSHVnSHHS4hOrMAB3qE3WY
-	eur4GZZcN6ns2sj5cE6YANLO5YMd/Hvvd2y0dmEesUzF1HNDpa77Ewxu+UMZbEuuqDp3
-	tzrA==
-X-Gm-Message-State: AOPr4FU6w+0HiNN7oAmdlwTcZ+wvG3r4I4PkmpfY3Mf0Cp6zX8+WhT2i9+UA2LOZSfLD0FkoSsleIqI+bGjj0A==
-X-Received: by 10.25.17.212 with SMTP id 81mr5507402lfr.38.1463095940637; Thu,
-	12 May 2016 16:32:20 -0700 (PDT)
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 530616E681
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 May 2016 03:33:31 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u4D3XR5t010755
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 May 2016 20:33:27 -0700
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 12 May 2016 20:33:26 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 12 May 2016 20:33:26 -0700
+Message-ID: <1463110406-10064-1-git-send-email-liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.8.0
 MIME-Version: 1.0
-Sender: jefro.net@gmail.com
-Received: by 10.112.139.200 with HTTP; Thu, 12 May 2016 16:32:01 -0700 (PDT)
-From: Jeff Osier-Mixon <jefro@jefro.net>
-Date: Thu, 12 May 2016 16:32:01 -0700
-X-Google-Sender-Auth: iyvrgr56baqyxeTKqnStdlj25pA
-Message-ID: <CA+YB3rZCfCiLQEg5Br78ZQ=6QJQiXnh_pGTr0-XFQZFkwniYLA@mail.gmail.com>
-To: "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>, 
-	"openembedded-members@lists.openembedded.org"
-	<openembedded-members@lists.openembedded.org>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Please help edit OEDAM minutes
+Subject: [meta-oe] [PATCH V2] rrdtool: only unset PERLHOSTLIB in do_configure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,20 +31,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 May 2016 23:32:22 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 13 May 2016 03:33:32 -0000
+Content-Type: text/plain
 
-I admit defeat. I have been "trying to get to" the OEDAM minutes for a
-month and I am clearly not getting to it, so I am now getting out of
-the way. We are crowdsourcing these minutes, because collaborative
-effort is what we do best.
+The do_compile requires it, otherwise it can't find the native module
+correctly when perl-native is mirrored from another build.
 
-My raw notes from the meeting are here. If you were present, please
-help edit, fill in gaps, etc.
+Fixed:
+| Compilation failed in require.
+| BEGIN failed--compilation aborted.
+| Can't locate loadable object for module File::Glob in @INC
 
-https://docs.google.com/document/d/1rPvy-QQkP0Z4a0PGOBkljfzGGzFVWREDz18vZzWyL9s/edit?usp=sharing
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta-oe/recipes-extended/rrdtool/rrdtool_1.5.4.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
+diff --git a/meta-oe/recipes-extended/rrdtool/rrdtool_1.5.4.bb b/meta-oe/recipes-extended/rrdtool/rrdtool_1.5.4.bb
+index 216aafc..73a5d0e 100644
+--- a/meta-oe/recipes-extended/rrdtool/rrdtool_1.5.4.bb
++++ b/meta-oe/recipes-extended/rrdtool/rrdtool_1.5.4.bb
+@@ -58,9 +58,9 @@ export STAGING_INCDIR
+ # emulate cpan_do_configure
+ EXTRA_OEMAKE = ' PERL5LIB="${PERL_ARCHLIB}" '
+ # Avoid do_configure error on some hosts
+-export PERLHOSTLIB = ""
+ 
+ do_configure() {
++    unset PERLHOSTLIB
+     #fix the pkglib problem with newer automake
+     #perl
+     sed -i -e "s|-Wl,--rpath -Wl,\$rp||g" \
 -- 
-Jeff Osier-Mixon - Open Source Community Engineer, Intel Corporation
+2.8.0
+
 
