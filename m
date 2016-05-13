@@ -1,27 +1,32 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3114A6072C
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.analogue-micro.com (mail.analogue-micro.com
+	[217.144.149.242])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D32760797
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 May 2016 07:23:19 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u4D7NJg3021567
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 13 May 2016 00:23:19 -0700 (PDT)
-Received: from [128.224.162.214] (128.224.162.214) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Fri, 13 May 2016 00:23:19 -0700
-To: Andrea Adami <andrea.adami@gmail.com>
+	Fri, 13 May 2016 07:46:35 +0000 (UTC)
+Received: by mail.analogue-micro.com (Postfix, from userid 999)
+	id 91F4168A019; Fri, 13 May 2016 08:46:34 +0100 (BST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	loki.analogue-micro-ltd.com
+X-Spam-Level: *
+X-Spam-Status: No, score=1.7 required=5.0 tests=ALL_TRUSTED,BAYES_40,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
+	by mail.analogue-micro.com (Postfix) with ESMTP id A305F68A019;
+	Fri, 13 May 2016 08:46:33 +0100 (BST)
+Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
+	by zeus.mlbassoc.com (Postfix) with ESMTP id 6826D67400A0;
+	Fri, 13 May 2016 09:46:33 +0200 (CEST)
+To: openembedded-core@lists.openembedded.org
 References: <573578BA.80207@windriver.com>
 	<CAAQYJAsKMD38pM5nPCGPorcwKb0OqDpA2YYy0q6MxURjn=DBKg@mail.gmail.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <573580E5.7090404@windriver.com>
-Date: Fri, 13 May 2016 15:23:17 +0800
+From: Gary Thomas <gary@mlbassoc.com>
+Message-ID: <57358659.4060206@mlbassoc.com>
+Date: Fri, 13 May 2016 09:46:33 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
 	Thunderbird/38.7.2
 MIME-Version: 1.0
 In-Reply-To: <CAAQYJAsKMD38pM5nPCGPorcwKb0OqDpA2YYy0q6MxURjn=DBKg@mail.gmail.com>
-Cc: oe-core <openembedded-core@lists.openembedded.org>
 Subject: Re: krogoth's core-image-minimal is much bigger than jethro's
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -35,13 +40,11 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 May 2016 07:23:21 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Fri, 13 May 2016 07:46:36 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-
-
-On 05/13/2016 03:07 PM, Andrea Adami wrote:
+On 2016-05-13 09:07, Andrea Adami wrote:
 > On Fri, May 13, 2016 at 8:48 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
 >>
 >> * For ext4:
@@ -69,14 +72,12 @@ On 05/13/2016 03:07 PM, Andrea Adami wrote:
 > Somehow we have to explicitely opt-out:
 >
 > +BAD_RECOMMENDATIONS += "eudev-hwdb"
-
-Does udev still work without eudev-hwdb, please ?
-
-// Robert
-
 >
 > IMHO for embedded devices it would be better to disable by default and
 > let the distro/machine add a specific RRECOMMEND.
+
++1
+
 >
 > Regards
 > Andrea
@@ -114,5 +115,11 @@ Does udev still work without eudev-hwdb, please ?
 >> Openembedded-core mailing list
 >> Openembedded-core@lists.openembedded.org
 >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+
+
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
