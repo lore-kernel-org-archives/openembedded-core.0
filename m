@@ -1,52 +1,47 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
-	[209.85.223.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 28A646011C;
-	Fri, 13 May 2016 13:57:10 +0000 (UTC)
-Received: by mail-io0-f177.google.com with SMTP id f89so133179796ioi.0;
-	Fri, 13 May 2016 06:57:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=xDBtc+l8a8RIg5sBcv27MuZnS7H8NRJQuYRt+/1PlfA=;
-	b=z6dbZ9VjymE+/c5dccu4Cl+msu52D/NiQ071KO0gJrRmNK2J44G0KHmRgFaJJ3Tidh
-	e9tA3jrCqYENa1cj54vETiTityl0S3KtTb/QNLXJNtmcbDY2gv661KQ5JnYVnuuW94Kh
-	OPn4SGn4AN78X1xptvLZe4TYMjOzU2aSN5V8cySF6Ic0Gk5LM6JJLqfXaVPhpshApihy
-	3DwRsIg6YGr5Z4j8zBpyq9pcasb3NaBNzF48W+/eQ7s5m0apCP6lLfyIDGwL22VPiFS8
-	a3kZbKXHwqQBbN8AcNiaxCP/tvRgsDVcW5H9BV8MZVX65aNw3mx8g5qvuwMAovjXVJhg
-	A19Q==
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
+	[209.85.213.173])
+	by mail.openembedded.org (Postfix) with ESMTP id EB9B86FF84
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 May 2016 14:05:39 +0000 (UTC)
+Received: by mail-ig0-f173.google.com with SMTP id qe5so8483701igc.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 May 2016 07:05:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=EqAsl/Oc2qh0KOZPZHrufiyUohCMFuBnw+O49Qb/rLI=;
+	b=mnTRMHMdT65XtkSUz1O0jYY8hO//I/M4gnHoaYvCkfH0XHkrmBhjr9KuUkEE+bcb12
+	Xv4OV8gft+BETPiYqSoQd9As4GTCjaoBvJEVsqC8QWo5EuxAk+cHBHQ7D0pTV398wmKN
+	XzlqYE9Ve0oUVjqjeOmcvrOauYcochzH6xTueexnxaOFubv44dlHipnd9Ih6jJWozMfB
+	X9AefyU/okPngnBJ+LanTv0VqV3osYgmeyA6y66YSuv3BsVl2kwnRZvkepLQ+XOFOZWC
+	Z/GEyQ2Y2LJihf1BsbldEn9sjNWOVvPNR04Hi73HMU7zwas3vOXbbAqW5vx12PcbpAta
+	LXpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=xDBtc+l8a8RIg5sBcv27MuZnS7H8NRJQuYRt+/1PlfA=;
-	b=adH7Fcjsx9+M5RYxxUDRNc3IokaSz2sSFRFPMtdfS/DQBiRqT3A1eJcXM/wFOGpHf+
-	/1w537kgDsgKGrVXN3Y6EXXpCICqC/KV+li4Mvpa7dR+SCRbGX910XoVzda+OM/X1ke4
-	9rMpofVj01DMMxmtmgBGkQTxzyKqUhbY1xMoMmzr0FBjuwPpB/yH1jdJupUg3mfopi5r
-	MHaE7h5pveGWAU47z8oNsHzI8wGNURPocFrnZa4tQ94/KKFp8UjpMYy2dD1cU+UDgx81
-	rlISMg00I/VZUlNIlnTMBlbXNK4roooK02jrtjWCOYulVAjWrl+NRMKXwWxQzlS4CeaV
-	qzbA==
-X-Gm-Message-State: AOPr4FVcrS/UVNRva/ezQ8xoGbTzyM2qiOFdnH7PccHnw8Clcuh81hLprFyQYUVkFAmjFQ==
-X-Received: by 10.107.8.19 with SMTP id 19mr12287241ioi.60.1463147831244;
-	Fri, 13 May 2016 06:57:11 -0700 (PDT)
-Received: from linux-fl6i (dsl-67-55-28-109.acanac.net. [67.55.28.109])
-	by smtp.gmail.com with ESMTPSA id k16sm999765itb.11.2016.05.13.06.57.10
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 13 May 2016 06:57:10 -0700 (PDT)
-Date: Fri, 13 May 2016 09:57:07 -0400
-From: Trevor Woerner <twoerner@gmail.com>
-To: Jeff Osier-Mixon <jefro@jefro.net>
-Message-ID: <20160513135707.GA30983@linux-fl6i>
-References: <CA+YB3rZCfCiLQEg5Br78ZQ=6QJQiXnh_pGTr0-XFQZFkwniYLA@mail.gmail.com>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=EqAsl/Oc2qh0KOZPZHrufiyUohCMFuBnw+O49Qb/rLI=;
+	b=AGIr6SWdsKQpR3AURx8JyaQCZOye4VjzsfX6AUh1Xs273vQmpIrPl0+34yqfex9UzA
+	M/+51BAeQ6mJcMrWKLwVP54S4nzmj0ivaSeEoTLjHp2/TZdIsyRWyZhHAUgO5olU2BHw
+	00WCcjUJb7Y0zHwBSoI9UfMvjsWeGMZ0Xc0B2XnrngEaQzaZzd2ZAX107U5wNNcY/qgE
+	dN6+0u6a/I5UYkKSBpp9RceIzA1M6vqhCLMIobY/sg50dFWfsD2GlbDK/xkF6ETcG/HT
+	0nr1cfEsw02H5bdAJtiV12j4gik4ygR5lmMHniH654RBpLdkmuE3Qzc4SMCuRpeBUsC9
+	H/3A==
+X-Gm-Message-State: AOPr4FXo6MI/u/tXHjVGUADZ2F4DRr39xlzfW2608C3CT/ekxl6swQMxdzOYfUJM9xE8Snu9skDVWF7TMNc1lz3N
+X-Received: by 10.50.62.20 with SMTP id u20mr2343922igr.52.1463148340238; Fri,
+	13 May 2016 07:05:40 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CA+YB3rZCfCiLQEg5Br78ZQ=6QJQiXnh_pGTr0-XFQZFkwniYLA@mail.gmail.com>
-User-Agent: Mutt/1.6.0 (2016-04-01)
-Cc: "openembedded-members@lists.openembedded.org"
-	<openembedded-members@lists.openembedded.org>,
-	"openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Please help edit OEDAM minutes
+Received: by 10.107.162.6 with HTTP; Fri, 13 May 2016 07:05:20 -0700 (PDT)
+In-Reply-To: <CAAQYJAsKMD38pM5nPCGPorcwKb0OqDpA2YYy0q6MxURjn=DBKg@mail.gmail.com>
+References: <573578BA.80207@windriver.com>
+	<CAAQYJAsKMD38pM5nPCGPorcwKb0OqDpA2YYy0q6MxURjn=DBKg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 13 May 2016 15:05:20 +0100
+Message-ID: <CAJTo0LYBV31Mp5h2fCSAw+AnAfMNOD2kQ2D60M2JLiA1nhV6+A@mail.gmail.com>
+To: Andrea Adami <andrea.adami@gmail.com>
+Cc: oe-core <openembedded-core@lists.openembedded.org>
+Subject: Re: krogoth's core-image-minimal is much bigger than jethro's
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,20 +54,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 May 2016 13:57:12 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Fri, 13 May 2016 14:05:40 -0000
+Content-Type: multipart/alternative; boundary=047d7bdca60612f4820532b9c576
 
-On Thu 2016-05-12 @ 04:32:01 PM, Jeff Osier-Mixon wrote:
-> I admit defeat. I have been "trying to get to" the OEDAM minutes for a
-> month and I am clearly not getting to it, so I am now getting out of
-> the way. We are crowdsourcing these minutes, because collaborative
-> effort is what we do best.
-> 
-> My raw notes from the meeting are here. If you were present, please
-> help edit, fill in gaps, etc.
-> 
-> https://docs.google.com/document/d/1rPvy-QQkP0Z4a0PGOBkljfzGGzFVWREDz18vZzWyL9s/edit?usp=sharing
+--047d7bdca60612f4820532b9c576
+Content-Type: text/plain; charset=UTF-8
 
-Ok, I'll take a stab at some formatting and stuff.
+On 13 May 2016 at 08:07, Andrea Adami <andrea.adami@gmail.com> wrote:
 
+> IMHO for embedded devices it would be better to disable by default and
+> let the distro/machine add a specific RRECOMMEND.
+>
+
+Patches welcome :)
+
+Ross
+
+--047d7bdca60612f4820532b9c576
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 13 May 2016 at 08:07, Andrea Adami <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:andrea.adami@gmail.com" target=3D"_blank">andrea.adami@gmail.com</a>&gt;=
+</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1oo" class=3D"=
+a3s aXjCH">IMHO for embedded devices it would be better to disable by defau=
+lt and<br>
+let the distro/machine add a specific RRECOMMEND.<br></div></blockquote></d=
+iv><br>Patches welcome :)</div><div class=3D"gmail_extra"><br></div><div cl=
+ass=3D"gmail_extra">Ross</div></div>
+
+--047d7bdca60612f4820532b9c576--
