@@ -1,26 +1,26 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id EE0AD70030
+	by mail.openembedded.org (Postfix) with ESMTP id 592F871E63
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 14 May 2016 08:28:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u4E8SiHp017892; Sat, 14 May 2016 09:28:44 +0100
+	u4E8Sh6t017886; Sat, 14 May 2016 09:28:43 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id n_4ecV-z0nFW; Sat, 14 May 2016 09:28:44 +0100 (BST)
+	with LMTP id hzGPHWM4bK7V; Sat, 14 May 2016 09:28:43 +0100 (BST)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u4E8Sgb5017883
+	u4E8Sdik017882
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Sat, 14 May 2016 09:28:43 +0100
-Message-ID: <1463214522.9746.143.camel@linuxfoundation.org>
+	Sat, 14 May 2016 09:28:40 +0100
+Message-ID: <1463214519.9746.142.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sat, 14 May 2016 09:28:42 +0100
+Date: Sat, 14 May 2016 09:28:39 +0100
 X-Mailer: Evolution 3.16.5-1ubuntu3.1 
 Mime-Version: 1.0
-Subject: [PATCH] glibc-initial.inc: fix py3 SyntaxError in cfgscript print()
+Subject: [PATCH] autotools.bbclass: fix py3 SyntaxError in cfgscript print()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,19 +44,19 @@ Update so this works with python3.
 Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/recipes-core/glibc/glibc-initial.inc b/meta/recipes-core/glibc/glibc-initial.inc
-index 5975fd2..0c8bd64 100644
---- a/meta/recipes-core/glibc/glibc-initial.inc
-+++ b/meta/recipes-core/glibc/glibc-initial.inc
-@@ -11,7 +11,7 @@ TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_TCBOOTSTRAP}"
- do_configure () {
- 	(cd ${S} && gnu-configize) || die "failure in running gnu-configize"
- 	find ${S} -name "configure" | xargs touch
--	cfgscript=`python -c "import os; print os.path.relpath('${S}', '.')"`/configure
-+	cfgscript=`python -c "import os; print(os.path.relpath('${S}', '.'))"`/configure
- 	$cfgscript --host=${TARGET_SYS} --build=${BUILD_SYS} \
- 		--prefix=/usr \
- 		--without-cvs --disable-sanity-checks \
+diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
+index c92ca78..03a61c3 100644
+--- a/meta/classes/autotools.bbclass
++++ b/meta/classes/autotools.bbclass
+@@ -87,7 +87,7 @@ AUTOTOOLS_AUXDIR ?= "${AUTOTOOLS_SCRIPT_PATH}"
+ oe_runconf () {
+ 	# Use relative path to avoid buildpaths in files
+ 	cfgscript_name="`basename ${CONFIGURE_SCRIPT}`"
+-	cfgscript=`python -c "import os; print os.path.relpath(os.path.dirname('${CONFIGURE_SCRIPT}'), '.')"`/$cfgscript_name
++	cfgscript=`python -c "import os; print(os.path.relpath(os.path.dirname('${CONFIGURE_SCRIPT}'), '.'))"`/$cfgscript_name
+ 	if [ -x "$cfgscript" ] ; then
+ 		bbnote "Running $cfgscript ${CONFIGUREOPTS} ${EXTRA_OECONF} $@"
+ 		if ! ${CACHED_CONFIGUREVARS} $cfgscript ${CONFIGUREOPTS} ${EXTRA_OECONF} "$@"; then
 
 
 
