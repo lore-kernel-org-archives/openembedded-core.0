@@ -1,57 +1,53 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f68.google.com (mail-pa0-f68.google.com
-	[209.85.220.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E96E731D5
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 3FBD260851
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 May 2016 23:50:46 +0000 (UTC)
-Received: by mail-pa0-f68.google.com with SMTP id gh9so9520967pac.0
+	Sat, 14 May 2016 01:03:19 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id 145so10510059pfz.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 May 2016 16:50:47 -0700 (PDT)
+	Fri, 13 May 2016 18:03:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:cc:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding;
-	bh=G8g24xGQrfijo/+Y5Kp0ABZN80suXVdPWGdIWsCN9C8=;
-	b=Q7vbOpEo9B437BXWAd3GNWCphouYPvUZMbzOWrctV3kcXBzdBv1wwVRtJvqD/JqWhS
-	sS6g571X3ZIrgjLIK348ZxYqJd3LkIFufhY9UcUrOcw3R5OGHR/Ydvw6loz7MS+Zp+g7
-	HlTAuB2nf/bDMbIUhhVgJvnjPwk+om81laYPHCiRvvwtPs9bCSWVuqLI7AiD0Cd1NP5f
-	MKYLqAMiQjo0Wgk66wnhQ+VUCqN+kDMLinYQOa7UPiZYv8lq7DTpMow/qWkqrJFfWeGI
-	mQVWs5d6Dcjgm15kSlHrTaigVpzIWCDqaNVXioX0kzbkx9GSgZFuJ63FwyR4z2GGQNn6
-	hxqg==
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=e1gxlYGW3q4Zgo31ZoH+SYojPTtUxJORhr5llH71ojA=;
+	b=A7cfh95Yyq8Pl6juyo2nFa75HTtsrKUA5mUjGLQ/fkiV5LWRkAJlDKUwjWQjobT2MV
+	ij8khg7GgferKwuXwnutOTCduJBzhv8XAl5Ywq+Hyaa2Utv10UqgA7a/Z0NEZ5arD2Nd
+	N2hOhfNUABC3/3AX4TvB9tQSMMifqTxoe8CaGvdKDj4+e+fNROWFVaCeuRAtxW7iGBEs
+	96rvY8NkT8CEn7+auu6xugaG+SVQJX/Q8lhFTpjpsVkNfe89/8wkDwdxtKuw040ibMs3
+	a39Yr/80fC5A7hNhkbOI5QFnj3r4iyOm3bi3tImmNfgnjJNN5P0dCSfqAwaHFOZhn07q
+	XW/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=G8g24xGQrfijo/+Y5Kp0ABZN80suXVdPWGdIWsCN9C8=;
-	b=S7idv4TWRhB53gMWyAmbFFYYtLc5IiLdUG5B5EGv5SxCfIY45L43r/RNXdVxixlUn2
-	QrH8Sp0Vn5GdYn3k92rEObhAFUCfRwEg/brrrIAEMlYNBj+UT0eG1ykdwef3gHlPsU7X
-	OTEhyqGBYgim4lLn6cJcI9lMsxfikBnNPSreLak9feRIc3GQhVLmJMrN80fJEUBPBIGM
-	ESy6Mv3315M5abuYGk+CXVj7lO/WCgHAxKCMiXKc/QUy6/c0GBvXCdy9RIhQTrb95W/0
-	uMGN4ZLdhoUvMO/FNOFUOzc8ZcyjnAJNNkF6daKpe3pAqhd+Aweduubd4eJTUayHr4Tp
-	MK8Q==
-X-Gm-Message-State: AOPr4FU2ThkjpwBvhhJIU/7gu5h14/Cmf9a+aTwV0ezW3ah5w+x1ZnpCwOyX1mu5PJhv7w==
-X-Received: by 10.66.246.165 with SMTP id xx5mr27105482pac.87.1463183446849;
-	Fri, 13 May 2016 16:50:46 -0700 (PDT)
-Received: from ?IPv6:2601:202:4000:1239:c53a:7e08:2482:8461?
-	([2601:202:4000:1239:c53a:7e08:2482:8461])
-	by smtp.googlemail.com with ESMTPSA id
-	u127sm29913257pfb.82.2016.05.13.16.50.44
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=e1gxlYGW3q4Zgo31ZoH+SYojPTtUxJORhr5llH71ojA=;
+	b=Zu9+0KyBzdzzv4NK8N2OuslKyKXEECXGycS0afo5yLcprlTTki64v4lZcyULvRNyTM
+	m1aGctGshg3eY9wPDfTk/feuirtp5ZIjkydbDAcZb3bmXkP0l75zaX8bjq6U79RjFiAZ
+	gSvU1jFcY3KLZQ+jCfmUZD+WHK9rWeYUvmqH8XxPtqd2Qmi8Zm3UF7wtBc2BesR5pN1V
+	oPmizs5UCRklTEcp8QOyb/h/PfLJVZoFLklXoe8aTDpNbANR/9DtQjnCwdwO+0hmrzbE
+	mjkk6u06zInXvms7g4vLxPw4dk8McY+4piSjXXhguUNsT0ejqmxDYX8clBeSUplp4lII
+	Bpog==
+X-Gm-Message-State: AOPr4FWxgzUf6M0xVXHHEN/j9srCUq2+w4lV+/m6K7s9HbJoDmiicaEqZrw1RP1DrJ5aLQ==
+X-Received: by 10.98.100.71 with SMTP id y68mr27524093pfb.84.1463187800662;
+	Fri, 13 May 2016 18:03:20 -0700 (PDT)
+Received: from ?IPv6:2601:641:c001:6120:a892:19b5:540a:b5a8?
+	([2601:641:c001:6120:a892:19b5:540a:b5a8])
+	by smtp.gmail.com with ESMTPSA id
+	o7sm30115689pfb.76.2016.05.13.18.03.19
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 13 May 2016 16:50:45 -0700 (PDT)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Martin Jansa <martin.jansa@gmail.com>, Joshua Lock
-	<joshua.g.lock@intel.com>, Robert Yang <liezhi.yang@windriver.com>
-References: <cover.1463054447.git.joshua.g.lock@intel.com>
-	<20160512141645.GA2567@jama>
-	<1463157281.9746.114.camel@linuxfoundation.org>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <57366854.8060203@gmail.com>
-Date: Fri, 13 May 2016 16:50:44 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
-MIME-Version: 1.0
-In-Reply-To: <1463157281.9746.114.camel@linuxfoundation.org>
+	Fri, 13 May 2016 18:03:20 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Pgp-Agent: GPGMail 2.6b2
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1462896289-15644-2-git-send-email-danismostlikely@gmail.com>
+Date: Fri, 13 May 2016 18:03:19 -0700
+Message-Id: <B23209CC-2F78-48A8-B6CA-37DFD5B27BCE@gmail.com>
+References: <1462896289-15644-1-git-send-email-danismostlikely@gmail.com>
+	<1462896289-15644-2-git-send-email-danismostlikely@gmail.com>
+To: danismostlikely@gmail.com
+X-Mailer: Apple Mail (2.3124)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [fido][PATCH 0/1] Undo ABI breakage in OpenSSL
+Subject: Re: [master][krogoth][PATCH 3/5] openjade-native: work around bug exposed by GCC 6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,44 +60,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 May 2016 23:50:46 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Sat, 14 May 2016 01:03:20 -0000
+X-Groupsio-MsgNum: 82100
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_41FFA24F-923D-41F2-A58F-303C898A3D24";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
+
+--Apple-Mail=_41FFA24F-923D-41F2-A58F-303C898A3D24
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
+
+
+> On May 10, 2016, at 9:04 AM, danismostlikely@gmail.com wrote:
+>=20
+> From: Dan McGregor <danismostlikely@gmail.com>
+>=20
+> From: Daniel McGregor <daniel.mcgregor@vecima.com>
+>=20
+> Simply turn off the optimzation that is causing this breakage. I had
+> originally used -fno-lifetime-dse, but -fno-tree-dse works at least
+> going back as far as gcc 4.8.
+>=20
+> This isn't a real fix, but it allows openjade to work enough to =
+complete
+> a build.
+
+would be good to add a comment on where its discussed e.g.
+
+https://bugzilla.redhat.com/show_bug.cgi?id=3D1306162
+https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D69534
+
+>=20
+> Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.com>
+> ---
+> meta/recipes-devtools/openjade/openjade-native_1.3.2.bb | 1 +
+> 1 file changed, 1 insertion(+)
+>=20
+> diff --git a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb =
+b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
+> index bc25008..afcb8ca 100644
+> --- a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
+> +++ b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
+> @@ -44,6 +44,7 @@ CONFIGUREOPTS :=3D "${@d.getVar('CONFIGUREOPTS', =
+True).replace('--datadir=3D${datadi
+> oe_runconf[vardepsexclude] +=3D "CONFIGUREOPTS"
+>=20
+> CFLAGS =3D+ "-I${S}/include"
+> +CXXFLAGS +=3D "-fno-tree-dse"
+>=20
+> SSTATEPOSTINSTFUNCS +=3D "openjade_sstate_postinst"
+> SYSROOT_PREPROCESS_FUNCS +=3D "openjade_sysroot_preprocess"
+> --
+> 2.8.2
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+--Apple-Mail=_41FFA24F-923D-41F2-A58F-303C898A3D24
 Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
 
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
 
+iEYEARECAAYFAlc2eVsACgkQuwUzVZGdMxQduACfbz36WgAP/cw3PIaGjl0vZ2z1
++lYAoJL97+5cLgmwf84b7plzVhq2Z5Ga
+=QEpH
+-----END PGP SIGNATURE-----
 
-On 05/13/2016 09:34 AM, Richard Purdie wrote:
-> On Thu, 2016-05-12 at 16:16 +0200, Martin Jansa wrote:
->> On Thu, May 12, 2016 at 01:06:33PM +0100, Joshua Lock wrote:
->>> The backported upgrade to OpenSSL 1.0.2h introduced a newer version
->>> of
->>> Debian's linker version-script which breaks the OpenSSL ABI.
->>> This isn't desirable for a stable release, thus the attached patch
->>> reverts
->>> the linker-version changes and simply adds the 2 new symbols
->>> required by
->>> 1.0.2h.
->>>
->>> Thanks to Martin Jansa for spotting the issue and suggesting a fix.
->>
->> Thanks for following it and getting it merged so quickly.
->>
->> It was already merged in fido, can we get the same to jethro (which
->> was
->> also recently upgraded to 1.0.2h)?
-> 
-> I'm hoping someone will give me a patch series which does this
-> correctly for jethro. Its why I haven't taken the previous pull
-> request.
-> 
-
-sent
-- armin
-
-> Cheers,
-> 
-> Richard
-> 
-> 
-> 
-
+--Apple-Mail=_41FFA24F-923D-41F2-A58F-303C898A3D24--
