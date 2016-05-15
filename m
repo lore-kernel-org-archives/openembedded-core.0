@@ -1,47 +1,55 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f68.google.com (mail-qg0-f68.google.com
-	[209.85.192.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 4067C6011C
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f67.google.com (mail-pa0-f67.google.com
+	[209.85.220.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A15760721
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 May 2016 18:30:46 +0000 (UTC)
-Received: by mail-qg0-f68.google.com with SMTP id f74so12108490qge.3
+	Sun, 15 May 2016 20:17:15 +0000 (UTC)
+Received: by mail-pa0-f67.google.com with SMTP id zy2so15072822pac.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 May 2016 11:30:47 -0700 (PDT)
+	Sun, 15 May 2016 13:17:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=V0hIpof/AmwyMkFvicH5Jn0PodMlUHhqW5R/VoyECzg=;
-	b=YiuMdOKb0eel6pNM41lq6uoVCS7zQHD7tWBL8SGqtpuqgNaYTq/XMKLecPqyMswOph
-	RuybwHH3m7pVJpTU5fyQRn2rB4pBsQJdMj+UNRmFaBg9LJzfeaz75P0DxhFIUra2EDK0
-	Tz+2J4FGjHi46kaOjV7iQMgJxA1IKBmv8LvsYoh08BJT+xhJS8k218GwmcPwzAm9O8HO
-	9PfzZoNU3A50HSSfi3IHgW7Wuz4F3GOFctWnvtdkFM2w3C0dq+0NkXskBXDWjmU2C/wQ
-	7u875hMw9eblaFFcuX2b2+ySOrQa0hTh11xzkgRZZ+JRJUwIHt3XFeJPKZERNVYSi+jA
-	9yEQ==
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding;
+	bh=JA1r5SGGNiyfGBgJVstGJI1dsg0E3FMRt2qVtBW4I2k=;
+	b=rJv6XifV234JGZHh3iNN6xOLCYXbCuG7/5R3BzEuUdX0Eya8BrolaPJ9HCWcdNKUQm
+	b6MYtK7zw2JHSYDhBlgmWWWvoNWehtr5vyJGceCiqtzzZajFztu34VDHxgaeC7NabJnc
+	8utDgxjLqwHV0lcDFyJki/dFVxNP+J6IESlCaa+3FJVz/aw3IqHFA+yZtHoTzeRnV+Ut
+	gn31goQjNWKdcQle+vtyWsaNs7sVQH0o73yEtFPdi+0W9sSX4GpQsQWyxkzx9gsXekm3
+	qHrVLmWu5l0uiWzUhl1Kaw5ToDqJ+KgqV3FoycHGW3VxeBJSCk5hvJDJqQhEH8QQ1pnl
+	lsUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=V0hIpof/AmwyMkFvicH5Jn0PodMlUHhqW5R/VoyECzg=;
-	b=i7PcDG4Eb76B8Mt3ISd3QvEisLkrUjuwYydoN0mO+LMC2a9Nj/9QgWQOh1ZOJI5PB3
-	/zdt7wS63rKAyqQisUaFT0zK8V3i/YCgDiLLcMkUThiBOWgIEnTLPKVruCFyF2qjG5vr
-	Oenx8YxIYmoT+5+fkmB2c2LY+2H6L30a6Nj3ZmgeuV+3l6C0JQsb6ID3dQaOsSyMx2VI
-	dxAdqf3OqcubLEU5qS/IT8RnkVoCv4xbdDHli9WTX+8xVRx9z1mlWG/62CqD8xahA9jK
-	o0nvkJ/7wPHOgUs7s7tAlzbEaAi3q//ILEhaiBVICOKiiwhYpT1aOvXvIdS/GALYkRKs
-	Zx7w==
-X-Gm-Message-State: AOPr4FXAQlI4SmRuo57APfLwJ3DSq3u4IwCGLfNzIUng/RaZF9cGCskkEG9EhdijXgOwdX4uXIDcEzcNtvsi8A==
-X-Received: by 10.140.199.8 with SMTP id u8mr26682367qha.5.1463337047308; Sun,
-	15 May 2016 11:30:47 -0700 (PDT)
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=JA1r5SGGNiyfGBgJVstGJI1dsg0E3FMRt2qVtBW4I2k=;
+	b=g13e8KVhccN+NHXYsnLtDISSR8PDQYVvlEYErHjD+HGS97wn9/Y034frpat0hFRV4H
+	L6DCajoUzPOv8nuDgp46RX7OLxqarUGeMvvn43r1KQPef5bcK9W92fRkn7UnYZNFJSkX
+	DAuVeHEKXBKZ1DM1wx19QcQmxnufJDtxT93GoAgxPojCrGzRds1+nGHGPEiLx6ltJMz/
+	NZ5IbHwnOXORXWRmJE8+fcTiN/9xTEy2T7terAEEx+kZ7fTn0n4gBQ8DyE2zRdi51NMo
+	/Vkms1Oza3Cczw8N9hkkE90c7y2ZjUXiEZamq9yiplU9DTnwVmbqBm7mavW6v1aotTwi
+	kUKg==
+X-Gm-Message-State: AOPr4FV5K07869381VLgoCxuSDKwzmgtTzIW62KaId1C4/GHzWTof7BcAboLlJtz70rWMw==
+X-Received: by 10.66.65.235 with SMTP id a11mr39624641pat.155.1463343435431;
+	Sun, 15 May 2016 13:17:15 -0700 (PDT)
+Received: from ?IPv6:2601:202:4000:1239:f5f1:87e:967f:8dba?
+	([2601:202:4000:1239:f5f1:87e:967f:8dba])
+	by smtp.googlemail.com with ESMTPSA id
+	t8sm42228179paw.16.2016.05.15.13.17.13
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 15 May 2016 13:17:14 -0700 (PDT)
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <1462319165-24307-1-git-send-email-akuster808@gmail.com>
+	<5732CFA3.7080302@windriver.com> <57330B87.5080300@gmail.com>
+	<20160513143139.GA2565@jama> <20160513161955.GB2565@jama>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <5738D949.5050001@gmail.com>
+Date: Sun, 15 May 2016 13:17:13 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.1
 MIME-Version: 1.0
-Received: by 10.55.130.196 with HTTP; Sun, 15 May 2016 11:30:17 -0700 (PDT)
-In-Reply-To: <5738BBBD.3050407@gmail.com>
-References: <5738BBBD.3050407@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 15 May 2016 11:30:17 -0700
-Message-ID: <CAMKF1sqdAyY7dSt0gJAcYA8c=gcsFZ_25qru1VKgmYjUodMbgA@mail.gmail.com>
-To: akuster808 <akuster808@gmail.com>
-Cc: Yocto Project <yocto@yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] Branch Maintenance process clarification
+In-Reply-To: <20160513161955.GB2565@jama>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [master][krogoth][PATCH] openssl: Security fix via update to 1.0.2h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,62 +62,157 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 May 2016 18:30:47 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sun, 15 May 2016 20:17:19 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-On Sun, May 15, 2016 at 11:11 AM, akuster808 <akuster808@gmail.com> wrote:
-> Hello,
->
-> I am reviewing the stable branch maintenance for Yocto and would like
-> some clarification on a few steps.
-> https://wiki.yoctoproject.org/wiki/Stable_branch_maintenance
->
-> 6. Split out any bitbake changes and send them to the bitbake-devel
-> mailing list (marking them with the appropriate stable version in the
-> subject line e.g. [1.20])
->
-> AK] I have not seen this being done in the past. Should we start doing
-> this or update the process ?
 
-I would also suggest to add OE-Core branchname along with bitbake version
-[1.20][krogoth] or [krogoth/1.20] some thing like that
 
->
-> 7. Split out OE-Core changes and create an openembedded-core-contrib
-> branch containing them; send the cover letter only (marking it as such
-> in the subject) to the openembedded-core mailing list.
->
-> AK] I don't have write access to do this, so this will be a problem.
+On 05/13/2016 09:19 AM, Martin Jansa wrote:
+> On Fri, May 13, 2016 at 04:31:39PM +0200, Martin Jansa wrote:
+>> On Wed, May 11, 2016 at 03:37:59AM -0700, akuster808 wrote:
+>>> Robert,
+>>>
+>>>
+>>> On 05/10/2016 11:22 PM, Robert Yang wrote:
+>>>>
+>>>>
+>>>> On 05/04/2016 07:46 AM, Armin Kuster wrote:
+>>>>> From: Armin Kuster <akuster@mvista.com>
+>>>>>
+>>>>> CVE-2016-2105
+>>>>> CVE-2016-2106
+>>>>> CVE-2016-2109
+>>>>> CVE-2016-2176
+>>>>>
+>>>>> https://www.openssl.org/news/secadv/20160503.txt
+>>>>>
+>>>>> fixup openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
+>>>>>
+>>>>> drop crypto_use_bigint_in_x86-64_perl.patch as that fix is in latest.
+>>>>
+>>>> After I looked into the code, it seems that this patch is not in latest
+>>>> code ?
+>>>
+>>> hmm, my old eyes deceive me.
+>>>
+>>> thanks for checking.
+>>>
+>>> I will send a correcting.
+>>
+>> 1.0.2h is already in fido, jethro and master, can we quickly get it to krogoth
+>> which is still using older version 1.0.2g?
+>>
+>> It's always strange to see recipe version downgrades when upgrading to
+>> newer Yocto release.
+> 
+> It also seems to break python-cryptography again:
+> http://errors.yoctoproject.org/Errors/Details/62854/
 
-Ask Michael to add your keys to contrib repo.
+yeah. just hit this in krogoth-next after looking at the logs again.
+There is an upstream fix I am bac porting. There are a version 1.4 for
+this package we should update master if possible. I will send a patch
+later today.
 
->
-> 8. Split out any meta-yocto changes and create a poky-contrib branch
-> containing them; send the cover letter only (marking it as such in the
-> subject) to the poky mailing list.
->
-> AK] Is this required?
+- armin
 
-yes.
-
->
-> I do agree that the downstream repos are where the changes should be
-> pushed first  then feed poky. This is not what I have seen happen in the
-> past nor did I do it for dizzy either.
-
-Usually changes flow into upstream layers and then get merged into
-downstream distros
-like poky and others.
-
->
-> regards,
-> Armin
->
->
->
-> --
-> _______________________________________________
-> yocto mailing list
-> yocto@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/yocto
+> 
+> You have fixed compatibility with 1.0.2g in:
+> http://git.openembedded.org/meta-openembedded/commit/?id=44f0e74954628d6a3d04fa5249dbe0c94f6dff59
+> 
+> Maybe it needs another update for 1.0.2h and the same fix should be
+> backported to fido and jethro, now when they all have newer openssl as
+> well?
+> 
+>>> - armin
+>>>> It is a backported patch from gentoo.
+>>>>
+>>>> // Robert
+>>>>
+>>>>>
+>>>>> Signed-off-by: Armin Kuster <akuster@mvista.com>
+>>>>> ---
+>>>>>   ...oid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch | 14
+>>>>> +++++++-------
+>>>>>   .../openssl/{openssl_1.0.2g.bb => openssl_1.0.2h.bb}       |  6 ++----
+>>>>>   2 files changed, 9 insertions(+), 11 deletions(-)
+>>>>>   rename meta/recipes-connectivity/openssl/{openssl_1.0.2g.bb =>
+>>>>> openssl_1.0.2h.bb} (91%)
+>>>>>
+>>>>> diff --git
+>>>>> a/meta/recipes-connectivity/openssl/openssl/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
+>>>>> b/meta/recipes-connectivity/openssl/openssl/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
+>>>>>
+>>>>> index cebc8cf..f736e5c 100644
+>>>>> ---
+>>>>> a/meta/recipes-connectivity/openssl/openssl/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
+>>>>>
+>>>>> +++
+>>>>> b/meta/recipes-connectivity/openssl/openssl/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
+>>>>>
+>>>>> @@ -8,16 +8,16 @@
+>>>>> http://www.mail-archive.com/openssl-dev@openssl.org/msg32860.html
+>>>>>
+>>>>>   Signed-off-by: Xufeng Zhang <xufeng.zhang@windriver.com>
+>>>>>   ---
+>>>>> -Index: openssl-1.0.2/crypto/evp/digest.c
+>>>>> +Index: openssl-1.0.2h/crypto/evp/digest.c
+>>>>>   ===================================================================
+>>>>> ---- openssl-1.0.2.orig/crypto/evp/digest.c
+>>>>> -+++ openssl-1.0.2/crypto/evp/digest.c
+>>>>> -@@ -208,7 +208,7 @@ int EVP_DigestInit_ex(EVP_MD_CTX *ctx, c
+>>>>> -         return 0;
+>>>>> +--- openssl-1.0.2h.orig/crypto/evp/digest.c
+>>>>> ++++ openssl-1.0.2h/crypto/evp/digest.c
+>>>>> +@@ -211,7 +211,7 @@ int EVP_DigestInit_ex(EVP_MD_CTX *ctx, c
+>>>>> +         type = ctx->digest;
+>>>>>        }
+>>>>>    #endif
+>>>>>   -    if (ctx->digest != type) {
+>>>>>   +    if (type && (ctx->digest != type)) {
+>>>>> -         if (ctx->digest && ctx->digest->ctx_size)
+>>>>> +         if (ctx->digest && ctx->digest->ctx_size) {
+>>>>>                OPENSSL_free(ctx->md_data);
+>>>>> -         ctx->digest = type;
+>>>>> +             ctx->md_data = NULL;
+>>>>> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2g.bb
+>>>>> b/meta/recipes-connectivity/openssl/openssl_1.0.2h.bb
+>>>>> similarity index 91%
+>>>>> rename from meta/recipes-connectivity/openssl/openssl_1.0.2g.bb
+>>>>> rename to meta/recipes-connectivity/openssl/openssl_1.0.2h.bb
+>>>>> index 290f129..ae65992 100644
+>>>>> --- a/meta/recipes-connectivity/openssl/openssl_1.0.2g.bb
+>>>>> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.2h.bb
+>>>>> @@ -34,15 +34,13 @@ SRC_URI += "file://find.pl;subdir=${BP}/util/ \
+>>>>>               file://openssl-fix-des.pod-error.patch \
+>>>>>               file://Makefiles-ptest.patch \
+>>>>>               file://ptest-deps.patch \
+>>>>> -            file://crypto_use_bigint_in_x86-64_perl.patch \
+>>>>>               file://openssl-1.0.2a-x32-asm.patch \
+>>>>>               file://ptest_makefile_deps.patch  \
+>>>>>               file://configure-musl-target.patch \
+>>>>>               file://parallel.patch \
+>>>>>              "
+>>>>> -
+>>>>> -SRC_URI[md5sum] = "f3c710c045cdee5fd114feb69feba7aa"
+>>>>> -SRC_URI[sha256sum] =
+>>>>> "b784b1b3907ce39abf4098702dade6365522a253ad1552e267a9a0e89594aa33"
+>>>>> +SRC_URI[md5sum] = "9392e65072ce4b614c1392eefc1f23d0"
+>>>>> +SRC_URI[sha256sum] =
+>>>>> "1d4007e53aad94a5b2002fe045ee7bb0b3d98f1a47f8b2bc851dcd1c74332919"
+>>>>>
+>>>>>   PACKAGES =+ "${PN}-engines"
+>>>>>   FILES_${PN}-engines = "${libdir}/ssl/engines/*.so ${libdir}/engines"
+>>>>>
+>>> -- 
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>> -- 
+>> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> 
+> 
+> 
 
