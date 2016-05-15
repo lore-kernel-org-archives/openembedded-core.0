@@ -1,31 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id F23CA6FFFE
+	by mail.openembedded.org (Postfix) with ESMTP id C555F60851
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 May 2016 08:36:18 +0000 (UTC)
+	Sun, 15 May 2016 07:03:52 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u4E8aI3t018068; Sat, 14 May 2016 09:36:18 +0100
+	u4F73o2r017817; Sun, 15 May 2016 08:03:50 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id iCrjR_Pgu64s; Sat, 14 May 2016 09:36:17 +0100 (BST)
+	with LMTP id 9G2_PePz_Qkx; Sun, 15 May 2016 08:03:50 +0100 (BST)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u4E8aEhX018063
+	u4F73iEQ017811
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Sat, 14 May 2016 09:36:15 +0100
-Message-ID: <1463214974.9746.146.camel@linuxfoundation.org>
+	Sun, 15 May 2016 08:03:45 +0100
+Message-ID: <1463295824.9746.152.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: akuster808 <akuster808@gmail.com>, Martin Jansa <martin.jansa@gmail.com>
-Date: Sat, 14 May 2016 09:36:14 +0100
-In-Reply-To: <5736340E.1010401@gmail.com>
-References: <1462319165-24307-1-git-send-email-akuster808@gmail.com>
-	<5732CFA3.7080302@windriver.com> <57330B87.5080300@gmail.com>
-	<20160513143139.GA2565@jama> <5736340E.1010401@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org,
+	"Ashfield, Bruce" <Bruce.Ashfield@windriver.com>
+Date: Sun, 15 May 2016 08:03:44 +0100
+In-Reply-To: <2cc568062314cdddd5ff2f60dd6d9685b3b12831.1463157783.git.raj.khem@gmail.com>
+References: <fa9c2d513cff678eebb231d4cf5991ea37061b34.1463157783.git.raj.khem@gmail.com>
+	<2cc568062314cdddd5ff2f60dd6d9685b3b12831.1463157783.git.raj.khem@gmail.com>
 X-Mailer: Evolution 3.16.5-1ubuntu3.1 
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [master][krogoth][PATCH] openssl: Security fix via update to 1.0.2h
+Subject: Re: [PATCH 4/6] tcmode-default: Bump gcc,glibc,gdb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,75 +37,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 May 2016 08:36:19 -0000
+X-List-Received-Date: Sun, 15 May 2016 07:03:55 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2016-05-13 at 13:07 -0700, akuster808 wrote:
+On Fri, 2016-05-13 at 09:46 -0700, Khem Raj wrote:
+> gcc 6.1, glibc 2.24, gdb 7.11
 > 
-> On 05/13/2016 07:31 AM, Martin Jansa wrote:
-> > On Wed, May 11, 2016 at 03:37:59AM -0700, akuster808 wrote:
-> > > Robert,
-> > > 
-> > > 
-> > > On 05/10/2016 11:22 PM, Robert Yang wrote:
-> > > > 
-> > > > 
-> > > > On 05/04/2016 07:46 AM, Armin Kuster wrote:
-> > > > > From: Armin Kuster <akuster@mvista.com>
-> > > > > 
-> > > > > CVE-2016-2105
-> > > > > CVE-2016-2106
-> > > > > CVE-2016-2109
-> > > > > CVE-2016-2176
-> > > > > 
-> > > > > https://www.openssl.org/news/secadv/20160503.txt
-> > > > > 
-> > > > > fixup openssl-avoid-NULL-pointer-dereference-in
-> > > > > -EVP_DigestInit_ex.patch
-> > > > > 
-> > > > > drop crypto_use_bigint_in_x86-64_perl.patch as that fix is in
-> > > > > latest.
-> > > > 
-> > > > After I looked into the code, it seems that this patch is not
-> > > > in latest
-> > > > code ?
-> > > 
-> > > hmm, my old eyes deceive me.
-> > > 
-> > > thanks for checking.
-> > > 
-> > > I will send a correcting.
-> > 
-> > 1.0.2h is already in fido, jethro and master, can we quickly get it
-> > to krogoth
-> > which is still using older version 1.0.2g?
-> 
-> this hit master 2 days ago. I just sync'd changes over to krogth and
-> am
-> doing sanity checks.  The last time I backported something before
-> master
-> folks got the shorts-in-a-twist.
-> 
-> > 
-> > It's always strange to see recipe version downgrades when upgrading
-> > to
-> > newer Yocto release.
-> 
-> yes it is. I have no control when the other maintainers do their
-> merges.
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/conf/distro/include/tcmode-default.inc | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 
-I should explain that in this case we had 1.8.2 pretty much ready to
-go, then the openssl issue came to light. I therefore fast tracked that
-merge on the basis that getting it into the release and a build into QA
-was "a good thing", and on the assumption that getting this into jethro
-would follow quickly.
+I'll merge most of this series however before we can move to gcc6 by
+default there are some remaining issues:
 
-In general we do fallow the waterfall model and this was an exception
-to the rule, purely to try and help my sanity and keep builds/releases
-moving.
+https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64-lsb/b
+uilds/788/steps/BuildImages/logs/stdio
+
+qt4-x11-free fails to compile
+linux-yocto 4.1 also fails
+
+(on qemux86-64, qemux86, qemuppc, qemumips, qemuarm)
+
+https://autobuilder.yoctoproject.org/main/builders/nightly-ppc/builds/7
+78/steps/BuildImages_1/logs/stdio
+
+linux-yocto 4.4 fails on ppc
+
+https://autobuilder.yoctoproject.org/main/builders/nightly-non-gpl3/bui
+lds/768/steps/BuildImages/logs/stdio
+
+non-GPLv3 on elfutils and diffutils
+
+(There may be other failures too, the build hasn't completed yet)
+
+We'll need to come up with a plan to address these issues (possibly
+upgrades for some of the kernels?) before we can change the defaults.
 
 Cheers,
 
 Richard
+
+
 
