@@ -1,66 +1,52 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-pa0-f66.google.com (mail-pa0-f66.google.com
-	[209.85.220.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D66076A51
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id ED59A700F3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2016 16:22:27 +0000 (UTC)
-Received: by mail-pa0-f66.google.com with SMTP id gh9so14909533pac.0
+	Mon, 16 May 2016 16:44:50 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id g132so16213524pfb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2016 09:22:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=MRQPSGTCVUFi/lgkVt9vcmlzrD64o3OsOAag4t8hliU=;
-	b=Z9ecwR2ixOZi4k3xcVdEgaTq/t4rU1ucWS+pI9Us4GG5bvqFmQtjR7XWWd2lhJ2o2v
-	YWMgCTWwZXe+egLP5YEwVI3hoO+KQ747khplEfC/Q4qZfJONDPkQePZ5nRFIHmIdaJmU
-	Ef7IO5PjTza5aGcpBI1hmsYSp4diG2snsdhWvgO6IQ4OuDttSsdb3KgnHDdbaiLTOuOB
-	TW0UvFaPkQ8sPf5Rzo+J2gS7BP9OId2DuyZ30r15mzZ6pcjWfpBDXmXjZtC/Qfrh/swL
-	d0nTKJMyemXnqI2rUk02pLdgcuJ0m4qbSRU8gPrt9SY7rY6nHyAuEISVPAAMUbmXvVdb
-	tt0Q==
+	Mon, 16 May 2016 09:44:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=NXtfdAQm9ecISOvWH825qWztMXT01ysVwXAc00OddCM=;
+	b=f4lhSX58jeaTSN9kHHS5C9P2hqZIK+PSHBAkgy+vhfeYiqgufcGb22Xtlz0vyHUj4g
+	9lGl2HQ+PRK5ps26V3acYa+iOQHzA46b8BVIrzxtveioUgpjSDuOtIc0G5m82hO2HyU7
+	rD3TB+1N28kGoRcVg/uZl9Zum0U/0D/KBFUyI4moZRUl/vJTBziCNI3+Q7AyEy44c6dT
+	TdBp6/KlQ885PjUvaNppynwaJ9rq2Z325fniQAnLUK/EcimX3ff4zqbrlB8TRk98yefm
+	D2rvOodFkL8CGgPHVdYg7LrM6h0kMjLwf/99B77rc0wPh8EJ43Ms/ISvUDQE08shUu70
+	Xt2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=MRQPSGTCVUFi/lgkVt9vcmlzrD64o3OsOAag4t8hliU=;
-	b=U7xn1z617O1CcZTjQEybP7lH8A6fNU4vBihoUUVy55QBpfjuJNWYPMtqRqABECtz02
-	7Pne5d3hT7077tABaP5kylmUbJvuz550BgTHAjW2FHBngY7V27STKuJfLJCSmYzQ32yD
-	tcIKHu+G1Z+Ed0v37dP/YX53rget74d6bttw1sqH/YLC9p9CdI22GPN2x5sThnoCGilD
-	WrMNjpSCF2SshwKBQcte5mWvpLA6CplJ8+zun6+McsESsoaRHAGpfBYZjltyUcXtiQfR
-	pAJfFCYdCR+n3oN5pnIiKb8eBjdpQbLK1oTxIwFjh/1UFKjMeWiLk5lVqCQUCAoLrSBu
-	1opg==
-X-Gm-Message-State: AOPr4FXLvQg2244BlmMpA2Iw651Uz+d3EoPBnFqazMuyNbNKnAjM9zqkb0UIZ6OEV3zzSQ==
-X-Received: by 10.66.189.135 with SMTP id gi7mr46979262pac.158.1463415748649; 
-	Mon, 16 May 2016 09:22:28 -0700 (PDT)
-Received: from mail-pf0-f175.google.com (mail-pf0-f175.google.com.
-	[209.85.192.175]) by smtp.gmail.com with ESMTPSA id
-	f125sm2867288pfa.26.2016.05.16.09.22.26
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 16 May 2016 09:22:26 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-pf0-f175.google.com with SMTP id y69so68559581pfb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2016 09:22:26 -0700 (PDT)
-MIME-Version: 1.0
-X-Received: by 10.98.104.133 with SMTP id d127mr46646127pfc.112.1463415746256; 
-	Mon, 16 May 2016 09:22:26 -0700 (PDT)
-Received: by 10.66.231.37 with HTTP; Mon, 16 May 2016 09:22:26 -0700 (PDT)
-In-Reply-To: <314BCBC6-07F6-4B6E-89E6-FA6D86C682B0@gmail.com>
-References: <cover.1463035854.git.jussi.kukkonen@intel.com>
-	<93f1600d7ce782dbafb1ab32da9416dc29d432c2.1463035854.git.jussi.kukkonen@intel.com>
-	<6a0ed7998e66eedbf58fdb54db111b281a2b81bb.1463035854.git.jussi.kukkonen@intel.com>
-	<CAP9ODKpbMyzEkKh1WhwnNkRrgXCeBQzTeSrVP89Ngx5CwMO_5w@mail.gmail.com>
-	<CAHiDW_FQJuwT=JPtvCMPM3bcQozTqyEDFq8LjziNe=NHT+HPMw@mail.gmail.com>
-	<CAP9ODKoNnq0ufH=XF8oPqTQKW_o0NehzUXCvanzLkJMEHXAdFQ@mail.gmail.com>
-	<314BCBC6-07F6-4B6E-89E6-FA6D86C682B0@gmail.com>
-Date: Mon, 16 May 2016 13:22:26 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKrCppUA76B=96cnUVM0==mb8a_oDB6XOgoTNLT-oV0EBg@mail.gmail.com>
-Message-ID: <CAP9ODKrCppUA76B=96cnUVM0==mb8a_oDB6XOgoTNLT-oV0EBg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 13/13] weston: Upgrade 1.9.0 -> 1.10.0
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=NXtfdAQm9ecISOvWH825qWztMXT01ysVwXAc00OddCM=;
+	b=KBrCC1RPoHNAUVXhc+qbSkEvEG3k9ZXbIwCzArhK9jE6JuzwO/gld2HNf7u6XFvgFq
+	/s8B3BtzXmUgptn+MmbbM7c20Eo1NvihelK5zOtUNJ16V0t7PHMHvXUP7czi53WxPMFp
+	dqNnSjwsqElAbl22sHJ3VHAuSClgYILuUWg1g/AXxG3mzk6RHeC8r/JVg3wV6IVEI6Zf
+	d+z3nAq/+pwdaKpjec8OPaFcO4DtUu8nYrO8fE7EZXGt1cWpYWKrETe5rnRQq7xf0ub8
+	U6DK02wlA3W1f5KgNCZlJ5WGZnAYBsubLq3k0GYFnXyCGaNO3FyHbomZtVo2H82GcFBf
+	Cotg==
+X-Gm-Message-State: AOPr4FWrMYt69DNRGSmMzWlO7QizaDpl5+cMfmEOdKo/8BOjDvCot4fBi28ui8zGJXdAjg==
+X-Received: by 10.98.55.129 with SMTP id e123mr46983794pfa.4.1463417091166;
+	Mon, 16 May 2016 09:44:51 -0700 (PDT)
+Received: from ?IPv6:2601:646:8800:5a9a:dd3:cb39:a42f:8eaf?
+	([2601:646:8800:5a9a:dd3:cb39:a42f:8eaf])
+	by smtp.gmail.com with ESMTPSA id
+	64sm48474011pfk.69.2016.05.16.09.44.49
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 16 May 2016 09:44:49 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Pgp-Agent: GPGMail 2.6b2
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1463415451-21779-1-git-send-email-akuster808@gmail.com>
+Date: Mon, 16 May 2016 09:44:47 -0700
+Message-Id: <C6187355-EA77-4B31-8638-C5D64613DE0E@gmail.com>
+References: <1463415451-21779-1-git-send-email-akuster808@gmail.com>
+To: Armin Kuster <akuster808@gmail.com>
+X-Mailer: Apple Mail (2.3124)
+Cc: Armin Kuster <akuster@mvista.com>, openembedded-core@lists.openembedded.org
+Subject: Re: [master][krogoth][PATCH] python-numpy: fix build failure with python-matplotlib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -73,63 +59,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 May 2016 16:22:28 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 16 May 2016 16:44:53 -0000
+X-Groupsio-MsgNum: 82162
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_DEF7DA9D-7F72-4CB1-9642-BD59F14B5D98";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-On Mon, May 16, 2016 at 12:50 PM, Khem Raj <raj.khem@gmail.com> wrote:
->
->> On May 16, 2016, at 3:43 AM, Otavio Salvador <otavio.salvador@ossystems.com.br> wrote:
->>
->> On Mon, May 16, 2016 at 5:18 AM, Jussi Kukkonen
->> <jussi.kukkonen@intel.com> wrote:
->>> On 13 May 2016 at 23:15, Otavio Salvador
->>> <otavio.salvador@ossystems.com.br> wrote:
->>>> On Thu, May 12, 2016 at 4:20 AM, Jussi Kukkonen
->>>> <jussi.kukkonen@intel.com> wrote:
->>>>> Support for multiple new protocols, many new features:
->>>>> https://lists.freedesktop.org/archives/wayland-devel/2016-February/027039.html
->>>>>
->>>>> Weston now depends on wayland-protocols (which is protocol
->>>>> collection split off from weston).
->>>>>
->>>>> Remove upstreamed patches, add a patch to fix the wayland-protocols
->>>>> path used during build.
->>>>>
->>>>> Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
->>>>
->>>> I am working on rework the weston recipes and it seems Weston 1.11 is
->>>> close of release. I think instead of adding 1.10 we could use 1.10.91
->>>> and upgrade it to 1.11.0 when it is out (end of May). This avoids
->>>> another cycle of rebase of patches during 2.2 development cycle.
->>>>
->>>> What do you think?
->>>
->>> I don't have a burning need to get 1.10 in at all (I almost didn't
->>> send these in the first place because of 1.11 being just two weeks
->>> away). If you'd rather avoid the churn I'm fine with doing other
->>> things and looking at this again after 1.11 release. I'm also totally
->>> happy to keep my paws off this completely if your rework is going to
->>> include the 1.9 -> 1.11 upgrade in it.
->>>
->>> Here's my current 1.10 branch in case it's useful (the important
->>> change is the WAYLAND_PROTOCOLS_SYSROOT_DIR hack to get multilib
->>> working with allarch wayland-protocols):
->>>  git://git.yoctoproject.org/poky-contrib jku/wayland-1.10
->>>  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/wayland-1.10
->>>
->>> Just to be clear: Based on this discussion I don't currently plan to
->>> send a V2 to list unless there's demand for it.
->>
->> As I said, I would work on 1.10.91 as it is close of 1.11 and easy the
->> upgrade. But all my patches are based on 1.10 now so it is fine with
->> me as well so please send the v2.
->
-> If 1.11 is around the corner then why not work on 1.11 ( pre-release ) itself
+--Apple-Mail=_DEF7DA9D-7F72-4CB1-9642-BD59F14B5D98
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-This was my proposal; to get the 1.10.91 merged.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+> On May 16, 2016, at 9:17 AM, Armin Kuster <akuster808@gmail.com> =
+wrote:
+>=20
+> From: Armin Kuster <akuster@mvista.com>
+>=20
+> numpy/core/include/numpy/npy_common.h:149:10: error:
+> |          #error Unsupported size for type off_t
+>=20
+> Signed-off-by: Armin Kuster <akuster@mvista.com>
+> ---
+> meta/recipes-devtools/python/python-numpy/aarch64/_numpyconfig.h | 1 +
+> 1 file changed, 1 insertion(+)
+>=20
+> diff --git =
+a/meta/recipes-devtools/python/python-numpy/aarch64/_numpyconfig.h =
+b/meta/recipes-devtools/python/python-numpy/aarch64/_numpyconfig.h
+> index 191e5a1..109deb0 100644
+> --- a/meta/recipes-devtools/python/python-numpy/aarch64/_numpyconfig.h
+> +++ b/meta/recipes-devtools/python/python-numpy/aarch64/_numpyconfig.h
+> @@ -11,6 +11,7 @@
+> #define NPY_SIZEOF_PY_INTPTR_T 8
+> #define NPY_SIZEOF_PY_LONG_LONG 8
+> #define NPY_SIZEOF_LONGLONG 8
+> +#define NPY_SIZEOF_OFF_T 8
 
+Why does the test to select size of off_t fails ?
+we might need similar fix for mips64 too.
+
+> #define NPY_NO_SMP 0
+> #define NPY_HAVE_DECL_ISNAN
+> #define NPY_HAVE_DECL_ISINF
+> --
+> 2.3.5
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+--Apple-Mail=_DEF7DA9D-7F72-4CB1-9642-BD59F14B5D98
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlc5+QIACgkQuwUzVZGdMxRadQCfeTluuhyewSkJLB8ab28dKXJi
+Cl8AnjvPcmjOTFz0c5rITVbRe6P+c5pH
+=Czsg
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_DEF7DA9D-7F72-4CB1-9642-BD59F14B5D98--
