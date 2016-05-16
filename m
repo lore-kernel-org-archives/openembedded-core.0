@@ -1,21 +1,21 @@
 Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id AB3916E668
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 0103C6E668
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2016 06:27:58 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga102.jf.intel.com with ESMTP; 15 May 2016 23:27:58 -0700
+	Mon, 16 May 2016 06:30:11 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga103.fm.intel.com with ESMTP; 15 May 2016 23:30:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,626,1455004800"; d="scan'208";a="104457485"
+X-IronPort-AV: E=Sophos;i="5.24,626,1455004800"; d="scan'208";a="703635284"
 Received: from swold-mobl2.jf.intel.com ([10.255.87.205])
-	by fmsmga004.fm.intel.com with ESMTP; 15 May 2016 23:27:58 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 15 May 2016 23:30:12 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org, liezhi.yang@windriver.com
-Date: Sun, 15 May 2016 23:27:57 -0700
-Message-Id: <1463380077-2562-1-git-send-email-sgw@linux.intel.com>
+	richard.purdie@linuxfoundation.org
+Date: Sun, 15 May 2016 23:30:10 -0700
+Message-Id: <1463380210-2678-1-git-send-email-sgw@linux.intel.com>
 X-Mailer: git-send-email 2.5.5
-Subject: [PATCH - Jethro ] gdb: Backport patch to changes with AVX and MPX
+Subject: [PATCH - Master/Krogoth] gdb: Backport patch to changes with AVX and MPX
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,7 +28,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 May 2016 06:27:58 -0000
+X-List-Received-Date: Mon, 16 May 2016 06:30:12 -0000
 
 The current MPX target descriptions assume that MPX is always combined
 with AVX, however that's not correct.  We can have machines with MPX
@@ -43,38 +43,37 @@ This commit is backported from 7.12
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
-This is Jethro Only since it has a different version of GDB and this
-patch is version specific.
+This is for master and krogoth, but can not apply directly to older 7.9.1
+so a seperate patch is sent for that, this will not apply to 7.11, so if 
+the update occurs in master, this is Krogoth Only and a new patch will be 
+needed for 7.11 unless we update to 7.12 when available!
 
- meta/recipes-devtools/gdb/gdb.inc                  |    2 +
- .../0001-Add-target-descriptions-for-AVX-MPX.patch | 2153 ++++++++++++++++++++
- 2 files changed, 2155 insertions(+)
- create mode 100644 meta/recipes-devtools/gdb/gdb/0001-Add-target-descriptions-for-AVX-MPX.patch
+Sau!
 
-diff --git a/meta/recipes-devtools/gdb/gdb.inc b/meta/recipes-devtools/gdb/gdb.inc
-index 88c0213..58326a3 100644
---- a/meta/recipes-devtools/gdb/gdb.inc
-+++ b/meta/recipes-devtools/gdb/gdb.inc
-@@ -5,7 +5,9 @@ inherit gettext
- SRC_URI += "file://0002-Change-order-of-CFLAGS.patch \
-             file://0003-Add-support-for-Renesas-SH-sh4-architecture.patch \
-             file://fix-detection-of-64-bit-PPC-inferior-in-gdbserver.patch \
-+            file://0001-Add-target-descriptions-for-AVX-MPX.patch \
-            "
-+
- #LDFLAGS_append = " -s"
- #export CFLAGS_append=" -L${STAGING_LIBDIR}"
+ meta/recipes-devtools/gdb/gdb-7.10.1.inc           |    1 +
+ ....10.1-Add-target-descriptions-for-AVX-MPX.patch | 2167 ++++++++++++++++++++
+ 2 files changed, 2168 insertions(+)
+ create mode 100644 meta/recipes-devtools/gdb/gdb/0001-7.10.1-Add-target-descriptions-for-AVX-MPX.patch
+
+diff --git a/meta/recipes-devtools/gdb/gdb-7.10.1.inc b/meta/recipes-devtools/gdb/gdb-7.10.1.inc
+index a9267d5..92530e0 100644
+--- a/meta/recipes-devtools/gdb/gdb-7.10.1.inc
++++ b/meta/recipes-devtools/gdb/gdb-7.10.1.inc
+@@ -7,3 +7,4 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+ SRC_URI[md5sum] = "b93a2721393e5fa226375b42d567d90b"
+ SRC_URI[sha256sum] = "ff14f8050e6484508c73cbfa63731e57901478490ca1672dc0b5e2b03f6af622"
  
-diff --git a/meta/recipes-devtools/gdb/gdb/0001-Add-target-descriptions-for-AVX-MPX.patch b/meta/recipes-devtools/gdb/gdb/0001-Add-target-descriptions-for-AVX-MPX.patch
++SRC_URI += "file://0001-7.10.1-Add-target-descriptions-for-AVX-MPX.patch"
+diff --git a/meta/recipes-devtools/gdb/gdb/0001-7.10.1-Add-target-descriptions-for-AVX-MPX.patch b/meta/recipes-devtools/gdb/gdb/0001-7.10.1-Add-target-descriptions-for-AVX-MPX.patch
 new file mode 100644
-index 0000000..043ff45
+index 0000000..1879d49
 --- /dev/null
-+++ b/meta/recipes-devtools/gdb/gdb/0001-Add-target-descriptions-for-AVX-MPX.patch
-@@ -0,0 +1,2153 @@
-+From 15c429945dc4674b62e6b956c0ba9059206055ed Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/gdb/gdb/0001-7.10.1-Add-target-descriptions-for-AVX-MPX.patch
+@@ -0,0 +1,2167 @@
++From 70b530509d21409b788715751c1e7af76111bf9b Mon Sep 17 00:00:00 2001
 +From: Walfred Tedeschi <walfred.tedeschi@intel.com>
-+Date: Fri, 13 May 2016 15:36:43 +0200
-+Subject: [PATCH 1/1] Add target descriptions for AVX + MPX
++Date: Fri, 13 May 2016 11:16:23 +0200
++Subject: [PATCH] Add target descriptions for AVX + MPX
 +
 +The current MPX target descriptions assume that MPX is always combined
 +with AVX, however that's not correct.  We can have machines with MPX
@@ -163,15 +162,11 @@ index 0000000..043ff45
 +	declarations.
 +
 +Change-Id: I7b0642263cfa3e47b626022796e5dd3627b92ba8
-+
-+# Conflicts:
-+#	gdb/amd64-tdep.c
-+#	gdb/i386-tdep.c
 +---
 + gdb/ChangeLog                               |  57 ++++++++
 + gdb/amd64-linux-tdep.c                      |   7 +
 + gdb/amd64-linux-tdep.h                      |   1 +
-+ gdb/amd64-tdep.c                            |   2 +
++ gdb/amd64-tdep.c                            |   4 +
 + gdb/common/x86-xstate.h                     |   5 +-
 + gdb/features/Makefile                       |  18 +++
 + gdb/features/i386/amd64-avx-mpx-linux.c     | 211 ++++++++++++++++++++++++++++
@@ -196,7 +191,7 @@ index 0000000..043ff45
 + gdb/gdbserver/linux-x86-low.c               |  16 +++
 + gdb/i386-linux-tdep.c                       |   4 +
 + gdb/i386-linux-tdep.h                       |   1 +
-+ gdb/i386-tdep.c                             |   2 +
++ gdb/i386-tdep.c                             |   4 +
 + gdb/regformats/i386/amd64-avx-mpx-linux.dat |  85 +++++++++++
 + gdb/regformats/i386/amd64-avx-mpx.dat       |  84 +++++++++++
 + gdb/regformats/i386/amd64-mpx-linux.dat     |  16 ---
@@ -206,7 +201,7 @@ index 0000000..043ff45
 + gdb/regformats/i386/i386-mpx-linux.dat      |   8 --
 + gdb/regformats/i386/i386-mpx.dat            |   8 --
 + gdb/x86-linux-nat.c                         |   7 +
-+ 38 files changed, 1342 insertions(+), 142 deletions(-)
++ 38 files changed, 1346 insertions(+), 142 deletions(-)
 + create mode 100644 gdb/features/i386/amd64-avx-mpx-linux.c
 + create mode 100644 gdb/features/i386/amd64-avx-mpx-linux.xml
 + create mode 100644 gdb/features/i386/amd64-avx-mpx.c
@@ -220,10 +215,10 @@ index 0000000..043ff45
 + create mode 100644 gdb/regformats/i386/i386-avx-mpx-linux.dat
 + create mode 100644 gdb/regformats/i386/i386-avx-mpx.dat
 +
-+Index: gdb-7.9.1/gdb/ChangeLog
++Index: gdb-7.10.1/gdb/ChangeLog
 +===================================================================
-+--- gdb-7.9.1.orig/gdb/ChangeLog
-++++ gdb-7.9.1/gdb/ChangeLog
++--- gdb-7.10.1.orig/gdb/ChangeLog
+++++ gdb-7.10.1/gdb/ChangeLog
 +@@ -1,3 +1,60 @@
 ++2016-04-14  Walfred Tedeschi  <walfred.tedeschi@intel.com>
 ++
@@ -282,14 +277,14 @@ index 0000000..043ff45
 ++	* regformats/i386/i386-avx-mpx-linux.dat: Generated.
 ++	* regformats/i386/i386-avx-mpx.dat: Generated.
 ++
-+ 2015-05-13  Joel Brobecker  <brobecker@adacore.com>
++ 2015-12-05  Joel Brobecker  <brobecker@adacore.com>
 + 
-+ 	* version.in: Set GDB version number to 7.9.1.
-+Index: gdb-7.9.1/gdb/amd64-linux-tdep.c
++ 	* version.in: Set GDB version number to 7.10.1.
++Index: gdb-7.10.1/gdb/amd64-linux-tdep.c
 +===================================================================
-+--- gdb-7.9.1.orig/gdb/amd64-linux-tdep.c
-++++ gdb-7.9.1/gdb/amd64-linux-tdep.c
-+@@ -41,6 +41,7 @@
++--- gdb-7.10.1.orig/gdb/amd64-linux-tdep.c
+++++ gdb-7.10.1/gdb/amd64-linux-tdep.c
++@@ -43,6 +43,7 @@
 + #include "features/i386/amd64-linux.c"
 + #include "features/i386/amd64-avx-linux.c"
 + #include "features/i386/amd64-mpx-linux.c"
@@ -297,7 +292,7 @@ index 0000000..043ff45
 + #include "features/i386/amd64-avx512-linux.c"
 + 
 + #include "features/i386/x32-linux.c"
-+@@ -1587,6 +1588,11 @@ amd64_linux_core_read_description (struc
++@@ -1589,6 +1590,11 @@ amd64_linux_core_read_description (struc
 + 	return tdesc_x32_avx_linux;  /* No x32 MPX falling back to AVX.  */
 +       else
 + 	return tdesc_amd64_mpx_linux;
@@ -309,7 +304,7 @@ index 0000000..043ff45
 +     case X86_XSTATE_AVX_MASK:
 +       if (gdbarch_ptr_bit (gdbarch) == 32)
 + 	return tdesc_x32_avx_linux;
-+@@ -2134,6 +2140,7 @@ _initialize_amd64_linux_tdep (void)
++@@ -2280,6 +2286,7 @@ _initialize_amd64_linux_tdep (void)
 +   initialize_tdesc_amd64_linux ();
 +   initialize_tdesc_amd64_avx_linux ();
 +   initialize_tdesc_amd64_mpx_linux ();
@@ -317,10 +312,10 @@ index 0000000..043ff45
 +   initialize_tdesc_amd64_avx512_linux ();
 + 
 +   initialize_tdesc_x32_linux ();
-+Index: gdb-7.9.1/gdb/amd64-linux-tdep.h
++Index: gdb-7.10.1/gdb/amd64-linux-tdep.h
 +===================================================================
-+--- gdb-7.9.1.orig/gdb/amd64-linux-tdep.h
-++++ gdb-7.9.1/gdb/amd64-linux-tdep.h
++--- gdb-7.10.1.orig/gdb/amd64-linux-tdep.h
+++++ gdb-7.10.1/gdb/amd64-linux-tdep.h
 +@@ -35,6 +35,7 @@
 + extern struct target_desc *tdesc_amd64_linux;
 + extern struct target_desc *tdesc_amd64_avx_linux;
@@ -329,11 +324,11 @@ index 0000000..043ff45
 + extern struct target_desc *tdesc_amd64_avx512_linux;
 + 
 + extern struct target_desc *tdesc_x32_linux;
-+Index: gdb-7.9.1/gdb/amd64-tdep.c
++Index: gdb-7.10.1/gdb/amd64-tdep.c
 +===================================================================
-+--- gdb-7.9.1.orig/gdb/amd64-tdep.c
-++++ gdb-7.9.1/gdb/amd64-tdep.c
-+@@ -43,6 +43,7 @@
++--- gdb-7.10.1.orig/gdb/amd64-tdep.c
+++++ gdb-7.10.1/gdb/amd64-tdep.c
++@@ -44,6 +44,7 @@
 + #include "features/i386/amd64.c"
 + #include "features/i386/amd64-avx.c"
 + #include "features/i386/amd64-mpx.c"
@@ -341,7 +336,16 @@ index 0000000..043ff45
 + #include "features/i386/amd64-avx512.c"
 + 
 + #include "features/i386/x32.c"
-+@@ -3119,6 +3120,7 @@ _initialize_amd64_tdep (void)
++@@ -3133,6 +3134,8 @@ amd64_target_description (uint64_t xcr0)
++       return tdesc_amd64_avx512;
++     case X86_XSTATE_MPX_MASK:
++       return tdesc_amd64_mpx;
+++    case X86_XSTATE_AVX_MPX_MASK:
+++      return tdesc_amd64_avx_mpx;
++     case X86_XSTATE_AVX_MASK:
++       return tdesc_amd64_avx;
++     default:
++@@ -3149,6 +3152,7 @@ _initialize_amd64_tdep (void)
 +   initialize_tdesc_amd64 ();
 +   initialize_tdesc_amd64_avx ();
 +   initialize_tdesc_amd64_mpx ();
@@ -349,10 +353,10 @@ index 0000000..043ff45
 +   initialize_tdesc_amd64_avx512 ();
 + 
 +   initialize_tdesc_x32 ();
-+Index: gdb-7.9.1/gdb/common/x86-xstate.h
++Index: gdb-7.10.1/gdb/common/x86-xstate.h
 +===================================================================
-+--- gdb-7.9.1.orig/gdb/common/x86-xstate.h
-++++ gdb-7.9.1/gdb/common/x86-xstate.h
++--- gdb-7.10.1.orig/gdb/common/x86-xstate.h
+++++ gdb-7.10.1/gdb/common/x86-xstate.h
 +@@ -39,9 +39,10 @@
 + #define X86_XSTATE_X87_MASK	X86_XSTATE_X87
 + #define X86_XSTATE_SSE_MASK	(X86_XSTATE_X87 | X86_XSTATE_SSE)
@@ -366,10 +370,10 @@ index 0000000..043ff45
 + 
 + #define X86_XSTATE_ALL_MASK	(X86_XSTATE_MPX_AVX512_MASK)
 + 
-+Index: gdb-7.9.1/gdb/features/Makefile
++Index: gdb-7.10.1/gdb/features/Makefile
 +===================================================================
-+--- gdb-7.9.1.orig/gdb/features/Makefile
-++++ gdb-7.9.1/gdb/features/Makefile
++--- gdb-7.10.1.orig/gdb/features/Makefile
+++++ gdb-7.10.1/gdb/features/Makefile
 +@@ -50,9 +50,11 @@ WHICH = aarch64 \
 + 	i386/amd64 i386/amd64-linux \
 + 	i386/i386-avx i386/i386-avx-linux \
@@ -382,7 +386,7 @@ index 0000000..043ff45
 + 	i386/amd64-avx512 i386/amd64-avx512-linux \
 + 	i386/x32 i386/x32-linux \
 + 	i386/x32-avx i386/x32-avx-linux \
-+@@ -82,7 +84,9 @@ i386/amd64-linux-expedite = rbp,rsp,rip
++@@ -83,7 +85,9 @@ i386/amd64-linux-expedite = rbp,rsp,rip
 + i386/i386-avx-expedite = ebp,esp,eip
 + i386/i386-avx-linux-expedite = ebp,esp,eip
 + i386/i386-mpx-expedite = ebp,esp,eip
@@ -392,7 +396,7 @@ index 0000000..043ff45
 + i386/i386-avx512-expedite = ebp,esp,eip
 + i386/i386-avx512-linux-expedite = ebp,esp,eip
 + i386/i386-mmx-expedite = ebp,esp,eip
-+@@ -90,7 +94,9 @@ i386/i386-mmx-linux-expedite = ebp,esp,e
++@@ -91,7 +95,9 @@ i386/i386-mmx-linux-expedite = ebp,esp,e
 + i386/amd64-avx-expedite = rbp,rsp,rip
 + i386/amd64-avx-linux-expedite = rbp,rsp,rip
 + i386/amd64-mpx-expedite = rbp,rsp,rip
@@ -402,7 +406,7 @@ index 0000000..043ff45
 + i386/amd64-avx512-expedite = rbp,rsp,rip
 + i386/amd64-avx512-linux-expedite = rbp,rsp,rip
 + i386/x32-expedite = rbp,rsp,rip
-+@@ -151,6 +157,8 @@ XMLTOC = \
++@@ -156,6 +162,8 @@ XMLTOC = \
 + 	i386/amd64-linux.xml \
 + 	i386/amd64-mpx-linux.xml \
 + 	i386/amd64-mpx.xml \
@@ -411,7 +415,7 @@ index 0000000..043ff45
 + 	i386/amd64.xml \
 + 	i386/i386-avx-linux.xml \
 + 	i386/i386-avx.xml \
-+@@ -161,6 +169,8 @@ XMLTOC = \
++@@ -166,6 +174,8 @@ XMLTOC = \
 + 	i386/i386-mmx.xml \
 + 	i386/i386-mpx-linux.xml \
 + 	i386/i386-mpx.xml \
@@ -420,7 +424,7 @@ index 0000000..043ff45
 + 	i386/i386.xml \
 + 	i386/x32-avx-linux.xml \
 + 	i386/x32-avx.xml \
-+@@ -266,6 +276,10 @@ $(outdir)/i386/i386-mpx.dat: i386/32bit-
++@@ -271,6 +281,10 @@ $(outdir)/i386/i386-mpx.dat: i386/32bit-
 + 			       i386/32bit-mpx.xml
 + $(outdir)/i386/i386-mpx-linux.dat: i386/32bit-core.xml 	i386/32bit-avx.xml \
 + 			       i386/32bit-linux.xml i386/32bit-mpx.xml
@@ -431,7 +435,7 @@ index 0000000..043ff45
 + $(outdir)/i386/i386-avx512.dat: i386/32bit-core.xml i386/32bit-avx.xml \
 + 			       i386/32bit-mpx.xml i386/32bit-avx512.xml
 + $(outdir)/i386/i386-avx512-linux.dat: i386/32bit-core.xml i386/32bit-avx.xml \
-+@@ -277,8 +291,12 @@ $(outdir)/i386/amd64-avx-linux.dat: i386
++@@ -282,8 +296,12 @@ $(outdir)/i386/amd64-avx-linux.dat: i386
 + 				    i386/64bit-linux.xml
 + $(outdir)/i386/amd64-mpx-linux.dat: i386/64bit-core.xml i386/64bit-avx.xml \
 + 			       i386/64bit-linux.xml i386/64bit-mpx.xml
@@ -444,10 +448,10 @@ index 0000000..043ff45
 + $(outdir)/i386/amd64-avx512.dat: i386/64bit-core.xml i386/64bit-avx.xml \
 + 			       i386/64bit-mpx.xml i386/64bit-avx512.xml
 + $(outdir)/i386/amd64-avx512-linux.dat: i386/64bit-core.xml i386/64bit-avx.xml \
-+Index: gdb-7.9.1/gdb/features/i386/amd64-avx-mpx-linux.c
++Index: gdb-7.10.1/gdb/features/i386/amd64-avx-mpx-linux.c
 +===================================================================
 +--- /dev/null
-++++ gdb-7.9.1/gdb/features/i386/amd64-avx-mpx-linux.c
+++++ gdb-7.10.1/gdb/features/i386/amd64-avx-mpx-linux.c
 +@@ -0,0 +1,211 @@
 ++/* THIS FILE IS GENERATED.  -*- buffer-read-only: t -*- vi:set ro:
 ++  Original: amd64-avx-mpx-linux.xml */
@@ -660,10 +664,10 @@ index 0000000..043ff45
 ++
 ++  tdesc_amd64_avx_mpx_linux = result;
 ++}
-+Index: gdb-7.9.1/gdb/features/i386/amd64-avx-mpx-linux.xml
++Index: gdb-7.10.1/gdb/features/i386/amd64-avx-mpx-linux.xml
 +===================================================================
 +--- /dev/null
-++++ gdb-7.9.1/gdb/features/i386/amd64-avx-mpx-linux.xml
+++++ gdb-7.10.1/gdb/features/i386/amd64-avx-mpx-linux.xml
 +@@ -0,0 +1,19 @@
 ++<?xml version="1.0"?>
 ++<!-- Copyright (C) 2013-2016 Free Software Foundation, Inc.
@@ -684,10 +688,10 @@ index 0000000..043ff45
 ++  <xi:include href="64bit-avx.xml"/>
 ++  <xi:include href="64bit-mpx.xml"/>
 ++</target>
-+Index: gdb-7.9.1/gdb/features/i386/amd64-avx-mpx.c
++Index: gdb-7.10.1/gdb/features/i386/amd64-avx-mpx.c
 +===================================================================
 +--- /dev/null
-++++ gdb-7.9.1/gdb/features/i386/amd64-avx-mpx.c
+++++ gdb-7.10.1/gdb/features/i386/amd64-avx-mpx.c
 +@@ -0,0 +1,206 @@
 ++/* THIS FILE IS GENERATED.  -*- buffer-read-only: t -*- vi:set ro:
 ++  Original: amd64-avx-mpx.xml */
@@ -895,10 +899,10 @@ index 0000000..043ff45
 ++
 ++  tdesc_amd64_avx_mpx = result;
 ++}
-+Index: gdb-7.9.1/gdb/features/i386/amd64-avx-mpx.xml
++Index: gdb-7.10.1/gdb/features/i386/amd64-avx-mpx.xml
 +===================================================================
 +--- /dev/null
-++++ gdb-7.9.1/gdb/features/i386/amd64-avx-mpx.xml
+++++ gdb-7.10.1/gdb/features/i386/amd64-avx-mpx.xml
 +@@ -0,0 +1,17 @@
 ++<?xml version="1.0"?>
 ++<!-- Copyright (C) 2013-2016 Free Software Foundation, Inc.
@@ -917,10 +921,10 @@ index 0000000..043ff45
 ++  <xi:include href="64bit-avx.xml"/>
 ++  <xi:include href="64bit-mpx.xml"/>
 ++</target>
-+Index: gdb-7.9.1/gdb/features/i386/amd64-mpx-linux.c
++Index: gdb-7.10.1/gdb/features/i386/amd64-mpx-linux.c
 +===================================================================
-+--- gdb-7.9.1.orig/gdb/features/i386/amd64-mpx-linux.c
-++++ gdb-7.9.1/gdb/features/i386/amd64-mpx-linux.c
++--- gdb-7.10.1.orig/gdb/features/i386/amd64-mpx-linux.c
+++++ gdb-7.10.1/gdb/features/i386/amd64-mpx-linux.c
 +@@ -151,24 +151,6 @@ initialize_tdesc_amd64_mpx_linux (void)
 +   feature = tdesc_create_feature (result, "org.gnu.gdb.i386.linux");
 +   tdesc_create_reg (feature, "orig_rax", 57, 1, NULL, 64, "int");
@@ -965,10 +969,10 @@ index 0000000..043ff45
 + 
 +   tdesc_amd64_mpx_linux = result;
 + }
-+Index: gdb-7.9.1/gdb/features/i386/amd64-mpx-linux.xml
++Index: gdb-7.10.1/gdb/features/i386/amd64-mpx-linux.xml
 +===================================================================
-+--- gdb-7.9.1.orig/gdb/features/i386/amd64-mpx-linux.xml
-++++ gdb-7.9.1/gdb/features/i386/amd64-mpx-linux.xml
++--- gdb-7.10.1.orig/gdb/features/i386/amd64-mpx-linux.xml
+++++ gdb-7.10.1/gdb/features/i386/amd64-mpx-linux.xml
 +@@ -14,6 +14,5 @@
 +   <xi:include href="64bit-core.xml"/>
 +   <xi:include href="64bit-sse.xml"/>
@@ -976,10 +980,10 @@ index 0000000..043ff45
 +-  <xi:include href="64bit-avx.xml"/>
 +   <xi:include href="64bit-mpx.xml"/>
 + </target>
-+Index: gdb-7.9.1/gdb/features/i386/amd64-mpx.c
++Index: gdb-7.10.1/gdb/features/i386/amd64-mpx.c
 +===================================================================
-+--- gdb-7.9.1.orig/gdb/features/i386/amd64-mpx.c
-++++ gdb-7.9.1/gdb/features/i386/amd64-mpx.c
++--- gdb-7.10.1.orig/gdb/features/i386/amd64-mpx.c
+++++ gdb-7.10.1/gdb/features/i386/amd64-mpx.c
 +@@ -146,24 +146,6 @@ initialize_tdesc_amd64_mpx (void)
 +   tdesc_create_reg (feature, "xmm15", 55, 1, NULL, 128, "vec128");
 +   tdesc_create_reg (feature, "mxcsr", 56, 1, "vector", 32, "i386_mxcsr");
@@ -1024,10 +1028,10 @@ index 0000000..043ff45
 + 
 +   tdesc_amd64_mpx = result;
 + }
-+Index: gdb-7.9.1/gdb/features/i386/amd64-mpx.xml
++Index: gdb-7.10.1/gdb/features/i386/amd64-mpx.xml
 +===================================================================
-+--- gdb-7.9.1.orig/gdb/features/i386/amd64-mpx.xml
-++++ gdb-7.9.1/gdb/features/i386/amd64-mpx.xml
++--- gdb-7.10.1.orig/gdb/features/i386/amd64-mpx.xml
+++++ gdb-7.10.1/gdb/features/i386/amd64-mpx.xml
 +@@ -12,6 +12,5 @@
 +   <architecture>i386:x86-64</architecture>
 +   <xi:include href="64bit-core.xml"/>
@@ -1035,10 +1039,10 @@ index 0000000..043ff45
 +-  <xi:include href="64bit-avx.xml"/>
 +   <xi:include href="64bit-mpx.xml"/>
 + </target>
-+Index: gdb-7.9.1/gdb/features/i386/i386-avx-mpx-linux.c
++Index: gdb-7.10.1/gdb/features/i386/i386-avx-mpx-linux.c
 +===================================================================
 +--- /dev/null
-++++ gdb-7.9.1/gdb/features/i386/i386-avx-mpx-linux.c
+++++ gdb-7.10.1/gdb/features/i386/i386-avx-mpx-linux.c
 +@@ -0,0 +1,187 @@
 ++/* THIS FILE IS GENERATED.  -*- buffer-read-only: t -*- vi:set ro:
 ++  Original: i386-avx-mpx-linux.xml */
@@ -1227,10 +1231,10 @@ index 0000000..043ff45
 ++
 ++  tdesc_i386_avx_mpx_linux = result;
 ++}
-+Index: gdb-7.9.1/gdb/features/i386/i386-avx-mpx-linux.xml
++Index: gdb-7.10.1/gdb/features/i386/i386-avx-mpx-linux.xml
 +===================================================================
 +--- /dev/null
-++++ gdb-7.9.1/gdb/features/i386/i386-avx-mpx-linux.xml
+++++ gdb-7.10.1/gdb/features/i386/i386-avx-mpx-linux.xml
 +@@ -0,0 +1,19 @@
 ++<?xml version="1.0"?>
 ++<!-- Copyright (C) 2013-2016 Free Software Foundation, Inc.
@@ -1251,10 +1255,10 @@ index 0000000..043ff45
 ++  <xi:include href="32bit-avx.xml"/>
 ++  <xi:include href="32bit-mpx.xml"/>
 ++</target>
-+Index: gdb-7.9.1/gdb/features/i386/i386-avx-mpx.c
++Index: gdb-7.10.1/gdb/features/i386/i386-avx-mpx.c
 +===================================================================
 +--- /dev/null
-++++ gdb-7.9.1/gdb/features/i386/i386-avx-mpx.c
+++++ gdb-7.10.1/gdb/features/i386/i386-avx-mpx.c
 +@@ -0,0 +1,182 @@
 ++/* THIS FILE IS GENERATED.  -*- buffer-read-only: t -*- vi:set ro:
 ++  Original: i386-avx-mpx.xml */
@@ -1438,10 +1442,10 @@ index 0000000..043ff45
 ++
 ++  tdesc_i386_avx_mpx = result;
 ++}
-+Index: gdb-7.9.1/gdb/features/i386/i386-avx-mpx.xml
++Index: gdb-7.10.1/gdb/features/i386/i386-avx-mpx.xml
 +===================================================================
 +--- /dev/null
-++++ gdb-7.9.1/gdb/features/i386/i386-avx-mpx.xml
+++++ gdb-7.10.1/gdb/features/i386/i386-avx-mpx.xml
 +@@ -0,0 +1,17 @@
 ++<?xml version="1.0"?>
 ++<!-- Copyright (C) 2013-2016 Free Software Foundation, Inc.
@@ -1460,10 +1464,10 @@ index 0000000..043ff45
 ++  <xi:include href="32bit-avx.xml"/>
 ++  <xi:include href="32bit-mpx.xml"/>
 ++</target>
-+Index: gdb-7.9.1/gdb/features/i386/i386-mpx-linux.c
++Index: gdb-7.10.1/gdb/features/i386/i386-mpx-linux.c
 +===================================================================
-+--- gdb-7.9.1.orig/gdb/features/i386/i386-mpx-linux.c
-++++ gdb-7.9.1/gdb/features/i386/i386-mpx-linux.c
++--- gdb-7.10.1.orig/gdb/features/i386/i386-mpx-linux.c
+++++ gdb-7.10.1/gdb/features/i386/i386-mpx-linux.c
 +@@ -135,16 +135,6 @@ initialize_tdesc_i386_mpx_linux (void)
 +   feature = tdesc_create_feature (result, "org.gnu.gdb.i386.linux");
 +   tdesc_create_reg (feature, "orig_eax", 41, 1, NULL, 32, "int");
@@ -1500,10 +1504,10 @@ index 0000000..043ff45
 + 
 +   tdesc_i386_mpx_linux = result;
 + }
-+Index: gdb-7.9.1/gdb/features/i386/i386-mpx-linux.xml
++Index: gdb-7.10.1/gdb/features/i386/i386-mpx-linux.xml
 +===================================================================
-+--- gdb-7.9.1.orig/gdb/features/i386/i386-mpx-linux.xml
-++++ gdb-7.9.1/gdb/features/i386/i386-mpx-linux.xml
++--- gdb-7.10.1.orig/gdb/features/i386/i386-mpx-linux.xml
+++++ gdb-7.10.1/gdb/features/i386/i386-mpx-linux.xml
 +@@ -14,6 +14,5 @@
 +   <xi:include href="32bit-core.xml"/>
 +   <xi:include href="32bit-sse.xml"/>
@@ -1511,10 +1515,10 @@ index 0000000..043ff45
 +-  <xi:include href="32bit-avx.xml"/>
 +   <xi:include href="32bit-mpx.xml"/>
 + </target>
-+Index: gdb-7.9.1/gdb/features/i386/i386-mpx.c
++Index: gdb-7.10.1/gdb/features/i386/i386-mpx.c
 +===================================================================
-+--- gdb-7.9.1.orig/gdb/features/i386/i386-mpx.c
-++++ gdb-7.9.1/gdb/features/i386/i386-mpx.c
++--- gdb-7.10.1.orig/gdb/features/i386/i386-mpx.c
+++++ gdb-7.10.1/gdb/features/i386/i386-mpx.c
 +@@ -130,16 +130,6 @@ initialize_tdesc_i386_mpx (void)
 +   tdesc_create_reg (feature, "xmm7", 39, 1, NULL, 128, "vec128");
 +   tdesc_create_reg (feature, "mxcsr", 40, 1, "vector", 32, "i386_mxcsr");
@@ -1551,10 +1555,10 @@ index 0000000..043ff45
 + 
 +   tdesc_i386_mpx = result;
 + }
-+Index: gdb-7.9.1/gdb/features/i386/i386-mpx.xml
++Index: gdb-7.10.1/gdb/features/i386/i386-mpx.xml
 +===================================================================
-+--- gdb-7.9.1.orig/gdb/features/i386/i386-mpx.xml
-++++ gdb-7.9.1/gdb/features/i386/i386-mpx.xml
++--- gdb-7.10.1.orig/gdb/features/i386/i386-mpx.xml
+++++ gdb-7.10.1/gdb/features/i386/i386-mpx.xml
 +@@ -12,6 +12,5 @@
 +   <architecture>i386</architecture>
 +   <xi:include href="32bit-core.xml"/>
@@ -1562,10 +1566,10 @@ index 0000000..043ff45
 +-  <xi:include href="32bit-avx.xml"/>
 +   <xi:include href="32bit-mpx.xml"/>
 + </target>
-+Index: gdb-7.9.1/gdb/gdbserver/ChangeLog
++Index: gdb-7.10.1/gdb/gdbserver/ChangeLog
 +===================================================================
-+--- gdb-7.9.1.orig/gdb/gdbserver/ChangeLog
-++++ gdb-7.9.1/gdb/gdbserver/ChangeLog
++--- gdb-7.10.1.orig/gdb/gdbserver/ChangeLog
+++++ gdb-7.10.1/gdb/gdbserver/ChangeLog
 +@@ -1,3 +1,36 @@
 ++2016-04-16  Walfred Tedeschi  <walfred.tedeschi@intel.com>
 ++
@@ -1600,14 +1604,14 @@ index 0000000..043ff45
 ++	(init_registers_i386_avx_mpx_linux, tdesc_i386_avx_mpx_linux): New
 ++	declarations.
 ++
-+ 2015-01-10  Joel Brobecker  <brobecker@adacore.com>
++ 2015-09-15  Pedro Alves  <palves@redhat.com>
 + 
-+ 	* i387-fp.c (i387_cache_to_xsave): In look over
-+Index: gdb-7.9.1/gdb/gdbserver/Makefile.in
++ 	PR remote/18965
++Index: gdb-7.10.1/gdb/gdbserver/Makefile.in
 +===================================================================
-+--- gdb-7.9.1.orig/gdb/gdbserver/Makefile.in
-++++ gdb-7.9.1/gdb/gdbserver/Makefile.in
-+@@ -361,9 +361,11 @@ clean:
++--- gdb-7.10.1.orig/gdb/gdbserver/Makefile.in
+++++ gdb-7.10.1/gdb/gdbserver/Makefile.in
++@@ -371,9 +371,11 @@ clean:
 + 	rm -f xml-builtin.c stamp-xml
 + 	rm -f i386-avx.c i386-avx-linux.c
 + 	rm -f i386-mpx.c i386-mpx-linux.c
@@ -1619,7 +1623,7 @@ index 0000000..043ff45
 + 	rm -f amd64-avx512.c amd64-avx512-linux.c
 + 	rm -f i386-mmx.c i386-mmx-linux.c
 + 	rm -f x32.c x32-linux.c
-+@@ -616,6 +618,10 @@ i386-mpx.c : $(srcdir)/../regformats/i38
++@@ -653,6 +655,10 @@ i386-mpx.c : $(srcdir)/../regformats/i38
 + 	$(SHELL) $(regdat_sh) $(srcdir)/../regformats/i386/i386-mpx.dat i386-mpx.c
 + i386-mpx-linux.c : $(srcdir)/../regformats/i386/i386-mpx-linux.dat $(regdat_sh)
 + 	$(SHELL) $(regdat_sh) $(srcdir)/../regformats/i386/i386-mpx-linux.dat i386-mpx-linux.c
@@ -1630,7 +1634,7 @@ index 0000000..043ff45
 + i386-mmx.c : $(srcdir)/../regformats/i386/i386-mmx.dat $(regdat_sh)
 + 	$(SHELL) $(regdat_sh) $(srcdir)/../regformats/i386/i386-mmx.dat i386-mmx.c
 + i386-mmx-linux.c : $(srcdir)/../regformats/i386/i386-mmx-linux.dat $(regdat_sh)
-+@@ -722,6 +728,10 @@ amd64-mpx.c : $(srcdir)/../regformats/i3
++@@ -767,6 +773,10 @@ amd64-mpx.c : $(srcdir)/../regformats/i3
 + 	$(SHELL) $(regdat_sh) $(srcdir)/../regformats/i386/amd64-mpx.dat amd64-mpx.c
 + amd64-mpx-linux.c : $(srcdir)/../regformats/i386/amd64-mpx-linux.dat $(regdat_sh)
 + 	$(SHELL) $(regdat_sh) $(srcdir)/../regformats/i386/amd64-mpx-linux.dat amd64-mpx-linux.c
@@ -1641,10 +1645,10 @@ index 0000000..043ff45
 + x32.c : $(srcdir)/../regformats/i386/x32.dat $(regdat_sh)
 + 	$(SHELL) $(regdat_sh) $(srcdir)/../regformats/i386/x32.dat x32.c
 + x32-linux.c : $(srcdir)/../regformats/i386/x32-linux.dat $(regdat_sh)
-+Index: gdb-7.9.1/gdb/gdbserver/configure.srv
++Index: gdb-7.10.1/gdb/gdbserver/configure.srv
 +===================================================================
-+--- gdb-7.9.1.orig/gdb/gdbserver/configure.srv
-++++ gdb-7.9.1/gdb/gdbserver/configure.srv
++--- gdb-7.10.1.orig/gdb/gdbserver/configure.srv
+++++ gdb-7.10.1/gdb/gdbserver/configure.srv
 +@@ -24,20 +24,21 @@
 + # Default hostio_last_error implementation
 + srv_hostio_err_objs="hostio-errno.o"
@@ -1675,11 +1679,11 @@ index 0000000..043ff45
 + 
 + 
 + # Linux object files.  This is so we don't have to repeat
-+Index: gdb-7.9.1/gdb/gdbserver/linux-x86-low.c
++Index: gdb-7.10.1/gdb/gdbserver/linux-x86-low.c
 +===================================================================
-+--- gdb-7.9.1.orig/gdb/gdbserver/linux-x86-low.c
-++++ gdb-7.9.1/gdb/gdbserver/linux-x86-low.c
-+@@ -55,6 +55,10 @@ extern const struct target_desc *tdesc_a
++--- gdb-7.10.1.orig/gdb/gdbserver/linux-x86-low.c
+++++ gdb-7.10.1/gdb/gdbserver/linux-x86-low.c
++@@ -58,6 +58,10 @@ extern const struct target_desc *tdesc_a
 + void init_registers_amd64_mpx_linux (void);
 + extern const struct target_desc *tdesc_amd64_mpx_linux;
 + 
@@ -1690,7 +1694,7 @@ index 0000000..043ff45
 + /* Defined in auto-generated file x32-linux.c.  */
 + void init_registers_x32_linux (void);
 + extern const struct target_desc *tdesc_x32_linux;
-+@@ -81,6 +85,10 @@ extern const struct target_desc *tdesc_i
++@@ -84,6 +88,10 @@ extern const struct target_desc *tdesc_i
 + void init_registers_i386_avx_linux (void);
 + extern const struct target_desc *tdesc_i386_avx_linux;
 + 
@@ -1701,7 +1705,7 @@ index 0000000..043ff45
 + /* Defined in auto-generated file i386-avx512-linux.c.  */
 + void init_registers_i386_avx512_linux (void);
 + extern const struct target_desc *tdesc_i386_avx512_linux;
-+@@ -1394,6 +1402,9 @@ x86_linux_read_description (void)
++@@ -1248,6 +1256,9 @@ x86_linux_read_description (void)
 + 		case X86_XSTATE_AVX512_MASK:
 + 		  return tdesc_amd64_avx512_linux;
 + 
@@ -1711,7 +1715,7 @@ index 0000000..043ff45
 + 		case X86_XSTATE_MPX_MASK:
 + 		  return tdesc_amd64_mpx_linux;
 + 
-+@@ -1441,6 +1452,9 @@ x86_linux_read_description (void)
++@@ -1295,6 +1306,9 @@ x86_linux_read_description (void)
 + 	    case (X86_XSTATE_MPX_MASK):
 + 	      return tdesc_i386_mpx_linux;
 + 
@@ -1721,7 +1725,7 @@ index 0000000..043ff45
 + 	    case (X86_XSTATE_AVX_MASK):
 + 	      return tdesc_i386_avx_linux;
 + 
-+@@ -3447,6 +3461,7 @@ initialize_low_arch (void)
++@@ -3302,6 +3316,7 @@ initialize_low_arch (void)
 +   init_registers_amd64_avx_linux ();
 +   init_registers_amd64_avx512_linux ();
 +   init_registers_amd64_mpx_linux ();
@@ -1729,7 +1733,7 @@ index 0000000..043ff45
 + 
 +   init_registers_x32_linux ();
 +   init_registers_x32_avx_linux ();
-+@@ -3461,6 +3476,7 @@ initialize_low_arch (void)
++@@ -3316,6 +3331,7 @@ initialize_low_arch (void)
 +   init_registers_i386_avx_linux ();
 +   init_registers_i386_avx512_linux ();
 +   init_registers_i386_mpx_linux ();
@@ -1737,11 +1741,11 @@ index 0000000..043ff45
 + 
 +   tdesc_i386_linux_no_xml = xmalloc (sizeof (struct target_desc));
 +   copy_target_description (tdesc_i386_linux_no_xml, tdesc_i386_linux);
-+Index: gdb-7.9.1/gdb/i386-linux-tdep.c
++Index: gdb-7.10.1/gdb/i386-linux-tdep.c
 +===================================================================
-+--- gdb-7.9.1.orig/gdb/i386-linux-tdep.c
-++++ gdb-7.9.1/gdb/i386-linux-tdep.c
-+@@ -49,6 +49,7 @@
++--- gdb-7.10.1.orig/gdb/i386-linux-tdep.c
+++++ gdb-7.10.1/gdb/i386-linux-tdep.c
++@@ -47,6 +47,7 @@
 + #include "features/i386/i386-linux.c"
 + #include "features/i386/i386-mmx-linux.c"
 + #include "features/i386/i386-mpx-linux.c"
@@ -1749,7 +1753,7 @@ index 0000000..043ff45
 + #include "features/i386/i386-avx-linux.c"
 + #include "features/i386/i386-avx512-linux.c"
 + 
-+@@ -632,6 +633,8 @@ i386_linux_core_read_description (struct
++@@ -630,6 +631,8 @@ i386_linux_core_read_description (struct
 +       return tdesc_i386_avx512_linux;
 +     case X86_XSTATE_MPX_MASK:
 +       return tdesc_i386_mpx_linux;
@@ -1758,17 +1762,17 @@ index 0000000..043ff45
 +     case X86_XSTATE_AVX_MASK:
 +       return tdesc_i386_avx_linux;
 +     case X86_XSTATE_SSE_MASK:
-+@@ -1015,5 +1018,6 @@ _initialize_i386_linux_tdep (void)
++@@ -1010,5 +1013,6 @@ _initialize_i386_linux_tdep (void)
 +   initialize_tdesc_i386_mmx_linux ();
 +   initialize_tdesc_i386_avx_linux ();
 +   initialize_tdesc_i386_mpx_linux ();
 ++  initialize_tdesc_i386_avx_mpx_linux ();
 +   initialize_tdesc_i386_avx512_linux ();
 + }
-+Index: gdb-7.9.1/gdb/i386-linux-tdep.h
++Index: gdb-7.10.1/gdb/i386-linux-tdep.h
 +===================================================================
-+--- gdb-7.9.1.orig/gdb/i386-linux-tdep.h
-++++ gdb-7.9.1/gdb/i386-linux-tdep.h
++--- gdb-7.10.1.orig/gdb/i386-linux-tdep.h
+++++ gdb-7.10.1/gdb/i386-linux-tdep.h
 +@@ -42,6 +42,7 @@ extern struct target_desc *tdesc_i386_li
 + extern struct target_desc *tdesc_i386_mmx_linux;
 + extern struct target_desc *tdesc_i386_avx_linux;
@@ -1777,11 +1781,11 @@ index 0000000..043ff45
 + extern struct target_desc *tdesc_i386_avx512_linux;
 + 
 + /* Format of XSAVE extended state is:
-+Index: gdb-7.9.1/gdb/i386-tdep.c
++Index: gdb-7.10.1/gdb/i386-tdep.c
 +===================================================================
-+--- gdb-7.9.1.orig/gdb/i386-tdep.c
-++++ gdb-7.9.1/gdb/i386-tdep.c
-+@@ -55,6 +55,7 @@
++--- gdb-7.10.1.orig/gdb/i386-tdep.c
+++++ gdb-7.10.1/gdb/i386-tdep.c
++@@ -53,6 +53,7 @@
 + #include "features/i386/i386.c"
 + #include "features/i386/i386-avx.c"
 + #include "features/i386/i386-mpx.c"
@@ -1789,7 +1793,16 @@ index 0000000..043ff45
 + #include "features/i386/i386-avx512.c"
 + #include "features/i386/i386-mmx.c"
 + 
-+@@ -8635,6 +8636,7 @@ is \"default\"."),
++@@ -8608,6 +8609,8 @@ i386_target_description (uint64_t xcr0)
++     case X86_XSTATE_MPX_AVX512_MASK:
++     case X86_XSTATE_AVX512_MASK:
++       return tdesc_i386_avx512;
+++    case X86_XSTATE_AVX_MPX_MASK:
+++      return tdesc_i386_avx_mpx;
++     case X86_XSTATE_MPX_MASK:
++       return tdesc_i386_mpx;
++     case X86_XSTATE_AVX_MASK:
++@@ -8945,6 +8948,7 @@ Show Intel(R) Memory Protection Extensio
 +   initialize_tdesc_i386_mmx ();
 +   initialize_tdesc_i386_avx ();
 +   initialize_tdesc_i386_mpx ();
@@ -1797,10 +1810,10 @@ index 0000000..043ff45
 +   initialize_tdesc_i386_avx512 ();
 + 
 +   /* Tell remote stub that we support XML target description.  */
-+Index: gdb-7.9.1/gdb/regformats/i386/amd64-avx-mpx-linux.dat
++Index: gdb-7.10.1/gdb/regformats/i386/amd64-avx-mpx-linux.dat
 +===================================================================
 +--- /dev/null
-++++ gdb-7.9.1/gdb/regformats/i386/amd64-avx-mpx-linux.dat
+++++ gdb-7.10.1/gdb/regformats/i386/amd64-avx-mpx-linux.dat
 +@@ -0,0 +1,85 @@
 ++# THIS FILE IS GENERATED.  -*- buffer-read-only: t -*- vi :set ro:
 ++# Generated from: i386/amd64-avx-mpx-linux.xml
@@ -1887,10 +1900,10 @@ index 0000000..043ff45
 ++128:bnd3raw
 ++64:bndcfgu
 ++64:bndstatus
-+Index: gdb-7.9.1/gdb/regformats/i386/amd64-avx-mpx.dat
++Index: gdb-7.10.1/gdb/regformats/i386/amd64-avx-mpx.dat
 +===================================================================
 +--- /dev/null
-++++ gdb-7.9.1/gdb/regformats/i386/amd64-avx-mpx.dat
+++++ gdb-7.10.1/gdb/regformats/i386/amd64-avx-mpx.dat
 +@@ -0,0 +1,84 @@
 ++# THIS FILE IS GENERATED.  -*- buffer-read-only: t -*- vi :set ro:
 ++# Generated from: i386/amd64-avx-mpx.xml
@@ -1976,10 +1989,10 @@ index 0000000..043ff45
 ++128:bnd3raw
 ++64:bndcfgu
 ++64:bndstatus
-+Index: gdb-7.9.1/gdb/regformats/i386/amd64-mpx-linux.dat
++Index: gdb-7.10.1/gdb/regformats/i386/amd64-mpx-linux.dat
 +===================================================================
-+--- gdb-7.9.1.orig/gdb/regformats/i386/amd64-mpx-linux.dat
-++++ gdb-7.9.1/gdb/regformats/i386/amd64-mpx-linux.dat
++--- gdb-7.10.1.orig/gdb/regformats/i386/amd64-mpx-linux.dat
+++++ gdb-7.10.1/gdb/regformats/i386/amd64-mpx-linux.dat
 +@@ -61,22 +61,6 @@ expedite:rbp,rsp,rip
 + 128:xmm15
 + 32:mxcsr
@@ -2003,10 +2016,10 @@ index 0000000..043ff45
 + 128:bnd0raw
 + 128:bnd1raw
 + 128:bnd2raw
-+Index: gdb-7.9.1/gdb/regformats/i386/amd64-mpx.dat
++Index: gdb-7.10.1/gdb/regformats/i386/amd64-mpx.dat
 +===================================================================
-+--- gdb-7.9.1.orig/gdb/regformats/i386/amd64-mpx.dat
-++++ gdb-7.9.1/gdb/regformats/i386/amd64-mpx.dat
++--- gdb-7.10.1.orig/gdb/regformats/i386/amd64-mpx.dat
+++++ gdb-7.10.1/gdb/regformats/i386/amd64-mpx.dat
 +@@ -60,22 +60,6 @@ expedite:rbp,rsp,rip
 + 128:xmm14
 + 128:xmm15
@@ -2030,10 +2043,10 @@ index 0000000..043ff45
 + 128:bnd0raw
 + 128:bnd1raw
 + 128:bnd2raw
-+Index: gdb-7.9.1/gdb/regformats/i386/i386-avx-mpx-linux.dat
++Index: gdb-7.10.1/gdb/regformats/i386/i386-avx-mpx-linux.dat
 +===================================================================
 +--- /dev/null
-++++ gdb-7.9.1/gdb/regformats/i386/i386-avx-mpx-linux.dat
+++++ gdb-7.10.1/gdb/regformats/i386/i386-avx-mpx-linux.dat
 +@@ -0,0 +1,61 @@
 ++# THIS FILE IS GENERATED.  -*- buffer-read-only: t -*- vi :set ro:
 ++# Generated from: i386/i386-avx-mpx-linux.xml
@@ -2096,10 +2109,10 @@ index 0000000..043ff45
 ++128:bnd3raw
 ++64:bndcfgu
 ++64:bndstatus
-+Index: gdb-7.9.1/gdb/regformats/i386/i386-avx-mpx.dat
++Index: gdb-7.10.1/gdb/regformats/i386/i386-avx-mpx.dat
 +===================================================================
 +--- /dev/null
-++++ gdb-7.9.1/gdb/regformats/i386/i386-avx-mpx.dat
+++++ gdb-7.10.1/gdb/regformats/i386/i386-avx-mpx.dat
 +@@ -0,0 +1,60 @@
 ++# THIS FILE IS GENERATED.  -*- buffer-read-only: t -*- vi :set ro:
 ++# Generated from: i386/i386-avx-mpx.xml
@@ -2161,10 +2174,10 @@ index 0000000..043ff45
 ++128:bnd3raw
 ++64:bndcfgu
 ++64:bndstatus
-+Index: gdb-7.9.1/gdb/regformats/i386/i386-mpx-linux.dat
++Index: gdb-7.10.1/gdb/regformats/i386/i386-mpx-linux.dat
 +===================================================================
-+--- gdb-7.9.1.orig/gdb/regformats/i386/i386-mpx-linux.dat
-++++ gdb-7.9.1/gdb/regformats/i386/i386-mpx-linux.dat
++--- gdb-7.10.1.orig/gdb/regformats/i386/i386-mpx-linux.dat
+++++ gdb-7.10.1/gdb/regformats/i386/i386-mpx-linux.dat
 +@@ -45,14 +45,6 @@ expedite:ebp,esp,eip
 + 128:xmm7
 + 32:mxcsr
@@ -2180,10 +2193,10 @@ index 0000000..043ff45
 + 128:bnd0raw
 + 128:bnd1raw
 + 128:bnd2raw
-+Index: gdb-7.9.1/gdb/regformats/i386/i386-mpx.dat
++Index: gdb-7.10.1/gdb/regformats/i386/i386-mpx.dat
 +===================================================================
-+--- gdb-7.9.1.orig/gdb/regformats/i386/i386-mpx.dat
-++++ gdb-7.9.1/gdb/regformats/i386/i386-mpx.dat
++--- gdb-7.10.1.orig/gdb/regformats/i386/i386-mpx.dat
+++++ gdb-7.10.1/gdb/regformats/i386/i386-mpx.dat
 +@@ -44,14 +44,6 @@ expedite:ebp,esp,eip
 + 128:xmm6
 + 128:xmm7
@@ -2199,11 +2212,11 @@ index 0000000..043ff45
 + 128:bnd0raw
 + 128:bnd1raw
 + 128:bnd2raw
-+Index: gdb-7.9.1/gdb/x86-linux-nat.c
++Index: gdb-7.10.1/gdb/x86-linux-nat.c
 +===================================================================
-+--- gdb-7.9.1.orig/gdb/x86-linux-nat.c
-++++ gdb-7.9.1/gdb/x86-linux-nat.c
-+@@ -391,6 +391,11 @@ x86_linux_read_description (struct targe
++--- gdb-7.10.1.orig/gdb/x86-linux-nat.c
+++++ gdb-7.10.1/gdb/x86-linux-nat.c
++@@ -215,6 +215,11 @@ x86_linux_read_description (struct targe
 + 	    return tdesc_x32_avx_linux; /* No MPX on x32 using AVX.  */
 + 	  else
 + 	    return tdesc_amd64_mpx_linux;
@@ -2215,7 +2228,7 @@ index 0000000..043ff45
 + 	case X86_XSTATE_AVX_MASK:
 + 	  if (is_x32)
 + 	    return tdesc_x32_avx_linux;
-+@@ -413,6 +418,8 @@ x86_linux_read_description (struct targe
++@@ -237,6 +242,8 @@ x86_linux_read_description (struct targe
 + 	  return tdesc_i386_avx512_linux;
 + 	case X86_XSTATE_MPX_MASK:
 + 	  return tdesc_i386_mpx_linux;
