@@ -1,48 +1,53 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com
-	[209.85.213.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E3D0770C6
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
+	[209.85.220.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 04A9560851
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2016 22:37:38 +0000 (UTC)
-Received: by mail-ig0-f169.google.com with SMTP id m9so662665ige.1
+	Mon, 16 May 2016 23:08:51 +0000 (UTC)
+Received: by mail-pa0-f42.google.com with SMTP id qo8so26962810pab.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2016 15:37:39 -0700 (PDT)
+	Mon, 16 May 2016 16:08:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=sHfz2KxqEbhOYGLDDeennD++ZwEcKi2uQVLfjxWujCI=;
-	b=M7KOEF/LizJY6njEvTiLJShYrP7ZNGBqcsWx7r5EnQUlqP+DybSQJcr3eF3gWQk4Ej
-	qtWslVj8AL94EvFB2WYuyWLZHgbL/O8AZbssNMSvxjk20SCV6vS4ktejIz7e7rCvf8/M
-	FmfdiEi2kYuBXYtvIlXzVdxRgE39Ismk2NqSQZ97TyXJOTCXO8ZmjRyswXOkyQmNrr83
-	5WxMcgLz1y9imqvD6KkKJqEBaZU7ILg+inx4I9vS4J6l4GO/dbziTCrAXZmvvUKV9Nfr
-	VmdUQuMIM82FvmFPASV2Y5BdfkaDxt7P4dIfVMtFld4PsEh+1BuiXCeWw2xWLvwKkTTM
-	ypuA==
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=AEXfQwOg6i+HaOGH5uPIjGe/x+5mrbPJ6/OYEXdwz5I=;
+	b=LV5uJY8inrI9ByNxobcSxyTV6oFrvhm5IgjPYxlS20v0rpKdBmRth963DMZWx0Ofh4
+	ekNGVhdcQWDKCe9e4e+cxs9oNJwzElWtFKREXAmSvujAH8yxK0gwJFwbKzx4nIDOrWjy
+	9mRdWGzeqKO7w1dA5DsaLnR+E1BZHsTl5/yYHjEd2FC3QS36ZqWGQ+JxNKO9ahzKeVd6
+	/nslXUP0gKMiMwfktVANFqEf+rcBpWoL3+4ECPBDDMuM2QgNLjEEn8+L6EVSm3OvlyZT
+	1y46snau2qHnL34y6gDOTP2CJ7nXSYN+66Mkf74FP+/iqAp+6GVRmUPBJnWMHlrCh9ye
+	we2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=sHfz2KxqEbhOYGLDDeennD++ZwEcKi2uQVLfjxWujCI=;
-	b=h3yX8ZdqJ2mHwJlYhbEZGQx/fOUtDeKwubQD84/i0l9QgRcTdl5a/kGn65qxVYMoMy
-	HDlEcS1D1KwkrB21KMcqKZ36oXzpB7zfKFJXYXuPAJ66tBrvRgB4G825J7PoPFLtu0YT
-	0ZRT+HLgrytuRPSBgHExb5deFzRVb+xYp/vskoQvFv3a4xSYA9DodjY1PDe68L476A7m
-	FRlFge8Gy6PrVCD5jU6T76sSdwdMVKlfmxAaoHcksggog63GeBhKmxBhjOk8sBJmIrnY
-	tfUm5/ejNyA7977s8bHRozo9LrwQWkBIPwaIu8BkmADPbh3HKFswwIWsmrdHp5rsyRZm
-	KogQ==
-X-Gm-Message-State: AOPr4FXMH21jyNb0QPl5rlIrSiUiVAvhvAeu1hcUPqqLIeH34GblTOsdRMwPS2pxbgu62rF39qkI7KbtzjfvMw==
-X-Received: by 10.50.160.3 with SMTP id xg3mr12801897igb.87.1463438259457;
-	Mon, 16 May 2016 15:37:39 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.79.134.70 with HTTP; Mon, 16 May 2016 15:37:20 -0700 (PDT)
-In-Reply-To: <1463207114.9746.139.camel@linuxfoundation.org>
-References: <289ee855c6244dfd7a5b1e0f2a4a27ad236ac60c.1462476586.git.chris_larson@mentor.com>
-	<e889a21f09e4bcbddd05ee90a914600d33540dfa.1462489051.git.chris_larson@mentor.com>
-	<1463207114.9746.139.camel@linuxfoundation.org>
-From: Christopher Larson <kergoth@gmail.com>
-Date: Mon, 16 May 2016 15:37:20 -0700
-Message-ID: <CABcZAN=p25pZm=vxmYM_5SW6buRM91910YUw5uRfqVLmddAX7g@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [master][PATCHv2 2/3] mkelfimage: obey LDFLAGS, sort out HOST_ flags
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=AEXfQwOg6i+HaOGH5uPIjGe/x+5mrbPJ6/OYEXdwz5I=;
+	b=bqlqPdGsZvUYdK1K9swsgg0Cu9CQyzRDdAuDWUygVG3S0rsEWBRY6Akb5ZZmAdpup2
+	qsQnJWq9kbA2huxR0ikxQo7G+hjla+rU5qjkKiJJhxIkojeZNnLvF32kUcgFlIHBOGeq
+	p5JhtNaNm2ZMNhfzsoJY70fvvQqrI5Kyv25u5+ZWQ4qR7Ts+eQBLIdvlBTAe8ubfuMbZ
+	jwsDDL4I4Aj9KGBLUtdi1fsTVRFDvF8cCi6+Jf1d0hsoFoE4hs7pNk57e36KOozrX+yy
+	8yPGh8cHgtfhVZzido26GFtRzxYbuncaSCkrhmmlhlgWlj+fPNx3JXqVxiIzAwpHOwsq
+	YAag==
+X-Gm-Message-State: AOPr4FXQ9miykoO3z7Ew5e7d2SD/PGrxxPJGm+5MPkYRE3RCRbLqg4qDGv9Ovj9gH+OV+g==
+X-Received: by 10.66.118.166 with SMTP id kn6mr49249895pab.33.1463440132173;
+	Mon, 16 May 2016 16:08:52 -0700 (PDT)
+Received: from ?IPv6:2601:646:8800:5a9a:5587:b1ab:c014:b8fd?
+	([2601:646:8800:5a9a:5587:b1ab:c014:b8fd])
+	by smtp.gmail.com with ESMTPSA id
+	d186sm49612448pfa.45.2016.05.16.16.08.50
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 16 May 2016 16:08:51 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Pgp-Agent: GPGMail 2.6b2
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1463436382-9946-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
+Date: Mon, 16 May 2016 16:08:46 -0700
+Message-Id: <BF908D4D-D366-4553-8A85-DE92ED6EDF76@gmail.com>
+References: <1463436382-9946-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
+To: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
+X-Mailer: Apple Mail (2.3124)
+Cc: Edwin Plauchu <edwin.plauchu.camacho@intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] meta:recipes-extended: zip fix security gaps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,88 +60,158 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 May 2016 22:37:39 -0000
-Content-Type: multipart/alternative; boundary=001a11348a7a9b2a550532fd45b9
+X-List-Received-Date: Mon, 16 May 2016 23:08:52 -0000
+X-Groupsio-MsgNum: 82191
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_147A03CD-929B-4705-B232-E6BF378BA87F";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---001a11348a7a9b2a550532fd45b9
-Content-Type: text/plain; charset=UTF-8
-
-On Fri, May 13, 2016 at 11:25 PM, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> On Thu, 2016-05-05 at 15:59 -0700, Christopher Larson wrote:
-> > From: Christopher Larson <chris_larson@mentor.com>
-> >
-> > We weren't consistent in the HOST_ (aka BUILD_) and non-HOST_ flags,
-> > so we
-> > were using BUILD_CPPFLAGS to compile target stuff, for example. Sort
-> > that out,
-> > and make sure we obey LDFLAGS.
-> >
-> > Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-> > ---
-> >  .../mkelfimage/mkelfimage/cross-compile.patch      | 86
-> > +++++++++++++++-------
-> >  meta/recipes-devtools/mkelfimage/mkelfimage_git.bb |  4 +-
-> >  2 files changed, 63 insertions(+), 27 deletions(-)
->
-> http://errors.yoctoproject.org/Errors/Details/62910/
->
-> Could you check the patch please?
-
-
-Looking at this now, sorry for the delay, went from having a sick kid to
-being sick myself, the past few days.
--- 
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
-
---001a11348a7a9b2a550532fd45b9
-Content-Type: text/html; charset=UTF-8
+--Apple-Mail=_147A03CD-929B-4705-B232-E6BF378BA87F
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Fri, May 13, 2016 at 11:25 PM, Richard Purdie <span dir=3D"ltr">&lt;<a h=
-ref=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard=
-.purdie@linuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=3D"g=
-mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
-eft:1ex"><span class=3D"">On Thu, 2016-05-05 at 15:59 -0700, Christopher La=
-rson wrote:<br>
-&gt; From: Christopher Larson &lt;<a href=3D"mailto:chris_larson@mentor.com=
-">chris_larson@mentor.com</a>&gt;<br>
-&gt;<br>
-&gt; We weren&#39;t consistent in the HOST_ (aka BUILD_) and non-HOST_ flag=
-s,<br>
-&gt; so we<br>
-&gt; were using BUILD_CPPFLAGS to compile target stuff, for example. Sort<b=
-r>
-&gt; that out,<br>
-&gt; and make sure we obey LDFLAGS.<br>
-&gt;<br>
-&gt; Signed-off-by: Christopher Larson &lt;<a href=3D"mailto:chris_larson@m=
-entor.com">chris_larson@mentor.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 .../mkelfimage/mkelfimage/cross-compile.patch=C2=A0 =C2=A0 =C2=
-=A0 | 86<br>
-&gt; +++++++++++++++-------<br>
-&gt;=C2=A0 meta/recipes-devtools/mkelfimage/<a href=3D"http://mkelfimage_gi=
-t.bb" rel=3D"noreferrer" target=3D"_blank">mkelfimage_git.bb</a> |=C2=A0 4 =
-+-<br>
-&gt;=C2=A0 2 files changed, 63 insertions(+), 27 deletions(-)<br>
-<br>
-</span><a href=3D"http://errors.yoctoproject.org/Errors/Details/62910/" rel=
-=3D"noreferrer" target=3D"_blank">http://errors.yoctoproject.org/Errors/Det=
-ails/62910/</a><br>
-<br>
-Could you check the patch please?</blockquote></div><br>Looking at this now=
-, sorry for the delay, went from having a sick kid to being sick myself, th=
-e past few days.<br>-- <br><div class=3D"gmail_signature"><div dir=3D"ltr">=
-Christopher Larson<br>kergoth at gmail dot com<br>Founder - BitBake, OpenEm=
-bedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engineer, Mento=
-r Graphics</div></div>
-</div></div>
 
---001a11348a7a9b2a550532fd45b9--
+> On May 16, 2016, at 3:06 PM, Edwin Plauchu =
+<edwin.plauchu.camacho@linux.intel.com> wrote:
+>=20
+> From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+>=20
+> This patch avoids zip recipe fails to compile with compiler flags =
+which elevate common string formatting issues into an error (-Wformat =
+-Wformat-security -Werror=3Dformat-security).
+>=20
+> [YOCTO #9552]
+>=20
+> Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+> ---
+> meta/conf/distro/include/security_flags.inc        |  1 -
+> .../zip/zip-3.0/fix-security-format.patch          | 42 =
+++++++++++++++++++++++
+> meta/recipes-extended/zip/zip.inc                  |  3 +-
+> 3 files changed, 44 insertions(+), 2 deletions(-)
+> create mode 100644 =
+meta/recipes-extended/zip/zip-3.0/fix-security-format.patch
+>=20
+> diff --git a/meta/conf/distro/include/security_flags.inc =
+b/meta/conf/distro/include/security_flags.inc
+> index 7a91cec..bb1a398 100644
+> --- a/meta/conf/distro/include/security_flags.inc
+> +++ b/meta/conf/distro/include/security_flags.inc
+> @@ -107,7 +107,6 @@ SECURITY_STRINGFORMAT_pn-makedevs =3D ""
+> SECURITY_STRINGFORMAT_pn-oh-puzzles =3D ""
+> SECURITY_STRINGFORMAT_pn-stat =3D ""
+> SECURITY_STRINGFORMAT_pn-unzip =3D ""
+> -SECURITY_STRINGFORMAT_pn-zip =3D ""
+>=20
+> TARGET_CFLAGS_append_class-target =3D " ${SECURITY_CFLAGS}"
+> TARGET_LDFLAGS_append_class-target =3D " ${SECURITY_LDFLAGS}"
+> diff --git =
+a/meta/recipes-extended/zip/zip-3.0/fix-security-format.patch =
+b/meta/recipes-extended/zip/zip-3.0/fix-security-format.patch
+> new file mode 100644
+> index 0000000..b745c6b
+> --- /dev/null
+> +++ b/meta/recipes-extended/zip/zip-3.0/fix-security-format.patch
+> @@ -0,0 +1,42 @@
+> +meta: recipes-extended: Fixing security formatting issues on zip
+> +
+> +Fix security formatting issues related to printing without NULL =
+argument
+> +
+> +zip.c: In function 'help_extended':
+> +zip.c:1031:5: error: format not a string literal and no format =
+arguments [-Werror=3Dformat-security]
+> +     printf(text[i]);
+> +     ^
+> +zip.c: In function 'version_info':
+> +zip.c:1228:5: error: format not a string literal and no format =
+arguments [-Werror=3Dformat-security]
+> +     printf(cryptnote[i]);
+> +     ^
+> +
+> +[YOCTO #9552]
+> +[https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D9552]
+> +
+> +Upstream-Status: Pending
+> +
+> +Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+> +
+> +diff --git a/zip.c b/zip.c
+> +index 439821f..2ef57e3 100644
+> +--- a/zip.c
+> ++++ b/zip.c
+> +@@ -1028,7 +1028,7 @@ local void help_extended()
+> +
+> +   for (i =3D 0; i < sizeof(text)/sizeof(char *); i++)
+> +   {
+> +-    printf(text[i]);
+> ++    printf( text[i] , NULL );
+
+same issue as discussed in another similar patch. if text[i] is not =
+supposed
+to be a printf format string, then qualify it with one e.g. =E2=80=9C%s=E2=
+=80=9D is mostly what
+you want since they are usually strings otherwise.
+
+> +     putchar('\n');
+> +   }
+> + #ifdef DOS
+> +@@ -1225,7 +1225,7 @@ local void version_info()
+> +             CR_MAJORVER, CR_MINORVER, CR_BETA_VER, CR_VERSION_DATE);
+> +   for (i =3D 0; i < sizeof(cryptnote)/sizeof(char *); i++)
+> +   {
+> +-    printf(cryptnote[i]);
+> ++    printf( cryptnote[i] , NULL );
+> +     putchar('\n');
+> +   }
+> +   ++i;  /* crypt support means there IS at least one compilation =
+option */
+> diff --git a/meta/recipes-extended/zip/zip.inc =
+b/meta/recipes-extended/zip/zip.inc
+> index 6221c5e..fac3a9f 100644
+> --- a/meta/recipes-extended/zip/zip.inc
+> +++ b/meta/recipes-extended/zip/zip.inc
+> @@ -5,7 +5,8 @@ SECTION =3D "console/utils"
+> LICENSE =3D "BSD-3-Clause"
+> LIC_FILES_CHKSUM =3D =
+"file://LICENSE;md5=3D04d43c5d70b496c032308106e26ae17d"
+>=20
+> -SRC_URI =3D =
+"ftp://ftp.info-zip.org/pub/infozip/src/zip${@d.getVar('PV',1).replace('.'=
+, '')}.tgz"
+> +SRC_URI =3D =
+"ftp://ftp.info-zip.org/pub/infozip/src/zip${@d.getVar('PV',1).replace('.'=
+, '')}.tgz \
+> +           file://fix-security-format.patch"
+>=20
+> EXTRA_OEMAKE =3D "'CC=3D${CC}' 'BIND=3D${CC}' 'AS=3D${CC} -c' =
+'CPP=3D${CPP}' \
+> 		'CFLAGS=3D-I. -DUNIX ${CFLAGS}' 'INSTALL=3Dinstall' \
+> --
+> 1.9.1
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+--Apple-Mail=_147A03CD-929B-4705-B232-E6BF378BA87F
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlc6UwIACgkQuwUzVZGdMxQoWACgker9NeZZ7f8x4+6MU/3LEoxW
+3TQAn1/xgRYvpRJFZMJfB1yV++q2YbmW
+=8tir
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_147A03CD-929B-4705-B232-E6BF378BA87F--
