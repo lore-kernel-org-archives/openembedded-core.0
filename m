@@ -1,52 +1,27 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id ED59A700F3
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 857D7601A4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2016 16:44:50 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id g132so16213524pfb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2016 09:44:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=NXtfdAQm9ecISOvWH825qWztMXT01ysVwXAc00OddCM=;
-	b=f4lhSX58jeaTSN9kHHS5C9P2hqZIK+PSHBAkgy+vhfeYiqgufcGb22Xtlz0vyHUj4g
-	9lGl2HQ+PRK5ps26V3acYa+iOQHzA46b8BVIrzxtveioUgpjSDuOtIc0G5m82hO2HyU7
-	rD3TB+1N28kGoRcVg/uZl9Zum0U/0D/KBFUyI4moZRUl/vJTBziCNI3+Q7AyEy44c6dT
-	TdBp6/KlQ885PjUvaNppynwaJ9rq2Z325fniQAnLUK/EcimX3ff4zqbrlB8TRk98yefm
-	D2rvOodFkL8CGgPHVdYg7LrM6h0kMjLwf/99B77rc0wPh8EJ43Ms/ISvUDQE08shUu70
-	Xt2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=NXtfdAQm9ecISOvWH825qWztMXT01ysVwXAc00OddCM=;
-	b=KBrCC1RPoHNAUVXhc+qbSkEvEG3k9ZXbIwCzArhK9jE6JuzwO/gld2HNf7u6XFvgFq
-	/s8B3BtzXmUgptn+MmbbM7c20Eo1NvihelK5zOtUNJ16V0t7PHMHvXUP7czi53WxPMFp
-	dqNnSjwsqElAbl22sHJ3VHAuSClgYILuUWg1g/AXxG3mzk6RHeC8r/JVg3wV6IVEI6Zf
-	d+z3nAq/+pwdaKpjec8OPaFcO4DtUu8nYrO8fE7EZXGt1cWpYWKrETe5rnRQq7xf0ub8
-	U6DK02wlA3W1f5KgNCZlJ5WGZnAYBsubLq3k0GYFnXyCGaNO3FyHbomZtVo2H82GcFBf
-	Cotg==
-X-Gm-Message-State: AOPr4FWrMYt69DNRGSmMzWlO7QizaDpl5+cMfmEOdKo/8BOjDvCot4fBi28ui8zGJXdAjg==
-X-Received: by 10.98.55.129 with SMTP id e123mr46983794pfa.4.1463417091166;
-	Mon, 16 May 2016 09:44:51 -0700 (PDT)
-Received: from ?IPv6:2601:646:8800:5a9a:dd3:cb39:a42f:8eaf?
-	([2601:646:8800:5a9a:dd3:cb39:a42f:8eaf])
-	by smtp.gmail.com with ESMTPSA id
-	64sm48474011pfk.69.2016.05.16.09.44.49
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 16 May 2016 09:44:49 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1463415451-21779-1-git-send-email-akuster808@gmail.com>
-Date: Mon, 16 May 2016 09:44:47 -0700
-Message-Id: <C6187355-EA77-4B31-8638-C5D64613DE0E@gmail.com>
-References: <1463415451-21779-1-git-send-email-akuster808@gmail.com>
-To: Armin Kuster <akuster808@gmail.com>
-X-Mailer: Apple Mail (2.3124)
-Cc: Armin Kuster <akuster@mvista.com>, openembedded-core@lists.openembedded.org
-Subject: Re: [master][krogoth][PATCH] python-numpy: fix build failure with python-matplotlib
+	Mon, 16 May 2016 17:23:59 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga103.jf.intel.com with ESMTP; 16 May 2016 10:23:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,627,1459839600"; 
+	d="asc'?scan'208";a="982183515"
+Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.5.164])
+	([10.219.5.164])
+	by fmsmga002.fm.intel.com with ESMTP; 16 May 2016 10:23:37 -0700
+To: openembedded-core@lists.openembedded.org
+References: <1462984915-12056-1-git-send-email-anibal.limon@linux.intel.com>
+From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Message-ID: <573A0236.6040003@linux.intel.com>
+Date: Mon, 16 May 2016 12:24:06 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
+MIME-Version: 1.0
+In-Reply-To: <1462984915-12056-1-git-send-email-anibal.limon@linux.intel.com>
+Cc: patrick.ohly@gmx.de
+Subject: Re: [PATCH] classes/base: get_lic_checksum_file_list imporve validaton of url's
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,73 +34,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 May 2016 16:44:53 -0000
-X-Groupsio-MsgNum: 82162
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_DEF7DA9D-7F72-4CB1-9642-BD59F14B5D98";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Mon, 16 May 2016 17:24:00 -0000
+X-Groupsio-MsgNum: 82163
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature";
+	boundary="wha1VCW1xX6Ma1I4IWWTOkmd4aioei4EM"
 
---Apple-Mail=_DEF7DA9D-7F72-4CB1-9642-BD59F14B5D98
+--wha1VCW1xX6Ma1I4IWWTOkmd4aioei4EM
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
 
+ping
 
-> On May 16, 2016, at 9:17 AM, Armin Kuster <akuster808@gmail.com> =
-wrote:
+On 05/11/2016 11:41 AM, An=C3=ADbal Lim=C3=B3n wrote:
+> When specify an URL different that supported file:// the function
+> returns an empty path causing an exception without notice the user
+> that the URL is Malformed.
 >=20
-> From: Armin Kuster <akuster@mvista.com>
+> [YOCTO #9211]
 >=20
-> numpy/core/include/numpy/npy_common.h:149:10: error:
-> |          #error Unsupported size for type off_t
->=20
-> Signed-off-by: Armin Kuster <akuster@mvista.com>
+> Signed-off-by: An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.intel.com>
 > ---
-> meta/recipes-devtools/python/python-numpy/aarch64/_numpyconfig.h | 1 +
-> 1 file changed, 1 insertion(+)
+>  meta/classes/base.bbclass | 3 +++
+>  1 file changed, 3 insertions(+)
 >=20
-> diff --git =
-a/meta/recipes-devtools/python/python-numpy/aarch64/_numpyconfig.h =
-b/meta/recipes-devtools/python/python-numpy/aarch64/_numpyconfig.h
-> index 191e5a1..109deb0 100644
-> --- a/meta/recipes-devtools/python/python-numpy/aarch64/_numpyconfig.h
-> +++ b/meta/recipes-devtools/python/python-numpy/aarch64/_numpyconfig.h
-> @@ -11,6 +11,7 @@
-> #define NPY_SIZEOF_PY_INTPTR_T 8
-> #define NPY_SIZEOF_PY_LONG_LONG 8
-> #define NPY_SIZEOF_LONGLONG 8
-> +#define NPY_SIZEOF_OFF_T 8
-
-Why does the test to select size of off_t fails ?
-we might need similar fix for mips64 too.
-
-> #define NPY_NO_SMP 0
-> #define NPY_HAVE_DECL_ISNAN
-> #define NPY_HAVE_DECL_ISINF
-> --
-> 2.3.5
+> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+> index a7ca3a6..c3c2669 100644
+> --- a/meta/classes/base.bbclass
+> +++ b/meta/classes/base.bbclass
+> @@ -105,6 +105,9 @@ def get_lic_checksum_file_list(d):
+>          # any others should be covered by SRC_URI.
+>          try:
+>              path =3D bb.fetch.decodeurl(url)[2]
+> +            if not path:
+> +                raise bb.fetch.MalformedUrl(url)
+> +
+>              if path[0] =3D=3D '/':
+>                  if path.startswith(tmpdir):
+>                      continue
 >=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
---Apple-Mail=_DEF7DA9D-7F72-4CB1-9642-BD59F14B5D98
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
+--wha1VCW1xX6Ma1I4IWWTOkmd4aioei4EM
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
+Version: GnuPG v2
 
-iEYEARECAAYFAlc5+QIACgkQuwUzVZGdMxRadQCfeTluuhyewSkJLB8ab28dKXJi
-Cl8AnjvPcmjOTFz0c5rITVbRe6P+c5pH
-=Czsg
+iQIcBAEBAgAGBQJXOgI4AAoJEGJqcE9h3glgdT8P/juaDNBrJJTzDs/+jKl4C2Hq
+Y5I6HM5itNmz5N/gM8CEh7GHEpIldk7V+9K4Oe8dJGiBNP9rnP5SE3RFWYn4todF
+S0zryGCgsq2WlUxGFotPPBC6RMH6LpRooCVwvE98o2Sn6RcpYKbinQCcYLdXGq9r
+cg6eHWEBPAXNPfgfEvpIrCQE3jrarw13svTpzDCBQ2zZ6bO5Pizboq7Q2fLe5baX
+98l883ROaw04cV/5BGcuATdyjpU9NFW0lquiNWdc89se506JaJDh1YjUGE6WJra3
+2ict2RArN+ts8NeLul4Kr1Qv5vhAP+k1naFzE4ewJ8kuif9bqjhFkE9D7+mYXsQU
+m4S7t2C+8ENIVLVAhLnvviWdKLZKe4aE5Z1Rdsv5qipl9rl8bFPmZGSnQSkE+iHZ
+hh8jJwC8fVITEwyrGcQ/vGiN5QD2H+LFcdjwIvfLm/8H1iYxPgbFVv3SREsScPAu
+WogiIjYZIGmK+esaAaw0uId++EFJol/Yy5dFFW2tBzHz1ZkE2IL7x4jKerFzHWQr
+hKO01aLDV2tKO936AfiVnr/6EQbfKpuN5ySIjQUs8OwtBZzlpW+ePyS5Kl61P5bu
+cxztBT6y/ctN2Hj4kf4HE7g8yvyOtBRFEkExzgGxRDne1F8fkytj/2tn9XmTdBd3
+k0MgJ7XTu6L7stG4AoCZ
+=HrAY
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_DEF7DA9D-7F72-4CB1-9642-BD59F14B5D98--
+--wha1VCW1xX6Ma1I4IWWTOkmd4aioei4EM--
