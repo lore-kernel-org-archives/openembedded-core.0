@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id EED446FFC7
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 788A5731C2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2016 01:42:21 +0000 (UTC)
+	Mon, 16 May 2016 01:42:22 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u4G1gMJZ028429
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u4G1gNFN010756
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 May 2016 18:42:22 -0700 (PDT)
+	Sun, 15 May 2016 18:42:23 -0700
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Sun, 15 May 2016 18:42:21 -0700
+	Sun, 15 May 2016 18:42:22 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 15 May 2016 18:42:20 -0700
-Message-ID: <cover.1463362879.git.liezhi.yang@windriver.com>
+Date: Sun, 15 May 2016 18:42:21 -0700
+Message-ID: <025e05d0f0f9b84ee1695bb1648ce78acdaa276b.1463362879.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1463362879.git.liezhi.yang@windriver.com>
+References: <cover.1463362879.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [master][krogoth][PATCH 0/1] udev: remove eudev-hwdb from RRECOMMENDS_eudev
+Subject: [PATCH 1/1] eudev: remove eudev-hwdb from RRECOMMENDS_eudev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,24 +33,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 May 2016 01:42:22 -0000
+X-List-Received-Date: Mon, 16 May 2016 01:42:23 -0000
 Content-Type: text/plain
 
-The following changes since commit 95b0270e82b5d05d651c05e9c86681978013b346:
+The eudev-hwdb needs 12M after install, this made small images like
+core-image-minimal much biggher than before, and may also hurt the
+devices which use udev, so remove it RRECOMMENDS_eudev by default.
 
-  tcmode-default: Bump glibc,gdb (2016-05-15 09:05:14 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/udev
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/udev
-
-Robert Yang (1):
-  eudev: remove eudev-hwdb from RRECOMMENDS_eudev
-
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  meta/recipes-core/udev/eudev_3.1.5.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/recipes-core/udev/eudev_3.1.5.bb b/meta/recipes-core/udev/eudev_3.1.5.bb
+index e42630f..60f4a85 100644
+--- a/meta/recipes-core/udev/eudev_3.1.5.bb
++++ b/meta/recipes-core/udev/eudev_3.1.5.bb
+@@ -86,7 +86,7 @@ FILES_eudev-hwdb = "${sysconfdir}/udev/hwdb.d"
+ 
+ RDEPENDS_eudev-hwdb += "eudev"
+ 
+-RRECOMMENDS_${PN} += "udev-cache eudev-hwdb"
++RRECOMMENDS_${PN} += "udev-cache"
+ 
+ RPROVIDES_${PN} = "hotplug udev"
+ 
 -- 
 2.7.4
 
