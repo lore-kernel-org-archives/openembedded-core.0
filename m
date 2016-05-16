@@ -1,36 +1,48 @@
-Return-Path: <william.c.randle@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E1948731D0
+Return-Path: <kergoth@gmail.com>
+Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com
+	[209.85.213.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E3D0770C6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2016 22:21:57 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga103.jf.intel.com with ESMTP; 16 May 2016 15:21:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,322,1459839600"; d="scan'208";a="982375164"
-Received: from orsmsx109.amr.corp.intel.com ([10.22.240.7])
-	by fmsmga002.fm.intel.com with ESMTP; 16 May 2016 15:21:57 -0700
-Received: from orsmsx105.amr.corp.intel.com ([169.254.2.68]) by
-	ORSMSX109.amr.corp.intel.com ([169.254.11.210]) with mapi id
-	14.03.0248.002; Mon, 16 May 2016 15:21:57 -0700
-From: "Randle, William C" <william.c.randle@intel.com>
-To: "edwin.plauchu.camacho@linux.intel.com"
-	<edwin.plauchu.camacho@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH] meta:recipes-extended: stat fix security gaps
-Thread-Index: AQHRr7Op/eVEbE07G0eq6b0aLoC7S5+8iZgAgAACsQCAAAxdgA==
-Date: Mon, 16 May 2016 22:21:56 +0000
-Message-ID: <1463437315.2768.29.camel@intel.com>
-References: <1463429996-24056-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
-	<1407DCB5-D6A6-45D4-8F5B-DE43C8F74E59@gmail.com>
-	<573A3DA4.9060900@linux.intel.com>
-In-Reply-To: <573A3DA4.9060900@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.254.185.141]
+	Mon, 16 May 2016 22:37:38 +0000 (UTC)
+Received: by mail-ig0-f169.google.com with SMTP id m9so662665ige.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 May 2016 15:37:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=sHfz2KxqEbhOYGLDDeennD++ZwEcKi2uQVLfjxWujCI=;
+	b=M7KOEF/LizJY6njEvTiLJShYrP7ZNGBqcsWx7r5EnQUlqP+DybSQJcr3eF3gWQk4Ej
+	qtWslVj8AL94EvFB2WYuyWLZHgbL/O8AZbssNMSvxjk20SCV6vS4ktejIz7e7rCvf8/M
+	FmfdiEi2kYuBXYtvIlXzVdxRgE39Ismk2NqSQZ97TyXJOTCXO8ZmjRyswXOkyQmNrr83
+	5WxMcgLz1y9imqvD6KkKJqEBaZU7ILg+inx4I9vS4J6l4GO/dbziTCrAXZmvvUKV9Nfr
+	VmdUQuMIM82FvmFPASV2Y5BdfkaDxt7P4dIfVMtFld4PsEh+1BuiXCeWw2xWLvwKkTTM
+	ypuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=sHfz2KxqEbhOYGLDDeennD++ZwEcKi2uQVLfjxWujCI=;
+	b=h3yX8ZdqJ2mHwJlYhbEZGQx/fOUtDeKwubQD84/i0l9QgRcTdl5a/kGn65qxVYMoMy
+	HDlEcS1D1KwkrB21KMcqKZ36oXzpB7zfKFJXYXuPAJ66tBrvRgB4G825J7PoPFLtu0YT
+	0ZRT+HLgrytuRPSBgHExb5deFzRVb+xYp/vskoQvFv3a4xSYA9DodjY1PDe68L476A7m
+	FRlFge8Gy6PrVCD5jU6T76sSdwdMVKlfmxAaoHcksggog63GeBhKmxBhjOk8sBJmIrnY
+	tfUm5/ejNyA7977s8bHRozo9LrwQWkBIPwaIu8BkmADPbh3HKFswwIWsmrdHp5rsyRZm
+	KogQ==
+X-Gm-Message-State: AOPr4FXMH21jyNb0QPl5rlIrSiUiVAvhvAeu1hcUPqqLIeH34GblTOsdRMwPS2pxbgu62rF39qkI7KbtzjfvMw==
+X-Received: by 10.50.160.3 with SMTP id xg3mr12801897igb.87.1463438259457;
+	Mon, 16 May 2016 15:37:39 -0700 (PDT)
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
+Received: by 10.79.134.70 with HTTP; Mon, 16 May 2016 15:37:20 -0700 (PDT)
+In-Reply-To: <1463207114.9746.139.camel@linuxfoundation.org>
+References: <289ee855c6244dfd7a5b1e0f2a4a27ad236ac60c.1462476586.git.chris_larson@mentor.com>
+	<e889a21f09e4bcbddd05ee90a914600d33540dfa.1462489051.git.chris_larson@mentor.com>
+	<1463207114.9746.139.camel@linuxfoundation.org>
+From: Christopher Larson <kergoth@gmail.com>
+Date: Mon, 16 May 2016 15:37:20 -0700
+Message-ID: <CABcZAN=p25pZm=vxmYM_5SW6buRM91910YUw5uRfqVLmddAX7g@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] meta:recipes-extended: stat fix security gaps
+Subject: Re: [master][PATCHv2 2/3] mkelfimage: obey LDFLAGS, sort out HOST_ flags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,109 +55,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 May 2016 22:21:58 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <A1894E6276B61D4AB66319EE3FF19723@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 16 May 2016 22:37:39 -0000
+Content-Type: multipart/alternative; boundary=001a11348a7a9b2a550532fd45b9
 
-T24gTW9uLCAyMDE2LTA1LTE2IGF0IDE2OjM3IC0wNTAwLCBQbGF1Y2h1IEVkd2luIHdyb3RlOg0K
-PiANCj4gT24gMTYvMDUvMTYgMTY6MjgsIEtoZW0gUmFqIHdyb3RlOg0KPiA+IA0KPiA+ID4gDQo+
-ID4gPiBPbiBNYXkgMTYsIDIwMTYsIGF0IDE6MTkgUE0sIGVkd2luLnBsYXVjaHUuY2FtYWNob0Bs
-aW51eC5pbnRlbC5jb20gd3JvdGU6DQo+ID4gPiANCj4gPiA+IEZyb206IEVkd2luIFBsYXVjaHUg
-PGVkd2luLnBsYXVjaHUuY2FtYWNob0BpbnRlbC5jb20+DQo+ID4gPiANCj4gPiA+IFRoaXMgcGF0
-Y2ggYXZvaWRzIHN0YXQgZmFpbHMgdG8gY29tcGlsZSB3aXRoIGNvbXBpbGVyIGZsYWdzIHdoaWNo
-IGVsZXZhdGUNCj4gPiA+IGNvbW1vbiBzdHJpbmcgZm9ybWF0dGluZyBpc3N1ZXMgaW50byBhbiBl
-cnJvciAoLVdmb3JtYXQgLVdmb3JtYXQtc2VjdXJpdHkNCj4gPiA+IC1XZXJyb3I9Zm9ybWF0LXNl
-Y3VyaXR5KS4NCj4gPiA+IA0KPiA+ID4gW1lPQ1RPICM5NTUwXQ0KPiA+ID4gDQo+ID4gPiBTaWdu
-ZWQtb2ZmLWJ5OiBFZHdpbiBQbGF1Y2h1IDxlZHdpbi5wbGF1Y2h1LmNhbWFjaG9AaW50ZWwuY29t
-Pg0KPiA+ID4gLS0tDQo+ID4gPiBtZXRhL2NvbmYvZGlzdHJvL2luY2x1ZGUvc2VjdXJpdHlfZmxh
-Z3MuaW5jwqDCoMKgwqDCoMKgwqDCoHzCoMKgMSAtDQo+ID4gPiAuLi4vc3RhdC9zdGF0LTMuMy9m
-aXgtc2VjdXJpdHktZm9ybWF0LnBhdGNowqDCoMKgwqDCoMKgwqDCoHwgNzcNCj4gPiA+ICsrKysr
-KysrKysrKysrKysrKysrKysNCj4gPiA+IG1ldGEvcmVjaXBlcy1leHRlbmRlZC9zdGF0L3N0YXRf
-My4zLmJiwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB8wqDCoDEgKw0KPiA+ID4gMyBmaWxlcyBj
-aGFuZ2VkLCA3OCBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+ID4gPiBjcmVhdGUgbW9k
-ZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3N0YXQvc3RhdC0zLjMvZml4LXNlY3VyaXR5
-LQ0KPiA+ID4gZm9ybWF0LnBhdGNoDQo+ID4gPiANCj4gPiA+IGRpZmYgLS1naXQgYS9tZXRhL2Nv
-bmYvZGlzdHJvL2luY2x1ZGUvc2VjdXJpdHlfZmxhZ3MuaW5jDQo+ID4gPiBiL21ldGEvY29uZi9k
-aXN0cm8vaW5jbHVkZS9zZWN1cml0eV9mbGFncy5pbmMNCj4gPiA+IGluZGV4IDdhOTFjZWMuLjVh
-ZTZkZDggMTAwNjQ0DQo+ID4gPiAtLS0gYS9tZXRhL2NvbmYvZGlzdHJvL2luY2x1ZGUvc2VjdXJp
-dHlfZmxhZ3MuaW5jDQo+ID4gPiArKysgYi9tZXRhL2NvbmYvZGlzdHJvL2luY2x1ZGUvc2VjdXJp
-dHlfZmxhZ3MuaW5jDQo+ID4gPiBAQCAtMTA1LDcgKzEwNSw2IEBAIFNFQ1VSSVRZX1NUUklOR0ZP
-Uk1BVF9wbi1nZXR0ZXh0ID0gIiINCj4gPiA+IFNFQ1VSSVRZX1NUUklOR0ZPUk1BVF9wbi1rZXhl
-Yy10b29scyA9ICIiDQo+ID4gPiBTRUNVUklUWV9TVFJJTkdGT1JNQVRfcG4tbWFrZWRldnMgPSAi
-Ig0KPiA+ID4gU0VDVVJJVFlfU1RSSU5HRk9STUFUX3BuLW9oLXB1enpsZXMgPSAiIg0KPiA+ID4g
-LVNFQ1VSSVRZX1NUUklOR0ZPUk1BVF9wbi1zdGF0ID0gIiINCj4gPiA+IFNFQ1VSSVRZX1NUUklO
-R0ZPUk1BVF9wbi11bnppcCA9ICIiDQo+ID4gPiBTRUNVUklUWV9TVFJJTkdGT1JNQVRfcG4temlw
-ID0gIiINCj4gPiA+IA0KPiA+ID4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9z
-dGF0L3N0YXQtMy4zL2ZpeC1zZWN1cml0eS1mb3JtYXQucGF0Y2ggDQo+ID4gPiBiL21ldGEvcmVj
-aXBlcy1leHRlbmRlZC9zdGF0L3N0YXQtMy4zL2ZpeC1zZWN1cml0eS1mb3JtYXQucGF0Y2gNCj4g
-PiA+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+ID4gPiBpbmRleCAwMDAwMDAwLi43ZDlmOGRmDQo+
-ID4gPiAtLS0gL2Rldi9udWxsDQo+ID4gPiArKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvc3Rh
-dC9zdGF0LTMuMy9maXgtc2VjdXJpdHktZm9ybWF0LnBhdGNoDQo+ID4gPiBAQCAtMCwwICsxLDc3
-IEBADQo+ID4gPiArbWV0YTogcmVjaXBlcy1leHRlbmRlZDogRml4aW5nIHNlY3VyaXR5IGZvcm1h
-dHRpbmcgaXNzdWVzIG9uIHN0YXQNCj4gPiA+ICsNCj4gPiA+ICtGaXggc2VjdXJpdHkgZm9ybWF0
-dGluZyBpc3N1ZXMgcmVsYXRlZCB0byBwcmludGYgd2l0aG91dCBOVUxMIGFyZ3VtZW50DQo+ID4g
-PiArDQo+ID4gPiArc3RhdC5jOiBJbiBmdW5jdGlvbiAncHJpbnRfaHVtYW5fYWNjZXNzJzoNCj4g
-PiA+ICtzdGF0LmM6MjkyOjEzOiBlcnJvcjogZm9ybWF0IG5vdCBhIHN0cmluZyBsaXRlcmFsIGFu
-ZCBubyBmb3JtYXQgYXJndW1lbnRzDQo+ID4gPiBbLVdlcnJvcj1mb3JtYXQtc2VjdXJpdHldDQo+
-ID4gPiArwqDCoMKgwqDCoHByaW50ZiAoYWNjZXNzKTsNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoF4NCj4gPiA+ICtzdGF0LmM6IEluIGZ1bmN0aW9uICdwcmludF9odW1hbl90aW1l
-JzoNCj4gPiA+ICtzdGF0LmM6Mjk5OjU3OiBlcnJvcjogZm9ybWF0IG5vdCBhIHN0cmluZyBsaXRl
-cmFsIGFuZCBubyBmb3JtYXQgYXJndW1lbnRzDQo+ID4gPiBbLVdlcnJvcj1mb3JtYXQtc2VjdXJp
-dHldDQo+ID4gPiArwqDCoMKgaWYgKHN0cmZ0aW1lKHN0ciwgNDAsICIlYyIsIGxvY2FsdGltZSh0
-KSkgPiAwKSBwcmludGYoc3RyKTsNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBeDQo+ID4gPiArc3RhdC5jOiBJbiBmdW5jdGlv
-biAncHJpbnRfaXQnOg0KPiA+ID4gK3N0YXQuYzo2MTM6NjogZXJyb3I6IGZvcm1hdCBub3QgYSBz
-dHJpbmcgbGl0ZXJhbCBhbmQgbm8gZm9ybWF0IGFyZ3VtZW50cw0KPiA+ID4gWy1XZXJyb3I9Zm9y
-bWF0LXNlY3VyaXR5XQ0KPiA+ID4gK8KgwqDCoMKgwqDCoHByaW50ZihiKTsNCj4gPiA+ICvCoMKg
-wqDCoMKgwqBeDQo+ID4gPiArc3RhdC5jOjY0Mjo2OiBlcnJvcjogZm9ybWF0IG5vdCBhIHN0cmlu
-ZyBsaXRlcmFsIGFuZCBubyBmb3JtYXQgYXJndW1lbnRzDQo+ID4gPiBbLVdlcnJvcj1mb3JtYXQt
-c2VjdXJpdHldDQo+ID4gPiArwqDCoMKgwqDCoMKgcHJpbnRmKGIpOw0KPiA+ID4gK8KgwqDCoMKg
-wqDCoF4NCj4gPiA+ICsNCj4gPiA+ICtbWU9DVE8gIzk1NTBdDQo+ID4gPiArW2h0dHBzOi8vYnVn
-emlsbGEueW9jdG9wcm9qZWN0Lm9yZy9zaG93X2J1Zy5jZ2k/aWQ9OTU1MF0NCj4gPiA+ICsNCj4g
-PiA+ICtVcHN0cmVhbS1TdGF0dXM6IFBlbmRpbmcNCj4gPiA+ICsNCj4gPiA+ICtTaWduZWQtb2Zm
-LWJ5OiBFZHdpbiBQbGF1Y2h1IDxlZHdpbi5wbGF1Y2h1LmNhbWFjaG9AaW50ZWwuY29tPg0KPiA+
-ID4gKw0KPiA+ID4gK2RpZmYgLS1naXQgYS9zdGF0LmMgYi9zdGF0LmMNCj4gPiA+ICtpbmRleCAx
-ZWQwN2E5Li4zNTFhYjU0IDEwMDY0NA0KPiA+ID4gKy0tLSBhL3N0YXQuYw0KPiA+ID4gKysrKyBi
-L3N0YXQuYw0KPiA+ID4gK0BAIC0yMSw2ICsyMSw4IEBADQo+ID4gPiArDQo+ID4gPiArICNpbmNs
-dWRlICJmcy5oIg0KPiA+ID4gKw0KPiA+ID4gKysjZGVmaW5lIF9fUFJJTlQoU1RSKSBwcmludGYg
-KFNUUixOVUxMKQ0KPiA+ID4gKysNCj4gPiBDYW4gd2UgdXNlIHByb3BlciBmb3JtYXR0aW5nIHN0
-cmluZyBoZXJlIHNvbWV0aGluZyBsaWtlDQo+ID4gcHJpbnRmKOKAnCVz4oCdLCBhY2Nlc3MgKTsN
-Cj4gPiANCj4gPiBvciB1c2UgZnB1dHMoKSBDYWxsIGluc3RlYWQNCj4gV2l0aCBmcHV0cyB3ZSBu
-ZWVkIHRvIHNwZWNpZnkgc3Rkb3V0IHN0cmVhbSBhbmQNCj4gdGhlIHByaW50ZiAiJXMiIG9wdGlv
-biBuZWVkcyBhIGxpdHRsZSBiaXQgbW9yZSBwcm9jZXNzaW5nIGluIGZvcm1hdHRpbmcuDQo+IA0K
-PiBUaGUgYWN0dWFsIGNoYW5nZSBjb3ZlcnMgdGhlIHNlY3VyaXR5IGNvbnNpZGVyYXRpb25zIHdp
-dGggbWluaW1hbCBhZGQgb2bCoA0KPiBOVUxMIGlmIHlvdQ0KPiBrbm93IHdoeSB0aGUgYW5vdGhl
-ciB3YXlzIHdpbGwgYmUgYmV0dGVyIHBsZWFzZSB0ZWxsIG1lLg0KPiANCj4gVGhhbmtzIGluIGFk
-dmFuY2UNCj4gRWR3aW4gUGxhdWNodQ0KPiA+IA0KPiA+IA0KPiA+ID4gDQo+ID4gPiArIHZvaWQg
-cHJpbnRfaHVtYW5fdHlwZSh1bnNpZ25lZCBzaG9ydCBtb2RlKQ0KPiA+ID4gKyB7DQo+ID4gPiAr
-wqDCoMKgc3dpdGNoIChtb2RlICYgU19JRk1UKQ0KPiA+ID4gK0BAIC0yODksMTUgKzI5MSwxNSBA
-QCB2b2lkIHByaW50X2h1bWFuX2FjY2VzcyhzdHJ1Y3Qgc3RhdCAqc3RhdGJ1ZikNCj4gPiA+ICvC
-oMKgwqDCoMKgZGVmYXVsdDoNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoGFjY2Vzc1swXSA9ICc/JzsN
-Cj4gPiA+ICvCoMKgwqDCoMKgfQ0KPiA+ID4gKy3CoMKgwqDCoHByaW50ZiAoYWNjZXNzKTsNCj4g
-PiA+ICsrwqDCoMKgwqBfX1BSSU5UKGFjY2Vzcyk7DQo+ID4gPiArIH0NCj4gPiA+ICsNCj4gPiA+
-ICsgdm9pZCBwcmludF9odW1hbl90aW1lKHRpbWVfdCAqdCkNCj4gPiA+ICsgew0KPiA+ID4gK8Kg
-wqDCoGNoYXIgc3RyWzQwXTsNCj4gPiA+ICsNCj4gPiA+ICstwqDCoGlmIChzdHJmdGltZShzdHIs
-IDQwLCAiJWMiLCBsb2NhbHRpbWUodCkpID4gMCkgcHJpbnRmKHN0cik7DQo+ID4gPiArLcKgwqBl
-bHNlIHByaW50ZigiQ2Fubm90IGNhbGN1bGF0ZSBodW1hbiByZWFkYWJsZSB0aW1lLCBzb3JyeSIp
-Ow0KPiA+ID4gKyvCoMKgaWYgKHN0cmZ0aW1lKHN0ciwgNDAsICIlYyIsIGxvY2FsdGltZSh0KSkg
-PiAwKSBfX1BSSU5UKHN0cik7DQo+ID4gPiArK8KgwqBlbHNlIF9fUFJJTlQoIkNhbm5vdCBjYWxj
-dWxhdGUgaHVtYW4gcmVhZGFibGUgdGltZSwgc29ycnkiKTsNCj4gPiA+ICsgfQ0KPiA+ID4gKw0K
-PiA+ID4gKyAvKiBwcmludCBzdGF0ZnMgaW5mbyAqLw0KPiA+ID4gK0BAIC02MTAsNyArNjEyLDcg
-QEAgdm9pZCBwcmludF9pdChjaGFyICptYXN0ZXJmb3JtYXQsIGNoYXIgKmZpbGVuYW1lLA0KPiA+
-ID4gK8KgCXsNCj4gPiA+ICvCoAnCoMKgwqDCoHN0cmNweSAocGZvcm1hdCwgIiUiKTsNCj4gPiA+
-ICvCoAnCoMKgwqDCoCptKysgPSAnXDAnOw0KPiA+ID4gKy0JwqDCoMKgwqBwcmludGYoYik7DQo+
-ID4gPiArKwnCoMKgwqDCoF9fUFJJTlQoYik7DQo+ID4gPiArDQo+ID4gPiArwqAJwqDCoMKgwqAv
-KiBjb3B5IGFsbCBmb3JtYXQgc3BlY2lmaWVycyB0byBvdXIgZm9ybWF0IHN0cmluZyAqLw0KPiA+
-ID4gK8KgCcKgwqDCoMKgd2hpbGUgKGlzZGlnaXQoKm0pIHx8IHN0cmNocigiIzAtKy4gSSIsICpt
-KSkNCj4gPiA+ICtAQCAtNjM5LDcgKzY0MSw3IEBAIHZvaWQgcHJpbnRfaXQoY2hhciAqbWFzdGVy
-Zm9ybWF0LCBjaGFyICpmaWxlbmFtZSwNCj4gPiA+ICvCoAl9DQo+ID4gPiArwqAJZWxzZQ0KPiA+
-ID4gK8KgCXsNCj4gPiA+ICstCcKgwqDCoMKgcHJpbnRmKGIpOw0KPiA+ID4gKysJwqDCoMKgwqBf
-X1BSSU5UKGIpOw0KPiA+ID4gK8KgCcKgwqDCoMKgYiA9IE5VTEw7DQo+ID4gPiArwqAJfQ0KPiA+
-ID4gK8KgwqDCoMKgwqB9DQoNCg0KSXMgdGhlcmUgYSBwYXJ0aWN1bGFyIHJlYXNvbiB5b3UgdXNl
-ZCBhIG1hY3JvIGZvciB0aGlzIHBhY2thZ2Ugd2hlbiBhbGwgdGhlDQpvdGhlcnMgeW91IHN1Ym1p
-dHRlZCBzbyBmYXIgdXNlIHByaW50ZihhcmcsIE5VTEwpIGRpcmVjdGx5PyBJIHRoaW5rIGl0IHdv
-dWxkIGJlDQpnb29kIHRvIGJlIGNvbnNpc3RlbnQuDQoNCsKgIMKgIC1CaWxsDQoNCg==
+--001a11348a7a9b2a550532fd45b9
+Content-Type: text/plain; charset=UTF-8
 
+On Fri, May 13, 2016 at 11:25 PM, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+
+> On Thu, 2016-05-05 at 15:59 -0700, Christopher Larson wrote:
+> > From: Christopher Larson <chris_larson@mentor.com>
+> >
+> > We weren't consistent in the HOST_ (aka BUILD_) and non-HOST_ flags,
+> > so we
+> > were using BUILD_CPPFLAGS to compile target stuff, for example. Sort
+> > that out,
+> > and make sure we obey LDFLAGS.
+> >
+> > Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+> > ---
+> >  .../mkelfimage/mkelfimage/cross-compile.patch      | 86
+> > +++++++++++++++-------
+> >  meta/recipes-devtools/mkelfimage/mkelfimage_git.bb |  4 +-
+> >  2 files changed, 63 insertions(+), 27 deletions(-)
+>
+> http://errors.yoctoproject.org/Errors/Details/62910/
+>
+> Could you check the patch please?
+
+
+Looking at this now, sorry for the delay, went from having a sick kid to
+being sick myself, the past few days.
+-- 
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
+
+--001a11348a7a9b2a550532fd45b9
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Fri, May 13, 2016 at 11:25 PM, Richard Purdie <span dir=3D"ltr">&lt;<a h=
+ref=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard=
+.purdie@linuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=3D"g=
+mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
+eft:1ex"><span class=3D"">On Thu, 2016-05-05 at 15:59 -0700, Christopher La=
+rson wrote:<br>
+&gt; From: Christopher Larson &lt;<a href=3D"mailto:chris_larson@mentor.com=
+">chris_larson@mentor.com</a>&gt;<br>
+&gt;<br>
+&gt; We weren&#39;t consistent in the HOST_ (aka BUILD_) and non-HOST_ flag=
+s,<br>
+&gt; so we<br>
+&gt; were using BUILD_CPPFLAGS to compile target stuff, for example. Sort<b=
+r>
+&gt; that out,<br>
+&gt; and make sure we obey LDFLAGS.<br>
+&gt;<br>
+&gt; Signed-off-by: Christopher Larson &lt;<a href=3D"mailto:chris_larson@m=
+entor.com">chris_larson@mentor.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 .../mkelfimage/mkelfimage/cross-compile.patch=C2=A0 =C2=A0 =C2=
+=A0 | 86<br>
+&gt; +++++++++++++++-------<br>
+&gt;=C2=A0 meta/recipes-devtools/mkelfimage/<a href=3D"http://mkelfimage_gi=
+t.bb" rel=3D"noreferrer" target=3D"_blank">mkelfimage_git.bb</a> |=C2=A0 4 =
++-<br>
+&gt;=C2=A0 2 files changed, 63 insertions(+), 27 deletions(-)<br>
+<br>
+</span><a href=3D"http://errors.yoctoproject.org/Errors/Details/62910/" rel=
+=3D"noreferrer" target=3D"_blank">http://errors.yoctoproject.org/Errors/Det=
+ails/62910/</a><br>
+<br>
+Could you check the patch please?</blockquote></div><br>Looking at this now=
+, sorry for the delay, went from having a sick kid to being sick myself, th=
+e past few days.<br>-- <br><div class=3D"gmail_signature"><div dir=3D"ltr">=
+Christopher Larson<br>kergoth at gmail dot com<br>Founder - BitBake, OpenEm=
+bedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engineer, Mento=
+r Graphics</div></div>
+</div></div>
+
+--001a11348a7a9b2a550532fd45b9--
