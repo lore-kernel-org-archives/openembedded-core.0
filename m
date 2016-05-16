@@ -1,35 +1,65 @@
-Return-Path: <denis@denix.org>
-Received: from vms173021pub.verizon.net (vms173021pub.verizon.net
-	[206.46.173.21])
-	by mail.openembedded.org (Postfix) with ESMTP id B0852731D4
+Return-Path: <tom.hochstein@nxp.com>
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com
+	(mail-db5eur01on0080.outbound.protection.outlook.com [104.47.2.80])
+	by mail.openembedded.org (Postfix) with ESMTP id 12B4C60762
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2016 15:38:00 +0000 (UTC)
-Received: from vz-proxy-l003.mx.aol.com ([64.236.82.155])
-	by vms173021.mailsrvcs.net
-	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul 16
-	2014)) with ESMTPA id <0O7A00E7D0QNR830@vms173021.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Mon, 16 May 2016 10:37:45 -0500 (CDT)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.1 cv=MtGvkDue c=1 sm=1 tr=0	a=i+tV1o3iWEoTTvx3QNPGxA==:117
-	a=kj9zAlcOel0A:10 a=yrkiwgmsf1kA:10	a=e5mUnYsNAAAA:8 a=QyXUC8HyAAAA:8
-	a=MQQvbd3fAAAA:8 a=hD80L64hAAAA:8	a=gvl4HP8tAAAA:8 a=Q4-j1AaZAAAA:8
-	a=iRJ7mXOcSlzekKp_dnEA:9	a=kUZx9T4gdFhvFmdD:21 a=GaKGfDsO8ZfPT1WQ:21
-	a=ShuWEbMAaUlRaKg3:21	a=CjuIK1q_8ugA:10 a=7EJNaiyv9V4A:10
-Received: by 100.15.86.14 with SMTP id 40ee9aee; Mon, 16 May 2016 15:37:45 GMT
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id A75A016200C; Mon,
-	16 May 2016 11:37:34 -0400 (EDT)
-Date: Mon, 16 May 2016 11:37:34 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Message-id: <20160516153734.GN27602@denix.org>
-References: <cover.1463404035.git.jussi.kukkonen@intel.com>
-	<cb405da51da0413d5ac5999330a4e49cb7be262f.1463404035.git.jussi.kukkonen@intel.com>
-MIME-version: 1.0
-In-reply-to: <cb405da51da0413d5ac5999330a4e49cb7be262f.1463404035.git.jussi.kukkonen@intel.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 13/13] weston: Upgrade 1.9.0 -> 1.10.0
+	Mon, 16 May 2016 15:41:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com; 
+	s=selector1-nxp-com;
+	h=From:To:Date:Subject:Message-ID:Content-Type:MIME-Version;
+	bh=rKvCCjsx1L2223tW413dH02qOGBYpndjd7Q1V/sNuao=;
+	b=mN5bsROwxByVsGVpBsjXlJUh3/kIC6Xkyy3ztQlOr8P8NkqZliGT/uhxaXr8MwenES1nt3fV+zcK8LRgFM/SA7nGl2GurFcp8AvMDL67RlnrHf26nWda692nsiG6muYcygIPVz+EMJU7F4tkcqJyU7tYQlUU0P4ioVyO2dWidrw=
+Received: from AMSPR04MB309.eurprd04.prod.outlook.com (10.242.107.15) by
+	AMSPR04MB312.eurprd04.prod.outlook.com (10.242.107.25) with Microsoft
+	SMTP Server (TLS) id 15.1.497.12; Mon, 16 May 2016 15:41:37 +0000
+Received: from AMSPR04MB309.eurprd04.prod.outlook.com ([10.242.107.15]) by
+	AMSPR04MB309.eurprd04.prod.outlook.com ([10.242.107.15]) with mapi id
+	15.01.0497.017; Mon, 16 May 2016 15:41:37 +0000
+From: Tom Hochstein <tom.hochstein@nxp.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Thread-Topic: [OE-core] [PATCH v2] Add OpenVG demos to support wayland.
+Thread-Index: AQHRr33XLvLYphPESU2z4LWaoZVVpp+7nnqAgAAVNUA=
+Date: Mon, 16 May 2016 15:41:37 +0000
+Message-ID: <AMSPR04MB3094B78E097AB689B249DD5E2770@AMSPR04MB309.eurprd04.prod.outlook.com>
+References: <1463405655-14271-1-git-send-email-tom.hochstein@nxp.com>
+	<CAP9ODKo3WfvCH7H+0HA-yCpOnTxuK5RaN6kWr=pJwW0ODGWS+A@mail.gmail.com>
+In-Reply-To: <CAP9ODKo3WfvCH7H+0HA-yCpOnTxuK5RaN6kWr=pJwW0ODGWS+A@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: ossystems.com.br; dkim=none (message not signed)
+	header.d=none; ossystems.com.br;
+	dmarc=none action=none header.from=nxp.com; 
+x-originating-ip: [192.88.168.50]
+x-ms-office365-filtering-correlation-id: 1fe6de2b-7924-414d-d004-08d37da09160
+x-microsoft-exchange-diagnostics: 1; AMSPR04MB312;
+	5:nxUVQn3hu+48y9Iv9txTIi/BqPUk5ZfU6I9gFKbhqP6TS6tp+qqCjGSHMVB2ZI4U1g3SRR08Q7ec13WosUcUXDDUc5/1Daw6z2qBHPlEqnW0ioJlQ25UzG1CUSj+wwpdeGRNiaiq/NeP0QNAWlOUvg==;
+	24:0iaSgZ2hYpzSjTg2zsMQvCG25Xvwr6J6c/JKMGAstXaMM3r6Scp0lg2p/maFMo4GOlGS6nk1UfjIUYmPd52zZviLVxKsLOz9wYjLkl0Wrh4=;
+	7:C0ZuaGjju0g703JwUifD2Ygq6QyDT3QkuTpoWVbs5dKfKSkvJl9W8m9mewANK2SaoWFMnELtkfSRmoGb/05ToX/gefkTiApGiYeNeMGEIj/W4l8OWpiKwkATkGKQuQ0g7UGr4F+/BsTHv2FOfH3/6YHGsOGyJxmdl4kCV+QCSNiKBENt3+kR6utA0uQSk/UB
+x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:AMSPR04MB312;
+x-microsoft-antispam-prvs: <AMSPR04MB3120312AA5C27E1C7D3B4CCE2770@AMSPR04MB312.eurprd04.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:(106316996507680);
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(601004)(2401047)(8121501046)(5005006)(3002001)(10201501046)(6055026);
+	SRVR:AMSPR04MB312; BCL:0; PCL:0; RULEID:; SRVR:AMSPR04MB312; 
+x-forefront-prvs: 09443CAA7E
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(6009001)(24454002)(377454003)(586003)(1220700001)(6116002)(3846002)(102836003)(5008740100001)(189998001)(2950100001)(2900100001)(50986999)(54356999)(9686002)(76176999)(16601075003)(110136002)(15975445007)(77096005)(5003600100002)(86362001)(3280700002)(76576001)(74316001)(33656002)(2906002)(87936001)(106116001)(8936002)(11100500001)(66066001)(19580405001)(19580395003)(122556002)(5002640100001)(5004730100002)(3660700001)(8676002)(92566002)(4326007)(81166006)(10400500002)(7059030);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:AMSPR04MB312;
+	H:AMSPR04MB309.eurprd04.prod.outlook.com; FPR:; SPF:None;
+	MLV:sfv; LANG:en; 
+spamdiagnosticoutput: 1:23
+spamdiagnosticmetadata: NSPM
+MIME-Version: 1.0
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 May 2016 15:41:37.4621 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMSPR04MB312
+Cc: Prabhu Sundararaj <prabhu.sundararaj@freescale.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] Add OpenVG demos to support wayland.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,323 +72,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 May 2016 15:38:02 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Mon, 16 May 2016 15:41:38 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Mon, May 16, 2016 at 04:22:50PM +0300, Jussi Kukkonen wrote:
-> Support for multiple new protocols, many new features:
-> https://lists.freedesktop.org/archives/wayland-devel/2016-February/027039.html
-> 
-> * Weston now depends on wayland-protocols (which is protocol
->   collection split off from weston).
-
-Thanks! I've been looking into this update recently, but haven't been able to 
-finish wayland-protocols work yet due to lack of time... Appreciate you taking 
-a stab at it!
-
-
-> * Remove upstreamed patches, add a patch to fix the wayland-protocols
->   path used during build.
-> * Use HTTPS for tarball download
-> 
-> Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-> ---
->  ...1-configure.ac-Fix-wayland-protocols-path.patch | 34 +++++++++++
->  .../weston/explicit-enable-disable-systemd.patch   | 70 ----------------------
->  .../wayland/weston/libsystemd.patch                | 53 ----------------
->  .../weston/make-lcms-explicitly-configurable.patch | 43 -------------
->  .../wayland/{weston_1.9.0.bb => weston_1.10.0.bb}  | 14 ++---
->  5 files changed, 41 insertions(+), 173 deletions(-)
->  create mode 100644 meta/recipes-graphics/wayland/weston/0001-configure.ac-Fix-wayland-protocols-path.patch
->  delete mode 100644 meta/recipes-graphics/wayland/weston/explicit-enable-disable-systemd.patch
->  delete mode 100644 meta/recipes-graphics/wayland/weston/libsystemd.patch
->  delete mode 100644 meta/recipes-graphics/wayland/weston/make-lcms-explicitly-configurable.patch
->  rename meta/recipes-graphics/wayland/{weston_1.9.0.bb => weston_1.10.0.bb} (89%)
-> 
-> diff --git a/meta/recipes-graphics/wayland/weston/0001-configure.ac-Fix-wayland-protocols-path.patch b/meta/recipes-graphics/wayland/weston/0001-configure.ac-Fix-wayland-protocols-path.patch
-> new file mode 100644
-> index 0000000..7e00038
-> --- /dev/null
-> +++ b/meta/recipes-graphics/wayland/weston/0001-configure.ac-Fix-wayland-protocols-path.patch
-> @@ -0,0 +1,34 @@
-> +From 1cfc1434a5d385a74de593ec7601674dba39e2fe Mon Sep 17 00:00:00 2001
-> +From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-> +Date: Wed, 11 May 2016 16:16:30 +0300
-> +Subject: [PATCH] configure.ac: Fix wayland-protocols path
-> +
-> +The wayland-protocols directory is used during build: Fix the path
-> +to point to sysroot specified in recipe.
-> +
-> +Normally PKG_CONFIG_SYSROOT_DIR could be used in configure.ac but that
-> +breaks multilib weston as it would point to multilib sysroot when the
-> +(allarch) wayland-protocols is actually in the machine sysroot.
-> +
-> +Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-> +Upstream-Status: Inappropriate [embedded specific]
-> +---
-> + configure.ac | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/configure.ac b/configure.ac
-> +index bc7c329..15a05d3 100644
-> +--- a/configure.ac
-> ++++ b/configure.ac
-> +@@ -184,7 +184,7 @@ PKG_CHECK_MODULES(LIBINPUT_BACKEND, [libinput >= 0.8.0])
-> + PKG_CHECK_MODULES(COMPOSITOR, [$COMPOSITOR_MODULES])
-> + 
-> + PKG_CHECK_MODULES(WAYLAND_PROTOCOLS, [wayland-protocols >= 1.0],
-> +-		  [ac_wayland_protocols_pkgdatadir=`$PKG_CONFIG --variable=pkgdatadir wayland-protocols`])
-> ++		  [ac_wayland_protocols_pkgdatadir=${WAYLAND_PROTOCOLS_SYSROOT_DIR}`$PKG_CONFIG --variable=pkgdatadir wayland-protocols`])
-> + AC_SUBST(WAYLAND_PROTOCOLS_DATADIR, $ac_wayland_protocols_pkgdatadir)
-> + 
-> + AC_ARG_ENABLE(wayland-compositor, [  --enable-wayland-compositor],,
-> +-- 
-> +2.1.4
-> +
-> diff --git a/meta/recipes-graphics/wayland/weston/explicit-enable-disable-systemd.patch b/meta/recipes-graphics/wayland/weston/explicit-enable-disable-systemd.patch
-> deleted file mode 100644
-> index a40eaf1..0000000
-> --- a/meta/recipes-graphics/wayland/weston/explicit-enable-disable-systemd.patch
-> +++ /dev/null
-> @@ -1,70 +0,0 @@
-> -From 8e1efcd40b3bad81c83744e2e120d70c2b567ef2 Mon Sep 17 00:00:00 2001
-> -From: Frederico Cadete <frederico@cadete.eu>
-> -Date: Mon, 28 Sep 2015 00:30:10 +0200
-> -Subject: configure.ac: add explicit enable/disable for systemd-login support
-> -
-> -Otherwise, auto-enable depending on whether the system has the necessary
-> -libraries.
-> -
-> -[Updated help text as per pq suggestion -- bwh]
-> -
-> -Reviewed-by: Bryce Harrington <bryce@osg.samsung.com>
-> -Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.co.uk>
-> -Tested-by: Pekka Paalanen <pekka.paalanen@collabora.co.uk>
-> -
-> -Upstream-Status: Backport
-> -Backported from Weston git:
-> -http://cgit.freedesktop.org/wayland/weston/commit/?id=8e1efc
-> -
-> -Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
-> -
-> -diff --git a/configure.ac b/configure.ac
-> -index a9cd429..67e80d0 100644
-> ---- a/configure.ac
-> -+++ b/configure.ac
-> -@@ -380,18 +380,30 @@ AC_ARG_ENABLE(resize-optimization,
-> - AS_IF([test "x$enable_resize_optimization" = "xyes"],
-> -       [AC_DEFINE([USE_RESIZE_POOL], [1], [Use resize memory pool as a performance optimization])])
-> - 
-> --PKG_CHECK_MODULES(SYSTEMD_LOGIN,
-> --                  [libsystemd >= 209],
-> --                  [have_systemd_login_209=yes;have_systemd_login=yes],
-> --                  [have_systemd_login_209=no;have_systemd_login=no])
-> --
-> --# Older versions of systemd package systemd-login separately. Fall back on that
-> --AS_IF([test x$have_systemd_login != xyes],[
-> --      PKG_CHECK_MODULES(SYSTEMD_LOGIN,
-> --                        [libsystemd-login >= 198],
-> --                        [have_systemd_login=yes],
-> --                        [have_systemd_login=no])
-> --      ])
-> -+AC_ARG_ENABLE(systemd-login,
-> -+              AS_HELP_STRING([--enable-systemd-login],
-> -+                             [Enable logind support]),,
-> -+              enable_systemd_login=auto)
-> -+if test x$enable_systemd_login != xno; then
-> -+  PKG_CHECK_MODULES(SYSTEMD_LOGIN,
-> -+                    [libsystemd >= 209],
-> -+                    [have_systemd_login_209=yes;have_systemd_login=yes],
-> -+                    [have_systemd_login_209=no;have_systemd_login=no])
-> -+
-> -+  # Older versions of systemd package systemd-login separately. Fall back on that
-> -+  AS_IF([test x$have_systemd_login != xyes],[
-> -+        PKG_CHECK_MODULES(SYSTEMD_LOGIN,
-> -+                          [libsystemd-login >= 198],
-> -+                          [have_systemd_login=yes],
-> -+                          [have_systemd_login=no])
-> -+        ])
-> -+else
-> -+  have_systemd_login=no
-> -+fi
-> -+
-> -+if test "x$have_systemd_login" = "xno" -a "x$enable_systemd_login" = "xyes"; then
-> -+  AC_MSG_ERROR([systemd-login support explicitly enabled, but can't find libsystemd>=209 or libsystemd-login])
-> -+fi
-> - 
-> - AS_IF([test "x$have_systemd_login" = "xyes"],
-> -       [AC_DEFINE([HAVE_SYSTEMD_LOGIN], [1], [Have systemd-login])])
-> --- 
-> -cgit v0.10.2
-> -
-> diff --git a/meta/recipes-graphics/wayland/weston/libsystemd.patch b/meta/recipes-graphics/wayland/weston/libsystemd.patch
-> deleted file mode 100644
-> index 2d28d56..0000000
-> --- a/meta/recipes-graphics/wayland/weston/libsystemd.patch
-> +++ /dev/null
-> @@ -1,53 +0,0 @@
-> -From 5eb025a867b42f8bc7bc73279eac8de58e51a13e Mon Sep 17 00:00:00 2001
-> -From: Frederico Cadete <frederico@cadete.eu>
-> -Date: Mon, 28 Sep 2015 00:30:09 +0200
-> -Subject: configure.ac: add support for new versions of systemd
-> -
-> -Starting from systemd version 209, a single libsystemd.pc is provided.
-> -For previous versions, fall back on libsystemd-login.pc.
-> -
-> -Signed-off-by: Frederico Cadete <frederico@cadete.eu>
-> -Reviewed-by: Bryce Harrington <bryce@osg.samsung.com>
-> -Reviewed-by: Derek Foreman <derekf@osg.samsung.com>
-> -
-> -Upstream-Status: Backport
-> -Backported from Weston git:
-> -http://cgit.freedesktop.org/wayland/weston/commit/?id=5eb025
-> -
-> -Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
-> -
-> -diff --git a/configure.ac b/configure.ac
-> -index 045291c..a9cd429 100644
-> ---- a/configure.ac
-> -+++ b/configure.ac
-> -@@ -380,14 +380,23 @@ AC_ARG_ENABLE(resize-optimization,
-> - AS_IF([test "x$enable_resize_optimization" = "xyes"],
-> -       [AC_DEFINE([USE_RESIZE_POOL], [1], [Use resize memory pool as a performance optimization])])
-> - 
-> --PKG_CHECK_MODULES(SYSTEMD_LOGIN, [libsystemd-login >= 198],
-> --                  [have_systemd_login=yes], [have_systemd_login=no])
-> -+PKG_CHECK_MODULES(SYSTEMD_LOGIN,
-> -+                  [libsystemd >= 209],
-> -+                  [have_systemd_login_209=yes;have_systemd_login=yes],
-> -+                  [have_systemd_login_209=no;have_systemd_login=no])
-> -+
-> -+# Older versions of systemd package systemd-login separately. Fall back on that
-> -+AS_IF([test x$have_systemd_login != xyes],[
-> -+      PKG_CHECK_MODULES(SYSTEMD_LOGIN,
-> -+                        [libsystemd-login >= 198],
-> -+                        [have_systemd_login=yes],
-> -+                        [have_systemd_login=no])
-> -+      ])
-> -+
-> - AS_IF([test "x$have_systemd_login" = "xyes"],
-> -       [AC_DEFINE([HAVE_SYSTEMD_LOGIN], [1], [Have systemd-login])])
-> - AM_CONDITIONAL(HAVE_SYSTEMD_LOGIN, test "x$have_systemd_login" = "xyes")
-> - 
-> --PKG_CHECK_MODULES(SYSTEMD_LOGIN_209, [libsystemd-login >= 209],
-> --                  [have_systemd_login_209=yes], [have_systemd_login_209=no])
-> - AS_IF([test "x$have_systemd_login_209" = "xyes"],
-> -       [AC_DEFINE([HAVE_SYSTEMD_LOGIN_209], [1], [Have systemd-login >= 209])])
-> - 
-> --- 
-> -cgit v0.10.2
-> -
-> diff --git a/meta/recipes-graphics/wayland/weston/make-lcms-explicitly-configurable.patch b/meta/recipes-graphics/wayland/weston/make-lcms-explicitly-configurable.patch
-> deleted file mode 100644
-> index 35e6d6f..0000000
-> --- a/meta/recipes-graphics/wayland/weston/make-lcms-explicitly-configurable.patch
-> +++ /dev/null
-> @@ -1,43 +0,0 @@
-> -weston-1.5.0/configure.ac: make lcms explicitly configurable
-> -
-> -The lcms package is outside of openembedded-core, so make it
-> -explicitly configurable. Make it deterministic, so that if lcms
-> -dependencies are missing, autoconf throws a fatal error. Follow
-> -upstream style to make it more likely to be merged.
-> -
-> -Upstream-Status: Pending
-> -
-> -Index: weston-1.5.0/configure.ac
-> -===================================================================
-> ---- weston-1.5.0.orig/configure.ac
-> -+++ weston-1.5.0/configure.ac
-> -@@ -491,12 +491,24 @@ AC_ARG_ENABLE(demo-clients-install,
-> - 			     enable_demo_clients_install=no)
-> - AM_CONDITIONAL(INSTALL_DEMO_CLIENTS, [test "x$enable_demo_clients_install" = "xyes"])
-> - 
-> --PKG_CHECK_MODULES(LCMS, lcms2,
-> --                  [have_lcms=yes], [have_lcms=no])
-> --if test "x$have_lcms" = xyes; then
-> --       AC_DEFINE(HAVE_LCMS, 1, [Have lcms support])
-> -+AC_ARG_ENABLE(lcms,
-> -+              AS_HELP_STRING([--disable-lcms],
-> -+                             [Disable lcms support]),,
-> -+              enable_lcms=auto)
-> -+AM_CONDITIONAL(HAVE_LCMS, [test "x$enable_lcms" = xyes])
-> -+if test "x$enable_lcms" != "xno"; then
-> -+        PKG_CHECK_MODULES(LCMS, 
-> -+                         lcms2,
-> -+                         [have_lcms=yes],
-> -+                         [have_lcms=no])
-> -+        if test "x$have_lcms" = "xno" -a "x$enable_lcms" = "xyes"; then
-> -+          AC_MSG_ERROR([lcms support explicitly requested, but lcms couldn't be found])
-> -+        fi
-> -+        if test "x$have_lcms" = "xyes"; then
-> -+                enable_lcms=yes
-> -+                AC_DEFINE(HAVE_LCMS, 1, [Have lcms support])
-> -+        fi
-> - fi
-> --AM_CONDITIONAL(HAVE_LCMS, [test "x$have_lcms" = xyes])
-> - 
-> - AC_PATH_PROG([wayland_scanner], [wayland-scanner])
-> - if test x$wayland_scanner = x; then
-> diff --git a/meta/recipes-graphics/wayland/weston_1.9.0.bb b/meta/recipes-graphics/wayland/weston_1.10.0.bb
-> similarity index 89%
-> rename from meta/recipes-graphics/wayland/weston_1.9.0.bb
-> rename to meta/recipes-graphics/wayland/weston_1.10.0.bb
-> index 16a788d..3eccb1f 100644
-> --- a/meta/recipes-graphics/wayland/weston_1.9.0.bb
-> +++ b/meta/recipes-graphics/wayland/weston_1.10.0.bb
-> @@ -5,24 +5,22 @@ LICENSE = "MIT"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=d79ee9e66bb0f95d3386a7acae780b70 \
->                      file://src/compositor.c;endline=23;md5=1d535fed266cf39f6d8c0647f52ac331"
->  
-> -SRC_URI = "http://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-> +SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
->             file://weston.png \
->             file://weston.desktop \
-> -           file://make-lcms-explicitly-configurable.patch \
->             file://make-libwebp-explicitly-configurable.patch \
->             file://0001-make-error-portable.patch \
-> -           file://libsystemd.patch \
-> -           file://explicit-enable-disable-systemd.patch \
-> +           file://0001-configure.ac-Fix-wayland-protocols-path.patch \
->  "
-> -SRC_URI[md5sum] = "66bbba12f546570b4d97f676bc79a28e"
-> -SRC_URI[sha256sum] = "9c1b03f3184fa0b0dfdf67e215048085156e1a2ca344af6613fed36794ac48cf"
-> +SRC_URI[md5sum] = "1cd17c54ecac6d9a3cd90bf12eaa3e20"
-> +SRC_URI[sha256sum] = "e0b2004d00d8293ddf7903ca283c1746afa9ccb5919ab50fd04397ff472aa5c1"
->  
->  inherit autotools pkgconfig useradd distro_features_check
->  # depends on virtual/egl
->  REQUIRED_DISTRO_FEATURES = "opengl"
->  
->  DEPENDS = "libxkbcommon gdk-pixbuf pixman cairo glib-2.0 jpeg"
-> -DEPENDS += "wayland libinput virtual/egl pango wayland-native"
-> +DEPENDS += "wayland wayland-protocols libinput virtual/egl pango wayland-native"
->  
->  EXTRA_OECONF = "--enable-setuid-install \
->                  --enable-simple-clients \
-> @@ -30,6 +28,7 @@ EXTRA_OECONF = "--enable-setuid-install \
->                  --enable-demo-clients-install \
->                  --disable-rpi-compositor \
->                  --disable-rdp-compositor \
-> +                WAYLAND_PROTOCOLS_SYSROOT_DIR=${STAGING_DIR}/${MACHINE} \
->                  "
->  
->  EXTRA_OECONF_append_qemux86 = "\
-> @@ -98,6 +97,7 @@ FILES_${PN}-examples = "${bindir}/*"
->  
->  RDEPENDS_${PN} += "xkeyboard-config"
->  RRECOMMENDS_${PN} = "liberation-fonts"
-> +RRECOMMENDS_${PN}-dev += "wayland-protocols"
->  
->  USERADD_PACKAGES = "${PN}"
->  GROUPADD_PARAM_${PN} = "--system weston-launch"
-> -- 
-> 2.1.4
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+U29ycnksIHBsZWFzZSBpZ25vcmUgdGhpcyBwYXRjaC4gSSBncmFiYmVkIHRoZSB3cm9uZyBvbmUu
+DQoNClRvbQ0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogT3RhdmlvIFNhbHZh
+ZG9yIFttYWlsdG86b3RhdmlvLnNhbHZhZG9yQG9zc3lzdGVtcy5jb20uYnJdIA0KU2VudDogTW9u
+ZGF5LCBNYXkgMTYsIDIwMTYgOToyNSBBTQ0KVG86IFRvbSBIb2Noc3RlaW4gPHRvbS5ob2Noc3Rl
+aW5AbnhwLmNvbT4NCkNjOiBQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29y
+ZSBsYXllciA8b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz47IFByYWJo
+dSBTdW5kYXJhcmFqIDxwcmFiaHUuc3VuZGFyYXJhakBmcmVlc2NhbGUuY29tPg0KU3ViamVjdDog
+UmU6IFtPRS1jb3JlXSBbUEFUQ0ggdjJdIEFkZCBPcGVuVkcgZGVtb3MgdG8gc3VwcG9ydCB3YXls
+YW5kLg0KDQpIZWxsbyBUb20sDQoNCk9uIE1vbiwgTWF5IDE2LCAyMDE2IGF0IDEwOjM0IEFNLCBU
+b20gSG9jaHN0ZWluIDx0b20uaG9jaHN0ZWluQG54cC5jb20+IHdyb3RlOg0KPiBGcm9tOiBQcmFi
+aHUgU3VuZGFyYXJhaiA8cHJhYmh1LnN1bmRhcmFyYWpAZnJlZXNjYWxlLmNvbT4NCj4NCj4gVXBz
+dHJlYW0tU3RhdHVzOiBQZW5kaW5nDQo+DQo+IFNpZ25lZC1vZmYtYnk6IFByYWJodSBTdW5kYXJh
+cmFqIDxwcmFiaHUuc3VuZGFyYXJhakBmcmVlc2NhbGUuY29tPg0KDQpUaGlzIGlzIGEgZ29vZCBj
+YXRjaCBidXQgdGhlIHBhdGNoIHRvIHRoZSByZWNpcGUgaXMgbWlzc2luZy4NCg0KLS0gDQpPdGF2
+aW8gU2FsdmFkb3IgICAgICAgICAgICAgICAgICAgICAgICAgICAgIE8uUy4gU3lzdGVtcw0KaHR0
+cDovL3d3dy5vc3N5c3RlbXMuY29tLmJyICAgICAgICBodHRwOi8vY29kZS5vc3N5c3RlbXMuY29t
+LmJyDQpNb2JpbGU6ICs1NSAoNTMpIDk5ODEtNzg1NCAgICAgICAgICAgIE1vYmlsZTogKzEgKDM0
+NykgOTAzLTk3NTANCg==
 
