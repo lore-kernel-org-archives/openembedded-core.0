@@ -1,18 +1,18 @@
 Return-Path: <edwin.plauchu.camacho@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 8DF6373257
+	by mail.openembedded.org (Postfix) with ESMTP id 2B1FF60670
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2016 21:56:34 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 16 May 2016 14:56:35 -0700
+	Mon, 16 May 2016 22:06:10 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 16 May 2016 15:06:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,322,1459839600"; d="scan'208";a="968231887"
+X-IronPort-AV: E=Sophos;i="5.26,322,1459839600"; d="scan'208";a="978236519"
 Received: from pianodaemon-contraption.zpn.intel.com ([10.219.128.59])
-	by fmsmga001.fm.intel.com with ESMTP; 16 May 2016 14:56:30 -0700
+	by orsmga002.jf.intel.com with ESMTP; 16 May 2016 15:06:11 -0700
 From: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 May 2016 16:56:42 -0500
-Message-Id: <1463435802-9869-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
+Date: Mon, 16 May 2016 17:06:22 -0500
+Message-Id: <1463436382-9946-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
 X-Mailer: git-send-email 1.9.1
 Cc: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
 Subject: [PATCH] meta:recipes-extended: zip fix security gaps
@@ -28,7 +28,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 May 2016 21:56:34 -0000
+X-List-Received-Date: Mon, 16 May 2016 22:06:14 -0000
 
 From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
 
@@ -62,7 +62,7 @@ index 0000000..b745c6b
 --- /dev/null
 +++ b/meta/recipes-extended/zip/zip-3.0/fix-security-format.patch
 @@ -0,0 +1,42 @@
-+meta: recipes-extended: Fixing security formatting issues on makedevs
++meta: recipes-extended: Fixing security formatting issues on zip
 +
 +Fix security formatting issues related to printing without NULL argument
 +
