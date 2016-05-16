@@ -1,27 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0ECE66FFC7
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id EED446FFC7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2016 01:39:28 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u4G1dTcO016861
+	Mon, 16 May 2016 01:42:21 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u4G1gMJZ028429
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 May 2016 18:39:29 -0700 (PDT)
-Received: from [128.224.162.214] (128.224.162.214) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Sun, 15 May 2016 18:39:28 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1461650616.git.liezhi.yang@windriver.com>
+	Sun, 15 May 2016 18:42:22 -0700 (PDT)
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Sun, 15 May 2016 18:42:21 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <573924CF.6090000@windriver.com>
-Date: Mon, 16 May 2016 09:39:27 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.7.2
+To: <openembedded-core@lists.openembedded.org>
+Date: Sun, 15 May 2016 18:42:20 -0700
+Message-ID: <cover.1463362879.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <cover.1461650616.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 0/1] coreutils: fix for native and nativesdk
+Subject: [master][krogoth][PATCH 0/1] udev: remove eudev-hwdb from RRECOMMENDS_eudev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,28 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 May 2016 01:39:29 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 16 May 2016 01:42:22 -0000
+Content-Type: text/plain
 
-Ping.
+The following changes since commit 95b0270e82b5d05d651c05e9c86681978013b346:
 
-// Robert
+  tcmode-default: Bump glibc,gdb (2016-05-15 09:05:14 +0100)
 
-On 04/26/2016 02:04 PM, Robert Yang wrote:
-> The following changes since commit e2dbe5eb869b8336b91023b83d7ca866197efa73:
->
->    license.bbclass: make sure that image manifest dir exists (2016-04-22 16:28:47 +0100)
->
-> are available in the git repository at:
->
->    git://git.openembedded.org/openembedded-core-contrib rbt/core
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/core
->
-> Dengke Du (1):
->    coreutils: fix for native and nativesdk
->
->   meta/recipes-core/coreutils/coreutils_8.25.bb | 10 +++++-----
->   1 file changed, 5 insertions(+), 5 deletions(-)
->
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/udev
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/udev
+
+Robert Yang (1):
+  eudev: remove eudev-hwdb from RRECOMMENDS_eudev
+
+ meta/recipes-core/udev/eudev_3.1.5.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+-- 
+2.7.4
+
 
