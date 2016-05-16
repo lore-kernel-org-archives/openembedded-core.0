@@ -1,32 +1,20 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A14F605FE
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 9781060767
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2016 12:49:30 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u4GCnSi4026167
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 16 May 2016 05:49:28 -0700
-Received: from server.local (147.11.118.155) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 16 May 2016 05:49:27 -0700
-To: Khem Raj <raj.khem@gmail.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-References: <fa9c2d513cff678eebb231d4cf5991ea37061b34.1463157783.git.raj.khem@gmail.com>
-	<2cc568062314cdddd5ff2f60dd6d9685b3b12831.1463157783.git.raj.khem@gmail.com>
-	<1463295824.9746.152.camel@linuxfoundation.org>
-	<CAMKF1spXkA9+x62pzj9ukt0uKdmmWW3BMcKPCbpRgVC7Qbve6Q@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <2196a177-c364-ea7b-0545-a42e631880dc@windriver.com>
-Date: Mon, 16 May 2016 08:49:27 -0400
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
-	Gecko/20100101 Thunderbird/45.0
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1spXkA9+x62pzj9ukt0uKdmmWW3BMcKPCbpRgVC7Qbve6Q@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/6] tcmode-default: Bump gcc,glibc,gdb
+	Mon, 16 May 2016 13:22:40 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga102.jf.intel.com with ESMTP; 16 May 2016 06:22:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.24,627,1455004800"; d="scan'208";a="982013062"
+Received: from theory.fi.intel.com ([10.237.72.196])
+	by fmsmga002.fm.intel.com with ESMTP; 16 May 2016 06:22:40 -0700
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 16 May 2016 16:22:27 +0300
+Message-Id: <cover.1463404035.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 00/13] wayland V2 and misc upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,106 +27,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 May 2016 12:49:34 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 16 May 2016 13:22:41 -0000
 
-On 2016-05-15 5:25 AM, Khem Raj wrote:
-> On Sun, May 15, 2016 at 12:03 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->> On Fri, 2016-05-13 at 09:46 -0700, Khem Raj wrote:
->>> gcc 6.1, glibc 2.24, gdb 7.11
->>>
->>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>> ---
->>>  meta/conf/distro/include/tcmode-default.inc | 6 +++---
->>>  1 file changed, 3 insertions(+), 3 deletions(-)
->>
->> I'll merge most of this series however before we can move to gcc6 by
->> default there are some remaining issues:
->>
->> https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64-lsb/b
->> uilds/788/steps/BuildImages/logs/stdio
->>
->> qt4-x11-free fails to compile
->
-> This can be fixed easily. I will see if I can cook up one.
->
->> linux-yocto 4.1 also fails
->
-> I am sure if we upgrade to latest point release of 4.1 then most of
-> fixes may be available.
-> but there are more than 1 fixes that would require backport
+This set includes v2 of the wayland patches, changes since v1:
+* weston: prefix the protocol path with the machine sysroot as 
+  that's where allarch wayland-protocols is
+* use HTTPS for all wayland tarball uris
+* "wayland-protocols" is now the name of the package,
+  weston-dev now RRECOMMENDS it
 
-Two 4.1 -stable updates came out just recently. I already have them
-queued here. I'll send them along today .. will have a scan to see if
-the gcc6 changes were picked up by the maintainer.
+The other upgrades are fairly uneventful: gdk-pixbuf-ptest looks nasty
+on buildhistory but the files are mostly just moved around in directories.
 
->
->>
->> (on qemux86-64, qemux86, qemuppc, qemumips, qemuarm)
->>
->> https://autobuilder.yoctoproject.org/main/builders/nightly-ppc/builds/7
->> 78/steps/BuildImages_1/logs/stdio
->>
->> linux-yocto 4.4 fails on ppc
->>
->> https://autobuilder.yoctoproject.org/main/builders/nightly-non-gpl3/bui
->> lds/768/steps/BuildImages/logs/stdio
->
-> This patch https://patchwork.ozlabs.org/patch/614548/ is required and
-> I gave pointers for that to Bruce
-> and was hoping that with
-> http://git.openembedded.org/openembedded-core/commit/?id=f1c75b93a4e11425e595c5ce043fbb0276a41931
-> the above fix is bundled in but Bruce might be able to conform.
->
+Thanks,
+  Jussi
 
-Confirmed that the fix is in that commit. In linux-yocto:
 
-Author: Khem Raj <raj.khem@gmail.com>
-Date:   Mon Apr 25 05:47:01 2016 +0000
+The following changes since commit 9094ea9fdd1f23cbc9f7a9d0d95fb330c5ea8906:
 
-     powerpc/ptrace: Fix out of bounds array access warning
+  classes/oeqa: Update for print statements and file() -> open() for python3 (2016-05-16 09:31:23 +0100)
 
-     gcc-6 correctly warns about a out of bounds access
+are available in the git repository at:
 
-     arch/powerpc/kernel/ptrace.c:407:24: warning: index 32 denotes an 
-offset greater than size of 'u64[32][1] {aka long long unsigned 
-int[32][1]}' [-Warray-bounds]
-             offsetof(struct thread_fp_state, fpr[32][0]));
-                             ^
+  git://git.yoctoproject.org/poky-contrib jku/upgrades
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/upgrades
 
-     check the end of array instead of beginning of next element to fix this
+Jussi Kukkonen (13):
+  glib-2.0: Upgrade 2.46.2 -> 2.48.1
+  glib-networking: Upgrade 2.46.1 -> 2.48.2
+  pango: Upgrade 1.38.1 -> 1.40.1
+  gdk-pixbuf: Upgrade 2.32.3 -> 2.34.0
+  gsettings-desktop-schemas: Upgrade 3.19.3 -> 3.20.0
+  inputproto: Upgrade 2.3.1 -> 2.3.2
+  json-glib: Upgrade 1.0.4 -> 1.2.0
+  libsoup-2.4: Upgrade 2.52.2 -> 2.54.1
+  expat: Upgrade 2.1.0 -> 2.1.1
+  xproto: Upgrade 7.0.28 -> 7.0.29
+  wayland: Upgrade 1.9.0 -> 1.10.0
+  wayland-protocols: Add recipe
+  weston: Upgrade 1.9.0 -> 1.10.0
 
-     Signed-off-by: Khem Raj <raj.khem@gmail.com>
-     Cc: Kees Cook <keescook@chromium.org>
-     Cc: Michael Ellerman <mpe@ellerman.id.au>
-     Cc: Segher Boessenkool <segher@kernel.crashing.org>
-     Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+ .../expat/expat-2.1.0/expat-CVE-2015-1283.patch    | 62 -------------------
+ meta/recipes-core/expat/expat.inc                  |  3 +-
+ .../expat/{expat-2.1.0 => expat}/autotools.patch   |  4 +-
+ meta/recipes-core/expat/expat_2.1.0.bb             |  5 --
+ meta/recipes-core/expat/expat_2.1.1.bb             |  5 ++
+ ...c-Do-not-use-readlink-when-cross-compilin.patch | 31 ----------
+ .../glib-2.0/glib-2.0-configure-readlink.patch     | 29 ---------
+ .../ignore-format-nonliteral-warning.patch         | 39 ------------
+ .../glib-2.0/glib-2.0/relocate-modules.patch       | 66 ++++++++++----------
+ .../{glib-2.0_2.46.2.bb => glib-2.0_2.48.1.bb}     |  7 +--
+ meta/recipes-core/glib-2.0/glib.inc                |  3 +-
+ ...working_2.46.1.bb => glib-networking_2.48.2.bb} |  4 +-
+ .../{gdk-pixbuf_2.32.3.bb => gdk-pixbuf_2.34.0.bb} |  4 +-
+ ...19.3.bb => gsettings-desktop-schemas_3.20.0.bb} |  5 +-
+ .../{json-glib_1.0.4.bb => json-glib_1.2.0.bb}     |  4 +-
+ .../pango/{pango_1.38.1.bb => pango_1.40.1.bb}     |  5 +-
+ .../wayland-protocols/dont-use-AC_CANONICAL.patch  | 29 +++++++++
+ .../wayland/wayland-protocols_1.3.bb               | 20 +++++++
+ .../{wayland_1.9.0.bb => wayland_1.10.0.bb}        |  8 +--
+ ...1-configure.ac-Fix-wayland-protocols-path.patch | 34 +++++++++++
+ .../weston/explicit-enable-disable-systemd.patch   | 70 ----------------------
+ .../wayland/weston/libsystemd.patch                | 53 ----------------
+ .../weston/make-lcms-explicitly-configurable.patch | 43 -------------
+ .../wayland/{weston_1.9.0.bb => weston_1.10.0.bb}  | 14 ++---
+ .../{inputproto_2.3.1.bb => inputproto_2.3.2.bb}   |  4 +-
+ .../{xproto_7.0.28.bb => xproto_7.0.29.bb}         |  5 +-
+ ...libsoup-2.4_2.52.2.bb => libsoup-2.4_2.54.1.bb} |  4 +-
+ 27 files changed, 154 insertions(+), 406 deletions(-)
+ delete mode 100644 meta/recipes-core/expat/expat-2.1.0/expat-CVE-2015-1283.patch
+ rename meta/recipes-core/expat/{expat-2.1.0 => expat}/autotools.patch (79%)
+ delete mode 100644 meta/recipes-core/expat/expat_2.1.0.bb
+ create mode 100644 meta/recipes-core/expat/expat_2.1.1.bb
+ delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-configure.ac-Do-not-use-readlink-when-cross-compilin.patch
+ delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/glib-2.0-configure-readlink.patch
+ delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/ignore-format-nonliteral-warning.patch
+ rename meta/recipes-core/glib-2.0/{glib-2.0_2.46.2.bb => glib-2.0_2.48.1.bb} (73%)
+ rename meta/recipes-core/glib-networking/{glib-networking_2.46.1.bb => glib-networking_2.48.2.bb} (88%)
+ rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.32.3.bb => gdk-pixbuf_2.34.0.bb} (96%)
+ rename meta/recipes-gnome/gsettings-desktop-schemas/{gsettings-desktop-schemas_3.19.3.bb => gsettings-desktop-schemas_3.20.0.bb} (68%)
+ rename meta/recipes-gnome/json-glib/{json-glib_1.0.4.bb => json-glib_1.2.0.bb} (78%)
+ rename meta/recipes-graphics/pango/{pango_1.38.1.bb => pango_1.40.1.bb} (92%)
+ create mode 100644 meta/recipes-graphics/wayland/wayland-protocols/dont-use-AC_CANONICAL.patch
+ create mode 100644 meta/recipes-graphics/wayland/wayland-protocols_1.3.bb
+ rename meta/recipes-graphics/wayland/{wayland_1.9.0.bb => wayland_1.10.0.bb} (85%)
+ create mode 100644 meta/recipes-graphics/wayland/weston/0001-configure.ac-Fix-wayland-protocols-path.patch
+ delete mode 100644 meta/recipes-graphics/wayland/weston/explicit-enable-disable-systemd.patch
+ delete mode 100644 meta/recipes-graphics/wayland/weston/libsystemd.patch
+ delete mode 100644 meta/recipes-graphics/wayland/weston/make-lcms-explicitly-configurable.patch
+ rename meta/recipes-graphics/wayland/{weston_1.9.0.bb => weston_1.10.0.bb} (89%)
+ rename meta/recipes-graphics/xorg-proto/{inputproto_2.3.1.bb => inputproto_2.3.2.bb} (77%)
+ rename meta/recipes-graphics/xorg-proto/{xproto_7.0.28.bb => xproto_7.0.29.bb} (73%)
+ rename meta/recipes-support/libsoup/{libsoup-2.4_2.52.2.bb => libsoup-2.4_2.54.1.bb} (89%)
 
-All the branches have that commit now, and it is covered by that SRCREV
-bump. So there's something else lurking for ppc.
-
-Bruce
-
->
->>
->> non-GPLv3 on elfutils and diffutils
->
-> Yes, now, I wonder if we can backport fixes from newer versions and
-> still call it GPL-2 without getting
-> consent from patch authors. This is going to be a bit twisted.
->
->>
->> (There may be other failures too, the build hasn't completed yet)
->>
->> We'll need to come up with a plan to address these issues (possibly
->> upgrades for some of the kernels?) before we can change the defaults.
->>
->> Cheers,
->>
->> Richard
->>
->>
+-- 
+2.1.4
 
 
