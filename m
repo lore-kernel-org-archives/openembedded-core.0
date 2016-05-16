@@ -1,27 +1,27 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 00625612E5
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 19F5162135
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2016 01:18:20 +0000 (UTC)
+	Mon, 16 May 2016 01:19:53 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u4G1IKMn028349
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u4G1JskH014788
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 May 2016 18:18:20 -0700 (PDT)
+	Sun, 15 May 2016 18:19:54 -0700 (PDT)
 Received: from [128.224.162.214] (128.224.162.214) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Sun, 15 May 2016 18:18:20 -0700
+	Sun, 15 May 2016 18:19:53 -0700
 To: <openembedded-core@lists.openembedded.org>
-References: <cover.1461304177.git.liezhi.yang@windriver.com>
+References: <cover.1461573928.git.liezhi.yang@windriver.com>
 From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <57391FDA.2010706@windriver.com>
-Date: Mon, 16 May 2016 09:18:18 +0800
+Message-ID: <57392037.5050109@windriver.com>
+Date: Mon, 16 May 2016 09:19:51 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
 	Thunderbird/38.7.2
 MIME-Version: 1.0
-In-Reply-To: <cover.1461304177.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 0/4] set COMPATIBLE_HOST for several recipes
+In-Reply-To: <cover.1461573928.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH 0/1] oe-buildenv-internal: add BBPATH_EXTRA to BB_ENV_EXTRAWHITE_OE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,38 +34,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 May 2016 01:18:24 -0000
+X-List-Received-Date: Mon, 16 May 2016 01:19:54 -0000
 Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
-Hi Ross,
-
-Only the first patch [PATCH 1/4] is merged, are there any comments for
-the other 3 please ?
+ping.
 
 // Robert
 
-On 04/22/2016 01:50 PM, Robert Yang wrote:
-> The following changes since commit 9838f8d077d16e52ad592879d65a9e8350b93075:
+On 04/25/2016 04:47 PM, Robert Yang wrote:
+> The following changes since commit e2dbe5eb869b8336b91023b83d7ca866197efa73:
 >
->    build-appliance-image: Update to krogoth head revision (2016-04-19 21:25:53 +0100)
+>    license.bbclass: make sure that image manifest dir exists (2016-04-22 16:28:47 +0100)
 >
 > are available in the git repository at:
 >
->    git://git.openembedded.org/openembedded-core-contrib rbt/arm
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/arm
+>    git://git.openembedded.org/openembedded-core-contrib rbt/bb
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/bb
 >
-> Robert Yang (4):
->    grub_git: set COMPATIBLE_HOST_armv7a to null
->    webkitgtk: set COMPATIBLE_HOST_armv4 to null
->    gnu-efi: set COMPATIBLE_HOST_armv4 to null
->    cogl-1.0: set COMPATIBLE_HOST_armv4 to null
+> Robert Yang (1):
+>    oe-buildenv-internal: add BBPATH_EXTRA to BB_ENV_EXTRAWHITE_OE
 >
->   meta/recipes-bsp/gnu-efi/gnu-efi_3.0.3.bb    | 1 +
->   meta/recipes-bsp/grub/grub_git.bb            | 1 +
->   meta/recipes-graphics/cogl/cogl-1.0.inc      | 2 ++
->   meta/recipes-sato/webkit/webkitgtk_2.10.7.bb | 1 +
->   4 files changed, 5 insertions(+)
+>   scripts/oe-buildenv-internal | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 >
 
