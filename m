@@ -1,30 +1,21 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 43F8A606D1
+Return-Path: <edwin.plauchu.camacho@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 8DF6373257
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2016 21:53:30 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u4GLqMBA020918 for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2016 22:53:30 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id jv3q0eOtcfUn
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2016 22:53:30 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u4GLrPvB020946
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2016 22:53:27 +0100
-Message-ID: <1463435605.9746.165.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 16 May 2016 22:53:25 +0100
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: [PATCH] sstate: Ensure we sort the value used for SSTATETASKS for determinism
+	Mon, 16 May 2016 21:56:34 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 16 May 2016 14:56:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,322,1459839600"; d="scan'208";a="968231887"
+Received: from pianodaemon-contraption.zpn.intel.com ([10.219.128.59])
+	by fmsmga001.fm.intel.com with ESMTP; 16 May 2016 14:56:30 -0700
+From: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 16 May 2016 16:56:42 -0500
+Message-Id: <1463435802-9869-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
+X-Mailer: git-send-email 1.9.1
+Cc: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+Subject: [PATCH] meta:recipes-extended: zip fix security gaps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,28 +28,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 May 2016 21:53:30 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 16 May 2016 21:56:34 -0000
 
-This avoids 'basehash changed' errors with python 3 but could break
-build determinism in general.
+From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+This patch avoids zip recipe fails to compile with compiler flags which elevate common string formatting issues into an error (-Wformat -Wformat-security -Werror=format-security).
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 6491bad..5fca0ea 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -95,7 +95,7 @@ python () {
-         scan_cmd = "grep -Irl ${STAGING_DIR} ${SSTATE_BUILDDIR}"
-         d.setVar('SSTATE_SCAN_CMD', scan_cmd)
+[YOCTO #9552]
+
+Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+---
+ meta/conf/distro/include/security_flags.inc        |  1 -
+ .../zip/zip-3.0/fix-security-format.patch          | 42 ++++++++++++++++++++++
+ meta/recipes-extended/zip/zip.inc                  |  3 +-
+ 3 files changed, 44 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-extended/zip/zip-3.0/fix-security-format.patch
+
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+index 7a91cec..bb1a398 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -107,7 +107,6 @@ SECURITY_STRINGFORMAT_pn-makedevs = ""
+ SECURITY_STRINGFORMAT_pn-oh-puzzles = ""
+ SECURITY_STRINGFORMAT_pn-stat = ""
+ SECURITY_STRINGFORMAT_pn-unzip = ""
+-SECURITY_STRINGFORMAT_pn-zip = ""
  
--    unique_tasks = set((d.getVar('SSTATETASKS', True) or "").split())
-+    unique_tasks = sorted(set((d.getVar('SSTATETASKS', True) or "").split()))
-     d.setVar('SSTATETASKS', " ".join(unique_tasks))
-     for task in unique_tasks:
-         d.prependVarFlag(task, 'prefuncs', "sstate_task_prefunc ")
-
+ TARGET_CFLAGS_append_class-target = " ${SECURITY_CFLAGS}"
+ TARGET_LDFLAGS_append_class-target = " ${SECURITY_LDFLAGS}"
+diff --git a/meta/recipes-extended/zip/zip-3.0/fix-security-format.patch b/meta/recipes-extended/zip/zip-3.0/fix-security-format.patch
+new file mode 100644
+index 0000000..b745c6b
+--- /dev/null
++++ b/meta/recipes-extended/zip/zip-3.0/fix-security-format.patch
+@@ -0,0 +1,42 @@
++meta: recipes-extended: Fixing security formatting issues on makedevs
++
++Fix security formatting issues related to printing without NULL argument
++
++zip.c: In function 'help_extended':
++zip.c:1031:5: error: format not a string literal and no format arguments [-Werror=format-security]
++     printf(text[i]);
++     ^
++zip.c: In function 'version_info':
++zip.c:1228:5: error: format not a string literal and no format arguments [-Werror=format-security]
++     printf(cryptnote[i]);
++     ^
++
++[YOCTO #9552]
++[https://bugzilla.yoctoproject.org/show_bug.cgi?id=9552]
++
++Upstream-Status: Pending
++
++Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
++
++diff --git a/zip.c b/zip.c
++index 439821f..2ef57e3 100644
++--- a/zip.c
+++++ b/zip.c
++@@ -1028,7 +1028,7 @@ local void help_extended()
++ 
++   for (i = 0; i < sizeof(text)/sizeof(char *); i++)
++   {
++-    printf(text[i]);
+++    printf( text[i] , NULL );
++     putchar('\n');
++   }
++ #ifdef DOS
++@@ -1225,7 +1225,7 @@ local void version_info()
++             CR_MAJORVER, CR_MINORVER, CR_BETA_VER, CR_VERSION_DATE);
++   for (i = 0; i < sizeof(cryptnote)/sizeof(char *); i++)
++   {
++-    printf(cryptnote[i]);
+++    printf( cryptnote[i] , NULL );
++     putchar('\n');
++   }
++   ++i;  /* crypt support means there IS at least one compilation option */
+diff --git a/meta/recipes-extended/zip/zip.inc b/meta/recipes-extended/zip/zip.inc
+index 6221c5e..fac3a9f 100644
+--- a/meta/recipes-extended/zip/zip.inc
++++ b/meta/recipes-extended/zip/zip.inc
+@@ -5,7 +5,8 @@ SECTION = "console/utils"
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=04d43c5d70b496c032308106e26ae17d"
+ 
+-SRC_URI = "ftp://ftp.info-zip.org/pub/infozip/src/zip${@d.getVar('PV',1).replace('.', '')}.tgz"
++SRC_URI = "ftp://ftp.info-zip.org/pub/infozip/src/zip${@d.getVar('PV',1).replace('.', '')}.tgz \
++           file://fix-security-format.patch"
+ 
+ EXTRA_OEMAKE = "'CC=${CC}' 'BIND=${CC}' 'AS=${CC} -c' 'CPP=${CPP}' \
+ 		'CFLAGS=-I. -DUNIX ${CFLAGS}' 'INSTALL=install' \
+-- 
+1.9.1
 
 
