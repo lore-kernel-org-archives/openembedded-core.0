@@ -1,27 +1,40 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 857D7601A4
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
+	[209.85.220.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 81D9A60118
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2016 17:23:59 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga103.jf.intel.com with ESMTP; 16 May 2016 10:23:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,627,1459839600"; 
-	d="asc'?scan'208";a="982183515"
-Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.5.164])
-	([10.219.5.164])
-	by fmsmga002.fm.intel.com with ESMTP; 16 May 2016 10:23:37 -0700
-To: openembedded-core@lists.openembedded.org
-References: <1462984915-12056-1-git-send-email-anibal.limon@linux.intel.com>
-From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
-Message-ID: <573A0236.6040003@linux.intel.com>
-Date: Mon, 16 May 2016 12:24:06 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
-MIME-Version: 1.0
-In-Reply-To: <1462984915-12056-1-git-send-email-anibal.limon@linux.intel.com>
-Cc: patrick.ohly@gmx.de
-Subject: Re: [PATCH] classes/base: get_lic_checksum_file_list imporve validaton of url's
+	Mon, 16 May 2016 19:12:30 +0000 (UTC)
+Received: by mail-qk0-f195.google.com with SMTP id l68so15346648qkf.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 May 2016 12:12:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=Q0cmxWOXgEynipjdVTX/Nt4/MCWcLryGs1LbE1AqKng=;
+	b=eWe3d3ljHjOcFz9/d37WrQc3UEF9GgXH2xT+dVe/ao4ErQwrFe4aumssKukt9AdLiI
+	rPLFXw5p33Ichevizq1oj1HYgzRiVA7OYL62mDPqr780jMId7iMyfSmQgVjumv7Pbm9S
+	4FqjP+bB+EUSNJ/mFfo/BYhE5Ax7nwrZB2GDZm6Vptd++NlcLCkBCzUbTG/Yr6IOGQeh
+	9rIfq6uFGUv6KPDI6bRC18aqe0NAltAxz4Q6tZQfcNTpwL69ueTmlwRMgGIAs2TVit5/
+	r2Qx+pcMP8y6SQFkXKqqPp9oUtI+lsUOysetdSnN7HEIRRtWkQ/W28/WoRgHgj7eE1v6
+	I7BQ==
+X-Gm-Message-State: AOPr4FXCQOnxsoXyKu9jr39GK57tBrtr25OCLtrUdkIh00DTNb/j9SRGCj5t/rTpJt2n0w==
+X-Received: by 10.55.81.3 with SMTP id f3mr31294314qkb.35.1463425950330;
+	Mon, 16 May 2016 12:12:30 -0700 (PDT)
+Received: from localhost ([187.23.154.250]) by smtp.gmail.com with ESMTPSA id
+	d12sm15344092qhd.13.2016.05.16.12.12.24
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 16 May 2016 12:12:29 -0700 (PDT)
+Received: by localhost (sSMTP sendmail emulation);
+	Mon, 16 May 2016 16:12:14 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Mon, 16 May 2016 16:11:58 -0300
+Message-Id: <1463425932-10080-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.8.2
+Organization: O.S. Systems Software LTDA.
+Cc: prabhu.sundararaj@nxp.com, Otavio Salvador <otavio@ossystems.com.br>,
+	meta-freescale Mailing List <meta-freescale@yoctoproject.org>
+Subject: [oe-core PATCH v6 00/14] Improve Weston and Xwayland integration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,68 +47,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 May 2016 17:24:00 -0000
-X-Groupsio-MsgNum: 82163
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature";
-	boundary="wha1VCW1xX6Ma1I4IWWTOkmd4aioei4EM"
+X-List-Received-Date: Mon, 16 May 2016 19:12:30 -0000
 
---wha1VCW1xX6Ma1I4IWWTOkmd4aioei4EM
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Up to now, to make Xwayland to work it required several manual hacks
+and it was difficult to make an image which had support for it out of
+box.
 
-ping
+This patchset intends to set the base for it. It enables weston-init
+to be extended to support Xwayland launch when needed.
 
-On 05/11/2016 11:41 AM, An=C3=ADbal Lim=C3=B3n wrote:
-> When specify an URL different that supported file:// the function
-> returns an empty path causing an exception without notice the user
-> that the URL is Malformed.
->=20
-> [YOCTO #9211]
->=20
-> Signed-off-by: An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.intel.com>
-> ---
->  meta/classes/base.bbclass | 3 +++
->  1 file changed, 3 insertions(+)
->=20
-> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-> index a7ca3a6..c3c2669 100644
-> --- a/meta/classes/base.bbclass
-> +++ b/meta/classes/base.bbclass
-> @@ -105,6 +105,9 @@ def get_lic_checksum_file_list(d):
->          # any others should be covered by SRC_URI.
->          try:
->              path =3D bb.fetch.decodeurl(url)[2]
-> +            if not path:
-> +                raise bb.fetch.MalformedUrl(url)
-> +
->              if path[0] =3D=3D '/':
->                  if path.startswith(tmpdir):
->                      continue
->=20
+While working on it, some improvements on weston and weston-init were
+done.
+
+Changes in v6:
+- New patch.
+- Rebase on top of 1.10
+- Fix typo on commit log (rborton)
+- New patch.
+- New patch.
+- Add xterm
+
+Changes in v5:
+- New patch.
+
+Changes in v4:
+- New patch.
+- New patch.
+- Use --log= for weston call
+
+Changes in v3:
+- Fix log redirection
+- Fix argument pass for openvt
+- New patch.
+
+Changes in v2:
+- Remove PAM requirement
+- Remove PAM requirement
+- Move weston-start module to weston package
+- Stop using weston-launch
+- Drop weston-lunch use as it requires PAM
+
+Otavio Salvador (11):
+  weston: Use HTTPS for tarball download
+  weston: Fix SystemD service description
+  weston: Add PACKAGECONFIG option for 'clients'
+  weston: Enable XWayland when X11 and Wayland support are available
+  weston: Remove XWayland dependencies on PACKAGECONFIG
+  weston-init: Rework do_install to use install -D option
+  weston-init: Rework init sequence to avoid code duplication
+  weston: Add Xwayland initialization support using weston-start
+  weston-init: Error out if loading a nested instance
+  weston-init: Add module support for the weston-start helper
+  core-image-weston: If X11 is enabled, add XWayland support
+
+Tom Hochstein (3):
+  weston: weston-launch: Handle invalid command line options
+  weston: Provide a default version of weston-launch that doesn't
+    require PAM
+  weston-init: Use weston-launch when starting weston as the first
+    windowing system
+
+ meta/recipes-graphics/images/core-image-weston.bb  |   1 +
+ meta/recipes-graphics/wayland/weston-init.bb       |  11 +-
+ meta/recipes-graphics/wayland/weston-init/init     |   9 +-
+ .../wayland/weston-init/weston-start               |  72 +++++++++
+ .../wayland/weston-init/weston.service             |   7 +-
+ ...ch-Provide-a-default-version-that-doesn-t.patch | 171 +++++++++++++++++++++
+ ...eston-launch-exit-for-unrecognized-option.patch |  33 ++++
+ .../wayland/weston/xwayland.weston-start           |   7 +
+ meta/recipes-graphics/wayland/weston_1.10.0.bb     |  29 ++--
+ 9 files changed, 311 insertions(+), 29 deletions(-)
+ create mode 100755 meta/recipes-graphics/wayland/weston-init/weston-start
+ create mode 100644 meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch
+ create mode 100644 meta/recipes-graphics/wayland/weston/make-weston-launch-exit-for-unrecognized-option.patch
+ create mode 100644 meta/recipes-graphics/wayland/weston/xwayland.weston-start
+
+-- 
+2.8.2
 
 
---wha1VCW1xX6Ma1I4IWWTOkmd4aioei4EM
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQIcBAEBAgAGBQJXOgI4AAoJEGJqcE9h3glgdT8P/juaDNBrJJTzDs/+jKl4C2Hq
-Y5I6HM5itNmz5N/gM8CEh7GHEpIldk7V+9K4Oe8dJGiBNP9rnP5SE3RFWYn4todF
-S0zryGCgsq2WlUxGFotPPBC6RMH6LpRooCVwvE98o2Sn6RcpYKbinQCcYLdXGq9r
-cg6eHWEBPAXNPfgfEvpIrCQE3jrarw13svTpzDCBQ2zZ6bO5Pizboq7Q2fLe5baX
-98l883ROaw04cV/5BGcuATdyjpU9NFW0lquiNWdc89se506JaJDh1YjUGE6WJra3
-2ict2RArN+ts8NeLul4Kr1Qv5vhAP+k1naFzE4ewJ8kuif9bqjhFkE9D7+mYXsQU
-m4S7t2C+8ENIVLVAhLnvviWdKLZKe4aE5Z1Rdsv5qipl9rl8bFPmZGSnQSkE+iHZ
-hh8jJwC8fVITEwyrGcQ/vGiN5QD2H+LFcdjwIvfLm/8H1iYxPgbFVv3SREsScPAu
-WogiIjYZIGmK+esaAaw0uId++EFJol/Yy5dFFW2tBzHz1ZkE2IL7x4jKerFzHWQr
-hKO01aLDV2tKO936AfiVnr/6EQbfKpuN5ySIjQUs8OwtBZzlpW+ePyS5Kl61P5bu
-cxztBT6y/ctN2Hj4kf4HE7g8yvyOtBRFEkExzgGxRDne1F8fkytj/2tn9XmTdBd3
-k0MgJ7XTu6L7stG4AoCZ
-=HrAY
------END PGP SIGNATURE-----
-
---wha1VCW1xX6Ma1I4IWWTOkmd4aioei4EM--
