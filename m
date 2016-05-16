@@ -1,28 +1,27 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C1B26011A
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 00625612E5
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 May 2016 22:22:59 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 15 May 2016 15:23:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.24,624,1455004800"; d="scan'208";a="967428866"
-Received: from fgong3-mobl1.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.143.203])
-	by fmsmga001.fm.intel.com with ESMTP; 15 May 2016 15:22:58 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: akuster808 <akuster808@gmail.com>
-Date: Mon, 16 May 2016 10:22:55 +1200
-Message-ID: <1552912.7NQTUkVNeO@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.4.9-300.fc23.x86_64; KDE/4.14.18; x86_64; ;
-	)
-In-Reply-To: <0aebe0be-53fd-76ed-261b-0ea19b2215db@gmail.com>
-References: <0aebe0be-53fd-76ed-261b-0ea19b2215db@gmail.com>
+	Mon, 16 May 2016 01:18:20 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u4G1IKMn028349
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 15 May 2016 18:18:20 -0700 (PDT)
+Received: from [128.224.162.214] (128.224.162.214) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Sun, 15 May 2016 18:18:20 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1461304177.git.liezhi.yang@windriver.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <57391FDA.2010706@windriver.com>
+Date: Mon, 16 May 2016 09:18:18 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.7.2
 MIME-Version: 1.0
-Cc: yocto@yoctoproject.org, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] https://layers.openembedded.org/
+In-Reply-To: <cover.1461304177.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH 0/4] set COMPATIBLE_HOST for several recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,22 +34,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 May 2016 22:23:01 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 16 May 2016 01:18:24 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sun, 15 May 2016 14:17:26 akuster808 wrote:
-> Is the layer index down?
 
-It has been yes - Michael has been looking into it and I believe he's located 
-the problem - for now it's still unavailable though I expect it will be back 
-imminently.
+Hi Ross,
 
-Cheers,
-Paul
+Only the first patch [PATCH 1/4] is merged, are there any comments for
+the other 3 please ?
 
--- 
+// Robert
 
-Paul Eggleton
-Intel Open Source Technology Centre
+On 04/22/2016 01:50 PM, Robert Yang wrote:
+> The following changes since commit 9838f8d077d16e52ad592879d65a9e8350b93075:
+>
+>    build-appliance-image: Update to krogoth head revision (2016-04-19 21:25:53 +0100)
+>
+> are available in the git repository at:
+>
+>    git://git.openembedded.org/openembedded-core-contrib rbt/arm
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/arm
+>
+> Robert Yang (4):
+>    grub_git: set COMPATIBLE_HOST_armv7a to null
+>    webkitgtk: set COMPATIBLE_HOST_armv4 to null
+>    gnu-efi: set COMPATIBLE_HOST_armv4 to null
+>    cogl-1.0: set COMPATIBLE_HOST_armv4 to null
+>
+>   meta/recipes-bsp/gnu-efi/gnu-efi_3.0.3.bb    | 1 +
+>   meta/recipes-bsp/grub/grub_git.bb            | 1 +
+>   meta/recipes-graphics/cogl/cogl-1.0.inc      | 2 ++
+>   meta/recipes-sato/webkit/webkitgtk_2.10.7.bb | 1 +
+>   4 files changed, 5 insertions(+)
+>
 
