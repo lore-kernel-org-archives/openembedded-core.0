@@ -1,43 +1,21 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
-	[209.85.220.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C6CE731CD
+Return-Path: <edwin.plauchu.camacho@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 91A57608B7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 May 2016 16:38:53 +0000 (UTC)
-Received: by mail-qk0-f193.google.com with SMTP id n62so1782754qkc.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 May 2016 09:38:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:organization;
-	bh=OikmhcAjCwtSObaKCpDK0MNySP+BGfPibiE0+oOQcVw=;
-	b=EgtRSObOeEGxH9SlHKA3mHY700aoyWTZ9H4yKrKtOJNc/ekVUfwFOJc4AZk9Z2JuAQ
-	PIST1bafEDKNNQedIlk2HbUaPTLMZk5WH/a6w6TjWpdMGv0TLTRmcNnAyRRzYnB/EE5r
-	PmSnA+0wKjcESyI5PAOzr0YlQU2JTApGtXWC2iXUD+rYUupU/s5hmtNGDjooi8COXjj6
-	dLiF6HfNIZwWWzhjPqwNZJuxRH2k1cyz0CjNQMyY9DOBKC3Ue1jusT3Wy7rxXiPqUnOY
-	zffCUbAzax9MsIObDd4QgkdX0iVRFXVux7KLrVvSyYZ5EPD465beZSTUj+mjdTjv9dzR
-	ttZA==
-X-Gm-Message-State: AOPr4FWhUxwbdNQdbRKp7fOtp3++ropz3gIYabFzZws29C4Na6+HkHA1ReSIiyemzmvRgA==
-X-Received: by 10.55.56.133 with SMTP id f127mr2823107qka.51.1463503134036;
-	Tue, 17 May 2016 09:38:54 -0700 (PDT)
-Received: from localhost ([187.23.154.250]) by smtp.gmail.com with ESMTPSA id
-	x129sm1707429qhc.29.2016.05.17.09.38.47
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 17 May 2016 09:38:52 -0700 (PDT)
-Received: by localhost (sSMTP sendmail emulation);
-	Tue, 17 May 2016 13:38:44 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Tue, 17 May 2016 13:36:25 -0300
-Message-Id: <1463502985-5428-14-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.8.2
-In-Reply-To: <1463502985-5428-1-git-send-email-otavio@ossystems.com.br>
-References: <1463502985-5428-1-git-send-email-otavio@ossystems.com.br>
-Organization: O.S. Systems Software LTDA.
-Cc: prabhu.sundararaj@nxp.com, Otavio Salvador <otavio@ossystems.com.br>,
-	meta-freescale Mailing List <meta-freescale@yoctoproject.org>
-Subject: [oe-core PATCH v7 13/13] core-image-weston: If X11 is enabled, add XWayland support
+	Tue, 17 May 2016 16:57:32 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 17 May 2016 09:57:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,324,1459839600"; d="scan'208";a="968877083"
+Received: from pianodaemon-contraption.zpn.intel.com ([10.219.128.59])
+	by fmsmga001.fm.intel.com with ESMTP; 17 May 2016 09:57:31 -0700
+From: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 17 May 2016 11:57:43 -0500
+Message-Id: <1463504263-9114-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
+X-Mailer: git-send-email 1.9.1
+Cc: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+Subject: [PATCH v2] meta:recipes-devtools: makedevs: fix security issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,39 +28,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 May 2016 16:38:53 -0000
+X-List-Received-Date: Tue, 17 May 2016 16:57:32 -0000
 
-When the distribution has X11 and Wayland backends, we enable XWayland
-support and include XTerm as a test application for the XWayland
-backend.
+From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+This patch avoids makedevs fails to compile with compiler flags which elevate common string formatting issues into an error (-Wformat -Wformat-security -Werror=format-security).
+
+[YOCTO #9549]
+
+Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
 ---
+ meta/conf/distro/include/security_flags.inc        |  1 -
+ .../makedevs/makedevs/fix-security-format.patch    | 63 ++++++++++++++++++++++
+ meta/recipes-devtools/makedevs/makedevs_1.0.1.bb   |  1 +
+ 3 files changed, 64 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/makedevs/makedevs/fix-security-format.patch
 
-Changes in v7: None
-Changes in v6:
-- Add xterm
-
-Changes in v5: None
-Changes in v4: None
-Changes in v3:
-- New patch.
-
-Changes in v2: None
-
- meta/recipes-graphics/images/core-image-weston.bb | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-graphics/images/core-image-weston.bb b/meta/recipes-graphics/images/core-image-weston.bb
-index 52e271d..07ae70b 100644
---- a/meta/recipes-graphics/images/core-image-weston.bb
-+++ b/meta/recipes-graphics/images/core-image-weston.bb
-@@ -9,3 +9,4 @@ inherit core-image distro_features_check
- REQUIRED_DISTRO_FEATURES = "wayland"
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+index 7a91cec..dc210a0 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -103,7 +103,6 @@ SECURITY_STRINGFORMAT_pn-expect = ""
+ SECURITY_STRINGFORMAT_pn-gcc = ""
+ SECURITY_STRINGFORMAT_pn-gettext = ""
+ SECURITY_STRINGFORMAT_pn-kexec-tools = ""
+-SECURITY_STRINGFORMAT_pn-makedevs = ""
+ SECURITY_STRINGFORMAT_pn-oh-puzzles = ""
+ SECURITY_STRINGFORMAT_pn-stat = ""
+ SECURITY_STRINGFORMAT_pn-unzip = ""
+diff --git a/meta/recipes-devtools/makedevs/makedevs/fix-security-format.patch b/meta/recipes-devtools/makedevs/makedevs/fix-security-format.patch
+new file mode 100644
+index 0000000..140eb14
+--- /dev/null
++++ b/meta/recipes-devtools/makedevs/makedevs/fix-security-format.patch
+@@ -0,0 +1,63 @@
++meta: recipes-devtools: makedevs: Fixing security formatting issues
++
++Fix security formatting issues related to printing without NULL argument 
++
++makedevs.c: In function 'main':
++makedevs.c:513:3: error: format not a string literal and no format arguments [-Werror=format-security]
++   fprintf(stderr, helptext);
++   ^
++makedevs.c:528:4: error: format not a string literal and no format arguments [-Werror=format-security]
++    printf(helptext);
++    ^
++makedevs.c:556:4: error: format not a string literal and no format arguments [-Werror=format-security]
++    fprintf(stderr, helptext);
++    ^
++makedevs.c:562:3: error: format not a string literal and no format arguments [-Werror=format-security]
++   fprintf(stderr, helptext);
++   ^
++
++[YOCTO #9549]
++[https://bugzilla.yoctoproject.org/show_bug.cgi?id=9549]
++
++Upstream-Status: Pending
++
++Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
++
++diff --git a/makedevs.c b/makedevs.c
++index 771f33e..7471f3f 100644
++--- a/makedevs.c
+++++ b/makedevs.c
++@@ -510,7 +510,7 @@ int main(int argc, char **argv)
++ 	umask (0);
++ 
++ 	if (argc==1) {
++-		fprintf(stderr, helptext);
+++		fputs( helptext , stderr );
++ 		exit(1);
++ 	}
++ 
++@@ -525,7 +525,7 @@ int main(int argc, char **argv)
++ 				error_msg_and_die("%s: not a proper device table file", optarg);
++ 			break;
++ 		case 'h':
++-			printf(helptext);
+++			puts(helptext);
++ 			exit(0);
++ 		case 'r':
++ 		case 'd':				/* for compatibility with mkfs.jffs, genext2fs, etc... */
++@@ -553,13 +553,13 @@ int main(int argc, char **argv)
++ 			printf("%s: %s\n", app_name, VERSION);
++ 			exit(0);
++ 		default:
++-			fprintf(stderr, helptext);
+++			fputs(helptext,stderr);
++ 			exit(1);
++ 		}
++ 	}
++ 
++ 	if (argv[optind] != NULL) {
++-		fprintf(stderr, helptext);
+++		fputs(helptext,stderr);
++ 		exit(1);
++ 	}
++ 
+diff --git a/meta/recipes-devtools/makedevs/makedevs_1.0.1.bb b/meta/recipes-devtools/makedevs/makedevs_1.0.1.bb
+index 92d5870..41b8bec 100644
+--- a/meta/recipes-devtools/makedevs/makedevs_1.0.1.bb
++++ b/meta/recipes-devtools/makedevs/makedevs_1.0.1.bb
+@@ -3,6 +3,7 @@ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=393a5ca445f6965873eca0259a17f833"
+ SECTION = "base"
+ SRC_URI = "file://makedevs.c \
++           file://fix-security-format.patch \
+            file://COPYING.patch"
  
- CORE_IMAGE_BASE_INSTALL += "weston weston-init weston-examples gtk+3-demo clutter-1.0-examples"
-+CORE_IMAGE_BASE_INSTALL += "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xserver-xorg-xwayland xterm', '', d)}"
+ S = "${WORKDIR}"
 -- 
-2.8.2
+1.9.1
 
 
