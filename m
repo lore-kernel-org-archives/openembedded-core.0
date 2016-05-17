@@ -1,52 +1,42 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f44.google.com (mail-qg0-f44.google.com
-	[209.85.192.44])
-	by mail.openembedded.org (Postfix) with ESMTP id CEA23766A3
+Return-Path: <Daniel.Klauer@gin.de>
+Received: from good-out-09.clustermail.de (good-out-09.clustermail.de
+	[212.223.36.10])
+	by mail.openembedded.org (Postfix) with ESMTP id D8C3B7327F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 May 2016 14:57:48 +0000 (UTC)
-Received: by mail-qg0-f44.google.com with SMTP id w36so9433027qge.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 May 2016 07:57:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=wwPkwejref/G3ateM2Jjv6n3xfXXIJcCN7YFshVpyKg=;
-	b=YMsRRKT2E0SY+ycCNxyz81yQDrdlneu23uddB1LN11xyRVS07M720GmlocMON6mOFQ
-	rPT3btjB4Nfj1KNBZULq9w7nqXsWNhcIprulqeefAyxOXIBuSUn7qksFlAAkmdBBvurw
-	1mbu6Y1OsO2sF2b2e9HLR5YbBzMgIrH2xVOL+Wkc7NORbtg2tgQ0ZQV+BALqNk7Zbuv8
-	0/ci5n0p4P1k8V7XkjqzLREUc2v+4g1CsC4LWkdOoklGyRTyhq54CLSFSJCAjotEVbJU
-	Wd9b2IT1dPdSr1SHz4Dhz3DEcPrwjrH/BvOej9+L4F+0wSjn6/1e8xNSTYfr00qwe/uT
-	LVLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=wwPkwejref/G3ateM2Jjv6n3xfXXIJcCN7YFshVpyKg=;
-	b=MZduiI7maIawjBX+gUK2FIcc48JgFESwFFEFQa4Zr0mkeYGKYHI0A5nG0QplNK/Eom
-	DSIM7dGCsCOCqs6HpNHs+xd7c5EM55m8LcDVcgswejG3gPLCxtk9GyP/8yXX/q1qyT/l
-	0jW/7JggbIneWvpKOGnScxZ91tzaoBVVVha6DYB3o1cr2rbXXFlIF33YJOOCwKTCTNqX
-	CQPEVQhtWTL8iD0pBq21ECMP+TvApr5APfuabf/fvJDfy8k4LQaw26QzpFkF4VZzPluD
-	OL1W5ORetoZQVeVDjHWyCx7D/9k/6r5zUMYX62QmdeWaRqkyYeuCG4AKYZ3tCKRtbEuW
-	KmXw==
-X-Gm-Message-State: AOPr4FWavIH7H83dcLXai56t6eq7WqY6mI2SEAhE953CufxyJcnmKBJ0fJr0lT80+oauIcjoiQ/LKHdDz6KxgA==
-X-Received: by 10.140.204.204 with SMTP id z195mr2052974qha.41.1463497068938; 
-	Tue, 17 May 2016 07:57:48 -0700 (PDT)
+	Tue, 17 May 2016 15:09:54 +0000 (UTC)
+Received: from frontend-04 ([10.0.0.4] helo=frontend.clustermail.de)
+	by smtpout-02.clustermail.de with esmtps
+	(TLSv1.2:DHE-RSA-AES256-GCM-SHA384:256) (Exim 4.84_2)
+	(envelope-from <Daniel.Klauer@gin.de>) id 1b2eXF-0002Ov-6x
+	for openembedded-core@lists.openembedded.org;
+	Tue, 17 May 2016 14:55:46 +0200
+Received: from [217.6.33.234] (helo=Win2012-02.gin-domain.local)
+	by frontend.clustermail.de with esmtpsa (TLSv1.2:AES256-SHA:256)
+	(Exim 4.84_2) (envelope-from <Daniel.Klauer@gin.de>)
+	id 1b2eXF-00042k-1I for openembedded-core@lists.openembedded.org;
+	Tue, 17 May 2016 14:55:41 +0200
+Received: from Win2012-02.gin-domain.local (192.168.1.12) by
+	Win2012-02.gin-domain.local (192.168.1.12) with Microsoft SMTP Server
+	(TLS) id 15.0.1130.7; Tue, 17 May 2016 14:55:40 +0200
+Received: from Win2012-02.gin-domain.local ([fe80::3db4:55fd:d76e:9d90]) by
+	Win2012-02.gin-domain.local ([fe80::3db4:55fd:d76e:9d90%12]) with mapi
+	id 15.00.1130.005; Tue, 17 May 2016 14:55:40 +0200
+From: "Klauer, Daniel" <Daniel.Klauer@gin.de>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH] smartpm: Fix channel command --remove-all option (again)
+Thread-Index: AQHRsDtp//YpfIS/B0+OLSXr+zO7Ug==
+Date: Tue, 17 May 2016 12:55:39 +0000
+Message-ID: <7a1612796508464687a78747bf62d41a@Win2012-02.gin-domain.local>
+Accept-Language: en-US, de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [192.168.1.219]
+x-brightmail-tracker: H4sIAAAAAAAAC+NgFnrFqsTGxXJgBSOP7hkR63CDCdNOH+Kw+LnmKZsDYwBDFGtmXlJ+RQJrxoNnh5gKPsdXXLzQzNbAOCm6i5GLQ0hgD6PEh8ZrrBDOSUaJ7RdWMHcxcnIwC5hKXPnayAJhK0pcuNcAZrMJ6Eqca3/PCmKLCERLLJ0xk72LkZ1DWMBTYj9U1E9i74VFULaexK6Lq9hBbAkBHYm/ixrB4iwCqhIb7x9lArF5BbwkFk/8ALaVUUBWorPhHRPEVnGJW0/mM0H0Ckgs2XOeGcJWkui9/Q4qHiJxceF0Rog5ghInZz5hgYibSex9sASohgPI1pNom8IJEQ6UuP5mJTNE2FTi6vtgiLCBxLu1n6E6jSVWbvzPCGHbSuyZMRFqirPEvBv1EGEniTcdb1khbG2J7a/2scI8uOnaKqgx8hL/792Hsh0lrrzrZ4OwFSU+3W5im8CoNgsplGchhfIsJL/PQvLXAkaWVYzS4Zl5RgaGRroGRnrpmXm6Kfm5iZl5ejn5yYk5mxih6WAH46PProcYJTmYlER5X160ChfiS8pPqcxILM6ILyrNSS0+xCjBwaMkwntG2DpciLe4IDG3ODMdJiXDwaEkwRsIkhIsSk1PrUjLzClJLYJIn2KUlBLnDQNJCoD0ZZTmweUuMYpKCfM+4wPK8RSkFuVmlkDEbzEKczxkEmLJy89LlQI6kQEINBhfMYpzMCoJ884AmcWTmVcCd8IroOuYgK6bYGYBcl1JIkJKqoFRJJi//fUpz4fTHXSSdy7fG12o9OnM56CjLJ2nX3mVy3At/B/6fR/PrcuZHFEC3+/mzVVOtTp5uqNUb8+34EA3n/B1Tke6Cibx/sp69mZSb1bk3+r3J/PubHzuYtkzYR+XD1Nz6cVFjkHlM98/Sp/yv9dnqdr3K93ByVIHnpxc1Pdl2/9YwzW5SizFGYmGWsxFxYkAqsqQ4X0DAAA=
 MIME-Version: 1.0
-Received: by 10.55.130.196 with HTTP; Tue, 17 May 2016 07:57:19 -0700 (PDT)
-In-Reply-To: <CAJTo0Layx=y-gVv0vVFTKTKu7pud81+ExzKKC7GT1mBZeBcj3g@mail.gmail.com>
-References: <1463415451-21779-1-git-send-email-akuster808@gmail.com>
-	<C6187355-EA77-4B31-8638-C5D64613DE0E@gmail.com>
-	<573A8171.50002@gmail.com>
-	<9A2A2982-674F-4453-935D-DFA3FDD3DB4B@gmail.com>
-	<73863eef-56c3-9085-7aa2-7408d52a5355@gmail.com>
-	<FA10CE49-93CB-4CB9-9F20-F8F5396020DC@gmail.com>
-	<573B1A78.7070907@gmail.com>
-	<CAJTo0Layx=y-gVv0vVFTKTKu7pud81+ExzKKC7GT1mBZeBcj3g@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 17 May 2016 07:57:19 -0700
-Message-ID: <CAMKF1spVr4PxGVPUJx0rnv7G8k_QBPYmXQXta-rPoK6-CtKfKw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [master][krogoth][PATCH] python-numpy: fix build failure with python-matplotlib
+Subject: [PATCH] smartpm: Fix channel command --remove-all option (again)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,29 +49,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 May 2016 14:57:49 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 17 May 2016 15:09:56 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 17, 2016 at 7:22 AM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 17 May 2016 at 14:19, akuster808 <akuster808@gmail.com> wrote:
->>
->> Sorry, missed this email last night.
->>
->> Not sure what you mean by generated. Both config and _numpyconfig.h are
->> files that reside under an "arch" dir and brought in when building. I
->> don't know why this needed to be done this way. Don't you recall, you
->> did a patch for this package too ; ) Maybe Ross remembers,  his
->> fingerprints are all over this package.
->
->
-> I just beat it into submission when it moved from meta-oe to oe-core.  The
-> config and numpyconfig crazy already existed and yes it's hideous but I was
-> worried about changing something so fundamental.
-
-Thats fine. I was just wondering if we are caching things which could
-some how be generated.
-
->
-> Ross
+SmartPM's --remove-all option was unusable, because the fix from=0A=
+commit 03266e89a6 was lost in commit 5fc580fc44. Thus, add a new=0A=
+patch to fix --remove-all.=0A=
+=0A=
+It seems like the previous fix was lost by mistake:=0A=
+Upstream merged the *old* version of the patch (smartpm 406541f569),=0A=
+and when SmartPM in oe-core was upgraded to the new upstream release,=0A=
+the --remove-all fix from the *new* patch was not carried over.=0A=
+=0A=
+Signed-off-by: Daniel Klauer <daniel.klauer@gin.de>=0A=
+---=0A=
+ .../python-smartpm/smart-channel-remove-all.patch  | 33 ++++++++++++++++++=
+++++=0A=
+ meta/recipes-devtools/python/python-smartpm_git.bb |  1 +=0A=
+ 2 files changed, 34 insertions(+)=0A=
+ create mode 100644 meta/recipes-devtools/python/python-smartpm/smart-chann=
+el-remove-all.patch=0A=
+=0A=
+diff --git a/meta/recipes-devtools/python/python-smartpm/smart-channel-remo=
+ve-all.patch b/meta/recipes-devtools/python/python-smartpm/smart-channel-re=
+move-all.patch=0A=
+new file mode 100644=0A=
+index 0000000..da23e7c=0A=
+--- /dev/null=0A=
++++ b/meta/recipes-devtools/python/python-smartpm/smart-channel-remove-all.=
+patch=0A=
+@@ -0,0 +1,33 @@=0A=
++From 6d2363a705697f615d9e5af5d6703b291e618b46 Mon Sep 17 00:00:00 2001=0A=
++From: Daniel Klauer <daniel.klauer@gin.de>=0A=
++Date: Thu, 12 May 2016 17:55:01 +0200=0A=
++Subject: [PATCH] Fix channel command --remove-all option parsing=0A=
++=0A=
++Option.take_action() stores a list of options given for validation later.=
+=0A=
++It strips leading dashes and turns remaining dashes into underscores.=0A=
++This list is what ensure_action() will compare its arguments against,=0A=
++thus we must use underscores here.=0A=
++=0A=
++Upstream-Status: Pending=0A=
++=0A=
++Signed-off-by: Daniel Klauer <daniel.klauer@gin.de>=0A=
++---=0A=
++ smart/commands/channel.py | 2 +-=0A=
++ 1 file changed, 1 insertion(+), 1 deletion(-)=0A=
++=0A=
++diff --git a/smart/commands/channel.py b/smart/commands/channel.py=0A=
++index 108f3f1..6234f69 100644=0A=
++--- a/smart/commands/channel.py=0A=
+++++ b/smart/commands/channel.py=0A=
++@@ -164,7 +164,7 @@ def main(ctrl, opts):=0A=
++     opts.check_args_of_option("edit", 0)=0A=
++     opts.check_args_of_option("enable", -1)=0A=
++     opts.check_args_of_option("disable", -1)=0A=
++-    opts.ensure_action("channel", ["add", "set", "remove", "remove-all",=
+=0A=
+++    opts.ensure_action("channel", ["add", "set", "remove", "remove_all",=
+=0A=
++                        "list", "show", "yaml", "enable", "disable"])=0A=
++     opts.check_remaining_args()=0A=
++ =0A=
++-- =0A=
++1.9.1=0A=
++=0A=
+diff --git a/meta/recipes-devtools/python/python-smartpm_git.bb b/meta/reci=
+pes-devtools/python/python-smartpm_git.bb=0A=
+index 0d7f88c..0d37dae 100644=0A=
+--- a/meta/recipes-devtools/python/python-smartpm_git.bb=0A=
++++ b/meta/recipes-devtools/python/python-smartpm_git.bb=0A=
+@@ -24,6 +24,7 @@ SRC_URI =3D "\=0A=
+           file://smart-already-installed-message.patch \=0A=
+           file://smart-set-noprogress-for-pycurl.patch \=0A=
+           file://smart-cache.py-getPackages-matches-name-version.patch \=
+=0A=
++          file://smart-channel-remove-all.patch \=0A=
+          "=0A=
+ =0A=
+ SRCREV =3D "407a7eca766431257dcd1da15175cc36a1bb22d0"=0A=
+-- =0A=
+1.9.1=0A=
+=0A=
 
