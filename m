@@ -1,31 +1,41 @@
-Return-Path: <edwin.plauchu.camacho@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id D00807687B
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 71001731BA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 May 2016 02:15:44 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 16 May 2016 19:15:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,323,1459839600"; d="scan'208";a="978358131"
-Received: from pianodaemon-contraption.zpn.intel.com (HELO [10.219.128.59])
-	([10.219.128.59])
-	by orsmga002.jf.intel.com with ESMTP; 16 May 2016 19:15:44 -0700
+	Tue, 17 May 2016 02:22:02 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id w143so1054425wmw.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 May 2016 19:22:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=6InBOHFhpZ4t0VoWlw9aL36+LVx+RxhQ+a+XyTGEDzE=;
+	b=IP4w9KJ1CvHrp3pSxAjnNVRd8V6OYV49znm4bxU7PVY+LpXtzWv6OjseIvMlr9FsYO
+	ht3AkQ/p5aXvr/tfNdqM8RydPHEQy49Q3/mlt3AXk8KjzzWGdz3v69tMET7u3A6xE2dM
+	zJmd5hSKoM8mwmV9JA4y8QjwOxAuHx9roK3Zv+U9RMf9LRmpKTp7O/GhAIvrudknXxE3
+	G9JTBe7HSZbU56SXiyPvawFYeGlKtqDwjlMBXJqxvXrJ8xaD41vzFpxnph+gzrvzn8Ql
+	YHxlJSsUalaEz1v4iJY07tDOR9goNJaRNTcvMg7qyXW/euYrhVjmzM+j1N7y2pjhPxsi
+	bmFg==
+X-Gm-Message-State: AOPr4FXiMJ2xVmkEFNXbNkqWidS8/grWdm9NMzkmebAEaYbG7/z42qsS+SvfOHyPqaEFNg==
+X-Received: by 10.194.189.231 with SMTP id gl7mr35013245wjc.129.1463451723254; 
+	Mon, 16 May 2016 19:22:03 -0700 (PDT)
+Received: from localhost (sushi.andred.org. [85.214.105.253])
+	by smtp.gmail.com with ESMTPSA id a75sm845489wme.18.2016.05.16.19.22.00
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 16 May 2016 19:22:01 -0700 (PDT)
+Message-ID: <1463451718.2828.16.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
 To: Khem Raj <raj.khem@gmail.com>
-References: <1463429996-24056-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
-	<1407DCB5-D6A6-45D4-8F5B-DE43C8F74E59@gmail.com>
-	<573A3DA4.9060900@linux.intel.com> <1463437315.2768.29.camel@intel.com>
-	<573A641D.90808@linux.intel.com>
-	<57F72925-B08E-45A1-A259-EDE409DC21C2@gmail.com>
-From: Plauchu Edwin <edwin.plauchu.camacho@linux.intel.com>
-Message-ID: <573A7EDD.4010002@linux.intel.com>
-Date: Mon, 16 May 2016 21:15:57 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.7.2
-MIME-Version: 1.0
-In-Reply-To: <57F72925-B08E-45A1-A259-EDE409DC21C2@gmail.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] meta:recipes-extended: stat fix security gaps
+Date: Mon, 16 May 2016 22:21:58 -0400
+In-Reply-To: <55B50CC1-24B9-47C3-8120-1794775A93D0@gmail.com>
+References: <1463066880-17505-1-git-send-email-git@andred.net>
+	<1463126191-24272-1-git-send-email-git@andred.net>
+	<55B50CC1-24B9-47C3-8120-1794775A93D0@gmail.com>
+X-Mailer: Evolution 3.18.5.1-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3][krogoth] feature-arm-neon.inc: restore vfpv3-d16 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,169 +48,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 May 2016 02:15:45 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Tue, 17 May 2016 02:22:03 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-This is the version fputs call
-http://lists.openembedded.org/pipermail/openembedded-core/2016-May/121584.html
+On Fr, 2016-05-13 at 10:08 -0700, Khem Raj wrote:
+> > 
+> > On May 13, 2016, at 12:56 AM, André Draszik <git@andred.net> wrote:
+> > 
+> > Commit 6661718 (feature-arm-{neon,vfp}.inc: refactor and fix issues)
+> > effectively changed the gcc -mfpu= option from -mfpu=vfpv3-d16 to
+> > -mfpu=vfpv3d16, which gcc doesn't understand.
+> > 
+> > Restore the original value.
+> > 
+> > After doing that, we also need to adjust ARMPKGSFX_FPU which should
+> > contain the same value without dash '-' as it is used that way
+> > throughout.
+> 
+> V1 worked fine for my case. V3 doesnt even apply. Can you rebase it on top
+> of master and resend ?
 
-On 16/05/16 20:02, Khem Raj wrote:
->> On May 16, 2016, at 5:21 PM, Plauchu Edwin <edwin.plauchu.camacho@linux.intel.com> wrote:
->>
->> Ok Bill
->>
->> I rewrote the patch without using macros http://lists.openembedded.org/pipermail/openembedded-core/2016-May/121581.html
->>
-> you did not address the other comment about using printf properly.
->
->> On 16/05/16 17:21, Randle, William C wrote:
->>> On Mon, 2016-05-16 at 16:37 -0500, Plauchu Edwin wrote:
->>>> On 16/05/16 16:28, Khem Raj wrote:
->>>>>> On May 16, 2016, at 1:19 PM, edwin.plauchu.camacho@linux.intel.com wrote:
->>>>>>
->>>>>> From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
->>>>>>
->>>>>> This patch avoids stat fails to compile with compiler flags which elevate
->>>>>> common string formatting issues into an error (-Wformat -Wformat-security
->>>>>> -Werror=format-security).
->>>>>>
->>>>>> [YOCTO #9550]
->>>>>>
->>>>>> Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
->>>>>> ---
->>>>>> meta/conf/distro/include/security_flags.inc        |  1 -
->>>>>> .../stat/stat-3.3/fix-security-format.patch        | 77
->>>>>> ++++++++++++++++++++++
->>>>>> meta/recipes-extended/stat/stat_3.3.bb             |  1 +
->>>>>> 3 files changed, 78 insertions(+), 1 deletion(-)
->>>>>> create mode 100644 meta/recipes-extended/stat/stat-3.3/fix-security-
->>>>>> format.patch
->>>>>>
->>>>>> diff --git a/meta/conf/distro/include/security_flags.inc
->>>>>> b/meta/conf/distro/include/security_flags.inc
->>>>>> index 7a91cec..5ae6dd8 100644
->>>>>> --- a/meta/conf/distro/include/security_flags.inc
->>>>>> +++ b/meta/conf/distro/include/security_flags.inc
->>>>>> @@ -105,7 +105,6 @@ SECURITY_STRINGFORMAT_pn-gettext = ""
->>>>>> SECURITY_STRINGFORMAT_pn-kexec-tools = ""
->>>>>> SECURITY_STRINGFORMAT_pn-makedevs = ""
->>>>>> SECURITY_STRINGFORMAT_pn-oh-puzzles = ""
->>>>>> -SECURITY_STRINGFORMAT_pn-stat = ""
->>>>>> SECURITY_STRINGFORMAT_pn-unzip = ""
->>>>>> SECURITY_STRINGFORMAT_pn-zip = ""
->>>>>>
->>>>>> diff --git a/meta/recipes-extended/stat/stat-3.3/fix-security-format.patch
->>>>>> b/meta/recipes-extended/stat/stat-3.3/fix-security-format.patch
->>>>>> new file mode 100644
->>>>>> index 0000000..7d9f8df
->>>>>> --- /dev/null
->>>>>> +++ b/meta/recipes-extended/stat/stat-3.3/fix-security-format.patch
->>>>>> @@ -0,0 +1,77 @@
->>>>>> +meta: recipes-extended: Fixing security formatting issues on stat
->>>>>> +
->>>>>> +Fix security formatting issues related to printf without NULL argument
->>>>>> +
->>>>>> +stat.c: In function 'print_human_access':
->>>>>> +stat.c:292:13: error: format not a string literal and no format arguments
->>>>>> [-Werror=format-security]
->>>>>> +     printf (access);
->>>>>> +             ^
->>>>>> +stat.c: In function 'print_human_time':
->>>>>> +stat.c:299:57: error: format not a string literal and no format arguments
->>>>>> [-Werror=format-security]
->>>>>> +   if (strftime(str, 40, "%c", localtime(t)) > 0) printf(str);
->>>>>> +                                                         ^
->>>>>> +stat.c: In function 'print_it':
->>>>>> +stat.c:613:6: error: format not a string literal and no format arguments
->>>>>> [-Werror=format-security]
->>>>>> +      printf(b);
->>>>>> +      ^
->>>>>> +stat.c:642:6: error: format not a string literal and no format arguments
->>>>>> [-Werror=format-security]
->>>>>> +      printf(b);
->>>>>> +      ^
->>>>>> +
->>>>>> +[YOCTO #9550]
->>>>>> +[https://bugzilla.yoctoproject.org/show_bug.cgi?id=9550]
->>>>>> +
->>>>>> +Upstream-Status: Pending
->>>>>> +
->>>>>> +Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
->>>>>> +
->>>>>> +diff --git a/stat.c b/stat.c
->>>>>> +index 1ed07a9..351ab54 100644
->>>>>> +--- a/stat.c
->>>>>> ++++ b/stat.c
->>>>>> +@@ -21,6 +21,8 @@
->>>>>> +
->>>>>> + #include "fs.h"
->>>>>> +
->>>>>> ++#define __PRINT(STR) printf (STR,NULL)
->>>>>> ++
->>>>> Can we use proper formatting string here something like
->>>>> printf(“%s”, access );
->>>>>
->>>>> or use fputs() Call instead
->>>> With fputs we need to specify stdout stream and
->>>> the printf "%s" option needs a little bit more processing in formatting.
->>>>
->>>> The actual change covers the security considerations with minimal add of
->>>> NULL if you
->>>> know why the another ways will be better please tell me.
->>>>
->>>> Thanks in advance
->>>> Edwin Plauchu
->>>>>> + void print_human_type(unsigned short mode)
->>>>>> + {
->>>>>> +   switch (mode & S_IFMT)
->>>>>> +@@ -289,15 +291,15 @@ void print_human_access(struct stat *statbuf)
->>>>>> +     default:
->>>>>> +       access[0] = '?';
->>>>>> +     }
->>>>>> +-    printf (access);
->>>>>> ++    __PRINT(access);
->>>>>> + }
->>>>>> +
->>>>>> + void print_human_time(time_t *t)
->>>>>> + {
->>>>>> +   char str[40];
->>>>>> +
->>>>>> +-  if (strftime(str, 40, "%c", localtime(t)) > 0) printf(str);
->>>>>> +-  else printf("Cannot calculate human readable time, sorry");
->>>>>> ++  if (strftime(str, 40, "%c", localtime(t)) > 0) __PRINT(str);
->>>>>> ++  else __PRINT("Cannot calculate human readable time, sorry");
->>>>>> + }
->>>>>> +
->>>>>> + /* print statfs info */
->>>>>> +@@ -610,7 +612,7 @@ void print_it(char *masterformat, char *filename,
->>>>>> + 	{
->>>>>> + 	    strcpy (pformat, "%");
->>>>>> + 	    *m++ = '\0';
->>>>>> +-	    printf(b);
->>>>>> ++	    __PRINT(b);
->>>>>> +
->>>>>> + 	    /* copy all format specifiers to our format string */
->>>>>> + 	    while (isdigit(*m) || strchr("#0-+. I", *m))
->>>>>> +@@ -639,7 +641,7 @@ void print_it(char *masterformat, char *filename,
->>>>>> + 	}
->>>>>> + 	else
->>>>>> + 	{
->>>>>> +-	    printf(b);
->>>>>> ++	    __PRINT(b);
->>>>>> + 	    b = NULL;
->>>>>> + 	}
->>>>>> +     }
->>> Is there a particular reason you used a macro for this package when all the
->>> others you submitted so far use printf(arg, NULL) directly? I think it would be
->>> good to be consistent.
->>>
->>>      -Bill
->>>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+V1 on krogoth should have the same issue as the original patch on master,
+i.e. should break on your raspberry pi2?
 
+Since V1 hasn't made it onto krogoth yet, V3 contains the two patches from
+the master branch squashed into one. Maybe you need to undo the V1 patch on 
+your local krogoth branch?
+
+Or should we apply both patches (not squashed) from master onto krogoth, so
+as to have fewer diversions?
+
+Cheers,
+Andre
+
+> > 
+> > Signed-off-by: André Draszik <git@andred.net>
+> > ---
+> > meta/conf/machine/include/arm/feature-arm-neon.inc | 2 +-
+> > meta/conf/machine/include/arm/feature-arm-vfp.inc  | 2 +-
+> > 2 files changed, 2 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/meta/conf/machine/include/arm/feature-arm-neon.inc
+> > b/meta/conf/machine/include/arm/feature-arm-neon.inc
+> > index 50d9175..b34af8e 100644
+> > --- a/meta/conf/machine/include/arm/feature-arm-neon.inc
+> > +++ b/meta/conf/machine/include/arm/feature-arm-neon.inc
+> > @@ -8,7 +8,7 @@ TUNEVALID[neon] = "Enable Neon SIMD accelerator unit."
+> > TUNE_CCARGS_MFPU .= "${@bb.utils.contains('TUNE_FEATURES', 'neon', '
+> > neon', '', d)}"
+> > 
+> > TUNEVALID[vfpv3d16] = "Enable Vector Floating Point Version 3 with 16
+> > registers (vfpv3-d16) unit."
+> > -TUNE_CCARGS_MFPU .= "${@bb.utils.contains('TUNE_FEATURES', 'vfpv3d16',
+> > ' vfpv3d16', '', d)}"
+> > +TUNE_CCARGS_MFPU .= "${@bb.utils.contains('TUNE_FEATURES', 'vfpv3d16',
+> > ' vfpv3-d16', '', d)}"
+> > 
+> > TUNEVALID[vfpv3] = "Enable Vector Floating Point Version 3 with 32
+> > registers (vfpv3) unit."
+> > TUNE_CCARGS_MFPU .= "${@bb.utils.contains('TUNE_FEATURES', 'vfpv3', '
+> > vfpv3', '' , d)}"
+> > diff --git a/meta/conf/machine/include/arm/feature-arm-vfp.inc
+> > b/meta/conf/machine/include/arm/feature-arm-vfp.inc
+> > index 4247255..9ef31e7 100644
+> > --- a/meta/conf/machine/include/arm/feature-arm-vfp.inc
+> > +++ b/meta/conf/machine/include/arm/feature-arm-vfp.inc
+> > @@ -6,7 +6,7 @@ TUNEVALID[vfp] = "Enable Vector Floating Point (vfp)
+> > unit."
+> > TUNE_CCARGS_MFPU .= "${@bb.utils.contains('TUNE_FEATURES', 'vfp', '
+> > vfp', '', d)}"
+> > 
+> > TUNE_CCARGS  .= "${@ (' -mfpu=%s ' % d.getVar('TUNE_CCARGS_MFPU',
+> > True).split()[-1]) if (d.getVar('TUNE_CCARGS_MFPU', True) != '') else
+> > ''}"
+> > -ARMPKGSFX_FPU = "${@ ('-%s'        % d.getVar('TUNE_CCARGS_MFPU',
+> > True).split()[-1]) if (d.getVar('TUNE_CCARGS_MFPU', True) != '') else
+> > ''}"
+> > +ARMPKGSFX_FPU = "${@ ('-%s'        % d.getVar('TUNE_CCARGS_MFPU',
+> > True).split()[-1].replace('vfpv3-d16', 'vfpv3d16')) if
+> > (d.getVar('TUNE_CCARGS_MFPU', True) != '') else ''}"
+> > 
+> > TUNEVALID[callconvention-hard] = "Enable EABI hard float call
+> > convention, requires VFP."
+> > TUNE_CCARGS_MFLOAT = "${@ bb.utils.contains('TUNE_FEATURES',
+> > 'callconvention-hard', 'hard', 'softfp', d) if
+> > (d.getVar('TUNE_CCARGS_MFPU', True) != '') else '' }"
+> > --
+> > 2.8.1
+> > 
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
