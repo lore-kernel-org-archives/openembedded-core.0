@@ -1,53 +1,21 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
-	[209.85.220.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 04A9560851
+Return-Path: <edwin.plauchu.camacho@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id C7D9176536
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2016 23:08:51 +0000 (UTC)
-Received: by mail-pa0-f42.google.com with SMTP id qo8so26962810pab.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2016 16:08:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=AEXfQwOg6i+HaOGH5uPIjGe/x+5mrbPJ6/OYEXdwz5I=;
-	b=LV5uJY8inrI9ByNxobcSxyTV6oFrvhm5IgjPYxlS20v0rpKdBmRth963DMZWx0Ofh4
-	ekNGVhdcQWDKCe9e4e+cxs9oNJwzElWtFKREXAmSvujAH8yxK0gwJFwbKzx4nIDOrWjy
-	9mRdWGzeqKO7w1dA5DsaLnR+E1BZHsTl5/yYHjEd2FC3QS36ZqWGQ+JxNKO9ahzKeVd6
-	/nslXUP0gKMiMwfktVANFqEf+rcBpWoL3+4ECPBDDMuM2QgNLjEEn8+L6EVSm3OvlyZT
-	1y46snau2qHnL34y6gDOTP2CJ7nXSYN+66Mkf74FP+/iqAp+6GVRmUPBJnWMHlrCh9ye
-	we2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=AEXfQwOg6i+HaOGH5uPIjGe/x+5mrbPJ6/OYEXdwz5I=;
-	b=bqlqPdGsZvUYdK1K9swsgg0Cu9CQyzRDdAuDWUygVG3S0rsEWBRY6Akb5ZZmAdpup2
-	qsQnJWq9kbA2huxR0ikxQo7G+hjla+rU5qjkKiJJhxIkojeZNnLvF32kUcgFlIHBOGeq
-	p5JhtNaNm2ZMNhfzsoJY70fvvQqrI5Kyv25u5+ZWQ4qR7Ts+eQBLIdvlBTAe8ubfuMbZ
-	jwsDDL4I4Aj9KGBLUtdi1fsTVRFDvF8cCi6+Jf1d0hsoFoE4hs7pNk57e36KOozrX+yy
-	8yPGh8cHgtfhVZzido26GFtRzxYbuncaSCkrhmmlhlgWlj+fPNx3JXqVxiIzAwpHOwsq
-	YAag==
-X-Gm-Message-State: AOPr4FXQ9miykoO3z7Ew5e7d2SD/PGrxxPJGm+5MPkYRE3RCRbLqg4qDGv9Ovj9gH+OV+g==
-X-Received: by 10.66.118.166 with SMTP id kn6mr49249895pab.33.1463440132173;
-	Mon, 16 May 2016 16:08:52 -0700 (PDT)
-Received: from ?IPv6:2601:646:8800:5a9a:5587:b1ab:c014:b8fd?
-	([2601:646:8800:5a9a:5587:b1ab:c014:b8fd])
-	by smtp.gmail.com with ESMTPSA id
-	d186sm49612448pfa.45.2016.05.16.16.08.50
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 16 May 2016 16:08:51 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1463436382-9946-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
-Date: Mon, 16 May 2016 16:08:46 -0700
-Message-Id: <BF908D4D-D366-4553-8A85-DE92ED6EDF76@gmail.com>
-References: <1463436382-9946-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
-To: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
-X-Mailer: Apple Mail (2.3124)
-Cc: Edwin Plauchu <edwin.plauchu.camacho@intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] meta:recipes-extended: zip fix security gaps
+	Tue, 17 May 2016 00:19:25 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga102.fm.intel.com with ESMTP; 16 May 2016 17:19:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,322,1459839600"; d="scan'208";a="808084035"
+Received: from pianodaemon-contraption.zpn.intel.com ([10.219.128.59])
+	by orsmga003.jf.intel.com with ESMTP; 16 May 2016 17:19:26 -0700
+From: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 16 May 2016 19:19:37 -0500
+Message-Id: <1463444377-13810-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
+X-Mailer: git-send-email 1.9.1
+Cc: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+Subject: [PATCH] meta:recipes-extended: stat fix security gaps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,158 +28,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 May 2016 23:08:52 -0000
-X-Groupsio-MsgNum: 82191
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_147A03CD-929B-4705-B232-E6BF378BA87F";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Tue, 17 May 2016 00:19:29 -0000
 
---Apple-Mail=_147A03CD-929B-4705-B232-E6BF378BA87F
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
 
+This patch avoids stat fails to compile with compiler flags which elevate common string formatting issues into an error (-Wformat -Wformat-security -Werror=format-security).
 
-> On May 16, 2016, at 3:06 PM, Edwin Plauchu =
-<edwin.plauchu.camacho@linux.intel.com> wrote:
->=20
-> From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
->=20
-> This patch avoids zip recipe fails to compile with compiler flags =
-which elevate common string formatting issues into an error (-Wformat =
--Wformat-security -Werror=3Dformat-security).
->=20
-> [YOCTO #9552]
->=20
-> Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
-> ---
-> meta/conf/distro/include/security_flags.inc        |  1 -
-> .../zip/zip-3.0/fix-security-format.patch          | 42 =
-++++++++++++++++++++++
-> meta/recipes-extended/zip/zip.inc                  |  3 +-
-> 3 files changed, 44 insertions(+), 2 deletions(-)
-> create mode 100644 =
-meta/recipes-extended/zip/zip-3.0/fix-security-format.patch
->=20
-> diff --git a/meta/conf/distro/include/security_flags.inc =
-b/meta/conf/distro/include/security_flags.inc
-> index 7a91cec..bb1a398 100644
-> --- a/meta/conf/distro/include/security_flags.inc
-> +++ b/meta/conf/distro/include/security_flags.inc
-> @@ -107,7 +107,6 @@ SECURITY_STRINGFORMAT_pn-makedevs =3D ""
-> SECURITY_STRINGFORMAT_pn-oh-puzzles =3D ""
-> SECURITY_STRINGFORMAT_pn-stat =3D ""
-> SECURITY_STRINGFORMAT_pn-unzip =3D ""
-> -SECURITY_STRINGFORMAT_pn-zip =3D ""
->=20
-> TARGET_CFLAGS_append_class-target =3D " ${SECURITY_CFLAGS}"
-> TARGET_LDFLAGS_append_class-target =3D " ${SECURITY_LDFLAGS}"
-> diff --git =
-a/meta/recipes-extended/zip/zip-3.0/fix-security-format.patch =
-b/meta/recipes-extended/zip/zip-3.0/fix-security-format.patch
-> new file mode 100644
-> index 0000000..b745c6b
-> --- /dev/null
-> +++ b/meta/recipes-extended/zip/zip-3.0/fix-security-format.patch
-> @@ -0,0 +1,42 @@
-> +meta: recipes-extended: Fixing security formatting issues on zip
-> +
-> +Fix security formatting issues related to printing without NULL =
-argument
-> +
-> +zip.c: In function 'help_extended':
-> +zip.c:1031:5: error: format not a string literal and no format =
-arguments [-Werror=3Dformat-security]
-> +     printf(text[i]);
-> +     ^
-> +zip.c: In function 'version_info':
-> +zip.c:1228:5: error: format not a string literal and no format =
-arguments [-Werror=3Dformat-security]
-> +     printf(cryptnote[i]);
-> +     ^
-> +
-> +[YOCTO #9552]
-> +[https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D9552]
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
-> +
-> +diff --git a/zip.c b/zip.c
-> +index 439821f..2ef57e3 100644
-> +--- a/zip.c
-> ++++ b/zip.c
-> +@@ -1028,7 +1028,7 @@ local void help_extended()
-> +
-> +   for (i =3D 0; i < sizeof(text)/sizeof(char *); i++)
-> +   {
-> +-    printf(text[i]);
-> ++    printf( text[i] , NULL );
+[YOCTO #9550]
 
-same issue as discussed in another similar patch. if text[i] is not =
-supposed
-to be a printf format string, then qualify it with one e.g. =E2=80=9C%s=E2=
-=80=9D is mostly what
-you want since they are usually strings otherwise.
+Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+---
+ meta/conf/distro/include/security_flags.inc        |  1 -
+ .../stat/stat-3.3/fix-security-format.patch        | 68 ++++++++++++++++++++++
+ meta/recipes-extended/stat/stat_3.3.bb             |  1 +
+ 3 files changed, 69 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/stat/stat-3.3/fix-security-format.patch
 
-> +     putchar('\n');
-> +   }
-> + #ifdef DOS
-> +@@ -1225,7 +1225,7 @@ local void version_info()
-> +             CR_MAJORVER, CR_MINORVER, CR_BETA_VER, CR_VERSION_DATE);
-> +   for (i =3D 0; i < sizeof(cryptnote)/sizeof(char *); i++)
-> +   {
-> +-    printf(cryptnote[i]);
-> ++    printf( cryptnote[i] , NULL );
-> +     putchar('\n');
-> +   }
-> +   ++i;  /* crypt support means there IS at least one compilation =
-option */
-> diff --git a/meta/recipes-extended/zip/zip.inc =
-b/meta/recipes-extended/zip/zip.inc
-> index 6221c5e..fac3a9f 100644
-> --- a/meta/recipes-extended/zip/zip.inc
-> +++ b/meta/recipes-extended/zip/zip.inc
-> @@ -5,7 +5,8 @@ SECTION =3D "console/utils"
-> LICENSE =3D "BSD-3-Clause"
-> LIC_FILES_CHKSUM =3D =
-"file://LICENSE;md5=3D04d43c5d70b496c032308106e26ae17d"
->=20
-> -SRC_URI =3D =
-"ftp://ftp.info-zip.org/pub/infozip/src/zip${@d.getVar('PV',1).replace('.'=
-, '')}.tgz"
-> +SRC_URI =3D =
-"ftp://ftp.info-zip.org/pub/infozip/src/zip${@d.getVar('PV',1).replace('.'=
-, '')}.tgz \
-> +           file://fix-security-format.patch"
->=20
-> EXTRA_OEMAKE =3D "'CC=3D${CC}' 'BIND=3D${CC}' 'AS=3D${CC} -c' =
-'CPP=3D${CPP}' \
-> 		'CFLAGS=3D-I. -DUNIX ${CFLAGS}' 'INSTALL=3Dinstall' \
-> --
-> 1.9.1
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+index 7a91cec..5ae6dd8 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -105,7 +105,6 @@ SECURITY_STRINGFORMAT_pn-gettext = ""
+ SECURITY_STRINGFORMAT_pn-kexec-tools = ""
+ SECURITY_STRINGFORMAT_pn-makedevs = ""
+ SECURITY_STRINGFORMAT_pn-oh-puzzles = ""
+-SECURITY_STRINGFORMAT_pn-stat = ""
+ SECURITY_STRINGFORMAT_pn-unzip = ""
+ SECURITY_STRINGFORMAT_pn-zip = ""
+ 
+diff --git a/meta/recipes-extended/stat/stat-3.3/fix-security-format.patch b/meta/recipes-extended/stat/stat-3.3/fix-security-format.patch
+new file mode 100644
+index 0000000..1593b56
+--- /dev/null
++++ b/meta/recipes-extended/stat/stat-3.3/fix-security-format.patch
+@@ -0,0 +1,68 @@
++meta: recipes-extended: Fixing security formatting issues on stat
++
++Fix security formatting issues related to printf without NULL argument 
++
++stat.c: In function 'print_human_access':
++stat.c:292:13: error: format not a string literal and no format arguments [-Werror=format-security]
++     printf (access);
++             ^
++stat.c: In function 'print_human_time':
++stat.c:299:57: error: format not a string literal and no format arguments [-Werror=format-security]
++   if (strftime(str, 40, "%c", localtime(t)) > 0) printf(str);
++                                                         ^
++stat.c: In function 'print_it':
++stat.c:613:6: error: format not a string literal and no format arguments [-Werror=format-security]
++      printf(b);
++      ^
++stat.c:642:6: error: format not a string literal and no format arguments [-Werror=format-security]
++      printf(b);
++      ^
++
++[YOCTO #9550]
++[https://bugzilla.yoctoproject.org/show_bug.cgi?id=9550]
++
++Upstream-Status: Pending
++
++Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
++
++diff --git a/stat.c b/stat.c
++index 1ed07a9..7590ac4 100644
++--- a/stat.c
+++++ b/stat.c
++@@ -289,15 +289,15 @@ void print_human_access(struct stat *statbuf)
++     default:
++       access[0] = '?';
++     }
++-    printf (access);
+++    printf (access,NULL);
++ }
++ 
++ void print_human_time(time_t *t)
++ {
++   char str[40];
++   
++-  if (strftime(str, 40, "%c", localtime(t)) > 0) printf(str);
++-  else printf("Cannot calculate human readable time, sorry");
+++  if (strftime(str, 40, "%c", localtime(t)) > 0) printf(str,NULL);
+++  else printf("Cannot calculate human readable time, sorry",NULL);
++ }
++ 
++ /* print statfs info */
++@@ -610,7 +610,7 @@ void print_it(char *masterformat, char *filename,
++ 	{
++ 	    strcpy (pformat, "%");
++ 	    *m++ = '\0';
++-	    printf(b);
+++	    printf(b,NULL);
++ 
++ 	    /* copy all format specifiers to our format string */
++ 	    while (isdigit(*m) || strchr("#0-+. I", *m))
++@@ -639,7 +639,7 @@ void print_it(char *masterformat, char *filename,
++ 	}
++ 	else
++ 	{
++-	    printf(b);
+++	    printf(b,NULL);
++ 	    b = NULL;
++ 	}
++     }
+diff --git a/meta/recipes-extended/stat/stat_3.3.bb b/meta/recipes-extended/stat/stat_3.3.bb
+index a5ece07..0697c73 100644
+--- a/meta/recipes-extended/stat/stat_3.3.bb
++++ b/meta/recipes-extended/stat/stat_3.3.bb
+@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=39886b077fd072e876e5c4c16310b631 \
+                     file://GPL;md5=94d55d512a9ba36caa9b7df079bae19f"
+ 
+ SRC_URI = "http://www.ibiblio.org/pub/Linux/utils/file/${BP}.tar.gz \
++           file://fix-security-format.patch \
+            file://fix-error-return.patch"
+ 
+ SRC_URI[md5sum] = "37e247e8e400ad9205f1b0500b728fd3"
+-- 
+1.9.1
 
 
---Apple-Mail=_147A03CD-929B-4705-B232-E6BF378BA87F
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlc6UwIACgkQuwUzVZGdMxQoWACgker9NeZZ7f8x4+6MU/3LEoxW
-3TQAn1/xgRYvpRJFZMJfB1yV++q2YbmW
-=8tir
------END PGP SIGNATURE-----
-
---Apple-Mail=_147A03CD-929B-4705-B232-E6BF378BA87F--
