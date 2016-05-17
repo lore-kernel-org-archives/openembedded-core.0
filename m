@@ -1,55 +1,36 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
-	[209.85.223.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 129F060745
+Return-Path: <afenkart@gmx.ch>
+X-Greylist: delayed 308 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 17 May 2016 09:21:33 UTC
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+	by mail.openembedded.org (Postfix) with ESMTP id D012F6FF60
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 May 2016 08:38:52 +0000 (UTC)
-Received: by mail-io0-f179.google.com with SMTP id 190so14495867iow.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 May 2016 01:38:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=sQ9WJy+6Ek+RqHyRJ3ustZ4eY19newHet5asfuev78M=;
-	b=HU04uS+5nKzB+doW0PFbvFezbCiGZGWbGkgIjz0Cxy/B/ffO/OQfuENWw/+aux/wYH
-	KSyg7NxLQh3HPjcwVG82UN7Iy6zLOVHv57VFx+k8wwifYA27lMW/Slahtopw64mFDb+f
-	e0nzfc2wJPvDm2nG1ssUXllQqnL5BY7Fu3bFbFsyffBRmYSpWyruUEFM/0nyYZvrDjGi
-	X/RaSNA4NqrFTeJ1rJjCua1CTe2398CLfTJAcwUQd2bmZPUlycd6JYm7zgq0xiADSowM
-	Ndck2M9mc56Zn+LKPj3O68KBJD4lcOLH/NIZA1WvYqzedZSXL1dOvn7ppqPDJWctcMre
-	XngA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=sQ9WJy+6Ek+RqHyRJ3ustZ4eY19newHet5asfuev78M=;
-	b=ZExHFNzZPY4lye7AbGrXE8GshmyK8nDkV3dsZzW19av9QlDIu2zRTn4ltO6iOXezhr
-	vEghQdb34hz1WPBqov6cJ46t0kwacDQwiimGBOV8pQik0LVvwBNBcbyiwY/VmXZSqnZ1
-	fFVy5VqG39KC+RjNFoReLNHNpNYQt6fGPbWvRK0Zr/lcT1ba00l9KG8YiLO5Br90fFuc
-	5YlIncssKRbT7NDHfJAuktWhrAl1RWaCpPvMIP6Z74OynfpXmFmRhglNkhS3oyVrczTd
-	o+4v482GfX59lRRSkT3hEGjj1/hxajIhWhPe7qOVyERvz99HXqbViRo11ctP0AmL5cqY
-	moGg==
-X-Gm-Message-State: AOPr4FVhLuS7uGY4FELBzcm2vDmbeKhb9dBnrPXAgM8qpt4/VHG2+XZqooBIulVyHLeakvOTZrQ+fy1b1dWCXOUM
-X-Received: by 10.107.51.213 with SMTP id z204mr24291ioz.148.1463474333337;
-	Tue, 17 May 2016 01:38:53 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.162.6 with HTTP; Tue, 17 May 2016 01:38:33 -0700 (PDT)
-In-Reply-To: <CAHiDW_GzrvqCkkcUMtNQTtgoit9JdJ5Y-pBP2vHsiC67+7JB-Q@mail.gmail.com>
-References: <cover.1463035854.git.jussi.kukkonen@intel.com>
-	<93f1600d7ce782dbafb1ab32da9416dc29d432c2.1463035854.git.jussi.kukkonen@intel.com>
-	<6a0ed7998e66eedbf58fdb54db111b281a2b81bb.1463035854.git.jussi.kukkonen@intel.com>
-	<CAP9ODKpbMyzEkKh1WhwnNkRrgXCeBQzTeSrVP89Ngx5CwMO_5w@mail.gmail.com>
-	<CAHiDW_FQJuwT=JPtvCMPM3bcQozTqyEDFq8LjziNe=NHT+HPMw@mail.gmail.com>
-	<CAP9ODKoNnq0ufH=XF8oPqTQKW_o0NehzUXCvanzLkJMEHXAdFQ@mail.gmail.com>
-	<314BCBC6-07F6-4B6E-89E6-FA6D86C682B0@gmail.com>
-	<CAHiDW_GzrvqCkkcUMtNQTtgoit9JdJ5Y-pBP2vHsiC67+7JB-Q@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 17 May 2016 09:38:33 +0100
-Message-ID: <CAJTo0LbN+7V1iZ5u77EZbJxtF4ou2p40+ka-aJaQx=Fk4znSzg@mail.gmail.com>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	Otavio Salvador <otavio.salvador@ossystems.com.br>
-Subject: Re: [PATCH 13/13] weston: Upgrade 1.9.0 -> 1.10.0
+	Tue, 17 May 2016 09:21:33 +0000 (UTC)
+Received: from localhost ([89.176.167.254]) by mail.gmx.com (mrgmx003) with
+	ESMTPSA (Nemesis) id 0MMBiP-1axOzC47H3-007ynA; Tue, 17 May 2016 11:16:24
+	+0200
+From: Andreas Fenkart <andreas.fenkart@dev.digitalstrom.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 17 May 2016 11:16:17 +0200
+Message-Id: <1463476580-17779-1-git-send-email-andreas.fenkart@dev.digitalstrom.org>
+X-Mailer: git-send-email 2.8.1
+Sender: afenkart@gmx.ch
+X-Provags-ID: V03:K0:3TaTlrYdw/MzDyeh1hjbfxKeLTakAQQzm7UOqxZq9ZLIe44a3ZR
+	7bRw604N5MT4TxfH7E/kzdJUQba1X5vP81sNjQL9MP0K8JHowQnUN/C9lfTsvMDJhL7w999
+	WluyuKxAcShwsdE+x2HvkO9LxnPZG34u2Sc6B36lYUUAoa7RGMYrZV/pcVNBHk1Clu1k4GL
+	VM1TgkGGwnqz9tVHXLwVA==
+X-UI-Out-Filterresults: notjunk:1;V01:K0:ZbTd9gRdmFo=:k1D1zwGIJ/KBQMY2Z82D16
+	UtXduDaaK2wQGPLpVo/FEWSyObrX4Ns0jr9lzb0KXhe9Oa9sApMtdDLSq4If4yQmHu1llyPPz
+	rABBofC+pVIXiTR7IrogIYgA35/SnT4c0P4CSXwobVuhDtOqIzzv5MpQntIJClEDFZLXluTFH
+	evEogQNwIyUMIjkVIlNr4TmxrQ7qRsqaRGKNWYx6/OStP7IhYOzPMPGkZfDIwU+m0pi+p3eOv
+	rrFr51RVODrEuUpoJLlRng8Iev1c7H6pwq+Rwky6kfEhhuuBEf2NBC7nA9bAZdi/6FcvbHzbF
+	0n/7bYFDU4aFsNnZyCCeUkXXFpw7yEWDnYLQ3qdmKA9PAko+j5+Vuo/WPM5oeHv6nOi/SgspV
+	JLr8RYEgLBDnSUUaVkMMTbrVOvMm1jAWKgRDd2h3A9b9mvPplO12OA4cZnJxX62JjUQJPDjaj
+	yLxWxE7OyFZEPJ0nAXiY2B82+aNsjrmrB/m0d+8a/74FCq7nlv/u9PC3FsiUZC3tcslE7V8Ce
+	fTWTjxiCR73bxzFyzlNn5/lJP99nbArsTYz2gHkKz5YkYx0X+ZdD/B+jfjIPBQmlH78BHfgw8
+	Qyu5gTecTI3EHbTIpzXOctJqwgYJKq7nUVVsEQfiJz6KmFczc3ufFGbzaIm5n70sWh5ZnBfW0
+	lQSdwiUzBJwConw/M1vxGWgJivcRJoaHKgJ7v5mus6Lscjsy0kLz7RXfCPgYxkf8C8/TdmeiB
+	wySEGfRyz/Ljf0EmaWqjCudlC1RqujzvAp8H9UnkAmtSFyQpjT2BfNDOJZs=
+Subject: [PATCH 0/3] kernel-multi: stage and package multiple kernels
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,45 +43,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 May 2016 08:38:53 -0000
-Content-Type: multipart/alternative; boundary=001a11440cd0c6e3de053305abf7
+X-List-Received-Date: Tue, 17 May 2016 09:21:34 -0000
 
---001a11440cd0c6e3de053305abf7
-Content-Type: text/plain; charset=UTF-8
+These patches add support to stage and package multiple kernels
+in addition to the prioritized virtual/kernel provider
 
-On 17 May 2016 at 08:31, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
+The intended use case are kernel upgrades, where you want to
+install the new kernel before removing the old kernel.
 
-> There's not much to work on as far as I can tell: 1.11 should be a
-> simple upgrade with trivial patch changes.
-> As I said, I'm totally fine with waiting a couple of weeks until 1.11.
-> On the other hand I haven't seen any reasons to start packaging a
-> pre-release -- why this one if we normally don't do it?
->
+Usage:
+  LINUX_VERSION = "4.1.19"
+  KERNEL_CLASS = "kernel-multi"
+  require linux-yocto.inc
 
-Agreed, if we want an upgrade now then 1.10 is good, otherwise wait for
-1.11.  There's no urgent need for a prerelease is there?
+This will produce these packages:
+  kernel-4.1.19
+  kernel-4.1.19-image
+  kernel-4.1.19-modules
+  kernel-4.1.19-module-<pattern>
+  kernel-4.1.19-firmware-<pattern>
 
-Ross
+There are known limitations:
 
---001a11440cd0c6e3de053305abf7
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Recipes based on this class can be selected as virtual/kernel.
+The limitation is that external modules or tools such as perf
+will break, since they expect the kernel-source to be located in
+the default STAGING_KERNEL_DIR. We can not use the same folder
+when building multiple kernels since that produces conflicts
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 17 May 2016 at 08:31, Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen@intel.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":57z" cla=
-ss=3D"a3s aXjCH">There&#39;s not much to work on as far as I can tell: 1.11=
- should be a<br>
-simple upgrade with trivial patch changes.<br>
-As I said, I&#39;m totally fine with waiting a couple of weeks until 1.11.<=
-br>
-On the other hand I haven&#39;t seen any reasons to start packaging a<br>
-pre-release -- why this one if we normally don&#39;t do it?</div></blockquo=
-te></div><br>Agreed, if we want an upgrade now then 1.10 is good, otherwise=
- wait for 1.11.=C2=A0 There&#39;s no urgent need for a prerelease is there?=
-</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross<=
-/div></div>
+Also running depmod on the built rootfs fails for the same
+reason. The meta data are not placed in their default location,
+since that would conflict too.  The default path is hardcoded in
+kernel-depmod script. The workaround is to USE_DEPMOD = "0", and
+delay depmod calculation upon first boot of the rootfs on the
+target. Workaround will fail on read-only filesystems.
 
---001a11440cd0c6e3de053305abf7--
+
+I believe the class is already useful in this state. I'm also
+interested to learn if there is common interest in supporting
+multi-kernel builds. I will implement suggestions. 
+
+
+
+Andreas Fenkart (3):
+  kernel.bbclass: allow to override KERNEL_FIRMWARE_PATTERN
+  kernel-module-split: allow to override KERNEL_MODULE_PATTERN
+  kernel-multi: class to stage and package multiple kernels
+
+ meta/classes/kernel-module-split.bbclass  |   3 +-
+ meta/classes/kernel-multi.bbclass         | 165 ++++++++++++++++++++++++++++++
+ meta/classes/kernel.bbclass               |   4 +-
+ meta/recipes-kernel/linux/linux-yocto.inc |   3 +-
+ 4 files changed, 172 insertions(+), 3 deletions(-)
+ create mode 100644 meta/classes/kernel-multi.bbclass
+
+-- 
+2.8.1
+
+
