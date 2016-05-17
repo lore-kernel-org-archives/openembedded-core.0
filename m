@@ -1,47 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f181.google.com (mail-ig0-f181.google.com
-	[209.85.213.181])
-	by mail.openembedded.org (Postfix) with ESMTP id D24F373257
+Return-Path: <humberto.ibarra.lopez@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id F0E49605BA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 May 2016 19:49:31 +0000 (UTC)
-Received: by mail-ig0-f181.google.com with SMTP id m9so15885224ige.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 May 2016 12:49:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=iuclpbOwmKo387ivFIqvVzswbg0kFp0tg+Kp8jJOC/A=;
-	b=FMfAMlwj+zMcKXk+uMeZE/BbDNpegZn1BGhiScw8+3AUIngR1BkYoGgNu4H7LGyG+q
-	XcqcUmoxZGrJA+N7J1oMEDFJluz0t62UgJgBiUa6hw/MoXNmEIB6o8mKX3XE3rqCKgkQ
-	DpL0g5oblTyPgo7x+CYTXWl4G3WLQBcaded9V57PtJE3sjKfvsGxJVelb2hV6XZOzAIg
-	0nbSqbiTnVK8tV3MhHkQZ/SDI3l/RhZQx5nZkIq7kfjYwVKERD8CM0MgDtH/hkBcRWvm
-	j40fYdz5ugJ4d1V47MAN+gjPvI5MmYHmzqOQdgyMX/kIPp76RQBCEsLlG8t8BR9Oe+n9
-	y7JQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=iuclpbOwmKo387ivFIqvVzswbg0kFp0tg+Kp8jJOC/A=;
-	b=fC46cOawIcs3tvDmR8rCL+680JYDOe69KI6ByYLa6GmCZTc0cJUeSctRN2Z187M/uG
-	Hx4aw+5Uh0YO9ktNkt7jjp7DXxV8FJorlAhRhpSKYpBCojODQAcUdrwdbF+ZiwXfIGKV
-	w/WtV04ePO2wJfw583zRnq2ipJVDCPNdoXfQ8cS5bsAJOJKRuES7dgdl4/Bjx5DJy5eT
-	2BnzOl8IrrfzWcyVx2z4QgW+apufIQRuC4fdVbPWGtEREfPYYVOw9HGqRWJ+Kx+B1iA+
-	GXtH9jt5TQwalNN6WLb5GcbNGPTVUn6Lx+282BIojHYkPIwToInQ41/r95L05c3Q/Mzn
-	TTlw==
-X-Gm-Message-State: AOPr4FXaqdLHKEJuCjJVnqfirG8viIVi+BdU5UpmKUAvB4og5NFMZkY53FXRrfQKDr5kj21alvNSzRPvHo9eDAfZ
-X-Received: by 10.50.62.20 with SMTP id u20mr2467899igr.52.1463514571685; Tue,
-	17 May 2016 12:49:31 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.162.6 with HTTP; Tue, 17 May 2016 12:49:12 -0700 (PDT)
-In-Reply-To: <1463503054-21927-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
-References: <1463503054-21927-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 17 May 2016 20:49:12 +0100
-Message-ID: <CAJTo0LYdyzYCR+MxNPc6S1+SOsBnSjg+fKuNPNobBPeVmgZ5Jw@mail.gmail.com>
-To: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
-Cc: Edwin Plauchu <edwin.plauchu.camacho@intel.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] meta:recipes-extended: zip: fix security issues
+	Tue, 17 May 2016 20:17:02 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga103.fm.intel.com with ESMTP; 17 May 2016 13:16:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,325,1459839600"; d="scan'208";a="704636391"
+Received: from jhibarra-mobl1.zpn.intel.com ([10.219.17.76])
+	by FMSMGA003.fm.intel.com with ESMTP; 17 May 2016 13:16:45 -0700
+From: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 17 May 2016 15:18:15 -0500
+Message-Id: <1463516295-25980-1-git-send-email-humberto.ibarra.lopez@intel.com>
+X-Mailer: git-send-email 2.4.11
+Subject: [PATCH] scripts/oe-selftest: Improve listing by reducing unneeded spacing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,42 +27,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 May 2016 19:49:32 -0000
-Content-Type: multipart/alternative; boundary=047d7bdca6062b7ae005330f0a4f
+X-List-Received-Date: Tue, 17 May 2016 20:17:03 -0000
 
---047d7bdca6062b7ae005330f0a4f
-Content-Type: text/plain; charset=UTF-8
+The --list-tests option assumes a terminal of 150 characters wide,
+which is clearly wrong. The output for this command is messy and
+hard to understand for lower widths. Every command should look
+good in a 80 characters terminal.
 
-On 17 May 2016 at 17:37, Edwin Plauchu <
-edwin.plauchu.camacho@linux.intel.com> wrote:
+Unfortunately, this can't be done at the moment. The bad naming of
+testcases have made the test names incredibly long.
 
-> This patch avoids zip recipe fails to compile with compiler flags which
-> elevate common string formatting issues into an error (-Wformat
-> -Wformat-security -Werror=format-security).
->
+This patch reduces spacing between columns and shows the tests
+names in a concise and understandable way. The format is even the
+same one required for running a testcase. Once the testcase naming
+improves, this output will look even better.
 
-Can you resend these with correct subject lines, ie just "zip: fix security
-issues".
+[Yocto #9534]
+---
+ scripts/oe-selftest | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Thanks,
-Ross
+diff --git a/scripts/oe-selftest b/scripts/oe-selftest
+index 5e23ef0..61845d5 100755
+--- a/scripts/oe-selftest
++++ b/scripts/oe-selftest
+@@ -338,14 +338,14 @@ def list_tests():
+ 
+     ts = get_all_tests()
+ 
+-    print '%-4s\t%-20s\t%-60s\t%-25s\t%-20s' % ('id', 'tag', 'name', 'class', 'module')
+-    print '_' * 150
++    print '%-4s\t%-10s\t%-60s' % ('id', 'tag', 'test')
++    print '_' * 80
+     for t in ts:
+         if isinstance(t.tctag, (tuple, list)):
+-            print '%-4s\t%-20s\t%-60s\t%-25s\t%-20s' % (t.tcid, ', '.join(t.tctag), t.tcname, t.tcclass, t.tcmodule)
++            print '%-4s\t%-10s\t%-60s' % (t.tcid, ', '.join(t.tctag), '.'.join([t.tcmodule, t.tcclass, t.tcname]))
+         else:
+-            print '%-4s\t%-20s\t%-60s\t%-25s\t%-20s' % (t.tcid, t.tctag, t.tcname, t.tcclass, t.tcmodule)
+-    print '_' * 150
++            print '%-4s\t%-10s\t%-60s' % (t.tcid, t.tctag, '.'.join([t.tcmodule, t.tcclass, t.tcname]))
++    print '_' * 80
+     print 'Total found:\t %s' % len(ts)
+ 
+ 
+-- 
+2.4.11
 
---047d7bdca6062b7ae005330f0a4f
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 17 May 2016 at 17:37, Edwin Plauchu <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:edwin.plauchu.camacho@linux.intel.com" target=3D"_blank">edwin.plauchu.=
-camacho@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left=
--color:rgb(204,204,204);border-left-style:solid;padding-left:1ex"><div id=
-=3D":7ci" class=3D"">This patch avoids zip recipe fails to compile with com=
-piler flags which elevate common string formatting issues into an error (-W=
-format -Wformat-security -Werror=3Dformat-security).<br></div></blockquote>=
-</div><br>Can you resend these with correct subject lines, ie just &quot;zi=
-p: fix security issues&quot;.<br></div><div class=3D"gmail_extra"><br></div=
-><div class=3D"gmail_extra">Thanks,</div><div class=3D"gmail_extra">Ross</d=
-iv></div>
-
---047d7bdca6062b7ae005330f0a4f--
