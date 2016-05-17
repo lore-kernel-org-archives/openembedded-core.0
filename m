@@ -1,21 +1,21 @@
 Return-Path: <edwin.plauchu.camacho@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 91A57608B7
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id E20FA70179
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 May 2016 16:57:32 +0000 (UTC)
+	Tue, 17 May 2016 19:25:11 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 17 May 2016 09:57:32 -0700
+	by orsmga102.jf.intel.com with ESMTP; 17 May 2016 12:25:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,324,1459839600"; d="scan'208";a="968877083"
+X-IronPort-AV: E=Sophos;i="5.26,324,1459839600"; d="scan'208";a="968977307"
 Received: from pianodaemon-contraption.zpn.intel.com ([10.219.128.59])
-	by fmsmga001.fm.intel.com with ESMTP; 17 May 2016 09:57:31 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 17 May 2016 12:25:03 -0700
 From: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 May 2016 11:57:43 -0500
-Message-Id: <1463504263-9114-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
+Date: Tue, 17 May 2016 14:25:11 -0500
+Message-Id: <1463513111-4092-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
 X-Mailer: git-send-email 1.9.1
 Cc: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
-Subject: [PATCH v2] meta:recipes-devtools: makedevs: fix security issues
+Subject: [PATCH v3] zip: fix security issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,115 +28,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 May 2016 16:57:32 -0000
+X-List-Received-Date: Tue, 17 May 2016 19:25:13 -0000
 
 From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
 
-This patch avoids makedevs fails to compile with compiler flags which elevate common string formatting issues into an error (-Wformat -Wformat-security -Werror=format-security).
+This patch avoids zip recipe fails to compile with compiler flags which elevate common string formatting issues into an error (-Wformat -Wformat-security -Werror=format-security).
 
-[YOCTO #9549]
+[YOCTO #9552]
 
 Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
 ---
  meta/conf/distro/include/security_flags.inc        |  1 -
- .../makedevs/makedevs/fix-security-format.patch    | 63 ++++++++++++++++++++++
- meta/recipes-devtools/makedevs/makedevs_1.0.1.bb   |  1 +
- 3 files changed, 64 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/makedevs/makedevs/fix-security-format.patch
+ .../zip/zip-3.0/fix-security-format.patch          | 42 ++++++++++++++++++++++
+ meta/recipes-extended/zip/zip.inc                  |  3 +-
+ 3 files changed, 44 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-extended/zip/zip-3.0/fix-security-format.patch
 
 diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-index 7a91cec..dc210a0 100644
+index 7a91cec..bb1a398 100644
 --- a/meta/conf/distro/include/security_flags.inc
 +++ b/meta/conf/distro/include/security_flags.inc
-@@ -103,7 +103,6 @@ SECURITY_STRINGFORMAT_pn-expect = ""
- SECURITY_STRINGFORMAT_pn-gcc = ""
- SECURITY_STRINGFORMAT_pn-gettext = ""
- SECURITY_STRINGFORMAT_pn-kexec-tools = ""
--SECURITY_STRINGFORMAT_pn-makedevs = ""
+@@ -107,7 +107,6 @@ SECURITY_STRINGFORMAT_pn-makedevs = ""
  SECURITY_STRINGFORMAT_pn-oh-puzzles = ""
  SECURITY_STRINGFORMAT_pn-stat = ""
  SECURITY_STRINGFORMAT_pn-unzip = ""
-diff --git a/meta/recipes-devtools/makedevs/makedevs/fix-security-format.patch b/meta/recipes-devtools/makedevs/makedevs/fix-security-format.patch
+-SECURITY_STRINGFORMAT_pn-zip = ""
+ 
+ TARGET_CFLAGS_append_class-target = " ${SECURITY_CFLAGS}"
+ TARGET_LDFLAGS_append_class-target = " ${SECURITY_LDFLAGS}"
+diff --git a/meta/recipes-extended/zip/zip-3.0/fix-security-format.patch b/meta/recipes-extended/zip/zip-3.0/fix-security-format.patch
 new file mode 100644
-index 0000000..140eb14
+index 0000000..fe29d41
 --- /dev/null
-+++ b/meta/recipes-devtools/makedevs/makedevs/fix-security-format.patch
-@@ -0,0 +1,63 @@
-+meta: recipes-devtools: makedevs: Fixing security formatting issues
++++ b/meta/recipes-extended/zip/zip-3.0/fix-security-format.patch
+@@ -0,0 +1,42 @@
++zip: Fixing security formatting issues
 +
-+Fix security formatting issues related to printing without NULL argument 
++Fix security formatting issues related to printing without NULL argument
 +
-+makedevs.c: In function 'main':
-+makedevs.c:513:3: error: format not a string literal and no format arguments [-Werror=format-security]
-+   fprintf(stderr, helptext);
-+   ^
-+makedevs.c:528:4: error: format not a string literal and no format arguments [-Werror=format-security]
-+    printf(helptext);
-+    ^
-+makedevs.c:556:4: error: format not a string literal and no format arguments [-Werror=format-security]
-+    fprintf(stderr, helptext);
-+    ^
-+makedevs.c:562:3: error: format not a string literal and no format arguments [-Werror=format-security]
-+   fprintf(stderr, helptext);
-+   ^
++zip.c: In function 'help_extended':
++zip.c:1031:5: error: format not a string literal and no format arguments [-Werror=format-security]
++     printf(text[i]);
++     ^
++zip.c: In function 'version_info':
++zip.c:1228:5: error: format not a string literal and no format arguments [-Werror=format-security]
++     printf(cryptnote[i]);
++     ^
 +
-+[YOCTO #9549]
-+[https://bugzilla.yoctoproject.org/show_bug.cgi?id=9549]
++[YOCTO #9552]
++[https://bugzilla.yoctoproject.org/show_bug.cgi?id=9552]
 +
 +Upstream-Status: Pending
 +
 +Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
 +
-+diff --git a/makedevs.c b/makedevs.c
-+index 771f33e..7471f3f 100644
-+--- a/makedevs.c
-++++ b/makedevs.c
-+@@ -510,7 +510,7 @@ int main(int argc, char **argv)
-+ 	umask (0);
++diff --git a/zip.c b/zip.c
++index 439821f..d7da768 100644
++--- a/zip.c
+++++ b/zip.c
++@@ -1028,7 +1028,7 @@ local void help_extended()
 + 
-+ 	if (argc==1) {
-+-		fprintf(stderr, helptext);
-++		fputs( helptext , stderr );
-+ 		exit(1);
-+ 	}
-+ 
-+@@ -525,7 +525,7 @@ int main(int argc, char **argv)
-+ 				error_msg_and_die("%s: not a proper device table file", optarg);
-+ 			break;
-+ 		case 'h':
-+-			printf(helptext);
-++			puts(helptext);
-+ 			exit(0);
-+ 		case 'r':
-+ 		case 'd':				/* for compatibility with mkfs.jffs, genext2fs, etc... */
-+@@ -553,13 +553,13 @@ int main(int argc, char **argv)
-+ 			printf("%s: %s\n", app_name, VERSION);
-+ 			exit(0);
-+ 		default:
-+-			fprintf(stderr, helptext);
-++			fputs(helptext,stderr);
-+ 			exit(1);
-+ 		}
-+ 	}
-+ 
-+ 	if (argv[optind] != NULL) {
-+-		fprintf(stderr, helptext);
-++		fputs(helptext,stderr);
-+ 		exit(1);
-+ 	}
-+ 
-diff --git a/meta/recipes-devtools/makedevs/makedevs_1.0.1.bb b/meta/recipes-devtools/makedevs/makedevs_1.0.1.bb
-index 92d5870..41b8bec 100644
---- a/meta/recipes-devtools/makedevs/makedevs_1.0.1.bb
-+++ b/meta/recipes-devtools/makedevs/makedevs_1.0.1.bb
-@@ -3,6 +3,7 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=393a5ca445f6965873eca0259a17f833"
- SECTION = "base"
- SRC_URI = "file://makedevs.c \
-+           file://fix-security-format.patch \
-            file://COPYING.patch"
++   for (i = 0; i < sizeof(text)/sizeof(char *); i++)
++   {
++-    printf(text[i]);
+++    fputs(text[i],stdout);
++     putchar('\n');
++   }
++ #ifdef DOS
++@@ -1225,7 +1225,7 @@ local void version_info()
++             CR_MAJORVER, CR_MINORVER, CR_BETA_VER, CR_VERSION_DATE);
++   for (i = 0; i < sizeof(cryptnote)/sizeof(char *); i++)
++   {
++-    printf(cryptnote[i]);
+++    fputs(cryptnote[i],stdout);
++     putchar('\n');
++   }
++   ++i;  /* crypt support means there IS at least one compilation option */
+diff --git a/meta/recipes-extended/zip/zip.inc b/meta/recipes-extended/zip/zip.inc
+index 6221c5e..21985a4 100644
+--- a/meta/recipes-extended/zip/zip.inc
++++ b/meta/recipes-extended/zip/zip.inc
+@@ -5,7 +5,8 @@ SECTION = "console/utils"
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=04d43c5d70b496c032308106e26ae17d"
  
- S = "${WORKDIR}"
+-SRC_URI = "ftp://ftp.info-zip.org/pub/infozip/src/zip${@d.getVar('PV',1).replace('.', '')}.tgz"
++SRC_URI = "ftp://ftp.info-zip.org/pub/infozip/src/zip${@d.getVar('PV',1).replace('.', '')}.tgz \
++            file://fix-security-format.patch"
+ 
+ EXTRA_OEMAKE = "'CC=${CC}' 'BIND=${CC}' 'AS=${CC} -c' 'CPP=${CPP}' \
+ 		'CFLAGS=-I. -DUNIX ${CFLAGS}' 'INSTALL=install' \
 -- 
 1.9.1
 
