@@ -1,41 +1,54 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 71001731BA
+Return-Path: <akuster808@gmail.com>
+Received: from mail-qg0-f65.google.com (mail-qg0-f65.google.com
+	[209.85.192.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F93A731D5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 May 2016 02:22:02 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id w143so1054425wmw.3
+	Tue, 17 May 2016 02:26:58 +0000 (UTC)
+Received: by mail-qg0-f65.google.com with SMTP id b14so249788qge.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2016 19:22:04 -0700 (PDT)
+	Mon, 16 May 2016 19:27:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding;
+	bh=ePhz6TPiUXO4nGPjzkU2V9xZi15eLe3JFV1xZNYv1fQ=;
+	b=InxAQtTRtmWcfgezDLo24272CWznKoi5K6uCKtuxv9waLdfng1C9IRZHOuMo5/Dx7d
+	xUbcXVBVWETUe8wrJitRM8GoSxqN1zeC76n9xbIPuzMGwY/n7krK0tI8nilgAIzoYtFP
+	Djom0ONR5CvyK3fVJPXVMoRoyjMVQnTJ5AxVuufQS0ZDxfyACjYoGK/tv5XDwbPZ1yWm
+	eU8fSeMyjK+MXx0OfP7bhpbcgRMeYeG/EnLa/frpeAGhcaMxfNDXZSVqADQ0MDUdbkke
+	UdPHXa6xUXTg1alJIZg/Id5LKpiQGGmpb3bt5wOmJ7i9tRMvZRL9DrkruaEZhi7vTv4C
+	s4Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=6InBOHFhpZ4t0VoWlw9aL36+LVx+RxhQ+a+XyTGEDzE=;
-	b=IP4w9KJ1CvHrp3pSxAjnNVRd8V6OYV49znm4bxU7PVY+LpXtzWv6OjseIvMlr9FsYO
-	ht3AkQ/p5aXvr/tfNdqM8RydPHEQy49Q3/mlt3AXk8KjzzWGdz3v69tMET7u3A6xE2dM
-	zJmd5hSKoM8mwmV9JA4y8QjwOxAuHx9roK3Zv+U9RMf9LRmpKTp7O/GhAIvrudknXxE3
-	G9JTBe7HSZbU56SXiyPvawFYeGlKtqDwjlMBXJqxvXrJ8xaD41vzFpxnph+gzrvzn8Ql
-	YHxlJSsUalaEz1v4iJY07tDOR9goNJaRNTcvMg7qyXW/euYrhVjmzM+j1N7y2pjhPxsi
-	bmFg==
-X-Gm-Message-State: AOPr4FXiMJ2xVmkEFNXbNkqWidS8/grWdm9NMzkmebAEaYbG7/z42qsS+SvfOHyPqaEFNg==
-X-Received: by 10.194.189.231 with SMTP id gl7mr35013245wjc.129.1463451723254; 
-	Mon, 16 May 2016 19:22:03 -0700 (PDT)
-Received: from localhost (sushi.andred.org. [85.214.105.253])
-	by smtp.gmail.com with ESMTPSA id a75sm845489wme.18.2016.05.16.19.22.00
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=ePhz6TPiUXO4nGPjzkU2V9xZi15eLe3JFV1xZNYv1fQ=;
+	b=igHDA5d4DxQYpWFMT5koG7fg6iMHVmXrcUj9HNA/gbRymlvKRaAFsYv/mTK0gUZeFN
+	FMSS8XpZblDZxVvp3Ryo5cFneV0NlhzaRP5261lyji3hVPerVxhOYqUSSRf7gae6qF8Z
+	rGFB42yrAWa2xzUdQPYYkEkLKa5OZtzCuwAUoN6kbm04CtYeyAHn/k3MzfMFtkU5h8Df
+	96rXxwZ0ypNRsttAthY8f9og5edHTsOPHcmouJlrKnK+Aernd2VllkHBkzZjvnsEunbT
+	zOFhLugE93JrhQl1Prq2VT/WWYOiH7bbsAb958J6LKfSip8jczs7qfigvBYoFpCOxqC2
+	+Ymg==
+X-Gm-Message-State: AOPr4FUKjItwpL6SQUg/STx2/mq/eIL/5iIx6Battk3Hu8TBCWjpLimDtoL7/jDnhQoETg==
+X-Received: by 10.140.19.174 with SMTP id 43mr32895013qgh.44.1463452019574;
+	Mon, 16 May 2016 19:26:59 -0700 (PDT)
+Received: from ?IPv6:2601:202:4000:1239:213a:5f79:bc19:2f7c?
+	([2601:202:4000:1239:213a:5f79:bc19:2f7c])
+	by smtp.googlemail.com with ESMTPSA id
+	n1sm243882qkn.3.2016.05.16.19.26.57
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 16 May 2016 19:22:01 -0700 (PDT)
-Message-ID: <1463451718.2828.16.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+	Mon, 16 May 2016 19:26:58 -0700 (PDT)
 To: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 16 May 2016 22:21:58 -0400
-In-Reply-To: <55B50CC1-24B9-47C3-8120-1794775A93D0@gmail.com>
-References: <1463066880-17505-1-git-send-email-git@andred.net>
-	<1463126191-24272-1-git-send-email-git@andred.net>
-	<55B50CC1-24B9-47C3-8120-1794775A93D0@gmail.com>
-X-Mailer: Evolution 3.18.5.1-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3][krogoth] feature-arm-neon.inc: restore vfpv3-d16 support
+References: <1463415451-21779-1-git-send-email-akuster808@gmail.com>
+	<C6187355-EA77-4B31-8638-C5D64613DE0E@gmail.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <573A8171.50002@gmail.com>
+Date: Mon, 16 May 2016 19:26:57 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.1
+MIME-Version: 1.0
+In-Reply-To: <C6187355-EA77-4B31-8638-C5D64613DE0E@gmail.com>
+Cc: Armin Kuster <akuster@mvista.com>, openembedded-core@lists.openembedded.org
+Subject: Re: [master][krogoth][PATCH] python-numpy: fix build failure with python-matplotlib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,98 +61,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 May 2016 02:22:03 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 17 May 2016 02:26:59 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-On Fr, 2016-05-13 at 10:08 -0700, Khem Raj wrote:
-> > 
-> > On May 13, 2016, at 12:56 AM, André Draszik <git@andred.net> wrote:
-> > 
-> > Commit 6661718 (feature-arm-{neon,vfp}.inc: refactor and fix issues)
-> > effectively changed the gcc -mfpu= option from -mfpu=vfpv3-d16 to
-> > -mfpu=vfpv3d16, which gcc doesn't understand.
-> > 
-> > Restore the original value.
-> > 
-> > After doing that, we also need to adjust ARMPKGSFX_FPU which should
-> > contain the same value without dash '-' as it is used that way
-> > throughout.
+
+
+On 05/16/2016 09:44 AM, Khem Raj wrote:
 > 
-> V1 worked fine for my case. V3 doesnt even apply. Can you rebase it on top
-> of master and resend ?
+>> On May 16, 2016, at 9:17 AM, Armin Kuster <akuster808@gmail.com> wrote:
+>>
+>> From: Armin Kuster <akuster@mvista.com>
+>>
+>> numpy/core/include/numpy/npy_common.h:149:10: error:
+>> |          #error Unsupported size for type off_t
+>>
+>> Signed-off-by: Armin Kuster <akuster@mvista.com>
+>> ---
+>> meta/recipes-devtools/python/python-numpy/aarch64/_numpyconfig.h | 1 +
+>> 1 file changed, 1 insertion(+)
+>>
+>> diff --git a/meta/recipes-devtools/python/python-numpy/aarch64/_numpyconfig.h b/meta/recipes-devtools/python/python-numpy/aarch64/_numpyconfig.h
+>> index 191e5a1..109deb0 100644
+>> --- a/meta/recipes-devtools/python/python-numpy/aarch64/_numpyconfig.h
+>> +++ b/meta/recipes-devtools/python/python-numpy/aarch64/_numpyconfig.h
+>> @@ -11,6 +11,7 @@
+>> #define NPY_SIZEOF_PY_INTPTR_T 8
+>> #define NPY_SIZEOF_PY_LONG_LONG 8
+>> #define NPY_SIZEOF_LONGLONG 8
+>> +#define NPY_SIZEOF_OFF_T 8
+> 
+> Why does the test to select size of off_t fails ?
+core/include/numpy/npy_common.h
 
-V1 on krogoth should have the same issue as the original patch on master,
-i.e. should break on your raspberry pi2?
+  #if NPY_SIZEOF_OFF_T == NPY_SIZEOF_SHORT
+        #define NPY_OFF_T_PYFMT "h"
+    #elif NPY_SIZEOF_OFF_T == NPY_SIZEOF_INT
+        #define NPY_OFF_T_PYFMT "i"
+    #elif NPY_SIZEOF_OFF_T == NPY_SIZEOF_LONG
+        #define NPY_OFF_T_PYFMT "l"
+    #elif NPY_SIZEOF_OFF_T == NPY_SIZEOF_LONGLONG
+        #define NPY_OFF_T_PYFMT "L"
+    #else
+        #error Unsupported size for type off_t
+    #endif
 
-Since V1 hasn't made it onto krogoth yet, V3 contains the two patches from
-the master branch squashed into one. Maybe you need to undo the V1 patch on 
-your local krogoth branch?
+its gotta match one of them. X86-64 has NPY_SIZEOF_OFF_T  value set.
 
-Or should we apply both patches (not squashed) from master onto krogoth, so
-as to have fewer diversions?
 
-Cheers,
-Andre
+> we might need similar fix for mips64 too.
+yep, I just built mips64 and ppc64 and they both fail like aach64.
 
-> > 
-> > Signed-off-by: André Draszik <git@andred.net>
-> > ---
-> > meta/conf/machine/include/arm/feature-arm-neon.inc | 2 +-
-> > meta/conf/machine/include/arm/feature-arm-vfp.inc  | 2 +-
-> > 2 files changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/meta/conf/machine/include/arm/feature-arm-neon.inc
-> > b/meta/conf/machine/include/arm/feature-arm-neon.inc
-> > index 50d9175..b34af8e 100644
-> > --- a/meta/conf/machine/include/arm/feature-arm-neon.inc
-> > +++ b/meta/conf/machine/include/arm/feature-arm-neon.inc
-> > @@ -8,7 +8,7 @@ TUNEVALID[neon] = "Enable Neon SIMD accelerator unit."
-> > TUNE_CCARGS_MFPU .= "${@bb.utils.contains('TUNE_FEATURES', 'neon', '
-> > neon', '', d)}"
-> > 
-> > TUNEVALID[vfpv3d16] = "Enable Vector Floating Point Version 3 with 16
-> > registers (vfpv3-d16) unit."
-> > -TUNE_CCARGS_MFPU .= "${@bb.utils.contains('TUNE_FEATURES', 'vfpv3d16',
-> > ' vfpv3d16', '', d)}"
-> > +TUNE_CCARGS_MFPU .= "${@bb.utils.contains('TUNE_FEATURES', 'vfpv3d16',
-> > ' vfpv3-d16', '', d)}"
-> > 
-> > TUNEVALID[vfpv3] = "Enable Vector Floating Point Version 3 with 32
-> > registers (vfpv3) unit."
-> > TUNE_CCARGS_MFPU .= "${@bb.utils.contains('TUNE_FEATURES', 'vfpv3', '
-> > vfpv3', '' , d)}"
-> > diff --git a/meta/conf/machine/include/arm/feature-arm-vfp.inc
-> > b/meta/conf/machine/include/arm/feature-arm-vfp.inc
-> > index 4247255..9ef31e7 100644
-> > --- a/meta/conf/machine/include/arm/feature-arm-vfp.inc
-> > +++ b/meta/conf/machine/include/arm/feature-arm-vfp.inc
-> > @@ -6,7 +6,7 @@ TUNEVALID[vfp] = "Enable Vector Floating Point (vfp)
-> > unit."
-> > TUNE_CCARGS_MFPU .= "${@bb.utils.contains('TUNE_FEATURES', 'vfp', '
-> > vfp', '', d)}"
-> > 
-> > TUNE_CCARGS  .= "${@ (' -mfpu=%s ' % d.getVar('TUNE_CCARGS_MFPU',
-> > True).split()[-1]) if (d.getVar('TUNE_CCARGS_MFPU', True) != '') else
-> > ''}"
-> > -ARMPKGSFX_FPU = "${@ ('-%s'        % d.getVar('TUNE_CCARGS_MFPU',
-> > True).split()[-1]) if (d.getVar('TUNE_CCARGS_MFPU', True) != '') else
-> > ''}"
-> > +ARMPKGSFX_FPU = "${@ ('-%s'        % d.getVar('TUNE_CCARGS_MFPU',
-> > True).split()[-1].replace('vfpv3-d16', 'vfpv3d16')) if
-> > (d.getVar('TUNE_CCARGS_MFPU', True) != '') else ''}"
-> > 
-> > TUNEVALID[callconvention-hard] = "Enable EABI hard float call
-> > convention, requires VFP."
-> > TUNE_CCARGS_MFLOAT = "${@ bb.utils.contains('TUNE_FEATURES',
-> > 'callconvention-hard', 'hard', 'softfp', d) if
-> > (d.getVar('TUNE_CCARGS_MFPU', True) != '') else '' }"
-> > --
-> > 2.8.1
-> > 
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+will send v2 to fix those as well.
+
+-armin
+
+> 
+>> #define NPY_NO_SMP 0
+>> #define NPY_HAVE_DECL_ISNAN
+>> #define NPY_HAVE_DECL_ISINF
+>> --
+>> 2.3.5
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
 
