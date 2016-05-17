@@ -1,43 +1,43 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
-	[209.85.220.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 2EA2B60797
+Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
+	[209.85.220.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 27E3165C5C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 May 2016 16:36:47 +0000 (UTC)
-Received: by mail-qk0-f194.google.com with SMTP id q184so1952521qkf.0
+	Tue, 17 May 2016 16:36:57 +0000 (UTC)
+Received: by mail-qk0-f193.google.com with SMTP id l68so1936790qkf.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 May 2016 09:36:48 -0700 (PDT)
+	Tue, 17 May 2016 09:36:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:organization;
-	bh=AwocOsdtTbsDr6sWqwqUOq9PFj6Un/8FcZfj2lXkLB0=;
-	b=LWj+RLh+Hfl58J59qCEZLZc8nua30AZzlNR/nyjI65N/QFuDaonfIHUmZrFr+4Fcqt
-	ikEtwHIio+zSxs78RG7PiOcNLP4cYDpTheBNsNHgq/3W8Yda95QB5CKTTs74pqCObBTV
-	JHQWU+qLJrmcULYNa0+YjMbk6zgu+QonInGgDeZoRWCmghwcMz3HRrF9GOusdxteshKR
-	R7ue9vsFmhPFOJv7T8PWCH/Rkkb4UE7G93GwzNaK4OwHDDImjsIHpHegBTuNdx5qcCR5
-	9ku1h2bR2ixRUngBiTrLgKyxkWeUNCb2bvvBtYsC3PutryCnfhwYagLqPQ1fDmI0lBOF
-	oKAw==
-X-Gm-Message-State: AOPr4FUM1OxFesPypebBOXQ0FcdMK31iYMXBEpD8PNoD9Kzh2qyrR/wMFk0bLsXrVoIasA==
-X-Received: by 10.55.201.145 with SMTP id m17mr2595311qkl.85.1463503008338;
-	Tue, 17 May 2016 09:36:48 -0700 (PDT)
-Received: from localhost ([187.23.154.250]) by smtp.gmail.com with ESMTPSA id
-	141sm1726753qke.18.2016.05.17.09.36.42
+	bh=/YwOPC8by8FthFQFWwVFNQRFW5m2ebDeiGajotfsmUI=;
+	b=NU5A7ZkOWj1dSuLhiYrq3NC2Ql3t8K+N3HkvsZfNNYoGlOkfd2p0viVJnIB7AyhE4q
+	5g81ZgFiXUUb931JZmZ7omy5PoAM2fjoRDPSJoJKxRh9KQa6qV0vACMKPkpwy++S+Azr
+	v6yqKFSumYKeDbia1SvEX9aSvpyuO6Je+BRJrYMqaPshrWBH5IyG4RF96m+qeaRry5Fd
+	bzOmOpOuczlPILIEAF+dPyN8CspK8mT6wG2ug14x/1ZpOQMFJ1n+0asKCvQyqDqmFJVE
+	3Yqdrvj1AnsriMnZYsB4Wqw6GS5uune3maiXBLq0U/5cWrwuzF89mEaLHae/2v0EM0tB
+	c/Qw==
+X-Gm-Message-State: AOPr4FVdIBZwdlxZtbAtdkViItxl0hEX4tAkCenbqys55KCc9mw7je7drG4SFMYULKgaXw==
+X-Received: by 10.55.201.145 with SMTP id m17mr2596318qkl.85.1463503018450;
+	Tue, 17 May 2016 09:36:58 -0700 (PDT)
+Received: from localhost ([187.23.154.250])
+	by smtp.gmail.com with ESMTPSA id 23sm1728252qkd.8.2016.05.17.09.36.52
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 17 May 2016 09:36:47 -0700 (PDT)
+	Tue, 17 May 2016 09:36:57 -0700 (PDT)
 Received: by localhost (sSMTP sendmail emulation);
-	Tue, 17 May 2016 13:36:38 -0300
+	Tue, 17 May 2016 13:36:49 -0300
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Tue, 17 May 2016 13:36:13 -0300
-Message-Id: <1463502985-5428-2-git-send-email-otavio@ossystems.com.br>
+Date: Tue, 17 May 2016 13:36:14 -0300
+Message-Id: <1463502985-5428-3-git-send-email-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.8.2
 In-Reply-To: <1463502985-5428-1-git-send-email-otavio@ossystems.com.br>
 References: <1463502985-5428-1-git-send-email-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
 Cc: prabhu.sundararaj@nxp.com, Otavio Salvador <otavio@ossystems.com.br>,
 	meta-freescale Mailing List <meta-freescale@yoctoproject.org>
-Subject: [oe-core PATCH v7 01/13] weston: weston-launch: Handle invalid command line options
+Subject: [oe-core PATCH v7 02/13] weston: Fix SystemD service description
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,85 +50,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 May 2016 16:36:49 -0000
+X-List-Received-Date: Tue, 17 May 2016 16:36:58 -0000
 
-From: Tom Hochstein <tom.hochstein@nxp.com>
+This improves the log shown in boot. Now it shows:
 
-Exit the program if an unrecognized command line option is found.
+  [  OK  ] Started Weston Wayland Compositor
 
-Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
 
-Changes in v7:
-- Rebase on top of 1.10 v2 + fixup
-
+Changes in v7: None
 Changes in v6:
-- Rebase on top of 1.10
+- Fix typo on commit log (rborton)
 
-Changes in v5:
+Changes in v5: None
+Changes in v4:
 - New patch.
 
-Changes in v4: None
 Changes in v3: None
 Changes in v2: None
 
- ...eston-launch-exit-for-unrecognized-option.patch | 33 ++++++++++++++++++++++
- meta/recipes-graphics/wayland/weston_1.10.0.bb     |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-graphics/wayland/weston/make-weston-launch-exit-for-unrecognized-option.patch
+ meta/recipes-graphics/wayland/weston-init/weston.service | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/wayland/weston/make-weston-launch-exit-for-unrecognized-option.patch b/meta/recipes-graphics/wayland/weston/make-weston-launch-exit-for-unrecognized-option.patch
-new file mode 100644
-index 0000000..25c8683
---- /dev/null
-+++ b/meta/recipes-graphics/wayland/weston/make-weston-launch-exit-for-unrecognized-option.patch
-@@ -0,0 +1,33 @@
-+From e8b615250f700f7854b423aaaf0a0aeea92c05a9 Mon Sep 17 00:00:00 2001
-+From: Tom Hochstein <tom.hochstein@nxp.com>
-+Date: Sat, 7 May 2016 08:51:58 -0300
-+Subject: [PATCH] weston-launch: Handle invalid command line options
-+Organization: O.S. Systems Software LTDA.
-+
-+Exit the program if an unrecognized command line option is found.
-+
-+Upstream-Status: Submitted
-+
-+Signed-off-by; Tom Hochstein <tom.hochstein@nxp.com>
-+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-+---
-+
-+ src/weston-launch.c | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/src/weston-launch.c b/src/weston-launch.c
-+index b8dfb17..9987d8e 100644
-+--- a/src/weston-launch.c
-++++ b/src/weston-launch.c
-+@@ -703,6 +703,8 @@ main(int argc, char *argv[])
-+ 		case 'h':
-+ 			help("weston-launch");
-+ 			exit(EXIT_FAILURE);
-++		default:
-++			exit(EXIT_FAILURE);
-+ 		}
-+ 	}
-+ 
-+-- 
-+2.8.2
-+
-diff --git a/meta/recipes-graphics/wayland/weston_1.10.0.bb b/meta/recipes-graphics/wayland/weston_1.10.0.bb
-index d8c9f9f..d3e2607 100644
---- a/meta/recipes-graphics/wayland/weston_1.10.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_1.10.0.bb
-@@ -11,6 +11,7 @@ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-            file://make-libwebp-explicitly-configurable.patch \
-            file://0001-make-error-portable.patch \
-            file://0001-configure.ac-Fix-wayland-protocols-path.patch \
-+           file://make-weston-launch-exit-for-unrecognized-option.patch \
- "
- SRC_URI[md5sum] = "1cd17c54ecac6d9a3cd90bf12eaa3e20"
- SRC_URI[sha256sum] = "e0b2004d00d8293ddf7903ca283c1746afa9ccb5919ab50fd04397ff472aa5c1"
+diff --git a/meta/recipes-graphics/wayland/weston-init/weston.service b/meta/recipes-graphics/wayland/weston-init/weston.service
+index 4f1f7ff..12aedb7 100644
+--- a/meta/recipes-graphics/wayland/weston-init/weston.service
++++ b/meta/recipes-graphics/wayland/weston-init/weston.service
+@@ -1,5 +1,5 @@
+ [Unit]
+-Description=Weston Wayland compositor startup
++Description=Weston Wayland Compositor
+ RequiresMountsFor=/run
+ 
+ [Service]
 -- 
 2.8.2
 
