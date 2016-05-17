@@ -1,49 +1,47 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-oi0-f47.google.com (mail-oi0-f47.google.com
-	[209.85.218.47])
-	by mail.openembedded.org (Postfix) with ESMTP id C7B5860767
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
+	[209.85.223.174])
+	by mail.openembedded.org (Postfix) with ESMTP id A107360762
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 May 2016 10:36:21 +0000 (UTC)
-Received: by mail-oi0-f47.google.com with SMTP id x19so17752068oix.2
+	Tue, 17 May 2016 10:57:43 +0000 (UTC)
+Received: by mail-io0-f174.google.com with SMTP id f89so18096495ioi.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 May 2016 03:36:22 -0700 (PDT)
+	Tue, 17 May 2016 03:57:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=1tuRSeIDjwjC1VreX68XPXc1/ZvS6ybXO4qHKdnm3Qs=;
-	b=QuivMv1mTOwFRH0tBpfi9I4KUOsfE9SGitXaaual4wKhYXp6nAnYszIU+Cl1YPG8pi
-	OvRw8orn1g1/0HzkZeeyY/S9puD3MwE11C9wEtvq35b0UAwDL0pXhHPJMVNe8KCtLwE5
-	6IztO59z7Kx9/nTfM435IZOO8l1GlFzmMuUkUlMyms2k9A3Eor27djuTGXrE+pE/g5hM
-	t1Phhsf3uYgoP2lDuad8pszN+knMBajJgr7bgz44BAUqvdnjXiDN4uj2CkCA1JNjS9xt
-	HxlKxMxGDMJCqXD91VZPL8vjR18pY8wwLqzYZkN6s8ADeLrIHFtHeDqpA9SwfsXJ0H4V
-	nXyw==
+	:cc; bh=zS0yLf1uxc9OlaXZ1xSa66vbi04SkMldX5VHPsN63S8=;
+	b=NjM3UdHaU11zGXUMffKAfKHDVANivxKboe7sxQvFMUfioXld7J+qoHZYaE6ljnWVyA
+	UGRcrba/R6/DoR3RheWdd7Wmh23Ilnqp1l2TF4RpHiaSJRHRKM/6AYnYEHRFtyQdvi7c
+	GZlDya7KBOUCEgdRQX+m0rXuEu7Ej/DQnU4J9hGs4hj/jq6JaaVMuaAaDd+ElcKUCyET
+	wXcMlfadvyqP0Jl80LUxz1YxzIYIExGh9ladB1Ql6RlIxGe1kdBO6vRLPXzYBS55jLow
+	gCHUk52cGTuKHQHA3XkBCvxE1K+vgqxryASX4BsiS5xm1Rbbxqp96gyHGKiwqZmtwAo+
+	QYKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=1tuRSeIDjwjC1VreX68XPXc1/ZvS6ybXO4qHKdnm3Qs=;
-	b=YerRJ13Ghy0l26oa+F3/ygbAH4lpQOShjXlVKXi7eWOAHuSxVMwk9wvM4D8YbZN5gI
-	FU6mCpKkHAdD6rxgIsNraesT6XOKVQbunQN8hq9ElQElTKpbjC8Aw9k/SCsqygB8kH6o
-	tkgYHTuGY7V5EJKCgB6OWU6rmBpwaYo6CF0InmBfbskzXKqVQlgMZhNrnBskpIUrwK2i
-	TUizk+ZU2D0OuC1g3Q33KvqC7FPnxp1GAqdKmWbltAOVeA69h018tMGj+oBz5EEaMqr7
-	IcLVwdkPws/QAuleAn+ajb0gE/WpC22p/P8D1IcDBRB+6b4b9f6fWoGSRS5pC7tY7LFP
-	vPyA==
-X-Gm-Message-State: AOPr4FWYc+cgnDlzKPTSudj0IhjGToYBeuQW/zCF42FsHwNtWM5AN3p2GIycvxYyZzCP7sJ3BYD/vHgcizRmzaoG
-X-Received: by 10.157.14.236 with SMTP id 99mr223083otj.83.1463481381412; Tue,
-	17 May 2016 03:36:21 -0700 (PDT)
+	bh=zS0yLf1uxc9OlaXZ1xSa66vbi04SkMldX5VHPsN63S8=;
+	b=AA2ETEz4w7eLcWWm9fHK0v+0kqS29TmC9CeI0Gubm76lY2MFszWhULf/T4UCfUi+el
+	ZbiDLLtlegi4pKoTKoFh/KvCnpYd4skKLqRlg/4OXe/M3FDpfYpCqZruqQhWINnu2Bg5
+	eN/Ct9jO2rtIQgOhcKvouCzY8UvOeaGVbHWApTBlYuea/vB/DDUautYBf18eB8I+XKtJ
+	6oqsHg6bEG5Z2dTVcRTiquqSZ/lPHrmkXzISsU7axPL6fIKJdIblHMy3RZf6E0WJTkrU
+	9pVd5mpD6guzYUtu9QHdDDJc9mfrGnMLXU3YJoY1m2StbhocrTjHsVIXptfaoXS7ZqR6
+	peaA==
+X-Gm-Message-State: AOPr4FU1/tl5u2Pj6GZ++bsEfdXLBLblH42kdOIW6TzsMQZ9oDaiEvkpakAHKd60Go/bdQBOiGWGf+ztrtwVej72
+X-Received: by 10.36.57.211 with SMTP id l202mr412816ita.22.1463482663586;
+	Tue, 17 May 2016 03:57:43 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.202.61.5 with HTTP; Tue, 17 May 2016 03:35:51 -0700 (PDT)
-In-Reply-To: <1463470541.4578.7.camel@linuxfoundation.org>
-References: <cover.1463404035.git.jussi.kukkonen@intel.com>
-	<25872fbe16b6f36bee45fec3e7f088cd72507351.1463404035.git.jussi.kukkonen@intel.com>
-	<1463470541.4578.7.camel@linuxfoundation.org>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Tue, 17 May 2016 13:35:51 +0300
-Message-ID: <CAHiDW_EY1U2Y44L5MQzdv8f9MrxJ_zUYmgqH7AD28o=WPmaiGQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 01/13] glib-2.0: Upgrade 2.46.2 -> 2.48.1
+Received: by 10.107.162.6 with HTTP; Tue, 17 May 2016 03:57:24 -0700 (PDT)
+In-Reply-To: <1462841284-7345-3-git-send-email-ruslan@babayev.com>
+References: <1462841284-7345-1-git-send-email-ruslan@babayev.com>
+	<1462841284-7345-3-git-send-email-ruslan@babayev.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 17 May 2016 11:57:24 +0100
+Message-ID: <CAJTo0LYFUgs=ngGZOKRCW-98+1=Tggt3ucjX1xOqfNbT7mKd4A@mail.gmail.com>
+To: Ruslan Babayev <ruslan@babayev.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] edgerouter: libffi: fix build with soft-float tune
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,40 +54,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 May 2016 10:36:22 -0000
+X-List-Received-Date: Tue, 17 May 2016 10:57:43 -0000
+Content-Type: multipart/alternative; boundary=001a114ab3ca4c898f0533079cdf
+
+--001a114ab3ca4c898f0533079cdf
 Content-Type: text/plain; charset=UTF-8
 
-On 17 May 2016 at 10:35, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Mon, 2016-05-16 at 16:22 +0300, Jussi Kukkonen wrote:
->> * Remove now unnecessary readlink patches and
->>   ignore-format-nonliteral-warning.patch
->> * Port relocate-modules.patch
->> * Add ${datadir}/gettext/its to FILES_${PN}-dev: this could be done
->> in
->>   gettext.bbclass but so far glib is the first and only ITS rule
->>   installer
+On 10 May 2016 at 01:48, Ruslan Babayev <ruslan@babayev.com> wrote:
+
+> +Index: libffi-3.2.1/src/mips/n32.S
+> +===================================================================
+> +--- libffi-3.2.1.orig/src/mips/n32.S
+> ++++ libffi-3.2.1/src/mips/n32.S
+> +@@ -30,7 +30,7 @@
+> +
+> + /* Only build this code if we are compiling for n32 */
+> +
+> +-#if defined(FFI_MIPS_N32)
+> ++#if defined(FFI_MIPS_N32) && !defined(__mips_soft_float)
+> +
+> + #define callback a0
+> + #define bytes  a2
 >
-> I think, but I'm not 100% sure that this caused:
->
-> https://autobuilder.yoctoproject.org/main/builders/build-appliance/buil
-> ds/762/steps/BuildImages_1/logs/stdio
->
-> which failed in this way in many different builds.
 
-You are correct. These projects have their own copy of glib-gettext.m4
-which changed in glib proper and m4_copy() now fails if this happens.
-Amusingly the only change was that AM_GLIB_GNU_GETTEXT was marked
-deprecated...
+This patch needs a header saying what it does, your Signed-off-by, and an
+Upstream-Status.
 
-I'll do a world build to check if there are any other failures and
-then send patches.
+Also these patches are for meta-yocto-bsp, so should be sent to
+poky@yoctoproject.org.
 
-Thanks,
-  Jussi
+Ross
 
+--001a114ab3ca4c898f0533079cdf
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-> Cheers,
->
-> Richard
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 10 May 2016 at 01:48, Ruslan Babayev <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:ruslan@babayev.com" target=3D"_blank">ruslan@babayev.com</a>&gt;</span=
+> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex"><div id=3D":8mv" class=3D"a3s aX=
+jCH">+Index: libffi-3.2.1/src/mips/n32.S<br>
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
++--- libffi-3.2.1.orig/src/mips/n32.S<br>
+++++ libffi-3.2.1/src/mips/n32.S<br>
++@@ -30,7 +30,7 @@<br>
++<br>
++ /* Only build this code if we are compiling for n32 */<br>
++<br>
++-#if defined(FFI_MIPS_N32)<br>
+++#if defined(FFI_MIPS_N32) &amp;&amp; !defined(__mips_soft_float)<br>
++<br>
++ #define callback a0<br>
++ #define bytes=C2=A0 a2</div></blockquote></div><br>This patch needs a hea=
+der saying what it does, your Signed-off-by, and an Upstream-Status.</div><=
+div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Also these p=
+atches are for meta-yocto-bsp, so should be sent to <a href=3D"mailto:poky@=
+yoctoproject.org">poky@yoctoproject.org</a>.</div><div class=3D"gmail_extra=
+"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
+--001a114ab3ca4c898f0533079cdf--
