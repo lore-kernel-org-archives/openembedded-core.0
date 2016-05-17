@@ -1,43 +1,43 @@
 Return-Path: <otavio.salvador@gmail.com>
 Received: from mail-qg0-f65.google.com (mail-qg0-f65.google.com
 	[209.85.192.65])
-	by mail.openembedded.org (Postfix) with ESMTP id BAFC575C51
+	by mail.openembedded.org (Postfix) with ESMTP id D05C7731CD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 May 2016 16:38:31 +0000 (UTC)
-Received: by mail-qg0-f65.google.com with SMTP id f74so1848959qge.3
+	Tue, 17 May 2016 16:38:42 +0000 (UTC)
+Received: by mail-qg0-f65.google.com with SMTP id 90so1857071qgz.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 May 2016 09:38:32 -0700 (PDT)
+	Tue, 17 May 2016 09:38:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:organization;
-	bh=AbvXw/VVfnCcyS3JufsLjNNiNzkzCZEFIQDxCbIbqLQ=;
-	b=Cii7FUnhsiHCgsNpJq+yeLrCVLx5A58Ryke3VP83RLQrL3SvfAviCvxjKVg98JjVhW
-	Zc51/S6gJIzbZyEa5KY3n5L4me4Rp+pF9mK7JVkq1ViYr3LUiJbt2RFpJd9w6fQaGhaN
-	MRGvymTGFZ8u32t/00WdmqrLAP8ax5L0gtEftXg5gYgbqy7Gzkmu2cZvpNr/BaHY5Pua
-	KYpxU7OL6wkePPTeYLBF5oh7WhaPcaT3XZcgQfGZTHOA2SpUP1zpC665Rs7pnUmMm0zA
-	S1bD7CEhIrNly9m8LA2m9twVVX0jLH11OoOtwxTopAZcrja2SwYYhEMaAx3vpeYkZB/X
-	DTSg==
-X-Gm-Message-State: AOPr4FUyw8/OjFAqcIhsdPr46u6t5lz1kqSJJwSTgo1cmJF3m6kORqqF4U510EjPi4n9kQ==
-X-Received: by 10.140.104.48 with SMTP id z45mr2592084qge.49.1463503112584;
-	Tue, 17 May 2016 09:38:32 -0700 (PDT)
-Received: from localhost ([187.23.154.250]) by smtp.gmail.com with ESMTPSA id
-	i131sm1702243qke.48.2016.05.17.09.38.26
+	bh=DEn93ETYrGO7ORry67nlwhaP27laNJOTVzpmImnrgok=;
+	b=FsppuSwLfMfknjRY0kkcSs4w+VJwda+jqbZYZwLOUTmmkAFG+rXtKKmg9RPOBxD/Nc
+	wO1OXua9pXT/E9gl5dWTuOND9No0B7htRmsnwqkosLAhE8aFmyEz0gv4KLEoZiz14iTt
+	Ak09UtUBbV7YRwUEt08ojD7ETvzTEHtMpgc7SULQPYaBegLB1xwNErcTztb4aX/aAAN+
+	OLpH0fKGdZvQlF7/7XXNJOMB6YHhyy8JYmjxnNP2VjYxpL8RCeAiZg/Cb3+nprilEkW/
+	BVaAh0dWo/YLigSx6LIo8Amk6qCN1ujLJtyhf+F/z1iIxjse8kds7zoKJL7UoNvxL8ac
+	tvxA==
+X-Gm-Message-State: AOPr4FWLI9V/qfsm9opsEvHwCjyaM0o2cIenKYISVBGqUqF0SbY48TtFlI4StjdeqEgdwQ==
+X-Received: by 10.140.97.7 with SMTP id l7mr2627000qge.71.1463503123382;
+	Tue, 17 May 2016 09:38:43 -0700 (PDT)
+Received: from localhost ([187.23.154.250])
+	by smtp.gmail.com with ESMTPSA id n1sm1747823qkn.3.2016.05.17.09.38.37
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 17 May 2016 09:38:31 -0700 (PDT)
+	Tue, 17 May 2016 09:38:42 -0700 (PDT)
 Received: by localhost (sSMTP sendmail emulation);
-	Tue, 17 May 2016 13:38:22 -0300
+	Tue, 17 May 2016 13:38:33 -0300
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Tue, 17 May 2016 13:36:23 -0300
-Message-Id: <1463502985-5428-12-git-send-email-otavio@ossystems.com.br>
+Date: Tue, 17 May 2016 13:36:24 -0300
+Message-Id: <1463502985-5428-13-git-send-email-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.8.2
 In-Reply-To: <1463502985-5428-1-git-send-email-otavio@ossystems.com.br>
 References: <1463502985-5428-1-git-send-email-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
 Cc: prabhu.sundararaj@nxp.com, Otavio Salvador <otavio@ossystems.com.br>,
 	meta-freescale Mailing List <meta-freescale@yoctoproject.org>
-Subject: [oe-core PATCH v7 11/13] weston-init: Add module support for the weston-start helper
+Subject: [oe-core PATCH v7 12/13] weston-init: Use weston-launch when starting weston as the first windowing system
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,72 +50,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 May 2016 16:38:32 -0000
+X-List-Received-Date: Tue, 17 May 2016 16:38:43 -0000
 
-To make weston-start more flexible we now support module loading. For
-such modules, following functions can be used:
+From: Tom Hochstein <tom.hochstein@nxp.com>
 
- - add_weston_argument
- - add_openvt_argument
+When  weston is started as the first windowing system (i.e. not under X
+nor under another Wayland server), it should be done with  the  command
+weston-launch to set up proper privileged access to devices.
 
+Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
 
 Changes in v7: None
-Changes in v6: None
+Changes in v6:
+- New patch.
+
 Changes in v5: None
 Changes in v4: None
 Changes in v3: None
-Changes in v2:
-- Drop weston-lunch use as it requires PAM
+Changes in v2: None
 
- .../wayland/weston-init/weston-start               | 26 ++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ meta/recipes-graphics/wayland/weston-init/weston-start | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/meta/recipes-graphics/wayland/weston-init/weston-start b/meta/recipes-graphics/wayland/weston-init/weston-start
-index dc2b1ef..17b0c16 100755
+index 17b0c16..2d398b6 100755
 --- a/meta/recipes-graphics/wayland/weston-init/weston-start
 +++ b/meta/recipes-graphics/wayland/weston-init/weston-start
-@@ -9,6 +9,19 @@ usage() {
- EOF
- }
- 
-+## Module support
-+modules_dir=/usr/share/weston-start
-+
-+# Add weston extra argument
-+add_weston_argument() {
-+	weston_args="$weston_args $1"
-+}
-+
-+# Add openvt extra argument
-+add_openvt_argument() {
-+	openvt_args="$openvt_args $1"
-+}
-+
- if test $# -lt 2; then
- 	usage
+@@ -31,6 +31,11 @@ if [ -n "$WAYLAND_DISPLAY" ]; then
+ 	echo "ERROR: A Wayland compositor is already running, nested Weston instance is not supported yet."
  	exit 1
-@@ -32,6 +45,19 @@ done
- 
- weston_args=$*
- 
-+# Load and run modules
-+if [ -d "$modules_dir" ]; then
-+	for m in "$modules_dir"/*; do
-+		# Skip backup files
-+		if [ "`echo $m | sed -e 's/\~$//'`" != "$m" ]; then
-+			continue
-+		fi
-+
-+		# process module
-+		. $m
-+	done
+ fi
++if [ -n "$DISPLAY" ]; then
++	launcher="weston"
++else
++	launcher="weston-launch --"
 +fi
-+
- if test -z "$XDG_RUNTIME_DIR"; then
-     export XDG_RUNTIME_DIR=/run/user/`id -u`
-     mkdir --parents $XDG_RUNTIME_DIR
+ 
+ openvt_args=""
+ while [ -n "$1" ]; do
+@@ -64,4 +69,4 @@ if test -z "$XDG_RUNTIME_DIR"; then
+     chmod 0700 $XDG_RUNTIME_DIR
+ fi
+ 
+-exec openvt $openvt_args -- weston $weston_args --log=/var/log/weston.log
++exec openvt $openvt_args -- $launcher $weston_args --log=/var/log/weston.log
 -- 
 2.8.2
 
