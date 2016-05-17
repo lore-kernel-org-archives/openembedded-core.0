@@ -1,20 +1,40 @@
-Return-Path: <humberto.ibarra.lopez@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id F0E49605BA
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id B118065C8A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 May 2016 20:17:02 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP; 17 May 2016 13:16:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,325,1459839600"; d="scan'208";a="704636391"
-Received: from jhibarra-mobl1.zpn.intel.com ([10.219.17.76])
-	by FMSMGA003.fm.intel.com with ESMTP; 17 May 2016 13:16:45 -0700
-From: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 May 2016 15:18:15 -0500
-Message-Id: <1463516295-25980-1-git-send-email-humberto.ibarra.lopez@intel.com>
-X-Mailer: git-send-email 2.4.11
-Subject: [PATCH] scripts/oe-selftest: Improve listing by reducing unneeded spacing
+	Tue, 17 May 2016 20:24:34 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u4HKOVUK012403; Tue, 17 May 2016 21:24:31 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id n-yCv0ixnafQ; Tue, 17 May 2016 21:24:31 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u4HKOPos012400
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 17 May 2016 21:24:26 +0100
+Message-ID: <1463516665.4578.24.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>, "Burton, Ross"
+	<ross.burton@intel.com>
+Date: Tue, 17 May 2016 21:24:25 +0100
+In-Reply-To: <CAP9ODKqSG31qa3Au7g04DMjQmn+B4Xzz2Rtm2Ym0xYs55Mc-PA@mail.gmail.com>
+References: <cover.1463035854.git.jussi.kukkonen@intel.com>
+	<93f1600d7ce782dbafb1ab32da9416dc29d432c2.1463035854.git.jussi.kukkonen@intel.com>
+	<6a0ed7998e66eedbf58fdb54db111b281a2b81bb.1463035854.git.jussi.kukkonen@intel.com>
+	<CAP9ODKpbMyzEkKh1WhwnNkRrgXCeBQzTeSrVP89Ngx5CwMO_5w@mail.gmail.com>
+	<CAHiDW_FQJuwT=JPtvCMPM3bcQozTqyEDFq8LjziNe=NHT+HPMw@mail.gmail.com>
+	<CAP9ODKoNnq0ufH=XF8oPqTQKW_o0NehzUXCvanzLkJMEHXAdFQ@mail.gmail.com>
+	<314BCBC6-07F6-4B6E-89E6-FA6D86C682B0@gmail.com>
+	<CAHiDW_GzrvqCkkcUMtNQTtgoit9JdJ5Y-pBP2vHsiC67+7JB-Q@mail.gmail.com>
+	<CAJTo0LbN+7V1iZ5u77EZbJxtF4ou2p40+ka-aJaQx=Fk4znSzg@mail.gmail.com>
+	<CAP9ODKqSG31qa3Au7g04DMjQmn+B4Xzz2Rtm2Ym0xYs55Mc-PA@mail.gmail.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 13/13] weston: Upgrade 1.9.0 -> 1.10.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,51 +47,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 May 2016 20:17:03 -0000
+X-List-Received-Date: Tue, 17 May 2016 20:24:41 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The --list-tests option assumes a terminal of 150 characters wide,
-which is clearly wrong. The output for this command is messy and
-hard to understand for lower widths. Every command should look
-good in a 80 characters terminal.
+On Tue, 2016-05-17 at 11:00 -0300, Otavio Salvador wrote:
+> On Tue, May 17, 2016 at 5:38 AM, Burton, Ross <ross.burton@intel.com>
+> wrote:
+> > 
+> > On 17 May 2016 at 08:31, Jussi Kukkonen <jussi.kukkonen@intel.com>
+> > wrote:
+> > > 
+> > > There's not much to work on as far as I can tell: 1.11 should be
+> > > a
+> > > simple upgrade with trivial patch changes.
+> > > As I said, I'm totally fine with waiting a couple of weeks until
+> > > 1.11.
+> > > On the other hand I haven't seen any reasons to start packaging a
+> > > pre-release -- why this one if we normally don't do it?
+> > 
+> > 
+> > Agreed, if we want an upgrade now then 1.10 is good, otherwise wait
+> > for
+> > 1.11.  There's no urgent need for a prerelease is there?
+> 
+> So please do 1.10 now, as the XWayland rework was done basing on that
+> ... we can handle 1.11 upgrade once it happens.
 
-Unfortunately, this can't be done at the moment. The bad naming of
-testcases have made the test names incredibly long.
+I fixed up the selftest failure the original patch as proposed caused
+and have merged that. Anything further can be based on that...
 
-This patch reduces spacing between columns and shows the tests
-names in a concise and understandable way. The format is even the
-same one required for running a testcase. Once the testcase naming
-improves, this output will look even better.
+Cheers,
 
-[Yocto #9534]
----
- scripts/oe-selftest | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/scripts/oe-selftest b/scripts/oe-selftest
-index 5e23ef0..61845d5 100755
---- a/scripts/oe-selftest
-+++ b/scripts/oe-selftest
-@@ -338,14 +338,14 @@ def list_tests():
- 
-     ts = get_all_tests()
- 
--    print '%-4s\t%-20s\t%-60s\t%-25s\t%-20s' % ('id', 'tag', 'name', 'class', 'module')
--    print '_' * 150
-+    print '%-4s\t%-10s\t%-60s' % ('id', 'tag', 'test')
-+    print '_' * 80
-     for t in ts:
-         if isinstance(t.tctag, (tuple, list)):
--            print '%-4s\t%-20s\t%-60s\t%-25s\t%-20s' % (t.tcid, ', '.join(t.tctag), t.tcname, t.tcclass, t.tcmodule)
-+            print '%-4s\t%-10s\t%-60s' % (t.tcid, ', '.join(t.tctag), '.'.join([t.tcmodule, t.tcclass, t.tcname]))
-         else:
--            print '%-4s\t%-20s\t%-60s\t%-25s\t%-20s' % (t.tcid, t.tctag, t.tcname, t.tcclass, t.tcmodule)
--    print '_' * 150
-+            print '%-4s\t%-10s\t%-60s' % (t.tcid, t.tctag, '.'.join([t.tcmodule, t.tcclass, t.tcname]))
-+    print '_' * 80
-     print 'Total found:\t %s' % len(ts)
- 
- 
--- 
-2.4.11
-
+Richard
 
