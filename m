@@ -1,43 +1,43 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
-	[209.85.220.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 5446665CBA
+Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
+	[209.85.220.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 43CCD6AC4B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 May 2016 16:37:40 +0000 (UTC)
-Received: by mail-qk0-f193.google.com with SMTP id q184so1955413qkf.0
+	Tue, 17 May 2016 16:37:50 +0000 (UTC)
+Received: by mail-qk0-f194.google.com with SMTP id l68so1939678qkf.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 May 2016 09:37:41 -0700 (PDT)
+	Tue, 17 May 2016 09:37:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:organization;
-	bh=py0i2dKHem7WePxX6WdUSURx8hZm0B3ea0w1m3Am50g=;
-	b=PDYeRBWZ/DBOcc1ByO7igyFLGlbpbsgo9/7nR/6+JTMiGFs5Akz/nJlXNC6XbVBewE
-	5gDJxqqgoDB8rMRW7XsHZUzmfBdNCMn0SoqFfuNdVugsHupCFqV2u3I4/xsI9WUi7vnP
-	qlWxxokXm3I6RPUNMlBT8Ral3YPZGW1p8R1d1oxfd5VP6QVOZr9oBu0S9CpF9KQb1jgY
-	7lTZu5AuwfyZpoqUy9OoziL5zs/6KSW391COUhG39+aPCxpQMfXYgoocxSW+J883bpi8
-	OA04N4igOeJ6QliAh/558CldG9/q4SIh0P4xBv41HQUyZ2+EWej0PQKchTYUGIXUzJ0N
-	QnnQ==
-X-Gm-Message-State: AOPr4FXNyFCCUhPJuUcDELIcQzMdy8USRN+lx+vbyglqnfCE87/iS3PsY0xg0pc+dGW/mg==
-X-Received: by 10.55.150.5 with SMTP id y5mr2705808qkd.144.1463503060846;
-	Tue, 17 May 2016 09:37:40 -0700 (PDT)
-Received: from localhost ([187.23.154.250])
-	by smtp.gmail.com with ESMTPSA id d8sm1705506qge.40.2016.05.17.09.37.34
+	bh=Uc5CfYnDNxk7Z+1gPGo+zz2FwyVrqrdrvW3yZnBKJhc=;
+	b=XHoJV6z89d9jTLa4+K1WSw1fk6kugVOs+b9PJ4/KVxHbU6U7AlPCiVMj+mC1Bql6zG
+	ui6RgvGSPnvseoYwnnOYARe6/QqIPbIS7LgbPsCn+O/TSE3eRBC2b3PNPaucGYi7MUec
+	OgdIPx2u6BP8NEm6+yiY71AjeRTTi8WR7eVsjaHe39ShPGqRgEvwvJh2obSMMWl5NxNk
+	q8VMABxb27giG4Cor+f2nKEfb6eA5QDAfIEDItwZF8s0d06nhMyKgvcgK+dzTs/gL8c+
+	8QVrxMPQdNPWentgB3CraHfldYcSkgfKdKKNrIDWntcZurK+r5mAAnMMeOBUcYGCqaTx
+	PYdA==
+X-Gm-Message-State: AOPr4FVP2dbDpSK8CFshsGz8cdtCSYqOYtVZT9pI4BxKhO9uB68hVp4EAzSibkXi2Ib/xQ==
+X-Received: by 10.55.40.219 with SMTP id o88mr2679468qko.23.1463503071092;
+	Tue, 17 May 2016 09:37:51 -0700 (PDT)
+Received: from localhost ([187.23.154.250]) by smtp.gmail.com with ESMTPSA id
+	j88sm1706444qgj.35.2016.05.17.09.37.44
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 17 May 2016 09:37:39 -0700 (PDT)
+	Tue, 17 May 2016 09:37:49 -0700 (PDT)
 Received: by localhost (sSMTP sendmail emulation);
-	Tue, 17 May 2016 13:37:31 -0300
+	Tue, 17 May 2016 13:37:41 -0300
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Tue, 17 May 2016 13:36:18 -0300
-Message-Id: <1463502985-5428-7-git-send-email-otavio@ossystems.com.br>
+Date: Tue, 17 May 2016 13:36:19 -0300
+Message-Id: <1463502985-5428-8-git-send-email-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.8.2
 In-Reply-To: <1463502985-5428-1-git-send-email-otavio@ossystems.com.br>
 References: <1463502985-5428-1-git-send-email-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
 Cc: prabhu.sundararaj@nxp.com, Otavio Salvador <otavio@ossystems.com.br>,
 	meta-freescale Mailing List <meta-freescale@yoctoproject.org>
-Subject: [oe-core PATCH v7 06/13] weston: Provide a default version of weston-launch that doesn't require PAM
+Subject: [oe-core PATCH v7 07/13] weston-init: Rework do_install to use install -D option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,253 +50,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 May 2016 16:37:40 -0000
+X-List-Received-Date: Tue, 17 May 2016 16:37:50 -0000
 
-From: Tom Hochstein <tom.hochstein@nxp.com>
+The install -D allow for the parent directories to be created in a
+single command line, reducing the code and number of fork during the
+build.
 
-weston-launch requires PAM for starting weston as a non-root user.
-
-Since starting weston as root is a valid use case by itself, we check
-the distro for 'pam' and build weston-launch with or without
-non-root-user support.
-
-Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
 
 Changes in v7: None
-Changes in v6:
-- New patch.
-
+Changes in v6: None
 Changes in v5: None
 Changes in v4: None
 Changes in v3: None
 Changes in v2: None
 
- ...ch-Provide-a-default-version-that-doesn-t.patch | 171 +++++++++++++++++++++
- meta/recipes-graphics/wayland/weston_1.10.0.bb     |   9 +-
- 2 files changed, 177 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch
+ meta/recipes-graphics/wayland/weston-init.bb | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch b/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch
-new file mode 100644
-index 0000000..9a401ee
---- /dev/null
-+++ b/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch
-@@ -0,0 +1,171 @@
-+From 228349e796e9baa86f2ba8232c730c18ac41283d Mon Sep 17 00:00:00 2001
-+From: Tom Hochstein <tom.hochstein@nxp.com>
-+Date: Fri, 13 May 2016 09:31:55 -0500
-+Subject: [PATCH weston] weston-launch: Provide a default version that doesn't
-+ require PAM
-+
-+weston-launch requires PAM for starting weston as a non-root user.
-+
-+Since starting weston as root is a valid use case by itself, if
-+PAM is not available, provide a default version of weston-launch
-+without non-root-user support.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
-+---
-+ Makefile.am         |  3 ---
-+ configure.ac        | 12 +++++++-----
-+ src/weston-launch.c | 20 ++++++++++++++++++++
-+ 3 files changed, 27 insertions(+), 8 deletions(-)
-+
-+Index: weston-1.10.0/configure.ac
-+===================================================================
-+--- weston-1.10.0.orig/configure.ac	2016-05-13 11:02:05.711817559 -0500
-++++ weston-1.10.0/configure.ac	2016-05-13 13:30:28.000000000 -0500
-+@@ -445,13 +445,17 @@
-+ AS_IF([test "x$have_systemd_login_209" = "xyes"],
-+       [AC_DEFINE([HAVE_SYSTEMD_LOGIN_209], [1], [Have systemd-login >= 209])])
-+ 
-++AC_ARG_WITH(pam,
-++            AS_HELP_STRING([--with-pam], [Use PAM]),
-++            [use_pam=$withval], [use_pam=yes])
-+ AC_ARG_ENABLE(weston-launch, [  --enable-weston-launch],, enable_weston_launch=yes)
-+ AM_CONDITIONAL(BUILD_WESTON_LAUNCH, test x$enable_weston_launch == xyes)
-+-if test x$enable_weston_launch == xyes; then
-++if test x$enable_weston_launch = xyes -a x$use_pam = xyes; then
-+   AC_CHECK_LIB([pam], [pam_open_session], [have_pam=yes], [have_pam=no])
-+   if test x$have_pam == xno; then
-+-    AC_ERROR([weston-launch requires pam])
-++    AC_ERROR([PAM support is explicitly requested, but libpam couldn't be found])
-+   fi
-++  AC_DEFINE([HAVE_PAM], [1], [Define if PAM is available])
-+   PAM_LIBS=-lpam
-+   AC_SUBST(PAM_LIBS)
-+ fi
-+@@ -667,6 +671,7 @@
-+ 	Enable developer documentation	${enable_devdocs}
-+ 
-+ 	weston-launch utility		${enable_weston_launch}
-++	PAM support			${use_pam}
-+ 	systemd-login support		${have_systemd_login}
-+ 	systemd notify support		${enable_systemd_notify}
-+ 
-+Index: weston-1.10.0/src/weston-launch.c
-+===================================================================
-+--- weston-1.10.0.orig/src/weston-launch.c	2016-05-13 11:02:05.779817896 -0500
-++++ weston-1.10.0/src/weston-launch.c	2016-05-13 11:02:05.851818253 -0500
-+@@ -51,7 +51,9 @@
-+ 
-+ #include <pwd.h>
-+ #include <grp.h>
-++#ifdef HAVE_PAM
-+ #include <security/pam_appl.h>
-++#endif
-+ 
-+ #ifdef HAVE_SYSTEMD_LOGIN
-+ #include <systemd/sd-login.h>
-+@@ -93,8 +95,10 @@
-+ #endif
-+ 
-+ struct weston_launch {
-++#ifdef HAVE_PAM
-+ 	struct pam_conv pc;
-+ 	pam_handle_t *ph;
-++#endif
-+ 	int tty;
-+ 	int ttynr;
-+ 	int sock[2];
-+@@ -181,6 +185,7 @@
-+ 	return false;
-+ }
-+ 
-++#ifdef HAVE_PAM
-+ static int
-+ pam_conversation_fn(int msg_count,
-+ 		    const struct pam_message **messages,
-+@@ -221,6 +226,7 @@
-+ 
-+ 	return 0;
-+ }
-++#endif
-+ 
-+ static int
-+ setup_launcher_socket(struct weston_launch *wl)
-+@@ -414,6 +420,7 @@
-+ 	close(wl->signalfd);
-+ 	close(wl->sock[0]);
-+ 
-++#ifdef HAVE_PAM
-+ 	if (wl->new_user) {
-+ 		err = pam_close_session(wl->ph, 0);
-+ 		if (err)
-+@@ -421,6 +428,7 @@
-+ 				err, pam_strerror(wl->ph, err));
-+ 		pam_end(wl->ph, err);
-+ 	}
-++#endif
-+ 
-+ 	if (ioctl(wl->tty, KDSKBMUTE, 0) &&
-+ 	    ioctl(wl->tty, KDSKBMODE, wl->kb_mode))
-+@@ -600,6 +608,7 @@
-+ 	setenv("HOME", wl->pw->pw_dir, 1);
-+ 	setenv("SHELL", wl->pw->pw_shell, 1);
-+ 
-++#ifdef HAVE_PAM
-+ 	env = pam_getenvlist(wl->ph);
-+ 	if (env) {
-+ 		for (i = 0; env[i]; ++i) {
-+@@ -608,6 +617,7 @@
-+ 		}
-+ 		free(env);
-+ 	}
-++#endif
-+ }
-+ 
-+ static void
-+@@ -665,7 +675,9 @@
-+ help(const char *name)
-+ {
-+ 	fprintf(stderr, "Usage: %s [args...] [-- [weston args..]]\n", name);
-++#ifdef HAVE_PAM
-+ 	fprintf(stderr, "  -u, --user      Start session as specified username\n");
-++#endif
-+ 	fprintf(stderr, "  -t, --tty       Start session on alternative tty\n");
-+ 	fprintf(stderr, "  -v, --verbose   Be verbose\n");
-+ 	fprintf(stderr, "  -h, --help      Display this help message\n");
-+@@ -678,7 +690,9 @@
-+ 	int i, c;
-+ 	char *tty = NULL;
-+ 	struct option opts[] = {
-++#ifdef HAVE_PAM
-+ 		{ "user",    required_argument, NULL, 'u' },
-++#endif
-+ 		{ "tty",     required_argument, NULL, 't' },
-+ 		{ "verbose", no_argument,       NULL, 'v' },
-+ 		{ "help",    no_argument,       NULL, 'h' },
-+@@ -690,9 +704,13 @@
-+ 	while ((c = getopt_long(argc, argv, "u:t::vh", opts, &i)) != -1) {
-+ 		switch (c) {
-+ 		case 'u':
-++#ifdef HAVE_PAM
-+ 			wl.new_user = optarg;
-+ 			if (getuid() != 0)
-+ 				error(1, 0, "Permission denied. -u allowed for root only");
-++#else
-++			error(1, 0, "-u is unsupported in this weston-launch build");
-++#endif
-+ 			break;
-+ 		case 't':
-+ 			tty = optarg;
-+@@ -730,8 +748,10 @@
-+ 	if (setup_tty(&wl, tty) < 0)
-+ 		exit(EXIT_FAILURE);
-+ 
-++#ifdef HAVE_PAM
-+ 	if (wl.new_user && setup_pam(&wl) < 0)
-+ 		exit(EXIT_FAILURE);
-++#endif
-+ 
-+ 	if (setup_launcher_socket(&wl) < 0)
-+ 		exit(EXIT_FAILURE);
-diff --git a/meta/recipes-graphics/wayland/weston_1.10.0.bb b/meta/recipes-graphics/wayland/weston_1.10.0.bb
-index 8f317da..3bbb863 100644
---- a/meta/recipes-graphics/wayland/weston_1.10.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_1.10.0.bb
-@@ -12,6 +12,7 @@ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-            file://0001-make-error-portable.patch \
-            file://0001-configure.ac-Fix-wayland-protocols-path.patch \
-            file://make-weston-launch-exit-for-unrecognized-option.patch \
-+           file://0001-weston-launch-Provide-a-default-version-that-doesn-t.patch \
- "
- SRC_URI[md5sum] = "1cd17c54ecac6d9a3cd90bf12eaa3e20"
- SRC_URI[sha256sum] = "e0b2004d00d8293ddf7903ca283c1746afa9ccb5919ab50fd04397ff472aa5c1"
-@@ -39,9 +40,9 @@ EXTRA_OECONF_append_qemux86-64 = "\
- PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'kms fbdev wayland egl', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 wayland', 'xwayland', '', d)} \
--                   ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'launch', '', d)} \
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
--                   clients"
-+                   clients launch"
- #
- # Compositor choices
- #
-@@ -56,7 +57,7 @@ PACKAGECONFIG[headless] = "--enable-headless-compositor,--disable-headless-compo
- # Weston on framebuffer
- PACKAGECONFIG[fbdev] = "--enable-fbdev-compositor,--disable-fbdev-compositor,udev mtdev"
- # weston-launch
--PACKAGECONFIG[launch] = "--enable-weston-launch,--disable-weston-launch,libpam drm"
-+PACKAGECONFIG[launch] = "--enable-weston-launch,--disable-weston-launch,drm"
- # VA-API desktop recorder
- PACKAGECONFIG[vaapi] = "--enable-vaapi-recorder,--disable-vaapi-recorder,libva"
- # Weston with EGL support
-@@ -77,6 +78,8 @@ PACKAGECONFIG[xwayland] = "--enable-xwayland,--disable-xwayland"
- PACKAGECONFIG[colord] = "--enable-colord,--disable-colord,colord"
- # Clients support
- PACKAGECONFIG[clients] = "--enable-clients --enable-simple-clients --enable-demo-clients-install,--disable-clients --disable-simple-clients"
-+# Weston with PAM support
-+PACKAGECONFIG[pam] = "--with-pam,--without-pam,libpam"
+diff --git a/meta/recipes-graphics/wayland/weston-init.bb b/meta/recipes-graphics/wayland/weston-init.bb
+index 653541e..4ad62cf 100644
+--- a/meta/recipes-graphics/wayland/weston-init.bb
++++ b/meta/recipes-graphics/wayland/weston-init.bb
+@@ -8,11 +8,8 @@ SRC_URI = "file://init \
+ S = "${WORKDIR}"
  
- do_install_append() {
- 	# Weston doesn't need the .la files to load modules, so wipe them
+ do_install() {
+-	install -d ${D}/${sysconfdir}/init.d
+-	install -m755 ${WORKDIR}/init ${D}/${sysconfdir}/init.d/weston
+-
+-	install -d ${D}${systemd_system_unitdir}
+-	install -m0644 ${WORKDIR}/weston.service ${D}${systemd_system_unitdir}
++	install -Dm755 ${WORKDIR}/init ${D}/${sysconfdir}/init.d/weston
++	install -Dm0644 ${WORKDIR}/weston.service ${D}${systemd_system_unitdir}/weston.service
+ }
+ 
+ inherit allarch update-rc.d distro_features_check systemd
 -- 
 2.8.2
 
