@@ -1,54 +1,55 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id C63D173695
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 2CDFE73257
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 May 2016 03:11:24 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id g132so454963pfb.3
+	Tue, 17 May 2016 03:16:56 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id 145so469819pfz.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2016 20:11:25 -0700 (PDT)
+	Mon, 16 May 2016 20:16:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=1jOUu44Sih64lVx8EYC2w/NTM6fbGhvxV27CpnTj4zI=;
-	b=tETN0wIgsRscnsqBmQIXkJEoJ+ICh9c6ZBP7sf95sUljBFj5K3WCw0R/CHPtzbE9tv
-	wtf1yxX/ai5U/JKM371o8nE0IjOIgXl+wQ0zpvqt0WKkQ+q06vbMd5F75YiQbr+cYzv+
-	ENV1Y+YWgNAmkU0zwO1aV9G2UZeSbkP9SpJUwt/cveOVFCwoB/+V9PPmu7Si2dhVoS+H
-	WwvDrFsyrFbMW7zY0Kv3ZZ/mUC0l5hJE8I+0Z6G/E06XL3Z2ltfHhrT8ap0P/vzznqOO
-	cij5ro+Urx+mfT6Kw1R4IxOiLG4fiVjXtICd/1FCSs6qA830OvvGirXfhJllmpT4bbhQ
-	F83A==
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding;
+	bh=PaAVHQWZeK1A/fwdOocBovF0AUfNNTsJdG/3Ml9lFsk=;
+	b=jLs2Bh9CnIb3W9gqIR0aA45y5ZOB2xAUMN7tzjP7GjxwlFDIYypPa2pHcxLryxfyiz
+	EGynYrBN8s+V5lU1qGh+zdQ2d5k6Mvp98ILmULW8LPzQiSsR25Vkar4jL9nkfz/MyIkr
+	FwwJBldSTW2RqORWuarSW5TeTz8irkk1+jkS86ooxhuxtHeX6wJIWRNbLP65M6MDyua8
+	gRfOKtrwfLhFKAODjVwjXbphtyPjgpSYwDsH8uJBTVISVvy1MbiAU0SyF4nkIcDTqqcu
+	05F+0UKlAQu5OCcgDXnQQs8OtYbevEqu9w1ZnIXLhMXbsgSvRpegJ62eplTMpfgwDV9+
+	e7xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=1jOUu44Sih64lVx8EYC2w/NTM6fbGhvxV27CpnTj4zI=;
-	b=mtmQ9SUcfXlyPyrkpTAA6sS9dIi8u4rgMKvbc9Q/4NIm/C7P3ARzmFqpDRswiljT9u
-	6ExJ1w2ejZylXbRSaJBq/3L7rOuH4v1MwDco76k30xNIm01bXqoydI+n+f3g9DtHIcc2
-	IzsSMaq3PTthO3KHRWKQsdGhGvNbjzJ0zUUcNxQPbwdAZi/FvNIoVNpgxCHuM2hqxxt6
-	o/53ISAbLGwikxPckCmL+r3BkzNkCTKrtIqU1NQfMGUP+182hjwAfToRVggn68XURvLd
-	CfJrV+n2N3p3X9NR4hk5t/ZkChkesepQIDTW67rY8ljZrI+LTtTee7PWt+gOpWS1Z4PW
-	T1/A==
-X-Gm-Message-State: AOPr4FXHqAO+65EE+FupGA7M189yVLtbtdRsWkLAiBCgQN6vi0yT+WBus0uW2lH4CTyCjg==
-X-Received: by 10.98.16.150 with SMTP id 22mr50303265pfq.165.1463454684741;
-	Mon, 16 May 2016 20:11:24 -0700 (PDT)
-Received: from ?IPv6:2601:646:8800:5a9a:5587:b1ab:c014:b8fd?
-	([2601:646:8800:5a9a:5587:b1ab:c014:b8fd])
-	by smtp.gmail.com with ESMTPSA id g70sm511908pfb.7.2016.05.16.20.11.23
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=PaAVHQWZeK1A/fwdOocBovF0AUfNNTsJdG/3Ml9lFsk=;
+	b=kHWBaBuHgiTVrsW4Xt6ncoLFT2umsw+f9RdN7dBKU4JQUhyhG9yPIowLs7myQNv/fQ
+	Eu0hiewCWCl+fbVzFh43/xwsXie7ui48CsbbJydJyjmtljQSmAbxzP8T4bQQBnhJDCAt
+	40W3gPpAZmhduneDA0fKJGO/lseFcggYaFilNMfmfW2sK/REXcgeVFT/hD7TO5l0AfJ8
+	IgNuCzfrHUoBEGve030T5a4rWV8vtwz1m474AKr0ocZOHF0AOYARbYYR1Op+t7hJlIFi
+	B/e6DrEJPROtnbi130733N0RL42mmOlCHGcbsK6s8gr8jkqC/+5wAjW0YRIN1s2jK6ic
+	Iusw==
+X-Gm-Message-State: AOPr4FUTb75LXqXjZfm2/AQA8ISBkqgWMs9z/+Hg1fh+KoBNlAz8YzLcB3ki05Fd1B6KMQ==
+X-Received: by 10.98.24.208 with SMTP id 199mr49811241pfy.160.1463455017387;
+	Mon, 16 May 2016 20:16:57 -0700 (PDT)
+Received: from Akusters-laptop.local (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207]) by smtp.googlemail.com with ESMTPSA id
+	g84sm511605pfj.42.2016.05.16.20.16.55
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 16 May 2016 20:11:24 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1463451718.2828.16.camel@andred.net>
-Date: Mon, 16 May 2016 20:11:23 -0700
-Message-Id: <9D3DE53D-7D3A-4E45-BE38-3D00F328AC99@gmail.com>
-References: <1463066880-17505-1-git-send-email-git@andred.net>
-	<1463126191-24272-1-git-send-email-git@andred.net>
-	<55B50CC1-24B9-47C3-8120-1794775A93D0@gmail.com>
-	<1463451718.2828.16.camel@andred.net>
-To: =?utf-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
-X-Mailer: Apple Mail (2.3124)
+	Mon, 16 May 2016 20:16:55 -0700 (PDT)
+To: Khem Raj <raj.khem@gmail.com>, akuster808 <akuster808@gmail.com>
+References: <1463415451-21779-1-git-send-email-akuster808@gmail.com>
+	<C6187355-EA77-4B31-8638-C5D64613DE0E@gmail.com>
+	<573A8171.50002@gmail.com>
+	<9A2A2982-674F-4453-935D-DFA3FDD3DB4B@gmail.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <0d15a63a-a78f-5916-ed4e-f2a7d0b99be1@gmail.com>
+Date: Mon, 16 May 2016 20:16:58 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
+	Gecko/20100101 Thunderbird/45.0
+MIME-Version: 1.0
+In-Reply-To: <9A2A2982-674F-4453-935D-DFA3FDD3DB4B@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3][krogoth] feature-arm-neon.inc: restore vfpv3-d16 support
+Subject: Re: [master][krogoth][PATCH] python-numpy: fix build failure with python-matplotlib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,151 +62,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 May 2016 03:11:24 -0000
-X-Groupsio-MsgNum: 82201
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_FEF19C7E-E2DF-42D2-B4DE-760FA41D04C3";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_FEF19C7E-E2DF-42D2-B4DE-760FA41D04C3
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
-
-
-> On May 16, 2016, at 7:21 PM, Andr=C3=A9 Draszik <git@andred.net> =
-wrote:
->=20
-> On Fr, 2016-05-13 at 10:08 -0700, Khem Raj wrote:
->>>=20
->>> On May 13, 2016, at 12:56 AM, Andr=C3=A9 Draszik <git@andred.net> =
-wrote:
->>>=20
->>> Commit 6661718 (feature-arm-{neon,vfp}.inc: refactor and fix issues)
->>> effectively changed the gcc -mfpu=3D option from -mfpu=3Dvfpv3-d16 =
-to
->>> -mfpu=3Dvfpv3d16, which gcc doesn't understand.
->>>=20
->>> Restore the original value.
->>>=20
->>> After doing that, we also need to adjust ARMPKGSFX_FPU which should
->>> contain the same value without dash '-' as it is used that way
->>> throughout.
->>=20
->> V1 worked fine for my case. V3 doesnt even apply. Can you rebase it =
-on top
->> of master and resend ?
->=20
-> V1 on krogoth should have the same issue as the original patch on =
-master,
-> i.e. should break on your raspberry pi2?
->=20
-> Since V1 hasn't made it onto krogoth yet, V3 contains the two patches =
-from
-> the master branch squashed into one. Maybe you need to undo the V1 =
-patch on
-> your local krogoth branch?
->=20
-> Or should we apply both patches (not squashed) from master onto =
-krogoth, so
-> as to have fewer diversions?
-
-
-v1 is already applied. So please send your second patch separately once =
-both
-are in, then a request to pull them into krogoth should be sent.
-
->=20
-> Cheers,
-> Andre
->=20
->>>=20
->>> Signed-off-by: Andr=C3=A9 Draszik <git@andred.net>
->>> ---
->>> meta/conf/machine/include/arm/feature-arm-neon.inc | 2 +-
->>> meta/conf/machine/include/arm/feature-arm-vfp.inc  | 2 +-
->>> 2 files changed, 2 insertions(+), 2 deletions(-)
->>>=20
->>> diff --git a/meta/conf/machine/include/arm/feature-arm-neon.inc
->>> b/meta/conf/machine/include/arm/feature-arm-neon.inc
->>> index 50d9175..b34af8e 100644
->>> --- a/meta/conf/machine/include/arm/feature-arm-neon.inc
->>> +++ b/meta/conf/machine/include/arm/feature-arm-neon.inc
->>> @@ -8,7 +8,7 @@ TUNEVALID[neon] =3D "Enable Neon SIMD accelerator =
-unit."
->>> TUNE_CCARGS_MFPU .=3D "${@bb.utils.contains('TUNE_FEATURES', 'neon', =
-'
->>> neon', '', d)}"
->>>=20
->>> TUNEVALID[vfpv3d16] =3D "Enable Vector Floating Point Version 3 with =
-16
->>> registers (vfpv3-d16) unit."
->>> -TUNE_CCARGS_MFPU .=3D "${@bb.utils.contains('TUNE_FEATURES', =
-'vfpv3d16',
->>> ' vfpv3d16', '', d)}"
->>> +TUNE_CCARGS_MFPU .=3D "${@bb.utils.contains('TUNE_FEATURES', =
-'vfpv3d16',
->>> ' vfpv3-d16', '', d)}"
->>>=20
->>> TUNEVALID[vfpv3] =3D "Enable Vector Floating Point Version 3 with 32
->>> registers (vfpv3) unit."
->>> TUNE_CCARGS_MFPU .=3D "${@bb.utils.contains('TUNE_FEATURES', =
-'vfpv3', '
->>> vfpv3', '' , d)}"
->>> diff --git a/meta/conf/machine/include/arm/feature-arm-vfp.inc
->>> b/meta/conf/machine/include/arm/feature-arm-vfp.inc
->>> index 4247255..9ef31e7 100644
->>> --- a/meta/conf/machine/include/arm/feature-arm-vfp.inc
->>> +++ b/meta/conf/machine/include/arm/feature-arm-vfp.inc
->>> @@ -6,7 +6,7 @@ TUNEVALID[vfp] =3D "Enable Vector Floating Point =
-(vfp)
->>> unit."
->>> TUNE_CCARGS_MFPU .=3D "${@bb.utils.contains('TUNE_FEATURES', 'vfp', =
-'
->>> vfp', '', d)}"
->>>=20
->>> TUNE_CCARGS  .=3D "${@ (' -mfpu=3D%s ' % =
-d.getVar('TUNE_CCARGS_MFPU',
->>> True).split()[-1]) if (d.getVar('TUNE_CCARGS_MFPU', True) !=3D '') =
-else
->>> ''}"
->>> -ARMPKGSFX_FPU =3D "${@ ('-%s'        % d.getVar('TUNE_CCARGS_MFPU',
->>> True).split()[-1]) if (d.getVar('TUNE_CCARGS_MFPU', True) !=3D '') =
-else
->>> ''}"
->>> +ARMPKGSFX_FPU =3D "${@ ('-%s'        % d.getVar('TUNE_CCARGS_MFPU',
->>> True).split()[-1].replace('vfpv3-d16', 'vfpv3d16')) if
->>> (d.getVar('TUNE_CCARGS_MFPU', True) !=3D '') else ''}"
->>>=20
->>> TUNEVALID[callconvention-hard] =3D "Enable EABI hard float call
->>> convention, requires VFP."
->>> TUNE_CCARGS_MFLOAT =3D "${@ bb.utils.contains('TUNE_FEATURES',
->>> 'callconvention-hard', 'hard', 'softfp', d) if
->>> (d.getVar('TUNE_CCARGS_MFPU', True) !=3D '') else '' }"
->>> --
->>> 2.8.1
->>>=20
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
---Apple-Mail=_FEF19C7E-E2DF-42D2-B4DE-760FA41D04C3
+X-List-Received-Date: Tue, 17 May 2016 03:16:57 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
+On 5/16/16 8:09 PM, Khem Raj wrote:
+> 
+>> On May 16, 2016, at 7:26 PM, akuster808 <akuster808@gmail.com> wrote:
+>>
+>>
+>>
+>> On 05/16/2016 09:44 AM, Khem Raj wrote:
+>>>
+>>>> On May 16, 2016, at 9:17 AM, Armin Kuster <akuster808@gmail.com> wrote:
+>>>>
+>>>> From: Armin Kuster <akuster@mvista.com>
+>>>>
+>>>> numpy/core/include/numpy/npy_common.h:149:10: error:
+>>>> |          #error Unsupported size for type off_t
+>>>>
+>>>> Signed-off-by: Armin Kuster <akuster@mvista.com>
+>>>> ---
+>>>> meta/recipes-devtools/python/python-numpy/aarch64/_numpyconfig.h | 1 +
+>>>> 1 file changed, 1 insertion(+)
+>>>>
+>>>> diff --git a/meta/recipes-devtools/python/python-numpy/aarch64/_numpyconfig.h b/meta/recipes-devtools/python/python-numpy/aarch64/_numpyconfig.h
+>>>> index 191e5a1..109deb0 100644
+>>>> --- a/meta/recipes-devtools/python/python-numpy/aarch64/_numpyconfig.h
+>>>> +++ b/meta/recipes-devtools/python/python-numpy/aarch64/_numpyconfig.h
+>>>> @@ -11,6 +11,7 @@
+>>>> #define NPY_SIZEOF_PY_INTPTR_T 8
+>>>> #define NPY_SIZEOF_PY_LONG_LONG 8
+>>>> #define NPY_SIZEOF_LONGLONG 8
+>>>> +#define NPY_SIZEOF_OFF_T 8
+>>>
+>>> Why does the test to select size of off_t fails ?
+>> core/include/numpy/npy_common.h
+>>
+>>  #if NPY_SIZEOF_OFF_T == NPY_SIZEOF_SHORT
+>>        #define NPY_OFF_T_PYFMT "h"
+>>    #elif NPY_SIZEOF_OFF_T == NPY_SIZEOF_INT
+>>        #define NPY_OFF_T_PYFMT "i"
+>>    #elif NPY_SIZEOF_OFF_T == NPY_SIZEOF_LONG
+>>        #define NPY_OFF_T_PYFMT "l"
+>>    #elif NPY_SIZEOF_OFF_T == NPY_SIZEOF_LONGLONG
+>>        #define NPY_OFF_T_PYFMT "L"
+>>    #else
+>>        #error Unsupported size for type off_t
+>>    #endif
+>>
+>> its gotta match one of them. X86-64 has NPY_SIZEOF_OFF_T  value set.
+> 
+> yes thats the use of it. i was asking for place where it is set, most probably during configure
+oh. hmm, let me check.
 
-iEYEARECAAYFAlc6i9sACgkQuwUzVZGdMxTurACeIoX/CbNjsXnrivC+cQERCMY0
-I4gAn3Oo5dV421eWvN7HKIT6GJzWXzdi
-=i27+
------END PGP SIGNATURE-----
+- armin
+> 
+>>
+>>
+>>> we might need similar fix for mips64 too.
+>> yep, I just built mips64 and ppc64 and they both fail like aach64.
+>>
+>> will send v2 to fix those as well.
+> 
+> OK
+> 
+>>
+>> -armin
+>>
+>>>
+>>>> #define NPY_NO_SMP 0
+>>>> #define NPY_HAVE_DECL_ISNAN
+>>>> #define NPY_HAVE_DECL_ISINF
+>>>> --
+>>>> 2.3.5
+>>>>
+>>>> --
+>>>> _______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org
+>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>
+> 
 
---Apple-Mail=_FEF19C7E-E2DF-42D2-B4DE-760FA41D04C3--
