@@ -1,54 +1,61 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-qg0-f65.google.com (mail-qg0-f65.google.com
-	[209.85.192.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F93A731D5
+Return-Path: <kergoth@gmail.com>
+Received: from mail-io0-f193.google.com (mail-io0-f193.google.com
+	[209.85.223.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 453B0731ED
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 May 2016 02:26:58 +0000 (UTC)
-Received: by mail-qg0-f65.google.com with SMTP id b14so249788qge.2
+	Tue, 17 May 2016 02:40:26 +0000 (UTC)
+Received: by mail-io0-f193.google.com with SMTP id d62so988761iof.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2016 19:27:00 -0700 (PDT)
+	Mon, 16 May 2016 19:40:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:cc:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding;
-	bh=ePhz6TPiUXO4nGPjzkU2V9xZi15eLe3JFV1xZNYv1fQ=;
-	b=InxAQtTRtmWcfgezDLo24272CWznKoi5K6uCKtuxv9waLdfng1C9IRZHOuMo5/Dx7d
-	xUbcXVBVWETUe8wrJitRM8GoSxqN1zeC76n9xbIPuzMGwY/n7krK0tI8nilgAIzoYtFP
-	Djom0ONR5CvyK3fVJPXVMoRoyjMVQnTJ5AxVuufQS0ZDxfyACjYoGK/tv5XDwbPZ1yWm
-	eU8fSeMyjK+MXx0OfP7bhpbcgRMeYeG/EnLa/frpeAGhcaMxfNDXZSVqADQ0MDUdbkke
-	UdPHXa6xUXTg1alJIZg/Id5LKpiQGGmpb3bt5wOmJ7i9tRMvZRL9DrkruaEZhi7vTv4C
-	s4Xg==
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=3mr1LysrcPBqWpmWEMp3pfbyh3h9JCZ6OBNVUnFV0BU=;
+	b=zDc72phE7m5a1qr2sMcxe13YjGqOOMw+JS/HNWOLmX6/SqbkPWUgfyhzcQJsRNJiVW
+	ctKAPo/+McCtAgJxvanLlR8AJ1utoNTlMTtgrXcAANvDiITs6K4FquRvsYoqgQYSASPY
+	RljpjSg1/NcSGLt8r/4s9en6pKYAz+hvh5v0SBSbcCEnw33yRQfYslJ5UOSSHg8hx15o
+	T/fihSDL9yhPr4S5Bp+XiqNKNOBBTbuH0PXEellGqwEA+Fxn18vgzpI9DElZKy6tUi66
+	0+a204LH1wO+/ZhvAq/19LFjb2piJ9HB88iSVzbchBOs6MBp/ky45RnXmpK0Q11vVKE2
+	/Qqg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kergoth-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=3mr1LysrcPBqWpmWEMp3pfbyh3h9JCZ6OBNVUnFV0BU=;
+	b=z4jWO8MgQWxab3B0s7U8138r6QHwaALKQzbmYFOq2Gl/d1556M0vGgcbDhsXDXFbrY
+	rNNtpM3bDem9LxmaJPtCUmBQKmB3+NMRxaVq73bD56OUsk1iFZzYYStqo9wfRnSGnRiC
+	4jlQ4MjxGf97ChFqCgBZGiC76g3aDRdSDA/L0jFIy2uBOD5yqcnG0wL/DwH61Hn/zhmW
+	H1VnqEXGb4nGVNRfLz4/2zHjNI3VTFo1M8fYtpUAuK0rvs+HCjHXkMpnXJni37qi2sD/
+	mO8WH1UVpc0MLeLVU589PBPwObjPwf3OoURgrelZltYoMIl/VO4h0lfmqrt4LZaCP5WE
+	C5sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=ePhz6TPiUXO4nGPjzkU2V9xZi15eLe3JFV1xZNYv1fQ=;
-	b=igHDA5d4DxQYpWFMT5koG7fg6iMHVmXrcUj9HNA/gbRymlvKRaAFsYv/mTK0gUZeFN
-	FMSS8XpZblDZxVvp3Ryo5cFneV0NlhzaRP5261lyji3hVPerVxhOYqUSSRf7gae6qF8Z
-	rGFB42yrAWa2xzUdQPYYkEkLKa5OZtzCuwAUoN6kbm04CtYeyAHn/k3MzfMFtkU5h8Df
-	96rXxwZ0ypNRsttAthY8f9og5edHTsOPHcmouJlrKnK+Aernd2VllkHBkzZjvnsEunbT
-	zOFhLugE93JrhQl1Prq2VT/WWYOiH7bbsAb958J6LKfSip8jczs7qfigvBYoFpCOxqC2
-	+Ymg==
-X-Gm-Message-State: AOPr4FUKjItwpL6SQUg/STx2/mq/eIL/5iIx6Battk3Hu8TBCWjpLimDtoL7/jDnhQoETg==
-X-Received: by 10.140.19.174 with SMTP id 43mr32895013qgh.44.1463452019574;
-	Mon, 16 May 2016 19:26:59 -0700 (PDT)
-Received: from ?IPv6:2601:202:4000:1239:213a:5f79:bc19:2f7c?
-	([2601:202:4000:1239:213a:5f79:bc19:2f7c])
-	by smtp.googlemail.com with ESMTPSA id
-	n1sm243882qkn.3.2016.05.16.19.26.57
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 16 May 2016 19:26:58 -0700 (PDT)
-To: Khem Raj <raj.khem@gmail.com>
-References: <1463415451-21779-1-git-send-email-akuster808@gmail.com>
-	<C6187355-EA77-4B31-8638-C5D64613DE0E@gmail.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <573A8171.50002@gmail.com>
-Date: Mon, 16 May 2016 19:26:57 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=3mr1LysrcPBqWpmWEMp3pfbyh3h9JCZ6OBNVUnFV0BU=;
+	b=kkRYpuJfVARZ3WOHWVLnB8Q+/Z0cIqE2duxqhD5ZbKeQ88TL6OV+SHby9FPCcYYibb
+	iKrrDUrnGL2UK24wCFX3zti/I8TBbsSU7l21k0PJIXyeN/OvQ35T5bQdf6IbRYLZpJwa
+	JdTRlc1sxFULfnGD/ncQ7bfC5SxfFNSj824hBWXdaHWiOU+sUWIwaAvsWXktG3nryhu0
+	G2fZK+juIh9eTlKXEPbn+OCfTj0nfuTufgkjwXqg8Ba2PAf26OZfZatJ2ikYJpLj6eTB
+	RT5RRZm6YT7MlFtRISS38LnqsiY1httO9MP5S7fCEXArfSr0yVXu4d5pAD/f3YkW1zXh
+	kP/Q==
+X-Gm-Message-State: AOPr4FXFtptb7ipVXFkWJPRiHKCqVedeEFeJBvDUVZvA2D6u0xYJifwzo9ZsKy3mPFHe/pESYO22MpYYHqj3WA==
+X-Received: by 10.36.20.136 with SMTP id 130mr11876605itg.66.1463452827315;
+	Mon, 16 May 2016 19:40:27 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <C6187355-EA77-4B31-8638-C5D64613DE0E@gmail.com>
-Cc: Armin Kuster <akuster@mvista.com>, openembedded-core@lists.openembedded.org
-Subject: Re: [master][krogoth][PATCH] python-numpy: fix build failure with python-matplotlib
+Sender: kergoth@gmail.com
+Received: by 10.79.134.70 with HTTP; Mon, 16 May 2016 19:40:07 -0700 (PDT)
+In-Reply-To: <1463451177-15247-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
+References: <1463451177-15247-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Mon, 16 May 2016 19:40:07 -0700
+X-Google-Sender-Auth: hlbgVJkQznJnQz35hGOoPxED9HU
+Message-ID: <CABcZANmFN8EJ53vMniL7a0byPYQ4DOi2q8_iWBfbeG7xjSSxXA@mail.gmail.com>
+To: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>
+Cc: Edwin Plauchu <edwin.plauchu.camacho@intel.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] meta:recipes-extended: stat fix security gaps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,72 +68,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 May 2016 02:26:59 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 17 May 2016 02:40:30 -0000
+Content-Type: multipart/alternative; boundary=001a11437c6ceb46f6053300a914
 
+--001a11437c6ceb46f6053300a914
+Content-Type: text/plain; charset=UTF-8
 
+On Mon, May 16, 2016 at 7:12 PM, Edwin Plauchu <
+edwin.plauchu.camacho@linux.intel.com> wrote:
 
-On 05/16/2016 09:44 AM, Khem Raj wrote:
-> 
->> On May 16, 2016, at 9:17 AM, Armin Kuster <akuster808@gmail.com> wrote:
->>
->> From: Armin Kuster <akuster@mvista.com>
->>
->> numpy/core/include/numpy/npy_common.h:149:10: error:
->> |          #error Unsupported size for type off_t
->>
->> Signed-off-by: Armin Kuster <akuster@mvista.com>
->> ---
->> meta/recipes-devtools/python/python-numpy/aarch64/_numpyconfig.h | 1 +
->> 1 file changed, 1 insertion(+)
->>
->> diff --git a/meta/recipes-devtools/python/python-numpy/aarch64/_numpyconfig.h b/meta/recipes-devtools/python/python-numpy/aarch64/_numpyconfig.h
->> index 191e5a1..109deb0 100644
->> --- a/meta/recipes-devtools/python/python-numpy/aarch64/_numpyconfig.h
->> +++ b/meta/recipes-devtools/python/python-numpy/aarch64/_numpyconfig.h
->> @@ -11,6 +11,7 @@
->> #define NPY_SIZEOF_PY_INTPTR_T 8
->> #define NPY_SIZEOF_PY_LONG_LONG 8
->> #define NPY_SIZEOF_LONGLONG 8
->> +#define NPY_SIZEOF_OFF_T 8
-> 
-> Why does the test to select size of off_t fails ?
-core/include/numpy/npy_common.h
+> From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+>
+> This patch avoids stat fails to compile with compiler flags which elevate
+> common string formatting issues into an error (-Wformat -Wformat-security
+> -Werror=format-security).
+>
+> [YOCTO #9550]
+>
+> Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+>
 
-  #if NPY_SIZEOF_OFF_T == NPY_SIZEOF_SHORT
-        #define NPY_OFF_T_PYFMT "h"
-    #elif NPY_SIZEOF_OFF_T == NPY_SIZEOF_INT
-        #define NPY_OFF_T_PYFMT "i"
-    #elif NPY_SIZEOF_OFF_T == NPY_SIZEOF_LONG
-        #define NPY_OFF_T_PYFMT "l"
-    #elif NPY_SIZEOF_OFF_T == NPY_SIZEOF_LONGLONG
-        #define NPY_OFF_T_PYFMT "L"
-    #else
-        #error Unsupported size for type off_t
-    #endif
+This commit message summary violates project policy. The summary is
+prefixed by the recipe or file, not its full path.
+-- 
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
-its gotta match one of them. X86-64 has NPY_SIZEOF_OFF_T  value set.
+--001a11437c6ceb46f6053300a914
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Mon, May 16, 2016 at 7:12 PM, Edwin Plauchu <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:edwin.plauchu.camacho@linux.intel.com" target=3D"_blank">edwin.=
+plauchu.camacho@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex"><div>From: Edwin Plauchu &lt;<a href=3D"mailto:edwin.plauchu.=
+camacho@intel.com" target=3D"_blank">edwin.plauchu.camacho@intel.com</a>&gt=
+;<br>
+<br>
+This patch avoids stat fails to compile with compiler flags which elevate c=
+ommon string formatting issues into an error (-Wformat -Wformat-security -W=
+error=3Dformat-security).<br>
+<br>
+[YOCTO #9550]<br>
+<br>
+Signed-off-by: Edwin Plauchu &lt;<a href=3D"mailto:edwin.plauchu.camacho@in=
+tel.com" target=3D"_blank">edwin.plauchu.camacho@intel.com</a>&gt;</div></b=
+lockquote></div><br>This commit message summary violates project policy. Th=
+e summary is prefixed by the recipe or file, not its full path.<br>-- <br><=
+div>Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBake, =
+OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engineer,=
+ Mentor Graphics</div>
+</div></div>
 
-> we might need similar fix for mips64 too.
-yep, I just built mips64 and ppc64 and they both fail like aach64.
-
-will send v2 to fix those as well.
-
--armin
-
-> 
->> #define NPY_NO_SMP 0
->> #define NPY_HAVE_DECL_ISNAN
->> #define NPY_HAVE_DECL_ISINF
->> --
->> 2.3.5
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
-
+--001a11437c6ceb46f6053300a914--
