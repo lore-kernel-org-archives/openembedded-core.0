@@ -1,26 +1,28 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D83F77101
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 89DA676420
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2016 07:43:50 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u4I7hpHR025812
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2016 00:43:51 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 18 May 2016 00:43:50 -0700
+	Wed, 18 May 2016 08:04:01 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u4I840gB016960
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 18 May 2016 01:04:01 -0700 (PDT)
+Received: from [128.224.162.214] (128.224.162.214) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 18 May 2016 01:04:00 -0700
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <573C0726.3040402@windriver.com>
+	<CA+chaQdJPWncYizZAKZ8MHOCqYRn+oKGcDuPhKVoepQhKh+LwQ@mail.gmail.com>
 From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 18 May 2016 00:43:45 -0700
-Message-ID: <b25e1b6ce93b0f3cdb42cf9fa112ea6039e6d644.1463557068.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.8.0
-In-Reply-To: <cover.1463557068.git.liezhi.yang@windriver.com>
-References: <cover.1463557068.git.liezhi.yang@windriver.com>
+Message-ID: <573C21EE.8040104@windriver.com>
+Date: Wed, 18 May 2016 16:03:58 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.7.2
 MIME-Version: 1.0
-Subject: [PATCH 7/7] buildtools-tarball: add nativesdk-locale-base-en-us
+In-Reply-To: <CA+chaQdJPWncYizZAKZ8MHOCqYRn+oKGcDuPhKVoepQhKh+LwQ@mail.gmail.com>
+Cc: oe-core <openembedded-core@lists.openembedded.org>
+Subject: Re: PRServer's problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,29 +35,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 May 2016 07:43:50 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 18 May 2016 08:04:02 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-It is required by python3's bitbake.
+Hi Martin,
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-core/meta/buildtools-tarball.bb | 1 +
- 1 file changed, 1 insertion(+)
+On 05/18/2016 03:39 PM, Martin Jansa wrote:
+> See:
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=5970
+>
+> Just using recipe checksum wont work, because the main reason for PR bumps is to
+> automatically upgrade the packages when one of the dependencies changes .so
+> version, which you won't detect from recipe checksum of the app which is just
+> using the library.
 
-diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
-index f45e781..34df531 100644
---- a/meta/recipes-core/meta/buildtools-tarball.bb
-+++ b/meta/recipes-core/meta/buildtools-tarball.bb
-@@ -23,6 +23,7 @@ TOOLCHAIN_HOST_TASK ?= "\
-     nativesdk-wget \
-     nativesdk-ca-certificates \
-     nativesdk-texinfo \
-+    nativesdk-locale-base-en-us \
-     "
- 
- SDK_PACKAGE_ARCHS += "buildtools-dummy-${SDKPKGSUFFIX}"
--- 
-2.8.0
+For the development branch like master, yes, that would happen. But for
+the stable release like jethro and krogoth, it is unlikely that would
+happen, and if if does, the user can manually bump the impacted recipe's
+PR to fix the problem. The current problem is that when *all* recipes'
+PR are bumped, there is no way to fix the problem.
 
+// Robert
+
+>
+> On Wed, May 18, 2016 at 8:09 AM, Robert Yang <liezhi.yang@windriver.com
+> <mailto:liezhi.yang@windriver.com>> wrote:
+>
+>     The PRServer bumps PR according to do_package's task hash, that
+>     causes it bumps *all* packages' PR when recipes like pseudo-native
+>     and rpm-native is changed. It is a very bad user experience when we
+>     run "smart/opkg upgrade" on running target, for example, when we apply
+>     a CVE patch to pseudo-native or rpm-native, or do some slight changes
+>     in their do_compile, "smart/opkg upgrade" will download/install *all*
+>     the packages since all of the packages' PR are bumped.
+>
+>     Here are some rough suggestions to fix this problem, and please feel
+>     free to give your suggestions.
+>     1) Do not use do_package's task for bumping PR, the easiest way
+>         is simulate manually bump PR -- only bump PR when the recipe
+>         itself's checksum is changed.
+>
+>     2) Add a new task for PRServer, redefine its task hash for bumping
+>         PR, for example, this task hash only considers RDEPENDS (no
+>         DEPENDS), and drop any native dependencies.
+>
+>     I prefer the first way, and an alternative way maybe add a var so that
+>     the user can configure it:
+>     PR_CHECKSUM = "${BB_TASKHASH}" (current way)
+>     Or
+>     PR_CHECKSUM = "<recipe checksum>"
+>
+>     --
+>     Thanks
+>
+>     Robert
+>     --
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
 
