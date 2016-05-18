@@ -1,28 +1,40 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 1BEE47001D
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qg0-f67.google.com (mail-qg0-f67.google.com
+	[209.85.192.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E76E77081
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2016 16:25:12 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga101.fm.intel.com with ESMTP; 18 May 2016 09:25:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,329,1459839600"; d="scan'208";a="106272562"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga004.fm.intel.com with ESMTP; 18 May 2016 09:25:04 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id D22EB6A4007
+	Wed, 18 May 2016 16:41:02 +0000 (UTC)
+Received: by mail-qg0-f67.google.com with SMTP id f74so4635020qge.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2016 10:12:35 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 May 2016 19:24:19 +0300
-Message-Id: <91ac880fac165bc9cda8fe436d37ae85a1a53158.1463588057.git.ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1463588057.git.ed.bartosh@linux.intel.com>
-References: <cover.1463588057.git.ed.bartosh@linux.intel.com>
-In-Reply-To: <cover.1463588057.git.ed.bartosh@linux.intel.com>
-References: <cover.1463588057.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH v2 6/6] image.bbclass: prefer specialized image creation methods over chaining
+	Wed, 18 May 2016 09:41:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=AD3oIKuX6+M+P5dDSemRDn+UovA00uVhPWu4Qf2xH64=;
+	b=PUjkOjiLr7zuxUrvthJTexm6rXdBIaWwQQS7gxdHQvkupuQ+kar4OHXEVvGWJcu1eD
+	ECFIHsq8R7rfQsQRj1gz7NWh9/S8M5JR9vx3qxqqrOM1pwT7MT1jnSues2SCoIpjlNd5
+	1xJSYO9ZyyEK0rmykM9nP5RMwoKuciqxDpmW3qdoONsO0jil1XLajwePHvfRz323DFp9
+	3FjMOTh4XX5TAZRZM1HKZEsasMxVPpB1zWOh7LKcJ2Ez03T1tp/r/ruUqKQRVyPzzWZq
+	u2d70mn2DBWi/95klcEl7Ez1WwL1uw1B2QlSjoWR63Hhy5KRAs5t8w4YWvGVbLRZKfTo
+	9FwQ==
+X-Gm-Message-State: AOPr4FV55o88dscc7aC/Rge9ZcL2HTrqfMdReUBaMJiHVSS1khI/NNK2RVnKZwe3ofazYg==
+X-Received: by 10.140.139.138 with SMTP id 132mr3422717qhl.34.1463589662876;
+	Wed, 18 May 2016 09:41:02 -0700 (PDT)
+Received: from localhost ([187.23.154.250]) by smtp.gmail.com with ESMTPSA id
+	y60sm4525292qgd.10.2016.05.18.09.40.56
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 18 May 2016 09:41:01 -0700 (PDT)
+Received: by localhost (sSMTP sendmail emulation);
+	Wed, 18 May 2016 13:40:50 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Wed, 18 May 2016 13:40:35 -0300
+Message-Id: <1463589648-28641-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.8.2
+Organization: O.S. Systems Software LTDA.
+Cc: prabhu.sundararaj@nxp.com, Otavio Salvador <otavio@ossystems.com.br>,
+	meta-freescale Mailing List <meta-freescale@yoctoproject.org>
+Subject: [oe-core PATCH v8 00/13] Improve Weston and Xwayland integration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,128 +47,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 May 2016 16:25:13 -0000
+X-List-Received-Date: Wed, 18 May 2016 16:41:02 -0000
 
-From: Patrick Ohly <patrick.ohly@intel.com>
+Up to now, to make Xwayland to work it required several manual hacks
+and it was difficult to make an image which had support for it out of
+box.
 
-If a certain image type can be created both by applying conversion
-commands to a base type as well as via a specialized command (like a
-fictious IMAGE_CMD_ext4.xz, or some dedicated task, as indicated by
-IMAGE_TYPES_MASKED = ext4.xz), then pick the more specialized method
-and skip generating the conversion commands.
+This patchset intends to set the base for it. It enables weston-init
+to be extended to support Xwayland launch when needed.
 
-That way developers can choose between using the builtin conversion
-support or re-implementing certain types, for example more efficiently
-without intermediate files.
+While working on it, some improvements on weston and weston-init were
+done.
 
-Fixes: [YOCTO #9076]
+Changes in v8:
+- Split XWayland module in a package (Ross)
+- Use ${datadir} for module path (Ross)
+- Change order of patch (Ross)
+- Install weston-xwayland package (Ross)
 
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
-Signed-off-by: Ed Bartosh <eduard.bartosh@intel.com>
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- meta/classes/image.bbclass       | 17 ++++++++++-------
- meta/classes/image_types.bbclass | 16 +++++++++++++---
- 2 files changed, 23 insertions(+), 10 deletions(-)
+Changes in v7:
+- Rebase on top of 1.10 v2 + fixup
+- Rebase on top of 1.10 v2 + fixup
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 47d1c9f..ebbdf06 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -326,7 +326,7 @@ python () {
-             alltypes.append("debugfs_" + t)
- 
-     def _add_type(t):
--        baset = image_split_type(t, ctypes)[0]
-+        baset = image_split_type(t, ctypes, d)[0]
-         input_t = t
-         if baset not in basetypes:
-             basetypes[baset]= []
-@@ -345,7 +345,7 @@ python () {
-             if dep not in alltypes:
-                 alltypes.append(dep)
-             _add_type(dep)
--            basedep = image_split_type(dep, ctypes)[0]
-+            basedep = image_split_type(dep, ctypes, d)[0]
-             typedeps[baset].add(basedep)
- 
-         if baset != input_t:
-@@ -396,14 +396,17 @@ python () {
-         d.delVarFlag('IMAGE_CMD_' + realt, 'func')
- 
-         rm_tmp_images = set()
--        def gen_conversion_cmds(bt):
-+        def gen_conversion_cmds(basetype, type):
-+            if basetype == type:
-+                # Done, no further conversions needed.
-+                return
-             for ctype in ctypes:
--                if bt.endswith("." + ctype):
--                    type = bt[0:-len(ctype) - 1]
-+                if type.endswith("." + ctype):
-+                    type = type[0:-len(ctype) - 1]
-                     if type.startswith("debugfs_"):
-                         type = type[8:]
-                     # Create input image first.
--                    gen_conversion_cmds(type)
-+                    gen_conversion_cmds(basetype, type)
-                     localdata.setVar('type', type)
-                     cmd = "\t" + (localdata.getVar("CONVERSION_CMD_" + ctype, True) or localdata.getVar("COMPRESS_CMD_" + ctype, True))
-                     if cmd not in cmds:
-@@ -418,7 +421,7 @@ python () {
- 
-         for type in basetypes[t]:
-             # Probably t == bt, but better check explicitly, perhaps that'll change.
--            bt = image_split_type(type, ctypes)[0]
-+            bt = image_split_type(type, ctypes, d)[0]
-             gen_conversion_cmds(bt, type)
- 
-         localdata.setVar('type', realt)
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 225142b..8e79731 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -9,10 +9,20 @@ IMAGE_NAME_SUFFIX ??= ".rootfs"
- # set this value to 2048 (2MiB alignment).
- IMAGE_ROOTFS_ALIGNMENT ?= "1"
- 
--def image_split_type(type, allctypes):
-+def image_split_type(type, allctypes, d):
-     '''Returns (basetype, set of compression types in use).'''
-     basetype = type
-     compressiontypes = set()
-+
-+    # Abort stripping the type further if "basetype" has a matching
-+    # IMAGE_CMD or is a masked image type. For example, if there
-+    # was a fictional IMAGE_CMD_ext4.xz which creates a compressed
-+    # file directly, then we should use that instead of using
-+    # IMAGE_CMD_ext4 + CONVERSION_CMD_xz.
-+    if d.getVar('IMAGE_CMD_' + basetype, True) or \
-+        basetype in d.getVar('IMAGE_TYPES_MASKED', True).split():
-+            return (basetype, compressiontypes)
-+
-     for ctype in allctypes:
-         if type.endswith("." + ctype):
-              basetype = type[:-len("." + ctype)]
-@@ -21,7 +31,7 @@ def image_split_type(type, allctypes):
- 
-     if basetype != type:
-         # New base type itself might be generated by a conversion command.
--        basetype, newctypes = image_split_type(basetype, allctypes)
-+        basetype, newctypes = image_split_type(basetype, allctypes, d)
-         compressiontypes.update(newctypes)
- 
-     return (basetype, compressiontypes)
-@@ -38,7 +48,7 @@ def image_getdepends(d):
-     deps = []
-     ctypes = set(d.getVar('COMPRESSIONTYPES', True).split())
-     for type in (d.getVar('IMAGE_FSTYPES', True) or "").split():
--        basetype, compressiontypes = image_split_type(type, ctypes)
-+        basetype, compressiontypes = image_split_type(type, ctypes, d)
-         for ctype in compressiontypes:
-             adddep(d.getVar("COMPRESS_DEPENDS_%s" % ctype, True), deps)
-         for typedepends in (d.getVar("IMAGE_TYPEDEP_%s" % basetype, True) or "").split():
+Changes in v6:
+- Rebase on top of 1.10
+- Fix typo on commit log (rborton)
+- New patch.
+- New patch.
+- Add xterm
+
+Changes in v5:
+- New patch.
+
+Changes in v4:
+- New patch.
+- New patch.
+- Use --log= for weston call
+
+Changes in v3:
+- Fix log redirection
+- Fix argument pass for openvt
+- New patch.
+
+Changes in v2:
+- Remove PAM requirement
+- Remove PAM requirement
+- Drop weston-lunch use as it requires PAM
+- Move weston-start module to weston package
+- Stop using weston-launch
+
+Otavio Salvador (10):
+  weston: Fix SystemD service description
+  weston: Add PACKAGECONFIG option for 'clients'
+  weston: Enable XWayland when X11 and Wayland support are available
+  weston: Remove XWayland dependencies on PACKAGECONFIG
+  weston-init: Rework do_install to use install -D option
+  weston-init: Rework init sequence to avoid code duplication
+  weston-init: Error out if loading a nested instance
+  weston-init: Add module support for the weston-start helper
+  weston: Add Xwayland initialization support using weston-start
+  core-image-weston: If X11 is enabled, add XWayland support
+
+Tom Hochstein (3):
+  weston: weston-launch: Handle invalid command line options
+  weston: Provide a default version of weston-launch that doesn't
+    require PAM
+  weston-init: Use weston-launch when starting weston as the first
+    windowing system
+
+ meta/recipes-graphics/images/core-image-weston.bb  |   1 +
+ meta/recipes-graphics/wayland/weston-init.bb       |  12 +-
+ meta/recipes-graphics/wayland/weston-init/init     |   9 +-
+ .../wayland/weston-init/weston-start               |  72 +++++++++
+ .../wayland/weston-init/weston.service             |   7 +-
+ ...ch-Provide-a-default-version-that-doesn-t.patch | 171 +++++++++++++++++++++
+ ...eston-launch-exit-for-unrecognized-option.patch |  33 ++++
+ .../wayland/weston/xwayland.weston-start           |   7 +
+ meta/recipes-graphics/wayland/weston_1.10.0.bb     |  31 ++--
+ 9 files changed, 316 insertions(+), 27 deletions(-)
+ create mode 100755 meta/recipes-graphics/wayland/weston-init/weston-start
+ create mode 100644 meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch
+ create mode 100644 meta/recipes-graphics/wayland/weston/make-weston-launch-exit-for-unrecognized-option.patch
+ create mode 100644 meta/recipes-graphics/wayland/weston/xwayland.weston-start
+
 -- 
-2.1.4
+2.8.2
 
 
