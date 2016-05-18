@@ -1,49 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
-	[209.85.223.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 2CBFC731D6
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
+	[209.85.220.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 7998573216
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2016 19:34:26 +0000 (UTC)
-Received: by mail-io0-f180.google.com with SMTP id 190so78906340iow.1
+	Wed, 18 May 2016 19:38:33 +0000 (UTC)
+Received: by mail-qk0-f196.google.com with SMTP id i7so5295288qkd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2016 12:34:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Wed, 18 May 2016 12:38:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=gXAbAIQW7druo5j8MxpRFN0d3k9U1VDrI7x2on6dw28=;
-	b=kkRZgLgyI1/m5Ycm0MtWDZ0Pq7I4WvhonwazdbCDV0/K/oeggKWthhGQKuVDjPsZcg
-	Llha2KZ3HjPGFRMgrKIaHsJf6s8i0ps0pNl7tD24123RVk3oAUb2Xj/XVW8V3+5EmHMx
-	WQEV5vvQxmLaKFlvKK0S/dPQg4JtkloBKDi0k8DHXy//rKGjcfj/piHCrtpLGI4SPMyD
-	WCCotxyImWxVW2zAprU2eH0nk4ESqZZaU5mntqpVi6LAIJyDEw3y3Ix95mix5RusG1Do
-	1n9Qu7JRWuFDWPPNpmD732u1vd0sZHyTe+3Br1qB/8NuqQ96qBUa9xf/CXk7ZOG8RPkl
-	WSKA==
+	:cc; bh=hi+eV3yWYFT+PhDH2XM9IUX8ETdokq36rLtPD0xsVFg=;
+	b=zqoyDe2ZUdRyXxUiygZcI5+jWLZxWwMNeQVbUsL96mgeXYFL4qxt3YI2+XFXiSY8Qs
+	G+nDNaaJC8RsKKlZ3q7jNt7L8uqkLtmd1lXZ0YogoEU1vxsNeXtMfQA5iaicA1VOkrG8
+	SJaDaPQQmjBroeFOhGNxZYGtlD/CiGcpyuaPOq67lvaEI8AYWSuU5nWeotkBO4Ik6sIQ
+	ZuG5uECueydLna5yKEhyUlzL/3WghuakSTyEkP6Coc5HRpvSHvWdMeZiwSXOTCKgXCQu
+	ZzxJ/hqs9On0uINd4hW6gHMZ+Nu8y5ZWcWDQ+GuHF6p6YGBbPMZalYPUPrurBk/azsdL
+	tjyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=gXAbAIQW7druo5j8MxpRFN0d3k9U1VDrI7x2on6dw28=;
-	b=WchYPYqF6CpC2cQd35GIBrDhy6/DVHOOfuV/ZLbbuu5iaabFz5N9mSot7U9ODV+S7r
-	/0cvXNMlen+onbOOrZ8ls4DtnLZs19O7Qf/LxZnq4q7fF06NjSNnivrLbg9RjD1Mk7Ui
-	hr0RLd4Qb+XYk4crELxuuIHcqu1+5AoOLMo9SZwlU5oDDmZYVvfppE10NTS78X+cPlEg
-	UCLEaPbLFwEocP7gBO8EXHN9qA0qGPMi2HVIS2KPIHmrUncDuaa/Tdj1K+hq24TtnHqY
-	nCtpj5HKH4GKEm8sjcry7EDWvpH0o0NLd94XTi9wv4rGrsxTEVat2osbwMBZyKia4iPo
-	uL9A==
-X-Gm-Message-State: AOPr4FWOtKnQVVZAccWXf46fXiwZBHe6CtWJaw6/EM6cMRbt+r3uqoRDJnfw7VyTtuqwhTXT7MsOfXg+S1lUTfge
-X-Received: by 10.107.135.211 with SMTP id r80mr7141977ioi.133.1463600066604; 
-	Wed, 18 May 2016 12:34:26 -0700 (PDT)
+	bh=hi+eV3yWYFT+PhDH2XM9IUX8ETdokq36rLtPD0xsVFg=;
+	b=mEtg+3jxS1QNJILRR4lcoGGvLcjtFxiqkxekasETb27Gf5Z1uE/w4vTvNOkzoQxDZ3
+	DSlw713nwuOKqYgG5VJ/5oVlPtsN+jPWRtW1ygX5RYIJQukbaOWzvi6UHY/VeaOu02Hu
+	DR0CemJG1Zbz+2wUnIMhiw2+UNgluD/sEDwWHdpCRR5N1bQ6bJUqjWlvwvOiztaYg/N/
+	1MY4IhRxGinIPWx7ZRXXpw/cWAifeQr3voSzWRbsSFZWsaKcwSjf9zM/K7blMZS18bQD
+	hX6MRHBYwM+qXZBuPljoEClytlZF8G9H0Y+455K2Qs61OVGFToggWjqGsa0oAwLzVVZE
+	RhuA==
+X-Gm-Message-State: AOPr4FVOyCLngAlWpR0KvCSi32F1o4wovZQyQoATiUXdU0ae8pwwZg3iVUDTWwW2IKQavTrDCSSvUV1xcEwCGQ==
+X-Received: by 10.233.239.210 with SMTP id d201mr10367715qkg.41.1463600314411; 
+	Wed, 18 May 2016 12:38:34 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.162.6 with HTTP; Wed, 18 May 2016 12:34:07 -0700 (PDT)
-In-Reply-To: <20160518153227.GE2579@jama>
-References: <1463574817-22238-1-git-send-email-herve.jourdain@neuf.fr>
-	<1463574817-22238-2-git-send-email-herve.jourdain@neuf.fr>
-	<20160518141444.GC2579@jama> <01a701d1b119$a0f58a00$e2e09e00$@neuf.fr>
-	<20160518153227.GE2579@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 18 May 2016 20:34:07 +0100
-Message-ID: <CAJTo0LYbJuGjP6RjGEbYMhj6NGnjjRL6ktwh024YQoeoSiTb6w@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [mesa][PATCH v2 1/1] Fix mesa_populate_packages() when dri is disabled
+Received: by 10.55.130.196 with HTTP; Wed, 18 May 2016 12:38:04 -0700 (PDT)
+In-Reply-To: <c41bdd4ac5371d7c08318f7c7fc760b44ce59ba9.1463546289.git.raj.khem@gmail.com>
+References: <cover.1463546289.git.raj.khem@gmail.com>
+	<c41bdd4ac5371d7c08318f7c7fc760b44ce59ba9.1463546289.git.raj.khem@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 18 May 2016 12:38:04 -0700
+Message-ID: <CAMKF1sqUdo1X0v1ET1_udjGb8-7pg8sucv5yZ3=PuYacvtGQwA@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/5] useradd.bbclass: Strip trailing '; ' in cmd params
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,38 +53,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 May 2016 19:34:27 -0000
-Content-Type: multipart/alternative; boundary=001a113ed20a10485d053322f2cd
-
---001a113ed20a10485d053322f2cd
+X-List-Received-Date: Wed, 18 May 2016 19:38:35 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 18 May 2016 at 16:32, Martin Jansa <martin.jansa@gmail.com> wrote:
+This fix was not sufficient and there has to be extra fix done to also
+consider the case
+when sysroot is created during image build time. I have updated it in
+pull request here
 
-> Please ignore what I said, os.path.join won't work anyway, because
-> libdir starts with slash so os.path.join would just return that part.
+http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/pu&id=642c6cf0b6a0371de476513162bd0cefa9c438b3
+
+On Tue, May 17, 2016 at 9:40 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> When there are more than 1 packages in a recipe requiring useradd
+> services, they are concatnated and a ';' is inserted just after
+> each of the users being added by the packages. A situation arises
+> in cases where this is controlled by PACKAGECONFIG then we add a
+> ';' separator in the USERADD_PARAM value itself for each packagecofig
+> since we do not know which one will be picked, we end up in situation
+> where the final string returned from get_all_cmd_params() appears to be
+>
+> a; ; b; c;
+>
+> and then the logic which uses these cmds triggers with ';' as separator
+> but in this case it will fail after executing useradd 'a' because the next
+> cmd it will call will be just a whitespace
+>
+> This is highlighted by the systemd patch to add more users as needed
+> by systemd 229 components.
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/classes/useradd.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+> index ee402ac..ae27c01 100644
+> --- a/meta/classes/useradd.bbclass
+> +++ b/meta/classes/useradd.bbclass
+> @@ -203,7 +203,7 @@ def get_all_cmd_params(d, cmd_type):
+>      for pkg in useradd_packages.split():
+>          param = d.getVar(param_type % pkg, True)
+>          if param:
+> -            params.append(param)
+> +            params.append(param.rstrip(" ;"))
+>
+>      return "; ".join(params)
+>
+> --
+> 2.8.2
 >
 
-Luckily we have oe.path.join which doesn't have the os.path.join semantics,
-so I changed the patch when merging into mut to use that.
-
-Ross
-
---001a113ed20a10485d053322f2cd
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 18 May 2016 at 16:32, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt;=
-</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":6f2" class=3D"=
-a3s aXjCH">Please ignore what I said, os.path.join won&#39;t work anyway, b=
-ecause<br>
-libdir starts with slash so os.path.join would just return that part.<br></=
-div></blockquote></div><br>Luckily we have oe.path.join which doesn&#39;t h=
-ave the os.path.join semantics, so I changed the patch when merging into mu=
-t to use that.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmai=
-l_extra">Ross</div></div>
-
---001a113ed20a10485d053322f2cd--
