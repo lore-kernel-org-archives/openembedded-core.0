@@ -1,24 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D75576802
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id C20A16E6B1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2016 16:24:26 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 18 May 2016 09:24:27 -0700
+	Wed, 18 May 2016 16:24:31 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 18 May 2016 09:24:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,329,1459839600"; d="scan'208";a="957348556"
+X-IronPort-AV: E=Sophos;i="5.26,329,1459839600"; d="scan'208";a="969722867"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 18 May 2016 09:24:28 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 18 May 2016 09:24:32 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id B61EC6A4007
+	by linux.intel.com (Postfix) with ESMTP id 344016A4007
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2016 10:11:57 -0700 (PDT)
+	Wed, 18 May 2016 10:12:02 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 May 2016 19:24:13 +0300
-Message-Id: <cover.1463588057.git.ed.bartosh@linux.intel.com>
+Date: Wed, 18 May 2016 19:24:14 +0300
+Message-Id: <2e1c11f43db9a3fb67b90a6b7a38eae1e3601b62.1463588057.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH v2 0/6] image creation improvements
+In-Reply-To: <cover.1463588057.git.ed.bartosh@linux.intel.com>
+References: <cover.1463588057.git.ed.bartosh@linux.intel.com>
+In-Reply-To: <cover.1463588057.git.ed.bartosh@linux.intel.com>
+References: <cover.1463588057.git.ed.bartosh@linux.intel.com>
+Subject: [PATCH v2 1/6] image.bbclass: support duplicate compression types
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,52 +35,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 May 2016 16:24:27 -0000
+X-List-Received-Date: Wed, 18 May 2016 16:24:31 -0000
 
-Hi,
+From: Patrick Ohly <patrick.ohly@intel.com>
 
-This patchset contains various improvements for the image creation functionality
-made by Patchick Ohly during his work on bug #9076:
- - fixed dependency calculation for conversion chaining
- - converted vmdk/vdi/qcow2 image types into conversion commands
- - renamed COMPRESSION variables to CONVERSION as the term "compression"
-   is no longer accurate
- - prioritized specialized image creation methods over using conversion chaining
+When a derived distro adds a certain type, say zip, to
+COMPRESSIONTYPES and later OE-core does the same, we end up with the
+type being listed twice, and that would have undesired effects
+(commands generated twice).
 
-The changes look reasonable to me. However, it would be good to hear other
-people opinions as some changes are quite complex.
+So to support such loosely coupled extension, we de-duplicated the
+list of types first.
 
-Changes in v2: rebased on top of master-next
-               returned image_getdepends back to image_types.bbclass
+Alternatively, such a situation could also be treated as error. But that
+seems unnecessary because typically commands for the same type will also
+do the same thing.
 
-The following changes since commit a037ad93640d3d6373fe1db35f64307e9fbed4e9:
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+Signed-off-by: Ed Bartosh <eduard.bartosh@intel.com>
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ meta/classes/image.bbclass | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-  bitbake: bb.codeparser: track variable flag references (2016-05-17 23:23:32 +0100)
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 6b9f979..0e81b4e 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -297,7 +297,15 @@ python setup_debugfs () {
+ 
+ python () {
+     vardeps = set()
+-    ctypes = d.getVar('COMPRESSIONTYPES', True).split()
++    # We allow COMPRESSIONTYPES to have duplicates. That avoids breaking
++    # derived distros when OE-core or some other layer independently adds
++    # the same type. There is still only one command for each type, but
++    # presumably the commands will do the same when the type is the same,
++    # even when added in different places.
++    #
++    # Without de-duplication, gen_conversion_cmds() below
++    # would create the same compression command multiple times.
++    ctypes = set(d.getVar('COMPRESSIONTYPES', True).split())
+     old_overrides = d.getVar('OVERRIDES', 0)
+ 
+     def _image_base_type(type):
+-- 
+2.1.4
 
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ed/oe-core/image-type-9076
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/oe-core/image-type-9076
-
-Patrick Ohly (6):
-  image.bbclass: support duplicate compression types
-  image.bbclass: fix dependency calculation when using conversion
-    chaining
-  image.bbclass: additional output in create_symlinks
-  image creation: support converting masked types
-  image.bbclass: rename COMPRESS(ION) to CONVERSION
-  image.bbclass: prefer specialized image creation methods over chaining
-
- meta/classes/image-live.bbclass                    |   2 +-
- meta/classes/image-vm.bbclass                      |  33 +----
- meta/classes/image.bbclass                         | 133 ++++++++++++-------
- meta/classes/image_types.bbclass                   | 147 ++++++++++++++-------
- meta/classes/image_types_uboot.bbclass             |  18 +--
- meta/conf/documentation.conf                       |   1 -
- .../images/build-appliance-image_14.0.0.bb         |   6 +-
- 7 files changed, 199 insertions(+), 141 deletions(-)
-
---
-Regards,
-Ed
 
