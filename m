@@ -1,30 +1,30 @@
 Return-Path: <herve.jourdain@neuf.fr>
+X-Greylist: delayed 497 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 18 May 2016 09:54:07 UTC
 Received: from smtp26.services.sfr.fr (smtp26.services.sfr.fr [93.17.128.1])
-	by mail.openembedded.org (Postfix) with ESMTP id 59F3977103
+	by mail.openembedded.org (Postfix) with ESMTP id 58ED47700A
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 18 May 2016 09:54:07 +0000 (UTC)
 Received: from localhost.localdomain (111-250-207-159.dynamic.hinet.net
 	[111.250.207.159])
-	by msfrf2610.sfr.fr (SMTP Server) with ESMTP id CE0E91C000C26;
-	Wed, 18 May 2016 11:45:58 +0200 (CEST)
+	by msfrf2610.sfr.fr (SMTP Server) with ESMTP id 4A9EA1C000C11;
+	Wed, 18 May 2016 11:45:50 +0200 (CEST)
 Received: from localhost.localdomain (111-250-207-159.dynamic.hinet.net
 	[111.250.207.159])	(using TLSv1.2
 	with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))	(No client
 	certificate requested)	(Authenticated sender: herve.jourdain@neuf.fr)
 	by msfrf2610.sfr.fr (SMTP Server) with ESMTPSA;
-	Wed, 18 May 2016 11:45:57 +0200 (CEST)
+	Wed, 18 May 2016 11:45:48 +0200 (CEST)
 Authentication-Results: sfr.fr; auth=pass (LOGIN)
 	smtp.auth=herve.jourdain@neuf.fr
 From: Herve Jourdain <herve.jourdain@neuf.fr>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 May 2016 17:45:26 +0800
-Message-Id: <1463564726-111166-2-git-send-email-herve.jourdain@neuf.fr>
+Date: Wed, 18 May 2016 17:45:25 +0800
+Message-Id: <1463564726-111166-1-git-send-email-herve.jourdain@neuf.fr>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1463564726-111166-1-git-send-email-herve.jourdain@neuf.fr>
-References: <1463564726-111166-1-git-send-email-herve.jourdain@neuf.fr>
 X-sfr-mailing: LEGIT
 MIME-Version: 1.0
-Subject: [mesa][PATCH 1/1] Fix mesa_populate_packages() when dri is disabled
+Subject: [mesa][PATCH 0/1] Fix mesa_populate_packages() when dri is disabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,41 +42,12 @@ X-List-Received-Date: Wed, 18 May 2016 09:54:10 -0000
 When compiling mesa, if dri is disabled in PACKAGECONFIG, or if the list of DRI drivers is empty, it will cause populate_package to fail, because it can't find - rightfully - the directory for the DRI drivers.
 This patch checks that the directory indeed exists before trying to get a list of the files in it
 
-Signed-off-by: Herve Jourdain <herve.jourdain@neuf.fr>
----
+Herve Jourdain (1):
+  Fix mesa_populate_packages() when dri is disabled
+
  meta/recipes-graphics/mesa/mesa.inc | 19 ++++++++++---------
  1 file changed, 10 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index a4e5351..0e46092 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -143,15 +143,16 @@ python mesa_populate_packages() {
- 
-     import re
-     dri_drivers_root = os.path.join(d.getVar('libdir', True), "dri")
--    dri_pkgs = os.listdir(d.getVar('PKGD', True) + dri_drivers_root)
--    lib_name = d.expand("${MLPREFIX}mesa-megadriver")
--    for p in dri_pkgs:
--        m = re.match('^(.*)_dri\.so$', p)
--        if m:
--            pkg_name = " ${MLPREFIX}mesa-driver-%s" % legitimize_package_name(m.group(1))
--            d.appendVar("RPROVIDES_%s" % lib_name, pkg_name)
--            d.appendVar("RCONFLICTS_%s" % lib_name, pkg_name)
--            d.appendVar("RREPLACES_%s" % lib_name, pkg_name)
-+    if os.path.isdir(dri_drivers_root):
-+        dri_pkgs = os.listdir(d.getVar('PKGD', True) + dri_drivers_root)
-+        lib_name = d.expand("${MLPREFIX}mesa-megadriver")
-+        for p in dri_pkgs:
-+            m = re.match('^(.*)_dri\.so$', p)
-+            if m:
-+                pkg_name = " ${MLPREFIX}mesa-driver-%s" % legitimize_package_name(m.group(1))
-+                d.appendVar("RPROVIDES_%s" % lib_name, pkg_name)
-+                d.appendVar("RCONFLICTS_%s" % lib_name, pkg_name)
-+                d.appendVar("RREPLACES_%s" % lib_name, pkg_name)
- 
-     pipe_drivers_root = os.path.join(d.getVar('libdir', True), "gallium-pipe")
-     do_split_packages(d, pipe_drivers_root, '^pipe_(.*)\.so$', 'mesa-driver-pipe-%s', 'Mesa %s pipe driver', extra_depends='')
 -- 
 2.7.4
 
