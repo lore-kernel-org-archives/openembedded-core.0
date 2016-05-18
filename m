@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B7F977047
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C43FB77047
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 18 May 2016 07:43:49 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u4I7hknL025806
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u4I7hoFq013820
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2016 00:43:47 -0700 (PDT)
+	Wed, 18 May 2016 00:43:50 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 18 May 2016 00:43:46 -0700
+	Wed, 18 May 2016 00:43:50 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 18 May 2016 00:43:39 -0700
-Message-ID: <9ca67672674df883812d50e036e3cf956d43de84.1463557068.git.liezhi.yang@windriver.com>
+Date: Wed, 18 May 2016 00:43:44 -0700
+Message-ID: <918d6d61f77c487e4cd8aaf6f2cb519f46256369.1463557068.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.8.0
 In-Reply-To: <cover.1463557068.git.liezhi.yang@windriver.com>
 References: <cover.1463557068.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/7] python3-smmap: add it for python3-gitdb
+Subject: [PATCH 6/7] buildtools-tarball: replace nativesdk-python with nativesdk-python3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,85 +36,36 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 18 May 2016 07:43:49 -0000
 Content-Type: text/plain
 
-Need add python3-git to buildtools-tarball for the py3 build, and the
-dependencies chain is:
-
-python3-git -> python3-gitdb -> python3-smmap
-
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-devtools/python/python-smmap.inc       | 19 +++++++++++++++++++
- meta/recipes-devtools/python/python-smmap_0.9.0.bb  | 20 +-------------------
- meta/recipes-devtools/python/python3-smmap_0.9.0.bb |  5 +++++
- 3 files changed, 25 insertions(+), 19 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python-smmap.inc
- create mode 100644 meta/recipes-devtools/python/python3-smmap_0.9.0.bb
+ meta/recipes-core/meta/buildtools-tarball.bb | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-smmap.inc b/meta/recipes-devtools/python/python-smmap.inc
-new file mode 100644
-index 0000000..5b2ac74
---- /dev/null
-+++ b/meta/recipes-devtools/python/python-smmap.inc
-@@ -0,0 +1,19 @@
-+SUMMARY = "Python implementation of a sliding window memory map manager"
-+DESCRIPTION = "A pure Python implementation of a sliding memory map to \
-+help unifying memory mapped access on 32 and 64 bit systems and to help \
-+managing resources more efficiently."
-+HOMEPAGE = "http://github.com/gitpython-developers/GitPython"
-+SECTION = "devel/python"
-+LICENSE = "BSD"
-+LIC_FILES_CHKSUM = "file://PKG-INFO;beginline=8;endline=8;md5=e910b35b0ef4e1f665b9a75d6afb7709"
-+
-+SRC_URI = "http://pypi.python.org/packages/source/s/smmap/smmap-${PV}.tar.gz"
-+SRC_URI[md5sum] = "d7932d5ace206bf4ae15198cf36fb6ab"
-+SRC_URI[sha256sum] = "0e2b62b497bd5f0afebc002eda4d90df9d209c30ef257e8673c90a6b5c119d62"
-+
-+UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/smmap/"
-+UPSTREAM_CHECK_REGEX = "/smmap/(?P<pver>(\d+[\.\-_]*)+)"
-+
-+S = "${WORKDIR}/smmap-${PV}"
-+
-+BBCLASSEXTEND = "nativesdk"
-diff --git a/meta/recipes-devtools/python/python-smmap_0.9.0.bb b/meta/recipes-devtools/python/python-smmap_0.9.0.bb
-index 5f9cf45..c118dd8 100644
---- a/meta/recipes-devtools/python/python-smmap_0.9.0.bb
-+++ b/meta/recipes-devtools/python/python-smmap_0.9.0.bb
-@@ -1,23 +1,5 @@
--SUMMARY = "Python implementation of a sliding window memory map manager"
--DESCRIPTION = "A pure Python implementation of a sliding memory map to \
--help unifying memory mapped access on 32 and 64 bit systems and to help \
--managing resources more efficiently."
--HOMEPAGE = "http://github.com/gitpython-developers/GitPython"
--SECTION = "devel/python"
--LICENSE = "BSD"
--LIC_FILES_CHKSUM = "file://PKG-INFO;beginline=8;endline=8;md5=e910b35b0ef4e1f665b9a75d6afb7709"
--
--SRC_URI = "http://pypi.python.org/packages/source/s/smmap/smmap-${PV}.tar.gz"
--SRC_URI[md5sum] = "d7932d5ace206bf4ae15198cf36fb6ab"
--SRC_URI[sha256sum] = "0e2b62b497bd5f0afebc002eda4d90df9d209c30ef257e8673c90a6b5c119d62"
--
--UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/smmap/"
--UPSTREAM_CHECK_REGEX = "/smmap/(?P<pver>(\d+[\.\-_]*)+)"
--
--S = "${WORKDIR}/smmap-${PV}"
-+require python-smmap.inc
+diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
+index dd28b96..f45e781 100644
+--- a/meta/recipes-core/meta/buildtools-tarball.bb
++++ b/meta/recipes-core/meta/buildtools-tarball.bb
+@@ -1,4 +1,4 @@
+-DESCRIPTION = "SDK type target for building a standalone tarball containing python, chrpath, make, git and tar. The \
++DESCRIPTION = "SDK type target for building a standalone tarball containing python3, chrpath, make, git and tar. The \
+                tarball can be used to run bitbake builds on systems which don't meet the usual version requirements."
+ SUMMARY = "Standalone tarball for running builds on systems with inadequate software"
+ LICENSE = "MIT"
+@@ -8,10 +8,10 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d
+ TOOLCHAIN_TARGET_TASK ?= ""
  
- inherit setuptools
- 
- RDEPENDS_${PN} += "python-codecs python-mmap python-lang"
--
--BBCLASSEXTEND = "nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-smmap_0.9.0.bb b/meta/recipes-devtools/python/python3-smmap_0.9.0.bb
-new file mode 100644
-index 0000000..9f8a26d
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-smmap_0.9.0.bb
-@@ -0,0 +1,5 @@
-+require python-smmap.inc
-+
-+inherit setuptools3
-+
-+RDEPENDS_${PN} += "python3-codecs python3-mmap python3-lang"
+ TOOLCHAIN_HOST_TASK ?= "\
+-    nativesdk-python-core \
+-    nativesdk-python-modules \
+-    nativesdk-python-misc \
+-    nativesdk-python-git \
++    nativesdk-python3-core \
++    nativesdk-python3-modules \
++    nativesdk-python3-misc \
++    nativesdk-python3-git \
+     nativesdk-ncurses-terminfo-base \
+     nativesdk-chrpath \
+     nativesdk-tar \
 -- 
 2.8.0
 
