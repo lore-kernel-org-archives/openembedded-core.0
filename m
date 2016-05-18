@@ -1,29 +1,30 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp484.redcondor.net (smtp484.redcondor.net [208.80.204.84])
-	by mail.openembedded.org (Postfix) with ESMTP id F0C3D731D1
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 2172176312
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2016 19:40:26 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp484.redcondor.net ({c48374e7-08df-40d9-a0de-96cc9883a037})
-	via TCP (outbound) with ESMTPS id 20160518194025850_0484
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2016 19:40:25 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [99.240.204.5] (port=51512 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1b37M0-0001gM-AI for openembedded-core@lists.openembedded.org;
-	Wed, 18 May 2016 15:42:00 -0400
-Date: Wed, 18 May 2016 15:39:49 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.20.1605181534370.3790@localhost.localdomain>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
-MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: what kernel header files does "populate-sdk" export to user space?
+	Wed, 18 May 2016 19:48:05 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u4IJm1Fe032645; Wed, 18 May 2016 20:48:01 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id rCE43CnTJTpk; Wed, 18 May 2016 20:48:01 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u4IJlwVN032641
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 18 May 2016 20:47:59 +0100
+Message-ID: <1463600878.4578.77.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Edwin Plauchu <edwin.plauchu.camacho@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Wed, 18 May 2016 20:47:58 +0100
+In-Reply-To: <1463513111-4092-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
+References: <1463513111-4092-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Cc: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+Subject: Re: [PATCH v3] zip: fix security issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,31 +37,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 May 2016 19:40:27 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Wed, 18 May 2016 19:48:07 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+On Tue, 2016-05-17 at 14:25 -0500, Edwin Plauchu wrote:
+> From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+> 
+> This patch avoids zip recipe fails to compile with compiler flags
+> which elevate common string formatting issues into an error (-Wformat
+> -Wformat-security -Werror=format-security).
 
-  note: context of running "make export-sdk" in wind river linux, but
-i have narrowed it down to pretty much the same question regarding
-"bitbake -c populate-sdk". i hope.
+In future please wrap the commit log as above and also, when sending a
+series of patches like this, please don't allow them all to conflict.
 
-  what kernel header files are copied to the sysroot(?) when running
-that command? pretty clearly, everything under include/uapi should be
-copied, or there's not much point to that kernel directory.
+In this case I could edit the patches by hand to make them apply as a
+series but I shouldn't need to do that, it should be a series of 3,
+with each one applying on top of the previous one.
 
-  better yet, where is the code/script/class that does that actual
-copying, so i can read it for myself? thanks muchly.
+The patches are in master-next and much improved over the original
+versions, thanks.
 
-rday
+Cheers,
 
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
+Richard
 
