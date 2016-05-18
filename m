@@ -1,26 +1,52 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D9E0770FF
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 728CA73199
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2016 09:04:00 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u4I940p3027362
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 18 May 2016 09:20:00 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id n129so11201330wmn.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2016 02:04:00 -0700 (PDT)
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 18 May 2016 02:03:59 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 18 May 2016 02:03:59 -0700
-Message-ID: <4d1dd04acc6195e8e498741a36b67b208c62b32b.1463562174.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1463562174.git.liezhi.yang@windriver.com>
-References: <cover.1463562174.git.liezhi.yang@windriver.com>
+	Wed, 18 May 2016 02:20:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=9jA41ETkWpFB0QMTXRelv8IB3QvbDotuNUAZczVmx/4=;
+	b=g73eAPuWFdHzoe6TTixr8HN1S/6QHOHCWGTo0iiZExNZGmktxgguZknF6ixSDLhp5l
+	MMvYTbMH3sOsXWrF3qLEeCjYqA0KlzjG7nTPXSeVF/ooiyuDoBmaLuWP5ATndZi5yF+V
+	PeRP6kg5jYruXyjLY24Z74SDaBC5w3jgsAoMgwPW/4uqWDsdoit6bvbjM6fnfkZMuGQy
+	4a7FJmqHjE2CIJQoVw7nvtdieob5SleJAZHAY2WWDJ3wKxSGy0IWhePgo9+7ps+T/U6s
+	0sc39AAd9LrZhtr3/cGnYjRwLdCyBReqiKgG9wySW41z93bHs2CDGY3FTzIk/B5lvRi2
+	WzuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=9jA41ETkWpFB0QMTXRelv8IB3QvbDotuNUAZczVmx/4=;
+	b=mZMHedV5wC+x2H2JnmlqH5ZXbEEehh+zW7imBTVtmCf0o3hVLxgsD2had9f5rRNQGj
+	ulAP2sUMdQUZnEppSPnbYreQ8eM03kkr1+yWWlAMjmeD2QbFx2Y2sy3BYZXDaI6C7e3J
+	8BOn1BJ21oO4zvTK0NBMIc9mDEO/o9TuNuiSTAB6xOrGs3Yjrm+HYFvNct+TS641whYj
+	isaymxekB02TJtWpAwqVFn9D9MZOyvzLGWmRL6+6lywVQYrVRPrGMNM3elW2Co4dEtwV
+	QxYSjX5mfijqfRpxznxAUx07O1WsPXPqYMhdmQe+XbeKH5/i/zlRYYytnTI1+u5L1d+l
+	hN5Q==
+X-Gm-Message-State: AOPr4FVisWmzuEdIX7vknBt9IMkmwuNaFoVPyXNyPc62URr/0A7ibfmuPPBzTIrXsYI0lw==
+X-Received: by 10.28.54.69 with SMTP id d66mr30342765wma.94.1463563200564;
+	Wed, 18 May 2016 02:20:00 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id r8sm8081769wme.14.2016.05.18.02.19.59
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 18 May 2016 02:19:59 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 18 May 2016 11:20:29 +0200
+To: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <20160518092029.GA2579@jama>
+References: <573C0726.3040402@windriver.com>
+	<CA+chaQdJPWncYizZAKZ8MHOCqYRn+oKGcDuPhKVoepQhKh+LwQ@mail.gmail.com>
+	<573C21EE.8040104@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] webkitgtk: turn off JIT on armv4 and armv7a
+In-Reply-To: <573C21EE.8040104@windriver.com>
+User-Agent: Mutt/1.6.1 (2016-04-27)
+Cc: oe-core <openembedded-core@lists.openembedded.org>
+Subject: Re: PRServer's problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,54 +59,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 May 2016 09:04:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 18 May 2016 09:20:03 -0000
+X-Groupsio-MsgNum: 82280
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="GvXjxJ+pjyke8COw"
+Content-Disposition: inline
 
-* It doesn't build on armv4:
-{standard input}: Assembler messages:
-{standard input}:52: Error: selected processor does not support `blx llint_throw_stack_overflow_error' in ARM mode
-{standard input}:126: Error: selected processor does not support `bkpt #0' in ARM mode
-{standard input}:128: Error: selected processor does not support `blx r0' in ARM mode
-{standard input}:134: Error: selected processor does not support `bkpt #0' in ARM mode
-{standard input}:185: Error: selected processor does not support `blx llint_throw_stack_overflow_error' in ARM mode
-{standard input}:256: Error: selected processor does not support `blx r4' in ARM mode
-{standard input}:310: Error: selected processor does not support `movw r2,#:lower16:.Lllint_op_enter-.LrelativePCBase' in ARM mode
-{standard input}:311: Error: selected processor does not support `movt r2,#:upper16:.Lllint_op_enter-.LrelativePCBase' in ARM mode
-{standard input}:315: Error: selected processor does not support `movw r2,#:lower16:.Lllint_op_get_scope-.LrelativePCBase' in ARM mode
-{standard input}:316: Error: selected processor does not support `movt r2,#:upper16:.Lllint_op_get_scope-.LrelativePCBase' in ARM mode
-[snip]
+--GvXjxJ+pjyke8COw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-* It can build on armv7a, but doesn't work on runtime, cause
-  displaying problems or ephiphany hang.
+On Wed, May 18, 2016 at 04:03:58PM +0800, Robert Yang wrote:
+> Hi Martin,
+>=20
+> On 05/18/2016 03:39 PM, Martin Jansa wrote:
+> > See:
+> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D5970
+> >
+> > Just using recipe checksum wont work, because the main reason for PR bu=
+mps is to
+> > automatically upgrade the packages when one of the dependencies changes=
+ .so
+> > version, which you won't detect from recipe checksum of the app which i=
+s just
+> > using the library.
+>=20
+> For the development branch like master, yes, that would happen. But for
+> the stable release like jethro and krogoth, it is unlikely that would
+> happen, and if if does, the user can manually bump the impacted recipe's
+> PR to fix the problem. The current problem is that when *all* recipes'
+> PR are bumped, there is no way to fix the problem.
 
-[YOCTO #9474]
+You can still stop using PR service and start doing manual PR bumps, but
+it's quite annoying if you need to bump a lot of recipes you don't
+control :).
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-sato/webkit/webkitgtk_2.12.1.bb | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+> > On Wed, May 18, 2016 at 8:09 AM, Robert Yang <liezhi.yang@windriver.com
+> > <mailto:liezhi.yang@windriver.com>> wrote:
+> >
+> >     The PRServer bumps PR according to do_package's task hash, that
+> >     causes it bumps *all* packages' PR when recipes like pseudo-native
+> >     and rpm-native is changed. It is a very bad user experience when we
+> >     run "smart/opkg upgrade" on running target, for example, when we ap=
+ply
+> >     a CVE patch to pseudo-native or rpm-native, or do some slight chang=
+es
+> >     in their do_compile, "smart/opkg upgrade" will download/install *al=
+l*
+> >     the packages since all of the packages' PR are bumped.
+> >
+> >     Here are some rough suggestions to fix this problem, and please feel
+> >     free to give your suggestions.
+> >     1) Do not use do_package's task for bumping PR, the easiest way
+> >         is simulate manually bump PR -- only bump PR when the recipe
+> >         itself's checksum is changed.
+> >
+> >     2) Add a new task for PRServer, redefine its task hash for bumping
+> >         PR, for example, this task hash only considers RDEPENDS (no
+> >         DEPENDS), and drop any native dependencies.
+> >
+> >     I prefer the first way, and an alternative way maybe add a var so t=
+hat
+> >     the user can configure it:
+> >     PR_CHECKSUM =3D "${BB_TASKHASH}" (current way)
+> >     Or
+> >     PR_CHECKSUM =3D "<recipe checksum>"
+> >
+> >     --
+> >     Thanks
+> >
+> >     Robert
+> >     --
+> >     _______________________________________________
+> >     Openembedded-core mailing list
+> >     Openembedded-core@lists.openembedded.org
+> >     <mailto:Openembedded-core@lists.openembedded.org>
+> >     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >
+> >
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.12.1.bb b/meta/recipes-sato/webkit/webkitgtk_2.12.1.bb
-index bdbcbea..23ead72 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.12.1.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.12.1.bb
-@@ -62,9 +62,14 @@ EXTRA_OECMAKE = " \
- EXTRA_OECMAKE_append_powerpc = " -DENABLE_JIT=OFF "
- EXTRA_OECMAKE_append_powerpc64 = " -DENABLE_JIT=OFF "
- 
--# ARM JIT code does not build on ARMv5/6 anymore, apparently they test only on v7 onwards
-+# ARM JIT code does not build on ARMv4/5/6 anymore
- EXTRA_OECMAKE_append_armv5 = " -DENABLE_JIT=OFF "
- EXTRA_OECMAKE_append_armv6 = " -DENABLE_JIT=OFF "
-+EXTRA_OECMAKE_append_armv4 = " -DENABLE_JIT=OFF "
-+
-+# ARM JIT can build on armv7a, but doesnt' work on runtime, cause
-+# displaying problems or ephiphany hang.
-+EXTRA_OECMAKE_append_armv7a = " -DENABLE_JIT=OFF "
- 
- # binutils 2.25.1 has a bug on aarch64:
- # https://sourceware.org/bugzilla/show_bug.cgi?id=18430
--- 
-2.7.4
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--GvXjxJ+pjyke8COw
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlc8M9wACgkQN1Ujt2V2gBwUQACdHcLOJcWP9y0QwxHbCvc5xDQ9
+3vAAmgNueUEyq3VblfJxSCzRhSdiLZiG
+=O0M3
+-----END PGP SIGNATURE-----
+
+--GvXjxJ+pjyke8COw--
