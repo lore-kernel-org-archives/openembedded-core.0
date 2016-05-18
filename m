@@ -1,28 +1,30 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 89DA676420
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id ED89D6072C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2016 08:04:01 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u4I840gB016960
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 18 May 2016 01:04:01 -0700 (PDT)
-Received: from [128.224.162.214] (128.224.162.214) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 18 May 2016 01:04:00 -0700
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <573C0726.3040402@windriver.com>
-	<CA+chaQdJPWncYizZAKZ8MHOCqYRn+oKGcDuPhKVoepQhKh+LwQ@mail.gmail.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <573C21EE.8040104@windriver.com>
-Date: Wed, 18 May 2016 16:03:58 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.7.2
-MIME-Version: 1.0
-In-Reply-To: <CA+chaQdJPWncYizZAKZ8MHOCqYRn+oKGcDuPhKVoepQhKh+LwQ@mail.gmail.com>
-Cc: oe-core <openembedded-core@lists.openembedded.org>
-Subject: Re: PRServer's problem
+	Wed, 18 May 2016 08:11:49 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u4I8BnKQ029409 for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 May 2016 03:11:49 -0500
+Received: from adi-pc-linux.emea.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016051803114661-115419 ;
+	Wed, 18 May 2016 03:11:46 -0500 
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 18 May 2016 11:10:52 +0300
+Message-Id: <1463559052-27783-1-git-send-email-adrian.ratiu@ni.com>
+X-Mailer: git-send-email 2.8.2
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 05/18/2016 03:11:49 AM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 05/18/2016 03:11:49 AM,
+	Serialize complete at 05/18/2016 03:11:49 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-05-18_01:, , signatures=0
+Subject: [Krogoth][PATCH v2] gcc-4.9: fix build with gcc 6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,67 +37,191 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 May 2016 08:04:02 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 18 May 2016 08:11:50 -0000
 
-Hi Martin,
+Building gcc-cross 4.9.3 with gcc 6 fails with the following error:
 
-On 05/18/2016 03:39 PM, Martin Jansa wrote:
-> See:
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=5970
->
-> Just using recipe checksum wont work, because the main reason for PR bumps is to
-> automatically upgrade the packages when one of the dependencies changes .so
-> version, which you won't detect from recipe checksum of the app which is just
-> using the library.
+error: 'const char* libc_name_p(const char*, unsigned int)' redeclared inline with 'gnu_inline' attribute
 
-For the development branch like master, yes, that would happen. But for
-the stable release like jethro and krogoth, it is unlikely that would
-happen, and if if does, the user can manually bump the impacted recipe's
-PR to fix the problem. The current problem is that when *all* recipes'
-PR are bumped, there is no way to fix the problem.
+This is a backport of the upstream fix.
 
-// Robert
+Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+---
+ meta/recipes-devtools/gcc/gcc-4.9.inc              |   1 +
+ .../gcc/gcc-4.9/0076-Fix-build-with-gcc-6.patch    | 151 +++++++++++++++++++++
+ 2 files changed, 152 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0076-Fix-build-with-gcc-6.patch
 
->
-> On Wed, May 18, 2016 at 8:09 AM, Robert Yang <liezhi.yang@windriver.com
-> <mailto:liezhi.yang@windriver.com>> wrote:
->
->     The PRServer bumps PR according to do_package's task hash, that
->     causes it bumps *all* packages' PR when recipes like pseudo-native
->     and rpm-native is changed. It is a very bad user experience when we
->     run "smart/opkg upgrade" on running target, for example, when we apply
->     a CVE patch to pseudo-native or rpm-native, or do some slight changes
->     in their do_compile, "smart/opkg upgrade" will download/install *all*
->     the packages since all of the packages' PR are bumped.
->
->     Here are some rough suggestions to fix this problem, and please feel
->     free to give your suggestions.
->     1) Do not use do_package's task for bumping PR, the easiest way
->         is simulate manually bump PR -- only bump PR when the recipe
->         itself's checksum is changed.
->
->     2) Add a new task for PRServer, redefine its task hash for bumping
->         PR, for example, this task hash only considers RDEPENDS (no
->         DEPENDS), and drop any native dependencies.
->
->     I prefer the first way, and an alternative way maybe add a var so that
->     the user can configure it:
->     PR_CHECKSUM = "${BB_TASKHASH}" (current way)
->     Or
->     PR_CHECKSUM = "<recipe checksum>"
->
->     --
->     Thanks
->
->     Robert
->     --
->     _______________________________________________
->     Openembedded-core mailing list
->     Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>
->     http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
+diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
+index 208e092..0cd9826 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.9.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
+@@ -91,6 +91,7 @@ SRC_URI = "\
+     file://0073-Reuse-fdebug-prefix-map-to-replace-ffile-prefix-map.patch \
+     file://0074-fdebug-prefix-map-support-to-remap-relative-path.patch \
+     file://0075-libgcc-use-ldflags.patch \
++    file://0076-Fix-build-with-gcc-6.patch \
+ "
+ SRC_URI[md5sum] = "6f831b4d251872736e8e9cc09746f327"
+ SRC_URI[sha256sum] = "2332b2a5a321b57508b9031354a8503af6fdfb868b8c1748d33028d100a8b67e"
+diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0076-Fix-build-with-gcc-6.patch b/meta/recipes-devtools/gcc/gcc-4.9/0076-Fix-build-with-gcc-6.patch
+new file mode 100644
+index 0000000..f865d4f
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-4.9/0076-Fix-build-with-gcc-6.patch
+@@ -0,0 +1,151 @@
++From efdf2b53b907c96ad3f00275588eb311335d0c91 Mon Sep 17 00:00:00 2001
++From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
++Date: Thu, 12 May 2016 15:24:25 +0300
++Subject: [PATCH] Fix build with gcc 6
++
++        * Make-lang.in: Invoke gperf with -L C++.
++        * cfns.gperf: Remove prototypes for hash and libc_name_p
++        inlines.
++        * cfns.h: Regenerated.
++        * except.c (nothrow_libfn_p): Adjust.
++
++svn rev: r233572
++
++Upstream-status: Backport [gcc 4.9]
++
++Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
++---
++ gcc/cp/Make-lang.in |  2 +-
++ gcc/cp/cfns.gperf   | 10 ++--------
++ gcc/cp/cfns.h       | 41 ++++++++++++++---------------------------
++ gcc/cp/except.c     |  3 ++-
++ 4 files changed, 19 insertions(+), 37 deletions(-)
++
++diff --git a/gcc/cp/Make-lang.in b/gcc/cp/Make-lang.in
++index bd1c1d7..a0ea0d4 100644
++--- a/gcc/cp/Make-lang.in
+++++ b/gcc/cp/Make-lang.in
++@@ -111,7 +111,7 @@ else
++ # deleting the $(srcdir)/cp/cfns.h file.
++ $(srcdir)/cp/cfns.h:
++ endif
++-	gperf -o -C -E -k '1-6,$$' -j1 -D -N 'libc_name_p' -L ANSI-C \
+++	gperf -o -C -E -k '1-6,$$' -j1 -D -N 'libc_name_p' -L C++ \
++ 		$(srcdir)/cp/cfns.gperf --output-file $(srcdir)/cp/cfns.h
++ 
++ #
++diff --git a/gcc/cp/cfns.gperf b/gcc/cp/cfns.gperf
++index 05ca753..d9b16b8 100644
++--- a/gcc/cp/cfns.gperf
+++++ b/gcc/cp/cfns.gperf
++@@ -1,3 +1,5 @@
+++%language=C++
+++%define class-name libc_name
++ %{
++ /* Copyright (C) 2000-2014 Free Software Foundation, Inc.
++ 
++@@ -16,14 +18,6 @@ for more details.
++ You should have received a copy of the GNU General Public License
++ along with GCC; see the file COPYING3.  If not see
++ <http://www.gnu.org/licenses/>.  */
++-#ifdef __GNUC__
++-__inline
++-#endif
++-static unsigned int hash (const char *, unsigned int);
++-#ifdef __GNUC__
++-__inline
++-#endif
++-const char * libc_name_p (const char *, unsigned int);
++ %}
++ %%
++ # The standard C library functions, for feeding to gperf; the result is used
++diff --git a/gcc/cp/cfns.h b/gcc/cp/cfns.h
++index c845ddf..65801d1 100644
++--- a/gcc/cp/cfns.h
+++++ b/gcc/cp/cfns.h
++@@ -1,5 +1,5 @@
++-/* ANSI-C code produced by gperf version 3.0.3 */
++-/* Command-line: gperf -o -C -E -k '1-6,$' -j1 -D -N libc_name_p -L ANSI-C cfns.gperf  */
+++/* C++ code produced by gperf version 3.0.4 */
+++/* Command-line: gperf -o -C -E -k '1-6,$' -j1 -D -N libc_name_p -L C++ --output-file cfns.h cfns.gperf  */
++ 
++ #if !((' ' == 32) && ('!' == 33) && ('"' == 34) && ('#' == 35) \
++       && ('%' == 37) && ('&' == 38) && ('\'' == 39) && ('(' == 40) \
++@@ -28,7 +28,7 @@
++ #error "gperf generated tables don't work with this execution character set. Please report a bug to <bug-gnu-gperf@gnu.org>."
++ #endif
++ 
++-#line 1 "cfns.gperf"
+++#line 3 "cfns.gperf"
++ 
++ /* Copyright (C) 2000-2014 Free Software Foundation, Inc.
++ 
++@@ -47,25 +47,18 @@ for more details.
++ You should have received a copy of the GNU General Public License
++ along with GCC; see the file COPYING3.  If not see
++ <http://www.gnu.org/licenses/>.  */
++-#ifdef __GNUC__
++-__inline
++-#endif
++-static unsigned int hash (const char *, unsigned int);
++-#ifdef __GNUC__
++-__inline
++-#endif
++-const char * libc_name_p (const char *, unsigned int);
++ /* maximum key range = 391, duplicates = 0 */
++ 
++-#ifdef __GNUC__
++-__inline
++-#else
++-#ifdef __cplusplus
++-inline
++-#endif
++-#endif
++-static unsigned int
++-hash (register const char *str, register unsigned int len)
+++class libc_name
+++{
+++private:
+++  static inline unsigned int hash (const char *str, unsigned int len);
+++public:
+++  static const char *libc_name_p (const char *str, unsigned int len);
+++};
+++
+++inline unsigned int
+++libc_name::hash (register const char *str, register unsigned int len)
++ {
++   static const unsigned short asso_values[] =
++     {
++@@ -122,14 +115,8 @@ hash (register const char *str, register unsigned int len)
++   return hval + asso_values[(unsigned char)str[len - 1]];
++ }
++ 
++-#ifdef __GNUC__
++-__inline
++-#ifdef __GNUC_STDC_INLINE__
++-__attribute__ ((__gnu_inline__))
++-#endif
++-#endif
++ const char *
++-libc_name_p (register const char *str, register unsigned int len)
+++libc_name::libc_name_p (register const char *str, register unsigned int len)
++ {
++   enum
++     {
++diff --git a/gcc/cp/except.c b/gcc/cp/except.c
++index 221971a..32340f5 100644
++--- a/gcc/cp/except.c
+++++ b/gcc/cp/except.c
++@@ -1030,7 +1030,8 @@ nothrow_libfn_p (const_tree fn)
++      unless the system headers are playing rename tricks, and if
++      they are, we don't want to be confused by them.  */
++   id = DECL_NAME (fn);
++-  return !!libc_name_p (IDENTIFIER_POINTER (id), IDENTIFIER_LENGTH (id));
+++  return !!libc_name::libc_name_p (IDENTIFIER_POINTER (id),
+++				   IDENTIFIER_LENGTH (id));
++ }
++ 
++ /* Returns nonzero if an exception of type FROM will be caught by a
++-- 
++2.8.2
++
+-- 
+2.8.2
+
 
