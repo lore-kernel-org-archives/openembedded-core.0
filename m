@@ -1,27 +1,52 @@
-Return-Path: <jin@mediatomb.cc>
-X-Greylist: delayed 566 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 18 May 2016 12:37:18 UTC
-Received: from static.88-198-224-151.clients.your-server.de
-	(static.88-198-224-151.clients.your-server.de [88.198.224.151])
-	by mail.openembedded.org (Postfix) with ESMTP id C8A1B60851
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id E0A2D606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2016 12:37:18 +0000 (UTC)
-Received: by static.88-198-224-151.clients.your-server.de (Postfix,
-	from userid 500)
-	id 2FF901A0185; Wed, 18 May 2016 14:27:51 +0200 (CEST)
-Date: Wed, 18 May 2016 14:27:51 +0200
-From: Sergey 'Jin' Bostandzhyan <jin@mediatomb.cc>
-To: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <20160518122751.GD11766@deadlock.dhs.org>
-References: <573C0726.3040402@windriver.com>
-	<CA+chaQdJPWncYizZAKZ8MHOCqYRn+oKGcDuPhKVoepQhKh+LwQ@mail.gmail.com>
-	<573C21EE.8040104@windriver.com> <20160518092029.GA2579@jama>
-	<573C365D.3070407@windriver.com>
+	Wed, 18 May 2016 14:14:14 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id n129so13304510wmn.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 May 2016 07:14:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=oqnTHSB0mHZU+JpcRso7kg+NczutnSuWMIXjQm8+Cz4=;
+	b=hl9PruJdr13Sj0VUzMQ0EIMg35JU8d9VQTm3dp1j4vWEFjbvNCJ7mRPF+NQ9e0ipR1
+	tU4S2z0FkHpFdDvaXjcrAaC2kXvqkhQe039rz4a0m/Jp2N45WbH0W3B3IL3AK/RsKiQA
+	9mYY5IFIOf8Fgu7cIUP52J162+tXuPl3a+Q1FpuEGqh8RHrTP5RhDkkSfd+ztSCtpHXr
+	CDKtDqSWHbBUmksfhxbpuAH/IrB6K3vdBiolOFgEAVD8yHJomIMGuwHTEFMawjEenZTb
+	ltZbVEE1dpkXi9YTXsjrCVay/UJdJqU02gI5hOTYlNuoFhQ0lGvp9qIOyun0KHL0mtXB
+	iZEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=oqnTHSB0mHZU+JpcRso7kg+NczutnSuWMIXjQm8+Cz4=;
+	b=m0VnBrQsXn59W86yb1VGhBfhzKf6hgOUTiQcAFzwF382KobmlgPYYjVAjn4cT0++pe
+	G1qpVrxxEREK6PzEuoOt4akKmQP2NSnkzjmWh7K0jE5/pEk3P/ma33w+KYzd1V9KgoLt
+	fBXmY13JJhNCj7MjvI5JiGSb+vs+qGbE4ra1/9s3vU/aZFQ5CO/Z4Op1iT3PcBFmbJNY
+	z1ezUrRw+pyUk0HQwnLT0ts95UA0z62ZpWMldWevaWLA+qW8VTattrIYwhW5f3lG3Kir
+	QmzZE/NWn7j2l0JREsaBCwnzCLKVmAFrJ14VU/gKseBTeBkiRa/bHLYfczGzgl5obsjo
+	n6mw==
+X-Gm-Message-State: AOPr4FXyL+IqYiDSaCa3GZ7dMIk77fgQRAJmbo9t3j5OOph2rBAhdIQLn29v9GT2TdOltQ==
+X-Received: by 10.28.25.129 with SMTP id 123mr29996022wmz.10.1463580854846;
+	Wed, 18 May 2016 07:14:14 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	c194sm29817567wme.9.2016.05.18.07.14.13
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 18 May 2016 07:14:13 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 18 May 2016 16:14:44 +0200
+To: Herve Jourdain <herve.jourdain@neuf.fr>
+Message-ID: <20160518141444.GC2579@jama>
+References: <1463574817-22238-1-git-send-email-herve.jourdain@neuf.fr>
+	<1463574817-22238-2-git-send-email-herve.jourdain@neuf.fr>
 MIME-Version: 1.0
-In-Reply-To: <573C365D.3070407@windriver.com>
-User-Agent: Mutt/1.5.20 (2009-12-10)
-Cc: oe-core <openembedded-core@lists.openembedded.org>
-Subject: Re: PRServer's problem
+In-Reply-To: <1463574817-22238-2-git-send-email-herve.jourdain@neuf.fr>
+User-Agent: Mutt/1.6.1 (2016-04-27)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [mesa][PATCH v2 1/1] Fix mesa_populate_packages() when dri is disabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,98 +59,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 May 2016 12:37:19 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Wed, 18 May 2016 14:14:15 -0000
+X-Groupsio-MsgNum: 82298
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="UPT3ojh+0CqEDtpF"
 Content-Disposition: inline
 
-Hi,
+--UPT3ojh+0CqEDtpF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-just wanted to say that we are facing the same issue with PRServer and
-live updates, looking forward to a possible solution.
+On Wed, May 18, 2016 at 08:33:37PM +0800, Herve Jourdain wrote:
+> When compiling mesa, if dri is disabled in PACKAGECONFIG, or if the list =
+of DRI drivers is empty, it will cause populate_package to fail, because it=
+ can't find - rightfully - the directory for the DRI drivers.
+> This patch checks that the directory indeed exists before trying to get a=
+ list of the files in it
+>=20
+> Signed-off-by: Herve Jourdain <herve.jourdain@neuf.fr>
+> ---
+>  meta/recipes-graphics/mesa/mesa.inc | 19 ++++++++++---------
+>  1 file changed, 10 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
+mesa/mesa.inc
+> index a4e5351..0e46092 100644
+> --- a/meta/recipes-graphics/mesa/mesa.inc
+> +++ b/meta/recipes-graphics/mesa/mesa.inc
+> @@ -143,15 +143,16 @@ python mesa_populate_packages() {
+> =20
+>      import re
+>      dri_drivers_root =3D os.path.join(d.getVar('libdir', True), "dri")
+> -    dri_pkgs =3D os.listdir(d.getVar('PKGD', True) + dri_drivers_root)
+> -    lib_name =3D d.expand("${MLPREFIX}mesa-megadriver")
+> -    for p in dri_pkgs:
+> -        m =3D re.match('^(.*)_dri\.so$', p)
+> -        if m:
+> -            pkg_name =3D " ${MLPREFIX}mesa-driver-%s" % legitimize_packa=
+ge_name(m.group(1))
+> -            d.appendVar("RPROVIDES_%s" % lib_name, pkg_name)
+> -            d.appendVar("RCONFLICTS_%s" % lib_name, pkg_name)
+> -            d.appendVar("RREPLACES_%s" % lib_name, pkg_name)
+> +    if os.path.isdir(d.getVar('PKGD', True) + dri_drivers_root):
 
-Kind regards,
-Sergey
+Use os.path.join instead of +
 
-On Wed, May 18, 2016 at 05:31:09PM +0800, Robert Yang wrote:
-> 
-> 
-> On 05/18/2016 05:20 PM, Martin Jansa wrote:
-> >On Wed, May 18, 2016 at 04:03:58PM +0800, Robert Yang wrote:
-> >>Hi Martin,
-> >>
-> >>On 05/18/2016 03:39 PM, Martin Jansa wrote:
-> >>>See:
-> >>>https://bugzilla.yoctoproject.org/show_bug.cgi?id=5970
-> >>>
-> >>>Just using recipe checksum wont work, because the main reason for PR bumps is to
-> >>>automatically upgrade the packages when one of the dependencies changes .so
-> >>>version, which you won't detect from recipe checksum of the app which is just
-> >>>using the library.
-> >>
-> >>For the development branch like master, yes, that would happen. But for
-> >>the stable release like jethro and krogoth, it is unlikely that would
-> >>happen, and if if does, the user can manually bump the impacted recipe's
-> >>PR to fix the problem. The current problem is that when *all* recipes'
-> >>PR are bumped, there is no way to fix the problem.
-> >
-> >You can still stop using PR service and start doing manual PR bumps, but
-> 
-> We can't stop PR service and start doing manual PR bumps since we need keep
-> update to date with upstream, the changes from upstream don't do the manual
-> PR, and I don't think that we have to if they can be done automatically.
-> 
-> >it's quite annoying if you need to bump a lot of recipes you don't
-> >control :).
-> 
-> What's your opinion about only consider RDEPENDS for PR service's checksum,
-> please ?
-> 
-> // Robert
-> 
-> >
-> >>>On Wed, May 18, 2016 at 8:09 AM, Robert Yang <liezhi.yang@windriver.com
-> >>><mailto:liezhi.yang@windriver.com>> wrote:
-> >>>
-> >>>     The PRServer bumps PR according to do_package's task hash, that
-> >>>     causes it bumps *all* packages' PR when recipes like pseudo-native
-> >>>     and rpm-native is changed. It is a very bad user experience when we
-> >>>     run "smart/opkg upgrade" on running target, for example, when we apply
-> >>>     a CVE patch to pseudo-native or rpm-native, or do some slight changes
-> >>>     in their do_compile, "smart/opkg upgrade" will download/install *all*
-> >>>     the packages since all of the packages' PR are bumped.
-> >>>
-> >>>     Here are some rough suggestions to fix this problem, and please feel
-> >>>     free to give your suggestions.
-> >>>     1) Do not use do_package's task for bumping PR, the easiest way
-> >>>         is simulate manually bump PR -- only bump PR when the recipe
-> >>>         itself's checksum is changed.
-> >>>
-> >>>     2) Add a new task for PRServer, redefine its task hash for bumping
-> >>>         PR, for example, this task hash only considers RDEPENDS (no
-> >>>         DEPENDS), and drop any native dependencies.
-> >>>
-> >>>     I prefer the first way, and an alternative way maybe add a var so that
-> >>>     the user can configure it:
-> >>>     PR_CHECKSUM = "${BB_TASKHASH}" (current way)
-> >>>     Or
-> >>>     PR_CHECKSUM = "<recipe checksum>"
-> >>>
-> >>>     --
-> >>>     Thanks
-> >>>
-> >>>     Robert
-> >>>     --
-> >>>     _______________________________________________
-> >>>     Openembedded-core mailing list
-> >>>     Openembedded-core@lists.openembedded.org
-> >>>     <mailto:Openembedded-core@lists.openembedded.org>
-> >>>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >>>
-> >>>
-> >
-> -- 
+> +        dri_pkgs =3D os.listdir(d.getVar('PKGD', True) + dri_drivers_roo=
+t)
+> +        lib_name =3D d.expand("${MLPREFIX}mesa-megadriver")
+> +        for p in dri_pkgs:
+> +            m =3D re.match('^(.*)_dri\.so$', p)
+> +            if m:
+> +                pkg_name =3D " ${MLPREFIX}mesa-driver-%s" % legitimize_p=
+ackage_name(m.group(1))
+> +                d.appendVar("RPROVIDES_%s" % lib_name, pkg_name)
+> +                d.appendVar("RCONFLICTS_%s" % lib_name, pkg_name)
+> +                d.appendVar("RREPLACES_%s" % lib_name, pkg_name)
+> =20
+>      pipe_drivers_root =3D os.path.join(d.getVar('libdir', True), "galliu=
+m-pipe")
+>      do_split_packages(d, pipe_drivers_root, '^pipe_(.*)\.so$', 'mesa-dri=
+ver-pipe-%s', 'Mesa %s pipe driver', extra_depends=3D'')
+> --=20
+> 2.7.4
+>=20
+> --=20
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--UPT3ojh+0CqEDtpF
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlc8eNMACgkQN1Ujt2V2gBzqyACgsVGMpLC3bZHbfeNGJkR0A9Tb
+IjsAoKJiM1nNSxPV0H6sj4+6kz97VQQb
+=/hXV
+-----END PGP SIGNATURE-----
+
+--UPT3ojh+0CqEDtpF--
