@@ -1,51 +1,52 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id A2DC6731C4
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 6138A77060
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 18 May 2016 04:40:34 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id b66so3851448pfb.2
+Received: by mail-pf0-f196.google.com with SMTP id y7so3864513pfb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 May 2016 21:40:35 -0700 (PDT)
+	Tue, 17 May 2016 21:40:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=WrxIV03uEpl7Jo0rFIBu26SE2m6lizFNedBub88pXvE=;
-	b=CjeZei/cdjujWH5E5JQgyc9ImDQ7oj/louw/7V+JtqSu1gAPrad7t9OlcWwcgpiZR7
-	QN4AY77BnVViLKaF0DEE8uywTnIvdUUxSGpgEWYTp6d1WSL/Vf2foIQRxxyhU1mQ4prD
-	bDJ2akcSd2EZhnnZPNi35sfUlXDOEt3PpcfwlUM8DXbob+FN/H8HLH5pAxJBnhTQ8m82
-	wE1ptrrYLo/T886TkMGq5XCZgdxdisLhHVVgS1SuMktiVF1SYkXV4FQ784hLXlCJjQ2A
-	tcPRofLixIe1xOt5OEEDOMZFPfoM8/zyzoWnVW10keNbk18AKNelVfA7M8H2XXCAxLWj
-	ylWw==
+	bh=DLFB28OtTG8Sr0yURmRTP664BMJ0hIVUSMyNTInY9zU=;
+	b=F6BBsLC1uq+2QhzjZEL53Y2Ws/dzt5ROH1V7hDhCUiBJ/v1lWer6SNzIQt9lQNaTbn
+	rJ94D10PL/fGLeBw1tS3emlRwWuHVf1TGFdekdCCc9LUwlSjzr3YdIXbEDuoWw7rO1iF
+	RwelQVR8NMe453nZFKfdqLCxgLdyZcnmv4Yv6/8QsyzQ8yQ4oK0rDBtlrmNNaMepd6A1
+	EzKpRs3JDpJ0vag0EWm3X4WESZxM027Ms94IAhGXBPYjJRNVZsw0ZFrQSOBWwjd7iHbA
+	sI9X4K3ppq6VxZ6CmgrZGYkVhnPMBil2gN4ZO3hKzKRyyrMijCnjX1/r3EjtGxHVzAxk
+	kiQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=WrxIV03uEpl7Jo0rFIBu26SE2m6lizFNedBub88pXvE=;
-	b=RrzMOt7VHawprxFQ9mo29E9mdkyEa/GumaUAaJgPvFT3vXAhw01ap4tLUtrR8v3lS9
-	gUSklmU5DXAQHxjzcCkVWZ38CXEx1tIgM6EAqN08kwCR26WoFlJNahoP/Ys3OURBXURt
-	jjOcJ9wCMh02dl+JZ05k5yeGCOV8yOHEsGWO2t8/CIAgi/e2bta/8+IKDdX3L1I6EqlC
-	7NtJKqC4otclm/r+FdRlXrxSn7HLJMFhl7DxxflhpCPeW8qJBLiuDpPxwlhludIuYIRQ
-	Hhr++m34ohx3BGlrqNeu7eCyf+h1ov7Yb52M57ckB93ngLsiAXSwShSTDA1P3KO6JGDg
-	MlgA==
-X-Gm-Message-State: AOPr4FUJUDK9PoOHd2xKYQ2kAV44MdJAg6xXtIuLPY7HuDOqHfFZM1kVRA3G7MFNTrKvig==
-X-Received: by 10.98.79.213 with SMTP id f82mr7636711pfj.65.1463546435047;
+	bh=DLFB28OtTG8Sr0yURmRTP664BMJ0hIVUSMyNTInY9zU=;
+	b=hl0t6aAwuYx9sf1V0zsaqIFMD+yJM52bPkYZWp0r1nbRXte1TZWJGxTYTXzlxY/YGJ
+	L5uOIZX8aSKp9Y/xSDpmUep0rLla1svsgfI9Jf5xilVRR2tIBLNF4ETCmn8FzNeZpkRR
+	t9+nPalv7XY2Aq93z1FiwHUJB0f0uIQ7VUXWDqUwQAn/x4Yty6s1x4Ua5O1U+q26Fmcx
+	L5/c1msnMNn/8ECJwYUxRj0M+UquRwj9Ch1i/gjE9NNk1fk3THjZIP00hHT4/Esv3VqH
+	Yyolv8f7lCu4Xb+e5Ae/KdfrO/7o4FvGcCjjJrCt7W6ovuXCKz4lDjMOmPfQbGEUTYeS
+	iK/A==
+X-Gm-Message-State: AOPr4FU/BkM5+CQfQUOLQKh7bZ+A0nuZ2vmhGNupjfzOuynfaeEO1U1EtoyfFjfcfdKh5A==
+X-Received: by 10.98.0.203 with SMTP id 194mr7691286pfa.126.1463546435966;
 	Tue, 17 May 2016 21:40:35 -0700 (PDT)
 Received: from haswell.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
 	[76.102.32.192])
-	by smtp.gmail.com with ESMTPSA id e2sm8324447pfd.20.2016.05.17.21.40.34
+	by smtp.gmail.com with ESMTPSA id e2sm8324447pfd.20.2016.05.17.21.40.35
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 17 May 2016 21:40:34 -0700 (PDT)
+	Tue, 17 May 2016 21:40:35 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 May 2016 21:40:22 -0700
-Message-Id: <864354e4fba47bd4a06ad4927a4f5b6c9dcae683.1463546289.git.raj.khem@gmail.com>
+Date: Tue, 17 May 2016 21:40:23 -0700
+Message-Id: <530933a86e6e563c282052b0d6231087afb659b3.1463546289.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.8.2
 In-Reply-To: <c41bdd4ac5371d7c08318f7c7fc760b44ce59ba9.1463546289.git.raj.khem@gmail.com>
 References: <c41bdd4ac5371d7c08318f7c7fc760b44ce59ba9.1463546289.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1463546289.git.raj.khem@gmail.com>
 References: <cover.1463546289.git.raj.khem@gmail.com>
-Subject: [PATCH 3/5] pixman: Fix build on arches not defining FE_INVALID exception
+Cc: Marek Vasut <marex@denx.de>
+Subject: [PATCH 4/5] kernel: fitimage: Repair misuse of shell test command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,68 +59,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 May 2016 04:40:34 -0000
+X-List-Received-Date: Wed, 18 May 2016 04:40:35 -0000
 
-Nios2 e.g. only supports round to nearest in glibc
+From: Marek Vasut <marex@denx.de>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+The kernel fitImage must be amended with signature if and only if
+UBOOT_SIGN_ENABLE = 1 . In the current case, the UBOOT_SIGN_ENABLE
+could be either 0 (default) or 1 , which test -n always correctly
+interprets as non-empty string, thus always true. This does not
+match the logic above though, so replace the test with check which
+passed only for UBOOT_SIGN_ENABLE = 1 .
+
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Yannick Gicquel <yannick.gicquel@iot.bzh>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...Check-for-FE_INVALID-definition-before-us.patch | 33 ++++++++++++++++++++++
- meta/recipes-graphics/xorg-lib/pixman_0.34.0.bb    |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-lib/pixman/0001-test-utils-Check-for-FE_INVALID-definition-before-us.patch
+ meta/classes/kernel-fitimage.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/xorg-lib/pixman/0001-test-utils-Check-for-FE_INVALID-definition-before-us.patch b/meta/recipes-graphics/xorg-lib/pixman/0001-test-utils-Check-for-FE_INVALID-definition-before-us.patch
-new file mode 100644
-index 0000000..782c1db
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/pixman/0001-test-utils-Check-for-FE_INVALID-definition-before-us.patch
-@@ -0,0 +1,33 @@
-+From 0ccd906b904d21536d5ab41c6196760e3e5d72cb Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Tue, 17 May 2016 17:30:00 -0700
-+Subject: [PATCH] test/utils: Check for FE_INVALID definition before use
-+
-+Some architectures e.g. nios2 do not support all exceptions
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+Upstream-Status: Submitted
-+
-+ test/utils.c | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/test/utils.c b/test/utils.c
-+index f8e42a5..fe32b1e 100644
-+--- a/test/utils.c
-++++ b/test/utils.c
-+@@ -978,9 +978,11 @@ enable_invalid_exceptions (void)
-+ {
-+ #ifdef HAVE_FENV_H
-+ #ifdef HAVE_FEENABLEEXCEPT
-++#ifdef FE_INVALID
-+     feenableexcept (FE_INVALID);
-+ #endif
-+ #endif
-++#endif
-+ }
-+ 
-+ void *
-+-- 
-+2.8.2
-+
-diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.34.0.bb b/meta/recipes-graphics/xorg-lib/pixman_0.34.0.bb
-index 87da5c2..c4ca621 100644
---- a/meta/recipes-graphics/xorg-lib/pixman_0.34.0.bb
-+++ b/meta/recipes-graphics/xorg-lib/pixman_0.34.0.bb
-@@ -32,6 +32,7 @@ EXTRA_OECONF_class-nativesdk = "--disable-gtk"
- SRC_URI += "\
-             file://0001-ARM-qemu-related-workarounds-in-cpu-features-detecti.patch \
- 	    file://asm_include.patch \
-+	    file://0001-test-utils-Check-for-FE_INVALID-definition-before-us.patch \
- "
- 
- SRC_URI[md5sum] = "002a4fcb644ddfcb4b0e4191576a0d59"
+diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+index 809bd4d..298eda2 100644
+--- a/meta/classes/kernel-fitimage.bbclass
++++ b/meta/classes/kernel-fitimage.bbclass
+@@ -250,7 +250,7 @@ do_assemble_fitimage() {
+ 		#
+ 		# Step 5: Sign the image and add public key to U-Boot dtb
+ 		#
+-		if test -n "${UBOOT_SIGN_ENABLE}"; then
++		if [ "x${UBOOT_SIGN_ENABLE}" = "x1" ] ; then
+ 			uboot-mkimage \
+ 				${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
+ 				-F -k "${UBOOT_SIGN_KEYDIR}" \
 -- 
 2.8.2
 
