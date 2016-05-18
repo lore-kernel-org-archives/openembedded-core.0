@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0DE4177047
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4148977047
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2016 07:43:45 +0000 (UTC)
+	Wed, 18 May 2016 07:43:46 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u4I7hkPm013803
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u4I7hl9x025852
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2016 00:43:46 -0700 (PDT)
+	Wed, 18 May 2016 00:43:47 -0700
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 18 May 2016 00:43:45 -0700
+	Wed, 18 May 2016 00:43:46 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 18 May 2016 00:43:38 -0700
-Message-ID: <cover.1463557068.git.liezhi.yang@windriver.com>
+Date: Wed, 18 May 2016 00:43:40 -0700
+Message-ID: <e53efa98a73809edd3ae7ed53d15762d7c018e35.1463557068.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.8.0
+In-Reply-To: <cover.1463557068.git.liezhi.yang@windriver.com>
+References: <cover.1463557068.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/7][python3] buildtools-tarball: replace python with python3
+Subject: [PATCH 2/7] python3-async: add it for python3-gitdb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,50 +33,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 May 2016 07:43:46 -0000
+X-List-Received-Date: Wed, 18 May 2016 07:43:47 -0000
 Content-Type: text/plain
 
-The following changes since commit 84b11bce72296d04a0e6bc9f18669284017c3704:
+Need add python3-git to buildtools-tarball for the py3 build, and the
+dependencies chain is:
 
-  pkgconfig: Update AM_GLIB_GNU_GETTEXT macro (2016-05-17 17:26:05 +0100)
+python3-git -> python3-gitdb -> python3-async
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/btpy3
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/btpy3
-
-Robert Yang (7):
-  python3-smmap: add it for python3-gitdb
-  python3-async: add it for python3-gitdb
-  python3-gitdb: add it for python3-git
-  python3-git: add it for buildtools-tarball
-  buildtools-tarball: remove nativesdk-python-pexpect
-  buildtools-tarball: replace nativesdk-python with nativesdk-python3
-  buildtools-tarball: add nativesdk-locale-base-en-us
-
- meta/recipes-core/meta/buildtools-tarball.bb       | 12 ++++++------
- meta/recipes-devtools/python/python-async.inc      | 15 +++++++++++++++
- meta/recipes-devtools/python/python-async_0.6.2.bb | 16 +---------------
- meta/recipes-devtools/python/python-git.inc        | 21 +++++++++++++++++++++
- meta/recipes-devtools/python/python-git_1.0.2.bb   | 22 ++--------------------
- meta/recipes-devtools/python/python-gitdb.inc      | 16 ++++++++++++++++
- meta/recipes-devtools/python/python-gitdb_0.6.4.bb | 18 ++----------------
- meta/recipes-devtools/python/python-smmap.inc      | 19 +++++++++++++++++++
- meta/recipes-devtools/python/python-smmap_0.9.0.bb | 20 +-------------------
- .../recipes-devtools/python/python3-async_0.6.2.bb |  6 ++++++
- meta/recipes-devtools/python/python3-git_1.0.2.bb  |  7 +++++++
- .../recipes-devtools/python/python3-gitdb_0.6.4.bb |  7 +++++++
- .../recipes-devtools/python/python3-smmap_0.9.0.bb |  5 +++++
- 13 files changed, 108 insertions(+), 76 deletions(-)
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/recipes-devtools/python/python-async.inc       | 15 +++++++++++++++
+ meta/recipes-devtools/python/python-async_0.6.2.bb  | 16 +---------------
+ meta/recipes-devtools/python/python3-async_0.6.2.bb |  6 ++++++
+ 3 files changed, 22 insertions(+), 15 deletions(-)
  create mode 100644 meta/recipes-devtools/python/python-async.inc
- create mode 100644 meta/recipes-devtools/python/python-git.inc
- create mode 100644 meta/recipes-devtools/python/python-gitdb.inc
- create mode 100644 meta/recipes-devtools/python/python-smmap.inc
  create mode 100644 meta/recipes-devtools/python/python3-async_0.6.2.bb
- create mode 100644 meta/recipes-devtools/python/python3-git_1.0.2.bb
- create mode 100644 meta/recipes-devtools/python/python3-gitdb_0.6.4.bb
- create mode 100644 meta/recipes-devtools/python/python3-smmap_0.9.0.bb
 
+diff --git a/meta/recipes-devtools/python/python-async.inc b/meta/recipes-devtools/python/python-async.inc
+new file mode 100644
+index 0000000..d80606a
+--- /dev/null
++++ b/meta/recipes-devtools/python/python-async.inc
+@@ -0,0 +1,15 @@
++SUMMARY = "Python framework to process interdependent tasks in a pool of workers"
++HOMEPAGE = "http://github.com/gitpython-developers/async"
++SECTION = "devel/python"
++LICENSE = "BSD"
++LIC_FILES_CHKSUM = "file://PKG-INFO;beginline=8;endline=8;md5=88df8e78b9edfd744953862179f2d14e"
++
++SRC_URI = "http://pypi.python.org/packages/source/a/async/async-${PV}.tar.gz"
++SRC_URI[md5sum] = "9b06b5997de2154f3bc0273f80bcef6b"
++SRC_URI[sha256sum] = "ac6894d876e45878faae493b0cf61d0e28ec417334448ac0a6ea2229d8343051"
++
++UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/async/"
++
++S = "${WORKDIR}/async-${PV}"
++
++BBCLASSEXTEND = "nativesdk"
+diff --git a/meta/recipes-devtools/python/python-async_0.6.2.bb b/meta/recipes-devtools/python/python-async_0.6.2.bb
+index ad0a617..d855e42 100644
+--- a/meta/recipes-devtools/python/python-async_0.6.2.bb
++++ b/meta/recipes-devtools/python/python-async_0.6.2.bb
+@@ -1,19 +1,5 @@
+-SUMMARY = "Python framework to process interdependent tasks in a pool of workers"
+-HOMEPAGE = "http://github.com/gitpython-developers/async"
+-SECTION = "devel/python"
+-LICENSE = "BSD"
+-LIC_FILES_CHKSUM = "file://PKG-INFO;beginline=8;endline=8;md5=88df8e78b9edfd744953862179f2d14e"
+-
+-SRC_URI = "http://pypi.python.org/packages/source/a/async/async-${PV}.tar.gz"
+-SRC_URI[md5sum] = "9b06b5997de2154f3bc0273f80bcef6b"
+-SRC_URI[sha256sum] = "ac6894d876e45878faae493b0cf61d0e28ec417334448ac0a6ea2229d8343051"
+-
+-UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/async/"
+-
+-S = "${WORKDIR}/async-${PV}"
++require python-async.inc
+ 
+ inherit setuptools
+ 
+ RDEPENDS_${PN} += "python-threading python-lang"
+-
+-BBCLASSEXTEND = "nativesdk"
+diff --git a/meta/recipes-devtools/python/python3-async_0.6.2.bb b/meta/recipes-devtools/python/python3-async_0.6.2.bb
+new file mode 100644
+index 0000000..54a30f5
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-async_0.6.2.bb
+@@ -0,0 +1,6 @@
++require python-async.inc
++
++inherit setuptools3
++
++RDEPENDS_${PN} += "python3-threading python3-lang"
++
 -- 
 2.8.0
 
