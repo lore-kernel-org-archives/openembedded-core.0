@@ -1,33 +1,20 @@
-Return-Path: <herve.jourdain@neuf.fr>
-Received: from smtp26.services.sfr.fr (smtp26.services.sfr.fr [93.17.128.20])
-	by mail.openembedded.org (Postfix) with ESMTP id C811173219
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 7DB27605BA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2016 11:58:11 +0000 (UTC)
-Received: from nbhjo (111-250-207-159.dynamic.hinet.net [111.250.207.159])
-	by msfrf2632.sfr.fr (SMTP Server) with ESMTP id CCDE11C000C29;
-	Wed, 18 May 2016 13:58:10 +0200 (CEST)
-Received: from nbhjo (111-250-207-159.dynamic.hinet.net
-	[111.250.207.159])	(using TLSv1.2
-	with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))	(No client
-	certificate requested)	(Authenticated sender: herve.jourdain@neuf.fr)
-	by msfrf2632.sfr.fr (SMTP Server) with ESMTPSA;
-	Wed, 18 May 2016 13:58:09 +0200 (CEST)
-Authentication-Results: sfr.fr; auth=pass (LOGIN)
-	smtp.auth=herve.jourdain@neuf.fr
-From: Herve Jourdain <herve.jourdain@neuf.fr>
-To: "'Burton, Ross'" <ross.burton@intel.com>
-References: <1463564726-111166-1-git-send-email-herve.jourdain@neuf.fr>
-	<1463564726-111166-2-git-send-email-herve.jourdain@neuf.fr>
-	<CAJTo0LYo8sTu+K2oFVxjRy16YW8+DjbzS90TF28XWaSQ+FXDCQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LYo8sTu+K2oFVxjRy16YW8+DjbzS90TF28XWaSQ+FXDCQ@mail.gmail.com>
-Date: Wed, 18 May 2016 13:58:04 +0200
-Message-ID: <017d01d1b0fc$8c9e5950$a5db0bf0$@neuf.fr>
-MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 15.0
-Thread-Index: AQHpnVzzfJCBK/1OjoHzRF9Oh5krkAJCxL19AP5pdWqfdLTEYA==
-X-sfr-mailing: LEGIT
-Cc: 'OE-core' <openembedded-core@lists.openembedded.org>
-Subject: Re: [mesa][PATCH 1/1] Fix mesa_populate_packages() when dri is disabled
+	Wed, 18 May 2016 12:11:46 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga102.jf.intel.com with ESMTP; 18 May 2016 05:11:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,329,1459839600"; d="scan'208";a="983659519"
+Received: from theory.fi.intel.com ([10.237.72.196])
+	by fmsmga002.fm.intel.com with ESMTP; 18 May 2016 05:11:45 -0700
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 18 May 2016 15:11:28 +0300
+Message-Id: <cover.1463572706.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/2] openssh upgrade and CVE fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,149 +27,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 May 2016 11:58:12 -0000
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_017E_01D1B10D.5027C590"
-Content-Language: fr
+X-List-Received-Date: Wed, 18 May 2016 12:11:47 -0000
 
-------=_NextPart_000_017E_01D1B10D.5027C590
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+The CVE fix should apply for at least Krogoth and Jethro as well.
 
-Hi Ross,
+The following changes since commit 7707cf6562e6a477ea953743a2d9aba682d90949:
 
-=20
+  sdk-manual: Fixed three broken links to sections within manual. (2016-05-17 21:35:00 +0100)
 
-Yep, you=E2=80=99re right, sorry for that. V2 coming in a few.
+are available in the git repository at:
 
-=20
+  git://git.yoctoproject.org/poky-contrib jku/openssh
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/openssh
 
-Herve
+Jussi Kukkonen (2):
+  openssh: Upgrade 7.1p2 -> 7.2p2
+  openssh: Backport fix for CVE-2015-8325
 
-=20
+ .../openssh/openssh/CVE-2015-8325.patch            |  39 +++
+ .../openssh/openssh/CVE-2016-1907_2.patch          |  65 ----
+ .../openssh/openssh/CVE-2016-1907_3.patch          | 329 ---------------------
+ .../openssh/CVE-2016-1907_upstream_commit.patch    |  33 ---
+ .../openssh/openssh/CVE-2016-3115.patch            |  84 ------
+ .../openssh/{openssh_7.1p2.bb => openssh_7.2p2.bb} |   9 +-
+ 6 files changed, 42 insertions(+), 517 deletions(-)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2015-8325.patch
+ delete mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2016-1907_2.patch
+ delete mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2016-1907_3.patch
+ delete mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2016-1907_upstream_commit.patch
+ delete mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2016-3115.patch
+ rename meta/recipes-connectivity/openssh/{openssh_7.1p2.bb => openssh_7.2p2.bb} (95%)
 
-From: Burton, Ross [mailto:ross.burton@intel.com]=20
-Sent: mercredi 18 mai 2016 13:28
-To: Herve Jourdain <herve.jourdain@neuf.fr>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [mesa][PATCH 1/1] Fix mesa_populate_packages() =
-when dri is disabled
-
-=20
-
-=20
-
-On 18 May 2016 at 10:45, Herve Jourdain <herve.jourdain@neuf.fr =
-<mailto:herve.jourdain@neuf.fr> > wrote:
-
-+    if os.path.isdir(dri_drivers_root):
+-- 
+2.1.4
 
 
-You're checking files on the host here as dri_driver_root is =
-${libdir}/dri and you failed to append PKGD (see the os.listdir call).
-
-=20
-
-Ross
-
-
-------=_NextPart_000_017E_01D1B10D.5027C590
-Content-Type: text/html;
-	charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; charset=3Dutf-8"><meta =
-name=3DGenerator content=3D"Microsoft Word 15 (filtered =
-medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0cm;
-	margin-bottom:.0001pt;
-	font-size:12.0pt;
-	font-family:"Times New Roman",serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:blue;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:purple;
-	text-decoration:underline;}
-span.EmailStyle17
-	{mso-style-type:personal-reply;
-	font-family:"Calibri",sans-serif;
-	color:#1F497D;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri",sans-serif;
-	mso-fareast-language:EN-US;}
-@page WordSection1
-	{size:612.0pt 792.0pt;
-	margin:70.85pt 70.85pt 70.85pt 70.85pt;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DFR link=3Dblue =
-vlink=3Dpurple><div class=3DWordSection1><p class=3DMsoNormal><span =
-style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif;color:#1F497D;=
-mso-fareast-language:EN-US'>Hi Ross,<o:p></o:p></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif;color:#1F497D;=
-mso-fareast-language:EN-US'><o:p>&nbsp;</o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-US =
-style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif;color:#1F497D;=
-mso-fareast-language:EN-US'>Yep, you=E2=80=99re right, sorry for that. =
-V2 coming in a few.<o:p></o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-US =
-style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif;color:#1F497D;=
-mso-fareast-language:EN-US'><o:p>&nbsp;</o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-US =
-style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif;color:#1F497D;=
-mso-fareast-language:EN-US'>Herve<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-US =
-style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif;color:#1F497D;=
-mso-fareast-language:EN-US'><o:p>&nbsp;</o:p></span></p><p =
-class=3DMsoNormal><b><span lang=3DEN-US =
-style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif'>From:</span><=
-/b><span lang=3DEN-US =
-style=3D'font-size:11.0pt;font-family:"Calibri",sans-serif'> Burton, =
-Ross [mailto:ross.burton@intel.com] <br><b>Sent:</b> mercredi 18 mai =
-2016 13:28<br><b>To:</b> Herve Jourdain =
-&lt;herve.jourdain@neuf.fr&gt;<br><b>Cc:</b> OE-core =
-&lt;openembedded-core@lists.openembedded.org&gt;<br><b>Subject:</b> Re: =
-[OE-core] [mesa][PATCH 1/1] Fix mesa_populate_packages() when dri is =
-disabled<o:p></o:p></span></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><div><div><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><div><p class=3DMsoNormal>On 18 =
-May 2016 at 10:45, Herve Jourdain &lt;<a =
-href=3D"mailto:herve.jourdain@neuf.fr" =
-target=3D"_blank">herve.jourdain@neuf.fr</a>&gt; =
-wrote:<o:p></o:p></p><blockquote style=3D'border:none;border-left:solid =
-#CCCCCC 1.0pt;padding:0cm 0cm 0cm =
-6.0pt;margin-left:4.8pt;margin-right:0cm'><div id=3D":a6k"><p =
-class=3DMsoNormal>+&nbsp; &nbsp; if =
-os.path.isdir(dri_drivers_root):<o:p></o:p></p></div></blockquote></div><=
-p class=3DMsoNormal><br>You're checking files on the host here as =
-dri_driver_root is ${libdir}/dri and you failed to append PKGD (see the =
-os.listdir call).<o:p></o:p></p></div><div><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p></div><div><p =
-class=3DMsoNormal>Ross<o:p></o:p></p></div></div></div></body></html>
-
-------=_NextPart_000_017E_01D1B10D.5027C590--
