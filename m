@@ -1,51 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
-	[209.85.220.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D01860107
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id A2DC6731C4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2016 04:40:33 +0000 (UTC)
-Received: by mail-pa0-f65.google.com with SMTP id yl2so3728514pac.1
+	Wed, 18 May 2016 04:40:34 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id b66so3851448pfb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 May 2016 21:40:34 -0700 (PDT)
+	Tue, 17 May 2016 21:40:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=dQY4ffkPYc9gRVv78jHft9y5AZo7WDsdhvfIswNY+28=;
-	b=LpulwWim+ud0Dm5RSf142fNGhBAv/kaciDG41pfUO/4Fu3bVOJ4ivnPyLVNDzIy2se
-	Hd9g1Iu7bxbHUva5L/Xrz6Aew+BUcPwjoptfg6sgsbmrMKz+ZyaMgghh7xn3mVDmkt9F
-	0JPGYALJHLb7CQEdsDiW37fre3xYL1KGYRTG6SnyICotMucWOZ1DJ9AzrfHMruBlb795
-	uGWvzL364+YXBCjmz0XeWrZdl1O8UFB91IxUmC80vr0kV4iTdeDaZHyPxbjkkk9V94rh
-	CDKx7zDpMVDqaAHB2nRvmKjml0kzZAFnSHhTtLqhh9+YtnjFeIApynF7SzywC3ejPy61
-	JH3w==
+	bh=WrxIV03uEpl7Jo0rFIBu26SE2m6lizFNedBub88pXvE=;
+	b=CjeZei/cdjujWH5E5JQgyc9ImDQ7oj/louw/7V+JtqSu1gAPrad7t9OlcWwcgpiZR7
+	QN4AY77BnVViLKaF0DEE8uywTnIvdUUxSGpgEWYTp6d1WSL/Vf2foIQRxxyhU1mQ4prD
+	bDJ2akcSd2EZhnnZPNi35sfUlXDOEt3PpcfwlUM8DXbob+FN/H8HLH5pAxJBnhTQ8m82
+	wE1ptrrYLo/T886TkMGq5XCZgdxdisLhHVVgS1SuMktiVF1SYkXV4FQ784hLXlCJjQ2A
+	tcPRofLixIe1xOt5OEEDOMZFPfoM8/zyzoWnVW10keNbk18AKNelVfA7M8H2XXCAxLWj
+	ylWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=dQY4ffkPYc9gRVv78jHft9y5AZo7WDsdhvfIswNY+28=;
-	b=UFKUsMxAz1OsWRU8FGm8xv/35S7bLihzImmRdYWsfaIJ4PR/IerHmiDNi5cOdhlo35
-	I0rRVkiO50TMFuihfYMSkj5vz4aXeLuRdCl9LstchGgTegCUk8MFC0o6bAgbA6xHUKMi
-	2kr8Uj66ln5oOeusrqurjGy87I9E23M+5oKGcrIh2sOmQw/5fmOCJhL1IeQRKLby61+q
-	RMwOizccJPA/i1EYe0tN2CSbiA2o3RQ9D7ezkiyL8i+NZxqQ7lV94qeTkPnOVZQETbJe
-	OaZwrmYzKzs2b3nLcbqclITH/XjU+FZ5/0WY3kmnarV8xlNi45EQZfw/gk652ryOKYSw
-	ooHQ==
-X-Gm-Message-State: AOPr4FURlm0R5qDaxNp/bLsPhCP0CN7zTQWbDel5EpV5ccOQmKrf3MMKhzu6GSUaW+tsxg==
-X-Received: by 10.66.158.98 with SMTP id wt2mr7691626pab.53.1463546434268;
-	Tue, 17 May 2016 21:40:34 -0700 (PDT)
+	bh=WrxIV03uEpl7Jo0rFIBu26SE2m6lizFNedBub88pXvE=;
+	b=RrzMOt7VHawprxFQ9mo29E9mdkyEa/GumaUAaJgPvFT3vXAhw01ap4tLUtrR8v3lS9
+	gUSklmU5DXAQHxjzcCkVWZ38CXEx1tIgM6EAqN08kwCR26WoFlJNahoP/Ys3OURBXURt
+	jjOcJ9wCMh02dl+JZ05k5yeGCOV8yOHEsGWO2t8/CIAgi/e2bta/8+IKDdX3L1I6EqlC
+	7NtJKqC4otclm/r+FdRlXrxSn7HLJMFhl7DxxflhpCPeW8qJBLiuDpPxwlhludIuYIRQ
+	Hhr++m34ohx3BGlrqNeu7eCyf+h1ov7Yb52M57ckB93ngLsiAXSwShSTDA1P3KO6JGDg
+	MlgA==
+X-Gm-Message-State: AOPr4FUJUDK9PoOHd2xKYQ2kAV44MdJAg6xXtIuLPY7HuDOqHfFZM1kVRA3G7MFNTrKvig==
+X-Received: by 10.98.79.213 with SMTP id f82mr7636711pfj.65.1463546435047;
+	Tue, 17 May 2016 21:40:35 -0700 (PDT)
 Received: from haswell.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
 	[76.102.32.192])
-	by smtp.gmail.com with ESMTPSA id e2sm8324447pfd.20.2016.05.17.21.40.33
+	by smtp.gmail.com with ESMTPSA id e2sm8324447pfd.20.2016.05.17.21.40.34
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 17 May 2016 21:40:33 -0700 (PDT)
+	Tue, 17 May 2016 21:40:34 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 May 2016 21:40:21 -0700
-Message-Id: <85edcbf217242f13d1fa76bcf8258c153fc89db9.1463546289.git.raj.khem@gmail.com>
+Date: Tue, 17 May 2016 21:40:22 -0700
+Message-Id: <864354e4fba47bd4a06ad4927a4f5b6c9dcae683.1463546289.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.8.2
 In-Reply-To: <c41bdd4ac5371d7c08318f7c7fc760b44ce59ba9.1463546289.git.raj.khem@gmail.com>
 References: <c41bdd4ac5371d7c08318f7c7fc760b44ce59ba9.1463546289.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1463546289.git.raj.khem@gmail.com>
 References: <cover.1463546289.git.raj.khem@gmail.com>
-Subject: [PATCH 2/5] systemd: Create missing sysusers offline
+Subject: [PATCH 3/5] pixman: Fix build on arches not defining FE_INVALID exception
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,36 +60,66 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 18 May 2016 04:40:34 -0000
 
-Some system users which are needed by systemd components were missing
-create these users knobbed with relevant packageconfig
+Nios2 e.g. only supports round to nearest in glibc
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/systemd/systemd_229.bb | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ ...Check-for-FE_INVALID-definition-before-us.patch | 33 ++++++++++++++++++++++
+ meta/recipes-graphics/xorg-lib/pixman_0.34.0.bb    |  1 +
+ 2 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-lib/pixman/0001-test-utils-Check-for-FE_INVALID-definition-before-us.patch
 
-diff --git a/meta/recipes-core/systemd/systemd_229.bb b/meta/recipes-core/systemd/systemd_229.bb
-index c23c749..a2d35f8 100644
---- a/meta/recipes-core/systemd/systemd_229.bb
-+++ b/meta/recipes-core/systemd/systemd_229.bb
-@@ -319,10 +319,16 @@ PACKAGES =+ "\
- SYSTEMD_PACKAGES = "${@bb.utils.contains('PACKAGECONFIG', 'binfmt', '${PN}-binfmt', '', d)}"
- SYSTEMD_SERVICE_${PN}-binfmt = "systemd-binfmt.service"
+diff --git a/meta/recipes-graphics/xorg-lib/pixman/0001-test-utils-Check-for-FE_INVALID-definition-before-us.patch b/meta/recipes-graphics/xorg-lib/pixman/0001-test-utils-Check-for-FE_INVALID-definition-before-us.patch
+new file mode 100644
+index 0000000..782c1db
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-lib/pixman/0001-test-utils-Check-for-FE_INVALID-definition-before-us.patch
+@@ -0,0 +1,33 @@
++From 0ccd906b904d21536d5ab41c6196760e3e5d72cb Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Tue, 17 May 2016 17:30:00 -0700
++Subject: [PATCH] test/utils: Check for FE_INVALID definition before use
++
++Some architectures e.g. nios2 do not support all exceptions
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++Upstream-Status: Submitted
++
++ test/utils.c | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/test/utils.c b/test/utils.c
++index f8e42a5..fe32b1e 100644
++--- a/test/utils.c
+++++ b/test/utils.c
++@@ -978,9 +978,11 @@ enable_invalid_exceptions (void)
++ {
++ #ifdef HAVE_FENV_H
++ #ifdef HAVE_FEENABLEEXCEPT
+++#ifdef FE_INVALID
++     feenableexcept (FE_INVALID);
++ #endif
++ #endif
+++#endif
++ }
++ 
++ void *
++-- 
++2.8.2
++
+diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.34.0.bb b/meta/recipes-graphics/xorg-lib/pixman_0.34.0.bb
+index 87da5c2..c4ca621 100644
+--- a/meta/recipes-graphics/xorg-lib/pixman_0.34.0.bb
++++ b/meta/recipes-graphics/xorg-lib/pixman_0.34.0.bb
+@@ -32,6 +32,7 @@ EXTRA_OECONF_class-nativesdk = "--disable-gtk"
+ SRC_URI += "\
+             file://0001-ARM-qemu-related-workarounds-in-cpu-features-detecti.patch \
+ 	    file://asm_include.patch \
++	    file://0001-test-utils-Check-for-FE_INVALID-definition-before-us.patch \
+ "
  
--USERADD_PACKAGES = "${PN}"
-+USERADD_PACKAGES = "${PN} ${PN}-extra-utils"
- USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '--system -d / -M --shell /bin/nologin systemd-journal-gateway;', '', d)}"
-+USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '--system -d / -M --shell /bin/nologin systemd-journal-remote;', '', d)}"
-+USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'journal-upload', '--system -d / -M --shell /bin/nologin systemd-journal-upload;', '', d)}"
- USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'timesyncd', '--system -d / -M --shell /bin/nologin systemd-timesync;', '', d)}"
-+USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'networkd', '--system -d / -M --shell /bin/nologin systemd-network;', '', d)}"
-+USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'coredump', '--system -d / -M --shell /bin/nologin systemd-coredump;', '', d)}"
-+USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'resolved', '--system -d / -M --shell /bin/nologin systemd-resolve;', '', d)}"
- GROUPADD_PARAM_${PN} = "-r lock; -r systemd-journal"
-+USERADD_PARAM_${PN}-extra-utils += "--system -d / -M --shell /bin/nologin systemd-bus-proxy;"
- 
- FILES_${PN}-analyze = "${bindir}/systemd-analyze"
- 
+ SRC_URI[md5sum] = "002a4fcb644ddfcb4b0e4191576a0d59"
 -- 
 2.8.2
 
