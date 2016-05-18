@@ -1,29 +1,30 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C54177058
+Return-Path: <herve.jourdain@neuf.fr>
+Received: from smtp26.services.sfr.fr (smtp26.services.sfr.fr [93.17.128.1])
+	by mail.openembedded.org (Postfix) with ESMTP id 59F3977103
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2016 09:31:12 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u4I9VC05026592
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 18 May 2016 02:31:12 -0700 (PDT)
-Received: from [128.224.162.214] (128.224.162.214) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 18 May 2016 02:31:11 -0700
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <573C0726.3040402@windriver.com>
-	<CA+chaQdJPWncYizZAKZ8MHOCqYRn+oKGcDuPhKVoepQhKh+LwQ@mail.gmail.com>
-	<573C21EE.8040104@windriver.com> <20160518092029.GA2579@jama>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <573C365D.3070407@windriver.com>
-Date: Wed, 18 May 2016 17:31:09 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.7.2
+	Wed, 18 May 2016 09:54:07 +0000 (UTC)
+Received: from localhost.localdomain (111-250-207-159.dynamic.hinet.net
+	[111.250.207.159])
+	by msfrf2610.sfr.fr (SMTP Server) with ESMTP id CE0E91C000C26;
+	Wed, 18 May 2016 11:45:58 +0200 (CEST)
+Received: from localhost.localdomain (111-250-207-159.dynamic.hinet.net
+	[111.250.207.159])	(using TLSv1.2
+	with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))	(No client
+	certificate requested)	(Authenticated sender: herve.jourdain@neuf.fr)
+	by msfrf2610.sfr.fr (SMTP Server) with ESMTPSA;
+	Wed, 18 May 2016 11:45:57 +0200 (CEST)
+Authentication-Results: sfr.fr; auth=pass (LOGIN)
+	smtp.auth=herve.jourdain@neuf.fr
+From: Herve Jourdain <herve.jourdain@neuf.fr>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 18 May 2016 17:45:26 +0800
+Message-Id: <1463564726-111166-2-git-send-email-herve.jourdain@neuf.fr>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1463564726-111166-1-git-send-email-herve.jourdain@neuf.fr>
+References: <1463564726-111166-1-git-send-email-herve.jourdain@neuf.fr>
+X-sfr-mailing: LEGIT
 MIME-Version: 1.0
-In-Reply-To: <20160518092029.GA2579@jama>
-Cc: oe-core <openembedded-core@lists.openembedded.org>
-Subject: Re: PRServer's problem
+Subject: [mesa][PATCH 1/1] Fix mesa_populate_packages() when dri is disabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,84 +37,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 May 2016 09:31:13 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 18 May 2016 09:54:10 -0000
 
+When compiling mesa, if dri is disabled in PACKAGECONFIG, or if the list of DRI drivers is empty, it will cause populate_package to fail, because it can't find - rightfully - the directory for the DRI drivers.
+This patch checks that the directory indeed exists before trying to get a list of the files in it
 
+Signed-off-by: Herve Jourdain <herve.jourdain@neuf.fr>
+---
+ meta/recipes-graphics/mesa/mesa.inc | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
-On 05/18/2016 05:20 PM, Martin Jansa wrote:
-> On Wed, May 18, 2016 at 04:03:58PM +0800, Robert Yang wrote:
->> Hi Martin,
->>
->> On 05/18/2016 03:39 PM, Martin Jansa wrote:
->>> See:
->>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=5970
->>>
->>> Just using recipe checksum wont work, because the main reason for PR bumps is to
->>> automatically upgrade the packages when one of the dependencies changes .so
->>> version, which you won't detect from recipe checksum of the app which is just
->>> using the library.
->>
->> For the development branch like master, yes, that would happen. But for
->> the stable release like jethro and krogoth, it is unlikely that would
->> happen, and if if does, the user can manually bump the impacted recipe's
->> PR to fix the problem. The current problem is that when *all* recipes'
->> PR are bumped, there is no way to fix the problem.
->
-> You can still stop using PR service and start doing manual PR bumps, but
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index a4e5351..0e46092 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -143,15 +143,16 @@ python mesa_populate_packages() {
+ 
+     import re
+     dri_drivers_root = os.path.join(d.getVar('libdir', True), "dri")
+-    dri_pkgs = os.listdir(d.getVar('PKGD', True) + dri_drivers_root)
+-    lib_name = d.expand("${MLPREFIX}mesa-megadriver")
+-    for p in dri_pkgs:
+-        m = re.match('^(.*)_dri\.so$', p)
+-        if m:
+-            pkg_name = " ${MLPREFIX}mesa-driver-%s" % legitimize_package_name(m.group(1))
+-            d.appendVar("RPROVIDES_%s" % lib_name, pkg_name)
+-            d.appendVar("RCONFLICTS_%s" % lib_name, pkg_name)
+-            d.appendVar("RREPLACES_%s" % lib_name, pkg_name)
++    if os.path.isdir(dri_drivers_root):
++        dri_pkgs = os.listdir(d.getVar('PKGD', True) + dri_drivers_root)
++        lib_name = d.expand("${MLPREFIX}mesa-megadriver")
++        for p in dri_pkgs:
++            m = re.match('^(.*)_dri\.so$', p)
++            if m:
++                pkg_name = " ${MLPREFIX}mesa-driver-%s" % legitimize_package_name(m.group(1))
++                d.appendVar("RPROVIDES_%s" % lib_name, pkg_name)
++                d.appendVar("RCONFLICTS_%s" % lib_name, pkg_name)
++                d.appendVar("RREPLACES_%s" % lib_name, pkg_name)
+ 
+     pipe_drivers_root = os.path.join(d.getVar('libdir', True), "gallium-pipe")
+     do_split_packages(d, pipe_drivers_root, '^pipe_(.*)\.so$', 'mesa-driver-pipe-%s', 'Mesa %s pipe driver', extra_depends='')
+-- 
+2.7.4
 
-We can't stop PR service and start doing manual PR bumps since we need keep
-update to date with upstream, the changes from upstream don't do the manual
-PR, and I don't think that we have to if they can be done automatically.
-
-> it's quite annoying if you need to bump a lot of recipes you don't
-> control :).
-
-What's your opinion about only consider RDEPENDS for PR service's checksum,
-please ?
-
-// Robert
-
->
->>> On Wed, May 18, 2016 at 8:09 AM, Robert Yang <liezhi.yang@windriver.com
->>> <mailto:liezhi.yang@windriver.com>> wrote:
->>>
->>>      The PRServer bumps PR according to do_package's task hash, that
->>>      causes it bumps *all* packages' PR when recipes like pseudo-native
->>>      and rpm-native is changed. It is a very bad user experience when we
->>>      run "smart/opkg upgrade" on running target, for example, when we apply
->>>      a CVE patch to pseudo-native or rpm-native, or do some slight changes
->>>      in their do_compile, "smart/opkg upgrade" will download/install *all*
->>>      the packages since all of the packages' PR are bumped.
->>>
->>>      Here are some rough suggestions to fix this problem, and please feel
->>>      free to give your suggestions.
->>>      1) Do not use do_package's task for bumping PR, the easiest way
->>>          is simulate manually bump PR -- only bump PR when the recipe
->>>          itself's checksum is changed.
->>>
->>>      2) Add a new task for PRServer, redefine its task hash for bumping
->>>          PR, for example, this task hash only considers RDEPENDS (no
->>>          DEPENDS), and drop any native dependencies.
->>>
->>>      I prefer the first way, and an alternative way maybe add a var so that
->>>      the user can configure it:
->>>      PR_CHECKSUM = "${BB_TASKHASH}" (current way)
->>>      Or
->>>      PR_CHECKSUM = "<recipe checksum>"
->>>
->>>      --
->>>      Thanks
->>>
->>>      Robert
->>>      --
->>>      _______________________________________________
->>>      Openembedded-core mailing list
->>>      Openembedded-core@lists.openembedded.org
->>>      <mailto:Openembedded-core@lists.openembedded.org>
->>>      http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>>
->>>
->
 
