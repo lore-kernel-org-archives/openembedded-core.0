@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4148977047
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8392077047
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2016 07:43:46 +0000 (UTC)
+	Wed, 18 May 2016 07:43:47 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u4I7hl9x025852
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u4I7hmeb013811
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2016 00:43:47 -0700
+	Wed, 18 May 2016 00:43:48 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 18 May 2016 00:43:46 -0700
+	Wed, 18 May 2016 00:43:47 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 18 May 2016 00:43:40 -0700
-Message-ID: <e53efa98a73809edd3ae7ed53d15762d7c018e35.1463557068.git.liezhi.yang@windriver.com>
+Date: Wed, 18 May 2016 00:43:41 -0700
+Message-ID: <b5545fb5bf4024abcfd4d528d93113816b168e4d.1463557068.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.8.0
 In-Reply-To: <cover.1463557068.git.liezhi.yang@windriver.com>
 References: <cover.1463557068.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/7] python3-async: add it for python3-gitdb
+Subject: [PATCH 3/7] python3-gitdb: add it for python3-git
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,75 +39,80 @@ Content-Type: text/plain
 Need add python3-git to buildtools-tarball for the py3 build, and the
 dependencies chain is:
 
-python3-git -> python3-gitdb -> python3-async
+python3-git -> python3-gitdb
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-devtools/python/python-async.inc       | 15 +++++++++++++++
- meta/recipes-devtools/python/python-async_0.6.2.bb  | 16 +---------------
- meta/recipes-devtools/python/python3-async_0.6.2.bb |  6 ++++++
- 3 files changed, 22 insertions(+), 15 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python-async.inc
- create mode 100644 meta/recipes-devtools/python/python3-async_0.6.2.bb
+ meta/recipes-devtools/python/python-gitdb.inc       | 16 ++++++++++++++++
+ meta/recipes-devtools/python/python-gitdb_0.6.4.bb  | 18 ++----------------
+ meta/recipes-devtools/python/python3-gitdb_0.6.4.bb |  7 +++++++
+ 3 files changed, 25 insertions(+), 16 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python-gitdb.inc
+ create mode 100644 meta/recipes-devtools/python/python3-gitdb_0.6.4.bb
 
-diff --git a/meta/recipes-devtools/python/python-async.inc b/meta/recipes-devtools/python/python-async.inc
+diff --git a/meta/recipes-devtools/python/python-gitdb.inc b/meta/recipes-devtools/python/python-gitdb.inc
 new file mode 100644
-index 0000000..d80606a
+index 0000000..6467bd2
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python-async.inc
-@@ -0,0 +1,15 @@
-+SUMMARY = "Python framework to process interdependent tasks in a pool of workers"
-+HOMEPAGE = "http://github.com/gitpython-developers/async"
++++ b/meta/recipes-devtools/python/python-gitdb.inc
+@@ -0,0 +1,16 @@
++SUMMARY = "A pure-Python git object database"
++HOMEPAGE = "http://github.com/gitpython-developers/gitdb"
 +SECTION = "devel/python"
-+LICENSE = "BSD"
-+LIC_FILES_CHKSUM = "file://PKG-INFO;beginline=8;endline=8;md5=88df8e78b9edfd744953862179f2d14e"
++LICENSE = "BSD-3-Clause"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=59e5ecb13339a936eedf83282eaf4528"
 +
-+SRC_URI = "http://pypi.python.org/packages/source/a/async/async-${PV}.tar.gz"
-+SRC_URI[md5sum] = "9b06b5997de2154f3bc0273f80bcef6b"
-+SRC_URI[sha256sum] = "ac6894d876e45878faae493b0cf61d0e28ec417334448ac0a6ea2229d8343051"
++SRC_URI = "https://pypi.python.org/packages/source/g/gitdb/gitdb-${PV}.tar.gz"
 +
-+UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/async/"
++SRC_URI[md5sum] = "44e4366b8bdfd306b075c3a52c96ae1a"
++SRC_URI[sha256sum] = "a3ebbc27be035a2e874ed904df516e35f4a29a778a764385de09de9e0f139658"
 +
-+S = "${WORKDIR}/async-${PV}"
++UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/gitdb/"
++
++S = "${WORKDIR}/gitdb-${PV}"
 +
 +BBCLASSEXTEND = "nativesdk"
-diff --git a/meta/recipes-devtools/python/python-async_0.6.2.bb b/meta/recipes-devtools/python/python-async_0.6.2.bb
-index ad0a617..d855e42 100644
---- a/meta/recipes-devtools/python/python-async_0.6.2.bb
-+++ b/meta/recipes-devtools/python/python-async_0.6.2.bb
-@@ -1,19 +1,5 @@
--SUMMARY = "Python framework to process interdependent tasks in a pool of workers"
--HOMEPAGE = "http://github.com/gitpython-developers/async"
+diff --git a/meta/recipes-devtools/python/python-gitdb_0.6.4.bb b/meta/recipes-devtools/python/python-gitdb_0.6.4.bb
+index c82df1e..1777395 100644
+--- a/meta/recipes-devtools/python/python-gitdb_0.6.4.bb
++++ b/meta/recipes-devtools/python/python-gitdb_0.6.4.bb
+@@ -1,21 +1,7 @@
+-SUMMARY = "A pure-Python git object database"
+-HOMEPAGE = "http://github.com/gitpython-developers/gitdb"
 -SECTION = "devel/python"
--LICENSE = "BSD"
--LIC_FILES_CHKSUM = "file://PKG-INFO;beginline=8;endline=8;md5=88df8e78b9edfd744953862179f2d14e"
+-LICENSE = "BSD-3-Clause"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=59e5ecb13339a936eedf83282eaf4528"
+-DEPENDS = "python-async python-smmap"
 -
--SRC_URI = "http://pypi.python.org/packages/source/a/async/async-${PV}.tar.gz"
--SRC_URI[md5sum] = "9b06b5997de2154f3bc0273f80bcef6b"
--SRC_URI[sha256sum] = "ac6894d876e45878faae493b0cf61d0e28ec417334448ac0a6ea2229d8343051"
+-SRC_URI = "https://pypi.python.org/packages/source/g/gitdb/gitdb-${PV}.tar.gz"
 -
--UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/async/"
--
--S = "${WORKDIR}/async-${PV}"
-+require python-async.inc
+-SRC_URI[md5sum] = "44e4366b8bdfd306b075c3a52c96ae1a"
+-SRC_URI[sha256sum] = "a3ebbc27be035a2e874ed904df516e35f4a29a778a764385de09de9e0f139658"
++require python-gitdb.inc
  
- inherit setuptools
+-UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/gitdb/"
+-
+-S = "${WORKDIR}/gitdb-${PV}"
++DEPENDS = "python-async python-smmap"
  
- RDEPENDS_${PN} += "python-threading python-lang"
+ inherit distutils
+ 
+ RDEPENDS_${PN} += "python-smmap python-async python-mmap python-lang python-zlib python-io python-shell"
 -
 -BBCLASSEXTEND = "nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-async_0.6.2.bb b/meta/recipes-devtools/python/python3-async_0.6.2.bb
+diff --git a/meta/recipes-devtools/python/python3-gitdb_0.6.4.bb b/meta/recipes-devtools/python/python3-gitdb_0.6.4.bb
 new file mode 100644
-index 0000000..54a30f5
+index 0000000..9927658
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-async_0.6.2.bb
-@@ -0,0 +1,6 @@
-+require python-async.inc
++++ b/meta/recipes-devtools/python/python3-gitdb_0.6.4.bb
+@@ -0,0 +1,7 @@
++require python-gitdb.inc
 +
-+inherit setuptools3
++DEPENDS = "python3-async python3-smmap"
 +
-+RDEPENDS_${PN} += "python3-threading python3-lang"
++inherit distutils3
 +
++RDEPENDS_${PN} += "python3-smmap python3-async python3-mmap python3-lang python3-io python3-shell"
 -- 
 2.8.0
 
