@@ -1,25 +1,26 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 62BA773177
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CCD370031
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2016 12:34:44 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga102.jf.intel.com with ESMTP; 18 May 2016 05:34:25 -0700
+	Wed, 18 May 2016 12:35:05 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga101.jf.intel.com with ESMTP; 18 May 2016 05:35:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,329,1459839600"; d="scan'208";a="705059792"
+X-IronPort-AV: E=Sophos;i="5.26,329,1459839600"; d="scan'208";a="106121321"
 Received: from linux.intel.com ([10.23.219.25])
-	by FMSMGA003.fm.intel.com with ESMTP; 18 May 2016 05:34:25 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 18 May 2016 05:35:06 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id D28F16A4007;
-	Wed, 18 May 2016 06:21:55 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id 419FB6A4007;
+	Wed, 18 May 2016 06:22:37 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 May 2016 15:34:16 +0300
-Message-Id: <1463574859-5073-1-git-send-email-ed.bartosh@linux.intel.com>
+Date: Wed, 18 May 2016 15:34:18 +0300
+Message-Id: <1463574859-5073-3-git-send-email-ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1463159633.9746.121.camel@linuxfoundation.org>
+In-Reply-To: <1463574859-5073-1-git-send-email-ed.bartosh@linux.intel.com>
 References: <1463159633.9746.121.camel@linuxfoundation.org>
-Subject: [wic][PATCH 1/4] wic: add bmaptool to the list of utilities
+	<1463574859-5073-1-git-send-email-ed.bartosh@linux.intel.com>
+Subject: [wic][PATCH 3/4] wic: add help for --bmap commandline option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,33 +33,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 May 2016 12:34:45 -0000
+X-List-Received-Date: Wed, 18 May 2016 12:35:06 -0000
 
-Added bmaptool -> bmap-tools pair to the dictionary
-executable -> recipe as bmaptool is going to be used by wic
-to generate .bmap file.
+Included description of -m/--bmap option to the help page
+produced by 'wic help create'.
 
 [YOCTO #9413]
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/utils/oe/misc.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ scripts/lib/wic/help.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/lib/wic/utils/oe/misc.py b/scripts/lib/wic/utils/oe/misc.py
-index 0854dfb..fe188c9 100644
---- a/scripts/lib/wic/utils/oe/misc.py
-+++ b/scripts/lib/wic/utils/oe/misc.py
-@@ -34,7 +34,8 @@ from wic import msger
- from wic.utils import runner
+diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
+index 7dcc717..6395596 100644
+--- a/scripts/lib/wic/help.py
++++ b/scripts/lib/wic/help.py
+@@ -152,7 +152,7 @@ SYNOPSIS
+         [-e | --image-name] [-s, --skip-build-check] [-D, --debug]
+         [-r, --rootfs-dir] [-b, --bootimg-dir]
+         [-k, --kernel-dir] [-n, --native-sysroot] [-f, --build-rootfs]
+-        [-c, --compress-with]
++        [-c, --compress-with] [-m, --bmap]
  
- # executable -> recipe pairs for exec_native_cmd
--NATIVE_RECIPES = {"mcopy": "mtools",
-+NATIVE_RECIPES = {"bmaptool": "bmap-tools",
-+                  "mcopy": "mtools",
-                   "mkdosfs": "dosfstools",
-                   "mkfs.btrfs": "btrfs-tools",
-                   "mkfs.ext2": "e2fsprogs",
+ DESCRIPTION
+     This command creates an OpenEmbedded image based on the 'OE
+@@ -221,6 +221,9 @@ DESCRIPTION
+ 
+     The -c option is used to specify compressor utility to compress
+     an image. gzip, bzip2 and xz compressors are supported.
++
++    The -m option is used to produce .bmap file for the image. This file
++    can be used to flash image using bmaptool utility.
+ """
+ 
+ wic_list_usage = """
 -- 
 2.1.4
 
