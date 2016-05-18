@@ -1,45 +1,54 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id D37F96E6B1
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 36DCA608B7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2016 09:58:27 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id g17so4865935wme.2
+	Wed, 18 May 2016 10:15:27 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id n129so11585496wmn.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2016 02:58:28 -0700 (PDT)
+	Wed, 18 May 2016 03:15:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=HQx2vbf1sDSmhdGaN2hzncJg5VcPDH5gwVg3BfI5X8Q=;
-	b=RumFjEfSKtZay83ldXcOfCx6fj1uBMHH0h44aRH4GCz9nGVK5jcQzmNCvTn+ZRAzv6
-	z9mME9/hyO5JTKcyVmcIirkz5wYmoR77SOwNgXoSYKlvM9XGSPPBbJeXDSQe2H/9LtWc
-	29o7vnRfw/AGaTNjeqYsaTYhfSTyPeM7sYAGDVJfDccIWO8JgpHnCJBvSXnARkr++6aM
-	DWMPGxZYESjaxqRaX2XIIMwhsqkXOCPBXQqq/Nh4lGX/id+JBD0g2i+S+BJkRq57V7do
-	xuVXSyyGSTZorLBwtv2SvQtYimCVLItqeLE2vEuUB5DFus0TxksuXmK3BRNE0Vl6Uq+y
-	q37g==
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=VKKARx2uxdQSUcqHePEmuPQjnNWTx0lyCvQ6qApIDAo=;
+	b=KJYX6gy/A4RUpdmQDej8J6KXb6ETCLEJxmNsdld/oMaVPzLuLY4l553aEFlQKtzTpc
+	ziSZEYjn5j5NAtNiGD+fnxskHpI1SY/D1Wqmdr2K0CurDAF9VmASy7llrTKjngGNlpKi
+	EkfNuq2rvWBmFIbrgvdKmn9918DrP7FRWo9tVHY7tT25FH08bYuyo+Rxn3n7VzJDDCpg
+	3BNlzuk2X95KwEWVhY4cTHNQe8yd2R1idJRBk7vjn8necJkhBjnqY+2r9EbPMK9uwL8J
+	65PJE/I+D+xUsj9eK1uuI5ZLOcyv0d9CWyqLjO5HJi7VUYdb5g9WgcVNsy2wumHzb81m
+	v+dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=HQx2vbf1sDSmhdGaN2hzncJg5VcPDH5gwVg3BfI5X8Q=;
-	b=M9WsKgY5xHeDqf9ILVjIoTGeaEMriM6JrTftTfwnQxmkso+4V1+hRR/EPbVPCTtcjU
-	5//kjD8I66c8LLLO6w204RnGIc8n1NDtxT6xnr3HAdzoWv4yHRLz5/u+PEFOsxQrvHgS
-	NsUiZdqOIgHj+U4Xk94HOCttz+r6xQ+qNnq/cFtGKGIhYXw6uexoyXdlGNgFsQSMTKXa
-	uU3mbetaGcsvbhJ8OJ6kKtiDRFhhA++u/S5he2Kl7krg4ICgtK3IhynhmFYJ4fDZIfgw
-	RgY6eWvFt9KW0B++NKN2aqc4jmMqnBWQRPktk6y91UGSU1j/91fPtUrMvbzdC9U2L+4r
-	3gJw==
-X-Gm-Message-State: AOPr4FWp6V9ejK8/oIO2HexKcfCLA1xjpJBT5daTfDrB9ztv2mcMN7eWgjWDGJzD44eLaw==
-X-Received: by 10.194.242.167 with SMTP id wr7mr6245583wjc.145.1463565508014; 
-	Wed, 18 May 2016 02:58:28 -0700 (PDT)
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=VKKARx2uxdQSUcqHePEmuPQjnNWTx0lyCvQ6qApIDAo=;
+	b=RDS2/mTwPDpxtYgl1m4B6g9uISHjV+v2WOeAOTF8BVxUlPe2o1ilO2Ao4c3MPfZ6C8
+	9VJc8DY5mLX54a4UDx335ToTqk7F8l04kbEDRCCvrBX7Dm0bMcQwx2KzL930+hQOxkwJ
+	Ut3HsRM7nY8F8PIKah0ov1he4gsYIBPH/BcfMXxjE+5uKTvNKlYZ3kLquhMqlKQ9gw9/
+	tNKD1DUpFjm20bUbmBMzhMlXHRURw5u+xgZIwqHqfZiIy4Ky4cET3Im8QTbWM3/4PVDN
+	zWcBgo4Dy04bZxz/eiewWh3gKYJOJvTRNGNRFvQLwm8MXWv5Xg24rD1rjD/FEB5f81YJ
+	rRvA==
+X-Gm-Message-State: AOPr4FX7kU8AXz5CyC3j7pMSo/IBuCTWg6preokOqeUvKkZJqe4m4lbV7ND+Acs60y5vTg==
+X-Received: by 10.28.1.143 with SMTP id 137mr6193825wmb.17.1463566527794;
+	Wed, 18 May 2016 03:15:27 -0700 (PDT)
 Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
 	by smtp.gmail.com with ESMTPSA id
-	cz3sm7762432wjb.14.2016.05.18.02.58.26
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 18 May 2016 02:58:26 -0700 (PDT)
+	a75sm8299143wme.18.2016.05.18.03.15.26
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 18 May 2016 03:15:26 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 May 2016 11:57:33 +0200
-Message-Id: <1463565453-12827-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.8.2
-Subject: [PATCH] useradd: use bindir_native for pseudo PATH
+Date: Wed, 18 May 2016 12:15:56 +0200
+To: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <20160518101556.GB2579@jama>
+References: <573C0726.3040402@windriver.com>
+	<CA+chaQdJPWncYizZAKZ8MHOCqYRn+oKGcDuPhKVoepQhKh+LwQ@mail.gmail.com>
+	<573C21EE.8040104@windriver.com> <20160518092029.GA2579@jama>
+	<573C365D.3070407@windriver.com>
+MIME-Version: 1.0
+In-Reply-To: <573C365D.3070407@windriver.com>
+User-Agent: Mutt/1.6.1 (2016-04-27)
+Cc: oe-core <openembedded-core@lists.openembedded.org>
+Subject: Re: PRServer's problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,39 +61,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 May 2016 09:58:29 -0000
+X-List-Received-Date: Wed, 18 May 2016 10:15:33 -0000
+X-Groupsio-MsgNum: 82285
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="8P1HSweYDcXXzwPJ"
+Content-Disposition: inline
 
-* useradd/userdel functions will fail for recipes which override their target prefix
-  (e.g. to /opt/foo), because it will try to use pseudo from native-sysroot/opt/foo/bin/pseudo
+--8P1HSweYDcXXzwPJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/useradd.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Wed, May 18, 2016 at 05:31:09PM +0800, Robert Yang wrote:
+>=20
+>=20
+> On 05/18/2016 05:20 PM, Martin Jansa wrote:
+> > On Wed, May 18, 2016 at 04:03:58PM +0800, Robert Yang wrote:
+> >> Hi Martin,
+> >>
+> >> On 05/18/2016 03:39 PM, Martin Jansa wrote:
+> >>> See:
+> >>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D5970
+> >>>
+> >>> Just using recipe checksum wont work, because the main reason for PR =
+bumps is to
+> >>> automatically upgrade the packages when one of the dependencies chang=
+es .so
+> >>> version, which you won't detect from recipe checksum of the app which=
+ is just
+> >>> using the library.
+> >>
+> >> For the development branch like master, yes, that would happen. But for
+> >> the stable release like jethro and krogoth, it is unlikely that would
+> >> happen, and if if does, the user can manually bump the impacted recipe=
+'s
+> >> PR to fix the problem. The current problem is that when *all* recipes'
+> >> PR are bumped, there is no way to fix the problem.
+> >
+> > You can still stop using PR service and start doing manual PR bumps, but
+>=20
+> We can't stop PR service and start doing manual PR bumps since we need ke=
+ep
+> update to date with upstream, the changes from upstream don't do the manu=
+al
+> PR, and I don't think that we have to if they can be done automatically.
+>=20
+> > it's quite annoying if you need to bump a lot of recipes you don't
+> > control :).
+>=20
+> What's your opinion about only consider RDEPENDS for PR service's checksu=
+m,
+> please ?
 
-diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
-index ee402ac..8283bf3 100644
---- a/meta/classes/useradd.bbclass
-+++ b/meta/classes/useradd.bbclass
-@@ -103,7 +103,7 @@ useradd_sysroot () {
- 	# Pseudo may (do_install) or may not (do_populate_sysroot_setscene) be running 
- 	# at this point so we're explicit about the environment so pseudo can load if 
- 	# not already present.
--	export PSEUDO="${FAKEROOTENV} PSEUDO_LOCALSTATEDIR=${STAGING_DIR_TARGET}${localstatedir}/pseudo ${STAGING_DIR_NATIVE}${bindir}/pseudo"
-+	export PSEUDO="${FAKEROOTENV} PSEUDO_LOCALSTATEDIR=${STAGING_DIR_TARGET}${localstatedir}/pseudo ${STAGING_DIR_NATIVE}${bindir_native}/pseudo"
- 
- 	# Explicitly set $D since it isn't set to anything
- 	# before do_install
-@@ -130,7 +130,7 @@ useradd_sysroot_sstate () {
- userdel_sysroot_sstate () {
- if test "x${STAGING_DIR_TARGET}" != "x"; then
-     if [ "${BB_CURRENTTASK}" = "configure" -o "${BB_CURRENTTASK}" = "clean" ]; then
--        export PSEUDO="${FAKEROOTENV} PSEUDO_LOCALSTATEDIR=${STAGING_DIR_TARGET}${localstatedir}/pseudo ${STAGING_DIR_NATIVE}${bindir}/pseudo"
-+        export PSEUDO="${FAKEROOTENV} PSEUDO_LOCALSTATEDIR=${STAGING_DIR_TARGET}${localstatedir}/pseudo ${STAGING_DIR_NATIVE}${bindir_native}/pseudo"
-         OPT="--root ${STAGING_DIR_TARGET}"
- 
-         # Remove groups and users defined for package
--- 
-2.8.2
+I would like to have separate handler as described in that bug, option
+c).
 
+Not only because of unnecessary EXTENDPRAUTO bumps, but also unnecessary re=
+builds.
 
+> >>> On Wed, May 18, 2016 at 8:09 AM, Robert Yang <liezhi.yang@windriver.c=
+om
+> >>> <mailto:liezhi.yang@windriver.com>> wrote:
+> >>>
+> >>>      The PRServer bumps PR according to do_package's task hash, that
+> >>>      causes it bumps *all* packages' PR when recipes like pseudo-nati=
+ve
+> >>>      and rpm-native is changed. It is a very bad user experience when=
+ we
+> >>>      run "smart/opkg upgrade" on running target, for example, when we=
+ apply
+> >>>      a CVE patch to pseudo-native or rpm-native, or do some slight ch=
+anges
+> >>>      in their do_compile, "smart/opkg upgrade" will download/install =
+*all*
+> >>>      the packages since all of the packages' PR are bumped.
+> >>>
+> >>>      Here are some rough suggestions to fix this problem, and please =
+feel
+> >>>      free to give your suggestions.
+> >>>      1) Do not use do_package's task for bumping PR, the easiest way
+> >>>          is simulate manually bump PR -- only bump PR when the recipe
+> >>>          itself's checksum is changed.
+> >>>
+> >>>      2) Add a new task for PRServer, redefine its task hash for bumpi=
+ng
+> >>>          PR, for example, this task hash only considers RDEPENDS (no
+> >>>          DEPENDS), and drop any native dependencies.
+> >>>
+> >>>      I prefer the first way, and an alternative way maybe add a var s=
+o that
+> >>>      the user can configure it:
+> >>>      PR_CHECKSUM =3D "${BB_TASKHASH}" (current way)
+> >>>      Or
+> >>>      PR_CHECKSUM =3D "<recipe checksum>"
+> >>>
+> >>>      --
+> >>>      Thanks
+> >>>
+> >>>      Robert
+> >>>      --
+> >>>      _______________________________________________
+> >>>      Openembedded-core mailing list
+> >>>      Openembedded-core@lists.openembedded.org
+> >>>      <mailto:Openembedded-core@lists.openembedded.org>
+> >>>      http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >>>
+> >>>
+> >
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--8P1HSweYDcXXzwPJ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlc8QNwACgkQN1Ujt2V2gByTtgCfR04LxtXUA8FBLn8QLmyRyLKZ
+ecwAoJ0v0iU404KiTb5ZSA4XXheA6oLo
+=vJDA
+-----END PGP SIGNATURE-----
+
+--8P1HSweYDcXXzwPJ--
