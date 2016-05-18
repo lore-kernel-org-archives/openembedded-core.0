@@ -1,43 +1,27 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qg0-f66.google.com (mail-qg0-f66.google.com
-	[209.85.192.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 24D8277086
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B0D576F8C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2016 16:43:24 +0000 (UTC)
-Received: by mail-qg0-f66.google.com with SMTP id e35so4640642qge.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2016 09:43:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:organization;
-	bh=xGRH0x3iE/Et0Jgdk6r2MyDpuaqk0MHvhYPLKbINB0Y=;
-	b=UGnYrWLt85wGPEd6nt0UCSIhli6jnZltFTbCYMd/ANV4nIGBfRUO/beagdGEAWa73B
-	QJt6gzty4LZjxoWaE2aY9pXqX66byBsI4ADJJf30W0BPL2gYXujlbq93FwxSgHqHPJob
-	a0kl9M7tgKfNRw9R+s12CYScdnXiDcgkabEzQkYgMUURMjNJHzsG/pjoEf40AYGuVSL2
-	O1KEQqWclbo9tjitHVnYJyolCYL0F0f3Tug/tYLwVjg1zAYPfIrjgrRkRDsITnWncBt6
-	Cjq7I7iiTUgLDcbfzKjVVHy/+LnnSYiV9VhPo2aewWFfo7sWfjk3EeDvcBjwI3pQ7foU
-	ZFuA==
-X-Gm-Message-State: AOPr4FV2qeV+Dotg8lqHv83dzZeSAoGMVmJnj6y9X4pZrTkLXwbZYrP/WYjBa8EKaR2cFA==
-X-Received: by 10.140.178.15 with SMTP id y15mr9021275qhy.44.1463589804932;
-	Wed, 18 May 2016 09:43:24 -0700 (PDT)
-Received: from localhost ([187.23.154.250]) by smtp.gmail.com with ESMTPSA id
-	t81sm4528347qhc.11.2016.05.18.09.43.18
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 18 May 2016 09:43:23 -0700 (PDT)
-Received: by localhost (sSMTP sendmail emulation);
-	Wed, 18 May 2016 13:43:14 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Wed, 18 May 2016 13:40:48 -0300
-Message-Id: <1463589648-28641-14-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.8.2
-In-Reply-To: <1463589648-28641-1-git-send-email-otavio@ossystems.com.br>
-References: <1463589648-28641-1-git-send-email-otavio@ossystems.com.br>
-Organization: O.S. Systems Software LTDA.
-Cc: prabhu.sundararaj@nxp.com, Otavio Salvador <otavio@ossystems.com.br>,
-	meta-freescale Mailing List <meta-freescale@yoctoproject.org>
-Subject: [oe-core PATCH v8 13/13] core-image-weston: If X11 is enabled, add XWayland support
+	Wed, 18 May 2016 18:31:31 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u4IIVSpQ030079; Wed, 18 May 2016 19:31:28 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id NqWj0aFkp7q2; Wed, 18 May 2016 19:31:28 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u4IIVMPs030076
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 18 May 2016 19:31:23 +0100
+Message-ID: <1463596282.4578.71.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 18 May 2016 19:31:22 +0100
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Cc: "Eggleton, Paul" <paul.eggleton@intel.com>
+Subject: [PATCH] pseudo: Work around issues with glibc 2.24
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,42 +34,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 May 2016 16:43:24 -0000
+X-List-Received-Date: Wed, 18 May 2016 18:31:34 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-When the distribution has X11 and Wayland backends, we enable XWayland
-support and include XTerm as a test application for the XWayland
-backend.
+There are issues with a change made to RTLD_NEXT behaviour in glibc 2.24
+and that change was also backported to older glibc versions in some distros
+like Fedora 23. This adds a workaround whilst the pseudo maintainer fixes
+various issues properly.
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Changes in v8:
-- Install weston-xwayland package (Ross)
-
-Changes in v7: None
-Changes in v6:
-- Add xterm
-
-Changes in v5: None
-Changes in v4: None
-Changes in v3:
-- New patch.
-
-Changes in v2: None
-
- meta/recipes-graphics/images/core-image-weston.bb | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-graphics/images/core-image-weston.bb b/meta/recipes-graphics/images/core-image-weston.bb
-index 52e271d..f62f9d7 100644
---- a/meta/recipes-graphics/images/core-image-weston.bb
-+++ b/meta/recipes-graphics/images/core-image-weston.bb
-@@ -9,3 +9,4 @@ inherit core-image distro_features_check
- REQUIRED_DISTRO_FEATURES = "wayland"
+diff --git a/meta/recipes-devtools/pseudo/pseudo/pseudo-glibc-rtld-next-workaround.patch b/meta/recipes-devtools/pseudo/pseudo/pseudo-glibc-rtld-next-workaround.patch
+new file mode 100644
+index 0000000..6710734
+--- /dev/null
++++ b/meta/recipes-devtools/pseudo/pseudo/pseudo-glibc-rtld-next-workaround.patch
+@@ -0,0 +1,85 @@
++We started seeing:
++
++No real function for mknod: /home/paul/poky_sdk/tmp/sysroots/x86_64-
++linux/usr/bin/../lib/pseudo/lib64/libpseudo.so: undefined symbol: mknod
++No real function for mknodat: /home/paul/poky_sdk/tmp/sysroots/x86_64-
++linux/usr/bin/../lib/pseudo/lib64/libpseudo.so: undefined symbol: mknodat
++
++In glibc 2.24 they've merged:
++
++https://sourceware.org/git/?p=glibc.git;a=commit;h=7d45c163d00c88d5875a112343c4ea3e61349e6b
++related to bugzilla entry:
++https://sourceware.org/bugzilla/show_bug.cgi?id=19509
++
++which means that the behaviour of RTLD_NEXT is slightly different.
++As far as I can tell, mknod has not been present in glibc for a while. 
++To quote stat.h:
++
++/* To allow the `struct stat' structure and the file type `mode_t'
++   bits to vary without changing shared library major version number,
++   the `stat' family of functions and `mknod' are in fact inline
++   wrappers around calls to `xstat', `fxstat', `lxstat', and `xmknod',
++   which all take a leading version-number argument designating the
++   data structure and bits used.  <bits/stat.h> defines _STAT_VER with
++   the version number corresponding to `struct stat' as defined in
++   that file; and _MKNOD_VER with the version number corresponding to
++   the S_IF* macros defined therein.  It is arranged that when not
++   inlined these function are always statically linked; that way a
++   dynamically-linked executable always encodes the version number
++   corresponding to the data structures it uses, so the `x' functions
++   in the shared library can adapt without needing to recompile all
++   callers.  */
++
++so I suspect mknod has not existed for a while, if ever and what we
++were finding, who knows. Everying in the system links against _xmknod
++which we have a separate wrapper for.
++
++Anyhow, ignoring that problem which hasn't caused a issue in the past, 
++the RTLD_NEXT change causes messages to be printed to stdout which causes 
++carnage if for example the packaging code is expecting a list of packages:
++
++WARNING: core-image-minimal-1.0-r0 do_rootfs: No not found in the base feeds (qemux86_64 core2-64 x86_64 noarch any all).
++WARNING: core-image-minimal-1.0-r0 do_rootfs: real not found in the base feeds (qemux86_64 core2-64 x86_64 noarch any all).
++WARNING: core-image-minimal-1.0-r0 do_rootfs: function not found in the base feeds (qemux86_64 core2-64 x86_64 noarch any all).
++WARNING: core-image-minimal-1.0-r0 do_rootfs: for not found in the base feeds (qemux86_64 core2-64 x86_64 noarch any all).
++WARNING: core-image-minimal-1.0-r0 do_rootfs: mknod: not found in the base feeds (qemux86_64 core2-64 x86_64 noarch any all).
++[etc]
++
++This bug will affect:
++* any distro using glibc 2.24
++* any system using a uninative tarball for glibc 2.24
++* any system which took a backport for the fix which was merged into
++  the 2.23 branch for a while before it was reverted (Fedora 23 had this)
++
++The easiest thing to do is to ignore the problem and disable the diag
++message which masks the problem with no ill effects.
++
++As Peter notes, there are a few issues here:
++
++* the fact there is no mknod symbol
++* the fact an error here isn't fatal
++* the #ifdef/#else looks suspect
++* handle RTLD_NEXT chaining properly (need more libs?)
++
++which he'll work on upstream and hopefully have fixed in a new version.
++
++Upstream-Status: Submitted [Peter is aware of the issue]
++
++RP 2016/5/18
++
++Index: pseudo-1.7.5/pseudo_wrappers.c
++===================================================================
++--- pseudo-1.7.5.orig/pseudo_wrappers.c
+++++ pseudo-1.7.5/pseudo_wrappers.c
++@@ -146,9 +146,9 @@ pseudo_init_one_wrapper(pseudo_function
++ 			return;
++ 		}
++ #else
++-		if (e != NULL) {
+++		/*if (e != NULL) {
++ 			pseudo_diag("No real function for %s: %s\n", func->name, e);
++-		}
+++		}*/
++ #endif
++ 	}
++ }
+diff --git a/meta/recipes-devtools/pseudo/pseudo_1.7.5.bb b/meta/recipes-devtools/pseudo/pseudo_1.7.5.bb
+index dfb9b39..d4f1e36 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_1.7.5.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_1.7.5.bb
+@@ -7,6 +7,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/pseudo/${BPN}-${PV}.tar.bz
+            file://moreretries.patch \
+            file://handle-remove-xattr.patch \
+            file://obey-ldflags.patch \
++           file://pseudo-glibc-rtld-next-workaround.patch \
+            "
  
- CORE_IMAGE_BASE_INSTALL += "weston weston-init weston-examples gtk+3-demo clutter-1.0-examples"
-+CORE_IMAGE_BASE_INSTALL += "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'weston-xwayland xterm', '', d)}"
--- 
-2.8.2
+ SRC_URI[md5sum] = "c10209938f03128d0c193f041ff3596d"
+
 
 
