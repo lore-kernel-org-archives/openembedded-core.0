@@ -1,43 +1,43 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
-	[209.85.220.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 13E52731D7
+Received: from mail-qg0-f67.google.com (mail-qg0-f67.google.com
+	[209.85.192.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E6F4731D7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2016 16:43:02 +0000 (UTC)
-Received: by mail-qk0-f194.google.com with SMTP id q184so4873476qkf.0
+	Wed, 18 May 2016 16:43:13 +0000 (UTC)
+Received: by mail-qg0-f67.google.com with SMTP id b14so4643512qge.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2016 09:43:03 -0700 (PDT)
+	Wed, 18 May 2016 09:43:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:organization;
-	bh=sxtrggDZptHHD5DKQEgatGo/Uu56kV6DXFBNljAusCg=;
-	b=VD2keQ7SvP1QIG3cU3yFTQvdruOACDnhxW7fZmX3FSjim7KR5ekzooOMW+cJNyixXC
-	cX0r8pHZR4LKZVXr6zEwBH66bltM1DO/kvFOptWJoixAEo4DFiBpqKpOD8iOWSOtC5w4
-	+BNG4LWnonBIcs4VrgmUICbhJliKOiZv9N/uLdpphgaqXdpXrXixs1sRkfBbKU3SUWB1
-	9G5Bm4Q+A3t0c/PvToR0sDyypNUWHmLGRic1o+eT061aB5njVx6Fe5WONNg7TljG0h9J
-	379t2DoO2d0DX7UX/QWyq0KnLy34v3ZPBLtfh4+qbPu+GyKaIAOZCKblnOTN+fqMcZA2
-	y0Ig==
-X-Gm-Message-State: AOPr4FWqcQF7u2xJsAvahDLsNUYoSDUqzeijnyXGdZ+goptn5jTVeUAMHdmfYZQiN0XVDA==
-X-Received: by 10.55.21.217 with SMTP id 86mr9178958qkv.4.1463589782858;
-	Wed, 18 May 2016 09:43:02 -0700 (PDT)
+	bh=rffToQ0o+LBVU2w3ixqCYlGT+kp4oxiViPl6xRzveu8=;
+	b=JRy3DpI55xri/IFosamOZQxQq6CjhShR9/JezysJkMHE3iQ7411URJlGarRAzAqocT
+	ggnYVPFclwN+CW0sTxBmRAPnzQfm7wOsujh2YCrUXgriHqHqv213KEgCr0oS41aF5x/m
+	jwo8IYYOsihOpRLmeZHzbbD+P37vOCTHuJ1vZLL0DHhhdaMke+BhQaRBw542xY5veaa3
+	qdStStFm6jyqx4VbQHMXShJZed1assL0OGIvM7TsATZiTzdR6Icu8DKlF9V3lwUj15vz
+	BnjeP0QJqdmVTk/wbP8pTxaRA63oSKWhSLXfFCvDyXbkhsBY9n5z7xyl2Ah57NVlHAjx
+	nZLA==
+X-Gm-Message-State: AOPr4FVnqhpQkd0HXcXejhzbFOylS8OFg497aGoter9JButBBSOB3IE3OfmJ5ZCQSfie7w==
+X-Received: by 10.140.234.130 with SMTP id f124mr8866277qhc.65.1463589793877; 
+	Wed, 18 May 2016 09:43:13 -0700 (PDT)
 Received: from localhost ([187.23.154.250]) by smtp.gmail.com with ESMTPSA id
-	i131sm4551249qke.48.2016.05.18.09.42.56
+	q13sm2138027qkc.36.2016.05.18.09.43.07
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 18 May 2016 09:43:01 -0700 (PDT)
+	Wed, 18 May 2016 09:43:12 -0700 (PDT)
 Received: by localhost (sSMTP sendmail emulation);
-	Wed, 18 May 2016 13:42:51 -0300
+	Wed, 18 May 2016 13:43:03 -0300
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Wed, 18 May 2016 13:40:46 -0300
-Message-Id: <1463589648-28641-12-git-send-email-otavio@ossystems.com.br>
+Date: Wed, 18 May 2016 13:40:47 -0300
+Message-Id: <1463589648-28641-13-git-send-email-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.8.2
 In-Reply-To: <1463589648-28641-1-git-send-email-otavio@ossystems.com.br>
 References: <1463589648-28641-1-git-send-email-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
 Cc: prabhu.sundararaj@nxp.com, Otavio Salvador <otavio@ossystems.com.br>,
 	meta-freescale Mailing List <meta-freescale@yoctoproject.org>
-Subject: [oe-core PATCH v8 11/13] weston: Add Xwayland initialization support using weston-start
+Subject: [oe-core PATCH v8 12/13] weston-init: Use weston-launch when starting weston as the first windowing system
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,71 +50,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 May 2016 16:43:02 -0000
+X-List-Received-Date: Wed, 18 May 2016 16:43:13 -0000
 
-The weston-start script now supports loading modules so the Xwayland
-support can be loaded optionally. Use this to load Weston accordingly.
+From: Tom Hochstein <tom.hochstein@nxp.com>
 
+When  weston is started as the first windowing system (i.e. not under X
+nor under another Wayland server), it should be done with  the  command
+weston-launch to set up proper privileged access to devices.
+
+Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
 
-Changes in v8:
-- Change order of patch (Ross)
+Changes in v8: None
+Changes in v7: None
+Changes in v6:
+- New patch.
 
-Changes in v7:
-- Rebase on top of 1.10 v2 + fixup
-
-Changes in v6: None
 Changes in v5: None
 Changes in v4: None
 Changes in v3: None
-Changes in v2:
-- Move weston-start module to weston package
-- Stop using weston-launch
+Changes in v2: None
 
- meta/recipes-graphics/wayland/weston/xwayland.weston-start | 7 +++++++
- meta/recipes-graphics/wayland/weston_1.10.0.bb             | 7 ++++++-
- 2 files changed, 13 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/wayland/weston/xwayland.weston-start
+ meta/recipes-graphics/wayland/weston-init/weston-start | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/wayland/weston/xwayland.weston-start b/meta/recipes-graphics/wayland/weston/xwayland.weston-start
-new file mode 100644
-index 0000000..b483c97
---- /dev/null
-+++ b/meta/recipes-graphics/wayland/weston/xwayland.weston-start
-@@ -0,0 +1,7 @@
-+#!/bin/sh
-+
-+if type Xwayland  >/dev/null 2>/dev/null; then
-+	mkdir -p /tmp/.X11-unix
-+
-+	add_weston_argument "--modules=xwayland.so"
+diff --git a/meta/recipes-graphics/wayland/weston-init/weston-start b/meta/recipes-graphics/wayland/weston-init/weston-start
+index 4aa7c66..72ba4b7 100755
+--- a/meta/recipes-graphics/wayland/weston-init/weston-start
++++ b/meta/recipes-graphics/wayland/weston-init/weston-start
+@@ -31,6 +31,11 @@ if [ -n "$WAYLAND_DISPLAY" ]; then
+ 	echo "ERROR: A Wayland compositor is already running, nested Weston instance is not supported yet."
+ 	exit 1
+ fi
++if [ -n "$DISPLAY" ]; then
++	launcher="weston"
++else
++	launcher="weston-launch --"
 +fi
-diff --git a/meta/recipes-graphics/wayland/weston_1.10.0.bb b/meta/recipes-graphics/wayland/weston_1.10.0.bb
-index 347f806..dae3cc9 100644
---- a/meta/recipes-graphics/wayland/weston_1.10.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_1.10.0.bb
-@@ -11,6 +11,7 @@ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-            file://make-libwebp-explicitly-configurable.patch \
-            file://0001-make-error-portable.patch \
-            file://0001-configure.ac-Fix-wayland-protocols-path.patch \
-+           file://xwayland.weston-start \
-            file://make-weston-launch-exit-for-unrecognized-option.patch \
-            file://0001-weston-launch-Provide-a-default-version-that-doesn-t.patch \
- "
-@@ -92,7 +93,11 @@ do_install_append() {
  
- 		install -d ${D}${datadir}/icons/hicolor/48x48/apps
- 		install ${WORKDIR}/weston.png ${D}${datadir}/icons/hicolor/48x48/apps
--        fi
-+	fi
-+
-+	if [ "${@bb.utils.contains('PACKAGECONFIG', 'xwayland', 'yes', 'no', d)}" = "yes" ]; then
-+		install -Dm 644 ${WORKDIR}/xwayland.weston-start ${D}${datadir}/weston-start/xwayland
-+	fi
- }
+ openvt_args=""
+ while [ -n "$1" ]; do
+@@ -64,4 +69,4 @@ if test -z "$XDG_RUNTIME_DIR"; then
+     chmod 0700 $XDG_RUNTIME_DIR
+ fi
  
- PACKAGE_BEFORE_PN += "${PN}-xwayland"
+-exec openvt $openvt_args -- weston $weston_args --log=/var/log/weston.log
++exec openvt $openvt_args -- $launcher $weston_args --log=/var/log/weston.log
 -- 
 2.8.2
 
