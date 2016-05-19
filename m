@@ -1,20 +1,21 @@
-Return-Path: <humberto.ibarra.lopez@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 4DEA865CBB
+Return-Path: <brian.avery@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 8AE1B6E630
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 May 2016 19:50:22 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 19 May 2016 12:50:23 -0700
+	Thu, 19 May 2016 20:16:29 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga104.fm.intel.com with ESMTP; 19 May 2016 13:16:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,335,1459839600"; d="scan'208";a="705895762"
-Received: from jhibarra-mobl1.zpn.intel.com ([10.219.17.45])
-	by FMSMGA003.fm.intel.com with ESMTP; 19 May 2016 12:50:22 -0700
-From: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
+X-IronPort-AV: E=Sophos;i="5.26,335,1459839600"; d="scan'208";a="980706874"
+Received: from bavery-ws-desk.jf.intel.com ([10.7.201.28])
+	by orsmga002.jf.intel.com with ESMTP; 19 May 2016 13:16:29 -0700
+From: bavery <brian.avery@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 May 2016 14:51:54 -0500
-Message-Id: <1463687514-25018-1-git-send-email-humberto.ibarra.lopez@intel.com>
-X-Mailer: git-send-email 2.4.11
-Subject: [PATCH] scripts/bitbake-whatchanged: migrate from optparse to argparse
+Date: Thu, 19 May 2016 13:17:36 -0700
+Message-Id: <cover.1463687747.git.brian.avery@intel.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH 0/1] [PATCH] gdb: Backport 7.12 features supporting AVX and MPX
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,112 +28,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 May 2016 19:50:25 -0000
+X-List-Received-Date: Thu, 19 May 2016 20:16:29 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-The script bitbake-whatchanged uses optparse library, which is
-deprecated since python 2.7. This migrates to argparse library.
+This patch brings in features from gdb 7.12 so that an Intel core that
+supports MPX but not AVX will work as will the converse. Previous
+versions assumed that if MPX was supported AVX was as well.
 
-[Yocto #9634]
+-brian avery
 
-Signed-off-by: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
----
- scripts/bitbake-whatchanged | 32 ++++++++++++--------------------
- 1 file changed, 12 insertions(+), 20 deletions(-)
+Changelog details of this patch:
+2016-02-25  Marcin Kościelnicki  <koriakin@0x04.net>
 
-diff --git a/scripts/bitbake-whatchanged b/scripts/bitbake-whatchanged
-index af54d16..a20adb2 100755
---- a/scripts/bitbake-whatchanged
-+++ b/scripts/bitbake-whatchanged
-@@ -25,7 +25,7 @@ import shutil
- import re
- import warnings
- import subprocess
--from optparse import OptionParser
-+import argparse
- 
- scripts_path = os.path.abspath(os.path.dirname(os.path.abspath(sys.argv[0])))
- lib_path = scripts_path + '/lib'
-@@ -38,6 +38,8 @@ bitbakepath = scriptpath.add_bitbake_lib_path()
- if not bitbakepath:
-     sys.stderr.write("Unable to find bitbake by searching parent directory of this script or PATH\n")
-     sys.exit(1)
-+scriptpath.add_oe_lib_path()
-+import argparse_oe
- 
- import bb.siggen
- import bb.process
-@@ -219,9 +221,7 @@ def main():
-     3) Use bb.siggen.compare_sigfiles to diff the old and new stamps
-     """
- 
--    parser = OptionParser(
--        version = "1.0",
--        usage = """%prog [options] [package ...]
-+    parser = argparse_oe.ArgumentParser(usage = """%(prog)s [options] [package ...]
- print what will be done between the current and last builds, for example:
- 
-     $ bitbake core-image-sato
-@@ -236,17 +236,9 @@ Note:
-     The "nostamp" task is not included.
- """
- )
--    parser.add_option("-v", "--verbose", help = "print the verbose changes",
--               action = "store_true", dest = "verbose")
--
--    options, args = parser.parse_args(sys.argv)
--
--    verbose = options.verbose
--
--    if len(args) != 2:
--        parser.error("Incorrect number of arguments")
--    else:
--        recipe = args[1]
-+    parser.add_argument("recipe", help="recipe to check")
-+    parser.add_argument("-v", "--verbose", help = "print the verbose changes", action = "store_true")
-+    args = parser.parse_args()
- 
-     # Get the STAMPS_DIR
-     print("Figuring out the STAMPS_DIR ...")
-@@ -256,7 +248,7 @@ Note:
-     except:
-         raise
-     if not stampsdir:
--        print("ERROR: No STAMPS_DIR found for '%s'" % recipe, file=sys.stderr)
-+        print("ERROR: No STAMPS_DIR found for '%s'" % args.recipe, file=sys.stderr)
-         return 2
-     stampsdir = stampsdir.rstrip("\n")
-     if not os.path.isdir(stampsdir):
-@@ -272,7 +264,7 @@ Note:
-     try:
-         # Generate the new stamps dir
-         print("Generating the new stamps ... (need several minutes)")
--        cmdline = "STAMPS_DIR=%s bitbake -S none %s" % (new_stampsdir, recipe)
-+        cmdline = "STAMPS_DIR=%s bitbake -S none %s" % (new_stampsdir, args.recipe)
-         # FIXME
-         # The "bitbake -S" may fail, not fatal error, the stamps will still
-         # be generated, this might be a bug of "bitbake -S".
-@@ -310,17 +302,17 @@ Note:
-         # PV (including PE) and PR changed
-         # Let the bb.siggen handle them if verbose
-         cnt_rv = {}
--        if not verbose:
-+        if not args.verbose:
-             for i in ('pv', 'pr'):
-                cnt_rv[i] = print_vrchanged(new_recon, old_recon, i)
- 
-         # Dependencies changed (use bitbake-diffsigs)
--        cnt_dep = print_depchanged(new_recon, old_recon, verbose)
-+        cnt_dep = print_depchanged(new_recon, old_recon, args.verbose)
- 
-         total_changed = cnt_added + (cnt_rv.get('pv') or 0) + (cnt_rv.get('pr') or 0) + cnt_dep
- 
-         print("\n=== Summary: (%s changed, %s unchanged)" % (total_changed, cnt_unchanged))
--        if verbose:
-+        if args.verbose:
-             print("Newly added: %s\nDependencies changed: %s\n" % \
-                 (cnt_added, cnt_dep))
-         else:
--- 
-2.4.11
+	PR gdb/13808
+	* Makefile.in: Add i386-*-linux-ipa.o and amd64-*-linux-ipa.o.
+	* configure.srv: Ditto.
+	* linux-aarch64-ipa.c (get_ipa_tdesc): New function.
+	(initialize_low_tracepoint): Remove ipa_tdesc assignment.
+	* linux-amd64-ipa.c: Add "linux-x86-tdesc.h" include.
+	(init_registers_amd64_linux): Remove prototype.
+	(tdesc_amd64_linux): Remove declaration.
+	(get_ipa_tdesc): New function.
+	(initialize_low_tracepoint): Remove ipa_tdesc assignment,
+	initialize remaining tdescs.
+	* linux-i386-ipa.c: Add "linux-x86-tdesc.h" include.
+	(init_registers_i386_linux): Remove prototype.
+	(tdesc_i386_linux): Remove declaration.
+	(get_ipa_tdesc): New function.
+	(initialize_low_tracepoint): Remove ipa_tdesc assignment,
+	initialize remaining tdescs.
+	* linux-low.c (linux_get_ipa_tdesc_idx): New function.
+	(linux_target_ops): wire in linux_get_ipa_tdesc_idx.
+	* linux-low.h (struct linux_target_ops): Add get_ipa_tdesc_idx.
+	* linux-x86-low.c: Move tdesc declarations to linux-x86-tdesc.h.
+	(x86_get_ipa_tdesc_idx): New function.
+	(the_low_target): Wire in x86_get_ipa_tdesc_idx.
+	* linux-x86-tdesc.h: New file.
+	* target.h (struct target_ops): Add get_ipa_tdesc_idx.
+	(target_get_ipa_tdesc_idx): New macro.
+	* tracepoint.c (ipa_tdesc_idx): New macro.
+	(struct ipa_sym_addresses): Add addr_ipa_tdesc_idx.
+	(symbol_list): Add ipa_tdesc_idx.
+	(cmd_qtstart): Write ipa_tdesc_idx in the target.
+	(ipa_tdesc): Remove.
+	(ipa_tdesc_idx): New variable.
+	(get_context_regcache): Use get_ipa_tdesc.
+	(gdb_collect): Ditto.
+	(gdb_probe): Ditto.
+	* tracepoint.h (get_ipa_tdesc): New prototype.
+	(ipa_tdesc): Remove.
 
+2016-04-14  Walfred Tedeschi  <walfred.tedeschi@intel.com>
+
+	* features/i386/amd64-mpx-linux.xml: Remove AVX feature.
+	* features/i386/amd64-mpx.xml: Remove AVX feature.
+	* features/i386/i386-mpx-linux.xml: Remove AVX feature.
+	* features/i386/i386-mpx.xml: Remove AVX feature.
+	* features/i386/amd64-mpx-linux.c: Regenerate.
+	* features/i386/amd64-mpx.c: Regenerate.
+	* features/i386/i386-mpx-linux.c: Regenerate.
+	* features/i386/i386-mpx.c: Regenerate.
+	* regformats/i386/amd64-mpx-linux.dat: Regenerate.
+	* regformats/i386/amd64-mpx.dat: Regenerate.
+	* regformats/i386/i386-mpx-linux.dat: Regenerate.
+	* regformats/i386/i386-mpx.dat: Regenerate.
+
+
+The following changes since commit c9867c4624b88fb19deacf70b7a3ff46d4fa4699:
+
+  bitbake: cooker: Improve taskgraph file handling (2016-05-19 15:19:11 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib bavery/gdb-7.11-avxmpx-backport
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=bavery/gdb-7.11-avxmpx-backport
+
+bavery (1):
+  gdb: 7.11 backport of 7.12 avx/mxp support
+
+ meta/recipes-devtools/gdb/gdb-common.inc         |    2 +-
+ meta/recipes-devtools/gdb/gdb/0011-avx_mpx.patch | 2503 ++++++++++++++++++++++
+ 2 files changed, 2504 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/gdb/gdb/0011-avx_mpx.patch
+
+--
+1.9.1
 
