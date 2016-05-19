@@ -1,34 +1,26 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 496E160290
+Return-Path: <geiseri@geekcentral.pub>
+Received: from sender163-mail.zoho.com (sender163-mail.zoho.com
+	[74.201.84.163])
+	by mail.openembedded.org (Postfix) with ESMTP id C9E046010B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 May 2016 09:46:02 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u4J9k2wT028874; Thu, 19 May 2016 10:46:02 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id xMMJ5pg6ikhB; Thu, 19 May 2016 10:46:02 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u4J9judb028870
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 19 May 2016 10:45:57 +0100
-Message-ID: <1463651156.4578.113.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Robert Yang <liezhi.yang@windriver.com>, Martin Jansa
-	<martin.jansa@gmail.com>
-Date: Thu, 19 May 2016 10:45:56 +0100
-In-Reply-To: <573D2EAF.9010602@windriver.com>
-References: <573C0726.3040402@windriver.com>
-	<CA+chaQdJPWncYizZAKZ8MHOCqYRn+oKGcDuPhKVoepQhKh+LwQ@mail.gmail.com>
-	<573C21EE.8040104@windriver.com> <20160518092029.GA2579@jama>
-	<573C365D.3070407@windriver.com> <20160518101556.GB2579@jama>
-	<573D260D.2020909@windriver.com> <573D2EAF.9010602@windriver.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Cc: oe-core <openembedded-core@lists.openembedded.org>
-Subject: Re: PRServer's problem
+	Thu, 19 May 2016 09:52:47 +0000 (UTC)
+DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws; s=zoho; d=geekcentral.pub; 
+	h=date:from:to:message-id:subject:mime-version:content-type:user-agent; 
+	b=RusCcL7nwYP1K7U5broYe9FlXDAAHgGudVNS92mH3TdzH7WHF6AEZw+00xp9I1N8e4v6bMD8yb3w
+	0C4YFs5nt2j0xc6W0sdqt2A8eIgdZPUjXQGG6sFNaWMs1Q5YJq30AilagV4AOd41losMMQA3HETb
+	vSPwKah79kCDI67VRzQ=  
+Received: from mail.zoho.com by mx.zohomail.com
+	with SMTP id 1463651565525268.89369487467343;
+	Thu, 19 May 2016 02:52:45 -0700 (PDT)
+Date: Thu, 19 May 2016 05:52:45 -0400
+From: Ian Geiser <geiseri@geekcentral.pub>
+To: "openembedded-core" <openembedded-core@lists.openembedded.org>
+Message-ID: <154c86e7fa2.11a4a3b0e305159.2603931524640206304@geekcentral.pub>
+MIME-Version: 1.0
+X-Priority: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
+Subject: Wic and "live" images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,37 +33,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 May 2016 09:46:05 -0000
+X-List-Received-Date: Thu, 19 May 2016 09:52:49 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+Greetings, I am trying to learn "wic" and have been confused as how to create a "live" style image.  I am following "http://www.yoctoproject.org/docs/1.5.2/dev-manual/dev-manual.html#creating-partitioned-images" but am getting confused on the target to use to create the a file system that has a single squashfs file containing my root file system.  
 
-The bottom line is that the system is setup to be sensitive to changes.
-Where we've had cases where we haven't reacted to changes, people have
-complained and we've ended up making sure we do react to them. The
-patch you reference was one such case where users complained we didn't
-react enough.
+My desired partition layout is as follows:
+      40MiB                 40MiB               300MiB
++--------------------+-----------------+-----------------------------+
+|      BOOT (esp)    |    DATA (fat)   |          ROOT (live)        |  
++--------------------+-----------------+-----------------------------+
 
-You can't have things both ways, where it reacts to all changes but
-also never reacts to changes which don't have any visible effect on the
-end result (how do you know?).
+BOOT - efi boot partition with kernel and initramfs
+DATA - generic fat filesystem to hold configuration files
+ROOT - an ext4 filesystem that contains a single os.img, which is a squashfs file.
 
-The binary diff tool is likely going to be the only way to ultimately
-control a binary package feed and is still the only way I can see of
-solving this problem. I'd love some help on making that work. Making
-deterministic binaries is a large part in making that tool effectively
-ultimate and we had some great work on that in the last release.
+I have ROOT and DATA figured out but I am at a loss as how to generate the os.img file and copy it into ROOT.  If I generate the os.img file with bitbake and then use the "-r" option to manually supply a directory structure it works, but I would rather have it done from a wks file for automation reasons.
 
-To be really clear, OE-Core will not have a different signature policy
-on release branches since that differing policy would break user
-expectations and also wouldn't get tested apart from on the branch so
-we'd have less confidence it was working.
+Any hints?
 
-Users are free to set their own policies, the system was designed to do
-that. If WindRiver wants to have a much more permissive policy, I'm
-more than happy for them to do so.
+Thanks!
 
-Cheers,
 
-Richard
+
 
