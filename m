@@ -1,31 +1,34 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1AC3D60125
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.analogue-micro.com (mail.analogue-micro.com
+	[217.144.149.242])
+	by mail.openembedded.org (Postfix) with ESMTP id 4914060125
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 May 2016 03:10:42 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u4J3Afkl022916
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Wed, 18 May 2016 20:10:41 -0700
-Received: from [128.224.162.214] (128.224.162.214) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 18 May 2016 20:10:40 -0700
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <573C0726.3040402@windriver.com>
-	<CA+chaQdJPWncYizZAKZ8MHOCqYRn+oKGcDuPhKVoepQhKh+LwQ@mail.gmail.com>
-	<573C21EE.8040104@windriver.com> <20160518092029.GA2579@jama>
-	<573C365D.3070407@windriver.com> <20160518101556.GB2579@jama>
-	<573D260D.2020909@windriver.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <573D2EAF.9010602@windriver.com>
-Date: Thu, 19 May 2016 11:10:39 +0800
+	Thu, 19 May 2016 03:16:31 +0000 (UTC)
+Received: by mail.analogue-micro.com (Postfix, from userid 999)
+	id 6636E68A01C; Thu, 19 May 2016 04:16:30 +0100 (BST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	loki.analogue-micro-ltd.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-0.2 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
+	by mail.analogue-micro.com (Postfix) with ESMTP id 32F1168A019;
+	Thu, 19 May 2016 04:16:29 +0100 (BST)
+Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
+	by zeus.mlbassoc.com (Postfix) with ESMTP id D265067404E1;
+	Thu, 19 May 2016 05:16:28 +0200 (CEST)
+To: openembedded-core@lists.openembedded.org
+References: <cover.1463562174.git.liezhi.yang@windriver.com>
+	<4d1dd04acc6195e8e498741a36b67b208c62b32b.1463562174.git.liezhi.yang@windriver.com>
+	<CAMKF1srNvmFgT0s_Tp174WO4SG2RAXUkhcg5_41Vu0V5NRHgwg@mail.gmail.com>
+From: Gary Thomas <gary@mlbassoc.com>
+Message-ID: <573D300C.5080309@mlbassoc.com>
+Date: Thu, 19 May 2016 05:16:28 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
 	Thunderbird/38.7.2
 MIME-Version: 1.0
-In-Reply-To: <573D260D.2020909@windriver.com>
-Cc: oe-core <openembedded-core@lists.openembedded.org>
-Subject: Re: PRServer's problem
+In-Reply-To: <CAMKF1srNvmFgT0s_Tp174WO4SG2RAXUkhcg5_41Vu0V5NRHgwg@mail.gmail.com>
+Subject: Re: [PATCH 1/1] webkitgtk: turn off JIT on armv4 and armv7a
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,148 +41,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 May 2016 03:10:44 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Thu, 19 May 2016 03:16:33 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-
-
-On 05/19/2016 10:33 AM, Robert Yang wrote:
->
-> Hi Martin,
->
-> I found this patch in the bug:
->
-> http://git.openembedded.org/openembedded-core/commit/meta/lib/oe/sstatesig.py?id=336a7897e39b9e42dcfcba9e2520ea96b0c6a8d6
-
-And this patch causes another inconsistent:
-
-PACKAGE_CLASSES = "package_ipk"
-
-1) After make some changes in opkg-utils-native, foo.do_package_write_ipk
-will re-run, but PR doesn't bump, this is because PR is bumped in
-do_package, and do_package doesn't depend on opkg-utils-native, but
-do_package_write_ipk does, so do_package_write_ipk will rerun but no
-PR is bumped.
-
-2) Another more funny problem is, after make some changes in rpm-native
-(PACKAGE_CLASSES = "package_ipk"), both foo.do_package and
-foo.do_package_write_ipk will run and PR is bumped. This is because
-do_package depends on rpm-native (for FILERDEPENDS), so do_package
-re-runs and PR bumps, thus caused do_package_write_ipk re-runs.
-
-Revert the patch will fix both 1) and 2).
-
-For 2), the only one uses FILERDEPENDS is do_package_qa, maybe we need
-move the generation of FILERDEPENDS there. This is another bug.
-
-// Robert
-
->
->
-> Too many PR bumps and rebuildings are caused by this patch. I'm
-> not very sure about what this patch tries to fix, it seems that
-> it is trying to fix problems when 32bit and 64bit uses the same
-> sstate cache? Would you please provide a simple reproducer, please?
->
-> Things will become much better after revert this patch. Be less
-> stricter or more is a hard problem, if we still need the patch,
-> can we leave such a choice to the end user? We can add some vars
-> like DROP_NATIVE_SIG ? = "0/1". This would be good to the end user
-> who uses stable release like jethro or krogoth to make their
-> distributions, and PR Service really matters here. Even if they
-> switch the build between 32 and 64 builds (This is unlikely to
-> happen for production environment) and got problems, they still
-> can fix the problem by rebuilding, this is still much better than
-> current status: run a "smart/opkg/apt-get upgrade" on the target,
-> *all* of the packages are downloaded and installed again after a
-> CVE patch applies on native recipes like pseudo-native or rpm-native,
-> but in fact, nothing is changed on the target this is really a bad
-> experience.
->
-> // Robert
->
-> On 05/18/2016 06:15 PM, Martin Jansa wrote:
->> On Wed, May 18, 2016 at 05:31:09PM +0800, Robert Yang wrote:
->>>
->>>
->>> On 05/18/2016 05:20 PM, Martin Jansa wrote:
->>>> On Wed, May 18, 2016 at 04:03:58PM +0800, Robert Yang wrote:
->>>>> Hi Martin,
->>>>>
->>>>> On 05/18/2016 03:39 PM, Martin Jansa wrote:
->>>>>> See:
->>>>>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=5970
->>>>>>
->>>>>> Just using recipe checksum wont work, because the main reason for PR bumps
->>>>>> is to
->>>>>> automatically upgrade the packages when one of the dependencies changes .so
->>>>>> version, which you won't detect from recipe checksum of the app which is just
->>>>>> using the library.
->>>>>
->>>>> For the development branch like master, yes, that would happen. But for
->>>>> the stable release like jethro and krogoth, it is unlikely that would
->>>>> happen, and if if does, the user can manually bump the impacted recipe's
->>>>> PR to fix the problem. The current problem is that when *all* recipes'
->>>>> PR are bumped, there is no way to fix the problem.
->>>>
->>>> You can still stop using PR service and start doing manual PR bumps, but
->>>
->>> We can't stop PR service and start doing manual PR bumps since we need keep
->>> update to date with upstream, the changes from upstream don't do the manual
->>> PR, and I don't think that we have to if they can be done automatically.
->>>
->>>> it's quite annoying if you need to bump a lot of recipes you don't
->>>> control :).
->>>
->>> What's your opinion about only consider RDEPENDS for PR service's checksum,
->>> please ?
+On 2016-05-18 22:07, Khem Raj wrote:
+> On Wed, May 18, 2016 at 2:03 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
+>> * It doesn't build on armv4:
+>> {standard input}: Assembler messages:
+>> {standard input}:52: Error: selected processor does not support `blx llint_throw_stack_overflow_error' in ARM mode
+>> {standard input}:126: Error: selected processor does not support `bkpt #0' in ARM mode
+>> {standard input}:128: Error: selected processor does not support `blx r0' in ARM mode
+>> {standard input}:134: Error: selected processor does not support `bkpt #0' in ARM mode
+>> {standard input}:185: Error: selected processor does not support `blx llint_throw_stack_overflow_error' in ARM mode
+>> {standard input}:256: Error: selected processor does not support `blx r4' in ARM mode
+>> {standard input}:310: Error: selected processor does not support `movw r2,#:lower16:.Lllint_op_enter-.LrelativePCBase' in ARM mode
+>> {standard input}:311: Error: selected processor does not support `movt r2,#:upper16:.Lllint_op_enter-.LrelativePCBase' in ARM mode
+>> {standard input}:315: Error: selected processor does not support `movw r2,#:lower16:.Lllint_op_get_scope-.LrelativePCBase' in ARM mode
+>> {standard input}:316: Error: selected processor does not support `movt r2,#:upper16:.Lllint_op_get_scope-.LrelativePCBase' in ARM mode
+>> [snip]
 >>
->> I would like to have separate handler as described in that bug, option
->> c).
+>> * It can build on armv7a, but doesn't work on runtime, cause
+>>    displaying problems or ephiphany hang.
 >>
->> Not only because of unnecessary EXTENDPRAUTO bumps, but also unnecessary
->> rebuilds.
+>> [YOCTO #9474]
 >>
->>>>>> On Wed, May 18, 2016 at 8:09 AM, Robert Yang <liezhi.yang@windriver.com
->>>>>> <mailto:liezhi.yang@windriver.com>> wrote:
->>>>>>
->>>>>>       The PRServer bumps PR according to do_package's task hash, that
->>>>>>       causes it bumps *all* packages' PR when recipes like pseudo-native
->>>>>>       and rpm-native is changed. It is a very bad user experience when we
->>>>>>       run "smart/opkg upgrade" on running target, for example, when we apply
->>>>>>       a CVE patch to pseudo-native or rpm-native, or do some slight changes
->>>>>>       in their do_compile, "smart/opkg upgrade" will download/install *all*
->>>>>>       the packages since all of the packages' PR are bumped.
->>>>>>
->>>>>>       Here are some rough suggestions to fix this problem, and please feel
->>>>>>       free to give your suggestions.
->>>>>>       1) Do not use do_package's task for bumping PR, the easiest way
->>>>>>           is simulate manually bump PR -- only bump PR when the recipe
->>>>>>           itself's checksum is changed.
->>>>>>
->>>>>>       2) Add a new task for PRServer, redefine its task hash for bumping
->>>>>>           PR, for example, this task hash only considers RDEPENDS (no
->>>>>>           DEPENDS), and drop any native dependencies.
->>>>>>
->>>>>>       I prefer the first way, and an alternative way maybe add a var so that
->>>>>>       the user can configure it:
->>>>>>       PR_CHECKSUM = "${BB_TASKHASH}" (current way)
->>>>>>       Or
->>>>>>       PR_CHECKSUM = "<recipe checksum>"
->>>>>>
->>>>>>       --
->>>>>>       Thanks
->>>>>>
->>>>>>       Robert
->>>>>>       --
->>>>>>       _______________________________________________
->>>>>>       Openembedded-core mailing list
->>>>>>       Openembedded-core@lists.openembedded.org
->>>>>>       <mailto:Openembedded-core@lists.openembedded.org>
->>>>>>       http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>>>>>
->>>>>>
->>>>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> ---
+>>   meta/recipes-sato/webkit/webkitgtk_2.12.1.bb | 7 ++++++-
+>>   1 file changed, 6 insertions(+), 1 deletion(-)
 >>
+>> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.12.1.bb b/meta/recipes-sato/webkit/webkitgtk_2.12.1.bb
+>> index bdbcbea..23ead72 100644
+>> --- a/meta/recipes-sato/webkit/webkitgtk_2.12.1.bb
+>> +++ b/meta/recipes-sato/webkit/webkitgtk_2.12.1.bb
+>> @@ -62,9 +62,14 @@ EXTRA_OECMAKE = " \
+>>   EXTRA_OECMAKE_append_powerpc = " -DENABLE_JIT=OFF "
+>>   EXTRA_OECMAKE_append_powerpc64 = " -DENABLE_JIT=OFF "
+>>
+>> -# ARM JIT code does not build on ARMv5/6 anymore, apparently they test only on v7 onwards
+>> +# ARM JIT code does not build on ARMv4/5/6 anymore
+>>   EXTRA_OECMAKE_append_armv5 = " -DENABLE_JIT=OFF "
+>>   EXTRA_OECMAKE_append_armv6 = " -DENABLE_JIT=OFF "
+>> +EXTRA_OECMAKE_append_armv4 = " -DENABLE_JIT=OFF "
+>> +
+>> +# ARM JIT can build on armv7a, but doesnt' work on runtime, cause
+>> +# displaying problems or ephiphany hang.
+>> +EXTRA_OECMAKE_append_armv7a = " -DENABLE_JIT=OFF "
+>
+> this should work fine with thumb2 e.g. so this is a little broad brush
+> here to diable it across
+> all armv7
+
+Why do you think that changing the instruction set (to thumb2) would
+make the JIT work any better?
+
+If you tell me how, I'll test it on my i.MX6 (Cortex-A9) which is
+the platform that inspired the original bug report.
+
+>
+>>
+>>   # binutils 2.25.1 has a bug on aarch64:
+>>   # https://sourceware.org/bugzilla/show_bug.cgi?id=18430
+>> --
+>> 2.7.4
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
