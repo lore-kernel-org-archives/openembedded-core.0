@@ -1,46 +1,27 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
-	[209.85.215.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 85FEE612E5
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 53986612E5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 May 2016 11:05:57 +0000 (UTC)
-Received: by mail-lf0-f67.google.com with SMTP id 78so1328357lfq.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 May 2016 04:05:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=GVoyTT+Nwqrq00W+iAqXqaRJ9DRMtjUfubt58fQriSg=;
-	b=oi6KQWe1OQinX4dBUKZYT+9NITbwdRepmMH2Cz9+skksSPtKn9Apo5GotRIxQagfJ+
-	z2siSZwTScYkEBKecNeWrjdMNiOatXZYpCfwXgZuLivxKrY8VdKfgUFJRd624rNAzKpD
-	fl6U5sPAKG+VEXMvggxxPpC1zXvgEQmQAeH62y69/zFd6MOsXq4q83jhUFdVJZrnctuV
-	tQguELsWXDevhC8qKJXLeBXO2GAE+1gAw5bCDyCgMUBza6XutVA7Eb4j9Qc0B0Gw69lY
-	D5Az9e3AUeG5vAZ4DmSXq5ZajXp9aupp0PVw3zfigUQbkRv+b70ufva1kzEaEtfzy6Ky
-	jdEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=GVoyTT+Nwqrq00W+iAqXqaRJ9DRMtjUfubt58fQriSg=;
-	b=ZlsSawzL/h49inaifZgGBhb3yhjnbiAJMu4I+74HLufq4wsN2iOvoWGRoTC6AcGEMm
-	LT35PxJBpYmKFJ9cTV5zzLj64CUuR06Ewx19R/ioW2gZODECAXGDobPKpqdBgU3EZ8ji
-	PpzcaPkzq+mDuqJa27URdJPkq6Be+Oj5WgyoBwV23RUu71wf4H3cpVpErJIQq9Ebhivq
-	jUTVlynYyHkFfXM7NJ9gWBL28z8CsIYDKYDvbTllCO+nMvApFtEQgoewo5yApTbYb0dV
-	EBqd6aNA2yDfaNIdU3Z9zVyHY65YW+RxgVHrYgc+kr1H5R95a9pEi/8DopoQCXqGbEqA
-	tucQ==
-X-Gm-Message-State: AOPr4FU+LUKwTdxnuIZ24YQfKLQh7BlVQizaKf5KvADtU0lpRZ9JC4NKig4zL8vP3XywVA==
-X-Received: by 10.25.84.9 with SMTP id i9mr4495734lfb.56.1463655956561;
-	Thu, 19 May 2016 04:05:56 -0700 (PDT)
-Received: from localhost.localdomain (m77-218-254-80.cust.tele2.se.
-	[77.218.254.80]) by smtp.gmail.com with ESMTPSA id
-	a131sm2292714lfe.1.2016.05.19.04.05.54
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 19 May 2016 04:05:55 -0700 (PDT)
-From: Ming Liu <liu.ming50@gmail.com>
+	Thu, 19 May 2016 11:10:36 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 19 May 2016 04:10:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,334,1459839600"; d="scan'208";a="970325170"
+Received: from ooichins-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.142.35])
+	by fmsmga001.fm.intel.com with ESMTP; 19 May 2016 04:10:34 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 May 2016 13:05:50 +0200
-Message-Id: <1463655950-8029-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Cc: yue.tao@windriver.com, Ming Liu <peter.x.liu@external.atlascopco.com>
-Subject: [PATCH] kernel: moves KERNEL_SRC_PATH to bitbake.conf
+Date: Thu, 19 May 2016 23:10:31 +1200
+Message-ID: <3642953.uHYOfRu805@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.4.9-300.fc23.x86_64; KDE/4.14.20; x86_64; ;
+	)
+In-Reply-To: <1463654223.8266.11.camel@linux.intel.com>
+References: <573C0726.3040402@windriver.com> <573D917C.4090002@windriver.com>
+	<1463654223.8266.11.camel@linux.intel.com>
+MIME-Version: 1.0
+Subject: Re: PRServer's problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,79 +34,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 May 2016 11:05:57 -0000
+X-List-Received-Date: Thu, 19 May 2016 11:10:38 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-From: Ming Liu <peter.x.liu@external.atlascopco.com>
+On Thu, 19 May 2016 11:37:03 Joshua G Lock wrote:
+> On Thu, 2016-05-19 at 18:12 +0800, Robert Yang wrote:
+> > On 05/19/2016 05:45 PM, Richard Purdie wrote:
+> > > Users are free to set their own policies, the system was designed
+> > > to do
+> > > that. If WindRiver wants to have a much more permissive policy, I'm
+> > > more than happy for them to do so.
+> > 
+> > Thanks, frankly speaking, not only WindRiver wants this. After cloud
+> > computing and virtualization gets hot, more and more users want to
+> > customize their own images (for saving disk space, memory and
+> > security
+> > reason), oe/yocto is very good at customizing images, so more and
+> > more people try to use it to build their own distros, where live
+> > upgrades becomes very important.
+> 
+> The desire for this is well understood, which is why work began on the
+> packagefeed-stability class. 
+> 
+> Paul's initial effort is solid and works for simple cases, I had a
+> brief look at it and tried to identify some of the issues and wrote
+> some minor patches (for things like versioned depends and copying all
+> packages for a recipe as soon as a difference is found) but
+> unfortunately I haven't had time to finish the work.
+> 
+> The main piece we're missing is to define tests (in the test suite) to
+> validate the class works as expected with each of the package backends
+> and through those tests identify areas where it doesn't work (and of
+> course fix them).
+> 
+> Regards,
+> 
+> Joshua
+> 
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=8318
 
-"/usr/src/kernel" is being hard-coded in multiple recipes so far, move its
-definition to bitbake.conf.
+Also as I believe I mentioned in my RFC (IIRC) whilst it does basically work I 
+was not exactly impressed by the build-compare tool's error handling, there 
+were errors produced during some of my runs and yet the script itself 
+succeeded, which gives me less confidence about the results. I haven't looked 
+to see if there's a new version upstream that is improved in this regard 
+though, and even if there isn't we do have the option of patching it ourselves 
+(and sending the fix upstream, naturally).
 
-Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
----
- meta/classes/kernel.bbclass                              | 4 ----
- meta/conf/bitbake.conf                                   | 4 ++++
- meta/recipes-core/images/build-appliance-image_14.0.0.bb | 2 +-
- meta/recipes-kernel/linux/kernel-devsrc.bb               | 3 ---
- 4 files changed, 5 insertions(+), 8 deletions(-)
+Cheers,
+Paul
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 6e3e81e..963f327 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -121,10 +121,6 @@ EXTRA_OEMAKE = ""
- 
- KERNEL_ALT_IMAGETYPE ??= ""
- 
--# Define where the kernel headers are installed on the target as well as where
--# they are staged.
--KERNEL_SRC_PATH = "/usr/src/kernel"
--
- copy_initramfs() {
- 	echo "Copying initramfs into ./usr ..."
- 	# In case the directory is not created yet from the first pass compile:
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 382dadc..8a84e53 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -407,6 +407,10 @@ OLDEST_KERNEL = "3.2.0"
- OLDEST_KERNEL_aarch64 = "3.14"
- OLDEST_KERNEL_nios2 = "3.19"
- 
-+# Define where the kernel headers are installed on the target as well as where
-+# they are staged.
-+KERNEL_SRC_PATH = "/usr/src/kernel"
-+
- STAGING_KERNEL_DIR = "${TMPDIR}/work-shared/${MACHINE}/kernel-source"
- STAGING_KERNEL_BUILDDIR = "${TMPDIR}/work-shared/${MACHINE}/kernel-build-artifacts"
- 
-diff --git a/meta/recipes-core/images/build-appliance-image_14.0.0.bb b/meta/recipes-core/images/build-appliance-image_14.0.0.bb
-index 569fb3a..2a1a56b 100644
---- a/meta/recipes-core/images/build-appliance-image_14.0.0.bb
-+++ b/meta/recipes-core/images/build-appliance-image_14.0.0.bb
-@@ -54,7 +54,7 @@ fakeroot do_populate_poky_src () {
- 	cp ${WORKDIR}/README_VirtualBox_Guest_Additions.txt ${IMAGE_ROOTFS}/home/builder/
- 
- 	# Create a symlink, needed for out-of-tree kernel modules build
--	ln -snr ${IMAGE_ROOTFS}/usr/src/kernel ${IMAGE_ROOTFS}/lib/modules/${KERNEL_VERSION}/build
-+	ln -snr ${IMAGE_ROOTFS}${KERNEL_SRC_PATH} ${IMAGE_ROOTFS}/lib/modules/${KERNEL_VERSION}/build
- 
- 	echo "/usr/bin" > ${IMAGE_ROOTFS}/home/builder/poky/build/pseudodone
- 	echo "INHERIT += \"rm_work\"" >> ${IMAGE_ROOTFS}/home/builder/poky/build/conf/auto.conf
-diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-index 196c8c7..0fdd0ad 100644
---- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-+++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -28,9 +28,6 @@ do_configure[noexec] = "1"
- do_compile[noexec] = "1"
- do_populate_sysroot[noexec] = "1"
- 
--# Define where the kernel headers are installed on the target as well as where
--# they are staged.
--KERNEL_SRC_PATH = "/usr/src/kernel"
- S = "${STAGING_KERNEL_DIR}"
- B = "${STAGING_KERNEL_BUILDDIR}"
- 
 -- 
-1.9.1
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
