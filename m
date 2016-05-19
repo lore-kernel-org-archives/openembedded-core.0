@@ -1,26 +1,27 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 03FAE60557
+Return-Path: <maxin.john@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id DCE14606A8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 May 2016 12:40:29 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga104.fm.intel.com with ESMTP; 19 May 2016 05:40:30 -0700
+	Thu, 19 May 2016 13:42:40 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 19 May 2016 06:42:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,334,1459839600"; d="scan'208";a="984513494"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 19 May 2016 05:40:30 -0700
+X-IronPort-AV: E=Sophos;i="5.26,334,1459839600"; d="scan'208";a="980452438"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga002.jf.intel.com with ESMTP; 19 May 2016 06:42:41 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 572B46A4006
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 May 2016 07:30:11 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <cover.1463557068.git.liezhi.yang@windriver.com>
-	<573DAF56.50601@linux.intel.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <573DB475.3040008@linux.intel.com>
-Date: Thu, 19 May 2016 15:41:25 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Icedove/38.6.0
-MIME-Version: 1.0
-In-Reply-To: <573DAF56.50601@linux.intel.com>
-Subject: Re: [PATCH 0/7][python3] buildtools-tarball: replace python with python3
+Date: Thu, 19 May 2016 16:43:06 +0300
+Message-Id: <1463665389-18822-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH 1/4] package_regex.inc: remove deprecated file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,26 +34,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 May 2016 12:40:31 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 19 May 2016 13:42:41 -0000
 
-On 05/19/2016 03:19 PM, Alexander Kanavin wrote:
-> On 05/18/2016 10:43 AM, Robert Yang wrote:
->
->> Robert Yang (7):
->>    python3-smmap: add it for python3-gitdb
->>    python3-async: add it for python3-gitdb
->>    python3-gitdb: add it for python3-git
->>    python3-git: add it for buildtools-tarball
->
-> You can remove the Python 2 versions at the same time. Nothing is
-> requiring them in oe-core or meta-oe.
+Remove this file as it has been deprecated in the previous release.
+New entries should be added to recipes itself.
 
-Nevermind; I just noticed that packagegroup-self-hosted refers to 
-python-git, so it can be removed only after bitbake's python3 support is 
-merged.
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ meta/classes/distrodata.bbclass            |  1 -
+ meta/conf/distro/include/package_regex.inc | 22 ----------------------
+ 2 files changed, 23 deletions(-)
+ delete mode 100644 meta/conf/distro/include/package_regex.inc
 
-Alex
+diff --git a/meta/classes/distrodata.bbclass b/meta/classes/distrodata.bbclass
+index 51bfc1e..fbb7402 100644
+--- a/meta/classes/distrodata.bbclass
++++ b/meta/classes/distrodata.bbclass
+@@ -1,4 +1,3 @@
+-include conf/distro/include/package_regex.inc
+ include conf/distro/include/upstream_tracking.inc
+ include conf/distro/include/distro_alias.inc
+ include conf/distro/include/maintainers.inc
+diff --git a/meta/conf/distro/include/package_regex.inc b/meta/conf/distro/include/package_regex.inc
+deleted file mode 100644
+index 9fc1157..0000000
+--- a/meta/conf/distro/include/package_regex.inc
++++ /dev/null
+@@ -1,22 +0,0 @@
+-# NOTE: THIS FILE IS DEPRECATED. Please add new entries to the recipes themselves.
+-#
+-# package_regex.inc - This file contains data that tracks
+-# upstream project associated with a given recipe. This list is needed
+-# for recipes that version information can not be automagically discovered.
+-# As we automate this checking, this file will slowly be reduced.
+-#"
+-# This data is used by the package reporting system (packages.yoctoproject.org)
+-#"
+-# The format is as a bitbake variable override for each recipe
+-#"
+-#       UPSTREAM_CHECK_URI_pn-<recipe name> = "recipe_url"
+-#	 - This is the url used by the package checking system to
+-#	   get the latest version of the package
+-#       UPSTREAM_CHECK_REGEX_pn-<recipe name> = "package_regex"
+-#	 - This is the regex the package checking system uses to
+-#	   parse the page found at UPSTREAM_CHECK_URI_pn-<recipe name>
+-#	UPSTREAM_CHECK_GITTAGREGEX_pn-<recipe name> = "git_tag_regex"
+-#	 - When source code is fetched from git, git tags are used to
+-#	   determine the upstream release version. This regex can be used
+-#	   to filter only relevant tags.
+-#
+-- 
+2.4.0
 
 
