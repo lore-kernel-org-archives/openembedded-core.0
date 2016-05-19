@@ -1,27 +1,24 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 53986612E5
+Return-Path: <Awais_Belal@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 8CF8760851
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 May 2016 11:10:36 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 19 May 2016 04:10:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,334,1459839600"; d="scan'208";a="970325170"
-Received: from ooichins-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.142.35])
-	by fmsmga001.fm.intel.com with ESMTP; 19 May 2016 04:10:34 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 May 2016 23:10:31 +1200
-Message-ID: <3642953.uHYOfRu805@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.4.9-300.fc23.x86_64; KDE/4.14.20; x86_64; ;
-	)
-In-Reply-To: <1463654223.8266.11.camel@linux.intel.com>
-References: <573C0726.3040402@windriver.com> <573D917C.4090002@windriver.com>
-	<1463654223.8266.11.camel@linux.intel.com>
+	Thu, 19 May 2016 11:27:16 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=SVR-IES-FEM-01.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtp 
+	id 1b3M6m-0003vd-Qv from Awais_Belal@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Thu, 19 May 2016 04:27:17 -0700
+Received: from awais-Precision-M4700.pkl.mentorg.com (137.202.0.76) by
+	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
+	Server id 14.3.224.2; Thu, 19 May 2016 12:27:15 +0100
+From: Awais Belal <awais_belal@mentor.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 19 May 2016 16:26:59 +0500
+Message-ID: <1463657219-580-1-git-send-email-awais_belal@mentor.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: Re: PRServer's problem
+Subject: [PATCH] mesa-demos: provide option for disabling GLX demos
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,59 +31,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 May 2016 11:10:38 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 19 May 2016 11:27:19 -0000
+Content-Type: text/plain
 
-On Thu, 19 May 2016 11:37:03 Joshua G Lock wrote:
-> On Thu, 2016-05-19 at 18:12 +0800, Robert Yang wrote:
-> > On 05/19/2016 05:45 PM, Richard Purdie wrote:
-> > > Users are free to set their own policies, the system was designed
-> > > to do
-> > > that. If WindRiver wants to have a much more permissive policy, I'm
-> > > more than happy for them to do so.
-> > 
-> > Thanks, frankly speaking, not only WindRiver wants this. After cloud
-> > computing and virtualization gets hot, more and more users want to
-> > customize their own images (for saving disk space, memory and
-> > security
-> > reason), oe/yocto is very good at customizing images, so more and
-> > more people try to use it to build their own distros, where live
-> > upgrades becomes very important.
-> 
-> The desire for this is well understood, which is why work began on the
-> packagefeed-stability class. 
-> 
-> Paul's initial effort is solid and works for simple cases, I had a
-> brief look at it and tried to identify some of the issues and wrote
-> some minor patches (for things like versioned depends and copying all
-> packages for a recipe as soon as a difference is found) but
-> unfortunately I haven't had time to finish the work.
-> 
-> The main piece we're missing is to define tests (in the test suite) to
-> validate the class works as expected with each of the package backends
-> and through those tests identify areas where it doesn't work (and of
-> course fix them).
-> 
-> Regards,
-> 
-> Joshua
-> 
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=8318
+There are platforms that default to EGL only configurations
+in which case the GLX applications are not required
+at all. Allow the user to control generation of these
+demos as needed through a configure switch.
 
-Also as I believe I mentioned in my RFC (IIRC) whilst it does basically work I 
-was not exactly impressed by the build-compare tool's error handling, there 
-were errors produced during some of my runs and yet the script itself 
-succeeded, which gives me less confidence about the results. I haven't looked 
-to see if there's a new version upstream that is improved in this regard 
-though, and even if there isn't we do have the option of patching it ourselves 
-(and sending the fix upstream, naturally).
+Signed-off-by: Awais Belal <awais_belal@mentor.com>
+---
+ .../0013-only-build-GLX-demos-if-needed.patch      | 62 ++++++++++++++++++++++
+ meta/recipes-graphics/mesa/mesa-demos_8.2.0.bb     |  4 +-
+ 2 files changed, 65 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/mesa/mesa-demos/0013-only-build-GLX-demos-if-needed.patch
 
-Cheers,
-Paul
-
+diff --git a/meta/recipes-graphics/mesa/mesa-demos/0013-only-build-GLX-demos-if-needed.patch b/meta/recipes-graphics/mesa/mesa-demos/0013-only-build-GLX-demos-if-needed.patch
+new file mode 100644
+index 0000000..e7be4df
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/mesa-demos/0013-only-build-GLX-demos-if-needed.patch
+@@ -0,0 +1,62 @@
++From 322af294390a7f4e1524c5a79312be6cbebce988 Mon Sep 17 00:00:00 2001
++From: Awais Belal <awais_belal@mentor.com>
++Date: Wed, 11 Nov 2015 17:22:12 +0500
++Subject: [PATCH] only build GLX demos if needed
++
++There are platforms that default to EGL only configurations
++in which case the GLX applications are not required
++at all. Allow the user to control generation of these
++demos as needed through a configure switch.
++
++Signed-off-by: Awais Belal <awais_belal@mentor.com>
++Upstream-Status: Pending
++---
++ configure.ac    | 9 +++++++++
++ src/Makefile.am | 6 +++++-
++ 2 files changed, 14 insertions(+), 1 deletion(-)
++
++diff --git a/configure.ac b/configure.ac
++index f8ec7e3..1a4d96d 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -132,6 +132,11 @@ if test "x$enable_glu" = xyes; then
++     DEMO_LIBS="$DEMO_LIBS $GLU_LIBS"
++ fi
++ 
+++AC_ARG_ENABLE([glx-demos],
+++    [AS_HELP_STRING([--enable-glx-demos],
+++        [enable GLX demos @<:@default=auto@:>@])],
+++    [glx_demos_enabled="$enableval"],
+++    [glx_demos_enabled=yes])
++ AC_ARG_ENABLE([egl],
++     [AS_HELP_STRING([--enable-egl],
++         [enable EGL library @<:@default=auto@:>@])],
++@@ -325,6 +333,7 @@ AC_SUBST([WAYLAND_LIBS])
++ 
++ AM_CONDITIONAL(HAVE_GLU, test "x$glu_enabled" = "xyes")
++ AM_CONDITIONAL(HAVE_GLEW, test "x$glew_enabled" = "xyes")
+++AM_CONDITIONAL(HAVE_GLX, test "x$glx_demos_enabled" = "xyes")
++ AM_CONDITIONAL(HAVE_EGL, test "x$egl_enabled" = "xyes")
++ AM_CONDITIONAL(HAVE_GLESV1, test "x$glesv1_enabled" = "xyes")
++ AM_CONDITIONAL(HAVE_GLESV2, test "x$glesv2_enabled" = "xyes")
++diff --git a/src/Makefile.am b/src/Makefile.am
++index 8b89dee..a4d7e8f 100644
++--- a/src/Makefile.am
+++++ b/src/Makefile.am
++@@ -44,8 +44,12 @@ SUBDIRS = \
++ 	slang \
++ 	tests \
++ 	tools \
++-	wgl \
+++	wgl
+++
+++if HAVE_GLX
+++SUBDIRS += \
++ 	xdemos
+++endif
++ 
++ if HAVE_GLEW
++ SUBDIRS += \
++-- 
++1.9.1
++
+diff --git a/meta/recipes-graphics/mesa/mesa-demos_8.2.0.bb b/meta/recipes-graphics/mesa/mesa-demos_8.2.0.bb
+index 034e01d..53bd5e2 100644
+--- a/meta/recipes-graphics/mesa/mesa-demos_8.2.0.bb
++++ b/meta/recipes-graphics/mesa/mesa-demos_8.2.0.bb
+@@ -22,6 +22,7 @@ SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/demos/${PV}/${BPN}-${PV}.tar.bz2 \
+     file://0010-sharedtex_mt-fix-rendering-thread-hang.patch \
+     file://0011-drop-demos-dependant-on-obsolete-MESA_screen_surface.patch \
+     file://0012-mesa-demos-OpenVG-demos-with-single-frame-need-eglSw.patch \
++    file://0013-only-build-GLX-demos-if-needed.patch \
+ "
+ SRC_URI[md5sum] = "72613a2c8c013716db02e3ff59d29061"
+ SRC_URI[sha256sum] = "e4bfecb5816ddd4b7b37c1bc876b63f1f7f06fda5879221a9774d0952f90ba92"
+@@ -31,7 +32,7 @@ inherit autotools pkgconfig distro_features_check
+ REQUIRED_DISTRO_FEATURES = "opengl"
+ 
+ PACKAGECONFIG ?= "drm osmesa freetype2 gbm egl gles1 gles2 \
+-                  ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 glew glu', '', d)}"
++                  ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 glew glu glx', '', d)}"
+ 
+ # The Wayland code doesn't work with Wayland 1.0, so disable it for now
+ #${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)}"
+@@ -51,6 +52,7 @@ PACKAGECONFIG[wayland] = "--enable-wayland,--disable-wayland,virtual/libgl wayla
+ PACKAGECONFIG[x11] = "--enable-x11,--disable-x11,virtual/libx11"
+ PACKAGECONFIG[glew] = "--enable-glew,--disable-glew,glew"
+ PACKAGECONFIG[glu] = "--enable-glu,--disable-glu,virtual/libgl"
++PACKAGECONFIG[glx] = "--enable-glx-demos,--disable-glx-demos"
+ 
+ do_install_append() {
+ 	# it can be completely empty when all PACKAGECONFIG options are disabled
 -- 
+1.9.1
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
