@@ -1,28 +1,20 @@
-Return-Path: <mac@mcrowe.com>
-X-Greylist: delayed 465 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 19 May 2016 16:58:17 UTC
-Received: from avasout06.plus.net (avasout06.plus.net [212.159.14.18])
-	by mail.openembedded.org (Postfix) with ESMTP id EB762601D3
+Return-Path: <humberto.ibarra.lopez@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 4DEA865CBB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 May 2016 16:58:17 +0000 (UTC)
-Received: from deneb ([80.229.24.9]) by avasout06 with smtp
-	id wGqL1s0020BmcFC01GqMqw; Thu, 19 May 2016 17:50:21 +0100
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.1 cv=Rr04V3SK c=1 sm=1 tr=0
-	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
-	a=L9H7d07YOLsA:10 a=9cW_t1CCXrUA:10 a=s5jvgZ67dGcA:10 a=kj9zAlcOel0A:10
-	a=yrkiwgmsf1kA:10 a=56WTo13cMYjJQGTQ5TIA:9 a=CjuIK1q_8ugA:10
-Received: from mac by deneb with local (Exim 4.84_2)
-	(envelope-from <mac@mcrowe.com>) id 1b3R9Q-0002Gv-73
-	for openembedded-core@lists.openembedded.org;
-	Thu, 19 May 2016 17:50:20 +0100
-Date: Thu, 19 May 2016 17:50:20 +0100
-From: Mike Crowe <mac@mcrowe.com>
+	Thu, 19 May 2016 19:50:22 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 19 May 2016 12:50:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,335,1459839600"; d="scan'208";a="705895762"
+Received: from jhibarra-mobl1.zpn.intel.com ([10.219.17.45])
+	by FMSMGA003.fm.intel.com with ESMTP; 19 May 2016 12:50:22 -0700
+From: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20160519165020.GA4863@mcrowe.com>
-MIME-Version: 1.0
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: nss postinst requires nss-native during rootfs generation
+Date: Thu, 19 May 2016 14:51:54 -0500
+Message-Id: <1463687514-25018-1-git-send-email-humberto.ibarra.lopez@intel.com>
+X-Mailer: git-send-email 2.4.11
+Subject: [PATCH] scripts/bitbake-whatchanged: migrate from optparse to argparse
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,59 +27,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 May 2016 16:58:21 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 19 May 2016 19:50:25 -0000
 
-We've recently added nss to our image and have started to see rootfs
-generation anomalies. We use IMAGE_FEATURES = "read-only-rootfs" so
-postinsts run at rootfs generation time.
+The script bitbake-whatchanged uses optparse library, which is
+deprecated since python 2.7. This migrates to argparse library.
 
-nss's postinst calls shlibsign. Under normal circumstances with
-read-only-rootfs, this appears to come from nss-native being in the native
-sysroot during the build.
+[Yocto #9634]
 
-We're finding that nss-native isn't in the native sysroot at the time the
-postinst runs if nss and nss-native come from the sstate cache.
+Signed-off-by: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
+---
+ scripts/bitbake-whatchanged | 32 ++++++++++++--------------------
+ 1 file changed, 12 insertions(+), 20 deletions(-)
 
-I've simplied the problem enough to reproduce it with stock oe-core and
-core-image-minimal. Add "nss" to IMAGE_INSTALL and "read-only-rootfs" to
-IMAGE_FEATURES and then run:
+diff --git a/scripts/bitbake-whatchanged b/scripts/bitbake-whatchanged
+index af54d16..a20adb2 100755
+--- a/scripts/bitbake-whatchanged
++++ b/scripts/bitbake-whatchanged
+@@ -25,7 +25,7 @@ import shutil
+ import re
+ import warnings
+ import subprocess
+-from optparse import OptionParser
++import argparse
+ 
+ scripts_path = os.path.abspath(os.path.dirname(os.path.abspath(sys.argv[0])))
+ lib_path = scripts_path + '/lib'
+@@ -38,6 +38,8 @@ bitbakepath = scriptpath.add_bitbake_lib_path()
+ if not bitbakepath:
+     sys.stderr.write("Unable to find bitbake by searching parent directory of this script or PATH\n")
+     sys.exit(1)
++scriptpath.add_oe_lib_path()
++import argparse_oe
+ 
+ import bb.siggen
+ import bb.process
+@@ -219,9 +221,7 @@ def main():
+     3) Use bb.siggen.compare_sigfiles to diff the old and new stamps
+     """
+ 
+-    parser = OptionParser(
+-        version = "1.0",
+-        usage = """%prog [options] [package ...]
++    parser = argparse_oe.ArgumentParser(usage = """%(prog)s [options] [package ...]
+ print what will be done between the current and last builds, for example:
+ 
+     $ bitbake core-image-sato
+@@ -236,17 +236,9 @@ Note:
+     The "nostamp" task is not included.
+ """
+ )
+-    parser.add_option("-v", "--verbose", help = "print the verbose changes",
+-               action = "store_true", dest = "verbose")
+-
+-    options, args = parser.parse_args(sys.argv)
+-
+-    verbose = options.verbose
+-
+-    if len(args) != 2:
+-        parser.error("Incorrect number of arguments")
+-    else:
+-        recipe = args[1]
++    parser.add_argument("recipe", help="recipe to check")
++    parser.add_argument("-v", "--verbose", help = "print the verbose changes", action = "store_true")
++    args = parser.parse_args()
+ 
+     # Get the STAMPS_DIR
+     print("Figuring out the STAMPS_DIR ...")
+@@ -256,7 +248,7 @@ Note:
+     except:
+         raise
+     if not stampsdir:
+-        print("ERROR: No STAMPS_DIR found for '%s'" % recipe, file=sys.stderr)
++        print("ERROR: No STAMPS_DIR found for '%s'" % args.recipe, file=sys.stderr)
+         return 2
+     stampsdir = stampsdir.rstrip("\n")
+     if not os.path.isdir(stampsdir):
+@@ -272,7 +264,7 @@ Note:
+     try:
+         # Generate the new stamps dir
+         print("Generating the new stamps ... (need several minutes)")
+-        cmdline = "STAMPS_DIR=%s bitbake -S none %s" % (new_stampsdir, recipe)
++        cmdline = "STAMPS_DIR=%s bitbake -S none %s" % (new_stampsdir, args.recipe)
+         # FIXME
+         # The "bitbake -S" may fail, not fatal error, the stamps will still
+         # be generated, this might be a bug of "bitbake -S".
+@@ -310,17 +302,17 @@ Note:
+         # PV (including PE) and PR changed
+         # Let the bb.siggen handle them if verbose
+         cnt_rv = {}
+-        if not verbose:
++        if not args.verbose:
+             for i in ('pv', 'pr'):
+                cnt_rv[i] = print_vrchanged(new_recon, old_recon, i)
+ 
+         # Dependencies changed (use bitbake-diffsigs)
+-        cnt_dep = print_depchanged(new_recon, old_recon, verbose)
++        cnt_dep = print_depchanged(new_recon, old_recon, args.verbose)
+ 
+         total_changed = cnt_added + (cnt_rv.get('pv') or 0) + (cnt_rv.get('pr') or 0) + cnt_dep
+ 
+         print("\n=== Summary: (%s changed, %s unchanged)" % (total_changed, cnt_unchanged))
+-        if verbose:
++        if args.verbose:
+             print("Newly added: %s\nDependencies changed: %s\n" % \
+                 (cnt_added, cnt_dep))
+         else:
+-- 
+2.4.11
 
- # First populate the sstate cache
- bitbake core-image-minimal
-
- # Then build again using the sstate cache
- rm -rf tmp-glibc
- bitbake -c rootfs core-image-minimal
-
-I get:
-
- ERROR: core-image-minimal-1.0-r0 do_rootfs: The following packages could
- not be configured offline and rootfs is read-only: ['nss']
-
-This could be because the image dependencies are incorrectly expressed.
-task-depends.dot contains:
-
- "core-image-minimal.do_build" -> "nss-native.do_build"
-
-Since I'm explicitly running do_rootfs this dependency is never taken into
-account. I believe that a better dependency would be:
-
- "core-image-minimal.do_rootfs" -> "nss-native.do_build"
-
-I can avoid the problem by running core-image-minimal.do_build rather than
-core-image-minimal.do_rootfs but I'm worried that this opens the
-possibility of a race since there's no guarantee that all of
-core-image-minimal.do_build's dependencies have been satisfied before
-core-image-minimal.do_rootfs runs.
-
-Alternatively, perhaps nss's postinst isn't supposed to be relying on
-nss-native at all in its postinst?
-
-Any ideas?
-
-Thanks.
-
-Mike.
 
