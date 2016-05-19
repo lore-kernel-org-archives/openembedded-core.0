@@ -1,26 +1,33 @@
-Return-Path: <geiseri@geekcentral.pub>
-Received: from sender163-mail.zoho.com (sender163-mail.zoho.com
-	[74.201.84.163])
-	by mail.openembedded.org (Postfix) with ESMTP id C9E046010B
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 09F656E668
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 May 2016 09:52:47 +0000 (UTC)
-DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws; s=zoho; d=geekcentral.pub; 
-	h=date:from:to:message-id:subject:mime-version:content-type:user-agent; 
-	b=RusCcL7nwYP1K7U5broYe9FlXDAAHgGudVNS92mH3TdzH7WHF6AEZw+00xp9I1N8e4v6bMD8yb3w
-	0C4YFs5nt2j0xc6W0sdqt2A8eIgdZPUjXQGG6sFNaWMs1Q5YJq30AilagV4AOd41losMMQA3HETb
-	vSPwKah79kCDI67VRzQ=  
-Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 1463651565525268.89369487467343;
-	Thu, 19 May 2016 02:52:45 -0700 (PDT)
-Date: Thu, 19 May 2016 05:52:45 -0400
-From: Ian Geiser <geiseri@geekcentral.pub>
-To: "openembedded-core" <openembedded-core@lists.openembedded.org>
-Message-ID: <154c86e7fa2.11a4a3b0e305159.2603931524640206304@geekcentral.pub>
+	Thu, 19 May 2016 10:12:16 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u4JACF15012519
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 19 May 2016 03:12:15 -0700 (PDT)
+Received: from [128.224.162.214] (128.224.162.214) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 19 May 2016 03:12:14 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Martin Jansa
+	<martin.jansa@gmail.com>
+References: <573C0726.3040402@windriver.com>
+	<CA+chaQdJPWncYizZAKZ8MHOCqYRn+oKGcDuPhKVoepQhKh+LwQ@mail.gmail.com>
+	<573C21EE.8040104@windriver.com> <20160518092029.GA2579@jama>
+	<573C365D.3070407@windriver.com> <20160518101556.GB2579@jama>
+	<573D260D.2020909@windriver.com> <573D2EAF.9010602@windriver.com>
+	<1463651156.4578.113.camel@linuxfoundation.org>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <573D917C.4090002@windriver.com>
+Date: Thu, 19 May 2016 18:12:12 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.7.2
 MIME-Version: 1.0
-X-Priority: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
-Subject: Wic and "live" images
+In-Reply-To: <1463651156.4578.113.camel@linuxfoundation.org>
+Cc: oe-core <openembedded-core@lists.openembedded.org>
+Subject: Re: PRServer's problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,28 +40,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 May 2016 09:52:49 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 19 May 2016 10:12:17 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Greetings, I am trying to learn "wic" and have been confused as how to create a "live" style image.  I am following "http://www.yoctoproject.org/docs/1.5.2/dev-manual/dev-manual.html#creating-partitioned-images" but am getting confused on the target to use to create the a file system that has a single squashfs file containing my root file system.  
-
-My desired partition layout is as follows:
-      40MiB                 40MiB               300MiB
-+--------------------+-----------------+-----------------------------+
-|      BOOT (esp)    |    DATA (fat)   |          ROOT (live)        |  
-+--------------------+-----------------+-----------------------------+
-
-BOOT - efi boot partition with kernel and initramfs
-DATA - generic fat filesystem to hold configuration files
-ROOT - an ext4 filesystem that contains a single os.img, which is a squashfs file.
-
-I have ROOT and DATA figured out but I am at a loss as how to generate the os.img file and copy it into ROOT.  If I generate the os.img file with bitbake and then use the "-r" option to manually supply a directory structure it works, but I would rather have it done from a wks file for automation reasons.
-
-Any hints?
-
-Thanks!
 
 
+On 05/19/2016 05:45 PM, Richard Purdie wrote:
+>
+> The bottom line is that the system is setup to be sensitive to changes.
+> Where we've had cases where we haven't reacted to changes, people have
+> complained and we've ended up making sure we do react to them. The
+> patch you reference was one such case where users complained we didn't
+> react enough.
+>
+> You can't have things both ways, where it reacts to all changes but
+> also never reacts to changes which don't have any visible effect on the
+> end result (how do you know?).
+>
+> The binary diff tool is likely going to be the only way to ultimately
+> control a binary package feed and is still the only way I can see of
+> solving this problem. I'd love some help on making that work. Making
+> deterministic binaries is a large part in making that tool effectively
+> ultimate and we had some great work on that in the last release.
+>
+> To be really clear, OE-Core will not have a different signature policy
+> on release branches since that differing policy would break user
+> expectations and also wouldn't get tested apart from on the branch so
+> we'd have less confidence it was working.
 
+Yes, I agree with this, I just used stable release as an example (big
+changes won't happen on a stable release).
+
+>
+> Users are free to set their own policies, the system was designed to do
+> that. If WindRiver wants to have a much more permissive policy, I'm
+> more than happy for them to do so.
+
+Thanks, frankly speaking, not only WindRiver wants this. After cloud
+computing and virtualization gets hot, more and more users want to
+customize their own images (for saving disk space, memory and security
+reason), oe/yocto is very good at customizing images, so more and
+more people try to use it to build their own distros, where live
+upgrades becomes very important.
+
+// Robert
+
+>
+> Cheers,
+>
+> Richard
+>
 
