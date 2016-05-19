@@ -1,66 +1,46 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-io0-f194.google.com (mail-io0-f194.google.com
-	[209.85.223.194])
-	by mail.openembedded.org (Postfix) with ESMTP id B649760620
+Return-Path: <nathan@nathanrossi.com>
+Received: from mail-yw0-f193.google.com (mail-yw0-f193.google.com
+	[209.85.161.193])
+	by mail.openembedded.org (Postfix) with ESMTP id AF03560620
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 May 2016 14:55:09 +0000 (UTC)
-Received: by mail-io0-f194.google.com with SMTP id d197so2856503ioe.1
+	Thu, 19 May 2016 14:57:52 +0000 (UTC)
+Received: by mail-yw0-f193.google.com with SMTP id i22so10831041ywc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 May 2016 07:55:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=a/BHnEPJypUndq+Usyuq9zvPG9Ja9eJixcKwst6uswQ=;
-	b=sNScdr430xsvvxDzrTA71xmX0hZkTXKUkuNzNjrwol7m9u+yY9cNDjyRj8kGJN/+IJ
-	JluiQNGTMIVygJJ2f2yVRXFrVObUrLyULRjpQ9k/SdU4wdJemvDWPpc/zPemhYxHNn9B
-	E4cspWXU3aSRcz1ARRqqj7wryf/ZzIAD+gBjakRmfIC/aih6PAc7KzwyFumBPY1jf43M
-	AbA1jurPZ3E9DY91BQ8oCE1qude6NtHoB8SYqY0Ig5y6L1Rfhmsp6fxMRSkHscCmHMl9
-	FxG8S3OzBQT/gXikoiVKVySOZJHcdChH9z5/bM09cuo9h/JdyTNdrt+fQr006iJjHQGB
-	Clwg==
+	Thu, 19 May 2016 07:57:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kergoth-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=a/BHnEPJypUndq+Usyuq9zvPG9Ja9eJixcKwst6uswQ=;
-	b=WnSuC+LjuMBbqLcZ3h+ysTj4nTvpdizBjKQagcOksMJvm6JJx70CBB4nmGipY2FlO0
-	AbG72w4AC+HJzgf8ej0zvJhOkZUQuMKRsD+F4YG4df4DfJEuN1u/NB5HYxqYTapMaePR
-	7iIRrV6sWgdB5mxRjU4ZQ23H6gJgb9IiD7wjkgdTZNojz3OwJJk3/QA7Lmcefu3m6YmS
-	rCa3pe64DBAIAUuh3a8Y0pyB8sNHYbZPZ8YM4mllg5s/Ocyu7dgkePn5/Vbyliu3G/79
-	aBb57YoC2+blNTeKtnfZk7gL2+Ih8COByxxmasc7NMaedqEET1uPipAind9xhdq3bZsN
-	Oang==
+	d=nathanrossi-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc; bh=w4I91qhn5oKzO3v3oxHqpyVs0q2qt/KewhIWmhgUT/A=;
+	b=dGJz1s7Dc+06j1anL2pgNlPUnD5s0PiWUjuhX2QsKVFrhrKTuUuYMauv1MjkzoyPEr
+	uF2iXtWY/azoBc86nzDT9LQCnmAgLIyOpwFZKJRN0midwmT8zP7l/5kGNXd+eFzaTRiG
+	uI4oVXmcJg6x6LEW9EGU1n+7HobC1aWg08jCU6I+wr81121BHnb//Ba53SP9/jMptg+O
+	MeXUMZotfHsM+sDI7Ir/KrgsisloiGADvlxqzSYT/Ljveuj2lfnAQQUVdiyBPHIg9i2T
+	O28DMZl5EaXMmSUP8JDn7g7Hs5fxwEsRye1DYntqDk9MXroDCmR8z/ZQT0tUoCKuq2d/
+	QqIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=a/BHnEPJypUndq+Usyuq9zvPG9Ja9eJixcKwst6uswQ=;
-	b=bemnO5l72j3NEu/M2tQZhxfNd0z/uH99D1RDAXDiVusQDdznvsFrgXBRMehiLbQWS4
-	NCeLlAPn1rbEZDK3YYI6VwN3M/buY4HQiDX+ciSspiyxLeP20fvZVaMM08FUwYEYsEEH
-	cRu3O2vT0LQOnrAqhGralbWDqwwAIZ+1xBJBJbngX9iUz/+grmdBjZ7neaBa1FLfX/yD
-	MRbVqgCLapykGwz4ujWR3OHn6SoLBmxCuiHsa2KFoomqhb5/zUzgnTPd5Vk2NPBTn0us
-	x1W4j4lA7GpK7RF2pCf26QSNo0+oVsfJtdCIctQHInMMNtBlZil/30+vkVBoMqO5hY7S
-	znaA==
-X-Gm-Message-State: AOPr4FWeIP/QhPZ3prJOVdRarq/oHHTDYJZ2fAJO6+l/pp6EfziHC7/c+zeMzq2B83hvhuiDanVee+rlIb8kKg==
-X-Received: by 10.107.147.7 with SMTP id v7mr10221688iod.3.1463669710111; Thu,
-	19 May 2016 07:55:10 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc;
+	bh=w4I91qhn5oKzO3v3oxHqpyVs0q2qt/KewhIWmhgUT/A=;
+	b=YX5jAhHiQMq9QZcrwGIKN51EX+1dm/TR4eoNCazvCjrEp9qjxgnKC54i68IgWgqspV
+	NBEeZBRIs1Ckfyv2fWTOe/uF4CzlUprXC86PD/oWwrWsKo09BbsKwkt20SX31cKtIpjp
+	zboj7GQfAsbel34CyPUy4XDu8KdiABEelgtIYcjMEg95y3jzFISXuOrFOgkyYTAuvGkr
+	Mfhx7v4iX1DlDHLreM17KTLJOq/RgmJCzJ8Vs7yZ9V/uuR70R/4/2C7W8HDXgR2nrlQB
+	E4g60XLJaeTXMw2/kmC7YwWwsGOJ6jivjcTXgppMyi855QPYnD6yikB0ftNJiUpPnWgA
+	VYVA==
+X-Gm-Message-State: AOPr4FUAKOyrripzEtGO7HyLSHqkd8e4/UkBJK8tv5qCUerAtHxTnPgW+YVvZF4Tu/gXggWikKUYt7nlGML7eA==
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.79.100.5 with HTTP; Thu, 19 May 2016 07:54:50 -0700 (PDT)
-In-Reply-To: <CANFkWpnwa1guuPHCFi-=swK5f4AOrjn_qwKFbNCToTD9+6p1OA@mail.gmail.com>
-References: <cover.1462191317.git.ed.bartosh@linux.intel.com>
-	<9d32811fe04ce49bdc20891453d37819447d7f88.1462191317.git.ed.bartosh@linux.intel.com>
-	<CABcZANkwedfVVu2cxREq2Qp2UECdtAfrcgZ5V9LfVPtkR5sjaA@mail.gmail.com>
-	<CABcZANnwMhYwjVZwGGqrGERPbZoTrEaJ3P1WhGriG_RT9kUbtg@mail.gmail.com>
-	<20160504070139.GB10864@linux.intel.com>
-	<CABcZANnbS3xvxmrSX-L8m=4HBcD_yCkXKFyS9xT8ATA_Ziqfag@mail.gmail.com>
-	<CANFkWpnwa1guuPHCFi-=swK5f4AOrjn_qwKFbNCToTD9+6p1OA@mail.gmail.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Thu, 19 May 2016 07:54:50 -0700
-X-Google-Sender-Auth: FdvdPTaWcVGGZ6SCiB8-zTTLM7U
-Message-ID: <CABcZAN=AxiAhxdFqjzPLMJbCu9gRPObLS_NoG7Kj_g_VxWUMXQ@mail.gmail.com>
-To: Alexander Kanevskiy <kad@kad.name>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 4/6] bmap-tools: generate standalone script
+X-Received: by 10.37.2.88 with SMTP id 85mr6951966ybc.66.1463669872777; Thu,
+	19 May 2016 07:57:52 -0700 (PDT)
+Received: by 10.129.128.193 with HTTP; Thu, 19 May 2016 07:57:52 -0700 (PDT)
+In-Reply-To: <cover.1462867278.git.liezhi.yang@windriver.com>
+References: <cover.1462867278.git.liezhi.yang@windriver.com>
+Date: Fri, 20 May 2016 00:57:52 +1000
+Message-ID: <CA+aJhH1hOeD=oj7guxX8_Wm9gU6OS6W=r32WJFgGuLzAjTcw2g@mail.gmail.com>
+From: Nathan Rossi <nathan@nathanrossi.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC PATCH 0/8] [WIP] runqemu/runqemu-internal: refactor it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -73,143 +53,149 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 May 2016 14:55:10 -0000
-Content-Type: multipart/alternative; boundary=94eb2c055f6823e5eb05333329fd
-
---94eb2c055f6823e5eb05333329fd
+X-List-Received-Date: Thu, 19 May 2016 14:57:55 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Thu, May 19, 2016 at 7:19 AM, Alexander Kanevskiy <kad@kad.name> wrote:
+On Tue, May 10, 2016 at 6:13 PM, Robert Yang <liezhi.yang@windriver.com> wrote:
+> Hello,
+>
+> This is still WIP, I send this out to make sure that I won't walk on
+> wrong way too far. Please feel free to give any comments.
 
-> On Wed, May 4, 2016 at 9:55 PM, Christopher Larson <clarson@kergoth.com>
-> wrote:
->
->>
->> >
->>> > Also, the convention is to add do_deploy before do_build, not before
->>> > do_package, otherwise do_deploy's checksum is included int he
->>> checksums of
->>> > do_package and subsequent tasks, even though its output isn't used by
->>> any
->>> > subsequent tasks.
->>>
->>> I also found this a bit unusual to put the tool into deploy/tools.
->>> That's why I isolated this change. I think it requires some more
->>> testing, but the rest of patchset can be accepted without it.
->>
->>
->> Yeah, putting it there does require some discussion in general.
->> Personally, I'm in favor of such a thing, because we don't want to put
->> generated convenience tools in the sysroot, since we tell people explicitly
->> to not use sysroot contents directly.
->>
->> Regarding getting it built for the image, I'd suggest adding something
->> like IMAGE_TASKDEPENDS to image_type.bbclass, which is basically like
->> IMAGE_DEPENDS, but with the task included. I.e. IMAGE_TASKDEPENDS_bmap =
->> "bmap-tools-native:do_deploy". Then you wouldn't need the 'before
->> do_package', and it'd fix the from-sstate usage.
->>
->
-> We had some private conversation with Richard about deploy/tools, I'll try
-> to summarize results of our discussion here:
->
-> Thing this, that content under deploy/tools/* supposed to be exported to
-> "release" directory, and should not be used by any other tool during normal
-> build/development process.
-> Those are for usage on another host, where bitbake and content of sysroots
-> are not usually available.
-> bmaptool is a good example as stand-alone binary that require only python2
-> and nothing else to run.
-> Another example is dfu-util-static, which is also, not dependant even on
-> host's libusb even it runs on other host.
->
-> So, in general, it's for static/standalone binaries that are supposed to
-> be published as part of "release" of the build, same like deploy/images/*
->
-> For any classes, any internals of build process, they never should depend
-> on content of deploy/* and use *-native tools and binaries out of sysroot.
-> E.g. wic require bmap-tool, it should be dependant on presence of
-> bmap-tools-native installed into sysroot, and should be using both modules
-> and binary out of this sysroot.
->
+Hi Robert,
 
-I don't really understand the point you're trying to make here. As far as I
-can tell, wic put bmaptool into deploy/tools/ as a convenience for the
-user, not for wic itself to use, so it already does what you're saying it
-should do.
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+This is great! So I went ahead and tested out converting the
+qemumicroblaze and qemuzynq machines to work with these changes, as
+well as some additional machines. Here is a meta-xilinx branch
+(https://github.com/nathanrossi/meta-xilinx/tree/nrossi/runqemu-rfc)
+with these changes for anyone who is curious.
 
---94eb2c055f6823e5eb05333329fd
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Everything seems to work well, I was able to boot all the meta-xilinx
+QEMU machines. Although there were a couple of things that I noticed
+when getting these machines going:
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Thu, May 19, 2016 at 7:19 AM, Alexander Kanevskiy <span dir=3D"ltr">=
-&lt;<a href=3D"mailto:kad@kad.name" target=3D"_blank">kad@kad.name</a>&gt;<=
-/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div class=
-=3D"gmail_extra"><div class=3D"gmail_quote"><span class=3D"">On Wed, May 4,=
- 2016 at 9:55 PM, Christopher Larson <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:clarson@kergoth.com" target=3D"_blank">clarson@kergoth.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(204=
-,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_extra"><sp=
-an><br><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;=
-border-left-color:rgb(204,204,204);padding-left:1ex"><span>&gt;<br>
-&gt; Also, the convention is to add do_deploy before do_build, not before<b=
-r>
-&gt; do_package, otherwise do_deploy&#39;s checksum is included int he chec=
-ksums of<br>
-&gt; do_package and subsequent tasks, even though its output isn&#39;t used=
- by any<br>
-&gt; subsequent tasks.<br>
-<br>
-</span>I also found this a bit unusual to put the tool into deploy/tools.<b=
-r>
-That&#39;s why I isolated this change. I think it requires some more<br>
-testing, but the rest of patchset can be accepted without it.</blockquote><=
-/div><br></span>Yeah, putting it there does require some discussion in gene=
-ral. Personally, I&#39;m in favor of such a thing, because we don&#39;t wan=
-t to put generated convenience tools in the sysroot, since we tell people e=
-xplicitly to not use sysroot contents directly.<br><br clear=3D"all"><div>R=
-egarding getting it built for the image, I&#39;d suggest adding something l=
-ike IMAGE_TASKDEPENDS to image_type.bbclass, which is basically like IMAGE_=
-DEPENDS, but with the task included. I.e. IMAGE_TASKDEPENDS_bmap =3D &quot;=
-bmap-tools-native:do_deploy&quot;. Then you wouldn&#39;t need the &#39;befo=
-re do_package&#39;, and it&#39;d fix the from-sstate usage.</div><span></sp=
-an></div></div></blockquote><div><br></div></span><div>We had some private =
-conversation with Richard about deploy/tools, I&#39;ll try to summarize res=
-ults of our discussion here:</div><div><br></div></div>Thing this, that con=
-tent under deploy/tools/* supposed to be exported to &quot;release&quot; di=
-rectory, and should not be used by any other tool during normal build/devel=
-opment process.</div><div class=3D"gmail_extra">Those are for usage on anot=
-her host, where bitbake and content of sysroots are not usually available.<=
-/div><div class=3D"gmail_extra">bmaptool is a good example as stand-alone b=
-inary that require only python2 and nothing else to run.=C2=A0</div><div cl=
-ass=3D"gmail_extra">Another example is dfu-util-static, which is also, not =
-dependant even on host&#39;s libusb even it runs on other host.</div><div c=
-lass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">So, in general, i=
-t&#39;s for static/standalone binaries that are supposed to be published as=
- part of &quot;release&quot; of the build, same like deploy/images/*</div><=
-div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">For any clas=
-ses, any internals of build process, they never should depend on content of=
- deploy/* and use *-native tools and binaries out of sysroot.</div><div cla=
-ss=3D"gmail_extra">E.g. wic require bmap-tool, it should be dependant on pr=
-esence of bmap-tools-native installed into sysroot, and should be using bot=
-h modules and binary out of this sysroot.</div></div></blockquote><div><br>=
-</div><div>I don&#39;t really understand the point you&#39;re trying to mak=
-e here. As far as I can tell, wic put bmaptool into deploy/tools/ as a conv=
-enience for the user, not for wic itself to use, so it already does what yo=
-u&#39;re saying it should do.</div></div>-- <br><div class=3D"gmail_signatu=
-re">Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBake, =
-OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engineer,=
- Mentor Graphics</div>
-</div></div>
+QEMU_DTB, should probably be named QEMU_DTB_OPTIONS or alternatively
+can just be included as part of QEMU_OPTIONS from within the bitbake
+environment. But it would be nice to be able to just define the name
+of the DTB and the runqemu scripts do the finding (like for kernel and
+rootfs).
 
---94eb2c055f6823e5eb05333329fd--
+The "-s" and the "-n" runqemu options add "console=ttyS0" to the
+kernel options regardless of target. For qemuzynq you might have
+noticed the sed expression that overrides it previously
+(http://git.openembedded.org/openembedded-core/tree/scripts/runqemu-internal#n494).
+It is probably worth pulling in serial kernel options from a bitbake
+variable.
+
+Regards,
+Nathan
+
+>
+> TODO:
+> * Update the one which uses runqemu, such as oeqa
+> * Boot EFI image
+> * Boot multilib image such as lib32-foo
+> * Change the vars name such as QEMU_SYSTEM_OPTIONS and
+>   QEMU_SECOND_SERIAL_OPT
+> * More testing
+>
+>
+> === Taken from patch 8/8's commit message:
+> * Why refactor
+>   The old runqemu had hardcoded machine knowledge, which limited its
+>   usage, for example, qemu-system-foo can boot the target, but runqemu
+>   can't, and we need edit runqemu/runqemu-internal a lot to support boot
+>   it.
+>
+> * Brief introduction on implemention
+>   The basic thought is that, machine/bsp developer knows clearly on
+>   whether qemu can boot the target or not (QEMU_BOOT_SUPPORTED = "1" or
+>   "0"), and how to boot it, so we leave these settings in the machine's
+>   configuration.
+>   - qemu-boot.bbclass will write machine's info to
+>     ${DEPLOY_DIR_IMAGE}/qemu-boot, and runqemu will invoke it.
+>   - We need use "runqemu -m <machine>" rather than "runqemu <machine>"
+>     since the scripts knows nothing about machine any more, and the
+>     similar to other old options, this is good for future's extension.
+>   - I have updated all the machine's configuration except qemush4, since
+>     I can't find this machine anywhere.
+>   - Several machines such as genericx86 and genericx86-64 can be boot by
+>     new runqemu without any changes.
+>   - Added help info for supported options such as slirp and audio.
+>
+> * Usage
+> Usage: runqemu <options>
+>     -m <machine>, specify machine
+>     -k <kernel>, specify kernel
+>     -r <rootfs>, specify disk image, rootfs or nfs dir
+>     -t <fstype>, specify fstypes, supported types:
+>                  ext[234], jffs2, btrfs, cpio.gz(ramfs), cpio, hddimg,
+>                  hdddirect, vmdk, wic, qcow2, vdi
+>     -n, nographic, disables video console
+>     -K, enable KVM when running x86 and x86-64 (VT-capable CPU required)
+>     -V, enables KVM with VHOST support when running x86 and x86-64 (VT-capable CPU required)
+>     -v, publicvnc - enable a VNC server open to all hosts
+>     -u, slirp mode, use user mode networking (no root privilege is required)
+>     -a, support audio
+>     -s, enable a serial console on /dev/ttyS0
+>     -q <qemuparams> - specify custom parameters to QEMU
+>     -b <bootparams> - specify custom kernel parameters during boot
+>     -p <portnum>, tcp serial port number
+>     -B <biosdir>, bios directory
+>     -F <biosfilename>, bios filename.
+>
+>     Examples:
+>       runqemu -m qemuarm -n
+>       runqemu -m qemuarm -t ext4
+>       runqemu -m qemux86-64 -r core-image-sato -t ext4
+>       runqemu -m qemux86 -r path/to/nfsrootdir/
+>       runqemu -r path/to/deploy/dir/image/file.vmdk
+>       runqemu -m qemumips -q "-m 256"
+>       runqemu -m qemuppc -b "psplash=false"
+>
+> // Robert
+>
+> The following changes since commit ece101be5158beee709cdfbb85ecdbdc8d9fb864:
+>
+>   test-empty-image: Fix LIC_FILES_CHKSUM typo (2016-05-06 10:47:59 +0100)
+>
+> are available in the git repository at:
+>
+>   git://git.openembedded.org/openembedded-core-contrib rbt/runqemu
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/runqemu
+>
+> Robert Yang (8):
+>   qemu-boot.bbclass: add it for runqemu
+>   qemu.inc: set QEMU_BOOT_SUPPORTED to 1
+>   qemuarm.conf: set vars for runqemu
+>   arch-arm64.inc: set vars for runqemu
+>   arch-x86.inc: set vars for runqemu
+>   arch-mips.inc: set vars for runqemu
+>   arch-powerpc.inc: set vars for runqemu
+>   runqemu/runqemu-internal: refactor it
+>
+>  meta/classes/image.bbclass                         |   3 +
+>  meta/classes/qemu-boot.bbclass                     |  39 ++
+>  meta/conf/bitbake.conf                             |   3 +
+>  meta/conf/machine/include/arm/arch-arm64.inc       |   7 +
+>  meta/conf/machine/include/arm/arch-armv6.inc       |   2 +
+>  meta/conf/machine/include/mips/arch-mips.inc       |   5 +
+>  meta/conf/machine/include/powerpc/arch-powerpc.inc |   5 +
+>  meta/conf/machine/include/qemu.inc                 |   2 +
+>  meta/conf/machine/include/tune-cortexa8.inc        |   2 +
+>  meta/conf/machine/include/x86/arch-x86.inc         |   6 +
+>  meta/conf/machine/qemuarm.conf                     |   3 +
+>  scripts/runqemu                                    | 603 +++++++-----------
+>  scripts/runqemu-internal                           | 678 +++++++--------------
+>  13 files changed, 505 insertions(+), 853 deletions(-)
+>  create mode 100644 meta/classes/qemu-boot.bbclass
+>
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
