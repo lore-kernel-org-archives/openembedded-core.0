@@ -1,29 +1,47 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id C6160606A8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 05054606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 May 2016 13:42:46 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga104.fm.intel.com with ESMTP; 19 May 2016 06:42:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,334,1459839600"; d="scan'208";a="106869851"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga004.fm.intel.com with ESMTP; 19 May 2016 06:42:46 -0700
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 8F0666A4006
+	Thu, 19 May 2016 14:04:47 +0000 (UTC)
+Received: by mail-io0-f178.google.com with SMTP id p64so16619715ioi.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 May 2016 07:30:17 -0700 (PDT)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 May 2016 16:43:09 +0300
-Message-Id: <1463665389-18822-4-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-In-Reply-To: <1463665389-18822-1-git-send-email-maxin.john@intel.com>
+	Thu, 19 May 2016 07:04:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=+3fbSh28BlmMF82YRtP7i0wSjMZNjPvZCCmieNDro/g=;
+	b=0o5aXsA0uEol+/acklYPYQAOwLkcdB2Hqq+kuOsCy0U9qGzxstcS30qPFVv3yuhuVP
+	T4krIWFegmBugEc4PYfihfdjcylXoQp1N3/RbzyIfyWiFmd6Wj4/y29UjXceuKNvZGt5
+	5LxSAvhbi0DcCkRdlgq4IrjgIsOKQ3CILT+9rqtA7lwPaqoxPUt85EgfiE0RisRetanX
+	m2cJ4u7uaMMDHwktOEs1ikFkXXhJ27yE4vwPVZZ3MJpQZHKRu9uYtQFFokNKJBUMxy41
+	CZl3kMrCcHuqcv9iZAOoqRFJOZQOa1JH9YjgQDa5+CPRNVaO46podsqjj8z63ChxDGyU
+	Dubw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=+3fbSh28BlmMF82YRtP7i0wSjMZNjPvZCCmieNDro/g=;
+	b=MdB9nYX6IDyhMeED4b8/KHVtDd6qsyRdslN15DuV8iRGTqJ/KHoM2tbjSUinBDd+Fo
+	HFWHPBQI8igtSeRyZOXvPxf9LQUDNrYiGnDDuPnAT2N7oPaw0s5azB++ak8l4MPyYWKl
+	2g6mmJHkvhWiEjeafrx9+75ZKwQackNgIfB5FcoJiRpSR189GKNE9i5yW0aPC4pSJCC8
+	5ZODJ3HGdpx0tw0V9sNyRTX2klwTtLTDGhS5sFxR+Dj3bIiGHt3Z1oWnx9TZXqEo5QWT
+	HgRHOCpucBd1cc6IPWARDmSE2qapLtqmWmnjCLOO62/izFPHFDkPl90ce831fQQGOn53
+	37bg==
+X-Gm-Message-State: AOPr4FX7Whiv0O1j8ZtmzgjPIQAS4Y4cD+aRQhMnF65lXL63IFsvhQk8vms+9i0KAYniP8zYyyAc8rBEugn9nKTg
+X-Received: by 10.107.51.213 with SMTP id z204mr9319177ioz.148.1463666688685; 
+	Thu, 19 May 2016 07:04:48 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.162.6 with HTTP; Thu, 19 May 2016 07:04:29 -0700 (PDT)
+In-Reply-To: <1463665389-18822-4-git-send-email-maxin.john@intel.com>
 References: <1463665389-18822-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 4/4] ghostscript: fix upstream check
+	<1463665389-18822-4-git-send-email-maxin.john@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 19 May 2016 15:04:29 +0100
+Message-ID: <CAJTo0LY6DgrzrHmZXfX7Am9Q-dyS+F2MKERGwZr1ur4NLvBj1w@mail.gmail.com>
+To: "Maxin B. John" <maxin.john@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/4] ghostscript: fix upstream check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,30 +54,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 May 2016 13:42:47 -0000
+X-List-Received-Date: Thu, 19 May 2016 14:04:49 -0000
+Content-Type: multipart/alternative; boundary=001a11440cd00cbb3b05333275bb
 
-Ghostscript releases from version 9.19 have been moved to GitHub.
-Update UPSTREAM_CHECK_URI to fix upstream check.
+--001a11440cd00cbb3b05333275bb
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- meta/recipes-extended/ghostscript/ghostscript_9.18.bb | 2 ++
- 1 file changed, 2 insertions(+)
+On 19 May 2016 at 14:43, Maxin B. John <maxin.john@intel.com> wrote:
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.18.bb b/meta/recipes-extended/ghostscript/ghostscript_9.18.bb
-index d4222c7..b6c3bb1 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_9.18.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_9.18.bb
-@@ -37,6 +37,8 @@ SRC_URI_class-native = "${SRC_URI_BASE} \
-                         file://base-genht.c-add-a-preprocessor-define-to-allow-fope.patch \
-                         "
- 
-+UPSTREAM_CHECK_URI = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases"
-+
- SRC_URI[md5sum] = "33a47567d7a591c00a253caddd12a88a"
- SRC_URI[sha256sum] = "5fc93079749a250be5404c465943850e3ed5ffbc0d5c07e10c7c5ee8afbbdb1b"
- 
--- 
-2.4.0
+> +UPSTREAM_CHECK_URI = "
+> https://github.com/ArtifexSoftware/ghostpdl-downloads/releases"
+>
 
+#9573 reports that the current SRC_URI doesn't work either, so you change
+the SRC_URI to their new download URIs and see if we still need this with
+the updated URI?
 
+Ross
+
+--001a11440cd00cbb3b05333275bb
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 19 May 2016 at 14:43, Maxin B. John <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:maxin.john@intel.com" target=3D"_blank">maxin.john@intel.com</a>&gt;</s=
+pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
+;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":cor" class=3D"a3s=
+ aXjCH">+UPSTREAM_CHECK_URI =3D &quot;<a href=3D"https://github.com/Artifex=
+Software/ghostpdl-downloads/releases" rel=3D"noreferrer" target=3D"_blank">=
+https://github.com/ArtifexSoftware/ghostpdl-downloads/releases</a>&quot;<br=
+></div></blockquote></div><br>#9573 reports that the current SRC_URI doesn&=
+#39;t work either, so you change the SRC_URI to their new download URIs and=
+ see if we still need this with the updated URI?</div><div class=3D"gmail_e=
+xtra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a11440cd00cbb3b05333275bb--
