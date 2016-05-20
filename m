@@ -1,29 +1,47 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 114476011A
+Return-Path: <anders@chargestorm.se>
+Received: from mail-lb0-f178.google.com (mail-lb0-f178.google.com
+	[209.85.217.178])
+	by mail.openembedded.org (Postfix) with ESMTP id CA2A760248
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 May 2016 02:43:58 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u4K2huAZ025759
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Thu, 19 May 2016 19:43:57 -0700
-Received: from [128.224.162.214] (128.224.162.214) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 19 May 2016 19:43:55 -0700
-To: Nathan Rossi <nathan@nathanrossi.com>
-References: <cover.1462867278.git.liezhi.yang@windriver.com>
-	<CA+aJhH1hOeD=oj7guxX8_Wm9gU6OS6W=r32WJFgGuLzAjTcw2g@mail.gmail.com>
-	<573E770E.9010503@windriver.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <573E79EA.1090005@windriver.com>
-Date: Fri, 20 May 2016 10:43:54 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.7.2
-MIME-Version: 1.0
-In-Reply-To: <573E770E.9010503@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC PATCH 0/8] [WIP] runqemu/runqemu-internal: refactor it
+	Fri, 20 May 2016 09:01:12 +0000 (UTC)
+Received: by mail-lb0-f178.google.com with SMTP id n11so33180085lbh.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 May 2016 02:01:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=PZzp0wPlPRZ6ResiYcK/JHKd+dj8L4TUpkFgXjXuTgk=;
+	b=ECTSJZ+/Jae55geGqMc2BswN3zHuR960Ugx+6ZNBP+s7K6tD03KXKz1Ba+UPtx+62W
+	ZDD6xtNHePKFvl8w4VrZVyKCIHSiyPwGxGseOCockJ3krGDFB1YfKb5qS4nFLgy5/I+h
+	4fNRZfraMlZaZAbPQurALhEElBjAWHxTxtB3TvrRQVS3Mt5mOw2cRe3759IWDVMzs4bP
+	kcbNkCbEA4k9dERQSv70a9QNlqAcI5DXQxur9NmIO3E3rQR7xbAt3l8h4dAEE2Ngqv1n
+	nCDpY2nttKHosVhy4oEXer06UMGq/RrqPqtInTv/fawZ1NYBLR71iyRcitwsnQA8WLhL
+	Anag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=PZzp0wPlPRZ6ResiYcK/JHKd+dj8L4TUpkFgXjXuTgk=;
+	b=CgunI3JQwUNStQOXJdVq57sRoUgJ2jWoxas1nvxqOEeKrPXvkhOoHsM3nANENVHWzj
+	mZbCy7qmasj2SMNgYOIekpEle+33wSjFyfi/MgYND0oc/+YAWyrPMT/OJRFC98qMh3hC
+	QtyJ7Q7lb6ZzmVL7ZQChuQltwu0PjIEOw/2q46+KhG6IOIQr3Xxk76qDiA0LnTSugn1m
+	8y9cGqa+pXNG6Q7wtIoA5/xUDz+Yap6/M9fNZNUJfKQMiaiHRNvq+BxiKXPyV77E3uyy
+	CJ02TmkGQMOxuH2vZwqd4yqd+pYYkRd/vNizqohJWL4SEXxzcFL9bwCEl+mA5QfanOOF
+	Ov2Q==
+X-Gm-Message-State: AOPr4FXuuhVcLe6zOEtKVO3+u8Z8Cjg4WeyrboqLC9XBwJcGs+BH547mYR4FITOIaWXytg==
+X-Received: by 10.112.209.99 with SMTP id ml3mr643630lbc.26.1463734872094;
+	Fri, 20 May 2016 02:01:12 -0700 (PDT)
+Received: from localhost (213-64-218-130-no126.business.telia.com.
+	[213.64.218.130]) by smtp.gmail.com with ESMTPSA id
+	jc7sm3038227lbc.22.2016.05.20.02.01.11
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 20 May 2016 02:01:11 -0700 (PDT)
+From: Anders Darander <anders@chargestorm.se>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 May 2016 11:01:01 +0200
+Message-Id: <1463734861-23862-1-git-send-email-anders@chargestorm.se>
+X-Mailer: git-send-email 2.8.1
+Cc: Anders Darander <anders@chargestorm.se>
+Subject: [PATCH] lib/oe/rootfs: Fix DEBUGFS generation, without openssl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,173 +54,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 May 2016 02:44:00 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 20 May 2016 09:01:13 -0000
 
+In commit 20ea6d274bb0a9a5addb111f32793de49b907865, debugfs generation
+for images using opkg, which included openssl was fixed.
 
+However, that broke the generation of the opkg-based images, that lacks
+openssl. The error is a python stack trace, showing that shutil.copytree
+tries to copy a non-existing directory.
 
-On 05/20/2016 10:31 AM, Robert Yang wrote:
-> Hi Nathan,
->
-> Thanks, but I'm sorry to say that this is only a RFC, we may change
-> it a lot, I will talk with RP, and let you when we have progresses.
+This relates to [YOCTO #9040].
 
-Oonce we change it a lot, for example, change runqemu to use python
-rather than shell script, your current work based on these patches
-may not work:-(, I will let you know once we have final decisions.
+Signed-off-by: Anders Darander <anders@chargestorm.se>
+---
+ meta/lib/oe/rootfs.py | 2 ++
+ 1 file changed, 2 insertions(+)
 
-// Robert
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index f5c465f..7087b12 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -116,6 +116,8 @@ class Rootfs(object):
+ 
+         bb.note("  Copying back package database...")
+         for dir in dirs:
++            if not os.path.isdir(self.image_rootfs + '-orig' + dir):
++                continue
+             bb.utils.mkdirhier(self.image_rootfs + os.path.dirname(dir))
+             shutil.copytree(self.image_rootfs + '-orig' + dir, self.image_rootfs + dir, symlinks=True)
+ 
+-- 
+2.8.1
 
->
-> // Robert
->
-> On 05/19/2016 10:57 PM, Nathan Rossi wrote:
->> On Tue, May 10, 2016 at 6:13 PM, Robert Yang <liezhi.yang@windriver.com> wrote:
->>> Hello,
->>>
->>> This is still WIP, I send this out to make sure that I won't walk on
->>> wrong way too far. Please feel free to give any comments.
->>
->> Hi Robert,
->>
->> This is great! So I went ahead and tested out converting the
->> qemumicroblaze and qemuzynq machines to work with these changes, as
->> well as some additional machines. Here is a meta-xilinx branch
->> (https://github.com/nathanrossi/meta-xilinx/tree/nrossi/runqemu-rfc)
->> with these changes for anyone who is curious.
->>
->> Everything seems to work well, I was able to boot all the meta-xilinx
->> QEMU machines. Although there were a couple of things that I noticed
->> when getting these machines going:
->>
->> QEMU_DTB, should probably be named QEMU_DTB_OPTIONS or alternatively
->> can just be included as part of QEMU_OPTIONS from within the bitbake
->> environment. But it would be nice to be able to just define the name
->> of the DTB and the runqemu scripts do the finding (like for kernel and
->> rootfs).
->>
->> The "-s" and the "-n" runqemu options add "console=ttyS0" to the
->> kernel options regardless of target. For qemuzynq you might have
->> noticed the sed expression that overrides it previously
->> (http://git.openembedded.org/openembedded-core/tree/scripts/runqemu-internal#n494).
->>
->> It is probably worth pulling in serial kernel options from a bitbake
->> variable.
->>
->> Regards,
->> Nathan
->>
->>>
->>> TODO:
->>> * Update the one which uses runqemu, such as oeqa
->>> * Boot EFI image
->>> * Boot multilib image such as lib32-foo
->>> * Change the vars name such as QEMU_SYSTEM_OPTIONS and
->>>    QEMU_SECOND_SERIAL_OPT
->>> * More testing
->>>
->>>
->>> === Taken from patch 8/8's commit message:
->>> * Why refactor
->>>    The old runqemu had hardcoded machine knowledge, which limited its
->>>    usage, for example, qemu-system-foo can boot the target, but runqemu
->>>    can't, and we need edit runqemu/runqemu-internal a lot to support boot
->>>    it.
->>>
->>> * Brief introduction on implemention
->>>    The basic thought is that, machine/bsp developer knows clearly on
->>>    whether qemu can boot the target or not (QEMU_BOOT_SUPPORTED = "1" or
->>>    "0"), and how to boot it, so we leave these settings in the machine's
->>>    configuration.
->>>    - qemu-boot.bbclass will write machine's info to
->>>      ${DEPLOY_DIR_IMAGE}/qemu-boot, and runqemu will invoke it.
->>>    - We need use "runqemu -m <machine>" rather than "runqemu <machine>"
->>>      since the scripts knows nothing about machine any more, and the
->>>      similar to other old options, this is good for future's extension.
->>>    - I have updated all the machine's configuration except qemush4, since
->>>      I can't find this machine anywhere.
->>>    - Several machines such as genericx86 and genericx86-64 can be boot by
->>>      new runqemu without any changes.
->>>    - Added help info for supported options such as slirp and audio.
->>>
->>> * Usage
->>> Usage: runqemu <options>
->>>      -m <machine>, specify machine
->>>      -k <kernel>, specify kernel
->>>      -r <rootfs>, specify disk image, rootfs or nfs dir
->>>      -t <fstype>, specify fstypes, supported types:
->>>                   ext[234], jffs2, btrfs, cpio.gz(ramfs), cpio, hddimg,
->>>                   hdddirect, vmdk, wic, qcow2, vdi
->>>      -n, nographic, disables video console
->>>      -K, enable KVM when running x86 and x86-64 (VT-capable CPU required)
->>>      -V, enables KVM with VHOST support when running x86 and x86-64
->>> (VT-capable CPU required)
->>>      -v, publicvnc - enable a VNC server open to all hosts
->>>      -u, slirp mode, use user mode networking (no root privilege is required)
->>>      -a, support audio
->>>      -s, enable a serial console on /dev/ttyS0
->>>      -q <qemuparams> - specify custom parameters to QEMU
->>>      -b <bootparams> - specify custom kernel parameters during boot
->>>      -p <portnum>, tcp serial port number
->>>      -B <biosdir>, bios directory
->>>      -F <biosfilename>, bios filename.
->>>
->>>      Examples:
->>>        runqemu -m qemuarm -n
->>>        runqemu -m qemuarm -t ext4
->>>        runqemu -m qemux86-64 -r core-image-sato -t ext4
->>>        runqemu -m qemux86 -r path/to/nfsrootdir/
->>>        runqemu -r path/to/deploy/dir/image/file.vmdk
->>>        runqemu -m qemumips -q "-m 256"
->>>        runqemu -m qemuppc -b "psplash=false"
->>>
->>> // Robert
->>>
->>> The following changes since commit ece101be5158beee709cdfbb85ecdbdc8d9fb864:
->>>
->>>    test-empty-image: Fix LIC_FILES_CHKSUM typo (2016-05-06 10:47:59 +0100)
->>>
->>> are available in the git repository at:
->>>
->>>    git://git.openembedded.org/openembedded-core-contrib rbt/runqemu
->>>
->>> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/runqemu
->>>
->>>
->>> Robert Yang (8):
->>>    qemu-boot.bbclass: add it for runqemu
->>>    qemu.inc: set QEMU_BOOT_SUPPORTED to 1
->>>    qemuarm.conf: set vars for runqemu
->>>    arch-arm64.inc: set vars for runqemu
->>>    arch-x86.inc: set vars for runqemu
->>>    arch-mips.inc: set vars for runqemu
->>>    arch-powerpc.inc: set vars for runqemu
->>>    runqemu/runqemu-internal: refactor it
->>>
->>>   meta/classes/image.bbclass                         |   3 +
->>>   meta/classes/qemu-boot.bbclass                     |  39 ++
->>>   meta/conf/bitbake.conf                             |   3 +
->>>   meta/conf/machine/include/arm/arch-arm64.inc       |   7 +
->>>   meta/conf/machine/include/arm/arch-armv6.inc       |   2 +
->>>   meta/conf/machine/include/mips/arch-mips.inc       |   5 +
->>>   meta/conf/machine/include/powerpc/arch-powerpc.inc |   5 +
->>>   meta/conf/machine/include/qemu.inc                 |   2 +
->>>   meta/conf/machine/include/tune-cortexa8.inc        |   2 +
->>>   meta/conf/machine/include/x86/arch-x86.inc         |   6 +
->>>   meta/conf/machine/qemuarm.conf                     |   3 +
->>>   scripts/runqemu                                    | 603 +++++++-----------
->>>   scripts/runqemu-internal                           | 678 +++++++--------------
->>>   13 files changed, 505 insertions(+), 853 deletions(-)
->>>   create mode 100644 meta/classes/qemu-boot.bbclass
->>>
->>> --
->>> 2.7.4
->>>
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
 
