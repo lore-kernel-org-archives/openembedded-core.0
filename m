@@ -1,49 +1,40 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 76DF962132
+Return-Path: <andrew@bradfordembedded.com>
+X-Greylist: delayed 471 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 20 May 2016 19:12:57 UTC
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
+	[66.111.4.26])
+	by mail.openembedded.org (Postfix) with ESMTP id 4123C65CBB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 May 2016 17:04:24 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id b66so11888805pfb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 May 2016 10:04:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Okm1px6BorJUMXnEN1Pd/KZFLlaTKmB2zBJUnFn2fmw=;
-	b=JVRert4GAuDWsTeNT2hCP0tFhsWBOnzE/iPQb4e9d6eMuWj1aV4xRcHXnrxXRXJbE1
-	lb8Z/7YqPRl790ggECTjWKtnHZ16uiwektve0CKMPTzFt8LwWWqxtrQYxYyjS6MH1rz3
-	uynJAS3H/N87nR21UCzAanBLJE7dwOyzidP6dQSNNVdfgqudHUhEUnsj8KGm6zeeF2Wr
-	wsKMowBtLMpFG1WUr9w2J+TUrEFwwnm+J0PX2kMCAXHEZn7X/xDdRZjvlDRRrYBFfnvq
-	9pFh+fZat+kk0/Zk4eJ1QvQ6FPCTA8PmPDDjOFbZnuwrIotEei3poXHgZw+ebD1fw5hQ
-	6wCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=Okm1px6BorJUMXnEN1Pd/KZFLlaTKmB2zBJUnFn2fmw=;
-	b=GBv87I1mMLBl9jPiPiW6B6gxTx4PtytSTZgCyHoU2NgDJxbOdDelI/cKCsW9sit6V/
-	m8lDdQko3I+oc0F82dJufoUvsCFnwzM5mDkRFpWEnvDT2grVbY0sqYK3fensr6GkPwhv
-	5G2dpaega+hrkW8NzqNlxSFZU2SZEnKsz1DHTAp6p/GYWCfyk1Q8Lz3m85WoST1ka9rY
-	U4xR6KFwNr5TwtmDAeAr+c4+kPTZD/j4pE9r46hiq5PA/0iwFO/TiKRNyBKS6rYtznnb
-	/WJKkGE/wtpqfQqxFN2zG63cIi4uL5PriL4PBRT4mSVD0izBHtEDz9McuSyckcuux96S
-	8aRw==
-X-Gm-Message-State: AOPr4FXn7AyT++JsmhpKIy5rziwqWpZbR0d9sEctezkWw6uLKkaJP/2MscpsB/agKPW+mg==
-X-Received: by 10.98.90.7 with SMTP id o7mr6438041pfb.110.1463763865661;
-	Fri, 20 May 2016 10:04:25 -0700 (PDT)
-Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by smtp.gmail.com with ESMTPSA id
-	y128sm28512146pfb.13.2016.05.20.10.04.22
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 20 May 2016 10:04:22 -0700 (PDT)
-From: Christopher Larson <kergoth@gmail.com>
+	Fri, 20 May 2016 19:12:57 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 672FB20836;
+	Fri, 20 May 2016 15:05:06 -0400 (EDT)
+Received: from frontend1 ([10.202.2.160])
+	by compute5.internal (MEProxy); Fri, 20 May 2016 15:05:06 -0400
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	bradfordembedded.com; h=cc:date:from:message-id:subject:to
+	:x-sasl-enc:x-sasl-enc; s=mesmtp; bh=2gLa5lGfhZ4gtImFVzZbwOQ2Qi4
+	=; b=AyCYBmVqrDGKE6I66fxHoCYf6Sp9RLrXAnUDviPcXujMCCqFBKyaagybJ4J
+	33Z13l+SxAcL7l/8L2EVttTjiGtefslDZ9UR8rQiT+MMLnp0Ur7816/3NaCZlmSR
+	CCelLAsO++HeyV9Bkd0ZAb3103fq3Kxq/KJv5l3h18rXdZJs=
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:date:from:message-id:subject:to
+	:x-sasl-enc:x-sasl-enc; s=smtpout; bh=2gLa5lGfhZ4gtImFVzZbwOQ2Qi
+	4=; b=An4DUXYLL5SlLHrlSCCt9AvzSOVIVxmxY6RfzwErDcPbOV6gJ7lgqH/+A/
+	dUOSQmxSJKLoay4nYZJQkLXy/rOPl70EKd8oPAeEAbjtqCsPG5xXYpJBpBsSm2rC
+	hGarrKKltXu8BaKAgYGcc/sGBSzGT3Y9Gax/c9n4KElngAvdY=
+X-Sasl-enc: CiB0gZkYsf9uWkopIvHuBG3BbYgQl+rtazyaKwnQ5CD9 1463771106
+Received: from kaim-eeyore.kodakalaris.net (clr-vpn01.kodakalaris.com
+	[198.140.222.129])
+	by mail.messagingengine.com (Postfix) with ESMTPA id B80EFF29F7;
+	Fri, 20 May 2016 15:05:05 -0400 (EDT)
+From: Andrew Bradford <andrew@bradfordembedded.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 May 2016 10:04:20 -0700
-Message-Id: <1463763860-4124-1-git-send-email-kergoth@gmail.com>
-X-Mailer: git-send-email 2.8.0
-In-Reply-To: <e889a21f09e4bcbddd05ee90a914600d33540dfa.1462489051.git.chris_larson@mentor.com>
-References: <e889a21f09e4bcbddd05ee90a914600d33540dfa.1462489051.git.chris_larson@mentor.com>
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCHv3] mkelfimage: obey LDFLAGS, sort out HOST_ flags
+Date: Fri, 20 May 2016 15:04:05 -0400
+Message-Id: <1463771045-28749-1-git-send-email-andrew@bradfordembedded.com>
+X-Mailer: git-send-email 2.8.1
+Cc: Andrew Bradford <andrew.bradford@kodakalaris.com>
+Subject: [PATCH] lttng-modules: Upgrade to 2.7.3 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,171 +47,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 May 2016 17:04:25 -0000
+X-List-Received-Date: Fri, 20 May 2016 19:12:57 -0000
 
-From: Christopher Larson <chris_larson@mentor.com>
+From: Andrew Bradford <andrew.bradford@kodakalaris.com>
 
-We weren't consistent in the HOST_ (aka BUILD_) and non-HOST_ flags, so we
-were using BUILD_CPPFLAGS to compile target stuff, for example. Sort that out,
-and make sure we obey LDFLAGS.
+Linux 4.5 and later cause lttng-modules versions prior to 2.7.2 to fail
+to compile due to Linux vmscan changes.  See lttng-modules git commit
+d0d2908478bdc8c36faaeae6fcb687052cb5f93b on lttng-modules branch
+stable-2.7: "Fix: update vmscan instrumentation for kernel 4.5".
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+Signed-off-by: Andrew Bradford <andrew.bradford@kodakalaris.com>
 ---
+ meta/recipes-kernel/lttng/lttng-modules_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-v2 change: fixed patch file paths
-
- .../mkelfimage/mkelfimage/cross-compile.patch      | 85 +++++++++++++++-------
- meta/recipes-devtools/mkelfimage/mkelfimage_git.bb |  4 +-
- 2 files changed, 62 insertions(+), 27 deletions(-)
-
-diff --git a/meta/recipes-devtools/mkelfimage/mkelfimage/cross-compile.patch b/meta/recipes-devtools/mkelfimage/mkelfimage/cross-compile.patch
-index 7692709..2ae9fb5 100644
---- a/meta/recipes-devtools/mkelfimage/mkelfimage/cross-compile.patch
-+++ b/meta/recipes-devtools/mkelfimage/mkelfimage/cross-compile.patch
-@@ -1,13 +1,43 @@
--make the tool to be cross compilable.
-+From dc2712119d6832e24a9b7bed9ed4ce5ae03ce0a3 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sat, 14 Jul 2012 14:14:07 -0700
-+Subject: [PATCH] mkelfimage: Fix cross build
-+
-+Make the tool to be cross compilable, by separating the variables for build
-+tools from those for the target. Also modified to obey LDFLAGS.
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_git.bb b/meta/recipes-kernel/lttng/lttng-modules_git.bb
+index 2eb1a51..d8a7d36 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules_git.bb
++++ b/meta/recipes-kernel/lttng/lttng-modules_git.bb
+@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=362844633a08753bd96ab322a6c7f9f6 \
  
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-+
- Upstream-Status: Pending
+ inherit module
  
--Index: mkelfImage/configure.ac
--===================================================================
----- mkelfImage.orig/configure.ac	2012-07-14 14:04:48.964898667 -0700
--+++ mkelfImage/configure.ac	2012-07-14 14:10:47.800916083 -0700
--@@ -70,6 +70,9 @@
-+---
-+ Makefile.conf.in    | 3 +++
-+ configure.ac        | 7 +++++--
-+ linux-i386/Makefile | 2 +-
-+ linux-ia64/Makefile | 2 +-
-+ main/Makefile       | 4 ++--
-+ 5 files changed, 12 insertions(+), 6 deletions(-)
-+
-+diff --git a/Makefile.conf.in b/Makefile.conf.in
-+index 4645e44..dcb6cf2 100644
-+--- a/Makefile.conf.in
-++++ b/Makefile.conf.in
-+@@ -17,6 +17,9 @@ DEFS=@DEFS@
-+ LIBS=@LIBS@
-+ HOST_CC=@HOST_CC@
-+ HOST_CFLAGS=@HOST_CFLAGS@  $(DEFS)
-++CC=@CC@
-++CFLAGS=@CFLAGS@ $(DEFS)
-++LDFLAGS=@LDFLAGS@
-+
-+ I386_CC     =@I386_CC@
-+ I386_LD     =@I386_LD@
-+diff --git a/configure.ac b/configure.ac
-+index 652b952..0f2ac72 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -70,6 +70,9 @@ if test "with_default" != no ; then
-  		AC_MSG_ERROR([cc not found])
-  	fi
-  	eval "${with_default}_CC='$CC'"
-@@ -17,19 +47,22 @@ Index: mkelfImage/configure.ac
-  	AC_PROG_CPP
-  	if test "$CPP" = no; then
-  		AC_MSG_ERROR([cpp not found])
--@@ -172,7 +175,6 @@
-+@@ -172,8 +175,8 @@ fi
-  
-  dnl ---Output variables...
-  
- -HOST_CC=$CC
-- HOST_CFLAGS="$HOST_CFLAGS -O2 -Wall \$(HOST_CPPFLAGS)"
-+-HOST_CFLAGS="$HOST_CFLAGS -O2 -Wall \$(HOST_CPPFLAGS)"
-++CFLAGS="${CFLAGS:--O2} -Wall \$(CPPFLAGS)"
-++HOST_CFLAGS="${HOST_CFLAGS:--O2} -Wall \$(HOST_CPPFLAGS)"
-  
-  dnl TODO: figure out how to set these appropriately for compilers other than gcc
--Index: mkelfImage/linux-i386/Makefile
--===================================================================
----- mkelfImage.orig/linux-i386/Makefile	2012-07-14 14:04:48.964898667 -0700
--+++ mkelfImage/linux-i386/Makefile	2012-07-14 14:04:49.032898671 -0700
--@@ -4,7 +4,7 @@
-+ I386_CFLAGS="$I386_CFLAGS -Os -ffreestanding -Wall -W -Wno-format \$(I386_CPPFLAGS)"
-+diff --git a/linux-i386/Makefile b/linux-i386/Makefile
-+index 51531d6..7e8aa3c 100644
-+--- a/linux-i386/Makefile
-++++ b/linux-i386/Makefile
-+@@ -4,7 +4,7 @@ LI386_DEP=Makefile Makefile.conf $(LI386_DIR)/Makefile
-  
-  $(LI386_OBJ)/mkelf-linux-i386.o: $(LI386_DIR)/mkelf-linux-i386.c $(LI386_DIR)/convert.bin.c $(LI386_DEP)
-  	$(MKDIR) -p $(@D)
-@@ -38,11 +71,11 @@ Index: mkelfImage/linux-i386/Makefile
-  
-  
-  ifdef I386_CC
--Index: mkelfImage/linux-ia64/Makefile
--===================================================================
----- mkelfImage.orig/linux-ia64/Makefile	2012-07-14 14:04:48.964898667 -0700
--+++ mkelfImage/linux-ia64/Makefile	2012-07-14 14:04:49.032898671 -0700
--@@ -4,7 +4,7 @@
-+diff --git a/linux-ia64/Makefile b/linux-ia64/Makefile
-+index 38f5d8c..5df8870 100644
-+--- a/linux-ia64/Makefile
-++++ b/linux-ia64/Makefile
-+@@ -4,7 +4,7 @@ LIA64_DEP=Makefile Makefile.conf $(LIA64_DIR)/Makefile
-  
-  $(LIA64_OBJ)/mkelf-linux-ia64.o: $(LIA64_DIR)/mkelf-linux-ia64.c $(LIA64_DIR)/convert.bin.c $(LIA64_DEP)
-  	$(MKDIR) -p $(@D)
-@@ -51,21 +84,23 @@ Index: mkelfImage/linux-ia64/Makefile
-  
-  ifdef IA64_CC
-  
--Index: mkelfImage/main/Makefile
--===================================================================
----- mkelfImage.orig/main/Makefile	2012-07-14 14:04:48.964898667 -0700
--+++ mkelfImage/main/Makefile	2012-07-14 14:04:49.032898671 -0700
--@@ -4,11 +4,11 @@
-+diff --git a/main/Makefile b/main/Makefile
-+index 403b0a4..cd53613 100644
-+--- a/main/Makefile
-++++ b/main/Makefile
-+@@ -4,11 +4,11 @@ MKELF_OBJS=$(OBJDIR)/main/mkelfImage.o \
-  
-  $(OBJDIR)/sbin/mkelfImage: $(MKELF_OBJS) $(DEPS)
-  	$(MKDIR) -p $(@D)
- -	$(HOST_CC) $(HOST_CFLAGS) $(MKELF_OBJS) -o $@ $(LIBS)
--+	$(CC) $(HOST_CFLAGS) $(MKELF_OBJS) -o $@ $(LIBS)
-++	$(CC) $(CFLAGS) $(LDFLAGS) $(MKELF_OBJS) -o $@ $(LIBS)
-  
-  $(OBJDIR)/main/mkelfImage.o: main/mkelfImage.c include/mkelfImage.h $(DEPS)
-  	$(MKDIR) -p $(@D)
- -	$(HOST_CC) $(HOST_CFLAGS) -c $< -o $@
--+	$(CC) $(HOST_CFLAGS) -c $< -o $@
-++	$(CC) $(CFLAGS) -c $< -o $@
-  
-  $(OBJDIR)/man/man8/mkelfImage.8: main/mkelfImage.man
-  	$(MKDIR) -p $(@D)
-+--
-+2.8.0
-diff --git a/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
-index 92435cd..d7a4429 100644
---- a/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
-+++ b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
-@@ -13,8 +13,8 @@ http://review.coreboot.org/gitweb?p=coreboot.git;a=commit;h=34fc4ab80b507739e258
- DEPENDS += "zlib"
+-SRCREV = "45e0ebd91f995cc73c2b0d5c60cf9d12e8c838bf"
+-PV = "2.7.1+git${SRCPV}"
++SRCREV = "5362a1f26060e0d64464bb35cdd285c914ae6171"
++PV = "2.7.3+git${SRCPV}"
  
- SRC_URI = "git://review.coreboot.org/p/coreboot;protocol=http \
--           file://cross-compile.patch   \
--          "
-+           file://cross-compile.patch \
-+           "
- SRC_URI_append_class-native = " \
-            file://fix-makefile-to-find-libz.patch   \
- "
+ COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips|nios2|arm).*-linux'
+ 
 -- 
-2.8.0
+2.8.1
 
 
