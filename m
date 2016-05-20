@@ -1,47 +1,29 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-oi0-f42.google.com (mail-oi0-f42.google.com
-	[209.85.218.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 92E9765CBA
+Return-Path: <maxin.john@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 253166FF25
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 May 2016 11:13:46 +0000 (UTC)
-Received: by mail-oi0-f42.google.com with SMTP id x19so173625144oix.2
+	Fri, 20 May 2016 12:50:52 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga102.jf.intel.com with ESMTP; 20 May 2016 05:50:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,339,1459839600"; d="scan'208";a="107492315"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga004.fm.intel.com with ESMTP; 20 May 2016 05:50:54 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id B67256A4007
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 May 2016 04:13:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=wk8b9MJDH4h196x37r4b1obo0CpCBaxSnj0KnAgEQ7E=;
-	b=2Pgeq51AWd3IMoKY8KAnJPJ8F35VMeQTIRB7wTU2/fA7RvBZiWFoN3floNPU+TQ4FL
-	lVKQ/UBqPT2ugdCoL0oGtPB8EEuUDFW3a1Hy0gxAfQ0jwVDTgCwCkihG319icFAOSdMj
-	Wvhe6HMYCEsCH7KvGBFIx5JI6xM1fQ0sX8Eo6w9u5IVMNYSedHtw8jTlaz3pKvP8K3/n
-	9K4W0cRA8PSK2pwqHSG4eIgfwc2OTgLt5qaMvjzE5I4lwStk46ZVMAtlBqFpf3d5dt6e
-	+tRV2SMj/Mgvo73FKsh2M3iX7xdZkxmHy1fakO1ZjUjbsu3DRN7Inad9zIsoZgHt7CXo
-	jCvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=wk8b9MJDH4h196x37r4b1obo0CpCBaxSnj0KnAgEQ7E=;
-	b=Ktzv8oz6YxQZFSE3kUsCV2jD9OifnhlkFA+z6iw8yQ3ssuQqXk4M1ahGEcKNvputUw
-	HJnEc7LGdf0sOH1CwFxXsJ3gSIcSFhdvs7xWZROss5vMIrndQYm/uIWNA8bWf6P6L7DM
-	4kILy4b/TcoZFAgB65boGbHratI/8AkDJhAKLfvs+QNfrInsNYnCISU7ZXwNfhLHhBtk
-	mSRCwJnMqE8cW6IZ/fP3ybCzaM84bZXYu0KmlCt/J1nPOO3wy3eKpSGOtFUbe2KQ/sg8
-	8Y6clxGnMdQwH22xY0c5rFZUmOCZMwYFkctLb0pkLZGXbecEF1LM1VL0ICIoKbKoMzen
-	gSZw==
-X-Gm-Message-State: AOPr4FWL/9BjAoIXxP0l+UoDLVBXNC2HXft9UTKdyfrkw77Pp8ZWmPFVa9X5Y54UGO6BK1TAsK/l01ektxMtTdU/
-X-Received: by 10.202.187.10 with SMTP id l10mr1519059oif.125.1463742826648;
-	Fri, 20 May 2016 04:13:46 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.202.61.5 with HTTP; Fri, 20 May 2016 04:13:17 -0700 (PDT)
-In-Reply-To: <1462353116-7481-1-git-send-email-awais_belal@mentor.com>
-References: <1462353116-7481-1-git-send-email-awais_belal@mentor.com>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Fri, 20 May 2016 14:13:17 +0300
-Message-ID: <CAHiDW_FoogPN+yji_4wC6qz=AvfBTgjjR1aKB2Dziy_ou-XF8w@mail.gmail.com>
-To: Awais Belal <awais_belal@mentor.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [[PATCH v2 1/2] mesa-demos: remove demos using obsolete screen surface
+	Fri, 20 May 2016 06:38:23 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 May 2016 15:51:20 +0300
+Message-Id: <1463748682-22067-2-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+In-Reply-To: <1463748682-22067-1-git-send-email-maxin.john@intel.com>
+References: <1463748682-22067-1-git-send-email-maxin.john@intel.com>
+Subject: [PATCH 2/4] libsoup-2.4: provide PACKAGECONFIG for gssapi
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,22 +36,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 May 2016 11:13:48 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 20 May 2016 12:50:53 -0000
 
-On 4 May 2016 at 12:11, Awais Belal <awais_belal@mentor.com> wrote:
-> The mesa surface EGL_MESA_screen_surface was obsoleted
-> and then dropped from mesa some time ago. Drop demos
-> depending on this.
+Fixes this build error:
 
-This is included in the mesa-demos release from end of last year? The
-upgrade looks non-trivial with the amount of patching we do but it's
-still the right thing to do instead of  backporting patches on top of
-earlier patches.
+| ../../libsoup-2.54.1/libsoup/soup-auth-negotiate.c:16:27: fatal error:
+gssapi/gssapi.h: No such file or directory
+| compilation terminated.
+| Makefile:1166: recipe for target
+'libsoup_2_4_la-soup-auth-negotiate.lo' failed
+| make[3]: *** [libsoup_2_4_la-soup-auth-negotiate.lo] Error 1
 
-I'm looking at the upgrade right now -- it shouldn't hurt if this goes
-to master but it does look like I will end up removing it with the
-upgrade.
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ meta/recipes-support/libsoup/libsoup-2.4_2.54.1.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-Jussi
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.54.1.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.54.1.bb
+index ad8202c..f243cbc 100644
+--- a/meta/recipes-support/libsoup/libsoup-2.4_2.54.1.bb
++++ b/meta/recipes-support/libsoup/libsoup-2.4_2.54.1.bb
+@@ -21,6 +21,7 @@ inherit autotools gettext pkgconfig upstream-version-is-even gobject-introspecti
+ # libsoup-gnome is entirely deprecated and just stubs in 2.42 onwards. Disable by default.
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[gnome] = "--with-gnome,--without-gnome"
++PACKAGECONFIG[gssapi] = "--with-gssapi,--without-gssapi,krb5"
+ 
+ EXTRA_OECONF = "--disable-vala"
+ 
+-- 
+2.4.0
+
 
