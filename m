@@ -1,40 +1,46 @@
-Return-Path: <andrew@bradfordembedded.com>
-X-Greylist: delayed 471 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 20 May 2016 19:12:57 UTC
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
-	[66.111.4.26])
-	by mail.openembedded.org (Postfix) with ESMTP id 4123C65CBB
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
+	[209.85.215.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A7BD6010B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 May 2016 19:12:57 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id 672FB20836;
-	Fri, 20 May 2016 15:05:06 -0400 (EDT)
-Received: from frontend1 ([10.202.2.160])
-	by compute5.internal (MEProxy); Fri, 20 May 2016 15:05:06 -0400
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	bradfordembedded.com; h=cc:date:from:message-id:subject:to
-	:x-sasl-enc:x-sasl-enc; s=mesmtp; bh=2gLa5lGfhZ4gtImFVzZbwOQ2Qi4
-	=; b=AyCYBmVqrDGKE6I66fxHoCYf6Sp9RLrXAnUDviPcXujMCCqFBKyaagybJ4J
-	33Z13l+SxAcL7l/8L2EVttTjiGtefslDZ9UR8rQiT+MMLnp0Ur7816/3NaCZlmSR
-	CCelLAsO++HeyV9Bkd0ZAb3103fq3Kxq/KJv5l3h18rXdZJs=
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:date:from:message-id:subject:to
-	:x-sasl-enc:x-sasl-enc; s=smtpout; bh=2gLa5lGfhZ4gtImFVzZbwOQ2Qi
-	4=; b=An4DUXYLL5SlLHrlSCCt9AvzSOVIVxmxY6RfzwErDcPbOV6gJ7lgqH/+A/
-	dUOSQmxSJKLoay4nYZJQkLXy/rOPl70EKd8oPAeEAbjtqCsPG5xXYpJBpBsSm2rC
-	hGarrKKltXu8BaKAgYGcc/sGBSzGT3Y9Gax/c9n4KElngAvdY=
-X-Sasl-enc: CiB0gZkYsf9uWkopIvHuBG3BbYgQl+rtazyaKwnQ5CD9 1463771106
-Received: from kaim-eeyore.kodakalaris.net (clr-vpn01.kodakalaris.com
-	[198.140.222.129])
-	by mail.messagingengine.com (Postfix) with ESMTPA id B80EFF29F7;
-	Fri, 20 May 2016 15:05:05 -0400 (EDT)
-From: Andrew Bradford <andrew@bradfordembedded.com>
+	Fri, 20 May 2016 20:14:24 +0000 (UTC)
+Received: by mail-lf0-f68.google.com with SMTP id p10so3226705lfb.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 May 2016 13:14:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=u1yAhIGio5LYhLUBQwA/PKRjC/OCVA0EVUt7KpkTiAM=;
+	b=S+ooVyJoQ0AHXSpDkQBGHOQX9SaP8qbOP2dldG1K8CYCfmx5Tb/cNcVAeMD/k+IjgG
+	/w725uswIT8hp0HbloQjjqRPNCE/kWITD2++Ehy0T8QsH8xNJUoHf6cTLrAbXXlPJWZd
+	pwbYLCt88x22W/q46adwKupePFxKqz4LzNyx+IgciLEZW38QtyWNclaafPYR2YbVVktn
+	N2LbLNQEh7C51z/Xle1OuEj3vn/YXCjYRibT24Ik5YkI4pf5y1p8J2r/7IuQYl18Itxj
+	eSgwL8YjfWRdC0GExv2g62XUFHLFq/6X8N+orWoVCYsDPs3i7iJ1tcN1p90FOl+kX813
+	NCTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=u1yAhIGio5LYhLUBQwA/PKRjC/OCVA0EVUt7KpkTiAM=;
+	b=mUjtK5/JahodJ1ftCio5rerqhlzDD2qnZ0FNG/VXB4av+fVCdQa2TOySWFnP6qT+5A
+	SPKUWXfQsxQws4eVN+JcSXlw2Vwo1Yj6OOKMoiWjLzFATNQ77KMdxlq/owiHTDeh/4Ze
+	wWdHVFtRODQG73pD6Us/vzoiD35MKTS5q1tiLTeKe7zVp5x6yTOyE2K7ao0PXZ/iG/ct
+	k8Ox6rk90JfQlJof4v91gkv5Regw0YborQLQcgwD0CyDIVejFil/ImhahzU5YX4JMHGR
+	w02BhyzvxCkAlJ3uJwWyHsBgX0vaL8ShQEaX21WKuY4GrA5bO8S+zRtskVAmerVGtW4z
+	3MLw==
+X-Gm-Message-State: AOPr4FXvKy4WcITQceY4+WCuTSLAAiAW1l4JWg/A52yD7RTWANWNLurTNf1amJ39+GBkrA==
+X-Received: by 10.25.159.211 with SMTP id i202mr1830720lfe.76.1463775264499;
+	Fri, 20 May 2016 13:14:24 -0700 (PDT)
+Received: from localhost.localdomain (c80-217-62-231.bredband.comhem.se.
+	[80.217.62.231]) by smtp.gmail.com with ESMTPSA id
+	po7sm3616939lbb.16.2016.05.20.13.14.23
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 20 May 2016 13:14:23 -0700 (PDT)
+From: Ming Liu <liu.ming50@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 May 2016 15:04:05 -0400
-Message-Id: <1463771045-28749-1-git-send-email-andrew@bradfordembedded.com>
-X-Mailer: git-send-email 2.8.1
-Cc: Andrew Bradford <andrew.bradford@kodakalaris.com>
-Subject: [PATCH] lttng-modules: Upgrade to 2.7.3 release
+Date: Fri, 20 May 2016 22:14:20 +0200
+Message-Id: <1463775260-17504-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Cc: yue.tao@windriver.com, Ming Liu <peter.x.liu@external.atlascopco.com>
+Subject: [PATCH] build-appliance-image: use 'lnr' instead of 'ln -sr'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,36 +53,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 May 2016 19:12:57 -0000
+X-List-Received-Date: Fri, 20 May 2016 20:14:26 -0000
 
-From: Andrew Bradford <andrew.bradford@kodakalaris.com>
+From: Ming Liu <peter.x.liu@external.atlascopco.com>
 
-Linux 4.5 and later cause lttng-modules versions prior to 2.7.2 to fail
-to compile due to Linux vmscan changes.  See lttng-modules git commit
-d0d2908478bdc8c36faaeae6fcb687052cb5f93b on lttng-modules branch
-stable-2.7: "Fix: update vmscan instrumentation for kernel 4.5".
+For portability, not all hosts are running sufficiently new coreutils.
 
-Signed-off-by: Andrew Bradford <andrew.bradford@kodakalaris.com>
+Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
 ---
- meta/recipes-kernel/lttng/lttng-modules_git.bb | 4 ++--
+ meta/recipes-core/images/build-appliance-image_14.0.0.bb | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_git.bb b/meta/recipes-kernel/lttng/lttng-modules_git.bb
-index 2eb1a51..d8a7d36 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_git.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_git.bb
-@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=362844633a08753bd96ab322a6c7f9f6 \
+diff --git a/meta/recipes-core/images/build-appliance-image_14.0.0.bb b/meta/recipes-core/images/build-appliance-image_14.0.0.bb
+index 2a1a56b..d6de67c 100644
+--- a/meta/recipes-core/images/build-appliance-image_14.0.0.bb
++++ b/meta/recipes-core/images/build-appliance-image_14.0.0.bb
+@@ -54,7 +54,7 @@ fakeroot do_populate_poky_src () {
+ 	cp ${WORKDIR}/README_VirtualBox_Guest_Additions.txt ${IMAGE_ROOTFS}/home/builder/
  
- inherit module
+ 	# Create a symlink, needed for out-of-tree kernel modules build
+-	ln -snr ${IMAGE_ROOTFS}${KERNEL_SRC_PATH} ${IMAGE_ROOTFS}/lib/modules/${KERNEL_VERSION}/build
++	lnr ${IMAGE_ROOTFS}${KERNEL_SRC_PATH} ${IMAGE_ROOTFS}/lib/modules/${KERNEL_VERSION}/build
  
--SRCREV = "45e0ebd91f995cc73c2b0d5c60cf9d12e8c838bf"
--PV = "2.7.1+git${SRCPV}"
-+SRCREV = "5362a1f26060e0d64464bb35cdd285c914ae6171"
-+PV = "2.7.3+git${SRCPV}"
+ 	echo "/usr/bin" > ${IMAGE_ROOTFS}/home/builder/poky/build/pseudodone
+ 	echo "INHERIT += \"rm_work\"" >> ${IMAGE_ROOTFS}/home/builder/poky/build/conf/auto.conf
+@@ -84,7 +84,7 @@ fakeroot do_populate_poky_src () {
+ 	echo "builder ALL=(ALL) NOPASSWD: ALL" >> ${IMAGE_ROOTFS}/etc/sudoers
  
- COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips|nios2|arm).*-linux'
+ 	# Load tap/tun at startup
+-	ln -sr ${IMAGE_ROOTFS}/usr/sbin/iptables ${IMAGE_ROOTFS}/sbin/iptables
++	lnr ${IMAGE_ROOTFS}/usr/sbin/iptables ${IMAGE_ROOTFS}/sbin/iptables
+ 	echo "tun" >> ${IMAGE_ROOTFS}/etc/modules
  
+ 	# Use Clearlooks GTK+ theme
 -- 
-2.8.1
+1.9.1
 
 
