@@ -1,53 +1,49 @@
-Return-Path: <mike.looijmans@topicproducts.com>
-X-Greylist: delayed 22971 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 20 May 2016 16:23:30 UTC
-Received: from mx18-13.smtp.antispamcloud.com (mx18-13.smtp.antispamcloud.com
-	[207.244.64.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 21C7D60017
+Return-Path: <kergoth@gmail.com>
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 76DF962132
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 May 2016 16:23:30 +0000 (UTC)
-Received: from 100-208.ftth.onsbrabantnet.nl ([88.159.208.100]
-	helo=TOP-EX01.TOPIC.LOCAL)
-	by mx18.antispamcloud.com with esmtps (TLSv1:AES256-SHA:256)
-	(Exim 4.85) (envelope-from <mike.looijmans@topicproducts.com>)
-	id 1b3hEQ-0004wA-1x for openembedded-core@lists.openembedded.org;
-	Fri, 20 May 2016 12:00:37 +0200
-Received: from [192.168.80.121] (192.168.80.121) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server id 14.3.224.2;
-	Fri, 20 May 2016 12:00:29 +0200
-To: <openembedded-core@lists.openembedded.org>
-References: <573C0726.3040402@windriver.com>
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: TOPIC
-Message-ID: <573EE039.5090105@topic.nl>
-Date: Fri, 20 May 2016 12:00:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.7.2
-MIME-Version: 1.0
-In-Reply-To: <573C0726.3040402@windriver.com>
-X-Originating-IP: [192.168.80.121]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W6KAUC/fjyuDn
-	NXFr4uarw0hD9tOHsAupOgHE9PArDByM+/sFVMoIHnzxJpiwTwAmqWxCevbUegdCrqkn8BN/sbj/
-	kr1uWvhVMCtfj6/xQtWU2yOX8PQJGjCrFTzGoLEGPGJhHBOWqgEeWHQHvZlYrE8Jp/sy7UlBbu8M
-	rhKAnTkccBIk1Sag4dKiqCrF8eZZT/hdFFgBT9ea6XfhiStFUv0vp5jSjOOm60a9gEPheCAX2ECf
-	0tidf4f9xbnt4dr3ucE6FVHy9oQcVLiVeDoadp8jI9oH6dGc6edzLFJtSM1o5rQC2VE4ySdZe0mi
-	K6wgOmG6/54gza7q5Za0AFsz6J51OyFNIoaxpS1mXZNdroDmT8QCc9ZpOAxSvIJNEAP1O4I2wVTs
-	obDkZgzKyHvXxNy0HPTmuB9/GAQDSlCp43waKXvNWrRcSD72jROfhu6vZJ0Q4x+0GOxZvoENDONK
-	wZkjGlUCvU6ZAmJB8zrNH9BlxMWrrEY4M+w4AQhbqSGAGfxNlhQyZmS3TgLw2A6IYgdC9se+MNHk
-	jshBwgzJJethcIWmrxicQkxvc9w0CTELrSOIPpeqwlm2NDGXIJ2x7Opa2SkkYzcuWYWzkB2QTpUh
-	sTbOm0n23gAH4LW5RBSd12aoSjUKxdXaKO35Ea/DrU+pok6SWPRM754kFPO4pu4=
-X-Report-Abuse-To: spam@mx99.antispamcloud.com
-X-Originating-IP: 88.159.208.100
-X-SpamExperts-Domain: topic.nl
-X-SpamExperts-Username: 88.159.208.100
-Authentication-Results: antispamcloud.com;
-	auth=pass smtp.auth=88.159.208.100@topic.nl
-X-SpamExperts-Outgoing-Class: ham
-X-SpamExperts-Outgoing-Evidence: Combined (0.06)
-X-Recommended-Action: accept
-Subject: Re: PRServer's problem
+	Fri, 20 May 2016 17:04:24 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id b66so11888805pfb.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 May 2016 10:04:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=Okm1px6BorJUMXnEN1Pd/KZFLlaTKmB2zBJUnFn2fmw=;
+	b=JVRert4GAuDWsTeNT2hCP0tFhsWBOnzE/iPQb4e9d6eMuWj1aV4xRcHXnrxXRXJbE1
+	lb8Z/7YqPRl790ggECTjWKtnHZ16uiwektve0CKMPTzFt8LwWWqxtrQYxYyjS6MH1rz3
+	uynJAS3H/N87nR21UCzAanBLJE7dwOyzidP6dQSNNVdfgqudHUhEUnsj8KGm6zeeF2Wr
+	wsKMowBtLMpFG1WUr9w2J+TUrEFwwnm+J0PX2kMCAXHEZn7X/xDdRZjvlDRRrYBFfnvq
+	9pFh+fZat+kk0/Zk4eJ1QvQ6FPCTA8PmPDDjOFbZnuwrIotEei3poXHgZw+ebD1fw5hQ
+	6wCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=Okm1px6BorJUMXnEN1Pd/KZFLlaTKmB2zBJUnFn2fmw=;
+	b=GBv87I1mMLBl9jPiPiW6B6gxTx4PtytSTZgCyHoU2NgDJxbOdDelI/cKCsW9sit6V/
+	m8lDdQko3I+oc0F82dJufoUvsCFnwzM5mDkRFpWEnvDT2grVbY0sqYK3fensr6GkPwhv
+	5G2dpaega+hrkW8NzqNlxSFZU2SZEnKsz1DHTAp6p/GYWCfyk1Q8Lz3m85WoST1ka9rY
+	U4xR6KFwNr5TwtmDAeAr+c4+kPTZD/j4pE9r46hiq5PA/0iwFO/TiKRNyBKS6rYtznnb
+	/WJKkGE/wtpqfQqxFN2zG63cIi4uL5PriL4PBRT4mSVD0izBHtEDz9McuSyckcuux96S
+	8aRw==
+X-Gm-Message-State: AOPr4FXn7AyT++JsmhpKIy5rziwqWpZbR0d9sEctezkWw6uLKkaJP/2MscpsB/agKPW+mg==
+X-Received: by 10.98.90.7 with SMTP id o7mr6438041pfb.110.1463763865661;
+	Fri, 20 May 2016 10:04:25 -0700 (PDT)
+Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by smtp.gmail.com with ESMTPSA id
+	y128sm28512146pfb.13.2016.05.20.10.04.22
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 20 May 2016 10:04:22 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 May 2016 10:04:20 -0700
+Message-Id: <1463763860-4124-1-git-send-email-kergoth@gmail.com>
+X-Mailer: git-send-email 2.8.0
+In-Reply-To: <e889a21f09e4bcbddd05ee90a914600d33540dfa.1462489051.git.chris_larson@mentor.com>
+References: <e889a21f09e4bcbddd05ee90a914600d33540dfa.1462489051.git.chris_larson@mentor.com>
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCHv3] mkelfimage: obey LDFLAGS, sort out HOST_ flags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,60 +56,171 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 May 2016 16:23:31 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 20 May 2016 17:04:25 -0000
 
-=EF=BB=BFIn addition, the introduction of PR server also increased the load=
- on the=20
-OpenPLi "feed" servers with a few terabytes per month. Luckily, bandwidth i=
-s=20
-cheap nowadays :)
+From: Christopher Larson <chris_larson@mentor.com>
 
-On 18-05-16 08:09, Robert Yang wrote:
-> The PRServer bumps PR according to do_package's task hash, that
-> causes it bumps *all* packages' PR when recipes like pseudo-native
-> and rpm-native is changed. It is a very bad user experience when we
-> run "smart/opkg upgrade" on running target, for example, when we apply
-> a CVE patch to pseudo-native or rpm-native, or do some slight changes
-> in their do_compile, "smart/opkg upgrade" will download/install *all*
-> the packages since all of the packages' PR are bumped.
->
-> Here are some rough suggestions to fix this problem, and please feel
-> free to give your suggestions.
-> 1) Do not use do_package's task for bumping PR, the easiest way
->     is simulate manually bump PR -- only bump PR when the recipe
->     itself's checksum is changed.
->
-> 2) Add a new task for PRServer, redefine its task hash for bumping
->     PR, for example, this task hash only considers RDEPENDS (no
->     DEPENDS), and drop any native dependencies.
->
-> I prefer the first way, and an alternative way maybe add a var so that
-> the user can configure it:
-> PR_CHECKSUM =3D "${BB_TASKHASH}" (current way)
-> Or
-> PR_CHECKSUM =3D "<recipe checksum>"
->
+We weren't consistent in the HOST_ (aka BUILD_) and non-HOST_ flags, so we
+were using BUILD_CPPFLAGS to compile target stuff, for example. Sort that out,
+and make sure we obey LDFLAGS.
 
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+---
 
+v2 change: fixed patch file paths
 
-Kind regards,
+ .../mkelfimage/mkelfimage/cross-compile.patch      | 85 +++++++++++++++-------
+ meta/recipes-devtools/mkelfimage/mkelfimage_git.bb |  4 +-
+ 2 files changed, 62 insertions(+), 27 deletions(-)
 
-Mike Looijmans
-System Expert
-
-TOPIC Embedded Products
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: +31 (0) 499 33 69 79
-E-mail: mike.looijmans@topicproducts.com
-Website: www.topicproducts.com
-
-Please consider the environment before printing this e-mail
-
-
-
-
+diff --git a/meta/recipes-devtools/mkelfimage/mkelfimage/cross-compile.patch b/meta/recipes-devtools/mkelfimage/mkelfimage/cross-compile.patch
+index 7692709..2ae9fb5 100644
+--- a/meta/recipes-devtools/mkelfimage/mkelfimage/cross-compile.patch
++++ b/meta/recipes-devtools/mkelfimage/mkelfimage/cross-compile.patch
+@@ -1,13 +1,43 @@
+-make the tool to be cross compilable.
++From dc2712119d6832e24a9b7bed9ed4ce5ae03ce0a3 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sat, 14 Jul 2012 14:14:07 -0700
++Subject: [PATCH] mkelfimage: Fix cross build
++
++Make the tool to be cross compilable, by separating the variables for build
++tools from those for the target. Also modified to obey LDFLAGS.
+ 
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Signed-off-by: Christopher Larson <chris_larson@mentor.com>
++
+ Upstream-Status: Pending
+ 
+-Index: mkelfImage/configure.ac
+-===================================================================
+---- mkelfImage.orig/configure.ac	2012-07-14 14:04:48.964898667 -0700
+-+++ mkelfImage/configure.ac	2012-07-14 14:10:47.800916083 -0700
+-@@ -70,6 +70,9 @@
++---
++ Makefile.conf.in    | 3 +++
++ configure.ac        | 7 +++++--
++ linux-i386/Makefile | 2 +-
++ linux-ia64/Makefile | 2 +-
++ main/Makefile       | 4 ++--
++ 5 files changed, 12 insertions(+), 6 deletions(-)
++
++diff --git a/Makefile.conf.in b/Makefile.conf.in
++index 4645e44..dcb6cf2 100644
++--- a/Makefile.conf.in
+++++ b/Makefile.conf.in
++@@ -17,6 +17,9 @@ DEFS=@DEFS@
++ LIBS=@LIBS@
++ HOST_CC=@HOST_CC@
++ HOST_CFLAGS=@HOST_CFLAGS@  $(DEFS)
+++CC=@CC@
+++CFLAGS=@CFLAGS@ $(DEFS)
+++LDFLAGS=@LDFLAGS@
++
++ I386_CC     =@I386_CC@
++ I386_LD     =@I386_LD@
++diff --git a/configure.ac b/configure.ac
++index 652b952..0f2ac72 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -70,6 +70,9 @@ if test "with_default" != no ; then
+  		AC_MSG_ERROR([cc not found])
+  	fi
+  	eval "${with_default}_CC='$CC'"
+@@ -17,19 +47,22 @@ Index: mkelfImage/configure.ac
+  	AC_PROG_CPP
+  	if test "$CPP" = no; then
+  		AC_MSG_ERROR([cpp not found])
+-@@ -172,7 +175,6 @@
++@@ -172,8 +175,8 @@ fi
+  
+  dnl ---Output variables...
+  
+ -HOST_CC=$CC
+- HOST_CFLAGS="$HOST_CFLAGS -O2 -Wall \$(HOST_CPPFLAGS)"
++-HOST_CFLAGS="$HOST_CFLAGS -O2 -Wall \$(HOST_CPPFLAGS)"
+++CFLAGS="${CFLAGS:--O2} -Wall \$(CPPFLAGS)"
+++HOST_CFLAGS="${HOST_CFLAGS:--O2} -Wall \$(HOST_CPPFLAGS)"
+  
+  dnl TODO: figure out how to set these appropriately for compilers other than gcc
+-Index: mkelfImage/linux-i386/Makefile
+-===================================================================
+---- mkelfImage.orig/linux-i386/Makefile	2012-07-14 14:04:48.964898667 -0700
+-+++ mkelfImage/linux-i386/Makefile	2012-07-14 14:04:49.032898671 -0700
+-@@ -4,7 +4,7 @@
++ I386_CFLAGS="$I386_CFLAGS -Os -ffreestanding -Wall -W -Wno-format \$(I386_CPPFLAGS)"
++diff --git a/linux-i386/Makefile b/linux-i386/Makefile
++index 51531d6..7e8aa3c 100644
++--- a/linux-i386/Makefile
+++++ b/linux-i386/Makefile
++@@ -4,7 +4,7 @@ LI386_DEP=Makefile Makefile.conf $(LI386_DIR)/Makefile
+  
+  $(LI386_OBJ)/mkelf-linux-i386.o: $(LI386_DIR)/mkelf-linux-i386.c $(LI386_DIR)/convert.bin.c $(LI386_DEP)
+  	$(MKDIR) -p $(@D)
+@@ -38,11 +71,11 @@ Index: mkelfImage/linux-i386/Makefile
+  
+  
+  ifdef I386_CC
+-Index: mkelfImage/linux-ia64/Makefile
+-===================================================================
+---- mkelfImage.orig/linux-ia64/Makefile	2012-07-14 14:04:48.964898667 -0700
+-+++ mkelfImage/linux-ia64/Makefile	2012-07-14 14:04:49.032898671 -0700
+-@@ -4,7 +4,7 @@
++diff --git a/linux-ia64/Makefile b/linux-ia64/Makefile
++index 38f5d8c..5df8870 100644
++--- a/linux-ia64/Makefile
+++++ b/linux-ia64/Makefile
++@@ -4,7 +4,7 @@ LIA64_DEP=Makefile Makefile.conf $(LIA64_DIR)/Makefile
+  
+  $(LIA64_OBJ)/mkelf-linux-ia64.o: $(LIA64_DIR)/mkelf-linux-ia64.c $(LIA64_DIR)/convert.bin.c $(LIA64_DEP)
+  	$(MKDIR) -p $(@D)
+@@ -51,21 +84,23 @@ Index: mkelfImage/linux-ia64/Makefile
+  
+  ifdef IA64_CC
+  
+-Index: mkelfImage/main/Makefile
+-===================================================================
+---- mkelfImage.orig/main/Makefile	2012-07-14 14:04:48.964898667 -0700
+-+++ mkelfImage/main/Makefile	2012-07-14 14:04:49.032898671 -0700
+-@@ -4,11 +4,11 @@
++diff --git a/main/Makefile b/main/Makefile
++index 403b0a4..cd53613 100644
++--- a/main/Makefile
+++++ b/main/Makefile
++@@ -4,11 +4,11 @@ MKELF_OBJS=$(OBJDIR)/main/mkelfImage.o \
+  
+  $(OBJDIR)/sbin/mkelfImage: $(MKELF_OBJS) $(DEPS)
+  	$(MKDIR) -p $(@D)
+ -	$(HOST_CC) $(HOST_CFLAGS) $(MKELF_OBJS) -o $@ $(LIBS)
+-+	$(CC) $(HOST_CFLAGS) $(MKELF_OBJS) -o $@ $(LIBS)
+++	$(CC) $(CFLAGS) $(LDFLAGS) $(MKELF_OBJS) -o $@ $(LIBS)
+  
+  $(OBJDIR)/main/mkelfImage.o: main/mkelfImage.c include/mkelfImage.h $(DEPS)
+  	$(MKDIR) -p $(@D)
+ -	$(HOST_CC) $(HOST_CFLAGS) -c $< -o $@
+-+	$(CC) $(HOST_CFLAGS) -c $< -o $@
+++	$(CC) $(CFLAGS) -c $< -o $@
+  
+  $(OBJDIR)/man/man8/mkelfImage.8: main/mkelfImage.man
+  	$(MKDIR) -p $(@D)
++--
++2.8.0
+diff --git a/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
+index 92435cd..d7a4429 100644
+--- a/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
++++ b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
+@@ -13,8 +13,8 @@ http://review.coreboot.org/gitweb?p=coreboot.git;a=commit;h=34fc4ab80b507739e258
+ DEPENDS += "zlib"
+ 
+ SRC_URI = "git://review.coreboot.org/p/coreboot;protocol=http \
+-           file://cross-compile.patch   \
+-          "
++           file://cross-compile.patch \
++           "
+ SRC_URI_append_class-native = " \
+            file://fix-makefile-to-find-libz.patch   \
+ "
+-- 
+2.8.0
 
 
