@@ -1,27 +1,29 @@
 Return-Path: <maxin.john@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 2436E60043
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 7472A7001D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 May 2016 12:50:52 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga102.jf.intel.com with ESMTP; 20 May 2016 05:50:52 -0700
+	Fri, 20 May 2016 12:50:54 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 20 May 2016 05:50:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,339,1459839600"; d="scan'208";a="985288815"
+X-IronPort-AV: E=Sophos;i="5.26,339,1459839600"; d="scan'208";a="971116497"
 Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 20 May 2016 05:50:51 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 20 May 2016 05:50:55 -0700
 Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
 	[10.237.72.71])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 929A96A4007
+	by linux.intel.com (Postfix) with ESMTP id 06C4F6A4007
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 May 2016 06:38:21 -0700 (PDT)
+	Fri, 20 May 2016 06:38:25 -0700 (PDT)
 From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 May 2016 15:51:19 +0300
-Message-Id: <1463748682-22067-1-git-send-email-maxin.john@intel.com>
+Date: Fri, 20 May 2016 15:51:21 +0300
+Message-Id: <1463748682-22067-3-git-send-email-maxin.john@intel.com>
 X-Mailer: git-send-email 2.4.0
-Subject: [PATCH 1/4] cmake: update to 3.5.2
+In-Reply-To: <1463748682-22067-1-git-send-email-maxin.john@intel.com>
+References: <1463748682-22067-1-git-send-email-maxin.john@intel.com>
+Subject: [PATCH 3/4] libsolv: update to 0.6.21
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,116 +36,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 May 2016 12:50:53 -0000
+X-List-Received-Date: Fri, 20 May 2016 12:50:55 -0000
 
-Adjust LIC_FILES_CHKSUM due to changes in the Copyright date.
-No change to the license text.
+0.6.20 -> 0.6.21
 
-Remove the upstreamed patch:
-        1. 0001-Add-NIOS2-CPU-support.patch
+Remove upstreamed patch:
+        1. 0001-CMakeLists.txt-fix-MAN_INSTALL_DIR.patch
 
 Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- ...cmake-native_3.4.3.bb => cmake-native_3.5.2.bb} |  0
- meta/recipes-devtools/cmake/cmake.inc              |  7 ++-
- .../cmake/cmake/0001-Add-NIOS2-CPU-support.patch   | 50 ----------------------
- .../cmake/{cmake_3.4.3.bb => cmake_3.5.2.bb}       |  0
- 4 files changed, 3 insertions(+), 54 deletions(-)
- rename meta/recipes-devtools/cmake/{cmake-native_3.4.3.bb => cmake-native_3.5.2.bb} (100%)
- delete mode 100644 meta/recipes-devtools/cmake/cmake/0001-Add-NIOS2-CPU-support.patch
- rename meta/recipes-devtools/cmake/{cmake_3.4.3.bb => cmake_3.5.2.bb} (100%)
+ .../0001-CMakeLists.txt-fix-MAN_INSTALL_DIR.patch  | 37 ----------------------
+ meta/recipes-extended/libsolv/libsolv_git.bb       |  5 ++-
+ 2 files changed, 2 insertions(+), 40 deletions(-)
+ delete mode 100644 meta/recipes-extended/libsolv/libsolv/0001-CMakeLists.txt-fix-MAN_INSTALL_DIR.patch
 
-diff --git a/meta/recipes-devtools/cmake/cmake-native_3.4.3.bb b/meta/recipes-devtools/cmake/cmake-native_3.5.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake-native_3.4.3.bb
-rename to meta/recipes-devtools/cmake/cmake-native_3.5.2.bb
-diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
-index 968d003..4c1a4c7 100644
---- a/meta/recipes-devtools/cmake/cmake.inc
-+++ b/meta/recipes-devtools/cmake/cmake.inc
-@@ -6,7 +6,7 @@ HOMEPAGE = "http://www.cmake.org/"
- BUGTRACKER = "http://public.kitware.com/Bug/my_view_page.php"
- SECTION = "console/utils"
- LICENSE = "BSD"
--LIC_FILES_CHKSUM = "file://Copyright.txt;md5=3ba5a6c34481652ce573e5c4e1d707e4 \
-+LIC_FILES_CHKSUM = "file://Copyright.txt;md5=052f86c15bbde68af55c7f7b340ab639 \
-                     file://Source/cmake.h;beginline=1;endline=10;md5=341736dae83c9e344b53eeb1bc7d7bc2"
- 
- CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV',1).split('.')[0:2])}"
-@@ -14,11 +14,10 @@ CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV',1).split('.')[0:2])}"
- SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
-            file://support-oe-qt4-tools-names.patch \
-            file://qt4-fail-silent.patch \
--           file://0001-Add-NIOS2-CPU-support.patch \
-            "
- 
--SRC_URI[md5sum] = "4cb3ff35b2472aae70f542116d616e63"
--SRC_URI[sha256sum] = "b73f8c1029611df7ed81796bf5ca8ba0ef41c6761132340c73ffe42704f980fa"
-+SRC_URI[md5sum] = "701386a1b5ec95f8d1075ecf96383e02"
-+SRC_URI[sha256sum] = "92d8410d3d981bb881dfff2aed466da55a58d34c7390d50449aa59b32bb5e62a"
- 
- UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/cmake/cmake/0001-Add-NIOS2-CPU-support.patch b/meta/recipes-devtools/cmake/cmake/0001-Add-NIOS2-CPU-support.patch
+diff --git a/meta/recipes-extended/libsolv/libsolv/0001-CMakeLists.txt-fix-MAN_INSTALL_DIR.patch b/meta/recipes-extended/libsolv/libsolv/0001-CMakeLists.txt-fix-MAN_INSTALL_DIR.patch
 deleted file mode 100644
-index 6e0ab9f..0000000
---- a/meta/recipes-devtools/cmake/cmake/0001-Add-NIOS2-CPU-support.patch
+index 972ecc9..0000000
+--- a/meta/recipes-extended/libsolv/libsolv/0001-CMakeLists.txt-fix-MAN_INSTALL_DIR.patch
 +++ /dev/null
-@@ -1,50 +0,0 @@
--From 3f8c3d3011ea192da2c761560b615f55763715ef Mon Sep 17 00:00:00 2001
--From: Marek Vasut <marex@denx.de>
--Date: Thu, 26 Nov 2015 21:31:04 +0100
--Subject: [PATCH] Add NIOS2 CPU support
+@@ -1,37 +0,0 @@
+-From 280f0d37c642d68bad2a2e49ef437953474d99e6 Mon Sep 17 00:00:00 2001
+-From: Robert Yang <liezhi.yang@windriver.com>
+-Date: Wed, 6 Apr 2016 23:15:02 -0700
+-Subject: [PATCH] CMakeLists.txt: fix MAN_INSTALL_DIR
 -
--Add necessary bits to support the NIOS2 little-endian CPU.
+-It checks ${CMAKE_INSTALL_PREFIX}/share/man when configure, but it may
+-not exist when crosscompile, for example, when CMAKE_INSTALL_PREFIX="/",
+-it is OK, but when CMAKE_INSTALL_PREFIX="/some/path/else", then it
+-doesn't exist, and the man dir would be set to "/usr/man" which is
+-incorrect.
 -
--Signed-off-by: Marek Vasut <marex@denx.de>
--Cc: Ley Foon Tan <lftan@altera.com>
--Cc: Thomas Chou <thomas@wytron.com.tw>
--Cc: Walter Goossens <waltergoossens@home.nl>
--Upstream-Status: Submitted
+-Upstream-Status: Pending
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ----
-- Source/kwsys/CPU.h.in    | 4 ++++
-- Utilities/KWIML/ABI.h.in | 4 ++++
-- 2 files changed, 8 insertions(+)
+- CMakeLists.txt | 5 +----
+- 1 file changed, 1 insertion(+), 4 deletions(-)
 -
--diff --git a/Source/kwsys/CPU.h.in b/Source/kwsys/CPU.h.in
--index 884d71a..66ffbb1 100644
----- a/Source/kwsys/CPU.h.in
--+++ b/Source/kwsys/CPU.h.in
--@@ -88,6 +88,10 @@
-- #elif defined(__mips) || defined(__mips__) || defined(__MIPS__)
-- # define @KWSYS_NAMESPACE@_CPU_ENDIAN_ID @KWSYS_NAMESPACE@_CPU_ENDIAN_ID_BIG
+-diff --git a/CMakeLists.txt b/CMakeLists.txt
+-index fd1426b..747db22 100644
+---- a/CMakeLists.txt
+-+++ b/CMakeLists.txt
+-@@ -57,10 +57,7 @@ else (DEFINED INCLUDE)
+- ENDIF (DEFINED  INCLUDE)
+- MESSAGE (STATUS "Header files will be installed in ${INCLUDE_INSTALL_DIR}")
+- SET (BIN_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/bin")
+--SET (MAN_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/man")
+--IF (IS_DIRECTORY "${CMAKE_INSTALL_PREFIX}/share/man"  AND NOT IS_DIRECTORY "${CMAKE_INSTALL_PREFIX}/man")
+--  SET (MAN_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/share/man")
+--ENDIF (IS_DIRECTORY "${CMAKE_INSTALL_PREFIX}/share/man"  AND NOT IS_DIRECTORY "${CMAKE_INSTALL_PREFIX}/man")
+-+SET (MAN_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/share/man")
+- MESSAGE(STATUS "Man pages will be installed in ${MAN_INSTALL_DIR}")
 - 
--+/* NIOS2 */
--+#elif defined(__NIOS2__) || defined(__NIOS2) || defined(__nios2__)
--+# define @KWSYS_NAMESPACE@_CPU_ENDIAN_ID @KWSYS_NAMESPACE@_CPU_ENDIAN_ID_LITTLE
--+
-- /* OpenRISC 1000 */
-- #elif defined(__or1k__)
-- # define @KWSYS_NAMESPACE@_CPU_ENDIAN_ID @KWSYS_NAMESPACE@_CPU_ENDIAN_ID_BIG
--diff --git a/Utilities/KWIML/ABI.h.in b/Utilities/KWIML/ABI.h.in
--index 6300ada..87b6e96 100644
----- a/Utilities/KWIML/ABI.h.in
--+++ b/Utilities/KWIML/ABI.h.in
--@@ -398,6 +398,10 @@ suppression macro @KWIML@_ABI_NO_VERIFY was defined.
-- #elif defined(__mips) || defined(__mips__) || defined(__MIPS__)
-- # define @KWIML@_ABI_ENDIAN_ID @KWIML@_ABI_ENDIAN_ID_BIG
-- 
--+/* NIOS2 */
--+#elif defined(__NIOS2__) || defined(__NIOS2) || defined(__nios2__)
--+# define @KWIML@_ABI_ENDIAN_ID @KWIML@_ABI_ENDIAN_ID_LITTLE
--+
-- /* OpenRISC 1000 */
-- #elif defined(__or1k__)
-- # define @KWIML@_ABI_ENDIAN_ID @KWIML@_ABI_ENDIAN_ID_BIG
+- ####################################################################
 --- 
--2.6.2
+-2.7.4
 -
-diff --git a/meta/recipes-devtools/cmake/cmake_3.4.3.bb b/meta/recipes-devtools/cmake/cmake_3.5.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake_3.4.3.bb
-rename to meta/recipes-devtools/cmake/cmake_3.5.2.bb
+diff --git a/meta/recipes-extended/libsolv/libsolv_git.bb b/meta/recipes-extended/libsolv/libsolv_git.bb
+index a16897e..b41347d 100644
+--- a/meta/recipes-extended/libsolv/libsolv_git.bb
++++ b/meta/recipes-extended/libsolv/libsolv_git.bb
+@@ -7,14 +7,13 @@ LIC_FILES_CHKSUM = "file://LICENSE.BSD;md5=62272bd11c97396d4aaf1c41bc11f7d8"
+ 
+ DEPENDS = "expat zlib"
+ 
+-PV = "0.6.20"
++PV = "0.6.21"
+ 
+ SRC_URI = "git://github.com/openSUSE/libsolv.git \
+-           file://0001-CMakeLists.txt-fix-MAN_INSTALL_DIR.patch \
+           "
+ SRC_URI_append_libc-musl = " file://0001-Add-fallback-fopencookie-implementation.patch"
+ 
+-SRCREV = "513c572b10e18bea5ac78709267de4b739cb31e7"
++SRCREV = "bdb5c63245923ed95cf04086b65b2e5a5b5d7b04"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
+ 
+ S = "${WORKDIR}/git"
 -- 
 2.4.0
 
