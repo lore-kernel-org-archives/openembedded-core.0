@@ -1,47 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f179.google.com (mail-ig0-f179.google.com
-	[209.85.213.179])
-	by mail.openembedded.org (Postfix) with ESMTP id C7DC26FF78
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 6AA0460557
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 May 2016 10:25:41 +0000 (UTC)
-Received: by mail-ig0-f179.google.com with SMTP id bi2so134012500igb.0
+	Fri, 20 May 2016 10:54:18 +0000 (UTC)
+Received: by mail-wm0-f51.google.com with SMTP id n129so266294288wmn.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 May 2016 03:25:42 -0700 (PDT)
+	Fri, 20 May 2016 03:54:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=oj69ZlGzb4+qDOauucJjpq/jnViWPyax+xSHkiNaReA=;
-	b=ZAcxpqbBHjgOyqqe8LaJ0MJWP5mBIZ4Ee7hEiKwc3rwmUQQrJ2FqCDWvtx9mc4BQYZ
-	Dsu9LbDSBxrapC273Yg4PXkMNepzQroYNWOHVmfhb/sn3yqc6zxBAwoMXIxW24GFH3fw
-	OvbKFp53QnHPOpf3mLM9vMjJW+arZDOClAQ2Rxno44fjED+IyDoeSLudqawJgHlO5fcA
-	yydpLGrD0SbIkJPlKl2/zNIrmnDGNoc6qZrgbdBS+99KtVoCe/gD37FuijULMhWLaKWG
-	I9Y11GPPtYtQ3zr6Y6rzRpJJUcUQSdonYT2k+w3AhUccBFF9iNAWF/k2F3cTtkQuoYk+
-	YzuQ==
+	h=from:to:subject:date:message-id;
+	bh=r8z9BhhAUwzgH+ZfyS3L1WTZ6kNqh/U98ax7O7BpC3E=;
+	b=q1Oidh14j43/dyoeV6myVw/KGBUqbQ23pMKpuiLTv9e3v+I46lxnIGdG6IqxiON/rB
+	2ECIS6L8Bm1jNRLZ6E8N5vPJ7ZPdnG3YfdDojZFggiqsPvaZhh6TRVogPZSU+N3y0K9a
+	9d56U4CY6IK2n/M0850VW8M0QNB2AU+chzJJXfUj8U7xuO4E9vhROPP74oMkQve31t1j
+	0sdE4J1i4q/glHRayb1OB2FeemKvVeyua7Rd/gLtBTj0diQJa/Kk+Sb0Zpdnz9pO0I+m
+	4y2ZxOe627K1zEiRdAIp2AXZ8K7WnGCox8Ddr3Y+qhG6vPpZdgUU1F1ZXnUziB27BmGK
+	Ceww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=oj69ZlGzb4+qDOauucJjpq/jnViWPyax+xSHkiNaReA=;
-	b=iTfhq0OPRGhQct4HtHBmQHjBZXouB6eqeQtMjfc1R764OFWZWiqjtc3qFbXJOkJDlK
-	3o7ytqduPhyMEmB8o9R9WL5wSANp4FYTK432/lFCW3FZwN5XVk8vPlTQHanSvndgWclq
-	Utki387icpgD17osMOTVgIe9fxr+pfxfulvnwrIPFCi7jd53j+/RUAmY1rJcR8heCEsj
-	m8cYRWmJXZk4MkMW+DkNuqONNt8V24lOKli9Wlnq2TGeVJyypZ1MaM1UVqIPzZItRHEc
-	lhlLWcsJM0ZAZ53R5SY1my/lIelwJmcAPS+GSKf8Ox3hzGIaW9FtAFSBmT7zEUtlOIEx
-	TDVQ==
-X-Gm-Message-State: AOPr4FVX3YbKXmr8XoRnvf4e1xpv18cpJsCMTa5AjjXPmUigqs0tZu/5MzE6LGtRBKLEE3AqkuRYMSyrRpofeQHe
-X-Received: by 10.50.62.20 with SMTP id u20mr2101169igr.52.1463739942196; Fri,
-	20 May 2016 03:25:42 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.162.6 with HTTP; Fri, 20 May 2016 03:25:22 -0700 (PDT)
-In-Reply-To: <1463739192-30404-2-git-send-email-eu@felipetonello.com>
-References: <1463739192-30404-1-git-send-email-eu@felipetonello.com>
-	<1463739192-30404-2-git-send-email-eu@felipetonello.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 20 May 2016 11:25:22 +0100
-Message-ID: <CAJTo0LbH2C2h2yKxyaE7QhJKmAFp1pnyZhciu5uqvfwRvygMxQ@mail.gmail.com>
-To: "Felipe F. Tonello" <eu@felipetonello.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] rsync: Added native package
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=r8z9BhhAUwzgH+ZfyS3L1WTZ6kNqh/U98ax7O7BpC3E=;
+	b=k+mI8evliN0rM4t9G2tmAb8juqYmiwKZeRx+8eR8Wj2yHBd/NkbZ5SX3GDZwe6EOQU
+	n8+rHyrsUjEsZucFXLWewblHCWMFQ3Tj6hP2jNkqeMx5t08j9A0vwuXQysZYX5sv63+w
+	YrPi9mD83TkPBgZOvT2quT/7fpf6vtoUwYSAj5aeN8zVY6Wp0mPt2f6Gf55qztD53nQV
+	LnB7MHT89Wys33VP+VB+8sUrRn4XvRsPyS6i9w4b84mHB5TJAU04QwHcf0sULKxknn0A
+	hyr0uBBAEyF6UtvaDhMhVfeo1M6JxxrheqbC6Lgxx3HH2H8flArfIG+97dzrQ+GmsYQi
+	BRcw==
+X-Gm-Message-State: AOPr4FUoGrpKogS9CBD6LKL9XLUri9jwskTQfVRkuY3Ck40YvSpaka81rVWT/VNb82yk+Mxz
+X-Received: by 10.28.8.213 with SMTP id 204mr3094624wmi.93.1463741658383;
+	Fri, 20 May 2016 03:54:18 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	jq1sm19141907wjc.28.2016.05.20.03.54.17
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 20 May 2016 03:54:17 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 May 2016 11:54:15 +0100
+Message-Id: <1463741655-32423-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.0.rc3
+Subject: [PATCH] wipe-sysroot: fix wrong glob when removing manifests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,33 +53,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 May 2016 10:25:42 -0000
-Content-Type: multipart/alternative; boundary=047d7bdca6064c722505334383c5
+X-List-Received-Date: Fri, 20 May 2016 10:54:19 -0000
 
---047d7bdca6064c722505334383c5
-Content-Type: text/plain; charset=UTF-8
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ scripts/wipe-sysroot | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 20 May 2016 at 11:13, Felipe F. Tonello <eu@felipetonello.com> wrote:
+diff --git a/scripts/wipe-sysroot b/scripts/wipe-sysroot
+index 9e067e8..5e6b1a4 100755
+--- a/scripts/wipe-sysroot
++++ b/scripts/wipe-sysroot
+@@ -51,4 +51,4 @@ rm -rf $STAMPS_DIR/*/*/*.do_packagedata.*
+ rm -rf $STAMPS_DIR/*/*/*.do_packagedata_setscene.*
+ 
+ # The sstate manifests
+-rm -rf $SSTATE_MANIFESTS/manifest-*.populate-sysroot
++rm -rf $SSTATE_MANIFESTS/manifest-*.populate_sysroot
+-- 
+2.8.0.rc3
 
-> +BBCLASSEXTEND = "native"
->
 
-rsync_3.1.2.bb already has this in.
-
-Ross
-
---047d7bdca6064c722505334383c5
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 20 May 2016 at 11:13, Felipe F. Tonello <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:eu@felipetonello.com" target=3D"_blank">eu@felipetonello.com</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":a85" class=3D=
-"a3s aXjCH">+BBCLASSEXTEND =3D &quot;native&quot;<br></div></blockquote></d=
-iv><br><a href=3D"http://rsync_3.1.2.bb">rsync_3.1.2.bb</a> already has thi=
-s in.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">=
-Ross</div></div>
-
---047d7bdca6064c722505334383c5--
