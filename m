@@ -1,30 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 05C5665CBB
+	by mail.openembedded.org (Postfix) with ESMTP id E2A9F606D1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 May 2016 10:55:38 +0000 (UTC)
+	Sat, 21 May 2016 11:25:07 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u4LAtdN1003012 for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 May 2016 11:55:39 +0100
+	u4LBP7wA004200 for <openembedded-core@lists.openembedded.org>;
+	Sat, 21 May 2016 12:25:07 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id WmiUDSfGnV_b
+	with LMTP id 7VZR9JsTdpyD
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 May 2016 11:55:39 +0100 (BST)
+	Sat, 21 May 2016 12:25:07 +0100 (BST)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u4LAtah5003009
+	u4LBP2H2004197
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 May 2016 11:55:37 +0100
-Message-ID: <1463828136.4578.167.camel@linuxfoundation.org>
+	Sat, 21 May 2016 12:25:03 +0100
+Message-ID: <1463829902.4578.168.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sat, 21 May 2016 11:55:36 +0100
+Date: Sat, 21 May 2016 12:25:02 +0100
 X-Mailer: Evolution 3.16.5-1ubuntu3.1 
 Mime-Version: 1.0
-Subject: [PATCH] nativesdk-glibc: Extend relocation support to locales
+Subject: [PATCH] meta/selftest/scripts: Use print function for python3 compatibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,181 +37,225 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 May 2016 10:55:41 -0000
+X-List-Received-Date: Sat, 21 May 2016 11:25:09 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Currently locales are not found in a relocated buildtools-tarball
-such as that used in eSDK. This breaks bitbake when used under python3.
+Used print function instead of print statement to make
+the code work in python 3.
 
-This patch adds enough relocation magic to nativesdk-glibc so that
-the binary locales can be found even in a relocated buildtools-tarball
-and bitbake works successfully under python3. The eSDK also works 
-correctly after this change too.
+[Changes from both Ed and Richard]
 
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/recipes-core/glibc/glibc/0003-nativesdk-glibc-Raise-the-size-of-arrays-containing-.patch b/meta/recipes-core/glibc/glibc/0003-nativesdk-glibc-Raise-the-size-of-arrays-containing-.patch
-index 2e7971c..7cba6cc 100644
---- a/meta/recipes-core/glibc/glibc/0003-nativesdk-glibc-Raise-the-size-of-arrays-containing-.patch
-+++ b/meta/recipes-core/glibc/glibc/0003-nativesdk-glibc-Raise-the-size-of-arrays-containing-.patch
-@@ -24,10 +24,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  sysdeps/generic/dl-cache.h | 4 ----
-  6 files changed, 13 insertions(+), 9 deletions(-)
+diff --git a/meta-selftest/lib/devtool/test.py b/meta-selftest/lib/devtool/test.py
+index b7474b5..31190f5 100644
+--- a/meta-selftest/lib/devtool/test.py
++++ b/meta-selftest/lib/devtool/test.py
+@@ -2,7 +2,7 @@ import argparse
  
--diff --git a/elf/dl-cache.c b/elf/dl-cache.c
--index cfa335e..daa12ec 100644
----- a/elf/dl-cache.c
--+++ b/elf/dl-cache.c
-+Index: git/elf/dl-cache.c
-+===================================================================
-+--- git.orig/elf/dl-cache.c
-++++ git/elf/dl-cache.c
- @@ -132,6 +132,10 @@ do									      \
-  while (0)
-  
-@@ -39,11 +39,11 @@ index cfa335e..daa12ec 100644
-  int
-  internal_function
-  _dl_cache_libcmp (const char *p1, const char *p2)
--diff --git a/elf/dl-load.c b/elf/dl-load.c
--index c7b8797..37a1beb 100644
----- a/elf/dl-load.c
--+++ b/elf/dl-load.c
--@@ -106,8 +106,8 @@ static size_t max_capstrlen attribute_relro;
-+Index: git/elf/dl-load.c
-+===================================================================
-+--- git.orig/elf/dl-load.c
-++++ git/elf/dl-load.c
-+@@ -106,8 +106,8 @@ static size_t max_capstrlen attribute_re
-  /* Get the generated information about the trusted directories.  */
-  #include "trusted-dirs.h"
-  
-@@ -54,10 +54,10 @@ index c7b8797..37a1beb 100644
-  {
-    SYSTEM_DIRS_LEN
-  };
--diff --git a/elf/interp.c b/elf/interp.c
--index 9448802..e7e8c70 100644
----- a/elf/interp.c
--+++ b/elf/interp.c
-+Index: git/elf/interp.c
-+===================================================================
-+--- git.orig/elf/interp.c
-++++ git/elf/interp.c
- @@ -18,5 +18,5 @@
-  
-  #include <runtime-linker.h>
-@@ -65,10 +65,10 @@ index 9448802..e7e8c70 100644
- -const char __invoke_dynamic_linker__[] __attribute__ ((section (".interp")))
- +const char __invoke_dynamic_linker__[4096] __attribute__ ((section (".interp")))
-    = RUNTIME_LINKER;
--diff --git a/elf/ldconfig.c b/elf/ldconfig.c
--index 467ca82..631a2a9 100644
----- a/elf/ldconfig.c
--+++ b/elf/ldconfig.c
-+Index: git/elf/ldconfig.c
-+===================================================================
-+--- git.orig/elf/ldconfig.c
-++++ git/elf/ldconfig.c
- @@ -168,6 +168,9 @@ static struct argp argp =
-    options, parse_opt, NULL, doc, NULL, more_help, NULL
-  };
-@@ -79,10 +79,10 @@ index 467ca82..631a2a9 100644
-  /* Check if string corresponds to an important hardware capability or
-     a platform.  */
-  static int
--diff --git a/elf/rtld.c b/elf/rtld.c
--index 647661c..4e16a43 100644
----- a/elf/rtld.c
--+++ b/elf/rtld.c
-+Index: git/elf/rtld.c
-+===================================================================
-+--- git.orig/elf/rtld.c
-++++ git/elf/rtld.c
- @@ -99,6 +99,7 @@ uintptr_t __pointer_chk_guard_local
-  strong_alias (__pointer_chk_guard_local, __pointer_chk_guard)
-  #endif
-@@ -91,7 +91,7 @@ index 647661c..4e16a43 100644
-  
-  /* List of auditing DSOs.  */
-  static struct audit_list
--@@ -873,12 +874,12 @@ of this helper program; chances are you did not intend to run this program.\n\
-+@@ -873,12 +874,12 @@ of this helper program; chances are you
-    --list                list all dependencies and how they are resolved\n\
-    --verify              verify that given object really is a dynamically linked\n\
-  			object we can handle\n\
-@@ -106,10 +106,10 @@ index 647661c..4e16a43 100644
-  
-        ++_dl_skip_args;
-        --_dl_argc;
--diff --git a/sysdeps/generic/dl-cache.h b/sysdeps/generic/dl-cache.h
--index eb2f900..505804e 100644
----- a/sysdeps/generic/dl-cache.h
--+++ b/sysdeps/generic/dl-cache.h
-+Index: git/sysdeps/generic/dl-cache.h
-+===================================================================
-+--- git.orig/sysdeps/generic/dl-cache.h
-++++ git/sysdeps/generic/dl-cache.h
- @@ -27,10 +27,6 @@
-    ((flags) == 1 || (flags) == _DL_CACHE_DEFAULT_ID)
-  #endif
-@@ -121,9 +121,10 @@ index eb2f900..505804e 100644
-  #ifndef add_system_dir
-  # define add_system_dir(dir) add_dir (dir)
-  #endif
--diff --git a/iconv/gconv_conf.c b/iconv/gconv_conf.c
----- a/iconv/gconv_conf.c
--+++ b/iconv/gconv_conf.c
-+Index: git/iconv/gconv_conf.c
-+===================================================================
-+--- git.orig/iconv/gconv_conf.c
-++++ git/iconv/gconv_conf.c
- @@ -36,7 +36,7 @@
-  
-  
-@@ -133,6 +134,38 @@ diff --git a/iconv/gconv_conf.c b/iconv/gconv_conf.c
-  
-  /* The path elements, as determined by the __gconv_get_path function.
-     All path elements end in a slash.  */
---- 
--2.8.2
+ def selftest_reverse(args, config, basepath, workspace):
+     """Reverse the value passed to verify the plugin is executing."""
+-    print args.value[::-1]
++    print(args.value[::-1])
+ 
+ def register_commands(subparsers, context):
+     parser_build = subparsers.add_parser('selftest-reverse', help='Reverse value (for selftest)',
+diff --git a/meta/lib/oe/qa.py b/meta/lib/oe/qa.py
+index 3cfeee7..cc2902f 100644
+--- a/meta/lib/oe/qa.py
++++ b/meta/lib/oe/qa.py
+@@ -148,4 +148,4 @@ if __name__ == "__main__":
+     import sys
+     elf = ELFFile(sys.argv[1])
+     elf.open()
+-    print elf.isDynamic()
++    print(elf.isDynamic())
+diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
+index 30d3062..d1dfbfb 100644
+--- a/meta/lib/oe/utils.py
++++ b/meta/lib/oe/utils.py
+@@ -265,7 +265,7 @@ class ThreadedWorker(Thread):
+             try:
+                 func(self, *args, **kargs)
+             except Exception, e:
+-                print e
++                print(e)
+             finally:
+                 self.tasks.task_done()
+ 
+diff --git a/meta/lib/oeqa/runtime/files/test.py b/meta/lib/oeqa/runtime/files/test.py
+index f3a2273..f389225 100644
+--- a/meta/lib/oeqa/runtime/files/test.py
++++ b/meta/lib/oeqa/runtime/files/test.py
+@@ -3,4 +3,4 @@ import os
+ os.system('touch /tmp/testfile.python')
+ 
+ a = 9.01e+21 - 9.01e+21 + 0.01
+-print "the value of a is %s" % a
++print("the value of a is %s" % a)
+diff --git a/meta/lib/oeqa/runtime/systemd.py b/meta/lib/oeqa/runtime/systemd.py
+index 2b2f10d..a96efa2 100644
+--- a/meta/lib/oeqa/runtime/systemd.py
++++ b/meta/lib/oeqa/runtime/systemd.py
+@@ -153,7 +153,7 @@ class SystemdJournalTests(SystemdTest):
+             if check_match: break
+         # put the startup time in the test log
+         if check_match:
+-            print "%s" % check_match
++            print("%s" % check_match)
+         else:
+             self.skipTest("Error at obtaining the boot time from journalctl")
+         boot_time_sec = 0
+@@ -174,5 +174,5 @@ class SystemdJournalTests(SystemdTest):
+             self.skipTest("Error when parsing time from boot string")
+         #Assert the target boot time against systemd's unit start timeout
+         if boot_time_sec > systemd_TimeoutStartSec:
+-            print "Target boot time %s exceeds systemd's TimeoutStartSec %s"\
+-                    %(boot_time_sec, systemd_TimeoutStartSec)
++            print("Target boot time %s exceeds systemd's TimeoutStartSec %s"\
++                    %(boot_time_sec, systemd_TimeoutStartSec))
+diff --git a/meta/lib/oeqa/selftest/base.py b/meta/lib/oeqa/selftest/base.py
+index e10455e..b5a52fe 100644
+--- a/meta/lib/oeqa/selftest/base.py
++++ b/meta/lib/oeqa/selftest/base.py
+@@ -67,7 +67,7 @@ class oeSelfTest(unittest.TestCase):
+                 machine = custommachine
+             machine_conf = 'MACHINE ??= "%s"\n' % machine
+             self.set_machine_config(machine_conf)
+-            print 'MACHINE: %s' % machine
++            print('MACHINE: %s' % machine)
+ 
+         # tests might need their own setup
+         # but if they overwrite this one they have to call
+diff --git a/scripts/oe-selftest b/scripts/oe-selftest
+index 8cc2095..900b3f4 100755
+--- a/scripts/oe-selftest
++++ b/scripts/oe-selftest
+@@ -220,12 +220,12 @@ def get_tests_from_module(tmod):
+                         try:
+                             tid = vars(mod)[test].test_case
+                         except:
+-                            print 'DEBUG: tc id missing for ' + str(test)
++                            print('DEBUG: tc id missing for ' + str(test))
+                             tid = None
+                         try:
+                             ttag = vars(mod)[test].tag__feature
+                         except:
+-                            # print 'DEBUG: feature tag missing for ' + str(test)
++                            # print('DEBUG: feature tag missing for ' + str(test))
+                             ttag = None
+ 
+                         # NOTE: for some reason lstrip() doesn't work for mod.__module__
+@@ -320,17 +320,17 @@ def list_testsuite_by(criteria, keyword):
+ 
+     ts = sorted([ (tc.tcid, tc.tctag, tc.tcname, tc.tcclass, tc.tcmodule) for tc in get_testsuite_by(criteria, keyword) ])
+ 
+-    print '%-4s\t%-20s\t%-60s\t%-25s\t%-20s' % ('id', 'tag', 'name', 'class', 'module')
+-    print '_' * 150
++    print('%-4s\t%-20s\t%-60s\t%-25s\t%-20s' % ('id', 'tag', 'name', 'class', 'module'))
++    print('_' * 150)
+     for t in ts:
+         if isinstance(t[1], (tuple, list)):
+-            print '%-4s\t%-20s\t%-60s\t%-25s\t%-20s' % (t[0], ', '.join(t[1]), t[2], t[3], t[4])
++            print('%-4s\t%-20s\t%-60s\t%-25s\t%-20s' % (t[0], ', '.join(t[1]), t[2], t[3], t[4]))
+         else:
+-            print '%-4s\t%-20s\t%-60s\t%-25s\t%-20s' % t
+-    print '_' * 150
+-    print 'Filtering by:\t %s' % criteria
+-    print 'Looking for:\t %s' % ', '.join(str(x) for x in keyword)
+-    print 'Total found:\t %s' % len(ts)
++            print('%-4s\t%-20s\t%-60s\t%-25s\t%-20s' % t)
++    print('_' * 150)
++    print('Filtering by:\t %s' % criteria)
++    print('Looking for:\t %s' % ', '.join(str(x) for x in keyword))
++    print('Total found:\t %s' % len(ts))
+ 
+ 
+ def list_tests():
+@@ -338,16 +338,15 @@ def list_tests():
+ 
+     ts = get_all_tests()
+ 
+-    print '%-4s\t%-10s\t%-50s' % ('id', 'tag', 'test')
+-    print '_' * 80
++    print('%-4s\t%-10s\t%-50s' % ('id', 'tag', 'test'))
++    print('_' * 80)
+     for t in ts:
+         if isinstance(t.tctag, (tuple, list)):
+-            print '%-4s\t%-10s\t%-50s' % (t.tcid, ', '.join(t.tctag), '.'.join([t.tcmodule, t.tcclass, t.tcname]))
++            print('%-4s\t%-10s\t%-50s' % (t.tcid, ', '.join(t.tctag), '.'.join([t.tcmodule, t.tcclass, t.tcname])))
+         else:
+-            print '%-4s\t%-10s\t%-50s' % (t.tcid, t.tctag, '.'.join([t.tcmodule, t.tcclass, t.tcname]))
+-    print '_' * 80
+-    print 'Total found:\t %s' % len(ts)
 -
-+Index: git/locale/findlocale.c
-+===================================================================
-+--- git.orig/locale/findlocale.c
-++++ git/locale/findlocale.c
-+@@ -56,7 +56,7 @@ struct __locale_data *const _nl_C[] attr
-+    which are somehow addressed.  */
-+ struct loaded_l10nfile *_nl_locale_file_list[__LC_LAST];
-+ 
-+-const char _nl_default_locale_path[] attribute_hidden = COMPLOCALEDIR;
-++char _nl_default_locale_path[4096] __attribute__ ((section (".gccrelocprefix"))) attribute_hidden = COMPLOCALEDIR;
-+ 
-+ /* Checks if the name is actually present, that is, not NULL and not
-+    empty.  */
-+@@ -168,7 +168,7 @@ _nl_find_locale (const char *locale_path
-+ 
-+       /* Nothing in the archive.  Set the default path to search below.  */
-+       locale_path = _nl_default_locale_path;
-+-      locale_path_len = sizeof _nl_default_locale_path;
-++      locale_path_len = strlen(_nl_default_locale_path) + 1;
-+     }
-+   else
-+     /* We really have to load some data.  First see whether the name is
-+Index: git/locale/localeinfo.h
-+===================================================================
-+--- git.orig/locale/localeinfo.h
-++++ git/locale/localeinfo.h
-+@@ -322,7 +322,7 @@ _nl_lookup_word (locale_t l, int categor
-+ }
-+ 
-+ /* Default search path if no LOCPATH environment variable.  */
-+-extern const char _nl_default_locale_path[] attribute_hidden;
-++extern char _nl_default_locale_path[] attribute_hidden;
-+ 
-+ /* Load the locale data for CATEGORY from the file specified by *NAME.
-+    If *NAME is "", use environment variables as specified by POSIX, and
++            print('%-4s\t%-10s\t%-50s' % (t.tcid, t.tctag, '.'.join([t.tcmodule, t.tcclass, t.tcname])))
++    print('_' * 80)
++    print('Total found:\t %s' % len(ts))
+ 
+ def list_tags():
+     # Get all tags set to test cases
+@@ -362,7 +361,7 @@ def list_tags():
+         else:
+             tags.add(tc.tctag)
+ 
+-    print 'Tags:\t%s' % ', '.join(str(x) for x in tags)
++    print('Tags:\t%s' % ', '.join(str(x) for x in tags))
+ 
+ def coverage_setup(coverage_source, coverage_include, coverage_omit):
+     """ Set up the coverage measurement for the testcases to be run """
+@@ -443,12 +442,12 @@ def main():
+     bbpath = get_bb_var('BBPATH').split(':')
+     layer_libdirs = [p for p in (os.path.join(l, 'lib') for l in bbpath) if os.path.exists(p)]
+     sys.path.extend(layer_libdirs)
+-    reload(oeqa.selftest)
++    imp.reload(oeqa.selftest)
+ 
+     if args.run_tests_by and len(args.run_tests_by) >= 2:
+         valid_options = ['name', 'class', 'module', 'id', 'tag']
+         if args.run_tests_by[0] not in valid_options:
+-            print '--run-tests-by %s not a valid option. Choose one of <name|class|module|id|tag>.' % args.run_tests_by[0]
++            print('--run-tests-by %s not a valid option. Choose one of <name|class|module|id|tag>.' % args.run_tests_by[0])
+             return 1
+         else:
+             criteria = args.run_tests_by[0]
+@@ -458,7 +457,7 @@ def main():
+     if args.list_tests_by and len(args.list_tests_by) >= 2:
+         valid_options = ['name', 'class', 'module', 'id', 'tag']
+         if args.list_tests_by[0] not in valid_options:
+-            print '--list-tests-by %s not a valid option. Choose one of <name|class|module|id|tag>.' % args.list_tests_by[0]
++            print('--list-tests-by %s not a valid option. Choose one of <name|class|module|id|tag>.' % args.list_tests_by[0])
+             return 1
+         else:
+             criteria = args.list_tests_by[0]
+@@ -482,7 +481,7 @@ def main():
+             info = ''
+             if module.startswith('_'):
+                 info = ' (hidden)'
+-            print module + info
++            print(module + info)
+             if args.list_allclasses:
+                 try:
+                     import importlib
+@@ -490,13 +489,13 @@ def main():
+                     for v in vars(modlib):
+                         t = vars(modlib)[v]
+                         if isinstance(t, type(oeSelfTest)) and issubclass(t, oeSelfTest) and t!=oeSelfTest:
+-                            print " --", v
++                            print(" --", v)
+                             for method in dir(t):
+                                 if method.startswith("test_") and callable(vars(t)[method]):
+-                                    print " --  --", method
++                                    print(" --  --", method)
+ 
+                 except (AttributeError, ImportError) as e:
+-                    print e
++                    print(e)
+                     pass
+ 
+     if args.run_tests or args.run_all_tests or args.run_tests_by:
 
 
 
