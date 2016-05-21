@@ -1,30 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 90CA3606D1
+	by mail.openembedded.org (Postfix) with ESMTP id DA300606D1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 May 2016 11:29:21 +0000 (UTC)
+	Sat, 21 May 2016 11:30:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u4LBTLfU004268 for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 May 2016 12:29:21 +0100
+	u4LBUG9M004297 for <openembedded-core@lists.openembedded.org>;
+	Sat, 21 May 2016 12:30:16 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id JWxrmvAK_MyX
+	with LMTP id fl1sPB7lLeWF
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 May 2016 12:29:21 +0100 (BST)
+	Sat, 21 May 2016 12:30:16 +0100 (BST)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u4LBTGE2004265
+	u4LBUBPK004294
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 May 2016 12:29:17 +0100
-Message-ID: <1463830156.4578.173.camel@linuxfoundation.org>
+	Sat, 21 May 2016 12:30:12 +0100
+Message-ID: <1463830211.4578.174.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sat, 21 May 2016 12:29:16 +0100
+Date: Sat, 21 May 2016 12:30:11 +0100
 X-Mailer: Evolution 3.16.5-1ubuntu3.1 
 Mime-Version: 1.0
-Subject: [PATCH] meta: Update to modern exception syntax
+Subject: bitbake.conf/toolchain-shar-extract: Use en_US.UTF-8 as locale
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,113 +37,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 May 2016 11:29:22 -0000
+X-List-Received-Date: Sat, 21 May 2016 11:30:16 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Update older exception syntax to modern one required by python 3.
-Compatible with python 2.7.
+Under python 3, if we spawn python processes, we need to have a UTF-8 locale,
+else python's file access methods will use ascii. You can't change that mode
+once the interpreter is started so we have to ensure a locale is set. Ideally
+we'd use C.UTF-8 since OE already forces the C locale but not all distros support
+that and we need to set something so en_US.UTF-8 seems as standard we we can get.
+
+This matches the change in bitbake revision 8902c29638411d312e6fc4a197707e5742652e15
+
+Also set this into the environment used when installing SDKs since
+python can be run and we need to ensure we use a standardised locale
+which is available from things like buildtools-tarball.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index c3c2669..4be0a7e 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -661,7 +661,7 @@ python do_cleanall() {
-     try:
-         fetcher = bb.fetch2.Fetch(src_uri, d)
-         fetcher.clean()
--    except bb.fetch2.BBFetchException, e:
-+    except bb.fetch2.BBFetchException as e:
-         raise bb.build.FuncFailed(e)
- }
- do_cleanall[nostamp] = "1"
-diff --git a/meta/classes/utility-tasks.bbclass b/meta/classes/utility-tasks.bbclass
-index 5bcfd0b..7bc584a 100644
---- a/meta/classes/utility-tasks.bbclass
-+++ b/meta/classes/utility-tasks.bbclass
-@@ -46,7 +46,7 @@ python do_checkuri() {
-     try:
-         fetcher = bb.fetch2.Fetch(src_uri, d)
-         fetcher.checkstatus()
--    except bb.fetch2.BBFetchException, e:
-+    except bb.fetch2.BBFetchException as e:
-         raise bb.build.FuncFailed(e)
- }
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 8a84e53..acef30b 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -488,7 +488,7 @@ export BUILD_NM = "${BUILD_PREFIX}nm"
+ export MAKE = "make"
+ EXTRA_OEMAKE = ""
+ EXTRA_OECONF = ""
+-export LC_ALL = "C"
++export LC_ALL = "en_US.UTF-8"
  
-diff --git a/meta/lib/oe/data.py b/meta/lib/oe/data.py
-index e495721..23a9067 100644
---- a/meta/lib/oe/data.py
-+++ b/meta/lib/oe/data.py
-@@ -13,5 +13,5 @@ def typed_value(key, d):
+ ##################################################################
+ # Patch handling.
+diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
+index 397be11..d1ce86d 100644
+--- a/meta/files/toolchain-shar-extract.sh
++++ b/meta/files/toolchain-shar-extract.sh
+@@ -1,6 +1,7 @@
+ #!/bin/sh
  
-     try:
-         return oe.maketype.create(d.getVar(key, True) or '', var_type, **flags)
--    except (TypeError, ValueError), exc:
-+    except (TypeError, ValueError) as exc:
-         bb.msg.fatal("Data", "%s: %s" % (key, str(exc)))
-diff --git a/meta/lib/oe/prservice.py b/meta/lib/oe/prservice.py
-index b0cbcb1..9e5a0c9 100644
---- a/meta/lib/oe/prservice.py
-+++ b/meta/lib/oe/prservice.py
-@@ -9,7 +9,7 @@ def prserv_make_conn(d, check = False):
-             if not conn.ping():
-                 raise Exception('service not available')
-         d.setVar("__PRSERV_CONN",conn)
--    except Exception, exc:
-+    except Exception as exc:
-         bb.fatal("Connecting to PR service %s:%s failed: %s" % (host_params[0], host_params[1], str(exc)))
- 
-     return conn
-diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-index d1dfbfb..32d6179 100644
---- a/meta/lib/oe/utils.py
-+++ b/meta/lib/oe/utils.py
-@@ -264,7 +264,7 @@ class ThreadedWorker(Thread):
- 
-             try:
-                 func(self, *args, **kargs)
--            except Exception, e:
-+            except Exception as e:
-                 print(e)
-             finally:
-                 self.tasks.task_done()
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 4bede34..695402f 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -114,7 +114,7 @@ class QemuRunner:
-         try:
-             threadsock, threadport = self.create_socket()
-             self.server_socket, self.serverport = self.create_socket()
--        except socket.error, msg:
-+        except socket.error as msg:
-             logger.error("Failed to create listening socket: %s" % msg[1])
-             return False
- 
-@@ -192,7 +192,7 @@ class QemuRunner:
-                     else:
-                         self.ip = ips[0]
-                         self.server_ip = ips[1]
--                except IndexError, ValueError:
-+                except (IndexError, ValueError):
-                     logger.info("Couldn't get ip from qemu process arguments! Here is the qemu command line used:\n%s\nand output from runqemu:\n%s" % (cmdline, self.getOutput(output)))
-                     self._dump_host()
-                     self.stop()
-diff --git a/meta/lib/oeqa/utils/qemutinyrunner.py b/meta/lib/oeqa/utils/qemutinyrunner.py
-index e3d8c66..d6ce096 100644
---- a/meta/lib/oeqa/utils/qemutinyrunner.py
-+++ b/meta/lib/oeqa/utils/qemutinyrunner.py
-@@ -50,7 +50,7 @@ class QemuTinyRunner(QemuRunner):
-                 self.server_socket.connect(self.socketfile)
-                 bb.note("Created listening socket for qemu serial console.")
-                 tries = 0
--            except socket.error, msg:
-+            except socket.error as msg:
-                 self.server_socket.close()
-                 bb.fatal("Failed to create listening socket.")
-                 tries -= 1
+ [ -z "$ENVCLEANED" ] && exec /usr/bin/env -i ENVCLEANED=1 HOME="$HOME" \
++	LC_ALL=en_US.UTF-8 \
+ 	http_proxy="$http_proxy" https_proxy="$https_proxy" ftp_proxy="$ftp_proxy" \
+ 	no_proxy="$no_proxy" all_proxy="$all_proxy" GIT_PROXY_COMMAND="$GIT_PROXY_COMMAND" "$0" "$@"
+ [ -f /etc/environment ] && . /etc/environment
 
 
 
