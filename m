@@ -1,24 +1,42 @@
-Return-Path: <Paul.Gortmaker@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E8D7F60745
+Return-Path: <olof.johansson@axis.com>
+X-Greylist: delayed 353 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sat, 21 May 2016 10:24:46 UTC
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id EC05965CC2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 May 2016 00:02:57 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u4L02u3h004008
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 20 May 2016 17:02:56 -0700 (PDT)
-Received: from co-op.corp.ad.wrs.com (128.224.56.235) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Fri, 20 May 2016 17:02:55 -0700
-From: Paul Gortmaker <paul.gortmaker@windriver.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Fri, 20 May 2016 20:02:43 -0400
-Message-ID: <1463788963-31316-1-git-send-email-paul.gortmaker@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Sat, 21 May 2016 10:24:46 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id C24402E28D;
+	Sat, 21 May 2016 12:18:53 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id NeHd3-gsxA4K; Sat, 21 May 2016 12:18:53 +0200 (CEST)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bes.se.axis.com (Postfix) with ESMTP id 219292E216;
+	Sat, 21 May 2016 12:18:53 +0200 (CEST)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 00B031957;
+	Sat, 21 May 2016 12:18:53 +0200 (CEST)
+Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
+	by boulder.se.axis.com (Postfix) with ESMTP id E995918D5;
+	Sat, 21 May 2016 12:18:52 +0200 (CEST)
+Received: from lnxolofjn.se.axis.com (lnxolofjn.se.axis.com [10.92.17.1])
+	by seth.se.axis.com (Postfix) with ESMTP id E7E4AF89;
+	Sat, 21 May 2016 12:18:52 +0200 (CEST)
+Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)
+	id 1A4809C09F; Sat, 21 May 2016 12:18:59 +0200 (CEST)
+Date: Sat, 21 May 2016 12:18:58 +0200
+From: Olof Johansson <olof.johansson@axis.com>
+To: Paul Gortmaker <paul.gortmaker@windriver.com>
+Message-ID: <20160521101858.GP21318@axis.com>
+References: <1463788963-31316-1-git-send-email-paul.gortmaker@windriver.com>
 MIME-Version: 1.0
+In-Reply-To: <1463788963-31316-1-git-send-email-paul.gortmaker@windriver.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] coreutils: revert upstream commit causing havoc with ls output
+Subject: Re: [PATCH] coreutils: revert upstream commit causing havoc with ls output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,101 +49,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 May 2016 00:02:58 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 21 May 2016 10:24:49 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-A recent commit causes ls to have the following behaviour:
+On 16-05-20 20:02 -0400, Paul Gortmaker wrote:
+> Several large distros are voting with their feet and actively
+> reverting the change, as per what can be seen above for Debian.
 
-   meta-overc:~$ mkdir abc
-   meta-overc:~$ cd abc
-   meta-overc:~/abc$ touch  aaaa bbbb 'filename with spaces'
-   meta-overc:~/abc$ ls
-   aaaa  bbbb  'filename with spaces'
-   meta-overc:~/abc$
+To me, it sounds like you're saying that the Debian maintainer is
+actively taking a stand against upstream, but the changelog makes
+it sound more like a temporary thing.
 
-Note the appearance of quotation marks.  This new behaviour was
-introduced as "opt-out" and not "opt-in", and further, the opt-out
-suggestion causes other breakage.  More details can be found here:
+From the changelog entry:
+> * Disable default ls quoting for now to get the rest of 8.25
+>   into testing. (Closes: #813164)
 
-  https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=813164
+Could you add something in the commit message to make this
+clearer?
 
-Several large distros are voting with their feet and actively
-reverting the change, as per what can be seen above for Debian.
-
-Here we do the same; I've marked the patch as upstream inappropriate
-since it doesn't appear that the coreutils folks are going to change
-the default back to the old way based on what we do here.
-
-Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
-
-diff --git a/meta/recipes-core/coreutils/coreutils-8.25/disable-ls-output-quoting.patch b/meta/recipes-core/coreutils/coreutils-8.25/disable-ls-output-quoting.patch
-new file mode 100644
-index 000000000000..581c933e0317
---- /dev/null
-+++ b/meta/recipes-core/coreutils/coreutils-8.25/disable-ls-output-quoting.patch
-@@ -0,0 +1,49 @@
-+Subject: revert inconsistent ls quoting
-+
-+This is a revert of upstream commit 109b9220cead6e979d22d16327c4d9f8350431cc.
-+
-+Bug-Debian: https://bugs.debian.org/813164
-+
-+Upstream-Status: Inappropriate
-+
-+Originally-by: Adam Borowski <kilobyte@angband.pl>
-+[PG: patch from https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=813164#78 ]
-+Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
-+
-+---
-+
-+--- coreutils-8.25.orig/NEWS
-++++ coreutils-8.25/NEWS
-+@@ -71,9 +71,6 @@ GNU coreutils NEWS
-+   df now prefers sources towards the root of a device when
-+   eliding duplicate bind mounted entries.
-+ 
-+-  ls now quotes file names unambiguously and appropriate for use in a shell,
-+-  when outputting to a terminal.
-+-
-+   join, sort, uniq with --zero-terminated, now treat '\n' as a field delimiter.
-+ 
-+ ** Improvements
-+--- coreutils-8.25.orig/doc/coreutils.texi
-++++ coreutils-8.25/doc/coreutils.texi
-+@@ -7750,8 +7750,8 @@ this"} in the default C locale.  This lo
-+ 
-+ You can specify the default value of the @option{--quoting-style} option
-+ with the environment variable @env{QUOTING_STYLE}@.  If that environment
-+-variable is not set, the default value is @samp{shell-escape} when the
-+-output is a terminal, and @samp{literal} otherwise.
-++variable is not set, the default value is @samp{literal}, but this
-++default may change to @samp{shell} in a future version of this package.
-+ 
-+ @item --show-control-chars
-+ @opindex --show-control-chars
-+--- coreutils-8.25.orig/src/ls.c
-++++ coreutils-8.25/src/ls.c
-+@@ -1581,7 +1581,6 @@ decode_switches (int argc, char **argv)
-+       if (isatty (STDOUT_FILENO))
-+         {
-+           format = many_per_line;
-+-          set_quoting_style (NULL, shell_escape_quoting_style);
-+           /* See description of qmark_funny_chars, above.  */
-+           qmark_funny_chars = true;
-+         }
-diff --git a/meta/recipes-core/coreutils/coreutils_8.25.bb b/meta/recipes-core/coreutils/coreutils_8.25.bb
-index b1aaf539fbe3..103da9f50693 100644
---- a/meta/recipes-core/coreutils/coreutils_8.25.bb
-+++ b/meta/recipes-core/coreutils/coreutils_8.25.bb
-@@ -19,6 +19,7 @@ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz;name=tarball \
-            file://fix-selinux-flask.patch \
-            file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
-            file://0001-uname-report-processor-and-hardware-correctly.patch \
-+           file://disable-ls-output-quoting.patch \
-           "
- 
- SRC_URI[tarball.md5sum] = "070e43ba7f618d747414ef56ab248a48"
 -- 
-2.7.4
-
+olofjn
 
