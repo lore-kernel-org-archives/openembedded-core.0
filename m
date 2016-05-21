@@ -1,46 +1,24 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
-	[209.85.215.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A7BD6010B
+Return-Path: <Paul.Gortmaker@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E8D7F60745
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 May 2016 20:14:24 +0000 (UTC)
-Received: by mail-lf0-f68.google.com with SMTP id p10so3226705lfb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 May 2016 13:14:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=u1yAhIGio5LYhLUBQwA/PKRjC/OCVA0EVUt7KpkTiAM=;
-	b=S+ooVyJoQ0AHXSpDkQBGHOQX9SaP8qbOP2dldG1K8CYCfmx5Tb/cNcVAeMD/k+IjgG
-	/w725uswIT8hp0HbloQjjqRPNCE/kWITD2++Ehy0T8QsH8xNJUoHf6cTLrAbXXlPJWZd
-	pwbYLCt88x22W/q46adwKupePFxKqz4LzNyx+IgciLEZW38QtyWNclaafPYR2YbVVktn
-	N2LbLNQEh7C51z/Xle1OuEj3vn/YXCjYRibT24Ik5YkI4pf5y1p8J2r/7IuQYl18Itxj
-	eSgwL8YjfWRdC0GExv2g62XUFHLFq/6X8N+orWoVCYsDPs3i7iJ1tcN1p90FOl+kX813
-	NCTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=u1yAhIGio5LYhLUBQwA/PKRjC/OCVA0EVUt7KpkTiAM=;
-	b=mUjtK5/JahodJ1ftCio5rerqhlzDD2qnZ0FNG/VXB4av+fVCdQa2TOySWFnP6qT+5A
-	SPKUWXfQsxQws4eVN+JcSXlw2Vwo1Yj6OOKMoiWjLzFATNQ77KMdxlq/owiHTDeh/4Ze
-	wWdHVFtRODQG73pD6Us/vzoiD35MKTS5q1tiLTeKe7zVp5x6yTOyE2K7ao0PXZ/iG/ct
-	k8Ox6rk90JfQlJof4v91gkv5Regw0YborQLQcgwD0CyDIVejFil/ImhahzU5YX4JMHGR
-	w02BhyzvxCkAlJ3uJwWyHsBgX0vaL8ShQEaX21WKuY4GrA5bO8S+zRtskVAmerVGtW4z
-	3MLw==
-X-Gm-Message-State: AOPr4FXvKy4WcITQceY4+WCuTSLAAiAW1l4JWg/A52yD7RTWANWNLurTNf1amJ39+GBkrA==
-X-Received: by 10.25.159.211 with SMTP id i202mr1830720lfe.76.1463775264499;
-	Fri, 20 May 2016 13:14:24 -0700 (PDT)
-Received: from localhost.localdomain (c80-217-62-231.bredband.comhem.se.
-	[80.217.62.231]) by smtp.gmail.com with ESMTPSA id
-	po7sm3616939lbb.16.2016.05.20.13.14.23
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 20 May 2016 13:14:23 -0700 (PDT)
-From: Ming Liu <liu.ming50@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 May 2016 22:14:20 +0200
-Message-Id: <1463775260-17504-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Cc: yue.tao@windriver.com, Ming Liu <peter.x.liu@external.atlascopco.com>
-Subject: [PATCH] build-appliance-image: use 'lnr' instead of 'ln -sr'
+	Sat, 21 May 2016 00:02:57 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u4L02u3h004008
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 20 May 2016 17:02:56 -0700 (PDT)
+Received: from co-op.corp.ad.wrs.com (128.224.56.235) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Fri, 20 May 2016 17:02:55 -0700
+From: Paul Gortmaker <paul.gortmaker@windriver.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Fri, 20 May 2016 20:02:43 -0400
+Message-ID: <1463788963-31316-1-git-send-email-paul.gortmaker@windriver.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] coreutils: revert upstream commit causing havoc with ls output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,40 +31,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 May 2016 20:14:26 -0000
+X-List-Received-Date: Sat, 21 May 2016 00:02:58 -0000
+Content-Type: text/plain
 
-From: Ming Liu <peter.x.liu@external.atlascopco.com>
+A recent commit causes ls to have the following behaviour:
 
-For portability, not all hosts are running sufficiently new coreutils.
+   meta-overc:~$ mkdir abc
+   meta-overc:~$ cd abc
+   meta-overc:~/abc$ touch  aaaa bbbb 'filename with spaces'
+   meta-overc:~/abc$ ls
+   aaaa  bbbb  'filename with spaces'
+   meta-overc:~/abc$
 
-Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
----
- meta/recipes-core/images/build-appliance-image_14.0.0.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Note the appearance of quotation marks.  This new behaviour was
+introduced as "opt-out" and not "opt-in", and further, the opt-out
+suggestion causes other breakage.  More details can be found here:
 
-diff --git a/meta/recipes-core/images/build-appliance-image_14.0.0.bb b/meta/recipes-core/images/build-appliance-image_14.0.0.bb
-index 2a1a56b..d6de67c 100644
---- a/meta/recipes-core/images/build-appliance-image_14.0.0.bb
-+++ b/meta/recipes-core/images/build-appliance-image_14.0.0.bb
-@@ -54,7 +54,7 @@ fakeroot do_populate_poky_src () {
- 	cp ${WORKDIR}/README_VirtualBox_Guest_Additions.txt ${IMAGE_ROOTFS}/home/builder/
+  https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=813164
+
+Several large distros are voting with their feet and actively
+reverting the change, as per what can be seen above for Debian.
+
+Here we do the same; I've marked the patch as upstream inappropriate
+since it doesn't appear that the coreutils folks are going to change
+the default back to the old way based on what we do here.
+
+Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+
+diff --git a/meta/recipes-core/coreutils/coreutils-8.25/disable-ls-output-quoting.patch b/meta/recipes-core/coreutils/coreutils-8.25/disable-ls-output-quoting.patch
+new file mode 100644
+index 000000000000..581c933e0317
+--- /dev/null
++++ b/meta/recipes-core/coreutils/coreutils-8.25/disable-ls-output-quoting.patch
+@@ -0,0 +1,49 @@
++Subject: revert inconsistent ls quoting
++
++This is a revert of upstream commit 109b9220cead6e979d22d16327c4d9f8350431cc.
++
++Bug-Debian: https://bugs.debian.org/813164
++
++Upstream-Status: Inappropriate
++
++Originally-by: Adam Borowski <kilobyte@angband.pl>
++[PG: patch from https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=813164#78 ]
++Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
++
++---
++
++--- coreutils-8.25.orig/NEWS
+++++ coreutils-8.25/NEWS
++@@ -71,9 +71,6 @@ GNU coreutils NEWS
++   df now prefers sources towards the root of a device when
++   eliding duplicate bind mounted entries.
++ 
++-  ls now quotes file names unambiguously and appropriate for use in a shell,
++-  when outputting to a terminal.
++-
++   join, sort, uniq with --zero-terminated, now treat '\n' as a field delimiter.
++ 
++ ** Improvements
++--- coreutils-8.25.orig/doc/coreutils.texi
+++++ coreutils-8.25/doc/coreutils.texi
++@@ -7750,8 +7750,8 @@ this"} in the default C locale.  This lo
++ 
++ You can specify the default value of the @option{--quoting-style} option
++ with the environment variable @env{QUOTING_STYLE}@.  If that environment
++-variable is not set, the default value is @samp{shell-escape} when the
++-output is a terminal, and @samp{literal} otherwise.
+++variable is not set, the default value is @samp{literal}, but this
+++default may change to @samp{shell} in a future version of this package.
++ 
++ @item --show-control-chars
++ @opindex --show-control-chars
++--- coreutils-8.25.orig/src/ls.c
+++++ coreutils-8.25/src/ls.c
++@@ -1581,7 +1581,6 @@ decode_switches (int argc, char **argv)
++       if (isatty (STDOUT_FILENO))
++         {
++           format = many_per_line;
++-          set_quoting_style (NULL, shell_escape_quoting_style);
++           /* See description of qmark_funny_chars, above.  */
++           qmark_funny_chars = true;
++         }
+diff --git a/meta/recipes-core/coreutils/coreutils_8.25.bb b/meta/recipes-core/coreutils/coreutils_8.25.bb
+index b1aaf539fbe3..103da9f50693 100644
+--- a/meta/recipes-core/coreutils/coreutils_8.25.bb
++++ b/meta/recipes-core/coreutils/coreutils_8.25.bb
+@@ -19,6 +19,7 @@ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz;name=tarball \
+            file://fix-selinux-flask.patch \
+            file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
+            file://0001-uname-report-processor-and-hardware-correctly.patch \
++           file://disable-ls-output-quoting.patch \
+           "
  
- 	# Create a symlink, needed for out-of-tree kernel modules build
--	ln -snr ${IMAGE_ROOTFS}${KERNEL_SRC_PATH} ${IMAGE_ROOTFS}/lib/modules/${KERNEL_VERSION}/build
-+	lnr ${IMAGE_ROOTFS}${KERNEL_SRC_PATH} ${IMAGE_ROOTFS}/lib/modules/${KERNEL_VERSION}/build
- 
- 	echo "/usr/bin" > ${IMAGE_ROOTFS}/home/builder/poky/build/pseudodone
- 	echo "INHERIT += \"rm_work\"" >> ${IMAGE_ROOTFS}/home/builder/poky/build/conf/auto.conf
-@@ -84,7 +84,7 @@ fakeroot do_populate_poky_src () {
- 	echo "builder ALL=(ALL) NOPASSWD: ALL" >> ${IMAGE_ROOTFS}/etc/sudoers
- 
- 	# Load tap/tun at startup
--	ln -sr ${IMAGE_ROOTFS}/usr/sbin/iptables ${IMAGE_ROOTFS}/sbin/iptables
-+	lnr ${IMAGE_ROOTFS}/usr/sbin/iptables ${IMAGE_ROOTFS}/sbin/iptables
- 	echo "tun" >> ${IMAGE_ROOTFS}/etc/modules
- 
- 	# Use Clearlooks GTK+ theme
+ SRC_URI[tarball.md5sum] = "070e43ba7f618d747414ef56ab248a48"
 -- 
-1.9.1
+2.7.4
 
 
