@@ -1,42 +1,30 @@
-Return-Path: <olof.johansson@axis.com>
-X-Greylist: delayed 353 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sat, 21 May 2016 10:24:46 UTC
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id EC05965CC2
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 0564F65CBB
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 May 2016 10:24:46 +0000 (UTC)
+	Sat, 21 May 2016 10:53:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id C24402E28D;
-	Sat, 21 May 2016 12:18:53 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id NeHd3-gsxA4K; Sat, 21 May 2016 12:18:53 +0200 (CEST)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bes.se.axis.com (Postfix) with ESMTP id 219292E216;
-	Sat, 21 May 2016 12:18:53 +0200 (CEST)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 00B031957;
-	Sat, 21 May 2016 12:18:53 +0200 (CEST)
-Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.se.axis.com (Postfix) with ESMTP id E995918D5;
-	Sat, 21 May 2016 12:18:52 +0200 (CEST)
-Received: from lnxolofjn.se.axis.com (lnxolofjn.se.axis.com [10.92.17.1])
-	by seth.se.axis.com (Postfix) with ESMTP id E7E4AF89;
-	Sat, 21 May 2016 12:18:52 +0200 (CEST)
-Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)
-	id 1A4809C09F; Sat, 21 May 2016 12:18:59 +0200 (CEST)
-Date: Sat, 21 May 2016 12:18:58 +0200
-From: Olof Johansson <olof.johansson@axis.com>
-To: Paul Gortmaker <paul.gortmaker@windriver.com>
-Message-ID: <20160521101858.GP21318@axis.com>
-References: <1463788963-31316-1-git-send-email-paul.gortmaker@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <1463788963-31316-1-git-send-email-paul.gortmaker@windriver.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] coreutils: revert upstream commit causing havoc with ls output
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u4LArDLq002972 for <openembedded-core@lists.openembedded.org>;
+	Sat, 21 May 2016 11:53:13 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id PSYErxxvVXgn
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 21 May 2016 11:53:13 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u4LAr8Bj002969
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 21 May 2016 11:53:10 +0100
+Message-ID: <1463827988.4578.164.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Sat, 21 May 2016 11:53:08 +0100
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: [PATCH] glibc-locale: Enable binary locale generation for nativesdk-glibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,25 +37,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 May 2016 10:24:49 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Sat, 21 May 2016 10:53:17 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 16-05-20 20:02 -0400, Paul Gortmaker wrote:
-> Several large distros are voting with their feet and actively
-> reverting the change, as per what can be seen above for Debian.
+python3 has much stricter locale requirements than previous versions.
+If a locale isn't present, python3 reverts to ascii mode under which
+bit
+bake can't operate.
 
-To me, it sounds like you're saying that the Debian maintainer is
-actively taking a stand against upstream, but the changelog makes
-it sound more like a temporary thing.
+We therefore need working binary locales in things like uninative-tarball and buildtools-tarball. This patch enables binary locales for nativesdk-glibc.
 
-From the changelog entry:
-> * Disable default ls quoting for now to get the rest of 8.25
->   into testing. (Closes: #813164)
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Could you add something in the commit message to make this
-clearer?
+diff --git a/meta/recipes-core/glibc/glibc-locale.inc b/meta/recipes-core/glibc/glibc-locale.inc
+index e868e38..0a7adfc 100644
+--- a/meta/recipes-core/glibc/glibc-locale.inc
++++ b/meta/recipes-core/glibc/glibc-locale.inc
+@@ -19,7 +19,7 @@ do_package[depends] += "${BINUTILSDEP}"
+ 
+ # default to disabled 
+ ENABLE_BINARY_LOCALE_GENERATION ?= "0"
+-ENABLE_BINARY_LOCALE_GENERATION_pn-nativesdk-glibc-locale = "0"
++ENABLE_BINARY_LOCALE_GENERATION_pn-nativesdk-glibc-locale = "1"
+ 
+ #enable locale generation on these arches
+ # BINARY_LOCALE_ARCHES is a space separated list of regular expressions
 
--- 
-olofjn
+
+
 
