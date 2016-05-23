@@ -1,24 +1,24 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id C60276FFA6
+	by mail.openembedded.org (Postfix) with ESMTP id 346AA60107
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 May 2016 12:44:14 +0000 (UTC)
+	Mon, 23 May 2016 12:44:15 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 23 May 2016 05:44:14 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 23 May 2016 05:44:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,355,1459839600"; d="scan'208";a="960442761"
+X-IronPort-AV: E=Sophos;i="5.26,355,1459839600"; d="scan'208";a="960442771"
 Received: from theory.fi.intel.com ([10.237.72.196])
-	by orsmga001.jf.intel.com with ESMTP; 23 May 2016 05:44:12 -0700
+	by orsmga001.jf.intel.com with ESMTP; 23 May 2016 05:44:13 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 May 2016 15:44:05 +0300
-Message-Id: <fa00254f4b3f882acadd1b83505a05c0d5815c10.1464004128.git.jussi.kukkonen@intel.com>
+Date: Mon, 23 May 2016 15:44:06 +0300
+Message-Id: <908c31ff96cf0d636e5b43045a8c7c1d27c86121.1464004128.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <5f5c927d9a012122af814032161f3f12b476a442.1464004128.git.jussi.kukkonen@intel.com>
 References: <5f5c927d9a012122af814032161f3f12b476a442.1464004128.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1464004128.git.jussi.kukkonen@intel.com>
 References: <cover.1464004128.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 2/5] dropbear: Upgrade 2015.71 -> 2016.73
+Subject: [PATCH 3/5] fontconfig: Upgrade 2.11.94 -> 2.11.95
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,93 +31,186 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 May 2016 12:44:14 -0000
+X-List-Received-Date: Mon, 23 May 2016 12:44:15 -0000
 
-Backport a patch to fix out-of-tree build.
+Remove a backported patch.
+License checksum stays the same but license location changed.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- .../dropbear/support-out-of-tree-builds.patch      | 43 ++++++++++++++++++++++
- meta/recipes-core/dropbear/dropbear_2015.71.bb     |  5 ---
- meta/recipes-core/dropbear/dropbear_2016.73.bb     |  7 ++++
- 3 files changed, 50 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-core/dropbear/dropbear/support-out-of-tree-builds.patch
- delete mode 100644 meta/recipes-core/dropbear/dropbear_2015.71.bb
- create mode 100644 meta/recipes-core/dropbear/dropbear_2016.73.bb
+ ...ges-made-to-FcConfigAppFontAddDir-recentl.patch | 132 ---------------------
+ ...fontconfig_2.11.94.bb => fontconfig_2.11.95.bb} |   7 +-
+ 2 files changed, 3 insertions(+), 136 deletions(-)
+ delete mode 100644 meta/recipes-graphics/fontconfig/fontconfig/0001-Revert-changes-made-to-FcConfigAppFontAddDir-recentl.patch
+ rename meta/recipes-graphics/fontconfig/{fontconfig_2.11.94.bb => fontconfig_2.11.95.bb} (84%)
 
-diff --git a/meta/recipes-core/dropbear/dropbear/support-out-of-tree-builds.patch b/meta/recipes-core/dropbear/dropbear/support-out-of-tree-builds.patch
-new file mode 100644
-index 0000000..df6efb4
---- /dev/null
-+++ b/meta/recipes-core/dropbear/dropbear/support-out-of-tree-builds.patch
-@@ -0,0 +1,43 @@
-+From: =?UTF-8?q?Henrik=20Nordstr=C3=B6m?= <henrik@knc.nu>
-+Date: Wed, 11 May 2016 12:35:06 +0200
-+Subject: [PATCH] Support out-of-tree builds usign bundled libtom
-+
-+When building out-of-tree we need both source and generated
-+folders in include paths to find both distributed and generated
-+headers.
-+
-+
-+
-+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Upstream-Status: Backport
-+---
-+ libtomcrypt/Makefile.in | 2 +-
-+ libtommath/Makefile.in  | 2 +-
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/libtomcrypt/Makefile.in b/libtomcrypt/Makefile.in
-+index 3056ef0..7970700 100644
-+--- a/libtomcrypt/Makefile.in
-++++ b/libtomcrypt/Makefile.in
-+@@ -19,7 +19,7 @@ srcdir=@srcdir@
-+ 
-+ # Compilation flags. Note the += does not write over the user's CFLAGS!
-+ # The rest of the flags come from the parent Dropbear makefile
-+-CFLAGS += -c -I$(srcdir)/src/headers/ -I$(srcdir)/../ -DLTC_SOURCE -I$(srcdir)/../libtommath/
-++CFLAGS += -c -Isrc/headers/ -I$(srcdir)/src/headers/ -I../ -I$(srcdir)/../ -DLTC_SOURCE -I../libtommath/ -I$(srcdir)/../libtommath/
-+ 
-+ # additional warnings (newer GCC 3.4 and higher)
-+ ifdef GCC_34
-+diff --git a/libtommath/Makefile.in b/libtommath/Makefile.in
-+index 06aba68..019c50b 100644
-+--- a/libtommath/Makefile.in
-++++ b/libtommath/Makefile.in
-+@@ -9,7 +9,7 @@ VPATH=@srcdir@
-+ srcdir=@srcdir@
-+ 
-+ # So that libtommath can include Dropbear headers for options and m_burn()
-+-CFLAGS += -I$(srcdir)/../libtomcrypt/src/headers/ -I$(srcdir)/../
-++CFLAGS += -I. -I$(srcdir) -I../libtomcrypt/src/headers/ -I$(srcdir)/../libtomcrypt/src/headers/ -I../ -I$(srcdir)/../
-+ 
-+ ifndef IGNORE_SPEED
-+ 
-diff --git a/meta/recipes-core/dropbear/dropbear_2015.71.bb b/meta/recipes-core/dropbear/dropbear_2015.71.bb
+diff --git a/meta/recipes-graphics/fontconfig/fontconfig/0001-Revert-changes-made-to-FcConfigAppFontAddDir-recentl.patch b/meta/recipes-graphics/fontconfig/fontconfig/0001-Revert-changes-made-to-FcConfigAppFontAddDir-recentl.patch
 deleted file mode 100644
-index 6332579..0000000
---- a/meta/recipes-core/dropbear/dropbear_2015.71.bb
+index f2fd5d4..0000000
+--- a/meta/recipes-graphics/fontconfig/fontconfig/0001-Revert-changes-made-to-FcConfigAppFontAddDir-recentl.patch
 +++ /dev/null
-@@ -1,5 +0,0 @@
--require dropbear.inc
+@@ -1,132 +0,0 @@
+-From 46ec6a52d4cc447cc3ff4a13b2067ecb76c9db2e Mon Sep 17 00:00:00 2001
+-From: Behdad Esfahbod <behdad@behdad.org>
+-Date: Fri, 26 Jun 2015 17:02:13 -0700
+-Subject: [PATCH] Revert changes made to FcConfigAppFontAddDir() recently
 -
--SRC_URI[md5sum] = "2ccc0a2f3e37ca221db12c5af6a88137"
--SRC_URI[sha256sum] = "376214169c0e187ee9f48ae1a99b3f835016ad5b98ede4bfd1cf581deba783af"
+-In 32ac7c75e8db0135ef37cf86f92d8b9be000c8bb the behavior of
+-FcConfigAppFontAddFile/Dir() were changed to return false
+-if not fonts were found.  While this is welldefined and useful
+-for AddFile(), it's quite problematic for AddDir().  For example,
+-if the directory is empty, is that a failure or success?  Worse,
+-the false value from AddDir() was being propagated all the way
+-to FcInit() returning false now.  This only happened upon memory
+-allocation failure before, and some clients assert that FcInit()
+-is successful.
 -
-diff --git a/meta/recipes-core/dropbear/dropbear_2016.73.bb b/meta/recipes-core/dropbear/dropbear_2016.73.bb
-new file mode 100644
-index 0000000..71a36bd
---- /dev/null
-+++ b/meta/recipes-core/dropbear/dropbear_2016.73.bb
-@@ -0,0 +1,7 @@
-+require dropbear.inc
-+
-+SRC_URI += "file://support-out-of-tree-builds.patch"
-+
-+SRC_URI[md5sum] = "8d6d78ce60ca52350ec04fcbd711ce9b"
-+SRC_URI[sha256sum] = "5c61a4f69b093b688629cd365be38701485ff63cfb23642dab7a05ad250aefd7"
-+
+-With this change, AddDir() is reverted back to what it was.
+-AddFont() change (which was actually in fcdir.c) from the original
+-commit is left in.
+-
+-Upstream-Status: backport
+-
+-Signed-off-by: Li Zhou <li.zhou@windriver.com>
+----
+- doc/fcconfig.fncs |    2 +-
+- src/fccfg.c       |   29 +++++++++++------------------
+- src/fcint.h       |    3 ---
+- src/fcstr.c       |    8 --------
+- 4 files changed, 12 insertions(+), 30 deletions(-)
+-
+-Index: fontconfig-2.11.94/doc/fcconfig.fncs
+-===================================================================
+---- fontconfig-2.11.94.orig/doc/fcconfig.fncs
+-+++ fontconfig-2.11.94/doc/fcconfig.fncs
+-@@ -232,7 +232,7 @@ the current configuration is used.
+- @DESC@
+- Scans the specified directory for fonts, adding each one found to the
+- application-specific set of fonts. Returns FcFalse
+--if the fonts cannot be added (due to allocation failure or no fonts found).
+-+if the fonts cannot be added (due to allocation failure).
+- Otherwise returns FcTrue. If <parameter>config</parameter> is NULL,
+- the current configuration is used.
+- @@
+-Index: fontconfig-2.11.94/src/fccfg.c
+-===================================================================
+---- fontconfig-2.11.94.orig/src/fccfg.c
+-+++ fontconfig-2.11.94/src/fccfg.c
+-@@ -368,7 +368,6 @@ FcConfigAddDirList (FcConfig *config, Fc
+-     FcStrList	    *dirlist;
+-     FcChar8	    *dir;
+-     FcCache	    *cache;
+--    FcBool	     ret = FcFalse;
+- 
+-     dirlist = FcStrListCreate (dirSet);
+-     if (!dirlist)
+-@@ -383,10 +382,9 @@ FcConfigAddDirList (FcConfig *config, Fc
+- 	    continue;
+- 	FcConfigAddCache (config, cache, set, dirSet);
+- 	FcDirCacheUnload (cache);
+--	ret = FcTrue;
+-     }
+-     FcStrListDone (dirlist);
+--    return ret;
+-+    return FcTrue;
+- }
+- 
+- /*
+-@@ -2199,7 +2197,6 @@ FcConfigAppFontAddFile (FcConfig    *con
+-     FcStrSet	*subdirs;
+-     FcStrList	*sublist;
+-     FcChar8	*subdir;
+--    FcBool	 ret = FcFalse;
+- 
+-     if (!config)
+-     {
+-@@ -2229,19 +2226,16 @@ FcConfigAppFontAddFile (FcConfig    *con
+- 	FcStrSetDestroy (subdirs);
+- 	return FcFalse;
+-     }
+--    if (subdirs->num == 0)
+--	ret = FcTrue;
+--    else if ((sublist = FcStrListCreate (subdirs)))
+-+    if ((sublist = FcStrListCreate (subdirs)))
+-     {
+- 	while ((subdir = FcStrListNext (sublist)))
+- 	{
+--	    if (FcConfigAppFontAddDir (config, subdir))
+--		ret = FcTrue;
+-+	    FcConfigAppFontAddDir (config, subdir);
+- 	}
+- 	FcStrListDone (sublist);
+-     }
+-     FcStrSetDestroy (subdirs);
+--    return ret;
+-+    return FcTrue;
+- }
+- 
+- FcBool
+-@@ -2250,7 +2244,6 @@ FcConfigAppFontAddDir (FcConfig	    *con
+- {
+-     FcFontSet	*set;
+-     FcStrSet	*dirs;
+--    FcBool	 ret = FcTrue;
+- 
+-     if (!config)
+-     {
+-@@ -2269,8 +2262,8 @@ FcConfigAppFontAddDir (FcConfig	    *con
+- 	set = FcFontSetCreate ();
+- 	if (!set)
+- 	{
+--	    ret = FcFalse;
+--	    goto bail;
+-+	    FcStrSetDestroy (dirs);
+-+	    return FcFalse;
+- 	}
+- 	FcConfigSetFonts (config, set, FcSetApplication);
+-     }
+-@@ -2278,10 +2271,12 @@ FcConfigAppFontAddDir (FcConfig	    *con
+-     FcStrSetAddFilename (dirs, dir);
+- 
+-     if (!FcConfigAddDirList (config, FcSetApplication, dirs))
+--	ret = FcFalse;
+--bail:
+-+    {
+-+	FcStrSetDestroy (dirs);
+-+	return FcFalse;
+-+    }
+-     FcStrSetDestroy (dirs);
+--    return ret;
+-+    return FcTrue;
+- }
+- 
+- void
+diff --git a/meta/recipes-graphics/fontconfig/fontconfig_2.11.94.bb b/meta/recipes-graphics/fontconfig/fontconfig_2.11.95.bb
+similarity index 84%
+rename from meta/recipes-graphics/fontconfig/fontconfig_2.11.94.bb
+rename to meta/recipes-graphics/fontconfig/fontconfig_2.11.95.bb
+index b427947..5db4436 100644
+--- a/meta/recipes-graphics/fontconfig/fontconfig_2.11.94.bb
++++ b/meta/recipes-graphics/fontconfig/fontconfig_2.11.95.bb
+@@ -14,7 +14,7 @@ BUGTRACKER = "https://bugs.freedesktop.org/enter_bug.cgi?product=fontconfig"
+ LICENSE = "MIT-style & MIT & PD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=7a0449e9bc5370402a94c00204beca3d \
+                     file://src/fcfreetype.c;endline=45;md5=5d9513e3196a1fbfdfa94051c09dfc84 \
+-                    file://src/fccache.c;beginline=1199;endline=1214;md5=0326cfeb4a7333dd4dd25fbbc4b9f27f"
++                    file://src/fccache.c;beginline=1278;endline=1293;md5=0326cfeb4a7333dd4dd25fbbc4b9f27f"
+ 
+ SECTION = "libs"
+ 
+@@ -22,10 +22,9 @@ DEPENDS = "expat freetype zlib"
+ 
+ SRC_URI = "http://fontconfig.org/release/fontconfig-${PV}.tar.gz \
+            file://revert-static-pkgconfig.patch \
+-           file://0001-Revert-changes-made-to-FcConfigAppFontAddDir-recentl.patch \
+            "
+-SRC_URI[md5sum] = "479be870c7f83f15f87bac085b61d641"
+-SRC_URI[sha256sum] = "73f6d323c7bcfbde25d78397675191d55b8f4139132c6a9444410f3a2d8a9a95"
++SRC_URI[md5sum] = "da605e910d9c037f8886d65607b06920"
++SRC_URI[sha256sum] = "39da7704b348b3c9c83f449e9aa6e0e131ffe77e3533b68017f3b40a95d75a9c"
+ 
+ PACKAGES =+ "fontconfig-utils"
+ FILES_${PN} =+ "${datadir}/xml/*"
 -- 
 2.1.4
 
