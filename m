@@ -1,26 +1,33 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id CD96270030
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id E75B665CC3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 May 2016 16:11:42 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga102.fm.intel.com with ESMTP; 23 May 2016 09:11:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,356,1459839600"; d="scan'208";a="982975706"
-Received: from lsandov1-mobl2.zpn.intel.com (HELO [10.219.5.35])
-	([10.219.5.35])
-	by orsmga002.jf.intel.com with ESMTP; 23 May 2016 09:11:41 -0700
-To: openembedded-core@lists.openembedded.org
-References: <1463723957-6584-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
-	<5742FC01.1000402@linux.intel.com> <5742FD90.6080708@linux.intel.com>
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Message-ID: <c930ecf0-1fc6-1fdc-d1be-6bd41b9e430a@linux.intel.com>
-Date: Mon, 23 May 2016 11:13:04 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.1.0
-MIME-Version: 1.0
-In-Reply-To: <5742FD90.6080708@linux.intel.com>
-Subject: Re: [PATCH] ghostscript: Update URL_SRI considered as 'old release'
+	Mon, 23 May 2016 16:39:38 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u4NGdaaD031215; Mon, 23 May 2016 17:39:36 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id DMkQTUvKNbwO; Mon, 23 May 2016 17:39:36 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u4NGdUlu031207
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 23 May 2016 17:39:31 +0100
+Message-ID: <1464021570.9570.25.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Mon, 23 May 2016 17:39:30 +0100
+In-Reply-To: <57430774.7000805@linux.intel.com>
+References: <5f5c927d9a012122af814032161f3f12b476a442.1464004128.git.jussi.kukkonen@intel.com>
+	<5dbd238f28ac08a748bbdcd549286a8d48da9c2c.1464004128.git.jussi.kukkonen@intel.com>
+	<5742FDE2.1090306@linux.intel.com>
+	<1464009007.9570.21.camel@linuxfoundation.org>
+	<57430774.7000805@linux.intel.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 5/5] matchbox-keyboard: Upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,20 +40,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 May 2016 16:11:44 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Mon, 23 May 2016 16:39:39 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+On Mon, 2016-05-23 at 16:36 +0300, Alexander Kanavin wrote:
+> On 05/23/2016 04:10 PM, Richard Purdie wrote:
+> > > > -SRCREV = "ebc330eac8b9d38e9aef9f01e7241c904bd01073"
+> > > > +SRCREV = "69d03e2aceb79cf7a616c07f8e0be4e1f9f7976b"
+> > > >    PV = "0.0+git${SRCPV}"
+> > > 
+> > > This is a good moment to start using git version tags instead of
+> > > just
+> > > updating commit ids.
+> > > 
+> > > Let's bring down the amount of 'unknown' upstream versions to
+> > > zero or
+> > > close to it:
+> > > 
+> > > http://recipes.yoctoproject.org/rrs/recipes/2.2/M1/?upstream_stat
+> > > us=U
+> > > nknown#
+> > 
+> > Sadly, "tags" need a network to resolve them and hence using them
+> > means
+> > the metadata doesn't work standalone. We can't do that.
+> 
+> I need to clarify: I would like the version number in PV to match an 
+> existing upstream version tag. So that the upstream version check
+> works 
+> correctly.
+> 
+> The actual git revision for builds will continue to be determined by 
+> commit ids in SRCREV.
 
-> Actually, the same 9.18 tarball is available here:
->
-> https://github.com/ArtifexSoftware/ghostpdl-downloads/releases
->
-> so why not switch SRC_URI to that?
->
-You are right. Sending v2 now.
->
-> Alex
->
+That does indeed make sense. I'd be happy to see some release tarballs
+for some of these things and some upstream version tags...
 
+Cheers,
+
+Richard
 
