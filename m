@@ -1,26 +1,49 @@
-Return-Path: <dv@pseudoterminal.org>
-Received: from ptmx.org (ptmx.org [178.63.28.110])
-	by mail.openembedded.org (Postfix) with ESMTP id BD240601F6
+Return-Path: <kergoth@gmail.com>
+Received: from mail-ig0-f195.google.com (mail-ig0-f195.google.com
+	[209.85.213.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 0FD16605FE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 May 2016 18:50:11 +0000 (UTC)
-Received: from [172.16.1.106] (62-178-118-86.cable.dynamic.surfer.at
-	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id BF67F2B955;
-	Mon, 23 May 2016 20:50:09 +0200 (CEST)
-To: Christopher Larson <clarson@kergoth.com>
-References: <1461870393-3545-1-git-send-email-dv@pseudoterminal.org>
-	<1461870393-3545-5-git-send-email-dv@pseudoterminal.org>
-	<CABcZANm+312ETxgrpkuO9OcAubc7UC6AwoXvVcUDu7_5TbLdPw@mail.gmail.com>
-	<CABcZANkXv6BTe6r4-N50=SzOU-QbndnA_TKT6vOEygd-CFnayw@mail.gmail.com>
-From: Carlos Rafael Giani <dv@pseudoterminal.org>
-Message-ID: <574350E1.9040305@pseudoterminal.org>
-Date: Mon, 23 May 2016 20:50:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.8.0
+	Mon, 23 May 2016 19:59:21 +0000 (UTC)
+Received: by mail-ig0-f195.google.com with SMTP id lp2so4209996igb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 May 2016 12:59:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=oII9juJIyYOUb/Xm4s3YoKuTZdqlEJgnt+chpeQ9RFg=;
+	b=lW9epQiPNcdHFZvHcZ2iitdURlNmNS9t43EvJL75aJU7EFYKjOm2fx51JRb+jMBq3/
+	wDMQ5Lz00qya2a6jwncRJOvnAZKHEXgkDdAFi47E8TTS3EUV3w5SI/91uG1De7bFe/4W
+	TsyjXvG6XS8PMocXvfoVPeD4BoVq/mBLxgUIt7AKhndm/hdOkc3VXDNefQPlY4m1vKTa
+	HC6guixYwhg77I4i+mm000J5wmH9DQTh4jqtxvdFLoe/gm5ad7wbBZPAYtuu8D9TvjRa
+	8QUFEjJhXyvaIUfx02t0AclUVX8ldEUc6b3mn+vaJQ2GbzsIqAELQ1SCTzoqqyXtpSBO
+	uMNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=oII9juJIyYOUb/Xm4s3YoKuTZdqlEJgnt+chpeQ9RFg=;
+	b=O5oDr2wfZbfaqZkXKeeC4iIP1d7hVEEOCJRz4Ezuw9BE1KN9atF+GD1ajTy06PZW8I
+	5VUB0QWZ2LAQrw4xbxNi6WPaJaQNh8YNjl7G6+vvAksSJW7AptGf9wprHcYzFt2w2KD4
+	lnVKHOjwdZ9ruBxBxWKAM+mG3nMEaxPP//UuxylGv86sYFhajlvZHHOKdeqoQ/KHy7P5
+	TUEtlYhzILP7bzOnABfVOyH3ruemwPy24OcTw2UYQ65eNq2/Yz/M8wnoUuy+DV0DHYgm
+	LFXmr2Xm4kUTc5YzLL5meGMJpArRfAOW3cL0q14w6///u+e2/PPfHzkxMgJ9QQpWCuJe
+	G82A==
+X-Gm-Message-State: AOPr4FX7jdK/xvtVk761Q6x2il4zLx3WXHkMe2tnvhqhnuHLphsgxoTUK8vO/doPdxDLKsJ9VBidCmC6mTVvCg==
+X-Received: by 10.50.160.8 with SMTP id xg8mr14641487igb.87.1464033562568;
+	Mon, 23 May 2016 12:59:22 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CABcZANkXv6BTe6r4-N50=SzOU-QbndnA_TKT6vOEygd-CFnayw@mail.gmail.com>
+Received: by 10.79.100.5 with HTTP; Mon, 23 May 2016 12:59:03 -0700 (PDT)
+In-Reply-To: <1464010266.3095.41.camel@intel.com>
+References: <e889a21f09e4bcbddd05ee90a914600d33540dfa.1462489051.git.chris_larson@mentor.com>
+	<1463763860-4124-1-git-send-email-kergoth@gmail.com>
+	<CAMKF1sozc-Xjvd_CPAT5DEeE=oNmqRnWV+qk0QDuq+4S=rk0Wg@mail.gmail.com>
+	<1464010266.3095.41.camel@intel.com>
+From: Christopher Larson <kergoth@gmail.com>
+Date: Mon, 23 May 2016 12:59:03 -0700
+Message-ID: <CABcZAN=Zcm901n3Lvffh2y6aUqmLtHOWz=rx5ztQK2x26cVQ1Q@mail.gmail.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 5/8] gstreamer1.0-plugins-bad: upgrade to version 1.8.1
+Subject: Re: [PATCHv3] mkelfimage: obey LDFLAGS, sort out HOST_ flags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,161 +56,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 May 2016 18:50:13 -0000
-Content-Type: multipart/alternative;
-	boundary="------------050208070306090901030604"
+X-List-Received-Date: Mon, 23 May 2016 19:59:22 -0000
+Content-Type: multipart/alternative; boundary=001a11c28f006fb4ec053387e083
 
---------------050208070306090901030604
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+--001a11c28f006fb4ec053387e083
+Content-Type: text/plain; charset=UTF-8
 
-Quoting Ross Burton from an earlier posting where I wanted to remove the 
-gst-player recipe because gst-player is now part of -bad:
+On Mon, May 23, 2016 at 6:31 AM, Patrick Ohly <patrick.ohly@intel.com>
+wrote:
 
- > gst-player the API is, but not the applications gtk-player or 
-gst-player which is the main reason this recipe exists in oe-core.
- >
- > Current gst-player HEAD is now using non-trivial parts of GTK+ 3, so 
-I started to backport the API changes to gst-player so we could ship a 
-GTK+ 2 gtk-player that links to the API in -bad 1.8, but didn't finish 
-the work.  We > plan on merging the GTK+ 3 Sato patches fairly soon so 
-it may be that the -bad 1.8 upgrade waits for that, then gst-player can 
-switch to git HEAD with GTK+ 3, and everything works again.
-
-
-On 2016-05-23 20:37, Christopher Larson wrote:
+> On Mon, 2016-05-23 at 04:52 +0000, Khem Raj wrote:
+> > I am getting these errors with clang now
+> >
+> >
+> > http://errors.yoctoproject.org/Errors/Details/64935/
 >
-> On Mon, May 23, 2016 at 11:36 AM, Christopher Larson 
-> <clarson@kergoth.com <mailto:clarson@kergoth.com>> wrote:
+> And I am getting the same link error also during normal builds for
+> Beaglebone (but not other platforms):
 >
->     On Thu, Apr 28, 2016 at 12:06 PM, Carlos Rafael Giani
->     <dv@pseudoterminal.org <mailto:dv@pseudoterminal.org>> wrote:
+> https://ostroproject.org/jenkins/job/build_beaglebone/1663/console
+> ...
+> arm-ostro-linux-gnueabi-gcc  -march=armv7-a -mfpu=neon  -mfloat-abi=hard
+> -mcpu=cortex-a8
+> --sysroot=/var/lib/jenkins/ostro-worker-17-slot-1-JopZL/ostro-os/build/tmp-glibc/sysroots/beaglebone
+> -O2 -pipe -g -feliminate-unused-debug-types
+> -fdebug-prefix-map=/var/lib/jenkins/ostro-worker-17-slot-1-JopZL/ostro-os/build/tmp-glibc/work/cortexa8hf-neon-ostro-linux-gnueabi/mkelfimage/4.0+gitAUTOINC+686a48a339-r0=/usr/src/debug/mkelfimage/4.0+gitAUTOINC+686a48a339-r0
+> -fdebug-prefix-map=/var/lib/jenkins/ostro-worker-17-slot-1-JopZL/ostro-os/build/tmp-glibc/sysroots/x86_64-linux=
+> -fdebug-prefix-map=/var/lib/jenkins/ostro-worker-17-slot-1-JopZL/ostro-os/build/tmp-glibc/sysroots/beaglebone=
+> -fstack-protector-strong -pie -fpie -D_FORTIFY_SOURCE=2 -Wformat
+> -Wformat-security -Werror=format-security -fno-stack-protector -Wall
+> -DVERSION='"2.7"' -DRELEASE_DATE='"27 March 2006"' -I include
+> -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\"
+> -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\"
+> -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1
+> -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1
+> -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_ZLIB_H=1 -Wl,-O1
+> -Wl,--hash-style=gnu -Wl,--as-needed -fstack-protector-strong
+> -Wl,-z,relro,-z,now objdir/main/mkelfImage.o
+> objdir/linux-i386/mkelf-linux-i386.o objdir/linux-ia64/mkelf-linux-ia64.o
+> -o objdir/sbin/mkelfImage -lz
+> /var/lib/jenkins/ostro-worker-17-slot-1-JopZL/ostro-os/build/tmp-glibc/sysroots/x86_64-linux/usr/bin/arm-ostro-linux-gnueabi/../../libexec/arm-ostro-linux-gnueabi/gcc/arm-ostro-linux-gnueabi/5.3.0/ld:
+> objdir/linux-i386/mkelf-linux-i386.o: relocation R_ARM_MOVW_ABS_NC against
+> `a local symbol' can not be used when making a shared object; recompile
+> with -fPIC
+> objdir/linux-i386/mkelf-linux-i386.o: error adding symbols: Bad value
+> collect2: error: ld returned 1 exit status
+> main/Makefile:6: recipe for target 'objdir/sbin/mkelfImage' failed
+> ...
 >
->         0002-glplugin-glwindow-fix-memory-leak-of-navigation-thre.patch is
->         a
->         backport, and is no longer needed.
->
->         configure-allow-to-disable-libssh2.patch got replaced by a
->         patch that does
->         the same thing but has been submitted.
->
->         Vulkan is disabled for now since libxcb alone is not enough -
->         the Vulkan
->         headers and libraries are needed as well.
->
->         Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org
->         <mailto:dv@pseudoterminal.org>>
->
->
->     It seems this series was applied to oe-core, but incompletely.
->     This patch specifically wasn't applied, so
->     gstreamer1.0-plugins-bad is still 1.6.3 in oe-core. Would you mind
->     checking to see which patches in this series were actually
->     applied? Thanks!
->
->
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=9664 has been opened 
-> for this issue.
-> -- 
-> Christopher Larson
-> clarson at kergoth dot com
-> Founder - BitBake, OpenEmbedded, OpenZaurus
-> Maintainer - Tslib
-> Senior Software Engineer, Mentor Graphics
+> Reverting the commit fixes that, so can we just do that in OE-core
+> master while the problem gets sorted out?
 
 
---------------050208070306090901030604
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
+I'm not opposed to reverting this, as the issue being fixed was clearly not
+as bad as this result, but I'm completely unable to repro this for
+beaglebone with meta-ti, either with the internal toolchain or the external
+sourcery toolchain. Was this with clang, or some specific toolchain
+version? Or perhaps ostro is doing something special there?
+-- 
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    Quoting Ross Burton from an earlier posting where I wanted to remove
-    the gst-player recipe because gst-player is now part of -bad:<br>
-    <br>
-    &gt; gst-player the API is, but not the applications gtk-player or
-    gst-player which is the main reason this recipe exists in oe-core.
-    <div>&gt; <br>
-    </div>
-    <div>&gt; Current gst-player HEAD is now using non-trivial parts of
-      GTK+ 3, so I started to backport the API changes to gst-player so
-      we could ship a GTK+ 2 gtk-player that links to the API in -bad
-      1.8, but didn't finish the work.  We &gt; plan on merging the GTK+
-      3 Sato patches fairly soon so it may be that the -bad 1.8 upgrade
-      waits for that, then gst-player can switch to git HEAD with GTK+
-      3, and everything works again.</div>
-    <br>
-    <br>
-    <div class="moz-cite-prefix">On 2016-05-23 20:37, Christopher Larson
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CABcZANkXv6BTe6r4-N50=SzOU-QbndnA_TKT6vOEygd-CFnayw@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On Mon, May 23, 2016 at 11:36 AM,
-            Christopher Larson <span dir="ltr">&lt;<a
-                moz-do-not-send="true" href="mailto:clarson@kergoth.com"
-                target="_blank"><a class="moz-txt-link-abbreviated" href="mailto:clarson@kergoth.com">clarson@kergoth.com</a></a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0px 0px 0px
-0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(204,204,204);padding-left:1ex"><span
-                class="">On Thu, Apr 28, 2016 at 12:06 PM, Carlos Rafael
-                Giani <span dir="ltr">&lt;<a moz-do-not-send="true"
-                    href="mailto:dv@pseudoterminal.org" target="_blank">dv@pseudoterminal.org</a>&gt;</span>
-                wrote:<br>
-                <blockquote class="gmail_quote" style="margin:0px 0px
-                  0px
-0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(204,204,204);padding-left:1ex">
-                  <div>
-                    <div>0002-glplugin-glwindow-fix-memory-leak-of-navigation-thre.patch
-                      is a<br>
-                      backport, and is no longer needed.<br>
-                      <br>
-                      configure-allow-to-disable-libssh2.patch got
-                      replaced by a patch that does<br>
-                      the same thing but has been submitted.<br>
-                      <br>
-                      Vulkan is disabled for now since libxcb alone is
-                      not enough - the Vulkan<br>
-                      headers and libraries are needed as well.<br>
-                      <br>
-                      Signed-off-by: Carlos Rafael Giani &lt;<a
-                        moz-do-not-send="true"
-                        href="mailto:dv@pseudoterminal.org"
-                        target="_blank"><a class="moz-txt-link-abbreviated" href="mailto:dv@pseudoterminal.org">dv@pseudoterminal.org</a></a>&gt;<br>
-                    </div>
-                  </div>
-                </blockquote>
-                <div><br>
-                </div>
-              </span>
-              <div>It seems this series was applied to oe-core, but
-                incompletely. This patch specifically wasn't applied, so
-                gstreamer1.0-plugins-bad is still <span class="">1</span>.6.3
-                in oe-core. Would you mind checking to see which patches
-                in this series were actually applied? Thanks!</div>
-            </blockquote>
-          </div>
-          <br>
-          <a moz-do-not-send="true"
-            href="https://bugzilla.yoctoproject.org/show_bug.cgi?id=9664">https://bugzilla.yoctoproject.org/show_bug.cgi?id=9664</a>
-          has been opened for this issue.<br>
-          -- <br>
-          <div class="gmail_signature">Christopher Larson<br>
-            clarson at kergoth dot com<br>
-            Founder - BitBake, OpenEmbedded, OpenZaurus<br>
-            Maintainer - Tslib<br>
-            Senior Software Engineer, Mentor Graphics</div>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
+--001a11c28f006fb4ec053387e083
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
---------------050208070306090901030604--
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Mon, May 23, 2016 at 6:31 AM, Patrick Ohly <span dir=3D"ltr">&lt;<a =
+href=3D"mailto:patrick.ohly@intel.com" target=3D"_blank">patrick.ohly@intel=
+.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D=
+"">On Mon, 2016-05-23 at 04:52 +0000, Khem Raj wrote:<br>
+&gt; I am getting these errors with clang now<br>
+&gt;<br>
+&gt;<br>
+&gt; <a href=3D"http://errors.yoctoproject.org/Errors/Details/64935/" rel=
+=3D"noreferrer" target=3D"_blank">http://errors.yoctoproject.org/Errors/Det=
+ails/64935/</a><br>
+<br>
+</span>And I am getting the same link error also during normal builds for<b=
+r>
+Beaglebone (but not other platforms):<br>
+<br>
+<a href=3D"https://ostroproject.org/jenkins/job/build_beaglebone/1663/conso=
+le" rel=3D"noreferrer" target=3D"_blank">https://ostroproject.org/jenkins/j=
+ob/build_beaglebone/1663/console</a><br>
+...<br>
+arm-ostro-linux-gnueabi-gcc=C2=A0 -march=3Darmv7-a -mfpu=3Dneon=C2=A0 -mflo=
+at-abi=3Dhard -mcpu=3Dcortex-a8 --sysroot=3D/var/lib/jenkins/ostro-worker-1=
+7-slot-1-JopZL/ostro-os/build/tmp-glibc/sysroots/beaglebone -O2 -pipe -g -f=
+eliminate-unused-debug-types -fdebug-prefix-map=3D/var/lib/jenkins/ostro-wo=
+rker-17-slot-1-JopZL/ostro-os/build/tmp-glibc/work/cortexa8hf-neon-ostro-li=
+nux-gnueabi/mkelfimage/4.0+gitAUTOINC+686a48a339-r0=3D/usr/src/debug/mkelfi=
+mage/4.0+gitAUTOINC+686a48a339-r0 -fdebug-prefix-map=3D/var/lib/jenkins/ost=
+ro-worker-17-slot-1-JopZL/ostro-os/build/tmp-glibc/sysroots/x86_64-linux=3D=
+ -fdebug-prefix-map=3D/var/lib/jenkins/ostro-worker-17-slot-1-JopZL/ostro-o=
+s/build/tmp-glibc/sysroots/beaglebone=3D=C2=A0 -fstack-protector-strong -pi=
+e -fpie -D_FORTIFY_SOURCE=3D2 -Wformat -Wformat-security -Werror=3Dformat-s=
+ecurity -fno-stack-protector -Wall -DVERSION=3D&#39;&quot;2.7&quot;&#39; -D=
+RELEASE_DATE=3D&#39;&quot;27 March 2006&quot;&#39; -I include -DPACKAGE_NAM=
+E=3D\&quot;\&quot; -DPACKAGE_TARNAME=3D\&quot;\&quot; -DPACKAGE_VERSION=3D\=
+&quot;\&quot; -DPACKAGE_STRING=3D\&quot;\&quot; -DPACKAGE_BUGREPORT=3D\&quo=
+t;\&quot; -DPACKAGE_URL=3D\&quot;\&quot; -DSTDC_HEADERS=3D1 -DHAVE_SYS_TYPE=
+S_H=3D1 -DHAVE_SYS_STAT_H=3D1 -DHAVE_STDLIB_H=3D1 -DHAVE_STRING_H=3D1 -DHAV=
+E_MEMORY_H=3D1 -DHAVE_STRINGS_H=3D1 -DHAVE_INTTYPES_H=3D1 -DHAVE_STDINT_H=
+=3D1 -DHAVE_UNISTD_H=3D1 -DHAVE_ZLIB_H=3D1 -Wl,-O1 -Wl,--hash-style=3Dgnu -=
+Wl,--as-needed -fstack-protector-strong -Wl,-z,relro,-z,now objdir/main/mke=
+lfImage.o objdir/linux-i386/mkelf-linux-i386.o objdir/linux-ia64/mkelf-linu=
+x-ia64.o -o objdir/sbin/mkelfImage -lz<br>
+/var/lib/jenkins/ostro-worker-17-slot-1-JopZL/ostro-os/build/tmp-glibc/sysr=
+oots/x86_64-linux/usr/bin/arm-ostro-linux-gnueabi/../../libexec/arm-ostro-l=
+inux-gnueabi/gcc/arm-ostro-linux-gnueabi/5.3.0/ld: objdir/linux-i386/mkelf-=
+linux-i386.o: relocation R_ARM_MOVW_ABS_NC against `a local symbol&#39; can=
+ not be used when making a shared object; recompile with -fPIC<br>
+objdir/linux-i386/mkelf-linux-i386.o: error adding symbols: Bad value<br>
+collect2: error: ld returned 1 exit status<br>
+main/Makefile:6: recipe for target &#39;objdir/sbin/mkelfImage&#39; failed<=
+br>
+...<br>
+<br>
+Reverting the commit fixes that, so can we just do that in OE-core<br>
+master while the problem gets sorted out?</blockquote><div><br></div><div>I=
+&#39;m not opposed to reverting this, as the issue being fixed was clearly =
+not as bad as this result, but I&#39;m completely unable to repro this for =
+beaglebone with meta-ti, either with the internal toolchain or the external=
+ sourcery toolchain. Was this with clang, or some specific toolchain versio=
+n? Or perhaps ostro is doing something special there?</div></div>-- <br><di=
+v class=3D"gmail_signature"><div dir=3D"ltr">Christopher Larson<br>kergoth =
+at gmail dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintain=
+er - Tslib<br>Senior Software Engineer, Mentor Graphics</div></div>
+</div></div>
+
+--001a11c28f006fb4ec053387e083--
