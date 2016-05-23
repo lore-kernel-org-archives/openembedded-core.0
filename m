@@ -1,26 +1,24 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B34D360017
+Return-Path: <jin@mediatomb.cc>
+Received: from static.88-198-224-151.clients.your-server.de
+	(static.88-198-224-151.clients.your-server.de [88.198.224.151])
+	by mail.openembedded.org (Postfix) with ESMTP id F30AC6011A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 May 2016 12:55:03 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP; 23 May 2016 05:55:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,355,1459839600"; d="scan'208";a="960447710"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 23 May 2016 05:55:03 -0700
-To: openembedded-core@lists.openembedded.org
-References: <5f5c927d9a012122af814032161f3f12b476a442.1464004128.git.jussi.kukkonen@intel.com>
-	<5dbd238f28ac08a748bbdcd549286a8d48da9c2c.1464004128.git.jussi.kukkonen@intel.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <5742FDE2.1090306@linux.intel.com>
-Date: Mon, 23 May 2016 15:56:02 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Icedove/38.6.0
+	Mon, 23 May 2016 13:00:29 +0000 (UTC)
+Received: by static.88-198-224-151.clients.your-server.de (Postfix,
+	from userid 500)
+	id 6E0F11A0262; Mon, 23 May 2016 15:00:28 +0200 (CEST)
+Date: Mon, 23 May 2016 15:00:28 +0200
+From: Sergey 'Jin' Bostandzhyan <jin@mediatomb.cc>
+To: Ian Geiser <geiseri@geekcentral.pub>
+Message-ID: <20160523130028.GB31153@deadlock.dhs.org>
+References: <154c86e7fa2.11a4a3b0e305159.2603931524640206304@geekcentral.pub>
+	<20160523103623.GA18324@linux.intel.com>
+	<154dd88c4a6.d1f78c40166145.7475080368514196708@geekcentral.pub>
 MIME-Version: 1.0
-In-Reply-To: <5dbd238f28ac08a748bbdcd549286a8d48da9c2c.1464004128.git.jussi.kukkonen@intel.com>
-Subject: Re: [PATCH 5/5] matchbox-keyboard: Upgrade
+In-Reply-To: <154dd88c4a6.d1f78c40166145.7475080368514196708@geekcentral.pub>
+User-Agent: Mutt/1.5.20 (2009-12-10)
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Wic and "live" images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,23 +31,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 May 2016 12:55:03 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 23 May 2016 13:00:33 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 05/23/2016 03:44 PM, Jussi Kukkonen wrote:
+Hi,
 
-> -SRCREV = "ebc330eac8b9d38e9aef9f01e7241c904bd01073"
-> +SRCREV = "69d03e2aceb79cf7a616c07f8e0be4e1f9f7976b"
->   PV = "0.0+git${SRCPV}"
+I'm risking to land in the "reinvented the wheel" corner, but basically I
+had a task to create images with msdos partitions, while at the same time
+some things had to be in areas where parted/fdisk were not able to create a
+partition yet (i.e. u-boot had to be at a very early offset in the image).
 
-This is a good moment to start using git version tags instead of just 
-updating commit ids.
+wic seemed too PC oriented and cumbersome to me, so I came up with
+a custom class:
 
-Let's bring down the amount of 'unknown' upstream versions to zero or 
-close to it:
+https://git.digitalstrom.org/dss-oe/dss-oe/blob/master/yocto/dS/meta-digitalstrom-devel/classes/msdos_partition_image.bbclass
 
-http://recipes.yoctoproject.org/rrs/recipes/2.2/M1/?upstream_status=Unknown#
+I have a multimachine configuration which then looks like this (example with
+raw image outside a partition):
+https://git.digitalstrom.org/dss-oe/dss-oe/blob/master/yocto/dS/meta-digitalstrom-devel/recipes-core/images/dss20-image.inc
 
-Alex
+Or this (example with extended partition):
+https://git.digitalstrom.org/dss-oe/dss-oe/blob/master/yocto/dS/meta-digitalstrom-devel/recipes-core/images/dss11e-image.inc
+
+The DSSIMG_TASK_DEPENDS variable lists all things that will be
+written into the final image (i.e. u-boot, rescue fs, root fs).
+
+If someone considers this interesting for OE in general, I can surely tune
+a few things and submit a patch for review.
+
+Kind regards,
+Jin
+
+
+
+On Mon, May 23, 2016 at 08:13:28AM -0400, Ian Geiser wrote:
+>  ---- On Mon, 23 May 2016 06:36:23 -0400 Ed Bartosh <ed.bartosh@linux.intel.com> wrote ---- 
+>  > On Thu, May 19, 2016 at 05:52:45AM -0400, Ian Geiser wrote: 
+>  > > Greetings, I am trying to learn "wic" and have been confused as how to create a "live" style image.  I am following "http://www.yoctoproject.org/docs/1.5.2/dev-manual/dev-manual.html#creating-partitioned-images" but am getting confused on the target to use to create the a file system that has a single squashfs file containing my root file system.   
+>  > >  
+>  > > My desired partition layout is as follows: 
+>  > >       40MiB                 40MiB               300MiB 
+>  > > +--------------------+-----------------+-----------------------------+ 
+>  > > |      BOOT (esp)    |    DATA (fat)   |          ROOT (live)        |   
+>  > > +--------------------+-----------------+-----------------------------+ 
+>  > >  
+>  > > BOOT - efi boot partition with kernel and initramfs 
+>  > > DATA - generic fat filesystem to hold configuration files 
+>  > > ROOT - an ext4 filesystem that contains a single os.img, which is a squashfs file. 
+>  > >  
+>  > > I have ROOT and DATA figured out but I am at a loss as how to generate the os.img file and copy it into ROOT.  If I generate the os.img file with bitbake and then use the "-r" option to manually supply a directory structure it works, but I would rather have it done from a wks file for automation reasons. 
+>  > >  
+>  > > Any hints? 
+>  > I'd suggest to use wic image type and generate your image by bitbake. 
+>  > You can find example wic-image-minimal.bb and wic-image-minimal.wks in ../meta-selftest/recipes-test/images/ 
+>  >  
+> This is where I started.  I was able to make it work but not with my configuration above.  It looks like I can use a type of "fsimage" for my "ROOT" partition, but I have not been able to figure out the syntax there yet.  For "BOOT" I am at a complete loss.  In theory "bootimg-efi" but there doesn't seem to be a way to provide an initramfs.
+> 
+>  > You can probably do the same by using wic plugins, but I'd not suggest 
+>  > to go this way. Using wic image type is simpler, more consistent, easier to do and provides higher level of automation. 
+> 
+> Is using the wic image type and a plugin mutually exclusive?
+> 
+> Thanks!
+> 
+> 
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
