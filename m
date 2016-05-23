@@ -1,22 +1,24 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D4E160796
+	by mail.openembedded.org (Postfix) with ESMTP id C60276FFA6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 May 2016 12:44:13 +0000 (UTC)
+	Mon, 23 May 2016 12:44:14 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 23 May 2016 05:44:13 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 23 May 2016 05:44:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,355,1459839600"; d="scan'208";a="960442756"
+X-IronPort-AV: E=Sophos;i="5.26,355,1459839600"; d="scan'208";a="960442761"
 Received: from theory.fi.intel.com ([10.237.72.196])
-	by orsmga001.jf.intel.com with ESMTP; 23 May 2016 05:44:11 -0700
+	by orsmga001.jf.intel.com with ESMTP; 23 May 2016 05:44:12 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 May 2016 15:44:04 +0300
-Message-Id: <5f5c927d9a012122af814032161f3f12b476a442.1464004128.git.jussi.kukkonen@intel.com>
+Date: Mon, 23 May 2016 15:44:05 +0300
+Message-Id: <fa00254f4b3f882acadd1b83505a05c0d5815c10.1464004128.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
+In-Reply-To: <5f5c927d9a012122af814032161f3f12b476a442.1464004128.git.jussi.kukkonen@intel.com>
+References: <5f5c927d9a012122af814032161f3f12b476a442.1464004128.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1464004128.git.jussi.kukkonen@intel.com>
 References: <cover.1464004128.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 1/5] docbook-xsl-stylesheets: Upgrade 1.78.1 -> 1.79.1
+Subject: [PATCH 2/5] dropbear: Upgrade 2015.71 -> 2016.73
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,69 +33,91 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 23 May 2016 12:44:14 -0000
 
-* Use $PV at appropriate places in do_install
-* Install some new files, avoid installing 25M of java archives
-* License checksum change is just copyright years changing
+Backport a patch to fix out-of-tree build.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- ...1.78.1.bb => docbook-xsl-stylesheets_1.79.1.bb} | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
- rename meta/recipes-devtools/docbook-xml/{docbook-xsl-stylesheets_1.78.1.bb => docbook-xsl-stylesheets_1.79.1.bb} (76%)
+ .../dropbear/support-out-of-tree-builds.patch      | 43 ++++++++++++++++++++++
+ meta/recipes-core/dropbear/dropbear_2015.71.bb     |  5 ---
+ meta/recipes-core/dropbear/dropbear_2016.73.bb     |  7 ++++
+ 3 files changed, 50 insertions(+), 5 deletions(-)
+ create mode 100644 meta/recipes-core/dropbear/dropbear/support-out-of-tree-builds.patch
+ delete mode 100644 meta/recipes-core/dropbear/dropbear_2015.71.bb
+ create mode 100644 meta/recipes-core/dropbear/dropbear_2016.73.bb
 
-diff --git a/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.78.1.bb b/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.79.1.bb
-similarity index 76%
-rename from meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.78.1.bb
-rename to meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.79.1.bb
-index 52de3ab..a29fe00 100644
---- a/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.78.1.bb
-+++ b/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.79.1.bb
-@@ -1,15 +1,15 @@
- SUMMARY = "XSL stylesheets for processing DocBook XML to various output formats"
- HOMEPAGE = "http://docbook.sourceforge.net"
- LICENSE = "XSL"
--LIC_FILES_CHKSUM = "file://COPYING;md5=a6eeeed43d498c22a835382533356462"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=6beadd98f9c54ab0c387e14211ee4d0e"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/docbook/docbook-xsl-${PV}.tar.bz2 \
-            file://docbook-xsl.xml \
-            file://docbook-xsl-stylesheets-no-bashism-in-docbook-xsl-up.patch \
- "
- 
--SRC_URI[md5sum] = "6dd0f89131cc35bf4f2ed105a1c17771"
--SRC_URI[sha256sum] = "c98f7296ab5c8ccd2e0bc07634976a37f50847df2d8a59bdb1e157664700b467"
-+SRC_URI[md5sum] = "b48cbf929a2ad85e6672f710777ca7bc"
-+SRC_URI[sha256sum] = "725f452e12b296956e8bfb876ccece71eeecdd14b94f667f3ed9091761a4a968"
- 
- UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/docbook/files/docbook-xsl/"
- # Reject versions ending in .0 as those are release candidates
-@@ -37,18 +37,18 @@ do_install () {
- 	install -v -m755 -d ${D}${datadir}/xml/docbook/xsl-stylesheets-${PV}
- 	ln -s xsl-stylesheets-${PV} ${D}${datadir}/xml/docbook/xsl-stylesheets
- 
--	cp -v -R VERSION common eclipse epub extensions fo highlighting html \
--		htmlhelp images javahelp lib manpages params profiling \
--		roundtrip slides template tests tools webhelp website \
--		xhtml xhtml-1_1 catalog.xml \
--	${D}${datadir}/xml/docbook/xsl-stylesheets-1.78.1
-+	cp -v -R VERSION assembly common eclipse epub epub3 fo \
-+		highlighting html htmlhelp images javahelp lib manpages \
-+		params profiling roundtrip slides template webhelp website \
-+		xhtml xhtml-1_1 xhtml5 catalog.xml \
-+		${D}${datadir}/xml/docbook/xsl-stylesheets-${PV}
- 
--	ln -s VERSION ${D}/${datadir}/xml/docbook/xsl-stylesheets-1.78.1/VERSION.xsl
-+	ln -s VERSION ${D}/${datadir}/xml/docbook/xsl-stylesheets-${PV}/VERSION.xsl
- 
- 	install -v -m644 -D README \
--		${D}${datadir}/doc/docbook-xsl-1.78.1/README.txt
-+		${D}${datadir}/doc/docbook-xsl-${PV}/README.txt
- 	install -v -m644    RELEASE-NOTES* NEWS* \
--		${D}${datadir}/doc/docbook-xsl-1.78.1
-+		${D}${datadir}/doc/docbook-xsl-${PV} 
- 
- 	install -d ${D}${sysconfdir}/xml/
- 	install -m 755  ${WORKDIR}/docbook-xsl.xml ${D}${sysconfdir}/xml/docbook-xsl.xml
+diff --git a/meta/recipes-core/dropbear/dropbear/support-out-of-tree-builds.patch b/meta/recipes-core/dropbear/dropbear/support-out-of-tree-builds.patch
+new file mode 100644
+index 0000000..df6efb4
+--- /dev/null
++++ b/meta/recipes-core/dropbear/dropbear/support-out-of-tree-builds.patch
+@@ -0,0 +1,43 @@
++From: =?UTF-8?q?Henrik=20Nordstr=C3=B6m?= <henrik@knc.nu>
++Date: Wed, 11 May 2016 12:35:06 +0200
++Subject: [PATCH] Support out-of-tree builds usign bundled libtom
++
++When building out-of-tree we need both source and generated
++folders in include paths to find both distributed and generated
++headers.
++
++
++
++Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Upstream-Status: Backport
++---
++ libtomcrypt/Makefile.in | 2 +-
++ libtommath/Makefile.in  | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/libtomcrypt/Makefile.in b/libtomcrypt/Makefile.in
++index 3056ef0..7970700 100644
++--- a/libtomcrypt/Makefile.in
+++++ b/libtomcrypt/Makefile.in
++@@ -19,7 +19,7 @@ srcdir=@srcdir@
++ 
++ # Compilation flags. Note the += does not write over the user's CFLAGS!
++ # The rest of the flags come from the parent Dropbear makefile
++-CFLAGS += -c -I$(srcdir)/src/headers/ -I$(srcdir)/../ -DLTC_SOURCE -I$(srcdir)/../libtommath/
+++CFLAGS += -c -Isrc/headers/ -I$(srcdir)/src/headers/ -I../ -I$(srcdir)/../ -DLTC_SOURCE -I../libtommath/ -I$(srcdir)/../libtommath/
++ 
++ # additional warnings (newer GCC 3.4 and higher)
++ ifdef GCC_34
++diff --git a/libtommath/Makefile.in b/libtommath/Makefile.in
++index 06aba68..019c50b 100644
++--- a/libtommath/Makefile.in
+++++ b/libtommath/Makefile.in
++@@ -9,7 +9,7 @@ VPATH=@srcdir@
++ srcdir=@srcdir@
++ 
++ # So that libtommath can include Dropbear headers for options and m_burn()
++-CFLAGS += -I$(srcdir)/../libtomcrypt/src/headers/ -I$(srcdir)/../
+++CFLAGS += -I. -I$(srcdir) -I../libtomcrypt/src/headers/ -I$(srcdir)/../libtomcrypt/src/headers/ -I../ -I$(srcdir)/../
++ 
++ ifndef IGNORE_SPEED
++ 
+diff --git a/meta/recipes-core/dropbear/dropbear_2015.71.bb b/meta/recipes-core/dropbear/dropbear_2015.71.bb
+deleted file mode 100644
+index 6332579..0000000
+--- a/meta/recipes-core/dropbear/dropbear_2015.71.bb
++++ /dev/null
+@@ -1,5 +0,0 @@
+-require dropbear.inc
+-
+-SRC_URI[md5sum] = "2ccc0a2f3e37ca221db12c5af6a88137"
+-SRC_URI[sha256sum] = "376214169c0e187ee9f48ae1a99b3f835016ad5b98ede4bfd1cf581deba783af"
+-
+diff --git a/meta/recipes-core/dropbear/dropbear_2016.73.bb b/meta/recipes-core/dropbear/dropbear_2016.73.bb
+new file mode 100644
+index 0000000..71a36bd
+--- /dev/null
++++ b/meta/recipes-core/dropbear/dropbear_2016.73.bb
+@@ -0,0 +1,7 @@
++require dropbear.inc
++
++SRC_URI += "file://support-out-of-tree-builds.patch"
++
++SRC_URI[md5sum] = "8d6d78ce60ca52350ec04fcbd711ce9b"
++SRC_URI[sha256sum] = "5c61a4f69b093b688629cd365be38701485ff63cfb23642dab7a05ad250aefd7"
++
 -- 
 2.1.4
 
