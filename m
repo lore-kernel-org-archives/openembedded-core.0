@@ -1,51 +1,51 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E27F65CBA
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 92B1465CBA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 May 2016 20:34:37 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id n129so18669038wmn.1
+	Mon, 23 May 2016 20:34:40 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id 67so18638200wmg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 May 2016 13:34:38 -0700 (PDT)
+	Mon, 23 May 2016 13:34:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=oQumN2rWiVi8/5Cbrwr/SM9Ld1g2oY5vYbqu6pEjgrY=;
-	b=0Iw953Ej9Svb/Gz1lPbiKA0OJTNaokWS/wRD3fJxdSsk2qi+cd1h5vdjUd6gW2FB2/
-	w2RAfO4FVEvf6/Tv8c3BqDK3aaPQfBVBa2MLDl4fDskpR+9Sp+ReBmfviYmDDZJS2g7l
-	xgJVGGpiY75AHdT3fddBSG9RBu1oImFe8Kwf3/dVRJdZqKCXyvSmOPRUF7D2G/w+jjN0
-	GPJtKTU4ql4YXvz1a5S/pumSFmdUvHQSOuCktu3qCHSVQ8ZV68CS/XgfODnUzcpIlHIq
-	xBa41Pgz1bdAz8BFxEDw0qgjmXwGyYcKctIYFZqCt1iDDE83yKJ4Oe5hC4cMe9lfmyoL
-	nSEA==
+	bh=OZ8NJ635JMpeN47J7yWzIPy2WGs3m5h8eysuiW4MLz8=;
+	b=TYewBA4WuaneGAZWMoTz5tyifAr2AATOPcTFUzbSmbtker2lc/B3q3WETdc59qazHg
+	+h22GCNvru/ey0hQfWwQJB8R0xMbgZYS9PvecFCv4XUaJB4BHnx/J1+FPuQQBgQJw5uz
+	BdVddn/5kjMFqNwnWBXwSl4SRS7+iSfvt9Rt1rh3/Cr4oHxlUTguePYy0ZJfny61Zqtf
+	k9b56ZP8PkmEcK5wsqQuTykRmsvQo7+lIHG3hx9cLOZNynzfyJmKBu2pNbokZ5HomDqY
+	z+LMFwk1MkIHIyfajHJ3T4tyoystXcwVLLtkkYiTU1D2nxO6DJQnD8P9fY+Ls239QNS4
+	77Ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=oQumN2rWiVi8/5Cbrwr/SM9Ld1g2oY5vYbqu6pEjgrY=;
-	b=CJK7tKn/0hXtC118KOx0X+4j87ym4zLGBU7AEnGAr+O8V+7lt/Dc76NkEyZ+kb9vQE
-	pcQN538HOUK3jmf9c18mKVN264QaH66AxL9nbUUix0SQu88gxTVw9bkDr2Ir8OsKOQAV
-	exFPLSQZkv7LAsLpN6HNwIiQ2Uv3m5Y3Lny8xKduUPw6HRTbH2JvmrrXrYqvKFTPdQIK
-	0HkHsVmD2MTgcP34OcMPkwtQGxqn2fzggA+N6HvxgXUUMdx4oFJV1Jy90GkhnQk0mips
-	MFhyN+zHWqVt+DIXcch55GET63BtCJ+Hmx5V204Y57HpaYgMRWsMI0noT+F9eyk2eUFa
-	aH1g==
-X-Gm-Message-State: AOPr4FVTci8SQIzK4xY+3391ymQggjIGaMXCdFHYgDVXPYqyADXaCdcfQYdagYnczd5ckA==
-X-Received: by 10.28.178.209 with SMTP id b200mr18558401wmf.21.1464035678174; 
-	Mon, 23 May 2016 13:34:38 -0700 (PDT)
+	bh=OZ8NJ635JMpeN47J7yWzIPy2WGs3m5h8eysuiW4MLz8=;
+	b=PkryqiGtF5UCwy4OGvg39LjdJRacjR1bbrdC5eBCGz+v664ry10nI569SgmijmzmQv
+	9uAnvEOY9ezlgLZ1RcYC0EYM9FTd27c7WRQbhbFRS++MLD3DCgn5OfO4tKjOkwKQWtz9
+	gY8/WiZqRQUD3EAAgQG41FFVspaK8TASCvhuWO+ARPq55m9hJTItJoaCF6ApgwtJUQg1
+	lrjx1RL7mCODVJAIxASU/6ezLfqbLDvBUhrL3Vp3epM3z7Olp476/doCH+19oqrHUhyf
+	+ktU9i1HbEHvFLA37XG5fxQ5Kvzz/DoTIXoKQFGnXw9CxQGDx3XZd3rnfbk0oWkkqotU
+	jE8w==
+X-Gm-Message-State: ALyK8tIMYqz1Wi2weBs2lmfSOhV6MxtT2Le7eIqTR0Ey2SD9QYoUmHx1qzY+SoF1dcXpbg==
+X-Received: by 10.28.234.221 with SMTP id g90mr5115999wmi.30.1464035680634;
+	Mon, 23 May 2016 13:34:40 -0700 (PDT)
 Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
 	by smtp.gmail.com with ESMTPSA id
-	r123sm15532548wmg.20.2016.05.23.13.34.35
+	r123sm15532548wmg.20.2016.05.23.13.34.38
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 23 May 2016 13:34:36 -0700 (PDT)
+	Mon, 23 May 2016 13:34:39 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 May 2016 13:34:25 -0700
-Message-Id: <77bd36f9477a21184e87f0f7351cc3a42d63c48f.1463769811.git.chris_larson@mentor.com>
+Date: Mon, 23 May 2016 13:34:26 -0700
+Message-Id: <c1371045c7b7740a468f44db12ff20a2c881902c.1463769811.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 2.8.0
 In-Reply-To: <0b22f46a6e565f757c0fc11aeab27e9f336c5b37.1463769811.git.chris_larson@mentor.com>
 References: <0b22f46a6e565f757c0fc11aeab27e9f336c5b37.1463769811.git.chris_larson@mentor.com>
 In-Reply-To: <cover.1463769811.git.chris_larson@mentor.com>
 References: <cover.1463769811.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 2/3] image_types.bbclass: add intermediate var for WKS_FILE_CHECKSUM
+Subject: [PATCH 3/3] image_types.bbclass: support template .wks.in files for wic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,31 +58,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 May 2016 20:34:38 -0000
+X-List-Received-Date: Mon, 23 May 2016 20:34:41 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-This is a bit nicer to work with, and easier to override.
+These files are treated as the contents of a bitbake variable, so usual
+bitbake variable references are supported. I considered using another
+templating mechanism, for example the one used by yocto-layer, but then we'd
+end up largely mapping metadata variables to template fields anyway, which is
+a pointless indirection. Let bitbake expand the variables directly instead.
+
+This feature lets us, for example, reference ${APPEND} in --append, and avoid
+hardcoding the serial console tty in the wks file, and let the user's changes
+to APPEND affect wic the way they do the other image construction mechanisms.
+
+The template is read in and set in a variable at parse time, so changes to the
+variables referenced by the template will result in rebuilding the image.
 
 Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- meta/classes/image_types.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/classes/image_types.bbclass | 35 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
 
 diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index ea45809..dc681ae 100644
+index dc681ae..caf8757 100644
 --- a/meta/classes/image_types.bbclass
 +++ b/meta/classes/image_types.bbclass
-@@ -208,7 +208,8 @@ IMAGE_CMD_wic[vardepsexclude] = "WKS_FULL_PATH WKS_FILES"
+@@ -206,6 +206,16 @@ IMAGE_CMD_wic () {
+ }
+ IMAGE_CMD_wic[vardepsexclude] = "WKS_FULL_PATH WKS_FILES"
  
++python process_wks_template () {
++    """Write out expanded template contents to WKS_FULL_PATH."""
++    template_body = d.getVar('_WKS_TEMPLATE', True)
++    if template_body:
++        wks_file = d.getVar('WKS_FULL_PATH', True)
++        with open(wks_file, 'w') as f:
++            f.write(template_body)
++}
++do_image_wic[prefuncs] += 'process_wks_template'
++
  # Rebuild when the wks file or vars in WICVARS change
  USING_WIC = "${@bb.utils.contains_any('IMAGE_FSTYPES', 'wic ' + ' '.join('wic.%s' % c for c in '${COMPRESSIONTYPES}'.split()), '1', '', d)}"
--do_image_wic[file-checksums] += "${@'${WKS_FULL_PATH}:%s' % os.path.exists('${WKS_FULL_PATH}') if '${USING_WIC}' else ''}"
-+WKS_FILE_CHECKSUM = "${@'${WKS_FULL_PATH}:%s' % os.path.exists('${WKS_FULL_PATH}') if '${USING_WIC}' else ''}"
-+do_image_wic[file-checksums] += "${WKS_FILE_CHECKSUM}"
- 
- EXTRA_IMAGECMD = ""
- 
+ WKS_FILE_CHECKSUM = "${@'${WKS_FULL_PATH}:%s' % os.path.exists('${WKS_FULL_PATH}') if '${USING_WIC}' else ''}"
+@@ -302,3 +312,28 @@ IMAGE_TYPES_MASKED ?= ""
+ # The WICVARS variable is used to define list of bitbake variables used in wic code
+ # variables from this list is written to <image>.env file
+ WICVARS ?= "BBLAYERS DEPLOY_DIR_IMAGE HDDDIR IMAGE_BASENAME IMAGE_BOOT_FILES IMAGE_LINK_NAME IMAGE_ROOTFS INITRAMFS_FSTYPES INITRD ISODIR MACHINE_ARCH ROOTFS_SIZE STAGING_DATADIR STAGING_DIR_NATIVE STAGING_LIBDIR TARGET_SYS"
++
++python () {
++    """Read in and set up wks file template for wic."""
++    if d.getVar('USING_WIC', True):
++        wks_file_u = d.getVar('WKS_FULL_PATH', False)
++        wks_file = d.expand(wks_file_u)
++        base, ext = os.path.splitext(wks_file)
++        if ext == '.in' and os.path.exists(wks_file):
++            wks_out_file = os.path.join(d.getVar('WORKDIR', True), os.path.basename(base))
++            d.setVar('WKS_FULL_PATH', wks_out_file)
++            d.setVar('WKS_TEMPLATE_PATH', wks_file_u)
++            d.setVar('WKS_FILE_CHECKSUM', '${WKS_TEMPLATE_PATH}:True')
++
++            try:
++                with open(wks_file, 'r') as f:
++                    body = f.read()
++            except (IOError, OSError) as exc:
++                pass
++            else:
++                # Previously, I used expandWithRefs to get the dependency list
++                # and add it to WICVARS, but there's no point re-parsing the
++                # file in process_wks_template as well, so just put it in
++                # a variable and let the metadata deal with the deps.
++                d.setVar('_WKS_TEMPLATE', body)
++}
 -- 
 2.8.0
 
