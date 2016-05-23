@@ -1,42 +1,45 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qg0-f67.google.com (mail-qg0-f67.google.com
-	[209.85.192.67])
-	by mail.openembedded.org (Postfix) with ESMTP id A752D6B6EA
+Return-Path: <kergoth@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A4C9606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 May 2016 20:45:59 +0000 (UTC)
-Received: by mail-qg0-f67.google.com with SMTP id e35so15915626qge.1
+	Mon, 23 May 2016 21:19:22 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id f75so218447wmf.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 May 2016 13:46:00 -0700 (PDT)
+	Mon, 23 May 2016 14:19:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=WFfx6zY12bvqhpvBQ1nLBDCmpp/WFSenNj6unMDvibA=;
+	b=YSIgBMTJnuwRRCT1cqlMskXKufBBjRBSlmEaiBtO7Atmxz57xNZmn2CNgjMpIkbuIk
+	Y50pqU8Jc3wNX0kTEU1U6/kfO4GfQ2ljNv+qVS1mXWa3HDiCSMDsfJLEDVRInuKhBXHh
+	Xwmzms3SIMOBAefzp1y1MTsUHbzKb2POI0fS8V42UmT9OpZ6wZry4dD4XMjkZ2BIMA14
+	/iJuQ6UJAbJnC4wcZfoW2jGPfLIv/ERy/Hqjn+Bk9JCLDEwZ+2/ADHohCJmBKZhqBow4
+	mtHtNTOMbk9DFlkf2NseaBXLVr8KhfMIjklQzjfYuOUIUpVF45c93oq7SM8yZBIUqZfF
+	4MAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:organization;
-	bh=bh35VpYbZ6Waw1/P8cn8jxWKq3kfAbfeI35DGxa8mTc=;
-	b=f/2AJy8C/kS+nyuVxDagasCbqFhPfD+uzUWQmvcGsE3E6mHLUQeQKLPPRdKCqHjpfF
-	ZRa4MBufas+IeTbf2ZHSsVEgQx98CJbI7mcIBgQXYbaWAEZB3zVXMPTOoNkatLsCMUu9
-	4WwBZxuVTsxzW1J1Hh/7R8PjOPcX7NMxk1w0dJzQOJsx1b6TkPZ5Up4UXTXn0goVa212
-	X9Sb9FIfP4yATjP4OlGffhLUh7+0rqC8tK+x/etNqrqNaakF1nMt4hz6TyjLbDUcgA3y
-	0JIhRej0gPIKGJKPZ3OSdq8FlJAL8f16qR+f9+mTkpo6VKolNx8o+QHwtTApVYQqdEQZ
-	iBKw==
-X-Gm-Message-State: ALyK8tLZFoQIchs8umXBH6+Hs5CkcqBQQm5sdyOMXJOgHqlryA4ka2Wtt0Kz4h1NRlNOYw==
-X-Received: by 10.140.81.167 with SMTP id f36mr92974qgd.63.1464036359559;
-	Mon, 23 May 2016 13:45:59 -0700 (PDT)
-Received: from localhost ([187.23.154.250])
-	by smtp.gmail.com with ESMTPSA id b34sm835523qtd.32.2016.05.23.13.45.55
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 23 May 2016 13:45:58 -0700 (PDT)
-Received: by localhost (sSMTP sendmail emulation);
-	Mon, 23 May 2016 17:45:52 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Mon, 23 May 2016 17:45:27 -0300
-Message-Id: <1464036327-4826-4-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.8.2
-In-Reply-To: <1464036327-4826-1-git-send-email-otavio@ossystems.com.br>
-References: <1464036327-4826-1-git-send-email-otavio@ossystems.com.br>
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH 3/3] openssl: Ensure SSL certificates are stored on sysconfdir
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=WFfx6zY12bvqhpvBQ1nLBDCmpp/WFSenNj6unMDvibA=;
+	b=FFMVz+EbVir9WpXo0661yHbDzo5Se5LnM1/qj53l5DxFaAFMyt7vE/Vkz7lWltGlug
+	lODroPgGtY8PCIi+nsaZhCwdQJv/3SGukCSaWj+pk9IgHtnq25zslgl0j/ZsOfuoXkag
+	DmWFUbGLdIq5DiIoDaxNPqUTaX9mfi2DiZ7RxMyG5XjEHsEaBpiu1avwYTiRJPcpbuz/
+	9TSRvxPfy1Agpo4ZA1e3ANf5mdf5nhpjr0uUV7a9nv1vts5bzC5oeMa+ENc9jnNZXr2S
+	f7LNkrAAibqQMybsX/btxKBo0wx8Oz3VGs9FMTPBgkMOtW7jJ67dHjG1OWRqZ0dt3z/N
+	W15g==
+X-Gm-Message-State: ALyK8tIW7F/z0FbDnZaKJK3ETwnESt/VAUfAemjdawv+kwfvGkcgjxh9U2Qe7Lf7DpuDYQ==
+X-Received: by 10.194.205.134 with SMTP id lg6mr729672wjc.153.1464038363309;
+	Mon, 23 May 2016 14:19:23 -0700 (PDT)
+Received: from quark.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by smtp.gmail.com with ESMTPSA id
+	f188sm15679430wma.2.2016.05.23.14.19.20
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 23 May 2016 14:19:21 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 23 May 2016 14:19:28 -0700
+Message-Id: <1464038368-27249-1-git-send-email-kergoth@gmail.com>
+X-Mailer: git-send-email 2.8.0
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH] mkelfimage: fix compile issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,65 +52,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 May 2016 20:45:59 -0000
+X-List-Received-Date: Mon, 23 May 2016 21:19:23 -0000
 
-Debian and other generic distributions has moved the certificates for
-sysconfdir (/etc/ssl) and made the libdir content to link for it.
+From: Christopher Larson <chris_larson@mentor.com>
 
-This provides several advantages specially for read-only
-rootfs. Another benefit is that it ensures foreign implementations
-(e.g: BoringSSL, from Chromium, when running with OpenSSL backend for
-the certificates) to find the content correctly.
+This fixes a couple issues introduced by the previous patch. There were
+a couple spots where HOST_CFLAGS needed changing to CFLAGS. This fixes builds
+with security_flags.
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
+ meta/recipes-devtools/mkelfimage/mkelfimage/cross-compile.patch | 4 ++--
+ meta/recipes-devtools/mkelfimage/mkelfimage_git.bb              | 7 +++++--
+ 2 files changed, 7 insertions(+), 4 deletions(-)
 
- meta/recipes-connectivity/openssl/openssl.inc | 17 ++++++++++++++---
- 1 file changed, 14 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-index 668e34e..3412c66 100644
---- a/meta/recipes-connectivity/openssl/openssl.inc
-+++ b/meta/recipes-connectivity/openssl/openssl.inc
-@@ -43,8 +43,8 @@ RDEPENDS_${PN}-misc = "${@bb.utils.contains('PACKAGECONFIG', 'perl', 'perl', '',
- # package RRECOMMENDS on this package.  This will enable the configuration
- # file to be installed for both the base openssl package and the libcrypto
- # package since the base openssl package depends on the libcrypto package.
--FILES_openssl-conf = "${libdir}/ssl/openssl.cnf"
--CONFFILES_openssl-conf = "${libdir}/ssl/openssl.cnf"
-+FILES_openssl-conf = "${sysconfdir}/ssl/openssl.cnf"
-+CONFFILES_openssl-conf = "${sysconfdir}/ssl/openssl.cnf"
- RRECOMMENDS_libcrypto += "openssl-conf"
- RDEPENDS_${PN}-ptest += "${PN}-misc make perl perl-module-filehandle bc"
+diff --git a/meta/recipes-devtools/mkelfimage/mkelfimage/cross-compile.patch b/meta/recipes-devtools/mkelfimage/mkelfimage/cross-compile.patch
+index 2ae9fb5..a162eb7 100644
+--- a/meta/recipes-devtools/mkelfimage/mkelfimage/cross-compile.patch
++++ b/meta/recipes-devtools/mkelfimage/mkelfimage/cross-compile.patch
+@@ -67,7 +67,7 @@ index 51531d6..7e8aa3c 100644
+  $(LI386_OBJ)/mkelf-linux-i386.o: $(LI386_DIR)/mkelf-linux-i386.c $(LI386_DIR)/convert.bin.c $(LI386_DEP)
+  	$(MKDIR) -p $(@D)
+ -	$(HOST_CC) $(HOST_CFLAGS) -c -g $< -o $@
+-+	$(CC) $(HOST_CFLAGS) -c -g $< -o $@
+++	$(CC) $(CFLAGS) -c -g $< -o $@
+  
+  
+  ifdef I386_CC
+@@ -80,7 +80,7 @@ index 38f5d8c..5df8870 100644
+  $(LIA64_OBJ)/mkelf-linux-ia64.o: $(LIA64_DIR)/mkelf-linux-ia64.c $(LIA64_DIR)/convert.bin.c $(LIA64_DEP)
+  	$(MKDIR) -p $(@D)
+ -	$(HOST_CC) $(HOST_CFLAGS) -c -g $< -o $@
+-+	$(CC) $(HOST_CFLAGS) -c -g $< -o $@
+++	$(CC) $(CFLAGS) -c -g $< -o $@
+  
+  ifdef IA64_CC
+  
+diff --git a/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
+index d7a4429..2bcc8d7 100644
+--- a/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
++++ b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
+@@ -24,8 +24,11 @@ CLEANBROKEN = "1"
+ S = "${WORKDIR}/git/util/mkelfImage"
  
-@@ -178,6 +178,17 @@ do_install () {
- 	else
- 		rm -f ${D}${libdir}/ssl/misc/CA.pl ${D}${libdir}/ssl/misc/tsget
- 	fi
-+
-+	# Create SSL structure
-+	install -d ${D}${sysconfdir}/ssl/
-+	mv ${D}${libdir}/ssl/openssl.cnf \
-+	   ${D}${libdir}/ssl/certs \
-+	   ${D}${libdir}/ssl/private \
-+	   \
-+	   ${D}${sysconfdir}/ssl/
-+	ln -sf ${sysconfdir}/ssl/certs ${D}${libdir}/ssl/certs
-+	ln -sf ${sysconfdir}/ssl/private ${D}${libdir}/ssl/private
-+	ln -sf ${sysconfdir}/ssl/openssl.cnf ${D}${libdir}/ssl/openssl.cnf
- }
+ CFLAGS += "-fno-stack-protector"
+-CACHED_CONFIGUREVARS += "HOST_CC='${BUILD_CC}'"
+-EXTRA_OEMAKE += "HOST_CPPFLAGS='${BUILD_CPPFLAGS}'"
++CACHED_CONFIGUREVARS += "\
++    HOST_CC='${BUILD_CC}' \
++    HOST_CFLAGS='${BUILD_CFLAGS}' \
++    HOST_CPPFLAGS='${BUILD_CPPFLAGS}' \
++"
  
- do_install_ptest () {
-@@ -191,7 +202,7 @@ do_install_ptest () {
- 	cp -r certs ${D}${PTEST_PATH}
- 	mkdir -p ${D}${PTEST_PATH}/apps
- 	ln -sf ${libdir}/ssl/misc/CA.sh  ${D}${PTEST_PATH}/apps
--	ln -sf ${libdir}/ssl/openssl.cnf ${D}${PTEST_PATH}/apps
-+	ln -sf ${sysconfdir}/ssl/openssl.cnf ${D}${PTEST_PATH}/apps
- 	ln -sf ${bindir}/openssl         ${D}${PTEST_PATH}/apps
- 	cp apps/server2.pem             ${D}${PTEST_PATH}/apps
- 	mkdir -p ${D}${PTEST_PATH}/util
+ inherit autotools-brokensep
+ 
 -- 
-2.8.2
+2.8.0
 
 
