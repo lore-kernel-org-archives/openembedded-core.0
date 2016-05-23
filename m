@@ -1,42 +1,42 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
-	[209.85.220.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 45CC26FFCE
+Received: from mail-qg0-f67.google.com (mail-qg0-f67.google.com
+	[209.85.192.67])
+	by mail.openembedded.org (Postfix) with ESMTP id A752D6B6EA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 May 2016 20:45:50 +0000 (UTC)
-Received: by mail-qk0-f193.google.com with SMTP id i7so19682438qkd.1
+	Mon, 23 May 2016 20:45:59 +0000 (UTC)
+Received: by mail-qg0-f67.google.com with SMTP id e35so15915626qge.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 May 2016 13:45:52 -0700 (PDT)
+	Mon, 23 May 2016 13:46:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:organization;
-	bh=17nc7Fdi3JHBaTdZLVu94wjTLhSmjZboYgBn1f3jQIE=;
-	b=ZGvBa9q/Y9vE0AzjnTsT9fYPYF8bEzUdL6/gna8AXtWD1srre1GcPCz46Lcz4NYhfQ
-	MDfr0B2DdB0EqDyAS+Z3y51wryeGsJm9jLcI2EWj5sFCjvqUqZpY0qUK3S18hC0ruglW
-	Q+idJwHW/ETcy/EPNQ+KIO5BxPbuY0ACDjZ+zci75tHKX28ObCDyuSCIjEe7iTla7O0Y
-	TvOx+bq3yLAdRGQ4AqOZJGTMDXFTR5wpZ7XqRoxZa0Tfxxf3N1KJglZMdWSpPLUwtNpW
-	en4x6pIbGcISeCp885lMDOc480P7ruh4Koht3f/LpvHfgu/jK3KWin85ZqOvGalC3K5d
-	Ffng==
-X-Gm-Message-State: ALyK8tKavWWenPUaS1gnNx3v6q6+OMRO5Sv2SRjzUcg0FDwz93ozP1+G/GXyK5ZGs4ScsQ==
-X-Received: by 10.55.115.69 with SMTP id o66mr101300qkc.67.1464036351690;
-	Mon, 23 May 2016 13:45:51 -0700 (PDT)
-Received: from localhost ([187.23.154.250]) by smtp.gmail.com with ESMTPSA id
-	127sm4671422qhg.49.2016.05.23.13.45.48
+	bh=bh35VpYbZ6Waw1/P8cn8jxWKq3kfAbfeI35DGxa8mTc=;
+	b=f/2AJy8C/kS+nyuVxDagasCbqFhPfD+uzUWQmvcGsE3E6mHLUQeQKLPPRdKCqHjpfF
+	ZRa4MBufas+IeTbf2ZHSsVEgQx98CJbI7mcIBgQXYbaWAEZB3zVXMPTOoNkatLsCMUu9
+	4WwBZxuVTsxzW1J1Hh/7R8PjOPcX7NMxk1w0dJzQOJsx1b6TkPZ5Up4UXTXn0goVa212
+	X9Sb9FIfP4yATjP4OlGffhLUh7+0rqC8tK+x/etNqrqNaakF1nMt4hz6TyjLbDUcgA3y
+	0JIhRej0gPIKGJKPZ3OSdq8FlJAL8f16qR+f9+mTkpo6VKolNx8o+QHwtTApVYQqdEQZ
+	iBKw==
+X-Gm-Message-State: ALyK8tLZFoQIchs8umXBH6+Hs5CkcqBQQm5sdyOMXJOgHqlryA4ka2Wtt0Kz4h1NRlNOYw==
+X-Received: by 10.140.81.167 with SMTP id f36mr92974qgd.63.1464036359559;
+	Mon, 23 May 2016 13:45:59 -0700 (PDT)
+Received: from localhost ([187.23.154.250])
+	by smtp.gmail.com with ESMTPSA id b34sm835523qtd.32.2016.05.23.13.45.55
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 23 May 2016 13:45:50 -0700 (PDT)
+	Mon, 23 May 2016 13:45:58 -0700 (PDT)
 Received: by localhost (sSMTP sendmail emulation);
-	Mon, 23 May 2016 17:45:44 -0300
+	Mon, 23 May 2016 17:45:52 -0300
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Mon, 23 May 2016 17:45:26 -0300
-Message-Id: <1464036327-4826-3-git-send-email-otavio@ossystems.com.br>
+Date: Mon, 23 May 2016 17:45:27 -0300
+Message-Id: <1464036327-4826-4-git-send-email-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.8.2
 In-Reply-To: <1464036327-4826-1-git-send-email-otavio@ossystems.com.br>
 References: <1464036327-4826-1-git-send-email-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
 Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH 2/3] ca-certificates: Use c_rehash utility
+Subject: [PATCH 3/3] openssl: Ensure SSL certificates are stored on sysconfdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,83 +49,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 May 2016 20:45:51 -0000
+X-List-Received-Date: Mon, 23 May 2016 20:45:59 -0000
 
-As now the c_rehash utility is available, we can use it. This removes
-the patch to disable its usage allowing for a standard SSL behaviour.
+Debian and other generic distributions has moved the certificates for
+sysconfdir (/etc/ssl) and made the libdir content to link for it.
+
+This provides several advantages specially for read-only
+rootfs. Another benefit is that it ensures foreign implementations
+(e.g: BoringSSL, from Chromium, when running with OpenSSL backend for
+the certificates) to find the content correctly.
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
 
- ...01-update-ca-certificates-remove-c-rehash.patch | 46 ----------------------
- .../ca-certificates/ca-certificates_20160104.bb    |  1 -
- 2 files changed, 47 deletions(-)
- delete mode 100644 meta/recipes-support/ca-certificates/ca-certificates/0001-update-ca-certificates-remove-c-rehash.patch
+ meta/recipes-connectivity/openssl/openssl.inc | 17 ++++++++++++++---
+ 1 file changed, 14 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates/0001-update-ca-certificates-remove-c-rehash.patch b/meta/recipes-support/ca-certificates/ca-certificates/0001-update-ca-certificates-remove-c-rehash.patch
-deleted file mode 100644
-index bf02723..0000000
---- a/meta/recipes-support/ca-certificates/ca-certificates/0001-update-ca-certificates-remove-c-rehash.patch
-+++ /dev/null
-@@ -1,46 +0,0 @@
--Upstream-Status: Pending
--
--From 111e905fe931da1a3800accfc675cc01c8ee080c Mon Sep 17 00:00:00 2001
--From: Ulf Samuelsson <ulf@emagii.com>
--Date: Tue, 28 Feb 2012 06:42:58 +0100
--Subject: [PATCH] update-ca-certificates: remove c rehash
--
--Updated earlier patch to apply clean on 2012-02-12
--Signed-off-by: Ulf Samuelsson <ulf@emagii.com>
-----
-- sbin/update-ca-certificates |   20 ++++++++++----------
-- 1 files changed, 10 insertions(+), 10 deletions(-)
--
--diff --git a/sbin/update-ca-certificates b/sbin/update-ca-certificates
--index 5375950..c567e3d 100755
----- a/sbin/update-ca-certificates
--+++ b/sbin/update-ca-certificates
--@@ -132,16 +132,16 @@ rm -f "$CERTBUNDLE"
-- ADDED_CNT=$(wc -l < "$ADDED")
-- REMOVED_CNT=$(wc -l < "$REMOVED")
--
---if [ "$ADDED_CNT" -gt 0 ] || [ "$REMOVED_CNT" -gt 0 ]
---then
---  # only run if set of files has changed
---  if [ "$verbose" = 0 ]
---  then
---    c_rehash . > /dev/null
---  else
---    c_rehash .
---  fi
---fi
--+#if [ "$ADDED_CNT" -gt 0 ] || [ "$REMOVED_CNT" -gt 0 ]
--+#then
--+#  # only run if set of files has changed
--+#  if [ "$verbose" = 0 ]
--+#  then
--+#    c_rehash . > /dev/null
--+#  else
--+#    c_rehash .
--+#  fi
--+#fi
--
-- chmod 0644 "$TEMPBUNDLE"
-- mv -f "$TEMPBUNDLE" "$CERTBUNDLE"
----
--1.7.4.1
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20160104.bb b/meta/recipes-support/ca-certificates/ca-certificates_20160104.bb
-index e0f1939..871bc2e 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates_20160104.bb
-+++ b/meta/recipes-support/ca-certificates/ca-certificates_20160104.bb
-@@ -14,7 +14,6 @@ DEPENDS_class-native = ""
- SRCREV = "f54715702c5c0581c9461f78fd84e2c8d2ec243c"
+diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
+index 668e34e..3412c66 100644
+--- a/meta/recipes-connectivity/openssl/openssl.inc
++++ b/meta/recipes-connectivity/openssl/openssl.inc
+@@ -43,8 +43,8 @@ RDEPENDS_${PN}-misc = "${@bb.utils.contains('PACKAGECONFIG', 'perl', 'perl', '',
+ # package RRECOMMENDS on this package.  This will enable the configuration
+ # file to be installed for both the base openssl package and the libcrypto
+ # package since the base openssl package depends on the libcrypto package.
+-FILES_openssl-conf = "${libdir}/ssl/openssl.cnf"
+-CONFFILES_openssl-conf = "${libdir}/ssl/openssl.cnf"
++FILES_openssl-conf = "${sysconfdir}/ssl/openssl.cnf"
++CONFFILES_openssl-conf = "${sysconfdir}/ssl/openssl.cnf"
+ RRECOMMENDS_libcrypto += "openssl-conf"
+ RDEPENDS_${PN}-ptest += "${PN}-misc make perl perl-module-filehandle bc"
  
- SRC_URI = "git://anonscm.debian.org/collab-maint/ca-certificates.git \
--           file://0001-update-ca-certificates-remove-c-rehash.patch \
-            file://0002-update-ca-certificates-use-SYSROOT.patch \
-            file://0001-update-ca-certificates-don-t-use-Debianisms-in-run-p.patch \
-            file://update-ca-certificates-support-Toybox.patch \
+@@ -178,6 +178,17 @@ do_install () {
+ 	else
+ 		rm -f ${D}${libdir}/ssl/misc/CA.pl ${D}${libdir}/ssl/misc/tsget
+ 	fi
++
++	# Create SSL structure
++	install -d ${D}${sysconfdir}/ssl/
++	mv ${D}${libdir}/ssl/openssl.cnf \
++	   ${D}${libdir}/ssl/certs \
++	   ${D}${libdir}/ssl/private \
++	   \
++	   ${D}${sysconfdir}/ssl/
++	ln -sf ${sysconfdir}/ssl/certs ${D}${libdir}/ssl/certs
++	ln -sf ${sysconfdir}/ssl/private ${D}${libdir}/ssl/private
++	ln -sf ${sysconfdir}/ssl/openssl.cnf ${D}${libdir}/ssl/openssl.cnf
+ }
+ 
+ do_install_ptest () {
+@@ -191,7 +202,7 @@ do_install_ptest () {
+ 	cp -r certs ${D}${PTEST_PATH}
+ 	mkdir -p ${D}${PTEST_PATH}/apps
+ 	ln -sf ${libdir}/ssl/misc/CA.sh  ${D}${PTEST_PATH}/apps
+-	ln -sf ${libdir}/ssl/openssl.cnf ${D}${PTEST_PATH}/apps
++	ln -sf ${sysconfdir}/ssl/openssl.cnf ${D}${PTEST_PATH}/apps
+ 	ln -sf ${bindir}/openssl         ${D}${PTEST_PATH}/apps
+ 	cp apps/server2.pem             ${D}${PTEST_PATH}/apps
+ 	mkdir -p ${D}${PTEST_PATH}/util
 -- 
 2.8.2
 
