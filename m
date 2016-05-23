@@ -1,29 +1,61 @@
-Return-Path: <Paul.Gortmaker@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E02E60767
+Return-Path: <kergoth@gmail.com>
+Received: from mail-ig0-f195.google.com (mail-ig0-f195.google.com
+	[209.85.213.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B75E601A4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 May 2016 18:09:16 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u4NI99ga029599
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 23 May 2016 11:09:09 -0700 (PDT)
-Received: from yow-pgortmak-d1 (128.224.56.57) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 23 May 2016 11:09:09 -0700
-Received: by yow-pgortmak-d1 (Postfix, from userid 1000)	id 1593E280127; Mon,
-	23 May 2016 14:09:09 -0400 (EDT)
-Date: Mon, 23 May 2016 14:09:09 -0400
-From: Paul Gortmaker <paul.gortmaker@windriver.com>
-To: Olof Johansson <olof.johansson@axis.com>
-Message-ID: <20160523180908.GE27984@windriver.com>
-References: <1463788963-31316-1-git-send-email-paul.gortmaker@windriver.com>
-	<20160521101858.GP21318@axis.com>
+	Mon, 23 May 2016 18:36:42 +0000 (UTC)
+Received: by mail-ig0-f195.google.com with SMTP id c3so5856294igl.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 May 2016 11:36:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=BuHFKF9san3/wVoZysFL6kTO+A0lBN4QrrqZUO8Je6o=;
+	b=v6n1L40/7Cy33Ga6oBASWF2a3llNdE9gEnXmGczotCd6jm6FM8L/M/av/mC8Hoe+1h
+	bIgqCOjqeKy4nH3uFxXfW253ZbA6Y4dgynSp6VrQELefWC1UCMl3tsHEK1scbcqi114f
+	tgQEYla3Ch9BxHVhHSofyi3FLaS+k/bHZcQ0iFOcMqTN84/MwpKf6gpOiDRSVcJly9uM
+	sKEWuu2tL5bmNYLiZtZEUtInXmEWU87rrRXbl7DbhKcsI1DuSuG6KVQchsY8VRZHDlTV
+	VgVbZxn10NxI6Ov4krqiYajuA3E7lGR/xuXggqlmRkYAT0aBfIgwxmO7hCnKskbX6WvM
+	hvcA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kergoth-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=BuHFKF9san3/wVoZysFL6kTO+A0lBN4QrrqZUO8Je6o=;
+	b=HFBca4w3og88q0EpLTSikx9knV5RnlNaGaatfYK23T6g1IJXeGrn7PhR5azcKeZu0G
+	AUURgNUbdPZ8ZTcKmaEn4wGbn4B/Mj/hLoyhAQO62C7c/rXgUZq48aWuZUEdjKDT4P/s
+	6HypgrWm1In1IqBQCvMdGrOpepTs7e6mUgrUBDYLER0FZcgixw1b380OZl564g3XXNFQ
+	aThpbxOK9G/ESNYRyxF1lXhevUw27+YPlxME0XckrvY+BHU5bGMO0PrkgEK3C+JsnTSi
+	d2Qt6NPjEo7aHtaWtOQFWm497/xXTiIdLoQ2nZYX68EMa22wvjO3qaZLsANvBH50cSFE
+	K09g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=BuHFKF9san3/wVoZysFL6kTO+A0lBN4QrrqZUO8Je6o=;
+	b=DDNKCZzfvVaNH/Rd4k11gD5fS/E+ZMbyS2fkolTc8Y6gClShWoJhW7vwZXst8fSoq7
+	0kNJmRjRqy8D8m8muaEObtR5c+dg1akkeL+5Itwi9l11pYASRN0iQdE+pjGyQtGVYMIu
+	TPAoQLc5gVYB++WAC3JqICbp+vyws+FbwWeYkFIZzfd84rj7PjH/jh9CSMLrLVXtXW0p
+	uYEVJ7g6RrXrWgeheMwbQm8CXs4oCPl165XTnw962D3RditR8MigrYcKj1DCc8lPIHQh
+	xdIa0ELXYwfGhDa2YSCwX/lF5YgjW61rTyrSlP1yS5a8UYxdoqqzhe6czwMYIDHUa4Lp
+	z7JQ==
+X-Gm-Message-State: ALyK8tIPnPp+D2nY5ShVlBOQz31olAQJRsztDsRO+8H7lPemGdgRyhwx+ppMKkwymRFWXBJJ4SohBrhODLOFGw==
+X-Received: by 10.50.111.36 with SMTP id if4mr8869586igb.20.1464028602418;
+	Mon, 23 May 2016 11:36:42 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20160521101858.GP21318@axis.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] coreutils: revert upstream commit causing havoc with ls output
+Sender: kergoth@gmail.com
+Received: by 10.79.100.5 with HTTP; Mon, 23 May 2016 11:36:23 -0700 (PDT)
+In-Reply-To: <1461870393-3545-5-git-send-email-dv@pseudoterminal.org>
+References: <1461870393-3545-1-git-send-email-dv@pseudoterminal.org>
+	<1461870393-3545-5-git-send-email-dv@pseudoterminal.org>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Mon, 23 May 2016 11:36:23 -0700
+X-Google-Sender-Auth: dN1PTj9ZdeoyNTKVzxRhOwPGUY8
+Message-ID: <CABcZANm+312ETxgrpkuO9OcAubc7UC6AwoXvVcUDu7_5TbLdPw@mail.gmail.com>
+To: Carlos Rafael Giani <dv@pseudoterminal.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 5/8] gstreamer1.0-plugins-bad: upgrade to version 1.8.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,42 +68,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 May 2016 18:09:18 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 23 May 2016 18:36:44 -0000
+Content-Type: multipart/alternative; boundary=089e01494e7cc9d2fb053386b886
 
-[Re: [OE-core] [PATCH] coreutils: revert upstream commit causing havoc with ls output] On 21/05/2016 (Sat 12:18) Olof Johansson wrote:
+--089e01494e7cc9d2fb053386b886
+Content-Type: text/plain; charset=UTF-8
 
-> On 16-05-20 20:02 -0400, Paul Gortmaker wrote:
-> > Several large distros are voting with their feet and actively
-> > reverting the change, as per what can be seen above for Debian.
-> 
-> To me, it sounds like you're saying that the Debian maintainer is
-> actively taking a stand against upstream, but the changelog makes
-> it sound more like a temporary thing.
+On Thu, Apr 28, 2016 at 12:06 PM, Carlos Rafael Giani <dv@pseudoterminal.org
+> wrote:
 
-I did write "... it doesn't appear that the coreutils folks are going
-to change the default back to the old way..."
+> 0002-glplugin-glwindow-fix-memory-leak-of-navigation-thre.patch is a
+> backport, and is no longer needed.
+>
+> configure-allow-to-disable-libssh2.patch got replaced by a patch that does
+> the same thing but has been submitted.
+>
+> Vulkan is disabled for now since libxcb alone is not enough - the Vulkan
+> headers and libraries are needed as well.
+>
+> Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
+>
 
-> 
-> From the changelog entry:
-> > * Disable default ls quoting for now to get the rest of 8.25
-> >   into testing. (Closes: #813164)
-> 
-> Could you add something in the commit message to make this
-> clearer?
+It seems this series was applied to oe-core, but incompletely. This patch
+specifically wasn't applied, so gstreamer1.0-plugins-bad is still 1.6.3 in
+oe-core. Would you mind checking to see which patches in this series were
+actually applied? Thanks!
+-- 
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
-I suppose I can resend with "..coreutils folks are _ever_ going to..."
-if you think that extra word clarifies things in the OE log I wrote.
+--089e01494e7cc9d2fb053386b886
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-The log of the actual patch is as-is from Debian, aside from me adding
-the Upstream-Status, the http source and my SOB line.  Is that the log
-you were hoping to have added to/clarified?
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Thu, Apr 28, 2016 at 12:06 PM, Carlos Rafael Giani <span dir=3D"ltr"=
+>&lt;<a href=3D"mailto:dv@pseudoterminal.org" target=3D"_blank">dv@pseudote=
+rminal.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div cla=
+ss=3D"HOEnZb"><div class=3D"h5">0002-glplugin-glwindow-fix-memory-leak-of-n=
+avigation-thre.patch is a<br>
+backport, and is no longer needed.<br>
+<br>
+configure-allow-to-disable-libssh2.patch got replaced by a patch that does<=
+br>
+the same thing but has been submitted.<br>
+<br>
+Vulkan is disabled for now since libxcb alone is not enough - the Vulkan<br=
+>
+headers and libraries are needed as well.<br>
+<br>
+Signed-off-by: Carlos Rafael Giani &lt;<a href=3D"mailto:dv@pseudoterminal.=
+org">dv@pseudoterminal.org</a>&gt;<br></div></div></blockquote><div><br></d=
+iv><div>It seems this series was applied to oe-core, but incompletely. This=
+ patch specifically wasn&#39;t applied, so gstreamer1.0-plugins-bad is stil=
+l 1.6.3 in oe-core. Would you mind checking to see which patches in this se=
+ries were actually applied? Thanks!</div></div>-- <br><div class=3D"gmail_s=
+ignature">Christopher Larson<br>clarson at kergoth dot com<br>Founder - Bit=
+Bake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Eng=
+ineer, Mentor Graphics</div>
+</div></div>
 
-Paul.
---
-
-> 
-> -- 
-> olofjn
-
+--089e01494e7cc9d2fb053386b886--
