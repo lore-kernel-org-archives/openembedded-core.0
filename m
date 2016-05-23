@@ -1,52 +1,55 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f66.google.com (mail-pa0-f66.google.com
-	[209.85.220.66])
-	by mail.openembedded.org (Postfix) with ESMTP id BCFC960796
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 64954605FE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 May 2016 05:29:06 +0000 (UTC)
-Received: by mail-pa0-f66.google.com with SMTP id f8so4930674pag.0
+	Mon, 23 May 2016 08:07:56 +0000 (UTC)
+Received: by mail-io0-f170.google.com with SMTP id t40so96695267ioi.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 May 2016 22:29:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:cc:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding;
-	bh=idPl14VUZ4laSXaQoqeKebtBm5hKCzIoFFQUF4JXreI=;
-	b=xjduIrB7vyi2bPgEMZQvD0zMWVlA709H9Hllk4xL6EcJXVwcSKSdMWCqv4luxdD9I1
-	5q2kpnt17BFFH41T7ZH9hdh4yqUsbB+Ge47chGcu1vwHiNGv9TgXQuhmFhs3/rr1Tudd
-	ZwwFoVHt/sB4f+sAcRaDJdrc+JFKeuDzoXOW6HVEam9KapFBq17OxWNNwWMP1da8jUwH
-	H7n9403O6DPjYrRtCWehlgKi/sHfkHxRDdj4uPCqZUXgpCNWyJQOWob7dENOrJjjxyc/
-	+VColKyaT4D30RqkGLwnKsAZVLvTXabtJPXfPkc5mX66E7sVxfyN4eoP5cFmYG6jYM2S
-	XF7w==
+	Mon, 23 May 2016 01:07:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=KyT9euNfGmd5EYw/oknQKj6tS+tODzj2tZfHalfK5M0=;
+	b=OU5flzyTI/hZmOZG16u+HbAQXP18JoDu9wKtsyM62M3PMkPo2drhc7kpr7yZPRKBc/
+	uEeWFftJTY/+zKM8ImApc7iKQ+fXxHTsbSP8YoRIXTmojoYe+P4DpKh/5o0MmTak+obZ
+	QMmli4uVc9b4cgMyLTlfeeAKceS0G47wwpAr8U/usXXb1Hu+0zZZpquzEDhJBoGzQ1Qe
+	ELB3n4iN3AhoBn4bdGP+Td2Ck6jbXghwBFE9/htWqX3Vrzv20s2HhwhYOnj4TNW0AJMx
+	E58iEgfFvQ9mxmpdyaF7iWYSWiPTy7gVcK5vXg5kD4wSii/ELKTINDH9+Z8EgYdPL2Xh
+	Emfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=idPl14VUZ4laSXaQoqeKebtBm5hKCzIoFFQUF4JXreI=;
-	b=SSMqnlepZ2aDaXkkB65h2SARv0IrjMFtBRR8Q0MHQhE4WQo8P5hw4fAx0CtMGnuxys
-	7Fqd3l8Qg92CQuu/4XI7aZuGYfXltvk8InaN8XQafxcyEO14bnoWTDONtV+Qshud7YbK
-	xgePYXHO0eUDY7mFMt6XUJeDOlaRSfFOHAYC3FOaxKoTa616E5lltYdApq8rZcncW8hR
-	nTAUYYkJUiU0zGen+cDXNSVboeDUleLHoffp2uD2QGPHyjn6LrcTMPYl1wDT4JDw+3Nh
-	gNw0q0zIQNQJ4hs0epXFKWE5e+Snki6BQzYix/CwpYnKICJggYTaToTMKmAWLYtSfhcB
-	RmhQ==
-X-Gm-Message-State: AOPr4FUmYKrOHaTQmU2TDTBLfp2smH41BkKrL2v5YRDphzo3+QEKEgCvhkKs2PllsvhBXA==
-X-Received: by 10.66.73.193 with SMTP id n1mr24351474pav.70.1463981347621;
-	Sun, 22 May 2016 22:29:07 -0700 (PDT)
-Received: from [192.168.18.4] (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207]) by smtp.googlemail.com with ESMTPSA id
-	x89sm42996559pfa.87.2016.05.22.22.29.05
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 22 May 2016 22:29:06 -0700 (PDT)
-To: Anders Darander <anders@chargestorm.se>,
-	openembedded-core@lists.openembedded.org
-References: <1463979792-7559-1-git-send-email-anders@chargestorm.se>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <574294A2.9000806@gmail.com>
-Date: Sun, 22 May 2016 22:26:58 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
-MIME-Version: 1.0
-In-Reply-To: <1463979792-7559-1-git-send-email-anders@chargestorm.se>
-Subject: Re: [krogoth][PATCH] lib/oe/rootfs: Fix DEBUGFS generation, without openssl
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=KyT9euNfGmd5EYw/oknQKj6tS+tODzj2tZfHalfK5M0=;
+	b=LvUTzQYiGzZT4oDMhJ1xYm/dF+2tBYUYqnL3trvgJkhtuRsvR0K9iftjl2PS6nYFM6
+	HpHMxpER/HFx8URsebbC9H95rFkVX6Ryp8O1ie5cMKVI9s/mWGnKjsy2BceCncZ37cuM
+	4/7JbposluNZS1HjEvYfp2F7mhcXL8bdPMJ4/gErsg5ClQmPhImwB/3HT2BBiLQZ8EPq
+	rf8p4FWZaOT+ERmpQp8CVEjcvTupzCWLEiqMrKrZRv1OeFKtFFa0g2iOWnWmifcf1tbM
+	VmZSTHInkuZJn6/FO7e5TL7Y8cNpHRPJaV2BWkewioq10ZJLSf6XSIJGTqoqqtBMTdlH
+	IfAA==
+X-Gm-Message-State: ALyK8tKI13q+jzH8dOGqVl7/KbqvoPHRgrNVIynWJCPfwvqdhrxB7uZ44SCAIDVEQcStJR8z
+X-Received: by 10.107.7.210 with SMTP id g79mr3939896ioi.140.1463990877087;
+	Mon, 23 May 2016 01:07:57 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8DF24.dip0.t-ipconnect.de. [93.232.223.36])
+	by smtp.gmail.com with ESMTPSA id dj8sm3617812igb.1.2016.05.23.01.07.55
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 23 May 2016 01:07:56 -0700 (PDT)
+Message-ID: <1463990873.3095.13.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Khem Raj <raj.khem@gmail.com>, Olev Kartau <olev.kartau@intel.com>
+Date: Mon, 23 May 2016 10:07:53 +0200
+In-Reply-To: <CAMKF1sqUdo1X0v1ET1_udjGb8-7pg8sucv5yZ3=PuYacvtGQwA@mail.gmail.com>
+References: <cover.1463546289.git.raj.khem@gmail.com>
+	<c41bdd4ac5371d7c08318f7c7fc760b44ce59ba9.1463546289.git.raj.khem@gmail.com>
+	<CAMKF1sqUdo1X0v1ET1_udjGb8-7pg8sucv5yZ3=PuYacvtGQwA@mail.gmail.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/5] useradd.bbclass: Strip trailing '; ' in cmd params
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,46 +62,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 May 2016 05:29:08 -0000
-Content-Type: text/plain; charset=windows-1252
+X-List-Received-Date: Mon, 23 May 2016 08:07:58 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+On Wed, 2016-05-18 at 12:38 -0700, Khem Raj wrote:
+> This fix was not sufficient and there has to be extra fix done to also
+> consider the case
+> when sysroot is created during image build time. I have updated it in
+> pull request here
+> 
+> http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/pu&id=642c6cf0b6a0371de476513162bd0cefa9c438b3
+
+That now fails for cases where the USERADD_PARAM ends in trailing white
+space after the last valid opts. The reason is that the 'if test "x
+$opts" = "x$remaining"; then break; fi' check does not get triggered
+anymore, because $remaining has the trailing white space whereas "$opts"
+does not.
+
+I'm not sure what the best approach is in this case. Perhaps also strip
+trailing whitespace from all assignments to $remaining?
+
+The case were we see this is:
+USERADD_PARAM_iot-rest-api-server="--system --home /var/lib/empty --no-create-home --shell /bin/false --gid restful restful "
+
+The build then hangs because the useradd preinst loops forever.
+
+-- 
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
 
-On 05/22/2016 10:03 PM, Anders Darander wrote:
-> In commit 20ea6d274bb0a9a5addb111f32793de49b907865, debugfs generation
-> for images using opkg, which included openssl was fixed.
-> 
-> However, that broke the generation of the opkg-based images, that lacks
-> openssl. The error is a python stack trace, showing that shutil.copytree
-> tries to copy a non-existing directory.
-> 
-> This relates to [YOCTO #9040].
-> 
-> Signed-off-by: Anders Darander <anders@chargestorm.se>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (cherry picked from commit f6b0b260ce18a30d04edfb0afb7942b9f9a5480b)
 
-pulled in.
-
-thanks.
-Armin
-> ---
->  meta/lib/oe/rootfs.py | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-> index 95fd3ab..41f08f5 100644
-> --- a/meta/lib/oe/rootfs.py
-> +++ b/meta/lib/oe/rootfs.py
-> @@ -121,6 +121,8 @@ class Rootfs(object):
->  
->          bb.note("  Copying back package database...")
->          for dir in dirs:
-> +            if not os.path.isdir(self.image_rootfs + '-orig' + dir):
-> +                continue
->              bb.utils.mkdirhier(self.image_rootfs + os.path.dirname(dir))
->              shutil.copytree(self.image_rootfs + '-orig' + dir, self.image_rootfs + dir, symlinks=True)
->  
-> 
 
