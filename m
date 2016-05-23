@@ -1,51 +1,61 @@
-Return-Path: <alistair23@gmail.com>
-Received: from mail-oi0-f47.google.com (mail-oi0-f47.google.com
-	[209.85.218.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 6400F60616
+Return-Path: <kergoth@gmail.com>
+Received: from mail-io0-f194.google.com (mail-io0-f194.google.com
+	[209.85.223.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 4758562135
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 May 2016 22:09:58 +0000 (UTC)
-Received: by mail-oi0-f47.google.com with SMTP id k23so93588835oih.0
+	Mon, 23 May 2016 22:30:06 +0000 (UTC)
+Received: by mail-io0-f194.google.com with SMTP id 190so233328iow.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 May 2016 15:10:00 -0700 (PDT)
+	Mon, 23 May 2016 15:30:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:sender:in-reply-to:references:from:date:message-id
 	:subject:to:cc;
-	bh=k9tDZOVKdf6lX1Uh9k1Bmlazoj3Hlocu9pzgYrgoU2Q=;
-	b=zU5vo62/JwqMEtswuT8nr3BoojV9gqEtJ2c1F6htqwaXLjW/qGn3K7qhhMRzJ2LxHr
-	NYGyDpZrzUAq+72uT+rijEqJu8H6X0/G7bEGPze/tucdEqDsEe+U9FDSRLLVyytmaINb
-	6AQwaSywJYP548UM0FY8Kb7U9Z0CjVsFgajcUrMVD6DxzfGJsB+OPmyv7Jfiy3Oqo4mC
-	X9jldDw9ijld2kCfaMrutuiw7JRS0DgHBVRnsb4uxiWouE4+Dtxu8lxUWwSaLzePn3Ex
-	BBWMI83X0DlRJ1IbsBXPrPvW/muW/P4Z+S9FtJE/GnvMOWdbMPpof0dHDDhUiuly6uwG
-	Ya6A==
+	bh=UfxMugG2m9FOYBnrS6S1Ggr4UqslrjppmyV6MFEQsp0=;
+	b=hiNejLkZeU7X/YAubL1aCy9/rbeDFHt4DAfKaJxwOZhuhAAfyO27h31/UOpNvtYo6n
+	W+/OZSLImbA8uugcQaeM2q/fXEbATIXz1ADrbkmp0r6qyv2JOrV1+wING+5dvoHxbjxx
+	sLOpjcrNl9Dr49lGVitcG9nIiJMw6h2QC/5Ls7QyLGHtp7BaWVAinbl92SKKC9m8JR6/
+	PJA91AovzuaL+eNAWtTE/7Yuin2ACC0YN2CMuKcF37DLDPqWFzaOhNCbGHgBbm4nagN2
+	J7aOasy0ePBXPwmio4I8m4IzijFm85oWQCagw2PV3EPhZ/bgVcy2FdMzUkz9IXKN92Ek
+	larQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kergoth-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=UfxMugG2m9FOYBnrS6S1Ggr4UqslrjppmyV6MFEQsp0=;
+	b=Un8KEmRWrA15o6VhaRj3kn5qs7bz4KrFe2XjtDaJ9Gb8W/98tmRkJWpt1sbkErdAqi
+	S4dBhPVQJywLDkAiez2JpccHfR4Nu0ReeDRBizs07rhVGgutbLdAJM1n4s2bsauhT44y
+	2AopuLooCS0zjd3pR6E1B8ZqxvHl3wyttEbKPxrDYCjYe+V1XMs/20lMzyrlkk3R/r9C
+	gcpBnjHcTOBgI3NkdZk4X/Ns+aKIfHcETYrra6PFWmIFmKSSbY3bVv2RvXulGn9WTz73
+	wYi19YRnl/8NSiHMh/cuhiO7pVUzbrz6ADRXaOjmXHsbay6haM2gMeelt13C5rhTv5F6
+	8+FQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
 	:date:message-id:subject:to:cc;
-	bh=k9tDZOVKdf6lX1Uh9k1Bmlazoj3Hlocu9pzgYrgoU2Q=;
-	b=VlZDlE7/ecAQXuWU7venL943mKOXvLyILYqE8tgfP+GHHBCUllTHccULR2sdFhQ0G3
-	qVv7ZZ/ErH73td6QU1GrOfMIThd9cyqpu6vTIYY8jUWYY2OELTk7fol13nmkex9NtWAs
-	JsM/+ZeUs6fwg/xDn9Xe1nQlmc0ADFzTWNmWvMFPjnF+eGdoattXXevWlkyML7B9932k
-	39GSHW6zyhW5mugPEsC/kNdNEYbRhQ0lG0lwIFhO7RJSkQ33TA7GoL/hw0sjKzwiSHT+
-	yOmHfHSPAFYTsVGeQ76Zyh1Xwb0C52XdgQz8MXPa1PobdI6mwKpBWs3dtl3QDxtYlnuS
-	RHWQ==
-X-Gm-Message-State: AOPr4FUKJLSS/JpxZIYMf7eBt8XhfEgyhE3uBER6qA6cd1gAExnddooUhnTjMaab7YN8acwnto6RhUKYuwrKDg==
-X-Received: by 10.202.104.91 with SMTP id d88mr9493930oic.75.1464041399512;
-	Mon, 23 May 2016 15:09:59 -0700 (PDT)
+	bh=UfxMugG2m9FOYBnrS6S1Ggr4UqslrjppmyV6MFEQsp0=;
+	b=U+9svTxpY+G+eeiGgyx+lEZouK61kOL2Fmj0hwAjjHzqOOxFwvD5h4rZmvK8Qu7L21
+	Z2BQOVyNsBv1zG19lakz7Pq+vfDZmFicMthKiNo3EUijo+DG3e/18VyxcqwXzK82wg8U
+	KU15RNbA3RIPslbCxiBoZAqcGOR1FZK1ftVRr1ZPUuH5wbmSisdWxKJR8teK+rRlLdsH
+	GOO7R638bBgRy7yoeCTaKyYpf4mJ5WXvO5k/tRgLj/JdPXb8oZf/ZQs/K2gxHH6iMiWg
+	9jcEzkGHtfQ31jSSpD1t8SeCIwmV3MKT1NC6+R3P2HbDUk9U+O3ojECu+zPOEK8iCp25
+	dRVw==
+X-Gm-Message-State: AOPr4FVVn0RUHZmMGJMn96ZcZXXSxvV/bMeoom4i570YM85j+cEiV8sDHv+9oqeA4hBCpEyeLPJaGTnLRCPo4w==
+X-Received: by 10.107.2.70 with SMTP id 67mr14837428ioc.70.1464042606792; Mon,
+	23 May 2016 15:30:06 -0700 (PDT)
 MIME-Version: 1.0
-Sender: alistair23@gmail.com
-Received: by 10.182.98.137 with HTTP; Mon, 23 May 2016 15:09:30 -0700 (PDT)
-In-Reply-To: <CAKmqyKPw2M0aso8Ti6aChzx_EBDMveOHwkzdiERy-qnQ4jn09w@mail.gmail.com>
-References: <1463089059-10156-1-git-send-email-alistair.francis@xilinx.com>
-	<CAKmqyKPPRF+AvEShiFopGj-WtzM6Hdr48nBanA4TEwdWKq2ZSg@mail.gmail.com>
-	<CAJTo0LYJuy3vJG_nDp_qA_YTRr62FgN5YUzYcWb5=i6WoAv2Ow@mail.gmail.com>
-	<CAKmqyKPw2M0aso8Ti6aChzx_EBDMveOHwkzdiERy-qnQ4jn09w@mail.gmail.com>
-From: Alistair Francis <alistair.francis@xilinx.com>
-Date: Mon, 23 May 2016 15:09:30 -0700
-X-Google-Sender-Auth: SbJmcqwD0h81XNoyW6EPDrriw-w
-Message-ID: <CAKmqyKPjFjtqhfLx8R=qJDR=_4mrL7ChdLUfOHeGEUofwYTdkA@mail.gmail.com>
-To: Alistair Francis <alistair.francis@xilinx.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v1] runqemu: Add suport for qemuzynqmp
+Sender: kergoth@gmail.com
+Received: by 10.79.100.5 with HTTP; Mon, 23 May 2016 15:29:47 -0700 (PDT)
+In-Reply-To: <38494711adeba8a1d6adfcb0f9132d14d7e9962b.1464040555.git.randy.e.witt@linux.intel.com>
+References: <cover.1464040555.git.randy.e.witt@linux.intel.com>
+	<38494711adeba8a1d6adfcb0f9132d14d7e9962b.1464040555.git.randy.e.witt@linux.intel.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Mon, 23 May 2016 15:29:47 -0700
+X-Google-Sender-Auth: KBQoxzuqdjNz5kim7P87ST984vQ
+Message-ID: <CABcZANmhx-72y89drJm3McB8gwOPkBUpCUAEY8TasQ2o7fDjwg@mail.gmail.com>
+To: Randy Witt <randy.e.witt@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] sstate.bbclass: Don't create symlinks, download to the correct location
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,59 +68,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 May 2016 22:09:59 -0000
+X-List-Received-Date: Mon, 23 May 2016 22:30:07 -0000
+Content-Type: multipart/alternative; boundary=001a113968148395f0053389fb88
+
+--001a113968148395f0053389fb88
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, May 23, 2016 at 2:37 PM, Alistair Francis
-<alistair.francis@xilinx.com> wrote:
-> On Sat, May 21, 2016 at 2:33 PM, Burton, Ross <ross.burton@intel.com> wrote:
->>
->> On 19 May 2016 at 17:40, Alistair Francis <alistair.francis@xilinx.com>
->> wrote:
->>>
->>> On Thu, May 12, 2016 at 2:37 PM, Alistair Francis
->>> <alistair.francis@xilinx.com> wrote:
->>> > Signed-off-by: Alistair Francis <alistair.francis@xilinx.com>
->>>
->>> Ping!
->>
->>
->> Sorry meant to reply to this a lot earlier.  There's a RFC from Robert Yang
->> which proposes a series of patches to completely rewrite how runqemu works,
->
-> Are you talking about the 'runqemu/runqemu-internal: refactor it' patch series?
->
-> I talked to him about that and I'm happy to help convert the Xilinx
-> machines to the new method.
->
->> so the machine-specific knowledge is contained in the BSP itself.  As a BSP
->> maintainer who is working on runqemu, would you be able to have a look at
->> see if it should solve all of your needs?
->
-> I haven't looked into it too much yet, but I can't see why it wouldn't
-> work for us.
->
->>
->> (this is now marked for my staging branch too)
+On Mon, May 23, 2016 at 2:57 PM, Randy Witt <randy.e.witt@linux.intel.com>
+wrote:
 
-Just to double check, you mean this patch is in your staging branch right?
-
-Thanks,
-
-Alistair
-
+> Previously the sstate was all downloaded to the same directory and then
+> symlinks were added in the directories that pointed to the siginfo and
+> sstate in the parent directory.
 >
-> Thanks!
+> This change makes it so that now the files are just downloaded to the
+> correct location without the need for symlinks.
 >
-> Alistair
+> Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
+> ---
+>  meta/classes/sstate.bbclass | 12 +++---------
+>  1 file changed, 3 insertions(+), 9 deletions(-)
 >
->>
->> Ross
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
+> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+> index 22ce1ee..6d5411f 100644
+> --- a/meta/classes/sstate.bbclass
+> +++ b/meta/classes/sstate.bbclass
+> @@ -623,10 +623,10 @@ def pstaging_fetch(sstatefetch, sstatepkg, d):
+>
+>      # Try a fetch from the sstate mirror, if it fails just return and
+>      # we will build the package
+> -    uris = ['file://{0}'.format(sstatefetch),
+> -            'file://{0}.siginfo'.format(sstatefetch)]
+> +    uris = ['file://{0};downloadfilename={1}'.format(sstatefetch,
+> sstatefetch),
+> +
+> 'file://{0}.siginfo;downloadfilename={1}.siginfo'.format(sstatefetch,
+> sstatefetch)]
+>      if bb.utils.to_boolean(d.getVar("SSTATE_VERIFY_SIG", True), False):
+> -        uris += ['file://{0}.sig'.format(sstatefetch)]
+> +        uris +=
+> ['file://{0}.sig;downloadfilename={1}.sig'.format(sstatefetch, sstatefetch)]
+>
 
+The use of {1} and passing the argument a second time is not needed. This
+isn't the old style formatting with %s. Just use the existing argument:
+
+    file://{0};downloadfilename={0}'.format(sstatefetch)
+-- 
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
+
+--001a113968148395f0053389fb88
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Mon, May 23, 2016 at 2:57 PM, Randy Witt <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:randy.e.witt@linux.intel.com" target=3D"_blank">randy.e.witt@lin=
+ux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div i=
+d=3D":2hv" class=3D"a3s aXjCH m154df9fb13975a18">Previously the sstate was =
+all downloaded to the same directory and then<br>
+symlinks were added in the directories that pointed to the siginfo and<br>
+sstate in the parent directory.<br>
+<br>
+This change makes it so that now the files are just downloaded to the<br>
+correct location without the need for symlinks.<br>
+<br>
+Signed-off-by: Randy Witt &lt;<a href=3D"mailto:randy.e.witt@linux.intel.co=
+m">randy.e.witt@linux.intel.com</a>&gt;<br>
+---<br>
+=C2=A0meta/classes/sstate.<span class=3D"il">bbclass</span> | 12 +++-------=
+--<br>
+=C2=A01 file changed, 3 insertions(+), 9 deletions(-)<br>
+<br>
+diff --git a/meta/classes/sstate.<span class=3D"il">bbclass</span> b/meta/c=
+lasses/sstate.<span class=3D"il">bbclass</span><br>
+index 22ce1ee..6d5411f 100644<br>
+--- a/meta/classes/sstate.<span class=3D"il">bbclass</span><br>
++++ b/meta/classes/sstate.<span class=3D"il">bbclass</span><br>
+@@ -623,10 +623,10 @@ def pstaging_fetch(sstatefetch, sstatepkg, d):<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0# Try a fetch from the sstate mirror, if it fails just =
+return and<br>
+=C2=A0 =C2=A0 =C2=A0# we will build the package<br>
+-=C2=A0 =C2=A0 uris =3D [&#39;file://{0}&#39;.format(sstatefetch),<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;file://{0}.siginfo&#39;.for=
+mat(sstatefetch)]<br>
++=C2=A0 =C2=A0 uris =3D [&#39;file://{0};downloadfilename=3D{1}&#39;.format=
+(sstatefetch, sstatefetch),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;file://{0}.siginfo;download=
+filename=3D{1}.siginfo&#39;.format(sstatefetch, sstatefetch)]<br>
+=C2=A0 =C2=A0 =C2=A0if <span class=3D"il">bb</span>.utils.to_boolean(d.getV=
+ar(&quot;SSTATE_VERIFY_SIG&quot;, True), False):<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 uris +=3D [&#39;file://{0}.sig&#39;.format(sst=
+atefetch)]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 uris +=3D [&#39;file://{0}.sig;downloadfilenam=
+e=3D{1}.sig&#39;.format(sstatefetch, sstatefetch)]</div></blockquote></div>=
+<br>The use of {1} and passing the argument a second time is not needed. Th=
+is isn&#39;t the old style formatting with %s. Just use the existing argume=
+nt:</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">=
+=C2=A0 =C2=A0 file://{0};downloadfilename=3D{0}&#39;.format(sstatefetch)<br=
+>-- <br><div class=3D"gmail_signature">Christopher Larson<br>clarson at ker=
+goth dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer -=
+ Tslib<br>Senior Software Engineer, Mentor Graphics</div>
+</div></div>
+
+--001a113968148395f0053389fb88--
