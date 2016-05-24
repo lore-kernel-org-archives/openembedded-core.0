@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id AB88562132
+	by mail.openembedded.org (Postfix) with ESMTP id A58EB6FEF5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 May 2016 11:54:15 +0000 (UTC)
+	Tue, 24 May 2016 11:54:16 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga102.jf.intel.com with ESMTP; 24 May 2016 04:54:17 -0700
+	by orsmga102.jf.intel.com with ESMTP; 24 May 2016 04:54:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,359,1459839600"; d="scan'208";a="109498211"
+X-IronPort-AV: E=Sophos;i="5.26,359,1459839600"; d="scan'208";a="109498216"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga004.fm.intel.com with ESMTP; 24 May 2016 04:54:17 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 24 May 2016 04:54:18 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 May 2016 14:54:26 +0300
-Message-Id: <e0fa7c61df0ab8816d255277250b3c21476c0c09.1464088997.git.alexander.kanavin@linux.intel.com>
+Date: Tue, 24 May 2016 14:54:27 +0300
+Message-Id: <2a62614b52fed3ba31c8ed7b064e2d8e788a8f78.1464088997.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
 References: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
 References: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 37/45] lttng-ust: move to Python 3
+Subject: [PATCH 38/45] systemtap: move to Python 3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,40 +31,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 May 2016 11:54:15 -0000
+X-List-Received-Date: Tue, 24 May 2016 11:54:16 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-kernel/lttng/lttng-ust_git.bb | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ meta/recipes-kernel/systemtap/systemtap_git.bb | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-ust_git.bb b/meta/recipes-kernel/lttng/lttng-ust_git.bb
-index 15d925d..f5a12b1 100644
---- a/meta/recipes-kernel/lttng/lttng-ust_git.bb
-+++ b/meta/recipes-kernel/lttng/lttng-ust_git.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c963eb366b781252b0bf0fdf1624d9e9 \
- inherit autotools lib_package
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
+index 97064b8..cf6a96a 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.bb
++++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
+@@ -6,13 +6,12 @@ DEPENDS = "elfutils sqlite3 systemtap-native"
+ DEPENDS_class-native = "elfutils-native sqlite3-native gettext-native"
+ DEPENDS_class-nativesdk = "nativesdk-elfutils nativesdk-sqlite3 nativesdk-gettext"
  
- DEPENDS = "liburcu util-linux"
--RDEPENDS_${PN}-bin = "python-core"
-+RDEPENDS_${PN}-bin = "python3-core"
+-RDEPENDS_${PN} += "python bash"
+-RDEPENDS_${PN}_class-native += "python-native"
+-RDEPENDS_${PN}_class-nativesdk += "python-native"
++RDEPENDS_${PN} += "python3-core bash"
  
- # For backwards compatibility after rename
- RPROVIDES_${PN} = "lttng2-ust"
-@@ -27,6 +27,13 @@ SRC_URI = "git://git.lttng.org/lttng-ust.git;branch=stable-2.7 \
-            file://lttng-ust-add-support-for-aarch64_be.patch \
-           "
+ EXTRA_OECONF += "--with-libelf=${STAGING_DIR_TARGET} --without-rpm \
+             --without-nss --without-avahi --without-dyninst \
+             --disable-server --disable-grapher --enable-prologues \
++            --with-python3 \
+             ac_cv_prog_have_javac=no \
+             ac_cv_prog_have_jar=no "
  
-+do_install_append() {
-+        # Patch python tools to use Python 3; they should be source compatible, but
-+        # still refer to Python 2 in the shebang
-+        sed -i -e '1s,#!.*python.*,#!${bindir}/python3,' ${D}${bindir}/lttng-gen-tp
-+}
-+
-+
- S = "${WORKDIR}/git"
- 
- do_configure_prepend () {
 -- 
 2.8.1
 
