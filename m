@@ -1,48 +1,20 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-io0-f194.google.com (mail-io0-f194.google.com
-	[209.85.223.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 51CCF601A4
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id B8A6C606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 May 2016 14:26:33 +0000 (UTC)
-Received: by mail-io0-f194.google.com with SMTP id 190so2160924iow.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 May 2016 07:26:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=24u/lfnPaZo/o+Bwx199bZTLxDkAQx8Upvf7RNUQOII=;
-	b=kT9vAqgUeS2dNdaNTpqH7qgpll/W7/VleLC4htMmsC8xHxn/HHRL7QuhB7G2R+mPIN
-	OO/uL+NfM64XJPa0aXYSn5gwGkEyODZsIxopk3KsSrPV+UxIX1S5TTuhhf8/eFCeooqR
-	SasbwJ3y2NSdNTYNer8LrgBgoUxMiM5waX7jw7PN0oaepsZ9N9Xr8/6lAg3tgNwS4jIR
-	FD7iwruyBggAmkRORG7lkt3yEmrG9SWgh2Nt/7if+LrwQrpaVGYAq9YTF6DR8ugg8hDI
-	ucE9oMK7Bvpd9nFgC9nuNVq3xy+3fvmsPWM9h8YBB6BYVlnVuG9V4x3WjLzxboDk76D6
-	f3fA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=24u/lfnPaZo/o+Bwx199bZTLxDkAQx8Upvf7RNUQOII=;
-	b=DWUhc38pB954cBOTolTgr6vFiip8gm+BfQFjU4qRYGrPPDsyUSCbj4m+3LHEkUXvZw
-	TZP0NUbUhK93YzpKD7jdLVOHdIQ7Mnmbr0w/Ly+WyvZH1O3GYWGXYEsflmbgC+Bq0yOu
-	kPNDQGZhAOdXODajIIjozHh9JrVQW6MfBEbVici2Kz/t9kzhWf0CgBh6k3/7QESx6lJY
-	Mceo9rj16s660YhKV7+cktBzo1gbEJ6jvJs7KAzVym0borXiLog/bS251VTrFyN0wd5T
-	S3W6cMCTAu8w6za0JvNbFHPBoLxGdL4h2UAC/dU9lBKvWKOSHRsfQiQytLlLOInQ//7r
-	Q3RA==
-X-Gm-Message-State: AOPr4FXCXByl6jr2wlD9u05EVzjQMugDp/1jRX0+u3mAN4jOac2e3+hRA8cE9JoFwE0Ju1ynoJB1kZ0kE0KkPA==
-X-Received: by 10.107.147.7 with SMTP id v7mr17058056iod.3.1464099994191; Tue,
-	24 May 2016 07:26:34 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.79.100.5 with HTTP; Tue, 24 May 2016 07:26:14 -0700 (PDT)
-In-Reply-To: <1464081235.9570.51.camel@linuxfoundation.org>
-References: <0b22f46a6e565f757c0fc11aeab27e9f336c5b37.1463769811.git.chris_larson@mentor.com>
-	<c1371045c7b7740a468f44db12ff20a2c881902c.1463769811.git.chris_larson@mentor.com>
-	<1464081235.9570.51.camel@linuxfoundation.org>
-From: Christopher Larson <kergoth@gmail.com>
-Date: Tue, 24 May 2016 07:26:14 -0700
-Message-ID: <CABcZANkto4yOZXjd9hMstf8kZ+LdRSQpcV+nHCQdKbLDYVOxYA@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] image_types.bbclass: support template .wks.in files for wic
+	Tue, 24 May 2016 14:38:29 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga101.fm.intel.com with ESMTP; 24 May 2016 07:38:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,360,1459839600"; d="scan'208";a="109594702"
+Received: from yctb05.ostc.intel.com ([10.54.69.59])
+	by fmsmga004.fm.intel.com with ESMTP; 24 May 2016 07:38:30 -0700
+From: leonardo.sandoval.gonzalez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 24 May 2016 01:36:44 -0500
+Message-Id: <1464071804-35217-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 2.6.6
+Subject: [PATCH] ghostcript: Set UPSTREAM_CHECK_URI variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,260 +27,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 May 2016 14:26:34 -0000
-Content-Type: multipart/alternative; boundary=94eb2c055f6811cda205339758d0
+X-List-Received-Date: Tue, 24 May 2016 14:38:34 -0000
 
---94eb2c055f6811cda205339758d0
-Content-Type: text/plain; charset=UTF-8
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-On Tue, May 24, 2016 at 2:13 AM, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+Set UPSTREAM_CHECK_URI (a github location), so package checking system gets the
+latest version of the package.
 
-> On Mon, 2016-05-23 at 13:34 -0700, Christopher Larson wrote:
-> > From: Christopher Larson <chris_larson@mentor.com>
-> >
-> > These files are treated as the contents of a bitbake variable, so
-> > usual
-> > bitbake variable references are supported. I considered using another
-> > templating mechanism, for example the one used by yocto-layer, but
-> > then we'd
-> > end up largely mapping metadata variables to template fields anyway,
-> > which is
-> > a pointless indirection. Let bitbake expand the variables directly
-> > instead.
-> >
-> > This feature lets us, for example, reference ${APPEND} in --append,
-> > and avoid
-> > hardcoding the serial console tty in the wks file, and let the user's
-> > changes
-> > to APPEND affect wic the way they do the other image construction
-> > mechanisms.
-> >
-> > The template is read in and set in a variable at parse time, so
-> > changes to the
-> > variables referenced by the template will result in rebuilding the
-> > image.
-> >
-> > Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-> > ---
-> >  meta/classes/image_types.bbclass | 35
-> > +++++++++++++++++++++++++++++++++++
-> >  1 file changed, 35 insertions(+)
-> >
-> > diff --git a/meta/classes/image_types.bbclass
-> > b/meta/classes/image_types.bbclass
-> > index dc681ae..caf8757 100644
-> > --- a/meta/classes/image_types.bbclass
-> > +++ b/meta/classes/image_types.bbclass
-> > @@ -206,6 +206,16 @@ IMAGE_CMD_wic () {
-> >  }
-> >  IMAGE_CMD_wic[vardepsexclude] = "WKS_FULL_PATH WKS_FILES"
-> >
-> > +python process_wks_template () {
-> > +    """Write out expanded template contents to WKS_FULL_PATH."""
-> > +    template_body = d.getVar('_WKS_TEMPLATE', True)
-> > +    if template_body:
-> > +        wks_file = d.getVar('WKS_FULL_PATH', True)
-> > +        with open(wks_file, 'w') as f:
-> > +            f.write(template_body)
-> > +}
-> > +do_image_wic[prefuncs] += 'process_wks_template'
-> > +
-> >  # Rebuild when the wks file or vars in WICVARS change
-> >  USING_WIC = "${@bb.utils.contains_any('IMAGE_FSTYPES', 'wic ' + '
-> > '.join('wic.%s' % c for c in '${COMPRESSIONTYPES}'.split()), '1', '',
-> > d)}"
-> >  WKS_FILE_CHECKSUM = "${@'${WKS_FULL_PATH}:%s' %
-> > os.path.exists('${WKS_FULL_PATH}') if '${USING_WIC}' else ''}"
-> > @@ -302,3 +312,28 @@ IMAGE_TYPES_MASKED ?= ""
-> >  # The WICVARS variable is used to define list of bitbake variables
-> > used in wic code
-> >  # variables from this list is written to <image>.env file
-> >  WICVARS ?= "BBLAYERS DEPLOY_DIR_IMAGE HDDDIR IMAGE_BASENAME
-> > IMAGE_BOOT_FILES IMAGE_LINK_NAME IMAGE_ROOTFS INITRAMFS_FSTYPES
-> > INITRD ISODIR MACHINE_ARCH ROOTFS_SIZE STAGING_DATADIR
-> > STAGING_DIR_NATIVE STAGING_LIBDIR TARGET_SYS"
-> > +
-> > +python () {
-> > +    """Read in and set up wks file template for wic."""
-> > +    if d.getVar('USING_WIC', True):
-> > +        wks_file_u = d.getVar('WKS_FULL_PATH', False)
-> > +        wks_file = d.expand(wks_file_u)
-> > +        base, ext = os.path.splitext(wks_file)
-> > +        if ext == '.in' and os.path.exists(wks_file):
-> > +            wks_out_file = os.path.join(d.getVar('WORKDIR', True),
-> > os.path.basename(base))
-> > +            d.setVar('WKS_FULL_PATH', wks_out_file)
-> > +            d.setVar('WKS_TEMPLATE_PATH', wks_file_u)
-> > +            d.setVar('WKS_FILE_CHECKSUM',
-> > '${WKS_TEMPLATE_PATH}:True')
-> > +
-> > +            try:
-> > +                with open(wks_file, 'r') as f:
-> > +                    body = f.read()
-> > +            except (IOError, OSError) as exc:
-> > +                pass
->
-> I'm a little nervous about determinism here. Shouldn't it either find
-> the referenced file or error?
+Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+---
+ meta/recipes-extended/ghostscript/ghostscript_9.18.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-
-That's a fair point, I think I was concerned about parse time errors, since
-they tend to blow up into a lot of unpleasantness for the user, since parse
-time errors in classes can cause errors for multiple recipes. If no file is
-read in at parse time, there'll be no contents to write out, and we could
-then error when trying to build the image with wic, as no wks file will
-exist.
-
-Of course, the file being missing will change checksums for the image
-tasks, but I think that's reasonable.
-
-Thoughts?
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.18.bb b/meta/recipes-extended/ghostscript/ghostscript_9.18.bb
+index aa39345..eddf18d 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_9.18.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_9.18.bb
+@@ -16,6 +16,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=b17cea54743435ab2a581c237bea294a"
+ DEPENDS = "ghostscript-native tiff jpeg fontconfig cups libpng"
+ DEPENDS_class-native = "libpng-native"
+ 
++UPSTREAM_CHECK_URI = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases"
++
+ SRC_URI_BASE = "http://downloads.ghostscript.com/public/old-gs-releases/ghostscript-${PV}.tar.gz \
+                 file://ghostscript-9.15-parallel-make.patch \
+                 file://ghostscript-9.16-Werror-return-type.patch \
 -- 
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+2.6.6
 
---94eb2c055f6811cda205339758d0
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Tue, May 24, 2016 at 2:13 AM, Richard Purdie <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.=
-purdie@linuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
-ft:1ex"><div class=3D"HOEnZb adM"><div class=3D"h5">On Mon, 2016-05-23 at 1=
-3:34 -0700, Christopher Larson wrote:<br>
-&gt; From: Christopher Larson &lt;<a href=3D"mailto:chris_larson@mentor.com=
-">chris_larson@mentor.com</a>&gt;<br>
-&gt;<br>
-&gt; These files are treated as the contents of a bitbake variable, so<br>
-&gt; usual<br>
-&gt; bitbake variable references are supported. I considered using another<=
-br>
-&gt; templating mechanism, for example the one used by yocto-layer, but<br>
-&gt; then we&#39;d<br>
-&gt; end up largely mapping metadata variables to template fields anyway,<b=
-r>
-&gt; which is<br>
-&gt; a pointless indirection. Let bitbake expand the variables directly<br>
-&gt; instead.<br>
-&gt;<br>
-&gt; This feature lets us, for example, reference ${APPEND} in --append,<br=
->
-&gt; and avoid<br>
-&gt; hardcoding the serial console tty in the wks file, and let the user&#3=
-9;s<br>
-&gt; changes<br>
-&gt; to APPEND affect wic the way they do the other image construction<br>
-&gt; mechanisms.<br>
-&gt;<br>
-&gt; The template is read in and set in a variable at parse time, so<br>
-&gt; changes to the<br>
-&gt; variables referenced by the template will result in rebuilding the<br>
-&gt; image.<br>
-&gt;<br>
-&gt; Signed-off-by: Christopher Larson &lt;<a href=3D"mailto:chris_larson@m=
-entor.com">chris_larson@mentor.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/classes/image_types.bbclass | 35<br>
-&gt; +++++++++++++++++++++++++++++++++++<br>
-&gt;=C2=A0 1 file changed, 35 insertions(+)<br>
-&gt;<br>
-&gt; diff --git a/meta/classes/image_types.bbclass<br>
-&gt; b/meta/classes/image_types.bbclass<br>
-&gt; index dc681ae..caf8757 100644<br>
-&gt; --- a/meta/classes/image_types.bbclass<br>
-&gt; +++ b/meta/classes/image_types.bbclass<br>
-&gt; @@ -206,6 +206,16 @@ IMAGE_CMD_wic () {<br>
-&gt;=C2=A0 }<br>
-&gt;=C2=A0 IMAGE_CMD_wic[vardepsexclude] =3D &quot;WKS_FULL_PATH WKS_FILES&=
-quot;<br>
-&gt;<br>
-&gt; +python process_wks_template () {<br>
-&gt; +=C2=A0 =C2=A0 &quot;&quot;&quot;Write out expanded template contents =
-to WKS_FULL_PATH.&quot;&quot;&quot;<br>
-&gt; +=C2=A0 =C2=A0 template_body =3D d.getVar(&#39;_WKS_TEMPLATE&#39;, Tru=
-e)<br>
-&gt; +=C2=A0 =C2=A0 if template_body:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 wks_file =3D d.getVar(&#39;WKS_FULL_PATH&=
-#39;, True)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 with open(wks_file, &#39;w&#39;) as f:<br=
->
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f.write(template_body)<br>
-&gt; +}<br>
-&gt; +do_image_wic[prefuncs] +=3D &#39;process_wks_template&#39;<br>
-&gt; +<br>
-&gt;=C2=A0 # Rebuild when the wks file or vars in WICVARS change<br>
-&gt;=C2=A0 USING_WIC =3D &quot;${@bb.utils.contains_any(&#39;IMAGE_FSTYPES&=
-#39;, &#39;wic &#39; + &#39;<br>
-&gt; &#39;.join(&#39;wic.%s&#39; % c for c in &#39;${COMPRESSIONTYPES}&#39;=
-.split()), &#39;1&#39;, &#39;&#39;,<br>
-&gt; d)}&quot;<br>
-&gt;=C2=A0 WKS_FILE_CHECKSUM =3D &quot;${@&#39;${WKS_FULL_PATH}:%s&#39; %<b=
-r>
-&gt; os.path.exists(&#39;${WKS_FULL_PATH}&#39;) if &#39;${USING_WIC}&#39; e=
-lse &#39;&#39;}&quot;<br>
-&gt; @@ -302,3 +312,28 @@ IMAGE_TYPES_MASKED ?=3D &quot;&quot;<br>
-&gt;=C2=A0 # The WICVARS variable is used to define list of bitbake variabl=
-es<br>
-&gt; used in wic code<br>
-&gt;=C2=A0 # variables from this list is written to &lt;image&gt;.env file<=
-br>
-&gt;=C2=A0 WICVARS ?=3D &quot;BBLAYERS DEPLOY_DIR_IMAGE HDDDIR IMAGE_BASENA=
-ME<br>
-&gt; IMAGE_BOOT_FILES IMAGE_LINK_NAME IMAGE_ROOTFS INITRAMFS_FSTYPES<br>
-&gt; INITRD ISODIR MACHINE_ARCH ROOTFS_SIZE STAGING_DATADIR<br>
-&gt; STAGING_DIR_NATIVE STAGING_LIBDIR TARGET_SYS&quot;<br>
-&gt; +<br>
-&gt; +python () {<br>
-&gt; +=C2=A0 =C2=A0 &quot;&quot;&quot;Read in and set up wks file template =
-for wic.&quot;&quot;&quot;<br>
-&gt; +=C2=A0 =C2=A0 if d.getVar(&#39;USING_WIC&#39;, True):<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 wks_file_u =3D d.getVar(&#39;WKS_FULL_PAT=
-H&#39;, False)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 wks_file =3D d.expand(wks_file_u)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 base, ext =3D os.path.splitext(wks_file)<=
-br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if ext =3D=3D &#39;.in&#39; and os.path.e=
-xists(wks_file):<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 wks_out_file =3D os.path.jo=
-in(d.getVar(&#39;WORKDIR&#39;, True),<br>
-&gt; os.path.basename(base))<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d.setVar(&#39;WKS_FULL_PATH=
-&#39;, wks_out_file)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d.setVar(&#39;WKS_TEMPLATE_=
-PATH&#39;, wks_file_u)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d.setVar(&#39;WKS_FILE_CHEC=
-KSUM&#39;,<br>
-&gt; &#39;${WKS_TEMPLATE_PATH}:True&#39;)<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 with open(wks=
-_file, &#39;r&#39;) as f:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- body =3D f.read()<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 except (IOError, OSError) a=
-s exc:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pass<br>
-<br>
-</div></div>I&#39;m a little nervous about determinism here. Shouldn&#39;t =
-it either find<br>
-the referenced file or error?</blockquote></div><br>That&#39;s a fair point=
-, I think I was concerned about parse time errors, since they tend to blow =
-up into a lot of unpleasantness for the user, since parse time errors in cl=
-asses can cause errors for multiple recipes. If no file is read in at parse=
- time, there&#39;ll be no contents to write out, and we could then error wh=
-en trying to build the image with wic, as no wks file will exist.<br><br cl=
-ear=3D"all"><div>Of course, the file being missing will change checksums fo=
-r the image tasks, but I think that&#39;s reasonable.</div><div><br></div><=
-div>Thoughts?</div>-- <br><div class=3D"gmail_signature"><div dir=3D"ltr">C=
-hristopher Larson<br>kergoth at gmail dot com<br>Founder - BitBake, OpenEmb=
-edded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engineer, Mentor=
- Graphics</div></div>
-</div></div>
-
---94eb2c055f6811cda205339758d0--
