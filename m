@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 655956FF5D
+	by mail.openembedded.org (Postfix) with ESMTP id 632EF6FFD4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 May 2016 11:53:59 +0000 (UTC)
+	Tue, 24 May 2016 11:54:00 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga102.jf.intel.com with ESMTP; 24 May 2016 04:54:00 -0700
+	by orsmga102.jf.intel.com with ESMTP; 24 May 2016 04:54:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,359,1459839600"; d="scan'208";a="109498086"
+X-IronPort-AV: E=Sophos;i="5.26,359,1459839600"; d="scan'208";a="109498094"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga004.fm.intel.com with ESMTP; 24 May 2016 04:54:01 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 24 May 2016 04:54:02 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 May 2016 14:54:10 +0300
-Message-Id: <37c22febef5b28d1dd71397e1736caa54ae1bb97.1464088997.git.alexander.kanavin@linux.intel.com>
+Date: Tue, 24 May 2016 14:54:11 +0300
+Message-Id: <d4aeeee606b325f44575fa2bc4c480189124053d.1464088997.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
 References: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
 References: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 21/45] util-linux: move to Python 3
+Subject: [PATCH 22/45] python-pycairo: move to Python 3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,55 +31,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 May 2016 11:53:59 -0000
+X-List-Received-Date: Tue, 24 May 2016 11:54:00 -0000
+
+The Python 3 version comes in a separate tarball, and is relicensed
+under LGPLv3:
+http://cairographics.org/pycairo/
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-core/util-linux/util-linux.inc | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ .../python/python-pycairo_1.10.0.bb                | 41 ----------------------
+ .../python/python3-pycairo_1.10.0.bb               | 40 +++++++++++++++++++++
+ 2 files changed, 40 insertions(+), 41 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python-pycairo_1.10.0.bb
+ create mode 100644 meta/recipes-devtools/python/python3-pycairo_1.10.0.bb
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index a1614c2..c0f2540 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -17,7 +17,7 @@ LIC_FILES_CHKSUM = "file://README.licensing;md5=1715f5ee3e01203ca1e1e0b9ee65918c
-                     file://libmount/COPYING;md5=fb93f01d4361069c5616327705373b16 \
-                     file://libblkid/COPYING;md5=fb93f01d4361069c5616327705373b16"
- 
--inherit autotools gettext pkgconfig systemd update-alternatives python-dir ptest bash-completion
-+inherit autotools gettext pkgconfig systemd update-alternatives python3-dir ptest bash-completion
- DEPENDS = "zlib ncurses"
- DEPENDS_append_class-native = " lzo-native"
- DEPENDS_append_class-nativesdk = " lzo-native"
-@@ -60,14 +60,14 @@ PACKAGECONFIG[systemd] = "--with-systemd --with-systemdsystemunitdir=${systemd_u
- PACKAGECONFIG[libcap-ng] = "--enable-setpriv,--disable-setpriv,libcap-ng,"
- 
- # Build python bindings for libmount
--PACKAGECONFIG[pylibmount] = "--with-python --enable-pylibmount,--without-python --disable-pylibmount,python"
-+PACKAGECONFIG[pylibmount] = "--with-python=3 --enable-pylibmount,--without-python --disable-pylibmount,python3"
- 
- # Readline support
- PACKAGECONFIG[readline] = "--with-readline,--without-readline,readline"
- 
- FILES_${PN}-doc += "${datadir}/getopt/getopt-*.*"
- 
--FILES_${PN}-dev += "${libdir}/${PYTHON_DIR}/dist-packages/libmount/pylibmount.la"
-+FILES_${PN}-dev += "${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.la"
- 
- FILES_util-linux-agetty = "${base_sbindir}/agetty"
- FILES_util-linux-fdisk = "${base_sbindir}/fdisk.${BPN}"
-@@ -89,8 +89,9 @@ FILES_util-linux-findfs = "${sbindir}/findfs"
- FILES_util-linux-getopt = "${base_bindir}/getopt.${BPN}"
- FILES_util-linux-runuser = "${sbindir}/runuser"
- 
--FILES_util-linux-pylibmount = "${libdir}/${PYTHON_DIR}/dist-packages/libmount/pylibmount.so \
--                               ${libdir}/${PYTHON_DIR}/dist-packages/libmount/__init__.*"
-+FILES_util-linux-pylibmount = "${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.so \
-+                               ${PYTHON_SITEPACKAGES_DIR}/libmount/__init__.* \
-+                               ${PYTHON_SITEPACKAGES_DIR}/libmount/__pycache__/*"
- FILES_util-linux-lscpu = "${bindir}/lscpu"
- 
- FILES_util-linux-fsck = "${base_sbindir}/fsck*"
+diff --git a/meta/recipes-devtools/python/python-pycairo_1.10.0.bb b/meta/recipes-devtools/python/python-pycairo_1.10.0.bb
+deleted file mode 100644
+index 78e8a4e..0000000
+--- a/meta/recipes-devtools/python/python-pycairo_1.10.0.bb
++++ /dev/null
+@@ -1,41 +0,0 @@
+-SUMMARY = "Python bindings for the Cairo canvas library"
+-HOMEPAGE = "http://cairographics.org/pycairo"
+-BUGTRACKER = "http://bugs.freedesktop.org"
+-SECTION = "python-devel"
+-LICENSE = "LGPLv2.1 & MPL-1.1"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=f2e071ab72978431b294a0d696327421 \
+-                    file://COPYING-LGPL-2.1;md5=fad9b3332be894bab9bc501572864b29 \
+-                    file://COPYING-MPL-1.1;md5=bfe1f75d606912a4111c90743d6c7325"
+-
+-# cairo >= 1.8.8
+-DEPENDS = "cairo"
+-PR = "r2"
+-
+-SRC_URI = "http://cairographics.org/releases/py2cairo-${PV}.tar.bz2"
+-
+-SRC_URI[md5sum] = "20337132c4ab06c1146ad384d55372c5"
+-SRC_URI[sha256sum] = "d30439f06c2ec1a39e27464c6c828b6eface3b22ee17b2de05dc409e429a7431"
+-
+-S = "${WORKDIR}/py2cairo-${PV}"
+-
+-inherit distutils pkgconfig
+-
+-BBCLASSEXTEND = "native"
+-
+-do_configure() {
+-	./waf configure --prefix=${D}${prefix} --libdir=${D}${libdir}
+-}
+-
+-do_compile() {
+-	./waf build ${PARALLEL_MAKE}
+-}
+-
+-do_install() {
+-	./waf install
+-	sed \
+-		-e 's:@prefix@:${prefix}:' \
+-		-e 's:@VERSION@:${PV}:' \
+-		-e 's:@includedir@:${includedir}:' \
+-		pycairo.pc.in > pycairo.pc
+-	install -m 0644 pycairo.pc ${D}${libdir}/pkgconfig/
+-}
+diff --git a/meta/recipes-devtools/python/python3-pycairo_1.10.0.bb b/meta/recipes-devtools/python/python3-pycairo_1.10.0.bb
+new file mode 100644
+index 0000000..f9031b3
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-pycairo_1.10.0.bb
+@@ -0,0 +1,40 @@
++SUMMARY = "Python bindings for the Cairo canvas library"
++HOMEPAGE = "http://cairographics.org/pycairo"
++BUGTRACKER = "http://bugs.freedesktop.org"
++SECTION = "python-devel"
++LICENSE = "LGPLv3"
++LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
++                    file://COPYING.LESSER;md5=e6a600fd5e1d9cbde2d983680233ad02"
++
++# cairo >= 1.8.8
++DEPENDS = "cairo"
++PR = "r2"
++
++SRC_URI = "http://cairographics.org/releases/pycairo-${PV}.tar.bz2"
++
++SRC_URI[md5sum] = "e6fd3f2f1e6a72e0db0868c4985669c5"
++SRC_URI[sha256sum] = "9aa4078e7eb5be583aeabbe8d87172797717f95e8c4338f0d4a17b683a7253be"
++
++S = "${WORKDIR}/pycairo-${PV}"
++
++inherit distutils3 pkgconfig
++
++BBCLASSEXTEND = "native"
++
++do_configure() {
++	PYTHON=${PYTHON} ./waf configure --prefix=${D}${prefix} --libdir=${D}${libdir}
++}
++
++do_compile() {
++	./waf build ${PARALLEL_MAKE}
++}
++
++do_install() {
++	./waf install
++	sed \
++		-e 's:@prefix@:${prefix}:' \
++		-e 's:@VERSION@:${PV}:' \
++		-e 's:@includedir@:${includedir}:' \
++		py3cairo.pc.in > py3cairo.pc
++	install -m 0644 py3cairo.pc ${D}${libdir}/pkgconfig/
++}
 -- 
 2.8.1
 
