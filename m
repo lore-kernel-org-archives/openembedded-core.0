@@ -1,25 +1,29 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 0406F60107;
-	Tue, 24 May 2016 09:22:47 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 24 May 2016 02:22:49 -0700
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 937FC6072C
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 May 2016 10:23:57 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga104.fm.intel.com with ESMTP; 24 May 2016 03:23:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,359,1459839600"; d="scan'208";a="708025105"
-Received: from mbabyjoh-desk.fi.intel.com (HELO
-	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.71])
-	by FMSMGA003.fm.intel.com with ESMTP; 24 May 2016 02:22:47 -0700
-Date: Tue, 24 May 2016 12:23:36 +0300
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-devel@lists.openembedded.org
-Message-ID: <20160524092336.GA27824@mbabyjoh-desk.ger.corp.intel.com>
-References: <1464054649898.9b34c448@Nodemailer>
+X-IronPort-AV: E=Sophos;i="5.26,359,1459839600"; d="scan'208";a="987560993"
+Received: from csim2-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.142.192])
+	by fmsmga002.fm.intel.com with ESMTP; 24 May 2016 03:23:55 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Tue, 24 May 2016 22:23:53 +1200
+Message-ID: <2406091.eN5Xe47cZ7@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.4.9-300.fc23.x86_64; KDE/4.14.20; x86_64; ;
+	)
+In-Reply-To: <1464074758.9570.34.camel@linuxfoundation.org>
+References: <cover.1464057554.git.paul.eggleton@linux.intel.com>
+	<8f3a29655613c98c31c41ade3134540a96f074a7.1464057554.git.paul.eggleton@linux.intel.com>
+	<1464074758.9570.34.camel@linuxfoundation.org>
 MIME-Version: 1.0
-In-Reply-To: <1464054649898.9b34c448@Nodemailer>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: meta-ti@yoctoproject.org, angstrom-distro-devel@linuxtogo.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe] OE Changelog since 2016-05-15 until 2016-05-22
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] oe-init-build-env: allow GIT_SSL_CAINFO from external environment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,54 +36,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 May 2016 09:22:48 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 24 May 2016 10:23:58 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Hi,
-
-On Mon, May 23, 2016 at 06:50:51PM -0700, cliff.brake@gmail.com wrote:
-> Changelog since 2016-05-15 until 2016-05-22.  Projects included in this report:
+On Tue, 24 May 2016 08:25:58 Richard Purdie wrote:
+> On Tue, 2016-05-24 at 14:40 +1200, Paul Eggleton wrote:
+> > buildtools-tarball sets GIT_SSL_CAINFO so that the included
+> > ca-certificates can be used by git; that can't work however unless
+> > the GIT_SSL_CAINFO is still set in the environment in which git gets
+> > run by the fetcher, so allow it through from the external
+> > environment.
+> > 
+> > Fixes [YOCTO #9666].
+> > 
+> > Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> > ---
+> > 
+> >  scripts/oe-buildenv-internal | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> bitbake: git://git.openembedded.org/bitbake
-> openembedded-core: git://git.openembedded.org/openembedded-core
-> meta-openembedded: git://git.openembedded.org/meta-openembedded
-> meta-angstrom: git://github.com/Angstrom-distribution/meta-angstrom.git
-> meta-arago: git://arago-project.org/git/meta-arago.git
-> meta-atmel: https://github.com/linux4sam/meta-atmel.git
-> meta-beagleboard: git://github.com/beagleboard/meta-beagleboard.git
-> meta-browser: git://github.com/OSSystems/meta-browser.git
-> meta-bug: git://github.com/buglabs/meta-bug.git
-> meta-chicken: git://github.com/OSSystems/meta-chicken
-> meta-efikamx: git://github.com/kraj/meta-efikamx.git
-> meta-ettus: http://github.com/koenkooi/meta-ettus.git
-> meta-fsl-arm: git://git.yoctoproject.org/meta-fsl-arm
-> meta-fsl-arm-extra: git://github.com/Freescale/meta-fsl-arm-extra.git
-> meta-fsl-ppc: git://git.yoctoproject.org/meta-fsl-ppc
-> meta-guacamayo: git://github.com/Guacamayo/meta-guacamayo.git
-> meta-gumstix: git://github.com/gumstix/meta-gumstix.git
-> meta-gumstix-community: https://github.com/schnitzeltony/meta-gumstix-community.git
-> meta-handheld: git://git.openembedded.org/meta-handheld
-> meta-igep: http://github.com/ebutera/meta-igep.git
-> meta-intel: git://git.yoctoproject.org/meta-intel
-> meta-ivi: git://git.yoctoproject.org/meta-ivi
-> meta-java: git://github.com/woglinde/meta-java
+> Would it make more sense to just list this in
+> lib/bb/fetch2/__init__.py:runfetchcmd() instead?
 
-meta-java repo was moved to:
-git://git.yoctoproject.org/meta-java 
+Actually it's already included in that list, but it wasn't working in the eSDK 
+I was testing which I hadn't noticed was built before bitbake rev 
+20ad1ea87712d042bd5d89ce1957793f7ff71da0 where we now also look at BB_ORIGENV, 
+so it appears neither of these patches are even needed. We may need to 
+backport that change to krogoth to fix this problem there though.
 
-Is it possible to update the list with that info?
+Cheers,
+Paul
 
-> meta-jetson-tk1: https://github.com/cubicool/meta-jetson-tk1.git
-> meta-kde: git://gitorious.org/openembedded-core-layers/meta-kde.git
-> meta-micro: git://git.openembedded.org/meta-micro
-> meta-mono: git://git.yoctoproject.org/meta-mono.git
-> meta-netbookpro: git://github.com/tworaz/meta-netbookpro
-> meta-nodejs: https://github.com/imyller/meta-nodejs.git
-> meta-nslu2: git://github.com/kraj/meta-nslu2
-> meta-opie: git://git.openembedded.org/meta-opie
-> meta-qt3: git://git.yoctoproject.org/meta-qt3
+-- 
 
-Best Regards,
-Maxin
+Paul Eggleton
+Intel Open Source Technology Centre
 
