@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id EE61565CBB
+	by mail.openembedded.org (Postfix) with ESMTP id 006A765CC2
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 24 May 2016 11:53:52 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga102.jf.intel.com with ESMTP; 24 May 2016 04:53:43 -0700
+	by orsmga102.jf.intel.com with ESMTP; 24 May 2016 04:53:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,359,1459839600"; d="scan'208";a="109497969"
+X-IronPort-AV: E=Sophos;i="5.26,359,1459839600"; d="scan'208";a="109497973"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga004.fm.intel.com with ESMTP; 24 May 2016 04:53:43 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 24 May 2016 04:53:44 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 May 2016 14:53:53 +0300
-Message-Id: <c99118ff8bef308fa852488b8533546c7dd19d65.1464088997.git.alexander.kanavin@linux.intel.com>
+Date: Tue, 24 May 2016 14:53:54 +0300
+Message-Id: <70f76410663868b8cd737d28456ce2b7a5ddea27.1464088997.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
 References: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
 References: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 04/45] default-versions.inc: drop python-related defaults
+Subject: [PATCH 05/45] sip.bbclass: remove
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,88 +33,81 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 24 May 2016 11:53:53 -0000
 
-There is only one version of python 2.x provided, so no need
-to set a preferred version.
-PYTHON_BASEVERSION is now set explicitly in python-dir.bbclass and
-python3-dir.bbclass, so fix up a few recipes that relied on it being
-set in default-versions.inc without inheriting python-dir.
+Nothing is requiring it in oe-core or meta-oe.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/conf/distro/include/default-versions.inc | 5 -----
- meta/recipes-devtools/rpm/rpm_5.4+cvs.bb      | 2 +-
- meta/recipes-devtools/rpm/rpm_5.4.16.bb       | 2 +-
- meta/recipes-kernel/lttng/lttng-tools_git.bb  | 2 +-
- meta/recipes-rt/rt-tests/hwlatdetect_0.96.bb  | 1 +
- 5 files changed, 4 insertions(+), 8 deletions(-)
+ meta/classes/sip.bbclass | 61 ------------------------------------------------
+ 1 file changed, 61 deletions(-)
+ delete mode 100644 meta/classes/sip.bbclass
 
-diff --git a/meta/conf/distro/include/default-versions.inc b/meta/conf/distro/include/default-versions.inc
-index a04ea71..cc8c533 100644
---- a/meta/conf/distro/include/default-versions.inc
-+++ b/meta/conf/distro/include/default-versions.inc
-@@ -2,11 +2,6 @@
- # Default preferred versions
- #
- 
--# Force the python versions in one place
--PYTHON_BASEVERSION ?= "2.7"
--PREFERRED_VERSION_python ?= "2.7.11"
--PREFERRED_VERSION_python-native ?= "2.7.11"
+diff --git a/meta/classes/sip.bbclass b/meta/classes/sip.bbclass
+deleted file mode 100644
+index 6ed2a13..0000000
+--- a/meta/classes/sip.bbclass
++++ /dev/null
+@@ -1,61 +0,0 @@
+-# Build Class for Sip based Python Bindings
+-# (C) Michael 'Mickey' Lauer <mickey@Vanille.de>
+-#
+-STAGING_SIPDIR ?= "${STAGING_DATADIR_NATIVE}/sip"
 -
- # Force the older version of liberation-fonts until we fix the fontforge issue
- PREFERRED_VERSION_liberation-fonts ?= "1.04"
- 
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb b/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
-index 0991f6d..625d75e 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
-@@ -156,7 +156,7 @@ SRC_URI_append_libc-musl = "\
- # to process certain package feeds.
- #SRC_URI += "file://rpm-debug-platform.patch"
- 
--inherit autotools gettext
-+inherit autotools gettext python-dir
- 
- acpaths = "-I ${S}/db/dist/aclocal -I ${S}/db/dist/aclocal_java"
- 
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.16.bb b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-index 7ebd5e9..3adb29c 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-@@ -165,7 +165,7 @@ SRC_URI_append_libc-musl = "\
- 
- UPSTREAM_CHECK_REGEX = "rpm-(?P<pver>(\d+[\.\-_]*)+)-.*$"
- 
--inherit autotools gettext
-+inherit autotools gettext python-dir
- 
- acpaths = "-I ${S}/db/dist/aclocal -I ${S}/db/dist/aclocal_java"
- 
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_git.bb b/meta/recipes-kernel/lttng/lttng-tools_git.bb
-index 3ce4a9e..8ef267c 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_git.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_git.bb
-@@ -35,7 +35,7 @@ SRC_URI = "git://git.lttng.org/lttng-tools.git;branch=stable-2.7 \
- 
- S = "${WORKDIR}/git"
- 
--inherit autotools-brokensep ptest pkgconfig useradd
-+inherit autotools-brokensep ptest pkgconfig useradd python-dir
- 
- USERADD_PACKAGES = "${PN}"
- GROUPADD_PARAM_${PN} = "tracing"
-diff --git a/meta/recipes-rt/rt-tests/hwlatdetect_0.96.bb b/meta/recipes-rt/rt-tests/hwlatdetect_0.96.bb
-index 962069e..025eb63 100644
---- a/meta/recipes-rt/rt-tests/hwlatdetect_0.96.bb
-+++ b/meta/recipes-rt/rt-tests/hwlatdetect_0.96.bb
-@@ -6,6 +6,7 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
- 
- require rt-tests.inc
-+inherit python-dir
- 
- EXTRA_OEMAKE += "PYLIB=${libdir}/python${PYTHON_BASEVERSION}/dist-packages"
- 
+-DEPENDS  =+ "sip-native"
+-RDEPENDS_${PN} += "python-sip"
+-
+-# default stuff, do not uncomment
+-# EXTRA_SIPTAGS = "-tWS_X11 -tQt_4_3_0"
+-
+-# do_generate is before do_configure so ensure that sip_native is populated in sysroot before executing it
+-do_generate[depends] += "sip-native:do_populate_sysroot"
+-
+-sip_do_generate() {
+-	if [ -z "${SIP_MODULES}" ]; then 
+-		MODULES="`ls sip/*mod.sip`"
+-	else
+-		MODULES="${SIP_MODULES}"
+-	fi
+-
+-	if [ -z "$MODULES" ]; then
+-		die "SIP_MODULES not set and no modules found in $PWD"
+-        else
+-		bbnote "using modules '${SIP_MODULES}' and tags '${EXTRA_SIPTAGS}'"
+-	fi
+-
+-	if [ -z "${EXTRA_SIPTAGS}" ]; then
+-		die "EXTRA_SIPTAGS needs to be set!"
+-	else
+-		SIPTAGS="${EXTRA_SIPTAGS}"
+-	fi
+-
+-	if [ ! -z "${SIP_FEATURES}" ]; then
+-		FEATURES="-z ${SIP_FEATURES}"
+-		bbnote "sip feature file: ${SIP_FEATURES}"
+-	fi
+-
+-	for module in $MODULES
+-	do
+-		install -d ${module}/
+-		echo "calling 'sip4 -I sip -I ${STAGING_SIPDIR} ${SIPTAGS} ${FEATURES} -c ${module} -b ${module}/${module}.pro.in sip/${module}/${module}mod.sip'"
+-		sip4 -I ${STAGING_SIPDIR} -I sip ${SIPTAGS} ${FEATURES} -c ${module} -b ${module}/${module}.sbf \
+-			sip/${module}/${module}mod.sip || die "Error calling sip on ${module}"
+-		sed -e 's,target,TARGET,' -e 's,sources,SOURCES,' -e 's,headers,HEADERS,' \
+-			${module}/${module}.sbf | sed s,"moc_HEADERS =","HEADERS +=", \
+-			>${module}/${module}.pro
+-		echo "TEMPLATE=lib" >>${module}/${module}.pro
+-		[ "${module}" = "qt" ] 		&& echo "" 		>>${module}/${module}.pro
+-		[ "${module}" = "qtcanvas" ] 	&& echo ""		>>${module}/${module}.pro
+-		[ "${module}" = "qttable" ] 	&& echo ""		>>${module}/${module}.pro
+-		[ "${module}" = "qwt" ] 	&& echo ""		>>${module}/${module}.pro
+-		[ "${module}" = "qtpe" ]        && echo ""		>>${module}/${module}.pro
+-		[ "${module}" = "qtpe" ]        && echo "LIBS+=-lqpe"	>>${module}/${module}.pro
+-		true
+-	done
+-}
+-
+-EXPORT_FUNCTIONS do_generate
+-
+-addtask generate after do_unpack do_patch before do_configure
 -- 
 2.8.1
 
