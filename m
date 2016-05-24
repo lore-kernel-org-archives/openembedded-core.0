@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 93FB46FF5D
+	by mail.openembedded.org (Postfix) with ESMTP id C1C63731DF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 May 2016 11:54:22 +0000 (UTC)
+	Tue, 24 May 2016 11:54:23 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga104.fm.intel.com with ESMTP; 24 May 2016 04:54:23 -0700
+	by fmsmga104.fm.intel.com with ESMTP; 24 May 2016 04:54:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,359,1459839600"; d="scan'208";a="109498238"
+X-IronPort-AV: E=Sophos;i="5.26,359,1459839600"; d="scan'208";a="109498242"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga004.fm.intel.com with ESMTP; 24 May 2016 04:54:24 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 24 May 2016 04:54:25 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 May 2016 14:54:33 +0300
-Message-Id: <7538d28f4e18965ee4487bede6c6c7f5690a3824.1464088997.git.alexander.kanavin@linux.intel.com>
+Date: Tue, 24 May 2016 14:54:34 +0300
+Message-Id: <8685e71fc30d2023380c52ef0a8176112a48f05a.1464088997.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
 References: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
 References: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 44/45] python-numpy: move recipe to own directory
+Subject: [PATCH 45/45] python3-numpy: add a recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,170 +31,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 May 2016 11:54:23 -0000
+X-List-Received-Date: Tue, 24 May 2016 11:54:24 -0000
 
-This is done so that patches can be shared with python3-numpy
+This is needed for updating piglit to use Python 3.
+Python 2 based recipe can be later moved to meta-oe.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch       | 0
- .../{python/python-numpy => python-numpy/files}/aarch64/_numpyconfig.h    | 0
- .../python-numpy/powerpc64 => python-numpy/files/aarch64}/config.h        | 0
- .../{python/python-numpy => python-numpy/files}/add-glibc-check.patch     | 0
- .../{python/python-numpy/mipsel => python-numpy/files/arm}/config.h       | 0
- .../{python/python-numpy/mipsel => python-numpy/files/arm}/numpyconfig.h  | 0
- .../{python/python-numpy => python-numpy/files}/armeb/config.h            | 0
- .../{python/python-numpy => python-numpy/files}/armeb/numpyconfig.h       | 0
- .../{python/python-numpy => python-numpy/files}/mips/_numpyconfig.h       | 0
- .../{python/python-numpy => python-numpy/files}/mips/config.h             | 0
- .../python-numpy/powerpc64 => python-numpy/files/mips64}/_numpyconfig.h   | 0
- .../{python/python-numpy/mips64n32 => python-numpy/files/mips64}/config.h | 0
- .../{python/python-numpy => python-numpy/files}/mips64n32/_numpyconfig.h  | 0
- .../{python/python-numpy/mips64 => python-numpy/files/mips64n32}/config.h | 0
- .../{python/python-numpy/arm => python-numpy/files/mipsel}/config.h       | 0
- .../{python/python-numpy/arm => python-numpy/files/mipsel}/numpyconfig.h  | 0
- .../{python/python-numpy => python-numpy/files}/powerpc/_numpyconfig.h    | 0
- .../{python/python-numpy => python-numpy/files}/powerpc/config.h          | 0
- .../python-numpy/mips64 => python-numpy/files/powerpc64}/_numpyconfig.h   | 0
- .../python-numpy/aarch64 => python-numpy/files/powerpc64}/config.h        | 0
- .../files}/remove-build-path-in-comments.patch                            | 0
- .../{python/python-numpy => python-numpy/files}/x86-64/_numpyconfig.h     | 0
- .../{python/python-numpy => python-numpy/files}/x86-64/config.h           | 0
- .../{python/python-numpy => python-numpy/files}/x86/config.h              | 0
- .../{python/python-numpy => python-numpy/files}/x86/numpyconfig.h         | 0
- meta/recipes-devtools/{python => python-numpy}/python-numpy_1.10.4.bb     | 0
- 26 files changed, 0 insertions(+), 0 deletions(-)
- rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch (100%)
- rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/aarch64/_numpyconfig.h (100%)
- rename meta/recipes-devtools/{python/python-numpy/powerpc64 => python-numpy/files/aarch64}/config.h (100%)
- rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/add-glibc-check.patch (100%)
- rename meta/recipes-devtools/{python/python-numpy/mipsel => python-numpy/files/arm}/config.h (100%)
- rename meta/recipes-devtools/{python/python-numpy/mipsel => python-numpy/files/arm}/numpyconfig.h (100%)
- rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/armeb/config.h (100%)
- rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/armeb/numpyconfig.h (100%)
- rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/mips/_numpyconfig.h (100%)
- rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/mips/config.h (100%)
- rename meta/recipes-devtools/{python/python-numpy/powerpc64 => python-numpy/files/mips64}/_numpyconfig.h (100%)
- rename meta/recipes-devtools/{python/python-numpy/mips64n32 => python-numpy/files/mips64}/config.h (100%)
- rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/mips64n32/_numpyconfig.h (100%)
- rename meta/recipes-devtools/{python/python-numpy/mips64 => python-numpy/files/mips64n32}/config.h (100%)
- rename meta/recipes-devtools/{python/python-numpy/arm => python-numpy/files/mipsel}/config.h (100%)
- rename meta/recipes-devtools/{python/python-numpy/arm => python-numpy/files/mipsel}/numpyconfig.h (100%)
- rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/powerpc/_numpyconfig.h (100%)
- rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/powerpc/config.h (100%)
- rename meta/recipes-devtools/{python/python-numpy/mips64 => python-numpy/files/powerpc64}/_numpyconfig.h (100%)
- rename meta/recipes-devtools/{python/python-numpy/aarch64 => python-numpy/files/powerpc64}/config.h (100%)
- rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/remove-build-path-in-comments.patch (100%)
- rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/x86-64/_numpyconfig.h (100%)
- rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/x86-64/config.h (100%)
- rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/x86/config.h (100%)
- rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/x86/numpyconfig.h (100%)
- rename meta/recipes-devtools/{python => python-numpy}/python-numpy_1.10.4.bb (100%)
+ .../python-numpy/python3-numpy_1.10.4.bb           | 101 +++++++++++++++++++++
+ 1 file changed, 101 insertions(+)
+ create mode 100644 meta/recipes-devtools/python-numpy/python3-numpy_1.10.4.bb
 
-diff --git a/meta/recipes-devtools/python/python-numpy/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch b/meta/recipes-devtools/python-numpy/files/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
-similarity index 100%
-rename from meta/recipes-devtools/python/python-numpy/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
-rename to meta/recipes-devtools/python-numpy/files/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
-diff --git a/meta/recipes-devtools/python/python-numpy/aarch64/_numpyconfig.h b/meta/recipes-devtools/python-numpy/files/aarch64/_numpyconfig.h
-similarity index 100%
-rename from meta/recipes-devtools/python/python-numpy/aarch64/_numpyconfig.h
-rename to meta/recipes-devtools/python-numpy/files/aarch64/_numpyconfig.h
-diff --git a/meta/recipes-devtools/python/python-numpy/powerpc64/config.h b/meta/recipes-devtools/python-numpy/files/aarch64/config.h
-similarity index 100%
-rename from meta/recipes-devtools/python/python-numpy/powerpc64/config.h
-rename to meta/recipes-devtools/python-numpy/files/aarch64/config.h
-diff --git a/meta/recipes-devtools/python/python-numpy/add-glibc-check.patch b/meta/recipes-devtools/python-numpy/files/add-glibc-check.patch
-similarity index 100%
-rename from meta/recipes-devtools/python/python-numpy/add-glibc-check.patch
-rename to meta/recipes-devtools/python-numpy/files/add-glibc-check.patch
-diff --git a/meta/recipes-devtools/python/python-numpy/mipsel/config.h b/meta/recipes-devtools/python-numpy/files/arm/config.h
-similarity index 100%
-rename from meta/recipes-devtools/python/python-numpy/mipsel/config.h
-rename to meta/recipes-devtools/python-numpy/files/arm/config.h
-diff --git a/meta/recipes-devtools/python/python-numpy/mipsel/numpyconfig.h b/meta/recipes-devtools/python-numpy/files/arm/numpyconfig.h
-similarity index 100%
-rename from meta/recipes-devtools/python/python-numpy/mipsel/numpyconfig.h
-rename to meta/recipes-devtools/python-numpy/files/arm/numpyconfig.h
-diff --git a/meta/recipes-devtools/python/python-numpy/armeb/config.h b/meta/recipes-devtools/python-numpy/files/armeb/config.h
-similarity index 100%
-rename from meta/recipes-devtools/python/python-numpy/armeb/config.h
-rename to meta/recipes-devtools/python-numpy/files/armeb/config.h
-diff --git a/meta/recipes-devtools/python/python-numpy/armeb/numpyconfig.h b/meta/recipes-devtools/python-numpy/files/armeb/numpyconfig.h
-similarity index 100%
-rename from meta/recipes-devtools/python/python-numpy/armeb/numpyconfig.h
-rename to meta/recipes-devtools/python-numpy/files/armeb/numpyconfig.h
-diff --git a/meta/recipes-devtools/python/python-numpy/mips/_numpyconfig.h b/meta/recipes-devtools/python-numpy/files/mips/_numpyconfig.h
-similarity index 100%
-rename from meta/recipes-devtools/python/python-numpy/mips/_numpyconfig.h
-rename to meta/recipes-devtools/python-numpy/files/mips/_numpyconfig.h
-diff --git a/meta/recipes-devtools/python/python-numpy/mips/config.h b/meta/recipes-devtools/python-numpy/files/mips/config.h
-similarity index 100%
-rename from meta/recipes-devtools/python/python-numpy/mips/config.h
-rename to meta/recipes-devtools/python-numpy/files/mips/config.h
-diff --git a/meta/recipes-devtools/python/python-numpy/powerpc64/_numpyconfig.h b/meta/recipes-devtools/python-numpy/files/mips64/_numpyconfig.h
-similarity index 100%
-rename from meta/recipes-devtools/python/python-numpy/powerpc64/_numpyconfig.h
-rename to meta/recipes-devtools/python-numpy/files/mips64/_numpyconfig.h
-diff --git a/meta/recipes-devtools/python/python-numpy/mips64n32/config.h b/meta/recipes-devtools/python-numpy/files/mips64/config.h
-similarity index 100%
-rename from meta/recipes-devtools/python/python-numpy/mips64n32/config.h
-rename to meta/recipes-devtools/python-numpy/files/mips64/config.h
-diff --git a/meta/recipes-devtools/python/python-numpy/mips64n32/_numpyconfig.h b/meta/recipes-devtools/python-numpy/files/mips64n32/_numpyconfig.h
-similarity index 100%
-rename from meta/recipes-devtools/python/python-numpy/mips64n32/_numpyconfig.h
-rename to meta/recipes-devtools/python-numpy/files/mips64n32/_numpyconfig.h
-diff --git a/meta/recipes-devtools/python/python-numpy/mips64/config.h b/meta/recipes-devtools/python-numpy/files/mips64n32/config.h
-similarity index 100%
-rename from meta/recipes-devtools/python/python-numpy/mips64/config.h
-rename to meta/recipes-devtools/python-numpy/files/mips64n32/config.h
-diff --git a/meta/recipes-devtools/python/python-numpy/arm/config.h b/meta/recipes-devtools/python-numpy/files/mipsel/config.h
-similarity index 100%
-rename from meta/recipes-devtools/python/python-numpy/arm/config.h
-rename to meta/recipes-devtools/python-numpy/files/mipsel/config.h
-diff --git a/meta/recipes-devtools/python/python-numpy/arm/numpyconfig.h b/meta/recipes-devtools/python-numpy/files/mipsel/numpyconfig.h
-similarity index 100%
-rename from meta/recipes-devtools/python/python-numpy/arm/numpyconfig.h
-rename to meta/recipes-devtools/python-numpy/files/mipsel/numpyconfig.h
-diff --git a/meta/recipes-devtools/python/python-numpy/powerpc/_numpyconfig.h b/meta/recipes-devtools/python-numpy/files/powerpc/_numpyconfig.h
-similarity index 100%
-rename from meta/recipes-devtools/python/python-numpy/powerpc/_numpyconfig.h
-rename to meta/recipes-devtools/python-numpy/files/powerpc/_numpyconfig.h
-diff --git a/meta/recipes-devtools/python/python-numpy/powerpc/config.h b/meta/recipes-devtools/python-numpy/files/powerpc/config.h
-similarity index 100%
-rename from meta/recipes-devtools/python/python-numpy/powerpc/config.h
-rename to meta/recipes-devtools/python-numpy/files/powerpc/config.h
-diff --git a/meta/recipes-devtools/python/python-numpy/mips64/_numpyconfig.h b/meta/recipes-devtools/python-numpy/files/powerpc64/_numpyconfig.h
-similarity index 100%
-rename from meta/recipes-devtools/python/python-numpy/mips64/_numpyconfig.h
-rename to meta/recipes-devtools/python-numpy/files/powerpc64/_numpyconfig.h
-diff --git a/meta/recipes-devtools/python/python-numpy/aarch64/config.h b/meta/recipes-devtools/python-numpy/files/powerpc64/config.h
-similarity index 100%
-rename from meta/recipes-devtools/python/python-numpy/aarch64/config.h
-rename to meta/recipes-devtools/python-numpy/files/powerpc64/config.h
-diff --git a/meta/recipes-devtools/python/python-numpy/remove-build-path-in-comments.patch b/meta/recipes-devtools/python-numpy/files/remove-build-path-in-comments.patch
-similarity index 100%
-rename from meta/recipes-devtools/python/python-numpy/remove-build-path-in-comments.patch
-rename to meta/recipes-devtools/python-numpy/files/remove-build-path-in-comments.patch
-diff --git a/meta/recipes-devtools/python/python-numpy/x86-64/_numpyconfig.h b/meta/recipes-devtools/python-numpy/files/x86-64/_numpyconfig.h
-similarity index 100%
-rename from meta/recipes-devtools/python/python-numpy/x86-64/_numpyconfig.h
-rename to meta/recipes-devtools/python-numpy/files/x86-64/_numpyconfig.h
-diff --git a/meta/recipes-devtools/python/python-numpy/x86-64/config.h b/meta/recipes-devtools/python-numpy/files/x86-64/config.h
-similarity index 100%
-rename from meta/recipes-devtools/python/python-numpy/x86-64/config.h
-rename to meta/recipes-devtools/python-numpy/files/x86-64/config.h
-diff --git a/meta/recipes-devtools/python/python-numpy/x86/config.h b/meta/recipes-devtools/python-numpy/files/x86/config.h
-similarity index 100%
-rename from meta/recipes-devtools/python/python-numpy/x86/config.h
-rename to meta/recipes-devtools/python-numpy/files/x86/config.h
-diff --git a/meta/recipes-devtools/python/python-numpy/x86/numpyconfig.h b/meta/recipes-devtools/python-numpy/files/x86/numpyconfig.h
-similarity index 100%
-rename from meta/recipes-devtools/python/python-numpy/x86/numpyconfig.h
-rename to meta/recipes-devtools/python-numpy/files/x86/numpyconfig.h
-diff --git a/meta/recipes-devtools/python/python-numpy_1.10.4.bb b/meta/recipes-devtools/python-numpy/python-numpy_1.10.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python-numpy_1.10.4.bb
-rename to meta/recipes-devtools/python-numpy/python-numpy_1.10.4.bb
+diff --git a/meta/recipes-devtools/python-numpy/python3-numpy_1.10.4.bb b/meta/recipes-devtools/python-numpy/python3-numpy_1.10.4.bb
+new file mode 100644
+index 0000000..dcd23ac
+--- /dev/null
++++ b/meta/recipes-devtools/python-numpy/python3-numpy_1.10.4.bb
+@@ -0,0 +1,101 @@
++SUMMARY = "A sophisticated Numeric Processing Package for Python"
++SECTION = "devel/python"
++LICENSE = "PSF"
++LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=9f4e88b5748e8313caaf33d081ce65a3"
++
++SRC_URI = "${SOURCEFORGE_MIRROR}/numpy/numpy-${PV}.tar.gz \
++           file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch \
++           file://remove-build-path-in-comments.patch \
++           file://add-glibc-check.patch \
++           ${CONFIGFILESURI} "
++
++CONFIGFILESURI ?= ""
++
++CONFIGFILESURI_aarch64 = " \
++    file://config.h \
++    file://_numpyconfig.h \
++"
++CONFIGFILESURI_arm = " \
++    file://config.h \
++    file://numpyconfig.h \
++"
++CONFIGFILESURI_armeb = " \
++    file://config.h \
++    file://numpyconfig.h \
++"
++CONFIGFILESURI_mipsel = " \
++    file://config.h \
++    file://numpyconfig.h \
++"
++CONFIGFILESURI_x86 = " \
++    file://config.h \
++    file://numpyconfig.h \
++"
++CONFIGFILESURI_x86-64 = " \
++    file://config.h \
++    file://_numpyconfig.h \
++"
++CONFIGFILESURI_mips = " \
++    file://config.h \
++    file://_numpyconfig.h \
++"
++CONFIGFILESURI_powerpc = " \
++    file://config.h \
++    file://_numpyconfig.h \
++"
++CONFIGFILESURI_powerpc64 = " \
++    file://config.h \
++    file://_numpyconfig.h \
++"
++CONFIGFILESURI_mips64 = " \
++    file://config.h \
++    file://_numpyconfig.h \
++"
++CONFIGFILESURI_mips64n32 = " \
++    file://config.h \
++    file://_numpyconfig.h \
++"
++
++S = "${WORKDIR}/numpy-${PV}"
++
++inherit distutils3
++
++# Make the build fail and replace *config.h with proper one
++# This is a ugly, ugly hack - Koen
++do_compile_prepend_class-target() {
++    ${STAGING_BINDIR_NATIVE}/python3-native/python3 setup.py build ${DISTUTILS_BUILD_ARGS} || \
++    true
++    cp ${WORKDIR}/*config.h ${S}/build/$(ls ${S}/build | grep src)/numpy/core/include/numpy/
++}
++
++FILES_${PN}-staticdev += "${PYTHON_SITEPACKAGES_DIR}/numpy/core/lib/*.a"
++
++SRC_URI[md5sum] = "90bb9034652cefbada19cf7d141a6a61"
++SRC_URI[sha256sum] = "f7f91842056a7cf680b0eaf8cefc5e46c69e2521e651128d2e6aaaccec8652ae"
++
++# install what is needed for numpy.test()
++RDEPENDS_${PN} = "python3-unittest \
++                  python3-difflib \
++                  python3-pprint \
++                  python3-pickle \
++                  python3-shell \
++                  python3-nose \
++                  python3-doctest \
++                  python3-datetime \
++                  python3-distutils \
++                  python3-misc \
++                  python3-mmap \
++                  python3-netclient \
++                  python3-numbers \
++                  python3-pydoc \
++                  python3-pkgutil \
++                  python3-email \
++                  python3-subprocess \
++                  python3-compression \
++                  python3-ctypes \
++                  python3-threading \
++"
++
++RDEPENDS_${PN}_class-native = ""
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
 2.8.1
 
