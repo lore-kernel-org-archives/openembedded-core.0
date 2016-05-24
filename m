@@ -1,29 +1,20 @@
-Return-Path: <paul.eggleton@linux.intel.com>
+Return-Path: <brendan.le.foll@intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 937FC6072C
+	by mail.openembedded.org (Postfix) with ESMTP id 8E62760043
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 May 2016 10:23:57 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga104.fm.intel.com with ESMTP; 24 May 2016 03:23:59 -0700
+	Tue, 24 May 2016 11:11:45 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga104.fm.intel.com with ESMTP; 24 May 2016 04:11:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,359,1459839600"; d="scan'208";a="987560993"
-Received: from csim2-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.142.192])
-	by fmsmga002.fm.intel.com with ESMTP; 24 May 2016 03:23:55 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Tue, 24 May 2016 22:23:53 +1200
-Message-ID: <2406091.eN5Xe47cZ7@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.4.9-300.fc23.x86_64; KDE/4.14.20; x86_64; ;
-	)
-In-Reply-To: <1464074758.9570.34.camel@linuxfoundation.org>
-References: <cover.1464057554.git.paul.eggleton@linux.intel.com>
-	<8f3a29655613c98c31c41ade3134540a96f074a7.1464057554.git.paul.eggleton@linux.intel.com>
-	<1464074758.9570.34.camel@linuxfoundation.org>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] oe-init-build-env: allow GIT_SSL_CAINFO from external environment
+X-IronPort-AV: E=Sophos;i="5.26,359,1459839600"; d="scan'208";a="109478551"
+Received: from jupiter.iwi.intel.com ([172.28.33.51])
+	by fmsmga004.fm.intel.com with ESMTP; 24 May 2016 04:11:45 -0700
+From: brendan.le.foll@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 24 May 2016 12:12:16 +0100
+Message-Id: <1464088336-6619-1-git-send-email-brendan.le.foll@intel.com>
+X-Mailer: git-send-email 2.8.2
+Subject: [PATCH] npm: add target_arch flag to npm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,40 +27,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 May 2016 10:23:58 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 24 May 2016 11:11:45 -0000
 
-On Tue, 24 May 2016 08:25:58 Richard Purdie wrote:
-> On Tue, 2016-05-24 at 14:40 +1200, Paul Eggleton wrote:
-> > buildtools-tarball sets GIT_SSL_CAINFO so that the included
-> > ca-certificates can be used by git; that can't work however unless
-> > the GIT_SSL_CAINFO is still set in the environment in which git gets
-> > run by the fetcher, so allow it through from the external
-> > environment.
-> > 
-> > Fixes [YOCTO #9666].
-> > 
-> > Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-> > ---
-> > 
-> >  scripts/oe-buildenv-internal | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> Would it make more sense to just list this in
-> lib/bb/fetch2/__init__.py:runfetchcmd() instead?
+From: Brendan Le Foll <brendan.le.foll@intel.com>
 
-Actually it's already included in that list, but it wasn't working in the eSDK 
-I was testing which I hadn't noticed was built before bitbake rev 
-20ad1ea87712d042bd5d89ce1957793f7ff71da0 where we now also look at BB_ORIGENV, 
-so it appears neither of these patches are even needed. We may need to 
-backport that change to krogoth to fix this problem there though.
+npm takes a target_arch flag which needs to be set to do some gyp compilations
+correctly. It also doesn't use the same mapping as OE for target arch so a
+small function is required to make the mapping work. Function is taken from
+meta-nodejs
 
-Cheers,
-Paul
+Signed-off-by: Brendan Le Foll <brendan.le.foll@intel.com>
+---
+ meta/classes/npm.bbclass | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
+diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
+index 9843e87..d0d3d8f 100644
+--- a/meta/classes/npm.bbclass
++++ b/meta/classes/npm.bbclass
+@@ -3,6 +3,17 @@ S = "${WORKDIR}/npmpkg"
+ 
+ NPM_INSTALLDIR = "${D}${libdir}/node_modules/${PN}"
+ 
++# function maps arch names to npm arch names
++def npm_oe_arch_map(target_arch, d):
++    import re
++    if   re.match('p(pc|owerpc)(|64)', target_arch): return 'ppc'
++    elif re.match('i.86$', target_arch): return 'ia32'
++    elif re.match('x86_64$', target_arch): return 'x64'
++    elif re.match('arm64$', target_arch): return 'arm'
++    return target_arch
++
++NPM_ARCH ?= "${@npm_oe_arch_map(d.getVar('TARGET_ARCH', True), d)}"
++
+ npm_do_compile() {
+ 	# changing the home directory to the working directory, the .npmrc will
+ 	# be created in this directory
+@@ -12,7 +23,7 @@ npm_do_compile() {
+ 	# clear cache before every build
+ 	npm cache clear
+ 	# Install pkg into ${S} without going to the registry
+-	npm --arch=${TARGET_ARCH} --production --no-registry install
++	npm --arch=${NPM_ARCH} --target_arch=${NPM_ARCH} --production --no-registry install
+ }
+ 
+ npm_do_install() {
 -- 
+2.8.2
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
