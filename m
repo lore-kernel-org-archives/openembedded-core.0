@@ -1,26 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C850960107
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 51D8D60107
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 May 2016 03:15:48 +0000 (UTC)
+	Tue, 24 May 2016 03:15:47 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u4O3Fmon021620
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u4O3Fl6k000799
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 May 2016 20:15:48 -0700 (PDT)
+	Mon, 23 May 2016 20:15:47 -0700
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 23 May 2016 20:15:47 -0700
+	Mon, 23 May 2016 20:15:46 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 23 May 2016 20:15:46 -0700
-Message-ID: <b85d93c20fe3d845e7ff42e3ba1c26d5124e3781.1464059717.git.liezhi.yang@windriver.com>
+Date: Mon, 23 May 2016 20:15:45 -0700
+Message-ID: <cover.1464059717.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1464059717.git.liezhi.yang@windriver.com>
-References: <cover.1464059717.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] tcl: fix sed command in do_install
+Subject: [PATCH 0/1] tcl: fix sed command in do_install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +31,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 May 2016 03:15:48 -0000
+X-List-Received-Date: Tue, 24 May 2016 03:15:49 -0000
 Content-Type: text/plain
 
-The -I= and -L= is used for cross compile, target doesn't need, and
-binconfig.class can handle usr/bin/crossscripts/tclConfig.sh.
+The following changes since commit d6241e4c94a0a72acfc57e96a59918c0b2146d65:
 
-Fix do_configure error for the recipe which uses tclConfig.sh, for
-example, postgresql.do_configure:
-configure: error: header file <tcl.h> is required for Tcl
+  useradd: Fix infinite build loop (2016-05-23 10:33:39 +0100)
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/tcl
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/tcl
+
+Robert Yang (1):
+  tcl: fix sed command in do_install
+
  meta/recipes-devtools/tcltk/tcl_8.6.4.bb | 2 --
  1 file changed, 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.4.bb b/meta/recipes-devtools/tcltk/tcl_8.6.4.bb
-index 61be81d..14ca9ba 100644
---- a/meta/recipes-devtools/tcltk/tcl_8.6.4.bb
-+++ b/meta/recipes-devtools/tcltk/tcl_8.6.4.bb
-@@ -56,8 +56,6 @@ do_install() {
- 	ln -sf tclsh8.6 ${D}${bindir}/tclsh${VER}
- 	sed -i "s+-L${B}+-L${STAGING_LIBDIR}+g" tclConfig.sh
- 	sed -i "s+${WORKDIR}+${STAGING_INCDIR}+g" tclConfig.sh
--	sed -i "s,-L${libdir},-L=${libdir},g" tclConfig.sh
--	sed -i "s,-I${includedir},-I=${includedir},g" tclConfig.sh
- 	install -d ${D}${bindir_crossscripts}
- 	install -m 0755 tclConfig.sh ${D}${bindir_crossscripts}
- 	install -m 0755 tclConfig.sh ${D}${libdir}
 -- 
 2.7.4
 
