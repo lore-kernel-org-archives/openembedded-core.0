@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 46B636FFCE
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 41CD265C8A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 May 2016 03:25:46 +0000 (UTC)
+	Tue, 24 May 2016 03:25:47 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u4O3PlDL003363
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u4O3PmsK000996
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 May 2016 20:25:47 -0700 (PDT)
+	Mon, 23 May 2016 20:25:48 -0700
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 23 May 2016 20:25:46 -0700
+	Mon, 23 May 2016 20:25:47 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 23 May 2016 20:25:40 -0700
-Message-ID: <66f9dec4b4739593f81b49866611c97ca6b68608.1464060246.git.liezhi.yang@windriver.com>
+Date: Mon, 23 May 2016 20:25:41 -0700
+Message-ID: <8041e839d0f034e49d5bab0b736d2874f67bae99.1464060246.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.8.0
 In-Reply-To: <cover.1464060246.git.liezhi.yang@windriver.com>
 References: <cover.1464060246.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/6] python-smmap: remove it
+Subject: [PATCH 5/6] python-gitdb: remove it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,83 +33,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 May 2016 03:25:46 -0000
+X-List-Received-Date: Tue, 24 May 2016 03:25:47 -0000
 Content-Type: text/plain
 
-It was needed by python-gitdb, no one requires it any more now.
+It was needed by python-git, no one requires it any more now.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-devtools/python/python-smmap.inc       | 19 -------------------
- meta/recipes-devtools/python/python-smmap_0.9.0.bb  |  5 -----
- meta/recipes-devtools/python/python3-smmap_0.9.0.bb | 20 +++++++++++++++++++-
- 3 files changed, 19 insertions(+), 25 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python-smmap.inc
- delete mode 100644 meta/recipes-devtools/python/python-smmap_0.9.0.bb
+ meta/recipes-devtools/python/python-gitdb.inc       | 16 ----------------
+ meta/recipes-devtools/python/python-gitdb_0.6.4.bb  |  7 -------
+ meta/recipes-devtools/python/python3-gitdb_0.6.4.bb | 17 ++++++++++++++++-
+ 3 files changed, 16 insertions(+), 24 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python-gitdb.inc
+ delete mode 100644 meta/recipes-devtools/python/python-gitdb_0.6.4.bb
 
-diff --git a/meta/recipes-devtools/python/python-smmap.inc b/meta/recipes-devtools/python/python-smmap.inc
+diff --git a/meta/recipes-devtools/python/python-gitdb.inc b/meta/recipes-devtools/python/python-gitdb.inc
 deleted file mode 100644
-index 5b2ac74..0000000
---- a/meta/recipes-devtools/python/python-smmap.inc
+index 6467bd2..0000000
+--- a/meta/recipes-devtools/python/python-gitdb.inc
 +++ /dev/null
-@@ -1,19 +0,0 @@
--SUMMARY = "Python implementation of a sliding window memory map manager"
--DESCRIPTION = "A pure Python implementation of a sliding memory map to \
--help unifying memory mapped access on 32 and 64 bit systems and to help \
--managing resources more efficiently."
--HOMEPAGE = "http://github.com/gitpython-developers/GitPython"
+@@ -1,16 +0,0 @@
+-SUMMARY = "A pure-Python git object database"
+-HOMEPAGE = "http://github.com/gitpython-developers/gitdb"
 -SECTION = "devel/python"
--LICENSE = "BSD"
--LIC_FILES_CHKSUM = "file://PKG-INFO;beginline=8;endline=8;md5=e910b35b0ef4e1f665b9a75d6afb7709"
+-LICENSE = "BSD-3-Clause"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=59e5ecb13339a936eedf83282eaf4528"
 -
--SRC_URI = "http://pypi.python.org/packages/source/s/smmap/smmap-${PV}.tar.gz"
--SRC_URI[md5sum] = "d7932d5ace206bf4ae15198cf36fb6ab"
--SRC_URI[sha256sum] = "0e2b62b497bd5f0afebc002eda4d90df9d209c30ef257e8673c90a6b5c119d62"
+-SRC_URI = "https://pypi.python.org/packages/source/g/gitdb/gitdb-${PV}.tar.gz"
 -
--UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/smmap/"
--UPSTREAM_CHECK_REGEX = "/smmap/(?P<pver>(\d+[\.\-_]*)+)"
+-SRC_URI[md5sum] = "44e4366b8bdfd306b075c3a52c96ae1a"
+-SRC_URI[sha256sum] = "a3ebbc27be035a2e874ed904df516e35f4a29a778a764385de09de9e0f139658"
 -
--S = "${WORKDIR}/smmap-${PV}"
+-UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/gitdb/"
+-
+-S = "${WORKDIR}/gitdb-${PV}"
 -
 -BBCLASSEXTEND = "nativesdk"
-diff --git a/meta/recipes-devtools/python/python-smmap_0.9.0.bb b/meta/recipes-devtools/python/python-smmap_0.9.0.bb
+diff --git a/meta/recipes-devtools/python/python-gitdb_0.6.4.bb b/meta/recipes-devtools/python/python-gitdb_0.6.4.bb
 deleted file mode 100644
-index c118dd8..0000000
---- a/meta/recipes-devtools/python/python-smmap_0.9.0.bb
+index 1777395..0000000
+--- a/meta/recipes-devtools/python/python-gitdb_0.6.4.bb
 +++ /dev/null
-@@ -1,5 +0,0 @@
--require python-smmap.inc
+@@ -1,7 +0,0 @@
+-require python-gitdb.inc
 -
--inherit setuptools
+-DEPENDS = "python-async python-smmap"
 -
--RDEPENDS_${PN} += "python-codecs python-mmap python-lang"
-diff --git a/meta/recipes-devtools/python/python3-smmap_0.9.0.bb b/meta/recipes-devtools/python/python3-smmap_0.9.0.bb
-index 9f8a26d..c6b0755 100644
---- a/meta/recipes-devtools/python/python3-smmap_0.9.0.bb
-+++ b/meta/recipes-devtools/python/python3-smmap_0.9.0.bb
-@@ -1,4 +1,22 @@
--require python-smmap.inc
-+SUMMARY = "Python implementation of a sliding window memory map manager"
-+DESCRIPTION = "A pure Python implementation of a sliding memory map to \
-+help unifying memory mapped access on 32 and 64 bit systems and to help \
-+managing resources more efficiently."
-+HOMEPAGE = "http://github.com/gitpython-developers/GitPython"
+-inherit distutils
+-
+-RDEPENDS_${PN} += "python-smmap python-async python-mmap python-lang python-zlib python-io python-shell"
+diff --git a/meta/recipes-devtools/python/python3-gitdb_0.6.4.bb b/meta/recipes-devtools/python/python3-gitdb_0.6.4.bb
+index 9927658..0e6508f 100644
+--- a/meta/recipes-devtools/python/python3-gitdb_0.6.4.bb
++++ b/meta/recipes-devtools/python/python3-gitdb_0.6.4.bb
+@@ -1,4 +1,19 @@
+-require python-gitdb.inc
++SUMMARY = "A pure-Python git object database"
++HOMEPAGE = "http://github.com/gitpython-developers/gitdb"
 +SECTION = "devel/python"
-+LICENSE = "BSD"
-+LIC_FILES_CHKSUM = "file://PKG-INFO;beginline=8;endline=8;md5=e910b35b0ef4e1f665b9a75d6afb7709"
++LICENSE = "BSD-3-Clause"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=59e5ecb13339a936eedf83282eaf4528"
 +
-+SRC_URI = "http://pypi.python.org/packages/source/s/smmap/smmap-${PV}.tar.gz"
-+SRC_URI[md5sum] = "d7932d5ace206bf4ae15198cf36fb6ab"
-+SRC_URI[sha256sum] = "0e2b62b497bd5f0afebc002eda4d90df9d209c30ef257e8673c90a6b5c119d62"
++SRC_URI = "https://pypi.python.org/packages/source/g/gitdb/gitdb-${PV}.tar.gz"
 +
-+UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/smmap/"
-+UPSTREAM_CHECK_REGEX = "/smmap/(?P<pver>(\d+[\.\-_]*)+)"
++SRC_URI[md5sum] = "44e4366b8bdfd306b075c3a52c96ae1a"
++SRC_URI[sha256sum] = "a3ebbc27be035a2e874ed904df516e35f4a29a778a764385de09de9e0f139658"
 +
-+S = "${WORKDIR}/smmap-${PV}"
++UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/gitdb/"
++
++S = "${WORKDIR}/gitdb-${PV}"
 +
 +BBCLASSEXTEND = "nativesdk"
  
- inherit setuptools3
+ DEPENDS = "python3-async python3-smmap"
  
 -- 
 2.8.0
