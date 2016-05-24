@@ -1,60 +1,50 @@
-Return-Path: <anders@chargestorm.se>
-Received: from mail-lf0-f51.google.com (mail-lf0-f51.google.com
-	[209.85.215.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 1100160290
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qg0-f65.google.com (mail-qg0-f65.google.com
+	[209.85.192.65])
+	by mail.openembedded.org (Postfix) with ESMTP id B7AF06010B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 May 2016 18:06:52 +0000 (UTC)
-Received: by mail-lf0-f51.google.com with SMTP id e131so9274940lfb.0
+	Tue, 24 May 2016 18:18:45 +0000 (UTC)
+Received: by mail-qg0-f65.google.com with SMTP id l75so1953705qgd.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 May 2016 11:06:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
-	h=date:from:to:cc:subject:message-id:mail-followup-to:references
-	:mime-version:content-disposition:in-reply-to:organization
-	:user-agent; bh=XeU+XCl6wu9q1Tbt83Z83bD8QEAdiwLE+UYFh5JMBNU=;
-	b=faqZ05ujLLlaECE7SL63Iq/VYpwzLD798NMJt8yead9yGFIJCBp9UXOeTDGHTG5MRw
-	Dy5ZIvVRSD2x9PQEsptq++3pbMcrULJXMjn3BikZvj81eGdnLSi01bakVjJgB82rD+pS
-	Do61ZbnFdechF45vytvU3qzn4rUZR51gCjq41Q1p+e4tZ7S8OIQ43lkfCtgmohb/yF9+
-	vDj734LY+z/mBcaxELuegB7n85nKiT+dQDzq6UKw17ZUSBNFliSy6iILZNcDXLgQlZIn
-	OfpI/WJ5E6X+QkQwPNwwQI8nx6j+EaoMAYuu85tMrD6Qx7V+/KxiG+1F+qt6qwUu2iiz
-	clKg==
+	Tue, 24 May 2016 11:18:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=SjNoKQJlBTZZZkDQbDxIBM+c6zw7odDLUpKEwFZgTAk=;
+	b=x5bTrx8zGbJXOHzxH0bq2pfe1zzD2+fqADdoYm/p2GvAe0V2kxDrKtYqUuOhyYGMwu
+	dxZO0Wni+VSrvtk597l0ImiM5uSTEs1bNebxZSzqyis7ni3LLih23cjiR7jASEgtcoLE
+	Vg7kZ6Nuu/tHu4Xt7t5qeSGmqfaf3KslZ/mMzUJjmrpKdAQHSyaMCb8NFnp9w4r7QQTj
+	QPf4KTptSk7vnif8CU1AkZ+s8GSIcKqVX8ph7XDR1CoTelNmLQi8UmyF4z5nygALEs7A
+	OlA6D6/1Usbj2uCStjzNCifSNfsrYes7G9FhN+Ip/piXZI9Q9WGIqU70+gngA6cE7+KC
+	VEag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id
-	:mail-followup-to:references:mime-version:content-disposition
-	:in-reply-to:organization:user-agent;
-	bh=XeU+XCl6wu9q1Tbt83Z83bD8QEAdiwLE+UYFh5JMBNU=;
-	b=MyEbFXa0CiQWVrDVURTGa4/LzMBlIUI4B+isVtmtF2msZ9YGWJmsQhrwUN6gnMUiX+
-	+HwI5VBa4jEDRiDyD4yGUMHvZrwlRzyHZGhbufq2HaOx1ojXvny+66gzHpKW/jflzwUo
-	WEvULdi4hF7xEQAOCJZ64nvpeD64uHPL/TiV40DDBK03JUn0p6ArLBQzdb/zJYokLpXk
-	L0rWs71dQNghwXEAOl0ec63IQS/+IvbyCzrgaUUzE7wbHCzOVtwGutvktBEWywfjKkcF
-	DLVVAUAOXeB4hLNiVsjlGNR1ZrOdsU51BdHcVDtmQJhpejK6W/UuvKPrl/8Ev5xsXcHC
-	OF9Q==
-X-Gm-Message-State: AOPr4FUWTu1IKnD7Oo9nwHjGWY6i9veDEbLgt98HSNj5DqJPAsDUadou6A5DcaHnAnGhmw==
-X-Received: by 10.25.201.88 with SMTP id z85mr7124681lff.140.1464113212070;
-	Tue, 24 May 2016 11:06:52 -0700 (PDT)
-Received: from ad.chargestorm.se (213-64-218-130-no126.business.telia.com.
-	[213.64.218.130])
-	by smtp.gmail.com with ESMTPSA id z68sm687931lfd.2.2016.05.24.11.06.50
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 24 May 2016 11:06:50 -0700 (PDT)
-Date: Tue, 24 May 2016 20:06:48 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <20160524180648.GA7403@ad.chargestorm.se>
-Mail-Followup-To: Robert Yang <liezhi.yang@windriver.com>,
-	openembedded-core@lists.openembedded.org
-References: <cover.1464060246.git.liezhi.yang@windriver.com>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=SjNoKQJlBTZZZkDQbDxIBM+c6zw7odDLUpKEwFZgTAk=;
+	b=DAsab47F+RRnU0UER17VNP9H+YwtEFstBw3iz/LOTXFVvQY4oZO9SvTk6pz0mo/Tt6
+	Iw7//bq5kH0YK8EOEvaAhBVNNOkQRr5xjo+dyreYn4Q/IvHmBF4jQKEXu5HwuDdeBYfb
+	EX8+lg49bt5hc7AyWzhntW5VYQCP7RbyXY7kj4gLr3th9O1uf82FlVhRGDUAAVtQO8Bq
+	pCjTx4x4YhavFCFUy1Mck4KU0vc7mXcMPSVz/KeYfOo9clNmasVdPjPBhxBCwU22Zc5Z
+	m9BdhE9bmBJUGucykvf/nh9EkgN9TNunBQeXzUBcChUS/EAykwwUoHk3h0l4YCxH8/eM
+	dPfg==
+X-Gm-Message-State: ALyK8tJukqClvTHGK0Ea7mNsTR+PvtZJkDMMZFqfjDgw9Is+FRFJ2z/ej8xfLHho5O39qzVQ+bByvAMoVErgvQ==
+X-Received: by 10.140.217.208 with SMTP id n199mr4963165qhb.31.1464113925521; 
+	Tue, 24 May 2016 11:18:45 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <cover.1464060246.git.liezhi.yang@windriver.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.6.0 (2016-04-01)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/6] remove unneeded python2 recipes
+Received: by 10.55.130.196 with HTTP; Tue, 24 May 2016 11:18:16 -0700 (PDT)
+In-Reply-To: <1464101499.9570.59.camel@linuxfoundation.org>
+References: <fa9c2d513cff678eebb231d4cf5991ea37061b34.1463157783.git.raj.khem@gmail.com>
+	<2cc568062314cdddd5ff2f60dd6d9685b3b12831.1463157783.git.raj.khem@gmail.com>
+	<1463295824.9746.152.camel@linuxfoundation.org>
+	<1464101499.9570.59.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 24 May 2016 21:18:16 +0300
+Message-ID: <CAMKF1sr9bM8pE+DRt=-08sGp4ZA8U3csYezo+NAB49UsyYz0yw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: "Ashfield, Bruce" <Bruce.Ashfield@windriver.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/6] tcmode-default: Bump gcc,glibc,gdb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,21 +57,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 May 2016 18:06:55 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 24 May 2016 18:18:47 -0000
+Content-Type: text/plain; charset=UTF-8
 
-* Robert Yang <liezhi.yang@windriver.com> [160524 05:25]:
+On Tue, May 24, 2016 at 5:51 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Sun, 2016-05-15 at 08:03 +0100, Richard Purdie wrote:
+>> On Fri, 2016-05-13 at 09:46 -0700, Khem Raj wrote:
+>> > gcc 6.1, glibc 2.24, gdb 7.11
+>> >
+>> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> > ---
+>> >  meta/conf/distro/include/tcmode-default.inc | 6 +++---
+>> >  1 file changed, 3 insertions(+), 3 deletions(-)
+>>
+>> I'll merge most of this series however before we can move to gcc6 by
+>> default there are some remaining issues:
+>>
+>> https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64-lsb
+>> /b
+>> uilds/788/steps/BuildImages/logs/stdio
+>>
+>> qt4-x11-free fails to compile
+>> linux-yocto 4.1 also fails
+>
+> I just retested gcc6 and the above is still happening and has also been
+> joined by a xdg-utils do_compile failure.
 
-> They were required by buildtools-tarball, now replaced by python3 ones.
+This must be new. did someone push xdg-utils upgrades or something ?
 
-Do you plan to add those recipes to meta-python?
+>
+>> (on qemux86-64, qemux86, qemuppc, qemumips, qemuarm)
+>>
+>> https://autobuilder.yoctoproject.org/main/builders/nightly-ppc/builds
+>> /7
+>> 78/steps/BuildImages_1/logs/stdio
+>>
+>> linux-yocto 4.4 fails on ppc
+>>
+>> https://autobuilder.yoctoproject.org/main/builders/nightly-non-gpl3/b
+>> ui
+>> lds/768/steps/BuildImages/logs/stdio
+>>
+>> non-GPLv3 on elfutils and diffutils
+>
+> Khem fixed elfutils, thanks! diffutils still breaks though.
 
-I think quite a few of them are usefull for quite some situations.
+I could not reproduce the diffutils failure.
 
-Cheers,
-Anders
--- 
-Anders Darander, Senior System Architect
-ChargeStorm AB / eStorm AB
+>
+> I really can't merge the gcc upgrade until these get fixed one way or
+> another...
+>
+> Cheers,
+>
+> Richard
 
