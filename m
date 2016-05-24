@@ -1,25 +1,26 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id E1EA56014F
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C850960107
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 May 2016 02:40:38 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 23 May 2016 19:40:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,358,1459839600"; d="scan'208";a="987306392"
-Received: from jchang2-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.174.130])
-	by fmsmga002.fm.intel.com with ESMTP; 23 May 2016 19:40:37 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 May 2016 14:40:07 +1200
-Message-Id: <ef03a06a3240b481c62064a58736c373fd1df5ad.1464057554.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.5.5
-In-Reply-To: <cover.1464057554.git.paul.eggleton@linux.intel.com>
-References: <cover.1464057554.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1464057554.git.paul.eggleton@linux.intel.com>
-References: <cover.1464057554.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 2/2] conf/bitbake.conf: whitelist GIT_SSL_CAINFO
+	Tue, 24 May 2016 03:15:48 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u4O3Fmon021620
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 May 2016 20:15:48 -0700 (PDT)
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 23 May 2016 20:15:47 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 23 May 2016 20:15:46 -0700
+Message-ID: <b85d93c20fe3d845e7ff42e3ba1c26d5124e3781.1464059717.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1464059717.git.liezhi.yang@windriver.com>
+References: <cover.1464059717.git.liezhi.yang@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 1/1] tcl: fix sed command in do_install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,31 +33,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 May 2016 02:40:39 -0000
+X-List-Received-Date: Tue, 24 May 2016 03:15:48 -0000
+Content-Type: text/plain
 
-Just as with the proxy variables, we don't need to reparse everything if
-the value of this variable changes.
+The -I= and -L= is used for cross compile, target doesn't need, and
+binconfig.class can handle usr/bin/crossscripts/tclConfig.sh.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Fix do_configure error for the recipe which uses tclConfig.sh, for
+example, postgresql.do_configure:
+configure: error: header file <tcl.h> is required for Tcl
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/conf/bitbake.conf | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/tcltk/tcl_8.6.4.bb | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index acef30b..d85e806 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -815,7 +815,8 @@ BB_HASHCONFIG_WHITELIST ?= "${BB_HASHBASE_WHITELIST} DATE TIME SSH_AGENT_PID \
-     SSH_AUTH_SOCK PSEUDO_BUILD BB_ENV_EXTRAWHITE DISABLE_SANITY_CHECKS \
-     PARALLEL_MAKE BB_NUMBER_THREADS BB_ORIGENV BB_INVALIDCONF BBINCLUDED \
-     GIT_PROXY_COMMAND ALL_PROXY all_proxy NO_PROXY no_proxy FTP_PROXY ftp_proxy \
--    HTTP_PROXY http_proxy HTTPS_PROXY https_proxy SOCKS5_USER SOCKS5_PASSWD"
-+    HTTP_PROXY http_proxy HTTPS_PROXY https_proxy SOCKS5_USER SOCKS5_PASSWD \
-+    GIT_SSL_CAINFO"
- BB_SIGNATURE_EXCLUDE_FLAGS ?= "doc deps depends \
-     lockfiles type vardepsexclude vardeps vardepvalue vardepvalueexclude \
-     file-checksums python func task export unexport noexec nostamp dirs cleandirs \
+diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.4.bb b/meta/recipes-devtools/tcltk/tcl_8.6.4.bb
+index 61be81d..14ca9ba 100644
+--- a/meta/recipes-devtools/tcltk/tcl_8.6.4.bb
++++ b/meta/recipes-devtools/tcltk/tcl_8.6.4.bb
+@@ -56,8 +56,6 @@ do_install() {
+ 	ln -sf tclsh8.6 ${D}${bindir}/tclsh${VER}
+ 	sed -i "s+-L${B}+-L${STAGING_LIBDIR}+g" tclConfig.sh
+ 	sed -i "s+${WORKDIR}+${STAGING_INCDIR}+g" tclConfig.sh
+-	sed -i "s,-L${libdir},-L=${libdir},g" tclConfig.sh
+-	sed -i "s,-I${includedir},-I=${includedir},g" tclConfig.sh
+ 	install -d ${D}${bindir_crossscripts}
+ 	install -m 0755 tclConfig.sh ${D}${bindir_crossscripts}
+ 	install -m 0755 tclConfig.sh ${D}${libdir}
 -- 
-2.5.5
+2.7.4
 
 
