@@ -1,24 +1,20 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id D183A608B7
+	by mail.openembedded.org (Postfix) with ESMTP id BB91460118
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 24 May 2016 11:53:52 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga102.jf.intel.com with ESMTP; 24 May 2016 04:53:40 -0700
+	by orsmga102.jf.intel.com with ESMTP; 24 May 2016 04:53:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,359,1459839600"; d="scan'208";a="109497956"
+X-IronPort-AV: E=Sophos;i="5.26,359,1459839600"; d="scan'208";a="109497951"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga004.fm.intel.com with ESMTP; 24 May 2016 04:53:40 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 24 May 2016 04:53:39 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 May 2016 14:53:50 +0300
-Message-Id: <36a1b40dad949f56d357cfa5c99b9352c4d50b06.1464088997.git.alexander.kanavin@linux.intel.com>
+Date: Tue, 24 May 2016 14:53:49 +0300
+Message-Id: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.8.1
-In-Reply-To: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
-References: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
-In-Reply-To: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
-References: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 01/45] python-native, python3-native: remove the use of exported HOST_SYS and BUILD_SYS variables
+Subject: [PATCH 00/45] Move recipes to use Python 3 whenever possible
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,602 +29,267 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 24 May 2016 11:53:53 -0000
 
-The code that utilized them was superseded by the code (in the same patch!)
-that is utilizing STAGING_LIBDIR/STAGING_INCDIR, and wasn't correct in the
-first place as HOST_SYS is not necessarily the same as the sysroot directory
-name.
+This patchset updates recipes to use Python 3 whenever possible. A few items
+cannot be moved at the moment for various reasons, here they are:
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- meta/classes/distutils-tools.bbclass               |  4 --
- meta/classes/distutils.bbclass                     |  4 --
- meta/classes/distutils3.bbclass                    | 24 --------
- meta/classes/gobject-introspection.bbclass         |  2 -
- meta/recipes-core/libxml/libxml2_2.9.3.bb          |  2 -
- meta/recipes-devtools/gdb/gdb-cross.inc            |  2 -
- meta/recipes-devtools/python/python-dbus_1.2.0.bb  |  3 -
- ...2-distutils-prefix-is-inside-staging-area.patch | 65 ----------------------
- .../python/python-native_2.7.11.bb                 |  4 +-
- .../recipes-devtools/python/python-numpy_1.10.4.bb |  1 -
- .../python/python-pycairo_1.10.0.bb                |  2 +-
- ...et-the-prefix-to-be-inside-staging-direct.patch | 51 +++++++++++++++++
- .../python/python3-native_3.5.1.bb                 |  2 -
- ...2-distutils-prefix-is-inside-staging-area.patch | 49 +++-------------
- meta/recipes-devtools/python/python3_3.5.1.bb      |  4 --
- meta/recipes-devtools/python/python_2.7.11.bb      |  3 -
- meta/recipes-extended/newt/libnewt_0.52.18.bb      |  3 -
- .../gobject-introspection_1.46.0.bb                |  2 -
- meta/recipes-kernel/perf/perf.bb                   |  2 -
- 19 files changed, 62 insertions(+), 167 deletions(-)
+1) Smartpm package manager has not been ported to Python 3 and it is unlikely
+to happen:
+https://github.com/smartpm/smart/issues/4
+We need to look into alternatives such as yum or dnf (the 'next generation' fork of yum).
+
+Consequently, rpm's python bindings (required by smartpm) stay at python 2 as well
+for now, even tough python 3 seems to be supported.
+
+2) Scons build system is python 2 only, due to lack of resources.
+
+3) createrepo recipe is using an upstream version from 2007, before createrepo was
+rewritten on top of yum's python modules.
+
+We need to look into adding yum recipe which will allow updating createrepo to latest upstream.
+Also, libxml2 is currently a createrepo dependency, and so stays at Python 2 for now.
+
+4) varous recipes that haven't been ported: kconfig-frontends, mklibs, opkg-utils,
+ltp, mc, parted, libepoxy, mesa, perf, rt-tests, webkitgtk.
+
+5) LSB spec is implicitly requiring Python 2 (via requirement for '/usr/bin/python').
+
+6) gobject introspection has been ported to Python 3 in release 1.48. I'll send this
+update separately, as a part of normal version update patches.
+
+7) piglit has been ported to Python 3 as well in the latest upstream releases, Jussi
+Kukkonen should take care of it. I've added piglit's python dependencies in their
+Python 3 versions - python3-mako and python3-numpy, so that the task should be a little
+easier.
+
+The following changes since commit c7e614c438706fb3ed7520b4990ebb3973366942:
+
+  useradd: Fix infinite build loop (2016-05-23 10:33:45 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib akanavin/deprecate-python2
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/deprecate-python2
+
+Alexander Kanavin (45):
+  python-native, python3-native: remove the use of exported HOST_SYS and
+    BUILD_SYS variables
+  distutils-native-base.bbclass, distutils3-native-base.bbclass: remove
+  python3-dir.bbclass: add a separate class for Python 3
+  default-versions.inc: drop python-related defaults
+  sip.bbclass: remove
+  avahi-ui: remove support for building a python module
+  bind: switch Python dependency to Python 3.x
+  python-dbus: update to 1.2.4, port to python 3
+  python3: manipulate all of the config*/Makefile files, not just
+    config/Makefile
+  python3: drop 110-enable-zlib.patch
+  glib: move to Python 3
+  dbus-test: remove unneeded pygobject dependency
+  python-pygobject: port to Python 3
+  neard: do not package python test scripts
+  bluez5: switch to Python 3
+  connman: do not install Python test scripts
+  ofono: drop the custom-made revert to Python 2 from Python 3
+  packagegroup-core-full-cmdline: drop python-dbus from the list of
+    services
+  nfs-utils: switch to Python 3
+  systemd: drop python dependency for ptests
+  util-linux: move to Python 3
+  python-pycairo: move to Python 3
+  bootchart2: move to Python 3
+  gdb: move to Python 3
+  git: remove Python package (to which nothing was packaged)
+  qemu: remove runtime python dependency
+  subversion: remove unnecessary python dependency
+  swig: move to Python 3
+  python-pyrex: remove unused recipe
+  python-imaging: remove unused recipe
+  python-docutils: move to Python 3
+  cracklib: disable building the python module
+  libuser: move to Python 3
+  libnewt-python: move to Python 3
+  gnome-doc-utils: remove recipe
+  lttng-tools: move to Python 3
+  lttng-ust: move to Python 3
+  systemtap: move to Python 3
+  libcap-ng: move to Python 3
+  hwlatdetect: move to Python 3
+  python3-mako: add a Python 3 recipe
+  python3-nose: add a recipe
+  python3: add = to -L linking option only when the path is absolute
+  python-numpy: move recipe to own directory
+  python3-numpy: add a recipe
+
+ meta/classes/distutils-common-base.bbclass         |    2 -
+ meta/classes/distutils-native-base.bbclass         |    3 -
+ meta/classes/distutils-tools.bbclass               |    4 -
+ meta/classes/distutils.bbclass                     |    4 -
+ meta/classes/distutils3-base.bbclass               |    3 -
+ meta/classes/distutils3-native-base.bbclass        |    4 -
+ meta/classes/distutils3.bbclass                    |   24 -
+ meta/classes/gobject-introspection.bbclass         |    2 -
+ meta/classes/python-dir.bbclass                    |    6 +-
+ meta/classes/python3-dir.bbclass                   |    5 +
+ meta/classes/python3native.bbclass                 |    4 +-
+ meta/classes/sip.bbclass                           |   61 -
+ meta/conf/distro/include/default-versions.inc      |    5 -
+ meta/conf/distro/include/distro_alias.inc          |    2 -
+ meta/conf/distro/include/security_flags.inc        |    1 -
+ meta/recipes-connectivity/avahi/avahi-ui_0.6.32.bb |   11 +-
+ meta/recipes-connectivity/bind/bind_9.10.3-P3.bb   |    4 +-
+ meta/recipes-connectivity/bluez5/bluez5.inc        |    6 +-
+ meta/recipes-connectivity/connman/connman.inc      |    6 +-
+ meta/recipes-connectivity/neard/neard_0.15.bb      |   13 +-
+ .../nfs-utils/nfs-utils_1.3.3.bb                   |    6 +-
+ meta/recipes-connectivity/ofono/ofono.inc          |    6 +-
+ .../ofono/Revert-test-Convert-to-Python-3.patch    | 1270 --------------------
+ meta/recipes-connectivity/ofono/ofono_1.17.bb      |    1 -
+ meta/recipes-core/dbus/dbus-test_1.10.6.bb         |    2 +-
+ meta/recipes-core/glib-2.0/glib.inc                |   11 +-
+ meta/recipes-core/libxml/libxml2_2.9.3.bb          |    2 -
+ meta/recipes-core/systemd/systemd_229.bb           |    2 +-
+ meta/recipes-core/util-linux/util-linux.inc        |   11 +-
+ .../bootchart2/bootchart2_0.14.8.bb                |   16 +-
+ meta/recipes-devtools/gdb/gdb-common.inc           |    2 +-
+ meta/recipes-devtools/gdb/gdb-cross-canadian.inc   |   12 +-
+ meta/recipes-devtools/gdb/gdb-cross.inc            |    6 +-
+ meta/recipes-devtools/gdb/gdb_7.11.bb              |    6 +-
+ meta/recipes-devtools/git/git.inc                  |    7 +-
+ ...h-usr-and-so-on-for-libraries-by-default-.patch |    0
+ .../files}/aarch64/_numpyconfig.h                  |    0
+ .../files/aarch64}/config.h                        |    0
+ .../files}/add-glibc-check.patch                   |    0
+ .../mipsel => python-numpy/files/arm}/config.h     |    0
+ .../files/arm}/numpyconfig.h                       |    0
+ .../files}/armeb/config.h                          |    0
+ .../files}/armeb/numpyconfig.h                     |    0
+ .../files}/mips/_numpyconfig.h                     |    0
+ .../files}/mips/config.h                           |    0
+ .../files/mips64}/_numpyconfig.h                   |    0
+ .../files/mips64}/config.h                         |    0
+ .../files}/mips64n32/_numpyconfig.h                |    0
+ .../files/mips64n32}/config.h                      |    0
+ .../arm => python-numpy/files/mipsel}/config.h     |    0
+ .../files/mipsel}/numpyconfig.h                    |    0
+ .../files}/powerpc/_numpyconfig.h                  |    0
+ .../files}/powerpc/config.h                        |    0
+ .../files/powerpc64}/_numpyconfig.h                |    0
+ .../files/powerpc64}/config.h                      |    0
+ .../files}/remove-build-path-in-comments.patch     |    0
+ .../files}/x86-64/_numpyconfig.h                   |    0
+ .../files}/x86-64/config.h                         |    0
+ .../files}/x86/config.h                            |    0
+ .../files}/x86/numpyconfig.h                       |    0
+ .../python-numpy_1.10.4.bb                         |    1 -
+ .../python-numpy/python3-numpy_1.10.4.bb           |  101 ++
+ ...ing-setup.py-force-paths-for-zlib-freetyp.patch |   55 -
+ .../allow.to.disable.some.features.patch           |   65 -
+ .../python-imaging/fix-freetype-includes.patch     |   30 -
+ .../python/python-imaging_1.1.7.bb                 |   45 -
+ meta/recipes-devtools/python/python-mako_1.0.3.bb  |    6 +
+ ...2-distutils-prefix-is-inside-staging-area.patch |   65 -
+ .../python/python-native_2.7.11.bb                 |    4 +-
+ .../python/python-pycairo_1.10.0.bb                |   41 -
+ .../python/python-pyrex-native_0.9.9.bb            |    5 -
+ .../python-pyrex/pyrex-fix-optimized-mode.patch    |   15 -
+ meta/recipes-devtools/python/python-pyrex_0.9.9.bb |   22 -
+ ...et-the-prefix-to-be-inside-staging-direct.patch |   51 +
+ ...{python-dbus_1.2.0.bb => python3-dbus_1.2.4.bb} |   22 +-
+ ...n-docutils_0.12.bb => python3-docutils_0.12.bb} |    4 +-
+ meta/recipes-devtools/python/python3-mako_1.0.3.bb |   24 +
+ .../python/python3-native_3.5.1.bb                 |    3 -
+ meta/recipes-devtools/python/python3-nose_1.3.7.bb |   24 +
+ .../python/python3-pycairo_1.10.0.bb               |   40 +
+ ...c-add-sysroot-path-to-GI_DATADIR-don-t-se.patch |    0
+ ...bject_3.18.2.bb => python3-pygobject_3.18.2.bb} |    8 +-
+ .../python/python3/110-enable-zlib.patch           |   21 -
+ ...2-distutils-prefix-is-inside-staging-area.patch |   49 +-
+ .../python/python3/unixccompiler.patch             |    6 +-
+ meta/recipes-devtools/python/python3_3.5.1.bb      |    8 +-
+ meta/recipes-devtools/python/python_2.7.11.bb      |    3 -
+ meta/recipes-devtools/qemu/qemu.inc                |    2 +-
+ meta/recipes-devtools/rpm/rpm_5.4+cvs.bb           |    2 +-
+ meta/recipes-devtools/rpm/rpm_5.4.16.bb            |    2 +-
+ .../subversion/subversion_1.9.3.bb                 |    2 +-
+ meta/recipes-devtools/swig/swig.inc                |    7 +-
+ meta/recipes-extended/cracklib/cracklib_2.9.5.bb   |   25 +-
+ meta/recipes-extended/libuser/libuser_0.62.bb      |    8 +-
+ .../newt/libnewt-python_0.52.18.bb                 |    6 +-
+ meta/recipes-extended/newt/libnewt_0.52.18.bb      |    3 -
+ .../packagegroup-core-full-cmdline.bb              |    1 -
+ meta/recipes-gnome/epiphany/epiphany_3.18.4.bb     |    1 -
+ .../gnome-desktop/gnome-desktop3_3.18.2.bb         |    2 +-
+ meta/recipes-gnome/gnome/gnome-doc-utils.inc       |   29 -
+ .../gnome-doc-utils/sysrooted-pkg-config.patch     |   35 -
+ .../use-usr-bin-env-for-python-in-xml2po.patch     |   30 -
+ .../gnome/gnome-doc-utils/xsltproc_nonet.patch     |   95 --
+ .../recipes-gnome/gnome/gnome-doc-utils_0.20.10.bb |   12 -
+ .../gobject-introspection_1.46.0.bb                |    2 -
+ ...d-look-for-python-3.0-when-building-pytho.patch |   30 -
+ meta/recipes-kernel/lttng/lttng-tools_git.bb       |    7 +-
+ meta/recipes-kernel/lttng/lttng-ust_git.bb         |    9 +-
+ meta/recipes-kernel/perf/perf.bb                   |    2 -
+ meta/recipes-kernel/systemtap/systemtap_git.bb     |    5 +-
+ meta/recipes-rt/rt-tests/hwlatdetect_0.96.bb       |    5 +-
+ meta/recipes-support/libcap-ng/libcap-ng_0.7.7.bb  |   12 +-
+ 112 files changed, 384 insertions(+), 2198 deletions(-)
+ delete mode 100644 meta/classes/distutils-native-base.bbclass
+ delete mode 100644 meta/classes/distutils3-native-base.bbclass
+ create mode 100644 meta/classes/python3-dir.bbclass
+ delete mode 100644 meta/classes/sip.bbclass
+ delete mode 100644 meta/recipes-connectivity/ofono/ofono/Revert-test-Convert-to-Python-3.patch
+ rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch (100%)
+ rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/aarch64/_numpyconfig.h (100%)
+ rename meta/recipes-devtools/{python/python-numpy/powerpc64 => python-numpy/files/aarch64}/config.h (100%)
+ rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/add-glibc-check.patch (100%)
+ rename meta/recipes-devtools/{python/python-numpy/mipsel => python-numpy/files/arm}/config.h (100%)
+ rename meta/recipes-devtools/{python/python-numpy/mipsel => python-numpy/files/arm}/numpyconfig.h (100%)
+ rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/armeb/config.h (100%)
+ rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/armeb/numpyconfig.h (100%)
+ rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/mips/_numpyconfig.h (100%)
+ rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/mips/config.h (100%)
+ rename meta/recipes-devtools/{python/python-numpy/powerpc64 => python-numpy/files/mips64}/_numpyconfig.h (100%)
+ rename meta/recipes-devtools/{python/python-numpy/mips64n32 => python-numpy/files/mips64}/config.h (100%)
+ rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/mips64n32/_numpyconfig.h (100%)
+ rename meta/recipes-devtools/{python/python-numpy/mips64 => python-numpy/files/mips64n32}/config.h (100%)
+ rename meta/recipes-devtools/{python/python-numpy/arm => python-numpy/files/mipsel}/config.h (100%)
+ rename meta/recipes-devtools/{python/python-numpy/arm => python-numpy/files/mipsel}/numpyconfig.h (100%)
+ rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/powerpc/_numpyconfig.h (100%)
+ rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/powerpc/config.h (100%)
+ rename meta/recipes-devtools/{python/python-numpy/mips64 => python-numpy/files/powerpc64}/_numpyconfig.h (100%)
+ rename meta/recipes-devtools/{python/python-numpy/aarch64 => python-numpy/files/powerpc64}/config.h (100%)
+ rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/remove-build-path-in-comments.patch (100%)
+ rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/x86-64/_numpyconfig.h (100%)
+ rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/x86-64/config.h (100%)
+ rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/x86/config.h (100%)
+ rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/x86/numpyconfig.h (100%)
+ rename meta/recipes-devtools/{python => python-numpy}/python-numpy_1.10.4.bb (98%)
+ create mode 100644 meta/recipes-devtools/python-numpy/python3-numpy_1.10.4.bb
+ delete mode 100644 meta/recipes-devtools/python/python-imaging/0001-python-imaging-setup.py-force-paths-for-zlib-freetyp.patch
+ delete mode 100644 meta/recipes-devtools/python/python-imaging/allow.to.disable.some.features.patch
+ delete mode 100644 meta/recipes-devtools/python/python-imaging/fix-freetype-includes.patch
+ delete mode 100644 meta/recipes-devtools/python/python-imaging_1.1.7.bb
  delete mode 100644 meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch
+ delete mode 100644 meta/recipes-devtools/python/python-pycairo_1.10.0.bb
+ delete mode 100644 meta/recipes-devtools/python/python-pyrex-native_0.9.9.bb
+ delete mode 100644 meta/recipes-devtools/python/python-pyrex/pyrex-fix-optimized-mode.patch
+ delete mode 100644 meta/recipes-devtools/python/python-pyrex_0.9.9.bb
  create mode 100644 meta/recipes-devtools/python/python/0001-distutils-set-the-prefix-to-be-inside-staging-direct.patch
+ rename meta/recipes-devtools/python/{python-dbus_1.2.0.bb => python3-dbus_1.2.4.bb} (53%)
+ rename meta/recipes-devtools/python/{python-docutils_0.12.bb => python3-docutils_0.12.bb} (92%)
+ create mode 100644 meta/recipes-devtools/python/python3-mako_1.0.3.bb
+ create mode 100644 meta/recipes-devtools/python/python3-nose_1.3.7.bb
+ create mode 100644 meta/recipes-devtools/python/python3-pycairo_1.10.0.bb
+ rename meta/recipes-devtools/python/{python-pygobject => python3-pygobject}/0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch (100%)
+ rename meta/recipes-devtools/python/{python-pygobject_3.18.2.bb => python3-pygobject_3.18.2.bb} (72%)
+ delete mode 100644 meta/recipes-devtools/python/python3/110-enable-zlib.patch
+ delete mode 100644 meta/recipes-gnome/gnome/gnome-doc-utils.inc
+ delete mode 100644 meta/recipes-gnome/gnome/gnome-doc-utils/sysrooted-pkg-config.patch
+ delete mode 100644 meta/recipes-gnome/gnome/gnome-doc-utils/use-usr-bin-env-for-python-in-xml2po.patch
+ delete mode 100644 meta/recipes-gnome/gnome/gnome-doc-utils/xsltproc_nonet.patch
+ delete mode 100644 meta/recipes-gnome/gnome/gnome-doc-utils_0.20.10.bb
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-tools/Revert-Build-look-for-python-3.0-when-building-pytho.patch
 
-diff --git a/meta/classes/distutils-tools.bbclass b/meta/classes/distutils-tools.bbclass
-index 8d9b3f7..3ef9cc5 100644
---- a/meta/classes/distutils-tools.bbclass
-+++ b/meta/classes/distutils-tools.bbclass
-@@ -8,14 +8,12 @@ DISTUTILS_INSTALL_ARGS ?= "--prefix=${D}/${prefix} \
- distutils_do_compile() {
-          STAGING_INCDIR=${STAGING_INCDIR} \
-          STAGING_LIBDIR=${STAGING_LIBDIR} \
--         BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
-          ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py build ${DISTUTILS_BUILD_ARGS} || \
-          bbfatal_log "${PYTHON_PN} setup.py build_ext execution failed."
- }
- 
- distutils_stage_headers() {
-         install -d ${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR}
--        BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
-         ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py install_headers ${DISTUTILS_STAGE_HEADERS_ARGS} || \
-         bbfatal_log "${PYTHON_PN} setup.py install_headers execution failed."
- }
-@@ -25,7 +23,6 @@ distutils_stage_all() {
-         STAGING_LIBDIR=${STAGING_LIBDIR} \
-         install -d ${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR}
-         PYTHONPATH=${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR} \
--        BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
-         ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py install ${DISTUTILS_STAGE_ALL_ARGS} || \
-         bbfatal_log "${PYTHON_PN} setup.py install (stage) execution failed."
- }
-@@ -37,7 +34,6 @@ distutils_do_install() {
-         STAGING_INCDIR=${STAGING_INCDIR} \
-         STAGING_LIBDIR=${STAGING_LIBDIR} \
-         PYTHONPATH=${D}/${PYTHON_SITEPACKAGES_DIR} \
--        BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
-         ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py install --install-lib=${D}/${PYTHON_SITEPACKAGES_DIR} ${DISTUTILS_INSTALL_ARGS} || \
-         bbfatal_log "${PYTHON_PN} setup.py install execution failed."
- 
-diff --git a/meta/classes/distutils.bbclass b/meta/classes/distutils.bbclass
-index da48a2e..857572d 100644
---- a/meta/classes/distutils.bbclass
-+++ b/meta/classes/distutils.bbclass
-@@ -10,14 +10,12 @@ DISTUTILS_INSTALL_ARGS ?= "--prefix=${D}/${prefix} \
- distutils_do_compile() {
-          STAGING_INCDIR=${STAGING_INCDIR} \
-          STAGING_LIBDIR=${STAGING_LIBDIR} \
--         BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
-          ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py build ${DISTUTILS_BUILD_ARGS} || \
-          bbfatal_log "${PYTHON_PN} setup.py build execution failed."
- }
- 
- distutils_stage_headers() {
-         install -d ${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR}
--        BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
-         ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py install_headers ${DISTUTILS_STAGE_HEADERS_ARGS} || \
-         bbfatal_log "${PYTHON_PN} setup.py install_headers execution failed."
- }
-@@ -27,7 +25,6 @@ distutils_stage_all() {
-         STAGING_LIBDIR=${STAGING_LIBDIR} \
-         install -d ${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR}
-         PYTHONPATH=${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR} \
--        BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
-         ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py install ${DISTUTILS_STAGE_ALL_ARGS} || \
-         bbfatal_log "${PYTHON_PN} setup.py install (stage) execution failed."
- }
-@@ -37,7 +34,6 @@ distutils_do_install() {
-         STAGING_INCDIR=${STAGING_INCDIR} \
-         STAGING_LIBDIR=${STAGING_LIBDIR} \
-         PYTHONPATH=${D}${PYTHON_SITEPACKAGES_DIR} \
--        BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
-         ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py install --install-lib=${D}/${PYTHON_SITEPACKAGES_DIR} ${DISTUTILS_INSTALL_ARGS} || \
-         bbfatal_log "${PYTHON_PN} setup.py install execution failed."
- 
-diff --git a/meta/classes/distutils3.bbclass b/meta/classes/distutils3.bbclass
-index 4f6ca44..a6720c5 100644
---- a/meta/classes/distutils3.bbclass
-+++ b/meta/classes/distutils3.bbclass
-@@ -9,14 +9,8 @@ DISTUTILS_INSTALL_ARGS ?= "--prefix=${D}/${prefix} \
-     --install-data=${D}/${datadir}"
- 
- distutils3_do_compile() {
--        if [ ${BUILD_SYS} != ${HOST_SYS} ]; then
--                SYS=${MACHINE}
--        else
--                SYS=${HOST_SYS}
--        fi
-         STAGING_INCDIR=${STAGING_INCDIR} \
-         STAGING_LIBDIR=${STAGING_LIBDIR} \
--        BUILD_SYS=${BUILD_SYS} HOST_SYS=${SYS} \
-         ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py \
-         build ${DISTUTILS_BUILD_ARGS} || \
-         bbfatal_log "${PYTHON_PN} setup.py build_ext execution failed."
-@@ -25,28 +19,16 @@ distutils3_do_compile[vardepsexclude] = "MACHINE"
- 
- distutils3_stage_headers() {
-         install -d ${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR}
--        if [ ${BUILD_SYS} != ${HOST_SYS} ]; then
--                SYS=${MACHINE}
--        else
--                SYS=${HOST_SYS}
--        fi
--        BUILD_SYS=${BUILD_SYS} HOST_SYS=${SYS} \
-         ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py install_headers ${DISTUTILS_STAGE_HEADERS_ARGS} || \
-         bbfatal_log "${PYTHON_PN} setup.py install_headers execution failed."
- }
- distutils3_stage_headers[vardepsexclude] = "MACHINE"
- 
- distutils3_stage_all() {
--        if [ ${BUILD_SYS} != ${HOST_SYS} ]; then
--                SYS=${MACHINE}
--        else
--                SYS=${HOST_SYS}
--        fi
-         STAGING_INCDIR=${STAGING_INCDIR} \
-         STAGING_LIBDIR=${STAGING_LIBDIR} \
-         install -d ${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR}
-         PYTHONPATH=${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR} \
--        BUILD_SYS=${BUILD_SYS} HOST_SYS=${SYS} \
-         ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py install ${DISTUTILS_STAGE_ALL_ARGS} || \
-         bbfatal_log "${PYTHON_PN} setup.py install (stage) execution failed."
- }
-@@ -54,15 +36,9 @@ distutils3_stage_all[vardepsexclude] = "MACHINE"
- 
- distutils3_do_install() {
-         install -d ${D}${PYTHON_SITEPACKAGES_DIR}
--        if [ ${BUILD_SYS} != ${HOST_SYS} ]; then
--                SYS=${MACHINE}
--        else
--                SYS=${HOST_SYS}
--        fi
-         STAGING_INCDIR=${STAGING_INCDIR} \
-         STAGING_LIBDIR=${STAGING_LIBDIR} \
-         PYTHONPATH=${D}${PYTHON_SITEPACKAGES_DIR} \
--        BUILD_SYS=${BUILD_SYS} HOST_SYS=${SYS} \
-         ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py install --install-lib=${D}/${PYTHON_SITEPACKAGES_DIR} ${DISTUTILS_INSTALL_ARGS} || \
-         bbfatal_log "${PYTHON_PN} setup.py install execution failed."
- 
-diff --git a/meta/classes/gobject-introspection.bbclass b/meta/classes/gobject-introspection.bbclass
-index 2d73e40..364c9d3 100644
---- a/meta/classes/gobject-introspection.bbclass
-+++ b/meta/classes/gobject-introspection.bbclass
-@@ -13,8 +13,6 @@ DEPENDS_append = " gobject-introspection gobject-introspection-native qemu-nativ
- 
- # This is necessary for python scripts to succeed - distutils fails if these
- # are not set
--export BUILD_SYS
--export HOST_SYS
- export STAGING_INCDIR
- export STAGING_LIBDIR
- 
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.3.bb b/meta/recipes-core/libxml/libxml2_2.9.3.bb
-index 481346c..ae65159 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.3.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.3.bb
-@@ -49,8 +49,6 @@ EXTRA_OECONF_class-nativesdk = "--without-legacy --without-docbook --with-c14n -
- EXTRA_OECONF_linuxstdbase = "--with-debug --with-legacy --with-docbook --with-c14n --without-lzma --with-zlib"
- 
- # required for python binding
--export HOST_SYS
--export BUILD_SYS
- export STAGING_LIBDIR
- export STAGING_INCDIR
- 
-diff --git a/meta/recipes-devtools/gdb/gdb-cross.inc b/meta/recipes-devtools/gdb/gdb-cross.inc
-index 2468d23..c62715f 100644
---- a/meta/recipes-devtools/gdb/gdb-cross.inc
-+++ b/meta/recipes-devtools/gdb/gdb-cross.inc
-@@ -10,8 +10,6 @@ PACKAGECONFIG[python] = "--with-python=${STAGING_BINDIR_NATIVE}/python-native/py
- PACKAGECONFIG[readline] = "--with-system-readline,--without-system-readline,readline-native"
- 
- do_compile_prepend() {
--    export BUILD_SYS="${BUILD_SYS}"
--    export HOST_SYS="${HOST_SYS}"
-     export STAGING_LIBDIR="${STAGING_LIBDIR_NATIVE}"
-     export STAGING_INCDIR="${STAGING_INCDIR_NATIVE}"
- }
-diff --git a/meta/recipes-devtools/python/python-dbus_1.2.0.bb b/meta/recipes-devtools/python/python-dbus_1.2.0.bb
-index b314dce..ccdb9ae 100644
---- a/meta/recipes-devtools/python/python-dbus_1.2.0.bb
-+++ b/meta/recipes-devtools/python/python-dbus_1.2.0.bb
-@@ -18,9 +18,6 @@ PACKAGECONFIG ?= ""
- PACKAGECONFIG[docs] = "--enable-html-docs,--disable-html-docs,python-docutils-native"
- PACKAGECONFIG[api-docs] = "--enable-api-docs,--disable-api-docs,python-docutils-native python-epydoc-native"
- 
--export BUILD_SYS
--export HOST_SYS
--
- export STAGING_LIBDIR
- export STAGING_INCDIR
- 
-diff --git a/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch b/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch
-deleted file mode 100644
-index f89aaff..0000000
---- a/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch
-+++ /dev/null
-@@ -1,65 +0,0 @@
--Upstream-Status: Inappropriate [embedded specific]
--
--# The proper prefix is inside our staging area.
--# Signed-Off: Michael 'Mickey' Lauer <mickey@vanille-media.de>
--# Signed-off-by: Phil Blundell <philb@gnu.org>
--
----- Python-2.6.6/Lib/distutils/sysconfig.py.orig	2012-01-03 14:02:03.027005296 +0000
--+++ Python-2.6.6/Lib/distutils/sysconfig.py	2012-01-03 14:02:31.517601081 +0000
--@@ -19,8 +19,8 @@
-- from distutils.errors import DistutilsPlatformError
-- 
-- # These are needed in a couple of spots, so just compute them once.
---PREFIX = os.path.normpath(sys.prefix)
---EXEC_PREFIX = os.path.normpath(sys.exec_prefix)
--+PREFIX = os.path.normpath(sys.prefix).replace( os.getenv("BUILD_SYS"), os.getenv("HOST_SYS") )
--+EXEC_PREFIX = os.path.normpath(sys.exec_prefix).replace( os.getenv("BUILD_SYS"), os.getenv("HOST_SYS") )
-- 
-- # Path to the base directory of the project. On Windows the binary may
-- # live in project/PCBuild9.  If we're dealing with an x64 Windows build,
--@@ -70,7 +70,7 @@
--     sys.exec_prefix -- i.e., ignore 'plat_specific'.
--     """
--     if prefix is None:
---        prefix = plat_specific and EXEC_PREFIX or PREFIX
--+        prefix = os.environ['STAGING_INCDIR'].rstrip('include')
-- 
--     if os.name == "posix":
--         if python_build:
--@@ -115,12 +115,16 @@
--     If 'prefix' is supplied, use it instead of sys.prefix or
--     sys.exec_prefix -- i.e., ignore 'plat_specific'.
--     """
--+    lib_basename = os.environ['STAGING_LIBDIR'].split('/')[-1]
--     if prefix is None:
---        prefix = plat_specific and EXEC_PREFIX or PREFIX
--+        if plat_specific:
--+            prefix = os.environ['STAGING_LIBDIR'].rstrip(lib_basename)
--+        else:
--+            prefix = PREFIX
-- 
--     if os.name == "posix":
--         libpython = os.path.join(prefix,
---                                 "lib", "python" + get_python_version())
--+                                 lib_basename, "python" + get_python_version())
--         if standard_lib:
--             return libpython
--         else:
--@@ -216,7 +220,7 @@
--     else:
--         # The name of the config.h file changed in 2.2
--         config_h = 'pyconfig.h'
---    return os.path.join(inc_dir, config_h)
--+    return os.path.join(inc_dir, config_h).replace( os.getenv("BUILD_SYS"), os.getenv("HOST_SYS") )
-- 
-- 
-- def get_makefile_filename():
--@@ -225,7 +229,7 @@
--         return os.path.join(os.path.dirname(os.path.realpath(sys.executable)),
--                             "Makefile")
--     lib_dir = get_python_lib(plat_specific=1, standard_lib=1)
---    return os.path.join(lib_dir, "config", "Makefile")
--+    return os.path.join(lib_dir, "config", "Makefile").replace( os.getenv("BUILD_SYS"), os.getenv("HOST_SYS") )
-- 
-- 
-- def parse_config_h(fp, g=None):
-diff --git a/meta/recipes-devtools/python/python-native_2.7.11.bb b/meta/recipes-devtools/python/python-native_2.7.11.bb
-index abb69fc..31192ca 100644
---- a/meta/recipes-devtools/python/python-native_2.7.11.bb
-+++ b/meta/recipes-devtools/python/python-native_2.7.11.bb
-@@ -8,7 +8,7 @@ SRC_URI += "\
-             file://05-enable-ctypes-cross-build.patch \
-             file://10-distutils-fix-swig-parameter.patch \
-             file://11-distutils-never-modify-shebang-line.patch \
--            file://12-distutils-prefix-is-inside-staging-area.patch \
-+            file://0001-distutils-set-the-prefix-to-be-inside-staging-direct.patch \
-             file://debug.patch \
-             file://unixccompiler.patch \
-             file://nohostlibs.patch \
-@@ -30,8 +30,6 @@ RPROVIDES += "python-distutils-native python-compression-native python-textutils
- EXTRA_OECONF_append = " --bindir=${bindir}/${PN} --with-system-expat=${STAGING_DIR_HOST}"
- 
- EXTRA_OEMAKE = '\
--  BUILD_SYS="" \
--  HOST_SYS="" \
-   LIBC="" \
-   STAGING_LIBDIR=${STAGING_LIBDIR_NATIVE} \
-   STAGING_INCDIR=${STAGING_INCDIR_NATIVE} \
-diff --git a/meta/recipes-devtools/python/python-numpy_1.10.4.bb b/meta/recipes-devtools/python/python-numpy_1.10.4.bb
-index 8a562dc..ca6a7ab 100644
---- a/meta/recipes-devtools/python/python-numpy_1.10.4.bb
-+++ b/meta/recipes-devtools/python/python-numpy_1.10.4.bb
-@@ -63,7 +63,6 @@ inherit distutils
- # Make the build fail and replace *config.h with proper one
- # This is a ugly, ugly hack - Koen
- do_compile_prepend_class-target() {
--    BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
-     ${STAGING_BINDIR_NATIVE}/python-native/python setup.py build ${DISTUTILS_BUILD_ARGS} || \
-     true
-     cp ${WORKDIR}/*config.h ${S}/build/$(ls ${S}/build | grep src)/numpy/core/include/numpy/
-diff --git a/meta/recipes-devtools/python/python-pycairo_1.10.0.bb b/meta/recipes-devtools/python/python-pycairo_1.10.0.bb
-index 70fe25c..78e8a4e 100644
---- a/meta/recipes-devtools/python/python-pycairo_1.10.0.bb
-+++ b/meta/recipes-devtools/python/python-pycairo_1.10.0.bb
-@@ -23,7 +23,7 @@ inherit distutils pkgconfig
- BBCLASSEXTEND = "native"
- 
- do_configure() {
--	BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} ./waf configure --prefix=${D}${prefix} --libdir=${D}${libdir}
-+	./waf configure --prefix=${D}${prefix} --libdir=${D}${libdir}
- }
- 
- do_compile() {
-diff --git a/meta/recipes-devtools/python/python/0001-distutils-set-the-prefix-to-be-inside-staging-direct.patch b/meta/recipes-devtools/python/python/0001-distutils-set-the-prefix-to-be-inside-staging-direct.patch
-new file mode 100644
-index 0000000..502f849
---- /dev/null
-+++ b/meta/recipes-devtools/python/python/0001-distutils-set-the-prefix-to-be-inside-staging-direct.patch
-@@ -0,0 +1,51 @@
-+From 4cdf2e9df13c6327fcc94d53e4953005543aef3d Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Wed, 6 Apr 2016 17:43:02 +0300
-+Subject: [PATCH 01/10] distutils: set the prefix to be inside staging
-+ directory
-+
-+The proper prefix is inside our staging area.
-+
-+Upstream-Status: Inappropriate [embedded specific]
-+Signed-off-by: Michael 'Mickey' Lauer <mickey@vanille-media.de>
-+Signed-off-by: Phil Blundell <philb@gnu.org>
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ Lib/distutils/sysconfig.py | 10 +++++++---
-+ 1 file changed, 7 insertions(+), 3 deletions(-)
-+
-+diff --git a/Lib/distutils/sysconfig.py b/Lib/distutils/sysconfig.py
-+index de7da1d..f3aacf7 100644
-+--- a/Lib/distutils/sysconfig.py
-++++ b/Lib/distutils/sysconfig.py
-+@@ -75,7 +75,7 @@ def get_python_inc(plat_specific=0, prefix=None):
-+     sys.exec_prefix -- i.e., ignore 'plat_specific'.
-+     """
-+     if prefix is None:
-+-        prefix = plat_specific and EXEC_PREFIX or PREFIX
-++        prefix = os.environ['STAGING_INCDIR'].rstrip('include')
-+ 
-+     if os.name == "posix":
-+         if python_build:
-+@@ -115,12 +115,16 @@ def get_python_lib(plat_specific=0, standard_lib=0, prefix=None):
-+     If 'prefix' is supplied, use it instead of sys.prefix or
-+     sys.exec_prefix -- i.e., ignore 'plat_specific'.
-+     """
-++    lib_basename = os.environ['STAGING_LIBDIR'].split('/')[-1]
-+     if prefix is None:
-+-        prefix = plat_specific and EXEC_PREFIX or PREFIX
-++        if plat_specific:
-++            prefix = os.environ['STAGING_LIBDIR'].rstrip(lib_basename)
-++        else:
-++            prefix = PREFIX
-+ 
-+     if os.name == "posix":
-+         libpython = os.path.join(prefix,
-+-                                 "lib", "python" + get_python_version())
-++                                 lib_basename, "python" + get_python_version())
-+         if standard_lib:
-+             return libpython
-+         else:
-+-- 
-+2.8.0.rc3
-+
-diff --git a/meta/recipes-devtools/python/python3-native_3.5.1.bb b/meta/recipes-devtools/python/python3-native_3.5.1.bb
-index 7bad11a..e8d0f9b 100644
---- a/meta/recipes-devtools/python/python3-native_3.5.1.bb
-+++ b/meta/recipes-devtools/python/python3-native_3.5.1.bb
-@@ -47,8 +47,6 @@ RPROVIDES += "python3-distutils-native python3-compression-native python3-textut
- EXTRA_OECONF_append = " --bindir=${bindir}/${PN} --without-ensurepip"
- 
- EXTRA_OEMAKE = '\
--  BUILD_SYS="" \
--  HOST_SYS="" \
-   LIBC="" \
-   STAGING_LIBDIR=${STAGING_LIBDIR_NATIVE} \
-   STAGING_INCDIR=${STAGING_INCDIR_NATIVE} \
-diff --git a/meta/recipes-devtools/python/python3/12-distutils-prefix-is-inside-staging-area.patch b/meta/recipes-devtools/python/python3/12-distutils-prefix-is-inside-staging-area.patch
-index 8b93c1c..c53ec0c 100644
---- a/meta/recipes-devtools/python/python3/12-distutils-prefix-is-inside-staging-area.patch
-+++ b/meta/recipes-devtools/python/python3/12-distutils-prefix-is-inside-staging-area.patch
-@@ -1,4 +1,4 @@
--From d4dd67daa1555bf13272cc071706338572539bad Mon Sep 17 00:00:00 2001
-+From 7630ab22578746d3d790d0598c0d279cf7afed97 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Tue, 14 May 2013 15:00:26 -0700
- Subject: [PATCH 01/20] python3: Add target and native recipes
-@@ -14,27 +14,14 @@ Upstream-Status: Inappropriate [embedded specific]
- # Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
- 
- ---
-+ Lib/distutils/sysconfig.py | 10 ++++++++--
-+ 1 file changed, 8 insertions(+), 2 deletions(-)
-+
- diff --git a/Lib/distutils/sysconfig.py b/Lib/distutils/sysconfig.py
--index 573724d..418b478 100644
-+index 573724d..390c485 100644
- --- a/Lib/distutils/sysconfig.py
- +++ b/Lib/distutils/sysconfig.py
--@@ -17,10 +17,11 @@ import sys
-- from .errors import DistutilsPlatformError
-- 
-- # These are needed in a couple of spots, so just compute them once.
---PREFIX = os.path.normpath(sys.prefix)
---EXEC_PREFIX = os.path.normpath(sys.exec_prefix)
---BASE_PREFIX = os.path.normpath(sys.base_prefix)
---BASE_EXEC_PREFIX = os.path.normpath(sys.base_exec_prefix)
--+PREFIX = os.path.normpath(sys.prefix).replace( os.getenv("BUILD_SYS"), os.getenv("HOST_SYS") )
--+EXEC_PREFIX = os.path.normpath(sys.exec_prefix).replace( os.getenv("BUILD_SYS"), os.getenv("HOST_SYS") )
--+BASE_PREFIX = os.path.normpath(sys.base_prefix).replace( os.getenv("BUILD_SYS"), os.getenv("HOST_SYS") )
--+BASE_EXEC_PREFIX= os.path.normpath(sys.base_exec_prefix).replace( os.getenv("BUILD_SYS"), os.getenv("HOST_SYS") )
--+
-- 
-- # Path to the base directory of the project. On Windows the binary may
-- # live in project/PCBuild/win32 or project/PCBuild/amd64.
--@@ -84,7 +85,9 @@ def get_python_inc(plat_specific=0, prefix=None):
-+@@ -84,7 +84,9 @@ def get_python_inc(plat_specific=0, prefix=None):
-      If 'prefix' is supplied, use it instead of sys.base_prefix or
-      sys.base_exec_prefix -- i.e., ignore 'plat_specific'.
-      """
-@@ -45,7 +32,7 @@ index 573724d..418b478 100644
-          prefix = plat_specific and BASE_EXEC_PREFIX or BASE_PREFIX
-      if os.name == "posix":
-          if python_build:
--@@ -125,6 +128,10 @@ def get_python_lib(plat_specific=0, standard_lib=0, prefix=None):
-+@@ -125,6 +127,10 @@ def get_python_lib(plat_specific=0, standard_lib=0, prefix=None):
-      If 'prefix' is supplied, use it instead of sys.base_prefix or
-      sys.base_exec_prefix -- i.e., ignore 'plat_specific'.
-      """
-@@ -56,7 +43,7 @@ index 573724d..418b478 100644
-      if prefix is None:
-          if standard_lib:
-              prefix = plat_specific and BASE_EXEC_PREFIX or BASE_PREFIX
--@@ -133,7 +140,7 @@ def get_python_lib(plat_specific=0, standard_lib=0, prefix=None):
-+@@ -133,7 +139,7 @@ def get_python_lib(plat_specific=0, standard_lib=0, prefix=None):
-  
-      if os.name == "posix":
-          libpython = os.path.join(prefix,
-@@ -65,24 +52,6 @@ index 573724d..418b478 100644
-          if standard_lib:
-              return libpython
-          else:
--@@ -233,7 +240,7 @@ def get_config_h_filename():
--     else:
--         inc_dir = get_python_inc(plat_specific=1)
-- 
---    return os.path.join(inc_dir, 'pyconfig.h')
--+    return os.path.join(inc_dir, 'pyconfig.h'.replace( os.getenv("BUILD_SYS"), os.getenv("HOST_SYS") ))
-- 
-- 
-- def get_makefile_filename():
--@@ -242,7 +249,7 @@ def get_makefile_filename():
--         return os.path.join(_sys_home or project_base, "Makefile")
--     lib_dir = get_python_lib(plat_specific=0, standard_lib=1)
--     config_file = 'config-{}{}'.format(get_python_version(), build_flags)
---    return os.path.join(lib_dir, config_file, 'Makefile')
--+    return os.path.join(lib_dir, config_file, 'Makefile').replace( os.getenv("BUILD_SYS"), os.getenv("HOST_SYS") )
-- 
-- 
-- def parse_config_h(fp, g=None):
- -- 
--2.7.0
-+2.8.0.rc3
- 
-diff --git a/meta/recipes-devtools/python/python3_3.5.1.bb b/meta/recipes-devtools/python/python3_3.5.1.bb
-index 2fbb3cb..26d05c7 100644
---- a/meta/recipes-devtools/python/python3_3.5.1.bb
-+++ b/meta/recipes-devtools/python/python3_3.5.1.bb
-@@ -118,7 +118,6 @@ do_compile() {
- 		STAGING_LIBDIR=${STAGING_LIBDIR} \
- 		STAGING_BASELIBDIR=${STAGING_BASELIBDIR} \
- 		STAGING_INCDIR=${STAGING_INCDIR} \
--		BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
- 		LIB=${baselib} \
- 		ARCH=${TARGET_ARCH} \
- 		OPT="${CFLAGS}" libpython3.so
-@@ -128,7 +127,6 @@ do_compile() {
- 		STAGING_LIBDIR=${STAGING_LIBDIR} \
- 		STAGING_INCDIR=${STAGING_INCDIR} \
- 		STAGING_BASELIBDIR=${STAGING_BASELIBDIR} \
--		BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
- 		LIB=${baselib} \
- 		ARCH=${TARGET_ARCH} \
- 		OPT="${CFLAGS}"
-@@ -149,7 +147,6 @@ do_install() {
- 		STAGING_LIBDIR=${STAGING_LIBDIR} \
- 		STAGING_INCDIR=${STAGING_INCDIR} \
- 		STAGING_BASELIBDIR=${STAGING_BASELIBDIR} \
--		BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
- 		LIB=${baselib} \
- 		ARCH=${TARGET_ARCH} \
- 		DESTDIR=${D} LIBDIR=${libdir}
-@@ -159,7 +156,6 @@ do_install() {
- 		STAGING_LIBDIR=${STAGING_LIBDIR} \
- 		STAGING_INCDIR=${STAGING_INCDIR} \
- 		STAGING_BASELIBDIR=${STAGING_BASELIBDIR} \
--		BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
- 		LIB=${baselib} \
- 		ARCH=${TARGET_ARCH} \
- 		DESTDIR=${D} LIBDIR=${libdir} install
-diff --git a/meta/recipes-devtools/python/python_2.7.11.bb b/meta/recipes-devtools/python/python_2.7.11.bb
-index 606f153..7eced2d 100644
---- a/meta/recipes-devtools/python/python_2.7.11.bb
-+++ b/meta/recipes-devtools/python/python_2.7.11.bb
-@@ -80,7 +80,6 @@ do_compile() {
- 		STAGING_LIBDIR=${STAGING_LIBDIR} \
- 		STAGING_INCDIR=${STAGING_INCDIR} \
- 		STAGING_BASELIBDIR=${STAGING_BASELIBDIR} \
--		BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
- 		OPT="${CFLAGS}"
- }
- 
-@@ -100,7 +99,6 @@ do_install() {
- 		STAGING_LIBDIR=${STAGING_LIBDIR} \
- 		STAGING_INCDIR=${STAGING_INCDIR} \
- 		STAGING_BASELIBDIR=${STAGING_BASELIBDIR} \
--		BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
- 		DESTDIR=${D} LIBDIR=${libdir}
- 	
- 	oe_runmake HOSTPGEN=${STAGING_BINDIR_NATIVE}/python-native/pgen \
-@@ -109,7 +107,6 @@ do_install() {
- 		STAGING_LIBDIR=${STAGING_LIBDIR} \
- 		STAGING_INCDIR=${STAGING_INCDIR} \
- 		STAGING_BASELIBDIR=${STAGING_BASELIBDIR} \
--		BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
- 		DESTDIR=${D} LIBDIR=${libdir} install
- 
- 	install -m 0644 Makefile.sysroot ${D}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile
-diff --git a/meta/recipes-extended/newt/libnewt_0.52.18.bb b/meta/recipes-extended/newt/libnewt_0.52.18.bb
-index 9a2964b..b6a9cd4 100644
---- a/meta/recipes-extended/newt/libnewt_0.52.18.bb
-+++ b/meta/recipes-extended/newt/libnewt_0.52.18.bb
-@@ -40,9 +40,6 @@ export STAGING_INCDIR
- export STAGING_LIBDIR
- export CPPFLAGS
- 
--export BUILD_SYS
--export HOST_SYS
--
- PACKAGES_prepend = "whiptail "
- 
- do_configure_prepend() {
-diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.46.0.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.46.0.bb
-index 861af5f..b544f8c 100644
---- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.46.0.bb
-+++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.46.0.bb
-@@ -20,8 +20,6 @@ inherit autotools pkgconfig gtk-doc pythonnative qemu gobject-introspection-data
- BBCLASSEXTEND = "native"
- 
- # necessary to let the call for python-config from configure.ac succeed
--export BUILD_SYS
--export HOST_SYS
- export STAGING_INCDIR
- export STAGING_LIBDIR
- 
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index 3d6ffb3..d668300 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -42,8 +42,6 @@ inherit linux-kernel-base kernel-arch pythonnative
- inherit python-dir
- export STAGING_INCDIR
- export STAGING_LIBDIR
--export BUILD_SYS
--export HOST_SYS
- export PYTHON_SITEPACKAGES_DIR
- 
- #kernel 3.1+ supports WERROR to disable warnings as errors
 -- 
 2.8.1
 
