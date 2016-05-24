@@ -1,61 +1,62 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-it0-f67.google.com (mail-it0-f67.google.com
-	[209.85.214.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E79E60616
+Return-Path: <anders@chargestorm.se>
+Received: from mail-lf0-f43.google.com (mail-lf0-f43.google.com
+	[209.85.215.43])
+	by mail.openembedded.org (Postfix) with ESMTP id C88176014F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 May 2016 16:41:35 +0000 (UTC)
-Received: by mail-it0-f67.google.com with SMTP id k76so2745645ita.1
+	Tue, 24 May 2016 17:35:35 +0000 (UTC)
+Received: by mail-lf0-f43.google.com with SMTP id e131so8976154lfb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 May 2016 09:41:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=LWE6VCvO3UtvSrTqlv00idlenO4OaZC55QyIzEijmMc=;
-	b=PrDkd9nLAALQfi//FO6n6sVQTo+++/JaT+MCfPqUxUvbrsi6T8GgrxB6dGxz7M1aXd
-	DtwT6kWPGPcRhOZtMTz2x19UmOux4UIFaEcQM9h/FVthppB9dDmwVNNr0doVgHTIWeBX
-	iCyNn77V7Zcpj4SWxg+a1MAgbe8pjssCaZhNJfF6OLtj3lIENAhfi+OIIGvUTO57mrIe
-	sWnqLCx8tgkRhYAZ9b4fizPqhB7gjmAVjl29ldo/nNSoO06rq+oxxVaZYYErRYVeT2jT
-	AUFWDfh85CguYWFM5TRdfyD7l4qB0FX4YE6yyeoU9AdsY80Osu67+rq0uti1NA95THXC
-	c7wA==
+	Tue, 24 May 2016 10:35:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kergoth-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=LWE6VCvO3UtvSrTqlv00idlenO4OaZC55QyIzEijmMc=;
-	b=k5csBWD73NAYVQZZVtwqwxaX8xD2vW+PJc1ZZqU1UOOfueZNJOTzK6TOM7VTlK5EAJ
-	DTs+5uyiIideHfOLq6ki87kaLzkCC8mFShReGeCksleLw8reQNxBGDckho1onnIiy4DC
-	0J645YG7GFFlLBnd/u6RoNpaCoVdxpT/nVnsWpaTKwp2YhnEw9TKlNR05JoTg1FM7U9u
-	JxEDlRDRNTvThldsyWfJjvTMeRBIw3JVEE7M2ngCeTi8Ebglezz69a26nfXdZON9tKUA
-	vsfn+nkFVLXpj/KQQMz2NflQqg/hHDtjCjNlhCC0dOl8A62CqfbaTE108UkJylo0GuBm
-	Mmow==
+	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
+	h=date:from:to:cc:subject:message-id:mail-followup-to:references
+	:mime-version:content-disposition:in-reply-to:organization
+	:user-agent; bh=4/9l9iDA8Sl4Iyc2j5YmTK+15XpcT4vRnWMunASB/TM=;
+	b=IkLRnJPWd4ODAWBCX9ck9RwMZxahCxOZjOgUTJld2STkdsh6zpcG9ZdyKhDN8S746S
+	DZRrE2Egy5jZMZQZvXlzVSQkUogplm47GycnneXJyLxeFLufZpyNqhoKgI4QYXi1S0nt
+	w2YmIvleGaATY2fqLuCj8kXK5K4qHrdVe0fvf0d50kk0Yego+3zWC5eidNOOezjRgEQG
+	KE8oxpNYHoSJvYGLF5kaNRhw1Q7qUkl3OOUUCzhCNSi8TRVsA+bKRU7/D+54HkfaLpec
+	vGkZ4nMrnG9DYcxGxe+F7zOy+WcJW0G5ATA6JsZZKuJeR7Pf6rFfWL67XOWXcd8zxIgH
+	k9PQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=LWE6VCvO3UtvSrTqlv00idlenO4OaZC55QyIzEijmMc=;
-	b=cXPKGRbceVARrVJ95h+SDzKvzQJKU4Iu2Hj5JRPrJyiyz2piNqSNGcU+MeBVZxN50T
-	i79S0lMa3DXPZab9dwREdu7uVBaGcA4bLP1vleyLX7gBiwCR4AicDUcCwHTj2Ldhbt6P
-	/iHFKsgeFOh3T2LGAdsFH2Vt8pBH7GxRBglR6vWNnY1/ZkZu14zsEh4Cr0wKz82SjOq/
-	Xz+AxL3Qps5EqIt/sbIau2f74eo0Hn2Uc0INa36Y32U/btDfVVrVhQdCnjGGRqGRAEAX
-	KuxGei4dkOgIZBQgaGjiw0iE1jQsdb7+v5eVw5cihq6CBQ5mT+1kGmXjsHlR3DuztrpV
-	XlPA==
-X-Gm-Message-State: ALyK8tJq0paRdKcSbCVYiQuuzpvXrVCVATtRjmgAllxXMLSAPkMIU+dsyFhJQ3ElS5iJKwWzzruHs3tbkT8MOQ==
-X-Received: by 10.36.53.134 with SMTP id k128mr4301392ita.66.1464108096673;
-	Tue, 24 May 2016 09:41:36 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.79.100.5 with HTTP; Tue, 24 May 2016 09:41:17 -0700 (PDT)
-In-Reply-To: <CABcZAN=D9C=x+85_w4-4_J4xGoSzU5WJciRsjCbGSAT5mSbUXQ@mail.gmail.com>
-References: <1462846173-3640-1-git-send-email-rongqing.li@windriver.com>
-	<CABcZAN=D9C=x+85_w4-4_J4xGoSzU5WJciRsjCbGSAT5mSbUXQ@mail.gmail.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Tue, 24 May 2016 09:41:17 -0700
-X-Google-Sender-Auth: 3ZYX1BqbYotjVGYM8lHMIGydozY
-Message-ID: <CABcZANm60kBvQyEZZo2FwaJD=Fud2H3gmD8SS3+B9kybR=p2XQ@mail.gmail.com>
-To: rongqing.li@windriver.com
-Cc: Patches and discussions about the oe-core layer
+	h=x-gm-message-state:date:from:to:cc:subject:message-id
+	:mail-followup-to:references:mime-version:content-disposition
+	:in-reply-to:organization:user-agent;
+	bh=4/9l9iDA8Sl4Iyc2j5YmTK+15XpcT4vRnWMunASB/TM=;
+	b=Qcj1oOcgV+rY/LEc0O/KdvBUP4JVNC/oZvbxNChUGt4A+4uHSWXU54fYIUY+LDNo/a
+	SR2R8xHLMDbK9rQGFubfQ/51gyTeUrB4ox24INtHDM0X0ve1huVm2+PqMxz2A/80lzZb
+	+qxfzFxempXe/AWPemUjqkweBi2fCKJ2+RyJaW+cQFeinXG6AOtQIDTT9seOJo1DtRxy
+	Z1f0wpf/EeDYgXJZdf46kycYnYwiuWPovPqJoJfYzjyPL/kz4lOukCIIGD2BuuxxRyHm
+	Kwziudm+vM3Y1cawtwpB1m8J6QXbaV/NGYsbg7AQD9zv6/1GsprGPFTPvig7CyVL+IDg
+	ZL5g==
+X-Gm-Message-State: AOPr4FXIhL9TqNYizkfnzz08S0NKC32436H1HUB3gITNqLtWky7bV0JG/8c7+b7JQSgACw==
+X-Received: by 10.25.44.199 with SMTP id s190mr8138755lfs.146.1464111334492;
+	Tue, 24 May 2016 10:35:34 -0700 (PDT)
+Received: from ad.chargestorm.se (213-64-218-130-no126.business.telia.com.
+	[213.64.218.130])
+	by smtp.gmail.com with ESMTPSA id l10sm627687lfb.47.2016.05.24.10.35.32
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 24 May 2016 10:35:33 -0700 (PDT)
+Date: Tue, 24 May 2016 19:35:31 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: Matthijs Vader <mvader@victronenergy.com>
+Message-ID: <20160524173531.GA6413@ad.chargestorm.se>
+Mail-Followup-To: Matthijs Vader <mvader@victronenergy.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd: re-enable mount propagation for udevd
+References: <DB5PR07MB1431386E8583B4F0F5204924C54E0@DB5PR07MB1431.eurprd07.prod.outlook.com>
+MIME-Version: 1.0
+In-Reply-To: <DB5PR07MB1431386E8583B4F0F5204924C54E0@DB5PR07MB1431.eurprd07.prod.outlook.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.6.0 (2016-04-01)
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: wic wks: data partition only mounted on second boot?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,68 +69,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 May 2016 16:41:36 -0000
-Content-Type: multipart/alternative; boundary=001a114aa07003dd190533993b53
+X-List-Received-Date: Tue, 24 May 2016 17:35:37 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---001a114aa07003dd190533993b53
-Content-Type: text/plain; charset=UTF-8
+* Matthijs Vader <mvader@victronenergy.com> [160523 13:37]:
 
-On Tue, May 24, 2016 at 9:37 AM, Christopher Larson <clarson@kergoth.com>
-wrote:
+> Hi again, fixed and found it myself already. There is an error while mounting that
+> partition on the first boot because the mount point (/data) doesn't exist yet.
+> Then, later during first boot, some application creates it. Which explains why
+> it does work on the second boot.
 
-> On Mon, May 9, 2016 at 7:09 PM, <rongqing.li@windriver.com> wrote:
->
->> From: Roy Li <rongqing.li@windriver.com>
->>
->> With MountFlags=slave, those mounts then become private to the systemd-
->> udevd
->> namespace and are no longer accessible from outside the namespace, which
->> is
->> not expected
->>
->> Signed-off-by: Roy Li <rongqing.li@windriver.com>
->>
->
-> What's the status of this? Mentor is carrying this patch too :)
+> Which brings me to a new question:
 
+> Is there are reason for mountall.sh to put all errors into /dev/null? See:
+> https://github.com/openembedded/openembedded-core/blob/master/meta/recipes-core/initscripts/initscripts-1.0/mountall.sh#L20
 
-Nevermind, I see this is on ross/mut.
+Good question. To be honest, I don't know.
+
+> Or shall I send a -tiny- patch dropping that 2>/dev/null?
+
+As long as it doesn't produce too much noise (i.e. errors on normal
+boots etc), sure do that. At least as long as you check that it goes
+into the syslog / journal.
+
+That would probably help people debugging certain issues.
+
+Cheers,
+Anders
 -- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+Anders Darander, Senior System Architect
+ChargeStorm AB / eStorm AB
 
---001a114aa07003dd190533993b53
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Tue, May 24, 2016 at 9:37 AM, Christopher Larson <span dir=3D"ltr">&lt;<=
-a href=3D"mailto:clarson@kergoth.com" target=3D"_blank">clarson@kergoth.com=
-</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
-:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D""><=
-div class=3D"gmail_quote">On Mon, May 9, 2016 at 7:09 PM,  <span dir=3D"ltr=
-">&lt;<a href=3D"mailto:rongqing.li@windriver.com" target=3D"_blank">rongqi=
-ng.li@windriver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
-><div>From: Roy Li &lt;<a href=3D"mailto:rongqing.li@windriver.com" target=
-=3D"_blank">rongqing.li@windriver.com</a>&gt;<br>
-<br>
-With MountFlags=3Dslave, those <span>mounts</span> then become private to t=
-he <span class=3D"il">systemd</span>-<span class=3D"il">udevd</span><br>
-namespace and are no longer accessible from outside the namespace, which is=
-<br>
-not expected<br>
-<br>
-Signed-off-by: Roy Li &lt;<a href=3D"mailto:rongqing.li@windriver.com" targ=
-et=3D"_blank">rongqing.li@windriver.com</a>&gt;</div></blockquote></div><br=
-></span>What&#39;s the status of this? Mentor is carrying this patch too :)=
-</blockquote></div><br>Nevermind, I see this is on ross/mut.<br>-- <br><div=
- class=3D"gmail_signature">Christopher Larson<br>clarson at kergoth dot com=
-<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Se=
-nior Software Engineer, Mentor Graphics</div>
-</div></div>
-
---001a114aa07003dd190533993b53--
