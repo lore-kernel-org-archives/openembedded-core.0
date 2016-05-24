@@ -1,46 +1,25 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-ig0-f193.google.com (mail-ig0-f193.google.com
-	[209.85.213.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D4C560667
+Return-Path: <philip@balister.org>
+Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
+	by mail.openembedded.org (Postfix) with SMTP id A4C6E60616
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 May 2016 16:28:46 +0000 (UTC)
-Received: by mail-ig0-f193.google.com with SMTP id l10so2508075igk.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 May 2016 09:28:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=Tv8qtMB0uZYc9LaiYN2bLp9c7/hNpAfpkdHy/Sf2PDs=;
-	b=rOE1600XilQcHQqslQFLXE7WfFzsVDcOR/mSoLZmphQL7iZ7ne+y/pBhQDx0xlhjrE
-	+OfyV81qLDvSiK8hy8T3cmE3g3+LpI0gIzTf1v6fgv+cRP9vxa8b3vrGYI0UCpGpBbzX
-	gSB2QJ/nRz+z+4b2eVOIaMyxEiKs0hrphg86Ic50sEbpS/WIsc6/DpsQkv2BZzIj4F0o
-	BHE1pSzsf9iDTmAKISCWGrTCtXlBMV4mmK5I6xJIrxONvmuv7qnOWUfdwI4PGxMVTA0o
-	+agE4AK5abD3rFIa7hd3f9vZtHJBewj+stW+zJXh/bKuKWqvruJb8eLOFQEuiryfV2KV
-	iXSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Tv8qtMB0uZYc9LaiYN2bLp9c7/hNpAfpkdHy/Sf2PDs=;
-	b=dpPIdCqhgWZN1Rqu1KkIXG+qZdFlpqi9k3syO9Rus7xz5+vCmU3XeEIL0O3BGui/6R
-	kaC8lfUZIaHfFYikNQJrTgUSjrkXL9hpFoyebxnwg/IUJkRajmjtYkcbRC060z2uSnBn
-	pGcnKNpHHEbHGXAUUton0J755aEx8xw9IXYAKYwli6H4j2v0B9LJnagVyeIaHoMjZd2M
-	0MxT1PFTxpGcmKOfcmzUUtxjCB3MH3Vcj2FoorcQAkGQWjg8um9HaiLQJUP9lNUncc2i
-	8XNqXXAfGi8KooMdd64fFXzajIdCDp0nuIeM7R+SuVMNA3566fXKrBbz2fGrE6siGdxo
-	PC6A==
-X-Gm-Message-State: AOPr4FWrAdc59RneVJq7zxpa6iII8trhXonikN3V77coX48wM+oPY67k3xBWGdBxHCq92Q==
-X-Received: by 10.50.36.9 with SMTP id m9mr18712031igj.91.1464107326885;
-	Tue, 24 May 2016 09:28:46 -0700 (PDT)
-Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by smtp.gmail.com with ESMTPSA id
-	q99sm1324709ioi.17.2016.05.24.09.28.44
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 24 May 2016 09:28:44 -0700 (PDT)
-From: Christopher Larson <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 May 2016 09:28:40 -0700
-Message-Id: <1464107320-28480-1-git-send-email-kergoth@gmail.com>
-X-Mailer: git-send-email 2.8.0
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH] dhcp: fix non-deterministic libxml2 dependency
+	Tue, 24 May 2016 16:35:49 +0000 (UTC)
+Received: (qmail 28751 invoked by uid 1003); 24 May 2016 16:35:50 -0000
+Received: from unknown (HELO ?192.168.11.140?)
+	(philip@opensdr.com@108.44.118.32)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	24 May 2016 16:35:49 -0000
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
+	<70f76410663868b8cd737d28456ce2b7a5ddea27.1464088997.git.alexander.kanavin@linux.intel.com>
+From: Philip Balister <philip@balister.org>
+Message-ID: <c1841b58-1c28-7a1d-9316-d8fd4cf1f4af@balister.org>
+Date: Tue, 24 May 2016 12:35:46 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.0
+MIME-Version: 1.0
+In-Reply-To: <70f76410663868b8cd737d28456ce2b7a5ddea27.1464088997.git.alexander.kanavin@linux.intel.com>
+Subject: Re: [PATCH 05/45] sip.bbclass: remove
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,74 +32,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 May 2016 16:28:48 -0000
+X-List-Received-Date: Tue, 24 May 2016 16:35:50 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-From: Christopher Larson <chris_larson@mentor.com>
+The pyqt recipe in meta-qt4 uses sip.
 
-This dependency was floating, which results in non-deterministic builds. Add
-a configure argument and associated PACKAGECONFIG to fix this.
+Philip
 
-The libxml dep is only needed when bind was built with a dep on libxml due to
-its httpstats feature. So, when you enable the httpstats config in bind, and
-want to build dhcp, be sure to also enable the bind-httpstats config in dhcp.
-
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- .../dhcp/dhcp/libxml2-configure-argument.patch     | 27 ++++++++++++++++++++++
- meta/recipes-connectivity/dhcp/dhcp_4.3.3.bb       |  4 ++++
- 2 files changed, 31 insertions(+)
- create mode 100644 meta/recipes-connectivity/dhcp/dhcp/libxml2-configure-argument.patch
-
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/libxml2-configure-argument.patch b/meta/recipes-connectivity/dhcp/dhcp/libxml2-configure-argument.patch
-new file mode 100644
-index 0000000..9d2fbfb
---- /dev/null
-+++ b/meta/recipes-connectivity/dhcp/dhcp/libxml2-configure-argument.patch
-@@ -0,0 +1,27 @@
-+Add configure argument to make the libxml2 dependency explicit and
-+determinisitic.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-+
-+--- dhcp-4.3.3.orig/configure.ac	2016-03-16 20:25:53.830697637 -0700
-++++ dhcp-4.3.3/configure.ac	2016-03-16 20:28:19.415355257 -0700
-+@@ -631,7 +631,16 @@
-+
-+ # We need to find libxml2 if bind was built with support enabled
-+ # otherwise we'll fail to build omapip/test.c
-+-AC_SEARCH_LIBS(xmlTextWriterStartElement, [xml2],)
-++AC_ARG_WITH(libxml2,
-++	AS_HELP_STRING([--with-libxml2], [link against libxml2. this is needed if bind was built with xml2 support enabled]),
-++	with_libxml2="$withval", with_libxml2="no")
-++
-++if test x$with_libxml2 != xno; then
-++    AC_SEARCH_LIBS(xmlTextWriterStartElement, [xml2],
-++                   [if test x$with_libxml2 != xauto; then
-++                        AC_MSG_FAILURE([*** Cannot find xmlTextWriterStartElement with -lxml2 and libxml2 was requested])
-++                    fi])
-++fi
-+
-+ # OpenLDAP support.
-+ AC_ARG_WITH(ldap,
-diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.3.3.bb b/meta/recipes-connectivity/dhcp/dhcp_4.3.3.bb
-index 4e8cd27..97dde1d 100644
---- a/meta/recipes-connectivity/dhcp/dhcp_4.3.3.bb
-+++ b/meta/recipes-connectivity/dhcp/dhcp_4.3.3.bb
-@@ -9,7 +9,11 @@ SRC_URI += "file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
-             file://CVE-2015-8605.patch \
-             file://0001-site.h-enable-gentle-shutdown.patch \
-             file://CVE-2016-2774.patch \
-+            file://libxml2-configure-argument.patch \
-            "
- 
- SRC_URI[md5sum] = "c5577b09c9017cdd319a11ff6364268e"
- SRC_URI[sha256sum] = "553c4945b09b1c1b904c4780f34f72aaefa2fc8c6556715de0bc9d4e3d255ede"
-+
-+PACKAGECONFIG ?= ""
-+PACKAGECONFIG[bind-httpstats] = "--with-libxml2,--without-libxml2,libxml2"
--- 
-2.8.0
-
+On 05/24/2016 07:53 AM, Alexander Kanavin wrote:
+> Nothing is requiring it in oe-core or meta-oe.
+> 
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> ---
+>  meta/classes/sip.bbclass | 61 ------------------------------------------------
+>  1 file changed, 61 deletions(-)
+>  delete mode 100644 meta/classes/sip.bbclass
+> 
+> diff --git a/meta/classes/sip.bbclass b/meta/classes/sip.bbclass
+> deleted file mode 100644
+> index 6ed2a13..0000000
+> --- a/meta/classes/sip.bbclass
+> +++ /dev/null
+> @@ -1,61 +0,0 @@
+> -# Build Class for Sip based Python Bindings
+> -# (C) Michael 'Mickey' Lauer <mickey@Vanille.de>
+> -#
+> -STAGING_SIPDIR ?= "${STAGING_DATADIR_NATIVE}/sip"
+> -
+> -DEPENDS  =+ "sip-native"
+> -RDEPENDS_${PN} += "python-sip"
+> -
+> -# default stuff, do not uncomment
+> -# EXTRA_SIPTAGS = "-tWS_X11 -tQt_4_3_0"
+> -
+> -# do_generate is before do_configure so ensure that sip_native is populated in sysroot before executing it
+> -do_generate[depends] += "sip-native:do_populate_sysroot"
+> -
+> -sip_do_generate() {
+> -	if [ -z "${SIP_MODULES}" ]; then 
+> -		MODULES="`ls sip/*mod.sip`"
+> -	else
+> -		MODULES="${SIP_MODULES}"
+> -	fi
+> -
+> -	if [ -z "$MODULES" ]; then
+> -		die "SIP_MODULES not set and no modules found in $PWD"
+> -        else
+> -		bbnote "using modules '${SIP_MODULES}' and tags '${EXTRA_SIPTAGS}'"
+> -	fi
+> -
+> -	if [ -z "${EXTRA_SIPTAGS}" ]; then
+> -		die "EXTRA_SIPTAGS needs to be set!"
+> -	else
+> -		SIPTAGS="${EXTRA_SIPTAGS}"
+> -	fi
+> -
+> -	if [ ! -z "${SIP_FEATURES}" ]; then
+> -		FEATURES="-z ${SIP_FEATURES}"
+> -		bbnote "sip feature file: ${SIP_FEATURES}"
+> -	fi
+> -
+> -	for module in $MODULES
+> -	do
+> -		install -d ${module}/
+> -		echo "calling 'sip4 -I sip -I ${STAGING_SIPDIR} ${SIPTAGS} ${FEATURES} -c ${module} -b ${module}/${module}.pro.in sip/${module}/${module}mod.sip'"
+> -		sip4 -I ${STAGING_SIPDIR} -I sip ${SIPTAGS} ${FEATURES} -c ${module} -b ${module}/${module}.sbf \
+> -			sip/${module}/${module}mod.sip || die "Error calling sip on ${module}"
+> -		sed -e 's,target,TARGET,' -e 's,sources,SOURCES,' -e 's,headers,HEADERS,' \
+> -			${module}/${module}.sbf | sed s,"moc_HEADERS =","HEADERS +=", \
+> -			>${module}/${module}.pro
+> -		echo "TEMPLATE=lib" >>${module}/${module}.pro
+> -		[ "${module}" = "qt" ] 		&& echo "" 		>>${module}/${module}.pro
+> -		[ "${module}" = "qtcanvas" ] 	&& echo ""		>>${module}/${module}.pro
+> -		[ "${module}" = "qttable" ] 	&& echo ""		>>${module}/${module}.pro
+> -		[ "${module}" = "qwt" ] 	&& echo ""		>>${module}/${module}.pro
+> -		[ "${module}" = "qtpe" ]        && echo ""		>>${module}/${module}.pro
+> -		[ "${module}" = "qtpe" ]        && echo "LIBS+=-lqpe"	>>${module}/${module}.pro
+> -		true
+> -	done
+> -}
+> -
+> -EXPORT_FUNCTIONS do_generate
+> -
+> -addtask generate after do_unpack do_patch before do_configure
+> 
 
