@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id A9AFF731C1
+	by mail.openembedded.org (Postfix) with ESMTP id B566D731DF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 May 2016 11:54:09 +0000 (UTC)
+	Tue, 24 May 2016 11:54:10 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga102.jf.intel.com with ESMTP; 24 May 2016 04:54:11 -0700
+	by orsmga102.jf.intel.com with ESMTP; 24 May 2016 04:54:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,359,1459839600"; d="scan'208";a="109498188"
+X-IronPort-AV: E=Sophos;i="5.26,359,1459839600"; d="scan'208";a="109498190"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga004.fm.intel.com with ESMTP; 24 May 2016 04:54:11 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 24 May 2016 04:54:12 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 May 2016 14:54:20 +0300
-Message-Id: <0607ecb2c5728975919069bc739694c5858c20b9.1464088997.git.alexander.kanavin@linux.intel.com>
+Date: Tue, 24 May 2016 14:54:21 +0300
+Message-Id: <aeb6ec6c59df159c99e2d3f113814f47d30ffeea.1464088997.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
 References: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
 References: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 31/45] python-docutils: move to Python 3
+Subject: [PATCH 32/45] cracklib: disable building the python module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,55 +31,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 May 2016 11:54:09 -0000
+X-List-Received-Date: Tue, 24 May 2016 11:54:10 -0000
+
+It's tricky to convert to Python 3 and isn't required by anything in
+oe-core or meta-oe.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-devtools/python/python3-dbus_1.2.4.bb                    | 4 ++--
- .../python/{python-docutils_0.12.bb => python3-docutils_0.12.bb}      | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/python/{python-docutils_0.12.bb => python3-docutils_0.12.bb} (92%)
+ meta/recipes-extended/cracklib/cracklib_2.9.5.bb | 25 +++---------------------
+ 1 file changed, 3 insertions(+), 22 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3-dbus_1.2.4.bb b/meta/recipes-devtools/python/python3-dbus_1.2.4.bb
-index c058caf..759512c 100644
---- a/meta/recipes-devtools/python/python3-dbus_1.2.4.bb
-+++ b/meta/recipes-devtools/python/python3-dbus_1.2.4.bb
-@@ -15,8 +15,8 @@ S = "${WORKDIR}/dbus-python-${PV}"
- inherit distutils3-base autotools pkgconfig
+diff --git a/meta/recipes-extended/cracklib/cracklib_2.9.5.bb b/meta/recipes-extended/cracklib/cracklib_2.9.5.bb
+index 3bd3f93..c185d23 100644
+--- a/meta/recipes-extended/cracklib/cracklib_2.9.5.bb
++++ b/meta/recipes-extended/cracklib/cracklib_2.9.5.bb
+@@ -4,12 +4,9 @@ HOMEPAGE = "http://sourceforge.net/projects/cracklib"
+ LICENSE = "LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=e3eda01d9815f8d24aae2dbd89b68b06"
  
- PACKAGECONFIG ?= ""
--PACKAGECONFIG[docs] = "--enable-html-docs,--disable-html-docs,python-docutils-native"
--PACKAGECONFIG[api-docs] = "--enable-api-docs,--disable-api-docs,python-docutils-native python-epydoc-native"
-+PACKAGECONFIG[docs] = "--enable-html-docs,--disable-html-docs,python3-docutils-native"
-+PACKAGECONFIG[api-docs] = "--enable-api-docs,--disable-api-docs,python3-docutils-native python3-epydoc-native"
+-DEPENDS = "cracklib-native zlib python"
+-RDEPEND_${PN}-python += "python"
++DEPENDS = "cracklib-native zlib"
  
- do_configure_prepend() {
-     export PYTHON=${PYTHON}
-diff --git a/meta/recipes-devtools/python/python-docutils_0.12.bb b/meta/recipes-devtools/python/python3-docutils_0.12.bb
-similarity index 92%
-rename from meta/recipes-devtools/python/python-docutils_0.12.bb
-rename to meta/recipes-devtools/python/python3-docutils_0.12.bb
-index 8cda88d..e78fa3b 100644
---- a/meta/recipes-devtools/python/python-docutils_0.12.bb
-+++ b/meta/recipes-devtools/python/python3-docutils_0.12.bb
-@@ -4,7 +4,7 @@ SECTION = "devel/python"
- LICENSE = "PSF & BSD-2-Clause & GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING.txt;md5=a722fbdc20347db7b69223594dd54574"
+-PACKAGES += "${PN}-python"
+-
+-EXTRA_OECONF = "--with-python --libdir=${base_libdir}"
++EXTRA_OECONF = "--without-python --libdir=${base_libdir}"
  
--DEPENDS = "python"
-+DEPENDS = "python3"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/cracklib/cracklib-${PV}.tar.gz \
+            file://0001-packlib.c-support-dictionary-byte-order-dependent.patch \
+@@ -21,27 +18,11 @@ SRC_URI[sha256sum] = "59ab0138bc8cf90cccb8509b6969a024d5e58d2d02bcbdccbb9ba9b88b
+ UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/cracklib/files/cracklib/"
+ UPSTREAM_CHECK_REGEX = "/cracklib/(?P<pver>(\d+[\.\-_]*)+)/"
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/docutils/docutils-${PV}.tar.gz"
- SRC_URI[md5sum] = "4622263b62c5c771c03502afa3157768"
-@@ -12,7 +12,7 @@ SRC_URI[sha256sum] = "c7db717810ab6965f66c8cf0398a98c9d8df982da39b4cd7f162911eb8
+-inherit autotools gettext pythonnative python-dir
++inherit autotools gettext
  
- S = "${WORKDIR}/docutils-${PV}"
+ do_install_append_class-target() {
+ 	create-cracklib-dict -o ${D}${datadir}/cracklib/pw_dict ${D}${datadir}/cracklib/cracklib-small
+ }
  
--inherit distutils
-+inherit distutils3
+-do_install_append() {
+-	src_dir="${D}${base_libdir}/${PYTHON_DIR}/site-packages"
+-	rm -f $src_dir/test_cracklib.py*
+-
+-	if [ "${base_libdir}" != "${libdir}" ] ; then
+-	   # Move python files from ${base_libdir} to ${libdir} since used --libdir=${base_libdir}
+-	   install -d -m 0755 ${D}${PYTHON_SITEPACKAGES_DIR}/
+-	   mv $src_dir/* ${D}${PYTHON_SITEPACKAGES_DIR}
+-	   rm -fr ${D}${base_libdir}/${PYTHON_DIR}
+-	fi
+-}
+-
+ BBCLASSEXTEND = "native nativesdk"
  
- BBCLASSEXTEND = "native"
- 
+-FILES_${PN}-python = "${PYTHON_SITEPACKAGES_DIR}/cracklib.py* \
+-	${PYTHON_SITEPACKAGES_DIR}/_cracklib.*"
+-
+-FILES_${PN}-staticdev += "${PYTHON_SITEPACKAGES_DIR}/_cracklib.a"
 -- 
 2.8.1
 
