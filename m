@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id ECFB26FF60
+	by mail.openembedded.org (Postfix) with ESMTP id 6EEE56FF60
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 May 2016 11:53:57 +0000 (UTC)
+	Tue, 24 May 2016 11:53:58 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga102.jf.intel.com with ESMTP; 24 May 2016 04:53:57 -0700
+	by orsmga102.jf.intel.com with ESMTP; 24 May 2016 04:53:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,359,1459839600"; d="scan'208";a="109498074"
+X-IronPort-AV: E=Sophos;i="5.26,359,1459839600"; d="scan'208";a="109498083"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga004.fm.intel.com with ESMTP; 24 May 2016 04:53:58 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 24 May 2016 04:54:00 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 May 2016 14:54:07 +0300
-Message-Id: <a0d3fb184f876c87326c7b7bd21210e0d40a9847.1464088997.git.alexander.kanavin@linux.intel.com>
+Date: Tue, 24 May 2016 14:54:09 +0300
+Message-Id: <4e743916f8c5966759fee726df8e18a8963c8e9e.1464088997.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
 References: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
 References: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 18/45] packagegroup-core-full-cmdline: drop python-dbus from the list of services
+Subject: [PATCH 20/45] systemd: drop python dependency for ptests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,25 +33,27 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 24 May 2016 11:53:58 -0000
 
-Any Python scripts should include this dependency explicitly.
+Python tests are not actually used, because systemd is configured
+using --without-python
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb | 1 -
- 1 file changed, 1 deletion(-)
+ meta/recipes-core/systemd/systemd_229.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb b/meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb
-index f33b43e..a60a68c 100644
---- a/meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb
-+++ b/meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb
-@@ -143,7 +143,6 @@ RDEPENDS_packagegroup-core-full-cmdline-sys-services = "\
-     cronie \
-     dbus \
-     dbus-glib \
--    python-dbus \
-     elfutils \
-     gzip \
-     less \
+diff --git a/meta/recipes-core/systemd/systemd_229.bb b/meta/recipes-core/systemd/systemd_229.bb
+index ae63c58..a1ca0e8 100644
+--- a/meta/recipes-core/systemd/systemd_229.bb
++++ b/meta/recipes-core/systemd/systemd_229.bb
+@@ -336,7 +336,7 @@ FILES_${PN}-analyze = "${bindir}/systemd-analyze"
+ FILES_${PN}-initramfs = "/init"
+ RDEPENDS_${PN}-initramfs = "${PN}"
+ 
+-RDEPENDS_${PN}-ptest += "gawk make perl python bash xz \
++RDEPENDS_${PN}-ptest += "gawk make perl bash xz \
+                          tzdata tzdata-americas tzdata-asia \
+                          tzdata-europe tzdata-africa tzdata-antarctica \
+                          tzdata-arctic tzdata-atlantic tzdata-australia \
 -- 
 2.8.1
 
