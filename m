@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F47465CBB
+	by mail.openembedded.org (Postfix) with ESMTP id 5F52865CC2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 May 2016 11:54:03 +0000 (UTC)
+	Tue, 24 May 2016 11:54:04 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga102.jf.intel.com with ESMTP; 24 May 2016 04:54:04 -0700
+	by orsmga102.jf.intel.com with ESMTP; 24 May 2016 04:54:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,359,1459839600"; d="scan'208";a="109498158"
+X-IronPort-AV: E=Sophos;i="5.26,359,1459839600"; d="scan'208";a="109498166"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga004.fm.intel.com with ESMTP; 24 May 2016 04:54:05 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 24 May 2016 04:54:06 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 May 2016 14:54:14 +0300
-Message-Id: <8c7374d7dbae0b79760e77944ce8e5f051d8c276.1464088997.git.alexander.kanavin@linux.intel.com>
+Date: Tue, 24 May 2016 14:54:15 +0300
+Message-Id: <b5033378e3539fe82c45a43600b74a454af8de3c.1464088997.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
 References: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
 References: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 25/45] git: remove Python package (to which nothing was packaged)
+Subject: [PATCH 26/45] qemu: remove runtime python dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,38 +31,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 May 2016 11:54:03 -0000
+X-List-Received-Date: Tue, 24 May 2016 11:54:04 -0000
+
+Nothing seems to require it.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-devtools/git/git.inc | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ meta/recipes-devtools/qemu/qemu.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
-index 7b3bec7..753b047 100644
---- a/meta/recipes-devtools/git/git.inc
-+++ b/meta/recipes-devtools/git/git.inc
-@@ -32,8 +32,7 @@ do_compile_prepend () {
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 36d600f..bf689bb 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -2,7 +2,7 @@ SUMMARY = "Fast open source processor emulator"
+ HOMEPAGE = "http://qemu.org"
+ LICENSE = "GPLv2 & LGPLv2.1"
+ DEPENDS = "glib-2.0 zlib pixman"
+-RDEPENDS_${PN}_class-target += "bash python"
++RDEPENDS_${PN}_class-target += "bash"
+ RDEPENDS_${PN}-ptest = "bash make"
  
- do_install () {
- 	oe_runmake install DESTDIR="${D}" bindir=${bindir} \
--		template_dir=${datadir}/git-core/templates \
--		GIT_PYTHON_DIR=${D}${datadir}/git-core/python
-+		template_dir=${datadir}/git-core/templates
- 	install -d ${D}/${mandir}/man1
- 	install -d ${D}/${mandir}/man5
- 	install -d ${D}/${mandir}/man7
-@@ -108,10 +107,6 @@ FILES_${PN}-perltools += " \
- "
- RDEPENDS_${PN}-perltools = "${PN} perl perl-module-file-path findutils"
- 
--PACKAGES =+ "${PN}-python"
--FILES_${PN}-python = "${libdir}/python*"
--
--
- # git-tk package with gitk and git-gui
- PACKAGES =+ "${PN}-tk"
- #RDEPENDS_${PN}-tk = "${PN} tk tcl"
+ require qemu-targets.inc
 -- 
 2.8.1
 
