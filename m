@@ -1,30 +1,31 @@
-Return-Path: <ovidiu.vancea@ni.com>
-Received: from ni.com (unknown [130.164.83.110])
-	by mail.openembedded.org (Postfix) with ESMTP id ECBE765CBB
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id F1CF860248
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 May 2016 07:48:09 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u4O7m9DX019864 for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 May 2016 02:48:09 -0500
-Received: from ovidiu-ro-l0 ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016052402480965-407573 ;
-	Tue, 24 May 2016 02:48:09 -0500 
-Date: Tue, 24 May 2016 10:48:06 +0300
-From: Ovidiu-Adrian Vancea <ovidiu.vancea@ni.com>
-To: <openembedded-core@lists.openembedded.org>
-Message-ID: <20160524104806.277f3155@ovidiu-ro-l0>
-MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 05/24/2016 02:48:10 AM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 05/24/2016 02:48:10 AM,
-	Serialize complete at 05/24/2016 02:48:10 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-05-24_02:, , signatures=0
-Subject: [oe][RFT] Make kernel install update module dependencies with appropriate version
+	Tue, 24 May 2016 09:13:59 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u4O9DwHE008569; Tue, 24 May 2016 10:13:58 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id ORuQXSuk3rLp; Tue, 24 May 2016 10:13:58 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u4O9Dt65008564
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 24 May 2016 10:13:57 +0100
+Message-ID: <1464081235.9570.51.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Christopher Larson <kergoth@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 24 May 2016 10:13:55 +0100
+In-Reply-To: <c1371045c7b7740a468f44db12ff20a2c881902c.1463769811.git.chris_larson@mentor.com>
+References: <0b22f46a6e565f757c0fc11aeab27e9f336c5b37.1463769811.git.chris_larson@mentor.com>
+	<c1371045c7b7740a468f44db12ff20a2c881902c.1463769811.git.chris_larson@mentor.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: Re: [PATCH 3/3] image_types.bbclass: support template .wks.in files for wic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,134 +38,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 May 2016 07:48:12 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 24 May 2016 09:14:00 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Updating the kernel ("opkg install kernel") does not update the modules bec=
-ause there is no version enforcement specifed in the OE recipe. Upon reboot=
-ing, the older version modules do not load and can leave hardware in a non-=
-functioning state if their drivers are not built into the kernel.
+On Mon, 2016-05-23 at 13:34 -0700, Christopher Larson wrote:
+> From: Christopher Larson <chris_larson@mentor.com>
+> 
+> These files are treated as the contents of a bitbake variable, so
+> usual
+> bitbake variable references are supported. I considered using another
+> templating mechanism, for example the one used by yocto-layer, but
+> then we'd
+> end up largely mapping metadata variables to template fields anyway,
+> which is
+> a pointless indirection. Let bitbake expand the variables directly
+> instead.
+> 
+> This feature lets us, for example, reference ${APPEND} in --append,
+> and avoid
+> hardcoding the serial console tty in the wks file, and let the user's
+> changes
+> to APPEND affect wic the way they do the other image construction
+> mechanisms.
+> 
+> The template is read in and set in a variable at parse time, so
+> changes to the
+> variables referenced by the template will result in rebuilding the
+> image.
+> 
+> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+> ---
+>  meta/classes/image_types.bbclass | 35
+> +++++++++++++++++++++++++++++++++++
+>  1 file changed, 35 insertions(+)
+> 
+> diff --git a/meta/classes/image_types.bbclass
+> b/meta/classes/image_types.bbclass
+> index dc681ae..caf8757 100644
+> --- a/meta/classes/image_types.bbclass
+> +++ b/meta/classes/image_types.bbclass
+> @@ -206,6 +206,16 @@ IMAGE_CMD_wic () {
+>  }
+>  IMAGE_CMD_wic[vardepsexclude] = "WKS_FULL_PATH WKS_FILES"
+>  
+> +python process_wks_template () {
+> +    """Write out expanded template contents to WKS_FULL_PATH."""
+> +    template_body = d.getVar('_WKS_TEMPLATE', True)
+> +    if template_body:
+> +        wks_file = d.getVar('WKS_FULL_PATH', True)
+> +        with open(wks_file, 'w') as f:
+> +            f.write(template_body)
+> +}
+> +do_image_wic[prefuncs] += 'process_wks_template'
+> +
+>  # Rebuild when the wks file or vars in WICVARS change
+>  USING_WIC = "${@bb.utils.contains_any('IMAGE_FSTYPES', 'wic ' + '
+> '.join('wic.%s' % c for c in '${COMPRESSIONTYPES}'.split()), '1', '',
+> d)}"
+>  WKS_FILE_CHECKSUM = "${@'${WKS_FULL_PATH}:%s' %
+> os.path.exists('${WKS_FULL_PATH}') if '${USING_WIC}' else ''}"
+> @@ -302,3 +312,28 @@ IMAGE_TYPES_MASKED ?= ""
+>  # The WICVARS variable is used to define list of bitbake variables
+> used in wic code
+>  # variables from this list is written to <image>.env file
+>  WICVARS ?= "BBLAYERS DEPLOY_DIR_IMAGE HDDDIR IMAGE_BASENAME
+> IMAGE_BOOT_FILES IMAGE_LINK_NAME IMAGE_ROOTFS INITRAMFS_FSTYPES
+> INITRD ISODIR MACHINE_ARCH ROOTFS_SIZE STAGING_DATADIR
+> STAGING_DIR_NATIVE STAGING_LIBDIR TARGET_SYS"
+> +
+> +python () {
+> +    """Read in and set up wks file template for wic."""
+> +    if d.getVar('USING_WIC', True):
+> +        wks_file_u = d.getVar('WKS_FULL_PATH', False)
+> +        wks_file = d.expand(wks_file_u)
+> +        base, ext = os.path.splitext(wks_file)
+> +        if ext == '.in' and os.path.exists(wks_file):
+> +            wks_out_file = os.path.join(d.getVar('WORKDIR', True),
+> os.path.basename(base))
+> +            d.setVar('WKS_FULL_PATH', wks_out_file)
+> +            d.setVar('WKS_TEMPLATE_PATH', wks_file_u)
+> +            d.setVar('WKS_FILE_CHECKSUM',
+> '${WKS_TEMPLATE_PATH}:True')
+> +
+> +            try:
+> +                with open(wks_file, 'r') as f:
+> +                    body = f.read()
+> +            except (IOError, OSError) as exc:
+> +                pass
 
-We would like to make the kernel depend on modules using RRECOMMENDS so tha=
-t they also update with the kernel.
+I'm a little nervous about determinism here. Shouldn't it either find
+the referenced file or error?
 
-I've been exploring two solutions and would like some feedback:
+Cheers,
 
-1. use the Version field from the kernel package on its rdepends, rrecommen=
-ds, and rsuggests fields=E2=80=99 version. This would force the packages on=
- which the kernel depends to be the same version as the kernel.
-     -- deletes modules from previous kernel version
-     -- version contains package build number (including git hash) and  pac=
-kage revision. This restricts the kernel and modules to always be built tog=
-ether.
+Richard
 
-2. append the KERNEL_VERSION to all kernel modules=E2=80=99 package name
-     -- keeps modules from previous kernel version
-
-[PATCH for solution 1]
-
-in the recipe that inherits kernel.bbclass add the following line:
-VERSION_KERNEL_MODULES =3D "1"
-
-and the following OE-core patch:
-
-diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bb=
-class
-index f1ad1d5..8468caf 100644
---- a/meta/classes/package_ipk.bbclass
-+++ b/meta/classes/package_ipk.bbclass
-@@ -196,6 +196,15 @@ python do_package_ipk () {
-         rconflicts =3D bb.utils.explode_dep_versions2(localdata.getVar("RC=
-ONFLICTS", True) or "")
-         debian_cmp_remap(rconflicts)
-=20
-+        if (pkgname =3D=3D "kernel") and (localdata.getVar("VERSION_KERNEL=
-_MODULES", False) =3D=3D "1"):
-+            suffix =3D "=3D"+localdata.getVar('PKGV', True)+"-"+localdata.=
-getVar('PKGR', True)
-+            for key in rdepends:
-+                rdepends[key]    =3D suffix
-+            for key in rsuggests:
-+                rsuggests[key]   =3D suffix
-+            for key in rrecommends:
-+                rrecommends[key] =3D suffix
-+
-         if rdepends:
-             ctrlfile.write("Depends: %s\n" % bb.utils.join_deps(rdepends))
-         if rsuggests:
-
-
-[PATCH for solution 2]
-
-In the kernel recipe that inherits kernel.bbclass add the following two lin=
-es:
-
-KERNEL_MODULES_SUFFIX =3D "-${KERNEL_VERSION}"
-RRECOMMENDS_${KERNEL_PACKAGE_NAME} +=3D "${KERNEL_PACKAGE_NAME}-modules${KE=
-RNEL_MODULES_SUFFIX}"
-
-and the following OE-core patch:
-
-diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel=
--module-split.bbclass
-index e1a70e6..ae556ce 100644
---- a/meta/classes/kernel-module-split.bbclass
-+++ b/meta/classes/kernel-module-split.bbclass
-@@ -181,7 +181,11 @@ python split_kernel_module_packages () {
-=20
-     module_deps =3D parse_depmod()
-     module_regex =3D '^(.*)\.k?o$'
--    module_pattern =3D 'kernel-module-%s'
-+    kernel_modules_suffix =3D d.getVar("KERNEL_MODULES_SUFFIX", True)
-+    if kernel_modules_suffix is None:
-+        module_pattern =3D '%s-module-%%s' % (kernel_package_name)
-+    else:
-+        module_pattern =3D '%s-module-%%s%s' % (kernel_package_name, kerne=
-l_modules_suffix)
-=20
-     postinst =3D d.getVar('pkg_postinst_modules', True)
-     postrm =3D d.getVar('pkg_postrm_modules', True)
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index c5355cf..15a2b3c 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -370,15 +370,18 @@ inherit cml1
-=20
- EXPORT_FUNCTIONS do_compile do_install do_configure
-=20
-+KERNEL_MODULES_SUFFIX ?=3D ""
-+KERNEL_MODULES_META_PACKAGE =3D "kernel-modules${KERNEL_MODULES_SUFFIX}"
-+
- # kernel-base becomes kernel-${KERNEL_VERSION}
- # kernel-image becomes kernel-image-${KERNEL_VERSION}
--PACKAGES =3D "kernel kernel-base kernel-vmlinux kernel-image kernel-dev ke=
-rnel-modules"
-+PACKAGES =3D "kernel kernel-base kernel-vmlinux kernel-image kernel-dev ${=
-KERNEL_MODULES_META_PACKAGE}"
- FILES_${PN} =3D ""
- FILES_kernel-base =3D "/lib/modules/${KERNEL_VERSION}/modules.order /lib/m=
-odules/${KERNEL_VERSION}/modules.builtin"
- FILES_kernel-image =3D "/boot/${KERNEL_IMAGETYPE}*"
- FILES_kernel-dev =3D "/boot/System.map* /boot/Module.symvers* /boot/config=
-* ${KERNEL_SRC_PATH} /lib/modules/${KERNEL_VERSION}/build"
- FILES_kernel-vmlinux =3D "/boot/vmlinux*"
--FILES_kernel-modules =3D ""
-+FILES_${KERNEL_MODULES_META_PACKAGE} =3D ""
- RDEPENDS_kernel =3D "kernel-base"
- # Allow machines to override this dependency if kernel image files are=20
- # not wanted in images as standard
-@@ -390,8 +393,8 @@ RPROVIDES_kernel-base +=3D "kernel-${KERNEL_VERSION}"
- ALLOW_EMPTY_kernel =3D "1"
- ALLOW_EMPTY_kernel-base =3D "1"
- ALLOW_EMPTY_kernel-image =3D "1"
--ALLOW_EMPTY_kernel-modules =3D "1"
--DESCRIPTION_kernel-modules =3D "Kernel modules meta package"
-+ALLOW_EMPTY_${KERNEL_MODULES_META_PACKAGE} =3D "1"
-+DESCRIPTION_${KERNEL_MODULES_META_PACKAGE} =3D "Kernel modules meta packag=
-e"
-=20
- pkg_postinst_kernel-base () {
-        if [ ! -e "$D/lib/modules/${KERNEL_VERSION}" ]; then
 
 
