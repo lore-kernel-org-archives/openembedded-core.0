@@ -1,30 +1,24 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B15FB6067C
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A83F16067C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 May 2016 15:51:03 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u4OFp2lf011191
+	Tue, 24 May 2016 15:54:02 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u4OFs1EA018794
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 24 May 2016 08:51:02 -0700 (PDT)
-Received: from server.local (128.224.20.183) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 24 May 2016 08:51:01 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Khem Raj
-	<raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>
-References: <fa9c2d513cff678eebb231d4cf5991ea37061b34.1463157783.git.raj.khem@gmail.com>
-	<2cc568062314cdddd5ff2f60dd6d9685b3b12831.1463157783.git.raj.khem@gmail.com>
-	<1463295824.9746.152.camel@linuxfoundation.org>
-	<1464101499.9570.59.camel@linuxfoundation.org>
+	Tue, 24 May 2016 08:54:01 -0700 (PDT)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Tue, 24 May 2016 08:54:00 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <46101188-c23c-4136-963f-0e016c06396e@windriver.com>
-Date: Tue, 24 May 2016 11:51:01 -0400
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
-	Gecko/20100101 Thunderbird/45.1.0
+To: <richard.purdie@linuxfoundation.org>
+Date: Tue, 24 May 2016 11:53:57 -0400
+Message-ID: <cover.1464105119.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
 MIME-Version: 1.0
-In-Reply-To: <1464101499.9570.59.camel@linuxfoundation.org>
-Subject: Re: [PATCH 4/6] tcmode-default: Bump gcc,glibc,gdb
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/3] linux-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,62 +31,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 May 2016 15:51:04 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 24 May 2016 15:54:03 -0000
+Content-Type: text/plain
 
-On 2016-05-24 10:51 AM, Richard Purdie wrote:
-> On Sun, 2016-05-15 at 08:03 +0100, Richard Purdie wrote:
->> On Fri, 2016-05-13 at 09:46 -0700, Khem Raj wrote:
->>> gcc 6.1, glibc 2.24, gdb 7.11
->>>
->>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>> ---
->>>  meta/conf/distro/include/tcmode-default.inc | 6 +++---
->>>  1 file changed, 3 insertions(+), 3 deletions(-)
->>
->> I'll merge most of this series however before we can move to gcc6 by
->> default there are some remaining issues:
->>
->> https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64-lsb
->> /b
->> uilds/788/steps/BuildImages/logs/stdio
->>
->> qt4-x11-free fails to compile
->> linux-yocto 4.1 also fails
->
-> I just retested gcc6 and the above is still happening and has also been
-> joined by a xdg-utils do_compile failure.
+Hi all,
 
-For the gcc6 include failure 4.1.23 and 4.1.24 have the compiler.h fix.
-I have that pushed to linux-yocto-4.1 already and will send the SRCREV
-bumps shortly.
+Here are some pending -stable updates to 4.1 and 4.4, along with a beaglebone
+configuration tweak.
+
+While I haven't done a gcc6 build myself, the 4.1 -stable updates contain
+a backported compiler.h fix from 4.4+ that resolves some of the issues
+with gcc6 (and in particular the poky-lsb ones that are being seen).
 
 Bruce
 
->
->> (on qemux86-64, qemux86, qemuppc, qemumips, qemuarm)
->>
->> https://autobuilder.yoctoproject.org/main/builders/nightly-ppc/builds
->> /7
->> 78/steps/BuildImages_1/logs/stdio
->>
->> linux-yocto 4.4 fails on ppc
->>
->> https://autobuilder.yoctoproject.org/main/builders/nightly-non-gpl3/b
->> ui
->> lds/768/steps/BuildImages/logs/stdio
->>
->> non-GPLv3 on elfutils and diffutils
->
-> Khem fixed elfutils, thanks! diffutils still breaks though.
->
-> I really can't merge the gcc upgrade until these get fixed one way or
-> another...
->
-> Cheers,
->
-> Richard
->
+The following changes since commit c7e614c438706fb3ed7520b4990ebb3973366942:
+
+  useradd: Fix infinite build loop (2016-05-23 10:33:45 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (3):
+  linux-yocto/4.1: v4.1.24 and gcc6 powerpc fixes
+  linux-yocto/4.4: beaglebone: build in the usb controller drivers
+  linux-yocto/4.4: integrate v4.4.11
+
+ meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb   |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 20 ++++++++++----------
+ meta/recipes-kernel/linux/linux-yocto_4.4.bb      | 20 ++++++++++----------
+ 6 files changed, 32 insertions(+), 32 deletions(-)
+
+-- 
+2.5.0
 
 
