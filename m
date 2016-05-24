@@ -1,28 +1,46 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C46D6057A
+Return-Path: <george.mccollister@gmail.com>
+Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
+	[209.85.218.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 874CA605FE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 May 2016 20:59:30 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u4OKxUaE013879
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 24 May 2016 13:59:30 -0700 (PDT)
-Received: from soho-mhatle-m.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 24 May 2016 13:59:29 -0700
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <e0ab0ad1-fb6d-a8a0-a31f-913b9fa4dcc2@windriver.com>
-Date: Tue, 24 May 2016 15:59:28 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
-	Gecko/20100101 Thunderbird/45.1.0
-MIME-Version: 1.0
-In-Reply-To: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
-Subject: Re: [PATCH 00/45] Move recipes to use Python 3 whenever possible
+	Tue, 24 May 2016 23:26:17 +0000 (UTC)
+Received: by mail-oi0-f67.google.com with SMTP id r64so7526426oie.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 May 2016 16:26:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=X5PwOONNRJoN5AS5dtFkWaeL0sSNV2TSpmRr2+wmx7E=;
+	b=vA92+buQkSodfSgHcP0hfeS+2M7uu4r+TSiGX+sz+p0/fFq3qfK+ZRTUt9KK3kNyTI
+	x61Q6ioFH54nWiAvaRiiY/NF9ogwoWXK6fiRk/VAg2YoD01TjNQvrXmSmGfBJjZZxopd
+	3ZsACYxP+vva05H9umh/kWWQwuaCscPJdhLF1AxjaH1YiSPn6eSrwKkk8YfBUw/sjFIA
+	3/RG13BRKJEE5x9zqOyGkvPiw6usV3DyhEoD3P0zaifBvOK46sFIiIQ/SjMT5nVsjli/
+	ilhPxSxThKmbbdhVnQgSZFYFIeX1nfcAddSfMe7IOV4TzhcoCAPDeEEfdrIeOCy+4I3n
+	8NbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=X5PwOONNRJoN5AS5dtFkWaeL0sSNV2TSpmRr2+wmx7E=;
+	b=iDXaL3USUIzI2+8bO/K1dJbbygLfjiKKSS9vLBSw10Ifbm4TpXP81thn1UFDE7uJsW
+	GZszOorGouCPs2UXbAlw32304wNNbJk9732W/M+CYLHETA7PJwrgB3wATknjsQkQ471W
+	7s+TlnJVo/2wI/TFy0ylQZCNcAYgfhyOWWEzRJAtistqU+YeNyFEzHMc2uE7a8uO/7DR
+	anvqXMh32M8kgtJkuDDpfKYIXnOr1bX0u7Nl4sPVcTq+LY2N1WYDhp+zfmINqDMM3C8z
+	1jGTbO5WJsz+ryMuJ3BINyOS0ljC128sRHV8770+98Dq1DSj8y0KCzn/46qhXItONFEG
+	2f5w==
+X-Gm-Message-State: ALyK8tIHNBp6eY0AeVi/blSmt9as2R98RVBynxWfACsN4N/186tofYPKJrBpgpP5boLVAw==
+X-Received: by 10.202.60.131 with SMTP id j125mr447180oia.42.1464132378331;
+	Tue, 24 May 2016 16:26:18 -0700 (PDT)
+Received: from localhost.localdomain (216-21-169-52.slc.googlefiber.net.
+	[216.21.169.52])
+	by smtp.gmail.com with ESMTPSA id m52sm2587091otd.8.2016.05.24.16.26.17
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 24 May 2016 16:26:17 -0700 (PDT)
+From: George McCollister <george.mccollister@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 24 May 2016 18:25:51 -0500
+Message-Id: <1464132351-7955-1-git-send-email-george.mccollister@gmail.com>
+X-Mailer: git-send-email 2.8.0
+Cc: marex@denx.de
+Subject: [PATCH] kernel-fitimage: add initramfs support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,291 +53,448 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 May 2016 20:59:33 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 24 May 2016 23:26:19 -0000
 
-On 5/24/16 6:53 AM, Alexander Kanavin wrote:
-> This patchset updates recipes to use Python 3 whenever possible. A few items
-> cannot be moved at the moment for various reasons, here they are:
-> 
-> 1) Smartpm package manager has not been ported to Python 3 and it is unlikely
-> to happen:
-> https://github.com/smartpm/smart/issues/4
-> We need to look into alternatives such as yum or dnf (the 'next generation' fork of yum).
-> 
-> Consequently, rpm's python bindings (required by smartpm) stay at python 2 as well
-> for now, even tough python 3 seems to be supported.
+If INITRAMFS_IMAGE is set, build an additional fitImage containing the
+initramfs. Copy the additional fitImage and the source .its file used to
+create it to DEPLOYDIR. The fitImage containing the initramfs must be
+built before do_deploy and after do_install to avoid circular dependencies.
 
-Is there a porting guide or similar that can used to help identify what types of
-changes are needed.  I am not at all familiar with what python 3 needs
-specifically, but I do expect we will need to port these items.
+UBOOT_RD_LOADADDRESS - Specifies the load address used by u-boot for the
+                       initramfs.
+UBOOT_RD_ENTRYPOINT  - Specifies the entry point used by u-boot for the
+                       initramfs.
 
-> 2) Scons build system is python 2 only, due to lack of resources.
-> 
-> 3) createrepo recipe is using an upstream version from 2007, before createrepo was
-> rewritten on top of yum's python modules.
-> 
-> We need to look into adding yum recipe which will allow updating createrepo to latest upstream.
-> Also, libxml2 is currently a createrepo dependency, and so stays at Python 2 for now.
+Signed-off-by: George McCollister <george.mccollister@gmail.com>
+---
+ meta/classes/kernel-fitimage.bbclass | 275 +++++++++++++++++++++++------------
+ 1 file changed, 180 insertions(+), 95 deletions(-)
 
-The yum version of createrepo will not work.  We need to port forward the
-component as appropriate -- or modify smartpm to use a newer version -- assuming
-we can add missing pieces, as necessary.  (key is smartpm and createrepo need to
-be kept in sync.)
-
-Please create one (or three) defects and assign them to me for smartpm,
-createrepo, and rpm python3 support.  (I doubt I'll be the one doing the work,
-but I'll do my best to find someone to do the work.)
-
-> 4) varous recipes that haven't been ported: kconfig-frontends, mklibs, opkg-utils,
-> ltp, mc, parted, libepoxy, mesa, perf, rt-tests, webkitgtk.
-> 
-> 5) LSB spec is implicitly requiring Python 2 (via requirement for '/usr/bin/python').
-
-I expect the LSB will require python 2 for a while.  So we will need to continue
-to ensure that python 2 works, as well as python3.
-
-Thanks for the update above.
-
---Mark
-
-> 6) gobject introspection has been ported to Python 3 in release 1.48. I'll send this
-> update separately, as a part of normal version update patches.
-> 
-> 7) piglit has been ported to Python 3 as well in the latest upstream releases, Jussi
-> Kukkonen should take care of it. I've added piglit's python dependencies in their
-> Python 3 versions - python3-mako and python3-numpy, so that the task should be a little
-> easier.
-> 
-> The following changes since commit c7e614c438706fb3ed7520b4990ebb3973366942:
-> 
->   useradd: Fix infinite build loop (2016-05-23 10:33:45 +0100)
-> 
-> are available in the git repository at:
-> 
->   git://git.yoctoproject.org/poky-contrib akanavin/deprecate-python2
->   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/deprecate-python2
-> 
-> Alexander Kanavin (45):
->   python-native, python3-native: remove the use of exported HOST_SYS and
->     BUILD_SYS variables
->   distutils-native-base.bbclass, distutils3-native-base.bbclass: remove
->   python3-dir.bbclass: add a separate class for Python 3
->   default-versions.inc: drop python-related defaults
->   sip.bbclass: remove
->   avahi-ui: remove support for building a python module
->   bind: switch Python dependency to Python 3.x
->   python-dbus: update to 1.2.4, port to python 3
->   python3: manipulate all of the config*/Makefile files, not just
->     config/Makefile
->   python3: drop 110-enable-zlib.patch
->   glib: move to Python 3
->   dbus-test: remove unneeded pygobject dependency
->   python-pygobject: port to Python 3
->   neard: do not package python test scripts
->   bluez5: switch to Python 3
->   connman: do not install Python test scripts
->   ofono: drop the custom-made revert to Python 2 from Python 3
->   packagegroup-core-full-cmdline: drop python-dbus from the list of
->     services
->   nfs-utils: switch to Python 3
->   systemd: drop python dependency for ptests
->   util-linux: move to Python 3
->   python-pycairo: move to Python 3
->   bootchart2: move to Python 3
->   gdb: move to Python 3
->   git: remove Python package (to which nothing was packaged)
->   qemu: remove runtime python dependency
->   subversion: remove unnecessary python dependency
->   swig: move to Python 3
->   python-pyrex: remove unused recipe
->   python-imaging: remove unused recipe
->   python-docutils: move to Python 3
->   cracklib: disable building the python module
->   libuser: move to Python 3
->   libnewt-python: move to Python 3
->   gnome-doc-utils: remove recipe
->   lttng-tools: move to Python 3
->   lttng-ust: move to Python 3
->   systemtap: move to Python 3
->   libcap-ng: move to Python 3
->   hwlatdetect: move to Python 3
->   python3-mako: add a Python 3 recipe
->   python3-nose: add a recipe
->   python3: add = to -L linking option only when the path is absolute
->   python-numpy: move recipe to own directory
->   python3-numpy: add a recipe
-> 
->  meta/classes/distutils-common-base.bbclass         |    2 -
->  meta/classes/distutils-native-base.bbclass         |    3 -
->  meta/classes/distutils-tools.bbclass               |    4 -
->  meta/classes/distutils.bbclass                     |    4 -
->  meta/classes/distutils3-base.bbclass               |    3 -
->  meta/classes/distutils3-native-base.bbclass        |    4 -
->  meta/classes/distutils3.bbclass                    |   24 -
->  meta/classes/gobject-introspection.bbclass         |    2 -
->  meta/classes/python-dir.bbclass                    |    6 +-
->  meta/classes/python3-dir.bbclass                   |    5 +
->  meta/classes/python3native.bbclass                 |    4 +-
->  meta/classes/sip.bbclass                           |   61 -
->  meta/conf/distro/include/default-versions.inc      |    5 -
->  meta/conf/distro/include/distro_alias.inc          |    2 -
->  meta/conf/distro/include/security_flags.inc        |    1 -
->  meta/recipes-connectivity/avahi/avahi-ui_0.6.32.bb |   11 +-
->  meta/recipes-connectivity/bind/bind_9.10.3-P3.bb   |    4 +-
->  meta/recipes-connectivity/bluez5/bluez5.inc        |    6 +-
->  meta/recipes-connectivity/connman/connman.inc      |    6 +-
->  meta/recipes-connectivity/neard/neard_0.15.bb      |   13 +-
->  .../nfs-utils/nfs-utils_1.3.3.bb                   |    6 +-
->  meta/recipes-connectivity/ofono/ofono.inc          |    6 +-
->  .../ofono/Revert-test-Convert-to-Python-3.patch    | 1270 --------------------
->  meta/recipes-connectivity/ofono/ofono_1.17.bb      |    1 -
->  meta/recipes-core/dbus/dbus-test_1.10.6.bb         |    2 +-
->  meta/recipes-core/glib-2.0/glib.inc                |   11 +-
->  meta/recipes-core/libxml/libxml2_2.9.3.bb          |    2 -
->  meta/recipes-core/systemd/systemd_229.bb           |    2 +-
->  meta/recipes-core/util-linux/util-linux.inc        |   11 +-
->  .../bootchart2/bootchart2_0.14.8.bb                |   16 +-
->  meta/recipes-devtools/gdb/gdb-common.inc           |    2 +-
->  meta/recipes-devtools/gdb/gdb-cross-canadian.inc   |   12 +-
->  meta/recipes-devtools/gdb/gdb-cross.inc            |    6 +-
->  meta/recipes-devtools/gdb/gdb_7.11.bb              |    6 +-
->  meta/recipes-devtools/git/git.inc                  |    7 +-
->  ...h-usr-and-so-on-for-libraries-by-default-.patch |    0
->  .../files}/aarch64/_numpyconfig.h                  |    0
->  .../files/aarch64}/config.h                        |    0
->  .../files}/add-glibc-check.patch                   |    0
->  .../mipsel => python-numpy/files/arm}/config.h     |    0
->  .../files/arm}/numpyconfig.h                       |    0
->  .../files}/armeb/config.h                          |    0
->  .../files}/armeb/numpyconfig.h                     |    0
->  .../files}/mips/_numpyconfig.h                     |    0
->  .../files}/mips/config.h                           |    0
->  .../files/mips64}/_numpyconfig.h                   |    0
->  .../files/mips64}/config.h                         |    0
->  .../files}/mips64n32/_numpyconfig.h                |    0
->  .../files/mips64n32}/config.h                      |    0
->  .../arm => python-numpy/files/mipsel}/config.h     |    0
->  .../files/mipsel}/numpyconfig.h                    |    0
->  .../files}/powerpc/_numpyconfig.h                  |    0
->  .../files}/powerpc/config.h                        |    0
->  .../files/powerpc64}/_numpyconfig.h                |    0
->  .../files/powerpc64}/config.h                      |    0
->  .../files}/remove-build-path-in-comments.patch     |    0
->  .../files}/x86-64/_numpyconfig.h                   |    0
->  .../files}/x86-64/config.h                         |    0
->  .../files}/x86/config.h                            |    0
->  .../files}/x86/numpyconfig.h                       |    0
->  .../python-numpy_1.10.4.bb                         |    1 -
->  .../python-numpy/python3-numpy_1.10.4.bb           |  101 ++
->  ...ing-setup.py-force-paths-for-zlib-freetyp.patch |   55 -
->  .../allow.to.disable.some.features.patch           |   65 -
->  .../python-imaging/fix-freetype-includes.patch     |   30 -
->  .../python/python-imaging_1.1.7.bb                 |   45 -
->  meta/recipes-devtools/python/python-mako_1.0.3.bb  |    6 +
->  ...2-distutils-prefix-is-inside-staging-area.patch |   65 -
->  .../python/python-native_2.7.11.bb                 |    4 +-
->  .../python/python-pycairo_1.10.0.bb                |   41 -
->  .../python/python-pyrex-native_0.9.9.bb            |    5 -
->  .../python-pyrex/pyrex-fix-optimized-mode.patch    |   15 -
->  meta/recipes-devtools/python/python-pyrex_0.9.9.bb |   22 -
->  ...et-the-prefix-to-be-inside-staging-direct.patch |   51 +
->  ...{python-dbus_1.2.0.bb => python3-dbus_1.2.4.bb} |   22 +-
->  ...n-docutils_0.12.bb => python3-docutils_0.12.bb} |    4 +-
->  meta/recipes-devtools/python/python3-mako_1.0.3.bb |   24 +
->  .../python/python3-native_3.5.1.bb                 |    3 -
->  meta/recipes-devtools/python/python3-nose_1.3.7.bb |   24 +
->  .../python/python3-pycairo_1.10.0.bb               |   40 +
->  ...c-add-sysroot-path-to-GI_DATADIR-don-t-se.patch |    0
->  ...bject_3.18.2.bb => python3-pygobject_3.18.2.bb} |    8 +-
->  .../python/python3/110-enable-zlib.patch           |   21 -
->  ...2-distutils-prefix-is-inside-staging-area.patch |   49 +-
->  .../python/python3/unixccompiler.patch             |    6 +-
->  meta/recipes-devtools/python/python3_3.5.1.bb      |    8 +-
->  meta/recipes-devtools/python/python_2.7.11.bb      |    3 -
->  meta/recipes-devtools/qemu/qemu.inc                |    2 +-
->  meta/recipes-devtools/rpm/rpm_5.4+cvs.bb           |    2 +-
->  meta/recipes-devtools/rpm/rpm_5.4.16.bb            |    2 +-
->  .../subversion/subversion_1.9.3.bb                 |    2 +-
->  meta/recipes-devtools/swig/swig.inc                |    7 +-
->  meta/recipes-extended/cracklib/cracklib_2.9.5.bb   |   25 +-
->  meta/recipes-extended/libuser/libuser_0.62.bb      |    8 +-
->  .../newt/libnewt-python_0.52.18.bb                 |    6 +-
->  meta/recipes-extended/newt/libnewt_0.52.18.bb      |    3 -
->  .../packagegroup-core-full-cmdline.bb              |    1 -
->  meta/recipes-gnome/epiphany/epiphany_3.18.4.bb     |    1 -
->  .../gnome-desktop/gnome-desktop3_3.18.2.bb         |    2 +-
->  meta/recipes-gnome/gnome/gnome-doc-utils.inc       |   29 -
->  .../gnome-doc-utils/sysrooted-pkg-config.patch     |   35 -
->  .../use-usr-bin-env-for-python-in-xml2po.patch     |   30 -
->  .../gnome/gnome-doc-utils/xsltproc_nonet.patch     |   95 --
->  .../recipes-gnome/gnome/gnome-doc-utils_0.20.10.bb |   12 -
->  .../gobject-introspection_1.46.0.bb                |    2 -
->  ...d-look-for-python-3.0-when-building-pytho.patch |   30 -
->  meta/recipes-kernel/lttng/lttng-tools_git.bb       |    7 +-
->  meta/recipes-kernel/lttng/lttng-ust_git.bb         |    9 +-
->  meta/recipes-kernel/perf/perf.bb                   |    2 -
->  meta/recipes-kernel/systemtap/systemtap_git.bb     |    5 +-
->  meta/recipes-rt/rt-tests/hwlatdetect_0.96.bb       |    5 +-
->  meta/recipes-support/libcap-ng/libcap-ng_0.7.7.bb  |   12 +-
->  112 files changed, 384 insertions(+), 2198 deletions(-)
->  delete mode 100644 meta/classes/distutils-native-base.bbclass
->  delete mode 100644 meta/classes/distutils3-native-base.bbclass
->  create mode 100644 meta/classes/python3-dir.bbclass
->  delete mode 100644 meta/classes/sip.bbclass
->  delete mode 100644 meta/recipes-connectivity/ofono/ofono/Revert-test-Convert-to-Python-3.patch
->  rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch (100%)
->  rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/aarch64/_numpyconfig.h (100%)
->  rename meta/recipes-devtools/{python/python-numpy/powerpc64 => python-numpy/files/aarch64}/config.h (100%)
->  rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/add-glibc-check.patch (100%)
->  rename meta/recipes-devtools/{python/python-numpy/mipsel => python-numpy/files/arm}/config.h (100%)
->  rename meta/recipes-devtools/{python/python-numpy/mipsel => python-numpy/files/arm}/numpyconfig.h (100%)
->  rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/armeb/config.h (100%)
->  rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/armeb/numpyconfig.h (100%)
->  rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/mips/_numpyconfig.h (100%)
->  rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/mips/config.h (100%)
->  rename meta/recipes-devtools/{python/python-numpy/powerpc64 => python-numpy/files/mips64}/_numpyconfig.h (100%)
->  rename meta/recipes-devtools/{python/python-numpy/mips64n32 => python-numpy/files/mips64}/config.h (100%)
->  rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/mips64n32/_numpyconfig.h (100%)
->  rename meta/recipes-devtools/{python/python-numpy/mips64 => python-numpy/files/mips64n32}/config.h (100%)
->  rename meta/recipes-devtools/{python/python-numpy/arm => python-numpy/files/mipsel}/config.h (100%)
->  rename meta/recipes-devtools/{python/python-numpy/arm => python-numpy/files/mipsel}/numpyconfig.h (100%)
->  rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/powerpc/_numpyconfig.h (100%)
->  rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/powerpc/config.h (100%)
->  rename meta/recipes-devtools/{python/python-numpy/mips64 => python-numpy/files/powerpc64}/_numpyconfig.h (100%)
->  rename meta/recipes-devtools/{python/python-numpy/aarch64 => python-numpy/files/powerpc64}/config.h (100%)
->  rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/remove-build-path-in-comments.patch (100%)
->  rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/x86-64/_numpyconfig.h (100%)
->  rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/x86-64/config.h (100%)
->  rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/x86/config.h (100%)
->  rename meta/recipes-devtools/{python/python-numpy => python-numpy/files}/x86/numpyconfig.h (100%)
->  rename meta/recipes-devtools/{python => python-numpy}/python-numpy_1.10.4.bb (98%)
->  create mode 100644 meta/recipes-devtools/python-numpy/python3-numpy_1.10.4.bb
->  delete mode 100644 meta/recipes-devtools/python/python-imaging/0001-python-imaging-setup.py-force-paths-for-zlib-freetyp.patch
->  delete mode 100644 meta/recipes-devtools/python/python-imaging/allow.to.disable.some.features.patch
->  delete mode 100644 meta/recipes-devtools/python/python-imaging/fix-freetype-includes.patch
->  delete mode 100644 meta/recipes-devtools/python/python-imaging_1.1.7.bb
->  delete mode 100644 meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch
->  delete mode 100644 meta/recipes-devtools/python/python-pycairo_1.10.0.bb
->  delete mode 100644 meta/recipes-devtools/python/python-pyrex-native_0.9.9.bb
->  delete mode 100644 meta/recipes-devtools/python/python-pyrex/pyrex-fix-optimized-mode.patch
->  delete mode 100644 meta/recipes-devtools/python/python-pyrex_0.9.9.bb
->  create mode 100644 meta/recipes-devtools/python/python/0001-distutils-set-the-prefix-to-be-inside-staging-direct.patch
->  rename meta/recipes-devtools/python/{python-dbus_1.2.0.bb => python3-dbus_1.2.4.bb} (53%)
->  rename meta/recipes-devtools/python/{python-docutils_0.12.bb => python3-docutils_0.12.bb} (92%)
->  create mode 100644 meta/recipes-devtools/python/python3-mako_1.0.3.bb
->  create mode 100644 meta/recipes-devtools/python/python3-nose_1.3.7.bb
->  create mode 100644 meta/recipes-devtools/python/python3-pycairo_1.10.0.bb
->  rename meta/recipes-devtools/python/{python-pygobject => python3-pygobject}/0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch (100%)
->  rename meta/recipes-devtools/python/{python-pygobject_3.18.2.bb => python3-pygobject_3.18.2.bb} (72%)
->  delete mode 100644 meta/recipes-devtools/python/python3/110-enable-zlib.patch
->  delete mode 100644 meta/recipes-gnome/gnome/gnome-doc-utils.inc
->  delete mode 100644 meta/recipes-gnome/gnome/gnome-doc-utils/sysrooted-pkg-config.patch
->  delete mode 100644 meta/recipes-gnome/gnome/gnome-doc-utils/use-usr-bin-env-for-python-in-xml2po.patch
->  delete mode 100644 meta/recipes-gnome/gnome/gnome-doc-utils/xsltproc_nonet.patch
->  delete mode 100644 meta/recipes-gnome/gnome/gnome-doc-utils_0.20.10.bb
->  delete mode 100644 meta/recipes-kernel/lttng/lttng-tools/Revert-Build-look-for-python-3.0-when-building-pytho.patch
-> 
+diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+index 298eda2..2c2a642 100644
+--- a/meta/classes/kernel-fitimage.bbclass
++++ b/meta/classes/kernel-fitimage.bbclass
+@@ -14,7 +14,7 @@ python __anonymous () {
+ 
+         image = d.getVar('INITRAMFS_IMAGE', True)
+         if image:
+-            d.appendVarFlag('do_assemble_fitimage', 'depends', ' ${INITRAMFS_IMAGE}:do_image_complete')
++            d.appendVarFlag('do_assemble_fitimage_initramfs', 'depends', ' ${INITRAMFS_IMAGE}:do_image_complete')
+ 
+         # Verified boot will sign the fitImage and append the public key to
+         # U-boot dtb. We ensure the U-Boot dtb is deployed before assembling
+@@ -30,8 +30,9 @@ UBOOT_MKIMAGE_DTCOPTS ??= ""
+ #
+ # Emit the fitImage ITS header
+ #
++# $1 ... .its filename
+ fitimage_emit_fit_header() {
+-	cat << EOF >> fit-image.its
++	cat << EOF >> ${1}
+ /dts-v1/;
+ 
+ / {
+@@ -43,32 +44,33 @@ EOF
+ #
+ # Emit the fitImage section bits
+ #
+-# $1 ... Section bit type: imagestart - image section start
++# $1 ... .its filename
++# $2 ... Section bit type: imagestart - image section start
+ #                          confstart  - configuration section start
+ #                          sectend    - section end
+ #                          fitend     - fitimage end
+ #
+ fitimage_emit_section_maint() {
+-	case $1 in
++	case $2 in
+ 	imagestart)
+-		cat << EOF >> fit-image.its
++		cat << EOF >> ${1}
+ 
+         images {
+ EOF
+ 	;;
+ 	confstart)
+-		cat << EOF >> fit-image.its
++		cat << EOF >> ${1}
+ 
+         configurations {
+ EOF
+ 	;;
+ 	sectend)
+-		cat << EOF >> fit-image.its
++		cat << EOF >> ${1}
+ 	};
+ EOF
+ 	;;
+ 	fitend)
+-		cat << EOF >> fit-image.its
++		cat << EOF >> ${1}
+ };
+ EOF
+ 	;;
+@@ -78,9 +80,10 @@ EOF
+ #
+ # Emit the fitImage ITS kernel section
+ #
+-# $1 ... Image counter
+-# $2 ... Path to kernel image
+-# $3 ... Compression type
++# $1 ... .its filename
++# $2 ... Image counter
++# $3 ... Path to kernel image
++# $4 ... Compression type
+ fitimage_emit_section_kernel() {
+ 
+ 	kernel_csum="sha1"
+@@ -88,17 +91,17 @@ fitimage_emit_section_kernel() {
+ 	ENTRYPOINT=${UBOOT_ENTRYPOINT}
+ 	if test -n "${UBOOT_ENTRYSYMBOL}"; then
+ 		ENTRYPOINT=`${HOST_PREFIX}nm ${S}/vmlinux | \
+-			awk '$3=="${UBOOT_ENTRYSYMBOL}" {print $1}'`
++			awk '$4=="${UBOOT_ENTRYSYMBOL}" {print $2}'`
+ 	fi
+ 
+-	cat << EOF >> fit-image.its
+-                kernel@${1} {
++	cat << EOF >> ${1}
++                kernel@${2} {
+                         description = "Linux kernel";
+-                        data = /incbin/("${2}");
++                        data = /incbin/("${3}");
+                         type = "kernel";
+                         arch = "${UBOOT_ARCH}";
+                         os = "linux";
+-                        compression = "${3}";
++                        compression = "${4}";
+                         load = <${UBOOT_LOADADDRESS}>;
+                         entry = <${ENTRYPOINT}>;
+                         hash@1 {
+@@ -111,16 +114,17 @@ EOF
+ #
+ # Emit the fitImage ITS DTB section
+ #
+-# $1 ... Image counter
+-# $2 ... Path to DTB image
++# $1 ... .its filename
++# $2 ... Image counter
++# $3 ... Path to DTB image
+ fitimage_emit_section_dtb() {
+ 
+ 	dtb_csum="sha1"
+ 
+-	cat << EOF >> fit-image.its
+-                fdt@${1} {
++	cat << EOF >> ${1}
++                fdt@${2} {
+                         description = "Flattened Device Tree blob";
+-                        data = /incbin/("${2}");
++                        data = /incbin/("${3}");
+                         type = "flat_dt";
+                         arch = "${UBOOT_ARCH}";
+                         compression = "none";
+@@ -132,10 +136,39 @@ EOF
+ }
+ 
+ #
++# Emit the fitImage ITS ramdisk section
++#
++# $1 ... .its filename
++# $2 ... Image counter
++# $3 ... Path to ramdisk image
++fitimage_emit_section_ramdisk() {
++
++	ramdisk_csum="sha1"
++
++	cat << EOF >> ${1}
++                ramdisk@${2} {
++                        description = "ramdisk image";
++                        data = /incbin/("${3}");
++                        type = "ramdisk";
++                        arch = "${UBOOT_ARCH}";
++                        os = "linux";
++                        compression = "none";
++                        load = <${UBOOT_RD_LOADADDRESS}>;
++                        entry = <${UBOOT_RD_ENTRYPOINT}>;
++                        hash@1 {
++                                algo = "${ramdisk_csum}";
++                        };
++                };
++EOF
++}
++
++#
+ # Emit the fitImage ITS configuration section
+ #
+-# $1 ... Linux kernel ID
+-# $2 ... DTB image ID
++# $1 ... .its filename
++# $2 ... Linux kernel ID
++# $3 ... DTB image ID
++# $4 ... ramdisk ID
+ fitimage_emit_section_config() {
+ 
+ 	conf_csum="sha1"
+@@ -144,21 +177,29 @@ fitimage_emit_section_config() {
+ 	fi
+ 
+ 	# Test if we have any DTBs at all
+-	if [ -z "${2}" ] ; then
++	if [ -z "${3}" ] ; then
+ 		conf_desc="Boot Linux kernel"
+ 		fdt_line=""
+-	else
++		ramdisk_line=""
++	elif [ -z "${4}" ]; then
+ 		conf_desc="Boot Linux kernel with FDT blob"
+-		fdt_line="fdt = \"fdt@${2}\";"
++		fdt_line="fdt = \"fdt@${3}\";"
++		ramdisk_line=""
++	else
++		# TODO - handle ramdisk without FDT blob
++		conf_desc="Boot Linux kernel with FDT blob, ramdisk"
++		fdt_line="fdt = \"fdt@${3}\";"
++		ramdisk_line="ramdisk = \"ramdisk@${4}\";"
+ 	fi
+-	kernel_line="kernel = \"kernel@${1}\";"
++	kernel_line="kernel = \"kernel@${2}\";"
+ 
+-	cat << EOF >> fit-image.its
++	cat << EOF >> ${1}
+                 default = "conf@1";
+                 conf@1 {
+                         description = "${conf_desc}";
+ 			${kernel_line}
+ 			${fdt_line}
++			${ramdisk_line}
+                         hash@1 {
+                                 algo = "${conf_csum}";
+                         };
+@@ -166,102 +207,131 @@ EOF
+ 
+ 	if [ ! -z "${conf_sign_keyname}" ] ; then
+ 
+-		if [ -z "${2}" ] ; then
++		if [ -z "${3}" ] ; then
+ 			sign_line="sign-images = \"kernel\";"
+-		else
++		elif [ -z "${4}" ]; then
+ 			sign_line="sign-images = \"fdt\", \"kernel\";"
++		else
++			sign_line="sign-images = \"ramdisk\", \"fdt\", \"kernel\";"
+ 		fi
+ 
+-		cat << EOF >> fit-image.its
++		cat << EOF >> ${1}
+                         signature@1 {
+                                 algo = "${conf_csum},rsa2048";
+                                 key-name-hint = "${conf_sign_keyname}";
+-                                sign-images = "fdt", "kernel";
++                                ${sign_line}
+                         };
+ EOF
+ 	fi
+ 
+-	cat << EOF >> fit-image.its
++	cat << EOF >> ${1}
+                 };
+ EOF
+ }
+ 
+-do_assemble_fitimage() {
+-	if test "x${KERNEL_IMAGETYPE}" = "xfitImage" ; then
+-		kernelcount=1
+-		dtbcount=""
+-		rm -f fit-image.its arch/${ARCH}/boot/fitImage
+-
+-		fitimage_emit_fit_header
+-
+-		#
+-		# Step 1: Prepare a kernel image section.
+-		#
+-		fitimage_emit_section_maint imagestart
+-
+-		uboot_prep_kimage
+-		fitimage_emit_section_kernel "${kernelcount}" linux.bin "${linux_comp}"
+-
+-		#
+-		# Step 2: Prepare a DTB image section
+-		#
+-		if test -n "${KERNEL_DEVICETREE}"; then
+-			dtbcount=1
+-			for DTB in ${KERNEL_DEVICETREE}; do
+-				if echo ${DTB} | grep -q '/dts/'; then
+-					bbwarn "${DTB} contains the full path to the the dts file, but only the dtb name should be used."
+-					DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
+-				fi
+-				DTB_PATH="arch/${ARCH}/boot/dts/${DTB}"
+-				if [ ! -e "${DTB_PATH}" ]; then
+-					DTB_PATH="arch/${ARCH}/boot/${DTB}"
+-				fi
+-
+-				fitimage_emit_section_dtb ${dtbcount} ${DTB_PATH}
+-				dtbcount=`expr ${dtbcount} + 1`
+-			done
+-		fi
++#
++# Assemble fitImage
++#
++# $1 ... .its filename
++# $2 ... fitImage name
++# $3 ... include ramdisk
++fitimage_assemble() {
++	kernelcount=1
++	dtbcount=""
++	ramdiskcount=${3}
++	rm -f ${1} arch/${ARCH}/boot/${2}
++
++	fitimage_emit_fit_header ${1}
++
++	#
++	# Step 1: Prepare a kernel image section.
++	#
++	fitimage_emit_section_maint ${1} imagestart
++
++	uboot_prep_kimage
++	fitimage_emit_section_kernel ${1} "${kernelcount}" linux.bin "${linux_comp}"
++
++	#
++	# Step 2: Prepare a DTB image section
++	#
++	if test -n "${KERNEL_DEVICETREE}"; then
++		dtbcount=1
++		for DTB in ${KERNEL_DEVICETREE}; do
++			if echo ${DTB} | grep -q '/dts/'; then
++				bbwarn "${DTB} contains the full path to the the dts file, but only the dtb name should be used."
++				DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
++			fi
++			DTB_PATH="arch/${ARCH}/boot/dts/${DTB}"
++			if [ ! -e "${DTB_PATH}" ]; then
++				DTB_PATH="arch/${ARCH}/boot/${DTB}"
++			fi
++
++			fitimage_emit_section_dtb ${1} ${dtbcount} ${DTB_PATH}
++			dtbcount=`expr ${dtbcount} + 1`
++		done
++	fi
+ 
+-		fitimage_emit_section_maint sectend
++	#
++	# Step 3: Prepare a ramdisk section.
++	#
++	if [ "x${ramdiskcount}" = "x1" ] ; then
++		copy_initramfs
++		fitimage_emit_section_ramdisk ${1} "${ramdiskcount}" ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
++	fi
+ 
+-		# Force the first Kernel and DTB in the default config
+-		kernelcount=1
+-		dtbcount=1
++	fitimage_emit_section_maint ${1} sectend
++
++	# Force the first Kernel and DTB in the default config
++	kernelcount=1
++	dtbcount=1
+ 
+-		#
+-		# Step 3: Prepare a configurations section
+-		#
+-		fitimage_emit_section_maint confstart
++	#
++	# Step 4: Prepare a configurations section
++	#
++	fitimage_emit_section_maint ${1} confstart
+ 
+-		fitimage_emit_section_config ${kernelcount} ${dtbcount}
++	fitimage_emit_section_config ${1} ${kernelcount} ${dtbcount} ${ramdiskcount}
+ 
+-		fitimage_emit_section_maint sectend
++	fitimage_emit_section_maint ${1} sectend
+ 
+-		fitimage_emit_section_maint fitend
++	fitimage_emit_section_maint ${1} fitend
+ 
+-		#
+-		# Step 4: Assemble the image
+-		#
++	#
++	# Step 5: Assemble the image
++	#
++	uboot-mkimage \
++		${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
++		-f ${1} \
++		arch/${ARCH}/boot/${2}
++
++	#
++	# Step 6: Sign the image and add public key to U-Boot dtb
++	#
++	if [ "x${UBOOT_SIGN_ENABLE}" = "x1" ] ; then
+ 		uboot-mkimage \
+ 			${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
+-			-f fit-image.its \
+-			arch/${ARCH}/boot/fitImage
+-
+-		#
+-		# Step 5: Sign the image and add public key to U-Boot dtb
+-		#
+-		if [ "x${UBOOT_SIGN_ENABLE}" = "x1" ] ; then
+-			uboot-mkimage \
+-				${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
+-				-F -k "${UBOOT_SIGN_KEYDIR}" \
+-				-K "${DEPLOY_DIR_IMAGE}/${UBOOT_DTB_BINARY}" \
+-				-r arch/${ARCH}/boot/fitImage
+-		fi
++			-F -k "${UBOOT_SIGN_KEYDIR}" \
++			-K "${DEPLOY_DIR_IMAGE}/${UBOOT_DTB_BINARY}" \
++			-r arch/${ARCH}/boot/${2}
++	fi
++}
++
++do_assemble_fitimage() {
++	if test "x${KERNEL_IMAGETYPE}" = "xfitImage" ; then
++		fitimage_assemble fit-image.its fitImage
+ 	fi
+ }
+ 
+ addtask assemble_fitimage before do_install after do_compile
+ 
++do_assemble_fitimage_initramfs() {
++	if test "x${KERNEL_IMAGETYPE}" = "xfitImage" -a -n "${INITRAMFS_IMAGE}" ; then
++		fitimage_assemble fit-image-${INITRAMFS_IMAGE}.its fitImage-${INITRAMFS_IMAGE} 1
++	fi
++}
++
++addtask assemble_fitimage_initramfs before do_deploy after do_install
++
+ kernel_do_deploy[vardepsexclude] = "DATETIME"
+ kernel_do_deploy_append() {
+ 	# Update deploy directory
+@@ -275,8 +345,23 @@ kernel_do_deploy_append() {
+ 		linux_bin_symlink_name=${KERNEL_IMAGETYPE}-linux.bin-${MACHINE}
+ 		install -m 0644 linux.bin ${DEPLOYDIR}/${linux_bin_base_name}.bin
+ 
++		if [ -n "${INITRAMFS_IMAGE}" ]; then
++			echo "Copying fit-image-${INITRAMFS_IMAGE}.its source file..."
++			its_initramfs_base_name="${KERNEL_IMAGETYPE}-its-${INITRAMFS_IMAGE}-${PV}-${PR}-${MACHINE}-${DATETIME}"
++			its_initramfs_symlink_name=${KERNEL_IMAGETYPE}-its-${INITRAMFS_IMAGE}-${MACHINE}
++			install -m 0644 fit-image-${INITRAMFS_IMAGE}.its ${DEPLOYDIR}/${its_initramfs_base_name}.its
++			fit_initramfs_base_name="${KERNEL_IMAGETYPE}-${INITRAMFS_IMAGE}-${PV}-${PR}-${MACHINE}-${DATETIME}"
++			fit_initramfs_symlink_name=${KERNEL_IMAGETYPE}-${INITRAMFS_IMAGE}-${MACHINE}
++			install -m 0644 arch/${ARCH}/boot/fitImage-${INITRAMFS_IMAGE} ${DEPLOYDIR}/${fit_initramfs_base_name}.bin
++		fi
++
+ 		cd ${DEPLOYDIR}
+ 		ln -sf ${its_base_name}.its ${its_symlink_name}.its
+ 		ln -sf ${linux_bin_base_name}.bin ${linux_bin_symlink_name}.bin
++
++		if [ -n "${INITRAMFS_IMAGE}" ]; then
++			ln -sf ${its_initramfs_base_name}.its ${its_initramfs_symlink_name}.its
++			ln -sf ${fit_initramfs_base_name}.bin ${fit_initramfs_symlink_name}.bin
++		fi
+ 	fi
+ }
+-- 
+2.8.0
 
 
