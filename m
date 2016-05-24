@@ -1,31 +1,25 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id F1CF860248
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 May 2016 09:13:59 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u4O9DwHE008569; Tue, 24 May 2016 10:13:58 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ORuQXSuk3rLp; Tue, 24 May 2016 10:13:58 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u4O9Dt65008564
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 24 May 2016 10:13:57 +0100
-Message-ID: <1464081235.9570.51.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Christopher Larson <kergoth@gmail.com>,
+Return-Path: <maxin.john@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 0406F60107;
+	Tue, 24 May 2016 09:22:47 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 24 May 2016 02:22:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,359,1459839600"; d="scan'208";a="708025105"
+Received: from mbabyjoh-desk.fi.intel.com (HELO
+	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.71])
+	by FMSMGA003.fm.intel.com with ESMTP; 24 May 2016 02:22:47 -0700
+Date: Tue, 24 May 2016 12:23:36 +0300
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-devel@lists.openembedded.org
+Message-ID: <20160524092336.GA27824@mbabyjoh-desk.ger.corp.intel.com>
+References: <1464054649898.9b34c448@Nodemailer>
+MIME-Version: 1.0
+In-Reply-To: <1464054649898.9b34c448@Nodemailer>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: meta-ti@yoctoproject.org, angstrom-distro-devel@linuxtogo.org,
 	openembedded-core@lists.openembedded.org
-Date: Tue, 24 May 2016 10:13:55 +0100
-In-Reply-To: <c1371045c7b7740a468f44db12ff20a2c881902c.1463769811.git.chris_larson@mentor.com>
-References: <0b22f46a6e565f757c0fc11aeab27e9f336c5b37.1463769811.git.chris_larson@mentor.com>
-	<c1371045c7b7740a468f44db12ff20a2c881902c.1463769811.git.chris_larson@mentor.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: Re: [PATCH 3/3] image_types.bbclass: support template .wks.in files for wic
+Subject: Re: [oe] OE Changelog since 2016-05-15 until 2016-05-22
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,101 +32,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 May 2016 09:14:00 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 24 May 2016 09:22:48 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, 2016-05-23 at 13:34 -0700, Christopher Larson wrote:
-> From: Christopher Larson <chris_larson@mentor.com>
+Hi,
+
+On Mon, May 23, 2016 at 06:50:51PM -0700, cliff.brake@gmail.com wrote:
+> Changelog since 2016-05-15 until 2016-05-22.  Projects included in this report:
 > 
-> These files are treated as the contents of a bitbake variable, so
-> usual
-> bitbake variable references are supported. I considered using another
-> templating mechanism, for example the one used by yocto-layer, but
-> then we'd
-> end up largely mapping metadata variables to template fields anyway,
-> which is
-> a pointless indirection. Let bitbake expand the variables directly
-> instead.
-> 
-> This feature lets us, for example, reference ${APPEND} in --append,
-> and avoid
-> hardcoding the serial console tty in the wks file, and let the user's
-> changes
-> to APPEND affect wic the way they do the other image construction
-> mechanisms.
-> 
-> The template is read in and set in a variable at parse time, so
-> changes to the
-> variables referenced by the template will result in rebuilding the
-> image.
-> 
-> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-> ---
->  meta/classes/image_types.bbclass | 35
-> +++++++++++++++++++++++++++++++++++
->  1 file changed, 35 insertions(+)
-> 
-> diff --git a/meta/classes/image_types.bbclass
-> b/meta/classes/image_types.bbclass
-> index dc681ae..caf8757 100644
-> --- a/meta/classes/image_types.bbclass
-> +++ b/meta/classes/image_types.bbclass
-> @@ -206,6 +206,16 @@ IMAGE_CMD_wic () {
->  }
->  IMAGE_CMD_wic[vardepsexclude] = "WKS_FULL_PATH WKS_FILES"
->  
-> +python process_wks_template () {
-> +    """Write out expanded template contents to WKS_FULL_PATH."""
-> +    template_body = d.getVar('_WKS_TEMPLATE', True)
-> +    if template_body:
-> +        wks_file = d.getVar('WKS_FULL_PATH', True)
-> +        with open(wks_file, 'w') as f:
-> +            f.write(template_body)
-> +}
-> +do_image_wic[prefuncs] += 'process_wks_template'
-> +
->  # Rebuild when the wks file or vars in WICVARS change
->  USING_WIC = "${@bb.utils.contains_any('IMAGE_FSTYPES', 'wic ' + '
-> '.join('wic.%s' % c for c in '${COMPRESSIONTYPES}'.split()), '1', '',
-> d)}"
->  WKS_FILE_CHECKSUM = "${@'${WKS_FULL_PATH}:%s' %
-> os.path.exists('${WKS_FULL_PATH}') if '${USING_WIC}' else ''}"
-> @@ -302,3 +312,28 @@ IMAGE_TYPES_MASKED ?= ""
->  # The WICVARS variable is used to define list of bitbake variables
-> used in wic code
->  # variables from this list is written to <image>.env file
->  WICVARS ?= "BBLAYERS DEPLOY_DIR_IMAGE HDDDIR IMAGE_BASENAME
-> IMAGE_BOOT_FILES IMAGE_LINK_NAME IMAGE_ROOTFS INITRAMFS_FSTYPES
-> INITRD ISODIR MACHINE_ARCH ROOTFS_SIZE STAGING_DATADIR
-> STAGING_DIR_NATIVE STAGING_LIBDIR TARGET_SYS"
-> +
-> +python () {
-> +    """Read in and set up wks file template for wic."""
-> +    if d.getVar('USING_WIC', True):
-> +        wks_file_u = d.getVar('WKS_FULL_PATH', False)
-> +        wks_file = d.expand(wks_file_u)
-> +        base, ext = os.path.splitext(wks_file)
-> +        if ext == '.in' and os.path.exists(wks_file):
-> +            wks_out_file = os.path.join(d.getVar('WORKDIR', True),
-> os.path.basename(base))
-> +            d.setVar('WKS_FULL_PATH', wks_out_file)
-> +            d.setVar('WKS_TEMPLATE_PATH', wks_file_u)
-> +            d.setVar('WKS_FILE_CHECKSUM',
-> '${WKS_TEMPLATE_PATH}:True')
-> +
-> +            try:
-> +                with open(wks_file, 'r') as f:
-> +                    body = f.read()
-> +            except (IOError, OSError) as exc:
-> +                pass
+> bitbake: git://git.openembedded.org/bitbake
+> openembedded-core: git://git.openembedded.org/openembedded-core
+> meta-openembedded: git://git.openembedded.org/meta-openembedded
+> meta-angstrom: git://github.com/Angstrom-distribution/meta-angstrom.git
+> meta-arago: git://arago-project.org/git/meta-arago.git
+> meta-atmel: https://github.com/linux4sam/meta-atmel.git
+> meta-beagleboard: git://github.com/beagleboard/meta-beagleboard.git
+> meta-browser: git://github.com/OSSystems/meta-browser.git
+> meta-bug: git://github.com/buglabs/meta-bug.git
+> meta-chicken: git://github.com/OSSystems/meta-chicken
+> meta-efikamx: git://github.com/kraj/meta-efikamx.git
+> meta-ettus: http://github.com/koenkooi/meta-ettus.git
+> meta-fsl-arm: git://git.yoctoproject.org/meta-fsl-arm
+> meta-fsl-arm-extra: git://github.com/Freescale/meta-fsl-arm-extra.git
+> meta-fsl-ppc: git://git.yoctoproject.org/meta-fsl-ppc
+> meta-guacamayo: git://github.com/Guacamayo/meta-guacamayo.git
+> meta-gumstix: git://github.com/gumstix/meta-gumstix.git
+> meta-gumstix-community: https://github.com/schnitzeltony/meta-gumstix-community.git
+> meta-handheld: git://git.openembedded.org/meta-handheld
+> meta-igep: http://github.com/ebutera/meta-igep.git
+> meta-intel: git://git.yoctoproject.org/meta-intel
+> meta-ivi: git://git.yoctoproject.org/meta-ivi
+> meta-java: git://github.com/woglinde/meta-java
 
-I'm a little nervous about determinism here. Shouldn't it either find
-the referenced file or error?
+meta-java repo was moved to:
+git://git.yoctoproject.org/meta-java 
 
-Cheers,
+Is it possible to update the list with that info?
 
-Richard
+> meta-jetson-tk1: https://github.com/cubicool/meta-jetson-tk1.git
+> meta-kde: git://gitorious.org/openembedded-core-layers/meta-kde.git
+> meta-micro: git://git.openembedded.org/meta-micro
+> meta-mono: git://git.yoctoproject.org/meta-mono.git
+> meta-netbookpro: git://github.com/tworaz/meta-netbookpro
+> meta-nodejs: https://github.com/imyller/meta-nodejs.git
+> meta-nslu2: git://github.com/kraj/meta-nslu2
+> meta-opie: git://git.openembedded.org/meta-opie
+> meta-qt3: git://git.yoctoproject.org/meta-qt3
 
-
+Best Regards,
+Maxin
 
