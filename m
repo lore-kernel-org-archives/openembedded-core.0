@@ -1,22 +1,33 @@
-Return-Path: <randy.e.witt@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AC3B60797
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 65C136FFF7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 May 2016 19:51:44 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga104.fm.intel.com with ESMTP; 24 May 2016 12:51:44 -0700
+	Tue, 24 May 2016 19:51:50 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 24 May 2016 12:51:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,360,1459839600"; d="scan'208";a="983907688"
-Received: from bitbang.jf.intel.com ([10.7.199.60])
-	by orsmga002.jf.intel.com with ESMTP; 24 May 2016 12:51:45 -0700
-From: Randy Witt <randy.e.witt@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 May 2016 12:51:40 -0700
-Message-Id: <1464119500-30055-1-git-send-email-randy.e.witt@linux.intel.com>
-X-Mailer: git-send-email 2.5.5
-In-Reply-To: <38494711adeba8a1d6adfcb0f9132d14d7e9962b.1464040555.git.randy.e.witt@linux.intel.com>
-References: <38494711adeba8a1d6adfcb0f9132d14d7e9962b.1464040555.git.randy.e.witt@linux.intel.com>
-Subject: [PATCH v2] sstate.bbclass: Don't create symlinks, download to the correct location
+X-IronPort-AV: E=Sophos;i="5.26,360,1459839600"; d="scan'208";a="973731280"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 24 May 2016 12:51:50 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.51])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id DF5EF6A4007;
+	Tue, 24 May 2016 13:39:19 -0700 (PDT)
+Date: Tue, 24 May 2016 22:51:45 +0300
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Ian Geiser <geiseri@geekcentral.pub>
+Message-ID: <20160524195145.GA21158@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <154c86e7fa2.11a4a3b0e305159.2603931524640206304@geekcentral.pub>
+	<20160523103623.GA18324@linux.intel.com>
+	<154dd88c4a6.d1f78c40166145.7475080368514196708@geekcentral.pub>
+MIME-Version: 1.0
+In-Reply-To: <154dd88c4a6.d1f78c40166145.7475080368514196708@geekcentral.pub>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Wic and "live" images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,52 +40,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 May 2016 19:51:47 -0000
+X-List-Received-Date: Tue, 24 May 2016 19:51:50 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Previously the sstate was all downloaded to the same directory and then
-symlinks were added in the directories that pointed to the siginfo and
-sstate in the parent directory.
+On Mon, May 23, 2016 at 08:13:28AM -0400, Ian Geiser wrote:
+>  > On Thu, May 19, 2016 at 05:52:45AM -0400, Ian Geiser wrote: 
+>  > > Greetings, I am trying to learn "wic" and have been confused as how to create a "live" style image.  I am following "http://www.yoctoproject.org/docs/1.5.2/dev-manual/dev-manual.html#creating-partitioned-images" but am getting confused on the target to use to create the a file system that has a single squashfs file containing my root file system.   
+>  > >  
+>  > > My desired partition layout is as follows: 
+>  > >       40MiB                 40MiB               300MiB 
+>  > > +--------------------+-----------------+-----------------------------+ 
+>  > > |      BOOT (esp)    |    DATA (fat)   |          ROOT (live)        |   
+>  > > +--------------------+-----------------+-----------------------------+ 
+>  > >  
+>  > > BOOT - efi boot partition with kernel and initramfs 
+>  > > DATA - generic fat filesystem to hold configuration files 
+>  > > ROOT - an ext4 filesystem that contains a single os.img, which is a squashfs file. 
+>  > >  
+>  > > I have ROOT and DATA figured out but I am at a loss as how to generate the os.img file and copy it into ROOT.  If I generate the os.img file with bitbake and then use the "-r" option to manually supply a directory structure it works, but I would rather have it done from a wks file for automation reasons. 
+>  > >  
+>  > > Any hints? 
+>  > I'd suggest to use wic image type and generate your image by bitbake. 
+>  > You can find example wic-image-minimal.bb and wic-image-minimal.wks in ../meta-selftest/recipes-test/images/ 
+>  >  
+> This is where I started.  I was able to make it work but not with my configuration above.  It looks like I can use a type of "fsimage" for my "ROOT" partition, but I have not been able to figure out the syntax there yet.  For "BOOT" I am at a complete loss.  In theory "bootimg-efi" but there doesn't seem to be a way to provide an initramfs.
 
-This change makes it so that now the files are just downloaded to the
-correct location without the need for symlinks.
+How about creating recipe to prepare content or your boot partition and then using --source rootfs --rootfs-dir=<your recipe> ?
+This is much more generic way of creating partitioned images from my
+point of view. Image recipes should take care of content and wic takes care of
+putting that content into partitions according to the partitioning
+scheme described in .wks
 
-Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
----
- meta/classes/sstate.bbclass | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+Does it make sense for you?
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 22ce1ee..6bf94b0 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -623,10 +623,10 @@ def pstaging_fetch(sstatefetch, sstatepkg, d):
- 
-     # Try a fetch from the sstate mirror, if it fails just return and
-     # we will build the package
--    uris = ['file://{0}'.format(sstatefetch),
--            'file://{0}.siginfo'.format(sstatefetch)]
-+    uris = ['file://{0};downloadfilename={0}'.format(sstatefetch),
-+            'file://{0}.siginfo;downloadfilename={0}.siginfo'.format(sstatefetch)]
-     if bb.utils.to_boolean(d.getVar("SSTATE_VERIFY_SIG", True), False):
--        uris += ['file://{0}.sig'.format(sstatefetch)]
-+        uris += ['file://{0}.sig;downloadfilename={0}.sig'.format(sstatefetch)]
- 
-     for srcuri in uris:
-         localdata.setVar('SRC_URI', srcuri)
-@@ -634,12 +634,6 @@ def pstaging_fetch(sstatefetch, sstatepkg, d):
-             fetcher = bb.fetch2.Fetch([srcuri], localdata, cache=False)
-             fetcher.download()
- 
--            # Need to optimise this, if using file:// urls, the fetcher just changes the local path
--            # For now work around by symlinking
--            localpath = bb.data.expand(fetcher.localpath(srcuri), localdata)
--            if localpath != sstatepkg and os.path.exists(localpath) and not os.path.exists(sstatepkg):
--                os.symlink(localpath, sstatepkg)
--
-         except bb.fetch2.BBFetchException:
-             break
- 
--- 
-2.5.5
+> 
+>  > You can probably do the same by using wic plugins, but I'd not suggest 
+>  > to go this way. Using wic image type is simpler, more consistent, easier to do and provides higher level of automation. 
+> 
+> Is using the wic image type and a plugin mutually exclusive?
+No, not at all. However, I personally found the way I described above
+more consistent, flexible and easy to implement and maintain.
 
+--
+Regards,
+Ed
 
