@@ -1,25 +1,25 @@
 Return-Path: <mariano.lopez@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 122EE60796
+	by mail.openembedded.org (Postfix) with ESMTP id 2255D6FFAB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 May 2016 20:49:02 +0000 (UTC)
+	Tue, 24 May 2016 20:49:03 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP; 24 May 2016 13:49:03 -0700
+	by fmsmga103.fm.intel.com with ESMTP; 24 May 2016 13:49:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,360,1459839600"; d="scan'208";a="708326936"
+X-IronPort-AV: E=Sophos;i="5.26,360,1459839600"; d="scan'208";a="708326947"
 Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
 	([10.54.69.55])
-	by FMSMGA003.fm.intel.com with ESMTP; 24 May 2016 13:49:03 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 24 May 2016 13:49:04 -0700
 From: mariano.lopez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 May 2016 12:44:11 +0000
-Message-Id: <359d5cf8f5eac3a56e3789c62a86c9fd8f26f2ed.1464092933.git.mariano.lopez@linux.intel.com>
+Date: Tue, 24 May 2016 12:44:12 +0000
+Message-Id: <314e82766b9e1a05465f685af7411eb4483c4d54.1464092933.git.mariano.lopez@linux.intel.com>
 X-Mailer: git-send-email 2.6.6
 In-Reply-To: <cover.1464092933.git.mariano.lopez@linux.intel.com>
 References: <cover.1464092933.git.mariano.lopez@linux.intel.com>
 In-Reply-To: <cover.1464092933.git.mariano.lopez@linux.intel.com>
 References: <cover.1464092933.git.mariano.lopez@linux.intel.com>
-Subject: [PATCH 02/10] oetest.py: Move getTests() outside loadTests() method
+Subject: [PATCH 03/10] oeqa/utils/package_manager.py: Add get_package_manager()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,82 +36,52 @@ X-List-Received-Date: Tue, 24 May 2016 20:49:03 -0000
 
 From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-The method getTests() can be useful to all the class,
-not just to loadTests().
+This new file just contain one function to return an OE package
+manager, this depends in the current packaging method.
 
 [YOCTO #8694]
 
 Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- meta/lib/oeqa/oetest.py | 36 ++++++++++++++++++------------------
- 1 file changed, 18 insertions(+), 18 deletions(-)
+ meta/lib/oeqa/utils/package_manager.py | 29 +++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
+ create mode 100644 meta/lib/oeqa/utils/package_manager.py
 
-diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
-index 70db119..8ad3715 100644
---- a/meta/lib/oeqa/oetest.py
-+++ b/meta/lib/oeqa/oetest.py
-@@ -264,6 +264,22 @@ class TestContext(object):
- 
-         return testslist
- 
-+    def getTests(self, test):
-+        '''Return all individual tests executed when running the suite.'''
-+        # Unfortunately unittest does not have an API for this, so we have
-+        # to rely on implementation details. This only needs to work
-+        # for TestSuite containing TestCase.
-+        method = getattr(test, '_testMethodName', None)
-+        if method:
-+            # leaf case: a TestCase
-+            yield test
-+        else:
-+            # Look into TestSuite.
-+            tests = getattr(test, '_tests', [])
-+            for t1 in tests:
-+                for t2 in self.getTests(t1):
-+                    yield t2
+diff --git a/meta/lib/oeqa/utils/package_manager.py b/meta/lib/oeqa/utils/package_manager.py
+new file mode 100644
+index 0000000..099ecc9
+--- /dev/null
++++ b/meta/lib/oeqa/utils/package_manager.py
+@@ -0,0 +1,29 @@
++def get_package_manager(d, root_path):
++    """
++    Returns an OE package manager that can install packages in root_path.
++    """
++    from oe.package_manager import RpmPM, OpkgPM, DpkgPM
 +
-     def loadTests(self):
-         setattr(oeTest, "tc", self)
- 
-@@ -272,36 +288,20 @@ class TestContext(object):
-         suites = [testloader.loadTestsFromName(name) for name in self.testslist]
-         suites = filterByTagExp(suites, getattr(self, "tagexp", None))
- 
--        def getTests(test):
--            '''Return all individual tests executed when running the suite.'''
--            # Unfortunately unittest does not have an API for this, so we have
--            # to rely on implementation details. This only needs to work
--            # for TestSuite containing TestCase.
--            method = getattr(test, '_testMethodName', None)
--            if method:
--                # leaf case: a TestCase
--                yield test
--            else:
--                # Look into TestSuite.
--                tests = getattr(test, '_tests', [])
--                for t1 in tests:
--                    for t2 in getTests(t1):
--                        yield t2
--
-         # Determine dependencies between suites by looking for @skipUnlessPassed
-         # method annotations. Suite A depends on suite B if any method in A
-         # depends on a method on B.
-         for suite in suites:
-             suite.dependencies = []
-             suite.depth = 0
--            for test in getTests(suite):
-+            for test in self.getTests(suite):
-                 methodname = getattr(test, '_testMethodName', None)
-                 if methodname:
-                     method = getattr(test, methodname)
-                     depends_on = getattr(method, '_depends_on', None)
-                     if depends_on:
-                         for dep_suite in suites:
--                            if depends_on in [getattr(t, '_testMethodName', None) for t in getTests(dep_suite)]:
-+                            if depends_on in [getattr(t, '_testMethodName', None) for t in self.getTests(dep_suite)]:
-                                 if dep_suite not in suite.dependencies and \
-                                    dep_suite is not suite:
-                                     suite.dependencies.append(dep_suite)
++    pkg_class = d.getVar("IMAGE_PKGTYPE", True)
++    if pkg_class == "rpm":
++        pm = RpmPM(d,
++                   root_path,
++                   d.getVar('TARGET_VENDOR', True))
++        pm.create_configs()
++
++    elif pkg_class == "ipk":
++        pm = OpkgPM(d,
++                    root_path,
++                    d.getVar("IPKGCONF_TARGET", True),
++                    d.getVar("ALL_MULTILIB_PACKAGE_ARCHS", True))
++
++    elif pkg_class == "deb":
++        pm = DpkgPM(d,
++                    root_path,
++                    d.getVar('PACKAGE_ARCHS', True),
++                    d.getVar('DPKG_ARCH', True))
++
++    pm.write_index()
++    pm.update()
++
++    return pm
 -- 
 2.6.6
 
