@@ -1,47 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f51.google.com (mail-it0-f51.google.com
-	[209.85.214.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 961D76E688
+Return-Path: <dominic.sacre@gmx.de>
+X-Greylist: delayed 302 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 25 May 2016 11:19:08 UTC
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 24E9E6E668
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 May 2016 11:17:50 +0000 (UTC)
-Received: by mail-it0-f51.google.com with SMTP id e62so69746311ita.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 May 2016 04:17:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=9rndhGRyazqV9nN6aKWP85VO4hFJKibyLlv7WpWcPcw=;
-	b=2ABDsz4risMqMXiewdMNQg3a6wBpTIJ8AUwBgQic763gEJp7OoI0yXC3hhBUWPDIl0
-	0vxpzpKPLVhOjeeqdul/w034hZtPFhUE0Ur6szqjG2LfFVtB4Wpf3bMug30apSUJueMd
-	hXHuvoCLHsGZEt46mNn7DzrUfrg+N/zi1TB9x/A78pP5FGFC5vIaCqOm7Hlj8hR90jIb
-	EdfYiDitQNfmY4C4AejLf75RRr+ntZLU/vpig1ORAtqLOa5AlkUrsd7g8o5DGfXSak4d
-	+y2kFsmFc2QAaIj732BTBIDlvilhuZgCmpxxk3BBF4OT4Hx97VBXxYZeDulPHovH8Rih
-	CrTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=9rndhGRyazqV9nN6aKWP85VO4hFJKibyLlv7WpWcPcw=;
-	b=IFdof64HuBUmcW1z9GNAUg8Hy1k6gQ9PuyfUAlelPVvhzKYhnU6Hxp3/7DH8txjtC0
-	HE3buaDRwjLVZDI8OaUgsZh6f2hOWORfweVzsa99FfOwtJkMM8N7MPiYHxUUYwurxyRJ
-	gfxCfc8kTi70IyUNrNiXnsJB0CEhEqvKFB7EHQUDh0fiWTOSpi/P09tYGay7atQc203v
-	ZLZ5a9lweTMBzsaJO1SAi8a1j44+5LoOQtdbXWoQsM77jf5eeEh8jzZI5rUeW8IiwG4v
-	M+MVLU8gGcGLRC1ySWjEhodaIx9bgCMKok5PHWrlQnbtRUaJA1PlPvD3wXq9LUXVnNY+
-	aDeA==
-X-Gm-Message-State: AOPr4FUOHbWiF/ukYrKpA0ystl5ogm3fl0mceUssuNlz2T8zSu0Jnb5pAvANGqy46VPlE3eLuXcE0To8voSBr7+C
-X-Received: by 10.36.2.71 with SMTP id 68mr22775394itu.38.1464175071033; Wed,
-	25 May 2016 04:17:51 -0700 (PDT)
+	Wed, 25 May 2016 11:19:08 +0000 (UTC)
+Received: from dastp.fritz.box ([80.147.195.117]) by mail.gmx.com (mrgmx103)
+	with ESMTPSA (Nemesis) id 0MaIw0-1aqBja0fhw-00Jtbg;
+	Wed, 25 May 2016 13:14:06 +0200
+From: =?UTF-8?q?Dominic=20Sacr=C3=A9?= <dominic.sacre@gmx.de>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 25 May 2016 13:13:44 +0200
+Message-Id: <20160525111344.2893-1-dominic.sacre@gmx.de>
+X-Mailer: git-send-email 2.8.3
 MIME-Version: 1.0
-Received: by 10.107.162.6 with HTTP; Wed, 25 May 2016 04:17:31 -0700 (PDT)
-In-Reply-To: <1357d837c72abd1d9552aa77fd63126f7275aa23.1464168189.git.liezhi.yang@windriver.com>
-References: <cover.1464168189.git.liezhi.yang@windriver.com>
-	<1357d837c72abd1d9552aa77fd63126f7275aa23.1464168189.git.liezhi.yang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 25 May 2016 12:17:31 +0100
-Message-ID: <CAJTo0Lb0W-tTtcjnAA1pVFU2=nDWxX2Fc7HXjYs2WYGfRYQx-A@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] utility-tasks.bbclass: fix do_listtasks
+X-Provags-ID: V03:K0:MklaFRRMVmtf9Qf6wdVtS+Y6Czl7EvT88FMdiF1pT3phb+OjUYd
+	+M8Kcx1WKsCBwyG8hFrUphv01/lyseKBUWBMV/3UY0cwwicbzc+TJYnZJQRFShWRINTYXEr
+	rRn5YGinvgGevjR+FnHEMVdhwWP9llvyquH3vQCbO9t/j9g9vom9BnKIuPRF0HAJQrifJQL
+	h9QX+ijuaPFge8qAH9eEA==
+X-UI-Out-Filterresults: notjunk:1;V01:K0:i2zSNGY+3Y0=:M5tiPpZs9xk7jp6CZz5SKZ
+	PxasU0h/yQ2KMMhk0DgaD8KseO90i9yuM23sP8AQ/XOskih2thx6OhdSFlM8Vm/asD2HKEeWz
+	GORq3JzYNNHMKnbq9mjPF4P9ayboqT0yiV7wyduC7KXD+ONnuR4GFE5TzL0YOYlGDf/QFIBMk
+	Hy0ynphohc0TaEReq97DPSbIQX98SxB9kerKp33RezrBSTRY9maJzm1WtDhkjqdYTlBpcnLZh
+	lQDNfzTqjMHvAoN+e+V4I+AVSC1Jv1h6RdpELIddmfErih2kucfkhIqwWAzPHNwOWoZ8DHsD7
+	ma+dtCWBQjm9pLf3lK56CFd9dXFZ2MiPXoFKKQY9DoYpu6CNJZ2CGLHn4MZxHd5jfKFiUdwHT
+	kysvjIIG0QJ9yMk3CjFOLw2DDv3Ik62qcorAxNYrAdPku+dP0a8EwRkAHRoKPL+4cgtnGBXyA
+	R6uTLh1v5WNiZ4mahzxfSTuF5CYSpCL4vRKnQCCkugIfWv+0FohcqaoZ1adSnXcjAWWzXf0UJ
+	F5/vJa9DaJiW0pSffXyXEJ1bVRWWDaQG6OmpjlB4RnCnMIAWY6gs/siU3BaL+Ne9c/c0YumQN
+	2YwJt94x/aYX//Gt/BFA4nzjEH1x5g2lVjgtUi6x/W4rrm7PEBQTYPFbiAaJp9QBaYkmtlx6d
+	XBTkGpD0brJ1Z5w1b7su1TCCNAXn94k72IvmOx7dXJ4lw4TvrrRIHQcUwa0X496ACo88ArpYh
+	S8Tqj3LPRyTOssgNvA2Y4j8CwS9iGBJ6mWhHIMKc7Wkb4qmJnJY8eIygETiq6SjkK9aI7aMQo
+	Udg8C15
+Subject: [krogoth][master][PATCH] dropbear: Remove incorrect SFTPSERVER_PATH from CFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,39 +44,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 May 2016 11:17:50 -0000
-Content-Type: multipart/alternative; boundary=001a1144b1d0ff88d40533a8d26f
-
---001a1144b1d0ff88d40533a8d26f
+X-List-Received-Date: Wed, 25 May 2016 11:19:10 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 25 May 2016 at 10:23, Robert Yang <liezhi.yang@windriver.com> wrote:
+Openssh now installs the sftp-server binary as /usr/libexec/sftp-server,
+whereas the dropbear recipe assumes a different path.
+Dropbear uses the correct path by default, so it's no longer necessary
+to override SFTPSERVER_PATH via CFLAGS.
 
-> It lists deleted tasks which is unexpected, use __BBTASKS to fix the
-> problem since deltask() which is defined in bitbake/lib/bb/build.py
-> updates __BBTASKS correctly.
->
+This fixes SFTP access to systems using dropbear as the SSH server.
 
-Wouldn't an alternative be to change deltask so that it also remove the
-"task" flag from the variable?
+Signed-off-by: Dominic Sacré <dominic.sacre@gmx.de>
+---
+ meta/recipes-core/dropbear/dropbear.inc | 1 -
+ 1 file changed, 1 deletion(-)
 
-Ross
+diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
+index 1dce2a5..923d31c 100644
+--- a/meta/recipes-core/dropbear/dropbear.inc
++++ b/meta/recipes-core/dropbear/dropbear.inc
+@@ -46,7 +46,6 @@ BINCOMMANDS = "dbclient ssh scp"
+ EXTRA_OEMAKE = 'MULTI=1 SCPPROGRESS=1 PROGRAMS="${SBINCOMMANDS} ${BINCOMMANDS}"'
+ EXTRA_OECONF += "\
+  ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '--enable-pam', '--disable-pam', d)}"
+-CFLAGS += "-DSFTPSERVER_PATH=\\"${libdir}/openssh/sftp-server\\""
+ 
+ do_install() {
+ 	install -d ${D}${sysconfdir} \
+-- 
+2.8.3
 
---001a1144b1d0ff88d40533a8d26f
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 25 May 2016 at 10:23, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</a=
->&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":31k" clas=
-s=3D"a3s aXjCH m154e73aa80226a8c">It lists deleted tasks which is unexpecte=
-d, use __BBTASKS to fix the<br>
-problem since deltask() which is defined in bitbake/lib/bb/build.py<br>
-updates __BBTASKS correctly.</div></blockquote></div><br>Wouldn&#39;t an al=
-ternative be to change deltask so that it also remove the &quot;task&quot; =
-flag from the variable?</div><div class=3D"gmail_extra"><br></div><div clas=
-s=3D"gmail_extra">Ross</div></div>
-
---001a1144b1d0ff88d40533a8d26f--
