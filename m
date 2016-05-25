@@ -1,38 +1,42 @@
 Return-Path: <andrew@bradfordembedded.com>
 Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
 	[66.111.4.29])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A8066FFED
+	by mail.openembedded.org (Postfix) with ESMTP id 79A4E6FF9F
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 25 May 2016 19:46:34 +0000 (UTC)
 Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id 3AB1C2111A;
+	by mailout.nyi.internal (Postfix) with ESMTP id 7421A20469;
 	Wed, 25 May 2016 15:46:35 -0400 (EDT)
 Received: from frontend2 ([10.202.2.161])
 	by compute1.internal (MEProxy); Wed, 25 May 2016 15:46:35 -0400
 DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	bradfordembedded.com; h=cc:date:from:message-id:subject:to
-	:x-sasl-enc:x-sasl-enc; s=mesmtp; bh=GvSPnBKQGHm4bZIslBuiBStWjqk
-	=; b=kVl0flyE3ITI4HW976NnA80DxFWAKKXLrdqINFfV0x+JlVrwa8OVS0DBY/M
-	9NK3ymty83T9cxivP2EJy37kz1Q/JuVg0YBLPSN78Q/WaHNLtDl0CjV2unmxhn+d
-	ai9mecBkAahXCFopo4jq65a1rxX8kB/Q9SkPmswGC0hkYk4A=
+	bradfordembedded.com; h=cc:date:from:in-reply-to:message-id
+	:references:subject:to:x-sasl-enc:x-sasl-enc; s=mesmtp; bh=OjNmM
+	hD6ayJSdVk1PzXZ/i5gbgI=; b=fYwEjX0bZxjPO/snbeNPDTbL86piRxIHCvRuN
+	3CDR7D35kyv2OqrG/JnAw4BT4/e+fvUuAmPX0pHsJOgZawecu4/8y0ILdLcQ5cPM
+	Vj8q6bHmGjjqTdqiDHnhEVg9ELLi8iVjLPhQRVy2A33DfEtxL2OpD0OJ/Nds0YZS
+	QLuIfM=
 DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:date:from:message-id:subject:to
-	:x-sasl-enc:x-sasl-enc; s=smtpout; bh=GvSPnBKQGHm4bZIslBuiBStWjq
-	k=; b=Bo2iGq/B+tHKIVpuc8quBMqvsorvhHaw/kYS4+7E6YLcVj2E0q3eCdlPDR
-	inYvz2oG08KgnAql8SUtPmgLAs0BxV2kh7lpVGcjl029RYJrGQaazoek1DnIMW22
-	UPuPY4KwYnauda/t10Oz27y46rVPKuufbfw4ALb0N7LMm6DEA=
-X-Sasl-enc: D6upI2wsnm7vYeVhf/+7yDw/KNnkJgm5Rgv0SjPpYkWc 1464205594
+	messagingengine.com; h=cc:date:from:in-reply-to:message-id
+	:references:subject:to:x-sasl-enc:x-sasl-enc; s=smtpout; bh=OjNm
+	MhD6ayJSdVk1PzXZ/i5gbgI=; b=nTMqQCM1iwxZj8UW5r/DGXVlXG/3mLa1+IdS
+	eDKMt5kcVoKbU95Ls1UbhF7l+ctxogVtQ1mYwaZQDHrV4pzrfOfjtjGd/gU6/6Vv
+	6+V2DXYsoSvKNk4sIsHVeAF7gtKh/ZX584JgFhOl3fgUcKK/PbbHg7P44INQZXbZ
+	+Rr6rMU=
+X-Sasl-enc: z6bkI8hBabVFMFYdyHUpFUJsadkxMTiJAwA49myetdbv 1464205595
 Received: from kaim-eeyore.kodakalaris.net (clr-vpn01.kodakalaris.com
 	[198.140.222.129])
-	by mail.messagingengine.com (Postfix) with ESMTPA id C006ACCD9C;
-	Wed, 25 May 2016 15:46:34 -0400 (EDT)
+	by mail.messagingengine.com (Postfix) with ESMTPA id 12CF8CCD9F;
+	Wed, 25 May 2016 15:46:35 -0400 (EDT)
 From: Andrew Bradford <andrew@bradfordembedded.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 May 2016 15:46:08 -0400
-Message-Id: <1464205571-26293-1-git-send-email-andrew@bradfordembedded.com>
+Date: Wed, 25 May 2016 15:46:09 -0400
+Message-Id: <1464205571-26293-2-git-send-email-andrew@bradfordembedded.com>
 X-Mailer: git-send-email 2.8.1
+In-Reply-To: <1464205571-26293-1-git-send-email-andrew@bradfordembedded.com>
+References: <1464205571-26293-1-git-send-email-andrew@bradfordembedded.com>
 Cc: Andrew Bradford <andrew.bradford@kodakalaris.com>
-Subject: [PATCH 0/3] Setup for bitbake perforce fetcher changes
+Subject: [PATCH 1/3] oe-buildenv-internal: Add P4CONFIG to BB_ENV_EXTRAWHITE_OE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,27 +53,29 @@ X-List-Received-Date: Wed, 25 May 2016 19:46:37 -0000
 
 From: Andrew Bradford <andrew.bradford@kodakalaris.com>
 
-The perforce fetcher does not yet support using SRCREV="${AUTOREV}" or
-the use of the P4CONFIG variable [1].  These patches setup a few things
-in oe-core so that changes in bitbake can take advantage of them to fix
-these two issues as well as simplify and better document the use of the
-perforce fetcher.
+So that the user's P4CONFIG variable can be used by recipes which
+utilize the perforce fetcher.
 
-[1]: https://bugzilla.yoctoproject.org/show_bug.cgi?id=6303
+References [YOCTO #6303]
 
-Thanks,
-Andrew
-
-Andrew Bradford (3):
-  oe-buildenv-internal: Add P4CONFIG to BB_ENV_EXTRAWHITE_OE
-  bitbake.conf: Add P4DIR and FETCHCMD_p4
-  base.bbclass: p4 fetcher supports srcrev
-
- meta/classes/base.bbclass    | 4 ++++
- meta/conf/bitbake.conf       | 2 ++
+Signed-off-by: Andrew Bradford <andrew.bradford@kodakalaris.com>
+---
  scripts/oe-buildenv-internal | 2 +-
- 3 files changed, 7 insertions(+), 1 deletion(-)
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal
+index 81ee784..e51b950 100755
+--- a/scripts/oe-buildenv-internal
++++ b/scripts/oe-buildenv-internal
+@@ -114,7 +114,7 @@ BB_ENV_EXTRAWHITE_OE="MACHINE DISTRO TCMODE TCLIBC HTTP_PROXY http_proxy \
+ HTTPS_PROXY https_proxy FTP_PROXY ftp_proxy FTPS_PROXY ftps_proxy ALL_PROXY \
+ all_proxy NO_PROXY no_proxy SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY \
+ SDKMACHINE BB_NUMBER_THREADS BB_NO_NETWORK PARALLEL_MAKE GIT_PROXY_COMMAND \
+-SOCKS5_PASSWD SOCKS5_USER SCREENDIR STAMPS_DIR BBPATH_EXTRA"
++SOCKS5_PASSWD SOCKS5_USER SCREENDIR STAMPS_DIR BBPATH_EXTRA P4CONFIG"
+ 
+ BB_ENV_EXTRAWHITE="$(echo $BB_ENV_EXTRAWHITE $BB_ENV_EXTRAWHITE_OE | tr ' ' '\n' | LC_ALL=C sort --unique | tr '\n' ' ')"
+ 
 -- 
 2.8.1
 
