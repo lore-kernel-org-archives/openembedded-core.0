@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 327C770034
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E683731A3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 May 2016 09:23:58 +0000 (UTC)
+	Wed, 25 May 2016 09:24:00 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u4P9NxXk012870
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u4P9O0NN012221
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 May 2016 02:23:59 -0700
+	Wed, 25 May 2016 02:24:01 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
 	Wed, 25 May 2016 02:23:59 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 25 May 2016 02:23:57 -0700
-Message-ID: <1357d837c72abd1d9552aa77fd63126f7275aa23.1464168189.git.liezhi.yang@windriver.com>
+Date: Wed, 25 May 2016 02:23:58 -0700
+Message-ID: <76594b7fd302fb530bf25f2a25aad956de2d8e31.1464168189.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.8.0
 In-Reply-To: <cover.1464168189.git.liezhi.yang@windriver.com>
 References: <cover.1464168189.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] utility-tasks.bbclass: fix do_listtasks
+Subject: [PATCH 2/2] nopackages.bbclass: deltask foo_setscene
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,45 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 May 2016 09:23:59 -0000
+X-List-Received-Date: Wed, 25 May 2016 09:24:01 -0000
 Content-Type: text/plain
 
-It lists deleted tasks which is unexpected, use __BBTASKS to fix the
-problem since deltask() which is defined in bitbake/lib/bb/build.py
-updates __BBTASKS correctly.
+When deltask foo, also deltask foo_setscene.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/utility-tasks.bbclass | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ meta/classes/nopackages.bbclass | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/classes/utility-tasks.bbclass b/meta/classes/utility-tasks.bbclass
-index 7bc584a..b06d335 100644
---- a/meta/classes/utility-tasks.bbclass
-+++ b/meta/classes/utility-tasks.bbclass
-@@ -3,14 +3,14 @@ do_listtasks[nostamp] = "1"
- python do_listtasks() {
-     taskdescs = {}
-     maxlen = 0
--    for e in d.keys():
--        if d.getVarFlag(e, 'task', True):
--            maxlen = max(maxlen, len(e))
--            if e.endswith('_setscene'):
--                desc = "%s (setscene version)" % (d.getVarFlag(e[:-9], 'doc', True) or '')
--            else:
--                desc = d.getVarFlag(e, 'doc', True) or ''
--            taskdescs[e] = desc
-+    bbtasks = d.getVar('__BBTASKS', True)
-+    for task in bbtasks:
-+        maxlen = max(maxlen, len(task))
-+        if task.endswith('_setscene'):
-+            desc = "%s (setscene version)" % (d.getVarFlag(task[:-9], 'doc', True) or '')
-+        else:
-+            desc = d.getVarFlag(task, 'doc', True) or ''
-+        taskdescs[task] = desc
- 
-     tasks = sorted(taskdescs.keys())
-     for taskname in tasks:
+diff --git a/meta/classes/nopackages.bbclass b/meta/classes/nopackages.bbclass
+index 0c2761b..559f507 100644
+--- a/meta/classes/nopackages.bbclass
++++ b/meta/classes/nopackages.bbclass
+@@ -4,3 +4,9 @@ deltask do_package_write_ipk
+ deltask do_package_write_deb
+ deltask do_package_qa
+ deltask do_packagedata
++deltask do_package_setscene
++deltask do_package_write_rpm_setscene
++deltask do_package_write_ipk_setscene
++deltask do_package_write_deb_setscene
++deltask do_package_qa_setscene
++deltask do_packagedata_setscene
 -- 
 2.8.0
 
