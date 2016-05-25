@@ -1,24 +1,35 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 0ED5B731BC
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F11265CBA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 May 2016 13:29:53 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 25 May 2016 06:29:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,364,1459839600"; d="scan'208";a="988474093"
-Received: from theory.fi.intel.com ([10.237.72.196])
-	by fmsmga002.fm.intel.com with ESMTP; 25 May 2016 06:29:54 -0700
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 May 2016 16:29:40 +0300
-Message-Id: <437ddd2e733ea065c04504037c9209438020a695.1464176988.git.jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <ade23f378a1dc2d3153dd71e6a00c65c6c56e8f0.1464176988.git.jussi.kukkonen@intel.com>
-References: <ade23f378a1dc2d3153dd71e6a00c65c6c56e8f0.1464176988.git.jussi.kukkonen@intel.com>
-In-Reply-To: <cover.1464176988.git.jussi.kukkonen@intel.com>
-References: <cover.1464176988.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 7/7] libgpg-error: Upgrade 1.21 -> 1.22
+	Wed, 25 May 2016 13:31:52 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u4PDVnYu018848
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Wed, 25 May 2016 06:31:49 -0700
+Received: from server.local (147.11.119.192) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 25 May 2016 06:31:48 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Khem Raj
+	<raj.khem@gmail.com>
+References: <fa9c2d513cff678eebb231d4cf5991ea37061b34.1463157783.git.raj.khem@gmail.com>
+	<2cc568062314cdddd5ff2f60dd6d9685b3b12831.1463157783.git.raj.khem@gmail.com>
+	<1463295824.9746.152.camel@linuxfoundation.org>
+	<1464101499.9570.59.camel@linuxfoundation.org>
+	<CAMKF1sr9bM8pE+DRt=-08sGp4ZA8U3csYezo+NAB49UsyYz0yw@mail.gmail.com>
+	<1464158362.9570.87.camel@linuxfoundation.org>
+	<9a16a18f-9178-231d-6c78-ccdc4cdf51a2@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <7091d7d0-b03c-2dfd-eee9-d160f3a944a2@windriver.com>
+Date: Wed, 25 May 2016 09:31:48 -0400
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
+	Gecko/20100101 Thunderbird/45.1.0
+MIME-Version: 1.0
+In-Reply-To: <9a16a18f-9178-231d-6c78-ccdc4cdf51a2@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/6] tcmode-default: Bump gcc,glibc,gdb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,102 +42,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 May 2016 13:29:53 -0000
+X-List-Received-Date: Wed, 25 May 2016 13:31:53 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-License checksum changes are not license changes.
-Remove a patch that's in upstream now.
+On 2016-05-25 8:32 AM, Bruce Ashfield wrote:
+> On 2016-05-25 2:39 AM, Richard Purdie wrote:
+>> Thanks to the patches from Bruce we're looking better, linux-yocto 4.1
+>> works, just 4.4 has a couple of issues. I also removed a patch which
+>> removed the xdg-utils failure. That leaves us with:
+>>
+>> qt4-x11-free:
+>>
+>> arm, mips, ppc, world-lsb, x86, x86_64:
+>> https://autobuilder.yoctoproject.org/main/builders/nightly-arm-lsb/buil
+>> ds/767/steps/BuildImages/logs/stdio
+>>
+>> qt4-embedded:
+>>
+>> https://autobuilder.yoctoproject.org/main/builders/nightly-world-lsb/bu
+>> ilds/520/steps/BuildImages/logs/stdio
+>>
+>> linux-yocto-4.4 mips:
+>>
+>> https://autobuilder.yoctoproject.org/main/builders/nightly-mips/builds/
+>> 795/steps/BuildImages_1/logs/stdio
+>>
+>> linux-yocto-4.4 ppc:
+>>
+>> https://autobuilder.yoctoproject.org/main/builders/nightly-ppc/builds/8
+>> 07/steps/BuildImages_1/logs/stdio
+>>
+>> diffutils - non-gplv3:
+>>
+>> https://autobuilder.yoctoproject.org/main/builders/nightly-non-gpl3/bui
+>> lds/797
+>>
+>> Bruce: Looks like 4.4 might also need a patch you merged to 4.1?
+>
+> I didn't see anything obvious missing from 4.4, and the existing patches
+> posted for the build issues are part of:
+>
+> -----------------
+>
+> commit 574e9f4b4334807faad40a2d23c350f266d6febb
+> Author: Bruce Ashfield <bruce.ashfield@windriver.com>
+> Date:   Fri May 13 09:46:53 2016 -0700
+>
+>     linux-yocto/4.4: gcc6 build fixes (powerpc and mips)
+>
+>     Khem provided fixes to fix gcc6 build issues, these are safe for
+>     all gcc versions, so we integrate them directly.
+>
+>     (From OE-Core rev: f1c75b93a4e11425e595c5ce043fbb0276a41931)
+>
+>     Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>     Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+>     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>
+> ---------------
+>
+> So I can't say why the two build failures that that commit addresses
+> are popping up.
+>
+> I checked and the later 4.4-stable commit update I did has the right
+> SRCREVs and encompasses that fix .. unless something ended up getting
+> clobbered in the code itself.
+>
+> What's the right incantation to start a gcc6 based build on my own
+> machine ? Just bump the preferred version of the compiler ? (I'll do
+> that now, since I see the gcc6 recipe .. and that seems like the
+> obvious thing).
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
----
- .../0001-libgpg-error-Add-nios2-support.patch      | 46 ----------------------
- .../{libgpg-error_1.21.bb => libgpg-error_1.22.bb} |  9 ++---
- 2 files changed, 4 insertions(+), 51 deletions(-)
- delete mode 100644 meta/recipes-support/libgpg-error/libgpg-error/0001-libgpg-error-Add-nios2-support.patch
- rename meta/recipes-support/libgpg-error/{libgpg-error_1.21.bb => libgpg-error_1.22.bb} (78%)
+Hmm. Are we somehow building different SRCREVs ? I'm able to build the
+ppc kernel with gcc6:
 
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error/0001-libgpg-error-Add-nios2-support.patch b/meta/recipes-support/libgpg-error/libgpg-error/0001-libgpg-error-Add-nios2-support.patch
-deleted file mode 100644
-index dab1c13..0000000
---- a/meta/recipes-support/libgpg-error/libgpg-error/0001-libgpg-error-Add-nios2-support.patch
-+++ /dev/null
-@@ -1,46 +0,0 @@
--From b2af652f43991e4ce6297917da542a9eb5135939 Mon Sep 17 00:00:00 2001
--From: Marek Vasut <marex@denx.de>
--Date: Thu, 17 Sep 2015 03:28:06 +0200
--Subject: [PATCH] libgpg-error: Add nios2 support
--
--Add configuration for the NIOS2 processor.
--
--Signed-off-by: Marek Vasut <marex@denx.de>
--Upstream-Status: Submitted
-----
-- src/syscfg/lock-obj-pub.nios2-unknown-linux-gnu.h | 23 +++++++++++++++++++++++
-- 1 file changed, 23 insertions(+)
-- create mode 100644 src/syscfg/lock-obj-pub.nios2-unknown-linux-gnu.h
--
--diff --git a/src/syscfg/lock-obj-pub.nios2-unknown-linux-gnu.h b/src/syscfg/lock-obj-pub.nios2-unknown-linux-gnu.h
--new file mode 100644
--index 0000000..3a24571
----- /dev/null
--+++ b/src/syscfg/lock-obj-pub.nios2-unknown-linux-gnu.h
--@@ -0,0 +1,23 @@
--+## lock-obj-pub.nios2-unknown-linux-gnu.h
--+## File created by gen-posix-lock-obj - DO NOT EDIT
--+## To be included by mkheader into gpg-error.h
--+
--+typedef struct
--+{
--+  long _vers;
--+  union {
--+    volatile char _priv[24];
--+    long _x_align;
--+    long *_xp_align;
--+  } u;
--+} gpgrt_lock_t;
--+
--+#define GPGRT_LOCK_INITIALIZER {1,{{0,0,0,0,0,0,0,0, \
--+                                    0,0,0,0,0,0,0,0, \
--+                                    0,0,0,0,0,0,0,0}}}
--+##
--+## Local Variables:
--+## mode: c
--+## buffer-read-only: t
--+## End:
--+##
---- 
--2.5.1
--
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.21.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.22.bb
-similarity index 78%
-rename from meta/recipes-support/libgpg-error/libgpg-error_1.21.bb
-rename to meta/recipes-support/libgpg-error/libgpg-error_1.22.bb
-index 9755b07..c58744f 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error_1.21.bb
-+++ b/meta/recipes-support/libgpg-error/libgpg-error_1.22.bb
-@@ -5,18 +5,17 @@ BUGTRACKER = "https://bugs.g10code.com/gnupg/index"
- LICENSE = "GPLv2+ & LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-                     file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
--                    file://src/gpg-error.h.in;endline=23;md5=93d3155af141ae3b369a5d09ca9d6234 \
--                    file://src/init.c;endline=20;md5=8f5a9b59634f4aebcd0ec9d3ebd53bfe"
-+                    file://src/gpg-error.h.in;endline=23;md5=cf562f60b9dba7df20d6ee3f97ea1d5a \
-+                    file://src/init.c;endline=20;md5=872b2389fe9bae7ffb80d2b91225afbc"
- 
- 
- SECTION = "libs"
- 
- SRC_URI = "${GNUPG_MIRROR}/libgpg-error/libgpg-error-${PV}.tar.bz2 \
-            file://pkgconfig.patch \
--	   file://0001-libgpg-error-Add-nios2-support.patch \
- 	  "
--SRC_URI[md5sum] = "ab0b5aba6d0a185b41d07bda804fd8b2"
--SRC_URI[sha256sum] = "b7dbdb3cad63a740e9f0c632a1da32d4afdb694ec86c8625c98ea0691713b84d"
-+SRC_URI[md5sum] = "83c686abe3fa223ec89f3b51da830770"
-+SRC_URI[sha256sum] = "f2a04ee6317bdb41a625bea23fdc7f0b5a63fb677f02447c647ed61fb9e69d7b"
- 
- BINCONFIG = "${bindir}/gpg-error-config"
- 
--- 
-2.1.4
+yow-bashfiel-d4 [/home/bruc...dard-build]> ls -alF vmlinux
+-rwxr-xr-x 1 bruce bruce 115353128 May 25 09:12 vmlinux*
+yow-bashfiel-d4 [/home/bruc...dard-build]> pwd
+/home/bruce/poky/build/tmp/work/qemuppc-poky-linux/linux-yocto/4.4.11+gitAUTOINC+6ec93aaa70_628bf62756-r0/linux-qemuppc-standard-build
+yow-bashfiel-d4 [/home/bruc...dard-build]> ls -alF vmlinux
+-rwxr-xr-x 1 bruce bruce 115353128 May 25 09:12 vmlinux*
+yow-bashfiel-d4 [/home/bruc...dard-build]> strings vmlinux | grep "gcc 
+version"
+%s version %s (bruce@yow-bashfiel-d4) (gcc version 6.1.1 20160511 (GCC) ) %s
+Linux version 4.4.11-yocto-standard (bruce@yow-bashfiel-d4) (gcc version 
+6.1.1 20160511 (GCC) ) #1 PREEMPT Wed May 25 09:12:02 EDT 2016
+
+Bruce
+
+>
+> Bruce
+>
+>>
+>> Cheers,
+>>
+>> Richard
+>>
+>
 
 
