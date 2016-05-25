@@ -1,61 +1,28 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-io0-f193.google.com (mail-io0-f193.google.com
-	[209.85.223.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 3364C731A6
+Return-Path: <marex@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id E06CB601D3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 May 2016 20:53:15 +0000 (UTC)
-Received: by mail-io0-f193.google.com with SMTP id d197so6475879ioe.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 May 2016 13:53:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=xijfuuCFhB086XBKr6Kxo7ORYfIK3tRn3zKvze5Jhb0=;
-	b=XFA35WD28KYO53hTW/RZgV4QA99pwkyNyiZwQh7RPvoxPn4ipdgpKy+f7u/yzIZRDJ
-	sWEBu0RVYLL5A5Bq+LKTBaSLCaRNoI+TFx8arfKLvlge2x5MjjIqpaCMgsPcCj7gDWm1
-	/9SJvKAD9rhhn0fPY2fgxFgp+sGPkAwMEerIzBCRvqxg9XQHlyvEJL99yrvakwRzUBmm
-	2sc1tVbVdEtRALHUMikD0TtthL/ndgTTY0XdWtX2tZxE3LOtz+9j7J252VmKSR+aaMGV
-	0Q4TKbaK/oEGao4GlqeEsRqNy4yuZtnlZsMVId45vfRauCuKfWdziUwk+Buev3NU1pQo
-	oMSQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mentor-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=xijfuuCFhB086XBKr6Kxo7ORYfIK3tRn3zKvze5Jhb0=;
-	b=tNPcpilUh6xsl/IQTroyYPrfRoYn4bzlZ49VedPfJ2XcgFxO+FmQcrnzm+g9xb1Ktl
-	01wfhjnIbY1SXImf19RM5rFFCqskYQkz8k4JekJLH854MxjLRfg5x61Ll+WPQaCPp1TQ
-	s5F2/gEX2LHJkdD0IaZlxE647LPIkq51Z0cuDUPdCDWuzAfu4M3rfHL/tQeDmLWWCl1p
-	vgDBoaKl88NvUVceGJH5GnPZKE8EjINLCV+XjNDJUcVQG5N05+oom5uL/sX1Z+naRflM
-	GiKvzV76mWvBTN/uIfGadE8kpu/wNfgY75vFqynSFqNbTj/2EIDdwTfNQ+kEjxrKWIqi
-	CVeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=xijfuuCFhB086XBKr6Kxo7ORYfIK3tRn3zKvze5Jhb0=;
-	b=S5u9tCVQ3c3VXiWCW4ONHlEPYk/7cCkw5MdW7sRfw+34K/FmdsgafM45VX+ONbiDsB
-	CQyBZbS1SoJ93EPSg3sukE+bZBbehImblnQBiSCTDAx9gTzwyaMbFdUDuluLdBQRBHHh
-	3FCBOWCcfoeRq3ztXZQHhN0KlY4mFVNxVRylicYEu8WIjezPqCMkyxFD4IIBKGwcvp++
-	tJFvzqnhDUVTB0sS+e4w15kz4tM6qlrgBVmCEcD7d5ceEIjJZjcRbVAiOOvecy6eMLpn
-	LiXJuYpoOwViqYdIOFkv0B9haUkF2/N7ueoIzjlXaF+0SFo6I0G2nvzYCXgDP/iEZD4O
-	nWDQ==
-X-Gm-Message-State: ALyK8tKs5isxjvg2QDEMmh4kjRKNUiicpRV2Wlp7F8XW4CAl49YYH+FmopOv3NLGLAlWHFXcjoyHe/ZPSKggxA==
-X-Received: by 10.107.147.6 with SMTP id v6mr4086069iod.3.1464208524543; Wed,
-	25 May 2016 13:35:24 -0700 (PDT)
+	Wed, 25 May 2016 22:39:03 +0000 (UTC)
+Received: from mail.nefkom.net (unknown [192.168.8.184])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3rFRrj1MQMz3hjXS;
+	Thu, 26 May 2016 00:33:41 +0200 (CEST)
+X-Auth-Info: /g9zv2dTB+jaq6QPUJSLX3k9XXDH5AbfEIg16I1AYdc=
+Received: from [IPv6:::1] (unknown [195.140.253.167])
+	(using TLSv1 with cipher DHE-RSA-CAMELLIA256-SHA (256/256 bits))
+	(No client certificate requested)
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3rFRrj08STzvdWS; 
+	Thu, 26 May 2016 00:33:40 +0200 (CEST)
+Message-ID: <57462849.1040004@denx.de>
+Date: Thu, 26 May 2016 00:33:45 +0200
+From: Marek Vasut <marex@denx.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Icedove/31.7.0
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.79.100.5 with HTTP; Wed, 25 May 2016 13:35:05 -0700 (PDT)
-In-Reply-To: <CABcZAN=9ESYdYiGxzEZdyTbQPn0mEPe=2kzB8ZtLnzG8q7PEmQ@mail.gmail.com>
-References: <cover.1464208170.git.chris_larson@mentor.com>
-	<CABcZAN=9ESYdYiGxzEZdyTbQPn0mEPe=2kzB8ZtLnzG8q7PEmQ@mail.gmail.com>
-From: Christopher Larson <chris_larson@mentor.com>
-Date: Wed, 25 May 2016 13:35:05 -0700
-X-Google-Sender-Auth: -lbwGP5Aj9gT4POQZ2jy4xEGm4Q
-Message-ID: <CABcZANnRe1T2=cKgW_g8Sps2AFsdOVGt0WATYmOsAX+cnkohtg@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: Re: [PATCH 0/3] Deploy startup.nsh for wic's bootimg-efi plugin
+To: George McCollister <george.mccollister@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+References: <1464132351-7955-1-git-send-email-george.mccollister@gmail.com>
+In-Reply-To: <1464132351-7955-1-git-send-email-george.mccollister@gmail.com>
+Subject: Re: [PATCH] kernel-fitimage: add initramfs support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,99 +35,475 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 May 2016 20:53:19 -0000
-Content-Type: multipart/alternative; boundary=94eb2c05be56fb8cc40533b09ca6
+X-List-Received-Date: Wed, 25 May 2016 22:39:04 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
---94eb2c05be56fb8cc40533b09ca6
-Content-Type: text/plain; charset=UTF-8
+On 05/25/2016 01:25 AM, George McCollister wrote:
+> If INITRAMFS_IMAGE is set, build an additional fitImage containing the
+> initramfs. Copy the additional fitImage and the source .its file used to
+> create it to DEPLOYDIR. The fitImage containing the initramfs must be
+> built before do_deploy and after do_install to avoid circular dependencies.
 
-On Wed, May 25, 2016 at 1:33 PM, Christopher Larson <chris_larson@mentor.com
-> wrote:
+Yes, the circular dep is quite nasty.
 
-> On Wed, May 25, 2016 at 1:31 PM, Christopher Larson <kergoth@gmail.com>
-> wrote:
->
->> From: Christopher Larson <chris_larson@mentor.com>
->>
->> Currently, wic EFI images don't end up with startup.nsh, so the user has
->> to
->> type in the correct bits into the EFI command-line, which isn't very
->> user-friendly. mkefidisk.sh in oe-core writes it for us, but we don't get
->> it
->> for wic images.
->>
->> Alter grub-efi.bbclass and gummiboot.bbclass to write it for the non-iso
->> case,
->> not only iso, so wic can grab and use it, and alter wic's bootimg-efi
->> plugin to
->> do so.
->
->
-> I tested this with success on the MinnowMax board, but that's the only EFI
-> device I have to test it on, so would appreciate testing from others on
-> this, if possible.
->
+> UBOOT_RD_LOADADDRESS - Specifies the load address used by u-boot for the
+>                        initramfs.
+> UBOOT_RD_ENTRYPOINT  - Specifies the entry point used by u-boot for the
+>                        initramfs.
+> 
+> Signed-off-by: George McCollister <george.mccollister@gmail.com>
+> ---
+>  meta/classes/kernel-fitimage.bbclass | 275 +++++++++++++++++++++++------------
+>  1 file changed, 180 insertions(+), 95 deletions(-)
+> 
+> diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+> index 298eda2..2c2a642 100644
+> --- a/meta/classes/kernel-fitimage.bbclass
+> +++ b/meta/classes/kernel-fitimage.bbclass
+> @@ -14,7 +14,7 @@ python __anonymous () {
+>  
+>          image = d.getVar('INITRAMFS_IMAGE', True)
+>          if image:
+> -            d.appendVarFlag('do_assemble_fitimage', 'depends', ' ${INITRAMFS_IMAGE}:do_image_complete')
+> +            d.appendVarFlag('do_assemble_fitimage_initramfs', 'depends', ' ${INITRAMFS_IMAGE}:do_image_complete')
+>  
+>          # Verified boot will sign the fitImage and append the public key to
+>          # U-boot dtb. We ensure the U-Boot dtb is deployed before assembling
+> @@ -30,8 +30,9 @@ UBOOT_MKIMAGE_DTCOPTS ??= ""
+>  #
+>  # Emit the fitImage ITS header
+>  #
+> +# $1 ... .its filename
+>  fitimage_emit_fit_header() {
+> -	cat << EOF >> fit-image.its
+> +	cat << EOF >> ${1}
+>  /dts-v1/;
+>  
+>  / {
+> @@ -43,32 +44,33 @@ EOF
+>  #
+>  # Emit the fitImage section bits
+>  #
+> -# $1 ... Section bit type: imagestart - image section start
+> +# $1 ... .its filename
+> +# $2 ... Section bit type: imagestart - image section start
+>  #                          confstart  - configuration section start
+>  #                          sectend    - section end
+>  #                          fitend     - fitimage end
+>  #
+>  fitimage_emit_section_maint() {
+> -	case $1 in
+> +	case $2 in
+>  	imagestart)
+> -		cat << EOF >> fit-image.its
+> +		cat << EOF >> ${1}
+>  
+>          images {
+>  EOF
+>  	;;
+>  	confstart)
+> -		cat << EOF >> fit-image.its
+> +		cat << EOF >> ${1}
+>  
+>          configurations {
+>  EOF
+>  	;;
+>  	sectend)
+> -		cat << EOF >> fit-image.its
+> +		cat << EOF >> ${1}
+>  	};
+>  EOF
+>  	;;
+>  	fitend)
+> -		cat << EOF >> fit-image.its
+> +		cat << EOF >> ${1}
+>  };
+>  EOF
+>  	;;
 
-I do think a better approach than this would be to make bootimg-efi
-directly pull from DEPLOY_DIR_IMAGE rather than HDDDIR, since it duplicates
-the bootloader config writing logic anyway, rather than using some but not
-all the artifacts from image-live / HDDDIR. Either that, or it should stop
-writing the bootloader config and rely entirely on the bbclass to set it
-up. Currently it's partially one and partially the other, which isn't
-ideal, in my opinion.
+OK
 
-That said, I think this patch series is worthwhile for now, and we can
-improve bootimg-efi further from there.
+> @@ -78,9 +80,10 @@ EOF
+>  #
+>  # Emit the fitImage ITS kernel section
+>  #
+> -# $1 ... Image counter
+> -# $2 ... Path to kernel image
+> -# $3 ... Compression type
+> +# $1 ... .its filename
+> +# $2 ... Image counter
+> +# $3 ... Path to kernel image
+> +# $4 ... Compression type
+>  fitimage_emit_section_kernel() {
+>  
+>  	kernel_csum="sha1"
+> @@ -88,17 +91,17 @@ fitimage_emit_section_kernel() {
+>  	ENTRYPOINT=${UBOOT_ENTRYPOINT}
+>  	if test -n "${UBOOT_ENTRYSYMBOL}"; then
+>  		ENTRYPOINT=`${HOST_PREFIX}nm ${S}/vmlinux | \
+> -			awk '$3=="${UBOOT_ENTRYSYMBOL}" {print $1}'`
+> +			awk '$4=="${UBOOT_ENTRYSYMBOL}" {print $2}'`
+>  	fi
+>  
+> -	cat << EOF >> fit-image.its
+> -                kernel@${1} {
+> +	cat << EOF >> ${1}
+> +                kernel@${2} {
+>                          description = "Linux kernel";
+> -                        data = /incbin/("${2}");
+> +                        data = /incbin/("${3}");
+>                          type = "kernel";
+>                          arch = "${UBOOT_ARCH}";
+>                          os = "linux";
+> -                        compression = "${3}";
+> +                        compression = "${4}";
+>                          load = <${UBOOT_LOADADDRESS}>;
+>                          entry = <${ENTRYPOINT}>;
+>                          hash@1 {
+
+OK
+
+> @@ -111,16 +114,17 @@ EOF
+>  #
+>  # Emit the fitImage ITS DTB section
+>  #
+> -# $1 ... Image counter
+> -# $2 ... Path to DTB image
+> +# $1 ... .its filename
+> +# $2 ... Image counter
+> +# $3 ... Path to DTB image
+>  fitimage_emit_section_dtb() {
+>  
+>  	dtb_csum="sha1"
+>  
+> -	cat << EOF >> fit-image.its
+> -                fdt@${1} {
+> +	cat << EOF >> ${1}
+> +                fdt@${2} {
+>                          description = "Flattened Device Tree blob";
+> -                        data = /incbin/("${2}");
+> +                        data = /incbin/("${3}");
+>                          type = "flat_dt";
+>                          arch = "${UBOOT_ARCH}";
+>                          compression = "none";
+
+OK
+
+> @@ -132,10 +136,39 @@ EOF
+>  }
+>  
+>  #
+> +# Emit the fitImage ITS ramdisk section
+> +#
+> +# $1 ... .its filename
+> +# $2 ... Image counter
+> +# $3 ... Path to ramdisk image
+> +fitimage_emit_section_ramdisk() {
+> +
+> +	ramdisk_csum="sha1"
+> +
+> +	cat << EOF >> ${1}
+> +                ramdisk@${2} {
+> +                        description = "ramdisk image";
+> +                        data = /incbin/("${3}");
+> +                        type = "ramdisk";
+> +                        arch = "${UBOOT_ARCH}";
+> +                        os = "linux";
+
+Do you need to set this for ramdisk ?
+
+> +                        compression = "none";
+> +                        load = <${UBOOT_RD_LOADADDRESS}>;
+> +                        entry = <${UBOOT_RD_ENTRYPOINT}>;
+> +                        hash@1 {
+> +                                algo = "${ramdisk_csum}";
+> +                        };
+> +                };
+> +EOF
+> +}
+> +
+> +#
+>  # Emit the fitImage ITS configuration section
+>  #
+> -# $1 ... Linux kernel ID
+> -# $2 ... DTB image ID
+> +# $1 ... .its filename
+> +# $2 ... Linux kernel ID
+> +# $3 ... DTB image ID
+> +# $4 ... ramdisk ID
+>  fitimage_emit_section_config() {
+>  
+>  	conf_csum="sha1"
+> @@ -144,21 +177,29 @@ fitimage_emit_section_config() {
+>  	fi
+>  
+>  	# Test if we have any DTBs at all
+> -	if [ -z "${2}" ] ; then
+> +	if [ -z "${3}" ] ; then
+>  		conf_desc="Boot Linux kernel"
+>  		fdt_line=""
+> -	else
+> +		ramdisk_line=""
+> +	elif [ -z "${4}" ]; then
+>  		conf_desc="Boot Linux kernel with FDT blob"
+> -		fdt_line="fdt = \"fdt@${2}\";"
+> +		fdt_line="fdt = \"fdt@${3}\";"
+> +		ramdisk_line=""
+> +	else
+> +		# TODO - handle ramdisk without FDT blob
+
+I really don't like the todo here :) Maybe you can check if the DT image
+ends with .dtb or not to discern ramdisk and DT ?
+
+> +		conf_desc="Boot Linux kernel with FDT blob, ramdisk"
+> +		fdt_line="fdt = \"fdt@${3}\";"
+> +		ramdisk_line="ramdisk = \"ramdisk@${4}\";"
+>  	fi
+> -	kernel_line="kernel = \"kernel@${1}\";"
+> +	kernel_line="kernel = \"kernel@${2}\";"
+>  
+> -	cat << EOF >> fit-image.its
+> +	cat << EOF >> ${1}
+>                  default = "conf@1";
+>                  conf@1 {
+>                          description = "${conf_desc}";
+>  			${kernel_line}
+>  			${fdt_line}
+> +			${ramdisk_line}
+>                          hash@1 {
+>                                  algo = "${conf_csum}";
+>                          };
+> @@ -166,102 +207,131 @@ EOF
+>  
+>  	if [ ! -z "${conf_sign_keyname}" ] ; then
+>  
+> -		if [ -z "${2}" ] ; then
+> +		if [ -z "${3}" ] ; then
+>  			sign_line="sign-images = \"kernel\";"
+> -		else
+> +		elif [ -z "${4}" ]; then
+>  			sign_line="sign-images = \"fdt\", \"kernel\";"
+> +		else
+> +			sign_line="sign-images = \"ramdisk\", \"fdt\", \"kernel\";"
+>  		fi
+>  
+> -		cat << EOF >> fit-image.its
+> +		cat << EOF >> ${1}
+>                          signature@1 {
+>                                  algo = "${conf_csum},rsa2048";
+>                                  key-name-hint = "${conf_sign_keyname}";
+> -                                sign-images = "fdt", "kernel";
+> +                                ${sign_line}
+>                          };
+>  EOF
+>  	fi
+>  
+> -	cat << EOF >> fit-image.its
+> +	cat << EOF >> ${1}
+>                  };
+
+OK
+
+>  EOF
+>  }
+>  
+> -do_assemble_fitimage() {
+> -	if test "x${KERNEL_IMAGETYPE}" = "xfitImage" ; then
+> -		kernelcount=1
+> -		dtbcount=""
+> -		rm -f fit-image.its arch/${ARCH}/boot/fitImage
+> -
+> -		fitimage_emit_fit_header
+> -
+> -		#
+> -		# Step 1: Prepare a kernel image section.
+> -		#
+> -		fitimage_emit_section_maint imagestart
+> -
+> -		uboot_prep_kimage
+> -		fitimage_emit_section_kernel "${kernelcount}" linux.bin "${linux_comp}"
+> -
+> -		#
+> -		# Step 2: Prepare a DTB image section
+> -		#
+> -		if test -n "${KERNEL_DEVICETREE}"; then
+> -			dtbcount=1
+> -			for DTB in ${KERNEL_DEVICETREE}; do
+> -				if echo ${DTB} | grep -q '/dts/'; then
+> -					bbwarn "${DTB} contains the full path to the the dts file, but only the dtb name should be used."
+> -					DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
+> -				fi
+> -				DTB_PATH="arch/${ARCH}/boot/dts/${DTB}"
+> -				if [ ! -e "${DTB_PATH}" ]; then
+> -					DTB_PATH="arch/${ARCH}/boot/${DTB}"
+> -				fi
+> -
+> -				fitimage_emit_section_dtb ${dtbcount} ${DTB_PATH}
+> -				dtbcount=`expr ${dtbcount} + 1`
+> -			done
+> -		fi
+> +#
+> +# Assemble fitImage
+> +#
+> +# $1 ... .its filename
+> +# $2 ... fitImage name
+> +# $3 ... include ramdisk
+> +fitimage_assemble() {
+> +	kernelcount=1
+> +	dtbcount=""
+> +	ramdiskcount=${3}
+> +	rm -f ${1} arch/${ARCH}/boot/${2}
+> +
+> +	fitimage_emit_fit_header ${1}
+> +
+> +	#
+> +	# Step 1: Prepare a kernel image section.
+> +	#
+> +	fitimage_emit_section_maint ${1} imagestart
+> +
+> +	uboot_prep_kimage
+> +	fitimage_emit_section_kernel ${1} "${kernelcount}" linux.bin "${linux_comp}"
+> +
+> +	#
+> +	# Step 2: Prepare a DTB image section
+> +	#
+> +	if test -n "${KERNEL_DEVICETREE}"; then
+> +		dtbcount=1
+> +		for DTB in ${KERNEL_DEVICETREE}; do
+> +			if echo ${DTB} | grep -q '/dts/'; then
+> +				bbwarn "${DTB} contains the full path to the the dts file, but only the dtb name should be used."
+> +				DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
+> +			fi
+> +			DTB_PATH="arch/${ARCH}/boot/dts/${DTB}"
+> +			if [ ! -e "${DTB_PATH}" ]; then
+> +				DTB_PATH="arch/${ARCH}/boot/${DTB}"
+> +			fi
+> +
+> +			fitimage_emit_section_dtb ${1} ${dtbcount} ${DTB_PATH}
+> +			dtbcount=`expr ${dtbcount} + 1`
+> +		done
+> +	fi
+>  
+> -		fitimage_emit_section_maint sectend
+> +	#
+> +	# Step 3: Prepare a ramdisk section.
+> +	#
+> +	if [ "x${ramdiskcount}" = "x1" ] ; then
+> +		copy_initramfs
+> +		fitimage_emit_section_ramdisk ${1} "${ramdiskcount}" ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
+> +	fi
+>  
+> -		# Force the first Kernel and DTB in the default config
+> -		kernelcount=1
+> -		dtbcount=1
+> +	fitimage_emit_section_maint ${1} sectend
+> +
+> +	# Force the first Kernel and DTB in the default config
+> +	kernelcount=1
+> +	dtbcount=1
+>  
+> -		#
+> -		# Step 3: Prepare a configurations section
+> -		#
+> -		fitimage_emit_section_maint confstart
+> +	#
+> +	# Step 4: Prepare a configurations section
+> +	#
+> +	fitimage_emit_section_maint ${1} confstart
+>  
+> -		fitimage_emit_section_config ${kernelcount} ${dtbcount}
+> +	fitimage_emit_section_config ${1} ${kernelcount} ${dtbcount} ${ramdiskcount}
+>  
+> -		fitimage_emit_section_maint sectend
+> +	fitimage_emit_section_maint ${1} sectend
+>  
+> -		fitimage_emit_section_maint fitend
+> +	fitimage_emit_section_maint ${1} fitend
+>  
+> -		#
+> -		# Step 4: Assemble the image
+> -		#
+> +	#
+> +	# Step 5: Assemble the image
+> +	#
+> +	uboot-mkimage \
+> +		${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
+> +		-f ${1} \
+> +		arch/${ARCH}/boot/${2}
+> +
+> +	#
+> +	# Step 6: Sign the image and add public key to U-Boot dtb
+> +	#
+> +	if [ "x${UBOOT_SIGN_ENABLE}" = "x1" ] ; then
+>  		uboot-mkimage \
+>  			${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
+> -			-f fit-image.its \
+> -			arch/${ARCH}/boot/fitImage
+> -
+> -		#
+> -		# Step 5: Sign the image and add public key to U-Boot dtb
+> -		#
+> -		if [ "x${UBOOT_SIGN_ENABLE}" = "x1" ] ; then
+> -			uboot-mkimage \
+> -				${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
+> -				-F -k "${UBOOT_SIGN_KEYDIR}" \
+> -				-K "${DEPLOY_DIR_IMAGE}/${UBOOT_DTB_BINARY}" \
+> -				-r arch/${ARCH}/boot/fitImage
+> -		fi
+> +			-F -k "${UBOOT_SIGN_KEYDIR}" \
+> +			-K "${DEPLOY_DIR_IMAGE}/${UBOOT_DTB_BINARY}" \
+> +			-r arch/${ARCH}/boot/${2}
+> +	fi
+> +}
+> +
+> +do_assemble_fitimage() {
+> +	if test "x${KERNEL_IMAGETYPE}" = "xfitImage" ; then
+> +		fitimage_assemble fit-image.its fitImage
+>  	fi
+>  }
+>  
+>  addtask assemble_fitimage before do_install after do_compile
+>  
+> +do_assemble_fitimage_initramfs() {
+> +	if test "x${KERNEL_IMAGETYPE}" = "xfitImage" -a -n "${INITRAMFS_IMAGE}" ; then
+> +		fitimage_assemble fit-image-${INITRAMFS_IMAGE}.its fitImage-${INITRAMFS_IMAGE} 1
+> +	fi
+> +}
+> +
+> +addtask assemble_fitimage_initramfs before do_deploy after do_install
+> +
+>  kernel_do_deploy[vardepsexclude] = "DATETIME"
+>  kernel_do_deploy_append() {
+>  	# Update deploy directory
+> @@ -275,8 +345,23 @@ kernel_do_deploy_append() {
+>  		linux_bin_symlink_name=${KERNEL_IMAGETYPE}-linux.bin-${MACHINE}
+>  		install -m 0644 linux.bin ${DEPLOYDIR}/${linux_bin_base_name}.bin
+>  
+> +		if [ -n "${INITRAMFS_IMAGE}" ]; then
+> +			echo "Copying fit-image-${INITRAMFS_IMAGE}.its source file..."
+> +			its_initramfs_base_name="${KERNEL_IMAGETYPE}-its-${INITRAMFS_IMAGE}-${PV}-${PR}-${MACHINE}-${DATETIME}"
+> +			its_initramfs_symlink_name=${KERNEL_IMAGETYPE}-its-${INITRAMFS_IMAGE}-${MACHINE}
+> +			install -m 0644 fit-image-${INITRAMFS_IMAGE}.its ${DEPLOYDIR}/${its_initramfs_base_name}.its
+> +			fit_initramfs_base_name="${KERNEL_IMAGETYPE}-${INITRAMFS_IMAGE}-${PV}-${PR}-${MACHINE}-${DATETIME}"
+> +			fit_initramfs_symlink_name=${KERNEL_IMAGETYPE}-${INITRAMFS_IMAGE}-${MACHINE}
+> +			install -m 0644 arch/${ARCH}/boot/fitImage-${INITRAMFS_IMAGE} ${DEPLOYDIR}/${fit_initramfs_base_name}.bin
+> +		fi
+> +
+>  		cd ${DEPLOYDIR}
+>  		ln -sf ${its_base_name}.its ${its_symlink_name}.its
+>  		ln -sf ${linux_bin_base_name}.bin ${linux_bin_symlink_name}.bin
+> +
+> +		if [ -n "${INITRAMFS_IMAGE}" ]; then
+> +			ln -sf ${its_initramfs_base_name}.its ${its_initramfs_symlink_name}.its
+> +			ln -sf ${fit_initramfs_base_name}.bin ${fit_initramfs_symlink_name}.bin
+> +		fi
+>  	fi
+>  }
+> 
+Cool stuff, thanks!
+
 -- 
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+Best regards,
+Marek Vasut
 
---94eb2c05be56fb8cc40533b09ca6
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Wed, May 25, 2016 at 1:33 PM, Christopher Larson <span dir=3D"ltr">&lt;<=
-a href=3D"mailto:chris_larson@mentor.com" target=3D"_blank">chris_larson@me=
-ntor.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span cl=
-ass=3D"">On Wed, May 25, 2016 at 1:31 PM, Christopher Larson <span dir=3D"l=
-tr">&lt;<a href=3D"mailto:kergoth@gmail.com" target=3D"_blank">kergoth@gmai=
-l.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">From: Christo=
-pher Larson &lt;<a href=3D"mailto:chris_larson@mentor.com" target=3D"_blank=
-">chris_larson@mentor.com</a>&gt;<br>
-<br>
-Currently, wic EFI images don&#39;t end up with startup.nsh, so the user ha=
-s to<br>
-type in the correct bits into the EFI command-line, which isn&#39;t very<br=
->
-user-friendly. mkefidisk.sh in oe-core writes it for us, but we don&#39;t g=
-et it<br>
-for wic images.<br>
-<br>
-Alter grub-efi.bbclass and gummiboot.bbclass to write it for the non-iso ca=
-se,<br>
-not only iso, so wic can grab and use it, and alter wic&#39;s bootimg-efi p=
-lugin to<br>
-do so.</blockquote><div><br></div></span><div>I tested this with success on=
- the MinnowMax board, but that&#39;s the only EFI device I have to test it =
-on, so would appreciate testing from others on this, if possible.</div></bl=
-ockquote></div><br>I do think a better approach than this would be to make =
-bootimg-efi directly pull from DEPLOY_DIR_IMAGE rather than HDDDIR, since i=
-t duplicates the bootloader config writing logic anyway, rather than using =
-some but not all the artifacts from image-live / HDDDIR. Either that, or it=
- should stop writing the bootloader config and rely entirely on the bbclass=
- to set it up. Currently it&#39;s partially one and partially the other, wh=
-ich isn&#39;t ideal, in my opinion.</div><div class=3D"gmail_extra"><br></d=
-iv><div class=3D"gmail_extra">That said, I think this patch series is worth=
-while for now, and we can improve bootimg-efi further from there.<br>-- <br=
-><div class=3D"gmail_signature"><div dir=3D"ltr">Christopher Larson<br>kerg=
-oth at gmail dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Main=
-tainer - Tslib<br>Senior Software Engineer, Mentor Graphics</div></div>
-</div></div>
-
---94eb2c05be56fb8cc40533b09ca6--
