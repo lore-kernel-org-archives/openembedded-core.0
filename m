@@ -1,28 +1,21 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 954BD60761
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E72C601D3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 May 2016 01:18:33 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u4P1IXAj015669
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 May 2016 18:18:33 -0700 (PDT)
-Received: from [128.224.162.240] (128.224.162.240) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 24 May 2016 18:18:32 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1464060246.git.liezhi.yang@windriver.com>
-	<20160524180648.GA7403@ad.chargestorm.se>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <5744FD67.8060709@windriver.com>
-Date: Wed, 25 May 2016 09:18:31 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.8.0
-MIME-Version: 1.0
-In-Reply-To: <20160524180648.GA7403@ad.chargestorm.se>
-Subject: Re: [PATCH 0/6] remove unneeded python2 recipes
+	Wed, 25 May 2016 03:37:39 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga103.jf.intel.com with ESMTP; 24 May 2016 20:37:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,362,1459839600"; d="scan'208";a="814199859"
+Received: from ismailm-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.147.14])
+	by orsmga003.jf.intel.com with ESMTP; 24 May 2016 20:37:38 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 25 May 2016 15:37:08 +1200
+Message-Id: <cover.1464147312.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.5.5
+Subject: [PATCH 0/6] Ensure SUMMARY is set
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,28 +28,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 May 2016 01:18:34 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 25 May 2016 03:37:41 -0000
+
+SUMMARY should be set in every recipe so you have a reasonable short
+description to show in places such as Toaster and devtool search.
 
 
+The following changes since commit d6241e4c94a0a72acfc57e96a59918c0b2146d65:
 
-On 05/25/2016 02:06 AM, Anders Darander wrote:
-> * Robert Yang <liezhi.yang@windriver.com> [160524 05:25]:
->
->> They were required by buildtools-tarball, now replaced by python3 ones.
->
-> Do you plan to add those recipes to meta-python?
->
-> I think quite a few of them are usefull for quite some situations.
+  useradd: Fix infinite build loop (2016-05-23 10:33:39 +0100)
 
-I will add them there if meta-python is happy.
+are available in the git repository at:
 
-// Robert
+  git://git.openembedded.org/openembedded-core-contrib paule/summary
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/summary
 
+Paul Eggleton (6):
+  bsd-headers: set SUMMARY instead of DESCRIPTION
+  fts: set SUMMARY instead of DESCRIPTION
+  signing-keys: set SUMMARY instead of DESCRIPTION
+  argp-standalone: set SUMMARY instead of DESCRIPTION
+  gobject-introspection: set SUMMARY and HOMEPAGE
+  libjpeg-turbo: set SUMMARY
 
->
-> Cheers,
-> Anders
->
+ meta/recipes-core/bsd-headers/bsd-headers.bb                           | 2 +-
+ meta/recipes-core/fts/fts.bb                                           | 2 +-
+ meta/recipes-core/meta/signing-keys.bb                                 | 2 +-
+ .../gobject-introspection/gobject-introspection_1.46.0.bb              | 3 ++-
+ meta/recipes-graphics/jpeg/libjpeg-turbo_8d+1.4.2.bb                   | 1 +
+ meta/recipes-support/argp-standalone/argp-standalone_1.3.bb            | 2 +-
+ 6 files changed, 7 insertions(+), 5 deletions(-)
+
+-- 
+2.5.5
+
 
