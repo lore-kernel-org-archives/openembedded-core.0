@@ -1,25 +1,30 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id D690E601D3
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.analogue-micro.com (mail.analogue-micro.com
+	[217.144.149.242])
+	by mail.openembedded.org (Postfix) with ESMTP id 58DED73169
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 May 2016 03:37:53 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP; 24 May 2016 20:37:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,362,1459839600"; d="scan'208";a="814199917"
-Received: from ismailm-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.147.14])
-	by orsmga003.jf.intel.com with ESMTP; 24 May 2016 20:37:52 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 May 2016 15:37:14 +1200
-Message-Id: <bfde08abdf1d848a991933a57b95c0dbb4a0828f.1464147312.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.5.5
-In-Reply-To: <cover.1464147312.git.paul.eggleton@linux.intel.com>
-References: <cover.1464147312.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1464147312.git.paul.eggleton@linux.intel.com>
-References: <cover.1464147312.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 6/6] libjpeg-turbo: set SUMMARY
+	Wed, 25 May 2016 05:34:32 +0000 (UTC)
+Received: by mail.analogue-micro.com (Postfix, from userid 999)
+	id D7B2068A01C; Wed, 25 May 2016 06:34:32 +0100 (BST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	loki.analogue-micro-ltd.com
+X-Spam-Level: *
+X-Spam-Status: No, score=1.7 required=5.0 tests=ALL_TRUSTED,BAYES_40,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
+	by mail.analogue-micro.com (Postfix) with ESMTP id 8DEEB68A019;
+	Wed, 25 May 2016 06:34:32 +0100 (BST)
+Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
+	by zeus.mlbassoc.com (Postfix) with ESMTP id 4E2536740337;
+	Wed, 25 May 2016 07:34:32 +0200 (CEST)
+To: OE-core <openembedded-core@lists.openembedded.org>
+From: Gary Thomas <gary@mlbassoc.com>
+Message-ID: <57453968.9080600@mlbassoc.com>
+Date: Wed, 25 May 2016 07:34:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.8.0
+MIME-Version: 1.0
+Subject: sip.bbclass?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,25 +37,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 May 2016 03:37:54 -0000
+X-List-Received-Date: Wed, 25 May 2016 05:34:33 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This recipe had a long DESCRIPTION, so add a new short SUMMARY value.
+I was just wondering why sip.bbclass is in OE-core (at least
+the Poky version master:c7e614c438706) when nothing uses it?
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/recipes-graphics/jpeg/libjpeg-turbo_8d+1.4.2.bb | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_8d+1.4.2.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_8d+1.4.2.bb
-index 4859431..e969195 100644
---- a/meta/recipes-graphics/jpeg/libjpeg-turbo_8d+1.4.2.bb
-+++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_8d+1.4.2.bb
-@@ -1,3 +1,4 @@
-+SUMMARY = "Hardware accelerated JPEG compression/decompression library"
- DESCRIPTION = "libjpeg-turbo is a derivative of libjpeg that uses SIMD instructions (MMX, SSE2, NEON) to accelerate baseline JPEG compression and decompression"
- HOMEPAGE = "http://libjpeg-turbo.org/"
- 
 -- 
-2.5.5
-
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
