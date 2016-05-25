@@ -1,28 +1,44 @@
-Return-Path: <Zhenbo.Gao@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B5E770100
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 799346FFC7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 May 2016 09:41:56 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u4P9fuqt018469
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 25 May 2016 02:41:56 -0700 (PDT)
-Received: from [128.224.162.191] (128.224.162.191) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 25 May 2016 02:41:55 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Andreas Oberritter
-	<obi@opendreambox.org>, <openembedded-core@lists.openembedded.org>
-References: <1464160265-16527-1-git-send-email-zhenbo.gao@windriver.com>
-	<1464163536.9570.92.camel@linuxfoundation.org>
-From: zhenbo <zhenbo.gao@windriver.com>
-Message-ID: <5745735E.60001@windriver.com>
-Date: Wed, 25 May 2016 17:41:50 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+	Wed, 25 May 2016 10:05:56 +0000 (UTC)
+Received: by mail-wm0-f53.google.com with SMTP id n129so172972858wmn.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 May 2016 03:05:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=4e439gJqTwpokPKDCI46K7hg8PYwkXMW1yrq1pE8PPM=;
+	b=CK9x8+OjzQXMIxspEb1EOB7WCeCQg4NCVCGaRn/jmGaplCkKySiEFKDJUhhiudljYl
+	8luBM7yESRR2DqnEDGwAzOfPvpmeWHtMXgRqy+Us+ajX1WfoLuJWfOLPA7uoAjGkEOX/
+	Xa2LWedOMYagp9c8sB+bMoLHHWQHZghsvE+7Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=4e439gJqTwpokPKDCI46K7hg8PYwkXMW1yrq1pE8PPM=;
+	b=DCLYNvIGAHpa/kNU2RXBcTGoB3ykpFfBEkal5y4mk9A1Z6RU/Jm3Lh5LnTtYVdAyUJ
+	D4T4O5x3GPtwOCsT5KAKp90gX/7hctlM2udAWLiNahb0uv6FPGcqd9WQ4AaxmxQSh9g5
+	2w6yDTYpIOh3DPrSnJjS3Ndhw2chR1CyOZF1bquQ4cN2fiH/MuJpZt6A2WLHhc0k3YF6
+	zg0eT/hU/TZdsnvBqQz4N2Zl8FpyQuP2t2inhTDlQwUmh29wRlBqwHiRn1O00zpbCVw3
+	3YhE6i4EpiPOg56ytF9siBkdTJgwBl/a1JT7jKToBirrIa7q5jciBXeDUEtCZKgE2CJ2
+	UKQg==
+X-Gm-Message-State: ALyK8tIqY2Lni/lNH3Dexc4hohFkrmhxB8M16SHBrGWP/NMSD+YsWsjiZq7mIDR4EgOI5jd1YrhVfX+fXq0kOTxO
+X-Received: by 10.28.139.137 with SMTP id n131mr2534018wmd.13.1464170757228;
+	Wed, 25 May 2016 03:05:57 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1464163536.9570.92.camel@linuxfoundation.org>
-Subject: Re: [PATCH] connman: add alias for connman
+Received: by 10.194.20.105 with HTTP; Wed, 25 May 2016 03:05:37 -0700 (PDT)
+In-Reply-To: <CAJTo0Laf6FBjdTYL1sMBsOqO4vjT4G26eY-VWaP-7ACadLFCFw@mail.gmail.com>
+References: <1462204592-22025-1-git-send-email-nicolas.dechesne@linaro.org>
+	<CAP71WjzOUk7fOVkBf2MCZizSW3mSYivYrNsa3XBkqhBCGX4ZWg@mail.gmail.com>
+	<CAJTo0Laf6FBjdTYL1sMBsOqO4vjT4G26eY-VWaP-7ACadLFCFw@mail.gmail.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Wed, 25 May 2016 12:05:37 +0200
+Message-ID: <CAP71WjwwMDoKOG45tAxy+Fkh7euqO3dQ_ySOCp7VY=OhiSHh6w@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bluez5: move btmgmt to common READLINE section
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,72 +51,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 May 2016 09:41:58 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 25 May 2016 10:05:57 -0000
+Content-Type: text/plain; charset=UTF-8
 
-
-
-On 2016年05月25日 16:05, Richard Purdie wrote:
-> On Wed, 2016-05-25 at 15:11 +0800, Zhenbo Gao wrote:
->> connman get conflicts with networkmanager when building
->> the project.
+On Thu, May 19, 2016 at 5:35 PM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 19 May 2016 at 16:32, Nicolas Dechesne <nicolas.dechesne@linaro.org>
+> wrote:
 >>
->> here introduce alias virtual/networkmanager for these
->> two recipes, so setting PREFERRED_PROVIDER to the proper
->> one can solve the conflicts.
->>
->> this patch is for connman recipe.
-> We do not use the virtual/* namespace in package dependencies, only in
-> the build time DEPENDS/PROVIDES space. This is because there is no way
-> to indicate how the package manager should resolve such things amongst
-> many other reasons.
-Hi Richard & Andreas,
-
-Thanks for replying this mail.
-
-The situation on my side is: if my project include connman and 
-networkmanager at the same time, the compile step will fail:
-...
-Computing transaction...error: Can't install 
-xfce4-power-manager-1.4.4-r0.0@corei7_64: unable to install provider for 
-networkmanager:
-error:     networkmanager-1.0.4-r0.0@corei7_64 conflicts with 
-connman-1.30-r0.0@corei7_64
-...
-The dependence relationship is:
-xfce4-power-manager --> networkmanager
-packagegroup-self-hosted --> connman
-
-Anyway, the patch is not suitable, Koen Kooi(koen@dominion.thruhere.net) 
-has suggested me to fix packagegroup-self-hosted to not specify a 
-connection manager.
-When i am trying to fix my issue, i was wondering why self-hosted needs 
-connman ? if self-hosted really don't need connman, the way provided by 
-koen is the best solution for this issue.
-
-The draft patch looks like:
----
---- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-@@ -28,8 +28,6 @@ RDEPENDS_packagegroup-self-hosted = "\
-      "
-
-  RDEPENDS_packagegroup-self-hosted-host-tools = "\
--    connman \
--    connman-plugin-ethernet \
-      dhcp-client \
-      e2fsprogs \
-      e2fsprogs-e2fsck \
-
-What do you think? is that ok? if so, i will send an official patch for it.
-
-Thanks,
-Zhenbo
-
-> Cheers,
+>> i haven't seen any feedback on this one, and I don't see it in -next..
 >
-> Richard
 >
+> It's in mut and I should be sending a consolidated pull soon.
 
+thanks, i see that it got merged now !
+
+the same patch is needed on krogoth and jethro (and applies as-is in
+both branches), should I send a separate patches or can it be picked
+up?
 
