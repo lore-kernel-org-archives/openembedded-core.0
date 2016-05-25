@@ -1,31 +1,34 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 419166FF23
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 14C316FF23
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 May 2016 12:01:14 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga101.fm.intel.com with ESMTP; 25 May 2016 05:00:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,364,1459839600"; d="scan'208";a="110210078"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga004.fm.intel.com with ESMTP; 25 May 2016 05:01:00 -0700
-Received: by linux.intel.com (Postfix, from userid 48)
-	id 30BD56A4008; Wed, 25 May 2016 05:48:29 -0700 (PDT)
-Received: from 10.252.8.31 (SquirrelMail authenticated user alexander.kanavin)
-	by linux.intel.com with HTTP; Wed, 25 May 2016 15:48:29 +0300 (EEST)
-Message-ID: <51048.10.252.8.31.1464180509.squirrel@linux.intel.com>
-In-Reply-To: <20160524180648.GA7403@ad.chargestorm.se>
-References: <cover.1464060246.git.liezhi.yang@windriver.com>
-	<20160524180648.GA7403@ad.chargestorm.se>
-Date: Wed, 25 May 2016 15:48:29 +0300 (EEST)
-From: alexander.kanavin@linux.intel.com
-To: "Robert Yang" <liezhi.yang@windriver.com>,
-	openembedded-core@lists.openembedded.org
-User-Agent: SquirrelMail/1.4.8-5.el4.centos.8
+	Wed, 25 May 2016 12:01:18 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u4PC1Htp011672
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 25 May 2016 05:01:17 -0700 (PDT)
+Received: from server.local (147.11.119.192) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 25 May 2016 05:01:17 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Khem Raj
+	<raj.khem@gmail.com>
+References: <fa9c2d513cff678eebb231d4cf5991ea37061b34.1463157783.git.raj.khem@gmail.com>
+	<2cc568062314cdddd5ff2f60dd6d9685b3b12831.1463157783.git.raj.khem@gmail.com>
+	<1463295824.9746.152.camel@linuxfoundation.org>
+	<1464101499.9570.59.camel@linuxfoundation.org>
+	<CAMKF1sr9bM8pE+DRt=-08sGp4ZA8U3csYezo+NAB49UsyYz0yw@mail.gmail.com>
+	<1464158362.9570.87.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <caee4419-7e24-aedc-5553-2f4424dfc92f@windriver.com>
+Date: Wed, 25 May 2016 08:01:16 -0400
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
+	Gecko/20100101 Thunderbird/45.1.0
 MIME-Version: 1.0
-X-Priority: 3 (Normal)
-Importance: Normal
-Subject: Re: [PATCH 0/6] remove unneeded python2 recipes
+In-Reply-To: <1464158362.9570.87.camel@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/6] tcmode-default: Bump gcc,glibc,gdb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,22 +41,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 May 2016 12:01:14 -0000
-Content-Type: text/plain;charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 25 May 2016 12:01:19 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> * Robert Yang <liezhi.yang@windriver.com> [160524 05:25]:
+On 2016-05-25 2:39 AM, Richard Purdie wrote:
+> Thanks to the patches from Bruce we're looking better, linux-yocto 4.1
+> works, just 4.4 has a couple of issues. I also removed a patch which
+> removed the xdg-utils failure. That leaves us with:
 >
->> They were required by buildtools-tarball, now replaced by python3 ones.
+> qt4-x11-free:
 >
-> Do you plan to add those recipes to meta-python?
+> arm, mips, ppc, world-lsb, x86, x86_64:
+> https://autobuilder.yoctoproject.org/main/builders/nightly-arm-lsb/buil
+> ds/767/steps/BuildImages/logs/stdio
 >
-> I think quite a few of them are usefull for quite some situations.
+> qt4-embedded:
+>
+> https://autobuilder.yoctoproject.org/main/builders/nightly-world-lsb/bu
+> ilds/520/steps/BuildImages/logs/stdio
+>
+> linux-yocto-4.4 mips:
+>
+> https://autobuilder.yoctoproject.org/main/builders/nightly-mips/builds/
+> 795/steps/BuildImages_1/logs/stdio
+>
+> linux-yocto-4.4 ppc:
+>
+> https://autobuilder.yoctoproject.org/main/builders/nightly-ppc/builds/8
+> 07/steps/BuildImages_1/logs/stdio
+>
+> diffutils - non-gplv3:
+>
+> https://autobuilder.yoctoproject.org/main/builders/nightly-non-gpl3/bui
+> lds/797
+>
+> Bruce: Looks like 4.4 might also need a patch you merged to 4.1?
+>
 
-Oe-core does provide Python 3 versions of these recipes. Does meta-python
-really need to add more Python 2 stuff which may not be actually used by
-anyone? Maybe it's time to draw the line?
+I'll check 4.4 stable, otherwise, I can do a port myself.
 
-Alex
+Bruce
+
+> Cheers,
+>
+> Richard
+>
 
 
