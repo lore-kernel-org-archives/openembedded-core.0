@@ -1,26 +1,28 @@
-Return-Path: <Zhe.He@windriver.com>
+Return-Path: <Zhenbo.Gao@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5336A602D9
+	by mail.openembedded.org (Postfix) with ESMTP id 40F84602D9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 May 2016 08:47:22 +0000 (UTC)
+	Wed, 25 May 2016 09:15:13 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u4P8lMub006577
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u4P9FEB6011409
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 25 May 2016 01:47:22 -0700 (PDT)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 25 May 2016 01:47:22 -0700
-From: <zhe.he@windriver.com>
-To: <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 25 May 2016 04:47:17 -0400
-Message-ID: <4cd0e844d4153f2eb2cc54fafbfd161341ef4539.1464145184.git.zhe.he@windriver.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <cover.1464145184.git.zhe.he@windriver.com>
-References: <cover.1464145184.git.zhe.he@windriver.com>
+	Wed, 25 May 2016 02:15:14 -0700 (PDT)
+Received: from [128.224.162.191] (128.224.162.191) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 25 May 2016 02:15:12 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1464160265-16527-1-git-send-email-zhenbo.gao@windriver.com>
+	<CAJTo0LaPkXBy4M4OFwfgQqFXKCyA_P5GkGYoovArZcK20kSmLw@mail.gmail.com>
+From: zhenbo <zhenbo.gao@windriver.com>
+Message-ID: <57456D1B.1060608@windriver.com>
+Date: Wed, 25 May 2016 17:15:07 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
 MIME-Version: 1.0
-Subject: [PATCH 2/2 v4] kernel: Make symbol link to vmlinuz in boot directory
+In-Reply-To: <CAJTo0LaPkXBy4M4OFwfgQqFXKCyA_P5GkGYoovArZcK20kSmLw@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] connman: add alias for connman
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,84 +35,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 May 2016 08:47:23 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 25 May 2016 09:15:16 -0000
+Content-Type: multipart/alternative;
+	boundary="------------020205070404050201000803"
 
-From: He Zhe <zhe.he@windriver.com>
-
-Rename do_kernel_link_vmlinux to do_kernel_link_images and make a
-symbol link to vmlinuz(if exists) for reference in arch/$arch/boot
-directory.
-
-Signen-off-by: He Zhe <zhe.he@windriver.com>
----
- meta/classes/kernel.bbclass               | 13 ++++++++-----
- meta/conf/documentation.conf              |  2 +-
- meta/recipes-kernel/linux/linux-yocto.inc |  2 +-
- 3 files changed, 10 insertions(+), 7 deletions(-)
-
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index e7e2cb3..dcf8bae 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -484,15 +484,18 @@ python split_kernel_packages () {
- }
- 
- # Many scripts want to look in arch/$arch/boot for the bootable
--# image. This poses a problem for vmlinux based booting. This 
--# task arranges to have vmlinux appear in the normalized directory
--# location.
--do_kernel_link_vmlinux() {
-+# image. This poses a problem for vmlinux and vmlinuz based
-+# booting. This task arranges to have vmlinux and vmlinuz appear
-+# in the normalized directory location.
-+do_kernel_link_images() {
- 	if [ ! -d "${B}/arch/${ARCH}/boot" ]; then
- 		mkdir ${B}/arch/${ARCH}/boot
- 	fi
- 	cd ${B}/arch/${ARCH}/boot
- 	ln -sf ../../../vmlinux
-+	if [ -f ../../../vmlinuz ]; then
-+		ln -sf ../../../vmlinuz
-+	fi
- }
- 
- do_strip() {
-@@ -522,7 +525,7 @@ do_strip() {
- }
- do_strip[dirs] = "${B}"
- 
--addtask do_strip before do_sizecheck after do_kernel_link_vmlinux
-+addtask do_strip before do_sizecheck after do_kernel_link_images
- 
- # Support checking the kernel size since some kernels need to reside in partitions
- # with a fixed length or there is a limit in transferring the kernel to memory
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index dcc324c..c0025f5 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -28,7 +28,7 @@ do_install_ptest_base[doc] = "Copies the runtime test suite files from the compi
- do_kernel_checkout[doc] = "Checks out source/meta branches for a linux-yocto style kernel"
- do_kernel_configcheck[doc] = "Validates the kernel configuration for a linux-yocto style kernel"
- do_kernel_configme[doc] = "Assembles the kernel configuration for a linux-yocto style kernel"
--do_kernel_link_vmlinux[doc] = "Creates a symbolic link in arch/$arch/boot for vmlinux kernel images"
-+do_kernel_link_images[doc] = "Creates a symbolic link in arch/$arch/boot for vmlinux and vmlinuz kernel images"
- do_listtasks[doc] = "Lists all defined tasks for a target"
- do_menuconfig[doc] = "Runs 'make menuconfig' for the kernel"
- do_package[doc] = "Analyzes the content of the holding area and splits it into subsets based on available packages and files"
-diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
-index bd91570..0af9f8c 100644
---- a/meta/recipes-kernel/linux/linux-yocto.inc
-+++ b/meta/recipes-kernel/linux/linux-yocto.inc
-@@ -53,6 +53,6 @@ do_install_append(){
- }
- 
- # extra tasks
--addtask kernel_link_vmlinux after do_compile before do_install
-+addtask kernel_link_images after do_compile before do_install
- addtask validate_branches before do_patch after do_kernel_checkout
- addtask kernel_configcheck after do_configure before do_compile
--- 
-2.8.1
+--------------020205070404050201000803
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
+
+On 2016年05月25日 16:30, Burton, Ross wrote:
+>
+> On 25 May 2016 at 08:11, Zhenbo Gao <zhenbo.gao@windriver.com 
+> <mailto:zhenbo.gao@windriver.com>> wrote:
+>
+>     connman get conflicts with networkmanager when building
+>     the project.
+>
+>
+> Do you mean installing connman and networkmanager at the same time 
+> breaks networking?
+>
+Nope, if my project include connman and networkmanager at the same time, 
+the compile step will fail:
+...
+Computing transaction...error: Can't install 
+xfce4-power-manager-1.4.4-r0.0@corei7_64: unable to install provider for 
+networkmanager:
+error:     networkmanager-1.0.4-r0.0@corei7_64 conflicts with 
+connman-1.30-r0.0@corei7_64
+...
+The dependence relationship is:
+xfce4-power-manager --> networkmanager
+packagegroup-self-hosted --> connman
+
+Anyway, the patch is not suitable, Koen Kooi has suggested me another 
+way to solve my problem.
+
+Thanks,
+Zhenbo
+
+> Ross
+
+
+--------------020205070404050201000803
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <br>
+    <br>
+    <div class="moz-cite-prefix">On 2016年05月25日 16:30, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LaPkXBy4M4OFwfgQqFXKCyA_P5GkGYoovArZcK20kSmLw@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 25 May 2016 at 08:11, Zhenbo Gao <span
+              dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:zhenbo.gao@windriver.com" target="_blank">zhenbo.gao@windriver.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id=":fk" class="a3s aXjCH m154e6c15d61b5f2b">connman
+                get conflicts with networkmanager when building<br>
+                the project.<br>
+              </div>
+            </blockquote>
+          </div>
+          <br>
+          Do you mean installing connman and networkmanager at the same
+          time breaks networking?</div>
+        <div class="gmail_extra"><br>
+        </div>
+      </div>
+    </blockquote>
+    Nope, if my project include connman and networkmanager at the same
+    time, the compile step will fail:<br>
+    ...
+    <br>
+    Computing transaction...error: Can't install
+    xfce4-power-manager-1.4.4-r0.0@corei7_64: unable to install provider
+    for networkmanager:
+    <br>
+    error:     networkmanager-1.0.4-r0.0@corei7_64 conflicts with
+    connman-1.30-r0.0@corei7_64
+    <br>
+    ...
+    <br>
+    The dependence relationship is:
+    <br>
+    xfce4-power-manager --&gt; networkmanager
+    <br>
+    packagegroup-self-hosted --&gt; connman
+    <br>
+    <br>
+    Anyway, the patch is not suitable, Koen Kooi has suggested me
+    another way to solve my problem.<br>
+    <br>
+    Thanks,<br>
+    Zhenbo<br>
+    <br>
+    <blockquote
+cite="mid:CAJTo0LaPkXBy4M4OFwfgQqFXKCyA_P5GkGYoovArZcK20kSmLw@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra">Ross</div>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------020205070404050201000803--
