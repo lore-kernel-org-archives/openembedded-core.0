@@ -1,23 +1,48 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id BDE756FFC7
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f181.google.com (mail-ig0-f181.google.com
+	[209.85.213.181])
+	by mail.openembedded.org (Postfix) with ESMTP id A771960043
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 May 2016 10:10:47 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga102.fm.intel.com with ESMTP; 25 May 2016 03:10:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,363,1459839600"; 
-	d="scan'208,217";a="984323454"
-Received: from theory.fi.intel.com ([10.237.72.196])
-	by orsmga002.jf.intel.com with ESMTP; 25 May 2016 03:10:47 -0700
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 May 2016 13:10:39 +0300
-Message-Id: <1464171039-13080-1-git-send-email-jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1464101969.9570.61.camel@linuxfoundation.org>
-References: <1464101969.9570.61.camel@linuxfoundation.org>
-Subject: [PATCHv2] docbook-xsl-stylesheets: Upgrade 1.78.1 -> 1.79.1
+	Wed, 25 May 2016 10:35:11 +0000 (UTC)
+Received: by mail-ig0-f181.google.com with SMTP id bi2so68840152igb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 May 2016 03:35:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=9bDsat49JkSU8yw3xR3b4kZTF40kwKCYNP0cLLSFUVg=;
+	b=lRHy8G4Bj6sobLjUIMrGlXzwSOBrBABXhLLBN7eKugPEmYmJOfidzQRE6c0ljrkvBa
+	PQ/JQ6hqVZJow9ygfpZPgQB3Uiiaw3LILSbqd9HSwn97u5XhSYdAwW52t3yPcM5N3cK+
+	nP5SOCytRN8+6lH4fu8Wvnl/jJ5qRWhX/BthPod0ujIwr13R1JVckl1wOt0nYK2GTdYs
+	Q9VzzrnAV91Fg/QMXaClkyPzHnbnOFQghCmc3MYts3xh3MRngFyVNg/iymwkAfxkog+Y
+	yqM+IkcBHje/6D/+KRG9Ma1WgPBJZFgF8h7RWrtqNx1FDoN7d9G0TPaqEE6cDvVa+b6P
+	mWrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=9bDsat49JkSU8yw3xR3b4kZTF40kwKCYNP0cLLSFUVg=;
+	b=M/ljvUsn2fIyyCv/jQUo4IS8ce7Wa1R3Kxbiz+iU6gam4Q3s1H2BbpkFWp2bml+Mem
+	OT+3Yh3KpSCKX4hnqgqK2fRih3GuLHysPcnPa06REhVuc+OZ1kwO0mg7QFsZyY4mTJ6b
+	OWp+i8m0GtNC/emxS5UzFVXSzq09+1wOalzyqEpudwUN1RPCu07qaj4FDfPKryyWLVtj
+	mc5+jLAiHWwjyRXwfitNEf1z+FF6aG1mqy4ItGQtTuMOdcZ9ubbVboBpgHOXBu+TakGh
+	MgAhMb0XxeJqTjWc9pyzKSK0/sHAzW58aIR33DnnzaAqYPzRbhdTPIszWdKBLgzU5UJc
+	ad2Q==
+X-Gm-Message-State: AOPr4FWe8vV06RtIIiecbB8B9JFTyX+X7El11T8BEsdd26Nwq9GpBdQuLjg0lnHS8ijO87k2G+r6eSLtIquyzQ8O
+X-Received: by 10.50.160.10 with SMTP id xg10mr20793642igb.52.1464172511585;
+	Wed, 25 May 2016 03:35:11 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.162.6 with HTTP; Wed, 25 May 2016 03:34:51 -0700 (PDT)
+In-Reply-To: <5745735E.60001@windriver.com>
+References: <1464160265-16527-1-git-send-email-zhenbo.gao@windriver.com>
+	<1464163536.9570.92.camel@linuxfoundation.org>
+	<5745735E.60001@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 25 May 2016 11:34:51 +0100
+Message-ID: <CAJTo0LZ3zqygisS6aEPb9ORv968A-4HfELkLpNkcvfgwmagxtQ@mail.gmail.com>
+To: zhenbo <zhenbo.gao@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] connman: add alias for connman
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,103 +55,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 May 2016 10:10:49 -0000
+X-List-Received-Date: Wed, 25 May 2016 10:35:13 -0000
+Content-Type: multipart/alternative; boundary=001a1136a2f27180c00533a83a80
 
-* Use $PV at appropriate places in do_install
-* Install some new files, avoid installing 25M of java archives
-* License checksum change is just copyright years changing
-* Fix the URI delegation file (that prevents fetches from
-  http://docbook.sourceforge.net/ during build) to refer to a
-  non-versioned directory
+--001a1136a2f27180c00533a83a80
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
----
+On 25 May 2016 at 10:41, zhenbo <zhenbo.gao@windriver.com> wrote:
 
-Changes since V1:
-* URI delegation file was still referring to
-  /usr/share/xml/docbook/xsl-stylesheets-1.78.1/: fixed this to refer
-  to the non-versioned symlink
+> The draft patch looks like:
+> ---
+> --- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
+> +++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
+> @@ -28,8 +28,6 @@ RDEPENDS_packagegroup-self-hosted = "\
+>      "
+>
+>  RDEPENDS_packagegroup-self-hosted-host-tools = "\
+> -    connman \
+> -    connman-plugin-ethernet \
+>      dhcp-client \
+>      e2fsprogs \
+>      e2fsprogs-e2fsck \
+>
+> What do you think? is that ok? if so, i will send an official patch for it.
+>
 
-I couldn't reproduce the issue but this seems very likely to be the
-right fix (and I've checked that the paths look correct for both target
-and native builds)
+I don't think self-hosted should include a specific network manager, and
+you can also remove dhcp-client whilst you're there.  The image that pulls
+in this packagegroup should handle any networking requirements.
 
+Ross
 
-  - Jussi
+--001a1136a2f27180c00533a83a80
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 25 May 2016 at 10:41, zhenbo <span dir=3D"ltr">&lt;<a href=3D"mailto:zhe=
+nbo.gao@windriver.com" target=3D"_blank">zhenbo.gao@windriver.com</a>&gt;</=
+span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4hm" class=3D"a3=
+s aXjCH m154e74b68516e469">The draft patch looks like:<br>
+---<br>
+--- a/meta/recipes-core/packagegroups/<a href=3D"http://packagegroup-self-h=
+osted.bb" rel=3D"noreferrer" target=3D"_blank">packagegroup-self-hosted.bb<=
+/a><br>
++++ b/meta/recipes-core/packagegroups/<a href=3D"http://packagegroup-self-h=
+osted.bb" rel=3D"noreferrer" target=3D"_blank">packagegroup-self-hosted.bb<=
+/a><br>
+@@ -28,8 +28,6 @@ RDEPENDS_packagegroup-self-hosted =3D &quot;\<br>
+=C2=A0 =C2=A0 =C2=A0&quot;<br>
+<br>
+=C2=A0RDEPENDS_packagegroup-self-hosted-host-tools =3D &quot;\<br>
+-=C2=A0 =C2=A0 connman \<br>
+-=C2=A0 =C2=A0 connman-plugin-ethernet \<br>
+=C2=A0 =C2=A0 =C2=A0dhcp-client \<br>
+=C2=A0 =C2=A0 =C2=A0e2fsprogs \<br>
+=C2=A0 =C2=A0 =C2=A0e2fsprogs-e2fsck \<br>
+<br>
+What do you think? is that ok? if so, i will send an official patch for it.=
+</div></blockquote></div><br>I don&#39;t think self-hosted should include a=
+ specific network manager, and you can also remove dhcp-client whilst you&#=
+39;re there.=C2=A0 The image that pulls in this packagegroup should handle =
+any networking requirements.</div><div class=3D"gmail_extra"><br></div><div=
+ class=3D"gmail_extra">Ross</div></div>
 
- .../docbook-xsl-stylesheets/docbook-xsl.xml        |  4 ++--
- ...1.78.1.bb => docbook-xsl-stylesheets_1.79.1.bb} | 22 +++++++++++-----------
- 2 files changed, 13 insertions(+), 13 deletions(-)
- rename meta/recipes-devtools/docbook-xml/{docbook-xsl-stylesheets_1.78.1.bb => docbook-xsl-stylesheets_1.79.1.bb} (76%)
-
-diff --git a/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets/docbook-xsl.xml b/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets/docbook-xsl.xml
-index a1a576a..c60555a 100644
---- a/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets/docbook-xsl.xml
-+++ b/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets/docbook-xsl.xml
-@@ -1,6 +1,6 @@
- <?xml version="1.0"?>
- <!DOCTYPE catalog PUBLIC "-//OASIS//DTD Entity Resolution XML Catalog V1.0//EN" "http://www.oasis-open.org/committees/entity/release/1.0/catalog.dtd">
- <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
--<delegateURI uriStartString="http://docbook.sourceforge.net/release/xsl/" catalog="file:///usr/share/xml/docbook/xsl-stylesheets-1.78.1/catalog.xml"/>
--<delegateSystem systemIdStartString="http://docbook.sourceforge.net/release/xsl/" catalog="file:///usr/share/xml/docbook/xsl-stylesheets-1.78.1/catalog.xml"/>
-+<delegateURI uriStartString="http://docbook.sourceforge.net/release/xsl/" catalog="file:///usr/share/xml/docbook/xsl-stylesheets/catalog.xml"/>
-+<delegateSystem systemIdStartString="http://docbook.sourceforge.net/release/xsl/" catalog="file:///usr/share/xml/docbook/xsl-stylesheets/catalog.xml"/>
- </catalog>
-diff --git a/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.78.1.bb b/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.79.1.bb
-similarity index 76%
-rename from meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.78.1.bb
-rename to meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.79.1.bb
-index 52de3ab..aa03a82 100644
---- a/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.78.1.bb
-+++ b/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.79.1.bb
-@@ -1,15 +1,15 @@
- SUMMARY = "XSL stylesheets for processing DocBook XML to various output formats"
- HOMEPAGE = "http://docbook.sourceforge.net"
- LICENSE = "XSL"
--LIC_FILES_CHKSUM = "file://COPYING;md5=a6eeeed43d498c22a835382533356462"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=6beadd98f9c54ab0c387e14211ee4d0e"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/docbook/docbook-xsl-${PV}.tar.bz2 \
-            file://docbook-xsl.xml \
-            file://docbook-xsl-stylesheets-no-bashism-in-docbook-xsl-up.patch \
- "
- 
--SRC_URI[md5sum] = "6dd0f89131cc35bf4f2ed105a1c17771"
--SRC_URI[sha256sum] = "c98f7296ab5c8ccd2e0bc07634976a37f50847df2d8a59bdb1e157664700b467"
-+SRC_URI[md5sum] = "b48cbf929a2ad85e6672f710777ca7bc"
-+SRC_URI[sha256sum] = "725f452e12b296956e8bfb876ccece71eeecdd14b94f667f3ed9091761a4a968"
- 
- UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/docbook/files/docbook-xsl/"
- # Reject versions ending in .0 as those are release candidates
-@@ -37,18 +37,18 @@ do_install () {
- 	install -v -m755 -d ${D}${datadir}/xml/docbook/xsl-stylesheets-${PV}
- 	ln -s xsl-stylesheets-${PV} ${D}${datadir}/xml/docbook/xsl-stylesheets
- 
--	cp -v -R VERSION common eclipse epub extensions fo highlighting html \
--		htmlhelp images javahelp lib manpages params profiling \
--		roundtrip slides template tests tools webhelp website \
--		xhtml xhtml-1_1 catalog.xml \
--	${D}${datadir}/xml/docbook/xsl-stylesheets-1.78.1
-+	cp -v -R VERSION assembly common eclipse epub epub3 fo \
-+		highlighting html htmlhelp images javahelp lib manpages \
-+		params profiling roundtrip slides template webhelp website \
-+		xhtml xhtml-1_1 xhtml5 catalog.xml \
-+		${D}${datadir}/xml/docbook/xsl-stylesheets-${PV}
- 
--	ln -s VERSION ${D}/${datadir}/xml/docbook/xsl-stylesheets-1.78.1/VERSION.xsl
-+	ln -s VERSION ${D}/${datadir}/xml/docbook/xsl-stylesheets-${PV}/VERSION.xsl
- 
- 	install -v -m644 -D README \
--		${D}${datadir}/doc/docbook-xsl-1.78.1/README.txt
-+		${D}${datadir}/doc/docbook-xsl-${PV}/README.txt
- 	install -v -m644    RELEASE-NOTES* NEWS* \
--		${D}${datadir}/doc/docbook-xsl-1.78.1
-+		${D}${datadir}/doc/docbook-xsl-${PV}
- 
- 	install -d ${D}${sysconfdir}/xml/
- 	install -m 755  ${WORKDIR}/docbook-xsl.xml ${D}${sysconfdir}/xml/docbook-xsl.xml
--- 
-2.1.4
-
-
+--001a1136a2f27180c00533a83a80--
