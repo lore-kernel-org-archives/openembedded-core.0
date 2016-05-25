@@ -1,34 +1,34 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id CDA8460767
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2433F6612C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 May 2016 12:17:32 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP; 25 May 2016 05:17:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,364,1459839600"; d="scan'208";a="814504054"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga003.jf.intel.com with ESMTP; 25 May 2016 05:17:27 -0700
-Received: by linux.intel.com (Postfix, from userid 48)
-	id 7BA4C6A4083; Wed, 25 May 2016 06:04:56 -0700 (PDT)
-Received: from 10.252.8.31 (SquirrelMail authenticated user alexander.kanavin)
-	by linux.intel.com with HTTP; Wed, 25 May 2016 16:04:56 +0300 (EEST)
-Message-ID: <51142.10.252.8.31.1464181496.squirrel@linux.intel.com>
-In-Reply-To: <1464159563.9570.90.camel@linuxfoundation.org>
-References: <57453968.9080600@mlbassoc.com>
-	<60AB59B2-92D3-426A-8EB8-9FC717EC087E@gmail.com>
-	<57454A49.7030700@mlbassoc.com>
-	<1464159563.9570.90.camel@linuxfoundation.org>
-Date: Wed, 25 May 2016 16:04:56 +0300 (EEST)
-From: alexander.kanavin@linux.intel.com
-To: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-User-Agent: SquirrelMail/1.4.8-5.el4.centos.8
+	Wed, 25 May 2016 12:32:59 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u4PCWvXE017578
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Wed, 25 May 2016 05:32:57 -0700
+Received: from server.local (147.11.119.192) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 25 May 2016 05:32:56 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Khem Raj
+	<raj.khem@gmail.com>
+References: <fa9c2d513cff678eebb231d4cf5991ea37061b34.1463157783.git.raj.khem@gmail.com>
+	<2cc568062314cdddd5ff2f60dd6d9685b3b12831.1463157783.git.raj.khem@gmail.com>
+	<1463295824.9746.152.camel@linuxfoundation.org>
+	<1464101499.9570.59.camel@linuxfoundation.org>
+	<CAMKF1sr9bM8pE+DRt=-08sGp4ZA8U3csYezo+NAB49UsyYz0yw@mail.gmail.com>
+	<1464158362.9570.87.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <9a16a18f-9178-231d-6c78-ccdc4cdf51a2@windriver.com>
+Date: Wed, 25 May 2016 08:32:55 -0400
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
+	Gecko/20100101 Thunderbird/45.1.0
 MIME-Version: 1.0
-X-Priority: 3 (Normal)
-Importance: Normal
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Gary Thomas <gary@mlbassoc.com>
-Subject: Re: sip.bbclass?
+In-Reply-To: <1464158362.9570.87.camel@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/6] tcmode-default: Bump gcc,glibc,gdb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,21 +41,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 May 2016 12:17:34 -0000
-Content-Type: text/plain;charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 25 May 2016 12:33:00 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> Nothing in OE-Core uses extrenalsrc directly but we'd still want
-> something like that in the core so I don't think the rule is absolute.
-> What we wouldn't want to see is multiple layers maintaining different
-> and potentially incompatible versions of a class file.
+On 2016-05-25 2:39 AM, Richard Purdie wrote:
+> Thanks to the patches from Bruce we're looking better, linux-yocto 4.1
+> works, just 4.4 has a couple of issues. I also removed a patch which
+> removed the xdg-utils failure. That leaves us with:
 >
-> That said, I think there are a few that we probably could clean up.
+> qt4-x11-free:
+>
+> arm, mips, ppc, world-lsb, x86, x86_64:
+> https://autobuilder.yoctoproject.org/main/builders/nightly-arm-lsb/buil
+> ds/767/steps/BuildImages/logs/stdio
+>
+> qt4-embedded:
+>
+> https://autobuilder.yoctoproject.org/main/builders/nightly-world-lsb/bu
+> ilds/520/steps/BuildImages/logs/stdio
+>
+> linux-yocto-4.4 mips:
+>
+> https://autobuilder.yoctoproject.org/main/builders/nightly-mips/builds/
+> 795/steps/BuildImages_1/logs/stdio
+>
+> linux-yocto-4.4 ppc:
+>
+> https://autobuilder.yoctoproject.org/main/builders/nightly-ppc/builds/8
+> 07/steps/BuildImages_1/logs/stdio
+>
+> diffutils - non-gplv3:
+>
+> https://autobuilder.yoctoproject.org/main/builders/nightly-non-gpl3/bui
+> lds/797
+>
+> Bruce: Looks like 4.4 might also need a patch you merged to 4.1?
 
-As for sip.bblclass, nothing is using it in oe-core or meta-oe. So I just
-removed it as a part of oe-core py3 patchset, because it's doing some
-python 2 based magic, and I can't figure out what exactly without any
-recipes to test with.
+I didn't see anything obvious missing from 4.4, and the existing patches
+posted for the build issues are part of:
 
-Alex
+-----------------
+
+commit 574e9f4b4334807faad40a2d23c350f266d6febb
+Author: Bruce Ashfield <bruce.ashfield@windriver.com>
+Date:   Fri May 13 09:46:53 2016 -0700
+
+     linux-yocto/4.4: gcc6 build fixes (powerpc and mips)
+
+     Khem provided fixes to fix gcc6 build issues, these are safe for
+     all gcc versions, so we integrate them directly.
+
+     (From OE-Core rev: f1c75b93a4e11425e595c5ce043fbb0276a41931)
+
+     Signed-off-by: Khem Raj <raj.khem@gmail.com>
+     Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+---------------
+
+So I can't say why the two build failures that that commit addresses
+are popping up.
+
+I checked and the later 4.4-stable commit update I did has the right
+SRCREVs and encompasses that fix .. unless something ended up getting
+clobbered in the code itself.
+
+What's the right incantation to start a gcc6 based build on my own
+machine ? Just bump the preferred version of the compiler ? (I'll do
+that now, since I see the gcc6 recipe .. and that seems like the
+obvious thing).
+
+Bruce
+
+>
+> Cheers,
+>
+> Richard
+>
+
 
