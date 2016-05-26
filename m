@@ -1,22 +1,61 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id C50626AC4B
+Return-Path: <kergoth@gmail.com>
+Received: from mail-it0-f46.google.com (mail-it0-f46.google.com
+	[209.85.214.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B9A86AC4B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 May 2016 20:06:42 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga102.fm.intel.com with ESMTP; 26 May 2016 13:06:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,369,1459839600"; d="scan'208";a="111156214"
-Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.jf.intel.com)
-	([10.54.69.56])
-	by fmsmga004.fm.intel.com with ESMTP; 26 May 2016 13:06:43 -0700
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 May 2016 20:06:16 +0000
-Message-Id: <1464293176-41983-1-git-send-email-alejandro.hernandez@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-Cc: joshua.g.lock@intel.com
-Subject: [PATCH][fido] systemd: re-enable mount propagation for udevd
+	Thu, 26 May 2016 20:11:37 +0000 (UTC)
+Received: by mail-it0-f46.google.com with SMTP id e62so101254611ita.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 May 2016 13:11:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=MAYzYspWzOpQap9j6UDTLuqHvcRMOAON7mXIrJfqllQ=;
+	b=nxOO/h7yWLP93apyCcU188WsbZ12oT+t0UHDA5THEs0XmzTAAIJje62OPcLSKy+V+O
+	v6drb5npEJjX5yQFGrINK9/j3zKeyGU5vIp4/1g98W+0d0HQ5WXY5jngJZkyzWZTgwwU
+	QI6a3ebTRveKIT8knpeNcbn1R5ks4wjnIW+q+0Q/6o4wrJ+Q2LJv1lYzJqqdoHR7nqhE
+	hyke60JHAc/ZfnvDhTX5g6YKNNwWp1PEzV2Nv02jPJxVeBtjy4O9uyqIdxcJSwzm0Vz+
+	V+VkVRVO8V635DO0GwRWMYjX0HyfMUjMrEOM6+QVz9KiN4FSDqj10GZXGFqReeoy0LwX
+	7ibA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kergoth-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=MAYzYspWzOpQap9j6UDTLuqHvcRMOAON7mXIrJfqllQ=;
+	b=a6+8H8D5UxRHgu6fnW2Um6eXrQyutJd9KMSv3FvzqK27hywGTF2iKsuXd4/+QqwkWJ
+	CdAvmAhBUV9vN1iTYlXUPFvl3Nwgv7w5GSOUjedf+isXTgOBlja1W8jSSBRTcxHaANJK
+	u84cZR5IGIZjen+UT5tBagWAea3kpNquhYtMaCTlZ2tLgSjnsWe9ceYS8v/lAWFiD6TI
+	l1dBrxQf43zdZKkjHt7enTytXGfFmUAzDRY/tSVfRkElOE92OfHCvVaTqMBjNqEPWmEv
+	rIhhz8rDgaKf+Q7RAeIhAAJP6QSos9addEJmto2ONiPtsdmOgLbz2BSFGQ5awTRNkIgW
+	8kPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=MAYzYspWzOpQap9j6UDTLuqHvcRMOAON7mXIrJfqllQ=;
+	b=A+SJfNTXMp2ghGC1LPKX7XLxz9GKWdCakEbcUOI8jk+qAuhpl7aQ6Zp4C4Azoucup2
+	qNyrDsKRldDRSEQ2WptOlYun0B9VoBNcnvAZmPDW+6BkLqrdNbSVDQbShSJqPHkrnVLl
+	g+ePuyL3dZjUX/aLKT2c4qVHv3bsXgRe27pt5X9vmmyq83aoMpje0XRipk9objdmD72W
+	0IKcPPbVl+SEO7Kcowut2s0xnV1aN5O0GokZNNddxuiPbtgnYuXjzPEgckwWJvl/jK3j
+	3x4GUdiyxoxpS5rne+OW35GX2GF+FKSk2G4XrFTNlysc954SugtYxo9OqwYRJvFoVpeE
+	5R8g==
+X-Gm-Message-State: ALyK8tJ2Wg25HqmSoOk5KW+H0uSM4tLMUcSalLN3S9DRhh+HxIumFYIjXncpT8bkbbQ6caBD7IvZfsy12DokcQ==
+X-Received: by 10.36.41.11 with SMTP id p11mr4990172itp.66.1464293498547; Thu,
+	26 May 2016 13:11:38 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.79.100.5 with HTTP; Thu, 26 May 2016 13:11:19 -0700 (PDT)
+In-Reply-To: <1464291870-5602-1-git-send-email-liu.ming50@gmail.com>
+References: <1464291870-5602-1-git-send-email-liu.ming50@gmail.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Thu, 26 May 2016 13:11:19 -0700
+X-Google-Sender-Auth: l26KdRLWDs9j5I-fDBQ0u7gGpNs
+Message-ID: <CABcZANk9BJp_1wMrv7mR8-vLk3JfMkdxRqTMqcWm62nHkCrnBw@mail.gmail.com>
+To: Ming Liu <liu.ming50@gmail.com>
+Cc: yue.tao@windriver.com, Ming Liu <peter.x.liu@external.atlascopco.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] initscripts: hide the error in case swapoff does not exist
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,79 +68,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 May 2016 20:06:42 -0000
+X-List-Received-Date: Thu, 26 May 2016 20:11:38 -0000
+Content-Type: multipart/alternative; boundary=001a1143fd70d3f79d0533c465d9
 
-From: Roy Li <rongqing.li@windriver.com>
+--001a1143fd70d3f79d0533c465d9
+Content-Type: text/plain; charset=UTF-8
 
-With MountFlags=slave, those mounts then become private to the systemd-udevd
-namespace and are no longer accessible from outside the namespace, which is
-not expected
+On Thu, May 26, 2016 at 12:44 PM, Ming Liu <liu.ming50@gmail.com> wrote:
 
-[YOCTO #8613]
+> From: Ming Liu <peter.x.liu@external.atlascopco.com>
+>
+> To avoid reporting errors when swapoff does not exist.
+>
+> Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
+>
 
-(From OE-Core rev: 73f43d857fe0102033f25491007b6dbe3d5fa8ee)
-
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit f2092e67ea880301058396b831a9a18905317d0d)
-Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
----
- ...dev-re-enable-mount-propagation-for-udevd.patch | 31 ++++++++++++++++++++++
- meta/recipes-core/systemd/systemd_219.bb           |  1 +
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/udev-re-enable-mount-propagation-for-udevd.patch
-
-diff --git a/meta/recipes-core/systemd/systemd/udev-re-enable-mount-propagation-for-udevd.patch b/meta/recipes-core/systemd/systemd/udev-re-enable-mount-propagation-for-udevd.patch
-new file mode 100644
-index 0000000..23e22d4
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/udev-re-enable-mount-propagation-for-udevd.patch
-@@ -0,0 +1,31 @@
-+From: Michael Biebl <biebl@debian.org>
-+Date: Sat, 27 Sep 2014 04:19:24 +0200
-+Subject: udev: re-enable mount propagation for udevd
-+
-+Upstream-Status: Backport [http://http.debian.net/debian/pool/main/s/systemd/systemd_215-17+deb8u4.debian.tar.xz]
-+
-+laptop-mode-tools remounts file systems from within a udev rule to apply
-+certain mount options. With MountFlags=slave, those mounts then become private
-+to the systemd-udevd namespace and are no longer accessible from outside the
-+namespace.
-+While the root cause is the broken behaviour of laptop-mode-tools, with mount
-+propagation turned off, this can result in a read-only root file system.
-+Therefore revert the relevant parts from commit
-+c2c13f2df42e0691aecabe3979ea81cd7faa35c7 to re-enable mount propagation for
-+udevd.
-+
-+Once affected packages have been fixed, this patch should be dropped
-+again.
-+
-+Closes: #762018
-+diff --git a/units/systemd-udevd.service.in b/units/systemd-udevd.service.in
-+index e7216d6..1e9a600 100644
-+--- a/units/systemd-udevd.service.in
-++++ b/units/systemd-udevd.service.in
-+@@ -21,6 +21,5 @@ Sockets=systemd-udevd-control.socket systemd-udevd-kernel.socket
-+ Restart=always
-+ RestartSec=0
-+ ExecStart=@rootlibexecdir@/systemd-udevd
-+-MountFlags=slave
-+ KillMode=mixed
-+ WatchdogSec=1min
-diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
-index b972dd4..1d08c9e 100644
---- a/meta/recipes-core/systemd/systemd_219.bb
-+++ b/meta/recipes-core/systemd/systemd_219.bb
-@@ -49,6 +49,7 @@ SRC_URI = "git://github.com/systemd/systemd-stable;branch=v219-stable;protocol=g
-            file://00-create-volatile.conf \
-            file://init \
-            file://run-ptest \
-+           file://udev-re-enable-mount-propagation-for-udevd.patch \
-           "
- 
- S = "${WORKDIR}/git"
+This will suppress *real* errors as well. Better to just check if swapoff
+exists and then run it if it does, if that's a concern.
 -- 
-2.6.6
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
+--001a1143fd70d3f79d0533c465d9
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Thu, May 26, 2016 at 12:44 PM, Ming Liu <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:liu.ming50@gmail.com" target=3D"_blank">liu.ming50@gmail.com</a=
+>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">From: Ming Liu &lt;<a=
+ href=3D"mailto:peter.x.liu@external.atlascopco.com">peter.x.liu@external.a=
+tlascopco.com</a>&gt;<br>
+<br>
+To avoid reporting errors when swapoff does not exist.<br>
+<br>
+Signed-off-by: Ming Liu &lt;<a href=3D"mailto:peter.x.liu@external.atlascop=
+co.com">peter.x.liu@external.atlascopco.com</a>&gt;<br></blockquote><div><b=
+r></div><div>This will suppress *real* errors as well. Better to just check=
+ if swapoff exists and then run it if it does, if that&#39;s a concern.</di=
+v></div>-- <br><div class=3D"gmail_signature">Christopher Larson<br>clarson=
+ at kergoth dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maint=
+ainer - Tslib<br>Senior Software Engineer, Mentor Graphics</div>
+</div></div>
+
+--001a1143fd70d3f79d0533c465d9--
