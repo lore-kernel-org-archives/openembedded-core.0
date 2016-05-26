@@ -1,29 +1,54 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EDE11608B7
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 65FD1731BE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 May 2016 17:06:15 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u4QH6CGT029001
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Thu, 26 May 2016 10:06:12 -0700
-Received: from server.local (128.224.20.190) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 26 May 2016 10:06:12 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1464276666.git.bruce.ashfield@windriver.com>
-	<CAJTo0LYrq-TnfMbD-1_u-F56Xiq7pW-SRQv++Vo4-OzHcb355Q@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <7a490625-a393-ac7a-b6eb-1558d7ae961f@windriver.com>
-Date: Thu, 26 May 2016 13:06:11 -0400
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
-	Gecko/20100101 Thunderbird/45.1.0
+	Thu, 26 May 2016 17:23:37 +0000 (UTC)
+Received: by mail-wm0-f53.google.com with SMTP id n129so108293628wmn.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 May 2016 10:23:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=ZshJK24INwiXd8uHe8rxciBqWRQ/KKckF6iW7xpPxs8=;
+	b=Pe/ImE74QSQtASJtA3es4g2YJQqE/MEZUnmXPY/H5sljK1DWdfIkd0Ef5HIHZDLp3X
+	YspaeDkDj2wJEQEM++A1mSVBuIZgGXA+8pjha1yP5dxr9YvaKPGwuCaXPboBJQKLX2iw
+	WF8ZW/cv4qqVVqMPWVYM6qqWz6p5+CsKT4pKHUBlfOPrszs+DrkNWhrpqm8/dfAI2LbM
+	zGBti2GKPYyMvPsLHLEGqkOzBcljTh4ZdGo156oJki43Ocr6AUSmdBJXnyPBGI6Awdoq
+	V4iXZNUx/x7BJO1XSuOZxnC7qobc2dYtQhIN2Yreuzm4ZvoUylWqk9Y9gT7rPkz+vcqX
+	IAXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=ZshJK24INwiXd8uHe8rxciBqWRQ/KKckF6iW7xpPxs8=;
+	b=PxyI5PpYmBKN3FLvldzQgL1JAaP11SA5XOogHnZ5URNjD2os5wpeb5VZDfhvNS39i7
+	Dhl7e7RXjU6HzDVSuH8rplhdJTPaqEUbEWwDdV8v/YhrnkXJdzwBns7JbUQ/pzRDVcui
+	YDKT6D5J/XsfnN/a3cWxqBkDCDZ3iUmtQLxFCrhSkdGUr9MgLb8d20Tko880GJKUdr10
+	T/A4rfZCvTV3pMbz0KJEXd/1KnJlJy7MsuFw7Fm+eTk3d03q1y08BPiwyibN++w6Mh/R
+	sA8NSorkIc1fIe1NL0MN6PazG9qat3esDCTJsUy1rsulHLpPk+z5x1Eln4irdVwc82OL
+	YoQA==
+X-Gm-Message-State: ALyK8tIKd16NTM9hrSr/5OrfA5cg9VeSZf+7R/22gY9z8NHRDm22eN3ufMOLrhRglRg5/Q==
+X-Received: by 10.194.72.103 with SMTP id c7mr11564370wjv.65.1464283418298;
+	Thu, 26 May 2016 10:23:38 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id n66sm4494924wmf.6.2016.05.26.10.23.36
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 26 May 2016 10:23:37 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 26 May 2016 19:23:57 +0200
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Message-ID: <20160526172357.GB2575@jama>
+References: <cover.1463035854.git.jussi.kukkonen@intel.com>
+	<93f1600d7ce782dbafb1ab32da9416dc29d432c2.1463035854.git.jussi.kukkonen@intel.com>
+	<6a0ed7998e66eedbf58fdb54db111b281a2b81bb.1463035854.git.jussi.kukkonen@intel.com>
+	<CAP9ODKpbMyzEkKh1WhwnNkRrgXCeBQzTeSrVP89Ngx5CwMO_5w@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYrq-TnfMbD-1_u-F56Xiq7pW-SRQv++Vo4-OzHcb355Q@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Tom Zanussi <tom.zanussi@intel.com>, Saul Wold <saul.wold@intel.com>
-Subject: Re: [PATCH 0/2] linux-yocto: intel staging and bxt backports
+In-Reply-To: <CAP9ODKpbMyzEkKh1WhwnNkRrgXCeBQzTeSrVP89Ngx5CwMO_5w@mail.gmail.com>
+User-Agent: Mutt/1.6.1 (2016-04-27)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 13/13] weston: Upgrade 1.9.0 -> 1.10.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,46 +61,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 May 2016 17:06:16 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 26 May 2016 17:23:40 -0000
+X-Groupsio-MsgNum: 82743
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="zx4FCpZtqtKETZ7O"
+Content-Disposition: inline
 
-On 2016-05-26 12:34 PM, Burton, Ross wrote:
->
-> On 26 May 2016 at 16:36, Bruce Ashfield <bruce.ashfield@windriver.com
-> <mailto:bruce.ashfield@windriver.com>> wrote:
->
->     We have a couple of patches to integrate broxton backports, and to
->     create some intel staging branches.
->
->
-> With qemux86-64:
->
-> WARNING: linux-yocto-4.4.11+gitAUTOINC+1465ac389f_53e84104c5-r0
-> do_patch: After meta data application, the kernel tree branch is
-> standard/intel.
-> WARNING: linux-yocto-4.4.11+gitAUTOINC+1465ac389f_53e84104c5-r0
-> do_patch: The SRC_URI specified branch standard/base.
-> WARNING: linux-yocto-4.4.11+gitAUTOINC+1465ac389f_53e84104c5-r0 do_patch:
-> WARNING: linux-yocto-4.4.11+gitAUTOINC+1465ac389f_53e84104c5-r0
-> do_patch: The branch will be forced to standard/base, but this means the
-> board meta data
-> WARNING: linux-yocto-4.4.11+gitAUTOINC+1465ac389f_53e84104c5-r0
-> do_patch: (.scc files) do not match the SRC_URI specification.
-> WARNING: linux-yocto-4.4.11+gitAUTOINC+1465ac389f_53e84104c5-r0 do_patch:
-> WARNING: linux-yocto-4.4.11+gitAUTOINC+1465ac389f_53e84104c5-r0
-> do_patch: The meta data and branch standard/base should be inspected to
-> ensure the proper
-> WARNING: linux-yocto-4.4.11+gitAUTOINC+1465ac389f_53e84104c5-r0
-> do_patch: kernel is being built.
+--zx4FCpZtqtKETZ7O
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I'm going over some options with Tom, I'll follow up with a patch
-to stack on top that removes the warnings. We are still building the
-right thing, but the sanity checks are clearly working :D
+On Fri, May 13, 2016 at 05:15:13PM -0300, Otavio Salvador wrote:
+> On Thu, May 12, 2016 at 4:20 AM, Jussi Kukkonen
+> <jussi.kukkonen@intel.com> wrote:
+> > Support for multiple new protocols, many new features:
+> > https://lists.freedesktop.org/archives/wayland-devel/2016-February/0270=
+39.html
+> >
+> > Weston now depends on wayland-protocols (which is protocol
+> > collection split off from weston).
+> >
+> > Remove upstreamed patches, add a patch to fix the wayland-protocols
+> > path used during build.
+> >
+> > Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+>=20
+> I am working on rework the weston recipes and it seems Weston 1.11 is
+> close of release. I think instead of adding 1.10 we could use 1.10.91
+> and upgrade it to 1.11.0 when it is out (end of May). This avoids
+> another cycle of rebase of patches during 2.2 development cycle.
+>=20
+> What do you think?
 
-Bruce
+This wayland upgrade breaks libsdl2
 
->
-> Ross
+http://errors.yoctoproject.org/Errors/Details/68336/
 
+libsdl2 needs fix from here:
+https://hg.libsdl.org/SDL/rev/330f500d5815
 
+>=20
+> --=20
+> Otavio Salvador                             O.S. Systems
+> http://www.ossystems.com.br        http://code.ossystems.com.br
+> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--zx4FCpZtqtKETZ7O
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAldHMPwACgkQN1Ujt2V2gBxO5ACgjPvZzqHcHEr1PnxTppoqGngY
+XXYAoIxPcNdlfb6C1vMn/hX2gf61IWxl
+=wCV5
+-----END PGP SIGNATURE-----
+
+--zx4FCpZtqtKETZ7O--
