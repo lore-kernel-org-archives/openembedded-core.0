@@ -1,29 +1,34 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 305C271951
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 5740F6018C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 May 2016 08:12:54 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u4Q8CrIW000916
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 26 May 2016 01:12:53 -0700 (PDT)
-Received: from [128.224.162.240] (128.224.162.240) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 26 May 2016 01:12:52 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1464168189.git.liezhi.yang@windriver.com>
-	<1357d837c72abd1d9552aa77fd63126f7275aa23.1464168189.git.liezhi.yang@windriver.com>
-	<CAJTo0Lb0W-tTtcjnAA1pVFU2=nDWxX2Fc7HXjYs2WYGfRYQx-A@mail.gmail.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <5746B002.8090908@windriver.com>
-Date: Thu, 26 May 2016 16:12:50 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.8.0
+	Thu, 26 May 2016 08:47:22 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 26 May 2016 01:47:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,367,1459839600"; d="scan'208";a="974859590"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 26 May 2016 01:47:22 -0700
+Received: by linux.intel.com (Postfix, from userid 48)
+	id 4ABA76A4008; Thu, 26 May 2016 02:34:52 -0700 (PDT)
+Received: from 10.252.8.31 (SquirrelMail authenticated user alexander.kanavin)
+	by linux.intel.com with HTTP; Thu, 26 May 2016 12:34:52 +0300 (EEST)
+Message-ID: <61959.10.252.8.31.1464255292.squirrel@linux.intel.com>
+In-Reply-To: <CAHiDW_G9jEcP6MSB4+zGh_PPTBc87+C+5HBcGbEhFEoBNqVnoQ@mail.gmail.com>
+References: <cover.1464176988.git.jussi.kukkonen@intel.com>
+	<285302afb2b9fb0a868aeda0cbfa3ea956702793.1464176988.git.jussi.kukkonen@intel.com>
+	<52090.10.252.8.31.1464187330.squirrel@linux.intel.com>
+	<CAHiDW_G9jEcP6MSB4+zGh_PPTBc87+C+5HBcGbEhFEoBNqVnoQ@mail.gmail.com>
+Date: Thu, 26 May 2016 12:34:52 +0300 (EEST)
+From: alexander.kanavin@linux.intel.com
+To: "Jussi Kukkonen" <jussi.kukkonen@intel.com>
+User-Agent: SquirrelMail/1.4.8-5.el4.centos.8
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0Lb0W-tTtcjnAA1pVFU2=nDWxX2Fc7HXjYs2WYGfRYQx-A@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] utility-tasks.bbclass: fix do_listtasks
+X-Priority: 3 (Normal)
+Importance: Normal
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 6/7] gnupg.org-hosted recipes: Change SRC_URI to https site
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,34 +41,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 May 2016 08:12:55 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 26 May 2016 08:47:23 -0000
+Content-Type: text/plain;charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
 
+> I could add a UPSTREAM_CHECK_URI for the ftp site... except I can't
+> actually test that since the server has not really responded to me in
+> days (apparently a known issue for the gupnp.org people).
 
+Can you say which URL you cannot open? Everything works for me both behind
+and outside of proxy, and the RRS server is reporting upstream versions
+correctly as well:
+http://recipes.yoctoproject.org/rrs/recipes/2.2/M1/
 
-On 05/25/2016 07:17 PM, Burton, Ross wrote:
->
-> On 25 May 2016 at 10:23, Robert Yang <liezhi.yang@windriver.com
-> <mailto:liezhi.yang@windriver.com>> wrote:
->
->     It lists deleted tasks which is unexpected, use __BBTASKS to fix the
->     problem since deltask() which is defined in bitbake/lib/bb/build.py
->     updates __BBTASKS correctly.
->
->
-> Wouldn't an alternative be to change deltask so that it also remove the "task"
-> flag from the variable?
+> I'll see about using http://gnutls.org/download.html page for that but
+> in my opinion the patch is a clear improvement as it is...
 
-The problem is, if we do:
+You can't use http://gnutls.org/download.html because it doesn't have the
+latest version anywhere on it.
 
-d.delVarFlag(task, 'task')
+And https://www.gnupg.org/ftp/gcrypt/gnutls/index.html has another issue:
+it's out of date and doesn't have v3.5 directory listed at all, even
+though it's there (visible via ftp and linked to from the downloads page).
+How can you be sure that other index.html files aren't similarly out of
+date? We should stick to the ftp directory listings for upstream checks
+until the upstream sorts this. I'm not sure if the patch should be held
+off altogether, or fixed so that the upstream check uri explicitly points
+to ftp for each affected recipe.
 
-Then maybe we should remove the whole task from d rather than only
-remove the flags ?
+Alex
 
-// Robert
-
->
-> Ross
 
