@@ -1,24 +1,34 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 69C7562135
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id ECB456014F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 May 2016 09:17:34 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u4Q9HYBh020667
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 May 2016 02:17:34 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Thu, 26 May 2016 02:17:34 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 26 May 2016 17:17:19 +0800
-Message-ID: <1464254239-21826-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 2.8.1
+	Thu, 26 May 2016 09:18:25 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP; 26 May 2016 02:18:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,367,1459839600"; d="scan'208";a="709177361"
+Received: from linux.intel.com ([10.23.219.25])
+	by FMSMGA003.fm.intel.com with ESMTP; 26 May 2016 02:18:27 -0700
+Received: by linux.intel.com (Postfix, from userid 48)
+	id 41BAF6A4008; Thu, 26 May 2016 03:05:56 -0700 (PDT)
+Received: from 10.252.8.31 (SquirrelMail authenticated user alexander.kanavin)
+	by linux.intel.com with HTTP; Thu, 26 May 2016 13:05:56 +0300 (EEST)
+Message-ID: <62127.10.252.8.31.1464257156.squirrel@linux.intel.com>
+In-Reply-To: <534a7be7-380a-1d4a-085b-0ce503d59542@balister.org>
+References: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
+	<a387f0885671262248796e339920b43fd1639eca.1464088997.git.alexander.kanavin@linux.intel.com>
+	<9d52fc33-80fb-be4e-1401-c6e0bbd451e8@balister.org>
+	<51007.10.252.8.31.1464180342.squirrel@linux.intel.com>
+	<534a7be7-380a-1d4a-085b-0ce503d59542@balister.org>
+Date: Thu, 26 May 2016 13:05:56 +0300 (EEST)
+From: alexander.kanavin@linux.intel.com
+To: "Philip Balister" <philip@balister.org>
+User-Agent: SquirrelMail/1.4.8-5.el4.centos.8
 MIME-Version: 1.0
-Subject: [PATCH] xmlto: xmlto needs tail to run
+X-Priority: 3 (Normal)
+Importance: Normal
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 28/45] swig: move to Python 3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,41 +41,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 May 2016 09:17:35 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 26 May 2016 09:18:27 -0000
+Content-Type: text/plain;charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
 
-From: Roy Li <rongqing.li@windriver.com>
+>
+> It would be nice to use PACKAGECONFIG to select 2 versus 3 so we can
+> build sdks that only have python2.
 
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
----
- meta/recipes-devtools/xmlto/xmlto_0.0.28.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+This requires a conditional class inherit (pythonnative vs.
+python3native), which you can't at the moment do with PACKAGECONFIG.
 
-diff --git a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-index 71f873f..14d1009 100644
---- a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-+++ b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-@@ -14,16 +14,18 @@ SRC_URI[sha256sum] = "2f986b7c9a0e9ac6728147668e776d405465284e13c74d4146c9cbc51f
- 
- inherit autotools
- 
--# xmlto needs getopt/xmllint/xsltproc/bash at runtime
-+# xmlto needs getopt/xmllint/xsltproc/bash/tail at runtime
- RDEPENDS_${PN} = "docbook-xml-dtd4 \
-                   docbook-xsl-stylesheets \
-                   util-linux \
-                   libxml2 \
-                   bash \
-+                  coreutils \
- "
- RDEPENDS_${PN}_append_class-target = " \
-                   libxslt-bin \
- "
-+CACHED_CONFIGUREVARS += "ac_cv_path_TAIL=${bindir}/tail"
- 
- BBCLASSEXTEND = "native"
- 
--- 
-2.8.1
+If you really need this, make a swig-python2 recipe.
 
+Alex
 
