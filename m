@@ -1,53 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f52.google.com (mail-it0-f52.google.com
-	[209.85.214.52])
-	by mail.openembedded.org (Postfix) with ESMTP id D934E60796
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-lb0-f196.google.com (mail-lb0-f196.google.com
+	[209.85.217.196])
+	by mail.openembedded.org (Postfix) with ESMTP id D6A08731F3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 May 2016 19:15:08 +0000 (UTC)
-Received: by mail-it0-f52.google.com with SMTP id z123so51826406itg.0
+	Thu, 26 May 2016 19:44:35 +0000 (UTC)
+Received: by mail-lb0-f196.google.com with SMTP id sh2so4923661lbb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 May 2016 12:15:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=fw64p+QAsKuqKbjX0jcfnih9HCu6J52xhRofjX/QTF0=;
-	b=QDVFMLCGOpceWKVu0cxxfd+J+KbmIhaSLWTSdkPXVNG87g0ufAn5QesVmUJTcIOmvm
-	muJL32q69F5mlbVi7dTL4N1vJlEE/PSfihZ2+j5hxnKsh9lW0F9P/XDtiLanr5usfDNS
-	i+plxAJRvoC83DjwcPfEtwGV8X3R4e+tDCeFz7s6iWWhuz7VUM1AXHowL68356t/Ya4D
-	jXrB/eF9Jo/z3vIb91NZ2T2QBU/H9l07FRaM9h+NUoIDl+vvbjsS3NOWFo2Hy/RVnlKI
-	6SlT7WTm9sOwe8+a/4j3AHMzv37W20cuCkpyxa40OeQfWnzWyhRSkYu91Lo9Ll1V5FEp
-	ENaw==
+	Thu, 26 May 2016 12:44:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=hom/gVM5Q2JCp2Nacg6Ik5NkCYUHCYuUfaSgTHh4kzI=;
+	b=P5gNHR6vXSMVL+P10PfSMCZHsBO65BCrnTqR0RfAkfRPB5lHlA81bAjQzboVk+kHI6
+	xyHhGOrzP1JQwZ1oqSOZtOWVkKqr/k1CJr4MS5TXbE8lQKvYRh9ncmh4rLGVsa9Dg+dr
+	oQvfWqxY68lNYRVr28BtegsrWb3MMCg6n7FgAlU0baDlall+8C/qKP0oPvf1kKCabYuT
+	eO8ANszESp9z6gPoiA1x1xwn7nULqZtOtTnrIwJ+Fwl99NofCXBBLkjlxFbamcb3ax1r
+	YKxMuh9tOlydP27gLQ2+FRN4OaS4eXbJTW/lYBc0OLwkBDI5nCtrxRzfhH5bjMt7o04v
+	jHCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=fw64p+QAsKuqKbjX0jcfnih9HCu6J52xhRofjX/QTF0=;
-	b=EHFvvzDHn4BfoninDtXPV6Xqw4wcZicmtV9EV4nym5OWN8kLUcyY7I2mxG0V8JnHrt
-	MnB61SAopA+P2eQDBRNX2eVBuxEVPscOn/6e0tvM0pgE0pzTlsCH/E+ufyl4u/9XfBpI
-	ItGN+559A/mcGLW4uL4aWI2cc/uty+WuSGVOpu8c7WuzXOhKsZdFoSoqtJIhXsydZ/Nn
-	VvJCujyldVef6rJlFn4pBuYVfCtHQ9IpMOe5fvifwKLtcOQiMK8b3W3oyOjttktXH4zT
-	QZ1RXae1gSITWIozTyrPLQygpaNWbBUJK3mLFQ5HCiPI1y4ybrGh2xXhLrlD8puHcP2m
-	p5sw==
-X-Gm-Message-State: ALyK8tJMdSrCwdJQcz25IXatm7Pr1ObaLO1gXs2po3cauWuvvemYAJwZhVsR26ijmJuGyUPEmL7MhYVQaYV0zhod
-X-Received: by 10.36.120.12 with SMTP id p12mr4698320itc.22.1464290109402;
-	Thu, 26 May 2016 12:15:09 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.162.6 with HTTP; Thu, 26 May 2016 12:14:49 -0700 (PDT)
-In-Reply-To: <CAJTo0LZB4hGFdGoavFwxgWg2bvj_7nPEWyT4c=jfjx-=wRKcJw@mail.gmail.com>
-References: <cover.1463035854.git.jussi.kukkonen@intel.com>
-	<93f1600d7ce782dbafb1ab32da9416dc29d432c2.1463035854.git.jussi.kukkonen@intel.com>
-	<6a0ed7998e66eedbf58fdb54db111b281a2b81bb.1463035854.git.jussi.kukkonen@intel.com>
-	<CAP9ODKpbMyzEkKh1WhwnNkRrgXCeBQzTeSrVP89Ngx5CwMO_5w@mail.gmail.com>
-	<20160526172357.GB2575@jama>
-	<CAJTo0LZB4hGFdGoavFwxgWg2bvj_7nPEWyT4c=jfjx-=wRKcJw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 26 May 2016 20:14:49 +0100
-Message-ID: <CAJTo0LaRKxBn_fVuPsk9ANo6VrvGr071VWK7GPea-F5ciPazYg@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 13/13] weston: Upgrade 1.9.0 -> 1.10.0
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=hom/gVM5Q2JCp2Nacg6Ik5NkCYUHCYuUfaSgTHh4kzI=;
+	b=eKyw+5dJ+Z1IYkNFmJwHjLbLsOLtOm9vVtOVeBhI/Ao7kTV408/W+chCepEKS1IodA
+	/4Yb9pP2bJTByoQs/iu2ai3ppLJGGdxwX6kv84NKVCXOehKBvHwAQQCZigQq1iU343yi
+	5GnEezZrbCLAZlW7qgfPAyK7opmvAW+PqYxdoZLRvnlu4pMX+i0RLcdnmuf0dLjGg0od
+	BwS/gBulZzvxxijlGPVkc0lE7M4xV4u+86RIYzhaCSU1pA4PXgs+znjzLPb2vjH0r+nE
+	NGuKDSvtFhJEkEhOw0DajiH4p7B1x9OV+xdG0D1Q5Aj4MdF55VsgrJxBlKD4BbfPNM9M
+	D7/g==
+X-Gm-Message-State: ALyK8tLJ+Q58ccMY67cvY+dUvp7L4Nx6VYocrodRRXPtGpsAvU1Wp6zYj1RNWQWwNzh8dA==
+X-Received: by 10.112.62.165 with SMTP id z5mr3024151lbr.89.1464291875447;
+	Thu, 26 May 2016 12:44:35 -0700 (PDT)
+Received: from localhost.localdomain (c80-217-62-231.bredband.comhem.se.
+	[80.217.62.231])
+	by smtp.gmail.com with ESMTPSA id 4sm228252ljb.19.2016.05.26.12.44.34
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 26 May 2016 12:44:34 -0700 (PDT)
+From: Ming Liu <liu.ming50@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 26 May 2016 21:44:30 +0200
+Message-Id: <1464291870-5602-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Cc: yue.tao@windriver.com, Ming Liu <peter.x.liu@external.atlascopco.com>
+Subject: [PATCH] initscripts: hide the error in case swapoff does not exist
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,38 +53,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 May 2016 19:15:09 -0000
-Content-Type: multipart/alternative; boundary=001a114ab6cad1d2070533c39bd2
+X-List-Received-Date: Thu, 26 May 2016 19:44:38 -0000
 
---001a114ab6cad1d2070533c39bd2
-Content-Type: text/plain; charset=UTF-8
+From: Ming Liu <peter.x.liu@external.atlascopco.com>
 
-On 26 May 2016 at 20:13, Burton, Ross <ross.burton@intel.com> wrote:
+To avoid reporting errors when swapoff does not exist.
 
-> And literally nothing in oe-core uses libsdl2.  Does anyone who knows SDL
-> have an opinion on whether we should switch qemu and ffmpeg to use libsdl2,
-> or keep on libsdl and move libsdl2 to meta-oe?
->
+Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
+---
+ meta/recipes-core/initscripts/initscripts-1.0/umountfs | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-It appears that qemu supports both but defaults to 1.2, which suggests that
-it's the better supported option for qemu.
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/umountfs b/meta/recipes-core/initscripts/initscripts-1.0/umountfs
+index 61324c6..d067234 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/umountfs
++++ b/meta/recipes-core/initscripts/initscripts-1.0/umountfs
+@@ -12,7 +12,7 @@
+ PATH=/sbin:/bin:/usr/sbin:/usr/bin
+ 
+ echo "Deactivating swap..."
+-swapoff -a
++swapoff -a 2> /dev/null
+ 
+ # We leave /proc mounted.
+ echo "Unmounting local filesystems..."
+-- 
+1.9.1
 
-Ross
 
---001a114ab6cad1d2070533c39bd2
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 26 May 2016 at 20:13, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;</=
-span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
-x;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_extra">A=
-nd literally nothing in oe-core uses libsdl2.=C2=A0 Does anyone who knows S=
-DL have an opinion on whether we should switch qemu and ffmpeg to use libsd=
-l2, or keep on libsdl and move libsdl2 to meta-oe?</div></blockquote><div><=
-br></div><div>It appears that qemu supports both but defaults to 1.2, which=
- suggests that it&#39;s the better supported option for qemu.</div><div><br=
-></div><div>Ross=C2=A0</div></div><br></div></div>
-
---001a114ab6cad1d2070533c39bd2--
