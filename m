@@ -1,29 +1,29 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id B3C7B6FF3D
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id A17086B6EA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 May 2016 13:41:19 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u4QDeHcS029577; Thu, 26 May 2016 14:41:18 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id OwgmssAO3j0Y; Thu, 26 May 2016 14:41:18 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u4QDfGRK029602
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 26 May 2016 14:41:17 +0100
-Message-ID: <1464270076.19134.19.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Otavio Salvador <otavio@ossystems.com.br>, OpenEmbedded Core Mailing
-	List <openembedded-core@lists.openembedded.org>
-Date: Thu, 26 May 2016 14:41:16 +0100
-In-Reply-To: <1464036327-4826-1-git-send-email-otavio@ossystems.com.br>
-References: <1464036327-4826-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 0/3] Improve SSL certificate handling
+	Thu, 26 May 2016 13:49:44 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP; 26 May 2016 06:49:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,367,1459839600"; d="scan'208";a="985200002"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga002.jf.intel.com with ESMTP; 26 May 2016 06:49:43 -0700
+To: Mark Hatle <mark.hatle@windriver.com>
+References: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
+	<e0ab0ad1-fb6d-a8a0-a31f-913b9fa4dcc2@windriver.com>
+	<51113.10.252.8.31.1464181299.squirrel@linux.intel.com>
+	<32be4839-8552-c5fa-6ba3-6df5d97aee7c@windriver.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <5746FEED.1000907@linux.intel.com>
+Date: Thu, 26 May 2016 16:49:33 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Icedove/38.6.0
+MIME-Version: 1.0
+In-Reply-To: <32be4839-8552-c5fa-6ba3-6df5d97aee7c@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 00/45] Move recipes to use Python 3 whenever possible
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,33 +36,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 May 2016 13:41:20 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 26 May 2016 13:49:45 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2016-05-23 at 17:45 -0300, Otavio Salvador wrote:
-> This patchset leverage the OpenSSL certificate handling so it works
-> aligned with Debian and other generic distributions regarding where
-> the certificates are stored and how they are installed.
-> 
-> This all started when debugging why SSL certificates were not working
-> properly for a customer which was using QtWebEngine. It turned out to
-> be the integration which was not complete so this patch addresses it.
-> 
-> 
-> Otavio Salvador (3):
->   openssl: Add Shell-Script based c_rehash utility
->   ca-certificates: Use c_rehash utility
->   openssl: Ensure SSL certificates are stored on sysconfdir
+On 05/26/2016 04:39 PM, Mark Hatle wrote:
 
-Initial tests were ok but we've just seen:
+> The interchange format of the newer createrepo is very different then the older
+> format the smartpm uses.  Thus they have to be kept in sync.  The new format
+> also does not have the extensions we added for the recommended package syntax.
+>
+> createrepo is very small, and it's not YUM dependent.  It simply reads the
+> metadata (via the rpm interface) and dumps out data in an XML format.. then does
+> a few more things as well.  So porting the existing one forward shouldn't be
+> difficult.  It's just not clear at this point what the best behavior will be to
+> do.. port createrepo forward -- or update smartpm to support the newer format
+> (with appropriate extensions.)
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-oecore/build
-s/792/steps/BuildImages/logs/stdio
+I still don't understand why introducing yum/dnf as a replacement for 
+smartpm should be avoided at all costs. Like smartpm, it's fully written 
+in Python, so that theoretically should be less painful that building 
+working binaries.
 
-I've not looked into it but it would seem to implicate these patches :/
+Alex
 
-Cheers,
-
-Richard
 
