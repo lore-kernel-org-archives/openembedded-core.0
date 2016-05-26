@@ -1,46 +1,22 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-lb0-f196.google.com (mail-lb0-f196.google.com
-	[209.85.217.196])
-	by mail.openembedded.org (Postfix) with ESMTP id D6A08731F3
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 957A56AC4B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 May 2016 19:44:35 +0000 (UTC)
-Received: by mail-lb0-f196.google.com with SMTP id sh2so4923661lbb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 May 2016 12:44:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=hom/gVM5Q2JCp2Nacg6Ik5NkCYUHCYuUfaSgTHh4kzI=;
-	b=P5gNHR6vXSMVL+P10PfSMCZHsBO65BCrnTqR0RfAkfRPB5lHlA81bAjQzboVk+kHI6
-	xyHhGOrzP1JQwZ1oqSOZtOWVkKqr/k1CJr4MS5TXbE8lQKvYRh9ncmh4rLGVsa9Dg+dr
-	oQvfWqxY68lNYRVr28BtegsrWb3MMCg6n7FgAlU0baDlall+8C/qKP0oPvf1kKCabYuT
-	eO8ANszESp9z6gPoiA1x1xwn7nULqZtOtTnrIwJ+Fwl99NofCXBBLkjlxFbamcb3ax1r
-	YKxMuh9tOlydP27gLQ2+FRN4OaS4eXbJTW/lYBc0OLwkBDI5nCtrxRzfhH5bjMt7o04v
-	jHCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=hom/gVM5Q2JCp2Nacg6Ik5NkCYUHCYuUfaSgTHh4kzI=;
-	b=eKyw+5dJ+Z1IYkNFmJwHjLbLsOLtOm9vVtOVeBhI/Ao7kTV408/W+chCepEKS1IodA
-	/4Yb9pP2bJTByoQs/iu2ai3ppLJGGdxwX6kv84NKVCXOehKBvHwAQQCZigQq1iU343yi
-	5GnEezZrbCLAZlW7qgfPAyK7opmvAW+PqYxdoZLRvnlu4pMX+i0RLcdnmuf0dLjGg0od
-	BwS/gBulZzvxxijlGPVkc0lE7M4xV4u+86RIYzhaCSU1pA4PXgs+znjzLPb2vjH0r+nE
-	NGuKDSvtFhJEkEhOw0DajiH4p7B1x9OV+xdG0D1Q5Aj4MdF55VsgrJxBlKD4BbfPNM9M
-	D7/g==
-X-Gm-Message-State: ALyK8tLJ+Q58ccMY67cvY+dUvp7L4Nx6VYocrodRRXPtGpsAvU1Wp6zYj1RNWQWwNzh8dA==
-X-Received: by 10.112.62.165 with SMTP id z5mr3024151lbr.89.1464291875447;
-	Thu, 26 May 2016 12:44:35 -0700 (PDT)
-Received: from localhost.localdomain (c80-217-62-231.bredband.comhem.se.
-	[80.217.62.231])
-	by smtp.gmail.com with ESMTPSA id 4sm228252ljb.19.2016.05.26.12.44.34
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 26 May 2016 12:44:34 -0700 (PDT)
-From: Ming Liu <liu.ming50@gmail.com>
+	Thu, 26 May 2016 20:04:30 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga104.fm.intel.com with ESMTP; 26 May 2016 13:04:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,369,1459839600"; d="scan'208";a="975256574"
+Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.jf.intel.com)
+	([10.54.69.56])
+	by fmsmga001.fm.intel.com with ESMTP; 26 May 2016 13:04:31 -0700
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 May 2016 21:44:30 +0200
-Message-Id: <1464291870-5602-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Cc: yue.tao@windriver.com, Ming Liu <peter.x.liu@external.atlascopco.com>
-Subject: [PATCH] initscripts: hide the error in case swapoff does not exist
+Date: Thu, 26 May 2016 20:04:04 +0000
+Message-Id: <1464293044-41923-1-git-send-email-alejandro.hernandez@linux.intel.com>
+X-Mailer: git-send-email 2.6.6
+Cc: joshua.g.lock@intel.com
+Subject: [PATCH][jethro] systemd: re-enable mount propagation for udevd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,31 +29,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 May 2016 19:44:38 -0000
+X-List-Received-Date: Thu, 26 May 2016 20:04:32 -0000
 
-From: Ming Liu <peter.x.liu@external.atlascopco.com>
+From: Roy Li <rongqing.li@windriver.com>
 
-To avoid reporting errors when swapoff does not exist.
+With MountFlags=slave, those mounts then become private to the systemd-udevd
+namespace and are no longer accessible from outside the namespace, which is
+not expected
 
-Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
+[YOCTO #8613]
+
+(From OE-Core rev: 73f43d857fe0102033f25491007b6dbe3d5fa8ee)
+
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit f2092e67ea880301058396b831a9a18905317d0d)
+Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 ---
- meta/recipes-core/initscripts/initscripts-1.0/umountfs | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...dev-re-enable-mount-propagation-for-udevd.patch | 31 ++++++++++++++++++++++
+ meta/recipes-core/systemd/systemd_225.bb           |  1 +
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/udev-re-enable-mount-propagation-for-udevd.patch
 
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/umountfs b/meta/recipes-core/initscripts/initscripts-1.0/umountfs
-index 61324c6..d067234 100755
---- a/meta/recipes-core/initscripts/initscripts-1.0/umountfs
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/umountfs
-@@ -12,7 +12,7 @@
- PATH=/sbin:/bin:/usr/sbin:/usr/bin
+diff --git a/meta/recipes-core/systemd/systemd/udev-re-enable-mount-propagation-for-udevd.patch b/meta/recipes-core/systemd/systemd/udev-re-enable-mount-propagation-for-udevd.patch
+new file mode 100644
+index 0000000..23e22d4
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/udev-re-enable-mount-propagation-for-udevd.patch
+@@ -0,0 +1,31 @@
++From: Michael Biebl <biebl@debian.org>
++Date: Sat, 27 Sep 2014 04:19:24 +0200
++Subject: udev: re-enable mount propagation for udevd
++
++Upstream-Status: Backport [http://http.debian.net/debian/pool/main/s/systemd/systemd_215-17+deb8u4.debian.tar.xz]
++
++laptop-mode-tools remounts file systems from within a udev rule to apply
++certain mount options. With MountFlags=slave, those mounts then become private
++to the systemd-udevd namespace and are no longer accessible from outside the
++namespace.
++While the root cause is the broken behaviour of laptop-mode-tools, with mount
++propagation turned off, this can result in a read-only root file system.
++Therefore revert the relevant parts from commit
++c2c13f2df42e0691aecabe3979ea81cd7faa35c7 to re-enable mount propagation for
++udevd.
++
++Once affected packages have been fixed, this patch should be dropped
++again.
++
++Closes: #762018
++diff --git a/units/systemd-udevd.service.in b/units/systemd-udevd.service.in
++index e7216d6..1e9a600 100644
++--- a/units/systemd-udevd.service.in
+++++ b/units/systemd-udevd.service.in
++@@ -21,6 +21,5 @@ Sockets=systemd-udevd-control.socket systemd-udevd-kernel.socket
++ Restart=always
++ RestartSec=0
++ ExecStart=@rootlibexecdir@/systemd-udevd
++-MountFlags=slave
++ KillMode=mixed
++ WatchdogSec=1min
+diff --git a/meta/recipes-core/systemd/systemd_225.bb b/meta/recipes-core/systemd/systemd_225.bb
+index 18c2448..a2122e0 100644
+--- a/meta/recipes-core/systemd/systemd_225.bb
++++ b/meta/recipes-core/systemd/systemd_225.bb
+@@ -46,6 +46,7 @@ SRC_URI = "git://github.com/systemd/systemd.git;protocol=git \
+            file://init \
+            file://run-ptest \
+            file://rules-whitelist-hd-devices.patch \
++           file://udev-re-enable-mount-propagation-for-udevd.patch \
+           "
+ SRC_URI_append_qemuall = " file://qemuall_io_latency-core-device.c-Change-the-default-device-timeout-to-2.patch"
  
- echo "Deactivating swap..."
--swapoff -a
-+swapoff -a 2> /dev/null
- 
- # We leave /proc mounted.
- echo "Unmounting local filesystems..."
 -- 
-1.9.1
+2.6.6
 
 
