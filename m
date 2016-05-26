@@ -1,49 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 27FDF60796
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 727A6731F6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 May 2016 19:13:29 +0000 (UTC)
-Received: by mail-wm0-f46.google.com with SMTP id z87so111049921wmh.0
+	Thu, 26 May 2016 19:13:31 +0000 (UTC)
+Received: by mail-wm0-f51.google.com with SMTP id z87so111050371wmh.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 May 2016 12:13:30 -0700 (PDT)
+	Thu, 26 May 2016 12:13:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=FDEN3JweThvl7wvkzEK/MZy1MNSSyFbv0pjl+m3bC4Q=;
-	b=kr6h1J9WIuzbX+I3bf/yW/MH26ub5DFjVnrhunK++yHHie9jTuD0wLDX2Imd7li4Yo
-	PXbJ0VL9Dpaq5zMMNNbeeMKxGGBCpp8wXThrGCPxnkpzg7gNYUvJ6eG3nUJZnnKjQ/rv
-	wEvX+45q3snup+Z2c8hPeFYtnuYYlVz4iaVHzH/U0TVy5OIZz+daANQDxdiZaoyiy+Qp
-	4zkvK7B7kRFYU9mtZmvDsib3dtNVe6WU93jHXrD/il5G00p2dJ3WFTPZsEuDeH9VX50x
-	EiNxGYzJjmxxT9XgkwZZBSNNCGfJhM1szx+6MdVQ9xUKNq7PpDuX1/s7NAFu0Xb4+YPp
-	zbrA==
+	bh=U2mjxuyNcdrD938YyvK3zH4Sxt2s9zASzRTPM5andh8=;
+	b=iix2RTycJLDwa6qPbONyYQVTRyThnkcnvao/rfQoOSZPuOrtX2eUnRIA4kOwhPHElf
+	mc5MwQ0xcH3iZ/VQ69bO+EBBh9sMJ+vQprakJfY4qvZPvFyG12qPfDEEtSy2RwZRS9oo
+	7LWYk+3mKQMA55qGeHfoNfSS8r3T4/dudWtJ0Z53wulsG31vJgYkeQtkaQSy0G1+gj5Q
+	+qmfS4xBpIj6CwecXP3p7SD7m++GRzeoIEVUqbFk+zY2H6s868abP5U47oRUr2gHcaSu
+	MSqsXINGSGZqEB5U9yodepKty8XbQ59aVIjFzOwfMX3Pf7pPNiP96OtYPfm2XruoHgpf
+	VuDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=FDEN3JweThvl7wvkzEK/MZy1MNSSyFbv0pjl+m3bC4Q=;
-	b=ixSs4ChjxEUPrUC9x7rYUdpdFJfXRknIIkEE3e8FdHxD/LRyPO05yAm1S5XgUq7g48
-	eKYdeoJjPbLm4oZBsJaFgrkPEbzSd6JBbS5kr+I7JM2beGNZYoRWdaagpPL66VDxfyLt
-	yEso7LhoZb7muMFREBq+GJxl6kZFnZyIvLUQt+uMFkvDRjD2Es5SohviPuE18JpBM82/
-	hAu43BaITCwggaEv43JtxEkfB5Qwoo2daPssYCqLi/HHBLty9Q24qwKWxdMiVbyntRE8
-	8E6w9xJAuxKjYuOMSTAwllmHD+7OJT6F1NkaBu/wWNSDEo1IbIKt4aQGCSnlAhcjxmCK
-	6N2g==
-X-Gm-Message-State: ALyK8tIT8vUbomUrWMO4+u+cqVv3Sjx3fLmmLuIt4oxFIRp8hNqabfmtPOQgv71myC9gwna7
-X-Received: by 10.194.101.170 with SMTP id fh10mr10970834wjb.50.1464290010313; 
-	Thu, 26 May 2016 12:13:30 -0700 (PDT)
+	bh=U2mjxuyNcdrD938YyvK3zH4Sxt2s9zASzRTPM5andh8=;
+	b=Cpk9BIWaPK+2ORAbQWoDIAZzUzGT9+B6fIi6cfrAK1iA9oOtkWtF7seNdyRCwMQHir
+	FcTn1bAqlegDIc7QZpqy4CFzepN31+/rRBIRQk08Br1yMO6tWEUxmk2EX+g6ifBH1Hls
+	zLjfdbwyQfpMq97Dw1JMRzqtRxuUGlb/gXKIpl3foLTD1K9qawr+xfgY5sONgU5F0pQj
+	fvFqehT3In2Irg0t2HlbUPemZyWLFara0VU7jXQ+W++lXLptfK0F8pvjc3gqPnQFChO6
+	r2iXLChXh76+m8393RrCYejSTh67QNuE2ThWTGVW+8JIVwjpVsOCR6kV3/sjpS9a71km
+	iVuA==
+X-Gm-Message-State: ALyK8tJXlR+VrHXScszScB0AQv8EAtObqHzbwMHYVdbyYqOdLQ9+GJOAj4++o+8EaokQOuMn
+X-Received: by 10.194.174.71 with SMTP id bq7mr12253618wjc.64.1464290011285;
+	Thu, 26 May 2016 12:13:31 -0700 (PDT)
 Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
 	by smtp.gmail.com with ESMTPSA id
-	i1sm15727790wjm.12.2016.05.26.12.13.29
+	i1sm15727790wjm.12.2016.05.26.12.13.30
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 26 May 2016 12:13:29 -0700 (PDT)
+	Thu, 26 May 2016 12:13:30 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 May 2016 20:13:24 +0100
-Message-Id: <1464290005-6724-2-git-send-email-ross.burton@intel.com>
+Date: Thu, 26 May 2016 20:13:25 +0100
+Message-Id: <1464290005-6724-3-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.8.0.rc3
 In-Reply-To: <1464290005-6724-1-git-send-email-ross.burton@intel.com>
 References: <1464290005-6724-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 2/3] libxcb: upgrade to 1.12
+Subject: [PATCH 3/3] xcb-proto: remove stale git recipe and now redundant .inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,32 +56,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 May 2016 19:13:30 -0000
+X-List-Received-Date: Thu, 26 May 2016 19:13:31 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-graphics/xorg-lib/{libxcb_1.11.1.bb => libxcb_1.12.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{libxcb_1.11.1.bb => libxcb_1.12.bb} (89%)
+ meta/recipes-graphics/xorg-proto/xcb-proto.inc     | 26 ----------------------
+ meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb | 25 +++++++++++++++++++--
+ meta/recipes-graphics/xorg-proto/xcb-proto_git.bb  |  9 --------
+ 3 files changed, 23 insertions(+), 37 deletions(-)
+ delete mode 100644 meta/recipes-graphics/xorg-proto/xcb-proto.inc
+ delete mode 100644 meta/recipes-graphics/xorg-proto/xcb-proto_git.bb
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxcb_1.11.1.bb b/meta/recipes-graphics/xorg-lib/libxcb_1.12.bb
-similarity index 89%
-rename from meta/recipes-graphics/xorg-lib/libxcb_1.11.1.bb
-rename to meta/recipes-graphics/xorg-lib/libxcb_1.12.bb
-index 0856c19..62b8bab 100644
---- a/meta/recipes-graphics/xorg-lib/libxcb_1.11.1.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxcb_1.12.bb
-@@ -14,8 +14,8 @@ SRC_URI = "http://xcb.freedesktop.org/dist/libxcb-${PV}.tar.bz2 \
-            file://disable-check.patch \
-            file://gcc-mips-pr68302-mips-workaround.patch \
-           "
--SRC_URI[md5sum] = "f97a65e6158775de518ac391935634c2"
--SRC_URI[sha256sum] = "b720fd6c7d200e5371affdb3f049cc8f88cff9aed942ff1b824d95eedbf69d30"
-+SRC_URI[md5sum] = "28e552bd78bc1050b6b26ca1db0e5bb6"
-+SRC_URI[sha256sum] = "4adfb1b7c67e99bc9c2ccb110b2f175686576d2f792c8a71b9c8b19014057b5b"
+diff --git a/meta/recipes-graphics/xorg-proto/xcb-proto.inc b/meta/recipes-graphics/xorg-proto/xcb-proto.inc
+deleted file mode 100644
+index 8703d63..0000000
+--- a/meta/recipes-graphics/xorg-proto/xcb-proto.inc
++++ /dev/null
+@@ -1,26 +0,0 @@
+-SUMMARY = "XCB: The X protocol C binding headers"
+-DESCRIPTION = "Function prototypes for the X protocol C-language Binding \
+-(XCB).  XCB is a replacement for Xlib featuring a small footprint, \
+-latency hiding, direct access to the protocol, improved threading \
+-support, and extensibility."
+-HOMEPAGE = "http://xcb.freedesktop.org"
+-BUGTRACKER = "https://bugs.freedesktop.org/enter_bug.cgi?product=XCB"
+-
+-SECTION = "x11/libs"
+-LICENSE = "MIT-X"
+-
+-SRC_URI = "http://xcb.freedesktop.org/dist/xcb-proto-${PV}.tar.bz2 \
+-           file://no-python-native.patch"
+-
+-inherit autotools pkgconfig
+-
+-PACKAGES += "python-xcbgen"
+-
+-FILES_${PN} = ""
+-FILES_${PN}-dev += "${datadir}/xcb/*.xml ${datadir}/xcb/*.xsd"
+-FILES_python-xcbgen = "${libdir}/xcb-proto"
+-
+-RDEPENDS_${PN}-dev = ""
+-RRECOMMENDS_${PN}-dbg = "${PN}-dev (= ${EXTENDPKGV})"
+-
+-BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb b/meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb
+index 23166a9..8bdca32 100644
+--- a/meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb
++++ b/meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb
+@@ -1,9 +1,30 @@
+-include xcb-proto.inc
++SUMMARY = "XCB: The X protocol C binding headers"
++DESCRIPTION = "Function prototypes for the X protocol C-language Binding \
++(XCB).  XCB is a replacement for Xlib featuring a small footprint, \
++latency hiding, direct access to the protocol, improved threading \
++support, and extensibility."
++HOMEPAGE = "http://xcb.freedesktop.org"
++BUGTRACKER = "https://bugs.freedesktop.org/enter_bug.cgi?product=XCB"
  
- BBCLASSEXTEND = "native nativesdk"
++SECTION = "x11/libs"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d763b081cb10c223435b01e00dc0aba7 \
+                     file://src/dri2.xml;beginline=2;endline=28;md5=f8763b13ff432e8597e0d610cf598e65"
  
+-
++SRC_URI = "http://xcb.freedesktop.org/dist/xcb-proto-${PV}.tar.bz2 \
++           file://no-python-native.patch"
+ SRC_URI[md5sum] = "14e60919f859560f28426a685a555962"
+ SRC_URI[sha256sum] = "5922aba4c664ab7899a29d92ea91a87aa4c1fc7eb5ee550325c3216c480a4906"
++
++inherit autotools pkgconfig
++
++PACKAGES += "python-xcbgen"
++
++FILES_${PN} = ""
++FILES_${PN}-dev += "${datadir}/xcb/*.xml ${datadir}/xcb/*.xsd"
++FILES_python-xcbgen = "${libdir}/xcb-proto"
++
++RDEPENDS_${PN}-dev = ""
++RRECOMMENDS_${PN}-dbg = "${PN}-dev (= ${EXTENDPKGV})"
++
++BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-graphics/xorg-proto/xcb-proto_git.bb b/meta/recipes-graphics/xorg-proto/xcb-proto_git.bb
+deleted file mode 100644
+index 2ea4d04..0000000
+--- a/meta/recipes-graphics/xorg-proto/xcb-proto_git.bb
++++ /dev/null
+@@ -1,9 +0,0 @@
+-DEFAULT_PREFERENCE = "-1"
+-
+-include xcb-proto.inc
+-SRCREV = "d81ca233e98be8fa59e8c90d262c0516944c5a66"
+-PV = "1.2+gitr${SRCPV}"
+-PR = "r4"
+-
+-SRC_URI = "git://anongit.freedesktop.org/git/xcb/proto"
+-S = "${WORKDIR}/git"
 -- 
 2.8.0.rc3
 
