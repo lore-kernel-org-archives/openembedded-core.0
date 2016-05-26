@@ -1,25 +1,27 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 49BB460670
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id ACDAF60670
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 May 2016 15:36:11 +0000 (UTC)
+	Thu, 26 May 2016 15:36:13 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u4QFaBb5010875
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u4QFaCYf006803
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 26 May 2016 08:36:11 -0700 (PDT)
+	Thu, 26 May 2016 08:36:12 -0700 (PDT)
 Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Thu, 26 May 2016 08:36:10 -0700
+	14.3.248.2; Thu, 26 May 2016 08:36:12 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Thu, 26 May 2016 11:36:08 -0400
-Message-ID: <cover.1464276666.git.bruce.ashfield@windriver.com>
+Date: Thu, 26 May 2016 11:36:09 -0400
+Message-ID: <0c7d905fab7bbcbbd0ae78e84c9bec761b62cc1b.1464276666.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 2.5.0
+In-Reply-To: <cover.1464276666.git.bruce.ashfield@windriver.com>
+References: <cover.1464276666.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: tom.zanussi@intel.com, saul.wold@intel.com,
 	openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/2] linux-yocto: intel staging and bxt backports
+Subject: [PATCH 1/2] linux-yocto:4.4: broxton backports
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,53 +37,145 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 26 May 2016 15:36:13 -0000
 Content-Type: text/plain
 
-Hi all,
+Integrating the following mainline backports for better Broxton
+support:
 
-We have a couple of patches to integrate broxton backports, and to
-create some intel staging branches.
+Adrian Hunter (3):
+      mmc: sdhci: Remove SDHCI_SDR104_NEEDS_TUNING
+      mmc: mmc: Attempt to flush cache before reset
+      mmc: mmc: Fix partition switch timeout for some eMMCs
 
-From the patch:
-[
-  To provide timely support for Intel platforms, without risking
-  issues with other platforms, we create intel branches from the
-  common variants.
+Andy Shevchenko (12):
+      device property: always check for fwnode type
+      device property: rename helper functions
+      device property: refactor built-in properties support
+      device property: keep single value inplace
+      device property: improve readability of macros
+      device property: return -EINVAL when property isn't found in ACPI
+      device property: Fallback to secondary fwnode if primary misses the property
+      mfd: core: propagate device properties to sub devices drivers
+      mfd: intel-lpss: Pass HSUART configuration via properties
+      device property: avoid allocations of 0 length
+      lib/string: introduce match_string() helper
+      device property: convert to use match_string() helper
 
-  i.e. We now have standard/intel, which is from standard/base
+Bamvor Jian Zhang (1):
+      gpiolib: do not allow to insert an empty gpiochip
 
-  These branches will be managed like any other in the tree, and
-  will get common -stable, -rt, bugs and CVE updates.
-]
+Christophe RICARD (2):
+      ACPI: Rename acpi_gsi_get_irq_type to acpi_dev_get_irq_type and export symbol
+      ACPI / gpio: Add irq_type when a GPIO is used as an interrupt
 
-For the 4.4 tree, I had to rename standard/preempt-rt to standard/preempt-rt/base
-to accomodate the new child branch. So until this is merged, there will be
-a short window where the linux-yocto 4.4 repo and the KBRANCH in the
-preempt-rt recipe disagree on the right name.
+Dasaratharaman Chandramouli (1):
+      intel_idle: Support for Intel Xeon Phi Processor x200 Product Family
 
-Cheers,
+Gwendal Grignou (1):
+      mmc: core: Do regular power cycle when lacking eMMC HW reset support
 
-Bruce
+Heikki Krogerus (4):
+      device property: helper macros for property entry creation
+      device property: the secondary fwnode needs to depend on the primary
+      device property: fwnode->secondary may contain ERR_PTR(-ENODEV)
+      device property: fix for a case of use-after-free
 
-The following changes since commit 2718e843b3502afa1e21510bb6b9c4720f75124c:
+Len Brown (2):
+      intel_idle: Add SKX support
+      intel_idle: add BXT support
 
-  yocto-bsps: update to 4.4.11 (2016-05-26 11:34:14 +0100)
+Linus Walleij (1):
+      Revert "gpio: revert get() to non-errorprogating behaviour"
 
-are available in the git repository at:
+Mika Westerberg (7):
+      pwm: lpss: Remove ->free() callback
+      pwm: lpss: Rework the sequence of programming PWM_SW_UPDATE
+      device property: Take a copy of the property set
+      driver core: platform: Add support for built-in device properties
+      mfd: intel-lpss: Add support for passing device properties
+      mfd: intel-lpss: Pass SDA hold time to I2C host controller driver
+      mfd: intel-lpss: Pass I2C configuration via properties on BXT
 
-  git://git.pokylinux.org/poky-contrib zedd/kernel
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+Qipeng Zha (1):
+      pinctrl: intel: make the high level interrupt working
 
-Bruce Ashfield (2):
-  linux-yocto:4.4: broxton backports
-  linux-yocto: create intel branches
+Richard Cochran (10):
+      intel_idle: remove useless return from void function.
+      intel_idle: Fix a helper function's return value.
+      intel_idle: Remove redundant initialization calls.
+      intel_idle: Fix deallocation order on the driver exit path.
+      intel_idle: Fix dangling registration on error path.
+      intel_idle: Avoid a double free of the per-CPU data.
+      intel_idle: Setup the timer broadcast only on successful driver load.
+      intel_idle: Don't overreact to a cpuidle registration failure.
+      intel_idle: Propagate hot plug errors.
+      intel_idle: Clean up all registered devices on exit.
 
- meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   |  2 +-
- meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb   |  6 +++---
- meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb |  2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb |  4 ++--
- meta/recipes-kernel/linux/linux-yocto_4.1.bb      |  2 +-
- meta/recipes-kernel/linux/linux-yocto_4.4.bb      | 18 +++++++++---------
- 6 files changed, 17 insertions(+), 17 deletions(-)
+Wolfram Sang (1):
+      mmc: make MAN_BKOPS_EN message a debug
 
+qipeng.zha (1):
+      pwm: lpss: Update PWM setting for Broxton
+
+Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb   |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb |  2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.4.bb      | 16 ++++++++--------
+ 3 files changed, 10 insertions(+), 10 deletions(-)
+
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
+index f57ead8ef34a..a6f7dcca5ec4 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
+@@ -11,7 +11,7 @@ python () {
+         raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
+ 
+-SRCREV_machine ?= "bf2fbe7f2cdf44fc69e50fefbfdd58d41a03733a"
++SRCREV_machine ?= "3bdc347cc2087a0217e3acddccda5bb775cd570b"
+ SRCREV_meta ?= "6ec93aaa70f838b551f58b91d0c6ffeff6f6094b"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.4.git;branch=${KBRANCH};name=machine \
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
+index da88451b760f..e05b27a769d4 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
+@@ -9,7 +9,7 @@ LINUX_VERSION ?= "4.4.11"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine ?= "628bf627561c6285d99fb978e11d4c15fc29324b"
++SRCREV_machine ?= "53e84104c5e68eb468823dd0d262a64623d01a55"
+ SRCREV_meta ?= "6ec93aaa70f838b551f58b91d0c6ffeff6f6094b"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.4.bb b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
+index 4306bf8be98a..984a49c85e51 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
+@@ -11,14 +11,14 @@ KBRANCH_qemux86  ?= "standard/base"
+ KBRANCH_qemux86-64 ?= "standard/base"
+ KBRANCH_qemumips64 ?= "standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "97c21d0b5ffa8eb1cb27a6f81b52ec53182ae087"
+-SRCREV_machine_qemuarm64 ?= "628bf627561c6285d99fb978e11d4c15fc29324b"
+-SRCREV_machine_qemumips ?= "8763860e4da46b3cb1551e09d9ca46eedd2dd91a"
+-SRCREV_machine_qemuppc ?= "628bf627561c6285d99fb978e11d4c15fc29324b"
+-SRCREV_machine_qemux86 ?= "628bf627561c6285d99fb978e11d4c15fc29324b"
+-SRCREV_machine_qemux86-64 ?= "628bf627561c6285d99fb978e11d4c15fc29324b"
+-SRCREV_machine_qemumips64 ?= "8974d9741cbcb21bf50ab49a6257e5773415fa5f"
+-SRCREV_machine ?= "628bf627561c6285d99fb978e11d4c15fc29324b"
++SRCREV_machine_qemuarm ?= "b74c7523581ab748dfe475af384fcb40c4542d31"
++SRCREV_machine_qemuarm64 ?= "53e84104c5e68eb468823dd0d262a64623d01a55"
++SRCREV_machine_qemumips ?= "f5f23899a4afb7f095a480652edc082d6bd545b2"
++SRCREV_machine_qemuppc ?= "53e84104c5e68eb468823dd0d262a64623d01a55"
++SRCREV_machine_qemux86 ?= "53e84104c5e68eb468823dd0d262a64623d01a55"
++SRCREV_machine_qemux86-64 ?= "53e84104c5e68eb468823dd0d262a64623d01a55"
++SRCREV_machine_qemumips64 ?= "7ce6e58742b2f1f79cc8b1a1fff8bc408a3b585e"
++SRCREV_machine ?= "53e84104c5e68eb468823dd0d262a64623d01a55"
+ SRCREV_meta ?= "6ec93aaa70f838b551f58b91d0c6ffeff6f6094b"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.4.git;name=machine;branch=${KBRANCH}; \
 -- 
 2.5.0
 
