@@ -1,52 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f50.google.com (mail-it0-f50.google.com
-	[209.85.214.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F95360796
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A85060796
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 May 2016 19:13:22 +0000 (UTC)
-Received: by mail-it0-f50.google.com with SMTP id z189so87777595itg.0
+	Thu, 26 May 2016 19:13:28 +0000 (UTC)
+Received: by mail-wm0-f47.google.com with SMTP id a136so41209981wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 May 2016 12:13:23 -0700 (PDT)
+	Thu, 26 May 2016 12:13:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=PdmGU+NihKppqJ04ePq1CKkIDEQDQ5hPHs/2EurDyCo=;
-	b=C/4hYPP1EejZkN452E0dqLsT45WCZvIZZ/0I7gJe0Bq8uEZdlhIBVO9pxdmZ+NDxP/
-	n80VkVW6ts1/NVCyJ8dyBJOV7UGKpm1gKnzVX6GBO4H4a54nZQGn2wYhrav/VO+Hck9c
-	Kjc4nOx3Le+zEn2vJv01qsPuTekeax8wDxw1SdVypuZCsX0XRNdVqpnx9vUS3dvpsBOp
-	lLcdXh8XTcNC7UrJOFtUii1dMStBzRKhalYtHQEbIsOhDuBKqWQr6Q/x/1ZOl8kzXmZI
-	ip+xO56FIIGENC7W1HIzL8FEA6rILfLAIWwdQnjG+Yad0VEyYrzfTZNXByin7NU48Q+9
-	LCDQ==
+	h=from:to:subject:date:message-id;
+	bh=Zm/tuRz5MTuSzBiDNvdbBuHM5W3oAbEMb76sU8bTvmw=;
+	b=RHQ86ZmUUIo3j9+lk9WDv80CZzwdpUV/9oAmkJma534w2voNRjngcrvPkmdyok0/OE
+	UGPNsYos8aCwxt7fKPt2gEAEJfWs4nRrokRYfCieASfjdLKML08WrdyORz6QnygL1f0q
+	xwRyC6ZmfZRFqpwWWtmgqcPciE8r5sOKZRSC4KfKRTsQkozJ3bLwxetU1/k5r5kOmndC
+	je5Mt+HaLkS8e8Gl+YakGR34FeTtxC7TcdhtXHwr7cVbp/oPrNgiazFjukMsz5I/LSID
+	AxAAzJ0BGV+txagevq6/FgED5BFPbkIx5WFAMM0fkHpgTeVJZsH/odsizXYHQOY9K7/m
+	Wffw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=PdmGU+NihKppqJ04ePq1CKkIDEQDQ5hPHs/2EurDyCo=;
-	b=VLxHoKFIOVwMWW8tbeDHdFhrur8ikG42w0F5gUXMlog4KSeFjE56JCce8XL/XlogjV
-	eZNQdrmaCkTdy5hrp0l9pdQJi6azku8kNg2gvG5shY2tO+9fcaNHVhL45bELuXRs49oA
-	hvCGGjZp9oIxzvHyULud5HN2xqOoYHLQAUVcQHIVVbCwenzj2Y0oU8DNTlWIbCnespZN
-	7JnRiTcGHdfDyHfGyneEp1ZYhm2BFA3Kg+u62R7hEgb5sGRF7bCR/aNNO8/thJUg4rAM
-	u+Fz3846zseOY+W35enoKzGlUBv/ctQONN0Q5jL6piJtazI46SK0PpfqAvS4Tohcl75o
-	dfCA==
-X-Gm-Message-State: ALyK8tKJL8uPM5segqBU3D7eT6X7iLYBXB/o/NMIiGgR29Rn6pcpua6swmW3MhN0XIWmQLKLovO4/KSOVI248jGw
-X-Received: by 10.36.217.79 with SMTP id p76mr4815506itg.38.1464290003153;
-	Thu, 26 May 2016 12:13:23 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.162.6 with HTTP; Thu, 26 May 2016 12:13:03 -0700 (PDT)
-In-Reply-To: <20160526172357.GB2575@jama>
-References: <cover.1463035854.git.jussi.kukkonen@intel.com>
-	<93f1600d7ce782dbafb1ab32da9416dc29d432c2.1463035854.git.jussi.kukkonen@intel.com>
-	<6a0ed7998e66eedbf58fdb54db111b281a2b81bb.1463035854.git.jussi.kukkonen@intel.com>
-	<CAP9ODKpbMyzEkKh1WhwnNkRrgXCeBQzTeSrVP89Ngx5CwMO_5w@mail.gmail.com>
-	<20160526172357.GB2575@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 26 May 2016 20:13:03 +0100
-Message-ID: <CAJTo0LZB4hGFdGoavFwxgWg2bvj_7nPEWyT4c=jfjx-=wRKcJw@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 13/13] weston: Upgrade 1.9.0 -> 1.10.0
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=Zm/tuRz5MTuSzBiDNvdbBuHM5W3oAbEMb76sU8bTvmw=;
+	b=a9h6Y6xyU8Qj9vwcqYA5NNgEmievDHLQ9gS4emhsUVNhRfMDg10MHp1huryMj5dd6P
+	uvKGZl9oStYqx0KSsnHyb+tkxzqpcNgaDOJFSNkQnY8brFnjvbIwySE0938rn/2a0ayB
+	6W/IDQ+NAGwqrAdj35Zk+8EdScE7V1/k4hC7hXGS+XY3ELXgH4zFBmwLr0HSFsOzPI+9
+	Z1PqavrKPjjANQmMfZblf3SZXWSTwWxARVP+cnvYTN00gKFia0zMrHPLjQRwbxrM+gMw
+	YuFErgAuRXu71eqJqETBmdPjWr4QW3+Qed/DIfF+K2CfilVXUuyj5V68pxiUPwHjpWOz
+	BCQQ==
+X-Gm-Message-State: ALyK8tKIzQpHIG1eU6Za2+RAKAgZ9JwE2wXf/U5XpKXmhycpvhoSvxQve982E2598kydE9gB
+X-Received: by 10.194.158.69 with SMTP id ws5mr11030854wjb.17.1464290009287;
+	Thu, 26 May 2016 12:13:29 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	i1sm15727790wjm.12.2016.05.26.12.13.28
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 26 May 2016 12:13:28 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 26 May 2016 20:13:23 +0100
+Message-Id: <1464290005-6724-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.0.rc3
+Subject: [PATCH 1/3] xcb-proto: upgrade to 1.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,50 +53,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 May 2016 19:13:25 -0000
-Content-Type: multipart/alternative; boundary=001a1145ed9e7ccc370533c3950d
+X-List-Received-Date: Thu, 26 May 2016 19:13:29 -0000
 
---001a1145ed9e7ccc370533c3950d
-Content-Type: text/plain; charset=UTF-8
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../xorg-proto/{xcb-proto_1.11.bb => xcb-proto_1.12.bb}               | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-proto/{xcb-proto_1.11.bb => xcb-proto_1.12.bb} (60%)
 
-On 26 May 2016 at 18:23, Martin Jansa <martin.jansa@gmail.com> wrote:
+diff --git a/meta/recipes-graphics/xorg-proto/xcb-proto_1.11.bb b/meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb
+similarity index 60%
+rename from meta/recipes-graphics/xorg-proto/xcb-proto_1.11.bb
+rename to meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb
+index 5bc5a11..23166a9 100644
+--- a/meta/recipes-graphics/xorg-proto/xcb-proto_1.11.bb
++++ b/meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb
+@@ -5,5 +5,5 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d763b081cb10c223435b01e00dc0aba7 \
+                     file://src/dri2.xml;beginline=2;endline=28;md5=f8763b13ff432e8597e0d610cf598e65"
+ 
+ 
+-SRC_URI[md5sum] = "6bf2797445dc6d43e9e4707c082eff9c"
+-SRC_URI[sha256sum] = "b4aceee6502a0ce45fc39b33c541a2df4715d00b72e660ebe8c5bb444771e32e"
++SRC_URI[md5sum] = "14e60919f859560f28426a685a555962"
++SRC_URI[sha256sum] = "5922aba4c664ab7899a29d92ea91a87aa4c1fc7eb5ee550325c3216c480a4906"
+-- 
+2.8.0.rc3
 
-> This wayland upgrade breaks libsdl2
->
-> http://errors.yoctoproject.org/Errors/Details/68336/
->
-> libsdl2 needs fix from here:
-> https://hg.libsdl.org/SDL/rev/330f500d5815
->
 
-And literally nothing in oe-core uses libsdl2.  Does anyone who knows SDL
-have an opinion on whether we should switch qemu and ffmpeg to use libsdl2,
-or keep on libsdl and move libsdl2 to meta-oe?
-
-Ross
-
---001a1145ed9e7ccc370533c3950d
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 26 May 2016 at 18:23, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt;=
-</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1l0" class=3D"=
-a3s aXjCH m154ee193efeaf5a4">This wayland upgrade breaks libsdl2<br>
-<br>
-<a href=3D"http://errors.yoctoproject.org/Errors/Details/68336/" rel=3D"nor=
-eferrer" target=3D"_blank">http://errors.yoctoproject.org/Errors/Details/68=
-336/</a><br>
-<br>
-libsdl2 needs fix from here:<br>
-<a href=3D"https://hg.libsdl.org/SDL/rev/330f500d5815" rel=3D"noreferrer" t=
-arget=3D"_blank">https://hg.libsdl.org/SDL/rev/330f500d5815</a></div></bloc=
-kquote></div><br>And literally nothing in oe-core uses libsdl2.=C2=A0 Does =
-anyone who knows SDL have an opinion on whether we should switch qemu and f=
-fmpeg to use libsdl2, or keep on libsdl and move libsdl2 to meta-oe?</div><=
-div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></=
-div>
-
---001a1145ed9e7ccc370533c3950d--
