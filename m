@@ -1,41 +1,26 @@
-Return-Path: <william.c.randle@intel.com>
+Return-Path: <jianxun.zhang@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id AF952731AE
+	by mail.openembedded.org (Postfix) with ESMTP id C172A65CBB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 May 2016 17:16:25 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP; 27 May 2016 10:16:26 -0700
+	Fri, 27 May 2016 19:49:19 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP; 27 May 2016 12:49:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,374,1459839600"; 
-	d="scan'208,217";a="816212911"
-Received: from orsmsx101.amr.corp.intel.com ([10.22.225.128])
-	by orsmga003.jf.intel.com with ESMTP; 27 May 2016 10:16:27 -0700
-Received: from orsmsx153.amr.corp.intel.com (10.22.226.247) by
-	ORSMSX101.amr.corp.intel.com (10.22.225.128) with Microsoft SMTP Server
-	(TLS) id 14.3.248.2; Fri, 27 May 2016 10:16:25 -0700
-Received: from orsmsx105.amr.corp.intel.com ([169.254.2.59]) by
-	ORSMSX153.amr.corp.intel.com ([10.22.226.247]) with mapi id
-	14.03.0248.002; Fri, 27 May 2016 10:16:24 -0700
-From: "Randle, William C" <william.c.randle@intel.com>
-To: "george.mccollister@gmail.com" <george.mccollister@gmail.com>,
-	"akuster808@gmail.com" <akuster808@gmail.com>
-Thread-Topic: [OE-core] [PATCH] linux-yocto/4.1: fix musb compilation error
-Thread-Index: AQHRuDN7+Fo4geI0y0ezOkq4r9/QgJ/NbZwAgAABLoCAAA0lAA==
-Date: Fri, 27 May 2016 17:16:24 +0000
-Message-ID: <1464369384.18253.11.camel@intel.com>
-References: <1464365915-8522-1-git-send-email-bruce.ashfield@windriver.com>
-	<574874E4.8080408@gmail.com>
-	<CAFSKS=MdcQ37TAzNK5_FzUb=gq1tTN7OEQyHpRX1O7BONFikTQ@mail.gmail.com>
-In-Reply-To: <CAFSKS=MdcQ37TAzNK5_FzUb=gq1tTN7OEQyHpRX1O7BONFikTQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.255.75.14]
+X-IronPort-AV: E=Sophos;i="5.26,375,1459839600"; d="scan'208";a="986125576"
+Received: from jzhang80-mac02.jf.intel.com (HELO [10.211.55.6]) ([10.24.1.109])
+	by orsmga002.jf.intel.com with ESMTP; 27 May 2016 12:49:20 -0700
+To: Saul Wold <sgw@linux.intel.com>, openembedded-core@lists.openembedded.org
+References: <1462472437-78392-1-git-send-email-jianxun.zhang@linux.intel.com>
+	<1462472437-78392-2-git-send-email-jianxun.zhang@linux.intel.com>
+	<1464305107.5221.159.camel@linux.intel.com>
+From: Jianxun Zhang <jianxun.zhang@linux.intel.com>
+Message-ID: <5748A4BF.7090709@linux.intel.com>
+Date: Fri, 27 May 2016 12:49:19 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
 MIME-Version: 1.0
-Cc: "Ashfield, Bruce \(Wind River\)" <bruce.ashfield@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] linux-yocto/4.1: fix musb compilation error
+In-Reply-To: <1464305107.5221.159.camel@linux.intel.com>
+Subject: Re: [PATCH] systemd: support systemd-boot as a stand-alone EFI bootloader
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,200 +33,324 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 May 2016 17:16:27 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_14643693841825311camelintelcom_"
+X-List-Received-Date: Fri, 27 May 2016 19:49:20 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---_000_14643693841825311camelintelcom_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
 
-QXJtaW4sDQoNCkRvIHlvdSB3YW50IG1lIHRvIGhvbGQgb2ZmIG9uIHlvdXIga3JvZ290aC1uZXh0
-IGJ1aWxkIG9uIHRoZSBBQiB0byBnaXZlIHlvdSB0aW1lIHRvIGluY2x1ZGUgdGhpcz8NCg0KICAg
-IC1CaWxsDQoNCk9uIEZyaSwgMjAxNi0wNS0yNyBhdCAxMToyOSAtMDUwMCwgR2VvcmdlIE1jQ29s
-bGlzdGVyIHdyb3RlOg0KDQpZZXMsIEkgZm91bmQgdGhlIGlzc3VlIG9uIGtyb2dvdGguDQoNCi1H
-ZW9yZ2UNCg0KT24gRnJpLCBNYXkgMjcsIDIwMTYgYXQgMTE6MjUgQU0sIGFrdXN0ZXI4MDggPGFr
-dXN0ZXI4MDhAZ21haWwuY29tPG1haWx0bzpha3VzdGVyODA4QGdtYWlsLmNvbT4+IHdyb3RlOg0K
-DQoNCmRvZXMgdGhpcyBhZmZlY3Qga3JvZ290aD8NCg0KLSBhcm1pbg0KDQpPbiAwNS8yNy8yMDE2
-IDA5OjE4IEFNLCBCcnVjZSBBc2hmaWVsZCB3cm90ZToNCg0KDQpXZSBoYWQgYSBwYXJ0aWFsIG11
-c2IgY2hhbmdlIG1lcmdlZCBpbnRvIHRoZSA0LjEgdHJlZSwgd2hpY2ggcmVzdWx0ZWQgaW46DQoN
-CiAgfCBrZXJuZWwtc291cmNlL2RyaXZlcnMvdXNiL211c2IvbXVzYl9kc3BzLmM6DQogIEluIGZ1
-bmN0aW9uICdkc3BzX2NyZWF0ZV9tdXNiX3BkZXYnOg0KICB8IGtlcm5lbC1zb3VyY2UvZHJpdmVy
-cy91c2IvbXVzYi9tdXNiX2RzcHMuYzo3NTA6ODoNCiAgZXJyb3I6ICdzdHJ1Y3QgbXVzYl9oZHJj
-X2NvbmZpZycgaGFzIG5vIG1lbWJlciBuYW1lZCAnbWF4aW11bV9zcGVlZCcNCiAgfCAgIGNvbmZp
-Zy0+bWF4aW11bV9zcGVlZCA9IHVzYl9nZXRfbWF4aW11bV9zcGVlZCgmcGFyZW50LT5kZXYpOw0K
-ICB8ICAgICAgICAgXn4NCg0KQnkgYmFja3BvcnRpbmcgY29tbWl0Og0KDQogIDliNzUzNzY0MmNi
-NmEgW3VzYjogbXVzYjogc2V0IHRoZSBjb250cm9sbGVyIHNwZWVkIGJhc2VkIG9uIHRoZSBjb25m
-aWcgc2V0dGluZ10NCg0KV2UgZ2V0IG91ciBtaXNzaW5nIHN0cnVjdHVyZSBmaWVsZCwgYW5kIHdl
-IGNhbiBvbmNlIGFnYWluIGJ1aWxkIG11c2IuDQoNCltZT0NUTzogIzk2ODBdDQoNClNpZ25lZC1v
-ZmYtYnk6IEJydWNlIEFzaGZpZWxkIDxicnVjZS5hc2hmaWVsZEB3aW5kcml2ZXIuY29tPG1haWx0
-bzpicnVjZS5hc2hmaWVsZEB3aW5kcml2ZXIuY29tPj4NCi0tLQ0KIG1ldGEvcmVjaXBlcy1rZXJu
-ZWwvbGludXgvbGludXgteW9jdG8tcnRfNC4xLmJiICAgfCAgMiArLQ0KIG1ldGEvcmVjaXBlcy1r
-ZXJuZWwvbGludXgvbGludXgteW9jdG8tdGlueV80LjEuYmIgfCAgMiArLQ0KIG1ldGEvcmVjaXBl
-cy1rZXJuZWwvbGludXgvbGludXgteW9jdG9fNC4xLmJiICAgICAgfCAxNiArKysrKysrKy0tLS0t
-LS0tDQogMyBmaWxlcyBjaGFuZ2VkLCAxMCBpbnNlcnRpb25zKCspLCAxMCBkZWxldGlvbnMoLSkN
-Cg0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG8tcnRf
-NC4xLmJiIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC15b2N0by1ydF80LjEuYmIN
-CmluZGV4IDFkNGM0MDRlZjBjYS4uMjRjYzBhYzA3NzAzIDEwMDY0NA0KLS0tIGEvbWV0YS9yZWNp
-cGVzLWtlcm5lbC9saW51eC9saW51eC15b2N0by1ydF80LjEuYmINCisrKyBiL21ldGEvcmVjaXBl
-cy1rZXJuZWwvbGludXgvbGludXgteW9jdG8tcnRfNC4xLmJiDQpAQCAtMTEsNyArMTEsNyBAQCBw
-eXRob24gKCkgew0KICAgICAgICAgcmFpc2UgYmIucGFyc2UuU2tpcFBhY2thZ2UoIlNldCBQUkVG
-RVJSRURfUFJPVklERVJfdmlydHVhbC9rZXJuZWwgdG8gbGludXgteW9jdG8tcnQgdG8gZW5hYmxl
-IGl0IikNCiB9DQoNCi1TUkNSRVZfbWFjaGluZSA/PSAiMzIwODkyMDEzYWQzM2FiNDFmNTMwYWQz
-MjE5MzlhZWMwN2QwOWQyMiINCitTUkNSRVZfbWFjaGluZSA/PSAiZTIyMjgwZThjMjkwNWQ5NmM3
-Y2M1OTE3ZGYyMDJiNmVkOTA0ZDA0MiINCiBTUkNSRVZfbWV0YSA/PSAiNGI0MTk5YmQyNGYyMDZk
-NDU5MDYxYmIwYTkyMGQwMDk0MjlkNWVkMyINCg0KIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0LnlvY3Rv
-cHJvamVjdC5vcmcvbGludXgteW9jdG8tNC4xLmdpdDticmFuY2g9JHtLQlJBTkNIfTtuYW1lPW1h
-Y2hpbmUgXA0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9j
-dG8tdGlueV80LjEuYmIgYi9tZXRhL3JlY2lwZXMta2VybmVsL2xpbnV4L2xpbnV4LXlvY3RvLXRp
-bnlfNC4xLmJiDQppbmRleCA5NzU3YzRkMDIwNjcuLmJmN2Q2YzU5NTllMSAxMDA2NDQNCi0tLSBh
-L21ldGEvcmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG8tdGlueV80LjEuYmINCisrKyBi
-L21ldGEvcmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG8tdGlueV80LjEuYmINCkBAIC05
-LDcgKzksNyBAQCBMSU5VWF9WRVJTSU9OID89ICI0LjEuMjQiDQogS01FVEEgPSAia2VybmVsLW1l
-dGEiDQogS0NPTkZfQlNQX0FVRElUX0xFVkVMID0gIjIiDQoNCi1TUkNSRVZfbWFjaGluZSA/PSAi
-ZWNjOTgzNDc3NjgyMjAzNjE5ZGEwZTQ1NmZhNGE4Njg5YWM0MTA5NyINCitTUkNSRVZfbWFjaGlu
-ZSA/PSAiNDAzZWRhNDYzM2U5MDM3ZmI3MTVkMGQxZThhZTg0N2IyYmQwNjUxYSINCiBTUkNSRVZf
-bWV0YSA/PSAiNGI0MTk5YmQyNGYyMDZkNDU5MDYxYmIwYTkyMGQwMDk0MjlkNWVkMyINCg0KIFBW
-ID0gIiR7TElOVVhfVkVSU0lPTn0rZ2l0JHtTUkNQVn0iDQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
-cGVzLWtlcm5lbC9saW51eC9saW51eC15b2N0b180LjEuYmIgYi9tZXRhL3JlY2lwZXMta2VybmVs
-L2xpbnV4L2xpbnV4LXlvY3RvXzQuMS5iYg0KaW5kZXggZTBkMjg4YjZlOTNjLi5jMzI1YmM1OWM2
-YzggMTAwNjQ0DQotLS0gYS9tZXRhL3JlY2lwZXMta2VybmVsL2xpbnV4L2xpbnV4LXlvY3RvXzQu
-MS5iYg0KKysrIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC15b2N0b180LjEuYmIN
-CkBAIC0xMSwxNCArMTEsMTQgQEAgS0JSQU5DSF9xZW11eDg2ICA/PSAic3RhbmRhcmQvYmFzZSIN
-CiBLQlJBTkNIX3FlbXV4ODYtNjQgPz0gInN0YW5kYXJkL2Jhc2UiDQogS0JSQU5DSF9xZW11bWlw
-czY0ID89ICJzdGFuZGFyZC9tdGktbWFsdGE2NCINCg0KLVNSQ1JFVl9tYWNoaW5lX3FlbXVhcm0g
-Pz0gImQxMWMzMzZiMzhhYjBkNGU1NWViNjgzYWNhNWNhOWM2YjZjZDhiNDIiDQotU1JDUkVWX21h
-Y2hpbmVfcWVtdWFybTY0ID89ICJlY2M5ODM0Nzc2ODIyMDM2MTlkYTBlNDU2ZmE0YTg2ODlhYzQx
-MDk3Ig0KLVNSQ1JFVl9tYWNoaW5lX3FlbXVtaXBzID89ICJmOGUzNjNmNjM4YjI4MzczODM2OTE1
-NWI0YTk5OTBiNWQwZjkwMmE3Ig0KLVNSQ1JFVl9tYWNoaW5lX3FlbXVwcGMgPz0gImVjYzk4MzQ3
-NzY4MjIwMzYxOWRhMGU0NTZmYTRhODY4OWFjNDEwOTciDQotU1JDUkVWX21hY2hpbmVfcWVtdXg4
-NiA/PSAiZWNjOTgzNDc3NjgyMjAzNjE5ZGEwZTQ1NmZhNGE4Njg5YWM0MTA5NyINCi1TUkNSRVZf
-bWFjaGluZV9xZW11eDg2LTY0ID89ICJlY2M5ODM0Nzc2ODIyMDM2MTlkYTBlNDU2ZmE0YTg2ODlh
-YzQxMDk3Ig0KLVNSQ1JFVl9tYWNoaW5lX3FlbXVtaXBzNjQgPz0gIjFkYjQ3ZWM2YzM5MDcxYjI5
-ZjgyYTA0MGI5YjlhODE1ODRmNTA0NjEiDQotU1JDUkVWX21hY2hpbmUgPz0gImVjYzk4MzQ3NzY4
-MjIwMzYxOWRhMGU0NTZmYTRhODY4OWFjNDEwOTciDQorU1JDUkVWX21hY2hpbmVfcWVtdWFybSA/
-PSAiY2FkYjgwYWE0YmNlZTI4MmYxYjA3OThlZjM1YWQ4Yjk2ZWM0NDkzMSINCitTUkNSRVZfbWFj
-aGluZV9xZW11YXJtNjQgPz0gIjQwM2VkYTQ2MzNlOTAzN2ZiNzE1ZDBkMWU4YWU4NDdiMmJkMDY1
-MWEiDQorU1JDUkVWX21hY2hpbmVfcWVtdW1pcHMgPz0gIjczN2VkYTYzODhhNTI5ZDA5MzdlOWQ5
-MWRhYTM2NDRiMTFmMzIyZGMiDQorU1JDUkVWX21hY2hpbmVfcWVtdXBwYyA/PSAiNDAzZWRhNDYz
-M2U5MDM3ZmI3MTVkMGQxZThhZTg0N2IyYmQwNjUxYSINCitTUkNSRVZfbWFjaGluZV9xZW11eDg2
-ID89ICI0MDNlZGE0NjMzZTkwMzdmYjcxNWQwZDFlOGFlODQ3YjJiZDA2NTFhIg0KK1NSQ1JFVl9t
-YWNoaW5lX3FlbXV4ODYtNjQgPz0gIjQwM2VkYTQ2MzNlOTAzN2ZiNzE1ZDBkMWU4YWU4NDdiMmJk
-MDY1MWEiDQorU1JDUkVWX21hY2hpbmVfcWVtdW1pcHM2NCA/PSAiZjI3NmQxMjg0MjhiMDMxNTIx
-ZDc2NmJmYmZlODRmOWY5Zjk5MjkzMCINCitTUkNSRVZfbWFjaGluZSA/PSAiNDAzZWRhNDYzM2U5
-MDM3ZmI3MTVkMGQxZThhZTg0N2IyYmQwNjUxYSINCiBTUkNSRVZfbWV0YSA/PSAiNGI0MTk5YmQy
-NGYyMDZkNDU5MDYxYmIwYTkyMGQwMDk0MjlkNWVkMyINCg0KIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0
-LnlvY3RvcHJvamVjdC5vcmcvbGludXgteW9jdG8tNC4xLmdpdDtuYW1lPW1hY2hpbmU7YnJhbmNo
-PSR7S0JSQU5DSH07IFwNCg0KDQoNCi0tDQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXw0KT3BlbmVtYmVkZGVkLWNvcmUgbWFpbGluZyBsaXN0DQpPcGVuZW1i
-ZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPG1haWx0bzpPcGVuZW1iZWRkZWQtY29y
-ZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0KaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9vcGVuZW1iZWRkZWQtY29yZQ0KDQoNCg0K
 
---_000_14643693841825311camelintelcom_
-Content-Type: text/html; charset="utf-8"
-Content-ID: <239D8471DA1ED440BB772375C1E438B9@intel.com>
-Content-Transfer-Encoding: base64
+On 05/26/2016 04:25 PM, Saul Wold wrote:
+> On Thu, 2016-05-05 at 11:20 -0700, Jianxun Zhang wrote:
+>> The "systemd-boot" is gummiboot now included into systemd project.
+>> The old gummiboot project supported in OE is dead.
+>>
+>> Our intention is to get a gummiboot-like EFI bootloader without
+>> much dependency on systemd and its features.
+>>
+>> This work is largely derived from the existing bbclass and recipes
+>> of gummiboot and systemd.
+>> (commit tip: ee25d0e3987d7732a2e46e1640693b4cf419a9fc)
+>>
+>> Please refer to the history up to the tip for authorship and
+>> credit information for the original works.
+>>
+>> To enable the systemd-boot in build, add this line
+>> EFI_PROVIDER = "systemd-boot" in your machine conf file.
+>>
+>> Signed-off-by: Jianxun Zhang <jianxun.zhang@linux.intel.com>
+> Review-by: Saul Wold <sgw@linux.intel.com>
+> Tested-by: Saul Wold <sgw@linux.intel.com>
+Saul, I appreciate your review and test! Could any maintainer or 
+reviewer provide some feedback?
+>
+>> ---
+>>   meta/classes/systemd-boot.bbclass             | 124
+>> ++++++++++++++++++++++++++
+>>   meta/recipes-bsp/systemd-boot/systemd-boot.bb |  35 ++++++++
+>>   meta/recipes-core/systemd/systemd.inc         |  25 ++++++
+>>   meta/recipes-core/systemd/systemd_229.bb      |  26 +-----
+>>   4 files changed, 186 insertions(+), 24 deletions(-)
+>>   create mode 100644 meta/classes/systemd-boot.bbclass
+>>   create mode 100644 meta/recipes-bsp/systemd-boot/systemd-boot.bb
+>>   create mode 100644 meta/recipes-core/systemd/systemd.inc
+>>
+>> diff --git a/meta/classes/systemd-boot.bbclass
+>> b/meta/classes/systemd-boot.bbclass
+>> new file mode 100644
+>> index 0000000..9e9398a
+>> --- /dev/null
+>> +++ b/meta/classes/systemd-boot.bbclass
+>> @@ -0,0 +1,124 @@
+>> +# Copyright (C) 2016 Intel Corporation
+>> +#
+>> +# Released under the MIT license (see COPYING.MIT)
+>> +
+>> +# systemd-boot.bbclass - The "systemd-boot" is essentially the
+>> gummiboot merged into systemd.
+>> +#                        The original standalone gummiboot project
+>> is dead without any more
+>> +#                        maintenance. As a start point, we replace
+>> all gummitboot occurrences
+>> +#                        with systemd-boot in gummiboot.bbclass to
+>> have a base version of this
+>> +#                        systemd-boot.bbclass.
+>> +#
+>> +# Set EFI_PROVIDER = "systemd-boot" to use systemd-boot on your live
+>> images instead of grub-efi
+>> +# (images built by image-live.bbclass or image-vm.bbclass)
+>> +
+>> +do_bootimg[depends] += "${MLPREFIX}systemd-boot:do_deploy"
+>> +do_bootdirectdisk[depends] += "${MLPREFIX}systemd-boot:do_deploy"
+>> +
+>> +EFIDIR = "/EFI/BOOT"
+>> +
+>> +SYSTEMD_BOOT_CFG ?= "${S}/loader.conf"
+>> +SYSTEMD_BOOT_ENTRIES ?= ""
+>> +SYSTEMD_BOOT_TIMEOUT ?= "10"
+>> +
+>> +# Need UUID utility code.
+>> +inherit fs-uuid
+>> +
+>> +efi_populate() {
+>> +        DEST=$1
+>> +
+>> +        EFI_IMAGE="systemd-bootia32.efi"
+>> +        DEST_EFI_IMAGE="bootia32.efi"
+>> +        if [ "${TARGET_ARCH}" = "x86_64" ]; then
+>> +            EFI_IMAGE="systemd-bootx64.efi"
+>> +            DEST_EFI_IMAGE="bootx64.efi"
+>> +        fi
+>> +
+>> +        install -d ${DEST}${EFIDIR}
+>> +        # systemd-boot requires these paths for configuration files
+>> +        # they are not customizable so no point in new vars
+>> +        install -d ${DEST}/loader
+>> +        install -d ${DEST}/loader/entries
+>> +        install -m 0644 ${DEPLOY_DIR_IMAGE}/${EFI_IMAGE}
+>> ${DEST}${EFIDIR}/${DEST_EFI_IMAGE}
+>> +        install -m 0644 ${SYSTEMD_BOOT_CFG}
+>> ${DEST}/loader/loader.conf
+>> +        for i in ${SYSTEMD_BOOT_ENTRIES}; do
+>> +            install -m 0644 ${i} ${DEST}/loader/entries
+>> +        done
+>> +}
+>> +
+>> +efi_iso_populate() {
+>> +        iso_dir=$1
+>> +        efi_populate $iso_dir
+>> +        mkdir -p ${EFIIMGDIR}/${EFIDIR}
+>> +        cp $iso_dir/${EFIDIR}/* ${EFIIMGDIR}${EFIDIR}
+>> +        cp $iso_dir/vmlinuz ${EFIIMGDIR}
+>> +        EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
+>> +        echo "fs0:${EFIPATH}\\${DEST_EFI_IMAGE}" >
+>> ${EFIIMGDIR}/startup.nsh
+>> +        if [ -f "$iso_dir/initrd" ] ; then
+>> +            cp $iso_dir/initrd ${EFIIMGDIR}
+>> +        fi
+>> +}
+>> +
+>> +efi_hddimg_populate() {
+>> +        efi_populate $1
+>> +}
+>> +
+>> +python build_efi_cfg() {
+>> +    s = d.getVar("S", True)
+>> +    labels = d.getVar('LABELS', True)
+>> +    if not labels:
+>> +        bb.debug(1, "LABELS not defined, nothing to do")
+>> +        return
+>> +
+>> +    if labels == []:
+>> +        bb.debug(1, "No labels, nothing to do")
+>> +        return
+>> +
+>> +    cfile = d.getVar('SYSTEMD_BOOT_CFG', True)
+>> +    try:
+>> +         cfgfile = open(cfile, 'w')
+>> +    except OSError:
+>> +        raise bb.build.funcFailed('Unable to open %s' % (cfile))
+>> +
+>> +    cfgfile.write('# Automatically created by OE\n')
+>> +    cfgfile.write('default %s\n' % (labels.split()[0]))
+>> +    timeout = d.getVar('SYSTEMD_BOOT_TIMEOUT', True)
+>> +    if timeout:
+>> +        cfgfile.write('timeout %s\n' % timeout)
+>> +    else:
+>> +        cfgfile.write('timeout 10\n')
+>> +    cfgfile.close()
+>> +
+>> +    for label in labels.split():
+>> +        localdata = d.createCopy()
+>> +
+>> +        overrides = localdata.getVar('OVERRIDES', True)
+>> +        if not overrides:
+>> +            raise bb.build.FuncFailed('OVERRIDES not defined')
+>> +
+>> +        entryfile = "%s/%s.conf" % (s, label)
+>> +        d.appendVar("SYSTEMD_BOOT_ENTRIES", " " + entryfile)
+>> +        try:
+>> +            entrycfg = open(entryfile, "w")
+>> +        except OSError:
+>> +            raise bb.build.funcFailed('Unable to open %s' %
+>> (entryfile))
+>> +        localdata.setVar('OVERRIDES', label + ':' + overrides)
+>> +        bb.data.update_data(localdata)
+>> +
+>> +        entrycfg.write('title %s\n' % label)
+>> +        entrycfg.write('linux /vmlinuz\n')
+>> +
+>> +        append = localdata.getVar('APPEND', True)
+>> +        initrd = localdata.getVar('INITRD', True)
+>> +
+>> +        if initrd:
+>> +            entrycfg.write('initrd /initrd\n')
+>> +        lb = label
+>> +        if label == "install":
+>> +            lb = "install-efi"
+>> +        entrycfg.write('options LABEL=%s ' % lb)
+>> +        if append:
+>> +            append = replace_rootfs_uuid(d, append)
+>> +            entrycfg.write('%s' % append)
+>> +        entrycfg.write('\n')
+>> +        entrycfg.close()
+>> +}
+>> diff --git a/meta/recipes-bsp/systemd-boot/systemd-boot.bb
+>> b/meta/recipes-bsp/systemd-boot/systemd-boot.bb
+>> new file mode 100644
+>> index 0000000..87e9871
+>> --- /dev/null
+>> +++ b/meta/recipes-bsp/systemd-boot/systemd-boot.bb
+>> @@ -0,0 +1,35 @@
+>> +require recipes-core/systemd/systemd.inc
+>> +
+>> +DEPENDS = "intltool-native libcap util-linux gnu-efi"
+>> +
+>> +inherit autotools pkgconfig gettext
+>> +inherit deploy
+>> +
+>> +EXTRA_OECONF = " --enable-gnuefi \
+>> +                 --with-efi-includedir=${STAGING_INCDIR} \
+>> +                 --with-efi-ldsdir=${STAGING_LIBDIR} \
+>> +                 --with-efi-libdir=${STAGING_LIBDIR} \
+>> +                 --disable-manpages \
+>> +               "
+>> +
+>> +# Imported from gummiboot recipe
+>> +TUNE_CCARGS_remove = "-mfpmath=sse"
+>> +
+>> +do_compile() {
+>> +	SYSTEMD_BOOT_EFI_ARCH="ia32"
+>> +	if [ "${TARGET_ARCH}" = "x86_64" ]; then
+>> +		SYSTEMD_BOOT_EFI_ARCH="x64"
+>> +	fi
+>> +
+>> +	oe_runmake systemd-boot${SYSTEMD_BOOT_EFI_ARCH}.efi
+>> +}
+>> +
+>> +do_install() {
+>> +	# Bypass systemd installation with a NOP
+>> +	:
+>> +}
+>> +
+>> +do_deploy () {
+>> +	install ${B}/systemd-boot*.efi ${DEPLOYDIR}
+>> +}
+>> +addtask deploy before do_build after do_compile
+>> diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-
+>> core/systemd/systemd.inc
+>> new file mode 100644
+>> index 0000000..8247130
+>> --- /dev/null
+>> +++ b/meta/recipes-core/systemd/systemd.inc
+>> @@ -0,0 +1,25 @@
+>> +SUMMARY = "A System and service manager"
+>> +HOMEPAGE = "http://www.freedesktop.org/wiki/Software/systemd"
+>> +
+>> +DESCRIPTION = "systemd is a system and service manager for Linux,
+>> compatible with \
+>> +SysV and LSB init scripts. systemd provides aggressive
+>> parallelization \
+>> +capabilities, uses socket and D-Bus activation for starting
+>> services, \
+>> +offers on-demand starting of daemons, keeps track of processes using
+>> \
+>> +Linux cgroups, supports snapshotting and restoring of the system \
+>> +state, maintains mount and automount points and implements an \
+>> +elaborate transactional dependency-based service control logic. It
+>> can \
+>> +work as a drop-in replacement for sysvinit."
+>> +
+>> +LICENSE = "GPLv2 & LGPLv2.1"
+>> +LIC_FILES_CHKSUM =
+>> "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
+>> +                    file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079
+>> 008b364516c"
+>> +
+>> +SRCREV = "714c62b46379abb7558c544665522aca91691e10"
+>> +
+>> +SRC_URI = "git://github.com/systemd/systemd.git;protocol=git"
+>> +
+>> +PV = "229+git${SRCPV}"
+>> +
+>> +S = "${WORKDIR}/git"
+>> +
+>> +LDFLAGS_append_libc-uclibc = " -lrt -lssp_nonshared -lssp "
+>> diff --git a/meta/recipes-core/systemd/systemd_229.bb b/meta/recipes-
+>> core/systemd/systemd_229.bb
+>> index c23c749..4aef907 100644
+>> --- a/meta/recipes-core/systemd/systemd_229.bb
+>> +++ b/meta/recipes-core/systemd/systemd_229.bb
+>> @@ -1,18 +1,4 @@
+>> -SUMMARY = "A System and service manager"
+>> -HOMEPAGE = "http://www.freedesktop.org/wiki/Software/systemd"
+>> -
+>> -DESCRIPTION = "systemd is a system and service manager for Linux,
+>> compatible with \
+>> -SysV and LSB init scripts. systemd provides aggressive
+>> parallelization \
+>> -capabilities, uses socket and D-Bus activation for starting
+>> services, \
+>> -offers on-demand starting of daemons, keeps track of processes using
+>> \
+>> -Linux cgroups, supports snapshotting and restoring of the system \
+>> -state, maintains mount and automount points and implements an \
+>> -elaborate transactional dependency-based service control logic. It
+>> can \
+>> -work as a drop-in replacement for sysvinit."
+>> -
+>> -LICENSE = "GPLv2 & LGPLv2.1"
+>> -LIC_FILES_CHKSUM =
+>> "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
+>> -                    file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079
+>> 008b364516c"
+>> +require systemd.inc
+>>
+>>   PROVIDES = "udev"
+>>
+>> @@ -24,11 +10,7 @@ SECTION = "base/shell"
+>>
+>>   inherit useradd pkgconfig autotools perlnative update-rc.d update-
+>> alternatives qemu systemd ptest gettext bash-completion
+>>
+>> -SRCREV = "714c62b46379abb7558c544665522aca91691e10"
+>> -
+>> -PV = "229+git${SRCPV}"
+>> -
+>> -SRC_URI = "git://github.com/systemd/systemd.git;protocol=git \
+>> +SRC_URI += " \
+>>              file://touchscreen.rules \
+>>              file://00-create-volatile.conf \
+>>              file://init \
+>> @@ -60,10 +42,6 @@ SRC_URI_append_libc-uclibc = "\
+>>   "
+>>   SRC_URI_append_qemuall = " file://0001-core-device.c-Change-the-
+>> default-device-timeout-to-2.patch"
+>>
+>> -S = "${WORKDIR}/git"
+>> -
+>> -LDFLAGS_append_libc-uclibc = " -lrt -lssp_nonshared -lssp "
+>> -
+>>   GTKDOC_DOCDIR = "${S}/docs/"
+>>
+>>   PACKAGECONFIG ??= "xz \
 
-PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
-dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjwvaGVhZD4NCjxib2R5IGJnY29sb3I9IiNmN2Y3
-ZjciIHRleHQ9IiMyYzJjMmMiIGxpbms9IiM0YTkwZDkiIHZsaW5rPSIjNGE5MGQ5Ij4NCjxkaXY+
-QXJtaW4sPC9kaXY+DQo8ZGl2Pjxicj4NCjwvZGl2Pg0KPGRpdj5EbyB5b3Ugd2FudCBtZSB0byBo
-b2xkIG9mZiBvbiB5b3VyIGtyb2dvdGgtbmV4dCBidWlsZCBvbiB0aGUgQUIgdG8gZ2l2ZSB5b3Ug
-dGltZSB0byBpbmNsdWRlIHRoaXM/PC9kaXY+DQo8ZGl2Pjxicj4NCjwvZGl2Pg0KPGRpdj4mbmJz
-cDsgJm5ic3A7IC1CaWxsPC9kaXY+DQo8ZGl2Pjxicj4NCjwvZGl2Pg0KPGRpdj5PbiBGcmksIDIw
-MTYtMDUtMjcgYXQgMTE6MjkgLTA1MDAsIEdlb3JnZSBNY0NvbGxpc3RlciB3cm90ZTo8L2Rpdj4N
-CjxibG9ja3F1b3RlIHR5cGU9ImNpdGUiPg0KPHByZT5ZZXMsIEkgZm91bmQgdGhlIGlzc3VlIG9u
-IGtyb2dvdGguDQoNCi1HZW9yZ2UNCg0KT24gRnJpLCBNYXkgMjcsIDIwMTYgYXQgMTE6MjUgQU0s
-IGFrdXN0ZXI4MDggJmx0OzxhIGhyZWY9Im1haWx0bzpha3VzdGVyODA4QGdtYWlsLmNvbSI+YWt1
-c3RlcjgwOEBnbWFpbC5jb208L2E+Jmd0OyB3cm90ZToNCjxibG9ja3F1b3RlIHR5cGU9ImNpdGUi
-Pg0KZG9lcyB0aGlzIGFmZmVjdCBrcm9nb3RoPw0KDQotIGFybWluDQoNCk9uIDA1LzI3LzIwMTYg
-MDk6MTggQU0sIEJydWNlIEFzaGZpZWxkIHdyb3RlOg0KPGJsb2NrcXVvdGUgdHlwZT0iY2l0ZSI+
-DQpXZSBoYWQgYSBwYXJ0aWFsIG11c2IgY2hhbmdlIG1lcmdlZCBpbnRvIHRoZSA0LjEgdHJlZSwg
-d2hpY2ggcmVzdWx0ZWQgaW46DQoNCiAgfCBrZXJuZWwtc291cmNlL2RyaXZlcnMvdXNiL211c2Iv
-bXVzYl9kc3BzLmM6DQogIEluIGZ1bmN0aW9uICdkc3BzX2NyZWF0ZV9tdXNiX3BkZXYnOg0KICB8
-IGtlcm5lbC1zb3VyY2UvZHJpdmVycy91c2IvbXVzYi9tdXNiX2RzcHMuYzo3NTA6ODoNCiAgZXJy
-b3I6ICdzdHJ1Y3QgbXVzYl9oZHJjX2NvbmZpZycgaGFzIG5vIG1lbWJlciBuYW1lZCAnbWF4aW11
-bV9zcGVlZCcNCiAgfCAgIGNvbmZpZy0mZ3Q7bWF4aW11bV9zcGVlZCA9IHVzYl9nZXRfbWF4aW11
-bV9zcGVlZCgmYW1wO3BhcmVudC0mZ3Q7ZGV2KTsNCiAgfCAgICAgICAgIF5+DQoNCkJ5IGJhY2tw
-b3J0aW5nIGNvbW1pdDoNCg0KICA5Yjc1Mzc2NDJjYjZhIFt1c2I6IG11c2I6IHNldCB0aGUgY29u
-dHJvbGxlciBzcGVlZCBiYXNlZCBvbiB0aGUgY29uZmlnIHNldHRpbmddDQoNCldlIGdldCBvdXIg
-bWlzc2luZyBzdHJ1Y3R1cmUgZmllbGQsIGFuZCB3ZSBjYW4gb25jZSBhZ2FpbiBidWlsZCBtdXNi
-Lg0KDQpbWU9DVE86ICM5NjgwXQ0KDQpTaWduZWQtb2ZmLWJ5OiBCcnVjZSBBc2hmaWVsZCAmbHQ7
-PGEgaHJlZj0ibWFpbHRvOmJydWNlLmFzaGZpZWxkQHdpbmRyaXZlci5jb20iPmJydWNlLmFzaGZp
-ZWxkQHdpbmRyaXZlci5jb208L2E+Jmd0Ow0KLS0tDQogbWV0YS9yZWNpcGVzLWtlcm5lbC9saW51
-eC9saW51eC15b2N0by1ydF80LjEuYmIgICB8ICAyICYjNDM7LQ0KIG1ldGEvcmVjaXBlcy1rZXJu
-ZWwvbGludXgvbGludXgteW9jdG8tdGlueV80LjEuYmIgfCAgMiAmIzQzOy0NCiBtZXRhL3JlY2lw
-ZXMta2VybmVsL2xpbnV4L2xpbnV4LXlvY3RvXzQuMS5iYiAgICAgIHwgMTYgJiM0MzsmIzQzOyYj
-NDM7JiM0MzsmIzQzOyYjNDM7JiM0MzsmIzQzOy0tLS0tLS0tDQogMyBmaWxlcyBjaGFuZ2VkLCAx
-MCBpbnNlcnRpb25zKCYjNDM7KSwgMTAgZGVsZXRpb25zKC0pDQoNCmRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMta2VybmVsL2xpbnV4L2xpbnV4LXlvY3RvLXJ0XzQuMS5iYiBiL21ldGEvcmVjaXBl
-cy1rZXJuZWwvbGludXgvbGludXgteW9jdG8tcnRfNC4xLmJiDQppbmRleCAxZDRjNDA0ZWYwY2Eu
-LjI0Y2MwYWMwNzcwMyAxMDA2NDQNCi0tLSBhL21ldGEvcmVjaXBlcy1rZXJuZWwvbGludXgvbGlu
-dXgteW9jdG8tcnRfNC4xLmJiDQomIzQzOyYjNDM7JiM0MzsgYi9tZXRhL3JlY2lwZXMta2VybmVs
-L2xpbnV4L2xpbnV4LXlvY3RvLXJ0XzQuMS5iYg0KQEAgLTExLDcgJiM0MzsxMSw3IEBAIHB5dGhv
-biAoKSB7DQogICAgICAgICByYWlzZSBiYi5wYXJzZS5Ta2lwUGFja2FnZSgmcXVvdDtTZXQgUFJF
-RkVSUkVEX1BST1ZJREVSX3ZpcnR1YWwva2VybmVsIHRvIGxpbnV4LXlvY3RvLXJ0IHRvIGVuYWJs
-ZSBpdCZxdW90OykNCiB9DQoNCi1TUkNSRVZfbWFjaGluZSA/PSAmcXVvdDszMjA4OTIwMTNhZDMz
-YWI0MWY1MzBhZDMyMTkzOWFlYzA3ZDA5ZDIyJnF1b3Q7DQomIzQzO1NSQ1JFVl9tYWNoaW5lID89
-ICZxdW90O2UyMjI4MGU4YzI5MDVkOTZjN2NjNTkxN2RmMjAyYjZlZDkwNGQwNDImcXVvdDsNCiBT
-UkNSRVZfbWV0YSA/PSAmcXVvdDs0YjQxOTliZDI0ZjIwNmQ0NTkwNjFiYjBhOTIwZDAwOTQyOWQ1
-ZWQzJnF1b3Q7DQoNCiBTUkNfVVJJID0gJnF1b3Q7Z2l0Oi8vZ2l0LnlvY3RvcHJvamVjdC5vcmcv
-bGludXgteW9jdG8tNC4xLmdpdDticmFuY2g9JHtLQlJBTkNIfTtuYW1lPW1hY2hpbmUgXA0KZGlm
-ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG8tdGlueV80LjEu
-YmIgYi9tZXRhL3JlY2lwZXMta2VybmVsL2xpbnV4L2xpbnV4LXlvY3RvLXRpbnlfNC4xLmJiDQpp
-bmRleCA5NzU3YzRkMDIwNjcuLmJmN2Q2YzU5NTllMSAxMDA2NDQNCi0tLSBhL21ldGEvcmVjaXBl
-cy1rZXJuZWwvbGludXgvbGludXgteW9jdG8tdGlueV80LjEuYmINCiYjNDM7JiM0MzsmIzQzOyBi
-L21ldGEvcmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG8tdGlueV80LjEuYmINCkBAIC05
-LDcgJiM0Mzs5LDcgQEAgTElOVVhfVkVSU0lPTiA/PSAmcXVvdDs0LjEuMjQmcXVvdDsNCiBLTUVU
-QSA9ICZxdW90O2tlcm5lbC1tZXRhJnF1b3Q7DQogS0NPTkZfQlNQX0FVRElUX0xFVkVMID0gJnF1
-b3Q7MiZxdW90Ow0KDQotU1JDUkVWX21hY2hpbmUgPz0gJnF1b3Q7ZWNjOTgzNDc3NjgyMjAzNjE5
-ZGEwZTQ1NmZhNGE4Njg5YWM0MTA5NyZxdW90Ow0KJiM0MztTUkNSRVZfbWFjaGluZSA/PSAmcXVv
-dDs0MDNlZGE0NjMzZTkwMzdmYjcxNWQwZDFlOGFlODQ3YjJiZDA2NTFhJnF1b3Q7DQogU1JDUkVW
-X21ldGEgPz0gJnF1b3Q7NGI0MTk5YmQyNGYyMDZkNDU5MDYxYmIwYTkyMGQwMDk0MjlkNWVkMyZx
-dW90Ow0KDQogUFYgPSAmcXVvdDske0xJTlVYX1ZFUlNJT059JiM0MztnaXQke1NSQ1BWfSZxdW90
-Ow0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG9fNC4x
-LmJiIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC15b2N0b180LjEuYmINCmluZGV4
-IGUwZDI4OGI2ZTkzYy4uYzMyNWJjNTljNmM4IDEwMDY0NA0KLS0tIGEvbWV0YS9yZWNpcGVzLWtl
-cm5lbC9saW51eC9saW51eC15b2N0b180LjEuYmINCiYjNDM7JiM0MzsmIzQzOyBiL21ldGEvcmVj
-aXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG9fNC4xLmJiDQpAQCAtMTEsMTQgJiM0MzsxMSwx
-NCBAQCBLQlJBTkNIX3FlbXV4ODYgID89ICZxdW90O3N0YW5kYXJkL2Jhc2UmcXVvdDsNCiBLQlJB
-TkNIX3FlbXV4ODYtNjQgPz0gJnF1b3Q7c3RhbmRhcmQvYmFzZSZxdW90Ow0KIEtCUkFOQ0hfcWVt
-dW1pcHM2NCA/PSAmcXVvdDtzdGFuZGFyZC9tdGktbWFsdGE2NCZxdW90Ow0KDQotU1JDUkVWX21h
-Y2hpbmVfcWVtdWFybSA/PSAmcXVvdDtkMTFjMzM2YjM4YWIwZDRlNTVlYjY4M2FjYTVjYTljNmI2
-Y2Q4YjQyJnF1b3Q7DQotU1JDUkVWX21hY2hpbmVfcWVtdWFybTY0ID89ICZxdW90O2VjYzk4MzQ3
-NzY4MjIwMzYxOWRhMGU0NTZmYTRhODY4OWFjNDEwOTcmcXVvdDsNCi1TUkNSRVZfbWFjaGluZV9x
-ZW11bWlwcyA/PSAmcXVvdDtmOGUzNjNmNjM4YjI4MzczODM2OTE1NWI0YTk5OTBiNWQwZjkwMmE3
-JnF1b3Q7DQotU1JDUkVWX21hY2hpbmVfcWVtdXBwYyA/PSAmcXVvdDtlY2M5ODM0Nzc2ODIyMDM2
-MTlkYTBlNDU2ZmE0YTg2ODlhYzQxMDk3JnF1b3Q7DQotU1JDUkVWX21hY2hpbmVfcWVtdXg4NiA/
-PSAmcXVvdDtlY2M5ODM0Nzc2ODIyMDM2MTlkYTBlNDU2ZmE0YTg2ODlhYzQxMDk3JnF1b3Q7DQot
-U1JDUkVWX21hY2hpbmVfcWVtdXg4Ni02NCA/PSAmcXVvdDtlY2M5ODM0Nzc2ODIyMDM2MTlkYTBl
-NDU2ZmE0YTg2ODlhYzQxMDk3JnF1b3Q7DQotU1JDUkVWX21hY2hpbmVfcWVtdW1pcHM2NCA/PSAm
-cXVvdDsxZGI0N2VjNmMzOTA3MWIyOWY4MmEwNDBiOWI5YTgxNTg0ZjUwNDYxJnF1b3Q7DQotU1JD
-UkVWX21hY2hpbmUgPz0gJnF1b3Q7ZWNjOTgzNDc3NjgyMjAzNjE5ZGEwZTQ1NmZhNGE4Njg5YWM0
-MTA5NyZxdW90Ow0KJiM0MztTUkNSRVZfbWFjaGluZV9xZW11YXJtID89ICZxdW90O2NhZGI4MGFh
-NGJjZWUyODJmMWIwNzk4ZWYzNWFkOGI5NmVjNDQ5MzEmcXVvdDsNCiYjNDM7U1JDUkVWX21hY2hp
-bmVfcWVtdWFybTY0ID89ICZxdW90OzQwM2VkYTQ2MzNlOTAzN2ZiNzE1ZDBkMWU4YWU4NDdiMmJk
-MDY1MWEmcXVvdDsNCiYjNDM7U1JDUkVWX21hY2hpbmVfcWVtdW1pcHMgPz0gJnF1b3Q7NzM3ZWRh
-NjM4OGE1MjlkMDkzN2U5ZDkxZGFhMzY0NGIxMWYzMjJkYyZxdW90Ow0KJiM0MztTUkNSRVZfbWFj
-aGluZV9xZW11cHBjID89ICZxdW90OzQwM2VkYTQ2MzNlOTAzN2ZiNzE1ZDBkMWU4YWU4NDdiMmJk
-MDY1MWEmcXVvdDsNCiYjNDM7U1JDUkVWX21hY2hpbmVfcWVtdXg4NiA/PSAmcXVvdDs0MDNlZGE0
-NjMzZTkwMzdmYjcxNWQwZDFlOGFlODQ3YjJiZDA2NTFhJnF1b3Q7DQomIzQzO1NSQ1JFVl9tYWNo
-aW5lX3FlbXV4ODYtNjQgPz0gJnF1b3Q7NDAzZWRhNDYzM2U5MDM3ZmI3MTVkMGQxZThhZTg0N2Iy
-YmQwNjUxYSZxdW90Ow0KJiM0MztTUkNSRVZfbWFjaGluZV9xZW11bWlwczY0ID89ICZxdW90O2Yy
-NzZkMTI4NDI4YjAzMTUyMWQ3NjZiZmJmZTg0ZjlmOWY5OTI5MzAmcXVvdDsNCiYjNDM7U1JDUkVW
-X21hY2hpbmUgPz0gJnF1b3Q7NDAzZWRhNDYzM2U5MDM3ZmI3MTVkMGQxZThhZTg0N2IyYmQwNjUx
-YSZxdW90Ow0KIFNSQ1JFVl9tZXRhID89ICZxdW90OzRiNDE5OWJkMjRmMjA2ZDQ1OTA2MWJiMGE5
-MjBkMDA5NDI5ZDVlZDMmcXVvdDsNCg0KIFNSQ19VUkkgPSAmcXVvdDtnaXQ6Ly9naXQueW9jdG9w
-cm9qZWN0Lm9yZy9saW51eC15b2N0by00LjEuZ2l0O25hbWU9bWFjaGluZTticmFuY2g9JHtLQlJB
-TkNIfTsgXA0KDQo8L2Jsb2NrcXVvdGU+DQotLQ0KX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18NCk9wZW5lbWJlZGRlZC1jb3JlIG1haWxpbmcgbGlzdA0KPGEg
-aHJlZj0ibWFpbHRvOk9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmciPk9w
-ZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8L2E+DQo8YSBocmVmPSJodHRw
-Oi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRlZC1j
-b3JlIj5odHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5l
-bWJlZGRlZC1jb3JlPC9hPg0KPC9ibG9ja3F1b3RlPg0KPC9wcmU+DQo8L2Jsb2NrcXVvdGU+DQo8
-L2JvZHk+DQo8L2h0bWw+DQo=
-
---_000_14643693841825311camelintelcom_--
