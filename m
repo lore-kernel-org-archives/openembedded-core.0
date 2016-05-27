@@ -1,51 +1,16 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 3923262132;
-	Fri, 27 May 2016 13:21:36 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id n129so14411803wmn.1;
-	Fri, 27 May 2016 06:21:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=D26Li22IslWGw821qKxEiiiLo6gh0rbdwmDe+FFbUDQ=;
-	b=d5VuVhNcXgvhRNN4j6Qu35lpMm2I5B1SgB3gvd197WfS+TNtbdM2Ly8ZS4xeHMJDMT
-	NaiS4p8S28O8/WuWRhFxxcQHwxEYnDLo1uFsCeFu2M39IndVkw1upn4MUVfLizAHNjzS
-	Kua47XmvS/2FVd70lVon9dlCMdLtzSi8KmbTlEm6G6tcnFg1PJqHCjJeCeA/+egn384C
-	cOVw8yXz2WNIssEHm8iy+Dm3nATNL/R3rhfz8iD8XFZv+SzvKgjRL6C2ffFJqULptrTc
-	/UOrjFvwqAALLEkRsUaIWnWggRk+GgikLse9VW0737MpS9DyuRARC6Dcr0src9wXuMcG
-	zSFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=D26Li22IslWGw821qKxEiiiLo6gh0rbdwmDe+FFbUDQ=;
-	b=Tc48RoZgCbcB45+I2zQ3EwxauECyAHv016HMuVTCMN2tkY7lq0GW9xmNkHhrJ+iF9K
-	8JHz15L+yjCABNM9f1IJ9aFcgvupc4Fn2d3YdKuEg4Yiv6qvZjiHSKi6EwTSFiYkHl4a
-	YqrOYvJTKff1fuAVueBIamTZlGZafPHpCidFwb4N8Jl0A001T7ItUZjIOPTkwtAzhzgj
-	4nRo8yD75kDXDwquKQd7Na5zqR0DNCxtt5PQIQ9DWeTuf+D1AOU7uimPVmUk4cmTZ2Rs
-	BvtZJOf4kXrlh1AM9vpIk5lkEsmvSglDVP7c7zeBiKjkEvIxoMI+xDRd3E6BMJI+RcQW
-	PKSw==
-X-Gm-Message-State: ALyK8tJlr6hFeicz3UET+92wtgi4BhzrBtaI5DAaGAnB1iUTbuADIfmI29Ivo9LwnkMP4A==
-X-Received: by 10.28.60.215 with SMTP id j206mr9358203wma.82.1464355296931;
-	Fri, 27 May 2016 06:21:36 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	dd7sm19412150wjb.22.2016.05.27.06.21.33
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 27 May 2016 06:21:33 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 27 May 2016 15:22:01 +0200
-To: openembedded-core@lists.openembedded.org,
-	Paul Eggleton <paul.eggleton@linux.intel.com>
-Message-ID: <20160527132201.GD2570@jama>
-References: <20160511093456.15363.8004@opal.openembedded.org>
-	<20160511093459.4336E5043D@opal.openembedded.org>
-MIME-Version: 1.0
-In-Reply-To: <20160511093459.4336E5043D@opal.openembedded.org>
-User-Agent: Mutt/1.6.1 (2016-04-27)
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] [openembedded-core] 09/12: classes/insane: do not force LIC_FILES_CHKSUM unless SRC_URI is set
+Return-Path: <andrew.shadura@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	by mail.openembedded.org (Postfix) with ESMTP id A86C670179
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 May 2016 13:43:17 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: andrewsh) with ESMTPSA id 30B9226552F
+From: Andrew Shadura <andrew.shadura@collabora.co.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 27 May 2016 15:43:09 +0200
+Message-Id: <1464356589-7982-1-git-send-email-andrew.shadura@collabora.co.uk>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] u-boot: Update to 2016.05 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,155 +23,154 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 May 2016 13:21:37 -0000
-X-Groupsio-MsgNum: 82789
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="XvKFcGCOAo53UbWW"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 27 May 2016 13:43:18 -0000
 
---XvKFcGCOAo53UbWW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Upgrade U-Boot to the latest upstream version.
+Add a patch to unbreak build on some toolchains.
 
-On Wed, May 11, 2016 at 09:35:05AM +0000, git@git.openembedded.org wrote:
-> rpurdie pushed a commit to branch master
-> in repository openembedded-core.
->=20
-> commit c269547ae8e90a78349f6003385137e4145e145f
-> Author: Paul Eggleton <paul.eggleton@linux.intel.com>
-> AuthorDate: Tue May 10 10:25:05 2016 +1200
->=20
->     classes/insane: do not force LIC_FILES_CHKSUM unless SRC_URI is set
->    =20
->     Recipes such as images and packagegroups don't actually fetch or build
->     any source, so there's really no point having LIC_FILES_CHKSUM set.
->     Forcing users to set it (as we have done for images inheriting
->     image.bbclass) just makes things more difficult for the user for no
->     discernable benefit. The easiest way to adjust this check is simply to
->     skip it if SRC_URI is not set since this is a pretty good indicator t=
-hat
->     no source is being pulled in.
+Signed-off-by: Andrew Shadura <andrew.shadura@collabora.co.uk>
+---
+ ...utils_2016.03.bb => u-boot-fw-utils_2016.05.bb} |  4 +-
+ ...kimage_2016.03.bb => u-boot-mkimage_2016.05.bb} |  4 +-
+ .../0000-video-ipu_common-fix-build-error.patch    | 48 ++++++++++++++++++++++
+ meta/recipes-bsp/u-boot/u-boot_2016.03.bb          | 10 -----
+ meta/recipes-bsp/u-boot/u-boot_2016.05.bb          | 14 +++++++
+ 5 files changed, 66 insertions(+), 14 deletions(-)
+ rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2016.03.bb => u-boot-fw-utils_2016.05.bb} (94%)
+ rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2016.03.bb => u-boot-mkimage_2016.05.bb} (90%)
+ create mode 100644 meta/recipes-bsp/u-boot/u-boot/0000-video-ipu_common-fix-build-error.patch
+ delete mode 100644 meta/recipes-bsp/u-boot/u-boot_2016.03.bb
+ create mode 100644 meta/recipes-bsp/u-boot/u-boot_2016.05.bb
 
-I'm not sure which recent change caused it, but can we keep the QA issues
-stored in qa.log to contain all important information on single line
-which ends with [check-name]? (it can have more details on preceeding lines
-like installed-not-packaged check)
+diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2016.03.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2016.05.bb
+similarity index 94%
+rename from meta/recipes-bsp/u-boot/u-boot-fw-utils_2016.03.bb
+rename to meta/recipes-bsp/u-boot/u-boot-fw-utils_2016.05.bb
+index 79f1548..94d9c13 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2016.03.bb
++++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2016.05.bb
+@@ -7,9 +7,9 @@ DEPENDS = "mtd-utils"
+ # This revision corresponds to the tag "v2016.03"
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-SRCREV = "df61a74e6845ec9bdcdd48d2aff5e9c2c6debeaa"
++SRCREV = "aeaec0e682f45b9e0c62c522fafea353931f73ed"
+ 
+-PV = "v2016.03+git${SRCPV}"
++PV = "v2016.05+git${SRCPV}"
+ 
+ SRC_URI = "git://git.denx.de/u-boot.git;branch=master"
+ 
+diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2016.03.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2016.05.bb
+similarity index 90%
+rename from meta/recipes-bsp/u-boot/u-boot-mkimage_2016.03.bb
+rename to meta/recipes-bsp/u-boot/u-boot-mkimage_2016.05.bb
+index d5921a0..bdfcaf4 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2016.03.bb
++++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2016.05.bb
+@@ -8,9 +8,9 @@ DEPENDS = "openssl"
+ # This revision corresponds to the tag "v2016.03"
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-SRCREV = "df61a74e6845ec9bdcdd48d2aff5e9c2c6debeaa"
++SRCREV = "aeaec0e682f45b9e0c62c522fafea353931f73ed"
+ 
+-PV = "v2016.03+git${SRCPV}"
++PV = "v2016.05+git${SRCPV}"
+ 
+ SRC_URI = "git://git.denx.de/u-boot.git;branch=master"
+ 
+diff --git a/meta/recipes-bsp/u-boot/u-boot/0000-video-ipu_common-fix-build-error.patch b/meta/recipes-bsp/u-boot/u-boot/0000-video-ipu_common-fix-build-error.patch
+new file mode 100644
+index 0000000..452672d
+--- /dev/null
++++ b/meta/recipes-bsp/u-boot/u-boot/0000-video-ipu_common-fix-build-error.patch
+@@ -0,0 +1,48 @@
++From c510f2e436008e55a50b063f2180cb1e63984224 Mon Sep 17 00:00:00 2001
++From: Peng Fan <van.freenix@gmail.com>
++Date: Thu, 28 Apr 2016 10:07:53 +0800
++Subject: [PATCH] video: ipu_common: fix build error
++
++Some toolchains fail to build
++"clk->rate = (u64)(clk->parent->rate * 16) / div;"
++And the cast usage is wrong.
++
++Use the following code to fix the issue,
++"
++  do_div(parent_rate, div);
++  clk->rate = parent_rate;
++"
++
++Upstream-Status: Inappropriate [comes from upstream's branch]
++
++Reported-by: Peter Robinson <pbrobinson@gmail.com>
++Signed-off-by: Peng Fan <van.freenix@gmail.com>
++Cc: Stefano Babic <sbabic@denx.de>
++Cc: Fabio Estevam <fabio.estevam@nxp.com>
++Cc: Tom Rini <trini@konsulko.com>
++Cc: Anatolij Gustschin <agust@denx.de>
++Cc: Peter Robinson <pbrobinson@gmail.com>
++Reviewed-by: Tom Rini <trini@konsulko.com>
++Tested-by: Peter Robinson <pbrobinson@gmail.com>
++---
++ drivers/video/ipu_common.c | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
++
++diff --git a/drivers/video/ipu_common.c b/drivers/video/ipu_common.c
++index 36d4b23..5676a0f 100644
++--- a/drivers/video/ipu_common.c
+++++ b/drivers/video/ipu_common.c
++@@ -352,7 +352,9 @@ static int ipu_pixel_clk_set_rate(struct clk *clk, unsigned long rate)
++ 	 */
++ 	__raw_writel((div / 16) << 16, DI_BS_CLKGEN1(clk->id));
++ 
++-	clk->rate = (u64)(clk->parent->rate * 16) / div;
+++	do_div(parent_rate, div);
+++
+++	clk->rate = parent_rate;
++ 
++ 	return 0;
++ }
++-- 
++2.7.4
++
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2016.03.bb b/meta/recipes-bsp/u-boot/u-boot_2016.03.bb
+deleted file mode 100644
+index 836b0ce..0000000
+--- a/meta/recipes-bsp/u-boot/u-boot_2016.03.bb
++++ /dev/null
+@@ -1,10 +0,0 @@
+-require u-boot.inc
+-
+-DEPENDS += "dtc-native"
+-
+-# This revision corresponds to the tag "v2016.03"
+-# We use the revision in order to avoid having to fetch it from the
+-# repo during parse
+-SRCREV = "df61a74e6845ec9bdcdd48d2aff5e9c2c6debeaa"
+-
+-PV = "v2016.03+git${SRCPV}"
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2016.05.bb b/meta/recipes-bsp/u-boot/u-boot_2016.05.bb
+new file mode 100644
+index 0000000..57408e7
+--- /dev/null
++++ b/meta/recipes-bsp/u-boot/u-boot_2016.05.bb
+@@ -0,0 +1,14 @@
++require u-boot.inc
++
++DEPENDS += "dtc-native"
++
++# This revision corresponds to the tag "v2016.05"
++# We use the revision in order to avoid having to fetch it from the
++# repo during parse
++SRCREV = "aeaec0e682f45b9e0c62c522fafea353931f73ed"
++
++SRC_URI_append = "\
++    file://0000-video-ipu_common-fix-build-error.patch \
++"
++
++PV = "v2016.05+git${SRCPV}"
+-- 
+2.7.4
 
-The qa.log from last world build is missing many line-feeds and
-[license-checksum] are hard to read (even worse to parse automatically)
 
-see:
-http://logs.nslu2-linux.org/buildlogs/oe/world//log.world.qemuarm.20160523_=
-030221.log//qa.log
-
-libnewt-0.52.18: /usr/bin/whiptail contained in package whiptail requires l=
-ibnewt.so, but no providers found in RDEPENDS_whiptail? [file-rdeps]qtwayla=
-nd-5.6.99+5.7.0-beta+gitAUTOINC+d27075a3f9: qtwayland-plugins rdepends on l=
-ibxcomposite, but it isn't a build dependency, missing libxcomposite in DEP=
-ENDS or PACKAGECONFIG? [build-deps]gnome-menus-2.30.5: /usr/bin/gmenu-simpl=
-e-editor contained in package gnome-menus requires /home/jenkins/oe/world/s=
-hr-core/tmp-glibc/sysroots/x86_64-linux/usr/bin/python-native/python, but n=
-o providers found in RDEPENDS_gnome-menus? [file-rdeps]networkmanager-1.0.1=
-0: /usr/bin/nmtui-connect contained in package networkmanager-nmtui require=
-s libnewt.so, but no providers found in RDEPENDS_networkmanager-nmtui? [fil=
-e-rdeps]samba-4.4.2: samba rdepends on libpam, but it isn't a build depende=
-ncy, missing libpam in DEPENDS or PACKAGECONFIG? [build-deps]xfsprogs-3.2.3=
-: /usr/sbin/xfs_db contained in package xfsprogs requires libxfs.so.0, but =
-no providers found in RDEPENDS_xfsprogs? [file-rdeps]xfsprogs-3.2.3: /sbin/=
-mkfs.xfs contained in package xfsprogs-mkfs requires libxfs.so.0, but no pr=
-oviders found in RDEPENDS_xfsprogs-mkfs? [file-rdeps]chkconfig-1.3.58: /usr=
-/sbin/ntsysv contained in package chkconfig requires libnewt.so, but no pro=
-viders found in RDEPENDS_chkconfig? [file-rdeps]numptyphysics-0.2+svnr109: =
-/usr/share/numptyphysics/convert_all.sh contained in package numptyphysics =
-requires /bin/bash, but no providers found in RDEPENDS_numptyphysics? [file=
--rdeps]qtcharts-5.6.99+5.7.0-beta+gitAUTOINC+8a78184181: qtcharts-examples =
-rdepends on qtmultimedia, but it isn't a build dependency, missing qtmultim=
-edia in DEPENDS or PACKAGECONFIG? [build-deps]libmodule-build-perl-0.31: /u=
-sr/bin/config_data contained in package libmodule-build-perl requires /home=
-/jenkins/oe/world/shr-core/tmp-glibc/sysroots/x86_64-linux/usr/bin/perl-nat=
-ive/perl.real, but no providers found in RDEPENDS_libmodule-build-perl? [fi=
-le-rdeps]dvb-apps-1.1.1: /usr/bin/dvbdate contained in package dvbdate requ=
-ires libucsi.so, but no providers found in RDEPENDS_dvbdate? [file-rdeps]dv=
-b-apps-1.1.1: /usr/bin/dvbtraffic contained in package dvbtraffic requires =
-libdvbapi.so, but no providers found in RDEPENDS_dvbtraffic? [file-rdeps]dv=
-b-apps-1.1.1: /usr/bin/dvbscan contained in package dvb-scan requires libdv=
-bapi.so, but no providers found in RDEPENDS_dvb-scan? [file-rdeps]dvb-apps-=
-1.1.1: /usr/bin/gotox contained in package dvb-apps requires libdvbapi.so, =
-but no providers found in RDEPENDS_dvb-apps? [file-rdeps]dvb-apps-1.1.1: /u=
-sr/bin/femon contained in package dvb-femon requires libdvbapi.so, but no p=
-roviders found in RDEPENDS_dvb-femon? [file-rdeps]dvb-apps-1.1.1: /usr/bin/=
-dvbnet contained in package dvbnet requires libdvbapi.so, but no providers =
-found in RDEPENDS_dvbnet? [file-rdeps]libnewt-python-0.52.18: /usr/lib/pyth=
-on2.7/site-packages/_snack.so contained in package libnewt-python requires =
-libnewt.so, but no providers found in RDEPENDS_libnewt-python? [file-rdeps]=
-packagegroup-tools-bluetooth-1.0: packagegroup-tools-bluetooth: The LIC_FIL=
-ES_CHKSUM does not match for file:///home/jenkins/oe/world/shr-core/openemb=
-edded-core/LICENSE;md5=3D3f40d7994397109285ec7b81fdeb3b58
-packagegroup-tools-bluetooth: The new md5 checksum is 4d92cd373abda3937c2bc=
-47fbc49d690
-packagegroup-tools-bluetooth: Check if the license information has changed =
-in /home/jenkins/oe/world/shr-core/openembedded-core/LICENSE to verify that=
- the LICENSE value "MIT" remains valid [license-checksum]ubx-utils-0.0.0+gi=
-trAUTOINC+b63c0932dd: /usr/bin/memory-map.sh contained in package ubx-utils=
- requires /bin/bash, but no providers found in RDEPENDS_ubx-utils? [file-rd=
-eps]
-
->     Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
->     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/classes/insane.bbclass | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-> index 097dc3a..0b151c2 100644
-> --- a/meta/classes/insane.bbclass
-> +++ b/meta/classes/insane.bbclass
-> @@ -681,15 +681,15 @@ python populate_lic_qa_checksum() {
->      import tempfile
->      sane =3D True
-> =20
-> -    lic_files =3D d.getVar('LIC_FILES_CHKSUM', True)
-> +    lic_files =3D d.getVar('LIC_FILES_CHKSUM', True) or ''
->      lic =3D d.getVar('LICENSE', True)
->      pn =3D d.getVar('PN', True)
-> =20
->      if lic =3D=3D "CLOSED":
->          return
-> =20
-> -    if not lic_files:
-> -        package_qa_handle_error("license-checksum", pn + ": Recipe file =
-does not have license file information (LIC_FILES_CHKSUM)", d)
-> +    if not lic_files and d.getVar('SRC_URI', True):
-> +        package_qa_handle_error("license-checksum", pn + ": Recipe file =
-fetches files and does not have license file information (LIC_FILES_CHKSUM)=
-", d)
->          return
-> =20
->      srcdir =3D d.getVar('S', True)
->=20
-> --=20
-> To stop receiving notification emails like this one, please contact
-> the administrator of this repository.
-> --=20
-> _______________________________________________
-> Openembedded-commits mailing list
-> Openembedded-commits@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---XvKFcGCOAo53UbWW
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAldISfgACgkQN1Ujt2V2gBw90ACgga5MJl3dZ6ONJeDcs1vPp0mv
-J+kAn0MAqRSYpUmPhpGeyqzrf42BIBAu
-=i9ay
------END PGP SIGNATURE-----
-
---XvKFcGCOAo53UbWW--
