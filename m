@@ -1,50 +1,54 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id BB5AE6E688
+Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F7E76E688
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 May 2016 10:07:26 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id e3so13289575wme.2
+	Fri, 27 May 2016 10:10:30 +0000 (UTC)
+Received: by mail-wm0-f54.google.com with SMTP id n129so265256483wmn.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 May 2016 03:07:27 -0700 (PDT)
+	Fri, 27 May 2016 03:10:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:date:to:cc:subject:message-id:references:mime-version
 	:content-disposition:in-reply-to:user-agent;
-	bh=/pn+zLoA9MIrLb16TDP6IuRk6ORc68wvSLfmVoTOLuE=;
-	b=bTR0PvCig2cLqU+C6RCF6N8Rf/5yZenO10sBrPXfpr0ZYiKUEX43DSXBn4TDP9m9Q/
-	PVKJc9z0ywEgFwtnAaRRfCER8nn32acg9/GPsuAoN/gKu2d97efpSJaLbcP5Dcurel1p
-	ldrbZ+6Jk11KzWBtPnYDhLMO0wn8bBKLF7pSZNVdk9KQcUmYmp5KIIz3mRHfHf0o/5w3
-	OIg8UX6X+wepwx/Ts77pTjxIOVMVFeLUoYfAMgPb2seBYzBW7Ekc7zJtyI10UvNjbQSD
-	UMg1nlu197YoMdOrQp5WdtykSrXmU2pAo2qjIKijVt7k4caV+yAQQMjF77TtljGId24y
-	w2JQ==
+	bh=6CEMW6qxctxCzMLBQzAkUakbxqDedbrsF2hq7EXKU4U=;
+	b=xEiQIOGnR9Izz96e7/aOWlWrqR+P2UbE+PGIrx3G7UGk/76wY9x+8dXKWz9gLnZKtD
+	Nx6ZqMsrDLhvOfMlHPgyAsSL5+ihOC14jzDHZIyY5WoFuygsivpQHch0fgOkXCjNnM9n
+	bc69L8AAJwbFVN1DFZXGI1ryZSIr7Eh+Gd1VMsgXOZR1Z6RU1QV8iKrm/sUsJVRqk8ss
+	AT58vBx3L9ROZDTTFbkfBRLo4xjQMlx8/jpFJAEuRoEq+TslzKcH5TZ6e2XyaBUukbj+
+	JPWn5zIurCvQNzDjNWID4lGTruYEZE6bwY7yx7OA4rC3HtpsWQ8ubKm5I/hRVRP2Ei9Q
+	79fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=/pn+zLoA9MIrLb16TDP6IuRk6ORc68wvSLfmVoTOLuE=;
-	b=kUZNqeX4CkWw2a5Idk/YVoL4p3SwRTGB4xiZqgBkUQpIdzrkxpjQ3iSjiOmgFYh/so
-	f2jw4JIMQL8K18wIOM0v2u0e2XDR2GrE/KOQNJzCsbqHzonpqlTGNjhgmUOmYl53YC0a
-	ynjzmy6w7IEy8+B46984kqIGIfzQqng81+VCkplYyycbvJwQAXD9LilmpuLo9O2iz6Nq
-	pNHiBaAjiYEwB4vh8lSV+d+jfGMIazSLj4SiMUDpgaC8MRlU8yJ+b40L/lEycGzfE2Lq
-	wMY2FvvE2fet0qc1KGqC1op89gsNJXRClwtivTYXNZUlAccnEikeOmIk7xsx61rkK3of
-	5ZhA==
-X-Gm-Message-State: ALyK8tJsOeyF0OBSgcyfg5oPy2dtONJhpZNiLJBX1PNJMwvyfU2RnDt8fbCcko5fY7wCJQ==
-X-Received: by 10.28.26.145 with SMTP id a139mr4818904wma.55.1464343646402;
-	Fri, 27 May 2016 03:07:26 -0700 (PDT)
+	bh=6CEMW6qxctxCzMLBQzAkUakbxqDedbrsF2hq7EXKU4U=;
+	b=dHp82sKpf9Eae1vSYJvq/4LOGR6QjRVjhnX0vETmeFBKKgMqODAchxV0p33TplDxdN
+	jjrH87EcXq+UhIQMTsXCEd6xgqwtUTQxef/S2Awy0Od+IuHushP+JlZObW5p0D+or5ov
+	zjiC6Uc8kBrsMAr/E+3voFwUL2aTGTmL/FsJJSHBfA7o3uR3+d4VA74HIZZ9zvqDT9AP
+	ZhpxtuQzEI7GBxfpt35H4bAQzLO/fqSoor/goS2ZoWoSXfE94K4DdW8pd5EYKml6jcpW
+	669obBa+JEenqvPoSVC6aQXr7IxEcbZGOYzVz717NkhnZoqQvEvVL3ItQzqlWxH9lril
+	vWHw==
+X-Gm-Message-State: ALyK8tLGD/Mdh7g0VAJwtpB9wTcU7kUlePidt5d/inmik3uCrMakMpI2bb6LueNYPhhqxg==
+X-Received: by 10.194.185.211 with SMTP id fe19mr2599121wjc.119.1464343830509; 
+	Fri, 27 May 2016 03:10:30 -0700 (PDT)
 Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id d7sm7853322wmd.11.2016.05.27.03.07.25
+	by smtp.gmail.com with ESMTPSA id
+	a81sm7856609wma.16.2016.05.27.03.10.28
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 27 May 2016 03:07:25 -0700 (PDT)
+	Fri, 27 May 2016 03:10:28 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 27 May 2016 12:07:52 +0200
-To: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-Message-ID: <20160527100752.GA2570@jama>
-References: <1464330370-6856-1-git-send-email-markus.lehtonen@linux.intel.com>
+Date: Fri, 27 May 2016 12:10:56 +0200
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Message-ID: <20160527101056.GB2570@jama>
+References: <1464036327-4826-1-git-send-email-otavio@ossystems.com.br>
+	<1464270076.19134.19.camel@linuxfoundation.org>
+	<CAP9ODKqGzsGm747bAg2N_z-mu-jXt2PB1mFL-2r7-dyNnxC8og@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1464330370-6856-1-git-send-email-markus.lehtonen@linux.intel.com>
+In-Reply-To: <CAP9ODKqGzsGm747bAg2N_z-mu-jXt2PB1mFL-2r7-dyNnxC8og@mail.gmail.com>
 User-Agent: Mutt/1.6.1 (2016-04-27)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] license.bbclass: do not process LICENSE_pn variables
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/3] Improve SSL certificate handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,109 +61,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 May 2016 10:07:27 -0000
-X-Groupsio-MsgNum: 82781
+X-List-Received-Date: Fri, 27 May 2016 10:10:31 -0000
+X-Groupsio-MsgNum: 82782
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="qMm9M+Fa2AknHoGS"
+	protocol="application/pgp-signature"; boundary="/NkBOFFp2J2Af1nK"
 Content-Disposition: inline
 
---qMm9M+Fa2AknHoGS
+--/NkBOFFp2J2Af1nK
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 27, 2016 at 09:26:10AM +0300, Markus Lehtonen wrote:
-> The loop iterating over LICENSE_pn variables has never worked. In
-> addition, the LICENSE variable is supposed to contain all licenses
-> defined in LICENSE_pn variables.
-
-Is this really true?
-
-I've seen couple examples where LICENSE variable is used as a "default"
-for most packages, and then only 1 package sets different LICENSE_pn.
-
-Changing the semantics as you said would force people to define
-LICENSE_pn-dev
-LICENSE_pn-staticdev
-LICENSE_pn
-LICENSE_pn-dbg
-to foo when they have just one file in
-LICENSE_pn-blah
-which containd unwanted LICENSE bar
-
-And then overall license will be "foo & bar"
-
-There are real-world examples where there is one GPLv3 shell script we
-don't even need in LGPLv2 component - for now it was simple to move this
-script to separate package and set just LICENSE_pn-blah-script
-
-> Thus, it is simpler just to use LICENSE
-> as the data we get is essentially the same.
+On Fri, May 27, 2016 at 06:55:30AM -0300, Otavio Salvador wrote:
+> On Thu, May 26, 2016 at 10:41 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Mon, 2016-05-23 at 17:45 -0300, Otavio Salvador wrote:
+> >> This patchset leverage the OpenSSL certificate handling so it works
+> >> aligned with Debian and other generic distributions regarding where
+> >> the certificates are stored and how they are installed.
+> >>
+> >> This all started when debugging why SSL certificates were not working
+> >> properly for a customer which was using QtWebEngine. It turned out to
+> >> be the integration which was not complete so this patch addresses it.
+> >>
+> >>
+> >> Otavio Salvador (3):
+> >>   openssl: Add Shell-Script based c_rehash utility
+> >>   ca-certificates: Use c_rehash utility
+> >>   openssl: Ensure SSL certificates are stored on sysconfdir
+> >
+> > Initial tests were ok but we've just seen:
+> >
+> > https://autobuilder.yoctoproject.org/main/builders/nightly-oecore/build
+> > s/792/steps/BuildImages/logs/stdio
+> >
+> > I've not looked into it but it would seem to implicate these patches :/
 >=20
-> [YOCTO #9499]
->=20
-> Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-> ---
->  meta/classes/license.bbclass | 16 +---------------
->  1 file changed, 1 insertion(+), 15 deletions(-)
->=20
-> diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-> index 69335d6..eacf9e8 100644
-> --- a/meta/classes/license.bbclass
-> +++ b/meta/classes/license.bbclass
-> @@ -376,20 +376,6 @@ def find_license_files(d):
->      import shutil
->      import oe.license
-> =20
-> -    pn =3D d.getVar('PN', True)
-> -    for package in d.getVar('PACKAGES', True):
-> -        if d.getVar('LICENSE_' + package, True):
-> -            license_types =3D license_types + ' & ' + \
-> -                            d.getVar('LICENSE_' + package, True)
-> -
-> -    #If we get here with no license types, then that means we have a rec=
-ipe=20
-> -    #level license. If so, we grab only those.
-> -    try:
-> -        license_types
-> -    except NameError:       =20
-> -        # All the license types at the recipe level
-> -        license_types =3D d.getVar('LICENSE', True)
-> -=20
->      # All the license files for the package
->      lic_files =3D d.getVar('LIC_FILES_CHKSUM', True)
->      pn =3D d.getVar('PN', True)
-> @@ -487,7 +473,7 @@ def find_license_files(d):
-> =20
->      v =3D FindVisitor()
->      try:
-> -        v.visit_string(license_types)
-> +        v.visit_string(d.getVar('LICENSE', True))
->      except oe.license.InvalidLicense as exc:
->          bb.fatal('%s: %s' % (d.getVar('PF', True), exc))
->      except SyntaxError:
-> --=20
-> 2.6.6
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> It does seem to be caused by it. I sent a v2 fixing it.
+
+v1 was already merged, so you might want to send just rebased fix
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---qMm9M+Fa2AknHoGS
+--/NkBOFFp2J2Af1nK
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2
 
-iEYEARECAAYFAldIHF0ACgkQN1Ujt2V2gBwhfACfe+u2ggUmMAbOUELxd9CKIPU+
-mnsAn2I93CNn7XjyHf7TOp1ll37ZpGoH
-=9oeL
+iEYEARECAAYFAldIHS8ACgkQN1Ujt2V2gBx0/ACgsg88vK6eaZAs5TPa0A1s4j2m
+JlYAoJOQ7Km6HCQfL+fJPcpUP7O6x5oP
+=Vxad
 -----END PGP SIGNATURE-----
 
---qMm9M+Fa2AknHoGS--
+--/NkBOFFp2J2Af1nK--
