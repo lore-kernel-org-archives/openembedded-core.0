@@ -1,31 +1,30 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D0720731D5
+Return-Path: <ovidiu.vancea@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id CEBA173212
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 May 2016 15:21:21 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u4RFLB93008890
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 27 May 2016 08:21:12 -0700 (PDT)
-Received: from soho-mhatle-m.local (172.25.36.229) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Fri, 27 May 2016 08:21:11 -0700
-To: =?UTF-8?Q?Andr=c3=a9_Draszik?= <git@andred.net>, Ross Burton
-	<ross.burton@intel.com>, <openembedded-core@lists.openembedded.org>
-References: <1462534000-18539-1-git-send-email-ross.burton@intel.com>
-	<1464346463.28160.45.camel@andred.net>
-	<a8f703f6-4b7b-d7f0-722f-df7caee70291@windriver.com>
-	<1464360133.3815.7.camel@andred.net>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <351f6c15-c64d-106f-2d73-6c27500d5894@windriver.com>
-Date: Fri, 27 May 2016 10:21:10 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
-	Gecko/20100101 Thunderbird/45.1.0
+	Fri, 27 May 2016 15:59:47 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u4RFxlrd032588 for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 May 2016 10:59:47 -0500
+Received: from ovidiu-ro-l0.natinst.com ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016052710594732-210592 ;
+	Fri, 27 May 2016 10:59:47 -0500 
+From: Ovidiu Vancea <ovidiu.vancea@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 27 May 2016 18:59:46 +0300
+Message-Id: <1464364786-73104-1-git-send-email-ovidiu.vancea@ni.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <1464360133.3815.7.camel@andred.net>
-Subject: Re: [PATCH] bitbake.conf: add default for IMAGE_FSTYPES_DEBUGFS
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 05/27/2016 10:59:47 AM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 05/27/2016 10:59:47 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-05-27_09:, , signatures=0
+Subject: [PATCH] packake_ipk.bbclass: add kernel version to module dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,59 +37,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 May 2016 15:21:22 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 27 May 2016 15:59:48 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 5/27/16 9:42 AM, André Draszik wrote:
-> On Fr, 2016-05-27 at 09:21 -0500, Mark Hatle wrote:
->> On 5/27/16 5:54 AM, André Draszik wrote:
->>> This doesn't work for me (at least on krogoth):
->>>
->>>     ERROR: poky/meta/recipes-core/images/build-appliance-
->>> image_14.0.0.bb: No IMAGE_CMD defined for IMAGE_FSTYPES entry
->>> 'debugfs_vmdk' - possibly invalid type name or missing support class
->>>     ERROR: Failed to parse recipe: poky/meta/recipes-core/images/build-
->>> appliance-image_14.0.0.bb
->>>
->>> I *instead* am using the attached patch successfully.
->>>
->>> Is anybody else facing the same issue?
->>
->> Ross's patch should have fixed this.  It ensures that
->> IMAGE_FSTYPES_DEBUGFS is
->> always set to 'something'.
-> 
-> Yes, and now bitbake is looking for an IMAGE_CMD for debugfs_vmdk according
-> to the error message. Note that I didn't specify vmdk anywhere, my
-> IMAGE_FSTYPES is set to .tar.gz only.
-> 
->> You should check if the patch has been applied to the "krogoth" branch.
-> 
-> I did apply it locally. For me, it only works if i revert Ross' patch and
-> apply my patch instead.
-> 
+Updating the kernel ("opkg install kernel") does not update the
+dependencies (i.e. modules) because there is no possibility to do version
+enforcement in the OE recipe. Upon rebooting, the older version modules
+do not load and can leave hardware in a non-functioning state (if their
+drivers are not built into the kernel).
 
-Use bitbake -e <image>.  View the IMAGE_FSTYPES and IMAGE_FSTYPES_DEBUGFS.  Do
-you see vmdk in the former?  If so, look at the comments above it and it shoudl
-show you where it came from.
+Use the Version field from the kernel package on its rdepends, rrecommends,
+and rsuggests fields=E2=80=99 version. This makes the packages on which the=
+ kernel
+depends to be the same version as the kernel.
 
-My guess is you have an image or BSP that is hard coding a specific 'vmdk'.
+Version field contains package build number (including git hash) and package
+revision, thus restricting the kernel and modules to always be built togeth=
+er.
 
-I agree there is a problem here, some filesystem types do not make sense for
-debugfs type.  I'm not sure how to necessarily reconcile this behavior, but vmdk
-doesn't seem reasonable to me here..
+Signed-off-by: Ovidiu Vancea <ovidiu.vancea@ni.com>
+---
+ meta/classes/package=5Fipk.bbclass | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-But first figure out where it's coming from.
-
-Setting IMAGE_FSTYPES_DEBUGFS = "tar.gz" in your local.conf should be enough to
-set the value and avoid the behavior.  If it's not, again look at the bitbake -e
-output and see what it's saying it's doing.
-
---Mark
-
-> Cheers,
-> André
-> 
+diff --git a/meta/classes/package=5Fipk.bbclass b/meta/classes/package=5Fip=
+k.bbclass
+index f1ad1d5..8468caf 100644
+--- a/meta/classes/package=5Fipk.bbclass
++++ b/meta/classes/package=5Fipk.bbclass
+@@ -196,6 +196,15 @@ python do=5Fpackage=5Fipk () {
+         rconflicts =3D bb.utils.explode=5Fdep=5Fversions2(localdata.getVar=
+("RCONFLICTS", True) or "")
+         debian=5Fcmp=5Fremap(rconflicts)
+=20
++        if (pkgname =3D=3D "kernel") and (localdata.getVar("VERSION=5FKERN=
+EL=5FMODULES", False) =3D=3D "1"):
++            suffix =3D "=3D"+localdata.getVar('PKGV', True)+"-"+localdata.=
+getVar('PKGR', True)
++            for key in rdepends:
++                rdepends[key]    =3D suffix
++            for key in rsuggests:
++                rsuggests[key]   =3D suffix
++            for key in rrecommends:
++                rrecommends[key] =3D suffix
++
+         if rdepends:
+             ctrlfile.write("Depends: %s\n" % bb.utils.join=5Fdeps(rdepends=
+))
+         if rsuggests:
+--=20
+2.7.4
 
 
