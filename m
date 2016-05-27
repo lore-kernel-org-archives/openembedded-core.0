@@ -1,39 +1,61 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
-	[209.85.192.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 752C960670
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-pa0-f68.google.com (mail-pa0-f68.google.com
+	[209.85.220.68])
+	by mail.openembedded.org (Postfix) with ESMTP id CF98E60670
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 May 2016 09:55:27 +0000 (UTC)
-Received: by mail-qg0-f41.google.com with SMTP id 90so48466982qgz.1
+	Fri, 27 May 2016 09:55:32 +0000 (UTC)
+Received: by mail-pa0-f68.google.com with SMTP id f8so12079756pag.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 May 2016 02:55:28 -0700 (PDT)
+	Fri, 27 May 2016 02:55:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=tHjLuPfuRuXk2RfG6L3QCQ2xdLZiEpUO/ar6Os7IFMo=;
+	b=Hh3bGOBAHRTPBW/66beF5qD7okHNFWtY3IlrYmPGhYrlD5XAhaAK85WiRvx6p089Jg
+	1cwqHGNarudi6gh0GD+DvTSOdpbRk17DRv40dsKSogWvNWvaZSH3EkRXEQgn5h4yiMfJ
+	ttOuIeJE+KJ5qCoLaPQIfM1wEzmFxmO25sG+tkAkxBdO9mF0JHljVU3XAw6mLuH3PA8k
+	5DuTMWUB2n+4ooc3ENcl4CiLBEeFIj5zga7hsVLqa0lwwu1Ed1z1ONdvjw5UpYWlfRWA
+	Oh413YbDYoNFRbmYsymvnbSefVCuoWkmNTKN4SlytqeBRpwO52MBmeViKJ4gbEhOAqHq
+	JNDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=WsT3YXGbeEAfR/KLlug04aBRdqbotbeLKh0GEQibBr4=;
-	b=Qe6dd6bgXP2mt1zKuThw3wkrZcJSO4qevVVfezEW7XEoB4Q7bttV6u86SyAK3n01nn
-	tIuwX80euz5MICkfjRhOImsLKggMP+EigYzsAX6c8twJu7ER4Ye9y2MkkPK8ALex/BZp
-	hwcaKgQTT2ZzULMRiG91scDYXPMQEbU62gyMRsJoNzJktNwRJBOQF7aiwF5JDtwlB8k0
-	i2gxxp+Kf+unxZXpyzzFQWyW+LJGqPP1s9BMF0Bf7E3zFxW4SNcKQUGDZ6dFQmlBld13
-	Lw7ChS7QH166DYD+VIvRCcUSGnX20Q81CDbipuUA8/faspHcqrnc7SvHtIILzxE4W+32
-	KXZg==
-X-Gm-Message-State: ALyK8tJvAPd3T/O+LFMkUCIHfW3zgJqSWN3sekQ80ZSyfXUkMkEY+5xljGYuT/yjLBvw3A==
-X-Received: by 10.140.95.68 with SMTP id h62mr12460811qge.33.1464342927612;
-	Fri, 27 May 2016 02:55:27 -0700 (PDT)
-Received: from localhost ([187.23.154.250]) by smtp.gmail.com with ESMTPSA id
-	c35sm2371160qga.14.2016.05.27.02.55.23
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=tHjLuPfuRuXk2RfG6L3QCQ2xdLZiEpUO/ar6Os7IFMo=;
+	b=hO6aSVHWPgDzA23ov0e2g14wL9yqM29LdCyDqU9Xh6Vd59YbG6LTx0RV8XT7wFd3XO
+	/bzVBLo+ueciMOcP0wSjAJuVfGATVKnoS9e1Davk6XNRHvp/wSEFQHd8zt39ThfGo9tI
+	rrIEh4F+BB6i4Irwpyc3J1+6ddaF0ivJBm4IQ22oQ7PG5JV3YuoGN/u1pH+ULzn3a9Ck
+	8bkNboaVlKBx9ohHYytf3RkqzgzBxpa6+EVtR+WEvmBhJ8I7ZJo8Tpcy07z20Tywc436
+	5FBoqQqU9p7xAbcuEbCq5d3UR7FGziH8rwHwEAjohAd6LIVnEKlrk/noaYMYdMJIFvEB
+	MvDg==
+X-Gm-Message-State: ALyK8tJjj816A6/SrPQF9gfGAYQSfo5Fb10y6xUYCmOHSpad2cY5FGIH7BxEMPCaL/U6zA==
+X-Received: by 10.66.50.105 with SMTP id b9mr21083152pao.122.1464342932955;
+	Fri, 27 May 2016 02:55:32 -0700 (PDT)
+Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com.
+	[209.85.220.44]) by smtp.gmail.com with ESMTPSA id
+	x123sm12298899pfb.54.2016.05.27.02.55.31
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 27 May 2016 02:55:26 -0700 (PDT)
-Received: by localhost (sSMTP sendmail emulation);
-	Fri, 27 May 2016 06:55:20 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Fri, 27 May 2016 06:55:15 -0300
-Message-Id: <20160527095518.21761-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.8.3
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v2 0/3] Improve SSL certificate handling
+	Fri, 27 May 2016 02:55:31 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-pa0-f44.google.com with SMTP id xk12so38741384pac.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 May 2016 02:55:31 -0700 (PDT)
+MIME-Version: 1.0
+X-Received: by 10.66.6.35 with SMTP id x3mr21055694pax.135.1464342930831; Fri,
+	27 May 2016 02:55:30 -0700 (PDT)
+Received: by 10.66.231.37 with HTTP; Fri, 27 May 2016 02:55:30 -0700 (PDT)
+In-Reply-To: <1464270076.19134.19.camel@linuxfoundation.org>
+References: <1464036327-4826-1-git-send-email-otavio@ossystems.com.br>
+	<1464270076.19134.19.camel@linuxfoundation.org>
+Date: Fri, 27 May 2016 06:55:30 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKqGzsGm747bAg2N_z-mu-jXt2PB1mFL-2r7-dyNnxC8og@mail.gmail.com>
+Message-ID: <CAP9ODKqGzsGm747bAg2N_z-mu-jXt2PB1mFL-2r7-dyNnxC8og@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/3] Improve SSL certificate handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,34 +68,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 May 2016 09:55:27 -0000
+X-List-Received-Date: Fri, 27 May 2016 09:55:34 -0000
+Content-Type: text/plain; charset=UTF-8
 
-This patchset leverage the OpenSSL certificate handling so it works
-aligned with Debian and other generic distributions regarding where
-the certificates are stored and how they are installed.
+On Thu, May 26, 2016 at 10:41 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Mon, 2016-05-23 at 17:45 -0300, Otavio Salvador wrote:
+>> This patchset leverage the OpenSSL certificate handling so it works
+>> aligned with Debian and other generic distributions regarding where
+>> the certificates are stored and how they are installed.
+>>
+>> This all started when debugging why SSL certificates were not working
+>> properly for a customer which was using QtWebEngine. It turned out to
+>> be the integration which was not complete so this patch addresses it.
+>>
+>>
+>> Otavio Salvador (3):
+>>   openssl: Add Shell-Script based c_rehash utility
+>>   ca-certificates: Use c_rehash utility
+>>   openssl: Ensure SSL certificates are stored on sysconfdir
+>
+> Initial tests were ok but we've just seen:
+>
+> https://autobuilder.yoctoproject.org/main/builders/nightly-oecore/build
+> s/792/steps/BuildImages/logs/stdio
+>
+> I've not looked into it but it would seem to implicate these patches :/
 
-This all started when debugging why SSL certificates were not working
-properly for a customer which was using QtWebEngine. It turned out to
-be the integration which was not complete so this patch addresses it.
-
-Changes in v2:
-- Add rdepends on openssl
-
-Otavio Salvador (3):
-  openssl: Add Shell-Script based c_rehash utility
-  ca-certificates: Use c_rehash utility
-  openssl: Ensure SSL certificates are stored on sysconfdir
-
- meta/recipes-connectivity/openssl/openssl.inc      |  26 ++-
- .../openssl/openssl/openssl-c_rehash.sh            | 210 +++++++++++++++++++++
- .../recipes-connectivity/openssl/openssl_1.0.2h.bb |   1 +
- ...01-update-ca-certificates-remove-c-rehash.patch |  46 -----
- .../ca-certificates/ca-certificates_20160104.bb    |   3 +-
- 5 files changed, 231 insertions(+), 55 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/openssl-c_rehash.sh
- delete mode 100644 meta/recipes-support/ca-certificates/ca-certificates/0001-update-ca-certificates-remove-c-rehash.patch
+It does seem to be caused by it. I sent a v2 fixing it.
 
 -- 
-2.8.3
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
