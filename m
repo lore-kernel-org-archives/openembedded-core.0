@@ -1,52 +1,47 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-io0-f196.google.com (mail-io0-f196.google.com
-	[209.85.223.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 9DF5F77026
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
+	[209.85.215.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 17CA873259
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 May 2016 20:42:57 +0000 (UTC)
-Received: by mail-io0-f196.google.com with SMTP id p194so3973746iod.0
+	Sat, 28 May 2016 06:11:00 +0000 (UTC)
+Received: by mail-lf0-f66.google.com with SMTP id w16so8095265lfd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 May 2016 13:42:58 -0700 (PDT)
+	Fri, 27 May 2016 23:11:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Cq5S11sq6CMxeilm871zbFGj923P8HQRkfXhly5g5/I=;
+	b=dHvvxbzPaG9b5B2Ao11tHKrLUOtLCXd8mrwMf5Z1DHBvE7xLLpzAZGbSjKy5wVHsCz
+	rF/77sg1gEN/ktIysSwhsnvTzKAnS1VWN2qBQc3ZhZHhDA8szisljgZLSkuVKsbJ8qz3
+	+MADlluUAIQbOkJVEEwJmuy32QUedzYKuuXGoB/IwhEDoaDEf30K+QdPBabRyrTZDiMp
+	Lce7ZCSMcrNtzj6o/JNBLUia9GtCrKr8flFy1gD2ne4KAV2lCA9Ac3MICqMLkpoE8bQB
+	YrvcvciBPLz/Qv5W3ng86icgNAlctfWIwbq6dvTtaMzb/nrmg8ce4AARG4uRxaZy/9za
+	HSXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-transfer-encoding;
-	bh=WvF+QnVpPQ2DTP35TIua+tnJad12uN3JinuOX36zKUM=;
-	b=IAmleNLc7t/SmZLyDrTrTHAYGiEt7yq1WNLLP29HrOsZFd2mtrqPZyBy7VyrejDieE
-	vxtEjSlAgACO0z0ON3hUk35HkJu0Ra21cWG1ILQVj5CYvyqZEn3nopuZr5G/Cp2Apo5P
-	KaGYygORc2m6U6WrP+z58bxTiRkJ+pjFVf/d90o9FKSuNZtPtrGoWlizgs05LqgEFA2V
-	ilnpeb8dnDexH012N7B225Di55WBJrOPilhgguQfjoTE9ERXV+Cul58YYV/mNBoJnq0P
-	If/w/XIezGMxajAIoji7Gotg5p+P1hfTHiR4bJZOQjGztLjehHRFc/r4c+/DHuXMYsnT
-	0W7A==
-X-Gm-Message-State: ALyK8tKa9UsBjrdSdh5g+F6Hz+WSbe4O9+unV/+lLwyrIa1YrkeI6C7rNldu1GebY7NLGQ==
-X-Received: by 10.107.129.87 with SMTP id c84mr15538302iod.102.1464381777417; 
-	Fri, 27 May 2016 13:42:57 -0700 (PDT)
-Received: from mail-it0-f43.google.com (mail-it0-f43.google.com.
-	[209.85.214.43])
-	by smtp.gmail.com with ESMTPSA id g73sm3295876iog.6.2016.05.27.13.42.56
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 27 May 2016 13:42:57 -0700 (PDT)
-Received: by mail-it0-f43.google.com with SMTP id z123so3061372itg.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 May 2016 13:42:56 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Cq5S11sq6CMxeilm871zbFGj923P8HQRkfXhly5g5/I=;
+	b=AoklhKup3/9prASZlHGYynHtxivU+OPTNnEE7Ovev12pk1EcHB+sU9/tc2o3oRQTBS
+	BcND7kltcr4ci68SefgaxO8k2hiiBG4O8s1FOJm8LJfFS7/Ntj55w8afQDx0C45/nDSD
+	9dyNy7OSuSpTuvEx10lohnEZaYRjYBr+D5Xpxb+X+PzRFlgQM3KmQ2uoz6EzI6a4d/CA
+	Sk8tXqkbek40lMWINs/tYzKpoo4pa5NDQzVbaPV3Gtf0gD0IUY2pvXm8iHcXQ4q5zWdz
+	ri1SZhZk8FiOYoykhVInl8LouT7OH7LYWcdoIyrKuyroVGsw0g8W6wC+jI34ARhRf4im
+	N/vQ==
+X-Gm-Message-State: ALyK8tIR032VTpguWpo7lpJsfqtv5JmX46f3FZv/SzcI22kHI5DzZmg4KH3yRZjbHmFdVKZrvEkl9tmjNw6FQA==
+X-Received: by 10.25.125.11 with SMTP id y11mr5062098lfc.81.1464415859851;
+	Fri, 27 May 2016 23:10:59 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.36.46.67 with SMTP id i64mr514123ita.60.1464381776351; Fri,
-	27 May 2016 13:42:56 -0700 (PDT)
-Received: by 10.64.24.103 with HTTP; Fri, 27 May 2016 13:42:56 -0700 (PDT)
-In-Reply-To: <351f6c15-c64d-106f-2d73-6c27500d5894@windriver.com>
-References: <1462534000-18539-1-git-send-email-ross.burton@intel.com>
-	<1464346463.28160.45.camel@andred.net>
-	<a8f703f6-4b7b-d7f0-722f-df7caee70291@windriver.com>
-	<1464360133.3815.7.camel@andred.net>
-	<351f6c15-c64d-106f-2d73-6c27500d5894@windriver.com>
-Date: Fri, 27 May 2016 21:42:56 +0100
-X-Gmail-Original-Message-ID: <CAKUP++sNL9QmS9zqL2_dZBb6wRDiZJFnzkgid9+x+Anv_44QFg@mail.gmail.com>
-Message-ID: <CAKUP++sNL9QmS9zqL2_dZBb6wRDiZJFnzkgid9+x+Anv_44QFg@mail.gmail.com>
-From: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
-To: Mark Hatle <mark.hatle@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] bitbake.conf: add default for IMAGE_FSTYPES_DEBUGFS
+Received: by 10.25.42.132 with HTTP; Fri, 27 May 2016 23:10:30 -0700 (PDT)
+In-Reply-To: <1462472437-78392-2-git-send-email-jianxun.zhang@linux.intel.com>
+References: <1462472437-78392-1-git-send-email-jianxun.zhang@linux.intel.com>
+	<1462472437-78392-2-git-send-email-jianxun.zhang@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 28 May 2016 09:10:30 +0300
+Message-ID: <CAMKF1sqXmjZ1mfYSCtFYcNY6NJKxc9M+MJxbFWAmnw-=bp_y_A@mail.gmail.com>
+To: Jianxun Zhang <jianxun.zhang@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemd: support systemd-boot as a stand-alone EFI bootloader
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,86 +54,296 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 May 2016 20:42:57 -0000
+X-List-Received-Date: Sat, 28 May 2016 06:11:01 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-Thanks Mark.
+This is ok.
 
-Nothing is pulling vmdk into my builds. vmdk does not end up in my
-IMAGE_FSTYPES or IMAGE_FSTYPES_DEBUGFS. Again, the output from bitbake
--e is fine when reverting Ross' patch and applying the patch I posted
-earlier instead. With Ross' patch (only), bitbake doesn't even finish
-parsing due to the exception being thrown (so bitbake -e output is
-empty apart from the exception).
-
-I know I can set IMAGE_FSTYPES_DEBUGFS explicitly to work around the
-issue, but that's not it is intended to work.
-
-Cheers,
-Andre
-
-On Fri, May 27, 2016 at 4:21 PM, Mark Hatle <mark.hatle@windriver.com> wrot=
-e:
-> On 5/27/16 9:42 AM, Andr=C3=A9 Draszik wrote:
->> On Fr, 2016-05-27 at 09:21 -0500, Mark Hatle wrote:
->>> On 5/27/16 5:54 AM, Andr=C3=A9 Draszik wrote:
->>>> This doesn't work for me (at least on krogoth):
->>>>
->>>>     ERROR: poky/meta/recipes-core/images/build-appliance-
->>>> image_14.0.0.bb: No IMAGE_CMD defined for IMAGE_FSTYPES entry
->>>> 'debugfs_vmdk' - possibly invalid type name or missing support class
->>>>     ERROR: Failed to parse recipe: poky/meta/recipes-core/images/build=
--
->>>> appliance-image_14.0.0.bb
->>>>
->>>> I *instead* am using the attached patch successfully.
->>>>
->>>> Is anybody else facing the same issue?
->>>
->>> Ross's patch should have fixed this.  It ensures that
->>> IMAGE_FSTYPES_DEBUGFS is
->>> always set to 'something'.
->>
->> Yes, and now bitbake is looking for an IMAGE_CMD for debugfs_vmdk accord=
-ing
->> to the error message. Note that I didn't specify vmdk anywhere, my
->> IMAGE_FSTYPES is set to .tar.gz only.
->>
->>> You should check if the patch has been applied to the "krogoth" branch.
->>
->> I did apply it locally. For me, it only works if i revert Ross' patch an=
-d
->> apply my patch instead.
->>
+On Thu, May 5, 2016 at 9:20 PM, Jianxun Zhang
+<jianxun.zhang@linux.intel.com> wrote:
+> The "systemd-boot" is gummiboot now included into systemd project.
+> The old gummiboot project supported in OE is dead.
 >
-> Use bitbake -e <image>.  View the IMAGE_FSTYPES and IMAGE_FSTYPES_DEBUGFS=
-.  Do
-> you see vmdk in the former?  If so, look at the comments above it and it =
-shoudl
-> show you where it came from.
+> Our intention is to get a gummiboot-like EFI bootloader without
+> much dependency on systemd and its features.
 >
-> My guess is you have an image or BSP that is hard coding a specific 'vmdk=
-'.
+> This work is largely derived from the existing bbclass and recipes
+> of gummiboot and systemd.
+> (commit tip: ee25d0e3987d7732a2e46e1640693b4cf419a9fc)
 >
-> I agree there is a problem here, some filesystem types do not make sense =
-for
-> debugfs type.  I'm not sure how to necessarily reconcile this behavior, b=
-ut vmdk
-> doesn't seem reasonable to me here..
+> Please refer to the history up to the tip for authorship and
+> credit information for the original works.
 >
-> But first figure out where it's coming from.
+> To enable the systemd-boot in build, add this line
+> EFI_PROVIDER = "systemd-boot" in your machine conf file.
 >
-> Setting IMAGE_FSTYPES_DEBUGFS =3D "tar.gz" in your local.conf should be e=
-nough to
-> set the value and avoid the behavior.  If it's not, again look at the bit=
-bake -e
-> output and see what it's saying it's doing.
+> Signed-off-by: Jianxun Zhang <jianxun.zhang@linux.intel.com>
+> ---
+>  meta/classes/systemd-boot.bbclass             | 124 ++++++++++++++++++++++++++
+>  meta/recipes-bsp/systemd-boot/systemd-boot.bb |  35 ++++++++
+>  meta/recipes-core/systemd/systemd.inc         |  25 ++++++
+>  meta/recipes-core/systemd/systemd_229.bb      |  26 +-----
+>  4 files changed, 186 insertions(+), 24 deletions(-)
+>  create mode 100644 meta/classes/systemd-boot.bbclass
+>  create mode 100644 meta/recipes-bsp/systemd-boot/systemd-boot.bb
+>  create mode 100644 meta/recipes-core/systemd/systemd.inc
 >
-> --Mark
+> diff --git a/meta/classes/systemd-boot.bbclass b/meta/classes/systemd-boot.bbclass
+> new file mode 100644
+> index 0000000..9e9398a
+> --- /dev/null
+> +++ b/meta/classes/systemd-boot.bbclass
+> @@ -0,0 +1,124 @@
+> +# Copyright (C) 2016 Intel Corporation
+> +#
+> +# Released under the MIT license (see COPYING.MIT)
+> +
+> +# systemd-boot.bbclass - The "systemd-boot" is essentially the gummiboot merged into systemd.
+> +#                        The original standalone gummiboot project is dead without any more
+> +#                        maintenance. As a start point, we replace all gummitboot occurrences
+> +#                        with systemd-boot in gummiboot.bbclass to have a base version of this
+> +#                        systemd-boot.bbclass.
+> +#
+> +# Set EFI_PROVIDER = "systemd-boot" to use systemd-boot on your live images instead of grub-efi
+> +# (images built by image-live.bbclass or image-vm.bbclass)
+> +
+> +do_bootimg[depends] += "${MLPREFIX}systemd-boot:do_deploy"
+> +do_bootdirectdisk[depends] += "${MLPREFIX}systemd-boot:do_deploy"
+> +
+> +EFIDIR = "/EFI/BOOT"
+> +
+> +SYSTEMD_BOOT_CFG ?= "${S}/loader.conf"
+> +SYSTEMD_BOOT_ENTRIES ?= ""
+> +SYSTEMD_BOOT_TIMEOUT ?= "10"
+> +
+> +# Need UUID utility code.
+> +inherit fs-uuid
+> +
+> +efi_populate() {
+> +        DEST=$1
+> +
+> +        EFI_IMAGE="systemd-bootia32.efi"
+> +        DEST_EFI_IMAGE="bootia32.efi"
+> +        if [ "${TARGET_ARCH}" = "x86_64" ]; then
+> +            EFI_IMAGE="systemd-bootx64.efi"
+> +            DEST_EFI_IMAGE="bootx64.efi"
+> +        fi
+> +
+> +        install -d ${DEST}${EFIDIR}
+> +        # systemd-boot requires these paths for configuration files
+> +        # they are not customizable so no point in new vars
+> +        install -d ${DEST}/loader
+> +        install -d ${DEST}/loader/entries
+> +        install -m 0644 ${DEPLOY_DIR_IMAGE}/${EFI_IMAGE} ${DEST}${EFIDIR}/${DEST_EFI_IMAGE}
+> +        install -m 0644 ${SYSTEMD_BOOT_CFG} ${DEST}/loader/loader.conf
+> +        for i in ${SYSTEMD_BOOT_ENTRIES}; do
+> +            install -m 0644 ${i} ${DEST}/loader/entries
+> +        done
+> +}
+> +
+> +efi_iso_populate() {
+> +        iso_dir=$1
+> +        efi_populate $iso_dir
+> +        mkdir -p ${EFIIMGDIR}/${EFIDIR}
+> +        cp $iso_dir/${EFIDIR}/* ${EFIIMGDIR}${EFIDIR}
+> +        cp $iso_dir/vmlinuz ${EFIIMGDIR}
+> +        EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
+> +        echo "fs0:${EFIPATH}\\${DEST_EFI_IMAGE}" > ${EFIIMGDIR}/startup.nsh
+> +        if [ -f "$iso_dir/initrd" ] ; then
+> +            cp $iso_dir/initrd ${EFIIMGDIR}
+> +        fi
+> +}
+> +
+> +efi_hddimg_populate() {
+> +        efi_populate $1
+> +}
+> +
+> +python build_efi_cfg() {
+> +    s = d.getVar("S", True)
+> +    labels = d.getVar('LABELS', True)
+> +    if not labels:
+> +        bb.debug(1, "LABELS not defined, nothing to do")
+> +        return
+> +
+> +    if labels == []:
+> +        bb.debug(1, "No labels, nothing to do")
+> +        return
+> +
+> +    cfile = d.getVar('SYSTEMD_BOOT_CFG', True)
+> +    try:
+> +         cfgfile = open(cfile, 'w')
+> +    except OSError:
+> +        raise bb.build.funcFailed('Unable to open %s' % (cfile))
+> +
+> +    cfgfile.write('# Automatically created by OE\n')
+> +    cfgfile.write('default %s\n' % (labels.split()[0]))
+> +    timeout = d.getVar('SYSTEMD_BOOT_TIMEOUT', True)
+> +    if timeout:
+> +        cfgfile.write('timeout %s\n' % timeout)
+> +    else:
+> +        cfgfile.write('timeout 10\n')
+> +    cfgfile.close()
+> +
+> +    for label in labels.split():
+> +        localdata = d.createCopy()
+> +
+> +        overrides = localdata.getVar('OVERRIDES', True)
+> +        if not overrides:
+> +            raise bb.build.FuncFailed('OVERRIDES not defined')
+> +
+> +        entryfile = "%s/%s.conf" % (s, label)
+> +        d.appendVar("SYSTEMD_BOOT_ENTRIES", " " + entryfile)
+> +        try:
+> +            entrycfg = open(entryfile, "w")
+> +        except OSError:
+> +            raise bb.build.funcFailed('Unable to open %s' % (entryfile))
+> +        localdata.setVar('OVERRIDES', label + ':' + overrides)
+> +        bb.data.update_data(localdata)
+> +
+> +        entrycfg.write('title %s\n' % label)
+> +        entrycfg.write('linux /vmlinuz\n')
+> +
+> +        append = localdata.getVar('APPEND', True)
+> +        initrd = localdata.getVar('INITRD', True)
+> +
+> +        if initrd:
+> +            entrycfg.write('initrd /initrd\n')
+> +        lb = label
+> +        if label == "install":
+> +            lb = "install-efi"
+> +        entrycfg.write('options LABEL=%s ' % lb)
+> +        if append:
+> +            append = replace_rootfs_uuid(d, append)
+> +            entrycfg.write('%s' % append)
+> +        entrycfg.write('\n')
+> +        entrycfg.close()
+> +}
+> diff --git a/meta/recipes-bsp/systemd-boot/systemd-boot.bb b/meta/recipes-bsp/systemd-boot/systemd-boot.bb
+> new file mode 100644
+> index 0000000..87e9871
+> --- /dev/null
+> +++ b/meta/recipes-bsp/systemd-boot/systemd-boot.bb
+> @@ -0,0 +1,35 @@
+> +require recipes-core/systemd/systemd.inc
+> +
+> +DEPENDS = "intltool-native libcap util-linux gnu-efi"
+> +
+> +inherit autotools pkgconfig gettext
+> +inherit deploy
+> +
+> +EXTRA_OECONF = " --enable-gnuefi \
+> +                 --with-efi-includedir=${STAGING_INCDIR} \
+> +                 --with-efi-ldsdir=${STAGING_LIBDIR} \
+> +                 --with-efi-libdir=${STAGING_LIBDIR} \
+> +                 --disable-manpages \
+> +               "
+> +
+> +# Imported from gummiboot recipe
+> +TUNE_CCARGS_remove = "-mfpmath=sse"
+> +
+> +do_compile() {
+> +       SYSTEMD_BOOT_EFI_ARCH="ia32"
+> +       if [ "${TARGET_ARCH}" = "x86_64" ]; then
+> +               SYSTEMD_BOOT_EFI_ARCH="x64"
+> +       fi
+> +
+> +       oe_runmake systemd-boot${SYSTEMD_BOOT_EFI_ARCH}.efi
+> +}
+> +
+> +do_install() {
+> +       # Bypass systemd installation with a NOP
+> +       :
+> +}
+> +
+> +do_deploy () {
+> +       install ${B}/systemd-boot*.efi ${DEPLOYDIR}
+> +}
+> +addtask deploy before do_build after do_compile
+> diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
+> new file mode 100644
+> index 0000000..8247130
+> --- /dev/null
+> +++ b/meta/recipes-core/systemd/systemd.inc
+> @@ -0,0 +1,25 @@
+> +SUMMARY = "A System and service manager"
+> +HOMEPAGE = "http://www.freedesktop.org/wiki/Software/systemd"
+> +
+> +DESCRIPTION = "systemd is a system and service manager for Linux, compatible with \
+> +SysV and LSB init scripts. systemd provides aggressive parallelization \
+> +capabilities, uses socket and D-Bus activation for starting services, \
+> +offers on-demand starting of daemons, keeps track of processes using \
+> +Linux cgroups, supports snapshotting and restoring of the system \
+> +state, maintains mount and automount points and implements an \
+> +elaborate transactional dependency-based service control logic. It can \
+> +work as a drop-in replacement for sysvinit."
+> +
+> +LICENSE = "GPLv2 & LGPLv2.1"
+> +LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
+> +                    file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
+> +
+> +SRCREV = "714c62b46379abb7558c544665522aca91691e10"
+> +
+> +SRC_URI = "git://github.com/systemd/systemd.git;protocol=git"
+> +
+> +PV = "229+git${SRCPV}"
+> +
+> +S = "${WORKDIR}/git"
+> +
+> +LDFLAGS_append_libc-uclibc = " -lrt -lssp_nonshared -lssp "
+> diff --git a/meta/recipes-core/systemd/systemd_229.bb b/meta/recipes-core/systemd/systemd_229.bb
+> index c23c749..4aef907 100644
+> --- a/meta/recipes-core/systemd/systemd_229.bb
+> +++ b/meta/recipes-core/systemd/systemd_229.bb
+> @@ -1,18 +1,4 @@
+> -SUMMARY = "A System and service manager"
+> -HOMEPAGE = "http://www.freedesktop.org/wiki/Software/systemd"
+> -
+> -DESCRIPTION = "systemd is a system and service manager for Linux, compatible with \
+> -SysV and LSB init scripts. systemd provides aggressive parallelization \
+> -capabilities, uses socket and D-Bus activation for starting services, \
+> -offers on-demand starting of daemons, keeps track of processes using \
+> -Linux cgroups, supports snapshotting and restoring of the system \
+> -state, maintains mount and automount points and implements an \
+> -elaborate transactional dependency-based service control logic. It can \
+> -work as a drop-in replacement for sysvinit."
+> -
+> -LICENSE = "GPLv2 & LGPLv2.1"
+> -LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
+> -                    file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
+> +require systemd.inc
 >
->> Cheers,
->> Andr=C3=A9
->>
+>  PROVIDES = "udev"
 >
+> @@ -24,11 +10,7 @@ SECTION = "base/shell"
+>
+>  inherit useradd pkgconfig autotools perlnative update-rc.d update-alternatives qemu systemd ptest gettext bash-completion
+>
+> -SRCREV = "714c62b46379abb7558c544665522aca91691e10"
+> -
+> -PV = "229+git${SRCPV}"
+> -
+> -SRC_URI = "git://github.com/systemd/systemd.git;protocol=git \
+> +SRC_URI += " \
+>             file://touchscreen.rules \
+>             file://00-create-volatile.conf \
+>             file://init \
+> @@ -60,10 +42,6 @@ SRC_URI_append_libc-uclibc = "\
+>  "
+>  SRC_URI_append_qemuall = " file://0001-core-device.c-Change-the-default-device-timeout-to-2.patch"
+>
+> -S = "${WORKDIR}/git"
+> -
+> -LDFLAGS_append_libc-uclibc = " -lrt -lssp_nonshared -lssp "
+> -
+>  GTKDOC_DOCDIR = "${S}/docs/"
+>
+>  PACKAGECONFIG ??= "xz \
+> --
+> 1.9.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
