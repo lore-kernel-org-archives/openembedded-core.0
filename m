@@ -1,45 +1,21 @@
-Return-Path: <allenwild93@gmail.com>
-Received: from mail-yw0-f196.google.com (mail-yw0-f196.google.com
-	[209.85.161.196])
-	by mail.openembedded.org (Postfix) with ESMTP id CAC0A7328A
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 18FCA731D0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 May 2016 18:49:52 +0000 (UTC)
-Received: by mail-yw0-f196.google.com with SMTP id y6so12524553ywe.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 May 2016 11:49:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=f+lR571owlTGOAfBSj2eL7Wc9J12E9tobTCxpBPzhxU=;
-	b=klZ0NjDVr1ir2Ph2og3IrQI9Y3IpSHyRbENsvF/IAMtL5Puz+NcHAmyP+QzQDZRvBm
-	cORKLbPHgxtHeZvm3TFtuNsJT/bEhBYZW2QaxfOtwFbMGkGVN0vGmGtIp6FjMuSyhD1u
-	32jRONEG4TSZOjPGlq9+3l0PNP4X9AU3XBD2cf9oVjkTIelIlRZ44t2emDoVOCBWro/2
-	JW+QvMwxSOgIVGV/vYTXUJADkblNHquCFNPAZWIbrlZjOOHNUhqcXJM9GnYQ13HRTK8o
-	ANUHNzE0phKPYCaSeUkViZjy7VPliomhZc7x145jf9/cF9esx1j2/NomAkX8PlAcR3r+
-	z5mQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=f+lR571owlTGOAfBSj2eL7Wc9J12E9tobTCxpBPzhxU=;
-	b=OyirLuW0F70ZSywJZ7WYXiQF6WWtVvmIC3Ke2Ej/jTWqrCRNQZWZdiTN1Xy02A8DD4
-	FlVv0nhOdoISzPAlFG4yJP3Mz5/JbgR5J/v2qqX5l3MjQeit4OSqI5TThgv3iV2e3T6S
-	xO7qRg6S8ajnLVgBCJrWfFMiyJdJcYzuFCy70NpVLz7HpB0/cmNOwWXlUBHu82zfB6Oh
-	NeQVhu5Z/C41uvzYX7wGCofSygfmxpqE/NhoG/O9kEmUqV8pzA+yEMhTCTqMJK7ZIhmG
-	Zu3SYnrBsKhzeoswwD2y9GHCbovSiNAnyrtKP0WtvXR6OXB8qtv3ZBdqiGdB86q2pzOd
-	E2CQ==
-X-Gm-Message-State: ALyK8tKEkHBLEE9N+6EStYXA7+W4wPXCFyggknC5vXaA3rdMQysrsMwiG9MEh4H+7ZaqUw==
-X-Received: by 10.129.42.139 with SMTP id q133mr14150085ywq.28.1464547792869; 
-	Sun, 29 May 2016 11:49:52 -0700 (PDT)
-Received: from localhost.localdomain ([2601:cc:100:65d::17a4])
-	by smtp.googlemail.com with ESMTPSA id
-	t83sm11493186ywe.30.2016.05.29.11.49.52
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 29 May 2016 11:49:52 -0700 (PDT)
-From: Allen Wild <allenwild93@gmail.com>
+	Sun, 29 May 2016 22:21:27 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga104.fm.intel.com with ESMTP; 29 May 2016 15:21:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,386,1459839600"; d="scan'208";a="976886703"
+Received: from jialelim-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.139.83])
+	by fmsmga001.fm.intel.com with ESMTP; 29 May 2016 15:21:26 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 29 May 2016 14:49:49 -0400
-Message-Id: <20160529184949.9770-1-allenwild93@gmail.com>
-X-Mailer: git-send-email 2.8.3
-Subject: [python3][PATCH] scripts/lnr: update for python3
+Date: Mon, 30 May 2016 10:20:55 +1200
+Message-Id: <cover.1464560316.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.5.5
+Subject: [PATCH 0/7] recipetool improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,35 +28,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 29 May 2016 18:49:53 -0000
+X-List-Received-Date: Sun, 29 May 2016 22:21:29 -0000
 
-Change shebang line to python3 and add parentheses to print
+Make the following improvements to recipetool create (and by extension,
+devtool add):
+* Improve creation of recipes for binary deb/ipk/rpm package files with -b
+* General supporting improvements to patch_recipe_* functions
+* Set a fixed SRCREV when pointing to a git repo by default rather than
+  using ${AUTOREV}
 
-Signed-off-by: Allen Wild <allenwild93@gmail.com>
----
- scripts/lnr | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/lnr b/scripts/lnr
-index 9dacebe..5fed780 100755
---- a/scripts/lnr
-+++ b/scripts/lnr
-@@ -1,4 +1,4 @@
--#! /usr/bin/env python
-+#! /usr/bin/env python3
- 
- # Create a *relative* symlink, just like ln --relative does but without needing
- # coreutils 8.16.
-@@ -6,7 +6,7 @@
- import sys, os
- 
- if len(sys.argv) != 3:
--   print "$ lnr TARGET LINK_NAME"
-+   print("$ lnr TARGET LINK_NAME")
-    sys.exit(1)
- 
- target = sys.argv[1]
+The following changes since commit bb4ead9b7b1400c37a72d148d9775bdf4210ec37:
+
+  linux-yocto/4.4: integrate v4.4.11 (2016-05-25 07:49:55 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/recipetool-fixes2-oe
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/recipetool-fixes2-oe
+
+Paul Eggleton (7):
+  lib/oe/recipeutils: split out patch_recipe_lines()
+  lib/oe/recipeutils: patch_recipe_lines: allow omitting trailing newlines
+  lib/oe/recipeutils: fix insertion of variable values
+  recipetool: create: support extracting SUMMARY and HOMEPAGE
+  recipetool: create: extract variable values from .deb/.ipk/.rpm
+  recipetool: create: use ${BP} for subdir for binary packages
+  recipetool / devtool: set a fixed SRCREV by default when fetching from git
+
+ meta/lib/oe/recipeutils.py                |  40 ++++++--
+ meta/lib/oeqa/selftest/devtool.py         |   6 +-
+ scripts/lib/devtool/standard.py           |   3 +
+ scripts/lib/recipetool/create.py          | 165 +++++++++++++++++++++++-------
+ scripts/lib/recipetool/create_buildsys.py |  37 ++++---
+ scripts/lib/recipetool/create_npm.py      |   4 +-
+ 6 files changed, 193 insertions(+), 62 deletions(-)
+
 -- 
-2.8.3
+2.5.5
 
 
