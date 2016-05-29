@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F6E077116
+	by mail.openembedded.org (Postfix) with ESMTP id A78ED731D0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 May 2016 22:21:37 +0000 (UTC)
+	Sun, 29 May 2016 22:21:39 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga104.fm.intel.com with ESMTP; 29 May 2016 15:21:38 -0700
+	by fmsmga104.fm.intel.com with ESMTP; 29 May 2016 15:21:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,386,1459839600"; d="scan'208";a="976886730"
+X-IronPort-AV: E=Sophos;i="5.26,386,1459839600"; d="scan'208";a="976886738"
 Received: from jialelim-mobl.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.139.83])
-	by fmsmga001.fm.intel.com with ESMTP; 29 May 2016 15:21:36 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 29 May 2016 15:21:38 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 May 2016 10:20:59 +1200
-Message-Id: <c3f93de98633f764c430369a8346e4594991fdab.1464560316.git.paul.eggleton@linux.intel.com>
+Date: Mon, 30 May 2016 10:21:00 +1200
+Message-Id: <3b33b810a8f9f2b0061341215848482ebff29ee9.1464560316.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.5
 In-Reply-To: <cover.1464560316.git.paul.eggleton@linux.intel.com>
 References: <cover.1464560316.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1464560316.git.paul.eggleton@linux.intel.com>
 References: <cover.1464560316.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 4/7] recipetool: create: support extracting SUMMARY and HOMEPAGE
+Subject: [PATCH 5/7] recipetool: create: extract variable values from .deb/.ipk/.rpm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,176 +32,211 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 29 May 2016 22:21:37 -0000
+X-List-Received-Date: Sun, 29 May 2016 22:21:39 -0000
 
-Allow plugins to set any variable value through the extravalues dict,
-and use this to support extracting SUMMARY and HOMEPAGE values from spec
-files included with the source; additionally translate "License:" to a
-comment next to the LICENSE field (we have our own logic for setting
-LICENSE, but it will often be useful to see what the spec file says if
-one is present).
-
-Also use the same mechanism for setting the same variables for node.js
-modules; this was already supported but wasn't inserting the settings in
-the appropriate place in the file which this will now do.
+Extract the metadata from package files and use it to set variable
+values in the recipe (including recipe name and version, LICENSE,
+SUMMARY, DESCRIPTION, SECTION and HOMEPAGE). For LICENSE we take care
+not to step on any value determined by our license file scan; if there
+is one we simply add a comment above the LICENSE setting so the user can
+resolve it.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/lib/recipetool/create.py          | 49 +++++++++++++++++--------------
- scripts/lib/recipetool/create_buildsys.py | 37 +++++++++++++++--------
- scripts/lib/recipetool/create_npm.py      |  4 +--
- 3 files changed, 54 insertions(+), 36 deletions(-)
+ scripts/lib/recipetool/create.py | 105 +++++++++++++++++++++++++++++++++++----
+ 1 file changed, 94 insertions(+), 11 deletions(-)
 
 diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index aade40b..66c881a 100644
+index 66c881a..ad26189 100644
 --- a/scripts/lib/recipetool/create.py
 +++ b/scripts/lib/recipetool/create.py
-@@ -331,6 +331,7 @@ def create_recipe(args):
+@@ -261,7 +261,11 @@ def determine_from_filename(srcfile):
+         namepart = srcfile.split('.tar.')[0].lower()
+     else:
+         namepart = os.path.splitext(srcfile)[0].lower()
+-    splitval = namepart.rsplit('_', 1)
++    if is_package(srcfile):
++        # Force getting the value from the package metadata
++        return None, None
++    else:
++        splitval = namepart.rsplit('_', 1)
+     if len(splitval) == 1:
+         splitval = namepart.rsplit('-', 1)
+     pn = splitval[0].replace('_', '-')
+@@ -327,6 +331,13 @@ def reformat_git_uri(uri):
+             return 'git://%s;protocol=%s%s' % (res.group(2), res.group(1), res.group(4) or '')
+     return uri
+ 
++def is_package(url):
++    '''Check if a URL points to a package'''
++    checkurl = url.split(';', 1)[0]
++    if checkurl.endswith(('.deb', '.ipk', '.rpm', '.srpm')):
++        return True
++    return False
++
+ def create_recipe(args):
      import bb.process
      import tempfile
-     import shutil
-+    import oe.recipeutils
- 
-     pkgarch = ""
+@@ -337,6 +348,7 @@ def create_recipe(args):
      if args.machine:
-@@ -429,7 +430,8 @@ def create_recipe(args):
-     lines_before.append('# Recipe created by %s' % os.path.basename(sys.argv[0]))
-     lines_before.append('# This is the basis of a recipe and may need further editing in order to be fully functional.')
-     lines_before.append('# (Feel free to remove these comments when editing.)')
--    lines_before.append('#')
-+    # We need a blank line here so that patch_recipe_lines can rewind before the LICENSE comments
-+    lines_before.append('')
+         pkgarch = "${MACHINE_ARCH}"
  
-     licvalues = guess_license(srctree_use)
-     lic_files_chksum = []
-@@ -561,28 +563,28 @@ def create_recipe(args):
++    extravalues = {}
+     checksums = (None, None)
+     tempsrc = ''
+     srcsubdir = ''
+@@ -382,6 +394,33 @@ def create_recipe(args):
+                     if '<html' in f.read(100).lower():
+                         logger.error('Fetching "%s" returned a single HTML page - check the URL is correct and functional' % fetchuri)
+                         sys.exit(1)
++
++        if is_package(fetchuri):
++            tmpfdir = tempfile.mkdtemp(prefix='recipetool-')
++            try:
++                pkgfile = None
++                try:
++                    fileuri = fetchuri + ';unpack=0'
++                    scriptutils.fetch_uri(tinfoil.config_data, fileuri, tmpfdir, srcrev)
++                    for root, _, files in os.walk(tmpfdir):
++                        for f in files:
++                            pkgfile = os.path.join(root, f)
++                            break
++                except bb.fetch2.BBFetchException as e:
++                    logger.warn('Second fetch to get metadata failed: %s' % str(e).rstrip())
++
++                if pkgfile:
++                    if pkgfile.endswith(('.deb', '.ipk')):
++                        stdout, _ = bb.process.run('ar x %s control.tar.gz' % pkgfile, cwd=tmpfdir)
++                        stdout, _ = bb.process.run('tar xf control.tar.gz ./control', cwd=tmpfdir)
++                        values = convert_debian(tmpfdir)
++                        extravalues.update(values)
++                    elif pkgfile.endswith(('.rpm', '.srpm')):
++                        stdout, _ = bb.process.run('rpm -qp --xml %s > pkginfo.xml' % pkgfile, cwd=tmpfdir)
++                        values = convert_rpm_xml(os.path.join(tmpfdir, 'pkginfo.xml'))
++                        extravalues.update(values)
++            finally:
++                shutil.rmtree(tmpfdir)
+     else:
+         # Assume we're pointing to an existing source tree
+         if args.extract_to:
+@@ -458,6 +497,13 @@ def create_recipe(args):
+         lines_before.append('# will not be in most cases) you must specify the correct value before using this')
+         lines_before.append('# recipe for anything other than initial testing/development!')
+         licenses = ['CLOSED']
++    pkg_license = extravalues.pop('LICENSE', None)
++    if pkg_license:
++        if licenses == ['Unknown']:
++            lines_before.append('# NOTE: The following LICENSE value was determined from the original package metadata')
++            licenses = [pkg_license]
++        else:
++            lines_before.append('# NOTE: Original package metadata indicates license is: %s' % pkg_license)
+     lines_before.append('LICENSE = "%s"' % ' '.join(licenses))
+     lines_before.append('LIC_FILES_CHKSUM = "%s"' % ' \\\n                    '.join(lic_files_chksum))
+     lines_before.append('')
+@@ -558,7 +604,6 @@ def create_recipe(args):
+         classes.append('bin_package')
+         handled.append('buildsystem')
+ 
+-    extravalues = {}
+     for handler in handlers:
          handler.process(srctree_use, classes, lines_before, lines_after, handled, extravalues)
  
-     extrafiles = extravalues.pop('extrafiles', {})
-+    extra_pn = extravalues.pop('PN', None)
-+    extra_pv = extravalues.pop('PV', None)
- 
--    if not realpv:
--        realpv = extravalues.get('PV', None)
--        if realpv:
--            if not validate_pv(realpv):
--                realpv = None
--            else:
--                realpv = realpv.lower().split()[0]
--                if '_' in realpv:
--                    realpv = realpv.replace('_', '-')
--    if not pn:
--        pn = extravalues.get('PN', None)
--        if pn:
--            if pn.startswith('GNU '):
--                pn = pn[4:]
--            if ' ' in pn:
--                # Probably a descriptive identifier rather than a proper name
--                pn = None
--            else:
--                pn = pn.lower()
--                if '_' in pn:
--                    pn = pn.replace('_', '-')
-+    if extra_pv and not realpv:
-+        realpv = extra_pv
-+        if not validate_pv(realpv):
-+            realpv = None
-+        else:
-+            realpv = realpv.lower().split()[0]
-+            if '_' in realpv:
-+                realpv = realpv.replace('_', '-')
-+    if extra_pn and not pn:
-+        pn = extra_pn
-+        if pn.startswith('GNU '):
-+            pn = pn[4:]
-+        if ' ' in pn:
-+            # Probably a descriptive identifier rather than a proper name
-+            pn = None
-+        else:
-+            pn = pn.lower()
-+            if '_' in pn:
-+                pn = pn.replace('_', '-')
- 
-     if not outfile:
-         if not pn:
-@@ -662,6 +664,9 @@ def create_recipe(args):
-         outlines.append('')
+@@ -665,6 +710,9 @@ def create_recipe(args):
      outlines.extend(lines_after)
  
-+    if extravalues:
-+        _, outlines = oe.recipeutils.patch_recipe_lines(outlines, extravalues, trailing_newline=False)
-+
+     if extravalues:
++        if 'LICENSE' in extravalues and not licvalues:
++            # Don't blow away 'CLOSED' value that comments say we set
++            del extravalues['LICENSE']
+         _, outlines = oe.recipeutils.patch_recipe_lines(outlines, extravalues, trailing_newline=False)
+ 
      if args.extract_to:
-         scriptutils.git_convert_standalone_clone(srctree)
-         if os.path.isdir(args.extract_to):
-diff --git a/scripts/lib/recipetool/create_buildsys.py b/scripts/lib/recipetool/create_buildsys.py
-index f84ec3d..37d161e 100644
---- a/scripts/lib/recipetool/create_buildsys.py
-+++ b/scripts/lib/recipetool/create_buildsys.py
-@@ -830,22 +830,35 @@ class SpecFileRecipeHandler(RecipeHandler):
-         if 'PV' in extravalues and 'PN' in extravalues:
-             return
-         filelist = RecipeHandler.checkfiles(srctree, ['*.spec'], recursive=True)
--        pn = None
--        pv = None
-+        valuemap = {'Name': 'PN',
-+                    'Version': 'PV',
-+                    'Summary': 'SUMMARY',
-+                    'Url': 'HOMEPAGE',
-+                    'License': 'LICENSE'}
-+        foundvalues = {}
-         for fileitem in filelist:
-             linecount = 0
-             with open(fileitem, 'r') as f:
-                 for line in f:
--                    if line.startswith('Name:') and not pn:
--                        pn = line.split(':')[1].strip()
--                    if line.startswith('Version:') and not pv:
--                        pv = line.split(':')[1].strip()
--            if pv or pn:
--                if pv and not 'PV' in extravalues and validate_pv(pv):
--                    extravalues['PV'] = pv
--                if pn and not 'PN' in extravalues:
--                    extravalues['PN'] = pn
--                break
-+                    for value, varname in valuemap.iteritems():
-+                        if line.startswith(value + ':') and not varname in foundvalues:
-+                            foundvalues[varname] = line.split(':', 1)[1].strip()
-+                            break
-+                    if len(foundvalues) == len(valuemap):
-+                        break
-+        if 'PV' in foundvalues:
-+            if not validate_pv(foundvalues['PV']):
-+                del foundvalues['PV']
-+        license = foundvalues.pop('LICENSE', None)
-+        if license:
-+            liccomment = '# NOTE: spec file indicates the license may be "%s"' % license
-+            for i, line in enumerate(lines_before):
-+                if line.startswith('LICENSE ='):
-+                    lines_before.insert(i, liccomment)
-+                    break
-+            else:
-+                lines_before.append(liccomment)
-+        extravalues.update(foundvalues)
+@@ -913,6 +961,12 @@ def convert_pkginfo(pkginfofile):
+     return values
  
- def register_recipe_handlers(handlers):
-     # Set priorities with some gaps so that other plugins can insert
-diff --git a/scripts/lib/recipetool/create_npm.py b/scripts/lib/recipetool/create_npm.py
-index cc4fb42..ffbcb49 100644
---- a/scripts/lib/recipetool/create_npm.py
-+++ b/scripts/lib/recipetool/create_npm.py
-@@ -104,9 +104,9 @@ class NpmRecipeHandler(RecipeHandler):
-                 classes.append('npm')
-                 handled.append('buildsystem')
-                 if 'description' in data:
--                    lines_before.append('SUMMARY = "%s"' % data['description'])
-+                    extravalues['SUMMARY'] = data['description']
-                 if 'homepage' in data:
--                    lines_before.append('HOMEPAGE = "%s"' % data['homepage'])
-+                    extravalues['HOMEPAGE'] = data['homepage']
+ def convert_debian(debpath):
++    value_map = {'Package': 'PN',
++                 'Version': 'PV',
++                 'Section': 'SECTION',
++                 'License': 'LICENSE',
++                 'Homepage': 'HOMEPAGE'}
++
+     # FIXME extend this mapping - perhaps use distro_alias.inc?
+     depmap = {'libz-dev': 'zlib'}
  
-                 # Shrinkwrap
-                 localfilesdir = tempfile.mkdtemp(prefix='recipetool-npm')
+@@ -922,34 +976,63 @@ def convert_debian(debpath):
+         indesc = False
+         for line in f:
+             if indesc:
+-                if line.strip():
++                if line.startswith(' '):
+                     if line.startswith(' This package contains'):
+                         indesc = False
+                     else:
+-                        values['DESCRIPTION'] += ' ' + line.strip()
++                        if 'DESCRIPTION' in values:
++                            values['DESCRIPTION'] += ' ' + line.strip()
++                        else:
++                            values['DESCRIPTION'] = line.strip()
+                 else:
+                     indesc = False
+-            else:
++            if not indesc:
+                 splitline = line.split(':', 1)
+-                key = line[0]
+-                value = line[1]
++                if len(splitline) < 2:
++                    continue
++                key = splitline[0]
++                value = splitline[1].strip()
+                 if key == 'Build-Depends':
+                     for dep in value.split(','):
+                         dep = dep.split()[0]
+                         mapped = depmap.get(dep, '')
+                         if mapped:
+                             depends.append(mapped)
+-                elif key == 'Section':
+-                    values['SECTION'] = value
+                 elif key == 'Description':
+                     values['SUMMARY'] = value
+                     indesc = True
++                else:
++                    varname = value_map.get(key, None)
++                    if varname:
++                        values[varname] = value
+ 
+-    if depends:
+-        values['DEPENDS'] = ' '.join(depends)
++    #if depends:
++    #    values['DEPENDS'] = ' '.join(depends)
+ 
+     return values
+ 
++def convert_rpm_xml(xmlfile):
++    '''Converts the output from rpm -qp --xml to a set of variable values'''
++    import xml.etree.ElementTree as ElementTree
++    rpmtag_map = {'Name': 'PN',
++                  'Version': 'PV',
++                  'Summary': 'SUMMARY',
++                  'Description': 'DESCRIPTION',
++                  'License': 'LICENSE',
++                  'Url': 'HOMEPAGE'}
++
++    values = {}
++    tree = ElementTree.parse(xmlfile)
++    root = tree.getroot()
++    for child in root:
++        if child.tag == 'rpmTag':
++            name = child.attrib.get('name', None)
++            if name:
++                varname = rpmtag_map.get(name, None)
++                if varname:
++                    values[varname] = child[0].text
++    return values
++
+ 
+ def register_commands(subparsers):
+     parser_create = subparsers.add_parser('create',
 -- 
 2.5.5
 
