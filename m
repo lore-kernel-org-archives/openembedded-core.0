@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 022F97711B
+	by mail.openembedded.org (Postfix) with ESMTP id 878C67711B
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 May 2016 22:21:31 +0000 (UTC)
+	Sun, 29 May 2016 22:21:34 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga104.fm.intel.com with ESMTP; 29 May 2016 15:21:33 -0700
+	by fmsmga104.fm.intel.com with ESMTP; 29 May 2016 15:21:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,386,1459839600"; d="scan'208";a="976886714"
+X-IronPort-AV: E=Sophos;i="5.26,386,1459839600"; d="scan'208";a="976886722"
 Received: from jialelim-mobl.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.139.83])
-	by fmsmga001.fm.intel.com with ESMTP; 29 May 2016 15:21:30 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 29 May 2016 15:21:33 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 May 2016 10:20:57 +1200
-Message-Id: <b61b85fc47b18f125dcf8da1bcd7e6cf6f51185e.1464560316.git.paul.eggleton@linux.intel.com>
+Date: Mon, 30 May 2016 10:20:58 +1200
+Message-Id: <37b2690315cbd46c45180ee9bd807b3545ed177c.1464560316.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.5
 In-Reply-To: <cover.1464560316.git.paul.eggleton@linux.intel.com>
 References: <cover.1464560316.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1464560316.git.paul.eggleton@linux.intel.com>
 References: <cover.1464560316.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 2/7] lib/oe/recipeutils: patch_recipe_lines: allow omitting trailing newlines
+Subject: [PATCH 3/7] lib/oe/recipeutils: fix insertion of variable values
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,78 +32,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 29 May 2016 22:21:32 -0000
+X-List-Received-Date: Sun, 29 May 2016 22:21:34 -0000
 
-This function was assuming that what you wanted was that output lines
-had trailing newline characters. If you're just outputting each line
-verbatim to a text file then that's fine, but sometimes you start with
-the assumption that the lines don't have trailing newlines; thus we
-shouldn't allow for the possibility that the caller doesn't want them
-and add a parameter to control it.
+Add some more variables in appropriate places in recipe_progression such
+that the patch_recipe_* functions are able to insert variables in the
+right place within a recipe.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/lib/oe/recipeutils.py | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
+ meta/lib/oe/recipeutils.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py
-index ef82755..b9f6ada 100644
+index b9f6ada..3e17873 100644
 --- a/meta/lib/oe/recipeutils.py
 +++ b/meta/lib/oe/recipeutils.py
-@@ -158,7 +158,7 @@ def split_var_value(value, assignment=True):
-     return outlist
+@@ -19,7 +19,7 @@ from collections import OrderedDict, defaultdict
  
  
--def patch_recipe_lines(fromlines, values):
-+def patch_recipe_lines(fromlines, values, trailing_newline=True):
-     """Update or insert variable values into lines from a recipe.
-        Note that some manual inspection/intervention may be required
-        since this cannot handle all situations.
-@@ -166,6 +166,11 @@ def patch_recipe_lines(fromlines, values):
- 
-     import bb.utils
- 
-+    if trailing_newline:
-+        newline = '\n'
-+    else:
-+        newline = ''
-+
-     recipe_progression_res = []
-     recipe_progression_restrs = []
-     for item in recipe_progression:
-@@ -196,7 +201,7 @@ def patch_recipe_lines(fromlines, values):
-     def outputvalue(name, lines, rewindcomments=False):
-         if values[name] is None:
-             return
--        rawtext = '%s = "%s"\n' % (name, values[name])
-+        rawtext = '%s = "%s"%s' % (name, values[name], newline)
-         addlines = []
-         if name in nowrap_vars:
-             addlines.append(rawtext)
-@@ -204,19 +209,19 @@ def patch_recipe_lines(fromlines, values):
-             splitvalue = split_var_value(values[name], assignment=False)
-             if len(splitvalue) > 1:
-                 linesplit = ' \\\n' + (' ' * (len(name) + 4))
--                addlines.append('%s = "%s%s"\n' % (name, linesplit.join(splitvalue), linesplit))
-+                addlines.append('%s = "%s%s"%s' % (name, linesplit.join(splitvalue), linesplit, newline))
-             else:
-                 addlines.append(rawtext)
-         else:
-             wrapped = textwrap.wrap(rawtext)
-             for wrapline in wrapped[:-1]:
--                addlines.append('%s \\\n' % wrapline)
--            addlines.append('%s\n' % wrapped[-1])
-+                addlines.append('%s \\%s' % (wrapline, newline))
-+            addlines.append('%s%s' % (wrapped[-1], newline))
-         if rewindcomments:
-             # Ensure we insert the lines before any leading comments
-             # (that we'd want to ensure remain leading the next value)
-             for i, ln in reversed(list(enumerate(lines))):
--                if ln[0] != '#':
-+                if not ln.startswith('#'):
-                     lines[i+1:i+1] = addlines
-                     break
-             else:
+ # Help us to find places to insert values
+-recipe_progression = ['SUMMARY', 'DESCRIPTION', 'HOMEPAGE', 'BUGTRACKER', 'SECTION', 'LICENSE', 'LIC_FILES_CHKSUM', 'PROVIDES', 'DEPENDS', 'PR', 'PV', 'SRCREV', 'SRC_URI', 'S', 'do_fetch()', 'do_unpack()', 'do_patch()', 'EXTRA_OECONF', 'do_configure()', 'EXTRA_OEMAKE', 'do_compile()', 'do_install()', 'do_populate_sysroot()', 'INITSCRIPT', 'USERADD', 'GROUPADD', 'PACKAGES', 'FILES', 'RDEPENDS', 'RRECOMMENDS', 'RSUGGESTS', 'RPROVIDES', 'RREPLACES', 'RCONFLICTS', 'ALLOW_EMPTY', 'do_package()', 'do_deploy()']
++recipe_progression = ['SUMMARY', 'DESCRIPTION', 'HOMEPAGE', 'BUGTRACKER', 'SECTION', 'LICENSE', 'LICENSE_FLAGS', 'LIC_FILES_CHKSUM', 'PROVIDES', 'DEPENDS', 'PR', 'PV', 'SRCREV', 'SRCPV', 'SRC_URI', 'S', 'do_fetch()', 'do_unpack()', 'do_patch()', 'EXTRA_OECONF', 'EXTRA_OECMAKE', 'EXTRA_OESCONS', 'do_configure()', 'EXTRA_OEMAKE', 'do_compile()', 'do_install()', 'do_populate_sysroot()', 'INITSCRIPT', 'USERADD', 'GROUPADD', 'PACKAGES', 'FILES', 'RDEPENDS', 'RRECOMMENDS', 'RSUGGESTS', 'RPROVIDES', 'RREPLACES', 'RCONFLICTS', 'ALLOW_EMPTY', 'populate_packages()', 'do_package()', 'do_deploy()']
+ # Variables that sometimes are a bit long but shouldn't be wrapped
+ nowrap_vars = ['SUMMARY', 'HOMEPAGE', 'BUGTRACKER', 'SRC_URI[md5sum]', 'SRC_URI[sha256sum]']
+ list_vars = ['SRC_URI', 'LIC_FILES_CHKSUM']
 -- 
 2.5.5
 
