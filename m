@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B3E2731D0
+	by mail.openembedded.org (Postfix) with ESMTP id 022F97711B
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 May 2016 22:21:29 +0000 (UTC)
+	Sun, 29 May 2016 22:21:31 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga104.fm.intel.com with ESMTP; 29 May 2016 15:21:31 -0700
+	by fmsmga104.fm.intel.com with ESMTP; 29 May 2016 15:21:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,386,1459839600"; d="scan'208";a="976886709"
+X-IronPort-AV: E=Sophos;i="5.26,386,1459839600"; d="scan'208";a="976886714"
 Received: from jialelim-mobl.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.139.83])
-	by fmsmga001.fm.intel.com with ESMTP; 29 May 2016 15:21:28 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 29 May 2016 15:21:30 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 May 2016 10:20:56 +1200
-Message-Id: <142712e0682b7b6b92a4d15199677370e453df25.1464560316.git.paul.eggleton@linux.intel.com>
+Date: Mon, 30 May 2016 10:20:57 +1200
+Message-Id: <b61b85fc47b18f125dcf8da1bcd7e6cf6f51185e.1464560316.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.5
 In-Reply-To: <cover.1464560316.git.paul.eggleton@linux.intel.com>
 References: <cover.1464560316.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1464560316.git.paul.eggleton@linux.intel.com>
 References: <cover.1464560316.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/7] lib/oe/recipeutils: split out patch_recipe_lines()
+Subject: [PATCH 2/7] lib/oe/recipeutils: patch_recipe_lines: allow omitting trailing newlines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,65 +32,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 29 May 2016 22:21:29 -0000
+X-List-Received-Date: Sun, 29 May 2016 22:21:32 -0000
 
-Split out a function from patch_recipe_file() that takes just the lines
-as input so we can edit recipe lines in memory. This will be used within
-recipetool to ensure we insert new values in the right place.
+This function was assuming that what you wanted was that output lines
+had trailing newline characters. If you're just outputting each line
+verbatim to a text file then that's fine, but sometimes you start with
+the assumption that the lines don't have trailing newlines; thus we
+shouldn't allow for the possibility that the caller doesn't want them
+and add a parameter to control it.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/lib/oe/recipeutils.py | 23 ++++++++++++++++++-----
- 1 file changed, 18 insertions(+), 5 deletions(-)
+ meta/lib/oe/recipeutils.py | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
 
 diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py
-index 6c7adb5..ef82755 100644
+index ef82755..b9f6ada 100644
 --- a/meta/lib/oe/recipeutils.py
 +++ b/meta/lib/oe/recipeutils.py
-@@ -158,9 +158,8 @@ def split_var_value(value, assignment=True):
+@@ -158,7 +158,7 @@ def split_var_value(value, assignment=True):
      return outlist
  
  
--def patch_recipe_file(fn, values, patch=False, relpath=''):
--    """Update or insert variable values into a recipe file (assuming you
--       have already identified the exact file you want to update.)
-+def patch_recipe_lines(fromlines, values):
-+    """Update or insert variable values into lines from a recipe.
+-def patch_recipe_lines(fromlines, values):
++def patch_recipe_lines(fromlines, values, trailing_newline=True):
+     """Update or insert variable values into lines from a recipe.
         Note that some manual inspection/intervention may be required
         since this cannot handle all situations.
-     """
-@@ -247,8 +246,7 @@ def patch_recipe_file(fn, values, patch=False, relpath=''):
+@@ -166,6 +166,11 @@ def patch_recipe_lines(fromlines, values):
  
-     # First run - establish which values we want to set are already in the file
-     varlist = [re.escape(item) for item in values.keys()]
--    with open(fn, 'r') as f:
--        changed, fromlines = bb.utils.edit_metadata(f, varlist, patch_recipe_varfunc)
-+    bb.utils.edit_metadata(fromlines, varlist, patch_recipe_varfunc)
-     # Second run - actually set everything
-     modifying = True
-     varlist.extend(recipe_progression_restrs)
-@@ -260,6 +258,21 @@ def patch_recipe_file(fn, values, patch=False, relpath=''):
-         for k in remainingnames.keys():
-             outputvalue(k, tolines)
+     import bb.utils
  
-+    return changed, tolines
++    if trailing_newline:
++        newline = '\n'
++    else:
++        newline = ''
 +
-+
-+def patch_recipe_file(fn, values, patch=False, relpath=''):
-+    """Update or insert variable values into a recipe file (assuming you
-+       have already identified the exact file you want to update.)
-+       Note that some manual inspection/intervention may be required
-+       since this cannot handle all situations.
-+    """
-+
-+    with open(fn, 'r') as f:
-+        fromlines = f.readlines()
-+
-+    _, tolines = patch_recipe_lines(fromlines, values)
-+
-     if patch:
-         relfn = os.path.relpath(fn, relpath)
-         diff = difflib.unified_diff(fromlines, tolines, 'a/%s' % relfn, 'b/%s' % relfn)
+     recipe_progression_res = []
+     recipe_progression_restrs = []
+     for item in recipe_progression:
+@@ -196,7 +201,7 @@ def patch_recipe_lines(fromlines, values):
+     def outputvalue(name, lines, rewindcomments=False):
+         if values[name] is None:
+             return
+-        rawtext = '%s = "%s"\n' % (name, values[name])
++        rawtext = '%s = "%s"%s' % (name, values[name], newline)
+         addlines = []
+         if name in nowrap_vars:
+             addlines.append(rawtext)
+@@ -204,19 +209,19 @@ def patch_recipe_lines(fromlines, values):
+             splitvalue = split_var_value(values[name], assignment=False)
+             if len(splitvalue) > 1:
+                 linesplit = ' \\\n' + (' ' * (len(name) + 4))
+-                addlines.append('%s = "%s%s"\n' % (name, linesplit.join(splitvalue), linesplit))
++                addlines.append('%s = "%s%s"%s' % (name, linesplit.join(splitvalue), linesplit, newline))
+             else:
+                 addlines.append(rawtext)
+         else:
+             wrapped = textwrap.wrap(rawtext)
+             for wrapline in wrapped[:-1]:
+-                addlines.append('%s \\\n' % wrapline)
+-            addlines.append('%s\n' % wrapped[-1])
++                addlines.append('%s \\%s' % (wrapline, newline))
++            addlines.append('%s%s' % (wrapped[-1], newline))
+         if rewindcomments:
+             # Ensure we insert the lines before any leading comments
+             # (that we'd want to ensure remain leading the next value)
+             for i, ln in reversed(list(enumerate(lines))):
+-                if ln[0] != '#':
++                if not ln.startswith('#'):
+                     lines[i+1:i+1] = addlines
+                     break
+             else:
 -- 
 2.5.5
 
