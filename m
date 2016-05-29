@@ -1,28 +1,45 @@
-Return-Path: <tom.zanussi@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E02460017
+Return-Path: <allenwild93@gmail.com>
+Received: from mail-yw0-f196.google.com (mail-yw0-f196.google.com
+	[209.85.161.196])
+	by mail.openembedded.org (Postfix) with ESMTP id CAC0A7328A
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 28 May 2016 22:22:10 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP; 28 May 2016 15:22:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,380,1459839600"; d="scan'208";a="990724697"
-Received: from riturkis-mobl1.amr.corp.intel.com (HELO
-	tzanussi-mobl.amr.corp.intel.com) ([10.252.207.19])
-	by fmsmga002.fm.intel.com with ESMTP; 28 May 2016 15:22:10 -0700
-Message-ID: <574A1A12.4090700@linux.intel.com>
-Date: Sat, 28 May 2016 17:22:10 -0500
-From: Tom Zanussi <tom.zanussi@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
-MIME-Version: 1.0
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-References: <cover.1464450270.git.tom.zanussi@linux.intel.com>	<2d425e7e0f2020c64240c74a78b65c67d8ad97f0.1464450270.git.tom.zanussi@linux.intel.com>
-	<CADkTA4NQ8TKiQtJSNx8v=mEu0dGOkZahrkFB=+G=oxoGJPd=CQ@mail.gmail.com>
-In-Reply-To: <CADkTA4NQ8TKiQtJSNx8v=mEu0dGOkZahrkFB=+G=oxoGJPd=CQ@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] linux-yocto-rt/4.4: Update KBRANCH
+	Sun, 29 May 2016 18:49:52 +0000 (UTC)
+Received: by mail-yw0-f196.google.com with SMTP id y6so12524553ywe.0
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 29 May 2016 11:49:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=f+lR571owlTGOAfBSj2eL7Wc9J12E9tobTCxpBPzhxU=;
+	b=klZ0NjDVr1ir2Ph2og3IrQI9Y3IpSHyRbENsvF/IAMtL5Puz+NcHAmyP+QzQDZRvBm
+	cORKLbPHgxtHeZvm3TFtuNsJT/bEhBYZW2QaxfOtwFbMGkGVN0vGmGtIp6FjMuSyhD1u
+	32jRONEG4TSZOjPGlq9+3l0PNP4X9AU3XBD2cf9oVjkTIelIlRZ44t2emDoVOCBWro/2
+	JW+QvMwxSOgIVGV/vYTXUJADkblNHquCFNPAZWIbrlZjOOHNUhqcXJM9GnYQ13HRTK8o
+	ANUHNzE0phKPYCaSeUkViZjy7VPliomhZc7x145jf9/cF9esx1j2/NomAkX8PlAcR3r+
+	z5mQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=f+lR571owlTGOAfBSj2eL7Wc9J12E9tobTCxpBPzhxU=;
+	b=OyirLuW0F70ZSywJZ7WYXiQF6WWtVvmIC3Ke2Ej/jTWqrCRNQZWZdiTN1Xy02A8DD4
+	FlVv0nhOdoISzPAlFG4yJP3Mz5/JbgR5J/v2qqX5l3MjQeit4OSqI5TThgv3iV2e3T6S
+	xO7qRg6S8ajnLVgBCJrWfFMiyJdJcYzuFCy70NpVLz7HpB0/cmNOwWXlUBHu82zfB6Oh
+	NeQVhu5Z/C41uvzYX7wGCofSygfmxpqE/NhoG/O9kEmUqV8pzA+yEMhTCTqMJK7ZIhmG
+	Zu3SYnrBsKhzeoswwD2y9GHCbovSiNAnyrtKP0WtvXR6OXB8qtv3ZBdqiGdB86q2pzOd
+	E2CQ==
+X-Gm-Message-State: ALyK8tKEkHBLEE9N+6EStYXA7+W4wPXCFyggknC5vXaA3rdMQysrsMwiG9MEh4H+7ZaqUw==
+X-Received: by 10.129.42.139 with SMTP id q133mr14150085ywq.28.1464547792869; 
+	Sun, 29 May 2016 11:49:52 -0700 (PDT)
+Received: from localhost.localdomain ([2601:cc:100:65d::17a4])
+	by smtp.googlemail.com with ESMTPSA id
+	t83sm11493186ywe.30.2016.05.29.11.49.52
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 29 May 2016 11:49:52 -0700 (PDT)
+From: Allen Wild <allenwild93@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 29 May 2016 14:49:49 -0400
+Message-Id: <20160529184949.9770-1-allenwild93@gmail.com>
+X-Mailer: git-send-email 2.8.3
+Subject: [python3][PATCH] scripts/lnr: update for python3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,60 +52,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 28 May 2016 22:22:11 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 29 May 2016 18:49:53 -0000
 
-On 05/28/2016 05:14 PM, Bruce Ashfield wrote:
-> On Sat, May 28, 2016 at 3:27 PM, Tom Zanussi <tom.zanussi@linux.intel.com>
-> wrote:
-> 
->> standard/preempt-rt was replaced by standard/preempt-rt/base in
->> linux-yocto-4.4.git, so KBRANCH needs to be updated accordingly.
->>
->> Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
->> ---
->>  meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
->> b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
->> index 5e39374..beff921 100644
->> --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
->> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
->> @@ -1,4 +1,4 @@
->> -KBRANCH ?= "standard/preempt-rt"
->> +KBRANCH ?= "standard/preempt-rt/base"
->>
-> 
-> This is missing the krogoth tag in the patch, right ?  since for master,
-> this was in my series
-> under commit [linux-yocto: create intel branches].
-> 
+Change shebang line to python3 and add parentheses to print
 
-Yeah, I had [krogoth] in the cover letter, but forgot to add it to the
-patch subject, so yeah, should be [PATCH 1/1][krogoth] ;-)
+Signed-off-by: Allen Wild <allenwild93@gmail.com>
+---
+ scripts/lnr | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Tom
-
-> Bruce
-> 
-> 
-> 
->>
->>  require recipes-kernel/linux/linux-yocto.inc
->>
->> --
->> 1.9.3
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
-> 
-> 
-> 
+diff --git a/scripts/lnr b/scripts/lnr
+index 9dacebe..5fed780 100755
+--- a/scripts/lnr
++++ b/scripts/lnr
+@@ -1,4 +1,4 @@
+-#! /usr/bin/env python
++#! /usr/bin/env python3
+ 
+ # Create a *relative* symlink, just like ln --relative does but without needing
+ # coreutils 8.16.
+@@ -6,7 +6,7 @@
+ import sys, os
+ 
+ if len(sys.argv) != 3:
+-   print "$ lnr TARGET LINK_NAME"
++   print("$ lnr TARGET LINK_NAME")
+    sys.exit(1)
+ 
+ target = sys.argv[1]
+-- 
+2.8.3
 
 
