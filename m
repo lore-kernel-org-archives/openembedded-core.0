@@ -1,45 +1,28 @@
-Return-Path: <rm.santos.caldas@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id A806E6FF7F
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 928286FF7F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 May 2016 21:47:13 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id n129so26505034wmn.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 May 2016 14:47:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=NYZq97388mZBOePZ8V08m0W0DQTgt1WSA5gT1Bma0Lg=;
-	b=c+FqhHckGjGMX8G90fZ9oe8lq9glKK0HPvbS0EfPPHSndKVHq0inHfTVjwYbbxFVGR
-	agztKeIUBoripJojt/jZshq/QAiE9isEVGwcObscSpgn9U5vji1o2UQ0gjJ7j3oqdcNZ
-	uXxM67m+ZEnhmBBhAnbxjBWJuOzoPd+g0e+yteXGgGES8hg3XMyp0Kcoz9fCCJcOS3kD
-	LaHWHx4X4ILi48QIQTXUXwYZEvRLXwRc9xm6QJkWg6ZUZD7ouY3hsvrCUyU/HGdcKQcc
-	6AB4irYxFkjbUv4hq5QeKGR52CHuR9O1lC4hAzBe5pdTRvWswC3RreRe9kGrpBxrVbrV
-	UALw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=NYZq97388mZBOePZ8V08m0W0DQTgt1WSA5gT1Bma0Lg=;
-	b=OYlgfMaMmw5QFyHKHYXi1MfkC106kWHqStrFcqNMBHTx7WHWiKFB2axKR9GALnl+gF
-	pnoQ6VO1vnMNCWNRMQRhOntWTZclNA8u+q1dz+2qTQkSUdkD6BuLQ0+o0l2KDFN3HDqI
-	5E7ZF4Y/rKhoN7tFdm+5/sz34F2dL+S6TSyAtOdU5VgBP7/sKEVYFvDQ2cgShb0tynoi
-	NcRMDya3IF0jtu7BZF1fTHufbqOGmjFSlxbVPd8UJQoL7x//9JiZuicp3QW/Po1RfnuO
-	5u+NT3XcAiv0zfoNFKefzHCFucdQVccVgHQ3osVtrmbJSNHYUuE65OoZMNjDwvzcI9pR
-	QZRg==
-X-Gm-Message-State: ALyK8tKrukXR4uZCTZclq2HNJ0K4Qwj0WlPq/8K7XGR5MNHzqdOaAfrGHhOAUqkTfEJt/Q==
-X-Received: by 10.28.167.205 with SMTP id q196mr12196700wme.8.1464644834213;
-	Mon, 30 May 2016 14:47:14 -0700 (PDT)
-Received: from octopus.home (a89-152-77-183.cpe.netcabo.pt. [89.152.77.183])
-	by smtp.gmail.com with ESMTPSA id
-	h2sm13791465wjv.15.2016.05.30.14.47.13
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 30 May 2016 14:47:13 -0700 (PDT)
-From: Renato Caldas <rm.santos.caldas@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 May 2016 22:47:03 +0100
-Message-Id: <20160530214703.4163-1-rm.santos.caldas@gmail.com>
-X-Mailer: git-send-email 2.8.3
+	Mon, 30 May 2016 21:48:31 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga103.jf.intel.com with ESMTP; 30 May 2016 14:48:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,392,1459839600"; 
+	d="asc'?scan'208";a="817939327"
+Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.5.164])
+	([10.219.5.164])
+	by orsmga003.jf.intel.com with ESMTP; 30 May 2016 14:48:31 -0700
+To: Renato Caldas <rm.santos.caldas@gmail.com>,
+	openembedded-core@lists.openembedded.org
+References: <20160530214549.3766-1-rm.santos.caldas@gmail.com>
+From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Message-ID: <574CB55A.4080405@linux.intel.com>
+Date: Mon, 30 May 2016 16:49:14 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
+MIME-Version: 1.0
+In-Reply-To: <20160530214549.3766-1-rm.santos.caldas@gmail.com>
 Cc: Armin Kuster <akuster@mvista.com>
-Subject: [krogoth][PATCH] perl: reorder tar arguments in do_install_ptest()
+Subject: Re: [master][PATCH] perl: reorder tar arguments in do_install_ptest()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,34 +35,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 May 2016 21:47:13 -0000
+X-List-Received-Date: Mon, 30 May 2016 21:48:31 -0000
+X-Groupsio-MsgNum: 82861
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature";
+	boundary="NaTE6b9LF2Vjtaqsb0UKa4VV2vHRRLiaT"
 
-On some distributions tar requires the FILE argument to be the last, and
-the existing order was causing the subsequent --exclude options to be dropped.
+--NaTE6b9LF2Vjtaqsb0UKa4VV2vHRRLiaT
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: quoted-printable
 
-Fixes [YOCTO #9673].
+Thanks for sending the patch, only a little comment the [master] prefix
+isn't required.
 
-Signed-off-by: Renato Caldas <rm.santos.caldas@gmail.com>
----
- meta/recipes-devtools/perl/perl-ptest.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+	alimon
 
-diff --git a/meta/recipes-devtools/perl/perl-ptest.inc b/meta/recipes-devtools/perl/perl-ptest.inc
-index 948ea7c..66c5355 100644
---- a/meta/recipes-devtools/perl/perl-ptest.inc
-+++ b/meta/recipes-devtools/perl/perl-ptest.inc
-@@ -7,8 +7,8 @@ do_install_ptest () {
- 	mkdir -p ${D}${PTEST_PATH}
- 	sed -e "s:\/opt:\/usr:" -i Porting/add-package.pl
- 	sed -e "s:\/local\/gnu\/:\/:" -i hints/cxux.sh
--	tar -cf - * --exclude \*.o --exclude libperl.so --exclude Makefile --exclude makefile --exclude hostperl \
--		--exclude miniperl --exclude generate_uudmap --exclude patches | ( cd ${D}${PTEST_PATH} && tar -xf - )
-+	tar -cf - --exclude \*.o --exclude libperl.so --exclude Makefile --exclude makefile --exclude hostperl \
-+		--exclude miniperl --exclude generate_uudmap --exclude patches * | ( cd ${D}${PTEST_PATH} && tar -xf - )
- 
- 	sed -i -e "s,${D},,g" \
- 	       -e "s,--sysroot=${STAGING_DIR_HOST},,g" \
--- 
-2.8.3
+On 05/30/2016 04:45 PM, Renato Caldas wrote:
+> On some distributions tar requires the FILE argument to be the last, an=
+d
+> the existing order was causing the subsequent --exclude options to be d=
+ropped.
+>=20
+> Fixes [YOCTO #9673].
+>=20
+> Signed-off-by: Renato Caldas <rm.santos.caldas@gmail.com>
+> ---
+>  meta/recipes-devtools/perl/perl-ptest.inc | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-devtools/perl/perl-ptest.inc b/meta/recipes-d=
+evtools/perl/perl-ptest.inc
+> index 948ea7c..66c5355 100644
+> --- a/meta/recipes-devtools/perl/perl-ptest.inc
+> +++ b/meta/recipes-devtools/perl/perl-ptest.inc
+> @@ -7,8 +7,8 @@ do_install_ptest () {
+>  	mkdir -p ${D}${PTEST_PATH}
+>  	sed -e "s:\/opt:\/usr:" -i Porting/add-package.pl
+>  	sed -e "s:\/local\/gnu\/:\/:" -i hints/cxux.sh
+> -	tar -cf - * --exclude \*.o --exclude libperl.so --exclude Makefile --=
+exclude makefile --exclude hostperl \
+> -		--exclude miniperl --exclude generate_uudmap --exclude patches | ( c=
+d ${D}${PTEST_PATH} && tar -xf - )
+> +	tar -cf - --exclude \*.o --exclude libperl.so --exclude Makefile --ex=
+clude makefile --exclude hostperl \
+> +		--exclude miniperl --exclude generate_uudmap --exclude patches * | (=
+ cd ${D}${PTEST_PATH} && tar -xf - )
+> =20
+>  	sed -i -e "s,${D},,g" \
+>  	       -e "s,--sysroot=3D${STAGING_DIR_HOST},,g" \
+>=20
 
 
+--NaTE6b9LF2Vjtaqsb0UKa4VV2vHRRLiaT
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQIcBAEBAgAGBQJXTLVcAAoJEGJqcE9h3glgrY8P/j5bBoj8Q7EB1JPSGnBq+lqt
+qWO6t4tZUGreI053C4PVvcRW48PQ5tfjTRuEnrOVEItZ8++wpq7yblhgHc4hR7hq
+Fvt/ZJh2Iz0ktaOhjQBYtsciQd7atQ8E0tydlzcIBjotHmaHXPJa7YPLvcrym65I
+araPx7hjR9Hxz0qWWpIdPJP0ngT7z/VwFnU+fQ43RZwHW3x0dJPqOXWdaeQ2x6y7
+WJzHr4UpXOQDexs2Yc5HtKAEWMIBQCunw0diIJ9hUwSKfkD1d72MnMBPwAzy5dEQ
+liuY8818qNfXueRvRwG1OA6aYRLDgJZnSmkPXk5hY2sJoy+P9QZkLCHBqSj/esa0
+MycIdDa3wJxldt1y2W98n9NGFm+D/GxlInPgGgAklmhYN4RyXmVIvJxxYC+3/GuF
+Nmkxk/W8P8qYcTiiu8w5X6pWOVTBSB8KVQ6QX8GihDs4/sxe1TDCS8Llzd6i4vYf
+6SLeqd/8c3xRY7FCkNg2vEy9mOXOlUSXOGk7RozrlCznD26JmMQgDi24tsLdBo8/
+qmJSoKWblWlvyPCvZqnC9LzjpKe6QYd9fWJUvTgaevo8ipM7TDEuzqBF178Ia6is
+ncq6kPwXvLMFNENVxIXWrUM/wqtfxyDpAjgzBlR9dxWf4KIQZpJyb3q3L2shT2hp
+bN3G1F+uK48rKwlwm53w
+=Uzu4
+-----END PGP SIGNATURE-----
+
+--NaTE6b9LF2Vjtaqsb0UKa4VV2vHRRLiaT--
