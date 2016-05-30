@@ -1,32 +1,32 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 0AFD177194
+Return-Path: <ejo@pengutronix.de>
+X-Greylist: delayed 2783 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 30 May 2016 13:51:53 UTC
+Received: from metis.ext.4.pengutronix.de (metis.ext.4.pengutronix.de
+	[92.198.50.35])
+	by mail.openembedded.org (Postfix) with ESMTP id AEC8B771B1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 May 2016 12:34:01 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP; 30 May 2016 05:33:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,389,1459839600"; d="scan'208";a="977242669"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 30 May 2016 05:33:45 -0700
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.51])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 01B806A4007;
-	Mon, 30 May 2016 06:21:12 -0700 (PDT)
-Date: Mon, 30 May 2016 15:33:39 +0300
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Christopher Larson <kergoth@gmail.com>
-Message-ID: <20160530123339.GA12800@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <cover.1464208170.git.chris_larson@mentor.com>
-MIME-Version: 1.0
-In-Reply-To: <cover.1464208170.git.chris_larson@mentor.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Christopher Larson <chris_larson@mentor.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/3] Deploy startup.nsh for wic's bootimg-efi plugin
+	Mon, 30 May 2016 13:51:53 +0000 (UTC)
+Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
+	by metis.ext.pengutronix.de with esmtps
+	(TLS1.2:RSA_AES_128_CBC_SHA1:128) (Exim 4.80)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1b7Mss-0002Oy-Aq; Mon, 30 May 2016 15:05:30 +0200
+Received: from ejo by dude.hi.pengutronix.de with local (Exim 4.87)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1b7Mss-0000Pi-18; Mon, 30 May 2016 15:05:30 +0200
+From: Enrico Jorns <ejo@pengutronix.de>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 30 May 2016 15:04:05 +0200
+Message-Id: <1464613445-18617-1-git-send-email-ejo@pengutronix.de>
+X-Mailer: git-send-email 2.8.1
+In-Reply-To: <20160528115341.4965-1-rm.santos.caldas@gmail.com>
+References: <20160528115341.4965-1-rm.santos.caldas@gmail.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
+X-SA-Exim-Mail-From: ejo@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+	SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Subject: [PATCH] perl-ptest.inc: fix tar call to prevent objcopy failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,46 +39,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 May 2016 12:34:02 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 30 May 2016 13:51:54 -0000
 
-On Wed, May 25, 2016 at 01:31:40PM -0700, Christopher Larson wrote:
-> From: Christopher Larson <chris_larson@mentor.com>
-> 
-> Currently, wic EFI images don't end up with startup.nsh, so the user has to
-> type in the correct bits into the EFI command-line, which isn't very
-> user-friendly. mkefidisk.sh in oe-core writes it for us, but we don't get it
-> for wic images.
-> 
-> Alter grub-efi.bbclass and gummiboot.bbclass to write it for the non-iso case,
-> not only iso, so wic can grab and use it, and alter wic's bootimg-efi plugin to
-> do so.
-> 
-> The following changes since commit bb4ead9b7b1400c37a72d148d9775bdf4210ec37:
-> 
->   linux-yocto/4.4: integrate v4.4.11 (2016-05-25 07:49:55 +0100)
-> 
-> are available in the git repository at:
-> 
->   git://github.com/kergoth/openembedded-core yocto-9556
->   https://github.com/kergoth/openembedded-core/tree/yocto-9556
-> 
-> Christopher Larson (3):
->   grub-efi.bbclass: also write startup.nsh for non-iso
->   gummiboot.bbclass: also write startup.nsh for non-iso
->   wic: bootimg-efi: include startup.nsh if it's available
-> 
->  meta/classes/grub-efi.bbclass                 | 2 ++
->  meta/classes/gummiboot.bbclass                | 2 ++
->  scripts/lib/wic/plugins/source/bootimg-efi.py | 5 +++++
->  3 files changed, 9 insertions(+)
-> 
+With tar version 1.29, the tar call used to copy the ptest files will
+not work anymore. While the call did not match the man page (but worked)
+before, anyway, the latest update of tar seems to have a more strict argument
+handling.
 
-+1
-The patchset looks good to me.
+With the current version of the tar call, the copying of files still
+works with latest tar version, but the excludes will not be handled
+properly anymore.
+This results in having binaries compiled with host GCC in the package.
+When doing the strip_and_split files in do_package() with the target
+objcopy, bitbake will fail with this error:
 
---
-Regards,
-Ed
+  ERROR: objcopy failed with exit code 256 (cmd was [...])
+  [...]
+  File format not recognized
+
+Thus, the current argument issues and required changes are:
+
+ * Options must be placed _before_ the pathnames.
+
+ * --exclude must be followd by a '=' in order to work properly
+
+ * 'f' options is for providing an archive file, which is unnecessary in
+   this case
+
+Note that this could also be a candidate for backporting.
+
+Signed-off-by: Enrico Jorns <ejo@pengutronix.de>
+---
+
+
+I just wanted to send my patch when I saw you had already send it. Will send
+this one instead as I added some more changes that might be useful. Maybe we
+can squash this into yours if its found to be useful, too.
+
+Best regards, Enrico
+
+
+ meta/recipes-devtools/perl/perl-ptest.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-devtools/perl/perl-ptest.inc b/meta/recipes-devtools/perl/perl-ptest.inc
+index 948ea7c..5f0989f 100644
+--- a/meta/recipes-devtools/perl/perl-ptest.inc
++++ b/meta/recipes-devtools/perl/perl-ptest.inc
+@@ -7,8 +7,8 @@ do_install_ptest () {
+ 	mkdir -p ${D}${PTEST_PATH}
+ 	sed -e "s:\/opt:\/usr:" -i Porting/add-package.pl
+ 	sed -e "s:\/local\/gnu\/:\/:" -i hints/cxux.sh
+-	tar -cf - * --exclude \*.o --exclude libperl.so --exclude Makefile --exclude makefile --exclude hostperl \
+-		--exclude miniperl --exclude generate_uudmap --exclude patches | ( cd ${D}${PTEST_PATH} && tar -xf - )
++	tar -c --exclude=\*.o --exclude=libperl.so --exclude=Makefile --exclude=makefile --exclude=hostperl \
++		--exclude=miniperl --exclude=generate_uudmap --exclude=patches * | ( cd ${D}${PTEST_PATH} && tar -x )
+ 
+ 	sed -i -e "s,${D},,g" \
+ 	       -e "s,--sysroot=${STAGING_DIR_HOST},,g" \
+-- 
+2.8.1
+
 
