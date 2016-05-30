@@ -1,26 +1,39 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 025D476E5E
+Return-Path: <paul@paulbarker.me.uk>
+X-Greylist: delayed 602 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 30 May 2016 08:19:07 UTC
+Received: from 10.mo4.mail-out.ovh.net (10.mo4.mail-out.ovh.net
+	[188.165.33.109])
+	by mail.openembedded.org (Postfix) with ESMTP id D35D47713A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 May 2016 08:02:26 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u4U82RV8012092
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 30 May 2016 08:19:07 +0000 (UTC)
+Received: from player773.ha.ovh.net (b9.ovh.net [213.186.33.59])
+	by mo4.mail-out.ovh.net (Postfix) with ESMTP id ED6E31000E58
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 May 2016 01:02:27 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.144) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Mon, 30 May 2016 01:02:26 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 30 May 2016 16:02:34 +0800
-Message-ID: <9697a509e56ad274d52f6d82866adfddd0a3d484.1464595294.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1464595294.git.Qi.Chen@windriver.com>
-References: <cover.1464595294.git.Qi.Chen@windriver.com>
+	Mon, 30 May 2016 10:02:51 +0200 (CEST)
+Received: from nuc.betafive.co.uk
+	(cpc11-shep11-2-0-cust130.8-3.cable.virginm.net [86.27.96.131])
+	(Authenticated sender: paul@betafive.co.uk)
+	by player773.ha.ovh.net (Postfix) with ESMTPSA id 84347600076;
+	Mon, 30 May 2016 10:02:49 +0200 (CEST)
+Date: Mon, 30 May 2016 09:04:28 +0100
+From: Paul Barker <paul@paulbarker.me.uk>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Message-ID: <20160530090428.4b070d61@nuc.betafive.co.uk>
+In-Reply-To: <17859297.OlYCXzWKo0@peggleto-mobl.ger.corp.intel.com>
+References: <1464054649898.9b34c448@Nodemailer>
+	<3785754.gtfDI8MhLU@peggleto-mobl.ger.corp.intel.com>
+	<CALbNGRTBcwNx0SMYjQ2GbRJviekG8h734t0yH24zeyiQEG367Q@mail.gmail.com>
+	<17859297.OlYCXzWKo0@peggleto-mobl.ger.corp.intel.com>
+X-Mailer: Claws Mail 3.11.1 (GTK+ 2.24.25; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Subject: [PATCH 1/1] webkitgtk: disable gobject-introspection on mips64
+X-Ovh-Tracer-Id: 17558127575192013244
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeekledrhedvgddufeefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+Cc: openembedded-devel <openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] OE Changelog since 2016-05-15 until 2016-05-22
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,28 +46,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 May 2016 08:02:27 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 30 May 2016 08:19:08 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Disable gobject-introspection on mips64 to avoid do_compile failure.
+On Fri, 27 May 2016 08:25:23 +1200
+Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-sato/webkit/webkitgtk_2.12.1.bb | 3 +++
- 1 file changed, 3 insertions(+)
+> On Thu, 26 May 2016 22:18:34 Andreas M=C3=BCller wrote:
+> >=20
+> > Maybe a bit off-topic but layer index should have some mechanism of
+> > removing rotten layers.
+>=20
+> We've discussed this on-and-off at OE developer meetings for a while
+> now. FWIW I can remove them manually - actually I just got around to
+> deleting meta- picosam9 which has been unmaintained for years.
+>=20
+> Part of the problem though is determining what "rotten" actually
+> means. Additionally, there's an element of leaving things around in
+> case someone comes to fork/revive them again. We do show a "last
+> updated" date but it would be good to figure out some other way of
+> determining and indicating "layer health" - to date I don't think
+> we've managed to figure out anything practical for that.
+>=20
+> Cheers,
+> Paul
+>=20
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.12.1.bb b/meta/recipes-sato/webkit/webkitgtk_2.12.1.bb
-index 23ead72..0ff05c2 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.12.1.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.12.1.bb
-@@ -92,3 +92,6 @@ ARM_INSTRUCTION_SET = "arm"
- # qemu: uncaught target signal 11 (Segmentation fault) - core dumped
- # Segmentation fault
- EXTRA_OECMAKE_append_powerpc = " -DENABLE_INTROSPECTION=OFF "
-+
-+# qemu: uncaught target signal 6 (Aborted) - core dumped
-+EXTRA_OECMAKE_append_mips64 = " -DENABLE_INTROSPECTION=OFF "
--- 
-1.9.1
+meta-mmmpi can go, I haven't updated it in over 2 years, SRC_URI links
+are out-of-date and it almost certainly won't compile against recent
+releases.
 
+Perhaps "last updated" could be used to nudge layer maintainers when a
+layer looks stale. An automated email could tell them to check in to
+confirm that the layer is still valid or let you know that it can be
+removed.
+
+Thanks,
+Paul Barker
 
