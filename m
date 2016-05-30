@@ -1,26 +1,27 @@
-Return-Path: <edwin.plauchu.camacho@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id E9F2677262
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 7681B731F9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 May 2016 15:36:40 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP; 30 May 2016 08:36:41 -0700
+	Mon, 30 May 2016 20:11:16 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 30 May 2016 13:11:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,390,1459839600"; d="scan'208";a="965220972"
-Received: from pianodaemon-contraption.zpn.intel.com (HELO [10.219.128.59])
-	([10.219.128.59])
-	by orsmga001.jf.intel.com with ESMTP; 30 May 2016 08:36:40 -0700
-To: openembedded-core@lists.openembedded.org
-References: <1464380961-10423-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
-From: Plauchu Edwin <edwin.plauchu.camacho@linux.intel.com>
-Message-ID: <574C5E1E.3020800@linux.intel.com>
-Date: Mon, 30 May 2016 10:37:02 -0500
+X-IronPort-AV: E=Sophos;i="5.26,391,1459839600"; 
+	d="asc'?scan'208";a="711212457"
+Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.5.164])
+	([10.219.5.164])
+	by FMSMGA003.fm.intel.com with ESMTP; 30 May 2016 13:11:16 -0700
+To: Renato Caldas <rm.santos.caldas@gmail.com>,
+	openembedded-core@lists.openembedded.org
+References: <20160528115341.4965-1-rm.santos.caldas@gmail.com>
+From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Message-ID: <574C9E8C.1070503@linux.intel.com>
+Date: Mon, 30 May 2016 15:11:56 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.8.0
+	Thunderbird/38.3.0
 MIME-Version: 1.0
-In-Reply-To: <1464380961-10423-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
-Cc: joshua.g.lock@intel.com, Edwin Plauchu <edwin.plauchu.camacho@intel.com>
-Subject: Re: [PATCH v1] unzip: fix security issues
+In-Reply-To: <20160528115341.4965-1-rm.santos.caldas@gmail.com>
+Subject: Re: [PATCH] perl: reorder tar arguments in do_install_ptest()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,195 +34,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 May 2016 15:36:42 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 30 May 2016 20:11:16 -0000
+X-Groupsio-MsgNum: 82851
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature";
+	boundary="EOlEr6KuowLfTCJOUFoeWNr47uwRTRTVl"
 
-Ping!
+--EOlEr6KuowLfTCJOUFoeWNr47uwRTRTVl
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: quoted-printable
 
-On 27/05/16 15:29, Edwin Plauchu wrote:
-> From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
->
-> This patch avoids unzip fails to compile with compiler flags which elevate common string formatting issues into an error (-Wformat -Wformat-security -Werror=format-security).
->
-> [YOCTO #9551]
->
-> Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
+Hi Renato,
+
+I tested the patch and works very well.
+Could you sent another patch with [krogoth] prefix to be backported?
+
+Thanks a lot,
+	alimon
+
+
+On 05/28/2016 06:53 AM, Renato Caldas wrote:
+> On some distributions tar requires the FILE argument to be the last, an=
+d
+> the existing order was causing the subsequent --exclude options to be d=
+ropped.
+>=20
+> Fixes [YOCTO #9673].
+>=20
+> Signed-off-by: Renato Caldas <rm.santos.caldas@gmail.com>
+Acked-by: An=EDbal Lim=F3n <anibal.limon@linux.intel.com>
 > ---
->   meta/conf/distro/include/security_flags.inc        |   1 -
->   .../unzip/unzip/fix-security-format.patch          | 139 +++++++++++++++++++++
->   meta/recipes-extended/unzip/unzip_6.0.bb           |   1 +
->   3 files changed, 140 insertions(+), 1 deletion(-)
->   create mode 100644 meta/recipes-extended/unzip/unzip/fix-security-format.patch
->
-> diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-> index febedfa..fc4c581 100644
-> --- a/meta/conf/distro/include/security_flags.inc
-> +++ b/meta/conf/distro/include/security_flags.inc
-> @@ -104,7 +104,6 @@ SECURITY_STRINGFORMAT_pn-gcc = ""
->   SECURITY_STRINGFORMAT_pn-gettext = ""
->   SECURITY_STRINGFORMAT_pn-kexec-tools = ""
->   SECURITY_STRINGFORMAT_pn-oh-puzzles = ""
-> -SECURITY_STRINGFORMAT_pn-unzip = ""
->   
->   TARGET_CFLAGS_append_class-target = " ${SECURITY_CFLAGS}"
->   TARGET_LDFLAGS_append_class-target = " ${SECURITY_LDFLAGS}"
-> diff --git a/meta/recipes-extended/unzip/unzip/fix-security-format.patch b/meta/recipes-extended/unzip/unzip/fix-security-format.patch
-> new file mode 100644
-> index 0000000..c82f502
-> --- /dev/null
-> +++ b/meta/recipes-extended/unzip/unzip/fix-security-format.patch
-> @@ -0,0 +1,139 @@
-> +unzip: Fixing security formatting issues
-> +
-> +Fix security formatting issues related to sprintf parameters expeted.
-> +
-> +[YOCTO #9551]
-> +[https://bugzilla.yoctoproject.org/show_bug.cgi?id=9551]
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
-> +
-> +diff --git a/unzpriv.h b/unzpriv.h
-> +index c8d3eab..85e693a 100644
-> +--- a/unzpriv.h
-> ++++ b/unzpriv.h
-> +@@ -1006,7 +1006,7 @@
-> + #    define LoadFarStringSmall(x)   Qstrfix(x)
-> + #    define LoadFarStringSmall2(x)  Qstrfix(x)
-> + #  else
-> +-#    define LoadFarString(x)        (char *)(x)
-> ++#    define LoadFarString(x)        "%s",(char *)(x)
-> + #    define LoadFarStringSmall(x)   (char *)(x)
-> + #    define LoadFarStringSmall2(x)  (char *)(x)
-> + #  endif
-> +diff --git a/fileio.c b/fileio.c
-> +index 36bfea3..ca779c2 100644
-> +--- a/fileio.c
-> ++++ b/fileio.c
-> +@@ -588,8 +588,8 @@ unsigned readbuf(__G__ buf, size)   /* return number of bytes read into buf */
-> +             else if (G.incnt < 0) {
-> +                 /* another hack, but no real harm copying same thing twice */
-> +                 (*G.message)((zvoid *)&G,
-> +-                  (uch *)LoadFarString(ReadError),  /* CANNOT use slide */
-> +-                  (ulg)strlen(LoadFarString(ReadError)), 0x401);
-> ++                  (uch *)(char*)(ReadError),  /* CANNOT use slide */
-> ++                  (ulg)strlen((char*)(ReadError)), 0x401);
-> +                 return 0;  /* discarding some data; better than lock-up */
-> +             }
-> +             /* buffer ALWAYS starts on a block boundary:  */
-> +@@ -631,8 +631,8 @@ int readbyte(__G)   /* refill inbuf and return a byte if available, else EOF */
-> +         } else if (G.incnt < 0) {  /* "fail" (abort, retry, ...) returns this */
-> +             /* another hack, but no real harm copying same thing twice */
-> +             (*G.message)((zvoid *)&G,
-> +-              (uch *)LoadFarString(ReadError),
-> +-              (ulg)strlen(LoadFarString(ReadError)), 0x401);
-> ++              (uch *)(char*)(ReadError),
-> ++              (ulg)strlen((char*)(ReadError)), 0x401);
-> +             echon();
-> + #ifdef WINDLL
-> +             longjmp(dll_error_return, 1);
-> +@@ -1356,7 +1356,7 @@ int UZ_EXP UzpMessagePrnt(pG, buf, size, flag)
-> +                 ++((Uz_Globs *)pG)->lines;
-> +                 if (((Uz_Globs *)pG)->lines >= ((Uz_Globs *)pG)->height)
-> +                     (*((Uz_Globs *)pG)->mpause)((zvoid *)pG,
-> +-                      LoadFarString(MorePrompt), 1);
-> ++                      (char*)(MorePrompt), 1);
-> +             }
-> + #endif /* MORE */
-> +             if (MSG_STDERR(flag) && ((Uz_Globs *)pG)->UzO.tflag &&
-> +@@ -1416,7 +1416,7 @@ int UZ_EXP UzpMessagePrnt(pG, buf, size, flag)
-> +                     ((Uz_Globs *)pG)->sol = TRUE;
-> +                     q = p + 1;
-> +                     (*((Uz_Globs *)pG)->mpause)((zvoid *)pG,
-> +-                      LoadFarString(MorePrompt), 1);
-> ++                      (char*)(MorePrompt), 1);
-> +                 }
-> +             }
-> +             INCSTR(p);
-> +@@ -2176,7 +2176,7 @@ int do_string(__G__ length, option)   /* return PK-type error code */
-> +                     (*G.message)((zvoid *)&G, slide, (ulg)(q-slide), 0);
-> +                     q = slide;
-> +                     if (pause && G.extract_flag) /* don't pause for list/test */
-> +-                        (*G.mpause)((zvoid *)&G, LoadFarString(QuitPrompt), 0);
-> ++                        (*G.mpause)((zvoid *)&G, (char*)(QuitPrompt), 0);
-> +                 }
-> +             }
-> +             (*G.message)((zvoid *)&G, slide, (ulg)(q-slide), 0);
-> +diff --git a/unzip.c b/unzip.c
-> +index 2d94a38..ca135af 100644
-> +--- a/unzip.c
-> ++++ b/unzip.c
-> +@@ -1079,7 +1079,7 @@ int unzip(__G__ argc, argv)
-> + #ifndef _WIN32_WCE /* Win CE does not support environment variables */
-> +         if ((error = envargs(&argc, &argv, LoadFarStringSmall(EnvZipInfo),
-> +                              LoadFarStringSmall2(EnvZipInfo2))) != PK_OK)
-> +-            perror(LoadFarString(NoMemEnvArguments));
-> ++            perror((char*)(NoMemEnvArguments));
-> + #endif
-> +     } else
-> + #endif /* !NO_ZIPINFO */
-> +@@ -1088,7 +1088,7 @@ int unzip(__G__ argc, argv)
-> + #ifndef _WIN32_WCE /* Win CE does not support environment variables */
-> +         if ((error = envargs(&argc, &argv, LoadFarStringSmall(EnvUnZip),
-> +                              LoadFarStringSmall2(EnvUnZip2))) != PK_OK)
-> +-            perror(LoadFarString(NoMemEnvArguments));
-> ++            perror((char*)(NoMemEnvArguments));
-> + #endif
-> +     }
-> +
-> +diff --git a/zipinfo.c b/zipinfo.c
-> +index 0ac75b3..8a0887c 100644
-> +--- a/zipinfo.c
-> ++++ b/zipinfo.c
-> +@@ -1640,14 +1640,14 @@ static int zi_long(__G__ pEndprev, error_in_archive)
-> +
-> +                         *types = '\0';
-> +                         if (*ef_ptr & 1) {
-> +-                            strcpy(types, LoadFarString(UTmodification));
-> ++                            strcpy(types, (char*)(UTmodification));
-> +                             ++num;
-> +                         }
-> +                         if (*ef_ptr & 2) {
-> +                             len = strlen(types);
-> +                             if (num)
-> +                                 types[len++] = '/';
-> +-                            strcpy(types+len, LoadFarString(UTaccess));
-> ++                            strcpy(types+len, (char*)(UTaccess));
-> +                             ++num;
-> +                             if (*pEndprev > 0L)
-> +                                 *pEndprev += 4L;
-> +@@ -1656,7 +1656,7 @@ static int zi_long(__G__ pEndprev, error_in_archive)
-> +                             len = strlen(types);
-> +                             if (num)
-> +                                 types[len++] = '/';
-> +-                            strcpy(types+len, LoadFarString(UTcreation));
-> ++                            strcpy(types+len, (char *)(UTcreation));
-> +                             ++num;
-> +                             if (*pEndprev > 0L)
-> +                                 *pEndprev += 4L;
-> +@@ -2331,7 +2331,7 @@ static char *zi_time(__G__ datetimez, modtimez, d_t_str)
-> +             /* time conversion error in verbose listing format,
-> +              * return string with '?' instead of data
-> +              */
-> +-            return (strcpy(d_t_str, LoadFarString(lngYMDHMSTimeError)));
-> ++            return (strcpy(d_t_str, (char*)(lngYMDHMSTimeError)));
-> +     } else
-> +         t = (struct tm *)NULL;
-> +     if (t != (struct tm *)NULL) {
-> +
-> diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
-> index 2397606..547379c 100644
-> --- a/meta/recipes-extended/unzip/unzip_6.0.bb
-> +++ b/meta/recipes-extended/unzip/unzip_6.0.bb
-> @@ -16,6 +16,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/UnZip%206.x%20%28latest%29/UnZip%206.0/
->   	file://11-cve-2014-8141-getzip64data.patch \
->   	file://CVE-2015-7696.patch \
->   	file://CVE-2015-7697.patch \
-> +        file://fix-security-format.patch \
->   "
->   
->   SRC_URI[md5sum] = "62b490407489521db863b523a7f86375"
+>  meta/recipes-devtools/perl/perl-ptest.inc | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-devtools/perl/perl-ptest.inc b/meta/recipes-d=
+evtools/perl/perl-ptest.inc
+> index 948ea7c..66c5355 100644
+> --- a/meta/recipes-devtools/perl/perl-ptest.inc
+> +++ b/meta/recipes-devtools/perl/perl-ptest.inc
+> @@ -7,8 +7,8 @@ do_install_ptest () {
+>  	mkdir -p ${D}${PTEST_PATH}
+>  	sed -e "s:\/opt:\/usr:" -i Porting/add-package.pl
+>  	sed -e "s:\/local\/gnu\/:\/:" -i hints/cxux.sh
+> -	tar -cf - * --exclude \*.o --exclude libperl.so --exclude Makefile --=
+exclude makefile --exclude hostperl \
+> -		--exclude miniperl --exclude generate_uudmap --exclude patches | ( c=
+d ${D}${PTEST_PATH} && tar -xf - )
+> +	tar -cf - --exclude \*.o --exclude libperl.so --exclude Makefile --ex=
+clude makefile --exclude hostperl \
+> +		--exclude miniperl --exclude generate_uudmap --exclude patches * | (=
+ cd ${D}${PTEST_PATH} && tar -xf - )
+> =20
+>  	sed -i -e "s,${D},,g" \
+>  	       -e "s,--sysroot=3D${STAGING_DIR_HOST},,g" \
+>=20
 
 
+--EOlEr6KuowLfTCJOUFoeWNr47uwRTRTVl
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQIcBAEBAgAGBQJXTJ6RAAoJEGJqcE9h3glgjRAQAJEJUZpFz+GrWFBvfNcmKMJ5
+8HmbaCfBQRXj6gV10z8RcZI2VMO2J1k+tEDSMFJhGI4S6GG4kpUAy1rbggM/E4l5
+kc836dKcfgnObNYOeX3mCSjtyLxLidQVSmwDOf9D49UZdoVR7eVEWlSMVz7esA11
+LvSFahhlUALEu9+2T62a9sqmqqB53Y7RtbKzRdQYhoopo7mD5kNSBLqErjOO3jT+
+IxIhM8SefUamLIRyeJCRIyQFcIVuz1qKbPnglFk9MawPCNwo7HH+WGuuWh1vyuDK
+/sN1fxgczm+P3+MO8GDn40sZJFXnkL+pkEeHJJNf61AFlSXXPOgA2hnzhSENuHOB
+VmI9Llq6Ir25lSNKTFxa6umdXriRriq6IimCNHXSnAdJSwMVH3BJjM9V7ddR4tjT
+qws8UDbD6dmB9AkDIS64U9yflfC+BApKMVehOSKYo6w1T8WRs2xpfr15Nrvpe2E1
+jkkGRAfLdgcGzFuqVjG9EtDsYJhxFnP5cDfQGNrptfnLvw/nXA+5imCf8jDuqgYw
+bO6Ih78rQIACryAt3NSstwgn58B32XlXxA8kFr5nr7OOoRTqsBneKWWI19hoToMq
++1WeE7UfIH2Waugcu9kjzpv7XZcnr3JrBe8NXP3YRulV6+M2RrkDTLKIRn4aZft2
+HVU0FCDwCszRA9lsiMMg
+=YS5A
+-----END PGP SIGNATURE-----
+
+--EOlEr6KuowLfTCJOUFoeWNr47uwRTRTVl--
