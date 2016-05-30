@@ -1,25 +1,29 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id B581177116
+Return-Path: <Zhe.He@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B78186FF60
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 May 2016 22:21:44 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga104.fm.intel.com with ESMTP; 29 May 2016 15:21:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,386,1459839600"; d="scan'208";a="976886755"
-Received: from jialelim-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.139.83])
-	by fmsmga001.fm.intel.com with ESMTP; 29 May 2016 15:21:43 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 May 2016 10:21:02 +1200
-Message-Id: <afcecfbd2c40cc6fde80c5218db94902dd50866a.1464560316.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.5.5
-In-Reply-To: <cover.1464560316.git.paul.eggleton@linux.intel.com>
-References: <cover.1464560316.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1464560316.git.paul.eggleton@linux.intel.com>
-References: <cover.1464560316.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 7/7] recipetool / devtool: set a fixed SRCREV by default when fetching from git
+	Mon, 30 May 2016 06:28:09 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u4U6S9Sd026982
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 29 May 2016 23:28:09 -0700 (PDT)
+Received: from [128.224.162.234] (128.224.162.234) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
+	Sun, 29 May 2016 23:28:08 -0700
+To: <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1464145184.git.zhe.he@windriver.com>
+From: He Zhe <zhe.he@windriver.com>
+Message-ID: <574BDD75.105@windriver.com>
+Date: Mon, 30 May 2016 14:28:05 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.8.0
+MIME-Version: 1.0
+In-Reply-To: <cover.1464145184.git.zhe.he@windriver.com>
+X-Originating-IP: [128.224.162.234]
+Cc: Ashfield Bruce <bruce.ashfield@windriver.com>
+Subject: Re: [PATCH v4 0/2] Yocto Bug #6945
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,100 +36,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 29 May 2016 22:21:44 -0000
+X-List-Received-Date: Mon, 30 May 2016 06:28:10 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-If fetching source from a git repository, typically within OpenEmbedded
-we encourage setting SRCREV to a fixed revision, so change to do that by
-default and add a  -a/--autorev option to use "${AUTOREV}" instead.
+Hi Richard,
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/lib/oeqa/selftest/devtool.py | 6 ++++--
- scripts/lib/devtool/standard.py   | 3 +++
- scripts/lib/recipetool/create.py  | 5 +++++
- 3 files changed, 12 insertions(+), 2 deletions(-)
+Do we have plan to try this in v2.2 m1 or some milestone later?
 
-diff --git a/meta/lib/oeqa/selftest/devtool.py b/meta/lib/oeqa/selftest/devtool.py
-index 132a73d..b64f9b3 100644
---- a/meta/lib/oeqa/selftest/devtool.py
-+++ b/meta/lib/oeqa/selftest/devtool.py
-@@ -207,12 +207,14 @@ class DevtoolTests(DevtoolBase):
-         tempdir = tempfile.mkdtemp(prefix='devtoolqa')
-         self.track_for_cleanup(tempdir)
-         pn = 'dbus-wait'
-+        srcrev = '6cc6077a36fe2648a5f993fe7c16c9632f946517'
-         # We choose an https:// git URL here to check rewriting the URL works
-         url = 'https://git.yoctoproject.org/git/dbus-wait'
-         # Force fetching to "noname" subdir so we verify we're picking up the name from autoconf
-         # instead of the directory name
-         result = runCmd('git clone %s noname' % url, cwd=tempdir)
-         srcdir = os.path.join(tempdir, 'noname')
-+        result = runCmd('git reset --hard %s' % srcrev, cwd=srcdir)
-         self.assertTrue(os.path.isfile(os.path.join(srcdir, 'configure.ac')), 'Unable to find configure script in source directory')
-         # Test devtool add
-         self.track_for_cleanup(self.workspacedir)
-@@ -235,7 +237,7 @@ class DevtoolTests(DevtoolBase):
-         checkvars['S'] = '${WORKDIR}/git'
-         checkvars['PV'] = '0.1+git${SRCPV}'
-         checkvars['SRC_URI'] = 'git://git.yoctoproject.org/git/dbus-wait;protocol=https'
--        checkvars['SRCREV'] = '${AUTOREV}'
-+        checkvars['SRCREV'] = srcrev
-         checkvars['DEPENDS'] = set(['dbus'])
-         self._test_recipe_contents(recipefile, checkvars, [])
- 
-@@ -345,7 +347,7 @@ class DevtoolTests(DevtoolBase):
-         self.track_for_cleanup(self.workspacedir)
-         self.add_command_to_tearDown('bitbake -c cleansstate %s' % testrecipe)
-         self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
--        result = runCmd('devtool add %s %s -f %s' % (testrecipe, srcdir, url))
-+        result = runCmd('devtool add %s %s -a -f %s' % (testrecipe, srcdir, url))
-         self.assertTrue(os.path.exists(os.path.join(self.workspacedir, 'conf', 'layer.conf')), 'Workspace directory not created: %s' % result.output)
-         self.assertTrue(os.path.isfile(os.path.join(srcdir, 'configure.ac')), 'Unable to find configure.ac in source directory')
-         # Test devtool status
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 77a82d5..3be3214 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -144,6 +144,8 @@ def add(args, config, basepath, workspace):
-         extracmdopts += ' --also-native'
-     if args.src_subdir:
-         extracmdopts += ' --src-subdir "%s"' % args.src_subdir
-+    if args.autorev:
-+        extracmdopts += ' -a'
- 
-     tempdir = tempfile.mkdtemp(prefix='devtool')
-     try:
-@@ -1390,6 +1392,7 @@ def register_commands(subparsers, context):
-     parser_add.add_argument('--fetch', '-f', help='Fetch the specified URI and extract it to create the source tree (deprecated - pass as positional argument instead)', metavar='URI')
-     parser_add.add_argument('--version', '-V', help='Version to use within recipe (PV)')
-     parser_add.add_argument('--no-git', '-g', help='If fetching source, do not set up source tree as a git repository', action="store_true")
-+    parser_add.add_argument('--autorev', '-a', help='When fetching from a git repository, set SRCREV in the recipe to a floating revision instead of fixed', action="store_true")
-     parser_add.add_argument('--binary', '-b', help='Treat the source tree as something that should be installed verbatim (no compilation, same directory structure). Useful with binary packages e.g. RPMs.', action='store_true')
-     parser_add.add_argument('--also-native', help='Also add native variant (i.e. support building recipe for the build host as well as the target machine)', action='store_true')
-     parser_add.add_argument('--src-subdir', help='Specify subdirectory within source tree to use', metavar='SUBDIR')
-diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index 1899a0d..4a59363 100644
---- a/scripts/lib/recipetool/create.py
-+++ b/scripts/lib/recipetool/create.py
-@@ -563,6 +563,10 @@ def create_recipe(args):
-         lines_before.append('')
-         lines_before.append('# Modify these as desired')
-         lines_before.append('PV = "%s+git${SRCPV}"' % (realpv or '1.0'))
-+        if not args.autorev and srcrev == '${AUTOREV}':
-+            if os.path.exists(os.path.join(srctree, '.git')):
-+                (stdout, _) = bb.process.run('git rev-parse HEAD', cwd=srctree)
-+            srcrev = stdout.rstrip()
-         lines_before.append('SRCREV = "%s"' % srcrev)
-     lines_before.append('')
- 
-@@ -1049,5 +1053,6 @@ def register_commands(subparsers):
-     parser_create.add_argument('-b', '--binary', help='Treat the source tree as something that should be installed verbatim (no compilation, same directory structure)', action='store_true')
-     parser_create.add_argument('--also-native', help='Also add native variant (i.e. support building recipe for the build host as well as the target machine)', action='store_true')
-     parser_create.add_argument('--src-subdir', help='Specify subdirectory within source tree to use', metavar='SUBDIR')
-+    parser_create.add_argument('-a', '--autorev', help='When fetching from a git repository, set SRCREV in the recipe to a floating revision instead of fixed', action="store_true")
-     parser_create.set_defaults(func=create_recipe)
- 
--- 
-2.5.5
+Thanks,
+Zhe
+
+On 05/25/2016 04:47 PM, zhe.he@windriver.com wrote:
+> From: He Zhe <zhe.he@windriver.com>
+>
+> This has been reviewed several rounds and no more comments are provided so far.
+> Here is the brief history. More details can be found in the previous threads.
+> Hopefully this can be merged in v2.2 m1.
+>
+> v1 to v2: 
+>  - Change KERNEL_OUTPUT to KERNEL_OUTPUT_DIR and update comments
+>  - Update related doc files
+>  - Replace all KERNEL_ALT_IMAGETYPEs with KERNEL_IMAGETYPES
+>  - Link built vmlinuz to boot directory for reference
+>
+> v2 to v3: 
+>  - Merge existing KERNEL_ALT_IMAGETYPE into KERNEL_IMAGETYPES in order that users can still use the old variables.
+>  - Run oe_rummake in a loop for every types so that we can add different configurations to them easily in the future.
+>  - Warn, intead of die, users if one of the types are over the size limit.
+>  - Remove the replacement of KERNEL_ALT_IMAGETYPE in v2. 
+>  - Remove the doc parts. They will be submitted yocto-docs later.
+>  - Change some grep usage to make it more clear.
+>  - Correct a typo.
+>
+> v3 to v4: 
+>  - Adjust according to the latest code context
+>
+> The following changes since commit c7e614c438706fb3ed7520b4990ebb3973366942:
+>
+>   useradd: Fix infinite build loop (2016-05-23 10:33:45 +0100)
+>
+> are available in the git repository at:
+>
+>   git.yoctoproject.org/poky-contrib zhe/yocto-bug-6945
+>   http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/?h=zhe%2Fyocto-bug-6945
+>
+> for you to fetch changes up to 4cd0e844d4153f2eb2cc54fafbfd161341ef4539:
+>
+>   kernel: Make symbol link to vmlinuz in boot directory (2016-05-24 22:57:35 -0400)
+>
+> ----------------------------------------------------------------
+> He Zhe (2):
+>       kernel: Add KERNEL_IMAGETYPES to build multi types kernel at one time
+>       kernel: Make symbol link to vmlinuz in boot directory
+>
+>  meta/classes/kernel-fitimage.bbclass      |  20 ++++++++-------
+>  meta/classes/kernel-grub.bbclass          |  44 +++++++++++++++++++++-----------
+>  meta/classes/kernel-uimage.bbclass        |  10 +++++---
+>  meta/classes/kernel.bbclass               | 187 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++---------------------------------------
+>  meta/conf/documentation.conf              |   3 ++-
+>  meta/recipes-kernel/linux/linux-dtb.inc   |  49 ++++++++++++++++++++++--------------
+>  meta/recipes-kernel/linux/linux-yocto.inc |   2 +-
+>  7 files changed, 212 insertions(+), 103 deletions(-)
+>
+> He Zhe (2):
+>   kernel: Add KERNEL_IMAGETYPES to build multi types kernel at one time
+>   kernel: Make symbol link to vmlinuz in boot directory
+>
+>  meta/classes/kernel-fitimage.bbclass      |  20 ++--
+>  meta/classes/kernel-grub.bbclass          |  44 ++++---
+>  meta/classes/kernel-uimage.bbclass        |  10 +-
+>  meta/classes/kernel.bbclass               | 187 +++++++++++++++++++++---------
+>  meta/conf/documentation.conf              |   3 +-
+>  meta/recipes-kernel/linux/linux-dtb.inc   |  49 +++++---
+>  meta/recipes-kernel/linux/linux-yocto.inc |   2 +-
+>  7 files changed, 212 insertions(+), 103 deletions(-)
+>
 
 
