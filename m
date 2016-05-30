@@ -1,32 +1,27 @@
-Return-Path: <ejo@pengutronix.de>
-X-Greylist: delayed 2783 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 30 May 2016 13:51:53 UTC
-Received: from metis.ext.4.pengutronix.de (metis.ext.4.pengutronix.de
-	[92.198.50.35])
-	by mail.openembedded.org (Postfix) with ESMTP id AEC8B771B1
+Return-Path: <maxin.john@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id DE4FB77267
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 May 2016 13:51:53 +0000 (UTC)
-Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
-	by metis.ext.pengutronix.de with esmtps
-	(TLS1.2:RSA_AES_128_CBC_SHA1:128) (Exim 4.80)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1b7Mss-0002Oy-Aq; Mon, 30 May 2016 15:05:30 +0200
-Received: from ejo by dude.hi.pengutronix.de with local (Exim 4.87)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1b7Mss-0000Pi-18; Mon, 30 May 2016 15:05:30 +0200
-From: Enrico Jorns <ejo@pengutronix.de>
+	Mon, 30 May 2016 15:20:30 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga101.jf.intel.com with ESMTP; 30 May 2016 08:20:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,390,1459839600"; d="scan'208";a="112918712"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga004.fm.intel.com with ESMTP; 30 May 2016 08:20:30 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id C1ABE6A4008
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 30 May 2016 09:07:58 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 May 2016 15:04:05 +0200
-Message-Id: <1464613445-18617-1-git-send-email-ejo@pengutronix.de>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <20160528115341.4965-1-rm.santos.caldas@gmail.com>
-References: <20160528115341.4965-1-rm.santos.caldas@gmail.com>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
-X-SA-Exim-Mail-From: ejo@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
-	SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
-Subject: [PATCH] perl-ptest.inc: fix tar call to prevent objcopy failure
+Date: Mon, 30 May 2016 18:20:22 +0300
+Message-Id: <1464621623-16991-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH 1/2] libpng: update to 1.6.22
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,65 +34,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 May 2016 13:51:54 -0000
+X-List-Received-Date: Mon, 30 May 2016 15:20:31 -0000
 
-With tar version 1.29, the tar call used to copy the ptest files will
-not work anymore. While the call did not match the man page (but worked)
-before, anyway, the latest update of tar seems to have a more strict argument
-handling.
+1.6.21 -> 1.6.22
 
-With the current version of the tar call, the copying of files still
-works with latest tar version, but the excludes will not be handled
-properly anymore.
-This results in having binaries compiled with host GCC in the package.
-When doing the strip_and_split files in do_package() with the target
-objcopy, bitbake will fail with this error:
+License files updates are not real license changes (updates in Copyright
+date and Version)
 
-  ERROR: objcopy failed with exit code 256 (cmd was [...])
-  [...]
-  File format not recognized
-
-Thus, the current argument issues and required changes are:
-
- * Options must be placed _before_ the pathnames.
-
- * --exclude must be followd by a '=' in order to work properly
-
- * 'f' options is for providing an archive file, which is unnecessary in
-   this case
-
-Note that this could also be a candidate for backporting.
-
-Signed-off-by: Enrico Jorns <ejo@pengutronix.de>
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
+ .../libpng/{libpng_1.6.21.bb => libpng_1.6.22.bb}                 | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-multimedia/libpng/{libpng_1.6.21.bb => libpng_1.6.22.bb} (66%)
 
-
-I just wanted to send my patch when I saw you had already send it. Will send
-this one instead as I added some more changes that might be useful. Maybe we
-can squash this into yours if its found to be useful, too.
-
-Best regards, Enrico
-
-
- meta/recipes-devtools/perl/perl-ptest.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-devtools/perl/perl-ptest.inc b/meta/recipes-devtools/perl/perl-ptest.inc
-index 948ea7c..5f0989f 100644
---- a/meta/recipes-devtools/perl/perl-ptest.inc
-+++ b/meta/recipes-devtools/perl/perl-ptest.inc
-@@ -7,8 +7,8 @@ do_install_ptest () {
- 	mkdir -p ${D}${PTEST_PATH}
- 	sed -e "s:\/opt:\/usr:" -i Porting/add-package.pl
- 	sed -e "s:\/local\/gnu\/:\/:" -i hints/cxux.sh
--	tar -cf - * --exclude \*.o --exclude libperl.so --exclude Makefile --exclude makefile --exclude hostperl \
--		--exclude miniperl --exclude generate_uudmap --exclude patches | ( cd ${D}${PTEST_PATH} && tar -xf - )
-+	tar -c --exclude=\*.o --exclude=libperl.so --exclude=Makefile --exclude=makefile --exclude=hostperl \
-+		--exclude=miniperl --exclude=generate_uudmap --exclude=patches * | ( cd ${D}${PTEST_PATH} && tar -x )
+diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.21.bb b/meta/recipes-multimedia/libpng/libpng_1.6.22.bb
+similarity index 66%
+rename from meta/recipes-multimedia/libpng/libpng_1.6.21.bb
+rename to meta/recipes-multimedia/libpng/libpng_1.6.22.bb
+index 58cef1f..0d5722f 100644
+--- a/meta/recipes-multimedia/libpng/libpng_1.6.21.bb
++++ b/meta/recipes-multimedia/libpng/libpng_1.6.22.bb
+@@ -2,14 +2,14 @@ SUMMARY = "PNG image format decoding library"
+ HOMEPAGE = "http://www.libpng.org/"
+ SECTION = "libs"
+ LICENSE = "Libpng"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=06a1b6fde6d93170bb72201c8000bf3d \
+-                    file://png.h;endline=112;md5=9a8b5f83e1e8046df672deab87f235be"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=327e99f9f6299935eab27262a3d0d97c \
++                    file://png.h;endline=149;md5=5b1126380a15a28a275c88bf13fe39c8"
+ DEPENDS = "zlib"
  
- 	sed -i -e "s,${D},,g" \
- 	       -e "s,--sysroot=${STAGING_DIR_HOST},,g" \
+ SRC_URI = "${GENTOO_MIRROR}/libpng-${PV}.tar.xz \
+           "
+-SRC_URI[md5sum] = "3bacb4728f6694a64ad9052769d6a4ce"
+-SRC_URI[sha256sum] = "6c8f1849eb9264219bf5d703601e5abe92a58651ecae927a03d1a1aa15ee2083"
++SRC_URI[md5sum] = "f4ca54a3d945b8678fafed168c503f3b"
++SRC_URI[sha256sum] = "6b5a6ad5c5801ec4d24aacc87a0ed7b666cd586478174f69368a1d7747715226"
+ 
+ BINCONFIG = "${bindir}/libpng-config ${bindir}/libpng16-config"
+ 
 -- 
-2.8.1
+2.4.0
 
 
