@@ -1,39 +1,29 @@
-Return-Path: <paul@paulbarker.me.uk>
-X-Greylist: delayed 602 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 30 May 2016 08:19:07 UTC
-Received: from 10.mo4.mail-out.ovh.net (10.mo4.mail-out.ovh.net
-	[188.165.33.109])
-	by mail.openembedded.org (Postfix) with ESMTP id D35D47713A
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 91432731D4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 May 2016 08:19:07 +0000 (UTC)
-Received: from player773.ha.ovh.net (b9.ovh.net [213.186.33.59])
-	by mo4.mail-out.ovh.net (Postfix) with ESMTP id ED6E31000E58
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 May 2016 10:02:51 +0200 (CEST)
-Received: from nuc.betafive.co.uk
-	(cpc11-shep11-2-0-cust130.8-3.cable.virginm.net [86.27.96.131])
-	(Authenticated sender: paul@betafive.co.uk)
-	by player773.ha.ovh.net (Postfix) with ESMTPSA id 84347600076;
-	Mon, 30 May 2016 10:02:49 +0200 (CEST)
-Date: Mon, 30 May 2016 09:04:28 +0100
-From: Paul Barker <paul@paulbarker.me.uk>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Message-ID: <20160530090428.4b070d61@nuc.betafive.co.uk>
-In-Reply-To: <17859297.OlYCXzWKo0@peggleto-mobl.ger.corp.intel.com>
-References: <1464054649898.9b34c448@Nodemailer>
-	<3785754.gtfDI8MhLU@peggleto-mobl.ger.corp.intel.com>
-	<CALbNGRTBcwNx0SMYjQ2GbRJviekG8h734t0yH24zeyiQEG367Q@mail.gmail.com>
-	<17859297.OlYCXzWKo0@peggleto-mobl.ger.corp.intel.com>
-X-Mailer: Claws Mail 3.11.1 (GTK+ 2.24.25; x86_64-pc-linux-gnu)
+	Mon, 30 May 2016 09:06:20 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP; 30 May 2016 02:06:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,388,1459839600"; d="scan'208";a="987320932"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga002.jf.intel.com with ESMTP; 30 May 2016 02:06:20 -0700
+To: openembedded-core@lists.openembedded.org
+References: <cover.1464088997.git.alexander.kanavin@linux.intel.com>
+	<a387f0885671262248796e339920b43fd1639eca.1464088997.git.alexander.kanavin@linux.intel.com>
+	<9d52fc33-80fb-be4e-1401-c6e0bbd451e8@balister.org>
+	<51007.10.252.8.31.1464180342.squirrel@linux.intel.com>
+	<574849BD.1080304@topic.nl>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <574C0285.3060207@linux.intel.com>
+Date: Mon, 30 May 2016 12:06:13 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Icedove/38.6.0
 MIME-Version: 1.0
-X-Ovh-Tracer-Id: 17558127575192013244
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeekledrhedvgddufeefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
-Cc: openembedded-devel <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] OE Changelog since 2016-05-15 until 2016-05-22
+In-Reply-To: <574849BD.1080304@topic.nl>
+Subject: Re: [PATCH 28/45] swig: move to Python 3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,42 +36,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 May 2016 08:19:08 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 30 May 2016 09:06:21 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, 27 May 2016 08:25:23 +1200
-Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
+On 05/27/2016 04:21 PM, Mike Looijmans wrote:
 
-> On Thu, 26 May 2016 22:18:34 Andreas M=C3=BCller wrote:
-> >=20
-> > Maybe a bit off-topic but layer index should have some mechanism of
-> > removing rotten layers.
->=20
-> We've discussed this on-and-off at OE developer meetings for a while
-> now. FWIW I can remove them manually - actually I just got around to
-> deleting meta- picosam9 which has been unmaintained for years.
->=20
-> Part of the problem though is determining what "rotten" actually
-> means. Additionally, there's an element of leaving things around in
-> case someone comes to fork/revive them again. We do show a "last
-> updated" date but it would be good to figure out some other way of
-> determining and indicating "layer health" - to date I don't think
-> we've managed to figure out anything practical for that.
->=20
-> Cheers,
-> Paul
->=20
+> This probably means that projects using Python 2 extensively will be
+> forced to either "freeze" the OE version to the state before the
+> transition or attempt to maintain a "python-2" fork.
 
-meta-mmmpi can go, I haven't updated it in over 2 years, SRC_URI links
-are out-of-date and it almost certainly won't compile against recent
-releases.
+Not at all. Oe-core will continue to provide python 2 recipes, swig is 
+now compatible with both 2 and 3, the supporting 3rd party py2 libraries 
+that will be removed from oe-core will be added to meta-oe at the same 
+time (python-dbus), or should be trivial to add, if anyone actually 
+needs them (python-git). Python 2 users should be able to continue with 
+minimal (or zero) tweaks.
 
-Perhaps "last updated" could be used to nudge layer maintainers when a
-layer looks stale. An automated email could tell them to check in to
-confirm that the layer is still valid or let you know that it can be
-removed.
+That said, we want to make it clear that it's time to get serious about 
+moving to Python 3. It's been out for many years, the only excuses left 
+are the bad ones.
 
-Thanks,
-Paul Barker
+Alex
 
