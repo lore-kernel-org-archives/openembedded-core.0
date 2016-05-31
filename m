@@ -1,33 +1,27 @@
-Return-Path: <geiseri@geekcentral.pub>
-Received: from sender163-mail.zoho.com (sender163-mail.zoho.com
-	[74.201.84.163])
-	by mail.openembedded.org (Postfix) with ESMTP id 30796771BD
+Return-Path: <maxin.john@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id D9F01771BD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 May 2016 15:25:00 +0000 (UTC)
-DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws; s=zoho; d=geekcentral.pub; 
-	h=date:from:to:cc:message-id:in-reply-to:references:subject:mime-version:content-type:user-agent;
-	b=agp84rPRxMYvCNkgL8qb/yU2MMVP+0+leK13lHNj7y+p87oozicqjWokc6Bf/xWHPXlxo+uFbjrl
-	O5rHU0emp6zzwDgYKrDBH//k/BjzIQBsr5ctZuJDbA2iho7//o1+c72rmI5ZDAljbEo96HQ7RI40
-	R3slOZz4Cc9zx+5ZX3I=  
-Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 1464708292571971.4311218827523;
-	Tue, 31 May 2016 08:24:52 -0700 (PDT)
-Date: Tue, 31 May 2016 11:24:52 -0400
-From: Ian Geiser <geiseri@geekcentral.pub>
-To: "Christopher Larson" <clarson@kergoth.com>
-Message-ID: <155076adecd.fbd58d4e28737.2520989404842375814@geekcentral.pub>
-In-Reply-To: <CABcZANnTRsoFWBdshg1mvV1AWvxjs_XqYb0horJwFSpqrswT6Q@mail.gmail.com>
-References: <154c86e7fa2.11a4a3b0e305159.2603931524640206304@geekcentral.pub>
-	<20160523103623.GA18324@linux.intel.com>
-	<154dd88c4a6.d1f78c40166145.7475080368514196708@geekcentral.pub>
-	<20160524195145.GA21158@linux.intel.com>
-	<CABcZANnTRsoFWBdshg1mvV1AWvxjs_XqYb0horJwFSpqrswT6Q@mail.gmail.com>
-MIME-Version: 1.0
-X-Priority: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Wic and "live" images
+	Tue, 31 May 2016 15:25:44 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 31 May 2016 08:25:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,396,1459839600"; d="scan'208";a="992295513"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga002.fm.intel.com with ESMTP; 31 May 2016 08:25:45 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 9A2176A4008
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 31 May 2016 09:13:12 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 31 May 2016 18:26:03 +0300
+Message-Id: <1464708363-19038-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH] openssl: fix the dangling libcrypto.a symlink
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,18 +34,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 May 2016 15:25:01 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 31 May 2016 15:25:45 -0000
 
+Update libcrypto.a symlink to the proper location.
 
+[YOCTO #9523]
 
- ---- On Tue, 24 May 2016 15:56:39 -0400 Christopher Larson <clarson@kergoth.com> wrote ---- 
- > 
- > On Tue, May 24, 2016 at 12:51 PM, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
- > 
- > The thing is, it's likely the machine/bsp setting the WKS_FILE, yet in OE/yocto we prefer machine/distro/image to be orthogonal. If you're injecting machine specific logic into an image, that image isn't going to be generally useful for all machines, and so violates our philosophy.
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ meta/recipes-connectivity/openssl/openssl.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Isn't the physical disk image the place that machine/distro/image all intersect though?  Maybe this is some philosophy I have always not gotten because it seems every time I make an image for a machine I am fighting the current.  Really I think at the core what I want is a partition layout that I can put a payload in.  wic seems exactly that, but I am not sure how to get from my rootfs, initramfs and kernel to there.  Thanks!
+diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
+index 3412c66..1a0031e 100644
+--- a/meta/recipes-connectivity/openssl/openssl.inc
++++ b/meta/recipes-connectivity/openssl/openssl.inc
+@@ -195,7 +195,7 @@ do_install_ptest () {
+ 	cp -r -L Makefile.org Makefile test ${D}${PTEST_PATH}
+ 	cp Configure config e_os.h ${D}${PTEST_PATH}
+ 	cp -r -L include ${D}${PTEST_PATH}
+-	ln -sf ${base_libdir}/libcrypto.a ${D}${PTEST_PATH}
++	ln -sf ${libdir}/libcrypto.a ${D}${PTEST_PATH}
+ 	ln -sf ${libdir}/libssl.a ${D}${PTEST_PATH}
+ 	mkdir -p ${D}${PTEST_PATH}/crypto
+ 	cp crypto/constant_time_locl.h ${D}${PTEST_PATH}/crypto
+-- 
+2.4.0
 
 
