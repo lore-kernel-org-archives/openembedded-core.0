@@ -1,28 +1,44 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 3798B77071
+Return-Path: <rm.santos.caldas@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 666E6771C9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 May 2016 10:43:47 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP; 31 May 2016 03:43:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,395,1459839600"; d="scan'208";a="965698392"
-Received: from mbabyjoh-desk.fi.intel.com (HELO
-	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.71])
-	by orsmga001.jf.intel.com with ESMTP; 31 May 2016 03:43:46 -0700
-Date: Tue, 31 May 2016 13:43:51 +0300
-From: "Maxin B. John" <maxin.john@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20160531104351.GA3216@mbabyjoh-desk.ger.corp.intel.com>
-References: <1464621623-16991-1-git-send-email-maxin.john@intel.com>
-	<1464621623-16991-2-git-send-email-maxin.john@intel.com>
-	<1464680256.19134.110.camel@linuxfoundation.org>
-MIME-Version: 1.0
-In-Reply-To: <1464680256.19134.110.camel@linuxfoundation.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: Alexander Kanavin <alexander.kanavin@intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] bluez5: update to 5.40
+	Tue, 31 May 2016 10:51:44 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id q62so31415823wmg.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 31 May 2016 03:51:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=NYZq97388mZBOePZ8V08m0W0DQTgt1WSA5gT1Bma0Lg=;
+	b=ukSd6DhFNWwHDee/qEM6CB0vrFcD94kq40w8F+peo1meCAyFuDiCw8htwRYDr7NlMC
+	mRlFKYFguHf6hw0wkbvKHyO/+GsZSO0tD5BathPUbGyY+AXXLLu0yMU1euF6fQ4xT5dP
+	VW4jpCyRC1c/bRzvDuc5KOHg+U6OygCT+9DtTdjfSPitxdbOC/o25SpdHMvCeyZ8jX0O
+	JlDiYIsC0r815xaaPQcgXA+s0W4ZI7AWgT6x8hmgV/JSPMyLKXJOuFI4F5WOAu90ri5+
+	rCh5ky97tIqtqevK+sheLvrt0LVAhiasA355upD1eEQsJuG585h2Qyccr92uKgIOaRDp
+	hHWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=NYZq97388mZBOePZ8V08m0W0DQTgt1WSA5gT1Bma0Lg=;
+	b=PKXTJzmBO5kIayw1iGXPx04jFxroMlc/WmQ592C0YHPOuYtAPEIRvUXT5o6O5uuEtS
+	+G8OSq1LrtoDWV0bTMQHNFu6oOTdvRdhXb0lSOsS6kDoz2YCSW2n3y4ApbsWO/HvYUdy
+	1ixXOUNGTtHMbHxX0b8m98c7AkLOphErU3MXy6Pun1xsNNTqha1USngFoaZdDbeNp2Ik
+	F0uwHrY4GOWa/RUZdsGk2J0SNURmd6lZr9Hy1Mk0rHQheTer6cAr8Xxx03zIGduxIvao
+	sh3RpkISPz4GXCQoXJYn2FP+ljcKYJbRrw75+Q+oWmjdD3G30hdvC5F2bdwuiqrGhGif
+	W6Mw==
+X-Gm-Message-State: ALyK8tLqJIzVGx8oLyUwRES3NmKcqeTIJE/0hRiSmRiVxuG8yMQOLccBP+mG6RC6OrZxAw==
+X-Received: by 10.28.169.66 with SMTP id s63mr15410667wme.29.1464691903851;
+	Tue, 31 May 2016 03:51:43 -0700 (PDT)
+Received: from octopus.home (a89-152-77-183.cpe.netcabo.pt. [89.152.77.183])
+	by smtp.gmail.com with ESMTPSA id
+	a128sm28758409wme.16.2016.05.31.03.51.42
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 31 May 2016 03:51:42 -0700 (PDT)
+From: Renato Caldas <rm.santos.caldas@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 31 May 2016 11:50:35 +0100
+Message-Id: <20160531105035.7284-1-rm.santos.caldas@gmail.com>
+X-Mailer: git-send-email 2.8.3
+Subject: [jethro][PATCH] perl: reorder tar arguments in do_install_ptest()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,44 +51,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 May 2016 10:43:48 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 31 May 2016 10:51:46 -0000
 
-Hi,
+On some distributions tar requires the FILE argument to be the last, and
+the existing order was causing the subsequent --exclude options to be dropped.
 
-On Tue, May 31, 2016 at 08:37:36AM +0100, Richard Purdie wrote:
-> On Mon, 2016-05-30 at 18:20 +0300, Maxin B. John wrote:
-> > 5.39 -> 5.40
-> > 
-> > Signed-off-by: Maxin B. John <maxin.john@intel.com>
-> > ---
-> >  meta/recipes-connectivity/bluez5/{bluez5_5.39.bb => bluez5_5.40.bb}
-> > | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >  rename meta/recipes-connectivity/bluez5/{bluez5_5.39.bb =>
-> > bluez5_5.40.bb} (89%)
-> 
-> I had this in master-next and suspect it caused:
-> 
-> https://autobuilder.yoctoproject.org/main/builders/nightly-mips64/build
-> s/448/steps/BuildImages/logs/stdio
-> 
-> https://autobuilder.yoctoproject.org/main/builders/nightly-qa-pam/build
-> s/800/steps/BuildImages/logs/stdio
-> 
-> and the world targets also showed some issues. There were other changes
-> mixed in (particularly python3) and some builds succeeded so it could
-> also be some kind of dependency race.
+Fixes [YOCTO #9673].
 
-Please ignore that patch then. As you have mentioned, it could be some
-kind of dependency race (couldnt re-create the failure in the local build)
+Signed-off-by: Renato Caldas <rm.santos.caldas@gmail.com>
+---
+ meta/recipes-devtools/perl/perl-ptest.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I will send the bluez5 upgrade along with ofono after python(2->3) work.
+diff --git a/meta/recipes-devtools/perl/perl-ptest.inc b/meta/recipes-devtools/perl/perl-ptest.inc
+index 948ea7c..66c5355 100644
+--- a/meta/recipes-devtools/perl/perl-ptest.inc
++++ b/meta/recipes-devtools/perl/perl-ptest.inc
+@@ -7,8 +7,8 @@ do_install_ptest () {
+ 	mkdir -p ${D}${PTEST_PATH}
+ 	sed -e "s:\/opt:\/usr:" -i Porting/add-package.pl
+ 	sed -e "s:\/local\/gnu\/:\/:" -i hints/cxux.sh
+-	tar -cf - * --exclude \*.o --exclude libperl.so --exclude Makefile --exclude makefile --exclude hostperl \
+-		--exclude miniperl --exclude generate_uudmap --exclude patches | ( cd ${D}${PTEST_PATH} && tar -xf - )
++	tar -cf - --exclude \*.o --exclude libperl.so --exclude Makefile --exclude makefile --exclude hostperl \
++		--exclude miniperl --exclude generate_uudmap --exclude patches * | ( cd ${D}${PTEST_PATH} && tar -xf - )
+ 
+ 	sed -i -e "s,${D},,g" \
+ 	       -e "s,--sysroot=${STAGING_DIR_HOST},,g" \
+-- 
+2.8.3
 
-> Cheers, 
-> Richard
-
-Best Regards,
-Maxin
 
