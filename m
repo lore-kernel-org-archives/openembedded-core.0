@@ -1,27 +1,37 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id D9F01771BD
+Return-Path: <geiseri@geekcentral.pub>
+Received: from sender163-mail.zoho.com (sender163-mail.zoho.com
+	[74.201.84.163])
+	by mail.openembedded.org (Postfix) with ESMTP id 63935771E3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 May 2016 15:25:44 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 31 May 2016 08:25:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,396,1459839600"; d="scan'208";a="992295513"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 31 May 2016 08:25:45 -0700
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 9A2176A4008
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 May 2016 09:13:12 -0700 (PDT)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 31 May 2016 18:26:03 +0300
-Message-Id: <1464708363-19038-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [PATCH] openssl: fix the dangling libcrypto.a symlink
+	Tue, 31 May 2016 15:32:11 +0000 (UTC)
+DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws; s=zoho; d=geekcentral.pub; 
+	h=date:from:to:cc:message-id:in-reply-to:references:subject:mime-version:content-type:user-agent;
+	b=PlRlkNdErIp4clnfIZ8cBkYMCVEXcppU5gU7JYuWNzB5ZICzT0Z3RR4tHec8EVgcF1fyyJvhNjeA
+	hvFKrCSpTgwH6L7serfd2fmA88RqmZQ2H5hEDz76JZD+ptTosHUtRVHkEkLlXNOGMqkqR0iQWbob
+	FB3sYJHPoCAiuiVwfc0=  
+Received: from mail.zoho.com by mx.zohomail.com
+	with SMTP id 146470871917029.497647482349066;
+	Tue, 31 May 2016 08:31:59 -0700 (PDT)
+Date: Tue, 31 May 2016 11:31:59 -0400
+From: Ian Geiser <geiseri@geekcentral.pub>
+To: "Christopher Larson" <clarson@kergoth.com>
+Message-ID: <15507716209.cd119ae329262.993815898734303688@geekcentral.pub>
+In-Reply-To: <CABcZANnanW42b8kk6mdTzdFpcmXm_rkTQf0uVuanY8OBTTF5+A@mail.gmail.com>
+References: <154c86e7fa2.11a4a3b0e305159.2603931524640206304@geekcentral.pub>
+	<20160523103623.GA18324@linux.intel.com>
+	<154dd88c4a6.d1f78c40166145.7475080368514196708@geekcentral.pub>
+	<20160524195145.GA21158@linux.intel.com>
+	<CABcZANnTRsoFWBdshg1mvV1AWvxjs_XqYb0horJwFSpqrswT6Q@mail.gmail.com>
+	<20160524201600.GB21158@linux.intel.com>
+	<CABcZANnRrT_mJ1WnahrKfNe2vS9z8BYvR3p1vacXt6siKSAJ0Q@mail.gmail.com>
+	<20160525113549.GA25463@linux.intel.com>
+	<CABcZANnanW42b8kk6mdTzdFpcmXm_rkTQf0uVuanY8OBTTF5+A@mail.gmail.com>
+MIME-Version: 1.0
+X-Priority: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Wic and "live" images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,31 +44,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 May 2016 15:25:45 -0000
+X-List-Received-Date: Tue, 31 May 2016 15:32:12 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Update libcrypto.a symlink to the proper location.
+ ---- On Wed, 25 May 2016 16:04:50 -0400 Christopher Larson <clarson@kergoth.com> wrote ---- 
+ > 
+ > On Wed, May 25, 2016 at 4:35 AM, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
+ > 
+ > It's debatable. As long as we keep the logic separated, such that anything bsp specific is in the machine or bsp layer, so the images are independent of any bsp, then we're fine. If we need to keep certain aspects of rootfs / image preparation outside of wic, then we'd need the machines which need such setup to use a hook to ensure it's applied to all images, i.e. an IMAGE_POSTPROCESS_COMMAND, and we'd need to document that.
 
-[YOCTO #9523]
+If I follow in wic the logic is in the plugins.  So its up to the bsp to implement those.  Currently though we have tight coupling with efi and mbr in the oe-core libraries.  I guess this leads me into a false sense that wic is machine/bsp specific.
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- meta/recipes-connectivity/openssl/openssl.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ > That might be doable, but we definitely need to give careful thought to what pieces of information about the image creation process come from where. Certain aspects are clearly distro, i.e. extra image space, and possibly other partitioning like splitting up the rootfs into multiple partitions, but others are clearly bsp, i.e. setup of a boot partition if the bootloader expects it, and image recipes need to work regardless of what distro or machine are selected.
+ 
+This is what I get at by saying needing a "robust" library of common plugins that can be reused by the bsp authors.  I think this would allow the wks files to be more consistent and more reusable.   
 
-diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-index 3412c66..1a0031e 100644
---- a/meta/recipes-connectivity/openssl/openssl.inc
-+++ b/meta/recipes-connectivity/openssl/openssl.inc
-@@ -195,7 +195,7 @@ do_install_ptest () {
- 	cp -r -L Makefile.org Makefile test ${D}${PTEST_PATH}
- 	cp Configure config e_os.h ${D}${PTEST_PATH}
- 	cp -r -L include ${D}${PTEST_PATH}
--	ln -sf ${base_libdir}/libcrypto.a ${D}${PTEST_PATH}
-+	ln -sf ${libdir}/libcrypto.a ${D}${PTEST_PATH}
- 	ln -sf ${libdir}/libssl.a ${D}${PTEST_PATH}
- 	mkdir -p ${D}${PTEST_PATH}/crypto
- 	cp crypto/constant_time_locl.h ${D}${PTEST_PATH}/crypto
--- 
-2.4.0
+Lastly, in the current vernacular am I confusing the terms "image" and "rootfs"?  In my mind "image" is the physical bits that will get burned into ROM/SSD/etc.   "rootfs" is the filesystem component that is injected somehow into the image.  Is this correct?
 
 
