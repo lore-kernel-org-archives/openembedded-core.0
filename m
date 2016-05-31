@@ -1,17 +1,17 @@
 Return-Path: <herve.jourdain@neuf.fr>
-Received: from smtp26.services.sfr.fr (smtp26.services.sfr.fr [93.17.128.10])
-	by mail.openembedded.org (Postfix) with ESMTP id D26D9771E3
+Received: from smtp26.services.sfr.fr (smtp26.services.sfr.fr [93.17.128.1])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F562601A5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 May 2016 11:36:44 +0000 (UTC)
+	Tue, 31 May 2016 12:00:42 +0000 (UTC)
 Received: from nbhjo (LFbn-1-3582-159.w90-127.abo.wanadoo.fr [90.127.97.159])
-	by msfrf2619.sfr.fr (SMTP Server) with ESMTP id 1415A1C01243A;
-	Tue, 31 May 2016 13:36:44 +0200 (CEST)
+	by msfrf2615.sfr.fr (SMTP Server) with ESMTP id B00091C00F46B;
+	Tue, 31 May 2016 14:00:41 +0200 (CEST)
 Received: from nbhjo (LFbn-1-3582-159.w90-127.abo.wanadoo.fr
 	[90.127.97.159])	(using TLSv1.2
 	with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))	(No client
 	certificate requested)	(Authenticated sender: herve.jourdain@neuf.fr)
-	by msfrf2619.sfr.fr (SMTP Server) with ESMTPSA;
-	Tue, 31 May 2016 13:36:43 +0200 (CEST)
+	by msfrf2615.sfr.fr (SMTP Server) with ESMTPSA;
+	Tue, 31 May 2016 14:00:41 +0200 (CEST)
 Authentication-Results: sfr.fr; auth=pass (LOGIN)
 	smtp.auth=herve.jourdain@neuf.fr
 From: Herve Jourdain <herve.jourdain@neuf.fr>
@@ -19,12 +19,12 @@ To: zhe.he@windriver.com, richard.purdie@linuxfoundation.org,
 	openembedded-core@lists.openembedded.org
 References: <cover.1464145184.git.zhe.he@windriver.com>
 	<2902d349f5561da111ada2db1831faa399479fac.1464145184.git.zhe.he@windriver.com>
-In-Reply-To: <2902d349f5561da111ada2db1831faa399479fac.1464145184.git.zhe.he@windriver.com>
-Date: Tue, 31 May 2016 13:36:39 +0200
-Message-ID: <005401d1bb30$b2d7b380$18871a80$@neuf.fr>
+In-Reply-To: 
+Date: Tue, 31 May 2016 14:00:37 +0200
+Message-ID: <005501d1bb34$0bbdb2d0$23391870$@neuf.fr>
 MIME-Version: 1.0
 X-Mailer: Microsoft Outlook 15.0
-Thread-Index: AQKD3da8LLjJ3ZMdn+LXK7X7602NuwHWsi+Enl/ufIA=
+Thread-Index: AQKD3da8LLjJ3ZMdn+LXK7X7602NuwHWsi+Enl/ufICAAAgjYA==
 X-sfr-mailing: LEGIT
 Subject: Re: [PATCH 1/2 v4] kernel: Add KERNEL_IMAGETYPES to build	multi types kernel at one time
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -39,10 +39,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 May 2016 11:36:46 -0000
+X-List-Received-Date: Tue, 31 May 2016 12:00:43 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
 Content-Language: fr
+
+Hi,
+
+OK, it seems I've found a patch for meta-raspberrypi. I'll be submitting it
+to the Yocto mailing list.
+Sorry for the noise.
+
+Herve
+
+-----Original Message-----
+From: Herve Jourdain [mailto:herve.jourdain@neuf.fr] 
+Sent: mardi 31 mai 2016 13:37
+To: 'zhe.he@windriver.com' <zhe.he@windriver.com>;
+'richard.purdie@linuxfoundation.org' <richard.purdie@linuxfoundation.org>;
+'openembedded-core@lists.openembedded.org'
+<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH 1/2 v4] kernel: Add KERNEL_IMAGETYPES to build
+multi types kernel at one time
 
 Hi,
 
@@ -50,9 +68,8 @@ I've just found out that this breaks the kernel builds on raspberrypi,
 because do_rpiboot_mkimage() uses ${KERNEL_OUTPUT}, and this patch removes
 it...
 (sorry to find that only now, but I only today switched to a new environment
-for some tests)
-I'm trying to find a patch to that one, but in the meantime, people might
-need to revert it if they meet that kind of problems.
+for some tests) I'm trying to find a patch to that one, but in the meantime,
+people might need to revert it if they meet that kind of problems.
 
 Herve
 
@@ -107,7 +124,7 @@ index 298eda2..9a3caf5 100644
 -        d.setVar("KERNEL_IMAGETYPE_FOR_MAKE", "zImage")
 +        typeformake = d.getVar("KERNEL_IMAGETYPE_FOR_MAKE", True) or ""
 +        if 'fitImage' in typeformake.split():
-+            d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', 
++            d.setVar('KERNEL_IMAGETYPE_FOR_MAKE',
 + typeformake.replace('fitImage', 'zImage'))
  
          image = d.getVar('INITRAMFS_IMAGE', True)
@@ -227,7 +244,7 @@ kimage="$D/boot/KERNEL_IMAGETYPE-${KERNEL_VERSION}-$timestamp-back"
 1 | \
 -				 sed
 "s#${old_image}#${old_image%/*}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}#"`
-+				 sed 
++				 sed
 +"s#${old_image}#${old_image%/*}/KERNEL_IMAGETYPE-${KERNEL_VERSION}#"`
  
  			echo "menuentry \"$title\" {"
@@ -239,7 +256,7 @@ kimage="$D/boot/KERNEL_IMAGETYPE-${KERNEL_VERSION}-$timestamp-back"
 | \
 -				 sed
 "s#${old_image}#${old_image%/*}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}#"`
-+				 sed 
++				 sed
 +"s#${old_image}#${old_image%/*}/KERNEL_IMAGETYPE-${KERNEL_VERSION}#"`
  
  			echo "default 0"
@@ -259,7 +276,7 @@ kimage="$D/boot/KERNEL_IMAGETYPE-${KERNEL_VERSION}-$timestamp-back"
 +        postinst_prepend = postinst.replace('KERNEL_IMAGETYPE', type)
 +        d.setVar('pkg_preinst_kernel-image-' + typelower + '_append',
 preinst_append)
-+        d.setVar('pkg_postinst_kernel-image-' + typelower + '_prepend', 
++        d.setVar('pkg_postinst_kernel-image-' + typelower + '_prepend',
 + postinst_prepend)
  }
  
@@ -338,10 +355,10 @@ KERNEL_IMAGETYPES
 +
 +        d.appendVar('PACKAGES', ' ' + 'kernel-image-' + typelower)
 +
-+        d.setVar('FILES_kernel-image-' + typelower, '/boot/' + type + 
++        d.setVar('FILES_kernel-image-' + typelower, '/boot/' + type +
 + '*')
 +
-+        d.appendVar('RDEPENDS_kernel-image', ' ' + 'kernel-image-' + 
++        d.appendVar('RDEPENDS_kernel-image', ' ' + 'kernel-image-' +
 + typelower)
 +
 +        d.setVar('PKG_kernel-image-' + typelower, 'kernel-image-' + 
