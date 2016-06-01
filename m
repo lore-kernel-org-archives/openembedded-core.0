@@ -1,35 +1,59 @@
-Return-Path: <william.c.randle@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 873BC77040
+Return-Path: <kergoth@gmail.com>
+Received: from mail-io0-f196.google.com (mail-io0-f196.google.com
+	[209.85.223.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F5C973257
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Jun 2016 15:20:33 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga102.jf.intel.com with ESMTP; 01 Jun 2016 08:20:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,401,1459839600"; d="scan'208";a="993091841"
-Received: from orsmsx101.amr.corp.intel.com ([10.22.225.128])
-	by fmsmga002.fm.intel.com with ESMTP; 01 Jun 2016 08:20:33 -0700
-Received: from orsmsx115.amr.corp.intel.com (10.22.240.11) by
-	ORSMSX101.amr.corp.intel.com (10.22.225.128) with Microsoft SMTP Server
-	(TLS) id 14.3.248.2; Wed, 1 Jun 2016 08:20:32 -0700
-Received: from orsmsx105.amr.corp.intel.com ([169.254.2.59]) by
-	ORSMSX115.amr.corp.intel.com ([169.254.4.114]) with mapi id
-	14.03.0248.002; Wed, 1 Jun 2016 08:20:32 -0700
-From: "Randle, William C" <william.c.randle@intel.com>
-To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 01/22] oe-buildenv-internal: Update to python3
-Thread-Index: AQHRvAJs9SAJl2AdskqVpUd9qUbXcZ/VL5iA
-Date: Wed, 1 Jun 2016 15:20:32 +0000
-Message-ID: <1464794431.2777.21.camel@intel.com>
-References: <1464784540-2786-1-git-send-email-richard.purdie@linuxfoundation.org>
-In-Reply-To: <1464784540-2786-1-git-send-email-richard.purdie@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.7.199.146]
+	Wed,  1 Jun 2016 15:35:35 +0000 (UTC)
+Received: by mail-io0-f196.google.com with SMTP id k19so3640805ioi.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 01 Jun 2016 08:35:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=hdQ0YhHi87HIBjsAWvbhw9r7dUHHnCMwZPAv9zXmKrw=;
+	b=U8rgD34OTwCD9TghID8XjlVb5i3eLYxf3Txe6+J//LAofdFJOi1l2Q3SqMmsutSQhZ
+	DBXBT16R+avsEEiKzp7xQH+SQLIPviCmmDxAvk9fOLflDEw3kEoit3A6RmlagPVOeDbE
+	dMNosDSi2gAaEC41QQbToFGKIqsClKJSrrWcRdgHlA1qIs+5yGCIPKyYmFpCNpIs/BJP
+	AHcEwQ9nA9KOJVWVV0JSVkZKtWHgC5zuRAOKjRFF9pQ7edbyey5BLYEZIkKGLTIpVUpk
+	pfVEorsQrwFkP9nvfSog3A2bQK+qWLhueqGrhjP0oWD1rVp6JiclG5Pxr9Ow0o7G1aJ+
+	iz/Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kergoth-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=hdQ0YhHi87HIBjsAWvbhw9r7dUHHnCMwZPAv9zXmKrw=;
+	b=0qjfvwy4rM/TekIIhTmcbFXm2DCJ0O3KGGshD1qqZ9EDxJF1x/hk/+RBXVUujtBTn0
+	5KwROV/Dvh4hF8+i5RAD8tBQcc8vE22zWi0qPAkB8GdDVbs6+7mrvPX7Dcbd5Aq2QxxD
+	8UQA9Q5S1aWc7jKNLNaxt1yuWKWJaqgjBbX9Vsnk1ejnVW/oSibJ2pHf2ks8N0KNHKGD
+	e3Zh3Jjxig4qLJDw3A2wSBii3cUdG6hZZX80SED7KuicZyEnwllbRBksT5lANWbPAjM7
+	SldtWQJ5sancPhQA3bllVwyeh5o2gEQJq8CqwPGqWwoX7IR927PuGvKRC+l/k+vLYsyU
+	nU4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=hdQ0YhHi87HIBjsAWvbhw9r7dUHHnCMwZPAv9zXmKrw=;
+	b=RRGk+kMB7jOOBr8kVhN6EGrBl9SBDGqbUXjwZFIHFoCXYol2eYhWCjiR6wfOaTTAVT
+	n/6/pqrBh4XGthTLkvx+ZXD01gCzpesnTP+rncCkAEGeqOss/NRjIknk/IWQYBc7C+2A
+	czy+oh1VAJMIjCiagkf7ltYZRUoZbkqx5v5UH61xiuu2RwnklJr80vr0zYSurbE5Jwl1
+	66b8AXKSADShzMiylny8zwjJr0znAt9U1kv2K7JUibI/OIWWfBkvv4qHA8SfzSHETPrZ
+	zflsP8qm/ivbJSh3hbugCtxNBA6UQ73JR99k788OOR7MO7qMfDP67OAvGqT9aOA5s4E5
+	XhfQ==
+X-Gm-Message-State: ALyK8tLqGaC2W8qMwFe19f4rG5Gh6pmqBoQ9lE0LP+w7zEXTYiO4tcR6dP71tkQqGiiFGUEriHbYrnQuL3wBlA==
+X-Received: by 10.107.140.132 with SMTP id o126mr6712909iod.70.1464795336133; 
+	Wed, 01 Jun 2016 08:35:36 -0700 (PDT)
 MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.79.100.5 with HTTP; Wed, 1 Jun 2016 08:35:16 -0700 (PDT)
+In-Reply-To: <1464784540-2786-1-git-send-email-richard.purdie@linuxfoundation.org>
+References: <1464784540-2786-1-git-send-email-richard.purdie@linuxfoundation.org>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Wed, 1 Jun 2016 08:35:16 -0700
+X-Google-Sender-Auth: of9hl_Mj07HUkg-1FjSHcCkm6GM
+Message-ID: <CABcZANkmNG1MvPsYf-KJs2gmPMGjR+CjwLGjxc9k5-MRhgHuiw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 01/22] oe-buildenv-internal: Update to python3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -43,69 +67,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jun 2016 15:20:33 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <60652B9EF4E1DB48BC51979442C9187A@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 01 Jun 2016 15:35:38 -0000
+Content-Type: multipart/alternative; boundary=94eb2c05aea2ae327e0534393d54
 
-T24gV2VkLCAyMDE2LTA2LTAxIGF0IDEzOjM1ICswMTAwLCBSaWNoYXJkIFB1cmRpZSB3cm90ZToN
-Cj4gQ2hlY2sgdGhhdCAncHl0aG9uJyBpcyBhIHB5dGhvbiB2MiBzaW5jZSB0aGF0IGlzIHdoYXQg
-d2UgYXNzdW1lIGV2ZXJ5d2hlcmUNCj4gYW5kIHVwc3RyZWFtIHB5dGhvbiBkZXZzIHJlY29tbWVu
-ZC4gV2UgY2FuIG5lZWQgYm90aCBweXRob24yIGFuZCBweXRob24zDQo+IGF2YWlsYWJsZSBzaW5j
-ZSB3ZSBkb24ndCBjb250cm9sIHRoZSBzb2Z0d2FyZSB3ZSBtaWdodCBkb3dubG9hZCBhbmQgcnVu
-Lg0KPiANCj4gQWxzbyBjaGVjayB0aGF0IHB5dGhvbiAzIGlzID49IDMuNC4wLCBvdXIgbWluaW11
-bSB2ZXJzaW9uIGZvciBiaXRiYWtlLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogUmljaGFyZCBQdXJk
-aWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+DQo+IC0tLQ0KPiDCoHNjcmlw
-dHMvb2UtYnVpbGRlbnYtaW50ZXJuYWwgfCAzOCArKysrKysrKysrKysrKysrKysrKystLS0tLS0t
-LS0tLS0tLS0tLQ0KPiDCoDEgZmlsZSBjaGFuZ2VkLCAyMSBpbnNlcnRpb25zKCspLCAxNyBkZWxl
-dGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9zY3JpcHRzL29lLWJ1aWxkZW52LWludGVybmFs
-IGIvc2NyaXB0cy9vZS1idWlsZGVudi1pbnRlcm5hbA0KPiBpbmRleCA4MWVlNzg0Li41NmQzNDE5
-IDEwMDc1NQ0KPiAtLS0gYS9zY3JpcHRzL29lLWJ1aWxkZW52LWludGVybmFsDQo+ICsrKyBiL3Nj
-cmlwdHMvb2UtYnVpbGRlbnYtaW50ZXJuYWwNCj4gQEAgLTI5LDI3ICsyOSwzMSBAQCBpZiBbIC16
-ICIkT0VfU0tJUF9TREtfQ0hFQ0siIF0gJiYgWyAtbg0KPiAiJE9FQ09SRV9TREtfVkVSU0lPTiIg
-XTsgdGhlbg0KPiDCoMKgwqDCoMKgcmV0dXJuIDENCj4gwqBmaQ0KPiDCoA0KPiAtIyBNYWtlIHN1
-cmUgd2UncmUgbm90IHVzaW5nIHB5dGhvbiB2My54LiBUaGlzIGNoZWNrIGNhbid0IGdvIGludG8N
-Cj4gLSMgc2FuaXR5LmJiY2xhc3MgYmVjYXVzZSBiaXRiYWtlJ3Mgc291cmNlIGNvZGUgZG9lc24n
-dCBldmVuIHBhc3MNCj4gLSMgcGFyc2luZyBzdGFnZSB3aGVuIHVzZWQgd2l0aCBweXRob24gdjMs
-IHNvIHdlIGNhdGNoIGl0IGhlcmUgc28gd2UNCj4gLSMgY2FuIG9mZmVyIGEgbWVhbmluZ2Z1bCBl
-cnJvciBtZXNzYWdlLg0KPiAtcHlfdjNfY2hlY2s9JCgvdXNyL2Jpbi9lbnYgcHl0aG9uIC0tdmVy
-c2lvbiAyPiYxIHwgZ3JlcCAiUHl0aG9uIDMiKQ0KPiAtaWYgWyAtbiAiJHB5X3YzX2NoZWNrIiBd
-OyB0aGVuDQo+IC3CoMKgwqDCoGVjaG8gPiYyICJCaXRiYWtlIGlzIG5vdCBjb21wYXRpYmxlIHdp
-dGggcHl0aG9uIHYzIg0KPiAtwqDCoMKgwqBlY2hvID4mMiAiUGxlYXNlIHNldCB1cCBweXRob24g
-djIgYXMgeW91ciBkZWZhdWx0IHB5dGhvbiBpbnRlcnByZXRlciINCj4gKyMgTWFrZSBzdXJlIHdl
-J3JlIG5vdCB1c2luZyBweXRob24gdjMueCBhcyAncHl0aG9uJywgd2UgZG9uJ3Qgc3VwcG9ydCBp
-dC4NCj4gK3B5X3YyX2NoZWNrPSQoL3Vzci9iaW4vZW52IHB5dGhvbiAtLXZlcnNpb24gMj4mMSB8
-IGdyZXAgIlB5dGhvbiAzIikNCj4gK2lmIFsgLW4gIiRweV92Ml9jaGVjayIgXTsgdGhlbg0KPiAr
-wqDCoMKgwqBlY2hvID4mMiAiT3BlbkVtYmVkZGVkIHJlcXVpcmVzICdweXRob24nIHRvIGJlIHB5
-dGhvbiB2MiAoPj0gMi43LjMpLCBub3QNCj4gcHl0aG9uIHYzLiINCj4gK8KgwqDCoMKgZWNobyA+
-JjIgIlBsZWFzZSBzZXQgdXAgcHl0aG9uIHYyIGFzIHlvdXIgZGVmYXVsdCAncHl0aG9uJyBpbnRl
-cnByZXRlci4iDQo+IMKgwqDCoMKgwqByZXR1cm4gMQ0KPiDCoGZpDQo+IC11bnNldCBweV92M19j
-aGVjaw0KPiAtDQo+IC0jIFNpbWlsYXJseSwgd2Ugbm93IGhhdmUgY29kZSB0aGF0IGRvZXNuJ3Qg
-cGFyc2UgY29ycmVjdGx5IHdpdGggb2xkZXINCj4gLSMgdmVyc2lvbnMgb2YgUHl0aG9uLCBhbmQg
-cmF0aGVyIHRoYW4gZml4aW5nIHRoYXQgYW5kIGJlaW5nIGV0ZXJuYWxseQ0KPiAtIyB2aWdpbGFu
-dCBmb3IgYW55IG90aGVyIG5ldyBmZWF0dXJlIHVzZSwganVzdCBjaGVjayB0aGUgdmVyc2lvbiBo
-ZXJlLg0KPiAtcHlfdjI2X2NoZWNrPSQocHl0aG9uIC1jICdpbXBvcnQgc3lzOyBwcmludCBzeXMu
-dmVyc2lvbl9pbmZvID49ICgyLDcsMyknKQ0KPiAtaWYgWyAiJHB5X3YyNl9jaGVjayIgIT0gIlRy
-dWUiIF07IHRoZW4NCj4gLcKgwqDCoMKgZWNobyA+JjIgIkJpdEJha2UgcmVxdWlyZXMgUHl0aG9u
-IDIuNy4zIG9yIGxhdGVyIg0KPiArdW5zZXQgcHlfdjJfY2hlY2sNCj4gKw0KPiArcHlfdjI3X2No
-ZWNrPSQocHl0aG9uIC1jICdpbXBvcnQgc3lzOyBwcmludCBzeXMudmVyc2lvbl9pbmZvID49ICgy
-LDcsMyknKQ0KPiAraWYgWyAiJHB5X3YyN19jaGVjayIgIT0gIlRydWUiIF07IHRoZW4NCj4gK8Kg
-wqDCoMKgZWNobyA+JjIgIk9wZW5FbWJlZGRlZCByZXF1aXJlcyAncHl0aG9uJyB0byBiZSBweXRo
-b24gdjIgKD49IDIuNy4zKSwgbm90DQo+IHB5dGhvbiB2My4iDQo+ICvCoMKgwqDCoGVjaG8gPiYy
-ICJQbGVhc2UgdXBncmFkZSB5b3VyIHB5dGhvbiB2Mi4iDQo+ICtmaQ0KPiArdW5zZXQgcHlfdjI3
-X2NoZWNrDQo+ICsNCj4gKyMgV2UgcG90ZW50aWFsbHkgaGF2ZSBjb2RlIHRoYXQgZG9lc24ndCBw
-YXJzZSBjb3JyZWN0bHkgd2l0aCBvbGRlciB2ZXJzaW9uc8KgDQo+ICsjIG9mIFB5dGhvbiwgYW5k
-IHJhdGhlciB0aGFuIGZpeGluZyB0aGF0IGFuZCBiZWluZyBldGVybmFsbHkgdmlnaWxhbnQgZm9y
-wqANCj4gKyMgYW55IG90aGVyIG5ldyBmZWF0dXJlIHVzZSwganVzdCBjaGVjayB0aGUgdmVyc2lv
-biBoZXJlLg0KPiArcHlfdjM0X2NoZWNrPSQocHl0aG9uMyAtYyAnaW1wb3J0IHN5czsgcHJpbnQo
-c3lzLnZlcnNpb25faW5mbyA+PSAoMyw0LDApKScpDQo+ICtpZiBbICIkcHlfdjM0X2NoZWNrIiAh
-PSAiVHJ1ZSIgXTsgdGhlbg0KPiArwqDCoMKgwqBlY2hvID4mMiAiQml0QmFrZSByZXF1aXJlcyBQ
-eXRob24gMy40LjAgb3IgbGF0ZXIgYXMgJ3B5dGhvbjMnIg0KPiDCoMKgwqDCoMKgcmV0dXJuIDEN
-Cj4gwqBmaQ0KPiAtdW5zZXQgcHlfdjI2X2NoZWNrDQo+ICt1bnNldCBweV92MzRfY2hlY2sNCj4g
-wqANCj4gwqBpZiBbIC16ICIkQkRJUiIgXTsgdGhlbg0KPiDCoMKgwqDCoMKgaWYgWyAteiAiJDEi
-IF07IHRoZW4NCj4gLS3CoA0KPiAyLjUuMA0KDQpJdCBzZWVtcyB0byBtZSB0aGUgY29tbWVudCBh
-Ym91dCBvbGRlciBQeXRob24gdmVyc2lvbnMgc2hvdWxkIHJlbWFpbiBiZWZvcmUgdGhlDQoyLjcu
-MyBjaGVjayBzbyB0aGF0IGl0IGFwcGxpZXMgdG8gYm90aCB0aGUgMi43LjMgYW5kIDMuNC4wIGNo
-ZWNrcy4NCg0KwqAgwqAgLUJpbGwNCg==
+--94eb2c05aea2ae327e0534393d54
+Content-Type: text/plain; charset=UTF-8
 
+On Wed, Jun 1, 2016 at 5:35 AM, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+
+> Check that 'python' is a python v2 since that is what we assume everywhere
+> and upstream python devs recommend. We can need both python2 and python3
+> available since we don't control the software we might download and run.
+>
+> Also check that python 3 is >= 3.4.0, our minimum version for bitbake.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>
+
+I'm curious, why don't we just have a bit of logic to figure out what the
+names are of the binaries, create a subdir and prepend it to the path, and
+add symlinks or wrapper scripts there to the real binaries on the system?
+-- 
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
+
+--94eb2c05aea2ae327e0534393d54
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Wed, Jun 1, 2016 at 5:35 AM, Richard Purdie <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.p=
+urdie@linuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=3D"gma=
+il_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-lef=
+t:1ex"><div id=3D":10v" class=3D"a3s aXjCH m1550bf797f8a918a">Check that &#=
+39;python&#39; is a python v2 since that is what we assume everywhere<br>
+and upstream python devs recommend. We can need both python2 and python3<br=
+>
+available since we don&#39;t control the software we might download and run=
+.<br>
+<br>
+Also check that python 3 is &gt;=3D 3.4.0, our minimum version for <span cl=
+ass=3D"il">bitbake</span>.<br>
+<br>
+Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfou=
+ndation.org">richard.purdie@linuxfoundation.org</a>&gt;</div></blockquote><=
+/div><br>I&#39;m curious, why don&#39;t we just have a bit of logic to figu=
+re out what the names are of the binaries, create a subdir and prepend it t=
+o the path, and add symlinks or wrapper scripts there to the real binaries =
+on the system?<br>-- <br><div class=3D"gmail_signature" data-smartmail=3D"g=
+mail_signature">Christopher Larson<br>clarson at kergoth dot com<br>Founder=
+ - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Softwa=
+re Engineer, Mentor Graphics</div>
+</div></div>
+
+--94eb2c05aea2ae327e0534393d54--
