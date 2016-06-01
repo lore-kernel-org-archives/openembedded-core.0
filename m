@@ -1,30 +1,30 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 8565B7730D
+	by mail.openembedded.org (Postfix) with ESMTP id 6EB0E77338
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Jun 2016 12:35:57 +0000 (UTC)
+	Wed,  1 Jun 2016 12:35:58 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u51CZeIS006852; Wed, 1 Jun 2016 13:35:55 +0100
+	u51CZeIV006852; Wed, 1 Jun 2016 13:35:56 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id m2mk02e4tkjX; Wed,  1 Jun 2016 13:35:55 +0100 (BST)
+	with LMTP id YLMpr7Xh2R_R; Wed,  1 Jun 2016 13:35:56 +0100 (BST)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u51CZpGM006873
+	u51CZpBv006872
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
 	Wed, 1 Jun 2016 13:35:52 +0100
 Received: from richard by hex with local (Exim 4.86)
 	(envelope-from <richard@rpsys.net>)
-	id 1b85NH-0000kL-89; Wed, 01 Jun 2016 13:35:51 +0100
+	id 1b85NH-0000kG-7a; Wed, 01 Jun 2016 13:35:51 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  1 Jun 2016 13:35:23 +0100
-Message-Id: <1464784540-2786-5-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Wed,  1 Jun 2016 13:35:22 +0100
+Message-Id: <1464784540-2786-4-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <1464784540-2786-1-git-send-email-richard.purdie@linuxfoundation.org>
 References: <1464784540-2786-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 05/22] classes/lib: Update to explictly create lists where needed
+Subject: [PATCH 04/22] classes/lib: Update to match python3 iter requirements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,523 +37,231 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jun 2016 12:35:58 -0000
+X-List-Received-Date: Wed, 01 Jun 2016 12:35:59 -0000
 
-Iterators now return views, not lists in python3. Where we need
-lists, handle this explicitly.
+python3 standardises its use of iteration operations. Update
+the code to match the for python3 requires.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/buildhistory.bbclass |  2 +-
- meta/classes/license.bbclass      |  2 +-
- meta/classes/package.bbclass      |  4 +--
- meta/lib/oe/classutils.py         |  2 +-
- meta/lib/oe/copy_buildsystem.py   |  2 +-
- meta/lib/oe/distro_check.py       |  4 +--
- meta/lib/oe/license.py            | 10 +++----
- meta/lib/oe/manifest.py           |  4 +--
- meta/lib/oe/package_manager.py    |  6 ++---
- meta/lib/oe/packagedata.py        |  2 +-
- meta/lib/oe/packagegroup.py       |  4 +--
- meta/lib/oe/prservice.py          |  4 +--
- meta/lib/oe/recipeutils.py        |  6 ++---
- meta/lib/oe/rootfs.py             |  4 +--
- meta/lib/oe/sstatesig.py          |  2 +-
- meta/lib/oe/utils.py              |  6 ++---
- meta/lib/oeqa/selftest/pkgdata.py | 56 +++++++++++++++++++--------------------
- meta/lib/oeqa/utils/qemurunner.py |  2 +-
- scripts/lib/devtool/standard.py   | 12 ++++-----
- scripts/oe-selftest               |  2 +-
- 20 files changed, 68 insertions(+), 68 deletions(-)
+ meta/classes/buildhistory.bbclass     | 2 +-
+ meta/classes/license.bbclass          | 4 ++--
+ meta/classes/populate_sdk_ext.bbclass | 4 ++--
+ meta/lib/oe/buildhistory_analysis.py  | 4 ++--
+ meta/lib/oe/copy_buildsystem.py       | 2 +-
+ meta/lib/oe/data.py                   | 2 +-
+ meta/lib/oe/recipeutils.py            | 8 ++++----
+ meta/lib/oe/sstatesig.py              | 2 +-
+ meta/lib/oeqa/selftest/devtool.py     | 2 +-
+ meta/lib/oeqa/selftest/sstatetests.py | 4 ++--
+ meta/lib/oeqa/utils/decorators.py     | 2 +-
+ 11 files changed, 18 insertions(+), 18 deletions(-)
 
 diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index cc233b5..1ccd9ee 100644
+index e3b5c44..cc233b5 100644
 --- a/meta/classes/buildhistory.bbclass
 +++ b/meta/classes/buildhistory.bbclass
-@@ -274,7 +274,7 @@ python buildhistory_emit_pkghistory() {
-         # Gather information about packaged files
-         val = pkgdata.get('FILES_INFO', '')
-         dictval = json.loads(val)
--        filelist = dictval.keys()
-+        filelist = list(dictval.keys())
-         filelist.sort()
-         pkginfo.filelist = " ".join(filelist)
- 
+@@ -838,7 +838,7 @@ python write_srcrev() {
+                         f.write('# SRCREV_%s = "%s"\n' % (name, orig_srcrev))
+                     f.write('SRCREV_%s = "%s"\n' % (name, srcrev))
+             else:
+-                f.write('SRCREV = "%s"\n' % srcrevs.itervalues().next())
++                f.write('SRCREV = "%s"\n' % srcrevs.values())
+             if len(tag_srcrevs) > 0:
+                 for name, srcrev in tag_srcrevs.items():
+                     f.write('# tag_%s = "%s"\n' % (name, srcrev))
 diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index 538ab19..10d6ed8 100644
+index 69335d6..538ab19 100644
 --- a/meta/classes/license.bbclass
 +++ b/meta/classes/license.bbclass
-@@ -635,7 +635,7 @@ def check_license_format(d):
-     licenses = d.getVar('LICENSE', True)
-     from oe.license import license_operator, license_operator_chars, license_pattern
+@@ -200,7 +200,7 @@ def get_deployed_dependencies(d):
+     # it might contain the bootloader.
+     taskdata = d.getVar("BB_TASKDEPDATA", False)
+     depends = list(set([dep[0] for dep
+-                    in taskdata.itervalues()
++                    in list(taskdata.values())
+                     if not dep[0].endswith("-native")]))
+     extra_depends = d.getVar("EXTRA_IMAGEDEPENDS", True)
+     boot_depends = get_boot_dependencies(d)
+@@ -261,7 +261,7 @@ def get_boot_dependencies(d):
+             depends.append(dep)
+         # We need to search for the provider of the dependency
+         else:
+-            for taskdep in taskdepdata.itervalues():
++            for taskdep in taskdepdata.values():
+                 # The fifth field contains what the task provides
+                 if dep in taskdep[4]:
+                     info_file = os.path.join(
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index 4c3a038..a9c6fe5 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -45,7 +45,7 @@ def get_sdk_install_targets(d):
+         sdk_install_targets = d.getVar('SDK_TARGETS', True)
  
--    elements = filter(lambda x: x.strip(), license_operator.split(licenses))
-+    elements = list(filter(lambda x: x.strip(), license_operator.split(licenses)))
-     for pos, element in enumerate(elements):
-         if license_pattern.match(element):
-             if pos > 0 and license_pattern.match(elements[pos - 1]):
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 501004e..c9e2aa8 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1504,7 +1504,7 @@ python package_do_shlibs() {
-             m = re.match("\s+RPATH\s+([^\s]*)", l)
-             if m:
-                 rpaths = m.group(1).replace("$ORIGIN", ldir).split(":")
--                rpath = map(os.path.normpath, rpaths)
-+                rpath = list(map(os.path.normpath, rpaths))
-         for l in lines:
-             m = re.match("\s+NEEDED\s+([^\s]*)", l)
-             if m:
-@@ -1674,7 +1674,7 @@ python package_do_shlibs() {
-                 bb.debug(2, '%s: Dependency %s covered by PRIVATE_LIBS' % (pkg, n[0]))
-                 continue
-             if n[0] in shlib_provider.keys():
--                shlib_provider_path = list()
-+                shlib_provider_path = []
-                 for k in shlib_provider[n[0]].keys():
-                     shlib_provider_path.append(k)
-                 match = None
-diff --git a/meta/lib/oe/classutils.py b/meta/lib/oe/classutils.py
-index 58188fd..98bb059 100644
---- a/meta/lib/oe/classutils.py
-+++ b/meta/lib/oe/classutils.py
-@@ -34,7 +34,7 @@ abstract base classes out of the registry)."""
+         depd = d.getVar('BB_TASKDEPDATA', False)
+-        for v in depd.itervalues():
++        for v in depd.values():
+             if v[1] == 'do_image_complete':
+                 if v[0] not in sdk_install_targets:
+                     sdk_install_targets += ' {}'.format(v[0])
+@@ -267,7 +267,7 @@ python copy_buildsystem () {
+     # Ensure any variables set from the external environment (by way of
+     # BB_ENV_EXTRAWHITE) are set in the SDK's configuration
+     extralines = []
+-    for name, value in env_whitelist_values.iteritems():
++    for name, value in env_whitelist_values.items():
+         actualvalue = d.getVar(name, True) or ''
+         if value != actualvalue:
+             extralines.append('%s = "%s"\n' % (name, actualvalue))
+diff --git a/meta/lib/oe/buildhistory_analysis.py b/meta/lib/oe/buildhistory_analysis.py
+index 5395c76..0dcd49f 100644
+--- a/meta/lib/oe/buildhistory_analysis.py
++++ b/meta/lib/oe/buildhistory_analysis.py
+@@ -62,7 +62,7 @@ class ChangeRecord:
  
-     @classmethod
-     def prioritized(tcls):
--        return sorted(tcls.registry.values(),
-+        return sorted(list(tcls.registry.values()),
-                       key=lambda v: v.priority, reverse=True)
- 
-     def unregister(cls):
+         def pkglist_combine(depver):
+             pkglist = []
+-            for k,v in depver.iteritems():
++            for k,v in depver.items():
+                 if v:
+                     pkglist.append("%s (%s)" % (k,v))
+                 else:
+@@ -220,7 +220,7 @@ def compare_file_lists(alines, blines):
+     adict = file_list_to_dict(alines)
+     bdict = file_list_to_dict(blines)
+     filechanges = []
+-    for path, splitv in adict.iteritems():
++    for path, splitv in adict.items():
+         newsplitv = bdict.pop(path, None)
+         if newsplitv:
+             # Check type
 diff --git a/meta/lib/oe/copy_buildsystem.py b/meta/lib/oe/copy_buildsystem.py
-index 0589b7f..eddf5bb 100644
+index 7b9a0ee..0589b7f 100644
 --- a/meta/lib/oe/copy_buildsystem.py
 +++ b/meta/lib/oe/copy_buildsystem.py
-@@ -195,7 +195,7 @@ def merge_lockedsigs(copy_tasks, lockedsigs_main, lockedsigs_extra, merged_outpu
-                     fulltypes.append(typename)
-             f.write('SIGGEN_LOCKEDSIGS_TYPES = "%s"\n' % ' '.join(fulltypes))
+@@ -124,7 +124,7 @@ class BuildSystem(object):
+ def generate_locked_sigs(sigfile, d):
+     bb.utils.mkdirhier(os.path.dirname(sigfile))
+     depd = d.getVar('BB_TASKDEPDATA', False)
+-    tasks = ['%s.%s' % (v[2], v[1]) for v in depd.itervalues()]
++    tasks = ['%s.%s' % (v[2], v[1]) for v in depd.values()]
+     bb.parse.siggen.dump_lockedsigs(sigfile, tasks)
  
--    write_sigs_file(copy_output, tocopy.keys(), tocopy)
-+    write_sigs_file(copy_output, list(tocopy.keys()), tocopy)
-     if merged_output:
-         write_sigs_file(merged_output, arch_order, merged)
- 
-diff --git a/meta/lib/oe/distro_check.py b/meta/lib/oe/distro_check.py
-index 8655a6f..ba1bba6 100644
---- a/meta/lib/oe/distro_check.py
-+++ b/meta/lib/oe/distro_check.py
-@@ -104,8 +104,8 @@ def get_source_package_list_from_url(url, section, d):
- 
-     bb.note("Reading %s: %s" % (url, section))
-     links = get_links_from_url(url, d)
--    srpms = filter(is_src_rpm, links)
--    names_list = map(package_name_from_srpm, srpms)
-+    srpms = list(filter(is_src_rpm, links))
-+    names_list = list(map(package_name_from_srpm, srpms))
- 
-     new_pkgs = []
-     for pkgs in names_list:
-diff --git a/meta/lib/oe/license.py b/meta/lib/oe/license.py
-index f0f661c..39ef965 100644
---- a/meta/lib/oe/license.py
-+++ b/meta/lib/oe/license.py
-@@ -47,7 +47,7 @@ class LicenseVisitor(ast.NodeVisitor):
-     """Get elements based on OpenEmbedded license strings"""
-     def get_elements(self, licensestr):
-         new_elements = []
--        elements = filter(lambda x: x.strip(), license_operator.split(licensestr))
-+        elements = list([x for x in license_operator.split(licensestr) if x.strip()])
-         for pos, element in enumerate(elements):
-             if license_pattern.match(element):
-                 if pos > 0 and license_pattern.match(elements[pos-1]):
-@@ -118,8 +118,8 @@ def is_included(licensestr, whitelist=None, blacklist=None):
-     def choose_licenses(alpha, beta):
-         """Select the option in an OR which is the 'best' (has the most
-         included licenses)."""
--        alpha_weight = len(filter(include_license, alpha))
--        beta_weight = len(filter(include_license, beta))
-+        alpha_weight = len(list(filter(include_license, alpha)))
-+        beta_weight = len(list(filter(include_license, beta)))
-         if alpha_weight > beta_weight:
-             return alpha
-         else:
-@@ -132,8 +132,8 @@ def is_included(licensestr, whitelist=None, blacklist=None):
-         blacklist = []
- 
-     licenses = flattened_licenses(licensestr, choose_licenses)
--    excluded = filter(lambda lic: exclude_license(lic), licenses)
--    included = filter(lambda lic: include_license(lic), licenses)
-+    excluded = [lic for lic in licenses if exclude_license(lic)]
-+    included = [lic for lic in licenses if include_license(lic)]
-     if excluded:
-         return False, excluded
+ def prune_lockedsigs(excluded_tasks, excluded_targets, lockedsigs, pruned_output):
+diff --git a/meta/lib/oe/data.py b/meta/lib/oe/data.py
+index 23a9067..ee48950 100644
+--- a/meta/lib/oe/data.py
++++ b/meta/lib/oe/data.py
+@@ -7,7 +7,7 @@ def typed_value(key, d):
+     flags = d.getVarFlags(key)
+     if flags is not None:
+         flags = dict((flag, d.expand(value))
+-                     for flag, value in flags.iteritems())
++                     for flag, value in list(flags.items()))
      else:
-diff --git a/meta/lib/oe/manifest.py b/meta/lib/oe/manifest.py
-index 42832f1..ec2ef50 100644
---- a/meta/lib/oe/manifest.py
-+++ b/meta/lib/oe/manifest.py
-@@ -219,7 +219,7 @@ class RpmManifest(Manifest):
-                 if var in self.vars_to_split:
-                     split_pkgs = self._split_multilib(self.d.getVar(var, True))
-                     if split_pkgs is not None:
--                        pkgs = dict(pkgs.items() + split_pkgs.items())
-+                        pkgs = dict(list(pkgs.items()) + list(split_pkgs.items()))
-                 else:
-                     pkg_list = self.d.getVar(var, True)
-                     if pkg_list is not None:
-@@ -269,7 +269,7 @@ class OpkgManifest(Manifest):
-                 if var in self.vars_to_split:
-                     split_pkgs = self._split_multilib(self.d.getVar(var, True))
-                     if split_pkgs is not None:
--                        pkgs = dict(pkgs.items() + split_pkgs.items())
-+                        pkgs = dict(list(pkgs.items()) + list(split_pkgs.items()))
-                 else:
-                     pkg_list = self.d.getVar(var, True)
-                     if pkg_list is not None:
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index abe9f68..54e6970 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -643,8 +643,8 @@ class PackageManager(object):
-     def construct_uris(self, uris, base_paths):
-         def _append(arr1, arr2, sep='/'):
-             res = []
--            narr1 = map(lambda a: string.rstrip(a, sep), arr1)
--            narr2 = map(lambda a: string.lstrip(string.rstrip(a, sep), sep), arr2)
-+            narr1 = [string.rstrip(a, sep) for a in arr1]
-+            narr2 = [string.lstrip(string.rstrip(a, sep), sep) for a in arr2]
-             for a1 in narr1:
-                 if arr2:
-                     for a2 in narr2:
-@@ -1111,7 +1111,7 @@ class RpmPM(PackageManager):
-             sub_rdep = sub_data.get("RDEPENDS_" + pkg)
-             if not sub_rdep:
-                 continue
--            done = bb.utils.explode_dep_versions2(sub_rdep).keys()
-+            done = list(bb.utils.explode_dep_versions2(sub_rdep).keys())
-             next = done
-             # Find all the rdepends on dependency chain
-             while next:
-diff --git a/meta/lib/oe/packagedata.py b/meta/lib/oe/packagedata.py
-index df1b4c5..21d4de9 100644
---- a/meta/lib/oe/packagedata.py
-+++ b/meta/lib/oe/packagedata.py
-@@ -66,7 +66,7 @@ def _pkgmap(d):
-         bb.warn("No files in %s?" % pkgdatadir)
-         files = []
+         flags = {}
  
--    for pn in filter(lambda f: not os.path.isdir(os.path.join(pkgdatadir, f)), files):
-+    for pn in [f for f in files if not os.path.isdir(os.path.join(pkgdatadir, f))]:
-         try:
-             pkgdata = read_pkgdatafile(os.path.join(pkgdatadir, pn))
-         except OSError:
-diff --git a/meta/lib/oe/packagegroup.py b/meta/lib/oe/packagegroup.py
-index a6fee5f..9781927 100644
---- a/meta/lib/oe/packagegroup.py
-+++ b/meta/lib/oe/packagegroup.py
-@@ -16,11 +16,11 @@ def packages(features, d):
-             yield pkg
- 
- def required_packages(features, d):
--    req = filter(lambda feature: not is_optional(feature, d), features)
-+    req = [feature for feature in features if not is_optional(feature, d)]
-     return packages(req, d)
- 
- def optional_packages(features, d):
--    opt = filter(lambda feature: is_optional(feature, d), features)
-+    opt = [feature for feature in features if is_optional(feature, d)]
-     return packages(opt, d)
- 
- def active_packages(features, d):
-diff --git a/meta/lib/oe/prservice.py b/meta/lib/oe/prservice.py
-index 9e5a0c9..0054f95 100644
---- a/meta/lib/oe/prservice.py
-+++ b/meta/lib/oe/prservice.py
-@@ -1,7 +1,7 @@
- 
- def prserv_make_conn(d, check = False):
-     import prserv.serv
--    host_params = filter(None, (d.getVar("PRSERV_HOST", True) or '').split(':'))
-+    host_params = list([_f for _f in (d.getVar("PRSERV_HOST", True) or '').split(':') if _f])
-     try:
-         conn = None
-         conn = prserv.serv.PRServerConnection(host_params[0], int(host_params[1]))
-@@ -114,7 +114,7 @@ def prserv_export_tofile(d, metainfo, datainfo, lockdown, nomax=False):
-     bb.utils.unlockfile(lf)
- 
- def prserv_check_avail(d):
--    host_params = filter(None, (d.getVar("PRSERV_HOST", True) or '').split(':'))
-+    host_params = list([_f for _f in (d.getVar("PRSERV_HOST", True) or '').split(':') if _f])
-     try:
-         if len(host_params) != 2:
-             raise TypeError
 diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py
-index b437720..146fe83 100644
+index 3e17873..b437720 100644
 --- a/meta/lib/oe/recipeutils.py
 +++ b/meta/lib/oe/recipeutils.py
-@@ -692,7 +692,7 @@ def bbappend_recipe(rd, destlayerdir, srcfiles, install=None, wildcardver=False,
- 
-         varnames = [item[0] for item in bbappendlines]
-         if removevalues:
--            varnames.extend(removevalues.keys())
-+            varnames.extend(list(removevalues.keys()))
- 
-         with open(appendpath, 'r') as f:
-             (updated, newlines) = bb.utils.edit_metadata(f, varnames, appendfile_varfunc)
-@@ -743,12 +743,12 @@ def replace_dir_vars(path, d):
-     """Replace common directory paths with appropriate variable references (e.g. /etc becomes ${sysconfdir})"""
-     dirvars = {}
-     # Sort by length so we get the variables we're interested in first
--    for var in sorted(d.keys(), key=len):
-+    for var in sorted(list(d.keys()), key=len):
-         if var.endswith('dir') and var.lower() == var:
-             value = d.getVar(var, True)
-             if value.startswith('/') and not '\n' in value and value not in dirvars:
-                 dirvars[value] = var
--    for dirpath in sorted(dirvars.keys(), reverse=True):
-+    for dirpath in sorted(list(dirvars.keys()), reverse=True):
-         path = path.replace(dirpath, '${%s}' % dirvars[dirpath])
-     return path
- 
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index 7087b12..d934858 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -536,7 +536,7 @@ class DpkgOpkgRootfs(Rootfs):
-                     pkg_depends = m_depends.group(1)
- 
-         # remove package dependencies not in postinsts
--        pkg_names = pkgs.keys()
-+        pkg_names = list(pkgs.keys())
-         for pkg_name in pkg_names:
-             deps = pkgs[pkg_name][:]
- 
-@@ -569,7 +569,7 @@ class DpkgOpkgRootfs(Rootfs):
-             pkgs = self._get_pkgs_postinsts(status_file)
-         if pkgs:
-             root = "__packagegroup_postinst__"
--            pkgs[root] = pkgs.keys()
-+            pkgs[root] = list(pkgs.keys())
-             _dep_resolve(pkgs, root, pkg_list, [])
-             pkg_list.remove(root)
- 
+@@ -336,7 +336,7 @@ def patch_recipe(d, fn, varvalues, patch=False, relpath=''):
+     varfiles = get_var_files(fn, varlist, d)
+     locs = localise_file_vars(fn, varfiles, varlist)
+     patches = []
+-    for f,v in locs.iteritems():
++    for f,v in locs.items():
+         vals = {k: varvalues[k] for k in v}
+         patchdata = patch_recipe_file(f, vals, patch, relpath)
+         if patch:
+@@ -554,7 +554,7 @@ def bbappend_recipe(rd, destlayerdir, srcfiles, install=None, wildcardver=False,
+     bbappendlines = []
+     if extralines:
+         if isinstance(extralines, dict):
+-            for name, value in extralines.iteritems():
++            for name, value in extralines.items():
+                 bbappendlines.append((name, '=', value))
+         else:
+             # Do our best to split it
+@@ -594,7 +594,7 @@ def bbappend_recipe(rd, destlayerdir, srcfiles, install=None, wildcardver=False,
+     copyfiles = {}
+     if srcfiles:
+         instfunclines = []
+-        for newfile, origsrcfile in srcfiles.iteritems():
++        for newfile, origsrcfile in srcfiles.items():
+             srcfile = origsrcfile
+             srcurientry = None
+             if not srcfile:
+@@ -717,7 +717,7 @@ def bbappend_recipe(rd, destlayerdir, srcfiles, install=None, wildcardver=False,
+     if copyfiles:
+         if machine:
+             destsubdir = os.path.join(destsubdir, machine)
+-        for newfile, srcfile in copyfiles.iteritems():
++        for newfile, srcfile in copyfiles.items():
+             filedest = os.path.join(appenddir, destsubdir, os.path.basename(srcfile))
+             if os.path.abspath(newfile) != os.path.abspath(filedest):
+                 bb.note('Copying %s to %s' % (newfile, filedest))
 diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index 500122d..a58f03a 100644
+index 01dce66..500122d 100644
 --- a/meta/lib/oe/sstatesig.py
 +++ b/meta/lib/oe/sstatesig.py
-@@ -210,7 +210,7 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
-                         continue
-                     f.write("    " + self.lockedpnmap[fn] + ":" + task + ":" + self.taskhash[k] + " \\\n")
-                 f.write('    "\n')
--            f.write('SIGGEN_LOCKEDSIGS_TYPES_%s = "%s"' % (self.machine, " ".join(types.keys())))
-+            f.write('SIGGEN_LOCKEDSIGS_TYPES_%s = "%s"' % (self.machine, " ".join(list(types.keys()))))
+@@ -220,7 +220,7 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
+         for task in range(len(sq_fn)):
+             if task not in ret:
+                 for pn in self.lockedsigs:
+-                    if sq_hash[task] in self.lockedsigs[pn].itervalues():
++                    if sq_hash[task] in iter(self.lockedsigs[pn].values()):
+                         if sq_task[task] == 'do_shared_workdir':
+                             continue
+                         sstate_missing_msgs.append("Locked sig is set for %s:%s (%s) yet not in sstate cache?"
+diff --git a/meta/lib/oeqa/selftest/devtool.py b/meta/lib/oeqa/selftest/devtool.py
+index b64f9b3..6d2417e 100644
+--- a/meta/lib/oeqa/selftest/devtool.py
++++ b/meta/lib/oeqa/selftest/devtool.py
+@@ -50,7 +50,7 @@ class DevtoolBase(oeSelfTest):
  
-     def checkhashes(self, missed, ret, sq_fn, sq_task, sq_hash, sq_hashfn, d):
-         warn_msgs = []
-diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-index 32d6179..1bbdbb4 100644
---- a/meta/lib/oe/utils.py
-+++ b/meta/lib/oe/utils.py
-@@ -85,11 +85,11 @@ def prune_suffix(var, suffixes, d):
  
- def str_filter(f, str, d):
-     from re import match
--    return " ".join(filter(lambda x: match(f, x, 0), str.split()))
-+    return " ".join([x for x in str.split() if match(f, x, 0)])
+         missingvars = {}
+-        for var, value in checkvars.iteritems():
++        for var, value in checkvars.items():
+             if value is not None:
+                 missingvars[var] = value
+         self.assertEqual(missingvars, {}, 'Some expected variables not found in recipe: %s' % checkvars)
+diff --git a/meta/lib/oeqa/selftest/sstatetests.py b/meta/lib/oeqa/selftest/sstatetests.py
+index a1e5d33..cc64c6c 100644
+--- a/meta/lib/oeqa/selftest/sstatetests.py
++++ b/meta/lib/oeqa/selftest/sstatetests.py
+@@ -445,14 +445,14 @@ http_proxy = "http://example.com/"
+         files1 = get_files(topdir + "/tmp-sstatesamehash/stamps/")
+         files2 = get_files(topdir + "/tmp-sstatesamehash2/stamps/")
+         # Remove items that are identical in both sets
+-        for k,v in files1.viewitems() & files2.viewitems():
++        for k,v in files1.items() & files2.items():
+             del files1[k]
+             del files2[k]
+         if not files1 and not files2:
+             # No changes, so we're done
+             return
  
- def str_filter_out(f, str, d):
-     from re import match
--    return " ".join(filter(lambda x: not match(f, x, 0), str.split()))
-+    return " ".join([x for x in str.split() if not match(f, x, 0)])
- 
- def param_bool(cfg, field, dflt = None):
-     """Lookup <field> in <cfg> map and convert it to a boolean; take
-@@ -134,7 +134,7 @@ def packages_filter_out_system(d):
-     PN-dbg PN-doc PN-locale-eb-gb removed.
-     """
-     pn = d.getVar('PN', True)
--    blacklist = map(lambda suffix: pn + suffix, ('', '-dbg', '-dev', '-doc', '-locale', '-staticdev'))
-+    blacklist = [pn + suffix for suffix in ('', '-dbg', '-dev', '-doc', '-locale', '-staticdev')]
-     localepkg = pn + "-locale-"
-     pkgs = []
- 
-diff --git a/meta/lib/oeqa/selftest/pkgdata.py b/meta/lib/oeqa/selftest/pkgdata.py
-index 138b03a..5a63f89 100644
---- a/meta/lib/oeqa/selftest/pkgdata.py
-+++ b/meta/lib/oeqa/selftest/pkgdata.py
-@@ -131,15 +131,15 @@ class OePkgdataUtilTests(oeSelfTest):
-         # Test recipe-space package name
-         result = runCmd('oe-pkgdata-util list-pkg-files zlib-dev zlib-doc')
-         files = splitoutput(result.output)
--        self.assertIn('zlib-dev', files.keys(), "listed pkgs. files: %s" %result.output)
--        self.assertIn('zlib-doc', files.keys(), "listed pkgs. files: %s" %result.output)
-+        self.assertIn('zlib-dev', list(files.keys()), "listed pkgs. files: %s" %result.output)
-+        self.assertIn('zlib-doc', list(files.keys()), "listed pkgs. files: %s" %result.output)
-         self.assertIn(os.path.join(includedir, 'zlib.h'), files['zlib-dev'])
-         self.assertIn(os.path.join(mandir, 'man3/zlib.3'), files['zlib-doc'])
-         # Test runtime package name
-         result = runCmd('oe-pkgdata-util list-pkg-files -r libz1 libz-dev')
-         files = splitoutput(result.output)
--        self.assertIn('libz1', files.keys(), "listed pkgs. files: %s" %result.output)
--        self.assertIn('libz-dev', files.keys(), "listed pkgs. files: %s" %result.output)
-+        self.assertIn('libz1', list(files.keys()), "listed pkgs. files: %s" %result.output)
-+        self.assertIn('libz-dev', list(files.keys()), "listed pkgs. files: %s" %result.output)
-         self.assertGreater(len(files['libz1']), 1)
-         libspec = os.path.join(base_libdir, 'libz.so.1.*')
-         found = False
-@@ -152,12 +152,12 @@ class OePkgdataUtilTests(oeSelfTest):
-         # Test recipe
-         result = runCmd('oe-pkgdata-util list-pkg-files -p zlib')
-         files = splitoutput(result.output)
--        self.assertIn('zlib-dbg', files.keys(), "listed pkgs. files: %s" %result.output)
--        self.assertIn('zlib-doc', files.keys(), "listed pkgs. files: %s" %result.output)
--        self.assertIn('zlib-dev', files.keys(), "listed pkgs. files: %s" %result.output)
--        self.assertIn('zlib-staticdev', files.keys(), "listed pkgs. files: %s" %result.output)
--        self.assertIn('zlib', files.keys(), "listed pkgs. files: %s" %result.output)
--        self.assertNotIn('zlib-locale', files.keys(), "listed pkgs. files: %s" %result.output)
-+        self.assertIn('zlib-dbg', list(files.keys()), "listed pkgs. files: %s" %result.output)
-+        self.assertIn('zlib-doc', list(files.keys()), "listed pkgs. files: %s" %result.output)
-+        self.assertIn('zlib-dev', list(files.keys()), "listed pkgs. files: %s" %result.output)
-+        self.assertIn('zlib-staticdev', list(files.keys()), "listed pkgs. files: %s" %result.output)
-+        self.assertIn('zlib', list(files.keys()), "listed pkgs. files: %s" %result.output)
-+        self.assertNotIn('zlib-locale', list(files.keys()), "listed pkgs. files: %s" %result.output)
-         # (ignore ptest, might not be there depending on config)
-         self.assertIn(os.path.join(includedir, 'zlib.h'), files['zlib-dev'])
-         self.assertIn(os.path.join(mandir, 'man3/zlib.3'), files['zlib-doc'])
-@@ -165,36 +165,36 @@ class OePkgdataUtilTests(oeSelfTest):
-         # Test recipe, runtime
-         result = runCmd('oe-pkgdata-util list-pkg-files -p zlib -r')
-         files = splitoutput(result.output)
--        self.assertIn('libz-dbg', files.keys(), "listed pkgs. files: %s" %result.output)
--        self.assertIn('libz-doc', files.keys(), "listed pkgs. files: %s" %result.output)
--        self.assertIn('libz-dev', files.keys(), "listed pkgs. files: %s" %result.output)
--        self.assertIn('libz-staticdev', files.keys(), "listed pkgs. files: %s" %result.output)
--        self.assertIn('libz1', files.keys(), "listed pkgs. files: %s" %result.output)
--        self.assertNotIn('libz-locale', files.keys(), "listed pkgs. files: %s" %result.output)
-+        self.assertIn('libz-dbg', list(files.keys()), "listed pkgs. files: %s" %result.output)
-+        self.assertIn('libz-doc', list(files.keys()), "listed pkgs. files: %s" %result.output)
-+        self.assertIn('libz-dev', list(files.keys()), "listed pkgs. files: %s" %result.output)
-+        self.assertIn('libz-staticdev', list(files.keys()), "listed pkgs. files: %s" %result.output)
-+        self.assertIn('libz1', list(files.keys()), "listed pkgs. files: %s" %result.output)
-+        self.assertNotIn('libz-locale', list(files.keys()), "listed pkgs. files: %s" %result.output)
-         self.assertIn(os.path.join(includedir, 'zlib.h'), files['libz-dev'])
-         self.assertIn(os.path.join(mandir, 'man3/zlib.3'), files['libz-doc'])
-         self.assertIn(os.path.join(libdir, 'libz.a'), files['libz-staticdev'])
-         # Test recipe, unpackaged
-         result = runCmd('oe-pkgdata-util list-pkg-files -p zlib -u')
-         files = splitoutput(result.output)
--        self.assertIn('zlib-dbg', files.keys(), "listed pkgs. files: %s" %result.output)
--        self.assertIn('zlib-doc', files.keys(), "listed pkgs. files: %s" %result.output)
--        self.assertIn('zlib-dev', files.keys(), "listed pkgs. files: %s" %result.output)
--        self.assertIn('zlib-staticdev', files.keys(), "listed pkgs. files: %s" %result.output)
--        self.assertIn('zlib', files.keys(), "listed pkgs. files: %s" %result.output)
--        self.assertIn('zlib-locale', files.keys(), "listed pkgs. files: %s" %result.output) # this is the key one
-+        self.assertIn('zlib-dbg', list(files.keys()), "listed pkgs. files: %s" %result.output)
-+        self.assertIn('zlib-doc', list(files.keys()), "listed pkgs. files: %s" %result.output)
-+        self.assertIn('zlib-dev', list(files.keys()), "listed pkgs. files: %s" %result.output)
-+        self.assertIn('zlib-staticdev', list(files.keys()), "listed pkgs. files: %s" %result.output)
-+        self.assertIn('zlib', list(files.keys()), "listed pkgs. files: %s" %result.output)
-+        self.assertIn('zlib-locale', list(files.keys()), "listed pkgs. files: %s" %result.output) # this is the key one
-         self.assertIn(os.path.join(includedir, 'zlib.h'), files['zlib-dev'])
-         self.assertIn(os.path.join(mandir, 'man3/zlib.3'), files['zlib-doc'])
-         self.assertIn(os.path.join(libdir, 'libz.a'), files['zlib-staticdev'])
-         # Test recipe, runtime, unpackaged
-         result = runCmd('oe-pkgdata-util list-pkg-files -p zlib -r -u')
-         files = splitoutput(result.output)
--        self.assertIn('libz-dbg', files.keys(), "listed pkgs. files: %s" %result.output)
--        self.assertIn('libz-doc', files.keys(), "listed pkgs. files: %s" %result.output)
--        self.assertIn('libz-dev', files.keys(), "listed pkgs. files: %s" %result.output)
--        self.assertIn('libz-staticdev', files.keys(), "listed pkgs. files: %s" %result.output)
--        self.assertIn('libz1', files.keys(), "listed pkgs. files: %s" %result.output)
--        self.assertIn('libz-locale', files.keys(), "listed pkgs. files: %s" %result.output) # this is the key one
-+        self.assertIn('libz-dbg', list(files.keys()), "listed pkgs. files: %s" %result.output)
-+        self.assertIn('libz-doc', list(files.keys()), "listed pkgs. files: %s" %result.output)
-+        self.assertIn('libz-dev', list(files.keys()), "listed pkgs. files: %s" %result.output)
-+        self.assertIn('libz-staticdev', list(files.keys()), "listed pkgs. files: %s" %result.output)
-+        self.assertIn('libz1', list(files.keys()), "listed pkgs. files: %s" %result.output)
-+        self.assertIn('libz-locale', list(files.keys()), "listed pkgs. files: %s" %result.output) # this is the key one
-         self.assertIn(os.path.join(includedir, 'zlib.h'), files['libz-dev'])
-         self.assertIn(os.path.join(mandir, 'man3/zlib.3'), files['libz-doc'])
-         self.assertIn(os.path.join(libdir, 'libz.a'), files['libz-staticdev'])
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index f51de99..c1d07d9 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -22,7 +22,7 @@ import logging
- logger = logging.getLogger("BitBake.QemuRunner")
- 
- # Get Unicode non printable control chars
--control_range = range(0,32)+range(127,160)
-+control_range = list(range(0,32))+list(range(127,160))
- control_chars = [unichr(x) for x in control_range
-                 if unichr(x) not in string.printable]
- re_control_char = re.compile('[%s]' % re.escape("".join(control_chars)))
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 3be3214..18847cf 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -321,7 +321,7 @@ def _git_exclude_path(srctree, path):
-     # becomes greater than that.
-     path = os.path.normpath(path)
-     recurse = True if len(path.split(os.path.sep)) > 1 else False
--    git_files = _git_ls_tree(srctree, 'HEAD', recurse).keys()
-+    git_files = list(_git_ls_tree(srctree, 'HEAD', recurse).keys())
-     if path in git_files:
-         git_files.remove(path)
-         return git_files
-@@ -1073,14 +1073,14 @@ def _update_recipe_srcrev(args, srctree, rd, config_data):
-                                                   patches_dir)
- 
-             # Remove deleted local files and "overlapping" patches
--            remove_files = del_f.values() + upd_p.values()
-+            remove_files = list(del_f.values()) + list(upd_p.values())
-             if remove_files:
-                 removedentries = _remove_file_entries(srcuri, remove_files)[0]
-                 update_srcuri = True
- 
-         if args.append:
-             files = dict((os.path.join(local_files_dir, key), val) for
--                          key, val in upd_f.items() + new_f.items())
-+                          key, val in list(upd_f.items()) + list(new_f.items()))
-             removevalues = {}
-             if update_srcuri:
-                 removevalues  = {'SRC_URI': removedentries}
-@@ -1142,7 +1142,7 @@ def _update_recipe_patch(args, config, workspace, srctree, rd, config_data):
-             upd_p, new_p, del_p = _export_patches(srctree, rd, initial_rev,
-                                                   all_patches_dir)
-             # Remove deleted local files and  patches
--            remove_files = del_f.values() + del_p.values()
-+            remove_files = list(del_f.values()) + list(del_p.values())
- 
-         # Get updated patches from source tree
-         patches_dir = tempfile.mkdtemp(dir=tempdir)
-@@ -1154,9 +1154,9 @@ def _update_recipe_patch(args, config, workspace, srctree, rd, config_data):
-         srcuri = (rd.getVar('SRC_URI', False) or '').split()
-         if args.append:
-             files = dict((os.path.join(local_files_dir, key), val) for
--                         key, val in upd_f.items() + new_f.items())
-+                         key, val in list(upd_f.items()) + list(new_f.items()))
-             files.update(dict((os.path.join(patches_dir, key), val) for
--                              key, val in upd_p.items() + new_p.items()))
-+                              key, val in list(upd_p.items()) + list(new_p.items())))
-             if files or remove_files:
-                 removevalues = None
-                 if remove_files:
-diff --git a/scripts/oe-selftest b/scripts/oe-selftest
-index 00ef51f..db132fd 100755
---- a/scripts/oe-selftest
-+++ b/scripts/oe-selftest
-@@ -211,7 +211,7 @@ def get_tests_from_module(tmod):
-     try:
-         import importlib
-         modlib = importlib.import_module(tmod)
--        for mod in vars(modlib).values():
-+        for mod in list(vars(modlib).values()):
-             if isinstance(mod, type(oeSelfTest)) and issubclass(mod, oeSelfTest) and mod is not oeSelfTest:
-                 for test in dir(mod):
-                     if test.startswith('test_') and hasattr(vars(mod)[test], '__call__'):
+-        for k in files1.viewkeys() | files2.viewkeys():
++        for k in files1.keys() | files2.keys():
+             if k in files1 and k in files2:
+                 print("%s differs:" % k)
+                 print(subprocess.check_output(("bitbake-diffsigs",
+diff --git a/meta/lib/oeqa/utils/decorators.py b/meta/lib/oeqa/utils/decorators.py
+index d52f326..6fb09db 100644
+--- a/meta/lib/oeqa/utils/decorators.py
++++ b/meta/lib/oeqa/utils/decorators.py
+@@ -215,7 +215,7 @@ def tag(*args, **kwargs):
+     def wrap_ob(ob):
+         for name in args:
+             setattr(ob, __tag_prefix + name, True)
+-        for name, value in kwargs.iteritems():
++        for name, value in kwargs.items():
+             setattr(ob, __tag_prefix + name, value)
+         return ob
+     return wrap_ob
 -- 
 2.5.0
 
