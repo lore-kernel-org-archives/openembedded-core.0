@@ -1,60 +1,21 @@
-Return-Path: <anders@chargestorm.se>
-Received: from mail-lf0-f52.google.com (mail-lf0-f52.google.com
-	[209.85.215.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 1443E77168
+Return-Path: <mariano.lopez@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 70EB67320F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Jun 2016 17:57:46 +0000 (UTC)
-Received: by mail-lf0-f52.google.com with SMTP id s64so18198414lfe.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Jun 2016 10:57:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
-	h=date:from:to:subject:message-id:mail-followup-to:references
-	:mime-version:content-disposition:in-reply-to:organization
-	:user-agent; bh=I7Sp/ha9InP9qpwDlwa0YhLhuDNNRowqwSXQRc0DMUs=;
-	b=J/lSjELE+IuJAmUkNsZBqG98XG9GqRwktXmjW4UiDqrP8HtYp1wqCFLMbArou1TizY
-	RqDWs1hlt0G0ouEPG2X/67YAs2TwLXdPbJoQtXjNSxC/GMmnOU7MIq6jCawx1MLm7lQh
-	BuRopFYY4t3Iek/Ukmr0U/kR92cDj5c7vTbXfCMaMD4xfy9/E1k+6Y9wCN9lBu3G2YpW
-	ebf7oudOKXitETjdR8Pn5Qcsx5uD8Mv/64iztKo42hqVtEbtFE8qAADgxjtnlOJaFxet
-	WiC55yG9b4+3iZIIWnYJzzg1oqV4IgoXqCnApMfvT0mZGFSqeMcaHgPPDpeJowZTOcPa
-	R8ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
-	:references:mime-version:content-disposition:in-reply-to
-	:organization:user-agent;
-	bh=I7Sp/ha9InP9qpwDlwa0YhLhuDNNRowqwSXQRc0DMUs=;
-	b=D1b9GAyJFg2ZOemWyCxOLG37WmoZKMlmWMEocpMZgnM6PYY12q8m76xzNgyd23hpSa
-	R0NROpsueWEaiWpeY78eb+7KAb0BJWmMWz95wiqmC4GifpuzsjaprFEY7T3BgiNduLWP
-	8WvpxHdjqx4Ecard5+f50NaVMmhJklpQ0NTj9NiqoeaoL8pA1//Es3J2iv46vdhnBpvs
-	QTtBF+9eiuRDVicZnzaDrUTsfW69wcINvpJGXY7T/8atRZNWxjJQVJbaN+gBaXalXvl0
-	7XnWgNCCbs1ZGCtq5sVMKSkuyVWHbBVxNvdC85NfUlrBrUpaX0IPFkMcoorw6dpnuIQl
-	/WFg==
-X-Gm-Message-State: ALyK8tKv36wHD3Rf5WYHYZMOLUd969rsjIv6L0QVAfM56Ym/IS8XCPEDD9ALnFEMvUVA6g==
-X-Received: by 10.46.5.133 with SMTP id 127mr2184640ljf.8.1464803865190;
-	Wed, 01 Jun 2016 10:57:45 -0700 (PDT)
-Received: from ad.chargestorm.se ([212.214.9.162])
-	by smtp.gmail.com with ESMTPSA id
-	g69sm3672889lji.20.2016.06.01.10.57.43
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 01 Jun 2016 10:57:44 -0700 (PDT)
-Date: Wed, 1 Jun 2016 19:57:42 +0200
-From: Anders Darander <anders@chargestorm.se>
+	Wed,  1 Jun 2016 18:51:40 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP; 01 Jun 2016 11:51:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,402,1459839600"; d="scan'208";a="989084300"
+Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
+	([10.54.69.55])
+	by orsmga002.jf.intel.com with ESMTP; 01 Jun 2016 11:51:41 -0700
+From: mariano.lopez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20160601175742.GA4052@ad.chargestorm.se>
-Mail-Followup-To: openembedded-core@lists.openembedded.org
-References: <1463734861-23862-1-git-send-email-anders@chargestorm.se>
-	<20160601100059.GA2600@jama>
-MIME-Version: 1.0
-In-Reply-To: <20160601100059.GA2600@jama>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.6.0 (2016-04-01)
-Subject: Re: [PATCH] lib/oe/rootfs: Fix DEBUGFS generation, without openssl
+Date: Wed,  1 Jun 2016 10:46:39 +0000
+Message-Id: <cover.1464768925.git.mariano.lopez@linux.intel.com>
+X-Mailer: git-send-email 2.6.6
+Subject: [PATCH 0/5] Enable installation of packages in DUT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,35 +28,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jun 2016 17:57:48 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 01 Jun 2016 18:51:42 -0000
 
-* Martin Jansa <martin.jansa@gmail.com> [160601 12:00]:
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-> On Fri, May 20, 2016 at 11:01:01AM +0200, Anders Darander wrote:
-> > In commit 20ea6d274bb0a9a5addb111f32793de49b907865, debugfs generation
-> > for images using opkg, which included openssl was fixed.
+This series enable the functionality to install packages in the DUT
+during runtime testing. Such packages must had been build previously
+by bitbake and the packages are specified using a JSON file. This
+functionality works with testimage and with testexport.
 
-> > However, that broke the generation of the opkg-based images, that lacks
-> > openssl. The error is a python stack trace, showing that shutil.copytree
-> > tries to copy a non-existing directory.
+This address the concer of adding a task to extract the packages,
+instead the extraction was added to the testimage and testexport
+tasks. 
 
-> > This relates to [YOCTO #9040].
+This also includes the use of an SDK package for systems with
+missing dependencies in the testing system.
 
-> Please merge this to krogoth as well, the first part which causes this
-> issue was already merged as:
+This address several bugs:
+  - 7850
+  - 8694
+  - 8481
 
-It was sent as a cherry-picked commit marked [krogoth] the same day this
-patch went into master.
 
-I've sofar just assumed that it was delayed due to the hard load on the
-autobuilders.
+The following changes since commit 3c42280b8a5cac184311a59589849fec4e215a14:
 
-Cheers,
-Anders
+  sanity: Drop setting C locale (2016-06-01 15:05:47 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib mariano/bug7850v3
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mariano/bug7850v3
+
+Mariano Lopez (5):
+  oetest.py: Add install/uninstall functionality for DUTs
+  testimage.bbclass: Make dependency of cpio when using RPMs
+  testexport-tarball.bb: Add recipe
+  testexport.bbclass: Add support for testexport-tarball
+  testexport.bbclass: Create tarballs for easy release
+
+ meta/classes/testexport.bbclass              | 77 ++++++++++++++++++++++++++--
+ meta/classes/testimage.bbclass               | 20 ++++++++
+ meta/lib/oeqa/oetest.py                      | 74 ++++++++++++++++++++++++++
+ meta/lib/oeqa/runexported.py                 | 35 ++++++++++++-
+ meta/recipes-core/meta/testexport-tarball.bb | 56 ++++++++++++++++++++
+ 5 files changed, 256 insertions(+), 6 deletions(-)
+ create mode 100644 meta/recipes-core/meta/testexport-tarball.bb
 
 -- 
-Anders Darander, Senior System Architect
-ChargeStorm AB / eStorm AB
+2.6.6
+
 
