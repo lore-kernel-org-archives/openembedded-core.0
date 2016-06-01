@@ -1,60 +1,61 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-io0-f196.google.com (mail-io0-f196.google.com
-	[209.85.223.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F5C973257
+Received: from mail-io0-f195.google.com (mail-io0-f195.google.com
+	[209.85.223.195])
+	by mail.openembedded.org (Postfix) with ESMTP id EC3FC766A3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Jun 2016 15:35:35 +0000 (UTC)
-Received: by mail-io0-f196.google.com with SMTP id k19so3640805ioi.2
+	Wed,  1 Jun 2016 15:39:16 +0000 (UTC)
+Received: by mail-io0-f195.google.com with SMTP id p194so3687807iod.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Jun 2016 08:35:36 -0700 (PDT)
+	Wed, 01 Jun 2016 08:39:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:sender:in-reply-to:references:from:date:message-id
 	:subject:to:cc;
-	bh=hdQ0YhHi87HIBjsAWvbhw9r7dUHHnCMwZPAv9zXmKrw=;
-	b=U8rgD34OTwCD9TghID8XjlVb5i3eLYxf3Txe6+J//LAofdFJOi1l2Q3SqMmsutSQhZ
-	DBXBT16R+avsEEiKzp7xQH+SQLIPviCmmDxAvk9fOLflDEw3kEoit3A6RmlagPVOeDbE
-	dMNosDSi2gAaEC41QQbToFGKIqsClKJSrrWcRdgHlA1qIs+5yGCIPKyYmFpCNpIs/BJP
-	AHcEwQ9nA9KOJVWVV0JSVkZKtWHgC5zuRAOKjRFF9pQ7edbyey5BLYEZIkKGLTIpVUpk
-	pfVEorsQrwFkP9nvfSog3A2bQK+qWLhueqGrhjP0oWD1rVp6JiclG5Pxr9Ow0o7G1aJ+
-	iz/Q==
+	bh=HLDWfBSKie08FM0nQu3+yBu2ESujvbU3Ns+0LFWhjM0=;
+	b=k4w8LsUOvbGadSsFNczcwKfmXNfNlpFUtRKcFxyCt8/3VWQbRLvpiEkP7uBeZQfYoD
+	n4YkeBfWuw5RwRNdRnfWtwV+RshnGFtUpRzffrZTO3JbGLyE9mhSvfsx/EGqVlrEkygH
+	y2OXfH1rz3LzH4pIhkZn6NYAztsdc4RcbFt0qtd9PB28aNWmGQURDmLIT89wqsDgByDw
+	FK1OCQE59kMve6q4ErnQkrZLUWj2mdFQl9Vdiqnhc7uH+91Wh+hfoHA5jybQbGJm5kth
+	M2w9fd/NCtc2zzhOuaaZUKI0E78OVbA9c2QE4Ublo5P4hkixTjgD1gDsMq63n6+OLpaC
+	/DBQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=kergoth-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:sender:in-reply-to:references:from:date:message-id
 	:subject:to:cc;
-	bh=hdQ0YhHi87HIBjsAWvbhw9r7dUHHnCMwZPAv9zXmKrw=;
-	b=0qjfvwy4rM/TekIIhTmcbFXm2DCJ0O3KGGshD1qqZ9EDxJF1x/hk/+RBXVUujtBTn0
-	5KwROV/Dvh4hF8+i5RAD8tBQcc8vE22zWi0qPAkB8GdDVbs6+7mrvPX7Dcbd5Aq2QxxD
-	8UQA9Q5S1aWc7jKNLNaxt1yuWKWJaqgjBbX9Vsnk1ejnVW/oSibJ2pHf2ks8N0KNHKGD
-	e3Zh3Jjxig4qLJDw3A2wSBii3cUdG6hZZX80SED7KuicZyEnwllbRBksT5lANWbPAjM7
-	SldtWQJ5sancPhQA3bllVwyeh5o2gEQJq8CqwPGqWwoX7IR927PuGvKRC+l/k+vLYsyU
-	nU4A==
+	bh=HLDWfBSKie08FM0nQu3+yBu2ESujvbU3Ns+0LFWhjM0=;
+	b=JAVGwfXXgSxBTDCUqK9/kXSr8BJ0e/ox+82i5Gs/LgpMwd0daWNwMUy3pCzsTtdMYk
+	x7hpU3bSwSDorx+2mq7uK9BUhnC8WlS+4oehuBdMMHt6PE9N0gk94FaykmEXJGXj8UFQ
+	tHm6ULST9DejCwUW77Ztey2iceX9ws5+WP4gpJEpEI6zfYbLeSbTTMwDzQlx4ZRiZheA
+	paaFKTEpzkbV5MmC0bjs6YUIyyg/gn33IjteYaeoxFOVG6MBIElppKNQUgmx5/ZQ6W/c
+	TG5mHzO7oYvyX9J/6jdQ2mhreTVLttkWTqzV2c0/YwmlgPdbqwVwekmFG9ic++dQN5cS
+	WfYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
 	:date:message-id:subject:to:cc;
-	bh=hdQ0YhHi87HIBjsAWvbhw9r7dUHHnCMwZPAv9zXmKrw=;
-	b=RRGk+kMB7jOOBr8kVhN6EGrBl9SBDGqbUXjwZFIHFoCXYol2eYhWCjiR6wfOaTTAVT
-	n/6/pqrBh4XGthTLkvx+ZXD01gCzpesnTP+rncCkAEGeqOss/NRjIknk/IWQYBc7C+2A
-	czy+oh1VAJMIjCiagkf7ltYZRUoZbkqx5v5UH61xiuu2RwnklJr80vr0zYSurbE5Jwl1
-	66b8AXKSADShzMiylny8zwjJr0znAt9U1kv2K7JUibI/OIWWfBkvv4qHA8SfzSHETPrZ
-	zflsP8qm/ivbJSh3hbugCtxNBA6UQ73JR99k788OOR7MO7qMfDP67OAvGqT9aOA5s4E5
-	XhfQ==
-X-Gm-Message-State: ALyK8tLqGaC2W8qMwFe19f4rG5Gh6pmqBoQ9lE0LP+w7zEXTYiO4tcR6dP71tkQqGiiFGUEriHbYrnQuL3wBlA==
-X-Received: by 10.107.140.132 with SMTP id o126mr6712909iod.70.1464795336133; 
-	Wed, 01 Jun 2016 08:35:36 -0700 (PDT)
+	bh=HLDWfBSKie08FM0nQu3+yBu2ESujvbU3Ns+0LFWhjM0=;
+	b=fmA2g1M9QZNVT7lziKK70jHbzxyIY5bSTdgZvqitP75kmc2eI6JT1OI/MGTb2DGNkq
+	y00hyaodBHhCQlrimyueZUqKvX99tOoqI8M5MpGIXDLb0BXJy/MP2JVb2II9sf3+GT7L
+	8r8BnyYOKdLy2lLYEoKkoxGdWp6+x96nBUMmFouymqkRIjJ2Xh2xeS2d/074Rlw50KCE
+	YH4SndKZlaOH8QZKJzneLdtMzxuSxROpoliZcVCm4cc8KCKL72r3BU+J7i+yvd356FQc
+	3elopmbuFUKyr+SVqmASp/MMIrIME1FcYDu7VcVIykxkD4xeVDZEa3aX8hgX+Ws4eF2o
+	PFmg==
+X-Gm-Message-State: ALyK8tL4qr9PuBqhQXNVcaRbe/tt0De0OUf8NAp3NDDWyEYL247sxJpzh3RL0booRuR34Ge0QcBPSvxMVBdfqg==
+X-Received: by 10.107.188.71 with SMTP id m68mr6903867iof.1.1464795557223;
+	Wed, 01 Jun 2016 08:39:17 -0700 (PDT)
 MIME-Version: 1.0
 Sender: kergoth@gmail.com
-Received: by 10.79.100.5 with HTTP; Wed, 1 Jun 2016 08:35:16 -0700 (PDT)
-In-Reply-To: <1464784540-2786-1-git-send-email-richard.purdie@linuxfoundation.org>
+Received: by 10.79.100.5 with HTTP; Wed, 1 Jun 2016 08:38:57 -0700 (PDT)
+In-Reply-To: <1464784540-2786-20-git-send-email-richard.purdie@linuxfoundation.org>
 References: <1464784540-2786-1-git-send-email-richard.purdie@linuxfoundation.org>
+	<1464784540-2786-20-git-send-email-richard.purdie@linuxfoundation.org>
 From: Christopher Larson <clarson@kergoth.com>
-Date: Wed, 1 Jun 2016 08:35:16 -0700
-X-Google-Sender-Auth: of9hl_Mj07HUkg-1FjSHcCkm6GM
-Message-ID: <CABcZANkmNG1MvPsYf-KJs2gmPMGjR+CjwLGjxc9k5-MRhgHuiw@mail.gmail.com>
+Date: Wed, 1 Jun 2016 08:38:57 -0700
+X-Google-Sender-Auth: hqMmNRZtVUbjjgvo9Xg9zn5iJG8
+Message-ID: <CABcZAN=nGbbf1-iETNmmomL2rhyCGEpnk2cWZThhm8zHHHLGGg@mail.gmail.com>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 01/22] oe-buildenv-internal: Update to python3
+Subject: Re: [PATCH 20/22] devtool.py: Fix parsing of bitbake-layers' output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,27 +68,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jun 2016 15:35:38 -0000
-Content-Type: multipart/alternative; boundary=94eb2c05aea2ae327e0534393d54
+X-List-Received-Date: Wed, 01 Jun 2016 15:39:19 -0000
+Content-Type: multipart/alternative; boundary=94eb2c0772a6db625b0534394a55
 
---94eb2c05aea2ae327e0534393d54
+--94eb2c0772a6db625b0534394a55
 Content-Type: text/plain; charset=UTF-8
 
 On Wed, Jun 1, 2016 at 5:35 AM, Richard Purdie <
 richard.purdie@linuxfoundation.org> wrote:
 
-> Check that 'python' is a python v2 since that is what we assume everywhere
-> and upstream python devs recommend. We can need both python2 and python3
-> available since we don't control the software we might download and run.
+> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 >
-> Also check that python 3 is >= 3.4.0, our minimum version for bitbake.
+> Current parsing was picking wrong targets, leading to the following
+> problem:
 >
+>         AssertionError: Command 'bitbake  Parsing recipes..done. -e'
+> returned non-zero exit status 1:
+>
+> Signed-off-by: Leonardo Sandoval <
+> leonardo.sandoval.gonzalez@linux.intel.com>
 > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 >
 
-I'm curious, why don't we just have a bit of logic to figure out what the
-names are of the binaries, create a subdir and prepend it to the path, and
-add symlinks or wrapper scripts there to the real binaries on the system?
+We should probably think about redirecting parsing messages to stderr, at
+the least in the standalone scripts, since that's out of band from the
+intended output.
 -- 
 Christopher Larson
 clarson at kergoth dot com
@@ -95,7 +100,7 @@ Founder - BitBake, OpenEmbedded, OpenZaurus
 Maintainer - Tslib
 Senior Software Engineer, Mentor Graphics
 
---94eb2c05aea2ae327e0534393d54
+--94eb2c0772a6db625b0534394a55
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
@@ -104,25 +109,27 @@ On Wed, Jun 1, 2016 at 5:35 AM, Richard Purdie <span dir=3D"ltr">&lt;<a hre=
 f=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.p=
 urdie@linuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=3D"gma=
 il_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-lef=
-t:1ex"><div id=3D":10v" class=3D"a3s aXjCH m1550bf797f8a918a">Check that &#=
-39;python&#39; is a python v2 since that is what we assume everywhere<br>
-and upstream python devs recommend. We can need both python2 and python3<br=
->
-available since we don&#39;t control the software we might download and run=
-.<br>
+t:1ex"><div id=3D":1t4" class=3D"a3s aXjCH m1550bf8a4f57d490">From: Leonard=
+o Sandoval &lt;<a href=3D"mailto:leonardo.sandoval.gonzalez@linux.intel.com=
+">leonardo.sandoval.gonzalez@linux.intel.com</a>&gt;<br>
 <br>
-Also check that python 3 is &gt;=3D 3.4.0, our minimum version for <span cl=
-ass=3D"il">bitbake</span>.<br>
+Current parsing was picking wrong targets, leading to the following problem=
+:<br>
 <br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 AssertionError: Command &#39;bitbake=C2=A0 Pars=
+ing recipes..done. -e&#39; returned non-zero exit status 1:<br>
+<br>
+Signed-off-by: Leonardo Sandoval &lt;<a href=3D"mailto:leonardo.sandoval.go=
+nzalez@linux.intel.com">leonardo.sandoval.gonzalez@linux.intel.com</a>&gt;<=
+br>
 Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfou=
 ndation.org">richard.purdie@linuxfoundation.org</a>&gt;</div></blockquote><=
-/div><br>I&#39;m curious, why don&#39;t we just have a bit of logic to figu=
-re out what the names are of the binaries, create a subdir and prepend it t=
-o the path, and add symlinks or wrapper scripts there to the real binaries =
-on the system?<br>-- <br><div class=3D"gmail_signature" data-smartmail=3D"g=
-mail_signature">Christopher Larson<br>clarson at kergoth dot com<br>Founder=
- - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Softwa=
-re Engineer, Mentor Graphics</div>
+/div><br>We should probably think about redirecting parsing messages to std=
+err, at the least in the standalone scripts, since that&#39;s out of band f=
+rom the intended output.<br>-- <br><div class=3D"gmail_signature" data-smar=
+tmail=3D"gmail_signature">Christopher Larson<br>clarson at kergoth dot com<=
+br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Sen=
+ior Software Engineer, Mentor Graphics</div>
 </div></div>
 
---94eb2c05aea2ae327e0534393d54--
+--94eb2c0772a6db625b0534394a55--
