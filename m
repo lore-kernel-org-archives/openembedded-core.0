@@ -1,47 +1,26 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 5BD9D77336
+Return-Path: <maxin.john@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id E60697719E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Jun 2016 12:49:19 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id q62so6478218wmg.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Jun 2016 05:49:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=RLaZnEZ1jLoXx40DPeDQYWWazWrtl48cx81hilCRySE=;
-	b=dAtXD79sRwcOllvuGJwLRtgadbf8AA9Vlp7dLEOeOSGa55UZqAGml8NWo5c86sJ4f6
-	3s+oWlnxGq580HYYxrijAkvwXyDxbac6wMJETF84sJ86r0qZknIvXgaTr/YzhDWj9wex
-	RuKFJAG6Ukf0DyRkX3rSWHHntvl9a6Z8EOCyLpodQnzFcc9F7OKTq7iFvxJcmkXQfa7/
-	M10qpOPHoCvhcA/EqGoK8lwg154dCI2IR7oy4foQ8Jc9yXx+OvHqYollhJ7F6UoGWZh+
-	g08hI9fIAwz/1LRXFvOQRgjWOhd2tIWTIPFUAbR3xuVeFuyG3bJGkn4Siwch2V+M1kR+
-	bWag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=RLaZnEZ1jLoXx40DPeDQYWWazWrtl48cx81hilCRySE=;
-	b=OOwtZRciH8ObxdramrW/crRLP3CPXgsvizcOirsUG1BKRckofTvPjcjZx1T4pbNYRX
-	oHORprJpgvJ1MjEbMG1shifBOE4VrAfIHZ4cZaCHnvyK/GYnNyY7jE+ab/20cdfxGZ5L
-	Vb6pihMG3CmS6q45OKKRI6avZeR0TnuFdU1McT4Cs3i/IXzYV0Lxb34YSLa7yH9GQmjr
-	pQ6cZpgNPUdjAbsnv9nWy6S4otBdiKTojboa0D+zqhk2mh5TX1PfV2Ngoxb/4XIvz6VG
-	Agh5dqxXGl31PBcNZLERDm6FO46E0jXg1CWXd5aMzD6m1IkCszfb0H01wjiH6e3PtMTK
-	nDNQ==
-X-Gm-Message-State: ALyK8tKBLNQyWf3mxlHsX9ja1/p8FreIFOAzooDBhFoGtc1onlqoSXRw0mjd+Pf2LDQWqQ==
-X-Received: by 10.28.154.130 with SMTP id c124mr22261579wme.9.1464785359259;
-	Wed, 01 Jun 2016 05:49:19 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id u4sm45388263wjz.4.2016.06.01.05.49.18
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 01 Jun 2016 05:49:18 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+	Wed,  1 Jun 2016 13:25:58 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga101.fm.intel.com with ESMTP; 01 Jun 2016 06:25:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,401,1459839600"; d="scan'208";a="114122135"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga004.fm.intel.com with ESMTP; 01 Jun 2016 06:25:59 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 85E706A4007;
+	Wed,  1 Jun 2016 07:13:26 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  1 Jun 2016 14:49:36 +0200
-Message-Id: <20160601124936.19277-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.8.3
-In-Reply-To: <20160526172357.GB2575@jama>
-References: <20160526172357.GB2575@jama>
-Subject: [PATCH] libsdl2: Fix build with wayland 1.10
+Date: Wed,  1 Jun 2016 16:25:55 +0300
+Message-Id: <1464787556-5848-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH 1/2] iw: update to version 4.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,94 +33,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jun 2016 12:49:20 -0000
+X-List-Received-Date: Wed, 01 Jun 2016 13:26:00 -0000
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+4.3 -> 4.7
+
+Refreshed the patch for new version:
+    1) 0001-iw-version.sh-don-t-use-git-describe-for-versioning.patch
+
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- ...ideo-make-it-compatible-with-wayland-1.10.patch | 57 ++++++++++++++++++++++
- meta/recipes-graphics/libsdl2/libsdl2_2.0.4.bb     |  4 +-
- 2 files changed, 60 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/0001-src-video-make-it-compatible-with-wayland-1.10.patch
+ ....sh-don-t-use-git-describe-for-versioning.patch | 42 ++++++++++++----------
+ .../iw/{iw_4.3.bb => iw_4.7.bb}                    |  4 +--
+ 2 files changed, 26 insertions(+), 20 deletions(-)
+ rename meta/recipes-connectivity/iw/{iw_4.3.bb => iw_4.7.bb} (86%)
 
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2/0001-src-video-make-it-compatible-with-wayland-1.10.patch b/meta/recipes-graphics/libsdl2/libsdl2/0001-src-video-make-it-compatible-with-wayland-1.10.patch
-new file mode 100644
-index 0000000..44e6d4d
---- /dev/null
-+++ b/meta/recipes-graphics/libsdl2/libsdl2/0001-src-video-make-it-compatible-with-wayland-1.10.patch
-@@ -0,0 +1,57 @@
-+From b1ed3533433501ec52c8289a5b3a294e57e7f798 Mon Sep 17 00:00:00 2001
-+From: Martin Jansa <martin.jansa@gmail.com>
-+Date: Thu, 26 May 2016 11:31:52 +0000
-+Subject: [PATCH] src/video: make it compatible with wayland 1.10
-+
-+| build/.libs/SDL_waylandevents.o: In function `wl_registry_bind':
-+| /usr/include/wayland-client-protocol.h:305: undefined reference to `wl_proxy_marshal_constructor_versioned'
-+| /usr/include/wayland-client-protocol.h:305: undefined reference to `wl_proxy_marshal_constructor_versioned'
-+| build/.libs/SDL_waylandkeyboard.o: In function `wl_registry_bind':
-+| /usr/include/wayland-client-protocol.h:305: undefined reference to `wl_proxy_marshal_constructor_versioned'
-+| /usr/include/wayland-client-protocol.h:305: undefined reference to `wl_proxy_marshal_constructor_versioned'
-+| build/.libs/SDL_waylandvideo.o: In function `wl_registry_bind':
-+| /usr/include/wayland-client-protocol.h:305: undefined reference to `wl_proxy_marshal_constructor_versioned'
-+| collect2: error: ld returned 1 exit status
-+| make: *** [build/libSDL2.la] Error 1
-+| ERROR: oe_runmake failed
-+
-+Upstream-Status: Pending
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+
-+---
-+ src/video/wayland/SDL_waylanddyn.h | 1 +
-+ src/video/wayland/SDL_waylandsym.h | 4 ++++
-+ src/video/webos/SDL_waylanddyn.h   | 1 +
-+ src/video/webos/SDL_waylandsym.h   | 4 ++++
-+ 4 files changed, 10 insertions(+)
-+
-+diff --git a/src/video/wayland/SDL_waylanddyn.h b/src/video/wayland/SDL_waylanddyn.h
-+index 8d9313a..c7b0157 100644
-+--- a/src/video/wayland/SDL_waylanddyn.h
-++++ b/src/video/wayland/SDL_waylanddyn.h
-+@@ -79,6 +79,7 @@ void SDL_WAYLAND_UnloadSymbols(void);
-+ #define wl_proxy_get_user_data (*WAYLAND_wl_proxy_get_user_data)
-+ #define wl_proxy_add_listener (*WAYLAND_wl_proxy_add_listener)
-+ #define wl_proxy_marshal_constructor (*WAYLAND_wl_proxy_marshal_constructor)
-++#define wl_proxy_marshal_constructor_versioned (*WAYLAND_wl_proxy_marshal_constructor_versioned)
-+ 
-+ #define wl_seat_interface (*WAYLAND_wl_seat_interface)
-+ #define wl_surface_interface (*WAYLAND_wl_surface_interface)
-+diff --git a/src/video/wayland/SDL_waylandsym.h b/src/video/wayland/SDL_waylandsym.h
-+index c3b4fa5..b9a0d97 100644
-+--- a/src/video/wayland/SDL_waylandsym.h
-++++ b/src/video/wayland/SDL_waylandsym.h
-+@@ -55,6 +55,10 @@ SDL_WAYLAND_SYM(void, wl_list_insert_list, (struct wl_list *, struct wl_list *))
-+ SDL_WAYLAND_MODULE(WAYLAND_CLIENT_1_4)
-+ SDL_WAYLAND_SYM(struct wl_proxy *, wl_proxy_marshal_constructor, (struct wl_proxy *, uint32_t opcode, const struct wl_interface *interface, ...))
-+ 
-++/* These functions are available in Wayland >= 1.10 */
-++SDL_WAYLAND_MODULE(WAYLAND_CLIENT_1_10)
-++SDL_WAYLAND_SYM(struct wl_proxy *, wl_proxy_marshal_constructor_versioned, (struct wl_proxy *proxy, uint32_t opcode, const struct wl_interface *interface, uint32_t version, ...))
-++
-+ SDL_WAYLAND_INTERFACE(wl_seat_interface)
-+ SDL_WAYLAND_INTERFACE(wl_surface_interface)
-+ SDL_WAYLAND_INTERFACE(wl_shm_pool_interface)
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.4.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.4.bb
-index 4282307..8f079c8 100644
---- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.4.bb
-+++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.4.bb
-@@ -15,7 +15,9 @@ PROVIDES = "virtual/libsdl2"
- DEPENDS_class-nativesdk = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/nativesdk-libx11 nativesdk-libxrandr nativesdk-libxrender nativesdk-libxext', '', d)}"
+diff --git a/meta/recipes-connectivity/iw/iw/0001-iw-version.sh-don-t-use-git-describe-for-versioning.patch b/meta/recipes-connectivity/iw/iw/0001-iw-version.sh-don-t-use-git-describe-for-versioning.patch
+index 2e52c80..715b88d 100644
+--- a/meta/recipes-connectivity/iw/iw/0001-iw-version.sh-don-t-use-git-describe-for-versioning.patch
++++ b/meta/recipes-connectivity/iw/iw/0001-iw-version.sh-don-t-use-git-describe-for-versioning.patch
+@@ -7,27 +7,33 @@ Upstream-Status: Pending
+ Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+ Signed-off-by: Maxin B. John <maxin.john@intel.com>
+ ---
+-diff -Naur iw-4.3-origin/version.sh iw-4.3/version.sh
+---- iw-4.3-origin/version.sh	2015-11-20 16:37:58.762077162 +0200
+-+++ iw-4.3/version.sh	2015-11-20 16:52:05.526491150 +0200
+-@@ -3,21 +3,7 @@
+- VERSION="4.3"
+- OUT="$1"
++diff -Naur iw-4.7-orig/version.sh iw-4.7/version.sh
++--- iw-4.7-orig/version.sh	2016-05-31 12:52:46.000000000 +0300
+++++ iw-4.7/version.sh	2016-06-01 11:21:58.307409060 +0300
++@@ -15,27 +15,7 @@
++ SRC_DIR=$(cd ${SRC_DIR}; pwd)
++ cd "${SRC_DIR}"
+  
++-v=""
+ -if [ -d .git ] && head=`git rev-parse --verify HEAD 2>/dev/null`; then
+--	git update-index --refresh --unmerged > /dev/null
+--	descr=$(git describe --match=v*)
+--
+--	# on git builds check that the version number above
+--	# is correct...
+--	[ "${descr%%-*}" = "v$VERSION" ] || exit 2
++-    git update-index --refresh --unmerged > /dev/null
++-    descr=$(git describe --match=v* 2>/dev/null)
++-    if [ $? -eq 0 ]; then
++-        # on git builds check that the version number above
++-        # is correct...
++-        if [ "${descr%%-*}" = "v$VERSION" ]; then
++-            v="${descr#v}"
++-            if git diff-index --name-only HEAD | read dummy ; then
++-                v="$v"-dirty
++-            fi
++-        fi
++-    fi
++-fi
+ -
+--	v="${descr#v}"
+--	if git diff-index --name-only HEAD | read dummy ; then
+--		v="$v"-dirty
+--	fi
+--else
+--	v="$VERSION"
++-# set to the default version when failed to get the version
++-# information with git
++-if [ -z "${v}" ]; then
++-    v="$VERSION"
+ -fi
+ +v="$VERSION"
+  
+diff --git a/meta/recipes-connectivity/iw/iw_4.3.bb b/meta/recipes-connectivity/iw/iw_4.7.bb
+similarity index 86%
+rename from meta/recipes-connectivity/iw/iw_4.3.bb
+rename to meta/recipes-connectivity/iw/iw_4.7.bb
+index 6865e7a..e9f4141 100644
+--- a/meta/recipes-connectivity/iw/iw_4.3.bb
++++ b/meta/recipes-connectivity/iw/iw_4.7.bb
+@@ -14,8 +14,8 @@ SRC_URI = "http://www.kernel.org/pub/software/network/iw/${BP}.tar.gz \
+            file://separate-objdir.patch \
+ "
  
- SRC_URI = "http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
--           file://linkage.patch"
-+           file://linkage.patch \
-+           file://0001-src-video-make-it-compatible-with-wayland-1.10.patch \
-+"
+-SRC_URI[md5sum] = "5ca622a270687d6862c9024fab266871"
+-SRC_URI[sha256sum] = "2a853d95ffbd2b06c058b40ef4e6fa76a52c2709b05fb1976761fe13e9d9e39f"
++SRC_URI[md5sum] = "19d1edd276b2ac0c6cccfc7ae8d2b732"
++SRC_URI[sha256sum] = "758092229f13d691968060a0ad41364ba8eb8da4503626c20233a5b1eb33b4d9"
  
- S = "${WORKDIR}/SDL2-${PV}"
+ inherit pkgconfig
  
 -- 
-2.8.3
+2.4.0
 
 
