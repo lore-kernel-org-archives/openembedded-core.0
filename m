@@ -1,46 +1,30 @@
-Return-Path: <andrew@bradfordembedded.com>
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
-	[66.111.4.26])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E17B77455
+Return-Path: <alejandro.delcastillo@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id CE3C877453
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Jun 2016 17:06:43 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id C984420972;
-	Thu,  2 Jun 2016 13:06:43 -0400 (EDT)
-Received: from frontend1 ([10.202.2.160])
-	by compute6.internal (MEProxy); Thu, 02 Jun 2016 13:06:43 -0400
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	bradfordembedded.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-sasl-enc
-	:x-sasl-enc; s=mesmtp; bh=D68IFeTzqDJZ1N7KjMUH4i2nGC8=; b=RSqLx/
-	3+ZddLP8dm7jXurRgItVDGwOWI4YIdKvaUoYnXXMvyjjFQbduhiM8PrbXDilnDxV
-	0+ocLQdzsJyraUTu6eXbb4eZ6UZs24U7rl43/ogFn0MLcgIAlWv3C0b6XyL8o0Px
-	DB8SBrfNHdNd00G9tcnp/ioIIesdyLmJRCUzI=
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-sasl-enc
-	:x-sasl-enc; s=smtpout; bh=D68IFeTzqDJZ1N7KjMUH4i2nGC8=; b=h7ebs
-	so5ZAnchWjL3uaX6ipDHTVMTtMFF73xh386eZ5FGs+3+yUNjjXjl2ukLo2j2SFOx
-	P+zvyokz9Q4TRMLEb86yjPNnhKlGbKP/MEuW6NgRxcBXSmrfD796Mbmin+hiw9MZ
-	3vS40EVJl6mWiusEY+18+iFNgNaTxi1dFIhbHs=
-X-Sasl-enc: mnFXv8u2Su80rs5Y9JnR70a0dtQlDi8qI+L307Vq6/Hi 1464887203
-Received: from kaim-eeyore.kodakalaris.net (clr-vpn01.kodakalaris.com
-	[198.140.222.129])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 156D5F29F4;
-	Thu,  2 Jun 2016 13:06:43 -0400 (EDT)
-Date: Thu, 2 Jun 2016 13:06:41 -0400
-From: Andrew Bradford <andrew@bradfordembedded.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20160602170641.GA25552@kaim-eeyore.kodakalaris.net>
-References: <1464205571-26293-1-git-send-email-andrew@bradfordembedded.com>
-	<1464205571-26293-3-git-send-email-andrew@bradfordembedded.com>
-	<1464882993.13979.7.camel@linuxfoundation.org>
+	Thu,  2 Jun 2016 18:33:09 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u52IX9IO028332 for <openembedded-core@lists.openembedded.org>;
+	Thu, 2 Jun 2016 13:33:09 -0500
+Received: from delcastillo2.natinst.com ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016060213330990-440753 ;
+	Thu, 2 Jun 2016 13:33:09 -0500 
+From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 2 Jun 2016 13:33:07 -0500
+Message-Id: <1464892387-696-1-git-send-email-alejandro.delcastillo@ni.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <1464882993.13979.7.camel@linuxfoundation.org>
-User-Agent: Mutt/1.6.0 (2016-04-01)
-Cc: Andrew Bradford <andrew.bradford@kodakalaris.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/3] bitbake.conf: Add P4DIR and FETCHCMD_p4
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 06/02/2016 01:33:09 PM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 06/02/2016 01:33:09 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-06-02_05:, , signatures=0
+Subject: [PATCH] opkg-utils: update SRCREV
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,58 +37,183 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jun 2016 17:06:43 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Thu, 02 Jun 2016 18:33:10 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Richard,
+Drop patches now included in newer SRCREV. Update HOMEPAGE and PV
+version to better align with opkg. Current revision include:
 
-On 06/02 16:56, Richard Purdie wrote:
-> On Wed, 2016-05-25 at 15:46 -0400, Andrew Bradford wrote:
-> > From: Andrew Bradford <andrew.bradford@kodakalaris.com>
-> > 
-> > So that perforce fetching can work more like the other source control
-> > system fetchers.
-> > 
-> > Signed-off-by: Andrew Bradford <andrew.bradford@kodakalaris.com>
-> > ---
-> >  meta/conf/bitbake.conf | 2 ++
-> >  1 file changed, 2 insertions(+)
-> > 
-> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> > index acef30b..1aa1d37 100644
-> > --- a/meta/conf/bitbake.conf
-> > +++ b/meta/conf/bitbake.conf
-> > @@ -339,6 +339,7 @@ SVNDIR = "${CO_DIR}/svn"
-> >  GITDIR = "${CO_DIR}/git2"
-> >  BZRDIR = "${CO_DIR}/bzr"
-> >  HGDIR = "${CO_DIR}/hg"
-> > +P4DIR = "${CO_DIR}/p4"
-> >  
-> >  STAMPS_DIR ?= "${TMPDIR}/stamps"
-> >  STAMP =
-> > "${STAMPS_DIR}/${MULTIMACH_TARGET_SYS}/${PN}/${EXTENDPE}${PV}-${PR}"
-> > @@ -618,6 +619,7 @@ FETCHCMD_cvs = "/usr/bin/env cvs"
-> >  FETCHCMD_wget = "/usr/bin/env wget -t 2 -T 30 -nv --passive-ftp --no
-> > -check-certificate"
-> >  FETCHCMD_bzr = "/usr/bin/env bzr"
-> >  FETCHCMD_hg = "/usr/bin/env hg"
-> > +FETCHCMD_p4 = "/usr/bin/env p4"
-> 
-> I've kind of been hoping we could move to a model where the fetcher has
-> sane defaults and we don't need to change anything in bitbake.conf
-> unless the user has some need to customise.
-> 
-> The FETCHCMD is easy to do that for, the P4DIR is slightly harder since
-> it means teaching the fetcher about CO_DIR which bitbake currently
-> knows nothing about. It may be worth dropping the notion of CO_DIR and
-> making the default ${DL_DIR}/p4 which bitbake does know about and
-> making the other fetchers match which such defaults?
+* Python 3 compatibility
+* Improved error handling
 
-OK, I'll take a look at that.  It should be easy to have a sane default
-for P4DIR and even FETCHCMD_p4 in the fetcher itself and not need
-changes to bitbake.conf.
+Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+---
+ ...re-do-find-ls-code-to-not-fail-on-filenam.patch | 56 ------------------=
+----
+ .../opkg-build-Exit-when-fail-to-list-files.patch  | 45 -----------------
+ meta/recipes-devtools/opkg-utils/opkg-utils=5Fgit.bb | 10 ++--
+ 3 files changed, 4 insertions(+), 107 deletions(-)
+ delete mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/0001-opkg-b=
+uild-re-do-find-ls-code-to-not-fail-on-filenam.patch
+ delete mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/opkg-build-=
+Exit-when-fail-to-list-files.patch
 
-Thanks for the feedback! :)
--Andrew
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/0001-opkg-build-re=
+-do-find-ls-code-to-not-fail-on-filenam.patch b/meta/recipes-devtools/opkg-=
+utils/opkg-utils/0001-opkg-build-re-do-find-ls-code-to-not-fail-on-filenam.=
+patch
+deleted file mode 100644
+index 5cbb55a..0000000
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils/0001-opkg-build-re-do-fin=
+d-ls-code-to-not-fail-on-filenam.patch
++++ /dev/null
+@@ -1,56 +0,0 @@
+-From 8e424296ce2af4a5a7392c38a31f8723f9b9fbda Mon Sep 17 00:00:00 2001
+-From: Denys Dmytriyenko <denys@ti.com>
+-Date: Thu, 7 Apr 2016 20:43:13 -0400
+-Subject: [PATCH] opkg-build: re-do find/ls code to not fail on filenames w=
+ith
+- spaces
+-
+-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+----
+- opkg-build | 9 ++++-----
+- 1 file changed, 4 insertions(+), 5 deletions(-)
+-
+-diff --git a/opkg-build b/opkg-build
+-index a9ccad2..07305b2 100755
+---- a/opkg-build
+-+++ b/opkg-build
+-@@ -6,7 +6,6 @@
+- # 2003-04-25 rea@sr.unh.edu
+- #   Updated to work on Familiar Pre0.7rc1, with busybox tar.
+- #   Note it Requires: binutils-ar (since the busybox ar can't create)
+--#   For UID debugging it needs a better "find".
+- set -e
+-=20
+- version=3D1.0
+-@@ -47,12 +46,12 @@ pkg=5Fappears=5Fsane() {
+-=20
+- 	PKG=5FERROR=3D0
+-=20
+--	tilde=5Ffiles=3D`find . -name '*~'`
+-+	tilde=5Ffiles=3D`find . -name '*~' -ls -printf '\\\n'`
+- 	if [ -n "$tilde=5Ffiles" ]; then
+- 	    if [ "$noclean" =3D "1" ]; then
+- 		echo "*** Warning: The following files have names ending in '~'.
+- You probably want to remove them: " >&2
+--		ls -ld $tilde=5Ffiles
+-+		echo -e $tilde=5Ffiles
+- 		if [ $? -ne 0 ]; then
+- 			echo "*** Error: Fail to list files have names ending in '~'."
+- 			exit 1
+-@@ -64,12 +63,12 @@ You probably want to remove them: " >&2
+- 	    fi
+- 	fi
+-=20
+--	large=5Fuid=5Ffiles=3D`find . -uid +99 || true`
+-+	large=5Fuid=5Ffiles=3D`find . -uid +99 -ls -printf '\\\n' || true`
+-=20
+- 	if [ "$ogargs" =3D "" ]  && [ -n "$large=5Fuid=5Ffiles" ]; then
+- 		echo "*** Warning: The following files have a UID greater than 99.
+- You probably want to chown these to a system user: " >&2
+--		ls -ld $large=5Fuid=5Ffiles
+-+		echo -e $large=5Fuid=5Ffiles
+- 		if [ $? -ne 0 ]; then
+- 			echo "*** Error: Fail to list files have a UID greater than 99."
+- 			exit 1
+---=20
+-2.2.0
+-
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/opkg-build-Exit-wh=
+en-fail-to-list-files.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/o=
+pkg-build-Exit-when-fail-to-list-files.patch
+deleted file mode 100644
+index 6c66902..0000000
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils/opkg-build-Exit-when-fail=
+-to-list-files.patch
++++ /dev/null
+@@ -1,45 +0,0 @@
+-We have an issue when ls segfaults in some cases [1] so it's
+-better to detect the failure at this level instead of continue
+-the build process.
+-
+-[YOCTO #8926]
+-
+-Upstream-Status: Submitted [2]
+-
+-[1] https://bugzilla.yoctoproject.org/show=5Fbug.cgi?id=3D8926#c0
+-[2] https://groups.google.com/forum/#!topic/opkg-devel/cmX02bgHZms
+-
+-Signed-off-by: An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.intel.com>
+----
+- opkg-build | 8 ++++++++
+- 1 file changed, 8 insertions(+)
+-
+-diff --git a/opkg-build b/opkg-build
+-index 98008b6..a9ccad2 100755
+---- a/opkg-build
+-+++ b/opkg-build
+-@@ -53,6 +53,10 @@ pkg=5Fappears=5Fsane() {
+- 		echo "*** Warning: The following files have names ending in '~'.
+- You probably want to remove them: " >&2
+- 		ls -ld $tilde=5Ffiles
+-+		if [ $? -ne 0 ]; then
+-+			echo "*** Error: Fail to list files have names ending in '~'."
+-+			exit 1
+-+		fi
+- 		echo >&2
+- 	    else
+- 		echo "*** Removing the following files: $tilde=5Ffiles"
+-@@ -66,6 +70,10 @@ You probably want to remove them: " >&2
+- 		echo "*** Warning: The following files have a UID greater than 99.
+- You probably want to chown these to a system user: " >&2
+- 		ls -ld $large=5Fuid=5Ffiles
+-+		if [ $? -ne 0 ]; then
+-+			echo "*** Error: Fail to list files have a UID greater than 99."
+-+			exit 1
+-+		fi
+- 		echo >&2
+- 	fi
+- 	   =20
+---=20
+-2.1.4
+-
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils=5Fgit.bb b/meta/re=
+cipes-devtools/opkg-utils/opkg-utils=5Fgit.bb
+index 8873b28..925c04f 100644
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils=5Fgit.bb
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils=5Fgit.bb
+@@ -1,18 +1,16 @@
+ SUMMARY =3D "Additional utilities for the opkg package manager"
+ SUMMARY=5Fupdate-alternatives-opkg =3D "Utility for managing the alternati=
+ves system"
+ SECTION =3D "base"
+-HOMEPAGE =3D "http://code.google.com/p/opkg/"
++HOMEPAGE =3D "http://git.yoctoproject.org/cgit/cgit.cgi/opkg-utils"
+ LICENSE =3D "GPLv2+"
+ LIC=5FFILES=5FCHKSUM =3D "file://COPYING;md5=3D94d55d512a9ba36caa9b7df079b=
+ae19f \
+                     file://opkg.py;beginline=3D1;endline=3D18;md5=3D159174=
+91ad6bf7acc666ca5f7cc1e083"
+ PROVIDES +=3D "${@bb.utils.contains('PACKAGECONFIG', 'update-alternatives'=
+, 'virtual/update-alternatives', '', d)}"
+=20
+-SRCREV =3D "53274f087565fd45d8452c5367997ba6a682a37a"
+-PV =3D "0.1.8+git${SRCPV}"
++SRCREV =3D "ecd9a499d336ffd127bda3c5ba403f0a5ca056a5"
++PV =3D "0.3.1+git${SRCPV}"
+=20
+-SRC=5FURI =3D "git://git.yoctoproject.org/opkg-utils \
+-           file://opkg-build-Exit-when-fail-to-list-files.patch \
+-           file://0001-opkg-build-re-do-find-ls-code-to-not-fail-on-filena=
+m.patch"
++SRC=5FURI =3D "git://git.yoctoproject.org/opkg-utils"
+ SRC=5FURI=5Fappend=5Fclass-native =3D " file://tar=5Fignore=5Ferror.patch"
+=20
+ S =3D "${WORKDIR}/git"
+--=20
+1.9.1
+
 
