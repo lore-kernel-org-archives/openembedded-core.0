@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 58D01772E2
+	by mail.openembedded.org (Postfix) with ESMTP id AA94877162
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  2 Jun 2016 09:26:26 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga102.jf.intel.com with ESMTP; 02 Jun 2016 02:26:18 -0700
+	by orsmga102.jf.intel.com with ESMTP; 02 Jun 2016 02:26:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,405,1459839600"; d="scan'208";a="114703330"
+X-IronPort-AV: E=Sophos;i="5.26,405,1459839600"; d="scan'208";a="114703341"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga004.fm.intel.com with ESMTP; 02 Jun 2016 02:26:17 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 02 Jun 2016 02:26:19 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 Jun 2016 12:25:41 +0300
-Message-Id: <bfcccd1ac4c01e46f6615fa8c0891f9bf4d2a04a.1464859158.git.alexander.kanavin@linux.intel.com>
+Date: Thu,  2 Jun 2016 12:25:43 +0300
+Message-Id: <f877009cef99eb74d10fe8faf230cda4a4375ae1.1464859158.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <cover.1464859158.git.alexander.kanavin@linux.intel.com>
 References: <cover.1464859158.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1464859158.git.alexander.kanavin@linux.intel.com>
 References: <cover.1464859158.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 04/31] glib: move to Python 3
+Subject: [PATCH 06/31] python-pygobject: port to Python 3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,56 +31,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jun 2016 09:26:26 -0000
+X-List-Received-Date: Thu, 02 Jun 2016 09:26:28 -0000
 
-Drop python-pygobject and python-dbus dependencies, because nothing in
-ptests depends on them, and it creates a circular dependency chain.
+This reverts commit 7f7c9ab29eba0e58916629ca13dc4a494535ce19.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-core/glib-2.0/glib.inc | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ ...001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch | 0
+ .../{python-pygobject_3.18.2.bb => python3-pygobject_3.18.2.bb}   | 8 ++++----
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/python/{python-pygobject => python3-pygobject}/0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch (100%)
+ rename meta/recipes-devtools/python/{python-pygobject_3.18.2.bb => python3-pygobject_3.18.2.bb} (72%)
 
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index ddf5e40..c6b8e57 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -26,7 +26,7 @@ PACKAGES += "${PN}-codegen ${PN}-utils"
+diff --git a/meta/recipes-devtools/python/python-pygobject/0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch b/meta/recipes-devtools/python/python3-pygobject/0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch
+similarity index 100%
+rename from meta/recipes-devtools/python/python-pygobject/0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch
+rename to meta/recipes-devtools/python/python3-pygobject/0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch
+diff --git a/meta/recipes-devtools/python/python-pygobject_3.18.2.bb b/meta/recipes-devtools/python/python3-pygobject_3.18.2.bb
+similarity index 72%
+rename from meta/recipes-devtools/python/python-pygobject_3.18.2.bb
+rename to meta/recipes-devtools/python/python3-pygobject_3.18.2.bb
+index 00c5079..4ddae81 100644
+--- a/meta/recipes-devtools/python/python-pygobject_3.18.2.bb
++++ b/meta/recipes-devtools/python/python3-pygobject_3.18.2.bb
+@@ -3,9 +3,9 @@ SECTION = "devel/python"
+ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
  
- LEAD_SONAME = "libglib-2.0.*"
+-inherit autotools pkgconfig gnomebase distutils-base gobject-introspection
++inherit autotools pkgconfig gnomebase distutils3-base gobject-introspection
  
--inherit autotools gettext gtk-doc pkgconfig ptest-gnome upstream-version-is-even bash-completion gio-module-cache
-+inherit autotools gettext gtk-doc pkgconfig ptest-gnome upstream-version-is-even bash-completion gio-module-cache python3native
+-DEPENDS += "python glib-2.0"
++DEPENDS += "python3 glib-2.0"
  
- S = "${WORKDIR}/glib-${PV}"
+ SRCNAME="pygobject"
+ SRC_URI = " \
+@@ -20,6 +20,6 @@ S = "${WORKDIR}/${SRCNAME}-${PV}"
  
-@@ -44,7 +44,7 @@ EXTRA_OECONF_class-native = "${CORECONF} --disable-selinux"
- EXTRA_OECONF_append_libc-uclibc = " --with-libiconv=gnu"
+ BBCLASSEXTEND = "native"
  
- do_configure_prepend() {
--	sed -i -e '1s,#!.*,#!${USRBINPATH}/env python,' ${S}/gio/gdbus-2.0/codegen/gdbus-codegen.in
-+	sed -i -e '1s,#!.*,#!${USRBINPATH}/env python3,' ${S}/gio/gdbus-2.0/codegen/gdbus-codegen.in
- }
+-EXTRA_OECONF = "--disable-cairo --with-python=python2.7"
++EXTRA_OECONF = "--disable-cairo"
  
- FILES_${PN} = "${libdir}/lib*${SOLIBS} \
-@@ -73,7 +73,7 @@ USE_NLS = "yes"
- 
- do_install_append () {
- 	if [ -f ${D}${bindir}/gtester-report ]; then
--		sed ${D}${bindir}/gtester-report -i -e '1s|^#!.*|#!/usr/bin/env python|'
-+		sed ${D}${bindir}/gtester-report -i -e '1s|^#!.*|#!/usr/bin/env python3|'
- 	fi
- 
- 	# Remove some unpackaged files
-@@ -109,8 +109,6 @@ RDEPENDS_${PN}-ptest += "\
-             tzdata-asia \
-             tzdata-europe \
-             tzdata-posix \
--            python-pygobject \
--            python-dbus \
-             shared-mime-info \
-            "
- 
+-RDEPENDS_${PN} += "python-setuptools python-importlib"
++RDEPENDS_${PN} += "python3-setuptools python3-importlib"
 -- 
 2.8.1
 
