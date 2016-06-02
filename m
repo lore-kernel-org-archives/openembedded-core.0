@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id F2D4D773F8
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id C037877405
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Jun 2016 10:13:52 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 02 Jun 2016 03:13:55 -0700
+	Thu,  2 Jun 2016 10:13:54 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga104.fm.intel.com with ESMTP; 02 Jun 2016 03:13:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,405,1459839600"; d="scan'208";a="989527647"
+X-IronPort-AV: E=Sophos;i="5.26,405,1459839600"; d="scan'208";a="967354356"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 02 Jun 2016 03:13:54 -0700
+	by orsmga001.jf.intel.com with ESMTP; 02 Jun 2016 03:13:55 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id 855DB6A4006
+	by linux.intel.com (Postfix) with ESMTP id A2E506A4006
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Jun 2016 04:01:21 -0700 (PDT)
+	Thu,  2 Jun 2016 04:01:22 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 Jun 2016 13:12:52 +0300
-Message-Id: <fa23b2509ec1f58a8f0244f1b6e1d29dc9e108ec.1464861910.git.ed.bartosh@linux.intel.com>
+Date: Thu,  2 Jun 2016 13:12:53 +0300
+Message-Id: <1b3e1cb104fa202b15fcacb3d00dc43b698320c2.1464861910.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1464861910.git.ed.bartosh@linux.intel.com>
 References: <cover.1464861910.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1464861910.git.ed.bartosh@linux.intel.com>
 References: <cover.1464861910.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 06/16] scripts: python3: get rid of __future__ imports
+Subject: [PATCH 07/16] scripts: python3: use new metaclass syntax
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,71 +35,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jun 2016 10:13:53 -0000
+X-List-Received-Date: Thu, 02 Jun 2016 10:13:55 -0000
 
-Removed print_function and with_statement imports from __future__
-as they're supported by python 3 by default.
+Used metaclass=<metaclass> syntax instead old
+__metaclass__ = <metaclass> as only new one is supported
+in python 3.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/bitbake-whatchanged                      | 1 -
- scripts/pybootchartgui/pybootchartgui/main.py.in | 2 --
- scripts/pybootchartgui/pybootchartgui/parsing.py | 3 ---
- scripts/wic                                      | 2 --
- 4 files changed, 8 deletions(-)
+ scripts/lib/bsp/engine.py | 6 ++----
+ scripts/test-remote-image | 8 ++------
+ 2 files changed, 4 insertions(+), 10 deletions(-)
 
-diff --git a/scripts/bitbake-whatchanged b/scripts/bitbake-whatchanged
-index b05aead..55b61d0 100755
---- a/scripts/bitbake-whatchanged
-+++ b/scripts/bitbake-whatchanged
-@@ -17,7 +17,6 @@
- # along with this program; if not, write to the Free Software
- # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+diff --git a/scripts/lib/bsp/engine.py b/scripts/lib/bsp/engine.py
+index f75454d..5b49486 100644
+--- a/scripts/lib/bsp/engine.py
++++ b/scripts/lib/bsp/engine.py
+@@ -40,12 +40,11 @@ import json
+ import subprocess
+ import shutil
  
--from __future__ import print_function
- import os
- import sys
- import getopt
-diff --git a/scripts/pybootchartgui/pybootchartgui/main.py.in b/scripts/pybootchartgui/pybootchartgui/main.py.in
-index 21bb0be..af26bd2 100644
---- a/scripts/pybootchartgui/pybootchartgui/main.py.in
-+++ b/scripts/pybootchartgui/pybootchartgui/main.py.in
-@@ -16,8 +16,6 @@
- #  You should have received a copy of the GNU General Public License
- #  along with pybootchartgui. If not, see <http://www.gnu.org/licenses/>.
+-class Line():
++class Line(metaclass=ABCMeta):
+     """
+     Generic (abstract) container representing a line that will appear
+     in the BSP-generating program.
+     """
+-    __metaclass__ = ABCMeta
  
--from __future__ import print_function
--
- import sys
- import os
- import optparse
-diff --git a/scripts/pybootchartgui/pybootchartgui/parsing.py b/scripts/pybootchartgui/pybootchartgui/parsing.py
-index d423b9f..a3a0b0b 100644
---- a/scripts/pybootchartgui/pybootchartgui/parsing.py
-+++ b/scripts/pybootchartgui/pybootchartgui/parsing.py
-@@ -13,9 +13,6 @@
- #  You should have received a copy of the GNU General Public License
- #  along with pybootchartgui. If not, see <http://www.gnu.org/licenses/>.
+     def __init__(self, line):
+         self.line = line
+@@ -319,11 +318,10 @@ class BooleanInputLine(InputLine):
+         return line
  
--
--from __future__ import with_statement
--
- import os
- import string
- import re
-diff --git a/scripts/wic b/scripts/wic
-index 5cc06f4..9023755 100755
---- a/scripts/wic
-+++ b/scripts/wic
-@@ -28,8 +28,6 @@
- # AUTHORS
- # Tom Zanussi <tom.zanussi (at] linux.intel.com>
- #
--from __future__ import print_function
--
- __version__ = "0.2.0"
  
- # Python Standard Library modules
+-class ListInputLine(InputLine):
++class ListInputLine(InputLine, metaclass=ABCMeta):
+     """
+     Base class for List-based Input lines. e.g. Choicelist, Checklist.
+     """
+-    __metaclass__ = ABCMeta
+ 
+     def __init__(self, props, tag, lineno):
+         InputLine.__init__(self, props, tag, lineno)
+diff --git a/scripts/test-remote-image b/scripts/test-remote-image
+index 7a00db9..698948b 100755
+--- a/scripts/test-remote-image
++++ b/scripts/test-remote-image
+@@ -92,13 +92,11 @@ def get_args_parser():
+     parser.add_argument('--skip-download', required=False, action="store_true", dest="skip_download", default=False, help='Skip downloading the images completely. This needs the correct files to be present in the directory specified by the target profile.')
+     return parser
+ 
+-class BaseTargetProfile(object):
++class BaseTargetProfile(object, metaclass=ABCMeta):
+     """
+     This class defines the meta profile for a specific target (MACHINE type + image type).
+     """
+ 
+-    __metaclass__ = ABCMeta
+-
+     def __init__(self, image_type):
+         self.image_type = image_type
+ 
+@@ -191,13 +189,11 @@ class AutoTargetProfile(BaseTargetProfile):
+         return controller.get_extra_files()
+ 
+ 
+-class BaseRepoProfile(object):
++class BaseRepoProfile(object, metaclass=ABCMeta):
+     """
+     This class defines the meta profile for an images repository.
+     """
+ 
+-    __metaclass__ = ABCMeta
+-
+     def __init__(self, repolink, localdir):
+         self.localdir = localdir
+         self.repolink = repolink
 -- 
 2.1.4
 
