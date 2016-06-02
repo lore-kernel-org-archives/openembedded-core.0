@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E3DF773D8
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 41718773D8
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  2 Jun 2016 10:13:49 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 02 Jun 2016 03:13:51 -0700
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 02 Jun 2016 03:13:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,405,1459839600"; d="scan'208";a="712733347"
+X-IronPort-AV: E=Sophos;i="5.26,405,1459839600"; d="scan'208";a="993699736"
 Received: from linux.intel.com ([10.23.219.25])
-	by FMSMGA003.fm.intel.com with ESMTP; 02 Jun 2016 03:13:50 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 02 Jun 2016 03:13:50 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id 1C66A6A4006
+	by linux.intel.com (Postfix) with ESMTP id 321EB6A4008
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Jun 2016 04:01:16 -0700 (PDT)
+	Thu,  2 Jun 2016 04:01:17 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 Jun 2016 13:12:48 +0300
-Message-Id: <737c99c5758c71ee4709220f9b0183bbfa211704.1464861910.git.ed.bartosh@linux.intel.com>
+Date: Thu,  2 Jun 2016 13:12:49 +0300
+Message-Id: <c4ece1668b56b37967f2f63b8e60d136086ebd8b.1464861910.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1464861910.git.ed.bartosh@linux.intel.com>
 References: <cover.1464861910.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1464861910.git.ed.bartosh@linux.intel.com>
 References: <cover.1464861910.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 02/16] scripts: python3: use new style except statement
+Subject: [PATCH 03/16] scripts: python3: rename raw_input to input
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,128 +35,137 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jun 2016 10:13:49 -0000
+X-List-Received-Date: Thu, 02 Jun 2016 10:13:50 -0000
 
-Changed old syle except statements 'except <exception>, var'
-to new style 'except <exception> as var' as old style is not
-supported in python3.
+Renamed raw_input to input as raw_input does not
+exist in python 3.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/combo-layer       |  4 ++--
- scripts/contrib/bbvars.py | 14 +++++++-------
- scripts/cp-noerror        |  8 ++++----
- scripts/tiny/ksize.py     |  2 +-
- 4 files changed, 14 insertions(+), 14 deletions(-)
+ scripts/lib/bsp/engine.py        | 12 ++++++------
+ scripts/lib/bsp/kernel.py        | 12 ++++++------
+ scripts/oepydevshell-internal.py |  2 +-
+ scripts/send-error-report        |  6 +++---
+ 4 files changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/scripts/combo-layer b/scripts/combo-layer
-index 7c41f92..0644cdc 100755
---- a/scripts/combo-layer
-+++ b/scripts/combo-layer
-@@ -190,7 +190,7 @@ def runcmd(cmd,destdir=None,printerr=True,out=None,env=None):
-         err = os.tmpfile()
-     try:
-         subprocess.check_call(cmd, stdout=out, stderr=err, cwd=destdir, shell=isinstance(cmd, str), env=env or os.environ)
--    except subprocess.CalledProcessError,e:
-+    except subprocess.CalledProcessError as e:
-         err.seek(0)
-         if printerr:
-             logger.error("%s" % err.read())
-@@ -429,7 +429,7 @@ file_exclude = %s''' % (name, file_filter or '<empty>', repo.get('file_exclude',
-                     runcmd('git replace --graft %s %s' % (start, startrev))
-             try:
-                 runcmd(merge)
--            except Exception, error:
-+            except Exception as error:
-                 logger.info('''Merging component repository history failed, perhaps because of merge conflicts.
- It may be possible to commit anyway after resolving these conflicts.
+diff --git a/scripts/lib/bsp/engine.py b/scripts/lib/bsp/engine.py
+index 3ab4295..f75454d 100644
+--- a/scripts/lib/bsp/engine.py
++++ b/scripts/lib/bsp/engine.py
+@@ -464,9 +464,9 @@ class ListInputLine(InputLine):
+         choices_str = self.gen_choices_str(choicepairs)
+         choices_val_list = self.gen_choices_val_list(choicepairs)
+         if checklist:
+-            choiceval = default(find_choicevals(raw_input(msg + "\n" + choices_str), choices_val_list), default_choice)
++            choiceval = default(find_choicevals(input(msg + "\n" + choices_str), choices_val_list), default_choice)
+         else:
+-            choiceval = default(find_choiceval(raw_input(msg + "\n" + choices_str), choices_val_list), default_choice)
++            choiceval = default(find_choiceval(input(msg + "\n" + choices_str), choices_val_list), default_choice)
  
-diff --git a/scripts/contrib/bbvars.py b/scripts/contrib/bbvars.py
-index 6f47935..b865dd1 100755
---- a/scripts/contrib/bbvars.py
-+++ b/scripts/contrib/bbvars.py
-@@ -37,9 +37,9 @@ def recipe_bbvars(recipe):
-     vset = set()
-     try:
-         r = open(recipe)
--    except IOError as (errno, strerror):
-+    except IOError as err:
-         print('WARNING: Failed to open recipe ', recipe)
--        print(strerror)
-+        print(err.args[1])
+         return choiceval
  
-     for line in r:
-         # Strip any comments from the line
-@@ -71,9 +71,9 @@ def bbvar_is_documented(var, docfiles):
-     for doc in docfiles:
-         try:
-             f = open(doc)
--        except IOError as (errno, strerror):
-+        except IOError as err:
-             print('WARNING: Failed to open doc ', doc)
--            print(strerror)
-+            print(err.args[1])
-         for line in f:
-             if prog.match(line):
-                 return True
-@@ -87,8 +87,8 @@ def bbvar_doctag(var, docconf):
+@@ -540,12 +540,12 @@ def get_verified_git_repo(input_str, name):
+     """
+     msg = input_str.strip() + " "
  
-     try:
-         f = open(docconf)
--    except IOError as (errno, strerror):
--        return strerror
-+    except IOError as err:
-+        return err.args[1]
+-    giturl = default(raw_input(msg), name)
++    giturl = default(input(msg), name)
  
-     for line in f:
-         m = prog.search(line)
-@@ -109,7 +109,7 @@ def main():
-     # Collect and validate input
-     try:
-         opts, args = getopt.getopt(sys.argv[1:], "d:hm:t:T", ["help"])
--    except getopt.GetoptError, err:
-+    except getopt.GetoptError as err:
-         print('%s' % str(err))
-         usage()
-         sys.exit(2)
-diff --git a/scripts/cp-noerror b/scripts/cp-noerror
-index 28eb90d..d8be677 100755
---- a/scripts/cp-noerror
-+++ b/scripts/cp-noerror
-@@ -33,16 +33,16 @@ def copytree(src, dst, symlinks=False, ignore=None):
-                 shutil.copy2(srcname, dstname)
-         # catch the Error from the recursive copytree so that we can
-         # continue with other files
--        except shutil.Error, err:
-+        except shutil.Error as err:
-             errors.extend(err.args[0])
--        except EnvironmentError, why:
-+        except EnvironmentError as why:
-             errors.append((srcname, dstname, str(why)))
-     try:
-         shutil.copystat(src, dst)
--    except OSError, why:
-+    except OSError as why:
-         errors.extend((src, dst, str(why)))
-     if errors:
--        raise shutil.Error, errors
-+        raise shutil.Error(errors)
+     while True:
+         if verify_git_repo(giturl):
+             return giturl
+-        giturl = default(raw_input(msg), name)
++        giturl = default(input(msg), name)
  
- try:
-     copytree(sys.argv[1], sys.argv[2])
-diff --git a/scripts/tiny/ksize.py b/scripts/tiny/ksize.py
-index 275c983..54b71f8 100755
---- a/scripts/tiny/ksize.py
-+++ b/scripts/tiny/ksize.py
-@@ -133,7 +133,7 @@ class Report:
- def main():
-     try:
-         opts, args = getopt.getopt(sys.argv[1:], "dh", ["help"])
--    except getopt.GetoptError, err:
-+    except getopt.GetoptError as err:
-         print('%s' % str(err))
-         usage()
-         sys.exit(2)
+ 
+ def get_verified_file(input_str, name, filename_can_be_null):
+@@ -555,14 +555,14 @@ def get_verified_file(input_str, name, filename_can_be_null):
+     """
+     msg = input_str.strip() + " "
+ 
+-    filename = default(raw_input(msg), name)
++    filename = default(input(msg), name)
+ 
+     while True:
+         if not filename and filename_can_be_null:
+             return filename
+         if os.path.isfile(filename):
+             return filename
+-        filename = default(raw_input(msg), name)
++        filename = default(input(msg), name)
+ 
+ 
+ def replace_file(replace_this, with_this):
+diff --git a/scripts/lib/bsp/kernel.py b/scripts/lib/bsp/kernel.py
+index 5bfa663..3c4b798 100644
+--- a/scripts/lib/bsp/kernel.py
++++ b/scripts/lib/bsp/kernel.py
+@@ -202,8 +202,8 @@ def yocto_kernel_config_rm(scripts_path, machine):
+     config_items = read_config_items(scripts_path, machine)
+ 
+     print("Specify the kernel config items to remove:")
+-    input = raw_input(gen_choices_str(config_items))
+-    rm_choices = input.split()
++    inp = input(gen_choices_str(config_items))
++    rm_choices = inp.split()
+     rm_choices.sort()
+ 
+     removed = []
+@@ -359,8 +359,8 @@ def yocto_kernel_patch_rm(scripts_path, machine):
+     patches = read_patch_items(scripts_path, machine)
+ 
+     print("Specify the patches to remove:")
+-    input = raw_input(gen_choices_str(patches))
+-    rm_choices = input.split()
++    inp = input(gen_choices_str(patches))
++    rm_choices = inp.split()
+     rm_choices.sort()
+ 
+     removed = []
+@@ -610,8 +610,8 @@ def yocto_kernel_feature_rm(scripts_path, machine):
+     features = read_features(scripts_path, machine)
+ 
+     print("Specify the features to remove:")
+-    input = raw_input(gen_choices_str(features))
+-    rm_choices = input.split()
++    inp = input(gen_choices_str(features))
++    rm_choices = inp.split()
+     rm_choices.sort()
+ 
+     removed = []
+diff --git a/scripts/oepydevshell-internal.py b/scripts/oepydevshell-internal.py
+index f7b2e4e..2566606 100755
+--- a/scripts/oepydevshell-internal.py
++++ b/scripts/oepydevshell-internal.py
+@@ -67,7 +67,7 @@ try:
+                     i = i[4096:]
+                 if sys.stdin in ready:
+                     echonocbreak(sys.stdin.fileno())
+-                    o = raw_input()
++                    o = input()
+                     cbreaknoecho(sys.stdin.fileno())
+                     pty.write(o + "\n")
+             except (IOError, OSError) as e:
+diff --git a/scripts/send-error-report b/scripts/send-error-report
+index ed78bd6..7251e27 100755
+--- a/scripts/send-error-report
++++ b/scripts/send-error-report
+@@ -44,12 +44,12 @@ def getPayloadLimit(url):
+ 
+ def ask_for_contactdetails():
+     print("Please enter your name and your email (optionally), they'll be saved in the file you send.")
+-    username = raw_input("Name (required): ")
+-    email = raw_input("E-mail (not required): ")
++    username = input("Name (required): ")
++    email = input("E-mail (not required): ")
+     return username, email
+ 
+ def edit_content(json_file_path):
+-    edit = raw_input("Review information before sending? (y/n): ")
++    edit = input("Review information before sending? (y/n): ")
+     if 'y' in edit or 'Y' in edit:
+         editor = os.environ.get('EDITOR', None)
+         if editor:
 -- 
 2.1.4
 
