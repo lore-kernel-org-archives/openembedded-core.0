@@ -1,32 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 6017977184
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id C74A2772CB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Jun 2016 07:32:03 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u527W3E1021655 for <openembedded-core@lists.openembedded.org>;
-	Thu, 2 Jun 2016 08:32:03 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ViFhEdabNbtN
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Jun 2016 08:32:03 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u527VvCe021650
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 2 Jun 2016 08:31:58 +0100
-Message-ID: <1464852717.9588.12.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Thu,  2 Jun 2016 09:26:25 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga102.jf.intel.com with ESMTP; 02 Jun 2016 02:26:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,405,1459839600"; d="scan'208";a="114703313"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga004.fm.intel.com with ESMTP; 02 Jun 2016 02:26:15 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 02 Jun 2016 08:31:57 +0100
-In-Reply-To: <1464784540-2786-1-git-send-email-richard.purdie@linuxfoundation.org>
-References: <1464784540-2786-1-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: Python3 for bitbake/OE merged
+Date: Thu,  2 Jun 2016 12:25:39 +0300
+Message-Id: <ff0c51154df544b4aae4b893530571ae59022a2e.1464859158.git.alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.8.1
+In-Reply-To: <cover.1464859158.git.alexander.kanavin@linux.intel.com>
+References: <cover.1464859158.git.alexander.kanavin@linux.intel.com>
+In-Reply-To: <cover.1464859158.git.alexander.kanavin@linux.intel.com>
+References: <cover.1464859158.git.alexander.kanavin@linux.intel.com>
+Subject: [PATCH 02/31] python-dbus: update to 1.2.4, port to python 3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,20 +31,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jun 2016 07:32:05 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 02 Jun 2016 09:26:26 -0000
 
-I just watched things break on the autobuilder as trying to keep the
-python3 patches in sync with all the other changes coming in was
-proving tricky and not really a productive use of my time.
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ .../{python-dbus_1.2.0.bb => python3-dbus_1.2.4.bb}       | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
+ rename meta/recipes-devtools/python/{python-dbus_1.2.0.bb => python3-dbus_1.2.4.bb} (62%)
 
-I've therefore merged the python3 patches and bitbake is now using
-python3. If there are any further issues, we can fix in master. This
-may mean some other patchsets need to rebase.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/python/python-dbus_1.2.0.bb b/meta/recipes-devtools/python/python3-dbus_1.2.4.bb
+similarity index 62%
+rename from meta/recipes-devtools/python/python-dbus_1.2.0.bb
+rename to meta/recipes-devtools/python/python3-dbus_1.2.4.bb
+index ccdb9ae..c058caf 100644
+--- a/meta/recipes-devtools/python/python-dbus_1.2.0.bb
++++ b/meta/recipes-devtools/python/python3-dbus_1.2.4.bb
+@@ -3,24 +3,25 @@ SECTION = "devel/python"
+ HOMEPAGE = "http://www.freedesktop.org/Software/dbus"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=0b83047ce9e948b67c0facc5f233476a"
+-DEPENDS = "expat dbus dbus-glib virtual/libintl python-pyrex-native"
++DEPENDS = "expat dbus dbus-glib virtual/libintl"
+ 
+ SRC_URI = "http://dbus.freedesktop.org/releases/dbus-python/dbus-python-${PV}.tar.gz \
+ "
+ 
+-SRC_URI[md5sum] = "b09cd2d1a057cc432ce944de3fc06bf7"
+-SRC_URI[sha256sum] = "e12c6c8b2bf3a9302f75166952cbe41d6b38c3441bbc6767dbd498942316c6df"
++SRC_URI[md5sum] = "7372a588c83a7232b4e08159bfd48fe5"
++SRC_URI[sha256sum] = "e2f1d6871f74fba23652e51d10873e54f71adab0525833c19bad9e99b1b2f9cc"
+ S = "${WORKDIR}/dbus-python-${PV}"
+ 
+-inherit distutils-base autotools pkgconfig
++inherit distutils3-base autotools pkgconfig
+ 
+ PACKAGECONFIG ?= ""
+ PACKAGECONFIG[docs] = "--enable-html-docs,--disable-html-docs,python-docutils-native"
+ PACKAGECONFIG[api-docs] = "--enable-api-docs,--disable-api-docs,python-docutils-native python-epydoc-native"
+ 
+-export STAGING_LIBDIR
+-export STAGING_INCDIR
++do_configure_prepend() {
++    export PYTHON=${PYTHON}
++}
+ 
+-RDEPENDS_${PN} = "python-io python-logging python-stringold python-threading python-xml"
++RDEPENDS_${PN} = "python3-io python3-logging python3-stringold python3-threading python3-xml"
+ 
+ FILES_${PN}-dev += "${libdir}/pkgconfig"
+-- 
+2.8.1
 
 
