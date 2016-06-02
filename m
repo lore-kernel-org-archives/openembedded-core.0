@@ -1,31 +1,22 @@
 Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 087417749A
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 5783577473
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Jun 2016 20:05:58 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga101.fm.intel.com with ESMTP; 02 Jun 2016 13:05:59 -0700
+	Thu,  2 Jun 2016 20:23:13 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 02 Jun 2016 13:23:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,408,1459839600"; d="scan'208";a="115073617"
+X-IronPort-AV: E=Sophos;i="5.26,408,1459839600"; d="scan'208";a="979746795"
 Received: from ahmadjaz-mobl.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.169.128])
-	by fmsmga004.fm.intel.com with ESMTP; 02 Jun 2016 13:05:56 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 02 Jun 2016 13:23:10 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Date: Fri, 03 Jun 2016 08:05:53 +1200
-Message-ID: <9768316.XeEkP5KyxQ@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.4.9-300.fc23.x86_64; KDE/4.14.20; x86_64; ;
-	)
-In-Reply-To: <CAP9ODKr3Wt9EYUQEbJHyh4sBSkYb5k=r0egUPpv_RodFnPy2Sg@mail.gmail.com>
-References: <20160527102831.24166-1-otavio@ossystems.com.br>
-	<3646067.LvorxU5kj3@peggleto-mobl.ger.corp.intel.com>
-	<CAP9ODKr3Wt9EYUQEbJHyh4sBSkYb5k=r0egUPpv_RodFnPy2Sg@mail.gmail.com>
-MIME-Version: 1.0
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ca-certificates: Add openssl as a runtime dependency
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  3 Jun 2016 08:22:45 +1200
+Message-Id: <cover.1464898710.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.5.5
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH 0/1] Fix ca-certificates-native missing dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,44 +29,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jun 2016 20:05:59 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 02 Jun 2016 20:23:14 -0000
 
-On Thu, 02 Jun 2016 12:00:57 Otavio Salvador wrote:
-> On Wed, Jun 1, 2016 at 8:31 PM, Paul Eggleton
-> 
-> <paul.eggleton@linux.intel.com> wrote:
-> > On Mon, 30 May 2016 22:57:52 Richard Purdie wrote:
-> >> On Fri, 2016-05-27 at 07:28 -0300, Otavio Salvador wrote:
-> >> > The update-ca-certificates script uses the c_rehash utility which is
-> >> > installed by openssl. Add openssl as a runtime dependency to fulfill
-> >> > the utility requirement.
-> >> > 
-> >> > Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> >> > ---
-> >> > 
-> >> >  meta/recipes-support/ca-certificates/ca-certificates_20160104.bb | 2
-> >> > 
-> >> > ++
-> >> > 
-> >> >  1 file changed, 2 insertions(+)
-> >> 
-> >> This broke allarch machine signature invariance however I merged a
-> >> patch to resolve that.
-> > 
-> > I think we may still be missing a build-time dependency for
-> 
-> > ca-certificates-native:
-> Indeed; do you handle it or want me to send a patch for this?
+The following changes since commit 6c8d1876f5a2d53fa89531e4a5f414d5d5da77be:
 
-I can do it.
+  distro_check.py: Don't mix tabs and spaces (2016-06-02 08:36:15 +0100)
 
-Cheers,
-Paul
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/ca-certificates-native
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/ca-certificates-native
+
+Paul Eggleton (1):
+  ca-certificates: add dependency for native/nativesdk on openssl-native
+
+ meta/recipes-support/ca-certificates/ca-certificates_20160104.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 -- 
+2.5.5
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
