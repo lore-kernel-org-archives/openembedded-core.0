@@ -1,33 +1,61 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 401BF77433
+Return-Path: <kergoth@gmail.com>
+Received: from mail-io0-f195.google.com (mail-io0-f195.google.com
+	[209.85.223.195])
+	by mail.openembedded.org (Postfix) with ESMTP id E83D577442
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Jun 2016 15:04:34 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga104.fm.intel.com with ESMTP; 02 Jun 2016 08:04:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,406,1459839600"; d="scan'208";a="967538087"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 02 Jun 2016 08:04:35 -0700
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.51])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 8AD766A4006;
-	Thu,  2 Jun 2016 08:52:02 -0700 (PDT)
-Date: Thu, 2 Jun 2016 18:04:30 +0300
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Message-ID: <20160602150430.GA21917@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <cover.1464861910.git.ed.bartosh@linux.intel.com>
-	<1c36ea6e275b1b86fc3a6396242a951fc350f6c8.1464861910.git.ed.bartosh@linux.intel.com>
-	<1d8f0b7c-b094-23cd-ff7e-320d919dba62@linux.intel.com>
+	Thu,  2 Jun 2016 15:23:22 +0000 (UTC)
+Received: by mail-io0-f195.google.com with SMTP id k19so6949791ioi.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 02 Jun 2016 08:23:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=oLg9vKuTgcTvha3sBVeFhEaeITUj+libXXTXHdwWD0k=;
+	b=nURgvXSiUpFJMux7J0IG8exlcRnPARPg1KAlRBlcPmvjDzYZLnbprVGg7sxtv9qtti
+	kspN1REc+X1QNvB9i6lQjbmx8vPaf5w2W602mrC4ojCTXRremTO6+lvkNpOrL+0WEiwN
+	dbt0ez+6AXNm5o1mgSCsCfFRxKvRZM7mUds0iQ+cVAT1eBpeEbtLXGTIgRH8yTgT0wVZ
+	V+tuX2OGMMsOgza1h7Fci2Fs7qaYfgUjaB0xz0mltWZhjgbY3/9pP0E2oDJQ8C99bD5/
+	KwFs9qDX2Wqot7aYs7TGFKy9WSKbjUNi0ixBGBfPBXfLL1yYqYOVrFjG4rovDQTztwly
+	/ZlQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kergoth-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=oLg9vKuTgcTvha3sBVeFhEaeITUj+libXXTXHdwWD0k=;
+	b=vidWNDKwkj29SaWGk/eZxAyilk/C+zON0JCVbzQSgxC3YmcLcpBwfzgndRytmxi+lZ
+	F1DLPWnzFBFe3cvKHwjfwmf+ck3KVmSr5Mh3COaQerkrFowU853EjvY+/Zd0h1CeXcDI
+	+usJ7V5lDACRNhlVDoWKOEb8ZE0LdG8vwYxtQMlb0hTMMpifOe96j4LLoRERlv41anl4
+	P+vN6wMM5gkosIiesygGvKulgt1GPhw8cCk+hRoizxGdKr/NKMI5vEquS3LptyVWeLG/
+	S2KIeOSjy8KTWrUjFYXdfxs5hGP/Xbpsgp1y5NqO+7R8jrdp57iNI3T2KuUmx/HLLg5l
+	ofFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=oLg9vKuTgcTvha3sBVeFhEaeITUj+libXXTXHdwWD0k=;
+	b=bF8xRDZzKCP8ZK0JktVeK0x6G51Bk/jyySRAaD612tvrmb5an+YukVGw3H+fUorl0O
+	a/8raOam6oTteogxujqPCz62FfuPc6kptRWqJJNc6FnYHtcvOp4MRVp9lGYT5W9lJFGE
+	4ojbuKAezKGH1eiHnEz9VQPZpTtyw4KLarpfYJ82HkBCSIf5QcBmaYkIQLJ0saxf6CSN
+	Ozaz9Vu2wKtJsul5pY1N45dRnd+znsrOKTqdWUC2mdRJd3AG2VgSS/o+drnViGFfcG0r
+	KtaCxNqxL1CCYz1LDU++odJaTciqb//tfypQ+amTVkDx3lR/b90yxFMfNhm3rw909PEj
+	1wgg==
+X-Gm-Message-State: ALyK8tIO5u5MvdlKAVB+MUlCTWtHHlNA2cE2dqL12mEYEfbLW3X0BwazR21i/hiMkyVC504a99uQeNuXr371UQ==
+X-Received: by 10.107.131.222 with SMTP id n91mr1376336ioi.126.1464881003269; 
+	Thu, 02 Jun 2016 08:23:23 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1d8f0b7c-b094-23cd-ff7e-320d919dba62@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 01/16] scripts: python3: convert iterables to lists
+Sender: kergoth@gmail.com
+Received: by 10.79.100.5 with HTTP; Thu, 2 Jun 2016 08:23:03 -0700 (PDT)
+In-Reply-To: <1464852717.9588.12.camel@linuxfoundation.org>
+References: <1464784540-2786-1-git-send-email-richard.purdie@linuxfoundation.org>
+	<1464852717.9588.12.camel@linuxfoundation.org>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Thu, 2 Jun 2016 08:23:03 -0700
+X-Google-Sender-Auth: nRHdIPhtZ9m8FFtTG92yIrdpUMk
+Message-ID: <CABcZAN=nZo3oMWZYyP=tUrZwC55HaR_6TM6Tmd9ES-Jtoor=cA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Python3 for bitbake/OE merged
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,172 +68,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jun 2016 15:04:35 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 02 Jun 2016 15:23:24 -0000
+Content-Type: multipart/alternative; boundary=001a113ebd8cd6977105344d2f99
 
-On Thu, Jun 02, 2016 at 08:55:21AM -0500, Leonardo Sandoval wrote:
-> Ed,
-> 
-> what is the reason for this change?
-> 
-The reason is that in python 3 dict.keys() returns iterator unlike in
-pyton 2 where it returns list. If dictionary is changed inside the loop
-(which is the case here) "RuntimeError: dictionary changed size during iteration" will be raised.
+--001a113ebd8cd6977105344d2f99
+Content-Type: text/plain; charset=UTF-8
 
-Another case is when result of dict.keys() is added to the list. This
-kind of operations would raise TypeError: unsupported operand type(s)
-for +: 'dict_keys' and 'list'
+On Thu, Jun 2, 2016 at 12:31 AM, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
+> I just watched things break on the autobuilder as trying to keep the
+> python3 patches in sync with all the other changes coming in was
+> proving tricky and not really a productive use of my time.
+>
+> I've therefore merged the python3 patches and bitbake is now using
+> python3. If there are any further issues, we can fix in master. This
+> may mean some other patchsets need to rebase.
+>
 
-> 
-> On 06/02/2016 05:12 AM, Ed Bartosh wrote:
-> >Converted return value of items() keys() and values() to
-> >lists when dictionary is modified in the loop and when
-> >the result is added to the list.
-> >
-> >Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-> >---
-> >  scripts/bitbake-whatchanged                      | 6 +++---
-> >  scripts/combo-layer                              | 2 +-
-> >  scripts/lib/devtool/build.py                     | 2 +-
-> >  scripts/lib/devtool/standard.py                  | 4 ++--
-> >  scripts/lib/recipetool/create_buildsys.py        | 2 +-
-> >  scripts/lib/recipetool/create_buildsys_python.py | 6 +++---
-> >  scripts/oe-pkgdata-util                          | 2 +-
-> >  7 files changed, 12 insertions(+), 12 deletions(-)
-> >
-> >diff --git a/scripts/bitbake-whatchanged b/scripts/bitbake-whatchanged
-> >index a20adb2..b05aead 100755
-> >--- a/scripts/bitbake-whatchanged
-> >+++ b/scripts/bitbake-whatchanged
-> >@@ -120,7 +120,7 @@ def print_added(d_new = None, d_old = None):
-> >      Print the newly added tasks
-> >      """
-> >      added = {}
-> >-    for k in d_new.keys():
-> >+    for k in list(d_new.keys()):
-> >          if k not in d_old:
-> >              # Add the new one to added dict, and remove it from
-> >              # d_new, so the remaining ones are the changed ones
-> >@@ -155,7 +155,7 @@ def print_vrchanged(d_new = None, d_old = None, vr = None):
-> >      """
-> >      pvchanged = {}
-> >      counter = 0
-> >-    for k in d_new.keys():
-> >+    for k in list(d_new.keys()):
-> >          if d_new.get(k).get(vr) != d_old.get(k).get(vr):
-> >              counter += 1
-> >              pn, task = split_pntask(k)
-> >@@ -279,7 +279,7 @@ Note:
-> >          # Remove the same one from both stamps.
-> >          cnt_unchanged = 0
-> >-        for k in new_dict.keys():
-> >+        for k in list(new_dict.keys()):
-> >              if k in old_dict:
-> >                  cnt_unchanged += 1
-> >                  del(new_dict[k])
-> >diff --git a/scripts/combo-layer b/scripts/combo-layer
-> >index 234d9e4..7c41f92 100755
-> >--- a/scripts/combo-layer
-> >+++ b/scripts/combo-layer
-> >@@ -1186,7 +1186,7 @@ def update_with_history(conf, components, revisions, repos):
-> >          msg = conf_commit_msg(conf, components)
-> >          new_tree = runcmd("git write-tree", **wargs).strip()
-> >          new_rev = runcmd("git commit-tree".split() +
-> >-                         add_p([head] + additional_heads.keys()) +
-> >+                         add_p([head] + list(additional_heads.keys())) +
-> >                           ["-m", msg, new_tree],
-> >                           **wargs).strip()
-> >          # And done! This is the first time we change the HEAD in the actual work tree.
-> >diff --git a/scripts/lib/devtool/build.py b/scripts/lib/devtool/build.py
-> >index 48f6fe1..6be549d 100644
-> >--- a/scripts/lib/devtool/build.py
-> >+++ b/scripts/lib/devtool/build.py
-> >@@ -27,7 +27,7 @@ logger = logging.getLogger('devtool')
-> >  def _set_file_values(fn, values):
-> >-    remaining = values.keys()
-> >+    remaining = list(values.keys())
-> >      def varfunc(varname, origvalue, op, newlines):
-> >          newvalue = values.get(varname, origvalue)
-> >diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-> >index 08153c6..a2516d6 100644
-> >--- a/scripts/lib/devtool/standard.py
-> >+++ b/scripts/lib/devtool/standard.py
-> >@@ -998,7 +998,7 @@ def _export_local_files(srctree, rd, destdir):
-> >          bb.process.run(['git', 'checkout', tree, '--', '.'], cwd=srctree,
-> >                          env=dict(os.environ, GIT_WORK_TREE=destdir,
-> >                                   GIT_INDEX_FILE=tmp_index))
-> >-        new_set = _git_ls_tree(srctree, tree, True).keys()
-> >+        new_set = list(_git_ls_tree(srctree, tree, True).keys())
-> >      elif os.path.isdir(local_files_dir):
-> >          # If not tracked by Git, just copy from working copy
-> >          new_set = _ls_tree(os.path.join(srctree, 'oe-local-files'))
-> >@@ -1309,7 +1309,7 @@ def reset(args, config, basepath, workspace):
-> >          raise DevtoolError("Recipe must be specified, or specify -a/--all to "
-> >                             "reset all recipes")
-> >      if args.all:
-> >-        recipes = workspace.keys()
-> >+        recipes = list(workspace.keys())
-> >      else:
-> >          recipes = [args.recipename]
-> >diff --git a/scripts/lib/recipetool/create_buildsys.py b/scripts/lib/recipetool/create_buildsys.py
-> >index de3d9ae..78ae4bc 100644
-> >--- a/scripts/lib/recipetool/create_buildsys.py
-> >+++ b/scripts/lib/recipetool/create_buildsys.py
-> >@@ -682,7 +682,7 @@ class AutotoolsRecipeHandler(RecipeHandler):
-> >                  process_macro(in_keyword, partial)
-> >          if extravalues:
-> >-            for k,v in extravalues.items():
-> >+            for k,v in list(extravalues.items()):
-> >                  if v:
-> >                      if v.startswith('$') or v.startswith('@') or v.startswith('%'):
-> >                          del extravalues[k]
-> >diff --git a/scripts/lib/recipetool/create_buildsys_python.py b/scripts/lib/recipetool/create_buildsys_python.py
-> >index 55cce0e..aff13cf 100644
-> >--- a/scripts/lib/recipetool/create_buildsys_python.py
-> >+++ b/scripts/lib/recipetool/create_buildsys_python.py
-> >@@ -361,7 +361,7 @@ class PythonRecipeHandler(RecipeHandler):
-> >          # Naive mapping of setup() arguments to PKG-INFO field names
-> >          for d in [info, non_literals]:
-> >-            for key, value in d.items():
-> >+            for key, value in list(d.items()):
-> >                  new_key = _map(key)
-> >                  if new_key != key:
-> >                      del d[key]
-> >@@ -443,7 +443,7 @@ class PythonRecipeHandler(RecipeHandler):
-> >                  elif new_value != value:
-> >                      info[variable] = new_value
-> >              elif hasattr(value, 'items'):
-> >-                for dkey, dvalue in value.items():
-> >+                for dkey, dvalue in list(value.items()):
-> >                      new_list = []
-> >                      for pos, a_value in enumerate(dvalue):
-> >                          new_value = replace_value(search, replace, a_value)
-> >@@ -608,7 +608,7 @@ def gather_setup_info(fileobj):
-> >      visitor.visit(parsed)
-> >      non_literals, extensions = {}, []
-> >-    for key, value in visitor.keywords.items():
-> >+    for key, value in list(visitor.keywords.items()):
-> >          if key == 'ext_modules':
-> >              if isinstance(value, list):
-> >                  for ext in value:
-> >diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
-> >index b39d9b5..b16ecc9 100755
-> >--- a/scripts/oe-pkgdata-util
-> >+++ b/scripts/oe-pkgdata-util
-> >@@ -240,7 +240,7 @@ def lookup_pkg(args):
-> >          sys.exit(1)
-> >      if args.reverse:
-> >-        items = mappings.values()
-> >+        items = list(mappings.values())
-> >      else:
-> >          items = []
-> >          for pkg in pkgs:
-> 
-
+Huzzah!
 -- 
---
-Regards,
-Ed
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
+--001a113ebd8cd6977105344d2f99
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Thu, Jun 2, 2016 at 12:31 AM, Richard Purdie <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.=
+purdie@linuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
+ft:1ex"><div id=3D":oa" class=3D"a3s aXjCH m1551006f434af00d">I just watche=
+d things break on the autobuilder as trying to keep the<br>
+python3 patches in sync with all the other changes coming in was<br>
+proving tricky and not really a productive use of my time.<br>
+<br>
+I&#39;ve therefore merged the python3 patches and bitbake is now using<br>
+python3. If there are any further issues, we can fix in master. This<br>
+may mean some other patchsets need to rebase.</div></blockquote></div><br>H=
+uzzah!<br>-- <br><div class=3D"gmail_signature" data-smartmail=3D"gmail_sig=
+nature">Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBa=
+ke, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engin=
+eer, Mentor Graphics</div>
+</div></div>
+
+--001a113ebd8cd6977105344d2f99--
