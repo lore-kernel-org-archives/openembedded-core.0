@@ -1,30 +1,30 @@
-Return-Path: <alejandro.delcastillo@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id CE3C877453
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id BA5F677459
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Jun 2016 18:33:09 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u52IX9IO028332 for <openembedded-core@lists.openembedded.org>;
-	Thu, 2 Jun 2016 13:33:09 -0500
-Received: from delcastillo2.natinst.com ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016060213330990-440753 ;
-	Thu, 2 Jun 2016 13:33:09 -0500 
-From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 2 Jun 2016 13:33:07 -0500
-Message-Id: <1464892387-696-1-git-send-email-alejandro.delcastillo@ni.com>
-X-Mailer: git-send-email 1.9.1
+	Thu,  2 Jun 2016 19:16:01 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP; 02 Jun 2016 12:16:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,407,1459839600"; d="scan'208";a="712980821"
+Received: from ahmadjaz-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.169.128])
+	by FMSMGA003.fm.intel.com with ESMTP; 02 Jun 2016 12:16:00 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Fri, 03 Jun 2016 07:15:57 +1200
+Message-ID: <8934616.REGKCHSCIX@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.4.9-300.fc23.x86_64; KDE/4.14.20; x86_64; ;
+	)
+In-Reply-To: <20160602160535.GA2571@jama>
+References: <cover.1462987863.git.raj.khem@gmail.com>
+	<1570473.5iIQe2jHu3@peggleto-mobl.ger.corp.intel.com>
+	<20160602160535.GA2571@jama>
 MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 06/02/2016 01:33:09 PM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 06/02/2016 01:33:09 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-06-02_05:, , signatures=0
-Subject: [PATCH] opkg-utils: update SRCREV
+Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 01/42] gcc: Add gcc6 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,183 +37,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jun 2016 18:33:10 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 02 Jun 2016 19:16:02 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Drop patches now included in newer SRCREV. Update HOMEPAGE and PV
-version to better align with opkg. Current revision include:
+On Thu, 02 Jun 2016 18:05:35 Martin Jansa wrote:
+> On Wed, Jun 01, 2016 at 10:23:35AM +1200, Paul Eggleton wrote:
+> > On Wed, 01 Jun 2016 10:20:23 Paul Eggleton wrote:
+> > > On Tue, 31 May 2016 11:12:21 Jussi Kukkonen wrote:
+> > > > On 11 May 2016 at 20:35, Khem Raj <raj.khem@gmail.com> wrote:
+> > > > > +#BASEURI ?= "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2"
+> > > > > +BASEURI ?= "git://
+> > > > > github.com/gcc-mirror/gcc;branch=gcc-6-branch;protocol=git"
+> > > > 
+> > > > I guess this is where git2_github.com.gcc-mirror.gcc.tar.gz download
+> > > > comes from? It increased the size of my downloads-directory by >30% --
+> > > > and I must have quite a bit of old junk in that directory already.
+> > > > 
+> > > > Is there no other solution to this than a 2.5G git copy (honest
+> > > > question, I don't know gcc)?
+> > > 
+> > > We went down this road before and it wasn't great for users. There is at
+> > > least a tarball for 6.1, we'd presumably need some patches on top of
+> > > that (~43 if we were to simply take what's in the gcc-6-branch between
+> > > 6.1 and bd9a826, minus the "daily bumps").
+> > 
+> > Perhaps that was a little unclear - when I say "we went down this road
+> > before" I'm agreeing with Jussi - we pointed to a git branch in a
+> > previous release with the same resulting huge download for everyone,
+> > something I think we should avoid if at all possible.
+> 
+> Maybe it's biggest but at least there is only one copy of it:
+> 
+> top 10 in my downloads (archives and then git clones).
+> 
+> 823M    /OE/downloads/git2_git.yoctoproject.org.linux-yocto-3.14.git.tar.gz
+> 831M    /OE/downloads/git2_git.yoctoproject.org.linux-yocto-3.10.git.tar.gz
+> 893M    /OE/downloads/git2_git.yoctoproject.org.linux-yocto-3.17.git.tar.gz
+> 934M    /OE/downloads/git2_git.yoctoproject.org.linux-yocto-3.19.git.tar.gz
+> 969M    /OE/downloads/git2_git.yoctoproject.org.linux-yocto-4.1.git.tar.gz
+> 1.2G    /OE/downloads/git2_git.yoctoproject.org.linux-yocto-dev.git.tar.gz
+> 
+> 2.4G    /OE/downloads/git2_github.com.gcc-mirror.gcc.tar.gz
+> 
+> 854M    /OE/downloads/git2/github.com.qtproject.qtwebengine-chromium.git
+> 
+> 877M    /OE/downloads/git2/git.yoctoproject.org.linux-yocto-3.10.git
+> 900M    /OE/downloads/git2/git.yoctoproject.org.linux-yocto-3.14.git
+> 921M    /OE/downloads/git2/git.yoctoproject.org.linux-yocto-3.17.git
+> 964M    /OE/downloads/git2/git.yoctoproject.org.linux-yocto-3.19.git
+> 999M    /OE/downloads/git2/git.yoctoproject.org.linux-yocto-4.1.git
+> 1.3G    /OE/downloads/git2/git.yoctoproject.org.linux-yocto-dev.git
+> 2.3G    /OE/downloads/git2/git.yoctoproject.org.linux-yocto-4.4.git
 
-* Python 3 compatibility
-* Improved error handling
+No argument from me there - it does seem a little wasteful given that there 
+must be a huge overlap between those repos.
 
-Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
----
- ...re-do-find-ls-code-to-not-fail-on-filenam.patch | 56 ------------------=
-----
- .../opkg-build-Exit-when-fail-to-list-files.patch  | 45 -----------------
- meta/recipes-devtools/opkg-utils/opkg-utils=5Fgit.bb | 10 ++--
- 3 files changed, 4 insertions(+), 107 deletions(-)
- delete mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/0001-opkg-b=
-uild-re-do-find-ls-code-to-not-fail-on-filenam.patch
- delete mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/opkg-build-=
-Exit-when-fail-to-list-files.patch
+Cheers,
+Paul
 
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/0001-opkg-build-re=
--do-find-ls-code-to-not-fail-on-filenam.patch b/meta/recipes-devtools/opkg-=
-utils/opkg-utils/0001-opkg-build-re-do-find-ls-code-to-not-fail-on-filenam.=
-patch
-deleted file mode 100644
-index 5cbb55a..0000000
---- a/meta/recipes-devtools/opkg-utils/opkg-utils/0001-opkg-build-re-do-fin=
-d-ls-code-to-not-fail-on-filenam.patch
-+++ /dev/null
-@@ -1,56 +0,0 @@
--From 8e424296ce2af4a5a7392c38a31f8723f9b9fbda Mon Sep 17 00:00:00 2001
--From: Denys Dmytriyenko <denys@ti.com>
--Date: Thu, 7 Apr 2016 20:43:13 -0400
--Subject: [PATCH] opkg-build: re-do find/ls code to not fail on filenames w=
-ith
-- spaces
--
--Signed-off-by: Denys Dmytriyenko <denys@ti.com>
-----
-- opkg-build | 9 ++++-----
-- 1 file changed, 4 insertions(+), 5 deletions(-)
--
--diff --git a/opkg-build b/opkg-build
--index a9ccad2..07305b2 100755
----- a/opkg-build
--+++ b/opkg-build
--@@ -6,7 +6,6 @@
-- # 2003-04-25 rea@sr.unh.edu
-- #   Updated to work on Familiar Pre0.7rc1, with busybox tar.
-- #   Note it Requires: binutils-ar (since the busybox ar can't create)
---#   For UID debugging it needs a better "find".
-- set -e
--=20
-- version=3D1.0
--@@ -47,12 +46,12 @@ pkg=5Fappears=5Fsane() {
--=20
-- 	PKG=5FERROR=3D0
--=20
---	tilde=5Ffiles=3D`find . -name '*~'`
--+	tilde=5Ffiles=3D`find . -name '*~' -ls -printf '\\\n'`
-- 	if [ -n "$tilde=5Ffiles" ]; then
-- 	    if [ "$noclean" =3D "1" ]; then
-- 		echo "*** Warning: The following files have names ending in '~'.
-- You probably want to remove them: " >&2
---		ls -ld $tilde=5Ffiles
--+		echo -e $tilde=5Ffiles
-- 		if [ $? -ne 0 ]; then
-- 			echo "*** Error: Fail to list files have names ending in '~'."
-- 			exit 1
--@@ -64,12 +63,12 @@ You probably want to remove them: " >&2
-- 	    fi
-- 	fi
--=20
---	large=5Fuid=5Ffiles=3D`find . -uid +99 || true`
--+	large=5Fuid=5Ffiles=3D`find . -uid +99 -ls -printf '\\\n' || true`
--=20
-- 	if [ "$ogargs" =3D "" ]  && [ -n "$large=5Fuid=5Ffiles" ]; then
-- 		echo "*** Warning: The following files have a UID greater than 99.
-- You probably want to chown these to a system user: " >&2
---		ls -ld $large=5Fuid=5Ffiles
--+		echo -e $large=5Fuid=5Ffiles
-- 		if [ $? -ne 0 ]; then
-- 			echo "*** Error: Fail to list files have a UID greater than 99."
-- 			exit 1
----=20
--2.2.0
--
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/opkg-build-Exit-wh=
-en-fail-to-list-files.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/o=
-pkg-build-Exit-when-fail-to-list-files.patch
-deleted file mode 100644
-index 6c66902..0000000
---- a/meta/recipes-devtools/opkg-utils/opkg-utils/opkg-build-Exit-when-fail=
--to-list-files.patch
-+++ /dev/null
-@@ -1,45 +0,0 @@
--We have an issue when ls segfaults in some cases [1] so it's
--better to detect the failure at this level instead of continue
--the build process.
--
--[YOCTO #8926]
--
--Upstream-Status: Submitted [2]
--
--[1] https://bugzilla.yoctoproject.org/show=5Fbug.cgi?id=3D8926#c0
--[2] https://groups.google.com/forum/#!topic/opkg-devel/cmX02bgHZms
--
--Signed-off-by: An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.intel.com>
-----
-- opkg-build | 8 ++++++++
-- 1 file changed, 8 insertions(+)
--
--diff --git a/opkg-build b/opkg-build
--index 98008b6..a9ccad2 100755
----- a/opkg-build
--+++ b/opkg-build
--@@ -53,6 +53,10 @@ pkg=5Fappears=5Fsane() {
-- 		echo "*** Warning: The following files have names ending in '~'.
-- You probably want to remove them: " >&2
-- 		ls -ld $tilde=5Ffiles
--+		if [ $? -ne 0 ]; then
--+			echo "*** Error: Fail to list files have names ending in '~'."
--+			exit 1
--+		fi
-- 		echo >&2
-- 	    else
-- 		echo "*** Removing the following files: $tilde=5Ffiles"
--@@ -66,6 +70,10 @@ You probably want to remove them: " >&2
-- 		echo "*** Warning: The following files have a UID greater than 99.
-- You probably want to chown these to a system user: " >&2
-- 		ls -ld $large=5Fuid=5Ffiles
--+		if [ $? -ne 0 ]; then
--+			echo "*** Error: Fail to list files have a UID greater than 99."
--+			exit 1
--+		fi
-- 		echo >&2
-- 	fi
-- 	   =20
----=20
--2.1.4
--
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils=5Fgit.bb b/meta/re=
-cipes-devtools/opkg-utils/opkg-utils=5Fgit.bb
-index 8873b28..925c04f 100644
---- a/meta/recipes-devtools/opkg-utils/opkg-utils=5Fgit.bb
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils=5Fgit.bb
-@@ -1,18 +1,16 @@
- SUMMARY =3D "Additional utilities for the opkg package manager"
- SUMMARY=5Fupdate-alternatives-opkg =3D "Utility for managing the alternati=
-ves system"
- SECTION =3D "base"
--HOMEPAGE =3D "http://code.google.com/p/opkg/"
-+HOMEPAGE =3D "http://git.yoctoproject.org/cgit/cgit.cgi/opkg-utils"
- LICENSE =3D "GPLv2+"
- LIC=5FFILES=5FCHKSUM =3D "file://COPYING;md5=3D94d55d512a9ba36caa9b7df079b=
-ae19f \
-                     file://opkg.py;beginline=3D1;endline=3D18;md5=3D159174=
-91ad6bf7acc666ca5f7cc1e083"
- PROVIDES +=3D "${@bb.utils.contains('PACKAGECONFIG', 'update-alternatives'=
-, 'virtual/update-alternatives', '', d)}"
-=20
--SRCREV =3D "53274f087565fd45d8452c5367997ba6a682a37a"
--PV =3D "0.1.8+git${SRCPV}"
-+SRCREV =3D "ecd9a499d336ffd127bda3c5ba403f0a5ca056a5"
-+PV =3D "0.3.1+git${SRCPV}"
-=20
--SRC=5FURI =3D "git://git.yoctoproject.org/opkg-utils \
--           file://opkg-build-Exit-when-fail-to-list-files.patch \
--           file://0001-opkg-build-re-do-find-ls-code-to-not-fail-on-filena=
-m.patch"
-+SRC=5FURI =3D "git://git.yoctoproject.org/opkg-utils"
- SRC=5FURI=5Fappend=5Fclass-native =3D " file://tar=5Fignore=5Ferror.patch"
-=20
- S =3D "${WORKDIR}/git"
---=20
-1.9.1
+-- 
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
