@@ -1,61 +1,31 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-io0-f195.google.com (mail-io0-f195.google.com
-	[209.85.223.195])
-	by mail.openembedded.org (Postfix) with ESMTP id E83D577442
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id BF501773FE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Jun 2016 15:23:22 +0000 (UTC)
-Received: by mail-io0-f195.google.com with SMTP id k19so6949791ioi.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Jun 2016 08:23:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=oLg9vKuTgcTvha3sBVeFhEaeITUj+libXXTXHdwWD0k=;
-	b=nURgvXSiUpFJMux7J0IG8exlcRnPARPg1KAlRBlcPmvjDzYZLnbprVGg7sxtv9qtti
-	kspN1REc+X1QNvB9i6lQjbmx8vPaf5w2W602mrC4ojCTXRremTO6+lvkNpOrL+0WEiwN
-	dbt0ez+6AXNm5o1mgSCsCfFRxKvRZM7mUds0iQ+cVAT1eBpeEbtLXGTIgRH8yTgT0wVZ
-	V+tuX2OGMMsOgza1h7Fci2Fs7qaYfgUjaB0xz0mltWZhjgbY3/9pP0E2oDJQ8C99bD5/
-	KwFs9qDX2Wqot7aYs7TGFKy9WSKbjUNi0ixBGBfPBXfLL1yYqYOVrFjG4rovDQTztwly
-	/ZlQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kergoth-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=oLg9vKuTgcTvha3sBVeFhEaeITUj+libXXTXHdwWD0k=;
-	b=vidWNDKwkj29SaWGk/eZxAyilk/C+zON0JCVbzQSgxC3YmcLcpBwfzgndRytmxi+lZ
-	F1DLPWnzFBFe3cvKHwjfwmf+ck3KVmSr5Mh3COaQerkrFowU853EjvY+/Zd0h1CeXcDI
-	+usJ7V5lDACRNhlVDoWKOEb8ZE0LdG8vwYxtQMlb0hTMMpifOe96j4LLoRERlv41anl4
-	P+vN6wMM5gkosIiesygGvKulgt1GPhw8cCk+hRoizxGdKr/NKMI5vEquS3LptyVWeLG/
-	S2KIeOSjy8KTWrUjFYXdfxs5hGP/Xbpsgp1y5NqO+7R8jrdp57iNI3T2KuUmx/HLLg5l
-	ofFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=oLg9vKuTgcTvha3sBVeFhEaeITUj+libXXTXHdwWD0k=;
-	b=bF8xRDZzKCP8ZK0JktVeK0x6G51Bk/jyySRAaD612tvrmb5an+YukVGw3H+fUorl0O
-	a/8raOam6oTteogxujqPCz62FfuPc6kptRWqJJNc6FnYHtcvOp4MRVp9lGYT5W9lJFGE
-	4ojbuKAezKGH1eiHnEz9VQPZpTtyw4KLarpfYJ82HkBCSIf5QcBmaYkIQLJ0saxf6CSN
-	Ozaz9Vu2wKtJsul5pY1N45dRnd+znsrOKTqdWUC2mdRJd3AG2VgSS/o+drnViGFfcG0r
-	KtaCxNqxL1CCYz1LDU++odJaTciqb//tfypQ+amTVkDx3lR/b90yxFMfNhm3rw909PEj
-	1wgg==
-X-Gm-Message-State: ALyK8tIO5u5MvdlKAVB+MUlCTWtHHlNA2cE2dqL12mEYEfbLW3X0BwazR21i/hiMkyVC504a99uQeNuXr371UQ==
-X-Received: by 10.107.131.222 with SMTP id n91mr1376336ioi.126.1464881003269; 
-	Thu, 02 Jun 2016 08:23:23 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.79.100.5 with HTTP; Thu, 2 Jun 2016 08:23:03 -0700 (PDT)
-In-Reply-To: <1464852717.9588.12.camel@linuxfoundation.org>
-References: <1464784540-2786-1-git-send-email-richard.purdie@linuxfoundation.org>
-	<1464852717.9588.12.camel@linuxfoundation.org>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Thu, 2 Jun 2016 08:23:03 -0700
-X-Google-Sender-Auth: nRHdIPhtZ9m8FFtTG92yIrdpUMk
-Message-ID: <CABcZAN=nZo3oMWZYyP=tUrZwC55HaR_6TM6Tmd9ES-Jtoor=cA@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Python3 for bitbake/OE merged
+	Thu,  2 Jun 2016 15:54:03 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u52FrucN016530; Thu, 2 Jun 2016 16:53:56 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id HZSgXNCNbiRX; Thu,  2 Jun 2016 16:53:56 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u52FrqwW016526
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 2 Jun 2016 16:53:54 +0100
+Message-ID: <1464882832.13979.4.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andrew Bradford <andrew@bradfordembedded.com>,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 02 Jun 2016 16:53:52 +0100
+In-Reply-To: <1464205571-26293-2-git-send-email-andrew@bradfordembedded.com>
+References: <1464205571-26293-1-git-send-email-andrew@bradfordembedded.com>
+	<1464205571-26293-2-git-send-email-andrew@bradfordembedded.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Cc: Andrew Bradford <andrew.bradford@kodakalaris.com>
+Subject: Re: [PATCH 1/3] oe-buildenv-internal: Add P4CONFIG to BB_ENV_EXTRAWHITE_OE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,53 +38,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jun 2016 15:23:24 -0000
-Content-Type: multipart/alternative; boundary=001a113ebd8cd6977105344d2f99
+X-List-Received-Date: Thu, 02 Jun 2016 15:54:06 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a113ebd8cd6977105344d2f99
-Content-Type: text/plain; charset=UTF-8
+On Wed, 2016-05-25 at 15:46 -0400, Andrew Bradford wrote:
+> From: Andrew Bradford <andrew.bradford@kodakalaris.com>
+> 
+> So that the user's P4CONFIG variable can be used by recipes which
+> utilize the perforce fetcher.
+> 
+> References [YOCTO #6303]
+> 
+> Signed-off-by: Andrew Bradford <andrew.bradford@kodakalaris.com>
+> ---
+>  scripts/oe-buildenv-internal | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv
+> -internal
+> index 81ee784..e51b950 100755
+> --- a/scripts/oe-buildenv-internal
+> +++ b/scripts/oe-buildenv-internal
+> @@ -114,7 +114,7 @@ BB_ENV_EXTRAWHITE_OE="MACHINE DISTRO TCMODE
+> TCLIBC HTTP_PROXY http_proxy \
+>  HTTPS_PROXY https_proxy FTP_PROXY ftp_proxy FTPS_PROXY ftps_proxy
+> ALL_PROXY \
+>  all_proxy NO_PROXY no_proxy SSH_AGENT_PID SSH_AUTH_SOCK
+> BB_SRCREV_POLICY \
+>  SDKMACHINE BB_NUMBER_THREADS BB_NO_NETWORK PARALLEL_MAKE
+> GIT_PROXY_COMMAND \
+> -SOCKS5_PASSWD SOCKS5_USER SCREENDIR STAMPS_DIR BBPATH_EXTRA"
+> +SOCKS5_PASSWD SOCKS5_USER SCREENDIR STAMPS_DIR BBPATH_EXTRA
+> P4CONFIG"
+>  
+>  BB_ENV_EXTRAWHITE="$(echo $BB_ENV_EXTRAWHITE $BB_ENV_EXTRAWHITE_OE |
+> tr ' ' '\n' | LC_ALL=C sort --unique | tr '\n' ' ')"
 
-On Thu, Jun 2, 2016 at 12:31 AM, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+With the recent changes to the bitbake fetcher, its able to pull
+environment variables out of BB_ORIGENV. This should mean this patch
+isn't necessary?
 
-> I just watched things break on the autobuilder as trying to keep the
-> python3 patches in sync with all the other changes coming in was
-> proving tricky and not really a productive use of my time.
->
-> I've therefore merged the python3 patches and bitbake is now using
-> python3. If there are any further issues, we can fix in master. This
-> may mean some other patchsets need to rebase.
->
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=f9c623ddbfc140c0c8911f06aa2824edef8a5f4f
 
-Huzzah!
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+Cheers,
 
---001a113ebd8cd6977105344d2f99
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Richard
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Thu, Jun 2, 2016 at 12:31 AM, Richard Purdie <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.=
-purdie@linuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
-ft:1ex"><div id=3D":oa" class=3D"a3s aXjCH m1551006f434af00d">I just watche=
-d things break on the autobuilder as trying to keep the<br>
-python3 patches in sync with all the other changes coming in was<br>
-proving tricky and not really a productive use of my time.<br>
-<br>
-I&#39;ve therefore merged the python3 patches and bitbake is now using<br>
-python3. If there are any further issues, we can fix in master. This<br>
-may mean some other patchsets need to rebase.</div></blockquote></div><br>H=
-uzzah!<br>-- <br><div class=3D"gmail_signature" data-smartmail=3D"gmail_sig=
-nature">Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBa=
-ke, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engin=
-eer, Mentor Graphics</div>
-</div></div>
 
---001a113ebd8cd6977105344d2f99--
