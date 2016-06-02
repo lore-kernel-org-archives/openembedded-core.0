@@ -1,54 +1,46 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id B3AA677448
+Return-Path: <andrew@bradfordembedded.com>
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
+	[66.111.4.26])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E17B77455
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Jun 2016 16:05:09 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id a136so17086468wme.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Jun 2016 09:05:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=9iqMzLqUw2Fy/uPw9dblqCp9oyv99Sllhvn8QKyk8iw=;
-	b=O1vfv3wsrLis55EVJNDbxtYSuqL9myC+VSYozRWfWNXkv0/GAavEykIb7eKfvrws7r
-	IjcM7mFf0/9kA0UwNv0U0CRCxL77ANo+wT2mULlujAhswITutwPGy69cNGFStlKt2sUA
-	fJpQ3U3qRMJYVvAf/ezA8d9AkeWn8ndfT22nAPiNWlWB+5fk6MeAv7LneriixGULbYJQ
-	DaBam918csjlWA2AMY5Uo5r74BrHmfASTntA6/kzaUVu0pvMs1Ts7QV8Al+StkViSya8
-	rAbJ152O8sR+Bb8gs8qlIaXVRH0iRY7Z0PFgJRFscR04+7i/rjmamBOe7t6ZImCBfsUU
-	Cpvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=9iqMzLqUw2Fy/uPw9dblqCp9oyv99Sllhvn8QKyk8iw=;
-	b=kkpFY1igNjGYGx48eh4BrGglW1GZxVdnhuL8dkYtfsY/5HNa+hBTtdkJYZ16ywgVp6
-	q6sVlYjgAl+//YW2Twz2pOaLlUGWozhA0qh0BZW711F7/Bu4VKn+zA06C8ARo1I0yuct
-	UeSeCYs8262eOd01n2hnqbIEHhTArhQT2JC9j3KDXRU7cCcVvDRkgYDBTmkhe4O9a7nF
-	LSN+JA/ONYI1g1mXWLOsLJh7hTLvDEZ1XP86BPC3iXJzzKoDR01lXVMSpUUjf9IBPyb0
-	BJSewN1zE4Pu8yf2u8slZUuwNPdPYVVSIqgs3RfRnVuoVBFHkQ8XxuDRsw2pkIxD1ct8
-	/Mkw==
-X-Gm-Message-State: ALyK8tJqOTbwKpJi+IfuVWTw7DAtDQIreei1rEMwMOi618GFr2iE8QuEGWzbZy1/lz4IwA==
-X-Received: by 10.28.50.194 with SMTP id y185mr16377108wmy.51.1464883509526;
-	Thu, 02 Jun 2016 09:05:09 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	dj4sm1279006wjc.13.2016.06.02.09.05.08
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 02 Jun 2016 09:05:08 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 2 Jun 2016 18:05:35 +0200
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Message-ID: <20160602160535.GA2571@jama>
-References: <cover.1462987863.git.raj.khem@gmail.com>
-	<CAHiDW_H7EpNa6cPQxinNdq5WHvjxOQ81bEOZTWVECTOprU+8zg@mail.gmail.com>
-	<3214370.KVsKdKNYRI@peggleto-mobl.ger.corp.intel.com>
-	<1570473.5iIQe2jHu3@peggleto-mobl.ger.corp.intel.com>
+	Thu,  2 Jun 2016 17:06:43 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+	by mailout.nyi.internal (Postfix) with ESMTP id C984420972;
+	Thu,  2 Jun 2016 13:06:43 -0400 (EDT)
+Received: from frontend1 ([10.202.2.160])
+	by compute6.internal (MEProxy); Thu, 02 Jun 2016 13:06:43 -0400
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	bradfordembedded.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-sasl-enc
+	:x-sasl-enc; s=mesmtp; bh=D68IFeTzqDJZ1N7KjMUH4i2nGC8=; b=RSqLx/
+	3+ZddLP8dm7jXurRgItVDGwOWI4YIdKvaUoYnXXMvyjjFQbduhiM8PrbXDilnDxV
+	0+ocLQdzsJyraUTu6eXbb4eZ6UZs24U7rl43/ogFn0MLcgIAlWv3C0b6XyL8o0Px
+	DB8SBrfNHdNd00G9tcnp/ioIIesdyLmJRCUzI=
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-sasl-enc
+	:x-sasl-enc; s=smtpout; bh=D68IFeTzqDJZ1N7KjMUH4i2nGC8=; b=h7ebs
+	so5ZAnchWjL3uaX6ipDHTVMTtMFF73xh386eZ5FGs+3+yUNjjXjl2ukLo2j2SFOx
+	P+zvyokz9Q4TRMLEb86yjPNnhKlGbKP/MEuW6NgRxcBXSmrfD796Mbmin+hiw9MZ
+	3vS40EVJl6mWiusEY+18+iFNgNaTxi1dFIhbHs=
+X-Sasl-enc: mnFXv8u2Su80rs5Y9JnR70a0dtQlDi8qI+L307Vq6/Hi 1464887203
+Received: from kaim-eeyore.kodakalaris.net (clr-vpn01.kodakalaris.com
+	[198.140.222.129])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 156D5F29F4;
+	Thu,  2 Jun 2016 13:06:43 -0400 (EDT)
+Date: Thu, 2 Jun 2016 13:06:41 -0400
+From: Andrew Bradford <andrew@bradfordembedded.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20160602170641.GA25552@kaim-eeyore.kodakalaris.net>
+References: <1464205571-26293-1-git-send-email-andrew@bradfordembedded.com>
+	<1464205571-26293-3-git-send-email-andrew@bradfordembedded.com>
+	<1464882993.13979.7.camel@linuxfoundation.org>
 MIME-Version: 1.0
-In-Reply-To: <1570473.5iIQe2jHu3@peggleto-mobl.ger.corp.intel.com>
-User-Agent: Mutt/1.6.1 (2016-04-27)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 01/42] gcc: Add gcc6 recipes
+In-Reply-To: <1464882993.13979.7.camel@linuxfoundation.org>
+User-Agent: Mutt/1.6.0 (2016-04-01)
+Cc: Andrew Bradford <andrew.bradford@kodakalaris.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/3] bitbake.conf: Add P4DIR and FETCHCMD_p4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,101 +53,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jun 2016 16:05:09 -0000
-X-Groupsio-MsgNum: 83004
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="qMm9M+Fa2AknHoGS"
+X-List-Received-Date: Thu, 02 Jun 2016 17:06:43 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 
---qMm9M+Fa2AknHoGS
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Richard,
 
-On Wed, Jun 01, 2016 at 10:23:35AM +1200, Paul Eggleton wrote:
-> On Wed, 01 Jun 2016 10:20:23 Paul Eggleton wrote:
-> > On Tue, 31 May 2016 11:12:21 Jussi Kukkonen wrote:
-> > > On 11 May 2016 at 20:35, Khem Raj <raj.khem@gmail.com> wrote:
-> > > > +#BASEURI ?=3D "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2"
-> > > > +BASEURI ?=3D "git://
-> > > > github.com/gcc-mirror/gcc;branch=3Dgcc-6-branch;protocol=3Dgit"
-> > >=20
-> > > I guess this is where git2_github.com.gcc-mirror.gcc.tar.gz download =
-comes
-> > > from? It increased the size of my downloads-directory by >30% -- and I
-> > > must
-> > > have quite a bit of old junk in that directory already.
-> > >=20
-> > > Is there no other solution to this than a 2.5G git copy (honest quest=
-ion,
-> > > I
-> > > don't know gcc)?
-> >=20
-> > We went down this road before and it wasn't great for users. There is at
-> > least a tarball for 6.1, we'd presumably need some patches on top of th=
-at
-> > (~43 if we were to simply take what's in the gcc-6-branch between 6.1 a=
-nd
-> > bd9a826, minus the "daily bumps").
->=20
-> Perhaps that was a little unclear - when I say "we went down this road be=
-fore"=20
-> I'm agreeing with Jussi - we pointed to a git branch in a previous releas=
-e=20
-> with the same resulting huge download for everyone, something I think we=
-=20
-> should avoid if at all possible.
+On 06/02 16:56, Richard Purdie wrote:
+> On Wed, 2016-05-25 at 15:46 -0400, Andrew Bradford wrote:
+> > From: Andrew Bradford <andrew.bradford@kodakalaris.com>
+> > 
+> > So that perforce fetching can work more like the other source control
+> > system fetchers.
+> > 
+> > Signed-off-by: Andrew Bradford <andrew.bradford@kodakalaris.com>
+> > ---
+> >  meta/conf/bitbake.conf | 2 ++
+> >  1 file changed, 2 insertions(+)
+> > 
+> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> > index acef30b..1aa1d37 100644
+> > --- a/meta/conf/bitbake.conf
+> > +++ b/meta/conf/bitbake.conf
+> > @@ -339,6 +339,7 @@ SVNDIR = "${CO_DIR}/svn"
+> >  GITDIR = "${CO_DIR}/git2"
+> >  BZRDIR = "${CO_DIR}/bzr"
+> >  HGDIR = "${CO_DIR}/hg"
+> > +P4DIR = "${CO_DIR}/p4"
+> >  
+> >  STAMPS_DIR ?= "${TMPDIR}/stamps"
+> >  STAMP =
+> > "${STAMPS_DIR}/${MULTIMACH_TARGET_SYS}/${PN}/${EXTENDPE}${PV}-${PR}"
+> > @@ -618,6 +619,7 @@ FETCHCMD_cvs = "/usr/bin/env cvs"
+> >  FETCHCMD_wget = "/usr/bin/env wget -t 2 -T 30 -nv --passive-ftp --no
+> > -check-certificate"
+> >  FETCHCMD_bzr = "/usr/bin/env bzr"
+> >  FETCHCMD_hg = "/usr/bin/env hg"
+> > +FETCHCMD_p4 = "/usr/bin/env p4"
+> 
+> I've kind of been hoping we could move to a model where the fetcher has
+> sane defaults and we don't need to change anything in bitbake.conf
+> unless the user has some need to customise.
+> 
+> The FETCHCMD is easy to do that for, the P4DIR is slightly harder since
+> it means teaching the fetcher about CO_DIR which bitbake currently
+> knows nothing about. It may be worth dropping the notion of CO_DIR and
+> making the default ${DL_DIR}/p4 which bitbake does know about and
+> making the other fetchers match which such defaults?
 
-Maybe it's biggest but at least there is only one copy of it:
+OK, I'll take a look at that.  It should be easy to have a sane default
+for P4DIR and even FETCHCMD_p4 in the fetcher itself and not need
+changes to bitbake.conf.
 
-top 10 in my downloads (archives and then git clones).
+Thanks for the feedback! :)
+-Andrew
 
-823M    /OE/downloads/git2_git.yoctoproject.org.linux-yocto-3.14.git.tar.gz
-831M    /OE/downloads/git2_git.yoctoproject.org.linux-yocto-3.10.git.tar.gz
-893M    /OE/downloads/git2_git.yoctoproject.org.linux-yocto-3.17.git.tar.gz
-934M    /OE/downloads/git2_git.yoctoproject.org.linux-yocto-3.19.git.tar.gz
-969M    /OE/downloads/git2_git.yoctoproject.org.linux-yocto-4.1.git.tar.gz
-1.2G    /OE/downloads/git2_git.yoctoproject.org.linux-yocto-dev.git.tar.gz
-
-2.4G    /OE/downloads/git2_github.com.gcc-mirror.gcc.tar.gz
-
-854M    /OE/downloads/git2/github.com.qtproject.qtwebengine-chromium.git
-
-877M    /OE/downloads/git2/git.yoctoproject.org.linux-yocto-3.10.git
-900M    /OE/downloads/git2/git.yoctoproject.org.linux-yocto-3.14.git
-921M    /OE/downloads/git2/git.yoctoproject.org.linux-yocto-3.17.git
-964M    /OE/downloads/git2/git.yoctoproject.org.linux-yocto-3.19.git
-999M    /OE/downloads/git2/git.yoctoproject.org.linux-yocto-4.1.git
-1.3G    /OE/downloads/git2/git.yoctoproject.org.linux-yocto-dev.git
-2.3G    /OE/downloads/git2/git.yoctoproject.org.linux-yocto-4.4.git
-
->=20
-> Cheers,
-> Paul
->=20
-> --=20
->=20
-> Paul Eggleton
-> Intel Open Source Technology Centre
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---qMm9M+Fa2AknHoGS
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAldQWU0ACgkQN1Ujt2V2gByflACfZl7eJei8aTASP8zg+TC6IYUy
-9DAAn0OCf/FVQsHZZEmxIrfyI2/rI6Yu
-=XhbN
------END PGP SIGNATURE-----
-
---qMm9M+Fa2AknHoGS--
