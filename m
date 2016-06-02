@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 857C577162
+	by mail.openembedded.org (Postfix) with ESMTP id C4EAA77162
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  2 Jun 2016 09:26:59 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga101.fm.intel.com with ESMTP; 02 Jun 2016 02:26:41 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 02 Jun 2016 02:26:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,405,1459839600"; d="scan'208";a="114703460"
+X-IronPort-AV: E=Sophos;i="5.26,405,1459839600"; d="scan'208";a="114703461"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga004.fm.intel.com with ESMTP; 02 Jun 2016 02:26:41 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 02 Jun 2016 02:26:42 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 Jun 2016 12:26:04 +0300
-Message-Id: <5efbb807fe29b73b639fb5a7a33fa76b2286d47d.1464859158.git.alexander.kanavin@linux.intel.com>
+Date: Thu,  2 Jun 2016 12:26:05 +0300
+Message-Id: <49a250c71727f65ac89442d88b6fc24ca3e8541e.1464859158.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <cover.1464859158.git.alexander.kanavin@linux.intel.com>
 References: <cover.1464859158.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1464859158.git.alexander.kanavin@linux.intel.com>
 References: <cover.1464859158.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 27/31] systemtap: move to Python 3
+Subject: [PATCH 28/31] libcap-ng: move to Python 3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,28 +35,36 @@ X-List-Received-Date: Thu, 02 Jun 2016 09:26:59 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-kernel/systemtap/systemtap_git.bb | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ meta/recipes-support/libcap-ng/libcap-ng_0.7.7.bb | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
-index 97064b8..cf6a96a 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.bb
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
-@@ -6,13 +6,12 @@ DEPENDS = "elfutils sqlite3 systemtap-native"
- DEPENDS_class-native = "elfutils-native sqlite3-native gettext-native"
- DEPENDS_class-nativesdk = "nativesdk-elfutils nativesdk-sqlite3 nativesdk-gettext"
+diff --git a/meta/recipes-support/libcap-ng/libcap-ng_0.7.7.bb b/meta/recipes-support/libcap-ng/libcap-ng_0.7.7.bb
+index 5715467..5608f49 100644
+--- a/meta/recipes-support/libcap-ng/libcap-ng_0.7.7.bb
++++ b/meta/recipes-support/libcap-ng/libcap-ng_0.7.7.bb
+@@ -10,16 +10,18 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+ SRC_URI = "http://people.redhat.com/sgrubb/libcap-ng/libcap-ng-${PV}.tar.gz \
+            file://python.patch"
  
--RDEPENDS_${PN} += "python bash"
--RDEPENDS_${PN}_class-native += "python-native"
--RDEPENDS_${PN}_class-nativesdk += "python-native"
-+RDEPENDS_${PN} += "python3-core bash"
+-inherit lib_package autotools pythonnative
++inherit lib_package autotools python3native
  
- EXTRA_OECONF += "--with-libelf=${STAGING_DIR_TARGET} --without-rpm \
-             --without-nss --without-avahi --without-dyninst \
-             --disable-server --disable-grapher --enable-prologues \
-+            --with-python3 \
-             ac_cv_prog_have_javac=no \
-             ac_cv_prog_have_jar=no "
+ SRC_URI[md5sum] = "3d7d126b29e2869a0257c17c8b0d9b2e"
+ SRC_URI[sha256sum] = "615549ce39b333f6b78baee0c0b4ef18bc726c6bf1cca123dfd89dd963f6d06b"
+ 
+-DEPENDS += "swig-native python"
++DEPENDS += "swig-native python3"
+ 
+-EXTRA_OECONF += "--without-python3"
+-
+-EXTRA_OEMAKE += "PYLIBVER='python${PYTHON_BASEVERSION}' PYINC='${STAGING_INCDIR}/${PYLIBVER}'"
++export PYTHON
++export STAGING_INCDIR
++export STAGING_LIBDIR
++EXTRA_OECONF += "--with-python --with-python3"
++EXTRA_OEMAKE += "PYLIBVER='python${PYTHON_BASEVERSION}${PYTHON_ABI}' PYINC='${STAGING_INCDIR}/${PYLIBVER}'"
+ 
+ PACKAGES += "${PN}-python"
  
 -- 
 2.8.1
