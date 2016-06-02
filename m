@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 025C4773DE
+	by mail.openembedded.org (Postfix) with ESMTP id F2D4D773F8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Jun 2016 10:13:51 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 02 Jun 2016 03:13:54 -0700
+	Thu,  2 Jun 2016 10:13:52 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP; 02 Jun 2016 03:13:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,405,1459839600"; d="scan'208";a="712733365"
+X-IronPort-AV: E=Sophos;i="5.26,405,1459839600"; d="scan'208";a="989527647"
 Received: from linux.intel.com ([10.23.219.25])
-	by FMSMGA003.fm.intel.com with ESMTP; 02 Jun 2016 03:13:53 -0700
+	by orsmga002.jf.intel.com with ESMTP; 02 Jun 2016 03:13:54 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id 6E7DE6A4006
+	by linux.intel.com (Postfix) with ESMTP id 855DB6A4006
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Jun 2016 04:01:20 -0700 (PDT)
+	Thu,  2 Jun 2016 04:01:21 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 Jun 2016 13:12:51 +0300
-Message-Id: <c83800ce2bc0cb7ff4f130a8bb6d21219a8b6487.1464861910.git.ed.bartosh@linux.intel.com>
+Date: Thu,  2 Jun 2016 13:12:52 +0300
+Message-Id: <fa23b2509ec1f58a8f0244f1b6e1d29dc9e108ec.1464861910.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1464861910.git.ed.bartosh@linux.intel.com>
 References: <cover.1464861910.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1464861910.git.ed.bartosh@linux.intel.com>
 References: <cover.1464861910.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 05/16] ksize.py: python3: get rid of strings.join
+Subject: [PATCH 06/16] scripts: python3: get rid of __future__ imports
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,38 +35,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jun 2016 10:13:52 -0000
+X-List-Received-Date: Thu, 02 Jun 2016 10:13:53 -0000
 
-Used join method instead of strings.join as stings.join
-doesn't exist in python 3.
+Removed print_function and with_statement imports from __future__
+as they're supported by python 3 by default.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/tiny/ksize.py | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ scripts/bitbake-whatchanged                      | 1 -
+ scripts/pybootchartgui/pybootchartgui/main.py.in | 2 --
+ scripts/pybootchartgui/pybootchartgui/parsing.py | 3 ---
+ scripts/wic                                      | 2 --
+ 4 files changed, 8 deletions(-)
 
-diff --git a/scripts/tiny/ksize.py b/scripts/tiny/ksize.py
-index 54b71f8..587c930 100755
---- a/scripts/tiny/ksize.py
-+++ b/scripts/tiny/ksize.py
-@@ -28,8 +28,6 @@ import sys
- import getopt
+diff --git a/scripts/bitbake-whatchanged b/scripts/bitbake-whatchanged
+index b05aead..55b61d0 100755
+--- a/scripts/bitbake-whatchanged
++++ b/scripts/bitbake-whatchanged
+@@ -17,7 +17,6 @@
+ # along with this program; if not, write to the Free Software
+ # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ 
+-from __future__ import print_function
  import os
- from subprocess import *
--from string import join
+ import sys
+ import getopt
+diff --git a/scripts/pybootchartgui/pybootchartgui/main.py.in b/scripts/pybootchartgui/pybootchartgui/main.py.in
+index 21bb0be..af26bd2 100644
+--- a/scripts/pybootchartgui/pybootchartgui/main.py.in
++++ b/scripts/pybootchartgui/pybootchartgui/main.py.in
+@@ -16,8 +16,6 @@
+ #  You should have received a copy of the GNU General Public License
+ #  along with pybootchartgui. If not, see <http://www.gnu.org/licenses/>.
+ 
+-from __future__ import print_function
 -
+ import sys
+ import os
+ import optparse
+diff --git a/scripts/pybootchartgui/pybootchartgui/parsing.py b/scripts/pybootchartgui/pybootchartgui/parsing.py
+index d423b9f..a3a0b0b 100644
+--- a/scripts/pybootchartgui/pybootchartgui/parsing.py
++++ b/scripts/pybootchartgui/pybootchartgui/parsing.py
+@@ -13,9 +13,6 @@
+ #  You should have received a copy of the GNU General Public License
+ #  along with pybootchartgui. If not, see <http://www.gnu.org/licenses/>.
  
- def usage():
-     prog = os.path.basename(sys.argv[0])
-@@ -66,7 +64,7 @@ class Report:
+-
+-from __future__ import with_statement
+-
+ import os
+ import string
+ import re
+diff --git a/scripts/wic b/scripts/wic
+index 5cc06f4..9023755 100755
+--- a/scripts/wic
++++ b/scripts/wic
+@@ -28,8 +28,6 @@
+ # AUTHORS
+ # Tom Zanussi <tom.zanussi (at] linux.intel.com>
+ #
+-from __future__ import print_function
+-
+ __version__ = "0.2.0"
  
-         p = Popen("ls " + path + "/*.o | grep -v built-in.o",
-                   shell=True, stdout=PIPE, stderr=PIPE)
--        glob = join(p.communicate()[0].splitlines())
-+        glob = ' '.join(p.communicate()[0].splitlines())
-         oreport = Report(glob, path + "/*.o")
-         oreport.sizes.title = path + "/*.o"
-         r.parts.append(oreport)
+ # Python Standard Library modules
 -- 
 2.1.4
 
