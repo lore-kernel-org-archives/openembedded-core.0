@@ -1,29 +1,43 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
-	by mail.openembedded.org (Postfix) with ESMTP id 717987327F
+Return-Path: <andrew@bradfordembedded.com>
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
+	[66.111.4.26])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A34B7742C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Jun 2016 13:41:13 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
-	via TCP (outbound) with ESMTPS id 20160602134112911_0685
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Jun 2016 06:41:12 -0700
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [216.191.234.70] (port=42339 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1b8Stg-0003fx-5a for openembedded-core@lists.openembedded.org;
-	Thu, 02 Jun 2016 09:42:52 -0400
-Date: Thu, 2 Jun 2016 09:40:33 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.20.1606020932230.27421@localhost.localdomain>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+	Thu,  2 Jun 2016 13:41:47 +0000 (UTC)
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+	by mailout.nyi.internal (Postfix) with ESMTP id F33322144F;
+	Thu,  2 Jun 2016 09:41:46 -0400 (EDT)
+Received: from frontend2 ([10.202.2.161])
+	by compute7.internal (MEProxy); Thu, 02 Jun 2016 09:41:47 -0400
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	bradfordembedded.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-sasl-enc
+	:x-sasl-enc; s=mesmtp; bh=A784iT/i4xhlr4avCnManmccWEE=; b=bS1/B3
+	USBrSaNDl4rz561v3bo+cL2TsgLViFxeduozJuIdRLbPa40QWBYmDTJZ+U1xz077
+	N+GWDgPDi1ADUxSO5UZ+2Mh75wy2/ryVAI1l3Rs07O4DrAmgIKouNimso5bC8A/I
+	3Z0ARV2q0DlApWPT2Di68yJ3xrKFwbgQZeTg8=
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-sasl-enc
+	:x-sasl-enc; s=smtpout; bh=A784iT/i4xhlr4avCnManmccWEE=; b=c3fHc
+	OQZJkgPTnb+a+fKQrdlsRWW5t7kZs2zgEbsxv2VrSC7LRldcPr1P11hPjXtXe44R
+	a1PwID99u5ZFkWzehUhs02X6pLFtQi4GFlIa37X40otLOLmOgESZC3KjM1LDZgPY
+	9jhyLYWkkk4Q1MT500wXYVLbkA1fpymqN4rbaQ=
+X-Sasl-enc: 2e8UfhZzPSFRwftd2uKgfhMT0mEAR1kZIlOL+PZBIk5O 1464874906
+Received: from kaim-eeyore.kodakalaris.net (clr-vpn01.kodakalaris.com
+	[198.140.222.129])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 93A65CC078;
+	Thu,  2 Jun 2016 09:41:46 -0400 (EDT)
+Date: Thu, 2 Jun 2016 09:41:45 -0400
+From: Andrew Bradford <andrew@bradfordembedded.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20160602134145.GA31801@kaim-eeyore.kodakalaris.net>
+References: <1464205571-26293-1-git-send-email-andrew@bradfordembedded.com>
 MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: easiest way to patch some headers in gcc-5.2 source?
+In-Reply-To: <1464205571-26293-1-git-send-email-andrew@bradfordembedded.com>
+User-Agent: Mutt/1.6.0 (2016-04-01)
+Cc: Andrew Bradford <andrew.bradford@kodakalaris.com>
+Subject: Re: [PATCH 0/3] Setup for bitbake perforce fetcher changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,38 +50,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jun 2016 13:41:14 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Thu, 02 Jun 2016 13:41:48 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
+On 05/25 15:46, Andrew Bradford wrote:
+> From: Andrew Bradford <andrew.bradford@kodakalaris.com>
+> 
+> The perforce fetcher does not yet support using SRCREV="${AUTOREV}" or
+> the use of the P4CONFIG variable [1].  These patches setup a few things
+> in oe-core so that changes in bitbake can take advantage of them to fix
+> these two issues as well as simplify and better document the use of the
+> perforce fetcher.
+> 
+> [1]: https://bugzilla.yoctoproject.org/show_bug.cgi?id=6303
+> 
+> Thanks,
+> Andrew
+> 
+> Andrew Bradford (3):
+>   oe-buildenv-internal: Add P4CONFIG to BB_ENV_EXTRAWHITE_OE
+>   bitbake.conf: Add P4DIR and FETCHCMD_p4
+>   base.bbclass: p4 fetcher supports srcrev
+> 
+>  meta/classes/base.bbclass    | 4 ++++
+>  meta/conf/bitbake.conf       | 2 ++
+>  scripts/oe-buildenv-internal | 2 +-
+>  3 files changed, 7 insertions(+), 1 deletion(-)
+> 
+> -- 
+> 2.8.1
+> 
+> -- 
 
-  for backward compatibility reasons, i need to patch some header
-files in gcc-5.2 to change some quoted includes to angle bracket-style
-includes.
+Ping on this series?
 
-  i have the patch, and this change is only to make the resultant
-cross-compiler work properly, but i figure the easiest thing to do is
-just apply the patch to *all* gcc-5.2 compilations (native, cross,
-whatever) since it's all fairly innocent and won't break anything that
-already works.
-
-  from what i see, in all the recipes and inc files under
-oe-core/meta/recipes-devtools/gcc/, i can just add the application of
-that patch to the gcc-source_5.2.bb recipe, which will then apply to
-all gcc-5.2 compilation output, is that correct? so i'd create me a
-little gcc-source_5.2.bbappend file and add my patch to SRC_URI.
-
-  does all that sound reasonable? am i reading this correctly?
-
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
+Thanks,
+Andrew
 
