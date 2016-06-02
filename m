@@ -1,20 +1,22 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id DD2E677399
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id A7A9077399
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Jun 2016 10:49:14 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 02 Jun 2016 03:49:14 -0700
+	Thu,  2 Jun 2016 10:49:36 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga103.fm.intel.com with ESMTP; 02 Jun 2016 03:49:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,405,1459839600"; d="scan'208";a="712744183"
+X-IronPort-AV: E=Sophos;i="5.26,405,1459839600"; d="scan'208";a="114740364"
 Received: from theory.fi.intel.com ([10.237.72.196])
-	by FMSMGA003.fm.intel.com with ESMTP; 02 Jun 2016 03:49:13 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 02 Jun 2016 03:49:36 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 Jun 2016 13:49:02 +0300
-Message-Id: <cover.1464863090.git.jussi.kukkonen@intel.com>
+Date: Thu,  2 Jun 2016 13:49:32 +0300
+Message-Id: <0948a4990dbf84db3529b68398e6d77297e035ae.1464863090.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 0/3] dosfstools upgrade + image gen. fixes
+In-Reply-To: <cover.1464863090.git.jussi.kukkonen@intel.com>
+References: <cover.1464863090.git.jussi.kukkonen@intel.com>
+Subject: [PATCH 1/3] mtools: Patch out a useless sanity check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,58 +29,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jun 2016 10:49:15 -0000
+X-List-Received-Date: Thu, 02 Jun 2016 10:49:37 -0000
 
-A new approach to the dosfstools upgrade: Fix the sanity check in
-mtools and remove workarounds we have in image generation scripts.
+The sanity check is ensuring that filesystem size is divisible by
+sectors-per-track. That seems to be just an optimization for ancient
+media, and quite tricky to accomplish as different dosfstools versions
+produce filesystems with different sectors-per-track.
 
-I ended up at this after I realised that:
- * dosfstools < 4.0 uses 32 sectors-per-track 
- * dosfstools 4.0 uses 63 sectors-per-track
- * dosfstools git master uses variable sectors-per-track
-Creating a filesystem with a size that's divisible by sectors-per-track
-with multiple different dosfstools (we have two versions) was going
-to be very tricky.
+Continue processing even if filesystem size is not divisible by
+sectors-per-track.
 
-On the other hand, making the sanity check in mtools non-fatal seems to
-work just fine and let's us simplify the scripts.
-
- - Jussi
-
-
-
-The following changes since commit 5a9745dd631eb697c30cd49e1dd065f4f57e7393:
-
-  distro_check.py: Don't mix tabs and spaces (2016-06-02 08:36:29 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib jku/dosfstools
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/dosfstools
-
-Jussi Kukkonen (3):
-  mtools: Patch out a useless sanity check
-  image-live, image-vm, wic: Remove fs size workaround
-  dosfstools: Upgrade 3.0.28 -> 4.0
-
- meta/classes/image-live.bbclass                    |  6 ---
- meta/classes/image-vm.bbclass                      |  6 ---
- .../0001-mkfs.fat-fix-incorrect-int-type.patch     | 46 ----------------------
- .../dosfstools/dosfstools/largefile.patch          | 19 ---------
- .../{dosfstools_3.0.28.bb => dosfstools_4.0.bb}    | 18 +++------
- ...en-if-fs-size-is-not-divisible-by-sectors.patch | 34 ++++++++++++++++
- meta/recipes-devtools/mtools/mtools_3.9.9.bb       |  4 +-
- meta/recipes-devtools/mtools/mtools_4.0.18.bb      |  4 +-
- scripts/lib/wic/partition.py                       |  8 ----
- scripts/lib/wic/plugins/source/bootimg-efi.py      |  6 ---
- scripts/lib/wic/plugins/source/bootimg-pcbios.py   |  6 ---
- .../lib/wic/plugins/source/isoimage-isohybrid.py   |  6 ---
- 12 files changed, 46 insertions(+), 117 deletions(-)
- delete mode 100644 meta/recipes-devtools/dosfstools/dosfstools/0001-mkfs.fat-fix-incorrect-int-type.patch
- delete mode 100644 meta/recipes-devtools/dosfstools/dosfstools/largefile.patch
- rename meta/recipes-devtools/dosfstools/{dosfstools_3.0.28.bb => dosfstools_4.0.bb} (60%)
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+---
+ ...en-if-fs-size-is-not-divisible-by-sectors.patch | 34 ++++++++++++++++++++++
+ meta/recipes-devtools/mtools/mtools_3.9.9.bb       |  4 ++-
+ meta/recipes-devtools/mtools/mtools_4.0.18.bb      |  4 ++-
+ 3 files changed, 40 insertions(+), 2 deletions(-)
  create mode 100644 meta/recipes-devtools/mtools/mtools/0001-Continue-even-if-fs-size-is-not-divisible-by-sectors.patch
 
+diff --git a/meta/recipes-devtools/mtools/mtools/0001-Continue-even-if-fs-size-is-not-divisible-by-sectors.patch b/meta/recipes-devtools/mtools/mtools/0001-Continue-even-if-fs-size-is-not-divisible-by-sectors.patch
+new file mode 100644
+index 0000000..4117d01
+--- /dev/null
++++ b/meta/recipes-devtools/mtools/mtools/0001-Continue-even-if-fs-size-is-not-divisible-by-sectors.patch
+@@ -0,0 +1,34 @@
++From 5cc8d1f96ab6d3459e13631d8356f87381562352 Mon Sep 17 00:00:00 2001
++From: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Date: Thu, 2 Jun 2016 09:49:44 +0300
++Subject: [PATCH] Continue even if fs size is not divisible by
++ sectors-per-track
++
++Filesystem with a size that is not divisible by sectors-per-track is
++not broken or invalid: it might be unoptimized on media where
++heads and cylinders actually matter but that should be it.
++
++Preserve the warning but make mtools continue even if fs size is not
++divisible by sectors-per-track.
++
++Upstream-Status: Submitted [info-mtools@gnu.org]
++Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++---
++ init.c | 1 -
++ 1 file changed, 1 deletion(-)
++
++diff --git a/init.c b/init.c
++index c9152e0..4e16a01 100644
++--- a/init.c
+++++ b/init.c
++@@ -338,7 +338,6 @@ Stream_t *fs_init(char drive, int mode, int *isRop)
++ 		fprintf(stderr,
++ 			"Add mtools_skip_check=1 to your .mtoolsrc file "
++ 			"to skip this test\n");
++-		exit(1);
++ 	}
++ 
++ 	/* full cylinder buffering */
++-- 
++2.1.4
++
+diff --git a/meta/recipes-devtools/mtools/mtools_3.9.9.bb b/meta/recipes-devtools/mtools/mtools_3.9.9.bb
+index 3423917..2904ff4 100644
+--- a/meta/recipes-devtools/mtools/mtools_3.9.9.bb
++++ b/meta/recipes-devtools/mtools/mtools_3.9.9.bb
+@@ -33,7 +33,9 @@ SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/mtools-${PV}.tar.gz
+            file://mtools-makeinfo.patch \
+            file://mtools.patch \
+            file://no-x11.patch \
+-           file://fix-broken-lz.patch"
++           file://fix-broken-lz.patch \
++           file://0001-Continue-even-if-fs-size-is-not-divisible-by-sectors.patch \
++           "
+ 
+ inherit autotools texinfo
+ 
+diff --git a/meta/recipes-devtools/mtools/mtools_4.0.18.bb b/meta/recipes-devtools/mtools/mtools_4.0.18.bb
+index efde547..b0efc9e 100644
+--- a/meta/recipes-devtools/mtools/mtools_4.0.18.bb
++++ b/meta/recipes-devtools/mtools/mtools_4.0.18.bb
+@@ -29,7 +29,9 @@ SRC_URI[sha256sum] = "59e9cf80885399c4f229e5d87e49c0c2bfeec044e1386d59fcd0b0aead
+ 
+ SRC_URI = "${GNU_MIRROR}/mtools/mtools-${PV}.tar.bz2 \
+            file://mtools-makeinfo.patch \
+-           file://no-x11.gplv3.patch"
++           file://no-x11.gplv3.patch \
++           file://0001-Continue-even-if-fs-size-is-not-divisible-by-sectors.patch \
++           "
+ 
+ 
+ inherit autotools texinfo
 -- 
 2.1.4
 
