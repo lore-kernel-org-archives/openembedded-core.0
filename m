@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 2474577339
+	by mail.openembedded.org (Postfix) with ESMTP id 2A72777360
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  2 Jun 2016 09:26:28 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga102.jf.intel.com with ESMTP; 02 Jun 2016 02:26:23 -0700
+	by orsmga102.jf.intel.com with ESMTP; 02 Jun 2016 02:26:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,405,1459839600"; d="scan'208";a="114703363"
+X-IronPort-AV: E=Sophos;i="5.26,405,1459839600"; d="scan'208";a="114703374"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga004.fm.intel.com with ESMTP; 02 Jun 2016 02:26:22 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 02 Jun 2016 02:26:25 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 Jun 2016 12:25:46 +0300
-Message-Id: <bd6670663a390c312fb9945b44c3099edf7c45db.1464859158.git.alexander.kanavin@linux.intel.com>
+Date: Thu,  2 Jun 2016 12:25:48 +0300
+Message-Id: <f27a7b479b7339925ca3c8461048281b0687e807.1464859158.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <cover.1464859158.git.alexander.kanavin@linux.intel.com>
 References: <cover.1464859158.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1464859158.git.alexander.kanavin@linux.intel.com>
 References: <cover.1464859158.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 09/31] connman: do not install Python test scripts
+Subject: [PATCH 11/31] packagegroup-core-full-cmdline: drop python-dbus from the list of services
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,38 +33,25 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 02 Jun 2016 09:26:28 -0000
 
-They are not compatible with python 3, and require python-dbus
-and python-gobject (which are provided only for Python 3).
+Any Python scripts should include this dependency explicitly.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-connectivity/connman/connman.inc | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index c375251..f09a2de 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -26,7 +26,6 @@ EXTRA_OECONF += "\
-     --enable-loopback \
-     --enable-ethernet \
-     --enable-tools \
--    --enable-test \
-     --disable-polkit \
-     --enable-client \
- "
-@@ -140,10 +139,7 @@ PACKAGES =+ "${PN}-tools ${PN}-tests ${PN}-client"
- FILES_${PN}-tools = "${bindir}/wispr"
- RDEPENDS_${PN}-tools ="${PN}"
- 
--FILES_${PN}-tests = "${bindir}/*-test ${libdir}/${BPN}/test/*"
--RDEPENDS_${PN}-tests = "python-dbus python-pygobject python-textutils python-subprocess python-fcntl python-netclient \
--                        ${PN} \
--"
-+FILES_${PN}-tests = "${bindir}/*-test"
- 
- FILES_${PN}-client = "${bindir}/connmanctl"
- RDEPENDS_${PN}-client ="${PN}"
+diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb b/meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb
+index f33b43e..a60a68c 100644
+--- a/meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb
++++ b/meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb
+@@ -143,7 +143,6 @@ RDEPENDS_packagegroup-core-full-cmdline-sys-services = "\
+     cronie \
+     dbus \
+     dbus-glib \
+-    python-dbus \
+     elfutils \
+     gzip \
+     less \
 -- 
 2.8.1
 
