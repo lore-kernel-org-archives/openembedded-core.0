@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 6327D7716F
+	by mail.openembedded.org (Postfix) with ESMTP id 0E78777328
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Jun 2016 09:26:26 +0000 (UTC)
+	Thu,  2 Jun 2016 09:26:27 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga102.jf.intel.com with ESMTP; 02 Jun 2016 02:26:21 -0700
+	by orsmga102.jf.intel.com with ESMTP; 02 Jun 2016 02:26:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,405,1459839600"; d="scan'208";a="114703349"
+X-IronPort-AV: E=Sophos;i="5.26,405,1459839600"; d="scan'208";a="114703356"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga004.fm.intel.com with ESMTP; 02 Jun 2016 02:26:20 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 02 Jun 2016 02:26:21 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 Jun 2016 12:25:44 +0300
-Message-Id: <ea44a84817e6f8b19fb83cd3d92d45cac30f8952.1464859158.git.alexander.kanavin@linux.intel.com>
+Date: Thu,  2 Jun 2016 12:25:45 +0300
+Message-Id: <3f4931cefb8e0021ede379db9b6be970d29f9a7b.1464859158.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <cover.1464859158.git.alexander.kanavin@linux.intel.com>
 References: <cover.1464859158.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1464859158.git.alexander.kanavin@linux.intel.com>
 References: <cover.1464859158.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 07/31] neard: do not package python test scripts
+Subject: [PATCH 08/31] bluez5: switch to Python 3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,48 +33,35 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 02 Jun 2016 09:26:28 -0000
 
-They require python-dbus and python-gobject
-(which are only provided for Python 3), and have not
-been ported to Python 3.
-
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-connectivity/neard/neard_0.15.bb | 13 +------------
- 1 file changed, 1 insertion(+), 12 deletions(-)
+ meta/recipes-connectivity/bluez5/bluez5.inc | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/neard/neard_0.15.bb b/meta/recipes-connectivity/neard/neard_0.15.bb
-index 93bddb3..065cbec 100644
---- a/meta/recipes-connectivity/neard/neard_0.15.bb
-+++ b/meta/recipes-connectivity/neard/neard_0.15.bb
-@@ -33,18 +33,9 @@ do_install_append() {
- 		  > ${D}${sysconfdir}/init.d/neard
- 		chmod 0755 ${D}${sysconfdir}/init.d/neard
- 	fi
--
--	# Install the tests for neard-tests
--	install -d ${D}${libdir}/neard
--	install -m 0755 ${S}/test/* ${D}${libdir}/${BPN}/
--	install -m 0755 ${B}/tools/nfctool/nfctool ${D}${libdir}/${BPN}/
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index b3cd8ed..92e360a 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -69,6 +69,10 @@ do_install_append() {
+         for f in ${NOINST_TOOLS} ; do
+ 	    install -m 755 ${B}/$f ${D}/${bindir}
+ 	done
++
++        # Patch python tools to use Python 3; they should be source compatible, but
++        # still refer to Python 2 in the shebang
++        sed -i -e '1s,#!.*python.*,#!${bindir}/python3,' ${D}${libdir}/bluez/test/*
  }
  
--PACKAGES =+ "${PN}-tests"
--
--FILES_${PN}-tests = "${libdir}/${BPN}/*-test"
--
--RDEPENDS_${PN} = "dbus python python-dbus python-pygobject"
-+RDEPENDS_${PN} = "dbus"
+ ALLOW_EMPTY_libasound-module-bluez = "1"
+@@ -99,7 +103,7 @@ def get_noinst_tools_paths (d, bb, tools):
  
- # Bluez & Wifi are not mandatory except for handover
- RRECOMMENDS_${PN} = "\
-@@ -52,8 +43,6 @@ RRECOMMENDS_${PN} = "\
-                      ${@bb.utils.contains('DISTRO_FEATURES', 'wifi','wpa-supplicant', '', d)} \
-                     "
+ FILES_${PN}-noinst-tools = "${@get_noinst_tools_paths(d, bb, d.getVar('NOINST_TOOLS', True))}"
  
--RDEPENDS_${PN}-tests = "python python-dbus python-pygobject"
--
- INITSCRIPT_NAME = "neard"
- INITSCRIPT_PARAMS = "defaults 64"
+-RDEPENDS_${PN}-testtools += "python python-dbus python-pygobject"
++RDEPENDS_${PN}-testtools += "python3 python3-dbus python3-pygobject"
  
+ SYSTEMD_SERVICE_${PN} = "bluetooth.service"
+ INITSCRIPT_PACKAGES = "${PN}"
 -- 
 2.8.1
 
