@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id E1B2F7716F
+	by mail.openembedded.org (Postfix) with ESMTP id 1356E77162
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Jun 2016 09:26:55 +0000 (UTC)
+	Thu,  2 Jun 2016 09:26:56 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga101.fm.intel.com with ESMTP; 02 Jun 2016 02:26:32 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 02 Jun 2016 02:26:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,405,1459839600"; d="scan'208";a="114703415"
+X-IronPort-AV: E=Sophos;i="5.26,405,1459839600"; d="scan'208";a="114703421"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga004.fm.intel.com with ESMTP; 02 Jun 2016 02:26:32 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 02 Jun 2016 02:26:33 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 Jun 2016 12:25:55 +0300
-Message-Id: <9765a07d60a9006165ac7d98fa68827b9015b4be.1464859158.git.alexander.kanavin@linux.intel.com>
+Date: Thu,  2 Jun 2016 12:25:56 +0300
+Message-Id: <c8f2f096f7dfdb36a80f0c32cfea449331529aad.1464859158.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <cover.1464859158.git.alexander.kanavin@linux.intel.com>
 References: <cover.1464859158.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1464859158.git.alexander.kanavin@linux.intel.com>
 References: <cover.1464859158.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 18/31] swig: move to Python 3
+Subject: [PATCH 19/31] python-pyrex: remove unused recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,39 +35,87 @@ X-List-Received-Date: Thu, 02 Jun 2016 09:26:56 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-devtools/swig/swig.inc | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ meta/conf/distro/include/distro_alias.inc          |  1 -
+ .../python/python-pyrex-native_0.9.9.bb            |  5 -----
+ .../python-pyrex/pyrex-fix-optimized-mode.patch    | 15 ---------------
+ meta/recipes-devtools/python/python-pyrex_0.9.9.bb | 22 ----------------------
+ 4 files changed, 43 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python-pyrex-native_0.9.9.bb
+ delete mode 100644 meta/recipes-devtools/python/python-pyrex/pyrex-fix-optimized-mode.patch
+ delete mode 100644 meta/recipes-devtools/python/python-pyrex_0.9.9.bb
 
-diff --git a/meta/recipes-devtools/swig/swig.inc b/meta/recipes-devtools/swig/swig.inc
-index 9da40df..704bb27 100644
---- a/meta/recipes-devtools/swig/swig.inc
-+++ b/meta/recipes-devtools/swig/swig.inc
-@@ -7,14 +7,14 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=e7807a6282784a7dde4c846626b08fc6 \
- 
- SECTION = "devel"
- 
--DEPENDS = "libpcre python"
-+DEPENDS = "libpcre python3"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
- 
--inherit autotools pythonnative
-+inherit autotools python3native
- 
- EXTRA_OECONF = " \
--    --with-python=${PYTHON} \
-+    --with-python3=${PYTHON} \
-     --without-allegrocl \
-     --without-android \
-     --without-boost \
-@@ -33,7 +33,6 @@ EXTRA_OECONF = " \
-     --without-perl5 \
-     --without-pike \
-     --without-php \
--    --without-python3 \
-     --without-r \
-     --without-ruby \
-     --without-tcl \
+diff --git a/meta/conf/distro/include/distro_alias.inc b/meta/conf/distro/include/distro_alias.inc
+index c8f9395..5626792 100644
+--- a/meta/conf/distro/include/distro_alias.inc
++++ b/meta/conf/distro/include/distro_alias.inc
+@@ -343,7 +343,6 @@ DISTRO_PN_ALIAS_pn-python-mako = "Fedora=python-mako Opensuse=python-Mako"
+ DISTRO_PN_ALIAS_pn-python-pycairo = "Meego=pycairo Fedora=pycairo Ubuntu=pycairo Debian=pycairo"
+ DISTRO_PN_ALIAS_pn-python-pycurl = "Debian=python-pycurl Ubuntu=python-pycurl"
+ DISTRO_PN_ALIAS_pn-python-pygobject = "Meego=pygobject2 Fedora=pygobject2 Ubuntu=pygobject Debian=pygobject"
+-DISTRO_PN_ALIAS_pn-python-pyrex = "Mandriva=python-pyrex Ubuntu=python-pyrex"
+ DISTRO_PN_ALIAS_pn-python-scons = "Fedora=scons OpenSuSE=scons Ubuntu=scons Mandriva=scons Debian=scons"
+ DISTRO_PN_ALIAS_pn-python-setuptools = "Mandriva=python-setup OpenSuSE=python-setup-git"
+ DISTRO_PN_ALIAS_pn-python-smartpm = "Debian=smart OpenSuSE=smart"
+diff --git a/meta/recipes-devtools/python/python-pyrex-native_0.9.9.bb b/meta/recipes-devtools/python/python-pyrex-native_0.9.9.bb
+deleted file mode 100644
+index e8ef1aa..0000000
+--- a/meta/recipes-devtools/python/python-pyrex-native_0.9.9.bb
++++ /dev/null
+@@ -1,5 +0,0 @@
+-require python-pyrex_${PV}.bb
+-inherit native pythonnative
+-DEPENDS = "python-native"
+-RDEPENDS_${PN} = ""
+-PR = "r3"
+diff --git a/meta/recipes-devtools/python/python-pyrex/pyrex-fix-optimized-mode.patch b/meta/recipes-devtools/python/python-pyrex/pyrex-fix-optimized-mode.patch
+deleted file mode 100644
+index c58c328..0000000
+--- a/meta/recipes-devtools/python/python-pyrex/pyrex-fix-optimized-mode.patch
++++ /dev/null
+@@ -1,15 +0,0 @@
+-Upstream-Status: Pending
+-
+-Index: Pyrex-0.9.8.4/Pyrex/Distutils/extension.py
+-===================================================================
+---- Pyrex-0.9.8.4.orig/Pyrex/Distutils/extension.py
+-+++ Pyrex-0.9.8.4/Pyrex/Distutils/extension.py
+-@@ -15,7 +15,7 @@ except ImportError:
+-     warnings = None
+- 
+- class Extension(_Extension.Extension):
+--    _Extension.Extension.__doc__ + \
+-+    _Extension.Extension.__doc__ or "" + \
+-     """pyrex_include_dirs : [string]
+-         list of directories to search for Pyrex header files (.pxd) (in
+-         Unix form for portability)
+diff --git a/meta/recipes-devtools/python/python-pyrex_0.9.9.bb b/meta/recipes-devtools/python/python-pyrex_0.9.9.bb
+deleted file mode 100644
+index c4dd2e6..0000000
+--- a/meta/recipes-devtools/python/python-pyrex_0.9.9.bb
++++ /dev/null
+@@ -1,22 +0,0 @@
+-SUMMARY = "Language for writing Python extension modules"
+-DESCRIPTION = "Pyrex is a language specially designed for writing Python extension modules. \
+-It's designed to bridge the gap between the nice, high-level, easy-to-use world of Python \
+-and the messy, low-level world of C."
+-SECTION = "devel/python"
+-LICENSE = "Apache-2.0"
+-LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=771d472f53f933033f57eeee7808e5bd"
+-SRCNAME = "Pyrex"
+-PR = "r4"
+-
+-SRC_URI = "\
+-  http://www.cosc.canterbury.ac.nz/greg.ewing/python/${SRCNAME}/${SRCNAME}-${PV}.tar.gz \
+-  file://pyrex-fix-optimized-mode.patch \
+-"
+-
+-SRC_URI[md5sum] = "515dee67d15d4393841e2d60e8341947"
+-SRC_URI[sha256sum] = "5f87df06831d0b3412eb4bc9d3fc2ee7bfae1b913d7da8c23ab2bf5699fb6b50"
+-S = "${WORKDIR}/${SRCNAME}-${PV}"
+-
+-inherit distutils
+-
+-FILES_${PN} += "${datadir}${base_libdir}/${PYTHON_DIR}/site-packages/Pyrex/Compiler/Lexicon.pickle"
 -- 
 2.8.1
 
