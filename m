@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id C74A2772CB
+	by mail.openembedded.org (Postfix) with ESMTP id C583277162
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Jun 2016 09:26:25 +0000 (UTC)
+	Thu,  2 Jun 2016 09:26:23 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga102.jf.intel.com with ESMTP; 02 Jun 2016 02:26:16 -0700
+	by orsmga102.jf.intel.com with ESMTP; 02 Jun 2016 02:26:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,405,1459839600"; d="scan'208";a="114703313"
+X-IronPort-AV: E=Sophos;i="5.26,405,1459839600"; d="scan'208";a="114703306"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga004.fm.intel.com with ESMTP; 02 Jun 2016 02:26:15 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 02 Jun 2016 02:26:14 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 Jun 2016 12:25:39 +0300
-Message-Id: <ff0c51154df544b4aae4b893530571ae59022a2e.1464859158.git.alexander.kanavin@linux.intel.com>
+Date: Thu,  2 Jun 2016 12:25:38 +0300
+Message-Id: <0a2e70579da4c5351361677cfc4bb929ad0c6c21.1464859158.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <cover.1464859158.git.alexander.kanavin@linux.intel.com>
 References: <cover.1464859158.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1464859158.git.alexander.kanavin@linux.intel.com>
 References: <cover.1464859158.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 02/31] python-dbus: update to 1.2.4, port to python 3
+Subject: [PATCH 01/31] bind: switch Python dependency to Python 3.x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,50 +35,31 @@ X-List-Received-Date: Thu, 02 Jun 2016 09:26:26 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../{python-dbus_1.2.0.bb => python3-dbus_1.2.4.bb}       | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
- rename meta/recipes-devtools/python/{python-dbus_1.2.0.bb => python3-dbus_1.2.4.bb} (62%)
+ meta/recipes-connectivity/bind/bind_9.10.3-P3.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-dbus_1.2.0.bb b/meta/recipes-devtools/python/python3-dbus_1.2.4.bb
-similarity index 62%
-rename from meta/recipes-devtools/python/python-dbus_1.2.0.bb
-rename to meta/recipes-devtools/python/python3-dbus_1.2.4.bb
-index ccdb9ae..c058caf 100644
---- a/meta/recipes-devtools/python/python-dbus_1.2.0.bb
-+++ b/meta/recipes-devtools/python/python3-dbus_1.2.4.bb
-@@ -3,24 +3,25 @@ SECTION = "devel/python"
- HOMEPAGE = "http://www.freedesktop.org/Software/dbus"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=0b83047ce9e948b67c0facc5f233476a"
--DEPENDS = "expat dbus dbus-glib virtual/libintl python-pyrex-native"
-+DEPENDS = "expat dbus dbus-glib virtual/libintl"
+diff --git a/meta/recipes-connectivity/bind/bind_9.10.3-P3.bb b/meta/recipes-connectivity/bind/bind_9.10.3-P3.bb
+index 1e3a20f..a99f0dd 100644
+--- a/meta/recipes-connectivity/bind/bind_9.10.3-P3.bb
++++ b/meta/recipes-connectivity/bind/bind_9.10.3-P3.bb
+@@ -56,7 +56,7 @@ SYSTEMD_SERVICE_${PN} = "named.service"
  
- SRC_URI = "http://dbus.freedesktop.org/releases/dbus-python/dbus-python-${PV}.tar.gz \
- "
+ PARALLEL_MAKE = ""
  
--SRC_URI[md5sum] = "b09cd2d1a057cc432ce944de3fc06bf7"
--SRC_URI[sha256sum] = "e12c6c8b2bf3a9302f75166952cbe41d6b38c3441bbc6767dbd498942316c6df"
-+SRC_URI[md5sum] = "7372a588c83a7232b4e08159bfd48fe5"
-+SRC_URI[sha256sum] = "e2f1d6871f74fba23652e51d10873e54f71adab0525833c19bad9e99b1b2f9cc"
- S = "${WORKDIR}/dbus-python-${PV}"
+-RDEPENDS_${PN} = "python-core"
++RDEPENDS_${PN} = "python3-core"
+ RDEPENDS_${PN}-dev = ""
  
--inherit distutils-base autotools pkgconfig
-+inherit distutils3-base autotools pkgconfig
+ PACKAGE_BEFORE_PN += "${PN}-utils"
+@@ -81,7 +81,7 @@ do_install_append() {
+ 	install -d "${D}${sysconfdir}/init.d"
+ 	install -m 644 ${S}/conf/* "${D}${sysconfdir}/bind/"
+ 	install -m 755 "${S}/init.d" "${D}${sysconfdir}/init.d/bind"
+-	sed -i -e '1s,#!.*python,#! /usr/bin/env python,' ${D}${sbindir}/dnssec-coverage ${D}${sbindir}/dnssec-checkds
++	sed -i -e '1s,#!.*python,#! /usr/bin/python3,' ${D}${sbindir}/dnssec-coverage ${D}${sbindir}/dnssec-checkds
  
- PACKAGECONFIG ?= ""
- PACKAGECONFIG[docs] = "--enable-html-docs,--disable-html-docs,python-docutils-native"
- PACKAGECONFIG[api-docs] = "--enable-api-docs,--disable-api-docs,python-docutils-native python-epydoc-native"
- 
--export STAGING_LIBDIR
--export STAGING_INCDIR
-+do_configure_prepend() {
-+    export PYTHON=${PYTHON}
-+}
- 
--RDEPENDS_${PN} = "python-io python-logging python-stringold python-threading python-xml"
-+RDEPENDS_${PN} = "python3-io python3-logging python3-stringold python3-threading python3-xml"
- 
- FILES_${PN}-dev += "${libdir}/pkgconfig"
+ 	# Install systemd related files
+ 	install -d ${D}${sbindir}
 -- 
 2.8.1
 
