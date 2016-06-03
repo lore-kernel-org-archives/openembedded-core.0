@@ -1,64 +1,50 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-io0-f196.google.com (mail-io0-f196.google.com
-	[209.85.223.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C05677318
+Return-Path: <krussell7711@gmail.com>
+Received: from mail-vk0-f67.google.com (mail-vk0-f67.google.com
+	[209.85.213.67])
+	by mail.openembedded.org (Postfix) with ESMTP id AD1CD77482
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Jun 2016 22:19:17 +0000 (UTC)
-Received: by mail-io0-f196.google.com with SMTP id k19so8243590ioi.2
+	Fri,  3 Jun 2016 03:04:49 +0000 (UTC)
+Received: by mail-vk0-f67.google.com with SMTP id f62so11453895vkc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Jun 2016 15:19:18 -0700 (PDT)
+	Thu, 02 Jun 2016 20:04:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:sender:in-reply-to:references:from:date:message-id
 	:subject:to:cc;
-	bh=VrAUIeVXyL+v/ay0anIIL+DJzUqOGRaTNBt5fZAHkZI=;
-	b=hFSXZMy82v5UcZdqQDkvWO4TFd7fDfpwQdClB4Fd9JfQzoVIERYxJvzm2qCP53O0W6
-	cj0WFXX/90L1AEE3e52eSmh4iuEbbX7iTr2BPRA+Tg+1zFHFTl1lETqolUQ7feLdEl3t
-	2yzew4wQuWkoXqkjpBlJZxtrVpgx/UFaDBaIiFEQKwmTOr5qBi6kx0BGxU6Hs6+fwDdZ
-	1z8ZJeEcPGkUTNs4ien6X9wKnqpOdB5GPK7VUsSJwRm//ktMrYuZWQ7PpAs0yHtcHfwj
-	QKkenp5QHRnXlxm/vBs0KmUgjcWN6ZK+3gLea7ZGX5w/d5tATPWqjLTAOMEWZ4uLkfIr
-	yHlw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mentor-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=VrAUIeVXyL+v/ay0anIIL+DJzUqOGRaTNBt5fZAHkZI=;
-	b=IR7KjCmRik9T5PwFwDtD4yZu48V/ANqid20Gr8UsXHbe0AqtClzvDu791ciVd+QwT6
-	QK+92WObWs8Cw4aTlf/2Su8uMKoCIcXaIPaps/SqZheGdVJublNoAvKNlRjeLQ4uZXss
-	LkucHXXAEManchvYmID/3eA5HsH3BgIaPN5U7rDbHDsh4ow/aTC10PU1jfaP9lcRRjH/
-	owKamjE4vSYaLxmGkVSbnSaxs4Qi6SGb8ZgCemK2p6S2/hYNyTto+e6/yuK3x7TNvDoK
-	4v4EdMZodqsm+vQ4JhRBni5FHDkgMBBw1OM/b9ThP0WkAEkyauWIx7zbpoZxngzDDJBZ
-	Piaw==
+	bh=FcekU8MEXVo1HSbpmk86OKMP4YM21Zp9OPF6QCSTRh4=;
+	b=tLQkGkxkLVX7VcXIeoLGj7DTmW2wvR4EXg/mUNJbp+wcepO8LWTwIQIzAHMR1cDAkV
+	zTd4K2fSoR0PsFLhsRYdX3Zj2H1k6+ZpXdYTDWN41QZGfIz8CwsNYwtzz7nrdRzU+4R3
+	vcyzIcIRrQ1/K/4/6P+puwni4cnpTH0jXeu3vQ/pw0JxQ0t0db1EZbs4oO2Z67Th0fmV
+	pxoVtKZNwdf/8KrBnNHGe5/DPT0A+ivUYFT+Cj8I9ol+zaNvTclLTCJrfXb5NgtA4NL2
+	5mKncABZRrEZFoH1eo1RV4bsl3dIctMKOsBIc2kkRz+lUmaSGHB/pYkoWuYlhu4SUNMs
+	zTSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
 	:date:message-id:subject:to:cc;
-	bh=VrAUIeVXyL+v/ay0anIIL+DJzUqOGRaTNBt5fZAHkZI=;
-	b=iShzwfGoMnxGrVwgRTiuw6N9CVAwMjncqM+bZ3G1QyQfYLjmEKrt+BrVj4KhH1wy1e
-	fDsXTZJOSAX8/IO6cRbq6r/3ZHol3HQVXqPJJZ21DpUQ/+7UXSinljZvYZpXtYj0xRUO
-	onCX5GxayXfrh6qP+5SYNfHteXK+/rFoAtsAy/XaRII0ybSk3/P+bi8h/q5SRpmun18V
-	MmUMtGJD0va7gol/BMupyE/X3BtjPX9Ip/3qV1HIBo2FR8v4yx8PqYzFkrfZgKKYtouC
-	MyrZM+eyAHc7Kc60gR3xtMHSFHb/11oubxXUawajeeTPVaeAM4i+kPfHFG3iLwcMiFYD
-	OeLg==
-X-Gm-Message-State: ALyK8tIF+FvEvMMwWnWsqBpM/hoaiNs9yGidLDdmVbmhpA0htzn27pgfcZVbHehwvhz9ZsczaIbYDeg8DJq5eg==
-X-Received: by 10.107.131.222 with SMTP id n91mr1230455ioi.126.1464905957784; 
-	Thu, 02 Jun 2016 15:19:17 -0700 (PDT)
+	bh=FcekU8MEXVo1HSbpmk86OKMP4YM21Zp9OPF6QCSTRh4=;
+	b=YkFAiKn7VAE0ZFWIEhPxJYRbM2hc3QVR02p86nCxzMf59lgxyaY2QVzH4lTIkfwmfN
+	RzbDfj+dwjzIYOOxAeoQileNcF1UhopJ6G0JFFTXCrYIkqsbMQRLMpODRI6dUJWPXJtN
+	xxXHQNj/RcS/oUH1DBZBK6w3T8MD5nSgDzR/4eCAvCrSBELGkUktNo6GAzD/Y2IzB8L3
+	eAG+p0B8h1ojn2bRSTRASUg7CBTe6m5ACGM5mH5alt/bm/GVdlpGEm4MmmsLP4C5eRYQ
+	EvEqTZBKZ6xV+drmDA2ONMHh5GCzk1u8q3+7wErWRTZ4KZDPIzULjAzAQoo3WWAbpXX2
+	KH6A==
+X-Gm-Message-State: ALyK8tI8o8BWJjDwzphat78zp7ofJ14ZQ2weu70KSccLiJtkeZuiGjx3NjjRhcbT5IvFujLQGv2IBLETKlivLg==
+X-Received: by 10.176.64.198 with SMTP id i64mr642060uad.121.1464923089395;
+	Thu, 02 Jun 2016 20:04:49 -0700 (PDT)
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.79.100.5 with HTTP; Thu, 2 Jun 2016 15:18:58 -0700 (PDT)
-In-Reply-To: <16461829.3PMlXGZ7eP@peggleto-mobl.ger.corp.intel.com>
-References: <cover.1462987863.git.raj.khem@gmail.com>
-	<8934616.REGKCHSCIX@peggleto-mobl.ger.corp.intel.com>
-	<2b2ba358-1012-e27a-4b52-502673c218cc@windriver.com>
-	<16461829.3PMlXGZ7eP@peggleto-mobl.ger.corp.intel.com>
-From: Christopher Larson <chris_larson@mentor.com>
-Date: Thu, 2 Jun 2016 15:18:58 -0700
-X-Google-Sender-Auth: t5Du5d-ID12Z9rZ-xOvEds1K3FM
-Message-ID: <CABcZANmEPWQcfoCT2mQUJHWemPUG5V9-suomGzfT4y4JQt_+mw@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 01/42] gcc: Add gcc6 recipes
+Sender: krussell7711@gmail.com
+Received: by 10.31.219.68 with HTTP; Thu, 2 Jun 2016 20:04:30 -0700 (PDT)
+In-Reply-To: <6f7ebb4b-d925-388e-40d2-2bbf71428fdd@windriver.com>
+References: <1435902151-4217-1-git-send-email-rongqing.li@windriver.com>
+	<CAFrQVPPFygTrvh12uxDqUmcc+Brz=chU3geE6KfyLr+-C4QLYQ@mail.gmail.com>
+	<6f7ebb4b-d925-388e-40d2-2bbf71428fdd@windriver.com>
+From: Kyle Russell <bkylerussell@gmail.com>
+Date: Thu, 2 Jun 2016 23:04:30 -0400
+X-Google-Sender-Auth: OskX4JDRtSN5mGhrkpAdbRseGOE
+Message-ID: <CAFrQVPNvQ92wk2aiktNwWBxraEicb1CpHGUovCC=vQ7DKb-GKA@mail.gmail.com>
+To: Yuanjie Huang <yuanjie.huang@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] mklibs-native: two fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -71,269 +57,190 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jun 2016 22:19:20 -0000
-Content-Type: multipart/alternative; boundary=001a113ebd8c3ea861053452ff16
+X-List-Received-Date: Fri, 03 Jun 2016 03:04:49 -0000
+Content-Type: multipart/alternative; boundary=94eb2c047c585de7cd053456fc77
 
---001a113ebd8c3ea861053452ff16
+--94eb2c047c585de7cd053456fc77
 Content-Type: text/plain; charset=UTF-8
 
-On Thu, Jun 2, 2016 at 12:24 PM, Paul Eggleton <
-paul.eggleton@linux.intel.com> wrote:
+Thanks, Yuanjie.  I see how your patch changes multiarch() to return
+quickly and thus avoid dpkg if the user provides a sysroot or libdir, but
+it also comments out some checking to verify that the dynamic linker is in
+the correct location and executable.  (I'm referring to the following hunk
+from your patch.)  It looks like your changes disable this verification by
+commenting some of it out.
 
-> On Thu, 02 Jun 2016 15:19:37 Bruce Ashfield wrote:
-> > On 2016-06-02 3:15 PM, Paul Eggleton wrote:
-> > > On Thu, 02 Jun 2016 18:05:35 Martin Jansa wrote:
-> > >> On Wed, Jun 01, 2016 at 10:23:35AM +1200, Paul Eggleton wrote:
-> > >>> On Wed, 01 Jun 2016 10:20:23 Paul Eggleton wrote:
-> > >>>> On Tue, 31 May 2016 11:12:21 Jussi Kukkonen wrote:
-> > >>>>> On 11 May 2016 at 20:35, Khem Raj <raj.khem@gmail.com> wrote:
-> > >>>>>> +#BASEURI ?= "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2"
-> > >>>>>> +BASEURI ?= "git://
-> > >>>>>> github.com/gcc-mirror/gcc;branch=gcc-6-branch;protocol=git"
-> > >>>>>
-> > >>>>> I guess this is where git2_github.com.gcc-mirror.gcc.tar.gz
-> download
-> > >>>>> comes from? It increased the size of my downloads-directory by
-> >30% --
-> > >>>>> and I must have quite a bit of old junk in that directory already.
-> > >>>>>
-> > >>>>> Is there no other solution to this than a 2.5G git copy (honest
-> > >>>>> question, I don't know gcc)?
-> > >>>>
-> > >>>> We went down this road before and it wasn't great for users. There
-> is
-> > >>>> at
-> > >>>> least a tarball for 6.1, we'd presumably need some patches on top of
-> > >>>> that (~43 if we were to simply take what's in the gcc-6-branch
-> between
-> > >>>> 6.1 and bd9a826, minus the "daily bumps").
-> > >>>
-> > >>> Perhaps that was a little unclear - when I say "we went down this
-> road
-> > >>> before" I'm agreeing with Jussi - we pointed to a git branch in a
-> > >>> previous release with the same resulting huge download for everyone,
-> > >>> something I think we should avoid if at all possible.
-> > >>
-> > >> Maybe it's biggest but at least there is only one copy of it:
-> > >>
-> > >> top 10 in my downloads (archives and then git clones).
-> > >>
-> > >> 823M
-> > >> /OE/downloads/git2_git.yoctoproject.org.linux-yocto-3.14.git.tar.gz
-> > >> 831M
-> > >> /OE/downloads/git2_git.yoctoproject.org.linux-yocto-3.10.git.tar.gz
-> > >> 893M
-> > >> /OE/downloads/git2_git.yoctoproject.org.linux-yocto-3.17.git.tar.gz
-> > >> 934M
-> > >> /OE/downloads/git2_git.yoctoproject.org.linux-yocto-3.19.git.tar.gz
-> > >> 969M
-> > >> /OE/downloads/git2_git.yoctoproject.org.linux-yocto-4.1.git.tar.gz
-> > >> 1.2G
-> > >> /OE/downloads/git2_git.yoctoproject.org.linux-yocto-dev.git.tar.gz
-> > >>
-> > >> 2.4G    /OE/downloads/git2_github.com.gcc-mirror.gcc.tar.gz
-> > >>
-> > >> 854M
-> /OE/downloads/git2/github.com.qtproject.qtwebengine-chromium.git
-> > >>
-> > >> 877M    /OE/downloads/git2/git.yoctoproject.org.linux-yocto-3.10.git
-> > >> 900M    /OE/downloads/git2/git.yoctoproject.org.linux-yocto-3.14.git
-> > >> 921M    /OE/downloads/git2/git.yoctoproject.org.linux-yocto-3.17.git
-> > >> 964M    /OE/downloads/git2/git.yoctoproject.org.linux-yocto-3.19.git
-> > >> 999M    /OE/downloads/git2/git.yoctoproject.org.linux-yocto-4.1.git
-> > >> 1.3G    /OE/downloads/git2/git.yoctoproject.org.linux-yocto-dev.git
-> > >> 2.3G    /OE/downloads/git2/git.yoctoproject.org.linux-yocto-4.4.git
-> > >
-> > > No argument from me there - it does seem a little wasteful given that
-> > > there must be a huge overlap between those repos.
-> >
-> > In other build systems, I've simply been able to reference a common
-> > repository for the majority of the blobs. That isn't an option with
-> > oe/bitbake (as far as I know).
++@@ -661,16 +669,16 @@ ld_path_name = os.path.dirname(ldlib)
++ ld_full_path = "../" + ldlib
++ ld_file = find_lib(ld_file_name)
++
++-if ld_path_name != "/lib":
++-    if os.access(dest_path + "/" + ld_file_name, os.F_OK):
++-        os.remove(dest_path + "/" + ld_file_name)
+++#if ld_path_name != "/lib":
+++#    if os.access(dest_path + "/" + ld_file_name, os.F_OK):
+++#        os.remove(dest_path + "/" + ld_file_name)
++
++-if not os.path.exists(dest_path + "/../" + ld_path_name):
++-    os.mkdir(dest_path + "/../" + ld_path_name)
+++#if not os.path.exists(dest_path + "/../" + ld_path_name):
+++#    os.mkdir(dest_path + "/../" + ld_path_name)
++
++-if not os.access(dest_path + "/" + ld_full_path, os.F_OK):
++-    debug(DEBUG_NORMAL, "I: stripping and copying dynamic linker to " +
+ld_full_path)
+++if not os.access(dest_path + "/" + ld_file_name, os.F_OK):
+++    debug(DEBUG_NORMAL, "I: stripping and copying dynamic linker to " +
+ld_file_name)
++     command(target + "objcopy", "--strip-unneeded -R .note -R .comment",
++-            ld_file, dest_path + "/" + ld_full_path)
+++            ld_file, dest_path + "/" + ld_file_name)
++
++-os.chmod(dest_path + "/" + ld_full_path, 0755)
+++os.chmod(dest_path + "/" + ld_file_name, 0755)
+
+Looking at the change you submitted upstream (
+https://lists.debian.org/debian-boot/2015/07/msg00018.html), it looks like
+there was an additional hunk that got missed in the poky commit.  Is the
+above hunk dependent on the missing one below?
+
+@@ -441,6 +447,8 @@ if not ldlib:
+ if not ldlib:
+     sys.exit("E: Dynamic linker not found, aborting.")
+
++ldlib = sysroot + ldlib
++
+ debug(DEBUG_NORMAL, "I: Using", ldlib, "as dynamic linker.")
+
+ # Check for rpaths
+
+Reverting the last hunk in your poky commit fixes the mklibs error we
+encounter in our multilib setup containing /lib and /lib64 symlinks to the
+linker.
+
+On Sun, May 15, 2016 at 11:02 PM, Yuanjie Huang <yuanjie.huang@windriver.com
+> wrote:
+
+> Hi Kyle,
 >
-> It's possible we could add functionality along those lines to at least save
-> download time; disk usage would probably be unaffected though.
+> The fix_cross_compile.patch is related when we pass the sysroot or libdir
+> to mklibs, in such case it is wrong to call dpkg-architecture as info on
+> build machine instead of target will be returned.
 >
-> > We could also do shallow clones, but I'm also unsure of how well that
-> > is supported.
+> Thanks,
+> Yuanjie
 >
-> I know Chris looked into adding this, I don't recall how far he got.
+>
+> On 05/12/2016 04:00 AM, Kyle Russell wrote:
+>
+>> ++    if sysroot != "" or libdir != "":
+>> ++        return paths
+>> +     devnull = open('/dev/null', 'w')
+>> +     dpkg_architecture = subprocess.Popen(
+>> +         ['dpkg-architecture', '-qDEB_HOST_MULTIARCH'],
+>>
+>
+>
 
-
-I did work on shallow support, yes.
-
-Shallow mirror tarball support is on the bitbake list awaiting Richard's
-review and merge for 2.2, assuming there are no major objections. There is
-a caveat, however. Since git's shallow clone capability is limited to
-specifying the depth, we can't really do shallow *clones*, as we don't know
-the distance from branch HEAD to SRCREV at the time we're going to clone.
-
-What we can support is shallow mirror tarballs, where a mirror is populated
-with shallow mirror tarballs which the user's build will fetch, if
-available, instead of full mirror tarballs, and this is what my patch
-series implements. Of course, each time the recipe SRCREVs change, we'd get
-new shallow tarballs that'd need fetching, enough of those would outweigh
-the benefits vs just doing a straight up front clone, but I think the
-benefit is clear. A shallow kernel tarball for a repo of this sort is
-around 100 megs instead of a gig.
-
-We've been using it at mentor for a while now with good results, so far.
-I'd love to see someone other than us test out the patches, though, or give
-some feedback on either the concept or the code :) See "[master][PATCH 0/3]
-Implement support for shallow git mirror tarballs" on the bitbake-devel
-list.
--- 
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
-
---001a113ebd8c3ea861053452ff16
+--94eb2c047c585de7cd053456fc77
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Thu, Jun 2, 2016 at 12:24 PM, Paul Eggleton <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.eggleton@=
-linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" =
-style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:s=
-olid;border-left-color:rgb(204,204,204);padding-left:1ex"><div><div>On Thu,=
- 02 Jun 2016 15:19:37 Bruce Ashfield wrote:<br>
-&gt; On 2016-06-02 3:15 PM, Paul Eggleton wrote:<br>
-&gt; &gt; On Thu, 02 Jun 2016 18:05:35 Martin Jansa wrote:<br>
-&gt; &gt;&gt; On Wed, Jun 01, 2016 at 10:23:35AM +1200, Paul Eggleton wrote=
-:<br>
-&gt; &gt;&gt;&gt; On Wed, 01 Jun 2016 10:20:23 Paul Eggleton wrote:<br>
-&gt; &gt;&gt;&gt;&gt; On Tue, 31 May 2016 11:12:21 Jussi Kukkonen wrote:<br=
->
-&gt; &gt;&gt;&gt;&gt;&gt; On 11 May 2016 at 20:35, Khem Raj &lt;<a href=3D"=
-mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wro=
-te:<br>
-&gt; &gt;&gt;&gt;&gt;&gt;&gt; +#BASEURI ?=3D &quot;${GNU_MIRROR}/gcc/gcc-${=
-PV}/gcc-${PV}.tar.bz2&quot;<br>
-&gt; &gt;&gt;&gt;&gt;&gt;&gt; +BASEURI ?=3D &quot;git://<br>
-&gt; &gt;&gt;&gt;&gt;&gt;&gt; <a href=3D"http://github.com/gcc-mirror/gcc;b=
-ranch=3Dgcc-6-branch;protocol=3Dgit" rel=3D"noreferrer" target=3D"_blank">g=
-ithub.com/gcc-mirror/gcc;branch=3Dgcc-6-branch;protocol=3Dgit</a>&quot;<br>
-&gt; &gt;&gt;&gt;&gt;&gt;<br>
-&gt; &gt;&gt;&gt;&gt;&gt; I guess this is where git2_github.com.gcc-mirror.=
-gcc.tar.gz download<br>
-&gt; &gt;&gt;&gt;&gt;&gt; comes from? It increased the size of my downloads=
--directory by &gt;30% --<br>
-&gt; &gt;&gt;&gt;&gt;&gt; and I must have quite a bit of old junk in that d=
-irectory already.<br>
-&gt; &gt;&gt;&gt;&gt;&gt;<br>
-&gt; &gt;&gt;&gt;&gt;&gt; Is there no other solution to this than a 2.5G gi=
-t copy (honest<br>
-&gt; &gt;&gt;&gt;&gt;&gt; question, I don&#39;t know gcc)?<br>
-&gt; &gt;&gt;&gt;&gt;<br>
-&gt; &gt;&gt;&gt;&gt; We went down this road before and it wasn&#39;t great=
- for users. There is<br>
-&gt; &gt;&gt;&gt;&gt; at<br>
-&gt; &gt;&gt;&gt;&gt; least a tarball for 6.1, we&#39;d presumably need som=
-e patches on top of<br>
-&gt; &gt;&gt;&gt;&gt; that (~43 if we were to simply take what&#39;s in the=
- gcc-6-branch between<br>
-&gt; &gt;&gt;&gt;&gt; 6.1 and bd9a826, minus the &quot;daily bumps&quot;).<=
-br>
-&gt; &gt;&gt;&gt;<br>
-&gt; &gt;&gt;&gt; Perhaps that was a little unclear - when I say &quot;we w=
-ent down this road<br>
-&gt; &gt;&gt;&gt; before&quot; I&#39;m agreeing with Jussi - we pointed to =
-a git branch in a<br>
-&gt; &gt;&gt;&gt; previous release with the same resulting huge download fo=
-r everyone,<br>
-&gt; &gt;&gt;&gt; something I think we should avoid if at all possible.<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; Maybe it&#39;s biggest but at least there is only one copy of=
- it:<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; top 10 in my downloads (archives and then git clones).<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; 823M<br>
-&gt; &gt;&gt; /OE/downloads/git2_git.yoctoproject.org.linux-yocto-3.14.git.=
-tar.gz<br>
-&gt; &gt;&gt; 831M<br>
-&gt; &gt;&gt; /OE/downloads/git2_git.yoctoproject.org.linux-yocto-3.10.git.=
-tar.gz<br>
-&gt; &gt;&gt; 893M<br>
-&gt; &gt;&gt; /OE/downloads/git2_git.yoctoproject.org.linux-yocto-3.17.git.=
-tar.gz<br>
-&gt; &gt;&gt; 934M<br>
-&gt; &gt;&gt; /OE/downloads/git2_git.yoctoproject.org.linux-yocto-3.19.git.=
-tar.gz<br>
-&gt; &gt;&gt; 969M<br>
-&gt; &gt;&gt; /OE/downloads/git2_git.yoctoproject.org.linux-yocto-4.1.git.t=
-ar.gz<br>
-&gt; &gt;&gt; 1.2G<br>
-&gt; &gt;&gt; /OE/downloads/git2_git.yoctoproject.org.linux-yocto-dev.git.t=
-ar.gz<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; 2.4G=C2=A0 =C2=A0 /OE/downloads/git2_github.com.gcc-mirror.gc=
-c.tar.gz<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; 854M=C2=A0 =C2=A0 /OE/downloads/git2/github.com.qtproject.qtw=
-ebengine-chromium.git<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; 877M=C2=A0 =C2=A0 /OE/downloads/git2/git.yoctoproject.org.lin=
-ux-yocto-3.10.git<br>
-&gt; &gt;&gt; 900M=C2=A0 =C2=A0 /OE/downloads/git2/git.yoctoproject.org.lin=
-ux-yocto-3.14.git<br>
-&gt; &gt;&gt; 921M=C2=A0 =C2=A0 /OE/downloads/git2/git.yoctoproject.org.lin=
-ux-yocto-3.17.git<br>
-&gt; &gt;&gt; 964M=C2=A0 =C2=A0 /OE/downloads/git2/git.yoctoproject.org.lin=
-ux-yocto-3.19.git<br>
-&gt; &gt;&gt; 999M=C2=A0 =C2=A0 /OE/downloads/git2/git.yoctoproject.org.lin=
-ux-yocto-4.1.git<br>
-&gt; &gt;&gt; 1.3G=C2=A0 =C2=A0 /OE/downloads/git2/git.yoctoproject.org.lin=
-ux-yocto-dev.git<br>
-&gt; &gt;&gt; 2.3G=C2=A0 =C2=A0 /OE/downloads/git2/git.yoctoproject.org.lin=
-ux-yocto-4.4.git<br>
-&gt; &gt;<br>
-&gt; &gt; No argument from me there - it does seem a little wasteful given =
-that<br>
-&gt; &gt; there must be a huge overlap between those repos.<br>
-&gt;<br>
-&gt; In other build systems, I&#39;ve simply been able to reference a commo=
-n<br>
-&gt; repository for the majority of the blobs. That isn&#39;t an option wit=
-h<br>
-&gt; oe/bitbake (as far as I know).<br>
+<div dir=3D"ltr">Thanks, Yuanjie.=C2=A0 I see how your patch changes multia=
+rch() to return quickly and thus avoid dpkg if the user provides a sysroot =
+or libdir, but it also comments out some checking to verify that the dynami=
+c linker is in the correct location and executable. =C2=A0(I&#39;m referrin=
+g to the following hunk from your patch.) =C2=A0It looks like your changes =
+disable this verification by commenting some of it out.<div><br></div><div>=
+<span style=3D"font-size:12.8px">+@@ -661,16 +669,16 @@ ld_path_name =3D os=
+.path.dirname(ldlib)</span><br style=3D"font-size:12.8px"><span style=3D"fo=
+nt-size:12.8px">+ ld_full_path =3D &quot;../&quot; + ldlib</span><br style=
+=3D"font-size:12.8px"><span style=3D"font-size:12.8px">+ ld_file =3D find_l=
+ib(ld_file_name)</span><br style=3D"font-size:12.8px"><span style=3D"font-s=
+ize:12.8px">+</span><br style=3D"font-size:12.8px"><span style=3D"font-size=
+:12.8px">+-if ld_path_name !=3D &quot;/lib&quot;:</span><br style=3D"font-s=
+ize:12.8px"><span style=3D"font-size:12.8px">+-=C2=A0 =C2=A0 if os.access(d=
+est_path + &quot;/&quot; + ld_file_name, os.F_OK):</span><br style=3D"font-=
+size:12.8px"><span style=3D"font-size:12.8px">+-=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ os.remove(dest_path + &quot;/&quot; + ld_file_name)</span><br style=3D"fon=
+t-size:12.8px"><span style=3D"font-size:12.8px">++#if ld_path_name !=3D &qu=
+ot;/lib&quot;:</span><br style=3D"font-size:12.8px"><span style=3D"font-siz=
+e:12.8px">++#=C2=A0 =C2=A0 if os.access(dest_path + &quot;/&quot; + ld_file=
+_name, os.F_OK):</span><br style=3D"font-size:12.8px"><span style=3D"font-s=
+ize:12.8px">++#=C2=A0 =C2=A0 =C2=A0 =C2=A0 os.remove(dest_path + &quot;/&qu=
+ot; + ld_file_name)</span><br style=3D"font-size:12.8px"><span style=3D"fon=
+t-size:12.8px">+</span><br style=3D"font-size:12.8px"><span style=3D"font-s=
+ize:12.8px">+-if not os.path.exists(dest_path + &quot;/../&quot; + ld_path_=
+name):</span><br style=3D"font-size:12.8px"><span style=3D"font-size:12.8px=
+">+-=C2=A0 =C2=A0 os.mkdir(dest_path + &quot;/../&quot; + ld_path_name)</sp=
+an><br style=3D"font-size:12.8px"><span style=3D"font-size:12.8px">++#if no=
+t os.path.exists(dest_path + &quot;/../&quot; + ld_path_name):</span><br st=
+yle=3D"font-size:12.8px"><span style=3D"font-size:12.8px">++#=C2=A0 =C2=A0 =
+os.mkdir(dest_path + &quot;/../&quot; + ld_path_name)</span><br style=3D"fo=
+nt-size:12.8px"><span style=3D"font-size:12.8px">+</span><br style=3D"font-=
+size:12.8px"><span style=3D"font-size:12.8px">+-if not os.access(dest_path =
++ &quot;/&quot; + ld_full_path, os.F_OK):</span><br style=3D"font-size:12.8=
+px"><span style=3D"font-size:12.8px">+-=C2=A0 =C2=A0 debug(DEBUG_NORMAL, &q=
+uot;I: stripping and copying dynamic linker to &quot; + ld_full_path)</span=
+><br style=3D"font-size:12.8px"><span style=3D"font-size:12.8px">++if not o=
+s.access(dest_path + &quot;/&quot; + ld_file_name, os.F_OK):</span><br styl=
+e=3D"font-size:12.8px"><span style=3D"font-size:12.8px">++=C2=A0 =C2=A0 deb=
+ug(DEBUG_NORMAL, &quot;I: stripping and copying dynamic linker to &quot; + =
+ld_file_name)</span><br style=3D"font-size:12.8px"><span style=3D"font-size=
+:12.8px">+=C2=A0 =C2=A0 =C2=A0command(target + &quot;objcopy&quot;, &quot;-=
+-strip-unneeded -R .note -R .comment&quot;,</span><br style=3D"font-size:12=
+.8px"><span style=3D"font-size:12.8px">+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 ld_file, dest_path + &quot;/&quot; + ld_full_path)</span><br style=
+=3D"font-size:12.8px"><span style=3D"font-size:12.8px">++=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 ld_file, dest_path + &quot;/&quot; + ld_file_name)=
+</span><br style=3D"font-size:12.8px"><span style=3D"font-size:12.8px">+</s=
+pan><br style=3D"font-size:12.8px"><span style=3D"font-size:12.8px">+-os.ch=
+mod(dest_path + &quot;/&quot; + ld_full_path, 0755)</span><br style=3D"font=
+-size:12.8px"><span style=3D"font-size:12.8px">++os.chmod(dest_path + &quot=
+;/&quot; + ld_file_name, 0755)</span><br></div><div><span style=3D"font-siz=
+e:12.8px"><br></span></div><div><span style=3D"font-size:12.8px">Looking at=
+ the change you submitted upstream (<a href=3D"https://lists.debian.org/deb=
+ian-boot/2015/07/msg00018.html">https://lists.debian.org/debian-boot/2015/0=
+7/msg00018.html</a>), it looks like there was an additional hunk that got m=
+issed in the poky commit.=C2=A0 Is the above hunk dependent on the missing =
+one below?</span></div><div><pre style=3D"color:rgb(0,0,0)"><font face=3D"a=
+rial, helvetica, sans-serif">@@ -441,6 +447,8 @@ if not ldlib:
+ if not ldlib:
+     sys.exit(&quot;E: Dynamic linker not found, aborting.&quot;)
+=20
++ldlib =3D sysroot + ldlib
++
+ debug(DEBUG_NORMAL, &quot;I: Using&quot;, ldlib, &quot;as dynamic linker.&=
+quot;)
+=20
+ # Check for rpaths</font></pre>Reverting the last hunk in your poky commit=
+ fixes the mklibs error we encounter in our multilib setup containing /lib =
+and /lib64 symlinks to the linker.</div></div><div class=3D"gmail_extra"><b=
+r><div class=3D"gmail_quote">On Sun, May 15, 2016 at 11:02 PM, Yuanjie Huan=
+g <span dir=3D"ltr">&lt;<a href=3D"mailto:yuanjie.huang@windriver.com" targ=
+et=3D"_blank">yuanjie.huang@windriver.com</a>&gt;</span> wrote:<br><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
+olid;padding-left:1ex">Hi Kyle,<br>
 <br>
-</div></div>It&#39;s possible we could add functionality along those lines =
-to at least save<br>
-download time; disk usage would probably be unaffected though.<br>
-<span><br>
-&gt; We could also do shallow clones, but I&#39;m also unsure of how well t=
-hat<br>
-&gt; is supported.<br>
+The fix_cross_compile.patch is related when we pass the sysroot or libdir t=
+o mklibs, in such case it is wrong to call dpkg-architecture as info on bui=
+ld machine instead of target will be returned.<br>
 <br>
-</span>I know Chris looked into adding this, I don&#39;t recall how far he =
-got.</blockquote></div><div class=3D"gmail_extra"><br></div>I did work on s=
-hallow support, yes.</div><div class=3D"gmail_extra"><br>Shallow mirror tar=
-ball support is on the bitbake list awaiting Richard&#39;s review and merge=
- for 2.2, assuming there are no major objections. There is a caveat, howeve=
-r. Since git&#39;s shallow clone capability is limited to specifying the de=
-pth, we can&#39;t really do shallow *clones*, as we don&#39;t know the dist=
-ance from branch HEAD to SRCREV at the time we&#39;re going to clone.</div>=
-<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">What we can=
- support is shallow mirror tarballs, where a mirror is populated with shall=
-ow mirror tarballs which the user&#39;s build will fetch, if available, ins=
-tead of full mirror tarballs, and this is what my patch series implements. =
-Of course, each time the recipe SRCREVs change, we&#39;d get new shallow ta=
-rballs that&#39;d need fetching, enough of those would outweigh the benefit=
-s vs just doing a straight up front clone, but I think the benefit is clear=
-. A shallow kernel tarball for a repo of this sort is around 100 megs inste=
-ad of a gig.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_=
-extra">We&#39;ve been using it at mentor for a while now with good results,=
- so far. I&#39;d love to see someone other than us test out the patches, th=
-ough, or give some feedback on either the concept or the code :) See &quot;=
-[master][PATCH 0/3] Implement support for shallow git mirror tarballs&quot;=
- on the bitbake-devel list.=C2=A0<br>-- <br><div data-smartmail=3D"gmail_si=
-gnature"><div dir=3D"ltr">Christopher Larson<br>kergoth at gmail dot com<br=
->Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senio=
-r Software Engineer, Mentor Graphics</div></div>
-</div></div>
+Thanks,<br>
+Yuanjie<div class=3D"HOEnZb"><div class=3D"h5"><br>
+<br>
+On 05/12/2016 04:00 AM, Kyle Russell wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+++=C2=A0 =C2=A0 if sysroot !=3D &quot;&quot; or libdir !=3D &quot;&quot;:<b=
+r>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return paths<br>
++=C2=A0 =C2=A0 =C2=A0devnull =3D open(&#39;/dev/null&#39;, &#39;w&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0dpkg_architecture =3D subprocess.Popen(<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0[&#39;dpkg-architecture&#39;, &#39;-qDEB=
+_HOST_MULTIARCH&#39;],<br>
+</blockquote>
+<br>
+</div></div></blockquote></div><br></div>
 
---001a113ebd8c3ea861053452ff16--
+--94eb2c047c585de7cd053456fc77--
