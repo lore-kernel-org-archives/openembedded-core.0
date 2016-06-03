@@ -1,30 +1,20 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.analogue-micro.com (mail.analogue-micro.com
-	[217.144.149.242])
-	by mail.openembedded.org (Postfix) with ESMTP id 9EF27774CA
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E23E6774AE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jun 2016 07:08:25 +0000 (UTC)
-Received: by mail.analogue-micro.com (Postfix, from userid 999)
-	id 840AE68A019; Fri,  3 Jun 2016 08:08:25 +0100 (BST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	loki.analogue-micro-ltd.com
-X-Spam-Level: **
-X-Spam-Status: No, score=2.5 required=5.0 tests=ALL_TRUSTED,BAYES_50,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
-	by mail.analogue-micro.com (Postfix) with ESMTP id 06CAD68A019;
-	Fri,  3 Jun 2016 08:08:25 +0100 (BST)
-Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
-	by zeus.mlbassoc.com (Postfix) with ESMTP id AA10D674028F;
-	Fri,  3 Jun 2016 09:08:24 +0200 (CEST)
-To: OE-core <openembedded-core@lists.openembedded.org>
-From: Gary Thomas <gary@mlbassoc.com>
-Message-ID: <57512CE8.4030607@mlbassoc.com>
-Date: Fri, 3 Jun 2016 09:08:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.8.0
-MIME-Version: 1.0
-Subject: Python3 error?
+	Fri,  3 Jun 2016 08:17:50 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP; 03 Jun 2016 01:17:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,411,1459839600"; d="scan'208";a="968070565"
+Received: from jlock-mobl2.ger.corp.intel.com ([10.252.11.141])
+	by orsmga001.jf.intel.com with ESMTP; 03 Jun 2016 01:17:50 -0700
+From: Joshua Lock <joshua.g.lock@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  3 Jun 2016 09:17:47 +0100
+Message-Id: <1464941867-29419-1-git-send-email-joshua.g.lock@intel.com>
+X-Mailer: git-send-email 2.5.5
+Subject: [PATCH] lib/oe/buildhistory_analysis: fix for Python 3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,39 +27,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jun 2016 07:08:28 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 03 Jun 2016 08:17:52 -0000
 
-After the change over to Python3, I'm getting this error:
+The read method of the data_stream File object now returns bytes,
+not a str, so we must decode it.
 
-ERROR: Unable to parse /local/poky-cutting-edge/meta-gnome/recipes-gnome/gnome-vfs/gnome-vfs_2.24.4.bb
-Traceback (most recent call last):
-   File "/local/poky-cutting-edge/bitbake/lib/bb/siggen.py", line 151, in 
-SignatureGeneratorOEBasicHash.finalise(fn='/local/poky-cutting-edge/meta-gnome/recipes-gnome/gnome-vfs/gnome-vfs_2.24.4.bb', 
-d=<bb.data_smart.DataSmart object at 0x7f3d6ec78b38>, variant=None):
-              try:
-     >            taskdeps = self._build_data(fn, d)
-              except:
-   File "/local/poky-cutting-edge/bitbake/lib/bb/siggen.py", line 104, in 
-SignatureGeneratorOEBasicHash._build_data(fn='/local/poky-cutting-edge/meta-gnome/recipes-gnome/gnome-vfs/gnome-vfs_2.24.4.bb', 
-d=<bb.data_smart.DataSmart object at 0x7f3d6ec78b38>):
+Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
+---
+ meta/lib/oe/buildhistory_analysis.py | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-     >        tasklist, gendeps, lookupcache = bb.data.generate_dependencies(d)
-
-   File "/local/poky-cutting-edge/bitbake/lib/bb/data.py", line 438, in generate_dependencies(d=<bb.data_smart.DataSmart 
-object at 0x7f3d6ec78b38>):
-                      if dep not in deps:
-     >                    deps[dep], values[dep] = build_dependencies(dep, keys, shelldeps, varflagsexcl, d)
-                      newdeps |=  deps[dep]
-
-This is from a recipe in meta-openembedded
-
-Any ideas how to fix it?
-
+diff --git a/meta/lib/oe/buildhistory_analysis.py b/meta/lib/oe/buildhistory_analysis.py
+index 16491a9..4353381 100644
+--- a/meta/lib/oe/buildhistory_analysis.py
++++ b/meta/lib/oe/buildhistory_analysis.py
+@@ -190,7 +190,7 @@ class FileChange:
+ 
+ 
+ def blob_to_dict(blob):
+-    alines = [line.decode() for line in blob.data_stream.read().splitlines()]
++    alines = [line for line in blob.data_stream.read().decode('utf-8').splitlines()]
+     adict = {}
+     for line in alines:
+         splitv = [i.strip() for i in line.split('=',1)]
+@@ -378,34 +378,34 @@ def process_changes(repopath, revision1, revision2='HEAD', report_all=False, rep
+             if filename == 'latest':
+                 changes.extend(compare_dict_blobs(path, d.a_blob, d.b_blob, report_all, report_ver))
+             elif filename.startswith('latest.'):
+-                chg = ChangeRecord(path, filename, d.a_blob.data_stream.read(), d.b_blob.data_stream.read(), True)
++                chg = ChangeRecord(path, filename, d.a_blob.data_stream.read().decode('utf-8'), d.b_blob.data_stream.read().decode('utf-8'), True)
+                 changes.append(chg)
+         elif path.startswith('images/'):
+             filename = os.path.basename(d.a_blob.path)
+             if filename in img_monitor_files:
+                 if filename == 'files-in-image.txt':
+-                    alines = d.a_blob.data_stream.read().splitlines()
+-                    blines = d.b_blob.data_stream.read().splitlines()
++                    alines = d.a_blob.data_stream.read().decode('utf-8').splitlines()
++                    blines = d.b_blob.data_stream.read().decode('utf-8').splitlines()
+                     filechanges = compare_file_lists(alines,blines)
+                     if filechanges:
+                         chg = ChangeRecord(path, filename, None, None, True)
+                         chg.filechanges = filechanges
+                         changes.append(chg)
+                 elif filename == 'installed-package-names.txt':
+-                    alines = d.a_blob.data_stream.read().splitlines()
+-                    blines = d.b_blob.data_stream.read().splitlines()
++                    alines = d.a_blob.data_stream.read().decode('utf-8').splitlines()
++                    blines = d.b_blob.data_stream.read().decode('utf-8').splitlines()
+                     filechanges = compare_lists(alines,blines)
+                     if filechanges:
+                         chg = ChangeRecord(path, filename, None, None, True)
+                         chg.filechanges = filechanges
+                         changes.append(chg)
+                 else:
+-                    chg = ChangeRecord(path, filename, d.a_blob.data_stream.read(), d.b_blob.data_stream.read(), True)
++                    chg = ChangeRecord(path, filename, d.a_blob.data_stream.read().decode('utf-8'), d.b_blob.data_stream.read().decode('utf-8'), True)
+                     changes.append(chg)
+             elif filename == 'image-info.txt':
+                 changes.extend(compare_dict_blobs(path, d.a_blob, d.b_blob, report_all, report_ver))
+             elif '/image-files/' in path:
+-                chg = ChangeRecord(path, filename, d.a_blob.data_stream.read(), d.b_blob.data_stream.read(), True)
++                chg = ChangeRecord(path, filename, d.a_blob.data_stream.read().decode('utf-8'), d.b_blob.data_stream.read().decode('utf-8'), True)
+                 changes.append(chg)
+ 
+     # Look for added preinst/postinst/prerm/postrm
+@@ -419,7 +419,7 @@ def process_changes(repopath, revision1, revision2='HEAD', report_all=False, rep
+             if filename == 'latest':
+                 addedpkgs.append(path)
+             elif filename.startswith('latest.'):
+-                chg = ChangeRecord(path, filename[7:], '', d.b_blob.data_stream.read(), True)
++                chg = ChangeRecord(path, filename[7:], '', d.b_blob.data_stream.read().decode('utf-8'), True)
+                 addedchanges.append(chg)
+     for chg in addedchanges:
+         found = False
+@@ -436,7 +436,7 @@ def process_changes(repopath, revision1, revision2='HEAD', report_all=False, rep
+         if path.startswith('packages/'):
+             filename = os.path.basename(d.a_blob.path)
+             if filename != 'latest' and filename.startswith('latest.'):
+-                chg = ChangeRecord(path, filename[7:], d.a_blob.data_stream.read(), '', True)
++                chg = ChangeRecord(path, filename[7:], d.a_blob.data_stream.read().decode('utf-8'), '', True)
+                 changes.append(chg)
+ 
+     # Link related changes
 -- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+2.5.5
+
 
