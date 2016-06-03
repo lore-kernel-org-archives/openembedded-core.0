@@ -1,21 +1,28 @@
-Return-Path: <elliot.smith@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 3858077576
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 08149774E5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jun 2016 13:59:56 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 03 Jun 2016 06:59:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,412,1459839600"; d="scan'208";a="990403194"
-Received: from nszostek-mobl.ger.corp.intel.com (HELO lp.ger.corp.intel.com)
-	([10.252.10.4])
-	by orsmga002.jf.intel.com with ESMTP; 03 Jun 2016 06:59:56 -0700
-From: Elliot Smith <elliot.smith@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 Jun 2016 14:59:26 +0100
-Message-Id: <1464962366-15487-1-git-send-email-elliot.smith@intel.com>
-X-Mailer: git-send-email 1.9.3
-Subject: [PATCH] toasterconf.json: exclude releases Toaster can't build
+	Fri,  3 Jun 2016 14:43:52 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u53EhqNA005729
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 3 Jun 2016 07:43:52 -0700 (PDT)
+Received: from soho-mhatle-m.local (172.25.36.229) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Fri, 3 Jun 2016 07:43:51 -0700
+To: "Maxin B. John" <maxin.john@intel.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <1464953991-4125-1-git-send-email-maxin.john@intel.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <cf6e48c8-4fc8-aaec-87d2-940623951477@windriver.com>
+Date: Fri, 3 Jun 2016 09:43:51 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
+	Gecko/20100101 Thunderbird/45.1.0
+MIME-Version: 1.0
+In-Reply-To: <1464953991-4125-1-git-send-email-maxin.john@intel.com>
+Subject: Re: [PATCH 1/2] rpm: update patch to support db-6.2.23
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,104 +35,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jun 2016 13:59:57 -0000
+X-List-Received-Date: Fri, 03 Jun 2016 14:43:54 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-Due to the switch to Python 3, Toaster master can only build
-with master and not with earlier releases.
+On 6/3/16 6:39 AM, Maxin B. John wrote:
+> Refresh the rpm-db60.patch to support db-6.2.23
 
-Make master the default release for projects and remove previous
-releases from configuration.
+NAK NAK NAK
 
-Signed-off-by: Elliot Smith <elliot.smith@intel.com>
----
- meta/conf/toasterconf.json | 36 +++---------------------------------
- 1 file changed, 3 insertions(+), 33 deletions(-)
+Please do NOT merge this set.
 
-diff --git a/meta/conf/toasterconf.json b/meta/conf/toasterconf.json
-index c27880e..796125b 100644
---- a/meta/conf/toasterconf.json
-+++ b/meta/conf/toasterconf.json
-@@ -13,7 +13,7 @@
-             "name": "Local OpenEmbedded",
-             "sourcetype": "local",
-             "apiurl": "../../",
--            "branches": ["HEAD", "master", "jethro", "krogoth"],
-+            "branches": ["HEAD", "master"],
-             "layers": [
-                 {
-                     "name": "openembedded-core",
-@@ -27,13 +27,13 @@
-             "name": "OpenEmbedded",
-             "sourcetype": "layerindex",
-             "apiurl": "http://layers.openembedded.org/layerindex/api/",
--            "branches": ["master", "jethro", "krogoth"]
-+            "branches": ["master"]
-         },
-         {
-             "name": "Imported layers",
-             "sourcetype": "imported",
-             "apiurl": "",
--            "branches": ["master", "jethro", "krogoth", "HEAD"]
-+            "branches": ["master", "HEAD"]
- 
-         }
-     ],
-@@ -45,18 +45,6 @@
-             "dirpath": ""
-         },
-         {
--            "name": "jethro",
--            "giturl": "git://git.openembedded.org/bitbake",
--            "branch": "1.28",
--            "dirpath": ""
--        },
--        {
--            "name": "krogoth",
--            "giturl": "git://git.openembedded.org/bitbake",
--            "branch": "1.30",
--            "dirpath": ""
--        },
--        {
-             "name": "HEAD",
-             "giturl": "git://git.openembedded.org/bitbake",
-             "branch": "HEAD",
-@@ -77,24 +65,6 @@
-             "helptext": "Toaster will run your builds using the tip of the <a href=\"http://cgit.openembedded.org/openembedded-core/log/\">OpenEmbedded master</a> branch, where active development takes place. This is not a stable branch, so your builds might not work as expected."
-         },
-         {
--            "name": "jethro",
--            "description": "OpenEmbedded Jethro",
--            "bitbake": "jethro",
--            "branch": "jethro",
--            "defaultlayers": [ "openembedded-core" ],
--            "layersourcepriority": { "Imported layers": 99, "Local OpenEmbedded" : 10, "OpenEmbedded" :  0 },
--            "helptext": "Toaster will run your builds with the tip of the <a href=\"http://cgit.openembedded.org/openembedded-core/log/?h=jethro\">OpenEmbedded \"Jethro\"</a> branch"
--        },
--        {
--            "name": "krogoth",
--            "description": "OpenEmbedded Krogoth",
--            "bitbake": "krogoth",
--            "branch": "krogoth",
--            "defaultlayers": [ "openembedded-core" ],
--            "layersourcepriority": { "Imported layers": 99, "Local OpenEmbedded" : 10, "OpenEmbedded" :  0 },
--            "helptext": "Toaster will run your builds with the tip of the <a href=\"http://cgit.openembedded.org/openembedded-core/log/?h=krogoth\">OpenEmbedded \"Krogoth\"</a> branch"
--        },
--        {
-             "name": "local",
-             "description": "Local OpenEmbedded",
-             "bitbake": "HEAD",
--- 
-1.9.3
+6.2.23 does NOT work with the version of RPM.
 
----------------------------------------------------------------------
-Intel Corporation (UK) Limited
-Registered No. 1134945 (England)
-Registered Office: Pipers Way, Swindon SN3 1RJ
-VAT No: 860 2173 47
+They (BDB) changed something with the locking semantics.  If you do anything
+more then a trivial test you will end up with a corrupted database.
 
-This e-mail and any attachments may contain confidential material for
-the sole use of the intended recipient(s). Any review or distribution
-by others is strictly prohibited. If you are not the intended
-recipient, please contact the sender and delete all copies.
+The RPM5 community is working on a newer version of RPM5, that will likely adapt
+to the new semantics.  I've not yet seen it released.  When it does, -and- if it
+works w/ db 6.2.23, we can consider the upgrade at that time.
+
+--Mark
+
+> Signed-off-by: Maxin B. John <maxin.john@intel.com>
+> ---
+>  meta/recipes-devtools/rpm/rpm/rpm-db60.patch | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/meta/recipes-devtools/rpm/rpm/rpm-db60.patch b/meta/recipes-devtools/rpm/rpm/rpm-db60.patch
+> index b4df8b7..403f3cb 100644
+> --- a/meta/recipes-devtools/rpm/rpm/rpm-db60.patch
+> +++ b/meta/recipes-devtools/rpm/rpm/rpm-db60.patch
+> @@ -13,11 +13,11 @@ Index: rpm/configure.ac
+>   [RPM_CHECK_LIB(
+>       [Berkeley-DB], [db],
+>  -    [db-6.1], [db_create], [db.h],
+> -+    [db-6.0], [db_create], [db.h],
+> ++    [db-6.2], [db_create], [db.h],
+>       [yes,external], [db6],
+>       [ DBLIBSRCS="$DBLIBSRCS db3.c"
+>  -      DBXY=db61
+> -+      DBXY=db60
+> ++      DBXY=db62
+>         AM_CONDITIONAL(WITH_DB, [ true ])
+>         AM_CONDITIONAL(WITH_DB_INTERNAL, [ test ".$RPM_CHECK_LIB_LOCATION" = .internal ])
+>         if test ".$RPM_CHECK_LIB_LOCATION" = .internal; then
+> @@ -26,7 +26,7 @@ Index: rpm/configure.ac
+>   ])
+>   
+>  -if test ".$ac_cv_lib_db_6_1_db_create" != .yes -a ".$ac_cv_lib_db_5_3_db_create" != .yes; then
+> -+if test ".$ac_cv_lib_db_6_0_db_create" != .yes -a ".$ac_cv_lib_db_5_3_db_create" != .yes; then
+> ++if test ".$ac_cv_lib_db_6_2_db_create" != .yes -a ".$ac_cv_lib_db_5_3_db_create" != .yes; then
+>       CPPFLAGS="${CPPFLAGS_save}"
+>   fi
+>   
+> @@ -36,12 +36,12 @@ Index: rpm/configure.ac
+>   
+>  -dnl # Sqlite 3.8.3.1 from db-6.1.19
+>  -if test ".$ac_cv_lib_db_6_1_db_create" = .yes; then
+> -+dnl # Sqlite 3.8.3.1 from db-6.0.30
+> -+if test ".$ac_cv_lib_db_6_0_db_create" = .yes; then
+> ++dnl # Sqlite 3.8.3.1 from db-6.2.23
+> ++if test ".$ac_cv_lib_db_6_2_db_create" = .yes; then
+>   RPM_CHECK_LIB(
+>       [Berkeley-DB (+SQLite3)], [dbsql],
+>  -    [db_sql-6.1], [sqlite3_open], [dbsql.h],
+> -+    [db_sql-6.0], [sqlite3_open], [dbsql.h],
+> ++    [db_sql-6.2], [sqlite3_open], [dbsql.h],
+>       [yes,external], [db6/sql],
+>       [
+>         AM_CONDITIONAL(WITH_DBSQL, [ true ])
+> 
 
 
