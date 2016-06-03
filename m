@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id CD56B774FF
+	by mail.openembedded.org (Postfix) with ESMTP id C41F87750B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jun 2016 09:15:31 +0000 (UTC)
+	Fri,  3 Jun 2016 09:15:32 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP; 03 Jun 2016 02:15:32 -0700
+	by orsmga101.jf.intel.com with ESMTP; 03 Jun 2016 02:15:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,411,1459839600"; d="scan'208";a="994440278"
+X-IronPort-AV: E=Sophos;i="5.26,411,1459839600"; d="scan'208";a="994440295"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 03 Jun 2016 02:15:32 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 03 Jun 2016 02:15:33 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 Jun 2016 12:15:00 +0300
-Message-Id: <1a1b23083f6ecfe49c54fb6f1398aa913df0e16a.1464945141.git.alexander.kanavin@linux.intel.com>
+Date: Fri,  3 Jun 2016 12:15:01 +0300
+Message-Id: <fa0f3722d5696d723dc8982386bfee6bcc43735f.1464945141.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <cover.1464945141.git.alexander.kanavin@linux.intel.com>
 References: <cover.1464945141.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1464945141.git.alexander.kanavin@linux.intel.com>
 References: <cover.1464945141.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 23/25] msmtp: update to 1.6.5
+Subject: [PATCH 24/25] systemtap: update to 3.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,32 +31,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jun 2016 09:15:31 -0000
+X-List-Received-Date: Fri, 03 Jun 2016 09:15:33 -0000
+
+Remove docproc-build-fix.patch, as the build problem it's fixing
+now happens only if building html docs is explicitly enabled
+(which we do not do).
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-extended/msmtp/{msmtp_1.6.4.bb => msmtp_1.6.5.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/msmtp/{msmtp_1.6.4.bb => msmtp_1.6.5.bb} (86%)
+ .../systemtap/systemtap/docproc-build-fix.patch       | 19 -------------------
+ meta/recipes-kernel/systemtap/systemtap_git.bb        |  2 +-
+ meta/recipes-kernel/systemtap/systemtap_git.inc       |  5 ++---
+ 3 files changed, 3 insertions(+), 23 deletions(-)
+ delete mode 100644 meta/recipes-kernel/systemtap/systemtap/docproc-build-fix.patch
 
-diff --git a/meta/recipes-extended/msmtp/msmtp_1.6.4.bb b/meta/recipes-extended/msmtp/msmtp_1.6.5.bb
-similarity index 86%
-rename from meta/recipes-extended/msmtp/msmtp_1.6.4.bb
-rename to meta/recipes-extended/msmtp/msmtp_1.6.5.bb
-index fe64184..d0c39eb 100644
---- a/meta/recipes-extended/msmtp/msmtp_1.6.4.bb
-+++ b/meta/recipes-extended/msmtp/msmtp_1.6.5.bb
-@@ -12,8 +12,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- SRC_URI = "http://sourceforge.net/projects/msmtp/files/msmtp/${PV}/${BPN}-${PV}.tar.xz \
-           "
+diff --git a/meta/recipes-kernel/systemtap/systemtap/docproc-build-fix.patch b/meta/recipes-kernel/systemtap/systemtap/docproc-build-fix.patch
+deleted file mode 100644
+index 33a8994..0000000
+--- a/meta/recipes-kernel/systemtap/systemtap/docproc-build-fix.patch
++++ /dev/null
+@@ -1,19 +0,0 @@
+-Upstream-Status: Inappropriate [configuration]
+-
+-Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
+-
+-Index: git/doc/SystemTap_Tapset_Reference/Makefile.am
+-===================================================================
+---- git.orig/doc/SystemTap_Tapset_Reference/Makefile.am	2012-04-13 08:43:46.263339003 -0500
+-+++ git/doc/SystemTap_Tapset_Reference/Makefile.am	2012-04-13 09:31:22.470083915 -0500
+-@@ -27,6 +27,10 @@
+- noinst_PROGRAMS = docproc
+- SRCTREE=$(abs_top_srcdir)/
+- DOCPROC=$(abs_builddir)/docproc
+-+docproc_LINK = $(CC_FOR_BUILD) $(LDFLAGS_FOR_BUILD) -o $@
+-+
+-+docproc.o: $(srcdir)/docproc.c
+-+	$(CC_FOR_BUILD) -c $(CFLAGS_FOR_BUILD) -o $@ $(srcdir)/docproc.c
+- 
+- all: $(PDFDOCS) stamp-htmldocs stamp-mandocs
+- tapsets.xml: docproc $(shell find $(SRCTREE)/tapset -name '*.stp')
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
+index 97064b8..b431a23 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.bb
++++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
+@@ -2,7 +2,7 @@ SUMMARY = "Script-directed dynamic tracing and performance analysis tool for Lin
  
--SRC_URI[md5sum] = "aa829b5e9faeca5139f7983e6637f0d6"
--SRC_URI[sha256sum] = "9b49c022a5440d41b6782c97ef2977d0346c3dae05aa8836243a9953e982d1cd"
-+SRC_URI[md5sum] = "50a8c9bb72f8222779db6b4aae2965e0"
-+SRC_URI[sha256sum] = "76a0d60693c7e65d0c7a12f01d300882d280b1e1be0202f54730ae44d44a5006"
+ require systemtap_git.inc
  
- inherit gettext autotools update-alternatives pkgconfig
+-DEPENDS = "elfutils sqlite3 systemtap-native"
++DEPENDS = "elfutils sqlite3 systemtap-native json-c"
+ DEPENDS_class-native = "elfutils-native sqlite3-native gettext-native"
+ DEPENDS_class-nativesdk = "nativesdk-elfutils nativesdk-sqlite3 nativesdk-gettext"
  
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
+index 656f15f..ce976ed 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.inc
++++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
+@@ -1,10 +1,9 @@
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+-SRCREV = "7009f2f782e52d6105fe68d6ea2a9820a1099c06"
+-PV = "2.9"
++SRCREV = "616ec7a0b916df7785d911b824c3df6eb022b213"
++PV = "3.0"
+ 
+ SRC_URI = "git://sourceware.org/git/systemtap.git \
+-           file://docproc-build-fix.patch \
+            file://obsolete_automake_macros.patch \
+            file://system_map_location.patch \
+            file://configure-allow-to-disable-libvirt.patch \
 -- 
 2.8.1
 
