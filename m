@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 11B45774EE
+	by mail.openembedded.org (Postfix) with ESMTP id 900E777444
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jun 2016 09:15:09 +0000 (UTC)
+	Fri,  3 Jun 2016 09:15:10 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP; 03 Jun 2016 02:15:08 -0700
+	by orsmga101.jf.intel.com with ESMTP; 03 Jun 2016 02:15:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,411,1459839600"; d="scan'208";a="994440113"
+X-IronPort-AV: E=Sophos;i="5.26,411,1459839600"; d="scan'208";a="994440123"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 03 Jun 2016 02:15:08 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 03 Jun 2016 02:15:09 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 Jun 2016 12:14:38 +0300
-Message-Id: <1dab6cf3994b8cba38a2214ae49bf73b44476e5b.1464945141.git.alexander.kanavin@linux.intel.com>
+Date: Fri,  3 Jun 2016 12:14:39 +0300
+Message-Id: <47371e8d90ba68053b443cb22c1442ed46acaf93.1464945141.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <cover.1464945141.git.alexander.kanavin@linux.intel.com>
 References: <cover.1464945141.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1464945141.git.alexander.kanavin@linux.intel.com>
 References: <cover.1464945141.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 01/25] gdbm: upgrade to 1.12
+Subject: [PATCH 02/25] rt-tests, hwlatdetect: upgrade to 2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +33,87 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 03 Jun 2016 09:15:10 -0000
 
+0001-Makefile-Set-CC-AR-variable-only-if-it-doesn-t-have-.patch has been merged upstream
+
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-support/gdbm/{gdbm_1.11.bb => gdbm_1.12.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/gdbm/{gdbm_1.11.bb => gdbm_1.12.bb} (88%)
+ ...t-CC-AR-variable-only-if-it-doesn-t-have-.patch | 30 ----------------------
+ .../{hwlatdetect_0.96.bb => hwlatdetect_2.0.bb}    |  0
+ meta/recipes-rt/rt-tests/rt-tests.inc              |  3 +--
+ .../rt-tests/{rt-tests_0.96.bb => rt-tests_2.0.bb} |  2 +-
+ 4 files changed, 2 insertions(+), 33 deletions(-)
+ delete mode 100644 meta/recipes-rt/rt-tests/files/0001-Makefile-Set-CC-AR-variable-only-if-it-doesn-t-have-.patch
+ rename meta/recipes-rt/rt-tests/{hwlatdetect_0.96.bb => hwlatdetect_2.0.bb} (100%)
+ rename meta/recipes-rt/rt-tests/{rt-tests_0.96.bb => rt-tests_2.0.bb} (93%)
 
-diff --git a/meta/recipes-support/gdbm/gdbm_1.11.bb b/meta/recipes-support/gdbm/gdbm_1.12.bb
-similarity index 88%
-rename from meta/recipes-support/gdbm/gdbm_1.11.bb
-rename to meta/recipes-support/gdbm/gdbm_1.12.bb
-index adf8c5b..c380073 100644
---- a/meta/recipes-support/gdbm/gdbm_1.11.bb
-+++ b/meta/recipes-support/gdbm/gdbm_1.12.bb
-@@ -10,8 +10,8 @@ SRC_URI = "${GNU_MIRROR}/gdbm/gdbm-${PV}.tar.gz \
-            file://ptest.patch \
-           "
+diff --git a/meta/recipes-rt/rt-tests/files/0001-Makefile-Set-CC-AR-variable-only-if-it-doesn-t-have-.patch b/meta/recipes-rt/rt-tests/files/0001-Makefile-Set-CC-AR-variable-only-if-it-doesn-t-have-.patch
+deleted file mode 100644
+index 00fcc7d..0000000
+--- a/meta/recipes-rt/rt-tests/files/0001-Makefile-Set-CC-AR-variable-only-if-it-doesn-t-have-.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-From 9640dde4241e1314b8e8ea35b0c8dab0b30ae51f Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Sun, 3 Jan 2016 10:50:56 -0800
+-Subject: [PATCH] Makefile: Set CC/AR variable only if it doesn't have a value
+-
+-This helps it compile with clang or any other compilers besides gcc
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+-Upstream-Status: Submitted
+-
+- Makefile | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/Makefile b/Makefile
+-index 1e4b7d1..2c2d396 100644
+---- a/Makefile
+-+++ b/Makefile
+-@@ -1,6 +1,6 @@
+- VERSION = 0.96
+--CC=$(CROSS_COMPILE)gcc
+--AR=$(CROSS_COMPILE)ar
+-+CC?=$(CROSS_COMPILE)gcc
+-+AR?=$(CROSS_COMPILE)ar
+- 
+- OBJDIR = bld
+- 
+--- 
+-2.6.4
+-
+diff --git a/meta/recipes-rt/rt-tests/hwlatdetect_0.96.bb b/meta/recipes-rt/rt-tests/hwlatdetect_2.0.bb
+similarity index 100%
+rename from meta/recipes-rt/rt-tests/hwlatdetect_0.96.bb
+rename to meta/recipes-rt/rt-tests/hwlatdetect_2.0.bb
+diff --git a/meta/recipes-rt/rt-tests/rt-tests.inc b/meta/recipes-rt/rt-tests/rt-tests.inc
+index 76f9b3a..fd6500b 100644
+--- a/meta/recipes-rt/rt-tests/rt-tests.inc
++++ b/meta/recipes-rt/rt-tests/rt-tests.inc
+@@ -1,6 +1,5 @@
+ # Version v0.96
+-PV = "0.96"
+-SRCREV = "24f8c0175e04bab78e7555698e34d7002b01c87f"
++SRCREV = "e1b1537a20b35af75a49bf55dcf70296f8a62467"
  
--SRC_URI[md5sum] = "72c832680cf0999caedbe5b265c8c1bd"
--SRC_URI[sha256sum] = "8d912f44f05d0b15a4a5d96a76f852e905d051bb88022fcdfd98b43be093e3c3"
-+SRC_URI[md5sum] = "9ce96ff4c99e74295ea19040931c8fb9"
-+SRC_URI[sha256sum] = "d97b2166ee867fd6ca5c022efee80702d6f30dd66af0e03ed092285c3af9bcea"
+ SRC_URI = "git://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git"
  
- inherit autotools gettext texinfo lib_package ptest
+diff --git a/meta/recipes-rt/rt-tests/rt-tests_0.96.bb b/meta/recipes-rt/rt-tests/rt-tests_2.0.bb
+similarity index 93%
+rename from meta/recipes-rt/rt-tests/rt-tests_0.96.bb
+rename to meta/recipes-rt/rt-tests/rt-tests_2.0.bb
+index 2f96fea..21780d1 100644
+--- a/meta/recipes-rt/rt-tests/rt-tests_0.96.bb
++++ b/meta/recipes-rt/rt-tests/rt-tests_2.0.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+ require rt-tests.inc
+ inherit ptest
  
+-SRC_URI += "file://0001-Makefile-Set-CC-AR-variable-only-if-it-doesn-t-have-.patch \
++SRC_URI += " \
+             file://run-ptest \
+             file://rt_bmark.py \
+            "
 -- 
 2.8.1
 
