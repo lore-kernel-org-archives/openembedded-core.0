@@ -1,21 +1,29 @@
-Return-Path: <elliot.smith@intel.com>
+Return-Path: <maxin.john@intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 92BD7774E4
+	by mail.openembedded.org (Postfix) with ESMTP id 1C8987741E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jun 2016 10:52:50 +0000 (UTC)
+	Fri,  3 Jun 2016 11:39:39 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 03 Jun 2016 03:52:51 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 03 Jun 2016 04:39:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,411,1459839600"; d="scan'208";a="994482290"
-Received: from nszostek-mobl.ger.corp.intel.com (HELO lp.ger.corp.intel.com)
-	([10.252.10.4])
-	by fmsmga002.fm.intel.com with ESMTP; 03 Jun 2016 03:52:49 -0700
-From: Elliot Smith <elliot.smith@intel.com>
+X-IronPort-AV: E=Sophos;i="5.26,411,1459839600"; d="scan'208";a="994503161"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga002.fm.intel.com with ESMTP; 03 Jun 2016 04:39:39 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 424526A4007
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  3 Jun 2016 05:27:07 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 Jun 2016 11:52:38 +0100
-Message-Id: <1464951158-11523-1-git-send-email-elliot.smith@intel.com>
-X-Mailer: git-send-email 1.9.3
-Subject: [krogoth] toasterconf.json: exclude releases Toaster can't build
+Date: Fri,  3 Jun 2016 14:39:51 +0300
+Message-Id: <1464953991-4125-2-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+In-Reply-To: <1464953991-4125-1-git-send-email-maxin.john@intel.com>
+References: <1464953991-4125-1-git-send-email-maxin.john@intel.com>
+Subject: [PATCH 2/2] db: update to 6.2.23
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,91 +36,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jun 2016 10:52:50 -0000
+X-List-Received-Date: Fri, 03 Jun 2016 11:39:40 -0000
 
-Due to changes in master to support Python 3, Toaster is no
-longer able to build from master.
+6.0.30 -> 6.2.23
 
-Remove references to master and set default release to krogoth.
+Disable atomicsupport as db fails to build with built-in atomic functions.
 
-Signed-off-by: Elliot Smith <elliot.smith@intel.com>
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- meta/conf/toasterconf.json | 23 ++++-------------------
- 1 file changed, 4 insertions(+), 19 deletions(-)
+ meta/recipes-support/db/{db_6.0.30.bb => db_6.2.23.bb} | 17 +++--------------
+ 1 file changed, 3 insertions(+), 14 deletions(-)
+ rename meta/recipes-support/db/{db_6.0.30.bb => db_6.2.23.bb} (86%)
 
-diff --git a/meta/conf/toasterconf.json b/meta/conf/toasterconf.json
-index c27880e..8c80eed 100644
---- a/meta/conf/toasterconf.json
-+++ b/meta/conf/toasterconf.json
-@@ -13,7 +13,7 @@
-             "name": "Local OpenEmbedded",
-             "sourcetype": "local",
-             "apiurl": "../../",
--            "branches": ["HEAD", "master", "jethro", "krogoth"],
-+            "branches": ["HEAD", "jethro", "krogoth"],
-             "layers": [
-                 {
-                     "name": "openembedded-core",
-@@ -27,24 +27,18 @@
-             "name": "OpenEmbedded",
-             "sourcetype": "layerindex",
-             "apiurl": "http://layers.openembedded.org/layerindex/api/",
--            "branches": ["master", "jethro", "krogoth"]
-+            "branches": ["jethro", "krogoth"]
-         },
-         {
-             "name": "Imported layers",
-             "sourcetype": "imported",
-             "apiurl": "",
--            "branches": ["master", "jethro", "krogoth", "HEAD"]
-+            "branches": ["jethro", "krogoth", "HEAD"]
+diff --git a/meta/recipes-support/db/db_6.0.30.bb b/meta/recipes-support/db/db_6.2.23.bb
+similarity index 86%
+rename from meta/recipes-support/db/db_6.0.30.bb
+rename to meta/recipes-support/db/db_6.2.23.bb
+index 50a469b..f53811e 100644
+--- a/meta/recipes-support/db/db_6.0.30.bb
++++ b/meta/recipes-support/db/db_6.2.23.bb
+@@ -24,8 +24,8 @@ SRC_URI += "file://arm-thumb-mutex_db5.patch;patchdir=.. \
+             file://Makefile-let-libdb-6.0.la-depend-os_map.l.patch;patchdir=.. \
+            "
  
-         }
-     ],
-     "bitbake" : [
-         {
--            "name": "master",
--            "giturl": "git://git.openembedded.org/bitbake",
--            "branch": "master",
--            "dirpath": ""
--        },
--        {
-             "name": "jethro",
-             "giturl": "git://git.openembedded.org/bitbake",
-             "branch": "1.28",
-@@ -64,19 +58,10 @@
-         }
-     ],
+-SRC_URI[md5sum] = "ad28eb86ad3203b5422844db179c585b"
+-SRC_URI[sha256sum] = "608e4b1cf390e9bf54c0ef00c5bd9ca76d36e2261b9f4d33d54516f3f6a20fd2"
++SRC_URI[md5sum] = "9da126afb937a48171ff1e569ce67cf1"
++SRC_URI[sha256sum] = "47612c8991aa9ac2f6be721267c8d3cdccf5ac83105df8e50809daea24e95dc7"
  
--    "defaultrelease": "master",
-+    "defaultrelease": "krogoth",
+ # Exclude NC versions which lack AES encryption
+ UPSTREAM_CHECK_REGEX = "db-(?P<pver>\d+\.\d+(\.\d+)?).tar"
+@@ -70,21 +70,10 @@ FILES_SOLIBSDEV = "${libdir}/libdb.so ${libdir}/libdb_cxx.so"
  
-     "releases": [
-         {
--            "name": "master",
--            "description": "OpenEmbedded master",
--            "bitbake": "master",
--            "branch": "master",
--            "defaultlayers": [ "openembedded-core" ],
--            "layersourcepriority": { "Imported layers": 99, "Local OpenEmbedded" : 10, "OpenEmbedded" :  0 },
--            "helptext": "Toaster will run your builds using the tip of the <a href=\"http://cgit.openembedded.org/openembedded-core/log/\">OpenEmbedded master</a> branch, where active development takes place. This is not a stable branch, so your builds might not work as expected."
--        },
--        {
-             "name": "jethro",
-             "description": "OpenEmbedded Jethro",
-             "bitbake": "jethro",
+ #configuration - set in local.conf to override
+ # All the --disable-* options replace --enable-smallbuild, which breaks a bunch of stuff (eg. postfix)
+-DB6_CONFIG ?= "--enable-o_direct --disable-cryptography --disable-queue --disable-replication --disable-verify --disable-compat185 --disable-sql"
++DB6_CONFIG ?= "--enable-o_direct --disable-cryptography --disable-queue --disable-replication --disable-verify --disable-compat185 --disable-sql --disable-atomicsupport"
+ 
+ EXTRA_OECONF = "${DB6_CONFIG} --enable-shared --enable-cxx --with-sysroot"
+ 
+-# Override the MUTEX setting here, the POSIX library is
+-# the default - "POSIX/pthreads/library".
+-# Don't ignore the nice SWP instruction on the ARM:
+-# These enable the ARM assembler mutex code
+-ARM_MUTEX = "--with-mutex=ARM/gcc-assembly"
+-MUTEX = ""
+-MUTEX_arm = "${ARM_MUTEX}"
+-MUTEX_armeb = "${ARM_MUTEX}"
+-EXTRA_OECONF += "${MUTEX}"
+-EXTRA_OEMAKE_class-target = "LIBTOOL=${STAGING_BINDIR_CROSS}/${HOST_SYS}-libtool"
+-
+ # Cancel the site stuff - it's set for db3 and destroys the
+ # configure.
+ CONFIG_SITE = ""
 -- 
-1.9.3
-
----------------------------------------------------------------------
-Intel Corporation (UK) Limited
-Registered No. 1134945 (England)
-Registered Office: Pipers Way, Swindon SN3 1RJ
-VAT No: 860 2173 47
-
-This e-mail and any attachments may contain confidential material for
-the sole use of the intended recipient(s). Any review or distribution
-by others is strictly prohibited. If you are not the intended
-recipient, please contact the sender and delete all copies.
+2.4.0
 
 
