@@ -1,29 +1,21 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id F3F6E77528
+Return-Path: <elliot.smith@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 3858077576
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jun 2016 13:41:37 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u53DfbRl013851; Fri, 3 Jun 2016 14:41:37 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 6Cfebsk7PCbc; Fri,  3 Jun 2016 14:41:37 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u53DfXSB013846
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 3 Jun 2016 14:41:34 +0100
-Message-ID: <1464961293.13979.20.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Gary Thomas <gary@mlbassoc.com>, OE-core
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 03 Jun 2016 14:41:33 +0100
-In-Reply-To: <57512CE8.4030607@mlbassoc.com>
-References: <57512CE8.4030607@mlbassoc.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: Python3 error?
+	Fri,  3 Jun 2016 13:59:56 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP; 03 Jun 2016 06:59:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,412,1459839600"; d="scan'208";a="990403194"
+Received: from nszostek-mobl.ger.corp.intel.com (HELO lp.ger.corp.intel.com)
+	([10.252.10.4])
+	by orsmga002.jf.intel.com with ESMTP; 03 Jun 2016 06:59:56 -0700
+From: Elliot Smith <elliot.smith@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  3 Jun 2016 14:59:26 +0100
+Message-Id: <1464962366-15487-1-git-send-email-elliot.smith@intel.com>
+X-Mailer: git-send-email 1.9.3
+Subject: [PATCH] toasterconf.json: exclude releases Toaster can't build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,54 +28,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jun 2016 13:41:38 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 03 Jun 2016 13:59:57 -0000
 
-On Fri, 2016-06-03 at 09:08 +0200, Gary Thomas wrote:
-> After the change over to Python3, I'm getting this error:
-> 
-> ERROR: Unable to parse /local/poky-cutting-edge/meta-gnome/recipes
-> -gnome/gnome-vfs/gnome-vfs_2.24.4.bb
-> Traceback (most recent call last):
->    File "/local/poky-cutting-edge/bitbake/lib/bb/siggen.py", line
-> 151, in 
-> SignatureGeneratorOEBasicHash.finalise(fn='/local/poky-cutting
-> -edge/meta-gnome/recipes-gnome/gnome-vfs/gnome-vfs_2.24.4.bb', 
-> d=<bb.data_smart.DataSmart object at 0x7f3d6ec78b38>, variant=None):
->               try:
->      >            taskdeps = self._build_data(fn, d)
->               except:
->    File "/local/poky-cutting-edge/bitbake/lib/bb/siggen.py", line
-> 104, in 
-> SignatureGeneratorOEBasicHash._build_data(fn='/local/poky-cutting
-> -edge/meta-gnome/recipes-gnome/gnome-vfs/gnome-vfs_2.24.4.bb', 
-> d=<bb.data_smart.DataSmart object at 0x7f3d6ec78b38>):
-> 
->      >        tasklist, gendeps, lookupcache =
-> bb.data.generate_dependencies(d)
-> 
->    File "/local/poky-cutting-edge/bitbake/lib/bb/data.py", line 438,
-> in generate_dependencies(d=<bb.data_smart.DataSmart 
-> object at 0x7f3d6ec78b38>):
->                       if dep not in deps:
->      >                    deps[dep], values[dep] =
-> build_dependencies(dep, keys, shelldeps, varflagsexcl, d)
->                       newdeps |=  deps[dep]
-> 
-> This is from a recipe in meta-openembedded
-> 
-> Any ideas how to fix it?
+Due to the switch to Python 3, Toaster master can only build
+with master and not with earlier releases.
 
-Also, this backtrace is unclear. Could you apply:
+Make master the default release for projects and remove previous
+releases from configuration.
 
-http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/wip&id=02d40b13690ac8e9aaad203d09d5158d2f1c16c8
+Signed-off-by: Elliot Smith <elliot.smith@intel.com>
+---
+ meta/conf/toasterconf.json | 36 +++---------------------------------
+ 1 file changed, 3 insertions(+), 33 deletions(-)
 
-and see if you get a better backtrace?
+diff --git a/meta/conf/toasterconf.json b/meta/conf/toasterconf.json
+index c27880e..796125b 100644
+--- a/meta/conf/toasterconf.json
++++ b/meta/conf/toasterconf.json
+@@ -13,7 +13,7 @@
+             "name": "Local OpenEmbedded",
+             "sourcetype": "local",
+             "apiurl": "../../",
+-            "branches": ["HEAD", "master", "jethro", "krogoth"],
++            "branches": ["HEAD", "master"],
+             "layers": [
+                 {
+                     "name": "openembedded-core",
+@@ -27,13 +27,13 @@
+             "name": "OpenEmbedded",
+             "sourcetype": "layerindex",
+             "apiurl": "http://layers.openembedded.org/layerindex/api/",
+-            "branches": ["master", "jethro", "krogoth"]
++            "branches": ["master"]
+         },
+         {
+             "name": "Imported layers",
+             "sourcetype": "imported",
+             "apiurl": "",
+-            "branches": ["master", "jethro", "krogoth", "HEAD"]
++            "branches": ["master", "HEAD"]
+ 
+         }
+     ],
+@@ -45,18 +45,6 @@
+             "dirpath": ""
+         },
+         {
+-            "name": "jethro",
+-            "giturl": "git://git.openembedded.org/bitbake",
+-            "branch": "1.28",
+-            "dirpath": ""
+-        },
+-        {
+-            "name": "krogoth",
+-            "giturl": "git://git.openembedded.org/bitbake",
+-            "branch": "1.30",
+-            "dirpath": ""
+-        },
+-        {
+             "name": "HEAD",
+             "giturl": "git://git.openembedded.org/bitbake",
+             "branch": "HEAD",
+@@ -77,24 +65,6 @@
+             "helptext": "Toaster will run your builds using the tip of the <a href=\"http://cgit.openembedded.org/openembedded-core/log/\">OpenEmbedded master</a> branch, where active development takes place. This is not a stable branch, so your builds might not work as expected."
+         },
+         {
+-            "name": "jethro",
+-            "description": "OpenEmbedded Jethro",
+-            "bitbake": "jethro",
+-            "branch": "jethro",
+-            "defaultlayers": [ "openembedded-core" ],
+-            "layersourcepriority": { "Imported layers": 99, "Local OpenEmbedded" : 10, "OpenEmbedded" :  0 },
+-            "helptext": "Toaster will run your builds with the tip of the <a href=\"http://cgit.openembedded.org/openembedded-core/log/?h=jethro\">OpenEmbedded \"Jethro\"</a> branch"
+-        },
+-        {
+-            "name": "krogoth",
+-            "description": "OpenEmbedded Krogoth",
+-            "bitbake": "krogoth",
+-            "branch": "krogoth",
+-            "defaultlayers": [ "openembedded-core" ],
+-            "layersourcepriority": { "Imported layers": 99, "Local OpenEmbedded" : 10, "OpenEmbedded" :  0 },
+-            "helptext": "Toaster will run your builds with the tip of the <a href=\"http://cgit.openembedded.org/openembedded-core/log/?h=krogoth\">OpenEmbedded \"Krogoth\"</a> branch"
+-        },
+-        {
+             "name": "local",
+             "description": "Local OpenEmbedded",
+             "bitbake": "HEAD",
+-- 
+1.9.3
 
-If so I'd better get that patch cleaned up.
+---------------------------------------------------------------------
+Intel Corporation (UK) Limited
+Registered No. 1134945 (England)
+Registered Office: Pipers Way, Swindon SN3 1RJ
+VAT No: 860 2173 47
 
-Cheers,
+This e-mail and any attachments may contain confidential material for
+the sole use of the intended recipient(s). Any review or distribution
+by others is strictly prohibited. If you are not the intended
+recipient, please contact the sender and delete all copies.
 
-Richard
 
