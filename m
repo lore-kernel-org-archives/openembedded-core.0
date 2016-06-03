@@ -1,29 +1,28 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 80AB077501
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E82D77213
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jun 2016 18:46:07 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga104.fm.intel.com with ESMTP; 03 Jun 2016 11:46:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,413,1459839600"; d="scan'208";a="980381038"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 03 Jun 2016 11:46:08 -0700
-Received: by linux.intel.com (Postfix, from userid 48)
-	id A427C6A4008; Fri,  3 Jun 2016 12:33:35 -0700 (PDT)
-Received: from 10.252.18.48 (SquirrelMail authenticated user alexander.kanavin)
-	by linux.intel.com with HTTP; Fri, 3 Jun 2016 22:33:35 +0300 (EEST)
-Message-ID: <54951.10.252.18.48.1464982415.squirrel@linux.intel.com>
-In-Reply-To: <cf6e48c8-4fc8-aaec-87d2-940623951477@windriver.com>
+	Fri,  3 Jun 2016 18:53:51 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u53IrmKr015933
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Fri, 3 Jun 2016 11:53:48 -0700
+Received: from soho-mhatle-m.local (172.25.36.229) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Fri, 3 Jun 2016 11:53:48 -0700
+To: <alexander.kanavin@linux.intel.com>
 References: <1464953991-4125-1-git-send-email-maxin.john@intel.com>
 	<cf6e48c8-4fc8-aaec-87d2-940623951477@windriver.com>
-Date: Fri, 3 Jun 2016 22:33:35 +0300 (EEST)
-From: alexander.kanavin@linux.intel.com
-To: "Mark Hatle" <mark.hatle@windriver.com>
-User-Agent: SquirrelMail/1.4.8-5.el4.centos.8
+	<54951.10.252.18.48.1464982415.squirrel@linux.intel.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <e0e0244c-0099-8c8c-0e47-5077b67ab22d@windriver.com>
+Date: Fri, 3 Jun 2016 13:53:47 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
+	Gecko/20100101 Thunderbird/45.1.0
 MIME-Version: 1.0
-X-Priority: 3 (Normal)
-Importance: Normal
+In-Reply-To: <54951.10.252.18.48.1464982415.squirrel@linux.intel.com>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 1/2] rpm: update patch to support db-6.2.23
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -38,24 +37,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jun 2016 18:46:08 -0000
-Content-Type: text/plain;charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 03 Jun 2016 18:53:51 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-> On 6/3/16 6:39 AM, Maxin B. John wrote:
->> Refresh the rpm-db60.patch to support db-6.2.23
->
-> NAK NAK NAK
->
-> Please do NOT merge this set.
->
-> 6.2.23 does NOT work with the version of RPM.
+On 6/3/16 2:33 PM, alexander.kanavin@linux.intel.com wrote:
+>> On 6/3/16 6:39 AM, Maxin B. John wrote:
+>>> Refresh the rpm-db60.patch to support db-6.2.23
+>>
+>> NAK NAK NAK
+>>
+>> Please do NOT merge this set.
+>>
+>> 6.2.23 does NOT work with the version of RPM.
+> 
+> Should db be updated to the latest 6.1 release then?
 
-Should db be updated to the latest 6.1 release then?
+Latest 6.1 release has the same problem unfortunately.  So it needs to wait as well.
 
-Generally, Mark, do you want to be the maintainer of db recipe? Since it
-is so tightly coupled with rpm, and is full of nontrivial issues like
-this, it makes sense that you take care of updating both.
+> Generally, Mark, do you want to be the maintainer of db recipe? Since it
+> is so tightly coupled with rpm, and is full of nontrivial issues like
+> this, it makes sense that you take care of updating both.
 
-Alex
+I'm fine with moving BDB maintenance to me, and I'll try to keep them in sync
+moving forward.. (for the most part they are decoupled, it was only recently
+that things broke like this.)
+
+--Mark
+
+> Alex
+> 
+
 
