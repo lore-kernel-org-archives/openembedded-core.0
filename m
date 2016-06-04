@@ -1,34 +1,30 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.analogue-micro.com (mail.analogue-micro.com
-	[217.144.149.242])
-	by mail.openembedded.org (Postfix) with ESMTP id F3F5A7749D
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D90577121
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  4 Jun 2016 06:56:15 +0000 (UTC)
-Received: by mail.analogue-micro.com (Postfix, from userid 999)
-	id 5BA7768A01C; Sat,  4 Jun 2016 07:56:14 +0100 (BST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	loki.analogue-micro-ltd.com
-X-Spam-Level: **
-X-Spam-Status: No, score=2.5 required=5.0 tests=ALL_TRUSTED,BAYES_50,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
-	by mail.analogue-micro.com (Postfix) with ESMTP id 7429E68A019;
-	Sat,  4 Jun 2016 07:56:13 +0100 (BST)
-Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
-	by zeus.mlbassoc.com (Postfix) with ESMTP id 10FF267401CE;
-	Sat,  4 Jun 2016 08:56:13 +0200 (CEST)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-References: <57512CE8.4030607@mlbassoc.com>
-	<1464961293.13979.20.camel@linuxfoundation.org>
-From: Gary Thomas <gary@mlbassoc.com>
-Message-ID: <57527B8C.1010600@mlbassoc.com>
-Date: Sat, 4 Jun 2016 08:56:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.8.0
-MIME-Version: 1.0
-In-Reply-To: <1464961293.13979.20.camel@linuxfoundation.org>
-Subject: Re: Python3 error?
+	Sat,  4 Jun 2016 08:04:28 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u5484TKk028712 for <openembedded-core@lists.openembedded.org>;
+	Sat, 4 Jun 2016 09:04:29 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id BCn2-h8M7BsY
+	for <openembedded-core@lists.openembedded.org>;
+	Sat,  4 Jun 2016 09:04:28 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u5484Qrj028706
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 4 Jun 2016 09:04:28 +0100
+Message-ID: <1465027466.13979.29.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Sat, 04 Jun 2016 09:04:26 +0100
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: [PATCH] libarchive: Add PACKAGECONFIG for lz4 to ensure determinism
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,102 +37,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 04 Jun 2016 06:56:17 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Sat, 04 Jun 2016 08:04:31 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 06/03/2016 03:41 PM, Richard Purdie wrote:
-> On Fri, 2016-06-03 at 09:08 +0200, Gary Thomas wrote:
->> After the change over to Python3, I'm getting this error:
->>
->> ERROR: Unable to parse /local/poky-cutting-edge/meta-gnome/recipes
->> -gnome/gnome-vfs/gnome-vfs_2.24.4.bb
->> Traceback (most recent call last):
->>     File "/local/poky-cutting-edge/bitbake/lib/bb/siggen.py", line
->> 151, in
->> SignatureGeneratorOEBasicHash.finalise(fn='/local/poky-cutting
->> -edge/meta-gnome/recipes-gnome/gnome-vfs/gnome-vfs_2.24.4.bb',
->> d=<bb.data_smart.DataSmart object at 0x7f3d6ec78b38>, variant=None):
->>                try:
->>       >            taskdeps = self._build_data(fn, d)
->>                except:
->>     File "/local/poky-cutting-edge/bitbake/lib/bb/siggen.py", line
->> 104, in
->> SignatureGeneratorOEBasicHash._build_data(fn='/local/poky-cutting
->> -edge/meta-gnome/recipes-gnome/gnome-vfs/gnome-vfs_2.24.4.bb',
->> d=<bb.data_smart.DataSmart object at 0x7f3d6ec78b38>):
->>
->>       >        tasklist, gendeps, lookupcache =
->> bb.data.generate_dependencies(d)
->>
->>     File "/local/poky-cutting-edge/bitbake/lib/bb/data.py", line 438,
->> in generate_dependencies(d=<bb.data_smart.DataSmart
->> object at 0x7f3d6ec78b38>):
->>                        if dep not in deps:
->>       >                    deps[dep], values[dep] =
->> build_dependencies(dep, keys, shelldeps, varflagsexcl, d)
->>                        newdeps |=  deps[dep]
->>
->> This is from a recipe in meta-openembedded
->>
->> Any ideas how to fix it?
->
-> Also, this backtrace is unclear. Could you apply:
->
-> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/wip&id=02d40b13690ac8e9aaad203d09d5158d2f1c16c8
->
-> and see if you get a better backtrace?
->
-> If so I'd better get that patch cleaned up.
+This avoids:
 
-Per your previous message, indeed I did not have your meta-oe patches applied.
-I will do that now to move forward, but I have tested this patch as requested.
+WARNING: opkg-1_0.3.1-r0 do_package_qa: QA Issue: libopkg rdepends on lz4, but it isn't a build dependency, missing lz4 in DEPENDS or PACKAGECONFIG? [build-deps]
 
-The messages are a bit better, but it might not tell me what/where to look for
-in the failing recipe.  Here's what I see now (head only):
+and ERROR: 
 
-==============================================================================================
-WARNING: /local/poky-cutting-edge/meta-gnome/recipes-gnome/gnome-vfs/gnome-vfs_2.24.4.bb: Exception during 
-build_dependencies for populate_packages
-WARNING: /local/poky-cutting-edge/meta-gnome/recipes-gnome/gnome-vfs/gnome-vfs_2.24.4.bb: invalid syntax 
-(package.bbclass, line 1058)
-WARNING: /local/poky-cutting-edge/meta-gnome/recipes-gnome/gnome-vfs/gnome-vfs_2.24.4.bb: Error during finalise of 
-/local/poky-cutting-edge/meta-oe/recipes-gnome/gnome-vfs/gnome-vfs_2.24.4.bb
-ERROR: /local/poky-cutting-edge/meta-gnome/recipes-gnome/gnome-vfs/gnome-vfs_2.24.4.bb: invalid syntax (package.bbclass, 
-line 1058)
-ERROR: Unable to parse /local/poky-cutting-edge/meta-oe/recipes-gnome/gnome-vfs/gnome-vfs_2.24.4.bb
-Traceback (most recent call last):
-   File "/local/poky-cutting-edge/bitbake/lib/bb/siggen.py", line 151, in 
-SignatureGeneratorOEBasicHash.finalise(fn='/local/poky-cutting-edge/meta-gnome/recipes-gnome/gnome-vfs/gnome-vfs_2.24.4.bb', 
-d=<bb.data_smart.DataSmart object at 0x7f25fa9aa3c8>, variant=None):
-              try:
-     >            taskdeps = self._build_data(fn, d)
-              except Exception as e:
-   File "/local/poky-cutting-edge/bitbake/lib/bb/siggen.py", line 104, in 
-SignatureGeneratorOEBasicHash._build_data(fn='/local/poky-cutting-edge/meta-gnome/recipes-gnome/gnome-vfs/gnome-vfs_2.24.4.bb', 
-d=<bb.data_smart.DataSmart object at 0x7f25fa9aa3c8>):
+build-appliance-image-15.0.0-r0 do_rootfs: Unable to install packages. Command '/home/pokybuild/yocto-autobuilder/yocto-worker/build-appliance/build/build/tmp/sysroots/x86_64-linux/usr/bin/smart --log-level=warning --data-dir=/home/pokybuild/yocto-autobuilder/yocto-worker/build-appliance/build/build/tmp/work/qemux86_64-poky-linux/build-appliance-image/15.0.0-r0/rootfs/var/lib/smart install -y packagegroup-core-boot@qemux86_64 packagegroup-core-ssh-openssh@all psplash@core2_64 kernel-dev@qemux86_64 packagegroup-core-x11-base@all kernel-devsrc@qemux86_64 smartpm@core2_64 packagegroup-self-hosted@all rpm@core2_64 locale-base-en-us@core2_64 locale-base-en-gb@core2_64' returned 1:
+Loading cache...
+Updating cache...               ######################################## [100%]
 
-     >        tasklist, gendeps, lookupcache = bb.data.generate_dependencies(d)
+Computing transaction...error: Can't install libopkg1-1:0.3.1-r0.0@core2_64: no package provides lz4 >= 131+git0+d86dc9167
 
-   File "/local/poky-cutting-edge/bitbake/lib/bb/data.py", line 439, in generate_dependencies(d=<bb.data_smart.DataSmart 
-object at 0x7f25fa9aa3c8>):
-                      if dep not in deps:
-     >                    deps[dep], values[dep] = build_dependencies(dep, keys, shelldeps, varflagsexcl, d)
-                      newdeps |=  deps[dep]
-   File "/local/poky-cutting-edge/bitbake/lib/bb/data.py", line 368, in build_dependencies(key='populate_pack
-        ...
-==============================================================================================
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-One other python3 comment - my [source] layers are now filling
-up with lots of cache files, e.g. .../meta/lib/oe/__pycache__/*
-While this may not bother me much, it might do so with some of
-my customers as they like to be able to "prove" that their build
-came from exactly the same source tree as what we support, etc.
-Is this something that can be controlled or even disabled?
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.2.0.bb b/meta/recipes-extended/libarchive/libarchive_3.2.0.bb
+index e1f0202..fe22ea5 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.2.0.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.2.0.bb
+@@ -29,6 +29,7 @@ PACKAGECONFIG[libxml2] = "--with-xml2,--without-xml2,libxml2,"
+ PACKAGECONFIG[expat] = "--with-expat,--without-expat,expat,"
+ PACKAGECONFIG[lzo] = "--with-lzo2,--without-lzo2,lzo,"
+ PACKAGECONFIG[nettle] = "--with-nettle,--without-nettle,nettle,"
++PACKAGECONFIG[lz4] = "--with-lz4,--without-lz4,lz4,"
+ 
+ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
+            "
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+
 
