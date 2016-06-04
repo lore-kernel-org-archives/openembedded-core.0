@@ -1,49 +1,56 @@
-Return-Path: <danismostlikely@gmail.com>
-Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
-	[209.85.213.65])
-	by mail.openembedded.org (Postfix) with ESMTP id D917677260
-	for <openembedded-core@lists.openembedded.org>;
-	Sat,  4 Jun 2016 16:52:45 +0000 (UTC)
-Received: by mail-vk0-f65.google.com with SMTP id t7so3026376vkf.2
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 04 Jun 2016 09:52:46 -0700 (PDT)
+Return-Path: <twoerner@gmail.com>
+Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
+	[209.85.223.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 06381771B3;
+	Sat,  4 Jun 2016 21:11:55 +0000 (UTC)
+Received: by mail-io0-f173.google.com with SMTP id t40so110849434ioi.0;
+	Sat, 04 Jun 2016 14:11:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=TeLRsDENFJPxXtfKyPgYj/S5swXMt8bVTOUVr+qMDN8=;
-	b=PzR/NX0ZYFoQ1jHi0IuvXs6ohNPZ7vY9lYW/9VaVXVmSD+5lWOLPlK5CmpHqtRbFK5
-	pCOjQsr69PV7waHeksH2qvyarm3z5imEIloPzoEFos9+OVXg5JuZuqlTtmIxkJxzIj8t
-	Z+DcvuH/RK8K0PVv51ssBUWYrbIONZJ2rjDk3GgeAOmM0ajNkx/13a1N+mx+CUyJvLd4
-	xXcfVWamodgptGLBQGESyF9CeSn4oc3cWqo416JWSlnjEZtjdYRUPuZOWUrA9SuDb8fA
-	C0z+JfNMURQ3L8Be2p1u4TkXpMxla5mOrIgc/LYMCRvJIP3sKEqWjtLLi7d6cLuiXvpp
-	5bog==
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:content-transfer-encoding:in-reply-to
+	:user-agent; bh=WEl6BPvZ9qQ0nWVXB9x5f3dbUqdWMWl+z2KV88Sj4WE=;
+	b=jSzmhXy7lt/9YgfSkR9yieFsHGeOnIzCxi/aUDgQBs1RtvAsUniZy7gNfgC9XMyEg8
+	0pByWa/AvakP9jQ1QMFE+GO6F/OYGQoNAAWScKHY/v7RVcJoI96V5ribBD02nnd7mFkF
+	xKiXBYPaoY2mmvfZ3hksMWZIqqIcEiN7ZmOVGTIlWE7ZzxoynGBtkfspINBFYE6K58TN
+	oR+tEPw/LBva9A8IrCY6UY4tGO17rukeuyAIUsnXszQpm6l0rsofF8w4ci7uU7cg4fVZ
+	OgDUMruE7p9whAX3kwF+FBYDmp+Sb9Py8tC5ndOtN//AUh9x/DNxUyCQM5KtHmn8uQX9
+	fIEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=TeLRsDENFJPxXtfKyPgYj/S5swXMt8bVTOUVr+qMDN8=;
-	b=kExJbRxvMV6bNrLo9/ZSXJixQgGCDlmEWjrUNHrUe5xskutJh7VYGT55gGhDsG1zj2
-	MeIlOs/vuQ7eT/jWldgguDjO+fYBihVbGAmaQlowb0Afqz1wmexP1axoOhyk1OS5dLy1
-	G5bP/XF8ta/Nv6NZ5W7jFZ357ISc7AHaaU3fmFf43oILNlk9I/BnDVUCrZgpDHOSVkPX
-	t8gvwYfGBu2ctObp+Rv4h2/QLvrcKVUfkajpqJzFFtXV6xaruWOtEcCK3bGEJYd5g4yW
-	rVbigckEXRjMD08Hb9GLmien/xr9oKPylb5Gi/8EiThtNOZ+tJXxKvJWxMtAXy3MCCo9
-	jQPQ==
-X-Gm-Message-State: ALyK8tLcvF2JjldGsPwPuPGT2VUIkW6Jdt8okKQKEfZLnkY6feZlQwsA+62nmXEK5ZSJp0Ybv5CqecqiG2NRJA==
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:content-transfer-encoding
+	:in-reply-to:user-agent;
+	bh=WEl6BPvZ9qQ0nWVXB9x5f3dbUqdWMWl+z2KV88Sj4WE=;
+	b=TZxMQWeI77FslZR8/Fr19bIQOHITaPi5KAGoq1fgcYf9ZetcaJxCyLT2RcortvdlNH
+	7ewtglCWQan3Q6yAxDIzQjP015WLioarN+0+yRARV4WaVv3pmo+m32r3ClrR9NCU2HV1
+	SzkPuo+6uioSslYVRlIdhp1PBKunvb0hEvBkw/ebTXvl8SMfLMFnG3tHud/9t+Yfp5Ha
+	/kcjsPw0YNp75F2YmjK5ypVDpV/rxdhbWQ8PERqMkvVCyL8EjbL2Eb0WDWLS+LBkrKxP
+	6UOHgN9LoM7ZVBnZwWpQ2cHR6xeN1sUn8IXAeU8icWe/dayfKwW0q6+4RYhtd2yJLKXl
+	DAXw==
+X-Gm-Message-State: ALyK8tJN7dARrD8qph383NMGFzj/xVgHHsqWdp94NNMIjjBqOFHgjpRA+y/xZivKMLpfZw==
+X-Received: by 10.107.20.210 with SMTP id 201mr14768203iou.152.1465074716241; 
+	Sat, 04 Jun 2016 14:11:56 -0700 (PDT)
+Received: from openSUSE-i7.site (dsl-67-55-28-109.acanac.net. [67.55.28.109])
+	by smtp.gmail.com with ESMTPSA id
+	v62sm2658583itc.19.2016.06.04.14.11.52
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 04 Jun 2016 14:11:55 -0700 (PDT)
+Date: Sat, 4 Jun 2016 17:11:49 -0400
+From: Trevor Woerner <twoerner@gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Message-ID: <20160604211149.GA28175@openSUSE-i7.site>
+References: <1464054649898.9b34c448@Nodemailer>
+	<3785754.gtfDI8MhLU@peggleto-mobl.ger.corp.intel.com>
+	<CALbNGRTBcwNx0SMYjQ2GbRJviekG8h734t0yH24zeyiQEG367Q@mail.gmail.com>
+	<17859297.OlYCXzWKo0@peggleto-mobl.ger.corp.intel.com>
 MIME-Version: 1.0
-X-Received: by 10.31.94.209 with SMTP id s200mr3893082vkb.148.1465059165821;
-	Sat, 04 Jun 2016 09:52:45 -0700 (PDT)
-Received: by 10.103.117.204 with HTTP; Sat, 4 Jun 2016 09:52:45 -0700 (PDT)
-Received: by 10.103.117.204 with HTTP; Sat, 4 Jun 2016 09:52:45 -0700 (PDT)
-In-Reply-To: <CACS+7ZT5B6UGjtjr+vwVrPttknKj0kLbE1n8v_+yV66Pqxzhuw@mail.gmail.com>
-References: <1464953991-4125-1-git-send-email-maxin.john@intel.com>
-	<cf6e48c8-4fc8-aaec-87d2-940623951477@windriver.com>
-	<CACS+7ZT5B6UGjtjr+vwVrPttknKj0kLbE1n8v_+yV66Pqxzhuw@mail.gmail.com>
-Date: Sat, 4 Jun 2016 10:52:45 -0600
-Message-ID: <CACS+7ZSWFOk3mB_TCWCJZrx07nuv+_5WNDuUW+uyy1mQt45s4g@mail.gmail.com>
-From: Dan McGregor <danismostlikely@gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Cc: Patches and discussions about the oe-core layer
+In-Reply-To: <17859297.OlYCXzWKo0@peggleto-mobl.ger.corp.intel.com>
+User-Agent: Mutt/1.6.0 (2016-04-01)
+Cc: Cliff Brake <cbrake@bec-systems.com>,
+	openembedded-devel <openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] rpm: update patch to support db-6.2.23
+Subject: layerindex upvoting Was: [oe] OE Changelog since 2016-05-15 until 2016-05-22
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,213 +63,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 04 Jun 2016 16:52:47 -0000
-Content-Type: multipart/alternative; boundary=001a114e5dd4276327053476abe8
+X-List-Received-Date: Sat, 04 Jun 2016 21:11:56 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
---001a114e5dd4276327053476abe8
-Content-Type: text/plain; charset=UTF-8
+On Fri 2016-05-27 @ 08:25:23 AM, Paul Eggleton wrote:
+> On Thu, 26 May 2016 22:18:34 Andreas Müller wrote:
+> > On Thu, May 26, 2016 at 10:14 PM, Paul Eggleton
+> > 
+> > <paul.eggleton@linux.intel.com> wrote:
+> > > On Thu, 26 May 2016 13:46:21 Cliff Brake wrote:
+> > >> On Tue, May 24, 2016 at 5:23 AM, Maxin B. John <maxin.john@intel.com> 
+> wrote:
+> > >> > meta-java repo was moved to:
+> > >> > git://git.yoctoproject.org/meta-java
+> > >> > 
+> > >> > Is it possible to update the list with that info?
+> > >> 
+> > >> Done, thanks!
+> > >> 
+> > >> https://github.com/cbrake/openembedded-admin/commit/51604da79ed5a02341562
+> > >> a9b f254b3dd9dc71704
+> > > 
+> > > At some point it would be great if this script could be driven from the OE
+> > > layer index rather than being a separate entity - then updates would
+> > > largely be self-service for the maintainers, or at least they would only
+> > > need to be done in one place.
+> > 
+> > Maybe a bit off-topic but layer index should have some mechanism of
+> > removing rotten layers.
+> 
+> We've discussed this on-and-off at OE developer meetings for a while now. FWIW 
+> I can remove them manually - actually I just got around to deleting meta-
+> picosam9 which has been unmaintained for years.
+> 
+> Part of the problem though is determining what "rotten" actually means. 
+> Additionally, there's an element of leaving things around in case someone 
+> comes to fork/revive them again. We do show a "last updated" date but it would 
+> be good to figure out some other way of determining and indicating "layer 
+> health" - to date I don't think we've managed to figure out anything practical 
+> for that.
 
-On 3 Jun 2016 10:44 a.m., "Mark Hatle" <mark.hatle@windriver.com> wrote:
->
-> On 6/3/16 6:39 AM, Maxin B. John wrote:
-> > Refresh the rpm-db60.patch to support db-6.2.23
->
-> NAK NAK NAK
->
-> Please do NOT merge this set.
->
-> 6.2.23 does NOT work with the version of RPM.
->
-> They (BDB) changed something with the locking semantics.  If you do
-anything
-> more then a trivial test you will end up with a corrupted database.
->
-> The RPM5 community is working on a newer version of RPM5, that will
-likely adapt
-> to the new semantics.  I've not yet seen it released.  When it does,
--and- if it
-> works w/ db 6.2.23, we can consider the upgrade at that time.
+It's nice to see this topic come up. For the last couple OEDEMs and OEDAMs I'm
+usually the person to brings this up and it usually gets bandied about for a
+while. There's certainly lots of interest in general and from the toaster
+people in particular since old layers are likely to cause a build to fail
+which leaves a bad impression on newbies.
 
-Are they thinking of incorporating RPM4's new database format, or
-continuing to use db?
+Currently the best idea we've come up with is to have an opt-in class that
+people can enable in their builds which will "phone home" to the layer index
+indicating what was build (target, distro) which which layers. Hopefully we'll
+think of a way of giving some sort of relevant status in the layer index;
+maybe with different coloured balls (a la Jenkins) or something to click on
+for the data. I.e. someone built a poky image for a raspi2 using master 2 days
+ago and it succeeded, but the 3 people who tried since have all seen failures.
+Maybe toaster could use this info somehow too.
 
-I seem to recall hearing both options discussed, but that was a while ago
-and on the rpm5 mailing list.
+Ideally, as a start, we would only record nodistro, core-image-minimal builds.
+If people fed in their results with various branches and various (BSP) layers
+doing this build in a month we'd have something meaningful.
 
->
-> --Mark
->
-> > Signed-off-by: Maxin B. John <maxin.john@intel.com>
-> > ---
-> >  meta/recipes-devtools/rpm/rpm/rpm-db60.patch | 12 ++++++------
-> >  1 file changed, 6 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/meta/recipes-devtools/rpm/rpm/rpm-db60.patch
-b/meta/recipes-devtools/rpm/rpm/rpm-db60.patch
-> > index b4df8b7..403f3cb 100644
-> > --- a/meta/recipes-devtools/rpm/rpm/rpm-db60.patch
-> > +++ b/meta/recipes-devtools/rpm/rpm/rpm-db60.patch
-> > @@ -13,11 +13,11 @@ Index: rpm/configure.ac
-> >   [RPM_CHECK_LIB(
-> >       [Berkeley-DB], [db],
-> >  -    [db-6.1], [db_create], [db.h],
-> > -+    [db-6.0], [db_create], [db.h],
-> > ++    [db-6.2], [db_create], [db.h],
-> >       [yes,external], [db6],
-> >       [ DBLIBSRCS="$DBLIBSRCS db3.c"
-> >  -      DBXY=db61
-> > -+      DBXY=db60
-> > ++      DBXY=db62
-> >         AM_CONDITIONAL(WITH_DB, [ true ])
-> >         AM_CONDITIONAL(WITH_DB_INTERNAL, [ test
-".$RPM_CHECK_LIB_LOCATION" = .internal ])
-> >         if test ".$RPM_CHECK_LIB_LOCATION" = .internal; then
-> > @@ -26,7 +26,7 @@ Index: rpm/configure.ac
-> >   ])
-> >
-> >  -if test ".$ac_cv_lib_db_6_1_db_create" != .yes -a
-".$ac_cv_lib_db_5_3_db_create" != .yes; then
-> > -+if test ".$ac_cv_lib_db_6_0_db_create" != .yes -a
-".$ac_cv_lib_db_5_3_db_create" != .yes; then
-> > ++if test ".$ac_cv_lib_db_6_2_db_create" != .yes -a
-".$ac_cv_lib_db_5_3_db_create" != .yes; then
-> >       CPPFLAGS="${CPPFLAGS_save}"
-> >   fi
-> >
-> > @@ -36,12 +36,12 @@ Index: rpm/configure.ac
-> >
-> >  -dnl # Sqlite 3.8.3.1 from db-6.1.19
-> >  -if test ".$ac_cv_lib_db_6_1_db_create" = .yes; then
-> > -+dnl # Sqlite 3.8.3.1 from db-6.0.30
-> > -+if test ".$ac_cv_lib_db_6_0_db_create" = .yes; then
-> > ++dnl # Sqlite 3.8.3.1 from db-6.2.23
-> > ++if test ".$ac_cv_lib_db_6_2_db_create" = .yes; then
-> >   RPM_CHECK_LIB(
-> >       [Berkeley-DB (+SQLite3)], [dbsql],
-> >  -    [db_sql-6.1], [sqlite3_open], [dbsql.h],
-> > -+    [db_sql-6.0], [sqlite3_open], [dbsql.h],
-> > ++    [db_sql-6.2], [sqlite3_open], [dbsql.h],
-> >       [yes,external], [db6/sql],
-> >       [
-> >         AM_CONDITIONAL(WITH_DBSQL, [ true ])
-> >
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+We're open to any suggestions :-)
 
---001a114e5dd4276327053476abe8
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<p dir=3D"ltr"><br>
-On 3 Jun 2016 10:44 a.m., &quot;Mark Hatle&quot; &lt;<a href=3D"mailto:mark=
-.hatle@windriver.com">mark.hatle@windriver.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; On 6/3/16 6:39 AM, Maxin B. John wrote:<br>
-&gt; &gt; Refresh the rpm-db60.patch to support db-6.2.23<br>
-&gt;<br>
-&gt; NAK NAK NAK<br>
-&gt;<br>
-&gt; Please do NOT merge this set.<br>
-&gt;<br>
-&gt; 6.2.23 does NOT work with the version of RPM.<br>
-&gt;<br>
-&gt; They (BDB) changed something with the locking semantics.=C2=A0 If you =
-do anything<br>
-&gt; more then a trivial test you will end up with a corrupted database.<br=
->
-&gt;<br>
-&gt; The RPM5 community is working on a newer version of RPM5, that will li=
-kely adapt<br>
-&gt; to the new semantics.=C2=A0 I&#39;ve not yet seen it released.=C2=A0 W=
-hen it does, -and- if it<br>
-&gt; works w/ db 6.2.23, we can consider the upgrade at that time.</p>
-<p dir=3D"ltr">Are they thinking of incorporating RPM4&#39;s new database f=
-ormat, or continuing to use db?</p>
-<p dir=3D"ltr">I seem to recall hearing both options discussed, but that wa=
-s a while ago and on the rpm5 mailing list.</p>
-<p dir=3D"ltr">&gt;<br>
-&gt; --Mark<br>
-&gt;<br>
-&gt; &gt; Signed-off-by: Maxin B. John &lt;<a href=3D"mailto:maxin.john@int=
-el.com">maxin.john@intel.com</a>&gt;<br>
-&gt; &gt; ---<br>
-&gt; &gt;=C2=A0 meta/recipes-devtools/rpm/rpm/rpm-db60.patch | 12 ++++++---=
----<br>
-&gt; &gt;=C2=A0 1 file changed, 6 insertions(+), 6 deletions(-)<br>
-&gt; &gt;<br>
-&gt; &gt; diff --git a/meta/recipes-devtools/rpm/rpm/rpm-db60.patch b/meta/=
-recipes-devtools/rpm/rpm/rpm-db60.patch<br>
-&gt; &gt; index b4df8b7..403f3cb 100644<br>
-&gt; &gt; --- a/meta/recipes-devtools/rpm/rpm/rpm-db60.patch<br>
-&gt; &gt; +++ b/meta/recipes-devtools/rpm/rpm/rpm-db60.patch<br>
-&gt; &gt; @@ -13,11 +13,11 @@ Index: rpm/<a href=3D"http://configure.ac">co=
-nfigure.ac</a><br>
-&gt; &gt;=C2=A0 =C2=A0[RPM_CHECK_LIB(<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0[Berkeley-DB], [db],<br>
-&gt; &gt;=C2=A0 -=C2=A0 =C2=A0 [db-6.1], [db_create], [db.h],<br>
-&gt; &gt; -+=C2=A0 =C2=A0 [db-6.0], [db_create], [db.h],<br>
-&gt; &gt; ++=C2=A0 =C2=A0 [db-6.2], [db_create], [db.h],<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0[yes,external], [db6],<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0[ DBLIBSRCS=3D&quot;$DBLIBSRCS db3.c&qu=
-ot;<br>
-&gt; &gt;=C2=A0 -=C2=A0 =C2=A0 =C2=A0 DBXY=3Ddb61<br>
-&gt; &gt; -+=C2=A0 =C2=A0 =C2=A0 DBXY=3Ddb60<br>
-&gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 DBXY=3Ddb62<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AM_CONDITIONAL(WITH_DB, [ true ]=
-)<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AM_CONDITIONAL(WITH_DB_INTERNAL,=
- [ test &quot;.$RPM_CHECK_LIB_LOCATION&quot; =3D .internal ])<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if test &quot;.$RPM_CHECK_LIB_LO=
-CATION&quot; =3D .internal; then<br>
-&gt; &gt; @@ -26,7 +26,7 @@ Index: rpm/<a href=3D"http://configure.ac">conf=
-igure.ac</a><br>
-&gt; &gt;=C2=A0 =C2=A0])<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 -if test &quot;.$ac_cv_lib_db_6_1_db_create&quot; !=3D .yes=
- -a &quot;.$ac_cv_lib_db_5_3_db_create&quot; !=3D .yes; then<br>
-&gt; &gt; -+if test &quot;.$ac_cv_lib_db_6_0_db_create&quot; !=3D .yes -a &=
-quot;.$ac_cv_lib_db_5_3_db_create&quot; !=3D .yes; then<br>
-&gt; &gt; ++if test &quot;.$ac_cv_lib_db_6_2_db_create&quot; !=3D .yes -a &=
-quot;.$ac_cv_lib_db_5_3_db_create&quot; !=3D .yes; then<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0CPPFLAGS=3D&quot;${CPPFLAGS_save}&quot;=
-<br>
-&gt; &gt;=C2=A0 =C2=A0fi<br>
-&gt; &gt;<br>
-&gt; &gt; @@ -36,12 +36,12 @@ Index: rpm/<a href=3D"http://configure.ac">co=
-nfigure.ac</a><br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 -dnl # Sqlite 3.8.3.1 from db-6.1.19<br>
-&gt; &gt;=C2=A0 -if test &quot;.$ac_cv_lib_db_6_1_db_create&quot; =3D .yes;=
- then<br>
-&gt; &gt; -+dnl # Sqlite 3.8.3.1 from db-6.0.30<br>
-&gt; &gt; -+if test &quot;.$ac_cv_lib_db_6_0_db_create&quot; =3D .yes; then=
-<br>
-&gt; &gt; ++dnl # Sqlite 3.8.3.1 from db-6.2.23<br>
-&gt; &gt; ++if test &quot;.$ac_cv_lib_db_6_2_db_create&quot; =3D .yes; then=
-<br>
-&gt; &gt;=C2=A0 =C2=A0RPM_CHECK_LIB(<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0[Berkeley-DB (+SQLite3)], [dbsql],<br>
-&gt; &gt;=C2=A0 -=C2=A0 =C2=A0 [db_sql-6.1], [sqlite3_open], [dbsql.h],<br>
-&gt; &gt; -+=C2=A0 =C2=A0 [db_sql-6.0], [sqlite3_open], [dbsql.h],<br>
-&gt; &gt; ++=C2=A0 =C2=A0 [db_sql-6.2], [sqlite3_open], [dbsql.h],<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0[yes,external], [db6/sql],<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0[<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AM_CONDITIONAL(WITH_DBSQL, [ tru=
-e ])<br>
-&gt; &gt;<br>
-&gt;<br>
-&gt; --<br>
-&gt; _______________________________________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
-ed-core@lists.openembedded.org</a><br>
-&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
--core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a>=
-<br>
-</p>
-
---001a114e5dd4276327053476abe8--
