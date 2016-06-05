@@ -1,46 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 0092E60119
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id D446E77144
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  5 Jun 2016 21:52:44 +0000 (UTC)
-Received: by mail-wm0-f50.google.com with SMTP id k204so4409904wmk.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 05 Jun 2016 14:52:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=FthxuYwdBvRlpaGyjYcefZStPpRBMXaiKQMuMHyU7mc=;
-	b=D1HT0MOPMIdE06v0CF6eOPjw53qougSU7z3z1uWRFmbhexgarUiuEF7bO/Mn9+uw4w
-	IRzs4kptMuBowS0bNvsaXLhDdj94/EUI3xZd2gfL+LBdQLnWhwnxfi5tY3WA8Zdyp/yT
-	hK2kFrELDd0TSIGuDAUMAG0+0IVTCj3g5xivVX3AUswI4IAfp1G57ZO9+hkp0XPFOQIf
-	9OaHArcoEjSpOf5qaSJU1Yl93Fk7rkUnY7yDWGrDijgqoySU2KT2uvmWgRd+Ce6jdvAf
-	tcm2qkjRhEmQ6B9UjARbXqho4350yyd6JFJN4FGmy7DOW0jOHsG3WZVNJYB/5xMU7VbF
-	LwiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=FthxuYwdBvRlpaGyjYcefZStPpRBMXaiKQMuMHyU7mc=;
-	b=XbNCYGI2zEZF4t0UrquqBOaLW21UogJtdnNZ6CkGYTVNN3rQTaBaYGMkkpjA6tEcq3
-	/TeusK8OhyyAoyyBFJR/nNtNqrvzK0xQAWSbNoubzzOeoAo3i+64S16beb6pF9Y0kEX5
-	MFCmN4hDJT+sM6C7dk5k4/gOBCUh3+50RJ+shX3w7fBkCwyAnl7JYWnXvUGNRsthILdb
-	atGHtwHqn/bjPjd6fv/+t3TeuP7tigxn/65OwVVtV7tXGI6nUf3OYZVGgQp/EJObxnb7
-	KPSDhjriByoaC6Qf0vsDsvzWa5A4e6H/3DmtedLW0X+2iNPD2FKCdEeNuY+V0c4Go5q1
-	VTBg==
-X-Gm-Message-State: ALyK8tJJSNY3NqFzf8mu88y7tOQUHM69ieOqqALhZrtLV9gKP1JS1BPB2H2vwbsKH1RT19ZV
-X-Received: by 10.28.17.3 with SMTP id 3mr9401237wmr.94.1465163564883;
-	Sun, 05 Jun 2016 14:52:44 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	r76sm9175427wme.14.2016.06.05.14.52.43
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 05 Jun 2016 14:52:44 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  5 Jun 2016 22:52:42 +0100
-Message-Id: <1465163562-17671-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.0.rc3
-Subject: [PATCH] lib/oe/package_manager: adapt for Python 3
+	Sun,  5 Jun 2016 22:02:22 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u55M2LM3000651; Sun, 5 Jun 2016 23:02:21 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id XGbjxgu7t-v9; Sun,  5 Jun 2016 23:02:21 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u55M2I4N000646
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sun, 5 Jun 2016 23:02:19 +0100
+Message-ID: <1465164138.13979.45.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>, Patches and discussions
+	about the oe-core layer <openembedded-core@lists.openembedded.org>
+Date: Sun, 05 Jun 2016 23:02:18 +0100
+In-Reply-To: <CAP71WjyMbP4RReFjJ-TEi-Kx8EPEVpm3qBZBnXmCm2_3_0D_8w@mail.gmail.com>
+References: <CAP71WjyMbP4RReFjJ-TEi-Kx8EPEVpm3qBZBnXmCm2_3_0D_8w@mail.gmail.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: question about -native and prefix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,32 +36,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 05 Jun 2016 21:52:48 -0000
+X-List-Received-Date: Sun, 05 Jun 2016 22:02:23 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-string.rstrip() doesn't exist in Python 3, so use the .rstrip method on the
-object itself instead.
+Hi,
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/lib/oe/package_manager.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Sun, 2016-06-05 at 23:35 +0200, Nicolas Dechesne wrote:
+> i was looking at log files and I noticed that when building a
+> 'native'
+> recipe ${prefix} is set to the sysroot path, e.g.
+> 
+> export prefix="/home/nicolas.dechesne/work/oe-rpb/build-rpb/tmp-rpb
+> -glibc/sysroots/x86_64-linux/usr"
+> 
+> as such during do_install() files are typically installed in
+> ${DESTDIR}${prefix}, and as such we end up with a 'weird' path, such
+> as :
+> 
+> x86_64-linux-libtool: install: /usr/bin/install -c
+> .libs/libopkg.so.1.0.0
+> /home/nicolas.dechesne/work/oe-rpb/build-rpb/tmp-rpb
+> -glibc/work/x86_64-linux/opkg-native/1_0.3.0
+> -r0/image/home/nicolas.dechesne/work/oe-rpb/build-rpb/tmp-rpb
+> -glibc/sysroots/x86_64-linux/usr/lib/libopkg.so.1.\
+> 
+> e.g. the 'full path' of the sysroot is recreated inside ${D}. It
+> doesn't seem to make anything bad, but i just noticed it, and it
+> surprised me. what's the rationale for that?
+> 
+> I would have expected to find the sysroot 'relative' path in ${D}. n
+> the the absolute path.
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 71e5b50..3b1d24f 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -638,8 +638,8 @@ class PackageManager(object, metaclass=ABCMeta):
-     def construct_uris(self, uris, base_paths):
-         def _append(arr1, arr2, sep='/'):
-             res = []
--            narr1 = [string.rstrip(a, sep) for a in arr1]
--            narr2 = [string.lstrip(string.rstrip(a, sep), sep) for a in arr2]
-+            narr1 = [a.rstrip(sep) for a in arr1]
-+            narr2 = [a.rstrip(sep).lstrip(sep) for a in arr2]
-             for a1 in narr1:
-                 if arr2:
-                     for a2 in narr2:
--- 
-2.8.0.rc3
+Whilst this looks a bit ugly, it is actually doing the right thing.
+Native binaries are designed to install and run in $prefix. When we
+install them in do_install, there is a DESTDIR as you mention which is
+within WORKDIR, then a $prefix beyond that.
+
+If you try and do anything else you end up handcrafting do_install for
+natives, or the sysroot or some other solution and you end up having to
+hack things. With this approach, whilst the paths are long, "it just
+works". So it is actually by design and in the big picture does make
+sense when you step back and think about it.
+
+Cheers,
+
+Richard
 
 
