@@ -1,55 +1,48 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
-	[209.85.223.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 0975277147
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f42.google.com (mail-it0-f42.google.com
+	[209.85.214.42])
+	by mail.openembedded.org (Postfix) with ESMTP id D7264771CE
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  5 Jun 2016 13:15:13 +0000 (UTC)
-Received: by mail-io0-f177.google.com with SMTP id k19so105472724ioi.3
+	Sun,  5 Jun 2016 20:33:05 +0000 (UTC)
+Received: by mail-it0-f42.google.com with SMTP id i65so21575024ith.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 05 Jun 2016 06:15:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=9wDgroHaHKfDKbzjrEaAMd86Y+kwkHS6sL//By7tg4Y=;
-	b=0HZ48mMEkMZGsIVMvea/lfyDfi2MytxVR5dw5XRu/9dsKzXklbfaGbXbqkHjpUCS8/
-	lffbPABOSxqm8tgqAk/hA7DWnUdcnPEZ6+yZ3HIlF9TDoTays2kWl3QaL+vR2Blognsa
-	aO8JI9UdlPhkFiNLA4yRJvYsJhcApYAUjfB9NYRPFDLWmG6cAkkTo2pb6825qJett+M8
-	FrZY9H2z1zlbWtcpKGkXn0Ck4YqX0CkjMYXmOmDDz2ufDVurONdvHpAmeApIczou0IbQ
-	R18Ail2GbETY3HCl2JrVUszRSPl0k7bXa+sBzlOiutq+pMjpP1NVdXXPmpCUI5KBVU9C
-	EWkg==
+	Sun, 05 Jun 2016 13:33:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=HaLsOxnFeMQ/1+n5H9AdsTkLz6mpDnblvGlk8tlWd2M=;
+	b=DWnpBjNYLKm2eJcLt0GWSUsJJj7+96VNJMoqB6+oA/UCzybzJvJfs8IMXyN1h9Vvhn
+	w879656Zlk57TC/SzuxqPjYvHQTjA/s7sIUEmdAIxKE5pkXfd62z7hM4c4b8xLuU7G5f
+	EzaV5sKuoBd4oOUy9tEkN9AQfPaEhLEGnw6eFOCtNGFGafC0cDefMqMeS9dfvCHrquL5
+	zSYS+lC/m2aA4EMpbUfYEGiJqJk49lOVA1uA3pmyRCzLdXqZOek+rL71to0KZEpUirNE
+	GjjXghGXha0UvURv0sxLQqgvXPTiGTiPzSlYazFI60SUpR56L1k3pKyhLhPheqsTsr3u
+	0i1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=9wDgroHaHKfDKbzjrEaAMd86Y+kwkHS6sL//By7tg4Y=;
-	b=QPbJ7744d8y7+z2/qnPOVN9Umt7gAQYrwSaJAeskgMzRhubBXrUAW/qPf39lXrRKmP
-	tIr3aKmYpVk5gTSq6F8G4JNX9rRfLKz7n/yb1VKMFcb6k8XZVffb6qs1Siej6Zgv+jaN
-	qdWy3qY5xfTSB+0HNQLxg+uq4zt2XOq2DyxVjMY3YP1XsxUJsXTztsZ+lUpytTmF1l4z
-	k6ZIbubX96IczSccDmc/7pDf5J/iYkhz2zBAhLlqhES2P3V2Q8yXDZH3bYCkJdQwOT/E
-	v8ueWQkwWvxR9IpAIio/DkIe/k7P3sPeTINU02IhzyPaFAX57FehOnarnSb2TcBtxyly
-	g6Mg==
-X-Gm-Message-State: ALyK8tJ8IG/uzMZM0egGU5qYLGT01SIZBY2Pgs//6TnEJTz0jHEvE0rJhnaOq5qj9KdSnA==
-X-Received: by 10.107.25.13 with SMTP id 13mr15639966ioz.104.1465132514503;
-	Sun, 05 Jun 2016 06:15:14 -0700 (PDT)
-Received: from openSUSE-i7.site (dsl-67-55-28-109.acanac.net. [67.55.28.109])
-	by smtp.gmail.com with ESMTPSA id
-	k79sm6855075ioi.36.2016.06.05.06.15.13
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 05 Jun 2016 06:15:13 -0700 (PDT)
-Date: Sun, 5 Jun 2016 09:15:17 -0400
-From: Trevor Woerner <twoerner@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20160605131517.GE5652@openSUSE-i7.site>
-References: <20160604225509.GB28175@openSUSE-i7.site>
-	<1465111211.13979.38.camel@linuxfoundation.org>
-	<20160605130253.GB5652@openSUSE-i7.site>
-	<20160605130412.GC5652@openSUSE-i7.site>
-	<20160605130650.GD5652@openSUSE-i7.site>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=HaLsOxnFeMQ/1+n5H9AdsTkLz6mpDnblvGlk8tlWd2M=;
+	b=iNJAIaor+bzmc+8vYOULoHHaU3ByhqkD8/t2fjStTgLHEe0Tk9j1Uw83uwJyqlqr+V
+	9lMobS93vJf/2ewsQa2dG9x6c+83c2pvDE1h+SxBWv+xPh3+/bTMPATVPttiUSB05cas
+	A6Cp3etmWrst22sSVXUf6X/7bZ9aZtXhSqcXhtNRaDU1DuBT54Ek40Xp0ZCE7gHfYmch
+	/XRpv2MJehjq+jELcrVoadjRlc9hu+GRo2ysOaq+vgnnpkCaI+2DALFnJnxFjsHvmOhk
+	vllpNxC8txMitntj0Rhe0zRZdWPM4X4gvSjsTkZFGYqkBa/fZgiJ570JG4N675lcPsVg
+	tWqA==
+X-Gm-Message-State: ALyK8tJkpRzmMJ2lGjHnXkI2vp19owU5HAd61ZmQJ2pNRZ3YjnyxRpevTFs05sMliD0Va0MrLKBoTcLzelEm5LMK
+X-Received: by 10.36.2.71 with SMTP id 68mr12627022itu.38.1465158786018; Sun,
+	05 Jun 2016 13:33:06 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20160605130650.GD5652@openSUSE-i7.site>
-User-Agent: Mutt/1.6.0 (2016-04-01)
+Received: by 10.107.162.6 with HTTP; Sun, 5 Jun 2016 13:32:46 -0700 (PDT)
+In-Reply-To: <20160531052108.GA88947@builder0.em.health.ge.com>
+References: <cover.1452235739.git.ian.ray@ge.com>
+	<31c742546bd534942c5d445256e0af1aaa64b668.1452235739.git.ian.ray@ge.com>
+	<20160531052108.GA88947@builder0.em.health.ge.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Sun, 5 Jun 2016 21:32:46 +0100
+Message-ID: <CAJTo0LZM3QUoqtApNvqfuq+coCqPP=OKyk-neKqodMow5oSJdg@mail.gmail.com>
+To: Ian Ray <ian.ray@ge.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: INHERIT += "image-buildinfo" doesn't parse
+Subject: Re: [PATCH v2 1/1] linux-firmware: remove hard-coded paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,20 +55,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 05 Jun 2016 13:15:15 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Sun, 05 Jun 2016 20:33:06 -0000
+Content-Type: multipart/alternative; boundary=001a1144b1d0fb072105348ddc68
 
-On Sun 2016-06-05 @ 09:06:50 AM, Trevor Woerner wrote:
-> On Sun 2016-06-05 @ 09:04:12 AM, Trevor Woerner wrote:
-> > oh... wait, sorry my mistake I didn't test properly, let me try again...
-> 
-> yes, that fixes it :-D
-> 
-> (i was using git://git.yoctoproject.org/poky's meta instead of
-> git://git.openembedded.org/openembedded-core.git's)
+--001a1144b1d0fb072105348ddc68
+Content-Type: text/plain; charset=UTF-8
 
-... and now that I check, I see that you've already pushed this to poky as
-well. Sorry for the confusion, both work (my build was using one, I updated
-the other, it didn't seem to work).
+On 31 May 2016 at 06:21, Ian Ray <ian.ray@ge.com> wrote:
 
+> There was quite a lot of discussion in the v1 patch thread, but
+> this patch was revised based on Phil's comments[*] and as such
+> it seems like a good first step.
+>
+
+Doesn't the kernel itself so the initial firmware search, and if so is that
+correctly informed to look somewhere other than /lib?
+
+Ross
+
+--001a1144b1d0fb072105348ddc68
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 31 May 2016 at 06:21, Ian Ray <span dir=3D"ltr">&lt;<a href=3D"mailto:ia=
+n.ray@ge.com" target=3D"_blank">ian.ray@ge.com</a>&gt;</span> wrote:<br><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
+ccc solid;padding-left:1ex"><div id=3D":2lt" class=3D"a3s aXjCH m1550572fee=
+d9ded9">There was quite a lot of discussion in the v1 patch thread, but<br>
+this patch was revised based on Phil&#39;s comments[*] and as such<br>
+it seems like a good first step.<br></div></blockquote></div><br>Doesn&#39;=
+t the kernel itself so the initial firmware search, and if so is that corre=
+ctly informed to look somewhere other than /lib?</div><div class=3D"gmail_e=
+xtra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a1144b1d0fb072105348ddc68--
