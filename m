@@ -1,48 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f42.google.com (mail-it0-f42.google.com
-	[209.85.214.42])
-	by mail.openembedded.org (Postfix) with ESMTP id D7264771CE
+Return-Path: <maxin.john@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F024771CD
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  5 Jun 2016 20:33:05 +0000 (UTC)
-Received: by mail-it0-f42.google.com with SMTP id i65so21575024ith.1
+	Sun,  5 Jun 2016 21:11:37 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga104.fm.intel.com with ESMTP; 05 Jun 2016 14:11:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,423,1459839600"; d="scan'208";a="969427839"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 05 Jun 2016 14:11:38 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 1F65D6A4007
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 05 Jun 2016 13:33:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=HaLsOxnFeMQ/1+n5H9AdsTkLz6mpDnblvGlk8tlWd2M=;
-	b=DWnpBjNYLKm2eJcLt0GWSUsJJj7+96VNJMoqB6+oA/UCzybzJvJfs8IMXyN1h9Vvhn
-	w879656Zlk57TC/SzuxqPjYvHQTjA/s7sIUEmdAIxKE5pkXfd62z7hM4c4b8xLuU7G5f
-	EzaV5sKuoBd4oOUy9tEkN9AQfPaEhLEGnw6eFOCtNGFGafC0cDefMqMeS9dfvCHrquL5
-	zSYS+lC/m2aA4EMpbUfYEGiJqJk49lOVA1uA3pmyRCzLdXqZOek+rL71to0KZEpUirNE
-	GjjXghGXha0UvURv0sxLQqgvXPTiGTiPzSlYazFI60SUpR56L1k3pKyhLhPheqsTsr3u
-	0i1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=HaLsOxnFeMQ/1+n5H9AdsTkLz6mpDnblvGlk8tlWd2M=;
-	b=iNJAIaor+bzmc+8vYOULoHHaU3ByhqkD8/t2fjStTgLHEe0Tk9j1Uw83uwJyqlqr+V
-	9lMobS93vJf/2ewsQa2dG9x6c+83c2pvDE1h+SxBWv+xPh3+/bTMPATVPttiUSB05cas
-	A6Cp3etmWrst22sSVXUf6X/7bZ9aZtXhSqcXhtNRaDU1DuBT54Ek40Xp0ZCE7gHfYmch
-	/XRpv2MJehjq+jELcrVoadjRlc9hu+GRo2ysOaq+vgnnpkCaI+2DALFnJnxFjsHvmOhk
-	vllpNxC8txMitntj0Rhe0zRZdWPM4X4gvSjsTkZFGYqkBa/fZgiJ570JG4N675lcPsVg
-	tWqA==
-X-Gm-Message-State: ALyK8tJkpRzmMJ2lGjHnXkI2vp19owU5HAd61ZmQJ2pNRZ3YjnyxRpevTFs05sMliD0Va0MrLKBoTcLzelEm5LMK
-X-Received: by 10.36.2.71 with SMTP id 68mr12627022itu.38.1465158786018; Sun,
-	05 Jun 2016 13:33:06 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.162.6 with HTTP; Sun, 5 Jun 2016 13:32:46 -0700 (PDT)
-In-Reply-To: <20160531052108.GA88947@builder0.em.health.ge.com>
-References: <cover.1452235739.git.ian.ray@ge.com>
-	<31c742546bd534942c5d445256e0af1aaa64b668.1452235739.git.ian.ray@ge.com>
-	<20160531052108.GA88947@builder0.em.health.ge.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sun, 5 Jun 2016 21:32:46 +0100
-Message-ID: <CAJTo0LZM3QUoqtApNvqfuq+coCqPP=OKyk-neKqodMow5oSJdg@mail.gmail.com>
-To: Ian Ray <ian.ray@ge.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/1] linux-firmware: remove hard-coded paths
+	Sun,  5 Jun 2016 14:59:04 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  6 Jun 2016 00:12:03 +0300
+Message-Id: <1465161123-7766-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH] libarchive: respect disable-acl configuration option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,38 +34,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 05 Jun 2016 20:33:06 -0000
-Content-Type: multipart/alternative; boundary=001a1144b1d0fb072105348ddc68
+X-List-Received-Date: Sun, 05 Jun 2016 21:11:39 -0000
 
---001a1144b1d0fb072105348ddc68
-Content-Type: text/plain; charset=UTF-8
+Update configure.ac to properly handle --disable-acl option
 
-On 31 May 2016 at 06:21, Ian Ray <ian.ray@ge.com> wrote:
+[YOCTO #9668]
 
-> There was quite a lot of discussion in the v1 patch thread, but
-> this patch was revised based on Phil's comments[*] and as such
-> it seems like a good first step.
->
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ ...c-check-acl-libacl.h-and-sys-acl.h-based-.patch | 66 ++++++++++++++++++++++
+ .../libarchive/libarchive_3.2.0.bb                 |  1 +
+ 2 files changed, 67 insertions(+)
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/0001-configure.ac-check-acl-libacl.h-and-sys-acl.h-based-.patch
 
-Doesn't the kernel itself so the initial firmware search, and if so is that
-correctly informed to look somewhere other than /lib?
+diff --git a/meta/recipes-extended/libarchive/libarchive/0001-configure.ac-check-acl-libacl.h-and-sys-acl.h-based-.patch b/meta/recipes-extended/libarchive/libarchive/0001-configure.ac-check-acl-libacl.h-and-sys-acl.h-based-.patch
+new file mode 100644
+index 0000000..4b41d62
+--- /dev/null
++++ b/meta/recipes-extended/libarchive/libarchive/0001-configure.ac-check-acl-libacl.h-and-sys-acl.h-based-.patch
+@@ -0,0 +1,66 @@
++From b30c530aaf5068a652a479f3e46c74eb1716861a Mon Sep 17 00:00:00 2001
++From: "Maxin B. John" <maxin.john@intel.com>
++Date: Thu, 2 Jun 2016 16:08:02 +0300
++Subject: [PATCH] configure.ac: check acl/libacl.h and sys/acl.h based on
++ requirement
++
++acl/libacl.h and sys/acl.h check should not happen when we explicitly
++disable it with --disable-acl.
++
++Similarly, update attr/xattr.h for --disable-xattr option.
++
++Update the help texts to reflect what it really does.
++
++Upstream-Status: Accepted
++
++Signed-off-by: Maxin B. John <maxin.john@intel.com>
++---
++ configure.ac | 9 +++++----
++ 1 file changed, 5 insertions(+), 4 deletions(-)
++
++diff --git a/configure.ac b/configure.ac
++index cb6943f..0638182 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -252,7 +252,7 @@ esac
++ # Checks for header files.
++ AC_HEADER_DIRENT
++ AC_HEADER_SYS_WAIT
++-AC_CHECK_HEADERS([acl/libacl.h attr/xattr.h copyfile.h ctype.h])
+++AC_CHECK_HEADERS([copyfile.h ctype.h])
++ AC_CHECK_HEADERS([errno.h ext2fs/ext2_fs.h fcntl.h grp.h])
++ 
++ AC_CACHE_CHECK([whether EXT2_IOC_GETFLAGS is usable],
++@@ -272,7 +272,7 @@ AC_CHECK_HEADERS([linux/fiemap.h linux/fs.h linux/magic.h linux/types.h])
++ AC_CHECK_HEADERS([locale.h paths.h poll.h pthread.h pwd.h])
++ AC_CHECK_HEADERS([readpassphrase.h signal.h spawn.h])
++ AC_CHECK_HEADERS([stdarg.h stdint.h stdlib.h string.h])
++-AC_CHECK_HEADERS([sys/acl.h sys/cdefs.h sys/extattr.h])
+++AC_CHECK_HEADERS([sys/cdefs.h sys/extattr.h])
++ AC_CHECK_HEADERS([sys/ioctl.h sys/mkdev.h sys/mount.h])
++ AC_CHECK_HEADERS([sys/param.h sys/poll.h sys/select.h sys/statfs.h sys/statvfs.h])
++ AC_CHECK_HEADERS([sys/time.h sys/utime.h sys/utsname.h sys/vfs.h])
++@@ -644,7 +644,7 @@ AC_CHECK_MEMBER(struct dirent.d_namlen,,,
++ # Check for Extended Attributes support
++ AC_ARG_ENABLE([xattr],
++ 		AS_HELP_STRING([--disable-xattr],
++-		[Enable Extended Attributes support (default: check)]))
+++		[Disable Extended Attributes support (default: check)]))
++ 
++ if test "x$enable_xattr" != "xno"; then
++ 	AC_CHECK_HEADERS([attr/xattr.h])
++@@ -670,9 +670,10 @@ fi
++ #
++ AC_ARG_ENABLE([acl],
++ 		AS_HELP_STRING([--disable-acl],
++-		[Enable ACL support (default: check)]))
+++		[Disable ACL support (default: check)]))
++ 
++ if test "x$enable_acl" != "xno"; then
+++   AC_CHECK_HEADERS([acl/libacl.h])
++    AC_CHECK_HEADERS([sys/acl.h])
++    AC_CHECK_LIB([acl],[acl_get_file])
++    AC_CHECK_FUNCS([acl_create_entry acl_init acl_set_fd acl_set_fd_np acl_set_file])
++-- 
++2.4.0
++
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.2.0.bb b/meta/recipes-extended/libarchive/libarchive_3.2.0.bb
+index fe22ea5..f183b74 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.2.0.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.2.0.bb
+@@ -32,6 +32,7 @@ PACKAGECONFIG[nettle] = "--with-nettle,--without-nettle,nettle,"
+ PACKAGECONFIG[lz4] = "--with-lz4,--without-lz4,lz4,"
+ 
+ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
++           file://0001-configure.ac-check-acl-libacl.h-and-sys-acl.h-based-.patch \
+            "
+ 
+ SRC_URI[md5sum] = "596210b5a9c2ff74a0f7ca34838d655f"
+-- 
+2.4.0
 
-Ross
 
---001a1144b1d0fb072105348ddc68
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 31 May 2016 at 06:21, Ian Ray <span dir=3D"ltr">&lt;<a href=3D"mailto:ia=
-n.ray@ge.com" target=3D"_blank">ian.ray@ge.com</a>&gt;</span> wrote:<br><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
-ccc solid;padding-left:1ex"><div id=3D":2lt" class=3D"a3s aXjCH m1550572fee=
-d9ded9">There was quite a lot of discussion in the v1 patch thread, but<br>
-this patch was revised based on Phil&#39;s comments[*] and as such<br>
-it seems like a good first step.<br></div></blockquote></div><br>Doesn&#39;=
-t the kernel itself so the initial firmware search, and if so is that corre=
-ctly informed to look somewhere other than /lib?</div><div class=3D"gmail_e=
-xtra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a1144b1d0fb072105348ddc68--
