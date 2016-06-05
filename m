@@ -1,45 +1,46 @@
-Return-Path: <kad@kad.name>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 038497715A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 0092E60119
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  5 Jun 2016 21:45:00 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id m124so11084011wme.3
+	Sun,  5 Jun 2016 21:52:44 +0000 (UTC)
+Received: by mail-wm0-f50.google.com with SMTP id k204so4409904wmk.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 05 Jun 2016 14:45:01 -0700 (PDT)
+	Sun, 05 Jun 2016 14:52:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kad-name.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=ij4z8Rq3mHgRzhsLkri7utbYjF46/cufjtlLfvR1e9A=;
-	b=p9g3nrZ69uNpZjv+grJkyD+3tDgELNljevQxWx0ecMcvkqLK5YmV8VsFbLTL39d/zR
-	QQzDPsniVLruWfRd3Qc+b+LOWCmWo0JqUoaU1XYPAzH4XibAvI8wy0UP0bXReIt5gAGv
-	pgbbnwU24P2BtQCQuh03HbK0fWlFmTfPSzGX6lHbtg5fzk7+oAcDsl2qqgRYh8IZWlE1
-	gCeXxQigeWEY7aI2GO5pBexb3cPQ8vwbvs04/xmzqZL47eoUFE+IeTJlDhn/R+QfEstg
-	95N7riQ/Zmdx+TJeIBbaAmKazo5SC1JpPRC0OMShI1aFV2FEoe/9m7izWFjHQ7u7TtKo
-	Ehiw==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=FthxuYwdBvRlpaGyjYcefZStPpRBMXaiKQMuMHyU7mc=;
+	b=D1HT0MOPMIdE06v0CF6eOPjw53qougSU7z3z1uWRFmbhexgarUiuEF7bO/Mn9+uw4w
+	IRzs4kptMuBowS0bNvsaXLhDdj94/EUI3xZd2gfL+LBdQLnWhwnxfi5tY3WA8Zdyp/yT
+	hK2kFrELDd0TSIGuDAUMAG0+0IVTCj3g5xivVX3AUswI4IAfp1G57ZO9+hkp0XPFOQIf
+	9OaHArcoEjSpOf5qaSJU1Yl93Fk7rkUnY7yDWGrDijgqoySU2KT2uvmWgRd+Ce6jdvAf
+	tcm2qkjRhEmQ6B9UjARbXqho4350yyd6JFJN4FGmy7DOW0jOHsG3WZVNJYB/5xMU7VbF
+	LwiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=ij4z8Rq3mHgRzhsLkri7utbYjF46/cufjtlLfvR1e9A=;
-	b=XqmLg9RpV8WRNCarJEHL3D2ezb8MSQBvs4NbdmFnsVZhZmEV+5MDAee6SpnQbeB9PS
-	Gtps2YbmWkt1v9IIgzDUBqnGj2YSROQkHjL/q1kreo4XykYnFihPUFdYk7qUp+TwyA5L
-	PxG1SL0ahixbnj2B60Es1QnJwrlv0r+JuuHAjGqxqkBvniaML2pqdorvjRL/Dv4s7bsT
-	w4Hzz8lJYftNEKP7njP1mAI3POLLrEbQ7pDiS5S0pSJuDPM8y8KLG46oo4x56rDGFjoG
-	nsUzc2ewbdGLQ8eXT9XlpzsNYC5c7lwN6+zzGznC1HWBkSHGC+U4zAG8lxkIP0nx7wSx
-	cf/A==
-X-Gm-Message-State: ALyK8tKmr4H+6an8BKuc7SHi1myptk7pGBp1Hd7y43ZAXHDBs8GEElhHv79+0EPayU7n2A==
-X-Received: by 10.28.230.200 with SMTP id e69mr8990985wmi.53.1465163100945;
-	Sun, 05 Jun 2016 14:45:00 -0700 (PDT)
-Received: from localhost.localdomain (dsl-hkibrasgw3-54fb77-110.dhcp.inet.fi.
-	[84.251.119.110])
-	by smtp.gmail.com with ESMTPSA id u70sm1125649wmd.4.2016.06.05.14.44.59
-	(version=TLS1 cipher=AES128-SHA bits=128/128);
-	Sun, 05 Jun 2016 14:45:00 -0700 (PDT)
-From: "Alexander D. Kanevskiy" <kad@kad.name>
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=FthxuYwdBvRlpaGyjYcefZStPpRBMXaiKQMuMHyU7mc=;
+	b=XbNCYGI2zEZF4t0UrquqBOaLW21UogJtdnNZ6CkGYTVNN3rQTaBaYGMkkpjA6tEcq3
+	/TeusK8OhyyAoyyBFJR/nNtNqrvzK0xQAWSbNoubzzOeoAo3i+64S16beb6pF9Y0kEX5
+	MFCmN4hDJT+sM6C7dk5k4/gOBCUh3+50RJ+shX3w7fBkCwyAnl7JYWnXvUGNRsthILdb
+	atGHtwHqn/bjPjd6fv/+t3TeuP7tigxn/65OwVVtV7tXGI6nUf3OYZVGgQp/EJObxnb7
+	KPSDhjriByoaC6Qf0vsDsvzWa5A4e6H/3DmtedLW0X+2iNPD2FKCdEeNuY+V0c4Go5q1
+	VTBg==
+X-Gm-Message-State: ALyK8tJJSNY3NqFzf8mu88y7tOQUHM69ieOqqALhZrtLV9gKP1JS1BPB2H2vwbsKH1RT19ZV
+X-Received: by 10.28.17.3 with SMTP id 3mr9401237wmr.94.1465163564883;
+	Sun, 05 Jun 2016 14:52:44 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	r76sm9175427wme.14.2016.06.05.14.52.43
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 05 Jun 2016 14:52:44 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Jun 2016 00:44:29 +0300
-Message-Id: <20160605214429.63811-1-kad@kad.name>
-X-Mailer: git-send-email 2.8.3
-Subject: [PATCH] oe-pkgdata-util: new option to provide full info for binary package(s)
+Date: Sun,  5 Jun 2016 22:52:42 +0100
+Message-Id: <1465163562-17671-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.0.rc3
+Subject: [PATCH] lib/oe/package_manager: adapt for Python 3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,104 +53,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 05 Jun 2016 21:45:03 -0000
+X-List-Received-Date: Sun, 05 Jun 2016 21:52:48 -0000
 
-New option can be used for displaying full information about binary
-package(s), including name, full version, recipe name, recipe full version
-and package size.
+string.rstrip() doesn't exist in Python 3, so use the .rstrip method on the
+object itself instead.
 
-This information can be useful to produce detailed image manifest
-for further analysis.
-
-List of packages can be specified as command line or can be read
-from file (e.g. image manifest)
-
-Output format:
-{PKG} [PKGE:]{PKGV}[-{PKGR}] {PN} [PE:]{PV}[-{PR}] {PKGSIZE}
-
-Signed-off-by: Alexander D. Kanevskiy <kad@kad.name>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- scripts/oe-pkgdata-util | 59 +++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 59 insertions(+)
+ meta/lib/oe/package_manager.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
-index b16ecc9..efc54c1 100755
---- a/scripts/oe-pkgdata-util
-+++ b/scripts/oe-pkgdata-util
-@@ -274,6 +274,58 @@ def lookup_recipe(args):
-         items.extend(mappings.get(pkg, []))
-     print('\n'.join(items))
- 
-+def package_info(args):
-+    # Handle both multiple arguments and multiple values within an arg (old syntax)
-+    packages = []
-+    if args.file:
-+        with open(args.file, 'r') as f:
-+            for line in f:
-+                splitline = line.split()
-+                if splitline:
-+                    packages.append(splitline[0])
-+    else:
-+        for pkgitem in args.pkg:
-+            packages.extend(pkgitem.split())
-+        if not packages:
-+            logger.error("No packages specified")
-+            sys.exit(1)
-+
-+    mappings = defaultdict(lambda: defaultdict(str))
-+    for pkg in packages:
-+        pkgfile = os.path.join(args.pkgdata_dir, 'runtime-reverse', pkg)
-+        if os.path.exists(pkgfile):
-+            with open(pkgfile, 'r') as f:
-+                for line in f:
-+                    fields = line.rstrip().split(': ')
-+                    if fields[0].endswith("_" + pkg):
-+                        k = fields[0][:len(fields[0]) - len(pkg) - 1]
-+                    else:
-+                        k = fields[0]
-+                    v = fields[1] if len(fields) == 2 else ""
-+                    mappings[pkg][k] = v
-+
-+    if len(mappings) < len(packages):
-+        missing = list(set(packages) - set(mappings.keys()))
-+        logger.error("The following packages could not be found: %s" %
-+                     ', '.join(missing))
-+        sys.exit(1)
-+
-+    items = []
-+    for pkg in packages:
-+        items.append(("%s %s%s%s %s %s%s%s %s" % (
-+            pkg,
-+            mappings[pkg]['PKGE'] + ":" if mappings[pkg]['PKGE'] else "",
-+            mappings[pkg]['PKGV'],
-+            "-" + mappings[pkg]['PKGR'] if mappings[pkg]['PKGR'] else "",
-+            mappings[pkg]['PN'],
-+            mappings[pkg]['PE'] + ":" if mappings[pkg]['PE'] else "",
-+            mappings[pkg]['PV'],
-+            "-" + mappings[pkg]['PR'] if mappings[pkg]['PR'] else "",
-+            mappings[pkg]['PKGSIZE']
-+        )).strip()
-+        )
-+    print('\n'.join(items))
-+
- def get_recipe_pkgs(pkgdata_dir, recipe, unpackaged):
-     recipedatafile = os.path.join(pkgdata_dir, recipe)
-     if not os.path.exists(recipedatafile):
-@@ -469,6 +521,13 @@ def main():
-     parser_lookup_recipe.add_argument('pkg', nargs='+', help='Runtime package name to look up')
-     parser_lookup_recipe.set_defaults(func=lookup_recipe)
- 
-+    parser_package_info = subparsers.add_parser('package-info',
-+                                          help='Shows version, recipe and size information for one or more packages',
-+                                          description='Looks up the specified runtime package(s) and display information')
-+    parser_package_info.add_argument('pkg', nargs='*', help='Runtime package name to look up')
-+    parser_package_info.add_argument('-f', '--file', help='Read package names from the specified file (one per line, first field only)')
-+    parser_package_info.set_defaults(func=package_info)
-+
-     parser_find_path = subparsers.add_parser('find-path',
-                                           help='Find package providing a target path',
-                                           description='Finds the recipe-space package providing the specified target path')
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 71e5b50..3b1d24f 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -638,8 +638,8 @@ class PackageManager(object, metaclass=ABCMeta):
+     def construct_uris(self, uris, base_paths):
+         def _append(arr1, arr2, sep='/'):
+             res = []
+-            narr1 = [string.rstrip(a, sep) for a in arr1]
+-            narr2 = [string.lstrip(string.rstrip(a, sep), sep) for a in arr2]
++            narr1 = [a.rstrip(sep) for a in arr1]
++            narr2 = [a.rstrip(sep).lstrip(sep) for a in arr2]
+             for a1 in narr1:
+                 if arr2:
+                     for a2 in narr2:
 -- 
-2.8.3
+2.8.0.rc3
 
 
