@@ -1,47 +1,24 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com
-	[209.85.218.53])
-	by mail.openembedded.org (Postfix) with ESMTP id C313077193
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id AB9596E668
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jun 2016 08:10:58 +0000 (UTC)
-Received: by mail-oi0-f53.google.com with SMTP id e72so214580454oib.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Jun 2016 01:10:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=/eXqqGUQRixo2WQz5JzRamFUoeN4do9qcyOh1w5irUA=;
-	b=v5uEvglSgUUIazNl4HDwDtJyIdccLl0yHSSAlTcsAntxNUgXApySc8okLF68kKkwpC
-	mV37MqdCznh1C0lunyxAAFBvhcmw4f6Rxr+mCMa91SahEb/b23rwVmxbs06Y1fjlRsCe
-	8Zbhg74sQuXWzKtD3RMKlSlYukL3B7Akr1HMeoCHYTKWvDyjGuDNMRU/Q01xDJv2QScd
-	5JDiD+HDMxRh75UUK8pRRIlcPiVITWig/j7uvIfG7OAOfFKnKVEeEdCq/0c6iw64DbG8
-	/NFduDY7qLZrFVs/MX1dHktTHZ824XhF3jcmnnqVbYwzMkYqrTmA2ziGm7A5Rf65p5r3
-	bbBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=/eXqqGUQRixo2WQz5JzRamFUoeN4do9qcyOh1w5irUA=;
-	b=EBqDDPPGMb6FdpHFlX8O2PU3/4Tb5qL8sfAHIPTVEnI3p6d/sbQj6yH3enwwtVDO7j
-	a4lZMeuviSEdvDZplFVP1XRFR8kK5i1gVpq+cDzeaRIrwhU5SXaKb5wPmY+0EoBIpd0D
-	nDRwQLhGCxCIJUGi1XjE6ZPDzLHM1YdguoBr3EkUtkg8QV2WSJiGkQ8TqIxLQ39pbOLg
-	BtQKvKt3v8WeK0+9jnHKwoEsHNeskGOBUVjBCxJ/ecTZim9n5vPTq7Z6UCzJW4QNHs3f
-	Atotzub7I35HLn+SpxYKj84r7JkXRdma3ae3/o1zY/JtPTviGD3TVfiYFWCJIkOrAQ1l
-	kr7g==
-X-Gm-Message-State: ALyK8tK3Zzoe7mUBDySaTCihFoo7U4XP/0x7y76M1Tl+abYcj5a0qtsHSCJBkJxoIbab7hve4wMKd3YFLtrO+iu5
-X-Received: by 10.157.36.98 with SMTP id p89mr8377715ota.119.1465200659277;
-	Mon, 06 Jun 2016 01:10:59 -0700 (PDT)
+	Mon,  6 Jun 2016 08:15:36 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u568FW6c012237
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 6 Jun 2016 01:15:32 -0700 (PDT)
+Received: from yow-bashfiel-d4.corp.ad.wrs.com (128.224.21.120) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Mon, 6 Jun 2016 01:15:31 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Mon, 6 Jun 2016 04:15:26 -0400
+Message-ID: <cover.1465200824.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
 MIME-Version: 1.0
-Received: by 10.202.61.5 with HTTP; Mon, 6 Jun 2016 01:10:28 -0700 (PDT)
-In-Reply-To: <CAFUnDm_LEnNqq3ebvHqN8hw1o1XeBvwhH2693tg97d-hmQKytA@mail.gmail.com>
-References: <CAFUnDm_LEnNqq3ebvHqN8hw1o1XeBvwhH2693tg97d-hmQKytA@mail.gmail.com>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Mon, 6 Jun 2016 11:10:28 +0300
-Message-ID: <CAHiDW_FuKKMiMBQOJGcbNqMmYrg6ZqGF1sS__x0MJdBCyXdFHw@mail.gmail.com>
-To: mubin syed <mubin10@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: LICENCE file for LLVM based recipes
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/3] linux-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,51 +31,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Jun 2016 08:11:02 -0000
-Content-Type: multipart/alternative; boundary=001a113d1684d241e40534979c0b
+X-List-Received-Date: Mon, 06 Jun 2016 08:15:38 -0000
+Content-Type: text/plain
 
---001a113d1684d241e40534979c0b
-Content-Type: text/plain; charset=UTF-8
+Hi all,
 
-On 6 June 2016 at 10:32, mubin syed <mubin10@gmail.com> wrote:
->
-> Hi,
->
-> I am trying to write recipe for dhrystone benchmarks, it is LLVM licensed
-benchmarks.
-> I went through some of the LLVM recipes, they are using NCSA license
-files(not using explicit
-> LLVM license files).
+Just some routine updates to the 4.1 and 4.4 kernel trees. We have a -stable
+update and some backports.
 
-LLVM license is named "the university of Illinois/NCSA" license. If you've
-found a difference between the license body found in oe-core
-common-licenses and what upstream llvm uses, I think you'll have to point
-it out specifically.
+Cheers,
 
-> Please let me know, which license file  i need to use for dhrystone(i.e.
-LLVM licensed benchmark) recipe.
+Bruce
 
-You may want to include a link to the actual license file upstream uses if
-you want someone to comment on it.
+The following changes since commit 6c5d7f1fb276cbe0a461ece6c8f0ca17a478fa8c:
 
- - Jussi
+  lib/oe/package_manager: adapt for Python 3 (2016-06-05 23:39:47 +0100)
 
---001a113d1684d241e40534979c0b
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+are available in the git repository at:
 
-<div dir=3D"ltr">On 6 June 2016 at 10:32, mubin syed &lt;<a href=3D"mailto:=
-mubin10@gmail.com">mubin10@gmail.com</a>&gt; wrote:<br>&gt;<br>&gt; Hi,<br>=
-&gt;<br>&gt; I am trying to write recipe for dhrystone benchmarks, it is LL=
-VM licensed benchmarks.<br>&gt; I went through some of the LLVM recipes, th=
-ey are using NCSA license files(not using explicit<br>&gt; LLVM license fil=
-es).<br><br>LLVM license is named &quot;the university of Illinois/NCSA&quo=
-t; license. If you&#39;ve found a difference between the license body found=
- in oe-core common-licenses and what upstream llvm uses, I think you&#39;ll=
- have to point it out specifically.<br><br>&gt; Please let me know, which l=
-icense file =C2=A0i need to use for dhrystone(i.e. LLVM licensed benchmark)=
- recipe.<br><br>You may want to include a link to the actual license file u=
-pstream uses if you want someone to comment on it.<br><br>=C2=A0- Jussi</di=
-v>
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
 
---001a113d1684d241e40534979c0b--
+Bruce Ashfield (3):
+  linux-yocto/4.4: bump to v4.4.12
+  yocto-bsps: add i2c definitions to beaglebone
+  linux-yocto/4.4: mmc backports
+
+ meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb   |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 16 ++++++++--------
+ meta/recipes-kernel/linux/linux-yocto_4.4.bb      | 20 ++++++++++----------
+ 6 files changed, 25 insertions(+), 25 deletions(-)
+
+-- 
+2.5.0
+
+
