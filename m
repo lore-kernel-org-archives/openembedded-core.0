@@ -1,38 +1,33 @@
 Return-Path: <tanuk@iki.fi>
 Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
 	[66.111.4.26])
-	by mail.openembedded.org (Postfix) with ESMTP id CB9BB7712D
+	by mail.openembedded.org (Postfix) with ESMTP id 3C5AD6FFFE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jun 2016 17:02:24 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-	by mailout.nyi.internal (Postfix) with ESMTP id 16F1F20ADB
+	Mon,  6 Jun 2016 17:02:25 +0000 (UTC)
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+	by mailout.nyi.internal (Postfix) with ESMTP id 87A1C20B17
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jun 2016 12:56:15 -0400 (EDT)
+	Mon,  6 Jun 2016 12:56:07 -0400 (EDT)
 Received: from frontend1 ([10.202.2.160])
-	by compute2.internal (MEProxy); Mon, 06 Jun 2016 12:56:15 -0400
+	by compute7.internal (MEProxy); Mon, 06 Jun 2016 12:56:07 -0400
 DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=date:from:in-reply-to:in-reply-to
-	:message-id:references:references:subject:to:x-sasl-enc
-	:x-sasl-enc; s=smtpout; bh=yoAmhVF0QEPIKTx+fmi9iI+B1nU=; b=GFtFo
-	M+uy5JsrBX0+1SkMtE66UXodHfCLa2BnAQePqaniQyzlc1lKm/NcPFY/Ok4Z26UA
-	qvhzeKs2LEmkBn6VOmbjGlZK5loEp4wsmX/p2X1CYgJtU39isH49qKgZU3fHegUk
-	raT8mSkhacft0BPj8X5ZRYgQCRCPr3T9t3sSEk=
-X-Sasl-enc: H6yHfJpb60l0bvcthYBg1Sk2dTsJKDcB1JXYNw/OGuxG 1465232174
+	messagingengine.com; h=date:from:message-id:subject:to
+	:x-sasl-enc:x-sasl-enc; s=smtpout; bh=CHEHUl9RrB7Ew1LA21gzyX2sy6
+	A=; b=XE7NbW+iuCwoYicu2KM34yBXewB2hXQb0/GkchtjuYcAyZR1jPjNRqRe6Y
+	cZ0mYr+bGny04ksfYUaXi8j5I3/VVBCyn/Qj5s4GG6NKhxftj1S30GBpBwoblG0V
+	N4beCqr5I2BCy+s3OFb8RhPh/MQV7Wef+/T+0iqfFiaCxTbC8=
+X-Sasl-enc: BT8jVHfNRhlVN5Ql+PoqRUh1yeYoS5A9Wa+yUlzMvMXG 1465232167
 Received: from laptop.tanuk.dy.fi (a88-113-211-72.elisa-laajakaista.fi
 	[88.113.211.72])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 61E2AF29F4
+	by mail.messagingengine.com (Postfix) with ESMTPA id 06A0AF29F7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jun 2016 12:56:14 -0400 (EDT)
+	Mon,  6 Jun 2016 12:56:06 -0400 (EDT)
 From: Tanu Kaskinen <tanuk@iki.fi>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Jun 2016 19:55:58 +0300
-Message-Id: <6f60020d3ed62d07a83dbe072f80c17b8ae6c60a.1465231939.git.tanuk@iki.fi>
+Date: Mon,  6 Jun 2016 19:55:54 +0300
+Message-Id: <cover.1465231939.git.tanuk@iki.fi>
 X-Mailer: git-send-email 2.8.1
-In-Reply-To: <cover.1465231939.git.tanuk@iki.fi>
-References: <cover.1465231939.git.tanuk@iki.fi>
-In-Reply-To: <cover.1465231939.git.tanuk@iki.fi>
-References: <cover.1465231939.git.tanuk@iki.fi>
-Subject: [PATCH 4/4] alsa-plugins: 1.1.0 -> 1.1.1
+Subject: [PATCH 0/4] Update alsa recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,83 +42,44 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 06 Jun 2016 17:02:25 -0000
 
-Changelog: http://alsa-project.org/main/index.php/Changes_v1.1.0_v1.1.1
+Here are updates for the alsa 1.1.1 release. alsa-tools 1.1.1 was not
+released, because there have been no changes since 1.1.0.
 
-Removed upstreamed patch
-0001-pph-include-config.h-from-rate_speexrate.c.patch.
+As a bonus, the first patch fixes the BUGTRACKER links that have been
+broken for quite some time.
 
-Signed-off-by: Tanu Kaskinen <tanuk@iki.fi>
----
+The following changes since commit 554719e3f65e468f89a96d4869766d3ff7a8012e:
+
+  lib/oe/package_manager: adapt for Python 3 (2016-06-05 23:39:43 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib tanuk/updates
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=tanuk/updates
+
+Tanu Kaskinen (4):
+  alsa: update BUGTRACKER links
+  alsa-lib: 1.1.0 -> 1.1.1
+  alsa-utils: 1.1.0 -> 1.1.1
+  alsa-plugins: 1.1.0 -> 1.1.1
+
+ ...fix-appl-pointer-not-correct-when-mmap_co.patch |  2 +-
+ ...1-topology-Add-missing-include-sys-stat.h.patch | 35 ----------------------
+ .../avoid-including-sys-poll.h-directly.patch      |  2 +-
+ .../alsa/{alsa-lib_1.1.0.bb => alsa-lib_1.1.1.bb}  |  7 ++---
  ...ph-include-config.h-from-rate_speexrate.c.patch | 35 ----------------------
- ...alsa-plugins_1.1.0.bb => alsa-plugins_1.1.1.bb} |  9 ++----
- 2 files changed, 3 insertions(+), 41 deletions(-)
+ ...alsa-plugins_1.1.0.bb => alsa-plugins_1.1.1.bb} | 10 +++----
+ meta/recipes-multimedia/alsa/alsa-tools_1.1.0.bb   |  2 +-
+ ...cripts_1.1.0.bb => alsa-utils-scripts_1.1.1.bb} |  0
+ .../{alsa-utils_1.1.0.bb => alsa-utils_1.1.1.bb}   | 14 ++++++---
+ 9 files changed, 20 insertions(+), 87 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/alsa/alsa-lib/0001-topology-Add-missing-include-sys-stat.h.patch
+ rename meta/recipes-multimedia/alsa/{alsa-lib_1.1.0.bb => alsa-lib_1.1.1.bb} (85%)
  delete mode 100644 meta/recipes-multimedia/alsa/alsa-plugins/0001-pph-include-config.h-from-rate_speexrate.c.patch
  rename meta/recipes-multimedia/alsa/{alsa-plugins_1.1.0.bb => alsa-plugins_1.1.1.bb} (93%)
+ rename meta/recipes-multimedia/alsa/{alsa-utils-scripts_1.1.0.bb => alsa-utils-scripts_1.1.1.bb} (100%)
+ rename meta/recipes-multimedia/alsa/{alsa-utils_1.1.0.bb => alsa-utils_1.1.1.bb} (89%)
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-plugins/0001-pph-include-config.h-from-rate_speexrate.c.patch b/meta/recipes-multimedia/alsa/alsa-plugins/0001-pph-include-config.h-from-rate_speexrate.c.patch
-deleted file mode 100644
-index 8e5b6a2..0000000
---- a/meta/recipes-multimedia/alsa/alsa-plugins/0001-pph-include-config.h-from-rate_speexrate.c.patch
-+++ /dev/null
-@@ -1,35 +0,0 @@
--From 4350314c941489833a8baa930e16512e55f72a13 Mon Sep 17 00:00:00 2001
--From: Tanu Kaskinen <tanuk@iki.fi>
--Date: Wed, 27 Jan 2016 13:22:38 +0200
--Subject: [PATCH] pph: include config.h from rate_speexrate.c
--
--Fixes compilation against libspeexdsp 1.2rc3.
--
--rate_speexrate.c includes speex_resampler.h, which depends on config.h
--by referencing the HAVE_SPEEX_SPEEXDSP_TYPES_H macro. AFAIK it's not
--a good idea to include config.h from headers (I don't know/remember
--why, though), which is why I include config.h from rate_speexrate.c
--instead of speex_resampler.h.
--
--Upstream-Status: Accepted [expected in 1.1.1]
--
--Signed-off-by: Tanu Kaskinen <tanuk@iki.fi>
-----
-- pph/rate_speexrate.c | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/pph/rate_speexrate.c b/pph/rate_speexrate.c
--index 0a1325c..8fc4cef 100644
----- a/pph/rate_speexrate.c
--+++ b/pph/rate_speexrate.c
--@@ -28,6 +28,7 @@
--    POSSIBILITY OF SUCH DAMAGE.
-- */
-- 
--+#include "config.h"
-- #include <stdio.h>
-- #include <alsa/asoundlib.h>
-- #include <alsa/pcm_rate.h>
---- 
--2.7.0.rc3
--
-diff --git a/meta/recipes-multimedia/alsa/alsa-plugins_1.1.0.bb b/meta/recipes-multimedia/alsa/alsa-plugins_1.1.1.bb
-similarity index 93%
-rename from meta/recipes-multimedia/alsa/alsa-plugins_1.1.0.bb
-rename to meta/recipes-multimedia/alsa/alsa-plugins_1.1.1.bb
-index e541017..c95ea54 100644
---- a/meta/recipes-multimedia/alsa/alsa-plugins_1.1.0.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-plugins_1.1.1.bb
-@@ -20,12 +20,9 @@ LIC_FILES_CHKSUM = "\
-         file://rate/rate_samplerate.c;endline=35;md5=fd77bce85f4a338c0e8ab18430b69fae \
- "
- 
--SRC_URI = "\
--        ftp://ftp.alsa-project.org/pub/plugins/${BP}.tar.bz2 \
--        file://0001-pph-include-config.h-from-rate_speexrate.c.patch \
--"
--SRC_URI[md5sum] = "b123e42ed881b9adbc99e4040f257c39"
--SRC_URI[sha256sum] = "3b83c329953bef99f5fe25ae04ec4a455fe6514939f3b45a5321966652b2c9ee"
-+SRC_URI = "ftp://ftp.alsa-project.org/pub/plugins/${BP}.tar.bz2"
-+SRC_URI[md5sum] = "69f9f3e2de3c97fc71d496e91e271fe5"
-+SRC_URI[sha256sum] = "8ea4d1e082c36528a896a2581e5eb62d4dc2683238e353050d0d624e65f901f1"
- 
- DEPENDS += "alsa-lib"
- 
 -- 
 2.8.1
 
