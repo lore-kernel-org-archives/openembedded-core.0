@@ -1,33 +1,23 @@
-Return-Path: <tanuk@iki.fi>
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
-	[66.111.4.26])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C5AD6FFFE
+Return-Path: <mariano.lopez@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 7AA30731CA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jun 2016 17:02:25 +0000 (UTC)
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
-	by mailout.nyi.internal (Postfix) with ESMTP id 87A1C20B17
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jun 2016 12:56:07 -0400 (EDT)
-Received: from frontend1 ([10.202.2.160])
-	by compute7.internal (MEProxy); Mon, 06 Jun 2016 12:56:07 -0400
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=date:from:message-id:subject:to
-	:x-sasl-enc:x-sasl-enc; s=smtpout; bh=CHEHUl9RrB7Ew1LA21gzyX2sy6
-	A=; b=XE7NbW+iuCwoYicu2KM34yBXewB2hXQb0/GkchtjuYcAyZR1jPjNRqRe6Y
-	cZ0mYr+bGny04ksfYUaXi8j5I3/VVBCyn/Qj5s4GG6NKhxftj1S30GBpBwoblG0V
-	N4beCqr5I2BCy+s3OFb8RhPh/MQV7Wef+/T+0iqfFiaCxTbC8=
-X-Sasl-enc: BT8jVHfNRhlVN5Ql+PoqRUh1yeYoS5A9Wa+yUlzMvMXG 1465232167
-Received: from laptop.tanuk.dy.fi (a88-113-211-72.elisa-laajakaista.fi
-	[88.113.211.72])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 06A0AF29F7
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jun 2016 12:56:06 -0400 (EDT)
-From: Tanu Kaskinen <tanuk@iki.fi>
+	Mon,  6 Jun 2016 17:20:58 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga104.fm.intel.com with ESMTP; 06 Jun 2016 10:20:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,428,1459839600"; d="scan'208";a="822747444"
+Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
+	([10.54.69.55])
+	by orsmga003.jf.intel.com with ESMTP; 06 Jun 2016 10:20:58 -0700
+From: mariano.lopez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Jun 2016 19:55:54 +0300
-Message-Id: <cover.1465231939.git.tanuk@iki.fi>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH 0/4] Update alsa recipes
+Date: Mon,  6 Jun 2016 09:15:54 +0000
+Message-Id: <1465204554-4392-1-git-send-email-mariano.lopez@linux.intel.com>
+X-Mailer: git-send-email 2.6.6
+In-Reply-To: <8f4f5951c235aa47f16edd0454512e2ca8be0264.1465196934.git.mariano.lopez@linux.intel.com>
+References: <8f4f5951c235aa47f16edd0454512e2ca8be0264.1465196934.git.mariano.lopez@linux.intel.com>
+Subject: [PATCHv3 7/7] testexport.bbclass: Create tarballs for easy release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,47 +30,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Jun 2016 17:02:25 -0000
+X-List-Received-Date: Mon, 06 Jun 2016 17:20:59 -0000
 
-Here are updates for the alsa 1.1.1 release. alsa-tools 1.1.1 was not
-released, because there have been no changes since 1.1.0.
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-As a bonus, the first patch fixes the BUGTRACKER links that have been
-broken for quite some time.
+This create tarballs in the testexport directory in order
+to make easier to distribute the test in another systems.
 
-The following changes since commit 554719e3f65e468f89a96d4869766d3ff7a8012e:
+There are three tarballs, one for the metadata that is not
+arch dependant, another for packages needed by the DUT
+(this depends of target MACHINE), and the last one for the
+SDK needed by the systems that perform the tests.
 
-  lib/oe/package_manager: adapt for Python 3 (2016-06-05 23:39:43 +0100)
+This also create only the tarballs that are needed.
 
-are available in the git repository at:
+[YOCTO #8481]
 
-  git://git.openembedded.org/openembedded-core-contrib tanuk/updates
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=tanuk/updates
+(From OE-Core rev: f8a0456e100b07a966cc24a78f197400c5a2ccab)
 
-Tanu Kaskinen (4):
-  alsa: update BUGTRACKER links
-  alsa-lib: 1.1.0 -> 1.1.1
-  alsa-utils: 1.1.0 -> 1.1.1
-  alsa-plugins: 1.1.0 -> 1.1.1
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+---
+ meta/classes/testexport.bbclass | 32 ++++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
 
- ...fix-appl-pointer-not-correct-when-mmap_co.patch |  2 +-
- ...1-topology-Add-missing-include-sys-stat.h.patch | 35 ----------------------
- .../avoid-including-sys-poll.h-directly.patch      |  2 +-
- .../alsa/{alsa-lib_1.1.0.bb => alsa-lib_1.1.1.bb}  |  7 ++---
- ...ph-include-config.h-from-rate_speexrate.c.patch | 35 ----------------------
- ...alsa-plugins_1.1.0.bb => alsa-plugins_1.1.1.bb} | 10 +++----
- meta/recipes-multimedia/alsa/alsa-tools_1.1.0.bb   |  2 +-
- ...cripts_1.1.0.bb => alsa-utils-scripts_1.1.1.bb} |  0
- .../{alsa-utils_1.1.0.bb => alsa-utils_1.1.1.bb}   | 14 ++++++---
- 9 files changed, 20 insertions(+), 87 deletions(-)
- delete mode 100644 meta/recipes-multimedia/alsa/alsa-lib/0001-topology-Add-missing-include-sys-stat.h.patch
- rename meta/recipes-multimedia/alsa/{alsa-lib_1.1.0.bb => alsa-lib_1.1.1.bb} (85%)
- delete mode 100644 meta/recipes-multimedia/alsa/alsa-plugins/0001-pph-include-config.h-from-rate_speexrate.c.patch
- rename meta/recipes-multimedia/alsa/{alsa-plugins_1.1.0.bb => alsa-plugins_1.1.1.bb} (93%)
- rename meta/recipes-multimedia/alsa/{alsa-utils-scripts_1.1.0.bb => alsa-utils-scripts_1.1.1.bb} (100%)
- rename meta/recipes-multimedia/alsa/{alsa-utils_1.1.0.bb => alsa-utils_1.1.1.bb} (89%)
-
+diff --git a/meta/classes/testexport.bbclass b/meta/classes/testexport.bbclass
+index 6009349..15fa470 100644
+--- a/meta/classes/testexport.bbclass
++++ b/meta/classes/testexport.bbclass
+@@ -128,9 +128,13 @@ def exportTests(d,tc):
+         for f in files:
+             shutil.copy2(os.path.join(root, f), os.path.join(exportpath, "oeqa/runtime/files"))
+ 
++    # Create tar file for common parts of testexport
++    create_tarball(d, "testexport.tar.gz", d.getVar("TEST_EXPORT_DIR", True))
++
+     # Copy packages needed for runtime testing
+     export_pkg_dir = os.path.join(d.getVar("TEST_EXPORT_DIR", True), "packages")
+     test_pkg_dir = d.getVar("TEST_NEEDED_PACKAGES_DIR", True)
++    need_pkg_dir = False
+     for root, subdirs, files in os.walk(test_pkg_dir):
+         for subdir in subdirs:
+             tmp_dir = os.path.join(root.replace(test_pkg_dir, "").lstrip("/"), subdir)
+@@ -138,10 +142,18 @@ def exportTests(d,tc):
+             bb.utils.mkdirhier(new_dir)
+ 
+         for f in files:
++            need_pkg_dir = True
+             src_f = os.path.join(root, f)
+             dst_f = os.path.join(export_pkg_dir, root.replace(test_pkg_dir, "").lstrip("/"), f)
+             shutil.copy2(src_f, dst_f)
+ 
++    if need_pkg_dir:
++        # Create tar file for packages needed by the DUT
++        create_tarball(d, "testexport_packages_%s.tar.gz" % d.getVar("MACHINE", True), export_pkg_dir)
++    else:
++        # Remov packages dir from exported test
++        bb.utils.remove(export_pkg_dir, True)
++
+     # Copy SDK
+     if d.getVar("TEST_EXPORT_SDK_ENABLED", True) == "1":
+         sdk_deploy = d.getVar("SDK_DEPLOY", True)
+@@ -152,6 +164,9 @@ def exportTests(d,tc):
+         bb.utils.mkdirhier(export_sdk_dir)
+         shutil.copy2(tarball_path, export_sdk_dir)
+ 
++        # Create tar file for the sdk
++        create_tarball(d, "testexport_sdk_%s.tar.gz" % d.getVar("SDK_ARCH", True), export_sdk_dir)
++
+     bb.plain("Exported tests to: %s" % exportpath)
+ 
+ def testexport_main(d):
+@@ -183,6 +198,23 @@ def testexport_main(d):
+     tc.extract_packages()
+     exportTests(d,tc)
+ 
++def create_tarball(d, tar_name, src_dir):
++
++    import tarfile
++
++    tar_path = os.path.join(d.getVar("TEST_EXPORT_DIR", True), tar_name)
++    current_dir = os.getcwd()
++    src_dir = src_dir.rstrip('/')
++    dir_name = os.path.dirname(src_dir)
++    base_name = os.path.basename(src_dir)
++
++    os.chdir(dir_name)
++    tar = tarfile.open(tar_path, "w:gz")
++    tar.add(base_name)
++    tar.close()
++    os.chdir(current_dir)
++
++
+ testexport_main[vardepsexclude] =+ "BB_ORIGENV"
+ 
+ inherit testimage
 -- 
-2.8.1
+2.6.6
 
 
