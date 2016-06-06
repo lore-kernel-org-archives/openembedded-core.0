@@ -1,38 +1,38 @@
 Return-Path: <tanuk@iki.fi>
 Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
 	[66.111.4.26])
-	by mail.openembedded.org (Postfix) with ESMTP id 1AA7B7712D
+	by mail.openembedded.org (Postfix) with ESMTP id 351CA77133
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jun 2016 17:02:23 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id 4BB2A20D67
+	Mon,  6 Jun 2016 17:02:24 +0000 (UTC)
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+	by mailout.nyi.internal (Postfix) with ESMTP id 5CA7020C6A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jun 2016 12:56:11 -0400 (EDT)
+	Mon,  6 Jun 2016 12:56:13 -0400 (EDT)
 Received: from frontend1 ([10.202.2.160])
-	by compute1.internal (MEProxy); Mon, 06 Jun 2016 12:56:11 -0400
+	by compute7.internal (MEProxy); Mon, 06 Jun 2016 12:56:13 -0400
 DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
 	messagingengine.com; h=date:from:in-reply-to:in-reply-to
 	:message-id:references:references:subject:to:x-sasl-enc
-	:x-sasl-enc; s=smtpout; bh=yr8Lpp3j/pxUA2KFPMT2qS/I1hU=; b=QdJEb
-	pGNFAAKIN8h1GLQIYwh6BF5Yj3PAgqZ2kkS0gt2UPL5ATIWs0HTXNApgMGHkFJod
-	NA2KCWyyQVvk/9WtLepZV6NIvRpCCr2ETZItrF2BJOL1WcusXQyAs22e34rGpjz4
-	6XmvyMnHxPB/zY/tD8d3MBGPXiH3jG67w7M6ig=
-X-Sasl-enc: wzKQbnSajVn7JJTfC3zVuKv5RUyxjNRNJWaUMhLgVgDh 1465232170
+	:x-sasl-enc; s=smtpout; bh=wVBxPDMRq1CdDZSh5ys/mTfV0vs=; b=u5y8m
+	T4uPBQPKZFpywxRkYKWbNrFqj930wv7Chj45WNj/LTZ1a7lUjUuWlQGTeIylpxhv
+	X3GedJRh7TeVC6DvpbtlXFO+92V3OFo2OZP2BLWlkqvIwBxqM/nsolBLkPHIcCAw
+	GCTHiaMyPQyn3yfls+FNBn4GxXDaNMnecKoTCI=
+X-Sasl-enc: J2NO/cPKt4iVca0D2qXBDjiNT0bz3tQ/ijZQfsa+l/7r 1465232172
 Received: from laptop.tanuk.dy.fi (a88-113-211-72.elisa-laajakaista.fi
 	[88.113.211.72])
-	by mail.messagingengine.com (Postfix) with ESMTPA id C5A4AF2022
+	by mail.messagingengine.com (Postfix) with ESMTPA id CB060F29F4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jun 2016 12:56:10 -0400 (EDT)
+	Mon,  6 Jun 2016 12:56:12 -0400 (EDT)
 From: Tanu Kaskinen <tanuk@iki.fi>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Jun 2016 19:55:56 +0300
-Message-Id: <158145930b713fb1a58e47bab8f9b9565aec3bb5.1465231939.git.tanuk@iki.fi>
+Date: Mon,  6 Jun 2016 19:55:57 +0300
+Message-Id: <7e9fdbf1cfb95374f11ed02203489d85f2e8c61f.1465231939.git.tanuk@iki.fi>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <cover.1465231939.git.tanuk@iki.fi>
 References: <cover.1465231939.git.tanuk@iki.fi>
 In-Reply-To: <cover.1465231939.git.tanuk@iki.fi>
 References: <cover.1465231939.git.tanuk@iki.fi>
-Subject: [PATCH 2/4] alsa-lib: 1.1.0 -> 1.1.1
+Subject: [PATCH 3/4] alsa-utils: 1.1.0 -> 1.1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,115 +47,66 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 06 Jun 2016 17:02:24 -0000
 
-Release notes:
+Changelog:
 http://alsa-project.org/main/index.php/Changes_v1.1.0_v1.1.1
 
-Dropped upstreamed patch
-0001-topology-Add-missing-include-sys-stat.h.patch.
+alsabat has now a "standalone" mode, in which analysis with libfftw is
+not needed. Therefore, it's now possible to enable alsabat without
+fftw. However, there's no way to explicitly tell the configure script
+to enable alsabat, but disable fftw. Without support for explicit
+request to disable fftw, fftw would become a floating dependency,
+which is why the recipe still only supports the "disable alsabat" and
+"enable alsabat with fftw" options.
 
-Updated "Upstream-Status" of accepted patch
-0001-pcm_plugin-fix-appl-pointer-not-correct-when-mmap_co.patch.
-
-Rebased avoid-including-sys-poll.h-directly.patch.
+Dropped 0001-alsabat-rename-to-avoid-naming-conflict.patch (it's
+included in the new release).
 
 Signed-off-by: Tanu Kaskinen <tanuk@iki.fi>
 ---
- ...fix-appl-pointer-not-correct-when-mmap_co.patch |  2 +-
- ...1-topology-Add-missing-include-sys-stat.h.patch | 35 ----------------------
- .../avoid-including-sys-poll.h-directly.patch      |  2 +-
- .../alsa/{alsa-lib_1.1.0.bb => alsa-lib_1.1.1.bb}  |  5 ++--
- 4 files changed, 4 insertions(+), 40 deletions(-)
- delete mode 100644 meta/recipes-multimedia/alsa/alsa-lib/0001-topology-Add-missing-include-sys-stat.h.patch
- rename meta/recipes-multimedia/alsa/{alsa-lib_1.1.0.bb => alsa-lib_1.1.1.bb} (89%)
+ ...sa-utils-scripts_1.1.0.bb => alsa-utils-scripts_1.1.1.bb} |  0
+ .../alsa/{alsa-utils_1.1.0.bb => alsa-utils_1.1.1.bb}        | 12 +++++++++---
+ 2 files changed, 9 insertions(+), 3 deletions(-)
+ rename meta/recipes-multimedia/alsa/{alsa-utils-scripts_1.1.0.bb => alsa-utils-scripts_1.1.1.bb} (100%)
+ rename meta/recipes-multimedia/alsa/{alsa-utils_1.1.0.bb => alsa-utils_1.1.1.bb} (90%)
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib/0001-pcm_plugin-fix-appl-pointer-not-correct-when-mmap_co.patch b/meta/recipes-multimedia/alsa/alsa-lib/0001-pcm_plugin-fix-appl-pointer-not-correct-when-mmap_co.patch
-index 9fd69f3..bb2f82b 100755
---- a/meta/recipes-multimedia/alsa/alsa-lib/0001-pcm_plugin-fix-appl-pointer-not-correct-when-mmap_co.patch
-+++ b/meta/recipes-multimedia/alsa/alsa-lib/0001-pcm_plugin-fix-appl-pointer-not-correct-when-mmap_co.patch
-@@ -9,7 +9,7 @@ which cause the avail_update()'s result wrong.
- This patch move the snd_pcm_mmap_appl_forward() to the place when
- snd_pcm_mmap_commit() is successfully returned.
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils-scripts_1.1.0.bb b/meta/recipes-multimedia/alsa/alsa-utils-scripts_1.1.1.bb
+similarity index 100%
+rename from meta/recipes-multimedia/alsa/alsa-utils-scripts_1.1.0.bb
+rename to meta/recipes-multimedia/alsa/alsa-utils-scripts_1.1.1.bb
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.1.0.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.1.1.bb
+similarity index 90%
+rename from meta/recipes-multimedia/alsa/alsa-utils_1.1.0.bb
+rename to meta/recipes-multimedia/alsa/alsa-utils_1.1.1.bb
+index 62b1686..08c4646 100644
+--- a/meta/recipes-multimedia/alsa/alsa-utils_1.1.0.bb
++++ b/meta/recipes-multimedia/alsa/alsa-utils_1.1.1.bb
+@@ -8,17 +8,23 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+ DEPENDS = "alsa-lib ncurses libsamplerate0"
  
--Upstream-Status: Submitted [https://patchwork.kernel.org/patch/8760881/]
-+Upstream-Status: Accepted [expected in 1.1.2]
+ PACKAGECONFIG ??= "udev"
++
++# alsabat can be built also without fftw support (with reduced functionality).
++# It would be better to always enable alsabat, but provide an option for
++# enabling/disabling fftw. The configure script doesn't support that, however
++# (at least in any obvious way), so for now we only support alsabat with fftw
++# or no alsabat at all.
+ PACKAGECONFIG[bat] = "--enable-bat,--disable-bat,fftw"
++
+ PACKAGECONFIG[udev] = "--with-udev-rules-dir=`pkg-config --variable=udevdir udev`/rules.d,,udev"
+ PACKAGECONFIG[xmlto] = "--enable-xmlto, --disable-xmlto, xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
  
- Signed-off-by: Shengjiu Wang <shengjiu.wang@freescale.com>
- Signed-off-by: Takashi Iwai <tiwai@suse.de>
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib/0001-topology-Add-missing-include-sys-stat.h.patch b/meta/recipes-multimedia/alsa/alsa-lib/0001-topology-Add-missing-include-sys-stat.h.patch
-deleted file mode 100644
-index 0ead0cd..0000000
---- a/meta/recipes-multimedia/alsa/alsa-lib/0001-topology-Add-missing-include-sys-stat.h.patch
-+++ /dev/null
-@@ -1,35 +0,0 @@
--From 3f1dba9a821b53b42001605f9a126a958804884f Mon Sep 17 00:00:00 2001
--From: Takashi Iwai <tiwai@suse.de>
--Date: Mon, 9 Nov 2015 13:37:26 +0100
--Subject: [PATCH] topology: Add missing include sys/stat.h
--
--Necessary for proper definitions of S_IRUSR & co. Otherwise it
--results in compile errors with old glibc and uclibc:
--  parser.c: In function 'snd_tplg_build_file':
--  parser.c:262: error: 'S_IRUSR' undeclared (first use in this function)
--  parser.c:262: error: (Each undeclared identifier is reported only once
--  parser.c:262: error: for each function it appears in.)
--
--Upstream-Status: Backport
--
--Signed-off-by: Takashi Iwai <tiwai@suse.de>
--Signed-off-by: Maxin B. John <maxin.john@intel.com>
-----
-- src/topology/parser.c | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/src/topology/parser.c b/src/topology/parser.c
--index 80a0ae0..18bb9c7 100644
----- a/src/topology/parser.c
--+++ b/src/topology/parser.c
--@@ -16,6 +16,7 @@
--            Liam Girdwood <liam.r.girdwood@linux.intel.com>
-- */
-- 
--+#include <sys/stat.h>
-- #include "list.h"
-- #include "tplg_local.h"
-- 
---- 
--2.4.0
--
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib/avoid-including-sys-poll.h-directly.patch b/meta/recipes-multimedia/alsa/alsa-lib/avoid-including-sys-poll.h-directly.patch
-index 161619b..b8b1cb6 100644
---- a/meta/recipes-multimedia/alsa/alsa-lib/avoid-including-sys-poll.h-directly.patch
-+++ b/meta/recipes-multimedia/alsa/alsa-lib/avoid-including-sys-poll.h-directly.patch
-@@ -73,7 +73,7 @@ index b429f5d..e05898f 100644
- +#include <poll.h>
-  #include <sys/types.h>
-  #include <errno.h>
-- #include <linux/types.h>
-+ #if defined(__linux__)
- diff --git a/src/control/control.c b/src/control/control.c
- index 4a28cf6..071c5db 100644
- --- a/src/control/control.c
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.1.0.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.1.1.bb
-similarity index 89%
-rename from meta/recipes-multimedia/alsa/alsa-lib_1.1.0.bb
-rename to meta/recipes-multimedia/alsa/alsa-lib_1.1.1.bb
-index cff3d01..4fb7cca 100644
---- a/meta/recipes-multimedia/alsa/alsa-lib_1.1.0.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-lib_1.1.1.bb
-@@ -17,11 +17,10 @@ ARM_INSTRUCTION_SET = "arm"
- SRC_URI = "ftp://ftp.alsa-project.org/pub/lib/${BP}.tar.bz2 \
-            file://Check-if-wordexp-function-is-supported.patch \
-            file://avoid-including-sys-poll.h-directly.patch \
--           file://0001-topology-Add-missing-include-sys-stat.h.patch \
-            file://0001-pcm_plugin-fix-appl-pointer-not-correct-when-mmap_co.patch \
- "
--SRC_URI[md5sum] = "69515ca73c3c4a212ef45160dea846c1"
--SRC_URI[sha256sum] = "dfde65d11e82b68f82e562ab6228c1fb7c78854345d3c57e2c68a9dd3dae1f15"
-+SRC_URI[md5sum] = "881060d2c568f7f49db82c58df2f9ddc"
-+SRC_URI[sha256sum] = "8ac76c3144ed2ed49da7622ab65ac5415205913ccbedde877972383cbc234269"
+ SRC_URI = "ftp://ftp.alsa-project.org/pub/utils/alsa-utils-${PV}.tar.bz2 \
+            file://0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch \
+-           file://0001-alsabat-rename-to-avoid-naming-conflict.patch \
+           "
  
- inherit autotools pkgconfig
+-SRC_URI[md5sum] = "b9d6102fbbd0b68040bb77023ed30c0c"
+-SRC_URI[sha256sum] = "3b1c3135b76e14532d3dd23fb15759ddd7daf9ffbc183f7a9a0a3a86374748f1"
++SRC_URI[md5sum] = "f8d00ad5fba757b4c3735d066cc288e2"
++SRC_URI[sha256sum] = "89757c9abaf420831b088fce354d492acc170bd02bb50eb7392c175f594b8041"
  
+ # lazy hack. needs proper fixing in gettext.m4, see
+ # http://bugs.openembedded.org/show_bug.cgi?id=2348
 -- 
 2.8.1
 
