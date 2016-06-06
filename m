@@ -1,45 +1,40 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 34938770CA
+Return-Path: <prvs=996553dfac=michael.davis@essvote.com>
+Received: from mail1.essvote.com (mail1.essvote.com [66.37.226.19])
+	by mail.openembedded.org (Postfix) with ESMTP id 90862770FE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jun 2016 13:31:04 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id k184so10134337wme.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Jun 2016 06:31:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=9Vsm+xR91H4IsqwP1GGF0R5+8tMP/0Vl+1LA29C1wPk=;
-	b=ZTiP7FpA3+jyXLhCPEoYRcs2plm9/WIMHD/ZxlXtJh0V0UP8FymBtzypq2U/06YfZ4
-	G7DbZ2B9ydkTAO/KR3uuuTnKZwhZtNh6PXuFmb8QdO5UaTEnfFPaAWJd4fddgDtBhjpG
-	RgrLUby6GILkuzdC7FgKPHVvAxxUYLHXbQrGln/JuIefnDIioMajT2m0+icksb/R03gm
-	1aCgMXHTdOBqHch5JC3tWeo3nGvKYxuyvVVSyyRvwZf9dAYI2+grv/jnI+riqlxWUcQR
-	6Lo1LaLEnohmW/q3x+wYWZjE3WkC0nDQlmU8e3wq0RYbQ6aZcUDgSRa/5U9/6uUEWZ3N
-	/Q8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=9Vsm+xR91H4IsqwP1GGF0R5+8tMP/0Vl+1LA29C1wPk=;
-	b=I/h6oULj447mcCu9PWFTT26Rs/uSUl+AX49HfJwzJR2xaoNyn6ogERvc59UaQAkmup
-	xNlEyeQvUSTMMGvbGy6mK3ze6y3Z0C9xFF9GCil9bRwIsTygbk/tofZUjEM9K2zESuX7
-	ONH9mRsJYg0HrfiExxegF3o4mpGnpMGMlDi1w672GR5H/0s14bK9FdxQQZ2sIVhH62Uh
-	chgwIUsrI8c+8ymU9KtlzB9xDrR8F0pcL6PYjOxiTV8x/qDNkkK90QFqG0Ijy49miqY7
-	7z9ZZEET58Rsqv3wWRtv93S6SEWod1SRNTj2AY6TKZ8K6vqKXlwkPxeJSgUH0MM+4z1N
-	xGXw==
-X-Gm-Message-State: ALyK8tLrDmUiUVsz+7xClRa7jUWYnQXfmjIo6LStgbPK6rLvlENz3RGEV1PPM40YhgOzOw==
-X-Received: by 10.28.225.132 with SMTP id y126mr11416431wmg.64.1465219865096; 
-	Mon, 06 Jun 2016 06:31:05 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	a199sm1285707wma.2.2016.06.06.06.31.03
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 06 Jun 2016 06:31:03 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Jun 2016 15:31:07 +0200
-Message-Id: <20160606133107.20415-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.8.3
-Subject: [PATCH] rm_work: exclude all kernel recipes
+	Mon,  6 Jun 2016 14:16:20 +0000 (UTC)
+X-AuditID: 0a000213-f79116d0000013a5-d3-575585b3cc36
+Received: from ESS-EX01.essvote.corp.local (Unknown_Domain [172.16.110.40])
+	by mail1.essvote.com (Symantec Messaging Gateway) with SMTP id
+	66.7E.05029.3B585575; Mon,  6 Jun 2016 09:16:20 -0500 (CDT)
+Received: from ESS-EX01.essvote.corp.local ([::1]) by
+	ESS-EX01.essvote.corp.local ([::1]) with mapi id 14.03.0235.001;
+	Mon, 6 Jun 2016 09:16:19 -0500
+From: "Davis, Michael" <michael.davis@essvote.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-CORE][krogoth][PATCH]] syslinux.bbclass: Added
+	configurable SYSLINUX_ALLOWOPTIONS variable
+Thread-Index: AQHRv/3+hxYH9n1q7EGyKQcq2/7pvQ==
+Date: Mon, 6 Jun 2016 14:16:19 +0000
+Message-ID: <1465222404-3305-1-git-send-email-michael.davis@essvote.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.1.1.137]
+MIME-Version: 1.0
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrLLMWRmVeSWpSXmKPExsWyRiBPQ3dLa2i4wY7pTBZ7Py1itLjz8x27
+	A5PHzll32T3ObVzBGMAUxW2TlFhSFpyZnqdvl8CdMXXxd7aCX1wVnXtOMjUwdnF2MXJySAiY
+	SCy//5cRwhaTuHBvPVsXIxeHkMAJRom+Vx+gnJmMEmvufAarYhMwkjh3fROYLSIQLbF0xkx2
+	EJtZIFHi4+1eFhBbWCBT4vqWbSwQNXkSy1dPZ4Ow9SQ+/Z/BCmKzCKhIbPx0lwnE5hXwkOjp
+	+Q82hxHoiu+n1jBBzBSXuPVkPhPEdQISS/acZ4awRSVePv4HNIcDyJaT+L/FA6JcT+LG1Cls
+	ELa2xLKFr5khxgtKnJz5hGUCo8gsJFNnIWmZhaRlFpKWBYwsqxgFcxMzcwz1UouLy/JLUvWS
+	83M3MQIjgYuBSXgH45wptocYBTgYlXh4L0wKCRdiTSwrrsw9xCjNwaIkzqsipBQuJJCeWJKa
+	nZpakFoUX1Sak1p8iJGJg/MQowQHl5RIcWpeSmpRYmlJRjwotuKLgdEl1cCo7Cz47KH7fBb7
+	lJ8tZWuryvWnP3km3HsvVuhEIUfE5pBY24rgGj3H1+9WZJb/WFd5sOkew87Opd7fRGS/czuE
+	tYWvKxLNOLc5IvLQuqn6+d9bVu5h0/Z1F+0quTMl739OTc2dm08ip9l9ld02X6yZY58re9en
+	mivTeEOe6eTpixSJ/Qhmc1JiKc5INNRiLipOBABSGKtpgAIAAA==
+Subject: [krogoth][PATCH]] syslinux.bbclass: Added configurable SYSLINUX_ALLOWOPTIONS variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,34 +47,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Jun 2016 13:31:05 -0000
+X-List-Received-Date: Mon, 06 Jun 2016 14:16:23 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-From: Martin Jansa <martin.jansa@gmail.com>
+The new variable allows for images to be created without an
+editable boot line in syslinux.  Default behavior remains unchanged.
 
-* otherwise kernel is rebuilt every single time and often it fails when
-  building external modules
-
-[YOCTO #9352]
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Backport from master (935578c139a260c18e437419be82d7fd7e8be81a)
 ---
- meta/classes/rm_work.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/classes/syslinux.bbclass | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/rm_work.bbclass b/meta/classes/rm_work.bbclass
-index c647d88..3ebf095 100644
---- a/meta/classes/rm_work.bbclass
-+++ b/meta/classes/rm_work.bbclass
-@@ -119,6 +119,8 @@ rm_work_rootfs () {
- rm_work_rootfs[cleandirs] = "${WORKDIR}/rootfs"
- 
- python () {
-+    if bb.data.inherits_class('kernel', d):
-+        d.appendVar("RM_WORK_EXCLUDE", ' ' + d.getVar("PN", True))
-     # If the recipe name is in the RM_WORK_EXCLUDE, skip the recipe.
-     excludes = (d.getVar("RM_WORK_EXCLUDE", True) or "").split()
-     pn = d.getVar("PN", True)
--- 
-2.8.3
-
+diff --git a/meta/classes/syslinux.bbclass b/meta/classes/syslinux.bbclass
+index 4fcb0c5..52fb51f 100644
+--- a/meta/classes/syslinux.bbclass
++++ b/meta/classes/syslinux.bbclass
+@@ -30,6 +30,7 @@ SYSLINUX_SERIAL_TTY ?=3D "console=3DttyS0,115200"
+ SYSLINUX_PROMPT ?=3D "0"
+ SYSLINUX_TIMEOUT ?=3D "50"
+ AUTO_SYSLINUXMENU ?=3D "1"
++SYSLINUX_ALLOWOPTIONS ?=3D "1"
+ SYSLINUX_ROOT ?=3D "${ROOT}"
+ SYSLINUX_CFG_VM  ?=3D "${S}/syslinux_vm.cfg"
+ SYSLINUX_CFG_LIVE ?=3D "${S}/syslinux_live.cfg"
+@@ -114,7 +115,12 @@ python build_syslinux_cfg () {
+         for opt in opts.split(';'):
+             cfgfile.write('%s\n' % opt)
+=20
+-    cfgfile.write('ALLOWOPTIONS 1\n');
++    allowoptions =3D d.getVar('SYSLINUX_ALLOWOPTIONS', True)
++    if allowoptions:
++        cfgfile.write('ALLOWOPTIONS %s\n' % allowoptions)
++    else:
++        cfgfile.write('ALLOWOPTIONS 1\n')
++
+     syslinux_default_console =3D d.getVar('SYSLINUX_DEFAULT_CONSOLE', True=
+)
+     syslinux_serial_tty =3D d.getVar('SYSLINUX_SERIAL_TTY', True)
+     syslinux_serial =3D d.getVar('SYSLINUX_SERIAL', True)
+--=20
+2.5.5
 
