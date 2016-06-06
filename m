@@ -1,25 +1,25 @@
 Return-Path: <mariano.lopez@linux.intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 4EB2F7710C
+	by mail.openembedded.org (Postfix) with ESMTP id 557A5770AB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jun 2016 15:21:10 +0000 (UTC)
+	Mon,  6 Jun 2016 15:21:11 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga104.fm.intel.com with ESMTP; 06 Jun 2016 08:21:11 -0700
+	by fmsmga104.fm.intel.com with ESMTP; 06 Jun 2016 08:21:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,427,1459839600"; d="scan'208";a="714707626"
+X-IronPort-AV: E=Sophos;i="5.26,427,1459839600"; d="scan'208";a="714707649"
 Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
 	([10.54.69.55])
-	by FMSMGA003.fm.intel.com with ESMTP; 06 Jun 2016 08:21:11 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 06 Jun 2016 08:21:12 -0700
 From: mariano.lopez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Jun 2016 07:15:44 +0000
-Message-Id: <46f86b1e8f7f9c886299f3a13797993c84a98957.1465196934.git.mariano.lopez@linux.intel.com>
+Date: Mon,  6 Jun 2016 07:15:45 +0000
+Message-Id: <8f4f5951c235aa47f16edd0454512e2ca8be0264.1465196934.git.mariano.lopez@linux.intel.com>
 X-Mailer: git-send-email 2.6.6
 In-Reply-To: <cover.1465196934.git.mariano.lopez@linux.intel.com>
 References: <cover.1465196934.git.mariano.lopez@linux.intel.com>
 In-Reply-To: <cover.1465196934.git.mariano.lopez@linux.intel.com>
 References: <cover.1465196934.git.mariano.lopez@linux.intel.com>
-Subject: [PATCHv2 6/7] testexport.bbclass: Add support for testexport-tarball
+Subject: [PATCHv2 7/7] testexport.bbclass: Create tarballs for easy release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,126 +32,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Jun 2016 15:21:10 -0000
+X-List-Received-Date: Mon, 06 Jun 2016 15:21:11 -0000
 
 From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-Add support to export the SDK tarball needed when a test
-system doesn't have the required software to perform runtime
-tests.
+This create tarballs in the testexport directory in order
+to make easier to distribute the test in another systems.
 
-The support is when exporting the test and when running
-the test on a remote system. The user of this feature just
-need to set TEST_EXPORT_SDK_ENABLED to "1" and declare
-the sdk packages in TEST_EXPORT_SDK_PACKAGES.
+There are three tarballs, one for the metadata that is not
+arch dependant, another for packages needed by the DUT
+(this depends of target MACHINE), and the last one for the
+SDK needed by the systems that perform the tests.
 
-[YOCTO #7850]
+[YOCTO #8481]
 
-(From OE-Core rev: a6041f81b81baa7564e4c712fc88de2b997e52e4)
+(From OE-Core rev: f8a0456e100b07a966cc24a78f197400c5a2ccab)
 
 Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- meta/classes/testexport.bbclass | 16 ++++++++++++++++
- meta/lib/oeqa/runexported.py    | 35 ++++++++++++++++++++++++++++++++++-
- 2 files changed, 50 insertions(+), 1 deletion(-)
+ meta/classes/testexport.bbclass | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
 diff --git a/meta/classes/testexport.bbclass b/meta/classes/testexport.bbclass
-index a320880..6009349 100644
+index 6009349..99602a3 100644
 --- a/meta/classes/testexport.bbclass
 +++ b/meta/classes/testexport.bbclass
-@@ -23,8 +23,14 @@ TEST_TARGET ?= "simpleremote"
- TEST_TARGET_IP ?= ""
- TEST_SERVER_IP ?= ""
+@@ -128,6 +128,9 @@ def exportTests(d,tc):
+         for f in files:
+             shutil.copy2(os.path.join(root, f), os.path.join(exportpath, "oeqa/runtime/files"))
  
-+TEST_EXPORT_SDK_PACKAGES ?= ""
-+TEST_EXPORT_SDK_ENABLED ?= "0"
-+TEST_EXPORT_SDK_NAME ?= "testexport-tools-nativesdk"
-+TEST_EXPORT_SDK_DIR ?= "sdk"
++    # Create tar file for common parts of testexport
++    create_tarball(d, "testexport.tar.gz", d.getVar("TEST_EXPORT_DIR", True))
 +
- TEST_EXPORT_DEPENDS = ""
- TEST_EXPORT_DEPENDS += "${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'cpio-native:do_populate_sysroot', '', d)}"
-+TEST_EXPORT_DEPENDS += "${@bb.utils.contains('TEST_EXPORT_SDK_ENABLED', '1', 'testexport-tarball:do_populate_sdk', '', d)}"
- TEST_EXPORT_LOCK = "${TMPDIR}/testimage.lock"
- 
- python do_testexport() {
-@@ -136,6 +142,16 @@ def exportTests(d,tc):
+     # Copy packages needed for runtime testing
+     export_pkg_dir = os.path.join(d.getVar("TEST_EXPORT_DIR", True), "packages")
+     test_pkg_dir = d.getVar("TEST_NEEDED_PACKAGES_DIR", True)
+@@ -142,6 +145,9 @@ def exportTests(d,tc):
              dst_f = os.path.join(export_pkg_dir, root.replace(test_pkg_dir, "").lstrip("/"), f)
              shutil.copy2(src_f, dst_f)
  
-+    # Copy SDK
-+    if d.getVar("TEST_EXPORT_SDK_ENABLED", True) == "1":
-+        sdk_deploy = d.getVar("SDK_DEPLOY", True)
-+        tarball_name = "%s.sh" % d.getVar("TEST_EXPORT_SDK_NAME", True)
-+        tarball_path = os.path.join(sdk_deploy, tarball_name)
-+        export_sdk_dir = os.path.join(d.getVar("TEST_EXPORT_DIR", True),
-+                                      d.getVar("TEST_EXPORT_SDK_DIR", True))
-+        bb.utils.mkdirhier(export_sdk_dir)
-+        shutil.copy2(tarball_path, export_sdk_dir)
++    # Create tar file for packages needed by the DUT
++    create_tarball(d, "testexport_packages_%s.tar.gz" % d.getVar("MACHINE", True), export_pkg_dir)
++
+     # Copy SDK
+     if d.getVar("TEST_EXPORT_SDK_ENABLED", True) == "1":
+         sdk_deploy = d.getVar("SDK_DEPLOY", True)
+@@ -152,6 +158,9 @@ def exportTests(d,tc):
+         bb.utils.mkdirhier(export_sdk_dir)
+         shutil.copy2(tarball_path, export_sdk_dir)
+ 
++    # Create tar file for the sdk
++    create_tarball(d, "testexport_sdk_%s.tar.gz" % d.getVar("SDK_ARCH", True), export_sdk_dir)
 +
      bb.plain("Exported tests to: %s" % exportpath)
  
  def testexport_main(d):
-diff --git a/meta/lib/oeqa/runexported.py b/meta/lib/oeqa/runexported.py
-index f1366a6..5886739 100755
---- a/meta/lib/oeqa/runexported.py
-+++ b/meta/lib/oeqa/runexported.py
-@@ -31,8 +31,8 @@ except ImportError:
- sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "oeqa")))
+@@ -183,6 +192,23 @@ def testexport_main(d):
+     tc.extract_packages()
+     exportTests(d,tc)
  
- from oeqa.oetest import ExportTestContext
-+from oeqa.utils.commands import runCmd
- from oeqa.utils.sshcontrol import SSHControl
--from oeqa.utils.dump import get_host_dumper
++def create_tarball(d, tar_name, src_dir):
++
++    import tarfile
++
++    tar_path = os.path.join(d.getVar("TEST_EXPORT_DIR", True), tar_name)
++    current_dir = os.getcwd()
++    src_dir = src_dir.rstrip('/')
++    dir_name = os.path.dirname(src_dir)
++    base_name = os.path.basename(src_dir)
++
++    os.chdir(dir_name)
++    tar = tarfile.open(tar_path, "w:gz")
++    tar.add(base_name)
++    tar.close()
++    os.chdir(current_dir)
++
++
+ testexport_main[vardepsexclude] =+ "BB_ORIGENV"
  
- # this isn't pretty but we need a fake target object
- # for running the tests externally as we don't care
-@@ -107,6 +107,8 @@ def main():
-         if not os.path.isdir(d["DEPLOY_DIR"]):
-             print("WARNING: The path to DEPLOY_DIR does not exist: %s" % d["DEPLOY_DIR"])
- 
-+    extract_sdk(d)
-+
-     target = FakeTarget(d)
-     for key in loaded["target"].keys():
-         setattr(target, key, loaded["target"][key])
-@@ -118,6 +120,37 @@ def main():
- 
-     return 0
- 
-+def extract_sdk(d):
-+    """
-+    Extract SDK if needed
-+    """
-+
-+    export_dir = os.path.dirname(os.path.realpath(__file__))
-+    tools_dir = d.getVar("TEST_EXPORT_SDK_DIR", True)
-+    tarball_name = "%s.sh" % d.getVar("TEST_EXPORT_SDK_NAME", True)
-+    tarball_path = os.path.join(export_dir, tools_dir, tarball_name)
-+    extract_path = os.path.join(export_dir, "sysroot")
-+    if os.path.isfile(tarball_path):
-+        print ("Found SDK tarball %s. Extracting..." % tarball_path)
-+        result = runCmd("%s -y -d %s" % (tarball_path, extract_path))
-+        for f in os.listdir(extract_path):
-+            if f.startswith("environment-setup"):
-+                print("Setting up SDK environment...")
-+                env_file = os.path.join(extract_path, f)
-+                update_env(env_file)
-+
-+def update_env(env_file):
-+    """
-+    Source a file and update environment
-+    """
-+
-+    cmd = ". %s; env -0" % env_file
-+    result = runCmd(cmd)
-+
-+    for line in result.output.split("\0"):
-+        (key, _, value) = line.partition("=")
-+        os.environ[key] = value
-+
- if __name__ == "__main__":
-     try:
-         ret = main()
+ inherit testimage
 -- 
 2.6.6
 
