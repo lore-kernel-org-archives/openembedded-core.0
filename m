@@ -1,25 +1,25 @@
 Return-Path: <mariano.lopez@linux.intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D392770AB
+	by mail.openembedded.org (Postfix) with ESMTP id 4EB2F7710C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jun 2016 15:21:09 +0000 (UTC)
+	Mon,  6 Jun 2016 15:21:10 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga104.fm.intel.com with ESMTP; 06 Jun 2016 08:21:10 -0700
+	by fmsmga104.fm.intel.com with ESMTP; 06 Jun 2016 08:21:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,427,1459839600"; d="scan'208";a="714707622"
+X-IronPort-AV: E=Sophos;i="5.26,427,1459839600"; d="scan'208";a="714707626"
 Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
 	([10.54.69.55])
-	by FMSMGA003.fm.intel.com with ESMTP; 06 Jun 2016 08:21:10 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 06 Jun 2016 08:21:11 -0700
 From: mariano.lopez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Jun 2016 07:15:43 +0000
-Message-Id: <a8b52bf902ebca764fff66454b0978aa5fea33e9.1465196934.git.mariano.lopez@linux.intel.com>
+Date: Mon,  6 Jun 2016 07:15:44 +0000
+Message-Id: <46f86b1e8f7f9c886299f3a13797993c84a98957.1465196934.git.mariano.lopez@linux.intel.com>
 X-Mailer: git-send-email 2.6.6
 In-Reply-To: <cover.1465196934.git.mariano.lopez@linux.intel.com>
 References: <cover.1465196934.git.mariano.lopez@linux.intel.com>
 In-Reply-To: <cover.1465196934.git.mariano.lopez@linux.intel.com>
 References: <cover.1465196934.git.mariano.lopez@linux.intel.com>
-Subject: [PATCHv2 5/7] testexport-tarball.bb: Add recipe
+Subject: [PATCHv2 6/7] testexport.bbclass: Add support for testexport-tarball
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,89 +32,126 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Jun 2016 15:21:09 -0000
+X-List-Received-Date: Mon, 06 Jun 2016 15:21:10 -0000
 
 From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-This new recipe is used when exporting runtime test outside
-packages that won't be installed in the testing system but
-are required for the runtime testing.
+Add support to export the SDK tarball needed when a test
+system doesn't have the required software to perform runtime
+tests.
 
-This new recipe is almost identical to buildtools-tarball,
-but is able to define the SDK packages in local.conf.
+The support is when exporting the test and when running
+the test on a remote system. The user of this feature just
+need to set TEST_EXPORT_SDK_ENABLED to "1" and declare
+the sdk packages in TEST_EXPORT_SDK_PACKAGES.
 
 [YOCTO #7850]
 
-(From OE-Core rev: fbcd1f9ed6144a76ff6a556d23af30f04c39bfa0)
+(From OE-Core rev: a6041f81b81baa7564e4c712fc88de2b997e52e4)
 
 Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- meta/recipes-core/meta/testexport-tarball.bb | 56 ++++++++++++++++++++++++++++
- 1 file changed, 56 insertions(+)
- create mode 100644 meta/recipes-core/meta/testexport-tarball.bb
+ meta/classes/testexport.bbclass | 16 ++++++++++++++++
+ meta/lib/oeqa/runexported.py    | 35 ++++++++++++++++++++++++++++++++++-
+ 2 files changed, 50 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/meta/testexport-tarball.bb b/meta/recipes-core/meta/testexport-tarball.bb
-new file mode 100644
-index 0000000..951d3be
---- /dev/null
-+++ b/meta/recipes-core/meta/testexport-tarball.bb
-@@ -0,0 +1,56 @@
-+DESCRIPTION = "SDK type target for standalone tarball containing packages defined by TEST_EXPORT_TOOLS. The \
-+               tarball can be used to run missing programs on testing systems which don't have such tools.\
-+               This recipe is almost the same as buildtools-tarball"
-+SUMMARY = "Standalone tarball for test systems with missing software"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690 \
-+                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+diff --git a/meta/classes/testexport.bbclass b/meta/classes/testexport.bbclass
+index a320880..6009349 100644
+--- a/meta/classes/testexport.bbclass
++++ b/meta/classes/testexport.bbclass
+@@ -23,8 +23,14 @@ TEST_TARGET ?= "simpleremote"
+ TEST_TARGET_IP ?= ""
+ TEST_SERVER_IP ?= ""
+ 
++TEST_EXPORT_SDK_PACKAGES ?= ""
++TEST_EXPORT_SDK_ENABLED ?= "0"
++TEST_EXPORT_SDK_NAME ?= "testexport-tools-nativesdk"
++TEST_EXPORT_SDK_DIR ?= "sdk"
 +
-+TOOLCHAIN_TARGET_TASK ?= ""
+ TEST_EXPORT_DEPENDS = ""
+ TEST_EXPORT_DEPENDS += "${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'cpio-native:do_populate_sysroot', '', d)}"
++TEST_EXPORT_DEPENDS += "${@bb.utils.contains('TEST_EXPORT_SDK_ENABLED', '1', 'testexport-tarball:do_populate_sdk', '', d)}"
+ TEST_EXPORT_LOCK = "${TMPDIR}/testimage.lock"
+ 
+ python do_testexport() {
+@@ -136,6 +142,16 @@ def exportTests(d,tc):
+             dst_f = os.path.join(export_pkg_dir, root.replace(test_pkg_dir, "").lstrip("/"), f)
+             shutil.copy2(src_f, dst_f)
+ 
++    # Copy SDK
++    if d.getVar("TEST_EXPORT_SDK_ENABLED", True) == "1":
++        sdk_deploy = d.getVar("SDK_DEPLOY", True)
++        tarball_name = "%s.sh" % d.getVar("TEST_EXPORT_SDK_NAME", True)
++        tarball_path = os.path.join(sdk_deploy, tarball_name)
++        export_sdk_dir = os.path.join(d.getVar("TEST_EXPORT_DIR", True),
++                                      d.getVar("TEST_EXPORT_SDK_DIR", True))
++        bb.utils.mkdirhier(export_sdk_dir)
++        shutil.copy2(tarball_path, export_sdk_dir)
 +
-+TOOLCHAIN_HOST_TASK ?= "${TEST_EXPORT_SDK_PACKAGES}"
+     bb.plain("Exported tests to: %s" % exportpath)
+ 
+ def testexport_main(d):
+diff --git a/meta/lib/oeqa/runexported.py b/meta/lib/oeqa/runexported.py
+index f1366a6..5886739 100755
+--- a/meta/lib/oeqa/runexported.py
++++ b/meta/lib/oeqa/runexported.py
+@@ -31,8 +31,8 @@ except ImportError:
+ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "oeqa")))
+ 
+ from oeqa.oetest import ExportTestContext
++from oeqa.utils.commands import runCmd
+ from oeqa.utils.sshcontrol import SSHControl
+-from oeqa.utils.dump import get_host_dumper
+ 
+ # this isn't pretty but we need a fake target object
+ # for running the tests externally as we don't care
+@@ -107,6 +107,8 @@ def main():
+         if not os.path.isdir(d["DEPLOY_DIR"]):
+             print("WARNING: The path to DEPLOY_DIR does not exist: %s" % d["DEPLOY_DIR"])
+ 
++    extract_sdk(d)
 +
-+SDK_PACKAGE_ARCHS += "tesexport-tools-${SDKPKGSUFFIX}"
+     target = FakeTarget(d)
+     for key in loaded["target"].keys():
+         setattr(target, key, loaded["target"][key])
+@@ -118,6 +120,37 @@ def main():
+ 
+     return 0
+ 
++def extract_sdk(d):
++    """
++    Extract SDK if needed
++    """
 +
-+TOOLCHAIN_OUTPUTNAME ?= "${TEST_EXPORT_SDK_NAME}"
++    export_dir = os.path.dirname(os.path.realpath(__file__))
++    tools_dir = d.getVar("TEST_EXPORT_SDK_DIR", True)
++    tarball_name = "%s.sh" % d.getVar("TEST_EXPORT_SDK_NAME", True)
++    tarball_path = os.path.join(export_dir, tools_dir, tarball_name)
++    extract_path = os.path.join(export_dir, "sysroot")
++    if os.path.isfile(tarball_path):
++        print ("Found SDK tarball %s. Extracting..." % tarball_path)
++        result = runCmd("%s -y -d %s" % (tarball_path, extract_path))
++        for f in os.listdir(extract_path):
++            if f.startswith("environment-setup"):
++                print("Setting up SDK environment...")
++                env_file = os.path.join(extract_path, f)
++                update_env(env_file)
 +
-+SDK_TITLE = "Testexport tools"
++def update_env(env_file):
++    """
++    Source a file and update environment
++    """
 +
-+RDEPENDS = "${TOOLCHAIN_HOST_TASK}"
++    cmd = ". %s; env -0" % env_file
++    result = runCmd(cmd)
 +
-+EXCLUDE_FROM_WORLD = "1"
++    for line in result.output.split("\0"):
++        (key, _, value) = line.partition("=")
++        os.environ[key] = value
 +
-+inherit meta
-+inherit populate_sdk
-+inherit toolchain-scripts
-+
-+create_sdk_files_append () {
-+	rm -f ${SDK_OUTPUT}/${SDKPATH}/site-config-*
-+	rm -f ${SDK_OUTPUT}/${SDKPATH}/environment-setup-*
-+	rm -f ${SDK_OUTPUT}/${SDKPATH}/version-*
-+
-+	# Generate new (mini) sdk-environment-setup file
-+	script=${1:-${SDK_OUTPUT}/${SDKPATH}/environment-setup-${SDK_SYS}}
-+	touch $script
-+	echo 'export PATH=${SDKPATHNATIVE}${bindir_nativesdk}:$PATH' >> $script
-+	# In order for the self-extraction script to correctly extract and set up things,
-+	# we need a 'OECORE_NATIVE_SYSROOT=xxx' line in environment setup script.
-+	# However, testexport-tarball is inherently a tool set instead of a fully functional SDK,
-+	# so instead of exporting the variable, we use a comment here.
-+	echo '#OECORE_NATIVE_SYSROOT="${SDKPATHNATIVE}"' >> $script
-+	toolchain_create_sdk_version ${SDK_OUTPUT}/${SDKPATH}/version-${SDK_SYS}
-+
-+	echo 'export GIT_SSL_CAINFO="${SDKPATHNATIVE}${sysconfdir}/ssl/certs/ca-certificates.crt"' >>$script
-+
-+	if [ "${SDKMACHINE}" = "i686" ]; then
-+		echo 'export NO32LIBS="0"' >>$script
-+		echo 'echo "$BB_ENV_EXTRAWHITE" | grep -q "NO32LIBS"' >>$script
-+		echo '[ $? != 0 ] && export BB_ENV_EXTRAWHITE="NO32LIBS $BB_ENV_EXTRAWHITE"' >>$script
-+	fi
-+}
-+
-+# testexport-tarball doesn't need config site
-+TOOLCHAIN_NEED_CONFIGSITE_CACHE = ""
-+
-+# The recipe doesn't need any default deps
-+INHIBIT_DEFAULT_DEPS = "1"
+ if __name__ == "__main__":
+     try:
+         ret = main()
 -- 
 2.6.6
 
