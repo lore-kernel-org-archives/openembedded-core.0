@@ -1,30 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B61B771C2
+Return-Path: <rm.santos.caldas@gmail.com>
+Received: from mail-lf0-f50.google.com (mail-lf0-f50.google.com
+	[209.85.215.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 93717771CE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jun 2016 11:12:40 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u56BCeNt007045 for <openembedded-core@lists.openembedded.org>;
-	Mon, 6 Jun 2016 12:12:40 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Z2KDPYFMNOdU
+	Mon,  6 Jun 2016 11:35:10 +0000 (UTC)
+Received: by mail-lf0-f50.google.com with SMTP id b73so92478229lfb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jun 2016 12:12:40 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u56BCdeL007042
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 6 Jun 2016 12:12:40 +0100
-Message-ID: <1465211558.13979.63.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 06 Jun 2016 12:12:38 +0100
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: [PATCH] meta: Drop swabber
+	Mon, 06 Jun 2016 04:35:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=Une5MznZNZiWHIvCgS7abM6Z97sGIqFVr2XcFMyK2PY=;
+	b=hAPShGPbyYSorkh94tPsFF/WuvxrQk7ANN01ENaZ3FFz3rJyY8DHnwGp4M/jTvKgTV
+	u7TLAAJoavxU1i4Bse/hlmwwK21qoi8M/r6Y8r5nR9iaTeNoYOWyQ8ll4Bg0dwJQ2Ob3
+	togWIXUSwVT9qyfCtG8LHp3qhzH5AArsZxFarolJtClE7axTYc1rf3Kko1UOLM+vjKfg
+	Tb9NToiE6ixdewKVSH0BM2Qg43zr3n2ApdC/JAklEcI1UoBxd0R6uJ3A10+x+3dBYzGO
+	LGOzlijzNn58F1srGUlVioKtbtqF8tcWmAZ6+mstr7M9cDkd2fgQTqFXESvuO/4OFOjx
+	FJLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=Une5MznZNZiWHIvCgS7abM6Z97sGIqFVr2XcFMyK2PY=;
+	b=dZYXuzoIfqsdqHtcUrtTvWSKgA1g2ofXE8nmJ2bsnPX80I4Cc4XFeXhUL7sYgINZuN
+	QmArn30tty+HdL9SScIiLtkAbY6v4BklRPCsUCUElai4i/cdiyVc2qJZQ/vAU+xqGIHx
+	CLOnX0PAO+kDVpi82xreQXRx18LAU+AmtSA+Nc+u9lzmu06+ks5FQOnOuhFvDEgMWSQV
+	nGTnLBA2+RBVSD9zXWvXjYcaAKLlPBVqKlcJnGSJOdNcaKTxUSP/a23MA2WeuDGXoFPj
+	BzyfhQ4ATLUO5VY0MNLplMusVrN33p18jg0ul9QKzugkP1n2JJHIP/fPllRpoYKqP2ZO
+	Jp9g==
+X-Gm-Message-State: ALyK8tLZGE/0QpiIh0rd3TyCFfDzjmEJP++LArKErDCSPNEvANXpG5ylvy36WPH5HH8KNjbai95mFYuy8vesGw==
+X-Received: by 10.25.23.215 with SMTP id 84mr1341057lfx.200.1465212909998;
+	Mon, 06 Jun 2016 04:35:09 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.25.207.149 with HTTP; Mon, 6 Jun 2016 04:35:09 -0700 (PDT)
+In-Reply-To: <575128CF.8010308@pengutronix.de>
+References: <20160528115341.4965-1-rm.santos.caldas@gmail.com>
+	<1464613445-18617-1-git-send-email-ejo@pengutronix.de>
+	<CA+21M5DUAvp1csE=kARmE2Fg3SyfzxDO0L2GuBsvpSMjiiN2Xg@mail.gmail.com>
+	<575128CF.8010308@pengutronix.de>
+From: Renato Caldas <rm.santos.caldas@gmail.com>
+Date: Mon, 6 Jun 2016 12:35:09 +0100
+Message-ID: <CA+21M5CpZUbrxLMHYJ92jP+6xK7W6e41FX_f_dLS8OOf5ap2Eg@mail.gmail.com>
+To: Enrico Joerns <ejo@pengutronix.de>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] perl-ptest.inc: fix tar call to prevent objcopy failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,277 +56,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Jun 2016 11:12:41 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 06 Jun 2016 11:35:13 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-swabber hasn't been used in years and never did work well in the first
-place. Remove its recipes, class and configuration.
+Hi Enrico,
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+2016-06-03 7:50 GMT+01:00 Enrico Joerns <ejo@pengutronix.de>:
+> Hi Renato,
+>
+> thanks for the comments on my changes.
+>
+> On 05/31/2016 01:35 PM, Renato Caldas wrote:
+>>
+>> My suggestion is that you submit a new patch with those improvements
+>> on top of the quick fix I made. I suggest you also add quotes to the
+>> --exclude options per tar's man page.
+>
+>
+> I did not find any hints about quotes, where is it written? It also seems=
+ to
+> me that the man page in current tar (1.29) is a bit incomplete as it does
+> not mention any 'exclude' option, anymore. At least on my distro (debian)=
+.
 
-diff --git a/meta/classes/image-swab.bbclass b/meta/classes/image-swab.bbclass
-deleted file mode 100644
-index 6b02cad..0000000
---- a/meta/classes/image-swab.bbclass
-+++ /dev/null
-@@ -1,94 +0,0 @@
--HOST_DATA ?= "${TMPDIR}/host-contamination-data/"
--SWABBER_REPORT ?= "${LOG_DIR}/swabber/"
--SWABBER_LOGS ?= "${LOG_DIR}/contamination-logs"
--TRACE_LOGDIR ?= "${SWABBER_LOGS}/${PACKAGE_ARCH}"
--TRACE_LOGFILE = "${TRACE_LOGDIR}/${PN}-${PV}"
--
--SWAB_ORIG_TASK := "${BB_DEFAULT_TASK}"
--BB_DEFAULT_TASK = "generate_swabber_report"
--
--# Several recipes don't build with parallel make when run under strace
--# Ideally these should be fixed but as a temporary measure disable parallel
--# builds for troublesome recipes
--PARALLEL_MAKE_pn-openssl = ""
--PARALLEL_MAKE_pn-glibc = ""
--PARALLEL_MAKE_pn-glib-2.0 = ""
--PARALLEL_MAKE_pn-libxml2 = ""
--PARALLEL_MAKE_pn-readline = ""
--PARALLEL_MAKE_pn-util-linux = ""
--PARALLEL_MAKE_pn-binutils = ""
--PARALLEL_MAKE_pn-bison = ""
--PARALLEL_MAKE_pn-cmake = ""
--PARALLEL_MAKE_pn-elfutils = ""
--PARALLEL_MAKE_pn-gcc = ""
--PARALLEL_MAKE_pn-gcc-runtime = ""
--PARALLEL_MAKE_pn-m4 = ""
--PARALLEL_MAKE_pn-opkg = ""
--PARALLEL_MAKE_pn-pkgconfig = ""
--PARALLEL_MAKE_pn-prelink = ""
--PARALLEL_MAKE_pn-rpm = ""
--PARALLEL_MAKE_pn-tcl = ""
--PARALLEL_MAKE_pn-beecrypt = ""
--PARALLEL_MAKE_pn-curl = ""
--PARALLEL_MAKE_pn-gmp = ""
--PARALLEL_MAKE_pn-libmpc = ""
--PARALLEL_MAKE_pn-libxslt = ""
--PARALLEL_MAKE_pn-lzo = ""
--PARALLEL_MAKE_pn-popt = ""
--PARALLEL_MAKE_pn-linux-wrs = ""
--PARALLEL_MAKE_pn-libgcrypt = ""
--PARALLEL_MAKE_pn-gpgme = ""
--PARALLEL_MAKE_pn-udev = ""
--PARALLEL_MAKE_pn-gnutls = ""
--
--python() {
--    # NOTE: It might be useful to detect host infection on native and cross
--    # packages but as it turns out to be pretty hard to do this for all native
--    # and cross packages which aren't swabber-native or one of its dependencies
--    # I have ignored them for now...
--    if not bb.data.inherits_class('native', d) and not bb.data.inherits_class('nativesdk', d) and not bb.data.inherits_class('cross', d):
--        deps = (d.getVarFlag('do_setscene', 'depends', True) or "").split()
--        deps.append('strace-native:do_populate_sysroot')
--        d.setVarFlag('do_setscene', 'depends', " ".join(deps))
--        logdir = d.expand("${TRACE_LOGDIR}")
--        bb.utils.mkdirhier(logdir)
--    else:
--        d.setVar('STRACEFUNC', '')
--}
--
--STRACEPID = "${@os.getpid()}"
--STRACEFUNC = "imageswab_attachstrace"
--
--do_configure[prefuncs] += "${STRACEFUNC}"
--do_compile[prefuncs] += "${STRACEFUNC}"
--
--imageswab_attachstrace () {
--	STRACE=`which strace`
--
--	if [ -x "$STRACE" ]; then
--		swabber-strace-attach "$STRACE -f -o ${TRACE_LOGFILE}-${BB_CURRENTTASK}.log -e trace=open,execve -p ${STRACEPID}" "${TRACE_LOGFILE}-traceattach-${BB_CURRENTTASK}.log"
--	fi
--}
--
--do_generate_swabber_report () {
--
--	update_distro ${HOST_DATA}
--
--	# Swabber can't create the directory for us
--	mkdir -p ${SWABBER_REPORT}
--
--	REPORTSTAMP=${SWAB_ORIG_TASK}-`date +%2m%2d%2H%2M%Y`
--
--	if [ `which ccache` ] ; then
--		CCACHE_DIR=`( ccache -s | grep "cache directory" | grep -o '[^ ]*$' 2> /dev/null )`
-- 	fi
--
--	if [ "$(ls -A ${HOST_DATA})" ]; then
--		echo "Generating swabber report"
--		swabber -d ${HOST_DATA} -l ${SWABBER_LOGS} -o ${SWABBER_REPORT}/report-${REPORTSTAMP}.txt -r ${SWABBER_REPORT}/extra_report-${REPORTSTAMP}.txt -c all -p ${TOPDIR} -f ${OEROOT}/meta/conf/swabber ${TOPDIR} ${OEROOT} ${CCACHE_DIR}
--	else
--		echo "No host data, cannot generate swabber report."
--	fi
--}
--addtask generate_swabber_report after do_${SWAB_ORIG_TASK}
--do_generate_swabber_report[depends] = "swabber-native:do_populate_sysroot"
-diff --git a/meta/conf/swabber/Ubuntu-10.04.1-64/blacklist b/meta/conf/swabber/Ubuntu-10.04.1-64/blacklist
-deleted file mode 100644
-index 5fdb8f2..0000000
---- a/meta/conf/swabber/Ubuntu-10.04.1-64/blacklist
-+++ /dev/null
-@@ -1,6 +0,0 @@
--libneon27-gnutls
--openjdk-6-jre-headless
--openjdk-6-jre-lib
--openjdk-6-jre
--libdbus-1-3
--libneon27-gnutls
-diff --git a/meta/conf/swabber/Ubuntu-10.04.1-64/filters b/meta/conf/swabber/Ubuntu-10.04.1-64/filters
-deleted file mode 100644
-index a447f70..0000000
---- a/meta/conf/swabber/Ubuntu-10.04.1-64/filters
-+++ /dev/null
-@@ -1,7 +0,0 @@
--/usr/local/lib/python2.6
--/usr/lib/python2.6
--/usr/lib/pymodules/python2.6
--/usr/lib/perl/5.10
--# which is part of the debianutils packages, but we don't want to put the entire
--# debianutils package in the whitelist.
--/usr/bin/which
-diff --git a/meta/conf/swabber/Ubuntu-10.04.1-64/whitelist b/meta/conf/swabber/Ubuntu-10.04.1-64/whitelist
-deleted file mode 100644
-index f0fe963..0000000
---- a/meta/conf/swabber/Ubuntu-10.04.1-64/whitelist
-+++ /dev/null
-@@ -1,23 +0,0 @@
--base-files
--dash
--libacl1
--libattr1
--libbz2-1.0
--libc6
--libc-bin
--libglib2.0-0
--libncurses5
--libselinux1
--libsqlite3-0
--libssl0.9.8
--mime-support
--perl-base
--python2.6
--python2.6-minimal
--python-apport
--python-gst0.10
--python-imaging
--python-minimal
--python-support
--python-zope.interface
--zlib1g
-diff --git a/meta/conf/swabber/generic/blacklist b/meta/conf/swabber/generic/blacklist
-deleted file mode 100644
-index 396bcb4..0000000
---- a/meta/conf/swabber/generic/blacklist
-+++ /dev/null
-@@ -1,2 +0,0 @@
--udev
--dkpg
-diff --git a/meta/conf/swabber/generic/filters b/meta/conf/swabber/generic/filters
-deleted file mode 100644
-index 3b10fcb..0000000
---- a/meta/conf/swabber/generic/filters
-+++ /dev/null
-@@ -1,10 +0,0 @@
--/tmp
--/etc/localtime
--/etc/ld.so.cache
--/etc/ld.so.conf
--/etc/passwd
--/etc/group
--/etc/nsswitch.conf
--/proc
--/dev/null
--/dev/tty
-diff --git a/meta/conf/swabber/generic/whitelist b/meta/conf/swabber/generic/whitelist
-deleted file mode 100644
-index 48ec2af..0000000
---- a/meta/conf/swabber/generic/whitelist
-+++ /dev/null
-@@ -1,15 +0,0 @@
--bash
--bzip2
--ccache
--coreutils
--cpp
--file
--findutils
--gawk
--grep
--hostname
--make
--sed
--tar
--util-linux
--zlib1g
-diff --git a/meta/recipes-devtools/swabber/swabber-native_git.bb b/meta/recipes-devtools/swabber/swabber-native_git.bb
-deleted file mode 100644
-index 2f313bb..0000000
---- a/meta/recipes-devtools/swabber/swabber-native_git.bb
-+++ /dev/null
-@@ -1,21 +0,0 @@
--SUMMARY = "Tool to monitor and report on host system file usage"
--HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/swabber"
--LICENSE = "GPLv2"
--LIC_FILES_CHKSUM = "file://COPYING;md5=393a5ca445f6965873eca0259a17f833"
--
--SRCREV = "2d1fe36fb0a4fdaae8823a9818a6785182d75e66"
--PV = "0.0+git${SRCPV}"
--
--S = "${WORKDIR}/git"
--
--SRC_URI = "git://git.yoctoproject.org/swabber"
--
--inherit native
--
--do_configure () {
--	:
--}
--
--do_install() {
--  oe_runmake 'DESTDIR=${D}' install
--}
-diff --git a/scripts/swabber-strace-attach b/scripts/swabber-strace-attach
-deleted file mode 100755
-index e8f3258..0000000
---- a/scripts/swabber-strace-attach
-+++ /dev/null
-@@ -1,31 +0,0 @@
--#!/usr/bin/env python3
--import os
--import sys
--import subprocess
--
--# Detach from the controlling terminal and parent process by forking twice to daemonize ourselves,
--# then run the command passed as argv[1]. Send log data to argv[2].
--
--pid = os.fork()
--if (pid == 0):
--    os.setsid()
--    pid = os.fork()
--    if (pid != 0):
--        os._exit(0)
--else:
--    sys.exit()
--
--
--si = open(os.devnull, 'r')
--so = open(sys.argv[2], 'w')
--se = so
--
--# Replace those fds with our own
--os.dup2(si.fileno(), sys.stdin.fileno())
--os.dup2(so.fileno(), sys.stdout.fileno())
--os.dup2(se.fileno(), sys.stderr.fileno())
--
--ret = subprocess.call(sys.argv[1], shell=True)
--
--os._exit(ret)
--
+You can find the man page online, this is the relevant section about
+the recommended --exclude option quotes:
+http://www.gnu.org/software/tar/manual/tar.html#SEC112
 
+>
+>> You might also want to simplify the commit message a bit. I'm fairly
+>> new to yocto (and my view may be wrong), but this is how I would do
+>> it:
+>> - change the component name from "perl-ptest.inc:" to "perl:"
+>
+>
+> Maybe "perl-ptest" would be ok, too, as it matches the resulting packages
+> name.
+>
+>> - use the commit title to describe the change you made, not exactly
+>> what bug it fixed. Example: "fix tar call according to its man page"
+>> (or something like that)
+>> - describe the change in simpler terms. Taking what you wrote, I would
+>> rewrite it like this:
+>>
+>> "The existing tar call on do_install_ptest() did not match the man
+>> page, but worked with older tar versions. The new 1.29 version of tar
+>> has stricter argument handling, and future versions may be even
+>> stricter. Failure to use it according to its manual may result in
+>> arguments being silently ignored and breaking the build."
+>>
+>
+> Yes, sounds good to me. And my original message does not match the remain=
+ing
+> changes anymore. Is it ok if I take your text, and add you as Signed-off =
+for
+> the patch then?
+
+Yes, it would be fine, but your patch was already merged as-was. Maybe
+next time :)
+
+Cheers,
+  Renato
+
+>
+>>
+>> So while changing the position of the "*" fixed it for tar 1.29, your
+>> proposed changes are important to future-proof the perl recipe for
+>> newer tar versions. As such, please do submit a new patch.
+>
+>
+> I will do so, then.
+>
+>
+> Best regard, Enrico
+>
+> --
+> Pengutronix e.K.                           | Enrico J=C3=B6rns           =
+     |
+> Industrial Linux Solutions                 | http://www.pengutronix.de/  =
+|
+> Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-5080 =
+|
+> Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 =
+|
+>
 
