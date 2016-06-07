@@ -1,24 +1,24 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id BEEE077183
+	by mail.openembedded.org (Postfix) with ESMTP id CEA167718A
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  7 Jun 2016 08:48:33 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP; 07 Jun 2016 01:48:19 -0700
+	by orsmga103.jf.intel.com with ESMTP; 07 Jun 2016 01:48:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,432,1459839600"; d="scan'208";a="823174506"
+X-IronPort-AV: E=Sophos;i="5.26,432,1459839600"; d="scan'208";a="823174512"
 Received: from theory.fi.intel.com ([10.237.72.196])
-	by orsmga003.jf.intel.com with ESMTP; 07 Jun 2016 01:48:18 -0700
+	by orsmga003.jf.intel.com with ESMTP; 07 Jun 2016 01:48:19 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 Jun 2016 11:47:35 +0300
-Message-Id: <002817ebbcdfcc9401be5898bb466ec2954c8df1.1465288175.git.jussi.kukkonen@intel.com>
+Date: Tue,  7 Jun 2016 11:47:36 +0300
+Message-Id: <ce20d105268660ad210e7be70cb6cbd3a1312a45.1465288175.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <7e2909e70b87ffcf2c752bd6ac326ef256bdc1b2.1465288175.git.jussi.kukkonen@intel.com>
 References: <7e2909e70b87ffcf2c752bd6ac326ef256bdc1b2.1465288175.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1465288174.git.jussi.kukkonen@intel.com>
 References: <cover.1465288174.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 17/37] gst-player: Start building with Gtk+3
+Subject: [PATCH 18/37] matchbox-config-gtk: Upgrade to 0.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,133 +33,95 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 07 Jun 2016 08:48:34 -0000
 
-Drop the patch that added gtk+2 support.
-Use an icon that is found in adwaita icon theme.
+New version supports Gtk+3.
+Rebase the patch.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- .../gstreamer/gst-player/gst-player.desktop        |  2 +-
- .../gstreamer/gst-player/gtk2.patch                | 71 ----------------------
- .../recipes-multimedia/gstreamer/gst-player_git.bb |  5 +-
- 3 files changed, 3 insertions(+), 75 deletions(-)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gst-player/gtk2.patch
+ .../matchbox-config-gtk/files/no-handed.patch      | 26 +++++++++++++---------
+ ...onfig-gtk_git.bb => matchbox-config-gtk_0.2.bb} | 11 +++++----
+ 2 files changed, 20 insertions(+), 17 deletions(-)
+ rename meta/recipes-sato/matchbox-config-gtk/{matchbox-config-gtk_git.bb => matchbox-config-gtk_0.2.bb} (80%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-player/gst-player.desktop b/meta/recipes-multimedia/gstreamer/gst-player/gst-player.desktop
-index 9fd207b..7ddd456 100644
---- a/meta/recipes-multimedia/gstreamer/gst-player/gst-player.desktop
-+++ b/meta/recipes-multimedia/gstreamer/gst-player/gst-player.desktop
-@@ -1,7 +1,7 @@
- [Desktop Entry]
- Name=Media Player
- Comment=Basic media player
--Icon=audio-player
-+Icon=multimedia-player
- TryExec=gtk-play
- Exec=gtk-play
- StartupNotify=true
-diff --git a/meta/recipes-multimedia/gstreamer/gst-player/gtk2.patch b/meta/recipes-multimedia/gstreamer/gst-player/gtk2.patch
-deleted file mode 100644
-index 2cd18bb..0000000
---- a/meta/recipes-multimedia/gstreamer/gst-player/gtk2.patch
-+++ /dev/null
-@@ -1,71 +0,0 @@
--As the rest of Sato is GTK+ 2, patch gtk-play to use GTK+ 2.  When the rest of
--Sato has been ported to GTK+ 3 this patch can be dropped.
+diff --git a/meta/recipes-sato/matchbox-config-gtk/files/no-handed.patch b/meta/recipes-sato/matchbox-config-gtk/files/no-handed.patch
+index 8256949..1cb184f 100644
+--- a/meta/recipes-sato/matchbox-config-gtk/files/no-handed.patch
++++ b/meta/recipes-sato/matchbox-config-gtk/files/no-handed.patch
+@@ -1,10 +1,13 @@
+ Upstream-Status: Inappropriate [configuration]
++---
++ appearance/mb-appearance.c | 4 ++++
++ 1 file changed, 4 insertions(+)
+ 
+-Index: appearance/mb-appearance.c
+-===================================================================
+---- appearance/mb-appearance.c	(revision 1614)
+-+++ appearance/mb-appearance.c	(working copy)
+-@@ -300,11 +300,13 @@
++diff --git a/appearance/mb-appearance.c b/appearance/mb-appearance.c
++index 6af8376..71fd57b 100644
++--- a/appearance/mb-appearance.c
+++++ b/appearance/mb-appearance.c
++@@ -317,11 +317,13 @@ on_gconf_value_changed (GConfClient* client, const gchar* key, GConfValue* value
+      gtk_font_button_set_font_name (GTK_FONT_BUTTON (font_button),
+                                     gconf_value_get_string (value));
+    } else if (strcmp (key, HANDED_KEY) == 0) {
+@@ -18,18 +21,19 @@ Index: appearance/mb-appearance.c
+    }
+  }
+  
+-@@ -395,12 +397,13 @@
+-   gtk_container_add (GTK_CONTAINER (align), font_button);
++@@ -408,10 +410,12 @@ main (int argc, char **argv) {
+  
+    /* Left/Right Handed */
+--  
++   
+ +#if 0
+-   frame = new_frame (_("Orientation"), &align);
+-   gtk_box_pack_start (GTK_BOX (box), frame, TRUE, TRUE, 0);
+    handed_check = gtk_check_button_new_with_mnemonic (_("_Left-handed"));
++   frame = new_frame (_("Orientation"),handed_check);
++   gtk_box_pack_start (GTK_BOX (box), frame, TRUE, TRUE, 0);
+    g_signal_connect (handed_check, "toggled", G_CALLBACK (on_handed_set), NULL);
+-   gtk_container_add (GTK_CONTAINER (align), handed_check);
+ +#endif
+  
+    gconf_client_add_dir (gconf, INTERFACE_DIR, GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+    g_signal_connect (gconf, "value-changed", G_CALLBACK (on_gconf_value_changed), NULL);
++-- 
++2.8.1
++
+diff --git a/meta/recipes-sato/matchbox-config-gtk/matchbox-config-gtk_git.bb b/meta/recipes-sato/matchbox-config-gtk/matchbox-config-gtk_0.2.bb
+similarity index 80%
+rename from meta/recipes-sato/matchbox-config-gtk/matchbox-config-gtk_git.bb
+rename to meta/recipes-sato/matchbox-config-gtk/matchbox-config-gtk_0.2.bb
+index 5f73a4c..3ca5989 100644
+--- a/meta/recipes-sato/matchbox-config-gtk/matchbox-config-gtk_git.bb
++++ b/meta/recipes-sato/matchbox-config-gtk/matchbox-config-gtk_0.2.bb
+@@ -6,17 +6,16 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+                     file://appearance/mb-appearance.c;endline=25;md5=ea92333cf8a6802639d62d874c114a28"
+ 
+-DEPENDS = "gconf gtk+"
++DEPENDS = "gconf gtk+3"
+ RDEPENDS_${PN} = "settings-daemon"
+ 
+-SRCREV = "3ed74dfb7c57be088a5ab36e446c0ccde9fa1028"
+-PV = "0.0+git${SRCPV}"
++# SRCREV tagged 0.2
++SRCREV = "ef2192ce98d9374ffdad5f78544c3f8f353c16aa"
++SRC_URI = "git://git.yoctoproject.org/${BPN} \
++           file://no-handed.patch"
+ 
+ S = "${WORKDIR}/git"
+ 
+-SRC_URI = "git://git.yoctoproject.org/${BPN} \
+-        file://no-handed.patch;striplevel=0"
 -
--Upstream-Status: Inappropriate
--Signed-off-by: Ross Burton <ross.burton@intel.com>
--
--
--diff --git a/configure.ac b/configure.ac
--index b8af13b..90ab74c 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -60,7 +60,7 @@ AC_SUBST(GLIB_PREFIX)
-- GST_PREFIX="`$PKG_CONFIG --variable=prefix gstreamer-1.0`"
-- AC_SUBST(GST_PREFIX)
-- 
---PKG_CHECK_MODULES(GTK, [gtk+-3.0], [have_gtk="yes"], [have_gtk="no"])
--+PKG_CHECK_MODULES(GTK, [gtk+-2.0], [have_gtk="yes"], [have_gtk="no"])
-- AM_CONDITIONAL(HAVE_GTK, test "x$have_gtk" != "xno")
-- 
-- GOBJECT_INTROSPECTION_CHECK([1.31.1])
--diff --git a/gtk/gtk-play.c b/gtk/gtk-play.c
--index f015077..954d6fb 100644
----- a/gtk/gtk-play.c
--+++ b/gtk/gtk-play.c
--@@ -34,6 +34,46 @@ typedef struct
--   gulong seekbar_value_changed_signal_id;
-- } GtkPlay;
-- 
--+/* Compat stubs */
--+GtkWidget *
--+gtk_box_new (GtkOrientation orientation,
--+             gint spacing)
--+{
--+  switch (orientation) {
--+  case GTK_ORIENTATION_HORIZONTAL:
--+    return gtk_hbox_new (FALSE, spacing);
--+  case GTK_ORIENTATION_VERTICAL:
--+    return gtk_vbox_new (FALSE, spacing);
--+  }
--+}
--+
--+GtkWidget*
--+gtk_button_new_from_icon_name (const gchar *icon_name,
--+                               GtkIconSize  size)
--+{
--+  GtkWidget *button;
--+  GtkWidget *image;
--+
--+  image = gtk_image_new_from_icon_name (icon_name, size);
--+  button =  g_object_new (GTK_TYPE_BUTTON,
--+                         "image", image,
--+                         NULL);
--+  return button;
--+}
--+
--+GtkWidget *
--+gtk_scale_new_with_range (GtkOrientation orientation,
--+                          gdouble min,
--+                          gdouble max,
--+                          gdouble step)
--+{
--+  switch (orientation) {
--+  case GTK_ORIENTATION_HORIZONTAL:
--+    return gtk_hscale_new_with_range (min, max, step);
--+  case GTK_ORIENTATION_VERTICAL:
--+    return gtk_vscale_new_with_range (min, max, step);
--+  }
--+}
-- 
-- static void
-- set_title (GtkPlay * play, const gchar * title)
-diff --git a/meta/recipes-multimedia/gstreamer/gst-player_git.bb b/meta/recipes-multimedia/gstreamer/gst-player_git.bb
-index 8129169..6d39c2d 100644
---- a/meta/recipes-multimedia/gstreamer/gst-player_git.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-player_git.bb
-@@ -2,11 +2,10 @@ SUMMARY = "GStreamer playback helper library and examples"
- LICENSE = "LGPL-2.0+"
- LIC_FILES_CHKSUM = "file://lib/gst/player/gstplayer.c;beginline=1;endline=19;md5=03aeca9d8295f811817909075a15ff65"
+ inherit autotools pkgconfig distro_features_check
  
--DEPENDS = "glib-2.0 gstreamer1.0 gstreamer1.0-plugins-base gtk+"
-+DEPENDS = "glib-2.0 gstreamer1.0 gstreamer1.0-plugins-base gtk+3"
- 
- SRC_URI = "git://github.com/sdroege/gst-player.git \
-            file://filechooser.patch \
--           file://gtk2.patch \
-            file://Fix-pause-play.patch \
-            file://Add-error-signal-emission-for-missing-plugins.patch \
-            file://gst-player.desktop"
-@@ -17,7 +16,7 @@ S = "${WORKDIR}/git"
- 
- inherit autotools gtk-doc lib_package pkgconfig distro_features_check gobject-introspection
- 
--ANY_OF_DISTRO_FEATURES = "${GTK2DISTROFEATURES}"
-+ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
- 
- do_configure_prepend() {
- 	touch ${S}/ChangeLog
+ # The settings-daemon requires x11 in DISTRO_FEATURES
 -- 
 2.1.4
 
