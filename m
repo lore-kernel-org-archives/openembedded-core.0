@@ -1,24 +1,24 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 60A4A77172
+	by mail.openembedded.org (Postfix) with ESMTP id 8D16577181
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  7 Jun 2016 08:48:32 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP; 07 Jun 2016 01:48:12 -0700
+	by orsmga103.jf.intel.com with ESMTP; 07 Jun 2016 01:48:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,432,1459839600"; d="scan'208";a="823174455"
+X-IronPort-AV: E=Sophos;i="5.26,432,1459839600"; d="scan'208";a="823174467"
 Received: from theory.fi.intel.com ([10.237.72.196])
-	by orsmga003.jf.intel.com with ESMTP; 07 Jun 2016 01:48:11 -0700
+	by orsmga003.jf.intel.com with ESMTP; 07 Jun 2016 01:48:12 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 Jun 2016 11:47:29 +0300
-Message-Id: <ecf15ae25883150cf54db8c8c3d01ee9be64d70c.1465288175.git.jussi.kukkonen@intel.com>
+Date: Tue,  7 Jun 2016 11:47:30 +0300
+Message-Id: <32a173b655f72d7fa125f2207dfb8be29029fc3a.1465288175.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <7e2909e70b87ffcf2c752bd6ac326ef256bdc1b2.1465288175.git.jussi.kukkonen@intel.com>
 References: <7e2909e70b87ffcf2c752bd6ac326ef256bdc1b2.1465288175.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1465288174.git.jussi.kukkonen@intel.com>
 References: <cover.1465288174.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 11/37] vte: Upgrade to 0.44.1
+Subject: [PATCH 12/37] connman-gnome: Add patch to port to Gtk+3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,254 +33,312 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 07 Jun 2016 08:48:33 -0000
 
-* License change LGPL 2.0 -> LGPL 2.1+
-* vte-termcap is no more
-* API break: current version seems to be parallel installable
-  with old one, but I did not opt for that.
+Upstream is not really active anymore: patch the Gtk+3 upgrade
+in for now (long term solution is to change to another UI).
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- .../vte/vte-0.28.2/cve-2012-2738.patch             | 136 ---------------------
- .../vte/vte-0.28.2/obsolete_automake_macros.patch  |  14 ---
- meta/recipes-support/vte/vte.inc                   |  15 ---
- meta/recipes-support/vte/vte_0.28.2.bb             |  16 ---
- meta/recipes-support/vte/vte_0.44.1.bb             |  18 +++
- 5 files changed, 18 insertions(+), 181 deletions(-)
- delete mode 100644 meta/recipes-support/vte/vte-0.28.2/cve-2012-2738.patch
- delete mode 100644 meta/recipes-support/vte/vte-0.28.2/obsolete_automake_macros.patch
- delete mode 100644 meta/recipes-support/vte/vte.inc
- delete mode 100644 meta/recipes-support/vte/vte_0.28.2.bb
- create mode 100644 meta/recipes-support/vte/vte_0.44.1.bb
+ .../connman/connman-gnome/0001-Port-to-Gtk3.patch  | 277 +++++++++++++++++++++
+ .../connman/connman-gnome_0.7.bb                   |   2 +-
+ 2 files changed, 278 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-connectivity/connman/connman-gnome/0001-Port-to-Gtk3.patch
 
-diff --git a/meta/recipes-support/vte/vte-0.28.2/cve-2012-2738.patch b/meta/recipes-support/vte/vte-0.28.2/cve-2012-2738.patch
-deleted file mode 100644
-index 9b99803..0000000
---- a/meta/recipes-support/vte/vte-0.28.2/cve-2012-2738.patch
-+++ /dev/null
-@@ -1,136 +0,0 @@
--Upstream-Status: Backport
--CVE: CVE-2012-2738
--Signed-off-by: Ross Burton <ross.burton@intel.com>
--
--From e524b0b3bd8fad844ffa73927c199545b892cdbd Mon Sep 17 00:00:00 2001
--From: Christian Persch <chpe@gnome.org>
--Date: Sat, 19 May 2012 19:36:09 +0200
--Subject: [PATCH 1/2] emulation: Limit integer arguments to 65535
--
--To guard against malicious sequences containing excessively big numbers,
--limit all parsed numbers to 16 bit range. Doing this here in the parsing
--routine is a catch-all guard; this doesn't preclude enforcing
--more stringent limits in the handlers themselves.
--
--https://bugzilla.gnome.org/show_bug.cgi?id=676090
-----
-- src/table.c  | 2 +-
-- src/vteseq.c | 2 +-
-- 2 files changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/src/table.c b/src/table.c
--index 140e8c8..85cf631 100644
----- a/src/table.c
--+++ b/src/table.c
--@@ -550,7 +550,7 @@ _vte_table_extract_numbers(GValueArray **array,
-- 		if (G_UNLIKELY (*array == NULL)) {
-- 			*array = g_value_array_new(1);
-- 		}
---		g_value_set_long(&value, total);
--+		g_value_set_long(&value, CLAMP (total, 0, G_MAXUSHORT));
-- 		g_value_array_append(*array, &value);
-- 	} while (i++ < arginfo->length);
-- 	g_value_unset(&value);
--diff --git a/src/vteseq.c b/src/vteseq.c
--index 7ef4c8c..10991db 100644
----- a/src/vteseq.c
--+++ b/src/vteseq.c
--@@ -557,7 +557,7 @@ vte_sequence_handler_multiple(VteTerminal *terminal,
--                               GValueArray *params,
--                               VteTerminalSequenceHandler handler)
-- {
---        vte_sequence_handler_multiple_limited(terminal, params, handler, G_MAXLONG);
--+        vte_sequence_handler_multiple_limited(terminal, params, handler, G_MAXUSHORT);
-- }
-- 
-- static void
---- 
--2.4.9 (Apple Git-60)
--
--
--From cf1ad453a8def873c49cf6d88162593402f32bb2 Mon Sep 17 00:00:00 2001
--From: Christian Persch <chpe@gnome.org>
--Date: Sat, 19 May 2012 20:04:12 +0200
--Subject: [PATCH 2/2] emulation: Limit repetitions
--
--Don't allow malicious sequences to cause excessive repetitions.
--
--https://bugzilla.gnome.org/show_bug.cgi?id=676090
-----
-- src/vteseq.c | 25 ++++++++++++++++++-------
-- 1 file changed, 18 insertions(+), 7 deletions(-)
--
--diff --git a/src/vteseq.c b/src/vteseq.c
--index 10991db..209522f 100644
----- a/src/vteseq.c
--+++ b/src/vteseq.c
--@@ -1392,7 +1392,7 @@ vte_sequence_handler_dc (VteTerminal *terminal, GValueArray *params)
-- static void
-- vte_sequence_handler_DC (VteTerminal *terminal, GValueArray *params)
-- {
---	vte_sequence_handler_multiple(terminal, params, vte_sequence_handler_dc);
--+	vte_sequence_handler_multiple_r(terminal, params, vte_sequence_handler_dc);
-- }
-- 
-- /* Delete a line at the current cursor position. */
--@@ -1785,7 +1785,7 @@ vte_sequence_handler_reverse_index (VteTerminal *terminal, GValueArray *params)
-- static void
-- vte_sequence_handler_RI (VteTerminal *terminal, GValueArray *params)
-- {
---	vte_sequence_handler_multiple(terminal, params, vte_sequence_handler_nd);
--+	vte_sequence_handler_multiple_r(terminal, params, vte_sequence_handler_nd);
-- }
-- 
-- /* Save cursor (position). */
--@@ -2777,8 +2777,7 @@ vte_sequence_handler_insert_lines (VteTerminal *terminal, GValueArray *params)
-- {
-- 	GValue *value;
-- 	VteScreen *screen;
---	long param, end, row;
---	int i;
--+	long param, end, row, i, limit;
-- 	screen = terminal->pvt->screen;
-- 	/* The default is one. */
-- 	param = 1;
--@@ -2796,7 +2795,13 @@ vte_sequence_handler_insert_lines (VteTerminal *terminal, GValueArray *params)
-- 	} else {
-- 		end = screen->insert_delta + terminal->row_count - 1;
-- 	}
---	/* Insert the new lines at the cursor. */
--+
--+	/* Only allow to insert as many lines as there are between this row
--+         * and the end of the scrolling region. See bug #676090.
--+         */
--+        limit = end - row + 1;
--+        param = MIN (param, limit);
--+
-- 	for (i = 0; i < param; i++) {
-- 		/* Clear a line off the end of the region and add one to the
-- 		 * top of the region. */
--@@ -2817,8 +2822,7 @@ vte_sequence_handler_delete_lines (VteTerminal *terminal, GValueArray *params)
-- {
-- 	GValue *value;
-- 	VteScreen *screen;
---	long param, end, row;
---	int i;
--+	long param, end, row, i, limit;
-- 
-- 	screen = terminal->pvt->screen;
-- 	/* The default is one. */
--@@ -2837,6 +2841,13 @@ vte_sequence_handler_delete_lines (VteTerminal *terminal, GValueArray *params)
-- 	} else {
-- 		end = screen->insert_delta + terminal->row_count - 1;
-- 	}
--+
--+        /* Only allow to delete as many lines as there are between this row
--+         * and the end of the scrolling region. See bug #676090.
--+         */
--+        limit = end - row + 1;
--+        param = MIN (param, limit);
--+
-- 	/* Clear them from below the current cursor. */
-- 	for (i = 0; i < param; i++) {
-- 		/* Insert a line at the end of the region and remove one from
---- 
--2.4.9 (Apple Git-60)
--
-diff --git a/meta/recipes-support/vte/vte-0.28.2/obsolete_automake_macros.patch b/meta/recipes-support/vte/vte-0.28.2/obsolete_automake_macros.patch
-deleted file mode 100644
-index 6763d37..0000000
---- a/meta/recipes-support/vte/vte-0.28.2/obsolete_automake_macros.patch
-+++ /dev/null
-@@ -1,14 +0,0 @@
--Upstream-Status: Submitted [https://bugzilla.gnome.org/show_bug.cgi?id=691545]
--
--Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
--diff -Nurd vte-0.28.2/gnome-pty-helper/configure.in vte-0.28.2/gnome-pty-helper/configure.in
----- vte-0.28.2/gnome-pty-helper/configure.in	2010-07-15 20:08:44.000000000 +0300
--+++ vte-0.28.2/gnome-pty-helper/configure.in	2013-01-11 14:50:34.971027440 +0200
--@@ -8,7 +8,6 @@
-- AC_ISC_POSIX
-- AC_PROG_CC
-- AC_STDC_HEADERS
---AM_PROG_CC_STDC
--
-- if test -z "$enable_maintainer_mode"; then
--   enable_maintainer_mode=yes
-diff --git a/meta/recipes-support/vte/vte.inc b/meta/recipes-support/vte/vte.inc
-deleted file mode 100644
-index 8565cc2..0000000
---- a/meta/recipes-support/vte/vte.inc
-+++ /dev/null
-@@ -1,15 +0,0 @@
--SUMMARY = "Virtual terminal emulator GTK+ widget library"
--BUGTRACKER = "https://bugzilla.gnome.org/buglist.cgi?product=vte"
--LICENSE = "LGPLv2.0"
--DEPENDS = " glib-2.0 gtk+ intltool-native ncurses"
--RDEPENDS_libvte = "vte-termcap"
--
--inherit gnome gtk-doc distro_features_check upstream-version-is-even gobject-introspection
--ANY_OF_DISTRO_FEATURES = "${GTK2DISTROFEATURES}"
--
--EXTRA_OECONF = "--disable-python"
--
--PACKAGES =+ "libvte vte-termcap"
--FILES_libvte = "${libdir}/*.so.* ${libexecdir}/gnome-pty-helper"
--FILES_vte-termcap = "${datadir}/vte/termcap-0.0"
--
-diff --git a/meta/recipes-support/vte/vte_0.28.2.bb b/meta/recipes-support/vte/vte_0.28.2.bb
-deleted file mode 100644
-index 74087ca..0000000
---- a/meta/recipes-support/vte/vte_0.28.2.bb
-+++ /dev/null
-@@ -1,16 +0,0 @@
--require vte.inc
--
--LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
--
--PR = "r6"
--
--SRC_URI += "file://obsolete_automake_macros.patch \
--            file://cve-2012-2738.patch \
--           "
--
--CFLAGS += "-D_GNU_SOURCE"
--
--SRC_URI[archive.md5sum] = "497f26e457308649e6ece32b3bb142ff"
--SRC_URI[archive.sha256sum] = "86cf0b81aa023fa93ed415653d51c96767f20b2d7334c893caba71e42654b0ae"
--
--RECIPE_NO_UPDATE_REASON = "matchbox-terminal needs to be ported over to new vte first"
-diff --git a/meta/recipes-support/vte/vte_0.44.1.bb b/meta/recipes-support/vte/vte_0.44.1.bb
+diff --git a/meta/recipes-connectivity/connman/connman-gnome/0001-Port-to-Gtk3.patch b/meta/recipes-connectivity/connman/connman-gnome/0001-Port-to-Gtk3.patch
 new file mode 100644
-index 0000000..c79c6a8
+index 0000000..c93e9b4
 --- /dev/null
-+++ b/meta/recipes-support/vte/vte_0.44.1.bb
-@@ -0,0 +1,18 @@
-+SUMMARY = "Virtual terminal emulator GTK+ widget library"
-+BUGTRACKER = "https://bugzilla.gnome.org/buglist.cgi?product=vte"
-+LICENSE = "LGPLv2.1+"
-+DEPENDS = "glib-2.0 gtk+3 intltool-native"
++++ b/meta/recipes-connectivity/connman/connman-gnome/0001-Port-to-Gtk3.patch
+@@ -0,0 +1,277 @@
++From a59b0fac02e74a971ac3f08bf28c17ce361a9526 Mon Sep 17 00:00:00 2001
++From: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Date: Wed, 2 Mar 2016 15:47:49 +0200
++Subject: [PATCH] Port to Gtk3
 +
-+LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
-+SRC_URI[archive.md5sum] = "20916d97a5902657e54307cc2757beee"
-+SRC_URI[archive.sha256sum] = "712dd548339f600fd7e221d12b2670a13a4361b2cd23ba0e057e76cc19fe5d4e"
++Some unused (or not useful) code was removed, functionality should stay
++the same.
 +
-+inherit gnomebase gtk-doc distro_features_check upstream-version-is-even vala gobject-introspection
++Code still contains quite a few uses of deprecated API.
++
++Upstream-Status: Submitted
++Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++---
++ applet/agent.c        |  3 +--
++ applet/main.c         | 43 -------------------------------------------
++ applet/status.c       |  8 --------
++ configure.ac          |  3 +--
++ properties/ethernet.c | 14 +++++++-------
++ properties/main.c     |  2 +-
++ properties/wifi.c     | 12 ++++++------
++ 7 files changed, 16 insertions(+), 69 deletions(-)
++
++diff --git a/applet/agent.c b/applet/agent.c
++index 65bed08..04fe86a 100644
++--- a/applet/agent.c
+++++ b/applet/agent.c
++@@ -126,7 +126,6 @@ static void request_input_dialog(GHashTable *request,
++ 	gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);
++ 	gtk_window_set_keep_above(GTK_WINDOW(dialog), TRUE);
++ 	gtk_window_set_urgency_hint(GTK_WINDOW(dialog), TRUE);
++-	gtk_dialog_set_has_separator(GTK_DIALOG(dialog), FALSE);
++ 	input->dialog = dialog;
++ 
++ 	gtk_dialog_add_button(GTK_DIALOG(dialog),
++@@ -139,7 +138,7 @@ static void request_input_dialog(GHashTable *request,
++ 	gtk_table_set_row_spacings(GTK_TABLE(table), 4);
++ 	gtk_table_set_col_spacings(GTK_TABLE(table), 20);
++ 	gtk_container_set_border_width(GTK_CONTAINER(table), 12);
++-	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox), table);
+++	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area (GTK_DIALOG(dialog))), table);
++ 
++ 	label = gtk_label_new(_("Please provide some network information:"));
++ 	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
++diff --git a/applet/main.c b/applet/main.c
++index f12d371..cd16285 100644
++--- a/applet/main.c
+++++ b/applet/main.c
++@@ -157,46 +157,6 @@ static void name_owner_changed(DBusGProxy *proxy, const char *name,
++ 	}
++ }
++ 
++-static void open_uri(GtkWindow *parent, const char *uri)
++-{
++-	GtkWidget *dialog;
++-	GdkScreen *screen;
++-	GError *error = NULL;
++-	gchar *cmdline;
++-
++-	screen = gtk_window_get_screen(parent);
++-
++-	cmdline = g_strconcat("xdg-open ", uri, NULL);
++-
++-	if (gdk_spawn_command_line_on_screen(screen,
++-				cmdline, &error) == FALSE) {
++-		dialog = gtk_message_dialog_new(parent,
++-				GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR,
++-				GTK_BUTTONS_CLOSE, "%s", error->message);
++-		gtk_dialog_run(GTK_DIALOG(dialog));
++-		gtk_widget_destroy(dialog);
++-		g_error_free(error);
++-	}
++-
++-	g_free(cmdline);
++-}
++-
++-static void about_url_hook(GtkAboutDialog *dialog,
++-				const gchar *url, gpointer data)
++-{
++-	open_uri(GTK_WINDOW(dialog), url);
++-}
++-
++-static void about_email_hook(GtkAboutDialog *dialog,
++-				const gchar *email, gpointer data)
++-{
++-	gchar *uri;
++-
++-	uri = g_strconcat("mailto:", email, NULL);
++-	open_uri(GTK_WINDOW(dialog), uri);
++-	g_free(uri);
++-}
++-
++ static void about_callback(GtkWidget *item, gpointer user_data)
++ {
++ 	const gchar *authors[] = {
++@@ -204,9 +164,6 @@ static void about_callback(GtkWidget *item, gpointer user_data)
++ 		NULL
++ 	};
++ 
++-	gtk_about_dialog_set_url_hook(about_url_hook, NULL, NULL);
++-	gtk_about_dialog_set_email_hook(about_email_hook, NULL, NULL);
++-
++ 	gtk_show_about_dialog(NULL, "version", VERSION,
++ 			"copyright", "Copyright \xc2\xa9 2008 Intel Corporation",
++ 			"comments", _("A connection manager for the GNOME desktop"),
++diff --git a/applet/status.c b/applet/status.c
++index aed6f1e..015ff29 100644
++--- a/applet/status.c
+++++ b/applet/status.c
++@@ -102,8 +102,6 @@ static void icon_animation_start(IconAnimation *animation,
++ {
++ 	available = TRUE;
++ 
++-	gtk_status_icon_set_tooltip(statusicon, NULL);
++-
++ 	animation->start = start;
++ 	animation->end = (end == 0) ? animation->count - 1 : end;
++ 
++@@ -120,8 +118,6 @@ static void icon_animation_stop(IconAnimation *animation)
++ {
++ 	available = TRUE;
++ 
++-	gtk_status_icon_set_tooltip(statusicon, NULL);
++-
++ 	if (animation->id > 0)
++ 		g_source_remove(animation->id);
++ 
++@@ -251,8 +247,6 @@ void status_unavailable(void)
++ 	available = FALSE;
++ 
++ 	gtk_status_icon_set_from_pixbuf(statusicon, pixbuf_notifier);
++-	gtk_status_icon_set_tooltip(statusicon,
++-				"Connection Manager daemon is not running");
++ 
++ 	gtk_status_icon_set_visible(statusicon, TRUE);
++ }
++@@ -299,7 +293,6 @@ static void set_ready(gint signal)
++ 
++ 	if (signal < 0) {
++ 		gtk_status_icon_set_from_pixbuf(statusicon, pixbuf_wired);
++-		gtk_status_icon_set_tooltip(statusicon, NULL);
++ 		return;
++ 	}
++ 
++@@ -311,7 +304,6 @@ static void set_ready(gint signal)
++ 		index = 4;
++ 
++ 	gtk_status_icon_set_from_pixbuf(statusicon, pixbuf_signal[index]);
++-	gtk_status_icon_set_tooltip(statusicon, NULL);
++ }
++ 
++ struct timeout_data {
++diff --git a/configure.ac b/configure.ac
++index b972e07..a4dad5d 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -55,8 +55,7 @@ AC_SUBST(DBUS_LIBS)
++ DBUS_BINDING_TOOL="dbus-binding-tool"
++ AC_SUBST(DBUS_BINDING_TOOL)
++ 
++-PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.8, dummy=yes,
++-				AC_MSG_ERROR(gtk+ >= 2.8 is required))
+++PKG_CHECK_MODULES(GTK, gtk+-3.0)
++ AC_SUBST(GTK_CFLAGS)
++ AC_SUBST(GTK_LIBS)
++ 
++diff --git a/properties/ethernet.c b/properties/ethernet.c
++index 31db7a0..0b6b423 100644
++--- a/properties/ethernet.c
+++++ b/properties/ethernet.c
++@@ -82,7 +82,7 @@ void add_ethernet_switch_button(GtkWidget *mainbox, GtkTreeIter *iter,
++ 	gtk_container_set_border_width(GTK_CONTAINER(vbox), 24);
++ 	gtk_box_pack_start(GTK_BOX(mainbox), vbox, FALSE, FALSE, 0);
++ 
++-	table = gtk_table_new(1, 1, TRUE);
+++	table = gtk_table_new(1, 1, FALSE);
++ 	gtk_table_set_row_spacings(GTK_TABLE(table), 10);
++ 	gtk_table_set_col_spacings(GTK_TABLE(table), 10);
++ 	gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
++@@ -136,7 +136,7 @@ void add_ethernet_service(GtkWidget *mainbox, GtkTreeIter *iter, struct config_d
++ 	gtk_container_set_border_width(GTK_CONTAINER(vbox), 24);
++ 	gtk_box_pack_start(GTK_BOX(mainbox), vbox, FALSE, FALSE, 0);
++ 
++-	table = gtk_table_new(5, 5, TRUE);
+++	table = gtk_table_new(5, 5, FALSE);
++ 	gtk_table_set_row_spacings(GTK_TABLE(table), 10);
++ 	gtk_table_set_col_spacings(GTK_TABLE(table), 10);
++ 	gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
++@@ -144,9 +144,9 @@ void add_ethernet_service(GtkWidget *mainbox, GtkTreeIter *iter, struct config_d
++ 	label = gtk_label_new(_("Configuration:"));
++ 	gtk_table_attach_defaults(GTK_TABLE(table), label, 1, 2, 0, 1);
++ 
++-	combo = gtk_combo_box_new_text();
++-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "DHCP");
++-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "MANUAL");
+++	combo = gtk_combo_box_text_new();
+++	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), "DHCP");
+++	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), "MANUAL");
++ 	gtk_combo_box_set_row_separator_func(GTK_COMBO_BOX(combo),
++ 					separator_function, NULL, NULL);
++ 	gtk_table_attach_defaults(GTK_TABLE(table), combo, 2, 4, 0, 1);
++@@ -219,7 +219,7 @@ void update_ethernet_ipv4(struct config_data *data, guint policy)
++ 	case CONNMAN_POLICY_DHCP:
++ 		gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
++ 		for (i = 0; i < 3; i++) {
++-			gtk_entry_set_editable(GTK_ENTRY(entry[i]), 0);
+++			gtk_editable_set_editable(GTK_EDITABLE(entry[i]), 0);
++ 			gtk_widget_set_sensitive(entry[i], 0);
++ 			gtk_entry_set_text(GTK_ENTRY(entry[i]), _(""));
++ 		}
++@@ -227,7 +227,7 @@ void update_ethernet_ipv4(struct config_data *data, guint policy)
++ 	case CONNMAN_POLICY_MANUAL:
++ 		gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 1);
++ 		for (i = 0; i < 3; i++) {
++-			gtk_entry_set_editable(GTK_ENTRY(entry[i]), 1);
+++			gtk_editable_set_editable(GTK_EDITABLE(entry[i]), 1);
++ 			gtk_widget_set_sensitive(entry[i], 1);
++ 		}
++ 		break;
++diff --git a/properties/main.c b/properties/main.c
++index c05f443..6f76361 100644
++--- a/properties/main.c
+++++ b/properties/main.c
++@@ -429,7 +429,7 @@ static GtkWidget *create_interfaces(GtkWidget *window)
++ 
++ 	scrolled = gtk_scrolled_window_new(NULL, NULL);
++ 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
++-				GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+++				GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
++ 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled),
++ 							GTK_SHADOW_OUT);
++ 	gtk_box_pack_start(GTK_BOX(hbox), scrolled, FALSE, TRUE, 0);
++diff --git a/properties/wifi.c b/properties/wifi.c
++index bd325ef..a5827e0 100644
++--- a/properties/wifi.c
+++++ b/properties/wifi.c
++@@ -125,7 +125,7 @@ void add_wifi_switch_button(GtkWidget *mainbox, GtkTreeIter *iter,
++ 	gtk_container_set_border_width(GTK_CONTAINER(vbox), 24);
++ 	gtk_box_pack_start(GTK_BOX(mainbox), vbox, FALSE, FALSE, 0);
++ 
++-	table = gtk_table_new(1, 1, TRUE);
+++	table = gtk_table_new(1, 1, FALSE);
++ 	gtk_table_set_row_spacings(GTK_TABLE(table), 10);
++ 	gtk_table_set_col_spacings(GTK_TABLE(table), 10);
++ 	gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
++@@ -185,9 +185,9 @@ static void wifi_ipconfig(GtkWidget *table, struct config_data *data, GtkTreeIte
++ 	gtk_table_attach_defaults(GTK_TABLE(table), label, 1, 2, 3, 4);
++ 	data->ipv4.label[0] = label;
++ 
++-	combo = gtk_combo_box_new_text();
++-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "DHCP");
++-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "Manual");
+++	combo = gtk_combo_box_text_new();
+++	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), "DHCP");
+++	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), "Manual");
++ 
++ 	gtk_combo_box_set_row_separator_func(GTK_COMBO_BOX(combo),
++ 			separator_function, NULL, NULL);
++@@ -335,14 +335,14 @@ void update_wifi_ipv4(struct config_data *data, guint policy)
++ 	case CONNMAN_POLICY_DHCP:
++ 		gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
++ 		for (i = 0; i < 3; i++) {
++-			gtk_entry_set_editable(GTK_ENTRY(entry[i]), 0);
+++			gtk_editable_set_editable(GTK_EDITABLE(entry[i]), 0);
++ 			gtk_widget_set_sensitive(entry[i], 0);
++ 		}
++ 		break;
++ 	case CONNMAN_POLICY_MANUAL:
++ 		gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 1);
++ 		for (i = 0; i < 3; i++) {
++-			gtk_entry_set_editable(GTK_ENTRY(entry[i]), 1);
+++			gtk_editable_set_editable(GTK_EDITABLE(entry[i]), 1);
++ 			gtk_widget_set_sensitive(entry[i], 1);
++ 		}
++ 		break;
++-- 
++2.8.1
++
+diff --git a/meta/recipes-connectivity/connman/connman-gnome_0.7.bb b/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
+index 43e276c..a56bd37 100644
+--- a/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
++++ b/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
+@@ -21,7 +21,7 @@ SRC_URI = "git://github.com/connectivity/connman-gnome.git \
+ S = "${WORKDIR}/git"
+ 
+ inherit autotools-brokensep gtk-icon-cache pkgconfig distro_features_check
+-ANY_OF_DISTRO_FEATURES = "${GTK2DISTROFEATURES}"
 +ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
-+
-+PACKAGECONFIG[gnutls] = "--with-gnutls,--without-gnutls,gnutls"
-+
-+CFLAGS += "-D_GNU_SOURCE"
-+
-+PACKAGES =+ "libvte"
-+FILES_libvte = "${libdir}/*.so.*"
+ 
+ RDEPENDS_${PN} = "connman"
+ 
 -- 
 2.1.4
 
