@@ -1,24 +1,24 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 63E91771D6
+	by mail.openembedded.org (Postfix) with ESMTP id 91245771D7
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  7 Jun 2016 08:48:47 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
 	by fmsmga101.fm.intel.com with ESMTP; 07 Jun 2016 01:48:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,432,1459839600"; d="scan'208";a="823174740"
+X-IronPort-AV: E=Sophos;i="5.26,432,1459839600"; d="scan'208";a="823174751"
 Received: from theory.fi.intel.com ([10.237.72.196])
-	by orsmga003.jf.intel.com with ESMTP; 07 Jun 2016 01:48:42 -0700
+	by orsmga003.jf.intel.com with ESMTP; 07 Jun 2016 01:48:45 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 Jun 2016 11:47:50 +0300
-Message-Id: <7c411414412cb766d0f2f01ec7d84800e13578ab.1465288175.git.jussi.kukkonen@intel.com>
+Date: Tue,  7 Jun 2016 11:47:53 +0300
+Message-Id: <16b3fdcf2a42cd192b40e60858ddddbe9e655c92.1465288175.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <7e2909e70b87ffcf2c752bd6ac326ef256bdc1b2.1465288175.git.jussi.kukkonen@intel.com>
 References: <7e2909e70b87ffcf2c752bd6ac326ef256bdc1b2.1465288175.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1465288174.git.jussi.kukkonen@intel.com>
 References: <cover.1465288174.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 32/37] matchbox-session-sato: Update session startup
+Subject: [PATCH 35/37] gtk-sato-engine: Remove as unused
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,108 +33,65 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 07 Jun 2016 08:48:49 -0000
 
-* Use Adwaita Gtk+ theme
-* sato-gtk-engine is no longer needed with Adwaita
-* GTK_CSD tricks are no longer needed since the panel
-  does not draw on top windows
-* Add meta-theme index file: it used to be provided by gtk-sato-engine
-  and is used by matchbox-config-gtk only (to be able to show a single
-  selection for Gtk+, icon and Matchbox themes). This is a more
-  logical place for it.
-* Set matchbox-theme gconf key (just to be explicit, this is the
-  default already)
-
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- .../matchbox-sato/matchbox-session-sato/index.theme           |  7 +++++++
- meta/recipes-sato/matchbox-sato/matchbox-session-sato/session |  9 ++-------
- meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb  | 11 ++++++++---
- 3 files changed, 17 insertions(+), 10 deletions(-)
- create mode 100644 meta/recipes-sato/matchbox-sato/matchbox-session-sato/index.theme
+ meta/recipes-sato/gtk-engines/gtk-sato-engine.inc  | 25 ----------------------
+ .../gtk-engines/gtk-sato-engine_git.bb             | 14 ------------
+ 2 files changed, 39 deletions(-)
+ delete mode 100644 meta/recipes-sato/gtk-engines/gtk-sato-engine.inc
+ delete mode 100644 meta/recipes-sato/gtk-engines/gtk-sato-engine_git.bb
 
-diff --git a/meta/recipes-sato/matchbox-sato/matchbox-session-sato/index.theme b/meta/recipes-sato/matchbox-sato/matchbox-session-sato/index.theme
-new file mode 100644
-index 0000000..c9260cf
---- /dev/null
-+++ b/meta/recipes-sato/matchbox-sato/matchbox-session-sato/index.theme
-@@ -0,0 +1,7 @@
-+[X-GNOME-Metatheme]
-+Encoding=UTF-8
-+Type=X-GNOME-Metatheme
-+Name=Sato
-+GtkTheme=Adwaita
-+IconTheme=Sato
-+MatchboxTheme=Sato
-diff --git a/meta/recipes-sato/matchbox-sato/matchbox-session-sato/session b/meta/recipes-sato/matchbox-sato/matchbox-session-sato/session
-index 42ce483..f6313bd 100644
---- a/meta/recipes-sato/matchbox-sato/matchbox-session-sato/session
-+++ b/meta/recipes-sato/matchbox-sato/matchbox-session-sato/session
-@@ -14,11 +14,6 @@ else
-     KEYBOARD_APPLET="keyboard"
- fi
- 
--# Tell GTK+3 we really want server side decorations, even with
--# GtkHeaderBar using applications: Without that mb-panel will render
--# on top of the client side decorations.
--export GTK_CSD=0
+diff --git a/meta/recipes-sato/gtk-engines/gtk-sato-engine.inc b/meta/recipes-sato/gtk-engines/gtk-sato-engine.inc
+deleted file mode 100644
+index 93538ed..0000000
+--- a/meta/recipes-sato/gtk-engines/gtk-sato-engine.inc
++++ /dev/null
+@@ -1,25 +0,0 @@
+-SUMMARY = "Sato theme engine for GTK+"
+-HOMEPAGE = "http://www.o-hand.com"
+-BUGTRACKER = "http://bugzilla.yoctoproject.org/"
 -
- matchbox-desktop &
- 
- # Lines containing feature-[foo] are removed at build time if the machine
-@@ -28,6 +23,6 @@ START_APPLETS=showdesktop,windowselector
- END_APPLETS=clock,battery,$KEYBOARD_APPLET,systray,startup-notify,notify
- END_APPLETS=openmoko-panel-gsm,$END_APPLETS # feature-phone
- 
--matchbox-panel --titlebar --start-applets $START_APPLETS --end-applets $END_APPLETS &
-+matchbox-panel --start-applets $START_APPLETS --end-applets $END_APPLETS &
- 
--exec matchbox-window-manager -theme Sato -use_desktop_mode decorated -use_cursor $SHOWCURSOR $@
-+exec matchbox-window-manager -theme Sato -use_cursor $SHOWCURSOR $@
-diff --git a/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb b/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
-index 76de18a..fb4750b 100644
---- a/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
-+++ b/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://session;endline=3;md5=f8a5c5b9c279e52dc094d10e11c2be6
- 
- SECTION = "x11"
- DEPENDS = "gconf-native"
--RDEPENDS_${PN} = "formfactor gtk-sato-engine matchbox-theme-sato gtk-theme-sato matchbox-panel-2 matchbox-desktop-sato matchbox-session gconf"
-+RDEPENDS_${PN} = "formfactor matchbox-theme-sato matchbox-panel-2 matchbox-desktop-sato matchbox-session gconf"
- PR = "r30"
- 
- # This package is architecture specific because the session script is modified
-@@ -19,9 +19,12 @@ inherit distro_features_check
- # The matchbox-theme-sato requires x11 in DISTRO_FEATURES
- REQUIRED_DISTRO_FEATURES = "x11"
- 
--SRC_URI = "file://session"
-+SRC_URI = "file://session \
-+           file://index.theme"
- S = "${WORKDIR}"
- 
-+FILES_${PN} += "${datadir}/themes/Sato/index.theme"
-+
- do_install() {
- 	# This is the set of machine features that the script has markers for
- 	FEATURES="phone"
-@@ -34,6 +37,7 @@ do_install() {
- 		fi
- 	done
- 
-+	install -D ${S}/index.theme ${D}/${datadir}/themes/Sato/index.theme
- 	install -d ${D}/${sysconfdir}/matchbox
- 	sed -f "$SCRIPT" ${S}/session > ${D}/${sysconfdir}/matchbox/session
-         chmod +x ${D}/${sysconfdir}/matchbox/session
-@@ -44,7 +48,8 @@ pkg_postinst_${PN} () {
- 		#type, name, value
- 		gconftool-2 --config-source=xml::$D${sysconfdir}/gconf/gconf.xml.defaults --direct --type $1 --set /desktop/poky/interface/$2 "$3"
- 	}
--	set_value string theme Sato
-+	set_value string theme Adwaita
-+	set_value string matchbox_theme Sato
- 	set_value string icon_theme Sato
- 	set_value bool touchscreen true
- 	set_value string font_name "Sans 9"
+-LICENSE = "LGPLv2.1 & LGPLv2+"
+-
+-SECTION = "x11/base"
+-DEPENDS = "gtk+"
+-RDEPENDS_gtk-theme-sato = "gtk-sato-engine"
+-
+-inherit distro_features_check
+-ANY_OF_DISTRO_FEATURES = "${GTK2DISTROFEATURES}"
+-
+-PACKAGES += "gtk-theme-sato"
+-FILES_${PN} = "${libdir}/gtk-2.0/*/engines/*.so "
+-FILES_${PN}-dev = "${libdir}/gtk-2.0/*/engines/*.la"
+-FILES_gtk-theme-sato = "${datadir}/icons ${datadir}/themes"
+-
+-inherit autotools-brokensep pkgconfig
+-
+-do_configure_prepend() {
+-	for i in `ls gtk-common`; do
+-		ln -sf ../gtk-common/$i gtk2-engine/$i
+-	done
+-}
+diff --git a/meta/recipes-sato/gtk-engines/gtk-sato-engine_git.bb b/meta/recipes-sato/gtk-engines/gtk-sato-engine_git.bb
+deleted file mode 100644
+index da4d98a..0000000
+--- a/meta/recipes-sato/gtk-engines/gtk-sato-engine_git.bb
++++ /dev/null
+@@ -1,14 +0,0 @@
+-require gtk-sato-engine.inc
+-
+-LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
+-                    file://src/sato-utils.h;endline=24;md5=708f28cfe7fe028d497aaf4389b80b62 \
+-                    file://src/sato-main.c;endline=24;md5=b5e5dddebca570275becb51b526e4c5a"
+-
+-SRCREV = "4740ad8d53aba4368ce3e03b06cfdc69eb86dcdc"
+-PV = "0.3.3+git${SRCPV}"
+-
+-SRC_URI = "git://git.yoctoproject.org/${BPN}"
+-
+-S = "${WORKDIR}/git"
+-
+-EXTRA_OECONF += "${@bb.utils.contains('MACHINE_FEATURES', 'qvga', '--with-mode=qvga', '',d)}"
 -- 
 2.1.4
 
