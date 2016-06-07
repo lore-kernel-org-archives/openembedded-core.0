@@ -1,80 +1,27 @@
-Return-Path: <alistair.francis@xilinx.com>
-X-Greylist: delayed 949 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 07 Jun 2016 18:49:33 UTC
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
-	(mail-sn1nam02on0062.outbound.protection.outlook.com [104.47.36.62])
-	by mail.openembedded.org (Postfix) with ESMTP id 18BB86FF23
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id D2657731D2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Jun 2016 18:49:33 +0000 (UTC)
-Received: from SN1NAM02FT035.eop-nam02.prod.protection.outlook.com
-	(10.152.72.58) by SN1NAM02HT111.eop-nam02.prod.protection.outlook.com
-	(10.152.73.52) with Microsoft SMTP Server (TLS) id 15.1.497.8;
-	Tue, 7 Jun 2016 18:33:44 +0000
-Authentication-Results: spf=fail (sender IP is 149.199.60.96)
-	smtp.mailfrom=xilinx.com; gmail.com; dkim=none (message not signed)
-	header.d=none; gmail.com; dmarc=none action=none header.from=xilinx.com;
-Received-SPF: Fail (protection.outlook.com: domain of xilinx.com does not
-	designate 149.199.60.96 as permitted sender)
-	receiver=protection.outlook.com; 
-	client-ip=149.199.60.96; helo=xsj-tvapsmtpgw01;
-Received: from xsj-tvapsmtpgw01 (149.199.60.96) by
-	SN1NAM02FT035.mail.protection.outlook.com (10.152.72.145) with
-	Microsoft SMTP Server (TLS) id 15.1.497.8 via Frontend Transport;
-	Tue, 7 Jun 2016 18:33:44 +0000
-Received: from 172-16-1-203.xilinx.com ([172.16.1.203]:56628
-	helo=xsj-tvapsmtp02.xilinx.com)
-	by xsj-tvapsmtpgw01 with esmtp (Exim 4.63)
-	(envelope-from <alistair.francis@xilinx.com>)
-	id 1bALot-0005JE-Ga; Tue, 07 Jun 2016 11:33:43 -0700
-Received: from [127.0.0.1] (port=37235 helo=tsj-smtp-dlp1.xlnx.xilinx.com)
-	by xsj-tvapsmtp02.xilinx.com with esmtp (Exim 4.63)
-	(envelope-from <alistair.francis@xilinx.com>)
-	id 1bALot-0001Ps-C0; Tue, 07 Jun 2016 11:33:43 -0700
-Received: from xsj-tvapsmtp02 (smtptest.xilinx.com [172.16.1.203])
-	by tsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id
-	u57IRHbh019770; Tue, 7 Jun 2016 11:27:17 -0700
-Received: from [172.19.74.182] (port=35084 helo=xsjalistai50.xilinx.com)
-	by xsj-tvapsmtp02 with esmtp (Exim 4.63)
-	(envelope-from <alistair.francis@xilinx.com>)
-	id 1bALos-0001Pp-BU; Tue, 07 Jun 2016 11:33:42 -0700
-From: Alistair Francis <alistair.francis@xilinx.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 7 Jun 2016 11:33:37 -0700
-Message-ID: <1465324417-4421-1-git-send-email-alistair.francis@xilinx.com>
-X-Mailer: git-send-email 2.7.4
-X-RCIS-Action: ALLOW
-X-TM-AS-MML: disable
-X-TM-AS-Product-Ver: IMSS-7.1.0.1679-8.0.0.1202-22376.005
-X-TM-AS-Result: No--7.475-7.0-31-10
-X-imss-scan-details: No--7.475-7.0-31-10
-X-TMASE-MatchedRID: HTYSRpF5WrSS4DzS2ivoRbCvlllU7Dl1FKliqHKCaOlcU0dNErOD+izy
-	bVqWyY2N9ypTh0ieeukJ6YyG1PaEahnY2g+sHKWUyeVujmXuYYUfbG+50hrCQ2HZ+cd7VyKXU8S
-	+/fFbuZNlOlHOYjWNJsryHmYBFZ7RdJA2e9q2V6fEgr2xSHtUG30tCKdnhB589yM15V5aWpj6C0
-	ePs7A07fyjtizU0rhjLlaUAUEIR35JAbPJpxvCm4toMxYZ6Zk/7LztVmZEw20=
-X-EOPAttributedMessage: 0
-X-Forefront-Antispam-Report: CIP:149.199.60.96; IPV:NLI; CTRY:US; EFV:NLI;
-	SFV:NSPM;
-	SFS:(10009020)(6009001)(2980300002)(1109001)(1110001)(339900001)(189002)(199003)(81156014)(9786002)(19580395003)(50986999)(81166006)(19580405001)(107886002)(189998001)(8676002)(106466001)(92566002)(85426001)(8936002)(105606002)(71366001)(2351001)(110136002)(229853001)(33646002)(4001430100002)(586003)(50226002)(6806005)(64026002)(11100500001)(5003600100002)(5003940100001)(2906002)(48376002)(86362001)(4326007)(5008740100001)(87936001)(50466002)(77096005)(47776003)(36756003)(107986001);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:SN1NAM02HT111; H:xsj-tvapsmtpgw01;
-	FPR:; SPF:Fail; PTR:unknown-60-96.xilinx.com; MX:1; A:1; LANG:en;
-MIME-Version: 1.0
-X-MS-Office365-Filtering-Correlation-Id: 4f6d9f27-42ff-48bc-9142-08d38f0241ca
-X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:SN1NAM02HT111;
-X-Microsoft-Antispam-PRVS: <b615f7dd91e24f9d85d551e9836d655a@SN1NAM02HT111.eop-nam02.prod.protection.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:(192813158149592);
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(601004)(2401047)(13015025)(13018025)(5005006)(13017025)(8121501046)(13023025)(13024025)(10201501046)(3002001)(6055026);
-	SRVR:SN1NAM02HT111; BCL:0; PCL:0; RULEID:; SRVR:SN1NAM02HT111; 
-X-Forefront-PRVS: 09669DB681
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2016 18:33:44.3685 (UTC)
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;
-	Ip=[149.199.60.96]; Helo=[xsj-tvapsmtpgw01]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1NAM02HT111
-Cc: star@gmx.li
-Subject: [PATCH] runqemu-internal: Update the qemuzynq boot options
+	Tue,  7 Jun 2016 20:48:33 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP; 07 Jun 2016 13:48:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,435,1459839600"; 
+	d="scan'208,217";a="970899073"
+Received: from jlock-mobl2.ger.corp.intel.com ([10.252.25.208])
+	by orsmga001.jf.intel.com with ESMTP; 07 Jun 2016 13:48:32 -0700
+Message-ID: <1465332511.3458.33.camel@linux.intel.com>
+From: Joshua G Lock <joshua.g.lock@linux.intel.com>
+To: Christopher Larson <clarson@kergoth.com>
+Date: Tue, 07 Jun 2016 21:48:31 +0100
+In-Reply-To: <CABcZANks5WFAtXnvwpgGPp+Uyy2d7Z1VUNoxx6J=wfHFO0Brag@mail.gmail.com>
+References: <1465311037-17658-1-git-send-email-joshua.g.lock@intel.com>
+	<CABcZANks5WFAtXnvwpgGPp+Uyy2d7Z1VUNoxx6J=wfHFO0Brag@mail.gmail.com>
+X-Mailer: Evolution 3.20.2 (3.20.2-1.fc24) 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] image: add mechanism to run QA checks on the image once it's built
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -87,34 +34,186 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jun 2016 18:49:34 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 07 Jun 2016 20:48:34 -0000
+Content-Type: multipart/alternative; boundary="=-gAIAq+M2ayIUiYBn8TfW"
 
-The current qemuzynq options were causing QEMU to exit instead of
-booting as the QEMU Zynq-7000 machine does not have virtio or
-display devices.
+--=-gAIAq+M2ayIUiYBn8TfW
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Alistair Francis <alistair.francis@xilinx.com>
-Reported-by: Arno <star@gmx.li>
----
- scripts/runqemu-internal | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On Tue, 2016-06-07 at 08:48 -0700, Christopher Larson wrote:
+On Tue, Jun 7, 2016 at 7:50 AM, Joshua Lock <joshua.g.lock@intel.com>
+wrote:
+> Add a mechanism to run QA checks on a constructed image once it's> 
 
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index ac1c703..9cc30d4 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -489,7 +489,8 @@ config_qemush4() {
- config_qemuzynq() {
-     set_mem_size 1024
-     QEMU=qemu-system-arm
--    QEMU_SYSTEM_OPTIONS="$QEMU_NETWORK_CMD -M xilinx-zynq-a9 -serial null -serial mon:stdio -dtb $KERNEL-$MACHINE.dtb"
-+    QEMU_NETWORK_CMD="-net nic -net nic $QEMU_TAP_CMD"
-+    QEMU_SYSTEM_OPTIONS="$QEMU_NETWORK_CMD -M xilinx-zynq-a9 -serial null -serial mon:stdio -nographic -dtb $KERNEL-$MACHINE.dtb"
-     # zynq serial ports are named 'ttyPS0' and 'ttyPS1', fixup the default values
-     SCRIPT_KERNEL_OPT=$(echo "$SCRIPT_KERNEL_OPT" | sed 's/console=ttyS/console=ttyPS/g')
-     if [ "${FSTYPE:0:3}" = "ext" -o "${FSTYPE:0:4}" = "cpio" ]; then
--- 
-2.7.4
+> complete. All checks will be run with any one failure resulting in> 
 
+> a failed build.> 
+> 
+> 
 
+> QA checks should be > bitbake>  functions which throw a> 
+
+> NotImplementedError when the check QA fails, with any error> 
+
+> messages passed to the exception.> 
+> 
+> 
+
+> Specify which checks to run by adding them to IMAGE_QA_COMMANDS.> 
+> 
+> 
+
+> i.e.> 
+> 
+> 
+
+> IMAGE_QA_COMMANDS += " \> 
+
+>     image_check_everything_ok \> 
+
+> "> 
+> 
+> 
+
+> python image_check_everything_ok () {> 
+
+>     raise NotImplementedError('This check always fails')> 
+
+> }> 
+> 
+> 
+
+> This code is based heavily on the configuration upgrade code in> 
+
+> sanity.> bbclass> .> 
+> 
+> 
+
+> [YOCTO #9448]> 
+> 
+> 
+
+> Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
+
+> > Add a mechanism to run QA checks on a constructed image once it's
+> > complete. All checks will be run with any one failure resulting in
+> > a failed build.
+> > 
+> > QA checks should be bitbake functions which throw a
+> > NotImplementedError when the check QA fails, with any error
+> > messages passed to the exception.
+> > 
+> > Specify which checks to run by adding them to IMAGE_QA_COMMANDS.
+> > 
+> > i.e.
+> > 
+> > IMAGE_QA_COMMANDS += " \
+> >     image_check_everything_ok \
+> > "
+> > 
+> > python image_check_everything_ok () {
+> >     raise NotImplementedError('This check always fails')
+> > }
+> > 
+> > This code is based heavily on the configuration upgrade code in
+> > sanity.bbclass.
+> > 
+> > [YOCTO #9448]
+> > 
+> > Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
+> > 
+> 
+> 
+> What's the behavior if your qa function fails with a different
+> exception? What if a user writes a shell qa check function, what's
+> the behavior? Also, this seems like overloading the purpose of
+> NotImplementedError. IMO It'd be cleaner to either use a custom
+> exception or re-use python unit testing bits / use assert rather than
+> subverting this one to a different purpose.
+> 
+> 
+> 
+> 
+> 
+> What's the behavior if your qa function fails with a different
+> exception? What if a user writes a shell qa check function, what's
+> the behavior? Also, this seems like overloading the purpose of
+> NotImplementedError. IMO It'd be cleaner to either use a custom
+> exception or re-use python unit testing bits / use assert rather than
+> subverting this one to a different purpose.
+> 
+> 
+> 
+Different exceptions to NotImplementedError result in a backtrace… 
+The python exception pattern using NotImplementedError I copied from
+the configuration upgrade code in sanity.bbclass, because I want to
+replicate that same behaviour where the checks are able to pass a
+reason back to the task which calls the check functions.
+Shell functions are a good point, not least of all because I suspect
+many checks could be much more concise with sh.
+I'll go back to the drawing board for a more generic solution that
+supports both sh and python tasks.
+Thanks for the review,
+Joshua
+
+--=-gAIAq+M2ayIUiYBn8TfW
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html><head></head><body><div>On Tue, 2016-06-07 at 08:48 -0700, Christopher Larson wrote:</div><div>On Tue, Jun 7, 2016 at 7:50 AM, Joshua Lock <span dir="ltr">&lt;<a href="mailto:joshua.g.lock@intel.com" target="_blank">joshua.g.lock@intel.com</a>&gt;</span> wrote:<br><blockquote type="cite"><div id=":16q" class="a3s aXjCH m1552b5843d6d0f92">Add a mechanism to run QA checks on a constructed image once it's<br>
+complete. All checks will be run with any one failure resulting in<br>
+a failed build.<br>
+<br>
+QA checks should be <span class="il">bitbake</span> functions which throw a<br>
+NotImplementedError when the check QA fails, with any error<br>
+messages passed to the exception.<br>
+<br>
+Specify which checks to run by adding them to IMAGE_QA_COMMANDS.<br>
+<br>
+i.e.<br>
+<br>
+IMAGE_QA_COMMANDS += " \<br>
+&nbsp; &nbsp; image_check_everything_ok \<br>
+"<br>
+<br>
+python image_check_everything_ok () {<br>
+&nbsp; &nbsp; raise NotImplementedError('This check always fails')<br>
+}<br>
+<br>
+This code is based heavily on the configuration upgrade code in<br>
+sanity.<span class="il">bbclass</span>.<br>
+<br>
+[YOCTO #9448]<br>
+<br>
+Signed-off-by: Joshua Lock &lt;<a href="mailto:joshua.g.lock@intel.com">joshua.g.lock@intel.com</a>&gt;</div><br></blockquote></div><blockquote type="cite"><div dir="ltr"><div class="gmail_extra"><div class="gmail_extra"><div class="gmail_quote"><blockquote type="cite"><div id=":16q" class="a3s aXjCH m1552b5843d6d0f92">Add a mechanism to run QA checks on a constructed image once it's<br>
+complete. All checks will be run with any one failure resulting in<br>
+a failed build.<br>
+<br>
+QA checks should be <span class="il">bitbake</span> functions which throw a<br>
+NotImplementedError when the check QA fails, with any error<br>
+messages passed to the exception.<br>
+<br>
+Specify which checks to run by adding them to IMAGE_QA_COMMANDS.<br>
+<br>
+i.e.<br>
+<br>
+IMAGE_QA_COMMANDS += " \<br>
+&nbsp; &nbsp; image_check_everything_ok \<br>
+"<br>
+<br>
+python image_check_everything_ok () {<br>
+&nbsp; &nbsp; raise NotImplementedError('This check always fails')<br>
+}<br>
+<br>
+This code is based heavily on the configuration upgrade code in<br>
+sanity.<span class="il">bbclass</span>.<br>
+<br>
+[YOCTO #9448]<br>
+<br>
+Signed-off-by: Joshua Lock &lt;<a href="mailto:joshua.g.lock@intel.com">joshua.g.lock@intel.com</a>&gt;</div><br></blockquote></div><br><br><div>What's the behavior if your qa function fails with a different exception? What if a user writes a shell qa check function, what's the behavior? Also, this seems like overloading the purpose of NotImplementedError. IMO It'd be cleaner to either use a custom exception or re-use python unit testing bits / use assert rather than subverting this one to a different purpose.</div><br>
+</div><div><br></div><br><br><div>What's the behavior if your qa function fails with a different exception? What if a user writes a shell qa check function, what's the behavior? Also, this seems like overloading the purpose of NotImplementedError. IMO It'd be cleaner to either use a custom exception or re-use python unit testing bits / use assert rather than subverting this one to a different purpose.</div><br>
+</div></div>
+</blockquote><div><br></div><div>Different exceptions to NotImplementedError result in a backtrace…&nbsp;</div><div><br></div><div>The python exception pattern using NotImplementedError I copied from the configuration upgrade code in sanity.bbclass, because I want to replicate that same behaviour where the checks are able to pass a reason back to the task which calls the check functions.</div><div><br></div><div>Shell functions are a good point, not least of all because I suspect many checks could be much more concise with sh.</div><div><br></div><div>I'll go back to the drawing board for a more generic solution that supports both sh and python tasks.</div><div><br></div><div>Thanks for the review,</div><div><br></div><div>Joshua</div><div><br></div><div><br></div></body></html>
+
+--=-gAIAq+M2ayIUiYBn8TfW--
