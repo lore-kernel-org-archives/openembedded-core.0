@@ -1,23 +1,52 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 4868875D4A
+Return-Path: <alistair23@gmail.com>
+Received: from mail-oi0-f47.google.com (mail-oi0-f47.google.com
+	[209.85.218.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 3FF10770FE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jun 2016 18:33:08 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga102.fm.intel.com with ESMTP; 06 Jun 2016 11:33:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,428,1459839600"; d="scan'208";a="117022796"
-Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
-	([10.54.69.55])
-	by fmsmga004.fm.intel.com with ESMTP; 06 Jun 2016 11:33:07 -0700
-From: mariano.lopez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Jun 2016 10:28:04 +0000
-Message-Id: <af942e00f74bd07807a1aab75e8e387816bcd76b.1465206436.git.mariano.lopez@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-In-Reply-To: <cover.1465206436.git.mariano.lopez@linux.intel.com>
-References: <cover.1465206436.git.mariano.lopez@linux.intel.com>
-Subject: [PATCH 1/1] selftest/testexport.py: Add test test_testexport_basic
+	Tue,  7 Jun 2016 01:06:02 +0000 (UTC)
+Received: by mail-oi0-f47.google.com with SMTP id e72so253490554oib.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 06 Jun 2016 18:06:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=rmXHtGzaBLvPUVGS0nRU9fBn/WuSWuVn6usm5knywg0=;
+	b=PeV+HDfhEecAxb1Q1j8miWdVkU/p6g6TgsPdCfEGsKNzqUA87bedy7qsyW90YYCczO
+	cxYh9zNYPmy6NDICTBcLJ9C4DRNbWgbQB2WuQnpxiwejFVM0nDRe5iQbJ/fZYiLinzCt
+	ecaQp0pte1sL/e6P/jbq/Ktt0TU1ystD3w33SXjXtbo8xEP/7SYrkpsoft7A3AFFPiQZ
+	MlzoNv69YNLKwQ0NyyhSGBgNtVh1pqg5D/WhgBL8DxaMEYVXa16OagiVB7CRqdFizeeG
+	l3asCcBHlx2q/SovD1Ef4g4Nd8MVMQyxTQb5+idmcfNf0iS6i+eSNEcl/kKYnDt1Z46k
+	64uQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=rmXHtGzaBLvPUVGS0nRU9fBn/WuSWuVn6usm5knywg0=;
+	b=Ks9armWuf1UJicJnHUv7pchWqQ8nPX65BxQxn8OIkyAfOsG/7IV9FVIM6yl8Mg8vlh
+	nFJ8HY+fVEIM2lrGc6gTGmIH3rf6qyKOzXWB0wB7RIxGgU9Qi3FNf2AVksGml5ABvHJL
+	CBc4mHn6P9voZpJ0UKbzW7ZS7Lh6e0JjfFDlA7zHqC5HK4EZYaQ3vm+Emn+lfaeEGDPE
+	tcbLdZmxmJtD0MZlhTHv1BOSTjzHF/RJIdnKU7Qbe4uuxO5RoHSvxxSKnjIMOPapI3wS
+	uH4shzPgwUwd8BS94drUS/4MEXj7AHqZ1EvHC7RuXQ2/SEWWFaDCq5vES3p0eu1rxlMr
+	D4Ug==
+X-Gm-Message-State: ALyK8tL/K4m0fzMvQjwlow44VQ2Bh1OTaS/UI9mNJ8LhCS+01JRP7EzUeWAQ4q9ohNWUpC8pdyeBA8ARzeuapA==
+X-Received: by 10.202.0.7 with SMTP id 7mr6841907oia.44.1465261562944; Mon, 06
+	Jun 2016 18:06:02 -0700 (PDT)
+MIME-Version: 1.0
+Sender: alistair23@gmail.com
+Received: by 10.182.98.137 with HTTP; Mon, 6 Jun 2016 18:05:33 -0700 (PDT)
+In-Reply-To: <CAKmqyKPjFjtqhfLx8R=qJDR=_4mrL7ChdLUfOHeGEUofwYTdkA@mail.gmail.com>
+References: <1463089059-10156-1-git-send-email-alistair.francis@xilinx.com>
+	<CAKmqyKPPRF+AvEShiFopGj-WtzM6Hdr48nBanA4TEwdWKq2ZSg@mail.gmail.com>
+	<CAJTo0LYJuy3vJG_nDp_qA_YTRr62FgN5YUzYcWb5=i6WoAv2Ow@mail.gmail.com>
+	<CAKmqyKPw2M0aso8Ti6aChzx_EBDMveOHwkzdiERy-qnQ4jn09w@mail.gmail.com>
+	<CAKmqyKPjFjtqhfLx8R=qJDR=_4mrL7ChdLUfOHeGEUofwYTdkA@mail.gmail.com>
+From: Alistair Francis <alistair.francis@xilinx.com>
+Date: Mon, 6 Jun 2016 18:05:33 -0700
+X-Google-Sender-Auth: bgTRk7ICz7kA2Plkj7RUdxhxURE
+Message-ID: <CAKmqyKNuP9tqQz-GiWaEvp1456KMRQm7ypcHKhtr8OyXgjmQZQ@mail.gmail.com>
+To: Alistair Francis <alistair.francis@xilinx.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v1] runqemu: Add suport for qemuzynqmp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,75 +59,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Jun 2016 18:33:09 -0000
+X-List-Received-Date: Tue, 07 Jun 2016 01:06:04 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+On Mon, May 23, 2016 at 3:09 PM, Alistair Francis
+<alistair.francis@xilinx.com> wrote:
+> On Mon, May 23, 2016 at 2:37 PM, Alistair Francis
+> <alistair.francis@xilinx.com> wrote:
+>> On Sat, May 21, 2016 at 2:33 PM, Burton, Ross <ross.burton@intel.com> wrote:
+>>>
+>>> On 19 May 2016 at 17:40, Alistair Francis <alistair.francis@xilinx.com>
+>>> wrote:
+>>>>
+>>>> On Thu, May 12, 2016 at 2:37 PM, Alistair Francis
+>>>> <alistair.francis@xilinx.com> wrote:
+>>>> > Signed-off-by: Alistair Francis <alistair.francis@xilinx.com>
+>>>>
+>>>> Ping!
+>>>
+>>>
+>>> Sorry meant to reply to this a lot earlier.  There's a RFC from Robert Yang
+>>> which proposes a series of patches to completely rewrite how runqemu works,
+>>
+>> Are you talking about the 'runqemu/runqemu-internal: refactor it' patch series?
+>>
+>> I talked to him about that and I'm happy to help convert the Xilinx
+>> machines to the new method.
+>>
+>>> so the machine-specific knowledge is contained in the BSP itself.  As a BSP
+>>> maintainer who is working on runqemu, would you be able to have a look at
+>>> see if it should solve all of your needs?
+>>
+>> I haven't looked into it too much yet, but I can't see why it wouldn't
+>> work for us.
+>>
+>>>
+>>> (this is now marked for my staging branch too)
+>
+> Just to double check, you mean this patch is in your staging branch right?
 
-Exported tests is not been tested right now and it get
-broken very easily with import errors from bitbake.
+Any updates on the status of this?
 
-This adds a new test in order to verify in the CI if
-the testexport gets broken.
+Thanks,
 
-[YOCTO #8384]
+Alistair
 
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
----
- meta/lib/oeqa/selftest/testexport.py | 44 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 44 insertions(+)
- create mode 100644 meta/lib/oeqa/selftest/testexport.py
-
-diff --git a/meta/lib/oeqa/selftest/testexport.py b/meta/lib/oeqa/selftest/testexport.py
-new file mode 100644
-index 0000000..5823b13
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/testexport.py
-@@ -0,0 +1,44 @@
-+from oeqa.selftest.base import oeSelfTest
-+from oeqa.utils.commands import runCmd, bitbake, get_bb_var, runqemu
-+from oeqa.utils.decorators import testcase
-+import os
-+
-+class TestExport(oeSelfTest):
-+
-+    def test_testexport_basic(self):
-+        """
-+        Summary: Check basic testexport functionality with only ping test enabled.
-+        Expected: 1. testexport directory must be created.
-+                  2. runexported.py must run without any error/exception.
-+                  3. ping test must succeed.
-+        Product: oe-core
-+        Author: Mariano Lopez <mariano.lopez@intel.com>
-+        """
-+
-+        features = 'INHERIT += "testexport"\n'
-+        # These aren't the actual IP addresses but testexport class needs something defined
-+        features += 'TEST_SERVER_IP = "192.168.7.1"\n'
-+        features += 'TEST_TARGET_IP = "192.168.7.1"\n'
-+        features += 'TEST_SUITES = "ping"\n'
-+        self.write_config(features)
-+
-+        # Build tesexport for core-image-minimal
-+        bitbake('core-image-minimal')
-+        bitbake('-c testexport core-image-minimal')
-+
-+        # Verify if TEST_EXPORT_DIR was created
-+        testexport_dir = get_bb_var('TEST_EXPORT_DIR', 'core-image-minimal')
-+        isdir = os.path.isdir(testexport_dir)
-+        self.assertEqual(True, isdir, 'Failed to create testexport dir: %s' % testexport_dir)
-+
-+        with runqemu('core-image-minimal') as qemu:
-+            # Attempt to run runexported.py to perform ping test
-+            runexported_path = os.path.join(testexport_dir, "runexported.py")
-+            testdata_path = os.path.join(testexport_dir, "testdata.json")
-+            cmd = "%s -t %s -s %s %s" % (runexported_path, qemu.ip, qemu.server_ip, testdata_path)
-+            result = runCmd(cmd)
-+            self.assertEqual(0, result.status, 'runexported.py returned a non 0 status')
-+
-+            # Verify ping test was succesful
-+            failure = True if 'FAIL' in result.output else False
-+            self.assertNotEqual(True, failure, 'ping test failed')
--- 
-2.6.6
-
+>
+> Thanks,
+>
+> Alistair
+>
+>>
+>> Thanks!
+>>
+>> Alistair
+>>
+>>>
+>>> Ross
+>>>
+>>> --
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>
 
