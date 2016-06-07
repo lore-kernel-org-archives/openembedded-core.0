@@ -1,35 +1,20 @@
-Return-Path: <contact@jgueytat.fr>
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
-	[217.70.183.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A734731C9
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E865731CA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Jun 2016 14:42:39 +0000 (UTC)
-Received: from mfilter14-d.gandi.net (mfilter14-d.gandi.net [217.70.178.142])
-	by relay2-d.mail.gandi.net (Postfix) with ESMTP id DEF7EC5A81;
-	Tue,  7 Jun 2016 16:42:39 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mfilter14-d.gandi.net
-Received: from relay2-d.mail.gandi.net ([IPv6:::ffff:217.70.183.194])
-	by mfilter14-d.gandi.net (mfilter14-d.gandi.net [::ffff:10.0.15.180])
-	(amavisd-new, port 10024)
-	with ESMTP id T_o5DpIqyECQ; Tue,  7 Jun 2016 16:42:38 +0200 (CEST)
-X-Originating-IP: 77.154.202.6
-Received: from [192.168.43.244] (6.202.154.77.rev.sfr.net [77.154.202.6])
-	(Authenticated sender: contact@jgueytat.fr)
-	by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 8D12AC5A8F;
-	Tue,  7 Jun 2016 16:42:37 +0200 (CEST)
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1464732695-28729-1-git-send-email-contact@jgueytat.fr>
-	<1464732695-28729-2-git-send-email-contact@jgueytat.fr>
-	<CAJTo0LbcSVF9NX2yojP+CgE1=GHwbq1eyRNVyTxN7F19ucb4Rg@mail.gmail.com>
-From: Julien Gueytat <contact@jgueytat.fr>
-Message-ID: <5756DD5C.3020203@jgueytat.fr>
-Date: Tue, 7 Jun 2016 16:42:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.8.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbcSVF9NX2yojP+CgE1=GHwbq1eyRNVyTxN7F19ucb4Rg@mail.gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [yocto] [psplash][PATCH v2 2/2] Add --fbdev option to psplash like --rotation.
+	Tue,  7 Jun 2016 14:50:42 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP; 07 Jun 2016 07:50:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,433,1459839600"; d="scan'208";a="970662493"
+Received: from jlock-mobl2.ger.corp.intel.com ([10.252.25.208])
+	by orsmga001.jf.intel.com with ESMTP; 07 Jun 2016 07:50:41 -0700
+From: Joshua Lock <joshua.g.lock@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  7 Jun 2016 15:50:37 +0100
+Message-Id: <1465311037-17658-1-git-send-email-joshua.g.lock@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] image: add mechanism to run QA checks on the image once it's built
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,102 +27,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jun 2016 14:42:41 -0000
-Content-Type: multipart/alternative;
-	boundary="------------070306090108090003050109"
+X-List-Received-Date: Tue, 07 Jun 2016 14:50:43 -0000
 
---------------070306090108090003050109
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Add a mechanism to run QA checks on a constructed image once it's
+complete. All checks will be run with any one failure resulting in
+a failed build.
 
-The patch for the application of this has been sent previously on 
-openembedded-core@lists.openembedded.org mailing list.
+QA checks should be bitbake functions which throw a
+NotImplementedError when the check QA fails, with any error
+messages passed to the exception.
 
-Mail Subject: [OE-core] [psplash][PATCH] Add --fbdev option to psplash 
-like --rotation.
-Date: 22/05/2016
+Specify which checks to run by adding them to IMAGE_QA_COMMANDS.
 
-Best Regards,
-and have a great day!
+i.e.
+
+IMAGE_QA_COMMANDS += " \
+    image_check_everything_ok \
+"
+
+python image_check_everything_ok () {
+    raise NotImplementedError('This check always fails')
+}
+
+This code is based heavily on the configuration upgrade code in
+sanity.bbclass.
+
+[YOCTO #9448]
+
+Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
+---
+ meta/classes/image.bbclass | 29 +++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
+
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 9f4c83f..40bcd16 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -260,6 +260,35 @@ do_image_complete[dirs] = "${TOPDIR}"
+ do_image_complete[umask] = "022"
+ addtask do_image_complete after do_image before do_build
+ 
++# Add image-level QA/sanity checks to IMAGE_QA_COMMANDS
++#
++# IMAGE_QA_COMMANDS += " \
++#     image_check_everything_ok \
++# "
++# This task runs all functions in IMAGE_QA_COMMANDS after the image
++# construction has completed in order to validate the resulting image.
++# Image sanity checks should raise a NotImplementedError when they fail,
++# passing any failure messages to the Exception. For example:
++#
++#    python image_check_everything_ok () {
++#        raise NotImplementedError('This check always fails')
++#    }
++fakeroot python do_image_qa () {
++    qa_cmds = (d.getVar('IMAGE_QA_COMMANDS', True) or '').split()
++    imageqasane = True
++
++    for cmd in qa_cmds:
++        try:
++            bb.build.exec_func(cmd, d, pythonexception=True)
++        except NotImplementedError as e:
++            imageqasane = False
++            bb.error(str(e))
++
++    if not imageqasane:
++        bb.fatal("QA errors found whilst validating image: %s" % d.getVar('IMAGE_NAME', True))
++}
++addtask do_image_qa after do_image_complete before do_build
++
+ #
+ # Write environment variables used by wic
+ # to tmp/sysroots/<machine>/imgdata/<image>.env
+-- 
+2.7.4
 
 
-Le 05/06/2016 23:15, Burton, Ross a écrit :
->
-> On 31 May 2016 at 23:11, Julien Gueytat <contact@jgueytat.fr 
-> <mailto:contact@jgueytat.fr>> wrote:
->
->     A new fbdev file is needed and should be overrided if needed.
->     The number contained in fbdev will be used as X in /dev/fbX.
->
->     By overriding fbdev you can have a splash screen on another
->     framebuffer than /dev/fbO.
->
->     The getenv(FBDEV) line has been replaced by this option since
->     the environment variables are not read yet when psplash starts.
->
->
-> These have been pushed to psplash master, thanks Julien.
->
-> Ross
-
-
---------------070306090108090003050109
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    The patch for the application of this has been sent previously on
-    <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core@lists.openembedded.org">openembedded-core@lists.openembedded.org</a> mailing list.<br>
-    <br>
-    Mail Subject: [OE-core] [psplash][PATCH] Add --fbdev option to
-    psplash like --rotation.<br>
-    Date: 22/05/2016<br>
-    <br>
-    Best Regards,<br>
-    and have a great day!<br>
-    <br>
-    <br>
-    <div class="moz-cite-prefix">Le 05/06/2016 23:15, Burton, Ross a
-      écrit :<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0LbcSVF9NX2yojP+CgE1=GHwbq1eyRNVyTxN7F19ucb4Rg@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 31 May 2016 at 23:11, Julien
-            Gueytat <span dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:contact@jgueytat.fr" target="_blank">contact@jgueytat.fr</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex"><span
-                class="">A new fbdev file is needed and should be
-                overrided if needed.<br>
-                The number contained in fbdev will be used as X in
-                /dev/fbX.<br>
-                <br>
-                By overriding fbdev you can have a splash screen on
-                another<br>
-                framebuffer than /dev/fbO.<br>
-                <br>
-              </span>The getenv(FBDEV) line has been replaced by this
-              option since<br>
-              the environment variables are not read yet when <span
-                class="il">psplash</span> starts.</blockquote>
-          </div>
-          <br>
-          These have been pushed to psplash master, thanks Julien.</div>
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Ross</div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------070306090108090003050109--
