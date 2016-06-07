@@ -1,24 +1,24 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id D7C5E7713E
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id D2A86770CD
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  7 Jun 2016 08:48:30 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP; 07 Jun 2016 01:48:05 -0700
+	by fmsmga104.fm.intel.com with ESMTP; 07 Jun 2016 01:48:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,432,1459839600"; d="scan'208";a="823174383"
+X-IronPort-AV: E=Sophos;i="5.26,432,1459839600"; d="scan'208";a="823174619"
 Received: from theory.fi.intel.com ([10.237.72.196])
-	by orsmga003.jf.intel.com with ESMTP; 07 Jun 2016 01:48:03 -0700
+	by orsmga003.jf.intel.com with ESMTP; 07 Jun 2016 01:48:30 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 Jun 2016 11:47:23 +0300
-Message-Id: <e9d1cbb821af38e87c9013b5c584145a0a65e792.1465288175.git.jussi.kukkonen@intel.com>
+Date: Tue,  7 Jun 2016 11:47:44 +0300
+Message-Id: <972f701e81008d5b2802d233a0b9e3c65c580b1e.1465288175.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <7e2909e70b87ffcf2c752bd6ac326ef256bdc1b2.1465288175.git.jussi.kukkonen@intel.com>
 References: <7e2909e70b87ffcf2c752bd6ac326ef256bdc1b2.1465288175.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1465288174.git.jussi.kukkonen@intel.com>
 References: <cover.1465288174.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 05/37] sato-screenshot: Upgrade to 0.2
+Subject: [PATCH 26/37] gtk+: RRECOMMEND adwaita theme
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,36 +33,33 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 07 Jun 2016 08:48:31 -0000
 
-New version supports Gtk+3.
+Without this a gtk+2 app appended to an image is going to look awful.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- .../{sato-screenshot_git.bb => sato-screenshot_0.2.bb}             | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
- rename meta/recipes-sato/sato-screenshot/{sato-screenshot_git.bb => sato-screenshot_0.2.bb} (86%)
+ meta/recipes-gnome/gtk+/gtk+.inc | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-sato/sato-screenshot/sato-screenshot_git.bb b/meta/recipes-sato/sato-screenshot/sato-screenshot_0.2.bb
-similarity index 86%
-rename from meta/recipes-sato/sato-screenshot/sato-screenshot_git.bb
-rename to meta/recipes-sato/sato-screenshot/sato-screenshot_0.2.bb
-index 1b2b65d..92f0ee1 100644
---- a/meta/recipes-sato/sato-screenshot/sato-screenshot_git.bb
-+++ b/meta/recipes-sato/sato-screenshot/sato-screenshot_0.2.bb
-@@ -7,11 +7,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     file://main.c;endline=9;md5=023e14d6404d0a961eb97cbd011fc141 \
-                     file://screenshot-ui.h;endline=9;md5=638d9ffa83e9325a36df224166ed6ad0"
+diff --git a/meta/recipes-gnome/gtk+/gtk+.inc b/meta/recipes-gnome/gtk+/gtk+.inc
+index 5bbfe6b..c240baa 100644
+--- a/meta/recipes-gnome/gtk+/gtk+.inc
++++ b/meta/recipes-gnome/gtk+/gtk+.inc
+@@ -58,7 +58,14 @@ FILES_libgail = " \
+ 	${libdir}/gtk-2.0/modules/libferret.so \
+ 	"
  
--DEPENDS = "matchbox-panel-2"
--SRCREV = "3a9688e8a01b63a78f402b4e7c0b8b005fcdfa29"
--PV = "0.1+git${SRCPV}"
--PR = "r2"
-+DEPENDS = "matchbox-panel-2 gtk+3"
+-GTKBASE_RRECOMMENDS ?= "liberation-fonts gdk-pixbuf-loader-png gdk-pixbuf-loader-jpeg gdk-pixbuf-loader-gif gdk-pixbuf-loader-xpm shared-mime-info"
++GTKBASE_RRECOMMENDS ?= "liberation-fonts \
++                        gdk-pixbuf-loader-png \
++                        gdk-pixbuf-loader-jpeg \
++                        gdk-pixbuf-loader-gif \
++                        gdk-pixbuf-loader-xpm \
++                        shared-mime-info \
++                        gnome-theme-adwaita \
++                        "
+ GTKGLIBC_RRECOMMENDS ?= "${GTKBASE_RRECOMMENDS} glibc-gconv-iso8859-1"
  
-+# SRCREV tagged 0.2
-+SRCREV = "5db2672fb857b2c80b949d8fce92e0f0029cc947"
- SRC_URI = "git://git.yoctoproject.org/screenshot"
- 
- S = "${WORKDIR}/git"
+ RRECOMMENDS_${PN} = "${GTKBASE_RRECOMMENDS}"
 -- 
 2.1.4
 
