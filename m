@@ -1,25 +1,25 @@
 Return-Path: <alejandro.hernandez@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 648CD731D5
+	by mail.openembedded.org (Postfix) with ESMTP id 4AC72731D4
 	for <openembedded-core@lists.openembedded.org>;
 	Wed,  8 Jun 2016 05:57:10 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by fmsmga101.fm.intel.com with ESMTP; 07 Jun 2016 22:57:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,437,1459839600"; d="scan'208";a="993287627"
+X-IronPort-AV: E=Sophos;i="5.26,437,1459839600"; d="scan'208";a="993287626"
 Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.jf.intel.com)
 	([10.54.69.56])
 	by orsmga002.jf.intel.com with ESMTP; 07 Jun 2016 22:57:09 -0700
 From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Jun 2016 05:56:11 +0000
-Message-Id: <a3db900e913933abfb5dc94fa7f5c5e491ec8c06.1465365165.git.alejandro.hernandez@linux.intel.com>
+Date: Wed,  8 Jun 2016 05:56:10 +0000
+Message-Id: <6aab12e6fe4621feed0950c97284fd6d35962af2.1465365165.git.alejandro.hernandez@linux.intel.com>
 X-Mailer: git-send-email 2.6.6
 In-Reply-To: <12b9dd4338999b75a21fd1d293fa911e9dca3f1e.1465365165.git.alejandro.hernandez@linux.intel.com>
 References: <12b9dd4338999b75a21fd1d293fa911e9dca3f1e.1465365165.git.alejandro.hernandez@linux.intel.com>
 In-Reply-To: <cover.1465365165.git.alejandro.hernandez@linux.intel.com>
 References: <cover.1465365165.git.alejandro.hernandez@linux.intel.com>
-Subject: [PATCH 5/9] python-numpy: Upgrade from 1.10.4 to 1.11.0
+Subject: [PATCH 4/9] python-mako: Upgrade python-mako and python3-mako to 1.0.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,156 +34,112 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 08 Jun 2016 05:57:10 -0000
 
-Upgrades python-numpy and python3-numpy to 1.11.0,
-Drops using distutils class, to use setuptools class instead,
-this fixes a problem where after compilation the package was created
-as an egg, see YOCTO #8673
-Fixes source location for both packages and also adds a new patch
-to fix the shebang on the f2py script, see YOCTO #9729
-
 Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 ---
- .../python-numpy/files/fix_shebang_f2py.patch      | 29 ++++++++++++++++++++++
- ...thon-numpy_1.10.4.bb => python-numpy_1.11.0.bb} | 14 ++++++-----
- ...on3-numpy_1.10.4.bb => python3-numpy_1.11.0.bb} | 15 ++++++-----
- 3 files changed, 46 insertions(+), 12 deletions(-)
- create mode 100644 meta/recipes-devtools/python-numpy/files/fix_shebang_f2py.patch
- rename meta/recipes-devtools/python-numpy/{python-numpy_1.10.4.bb => python-numpy_1.11.0.bb} (85%)
- rename meta/recipes-devtools/python-numpy/{python3-numpy_1.10.4.bb => python3-numpy_1.11.0.bb} (84%)
+ meta/recipes-devtools/python/python-mako.inc       | 15 ++++++++++++++
+ .../{python-mako_1.0.3.bb => python-mako_1.0.4.bb} | 15 +-------------
+ meta/recipes-devtools/python/python3-mako_1.0.3.bb | 24 ----------------------
+ meta/recipes-devtools/python/python3-mako_1.0.4.bb | 11 ++++++++++
+ 4 files changed, 27 insertions(+), 38 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python-mako.inc
+ rename meta/recipes-devtools/python/{python-mako_1.0.3.bb => python-mako_1.0.4.bb} (40%)
+ delete mode 100644 meta/recipes-devtools/python/python3-mako_1.0.3.bb
+ create mode 100644 meta/recipes-devtools/python/python3-mako_1.0.4.bb
 
-diff --git a/meta/recipes-devtools/python-numpy/files/fix_shebang_f2py.patch b/meta/recipes-devtools/python-numpy/files/fix_shebang_f2py.patch
+diff --git a/meta/recipes-devtools/python/python-mako.inc b/meta/recipes-devtools/python/python-mako.inc
 new file mode 100644
-index 0000000..6c61b09
+index 0000000..85ec217
 --- /dev/null
-+++ b/meta/recipes-devtools/python-numpy/files/fix_shebang_f2py.patch
-@@ -0,0 +1,29 @@
-+Upstream-Status: Inappropriate [embedded specific]
++++ b/meta/recipes-devtools/python/python-mako.inc
+@@ -0,0 +1,15 @@
++SUMMARY = "Templating library for Python"
++SECTION = "devel/python"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=1bb21fa2d2f7a534c884b990430a6863"
 +
-+Avoids using python from the HOSTs native sysroot for f2py,
-+uses TARGET env python instead.
++SRC_URI = "https://files.pythonhosted.org/packages/source/M/Mako/Mako-${PV}.tar.gz"
 +
-+Signed-Off-By: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
++SRC_URI[md5sum] = "c5fc31a323dd4990683d2f2da02d4e20"
++SRC_URI[sha256sum] = "fed99dbe4d0ddb27a33ee4910d8708aca9ef1fe854e668387a9ab9a90cbf9059"
 +
-+Index: numpy-1.11.0/numpy/f2py/setup.py
-+===================================================================
-+--- numpy-1.11.0.orig/numpy/f2py/setup.py
-++++ numpy-1.11.0/numpy/f2py/setup.py
-+@@ -37,10 +37,13 @@ def _get_f2py_shebang():
-+     should be ``#!python`` rather than ``#!`` followed by the contents of
-+     ``sys.executable``.
-+     """
-+-    if set(('bdist_wheel', 'bdist_egg', 'bdist_wininst',
-+-            'bdist_rpm')).intersection(sys.argv):
-+-        return '#!python'
-+-    return '#!' + sys.executable
-++    #if set(('bdist_wheel', 'bdist_egg', 'bdist_wininst',
-++    #        'bdist_rpm')).intersection(sys.argv):
-++    #    return '#!python'
-++    #return '#!' + sys.executable
-++    
-++    # On OE, we need to avoid using the HOSTs python-native, we return env python instead
-++    return '#!/usr/bin/env python'
-+ 
-+ 
-+ def configuration(parent_package='', top_path=None):
-diff --git a/meta/recipes-devtools/python-numpy/python-numpy_1.10.4.bb b/meta/recipes-devtools/python-numpy/python-numpy_1.11.0.bb
-similarity index 85%
-rename from meta/recipes-devtools/python-numpy/python-numpy_1.10.4.bb
-rename to meta/recipes-devtools/python-numpy/python-numpy_1.11.0.bb
-index ca6a7ab..51ef171 100644
---- a/meta/recipes-devtools/python-numpy/python-numpy_1.10.4.bb
-+++ b/meta/recipes-devtools/python-numpy/python-numpy_1.11.0.bb
-@@ -1,12 +1,14 @@
- SUMMARY = "A sophisticated Numeric Processing Package for Python"
- SECTION = "devel/python"
- LICENSE = "PSF"
--LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=9f4e88b5748e8313caaf33d081ce65a3"
-+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=7e51a5677b22b865abbfb3dff6ffb2d0"
- 
--SRC_URI = "${SOURCEFORGE_MIRROR}/numpy/numpy-${PV}.tar.gz \
-+SRCNAME = "numpy"
++UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/mako/"
++UPSTREAM_CHECK_REGEX = "/Mako/(?P<pver>(\d+[\.\-_]*)+)"
 +
-+SRC_URI = "https://files.pythonhosted.org/packages/source/n/${SRCNAME}/${SRCNAME}-${PV}.tar.gz \
-            file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch \
-            file://remove-build-path-in-comments.patch \
--           file://add-glibc-check.patch \
-+           file://fix_shebang_f2py.patch \
-            ${CONFIGFILESURI} "
- 
- CONFIGFILESURI ?= ""
-@@ -58,7 +60,7 @@ CONFIGFILESURI_mips64n32 = " \
- 
- S = "${WORKDIR}/numpy-${PV}"
- 
--inherit distutils
-+inherit setuptools
- 
- # Make the build fail and replace *config.h with proper one
- # This is a ugly, ugly hack - Koen
-@@ -70,8 +72,8 @@ do_compile_prepend_class-target() {
- 
- FILES_${PN}-staticdev += "${PYTHON_SITEPACKAGES_DIR}/numpy/core/lib/*.a"
- 
--SRC_URI[md5sum] = "90bb9034652cefbada19cf7d141a6a61"
--SRC_URI[sha256sum] = "f7f91842056a7cf680b0eaf8cefc5e46c69e2521e651128d2e6aaaccec8652ae"
-+SRC_URI[md5sum] = "bc56fb9fc2895aa4961802ffbdb31d0b"
-+SRC_URI[sha256sum] = "a1d1268d200816bfb9727a7a27b78d8e37ecec2e4d5ebd33eb64e2789e0db43e"
- 
- # install what is needed for numpy.test()
- RDEPENDS_${PN} = "python-unittest \
-diff --git a/meta/recipes-devtools/python-numpy/python3-numpy_1.10.4.bb b/meta/recipes-devtools/python-numpy/python3-numpy_1.11.0.bb
-similarity index 84%
-rename from meta/recipes-devtools/python-numpy/python3-numpy_1.10.4.bb
-rename to meta/recipes-devtools/python-numpy/python3-numpy_1.11.0.bb
-index dcd23ac..218909b 100644
---- a/meta/recipes-devtools/python-numpy/python3-numpy_1.10.4.bb
-+++ b/meta/recipes-devtools/python-numpy/python3-numpy_1.11.0.bb
-@@ -1,12 +1,14 @@
- SUMMARY = "A sophisticated Numeric Processing Package for Python"
- SECTION = "devel/python"
- LICENSE = "PSF"
--LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=9f4e88b5748e8313caaf33d081ce65a3"
-+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=7e51a5677b22b865abbfb3dff6ffb2d0"
- 
--SRC_URI = "${SOURCEFORGE_MIRROR}/numpy/numpy-${PV}.tar.gz \
-+SRCNAME = "numpy"
++S = "${WORKDIR}/Mako-${PV}"
 +
-+SRC_URI = "https://files.pythonhosted.org/packages/source/n/${SRCNAME}/${SRCNAME}-${PV}.tar.gz \
-            file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch \
-            file://remove-build-path-in-comments.patch \
--           file://add-glibc-check.patch \
-+           file://fix_shebang_f2py.patch \
-            ${CONFIGFILESURI} "
+diff --git a/meta/recipes-devtools/python/python-mako_1.0.3.bb b/meta/recipes-devtools/python/python-mako_1.0.4.bb
+similarity index 40%
+rename from meta/recipes-devtools/python/python-mako_1.0.3.bb
+rename to meta/recipes-devtools/python/python-mako_1.0.4.bb
+index d4f426d..b10b3c3 100644
+--- a/meta/recipes-devtools/python/python-mako_1.0.3.bb
++++ b/meta/recipes-devtools/python/python-mako_1.0.4.bb
+@@ -1,17 +1,4 @@
+-SUMMARY = "Templating library for Python"
+-SECTION = "devel/python"
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=deb3ff8e4c17aaf7b80889b6b2bf4c83"
+-
+-SRC_URI = "https://pypi.python.org/packages/source/M/Mako/Mako-${PV}.tar.gz"
+-
+-SRC_URI[md5sum] = "a78f20f6366a8a0659ce5532f8614e53"
+-SRC_URI[sha256sum] = "7644bc0ee35965d2e146dde31827b8982ed70a58281085fac42869a09764d38c"
+-
+-UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/mako/"
+-UPSTREAM_CHECK_REGEX = "/Mako/(?P<pver>(\d+[\.\-_]*)+)"
+-
+-S = "${WORKDIR}/Mako-${PV}"
++require python-mako.inc
  
- CONFIGFILESURI ?= ""
-@@ -58,7 +60,7 @@ CONFIGFILESURI_mips64n32 = " \
+ inherit setuptools
  
- S = "${WORKDIR}/numpy-${PV}"
- 
--inherit distutils3
+diff --git a/meta/recipes-devtools/python/python3-mako_1.0.3.bb b/meta/recipes-devtools/python/python3-mako_1.0.3.bb
+deleted file mode 100644
+index c770603..0000000
+--- a/meta/recipes-devtools/python/python3-mako_1.0.3.bb
++++ /dev/null
+@@ -1,24 +0,0 @@
+-SUMMARY = "Templating library for Python"
+-SECTION = "devel/python"
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=deb3ff8e4c17aaf7b80889b6b2bf4c83"
+-
+-SRC_URI = "https://pypi.python.org/packages/source/M/Mako/Mako-${PV}.tar.gz"
+-
+-SRC_URI[md5sum] = "a78f20f6366a8a0659ce5532f8614e53"
+-SRC_URI[sha256sum] = "7644bc0ee35965d2e146dde31827b8982ed70a58281085fac42869a09764d38c"
+-
+-UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/mako/"
+-UPSTREAM_CHECK_REGEX = "/Mako/(?P<pver>(\d+[\.\-_]*)+)"
+-
+-S = "${WORKDIR}/Mako-${PV}"
+-
+-inherit setuptools3
+-
+-RDEPENDS_${PN} = "python3-threading \
+-                  python3-netclient \
+-                  python3-html \
+-"
+-RDEPENDS_${PN}_class-native = ""
+-
+-BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/python/python3-mako_1.0.4.bb b/meta/recipes-devtools/python/python3-mako_1.0.4.bb
+new file mode 100644
+index 0000000..2b50ffd
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-mako_1.0.4.bb
+@@ -0,0 +1,11 @@
++require python-mako.inc
++
 +inherit setuptools3
- 
- # Make the build fail and replace *config.h with proper one
- # This is a ugly, ugly hack - Koen
-@@ -70,8 +72,8 @@ do_compile_prepend_class-target() {
- 
- FILES_${PN}-staticdev += "${PYTHON_SITEPACKAGES_DIR}/numpy/core/lib/*.a"
- 
--SRC_URI[md5sum] = "90bb9034652cefbada19cf7d141a6a61"
--SRC_URI[sha256sum] = "f7f91842056a7cf680b0eaf8cefc5e46c69e2521e651128d2e6aaaccec8652ae"
-+SRC_URI[md5sum] = "bc56fb9fc2895aa4961802ffbdb31d0b"
-+SRC_URI[sha256sum] = "a1d1268d200816bfb9727a7a27b78d8e37ecec2e4d5ebd33eb64e2789e0db43e"
- 
- # install what is needed for numpy.test()
- RDEPENDS_${PN} = "python3-unittest \
-@@ -94,6 +96,7 @@ RDEPENDS_${PN} = "python3-unittest \
-                   python3-compression \
-                   python3-ctypes \
-                   python3-threading \
-+                  python3-textutils \
- "
- 
- RDEPENDS_${PN}_class-native = ""
++
++RDEPENDS_${PN} = "python3-threading \
++                  python3-netclient \
++                  python3-html \
++"
++RDEPENDS_${PN}_class-native = ""
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
 2.6.6
 
