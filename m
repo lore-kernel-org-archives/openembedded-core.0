@@ -1,21 +1,45 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id B24606FF56
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 58ABE6E668
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jun 2016 19:24:28 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga104.fm.intel.com with ESMTP; 08 Jun 2016 12:24:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,440,1459839600"; d="scan'208";a="716057584"
-Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.jf.intel.com)
-	([10.54.69.56])
-	by FMSMGA003.fm.intel.com with ESMTP; 08 Jun 2016 12:24:24 -0700
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Jun 2016 19:23:29 +0000
-Message-Id: <1465413809-36283-1-git-send-email-alejandro.hernandez@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-Subject: [PATCH v2] python3-pygobject: Upgrade from 3.18.2 to 3.20.1
+	Wed,  8 Jun 2016 20:35:29 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id m124so5737111wme.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 08 Jun 2016 13:35:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=mbwkWW+Zcf/WFgk/0bGPy95gL/AFPUeByyd0fO98OQA=;
+	b=zMBxSlpHmKY6xeZbDIe+icJiz9O0CBVy6AoAFM1MueLXI1U/PdnspyUp6Nvy/avify
+	ZUB/I4Zu4K6/xM0dYn+k8DjAeYYQDPt/H8bCu4Qr2nCqR3om2XwlpiH7vNtT9WA30cfj
+	OkAPvhrBJEG6Cp+UHr56mL52FD5xOEV94IcorURXcJu+bR6/cu6cHs5P/Y2YaXTrz5Oi
+	3W6/TmaTsKHW1zSb32lBNjVQOrWrO1vYtmI52CwLq3piB0qL85+Y3ZUCVcE/zCq+hFy5
+	OOy6b1NJVrBab1HWlnxvDs2mtiQhbyZPtPO3u24ia2GFhFsZET7xXlPHSaH11orARiCA
+	anzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=mbwkWW+Zcf/WFgk/0bGPy95gL/AFPUeByyd0fO98OQA=;
+	b=Zx4z6wRvxBDsL3NHL/cr4EblKZBrwVU0VV8p0XAMyzTpLY4GGgmrMg4Dtm69PwVdXa
+	YcJ2mc+OZgFNzkppby7+yJrwS4tEeVQ+7X7G+RzznWNLF6TH16Mst9EAsN1VfcZrtl+y
+	/dJPfiGp0yOe+Na3z8fbwZvLfcDcO6rrHw00niuQk+4CbFzxjasYP+kngyj7Up9005s6
+	h/4uSfQpwxjKhgEI+RQRsCmL5lhhd+ZPBS7zwxZ/DzStNQG4j2amGSM0mddRkLld7zfv
+	5FJt+EN3cvyGMqrmD6C3HIRqwuqgZ6TnXwBmZgz7bObcVdP1JsGpUtsNBKS+ZZxWf7Oz
+	RaDg==
+X-Gm-Message-State: ALyK8tKz2M3wg7GeVpN5trTBbrsXwuUFJGU3cmzq+IoqZd32rOdtwtCeupUwrMqr/Cqli+TEcZA4/I2F3WkVpQ==
+X-Received: by 10.28.215.148 with SMTP id o142mr9334659wmg.72.1465418130307;
+	Wed, 08 Jun 2016 13:35:30 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.194.150.13 with HTTP; Wed, 8 Jun 2016 13:35:29 -0700 (PDT)
+In-Reply-To: <1445376809-25202-5-git-send-email-ross.burton@intel.com>
+References: <1445376809-25202-1-git-send-email-ross.burton@intel.com>
+	<1445376809-25202-5-git-send-email-ross.burton@intel.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Wed, 8 Jun 2016 13:35:29 -0700
+Message-ID: <CAJ86T=U4JCAcbAN4rwvhNT-KO8jHK2OncF=6zQo093g-BmARSg@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][V3 5/5] subversion: add explicit dependency on file-replacement-native for native builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,79 +52,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jun 2016 19:24:28 -0000
+X-List-Received-Date: Wed, 08 Jun 2016 20:35:32 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
----
- .../python/python3-pygobject_3.18.2.bb             | 25 ----------------------
- .../python/python3-pygobject_3.20.1.bb             | 25 ++++++++++++++++++++++
- 2 files changed, 25 insertions(+), 25 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3-pygobject_3.18.2.bb
- create mode 100644 meta/recipes-devtools/python/python3-pygobject_3.20.1.bb
+On Tue, Oct 20, 2015 at 2:33 PM, Ross Burton <ross.burton@intel.com> wrote:
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/recipes-devtools/subversion/subversion_1.8.13.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-devtools/subversion/subversion_1.8.13.bb b/meta/recipes-devtools/subversion/subversion_1.8.13.bb
+> index f843b95..9c9bdb1 100644
+> --- a/meta/recipes-devtools/subversion/subversion_1.8.13.bb
+> +++ b/meta/recipes-devtools/subversion/subversion_1.8.13.bb
+> @@ -1,6 +1,7 @@
+>  SUMMARY = "Subversion (svn) version control system client"
+>  SECTION = "console/network"
+>  DEPENDS = "apr-util serf sqlite3 file"
+> +DEPENDS_append_class-native = " file-replacement-native"
 
-diff --git a/meta/recipes-devtools/python/python3-pygobject_3.18.2.bb b/meta/recipes-devtools/python/python3-pygobject_3.18.2.bb
-deleted file mode 100644
-index 4ddae81..0000000
---- a/meta/recipes-devtools/python/python3-pygobject_3.18.2.bb
-+++ /dev/null
-@@ -1,25 +0,0 @@
--SUMMARY = "Python GObject bindings"
--SECTION = "devel/python"
--LICENSE = "LGPLv2.1"
--LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
--
--inherit autotools pkgconfig gnomebase distutils3-base gobject-introspection
--
--DEPENDS += "python3 glib-2.0"
--
--SRCNAME="pygobject"
--SRC_URI = " \
--    http://ftp.gnome.org/pub/GNOME/sources/${SRCNAME}/${@gnome_verdir("${PV}")}/${SRCNAME}-${PV}.tar.xz \
--    file://0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch \
--"
--
--SRC_URI[md5sum] = "0a956f3e785e23b0f136832f2e57a862"
--SRC_URI[sha256sum] = "2a3cad1517916b74e131e6002c3824361aee0671ffb0d55ded119477fc1c2c5f"
--
--S = "${WORKDIR}/${SRCNAME}-${PV}"
--
--BBCLASSEXTEND = "native"
--
--EXTRA_OECONF = "--disable-cairo"
--
--RDEPENDS_${PN} += "python3-setuptools python3-importlib"
-diff --git a/meta/recipes-devtools/python/python3-pygobject_3.20.1.bb b/meta/recipes-devtools/python/python3-pygobject_3.20.1.bb
-new file mode 100644
-index 0000000..7925b98
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-pygobject_3.20.1.bb
-@@ -0,0 +1,25 @@
-+SUMMARY = "Python GObject bindings"
-+SECTION = "devel/python"
-+LICENSE = "LGPLv2.1"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
-+
-+inherit autotools pkgconfig gnomebase distutils3-base gobject-introspection
-+
-+DEPENDS += "python3 glib-2.0"
-+
-+SRCNAME="pygobject"
-+SRC_URI = " \
-+    http://ftp.gnome.org/pub/GNOME/sources/${SRCNAME}/${@gnome_verdir("${PV}")}/${SRCNAME}-${PV}.tar.xz \
-+    file://0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch \
-+"
-+
-+SRC_URI[md5sum] = "4354c6283b135f859563b72457f6a321"
-+SRC_URI[sha256sum] = "3d261005d6fed6a92ac4c25f283792552f7dad865d1b7e0c03c2b84c04dbd745"
-+
-+S = "${WORKDIR}/${SRCNAME}-${PV}"
-+
-+BBCLASSEXTEND = "native"
-+
-+EXTRA_OECONF = "--disable-cairo"
-+
-+RDEPENDS_${PN} += "python3-setuptools python3-importlib"
--- 
-2.6.6
+To make this work, isn't something like:
 
+  EXTRANATIVEPATH_append_class-native = " file-native"
+
+needed too?
+
+Same comment for rpm-native.
+
+>  RDEPENDS_${PN} = "serf"
+>  LICENSE = "Apache-2"
+>  HOMEPAGE = "http://subversion.tigris.org"
+> --
+> 2.1.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
