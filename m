@@ -1,31 +1,33 @@
-Return-Path: <ovidiu.vancea@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id CFF8A6FF72
+Return-Path: <herve.jourdain@neuf.fr>
+Received: from smtp26.services.sfr.fr (smtp26.services.sfr.fr [93.17.128.163])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A597601F6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jun 2016 16:08:37 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u58G8cIp013349; Wed, 8 Jun 2016 11:08:38 -0500
-Received: from ovidiu-ro-l0.natinst.com ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016060811083855-656133 ;
-	Wed, 8 Jun 2016 11:08:38 -0500 
-From: Ovidiu-Adrian Vancea <ovidiu.vancea@ni.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 8 Jun 2016 19:08:34 +0300
-Message-Id: <1465402114-1588-4-git-send-email-ovidiu.vancea@ni.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1465402114-1588-1-git-send-email-ovidiu.vancea@ni.com>
-References: <1465402114-1588-1-git-send-email-ovidiu.vancea@ni.com>
-MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 06/08/2016 11:08:38 AM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 06/08/2016 11:08:38 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-06-08_05:, , signatures=0
-Subject: [PATCH v2 3/3] package_rpm.bbclass: add kernel version to its dependencies
+	Wed,  8 Jun 2016 16:17:32 +0000 (UTC)
+Received: from [192.168.1.105] (111-250-192-53.dynamic.hinet.net
+	[111.250.192.53])
+	by msfrf2606.sfr.fr (SMTP Server) with ESMTP id 97F0A1C00142A;
+	Wed,  8 Jun 2016 18:17:31 +0200 (CEST)
+Received: from [192.168.1.105] (111-250-192-53.dynamic.hinet.net
+	[111.250.192.53])	(using TLSv1
+	with cipher ECDHE-RSA-AES256-SHA (256/256 bits))	(No client certificate
+	requested)	(Authenticated sender: herve.jourdain@neuf.fr)
+	by msfrf2606.sfr.fr (SMTP Server) with ESMTPSA;
+	Wed,  8 Jun 2016 18:17:31 +0200 (CEST)
+Authentication-Results: sfr.fr; auth=pass (PLAIN)
+	smtp.auth=herve.jourdain@neuf.fr
+References: <1465381435600.39214@gin.de>
+	<02b101d1c184$93336d80$b99a4880$@neuf.fr> <1465400599707.30401@gin.de>
+	<2ed9a471-32c1-5ec1-b5e1-fb019afa1dc2@windriver.com>
+Mime-Version: 1.0 (1.0)
+In-Reply-To: <2ed9a471-32c1-5ec1-b5e1-fb019afa1dc2@windriver.com>
+Message-Id: <B39D3DBB-B9C1-4119-9687-03A571ED29AE@neuf.fr>
+X-Mailer: iPad Mail (13D15)
+From: Herve Jourdain <herve.jourdain@neuf.fr>
+Date: Thu, 9 Jun 2016 00:17:26 +0800
+To: Mark Hatle <mark.hatle@windriver.com>
+X-sfr-mailing: LEGIT
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] smartpm: Don't ignore error if RPM transaction fails without problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,61 +40,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jun 2016 16:08:38 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 08 Jun 2016 16:17:36 -0000
+Content-Type: text/plain; charset=gb2312
 Content-Transfer-Encoding: quoted-printable
 
-Use the kernel package Version field for its rdepends, rrecommends, and
-rsuggests fields=E2=80=99 values. This makes the packages on which the kern=
-el
-depends be the same version as the kernel.
+Hi Mark,
 
-The idea is the same as for .deb and .ipk pkgs but the implementation is
-slightly different because there are no dictionaries used, instead
-package=5Frmp.bbclass stores rdepends values in strings.
+In my case, the issue was due to an empty problem list, which after Daniel's=
+ fix did trigger a retry, which failed because the packages were already ins=
+talled.
+But the code for a non-empty problem list does also trigger a retry, and I s=
+uppose it would run also in the same "package already installed" issue, if i=
+t were to be triggered - not sure though, since I never had that case yet.
+Do you think we need to check and potentially fix that case? Or shall we rem=
+ove the retry feature altogether instead?
 
-Signed-off-by: Ovidiu-Adrian Vancea <ovidiu.vancea@ni.com>
----
- meta/classes/package=5Frpm.bbclass | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+Herv=A8=A6
 
-diff --git a/meta/classes/package=5Frpm.bbclass b/meta/classes/package=5Frp=
-m.bbclass
-index f9398a9..ee3d54e 100644
---- a/meta/classes/package=5Frpm.bbclass
-+++ b/meta/classes/package=5Frpm.bbclass
-@@ -371,6 +371,27 @@ python write=5Fspecfile () {
-         splitrconflicts  =3D strip=5Fmultilib=5Fdeps(localdata.getVar('RCO=
-NFLICTS', True), d)
-         splitrobsoletes  =3D []
-=20
-+        if (pkgname =3D=3D "kernel") and (localdata.getVar("VERSION=5FKERN=
-EL=5FMODULES", False) =3D=3D "1"):
-+            suffix =3D " (=3D "+localdata.getVar('PKGV', True)+"-"+localda=
-ta.getVar('PKGR', True) + ")"
-+
-+            versioneddeps =3D []
-+            for pkg=5Fdep in splitrdepends.split(','):
-+                pkg=5Fdep +=3D suffix
-+                versioneddeps +=3D [pkg=5Fdep]
-+            splitrdepends =3D ",".join(versioneddeps)
-+
-+            versionedrecommends =3D []
-+            for pkg=5Fdep in splitrrecommends.split(','):
-+                pkg=5Fdep +=3D suffix
-+                versionedrecommends +=3D [pkg=5Fdep]
-+            splitrrecommends =3D ",".join(versionedrecommends)
-+
-+            versionedsuggests =3D []
-+            for pkg=5Fdep in splitrsuggests.split(','):
-+                pkg=5Fdep +=3D suffix
-+                versionedsuggests +=3D [pkg=5Fdep]
-+            splitrsuggests =3D ",".join(versionedsuggests)
-+
-         splitrpreinst  =3D localdata.getVar('pkg=5Fpreinst', True)
-         splitrpostinst =3D localdata.getVar('pkg=5Fpostinst', True)
-         splitrprerm    =3D localdata.getVar('pkg=5Fprerm', True)
---=20
-2.7.4
+> Le 9 juin 2016 =A8=A4 00:05, Mark Hatle <mark.hatle@windriver.com> a =A8=A6=
+crit :
+>=20
+>> On 6/8/16 10:43 AM, Klauer, Daniel wrote:
+>> Hello,
+>>=20
+>>> You also need to add another check just before raising the error, or you=
 
+>>> would end up getting an "unknown error" raised there.
+>>> I basically replaced:
+>>> -        if (probs is not None) and (not retry):
+>>> +       if (probs is not None) and ((len(probs) !=3D 0) or not
+>>> sysconf.has("attempt-install", soft=3DTrue)) and (not retry):
+>>=20
+>> Hmm, it sounds like the attempt mode wants to ignore installation failure=
+s
+>> (empty problems list) like before the patch, which makes sense to me. Aft=
+erall,
+>> attempt mode wants to try installation and ignore failures. So it seems g=
+ood to
+>> fix this regression too.
+>>=20
+>> However, I wonder why it never ignored a non-empty problems list, which w=
+ould
+>> also trigger an error. Maybe that case just never happens in practice, be=
+cause
+>> it's always just file conflicts. Those trigger a retry, which prevents th=
+e error
+>> from being raised.
+>>=20
+>>> BUT reflecting on the whole scheme, I'm wondering how it will work in ca=
+se
+>>> of file found conflict, since the problem package gets removed from the
+>>> list, but the list is committed again, with most packages already
+>>> installed...
+>=20
+> File conflicts are discovered prior to the transaction being committed
+> (installation time).  Problems reported during installation are 'different=
+' (and
+> generally do not happen).  I'm not sure if a pre/post install failure, bad=
+
+> package (signature or otherwise) or whatever would do here.  I'm not sure i=
+t's
+> been tested.
+>=20
+> (The items above can't generally happen based on the way the system is des=
+igned..)
+>=20
+> --Mark
+>=20
+>>> I therefore wonder that there could be the same error that I got in the e=
+nd,
+>>> i.e failing with package already installed - which should not fail for
+>>> attempt only.
+>>=20
+>> Indeed, I'm curious about that too...
+>>=20
+>> If you could put together the patch, that would be great and fine with me=
+.
+>>=20
+>> Thanks,
+>> Daniel
+>>=20
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
