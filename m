@@ -1,48 +1,48 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-oi0-f43.google.com (mail-oi0-f43.google.com
-	[209.85.218.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 790AF60017
+Return-Path: <kad@kad.name>
+Received: from mail-it0-f51.google.com (mail-it0-f51.google.com
+	[209.85.214.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 15C926FF91
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jun 2016 08:38:54 +0000 (UTC)
-Received: by mail-oi0-f43.google.com with SMTP id p204so1900920oih.3
+	Wed,  8 Jun 2016 09:47:48 +0000 (UTC)
+Received: by mail-it0-f51.google.com with SMTP id z123so4193870itg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Jun 2016 01:38:56 -0700 (PDT)
+	Wed, 08 Jun 2016 02:47:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	d=kad-name.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=3a5yuHfTjtAw/yHseq1G/3QydbB1OlusftuT7ST9klU=;
-	b=wiMaRAJvcND7J3nDmQrkxMIq9H9N6bNjtesFwGZsETBrBx5xcJo+AgGRaV5P+gJX0/
-	2xRLekU1+dgr+vulrakcfczMZ/IOC9i6S93gAVA8Dp29EyC4Wv3xh0+b2pA5O7ns+VdQ
-	j6Xs7/rHJBPW0Ylk8vZB68F6Rhn5/p6KgdfcP9NluYeSf3TI7leZQp3LeC4zE6puWVPF
-	iXR8J9P9QnVLKAJOv+Bf2yrio2rUVz+50aPD6g9ls9kwlLd6E0OlFvcwC/8uQ68H6jrq
-	BsPthNI3tJ6KDmo3WoBI6ZWzPHM4zv6sLFOi6FFmqx6Br9IKAqFnitBLmwSpGsS/mmkb
-	G/fw==
+	:cc; bh=bxjB+ZpvHB4QuHK7jDu4TSFiRueUbtj5vILXHJcHGAk=;
+	b=RVD+z9OK+dnejIC1sS1DifI0Osqrxe9T4jkSVt71TEfXHd1VfSVxmb1fgKbRNWAALd
+	VQjYwnkP3YvFqZMx69HNNRMXAYcXdxwiRgf3cWIyDW3OgsFVUi9DzblJvg2jv4s6IRC8
+	lnhdH7UOIUpgCA/g2hobpaqGl4vw07JlNRb5Ar+DneGfaGl3016q7iVknsMmVfCCRnoH
+	dO6u/wK/QovvfoD3qRmCDMH+RWWmJjpCNPZR5UEyfWJ6ORnEuk3j2+J4sSE5V3QQ0gkJ
+	UEskyCUI9+JWpVccdH9tiDU0uCcCGYbc+wOt+kBStlGg0vTmstVDiOfxMaV4MePMgG94
+	sfSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=3a5yuHfTjtAw/yHseq1G/3QydbB1OlusftuT7ST9klU=;
-	b=AgeDqUFMRwbKunZbGISl1E/T6bfRp5XqaE2vJ7NH3I1PG8hpdzKKBYsoFik9w2+Lg1
-	oyLPKdqCFsxDxerrIcMxCndO6L9PGAdQPFmgvCODG22xkiFksAK9J7ZtyPz12Ix3Np74
-	0doVgeQSh1SWumMQSf2VatwlaRSlCuRk/bm1drU9EC7GA641ESoAa+7kllIz2iJOfc8i
-	maU8HUMKZABl9nHFxlWfQ8fkW5CilCh8l0UMdD47m4p/mg3vC8ZPCaHEhRA1gEoJA+ol
-	CFobIWXaE69GFX5CXGnQOBw/XOzrE+WX6XDJJkID/S4uFv2cU70dZ7rvmnhHS1epZrwJ
-	tDCg==
-X-Gm-Message-State: ALyK8tKYimuJDFNheWrN5aKMrgIWLRqJP1wDKiNVVfcDavgtx4EduA7Jkko4/eJeeqZVJufrvgIthJnSIXTgxZhf
-X-Received: by 10.157.32.196 with SMTP id x62mr2186232ota.120.1465375135424;
-	Wed, 08 Jun 2016 01:38:55 -0700 (PDT)
+	bh=bxjB+ZpvHB4QuHK7jDu4TSFiRueUbtj5vILXHJcHGAk=;
+	b=IkppDy8nv+aEt3kXXIxZW9FVbdbt5o4PJ32XTHZS6okciH8n/F7pfK/rKzwCJXsD2y
+	1Xqr6esYGIqDK3+gTA1MwXDd5DK31Au1w0UqYcoFEPiiyf69t024meO4SRh2TsBTNk1B
+	mV3KqPEmVbmGiHjtNMRX95pJot3IAXCsEplFbQF36aPzOKwCEK4EofrudEovXPa162OB
+	cYEQTFHQULAi0/tB5K88WXz2Ta6YkIZkbhLhkWG1mIMpgfUfgQdvJLN8yKG4u7lOYOmq
+	1QxL7ztobVhvq9zneGDxutDpTx+qwCvqiwTLBADkBhcb887Upyot+lcRBQLU68FB2dfN
+	YiMw==
+X-Gm-Message-State: ALyK8tIBOvio88LPgoWj4KS1VKVIHGVDL2GggBErjb+2UsOC1rP1RcpemnKDqz41lluVQTopq60wIvJgMjrCvQ==
+X-Received: by 10.36.217.10 with SMTP id p10mr11109355itg.23.1465379269095;
+	Wed, 08 Jun 2016 02:47:49 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.202.61.5 with HTTP; Wed, 8 Jun 2016 01:38:26 -0700 (PDT)
-In-Reply-To: <d569eff9957384d9f04fc1c3b3f54c9dd61e6cb9.1465365165.git.alejandro.hernandez@linux.intel.com>
-References: <cover.1465365165.git.alejandro.hernandez@linux.intel.com>
-	<d569eff9957384d9f04fc1c3b3f54c9dd61e6cb9.1465365165.git.alejandro.hernandez@linux.intel.com>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Wed, 8 Jun 2016 11:38:26 +0300
-Message-ID: <CAHiDW_EhH30=8tifRos=EVJA+U27KO342_1DVjUJ2DsFTjumQQ@mail.gmail.com>
-To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Received: by 10.107.18.216 with HTTP; Wed, 8 Jun 2016 02:47:48 -0700 (PDT)
+In-Reply-To: <10776768.uSdOil2dlO@peggleto-mobl.ger.corp.intel.com>
+References: <20160605214429.63811-1-kad@kad.name>
+	<10776768.uSdOil2dlO@peggleto-mobl.ger.corp.intel.com>
+From: Alexander Kanevskiy <kad@kad.name>
+Date: Wed, 8 Jun 2016 12:47:48 +0300
+Message-ID: <CANFkWpk+hk5Hj02VHbGdttoA0RawV17PsB9X6x0MmXYUwbEWrg@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 7/9] python3-pygobject: Upgrade from 3.18.2 to 3.21.0
+Subject: Re: [PATCH] oe-pkgdata-util: new option to provide full info for binary package(s)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,106 +55,137 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jun 2016 08:38:58 -0000
-Content-Type: multipart/alternative; boundary=94eb2c11012068f5fd0534c03c4f
+X-List-Received-Date: Wed, 08 Jun 2016 09:47:49 -0000
+Content-Type: multipart/alternative; boundary=001a1149a47ecbce350534c13206
 
---94eb2c11012068f5fd0534c03c4f
+--001a1149a47ecbce350534c13206
 Content-Type: text/plain; charset=UTF-8
 
-On 8 June 2016 at 08:56, Alejandro Hernandez <
-alejandro.hernandez@linux.intel.com> wrote:
->
-> Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-> ---
->  .../{python3-pygobject_3.18.2.bb => python3-pygobject_3.21.0.bb}      |
-4 ++--
+On Wed, Jun 8, 2016 at 12:06 AM, Paul Eggleton <
+paul.eggleton@linux.intel.com> wrote:
 
-I think python3-pygobject follows the "minor-even-is-stable" release
-numbering typical to GNOME projects.
-If that is correct, then 3.20.x might be better and inheriting
-"upstream-version-is-even" would make sense.
+> Hi Sasha,
+>
+> Functionality wise this looks good.
+>
+> On Mon, 06 Jun 2016 00:44:29 Alexander D. Kanevskiy wrote:
+> > New option can be used for displaying full information about binary
+> > package(s), including name, full version, recipe name, recipe full
+> version
+> > and package size.
+> >
+> > This information can be useful to produce detailed image manifest
+> > for further analysis.
+>
+> Possibly worth noting that since this looks up current information rather
+> than
+> what's in the image, this is only going to be accurate for that purpose if
+> no
+> packages have been rebuilt (strictly speaking no do_packagedata tasks have
+> executed) since the manifest was generated.
+>
 
-Jussi
+Assumption that it would be used in extra buildhistory class, so pkgdata
+still should be valid.
+But good point that it can be executed manually.
 
->
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-devtools/python/{python3-pygobject_3.18.2.bb =>
-python3-pygobject_3.21.0.bb} (81%)
->
-> diff --git a/meta/recipes-devtools/python/python3-pygobject_3.18.2.bb
-b/meta/recipes-devtools/python/python3-pygobject_3.21.0.bb
-> similarity index 81%
-> rename from meta/recipes-devtools/python/python3-pygobject_3.18.2.bb
-> rename to meta/recipes-devtools/python/python3-pygobject_3.21.0.bb
-> index 4ddae81..e5990d6 100644
-> --- a/meta/recipes-devtools/python/python3-pygobject_3.18.2.bb
-> +++ b/meta/recipes-devtools/python/python3-pygobject_3.21.0.bb
-> @@ -13,8 +13,8 @@ SRC_URI = " \
->
- file://0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch \
->  "
->
-> -SRC_URI[md5sum] = "0a956f3e785e23b0f136832f2e57a862"
-> -SRC_URI[sha256sum] =
-"2a3cad1517916b74e131e6002c3824361aee0671ffb0d55ded119477fc1c2c5f"
-> +SRC_URI[md5sum] = "a6dba83e3a7df52ba80bd02906f74611"
-> +SRC_URI[sha256sum] =
-"898c9ef2f80968ccf33d6fbd5087b1721b74792a308b277d02bc935450168a58"
->
->  S = "${WORKDIR}/${SRCNAME}-${PV}"
->
-> --
-> 2.6.6
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---94eb2c11012068f5fd0534c03c4f
+> > +    for pkg in packages:
+> > +        items.append(("%s %s%s%s %s %s%s%s %s" % (
+> > +            pkg,
+> > +            mappings[pkg]['PKGE'] + ":" if mappings[pkg]['PKGE'] else
+> "",
+> > +            mappings[pkg]['PKGV'],
+> > +            "-" + mappings[pkg]['PKGR'] if mappings[pkg]['PKGR'] else
+> "",
+> > +            mappings[pkg]['PN'],
+> > +            mappings[pkg]['PE'] + ":" if mappings[pkg]['PE'] else "",
+> > +            mappings[pkg]['PV'],
+> > +            "-" + mappings[pkg]['PR'] if mappings[pkg]['PR'] else "",
+> > +            mappings[pkg]['PKGSIZE']
+> > +        )).strip()
+> > +        )
+>
+> This seems like a bit of an ugly construction. If it were me writing it I
+> would probably break it down using variables rather than trying to do it
+> all
+> on one line. That said it's not bad enough to block it, if nobody else
+> feels
+> strongly about it then you're in the clear.
+>
+
+ok. I'll send new version of patch a bit later today.
+
+-- 
+br, Alexander Kanevskiy
+
+--001a1149a47ecbce350534c13206
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">On 8 June 2016 at 08:56, Alejandro Hernandez &lt;<a href=
-=3D"mailto:alejandro.hernandez@linux.intel.com">alejandro.hernandez@linux.i=
-ntel.com</a>&gt; wrote:<br>&gt;<br>&gt; Signed-off-by: Alejandro Hernandez =
-&lt;<a href=3D"mailto:alejandro.hernandez@linux.intel.com">alejandro.hernan=
-dez@linux.intel.com</a>&gt;<br>&gt; ---<br>&gt; =C2=A0.../{<a href=3D"http:=
-//python3-pygobject_3.18.2.bb">python3-pygobject_3.18.2.bb</a> =3D&gt; <a h=
-ref=3D"http://python3-pygobject_3.21.0.bb">python3-pygobject_3.21.0.bb</a>}=
- =C2=A0 =C2=A0 =C2=A0| 4 ++--<br><br>I think python3-pygobject follows the =
-&quot;minor-even-is-stable&quot; release numbering typical to GNOME project=
-s. <br>If that is correct, then 3.20.x might be better and inheriting &quot=
-;upstream-version-is-even&quot; would make sense.<br><br>Jussi<br>=C2=A0<br=
->&gt;<br>&gt; =C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>&gt;=
- =C2=A0rename meta/recipes-devtools/python/{<a href=3D"http://python3-pygob=
-ject_3.18.2.bb">python3-pygobject_3.18.2.bb</a> =3D&gt; <a href=3D"http://p=
-ython3-pygobject_3.21.0.bb">python3-pygobject_3.21.0.bb</a>} (81%)<br>&gt;<=
-br>&gt; diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3=
--pygobject_3.18.2.bb">python3-pygobject_3.18.2.bb</a> b/meta/recipes-devtoo=
-ls/python/<a href=3D"http://python3-pygobject_3.21.0.bb">python3-pygobject_=
-3.21.0.bb</a><br>&gt; similarity index 81%<br>&gt; rename from meta/recipes=
--devtools/python/<a href=3D"http://python3-pygobject_3.18.2.bb">python3-pyg=
-object_3.18.2.bb</a><br>&gt; rename to meta/recipes-devtools/python/<a href=
-=3D"http://python3-pygobject_3.21.0.bb">python3-pygobject_3.21.0.bb</a><br>=
-&gt; index 4ddae81..e5990d6 100644<br>&gt; --- a/meta/recipes-devtools/pyth=
-on/<a href=3D"http://python3-pygobject_3.18.2.bb">python3-pygobject_3.18.2.=
-bb</a><br>&gt; +++ b/meta/recipes-devtools/python/<a href=3D"http://python3=
--pygobject_3.21.0.bb">python3-pygobject_3.21.0.bb</a><br>&gt; @@ -13,8 +13,=
-8 @@ SRC_URI =3D &quot; \<br>&gt; =C2=A0 =C2=A0 =C2=A0file://0001-configure=
-.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch \<br>&gt; =C2=A0&quot;<br=
->&gt;<br>&gt; -SRC_URI[md5sum] =3D &quot;0a956f3e785e23b0f136832f2e57a862&q=
-uot;<br>&gt; -SRC_URI[sha256sum] =3D &quot;2a3cad1517916b74e131e6002c382436=
-1aee0671ffb0d55ded119477fc1c2c5f&quot;<br>&gt; +SRC_URI[md5sum] =3D &quot;a=
-6dba83e3a7df52ba80bd02906f74611&quot;<br>&gt; +SRC_URI[sha256sum] =3D &quot=
-;898c9ef2f80968ccf33d6fbd5087b1721b74792a308b277d02bc935450168a58&quot;<br>=
-&gt;<br>&gt; =C2=A0S =3D &quot;${WORKDIR}/${SRCNAME}-${PV}&quot;<br>&gt;<br=
->&gt; --<br>&gt; 2.6.6<br>&gt;<br>&gt; --<br>&gt; _________________________=
-______________________<br>&gt; Openembedded-core mailing list<br>&gt; <a hr=
-ef=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@li=
-sts.openembedded.org</a><br>&gt; <a href=3D"http://lists.openembedded.org/m=
-ailman/listinfo/openembedded-core">http://lists.openembedded.org/mailman/li=
-stinfo/openembedded-core</a></div>
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Wed, Jun 8, 2016 at 12:06 AM, Paul Eggleton <span dir=3D"ltr">&lt;<a=
+ href=3D"mailto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.eggle=
+ton@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
+>Hi Sasha,<br>
+<br>
+Functionality wise this looks good.<br>
+<span class=3D""><br>
+On Mon, 06 Jun 2016 00:44:29 Alexander D. Kanevskiy wrote:<br>
+&gt; New option can be used for displaying full information about binary<br=
+>
+&gt; package(s), including name, full version, recipe name, recipe full ver=
+sion<br>
+&gt; and package size.<br>
+&gt;<br>
+&gt; This information can be useful to produce detailed image manifest<br>
+&gt; for further analysis.<br>
+<br>
+</span>Possibly worth noting that since this looks up current information r=
+ather than<br>
+what&#39;s in the image, this is only going to be accurate for that purpose=
+ if no<br>
+packages have been rebuilt (strictly speaking no do_packagedata tasks have<=
+br>
+executed) since the manifest was generated.<br></blockquote><div><br></div>=
+<div>Assumption that it would be used in extra buildhistory class, so pkgda=
+ta still should be valid.</div><div>But good point that it can be executed =
+manually.=C2=A0</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<div><div class=3D"h5">&gt; +=C2=A0 =C2=A0 for pkg in packages:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 items.append((&quot;%s %s%s%s %s %s%s%s %=
+s&quot; % (<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pkg,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mappings[pkg][&#39;PKGE&#39=
+;] + &quot;:&quot; if mappings[pkg][&#39;PKGE&#39;] else &quot;&quot;,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mappings[pkg][&#39;PKGV&#39=
+;],<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;-&quot; + mappings[pk=
+g][&#39;PKGR&#39;] if mappings[pkg][&#39;PKGR&#39;] else &quot;&quot;,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mappings[pkg][&#39;PN&#39;]=
+,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mappings[pkg][&#39;PE&#39;]=
+ + &quot;:&quot; if mappings[pkg][&#39;PE&#39;] else &quot;&quot;,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mappings[pkg][&#39;PV&#39;]=
+,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;-&quot; + mappings[pk=
+g][&#39;PR&#39;] if mappings[pkg][&#39;PR&#39;] else &quot;&quot;,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mappings[pkg][&#39;PKGSIZE&=
+#39;]<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 )).strip()<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 )<br>
+<br>
+</div></div>This seems like a bit of an ugly construction. If it were me wr=
+iting it I<br>
+would probably break it down using variables rather than trying to do it al=
+l<br>
+on one line. That said it&#39;s not bad enough to block it, if nobody else =
+feels<br>
+strongly about it then you&#39;re in the clear.<br></blockquote><div><br></=
+div><div>ok. I&#39;ll send new version of patch a bit later today.</div><di=
+v>=C2=A0</div></div>-- <br><div class=3D"gmail_signature" data-smartmail=3D=
+"gmail_signature">br, Alexander Kanevskiy</div>
+</div></div>
 
---94eb2c11012068f5fd0534c03c4f--
+--001a1149a47ecbce350534c13206--
