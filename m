@@ -1,27 +1,28 @@
-Return-Path: <edwin.plauchu.camacho@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 99AB87318F
+Return-Path: <stephen.arnold42@gmail.com>
+X-Greylist: delayed 331 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 08 Jun 2016 00:14:12 UTC
+Received: from gatekeeper.gentoogeek.org (gatekeeper.gentoogeek.org
+	[66.159.242.209])
+	by mail.openembedded.org (Postfix) with ESMTP id 6130A60745
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Jun 2016 21:48:59 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 07 Jun 2016 14:49:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,435,1459839600"; d="scan'208";a="982865906"
-Received: from pianodaemon-contraption.zpn.intel.com (HELO [10.219.128.59])
-	([10.219.128.59])
-	by fmsmga001.fm.intel.com with ESMTP; 07 Jun 2016 14:48:58 -0700
+	Wed,  8 Jun 2016 00:14:12 +0000 (UTC)
+Received: from prime.arnolds.bogus (prime.arnolds.bogus [192.168.0.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by gatekeeper.gentoogeek.org (Postfix) with ESMTPS id 04BEA2047
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  7 Jun 2016 17:08:37 -0700 (PDT)
+Received: from ptolemy.arnolds.bogus (ptolemy.arnolds.bogus
+	[::ffff:192.168.0.11])
+	by prime.arnolds.bogus with ESMTP; Tue, 07 Jun 2016 17:08:34 -0700
+	id 0000000000241F0D.57576205.00003C38
+From: Stephen Arnold <sarnold@vctlabs.com>
 To: openembedded-core@lists.openembedded.org
-References: <1464380961-10423-1-git-send-email-edwin.plauchu.camacho@linux.intel.com>
-	<574C5E1E.3020800@linux.intel.com>
-From: Plauchu Edwin <edwin.plauchu.camacho@linux.intel.com>
-Message-ID: <57574166.2050203@linux.intel.com>
-Date: Tue, 7 Jun 2016 16:49:26 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.8.0
-MIME-Version: 1.0
-In-Reply-To: <574C5E1E.3020800@linux.intel.com>
-Cc: joshua.g.lock@intel.com, Edwin Plauchu <edwin.plauchu.camacho@intel.com>
-Subject: Re: [PATCH v1] unzip: fix security issues
+Date: Tue,  7 Jun 2016 17:00:33 -0700
+Message-Id: <1465344033-21973-1-git-send-email-sarnold@vctlabs.com>
+X-Mailer: git-send-email 2.8.1
+Cc: Stephen Arnold <sarnold@vctlabs.com>
+Subject: [PATCH] qemu-native: set ld.bfd, fix cflags, and set some environment vars
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,229 +35,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jun 2016 21:49:02 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 08 Jun 2016 00:14:13 -0000
 
-Ping!
+The main thing is build failures with gold linker, but qemu is also a
+little too aggressive at finding random tools on the build host, so we
+also set the build env for qemu-native and make sure it doesn't reset
+its own (hard-coded) cflags when we don't want it to.
 
-On 30/05/16 10:37, Plauchu Edwin wrote:
-> Ping!
->
-> On 27/05/16 15:29, Edwin Plauchu wrote:
->> From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
->>
->> This patch avoids unzip fails to compile with compiler flags which 
->> elevate common string formatting issues into an error (-Wformat 
->> -Wformat-security -Werror=format-security).
->>
->> [YOCTO #9551]
->>
->> Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
->> ---
->>   meta/conf/distro/include/security_flags.inc        |   1 -
->>   .../unzip/unzip/fix-security-format.patch          | 139 
->> +++++++++++++++++++++
->>   meta/recipes-extended/unzip/unzip_6.0.bb           |   1 +
->>   3 files changed, 140 insertions(+), 1 deletion(-)
->>   create mode 100644 
->> meta/recipes-extended/unzip/unzip/fix-security-format.patch
->>
->> diff --git a/meta/conf/distro/include/security_flags.inc 
->> b/meta/conf/distro/include/security_flags.inc
->> index febedfa..fc4c581 100644
->> --- a/meta/conf/distro/include/security_flags.inc
->> +++ b/meta/conf/distro/include/security_flags.inc
->> @@ -104,7 +104,6 @@ SECURITY_STRINGFORMAT_pn-gcc = ""
->>   SECURITY_STRINGFORMAT_pn-gettext = ""
->>   SECURITY_STRINGFORMAT_pn-kexec-tools = ""
->>   SECURITY_STRINGFORMAT_pn-oh-puzzles = ""
->> -SECURITY_STRINGFORMAT_pn-unzip = ""
->>     TARGET_CFLAGS_append_class-target = " ${SECURITY_CFLAGS}"
->>   TARGET_LDFLAGS_append_class-target = " ${SECURITY_LDFLAGS}"
->> diff --git 
->> a/meta/recipes-extended/unzip/unzip/fix-security-format.patch 
->> b/meta/recipes-extended/unzip/unzip/fix-security-format.patch
->> new file mode 100644
->> index 0000000..c82f502
->> --- /dev/null
->> +++ b/meta/recipes-extended/unzip/unzip/fix-security-format.patch
->> @@ -0,0 +1,139 @@
->> +unzip: Fixing security formatting issues
->> +
->> +Fix security formatting issues related to sprintf parameters expeted.
->> +
->> +[YOCTO #9551]
->> +[https://bugzilla.yoctoproject.org/show_bug.cgi?id=9551]
->> +
->> +Upstream-Status: Pending
->> +
->> +Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
->> +
->> +diff --git a/unzpriv.h b/unzpriv.h
->> +index c8d3eab..85e693a 100644
->> +--- a/unzpriv.h
->> ++++ b/unzpriv.h
->> +@@ -1006,7 +1006,7 @@
->> + #    define LoadFarStringSmall(x)   Qstrfix(x)
->> + #    define LoadFarStringSmall2(x)  Qstrfix(x)
->> + #  else
->> +-#    define LoadFarString(x)        (char *)(x)
->> ++#    define LoadFarString(x)        "%s",(char *)(x)
->> + #    define LoadFarStringSmall(x)   (char *)(x)
->> + #    define LoadFarStringSmall2(x)  (char *)(x)
->> + #  endif
->> +diff --git a/fileio.c b/fileio.c
->> +index 36bfea3..ca779c2 100644
->> +--- a/fileio.c
->> ++++ b/fileio.c
->> +@@ -588,8 +588,8 @@ unsigned readbuf(__G__ buf, size)   /* return 
->> number of bytes read into buf */
->> +             else if (G.incnt < 0) {
->> +                 /* another hack, but no real harm copying same 
->> thing twice */
->> +                 (*G.message)((zvoid *)&G,
->> +-                  (uch *)LoadFarString(ReadError),  /* CANNOT use 
->> slide */
->> +-                  (ulg)strlen(LoadFarString(ReadError)), 0x401);
->> ++                  (uch *)(char*)(ReadError),  /* CANNOT use slide */
->> ++                  (ulg)strlen((char*)(ReadError)), 0x401);
->> +                 return 0;  /* discarding some data; better than 
->> lock-up */
->> +             }
->> +             /* buffer ALWAYS starts on a block boundary:  */
->> +@@ -631,8 +631,8 @@ int readbyte(__G)   /* refill inbuf and return a 
->> byte if available, else EOF */
->> +         } else if (G.incnt < 0) {  /* "fail" (abort, retry, ...) 
->> returns this */
->> +             /* another hack, but no real harm copying same thing 
->> twice */
->> +             (*G.message)((zvoid *)&G,
->> +-              (uch *)LoadFarString(ReadError),
->> +-              (ulg)strlen(LoadFarString(ReadError)), 0x401);
->> ++              (uch *)(char*)(ReadError),
->> ++              (ulg)strlen((char*)(ReadError)), 0x401);
->> +             echon();
->> + #ifdef WINDLL
->> +             longjmp(dll_error_return, 1);
->> +@@ -1356,7 +1356,7 @@ int UZ_EXP UzpMessagePrnt(pG, buf, size, flag)
->> +                 ++((Uz_Globs *)pG)->lines;
->> +                 if (((Uz_Globs *)pG)->lines >= ((Uz_Globs 
->> *)pG)->height)
->> +                     (*((Uz_Globs *)pG)->mpause)((zvoid *)pG,
->> +-                      LoadFarString(MorePrompt), 1);
->> ++                      (char*)(MorePrompt), 1);
->> +             }
->> + #endif /* MORE */
->> +             if (MSG_STDERR(flag) && ((Uz_Globs *)pG)->UzO.tflag &&
->> +@@ -1416,7 +1416,7 @@ int UZ_EXP UzpMessagePrnt(pG, buf, size, flag)
->> +                     ((Uz_Globs *)pG)->sol = TRUE;
->> +                     q = p + 1;
->> +                     (*((Uz_Globs *)pG)->mpause)((zvoid *)pG,
->> +-                      LoadFarString(MorePrompt), 1);
->> ++                      (char*)(MorePrompt), 1);
->> +                 }
->> +             }
->> +             INCSTR(p);
->> +@@ -2176,7 +2176,7 @@ int do_string(__G__ length, option)   /* 
->> return PK-type error code */
->> +                     (*G.message)((zvoid *)&G, slide, 
->> (ulg)(q-slide), 0);
->> +                     q = slide;
->> +                     if (pause && G.extract_flag) /* don't pause for 
->> list/test */
->> +-                        (*G.mpause)((zvoid *)&G, 
->> LoadFarString(QuitPrompt), 0);
->> ++                        (*G.mpause)((zvoid *)&G, 
->> (char*)(QuitPrompt), 0);
->> +                 }
->> +             }
->> +             (*G.message)((zvoid *)&G, slide, (ulg)(q-slide), 0);
->> +diff --git a/unzip.c b/unzip.c
->> +index 2d94a38..ca135af 100644
->> +--- a/unzip.c
->> ++++ b/unzip.c
->> +@@ -1079,7 +1079,7 @@ int unzip(__G__ argc, argv)
->> + #ifndef _WIN32_WCE /* Win CE does not support environment variables */
->> +         if ((error = envargs(&argc, &argv, 
->> LoadFarStringSmall(EnvZipInfo),
->> + LoadFarStringSmall2(EnvZipInfo2))) != PK_OK)
->> +-            perror(LoadFarString(NoMemEnvArguments));
->> ++            perror((char*)(NoMemEnvArguments));
->> + #endif
->> +     } else
->> + #endif /* !NO_ZIPINFO */
->> +@@ -1088,7 +1088,7 @@ int unzip(__G__ argc, argv)
->> + #ifndef _WIN32_WCE /* Win CE does not support environment variables */
->> +         if ((error = envargs(&argc, &argv, 
->> LoadFarStringSmall(EnvUnZip),
->> +                              LoadFarStringSmall2(EnvUnZip2))) != 
->> PK_OK)
->> +-            perror(LoadFarString(NoMemEnvArguments));
->> ++            perror((char*)(NoMemEnvArguments));
->> + #endif
->> +     }
->> +
->> +diff --git a/zipinfo.c b/zipinfo.c
->> +index 0ac75b3..8a0887c 100644
->> +--- a/zipinfo.c
->> ++++ b/zipinfo.c
->> +@@ -1640,14 +1640,14 @@ static int zi_long(__G__ pEndprev, 
->> error_in_archive)
->> +
->> +                         *types = '\0';
->> +                         if (*ef_ptr & 1) {
->> +-                            strcpy(types, 
->> LoadFarString(UTmodification));
->> ++                            strcpy(types, (char*)(UTmodification));
->> +                             ++num;
->> +                         }
->> +                         if (*ef_ptr & 2) {
->> +                             len = strlen(types);
->> +                             if (num)
->> +                                 types[len++] = '/';
->> +-                            strcpy(types+len, 
->> LoadFarString(UTaccess));
->> ++                            strcpy(types+len, (char*)(UTaccess));
->> +                             ++num;
->> +                             if (*pEndprev > 0L)
->> +                                 *pEndprev += 4L;
->> +@@ -1656,7 +1656,7 @@ static int zi_long(__G__ pEndprev, 
->> error_in_archive)
->> +                             len = strlen(types);
->> +                             if (num)
->> +                                 types[len++] = '/';
->> +-                            strcpy(types+len, 
->> LoadFarString(UTcreation));
->> ++                            strcpy(types+len, (char *)(UTcreation));
->> +                             ++num;
->> +                             if (*pEndprev > 0L)
->> +                                 *pEndprev += 4L;
->> +@@ -2331,7 +2331,7 @@ static char *zi_time(__G__ datetimez, 
->> modtimez, d_t_str)
->> +             /* time conversion error in verbose listing format,
->> +              * return string with '?' instead of data
->> +              */
->> +-            return (strcpy(d_t_str, 
->> LoadFarString(lngYMDHMSTimeError)));
->> ++            return (strcpy(d_t_str, (char*)(lngYMDHMSTimeError)));
->> +     } else
->> +         t = (struct tm *)NULL;
->> +     if (t != (struct tm *)NULL) {
->> +
->> diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb 
->> b/meta/recipes-extended/unzip/unzip_6.0.bb
->> index 2397606..547379c 100644
->> --- a/meta/recipes-extended/unzip/unzip_6.0.bb
->> +++ b/meta/recipes-extended/unzip/unzip_6.0.bb
->> @@ -16,6 +16,7 @@ SRC_URI = 
->> "${SOURCEFORGE_MIRROR}/infozip/UnZip%206.x%20%28latest%29/UnZip%206.0/
->>       file://11-cve-2014-8141-getzip64data.patch \
->>       file://CVE-2015-7696.patch \
->>       file://CVE-2015-7697.patch \
->> +        file://fix-security-format.patch \
->>   "
->>     SRC_URI[md5sum] = "62b490407489521db863b523a7f86375"
->
+Signed-off-by: Stephen Arnold <sarnold@vctlabs.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc                     | 13 +++++++++++--
+ meta/recipes-devtools/qemu/qemu/qemu-2.5.0-cflags.patch | 13 +++++++++++++
+ meta/recipes-devtools/qemu/qemu_2.5.0.bb                |  1 +
+ 3 files changed, 25 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/qemu-2.5.0-cflags.patch
+
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 95fe66f..87c9f75 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -30,8 +30,12 @@ SRC_URI_append_class-native = "\
+ 
+ EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)} --disable-werror  --disable-bluez --disable-libiscsi --with-system-pixman --extra-cflags='${CFLAGS}'"
+ 
+-EXTRA_OECONF_class-nativesdk = "--target-list=${@get_qemu_target_list(d)} --disable-werror \
+-				"
++EXTRA_OECONF_class-nativesdk = "--target-list=${@get_qemu_target_list(d)} --disable-werror"
++
++EXTRA_OEMAKE_append_class-native = " LD='${LD}' AR='${AR}' OBJCOPY='${OBJCOPY}' LDFLAGS='${LDFLAGS}'"
++
++LDFLAGS_append_class-native = " -fuse-ld=bfd"
++
+ export LIBTOOL="${HOST_SYS}-libtool"
+ 
+ do_configure_prepend_class-native() {
+@@ -40,6 +44,11 @@ do_configure_prepend_class-native() {
+ 	if [ ! -z "$BHOST_PKGCONFIG_PATH" ]; then
+ 		export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$BHOST_PKGCONFIG_PATH
+ 	fi
++
++	# Alter target makefiles to accept CFLAGS set via env
++	sed -i -r \
++		-e 's/^(C|OP_C|HELPER_C)FLAGS=/\1FLAGS+=/' \
++		"${S}"/Makefile "${S}"/Makefile.target
+ }
+ 
+ KVMENABLE = "--enable-kvm"
+diff --git a/meta/recipes-devtools/qemu/qemu/qemu-2.5.0-cflags.patch b/meta/recipes-devtools/qemu/qemu/qemu-2.5.0-cflags.patch
+new file mode 100644
+index 0000000..173394f
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/qemu-2.5.0-cflags.patch
+@@ -0,0 +1,13 @@
++--- a/configure
+++++ b/configure
++@@ -4468,10 +4468,6 @@ fi
++ if test "$gcov" = "yes" ; then
++   CFLAGS="-fprofile-arcs -ftest-coverage -g $CFLAGS"
++   LDFLAGS="-fprofile-arcs -ftest-coverage $LDFLAGS"
++-elif test "$fortify_source" = "yes" ; then
++-  CFLAGS="-O2 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 $CFLAGS"
++-elif test "$debug" = "no"; then
++-  CFLAGS="-O2 $CFLAGS"
++ fi
++ 
++ ##########################################
+diff --git a/meta/recipes-devtools/qemu/qemu_2.5.0.bb b/meta/recipes-devtools/qemu/qemu_2.5.0.bb
+index 03a6cbe..97ad743 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.5.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.5.0.bb
+@@ -16,6 +16,7 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
+             file://rng_remove_the_unused_request_cancellation_code.patch \
+             file://rng_move_request_queue_cleanup_from_RngEgd_to_RngBackend.patch \
+             file://CVE-2016-2858.patch \
++            file://qemu-2.5.0-cflags.patch \
+            "
+ SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
+ SRC_URI[md5sum] = "f469f2330bbe76e3e39db10e9ac4f8db"
+-- 
+2.8.1
 
 
