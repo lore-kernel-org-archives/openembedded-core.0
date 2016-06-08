@@ -1,23 +1,56 @@
-Return-Path: <kad@kad.name>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E04A96FFC8
+Return-Path: <Daniel.Klauer@gin.de>
+Received: from good-out-05.clustermail.de (good-out-05.clustermail.de
+	[212.223.36.3])
+	by mail.openembedded.org (Postfix) with ESMTP id A8F3B606A8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jun 2016 15:07:58 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 08 Jun 2016 08:07:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,439,1459839600"; d="scan'208";a="715929791"
-Received: from linux.intel.com ([10.23.219.25])
-	by FMSMGA003.fm.intel.com with ESMTP; 08 Jun 2016 08:07:48 -0700
-Received: from nwhinnet-mobl.ger.corp.intel.com (unknown [10.252.15.21])
-	by linux.intel.com (Postfix) with ESMTP id 021FA6A4006;
-	Wed,  8 Jun 2016 08:55:12 -0700 (PDT)
-From: Alexander Kanevskiy <kad@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Jun 2016 18:07:43 +0300
-Message-Id: <20160608150743.46486-1-kad@linux.intel.com>
-X-Mailer: git-send-email 2.8.4
-Subject: [PATCH v2] oe-pkgdata-util: new option to provide full info for binary package(s)
+	Wed,  8 Jun 2016 15:43:27 +0000 (UTC)
+Received: from frontend-01 ([10.0.0.1] helo=frontend.clustermail.de)
+	by smtpout-01.clustermail.de with esmtps
+	(TLSv1.2:DHE-RSA-AES256-GCM-SHA384:256) (Exim 4.84_2)
+	(envelope-from <Daniel.Klauer@gin.de>)
+	id 1bAfdZ-0004a0-LQ; Wed, 08 Jun 2016 17:43:26 +0200
+Received: from [217.6.33.234] (helo=Win2012-02.gin-domain.local)
+	by frontend.clustermail.de with esmtpa (Exim 4.84_2)
+	(envelope-from <Daniel.Klauer@gin.de>)
+	id 1bAfdZ-00061U-EY; Wed, 08 Jun 2016 17:43:21 +0200
+Received: from Win2012-02.gin-domain.local (192.168.1.12) by
+	Win2012-02.gin-domain.local (192.168.1.12) with Microsoft SMTP Server
+	(TLS) id 15.0.1130.7; Wed, 8 Jun 2016 17:43:20 +0200
+Received: from Win2012-02.gin-domain.local ([fe80::3db4:55fd:d76e:9d90]) by
+	Win2012-02.gin-domain.local ([fe80::3db4:55fd:d76e:9d90%12]) with mapi
+	id 15.00.1130.005; Wed, 8 Jun 2016 17:43:20 +0200
+From: "Klauer, Daniel" <Daniel.Klauer@gin.de>
+To: Herve Jourdain <herve.jourdain@neuf.fr>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] smartpm: Don't ignore error if RPM transaction
+	fails without problems
+Thread-Index: AQHRsDtANli+hgUYC0ONri+JdCfiKp+89YIAgCEGQ4CAAXiob4AAErOAgABIKAM=
+Date: Wed, 8 Jun 2016 15:43:20 +0000
+Message-ID: <1465400599707.30401@gin.de>
+References: <1465381435600.39214@gin.de>,
+	<02b101d1c184$93336d80$b99a4880$@neuf.fr>
+In-Reply-To: <02b101d1c184$93336d80$b99a4880$@neuf.fr>
+Accept-Language: en-US, de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [192.168.1.219]
+x-brightmail-tracker: H4sIAAAAAAAAC+NgFvrEqsTGxXJgBSOPrqRtRLjBsuOnL/JbHF44hdHi55qnbA5MAQxRrJl5SfkVCawZJ/78YC347lox+8tS5gbGBqcuRi4OIYHdjBILt7xngXBOMEr87trC2sXIycEsYCpx5WsjC4StKHHhXgOYzSagK3Gu/T0rSIOIQBujxKolDcwgCWGBNInPe56AFYkIpEtc+LueDcL2k+hbdQ1sqISAjsTfRY1gNouAisSV53MZQWxeAQ2J+8ffgc0REgiSuPbwPjuIzSlgJvHywGewOKOArERnwzsmiIPEJW49mc8EMVNAYsme88wQtpJE7+13UHEjiZfTr7BAzBeUODkT4jYJoJl7HywBquEAsnUlLh3kgAgHSryf1soOETaVuPo+GCJsIPFu7WeoTmOJlRv/M0LYthJ7ZkyEmuIsMe9GPUTYSeJNx1uoZ7Ultr/aB/f4pmuroMbIS/y/d59lAqPGLKSAnoUU0LOQ/DgLyf0LGFlWMUqHZ+YZGRga6RoY6aVn5umm5OcmZubp5eQnJ+ZsYoSmhx2Mjz67HmKU5GBSEuVVdA8PF+JLyk+pzEgszogvKs1JLT7EKMHBoyTCa2IdES7EW1yQmFucmQ6TkuHgUJLg/WwFlBIsSk1PrUjLzClJLYJIn2KUlBLnLQFJCoD0ZZTmweUuMYpKCfPesgDK8RSkFuVmlkDEbzEKczxkEmLJy89LlQI6kQEINBhfMYpzMCoJ83KB3MCTmVcCd8IroOuYgK5bfiQc5LqSRISUVAOj66eWO2/vMv53dnjFopAvPtOCy6Swg+nczkXJIRbtEyXyj35f0KscrNPaH2n1dvEOfWZf75C7q5gyRNwSF6tNfz774bcv9fHdZ/N0/Oacara5kdgm0fh5vfa5W0/yrJ6axC2p0zI/xTD3JdO7yavEAsUljdp3Jh+akpZc6BFZqsVzetXMpxuUWIozEg21mIuKEwH5ApgOhQMAAA==
+MIME-Version: 1.0
+X-Cyberoam-smtpxy-version: 1.0.6.3
+X-Cyberoam-AV-Policy: default
+X-CTCH-PVer: 0000001
+X-CTCH-Spam: Unknown
+X-CTCH-VOD: Unknown
+X-CTCH-Flags: 0
+X-CTCH-RefID: str=0001.0A0C0207.57583D19.00A9, ss=1, re=0.000, recu=0.000,
+	reip=0.000, cl=1, cld=1, fgs=0
+X-CTCH-Score: 0.000
+X-CTCH-ScoreCust: 0.000
+X-CTCH-Rules: 
+Subject: Re: [PATCH] smartpm: Don't ignore error if RPM transaction fails without problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,113 +63,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jun 2016 15:07:59 -0000
+X-List-Received-Date: Wed, 08 Jun 2016 15:43:28 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-From: "Alexander D. Kanevskiy" <kad@kad.name>
-
-New option can be used for displaying full information about binary
-package(s), including name, full version, recipe name, recipe full
-version and package size.
-
-This information can be useful inside custom buildhistory class
-to produce detailed image manifest for further analysis.
-
-List of packages can be specified as command line arguments or can
-be read from file (e.g. from existing image manifest).
-
-Warning: In case of image manifest is used as input outside of build
-process, be aware that pkgdata might change since the time image
-was built.
-
-Output format:
-{PKG} [PKGE:]{PKGV}[-{PKGR}] {PN} [PE:]{PV}[-{PR}] {PKGSIZE}
-
-Signed-off-by: Alexander D. Kanevskiy <kad@kad.name>
----
- scripts/oe-pkgdata-util | 62 +++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 62 insertions(+)
-
-diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
-index b16ecc9..d60f084 100755
---- a/scripts/oe-pkgdata-util
-+++ b/scripts/oe-pkgdata-util
-@@ -274,6 +274,61 @@ def lookup_recipe(args):
-         items.extend(mappings.get(pkg, []))
-     print('\n'.join(items))
- 
-+def package_info(args):
-+    # Handle both multiple arguments and multiple values within an arg (old syntax)
-+    packages = []
-+    if args.file:
-+        with open(args.file, 'r') as f:
-+            for line in f:
-+                splitline = line.split()
-+                if splitline:
-+                    packages.append(splitline[0])
-+    else:
-+        for pkgitem in args.pkg:
-+            packages.extend(pkgitem.split())
-+        if not packages:
-+            logger.error("No packages specified")
-+            sys.exit(1)
-+
-+    mappings = defaultdict(lambda: defaultdict(str))
-+    for pkg in packages:
-+        pkgfile = os.path.join(args.pkgdata_dir, 'runtime-reverse', pkg)
-+        if os.path.exists(pkgfile):
-+            with open(pkgfile, 'r') as f:
-+                for line in f:
-+                    fields = line.rstrip().split(': ')
-+                    if fields[0].endswith("_" + pkg):
-+                        k = fields[0][:len(fields[0]) - len(pkg) - 1]
-+                    else:
-+                        k = fields[0]
-+                    v = fields[1] if len(fields) == 2 else ""
-+                    mappings[pkg][k] = v
-+
-+    if len(mappings) < len(packages):
-+        missing = list(set(packages) - set(mappings.keys()))
-+        logger.error("The following packages could not be found: %s" %
-+                     ', '.join(missing))
-+        sys.exit(1)
-+
-+    items = []
-+    for pkg in packages:
-+        pkg_version = mappings[pkg]['PKGV']
-+        if mappings[pkg]['PKGE']:
-+            pkg_version = mappings[pkg]['PKGE'] + ":" + pkg_version
-+        if mappings[pkg]['PKGR']:
-+            pkg_version = pkg_version + "-" + mappings[pkg]['PKGR']
-+        recipe = mappings[pkg]['PN']
-+        recipe_version = mappings[pkg]['PV']
-+        if mappings[pkg]['PE']:
-+            recipe_version = mappings[pkg]['PE'] + ":" + recipe_version
-+        if mappings[pkg]['PR']:
-+            recipe_version = recipe_version + "-" + mappings[pkg]['PR']
-+        pkg_size = mappings[pkg]['PKGSIZE']
-+
-+        items.append("%s %s %s %s %s" %
-+                     (pkg, pkg_version, recipe, recipe_version, pkg_size))
-+    print('\n'.join(items))
-+
- def get_recipe_pkgs(pkgdata_dir, recipe, unpackaged):
-     recipedatafile = os.path.join(pkgdata_dir, recipe)
-     if not os.path.exists(recipedatafile):
-@@ -469,6 +524,13 @@ def main():
-     parser_lookup_recipe.add_argument('pkg', nargs='+', help='Runtime package name to look up')
-     parser_lookup_recipe.set_defaults(func=lookup_recipe)
- 
-+    parser_package_info = subparsers.add_parser('package-info',
-+                                          help='Shows version, recipe and size information for one or more packages',
-+                                          description='Looks up the specified runtime package(s) and display information')
-+    parser_package_info.add_argument('pkg', nargs='*', help='Runtime package name to look up')
-+    parser_package_info.add_argument('-f', '--file', help='Read package names from the specified file (one per line, first field only)')
-+    parser_package_info.set_defaults(func=package_info)
-+
-     parser_find_path = subparsers.add_parser('find-path',
-                                           help='Find package providing a target path',
-                                           description='Finds the recipe-space package providing the specified target path')
--- 
-2.8.4
-
+Hello,=0A=
+=0A=
+> You also need to add another check just before raising the error, or you=
+=0A=
+> would end up getting an "unknown error" raised there.=0A=
+> I basically replaced:=0A=
+> -        if (probs is not None) and (not retry):=0A=
+> +       if (probs is not None) and ((len(probs) !=3D 0) or not=0A=
+> sysconf.has("attempt-install", soft=3DTrue)) and (not retry):=0A=
+=0A=
+Hmm, it sounds like the attempt mode wants to ignore installation failures=
+=0A=
+(empty problems list) like before the patch, which makes sense to me. After=
+all,=0A=
+attempt mode wants to try installation and ignore failures. So it seems goo=
+d to=0A=
+fix this regression too.=0A=
+=0A=
+However, I wonder why it never ignored a non-empty problems list, which wou=
+ld=0A=
+also trigger an error. Maybe that case just never happens in practice, beca=
+use=0A=
+it's always just file conflicts. Those trigger a retry, which prevents the =
+error=0A=
+from being raised.=0A=
+=0A=
+> BUT reflecting on the whole scheme, I'm wondering how it will work in cas=
+e=0A=
+> of file found conflict, since the problem package gets removed from the=
+=0A=
+> list, but the list is committed again, with most packages already=0A=
+> installed...=0A=
+> I therefore wonder that there could be the same error that I got in the e=
+nd,=0A=
+> i.e failing with package already installed - which should not fail for=0A=
+> attempt only.=0A=
+=0A=
+Indeed, I'm curious about that too...=0A=
+=0A=
+If you could put together the patch, that would be great and fine with me.=
+=0A=
+=0A=
+Thanks,=0A=
+Daniel=0A=
 
