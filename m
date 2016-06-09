@@ -1,35 +1,41 @@
-Return-Path: <herve.jourdain@neuf.fr>
-Received: from smtp26.services.sfr.fr (smtp26.services.sfr.fr [93.17.128.163])
-	by mail.openembedded.org (Postfix) with ESMTP id A259F6FF56
+Return-Path: <d.falko.work@gmail.com>
+Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
+	[209.85.213.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 448106E6B1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jun 2016 07:47:49 +0000 (UTC)
-Received: from nbhjo (111-250-192-53.dynamic.hinet.net [111.250.192.53])
-	by msfrf2604.sfr.fr (SMTP Server) with ESMTP id 9D0121C00201F;
-	Thu,  9 Jun 2016 09:47:49 +0200 (CEST)
-Received: from nbhjo (111-250-192-53.dynamic.hinet.net
-	[111.250.192.53])	(using TLSv1.2
-	with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))	(No client
-	certificate requested)	(Authenticated sender: herve.jourdain@neuf.fr)
-	by msfrf2604.sfr.fr (SMTP Server) with ESMTPSA;
-	Thu,  9 Jun 2016 09:47:47 +0200 (CEST)
-Authentication-Results: sfr.fr; auth=pass (LOGIN)
-	smtp.auth=herve.jourdain@neuf.fr
-From: Herve Jourdain <herve.jourdain@neuf.fr>
-To: 'Mark Hatle' <mark.hatle@windriver.com>
-References: <1465381435600.39214@gin.de>
-	<02b101d1c184$93336d80$b99a4880$@neuf.fr> <1465400599707.30401@gin.de>
-	<2ed9a471-32c1-5ec1-b5e1-fb019afa1dc2@windriver.com>
-	<B39D3DBB-B9C1-4119-9687-03A571ED29AE@neuf.fr>
-	<bac958a1-9a5e-3bdc-0d83-0dcff153dd22@windriver.com>
-In-Reply-To: <bac958a1-9a5e-3bdc-0d83-0dcff153dd22@windriver.com>
-Date: Thu, 9 Jun 2016 09:47:43 +0200
-Message-ID: <001f01d1c223$37dc8da0$a795a8e0$@neuf.fr>
+	Thu,  9 Jun 2016 08:35:32 +0000 (UTC)
+Received: by mail-vk0-f68.google.com with SMTP id x7so5176371vkf.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 09 Jun 2016 01:35:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=+529nc8q5NHxBMVKxNayqEsaDN3tmzGml9tda6vxiTY=;
+	b=g0QXHL/jILm1mAj/YYQTjbw3KSdc++TRPwuwCF0a/Oq6q/eD27yZBtiMBsm9BR/tlK
+	MqzO6GR8lwnKPCW4rZ5swHksDiuXXRp63GTeojzk7XEWR2We+R9H+joDJ3dB1Y6eUKNB
+	fKZPb92PIKe47c27P9IWQk+Kn2RtZQAHotR1Io7jYb4L6Mlv9sH4MYNKQccs+42FnK0E
+	Q7K2QaymB7LJmvX964m5uCYTdvulH64hj4JVloV+J4+9tgjtxnNogpivEpX7gJT4o95k
+	YTFXB2zG1MzL7VygilwQkOSJZPDnot6eczlOffmPWR0XzQIqo5CjBp37nnCooEPr0V2b
+	+6FQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=+529nc8q5NHxBMVKxNayqEsaDN3tmzGml9tda6vxiTY=;
+	b=DQGaBUqB1qFPS/k/Lqy2e2dOQyYTuYNwAhZqauxuV+8u0bN4mGD3EEJNzTjvEHvrNl
+	Re3YTtuRkUHebYb4I1kL9n/BtuYTnFjFCFkUt8F/qH0m/Si08SkUgnkABwLLJSqXoQvI
+	O9iJnML2+J4t0mcOfN0WDHOZvT7E4WH2vAQJ6u0sN/V9yg6MPCJdO2EHM9xg8liSsPKn
+	c4NwxKPcNh72xEy+7TY/6sHFHC9PAOLKP1mILEPh9vZXTmPPbS92I9RRc6yJo75n27Ax
+	eyyPePM4z9WXl2NDzgmT8vIpKfYaw8ZAcERWgUKdH1j3drq9mkEQoPiLDt12KEBhSao0
+	Oiyg==
+X-Gm-Message-State: ALyK8tIaD/khOBur6Iu3Af3U9sxZCEXlpdOgDHBRK6tm1XYJRAuOKfXaIEerC8eOz0i790K7UdwUE7RvL49Fqw==
+X-Received: by 10.159.35.19 with SMTP id 19mr4303000uae.31.1465461333411; Thu,
+	09 Jun 2016 01:35:33 -0700 (PDT)
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 15.0
-thread-index: AQGwqRfmsvXsIwCgIjSUu3Vnj28JdAH2qNH0AkN0yxoBEPKPLAI5Oj0BAdYMWr6f2CAxcA==
-X-sfr-mailing: LEGIT
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: ***SPAM*** Re: [PATCH] smartpm: Don't ignore error if RPM transaction fails without problems
+Received: by 10.103.42.129 with HTTP; Thu, 9 Jun 2016 01:35:33 -0700 (PDT)
+From: Dmitriy Falko <d.falko.work@gmail.com>
+Date: Thu, 9 Jun 2016 11:35:33 +0300
+Message-ID: <CAG+FGgfFMYHhcHp_PcJw+dk6LDj8CzC4UjRrc7aLAZAhEq0ChA@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] Avahi, add extra path to GIR_EXTRA_LIBS_PATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,129 +48,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jun 2016 07:47:49 -0000
-Content-Type: text/plain; charset=iso-8859-1
+X-List-Received-Date: Thu, 09 Jun 2016 08:35:34 -0000
+Content-Type: multipart/alternative; boundary=001a113d15f835cd2a0534d44ed5
+
+--001a113d15f835cd2a0534d44ed5
+Content-Type: text/plain; charset=UTF-8
+
+Signed-off-by: Dmitriy Falko <d.falko.work@gmail.com>
+---
+ meta/recipes-connectivity/avahi/avahi.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-connectivity/avahi/avahi.inc
+b/meta/recipes-connectivity/avahi/avahi.inc
+index 81aad79..340b3e6 100644
+--- a/meta/recipes-connectivity/avahi/avahi.inc
++++ b/meta/recipes-connectivity/avahi/avahi.inc
+@@ -71,7 +71,7 @@ do_configure_prepend() {
+ }
+
+ do_compile_prepend() {
+-    export
+GIR_EXTRA_LIBS_PATH="${B}/avahi-common/.libs:${B}/avahi-client/.libs:${B}/avahi-glib/.libs"
++    export
+GIR_EXTRA_LIBS_PATH="${B}/avahi-gobject/.libs:${B}/avahi-common/.libs:${B}/avahi-client/.libs:${B}/avahi-glib/.libs"
+ }
+
+ PACKAGES =+ "avahi-daemon libavahi-common libavahi-core libavahi-client
+avahi-dnsconfd libavahi-glib libavahi-ui avahi-autoipd avahi-utils"
+-- 
+2.7.4
+
+--001a113d15f835cd2a0534d44ed5
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Language: fr
 
-Hi Mark,
+<div dir=3D"ltr"><div><br></div><div>Signed-off-by: Dmitriy Falko &lt;<a hr=
+ef=3D"mailto:d.falko.work@gmail.com">d.falko.work@gmail.com</a>&gt;</div><d=
+iv>---</div><div>=C2=A0meta/recipes-connectivity/avahi/avahi.inc | 2 +-</di=
+v><div>=C2=A01 file changed, 1 insertion(+), 1 deletion(-)</div><div><br></=
+div><div>diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/reci=
+pes-connectivity/avahi/avahi.inc</div><div>index 81aad79..340b3e6 100644</d=
+iv><div>--- a/meta/recipes-connectivity/avahi/avahi.inc</div><div>+++ b/met=
+a/recipes-connectivity/avahi/avahi.inc</div><div>@@ -71,7 +71,7 @@ do_confi=
+gure_prepend() {</div><div>=C2=A0}</div><div>=C2=A0</div><div>=C2=A0do_comp=
+ile_prepend() {</div><div>- =C2=A0 =C2=A0export GIR_EXTRA_LIBS_PATH=3D&quot=
+;${B}/avahi-common/.libs:${B}/avahi-client/.libs:${B}/avahi-glib/.libs&quot=
+;</div><div>+ =C2=A0 =C2=A0export GIR_EXTRA_LIBS_PATH=3D&quot;${B}/avahi-go=
+bject/.libs:${B}/avahi-common/.libs:${B}/avahi-client/.libs:${B}/avahi-glib=
+/.libs&quot;</div><div>=C2=A0}</div><div>=C2=A0</div><div>=C2=A0PACKAGES =
+=3D+ &quot;avahi-daemon libavahi-common libavahi-core libavahi-client avahi=
+-dnsconfd libavahi-glib libavahi-ui avahi-autoipd avahi-utils&quot;</div><d=
+iv>--=C2=A0</div><div>2.7.4</div></div>
 
-OK, I've just sent the patch for the immediate issue to the list.
-
-For the remaining potential issue, I believe one easy way to fix it =
-would be
-to handle the RPMPROB_PKG_INSTALLED error in addition to the existing =
-error
-types, but without generating a retry (if attempting to install a =
-package,
-and the package is already installed, then it should be just fine)...
-But without a way to test the fix, I'm not sure if we want to do that...
-
-Herve
-
------Original Message-----
-From: Mark Hatle [mailto:mark.hatle@windriver.com]=20
-Sent: mercredi 8 juin 2016 18:47
-To: Herve Jourdain <herve.jourdain@neuf.fr>
-Cc: openembedded-core@lists.openembedded.org
-Subject: ***SPAM*** Re: [OE-core] [PATCH] smartpm: Don't ignore error if =
-RPM
-transaction fails without problems
-
-On 6/8/16 11:17 AM, Herve Jourdain wrote:
-> Hi Mark,
->=20
-> In my case, the issue was due to an empty problem list, which after
-Daniel's fix did trigger a retry, which failed because the packages were
-already installed.
-> But the code for a non-empty problem list does also trigger a retry, =
-and I
-suppose it would run also in the same "package already installed" issue, =
-if
-it were to be triggered - not sure though, since I never had that case =
-yet.
-> Do you think we need to check and potentially fix that case? Or shall =
-we
-remove the retry feature altogether instead?
-
-We should definitely get the fix suggested here in place and resolve the
-immediate issue.
-
-I'm not sure if we can intentionally trigger the faults or not.  If we =
-can,
-then we can add a test case to the existing harness.
-
-The normal way to test this is inject a pre/post install script fault -- =
-but
-the cross install process protects against that already.
-
-I can't think of any way to trigger the fault in an automated fashion =
-(cause
-a failure during install vs during transaction config)
-
---Mark
-
-> Herv=E9
->=20
->> Le 9 juin 2016 =E0 00:05, Mark Hatle <mark.hatle@windriver.com> a =
-=E9crit :
->>
->>> On 6/8/16 10:43 AM, Klauer, Daniel wrote:
->>> Hello,
->>>
->>>> You also need to add another check just before raising the error,=20
->>>> or you would end up getting an "unknown error" raised there.
->>>> I basically replaced:
->>>> -        if (probs is not None) and (not retry):
->>>> +       if (probs is not None) and ((len(probs) !=3D 0) or not
->>>> sysconf.has("attempt-install", soft=3DTrue)) and (not retry):
->>>
->>> Hmm, it sounds like the attempt mode wants to ignore installation=20
->>> failures (empty problems list) like before the patch, which makes=20
->>> sense to me. Afterall, attempt mode wants to try installation and=20
->>> ignore failures. So it seems good to fix this regression too.
->>>
->>> However, I wonder why it never ignored a non-empty problems list,=20
->>> which would also trigger an error. Maybe that case just never=20
->>> happens in practice, because it's always just file conflicts. Those=20
->>> trigger a retry, which prevents the error from being raised.
->>>
->>>> BUT reflecting on the whole scheme, I'm wondering how it will work=20
->>>> in case of file found conflict, since the problem package gets=20
->>>> removed from the list, but the list is committed again, with most=20
->>>> packages already installed...
->>
->> File conflicts are discovered prior to the transaction being=20
->> committed (installation time).  Problems reported during installation =
-
->> are 'different' (and generally do not happen).  I'm not sure if a=20
->> pre/post install failure, bad package (signature or otherwise) or=20
->> whatever would do here.  I'm not sure it's been tested.
->>
->> (The items above can't generally happen based on the way the system=20
->> is designed..)
->>
->> --Mark
->>
->>>> I therefore wonder that there could be the same error that I got in =
-
->>>> the end, i.e failing with package already installed - which should=20
->>>> not fail for attempt only.
->>>
->>> Indeed, I'm curious about that too...
->>>
->>> If you could put together the patch, that would be great and fine =
-with
-me.
->>>
->>> Thanks,
->>> Daniel
->>>
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
+--001a113d15f835cd2a0534d44ed5--
