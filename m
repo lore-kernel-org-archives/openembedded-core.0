@@ -1,32 +1,31 @@
-Return-Path: <timothy.t.orling@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 5CB6E62134;
-	Thu,  9 Jun 2016 15:09:31 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP; 09 Jun 2016 08:09:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,445,1459839600"; d="scan'208";a="824901347"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga003.jf.intel.com with ESMTP; 09 Jun 2016 08:09:30 -0700
-Received: by linux.intel.com (Postfix, from userid 48)
-	id 201AA6A4008; Thu,  9 Jun 2016 08:56:56 -0700 (PDT)
-Received: from 10.7.198.51 (SquirrelMail authenticated user timothy.t.orling)
-	by linux.intel.com with HTTP; Thu, 9 Jun 2016 08:56:55 -0700 (PDT)
-Message-ID: <33320.10.7.198.51.1465487815.squirrel@linux.intel.com>
-In-Reply-To: <CAJTo0LZnh1+tvznjgKKFrSoP-ie0vMD0m_5AtTEi0DcrpFjX6g@mail.gmail.com>
-References: <cfce0a18-6762-9da4-1f4a-1969a912bf50@linux.intel.com>
-	<c487579e-eb43-81b5-b888-da9ad493102a@balister.org>
-	<CAJTo0LZnh1+tvznjgKKFrSoP-ie0vMD0m_5AtTEi0DcrpFjX6g@mail.gmail.com>
-Date: Thu, 9 Jun 2016 08:56:55 -0700 (PDT)
-From: timothy.t.orling@linux.intel.com
-To: "OpenEmbedded Devel List" <openembedded-devel@lists.openembedded.org>,
-	"Patches and discussions about the oe-core layer"
-	<openembedded-core@lists.openembedded.org>
-User-Agent: SquirrelMail/1.4.8-5.el4.centos.8
-MIME-Version: 1.0
-X-Priority: 3 (Normal)
-Importance: Normal
-Subject: Re: [oe] the fate of Vala in OE
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 9230262134
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  9 Jun 2016 15:23:15 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u59FNFnE023376; Thu, 9 Jun 2016 16:23:15 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id yntFpZ-rcXD2; Thu,  9 Jun 2016 16:23:15 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u59FNDSH023373
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 9 Jun 2016 16:23:14 +0100
+Message-ID: <1465485793.13979.125.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ovidiu-Adrian Vancea <ovidiu.vancea@ni.com>,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 09 Jun 2016 16:23:13 +0100
+In-Reply-To: <1465483659.36541.24.camel@ni.com>
+References: <1465402114-1588-1-git-send-email-ovidiu.vancea@ni.com>
+	<1465405170.13979.111.camel@linuxfoundation.org>
+	<1465483659.36541.24.camel@ni.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH v2 0/3] ipk/deb/rpm: add kernel version to its dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,28 +38,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jun 2016 15:09:33 -0000
-Content-Type: text/plain;charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 09 Jun 2016 15:23:19 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-> On 9 June 2016 at 15:08, Philip Balister <philip@balister.org> wrote:
->
->> That said, what other layers use vala? If it leaves core, is there a
->> layer that can host it and support other layers using it without to much
->> trouble?
->>
->
-> That's the key question really - can the support be extracted and added to
-> eg meta-vala in some way?
->
-> Ross
+On Thu, 2016-06-09 at 17:47 +0300, Ovidiu-Adrian Vancea wrote:
+> At do_package time I can't modify the variables RDEPENDS, RRECOMMENDS
+> and RSUGGESTS as stated in the following email:
+> http://lists.openembedded.org/pipermail/bitbake-devel/2013-April/0034
+> 16
+> .html
 
-I use vala for clutter/cogl/weston/wayland development, although not in
-any published public layers. Part of me hates to see it leave core, but a
-well maintained layer is acceptable-ish. I know that vala-terminal in
-meta-oe has been in and out of blacklist for quite a while now.
+In general that email is correct, changes to the variables won't
+propergate between tasks.
 
-Cheers.
+There is an exception in the do_package -> do_package_write_xxx
+process. These use emit_pkgdata() to save the data and
+read_subpackage_metadata() to read the data back in.
 
---Tim
+Not all variables are covered, but the ones you mention above are. As
+long as you modify them somewhere during do_package such as adding a
+function to PACKAGESPLITFUNCS, the changes will persist in the
+packaging.
+
+> I've tried the smallest changes to these 3 fields but without
+> success,
+> confirming what was said in the email.
+> I do manage to get the auto pr data (Version=4.1+git168+a7e53ecc27-
+> r0.73 - notice r0.73) that I need to version the dependencies.
+> 
+> At variable loading time I could globally change RDEPENDS,
+> RRECOMMENDS
+> and RSUGGESTS but I can't get the auto pr data. Since I have no auto
+> pr
+> data, I can go as far as getting Version=4.1+gitAUTOINC+a7e53ecc27-r0
+> (notice r0, not r0.73) which is incomplete.
+> 
+> The only place I've actually managed to insert the data was at
+> package
+> creation time (ipk, deb, rpm), which I agree is ugly but I've not
+> found
+> another to get me where I need.
+
+See above, I believe you can change these values and other recipes do
+this as long as its somewhere within the do_package task.
+
+Cheers,
+
+Richard
 
