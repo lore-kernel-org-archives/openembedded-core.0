@@ -1,45 +1,41 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 58ABE6E668
+Return-Path: <d.falko.work@gmail.com>
+Received: from mail-vk0-f48.google.com (mail-vk0-f48.google.com
+	[209.85.213.48])
+	by mail.openembedded.org (Postfix) with ESMTP id C327E60670
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jun 2016 20:35:29 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id m124so5737111wme.3
+	Thu,  9 Jun 2016 07:01:36 +0000 (UTC)
+Received: by mail-vk0-f48.google.com with SMTP id g67so42915922vkb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Jun 2016 13:35:31 -0700 (PDT)
+	Thu, 09 Jun 2016 00:01:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=mbwkWW+Zcf/WFgk/0bGPy95gL/AFPUeByyd0fO98OQA=;
-	b=zMBxSlpHmKY6xeZbDIe+icJiz9O0CBVy6AoAFM1MueLXI1U/PdnspyUp6Nvy/avify
-	ZUB/I4Zu4K6/xM0dYn+k8DjAeYYQDPt/H8bCu4Qr2nCqR3om2XwlpiH7vNtT9WA30cfj
-	OkAPvhrBJEG6Cp+UHr56mL52FD5xOEV94IcorURXcJu+bR6/cu6cHs5P/Y2YaXTrz5Oi
-	3W6/TmaTsKHW1zSb32lBNjVQOrWrO1vYtmI52CwLq3piB0qL85+Y3ZUCVcE/zCq+hFy5
-	OOy6b1NJVrBab1HWlnxvDs2mtiQhbyZPtPO3u24ia2GFhFsZET7xXlPHSaH11orARiCA
-	anzg==
+	h=mime-version:from:date:message-id:subject:to;
+	bh=EVQQyzIV8R9FXWgtrAf9m6LkTXSxNwJEUo44JuHOgww=;
+	b=oBtLypIv7mNa4r3IFj6OA/jyTatckuXNjG8e1kh4pLiyX2Ts+zc0LwpGqStAVGLnYr
+	5G2fHox3GWzW2VR5eVrdwQbAfzr5DQHIgcrOV08oU20zHPx64a5sSPBz2KYL1Td7iVLa
+	w6MNhpwpBZsa1v3aXkowudQzG/rbij9OEgKQka3NKKVO97bnjBvPnq+074C2YXANluVH
+	1XVFbuUsTRD9vTflSJB4CgAOllPKxgCGQAs15bmjlsOxiOoP1VdpgCfHsqj/hY2kVPPF
+	bgQEehqDXsH16KJqjyp36C/JbW25RR0l4q6IEG8kAL0M6OPeN6EazWWKIPWJ4+UOnww8
+	qBDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=mbwkWW+Zcf/WFgk/0bGPy95gL/AFPUeByyd0fO98OQA=;
-	b=Zx4z6wRvxBDsL3NHL/cr4EblKZBrwVU0VV8p0XAMyzTpLY4GGgmrMg4Dtm69PwVdXa
-	YcJ2mc+OZgFNzkppby7+yJrwS4tEeVQ+7X7G+RzznWNLF6TH16Mst9EAsN1VfcZrtl+y
-	/dJPfiGp0yOe+Na3z8fbwZvLfcDcO6rrHw00niuQk+4CbFzxjasYP+kngyj7Up9005s6
-	h/4uSfQpwxjKhgEI+RQRsCmL5lhhd+ZPBS7zwxZ/DzStNQG4j2amGSM0mddRkLld7zfv
-	5FJt+EN3cvyGMqrmD6C3HIRqwuqgZ6TnXwBmZgz7bObcVdP1JsGpUtsNBKS+ZZxWf7Oz
-	RaDg==
-X-Gm-Message-State: ALyK8tKz2M3wg7GeVpN5trTBbrsXwuUFJGU3cmzq+IoqZd32rOdtwtCeupUwrMqr/Cqli+TEcZA4/I2F3WkVpQ==
-X-Received: by 10.28.215.148 with SMTP id o142mr9334659wmg.72.1465418130307;
-	Wed, 08 Jun 2016 13:35:30 -0700 (PDT)
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=EVQQyzIV8R9FXWgtrAf9m6LkTXSxNwJEUo44JuHOgww=;
+	b=h0D04y6jOerWR67ymR9ZloLr6RnCiqKSpMgHr0PZPY4hEPenMMxQFHj8WgaKKImINJ
+	WXLAQOcfZiuXQExWdE7+2YH/VrqajrOUWlvIB2FA7zoXUXxWAjl1MzLxqsDcrv9OqEpL
+	bdVwGnvrryRqBhztKIJtkQF1QnMDi9oj1Zts+PODLqnrgrTP7EAHZfTQHtGXgaZJJUWz
+	iZMB3rb6IPyfZYqx5l9Z6NLQb3/jz+C3eDWctsRaCZ/2ZraDzW/xIxCCQxav7yAlmHcg
+	T2OqaCCVDUS3Zb8PMNFD082iKcvhgqGkJRRxYJyLL16WA1acTzjLhYnqiyDlkekpXGAI
+	9xbA==
+X-Gm-Message-State: ALyK8tKwEaCx4AqhtmU3DA53a9VUQmOUXyO8zOZDdN7Src/BU7w+brumxlaFkHTwdsayG7f4pz9JMGRLBGEj4g==
+X-Received: by 10.159.37.100 with SMTP id 91mr3482979uaz.67.1465455697418;
+	Thu, 09 Jun 2016 00:01:37 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.194.150.13 with HTTP; Wed, 8 Jun 2016 13:35:29 -0700 (PDT)
-In-Reply-To: <1445376809-25202-5-git-send-email-ross.burton@intel.com>
-References: <1445376809-25202-1-git-send-email-ross.burton@intel.com>
-	<1445376809-25202-5-git-send-email-ross.burton@intel.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Wed, 8 Jun 2016 13:35:29 -0700
-Message-ID: <CAJ86T=U4JCAcbAN4rwvhNT-KO8jHK2OncF=6zQo093g-BmARSg@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][V3 5/5] subversion: add explicit dependency on file-replacement-native for native builds
+Received: by 10.103.42.129 with HTTP; Thu, 9 Jun 2016 00:01:36 -0700 (PDT)
+From: Dmitriy Falko <d.falko.work@gmail.com>
+Date: Thu, 9 Jun 2016 10:01:36 +0300
+Message-ID: <CAG+FGgdqAD=c7pKcjDck5M5sonXCZcVpuNXAmH1E4cmdV8ht1g@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [meta-connectivity][PATCH-Avahi-add-extra-path-to-GIR_EXTRA_LIBS_PATH]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,42 +48,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jun 2016 20:35:32 -0000
+X-List-Received-Date: Thu, 09 Jun 2016 07:01:38 -0000
+X-Groupsio-MsgNum: 83230
+Content-Type: multipart/mixed; boundary=94eb2c122da4483fb10534d2fec6
+
+--94eb2c122da4483fb10534d2fec6
+Content-Type: multipart/alternative; boundary=94eb2c122da4483fac0534d2fec4
+
+--94eb2c122da4483fac0534d2fec4
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 20, 2015 at 2:33 PM, Ross Burton <ross.burton@intel.com> wrote:
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-devtools/subversion/subversion_1.8.13.bb | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-devtools/subversion/subversion_1.8.13.bb b/meta/recipes-devtools/subversion/subversion_1.8.13.bb
-> index f843b95..9c9bdb1 100644
-> --- a/meta/recipes-devtools/subversion/subversion_1.8.13.bb
-> +++ b/meta/recipes-devtools/subversion/subversion_1.8.13.bb
-> @@ -1,6 +1,7 @@
->  SUMMARY = "Subversion (svn) version control system client"
->  SECTION = "console/network"
->  DEPENDS = "apr-util serf sqlite3 file"
-> +DEPENDS_append_class-native = " file-replacement-native"
+Hi!
 
-To make this work, isn't something like:
+When building avahi on uclibc system, get error
 
-  EXTRANATIVEPATH_append_class-native = " file-native"
+| /media/falko/work/poky/build/tmp/work/cortexa15hf-neon-poky-linux-uclibce=
+abi/avahi/0.6.32-s0/build/avahi-gobject/tmp-introspectErrwRJ/.libs/Avahi-0.=
+6:
+can't load library 'libavahi-gobject.so.0'
+| If the above error message is about missing .so libraries, then
+setting up GIR_EXTRA_LIBS_PATH in the recipe should help.
+| (typically like this: GIR_EXTRA_LIBS_PATH=3D"${B}/something/.libs" )
+| Command '['/media/falko/work/poky/build/tmp/sysroots/odroid-xu4/usr/bin/g=
+-ir-scanner-qemuwrapper',
+'/media/falko/work/poky/build/tmp/work/cortexa15hf-neon-poky-linux-uclibcea=
+bi/avahi/0.6.32-s0/build/avahi-gobject/tmp-introspectErrwRJ/.libs/Avahi-0.6=
+',
+'--introspect-dump=3D/media/falko/work/poky/build/tmp/work/cortexa15hf-neon=
+-poky-linux-uclibceabi/avahi/0.6.32-s0/build/avahi-gobject/tmp-introspectEr=
+rwRJ/functions.txt,/media/falko/work/poky/build/tmp/work/cortexa15hf-neon-p=
+oky-linux-uclibceabi/avahi/0.6.32-s0/build/avahi-gobject/tmp-introspectErrw=
+RJ/dump.xml']'
+returned non-zero exit status 1
 
-needed too?
 
-Same comment for rpm-native.
+Fix it by adding extra path to GIR_EXTRA_LIBS_PATH, see attachment
 
->  RDEPENDS_${PN} = "serf"
->  LICENSE = "Apache-2"
->  HOMEPAGE = "http://subversion.tigris.org"
-> --
-> 2.1.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+--94eb2c122da4483fac0534d2fec4
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><span style=3D"font-size:12.8px">Hi!</span><div style=3D"f=
+ont-size:12.8px"><br></div><div style=3D"font-size:12.8px"><pre style=3D"wh=
+ite-space:pre-wrap;width:50em;color:rgb(0,0,0)">When building avahi on ucli=
+bc system, get error
+
+| /media/falko/work/poky/build/tmp/work/cortexa15hf-neon-poky-linux-uclibce=
+abi/avahi/0.6.32-s0/build/avahi-gobject/tmp-introspectErrwRJ/.libs/Avahi-0.=
+6: can&#39;t load library &#39;libavahi-gobject.so.0&#39;
+| If the above error message is about missing .so libraries, then setting u=
+p GIR_EXTRA_LIBS_PATH in the recipe should help.
+| (typically like this: GIR_EXTRA_LIBS_PATH=3D&quot;${B}/something/.libs&qu=
+ot; )
+| Command &#39;[&#39;/media/falko/work/poky/build/tmp/sysroots/odroid-xu4/u=
+sr/bin/g-ir-scanner-qemuwrapper&#39;, &#39;/media/falko/work/poky/build/tmp=
+/work/cortexa15hf-neon-poky-linux-uclibceabi/avahi/0.6.32-s0/build/avahi-go=
+bject/tmp-introspectErrwRJ/.libs/Avahi-0.6&#39;, &#39;--introspect-dump=3D/=
+media/falko/work/poky/build/tmp/work/cortexa15hf-neon-poky-linux-uclibceabi=
+/avahi/0.6.32-s0/build/avahi-gobject/tmp-introspectErrwRJ/functions.txt,/me=
+dia/falko/work/poky/build/tmp/work/cortexa15hf-neon-poky-linux-uclibceabi/a=
+vahi/0.6.32-s0/build/avahi-gobject/tmp-introspectErrwRJ/dump.xml&#39;]&#39;=
+ returned non-zero exit status 1
+
+
+Fix it by adding extra path to GIR_EXTRA_LIBS_PATH, see attachment</pre></d=
+iv></div>
+
+--94eb2c122da4483fac0534d2fec4--
+
+--94eb2c122da4483fb10534d2fec6
+Content-Type: text/x-patch; charset=US-ASCII; 
+	name="0001-Avahi-add-extra-path-to-GIR_EXTRA_LIBS_PATH.patch"
+Content-Disposition: attachment; 
+	filename="0001-Avahi-add-extra-path-to-GIR_EXTRA_LIBS_PATH.patch"
+Content-Transfer-Encoding: base64
+X-Attachment-Id: f_ip7yhe5c0
+
+RnJvbSAyZTg2ZTY2NGQ0MDg1ODk1ZmI1ZWI5YzlhNmYwMWY1MGUyZTk2ZWFlIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBEbWl0cml5IEZhbGtvIDxkLmZhbGtvQHBhcnRuZXIuc2Ftc3Vu
+Zy5jb20+CkRhdGU6IE1vbiwgNiBKdW4gMjAxNiAxNjo0MDo0OCArMDMwMApTdWJqZWN0OiBbUEFU
+Q0hdIEF2YWhpLCBhZGQgZXh0cmEgcGF0aCB0byBHSVJfRVhUUkFfTElCU19QQVRICgotLS0KIG1l
+dGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYXZhaGkvYXZhaGkuaW5jIHwgMiArLQogMSBmaWxlIGNo
+YW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvbWV0YS9y
+ZWNpcGVzLWNvbm5lY3Rpdml0eS9hdmFoaS9hdmFoaS5pbmMgYi9tZXRhL3JlY2lwZXMtY29ubmVj
+dGl2aXR5L2F2YWhpL2F2YWhpLmluYwppbmRleCA4MWFhZDc5Li4zNDBiM2U2IDEwMDY0NAotLS0g
+YS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2F2YWhpL2F2YWhpLmluYworKysgYi9tZXRhL3Jl
+Y2lwZXMtY29ubmVjdGl2aXR5L2F2YWhpL2F2YWhpLmluYwpAQCAtNzEsNyArNzEsNyBAQCBkb19j
+b25maWd1cmVfcHJlcGVuZCgpIHsKIH0KIAogZG9fY29tcGlsZV9wcmVwZW5kKCkgewotICAgIGV4
+cG9ydCBHSVJfRVhUUkFfTElCU19QQVRIPSIke0J9L2F2YWhpLWNvbW1vbi8ubGliczoke0J9L2F2
+YWhpLWNsaWVudC8ubGliczoke0J9L2F2YWhpLWdsaWIvLmxpYnMiCisgICAgZXhwb3J0IEdJUl9F
+WFRSQV9MSUJTX1BBVEg9IiR7Qn0vYXZhaGktZ29iamVjdC8ubGliczoke0J9L2F2YWhpLWNvbW1v
+bi8ubGliczoke0J9L2F2YWhpLWNsaWVudC8ubGliczoke0J9L2F2YWhpLWdsaWIvLmxpYnMiCiB9
+CiAKIFBBQ0tBR0VTID0rICJhdmFoaS1kYWVtb24gbGliYXZhaGktY29tbW9uIGxpYmF2YWhpLWNv
+cmUgbGliYXZhaGktY2xpZW50IGF2YWhpLWRuc2NvbmZkIGxpYmF2YWhpLWdsaWIgbGliYXZhaGkt
+dWkgYXZhaGktYXV0b2lwZCBhdmFoaS11dGlscyIKLS0gCjIuNy40Cgo=
+
+--94eb2c122da4483fb10534d2fec6--
