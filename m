@@ -1,25 +1,20 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 885F96FF5B
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 1FD0565CBB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jun 2016 09:36:54 +0000 (UTC)
+	Thu,  9 Jun 2016 09:42:45 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga104.fm.intel.com with ESMTP; 09 Jun 2016 02:36:55 -0700
+	by orsmga102.jf.intel.com with ESMTP; 09 Jun 2016 02:42:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,444,1459839600"; d="scan'208";a="994178369"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga002.jf.intel.com with ESMTP; 09 Jun 2016 02:36:54 -0700
-To: openembedded-core@lists.openembedded.org
-References: <1465390138-26600-1-git-send-email-maxin.john@intel.com>
+X-IronPort-AV: E=Sophos;i="5.26,444,1459839600"; d="scan'208";a="994181131"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by orsmga002.jf.intel.com with ESMTP; 09 Jun 2016 02:42:45 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <940de7d5-ba9f-cdd1-476c-9b1235b8e4b2@linux.intel.com>
-Date: Thu, 9 Jun 2016 12:37:00 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.1.0
-MIME-Version: 1.0
-In-Reply-To: <1465390138-26600-1-git-send-email-maxin.john@intel.com>
-Subject: Re: [PATCH] libjpeg-turbo: update to 1.5.0
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  9 Jun 2016 12:42:47 +0300
+Message-Id: <1465465368-26196-1-git-send-email-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH 1/2] bash-completion: fix upstream version check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,28 +27,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jun 2016 09:36:55 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 09 Jun 2016 09:42:46 -0000
 
-On 06/08/2016 03:48 PM, Maxin B. John wrote:
-> 1. LIC_FILES_CHKSUM updates only involves changes in Copyright holders.
->    LICENSE remains the same.
->
-> 2. libjpeg-turbo don't have non-floating point ABI support in MIPS.
->    Provide a work around for that.
->
-> [YOCTO #9606]
->
-> Signed-off-by: Maxin B. John <maxin.john@intel.com>
-> ---
->  ...{libjpeg-turbo_8d+1.4.2.bb => libjpeg-turbo_8d+1.5.0.bb} | 13 ++++++++-----
->  1 file changed, 8 insertions(+), 5 deletions(-)
->  rename meta/recipes-graphics/jpeg/{libjpeg-turbo_8d+1.4.2.bb => libjpeg-turbo_8d+1.5.0.bb} (71%)
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ meta/recipes-support/bash-completion/bash-completion_2.1.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-Adding a '8d+' prefix to the version means that upstream check cannot be 
-automatically performed. Can we get rid of it somehow?
-
-Alex
+diff --git a/meta/recipes-support/bash-completion/bash-completion_2.1.bb b/meta/recipes-support/bash-completion/bash-completion_2.1.bb
+index 8b257d2..9877720 100644
+--- a/meta/recipes-support/bash-completion/bash-completion_2.1.bb
++++ b/meta/recipes-support/bash-completion/bash-completion_2.1.bb
+@@ -12,6 +12,7 @@ SRC_URI="http://bash-completion.alioth.debian.org/files/${BPN}-${PV}.tar.bz2"
+ SRC_URI[md5sum] = "4e2a9f11a4042a38ee79ddcd048e8b9e"
+ SRC_URI[sha256sum] = "2b606804a7d5f823380a882e0f7b6c8a37b0e768e72c3d4107c51fbe8a46ae4f"
+ UPSTREAM_CHECK_REGEX = "bash-completion-(?P<pver>(?!2008).+)\.tar"
++UPSTREAM_CHECK_URI = "https://github.com/scop/bash-completion/releases"
+ 
+ PARALLEL_MAKE = ""
+ 
+-- 
+2.8.1
 
 
