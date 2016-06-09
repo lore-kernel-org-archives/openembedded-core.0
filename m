@@ -1,80 +1,21 @@
-Return-Path: <tom.hochstein@nxp.com>
-Received: from emea01-am1-obe.outbound.protection.outlook.com
-	(mail-am1on0088.outbound.protection.outlook.com [157.56.112.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 8BB92605FE
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id DB38F6FF5B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jun 2016 19:58:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=MuGPEPDVNDCtNGaKSwE4IfWsBrh21j3c47bPqMLIHLQ=;
-	b=BUPUlYnWerK+OKTs/+SoU3wb8KSQ4WfQ+cztjuMHxK9/NKmlMvqSmw+sf/sWS8ipL1OOzsK+vqlNDkF3nPcX/SCvFs5Wp+NgTjqqBu3Gz++mB7FFRT+qjkXeccGeoL1rJoVLHSL8vDhN4kKEA9ZW5Chr5/l5KUkaanfnVjLacTk=
-Authentication-Results: spf=none (sender IP is )
-	smtp.mailfrom=tom.hochstein@nxp.com; 
-Received: from tx30imx-01.am.freescale.net (192.88.168.49) by
-	DBXPR04MB317.eurprd04.prod.outlook.com (10.141.232.12) with Microsoft
-	SMTP Server (TLS) id 15.1.501.7; Thu, 9 Jun 2016 19:42:47 +0000
-From: Tom Hochstein <tom.hochstein@nxp.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 9 Jun 2016 14:39:21 -0500
-Message-ID: <1465501161-27757-1-git-send-email-tom.hochstein@nxp.com>
-X-Mailer: git-send-email 1.9.1
+	Thu,  9 Jun 2016 20:14:32 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga101.jf.intel.com with ESMTP; 09 Jun 2016 13:14:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,446,1459839600"; d="scan'208";a="716625281"
+Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.164])
+	by FMSMGA003.fm.intel.com with ESMTP; 09 Jun 2016 13:14:33 -0700
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  9 Jun 2016 15:15:22 -0500
+Message-Id: <1465503322-25530-1-git-send-email-anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-X-Originating-IP: [192.88.168.49]
-X-ClientProxiedBy: BY1PR20CA0001.namprd20.prod.outlook.com (10.162.140.11) To
-	DBXPR04MB317.eurprd04.prod.outlook.com (10.141.232.12)
-X-MS-Office365-Filtering-Correlation-Id: 7c9ab413-7b74-4e35-f460-08d3909e3c4e
-X-Microsoft-Exchange-Diagnostics: 1; DBXPR04MB317;
-	2:Jy3duxIbZEuKEu5xMehylA/rOT0bjv0ge3oE/MHTEI6leARh90JIePkfTfOkmWT1UMtA7IGzMVSMp4iV+R/LsNrLv6ltq6eeoKLOt5aLnf4yKdk8lfFH4zjVOd+EiLw/E0BDd8VJ5F+THrXj6/X1i/XNAfkWFXvNAAEHjtH/9spEjT1TwqCcoieCdg8jpGPs;
-	3:3QnzMivfITVcqeoEIJVBHZRrQz5duCxSard2ytHTRtVMNSM7ZEqcaC0GnGNfg5Vn8lG2fdCkwv/NnELkQyHrt/so3ASOxr2pu07qYpBggO3EjsA2yPo75MS+2Xu5I3aA
-X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:DBXPR04MB317;
-X-Microsoft-Exchange-Diagnostics: 1; DBXPR04MB317;
-	25:HDRGX8uvm7gsvlZ9nJhRCbNUqcAf7TGXkid5YUcfvawlEDmK3BJ1konAxpHogRwu7zPvdmt0lngKcz3vo2wVwMGynNyKNMSJlc+JQJ80l7+xb6fccdB7q4tEVyLc04uksO1ULBaAl+qQp0PNbQHyiSH7U+1q27tStacKRysLFjAb1Hgv9jN2XKSiIahIt41rRzz8vGb0gvkH5f8ewk+5AulII5Xj6sUdt8duzuRUhhc2Oi2zRZwhFjTi1YkA+aP8fuU1YoUwnn+Pp6CeyicAqiWW+QKwuWLvxdO/w+o2DwdheAWwMKLQriunf1/ZOXBRiQ9BFS/BzlTKfMIqLzAFPcSq/x3kxkmvEMIg8k2DMRlWfq7/HjPCsE68ffZlgwhltESyoE7ldBvBnQPiiHH2i5cM62Zln73ZHc7rRoTrXBsB0zhS+5JcjzsqAAgyu5HDYJVA3/RCj2YNFM9+eJnHoe49QFrKLsoL/cW49A975Si2MhAJj+24kcj8HGUdU7COIp/Y39nX7FTt6dgcZNfHZ/L/iAlWFxuTRrp05Ujw41yUipNq8uq9fx/di/zeJq+YaIUUE9g1wdmjNzfYPZjhaeS88MKew6voPUFfuBQeJDAI/nQ97n8Dj4XCbIK/RBovk9KNiy24ha/78REsu9ig20Wnx2ikC+TACKV0vLSW2SLg+z0cl5D2BbWn+VLTA9GAL+rOrpczaYgKlshDv2QOXSsRNMwED551J0W5T3nZjrg=
-X-Microsoft-Exchange-Diagnostics: 1; DBXPR04MB317;
-	20:8gK43wRRnLQZJ2m1mboKLQa20V2ujSZ5Agq8DVIShwo7ZtY4ckNBmK0rHzObkh5KMrs3w0NYyQbL57aUuJo+koAgwIEnOpqwFq34rTZoE3XFuhvr6vbW+qS87oF9UxIurLcfqTGi/Zro83dn+Ing2Jx+KiQg4EGLH4BBE2kxywdETr42uYrhF1mbkUaDIZKMsXX9kBqHiCWSJn2B8VCMUOV1TKIDz7k5EpRdI7w3UMRBSpJl2wf+wCmcWD/0CoBmNJwhU24Hm4xeafT0nHv/Uu8WKgmq3IUWuUESFUSOvnpZA/vOwhzKqSk/RE81oHRPB8QIddeTKHgpeaaEb7vy1GOXFdZ8KWgYNJkRYA/xOEZiXeEAyvDde43tKr5xTCLfsDAFCqG+9IZIi0L7fIKDdnZO/A/B/6Dllb3UCtim8wJx4N91J2xrDlOAgroEJszK2JzILGEsfP66Hbg2Yz9pxdRMX+WlXKlP5NF5E8LUjSkt0p5M1EteAMxrTZVXdfgo;
-	4:CJEqOIvMMIZQs9l//mwOe+kZY7fD54pUk/7UdVdByiztQzwwOc6fbw+fv8y9ZKotHqORgYHr3VZTu6gDaZrasx8L/p2MEYNDo0PbGeITOBujEg9qxl/YbAXgZ3IQ5OqJ6ItubYzibqC5BG+ettMdsIbNoanSuzETmC/8C4vuL+inv034kz3HnbLQk9SDBNQFYeSWO7rqSWkAjNlCaOytnOW0oayn/NkNfK31Fh7CdyVLfDFPcU6g1x/PNQcgPcfM4fvxGWcYOVND1Dp71Ot5mlNUdLprvZaQro4I+HulRYSp1GRVy1F8zhWZZZeFx5NIIMDUZ+Qd7UaN4jQTOdvMbkEIRLTKd+SBiSxPqF8UDBW84zhcEh6wPgLWOuzb8eAL9AHoMnn4b2qTJW4BWU5NBudpZkUbuM0L/tHex1aYEXua5yshIEVAPfhU3kGpcqxT
-X-Microsoft-Antispam-PRVS: <DBXPR04MB31703A56219BA0A261B104DE25F0@DBXPR04MB317.eurprd04.prod.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:(185117386973197);
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(601004)(2401047)(8121501046)(5005006)(10201501046)(3002001)(6055026);
-	SRVR:DBXPR04MB317; BCL:0; PCL:0; RULEID:; SRVR:DBXPR04MB317; 
-X-Forefront-PRVS: 0968D37274
-X-Forefront-Antispam-Report: SFV:NSPM;
-	SFS:(10009020)(4630300001)(6009001)(189002)(199003)(105586002)(3846002)(229853001)(4326007)(586003)(33646002)(2351001)(50986999)(6116002)(106356001)(450100001)(50226002)(92566002)(81156014)(101416001)(2906002)(97736004)(19580395003)(19580405001)(81166006)(42186005)(8676002)(86362001)(48376002)(77096005)(189998001)(36756003)(47776003)(5003940100001)(50466002)(110136002)(5008740100001)(68736007)(66066001)(5004730100002);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:DBXPR04MB317;
-	H:tx30imx-01.am.freescale.net; FPR:; SPF:None; PTR:InfoNoRecords;
-	MX:1; A:1; LANG:en; 
-Received-SPF: None (protection.outlook.com: nxp.com does not designate
-	permitted sender hosts)
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; DBXPR04MB317;
-	23:XJwl3hpIIK0ysZH3N+UWoAYvccRmzYpLL1g3S50hT2?=
-	=?us-ascii?Q?/xX98bpCH9JlPj5uw5PxdjcGEteR2MHt+8gDdoHhRmQuy1mh3uLZ1ryQPXk9?=
-	=?us-ascii?Q?x+zLwEmvyKx8QQvUplIUkSkfC1v1UxWCbih27QKeg6klF8S7T5BnvL1Zzg+T?=
-	=?us-ascii?Q?X6mKjYqzrzhGyw+rNBamrrViO7EBVnXtAPf8TBnKiuVyfqaZEJCTskvXBrv5?=
-	=?us-ascii?Q?h1l10ZkaHVuomBmnIc6vWtmewmfEQT5JKfityRI4rjQDKgRjLcPefX2LUDrr?=
-	=?us-ascii?Q?C034Zcqid3fd3vjARde/ZJDpxDryZVkqKFisOMDS1l+0p72gqhvki6ACIncZ?=
-	=?us-ascii?Q?dV9nWl1GkdzEMqAtct8ZaEJTVhjgi8YbFUkqyWzHsVuNRSHKwPBagaCJvkMo?=
-	=?us-ascii?Q?uXaIYHlNZv1dShSBXKxMeB1AX7uHff3PTde6TNQFVHOnF61/+aWepZ3hmZVd?=
-	=?us-ascii?Q?aNY8SSh6aNKm5igxxTfg0yp88ClZPeiu39LJUFLzuJ370h7p68F+NXiVZdxn?=
-	=?us-ascii?Q?Og9i+OkQUGdXakFuZbRapKxoQXfeVZXTciwRI5IQDdBBXfSNgo05/dqba+a0?=
-	=?us-ascii?Q?x8BLvC/yiRnHhpTtDqW/RktNlB8I5lLmUxzY+SafIVmUoXkDqf699iWLegvP?=
-	=?us-ascii?Q?N6onsU/JbMFUy7WCsgS5rrn0R4hWoM/cLMJqOg+0BhofbSabUk7NCKnqFK4A?=
-	=?us-ascii?Q?HPAVlVIKF8qdWkkFQridySEbFIop7Y2dvag7GMl+mAOaa9mIRs10PPht7ZdS?=
-	=?us-ascii?Q?Of+8P0w18/Fh63Oq2SJSVfDQvLTNGtDpN7JA3kBykDuNPH5qQIvVuDbBPKV7?=
-	=?us-ascii?Q?HnoR+23W2foI2vEFTQIwFmWQrklolXOSRVChfVxG09GUkNa1nJifbXjOBOcq?=
-	=?us-ascii?Q?xEPK+HSIKRr16hBYyCGtp6yxOTW+uogGa5ukmHX6QPJXtqFlFCzLpTbanWk/?=
-	=?us-ascii?Q?dStos48ilcOX1wzUvtNoCfy+N33VP6VbaZP3DJQaRE/8D+zUrQ6p302eDm9T?=
-	=?us-ascii?Q?MqFCrrgZXXBfo1ism6Z5ajhbdt0ODmk5HqxP1XKERAMg=3D=3D?=
-X-Microsoft-Exchange-Diagnostics: 1; DBXPR04MB317;
-	5:lslmqRqe4yaK77/wnJ+Iuz/1dUraDiLu7qb6UgFbUaNJ+f7LkWHmVdVj5PdFwqs1VtHCIRC41fbI/HgvWyZ5YQDu4a0xtILbqCwzOIq3xunjQoPod5/o8qlZ0hLbZl/LjeA+c93i75LJlY583LCFAA==;
-	24:1qPsuWfyS4H1FM7ETpXpEaVoyi9+3YAe16kcyDfjk3kFTi277dzp1p+pTQdrh0EzBDsMdriIUlvv/41WaSROgjA+f/llGlz2ufOPA79kcAA=;
-	7:/m0Vxaq2zF8zKvcco+E6Xc83gUVQi0LJ+i8r+objP8VA15xagNk1jVtL7mGxe67MGBW285txVkECLrRDSr5d0AQ2HO2T6MQWBWkKTdwxgEBHeNF6k7JpMdr05abojX5LR5AYxmTlr/cnNEyzQkGPgdTw2pHZm0TejQ6Sr5/cU9hHIqBcLRCQkV65G8O4gFVRx33Tkfcy50qnkmDqPuG+DFuZTBYMmP04YJtmC5NCxRk=
-SpamDiagnosticOutput: 1:99
-SpamDiagnosticMetadata: NSPM
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2016 19:42:47.2599 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBXPR04MB317
-Subject: [PATCH] weston: Fix builds that don't include XWayland support
+Subject: [PATCH] oe/distro_check.py: Fixes for python3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -87,31 +28,143 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jun 2016 19:58:18 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 09 Jun 2016 20:14:33 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-If DISTRO_FEATURES contained wayland but not x11, the build
-would fail due to nothing providing xserver-xorg-xwayland.
+create_socket: Use urllib because urllib2 is now urllib in python3
+and proxies as argument are deprecated so export them in the environ
+instead.
 
-Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
+get_links_from_url: Change usage of sgmllib for parsing HTML because
+is deprecated in python 3, use instead bs4 that is already imported
+in the bitbake tree.
+
+[YOCTO #9744]
+
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- meta/recipes-graphics/wayland/weston_1.10.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oe/distro_check.py | 82 +++++++++++++++++++--------------------------
+ 1 file changed, 34 insertions(+), 48 deletions(-)
 
-diff --git a/meta/recipes-graphics/wayland/weston_1.10.0.bb b/meta/recipes-graphics/wayland/weston_1.10.0.bb
-index 37a4839..5bbbeb8 100644
---- a/meta/recipes-graphics/wayland/weston_1.10.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_1.10.0.bb
-@@ -100,7 +100,7 @@ do_install_append() {
- 	fi
- }
+diff --git a/meta/lib/oe/distro_check.py b/meta/lib/oe/distro_check.py
+index f1f1fbb..1d5f1c9 100644
+--- a/meta/lib/oe/distro_check.py
++++ b/meta/lib/oe/distro_check.py
+@@ -1,53 +1,35 @@
+ from contextlib import contextmanager
+-@contextmanager
++
++from bb.utils import export_proxies
++
+ def create_socket(url, d):
+-    import urllib.request, urllib.parse, urllib.error
+-    socket = urllib.request.urlopen(url, proxies=get_proxies(d))
++    import urllib
++
++    socket = None
+     try:
+-        yield socket
+-    finally:
+-        socket.close()
++        export_proxies(d)
++        socket = urllib.request.urlopen(url)
++    except:
++        bb.warn("distro_check: create_socket url %s can't access" % url)
  
--PACKAGE_BEFORE_PN += "${PN}-xwayland"
-+PACKAGE_BEFORE_PN += "${@bb.utils.contains('DISTRO_FEATURES', 'x11 wayland', '${PN}-xwayland', '', d)}"
- PACKAGES += "${PN}-examples"
+-def get_proxies(d):
+-    proxies = {}
+-    for key in ['http', 'https', 'ftp', 'ftps', 'no', 'all']:
+-        proxy = d.getVar(key + '_proxy', True)
+-        if proxy:
+-            proxies[key] = proxy
+-    return proxies
++    return socket
  
- FILES_${PN} = "${bindir}/weston ${bindir}/weston-terminal ${bindir}/weston-info ${bindir}/weston-launch ${bindir}/wcap-decode ${libexecdir} ${libdir}/${BPN}/*.so ${datadir}"
+ def get_links_from_url(url, d):
+     "Return all the href links found on the web location"
+ 
+-    import sgmllib
+-    
+-    class LinksParser(sgmllib.SGMLParser):
+-        def parse(self, s):
+-            "Parse the given string 's'."
+-            self.feed(s)
+-            self.close()
+-    
+-        def __init__(self, verbose=0):
+-            "Initialise an object passing 'verbose' to the superclass."
+-            sgmllib.SGMLParser.__init__(self, verbose)
+-            self.hyperlinks = []
+-    
+-        def start_a(self, attributes):
+-            "Process a hyperlink and its 'attributes'."
+-            for name, value in attributes:
+-                if name == "href":
+-                    self.hyperlinks.append(value.strip('/'))
+-    
+-        def get_hyperlinks(self):
+-            "Return the list of hyperlinks."
+-            return self.hyperlinks
++    from bs4 import BeautifulSoup, SoupStrainer
+ 
+-    with create_socket(url,d) as sock:
++    hyperlinks = []
++
++    webpage = ''
++    sock = create_socket(url,d)
++    if sock:
+         webpage = sock.read()
+ 
+-    linksparser = LinksParser()
+-    linksparser.parse(webpage)
+-    return linksparser.get_hyperlinks()
++    soup = BeautifulSoup(webpage, "html.parser", parse_only=SoupStrainer("a"))
++    for line in soup.find_all('a', href=True):
++        hyperlinks.append(line['href'].strip('/'))
++    return hyperlinks
+ 
+ def find_latest_numeric_release(url, d):
+     "Find the latest listed numeric release on the given url"
+@@ -162,14 +144,18 @@ def find_latest_debian_release(url, d):
+ 
+ def get_debian_style_source_package_list(url, section, d):
+     "Return the list of package-names stored in the debian style Sources.gz file"
+-    with create_socket(url,d) as sock:
+-        webpage = sock.read()
+-        import tempfile
+-        tmpfile = tempfile.NamedTemporaryFile(mode='wb', prefix='oecore.', suffix='.tmp', delete=False)
+-        tmpfilename=tmpfile.name
+-        tmpfile.write(sock.read())
+-        tmpfile.close()
++    import tempfile
+     import gzip
++
++    webpage = ''
++    sock = create_socket(url,d)
++    if sock:
++        webpage = sock.read()
++
++    tmpfile = tempfile.NamedTemporaryFile(mode='w', prefix='oecore.', suffix='.tmp', delete=False)
++    tmpfilename=tmpfile.name
++    tmpfile.write(sock.read())
++    tmpfile.close()
+     bb.note("Reading %s: %s" % (url, section))
+ 
+     f = gzip.open(tmpfilename)
+@@ -266,9 +252,9 @@ def update_distro_data(distro_check_dir, datetime, d):
+     import fcntl
+     try:
+         if not os.path.exists(datetime_file):
+-            open(datetime_file, 'w+b').close() # touch the file so that the next open won't fail
++            open(datetime_file, 'w+').close() # touch the file so that the next open won't fail
+ 
+-        f = open(datetime_file, "r+b")
++        f = open(datetime_file, "r+")
+         fcntl.lockf(f, fcntl.LOCK_EX)
+         saved_datetime = f.read()
+         if saved_datetime[0:8] != datetime[0:8]:
 -- 
-1.9.1
+2.1.4
 
 
