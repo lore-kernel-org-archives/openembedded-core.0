@@ -1,20 +1,48 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 669C16FF22
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7486C65D00
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jun 2016 20:55:27 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga103.jf.intel.com with ESMTP; 09 Jun 2016 13:55:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,446,1459839600"; d="scan'208";a="119192150"
-Received: from yctb05.ostc.intel.com ([10.54.69.59])
-	by fmsmga004.fm.intel.com with ESMTP; 09 Jun 2016 13:55:29 -0700
-From: leonardo.sandoval.gonzalez@linux.intel.com
+	Thu,  9 Jun 2016 23:07:16 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 39AB7181BD
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Jun 2016 01:07:17 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id hyt-L750KBQT
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Jun 2016 01:07:16 +0200 (CEST)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bastet.se.axis.com (Postfix) with ESMTP id 64326181A3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Jun 2016 01:07:16 +0200 (CEST)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 483421AFE
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Jun 2016 01:07:16 +0200 (CEST)
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by boulder.se.axis.com (Postfix) with ESMTP id 3D40717FC
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Jun 2016 01:07:16 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by thoth.se.axis.com (Postfix) with ESMTP id 31CF0FA5
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Jun 2016 01:07:16 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u59N7GZ8003081
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Jun 2016 01:07:16 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u59N7GhS003069
+	for openembedded-core@lists.openembedded.org;
+	Fri, 10 Jun 2016 01:07:16 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 Jun 2016 07:53:06 -0500
-Message-Id: <1465476786-4405-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-Subject: [PATCH] lib/oe/terminal.py: decode bytes variable before rstrip/split
+Date: Fri, 10 Jun 2016 01:07:13 +0200
+Message-Id: <cover.1465513580.git.pkj@axis.com>
+X-Mailer: git-send-email 2.8.3
+Subject: [PATCH 0/1] Make useradd-staticids.bbclass Python 3 compatible
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,34 +55,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jun 2016 20:55:28 -0000
+X-List-Received-Date: Thu, 09 Jun 2016 23:07:17 -0000
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Avoid warnings with Python 3 due to files that are not closed in
+useradd-staticids.bbclass.
 
-On python 3, bytes variable types must be decoded if these are intended to be
-used as strings, otherwise we get the following error exception:
+//Peter
 
-    TypeError: Type str doesn't support the buffer API
+The following changes since commit 40e789d1fee7f0df2d23230fff38325119ad2935:
 
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
----
- meta/lib/oe/terminal.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  bitbake: lib/bb/main.py: Fix use of BBPOSTCONF and BBPRECONF (2016-06-09 18:00:58 +0100)
 
-diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
-index dc25d14..7f4458e 100644
---- a/meta/lib/oe/terminal.py
-+++ b/meta/lib/oe/terminal.py
-@@ -246,7 +246,7 @@ def check_terminal_version(terminalName):
-         newenv["LANG"] = "C"
-         p = sub.Popen(['sh', '-c', cmdversion], stdout=sub.PIPE, stderr=sub.PIPE, env=newenv)
-         out, err = p.communicate()
--        ver_info = out.rstrip().split('\n')
-+        ver_info = out.decode().rstrip().split('\n')
-     except OSError as exc:
-         import errno
-         if exc.errno == errno.ENOENT:
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib pkj/useradd-staticids-py3
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/useradd-staticids-py3
+
+Peter Kjellerstedt (1):
+  useradd-staticids.bbclass: Make sure opened files are closed
+
+ meta/classes/useradd-staticids.bbclass | 30 +++++++++++++++++-------------
+ 1 file changed, 17 insertions(+), 13 deletions(-)
+
 -- 
-2.6.6
+2.8.3
 
 
