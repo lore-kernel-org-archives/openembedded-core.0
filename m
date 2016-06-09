@@ -1,53 +1,54 @@
 Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C1F1B65D00
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id E4E9B607A4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jun 2016 23:07:17 +0000 (UTC)
+	Thu,  9 Jun 2016 23:27:52 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 21CAE181A3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2016 01:07:18 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id fQ4O4Uc6z3tx
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2016 01:07:16 +0200 (CEST)
+	by bes.se.axis.com (Postfix) with ESMTP id 727F92E28B;
+	Fri, 10 Jun 2016 01:27:52 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id OgmCPz72S3KX; Fri, 10 Jun 2016 01:27:51 +0200 (CEST)
 Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bastet.se.axis.com (Postfix) with ESMTP id 67D13181B4
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2016 01:07:16 +0200 (CEST)
+	by bes.se.axis.com (Postfix) with ESMTP id 28B562E28A;
+	Fri, 10 Jun 2016 01:27:51 +0200 (CEST)
 Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 51BFC1AFF
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2016 01:07:16 +0200 (CEST)
+	by postfix.imss71 (Postfix) with ESMTP id DF1AD1B04;
+	Fri, 10 Jun 2016 01:27:50 +0200 (CEST)
 Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.se.axis.com (Postfix) with ESMTP id 469CA1AFC
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2016 01:07:16 +0200 (CEST)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id 44D91FE2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2016 01:07:16 +0200 (CEST)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u59N7Gno003085
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2016 01:07:16 +0200
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u59N7GQZ003084
-	for openembedded-core@lists.openembedded.org;
-	Fri, 10 Jun 2016 01:07:16 +0200
+	by boulder.se.axis.com (Postfix) with ESMTP id D427D196F;
+	Fri, 10 Jun 2016 01:27:50 +0200 (CEST)
+Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
+	by seth.se.axis.com (Postfix) with ESMTP id D240DD8A;
+	Fri, 10 Jun 2016 01:27:50 +0200 (CEST)
+Received: from XBOX02.axis.com (10.0.5.16) by XBOX02.axis.com (10.0.5.16) with
+	Microsoft SMTP Server (TLS) id 15.0.1156.6;
+	Fri, 10 Jun 2016 01:27:50 +0200
+Received: from XBOX02.axis.com ([fe80::d00f:cb52:1b56:20d]) by XBOX02.axis.com
+	([fe80::d00f:cb52:1b56:20d%21]) with mapi id 15.00.1156.000;
+	Fri, 10 Jun 2016 01:27:50 +0200
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Jun 2016 01:07:14 +0200
-Message-Id: <d4e799a4e5f83291df990e6871f111dafc043062.1465513580.git.pkj@axis.com>
-X-Mailer: git-send-email 2.8.3
-In-Reply-To: <cover.1465513580.git.pkj@axis.com>
-References: <cover.1465513580.git.pkj@axis.com>
-In-Reply-To: <cover.1465513580.git.pkj@axis.com>
-References: <cover.1465513580.git.pkj@axis.com>
-Subject: [PATCH 1/1] useradd-staticids.bbclass: Make sure opened files are closed
+To: "Maxin B. John" <maxin.john@intel.com>, Alexander Kanavin
+	<alexander.kanavin@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH] libjpeg-turbo: update to 1.5.0
+Thread-Index: AQHRwYQQUTHb4svEvkOS1MfcmJUfGZ/gwGIA///NV4CAATtLEA==
+Date: Thu, 9 Jun 2016 23:27:50 +0000
+Message-ID: <519239dddcce45428cd4d82b0667efe6@XBOX02.axis.com>
+References: <1465390138-26600-1-git-send-email-maxin.john@intel.com>
+	<940de7d5-ba9f-cdd1-476c-9b1235b8e4b2@linux.intel.com>
+	<20160609063541.GA26373@mbabyjoh-desk.ger.corp.intel.com>
+In-Reply-To: <20160609063541.GA26373@mbabyjoh-desk.ger.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.107]
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libjpeg-turbo: update to 1.5.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,64 +61,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jun 2016 23:07:18 -0000
+X-List-Received-Date: Thu, 09 Jun 2016 23:27:53 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-This avoids warnings about unclosed files with Python 3.
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Maxin B. John
+> Sent: den 9 juni 2016 08:36
+> To: Alexander Kanavin
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH] libjpeg-turbo: update to 1.5.0
+>=20
+> Hi Alex,
+>=20
+> On Thu, Jun 09, 2016 at 12:37:00PM +0300, Alexander Kanavin wrote:
+> > On 06/08/2016 03:48 PM, Maxin B. John wrote:
+> > >1. LIC_FILES_CHKSUM updates only involves changes in Copyright
+> holders.
+> > >   LICENSE remains the same.
+> > >
+> > >2. libjpeg-turbo don't have non-floating point ABI support in MIPS.
+> > >   Provide a work around for that.
+> > >
+> > >[YOCTO #9606]
+> > >
+> > >Signed-off-by: Maxin B. John <maxin.john@intel.com>
+> > >---
+> > > ...{libjpeg-turbo_8d+1.4.2.bb =3D> libjpeg-turbo_8d+1.5.0.bb} | 13
+> ++++++++-----
+> > > 1 file changed, 8 insertions(+), 5 deletions(-)
+> > > rename meta/recipes-graphics/jpeg/{libjpeg-turbo_8d+1.4.2.bb =3D>
+> libjpeg-turbo_8d+1.5.0.bb} (71%)
+> >
+> > Adding a '8d+' prefix to the version means that upstream check cannot
+> be
+> > automatically performed. Can we get rid of it somehow?
+> >
+>=20
+> +1 for that. Now looking for a better way to get rid of this "version-
+> going-backwards" problem:
+>=20
+> QA Issue: Package version for package jpeg-tools went backwards which
+> would break package feeds from (0:8d+1.4.2-r0 to 0:1.5.0-r0) [version-
+> going-backwards]
+>=20
+> > Alex
+> >
+> Best Regards,
+> Maxin
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/classes/useradd-staticids.bbclass | 30 +++++++++++++++++-------------
- 1 file changed, 17 insertions(+), 13 deletions(-)
+That should only be a matter of setting the epoch of the recipe:
 
-diff --git a/meta/classes/useradd-staticids.bbclass b/meta/classes/useradd-staticids.bbclass
-index a9b506d..440c0e3 100644
---- a/meta/classes/useradd-staticids.bbclass
-+++ b/meta/classes/useradd-staticids.bbclass
-@@ -4,6 +4,7 @@ def update_useradd_static_config(d):
-     import argparse
-     import itertools
-     import re
-+    import errno
- 
-     class myArgumentParser( argparse.ArgumentParser ):
-         def _print_message(self, message, file=None):
-@@ -30,19 +31,22 @@ def update_useradd_static_config(d):
-         are set)."""
-         id_table = dict()
-         for conf in file_list.split():
--            if os.path.exists(conf):
--                f = open(conf, "r")
--                for line in f:
--                    if line.startswith('#'):
--                        continue
--                    # Make sure there always are at least exp_fields elements in
--                    # the field list. This allows for leaving out trailing
--                    # colons in the files.
--                    fields = list_extend(line.rstrip().split(":"), exp_fields)
--                    if fields[0] not in id_table:
--                        id_table[fields[0]] = fields
--                    else:
--                        id_table[fields[0]] = list(itertools.imap(lambda x, y: x or y, fields, id_table[fields[0]]))
-+            try:
-+                with open(conf, "r") as f:
-+                    for line in f:
-+                        if line.startswith('#'):
-+                            continue
-+                        # Make sure there always are at least exp_fields
-+                        # elements in the field list. This allows for leaving
-+                        # out trailing colons in the files.
-+                        fields = list_extend(line.rstrip().split(":"), exp_fields)
-+                        if fields[0] not in id_table:
-+                            id_table[fields[0]] = fields
-+                        else:
-+                            id_table[fields[0]] = list(itertools.imap(lambda x, y: x or y, fields, id_table[fields[0]]))
-+            except IOError as e:
-+                if e.errno == errno.ENOENT:
-+                    pass
- 
-         return id_table
- 
--- 
-2.8.3
+PE =3D "1"
+
+//Peter
 
 
