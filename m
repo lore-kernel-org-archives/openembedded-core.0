@@ -1,61 +1,61 @@
 Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
-	[209.85.213.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 02E4B6E668
+Received: from mail-vk0-f54.google.com (mail-vk0-f54.google.com
+	[209.85.213.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 963466E668
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2016 13:48:45 +0000 (UTC)
-Received: by mail-vk0-f65.google.com with SMTP id t7so11278161vkf.2
+	Fri, 10 Jun 2016 13:49:37 +0000 (UTC)
+Received: by mail-vk0-f54.google.com with SMTP id d127so98061412vkh.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2016 06:48:46 -0700 (PDT)
+	Fri, 10 Jun 2016 06:49:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
 	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=fpPOfp7EWobvLTGpwnFvWXM+z1iWFSkBAX9RVVvUONk=;
-	b=ceIhMDze/FTUvsKkswX29M2h8smn8zLF3X7FloqMxzI0YkptM5Oq9C2GdQqqh5+THO
-	9Xf+kyj9W7QWlA1//GqhX/eDMbGGdCclEPvug3kDKSZhENb3v72el1x6eKlKZWsQ9P3D
-	xUKPuvD309SftKk0BhW0JauIgMHguIzh3cEltn1hoMIMFj6zAx7sQDyE82qQ8KupHKAU
-	gW2c9rT82i3gidFEg1dKNiRWpWK9Yq1uq+mcpCr75Nl7SeRjaiDH2aqz7z6Z1uVJWDE9
-	gG7HvYE90JUuwrYPrSoSPA8bBuMzLpy0ct1hmwuuM2unCGHjKiosE4kb1KNtSkzk45Hm
-	f0gA==
+	:cc; bh=yS/j7rONi+iYgH1c7GEs3YQNqbnSpt7Qde9wFGprN84=;
+	b=pfrHIna6SJw5ybwYcgClUcSThQlapNRmZgvSsxNXLeA5dWW0vzNo7e8wsp71YgieUT
+	PMwMBo1HtKgo82ApGSA5Hthk+/xRzXBNLV2zm2VNSjHJ8XFvgg2kbF8+s9D7kDhKUuLN
+	KdT6t2IzUMbzV79C/3PQG3ZiVY2JUupHFT68XZ9lgIW5t8eYxHVXhRakomtR/bE6Um2V
+	QlCKCKG2PB7J4ygwLynx825h1hlLJo4yohWOSoB2cQxDDtMIVWLgEKOuSiMqCPq+AyZ1
+	sP/qVzK4tIU6LJ2i95KgVNtPX+5GoJC3vG9vDbR9olqkxtsOjlOrWe8uKZZ/xySbNb5o
+	zG5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc;
-	bh=fpPOfp7EWobvLTGpwnFvWXM+z1iWFSkBAX9RVVvUONk=;
-	b=kHy5/LCal1G1Q3n1HZ4TEQvk4U0DVwBk5nKYG8atz9nQWzDc6w2uuauov7QKy/Zqtv
-	+KJV0PUZpKE1xh4L4n5LIoK/f+7JfXoGGyU6iZaP9BA8HQqoFTQJUqNPfLd7NnYL0THa
-	MhS5koMPaWMwfM/eH1gnrtlN8MVOT/XDbZ1u0xiwcKP1HvXuOS3jNNV/lOWsg+QbdVlM
-	YTX+/6bWMVPfthE+nIPXeTtsXCG9DNdCMz9gV9duNCB4wQWYYo6GplmCKFWzgKfD/AGC
-	MmJQyxTg5DpCd/pxLZIocG/4IGb5AYXMONAf6V26rjkxuQ1Ny/HnexDAz/oeDSN5is1p
-	0BTA==
-X-Gm-Message-State: ALyK8tJlVnLcTgv+geTy1VO8LRAzCobGXvrcQ00AtXZicOHl1o8Zsn3r6deDkAA75QI7pA==
-X-Received: by 10.31.61.86 with SMTP id k83mr857014vka.66.1465566526224;
-	Fri, 10 Jun 2016 06:48:46 -0700 (PDT)
-Received: from mail-vk0-f48.google.com (mail-vk0-f48.google.com.
-	[209.85.213.48])
-	by smtp.gmail.com with ESMTPSA id x9sm1838296vkx.27.2016.06.10.06.48.44
+	bh=yS/j7rONi+iYgH1c7GEs3YQNqbnSpt7Qde9wFGprN84=;
+	b=I2NTXYtJgGKRjhdgoo5TLqP6+2nBuUPBYQVQPv/tBkp4CEyHwtN1FuFjMlEjcpyQ/s
+	1c/CrMjCAHeVao8na+BFWRrnKo8jv6a4hKnGW2GuIOPx+H8uvpcGOKUYVKP+mT1ILWLI
+	+K7xbJh6lCRS2i44EGgXtd7LGjv870bDkFmEStY/VJOO1IgyqjTvIT+yuq64PcGpe9ZJ
+	riY5k+KwLeJfwoaEdq32b73bq2Q9JYOmxzKOMz/LLQCTxOt+1Ko4mdI7Yuz1inAHfaMl
+	v44Tla0HFl+1xrfoRyTQ0y4TEAJL8Xi837kHyDln5dMlIMg2xiv2zAp7xLGSLUm3/O8G
+	reWw==
+X-Gm-Message-State: ALyK8tKbgiVqyTCIlICGFvaPp3ZkCbxgjJvWcXURfnnmm+HJ5jjRKu71SYVC3q+Q70ASyA==
+X-Received: by 10.159.35.105 with SMTP id 96mr874622uae.31.1465566578481;
+	Fri, 10 Jun 2016 06:49:38 -0700 (PDT)
+Received: from mail-vk0-f50.google.com (mail-vk0-f50.google.com.
+	[209.85.213.50]) by smtp.gmail.com with ESMTPSA id
+	k137sm532701vka.12.2016.06.10.06.49.36
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 10 Jun 2016 06:48:44 -0700 (PDT)
+	Fri, 10 Jun 2016 06:49:37 -0700 (PDT)
 From: Otavio Salvador <otavio.salvador@ossystems.com.br>
 X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-vk0-f48.google.com with SMTP id e4so98059373vkb.1
+Received: by mail-vk0-f50.google.com with SMTP id d127so98060196vkh.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2016 06:48:44 -0700 (PDT)
-X-Received: by 10.31.163.140 with SMTP id m134mr876526vke.72.1465566524422;
-	Fri, 10 Jun 2016 06:48:44 -0700 (PDT)
+	Fri, 10 Jun 2016 06:49:36 -0700 (PDT)
+X-Received: by 10.31.8.77 with SMTP id 74mr847929vki.150.1465566576669; Fri,
+	10 Jun 2016 06:49:36 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.31.189.21 with HTTP; Fri, 10 Jun 2016 06:48:43 -0700 (PDT)
-In-Reply-To: <1465500426-27684-2-git-send-email-tom.hochstein@nxp.com>
+Received: by 10.31.189.21 with HTTP; Fri, 10 Jun 2016 06:49:35 -0700 (PDT)
+In-Reply-To: <1465500426-27684-3-git-send-email-tom.hochstein@nxp.com>
 References: <1465500426-27684-1-git-send-email-tom.hochstein@nxp.com>
-	<1465500426-27684-2-git-send-email-tom.hochstein@nxp.com>
-Date: Fri, 10 Jun 2016 10:48:43 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKrewK9N4Zw5HFJKxE5jzB+4j6Ji26H6TdxG4TEhge=hZA@mail.gmail.com>
-Message-ID: <CAP9ODKrewK9N4Zw5HFJKxE5jzB+4j6Ji26H6TdxG4TEhge=hZA@mail.gmail.com>
+	<1465500426-27684-3-git-send-email-tom.hochstein@nxp.com>
+Date: Fri, 10 Jun 2016 10:49:35 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKrgRgCYm=WkyL3cExs_-a4W+weJTa-RC5mypyMmbo+cNg@mail.gmail.com>
+Message-ID: <CAP9ODKrgRgCYm=WkyL3cExs_-a4W+weJTa-RC5mypyMmbo+cNg@mail.gmail.com>
 To: Tom Hochstein <tom.hochstein@nxp.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] weston-init: Use bitbake path variable
+Subject: Re: [PATCH 3/3] weston-init: Don't change XDG_RUNTIME_DIR if it already exists
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,10 +68,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jun 2016 13:48:46 -0000
+X-List-Received-Date: Fri, 10 Jun 2016 13:49:39 -0000
 Content-Type: text/plain; charset=UTF-8
 
 On Thu, Jun 9, 2016 at 4:27 PM, Tom Hochstein <tom.hochstein@nxp.com> wrote:
+> In the case that XDG_RUNTIME_DIR already exists, the mkdir --parents
+> at least does nothing, but the chmod could overwrite the desired
+> file mode settings.
+>
 > Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
 
 
