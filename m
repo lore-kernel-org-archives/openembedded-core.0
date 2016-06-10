@@ -1,60 +1,21 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-vk0-f41.google.com (mail-vk0-f41.google.com
-	[209.85.213.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 18D8D6E668
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id E9E8160620
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2016 13:50:31 +0000 (UTC)
-Received: by mail-vk0-f41.google.com with SMTP id g67so98028245vkb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2016 06:50:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=AcvQOTKMtzz1IDrnwcWsgjNvyZmLkUF/9Zt9vopiM8A=;
-	b=11QeZdwZQi9dT/+veSZh19RjK2xRpBX7Ve87ap/WypjuWU6ef17V31pv3Fl180toMK
-	Dk7NPeTpJiGiTSueHZ9YSQLiEAVj8gVRpJVRsQ5+AIeLUHUosKRkm8XFOrxLwNYolgE5
-	jlMX+GgxBN0bIexJ1jcna1Eduv7+98tWcfPPK6/8XzBlg1/KZBA2MqM5zSKzSv9BwC4g
-	8EzPDARXVk4PTSiOW0NtUg5Oi5/XYjL8lx8DoZyeCLkBHaTVhCzXiiwo2B8GtAm0MIm2
-	V7epIbS7pBXqu9QCfGKZB1mjPFqQXrlm5Ld3FXrGBCnqE0D/kqTatyPsdmxyUJJCPwB8
-	o8aA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=AcvQOTKMtzz1IDrnwcWsgjNvyZmLkUF/9Zt9vopiM8A=;
-	b=AP25O7St4LlyjDgfhX+QSgcVAfLqGNFDrIy5lresLin5AQ22vXDpWc/4RXj2uDY5qh
-	i2Ao475hcyWPkw88slAhPvuLYWnmMicvTasA/pKPJvcAioM7XF99UaGNPnciHE6AE4VX
-	uJDoSDk++M44TV8rj6mpMkDa6YrkR5U885HYv8jJYT+QB8/I5V4tdHzEy9krehf0NiLk
-	dz2ftFPk4fdddozGP0AbDNL3B49xU/TdWyEf261IXjShsWi2wxT+TcrazYLKP9XSlWPc
-	5mop75mwgWBCD67jivZeC1MNEQj/uf5sE2MULorY2JCVqRRzOeyb15DNgWl5bA9LzCOe
-	HGsw==
-X-Gm-Message-State: ALyK8tJeIyKfm/c5boAPNaN3E2VsCbjb75BH/39khCBBXiOAHnktFid18ufhlb0JjHw7Yw==
-X-Received: by 10.31.183.20 with SMTP id h20mr887918vkf.0.1465566632266;
-	Fri, 10 Jun 2016 06:50:32 -0700 (PDT)
-Received: from mail-vk0-f43.google.com (mail-vk0-f43.google.com.
-	[209.85.213.43])
-	by smtp.gmail.com with ESMTPSA id 68sm1375216uak.14.2016.06.10.06.50.30
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 10 Jun 2016 06:50:31 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-vk0-f43.google.com with SMTP id e4so98127377vkb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2016 06:50:30 -0700 (PDT)
-X-Received: by 10.31.151.209 with SMTP id z200mr860021vkd.122.1465566630685;
-	Fri, 10 Jun 2016 06:50:30 -0700 (PDT)
+	Fri, 10 Jun 2016 15:11:20 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 10 Jun 2016 08:11:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,450,1459839600"; d="scan'208";a="984896895"
+Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.164])
+	by fmsmga001.fm.intel.com with ESMTP; 10 Jun 2016 08:11:20 -0700
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 10 Jun 2016 10:12:10 -0500
+Message-Id: <1465571530-32298-1-git-send-email-anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-Received: by 10.31.189.21 with HTTP; Fri, 10 Jun 2016 06:50:29 -0700 (PDT)
-In-Reply-To: <1465513759-9629-1-git-send-email-tom.hochstein@nxp.com>
-References: <1465513759-9629-1-git-send-email-tom.hochstein@nxp.com>
-Date: Fri, 10 Jun 2016 10:50:29 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKqryoUnN_5W2iDq6RYn9FX=nfJCahmOXbB+aYX+SiaOow@mail.gmail.com>
-Message-ID: <CAP9ODKqryoUnN_5W2iDq6RYn9FX=nfJCahmOXbB+aYX+SiaOow@mail.gmail.com>
-To: Tom Hochstein <tom.hochstein@nxp.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] weston: Fix bug causing the xwayland package to always be included
+Subject: [PATCHv2] oe/distro_check.py: Fixes for python3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,22 +28,143 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jun 2016 13:50:32 -0000
+X-List-Received-Date: Fri, 10 Jun 2016 15:11:23 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jun 9, 2016 at 8:09 PM, Tom Hochstein <tom.hochstein@nxp.com> wrote:
-> The xwayland package was always being built due to its inclusion in
-> PACKAGE_BEFORE_PN. The effect was masked by making the RDEPENDS conditional.
->
-> Now we make the PACKAGE_BEFORE_PN inclusion conditional and restore
-> the xwayland RDEPENDS to unconditional.
->
-> Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
+create_socket: Use urllib because urllib2 is now urllib in python3
+and proxies as argument are deprecated so export them in the environ
+instead.
 
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+get_links_from_url: Change usage of sgmllib for parsing HTML because
+is deprecated in python 3, use instead bs4 that is already imported
+in the bitbake tree.
 
+[YOCTO #9744]
+
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+---
+ meta/lib/oe/distro_check.py | 82 +++++++++++++++++++--------------------------
+ 1 file changed, 34 insertions(+), 48 deletions(-)
+
+diff --git a/meta/lib/oe/distro_check.py b/meta/lib/oe/distro_check.py
+index f1f1fbb..87c52fa 100644
+--- a/meta/lib/oe/distro_check.py
++++ b/meta/lib/oe/distro_check.py
+@@ -1,53 +1,35 @@
+ from contextlib import contextmanager
+-@contextmanager
++
++from bb.utils import export_proxies
++
+ def create_socket(url, d):
+-    import urllib.request, urllib.parse, urllib.error
+-    socket = urllib.request.urlopen(url, proxies=get_proxies(d))
++    import urllib
++
++    socket = None
+     try:
+-        yield socket
+-    finally:
+-        socket.close()
++        export_proxies(d)
++        socket = urllib.request.urlopen(url)
++    except:
++        bb.warn("distro_check: create_socket url %s can't access" % url)
+ 
+-def get_proxies(d):
+-    proxies = {}
+-    for key in ['http', 'https', 'ftp', 'ftps', 'no', 'all']:
+-        proxy = d.getVar(key + '_proxy', True)
+-        if proxy:
+-            proxies[key] = proxy
+-    return proxies
++    return socket
+ 
+ def get_links_from_url(url, d):
+     "Return all the href links found on the web location"
+ 
+-    import sgmllib
+-    
+-    class LinksParser(sgmllib.SGMLParser):
+-        def parse(self, s):
+-            "Parse the given string 's'."
+-            self.feed(s)
+-            self.close()
+-    
+-        def __init__(self, verbose=0):
+-            "Initialise an object passing 'verbose' to the superclass."
+-            sgmllib.SGMLParser.__init__(self, verbose)
+-            self.hyperlinks = []
+-    
+-        def start_a(self, attributes):
+-            "Process a hyperlink and its 'attributes'."
+-            for name, value in attributes:
+-                if name == "href":
+-                    self.hyperlinks.append(value.strip('/'))
+-    
+-        def get_hyperlinks(self):
+-            "Return the list of hyperlinks."
+-            return self.hyperlinks
++    from bs4 import BeautifulSoup, SoupStrainer
+ 
+-    with create_socket(url,d) as sock:
++    hyperlinks = []
++
++    webpage = ''
++    sock = create_socket(url,d)
++    if sock:
+         webpage = sock.read()
+ 
+-    linksparser = LinksParser()
+-    linksparser.parse(webpage)
+-    return linksparser.get_hyperlinks()
++    soup = BeautifulSoup(webpage, "html.parser", parse_only=SoupStrainer("a"))
++    for line in soup.find_all('a', href=True):
++        hyperlinks.append(line['href'].strip('/'))
++    return hyperlinks
+ 
+ def find_latest_numeric_release(url, d):
+     "Find the latest listed numeric release on the given url"
+@@ -162,14 +144,18 @@ def find_latest_debian_release(url, d):
+ 
+ def get_debian_style_source_package_list(url, section, d):
+     "Return the list of package-names stored in the debian style Sources.gz file"
+-    with create_socket(url,d) as sock:
+-        webpage = sock.read()
+-        import tempfile
+-        tmpfile = tempfile.NamedTemporaryFile(mode='wb', prefix='oecore.', suffix='.tmp', delete=False)
+-        tmpfilename=tmpfile.name
+-        tmpfile.write(sock.read())
+-        tmpfile.close()
++    import tempfile
+     import gzip
++
++    webpage = ''
++    sock = create_socket(url,d)
++    if sock:
++        webpage = sock.read()
++
++    tmpfile = tempfile.NamedTemporaryFile(mode='wb', prefix='oecore.', suffix='.tmp', delete=False)
++    tmpfilename=tmpfile.name
++    tmpfile.write(sock.read())
++    tmpfile.close()
+     bb.note("Reading %s: %s" % (url, section))
+ 
+     f = gzip.open(tmpfilename)
+@@ -266,9 +252,9 @@ def update_distro_data(distro_check_dir, datetime, d):
+     import fcntl
+     try:
+         if not os.path.exists(datetime_file):
+-            open(datetime_file, 'w+b').close() # touch the file so that the next open won't fail
++            open(datetime_file, 'w+').close() # touch the file so that the next open won't fail
+ 
+-        f = open(datetime_file, "r+b")
++        f = open(datetime_file, "r+")
+         fcntl.lockf(f, fcntl.LOCK_EX)
+         saved_datetime = f.read()
+         if saved_datetime[0:8] != datetime[0:8]:
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.1.4
+
 
