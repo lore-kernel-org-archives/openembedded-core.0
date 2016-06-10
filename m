@@ -1,21 +1,38 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id E9E8160620
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id B596A60620
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2016 15:11:20 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 10 Jun 2016 08:11:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,450,1459839600"; d="scan'208";a="984896895"
-Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.164])
-	by fmsmga001.fm.intel.com with ESMTP; 10 Jun 2016 08:11:20 -0700
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+	Fri, 10 Jun 2016 15:11:41 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id r5so18663365wmr.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Jun 2016 08:11:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=yXYXYm7qNAMLW8/KR4RZicnXKtroWvkM/VRCnWMkSoo=;
+	b=T07WyS8Nf5qCgdE6oSd5ytkE3QACtIVTWiMXdJCKJxLAKtLHhddeg78ooUNDueM9dF
+	ZISa/5CfYSs52bW0TtUZvPRDeIf+8yQja0v9BFwXKO0A70RDg4BC6oLtkVcEankoZYLT
+	rwlEQtpLWz7yCDFbRuLqmYJX3vfcTtgmKTcWhGbqBSJ1M+wl57i0JZm+HO7bcjTZrDHK
+	KDV1bb4E8X9tkG0bk1A58H5YoSqF9eLrUw4HKZI9g4fZhe7gV0lGrKdIK/RTFWlpQgZ1
+	oAsTAQjC3Hkm3fjtK6abjxJyj0/HYXzUnf9Vj2Sk9OyBPcU/6aBRGWpgFcb+o1QSBdsF
+	Wxtg==
+X-Gm-Message-State: ALyK8tI6lma1zj+j15AzQI8ztCQyCYZiZO3wZPJKxekMqNPRQS0yng+cZdtGxyltHdaeEw==
+X-Received: by 10.28.181.148 with SMTP id e142mr3178089wmf.38.1465571501394;
+	Fri, 10 Jun 2016 08:11:41 -0700 (PDT)
+Received: from tfsielt31850.TYCOFS.COM ([185.46.212.66])
+	by smtp.gmail.com with ESMTPSA id
+	124sm36160793wml.12.2016.06.10.08.11.39
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 10 Jun 2016 08:11:40 -0700 (PDT)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Jun 2016 10:12:10 -0500
-Message-Id: <1465571530-32298-1-git-send-email-anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
+Date: Fri, 10 Jun 2016 16:11:38 +0100
+Message-Id: <1465571498-21466-1-git-send-email-git@andred.net>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-Subject: [PATCHv2] oe/distro_check.py: Fixes for python3
+Subject: [PATCH] image/image_types.bbclass: fix fatal error during cpio debugfs creation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,143 +45,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jun 2016 15:11:23 -0000
+X-List-Received-Date: Fri, 10 Jun 2016 15:11:43 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-create_socket: Use urllib because urllib2 is now urllib in python3
-and proxies as argument are deprecated so export them in the environ
-instead.
+From: André Draszik <adraszik@tycoint.com>
 
-get_links_from_url: Change usage of sgmllib for parsing HTML because
-is deprecated in python 3, use instead bs4 that is already imported
-in the bitbake tree.
+If /init is just a symlink to /sbin/init, debugfs creation
+fails with the following error:
 
-[YOCTO #9744]
+ERROR: Error: The image creation script '<...>/debugfs.create_image.cpio' returned 1:
+touch: cannot touch '<...>/cpio_append/init': Permission denied
+WARNING: exit code 1 from a shell command.
 
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+ERROR: Function failed: do_rootfs
+
+The reason is that IMAGE_CMD_cpio() is run twice on the same
+WORKDIR. The first run creates a symlink in WORKDIR/cpio_append/init
+to point to /sbin/init, while the 2nd run then tries to 'touch'
+that link, which will fail, of course since /sbin/init is not
+usually writable by non-root users.
+
+Fix this by providing knowledge to the IMAGE_CMD_xxx() scripts
+with regards to the fact that they are being executed in the
+context of debugfs creation. The IMAGE_CMD_cpio() can now be
+intelligent in the sense that it can avoid all additional symlink
+handling during the debugfs run. The symlinks do not need to
+be part of the debugfs, so we can skip that part altogether
+in that case.
+
+Signed-off-by: André Draszik <adraszik@tycoint.com>
 ---
- meta/lib/oe/distro_check.py | 82 +++++++++++++++++++--------------------------
- 1 file changed, 34 insertions(+), 48 deletions(-)
+ meta/classes/image.bbclass       |  1 +
+ meta/classes/image_types.bbclass | 19 +++++++++++++------
+ 2 files changed, 14 insertions(+), 6 deletions(-)
 
-diff --git a/meta/lib/oe/distro_check.py b/meta/lib/oe/distro_check.py
-index f1f1fbb..87c52fa 100644
---- a/meta/lib/oe/distro_check.py
-+++ b/meta/lib/oe/distro_check.py
-@@ -1,53 +1,35 @@
- from contextlib import contextmanager
--@contextmanager
-+
-+from bb.utils import export_proxies
-+
- def create_socket(url, d):
--    import urllib.request, urllib.parse, urllib.error
--    socket = urllib.request.urlopen(url, proxies=get_proxies(d))
-+    import urllib
-+
-+    socket = None
-     try:
--        yield socket
--    finally:
--        socket.close()
-+        export_proxies(d)
-+        socket = urllib.request.urlopen(url)
-+    except:
-+        bb.warn("distro_check: create_socket url %s can't access" % url)
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 9f4c83f..65ce6bb 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -287,6 +287,7 @@ def setup_debugfs_variables(d):
+     d.appendVar('IMAGE_ROOTFS', '-dbg')
+     d.appendVar('IMAGE_LINK_NAME', '-dbg')
+     d.appendVar('IMAGE_NAME','-dbg')
++    d.setVar('IMAGE_BUILDING_DEBUGFS', 'true')
+     debugfs_image_fstypes = d.getVar('IMAGE_FSTYPES_DEBUGFS', True)
+     if debugfs_image_fstypes:
+         d.setVar('IMAGE_FSTYPES', debugfs_image_fstypes)
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index ea45809..72e8ed3 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -101,13 +101,20 @@ IMAGE_CMD_tar = "${IMAGE_CMD_TAR} -cvf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_
+ do_image_cpio[cleandirs] += "${WORKDIR}/cpio_append"
+ IMAGE_CMD_cpio () {
+ 	(cd ${IMAGE_ROOTFS} && find . | cpio -o -H newc >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cpio)
+-	if [ ! -L ${IMAGE_ROOTFS}/init -a ! -e ${IMAGE_ROOTFS}/init ]; then
+-		if [ -L ${IMAGE_ROOTFS}/sbin/init -o -e ${IMAGE_ROOTFS}/sbin/init ]; then
+-			ln -sf /sbin/init ${WORKDIR}/cpio_append/init
+-		else
+-			touch ${WORKDIR}/cpio_append/init
++	# We only need the /init symlink if we're building the real
++	# image. The -dbg image doesn't need it! By being clever
++	# about this we also avoid 'touch' below failing, as it
++	# might be trying to touch /sbin/init on the host since both
++	# the normal and the -dbg image share the same WORKDIR
++	if [ "${IMAGE_BUILDING_DEBUGFS}" != "true" ]; then
++		if [ ! -L ${IMAGE_ROOTFS}/init ] && [ ! -e ${IMAGE_ROOTFS}/init ]; then
++			if [ -L ${IMAGE_ROOTFS}/sbin/init ] || [ -e ${IMAGE_ROOTFS}/sbin/init ]; then
++				ln -sf /sbin/init ${WORKDIR}/cpio_append/init
++			else
++				touch ${WORKDIR}/cpio_append/init
++			fi
++			(cd  ${WORKDIR}/cpio_append && echo ./init | cpio -oA -H newc -F ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cpio)
+ 		fi
+-		(cd  ${WORKDIR}/cpio_append && echo ./init | cpio -oA -H newc -F ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cpio)
+ 	fi
+ }
  
--def get_proxies(d):
--    proxies = {}
--    for key in ['http', 'https', 'ftp', 'ftps', 'no', 'all']:
--        proxy = d.getVar(key + '_proxy', True)
--        if proxy:
--            proxies[key] = proxy
--    return proxies
-+    return socket
- 
- def get_links_from_url(url, d):
-     "Return all the href links found on the web location"
- 
--    import sgmllib
--    
--    class LinksParser(sgmllib.SGMLParser):
--        def parse(self, s):
--            "Parse the given string 's'."
--            self.feed(s)
--            self.close()
--    
--        def __init__(self, verbose=0):
--            "Initialise an object passing 'verbose' to the superclass."
--            sgmllib.SGMLParser.__init__(self, verbose)
--            self.hyperlinks = []
--    
--        def start_a(self, attributes):
--            "Process a hyperlink and its 'attributes'."
--            for name, value in attributes:
--                if name == "href":
--                    self.hyperlinks.append(value.strip('/'))
--    
--        def get_hyperlinks(self):
--            "Return the list of hyperlinks."
--            return self.hyperlinks
-+    from bs4 import BeautifulSoup, SoupStrainer
- 
--    with create_socket(url,d) as sock:
-+    hyperlinks = []
-+
-+    webpage = ''
-+    sock = create_socket(url,d)
-+    if sock:
-         webpage = sock.read()
- 
--    linksparser = LinksParser()
--    linksparser.parse(webpage)
--    return linksparser.get_hyperlinks()
-+    soup = BeautifulSoup(webpage, "html.parser", parse_only=SoupStrainer("a"))
-+    for line in soup.find_all('a', href=True):
-+        hyperlinks.append(line['href'].strip('/'))
-+    return hyperlinks
- 
- def find_latest_numeric_release(url, d):
-     "Find the latest listed numeric release on the given url"
-@@ -162,14 +144,18 @@ def find_latest_debian_release(url, d):
- 
- def get_debian_style_source_package_list(url, section, d):
-     "Return the list of package-names stored in the debian style Sources.gz file"
--    with create_socket(url,d) as sock:
--        webpage = sock.read()
--        import tempfile
--        tmpfile = tempfile.NamedTemporaryFile(mode='wb', prefix='oecore.', suffix='.tmp', delete=False)
--        tmpfilename=tmpfile.name
--        tmpfile.write(sock.read())
--        tmpfile.close()
-+    import tempfile
-     import gzip
-+
-+    webpage = ''
-+    sock = create_socket(url,d)
-+    if sock:
-+        webpage = sock.read()
-+
-+    tmpfile = tempfile.NamedTemporaryFile(mode='wb', prefix='oecore.', suffix='.tmp', delete=False)
-+    tmpfilename=tmpfile.name
-+    tmpfile.write(sock.read())
-+    tmpfile.close()
-     bb.note("Reading %s: %s" % (url, section))
- 
-     f = gzip.open(tmpfilename)
-@@ -266,9 +252,9 @@ def update_distro_data(distro_check_dir, datetime, d):
-     import fcntl
-     try:
-         if not os.path.exists(datetime_file):
--            open(datetime_file, 'w+b').close() # touch the file so that the next open won't fail
-+            open(datetime_file, 'w+').close() # touch the file so that the next open won't fail
- 
--        f = open(datetime_file, "r+b")
-+        f = open(datetime_file, "r+")
-         fcntl.lockf(f, fcntl.LOCK_EX)
-         saved_datetime = f.read()
-         if saved_datetime[0:8] != datetime[0:8]:
 -- 
-2.1.4
+2.8.1
 
 
