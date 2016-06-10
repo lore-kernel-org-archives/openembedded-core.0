@@ -1,40 +1,38 @@
 Return-Path: <andre.draszik@gmail.com>
 Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A432373166
+	by mail.openembedded.org (Postfix) with ESMTP id B3FF270030
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2016 15:12:16 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id m124so18599323wme.3
+	Fri, 10 Jun 2016 15:12:40 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id k184so18605675wme.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2016 08:12:17 -0700 (PDT)
+	Fri, 10 Jun 2016 08:12:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=hz5T8wbcLexT/CiQ0ruXFF0Bh3ELru1DA3Z0x0aoZ3U=;
-	b=OXY2cbp3769973zMHkF+rGMvc8ZAzYJkOHwEuva/9E8JOTps/hRbqLIP6LSeLu8dfX
-	jB2RoiS5a5RHfiX9ekX/6wT/kaoMKhuZvEtIqP9tygym85xy3paBX6ZC6gVfknZL1qlF
-	ZTcAjruT5k1AyopT8HhqakX3UZL8wG3GuGBBFzHblOrxZfSNUylv7ZhCHeodnUgwTZMx
-	zB5jr0oVYGiAUoVii20lSY8v2UHI47fMlBnY3V4DSoNCgXoKkRxMQgYJmVtJmn59HNMG
-	6wvjTn5349EDP2y/b2zU62qdXwiWbWOCGEPOYw/qK8dCW8KvbXt924Rao6oCvFri2F8A
-	pmng==
-X-Gm-Message-State: ALyK8tJutjVTwCbfeZ3eBO+vH5Dt0hsiiuu2ArAlveII18dcRPuywkLBw/kNpb50/uffSg==
-X-Received: by 10.28.187.8 with SMTP id l8mr19671803wmf.2.1465571536589;
-	Fri, 10 Jun 2016 08:12:16 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=v1Nt29cRd9GN7XyeoJ2Ay7PsTRTwrCVx98CQxl2m6og=;
+	b=AjfIBJy6Fxfj6S+hGM3gvU7YYj2tFSb9GOoz2grsP50AhrgMW0Lzd8DWeHG2mQrQ1o
+	WS+J6oLYs1B7CCqm/5JwhxjEu6ll9ZHqBE/TScWpSVzyZYD6yN7mhEO0RDObcUfaiegB
+	Q+hR/Iz2Ed3u9MkqzIvP1ctITXYmHqPOxmPXe+lHl6Jj1i+c8AbxUmDNNsDr0BRAMObj
+	wrg/BBZ0n2BOYn47rBiupMlOy6hK4wCFHKtSM44Aan0/LxUa6vAZOTvS+iQ9EVcFb2mD
+	58rzfRL2JLqQGG6s2HYcH+vMZhK3S4MQVSemJb/rn8dDQAUm3D7RIGjTksrVdrjbEMUl
+	9h5Q==
+X-Gm-Message-State: ALyK8tKVvcVGLMVTEyokoRddwhQoHqhaVWT/3QkFnJHTq5gDk638mOcENZsQs5cGZBK/3g==
+X-Received: by 10.28.187.8 with SMTP id l8mr19673878wmf.2.1465571561125;
+	Fri, 10 Jun 2016 08:12:41 -0700 (PDT)
 Received: from tfsielt31850.TYCOFS.COM ([185.46.212.66])
 	by smtp.gmail.com with ESMTPSA id
-	lf7sm12805298wjb.23.2016.06.10.08.12.15
+	d7sm36240332wmd.11.2016.06.10.08.12.40
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 10 Jun 2016 08:12:15 -0700 (PDT)
+	Fri, 10 Jun 2016 08:12:40 -0700 (PDT)
 From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Jun 2016 16:12:13 +0100
-Message-Id: <1465571533-21604-2-git-send-email-git@andred.net>
+Date: Fri, 10 Jun 2016 16:12:38 +0100
+Message-Id: <1465571559-21739-1-git-send-email-git@andred.net>
 X-Mailer: git-send-email 2.8.1
-In-Reply-To: <1465571533-21604-1-git-send-email-git@andred.net>
-References: <1465571533-21604-1-git-send-email-git@andred.net>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] uclibc: never build with SSP
+Subject: [PATCH 1/2] mips: add a tune for using MIPS16e ASE instructions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,45 +45,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jun 2016 15:12:17 -0000
+X-List-Received-Date: Fri, 10 Jun 2016 15:12:40 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From: André Draszik <adraszik@tycoint.com>
 
-This doesn't work, as the initial gcc that is used for compiling
-uclibc doesn't have support for SSP yet (since that will only
-be available once uclibc has been compiled). Since during that
-same compilation step uclibc is trying to build its own utils
-those are failing to compile with SSP enabled as the
-initial gcc doesn't have access to the required libraries,
-yet.
+The MIPS16e instruction set still has to be enabled by setting
+MIPS_INSTRUCTION_SET = 'mips16e'
+in e.g. distro.conf and can be disabled on a per-recipe basis as
+needed.
 
-We never used to set UCLIBC_BUILD_SSP in the past, this was
-only changed as part of the upgrade to uclibc-ng in
-commit 63bdadc (uclibc: Switch to using uclibc-ng), so here
-we now simply restore the previous behaviour.
+This is a similar approach as is available on ARM for Thumb support.
 
-Note that we still enable SSP support inside uclibc for
-everybody else to use, though.
+Note that contrary to the ARM Thumb support in OE, we do add a new
+OVERRIDE (mips16e), as there are some recipes in OE that need to be
+compiled slightly differently if mips16e mode is requested.
 
 Signed-off-by: André Draszik <adraszik@tycoint.com>
 ---
- meta/recipes-core/uclibc/uclibc-config.inc | 1 -
- 1 file changed, 1 deletion(-)
+ meta/conf/machine/include/mips/feature-mips-mips16e.inc | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+ create mode 100644 meta/conf/machine/include/mips/feature-mips-mips16e.inc
 
-diff --git a/meta/recipes-core/uclibc/uclibc-config.inc b/meta/recipes-core/uclibc/uclibc-config.inc
-index ed7b522..8b9e41c 100644
---- a/meta/recipes-core/uclibc/uclibc-config.inc
-+++ b/meta/recipes-core/uclibc/uclibc-config.inc
-@@ -119,7 +119,6 @@ def features_to_uclibc_settings(d):
-     uclibc_cfg('thumb-interwork', distro_features,'USE_BX', cnf, rem)
-     uclibc_cfg('xattr',     distro_features, 'UCLIBC_HAS_XATTR', cnf, rem)
-     uclibc_cfg('ssp',       distro_features, 'UCLIBC_HAS_SSP', cnf, rem)
--    uclibc_cfg('ssp',       distro_features, 'UCLIBC_BUILD_SSP', cnf, rem)
-     uclibc_cfg('argp',       distro_features, 'UCLIBC_HAS_ARGP', cnf, rem)
-     uclibc_cfg('libc-posix-clang-wchar',  distro_features,'UCLIBC_HAS_WCHAR', cnf, rem)
-     return "\n".join(cnf), "\n".join(rem)
+diff --git a/meta/conf/machine/include/mips/feature-mips-mips16e.inc b/meta/conf/machine/include/mips/feature-mips-mips16e.inc
+new file mode 100644
+index 0000000..05011de
+--- /dev/null
++++ b/meta/conf/machine/include/mips/feature-mips-mips16e.inc
+@@ -0,0 +1,17 @@
++TUNEVALID[mips16e] = "Build target packages with MIPS16e ASE instructions"
++MIPS_MIPS16E_OPT = "${@['mno-mips16', 'mips16'][d.getVar('MIPS_INSTRUCTION_SET', True) == 'mips16e']}"
++TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'mips16e', ' -${MIPS_MIPS16E_OPT}', '', d)}"
++
++MIPSPKGSFX_MIPS16E .= "${@bb.utils.contains('TUNE_FEATURES', 'mips16e', '-m16', '', d) if d.getVar('MIPS_MIPS16E_OPT', True) == 'mips16' else ''}"
++
++# Whether to compile with code to allow interworking between the two
++# instruction sets. This allows mips16e code to be executed on a primarily
++# mips32/64 system and vice versa. It is strongly recommended that DISTROs not
++# turn this off - the actual cost is very small.
++TUNEVALID[no-interlink-compressed] = "Disable mixing of standard and MIPS16e code"
++MIPS16_TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'no-interlink-compressed', ' -mno-interlink-compressed', ' -minterlink-compressed', d)}"
++TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'mips16e', ' ${MIPS16_TUNE_CCARGS}', '', d)}"
++OVERRIDES .= "${@bb.utils.contains('TUNE_FEATURES', 'mips16e', ':mips16e', '', d)}"
++
++# show status (if compiling in MIPS16e mode)
++BUILDCFG_VARS += "${@['', 'MIPS_INSTRUCTION_SET'][d.getVar('MIPS_INSTRUCTION_SET', True) == 'mips16e']}"
 -- 
 2.8.1
 
