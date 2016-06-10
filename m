@@ -1,25 +1,24 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 35A4F6FF7F
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 89E8E6FFCC
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 10 Jun 2016 08:05:06 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 10 Jun 2016 01:05:06 -0700
+	by orsmga102.jf.intel.com with ESMTP; 10 Jun 2016 01:05:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,449,1459839600"; d="scan'208";a="994880199"
+X-IronPort-AV: E=Sophos;i="5.26,449,1459839600"; d="scan'208";a="994880187"
 Received: from theory.fi.intel.com ([10.237.72.196])
-	by orsmga002.jf.intel.com with ESMTP; 10 Jun 2016 01:04:56 -0700
+	by orsmga002.jf.intel.com with ESMTP; 10 Jun 2016 01:04:54 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Jun 2016 11:04:48 +0300
-Message-Id: <e364e2a03e9c915e9b3d2460a21f0f5c2cf7bce4.1465543963.git.jussi.kukkonen@intel.com>
+Date: Fri, 10 Jun 2016 11:04:47 +0300
+Message-Id: <fa5702b8347dc784358f911064e14bbbc64cf001.1465543963.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <0eb4efa075b52bf2989e5808d33e9f06d83eadda.1465543963.git.jussi.kukkonen@intel.com>
 References: <0eb4efa075b52bf2989e5808d33e9f06d83eadda.1465543963.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1465543963.git.jussi.kukkonen@intel.com>
 References: <cover.1465543963.git.jussi.kukkonen@intel.com>
-MIME-Version: 1.0
-Subject: [PATCHv2 32/36] matchbox-desktop: Add Sato folder configuration
+Subject: [PATCHv2 11/36] vte: Upgrade to 0.44.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,163 +32,258 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 10 Jun 2016 08:05:06 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-matchbox-desktop folder configuration for Sato was in a separate
-project 'matchbox-desktop-sato'. Skip the extra overhead: remove
-matchbox-desktop-sato and include the files here.
-
-Drop Utilities folder and include those icons in the Applictions
-folder in an effort to make the common case a little more useful:
-Now e.g. Terminal icon should be visible on startup.
+* License change LGPL 2.0 -> LGPL 2.1+
+* vte-termcap is no more
+* API break: current version seems to be parallel installable
+  with old one, but I did not opt for that.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- .../matchbox-desktop-sato_git.bb                   | 22 ----------------------
- .../matchbox-desktop/files/vfolders/All.directory  |  5 +++++
- .../files/vfolders/Applications.directory          |  6 ++++++
- .../files/vfolders/Games.directory                 |  9 +++++++++
- .../matchbox-desktop/files/vfolders/Root.order     |  4 ++++
- .../files/vfolders/Settings.directory              |  8 ++++++++
- .../matchbox-desktop/matchbox-desktop_2.1.bb       | 10 +++++++++-
- .../matchbox-sato/matchbox-session-sato_0.1.bb     |  2 +-
- 8 files changed, 42 insertions(+), 24 deletions(-)
- delete mode 100644 meta/recipes-sato/matchbox-desktop-sato/matchbox-desktop-sato_git.bb
- create mode 100644 meta/recipes-sato/matchbox-desktop/files/vfolders/All.directory
- create mode 100644 meta/recipes-sato/matchbox-desktop/files/vfolders/Applications.directory
- create mode 100644 meta/recipes-sato/matchbox-desktop/files/vfolders/Games.directory
- create mode 100644 meta/recipes-sato/matchbox-desktop/files/vfolders/Root.order
- create mode 100644 meta/recipes-sato/matchbox-desktop/files/vfolders/Settings.directory
+ .../vte/vte-0.28.2/cve-2012-2738.patch             | 136 ---------------------
+ .../vte/vte-0.28.2/obsolete_automake_macros.patch  |  14 ---
+ meta/recipes-support/vte/vte.inc                   |  15 ---
+ meta/recipes-support/vte/vte_0.28.2.bb             |  16 ---
+ meta/recipes-support/vte/vte_0.44.1.bb             |  21 ++++
+ 5 files changed, 21 insertions(+), 181 deletions(-)
+ delete mode 100644 meta/recipes-support/vte/vte-0.28.2/cve-2012-2738.patch
+ delete mode 100644 meta/recipes-support/vte/vte-0.28.2/obsolete_automake_macros.patch
+ delete mode 100644 meta/recipes-support/vte/vte.inc
+ delete mode 100644 meta/recipes-support/vte/vte_0.28.2.bb
+ create mode 100644 meta/recipes-support/vte/vte_0.44.1.bb
 
-diff --git a/meta/recipes-sato/matchbox-desktop-sato/matchbox-desktop-sato_git.bb b/meta/recipes-sato/matchbox-desktop-sato/matchbox-desktop-sato_git.bb
+diff --git a/meta/recipes-support/vte/vte-0.28.2/cve-2012-2738.patch b/meta/recipes-support/vte/vte-0.28.2/cve-2012-2738.patch
 deleted file mode 100644
-index 1979cbb..0000000
---- a/meta/recipes-sato/matchbox-desktop-sato/matchbox-desktop-sato_git.bb
+index 9b99803..0000000
+--- a/meta/recipes-support/vte/vte-0.28.2/cve-2012-2738.patch
 +++ /dev/null
-@@ -1,22 +0,0 @@
--SUMMARY = "Matchbox desktop folders for the Sato environment"
--HOMEPAGE = "http://matchbox-project.org"
--BUGTRACKER = "http://bugzilla.yoctoproject.org/"
+@@ -1,136 +0,0 @@
+-Upstream-Status: Backport
+-CVE: CVE-2012-2738
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
 -
--LICENSE = "GPLv2"
--LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
+-From e524b0b3bd8fad844ffa73927c199545b892cdbd Mon Sep 17 00:00:00 2001
+-From: Christian Persch <chpe@gnome.org>
+-Date: Sat, 19 May 2012 19:36:09 +0200
+-Subject: [PATCH 1/2] emulation: Limit integer arguments to 65535
 -
--SECTION = "x11"
--DEPENDS = ""
--RCONFLICTS_${PN} = "matchbox-common"
+-To guard against malicious sequences containing excessively big numbers,
+-limit all parsed numbers to 16 bit range. Doing this here in the parsing
+-routine is a catch-all guard; this doesn't preclude enforcing
+-more stringent limits in the handlers themselves.
 -
--SRCREV = "810b0b08eb79e4685202da2ec347b990bb467e07"
--PV = "0.1+git${SRCPV}"
--PR = "r1"
+-https://bugzilla.gnome.org/show_bug.cgi?id=676090
+----
+- src/table.c  | 2 +-
+- src/vteseq.c | 2 +-
+- 2 files changed, 2 insertions(+), 2 deletions(-)
 -
--SRC_URI = "git://git.yoctoproject.org/${BPN}"
+-diff --git a/src/table.c b/src/table.c
+-index 140e8c8..85cf631 100644
+---- a/src/table.c
+-+++ b/src/table.c
+-@@ -550,7 +550,7 @@ _vte_table_extract_numbers(GValueArray **array,
+- 		if (G_UNLIKELY (*array == NULL)) {
+- 			*array = g_value_array_new(1);
+- 		}
+--		g_value_set_long(&value, total);
+-+		g_value_set_long(&value, CLAMP (total, 0, G_MAXUSHORT));
+- 		g_value_array_append(*array, &value);
+- 	} while (i++ < arginfo->length);
+- 	g_value_unset(&value);
+-diff --git a/src/vteseq.c b/src/vteseq.c
+-index 7ef4c8c..10991db 100644
+---- a/src/vteseq.c
+-+++ b/src/vteseq.c
+-@@ -557,7 +557,7 @@ vte_sequence_handler_multiple(VteTerminal *terminal,
+-                               GValueArray *params,
+-                               VteTerminalSequenceHandler handler)
+- {
+--        vte_sequence_handler_multiple_limited(terminal, params, handler, G_MAXLONG);
+-+        vte_sequence_handler_multiple_limited(terminal, params, handler, G_MAXUSHORT);
+- }
+- 
+- static void
+--- 
+-2.4.9 (Apple Git-60)
 -
--S = "${WORKDIR}/git"
 -
--inherit autotools pkgconfig
+-From cf1ad453a8def873c49cf6d88162593402f32bb2 Mon Sep 17 00:00:00 2001
+-From: Christian Persch <chpe@gnome.org>
+-Date: Sat, 19 May 2012 20:04:12 +0200
+-Subject: [PATCH 2/2] emulation: Limit repetitions
 -
--FILES_${PN} += "${datadir}"
-diff --git a/meta/recipes-sato/matchbox-desktop/files/vfolders/All.directory b/meta/recipes-sato/matchbox-desktop/files/vfolders/All.directory
+-Don't allow malicious sequences to cause excessive repetitions.
+-
+-https://bugzilla.gnome.org/show_bug.cgi?id=676090
+----
+- src/vteseq.c | 25 ++++++++++++++++++-------
+- 1 file changed, 18 insertions(+), 7 deletions(-)
+-
+-diff --git a/src/vteseq.c b/src/vteseq.c
+-index 10991db..209522f 100644
+---- a/src/vteseq.c
+-+++ b/src/vteseq.c
+-@@ -1392,7 +1392,7 @@ vte_sequence_handler_dc (VteTerminal *terminal, GValueArray *params)
+- static void
+- vte_sequence_handler_DC (VteTerminal *terminal, GValueArray *params)
+- {
+--	vte_sequence_handler_multiple(terminal, params, vte_sequence_handler_dc);
+-+	vte_sequence_handler_multiple_r(terminal, params, vte_sequence_handler_dc);
+- }
+- 
+- /* Delete a line at the current cursor position. */
+-@@ -1785,7 +1785,7 @@ vte_sequence_handler_reverse_index (VteTerminal *terminal, GValueArray *params)
+- static void
+- vte_sequence_handler_RI (VteTerminal *terminal, GValueArray *params)
+- {
+--	vte_sequence_handler_multiple(terminal, params, vte_sequence_handler_nd);
+-+	vte_sequence_handler_multiple_r(terminal, params, vte_sequence_handler_nd);
+- }
+- 
+- /* Save cursor (position). */
+-@@ -2777,8 +2777,7 @@ vte_sequence_handler_insert_lines (VteTerminal *terminal, GValueArray *params)
+- {
+- 	GValue *value;
+- 	VteScreen *screen;
+--	long param, end, row;
+--	int i;
+-+	long param, end, row, i, limit;
+- 	screen = terminal->pvt->screen;
+- 	/* The default is one. */
+- 	param = 1;
+-@@ -2796,7 +2795,13 @@ vte_sequence_handler_insert_lines (VteTerminal *terminal, GValueArray *params)
+- 	} else {
+- 		end = screen->insert_delta + terminal->row_count - 1;
+- 	}
+--	/* Insert the new lines at the cursor. */
+-+
+-+	/* Only allow to insert as many lines as there are between this row
+-+         * and the end of the scrolling region. See bug #676090.
+-+         */
+-+        limit = end - row + 1;
+-+        param = MIN (param, limit);
+-+
+- 	for (i = 0; i < param; i++) {
+- 		/* Clear a line off the end of the region and add one to the
+- 		 * top of the region. */
+-@@ -2817,8 +2822,7 @@ vte_sequence_handler_delete_lines (VteTerminal *terminal, GValueArray *params)
+- {
+- 	GValue *value;
+- 	VteScreen *screen;
+--	long param, end, row;
+--	int i;
+-+	long param, end, row, i, limit;
+- 
+- 	screen = terminal->pvt->screen;
+- 	/* The default is one. */
+-@@ -2837,6 +2841,13 @@ vte_sequence_handler_delete_lines (VteTerminal *terminal, GValueArray *params)
+- 	} else {
+- 		end = screen->insert_delta + terminal->row_count - 1;
+- 	}
+-+
+-+        /* Only allow to delete as many lines as there are between this row
+-+         * and the end of the scrolling region. See bug #676090.
+-+         */
+-+        limit = end - row + 1;
+-+        param = MIN (param, limit);
+-+
+- 	/* Clear them from below the current cursor. */
+- 	for (i = 0; i < param; i++) {
+- 		/* Insert a line at the end of the region and remove one from
+--- 
+-2.4.9 (Apple Git-60)
+-
+diff --git a/meta/recipes-support/vte/vte-0.28.2/obsolete_automake_macros.patch b/meta/recipes-support/vte/vte-0.28.2/obsolete_automake_macros.patch
+deleted file mode 100644
+index 6763d37..0000000
+--- a/meta/recipes-support/vte/vte-0.28.2/obsolete_automake_macros.patch
++++ /dev/null
+@@ -1,14 +0,0 @@
+-Upstream-Status: Submitted [https://bugzilla.gnome.org/show_bug.cgi?id=691545]
+-
+-Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+-diff -Nurd vte-0.28.2/gnome-pty-helper/configure.in vte-0.28.2/gnome-pty-helper/configure.in
+---- vte-0.28.2/gnome-pty-helper/configure.in	2010-07-15 20:08:44.000000000 +0300
+-+++ vte-0.28.2/gnome-pty-helper/configure.in	2013-01-11 14:50:34.971027440 +0200
+-@@ -8,7 +8,6 @@
+- AC_ISC_POSIX
+- AC_PROG_CC
+- AC_STDC_HEADERS
+--AM_PROG_CC_STDC
+-
+- if test -z "$enable_maintainer_mode"; then
+-   enable_maintainer_mode=yes
+diff --git a/meta/recipes-support/vte/vte.inc b/meta/recipes-support/vte/vte.inc
+deleted file mode 100644
+index 8565cc2..0000000
+--- a/meta/recipes-support/vte/vte.inc
++++ /dev/null
+@@ -1,15 +0,0 @@
+-SUMMARY = "Virtual terminal emulator GTK+ widget library"
+-BUGTRACKER = "https://bugzilla.gnome.org/buglist.cgi?product=vte"
+-LICENSE = "LGPLv2.0"
+-DEPENDS = " glib-2.0 gtk+ intltool-native ncurses"
+-RDEPENDS_libvte = "vte-termcap"
+-
+-inherit gnome gtk-doc distro_features_check upstream-version-is-even gobject-introspection
+-ANY_OF_DISTRO_FEATURES = "${GTK2DISTROFEATURES}"
+-
+-EXTRA_OECONF = "--disable-python"
+-
+-PACKAGES =+ "libvte vte-termcap"
+-FILES_libvte = "${libdir}/*.so.* ${libexecdir}/gnome-pty-helper"
+-FILES_vte-termcap = "${datadir}/vte/termcap-0.0"
+-
+diff --git a/meta/recipes-support/vte/vte_0.28.2.bb b/meta/recipes-support/vte/vte_0.28.2.bb
+deleted file mode 100644
+index 74087ca..0000000
+--- a/meta/recipes-support/vte/vte_0.28.2.bb
++++ /dev/null
+@@ -1,16 +0,0 @@
+-require vte.inc
+-
+-LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
+-
+-PR = "r6"
+-
+-SRC_URI += "file://obsolete_automake_macros.patch \
+-            file://cve-2012-2738.patch \
+-           "
+-
+-CFLAGS += "-D_GNU_SOURCE"
+-
+-SRC_URI[archive.md5sum] = "497f26e457308649e6ece32b3bb142ff"
+-SRC_URI[archive.sha256sum] = "86cf0b81aa023fa93ed415653d51c96767f20b2d7334c893caba71e42654b0ae"
+-
+-RECIPE_NO_UPDATE_REASON = "matchbox-terminal needs to be ported over to new vte first"
+diff --git a/meta/recipes-support/vte/vte_0.44.1.bb b/meta/recipes-support/vte/vte_0.44.1.bb
 new file mode 100644
-index 0000000..dfa41e3
+index 0000000..84c8055
 --- /dev/null
-+++ b/meta/recipes-sato/matchbox-desktop/files/vfolders/All.directory
-@@ -0,0 +1,5 @@
-+[Desktop Entry]
-+Name=All
-+Icon=mbfolder.png
-+Type=Directory
-+Match=meta-all
-diff --git a/meta/recipes-sato/matchbox-desktop/files/vfolders/Applications.directory b/meta/recipes-sato/matchbox-desktop/files/vfolders/Applications.directory
-new file mode 100644
-index 0000000..a7e3501
---- /dev/null
-+++ b/meta/recipes-sato/matchbox-desktop/files/vfolders/Applications.directory
-@@ -0,0 +1,6 @@
-+[Desktop Entry]
-+Name=Applications
-+Comment=Applications
-+Icon=gnome-applications.png
-+Type=Directory
-+Match=AudioVideo;Audio;Video;Graphics;Network;Office;Utility;System;Development;meta-fallback;
-diff --git a/meta/recipes-sato/matchbox-desktop/files/vfolders/Games.directory b/meta/recipes-sato/matchbox-desktop/files/vfolders/Games.directory
-new file mode 100644
-index 0000000..1b0928c
---- /dev/null
-+++ b/meta/recipes-sato/matchbox-desktop/files/vfolders/Games.directory
-@@ -0,0 +1,9 @@
-+[Desktop Entry]
-+Name=Games
-+Name[de]=Spiele
-+Comment=Games of all kind
-+Comment[de]=Spiele aller Art
-+Icon=mbfolder.png
-+Type=Directory
-+Match=Game
++++ b/meta/recipes-support/vte/vte_0.44.1.bb
+@@ -0,0 +1,21 @@
++SUMMARY = "Virtual terminal emulator GTK+ widget library"
++BUGTRACKER = "https://bugzilla.gnome.org/buglist.cgi?product=vte"
++LICENSE = "LGPLv2.1+"
++DEPENDS = "glib-2.0 gtk+3 intltool-native"
 +
-diff --git a/meta/recipes-sato/matchbox-desktop/files/vfolders/Root.order b/meta/recipes-sato/matchbox-desktop/files/vfolders/Root.order
-new file mode 100644
-index 0000000..01a86d2
---- /dev/null
-+++ b/meta/recipes-sato/matchbox-desktop/files/vfolders/Root.order
-@@ -0,0 +1,4 @@
-+Applications
-+Games
-+Settings
-+All
-diff --git a/meta/recipes-sato/matchbox-desktop/files/vfolders/Settings.directory b/meta/recipes-sato/matchbox-desktop/files/vfolders/Settings.directory
-new file mode 100644
-index 0000000..5dde365
---- /dev/null
-+++ b/meta/recipes-sato/matchbox-desktop/files/vfolders/Settings.directory
-@@ -0,0 +1,8 @@
-+[Desktop Entry]
-+Name=Settings
-+Name[de]=Einstellungen
-+Comment=Settings for your handheld computer
-+Comment[de]=Einstellungen für Ihren Handheld-Computer
-+Icon=mbfolder.png
-+Type=Directory
-+Match=Settings
-diff --git a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.1.bb b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.1.bb
-index d6c53b0..c813d00 100644
---- a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.1.bb
-+++ b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.1.bb
-@@ -12,7 +12,9 @@ SECTION = "x11/wm"
- 
- # SRCREV tagged 2.1
- SRCREV = "c8473519a0f37488b8b3e839e275b000cdde0b80"
--SRC_URI = "git://git.yoctoproject.org/${BPN}-2"
-+SRC_URI = "git://git.yoctoproject.org/${BPN}-2 \
-+           file://vfolders/* \
-+           "
- 
- EXTRA_OECONF = "--enable-startup-notification --with-dbus"
- 
-@@ -22,3 +24,9 @@ inherit autotools pkgconfig distro_features_check
- 
- # The startup-notification requires x11 in DISTRO_FEATURES
- REQUIRED_DISTRO_FEATURES = "x11"
++LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
++SRC_URI[archive.md5sum] = "20916d97a5902657e54307cc2757beee"
++SRC_URI[archive.sha256sum] = "712dd548339f600fd7e221d12b2670a13a4361b2cd23ba0e057e76cc19fe5d4e"
 +
-+do_install_append() {
-+    install -D -m 0644 --target-directory=${D}${datadir}/matchbox/vfolders/ ${WORKDIR}/vfolders/*
-+}
++inherit gnomebase gtk-doc distro_features_check upstream-version-is-even vala gobject-introspection
++ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
 +
-+FILES_${PN} += "${datadir}/matchbox/vfolders/"
-diff --git a/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb b/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
-index fb4750b..42c742f 100644
---- a/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
-+++ b/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://session;endline=3;md5=f8a5c5b9c279e52dc094d10e11c2be6
- 
- SECTION = "x11"
- DEPENDS = "gconf-native"
--RDEPENDS_${PN} = "formfactor matchbox-theme-sato matchbox-panel-2 matchbox-desktop-sato matchbox-session gconf"
-+RDEPENDS_${PN} = "formfactor matchbox-theme-sato matchbox-panel-2 matchbox-desktop matchbox-session gconf"
- PR = "r30"
- 
- # This package is architecture specific because the session script is modified
++PACKAGECONFIG[gnutls] = "--with-gnutls,--without-gnutls,gnutls"
++
++CFLAGS += "-D_GNU_SOURCE"
++
++# Enable vala only if gobject-introspection is enabled
++EXTRA_OECONF = "--enable-vala=auto"
++
++PACKAGES =+ "libvte"
++FILES_libvte = "${libdir}/*.so.*"
 -- 
 2.1.4
 
