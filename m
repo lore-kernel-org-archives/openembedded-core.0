@@ -1,27 +1,29 @@
 Return-Path: <maxin.john@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 7FC5460107
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id AF1B860107
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2016 08:48:30 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP; 10 Jun 2016 01:48:30 -0700
+	Fri, 10 Jun 2016 08:51:17 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP; 10 Jun 2016 01:51:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,449,1459839600"; d="scan'208";a="716900408"
-Received: from linux.intel.com ([10.23.219.25])
-	by FMSMGA003.fm.intel.com with ESMTP; 10 Jun 2016 01:48:30 -0700
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 149E56A4006
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2016 02:35:55 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.26,449,1459839600"; d="scan'208";a="994900256"
+Received: from mbabyjoh-desk.fi.intel.com (HELO
+	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.71])
+	by orsmga002.jf.intel.com with ESMTP; 10 Jun 2016 01:51:16 -0700
+Date: Fri, 10 Jun 2016 06:58:23 +0300
 From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Jun 2016 06:55:30 +0300
-Message-Id: <1465530930-3754-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [PATCH v2] libjpeg-turbo: update to 1.5.0
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Message-ID: <20160610035823.GB26373@mbabyjoh-desk.ger.corp.intel.com>
+References: <1465390138-26600-1-git-send-email-maxin.john@intel.com>
+	<940de7d5-ba9f-cdd1-476c-9b1235b8e4b2@linux.intel.com>
+	<20160609063541.GA26373@mbabyjoh-desk.ger.corp.intel.com>
+	<519239dddcce45428cd4d82b0667efe6@XBOX02.axis.com>
+MIME-Version: 1.0
+In-Reply-To: <519239dddcce45428cd4d82b0667efe6@XBOX02.axis.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libjpeg-turbo: update to 1.5.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,70 +36,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jun 2016 08:48:31 -0000
+X-List-Received-Date: Fri, 10 Jun 2016 08:51:17 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-1. LIC_FILES_CHKSUM updates only involves changes in Copyright holders.
-   LICENSE remains the same.
+Hi,
 
-2. libjpeg-turbo don't have non-floating point ABI support in MIPS.
-   Provide a work around for that.
+On Thu, Jun 09, 2016 at 11:27:50PM +0000, Peter Kjellerstedt wrote:
+> > -----Original Message-----
+> > From: openembedded-core-bounces@lists.openembedded.org
+> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> > Maxin B. John
+> > Sent: den 9 juni 2016 08:36
+> > To: Alexander Kanavin
+> > Cc: openembedded-core@lists.openembedded.org
+> > Subject: Re: [OE-core] [PATCH] libjpeg-turbo: update to 1.5.0
+<snip> 
 
-[YOCTO #9606]
+> > +1 for that. Now looking for a better way to get rid of this "version-
+> > going-backwards" problem:
+> > 
+> > QA Issue: Package version for package jpeg-tools went backwards which
+> > would break package feeds from (0:8d+1.4.2-r0 to 0:1.5.0-r0) [version-
+> > going-backwards]
+> > 
+> > > Alex
+> > >
+> > Best Regards,
+> > Maxin
+> 
+> That should only be a matter of setting the epoch of the recipe:
+> 
+> PE = "1"
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- ...jpeg-turbo_8d+1.4.2.bb => libjpeg-turbo_1.5.0.bb} | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
- rename meta/recipes-graphics/jpeg/{libjpeg-turbo_8d+1.4.2.bb => libjpeg-turbo_1.5.0.bb} (65%)
+Thanks Peter. Sent the v2 now.
 
-diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_8d+1.4.2.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.0.bb
-similarity index 65%
-rename from meta/recipes-graphics/jpeg/libjpeg-turbo_8d+1.4.2.bb
-rename to meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.0.bb
-index 4859431..43f87ce 100644
---- a/meta/recipes-graphics/jpeg/libjpeg-turbo_8d+1.4.2.bb
-+++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.0.bb
-@@ -2,22 +2,19 @@ DESCRIPTION = "libjpeg-turbo is a derivative of libjpeg that uses SIMD instructi
- HOMEPAGE = "http://libjpeg-turbo.org/"
- 
- LICENSE = "BSD-3-Clause"
--LIC_FILES_CHKSUM = "file://cdjpeg.h;endline=12;md5=cad955d15145c3fdceec6855e078e953 \
--                    file://jpeglib.h;endline=14;md5=dfc803dc51ae21178d1376ec73c4454d \
--                    file://djpeg.c;endline=9;md5=e93a8f2061e8a0ac71c7a485c10489e2 \
-+LIC_FILES_CHKSUM = "file://cdjpeg.h;endline=13;md5=05bab7c7ad899d85bfba60da1a1271f2 \
-+                    file://jpeglib.h;endline=16;md5=f67d70e547a2662c079781c72f877f72 \
-+                    file://djpeg.c;endline=11;md5=b90b6d2b4119f9e5807cd273f525d2af \
- "
--
- DEPENDS = "nasm-native"
- 
--BASEPV = "${@d.getVar('PV',True).split('+')[1]}"
--
--SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${BASEPV}.tar.gz"
--SRC_URI[md5sum] = "86b0d5f7507c2e6c21c00219162c3c44"
--SRC_URI[sha256sum] = "521bb5d3043e7ac063ce3026d9a59cc2ab2e9636c655a2515af5f4706122233e"
-+SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
-+SRC_URI[md5sum] = "3fc5d9b6a8bce96161659ae7a9939257"
-+SRC_URI[sha256sum] = "9f397c31a67d2b00ee37597da25898b03eb282ccd87b135a50a69993b6a2035f"
- UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/libjpeg-turbo/files/"
- UPSTREAM_CHECK_REGEX = "/libjpeg-turbo/files/(?P<pver>(\d+[\.\-_]*)+)/"
- 
--S = "${WORKDIR}/${BPN}-${BASEPV}"
-+PE= "1"
- 
- # Drop-in replacement for jpeg
- PROVIDES = "jpeg"
-@@ -30,6 +27,9 @@ inherit autotools pkgconfig
- # Work around missing x32 ABI support
- EXTRA_OECONF_append_class-target = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", "--without-simd", "", d)}"
- 
-+# Work around missing non-floating point ABI support in MIPS
-+EXTRA_OECONF_append_class-target = " ${@bb.utils.contains("MIPSPKGSFX_FPU", "-nf", "--without-simd", "", d)}"
-+
- PACKAGES =+ "jpeg-tools libturbojpeg"
- 
- DESCRIPTION_jpeg-tools = "The jpeg-tools package includes client programs to access libjpeg functionality.  These tools allow for the compression, decompression, transformation and display of JPEG files and benchmarking of the libjpeg library."
--- 
-2.4.0
+> //Peter
 
+Best Regards,
+Maxin
 
