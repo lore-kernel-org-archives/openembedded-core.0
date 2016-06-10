@@ -1,48 +1,53 @@
 Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 0BE0270030
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A85A62137
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2016 15:46:14 +0000 (UTC)
+	Fri, 10 Jun 2016 15:46:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id EC7B02E233
+	by bastet.se.axis.com (Postfix) with ESMTP id C80F618137
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2016 17:46:14 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id 8B9y-GCXF75Q
+	Fri, 10 Jun 2016 17:46:13 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id RT6IEW-ukSNL
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 10 Jun 2016 17:46:13 +0200 (CEST)
 Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bes.se.axis.com (Postfix) with ESMTP id 115E52E1C6
+	by bastet.se.axis.com (Postfix) with ESMTP id 1657F18059
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 10 Jun 2016 17:46:13 +0200 (CEST)
 Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id E91931834
+	by postfix.imss71 (Postfix) with ESMTP id 006D51BF2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2016 17:46:12 +0200 (CEST)
-Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.se.axis.com (Postfix) with ESMTP id DE5C01558
+	Fri, 10 Jun 2016 17:46:13 +0200 (CEST)
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by boulder.se.axis.com (Postfix) with ESMTP id E9E2B1BF0
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 10 Jun 2016 17:46:12 +0200 (CEST)
 Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id DCA44F3E
+	by thoth.se.axis.com (Postfix) with ESMTP id E86EEDCB
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 10 Jun 2016 17:46:12 +0200 (CEST)
 Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u5AFkCBU031859
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u5AFkC4t031871
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 10 Jun 2016 17:46:12 +0200
 Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u5AFkCEQ031858
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u5AFkCuw031865
 	for openembedded-core@lists.openembedded.org;
 	Fri, 10 Jun 2016 17:46:12 +0200
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Jun 2016 17:46:09 +0200
-Message-Id: <cover.1465573515.git.pkj@axis.com>
+Date: Fri, 10 Jun 2016 17:46:10 +0200
+Message-Id: <d4e799a4e5f83291df990e6871f111dafc043062.1465573515.git.pkj@axis.com>
 X-Mailer: git-send-email 2.8.3
-Subject: [PATCHv2 0/2] Make useradd-staticids.bbclass Python 3 compatible
+In-Reply-To: <cover.1465573515.git.pkj@axis.com>
+References: <cover.1465573515.git.pkj@axis.com>
+In-Reply-To: <cover.1465573515.git.pkj@axis.com>
+References: <cover.1465573515.git.pkj@axis.com>
+Subject: [PATCHv2 1/2] useradd-staticids.bbclass: Make sure opened files are closed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,32 +62,61 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 10 Jun 2016 15:46:16 -0000
 
-Avoid warnings with Python 3 due to files that are not closed in
-useradd-staticids.bbclass.
+This avoids warnings about unclosed files with Python 3.
 
-PATCHv2: Also avoid a FutureWarning about split() requiring a
-non-empty pattern. It occured for every recipe that inherited useradd
-(with useradd-staticids enabled), but with no context at all. It also
-did not end up in the tmp/log/cooker log...
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ meta/classes/useradd-staticids.bbclass | 30 +++++++++++++++++-------------
+ 1 file changed, 17 insertions(+), 13 deletions(-)
 
-//Peter
-
-The following changes since commit 40e789d1fee7f0df2d23230fff38325119ad2935:
-
-  bitbake: lib/bb/main.py: Fix use of BBPOSTCONF and BBPRECONF (2016-06-09 18:00:58 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib pkj/useradd-staticids-py3
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/useradd-staticids-py3
-
-Peter Kjellerstedt (2):
-  useradd-staticids.bbclass: Make sure opened files are closed
-  useradd-staticids.bbclass: Avoid FutureWarning about split()
-
- meta/classes/useradd-staticids.bbclass | 34 +++++++++++++++++++---------------
- 1 file changed, 19 insertions(+), 15 deletions(-)
-
+diff --git a/meta/classes/useradd-staticids.bbclass b/meta/classes/useradd-staticids.bbclass
+index a9b506d..440c0e3 100644
+--- a/meta/classes/useradd-staticids.bbclass
++++ b/meta/classes/useradd-staticids.bbclass
+@@ -4,6 +4,7 @@ def update_useradd_static_config(d):
+     import argparse
+     import itertools
+     import re
++    import errno
+ 
+     class myArgumentParser( argparse.ArgumentParser ):
+         def _print_message(self, message, file=None):
+@@ -30,19 +31,22 @@ def update_useradd_static_config(d):
+         are set)."""
+         id_table = dict()
+         for conf in file_list.split():
+-            if os.path.exists(conf):
+-                f = open(conf, "r")
+-                for line in f:
+-                    if line.startswith('#'):
+-                        continue
+-                    # Make sure there always are at least exp_fields elements in
+-                    # the field list. This allows for leaving out trailing
+-                    # colons in the files.
+-                    fields = list_extend(line.rstrip().split(":"), exp_fields)
+-                    if fields[0] not in id_table:
+-                        id_table[fields[0]] = fields
+-                    else:
+-                        id_table[fields[0]] = list(itertools.imap(lambda x, y: x or y, fields, id_table[fields[0]]))
++            try:
++                with open(conf, "r") as f:
++                    for line in f:
++                        if line.startswith('#'):
++                            continue
++                        # Make sure there always are at least exp_fields
++                        # elements in the field list. This allows for leaving
++                        # out trailing colons in the files.
++                        fields = list_extend(line.rstrip().split(":"), exp_fields)
++                        if fields[0] not in id_table:
++                            id_table[fields[0]] = fields
++                        else:
++                            id_table[fields[0]] = list(itertools.imap(lambda x, y: x or y, fields, id_table[fields[0]]))
++            except IOError as e:
++                if e.errno == errno.ENOENT:
++                    pass
+ 
+         return id_table
+ 
 -- 
 2.8.3
 
