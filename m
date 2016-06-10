@@ -1,22 +1,25 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 149FA6FFF7
+	by mail.openembedded.org (Postfix) with ESMTP id 35A4F6FF7F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2016 08:05:05 +0000 (UTC)
+	Fri, 10 Jun 2016 08:05:06 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga101.jf.intel.com with ESMTP; 10 Jun 2016 01:05:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,449,1459839600"; d="scan'208";a="994880153"
+X-IronPort-AV: E=Sophos;i="5.26,449,1459839600"; d="scan'208";a="994880199"
 Received: from theory.fi.intel.com ([10.237.72.196])
-	by orsmga002.jf.intel.com with ESMTP; 10 Jun 2016 01:04:53 -0700
+	by orsmga002.jf.intel.com with ESMTP; 10 Jun 2016 01:04:56 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Jun 2016 11:04:46 +0300
-Message-Id: <0eb4efa075b52bf2989e5808d33e9f06d83eadda.1465543963.git.jussi.kukkonen@intel.com>
+Date: Fri, 10 Jun 2016 11:04:48 +0300
+Message-Id: <e364e2a03e9c915e9b3d2460a21f0f5c2cf7bce4.1465543963.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
+In-Reply-To: <0eb4efa075b52bf2989e5808d33e9f06d83eadda.1465543963.git.jussi.kukkonen@intel.com>
+References: <0eb4efa075b52bf2989e5808d33e9f06d83eadda.1465543963.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1465543963.git.jussi.kukkonen@intel.com>
 References: <cover.1465543963.git.jussi.kukkonen@intel.com>
-Subject: [PATCHv2 08/36] connman-gnome: Add patch to port to Gtk+3
+MIME-Version: 1.0
+Subject: [PATCHv2 32/36] matchbox-desktop: Add Sato folder configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,613 +33,163 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 10 Jun 2016 08:05:06 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Upstream is not really active anymore: patch the Gtk+3 upgrade
-in for now (long term solution is to change to another UI).
+matchbox-desktop folder configuration for Sato was in a separate
+project 'matchbox-desktop-sato'. Skip the extra overhead: remove
+matchbox-desktop-sato and include the files here.
+
+Drop Utilities folder and include those icons in the Applictions
+folder in an effort to make the common case a little more useful:
+Now e.g. Terminal icon should be visible on startup.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- .../connman/connman-gnome/0001-Port-to-Gtk3.patch  | 277 +++++++++++++++++++++
- .../connman/connman-gnome_0.7.bb                   |   5 +-
- .../connman/connman/0001-Port-to-Gtk3.patch        | 277 +++++++++++++++++++++
- 3 files changed, 557 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-connectivity/connman/connman-gnome/0001-Port-to-Gtk3.patch
- create mode 100644 meta/recipes-connectivity/connman/connman/0001-Port-to-Gtk3.patch
+ .../matchbox-desktop-sato_git.bb                   | 22 ----------------------
+ .../matchbox-desktop/files/vfolders/All.directory  |  5 +++++
+ .../files/vfolders/Applications.directory          |  6 ++++++
+ .../files/vfolders/Games.directory                 |  9 +++++++++
+ .../matchbox-desktop/files/vfolders/Root.order     |  4 ++++
+ .../files/vfolders/Settings.directory              |  8 ++++++++
+ .../matchbox-desktop/matchbox-desktop_2.1.bb       | 10 +++++++++-
+ .../matchbox-sato/matchbox-session-sato_0.1.bb     |  2 +-
+ 8 files changed, 42 insertions(+), 24 deletions(-)
+ delete mode 100644 meta/recipes-sato/matchbox-desktop-sato/matchbox-desktop-sato_git.bb
+ create mode 100644 meta/recipes-sato/matchbox-desktop/files/vfolders/All.directory
+ create mode 100644 meta/recipes-sato/matchbox-desktop/files/vfolders/Applications.directory
+ create mode 100644 meta/recipes-sato/matchbox-desktop/files/vfolders/Games.directory
+ create mode 100644 meta/recipes-sato/matchbox-desktop/files/vfolders/Root.order
+ create mode 100644 meta/recipes-sato/matchbox-desktop/files/vfolders/Settings.directory
 
-diff --git a/meta/recipes-connectivity/connman/connman-gnome/0001-Port-to-Gtk3.patch b/meta/recipes-connectivity/connman/connman-gnome/0001-Port-to-Gtk3.patch
+diff --git a/meta/recipes-sato/matchbox-desktop-sato/matchbox-desktop-sato_git.bb b/meta/recipes-sato/matchbox-desktop-sato/matchbox-desktop-sato_git.bb
+deleted file mode 100644
+index 1979cbb..0000000
+--- a/meta/recipes-sato/matchbox-desktop-sato/matchbox-desktop-sato_git.bb
++++ /dev/null
+@@ -1,22 +0,0 @@
+-SUMMARY = "Matchbox desktop folders for the Sato environment"
+-HOMEPAGE = "http://matchbox-project.org"
+-BUGTRACKER = "http://bugzilla.yoctoproject.org/"
+-
+-LICENSE = "GPLv2"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
+-
+-SECTION = "x11"
+-DEPENDS = ""
+-RCONFLICTS_${PN} = "matchbox-common"
+-
+-SRCREV = "810b0b08eb79e4685202da2ec347b990bb467e07"
+-PV = "0.1+git${SRCPV}"
+-PR = "r1"
+-
+-SRC_URI = "git://git.yoctoproject.org/${BPN}"
+-
+-S = "${WORKDIR}/git"
+-
+-inherit autotools pkgconfig
+-
+-FILES_${PN} += "${datadir}"
+diff --git a/meta/recipes-sato/matchbox-desktop/files/vfolders/All.directory b/meta/recipes-sato/matchbox-desktop/files/vfolders/All.directory
 new file mode 100644
-index 0000000..c93e9b4
+index 0000000..dfa41e3
 --- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman-gnome/0001-Port-to-Gtk3.patch
-@@ -0,0 +1,277 @@
-+From a59b0fac02e74a971ac3f08bf28c17ce361a9526 Mon Sep 17 00:00:00 2001
-+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Date: Wed, 2 Mar 2016 15:47:49 +0200
-+Subject: [PATCH] Port to Gtk3
-+
-+Some unused (or not useful) code was removed, functionality should stay
-+the same.
-+
-+Code still contains quite a few uses of deprecated API.
-+
-+Upstream-Status: Submitted
-+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+---
-+ applet/agent.c        |  3 +--
-+ applet/main.c         | 43 -------------------------------------------
-+ applet/status.c       |  8 --------
-+ configure.ac          |  3 +--
-+ properties/ethernet.c | 14 +++++++-------
-+ properties/main.c     |  2 +-
-+ properties/wifi.c     | 12 ++++++------
-+ 7 files changed, 16 insertions(+), 69 deletions(-)
-+
-+diff --git a/applet/agent.c b/applet/agent.c
-+index 65bed08..04fe86a 100644
-+--- a/applet/agent.c
-++++ b/applet/agent.c
-+@@ -126,7 +126,6 @@ static void request_input_dialog(GHashTable *request,
-+ 	gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);
-+ 	gtk_window_set_keep_above(GTK_WINDOW(dialog), TRUE);
-+ 	gtk_window_set_urgency_hint(GTK_WINDOW(dialog), TRUE);
-+-	gtk_dialog_set_has_separator(GTK_DIALOG(dialog), FALSE);
-+ 	input->dialog = dialog;
-+ 
-+ 	gtk_dialog_add_button(GTK_DIALOG(dialog),
-+@@ -139,7 +138,7 @@ static void request_input_dialog(GHashTable *request,
-+ 	gtk_table_set_row_spacings(GTK_TABLE(table), 4);
-+ 	gtk_table_set_col_spacings(GTK_TABLE(table), 20);
-+ 	gtk_container_set_border_width(GTK_CONTAINER(table), 12);
-+-	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox), table);
-++	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area (GTK_DIALOG(dialog))), table);
-+ 
-+ 	label = gtk_label_new(_("Please provide some network information:"));
-+ 	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
-+diff --git a/applet/main.c b/applet/main.c
-+index f12d371..cd16285 100644
-+--- a/applet/main.c
-++++ b/applet/main.c
-+@@ -157,46 +157,6 @@ static void name_owner_changed(DBusGProxy *proxy, const char *name,
-+ 	}
-+ }
-+ 
-+-static void open_uri(GtkWindow *parent, const char *uri)
-+-{
-+-	GtkWidget *dialog;
-+-	GdkScreen *screen;
-+-	GError *error = NULL;
-+-	gchar *cmdline;
-+-
-+-	screen = gtk_window_get_screen(parent);
-+-
-+-	cmdline = g_strconcat("xdg-open ", uri, NULL);
-+-
-+-	if (gdk_spawn_command_line_on_screen(screen,
-+-				cmdline, &error) == FALSE) {
-+-		dialog = gtk_message_dialog_new(parent,
-+-				GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR,
-+-				GTK_BUTTONS_CLOSE, "%s", error->message);
-+-		gtk_dialog_run(GTK_DIALOG(dialog));
-+-		gtk_widget_destroy(dialog);
-+-		g_error_free(error);
-+-	}
-+-
-+-	g_free(cmdline);
-+-}
-+-
-+-static void about_url_hook(GtkAboutDialog *dialog,
-+-				const gchar *url, gpointer data)
-+-{
-+-	open_uri(GTK_WINDOW(dialog), url);
-+-}
-+-
-+-static void about_email_hook(GtkAboutDialog *dialog,
-+-				const gchar *email, gpointer data)
-+-{
-+-	gchar *uri;
-+-
-+-	uri = g_strconcat("mailto:", email, NULL);
-+-	open_uri(GTK_WINDOW(dialog), uri);
-+-	g_free(uri);
-+-}
-+-
-+ static void about_callback(GtkWidget *item, gpointer user_data)
-+ {
-+ 	const gchar *authors[] = {
-+@@ -204,9 +164,6 @@ static void about_callback(GtkWidget *item, gpointer user_data)
-+ 		NULL
-+ 	};
-+ 
-+-	gtk_about_dialog_set_url_hook(about_url_hook, NULL, NULL);
-+-	gtk_about_dialog_set_email_hook(about_email_hook, NULL, NULL);
-+-
-+ 	gtk_show_about_dialog(NULL, "version", VERSION,
-+ 			"copyright", "Copyright \xc2\xa9 2008 Intel Corporation",
-+ 			"comments", _("A connection manager for the GNOME desktop"),
-+diff --git a/applet/status.c b/applet/status.c
-+index aed6f1e..015ff29 100644
-+--- a/applet/status.c
-++++ b/applet/status.c
-+@@ -102,8 +102,6 @@ static void icon_animation_start(IconAnimation *animation,
-+ {
-+ 	available = TRUE;
-+ 
-+-	gtk_status_icon_set_tooltip(statusicon, NULL);
-+-
-+ 	animation->start = start;
-+ 	animation->end = (end == 0) ? animation->count - 1 : end;
-+ 
-+@@ -120,8 +118,6 @@ static void icon_animation_stop(IconAnimation *animation)
-+ {
-+ 	available = TRUE;
-+ 
-+-	gtk_status_icon_set_tooltip(statusicon, NULL);
-+-
-+ 	if (animation->id > 0)
-+ 		g_source_remove(animation->id);
-+ 
-+@@ -251,8 +247,6 @@ void status_unavailable(void)
-+ 	available = FALSE;
-+ 
-+ 	gtk_status_icon_set_from_pixbuf(statusicon, pixbuf_notifier);
-+-	gtk_status_icon_set_tooltip(statusicon,
-+-				"Connection Manager daemon is not running");
-+ 
-+ 	gtk_status_icon_set_visible(statusicon, TRUE);
-+ }
-+@@ -299,7 +293,6 @@ static void set_ready(gint signal)
-+ 
-+ 	if (signal < 0) {
-+ 		gtk_status_icon_set_from_pixbuf(statusicon, pixbuf_wired);
-+-		gtk_status_icon_set_tooltip(statusicon, NULL);
-+ 		return;
-+ 	}
-+ 
-+@@ -311,7 +304,6 @@ static void set_ready(gint signal)
-+ 		index = 4;
-+ 
-+ 	gtk_status_icon_set_from_pixbuf(statusicon, pixbuf_signal[index]);
-+-	gtk_status_icon_set_tooltip(statusicon, NULL);
-+ }
-+ 
-+ struct timeout_data {
-+diff --git a/configure.ac b/configure.ac
-+index b972e07..a4dad5d 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -55,8 +55,7 @@ AC_SUBST(DBUS_LIBS)
-+ DBUS_BINDING_TOOL="dbus-binding-tool"
-+ AC_SUBST(DBUS_BINDING_TOOL)
-+ 
-+-PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.8, dummy=yes,
-+-				AC_MSG_ERROR(gtk+ >= 2.8 is required))
-++PKG_CHECK_MODULES(GTK, gtk+-3.0)
-+ AC_SUBST(GTK_CFLAGS)
-+ AC_SUBST(GTK_LIBS)
-+ 
-+diff --git a/properties/ethernet.c b/properties/ethernet.c
-+index 31db7a0..0b6b423 100644
-+--- a/properties/ethernet.c
-++++ b/properties/ethernet.c
-+@@ -82,7 +82,7 @@ void add_ethernet_switch_button(GtkWidget *mainbox, GtkTreeIter *iter,
-+ 	gtk_container_set_border_width(GTK_CONTAINER(vbox), 24);
-+ 	gtk_box_pack_start(GTK_BOX(mainbox), vbox, FALSE, FALSE, 0);
-+ 
-+-	table = gtk_table_new(1, 1, TRUE);
-++	table = gtk_table_new(1, 1, FALSE);
-+ 	gtk_table_set_row_spacings(GTK_TABLE(table), 10);
-+ 	gtk_table_set_col_spacings(GTK_TABLE(table), 10);
-+ 	gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
-+@@ -136,7 +136,7 @@ void add_ethernet_service(GtkWidget *mainbox, GtkTreeIter *iter, struct config_d
-+ 	gtk_container_set_border_width(GTK_CONTAINER(vbox), 24);
-+ 	gtk_box_pack_start(GTK_BOX(mainbox), vbox, FALSE, FALSE, 0);
-+ 
-+-	table = gtk_table_new(5, 5, TRUE);
-++	table = gtk_table_new(5, 5, FALSE);
-+ 	gtk_table_set_row_spacings(GTK_TABLE(table), 10);
-+ 	gtk_table_set_col_spacings(GTK_TABLE(table), 10);
-+ 	gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
-+@@ -144,9 +144,9 @@ void add_ethernet_service(GtkWidget *mainbox, GtkTreeIter *iter, struct config_d
-+ 	label = gtk_label_new(_("Configuration:"));
-+ 	gtk_table_attach_defaults(GTK_TABLE(table), label, 1, 2, 0, 1);
-+ 
-+-	combo = gtk_combo_box_new_text();
-+-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "DHCP");
-+-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "MANUAL");
-++	combo = gtk_combo_box_text_new();
-++	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), "DHCP");
-++	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), "MANUAL");
-+ 	gtk_combo_box_set_row_separator_func(GTK_COMBO_BOX(combo),
-+ 					separator_function, NULL, NULL);
-+ 	gtk_table_attach_defaults(GTK_TABLE(table), combo, 2, 4, 0, 1);
-+@@ -219,7 +219,7 @@ void update_ethernet_ipv4(struct config_data *data, guint policy)
-+ 	case CONNMAN_POLICY_DHCP:
-+ 		gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
-+ 		for (i = 0; i < 3; i++) {
-+-			gtk_entry_set_editable(GTK_ENTRY(entry[i]), 0);
-++			gtk_editable_set_editable(GTK_EDITABLE(entry[i]), 0);
-+ 			gtk_widget_set_sensitive(entry[i], 0);
-+ 			gtk_entry_set_text(GTK_ENTRY(entry[i]), _(""));
-+ 		}
-+@@ -227,7 +227,7 @@ void update_ethernet_ipv4(struct config_data *data, guint policy)
-+ 	case CONNMAN_POLICY_MANUAL:
-+ 		gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 1);
-+ 		for (i = 0; i < 3; i++) {
-+-			gtk_entry_set_editable(GTK_ENTRY(entry[i]), 1);
-++			gtk_editable_set_editable(GTK_EDITABLE(entry[i]), 1);
-+ 			gtk_widget_set_sensitive(entry[i], 1);
-+ 		}
-+ 		break;
-+diff --git a/properties/main.c b/properties/main.c
-+index c05f443..6f76361 100644
-+--- a/properties/main.c
-++++ b/properties/main.c
-+@@ -429,7 +429,7 @@ static GtkWidget *create_interfaces(GtkWidget *window)
-+ 
-+ 	scrolled = gtk_scrolled_window_new(NULL, NULL);
-+ 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
-+-				GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-++				GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-+ 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled),
-+ 							GTK_SHADOW_OUT);
-+ 	gtk_box_pack_start(GTK_BOX(hbox), scrolled, FALSE, TRUE, 0);
-+diff --git a/properties/wifi.c b/properties/wifi.c
-+index bd325ef..a5827e0 100644
-+--- a/properties/wifi.c
-++++ b/properties/wifi.c
-+@@ -125,7 +125,7 @@ void add_wifi_switch_button(GtkWidget *mainbox, GtkTreeIter *iter,
-+ 	gtk_container_set_border_width(GTK_CONTAINER(vbox), 24);
-+ 	gtk_box_pack_start(GTK_BOX(mainbox), vbox, FALSE, FALSE, 0);
-+ 
-+-	table = gtk_table_new(1, 1, TRUE);
-++	table = gtk_table_new(1, 1, FALSE);
-+ 	gtk_table_set_row_spacings(GTK_TABLE(table), 10);
-+ 	gtk_table_set_col_spacings(GTK_TABLE(table), 10);
-+ 	gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
-+@@ -185,9 +185,9 @@ static void wifi_ipconfig(GtkWidget *table, struct config_data *data, GtkTreeIte
-+ 	gtk_table_attach_defaults(GTK_TABLE(table), label, 1, 2, 3, 4);
-+ 	data->ipv4.label[0] = label;
-+ 
-+-	combo = gtk_combo_box_new_text();
-+-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "DHCP");
-+-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "Manual");
-++	combo = gtk_combo_box_text_new();
-++	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), "DHCP");
-++	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), "Manual");
-+ 
-+ 	gtk_combo_box_set_row_separator_func(GTK_COMBO_BOX(combo),
-+ 			separator_function, NULL, NULL);
-+@@ -335,14 +335,14 @@ void update_wifi_ipv4(struct config_data *data, guint policy)
-+ 	case CONNMAN_POLICY_DHCP:
-+ 		gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
-+ 		for (i = 0; i < 3; i++) {
-+-			gtk_entry_set_editable(GTK_ENTRY(entry[i]), 0);
-++			gtk_editable_set_editable(GTK_EDITABLE(entry[i]), 0);
-+ 			gtk_widget_set_sensitive(entry[i], 0);
-+ 		}
-+ 		break;
-+ 	case CONNMAN_POLICY_MANUAL:
-+ 		gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 1);
-+ 		for (i = 0; i < 3; i++) {
-+-			gtk_entry_set_editable(GTK_ENTRY(entry[i]), 1);
-++			gtk_editable_set_editable(GTK_EDITABLE(entry[i]), 1);
-+ 			gtk_widget_set_sensitive(entry[i], 1);
-+ 		}
-+ 		break;
-+-- 
-+2.8.1
-+
-diff --git a/meta/recipes-connectivity/connman/connman-gnome_0.7.bb b/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
-index 3521c7f..a56bd37 100644
---- a/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
-+++ b/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
-                     file://properties/main.c;beginline=1;endline=20;md5=50c77c81871308b033ab7a1504626afb \
-                     file://common/connman-dbus.c;beginline=1;endline=20;md5=de6b485c0e717a0236402d220187717a"
- 
--DEPENDS = "gtk+ dbus-glib dbus-glib-native intltool-native gettext-native"
-+DEPENDS = "gtk+3 dbus-glib dbus-glib-native intltool-native gettext-native"
- 
- # 0.7 tag
- SRCREV = "cf3c325b23dae843c5499a113591cfbc98acb143"
-@@ -15,12 +15,13 @@ SRC_URI = "git://github.com/connectivity/connman-gnome.git \
-            file://null_check_for_ipv4_config.patch \
-            file://images/* \
-            file://connman-gnome-fix-dbus-interface-name.patch \
-+           file://0001-Port-to-Gtk3.patch \
-           "
- 
- S = "${WORKDIR}/git"
- 
- inherit autotools-brokensep gtk-icon-cache pkgconfig distro_features_check
--ANY_OF_DISTRO_FEATURES = "${GTK2DISTROFEATURES}"
-+ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
- 
- RDEPENDS_${PN} = "connman"
- 
-diff --git a/meta/recipes-connectivity/connman/connman/0001-Port-to-Gtk3.patch b/meta/recipes-connectivity/connman/connman/0001-Port-to-Gtk3.patch
++++ b/meta/recipes-sato/matchbox-desktop/files/vfolders/All.directory
+@@ -0,0 +1,5 @@
++[Desktop Entry]
++Name=All
++Icon=mbfolder.png
++Type=Directory
++Match=meta-all
+diff --git a/meta/recipes-sato/matchbox-desktop/files/vfolders/Applications.directory b/meta/recipes-sato/matchbox-desktop/files/vfolders/Applications.directory
 new file mode 100644
-index 0000000..c93e9b4
+index 0000000..a7e3501
 --- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman/0001-Port-to-Gtk3.patch
-@@ -0,0 +1,277 @@
-+From a59b0fac02e74a971ac3f08bf28c17ce361a9526 Mon Sep 17 00:00:00 2001
-+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Date: Wed, 2 Mar 2016 15:47:49 +0200
-+Subject: [PATCH] Port to Gtk3
++++ b/meta/recipes-sato/matchbox-desktop/files/vfolders/Applications.directory
+@@ -0,0 +1,6 @@
++[Desktop Entry]
++Name=Applications
++Comment=Applications
++Icon=gnome-applications.png
++Type=Directory
++Match=AudioVideo;Audio;Video;Graphics;Network;Office;Utility;System;Development;meta-fallback;
+diff --git a/meta/recipes-sato/matchbox-desktop/files/vfolders/Games.directory b/meta/recipes-sato/matchbox-desktop/files/vfolders/Games.directory
+new file mode 100644
+index 0000000..1b0928c
+--- /dev/null
++++ b/meta/recipes-sato/matchbox-desktop/files/vfolders/Games.directory
+@@ -0,0 +1,9 @@
++[Desktop Entry]
++Name=Games
++Name[de]=Spiele
++Comment=Games of all kind
++Comment[de]=Spiele aller Art
++Icon=mbfolder.png
++Type=Directory
++Match=Game
 +
-+Some unused (or not useful) code was removed, functionality should stay
-+the same.
+diff --git a/meta/recipes-sato/matchbox-desktop/files/vfolders/Root.order b/meta/recipes-sato/matchbox-desktop/files/vfolders/Root.order
+new file mode 100644
+index 0000000..01a86d2
+--- /dev/null
++++ b/meta/recipes-sato/matchbox-desktop/files/vfolders/Root.order
+@@ -0,0 +1,4 @@
++Applications
++Games
++Settings
++All
+diff --git a/meta/recipes-sato/matchbox-desktop/files/vfolders/Settings.directory b/meta/recipes-sato/matchbox-desktop/files/vfolders/Settings.directory
+new file mode 100644
+index 0000000..5dde365
+--- /dev/null
++++ b/meta/recipes-sato/matchbox-desktop/files/vfolders/Settings.directory
+@@ -0,0 +1,8 @@
++[Desktop Entry]
++Name=Settings
++Name[de]=Einstellungen
++Comment=Settings for your handheld computer
++Comment[de]=Einstellungen für Ihren Handheld-Computer
++Icon=mbfolder.png
++Type=Directory
++Match=Settings
+diff --git a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.1.bb b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.1.bb
+index d6c53b0..c813d00 100644
+--- a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.1.bb
++++ b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.1.bb
+@@ -12,7 +12,9 @@ SECTION = "x11/wm"
+ 
+ # SRCREV tagged 2.1
+ SRCREV = "c8473519a0f37488b8b3e839e275b000cdde0b80"
+-SRC_URI = "git://git.yoctoproject.org/${BPN}-2"
++SRC_URI = "git://git.yoctoproject.org/${BPN}-2 \
++           file://vfolders/* \
++           "
+ 
+ EXTRA_OECONF = "--enable-startup-notification --with-dbus"
+ 
+@@ -22,3 +24,9 @@ inherit autotools pkgconfig distro_features_check
+ 
+ # The startup-notification requires x11 in DISTRO_FEATURES
+ REQUIRED_DISTRO_FEATURES = "x11"
 +
-+Code still contains quite a few uses of deprecated API.
++do_install_append() {
++    install -D -m 0644 --target-directory=${D}${datadir}/matchbox/vfolders/ ${WORKDIR}/vfolders/*
++}
 +
-+Upstream-Status: Submitted
-+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+---
-+ applet/agent.c        |  3 +--
-+ applet/main.c         | 43 -------------------------------------------
-+ applet/status.c       |  8 --------
-+ configure.ac          |  3 +--
-+ properties/ethernet.c | 14 +++++++-------
-+ properties/main.c     |  2 +-
-+ properties/wifi.c     | 12 ++++++------
-+ 7 files changed, 16 insertions(+), 69 deletions(-)
-+
-+diff --git a/applet/agent.c b/applet/agent.c
-+index 65bed08..04fe86a 100644
-+--- a/applet/agent.c
-++++ b/applet/agent.c
-+@@ -126,7 +126,6 @@ static void request_input_dialog(GHashTable *request,
-+ 	gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);
-+ 	gtk_window_set_keep_above(GTK_WINDOW(dialog), TRUE);
-+ 	gtk_window_set_urgency_hint(GTK_WINDOW(dialog), TRUE);
-+-	gtk_dialog_set_has_separator(GTK_DIALOG(dialog), FALSE);
-+ 	input->dialog = dialog;
-+ 
-+ 	gtk_dialog_add_button(GTK_DIALOG(dialog),
-+@@ -139,7 +138,7 @@ static void request_input_dialog(GHashTable *request,
-+ 	gtk_table_set_row_spacings(GTK_TABLE(table), 4);
-+ 	gtk_table_set_col_spacings(GTK_TABLE(table), 20);
-+ 	gtk_container_set_border_width(GTK_CONTAINER(table), 12);
-+-	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox), table);
-++	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area (GTK_DIALOG(dialog))), table);
-+ 
-+ 	label = gtk_label_new(_("Please provide some network information:"));
-+ 	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
-+diff --git a/applet/main.c b/applet/main.c
-+index f12d371..cd16285 100644
-+--- a/applet/main.c
-++++ b/applet/main.c
-+@@ -157,46 +157,6 @@ static void name_owner_changed(DBusGProxy *proxy, const char *name,
-+ 	}
-+ }
-+ 
-+-static void open_uri(GtkWindow *parent, const char *uri)
-+-{
-+-	GtkWidget *dialog;
-+-	GdkScreen *screen;
-+-	GError *error = NULL;
-+-	gchar *cmdline;
-+-
-+-	screen = gtk_window_get_screen(parent);
-+-
-+-	cmdline = g_strconcat("xdg-open ", uri, NULL);
-+-
-+-	if (gdk_spawn_command_line_on_screen(screen,
-+-				cmdline, &error) == FALSE) {
-+-		dialog = gtk_message_dialog_new(parent,
-+-				GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR,
-+-				GTK_BUTTONS_CLOSE, "%s", error->message);
-+-		gtk_dialog_run(GTK_DIALOG(dialog));
-+-		gtk_widget_destroy(dialog);
-+-		g_error_free(error);
-+-	}
-+-
-+-	g_free(cmdline);
-+-}
-+-
-+-static void about_url_hook(GtkAboutDialog *dialog,
-+-				const gchar *url, gpointer data)
-+-{
-+-	open_uri(GTK_WINDOW(dialog), url);
-+-}
-+-
-+-static void about_email_hook(GtkAboutDialog *dialog,
-+-				const gchar *email, gpointer data)
-+-{
-+-	gchar *uri;
-+-
-+-	uri = g_strconcat("mailto:", email, NULL);
-+-	open_uri(GTK_WINDOW(dialog), uri);
-+-	g_free(uri);
-+-}
-+-
-+ static void about_callback(GtkWidget *item, gpointer user_data)
-+ {
-+ 	const gchar *authors[] = {
-+@@ -204,9 +164,6 @@ static void about_callback(GtkWidget *item, gpointer user_data)
-+ 		NULL
-+ 	};
-+ 
-+-	gtk_about_dialog_set_url_hook(about_url_hook, NULL, NULL);
-+-	gtk_about_dialog_set_email_hook(about_email_hook, NULL, NULL);
-+-
-+ 	gtk_show_about_dialog(NULL, "version", VERSION,
-+ 			"copyright", "Copyright \xc2\xa9 2008 Intel Corporation",
-+ 			"comments", _("A connection manager for the GNOME desktop"),
-+diff --git a/applet/status.c b/applet/status.c
-+index aed6f1e..015ff29 100644
-+--- a/applet/status.c
-++++ b/applet/status.c
-+@@ -102,8 +102,6 @@ static void icon_animation_start(IconAnimation *animation,
-+ {
-+ 	available = TRUE;
-+ 
-+-	gtk_status_icon_set_tooltip(statusicon, NULL);
-+-
-+ 	animation->start = start;
-+ 	animation->end = (end == 0) ? animation->count - 1 : end;
-+ 
-+@@ -120,8 +118,6 @@ static void icon_animation_stop(IconAnimation *animation)
-+ {
-+ 	available = TRUE;
-+ 
-+-	gtk_status_icon_set_tooltip(statusicon, NULL);
-+-
-+ 	if (animation->id > 0)
-+ 		g_source_remove(animation->id);
-+ 
-+@@ -251,8 +247,6 @@ void status_unavailable(void)
-+ 	available = FALSE;
-+ 
-+ 	gtk_status_icon_set_from_pixbuf(statusicon, pixbuf_notifier);
-+-	gtk_status_icon_set_tooltip(statusicon,
-+-				"Connection Manager daemon is not running");
-+ 
-+ 	gtk_status_icon_set_visible(statusicon, TRUE);
-+ }
-+@@ -299,7 +293,6 @@ static void set_ready(gint signal)
-+ 
-+ 	if (signal < 0) {
-+ 		gtk_status_icon_set_from_pixbuf(statusicon, pixbuf_wired);
-+-		gtk_status_icon_set_tooltip(statusicon, NULL);
-+ 		return;
-+ 	}
-+ 
-+@@ -311,7 +304,6 @@ static void set_ready(gint signal)
-+ 		index = 4;
-+ 
-+ 	gtk_status_icon_set_from_pixbuf(statusicon, pixbuf_signal[index]);
-+-	gtk_status_icon_set_tooltip(statusicon, NULL);
-+ }
-+ 
-+ struct timeout_data {
-+diff --git a/configure.ac b/configure.ac
-+index b972e07..a4dad5d 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -55,8 +55,7 @@ AC_SUBST(DBUS_LIBS)
-+ DBUS_BINDING_TOOL="dbus-binding-tool"
-+ AC_SUBST(DBUS_BINDING_TOOL)
-+ 
-+-PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.8, dummy=yes,
-+-				AC_MSG_ERROR(gtk+ >= 2.8 is required))
-++PKG_CHECK_MODULES(GTK, gtk+-3.0)
-+ AC_SUBST(GTK_CFLAGS)
-+ AC_SUBST(GTK_LIBS)
-+ 
-+diff --git a/properties/ethernet.c b/properties/ethernet.c
-+index 31db7a0..0b6b423 100644
-+--- a/properties/ethernet.c
-++++ b/properties/ethernet.c
-+@@ -82,7 +82,7 @@ void add_ethernet_switch_button(GtkWidget *mainbox, GtkTreeIter *iter,
-+ 	gtk_container_set_border_width(GTK_CONTAINER(vbox), 24);
-+ 	gtk_box_pack_start(GTK_BOX(mainbox), vbox, FALSE, FALSE, 0);
-+ 
-+-	table = gtk_table_new(1, 1, TRUE);
-++	table = gtk_table_new(1, 1, FALSE);
-+ 	gtk_table_set_row_spacings(GTK_TABLE(table), 10);
-+ 	gtk_table_set_col_spacings(GTK_TABLE(table), 10);
-+ 	gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
-+@@ -136,7 +136,7 @@ void add_ethernet_service(GtkWidget *mainbox, GtkTreeIter *iter, struct config_d
-+ 	gtk_container_set_border_width(GTK_CONTAINER(vbox), 24);
-+ 	gtk_box_pack_start(GTK_BOX(mainbox), vbox, FALSE, FALSE, 0);
-+ 
-+-	table = gtk_table_new(5, 5, TRUE);
-++	table = gtk_table_new(5, 5, FALSE);
-+ 	gtk_table_set_row_spacings(GTK_TABLE(table), 10);
-+ 	gtk_table_set_col_spacings(GTK_TABLE(table), 10);
-+ 	gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
-+@@ -144,9 +144,9 @@ void add_ethernet_service(GtkWidget *mainbox, GtkTreeIter *iter, struct config_d
-+ 	label = gtk_label_new(_("Configuration:"));
-+ 	gtk_table_attach_defaults(GTK_TABLE(table), label, 1, 2, 0, 1);
-+ 
-+-	combo = gtk_combo_box_new_text();
-+-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "DHCP");
-+-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "MANUAL");
-++	combo = gtk_combo_box_text_new();
-++	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), "DHCP");
-++	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), "MANUAL");
-+ 	gtk_combo_box_set_row_separator_func(GTK_COMBO_BOX(combo),
-+ 					separator_function, NULL, NULL);
-+ 	gtk_table_attach_defaults(GTK_TABLE(table), combo, 2, 4, 0, 1);
-+@@ -219,7 +219,7 @@ void update_ethernet_ipv4(struct config_data *data, guint policy)
-+ 	case CONNMAN_POLICY_DHCP:
-+ 		gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
-+ 		for (i = 0; i < 3; i++) {
-+-			gtk_entry_set_editable(GTK_ENTRY(entry[i]), 0);
-++			gtk_editable_set_editable(GTK_EDITABLE(entry[i]), 0);
-+ 			gtk_widget_set_sensitive(entry[i], 0);
-+ 			gtk_entry_set_text(GTK_ENTRY(entry[i]), _(""));
-+ 		}
-+@@ -227,7 +227,7 @@ void update_ethernet_ipv4(struct config_data *data, guint policy)
-+ 	case CONNMAN_POLICY_MANUAL:
-+ 		gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 1);
-+ 		for (i = 0; i < 3; i++) {
-+-			gtk_entry_set_editable(GTK_ENTRY(entry[i]), 1);
-++			gtk_editable_set_editable(GTK_EDITABLE(entry[i]), 1);
-+ 			gtk_widget_set_sensitive(entry[i], 1);
-+ 		}
-+ 		break;
-+diff --git a/properties/main.c b/properties/main.c
-+index c05f443..6f76361 100644
-+--- a/properties/main.c
-++++ b/properties/main.c
-+@@ -429,7 +429,7 @@ static GtkWidget *create_interfaces(GtkWidget *window)
-+ 
-+ 	scrolled = gtk_scrolled_window_new(NULL, NULL);
-+ 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
-+-				GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-++				GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-+ 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled),
-+ 							GTK_SHADOW_OUT);
-+ 	gtk_box_pack_start(GTK_BOX(hbox), scrolled, FALSE, TRUE, 0);
-+diff --git a/properties/wifi.c b/properties/wifi.c
-+index bd325ef..a5827e0 100644
-+--- a/properties/wifi.c
-++++ b/properties/wifi.c
-+@@ -125,7 +125,7 @@ void add_wifi_switch_button(GtkWidget *mainbox, GtkTreeIter *iter,
-+ 	gtk_container_set_border_width(GTK_CONTAINER(vbox), 24);
-+ 	gtk_box_pack_start(GTK_BOX(mainbox), vbox, FALSE, FALSE, 0);
-+ 
-+-	table = gtk_table_new(1, 1, TRUE);
-++	table = gtk_table_new(1, 1, FALSE);
-+ 	gtk_table_set_row_spacings(GTK_TABLE(table), 10);
-+ 	gtk_table_set_col_spacings(GTK_TABLE(table), 10);
-+ 	gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
-+@@ -185,9 +185,9 @@ static void wifi_ipconfig(GtkWidget *table, struct config_data *data, GtkTreeIte
-+ 	gtk_table_attach_defaults(GTK_TABLE(table), label, 1, 2, 3, 4);
-+ 	data->ipv4.label[0] = label;
-+ 
-+-	combo = gtk_combo_box_new_text();
-+-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "DHCP");
-+-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "Manual");
-++	combo = gtk_combo_box_text_new();
-++	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), "DHCP");
-++	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), "Manual");
-+ 
-+ 	gtk_combo_box_set_row_separator_func(GTK_COMBO_BOX(combo),
-+ 			separator_function, NULL, NULL);
-+@@ -335,14 +335,14 @@ void update_wifi_ipv4(struct config_data *data, guint policy)
-+ 	case CONNMAN_POLICY_DHCP:
-+ 		gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
-+ 		for (i = 0; i < 3; i++) {
-+-			gtk_entry_set_editable(GTK_ENTRY(entry[i]), 0);
-++			gtk_editable_set_editable(GTK_EDITABLE(entry[i]), 0);
-+ 			gtk_widget_set_sensitive(entry[i], 0);
-+ 		}
-+ 		break;
-+ 	case CONNMAN_POLICY_MANUAL:
-+ 		gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 1);
-+ 		for (i = 0; i < 3; i++) {
-+-			gtk_entry_set_editable(GTK_ENTRY(entry[i]), 1);
-++			gtk_editable_set_editable(GTK_EDITABLE(entry[i]), 1);
-+ 			gtk_widget_set_sensitive(entry[i], 1);
-+ 		}
-+ 		break;
-+-- 
-+2.8.1
-+
++FILES_${PN} += "${datadir}/matchbox/vfolders/"
+diff --git a/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb b/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
+index fb4750b..42c742f 100644
+--- a/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
++++ b/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://session;endline=3;md5=f8a5c5b9c279e52dc094d10e11c2be6
+ 
+ SECTION = "x11"
+ DEPENDS = "gconf-native"
+-RDEPENDS_${PN} = "formfactor matchbox-theme-sato matchbox-panel-2 matchbox-desktop-sato matchbox-session gconf"
++RDEPENDS_${PN} = "formfactor matchbox-theme-sato matchbox-panel-2 matchbox-desktop matchbox-session gconf"
+ PR = "r30"
+ 
+ # This package is architecture specific because the session script is modified
 -- 
 2.1.4
 
