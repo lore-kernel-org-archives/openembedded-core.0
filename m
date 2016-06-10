@@ -1,53 +1,47 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A85A62137
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f52.google.com (mail-it0-f52.google.com
+	[209.85.214.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C6A86FF73
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2016 15:46:13 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id C80F618137
+	Fri, 10 Jun 2016 16:16:34 +0000 (UTC)
+Received: by mail-it0-f52.google.com with SMTP id a5so68967019ita.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2016 17:46:13 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id RT6IEW-ukSNL
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2016 17:46:13 +0200 (CEST)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bastet.se.axis.com (Postfix) with ESMTP id 1657F18059
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2016 17:46:13 +0200 (CEST)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 006D51BF2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2016 17:46:13 +0200 (CEST)
-Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
-	by boulder.se.axis.com (Postfix) with ESMTP id E9E2B1BF0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2016 17:46:12 +0200 (CEST)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id E86EEDCB
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2016 17:46:12 +0200 (CEST)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u5AFkC4t031871
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2016 17:46:12 +0200
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u5AFkCuw031865
-	for openembedded-core@lists.openembedded.org;
-	Fri, 10 Jun 2016 17:46:12 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Jun 2016 17:46:10 +0200
-Message-Id: <d4e799a4e5f83291df990e6871f111dafc043062.1465573515.git.pkj@axis.com>
-X-Mailer: git-send-email 2.8.3
-In-Reply-To: <cover.1465573515.git.pkj@axis.com>
-References: <cover.1465573515.git.pkj@axis.com>
-In-Reply-To: <cover.1465573515.git.pkj@axis.com>
-References: <cover.1465573515.git.pkj@axis.com>
-Subject: [PATCHv2 1/2] useradd-staticids.bbclass: Make sure opened files are closed
+	Fri, 10 Jun 2016 09:16:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=fhDrDLY8rGYzmGxVLXSlk9+ruxlMWdzi4rnUmT08Uz0=;
+	b=WA4TVmW7KUf09E7eBKMemKH6V50m/tbHmQa6XtzjO/FJpdrhuBcRx1YFKesGYxE3YN
+	sSOMgkpOMAgOvoPTk2x4XyetT9g6wfeD4VDLcdmZQMXIzPYuC1AYtRKxqXSCHtFTu7/P
+	tJImJuVhtsXNPVFA/CCVB2E2ziNgmOCUEwP2VEFODhMVk2YKmGZuNA2OeMu6MXjYNMnD
+	I3ZJRHX0QQM4vXSgu0RFRLpCdUtSD/FhJ90zhrYLOSeAdAWPyRwwqqLYjwNwM9A6slDp
+	SVksMr4FoTAejYj8Zi2GPrJ7UBjsCwD9P9t4PFq6uL8NQHE9WNFG4Ir+t5fMsmDNxFQ7
+	f8Mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=fhDrDLY8rGYzmGxVLXSlk9+ruxlMWdzi4rnUmT08Uz0=;
+	b=KKvaJs3DwFe+VNXhRupv1bVMvBpYhmw5wChGEaOOSAz5pKWKLvgA6C1mS7Ob2Fj9Gm
+	pkaonJxFmna2v7Si++K7tvRij6NVT1SLPcroncSz+n+oDi4gQ/ml0VS9/GOLG6UsjReA
+	iDBKuN90Ij8/7kecWlq5Go30vSNeqEcUPMW8KPUhb2wQkrBNgq0+6JRES8SJKGiZGlgf
+	y/OcPOAKaqkGnjQ34wddQIA9KNwwBgvI6cTYLSvAevRl6eUZZHu/Oca6PB+9tG7w1vDi
+	x2YJlxCX0nkoEF4GNMxfdZmtoWA2O5+5o59korZDATnakV1xStCbgDIt1N1PnHL/XEFq
+	zDfQ==
+X-Gm-Message-State: ALyK8tLBjhsjP1zXmxARjHd//2R300vRk8H5W5vRpFXdxNe5evUcm5gJNBK9HCvD6odqMvJMisV+2zpKjA2Tb/6c
+X-Received: by 10.36.20.196 with SMTP id 187mr31677698itg.83.1465575395549;
+	Fri, 10 Jun 2016 09:16:35 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.162.6 with HTTP; Fri, 10 Jun 2016 09:16:16 -0700 (PDT)
+In-Reply-To: <a71f92e38782662b823eba9811ed2407fc689789.1465365165.git.alejandro.hernandez@linux.intel.com>
+References: <cover.1465365165.git.alejandro.hernandez@linux.intel.com>
+	<a71f92e38782662b823eba9811ed2407fc689789.1465365165.git.alejandro.hernandez@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 10 Jun 2016 17:16:16 +0100
+Message-ID: <CAJTo0LaQmz6jeCbtR-QmXOMNaLzg-HFFJBOakVb21v9sDZfj_w@mail.gmail.com>
+To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/9] python-git: Upgrade from 1.0.2 to 2.0.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,64 +54,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jun 2016 15:46:16 -0000
+X-List-Received-Date: Fri, 10 Jun 2016 16:16:36 -0000
+Content-Type: multipart/alternative; boundary=001a1143e3c0d803b70534eedc8e
 
-This avoids warnings about unclosed files with Python 3.
+--001a1143e3c0d803b70534eedc8e
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/classes/useradd-staticids.bbclass | 30 +++++++++++++++++-------------
- 1 file changed, 17 insertions(+), 13 deletions(-)
+On 8 June 2016 at 06:56, Alejandro Hernandez <
+alejandro.hernandez@linux.intel.com> wrote:
 
-diff --git a/meta/classes/useradd-staticids.bbclass b/meta/classes/useradd-staticids.bbclass
-index a9b506d..440c0e3 100644
---- a/meta/classes/useradd-staticids.bbclass
-+++ b/meta/classes/useradd-staticids.bbclass
-@@ -4,6 +4,7 @@ def update_useradd_static_config(d):
-     import argparse
-     import itertools
-     import re
-+    import errno
- 
-     class myArgumentParser( argparse.ArgumentParser ):
-         def _print_message(self, message, file=None):
-@@ -30,19 +31,22 @@ def update_useradd_static_config(d):
-         are set)."""
-         id_table = dict()
-         for conf in file_list.split():
--            if os.path.exists(conf):
--                f = open(conf, "r")
--                for line in f:
--                    if line.startswith('#'):
--                        continue
--                    # Make sure there always are at least exp_fields elements in
--                    # the field list. This allows for leaving out trailing
--                    # colons in the files.
--                    fields = list_extend(line.rstrip().split(":"), exp_fields)
--                    if fields[0] not in id_table:
--                        id_table[fields[0]] = fields
--                    else:
--                        id_table[fields[0]] = list(itertools.imap(lambda x, y: x or y, fields, id_table[fields[0]]))
-+            try:
-+                with open(conf, "r") as f:
-+                    for line in f:
-+                        if line.startswith('#'):
-+                            continue
-+                        # Make sure there always are at least exp_fields
-+                        # elements in the field list. This allows for leaving
-+                        # out trailing colons in the files.
-+                        fields = list_extend(line.rstrip().split(":"), exp_fields)
-+                        if fields[0] not in id_table:
-+                            id_table[fields[0]] = fields
-+                        else:
-+                            id_table[fields[0]] = list(itertools.imap(lambda x, y: x or y, fields, id_table[fields[0]]))
-+            except IOError as e:
-+                if e.errno == errno.ENOENT:
-+                    pass
- 
-         return id_table
- 
--- 
-2.8.3
+>  meta/recipes-devtools/python/python-git.inc                         | 6
+> +++---
+>  .../python/{python-git_1.0.2.bb => python-git_2.0.5.bb}             | 0
+>
 
+Any reason why this didn't do python3-git?
 
+This causes problems as the checksums are in the .inc, which doesn't make
+sense if multiple versions are sharing it.  I'm carrying
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=ross/mut&id=5767caa2ea0d1504b5c3f212fdcda3e918e967e0
+right now to fix this.
+
+Ross
+
+--001a1143e3c0d803b70534eedc8e
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 8 June 2016 at 06:56, Alejandro Hernandez <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:alejandro.hernandez@linux.intel.com" target=3D"_blank">alejandro=
+.hernandez@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-l=
+eft-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex"><div i=
+d=3D":5g5" class=3D"">=C2=A0meta/recipes-devtools/<span class=3D"">python</=
+span>/<span class=3D"">python</span>-<span class=3D"">git</span>.inc=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0| 6 +++---<br>
+=C2=A0.../<span class=3D"">python</span>/{<a href=3D"http://python-git_1.0.=
+2.bb" rel=3D"noreferrer" target=3D"_blank"><span class=3D"">python</span>-g=
+it_1.0.2.bb</a> =3D&gt; <a href=3D"http://python-git_2.0.5.bb" rel=3D"noref=
+errer" target=3D"_blank"><span class=3D"">python</span>-git_2.0.5.bb</a>}=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 0<br></div></blockquote><=
+/div><br>Any reason why this didn&#39;t do python3-git?</div><div class=3D"=
+gmail_extra"><br></div><div class=3D"gmail_extra">This causes problems as t=
+he checksums are in the .inc, which doesn&#39;t make sense if multiple vers=
+ions are sharing it.=C2=A0 I&#39;m carrying=C2=A0<a href=3D"http://git.yoct=
+oproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Dross/mut&amp;id=3D5767c=
+aa2ea0d1504b5c3f212fdcda3e918e967e0">http://git.yoctoproject.org/cgit/cgit.=
+cgi/poky-contrib/commit/?h=3Dross/mut&amp;id=3D5767caa2ea0d1504b5c3f212fdcd=
+a3e918e967e0</a> right now to fix this.</div><div class=3D"gmail_extra"><br=
+></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a1143e3c0d803b70534eedc8e--
