@@ -1,46 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D77560745
+Return-Path: <mariano.lopez@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 38A6C62134
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2016 16:57:35 +0000 (UTC)
-Received: by mail-wm0-f41.google.com with SMTP id v199so508043wmv.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2016 09:57:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=DvmtdRcCYZquZR7fqOasyBtrcZ96xFasGlAnTNhd5iM=;
-	b=rLw6NR9ksFibEFcKgd5ceqBhqdCBMCosPB6KkwMKiXo8GfKRGIAIbF+SlG71CYv1Xx
-	QDDiaz/8UWjeR8otb9mrefczP5fgCStFjyCNaHkemQ6KueKQJMTGNd6SlxwGRdWk8K0u
-	ROu5sJ8XNL13/6o453QaBLtonoWHRvAN0OOV/+WL2uQXiIQU+UymSoMGf1lBOi02QjX0
-	iRRss7FkSu6fshTdK8PueacRPeZEQIV3K4Tr6BG/H00UxTKLQHKxmpZ/q7/65w1rOIRf
-	DW8CWicVSvuzMYPjYm1w4YB9j0ZGYKK/vRU39juTMvSKYHb6Paa5TcyqdGTU/OQJvUq5
-	1sCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=DvmtdRcCYZquZR7fqOasyBtrcZ96xFasGlAnTNhd5iM=;
-	b=f9PPbJ8U+mASwdd/YidJhR+CmYVLYZpYHyUEGNaQBNmaAbQ/WEt1OM8Kfm2Wkxtx/j
-	Tj1HEV5ykIagHq7cAiLnT7xHGdhRaEZVh9SFZ5eypW1W08EqWWPQzuY6v1WhV3cgJiVE
-	2/xmunHVC8ZmSjVo4YBYq4gPjV1PgONtlHMoCVNczgWniKTU20X+G6ceIZavkODvEWsB
-	5Q8haBCZ/UmpX3D7B8Khw7dj+7ItStDJ56i5jAW4xOPyk5ezLyjL649asBJ4lO4qRu7Q
-	QDT7ZPBgLFVwGSxfunxHQr0zhgIR8Qe9RIUK9f4fphpViskiVlZycr8kxYLu3+lEyTIr
-	vWxg==
-X-Gm-Message-State: ALyK8tJCOuh9ATsslor5JO17gzansOb5ijXtliVG2AXUUKK1HYh1n9SvFtdjzewjO2+RiP6/
-X-Received: by 10.28.65.85 with SMTP id o82mr76723wma.16.1465577855866;
-	Fri, 10 Jun 2016 09:57:35 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	vu10sm3682755wjb.27.2016.06.10.09.57.34
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 10 Jun 2016 09:57:35 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Fri, 10 Jun 2016 19:54:15 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga103.fm.intel.com with ESMTP; 10 Jun 2016 12:54:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,451,1459839600"; d="scan'208";a="999511361"
+Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
+	([10.54.69.55])
+	by fmsmga002.fm.intel.com with ESMTP; 10 Jun 2016 12:54:05 -0700
+From: mariano.lopez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Jun 2016 17:57:31 +0100
-Message-Id: <1465577851-7519-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.0.rc3
-Subject: [PATCH] systemtap: add build dependency on ncurses
+Date: Fri, 10 Jun 2016 11:48:53 +0000
+Message-Id: <3da6a3ae457fb93388b3ae2a255a043b60626f42.1465559091.git.mariano.lopez@linux.intel.com>
+X-Mailer: git-send-email 2.6.6
+In-Reply-To: <cover.1465559091.git.mariano.lopez@linux.intel.com>
+References: <cover.1465559091.git.mariano.lopez@linux.intel.com>
+Subject: [PATCH 1/1] update-rc.d.bbclass: Disable class when sysvinit is not in DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,34 +30,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jun 2016 16:57:36 -0000
+X-List-Received-Date: Fri, 10 Jun 2016 19:54:17 -0000
 
-systemtap has a floating dependency on ncurses but as bash is a RDEPENDS the
-build-rdeps sanity test doesn't fire due to a limitation of the test.
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-Add an explicit dependency on ncurses to ensure the build is deterministic.
+When sysvinit is not in use, update-rd.d class adds build dependencies
+that won't be needed, this patch removes the build dependecies and
+won't add the task to PACKAGESPLITFUNCS.
 
-[ YOCTO #9709 ]
+[YOCTO #9515]
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- meta/recipes-kernel/systemtap/systemtap_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/update-rc.d.bbclass | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
-index a4bda69..da30fa5 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.bb
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
-@@ -2,7 +2,7 @@ SUMMARY = "Script-directed dynamic tracing and performance analysis tool for Lin
+diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
+index 2a0a74a..82b8024 100644
+--- a/meta/classes/update-rc.d.bbclass
++++ b/meta/classes/update-rc.d.bbclass
+@@ -1,6 +1,7 @@
+ UPDATERCPN ?= "${PN}"
  
- require systemtap_git.inc
+-DEPENDS_append_class-target = " update-rc.d-native update-rc.d initscripts"
++DEPENDS_append_class-target = "${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', ' update-rc.d-native update-rc.d initscripts', '', d)}"
++
+ UPDATERCD = "update-rc.d"
+ UPDATERCD_class-cross = ""
+ UPDATERCD_class-native = ""
+@@ -64,7 +65,7 @@ python __anonymous() {
+     update_rc_after_parse(d)
+ }
  
--DEPENDS = "elfutils sqlite3 systemtap-native json-c"
-+DEPENDS = "elfutils sqlite3 systemtap-native ncurses json-c"
- DEPENDS_class-native = "elfutils-native sqlite3-native gettext-native"
- DEPENDS_class-nativesdk = "nativesdk-elfutils nativesdk-sqlite3 nativesdk-gettext"
+-PACKAGESPLITFUNCS_prepend = "populate_packages_updatercd "
++PACKAGESPLITFUNCS_prepend = "${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'populate_packages_updatercd ', '', d)}"
+ PACKAGESPLITFUNCS_remove_class-nativesdk = "populate_packages_updatercd "
  
+ populate_packages_updatercd[vardeps] += "updatercd_prerm updatercd_postrm updatercd_preinst updatercd_postinst"
+@@ -120,8 +121,7 @@ python populate_packages_updatercd () {
+ 
+     # Check that this class isn't being inhibited (generally, by
+     # systemd.bbclass) before doing any work.
+-    if bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d) or \
+-       not d.getVar("INHIBIT_UPDATERCD_BBCLASS", True):
++    if not d.getVar("INHIBIT_UPDATERCD_BBCLASS", True):
+         pkgs = d.getVar('INITSCRIPT_PACKAGES', True)
+         if pkgs == None:
+             pkgs = d.getVar('UPDATERCPN', True)
 -- 
-2.8.0.rc3
+2.6.6
 
 
