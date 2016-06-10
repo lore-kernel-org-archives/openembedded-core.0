@@ -1,28 +1,51 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 0AF756FF73
+Return-Path: <twoerner@gmail.com>
+Received: from mail-it0-f41.google.com (mail-it0-f41.google.com
+	[209.85.214.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C0DB601A4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2016 16:19:06 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP; 10 Jun 2016 09:19:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,450,1459839600"; 
-	d="scan'208,217";a="717063230"
-Received: from unknown (HELO [10.252.197.155]) ([10.252.197.155])
-	by FMSMGA003.fm.intel.com with ESMTP; 10 Jun 2016 09:19:01 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1465365165.git.alejandro.hernandez@linux.intel.com>
-	<a71f92e38782662b823eba9811ed2407fc689789.1465365165.git.alejandro.hernandez@linux.intel.com>
-	<CAJTo0LaQmz6jeCbtR-QmXOMNaLzg-HFFJBOakVb21v9sDZfj_w@mail.gmail.com>
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-Message-ID: <575AE87D.8070703@linux.intel.com>
-Date: Fri, 10 Jun 2016 11:19:09 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
+	Fri, 10 Jun 2016 16:28:04 +0000 (UTC)
+Received: by mail-it0-f41.google.com with SMTP id z189so185959734itg.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Jun 2016 09:28:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=ZKRPFRIcwI91HXb0Zc+QKqtfJ05R6z5E91FYx+1n2dU=;
+	b=q5Qf+34HINhi+S+g9iUlZGYmCq4rPm3jvTXi09HuUzb688TxnZUi3G4bPyAESkw38f
+	1NUWUNtYhS5OrGu/c3hbns84CISADh3TCvjjWHHEOFoUs5xTgJRh3dTJtoA95oOIKA5V
+	S5TvjbMULi6e+TuCnkx09G2nrfuYPhh3hRm1mkauyj0ZLA/tcFoZ7nvwhXpyzsPLjnGe
+	1brw8pRuAgBnW9eP4VR2nquPiNy5K6t3F5q8/fffU+73dtJw0CY+kHL9IEvVbGMH1zcO
+	we2qkDwOPg5Ym/bzsY1hcAd+X8VR95LSPRIVCqFUYp43AoBl5fuvjKzMJ5MJf5RHHXvE
+	5Lmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=ZKRPFRIcwI91HXb0Zc+QKqtfJ05R6z5E91FYx+1n2dU=;
+	b=JWkOm/fnP71d2l6nzwr3BoJBjCx1MZb1Ga7HbtIT0fbWyNDSibCSUaeei10Nho28VB
+	YGtjkbes4FjBAbQBJwU9kTctSOnGjtRHUTjG9vzqWvmZBl+hzfJNti4hjPIIaYD6k9iR
+	SOaPd0UYztemJ2o6XXV71OmY54ducKw73HOMAp4NWA0Q8mrYuyZJxX1/BIjRyo0n//Lx
+	HbW3POWqj27BCM5Mo9nRUpB85armjsSK7BE2cXcaSgPllPSuX/BOcQmhf4YIVxjtCjpV
+	hGs3d88b+VYyncnQuFoM5CU34soIX7A4/4zvRK3Vfd4sJci7vjKdC8V0Z+QH5BwgGcJh
+	YZxg==
+X-Gm-Message-State: ALyK8tLEeaoAet0eDxKt0nhXuMUl+mXRqnF1eipln3ZvCWrqU/sWcgNtRtkdu34HENECAA==
+X-Received: by 10.36.10.65 with SMTP id 62mr32199925itw.89.1465576085124;
+	Fri, 10 Jun 2016 09:28:05 -0700 (PDT)
+Received: from openSUSE-i7.site (dsl-67-55-28-109.acanac.net. [67.55.28.109])
+	by smtp.gmail.com with ESMTPSA id
+	k128sm7679908ith.11.2016.06.10.09.28.03
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 10 Jun 2016 09:28:04 -0700 (PDT)
+Date: Fri, 10 Jun 2016 12:28:06 -0400
+From: Trevor Woerner <twoerner@gmail.com>
+To: leonardo.sandoval.gonzalez@linux.intel.com
+Message-ID: <20160610162806.GB18625@openSUSE-i7.site>
+References: <1465476786-4405-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LaQmz6jeCbtR-QmXOMNaLzg-HFFJBOakVb21v9sDZfj_w@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/9] python-git: Upgrade from 1.0.2 to 2.0.5
+In-Reply-To: <1465476786-4405-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
+User-Agent: Mutt/1.6.0 (2016-04-01)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] lib/oe/terminal.py: decode bytes variable before rstrip/split
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,98 +58,9 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jun 2016 16:19:09 -0000
-Content-Type: multipart/alternative;
-	boundary="------------020009020303040703050107"
+X-List-Received-Date: Fri, 10 Jun 2016 16:28:05 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
---------------020009020303040703050107
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Thank you, that solves it! :-)
 
-On 06/10/2016 11:16 AM, Burton, Ross wrote:
->
-> On 8 June 2016 at 06:56, Alejandro Hernandez 
-> <alejandro.hernandez@linux.intel.com 
-> <mailto:alejandro.hernandez@linux.intel.com>> wrote:
->
->      meta/recipes-devtools/python/python-git.inc                     
->        | 6 +++---
->      .../python/{python-git_1.0.2.bb <http://python-git_1.0.2.bb> =>
->     python-git_2.0.5.bb <http://python-git_2.0.5.bb>}            | 0
->
->
-> Any reason why this didn't do python3-git?
->
-> This causes problems as the checksums are in the .inc, which doesn't 
-> make sense if multiple versions are sharing it.  I'm carrying 
-> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=ross/mut&id=5767caa2ea0d1504b5c3f212fdcda3e918e967e0 
-> right now to fix this.
->
-> Ross
-
-The reason is that I forgot, I'll send a v2 containing python3-git too.
-
-Alejandro
-
-
---------------020009020303040703050107
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    On 06/10/2016 11:16 AM, Burton, Ross wrote:<br>
-    <blockquote
-cite="mid:CAJTo0LaQmz6jeCbtR-QmXOMNaLzg-HFFJBOakVb21v9sDZfj_w@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 8 June 2016 at 06:56, Alejandro
-            Hernandez <span dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:alejandro.hernandez@linux.intel.com"
-                target="_blank">alejandro.hernandez@linux.intel.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0px 0px 0px
-0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex">
-              <div id=":5g5" class=""> meta/recipes-devtools/<span
-                  class="">python</span>/<span class="">python</span>-<span
-                  class="">git</span>.inc                         | 6
-                +++---<br>
-                 .../<span class="">python</span>/{<a
-                  moz-do-not-send="true"
-                  href="http://python-git_1.0.2.bb" rel="noreferrer"
-                  target="_blank"><span class="">python</span>-git_1.0.2.bb</a>
-                =&gt; <a moz-do-not-send="true"
-                  href="http://python-git_2.0.5.bb" rel="noreferrer"
-                  target="_blank"><span class="">python</span>-git_2.0.5.bb</a>} 
-                           | 0<br>
-              </div>
-            </blockquote>
-          </div>
-          <br>
-          Any reason why this didn't do python3-git?</div>
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">This causes problems as the checksums
-          are in the .inc, which doesn't make sense if multiple versions
-          are sharing it.  I'm carrying <a moz-do-not-send="true"
-href="http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=ross/mut&amp;id=5767caa2ea0d1504b5c3f212fdcda3e918e967e0">http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=ross/mut&amp;id=5767caa2ea0d1504b5c3f212fdcda3e918e967e0</a>
-          right now to fix this.</div>
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Ross</div>
-      </div>
-    </blockquote>
-    <br>
-    The reason is that I forgot, I'll send a v2 containing python3-git
-    too.<br>
-    <br>
-    Alejandro<br>
-    <br>
-  </body>
-</html>
-
---------------020009020303040703050107--
