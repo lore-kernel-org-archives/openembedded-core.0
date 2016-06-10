@@ -1,38 +1,40 @@
 Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B3FF270030
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id CA4EF70030
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2016 15:12:40 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id k184so18605675wme.2
+	Fri, 10 Jun 2016 15:12:41 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id r5so18669219wmr.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2016 08:12:41 -0700 (PDT)
+	Fri, 10 Jun 2016 08:12:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=v1Nt29cRd9GN7XyeoJ2Ay7PsTRTwrCVx98CQxl2m6og=;
-	b=AjfIBJy6Fxfj6S+hGM3gvU7YYj2tFSb9GOoz2grsP50AhrgMW0Lzd8DWeHG2mQrQ1o
-	WS+J6oLYs1B7CCqm/5JwhxjEu6ll9ZHqBE/TScWpSVzyZYD6yN7mhEO0RDObcUfaiegB
-	Q+hR/Iz2Ed3u9MkqzIvP1ctITXYmHqPOxmPXe+lHl6Jj1i+c8AbxUmDNNsDr0BRAMObj
-	wrg/BBZ0n2BOYn47rBiupMlOy6hK4wCFHKtSM44Aan0/LxUa6vAZOTvS+iQ9EVcFb2mD
-	58rzfRL2JLqQGG6s2HYcH+vMZhK3S4MQVSemJb/rn8dDQAUm3D7RIGjTksrVdrjbEMUl
-	9h5Q==
-X-Gm-Message-State: ALyK8tKVvcVGLMVTEyokoRddwhQoHqhaVWT/3QkFnJHTq5gDk638mOcENZsQs5cGZBK/3g==
-X-Received: by 10.28.187.8 with SMTP id l8mr19673878wmf.2.1465571561125;
-	Fri, 10 Jun 2016 08:12:41 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=DkD8bhqEe/9brWcputYBIuJ2NOQcGvfeZpgexHtykN0=;
+	b=jQF+WZ70TOPJ7puDBJ/eFFiege8QlIvd7TFwPdG/whuVEdGHvxWznwr+PWcb/QmAQy
+	O1Wpyuide3ydBcpOqqWtAKrhTGEybTm6fuhSL6yWa3cbu5HZSC/YzN9oJKuW31KUxgZG
+	/TYUYRizTPPYKSzbBDB608WCQafSZ+A9OdWCNTQLBu8DZAr7OLHEvFHBgQZnMhfHlV0z
+	bFPDMd/1KFSHpAjlVlFy0GcpPIDzcXj+uBJD3vBRZY49750uCpXv19HG5GEaPK5wf1rA
+	l+dfGMRFU0rcwYU9cE1sfsrSA8cZJ7URzIVI/WMn15b/KOXiaYl21ln8E0/q6JYo5SrH
+	vn+w==
+X-Gm-Message-State: ALyK8tLUTKtTXijurpRVdkR4/IAiECKlb10K5rJmbjuWWsyYbNpMbZnTKLowzmKNYfmUgQ==
+X-Received: by 10.28.30.149 with SMTP id e143mr3186157wme.81.1465571562227;
+	Fri, 10 Jun 2016 08:12:42 -0700 (PDT)
 Received: from tfsielt31850.TYCOFS.COM ([185.46.212.66])
 	by smtp.gmail.com with ESMTPSA id
-	d7sm36240332wmd.11.2016.06.10.08.12.40
+	d7sm36240332wmd.11.2016.06.10.08.12.41
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 10 Jun 2016 08:12:40 -0700 (PDT)
+	Fri, 10 Jun 2016 08:12:41 -0700 (PDT)
 From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Jun 2016 16:12:38 +0100
-Message-Id: <1465571559-21739-1-git-send-email-git@andred.net>
+Date: Fri, 10 Jun 2016 16:12:39 +0100
+Message-Id: <1465571559-21739-2-git-send-email-git@andred.net>
 X-Mailer: git-send-email 2.8.1
+In-Reply-To: <1465571559-21739-1-git-send-email-git@andred.net>
+References: <1465571559-21739-1-git-send-email-git@andred.net>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] mips: add a tune for using MIPS16e ASE instructions
+Subject: [PATCH 2/2] mips: add tunes for (some) 24K cores
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,52 +47,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jun 2016 15:12:40 -0000
+X-List-Received-Date: Fri, 10 Jun 2016 15:12:42 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From: André Draszik <adraszik@tycoint.com>
 
-The MIPS16e instruction set still has to be enabled by setting
-MIPS_INSTRUCTION_SET = 'mips16e'
-in e.g. distro.conf and can be disabled on a per-recipe basis as
-needed.
-
-This is a similar approach as is available on ARM for Thumb support.
-
-Note that contrary to the ARM Thumb support in OE, we do add a new
-OVERRIDE (mips16e), as there are some recipes in OE that need to be
-compiled slightly differently if mips16e mode is requested.
+- add 24kc big and little endian, which is based on mips32r2 w/o FPU
+- add 24kec which is 24kc + DSP
+- both can have the MIPS16e ASE enabled in their tunes
 
 Signed-off-by: André Draszik <adraszik@tycoint.com>
 ---
- meta/conf/machine/include/mips/feature-mips-mips16e.inc | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
- create mode 100644 meta/conf/machine/include/mips/feature-mips-mips16e.inc
+ meta/conf/machine/include/mips/tune-mips-24k.inc | 45 ++++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
+ create mode 100644 meta/conf/machine/include/mips/tune-mips-24k.inc
 
-diff --git a/meta/conf/machine/include/mips/feature-mips-mips16e.inc b/meta/conf/machine/include/mips/feature-mips-mips16e.inc
+diff --git a/meta/conf/machine/include/mips/tune-mips-24k.inc b/meta/conf/machine/include/mips/tune-mips-24k.inc
 new file mode 100644
-index 0000000..05011de
+index 0000000..154ab56
 --- /dev/null
-+++ b/meta/conf/machine/include/mips/feature-mips-mips16e.inc
-@@ -0,0 +1,17 @@
-+TUNEVALID[mips16e] = "Build target packages with MIPS16e ASE instructions"
-+MIPS_MIPS16E_OPT = "${@['mno-mips16', 'mips16'][d.getVar('MIPS_INSTRUCTION_SET', True) == 'mips16e']}"
-+TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'mips16e', ' -${MIPS_MIPS16E_OPT}', '', d)}"
++++ b/meta/conf/machine/include/mips/tune-mips-24k.inc
+@@ -0,0 +1,45 @@
++DEFAULTTUNE ?= "mips32r2-24kc"
 +
-+MIPSPKGSFX_MIPS16E .= "${@bb.utils.contains('TUNE_FEATURES', 'mips16e', '-m16', '', d) if d.getVar('MIPS_MIPS16E_OPT', True) == 'mips16' else ''}"
++MIPSPKGSFX_MIPS16E ??= ""
 +
-+# Whether to compile with code to allow interworking between the two
-+# instruction sets. This allows mips16e code to be executed on a primarily
-+# mips32/64 system and vice versa. It is strongly recommended that DISTROs not
-+# turn this off - the actual cost is very small.
-+TUNEVALID[no-interlink-compressed] = "Disable mixing of standard and MIPS16e code"
-+MIPS16_TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'no-interlink-compressed', ' -mno-interlink-compressed', ' -minterlink-compressed', d)}"
-+TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'mips16e', ' ${MIPS16_TUNE_CCARGS}', '', d)}"
-+OVERRIDES .= "${@bb.utils.contains('TUNE_FEATURES', 'mips16e', ':mips16e', '', d)}"
++require conf/machine/include/tune-mips32r2.inc
++require conf/machine/include/mips/feature-mips-mips16e.inc
 +
-+# show status (if compiling in MIPS16e mode)
-+BUILDCFG_VARS += "${@['', 'MIPS_INSTRUCTION_SET'][d.getVar('MIPS_INSTRUCTION_SET', True) == 'mips16e']}"
++
++TUNEVALID[24kc] = "Enable MIPS 24Kc processor optimizations"
++TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "24kc", " -mtune=24kc", "", d)}"
++TUNEVALID[24kec] = "Enable MIPS 24KEc processor optimizations, including DSP"
++TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "24kec", " -mtune=24kec -mdsp", "", d)}"
++
++
++AVAILTUNES += "mips32r2-24kc   mips32r2-24kec   mips32r2-24kec-m16"
++AVAILTUNES += "mips32r2el-24kc mips32r2el-24kec mips32r2el-24kec-m16"
++
++# big endian: kc, kc+dsp=kec, kc+dsp+mips16e=kec-m16
++TUNE_FEATURES_tune-mips32r2-24kc = "${TUNE_FEATURES_tune-mips32r2-nf} 24kc"
++TUNE_FEATURES_tune-mips32r2-24kec = "${TUNE_FEATURES_tune-mips32r2-nf} 24kec"
++TUNE_FEATURES_tune-mips32r2-24kec-m16 = "${TUNE_FEATURES_tune-mips32r2-24kec} mips16e"
++
++MIPSPKGSFX_VARIANT_tune-mips32r2-24kc = "mips32r2-24kc"
++PACKAGE_EXTRA_ARCHS_tune-mips32r2-24kc = "${PACKAGE_EXTRA_ARCHS_tune-mips32r2-nf} mips32r2-24kc-nf"
++
++MIPSPKGSFX_VARIANT_tune-mips32r2-24kec = "mips32r2-24kec"
++PACKAGE_EXTRA_ARCHS_tune-mips32r2-24kec = "${PACKAGE_EXTRA_ARCHS_tune-mips32r2-24kc} mips32r2-24kec-nf"
++
++MIPSPKGSFX_VARIANT_tune-mips32r2-24kec-m16 = "mips32r2-24kec${MIPSPKGSFX_MIPS16E}"
++PACKAGE_EXTRA_ARCHS_tune-mips32r2-24kec-m16 = "${PACKAGE_EXTRA_ARCHS_tune-mips32r2-24kec} mips32r2-24kec-m16-nf"
++
++
++# little endian: kc, kc+dsp=kec, kc+dsp+mips16e=kec-m16
++TUNE_FEATURES_tune-mips32r2el-24kc = "${TUNE_FEATURES_tune-mips32r2el-nf} 24kc"
++TUNE_FEATURES_tune-mips32r2el-24kec = "${TUNE_FEATURES_tune-mips32r2el-nf} 24kec"
++TUNE_FEATURES_tune-mips32r2el-24kec-m16 = "${TUNE_FEATURES_tune-mips32r2el-24kec} mips16e"
++
++MIPSPKGSFX_VARIANT_tune-mips32r2el-24kc = "mips32r2el-24kc"
++PACKAGE_EXTRA_ARCHS_tune-mips32r2el-24kc = "${PACKAGE_EXTRA_ARCHS_tune-mips32r2el-nf} mips32r2el-24kc-nf"
++
++MIPSPKGSFX_VARIANT_tune-mips32r2el-24kec = "mips32r2el-24kec"
++PACKAGE_EXTRA_ARCHS_tune-mips32r2el-24kec = "${PACKAGE_EXTRA_ARCHS_tune-mips32r2el-24kc} mips32r2el-24kec-nf"
++
++MIPSPKGSFX_VARIANT_tune-mips32r2el-24kec-m16 = "mips32r2el-24kec${MIPSPKGSFX_MIPS16E}"
++PACKAGE_EXTRA_ARCHS_tune-mips32r2el-24kec-m16 = "${PACKAGE_EXTRA_ARCHS_tune-mips32r2el-24kec} mips32r2el-24kec-m16-nf"
 -- 
 2.8.1
 
