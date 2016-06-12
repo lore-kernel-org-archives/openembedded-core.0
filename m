@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 85F4E606D0
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A50D6FF9B
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Jun 2016 08:25:17 +0000 (UTC)
+	Sun, 12 Jun 2016 08:25:18 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u5C8PID0000540
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u5C8PI1E021204
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Jun 2016 01:25:18 -0700
+	Sun, 12 Jun 2016 01:25:19 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Sun, 12 Jun 2016 01:25:17 -0700
+	Sun, 12 Jun 2016 01:25:18 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 12 Jun 2016 01:25:05 -0700
-Message-ID: <741380d64afe5952cdacfdadebc1dec7effa1bdb.1465719878.git.liezhi.yang@windriver.com>
+Date: Sun, 12 Jun 2016 01:25:06 -0700
+Message-ID: <ce36e4e7fac3288f29edd8f4e37ff2b90a6aba2b.1465719878.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.8.0
 In-Reply-To: <cover.1465719878.git.liezhi.yang@windriver.com>
 References: <cover.1465719878.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 03/11] mklibs-native: 0.1.40 -> 0.1.41
+Subject: [PATCH 04/11] git: 2.8.2 -> 2.8.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,32 +33,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Jun 2016 08:25:17 -0000
+X-List-Received-Date: Sun, 12 Jun 2016 08:25:18 -0000
 Content-Type: text/plain
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../mklibs/{mklibs-native_0.1.40.bb => mklibs-native_0.1.41.bb}       | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/mklibs/{mklibs-native_0.1.40.bb => mklibs-native_0.1.41.bb} (84%)
+ meta/recipes-devtools/git/git_2.8.2.bb | 11 -----------
+ meta/recipes-devtools/git/git_2.8.4.bb | 11 +++++++++++
+ 2 files changed, 11 insertions(+), 11 deletions(-)
+ delete mode 100644 meta/recipes-devtools/git/git_2.8.2.bb
+ create mode 100644 meta/recipes-devtools/git/git_2.8.4.bb
 
-diff --git a/meta/recipes-devtools/mklibs/mklibs-native_0.1.40.bb b/meta/recipes-devtools/mklibs/mklibs-native_0.1.41.bb
-similarity index 84%
-rename from meta/recipes-devtools/mklibs/mklibs-native_0.1.40.bb
-rename to meta/recipes-devtools/mklibs/mklibs-native_0.1.41.bb
-index 59fec29..a5da936 100644
---- a/meta/recipes-devtools/mklibs/mklibs-native_0.1.40.bb
-+++ b/meta/recipes-devtools/mklibs/mklibs-native_0.1.41.bb
-@@ -15,7 +15,7 @@ SRC_URI = "http://ftp.de.debian.org/debian/pool/main/m/mklibs/${BPN}_${PV}.tar.x
- 	file://fix_cross_compile.patch \
- "
- 
--SRC_URI[md5sum] = "e1dafe5f962caa9dc5f2651c0723812a"
--SRC_URI[sha256sum] = "1db24ae779d21ccfed49f22e49a2b7ee43ec0e9197bc206d81cd02f96e91e125"
-+SRC_URI[md5sum] = "6b2979876a611717df3d49e7f9cf291d"
-+SRC_URI[sha256sum] = "058c7349f8ec8a03b529c546a95cd6426741bd819f1e1211f499273eb4bf5d89"
- 
- inherit autotools gettext native pythonnative
+diff --git a/meta/recipes-devtools/git/git_2.8.2.bb b/meta/recipes-devtools/git/git_2.8.2.bb
+deleted file mode 100644
+index b3ce4f8..0000000
+--- a/meta/recipes-devtools/git/git_2.8.2.bb
++++ /dev/null
+@@ -1,11 +0,0 @@
+-require git.inc
+-
+-EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
+-                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
+-                 "
+-EXTRA_OEMAKE += "NO_GETTEXT=1"
+-
+-SRC_URI[tarball.md5sum] = "3022d8ebf64b35b9704d5adf54b256f9"
+-SRC_URI[tarball.sha256sum] = "a029c37ee2e0bb1efea5c4af827ff5afdb3356ec42fc19c1d40216d99e97e148"
+-SRC_URI[manpages.md5sum] = "8c9da11aeb45b4a286ba766e25aaf3ab"
+-SRC_URI[manpages.sha256sum] = "82d322211aade626d1eb3bcf3b76730bfdd2fcc9c189950fb0a8bdd69c383e2f"
+diff --git a/meta/recipes-devtools/git/git_2.8.4.bb b/meta/recipes-devtools/git/git_2.8.4.bb
+new file mode 100644
+index 0000000..7f3a89b
+--- /dev/null
++++ b/meta/recipes-devtools/git/git_2.8.4.bb
+@@ -0,0 +1,11 @@
++require git.inc
++
++EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
++                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
++                 "
++EXTRA_OEMAKE += "NO_GETTEXT=1"
++
++SRC_URI[tarball.md5sum] = "51e5a6b8b7f834b27d91d2268ae10a9c"
++SRC_URI[tarball.sha256sum] = "626e319f8a24fc0866167ea5f6bf3e2f38f69d6cb2e59e150f13709ca3ebf301"
++SRC_URI[manpages.md5sum] = "c4d17feb686ff9be3d6f8762a89cdafe"
++SRC_URI[manpages.sha256sum] = "953a8eadaf4ae96dbad2c3ec12384c677416843917ef83d94b98367ffd55afc0"
 -- 
 2.8.0
 
