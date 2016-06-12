@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2340A60746
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0015E60746
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Jun 2016 02:20:39 +0000 (UTC)
+	Sun, 12 Jun 2016 02:20:41 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u5C2Kexg024186
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u5C2KfLm002037
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Jun 2016 19:20:40 -0700
+	Sat, 11 Jun 2016 19:20:42 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.144) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Sat, 11 Jun 2016 19:20:39 -0700
+	14.3.248.2; Sat, 11 Jun 2016 19:20:41 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 12 Jun 2016 10:20:58 +0800
-Message-ID: <cover.1465697985.git.Qi.Chen@windriver.com>
+Date: Sun, 12 Jun 2016 10:20:59 +0800
+Message-ID: <4a9e8336f6ba159044e77f187e9dd7e6d12e387e.1465697985.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1465697985.git.Qi.Chen@windriver.com>
+References: <cover.1465697985.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/9] Package Upgrades -- 20160612
+Subject: [PATCH 1/9] grep: upgrade to 2.25
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,52 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Jun 2016 02:20:40 -0000
+X-List-Received-Date: Sun, 12 Jun 2016 02:20:42 -0000
 Content-Type: text/plain
 
-The following changes since commit 207dba5b6eb04c1ae2081bac06724b3b6a198cb3:
-
-  oe-pkgdata-util: fix AttributeError (2016-06-07 21:36:09 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib ChenQi/PU-20160612
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/PU-20160612
-
-Chen Qi (9):
-  grep: upgrade to 2.25
-  sysstat: upgrade to 11.3.4
-  sudo: upgrade to 1.8.16
-  gzip: upgrade to 1.8
-  byacc: upgrade to 20160324
-  curl: upgrade to 7.49.1
-  tar: upgrade to 1.29
-  pciutils: upgrade to 3.5.1
-  resolvconf: upgrade to 1.79
-
- .../{pciutils_3.4.1.bb => pciutils_3.5.1.bb}        |  4 ++--
- .../{resolvconf_1.78.bb => resolvconf_1.79.bb}      |  6 +++---
- .../byacc/{byacc_20150711.bb => byacc_20160324.bb}  |  7 ++++---
- .../grep/{grep_2.23.bb => grep_2.25.bb}             |  4 ++--
- .../gzip/{gzip_1.6.bb => gzip_1.8.bb}               |  0
- .../sudo/{sudo_1.8.15.bb => sudo_1.8.16.bb}         |  4 ++--
- meta/recipes-extended/sysstat/sysstat_11.2.0.bb     |  8 --------
- meta/recipes-extended/sysstat/sysstat_11.3.4.bb     |  8 ++++++++
- meta/recipes-extended/tar/tar/remove-gets.patch     | 21 ++++++++++++++-------
- .../tar/{tar_1.28.bb => tar_1.29.bb}                |  4 ++--
- .../curl/{curl_7.47.1.bb => curl_7.49.1.bb}         |  4 ++--
- 11 files changed, 39 insertions(+), 31 deletions(-)
- rename meta/recipes-bsp/pciutils/{pciutils_3.4.1.bb => pciutils_3.5.1.bb} (92%)
- rename meta/recipes-connectivity/resolvconf/{resolvconf_1.78.bb => resolvconf_1.79.bb} (90%)
- rename meta/recipes-extended/byacc/{byacc_20150711.bb => byacc_20160324.bb} (58%)
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/recipes-extended/grep/{grep_2.23.bb => grep_2.25.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
  rename meta/recipes-extended/grep/{grep_2.23.bb => grep_2.25.bb} (88%)
- rename meta/recipes-extended/gzip/{gzip_1.6.bb => gzip_1.8.bb} (100%)
- rename meta/recipes-extended/sudo/{sudo_1.8.15.bb => sudo_1.8.16.bb} (90%)
- delete mode 100644 meta/recipes-extended/sysstat/sysstat_11.2.0.bb
- create mode 100644 meta/recipes-extended/sysstat/sysstat_11.3.4.bb
- rename meta/recipes-extended/tar/{tar_1.28.bb => tar_1.29.bb} (73%)
- rename meta/recipes-support/curl/{curl_7.47.1.bb => curl_7.49.1.bb} (94%)
 
+diff --git a/meta/recipes-extended/grep/grep_2.23.bb b/meta/recipes-extended/grep/grep_2.25.bb
+similarity index 88%
+rename from meta/recipes-extended/grep/grep_2.23.bb
+rename to meta/recipes-extended/grep/grep_2.25.bb
+index 13ff32d..9720d9f 100644
+--- a/meta/recipes-extended/grep/grep_2.23.bb
++++ b/meta/recipes-extended/grep/grep_2.25.bb
+@@ -9,8 +9,8 @@ SRC_URI = "${GNU_MIRROR}/grep/grep-${PV}.tar.xz \
+            file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
+           "
+ 
+-SRC_URI[md5sum] = "f46aa9d0d2577b9212a104348a286787"
+-SRC_URI[sha256sum] = "54fc478ee1ce17780109820ef30730c9e18715a949f7d5c6afc673adb2a56ecf"
++SRC_URI[md5sum] = "04e96b0e6f0fe6a180ae62c88fcd0af6"
++SRC_URI[sha256sum] = "e21e83bac50450e0d0d61a42c154ee0dceaacdbf4f604ef6e79071cb8e596830"
+ 
+ inherit autotools gettext texinfo
+ 
 -- 
 1.9.1
 
