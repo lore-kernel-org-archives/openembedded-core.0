@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A50D6FF9B
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E6EE6FFD8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Jun 2016 08:25:18 +0000 (UTC)
+	Sun, 12 Jun 2016 08:25:19 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u5C8PI1E021204
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u5C8PJ0c010059
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 12 Jun 2016 01:25:19 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Sun, 12 Jun 2016 01:25:18 -0700
+	Sun, 12 Jun 2016 01:25:19 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 12 Jun 2016 01:25:06 -0700
-Message-ID: <ce36e4e7fac3288f29edd8f4e37ff2b90a6aba2b.1465719878.git.liezhi.yang@windriver.com>
+Date: Sun, 12 Jun 2016 01:25:07 -0700
+Message-ID: <651363b0d1ef58b04b96adde325dd9108be40fd7.1465719878.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.8.0
 In-Reply-To: <cover.1465719878.git.liezhi.yang@windriver.com>
 References: <cover.1465719878.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 04/11] git: 2.8.2 -> 2.8.4
+Subject: [PATCH 05/11] make: 4.1 -> 4.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,51 +33,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Jun 2016 08:25:18 -0000
+X-List-Received-Date: Sun, 12 Jun 2016 08:25:19 -0000
 Content-Type: text/plain
+
+Remove backport patch 0001-main.c-main-SV-43434-Handle-NULL-returns-from-ttynam.patch
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-devtools/git/git_2.8.2.bb | 11 -----------
- meta/recipes-devtools/git/git_2.8.4.bb | 11 +++++++++++
- 2 files changed, 11 insertions(+), 11 deletions(-)
- delete mode 100644 meta/recipes-devtools/git/git_2.8.2.bb
- create mode 100644 meta/recipes-devtools/git/git_2.8.4.bb
+ .../0001-main.c-main-SV-43434-Handle-NULL-returns-from-ttynam.patch | 0
+ meta/recipes-devtools/make/{make_4.1.bb => make_4.2.bb}             | 6 ++----
+ 2 files changed, 2 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/make/{make-4.1 => make-4.2}/0001-main.c-main-SV-43434-Handle-NULL-returns-from-ttynam.patch (100%)
+ rename meta/recipes-devtools/make/{make_4.1.bb => make_4.2.bb} (60%)
 
-diff --git a/meta/recipes-devtools/git/git_2.8.2.bb b/meta/recipes-devtools/git/git_2.8.2.bb
-deleted file mode 100644
-index b3ce4f8..0000000
---- a/meta/recipes-devtools/git/git_2.8.2.bb
-+++ /dev/null
-@@ -1,11 +0,0 @@
--require git.inc
+diff --git a/meta/recipes-devtools/make/make-4.1/0001-main.c-main-SV-43434-Handle-NULL-returns-from-ttynam.patch b/meta/recipes-devtools/make/make-4.2/0001-main.c-main-SV-43434-Handle-NULL-returns-from-ttynam.patch
+similarity index 100%
+rename from meta/recipes-devtools/make/make-4.1/0001-main.c-main-SV-43434-Handle-NULL-returns-from-ttynam.patch
+rename to meta/recipes-devtools/make/make-4.2/0001-main.c-main-SV-43434-Handle-NULL-returns-from-ttynam.patch
+diff --git a/meta/recipes-devtools/make/make_4.1.bb b/meta/recipes-devtools/make/make_4.2.bb
+similarity index 60%
+rename from meta/recipes-devtools/make/make_4.1.bb
+rename to meta/recipes-devtools/make/make_4.2.bb
+index 78fe0b5..6327d6c 100644
+--- a/meta/recipes-devtools/make/make_4.1.bb
++++ b/meta/recipes-devtools/make/make_4.2.bb
+@@ -4,11 +4,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+                     file://glob/COPYING.LIB;md5=4a770b67e6be0f60da244beb2de0fce4"
+ require make.inc
+ 
+-SRC_URI += "file://0001-main.c-main-SV-43434-Handle-NULL-returns-from-ttynam.patch"
 -
--EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
--                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
--                 "
--EXTRA_OEMAKE += "NO_GETTEXT=1"
--
--SRC_URI[tarball.md5sum] = "3022d8ebf64b35b9704d5adf54b256f9"
--SRC_URI[tarball.sha256sum] = "a029c37ee2e0bb1efea5c4af827ff5afdb3356ec42fc19c1d40216d99e97e148"
--SRC_URI[manpages.md5sum] = "8c9da11aeb45b4a286ba766e25aaf3ab"
--SRC_URI[manpages.sha256sum] = "82d322211aade626d1eb3bcf3b76730bfdd2fcc9c189950fb0a8bdd69c383e2f"
-diff --git a/meta/recipes-devtools/git/git_2.8.4.bb b/meta/recipes-devtools/git/git_2.8.4.bb
-new file mode 100644
-index 0000000..7f3a89b
---- /dev/null
-+++ b/meta/recipes-devtools/git/git_2.8.4.bb
-@@ -0,0 +1,11 @@
-+require git.inc
-+
-+EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
-+                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
-+                 "
-+EXTRA_OEMAKE += "NO_GETTEXT=1"
-+
-+SRC_URI[tarball.md5sum] = "51e5a6b8b7f834b27d91d2268ae10a9c"
-+SRC_URI[tarball.sha256sum] = "626e319f8a24fc0866167ea5f6bf3e2f38f69d6cb2e59e150f13709ca3ebf301"
-+SRC_URI[manpages.md5sum] = "c4d17feb686ff9be3d6f8762a89cdafe"
-+SRC_URI[manpages.sha256sum] = "953a8eadaf4ae96dbad2c3ec12384c677416843917ef83d94b98367ffd55afc0"
+ EXTRA_OECONF += "--without-guile"
+ 
+-SRC_URI[md5sum] = "57a7a224a822f94789a587ccbcedff69"
+-SRC_URI[sha256sum] = "0bc7613389650ee6a24554b52572a272f7356164fd2c4132b0bcf13123e4fca5"
++SRC_URI[md5sum] = "85ad14d08766201ffe71efa866f4fb91"
++SRC_URI[sha256sum] = "4e5ce3b62fe5d75ff8db92b7f6df91e476d10c3aceebf1639796dc5bfece655f"
+ 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.8.0
 
