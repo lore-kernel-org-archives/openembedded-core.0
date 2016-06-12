@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F4CE6FF5D
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 96E5B6FF76
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Jun 2016 02:20:47 +0000 (UTC)
+	Sun, 12 Jun 2016 02:20:48 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u5C2Klvj008567
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u5C2Kn5G024193
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Jun 2016 19:20:48 -0700 (PDT)
+	Sat, 11 Jun 2016 19:20:49 -0700
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.144) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Sat, 11 Jun 2016 19:20:47 -0700
+	14.3.248.2; Sat, 11 Jun 2016 19:20:48 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 12 Jun 2016 10:21:03 +0800
-Message-ID: <1a589b2c341fdb4da7217b594f9a1ce86e3e5350.1465697985.git.Qi.Chen@windriver.com>
+Date: Sun, 12 Jun 2016 10:21:04 +0800
+Message-ID: <c037b3555ec390b385ca1a1db0d5de014e3dcc09.1465697985.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1465697985.git.Qi.Chen@windriver.com>
 References: <cover.1465697985.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 5/9] byacc: upgrade to 20160324
+Subject: [PATCH 6/9] curl: upgrade to 7.49.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,37 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Jun 2016 02:20:47 -0000
+X-List-Received-Date: Sun, 12 Jun 2016 02:20:48 -0000
 Content-Type: text/plain
-
-The license checksum is changed, but license type remains the same.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- .../byacc/{byacc_20150711.bb => byacc_20160324.bb}                 | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/byacc/{byacc_20150711.bb => byacc_20160324.bb} (58%)
+ meta/recipes-support/curl/{curl_7.47.1.bb => curl_7.49.1.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/curl/{curl_7.47.1.bb => curl_7.49.1.bb} (94%)
 
-diff --git a/meta/recipes-extended/byacc/byacc_20150711.bb b/meta/recipes-extended/byacc/byacc_20160324.bb
-similarity index 58%
-rename from meta/recipes-extended/byacc/byacc_20150711.bb
-rename to meta/recipes-extended/byacc/byacc_20160324.bb
-index e5b5451..cf1576e 100644
---- a/meta/recipes-extended/byacc/byacc_20150711.bb
-+++ b/meta/recipes-extended/byacc/byacc_20160324.bb
-@@ -4,8 +4,9 @@
- # Setting to PD as this is what the upstream has it as.
+diff --git a/meta/recipes-support/curl/curl_7.47.1.bb b/meta/recipes-support/curl/curl_7.49.1.bb
+similarity index 94%
+rename from meta/recipes-support/curl/curl_7.47.1.bb
+rename to meta/recipes-support/curl/curl_7.49.1.bb
+index b237b4e..db9dc1a 100644
+--- a/meta/recipes-support/curl/curl_7.47.1.bb
++++ b/meta/recipes-support/curl/curl_7.49.1.bb
+@@ -14,8 +14,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+ #
+ SRC_URI += " file://configure_ac.patch"
  
- LICENSE = "PD"
--LIC_FILES_CHKSUM = "file://package/debian/copyright;md5=c52fb2d1b3f75b3b7534927807a1b714"
-+LIC_FILES_CHKSUM = "file://package/debian/copyright;md5=74533d32ffd38bca4cbf1f1305f8bc60"
- require byacc.inc
+-SRC_URI[md5sum] = "9ea3123449439bbd960cd25cf98796fb"
+-SRC_URI[sha256sum] = "ddc643ab9382e24bbe4747d43df189a0a6ce38fcb33df041b9cb0b3cd47ae98f"
++SRC_URI[md5sum] = "6bb1f7af5b58b30e4e6414b8c1abccab"
++SRC_URI[sha256sum] = "eb63cec4bef692eab9db459033f409533e6d10e20942f4b060b32819e81885f1"
  
--SRC_URI[md5sum] = "2700401030583c4e9169ac7ea7d08de8"
--SRC_URI[sha256sum] = "c354e4ee14c4a1bf11e55dde9275011d14887ef066406a088b6fa56caf039248"
-+SRC_URI[md5sum] = "bde0463c6c03f059b1e6e9c5579cbe49"
-+SRC_URI[sha256sum] = "178e08f7ab59edfb16d64902b7a9d78592d2d8d3ee30ab7a967188d969589b5a"
-+
+ inherit autotools pkgconfig binconfig multilib_header
+ 
 -- 
 1.9.1
 
