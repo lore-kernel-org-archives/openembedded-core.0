@@ -1,49 +1,47 @@
 Return-Path: <kergoth@gmail.com>
 Received: from mail-oi0-f47.google.com (mail-oi0-f47.google.com
 	[209.85.218.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 97FB960123
+	by mail.openembedded.org (Postfix) with ESMTP id 9CD5D60248
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jun 2016 15:59:26 +0000 (UTC)
-Received: by mail-oi0-f47.google.com with SMTP id p204so214226513oih.3
+	Mon, 13 Jun 2016 16:01:35 +0000 (UTC)
+Received: by mail-oi0-f47.google.com with SMTP id w5so135244472oib.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jun 2016 08:59:27 -0700 (PDT)
+	Mon, 13 Jun 2016 09:01:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:sender:in-reply-to:references:from:date:message-id
 	:subject:to:cc;
-	bh=bGiS33Rb+5z2Cj7Tt1mcTw92Er9j2Gd1Ap0GkS2gPTA=;
-	b=AcBfCg19ItGfID2mlSpIqqU54QAUr4FsE64mTUHtZ1FwlFWdETjEvRBcvT4B0onkNq
-	Ouv47gepI47MjeBBS9jPGc0Et1ekx/GhyrmCGqjBM5E6JO3cwxIBRQfD+hJ9LC8dbehS
-	/Uv6WByLB8u/ZUNqaYAaOVJ4OquHjLEc1ORn9+IGPL0KKHi/ZN1JbpJd3vJSepsc7R3V
-	U/q05f5yUJAtNt/EAzWlaVdqzS+4cTMVBuhTDsHPczuzorVUNO53htuyPsfsfa8iScg4
-	B+u8O0ePT9dA9OFT8Ejb5uC8qvfwV4AEgtBWtJ1OKBaXMNwMZ5+uPiqLjCDRgZ1ow4YX
-	eCHw==
+	bh=Y81v/krgZI3fZ9x3A2y8wUz5lUppGxgAD13fNYlhtMA=;
+	b=z8T5fHZ6ZIu/B9e+y+fTDUohwflc67Pgk8UnyY7CtLpoba3bdDdCKRcJQMdeix/uJ8
+	hK/cfN3MCTaoz6mHPbar1wvVw2hZgQjZ4cNByG8pO+fr+uwaR5/OcxCru7xseujvEcj1
+	o0OuiO5XK8ME85MXWoRdQ9SYwo+Y54hzdEeQycDBKhvd1zfmzJwNUz2yxQPm+F0noDfW
+	613DUpC0tU4f5mxc+DvMKMxOoDjkQ7DgHG3rQpZjAJHwuknbN7GdvS1Rjkm422dEr6xl
+	1sw4Wmiii6bjT5QuwFq+ym9VN71twHfHDR6O/2b9okHThup3LOIkevzfnsStnX2B1A1V
+	cKsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
 	:date:message-id:subject:to:cc;
-	bh=bGiS33Rb+5z2Cj7Tt1mcTw92Er9j2Gd1Ap0GkS2gPTA=;
-	b=EFgf8ewPxwgb0DMgqbCfH47KIIcCc1363yr36c4Cavk16bXvaVqOwvAlFKKangzYN+
-	ioW9U9Nf20mbtQhX4OfYn+W85dRA59B+JL2Z2zlER3PQpbIo/sNx6jMNscTCySY1j9dx
-	h7Ffg/MT8ycYuLYmCL24HoadBxZsaNpGCClmo/ouLowfc9ZCj8EVSUZFHVNgvFfipjoO
-	3DRe8WgxbyCtRQEluJS98Nq2MXOEl+qm2skULgu4TMNxLEwQNxiXWdwYf7FFEWpx3KSc
-	MFUVvDXsJNCFZ9enZmmrtF3xFe9yENsHbmrpn1UMHS4yHvKgCaGrHfBXpEs/SN9bYSui
-	Qniw==
-X-Gm-Message-State: ALyK8tJyhb+KFaUJBrmt4R2Y9gJ8z/gcY8eKI26VPcFGucbltjNS5ME2ly8BpYqkxaum8J/xDJWPO561j20eUA==
-X-Received: by 10.157.12.246 with SMTP id o51mr8289009otd.72.1465833566589;
-	Mon, 13 Jun 2016 08:59:26 -0700 (PDT)
+	bh=Y81v/krgZI3fZ9x3A2y8wUz5lUppGxgAD13fNYlhtMA=;
+	b=gnBqn2ofeA5QFxQsEHT24EVTMx+RcxtPo2IdG392KG39K3pnKj7EruV3JWxqkiM12S
+	4TyQQPDxBqPyaIyvRBiZJc0+gXk0nk4QB/DnpFH59TBk7/wzmJhgRAkis+SAaZxT82s+
+	JuqSAqV8foxqT0EBKFBh3q5v5+Nmw68nK0zntmrClk2PGUzyahwigtY6rKjKFVkm9Y8X
+	calyfDoVgjvrAlUrfF1MavDfInJeeOzHK/Wvbj1aDtEitYSCBNKZ9CS7BPZEGHml70KT
+	vFk0ZC725EkrayH3/eG1niBalw7f+Xx6FHw9yp4+OK465l1D7KTg5ZEbxzilugZpdb62
+	Ws9g==
+X-Gm-Message-State: ALyK8tKorpqCy8U6tne2jPhruxEtkjzIdMdlLN24J9hiZScr18gEKEok8+sqdBO7RfheIH/RrGnlQN9xAcpWwQ==
+X-Received: by 10.157.7.11 with SMTP id 11mr7153889ote.145.1465833696456; Mon,
+	13 Jun 2016 09:01:36 -0700 (PDT)
 MIME-Version: 1.0
 Sender: kergoth@gmail.com
-Received: by 10.157.26.78 with HTTP; Mon, 13 Jun 2016 08:59:07 -0700 (PDT)
-In-Reply-To: <1465832830.31160.9.camel@intel.com>
+Received: by 10.157.26.78 with HTTP; Mon, 13 Jun 2016 09:01:17 -0700 (PDT)
+In-Reply-To: <cover.1465787274.git.paul.eggleton@linux.intel.com>
 References: <cover.1465787274.git.paul.eggleton@linux.intel.com>
-	<1465832830.31160.9.camel@intel.com>
 From: Christopher Larson <clarson@kergoth.com>
-Date: Mon, 13 Jun 2016 08:59:07 -0700
-X-Google-Sender-Auth: nNCZrQY_0GCRArYBGQwH8i0XF7Y
-Message-ID: <CABcZANk5w5AEUG0GyobRPKiaHOoHPYsyFuEpz8qUs8qu15V+7A@mail.gmail.com>
-To: "Randle, William C" <william.c.randle@intel.com>
-Cc: "paul.eggleton@linux.intel.com" <paul.eggleton@linux.intel.com>,
-	"openembedded-core@lists.openembedded.org"
+Date: Mon, 13 Jun 2016 09:01:17 -0700
+X-Google-Sender-Auth: Ap9T0iM2wdQsow0Sfbavh4PuNXk
+Message-ID: <CABcZAN=WqDtLwbkhgDeSoodNXfA4NSTZ0On9GN1=aaBjFcfoXQ@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 0/9] Show progress during build and eSDK install
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -58,54 +56,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jun 2016 15:59:28 -0000
-Content-Type: multipart/alternative; boundary=001a1142f2fa097c8005352af980
+X-List-Received-Date: Mon, 13 Jun 2016 16:01:35 -0000
+Content-Type: multipart/alternative; boundary=001a113ed45ec6f7b005352b00f6
 
---001a1142f2fa097c8005352af980
+--001a113ed45ec6f7b005352b00f6
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Jun 13, 2016 at 8:47 AM, Randle, William C <
-william.c.randle@intel.com> wrote:
+On Sun, Jun 12, 2016 at 8:13 PM, Paul Eggleton <
+paul.eggleton@linux.intel.com> wrote:
 
-> On Mon, 2016-06-13 at 15:13 +1200, Paul Eggleton wrote:
-> >
-> > I have contemplated and even prototyped going a step further and using
-> the
-> > count of lines in the output to track progress for *all* long-running
-> tasks,
-> > which does work reasonably well - the caveat is you actually need the
-> > expected line count ahead of time for each task, so you have to be able
-> to
-> > get that from somewhere. I  haven't worked out a practical means of
-> > delivering that, suggestions would be very much welcome - my prototype
-> stuff
-> > is on poky-contrib paule/progress-wip and relies on someone profiling a
-> > build containing all the tasks beforehand and that information somehow
-> being
-> > made available to everyone else.
+> Show progress during build and extensible SDK installation.
 >
-> Could this be done somewhat analagous to the way the sstate stuff works,
-> in the
-> sense you could specify a local or remote line count mirror, or use a local
-> directory. The first time a unique task is run, the line count from the
+> I've often thought it would be nice if we could print progress information
+> for individual tasks so that you could get some idea of whether the task
+> is doing anything and how much longer it might take, and so I've been
+> working
+> on a set of patches to implement just that in the background for a while
+> now
+> and this is the result.  Unfortunately this isn't necessarily practical to
+> do
+> for all tasks, but things like do_fetch are running processes that do
 > output
-> is saved in the line count db. On subsequent runs, it would detect there's
-> already an entry in the db and would be able to provide the progress
-> report.
+> progress information so it's not too hard to tap into that and present it
+> in
+> the form of a progress bar next to the task, which is what this patchset
+> does. I was also able to enable progress for do_compile in recipes that use
+> cmake (since that outputs % complete as it runs) as well as do_rootfs where
+> it has a number of internal steps that can be counted and weighted.
 >
-> Similar to the way an autobuilder can create a shared sstate mirror, when
-> a task
-> is run on an autobuilder, it could save the line count and make it
-> available to
-> other consumers, so on first run you would get a progress report, rather
-> than
-> having to bootstrap the line counts first.
+> I have contemplated and even prototyped going a step further and using the
+> count of lines in the output to track progress for *all* long-running
+> tasks,
+> which does work reasonably well - the caveat is you actually need the
+> expected line count ahead of time for each task, so you have to be able to
+> get that from somewhere. I  haven't worked out a practical means of
+> delivering that, suggestions would be very much welcome - my prototype
+> stuff
+> is on poky-contrib paule/progress-wip and relies on someone profiling a
+> build containing all the tasks beforehand and that information somehow
+> being
+> made available to everyone else.
+>
+> Also included in this patchset is support for showing progress in a couple
+> of other stages during the build - when checking for the availability of
+> sstate artifacts, when initialising the tasks (formerly "Preparing
+> RunQueue")
+> and overall progress of running setscene and normal tasks.
+>
+> There are also a few semi-related changes to improve progress reporting and
+> speed of extensible SDK installation.
+>
+> NOTE: this patchset requires the corresponding set of changes just sent
+> to the bitbake-devel list in order to work.
+>
 
+This is pretty sweet, nice work on this, Paul. A couple random thoughts:
 
-I think if you want to do this, then we should do it in a generic way, to
-store info of that sort from a build and use it as input to another build,
-i.e. another sqlite3 db or something, as this isn't the only case where
-build output could be used as hints for another build.
+1. do_fetch progress is *awesome*, especially for the kernel :)
+2. there are do_setscene progress bars, but they seem to just pop up and
+vanish in the common case, since they run so quickly. we might want to add
+a minimum time threshold to the UI, so if the task has been running less
+than 5 seconds, don't even bother showing it
+3. it may be worth adding a spinner for cases where we don't know the
+expected line count, but want to be able to indicate that something is
+happening, i.e. just spin the spinner if output is still coming from the
+task's stdout, so the user doesn't get paranoid and think the compile hung
+:)
 -- 
 Christopher Larson
 clarson at kergoth dot com
@@ -113,60 +129,83 @@ Founder - BitBake, OpenEmbedded, OpenZaurus
 Maintainer - Tslib
 Senior Software Engineer, Mentor Graphics
 
---001a1142f2fa097c8005352af980
+--001a113ed45ec6f7b005352b00f6
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Mon, Jun 13, 2016 at 8:47 AM, Randle, William C <span dir=3D"ltr">&lt;<a=
- href=3D"mailto:william.c.randle@intel.com" target=3D"_blank">william.c.ran=
-dle@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span=
- class=3D"">On Mon, 2016-06-13 at 15:13 +1200, Paul Eggleton wrote:<br>
-&gt;<br>
-&gt; I have contemplated and even prototyped going a step further and using=
- the<br>
-&gt; count of lines in the output to track progress for *all* long-running =
-tasks,<br>
-&gt; which does work reasonably well - the caveat is you actually need the<=
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Sun, Jun 12, 2016 at 8:13 PM, Paul Eggleton <span dir=3D"ltr">&lt;<a=
+ href=3D"mailto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.eggle=
+ton@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
+>Show progress during build and extensible SDK installation.<br>
+<br>
+I&#39;ve often thought it would be nice if we could print progress informat=
+ion<br>
+for individual tasks so that you could get some idea of whether the task<br=
+>
+is doing anything and how much longer it might take, and so I&#39;ve been w=
+orking<br>
+on a set of patches to implement just that in the background for a while no=
+w<br>
+and this is the result.=C2=A0 Unfortunately this isn&#39;t necessarily prac=
+tical to do<br>
+for all tasks, but things like do_fetch are running processes that do outpu=
+t<br>
+progress information so it&#39;s not too hard to tap into that and present =
+it in<br>
+the form of a progress bar next to the task, which is what this patchset<br=
+>
+does. I was also able to enable progress for do_compile in recipes that use=
+<br>
+cmake (since that outputs % complete as it runs) as well as do_rootfs where=
+<br>
+it has a number of internal steps that can be counted and weighted.<br>
+<br>
+I have contemplated and even prototyped going a step further and using the<=
 br>
-&gt; expected line count ahead of time for each task, so you have to be abl=
-e to<br>
-&gt; get that from somewhere. I=C2=A0=C2=A0haven&#39;t worked out a practic=
-al means of<br>
-&gt; delivering that, suggestions would be very much welcome - my prototype=
- stuff<br>
-&gt; is on poky-contrib paule/progress-wip and relies on someone profiling =
-a<br>
-&gt; build containing all the tasks beforehand and that information somehow=
- being<br>
-&gt; made available to everyone else.<br>
+count of lines in the output to track progress for *all* long-running tasks=
+,<br>
+which does work reasonably well - the caveat is you actually need the<br>
+expected line count ahead of time for each task, so you have to be able to<=
+br>
+get that from somewhere. I=C2=A0 haven&#39;t worked out a practical means o=
+f<br>
+delivering that, suggestions would be very much welcome - my prototype stuf=
+f<br>
+is on poky-contrib paule/progress-wip and relies on someone profiling a<br>
+build containing all the tasks beforehand and that information somehow bein=
+g<br>
+made available to everyone else.<br>
 <br>
-</span>Could this be done somewhat analagous to the way the sstate stuff wo=
-rks, in the<br>
-sense you could specify a local or remote line count mirror, or use a local=
+Also included in this patchset is support for showing progress in a couple<=
+br>
+of other stages during the build - when checking for the availability of<br=
+>
+sstate artifacts, when initialising the tasks (formerly &quot;Preparing Run=
+Queue&quot;)<br>
+and overall progress of running setscene and normal tasks.<br>
 <br>
-directory. The first time a unique task is run, the line count from the out=
-put<br>
-is saved in the line count db. On subsequent runs, it would detect there&#3=
-9;s<br>
-already an entry in the db and would be able to provide the progress report=
-.<br>
+There are also a few semi-related changes to improve progress reporting and=
 <br>
-Similar to the way an autobuilder can create a shared sstate mirror, when a=
- task<br>
-is run on an autobuilder, it could save the line count and make it availabl=
-e to<br>
-other consumers, so on first run you would get a progress report, rather th=
-an<br>
-having to bootstrap the line counts first.</blockquote></div><br>I think if=
- you want to do this, then we should do it in a generic way, to store info =
-of that sort from a build and use it as input to another build, i.e. anothe=
-r sqlite3 db or something, as this isn&#39;t the only case where build outp=
-ut could be used as hints for another build.<br>-- <br><div class=3D"gmail_=
-signature" data-smartmail=3D"gmail_signature">Christopher Larson<br>clarson=
- at kergoth dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maint=
-ainer - Tslib<br>Senior Software Engineer, Mentor Graphics</div>
+speed of extensible SDK installation.<br>
+<br>
+NOTE: this patchset requires the corresponding set of changes just sent<br>
+to the bitbake-devel list in order to work.<br></blockquote><div><br></div>=
+<div>This is pretty sweet, nice work on this, Paul. A couple random thought=
+s:</div><div><br></div><div>1. do_fetch progress is *awesome*, especially f=
+or the kernel :)</div><div>2. there are do_setscene progress bars, but they=
+ seem to just pop up and vanish in the common case, since they run so quick=
+ly. we might want to add a minimum time threshold to the UI, so if the task=
+ has been running less than 5 seconds, don&#39;t even bother showing it</di=
+v><div>3. it may be worth adding a spinner for cases where we don&#39;t kno=
+w the expected line count, but want to be able to indicate that something i=
+s happening, i.e. just spin the spinner if output is still coming from the =
+task&#39;s stdout, so the user doesn&#39;t get paranoid and think the compi=
+le hung :)</div></div>-- <br><div class=3D"gmail_signature" data-smartmail=
+=3D"gmail_signature">Christopher Larson<br>clarson at kergoth dot com<br>Fo=
+under - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior S=
+oftware Engineer, Mentor Graphics</div>
 </div></div>
 
---001a1142f2fa097c8005352af980--
+--001a113ed45ec6f7b005352b00f6--
