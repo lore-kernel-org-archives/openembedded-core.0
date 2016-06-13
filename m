@@ -1,20 +1,46 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 0FD256FF6B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 99A4A6FFEF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jun 2016 13:11:45 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga103.fm.intel.com with ESMTP; 13 Jun 2016 06:11:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,466,1459839600"; d="scan'208";a="1000862875"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 13 Jun 2016 06:11:45 -0700
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Jun 2016 16:11:25 +0300
-Message-Id: <1465823485-32386-1-git-send-email-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] webkitgtk: do not inherit pythonnative
+	Mon, 13 Jun 2016 13:12:42 +0000 (UTC)
+Received: by mail-io0-f178.google.com with SMTP id 5so119213220ioy.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Jun 2016 06:12:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=O3QFHuA0kq/Tw4fSbVUEj0Ymh2vg5p/hUINSuciuqu8=;
+	b=tEvY7HBSYSy5uvDm2QoX5LGmUo+N8Qp/bvgcTtli2o/3FASmkyf2M8Ne7v0WX3ZByR
+	EDTDDxKISTlP1xZ6vrNSG6oI5+bAnCtHzV2ElM0c2xTFeNX/tuPpy3YgDJHh947jHtWC
+	0nWz3mmMt1UToTjZhWWHpHbOBJakOFVrDiKDfAbD6KPFc8/i+LIVK2rgcZNXEnGdhL3m
+	D56H5ZM9KIEC0AlCL6gGBy/z5UEZ+vyNFX5FE1etgL9ar9Ue4U8ogcs9ZV64iMCcPXCv
+	qPsjijRtLzJ33RT00hWNVw7bT/m7meAu94XveOlsMDFTuCoYMnfDTqNBsfblQOwV10oT
+	C8xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=O3QFHuA0kq/Tw4fSbVUEj0Ymh2vg5p/hUINSuciuqu8=;
+	b=PmjTlia2GevdgVsPzuOaHuF4tzsBZTD+xsZ69yQXITkMMa0+qXUGixmg/dXHyHpGUs
+	ZNEDlwBTH2P0z3k5xLA+g4KNxu4RBeTxFMbemg559IZDXnLisWblcaLSXc8OBhktutTA
+	BMFwuGj+4jnXz7dIHnyuBj7TTt8detAvRYE6XQ3yjG4zQc/znBpiBrIbEyUSDElkceU3
+	Zz0Rqlz5LyNblOBSSBDRRoxhsBu2QyxzdfPIdWpOZkUfjkH7DZlfl0dj62vjRLx5h+q5
+	RHn6hr2wWRyW6la4sbTTwoGB5jP3V3ipGwo3RdcNOeQATxVkQQuuPiUWYDavcyXMrL/W
+	rq9w==
+X-Gm-Message-State: ALyK8tKLs6+k8FIySbr2HLTc/yXAkdZ2guycx5zRXJndHj8oQtKxciuT/m/3aNud/gvwV1Zv7O27Zh7KyFoSuMa/
+X-Received: by 10.107.138.201 with SMTP id c70mr21817150ioj.148.1465823562998; 
+	Mon, 13 Jun 2016 06:12:42 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.162.6 with HTTP; Mon, 13 Jun 2016 06:12:23 -0700 (PDT)
+In-Reply-To: <1465592512-45778-1-git-send-email-alejandro.hernandez@linux.intel.com>
+References: <1465592512-45778-1-git-send-email-alejandro.hernandez@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 13 Jun 2016 14:12:23 +0100
+Message-ID: <CAJTo0LbuZndWwDyE=jRB5Z2F30PnU7PPaMn7u8dPQ0xr0OCHtA@mail.gmail.com>
+To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] python-git: Upgrade both python-git and python3-git from 1.0.2 to 2.0.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,38 +53,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jun 2016 13:11:47 -0000
+X-List-Received-Date: Mon, 13 Jun 2016 13:12:43 -0000
+Content-Type: multipart/alternative; boundary=001a113e8e6ac6b9e9053528a40f
 
-Set the path to python 2.x explicitly instead; pythonnative
-and python3native classes cannot be used in the same recipe.
+--001a113e8e6ac6b9e9053528a40f
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- meta/recipes-sato/webkit/webkitgtk_2.12.3.bb | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+On 10 June 2016 at 22:01, Alejandro Hernandez <
+alejandro.hernandez@linux.intel.com> wrote:
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.12.3.bb b/meta/recipes-sato/webkit/webkitgtk_2.12.3.bb
-index 265fedb..a77b086 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.12.3.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.12.3.bb
-@@ -21,10 +21,12 @@ SRC_URI = "\
- SRC_URI[md5sum] = "aebb4029c09dd81664aa830e4a584c85"
- SRC_URI[sha256sum] = "173cbb9a2eca23eee52e99965483ab25aa9c0569ef5b57041fc0c129cc26c307"
- 
--# pythonnative must come after gobject-introspection, otherwise
--# webkit build configuration will not attempt to find Python 2.x after
--# finding (and rejecting) Python 3.x
--inherit cmake lib_package pkgconfig gobject-introspection perlnative pythonnative distro_features_check upstream-version-is-even
-+inherit cmake lib_package pkgconfig gobject-introspection perlnative distro_features_check upstream-version-is-even
-+
-+# We cannot inherit pythonnative because that would conflict with inheriting python3native
-+# (which is done by gobject-introspection). But webkit only needs the path to native Python 2.x binary
-+# so we simply set it explicitly here.
-+EXTRANATIVEPATH += "python-native"
- 
- # depends on libxt
- REQUIRED_DISTRO_FEATURES = "x11"
--- 
-2.8.1
+> Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+>
 
+The v1 got merged to master, can you rebase this?
 
+Thanks,
+Ross
+
+--001a113e8e6ac6b9e9053528a40f
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 10 June 2016 at 22:01, Alejandro Hernandez <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:alejandro.hernandez@linux.intel.com" target=3D"_blank">alejandro=
+.hernandez@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
+ft:1ex"><div id=3D":16k" class=3D"a3s aXjCH m1553c2002483ac51">Signed-off-b=
+y: Alejandro Hernandez &lt;<a href=3D"mailto:alejandro.hernandez@linux.inte=
+l.com">alejandro.hernandez@linux.intel.com</a>&gt;<br></div></blockquote></=
+div><br>The v1 got merged to master, can you rebase this?</div><div class=
+=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Thanks,</div><div cla=
+ss=3D"gmail_extra">Ross</div></div>
+
+--001a113e8e6ac6b9e9053528a40f--
