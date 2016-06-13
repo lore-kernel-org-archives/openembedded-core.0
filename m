@@ -1,21 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 0FB49612E5
+	by mail.openembedded.org (Postfix) with ESMTP id 10B6E6FF5B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jun 2016 04:44:09 +0000 (UTC)
+	Mon, 13 Jun 2016 04:44:10 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga102.fm.intel.com with ESMTP; 12 Jun 2016 21:44:10 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 12 Jun 2016 21:44:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,465,1459839600"; d="scan'208";a="996301585"
+X-IronPort-AV: E=Sophos;i="5.26,465,1459839600"; d="scan'208";a="996301594"
 Received: from ctan5-mobl1.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.176.32])
-	by orsmga002.jf.intel.com with ESMTP; 12 Jun 2016 21:44:07 -0700
+	by orsmga002.jf.intel.com with ESMTP; 12 Jun 2016 21:44:09 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Jun 2016 16:43:38 +1200
-Message-Id: <cover.1465791249.git.paul.eggleton@linux.intel.com>
+Date: Mon, 13 Jun 2016 16:43:39 +1200
+Message-Id: <690406aca531265be05d454e9f8aaded03f563dd.1465791249.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.5
-Subject: [PATCH 0/3] Minor devtool / recipetool fixes
+In-Reply-To: <cover.1465791249.git.paul.eggleton@linux.intel.com>
+References: <cover.1465791249.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1465791249.git.paul.eggleton@linux.intel.com>
+References: <cover.1465791249.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 1/3] devtool: tweak README in created workspace layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,26 +34,38 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 13 Jun 2016 04:44:11 -0000
 
-The following changes since commit 2fdd2c1434e7c741b8048145bd460c68bea7ee53:
+Clarify slightly the intended usage of the workspace layer.
 
-  systemtap: add build dependency on ncurses (2016-06-12 23:47:00 +0100)
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ scripts/devtool | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib paule/devtool17-oe
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/devtool17-oe
-
-Paul Eggleton (3):
-  devtool: tweak README in created workspace layer
-  devtool: reset: allow specifying multiple recipes
-  scripts: ensure not specifying subcommand shows help text
-
- scripts/contrib/devtool-stress.py |  1 +
- scripts/devtool                   | 12 ++++++++----
- scripts/lib/devtool/standard.py   |  9 +++++----
- scripts/recipetool                |  1 +
- 4 files changed, 15 insertions(+), 8 deletions(-)
-
+diff --git a/scripts/devtool b/scripts/devtool
+index ff368dc..63d2ef9 100755
+--- a/scripts/devtool
++++ b/scripts/devtool
+@@ -179,13 +179,16 @@ def _create_workspace(workspacedir, config, basepath):
+         # Add a README file
+         with open(os.path.join(workspacedir, 'README'), 'w') as f:
+             f.write('This layer was created by the OpenEmbedded devtool utility in order to\n')
+-            f.write('contain recipes and bbappends. In most instances you should use the\n')
++            f.write('contain recipes and bbappends that are currently being worked on. The idea\n')
++            f.write('is that the contents is temporary - once you have finished working on a\n')
++            f.write('recipe you use the appropriate method to move the files you have been\n')
++            f.write('working on to a proper layer. In most instances you should use the\n')
+             f.write('devtool utility to manage files within it rather than modifying files\n')
+             f.write('directly (although recipes added with "devtool add" will often need\n')
+             f.write('direct modification.)\n')
+-            f.write('\nIf you no longer need to use devtool you can remove the path to this\n')
+-            f.write('workspace layer from your conf/bblayers.conf file (and then delete the\n')
+-            f.write('layer, if you wish).\n')
++            f.write('\nIf you no longer need to use devtool or the workspace layer\'s contents\n')
++            f.write('you can remove the path to this workspace layer from your conf/bblayers.conf')
++            f.write('file (and then delete the layer, if you wish).\n')
+             f.write('\nNote that by default, if devtool fetches and unpacks source code, it\n')
+             f.write('will place it in a subdirectory of a "sources" subdirectory of the\n')
+             f.write('layer. If you prefer it to be elsewhere you can specify the source\n')
 -- 
 2.5.5
 
