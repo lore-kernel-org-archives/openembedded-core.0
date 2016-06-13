@@ -1,23 +1,20 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id AABE860119
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id B435460767
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jun 2016 21:37:51 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP; 13 Jun 2016 14:37:52 -0700
+	Mon, 13 Jun 2016 22:00:51 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga104.fm.intel.com with ESMTP; 13 Jun 2016 15:00:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,468,1459839600"; d="scan'208";a="827326394"
-Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
-	([10.54.69.55])
-	by orsmga003.jf.intel.com with ESMTP; 13 Jun 2016 14:37:52 -0700
-From: mariano.lopez@linux.intel.com
+X-IronPort-AV: E=Sophos;i="5.26,468,1459839600"; d="scan'208";a="974911227"
+Received: from lsandov1-mobl2.zpn.intel.com ([10.219.5.155])
+	by orsmga001.jf.intel.com with ESMTP; 13 Jun 2016 15:00:52 -0700
+From: leonardo.sandoval.gonzalez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Jun 2016 13:32:33 +0000
-Message-Id: <4a96e992a3f5d117eb4b33513a2330e81ffd0b59.1465824701.git.mariano.lopez@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-In-Reply-To: <cover.1465824701.git.mariano.lopez@linux.intel.com>
-References: <cover.1465824701.git.mariano.lopez@linux.intel.com>
-Subject: [PATCH 1/1] selftest/runtime-test.py: Add test for import test from other layers
+Date: Mon, 13 Jun 2016 17:02:42 -0500
+Message-Id: <1465855362-25759-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] flex: Fix top_builddir path for flex's test-driver script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,110 +27,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jun 2016 21:37:56 -0000
+X-List-Received-Date: Mon, 13 Jun 2016 22:00:56 -0000
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-There are some features in testimage/testexport that are not tested;
-this might lead to break some of these features without notice.
+Since 5f82d17ac63f6d5b55f7b8d019c239620ab54596, test-driver scripts
+look into top_buildir path, so fix this path on flex's tests/Makefile.
 
-This adds a new test in order to test two features of testimage:
-  - Import test from other layers.
-  - Install/Unistall in the DUT without a package manager.
+[YOCTO #9721]
 
-[YOCTO #9764]
-[YOCTO #9766]
-
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 ---
- meta-selftest/lib/oeqa/runtime/selftest.json       |  6 +++++
- meta-selftest/lib/oeqa/runtime/selftest.py         | 31 ++++++++++++++++++++++
- .../selftest/{testexport.py => runtime-test.py}    | 19 +++++++++++++
- 3 files changed, 56 insertions(+)
- create mode 100644 meta-selftest/lib/oeqa/runtime/selftest.json
- create mode 100644 meta-selftest/lib/oeqa/runtime/selftest.py
- rename meta/lib/oeqa/selftest/{testexport.py => runtime-test.py} (76%)
+ meta/recipes-devtools/flex/flex_2.6.0.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta-selftest/lib/oeqa/runtime/selftest.json b/meta-selftest/lib/oeqa/runtime/selftest.json
-new file mode 100644
-index 0000000..e5ae46e
---- /dev/null
-+++ b/meta-selftest/lib/oeqa/runtime/selftest.json
-@@ -0,0 +1,6 @@
-+{
-+    "test_install_package": {
-+        "pkg": "socat",
-+        "rm": true
-+    }
-+}
-diff --git a/meta-selftest/lib/oeqa/runtime/selftest.py b/meta-selftest/lib/oeqa/runtime/selftest.py
-new file mode 100644
-index 0000000..b9c9b23
---- /dev/null
-+++ b/meta-selftest/lib/oeqa/runtime/selftest.py
-@@ -0,0 +1,31 @@
-+from oeqa.oetest import oeRuntimeTest, skipModule
-+from oeqa.utils.decorators import *
-+
-+class Selftest(oeRuntimeTest):
-+
-+    @skipUnlessPassed("test_ssh")
-+    def test_install_package(self):
-+        """
-+        Summary: Check basic package installation functionality.
-+        Expected: 1. Before the test socat must be installed using scp.
-+                  2. After the test socat must be unistalled using ssh.
-+                     This can't be checked in this test.
-+        Product: oe-core
-+        Author: Mariano Lopez <mariano.lopez@intel.com>
-+        """
-+
-+        (status, output) = self.target.run("socat -V")
-+        self.assertEqual(status, 0, msg="socat is not installed")
-+
-+    @skipUnlessPassed("test_install_package")
-+    def test_verify_unistall(self):
-+        """
-+        Summary: Check basic package installation functionality.
-+        Expected: 1. test_install_package must unistall socat.
-+                     This test is just to verify that.
-+        Product: oe-core
-+        Author: Mariano Lopez <mariano.lopez@intel.com>
-+        """
-+
-+        (status, output) = self.target.run("socat -V")
-+        self.assertNotEqual(status, 0, msg="socat is still installed")
-diff --git a/meta/lib/oeqa/selftest/testexport.py b/meta/lib/oeqa/selftest/runtime-test.py
-similarity index 76%
-rename from meta/lib/oeqa/selftest/testexport.py
-rename to meta/lib/oeqa/selftest/runtime-test.py
-index 5823b13..1e1d3b0 100644
---- a/meta/lib/oeqa/selftest/testexport.py
-+++ b/meta/lib/oeqa/selftest/runtime-test.py
-@@ -42,3 +42,22 @@ class TestExport(oeSelfTest):
-             # Verify ping test was succesful
-             failure = True if 'FAIL' in result.output else False
-             self.assertNotEqual(True, failure, 'ping test failed')
-+
-+
-+class TestImage(oeSelfTest):
-+
-+    def test_testimage_install(self):
-+        """
-+        Summary: Check install packages functionality for testimage/testexport.
-+        Expected: 1. Import tests from a directory other than meta.
-+                  2. Check install/unistall of socat.
-+        Product: oe-core
-+        Author: Mariano Lopez <mariano.lopez@intel.com>
-+        """
-+
-+        features = 'INHERIT += "testexport"\n'
-+        features = 'TEST_SUITES = "ping ssh selftest"\n'
-+
-+        # Build core-image-sato and testimage
-+        bitbake('core-image-sato socat')
-+        bitbake('-c testimage core-image-sato')
+diff --git a/meta/recipes-devtools/flex/flex_2.6.0.bb b/meta/recipes-devtools/flex/flex_2.6.0.bb
+index 8285426..f6d136c 100644
+--- a/meta/recipes-devtools/flex/flex_2.6.0.bb
++++ b/meta/recipes-devtools/flex/flex_2.6.0.bb
+@@ -51,5 +51,8 @@ do_install_ptest() {
+ 	cp ${S}/build-aux/test-driver ${D}${PTEST_PATH}/build-aux/
+ 	cp -r ${S}/tests/* ${D}${PTEST_PATH}
+ 	cp -r ${B}/tests/* ${D}${PTEST_PATH}
+-	sed -e 's/^Makefile:/_Makefile:/' -e 's/^srcdir = \(.*\)/srcdir = ./' -e 's/^top_srcdir = \(.*\)/top_srcdir = ./'  -i ${D}${PTEST_PATH}/Makefile
++	sed -e 's/^Makefile:/_Makefile:/' \
++	    -e 's/^srcdir = \(.*\)/srcdir = ./' -e 's/^top_srcdir = \(.*\)/top_srcdir = ./' \
++	    -e 's/^builddir = \(.*\)/builddir = ./' -e 's/^top_builddir = \(.*\)/top_builddir = ./' \
++	    -i ${D}${PTEST_PATH}/Makefile
+ }
 -- 
-2.6.6
+2.1.4
 
 
