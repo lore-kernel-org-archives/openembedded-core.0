@@ -1,25 +1,21 @@
 Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id DE6096FFCC
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 0FB49612E5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jun 2016 03:14:52 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP; 12 Jun 2016 20:14:54 -0700
+	Mon, 13 Jun 2016 04:44:09 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP; 12 Jun 2016 21:44:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,464,1459839600"; d="scan'208";a="718037673"
+X-IronPort-AV: E=Sophos;i="5.26,465,1459839600"; d="scan'208";a="996301585"
 Received: from ctan5-mobl1.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.176.32])
-	by FMSMGA003.fm.intel.com with ESMTP; 12 Jun 2016 20:14:53 -0700
+	by orsmga002.jf.intel.com with ESMTP; 12 Jun 2016 21:44:07 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Jun 2016 15:14:00 +1200
-Message-Id: <12130280e41c6d75566f36c4d7c34a3c182fc61f.1465787274.git.paul.eggleton@linux.intel.com>
+Date: Mon, 13 Jun 2016 16:43:38 +1200
+Message-Id: <cover.1465791249.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.5
-In-Reply-To: <cover.1465787274.git.paul.eggleton@linux.intel.com>
-References: <cover.1465787274.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1465787274.git.paul.eggleton@linux.intel.com>
-References: <cover.1465787274.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 9/9] toolchain-shar-extract.sh: allow TERM through into SDK installer env
+Subject: [PATCH 0/3] Minor devtool / recipetool fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,34 +28,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jun 2016 03:14:53 -0000
+X-List-Received-Date: Mon, 13 Jun 2016 04:44:11 -0000
 
-In order to show the task progress during the extensible SDK
-installation, knotty needs to know it is using a terminal it can
-support the "interactive" mode on (i.e. ncurses can be used), which
-means it needs access to the TERM variable value, so allow that
-through into the cleaned environment within the SDK installation
-script.
+The following changes since commit 2fdd2c1434e7c741b8048145bd460c68bea7ee53:
 
-Part of the implementation for [YOCTO #9613].
+  systemtap: add build dependency on ncurses (2016-06-12 23:47:00 +0100)
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/files/toolchain-shar-extract.sh | 1 +
- 1 file changed, 1 insertion(+)
+are available in the git repository at:
 
-diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
-index d1ce86d..9279310 100644
---- a/meta/files/toolchain-shar-extract.sh
-+++ b/meta/files/toolchain-shar-extract.sh
-@@ -2,6 +2,7 @@
- 
- [ -z "$ENVCLEANED" ] && exec /usr/bin/env -i ENVCLEANED=1 HOME="$HOME" \
- 	LC_ALL=en_US.UTF-8 \
-+	TERM=$TERM \
- 	http_proxy="$http_proxy" https_proxy="$https_proxy" ftp_proxy="$ftp_proxy" \
- 	no_proxy="$no_proxy" all_proxy="$all_proxy" GIT_PROXY_COMMAND="$GIT_PROXY_COMMAND" "$0" "$@"
- [ -f /etc/environment ] && . /etc/environment
+  git://git.openembedded.org/openembedded-core-contrib paule/devtool17-oe
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/devtool17-oe
+
+Paul Eggleton (3):
+  devtool: tweak README in created workspace layer
+  devtool: reset: allow specifying multiple recipes
+  scripts: ensure not specifying subcommand shows help text
+
+ scripts/contrib/devtool-stress.py |  1 +
+ scripts/devtool                   | 12 ++++++++----
+ scripts/lib/devtool/standard.py   |  9 +++++----
+ scripts/recipetool                |  1 +
+ 4 files changed, 15 insertions(+), 8 deletions(-)
+
 -- 
 2.5.5
 
