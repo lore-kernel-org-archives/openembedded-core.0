@@ -1,26 +1,26 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C8E46FFEF
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A6B1673192
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jun 2016 15:56:42 +0000 (UTC)
+	Mon, 13 Jun 2016 15:56:41 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u5DFugqS024798
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u5DFufiG005635
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 13 Jun 2016 08:56:43 -0700 (PDT)
+	Mon, 13 Jun 2016 08:56:42 -0700 (PDT)
 Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Mon, 13 Jun 2016 08:56:42 -0700
+	14.3.248.2; Mon, 13 Jun 2016 08:56:41 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Mon, 13 Jun 2016 11:56:35 -0400
-Message-ID: <ba253bd207b91f37fcee656bcce2aadb87e29364.1465833140.git.bruce.ashfield@windriver.com>
+Date: Mon, 13 Jun 2016 11:56:34 -0400
+Message-ID: <5f8bc19adb927eed28e4701ad4d1419866eef01e.1465833140.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <cover.1465833140.git.bruce.ashfield@windriver.com>
 References: <cover.1465833140.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 6/6] linux-yocto/4.1: powerclamp: APL CPU
+Subject: [PATCH 5/6] linux-yocto/4.1: Always Running Timer Support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,20 +36,25 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 13 Jun 2016 15:56:43 -0000
 Content-Type: text/plain
 
-These patches backport the upstream changes for powerclamp to support APL APU.
+Backporting mainline patches to add always running timer support (ART).
 
-  Dasaratharaman Chandramouli (1):
-    intel powerclamp: support Knights Landing
+The main advantage of ART is that ART can be captured
+simultaneous to the capture of audio and network device clocks,
+allowing a correlation between timebases to be constructed.
 
-  Jacob Pan (2):
-    thermal/powerclamp: add cpu id for denlow platform
-    thermal/powerclamp: remove cpu whitelist
+   Arnd Bergmann (1):
+     ntp/pps: replace getnstime_raw_and_real with 64-bit version
 
-  Radivoje Jovanovic (2):
-    thermal/powerclamp: add cpu id for skylake h/s
-    thermal/powerclamp: add cpu id for Skylake u/y
+   Christopher S. Hall (4):
+     time: Add cycles to nanoseconds translation
+     time: Add timekeeping snapshot code capturing system time and counter
+     time: Add driver cross timestamp interface for higher precision time synchronization
+     x86/tsc: Always Running Timer (ART) correlated clocksource
 
-Signed-off-by: Yu, Ong Hock <ong.hock.yu@intel.com>
+   DengChao (1):
+     timekeeping: Provide internal function __ktime_get_real_seconds
+
+Signed-off-by: Yong, Jonathan <jonathan.yong@intel.com>
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
  meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   |  2 +-
@@ -58,55 +63,55 @@ Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
  3 files changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-index c609ddc92c3c..9eaecd4075c1 100644
+index ce19bd43459b..c609ddc92c3c 100644
 --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
 @@ -11,7 +11,7 @@ python () {
          raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
  }
  
--SRCREV_machine ?= "e34d6198589347504e6c8451fc999908f9ce4752"
-+SRCREV_machine ?= "576bba030082fcdcdf9e58a285c92558f27d1e73"
+-SRCREV_machine ?= "0ebcfeb720baaf05db903467d544c88238ef85f2"
++SRCREV_machine ?= "e34d6198589347504e6c8451fc999908f9ce4752"
  SRCREV_meta ?= "9f68667031354532563766a3d04ca8a618e9177a"
  
  SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;branch=${KBRANCH};name=machine \
 diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-index acdb0dc3c52a..7e0f66fa84cd 100644
+index 54a932377b1d..acdb0dc3c52a 100644
 --- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
 @@ -9,7 +9,7 @@ LINUX_VERSION ?= "4.1.26"
  KMETA = "kernel-meta"
  KCONF_BSP_AUDIT_LEVEL = "2"
  
--SRCREV_machine ?= "c9b497be080fcd42adab967fc972f225c9f5b84e"
-+SRCREV_machine ?= "9ba8c36e9ea7419d06accab5311e7fb0d56513ff"
+-SRCREV_machine ?= "49719d35dca0562ab3e67f37de0d4430dad68a78"
++SRCREV_machine ?= "c9b497be080fcd42adab967fc972f225c9f5b84e"
  SRCREV_meta ?= "9f68667031354532563766a3d04ca8a618e9177a"
  
  PV = "${LINUX_VERSION}+git${SRCPV}"
 diff --git a/meta/recipes-kernel/linux/linux-yocto_4.1.bb b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-index c785354695a8..667212f1df18 100644
+index c1d9f093449c..c785354695a8 100644
 --- a/meta/recipes-kernel/linux/linux-yocto_4.1.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
 @@ -11,14 +11,14 @@ KBRANCH_qemux86  ?= "standard/base"
  KBRANCH_qemux86-64 ?= "standard/base"
  KBRANCH_qemumips64 ?= "standard/mti-malta64"
  
--SRCREV_machine_qemuarm ?= "5049ec1a05cf7c9ff19c892b42d67f17974d3a96"
--SRCREV_machine_qemuarm64 ?= "c9b497be080fcd42adab967fc972f225c9f5b84e"
--SRCREV_machine_qemumips ?= "c01dfca5d22960a5b9e4aa47d9c062ecbded5857"
--SRCREV_machine_qemuppc ?= "c9b497be080fcd42adab967fc972f225c9f5b84e"
--SRCREV_machine_qemux86 ?= "c9b497be080fcd42adab967fc972f225c9f5b84e"
--SRCREV_machine_qemux86-64 ?= "c9b497be080fcd42adab967fc972f225c9f5b84e"
--SRCREV_machine_qemumips64 ?= "b8342b84b3a914651c86f3ae463e4f8c6de36da0"
--SRCREV_machine ?= "c9b497be080fcd42adab967fc972f225c9f5b84e"
-+SRCREV_machine_qemuarm ?= "a6899b7c294ed25d9d37afde858cdd52f41f86b0"
-+SRCREV_machine_qemuarm64 ?= "9ba8c36e9ea7419d06accab5311e7fb0d56513ff"
-+SRCREV_machine_qemumips ?= "69936a9614608b7aa893ae78bd69e5cc197816c3"
-+SRCREV_machine_qemuppc ?= "9ba8c36e9ea7419d06accab5311e7fb0d56513ff"
-+SRCREV_machine_qemux86 ?= "9ba8c36e9ea7419d06accab5311e7fb0d56513ff"
-+SRCREV_machine_qemux86-64 ?= "9ba8c36e9ea7419d06accab5311e7fb0d56513ff"
-+SRCREV_machine_qemumips64 ?= "f0eb9eabbeafa5eadf66893822ea42d80e04afbd"
-+SRCREV_machine ?= "9ba8c36e9ea7419d06accab5311e7fb0d56513ff"
+-SRCREV_machine_qemuarm ?= "5e6960c60bf7c107978312f7e590bdec6676ceb2"
+-SRCREV_machine_qemuarm64 ?= "49719d35dca0562ab3e67f37de0d4430dad68a78"
+-SRCREV_machine_qemumips ?= "9c00d4cf09030ff438033ae094615894f3290628"
+-SRCREV_machine_qemuppc ?= "49719d35dca0562ab3e67f37de0d4430dad68a78"
+-SRCREV_machine_qemux86 ?= "49719d35dca0562ab3e67f37de0d4430dad68a78"
+-SRCREV_machine_qemux86-64 ?= "49719d35dca0562ab3e67f37de0d4430dad68a78"
+-SRCREV_machine_qemumips64 ?= "9aaa4d26a05a1816383a1e1dbc11de5830458eec"
+-SRCREV_machine ?= "49719d35dca0562ab3e67f37de0d4430dad68a78"
++SRCREV_machine_qemuarm ?= "5049ec1a05cf7c9ff19c892b42d67f17974d3a96"
++SRCREV_machine_qemuarm64 ?= "c9b497be080fcd42adab967fc972f225c9f5b84e"
++SRCREV_machine_qemumips ?= "c01dfca5d22960a5b9e4aa47d9c062ecbded5857"
++SRCREV_machine_qemuppc ?= "c9b497be080fcd42adab967fc972f225c9f5b84e"
++SRCREV_machine_qemux86 ?= "c9b497be080fcd42adab967fc972f225c9f5b84e"
++SRCREV_machine_qemux86-64 ?= "c9b497be080fcd42adab967fc972f225c9f5b84e"
++SRCREV_machine_qemumips64 ?= "b8342b84b3a914651c86f3ae463e4f8c6de36da0"
++SRCREV_machine ?= "c9b497be080fcd42adab967fc972f225c9f5b84e"
  SRCREV_meta ?= "9f68667031354532563766a3d04ca8a618e9177a"
  
  SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;name=machine;branch=${KBRANCH}; \
