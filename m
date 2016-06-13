@@ -1,25 +1,25 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AD7DB6FF01
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 41BF46FFCE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jun 2016 09:16:40 +0000 (UTC)
+	Mon, 13 Jun 2016 09:16:41 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u5D9GdBx004393
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 13 Jun 2016 02:16:39 -0700
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u5D9Gfmb026853
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 13 Jun 2016 02:16:41 -0700 (PDT)
 Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 13 Jun 2016 02:16:38 -0700
+	Mon, 13 Jun 2016 02:16:40 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Mon, 13 Jun 2016 05:16:26 -0400
-Message-ID: <acd769f2a7482961f4ce08f3dcd2def5cfbff3aa.1465808701.git.hongxu.jia@windriver.com>
+Date: Mon, 13 Jun 2016 05:16:27 -0400
+Message-ID: <15f62fb6763b2cfe6314f5d171b1c265fe50bc50.1465808701.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <cover.1465808701.git.hongxu.jia@windriver.com>
 References: <cover.1465808701.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 01/10] dhcp: upgrade to 4.3.4
+Subject: [PATCH 02/10] ghostscript: upgrade to 9.19
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,835 +32,445 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jun 2016 09:16:40 -0000
+X-List-Received-Date: Mon, 13 Jun 2016 09:16:41 -0000
 Content-Type: text/plain
 
-- Drop fix-external-bind.patch, which dhcp 4.3.4 supports
-  option --with-libbind=PATH
+- Ghostscript and GhostPDL releases from version 9.19 have been moved to GitHub
+  hosting, tweak download site
 
-- Add tweak-to-support-external-bind.patch, tweak the external
-  bind to oe-core's sysroot rather than external bind source build.
+- Drop 0001-Bug-696497-Fix-support-for-building-with-no-jbig2-de.patch, and
+  0002-Bug-696497-part-2-fix-support-for-building-with-a-JP.patch, ghostscript
+  9.19 has fixed them.
 
-- Drop CVE-2015-8605.patch, CVE-2016-2774.patch, dhcp 4.3.4 has fixed them
-
-- Add configure option --with-randomdev=/dev/random
+- Fix QA Warning unrecognised options: --enable-little-endian. It use AC_C_BIGENDIAN
+  to detect big/little endian.
+  http://www.delorie.com/gnu/docs/autoconf/autoconf_64.html
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-connectivity/dhcp/dhcp.inc            |   3 +-
- .../dhcp/0001-site.h-enable-gentle-shutdown.patch  |   6 +-
- .../dhcp/dhcp/CVE-2015-8605.patch                  |  99 -----------------
- .../dhcp/dhcp/CVE-2016-2774.patch                  |  65 ------------
- ...dhclient-script-drop-resolv.conf.dhclient.patch |   2 +-
- .../dhcp/dhcp/fix-external-bind.patch              | 115 --------------------
- .../dhcp/dhcp/fixsepbuild.patch                    |  78 ++++++++------
- .../dhcp/dhcp/libxml2-configure-argument.patch     |  19 +++-
- .../dhcp/dhcp/link-with-lcrypto.patch              |  21 ++--
- .../dhcp/dhcp/replace-ifconfig-route.patch         |  34 ++++--
- .../dhcp/dhcp/tweak-to-support-external-bind.patch | 117 +++++++++++++++++++++
- .../dhcp/{dhcp_4.3.3.bb => dhcp_4.3.4.bb}          |   8 +-
- 12 files changed, 222 insertions(+), 345 deletions(-)
- delete mode 100644 meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605.patch
- delete mode 100644 meta/recipes-connectivity/dhcp/dhcp/CVE-2016-2774.patch
- delete mode 100644 meta/recipes-connectivity/dhcp/dhcp/fix-external-bind.patch
- create mode 100644 meta/recipes-connectivity/dhcp/dhcp/tweak-to-support-external-bind.patch
- rename meta/recipes-connectivity/dhcp/{dhcp_4.3.3.bb => dhcp_4.3.4.bb} (65%)
+ ...Fix-support-for-building-with-no-jbig2-de.patch |  81 ----------------
+ ...part-2-fix-support-for-building-with-a-JP.patch |  48 ----------
+ .../files/do-not-check-local-libpng-source.patch   |   8 +-
+ .../ghostscript-9.02-prevent_recompiling.patch     | 105 ++++++++++-----------
+ .../ghostscript/ghostscript/png_mak.patch          |  27 ++++--
+ .../{ghostscript_9.18.bb => ghostscript_9.19.bb}   |   9 +-
+ 6 files changed, 78 insertions(+), 200 deletions(-)
+ delete mode 100644 meta/recipes-extended/ghostscript/files/0001-Bug-696497-Fix-support-for-building-with-no-jbig2-de.patch
+ delete mode 100644 meta/recipes-extended/ghostscript/files/0002-Bug-696497-part-2-fix-support-for-building-with-a-JP.patch
+ rename meta/recipes-extended/ghostscript/{ghostscript_9.18.bb => ghostscript_9.19.bb} (86%)
 
-diff --git a/meta/recipes-connectivity/dhcp/dhcp.inc b/meta/recipes-connectivity/dhcp/dhcp.inc
-index 5e396f1..d237d58 100644
---- a/meta/recipes-connectivity/dhcp/dhcp.inc
-+++ b/meta/recipes-connectivity/dhcp/dhcp.inc
-@@ -46,7 +46,8 @@ EXTRA_OECONF = "--with-srv-lease-file=${localstatedir}/lib/dhcp/dhcpd.leases \
-                 --with-cli-lease-file=${localstatedir}/lib/dhcp/dhclient.leases \
-                 --with-cli6-lease-file=${localstatedir}/lib/dhcp/dhclient6.leases \
-                 --with-libbind=${STAGING_LIBDIR}/ \
--		--enable-paranoia \
-+                --enable-paranoia \
-+                --with-randomdev=/dev/random \
-                "
- 
- do_install_append () {
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/0001-site.h-enable-gentle-shutdown.patch b/meta/recipes-connectivity/dhcp/dhcp/0001-site.h-enable-gentle-shutdown.patch
-index 4344212..47443a5 100644
---- a/meta/recipes-connectivity/dhcp/dhcp/0001-site.h-enable-gentle-shutdown.patch
-+++ b/meta/recipes-connectivity/dhcp/dhcp/0001-site.h-enable-gentle-shutdown.patch
-@@ -8,10 +8,10 @@ Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/includes/site.h b/includes/site.h
--index 73fa4e8..9c33de3 100644
-+index 1dd1251..abb66e4 100644
- --- a/includes/site.h
- +++ b/includes/site.h
--@@ -280,7 +280,7 @@
-+@@ -289,7 +289,7 @@
-     situations.  We plan to revisit this feature and may
-     make non-backwards compatible changes including the
-     removal of this define.  Use at your own risk.  */
-@@ -21,5 +21,5 @@ index 73fa4e8..9c33de3 100644
-  /* Include old error codes.  This is provided in case you
-     are building an external program similar to omshell for
- -- 
--1.9.1
-+2.8.1
- 
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605.patch b/meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605.patch
+diff --git a/meta/recipes-extended/ghostscript/files/0001-Bug-696497-Fix-support-for-building-with-no-jbig2-de.patch b/meta/recipes-extended/ghostscript/files/0001-Bug-696497-Fix-support-for-building-with-no-jbig2-de.patch
 deleted file mode 100644
-index 923d5d5..0000000
---- a/meta/recipes-connectivity/dhcp/dhcp/CVE-2015-8605.patch
+index d586a1d..0000000
+--- a/meta/recipes-extended/ghostscript/files/0001-Bug-696497-Fix-support-for-building-with-no-jbig2-de.patch
 +++ /dev/null
-@@ -1,99 +0,0 @@
--Solves CVE-2015-8605 that caused DoS when an invalid lenght field in IPv4 UDP
--was recived by the server.
+@@ -1,81 +0,0 @@
+-From 1d19998091154f89b8294e4594a05986b4c2f822 Mon Sep 17 00:00:00 2001
+-From: Chris Liddell <chris.liddell@artifex.com>
+-Date: Wed, 13 Jan 2016 02:08:42 -0500
+-Subject: [PATCH 1/2] Bug 696497: Fix support for building with no jbig2
+- decoder
+-
+-Author: Chris Liddell <chris.liddell@artifex.com>
 -
 -Upstream-Status: Backport
--CVE: CVE-2015-8605
--
--Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
--
--=======================================================================
--diff --git a/common/packet.c b/common/packet.c
--index b530432..e600e37 100644
----- a/common/packet.c
--+++ b/common/packet.c
--@@ -220,7 +220,28 @@ ssize_t decode_hw_header (interface, buf, bufix, from)
-- 	}
-- }
-- 
---/* UDP header and IP header decoded together for convenience. */
--+/*!
--+ *
--+ * \brief UDP header and IP header decoded together for convenience.
--+ *
--+ * Attempt to decode the UDP and IP headers and, if necessary, checksum
--+ * the packet.
--+ *
--+ * \param inteface - the interface on which the packet was recevied
--+ * \param buf - a pointer to the buffer for the received packet
--+ * \param bufix - where to start processing the buffer, previous
--+ *                routines may have processed parts of the buffer already
--+ * \param from - space to return the address of the packet sender
--+ * \param buflen - remaining length of the buffer, this will have been
--+ *                 decremented by bufix by the caller
--+ * \param rbuflen - space to return the length of the payload from the udp
--+ *                  header
--+ * \param csum_ready - indication if the checksum is valid for use
--+ *                     non-zero indicates the checksum should be validated
--+ *
--+ * \return - the index to the first byte of the udp payload (that is the
--+ *           start of the DHCP packet
--+ */
-- 
-- ssize_t
-- decode_udp_ip_header(struct interface_info *interface,
--@@ -231,7 +252,7 @@ decode_udp_ip_header(struct interface_info *interface,
--   unsigned char *data;
--   struct ip ip;
--   struct udphdr udp;
---  unsigned char *upp, *endbuf;
--+  unsigned char *upp;
--   u_int32_t ip_len, ulen, pkt_len;
--   static unsigned int ip_packets_seen = 0;
--   static unsigned int ip_packets_bad_checksum = 0;
--@@ -241,11 +262,8 @@ decode_udp_ip_header(struct interface_info *interface,
--   static unsigned int udp_packets_length_overflow = 0;
--   unsigned len;
-- 
---  /* Designate the end of the input buffer for bounds checks. */
---  endbuf = buf + bufix + buflen;
---
--   /* Assure there is at least an IP header there. */
---  if ((buf + bufix + sizeof(ip)) > endbuf)
--+  if (sizeof(ip) > buflen)
-- 	  return -1;
-- 
--   /* Copy the IP header into a stack aligned structure for inspection.
--@@ -257,13 +275,17 @@ decode_udp_ip_header(struct interface_info *interface,
--   ip_len = (*upp & 0x0f) << 2;
--   upp += ip_len;
-- 
---  /* Check the IP packet length. */
--+  /* Check packet lengths are within the buffer:
--+   * first the ip header (ip_len)
--+   * then the packet length from the ip header (pkt_len)
--+   * then the udp header (ip_len + sizeof(udp)
--+   * We are liberal in what we accept, the udp payload should fit within
--+   * pkt_len, but we only check against the full buffer size.
--+   */
--   pkt_len = ntohs(ip.ip_len);
---  if (pkt_len > buflen)
---	return -1;
---
---  /* Assure after ip_len bytes that there is enough room for a UDP header. */
---  if ((upp + sizeof(udp)) > endbuf)
--+  if ((ip_len > buflen) ||
--+      (pkt_len > buflen) ||
--+      ((ip_len + sizeof(udp)) > buflen))
-- 	  return -1;
-- 
--   /* Copy the UDP header into a stack aligned structure for inspection. */
--@@ -284,7 +306,8 @@ decode_udp_ip_header(struct interface_info *interface,
-- 	return -1;
-- 
--   udp_packets_length_checked++;
---  if ((upp + ulen) > endbuf) {
--+  /* verify that the payload length from the udp packet fits in the buffer */
--+  if ((ip_len + ulen) > buflen) {
-- 	udp_packets_length_overflow++;
-- 	if (((udp_packets_length_checked > 4) &&
-- 	     (udp_packets_length_overflow != 0)) &&
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/CVE-2016-2774.patch b/meta/recipes-connectivity/dhcp/dhcp/CVE-2016-2774.patch
-deleted file mode 100644
-index 4836dbc..0000000
---- a/meta/recipes-connectivity/dhcp/dhcp/CVE-2016-2774.patch
-+++ /dev/null
-@@ -1,65 +0,0 @@
--From b9f56d578ebfd649b5d829960540859ac6ca931c Mon Sep 17 00:00:00 2001
--From: Catalin Enache <catalin.enache@windriver.com>
--Date: Tue, 12 Apr 2016 18:23:31 +0300
--Subject: [PATCH] Add patch to limit the value of an fd we accept for a
-- connection.
--
--By limiting the highest value we accept for an fd we limit the number
--of connections.
--
--Upstream-Status: Backport
--CVE: CVE-2016-2774
--
--Author: Shawn Routhier <sar@isc.org>
--Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
-----
-- includes/site.h   | 6 ++++++
-- omapip/listener.c | 9 +++++++--
-- 3 files changed, 18 insertions(+), 2 deletions(-)
--
--diff --git a/includes/site.h b/includes/site.h
--index 9c33de3..df020c8 100644
----- a/includes/site.h
--+++ b/includes/site.h
--@@ -290,6 +290,12 @@
--    this option will be removed at some time. */
-- /* #define INCLUDE_OLD_DHCP_ISC_ERROR_CODES */
-- 
--+/* Limit the value of a file descriptor the serve will use
--+   when accepting a connecting request.  This can be used to
--+   limit the number of TCP connections that the server will
--+   allow at one time.  A value of 0 means there is no limit.*/
--+#define MAX_FD_VALUE 200
--+
-- /* Include definitions for various options.  In general these
--    should be left as is, but if you have already defined one
--    of these and prefer your definition you can comment the 
--diff --git a/omapip/listener.c b/omapip/listener.c
--index 8bdcdbd..61473cf 100644
----- a/omapip/listener.c
--+++ b/omapip/listener.c
--@@ -3,7 +3,7 @@
--    Subroutines that support the generic listener object. */
-- 
-- /*
--- * Copyright (c) 2012,2014 by Internet Systems Consortium, Inc. ("ISC")
--+ * Copyright (c) 2012,2014,2016 by Internet Systems Consortium, Inc. ("ISC")
--  * Copyright (c) 2004,2007,2009 by Internet Systems Consortium, Inc. ("ISC")
--  * Copyright (c) 1999-2003 by Internet Software Consortium
--  *
--@@ -233,7 +233,12 @@ isc_result_t omapi_accept (omapi_object_t *h)
-- 			return ISC_R_NORESOURCES;
-- 		return ISC_R_UNEXPECTED;
-- 	}
---	
--+
--+	if ((MAX_FD_VALUE != 0) && (socket > MAX_FD_VALUE)) {
--+		close(socket);
--+		return (ISC_R_NORESOURCES);
--+	}
--+
-- #if defined (TRACING)
-- 	/* If we're recording a trace, remember the connection. */
-- 	if (trace_record ()) {
---- 
--2.7.4
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/dhclient-script-drop-resolv.conf.dhclient.patch b/meta/recipes-connectivity/dhcp/dhcp/dhclient-script-drop-resolv.conf.dhclient.patch
-index 47ea555..96095a5 100644
---- a/meta/recipes-connectivity/dhcp/dhcp/dhclient-script-drop-resolv.conf.dhclient.patch
-+++ b/meta/recipes-connectivity/dhcp/dhcp/dhclient-script-drop-resolv.conf.dhclient.patch
-@@ -66,5 +66,5 @@ diff --git a/client/scripts/linux b/client/scripts/linux
-  }
-  
- -- 
--1.8.1.2
-+2.8.1
- 
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/fix-external-bind.patch b/meta/recipes-connectivity/dhcp/dhcp/fix-external-bind.patch
-deleted file mode 100644
-index 956c5d8..0000000
---- a/meta/recipes-connectivity/dhcp/dhcp/fix-external-bind.patch
-+++ /dev/null
-@@ -1,115 +0,0 @@
--Upstream-Status: Pending
--
--11/30/2010
----with-libbind=PATH is available but not used by Makefile,
--this patch is to allow building with external bind
--
--Signed-off-by: Qing He <qing.he@intel.com>
--
--Rebase the patch to 4.3.3
+-http://bugs.ghostscript.com/show_bug.cgi?id=696497
+-http://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=b0f5a975
 -Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ----
--diff --git a/Makefile.am b/Makefile.am
----- a/Makefile.am
--+++ b/Makefile.am
--@@ -25,7 +25,7 @@ EXTRA_DIST = RELNOTES LICENSE \
-- 	     bind/Makefile.in bind/bind.tar.gz bind/version.tmp \
-- 	     common/tests/Atffile server/tests/Atffile
+- base/lib.mak |  9 +++++++++
+- psi/int.mak  | 23 ++++++++++++++++++-----
+- 2 files changed, 27 insertions(+), 5 deletions(-)
+-
+-diff --git a/base/lib.mak b/base/lib.mak
+-index 241df2f..daa7056 100644
+---- a/base/lib.mak
+-+++ b/base/lib.mak
+-@@ -1732,6 +1732,10 @@ $(GLD)sjbig2_jbig2dec.dev : $(LIB_MAK) $(ECHOGS_XE) \
+- 	$(SETMOD) $(GLD)sjbig2_jbig2dec $(sjbig2_jbig2dec)
+- 	$(ADDMOD) $(GLD)sjbig2_jbig2dec -include $(GLD)jbig2dec.dev
 - 
---SUBDIRS = bind includes tests common omapip client dhcpctl relay server
--+SUBDIRS = includes tests common omapip client dhcpctl relay server
-- 
-- nobase_include_HEADERS = dhcpctl/dhcpctl.h
-- 
--diff --git a/client/Makefile.am b/client/Makefile.am
----- a/client/Makefile.am
--+++ b/client/Makefile.am
--@@ -10,8 +10,8 @@ dhclient_SOURCES = clparse.c dhclient.c dhc6.c \
-- 		   scripts/bsdos scripts/freebsd scripts/linux scripts/macos \
-- 		   scripts/netbsd scripts/nextstep scripts/openbsd \
-- 		   scripts/solaris scripts/openwrt
---dhclient_LDADD = ../common/libdhcp.a ../omapip/libomapi.a ../bind/lib/libirs.a \
---		 ../bind/lib/libdns.a ../bind/lib/libisccfg.a ../bind/lib/libisc.a
--+dhclient_LDADD = ../common/libdhcp.a ../omapip/libomapi.a $(libbind)/libirs.a \
--+		 $(libbind)/libdns.a $(libbind)/libisccfg.a $(libbind)/libisc.a
-- man_MANS = dhclient.8 dhclient-script.8 dhclient.conf.5 dhclient.leases.5
-- EXTRA_DIST = $(man_MANS)
-- 
--diff --git a/configure.ac b/configure.ac
----- a/configure.ac
--+++ b/configure.ac
--@@ -623,6 +623,7 @@ no)
-- 	fi	
-- 	;;
-- esac
--+AC_SUBST([libbind])
-- 
-- # OpenLDAP support.
-- AC_ARG_WITH(ldap,
--diff --git a/dhcpctl/Makefile.am b/dhcpctl/Makefile.am
----- a/dhcpctl/Makefile.am
--+++ b/dhcpctl/Makefile.am
--@@ -6,12 +6,12 @@ EXTRA_DIST = $(man_MANS)
-- 
-- omshell_SOURCES = omshell.c
-- omshell_LDADD = libdhcpctl.a ../common/libdhcp.a ../omapip/libomapi.a \
---	        ../bind/lib/libirs.a ../bind/lib/libdns.a \
---	        ../bind/lib/libisccfg.a ../bind/lib/libisc.a
--+	        $(libbind)/libirs.a $(libbind)/libdns.a \
--+	        $(libbind)/libisccfg.a $(libbind)/libisc.a
-- 
-- libdhcpctl_a_SOURCES = dhcpctl.c callback.c remote.c
-- 
-- cltest_SOURCES = cltest.c
-- cltest_LDADD = libdhcpctl.a ../common/libdhcp.a ../omapip/libomapi.a \
---	       ../bind/lib/libirs.a ../bind/lib/libdns.a \
---               ../bind/lib/libisccfg.a ../bind/lib/libisc.a
--+	       $(libbind)/libirs.a $(libbind)/libdns.a \
--+               $(libbind)/libisccfg.a $(libbind)/libisc.a
--diff --git a/omapip/Makefile.am b/omapip/Makefile.am
----- a/omapip/Makefile.am
--+++ b/omapip/Makefile.am
--@@ -10,6 +10,6 @@ man_MANS = omapi.3
-- EXTRA_DIST = $(man_MANS)
-- 
-- svtest_SOURCES = test.c
---svtest_LDADD = libomapi.a ../bind/lib/libirs.a ../bind/lib/libdns.a \
---		../bind/lib/libisccfg.a ../bind/lib/libisc.a
--+svtest_LDADD = libomapi.a $(libbind)/libirs.a $(libbind)/libdns.a \
--+		$(libbind)/libisccfg.a $(libbind)/libisc.a
-- 
--diff --git a/relay/Makefile.am b/relay/Makefile.am
----- a/relay/Makefile.am
--+++ b/relay/Makefile.am
--@@ -3,8 +3,8 @@ AM_CPPFLAGS = -DLOCALSTATEDIR='"@localstatedir@"'
-- sbin_PROGRAMS = dhcrelay
-- dhcrelay_SOURCES = dhcrelay.c
-- dhcrelay_LDADD = ../common/libdhcp.a ../omapip/libomapi.a \
---		 ../bind/lib/libirs.a ../bind/lib/libdns.a \
---		 ../bind/lib/libisccfg.a ../bind/lib/libisc.a
--+		 $(libbind)/libirs.a $(libbind)/libdns.a \
--+		 $(libbind)/libisccfg.a $(libbind)/libisc.a
-- man_MANS = dhcrelay.8
-- EXTRA_DIST = $(man_MANS)
-- 
--diff --git a/server/Makefile.am b/server/Makefile.am
----- a/server/Makefile.am
--+++ b/server/Makefile.am
--@@ -14,10 +14,12 @@ dhcpd_SOURCES = dhcpd.c dhcp.c bootp.c confpars.c db.c class.c failover.c \
-- 
-- dhcpd_CFLAGS = $(LDAP_CFLAGS)
-- dhcpd_LDADD = ../common/libdhcp.a ../omapip/libomapi.a \
---	      ../dhcpctl/libdhcpctl.a ../bind/lib/libirs.a \
---	      ../bind/lib/libdns.a ../bind/lib/libisccfg.a ../bind/lib/libisc.a \
--+	      ../dhcpctl/libdhcpctl.a $(libbind)/libirs.a \
--+	      $(libbind)/libdns.a $(libbind)/libisccfg.a $(libbind)/libisc.a \
-- 	      $(LDAP_LIBS)		
-- 
--+ dhcpd_CFLAGS = $(LDAP_CFLAGS)
+-+$(GLD)sjbig2_.dev : $(LIB_MAK) $(ECHOGS_XE) \
+-+  $(LIB_MAK) $(MAKEDIRS)
+-+	$(SETMOD) $(GLD)sjbig2_
 -+
-- man_MANS = dhcpd.8 dhcpd.conf.5 dhcpd.leases.5
-- EXTRA_DIST = $(man_MANS)
+- # jbig2dec.dev is defined in jbig2.mak
 - 
+- $(GLOBJ)sjbig2.$(OBJ) : $(GLSRC)sjbig2.c $(AK) \
+-@@ -1739,6 +1743,11 @@ $(GLOBJ)sjbig2.$(OBJ) : $(GLSRC)sjbig2.c $(AK) \
+-  $(sjbig2_h) $(strimpl_h) $(MAKEDIRS)
+- 	$(GLJBIG2CC) $(GLO_)sjbig2.$(OBJ) $(C_) $(GLSRC)sjbig2.c
+- 
+-+$(GLOBJ)snojbig2.$(OBJ) : $(GLSRC)snojbig2.c $(AK) \
+-+ $(stdint__h) $(memory__h) $(stdio__h) $(gserrors_h) $(gdebug_h) \
+-+ $(strimpl_h) $(LIB_MAK) $(MAKEDIRS)
+-+	$(GLJBIG2CC) $(GLO_)snojbig2.$(OBJ) $(C_) $(GLSRC)snojbig2.c
+-+
+- # luratech version
+- sjbig2_luratech=$(GLOBJ)sjbig2_luratech.$(OBJ)
+- 
+-diff --git a/psi/int.mak b/psi/int.mak
+-index 6149a3b..f9d667d 100644
+---- a/psi/int.mak
+-+++ b/psi/int.mak
+-@@ -1254,11 +1254,24 @@ $(PSOBJ)zfaes.$(OBJ) : $(PSSRC)zfaes.c $(OP) $(memory__h)\
+- # this can be turned on and off with a FEATURE_DEV
+- 
+- fjbig2_=$(PSOBJ)zfjbig2_$(JBIG2_LIB).$(OBJ)
+--$(PSD)jbig2.dev : $(INT_MAK) $(ECHOGS_XE) $(fjbig2_) $(GLD)sjbig2.dev\
+-- $(MAKEDIRS)
+--	$(SETMOD) $(PSD)jbig2 $(fjbig2_)
+--	$(ADDMOD) $(PSD)jbig2 -include $(GLD)sjbig2
+--	$(ADDMOD) $(PSD)jbig2 -oper zfjbig2
+-+
+-+$(PSD)jbig2_jbig2dec.dev : $(ECHOGS_XE) $(fjbig2_) $(GLD)sjbig2.dev\
+-+ $(INT_MAK) $(MAKEDIRS)
+-+	$(SETMOD) $(PSD)jbig2_jbig2dec $(fjbig2_)
+-+	$(ADDMOD) $(PSD)jbig2_jbig2dec -include $(GLD)sjbig2
+-+	$(ADDMOD) $(PSD)jbig2_jbig2dec -oper zfjbig2
+-+
+-+$(PSD)jbig2_luratech.dev : $(ECHOGS_XE) $(fjbig2_) $(GLD)sjbig2.dev\
+-+ $(INT_MAK) $(MAKEDIRS)
+-+	$(SETMOD) $(PSD)jbig2_luratech $(fjbig2_)
+-+	$(ADDMOD) $(PSD)jbig2_luratech -include $(GLD)sjbig2
+-+	$(ADDMOD) $(PSD)jbig2_luratech -oper zfjbig2
+-+
+-+$(PSD)jbig2_.dev : $(ECHOGS_XE) $(INT_MAK) $(MAKEDIRS)
+-+	$(SETMOD) $(PSD)jbig2_ 
+-+
+-+$(PSD)jbig2.dev : $(PSD)jbig2_$(JBIG2_LIB).dev $(INT_MAK) $(MAKEDIRS)
+-+	$(CP_) $(PSD)jbig2_$(JBIG2_LIB).dev $(PSD)jbig2.dev
+- 
+- $(PSOBJ)zfjbig2_jbig2dec.$(OBJ) : $(PSSRC)zfjbig2.c $(OP) $(memory__h)\
+-  $(gsstruct_h) $(gstypes_h) $(ialloc_h) $(idict_h) $(ifilter_h)\
 --- 
 -1.9.1
 -
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/fixsepbuild.patch b/meta/recipes-connectivity/dhcp/dhcp/fixsepbuild.patch
-index b3f8fdb..2f44147 100644
---- a/meta/recipes-connectivity/dhcp/dhcp/fixsepbuild.patch
-+++ b/meta/recipes-connectivity/dhcp/dhcp/fixsepbuild.patch
-@@ -4,80 +4,88 @@ Upstream-Status: Pending
- 
- RP 2013/03/21
- 
--Rebase to 4.3.1
-+Rebase to 4.3.4
-+
- Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
- ---
-+ client/Makefile.am  | 4 ++--
-+ common/Makefile.am  | 3 ++-
-+ dhcpctl/Makefile.am | 2 ++
-+ omapip/Makefile.am  | 1 +
-+ relay/Makefile.am   | 2 +-
-+ server/Makefile.am  | 2 +-
-+ 6 files changed, 9 insertions(+), 5 deletions(-)
-+
- diff --git a/client/Makefile.am b/client/Makefile.am
--index 8411960..1740f72 100644
-+index 2cb83d8..4730bb3 100644
- --- a/client/Makefile.am
- +++ b/client/Makefile.am
--@@ -4,6 +4,8 @@
-- # production code. Sadly, we are not there yet.
-- SUBDIRS = . tests
-+@@ -7,11 +7,11 @@ SUBDIRS = . tests
-+ BINDLIBDIR = @BINDDIR@/lib
-+ 
-+ AM_CPPFLAGS = -DCLIENT_PATH='"PATH=$(sbindir):/sbin:/bin:/usr/sbin:/usr/bin"' \
-+-	      -DLOCALSTATEDIR='"$(localstatedir)"'
-++	      -DLOCALSTATEDIR='"$(localstatedir)"' -I$(top_srcdir)/includes
-  
--+AM_CPPFLAGS = -I$(top_srcdir)/includes
+diff --git a/meta/recipes-extended/ghostscript/files/0002-Bug-696497-part-2-fix-support-for-building-with-a-JP.patch b/meta/recipes-extended/ghostscript/files/0002-Bug-696497-part-2-fix-support-for-building-with-a-JP.patch
+deleted file mode 100644
+index fcfc479..0000000
+--- a/meta/recipes-extended/ghostscript/files/0002-Bug-696497-part-2-fix-support-for-building-with-a-JP.patch
++++ /dev/null
+@@ -1,48 +0,0 @@
+-From 3b43f93ec02611c4d554612953f5b64765b8683b Mon Sep 17 00:00:00 2001
+-From: Chris Liddell <chris.liddell@artifex.com>
+-Date: Wed, 13 Jan 2016 02:14:55 -0500
+-Subject: [PATCH 2/2] Bug 696497 (part 2): fix support for building with a JPX
+- decoder
+-
+-Author: Chris Liddell <chris.liddell@artifex.com>
+-
+-Upstream-Status: Backport
+-http://bugs.ghostscript.com/show_bug.cgi?id=696497
+-http://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=b0f5a975
+-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+----
+- base/lib.mak | 3 +++
+- psi/int.mak  | 3 +++
+- 2 files changed, 6 insertions(+)
+-
+-diff --git a/base/lib.mak b/base/lib.mak
+-index daa7056..8853dd5 100644
+---- a/base/lib.mak
+-+++ b/base/lib.mak
+-@@ -1774,6 +1774,9 @@ $(GLOBJ)sjpx.$(OBJ) : $(GLSRC)sjpx.c $(AK) \
+-  $(gdebug_h) $(strimpl_h) $(sjpx_h) $(MAKEDIRS)
+- 	$(GLJASCC) $(GLO_)sjpx.$(OBJ) $(C_) $(GLSRC)sjpx.c
+- 
+-+$(GLD)sjpx_.dev : $(LIB_MAK) $(ECHOGS_XE) $(LIB_MAK) $(MAKEDIRS)
+-+	$(SETMOD) $(GLD)sjpx_
 -+
-  dist_sysconf_DATA = dhclient.conf.example
-  sbin_PROGRAMS = dhclient
-- dhclient_SOURCES = clparse.c dhclient.c dhc6.c \
--@@ -17,8 +19,8 @@ EXTRA_DIST = $(man_MANS)
+- # luratech version
+- sjpx_luratech=$(GLOBJ)sjpx_luratech.$(OBJ)
+- $(GLD)sjpx_luratech.dev : $(LIB_MAK) $(ECHOGS_XE) \
+-diff --git a/psi/int.mak b/psi/int.mak
+-index f9d667d..db01b65 100644
+---- a/psi/int.mak
+-+++ b/psi/int.mak
+-@@ -1290,6 +1290,9 @@ $(PSD)jpx.dev : $(INT_MAK) $(ECHOGS_XE) $(PSD)jpx_$(JPX_LIB).dev\
+-  $(MAKEDIRS)
+- 	$(CP_) $(PSD)jpx_$(JPX_LIB).dev $(PSD)jpx.dev
 - 
-- dhclient.o: dhclient.c
-- 	$(COMPILE) -DCLIENT_PATH='"PATH=$(sbindir):/sbin:/bin:/usr/sbin:/usr/bin"' \
---		   -DLOCALSTATEDIR='"$(localstatedir)"' -c dhclient.c
--+		   -DLOCALSTATEDIR='"$(localstatedir)"' -c $(srcdir)/dhclient.c
-- 
-- dhc6.o: dhc6.c
-- 	$(COMPILE) -DCLIENT_PATH='"PATH=$(sbindir):/sbin:/bin:/usr/sbin:/usr/bin"' \
---		   -DLOCALSTATEDIR='"$(localstatedir)"' -c dhc6.c
--+		   -DLOCALSTATEDIR='"$(localstatedir)"' -c $(srcdir)/dhc6.c
-+-dhclient_SOURCES = clparse.c dhclient.c dhc6.c \
-++dhclient_SOURCES = $(srcdir)/clparse.c $(srcdir)/dhclient.c $(srcdir)/dhc6.c \
-+ 		   scripts/bsdos scripts/freebsd scripts/linux scripts/macos \
-+ 		   scripts/netbsd scripts/nextstep scripts/openbsd \
-+ 		   scripts/solaris scripts/openwrt
- diff --git a/common/Makefile.am b/common/Makefile.am
--index eddef05..5ce045f 100644
-+index 113aee8..0f24fbb 100644
- --- a/common/Makefile.am
- +++ b/common/Makefile.am
--@@ -1,4 +1,4 @@
---AM_CPPFLAGS = -I.. -DLOCALSTATEDIR='"@localstatedir@"'
-+@@ -1,4 +1,5 @@
-+-AM_CPPFLAGS = -I$(top_srcdir) -DLOCALSTATEDIR='"@localstatedir@"'
- +AM_CPPFLAGS = -I$(top_srcdir)/includes -I$(top_srcdir) -DLOCALSTATEDIR='"@localstatedir@"'
-++
-  AM_CFLAGS = $(LDAP_CFLAGS)
-  
-  noinst_LIBRARIES = libdhcp.a
- diff --git a/dhcpctl/Makefile.am b/dhcpctl/Makefile.am
--index 2987a53..cd72d75 100644
-+index ceb0de1..ba8dd8b 100644
- --- a/dhcpctl/Makefile.am
- +++ b/dhcpctl/Makefile.am
--@@ -1,3 +1,5 @@
-+@@ -1,5 +1,7 @@
-+ BINDLIBDIR = @BINDDIR@/lib
-+ 
- +AM_CPPFLAGS = -I$(top_srcdir)/includes -I$(top_srcdir)
- +
-  bin_PROGRAMS = omshell
-  lib_LIBRARIES = libdhcpctl.a
-  noinst_PROGRAMS = cltest
- diff --git a/omapip/Makefile.am b/omapip/Makefile.am
--index 5074479..9c0fab3 100644
-+index 446a594..dd1afa0 100644
- --- a/omapip/Makefile.am
- +++ b/omapip/Makefile.am
--@@ -1,3 +1,5 @@
-+@@ -1,4 +1,5 @@
-+ BINDLIBDIR = @BINDDIR@/lib
- +AM_CPPFLAGS = -I$(top_srcdir)/includes
+-+$(PSD)jpx_.dev : $(ECHOGS_XE) $(INT_MAK) $(MAKEDIRS)
+-+	$(SETMOD) $(PSD)jpx_
 -+
-+ 
-  lib_LIBRARIES = libomapi.a
-  noinst_PROGRAMS = svtest
+- fjpx_luratech=$(PSOBJ)zfjpx_luratech.$(OBJ)
 - 
- diff --git a/relay/Makefile.am b/relay/Makefile.am
--index ec72a31..f842071 100644
-+index 3060eca..6d652f6 100644
- --- a/relay/Makefile.am
- +++ b/relay/Makefile.am
--@@ -1,4 +1,4 @@
-+@@ -1,6 +1,6 @@
-+ BINDLIBDIR = @BINDDIR@/lib
-+ 
- -AM_CPPFLAGS = -DLOCALSTATEDIR='"@localstatedir@"'
- +AM_CPPFLAGS = -DLOCALSTATEDIR='"@localstatedir@"' -I$(top_srcdir)/includes
+- $(PSOBJ)zfjpx.$(OBJ) : $(PSSRC)zfjpx.c $(OP) $(memory__h)\
+--- 
+-1.9.1
+-
+diff --git a/meta/recipes-extended/ghostscript/files/do-not-check-local-libpng-source.patch b/meta/recipes-extended/ghostscript/files/do-not-check-local-libpng-source.patch
+index b445a6c..c3e44fe 100644
+--- a/meta/recipes-extended/ghostscript/files/do-not-check-local-libpng-source.patch
++++ b/meta/recipes-extended/ghostscript/files/do-not-check-local-libpng-source.patch
+@@ -16,17 +16,17 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  1 file changed, 2 insertions(+), 2 deletions(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index ab30a97..b762fd7 100644
++index bf6d3f5..01df03f 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -955,11 +955,11 @@ AC_SUBST(ZLIBDIR)
++@@ -930,11 +930,11 @@ AC_SUBST(ZLIBDIR)
+  AC_SUBST(FT_SYS_ZLIB)
   
-  sbin_PROGRAMS = dhcrelay
-  dhcrelay_SOURCES = dhcrelay.c
- diff --git a/server/Makefile.am b/server/Makefile.am
--index a446f0b..d0b873a 100644
-+index 54feedf..3990b9c 100644
- --- a/server/Makefile.am
- +++ b/server/Makefile.am
--@@ -4,7 +4,7 @@
-- # production code. Sadly, we are not there yet.
-- SUBDIRS = . tests
-+@@ -6,7 +6,7 @@ SUBDIRS = . tests
-+ 
-+ BINDLIBDIR = @BINDDIR@/lib
-  
- -AM_CPPFLAGS = -I.. -DLOCALSTATEDIR='"@localstatedir@"'
- +AM_CPPFLAGS = -I$(top_srcdir) -DLOCALSTATEDIR='"@localstatedir@"' -I$(top_srcdir)/includes
-@@ -85,5 +93,5 @@ index a446f0b..d0b873a 100644
-  dist_sysconf_DATA = dhcpd.conf.example
-  sbin_PROGRAMS = dhcpd
+  dnl png for the png output device; it also requires zlib
+ -LIBPNGDIR=src
+ +LIBPNGDIR=$srcdir/libpng
+  PNGDEVS=''
+- PNGDEVS_ALL='png48 png16m pnggray pngmono png256 png16 pngalpha'
++ PNGDEVS_ALL='png48 png16m pnggray pngmono pngmonod png256 png16 pngalpha'
+  AC_MSG_CHECKING([for local png library source])
+ -if test -f $srcdir/libpng/pngread.c; then
+ +if false; then
+@@ -34,5 +34,5 @@ index ab30a97..b762fd7 100644
+          SHARE_LIBPNG=0
+          LIBPNGDIR=$srcdir/libpng
  -- 
 -1.9.1
 +2.8.1
  
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/libxml2-configure-argument.patch b/meta/recipes-connectivity/dhcp/dhcp/libxml2-configure-argument.patch
-index 9d2fbfb..1435662 100644
---- a/meta/recipes-connectivity/dhcp/dhcp/libxml2-configure-argument.patch
-+++ b/meta/recipes-connectivity/dhcp/dhcp/libxml2-configure-argument.patch
-@@ -5,10 +5,18 @@ Upstream-Status: Pending
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.02-prevent_recompiling.patch b/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.02-prevent_recompiling.patch
+index bc29be5..e709195 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.02-prevent_recompiling.patch
++++ b/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.02-prevent_recompiling.patch
+@@ -1,4 +1,4 @@
+-ust use commands provided by ghostscript-native, preventing recompile them when
++Just use commands provided by ghostscript-native, preventing recompile them when
+ compile ghostscript.
+ Way to enable cross compile.
  
- Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+@@ -7,94 +7,93 @@ Upstream-Status: Pending
+ Signed-off-by: Kang Kai <kai.kang@windriver.com>
+ Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
  
----- dhcp-4.3.3.orig/configure.ac	2016-03-16 20:25:53.830697637 -0700
--+++ dhcp-4.3.3/configure.ac	2016-03-16 20:28:19.415355257 -0700
--@@ -631,7 +631,16 @@
-+Rebase to 4.3.4
++Rebase to 9.19
 +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+ configure.ac | 11 ++++++++++-
-+ 1 file changed, 10 insertions(+), 1 deletion(-)
- 
-+diff --git a/configure.ac b/configure.ac
-+index 726c88e..1684df1 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -718,7 +718,16 @@ AC_SUBST(BINDSRCDIR)
++ base/unix-aux.mak | 64 +++++++++++++++++++++++++++----------------------------
++ 1 file changed, 32 insertions(+), 32 deletions(-)
++
+ diff --git a/base/unix-aux.mak b/base/unix-aux.mak
+-index a91fb26..c991d11 100644
++index 0110667..e2eb1a1 100644
+ --- a/base/unix-aux.mak
+ +++ b/base/unix-aux.mak
+-@@ -69,46 +69,46 @@ $(GLOBJ)gp_sysv.$(OBJ): $(GLSRC)gp_sysv.c $(stdio__h) $(time__h) $(AK)\
+-  $(MAKEDIRS)
+- 	$(GLCC) $(GLO_)gp_sysv.$(OBJ) $(C_) $(GLSRC)gp_sysv.c
++@@ -71,44 +71,44 @@ $(GLOBJ)gp_sysv.$(OBJ): $(GLSRC)gp_sysv.c $(stdio__h) $(time__h) $(AK)\
+  
+--# -------------------------- Auxiliary programs --------------------------- #
+--
+--$(ECHOGS_XE): $(GLSRC)echogs.c $(AK) $(stdpre_h) $(MAKEDIRS)
++ # -------------------------- Auxiliary programs --------------------------- #
 + 
-  # We need to find libxml2 if bind was built with support enabled
-  # otherwise we'll fail to build omapip/test.c
- -AC_SEARCH_LIBS(xmlTextWriterStartElement, [xml2],)
-@@ -22,6 +30,9 @@ Signed-off-by: Christopher Larson <chris_larson@mentor.com>
- +                        AC_MSG_FAILURE([*** Cannot find xmlTextWriterStartElement with -lxml2 and libxml2 was requested])
- +                    fi])
- +fi
--
-+ 
-  # OpenLDAP support.
-  AC_ARG_WITH(ldap,
++-$(ECHOGS_XE): $(GLSRC)echogs.c $(AK) $(stdpre_h) $(UNIX_AUX_MAK) $(MAKEDIRS)
+ -	$(CCAUX_) $(I_)$(GLSRCDIR)$(_I) $(O_)$(ECHOGS_XE) $(GLSRC)echogs.c $(AUXEXTRALIBS)
+ -
+--# On the RS/6000 (at least), compiling genarch.c with gcc with -O
+--# produces a buggy executable.
+--$(GENARCH_XE): $(GLSRC)genarch.c $(AK) $(GENARCH_DEPS) $(MAKEDIRS)
+++#$(ECHOGS_XE): $(GLSRC)echogs.c $(AK) $(stdpre_h) $(UNIX_AUX_MAK) $(MAKEDIRS)
+++#	$(CCAUX_) $(I_)$(GLSRCDIR)$(_I) $(O_)$(ECHOGS_XE) $(GLSRC)echogs.c $(AUXEXTRALIBS)
+++#
++ # On the RS/6000 (at least), compiling genarch.c with gcc with -O
++ # produces a buggy executable.
++-$(GENARCH_XE): $(GLSRC)genarch.c $(AK) $(GENARCH_DEPS) $(UNIX_AUX_MAK) $(MAKEDIRS)
+ -	$(CCAUX_) $(I_)$(GLSRCDIR)$(_I) $(O_)$(GENARCH_XE) $(GLSRC)genarch.c $(AUXEXTRALIBS)
+ -
+--$(GENCONF_XE): $(GLSRC)genconf.c $(AK) $(GENCONF_DEPS) $(MAKEDIRS)
++-$(GENCONF_XE): $(GLSRC)genconf.c $(AK) $(GENCONF_DEPS) $(UNIX_AUX_MAK) $(MAKEDIRS)
+ -	$(CCAUX_) $(I_)$(GLSRCDIR)$(_I) $(O_)$(GENCONF_XE) $(GLSRC)genconf.c $(AUXEXTRALIBS)
+ -
+--$(GENDEV_XE): $(GLSRC)gendev.c $(AK) $(GENDEV_DEPS) $(MAKEDIRS)
++-$(GENDEV_XE): $(GLSRC)gendev.c $(AK) $(GENDEV_DEPS) $(UNIX_AUX_MAK) $(MAKEDIRS)
+ -	$(CCAUX_) $(I_)$(GLSRCDIR)$(_I) $(O_)$(GENDEV_XE) $(GLSRC)gendev.c $(AUXEXTRALIBS)
+ -
+--$(GENHT_XE): $(GLSRC)genht.c $(AK) $(GENHT_DEPS) $(MAKEDIRS)
++-$(GENHT_XE): $(GLSRC)genht.c $(AK) $(GENHT_DEPS) $(UNIX_AUX_MAK) $(MAKEDIRS)
+ -	$(CCAUX_) $(GENHT_CFLAGS) $(O_)$(GENHT_XE) $(GLSRC)genht.c $(AUXEXTRALIBS)
+ -
+--# To get GS to use the system zlib, you remove/hide the gs/zlib directory
+--# which means that the mkromfs build can't find the zlib source it needs.
+--# So it's split into two targets, one using the zlib source directly.....
+--MKROMFS_OBJS_0=$(MKROMFS_ZLIB_OBJS) $(AUX)gpmisc.$(OBJ) $(AUX)gp_getnv.$(OBJ) \
+-- $(AUX)gscdefs.$(OBJ) $(AUX)gp_unix.$(OBJ) $(AUX)gp_unifs.$(OBJ) $(AUX)gp_unifn.$(OBJ) \
+-- $(AUX)gp_stdia.$(OBJ) $(AUX)gsutil.$(OBJ) $(AUX)memento.$(OBJ)
+--
+--$(MKROMFS_XE)_0: $(GLSRC)mkromfs.c $(MKROMFS_COMMON_DEPS) $(MKROMFS_OBJS_0) $(MAKEDIRS)
+--	$(CCAUX_) $(GENOPT) $(CFLAGS) $(I_)$(GLSRCDIR)$(_I) $(I_)$(GLOBJ)$(_I) $(I_)$(ZSRCDIR)$(_I) $(GLSRC)mkromfs.c $(O_)$(MKROMFS_XE)_0 $(MKROMFS_OBJS_0) $(AUXEXTRALIBS)
+--
+--# .... and one using the zlib library linked via the command line
+--MKROMFS_OBJS_1=$(AUX)gscdefs.$(OBJ) \
+-- $(AUX)gpmisc.$(OBJ) $(AUX)gp_getnv.$(OBJ) \
+-- $(AUX)gp_unix.$(OBJ) $(AUX)gp_unifs.$(OBJ) $(AUX)gp_unifn.$(OBJ) \
+-- $(AUX)gp_stdia.$(OBJ) $(AUX)gsutil.$(OBJ)
+--
+--$(MKROMFS_XE)_1: $(GLSRC)mkromfs.c $(MKROMFS_COMMON_DEPS) $(MKROMFS_OBJS_1) $(MAKEDIRS)
+--	$(CCAUX_) $(GENOPT) $(CFLAGS) $(I_)$(GLSRCDIR)$(_I) $(I_)$(GLOBJ)$(_I) $(I_)$(ZSRCDIR)$(_I) $(GLSRC)mkromfs.c $(O_)$(MKROMFS_XE)_1 $(MKROMFS_OBJS_1) $(AUXEXTRALIBS)
+--
+--$(MKROMFS_XE): $(MKROMFS_XE)_$(SHARE_ZLIB) $(MAKEDIRS)
+--	$(CP_) $(MKROMFS_XE)_$(SHARE_ZLIB) $(MKROMFS_XE)
+-+## -------------------------- Auxiliary programs --------------------------- #
+-+#
+-+#$(ECHOGS_XE): $(GLSRC)echogs.c $(AK) $(stdpre_h) $(MAKEDIRS)
+-+#	$(CCAUX_) $(I_)$(GLSRCDIR)$(_I) $(O_)$(ECHOGS_XE) $(GLSRC)echogs.c $(AUXEXTRALIBS)
+-+#
+-+## On the RS/6000 (at least), compiling genarch.c with gcc with -O
+-+## produces a buggy executable.
+-+#$(GENARCH_XE): $(GLSRC)genarch.c $(AK) $(GENARCH_DEPS) $(MAKEDIRS)
+++#$(GENARCH_XE): $(GLSRC)genarch.c $(AK) $(GENARCH_DEPS) $(UNIX_AUX_MAK) $(MAKEDIRS)
+ +#	$(CCAUX_) $(I_)$(GLSRCDIR)$(_I) $(O_)$(GENARCH_XE) $(GLSRC)genarch.c $(AUXEXTRALIBS)
+ +#
+-+#$(GENCONF_XE): $(GLSRC)genconf.c $(AK) $(GENCONF_DEPS) $(MAKEDIRS)
+++#$(GENCONF_XE): $(GLSRC)genconf.c $(AK) $(GENCONF_DEPS) $(UNIX_AUX_MAK) $(MAKEDIRS)
+ +#	$(CCAUX_) $(I_)$(GLSRCDIR)$(_I) $(O_)$(GENCONF_XE) $(GLSRC)genconf.c $(AUXEXTRALIBS)
+ +#
+-+#$(GENDEV_XE): $(GLSRC)gendev.c $(AK) $(GENDEV_DEPS) $(MAKEDIRS)
+++#$(GENDEV_XE): $(GLSRC)gendev.c $(AK) $(GENDEV_DEPS) $(UNIX_AUX_MAK) $(MAKEDIRS)
+ +#	$(CCAUX_) $(I_)$(GLSRCDIR)$(_I) $(O_)$(GENDEV_XE) $(GLSRC)gendev.c $(AUXEXTRALIBS)
+ +#
+-+#$(GENHT_XE): $(GLSRC)genht.c $(AK) $(GENHT_DEPS) $(MAKEDIRS)
+++#$(GENHT_XE): $(GLSRC)genht.c $(AK) $(GENHT_DEPS) $(UNIX_AUX_MAK) $(MAKEDIRS)
+ +#	$(CCAUX_) $(GENHT_CFLAGS) $(O_)$(GENHT_XE) $(GLSRC)genht.c $(AUXEXTRALIBS)
+ +#
+-+## To get GS to use the system zlib, you remove/hide the gs/zlib directory
+-+## which means that the mkromfs build can't find the zlib source it needs.
+-+## So it's split into two targets, one using the zlib source directly.....
++ # To get GS to use the system zlib, you remove/hide the gs/zlib directory
++ # which means that the mkromfs build can't find the zlib source it needs.
++ # So it's split into two targets, one using the zlib source directly.....
++-MKROMFS_OBJS_0=$(MKROMFS_ZLIB_OBJS) $(AUX)gpmisc.$(OBJ) $(AUX)gp_getnv.$(OBJ) \
++- $(AUX)gscdefs.$(OBJ) $(AUX)gp_unix.$(OBJ) $(AUX)gp_unifs.$(OBJ) $(AUX)gp_unifn.$(OBJ) \
++- $(AUX)gp_stdia.$(OBJ) $(AUX)gsutil.$(OBJ) $(AUX)memento.$(OBJ)
++-
++-$(MKROMFS_XE)_0: $(GLSRC)mkromfs.c $(MKROMFS_COMMON_DEPS) $(MKROMFS_OBJS_0) $(UNIX_AUX_MAK) $(MAKEDIRS)
++-	$(CCAUX_) $(GENOPT) $(CFLAGS) $(I_)$(GLSRCDIR)$(_I) $(I_)$(GLOBJ)$(_I) $(I_)$(ZSRCDIR)$(_I) $(GLSRC)mkromfs.c $(O_)$(MKROMFS_XE)_0 $(MKROMFS_OBJS_0) $(AUXEXTRALIBS)
++-
+ +#MKROMFS_OBJS_0=$(MKROMFS_ZLIB_OBJS) $(AUX)gpmisc.$(OBJ) $(AUX)gp_getnv.$(OBJ) \
+ +# $(AUX)gscdefs.$(OBJ) $(AUX)gp_unix.$(OBJ) $(AUX)gp_unifs.$(OBJ) $(AUX)gp_unifn.$(OBJ) \
+ +# $(AUX)gp_stdia.$(OBJ) $(AUX)gsutil.$(OBJ) $(AUX)memento.$(OBJ)
+ +#
+-+#$(MKROMFS_XE)_0: $(GLSRC)mkromfs.c $(MKROMFS_COMMON_DEPS) $(MKROMFS_OBJS_0) $(MAKEDIRS)
+++#$(MKROMFS_XE)_0: $(GLSRC)mkromfs.c $(MKROMFS_COMMON_DEPS) $(MKROMFS_OBJS_0) $(UNIX_AUX_MAK) $(MAKEDIRS)
+ +#	$(CCAUX_) $(GENOPT) $(CFLAGS) $(I_)$(GLSRCDIR)$(_I) $(I_)$(GLOBJ)$(_I) $(I_)$(ZSRCDIR)$(_I) $(GLSRC)mkromfs.c $(O_)$(MKROMFS_XE)_0 $(MKROMFS_OBJS_0) $(AUXEXTRALIBS)
+ +#
+-+## .... and one using the zlib library linked via the command line
++ # .... and one using the zlib library linked via the command line
++-MKROMFS_OBJS_1=$(AUX)gscdefs.$(OBJ) \
++- $(AUX)gpmisc.$(OBJ) $(AUX)gp_getnv.$(OBJ) \
++- $(AUX)gp_unix.$(OBJ) $(AUX)gp_unifs.$(OBJ) $(AUX)gp_unifn.$(OBJ) \
++- $(AUX)gp_stdia.$(OBJ) $(AUX)gsutil.$(OBJ)
++-
++-$(MKROMFS_XE)_1: $(GLSRC)mkromfs.c $(MKROMFS_COMMON_DEPS) $(MKROMFS_OBJS_1) $(UNIX_AUX_MAK) $(MAKEDIRS)
++-	$(CCAUX_) $(GENOPT) $(CFLAGS) $(I_)$(GLSRCDIR)$(_I) $(I_)$(GLOBJ)$(_I) $(I_)$(ZSRCDIR)$(_I) $(GLSRC)mkromfs.c $(O_)$(MKROMFS_XE)_1 $(MKROMFS_OBJS_1) $(AUXEXTRALIBS)
++-
++-$(MKROMFS_XE): $(MKROMFS_XE)_$(SHARE_ZLIB) $(UNIX_AUX_MAK) $(MAKEDIRS)
++-	$(CP_) $(MKROMFS_XE)_$(SHARE_ZLIB) $(MKROMFS_XE)
+ +#MKROMFS_OBJS_1=$(AUX)gscdefs.$(OBJ) \
+ +# $(AUX)gpmisc.$(OBJ) $(AUX)gp_getnv.$(OBJ) \
+ +# $(AUX)gp_unix.$(OBJ) $(AUX)gp_unifs.$(OBJ) $(AUX)gp_unifn.$(OBJ) \
+ +# $(AUX)gp_stdia.$(OBJ) $(AUX)gsutil.$(OBJ)
+ +#
+-+#$(MKROMFS_XE)_1: $(GLSRC)mkromfs.c $(MKROMFS_COMMON_DEPS) $(MKROMFS_OBJS_1) $(MAKEDIRS)
+++#$(MKROMFS_XE)_1: $(GLSRC)mkromfs.c $(MKROMFS_COMMON_DEPS) $(MKROMFS_OBJS_1) $(UNIX_AUX_MAK) $(MAKEDIRS)
+ +#	$(CCAUX_) $(GENOPT) $(CFLAGS) $(I_)$(GLSRCDIR)$(_I) $(I_)$(GLOBJ)$(_I) $(I_)$(ZSRCDIR)$(_I) $(GLSRC)mkromfs.c $(O_)$(MKROMFS_XE)_1 $(MKROMFS_OBJS_1) $(AUXEXTRALIBS)
+ +#
+-+#$(MKROMFS_XE): $(MKROMFS_XE)_$(SHARE_ZLIB) $(MAKEDIRS)
+++#$(MKROMFS_XE): $(MKROMFS_XE)_$(SHARE_ZLIB) $(UNIX_AUX_MAK) $(MAKEDIRS)
+ +#	$(CP_) $(MKROMFS_XE)_$(SHARE_ZLIB) $(MKROMFS_XE)
+  
+  # Query the environment to construct gconfig_.h.
+  # These are all defined conditionally (except the JasPER one), so that
 +-- 
 +2.8.1
 +
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/link-with-lcrypto.patch b/meta/recipes-connectivity/dhcp/dhcp/link-with-lcrypto.patch
-index 57e10b0..0d0e0dd 100644
---- a/meta/recipes-connectivity/dhcp/dhcp/link-with-lcrypto.patch
-+++ b/meta/recipes-connectivity/dhcp/dhcp/link-with-lcrypto.patch
-@@ -5,14 +5,20 @@ From 4.2.0 final release, -lcrypto check was removed and we compile static libra
- from bind that are linked to libcrypto. This is why i added a patch in order to add
- -lcrypto to LIBS.
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/png_mak.patch b/meta/recipes-extended/ghostscript/ghostscript/png_mak.patch
+index da900ea..8b84986 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript/png_mak.patch
++++ b/meta/recipes-extended/ghostscript/ghostscript/png_mak.patch
+@@ -1,21 +1,32 @@
+ ghostscript: add dependency for pnglibconf.h
+-    
++
+ When using parallel make jobs, we need to be sure that
+ pnglibconf.h is created before we try to reference it,
+ so add a rule to png.mak.
  
--Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
  Upstream-Status: Pending
-+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+-    
++
+ Signed-off-by: Joe Slater <jslater@windriver.com>
  
--Index: dhcp-4.2.3-P2-r0/dhcp-4.2.3-P2/configure.ac
--===================================================================
----- dhcp-4.2.3-P2.orig/configure.ac	2012-02-02 18:04:20.843023196 +0200
--+++ dhcp-4.2.3-P2/configure.ac	2012-02-02 17:58:16.000000000 +0200
--@@ -456,6 +456,10 @@
-+Rebase to 4.3.4
++Rebase to 9.19
 +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+ configure.ac | 4 ++++
-+ 1 file changed, 4 insertions(+)
++ base/png.mak | 2 ++
++ 1 file changed, 2 insertions(+)
 +
-+diff --git a/configure.ac b/configure.ac
-+index 097b0c3..726c88e 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -584,6 +584,10 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[void foo() __attribute__((noreturn));
-  # Look for optional headers.
-  AC_CHECK_HEADERS(sys/socket.h net/if_dl.h net/if6.h regex.h)
++diff --git a/base/png.mak b/base/png.mak
++index fe5c6e2..8abb53a 100644
+ --- a/base/png.mak
+ +++ b/base/png.mak
+-@@ -81,6 +81,8 @@ png.config-clean :
+- $(pnglibconf_h) : $(PNGSRC)scripts$(D)pnglibconf.h.prebuilt
+- 	$(CP_)  $(PNGSRC)scripts$(D)pnglibconf.h.prebuilt $(pnglibconf_h)
++@@ -74,6 +74,8 @@ png.clean-not-config-clean :
++ 
++ pnglibconf_h=$(PNGGENDIR)$(D)pnglibconf.h
   
-@@ -23,3 +29,6 @@ Index: dhcp-4.2.3-P2-r0/dhcp-4.2.3-P2/configure.ac
-  # Solaris needs some libraries for functions
-  AC_SEARCH_LIBS(socket, [socket])
-  AC_SEARCH_LIBS(inet_ntoa, [nsl])
+ +$(MAKEDIRS) : $(pnglibconf_h)
+ +
+- PDEP=$(AK) $(pnglibconf_h) $(MAKEDIRS)
+- 
+- png_1=$(PNGOBJ)png.$(OBJ) $(PNGOBJ)pngmem.$(OBJ) $(PNGOBJ)pngerror.$(OBJ) $(PNGOBJ)pngset.$(OBJ)
++ png.config-clean :
++ 	$(RM_) $(pnglibconf_h)
++ 	$(RM_) $(PNGGEN)lpg*.dev
 +-- 
 +2.8.1
 +
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/replace-ifconfig-route.patch b/meta/recipes-connectivity/dhcp/dhcp/replace-ifconfig-route.patch
-index 61dd6a7..d84df5c 100644
---- a/meta/recipes-connectivity/dhcp/dhcp/replace-ifconfig-route.patch
-+++ b/meta/recipes-connectivity/dhcp/dhcp/replace-ifconfig-route.patch
-@@ -8,23 +8,32 @@ Upstream-Status: Pending
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.18.bb b/meta/recipes-extended/ghostscript/ghostscript_9.19.bb
+similarity index 86%
+rename from meta/recipes-extended/ghostscript/ghostscript_9.18.bb
+rename to meta/recipes-extended/ghostscript/ghostscript_9.19.bb
+index eddf18d..fe2016b 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_9.18.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_9.19.bb
+@@ -18,12 +18,10 @@ DEPENDS_class-native = "libpng-native"
  
- Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+ UPSTREAM_CHECK_URI = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases"
  
----- dhcp-4.2.5-P1/client/scripts/linux.orig	2013-09-04 12:22:55.000000000 +0500
--+++ dhcp-4.2.5-P1/client/scripts/linux	2013-09-04 12:52:19.068761518 +0500
--@@ -103,17 +103,11 @@
-+Rebase to 4.3.4
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ client/scripts/linux | 82 ++++++++++++++++++++++++++++------------------------
-+ 1 file changed, 45 insertions(+), 37 deletions(-)
-+
-+diff --git a/client/scripts/linux b/client/scripts/linux
-+index a02cfd9..232a0aa 100755
-+--- a/client/scripts/linux
-++++ b/client/scripts/linux
-+@@ -101,17 +101,11 @@ fi
-  if [ x$old_broadcast_address != x ]; then
-    old_broadcast_arg="broadcast $old_broadcast_address"
-  fi
- -if [ x$new_subnet_mask != x ]; then
- -  new_subnet_arg="netmask $new_subnet_mask"
---fi
-++if [ -n "$new_subnet_mask" ]; then
-++    new_mask="/$new_subnet_mask"
-+ fi
- -if [ x$old_subnet_mask != x ]; then
- -  old_subnet_arg="netmask $old_subnet_mask"
- -fi
- -if [ x$alias_subnet_mask != x ]; then
- -  alias_subnet_arg="netmask $alias_subnet_mask"
--+if [ -n "$new_subnet_mask" ]; then
--+    new_mask="/$new_subnet_mask"
-- fi
-+-fi
- -if [ x$new_interface_mtu != x ]; then
- -  mtu_arg="mtu $new_interface_mtu"
- +if [ -n "$alias_subnet_mask" ]; then
-@@ -32,7 +41,7 @@ Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-  fi
-  if [ x$IF_METRIC != x ]; then
-    metric_arg="metric $IF_METRIC"
--@@ -127,9 +121,9 @@
-+@@ -125,9 +119,9 @@ fi
-  if [ x$reason = xPREINIT ]; then
-    if [ x$alias_ip_address != x ]; then
-      # Bring down alias interface. Its routes will disappear too.
-@@ -44,7 +53,7 @@ Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-  
-    # We need to give the kernel some time to get the interface up.
-    sleep 1
--@@ -156,25 +150,30 @@
-+@@ -154,25 +148,30 @@ if [ x$reason = xBOUND ] || [ x$reason = xRENEW ] || \
-    if [ x$old_ip_address != x ] && [ x$alias_ip_address != x ] && \
-  		[ x$alias_ip_address != x$old_ip_address ]; then
-      # Possible new alias. Remove old alias.
-@@ -81,7 +90,7 @@ Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-      done
-    else
-      # we haven't changed the address, have we changed other options           
--@@ -182,21 +181,23 @@
-+@@ -180,21 +179,23 @@ if [ x$reason = xBOUND ] || [ x$reason = xRENEW ] || \
-      if [ x$new_routers != x ] && [ x$new_routers != x$old_routers ] ; then
-        # if we've changed routers delete the old and add the new.
-        for router in $old_routers; do
-@@ -112,7 +121,7 @@ Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-    fi
-    make_resolv_conf
-    exit_with_hooks 0
--@@ -206,42 +207,49 @@
-+@@ -204,42 +205,49 @@ if [ x$reason = xEXPIRE ] || [ x$reason = xFAIL ] || [ x$reason = xRELEASE ] \
-     || [ x$reason = xSTOP ]; then
-    if [ x$alias_ip_address != x ]; then
-      # Turn off alias interface.
-@@ -174,3 +183,6 @@ Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-    exit_with_hooks 1
-  fi
-  
-+-- 
-+2.8.1
-+
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/tweak-to-support-external-bind.patch b/meta/recipes-connectivity/dhcp/dhcp/tweak-to-support-external-bind.patch
-new file mode 100644
-index 0000000..03c6abb
---- /dev/null
-+++ b/meta/recipes-connectivity/dhcp/dhcp/tweak-to-support-external-bind.patch
-@@ -0,0 +1,117 @@
-+From ad7bb401f47714fc30c408853b796ce0f1c7e65f Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Sat, 11 Jun 2016 22:51:44 -0400
-+Subject: [PATCH] tweak to support external bind
-+
-+Tweak the external bind to oe-core's sysroot rather than
-+external bind source build.
-+
-+Upstream-Status: Inappropriate <oe-core specific>
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ client/Makefile.am       | 2 +-
-+ client/tests/Makefile.am | 2 +-
-+ common/tests/Makefile.am | 2 +-
-+ dhcpctl/Makefile.am      | 2 +-
-+ omapip/Makefile.am       | 2 +-
-+ relay/Makefile.am        | 2 +-
-+ server/Makefile.am       | 2 +-
-+ server/tests/Makefile.am | 2 +-
-+ 8 files changed, 8 insertions(+), 8 deletions(-)
-+
-+diff --git a/client/Makefile.am b/client/Makefile.am
-+index 4730bb3..84d8131 100644
-+--- a/client/Makefile.am
-++++ b/client/Makefile.am
-+@@ -4,7 +4,7 @@
-+ # production code. Sadly, we are not there yet.
-+ SUBDIRS = . tests
-+ 
-+-BINDLIBDIR = @BINDDIR@/lib
-++BINDLIBDIR = @BINDDIR@
-+ 
-+ AM_CPPFLAGS = -DCLIENT_PATH='"PATH=$(sbindir):/sbin:/bin:/usr/sbin:/usr/bin"' \
-+ 	      -DLOCALSTATEDIR='"$(localstatedir)"' -I$(top_srcdir)/includes
-+diff --git a/client/tests/Makefile.am b/client/tests/Makefile.am
-+index da69ea9..fe35e57 100644
-+--- a/client/tests/Makefile.am
-++++ b/client/tests/Makefile.am
-+@@ -1,6 +1,6 @@
-+ SUBDIRS = .
-+ 
-+-BINDLIBDIR = @BINDDIR@/lib
-++BINDLIBDIR = @BINDDIR@
-+ 
-+ AM_CPPFLAGS = $(ATF_CFLAGS) -DUNIT_TEST -I$(top_srcdir)/includes
-+ AM_CPPFLAGS += -I@BINDDIR@/include -I$(top_srcdir)
-+diff --git a/common/tests/Makefile.am b/common/tests/Makefile.am
-+index f8d6b0e..05cd9c1 100644
-+--- a/common/tests/Makefile.am
-++++ b/common/tests/Makefile.am
-+@@ -1,6 +1,6 @@
-+ SUBDIRS = .
-+ 
-+-BINDLIBDIR = @BINDDIR@/lib
-++BINDLIBDIR = @BINDDIR@
-+ 
-+ AM_CPPFLAGS = $(ATF_CFLAGS) -I$(top_srcdir)/includes
-+ 
-+diff --git a/dhcpctl/Makefile.am b/dhcpctl/Makefile.am
-+index ba8dd8b..9b2486e 100644
-+--- a/dhcpctl/Makefile.am
-++++ b/dhcpctl/Makefile.am
-+@@ -1,4 +1,4 @@
-+-BINDLIBDIR = @BINDDIR@/lib
-++BINDLIBDIR = @BINDDIR@
-+ 
-+ AM_CPPFLAGS = -I$(top_srcdir)/includes -I$(top_srcdir)
-+ 
-+diff --git a/omapip/Makefile.am b/omapip/Makefile.am
-+index dd1afa0..e4a8599 100644
-+--- a/omapip/Makefile.am
-++++ b/omapip/Makefile.am
-+@@ -1,4 +1,4 @@
-+-BINDLIBDIR = @BINDDIR@/lib
-++BINDLIBDIR = @BINDDIR@
-+ AM_CPPFLAGS = -I$(top_srcdir)/includes
-+ 
-+ lib_LIBRARIES = libomapi.a
-+diff --git a/relay/Makefile.am b/relay/Makefile.am
-+index 6d652f6..b3bf578 100644
-+--- a/relay/Makefile.am
-++++ b/relay/Makefile.am
-+@@ -1,4 +1,4 @@
-+-BINDLIBDIR = @BINDDIR@/lib
-++BINDLIBDIR = @BINDDIR@
-+ 
-+ AM_CPPFLAGS = -DLOCALSTATEDIR='"@localstatedir@"' -I$(top_srcdir)/includes
-+ 
-+diff --git a/server/Makefile.am b/server/Makefile.am
-+index 3990b9c..b5d8c2d 100644
-+--- a/server/Makefile.am
-++++ b/server/Makefile.am
-+@@ -4,7 +4,7 @@
-+ # production code. Sadly, we are not there yet.
-+ SUBDIRS = . tests
-+ 
-+-BINDLIBDIR = @BINDDIR@/lib
-++BINDLIBDIR = @BINDDIR@
-+ 
-+ AM_CPPFLAGS = -I$(top_srcdir) -DLOCALSTATEDIR='"@localstatedir@"' -I$(top_srcdir)/includes
-+ 
-+diff --git a/server/tests/Makefile.am b/server/tests/Makefile.am
-+index 65a9f74..2892309 100644
-+--- a/server/tests/Makefile.am
-++++ b/server/tests/Makefile.am
-+@@ -1,6 +1,6 @@
-+ SUBDIRS = .
-+ 
-+-BINDLIBDIR = @BINDDIR@/lib
-++BINDLIBDIR = @BINDDIR@
-+ 
-+ AM_CPPFLAGS = $(ATF_CFLAGS) -DUNIT_TEST -I$(top_srcdir)/includes
-+ AM_CPPFLAGS += -I@BINDDIR@/include -I$(top_srcdir)
-+-- 
-+2.8.1
-+
-diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.3.3.bb b/meta/recipes-connectivity/dhcp/dhcp_4.3.4.bb
-similarity index 65%
-rename from meta/recipes-connectivity/dhcp/dhcp_4.3.3.bb
-rename to meta/recipes-connectivity/dhcp/dhcp_4.3.4.bb
-index 97dde1d..9e08291 100644
---- a/meta/recipes-connectivity/dhcp/dhcp_4.3.3.bb
-+++ b/meta/recipes-connectivity/dhcp/dhcp_4.3.4.bb
-@@ -1,19 +1,17 @@
- require dhcp.inc
+-SRC_URI_BASE = "http://downloads.ghostscript.com/public/old-gs-releases/ghostscript-${PV}.tar.gz \
++SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs919/${BPN}-${PV}.tar.gz \
+                 file://ghostscript-9.15-parallel-make.patch \
+                 file://ghostscript-9.16-Werror-return-type.patch \
+                 file://png_mak.patch \
+-                file://0001-Bug-696497-Fix-support-for-building-with-no-jbig2-de.patch \
+-                file://0002-Bug-696497-part-2-fix-support-for-building-with-a-JP.patch \
+                 file://do-not-check-local-libpng-source.patch \
+ "
  
- SRC_URI += "file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
--            file://fix-external-bind.patch \
-             file://link-with-lcrypto.patch \
-             file://fixsepbuild.patch \
-             file://dhclient-script-drop-resolv.conf.dhclient.patch \
-             file://replace-ifconfig-route.patch \
--            file://CVE-2015-8605.patch \
-             file://0001-site.h-enable-gentle-shutdown.patch \
--            file://CVE-2016-2774.patch \
-             file://libxml2-configure-argument.patch \
-+            file://tweak-to-support-external-bind.patch \
-            "
+@@ -39,14 +37,13 @@ SRC_URI_class-native = "${SRC_URI_BASE} \
+                         file://base-genht.c-add-a-preprocessor-define-to-allow-fope.patch \
+                         "
  
--SRC_URI[md5sum] = "c5577b09c9017cdd319a11ff6364268e"
--SRC_URI[sha256sum] = "553c4945b09b1c1b904c4780f34f72aaefa2fc8c6556715de0bc9d4e3d255ede"
-+SRC_URI[md5sum] = "0138319fe2b788cf4bdf34fbeaf9ff54"
-+SRC_URI[sha256sum] = "f5115aee3dd3e6925de4ba47b80ab732ba48b481c8364b6ebade2d43698d607e"
+-SRC_URI[md5sum] = "33a47567d7a591c00a253caddd12a88a"
+-SRC_URI[sha256sum] = "5fc93079749a250be5404c465943850e3ed5ffbc0d5c07e10c7c5ee8afbbdb1b"
++SRC_URI[md5sum] = "c9682ce6b852f9197c69905a43928907"
++SRC_URI[sha256sum] = "cf3c0dce67db1557a87366969945f9c5235887989c0b585e037af366dc035989"
  
- PACKAGECONFIG ?= ""
- PACKAGECONFIG[bind-httpstats] = "--with-libxml2,--without-libxml2,libxml2"
+ EXTRA_OECONF = "--without-x --with-system-libtiff --without-jbig2dec \
+                 --with-fontpath=${datadir}/fonts \
+                 --without-libidn --with-cups-serverbin=${exec_prefix}/lib/cups \
+                 --with-cups-datadir=${datadir}/cups \
+-                ${@base_conditional('SITEINFO_ENDIANNESS', 'le', '--enable-little-endian', '--enable-big-endian', d)} \
+                 "
+ 
+ EXTRA_OECONF_append_mips = " --with-large_color_index=0"
 -- 
 2.8.1
 
