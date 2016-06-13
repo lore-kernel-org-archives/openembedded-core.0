@@ -1,25 +1,29 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id D827C612E5
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id A49FF605BB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jun 2016 04:44:14 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga102.fm.intel.com with ESMTP; 12 Jun 2016 21:44:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,465,1459839600"; d="scan'208";a="996301617"
-Received: from ctan5-mobl1.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.176.32])
-	by orsmga002.jf.intel.com with ESMTP; 12 Jun 2016 21:44:14 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Jun 2016 16:43:41 +1200
-Message-Id: <21633d8f3c95add3368d782ad8fb4cb2540e97f2.1465791249.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.5.5
-In-Reply-To: <cover.1465791249.git.paul.eggleton@linux.intel.com>
-References: <cover.1465791249.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1465791249.git.paul.eggleton@linux.intel.com>
-References: <cover.1465791249.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 3/3] scripts: ensure not specifying subcommand shows help text
+	Mon, 13 Jun 2016 07:23:22 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u5D7NMOB028936; Mon, 13 Jun 2016 08:23:22 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 1VmqWIqrXEMk; Mon, 13 Jun 2016 08:23:22 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u5D7NJPq028933
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 13 Jun 2016 08:23:20 +0100
+Message-ID: <1465802599.13979.195.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
+Date: Mon, 13 Jun 2016 08:23:19 +0100
+In-Reply-To: <c7d3b5b5d732304a31a843147fd123eda27a4794.1465697985.git.Qi.Chen@windriver.com>
+References: <cover.1465697985.git.Qi.Chen@windriver.com>
+	<c7d3b5b5d732304a31a843147fd123eda27a4794.1465697985.git.Qi.Chen@windriver.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 4/9] gzip: upgrade to 1.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,63 +36,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jun 2016 04:44:15 -0000
+X-List-Received-Date: Mon, 13 Jun 2016 07:23:24 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-With Python 2, argparse subparsers behaviour in Python 2 was to print
-the usage information if the subparsers argument wasn't specified.
-However, with Python 3.2.3 and later a subparsers argument is not
-required by default, leading to errors when no arguments are specified:
+On Sun, 2016-06-12 at 10:21 +0800, Chen Qi wrote:
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/recipes-extended/gzip/{gzip_1.6.bb => gzip_1.8.bb} | 0
+>  1 file changed, 0 insertions(+), 0 deletions(-)
+>  rename meta/recipes-extended/gzip/{gzip_1.6.bb => gzip_1.8.bb}
+> (100%)
+> 
+> diff --git a/meta/recipes-extended/gzip/gzip_1.6.bb b/meta/recipes
+> -extended/gzip/gzip_1.8.bb
+> similarity index 100%
+> rename from meta/recipes-extended/gzip/gzip_1.6.bb
+> rename to meta/recipes-extended/gzip/gzip_1.8.bb
 
-  AttributeError: 'Namespace' object has no attribute 'func'
+WARNING: gzip-1.8-r0 do_fetch: Checksum mismatch for local file /home/pokybuild/yocto-autobuilder/yocto-worker/build-appliance/build/build/downloads/gzip-1.8.tar.gz
+Cleaning and trying again.
+WARNING: gzip-1.8-r0 do_fetch: Renaming /home/pokybuild/yocto-autobuilder/yocto-worker/build-appliance/build/build/downloads/gzip-1.8.tar.gz to /home/pokybuild/yocto-autobuilder/yocto-worker/build-appliance/build/build/downloads/gzip-1.8.tar.gz_bad-checksum_732553152814b22dc35aa0267df5286c
+ERROR: gzip-1.8-r0 do_fetch: Checksum failure fetching http://ftp.gnu.org/gnu/gzip/gzip-1.8.tar.gz
+ERROR: gzip-1.8-r0 do_fetch: Function failed: Fetcher failure for URL: 'http://ftp.gnu.org/gnu/gzip/gzip-1.8.tar.gz'. Checksum mismatch!
+File: '/home/pokybuild/yocto-autobuilder/yocto-worker/build-appliance/build/build/downloads/gzip-1.8.tar.gz' has md5 checksum 732553152814b22dc35aa0267df5286c when 38603cb2843bf5681ff41aab3bcd6a20 was expected
+File: '/home/pokybuild/yocto-autobuilder/yocto-worker/build-appliance/build/build/downloads/gzip-1.8.tar.gz' has sha256 checksum 1ff7aedb3d66a0d73f442f6261e4b3860df6fd6c94025c2cb31a202c9c60fe0e when 97eb83b763d9e5ad35f351fe5517e6b71521d7aac7acf3e3cacdb6b1496d8f7e was expected
+If this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:
+SRC_URI[md5sum] = "732553152814b22dc35aa0267df5286c"
+SRC_URI[sha256sum] = "1ff7aedb3d66a0d73f442f6261e4b3860df6fd6c94025c2cb31a202c9c60fe0e"
+Otherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.
 
-Restore the previous desired behaviour of showing the help text for
-devtool, recipetool and the devtool-stress script by setting
-subparsers.required to True.
+Cheers,
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- scripts/contrib/devtool-stress.py | 1 +
- scripts/devtool                   | 1 +
- scripts/recipetool                | 1 +
- 3 files changed, 3 insertions(+)
-
-diff --git a/scripts/contrib/devtool-stress.py b/scripts/contrib/devtool-stress.py
-index 2723491..ab77a2d 100755
---- a/scripts/contrib/devtool-stress.py
-+++ b/scripts/contrib/devtool-stress.py
-@@ -213,6 +213,7 @@ def main():
-     parser.add_argument('-s', '--skip', help='Skip specified recipes (comma-separated without spaces, wildcards allowed)', metavar='PNLIST')
-     parser.add_argument('-c', '--skip-classes', help='Skip recipes inheriting specified classes (comma-separated) - default %(default)s', metavar='CLASSLIST', default='native,nativesdk,cross,cross-canadian,image,populate_sdk,meta,packagegroup')
-     subparsers = parser.add_subparsers(title='subcommands', metavar='<subcommand>')
-+    subparsers.required = True
- 
-     parser_modify = subparsers.add_parser('modify',
-                                           help='Run "devtool modify" followed by a build with bitbake on matching recipes',
-diff --git a/scripts/devtool b/scripts/devtool
-index 63d2ef9..a93a11f 100755
---- a/scripts/devtool
-+++ b/scripts/devtool
-@@ -301,6 +301,7 @@ def main():
-         tinfoil.shutdown()
- 
-     subparsers = parser.add_subparsers(dest="subparser_name", title='subcommands', metavar='<subcommand>')
-+    subparsers.required = True
- 
-     subparsers.add_subparser_group('sdk', 'SDK maintenance', -2)
-     subparsers.add_subparser_group('advanced', 'Advanced', -1)
-diff --git a/scripts/recipetool b/scripts/recipetool
-index 0e8bffb..17233d4 100755
---- a/scripts/recipetool
-+++ b/scripts/recipetool
-@@ -60,6 +60,7 @@ def main():
-     parser.add_argument('-h', '--help', action='help', default=argparse.SUPPRESS,
-                         help='show this help message and exit')
-     subparsers = parser.add_subparsers(title='subcommands', metavar='<subcommand>')
-+    subparsers.required = True
- 
-     if global_args.debug:
-         logger.setLevel(logging.DEBUG)
--- 
-2.5.5
-
+Richard
 
