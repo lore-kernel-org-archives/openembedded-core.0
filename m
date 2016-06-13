@@ -1,30 +1,25 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BFCA6014F
+Return-Path: <stephen.arnold42@gmail.com>
+Received: from gatekeeper.gentoogeek.org (gatekeeper.gentoogeek.org
+	[66.159.242.209])
+	by mail.openembedded.org (Postfix) with ESMTP id 98F4860290
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Jun 2016 22:57:57 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u5CMvvEq016150 for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Jun 2016 23:57:57 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 9v3wZ1BVgvb3
+	Mon, 13 Jun 2016 01:18:23 +0000 (UTC)
+Received: from prime.arnolds.bogus (prime.arnolds.bogus [192.168.0.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by gatekeeper.gentoogeek.org (Postfix) with ESMTPS id 723B32047
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Jun 2016 23:57:57 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u5CMvrAN016147
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Jun 2016 23:57:54 +0100
-Message-ID: <1465772273.13979.194.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sun, 12 Jun 2016 23:57:53 +0100
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: [PATCH] staging: Add BB_SETSCENE_VERIFY_FUNCTION2 for bitbake runqueue changes
+	Sun, 12 Jun 2016 18:18:22 -0700 (PDT)
+Received: from ptolemy.arnolds.bogus ([::ffff:192.168.0.11])
+	by prime.arnolds.bogus with ESMTP; Sun, 12 Jun 2016 18:18:15 -0700
+	id 0000000000241FF7.575E09DE.00002312
+From: Stephen Arnold <sarnold@vctlabs.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 12 Jun 2016 18:09:56 -0700
+Message-Id: <1465780196-7491-1-git-send-email-sarnold@vctlabs.com>
+X-Mailer: git-send-email 2.8.1
+Cc: Stephen Arnold <sarnold@vctlabs.com>
+Subject: [PATCH] qemu-native: set ld.bfd, fix cflags, and set some environment vars
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,43 +32,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Jun 2016 22:58:02 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 13 Jun 2016 01:18:25 -0000
 
-We're about to rewrite the data structures in taskdata/runqueue in bitbake
-and we 'leaked' knowledge about those structures to this single function.
+The main thing is build failures with gold linker, but qemu is also a
+little too aggressive at finding random tools on the build host, so we
+also set the build env for qemu-native and make sure it doesn't reset
+its own (hard-coded) cflags when we don't want it to.
 
-Add a 'v2' function definition for use with the newer bitbake, the older 
-one can remain for compatibility for a while, then be removed. The function
-is comparatively simple and rarely changes.
+Signed-off-by: Stephen Arnold <sarnold@vctlabs.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc                     | 13 +++++++++++--
+ meta/recipes-devtools/qemu/qemu/qemu-2.5.0-cflags.patch | 13 +++++++++++++
+ meta/recipes-devtools/qemu/qemu_2.6.0.bb                |  4 +++-
+ 3 files changed, 27 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/qemu-2.5.0-cflags.patch
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
-index 30f2b50..a0b09a0 100644
---- a/meta/classes/staging.bbclass
-+++ b/meta/classes/staging.bbclass
-@@ -181,6 +181,19 @@ python sysroot_cleansstate () {
- do_configure[prefuncs] += "sysroot_cleansstate"
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index bf689bb..d5925fd 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -30,8 +30,12 @@ SRC_URI_append_class-native = "\
  
+ EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)} --disable-werror  --disable-bluez --disable-libiscsi --with-system-pixman --extra-cflags='${CFLAGS}'"
  
-+BB_SETSCENE_VERIFY_FUNCTION2 = "sysroot_checkhashes2"
+-EXTRA_OECONF_class-nativesdk = "--target-list=${@get_qemu_target_list(d)} --disable-werror \
+-				"
++EXTRA_OECONF_class-nativesdk = "--target-list=${@get_qemu_target_list(d)} --disable-werror"
 +
-+def sysroot_checkhashes2(covered, tasknames, fns, d, invalidtasks):
-+    problems = set()
-+    configurefns = set()
-+    for tid in invalidtasks:
-+        if tasknames[tid] == "do_configure" and tid not in covered:
-+            configurefns.add(fns[tid])
-+    for tid in covered:
-+        if tasknames[tid] == "do_populate_sysroot" and fns[tid] in configurefns:
-+            problems.add(tid)
-+    return problems
++EXTRA_OEMAKE_append_class-native = " LD='${LD}' AR='${AR}' OBJCOPY='${OBJCOPY}' LDFLAGS='${LDFLAGS}'"
 +
- BB_SETSCENE_VERIFY_FUNCTION = "sysroot_checkhashes"
++LDFLAGS_append_class-native = " -fuse-ld=bfd"
++
+ export LIBTOOL="${HOST_SYS}-libtool"
  
- def sysroot_checkhashes(covered, tasknames, fnids, fns, d, invalidtasks = None):
-
+ do_configure_prepend_class-native() {
+@@ -40,6 +44,11 @@ do_configure_prepend_class-native() {
+ 	if [ ! -z "$BHOST_PKGCONFIG_PATH" ]; then
+ 		export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$BHOST_PKGCONFIG_PATH
+ 	fi
++
++	# Alter target makefiles to accept CFLAGS set via env
++	sed -i -r \
++		-e 's/^(C|OP_C|HELPER_C)FLAGS=/\1FLAGS+=/' \
++		"${S}"/Makefile "${S}"/Makefile.target
+ }
+ 
+ KVMENABLE = "--enable-kvm"
+diff --git a/meta/recipes-devtools/qemu/qemu/qemu-2.5.0-cflags.patch b/meta/recipes-devtools/qemu/qemu/qemu-2.5.0-cflags.patch
+new file mode 100644
+index 0000000..173394f
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/qemu-2.5.0-cflags.patch
+@@ -0,0 +1,13 @@
++--- a/configure
+++++ b/configure
++@@ -4468,10 +4468,6 @@ fi
++ if test "$gcov" = "yes" ; then
++   CFLAGS="-fprofile-arcs -ftest-coverage -g $CFLAGS"
++   LDFLAGS="-fprofile-arcs -ftest-coverage $LDFLAGS"
++-elif test "$fortify_source" = "yes" ; then
++-  CFLAGS="-O2 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 $CFLAGS"
++-elif test "$debug" = "no"; then
++-  CFLAGS="-O2 $CFLAGS"
++ fi
++ 
++ ##########################################
+diff --git a/meta/recipes-devtools/qemu/qemu_2.6.0.bb b/meta/recipes-devtools/qemu/qemu_2.6.0.bb
+index e391326..735d013 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.6.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.6.0.bb
+@@ -8,7 +8,9 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
+             file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch \
+             file://no-valgrind.patch \
+             file://pathlimit.patch \
+-           "
++            file://qemu-2.5.0-cflags.patch \
++"
++
+ SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
+ SRC_URI[md5sum] = "ca3f70b43f093e33e9e014f144067f13"
+ SRC_URI[sha256sum] = "c9ac4a651b273233d21b8bec32e30507cb9cce7900841febc330956a1a8434ec"
+-- 
+2.8.1
 
 
