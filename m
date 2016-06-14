@@ -1,20 +1,46 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id B435460767
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A4AA6010D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jun 2016 22:00:51 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga104.fm.intel.com with ESMTP; 13 Jun 2016 15:00:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,468,1459839600"; d="scan'208";a="974911227"
-Received: from lsandov1-mobl2.zpn.intel.com ([10.219.5.155])
-	by orsmga001.jf.intel.com with ESMTP; 13 Jun 2016 15:00:52 -0700
-From: leonardo.sandoval.gonzalez@linux.intel.com
+	Tue, 14 Jun 2016 07:59:48 +0000 (UTC)
+Received: by mail-wm0-f49.google.com with SMTP id k204so110458398wmk.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Jun 2016 00:59:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=3U3mFg4S24QQQV6vhw0/RDqxkCxnTvgsVxAeFt5P3qM=;
+	b=OGnZGeqI9uSbwIze3pbOemtCdHscMR9akUZv8qGPa/CxfLnrhPEfbFGhKB926o5Otl
+	DK9a4VpjoNxOHX3L+aVkF1S9iHB/aZ1uZHHphiQDDNjHXjvWLBwjSIFrP4HBcdrnMk1M
+	YHwIkETePK7+EROjv5EnVrlrx9eyBOZ1cjLKeMBf0HCymZ6GUAmQr+n3fHV8RAuW5yh8
+	ClIzaqLV3aIj0MjYydMLgDFsWkFONsXFX6bFHjqsW0dzTXLRWN9myCIImY7f7jcbdus/
+	uT9dT9mDWg0fI/ocGaTqFTWHGsygcOgwY1M+zCHmDyV1TnWQuHZiIbeJ43TLc+aHrg2t
+	qlEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=3U3mFg4S24QQQV6vhw0/RDqxkCxnTvgsVxAeFt5P3qM=;
+	b=gz5e0AHo3gBxLtckeWyY5dHDzLgP+Cs1IWrhnB1lUPUugGmd6OtRLf9gIy2RmBrIke
+	N/PyP+GDQKfIbBANmMRSA3yljmneXrFqGbnwRCJ16TZTGVAtJ2yCDc42b5fOs9MMnCGF
+	i6sEtxzvfyLTngEjP2a0lbtUPUQ2JnRdjJEUdeDTznr1wUCqoBn+jymmXN9B8+3tm0v5
+	OpK+GQE3Vk71UFfefEKHbO0uJM0bIm8MmigkMWB8SrcEUqcQ1ZsinNtK7M1KkfqO1S8f
+	PdKIIuJ0udfIN5ee/iFjDS6aySLtInYFzpRQRnCQv84wFxqBFfR7ZNqqKLlPi2MKiY1S
+	n5Ng==
+X-Gm-Message-State: ALyK8tKgoUrvUOXmbjgREx1H5KZhDg8K7CkjnsBQj+cAZUHyqykIiwyTkK4chX7N6tYJ1yNz
+X-Received: by 10.194.134.164 with SMTP id pl4mr5493153wjb.113.1465891188644; 
+	Tue, 14 Jun 2016 00:59:48 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	e133sm2730425wma.6.2016.06.14.00.59.47
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 14 Jun 2016 00:59:47 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Jun 2016 17:02:42 -0500
-Message-Id: <1465855362-25759-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] flex: Fix top_builddir path for flex's test-driver script
+Date: Tue, 14 Jun 2016 08:59:36 +0100
+Message-Id: <1465891179-20779-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.0.rc3
+Subject: [PATCH 1/4] classes/image: don't chdir when creating symlinks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,35 +53,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jun 2016 22:00:56 -0000
+X-List-Received-Date: Tue, 14 Jun 2016 07:59:49 -0000
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+There's no need to chdir() when creating image symlinks, and using chdir()
+changes the state for future tasks.
 
-Since 5f82d17ac63f6d5b55f7b8d019c239620ab54596, test-driver scripts
-look into top_buildir path, so fix this path on flex's tests/Makefile.
-
-[YOCTO #9721]
-
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-devtools/flex/flex_2.6.0.bb | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ meta/classes/image.bbclass | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/flex/flex_2.6.0.bb b/meta/recipes-devtools/flex/flex_2.6.0.bb
-index 8285426..f6d136c 100644
---- a/meta/recipes-devtools/flex/flex_2.6.0.bb
-+++ b/meta/recipes-devtools/flex/flex_2.6.0.bb
-@@ -51,5 +51,8 @@ do_install_ptest() {
- 	cp ${S}/build-aux/test-driver ${D}${PTEST_PATH}/build-aux/
- 	cp -r ${S}/tests/* ${D}${PTEST_PATH}
- 	cp -r ${B}/tests/* ${D}${PTEST_PATH}
--	sed -e 's/^Makefile:/_Makefile:/' -e 's/^srcdir = \(.*\)/srcdir = ./' -e 's/^top_srcdir = \(.*\)/top_srcdir = ./'  -i ${D}${PTEST_PATH}/Makefile
-+	sed -e 's/^Makefile:/_Makefile:/' \
-+	    -e 's/^srcdir = \(.*\)/srcdir = ./' -e 's/^top_srcdir = \(.*\)/top_srcdir = ./' \
-+	    -e 's/^builddir = \(.*\)/builddir = ./' -e 's/^top_builddir = \(.*\)/top_builddir = ./' \
-+	    -i ${D}${PTEST_PATH}/Makefile
- }
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 65ce6bb..bd6d0b5 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -519,14 +519,13 @@ python create_symlinks() {
+     taskname = d.getVar("BB_CURRENTTASK", True)
+     subimages = (d.getVarFlag("do_" + taskname, 'subimages', False) or "").split()
+     imgsuffix = d.getVarFlag("do_" + taskname, 'imgsuffix', True) or d.expand("${IMAGE_NAME_SUFFIX}.")
+-    os.chdir(deploy_dir)
+ 
+     if not link_name:
+         return
+     for type in subimages:
+-        dst = deploy_dir + "/" + link_name + "." + type
++        dst = os.path.join(deploy_dir, link_name + "." + type)
+         src = img_name + imgsuffix + type
+-        if os.path.exists(src):
++        if os.path.exists(os.path.join(deploy_dir, src)):
+             bb.note("Creating symlink: %s -> %s" % (dst, src))
+             if os.path.islink(dst):
+                 if d.getVar('RM_OLD_IMAGE', True) == "1" and \
 -- 
-2.1.4
+2.8.0.rc3
 
 
