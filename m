@@ -1,24 +1,24 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 07A3B731DF
+	by mail.openembedded.org (Postfix) with ESMTP id E9DDE731DF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jun 2016 08:15:28 +0000 (UTC)
+	Tue, 14 Jun 2016 08:15:29 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
 	by fmsmga104.fm.intel.com with ESMTP; 14 Jun 2016 01:15:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,470,1459839600"; d="scan'208";a="718728109"
+X-IronPort-AV: E=Sophos;i="5.26,470,1459839600"; d="scan'208";a="718728119"
 Received: from theory.fi.intel.com ([10.237.72.196])
-	by FMSMGA003.fm.intel.com with ESMTP; 14 Jun 2016 01:15:29 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 14 Jun 2016 01:15:30 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Jun 2016 11:14:47 +0300
-Message-Id: <fef83b0b5bd52663845054d6bb16dca88adb08a8.1465891164.git.jussi.kukkonen@intel.com>
+Date: Tue, 14 Jun 2016 11:14:48 +0300
+Message-Id: <70df300d7046c9705a726354225206a779a372a2.1465891164.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cab121fcc6b904939f6187832ba9b48b3d5fe53f.1465891164.git.jussi.kukkonen@intel.com>
 References: <cab121fcc6b904939f6187832ba9b48b3d5fe53f.1465891164.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1465891164.git.jussi.kukkonen@intel.com>
 References: <cover.1465891164.git.jussi.kukkonen@intel.com>
-Subject: [PATCHv3 23/30] sysprof: Upgrade to git version slightly past 3.20
+Subject: [PATCHv3 24/30] matchbox-session-sato: Update session startup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,367 +31,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jun 2016 08:15:29 -0000
+X-List-Received-Date: Tue, 14 Jun 2016 08:15:30 -0000
 
-New version uses Gtk+3. 3.20 release requires a bunch of fixes to
-build without polkit, this git revision inclues those fixes.
-
-* Add patch to use proper U64_TO_POINTER macro to fix build on
-  32 bit platforms.
-* Forward port memory barrier patches for arm & mips
-* sysprof builds with loads of warnings and git builds also use
-  -Werror: avoid that by setting "--enable-compile-warnings"
+* Use Adwaita Gtk+ theme
+* sato-gtk-engine is no longer needed with Adwaita
+* GTK_CSD tricks are no longer needed since the panel
+  does not draw on top windows
+* Add meta-theme index file: it used to be provided by gtk-sato-engine
+  and is used by matchbox-config-gtk only (to be able to show a single
+  selection for Gtk+, icon and Matchbox themes). This is a more
+  logical place for it.
+* Set matchbox-theme gconf key (just to be explicit, this is the
+  default already)
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- .../sysprof/files/0001-Avoid-building-docs.patch   | 42 ++++++++++++++++++++++
- .../0001-Disable-check-for-polkit-for-UI.patch     | 32 +++++++++++++++++
- ...ward-port-mips-arm-memory-barrier-patches.patch | 38 ++++++++++++++++++++
- .../files/0001-callgraph-Use-U64_TO_POINTER.patch  | 29 +++++++++++++++
- .../sysprof/files/define-NT_GNU_BUILD_ID.patch     |  4 +--
- .../sysprof/files/gui-argument.patch               | 35 ------------------
- meta/recipes-kernel/sysprof/files/rmb-arm.patch    | 21 -----------
- meta/recipes-kernel/sysprof/files/rmb-mips.patch   | 22 ------------
- meta/recipes-kernel/sysprof/sysprof_git.bb         | 34 ++++++++++--------
- 9 files changed, 163 insertions(+), 94 deletions(-)
- create mode 100644 meta/recipes-kernel/sysprof/files/0001-Avoid-building-docs.patch
- create mode 100644 meta/recipes-kernel/sysprof/files/0001-Disable-check-for-polkit-for-UI.patch
- create mode 100644 meta/recipes-kernel/sysprof/files/0001-Forward-port-mips-arm-memory-barrier-patches.patch
- create mode 100644 meta/recipes-kernel/sysprof/files/0001-callgraph-Use-U64_TO_POINTER.patch
- delete mode 100644 meta/recipes-kernel/sysprof/files/gui-argument.patch
- delete mode 100644 meta/recipes-kernel/sysprof/files/rmb-arm.patch
- delete mode 100644 meta/recipes-kernel/sysprof/files/rmb-mips.patch
+ .../matchbox-sato/matchbox-session-sato/index.theme           |  7 +++++++
+ meta/recipes-sato/matchbox-sato/matchbox-session-sato/session |  9 ++-------
+ meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb  | 11 ++++++++---
+ 3 files changed, 17 insertions(+), 10 deletions(-)
+ create mode 100644 meta/recipes-sato/matchbox-sato/matchbox-session-sato/index.theme
 
-diff --git a/meta/recipes-kernel/sysprof/files/0001-Avoid-building-docs.patch b/meta/recipes-kernel/sysprof/files/0001-Avoid-building-docs.patch
+diff --git a/meta/recipes-sato/matchbox-sato/matchbox-session-sato/index.theme b/meta/recipes-sato/matchbox-sato/matchbox-session-sato/index.theme
 new file mode 100644
-index 0000000..202f354
+index 0000000..c9260cf
 --- /dev/null
-+++ b/meta/recipes-kernel/sysprof/files/0001-Avoid-building-docs.patch
-@@ -0,0 +1,42 @@
-+From 27df521c68e7c8b5b050dab15f40aa15fd03623a Mon Sep 17 00:00:00 2001
-+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Date: Wed, 4 May 2016 14:58:24 +0300
-+Subject: [PATCH] Avoid building docs
-+
-+Upstream-Status: Inappropriate
-+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+---
-+ Makefile.am | 2 +-
-+ m4/yelp.m4  | 6 ------
-+ 2 files changed, 1 insertion(+), 7 deletions(-)
-+
-+diff --git a/Makefile.am b/Makefile.am
-+index b919a3f..3a3851d 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -1,4 +1,4 @@
-+-SUBDIRS = daemon data help lib po src tools tests
-++SUBDIRS = daemon data lib po src tools tests
-+ 
-+ EXTRA_DIST = AUTHORS tap-test COPYING.gpl-2
-+ 
-+diff --git a/m4/yelp.m4 b/m4/yelp.m4
-+index 5db847f..1b6ede4 100644
-+--- a/m4/yelp.m4
-++++ b/m4/yelp.m4
-+@@ -27,12 +27,6 @@ AC_ARG_WITH([help-dir],
-+ HELP_DIR="$with_help_dir"
-+ AC_SUBST(HELP_DIR)
-+ 
-+-AC_ARG_VAR([ITSTOOL], [Path to the `itstool` command])
-+-AC_CHECK_PROG([ITSTOOL], [itstool], [itstool])
-+-if test x"$ITSTOOL" = x; then
-+-  AC_MSG_ERROR([itstool not found])
-+-fi
-+-
-+ AC_ARG_VAR([XMLLINT], [Path to the `xmllint` command])
-+ AC_CHECK_PROG([XMLLINT], [xmllint], [xmllint])
-+ if test x"$XMLLINT" = x; then
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-kernel/sysprof/files/0001-Disable-check-for-polkit-for-UI.patch b/meta/recipes-kernel/sysprof/files/0001-Disable-check-for-polkit-for-UI.patch
-new file mode 100644
-index 0000000..6085232
---- /dev/null
-+++ b/meta/recipes-kernel/sysprof/files/0001-Disable-check-for-polkit-for-UI.patch
-@@ -0,0 +1,32 @@
-+From 765d578145e31ddc9495adfab8037ade33c6a9cc Mon Sep 17 00:00:00 2001
-+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Date: Wed, 4 May 2016 10:59:36 +0300
-+Subject: [PATCH] Disable check for polkit for UI
-+
-+The check is not technically required: sysprof just needs
-+to be able to access system perf counters at runtime.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+---
-+ configure.ac | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 8559597..ecf93ad 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -131,8 +131,8 @@ AS_IF([test "$enable_gtk" = auto],[
-+ 	AS_IF([test "$have_gtk" = "yes" && test "$have_polkit" = "yes"],[enable_gtk=yes],[enable_gtk=no])
-+ ])
-+ AS_IF([test "$enable_gtk" = "yes"],[
-+-	AS_IF([test "$have_gtk" = "yes" && test "$have_polkit" = "yes"],[],[
-+-		AC_MSG_ERROR([--enable-gtk requires gtk+-3.0 >= gtk_required_version and polkit-gobject-1])
-++	AS_IF([test "$have_gtk" = "yes"],[],[
-++		AC_MSG_ERROR([--enable-gtk requires gtk+-3.0 >= gtk_required_version])
-+ 	])
-+ ])
-+ AM_CONDITIONAL(ENABLE_GTK, test "$enable_gtk" = "yes")
-+-- 
-+2.8.1
-+
-diff --git a/meta/recipes-kernel/sysprof/files/0001-Forward-port-mips-arm-memory-barrier-patches.patch b/meta/recipes-kernel/sysprof/files/0001-Forward-port-mips-arm-memory-barrier-patches.patch
-new file mode 100644
-index 0000000..92e804f
---- /dev/null
-+++ b/meta/recipes-kernel/sysprof/files/0001-Forward-port-mips-arm-memory-barrier-patches.patch
-@@ -0,0 +1,38 @@
-+From a2d385e504323641b1127821833c61e77301c90b Mon Sep 17 00:00:00 2001
-+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Date: Sat, 11 Jun 2016 22:45:37 +0300
-+Subject: [PATCH] Forward port mips & arm memory barrier patches
-+
-+Upstream-Status: Pending
-+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+---
-+ lib/util/util.h | 15 +++++++++++++++
-+ 1 file changed, 15 insertions(+)
-+
-+diff --git a/lib/util/util.h b/lib/util/util.h
-+index 591722d..0768056 100644
-+--- a/lib/util/util.h
-++++ b/lib/util/util.h
-+@@ -29,4 +29,19 @@
-+ #define read_barrier()           asm volatile("" ::: "memory")
-+ #endif
-+ 
-++#ifdef __arm__
-++/*
-++ * Use the __kuser_memory_barrier helper in the CPU helper page. See
-++ * arch/arm/kernel/entry-armv.S in the kernel source for details.
-++ */
-++#define read_barrier()         ((void(*)(void))0xffff0fa0)()
-++#endif
-++
-++#ifdef __mips__
-++#define read_barrier()         asm volatile(".set   mips2\n\t" \
-++                                            "sync\n\t" \
-++                                            ".set   mips0" ::: "memory")
-++#endif
-++
-++
-+ #endif /* SP_UTIL_H */
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-kernel/sysprof/files/0001-callgraph-Use-U64_TO_POINTER.patch b/meta/recipes-kernel/sysprof/files/0001-callgraph-Use-U64_TO_POINTER.patch
-new file mode 100644
-index 0000000..ac1384c
---- /dev/null
-+++ b/meta/recipes-kernel/sysprof/files/0001-callgraph-Use-U64_TO_POINTER.patch
-@@ -0,0 +1,29 @@
-+From 05816e6f9cd65b2624bb04de65fdf61031c7017f Mon Sep 17 00:00:00 2001
-+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Date: Fri, 10 Jun 2016 14:01:54 +0300
-+Subject: [PATCH] callgraph: Use U64_TO_POINTER
-+
-+This fixes a "cast to pointer from integer of different size" on i586.
-+
-+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Upstream-Status: Pending
-+---
-+ lib/sp-callgraph-view.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/lib/sp-callgraph-view.c b/lib/sp-callgraph-view.c
-+index 02cc17b..58315b0 100644
-+--- a/lib/sp-callgraph-view.c
-++++ b/lib/sp-callgraph-view.c
-+@@ -135,7 +135,7 @@ build_functions_store (StackNode *node,
-+ 
-+   gtk_list_store_append (state->store, &iter);
-+   gtk_list_store_set (state->store, &iter,
-+-                      COLUMN_NAME, (const gchar *)node->data,
-++                      COLUMN_NAME, U64_TO_POINTER(node->data),
-+                       COLUMN_SELF, 100.0 * size / state->profile_size,
-+                       COLUMN_TOTAL, 100.0 * total / state->profile_size,
-+                       COLUMN_POINTER, node,
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-kernel/sysprof/files/define-NT_GNU_BUILD_ID.patch b/meta/recipes-kernel/sysprof/files/define-NT_GNU_BUILD_ID.patch
-index dcc2cbe..f75ddad 100644
---- a/meta/recipes-kernel/sysprof/files/define-NT_GNU_BUILD_ID.patch
-+++ b/meta/recipes-kernel/sysprof/files/define-NT_GNU_BUILD_ID.patch
-@@ -7,8 +7,8 @@ Upstream-Status: Pending
++++ b/meta/recipes-sato/matchbox-sato/matchbox-session-sato/index.theme
+@@ -0,0 +1,7 @@
++[X-GNOME-Metatheme]
++Encoding=UTF-8
++Type=X-GNOME-Metatheme
++Name=Sato
++GtkTheme=Adwaita
++IconTheme=Sato
++MatchboxTheme=Sato
+diff --git a/meta/recipes-sato/matchbox-sato/matchbox-session-sato/session b/meta/recipes-sato/matchbox-sato/matchbox-session-sato/session
+index 42ce483..f6313bd 100644
+--- a/meta/recipes-sato/matchbox-sato/matchbox-session-sato/session
++++ b/meta/recipes-sato/matchbox-sato/matchbox-session-sato/session
+@@ -14,11 +14,6 @@ else
+     KEYBOARD_APPLET="keyboard"
+ fi
  
- Index: git/elfparser.h
- ===================================================================
----- git.orig/elfparser.h	2011-07-16 18:57:41.000000000 -0700
--+++ git/elfparser.h	2011-07-16 20:28:54.733829895 -0700
-+--- git.orig/lib/util/elfparser.h	2011-07-16 18:57:41.000000000 -0700
-++++ git/lib/util/elfparser.h	2011-07-16 20:28:54.733829895 -0700
- @@ -17,6 +17,10 @@
-   */
-  #include <glib.h>
-diff --git a/meta/recipes-kernel/sysprof/files/gui-argument.patch b/meta/recipes-kernel/sysprof/files/gui-argument.patch
-deleted file mode 100644
-index d2c053e..0000000
---- a/meta/recipes-kernel/sysprof/files/gui-argument.patch
-+++ /dev/null
-@@ -1,35 +0,0 @@
--Add the ability to explicitly enable/disable GUI support
+-# Tell GTK+3 we really want server side decorations, even with
+-# GtkHeaderBar using applications: Without that mb-panel will render
+-# on top of the client side decorations.
+-export GTK_CSD=0
 -
--Signed-off-by: Christopher Larson <chris_larson@mentor.com>
--Upstream-Status: Pending
--
----- git.orig/configure.ac
--+++ git/configure.ac
--@@ -62,12 +62,24 @@ KMICRO=`uname -r | cut -d"." -f 3 | cut
-- # Pkgconfig dependencies
-- 
-- core_dep="glib-2.0 >= 2.6.0"
---gui_dep="gtk+-2.0 > 2.6.0 gdk-pixbuf-2.0 pangoft2 libglade-2.0"
-- 
-- PKG_CHECK_MODULES(CORE_DEP, $core_dep, [], AC_MSG_ERROR([sysprof dependencies not satisfied]))
-- 
---build_gui=yes
---PKG_CHECK_MODULES(GUI_DEP, $gui_dep, [], build_gui=no)
--+gui_dep="gtk+-2.0 > 2.6.0 gdk-pixbuf-2.0 pangoft2 libglade-2.0"
--+
--+AC_ARG_ENABLE([gui],
--+  [AS_HELP_STRING([--disable-gui],
--+    [Disable GUI functionality (requires gtk+, gdk-pixbuf, pangoft2, libglade) @<:@default=auto@:>@])],
--+  [],
--+  [enable_gui=auto])
--+
--+build_gui=no
--+AS_IF([test "x$enable_gui" != xno],
--+  [PKG_CHECK_MODULES(GUI_DEP, $gui_dep, build_gui=yes,
--+    [if test "x$enable_gui" != xauto; then
--+       AC_MSG_FAILURE(
--+         [--enable-gui was given, but gui dependencies were not satisfied])
--+     fi])])
-- 
-- AM_CONDITIONAL([BUILD_GUI], [test "$build_gui" = yes])
-- 
-diff --git a/meta/recipes-kernel/sysprof/files/rmb-arm.patch b/meta/recipes-kernel/sysprof/files/rmb-arm.patch
-deleted file mode 100644
-index c53ac64..0000000
---- a/meta/recipes-kernel/sysprof/files/rmb-arm.patch
-+++ /dev/null
-@@ -1,21 +0,0 @@
--
--Upstream-Status: Pending
--
--Index: git/util.h
--===================================================================
----- git.orig/util.h	2010-12-07 22:41:57.156243001 -0600
--+++ git/util.h	2010-12-07 22:43:47.616243002 -0600
--@@ -37,4 +37,13 @@
-- #define cpu_relax()     asm volatile("" ::: "memory");
-- #endif
-- 
--+#ifdef __arm__
--+/*
--+ * Use the __kuser_memory_barrier helper in the CPU helper page. See
--+ * arch/arm/kernel/entry-armv.S in the kernel source for details.
--+ */
--+#define rmb()		((void(*)(void))0xffff0fa0)()
--+#define cpu_relax()	asm volatile("":::"memory")
--+#endif
--+
-- #endif
-diff --git a/meta/recipes-kernel/sysprof/files/rmb-mips.patch b/meta/recipes-kernel/sysprof/files/rmb-mips.patch
-deleted file mode 100644
-index e055b8a..0000000
---- a/meta/recipes-kernel/sysprof/files/rmb-mips.patch
-+++ /dev/null
-@@ -1,22 +0,0 @@
--Upstream-Status: Pending
--
--Index: git/util.h
--===================================================================
----- git.orig/util.h	2010-12-08 01:22:44.486243001 -0600
--+++ git/util.h	2010-12-08 01:23:27.836243001 -0600
--@@ -37,4 +37,15 @@
-- #define cpu_relax()     asm volatile("" ::: "memory");
-- #endif
-- 
--+#ifdef __mips__
--+#define rmb()		asm volatile(					\
--+				".set	mips2\n\t"			\
--+				"sync\n\t"				\
--+				".set	mips0"				\
--+				: /* no output */			\
--+				: /* no input */			\
--+				: "memory")
--+#define cpu_relax()	asm volatile("" ::: "memory")
--+#endif
--+
-- #endif
-diff --git a/meta/recipes-kernel/sysprof/sysprof_git.bb b/meta/recipes-kernel/sysprof/sysprof_git.bb
-index 84c6aad..461f414 100644
---- a/meta/recipes-kernel/sysprof/sysprof_git.bb
-+++ b/meta/recipes-kernel/sysprof/sysprof_git.bb
-@@ -1,29 +1,35 @@
- SUMMARY = "System-wide Performance Profiler for Linux"
--LICENSE = "GPLv2"
--LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
-+LICENSE = "GPLv3+"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
-+                    file://src/sp-application.c;endline=17;md5=40e55577ef122c88fe20052acda64875"
+ matchbox-desktop &
+ 
+ # Lines containing feature-[foo] are removed at build time if the machine
+@@ -28,6 +23,6 @@ START_APPLETS=showdesktop,windowselector
+ END_APPLETS=clock,battery,$KEYBOARD_APPLET,systray,startup-notify,notify
+ END_APPLETS=openmoko-panel-gsm,$END_APPLETS # feature-phone
+ 
+-matchbox-panel --titlebar --start-applets $START_APPLETS --end-applets $END_APPLETS &
++matchbox-panel --start-applets $START_APPLETS --end-applets $END_APPLETS &
+ 
+-exec matchbox-window-manager -theme Sato -use_desktop_mode decorated -use_cursor $SHOWCURSOR $@
++exec matchbox-window-manager -theme Sato -use_cursor $SHOWCURSOR $@
+diff --git a/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb b/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
+index 76de18a..fb4750b 100644
+--- a/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
++++ b/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://session;endline=3;md5=f8a5c5b9c279e52dc094d10e11c2be6
+ 
+ SECTION = "x11"
+ DEPENDS = "gconf-native"
+-RDEPENDS_${PN} = "formfactor gtk-sato-engine matchbox-theme-sato gtk-theme-sato matchbox-panel-2 matchbox-desktop-sato matchbox-session gconf"
++RDEPENDS_${PN} = "formfactor matchbox-theme-sato matchbox-panel-2 matchbox-desktop-sato matchbox-session gconf"
+ PR = "r30"
+ 
+ # This package is architecture specific because the session script is modified
+@@ -19,9 +19,12 @@ inherit distro_features_check
+ # The matchbox-theme-sato requires x11 in DISTRO_FEATURES
+ REQUIRED_DISTRO_FEATURES = "x11"
+ 
+-SRC_URI = "file://session"
++SRC_URI = "file://session \
++           file://index.theme"
+ S = "${WORKDIR}"
+ 
++FILES_${PN} += "${datadir}/themes/Sato/index.theme"
 +
-+inherit gnomebase gettext
+ do_install() {
+ 	# This is the set of machine features that the script has markers for
+ 	FEATURES="phone"
+@@ -34,6 +37,7 @@ do_install() {
+ 		fi
+ 	done
  
- DEPENDS = "glib-2.0"
- 
--SRCREV = "cd44ee6644c3641507fb53b8a2a69137f2971219"
--PV = "1.2.0+git${SRCPV}"
-+S = "${WORKDIR}/git"
-+SRCREV = "9c6cec9b49766bf77c1713bc5a7c6d651e628068"
-+PV = "3.20.0+git${SRCPV}"
- 
- SRC_URI = "git://git.gnome.org/sysprof \
-            file://define-NT_GNU_BUILD_ID.patch \
--           file://gui-argument.patch \
-+           file://0001-Disable-check-for-polkit-for-UI.patch \
-+           file://0001-Avoid-building-docs.patch \
-+           file://0001-callgraph-Use-U64_TO_POINTER.patch \
-+           file://0001-Forward-port-mips-arm-memory-barrier-patches.patch \
-           "
-+SRC_URI[archive.md5sum] = "d56e8492033b60e247634731e7f760b9"
-+SRC_URI[archive.sha256sum] = "4a338ad41bfffae87ef281f6e75c9660b3e0c6671bf5233be0c3f55a5e5b1ce5"
- 
--SRC_URI_append_arm  = " file://rmb-arm.patch"
--SRC_URI_append_armeb  = " file://rmb-arm.patch"
--SRC_URI_append_mips = " file://rmb-mips.patch"
--SRC_URI_append_mips64 = " file://rmb-mips.patch"
--SRC_URI_append_mips64n32 = " file://rmb-mips.patch"
-+AUTOTOOLS_AUXDIR = "${S}/build-aux"
- 
--S = "${WORKDIR}/git"
-+EXTRA_OECONF = "--enable-compile-warnings"
- 
--inherit autotools pkgconfig
-+PACKAGECONFIG ?= "${@bb.utils.contains_any('DISTRO_FEATURES', '${GTK3DISTROFEATURES}', 'gtk', '', d)}"
-+PACKAGECONFIG[gtk] = "--enable-gtk,--disable-gtk,gtk+3"
- 
--PACKAGECONFIG ?= "${@bb.utils.contains_any('DISTRO_FEATURES', '${GTK2DISTROFEATURES}', 'gui', '', d)}"
--PACKAGECONFIG[gui] = "--enable-gui,--disable-gui,gtk+ gdk-pixbuf pango libglade"
-+FILES_${PN} += "${datadir}/icons/ ${libdir}"
-+FILES_${PN}-dev = "${prefix}/include"
- 
- # We do not yet work for aarch64.
- #
++	install -D ${S}/index.theme ${D}/${datadir}/themes/Sato/index.theme
+ 	install -d ${D}/${sysconfdir}/matchbox
+ 	sed -f "$SCRIPT" ${S}/session > ${D}/${sysconfdir}/matchbox/session
+         chmod +x ${D}/${sysconfdir}/matchbox/session
+@@ -44,7 +48,8 @@ pkg_postinst_${PN} () {
+ 		#type, name, value
+ 		gconftool-2 --config-source=xml::$D${sysconfdir}/gconf/gconf.xml.defaults --direct --type $1 --set /desktop/poky/interface/$2 "$3"
+ 	}
+-	set_value string theme Sato
++	set_value string theme Adwaita
++	set_value string matchbox_theme Sato
+ 	set_value string icon_theme Sato
+ 	set_value bool touchscreen true
+ 	set_value string font_name "Sans 9"
 -- 
 2.1.4
 
