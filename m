@@ -1,24 +1,24 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 58810731C1
+	by mail.openembedded.org (Postfix) with ESMTP id A4AF8731C4
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 14 Jun 2016 08:15:06 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
 	by fmsmga104.fm.intel.com with ESMTP; 14 Jun 2016 01:15:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,470,1459839600"; d="scan'208";a="718727768"
+X-IronPort-AV: E=Sophos;i="5.26,470,1459839600"; d="scan'208";a="718727784"
 Received: from theory.fi.intel.com ([10.237.72.196])
-	by FMSMGA003.fm.intel.com with ESMTP; 14 Jun 2016 01:15:06 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 14 Jun 2016 01:15:07 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Jun 2016 11:14:28 +0300
-Message-Id: <8d1710a6db44f2c3f4170804e8e19acb5d4e66a3.1465891164.git.jussi.kukkonen@intel.com>
+Date: Tue, 14 Jun 2016 11:14:29 +0300
+Message-Id: <46edee931a8f36c426b30afbde36048c27d88c45.1465891164.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cab121fcc6b904939f6187832ba9b48b3d5fe53f.1465891164.git.jussi.kukkonen@intel.com>
 References: <cab121fcc6b904939f6187832ba9b48b3d5fe53f.1465891164.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1465891164.git.jussi.kukkonen@intel.com>
 References: <cover.1465891164.git.jussi.kukkonen@intel.com>
-Subject: [PATCHv3 04/30] sato-screenshot: Upgrade to 0.2
+Subject: [PATCHv3 05/30] settings-daemon: Upgrade to 0.0.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,36 +33,83 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 14 Jun 2016 08:15:06 -0000
 
-New version supports Gtk+3.
+* New versions builds with gdk-x11-3.0 and supports gconf key
+  "matchbox_theme".
+* Remove patch that's already upstream.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- .../{sato-screenshot_git.bb => sato-screenshot_0.2.bb}             | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
- rename meta/recipes-sato/sato-screenshot/{sato-screenshot_git.bb => sato-screenshot_0.2.bb} (86%)
+ .../files/dso_linking_change_build_fix.patch       | 31 ----------------------
+ ...ings-daemon_git.bb => settings-daemon_0.0.2.bb} |  9 +++----
+ 2 files changed, 4 insertions(+), 36 deletions(-)
+ delete mode 100644 meta/recipes-sato/settings-daemon/files/dso_linking_change_build_fix.patch
+ rename meta/recipes-sato/settings-daemon/{settings-daemon_git.bb => settings-daemon_0.0.2.bb} (85%)
 
-diff --git a/meta/recipes-sato/sato-screenshot/sato-screenshot_git.bb b/meta/recipes-sato/sato-screenshot/sato-screenshot_0.2.bb
-similarity index 86%
-rename from meta/recipes-sato/sato-screenshot/sato-screenshot_git.bb
-rename to meta/recipes-sato/sato-screenshot/sato-screenshot_0.2.bb
-index 1b2b65d..92f0ee1 100644
---- a/meta/recipes-sato/sato-screenshot/sato-screenshot_git.bb
-+++ b/meta/recipes-sato/sato-screenshot/sato-screenshot_0.2.bb
-@@ -7,11 +7,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     file://main.c;endline=9;md5=023e14d6404d0a961eb97cbd011fc141 \
-                     file://screenshot-ui.h;endline=9;md5=638d9ffa83e9325a36df224166ed6ad0"
+diff --git a/meta/recipes-sato/settings-daemon/files/dso_linking_change_build_fix.patch b/meta/recipes-sato/settings-daemon/files/dso_linking_change_build_fix.patch
+deleted file mode 100644
+index 5943744..0000000
+--- a/meta/recipes-sato/settings-daemon/files/dso_linking_change_build_fix.patch
++++ /dev/null
+@@ -1,31 +0,0 @@
+-Upstream-Status: Inappropriate [configuration]
+-
+-after gcc linking has changed, all the libraries must be explicitely specified to for linking. 
+-This patch avoids this linking error:
+-
+-| make  all-am^M
+-| make[1]: Entering directory `/disk0/pokybuild/build1/tmp/work/i586-poky-linux/settings-daemon-0.0+svnr2059-r3/settings-daemon'^M
+-| ccache i586-poky-linux-gcc -march=i586 --sysroot=/disk0/pokybuild/build1/tmp/sysroots/i586-poky-linux -Wall -fexpensive-optimizations -fomit-frame-pointer -frename-registers -O2 -ggdb -feliminate-unused-debug-types  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -o settings-daemon settings_daemon-xsettings-common.o settings_daemon-xsettings-manager.o settings_daemon-settings-daemon.o -pthread -lgconf-2 -ldbus-glib-1 -ldbus-1 -lpthread -lgdk-x11-2.0 -lgdk_pixbuf-2.0 -lpangocairo-1.0 -lpango-1.0 -lcairo -lgobject-2.0 -lgmodule-2.0 -lgthread-2.0 -lrt -lglib-2.0^M
+-| /disk0/pokybuild/build1/tmp/sysroots/x86_64-linux/usr/libexec/i586-poky-linux/gcc/i586-poky-linux/4.5.1/ld: *^A: invalid DSO for symbol `XCreateSimpleWindow' definition^M
+-| /disk0/pokybuild/build1/tmp/sysroots/i586-poky-linux/usr/lib/libX11.so.6: could not read symbols: Bad value^M
+-| collect2: ld returned 1 exit status^M
+-| make[1]: *** [settings-daemon] Error 1^M
+-| make[1]: Leaving directory `/disk0/pokybuild/build1/tmp/work/i586-poky-linux/settings-daemon-0.0+svnr2059-r3/settings-daemon'^M
+-| make: *** [all] Error 2^M
+-
+-Nitin A Kamble <nitin.a.kamble@intel.com>
+-Date: 2011/01/11
+-
+-Index: settings-daemon/configure.ac
+-===================================================================
+---- settings-daemon.orig/configure.ac
+-+++ settings-daemon/configure.ac
+-@@ -14,7 +14,7 @@ AC_PROG_CC
+- 
+- 
+- dnl TODO: make gconf optional
+--PKG_CHECK_MODULES(APP, [gconf-2.0 gdk-x11-2.0])
+-+PKG_CHECK_MODULES(APP, [gconf-2.0 gdk-x11-2.0 x11])
+- 
+- 
+- AC_SUBST(APP_CFLAGS)
+diff --git a/meta/recipes-sato/settings-daemon/settings-daemon_git.bb b/meta/recipes-sato/settings-daemon/settings-daemon_0.0.2.bb
+similarity index 85%
+rename from meta/recipes-sato/settings-daemon/settings-daemon_git.bb
+rename to meta/recipes-sato/settings-daemon/settings-daemon_0.0.2.bb
+index c061553..56eb656 100644
+--- a/meta/recipes-sato/settings-daemon/settings-daemon_git.bb
++++ b/meta/recipes-sato/settings-daemon/settings-daemon_0.0.2.bb
+@@ -4,16 +4,15 @@ BUGTRACKER = "http://bugzilla.yoctoproject.org/"
+ LICENSE = "MIT-style"
+ LIC_FILES_CHKSUM = "file://xsettings-manager.h;endline=22;md5=7cfac9d2d4dc3694cc7eb605cf32a69b \
+                     file://xsettings-common.h;endline=22;md5=7cfac9d2d4dc3694cc7eb605cf32a69b"
+-DEPENDS = "gconf glib-2.0 gtk+"
++DEPENDS = "gconf glib-2.0 gtk+3"
+ SECTION = "x11"
+-SRCREV = "9a99528b02255450db81176abd9bbcc1dab9a4c1"
+-PV = "0.0+git${SRCPV}"
+-
  
--DEPENDS = "matchbox-panel-2"
--SRCREV = "3a9688e8a01b63a78f402b4e7c0b8b005fcdfa29"
--PV = "0.1+git${SRCPV}"
--PR = "r2"
-+DEPENDS = "matchbox-panel-2 gtk+3"
- 
-+# SRCREV tagged 0.2
-+SRCREV = "5db2672fb857b2c80b949d8fce92e0f0029cc947"
- SRC_URI = "git://git.yoctoproject.org/screenshot"
++# SRCREV tagged 0.0.2
++SRCREV = "b2e5da502f8c5ff75e9e6da771372ef8e40fd9a2"
+ SRC_URI = "git://git.yoctoproject.org/xsettings-daemon \
+            file://addsoundkeys.patch;apply=yes \
+            file://70settings-daemon.sh \
+-           file://dso_linking_change_build_fix.patch"
++           "
  
  S = "${WORKDIR}/git"
+ 
 -- 
 2.1.4
 
