@@ -1,22 +1,24 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 245236FF3D
+	by mail.openembedded.org (Postfix) with ESMTP id 2552A6FF60
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jun 2016 08:15:02 +0000 (UTC)
+	Tue, 14 Jun 2016 08:15:04 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga104.fm.intel.com with ESMTP; 14 Jun 2016 01:15:04 -0700
+	by fmsmga104.fm.intel.com with ESMTP; 14 Jun 2016 01:15:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,470,1459839600"; d="scan'208";a="718727679"
+X-IronPort-AV: E=Sophos;i="5.26,470,1459839600"; d="scan'208";a="718727719"
 Received: from theory.fi.intel.com ([10.237.72.196])
-	by FMSMGA003.fm.intel.com with ESMTP; 14 Jun 2016 01:15:02 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 14 Jun 2016 01:15:04 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Jun 2016 11:14:25 +0300
-Message-Id: <cab121fcc6b904939f6187832ba9b48b3d5fe53f.1465891164.git.jussi.kukkonen@intel.com>
+Date: Tue, 14 Jun 2016 11:14:26 +0300
+Message-Id: <aba53c79d6a0d2a6d36470425a10c682bd9f256b.1465891164.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
+In-Reply-To: <cab121fcc6b904939f6187832ba9b48b3d5fe53f.1465891164.git.jussi.kukkonen@intel.com>
+References: <cab121fcc6b904939f6187832ba9b48b3d5fe53f.1465891164.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1465891164.git.jussi.kukkonen@intel.com>
 References: <cover.1465891164.git.jussi.kukkonen@intel.com>
-Subject: [PATCHv3 01/30] matchbox-theme-sato: Upgrade to 0.2
+Subject: [PATCHv3 02/30] matchbox-desktop: Ugrade to 2.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,64 +33,50 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 14 Jun 2016 08:15:05 -0000
 
-New theme is tries to be more compatible with Adwaita: titlebar is
-thinner, colors are mostly uniform gray instead of green.
+Changes since 2.0
+* Ported to GTK+3
+* Removed deprecated API use, started using new
+  GTK+ features like FlowBox instead of custom code
+* Added --mode for easier debugging
+
+One of the LIC_FILES_CHKSUM files was removed upstream.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- .../matchbox-theme-sato/matchbox-theme-sato_0.1.bb           |  8 --------
- .../matchbox-theme-sato/matchbox-theme-sato_0.2.bb           |  7 +++++++
- .../matchbox-theme-sato/matchbox-theme-sato_git.bb           | 12 ------------
- 3 files changed, 7 insertions(+), 20 deletions(-)
- delete mode 100644 meta/recipes-sato/matchbox-theme-sato/matchbox-theme-sato_0.1.bb
- create mode 100644 meta/recipes-sato/matchbox-theme-sato/matchbox-theme-sato_0.2.bb
- delete mode 100644 meta/recipes-sato/matchbox-theme-sato/matchbox-theme-sato_git.bb
+ .../{matchbox-desktop_git.bb => matchbox-desktop_2.1.bb}      | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
+ rename meta/recipes-sato/matchbox-desktop/{matchbox-desktop_git.bb => matchbox-desktop_2.1.bb} (65%)
 
-diff --git a/meta/recipes-sato/matchbox-theme-sato/matchbox-theme-sato_0.1.bb b/meta/recipes-sato/matchbox-theme-sato/matchbox-theme-sato_0.1.bb
-deleted file mode 100644
-index f6786dd..0000000
---- a/meta/recipes-sato/matchbox-theme-sato/matchbox-theme-sato_0.1.bb
-+++ /dev/null
-@@ -1,8 +0,0 @@
--require matchbox-theme-sato.inc
--
--PR = "r1"
--
--SRC_URI = "http://pokylinux.org/releases/sato/matchbox-theme-sato-0.1.tar.gz"
--
--SRC_URI[md5sum] = "72ae272ef7803141a3dcb69e670cff97"
--SRC_URI[sha256sum] = "5b59f9646edbfb907a309332db3bd6fa7080dc1fe24df549480cfae7d974a3fb"
-diff --git a/meta/recipes-sato/matchbox-theme-sato/matchbox-theme-sato_0.2.bb b/meta/recipes-sato/matchbox-theme-sato/matchbox-theme-sato_0.2.bb
-new file mode 100644
-index 0000000..8fc6bb3
---- /dev/null
-+++ b/meta/recipes-sato/matchbox-theme-sato/matchbox-theme-sato_0.2.bb
-@@ -0,0 +1,7 @@
-+require matchbox-theme-sato.inc
-+
-+# SRCREV tagged 0.2
-+SRCREV = "df085ba9cdaeaf2956890b0e29d7ea1779bf6c78"
-+SRC_URI = "git://git.yoctoproject.org/matchbox-sato"
-+
-+S = "${WORKDIR}/git"
-diff --git a/meta/recipes-sato/matchbox-theme-sato/matchbox-theme-sato_git.bb b/meta/recipes-sato/matchbox-theme-sato/matchbox-theme-sato_git.bb
-deleted file mode 100644
-index 0d3569d..0000000
---- a/meta/recipes-sato/matchbox-theme-sato/matchbox-theme-sato_git.bb
-+++ /dev/null
-@@ -1,12 +0,0 @@
--require matchbox-theme-sato.inc
--
--SRCREV = "f72cf4ed7d71ad9e47b0f2d3dbc593bc2f3e76f8"
--PV = "0.2+git${SRCPV}"
--
--DEFAULT_PREFERENCE = "-1"
--
--SRC_URI = "git://git.yoctoproject.org/matchbox-sato"
--
--EXTRA_OECONF += "${@bb.utils.contains('MACHINE_FEATURES', 'qvga', '--with-mode=qvga', '',d)}"
--
--S = "${WORKDIR}/git"
+diff --git a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_git.bb b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.1.bb
+similarity index 65%
+rename from meta/recipes-sato/matchbox-desktop/matchbox-desktop_git.bb
+rename to meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.1.bb
+index dbe8c11..d6c53b0 100644
+--- a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_git.bb
++++ b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.1.bb
+@@ -4,18 +4,15 @@ BUGTRACKER = "http://bugzilla.yoctoproject.org/"
+ 
+ LICENSE = "GPLv2+ & LGPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+-                    file://libtaku/eggsequence.h;endline=20;md5=b91f68f7642a1459fa1f4c9df94a8f15 \
+                     file://src/desktop.c;endline=20;md5=36c9bf295e6007f3423095f405af5a2d \
+                     file://src/main.c;endline=19;md5=2044244f97a195c25b7dc602ac7e9a00"
+ 
+-DEPENDS = "gtk+ startup-notification dbus"
++DEPENDS = "gtk+3 startup-notification dbus"
+ SECTION = "x11/wm"
+-SRCREV = "71e3e6e04271e9d5a14f1c231ef100c7f320134d"
+-PV = "2.0+git${SRCPV}"
+ 
+-SRC_URI = "git://git.yoctoproject.org/${BPN}-2 \
+-           file://0001-Do-nothing-on-delete-event-when-not-STANDALONE.patch \
+-           "
++# SRCREV tagged 2.1
++SRCREV = "c8473519a0f37488b8b3e839e275b000cdde0b80"
++SRC_URI = "git://git.yoctoproject.org/${BPN}-2"
+ 
+ EXTRA_OECONF = "--enable-startup-notification --with-dbus"
+ 
 -- 
 2.1.4
 
