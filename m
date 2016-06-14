@@ -1,24 +1,32 @@
-Return-Path: <Awais_Belal@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 974526FF93
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 777FA6010B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jun 2016 11:26:15 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-02.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1bCmU4-0002cf-0b from Awais_Belal@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Jun 2016 04:26:16 -0700
-Received: from awais-Precision-M4700.pkl.mentorg.com (137.202.0.76) by
-	SVR-IES-FEM-02.mgc.mentorg.com (137.202.0.106) with Microsoft SMTP
-	Server id 14.3.224.2; Tue, 14 Jun 2016 12:26:14 +0100
-From: Awais Belal <awais_belal@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 14 Jun 2016 16:26:08 +0500
-Message-ID: <1465903568-8189-1-git-send-email-awais_belal@mentor.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH] python3: fix CROSSPYTHONPATH for cross builds
+	Tue, 14 Jun 2016 12:03:38 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u5EC3a8j014849; Tue, 14 Jun 2016 13:03:36 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id bKeajtIHFFGa; Tue, 14 Jun 2016 13:03:36 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u5EC3YAN014844
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 14 Jun 2016 13:03:35 +0100
+Message-ID: <1465905814.13979.208.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: ChenQi <Qi.Chen@windriver.com>, "Maxin B. John" <maxin.john@intel.com>
+Date: Tue, 14 Jun 2016 13:03:34 +0100
+In-Reply-To: <575FD133.1030008@windriver.com>
+References: <cover.1465697985.git.Qi.Chen@windriver.com>
+	<c7d3b5b5d732304a31a843147fd123eda27a4794.1465697985.git.Qi.Chen@windriver.com>
+	<20160614043843.GA22248@mbabyjoh-desk.ger.corp.intel.com>
+	<575FD133.1030008@windriver.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 4/9] gzip: upgrade to 1.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,37 +39,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jun 2016 11:26:16 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 14 Jun 2016 12:03:41 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-There are cases where target and host are of the same
-type and at such instances the target modules may be
-loaded if CROSSPYTHONPATH is not correct. This adds
-host library paths so that target modules are not
-loaded while cross compiling to avoid illegal instruction
-issues.
+On Tue, 2016-06-14 at 17:41 +0800, ChenQi wrote:
+> On 06/14/2016 12:38 PM, Maxin B. John wrote:
+> > Hi,
+> > 
+> > On Sun, Jun 12, 2016 at 10:21:02AM +0800, Chen Qi wrote:
+> > > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> > > ---
+> > >   meta/recipes-extended/gzip/{gzip_1.6.bb => gzip_1.8.bb} | 0
+> > >   1 file changed, 0 insertions(+), 0 deletions(-)
+> > >   rename meta/recipes-extended/gzip/{gzip_1.6.bb => gzip_1.8.bb}
+> > > (100%)
+> > > 
+> > > diff --git a/meta/recipes-extended/gzip/gzip_1.6.bb
+> > > b/meta/recipes-extended/gzip/gzip_1.8.bb
+> > > similarity index 100%
+> > > rename from meta/recipes-extended/gzip/gzip_1.6.bb
+> > > rename to meta/recipes-extended/gzip/gzip_1.8.bb
+> > > -- 
+> > > 1.9.1
+> > gzip-1.8 build failed on qemux86 - musl:
+> > http://errors.yoctoproject.org/Errors/Details/69401/
+> > 
+> > Best Regards,
+> > Maxin
+> > 
+> 
+> Thanks.
+> I'll look into it.
 
-Signed-off-by: Awais Belal <awais_belal@mentor.com>
----
- meta/recipes-devtools/python/python3_3.5.1.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I've updated the patch in -next to deal with this, and the
+PREFERRED_VERSION warning it introduced too...
 
-diff --git a/meta/recipes-devtools/python/python3_3.5.1.bb b/meta/recipes-devtools/python/python3_3.5.1.bb
-index ebfdcdb..78ae174 100644
---- a/meta/recipes-devtools/python/python3_3.5.1.bb
-+++ b/meta/recipes-devtools/python/python3_3.5.1.bb
-@@ -70,8 +70,8 @@ export _PYTHON_PROJECT_BASE = "${B}"
- export _PYTHON_PROJECT_SRC = "${S}"
- export CCSHARED = "-fPIC"
- 
--# Fix ctypes cross compilation
--export CROSSPYTHONPATH = "${B}/build/lib.linux-${TARGET_ARCH}-${PYTHON_MAJMIN}:${S}/Lib:${S}/Lib/plat-linux"
-+# Fix cross compilation of different modules
-+export CROSSPYTHONPATH = "${STAGING_LIBDIR_NATIVE}/python${PYTHON_MAJMIN}/lib-dynload/:${B}/build/lib.linux-${TARGET_ARCH}-${PYTHON_MAJMIN}:${S}/Lib:${S}/Lib/plat-linux"
- 
- # No ctypes option for python 3
- PYTHONLSBOPTS = ""
--- 
-1.9.1
+Cheers,
 
+Richard
 
