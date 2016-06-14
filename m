@@ -1,46 +1,49 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id A3DC96612C
+Return-Path: <kergoth@gmail.com>
+Received: from mail-it0-f67.google.com (mail-it0-f67.google.com
+	[209.85.214.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 4BFBE60249
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jun 2016 15:18:52 +0000 (UTC)
-Received: by mail-wm0-f42.google.com with SMTP id m124so127995364wme.1
+	Tue, 14 Jun 2016 19:11:58 +0000 (UTC)
+Received: by mail-it0-f67.google.com with SMTP id h190so431931ith.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jun 2016 08:18:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=31YXYNQGKOK3k4lHdZEVOwkqq89QeDEVQYQ2h8JdT04=;
-	b=iJae0TlbPP1TdEaRMDE5BUBcAgdUS1uNnyk722vMoF2XYicBUK7IIfuPdDqILBZ5mO
-	Krh1S25ZWYu5LzJNPVEQb/jdclEAnTWhfHsUrs86Pq+1z/8mWhaeIIBZkO2Mtj76ScMd
-	t2uXDtESQQ76pQFv3QZXidfyhqOUFVVGywIdxvgl5a1Z32eWWYn+9jUgQ5AFwdsF48Z/
-	Kz8zuzC4HO7PziTVS0cFbyguWzBPViJkVNSBIRubCGJEL05CscvE0NAlDwwQ3Ggb8pcu
-	CMVrwciJVXQIDgib0isnFgGdYf0bLD8Us1rWPAF+ttwb8+Bq6ushHscsDSjSLozhCeqt
-	2Psg==
+	Tue, 14 Jun 2016 12:12:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=EJUjaAz1enpHRiRCTksSHkv1y5q+aixXEgAuxBbo1fI=;
+	b=DXV5uJeh8m6GMLOB332h4D839yQcEhD9jUZxNb7iWUwp0RjTQBkXyFpeheBEcOZ1eM
+	ZP6vatUOeJhV/CtAF+VtTslBznRIGD7bpKZpWAeiUVF+M94iqNHx8zumU4VnnQeGz+EJ
+	wPcfvwI2s3jMsx/d68HwKWtF27lNQiJuDOQ7g3p472l2D/kyiLYKgxSpTPhqQDTgt78P
+	fg+pvCzj0zCcMvLA1MiYwg/uRLwusUstVdnrxrzsSfS1FB7HhoYoAV5Un//iwZcibbos
+	Qd/cPAhGrmrLXNKjlaFHnlcfjyNkDJYXf1v4aATm8e+/HHCeQXEyqlskT0twRrH7RjpV
+	tVlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=31YXYNQGKOK3k4lHdZEVOwkqq89QeDEVQYQ2h8JdT04=;
-	b=AR4L+mvszsdv8CIewMbfhj5iynRGbN0D0so5CYo+3OLmgGIQ/TME91HPTEp+B9b7ne
-	EYi7YCTfj8HmZqOBirtO1/4yMp87VpvLS3xOjMFVAe4IsH60RUZQVxLgrqKsxUBrPx7O
-	V8Ub3SaImX1hx2sUYjfaGc04z0Y7Aa06BTOBcC+XBM4dlHhf0DvG5SnedkXlkDdxjqPD
-	PvXp9gJWwYGhPLHfQguSzCRnonE0jVZ6Ld2i44ZnQs1jdiVKsx8WsucF8147+MzMISaT
-	g6uhjyiO8lwR/tp3yGtmum2Juowgwp7AuVxdsM+RfMwMcvecprGLLuhj9xtFrCfbL6Ae
-	gFAQ==
-X-Gm-Message-State: ALyK8tIjdevbrTSz2vCahLA7ZUxtsVHGMVsjxOAjZpa/8IjkT8YASmkI/MhhcxPiyqLBAGOJ
-X-Received: by 10.28.223.215 with SMTP id w206mr5208454wmg.61.1465917532288;
-	Tue, 14 Jun 2016 08:18:52 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	zc7sm33426328wjb.42.2016.06.14.08.18.51
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 14 Jun 2016 08:18:51 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Jun 2016 16:18:49 +0100
-Message-Id: <1465917529-18674-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.0.rc3
-Subject: [PATCH] classes/rm_work: use the idle I/O scheduler class
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=EJUjaAz1enpHRiRCTksSHkv1y5q+aixXEgAuxBbo1fI=;
+	b=eZCEjiDIroG7u/vcG0WbF/CKSSa8uS0B4rSxDr66CJg5sZTk2c01MvlJhGxjT2W8Ge
+	ND5F/9ceRH3EDvN+yXyddauPlm0UYNrALU0vgNEtZyNAAwNg3GHVn9bXTE3daVSqeWa7
+	zGHiYTMw9gSPnOFPZ/QcMs6InGreS6YHoWQ9Fi+gPCmaqROE6u5SilOMEgJIndj+JmSS
+	DWQdG2k6qQUfyP6FdFa+vBOMlGtHYy3lyl+UYniOMS1ZpWjKIw3tJP1pVZjPSAIssobA
+	QFgqSYF73V0+h/ebbVhImRe/SD0FxMYLqY6VWR9XPYmfYWY09x6zoO6UFloPhAn8g0Vs
+	5Mcw==
+X-Gm-Message-State: ALyK8tIXgBd2RC/8cMl4CNs3oAFiSSoGBkxhgWXZe7qne8Qyer3F6lDQgc59GhEo2dPemfxGOFIrglKJ857l+A==
+X-Received: by 10.36.142.193 with SMTP id h184mr29964288ite.66.1465931519391; 
+	Tue, 14 Jun 2016 12:11:59 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.79.130.66 with HTTP; Tue, 14 Jun 2016 12:11:40 -0700 (PDT)
+In-Reply-To: <1465917529-18674-1-git-send-email-ross.burton@intel.com>
+References: <1465917529-18674-1-git-send-email-ross.burton@intel.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Tue, 14 Jun 2016 12:11:40 -0700
+X-Google-Sender-Auth: OK5jFsQAenaBxPRuHZicmRB7q2U
+Message-ID: <CABcZAN=DXBtL3cMurX5rbEFGm-hRPFerGs0bphtBibCTEutjpg@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] classes/rm_work: use the idle I/O scheduler class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,32 +56,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jun 2016 15:18:53 -0000
+X-List-Received-Date: Tue, 14 Jun 2016 19:12:01 -0000
+Content-Type: multipart/alternative; boundary=94eb2c04bbce7a7cd6053541c746
 
-As rm_work is just cleanup it shouldn't starve more important tasks such as
-do_compile of I/O, so use BB_TASK_IONICE_LEVEL to run the task in the idle
-scheduler class.
+--94eb2c04bbce7a7cd6053541c746
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/rm_work.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+On Tue, Jun 14, 2016 at 8:18 AM, Ross Burton <ross.burton@intel.com> wrote:
 
-diff --git a/meta/classes/rm_work.bbclass b/meta/classes/rm_work.bbclass
-index 3ebf095..3e6c5ac 100644
---- a/meta/classes/rm_work.bbclass
-+++ b/meta/classes/rm_work.bbclass
-@@ -15,6 +15,9 @@
- # to try and reduce disk usage
- BB_SCHEDULER ?= "completion"
- 
-+# Run the rm_work task in the idle scheduling class
-+BB_TASK_IONICE_LEVEL_task-rm_work = "3.0"
-+
- RMWORK_ORIG_TASK := "${BB_DEFAULT_TASK}"
- BB_DEFAULT_TASK = "rm_work_all"
- 
+> As rm_work is just cleanup it shouldn't starve more important tasks such as
+> do_compile of I/O, so use BB_TASK_IONICE_LEVEL to run the task in the idle
+> scheduler class.
+>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+>
+
+Nice.
 -- 
-2.8.0.rc3
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
+--94eb2c04bbce7a7cd6053541c746
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Tue, Jun 14, 2016 at 8:18 AM, Ross Burton <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":395" cla=
+ss=3D"a3s aXjCH m1554f7ea46270a5d">As rm_work is just cleanup it shouldn&#3=
+9;t starve more important tasks such as<br>
+do_compile of I/O, so use BB_TASK_IONICE_LEVEL to run the task in the idle<=
+br>
+scheduler <span class=3D"il">class</span>.<br>
+<br>
+Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com">ros=
+s.burton@intel.com</a>&gt;</div></blockquote></div><br>Nice.<br>-- <br><div=
+ class=3D"gmail_signature" data-smartmail=3D"gmail_signature">Christopher L=
+arson<br>clarson at kergoth dot com<br>Founder - BitBake, OpenEmbedded, Ope=
+nZaurus<br>Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics<=
+/div>
+</div></div>
+
+--94eb2c04bbce7a7cd6053541c746--
