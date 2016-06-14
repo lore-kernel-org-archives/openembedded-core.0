@@ -1,24 +1,24 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 361B7731DF
+	by mail.openembedded.org (Postfix) with ESMTP id 07A3B731DF
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 14 Jun 2016 08:15:28 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga104.fm.intel.com with ESMTP; 14 Jun 2016 01:15:30 -0700
+	by fmsmga104.fm.intel.com with ESMTP; 14 Jun 2016 01:15:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,470,1459839600"; d="scan'208";a="718728103"
+X-IronPort-AV: E=Sophos;i="5.26,470,1459839600"; d="scan'208";a="718728109"
 Received: from theory.fi.intel.com ([10.237.72.196])
-	by FMSMGA003.fm.intel.com with ESMTP; 14 Jun 2016 01:15:28 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 14 Jun 2016 01:15:29 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Jun 2016 11:14:46 +0300
-Message-Id: <f0e9fe7730298c97a4d43f7ef271e530d7de648c.1465891164.git.jussi.kukkonen@intel.com>
+Date: Tue, 14 Jun 2016 11:14:47 +0300
+Message-Id: <fef83b0b5bd52663845054d6bb16dca88adb08a8.1465891164.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cab121fcc6b904939f6187832ba9b48b3d5fe53f.1465891164.git.jussi.kukkonen@intel.com>
 References: <cab121fcc6b904939f6187832ba9b48b3d5fe53f.1465891164.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1465891164.git.jussi.kukkonen@intel.com>
 References: <cover.1465891164.git.jussi.kukkonen@intel.com>
-Subject: [PATCHv3 22/30] avahi-ui: Build with Gtk+3
+Subject: [PATCHv3 23/30] sysprof: Upgrade to git version slightly past 3.20
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,86 +31,367 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jun 2016 08:15:28 -0000
+X-List-Received-Date: Tue, 14 Jun 2016 08:15:29 -0000
 
-Add patch to install GtkBuilder ui files for GTK+3.
+New version uses Gtk+3. 3.20 release requires a bunch of fixes to
+build without polkit, this git revision inclues those fixes.
+
+* Add patch to use proper U64_TO_POINTER macro to fix build on
+  32 bit platforms.
+* Forward port memory barrier patches for arm & mips
+* sysprof builds with loads of warnings and git builds also use
+  -Werror: avoid that by setting "--enable-compile-warnings"
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- meta/recipes-connectivity/avahi/avahi-ui_0.6.32.bb | 11 +++++----
- ...c-install-GtkBuilder-interface-files-for-.patch | 28 ++++++++++++++++++++++
- 2 files changed, 34 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-connectivity/avahi/files/0001-configure.ac-install-GtkBuilder-interface-files-for-.patch
+ .../sysprof/files/0001-Avoid-building-docs.patch   | 42 ++++++++++++++++++++++
+ .../0001-Disable-check-for-polkit-for-UI.patch     | 32 +++++++++++++++++
+ ...ward-port-mips-arm-memory-barrier-patches.patch | 38 ++++++++++++++++++++
+ .../files/0001-callgraph-Use-U64_TO_POINTER.patch  | 29 +++++++++++++++
+ .../sysprof/files/define-NT_GNU_BUILD_ID.patch     |  4 +--
+ .../sysprof/files/gui-argument.patch               | 35 ------------------
+ meta/recipes-kernel/sysprof/files/rmb-arm.patch    | 21 -----------
+ meta/recipes-kernel/sysprof/files/rmb-mips.patch   | 22 ------------
+ meta/recipes-kernel/sysprof/sysprof_git.bb         | 34 ++++++++++--------
+ 9 files changed, 163 insertions(+), 94 deletions(-)
+ create mode 100644 meta/recipes-kernel/sysprof/files/0001-Avoid-building-docs.patch
+ create mode 100644 meta/recipes-kernel/sysprof/files/0001-Disable-check-for-polkit-for-UI.patch
+ create mode 100644 meta/recipes-kernel/sysprof/files/0001-Forward-port-mips-arm-memory-barrier-patches.patch
+ create mode 100644 meta/recipes-kernel/sysprof/files/0001-callgraph-Use-U64_TO_POINTER.patch
+ delete mode 100644 meta/recipes-kernel/sysprof/files/gui-argument.patch
+ delete mode 100644 meta/recipes-kernel/sysprof/files/rmb-arm.patch
+ delete mode 100644 meta/recipes-kernel/sysprof/files/rmb-mips.patch
 
-diff --git a/meta/recipes-connectivity/avahi/avahi-ui_0.6.32.bb b/meta/recipes-connectivity/avahi/avahi-ui_0.6.32.bb
-index 1b3e918..c6f67f1 100644
---- a/meta/recipes-connectivity/avahi/avahi-ui_0.6.32.bb
-+++ b/meta/recipes-connectivity/avahi/avahi-ui_0.6.32.bb
-@@ -7,14 +7,15 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1 \
- require avahi.inc
- 
- inherit distro_features_check
--ANY_OF_DISTRO_FEATURES = "${GTK2DISTROFEATURES}"
-+ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
- 
-+SRC_URI += "file://0001-configure.ac-install-GtkBuilder-interface-files-for-.patch"
- SRC_URI[md5sum] = "22b5e705d3eabb31d26f2e1e7b074013"
- SRC_URI[sha256sum] = "d54991185d514a0aba54ebeb408d7575b60f5818a772e28fa0e18b98bc1db454"
- 
--DEPENDS += "avahi gtk+ libglade"
-+DEPENDS += "avahi gtk+3"
- 
--AVAHI_GTK = "--enable-gtk --disable-gtk3 --disable-pygtk"
-+AVAHI_GTK = "--disable-gtk --enable-gtk3 --disable-pygtk"
- 
- S = "${WORKDIR}/avahi-${PV}"
- 
-@@ -27,9 +28,9 @@ FILES_${PN}-staticdev += "${libdir}/libavahi-ui.a"
- FILES_${PN}-utils = "${bindir}/b* ${datadir}/applications/b*"
- 
- FILES_avahi-discover = "${datadir}/applications/avahi-discover.desktop \
--                        ${datadir}/avahi/interfaces/avahi-discover* \
-+                        ${datadir}/avahi/interfaces/avahi-discover.ui \
-                         ${bindir}/avahi-discover-standalone \
--                        ${datadir}/avahi/interfaces/avahi-discover.glade"
-+                        "
- 
- do_install_append () {
- 	rm ${D}${sysconfdir} -rf
-diff --git a/meta/recipes-connectivity/avahi/files/0001-configure.ac-install-GtkBuilder-interface-files-for-.patch b/meta/recipes-connectivity/avahi/files/0001-configure.ac-install-GtkBuilder-interface-files-for-.patch
+diff --git a/meta/recipes-kernel/sysprof/files/0001-Avoid-building-docs.patch b/meta/recipes-kernel/sysprof/files/0001-Avoid-building-docs.patch
 new file mode 100644
-index 0000000..8ccef08
+index 0000000..202f354
 --- /dev/null
-+++ b/meta/recipes-connectivity/avahi/files/0001-configure.ac-install-GtkBuilder-interface-files-for-.patch
-@@ -0,0 +1,28 @@
-+From a59f13fab31a6e25bb03b2c2bc3aea576f857b6c Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-kernel/sysprof/files/0001-Avoid-building-docs.patch
+@@ -0,0 +1,42 @@
++From 27df521c68e7c8b5b050dab15f40aa15fd03623a Mon Sep 17 00:00:00 2001
 +From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Date: Sun, 12 Jun 2016 18:32:49 +0300
-+Subject: [PATCH] configure.ac: install GtkBuilder interface files for GTK+3
-+ too
++Date: Wed, 4 May 2016 14:58:24 +0300
++Subject: [PATCH] Avoid building docs
++
++Upstream-Status: Inappropriate
++Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++---
++ Makefile.am | 2 +-
++ m4/yelp.m4  | 6 ------
++ 2 files changed, 1 insertion(+), 7 deletions(-)
++
++diff --git a/Makefile.am b/Makefile.am
++index b919a3f..3a3851d 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -1,4 +1,4 @@
++-SUBDIRS = daemon data help lib po src tools tests
+++SUBDIRS = daemon data lib po src tools tests
++ 
++ EXTRA_DIST = AUTHORS tap-test COPYING.gpl-2
++ 
++diff --git a/m4/yelp.m4 b/m4/yelp.m4
++index 5db847f..1b6ede4 100644
++--- a/m4/yelp.m4
+++++ b/m4/yelp.m4
++@@ -27,12 +27,6 @@ AC_ARG_WITH([help-dir],
++ HELP_DIR="$with_help_dir"
++ AC_SUBST(HELP_DIR)
++ 
++-AC_ARG_VAR([ITSTOOL], [Path to the `itstool` command])
++-AC_CHECK_PROG([ITSTOOL], [itstool], [itstool])
++-if test x"$ITSTOOL" = x; then
++-  AC_MSG_ERROR([itstool not found])
++-fi
++-
++ AC_ARG_VAR([XMLLINT], [Path to the `xmllint` command])
++ AC_CHECK_PROG([XMLLINT], [xmllint], [xmllint])
++ if test x"$XMLLINT" = x; then
++-- 
++2.1.4
++
+diff --git a/meta/recipes-kernel/sysprof/files/0001-Disable-check-for-polkit-for-UI.patch b/meta/recipes-kernel/sysprof/files/0001-Disable-check-for-polkit-for-UI.patch
+new file mode 100644
+index 0000000..6085232
+--- /dev/null
++++ b/meta/recipes-kernel/sysprof/files/0001-Disable-check-for-polkit-for-UI.patch
+@@ -0,0 +1,32 @@
++From 765d578145e31ddc9495adfab8037ade33c6a9cc Mon Sep 17 00:00:00 2001
++From: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Date: Wed, 4 May 2016 10:59:36 +0300
++Subject: [PATCH] Disable check for polkit for UI
++
++The check is not technically required: sysprof just needs
++to be able to access system perf counters at runtime.
 +
 +Upstream-Status: Pending
 +Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 +---
-+ configure.ac | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ configure.ac | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
 +
 +diff --git a/configure.ac b/configure.ac
-+index aebb716..48bdf63 100644
++index 8559597..ecf93ad 100644
 +--- a/configure.ac
 ++++ b/configure.ac
-+@@ -965,7 +965,7 @@ AC_SUBST(avahi_socket)
-+ #
-+ # Avahi interfaces dir
-+ #
-+-if test "x$HAVE_PYTHON_DBUS" = "xyes" -o "x$HAVE_GTK" = "xyes"; then
-++if test "x$HAVE_PYTHON_DBUS" = "xyes" -o "x$HAVE_GTK" = "xyes" -o "x$HAVE_GTK3" = "xyes"; then
-+ 	interfacesdir="${datadir}/${PACKAGE}/interfaces/"
-+ 	AC_SUBST(interfacesdir)
-+ fi
++@@ -131,8 +131,8 @@ AS_IF([test "$enable_gtk" = auto],[
++ 	AS_IF([test "$have_gtk" = "yes" && test "$have_polkit" = "yes"],[enable_gtk=yes],[enable_gtk=no])
++ ])
++ AS_IF([test "$enable_gtk" = "yes"],[
++-	AS_IF([test "$have_gtk" = "yes" && test "$have_polkit" = "yes"],[],[
++-		AC_MSG_ERROR([--enable-gtk requires gtk+-3.0 >= gtk_required_version and polkit-gobject-1])
+++	AS_IF([test "$have_gtk" = "yes"],[],[
+++		AC_MSG_ERROR([--enable-gtk requires gtk+-3.0 >= gtk_required_version])
++ 	])
++ ])
++ AM_CONDITIONAL(ENABLE_GTK, test "$enable_gtk" = "yes")
++-- 
++2.8.1
++
+diff --git a/meta/recipes-kernel/sysprof/files/0001-Forward-port-mips-arm-memory-barrier-patches.patch b/meta/recipes-kernel/sysprof/files/0001-Forward-port-mips-arm-memory-barrier-patches.patch
+new file mode 100644
+index 0000000..92e804f
+--- /dev/null
++++ b/meta/recipes-kernel/sysprof/files/0001-Forward-port-mips-arm-memory-barrier-patches.patch
+@@ -0,0 +1,38 @@
++From a2d385e504323641b1127821833c61e77301c90b Mon Sep 17 00:00:00 2001
++From: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Date: Sat, 11 Jun 2016 22:45:37 +0300
++Subject: [PATCH] Forward port mips & arm memory barrier patches
++
++Upstream-Status: Pending
++Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++---
++ lib/util/util.h | 15 +++++++++++++++
++ 1 file changed, 15 insertions(+)
++
++diff --git a/lib/util/util.h b/lib/util/util.h
++index 591722d..0768056 100644
++--- a/lib/util/util.h
+++++ b/lib/util/util.h
++@@ -29,4 +29,19 @@
++ #define read_barrier()           asm volatile("" ::: "memory")
++ #endif
++ 
+++#ifdef __arm__
+++/*
+++ * Use the __kuser_memory_barrier helper in the CPU helper page. See
+++ * arch/arm/kernel/entry-armv.S in the kernel source for details.
+++ */
+++#define read_barrier()         ((void(*)(void))0xffff0fa0)()
+++#endif
+++
+++#ifdef __mips__
+++#define read_barrier()         asm volatile(".set   mips2\n\t" \
+++                                            "sync\n\t" \
+++                                            ".set   mips0" ::: "memory")
+++#endif
+++
+++
++ #endif /* SP_UTIL_H */
 +-- 
 +2.1.4
 +
+diff --git a/meta/recipes-kernel/sysprof/files/0001-callgraph-Use-U64_TO_POINTER.patch b/meta/recipes-kernel/sysprof/files/0001-callgraph-Use-U64_TO_POINTER.patch
+new file mode 100644
+index 0000000..ac1384c
+--- /dev/null
++++ b/meta/recipes-kernel/sysprof/files/0001-callgraph-Use-U64_TO_POINTER.patch
+@@ -0,0 +1,29 @@
++From 05816e6f9cd65b2624bb04de65fdf61031c7017f Mon Sep 17 00:00:00 2001
++From: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Date: Fri, 10 Jun 2016 14:01:54 +0300
++Subject: [PATCH] callgraph: Use U64_TO_POINTER
++
++This fixes a "cast to pointer from integer of different size" on i586.
++
++Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Upstream-Status: Pending
++---
++ lib/sp-callgraph-view.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/lib/sp-callgraph-view.c b/lib/sp-callgraph-view.c
++index 02cc17b..58315b0 100644
++--- a/lib/sp-callgraph-view.c
+++++ b/lib/sp-callgraph-view.c
++@@ -135,7 +135,7 @@ build_functions_store (StackNode *node,
++ 
++   gtk_list_store_append (state->store, &iter);
++   gtk_list_store_set (state->store, &iter,
++-                      COLUMN_NAME, (const gchar *)node->data,
+++                      COLUMN_NAME, U64_TO_POINTER(node->data),
++                       COLUMN_SELF, 100.0 * size / state->profile_size,
++                       COLUMN_TOTAL, 100.0 * total / state->profile_size,
++                       COLUMN_POINTER, node,
++-- 
++2.1.4
++
+diff --git a/meta/recipes-kernel/sysprof/files/define-NT_GNU_BUILD_ID.patch b/meta/recipes-kernel/sysprof/files/define-NT_GNU_BUILD_ID.patch
+index dcc2cbe..f75ddad 100644
+--- a/meta/recipes-kernel/sysprof/files/define-NT_GNU_BUILD_ID.patch
++++ b/meta/recipes-kernel/sysprof/files/define-NT_GNU_BUILD_ID.patch
+@@ -7,8 +7,8 @@ Upstream-Status: Pending
+ 
+ Index: git/elfparser.h
+ ===================================================================
+---- git.orig/elfparser.h	2011-07-16 18:57:41.000000000 -0700
+-+++ git/elfparser.h	2011-07-16 20:28:54.733829895 -0700
++--- git.orig/lib/util/elfparser.h	2011-07-16 18:57:41.000000000 -0700
+++++ git/lib/util/elfparser.h	2011-07-16 20:28:54.733829895 -0700
+ @@ -17,6 +17,10 @@
+   */
+  #include <glib.h>
+diff --git a/meta/recipes-kernel/sysprof/files/gui-argument.patch b/meta/recipes-kernel/sysprof/files/gui-argument.patch
+deleted file mode 100644
+index d2c053e..0000000
+--- a/meta/recipes-kernel/sysprof/files/gui-argument.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-Add the ability to explicitly enable/disable GUI support
+-
+-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+-Upstream-Status: Pending
+-
+---- git.orig/configure.ac
+-+++ git/configure.ac
+-@@ -62,12 +62,24 @@ KMICRO=`uname -r | cut -d"." -f 3 | cut
+- # Pkgconfig dependencies
+- 
+- core_dep="glib-2.0 >= 2.6.0"
+--gui_dep="gtk+-2.0 > 2.6.0 gdk-pixbuf-2.0 pangoft2 libglade-2.0"
+- 
+- PKG_CHECK_MODULES(CORE_DEP, $core_dep, [], AC_MSG_ERROR([sysprof dependencies not satisfied]))
+- 
+--build_gui=yes
+--PKG_CHECK_MODULES(GUI_DEP, $gui_dep, [], build_gui=no)
+-+gui_dep="gtk+-2.0 > 2.6.0 gdk-pixbuf-2.0 pangoft2 libglade-2.0"
+-+
+-+AC_ARG_ENABLE([gui],
+-+  [AS_HELP_STRING([--disable-gui],
+-+    [Disable GUI functionality (requires gtk+, gdk-pixbuf, pangoft2, libglade) @<:@default=auto@:>@])],
+-+  [],
+-+  [enable_gui=auto])
+-+
+-+build_gui=no
+-+AS_IF([test "x$enable_gui" != xno],
+-+  [PKG_CHECK_MODULES(GUI_DEP, $gui_dep, build_gui=yes,
+-+    [if test "x$enable_gui" != xauto; then
+-+       AC_MSG_FAILURE(
+-+         [--enable-gui was given, but gui dependencies were not satisfied])
+-+     fi])])
+- 
+- AM_CONDITIONAL([BUILD_GUI], [test "$build_gui" = yes])
+- 
+diff --git a/meta/recipes-kernel/sysprof/files/rmb-arm.patch b/meta/recipes-kernel/sysprof/files/rmb-arm.patch
+deleted file mode 100644
+index c53ac64..0000000
+--- a/meta/recipes-kernel/sysprof/files/rmb-arm.patch
++++ /dev/null
+@@ -1,21 +0,0 @@
+-
+-Upstream-Status: Pending
+-
+-Index: git/util.h
+-===================================================================
+---- git.orig/util.h	2010-12-07 22:41:57.156243001 -0600
+-+++ git/util.h	2010-12-07 22:43:47.616243002 -0600
+-@@ -37,4 +37,13 @@
+- #define cpu_relax()     asm volatile("" ::: "memory");
+- #endif
+- 
+-+#ifdef __arm__
+-+/*
+-+ * Use the __kuser_memory_barrier helper in the CPU helper page. See
+-+ * arch/arm/kernel/entry-armv.S in the kernel source for details.
+-+ */
+-+#define rmb()		((void(*)(void))0xffff0fa0)()
+-+#define cpu_relax()	asm volatile("":::"memory")
+-+#endif
+-+
+- #endif
+diff --git a/meta/recipes-kernel/sysprof/files/rmb-mips.patch b/meta/recipes-kernel/sysprof/files/rmb-mips.patch
+deleted file mode 100644
+index e055b8a..0000000
+--- a/meta/recipes-kernel/sysprof/files/rmb-mips.patch
++++ /dev/null
+@@ -1,22 +0,0 @@
+-Upstream-Status: Pending
+-
+-Index: git/util.h
+-===================================================================
+---- git.orig/util.h	2010-12-08 01:22:44.486243001 -0600
+-+++ git/util.h	2010-12-08 01:23:27.836243001 -0600
+-@@ -37,4 +37,15 @@
+- #define cpu_relax()     asm volatile("" ::: "memory");
+- #endif
+- 
+-+#ifdef __mips__
+-+#define rmb()		asm volatile(					\
+-+				".set	mips2\n\t"			\
+-+				"sync\n\t"				\
+-+				".set	mips0"				\
+-+				: /* no output */			\
+-+				: /* no input */			\
+-+				: "memory")
+-+#define cpu_relax()	asm volatile("" ::: "memory")
+-+#endif
+-+
+- #endif
+diff --git a/meta/recipes-kernel/sysprof/sysprof_git.bb b/meta/recipes-kernel/sysprof/sysprof_git.bb
+index 84c6aad..461f414 100644
+--- a/meta/recipes-kernel/sysprof/sysprof_git.bb
++++ b/meta/recipes-kernel/sysprof/sysprof_git.bb
+@@ -1,29 +1,35 @@
+ SUMMARY = "System-wide Performance Profiler for Linux"
+-LICENSE = "GPLv2"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
++LICENSE = "GPLv3+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
++                    file://src/sp-application.c;endline=17;md5=40e55577ef122c88fe20052acda64875"
++
++inherit gnomebase gettext
+ 
+ DEPENDS = "glib-2.0"
+ 
+-SRCREV = "cd44ee6644c3641507fb53b8a2a69137f2971219"
+-PV = "1.2.0+git${SRCPV}"
++S = "${WORKDIR}/git"
++SRCREV = "9c6cec9b49766bf77c1713bc5a7c6d651e628068"
++PV = "3.20.0+git${SRCPV}"
+ 
+ SRC_URI = "git://git.gnome.org/sysprof \
+            file://define-NT_GNU_BUILD_ID.patch \
+-           file://gui-argument.patch \
++           file://0001-Disable-check-for-polkit-for-UI.patch \
++           file://0001-Avoid-building-docs.patch \
++           file://0001-callgraph-Use-U64_TO_POINTER.patch \
++           file://0001-Forward-port-mips-arm-memory-barrier-patches.patch \
+           "
++SRC_URI[archive.md5sum] = "d56e8492033b60e247634731e7f760b9"
++SRC_URI[archive.sha256sum] = "4a338ad41bfffae87ef281f6e75c9660b3e0c6671bf5233be0c3f55a5e5b1ce5"
+ 
+-SRC_URI_append_arm  = " file://rmb-arm.patch"
+-SRC_URI_append_armeb  = " file://rmb-arm.patch"
+-SRC_URI_append_mips = " file://rmb-mips.patch"
+-SRC_URI_append_mips64 = " file://rmb-mips.patch"
+-SRC_URI_append_mips64n32 = " file://rmb-mips.patch"
++AUTOTOOLS_AUXDIR = "${S}/build-aux"
+ 
+-S = "${WORKDIR}/git"
++EXTRA_OECONF = "--enable-compile-warnings"
+ 
+-inherit autotools pkgconfig
++PACKAGECONFIG ?= "${@bb.utils.contains_any('DISTRO_FEATURES', '${GTK3DISTROFEATURES}', 'gtk', '', d)}"
++PACKAGECONFIG[gtk] = "--enable-gtk,--disable-gtk,gtk+3"
+ 
+-PACKAGECONFIG ?= "${@bb.utils.contains_any('DISTRO_FEATURES', '${GTK2DISTROFEATURES}', 'gui', '', d)}"
+-PACKAGECONFIG[gui] = "--enable-gui,--disable-gui,gtk+ gdk-pixbuf pango libglade"
++FILES_${PN} += "${datadir}/icons/ ${libdir}"
++FILES_${PN}-dev = "${prefix}/include"
+ 
+ # We do not yet work for aarch64.
+ #
 -- 
 2.1.4
 
