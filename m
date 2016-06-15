@@ -1,28 +1,29 @@
-Return-Path: <pascal.bach@siemens.com>
-X-Greylist: delayed 1293 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 15 Jun 2016 12:52:57 UTC
-Received: from lizzard.sbs.de (lizzard.sbs.de [194.138.37.39])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F049606BF
+Return-Path: <maxin.john@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C1B165CBB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jun 2016 12:52:57 +0000 (UTC)
-Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
-	by lizzard.sbs.de (8.15.2/8.15.2) with ESMTPS id u5FCVOAq006867
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	Wed, 15 Jun 2016 13:13:27 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP; 15 Jun 2016 06:13:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,476,1459839600"; d="scan'208";a="976201465"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga001.jf.intel.com with ESMTP; 15 Jun 2016 06:13:21 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 531736A4082
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jun 2016 14:31:24 +0200
-Received: from [139.16.77.141] (MD1FZU9C.ww002.siemens.net [139.16.77.141])
-	by mail2.sbs.de (8.15.2/8.15.2) with ESMTPS id u5FCVNDP014383
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jun 2016 14:31:24 +0200
+	Wed, 15 Jun 2016 06:13:20 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-From: Pascal Bach <pascal.bach@siemens.com>
-Message-ID: <57614A9B.3090602@siemens.com>
-Date: Wed, 15 Jun 2016 14:31:23 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101
-	Thunderbird/38.7.2
-MIME-Version: 1.0
-Subject: qemuppc kernel doesn't build with GCC 4.9 on korgoth
+Date: Wed, 15 Jun 2016 16:12:58 +0300
+Message-Id: <1465996380-32444-2-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+In-Reply-To: <1465996380-32444-1-git-send-email-maxin.john@intel.com>
+References: <1465996380-32444-1-git-send-email-maxin.john@intel.com>
+Subject: [PATCH 2/4] x11-common: replace xtscal with xinput-calibrator
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,26 +36,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jun 2016 12:53:00 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 15 Jun 2016 13:13:29 -0000
 
-Hi
+Replace xtscal with xinput-calibrator as part of removing xtscal.
 
-I tried to build qemuppc on the latest korgoth branch using the GCC 4.9.3 from OE-core.
+[YOCTO #9365]
 
-The problem is that i get an error when trying to build the kernel.
-I was able to trace the issue back to this commit:
-https://github.com/openembedded/openembedded-core/commit/7a51776a830167e43cbd185505f62f328704e271
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ meta/recipes-graphics/x11-common/x11-common_0.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-And i can confirm that removing TARGET_CC_KERNEL_ARCH = "-mno-spe" from qemuppc.conf makes it work again.
-
-The question is how to best solve this?
-Do the changes for GCC 5.3.0 that done in the commit mentioned above also need to be applied to 4.9?
-Or is it just not supported to build qemuppc with GCC 4.9?
-
-Thanks for your help
-
-Pascal
+diff --git a/meta/recipes-graphics/x11-common/x11-common_0.1.bb b/meta/recipes-graphics/x11-common/x11-common_0.1.bb
+index 6d7c347..2bc0d33 100644
+--- a/meta/recipes-graphics/x11-common/x11-common_0.1.bb
++++ b/meta/recipes-graphics/x11-common/x11-common_0.1.bb
+@@ -26,5 +26,5 @@ do_install() {
+ 	chmod -R 755 ${D}${sysconfdir}
+ }
+ 
+-RDEPENDS_${PN} = "dbus-x11 xmodmap xdpyinfo xtscal xinit formfactor"
++RDEPENDS_${PN} = "dbus-x11 xmodmap xdpyinfo xinput-calibrator xinit formfactor"
+ 
+-- 
+2.4.0
 
 
