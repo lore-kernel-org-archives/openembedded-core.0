@@ -1,29 +1,28 @@
 Return-Path: <maxin.john@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C1B165CBB
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id ECBE06FEF5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jun 2016 13:13:27 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 15 Jun 2016 06:13:28 -0700
+	Wed, 15 Jun 2016 13:14:12 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga102.jf.intel.com with ESMTP; 15 Jun 2016 06:13:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,476,1459839600"; d="scan'208";a="976201465"
+X-IronPort-AV: E=Sophos;i="5.26,476,1459839600"; d="scan'208";a="828552168"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga001.jf.intel.com with ESMTP; 15 Jun 2016 06:13:21 -0700
+	by orsmga003.jf.intel.com with ESMTP; 15 Jun 2016 06:13:26 -0700
 Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
 	[10.237.72.71])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 531736A4082
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jun 2016 06:13:20 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id 576B36A4080;
+	Wed, 15 Jun 2016 06:13:24 -0700 (PDT)
 From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Jun 2016 16:12:58 +0300
-Message-Id: <1465996380-32444-2-git-send-email-maxin.john@intel.com>
+Date: Wed, 15 Jun 2016 16:13:00 +0300
+Message-Id: <1465996380-32444-4-git-send-email-maxin.john@intel.com>
 X-Mailer: git-send-email 2.4.0
 In-Reply-To: <1465996380-32444-1-git-send-email-maxin.john@intel.com>
 References: <1465996380-32444-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 2/4] x11-common: replace xtscal with xinput-calibrator
+Subject: [PATCH 4/4] pointercal-xinput: add a dummy calibration file for qemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,28 +35,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jun 2016 13:13:29 -0000
+X-List-Received-Date: Wed, 15 Jun 2016 13:14:13 -0000
 
-Replace xtscal with xinput-calibrator as part of removing xtscal.
+In qemu, the emulated PS/2 mouse reports itself as an "absolute coordinate"
+device and that makes xinput_calibrator think it could be calibrated.
 
-[YOCTO #9365]
+Add a dummy calibration file as a work around to prevent xinput_calibrator from
+popping up on every boot in qemu.
+
+[YOCTO #8380]
 
 Signed-off-by: Maxin B. John <maxin.john@intel.com>
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- meta/recipes-graphics/x11-common/x11-common_0.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../xinput-calibrator/pointercal-xinput/qemuall/pointercal.xinput       | 2 ++
+ 1 file changed, 2 insertions(+)
+ create mode 100644 meta/recipes-graphics/xinput-calibrator/pointercal-xinput/qemuall/pointercal.xinput
 
-diff --git a/meta/recipes-graphics/x11-common/x11-common_0.1.bb b/meta/recipes-graphics/x11-common/x11-common_0.1.bb
-index 6d7c347..2bc0d33 100644
---- a/meta/recipes-graphics/x11-common/x11-common_0.1.bb
-+++ b/meta/recipes-graphics/x11-common/x11-common_0.1.bb
-@@ -26,5 +26,5 @@ do_install() {
- 	chmod -R 755 ${D}${sysconfdir}
- }
- 
--RDEPENDS_${PN} = "dbus-x11 xmodmap xdpyinfo xtscal xinit formfactor"
-+RDEPENDS_${PN} = "dbus-x11 xmodmap xdpyinfo xinput-calibrator xinit formfactor"
- 
+diff --git a/meta/recipes-graphics/xinput-calibrator/pointercal-xinput/qemuall/pointercal.xinput b/meta/recipes-graphics/xinput-calibrator/pointercal-xinput/qemuall/pointercal.xinput
+new file mode 100644
+index 0000000..a816d6d
+--- /dev/null
++++ b/meta/recipes-graphics/xinput-calibrator/pointercal-xinput/qemuall/pointercal.xinput
+@@ -0,0 +1,2 @@
++# Dummy pointercal.xinput file to prevent xinput_calibrator
++# from running on qemu startup
 -- 
 2.4.0
 
