@@ -1,47 +1,30 @@
-Return-Path: <stephen.arnold42@gmail.com>
-Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
-	[209.85.218.65])
-	by mail.openembedded.org (Postfix) with ESMTP id DE17165CB6
+Return-Path: <alejandro.delcastillo@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 35BF76FF78
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jun 2016 21:39:59 +0000 (UTC)
-Received: by mail-oi0-f65.google.com with SMTP id d132so4832660oig.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jun 2016 14:40:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=yc7TFBI1uXc3+6QIJwg50qoDb0oEZwIDBLmz2/o9fsU=;
-	b=pDWjcW+VHBzvg2si/CWUcT9fEQfiY3HH2zJD5IRShZ/jhnNjyXDUKwk3djDhIEepPJ
-	cAOWvCPo5sO2W5HHDIa1FiJui9gwSDSAq5E5vXVbi908qgABWRpvbNmMqL3kBpFoxreH
-	pmt81TtW3EEc/tPFb/wnV5G6mqlvBMBj7IufxDip0ogGmEjydXkCDawGpqE0UgAr2Swy
-	5S+fjhefn8Kd1QQVlEHIKWAExOGAZyySrHfX0MTPSIRdTYkxtewdgoZtkrI3MH4WiF64
-	enCiduzOPUx3WPqeH+0nqvn57pkSwJSNU2we9H4WaBwGzBlM5BxNXNPH7zK+nXvHY/z1
-	YB2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=yc7TFBI1uXc3+6QIJwg50qoDb0oEZwIDBLmz2/o9fsU=;
-	b=hNe2eoAoFvzSkWP47IGSBQmOhbDsjtE7vvqDy6XYEvuf9d7UKciIo4A7TwwcOcMLkN
-	LZnH1zQ/rKDJyoEU9MkPbTgaY4IcEhyFnO162pYRccKbWhRROzGGS212ohi5mJmHazo1
-	Afm/54ScjJQvSSAYJyWGGwP4RXl/ktcO5JeJ5J4MRJAP6ZEYBPTs9UcW6xQEu2rGx/yZ
-	LLJGSbMqIhzch7RoPkmRTmpjChT+ogzS/3imxmuUqWCZXhnrQsCMvmM/4AoTvg/+T8z0
-	BaSKBltrM9JivED74vFIM+DSmIIwxJi9+EvLWkaqmnXLwmCwZwUEbFx8RPdoexCK4N2y
-	3JSg==
-X-Gm-Message-State: ALyK8tI4E77uZneknVgVk40H7BtBk7/zi/kLrjlsrREI0upOQIWAMeN26D5by6rBJ1Xr8A25TmdoGO1gw0OmNA==
-X-Received: by 10.202.212.141 with SMTP id l135mr532322oig.190.1466026800062; 
-	Wed, 15 Jun 2016 14:40:00 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.182.129.164 with HTTP; Wed, 15 Jun 2016 14:39:59 -0700 (PDT)
-In-Reply-To: <CAMKF1sp=GBNXY5Kieu9XEKrgpBFUT+14PqP-P0DnosR4i4qePQ@mail.gmail.com>
-References: <1465780196-7491-1-git-send-email-sarnold@vctlabs.com>
-	<CAMKF1sp=GBNXY5Kieu9XEKrgpBFUT+14PqP-P0DnosR4i4qePQ@mail.gmail.com>
-From: Stephen Arnold <stephen.arnold42@gmail.com>
-Date: Wed, 15 Jun 2016 14:39:59 -0700
-Message-ID: <CAOLEWZX=1DAk8BFAaJ0G5WfAMwHdeZY=j_QiA9LvztXWXN1how@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] qemu-native: set ld.bfd, fix cflags, and set some environment vars
+	Wed, 15 Jun 2016 22:13:47 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u5FMDmK1030186 for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Jun 2016 17:13:48 -0500
+Received: from delcastillo2.natinst.com ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016061517134872-927990 ;
+	Wed, 15 Jun 2016 17:13:48 -0500 
+From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 15 Jun 2016 17:13:42 -0500
+Message-Id: <1466028822-9936-1-git-send-email-alejandro.delcastillo@ni.com>
+X-Mailer: git-send-email 1.9.1
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 06/15/2016 05:13:48 PM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 06/15/2016 05:13:48 PM,
+	Serialize complete at 06/15/2016 05:13:48 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-06-15_13:, , signatures=0
+Subject: [PATCH] opkg: upgrade to v0.3.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,258 +37,136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jun 2016 21:40:00 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 15 Jun 2016 22:13:49 -0000
 
-Undefined references to itself, essentially.  Lemme regenerate a build
-log with failure in it.  The host toolchain defaults to gcc 5.3.0 with
-LTO plugin enabled and gold linker as default (with multilib-strict
-profile).  This time I think it's getting confused about
-toolchain/binutils multilib config and the qemu makefiles probably
-need a bigger set of fixes to work with gold and/or multilib.
+* Drop merged patches
+* Update libsolv PACKAGECONFIG config option
 
-My $.02 would be use/set bfd linker as default for now.
+Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+---
+ ...1-configure.ac-use-pkg-config-for-libsolv.patch | 36 ----------------------
+ ...ver_set_arch_policy-use-correct-logic-dur.patch | 35 ---------------------
+ .../opkg/{opkg_0.3.1.bb => opkg_0.3.2.bb}          |  8 ++---
+ 3 files changed, 3 insertions(+), 76 deletions(-)
+ delete mode 100644 meta/recipes-devtools/opkg/opkg/0001-configure.ac-use-pkg-config-for-libsolv.patch
+ delete mode 100644 meta/recipes-devtools/opkg/opkg/0001-libsolv_solver_set_arch_policy-use-correct-logic-dur.patch
+ rename meta/recipes-devtools/opkg/{opkg_0.3.1.bb => opkg_0.3.2.bb} (87%)
 
-Steve
+diff --git a/meta/recipes-devtools/opkg/opkg/0001-configure.ac-use-pkg-config-for-libsolv.patch b/meta/recipes-devtools/opkg/opkg/0001-configure.ac-use-pkg-config-for-libsolv.patch
+deleted file mode 100644
+index e67ec74..0000000
+--- a/meta/recipes-devtools/opkg/opkg/0001-configure.ac-use-pkg-config-for-libsolv.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-From 2a43027f7ecf2bb3ce73f95bcf575c56bc495d07 Mon Sep 17 00:00:00 2001
+-From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+-Date: Wed, 9 Dec 2015 17:38:05 -0600
+-Subject: [PATCH] configure.ac: use pkg-config for libsolv
+-
+-Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+----
+- configure.ac | 12 +-----------
+- 1 file changed, 1 insertion(+), 11 deletions(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index 52e1025..d17dc5c 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -159,17 +159,7 @@ if test "x$want_solver" != "xno"; then
+-                  AC_MSG_ERROR(Specify which solver with --enable-solver=<SOLVER>)],
+-             [libsolv],
+-                 [AC_MSG_RESULT(libsolv)
+--
+--                SOLVER_CFLAGS="-I/usr/local/include/"
+--                SOLVER_LIBS="-lsolv -lsolvext"
+--                AC_CHECK_LIB([solv],
+--                             [solver_solve],
+--                             [],
+--                             [AC_MSG_ERROR(libsolv not found)])
+--                dnl TODO: remove previous 6 lines and uncomment line below to use
+--                dnl pkg-config once there is a release of libsolv with pkg-config:
+--                dnl PKG_CHECK_MODULES(SOLVER, libsolv)
+--
+-+                PKG_CHECK_MODULES(SOLVER, libsolv)
+-                 AC_DEFINE(HAVE_SOLVER_LIBSOLV,1,[Define if you want to use libsolv])],
+-             # default
+-             [AC_MSG_RESULT(no)
+--- 
+-1.9.1
+-
+diff --git a/meta/recipes-devtools/opkg/opkg/0001-libsolv_solver_set_arch_policy-use-correct-logic-dur.patch b/meta/recipes-devtools/opkg/opkg/0001-libsolv_solver_set_arch_policy-use-correct-logic-dur.patch
+deleted file mode 100644
+index 1ab1790..0000000
+--- a/meta/recipes-devtools/opkg/opkg/0001-libsolv_solver_set_arch_policy-use-correct-logic-dur.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-From 3e562bed7dced25eb3e9174ca9395324b6c873c1 Mon Sep 17 00:00:00 2001
+-From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+-Date: Wed, 9 Dec 2015 13:36:14 -0600
+-Subject: [PATCH] libsolv_solver_set_arch_policy: use correct logic during
+- archs resizing
+-
+-If there are more than INITIAL_ARCH_LIST_SIZE archs defined in the
+-configuration, libsolv_solver_set_arch_policy crashes due to flawed
+-logic when resizing the archs array.
+-
+-Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+----
+- libopkg/opkg_solver_libsolv.c | 6 ++++--
+- 1 file changed, 4 insertions(+), 2 deletions(-)
+-
+-diff --git a/libopkg/opkg_solver_libsolv.c b/libopkg/opkg_solver_libsolv.c
+-index 1cdcf1f..b5af0fa 100644
+---- a/libopkg/opkg_solver_libsolv.c
+-+++ b/libopkg/opkg_solver_libsolv.c
+-@@ -66,8 +66,10 @@ static void libsolv_solver_set_arch_policy(libsolv_solver_t *libsolv_solver)
+-     nv_pair_list_elt_t *arch_info;
+- 
+-     list_for_each_entry(arch_info, &opkg_config->arch_list.head, node) {
+--        if (arch_count > arch_list_size)
+--            archs = xrealloc(archs, arch_list_size *= 2);
+-+        if (arch_count >= arch_list_size) {
+-+            arch_list_size *= 2;
+-+            archs = xrealloc(archs, arch_list_size * sizeof(arch_data_t));
+-+        }
+- 
+-         archs[arch_count].arch = ((nv_pair_t *)(arch_info->data))->name;
+-         archs[arch_count].priority = atoi(((nv_pair_t *)
+--- 
+-1.9.1
+-
+diff --git a/meta/recipes-devtools/opkg/opkg_0.3.1.bb b/meta/recipes-devtools/opkg/opkg_0.3.2.bb
+similarity index 87%
+rename from meta/recipes-devtools/opkg/opkg_0.3.1.bb
+rename to meta/recipes-devtools/opkg/opkg_0.3.2.bb
+index 577f495..0251b7d 100644
+--- a/meta/recipes-devtools/opkg/opkg_0.3.1.bb
++++ b/meta/recipes-devtools/opkg/opkg_0.3.2.bb
+@@ -15,12 +15,10 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz
+            file://opkg-configure.service \
+            file://opkg.conf \
+            file://0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch \
+-           file://0001-libsolv_solver_set_arch_policy-use-correct-logic-dur.patch \
+-           file://0001-configure.ac-use-pkg-config-for-libsolv.patch \
+ "
+ 
+-SRC_URI[md5sum] = "43735e5dc1ebf46bd6ce56a7cdfdc720"
+-SRC_URI[sha256sum] = "d2c6c02a8384ec21168a1f0a186cb5e9f577d1452f491d02ed3e56b2ea8b87df"
++SRC_URI[md5sum] = "b2cc1baa89d0b3d49e63ab002fd2e0a6"
++SRC_URI[sha256sum] = "c9fa948a779a4e493b9669c239de317d43c43accbccbb0cf84056f9b269ba7b0"
+ 
+ inherit autotools pkgconfig systemd
+ 
+@@ -37,7 +35,7 @@ PACKAGECONFIG[ssl-curl] = "--enable-ssl-curl,--disable-ssl-curl,curl openssl"
+ PACKAGECONFIG[openssl] = "--enable-openssl,--disable-openssl,openssl"
+ PACKAGECONFIG[sha256] = "--enable-sha256,--disable-sha256"
+ PACKAGECONFIG[pathfinder] = "--enable-pathfinder,--disable-pathfinder,pathfinder"
+-PACKAGECONFIG[libsolv] = "--enable-solver=libsolv,--disable-solver,libsolv"
++PACKAGECONFIG[libsolv] = "--with-libsolv,--without-libsolv,libsolv"
+ 
+ do_install_append () {
+ 	install -d ${D}${sysconfdir}/opkg
+-- 
+1.9.1
 
-This is without any changes to current poky/oe-core recipes:
-
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(eh_personality.o): requires dynamic
-R_X86_64_PC32 reloc against '__stack_chk_fail' which may overflow at
-runtime; recompile with -fPIC
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(eh_personality.o): requires unsupported
-dynamic reloc 11; recompile with -fPIC
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(eh_personality.o): requires dynamic
-R_X86_64_PC32 reloc against 'abort' which may overflow at runtime;
-recompile with -fPIC
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(eh_personality.o): requires dynamic
-R_X86_64_PC32 reloc against 'abort' which may overflow at runtime;
-recompile with -fPIC
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(eh_personality.o): requires dynamic
-R_X86_64_PC32 reloc against '_Unwind_GetRegionStart' which may
-overflow at runtime; recompile with -fPIC
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(eh_personality.o): requires dynamic
-R_X86_64_PC32 reloc against '_Unwind_SetGR' which may overflow at
-runtime; recompile with -fPIC
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(eh_personality.o): requires dynamic
-R_X86_64_PC32 reloc against '_Unwind_Resume' which may overflow at
-runtime; recompile with -fPIC
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(eh_personality.o): requires dynamic
-R_X86_64_32 reloc against '__gxx_personality_v0' which may overflow at
-runtime; recompile with -fPIC
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(eh_terminate.o): requires dynamic
-R_X86_64_PC32 reloc against 'abort' which may overflow at runtime;
-recompile with -fPIC
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(eh_terminate.o): requires dynamic
-R_X86_64_32 reloc which may overflow at runtime; recompile with -fPIC
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(eh_exception.o): requires dynamic
-R_X86_64_32 reloc which may overflow at runtime; recompile with -fPIC
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(eh_exception.o): requires dynamic
-R_X86_64_32 reloc which may overflow at runtime; recompile with -fPIC
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(bad_alloc.o): requires dynamic
-R_X86_64_32 reloc which may overflow at runtime; recompile with -fPIC
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(bad_alloc.o): requires unsupported
-dynamic reloc 11; recompile with -fPIC
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(bad_alloc.o): requires unsupported
-dynamic reloc 11; recompile with -fPIC
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(tinfo.o): requires dynamic R_X86_64_PC32
-reloc against 'strcmp' which may overflow at runtime; recompile with
--fPIC
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(eh_catch.o): requires dynamic
-R_X86_64_PC32 reloc against '_Unwind_DeleteException' which may
-overflow at runtime; recompile with -fPIC
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(eh_alloc.o): requires dynamic
-R_X86_64_32 reloc which may overflow at runtime; recompile with -fPIC
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(eh_alloc.o): requires dynamic
-R_X86_64_32 reloc which may overflow at runtime; recompile with -fPIC
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(eh_alloc.o): requires unsupported
-dynamic reloc 11; recompile with -fPIC
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(eh_alloc.o): requires unsupported
-dynamic reloc 11; recompile with -fPIC
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(eh_alloc.o): requires unsupported
-dynamic reloc 11; recompile with -fPIC
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(eh_alloc.o): requires unsupported
-dynamic reloc 11; recompile with -fPIC
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(eh_alloc.o): requires dynamic
-R_X86_64_32 reloc against
-'_ZN9__gnu_cxx24__concurrence_lock_errorD1Ev' which may overflow at
-runtime; recompile with -fPIC
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(eh_alloc.o): requires dynamic
-R_X86_64_32 reloc against
-'_ZN9__gnu_cxx26__concurrence_unlock_errorD1Ev' which may overflow at
-runtime; recompile with -fPIC
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(eh_alloc.o): requires dynamic
-R_X86_64_PC32 reloc against 'malloc' which may overflow at runtime;
-recompile with -fPIC
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(eh_alloc.o): requires unsupported
-dynamic reloc 11; recompile with -fPIC
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(eh_alloc.o): requires dynamic
-R_X86_64_PC32 reloc against 'malloc' which may overflow at runtime;
-recompile with -fPIC
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(eh_alloc.o): requires unsupported
-dynamic reloc 11; recompile with -fPIC
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(eh_alloc.o): requires dynamic
-R_X86_64_32 reloc which may overflow at runtime; recompile with -fPIC
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(vterminate.o): requires dynamic
-R_X86_64_32 reloc which may overflow at runtime; recompile with -fPIC
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(vterminate.o): requires dynamic
-R_X86_64_32 reloc against '_ZTISt9exception' which may overflow at
-runtime; recompile with -fPIC
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(vterminate.o): requires dynamic
-R_X86_64_32 reloc which may overflow at runtime; recompile with -fPIC
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(pure.o): requires dynamic R_X86_64_32
-reloc which may overflow at runtime; recompile with -fPIC
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(pure.o): requires dynamic R_X86_64_32
-reloc which may overflow at runtime; recompile with -fPIC
-| /usr/lib/gcc/x86_64-pc-linux-gnu/5.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
-error: /usr/lib64/libstdc++.a(cp-demangle.o): requires unsupported
-dynamic reloc 11; recompile with -fPIC
-| collect2: error: ld returned 1 exit status
-| Makefile:193: recipe for target 'qemu-system-arm' failed
-| make[1]: *** [qemu-system-arm] Error 1
-| Makefile:184: recipe for target 'subdir-arm-softmmu' failed
-| make: *** [subdir-arm-softmmu] Error 2
-| ERROR: oe_runmake failed
-| ERROR: Function failed: do_compile (log file is located at
-/home/sarnold/beagleboard-bsp/poky/build-newkern/tmp/work/x86_64-linux/qemu-native/2.5.0-r1/temp/log.do_compile.29916)
-ERROR: Task 4 (virtual:native:/home/sarnold/beagleboard-bsp/poky/meta/recipes-devtools/qemu/qemu_2.5.0.bb,
-do_compile) failed with exit code '1'
-NOTE: Tasks Summary: Attempted 187 tasks of which 185 didn't need to
-be rerun and 1 failed.
-
-Summary: 1 task failed:
-  virtual:native:/home/sarnold/beagleboard-bsp/poky/meta/recipes-devtools/qemu/qemu_2.5.0.bb,
-do_compile
-
-On Wed, Jun 15, 2016 at 2:03 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Sun, Jun 12, 2016 at 6:09 PM, Stephen Arnold <sarnold@vctlabs.com> wrote:
->> The main thing is build failures with gold linker, but qemu is also a
->> little too aggressive at finding random tools on the build host, so we
->> also set the build env for qemu-native and make sure it doesn't reset
->> its own (hard-coded) cflags when we don't want it to.
->>
->> Signed-off-by: Stephen Arnold <sarnold@vctlabs.com>
->> ---
->>  meta/recipes-devtools/qemu/qemu.inc                     | 13 +++++++++++--
->>  meta/recipes-devtools/qemu/qemu/qemu-2.5.0-cflags.patch | 13 +++++++++++++
->>  meta/recipes-devtools/qemu/qemu_2.6.0.bb                |  4 +++-
->>  3 files changed, 27 insertions(+), 3 deletions(-)
->>  create mode 100644 meta/recipes-devtools/qemu/qemu/qemu-2.5.0-cflags.patch
->>
->> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
->> index bf689bb..d5925fd 100644
->> --- a/meta/recipes-devtools/qemu/qemu.inc
->> +++ b/meta/recipes-devtools/qemu/qemu.inc
->> @@ -30,8 +30,12 @@ SRC_URI_append_class-native = "\
->>
->>  EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)} --disable-werror  --disable-bluez --disable-libiscsi --with-system-pixman --extra-cflags='${CFLAGS}'"
->>
->> -EXTRA_OECONF_class-nativesdk = "--target-list=${@get_qemu_target_list(d)} --disable-werror \
->> -                               "
->> +EXTRA_OECONF_class-nativesdk = "--target-list=${@get_qemu_target_list(d)} --disable-werror"
->> +
->> +EXTRA_OEMAKE_append_class-native = " LD='${LD}' AR='${AR}' OBJCOPY='${OBJCOPY}' LDFLAGS='${LDFLAGS}'"
->> +
->> +LDFLAGS_append_class-native = " -fuse-ld=bfd"
->
-> what errors do you see with gold ?
->
->> +
->>  export LIBTOOL="${HOST_SYS}-libtool"
->>
->>  do_configure_prepend_class-native() {
->> @@ -40,6 +44,11 @@ do_configure_prepend_class-native() {
->>         if [ ! -z "$BHOST_PKGCONFIG_PATH" ]; then
->>                 export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$BHOST_PKGCONFIG_PATH
->>         fi
->> +
->> +       # Alter target makefiles to accept CFLAGS set via env
->> +       sed -i -r \
->> +               -e 's/^(C|OP_C|HELPER_C)FLAGS=/\1FLAGS+=/' \
->> +               "${S}"/Makefile "${S}"/Makefile.target
->>  }
->>
->>  KVMENABLE = "--enable-kvm"
->> diff --git a/meta/recipes-devtools/qemu/qemu/qemu-2.5.0-cflags.patch b/meta/recipes-devtools/qemu/qemu/qemu-2.5.0-cflags.patch
->> new file mode 100644
->> index 0000000..173394f
->> --- /dev/null
->> +++ b/meta/recipes-devtools/qemu/qemu/qemu-2.5.0-cflags.patch
->> @@ -0,0 +1,13 @@
->> +--- a/configure
->> ++++ b/configure
->> +@@ -4468,10 +4468,6 @@ fi
->> + if test "$gcov" = "yes" ; then
->> +   CFLAGS="-fprofile-arcs -ftest-coverage -g $CFLAGS"
->> +   LDFLAGS="-fprofile-arcs -ftest-coverage $LDFLAGS"
->> +-elif test "$fortify_source" = "yes" ; then
->> +-  CFLAGS="-O2 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 $CFLAGS"
->> +-elif test "$debug" = "no"; then
->> +-  CFLAGS="-O2 $CFLAGS"
->> + fi
->> +
->> + ##########################################
->> diff --git a/meta/recipes-devtools/qemu/qemu_2.6.0.bb b/meta/recipes-devtools/qemu/qemu_2.6.0.bb
->> index e391326..735d013 100644
->> --- a/meta/recipes-devtools/qemu/qemu_2.6.0.bb
->> +++ b/meta/recipes-devtools/qemu/qemu_2.6.0.bb
->> @@ -8,7 +8,9 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
->>              file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch \
->>              file://no-valgrind.patch \
->>              file://pathlimit.patch \
->> -           "
->> +            file://qemu-2.5.0-cflags.patch \
->> +"
->> +
->>  SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
->>  SRC_URI[md5sum] = "ca3f70b43f093e33e9e014f144067f13"
->>  SRC_URI[sha256sum] = "c9ac4a651b273233d21b8bec32e30507cb9cce7900841febc330956a1a8434ec"
->> --
->> 2.8.1
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
