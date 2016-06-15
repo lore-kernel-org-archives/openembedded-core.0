@@ -1,45 +1,30 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-lf0-f48.google.com (mail-lf0-f48.google.com
-	[209.85.215.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 1491C607A4;
-	Wed, 15 Jun 2016 15:29:16 +0000 (UTC)
-Received: by mail-lf0-f48.google.com with SMTP id f6so17319628lfg.0;
-	Wed, 15 Jun 2016 08:29:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=MBorrHDJUQbrJGkve1+rz8Q7xnH//oPz3uZVaVPR+h0=;
-	b=ZO1RjRjI7bxrIGFvSiV6ZJiv8cY9l3sAFvA5LnzLYlftNw0NYwszW41UN8dD5lPPU2
-	QRj3aBTF1ItmKIb9RRRtkGsSsXz+jiGE9ft4i7IwYWotQ8JAXaWE+Yinig0hYCGIA1cT
-	Hadg5/tal0C4HchJ+op+r7uDg7LN9FT2HD90W8lVvve2YHjbifxlkZE/rFLeOVsMp+CJ
-	arpguZg2Uxs1iAZpxJXztpG6XEmpG/Ryc2FyySzvS9DvYHAgb44zCBee4TYTdQVFEnAU
-	bsIPtoT4dUhbH8ZYpRhncuVjoG2oplihfC1dS/gOBDXo8EGdUHlr64xSSbS4u5qLYTwj
-	W/Hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=MBorrHDJUQbrJGkve1+rz8Q7xnH//oPz3uZVaVPR+h0=;
-	b=LiTGWV8u9QnJ0AiLehSYmiCVwmL0ey3AQDAQhXNxe7MlOWU4dC/wpbE47Bxgn+l4FV
-	Rx0KVNyMcU/tX5l0JBYN+o/ccBZ8iRjagH05wBq63P0+SogcRM7/b4AW3NZIzpA0LMa8
-	lnn3Aq74f94bItZwi5bAGi4TJ23Bi97Umn6yzwCpZiMfPHZTkgOfkTbzVMgc8mnbVXwx
-	HFifm1ert41dVJJuh99C/kbQy6Dubzh5FSIPR3LwVfe6NByynZ4KlqI8nMgzZj2RtcJC
-	7es6LlB+oDoGT6cQ78e5YbKJjgllgdayd8pK4FopwLoaoQYVo/LmWZvm3Td8Bswy+xFq
-	yZOA==
-X-Gm-Message-State: ALyK8tK56/M/DXvOxJje2S+nixvukbgNT1e+VYMtSe2aU2MOOhRgx0sALJDIx6g+On7gWEE/SF2HIv1pYzUPiw==
-X-Received: by 10.194.99.244 with SMTP id et20mr12911202wjb.92.1466004556693; 
-	Wed, 15 Jun 2016 08:29:16 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.194.60.111 with HTTP; Wed, 15 Jun 2016 08:29:16 -0700 (PDT)
-In-Reply-To: <1466002419.9543.1.camel@intel.com>
-References: <20160615104518.GC2569@jama> <1466002419.9543.1.camel@intel.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Wed, 15 Jun 2016 17:29:16 +0200
-Message-ID: <CA+chaQc-WwdLz78kLJhSPxo3UrfN8TD7VYaVvxvf=Xwq+EJiyQ@mail.gmail.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Cc: openembedded-devel <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: State of bitbake world 2016-06-13
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 7ACD362134
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Jun 2016 16:58:24 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u5FGwMw0002225; Wed, 15 Jun 2016 17:58:22 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id xLS86IGX9J3w; Wed, 15 Jun 2016 17:58:22 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u5FGwImR002221
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 15 Jun 2016 17:58:19 +0100
+Message-ID: <1466009898.13979.230.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Maxin B. John" <maxin.john@intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Wed, 15 Jun 2016 17:58:18 +0100
+In-Reply-To: <1465996380-32444-4-git-send-email-maxin.john@intel.com>
+References: <1465996380-32444-1-git-send-email-maxin.john@intel.com>
+	<1465996380-32444-4-git-send-email-maxin.john@intel.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 4/4] pointercal-xinput: add a dummy calibration file for qemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,64 +37,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jun 2016 15:29:17 -0000
-Content-Type: multipart/alternative; boundary=089e0102da1ed7529c053552c87e
+X-List-Received-Date: Wed, 15 Jun 2016 16:58:27 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---089e0102da1ed7529c053552c87e
-Content-Type: text/plain; charset=UTF-8
+On Wed, 2016-06-15 at 16:13 +0300, Maxin B. John wrote:
+> In qemu, the emulated PS/2 mouse reports itself as an "absolute
+> coordinate"
+> device and that makes xinput_calibrator think it could be calibrated.
+> 
+> Add a dummy calibration file as a work around to prevent
+> xinput_calibrator from
+> popping up on every boot in qemu.
+> 
+> [YOCTO #8380]
+> 
+> Signed-off-by: Maxin B. John <maxin.john@intel.com>
+> Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 
-Derek already sent similar patches.
+This doesn't sound right. In qemu, we add a usb touchpad which allows
+absolute coordinate entry, which means qemu doesn't have to grab the
+mouse.
 
-Thanks
+Are there two devices? A mouse shouldn't be seen as an absolute
+coordinate device.
 
-On Wed, Jun 15, 2016 at 4:53 PM, Patrick Ohly <patrick.ohly@intel.com>
-wrote:
+Cheers,
 
-> On Wed, 2016-06-15 at 12:45 +0200, Martin Jansa wrote:
-> > libgphoto2, v4l-utils fail because recent upgrade of libjpeg-turbo in
-> oe-core (PNBLACKLIST sent)
->
-> I have patches ready for that, will send them now.
->
-> --
-> Best Regards, Patrick Ohly
->
-> The content of this message is my personal opinion only and although
-> I am an employee of Intel, the statements I make here in no way
-> represent Intel's position on the issue, nor am I authorized to speak
-> on behalf of Intel on this matter.
->
->
->
->
+Richard
 
---089e0102da1ed7529c053552c87e
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Derek already sent similar patches.<div><br></div><div>Tha=
-nks</div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On=
- Wed, Jun 15, 2016 at 4:53 PM, Patrick Ohly <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:patrick.ohly@intel.com" target=3D"_blank">patrick.ohly@intel.com=
-</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
-:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">O=
-n Wed, 2016-06-15 at 12:45 +0200, Martin Jansa wrote:<br>
-&gt; libgphoto2, v4l-utils fail because recent upgrade of libjpeg-turbo in =
-oe-core (PNBLACKLIST sent)<br>
-<br>
-</span>I have patches ready for that, will send them now.<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
---<br>
-Best Regards, Patrick Ohly<br>
-<br>
-The content of this message is my personal opinion only and although<br>
-I am an employee of Intel, the statements I make here in no way<br>
-represent Intel&#39;s position on the issue, nor am I authorized to speak<b=
-r>
-on behalf of Intel on this matter.<br>
-<br>
-<br>
-<br>
-</font></span></blockquote></div><br></div>
 
---089e0102da1ed7529c053552c87e--
