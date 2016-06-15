@@ -1,29 +1,30 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id BAE7E6E630
+Return-Path: <j.remmet@phytec.de>
+X-Greylist: delayed 528 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 15 Jun 2016 13:47:07 UTC
+Received: from root.phytec.de (mail.microcatalog.org.uk [217.6.246.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 4760265CBB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jun 2016 13:15:44 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP; 15 Jun 2016 06:13:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,476,1459839600"; d="scan'208";a="719454645"
-Received: from linux.intel.com ([10.54.29.200])
-	by FMSMGA003.fm.intel.com with ESMTP; 15 Jun 2016 06:13:23 -0700
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 64B516A4080
+	Wed, 15 Jun 2016 13:47:07 +0000 (UTC)
+Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
+	by root.phytec.de (Postfix) with ESMTP id 1628AA00301
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jun 2016 06:13:22 -0700 (PDT)
-From: "Maxin B. John" <maxin.john@intel.com>
+	Wed, 15 Jun 2016 15:39:14 +0200 (CEST)
+Received: from augenblix.phytec.de ([172.16.0.56])
+	by idefix.phytec.de (IBM Domino Release 9.0.1FP5 HF413)
+	with ESMTP id 2016061515380913-316977 ;
+	Wed, 15 Jun 2016 15:38:09 +0200 
+From: Jan Remmet <j.remmet@phytec.de>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Jun 2016 16:12:59 +0300
-Message-Id: <1465996380-32444-3-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-In-Reply-To: <1465996380-32444-1-git-send-email-maxin.john@intel.com>
-References: <1465996380-32444-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 3/4] distro_alias.inc: remove xtscal
+Date: Wed, 15 Jun 2016 15:36:37 +0200
+Message-Id: <1465997797-6613-1-git-send-email-j.remmet@phytec.de>
+X-Mailer: git-send-email 1.9.1
+X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP5
+	HF413|March 21, 2016) at 15.06.2016 15:38:09,
+	Serialize by Router on Idefix/Phytec(Release 9.0.1FP5 HF413|March 21,
+	2016) at 15.06.2016 15:38:09,
+	Serialize complete at 15.06.2016 15:38:09
+X-TNEFEvaluated: 1
+Subject: [PATCH] rootfs-postcommands: generate /var/lib/systemd/clock
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,30 +37,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jun 2016 13:15:45 -0000
+X-List-Received-Date: Wed, 15 Jun 2016 13:47:08 -0000
 
-Remove xtscal reference from this file as we remove xtscal from oe-core
+systemd timesyncd check /var/lib/systemd/clock instead of
+/etc/timestamp.
+If this file is missing it defaults to TIME_EPOCH. It's set while
+configuring systemd.
 
-[YOCTO #9365]
-
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
+Signed-off-by: Jan Remmet <j.remmet@phytec.de>
 ---
- meta/conf/distro/include/distro_alias.inc | 1 -
- 1 file changed, 1 deletion(-)
+ meta/classes/rootfs-postcommands.bbclass | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/conf/distro/include/distro_alias.inc b/meta/conf/distro/include/distro_alias.inc
-index f3315b4..b0fa924 100644
---- a/meta/conf/distro/include/distro_alias.inc
-+++ b/meta/conf/distro/include/distro_alias.inc
-@@ -455,7 +455,6 @@ DISTRO_PN_ALIAS_pn-xserver-xf86-dri-lite = "Fedora=xorg-x11-server Ubuntu=xserve
- DISTRO_PN_ALIAS_pn-xserver-xf86-lite = "Fedora=xorg-x11-server Ubuntu=xserver-xorg"
- DISTRO_PN_ALIAS_pn-xserver-xorg = "Fedora=xorg-x11-server Ubuntu=xserver-xorg"
- DISTRO_PN_ALIAS_pn-xset = "Fedora=xorg-x11-server-utils Ubuntu=x11-xserver-utils Debian=x11-xserver-utils Opensuse=xorg-x11"
--DISTRO_PN_ALIAS_pn-xtscal = "OSPDT upstream=http://gpe.linuxtogo.org/download/source/"
- DISTRO_PN_ALIAS_pn-xuser-account = "OE-Core"
- DISTRO_PN_ALIAS_pn-xvideo-tests = "OpenedHand"
- DISTRO_PN_ALIAS_pn-xvinfo = "Fedora=xorg-x11-utils Ubuntu=x11-utils"
+diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
+index db8b551..0c7b764 100644
+--- a/meta/classes/rootfs-postcommands.bbclass
++++ b/meta/classes/rootfs-postcommands.bbclass
+@@ -234,6 +234,12 @@ python write_image_manifest () {
+ # sane default time setting
+ rootfs_update_timestamp () {
+ 	date -u +%4Y%2m%2d%2H%2M%2S >${IMAGE_ROOTFS}/etc/timestamp
++
++	if ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "true", "false", d)}; then
++		# touch needs timestamp as [[CC]YY]MMDDhhmm[.ss]
++		TS=$(sed 's/[.]*/&./13' ${IMAGE_ROOTFS}/etc/timestamp)
++		touch -t $TS ${IMAGE_ROOTFS}/var/lib/systemd/clock
++	fi
+ }
+ 
+ # Prevent X from being started
 -- 
-2.4.0
+1.9.1
 
 
