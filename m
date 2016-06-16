@@ -1,22 +1,29 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id C6244731CF
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp485.redcondor.net (smtp485.redcondor.net [208.80.204.85])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D32C73193
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jun 2016 10:59:47 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 16 Jun 2016 03:59:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,480,1459839600"; d="scan'208";a="988686367"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 16 Jun 2016 03:59:47 -0700
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 16 Jun 2016 13:59:24 +0300
-Message-Id: <1466074764-14109-5-git-send-email-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <1466074764-14109-1-git-send-email-alexander.kanavin@linux.intel.com>
-References: <1466074764-14109-1-git-send-email-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 5/5] libmad: replace with mpg123
+	Thu, 16 Jun 2016 11:01:09 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp485.redcondor.net ({3be039ea-4351-44b0-a8af-642c38b25916})
+	via TCP (outbound) with ESMTPS id 20160616110045386_0485
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 Jun 2016 11:00:45 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [216.191.234.70] (port=56498 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1bDV46-0004Fb-6F for openembedded-core@lists.openembedded.org;
+	Thu, 16 Jun 2016 07:02:26 -0400
+Date: Thu, 16 Jun 2016 07:00:02 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1606160643040.23824@localhost.localdomain>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+MIME-Version: 1.0
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: couple trivial(?) questions regarding RPM revision/version numbers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,334 +36,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jun 2016 10:59:48 -0000
+X-List-Received-Date: Thu, 16 Jun 2016 11:01:09 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-mpg123 recipe is taken from meta-oe and updated to latest release.
-Also audiofile dependency is dropped as it's not actually used anywhere.
 
-[YOCTO #6020]
+  not at my dev machine at the moment; otherwise, i could just test
+this but i'd probably still want clarification, anyway.
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- .../gstreamer/gstreamer1.0-plugins-ugly.inc        |  2 +-
- .../libmad/libmad/add-pkgconfig.patch              | 70 ----------------------
- .../libmad/libmad/automake-foreign.patch           | 12 ----
- .../libmad/fix_for_mips_with_gcc-4.5.0.patch       | 33 ----------
- .../libmad/libmad/no-force-mem.patch               | 18 ------
- .../libmad/libmad/obsolete_automake_macros.patch   | 14 -----
- meta/recipes-multimedia/libmad/libmad_0.15.1b.bb   | 36 -----------
- meta/recipes-multimedia/mpg123/mpg123_1.23.4.bb    | 63 +++++++++++++++++++
- 8 files changed, 64 insertions(+), 184 deletions(-)
- delete mode 100644 meta/recipes-multimedia/libmad/libmad/add-pkgconfig.patch
- delete mode 100644 meta/recipes-multimedia/libmad/libmad/automake-foreign.patch
- delete mode 100644 meta/recipes-multimedia/libmad/libmad/fix_for_mips_with_gcc-4.5.0.patch
- delete mode 100644 meta/recipes-multimedia/libmad/libmad/no-force-mem.patch
- delete mode 100644 meta/recipes-multimedia/libmad/libmad/obsolete_automake_macros.patch
- delete mode 100644 meta/recipes-multimedia/libmad/libmad_0.15.1b.bb
- create mode 100644 meta/recipes-multimedia/mpg123/mpg123_1.23.4.bb
+  so, i'm well aware that a single recipe can generate numerous (in my
+case, rpm) package files. basic case: a recipe can generate the "base"
+package, a "doc" package, a "dev" package, and so on and so on. no
+problem there.
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc
-index 4582e5b..708ad7a 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc
-@@ -9,7 +9,7 @@ inherit gettext
- 
- PACKAGECONFIG ??= " \
-     ${GSTREAMER_ORC} \
--    a52dec lame mad mpeg2dec \
-+    a52dec lame mpg123 mpeg2dec \
- "
- 
- PACKAGECONFIG[a52dec]   = "--enable-a52dec,--disable-a52dec,liba52"
-diff --git a/meta/recipes-multimedia/libmad/libmad/add-pkgconfig.patch b/meta/recipes-multimedia/libmad/libmad/add-pkgconfig.patch
-deleted file mode 100644
-index b49dc8c..0000000
---- a/meta/recipes-multimedia/libmad/libmad/add-pkgconfig.patch
-+++ /dev/null
-@@ -1,70 +0,0 @@
--Here is a patch for adding pkg-config support to libmad.
--It would make life a bit easier for distro maintainers if this was applied.
--In case you didn't know, pkg-config is a tool for providing LDFLAGS and
--CFLAGS for packages using shared libraries. It's on freedesktop.org.
--Debian has already been distributing the pkg-config file mad.pc with
--libmad for some time, and people developing on debian (notably xmms2 
--developers) have started relying on this support being present, causing
--some confusion for people installing from source and on some BSDs which
--do not provide mad.pc (google: pkgconfig libmad).
--
--EMH
--
--Upstream-Status: Inappropriate [configuration]
--
----h31gzZEtNLTqOjlF
--Content-Type: text/plain; charset=us-ascii
--Content-Disposition: attachment; filename=&quot;libmad-0.15.1b-pkgconfig.patch&quot;
--
--diff -Naur libmad-0.15.1b.old/configure.ac libmad-0.15.1b/configure.ac
----- libmad-0.15.1b.old/configure.ac	2004-01-23 10:41:32.000000000 +0100
--+++ libmad-0.15.1b/configure.ac	2004-08-07 02:25:24.633462168 +0200
--@@ -429,5 +429,5 @@
-- dnl AC_SUBST(LTLIBOBJS)
-- 
-- AC_CONFIG_FILES([Makefile msvc++/Makefile  \
---	libmad.list])
--+	libmad.list mad.pc])
-- AC_OUTPUT
--diff -Naur libmad-0.15.1b.old/mad.pc.in libmad-0.15.1b/mad.pc.in
----- libmad-0.15.1b.old/mad.pc.in	1970-01-01 01:00:00.000000000 +0100
--+++ libmad-0.15.1b/mad.pc.in	2004-08-07 02:04:59.617692872 +0200
--@@ -0,0 +1,14 @@
--+# libmad pkg-config source file
--+
--+prefix=@prefix@
--+exec_prefix=@exec_prefix@
--+libdir=@libdir@
--+includedir=@includedir@
--+
--+Name: mad
--+Description: MPEG Audio Decoder
--+Version: @VERSION@
--+Requires:
--+Conflicts:
--+Libs: -L${libdir} -lmad -lm
--+Cflags: -I${includedir}
--diff -Naur libmad-0.15.1b.old/Makefile.am libmad-0.15.1b/Makefile.am
----- libmad-0.15.1b.old/Makefile.am	2004-02-17 03:02:03.000000000 +0100
--+++ libmad-0.15.1b/Makefile.am	2004-08-07 02:03:19.859858368 +0200
--@@ -24,6 +24,9 @@
-- SUBDIRS =		
-- DIST_SUBDIRS =		msvc++
-- 
--+pkgconfigdir =		$(libdir)/pkgconfig
--+pkgconfig_DATA =	mad.pc
--+
-- lib_LTLIBRARIES =	libmad.la
-- include_HEADERS =	mad.h
-- 
--@@ -34,7 +37,8 @@
-- minimad_LDADD =		libmad.la
-- 
-- EXTRA_DIST =		mad.h.sed  \
---			CHANGES COPYRIGHT CREDITS README TODO VERSION
--+			CHANGES COPYRIGHT CREDITS README TODO VERSION \
--+			mad.pc.in
-- 
-- exported_headers =	version.h fixed.h bit.h timer.h stream.h frame.h  \
-- 			synth.h decoder.h
--
-diff --git a/meta/recipes-multimedia/libmad/libmad/automake-foreign.patch b/meta/recipes-multimedia/libmad/libmad/automake-foreign.patch
-deleted file mode 100644
-index 3e54424..0000000
---- a/meta/recipes-multimedia/libmad/libmad/automake-foreign.patch
-+++ /dev/null
-@@ -1,12 +0,0 @@
--Pass foreign to AM_INIT_AUTOMAKE so it doesn't enforce GNU strictness.
--
--Upstream-Status: Pending
--Signed-off-by: Ross Burton <ross.burton@intel.com>
--
--diff --git a/configure.ac b/configure.ac
--index e602fd3..e075b86 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -29 +29 @@ AC_CONFIG_SRCDIR([decoder.h])
---AM_INIT_AUTOMAKE
--+AM_INIT_AUTOMAKE([foreign])
-diff --git a/meta/recipes-multimedia/libmad/libmad/fix_for_mips_with_gcc-4.5.0.patch b/meta/recipes-multimedia/libmad/libmad/fix_for_mips_with_gcc-4.5.0.patch
-deleted file mode 100644
-index 01c7aa3..0000000
---- a/meta/recipes-multimedia/libmad/libmad/fix_for_mips_with_gcc-4.5.0.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--gcc 4.4 did this: The MIPS port no longer recognizes the h  asm constraint. It was necessary to remove this constraint in order to avoid generating unpredictable code sequences. 
--
--so the libmad build with gcc-4.5.0 was failing.
--
--Found a solution here:
--
--http://us.generation-nt.com/answer/bug-568418-libmad0-dev-mpg321-compilation-errors-mips-mipsel-architectures-help-169033451.html
--
--Upstream-Status: Pending
--
--2010/07/29
--Nitin A Kamble <nitin.a.kamble@intel.com>
--
--Index: libmad-0.15.1b/fixed.h
--===================================================================
----- libmad-0.15.1b.orig/fixed.h
--+++ libmad-0.15.1b/fixed.h
--@@ -297,6 +297,15 @@ mad_fixed_t mad_f_mul_inline(mad_fixed_t
-- 
-- /* --- MIPS ---------------------------------------------------------------- */
-- 
--+# elif defined(FPM_MIPS) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 4))
--+    typedef unsigned int u64_di_t __attribute__ ((mode (DI)));
--+#   define MAD_F_MLX(hi, lo, x, y) \
--+    do { \
--+        u64_di_t __ll = (u64_di_t) (x) * (y); \
--+        hi = __ll >> 32; \
--+        lo = __ll; \
--+     } while (0)
--+
-- # elif defined(FPM_MIPS)
-- 
-- /*
-diff --git a/meta/recipes-multimedia/libmad/libmad/no-force-mem.patch b/meta/recipes-multimedia/libmad/libmad/no-force-mem.patch
-deleted file mode 100644
-index d5e6d20..0000000
---- a/meta/recipes-multimedia/libmad/libmad/no-force-mem.patch
-+++ /dev/null
-@@ -1,18 +0,0 @@
--This option no longer exists in gcc 3.4.1
--
--RP - 18/07/2008
--
--Upstream-Status: Inappropriate [configuration]
--
--Index: libmad-0.15.1b/configure.ac
--===================================================================
----- libmad-0.15.1b.orig/configure.ac	2008-07-18 15:45:30.000000000 +0100
--+++ libmad-0.15.1b/configure.ac	2008-07-18 15:45:37.000000000 +0100
--@@ -140,7 +140,6 @@
--     case "$optimize" in
-- 	-O|"-O "*)
-- 	    optimize="-O"
---	    optimize="$optimize -fforce-mem"
-- 	    optimize="$optimize -fforce-addr"
-- 	    : #x optimize="$optimize -finline-functions"
-- 	    : #- optimize="$optimize -fstrength-reduce"
-diff --git a/meta/recipes-multimedia/libmad/libmad/obsolete_automake_macros.patch b/meta/recipes-multimedia/libmad/libmad/obsolete_automake_macros.patch
-deleted file mode 100644
-index cc87d29..0000000
---- a/meta/recipes-multimedia/libmad/libmad/obsolete_automake_macros.patch
-+++ /dev/null
-@@ -1,14 +0,0 @@
--Upstream-Status: Submitted [https://sourceforge.net/tracker/?group_id=12349&atid=112349]
--
--Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
--diff -Nurd libmad-0.15.1b/configure.ac libmad-0.15.1b/configure.ac
----- libmad-0.15.1b/configure.ac	2004-01-23 11:41:32.000000000 +0200
--+++ libmad-0.15.1b/configure.ac	2013-01-03 08:28:23.718693697 +0200
--@@ -28,7 +28,7 @@
--
-- AM_INIT_AUTOMAKE
--
---AM_CONFIG_HEADER([config.h])
--+AC_CONFIG_HEADERS([config.h])
--
-- dnl System type.
-diff --git a/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb b/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb
-deleted file mode 100644
-index d431abd..0000000
---- a/meta/recipes-multimedia/libmad/libmad_0.15.1b.bb
-+++ /dev/null
-@@ -1,36 +0,0 @@
--SUMMARY = "MPEG Audio Decoder library"
--HOMEPAGE = "http://sourceforge.net/projects/mad/"
--BUGTRACKER = "http://sourceforge.net/tracker/?group_id=12349&atid=112349"
--LICENSE = "GPLv2+"
--LICENSE_FLAGS = "commercial"
--LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
--			file://COPYRIGHT;md5=8e55eb14894e782b84488d5a239bc23d \
--			file://version.h;beginline=1;endline=8;md5=aa07311dd39288d4349f28e1de516454"
--SECTION = "libs"
--DEPENDS = "libid3tag"
--PR = "r3"
--
--SRC_URI = "ftp://ftp.mars.org/pub/mpeg/libmad-${PV}.tar.gz \
--           file://no-force-mem.patch \
--           file://add-pkgconfig.patch \
--           file://fix_for_mips_with_gcc-4.5.0.patch \
--           file://obsolete_automake_macros.patch \
--           file://automake-foreign.patch \
--"
--
--SRC_URI[md5sum] = "1be543bc30c56fb6bea1d7bf6a64e66c"
--SRC_URI[sha256sum] = "bbfac3ed6bfbc2823d3775ebb931087371e142bb0e9bb1bee51a76a6e0078690" 
--
--S = "${WORKDIR}/libmad-${PV}"
--
--inherit autotools pkgconfig
--
--EXTRA_OECONF = "-enable-speed --enable-shared"
--EXTRA_OECONF_append_arm = " --enable-fpm=arm"
--
--do_configure_prepend () {
--#	damn picky automake...
--	touch NEWS AUTHORS ChangeLog
--}
--
--ARM_INSTRUCTION_SET = "arm"
-diff --git a/meta/recipes-multimedia/mpg123/mpg123_1.23.4.bb b/meta/recipes-multimedia/mpg123/mpg123_1.23.4.bb
-new file mode 100644
-index 0000000..3101023
---- /dev/null
-+++ b/meta/recipes-multimedia/mpg123/mpg123_1.23.4.bb
-@@ -0,0 +1,63 @@
-+SUMMARY = "Audio decoder for MPEG-1 Layer 1/2/3"
-+DESCRIPTION = "The core of mpg123 is an MPEG-1 Layer 1/2/3 decoding library, which can be used by other programs. \
-+mpg123 also comes with a command-line tool which can playback using ALSA, PulseAudio, OSS, and several other APIs, \
-+and also can write the decoded audio to WAV."
-+HOMEPAGE = "http://mpg123.de/"
-+BUGTRACKER = "http://sourceforge.net/p/mpg123/bugs/"
-+SECTION = "multimedia"
-+
-+LICENSE = "LGPLv2.1"
-+LICENSE_FLAGS = "commercial"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=1e86753638d3cf2512528b99079bc4f3"
-+
-+SRC_URI = "https://www.mpg123.de/download/${BP}.tar.bz2"
-+
-+SRC_URI[md5sum] = "dea9e3a815d127d04ebe9f6b80f229ce"
-+SRC_URI[sha256sum] = "3495e678dec9a60f29cbcd4fc698abc4c811ec60d1276e744f7a10ac35023b48"
-+
-+inherit autotools pkgconfig
-+
-+# The options should be mutually exclusive for configuration script.
-+# If both alsa and pulseaudio are specified (as in the default distro features)
-+# pulseaudio takes precedence.
-+PACKAGECONFIG_ALSA = "${@bb.utils.contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)}"
-+PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio', '${PACKAGECONFIG_ALSA}', d)}"
-+
-+PACKAGECONFIG[alsa] = "--with-default-audio=alsa,,alsa-lib"
-+PACKAGECONFIG[esd] = ",,esound"
-+PACKAGECONFIG[jack] = ",,jack"
-+PACKAGECONFIG[openal] = ",,openal-soft"
-+PACKAGECONFIG[portaudio] = ",,portaudio-v19"
-+PACKAGECONFIG[pulseaudio] = "--with-default-audio=pulse,,pulseaudio"
-+PACKAGECONFIG[sdl] = ",,libsdl"
-+
-+# Following are possible sound output modules:
-+# alsa arts coreaudio dummy esd jack nas openal os2 oss portaudio pulse sdl sndio sun tinyalsa win32 win32_wasapi
-+AUDIOMODS += "${@bb.utils.contains('PACKAGECONFIG', 'alsa', 'alsa', '', d)}"
-+AUDIOMODS += "${@bb.utils.contains('PACKAGECONFIG', 'esd', 'esd', '', d)}"
-+AUDIOMODS += "${@bb.utils.contains('PACKAGECONFIG', 'jack', 'jack', '', d)}"
-+AUDIOMODS += "${@bb.utils.contains('PACKAGECONFIG', 'openal', 'openal', '', d)}"
-+AUDIOMODS += "${@bb.utils.contains('PACKAGECONFIG', 'portaudio', 'portaudio', '', d)}"
-+AUDIOMODS += "${@bb.utils.contains('PACKAGECONFIG', 'pulseaudio', 'pulse', '', d)}"
-+AUDIOMODS += "${@bb.utils.contains('PACKAGECONFIG', 'sdl', 'sdl', '', d)}"
-+
-+EXTRA_OECONF = " \
-+    --enable-shared \
-+    --with-audio='${AUDIOMODS}' \
-+    --with-module-suffix=.so \
-+    ${@bb.utils.contains('TUNE_FEATURES', 'neon', '--with-cpu=neon', '', d)} \
-+    ${@bb.utils.contains('TUNE_FEATURES', 'altivec', '--with-cpu=altivec', '', d)} \
-+"
-+
-+# The x86 assembler optimisations contains text relocations and there are no
-+# upstream plans to fix them: http://sourceforge.net/p/mpg123/bugs/168/
-+INSANE_SKIP_${PN}_append_x86 = " textrel"
-+
-+# Fails to build with thumb-1 (qemuarm)
-+#| {standard input}: Assembler messages:
-+#| {standard input}:47: Error: selected processor does not support Thumb mode `smull r5,r6,r7,r4'
-+#| {standard input}:48: Error: shifts in CMP/MOV instructions are only supported in unified syntax -- `mov r5,r5,lsr#24'
-+#...
-+#| make[3]: *** [equalizer.lo] Error 1
-+ARM_INSTRUCTION_SET_armv4 = "arm"
-+ARM_INSTRUCTION_SET_armv5 = "arm"
+  first clarification -- regardless of how versioning and revisioning
+is being done, *all* packages generated from a single recipe during
+the same build have to have the same version and revision number, yes?
+i can't imagine how that couldn't be true, but i've been surprised
+before.
+
+  next question -- if any part of the base content for a recipe
+changes and that recipe is processed again, all generated packages
+have to jump to the next version/revision together, correct? again,
+this seems obvious, but i want to make absolutely sure.
+
+  so if i have a recipe for which i make a tiny change that affects
+the content of only one of the generated packages, if the revision
+number increases from, say, "r4" to "r5", *all* of the generated
+packages go along for the ride, even all the rest of the packages
+whose content did *not* change. so i could end up with a slew of
+generated packages whose revision number increased, even though
+absolutely nothing about the package content actually changed. so far,
+so good?
+
+  and finally, if the above is accurate, at some point, if i get an
+updated recipe, and rebuild never package files from it, and do an
+update, a lot of those "newer" packages might not contain any actual
+changes, and if that happens, does the rpm update operation actually
+do any work?
+
+  i understand that the end result will be(?) that all of those
+related packages will now have the newer revision number once the
+update is done, but it's entirely possible (even normal) for there to
+have been no change effected by that "update". and in cases like that,
+even if one of my packages was "updated":
+
+  rday-doc-1.0-r0  --->  rday-doc-1.0-r1
+
+the content of that package could be unchanged. and if that happens
+(and if everything i've been saying so far is true), is rpm smart
+enough to not do any work in cases like that, and just quietly bump up
+the version number of the installed package and move on?
+
+  is there anything here i'm missing or misunderstanding? thanks.
+
+rday
+
 -- 
-2.8.1
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
