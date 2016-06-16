@@ -1,46 +1,33 @@
-Return-Path: <george.mccollister@gmail.com>
-Received: from mail-io0-f194.google.com (mail-io0-f194.google.com
-	[209.85.223.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 796E3731D4
+Return-Path: <J.Remmet@phytec.de>
+Received: from root.phytec.de (mail.phycard.de [217.6.246.34])
+	by mail.openembedded.org (Postfix) with ESMTP id DA2426FFAB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jun 2016 13:07:24 +0000 (UTC)
-Received: by mail-io0-f194.google.com with SMTP id 100so5748947ioh.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jun 2016 06:07:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=AZ8dfiU1zC/XaGHbxZ9QDP4YFDj1BVgn995dzESO6oo=;
-	b=Sz6zlJAaei2O7Wl3A05JcM21RcnffpLaRRc9Vf9hcfkExMOjeltK8kvFuN/Det+G1Z
-	fPGeM8vkfqfCJ6Sx4bfoTCk4f8c7laUh6PbF1FaxwOfFL0ZYUUoJYtpk9HbY7yZgNe/R
-	hD8luiRWhvetgZjQuDsutpy/APJwlFew1j5pe6Jw7wKCBp7D/jC18hCkCqVEz40LFJOf
-	4TcEirODycSa26gJS5oCGqI2WtRyQTJpR1YKL/I3dsMAkXHt0Q6tShCpgKLK1XkE0w8G
-	I5dK4E6zq4nfFPp4mxjc0lfI7YLaBrdLFXVWGyGGlcsfoirWU+XystNzHPzLlnzVAEq2
-	CD2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=AZ8dfiU1zC/XaGHbxZ9QDP4YFDj1BVgn995dzESO6oo=;
-	b=eFlZrxvkAE8zURXSB1Mn0WmhUvjqBoiqbAde7CSBr7rPAROXL9zFosAuMoasptrNB3
-	Ls4bYXWCjYQpx8C0c5Wrk+lR2/W6WvXwieq18cW4HMWTsMtWh95yvh2xdjPkT5sVK/1Q
-	/gsgqyyyDAnJd8JCsHImGfKCOvntPP9EItdzqR4d9Iyon+X70I+VOLTZVWHvpP+lpGw2
-	68Y1uGKuvzbCJTbjkCU0dnLdi83K6etzd4MKnHK88AVH4cUJ8OazXCkxuH2HU6jj10fF
-	mioMAqvu12YlVCqPF04YCm5u/n6HI1TIvskIQD8e94u75LOlTcj4KRvR4VouCLfR9fx2
-	BShA==
-X-Gm-Message-State: ALyK8tLgKNY5WwMhOv0asy/81Y3Zifb1DLCPUcAvoPejyjUKrtDpbFsRerjgqIJ3MgqnlW4Gm4xYvaHUx4obIA==
-X-Received: by 10.107.3.84 with SMTP id 81mr7512953iod.156.1466082445645; Thu,
-	16 Jun 2016 06:07:25 -0700 (PDT)
+	Thu, 16 Jun 2016 14:17:49 +0000 (UTC)
+Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
+	by root.phytec.de (Postfix) with ESMTP id 397DBA0030E;
+	Thu, 16 Jun 2016 16:18:39 +0200 (CEST)
+Received: from localhost ([172.16.12.25])
+	by idefix.phytec.de (IBM Domino Release 9.0.1FP5 HF413)
+	with ESMTP id 2016061616173419-322688 ;
+	Thu, 16 Jun 2016 16:17:34 +0200 
+Date: Thu, 16 Jun 2016 16:17:29 +0200
+From: Jan Remmet <J.Remmet@phytec.de>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20160616141729.GA3044@lws-weitzel2@phytec.de>
+Reply-To: Jan Remmet <J.Remmet@phytec.de>
+References: <1465997797-6613-1-git-send-email-j.remmet@phytec.de>
+	<7E603C53-3E9F-488E-8AC2-AA8D4AB8DBC0@gmail.com>
 MIME-Version: 1.0
-Received: by 10.36.120.11 with HTTP; Thu, 16 Jun 2016 06:07:25 -0700 (PDT)
-In-Reply-To: <d4e799a4e5f83291df990e6871f111dafc043062.1465513580.git.pkj@axis.com>
-References: <cover.1465513580.git.pkj@axis.com>
-	<d4e799a4e5f83291df990e6871f111dafc043062.1465513580.git.pkj@axis.com>
-From: George McCollister <george.mccollister@gmail.com>
-Date: Thu, 16 Jun 2016 08:07:25 -0500
-Message-ID: <CAFSKS=PkWum0KySHE7GR6LJCuOWgJicExZRTg3Yv5SyS9GKLFA@mail.gmail.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+In-Reply-To: <7E603C53-3E9F-488E-8AC2-AA8D4AB8DBC0@gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP5
+	HF413|March 21, 2016) at 16.06.2016 16:17:34,
+	Serialize by Router on Idefix/Phytec(Release 9.0.1FP5 HF413|March 21,
+	2016) at 16.06.2016 16:17:34,
+	Serialize complete at 16.06.2016 16:17:34
+X-TNEFEvaluated: 1
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] useradd-staticids.bbclass: Make sure opened files are closed
+Subject: Re: [PATCH] rootfs-postcommands: generate /var/lib/systemd/clock
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,75 +40,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jun 2016 13:07:25 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 16 Jun 2016 14:17:52 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Jun 9, 2016 at 6:07 PM, Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
-> This avoids warnings about unclosed files with Python 3.
->
-> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> ---
->  meta/classes/useradd-staticids.bbclass | 30 +++++++++++++++++-------------
->  1 file changed, 17 insertions(+), 13 deletions(-)
->
-> diff --git a/meta/classes/useradd-staticids.bbclass b/meta/classes/useradd-staticids.bbclass
-> index a9b506d..440c0e3 100644
-> --- a/meta/classes/useradd-staticids.bbclass
-> +++ b/meta/classes/useradd-staticids.bbclass
-> @@ -4,6 +4,7 @@ def update_useradd_static_config(d):
->      import argparse
->      import itertools
->      import re
-> +    import errno
->
->      class myArgumentParser( argparse.ArgumentParser ):
->          def _print_message(self, message, file=None):
-> @@ -30,19 +31,22 @@ def update_useradd_static_config(d):
->          are set)."""
->          id_table = dict()
->          for conf in file_list.split():
-> -            if os.path.exists(conf):
-> -                f = open(conf, "r")
-> -                for line in f:
-> -                    if line.startswith('#'):
-> -                        continue
-> -                    # Make sure there always are at least exp_fields elements in
-> -                    # the field list. This allows for leaving out trailing
-> -                    # colons in the files.
-> -                    fields = list_extend(line.rstrip().split(":"), exp_fields)
-> -                    if fields[0] not in id_table:
-> -                        id_table[fields[0]] = fields
-> -                    else:
-> -                        id_table[fields[0]] = list(itertools.imap(lambda x, y: x or y, fields, id_table[fields[0]]))
-> +            try:
-> +                with open(conf, "r") as f:
-> +                    for line in f:
-> +                        if line.startswith('#'):
-> +                            continue
-> +                        # Make sure there always are at least exp_fields
-> +                        # elements in the field list. This allows for leaving
-> +                        # out trailing colons in the files.
-> +                        fields = list_extend(line.rstrip().split(":"), exp_fields)
-> +                        if fields[0] not in id_table:
-> +                            id_table[fields[0]] = fields
-> +                        else:
-> +                            id_table[fields[0]] = list(itertools.imap(lambda x, y: x or y, fields, id_table[fields[0]]))
-This is still broken for me. As far as I can tell itertools.imap
-doesn't exist in Python 3.
+On Wed, Jun 15, 2016 at 12:14:17PM -0700, Khem Raj wrote:
+> 
+> > On Jun 15, 2016, at 6:36 AM, Jan Remmet <J.Remmet@phytec.de> wrote:
+> > 
+> > systemd timesyncd check /var/lib/systemd/clock instead of
+> > /etc/timestamp.
+> > If this file is missing it defaults to TIME_EPOCH. It's set while
+> > configuring systemd.
+> > 
+> > Signed-off-by: Jan Remmet <j.remmet@phytec.de>
+> > ---
+> > meta/classes/rootfs-postcommands.bbclass | 6 ++++++
+> > 1 file changed, 6 insertions(+)
+> > 
+> > diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
+> > index db8b551..0c7b764 100644
+> > --- a/meta/classes/rootfs-postcommands.bbclass
+> > +++ b/meta/classes/rootfs-postcommands.bbclass
+> > @@ -234,6 +234,12 @@ python write_image_manifest () {
+> > # sane default time setting
+> > rootfs_update_timestamp () {
+> > 	date -u +%4Y%2m%2d%2H%2M%2S >${IMAGE_ROOTFS}/etc/timestamp
+> > +
+> > +	if ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "true", "false", d)}; then
+> > +		# touch needs timestamp as [[CC]YY]MMDDhhmm[.ss]
+> > +		TS=$(sed 's/[.]*/&./13' ${IMAGE_ROOTFS}/etc/timestamp)
+> > +		touch -t $TS ${IMAGE_ROOTFS}/var/lib/systemd/clock
+> > +	fi
+> > }
+> 
+> i wonder if this will work with read only rootfs.
+I found no special handling for systemd and /var/lib if IMAGE_FEATURES
+read-only-rootfs is used.
+If timesyncd didn't find /var/lib/systemd/clock it defaults to the configure
+time value und try to write /var/lib/systemd/clock. On read-only it will
+silently fail.
+So I don't see a problem here.
 
-> +            except IOError as e:
-> +                if e.errno == errno.ENOENT:
-> +                    pass
->
->          return id_table
->
-> --
-> 2.8.3
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Jan
+> 
+> > 
+> > # Prevent X from being started
+> > --
+> > 1.9.1
+> > 
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
+
+
 
