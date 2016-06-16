@@ -1,26 +1,20 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 15360731D1
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id A21176B6EA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jun 2016 09:30:11 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u5G9U8wQ025337
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jun 2016 02:30:11 -0700
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.229) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Thu, 16 Jun 2016 02:30:05 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 16 Jun 2016 17:30:04 +0800
-Message-ID: <18032fc6b17d21b4fcb431114a6000042b38e3d9.1466069361.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1466069361.git.Qi.Chen@windriver.com>
-References: <cover.1466069361.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] recipetool/create.py: fix LICENSE value
+	Thu, 16 Jun 2016 10:59:43 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 16 Jun 2016 03:59:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,480,1459839600"; d="scan'208";a="988686342"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga001.fm.intel.com with ESMTP; 16 Jun 2016 03:59:42 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 16 Jun 2016 13:59:20 +0300
+Message-Id: <1466074764-14109-1-git-send-email-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH 1/5] security_flags.inc: add SECURITY_NO_PIE_CFLAGS to libgcc and gcc-sanitizers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,36 +27,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jun 2016 09:30:14 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 16 Jun 2016 10:59:43 -0000
 
-When there multiple license in a repo, the LICENSE value be created as
-something like "LGPLv2.1 GPLv2", which causes the following warning.
+These recipes no longer seem to need full exclusion from security hardening.
 
-LICENSE value "LGPLv2.1 GPLv2" has an invalid format - license names must
-be separated by the following characters to indicate the license selection: &|()
+The rest (glibc, gcc-runtime, valgrind, grub, grub-efi, uclibc) still do.
 
-Fix it by using '&' to join multiple licenses.
+[YOCTO #9489]
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- scripts/lib/recipetool/create.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/conf/distro/include/security_flags.inc | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index 1297428..b3fd78b 100644
---- a/scripts/lib/recipetool/create.py
-+++ b/scripts/lib/recipetool/create.py
-@@ -504,7 +504,7 @@ def create_recipe(args):
-             licenses = [pkg_license]
-         else:
-             lines_before.append('# NOTE: Original package metadata indicates license is: %s' % pkg_license)
--    lines_before.append('LICENSE = "%s"' % ' '.join(licenses))
-+    lines_before.append('LICENSE = "%s"' % ' & '.join(licenses))
-     lines_before.append('LIC_FILES_CHKSUM = "%s"' % ' \\\n                    '.join(lic_files_chksum))
-     lines_before.append('')
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+index ea1d4e5..cd2b964 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -43,7 +43,7 @@ SECURITY_CFLAGS_pn-flac = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-flex = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-gcc = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-gcc-runtime = ""
+-SECURITY_CFLAGS_pn-gcc-sanitizers = ""
++SECURITY_CFLAGS_pn-gcc-sanitizers = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-gdb = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-gmp = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-gnutls = "${SECURITY_NO_PIE_CFLAGS}"
+@@ -62,7 +62,7 @@ SECURITY_CFLAGS_pn-kexec-tools = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-iptables = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libaio = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libcap = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-libgcc = ""
++SECURITY_CFLAGS_pn-libgcc = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libid3tag = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libnewt = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libglu = "${SECURITY_NO_PIE_CFLAGS}"
+@@ -109,10 +109,8 @@ TARGET_CFLAGS_append_class-target = " ${SECURITY_CFLAGS}"
+ TARGET_LDFLAGS_append_class-target = " ${SECURITY_LDFLAGS}"
  
+ SECURITY_LDFLAGS_remove_pn-gcc-runtime = "-fstack-protector-strong"
+-SECURITY_LDFLAGS_remove_pn-gcc-sanitizers = "-fstack-protector-strong"
+ SECURITY_LDFLAGS_remove_pn-glibc = "-fstack-protector-strong"
+ SECURITY_LDFLAGS_remove_pn-glibc-initial = "-fstack-protector-strong"
+-SECURITY_LDFLAGS_remove_pn-libgcc = "-fstack-protector-strong"
+ SECURITY_LDFLAGS_remove_pn-uclibc = "-fstack-protector-strong"
+ SECURITY_LDFLAGS_remove_pn-uclibc-initial = "-fstack-protector-strong"
+ SECURITY_LDFLAGS_pn-xf86-video-fbdev = "${SECURITY_X_LDFLAGS}"
 -- 
-1.9.1
+2.8.1
 
 
