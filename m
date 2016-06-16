@@ -1,58 +1,26 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D999612E5
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A07E755F8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jun 2016 14:57:15 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 621E918178;
-	Thu, 16 Jun 2016 16:57:14 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id pthVrFfhV5iL; Thu, 16 Jun 2016 16:57:13 +0200 (CEST)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bastet.se.axis.com (Postfix) with ESMTP id E763C1816B;
-	Thu, 16 Jun 2016 16:57:12 +0200 (CEST)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id D141D1B4A;
-	Thu, 16 Jun 2016 16:57:12 +0200 (CEST)
-Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.se.axis.com (Postfix) with ESMTP id C6655F88;
-	Thu, 16 Jun 2016 16:57:12 +0200 (CEST)
-Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
-	by seth.se.axis.com (Postfix) with ESMTP id C4521F3F;
-	Thu, 16 Jun 2016 16:57:12 +0200 (CEST)
-Received: from xbox11.axis.com (10.0.5.25) by XBOX03.axis.com (10.0.5.17) with
-	Microsoft SMTP Server (TLS) id 15.0.1156.6;
-	Thu, 16 Jun 2016 16:57:12 +0200
-Received: from XBOX02.axis.com (10.0.5.16) by xbox11.axis.com (10.0.5.25) with
-	Microsoft SMTP Server (TLS) id 15.0.1156.6;
-	Thu, 16 Jun 2016 16:57:12 +0200
-Received: from XBOX02.axis.com ([fe80::d00f:cb52:1b56:20d]) by XBOX02.axis.com
-	([fe80::d00f:cb52:1b56:20d%21]) with mapi id 15.00.1156.000;
-	Thu, 16 Jun 2016 16:57:12 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Khem Raj <raj.khem@gmail.com>, Jan Remmet <J.Remmet@phytec.de>
-Thread-Topic: [OE-core] [PATCH] rootfs-postcommands: generate
-	/var/lib/systemd/clock
-Thread-Index: AQHRx9y1ocCjN+BtSEi91r7btF+bt5/sLikA
-Date: Thu, 16 Jun 2016 14:57:12 +0000
-Message-ID: <3aa678e40c764504b9cdce828c1d236c@XBOX02.axis.com>
-References: <1465997797-6613-1-git-send-email-j.remmet@phytec.de>
-	<7E603C53-3E9F-488E-8AC2-AA8D4AB8DBC0@gmail.com>
-	<5762b536.ea7ec20a.4591c.ffffbfc2SMTPIN_ADDED_BROKEN@mx.google.com>
-	<693FEC68-8F39-42E1-AF73-D709F9EAD441@gmail.com>
-In-Reply-To: <693FEC68-8F39-42E1-AF73-D709F9EAD441@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.107]
+	Thu, 16 Jun 2016 15:18:07 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga104.fm.intel.com with ESMTP; 16 Jun 2016 08:18:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,480,1459839600"; d="scan'208";a="1003335912"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga002.fm.intel.com with ESMTP; 16 Jun 2016 08:18:07 -0700
+To: openembedded-core@lists.openembedded.org, jpardeiro@rapyuta-robotics.com
+References: <1466087231-14928-1-git-send-email-jpardeiro@rapyuta-robotics.com>
+	<CABcZANkvgj_+Dje4T9h9Z3W4pdWvvpej_PYdwFLEX4mDVHR7mg@mail.gmail.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <9cafe80c-2cfb-c068-b5d9-a18c5bcc9947@linux.intel.com>
+Date: Thu, 16 Jun 2016 18:17:52 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.1.0
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] rootfs-postcommands: generate	/var/lib/systemd/clock
+In-Reply-To: <CABcZANkvgj_+Dje4T9h9Z3W4pdWvvpej_PYdwFLEX4mDVHR7mg@mail.gmail.com>
+Subject: Re: [PATCH] The CMake recipes contain a mismatch between the environmental variable which defines where the Modules are installed and the location where they actually are. This patch fixes the environmental variable to point to the proper folder defined according to the cmake version.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,77 +33,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jun 2016 14:57:16 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 16 Jun 2016 15:18:09 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Khem Raj
-> Sent: den 16 juni 2016 16:38
-> To: Jan Remmet
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH] rootfs-postcommands: generate
-> /var/lib/systemd/clock
->=20
->=20
-> > On Jun 16, 2016, at 7:17 AM, Jan Remmet <J.Remmet@phytec.de> wrote:
-> >
-> > On Wed, Jun 15, 2016 at 12:14:17PM -0700, Khem Raj wrote:
-> >>
-> >>> On Jun 15, 2016, at 6:36 AM, Jan Remmet <J.Remmet@phytec.de> wrote:
-> >>>
-> >>> systemd timesyncd check /var/lib/systemd/clock instead of
-> >>> /etc/timestamp.
-> >>> If this file is missing it defaults to TIME_EPOCH. It's set while
-> >>> configuring systemd.
-> >>>
-> >>> Signed-off-by: Jan Remmet <j.remmet@phytec.de>
-> >>> ---
-> >>> meta/classes/rootfs-postcommands.bbclass | 6 ++++++
-> >>> 1 file changed, 6 insertions(+)
-> >>>
-> >>> diff --git a/meta/classes/rootfs-postcommands.bbclass
-> b/meta/classes/rootfs-postcommands.bbclass
-> >>> index db8b551..0c7b764 100644
-> >>> --- a/meta/classes/rootfs-postcommands.bbclass
-> >>> +++ b/meta/classes/rootfs-postcommands.bbclass
-> >>> @@ -234,6 +234,12 @@ python write_image_manifest () {
-> >>> # sane default time setting
-> >>> rootfs_update_timestamp () {
-> >>> 	date -u +%4Y%2m%2d%2H%2M%2S >${IMAGE_ROOTFS}/etc/timestamp
-> >>> +
-> >>> +	if ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "true",
-> "false", d)}; then
-> >>> +		# touch needs timestamp as [[CC]YY]MMDDhhmm[.ss]
-> >>> +		TS=3D$(sed 's/[.]*/&./13' ${IMAGE_ROOTFS}/etc/timestamp)
-> >>> +		touch -t $TS ${IMAGE_ROOTFS}/var/lib/systemd/clock
-> >>> +	fi
-> >>> }
-> >>
-> >> i wonder if this will work with read only rootfs.
-> > I found no special handling for systemd and /var/lib if
-> > IMAGE_FEATURES read-only-rootfs is used.
+On 06/16/2016 05:45 PM, Christopher Larson wrote:
+> Thanks for the contribution, though, it's appreciated. Perhaps someone
+> else can comment on the patch itself.
 
-If read-only-rootfs is used, then /var/lib is a bind mount to=20
-/var/volatile/lib (which is a tmpfs). This is handled by the
-volatile-binds recipe.
+The idea behind the fix is correct (latest cmake seems to have its 
+modules in /usr/share/cmake-<version>/Modules rather than 
+/usr/share/cmake/Modules), but the patch is wrong in multiple ways:
 
-> > If timesyncd didn't find /var/lib/systemd/clock it defaults to the
-> > configure time value und try to write /var/lib/systemd/clock. On=20
-> > read-only it will silently fail.
-> > So I don't see a problem here.
->=20
-> It fixes one case when rootfs is r/w but create another behavior when
-> its r/o in r/o case /var/lib/systemd must be mounted r/w during boot.
-> So the timesyncd service should check for that directory to exist I=20
-> have a hunch if thats checked then this patch may not be needed
->=20
-> >
-> > Jan
+1) needs to be rebased against latest master, the line it's patching has 
+been changed over a year ago actually.
 
-//Peter
+2) the patch is only adding another patch :) This extra layer needs to go.
+
+3) the commit message should contain a single, short sentence in the 
+first paragraph that explains what the patch is doing:
+
+"cmake.bbclass: set the modules directory correctly"
+
+Then the rest of the commit message should explain why that needs to 
+happen and also can go into further details of how the problem is fixed.
+
+Alex
 
 
