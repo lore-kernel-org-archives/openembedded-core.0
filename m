@@ -1,32 +1,45 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 101FC60620
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 61C4660589
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jun 2016 08:43:45 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u5G8hh92005989; Thu, 16 Jun 2016 09:43:43 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id zeIqqw68Mj41; Thu, 16 Jun 2016 09:43:43 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u5G8heTb005986
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 16 Jun 2016 09:43:41 +0100
-Message-ID: <1466066620.13979.256.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Maxin B. John" <maxin.john@intel.com>
-Date: Thu, 16 Jun 2016 09:43:40 +0100
-In-Reply-To: <20160616080546.GA12991@mbabyjoh-desk.ger.corp.intel.com>
-References: <1465996380-32444-1-git-send-email-maxin.john@intel.com>
-	<1465996380-32444-4-git-send-email-maxin.john@intel.com>
-	<1466009898.13979.230.camel@linuxfoundation.org>
-	<20160616080546.GA12991@mbabyjoh-desk.ger.corp.intel.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/4] pointercal-xinput: add a dummy calibration file for qemu
+	Thu, 16 Jun 2016 09:02:09 +0000 (UTC)
+Received: by mail-wm0-f44.google.com with SMTP id m124so59192866wme.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 Jun 2016 02:02:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=lTAPeJwR3tKCL4rHwTkmi92ZoJvOcD6gu0b8Cn3v8wQ=;
+	b=ia4WSiP3smuiekOhg7PZZNHSZOF9hUVQ2ZZ/JLojkdcYzhk5rXcjvq4AroKFuCaCuN
+	A0b81eIMV1ugc4Yx6u3ZngDneIilhx/CKA2Y3z0I1ZIFJf4Wza9RjPeHYOwDkSuk/lYC
+	RAwtNi3HC6j30BdIP75yJonprY5TpOGqZV+thDaRZ2UMA3+W0klNEmZIHGv4U3EQtc3I
+	MEb/P/VxeHP8VQLVvxZR1AIiGwYMqoj3OdLEdJD7SrzXe7prHZAfLapcZua3OJ+kqS4C
+	LvJvyeZIaIm+wRG/zZ3ikP6UiCV+XOJufHbyZI4WbswlWhGf8+MYWCztPNIl3OlHFv7s
+	L0rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=lTAPeJwR3tKCL4rHwTkmi92ZoJvOcD6gu0b8Cn3v8wQ=;
+	b=LPCAZsV323f3L0rt+XPs09kEmJfaNG7WfbJQbrxquMR5dVYft0NauLF/hpmmlCcPrz
+	2f1ei7dWuQZMF0GVI0LAbesGRmE4IR1JNHv4rM57R7McBZX059RqsEbZzAWjwaDqrlwd
+	rqiSd3pAgOW8Om5lzyemgJ9IoJxa/Wk/FppWBVN3WqvnmrTaGE0YMuqlPBj1dZb7YY2Y
+	sQsN0UGoxsJfsnVx46bivrFw+Dxpir88yxvE7wWd9dTj9CSSnugUeYzLET4qKdL72XaC
+	m5aDqLo/zHRDIcPZGK+THl0W0uEk6iLpl4dpkQcKAS4wCP6kdy8f9YQQXgNo0qyuapW2
+	OwVg==
+X-Gm-Message-State: ALyK8tLLdcIEDa7SC4nXXlf8ixgvlF7otbjLBTtOu2q+B5TNlXZOAIaH0LzKwMIWhM7bFGo6
+X-Received: by 10.28.154.214 with SMTP id c205mr14610967wme.9.1466067729717;
+	Thu, 16 Jun 2016 02:02:09 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id k3sm4053551wju.29.2016.06.16.02.02.08
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 16 Jun 2016 02:02:08 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 16 Jun 2016 10:02:06 +0100
+Message-Id: <1466067726-1792-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.0.rc3
+Subject: [PATCH] packagegroup-core-device-devel: add binutils-symlinks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,58 +52,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jun 2016 08:43:47 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 16 Jun 2016 09:02:13 -0000
 
-On Thu, 2016-06-16 at 11:05 +0300, Maxin B. John wrote:
-> Hi RP,
-> 
-> On Wed, Jun 15, 2016 at 05:58:18PM +0100, Richard Purdie wrote:
-> > On Wed, 2016-06-15 at 16:13 +0300, Maxin B. John wrote:
-> > > In qemu, the emulated PS/2 mouse reports itself as an "absolute
-> > > coordinate"
-> > > device and that makes xinput_calibrator think it could be
-> > > calibrated.
-> > > 
-> > > Add a dummy calibration file as a work around to prevent
-> > > xinput_calibrator from
-> > > popping up on every boot in qemu.
-> > > 
-> > > [YOCTO #8380]
-> > > 
-> > > Signed-off-by: Maxin B. John <maxin.john@intel.com>
-> > > Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-> > 
-> > This doesn't sound right. In qemu, we add a usb touchpad which
-> > allows
-> > absolute coordinate entry, which means qemu doesn't have to grab
-> > the
-> > mouse.
-> > 
-> > Are there two devices? A mouse shouldn't be seen as an absolute
-> > coordinate device.
-> 
-> Yes, both qemu monitor and xinput_calibrator in target shows two
-> devices:
-> 
-> (qemu) info mice
->   Mouse #2: QEMU PS/2 Mouse
->   * Mouse #3: QEMU HID Tablet (absolute)
-> 
-> #  xinput_calibrator --list
->  Device "QEMU QEMU USB Tablet" id=8
->  Device "ImExPS/2 Generic Explorer Mouse" id=9
+This packagegroup previously included oprofileui-server which indirectly
+depended on binutils-symlinks.  Since the removal of oprofileui-server
+binutils-symlinks wasn't pulled in, which makes a packagegroup apparently for
+development on the target fairly useless (and also broke QA).
 
-So with these patches, are we still calibrating the tablet input?
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-devtools/packagegroups/packagegroup-core-device-devel.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-pointercal ships default calibrations for that under the current setup
-but those likely aren't compatible with xinput and we'd need the same
-thing but for xinput here?
-
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-devtools/packagegroups/packagegroup-core-device-devel.bb b/meta/recipes-devtools/packagegroups/packagegroup-core-device-devel.bb
+index d20eae7..edee474 100644
+--- a/meta/recipes-devtools/packagegroups/packagegroup-core-device-devel.bb
++++ b/meta/recipes-devtools/packagegroups/packagegroup-core-device-devel.bb
+@@ -12,5 +12,5 @@ RDEPENDS_${PN} = "\
+     distcc-config \
+     nfs-export-root \
+     bash \
++    binutils-symlinks \
+     "
+-
+-- 
+2.8.0.rc3
 
 
