@@ -1,28 +1,46 @@
-Return-Path: <pascal.bach@siemens.com>
-Received: from gecko.sbs.de (gecko.sbs.de [194.138.37.40])
-	by mail.openembedded.org (Postfix) with ESMTP id 28B5D731BE
+Return-Path: <george.mccollister@gmail.com>
+Received: from mail-io0-f194.google.com (mail-io0-f194.google.com
+	[209.85.223.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 796E3731D4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jun 2016 12:51:04 +0000 (UTC)
-Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
-	by gecko.sbs.de (8.15.2/8.15.2) with ESMTPS id u5GCp3WN004853
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Thu, 16 Jun 2016 14:51:03 +0200
-Received: from [139.16.77.141] (MD1FZU9C.ww002.siemens.net [139.16.77.141])
-	by mail1.sbs.de (8.15.2/8.15.2) with ESMTPS id u5GCp3BB026987
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Thu, 16 Jun 2016 14:51:03 +0200
-To: Khem Raj <raj.khem@gmail.com>
-References: <57614A9B.3090602@siemens.com>
-	<AD9226CC-8ACA-4C9C-930D-48A1E8455A38@gmail.com>
-From: Pascal Bach <pascal.bach@siemens.com>
-Message-ID: <5762A0B7.70203@siemens.com>
-Date: Thu, 16 Jun 2016 14:51:03 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101
-	Thunderbird/38.7.2
+	Thu, 16 Jun 2016 13:07:24 +0000 (UTC)
+Received: by mail-io0-f194.google.com with SMTP id 100so5748947ioh.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 Jun 2016 06:07:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=AZ8dfiU1zC/XaGHbxZ9QDP4YFDj1BVgn995dzESO6oo=;
+	b=Sz6zlJAaei2O7Wl3A05JcM21RcnffpLaRRc9Vf9hcfkExMOjeltK8kvFuN/Det+G1Z
+	fPGeM8vkfqfCJ6Sx4bfoTCk4f8c7laUh6PbF1FaxwOfFL0ZYUUoJYtpk9HbY7yZgNe/R
+	hD8luiRWhvetgZjQuDsutpy/APJwlFew1j5pe6Jw7wKCBp7D/jC18hCkCqVEz40LFJOf
+	4TcEirODycSa26gJS5oCGqI2WtRyQTJpR1YKL/I3dsMAkXHt0Q6tShCpgKLK1XkE0w8G
+	I5dK4E6zq4nfFPp4mxjc0lfI7YLaBrdLFXVWGyGGlcsfoirWU+XystNzHPzLlnzVAEq2
+	CD2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=AZ8dfiU1zC/XaGHbxZ9QDP4YFDj1BVgn995dzESO6oo=;
+	b=eFlZrxvkAE8zURXSB1Mn0WmhUvjqBoiqbAde7CSBr7rPAROXL9zFosAuMoasptrNB3
+	Ls4bYXWCjYQpx8C0c5Wrk+lR2/W6WvXwieq18cW4HMWTsMtWh95yvh2xdjPkT5sVK/1Q
+	/gsgqyyyDAnJd8JCsHImGfKCOvntPP9EItdzqR4d9Iyon+X70I+VOLTZVWHvpP+lpGw2
+	68Y1uGKuvzbCJTbjkCU0dnLdi83K6etzd4MKnHK88AVH4cUJ8OazXCkxuH2HU6jj10fF
+	mioMAqvu12YlVCqPF04YCm5u/n6HI1TIvskIQD8e94u75LOlTcj4KRvR4VouCLfR9fx2
+	BShA==
+X-Gm-Message-State: ALyK8tLgKNY5WwMhOv0asy/81Y3Zifb1DLCPUcAvoPejyjUKrtDpbFsRerjgqIJ3MgqnlW4Gm4xYvaHUx4obIA==
+X-Received: by 10.107.3.84 with SMTP id 81mr7512953iod.156.1466082445645; Thu,
+	16 Jun 2016 06:07:25 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <AD9226CC-8ACA-4C9C-930D-48A1E8455A38@gmail.com>
+Received: by 10.36.120.11 with HTTP; Thu, 16 Jun 2016 06:07:25 -0700 (PDT)
+In-Reply-To: <d4e799a4e5f83291df990e6871f111dafc043062.1465513580.git.pkj@axis.com>
+References: <cover.1465513580.git.pkj@axis.com>
+	<d4e799a4e5f83291df990e6871f111dafc043062.1465513580.git.pkj@axis.com>
+From: George McCollister <george.mccollister@gmail.com>
+Date: Thu, 16 Jun 2016 08:07:25 -0500
+Message-ID: <CAFSKS=PkWum0KySHE7GR6LJCuOWgJicExZRTg3Yv5SyS9GKLFA@mail.gmail.com>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: qemuppc kernel doesn't build with GCC 4.9 on korgoth
+Subject: Re: [PATCH 1/1] useradd-staticids.bbclass: Make sure opened files are closed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,31 +53,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jun 2016 12:51:06 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 16 Jun 2016 13:07:25 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On Thu, Jun 9, 2016 at 6:07 PM, Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
+> This avoids warnings about unclosed files with Python 3.
+>
+> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> ---
+>  meta/classes/useradd-staticids.bbclass | 30 +++++++++++++++++-------------
+>  1 file changed, 17 insertions(+), 13 deletions(-)
+>
+> diff --git a/meta/classes/useradd-staticids.bbclass b/meta/classes/useradd-staticids.bbclass
+> index a9b506d..440c0e3 100644
+> --- a/meta/classes/useradd-staticids.bbclass
+> +++ b/meta/classes/useradd-staticids.bbclass
+> @@ -4,6 +4,7 @@ def update_useradd_static_config(d):
+>      import argparse
+>      import itertools
+>      import re
+> +    import errno
+>
+>      class myArgumentParser( argparse.ArgumentParser ):
+>          def _print_message(self, message, file=None):
+> @@ -30,19 +31,22 @@ def update_useradd_static_config(d):
+>          are set)."""
+>          id_table = dict()
+>          for conf in file_list.split():
+> -            if os.path.exists(conf):
+> -                f = open(conf, "r")
+> -                for line in f:
+> -                    if line.startswith('#'):
+> -                        continue
+> -                    # Make sure there always are at least exp_fields elements in
+> -                    # the field list. This allows for leaving out trailing
+> -                    # colons in the files.
+> -                    fields = list_extend(line.rstrip().split(":"), exp_fields)
+> -                    if fields[0] not in id_table:
+> -                        id_table[fields[0]] = fields
+> -                    else:
+> -                        id_table[fields[0]] = list(itertools.imap(lambda x, y: x or y, fields, id_table[fields[0]]))
+> +            try:
+> +                with open(conf, "r") as f:
+> +                    for line in f:
+> +                        if line.startswith('#'):
+> +                            continue
+> +                        # Make sure there always are at least exp_fields
+> +                        # elements in the field list. This allows for leaving
+> +                        # out trailing colons in the files.
+> +                        fields = list_extend(line.rstrip().split(":"), exp_fields)
+> +                        if fields[0] not in id_table:
+> +                            id_table[fields[0]] = fields
+> +                        else:
+> +                            id_table[fields[0]] = list(itertools.imap(lambda x, y: x or y, fields, id_table[fields[0]]))
+This is still broken for me. As far as I can tell itertools.imap
+doesn't exist in Python 3.
 
->> On Jun 15, 2016, at 5:31 AM, Pascal Bach <pascal.bach@siemens.com> wrote:
->>
->> Hi
->>
->> I tried to build qemuppc on the latest korgoth branch using the GCC 4.9.3 from OE-core.
->>
->> The problem is that i get an error when trying to build the kernel.
->> I was able to trace the issue back to this commit:
->> https://github.com/openembedded/openembedded-core/commit/7a51776a830167e43cbd185505f62f328704e271
->>
->> And i can confirm that removing TARGET_CC_KERNEL_ARCH = "-mno-spe" from qemuppc.conf makes it work again.
->>
->> The question is how to best solve this?
->> Do the changes for GCC 5.3.0 that done in the commit mentioned above also need to be applied to 4.9?
->> Or is it just not supported to build qemuppc with GCC 4.9?
->>
-> back port the gcc patch to 4.9
-I just noticed it is already backported to 4.9 as 0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch
-Is anybody else using a powerpc machine with Yocto2.1 and GCC4.9?
-
-Regards
-Pascal
+> +            except IOError as e:
+> +                if e.errno == errno.ENOENT:
+> +                    pass
+>
+>          return id_table
+>
+> --
+> 2.8.3
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
