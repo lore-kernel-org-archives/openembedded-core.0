@@ -1,25 +1,30 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id ED60260124
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 101FC60620
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jun 2016 08:05:55 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga101.jf.intel.com with ESMTP; 16 Jun 2016 01:05:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,478,1459839600"; d="scan'208";a="122889325"
-Received: from mbabyjoh-desk.fi.intel.com (HELO
-	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.71])
-	by fmsmga004.fm.intel.com with ESMTP; 16 Jun 2016 01:05:55 -0700
-Date: Thu, 16 Jun 2016 11:05:46 +0300
-From: "Maxin B. John" <maxin.john@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20160616080546.GA12991@mbabyjoh-desk.ger.corp.intel.com>
+	Thu, 16 Jun 2016 08:43:45 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u5G8hh92005989; Thu, 16 Jun 2016 09:43:43 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id zeIqqw68Mj41; Thu, 16 Jun 2016 09:43:43 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u5G8heTb005986
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 16 Jun 2016 09:43:41 +0100
+Message-ID: <1466066620.13979.256.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Maxin B. John" <maxin.john@intel.com>
+Date: Thu, 16 Jun 2016 09:43:40 +0100
+In-Reply-To: <20160616080546.GA12991@mbabyjoh-desk.ger.corp.intel.com>
 References: <1465996380-32444-1-git-send-email-maxin.john@intel.com>
 	<1465996380-32444-4-git-send-email-maxin.john@intel.com>
 	<1466009898.13979.230.camel@linuxfoundation.org>
-MIME-Version: 1.0
-In-Reply-To: <1466009898.13979.230.camel@linuxfoundation.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+	<20160616080546.GA12991@mbabyjoh-desk.ger.corp.intel.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 4/4] pointercal-xinput: add a dummy calibration file for qemu
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -34,48 +39,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jun 2016 08:05:58 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 16 Jun 2016 08:43:47 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi RP,
-
-On Wed, Jun 15, 2016 at 05:58:18PM +0100, Richard Purdie wrote:
-> On Wed, 2016-06-15 at 16:13 +0300, Maxin B. John wrote:
-> > In qemu, the emulated PS/2 mouse reports itself as an "absolute
-> > coordinate"
-> > device and that makes xinput_calibrator think it could be calibrated.
-> > 
-> > Add a dummy calibration file as a work around to prevent
-> > xinput_calibrator from
-> > popping up on every boot in qemu.
-> > 
-> > [YOCTO #8380]
-> > 
-> > Signed-off-by: Maxin B. John <maxin.john@intel.com>
-> > Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+On Thu, 2016-06-16 at 11:05 +0300, Maxin B. John wrote:
+> Hi RP,
 > 
-> This doesn't sound right. In qemu, we add a usb touchpad which allows
-> absolute coordinate entry, which means qemu doesn't have to grab the
-> mouse.
+> On Wed, Jun 15, 2016 at 05:58:18PM +0100, Richard Purdie wrote:
+> > On Wed, 2016-06-15 at 16:13 +0300, Maxin B. John wrote:
+> > > In qemu, the emulated PS/2 mouse reports itself as an "absolute
+> > > coordinate"
+> > > device and that makes xinput_calibrator think it could be
+> > > calibrated.
+> > > 
+> > > Add a dummy calibration file as a work around to prevent
+> > > xinput_calibrator from
+> > > popping up on every boot in qemu.
+> > > 
+> > > [YOCTO #8380]
+> > > 
+> > > Signed-off-by: Maxin B. John <maxin.john@intel.com>
+> > > Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+> > 
+> > This doesn't sound right. In qemu, we add a usb touchpad which
+> > allows
+> > absolute coordinate entry, which means qemu doesn't have to grab
+> > the
+> > mouse.
+> > 
+> > Are there two devices? A mouse shouldn't be seen as an absolute
+> > coordinate device.
 > 
-> Are there two devices? A mouse shouldn't be seen as an absolute
-> coordinate device.
-
-Yes, both qemu monitor and xinput_calibrator in target shows two devices:
-
-(qemu) info mice
-  Mouse #2: QEMU PS/2 Mouse
-  * Mouse #3: QEMU HID Tablet (absolute)
-
-#  xinput_calibrator --list
- Device "QEMU QEMU USB Tablet" id=8
- Device "ImExPS/2 Generic Explorer Mouse" id=9
-
-> Cheers,
+> Yes, both qemu monitor and xinput_calibrator in target shows two
+> devices:
 > 
-> Richard
+> (qemu) info mice
+>   Mouse #2: QEMU PS/2 Mouse
+>   * Mouse #3: QEMU HID Tablet (absolute)
+> 
+> #  xinput_calibrator --list
+>  Device "QEMU QEMU USB Tablet" id=8
+>  Device "ImExPS/2 Generic Explorer Mouse" id=9
 
-Best Regards,
-Maxin
+So with these patches, are we still calibrating the tablet input?
+
+pointercal ships default calibrations for that under the current setup
+but those likely aren't compatible with xinput and we'd need the same
+thing but for xinput here?
+
+Cheers,
+
+Richard
+
+
 
