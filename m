@@ -1,24 +1,27 @@
-Return-Path: <Alexandru.Moise@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 498D2601F6
+Return-Path: <maxin.john@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id ED60260124
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jun 2016 07:07:28 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u5G77T3M027205
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jun 2016 00:07:29 -0700 (PDT)
-Received: from obsrwr.corp.ad.wrs.com (128.224.124.136) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Thu, 16 Jun 2016 00:07:28 -0700
-From: Alexandru Moise <alexandru.moise@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 16 Jun 2016 10:07:14 +0300
-Message-ID: <1466060834-19849-1-git-send-email-alexandru.moise@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Thu, 16 Jun 2016 08:05:55 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga101.jf.intel.com with ESMTP; 16 Jun 2016 01:05:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,478,1459839600"; d="scan'208";a="122889325"
+Received: from mbabyjoh-desk.fi.intel.com (HELO
+	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.71])
+	by fmsmga004.fm.intel.com with ESMTP; 16 Jun 2016 01:05:55 -0700
+Date: Thu, 16 Jun 2016 11:05:46 +0300
+From: "Maxin B. John" <maxin.john@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20160616080546.GA12991@mbabyjoh-desk.ger.corp.intel.com>
+References: <1465996380-32444-1-git-send-email-maxin.john@intel.com>
+	<1465996380-32444-4-git-send-email-maxin.john@intel.com>
+	<1466009898.13979.230.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH] squid: don't build squid-conf-tests binary
+In-Reply-To: <1466009898.13979.230.camel@linuxfoundation.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 4/4] pointercal-xinput: add a dummy calibration file for qemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,68 +34,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jun 2016 07:07:29 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 16 Jun 2016 08:05:58 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-autotools ends up stripping this binary which ends up causing
-QA Errors at do_package. Remove it.
+Hi RP,
 
-Signed-off-by: Alexandru Moise <alexandru.moise@windriver.com>
----
- ...squid-don-t-build-squid-conf-tests-binary.patch | 30 ++++++++++++++++++++++
- .../recipes-daemons/squid/squid_3.5.7.bb           |  1 +
- 2 files changed, 31 insertions(+)
- create mode 100644 meta-networking/recipes-daemons/squid/files/0001-squid-don-t-build-squid-conf-tests-binary.patch
+On Wed, Jun 15, 2016 at 05:58:18PM +0100, Richard Purdie wrote:
+> On Wed, 2016-06-15 at 16:13 +0300, Maxin B. John wrote:
+> > In qemu, the emulated PS/2 mouse reports itself as an "absolute
+> > coordinate"
+> > device and that makes xinput_calibrator think it could be calibrated.
+> > 
+> > Add a dummy calibration file as a work around to prevent
+> > xinput_calibrator from
+> > popping up on every boot in qemu.
+> > 
+> > [YOCTO #8380]
+> > 
+> > Signed-off-by: Maxin B. John <maxin.john@intel.com>
+> > Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+> 
+> This doesn't sound right. In qemu, we add a usb touchpad which allows
+> absolute coordinate entry, which means qemu doesn't have to grab the
+> mouse.
+> 
+> Are there two devices? A mouse shouldn't be seen as an absolute
+> coordinate device.
 
-diff --git a/meta-networking/recipes-daemons/squid/files/0001-squid-don-t-build-squid-conf-tests-binary.patch b/meta-networking/recipes-daemons/squid/files/0001-squid-don-t-build-squid-conf-tests-binary.patch
-new file mode 100644
-index 0000000..82cd0b0
---- /dev/null
-+++ b/meta-networking/recipes-daemons/squid/files/0001-squid-don-t-build-squid-conf-tests-binary.patch
-@@ -0,0 +1,30 @@
-+From 75f4072e6fc9704713629c87eec750ff708135c4 Mon Sep 17 00:00:00 2001
-+From: Alexandru Moise <alexandru.moise@windriver.com>
-+Date: Thu, 16 Jun 2016 10:01:41 +0300
-+Subject: [PATCH] squid: don't build squid-conf-tests binary
-+
-+autotools ends up stripping this binary which ends up causing
-+QA Errors at do_package. Remove it.
-+
-+Signed-off-by: Alexandru Moise <alexandru.moise@windriver.com>
-+---
-+ test-suite/Makefile.am | 3 +--
-+ 1 file changed, 1 insertion(+), 2 deletions(-)
-+
-+diff --git a/test-suite/Makefile.am b/test-suite/Makefile.am
-+index b9c412d..0471bf0 100644
-+--- a/test-suite/Makefile.am
-++++ b/test-suite/Makefile.am
-+@@ -43,8 +43,7 @@ TESTS += debug \
-+ 	MemPoolTest\
-+ 	mem_node_test\
-+ 	mem_hdr_test\
-+-	$(ESI_TESTS) \
-+-	squid-conf-tests
-++	$(ESI_TESTS)
-+ 
-+ ## Sort by alpha - any build failures are significant.
-+ check_PROGRAMS += debug \
-+-- 
-+2.7.4
-+
-diff --git a/meta-networking/recipes-daemons/squid/squid_3.5.7.bb b/meta-networking/recipes-daemons/squid/squid_3.5.7.bb
-index b571e29..2d243fb 100644
---- a/meta-networking/recipes-daemons/squid/squid_3.5.7.bb
-+++ b/meta-networking/recipes-daemons/squid/squid_3.5.7.bb
-@@ -21,6 +21,7 @@ SRC_URI = "http://www.squid-cache.org/Versions/v${MAJ_VER}/${MIN_VER}/${BPN}-${P
-            file://volatiles.03_squid \
-            file://CVE-2016-3947.patch \
-            file://CVE-2016-4553.patch \
-+           file://0001-squid-don-t-build-squid-conf-tests-binary.patch \
- "
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=c492e2d6d32ec5c1aad0e0609a141ce9 \
--- 
-2.7.4
+Yes, both qemu monitor and xinput_calibrator in target shows two devices:
 
+(qemu) info mice
+  Mouse #2: QEMU PS/2 Mouse
+  * Mouse #3: QEMU HID Tablet (absolute)
+
+#  xinput_calibrator --list
+ Device "QEMU QEMU USB Tablet" id=8
+ Device "ImExPS/2 Generic Explorer Mouse" id=9
+
+> Cheers,
+> 
+> Richard
+
+Best Regards,
+Maxin
 
