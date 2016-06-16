@@ -1,29 +1,29 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp485.redcondor.net (smtp485.redcondor.net [208.80.204.85])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D32C73193
+Return-Path: <maxin.john@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C96B731C8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jun 2016 11:01:09 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp485.redcondor.net ({3be039ea-4351-44b0-a8af-642c38b25916})
-	via TCP (outbound) with ESMTPS id 20160616110045386_0485
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jun 2016 11:00:45 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [216.191.234.70] (port=56498 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1bDV46-0004Fb-6F for openembedded-core@lists.openembedded.org;
-	Thu, 16 Jun 2016 07:02:26 -0400
-Date: Thu, 16 Jun 2016 07:00:02 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.20.1606160643040.23824@localhost.localdomain>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+	Thu, 16 Jun 2016 11:11:37 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP; 16 Jun 2016 04:11:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,480,1459839600"; d="scan'208";a="976943422"
+Received: from mbabyjoh-desk.fi.intel.com (HELO
+	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.71])
+	by orsmga001.jf.intel.com with ESMTP; 16 Jun 2016 04:11:37 -0700
+Date: Thu, 16 Jun 2016 14:11:29 +0300
+From: "Maxin B. John" <maxin.john@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20160616111129.GB12991@mbabyjoh-desk.ger.corp.intel.com>
+References: <1465996380-32444-1-git-send-email-maxin.john@intel.com>
+	<1465996380-32444-4-git-send-email-maxin.john@intel.com>
+	<1466009898.13979.230.camel@linuxfoundation.org>
+	<20160616080546.GA12991@mbabyjoh-desk.ger.corp.intel.com>
+	<1466066620.13979.256.camel@linuxfoundation.org>
 MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: couple trivial(?) questions regarding RPM revision/version numbers
+In-Reply-To: <1466066620.13979.256.camel@linuxfoundation.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 4/4] pointercal-xinput: add a dummy calibration file for qemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,69 +36,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jun 2016 11:01:09 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Thu, 16 Jun 2016 11:11:39 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+Hi,
 
-  not at my dev machine at the moment; otherwise, i could just test
-this but i'd probably still want clarification, anyway.
+On Thu, Jun 16, 2016 at 09:43:40AM +0100, Richard Purdie wrote:
+> On Thu, 2016-06-16 at 11:05 +0300, Maxin B. John wrote:
+> > Hi RP,
+> > 
+> > On Wed, Jun 15, 2016 at 05:58:18PM +0100, Richard Purdie wrote:
+> > > On Wed, 2016-06-15 at 16:13 +0300, Maxin B. John wrote:
+> > > > In qemu, the emulated PS/2 mouse reports itself as an "absolute
+> > > > coordinate"
+> > > > device and that makes xinput_calibrator think it could be
+> > > > calibrated.
+> > > > 
+> > > > Add a dummy calibration file as a work around to prevent
+> > > > xinput_calibrator from
+> > > > popping up on every boot in qemu.
+> > > > 
+> > > > [YOCTO #8380]
+> > > > 
+> > > > Signed-off-by: Maxin B. John <maxin.john@intel.com>
+> > > > Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+> > > 
+> > > This doesn't sound right. In qemu, we add a usb touchpad which
+> > > allows
+> > > absolute coordinate entry, which means qemu doesn't have to grab
+> > > the
+> > > mouse.
+> > > 
+> > > Are there two devices? A mouse shouldn't be seen as an absolute
+> > > coordinate device.
+> > 
+> > Yes, both qemu monitor and xinput_calibrator in target shows two
+> > devices:
+> > 
+> > (qemu) info mice
+> >   Mouse #2: QEMU PS/2 Mouse
+> >   * Mouse #3: QEMU HID Tablet (absolute)
+> > 
+> > #  xinput_calibrator --list
+> >  Device "QEMU QEMU USB Tablet" id=8
+> >  Device "ImExPS/2 Generic Explorer Mouse" id=9
+> 
+> So with these patches, are we still calibrating the tablet input?
 
-  so, i'm well aware that a single recipe can generate numerous (in my
-case, rpm) package files. basic case: a recipe can generate the "base"
-package, a "doc" package, a "dev" package, and so on and so on. no
-problem there.
+We won't be calibrating tablet input in qemu targets.This patch is supposed
+to be a work-around to avoid mouse input calibration only in qemu targets.
 
-  first clarification -- regardless of how versioning and revisioning
-is being done, *all* packages generated from a single recipe during
-the same build have to have the same version and revision number, yes?
-i can't imagine how that couldn't be true, but i've been surprised
-before.
+> pointercal ships default calibrations for that under the current setup
+> but those likely aren't compatible with xinput and we'd need the same
+> thing but for xinput here?
 
-  next question -- if any part of the base content for a recipe
-changes and that recipe is processed again, all generated packages
-have to jump to the next version/revision together, correct? again,
-this seems obvious, but i want to make absolutely sure.
+Yes, the default values shipped by pointercal aren't compatible with xinput.
 
-  so if i have a recipe for which i make a tiny change that affects
-the content of only one of the generated packages, if the revision
-number increases from, say, "r4" to "r5", *all* of the generated
-packages go along for the ride, even all the rest of the packages
-whose content did *not* change. so i could end up with a slew of
-generated packages whose revision number increased, even though
-absolutely nothing about the package content actually changed. so far,
-so good?
+> Cheers,
+> Richard
 
-  and finally, if the above is accurate, at some point, if i get an
-updated recipe, and rebuild never package files from it, and do an
-update, a lot of those "newer" packages might not contain any actual
-changes, and if that happens, does the rpm update operation actually
-do any work?
-
-  i understand that the end result will be(?) that all of those
-related packages will now have the newer revision number once the
-update is done, but it's entirely possible (even normal) for there to
-have been no change effected by that "update". and in cases like that,
-even if one of my packages was "updated":
-
-  rday-doc-1.0-r0  --->  rday-doc-1.0-r1
-
-the content of that package could be unchanged. and if that happens
-(and if everything i've been saying so far is true), is rpm smart
-enough to not do any work in cases like that, and just quietly bump up
-the version number of the installed package and move on?
-
-  is there anything here i'm missing or misunderstanding? thanks.
-
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
+Best Regards,
+Maxin
 
