@@ -1,25 +1,32 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 669597320F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id D8C09731F6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jun 2016 15:47:32 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP; 17 Jun 2016 08:47:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,484,1459839600"; d="scan'208";a="1004383742"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga002.fm.intel.com with ESMTP; 17 Jun 2016 08:47:33 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
-	by linux.intel.com (Postfix) with ESMTP id 2DDD46A4006;
-	Fri, 17 Jun 2016 08:47:30 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Jun 2016 18:47:23 +0300
-Message-Id: <1466178443-553-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1466176636-18307-1-git-send-email-ed.bartosh@linux.intel.com>
-References: <1466176636-18307-1-git-send-email-ed.bartosh@linux.intel.com>
-Subject: [PATCH v2] pseudo: remove rpath from libpseudo.so
+	Fri, 17 Jun 2016 16:08:37 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u5HG8PlS001190; Fri, 17 Jun 2016 17:08:25 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id kjLqQE67b4Uv; Fri, 17 Jun 2016 17:08:25 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u5HG8KjG001177
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 17 Jun 2016 17:08:21 +0100
+Message-ID: <1466179700.25557.15.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andrew Bradford <andrew@bradfordembedded.com>,
+	openembedded-core@lists.openembedded.org
+Date: Fri, 17 Jun 2016 17:08:20 +0100
+In-Reply-To: <20160617125230.GA9776@kaim-eeyore.kodakalaris.net>
+References: <1464205571-26293-1-git-send-email-andrew@bradfordembedded.com>
+	<1464205571-26293-4-git-send-email-andrew@bradfordembedded.com>
+	<20160617125230.GA9776@kaim-eeyore.kodakalaris.net>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Cc: Andrew Bradford <andrew.bradford@kodakalaris.com>
+Subject: Re: [PATCH 3/3] base.bbclass: p4 fetcher supports srcrev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,36 +39,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jun 2016 15:47:33 -0000
+X-List-Received-Date: Fri, 17 Jun 2016 16:08:38 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Setting rpath causes clash of host and sdk libc and makes
-pseudo to crash with relocation error: libpthread.so.0:
-    symbol __libc_vfork, version GLIBC_PRIVATE not defined
-    in file libc.so.6 with link time reference
+On Fri, 2016-06-17 at 08:52 -0400, Andrew Bradford wrote:
+> On 05/25 15:46, Andrew Bradford wrote:
+> I noticed that this patch has not been applied to oe-core, but it is
+> a
+> dependency for the bitbake perforce fetcher change to support srcrev
+> which has been applied to bitbake's master branch [1].
+> 
+> [1]:http://git.openembedded.org/bitbake/commit/?id=6298696bb94a127cde
+> c7964315f6891ba92cd026
+> 
+> Any chance that this patch could be applied to oe-core?
+> The other two patches in this series are not needed, just this one.
+> Sorry if my bitbake patch was not super clear about this dependency.
 
-Removing rpath fixes this as it makes pseudo to use only host
-pthread and libc.
+Normally patches land in bitbake first, then the code which uses them
+goes into OE-Core and we bump the minimum bitbake version. In this case
+I doubt we need the version bump as p4 isn't widely used.
 
-[YOCTO #9761]
+I've merged the patch, thanks for the reminder we need that one.
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- meta/recipes-devtools/pseudo/pseudo.inc | 1 +
- 1 file changed, 1 insertion(+)
+Cheers,
 
-diff --git a/meta/recipes-devtools/pseudo/pseudo.inc b/meta/recipes-devtools/pseudo/pseudo.inc
-index 0de7b36..16c57c9 100644
---- a/meta/recipes-devtools/pseudo/pseudo.inc
-+++ b/meta/recipes-devtools/pseudo/pseudo.inc
-@@ -129,6 +129,7 @@ do_install_append_class-nativesdk () {
- 		mkdir -p ${D}${prefix}/lib/pseudo/lib
- 		cp lib/pseudo/lib/libpseudo.so ${D}${prefix}/lib/pseudo/lib/.
- 	fi
-+	chrpath -d ${D}${prefix}/lib/pseudo/lib*/libpseudo.so
- }
- 
- BBCLASSEXTEND = "native nativesdk"
--- 
-2.1.4
+Richard
+
 
 
