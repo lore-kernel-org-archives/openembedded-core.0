@@ -1,45 +1,50 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id BDC78607A4
+Return-Path: <kergoth@gmail.com>
+Received: from mail-it0-f68.google.com (mail-it0-f68.google.com
+	[209.85.214.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 1BAE062132
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jun 2016 20:47:26 +0000 (UTC)
-Received: by mail-wm0-f43.google.com with SMTP id k184so516762wme.1
+	Fri, 17 Jun 2016 21:43:16 +0000 (UTC)
+Received: by mail-it0-f68.google.com with SMTP id y82so481099itf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jun 2016 13:47:27 -0700 (PDT)
+	Fri, 17 Jun 2016 14:43:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=D4Jta4S1ebr4YB1HYZuXo7GpWe8DkhLQkFhkBEWE0do=;
-	b=FzYq1tK66luyWn7CmhtN8ro7zZdmiTrOW38MffTbhkmddBeI191F5TM3MdQDiR9O1e
-	uYnx+SwcMCvFZK4A3vp7M3fepY2G7NvqCy9G6t/WttCul3AqTP8zMNZ+H44oqn4U0FMv
-	GPVskIAKQSTm12ystIvbjoTLRZWo/4EpTUAUvDt65VC3zHlEv82pSzRll5JvCy3j1g4O
-	UW1Oh/zs2o/mm/yX2EoOmzIo7XQaQ+bzTeSHsPFXU8izS2JyhdgpsdumP+nKuY+//Keh
-	1MksTZAjUcbcv/ppKIrJ0cJ8lt66y1h3fPS4lLo4bb6YvEszRS6bb06NVzjE9rEnU6bC
-	jI5Q==
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=ZYCQz/n+PUXwMFwmayouzpqkd0sB9Hv+cagJZeMQcRw=;
+	b=YZvTbwqNNaUkayKJ8Qui9vTR8nZOD58jaBs3R5C+J3JNf1ql34izfDWR4S6yhDuMDq
+	eCruY7w8oFebb9dg8n0fA5oTxdd6owXW1eDhc4tT9SfnF7teJjBmfI8jsPhiCFz6UHtV
+	Jc/FF3C5/sRL7zVuquksrwV096gkm45Ia36ijZey/LA4mRefzZVcPqxQohTxC/exTbyr
+	WYudlFg6PyDRzVPMheiM5S9rpfCmAng562o0Sh+yhutBC6cugTAle+CPbYCHtRz9wNmc
+	we/jY2l2H09/UXicNPfVNP0PK91Q3/p5XuFJ73Gi0s+uRPmtm1BZyBYgMG0wbmpzZMch
+	UfPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=D4Jta4S1ebr4YB1HYZuXo7GpWe8DkhLQkFhkBEWE0do=;
-	b=LT0BWC1qWq8nGSVFdCNMsaunIFyndruqfEasraioQ4TU4fR5YP+U72F5X/7XsKkqGp
-	xlh4FUpXb/gG/xkHulkGaBdXZuLFjiLu81W4Z0X+NHI0I8hsEZ0TwtuR1cA0v54mYgxo
-	L/wsrorU+HBEUCFx7B8g2UXnrBJtAzmiOV0QyPcdXJMeeq4s2NIN1mtS19gQqvrJ2O9B
-	XcifTBRU4D6bVc8jO9+rAvV2bI5y/mNPlmEI39YbPHYldl+BGH/t6XrumHdMBEQoQ5PA
-	FAhf/HdiYbZhpSLNoIBhGhM3qRRIgSzp1d6if2zdTmXdk/UvSg3TK97oS3Hp5NqdKELc
-	On5Q==
-X-Gm-Message-State: ALyK8tILsz5VdEFyVlJs8jG42fX1Kjy3fQ2z0RlOGEFRnQO6rd+LaJGMOKZ+5mZSrUUvrPwz/xG+EgbV4iFm7w==
-X-Received: by 10.28.44.87 with SMTP id s84mr315969wms.61.1466196445663; Fri,
-	17 Jun 2016 13:47:25 -0700 (PDT)
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=ZYCQz/n+PUXwMFwmayouzpqkd0sB9Hv+cagJZeMQcRw=;
+	b=f0qUuedl3mKh121axz82csTzDSqPl5DCaDUEgzMZfe/lyhtexApxi+NsnWvPWSvMRc
+	H8QzCQgx0CbB/+a27dShK9XOSfcPM0RGCg+EgXn9+H1Bi8R//UQyx7tIyFLuDxPOsiEn
+	qa3rA/fi2CP38S3S/qyeeRz+IBAf/9Jfw9dkh81gTEY63vva8pIwfIGB1qJOOaYMu4+u
+	wUR06H+gZ3HACxZwCoEQgN0xn1DlL/nDg4+9VFDdEUqTpeqXpTvrdObk4SINgm5BIiEA
+	gFbKgbd5IF5wxzBHP+Uu90jbqU5gQO7cU2Asa1bRKtU9ck5oHVyWmr30IKYNJucXlkF4
+	8M8Q==
+X-Gm-Message-State: ALyK8tI+63ye7vtmYfTXcD60cmv4M6qkDWllmeggbWS4fDkV2zNG/QkBjjEF5QMzLKYmofcmjLDGa5kE/4rYpQ==
+X-Received: by 10.36.218.68 with SMTP id z65mr992246itg.19.1466199797162; Fri,
+	17 Jun 2016 14:43:17 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.194.6.165 with HTTP; Fri, 17 Jun 2016 13:47:25 -0700 (PDT)
-In-Reply-To: <1466067888.19334.33.camel@intel.com>
-References: <1465917529-18674-1-git-send-email-ross.burton@intel.com>
-	<1466067888.19334.33.camel@intel.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 17 Jun 2016 13:47:25 -0700
-Message-ID: <CAJ86T=VjjY5j9-Bdp9Yi4+gqaFAwfee72gM2czQyf9MZwLnLdA@mail.gmail.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] classes/rm_work: use the idle I/O scheduler class
+Sender: kergoth@gmail.com
+Received: by 10.79.130.66 with HTTP; Fri, 17 Jun 2016 14:42:57 -0700 (PDT)
+In-Reply-To: <9ADD3FDE8B189B4AA2F8A3C711F8155E5718DD13@fmsmsx111.amr.corp.intel.com>
+References: <9ADD3FDE8B189B4AA2F8A3C711F8155E5718DD13@fmsmsx111.amr.corp.intel.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Fri, 17 Jun 2016 14:42:57 -0700
+X-Google-Sender-Auth: BW3uVBIxV60wskJlpW_-gSXWDoU
+Message-ID: <CABcZANkPQBWukZTtzz69JQZHOFRpnXyPV1BvP8Bv-CZqqRtSkA@mail.gmail.com>
+To: "Jolley, Stephen K" <stephen.k.jolley@intel.com>
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Yocto Project Status WW25
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,57 +57,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jun 2016 20:47:27 -0000
+X-List-Received-Date: Fri, 17 Jun 2016 21:43:17 -0000
+Content-Type: multipart/alternative; boundary=94eb2c0b09b41468ae0535803ec8
+
+--94eb2c0b09b41468ae0535803ec8
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 16, 2016 at 2:04 AM, Patrick Ohly <patrick.ohly@intel.com> wrote:
-> On Tue, 2016-06-14 at 16:18 +0100, Ross Burton wrote:
->> As rm_work is just cleanup it shouldn't starve more important tasks such as
->> do_compile of I/O, so use BB_TASK_IONICE_LEVEL to run the task in the idle
->> scheduler class.
->
-> Whether that's desirable depends a lot on the goals for rm_work: when I
-> tried to use it for TravisCI to get around some pretty tight disk space
-> constraints, I found that do_rm_work was often not scheduled early
-> enough because other tasks generating more files had higher priority.
->
-> Reducing the IO priority of do_rm_work may have the same effect: it
-> runs, but then instead of removing files, the system produces more of
-> them, thus increasing the risk of exhausting the disk space.
->
-> I suspect a lot of benchmarking will be needed to determine what really
-> works well and what doesn't.
->
-> I ended up writing a custom scheduler for running under TravisCI:
-> https://github.com/01org/meta-intel-iot-security/blob/master/scripts/rmwork.py
+On Fri, Jun 17, 2016 at 8:31 AM, Jolley, Stephen K <
+stephen.k.jolley@intel.com> wrote:
 
-I like the idea of BB_NUMBER_COMPILE_THREADS. Would it be appropriate
-to add support for that to the default scheduler?
+> =C2=B7        There is a multilib issue related to the layout of the host
+> libraries leaking into python=E2=80=99s build process which we=E2=80=99re=
+ struggling to
+> debug
 
-> That orders do_rm_work before any other task and also orders all tasks
-> related to single recipe so that they run together, thus making it
-> possible to clean up after do_build sooner. As an additional tweak it
-> distinguishes between "compile" and "cleanup" tasks and can run
-> "cleanup" tasks when the normal scheduler wouldn't because
-> BB_NUMBER_THREADS is reached.
->
-> But it has the same problem: not enough benchmarking to really quantify
-> the effect. All I know is that I stopped running out of disk space under
-> TravisCI ;-}
->
-> --
-> Best Regards, Patrick Ohly
->
-> The content of this message is my personal opinion only and although
-> I am an employee of Intel, the statements I make here in no way
-> represent Intel's position on the issue, nor am I authorized to speak
-> on behalf of Intel on this matter.
->
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+Could I get some details on this? I've seen something like this where cmake
+and automake are relying on sys.lib from python3-native/python-native to
+determine the sitepackages directory, is that the behavior others are
+hitting? So python modules end up in /usr/lib/ rather than /usr/lib64/, for
+example?
+
+If that's the issue in question, the issue is the mismatch between the
+native sys.lib and target. We already patch automake to fall back to using
+our libdir + python version to determine the path, but only if it wasn't
+able to use sys.lib to do so. If we change that to always use libdir+python
+version, it should fix the automake packages. Then we might need to patch
+FindPythonLibs in cmake to do the same. I'm testing the automake change
+locally now.
+--=20
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
+
+--94eb2c0b09b41468ae0535803ec8
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On F=
+ri, Jun 17, 2016 at 8:31 AM, Jolley, Stephen K <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:stephen.k.jolley@intel.com" target=3D"_blank">stephen.k.jolley@=
+intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span st=
+yle=3D"font-size:10.0pt;font-family:Symbol;color:black"><span>=C2=B7<span s=
+tyle=3D"font:7.0pt &quot;Times New Roman&quot;">=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0
+</span></span></span><u></u><span style=3D"font-size:11.0pt;font-family:&qu=
+ot;Arial&quot;,sans-serif;color:black">There is a multilib issue related to=
+ the layout of the host libraries leaking into python=E2=80=99s build proce=
+ss which we=E2=80=99re struggling to debug</span></blockquote></div><br>Cou=
+ld I get some details on this? I&#39;ve seen something like this where cmak=
+e and automake are relying on sys.lib from python3-native/python-native to =
+determine the sitepackages directory, is that the behavior others are hitti=
+ng? So python modules end up in /usr/lib/ rather than /usr/lib64/, for exam=
+ple?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">I=
+f that&#39;s the issue in question, the issue is the mismatch between the n=
+ative sys.lib and target. We already patch automake to fall back to using o=
+ur libdir + python version to determine the path, but only if it wasn&#39;t=
+ able to use sys.lib to do so. If we change that to always use libdir+pytho=
+n version, it should fix the automake packages. Then we might need to patch=
+ FindPythonLibs in cmake to do the same. I&#39;m testing the automake chang=
+e locally now.<br>-- <br><div class=3D"gmail_signature" data-smartmail=3D"g=
+mail_signature">Christopher Larson<br>clarson at kergoth dot com<br>Founder=
+ - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Softwa=
+re Engineer, Mentor Graphics</div>
+</div></div>
+
+--94eb2c0b09b41468ae0535803ec8--
