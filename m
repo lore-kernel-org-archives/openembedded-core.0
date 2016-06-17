@@ -1,46 +1,23 @@
-Return-Path: <jpardeiro@rapyuta-robotics.com>
-Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 64029731DA
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id E25A66FF78
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jun 2016 15:01:33 +0000 (UTC)
-Received: by mail-wm0-f42.google.com with SMTP id a66so3430741wme.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jun 2016 08:01:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=rapyuta-robotics-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=N2iGMdr3aLMyvK61GJdGa647qY956FTeVt/0muqBQHs=;
-	b=VvUVMsZck88wtuSZ+26EV7BDXDru8lKV4wRiMtlqsVbbvx9T3/BMq5ElcrA1daRKj0
-	m7VXwzBS+HRrQwa6QOXy9pzRYS+l29u/c83KWJuVav8U2lQkinouFf/YqM8IQjrtIQR4
-	GWIaDbVwRKmbz3JcHrOZwFnSPNU9mFj45H5i7807SkOxhz4aM4pfG1cJnVckx2khQaUc
-	e17XASemSKmTwJz1ruSvs/80Bx917ceHSpJWGEFjXfIozD8XbkLsADXp++zcmv1r8RkV
-	yIV3X7LRf1DCTI3H5OehMXD+jKLWT0VMXf+/jKMmczf6JqR04YLAsJQxdn3dfzNEDf9y
-	tzyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=N2iGMdr3aLMyvK61GJdGa647qY956FTeVt/0muqBQHs=;
-	b=U85xIGLgaetxj/pa8lhnsdRIYvmozAIU6UG2Xz0tP7XjhK0exPf/PrGJGRrqfg+aJ4
-	Z4hQ7wmnW0k2nRH98fRfd0ke+fUsTOSg8OS+WGOj5MP91Rv/tWBnJhkSi9aXWz4GyFrw
-	zBN2WDG025qEoI/JFBwxmXSzyAORPJpBbpV9yZEsMgMNshMp5ta55Bw6XFhH2f9Fdj6j
-	cd08tOEBFlXjxd5zrN/+IGS8/qdjJYy1+M1kjrSBItrf8dleMGP1MyOIpS8qzYwIJwG2
-	+FdYKMkV8X6X4aHX3ssswl5vzdGZ6ORybMIvtk3uo2NnRLSYyE8bee3I4A5PqBYUgyMo
-	KBog==
-X-Gm-Message-State: ALyK8tLfggyH5rl7YW2ZMTmQIrEXu52263dAeu4Uy+G9aM984qESMbGrorlg5yIGJCRBWg==
-X-Received: by 10.28.92.20 with SMTP id q20mr2911553wmb.76.1466175693415;
-	Fri, 17 Jun 2016 08:01:33 -0700 (PDT)
-Received: from RRCH08.v.cablecom.net (77-57-36-131.dclient.hispeed.ch.
-	[77.57.36.131])
-	by smtp.gmail.com with ESMTPSA id s67sm3338764wmf.3.2016.06.17.08.01.32
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 17 Jun 2016 08:01:32 -0700 (PDT)
-From: Jose Pardeiro <jpardeiro@rapyuta-robotics.com>
+	Fri, 17 Jun 2016 15:17:28 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga103.fm.intel.com with ESMTP; 17 Jun 2016 08:17:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,484,1459839600"; d="scan'208";a="720994584"
+Received: from linux.intel.com ([10.54.29.200])
+	by FMSMGA003.fm.intel.com with ESMTP; 17 Jun 2016 08:17:28 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
+	by linux.intel.com (Postfix) with ESMTP id E750F6A4006;
+	Fri, 17 Jun 2016 08:17:26 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Jun 2016 17:01:17 +0200
-Message-Id: <1466175677-27464-1-git-send-email-jpardeiro@rapyuta-robotics.com>
-X-Mailer: git-send-email 1.9.1
-Cc: Jose Pardeiro <jpardeiro@rapyuta-robotics.com>
-Subject: [PATCH v2] cmake.bbclass: set the modules directory correctly
+Date: Fri, 17 Jun 2016 18:17:16 +0300
+Message-Id: <1466176636-18307-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] pseudo: remove rpath from libpseudo.so
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,32 +30,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jun 2016 15:01:34 -0000
+X-List-Received-Date: Fri, 17 Jun 2016 15:17:30 -0000
 
-The CMake recipes contain a mismatch between the environmental variable
-which defines where the Modules are installed and the location where they
-actually are. This patch fixes the environmental variable to point to the
-proper folder defined according to the cmake version.
+Setting rpath causes clash of host and sdk libc and makes
+pseudo to crash with relocation error: libpthread.so.0:
+    symbol __libc_vfork, version GLIBC_PRIVATE not defined
+    in file libc.so.6 with link time reference
 
-Signed-off-by: Jose Pardeiro <jpardeiro@rapyuta-robotics.com>
+Removing rpath fixes this as it makes pseudo to use only host
+pthread and libc.
+
+[YOCTO #9761]
+
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/classes/cmake.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/pseudo/pseudo.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index e788310..6dbac2b 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -74,7 +74,7 @@ set( ENV{QT_CONF_PATH} ${WORKDIR}/qt.conf )
- set( CMAKE_INSTALL_RPATH ${OECMAKE_RPATH} )
+diff --git a/meta/recipes-devtools/pseudo/pseudo.inc b/meta/recipes-devtools/pseudo/pseudo.inc
+index 0de7b36..59a44f1 100644
+--- a/meta/recipes-devtools/pseudo/pseudo.inc
++++ b/meta/recipes-devtools/pseudo/pseudo.inc
+@@ -128,6 +128,9 @@ do_install_append_class-nativesdk () {
+ 	if $make32; then
+ 		mkdir -p ${D}${prefix}/lib/pseudo/lib
+ 		cp lib/pseudo/lib/libpseudo.so ${D}${prefix}/lib/pseudo/lib/.
++		chrpath -d ${D}${prefix}/lib/pseudo/lib/libpseudo.so
++	else
++		chrpath -d ${D}${prefix}/lib/pseudo/lib64/libpseudo.so
+ 	fi
+ }
  
- # Use native cmake modules
--list(APPEND CMAKE_MODULE_PATH "${STAGING_DATADIR}/cmake/Modules/")
-+list(APPEND CMAKE_MODULE_PATH "${STAGING_DATADIR}/cmake-\${CMAKE_MAJOR_VERSION}.\${CMAKE_MINOR_VERSION}/Modules/")
- 
- # add for non /usr/lib libdir, e.g. /usr/lib64
- set( CMAKE_LIBRARY_PATH ${libdir} ${base_libdir})
 -- 
-1.9.1
+2.1.4
 
 
