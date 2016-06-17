@@ -1,29 +1,29 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 871827319C
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jun 2016 13:09:31 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
-	via TCP (outbound) with ESMTPS id 20160617130931046_0684
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jun 2016 13:09:31 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [216.191.234.70] (port=58200 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1bDtYG-00021v-KU for openembedded-core@lists.openembedded.org;
-	Fri, 17 Jun 2016 09:11:12 -0400
-Date: Fri, 17 Jun 2016 09:08:49 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.20.1606170904580.14083@localhost.localdomain>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+Return-Path: <Mark.Asselstine@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3941465CBB
+	for <Openembedded-core@lists.openembedded.org>;
+	Fri, 17 Jun 2016 13:34:05 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u5HDY0dX008416
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Fri, 17 Jun 2016 06:34:03 -0700
+Received: from tal.localnet (128.224.21.250) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Fri, 17 Jun 2016 06:33:58 -0700
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Date: Fri, 17 Jun 2016 09:33:56 -0400
+Message-ID: <10638163.jDLm51fopt@tal>
+Organization: Wind River 
+User-Agent: KMail/4.13.3 (Linux/3.13.0-85-generic; KDE/4.13.3; x86_64; ; )
+In-Reply-To: <CAJ86T=VA5n8==dM4v-AdToxkKfgTH3vTgOBijpJBYjcvygp_Jw@mail.gmail.com>
+References: <1466099108-25355-1-git-send-email-mark.asselstine@windriver.com>
+	<CAJTo0LaEQgDLM2vxL7tGW8oefR6Jc1gEkWoHz4J7DkAD7N=sEA@mail.gmail.com>
+	<CAJ86T=VA5n8==dM4v-AdToxkKfgTH3vTgOBijpJBYjcvygp_Jw@mail.gmail.com>
 MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: should INITRD_IMAGE be INITRD_IMAGE_VM?
+Cc: OE-core <Openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC][PATCH] vte: bring back old version to support xfce4-terminal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,43 +36,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jun 2016 13:09:35 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Fri, 17 Jun 2016 13:34:06 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
+On June 16, 2016 18:10:09 Andre McCurdy wrote:
+> On Thu, Jun 16, 2016 at 2:47 PM, Burton, Ross <ross.burton@intel.com> wrote:
+> > On 16 June 2016 at 21:49, Mark Asselstine <mark.asselstine@windriver.com>
+> > 
+> > wrote:
+> >> While waiting to hear back about my inquiry I did take some
+> >> time to put together this patch that allows things that
+> >> require the older vte to continue to build. Since xfce4-terminal
+> >> lives in meta-openembedded this might make more sense to carry
+> >> over there. I am sure folks will have an opinion so sending this
+> >> out as an RFC.
+> > 
+> > That's certainly a good argument for putting the old vte in meta-oe.
+> 
+> The meta-oe layers generally have a higher priority than oe-core, so
+> having an older version in meta-oe and a newer version in oe-core can
+> lead to unexpected results.
 
-  still tooling around the initramfs images, and noticed:
+This should not be an issue. My change has the old recipe renamed with the API 
+version so the old version becomes referenced by 'vte-0.0' (per the commit log 
+the 0.0 is consistent with the API versioning upstream). So recipes which 
+require the old version, like xfce4-terminal, have to have their DEPENDS 
+adjusted accordingly. There should be no surprises.
 
-$ grep -rw INITRD_IMAGE *
-meta/recipes-extended/images/core-image-testmaster.bb:INITRD_IMAGE = "core-image-testmaster-initramfs"
-$
+I will have a closer look today to ensure nothing in oe-core is requiring the 
+old version and if not I will prepare a patch for meta-oe since that seems to 
+be the general agreement for a home for this. I need to do some further checks 
+and runtime tests but I will get this out shortly. In the meantime anyone else 
+running in to the build failure can exploit the RFC patch.
 
-  however:
+Mark
 
-$ grep -r INITRD_IMAGE *
-meta/recipes-extended/images/core-image-testmaster.bb:INITRD_IMAGE = "core-image-testmaster-initramfs"
-meta/classes/image-vm.bbclass:# Using an initramfs is optional. Enable it by setting INITRD_IMAGE_VM.
-meta/classes/image-vm.bbclass:INITRD_IMAGE_VM ?= ""
-meta/classes/image-vm.bbclass:INITRD_VM ?= "${@'${DEPLOY_DIR_IMAGE}/${INITRD_IMAGE_VM}-${MACHINE}.cpio.gz' if '${INITRD_IMAGE_VM}' else ''}"
-meta/classes/image-vm.bbclass:do_bootdirectdisk[depends] += "${@'${INITRD_IMAGE_VM}:do_image_complete' if '${INITRD_IMAGE_VM}' else ''}"
-meta/classes/image-live.bbclass:INITRD_IMAGE_LIVE ?= "core-image-minimal-initramfs"
-meta/classes/image-live.bbclass:INITRD_LIVE ?= "${DEPLOY_DIR_IMAGE}/${INITRD_IMAGE_LIVE}-${MACHINE}.cpio.gz"
-meta/classes/image-live.bbclass:    initrd_i = d.getVar('INITRD_IMAGE_LIVE', True)
-meta/classes/image-live.bbclass:        bb.error('INITRD_IMAGE_LIVE %s cannot use image live, hddimg or iso.' % initrd_i)
-$
-
-  so ... should that first line be setting INITRD_IMAGE_VM rather than
-just INITRD_IMAGE? or am i misreading?
-
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+> 
+> > Ross
+> > 
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
