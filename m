@@ -1,28 +1,26 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 8EE2073CBD
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id B9601731E1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jun 2016 18:17:15 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga102.jf.intel.com with ESMTP; 17 Jun 2016 11:16:51 -0700
+	Fri, 17 Jun 2016 18:24:37 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 17 Jun 2016 11:24:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,484,1459839600"; d="scan'208";a="124110876"
+X-IronPort-AV: E=Sophos;i="5.26,484,1459839600"; d="scan'208";a="1004472910"
 Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
 	([10.237.68.161])
-	by fmsmga004.fm.intel.com with ESMTP; 17 Jun 2016 11:16:49 -0700
-To: Andre McCurdy <armccurdy@gmail.com>
-References: <1466074764-14109-1-git-send-email-alexander.kanavin@linux.intel.com>
-	<1466074764-14109-4-git-send-email-alexander.kanavin@linux.intel.com>
-	<CAJ86T=WKTAe3imuizQPWAmnZaMq5LvL-+2VqpaFC8GziS=gXxw@mail.gmail.com>
+	by fmsmga002.fm.intel.com with ESMTP; 17 Jun 2016 11:24:38 -0700
+To: openembedded-core@lists.openembedded.org
+References: <20160617042358.24237-1-raj.khem@gmail.com>
+	<20160617042358.24237-2-raj.khem@gmail.com>
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <849e6e50-bed5-c8bc-adef-4d39c5ff8b9f@linux.intel.com>
-Date: Fri, 17 Jun 2016 21:16:35 +0300
+Message-ID: <5c3ceaf8-f58e-3e21-653f-72623b8a19f4@linux.intel.com>
+Date: Fri, 17 Jun 2016 21:24:24 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Icedove/45.1.0
 MIME-Version: 1.0
-In-Reply-To: <CAJ86T=WKTAe3imuizQPWAmnZaMq5LvL-+2VqpaFC8GziS=gXxw@mail.gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/5] security_flags.inc: add epiphany to SECURITY_NO_PIE_CFLAGS
+In-Reply-To: <20160617042358.24237-2-raj.khem@gmail.com>
+Subject: Re: [PATCH 2/2] gstreamer1.0-plugins-ugly: Add mpg123 PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,20 +33,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jun 2016 18:17:15 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Fri, 17 Jun 2016 18:24:38 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 06/17/2016 05:39 AM, Andre McCurdy wrote:
-> Typically these warnings come from assembler and can't be fixed via
-> CFLAGS. If this one _can_ be fixed via CFLAGS then it suggests a bug
-> in the Epiphany build somewhere (e.g. reusing an object file intended
-> for a static lib in an .so). Maybe it's better to track that down and
-> fix properly instead of working around it by globally adding -fPIC to
-> CFLAGS?
+On 06/17/2016 07:23 AM, Khem Raj wrote:
+> mpg123 plugin moved from bad collection to ugly in 1.8
+> since mpg123 has commercial licence implications its best
+> to keep it with a knob.
+> +
+> +PACKAGECONFIG[mpg123] = "--enable-mpg123,--disable-mpg123,mpg123"
+>
 
-Thanks; I dropped the patch.
+This patch is not necessary as gstreamer1.0-plugins-ugly.inc already has 
+this line.
 
 Alex
-
 
