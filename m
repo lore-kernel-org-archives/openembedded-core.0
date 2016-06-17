@@ -1,26 +1,46 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id B9601731E1
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
+	[209.85.220.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 4DD8875CF1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jun 2016 18:24:37 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 17 Jun 2016 11:24:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,484,1459839600"; d="scan'208";a="1004472910"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 17 Jun 2016 11:24:38 -0700
+	Fri, 17 Jun 2016 18:33:19 +0000 (UTC)
+Received: by mail-pa0-f65.google.com with SMTP id us13so6248523pab.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Jun 2016 11:33:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=sH5jddc0Ao1rBdmIaW5iuoA793aQVfYh+jIoX6moYkY=;
+	b=hHGXdEkRXhNfjkxI1H9c7gbT61/ANUVQXrvnbHlNz92pRhxjof1Oc3NmnWJgVtsgXV
+	+W3cLdq9UFP3rpPvPxaRr3UZ8/EsBehLlUUhJ60faexnnno1RJtpWAWFVlppSWn5BSK7
+	Vqm/IXrFh5RBCyzWhNqFLYlAcHJx9HK8JLPBllgPV1EQ86qezicf6Bawcax7bzxZ4jcQ
+	faPyO3DHUil79FWFUJmaVgBZHBjpRu/pfMwMDNocLQ/xLoNdfH8NbW8XLFDthUiWirYB
+	WpMRSPDqYdlHNPbo8E4QA0L8RRgMqS5ARgqX9AcvWOM5EAxTPHriEVihO3cycNTLyEOO
+	LCTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=sH5jddc0Ao1rBdmIaW5iuoA793aQVfYh+jIoX6moYkY=;
+	b=YiJT8UHY5cJaGY25/jivz9mLChk4jUr5CewDDf430Z6pjmSSqmPSYvKnB/4kEgWG3I
+	WABJEOmsk5kAIDAe1uC3hUKelnJ+6/h+5byJ4wCkTO4grlF4dCM5ReeQc2zhxJ6zGDas
+	anpSD/JUopYjL5d6mrvTxDjNf7jt3hVyh8bTr88WZJmPzx8Kb5EHX7ltYjaSXjql8KML
+	haKvRZqv4Sx3Q4z45U2C/vsGIXvf3g4FA5cQQl+wkQQ7/boViTAiM6nI7lFjxvz4+wql
+	qbFOdfPPpo+At0GLxOQgXaNF6UDw2mhJPtKAeVbqgadzu0GIC1uMRs6scLkqKnmqI/gw
+	0ZkQ==
+X-Gm-Message-State: ALyK8tILDcEn1UDoE+46t8QpcXofujgaooukzWha/zllTgvbPLDGkUWbx5WtaHdALoecwg==
+X-Received: by 10.66.171.173 with SMTP id av13mr3764785pac.117.1466188400024; 
+	Fri, 17 Jun 2016 11:33:20 -0700 (PDT)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id
+	o193sm50225721pfo.12.2016.06.17.11.33.18
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 17 Jun 2016 11:33:18 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-References: <20160617042358.24237-1-raj.khem@gmail.com>
-	<20160617042358.24237-2-raj.khem@gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <5c3ceaf8-f58e-3e21-653f-72623b8a19f4@linux.intel.com>
-Date: Fri, 17 Jun 2016 21:24:24 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.1.0
-MIME-Version: 1.0
-In-Reply-To: <20160617042358.24237-2-raj.khem@gmail.com>
-Subject: Re: [PATCH 2/2] gstreamer1.0-plugins-ugly: Add mpg123 PACKAGECONFIG
+Date: Fri, 17 Jun 2016 11:33:12 -0700
+Message-Id: <1466188392-3753-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] binutils: configure with --enable-deterministic-archives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,20 +53,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jun 2016 18:24:38 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 17 Jun 2016 18:33:21 -0000
 
-On 06/17/2016 07:23 AM, Khem Raj wrote:
-> mpg123 plugin moved from bad collection to ugly in 1.8
-> since mpg123 has commercial licence implications its best
-> to keep it with a knob.
-> +
-> +PACKAGECONFIG[mpg123] = "--enable-mpg123,--disable-mpg123,mpg123"
->
+Causes ar to use zero for timestamps and uids/gids by default when
+creating static archives, which helps make builds deterministic.
 
-This patch is not necessary as gstreamer1.0-plugins-ugly.inc already has 
-this line.
+  https://bugzilla.redhat.com/show_bug.cgi?id=1124342
+  https://wiki.debian.org/ReproducibleBuilds/TimestampsInStaticLibraries
 
-Alex
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/recipes-devtools/binutils/binutils.inc | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
+index 43e2aa2..70589ec 100644
+--- a/meta/recipes-devtools/binutils/binutils.inc
++++ b/meta/recipes-devtools/binutils/binutils.inc
+@@ -72,6 +72,7 @@ B = "${S}/build.${HOST_SYS}.${TARGET_SYS}"
+ 
+ EXTRA_OECONF = "--program-prefix=${TARGET_PREFIX} \
+                 --disable-werror \
++                --enable-deterministic-archives \
+                 --enable-plugins \
+                 ${LDGOLD} \
+                 ${@bb.utils.contains('DISTRO_FEATURES', 'multiarch', '--enable-64-bit-bfd', '', d)}"
+-- 
+1.9.1
+
 
