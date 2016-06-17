@@ -1,44 +1,29 @@
-Return-Path: <andrew@bradfordembedded.com>
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
-	[66.111.4.27])
-	by mail.openembedded.org (Postfix) with ESMTP id 440F873193
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
+	by mail.openembedded.org (Postfix) with ESMTP id 871827319C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jun 2016 12:52:31 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id C33D52088A;
-	Fri, 17 Jun 2016 08:52:31 -0400 (EDT)
-Received: from frontend2 ([10.202.2.161])
-	by compute4.internal (MEProxy); Fri, 17 Jun 2016 08:52:31 -0400
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	bradfordembedded.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-sasl-enc
-	:x-sasl-enc; s=mesmtp; bh=OT+wa1U64G7almiuRN1hu4A01m8=; b=YzmJSg
-	h+OTOOJNsd6dt+H/bZQf7FX+ZEjIANYtW3nHdPsOXf7PKMLRalEGAEVdPk+Kebmk
-	I6h5TggXrEcAeb+zDBZg9LxmmukG26xLXOUMCoyu74YyIFXoiPtPLkCmSC/MvfwQ
-	dO7v0bS07OKGWmXvS6EGJ9E4oTn9Ldkqt6cN4=
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-sasl-enc
-	:x-sasl-enc; s=smtpout; bh=OT+wa1U64G7almiuRN1hu4A01m8=; b=SH8a5
-	T60KWmz0YvTTtjznLbboKyR4BzxRxxEReKzoWSOhNCIyhQ1XqnLQSMAijzpVT3I1
-	VSzzfra6ghxDvEtQS3KKYMnAZThT7hLmUHr31tjh1KkGK6/zAk91OK6THgA8gXX+
-	naO2LMngU4+62nKK2FzW9dS3JD4irXnOzhzvPs=
-X-Sasl-enc: MoZj0Oqg6m7NK5hA7FSwR4ol9G7jgwKhrWKSAF/oW+5Y 1466167951
-Received: from kaim-eeyore.kodakalaris.net (clr-vpn01.kodakalaris.com
-	[198.140.222.129])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 6A388CCDAB;
-	Fri, 17 Jun 2016 08:52:31 -0400 (EDT)
-Date: Fri, 17 Jun 2016 08:52:30 -0400
-From: Andrew Bradford <andrew@bradfordembedded.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20160617125230.GA9776@kaim-eeyore.kodakalaris.net>
-References: <1464205571-26293-1-git-send-email-andrew@bradfordembedded.com>
-	<1464205571-26293-4-git-send-email-andrew@bradfordembedded.com>
+	Fri, 17 Jun 2016 13:09:31 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
+	via TCP (outbound) with ESMTPS id 20160617130931046_0684
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Jun 2016 13:09:31 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [216.191.234.70] (port=58200 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1bDtYG-00021v-KU for openembedded-core@lists.openembedded.org;
+	Fri, 17 Jun 2016 09:11:12 -0400
+Date: Fri, 17 Jun 2016 09:08:49 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1606170904580.14083@localhost.localdomain>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-In-Reply-To: <1464205571-26293-4-git-send-email-andrew@bradfordembedded.com>
-User-Agent: Mutt/1.6.0 (2016-04-01)
-Cc: Andrew Bradford <andrew.bradford@kodakalaris.com>
-Subject: Re: [PATCH 3/3] base.bbclass: p4 fetcher supports srcrev
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: should INITRD_IMAGE be INITRD_IMAGE_VM?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,49 +36,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jun 2016 12:52:32 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Fri, 17 Jun 2016 13:09:35 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-Hi,
 
-On 05/25 15:46, Andrew Bradford wrote:
-> From: Andrew Bradford <andrew.bradford@kodakalaris.com>
-> 
-> Enable the perforce fetcher to call bb.fetch2.get_srcrev() as it can use
-> 'SRCREV = "${AUTOREV}"'.
-> 
-> Signed-off-by: Andrew Bradford <andrew.bradford@kodakalaris.com>
-> ---
->  meta/classes/base.bbclass | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-> index 4be0a7e..9f3945c 100644
-> --- a/meta/classes/base.bbclass
-> +++ b/meta/classes/base.bbclass
-> @@ -569,6 +569,10 @@ python () {
->              needsrcrev = True
->              d.appendVarFlag('do_fetch', 'depends', ' mercurial-native:do_populate_sysroot')
->  
-> +        # Perforce packages support SRCREV = "${AUTOREV}"
-> +        elif scheme == "p4":
-> +            needsrcrev = True
-> +
->          # OSC packages should DEPEND on osc-native
->          elif scheme == "osc":
->              d.appendVarFlag('do_fetch', 'depends', ' osc-native:do_populate_sysroot')
+  still tooling around the initramfs images, and noticed:
 
-I noticed that this patch has not been applied to oe-core, but it is a
-dependency for the bitbake perforce fetcher change to support srcrev
-which has been applied to bitbake's master branch [1].
+$ grep -rw INITRD_IMAGE *
+meta/recipes-extended/images/core-image-testmaster.bb:INITRD_IMAGE = "core-image-testmaster-initramfs"
+$
 
-[1]:http://git.openembedded.org/bitbake/commit/?id=6298696bb94a127cdec7964315f6891ba92cd026
+  however:
 
-Any chance that this patch could be applied to oe-core?
-The other two patches in this series are not needed, just this one.
-Sorry if my bitbake patch was not super clear about this dependency.
+$ grep -r INITRD_IMAGE *
+meta/recipes-extended/images/core-image-testmaster.bb:INITRD_IMAGE = "core-image-testmaster-initramfs"
+meta/classes/image-vm.bbclass:# Using an initramfs is optional. Enable it by setting INITRD_IMAGE_VM.
+meta/classes/image-vm.bbclass:INITRD_IMAGE_VM ?= ""
+meta/classes/image-vm.bbclass:INITRD_VM ?= "${@'${DEPLOY_DIR_IMAGE}/${INITRD_IMAGE_VM}-${MACHINE}.cpio.gz' if '${INITRD_IMAGE_VM}' else ''}"
+meta/classes/image-vm.bbclass:do_bootdirectdisk[depends] += "${@'${INITRD_IMAGE_VM}:do_image_complete' if '${INITRD_IMAGE_VM}' else ''}"
+meta/classes/image-live.bbclass:INITRD_IMAGE_LIVE ?= "core-image-minimal-initramfs"
+meta/classes/image-live.bbclass:INITRD_LIVE ?= "${DEPLOY_DIR_IMAGE}/${INITRD_IMAGE_LIVE}-${MACHINE}.cpio.gz"
+meta/classes/image-live.bbclass:    initrd_i = d.getVar('INITRD_IMAGE_LIVE', True)
+meta/classes/image-live.bbclass:        bb.error('INITRD_IMAGE_LIVE %s cannot use image live, hddimg or iso.' % initrd_i)
+$
 
-Thanks!
--Andrew
+  so ... should that first line be setting INITRD_IMAGE_VM rather than
+just INITRD_IMAGE? or am i misreading?
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
 
