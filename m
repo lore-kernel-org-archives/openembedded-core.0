@@ -1,50 +1,25 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-io0-f196.google.com (mail-io0-f196.google.com
-	[209.85.223.196])
-	by mail.openembedded.org (Postfix) with ESMTP id CC27F734B8
+Return-Path: <Yi.Zhao@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 37E3A7326D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jun 2016 02:59:17 +0000 (UTC)
-Received: by mail-io0-f196.google.com with SMTP id 100so7987760ioh.1
+	Fri, 17 Jun 2016 03:21:07 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u5H3L35s023430
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jun 2016 19:59:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=3oxBt+Pmq40TXF3ho2Syg1j/0hvl0V8Eb3qckikdLpc=;
-	b=s9uAa4hUzEYGWHQ5NjqA8NqeWNfAEPXEzg2eDkXQS38jgXdcvZLUpbWRxhbVfqXbZS
-	RBDdNlM6hvxfpFmHZBwg3Mq+gZ3YXTTWyGfyMDkL2+AWSBVM9VKCAYBmDlSrX5IjgxDy
-	RVckUjuPdMwhPrxHaoHAj2Jqkj8YQLutM7ecfNq0iYBoM++Sr+AFiljLOi2nlfr2Yj9o
-	A1x2gMF3w1VEh8onvK9AJVzr5itOduJQ22AnJXvZvegZeTotYSvY+OzEi0UK+5Ub9Gr1
-	nfpzRRsK5v2JAcqgYDlhdd2u2dw4k97iSfDuf5d146BnwME9vuuEwPFC6OJ+8XtjqQt2
-	4y/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=3oxBt+Pmq40TXF3ho2Syg1j/0hvl0V8Eb3qckikdLpc=;
-	b=Qo0VApIUVEw8HGLmrcAxPZEcjXEp3WmRJmF9J+HGB74Rce09stJHasGCznOkaUwyYK
-	E/cmTWN8Wg8XnZ+fsxwmfZP8Q/Z9GV7OwUGOQ2gIMv1jdYtG2Q/c4TU9Ehs3YHJy7Kpf
-	uNpn//FFW6Z9fhs2lEAes047mOJI9vpKEPV4eqXO1Ze4iKj3Ls3ND2o3YrBn73+faKj+
-	AvOZoNLTsEbJTdRwyiSUfjKRDL/qOnKstG915TCdRJyYw4Rz/71VQGrUIbFAxGpMXfgi
-	wdszNLv++csa3NVOrPQnui0/68VnKS6NkLPHOkdfkWeahbhlVntj3/JuNHZQe2YpPDR5
-	dRZQ==
-X-Gm-Message-State: ALyK8tJaoqUmhcYqUwNZqoArWqUUL9sie1/8i7wj96IvdLxkRHDEcwmPWpBXE+T04NPYebAD5eXCxnwLwmdOUA==
-X-Received: by 10.107.147.137 with SMTP id v131mr12909255iod.3.1466132357879; 
-	Thu, 16 Jun 2016 19:59:17 -0700 (PDT)
+	Thu, 16 Jun 2016 20:21:07 -0700
+Received: from localhost (128.224.162.178) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
+	Thu, 16 Jun 2016 20:21:01 -0700
+From: Yi Zhao <yi.zhao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 17 Jun 2016 11:20:58 +0800
+Message-ID: <1466133658-31245-1-git-send-email-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.79.130.66 with HTTP; Thu, 16 Jun 2016 19:58:58 -0700 (PDT)
-In-Reply-To: <CAJ86T=W1ZwM7j-OJUfBBj6eqMz08346xpvu2VKqeD1JWtob=jA@mail.gmail.com>
-References: <1461870393-3545-1-git-send-email-dv@pseudoterminal.org>
-	<1461870393-3545-2-git-send-email-dv@pseudoterminal.org>
-	<CAJ86T=W1ZwM7j-OJUfBBj6eqMz08346xpvu2VKqeD1JWtob=jA@mail.gmail.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Thu, 16 Jun 2016 19:58:58 -0700
-X-Google-Sender-Auth: OfbxmkbPv309MiKo0cMvjcKVXbE
-Message-ID: <CABcZAN=PJ7m0jKUY1TnxiqBpC15Ahfr_f2=9fD+T24zGvLXJgQ@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 2/8] gstreamer1.0: upgrade to version 1.8.1
+X-Originating-IP: [128.224.162.178]
+Subject: [PATCH] expat: CVE-2016-0718
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,61 +32,805 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jun 2016 02:59:17 -0000
-Content-Type: multipart/alternative; boundary=94eb2c003142629db60535708aac
+X-List-Received-Date: Fri, 17 Jun 2016 03:21:08 -0000
+Content-Type: text/plain
 
---94eb2c003142629db60535708aac
-Content-Type: text/plain; charset=UTF-8
+Fix CVE-2016-0718: expat XML parser crashes on malformed input
 
-On Thu, Jun 16, 2016 at 7:46 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+External References:
+https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-0718
+https://bugzilla.redhat.com/show_bug.cgi?id=1296102
+https://bugzilla.suse.com/show_bug.cgi?id=979441
 
-> On Thu, Apr 28, 2016 at 12:06 PM, Carlos Rafael Giani
-> <dv@pseudoterminal.org> wrote:
-> > The gst-inspect patch no longer applies, and according to upstream, is
-> > not needed.
->
-> This patch series seems to be missing an update for
-> gstreamer1.0-plugins-bad ?
+Patch from:
+https://bugzilla.redhat.com/show_bug.cgi?id=1296102
 
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ meta/recipes-core/expat/expat.inc                 |   1 +
+ meta/recipes-core/expat/expat/CVE-2016-0718.patch | 760 ++++++++++++++++++++++
+ 2 files changed, 761 insertions(+)
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2016-0718.patch
 
-gstreamer1.0-plugins-bad's upgrade was delayed due to the pending gtk3
-switch for sato, which has recently happened, so I'd expect that upgrade to
-come at some point in the near future. See
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=9664.
+diff --git a/meta/recipes-core/expat/expat.inc b/meta/recipes-core/expat/expat.inc
+index fe9d7e7..3d8429c 100644
+--- a/meta/recipes-core/expat/expat.inc
++++ b/meta/recipes-core/expat/expat.inc
+@@ -6,6 +6,7 @@ LICENSE = "MIT"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/expat/expat-${PV}.tar.bz2 \
+            file://autotools.patch \
++           file://CVE-2016-0718.patch \
+ 	  "
+ 
+ inherit autotools lib_package gzipnative
+diff --git a/meta/recipes-core/expat/expat/CVE-2016-0718.patch b/meta/recipes-core/expat/expat/CVE-2016-0718.patch
+new file mode 100644
+index 0000000..3fff5e9
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2016-0718.patch
+@@ -0,0 +1,760 @@
++From cdfcb1b5c95e93b00ae9e9d25708b4a3bee72c15 Mon Sep 17 00:00:00 2001
++From: Sebastian Pipping <sebastian@pipping.org>
++Date: Mon, 2 May 2016 00:02:44 +0200
++Subject: [PATCH] Address CVE-2016-0718 (/patch/ version 2.2.1)
++
++* Out of bounds memory access when doing text conversion on malformed input
++* Integer overflow related to memory allocation
++
++Reported by Gustavo Grieco
++
++Patch credits go to
++* Christian Heimes
++* Karl Waclawek
++* Gustavo Grieco
++* Sebastian Pipping
++* Pascal Cuoq
++
++CVE: CVE-2016-0718
++Upstream-Status: Backport
++
++Signed-off-by: Yi Zhao <yi.zhao@windirver.com>
++---
++ expat/lib/xmlparse.c    |  34 +++++++++-----
++ expat/lib/xmltok.c      | 115 +++++++++++++++++++++++++++++++++++-------------
++ expat/lib/xmltok.h      |  10 ++++-
++ expat/lib/xmltok_impl.c |  62 +++++++++++++-------------
++ 4 files changed, 146 insertions(+), 75 deletions(-)
++
++diff --git a/lib/xmlparse.c b/lib/xmlparse.c
++index e308c79..13e080d 100644
++--- a/lib/xmlparse.c
+++++ b/lib/xmlparse.c
++@@ -2426,11 +2426,11 @@ doContent(XML_Parser parser,
++           for (;;) {
++             int bufSize;
++             int convLen;
++-            XmlConvert(enc,
+++            const enum XML_Convert_Result convert_res = XmlConvert(enc,
++                        &fromPtr, rawNameEnd,
++                        (ICHAR **)&toPtr, (ICHAR *)tag->bufEnd - 1);
++             convLen = (int)(toPtr - (XML_Char *)tag->buf);
++-            if (fromPtr == rawNameEnd) {
+++            if ((convert_res == XML_CONVERT_COMPLETED) || (convert_res == XML_CONVERT_INPUT_INCOMPLETE)) {
++               tag->name.strLen = convLen;
++               break;
++             }
++@@ -2651,11 +2651,11 @@ doContent(XML_Parser parser,
++           if (MUST_CONVERT(enc, s)) {
++             for (;;) {
++               ICHAR *dataPtr = (ICHAR *)dataBuf;
++-              XmlConvert(enc, &s, next, &dataPtr, (ICHAR *)dataBufEnd);
+++              const enum XML_Convert_Result convert_res = XmlConvert(enc, &s, next, &dataPtr, (ICHAR *)dataBufEnd);
++               *eventEndPP = s;
++               charDataHandler(handlerArg, dataBuf,
++                               (int)(dataPtr - (ICHAR *)dataBuf));
++-              if (s == next)
+++              if ((convert_res == XML_CONVERT_COMPLETED) || (convert_res == XML_CONVERT_INPUT_INCOMPLETE))
++                 break;
++               *eventPP = s;
++             }
++@@ -3261,11 +3261,11 @@ doCdataSection(XML_Parser parser,
++           if (MUST_CONVERT(enc, s)) {
++             for (;;) {
++               ICHAR *dataPtr = (ICHAR *)dataBuf;
++-              XmlConvert(enc, &s, next, &dataPtr, (ICHAR *)dataBufEnd);
+++              const enum XML_Convert_Result convert_res = XmlConvert(enc, &s, next, &dataPtr, (ICHAR *)dataBufEnd);
++               *eventEndPP = next;
++               charDataHandler(handlerArg, dataBuf,
++                               (int)(dataPtr - (ICHAR *)dataBuf));
++-              if (s == next)
+++              if ((convert_res == XML_CONVERT_COMPLETED) || (convert_res == XML_CONVERT_INPUT_INCOMPLETE))
++                 break;
++               *eventPP = s;
++             }
++@@ -5342,6 +5342,7 @@ reportDefault(XML_Parser parser, const ENCODING *enc,
++               const char *s, const char *end)
++ {
++   if (MUST_CONVERT(enc, s)) {
+++    enum XML_Convert_Result convert_res;
++     const char **eventPP;
++     const char **eventEndPP;
++     if (enc == encoding) {
++@@ -5354,11 +5355,11 @@ reportDefault(XML_Parser parser, const ENCODING *enc,
++     }
++     do {
++       ICHAR *dataPtr = (ICHAR *)dataBuf;
++-      XmlConvert(enc, &s, end, &dataPtr, (ICHAR *)dataBufEnd);
+++      convert_res = XmlConvert(enc, &s, end, &dataPtr, (ICHAR *)dataBufEnd);
++       *eventEndPP = s;
++       defaultHandler(handlerArg, dataBuf, (int)(dataPtr - (ICHAR *)dataBuf));
++       *eventPP = s;
++-    } while (s != end);
+++    } while ((convert_res != XML_CONVERT_COMPLETED) && (convert_res != XML_CONVERT_INPUT_INCOMPLETE));
++   }
++   else
++     defaultHandler(handlerArg, (XML_Char *)s, (int)((XML_Char *)end - (XML_Char *)s));
++@@ -6163,8 +6164,8 @@ poolAppend(STRING_POOL *pool, const ENCODING *enc,
++   if (!pool->ptr && !poolGrow(pool))
++     return NULL;
++   for (;;) {
++-    XmlConvert(enc, &ptr, end, (ICHAR **)&(pool->ptr), (ICHAR *)pool->end);
++-    if (ptr == end)
+++    const enum XML_Convert_Result convert_res = XmlConvert(enc, &ptr, end, (ICHAR **)&(pool->ptr), (ICHAR *)pool->end);
+++    if ((convert_res == XML_CONVERT_COMPLETED) || (convert_res == XML_CONVERT_INPUT_INCOMPLETE))
++       break;
++     if (!poolGrow(pool))
++       return NULL;
++@@ -6248,8 +6249,13 @@ poolGrow(STRING_POOL *pool)
++     }
++   }
++   if (pool->blocks && pool->start == pool->blocks->s) {
++-    int blockSize = (int)(pool->end - pool->start)*2;
++-    BLOCK *temp = (BLOCK *)
+++    BLOCK *temp;
+++    int blockSize = (int)((unsigned)(pool->end - pool->start)*2U);
+++
+++    if (blockSize < 0)
+++      return XML_FALSE;
+++
+++    temp = (BLOCK *)
++       pool->mem->realloc_fcn(pool->blocks,
++                              (offsetof(BLOCK, s)
++                               + blockSize * sizeof(XML_Char)));
++@@ -6264,6 +6270,10 @@ poolGrow(STRING_POOL *pool)
++   else {
++     BLOCK *tem;
++     int blockSize = (int)(pool->end - pool->start);
+++
+++    if (blockSize < 0)
+++      return XML_FALSE;
+++
++     if (blockSize < INIT_BLOCK_SIZE)
++       blockSize = INIT_BLOCK_SIZE;
++     else
++diff --git a/lib/xmltok.c b/lib/xmltok.c
++index bf09dfc..cb98ce1 100644
++--- a/lib/xmltok.c
+++++ b/lib/xmltok.c
++@@ -318,39 +318,55 @@ enum {  /* UTF8_cvalN is value of masked first byte of N byte sequence */
++   UTF8_cval4 = 0xf0
++ };
++ 
++-static void PTRCALL
+++static enum XML_Convert_Result PTRCALL
++ utf8_toUtf8(const ENCODING *enc,
++             const char **fromP, const char *fromLim,
++             char **toP, const char *toLim)
++ {
+++  enum XML_Convert_Result res = XML_CONVERT_COMPLETED;
++   char *to;
++   const char *from;
++   if (fromLim - *fromP > toLim - *toP) {
++     /* Avoid copying partial characters. */
+++    res = XML_CONVERT_OUTPUT_EXHAUSTED;
++     for (fromLim = *fromP + (toLim - *toP); fromLim > *fromP; fromLim--)
++       if (((unsigned char)fromLim[-1] & 0xc0) != 0x80)
++         break;
++   }
++-  for (to = *toP, from = *fromP; from != fromLim; from++, to++)
+++  for (to = *toP, from = *fromP; (from < fromLim) && (to < toLim); from++, to++)
++     *to = *from;
++   *fromP = from;
++   *toP = to;
+++
+++  if ((to == toLim) && (from < fromLim))
+++    return XML_CONVERT_OUTPUT_EXHAUSTED;
+++  else
+++    return res;
++ }
++ 
++-static void PTRCALL
+++static enum XML_Convert_Result PTRCALL
++ utf8_toUtf16(const ENCODING *enc,
++              const char **fromP, const char *fromLim,
++              unsigned short **toP, const unsigned short *toLim)
++ {
+++  enum XML_Convert_Result res = XML_CONVERT_COMPLETED;
++   unsigned short *to = *toP;
++   const char *from = *fromP;
++-  while (from != fromLim && to != toLim) {
+++  while (from < fromLim && to < toLim) {
++     switch (((struct normal_encoding *)enc)->type[(unsigned char)*from]) {
++     case BT_LEAD2:
+++      if (fromLim - from < 2) {
+++        res = XML_CONVERT_INPUT_INCOMPLETE;
+++        break;
+++      }
++       *to++ = (unsigned short)(((from[0] & 0x1f) << 6) | (from[1] & 0x3f));
++       from += 2;
++       break;
++     case BT_LEAD3:
+++      if (fromLim - from < 3) {
+++        res = XML_CONVERT_INPUT_INCOMPLETE;
+++        break;
+++      }
++       *to++ = (unsigned short)(((from[0] & 0xf) << 12)
++                                | ((from[1] & 0x3f) << 6) | (from[2] & 0x3f));
++       from += 3;
++@@ -358,8 +374,14 @@ utf8_toUtf16(const ENCODING *enc,
++     case BT_LEAD4:
++       {
++         unsigned long n;
++-        if (to + 1 == toLim)
+++        if (toLim - to < 2) {
+++          res = XML_CONVERT_OUTPUT_EXHAUSTED;
++           goto after;
+++        }
+++        if (fromLim - from < 4) {
+++          res = XML_CONVERT_INPUT_INCOMPLETE;
+++          goto after;
+++        }
++         n = ((from[0] & 0x7) << 18) | ((from[1] & 0x3f) << 12)
++             | ((from[2] & 0x3f) << 6) | (from[3] & 0x3f);
++         n -= 0x10000;
++@@ -377,6 +399,7 @@ utf8_toUtf16(const ENCODING *enc,
++ after:
++   *fromP = from;
++   *toP = to;
+++  return res;
++ }
++ 
++ #ifdef XML_NS
++@@ -425,7 +448,7 @@ static const struct normal_encoding internal_utf8_encoding = {
++   STANDARD_VTABLE(sb_) NORMAL_VTABLE(utf8_)
++ };
++ 
++-static void PTRCALL
+++static enum XML_Convert_Result PTRCALL
++ latin1_toUtf8(const ENCODING *enc,
++               const char **fromP, const char *fromLim,
++               char **toP, const char *toLim)
++@@ -433,30 +456,35 @@ latin1_toUtf8(const ENCODING *enc,
++   for (;;) {
++     unsigned char c;
++     if (*fromP == fromLim)
++-      break;
+++      return XML_CONVERT_COMPLETED;
++     c = (unsigned char)**fromP;
++     if (c & 0x80) {
++       if (toLim - *toP < 2)
++-        break;
+++        return XML_CONVERT_OUTPUT_EXHAUSTED;
++       *(*toP)++ = (char)((c >> 6) | UTF8_cval2);
++       *(*toP)++ = (char)((c & 0x3f) | 0x80);
++       (*fromP)++;
++     }
++     else {
++       if (*toP == toLim)
++-        break;
+++        return XML_CONVERT_OUTPUT_EXHAUSTED;
++       *(*toP)++ = *(*fromP)++;
++     }
++   }
++ }
++ 
++-static void PTRCALL
+++static enum XML_Convert_Result PTRCALL
++ latin1_toUtf16(const ENCODING *enc,
++                const char **fromP, const char *fromLim,
++                unsigned short **toP, const unsigned short *toLim)
++ {
++-  while (*fromP != fromLim && *toP != toLim)
+++  while (*fromP < fromLim && *toP < toLim)
++     *(*toP)++ = (unsigned char)*(*fromP)++;
+++
+++  if ((*toP == toLim) && (*fromP < fromLim))
+++    return XML_CONVERT_OUTPUT_EXHAUSTED;
+++  else
+++    return XML_CONVERT_COMPLETED;
++ }
++ 
++ #ifdef XML_NS
++@@ -483,13 +511,18 @@ static const struct normal_encoding latin1_encoding = {
++   STANDARD_VTABLE(sb_)
++ };
++ 
++-static void PTRCALL
+++static enum XML_Convert_Result PTRCALL
++ ascii_toUtf8(const ENCODING *enc,
++              const char **fromP, const char *fromLim,
++              char **toP, const char *toLim)
++ {
++-  while (*fromP != fromLim && *toP != toLim)
+++  while (*fromP < fromLim && *toP < toLim)
++     *(*toP)++ = *(*fromP)++;
+++
+++  if ((*toP == toLim) && (*fromP < fromLim))
+++    return XML_CONVERT_OUTPUT_EXHAUSTED;
+++  else
+++    return XML_CONVERT_COMPLETED;
++ }
++ 
++ #ifdef XML_NS
++@@ -536,13 +569,14 @@ unicode_byte_type(char hi, char lo)
++ }
++ 
++ #define DEFINE_UTF16_TO_UTF8(E) \
++-static void  PTRCALL \
+++static enum XML_Convert_Result  PTRCALL \
++ E ## toUtf8(const ENCODING *enc, \
++             const char **fromP, const char *fromLim, \
++             char **toP, const char *toLim) \
++ { \
++-  const char *from; \
++-  for (from = *fromP; from != fromLim; from += 2) { \
+++  const char *from = *fromP; \
+++  fromLim = from + (((fromLim - from) >> 1) << 1);  /* shrink to even */ \
+++  for (; from < fromLim; from += 2) { \
++     int plane; \
++     unsigned char lo2; \
++     unsigned char lo = GET_LO(from); \
++@@ -552,7 +586,7 @@ E ## toUtf8(const ENCODING *enc, \
++       if (lo < 0x80) { \
++         if (*toP == toLim) { \
++           *fromP = from; \
++-          return; \
+++          return XML_CONVERT_OUTPUT_EXHAUSTED; \
++         } \
++         *(*toP)++ = lo; \
++         break; \
++@@ -562,7 +596,7 @@ E ## toUtf8(const ENCODING *enc, \
++     case 0x4: case 0x5: case 0x6: case 0x7: \
++       if (toLim -  *toP < 2) { \
++         *fromP = from; \
++-        return; \
+++        return XML_CONVERT_OUTPUT_EXHAUSTED; \
++       } \
++       *(*toP)++ = ((lo >> 6) | (hi << 2) |  UTF8_cval2); \
++       *(*toP)++ = ((lo & 0x3f) | 0x80); \
++@@ -570,7 +604,7 @@ E ## toUtf8(const ENCODING *enc, \
++     default: \
++       if (toLim -  *toP < 3)  { \
++         *fromP = from; \
++-        return; \
+++        return XML_CONVERT_OUTPUT_EXHAUSTED; \
++       } \
++       /* 16 bits divided 4, 6, 6 amongst 3 bytes */ \
++       *(*toP)++ = ((hi >> 4) | UTF8_cval3); \
++@@ -580,7 +614,11 @@ E ## toUtf8(const ENCODING *enc, \
++     case 0xD8: case 0xD9: case 0xDA: case 0xDB: \
++       if (toLim -  *toP < 4) { \
++         *fromP = from; \
++-        return; \
+++        return XML_CONVERT_OUTPUT_EXHAUSTED; \
+++      } \
+++      if (fromLim - from < 4) { \
+++        *fromP = from; \
+++        return XML_CONVERT_INPUT_INCOMPLETE; \
++       } \
++       plane = (((hi & 0x3) << 2) | ((lo >> 6) & 0x3)) + 1; \
++       *(*toP)++ = ((plane >> 2) | UTF8_cval4); \
++@@ -596,20 +634,32 @@ E ## toUtf8(const ENCODING *enc, \
++     } \
++   } \
++   *fromP = from; \
+++  if (from < fromLim) \
+++    return XML_CONVERT_INPUT_INCOMPLETE; \
+++  else \
+++    return XML_CONVERT_COMPLETED; \
++ }
++ 
++ #define DEFINE_UTF16_TO_UTF16(E) \
++-static void  PTRCALL \
+++static enum XML_Convert_Result  PTRCALL \
++ E ## toUtf16(const ENCODING *enc, \
++              const char **fromP, const char *fromLim, \
++              unsigned short **toP, const unsigned short *toLim) \
++ { \
+++  enum XML_Convert_Result res = XML_CONVERT_COMPLETED; \
+++  fromLim = *fromP + (((fromLim - *fromP) >> 1) << 1);  /* shrink to even */ \
++   /* Avoid copying first half only of surrogate */ \
++   if (fromLim - *fromP > ((toLim - *toP) << 1) \
++-      && (GET_HI(fromLim - 2) & 0xF8) == 0xD8) \
+++      && (GET_HI(fromLim - 2) & 0xF8) == 0xD8) { \
++     fromLim -= 2; \
++-  for (; *fromP != fromLim && *toP != toLim; *fromP += 2) \
+++    res = XML_CONVERT_INPUT_INCOMPLETE; \
+++  } \
+++  for (; *fromP < fromLim && *toP < toLim; *fromP += 2) \
++     *(*toP)++ = (GET_HI(*fromP) << 8) | GET_LO(*fromP); \
+++  if ((*toP == toLim) && (*fromP < fromLim)) \
+++    return XML_CONVERT_OUTPUT_EXHAUSTED; \
+++  else \
+++    return res; \
++ }
++ 
++ #define SET2(ptr, ch) \
++@@ -1288,7 +1338,7 @@ unknown_isInvalid(const ENCODING *enc, const char *p)
++   return (c & ~0xFFFF) || checkCharRefNumber(c) < 0;
++ }
++ 
++-static void PTRCALL
+++static enum XML_Convert_Result PTRCALL
++ unknown_toUtf8(const ENCODING *enc,
++                const char **fromP, const char *fromLim,
++                char **toP, const char *toLim)
++@@ -1299,21 +1349,21 @@ unknown_toUtf8(const ENCODING *enc,
++     const char *utf8;
++     int n;
++     if (*fromP == fromLim)
++-      break;
+++      return XML_CONVERT_COMPLETED;
++     utf8 = uenc->utf8[(unsigned char)**fromP];
++     n = *utf8++;
++     if (n == 0) {
++       int c = uenc->convert(uenc->userData, *fromP);
++       n = XmlUtf8Encode(c, buf);
++       if (n > toLim - *toP)
++-        break;
+++        return XML_CONVERT_OUTPUT_EXHAUSTED;
++       utf8 = buf;
++       *fromP += (AS_NORMAL_ENCODING(enc)->type[(unsigned char)**fromP]
++                  - (BT_LEAD2 - 2));
++     }
++     else {
++       if (n > toLim - *toP)
++-        break;
+++        return XML_CONVERT_OUTPUT_EXHAUSTED;
++       (*fromP)++;
++     }
++     do {
++@@ -1322,13 +1372,13 @@ unknown_toUtf8(const ENCODING *enc,
++   }
++ }
++ 
++-static void PTRCALL
+++static enum XML_Convert_Result PTRCALL
++ unknown_toUtf16(const ENCODING *enc,
++                 const char **fromP, const char *fromLim,
++                 unsigned short **toP, const unsigned short *toLim)
++ {
++   const struct unknown_encoding *uenc = AS_UNKNOWN_ENCODING(enc);
++-  while (*fromP != fromLim && *toP != toLim) {
+++  while (*fromP < fromLim && *toP < toLim) {
++     unsigned short c = uenc->utf16[(unsigned char)**fromP];
++     if (c == 0) {
++       c = (unsigned short)
++@@ -1340,6 +1390,11 @@ unknown_toUtf16(const ENCODING *enc,
++       (*fromP)++;
++     *(*toP)++ = c;
++   }
+++
+++  if ((*toP == toLim) && (*fromP < fromLim))
+++    return XML_CONVERT_OUTPUT_EXHAUSTED;
+++  else
+++    return XML_CONVERT_COMPLETED;
++ }
++ 
++ ENCODING *
++@@ -1503,7 +1558,7 @@ initScan(const ENCODING * const *encodingTable,
++ {
++   const ENCODING **encPtr;
++ 
++-  if (ptr == end)
+++  if (ptr >= end)
++     return XML_TOK_NONE;
++   encPtr = enc->encPtr;
++   if (ptr + 1 == end) {
++diff --git a/lib/xmltok.h b/lib/xmltok.h
++index ca867aa..752007e 100644
++--- a/lib/xmltok.h
+++++ b/lib/xmltok.h
++@@ -130,6 +130,12 @@ typedef int (PTRCALL *SCANNER)(const ENCODING *,
++                                const char *,
++                                const char **);
++ 
+++enum XML_Convert_Result {
+++  XML_CONVERT_COMPLETED = 0,
+++  XML_CONVERT_INPUT_INCOMPLETE = 1,
+++  XML_CONVERT_OUTPUT_EXHAUSTED = 2  /* and therefore potentially input remaining as well */
+++};
+++
++ struct encoding {
++   SCANNER scanners[XML_N_STATES];
++   SCANNER literalScanners[XML_N_LITERAL_TYPES];
++@@ -158,12 +164,12 @@ struct encoding {
++                             const char *ptr,
++                             const char *end,
++                             const char **badPtr);
++-  void (PTRCALL *utf8Convert)(const ENCODING *enc,
+++  enum XML_Convert_Result (PTRCALL *utf8Convert)(const ENCODING *enc,
++                               const char **fromP,
++                               const char *fromLim,
++                               char **toP,
++                               const char *toLim);
++-  void (PTRCALL *utf16Convert)(const ENCODING *enc,
+++  enum XML_Convert_Result (PTRCALL *utf16Convert)(const ENCODING *enc,
++                                const char **fromP,
++                                const char *fromLim,
++                                unsigned short **toP,
++diff --git a/lib/xmltok_impl.c b/lib/xmltok_impl.c
++index 9c2895b..6c5a3ba 100644
++--- a/lib/xmltok_impl.c
+++++ b/lib/xmltok_impl.c
++@@ -93,13 +93,13 @@ static int PTRCALL
++ PREFIX(scanComment)(const ENCODING *enc, const char *ptr,
++                     const char *end, const char **nextTokPtr)
++ {
++-  if (ptr != end) {
+++  if (ptr < end) {
++     if (!CHAR_MATCHES(enc, ptr, ASCII_MINUS)) {
++       *nextTokPtr = ptr;
++       return XML_TOK_INVALID;
++     }
++     ptr += MINBPC(enc);
++-    while (ptr != end) {
+++    while (ptr < end) {
++       switch (BYTE_TYPE(enc, ptr)) {
++       INVALID_CASES(ptr, nextTokPtr)
++       case BT_MINUS:
++@@ -147,7 +147,7 @@ PREFIX(scanDecl)(const ENCODING *enc, const char *ptr,
++     *nextTokPtr = ptr;
++     return XML_TOK_INVALID;
++   }
++-  while (ptr != end) {
+++  while (ptr < end) {
++     switch (BYTE_TYPE(enc, ptr)) {
++     case BT_PERCNT:
++       if (ptr + MINBPC(enc) == end)
++@@ -233,7 +233,7 @@ PREFIX(scanPi)(const ENCODING *enc, const char *ptr,
++     *nextTokPtr = ptr;
++     return XML_TOK_INVALID;
++   }
++-  while (ptr != end) {
+++  while (ptr < end) {
++     switch (BYTE_TYPE(enc, ptr)) {
++     CHECK_NAME_CASES(enc, ptr, end, nextTokPtr)
++     case BT_S: case BT_CR: case BT_LF:
++@@ -242,7 +242,7 @@ PREFIX(scanPi)(const ENCODING *enc, const char *ptr,
++         return XML_TOK_INVALID;
++       }
++       ptr += MINBPC(enc);
++-      while (ptr != end) {
+++      while (ptr < end) {
++         switch (BYTE_TYPE(enc, ptr)) {
++         INVALID_CASES(ptr, nextTokPtr)
++         case BT_QUEST:
++@@ -305,7 +305,7 @@ static int PTRCALL
++ PREFIX(cdataSectionTok)(const ENCODING *enc, const char *ptr,
++                         const char *end, const char **nextTokPtr)
++ {
++-  if (ptr == end)
+++  if (ptr >= end)
++     return XML_TOK_NONE;
++   if (MINBPC(enc) > 1) {
++     size_t n = end - ptr;
++@@ -348,7 +348,7 @@ PREFIX(cdataSectionTok)(const ENCODING *enc, const char *ptr,
++     ptr += MINBPC(enc);
++     break;
++   }
++-  while (ptr != end) {
+++  while (ptr < end) {
++     switch (BYTE_TYPE(enc, ptr)) {
++ #define LEAD_CASE(n) \
++     case BT_LEAD ## n: \
++@@ -391,11 +391,11 @@ PREFIX(scanEndTag)(const ENCODING *enc, const char *ptr,
++     *nextTokPtr = ptr;
++     return XML_TOK_INVALID;
++   }
++-  while (ptr != end) {
+++  while (ptr < end) {
++     switch (BYTE_TYPE(enc, ptr)) {
++     CHECK_NAME_CASES(enc, ptr, end, nextTokPtr)
++     case BT_S: case BT_CR: case BT_LF:
++-      for (ptr += MINBPC(enc); ptr != end; ptr += MINBPC(enc)) {
+++      for (ptr += MINBPC(enc); ptr < end; ptr += MINBPC(enc)) {
++         switch (BYTE_TYPE(enc, ptr)) {
++         case BT_S: case BT_CR: case BT_LF:
++           break;
++@@ -432,7 +432,7 @@ static int PTRCALL
++ PREFIX(scanHexCharRef)(const ENCODING *enc, const char *ptr,
++                        const char *end, const char **nextTokPtr)
++ {
++-  if (ptr != end) {
+++  if (ptr < end) {
++     switch (BYTE_TYPE(enc, ptr)) {
++     case BT_DIGIT:
++     case BT_HEX:
++@@ -441,7 +441,7 @@ PREFIX(scanHexCharRef)(const ENCODING *enc, const char *ptr,
++       *nextTokPtr = ptr;
++       return XML_TOK_INVALID;
++     }
++-    for (ptr += MINBPC(enc); ptr != end; ptr += MINBPC(enc)) {
+++    for (ptr += MINBPC(enc); ptr < end; ptr += MINBPC(enc)) {
++       switch (BYTE_TYPE(enc, ptr)) {
++       case BT_DIGIT:
++       case BT_HEX:
++@@ -464,7 +464,7 @@ static int PTRCALL
++ PREFIX(scanCharRef)(const ENCODING *enc, const char *ptr,
++                     const char *end, const char **nextTokPtr)
++ {
++-  if (ptr != end) {
+++  if (ptr < end) {
++     if (CHAR_MATCHES(enc, ptr, ASCII_x))
++       return PREFIX(scanHexCharRef)(enc, ptr + MINBPC(enc), end, nextTokPtr);
++     switch (BYTE_TYPE(enc, ptr)) {
++@@ -474,7 +474,7 @@ PREFIX(scanCharRef)(const ENCODING *enc, const char *ptr,
++       *nextTokPtr = ptr;
++       return XML_TOK_INVALID;
++     }
++-    for (ptr += MINBPC(enc); ptr != end; ptr += MINBPC(enc)) {
+++    for (ptr += MINBPC(enc); ptr < end; ptr += MINBPC(enc)) {
++       switch (BYTE_TYPE(enc, ptr)) {
++       case BT_DIGIT:
++         break;
++@@ -506,7 +506,7 @@ PREFIX(scanRef)(const ENCODING *enc, const char *ptr, const char *end,
++     *nextTokPtr = ptr;
++     return XML_TOK_INVALID;
++   }
++-  while (ptr != end) {
+++  while (ptr < end) {
++     switch (BYTE_TYPE(enc, ptr)) {
++     CHECK_NAME_CASES(enc, ptr, end, nextTokPtr)
++     case BT_SEMI:
++@@ -529,7 +529,7 @@ PREFIX(scanAtts)(const ENCODING *enc, const char *ptr, const char *end,
++ #ifdef XML_NS
++   int hadColon = 0;
++ #endif
++-  while (ptr != end) {
+++  while (ptr < end) {
++     switch (BYTE_TYPE(enc, ptr)) {
++     CHECK_NAME_CASES(enc, ptr, end, nextTokPtr)
++ #ifdef XML_NS
++@@ -716,7 +716,7 @@ PREFIX(scanLt)(const ENCODING *enc, const char *ptr, const char *end,
++   hadColon = 0;
++ #endif
++   /* we have a start-tag */
++-  while (ptr != end) {
+++  while (ptr < end) {
++     switch (BYTE_TYPE(enc, ptr)) {
++     CHECK_NAME_CASES(enc, ptr, end, nextTokPtr)
++ #ifdef XML_NS
++@@ -740,7 +740,7 @@ PREFIX(scanLt)(const ENCODING *enc, const char *ptr, const char *end,
++     case BT_S: case BT_CR: case BT_LF:
++       {
++         ptr += MINBPC(enc);
++-        while (ptr != end) {
+++        while (ptr < end) {
++           switch (BYTE_TYPE(enc, ptr)) {
++           CHECK_NMSTRT_CASES(enc, ptr, end, nextTokPtr)
++           case BT_GT:
++@@ -785,7 +785,7 @@ static int PTRCALL
++ PREFIX(contentTok)(const ENCODING *enc, const char *ptr, const char *end,
++                    const char **nextTokPtr)
++ {
++-  if (ptr == end)
+++  if (ptr >= end)
++     return XML_TOK_NONE;
++   if (MINBPC(enc) > 1) {
++     size_t n = end - ptr;
++@@ -832,7 +832,7 @@ PREFIX(contentTok)(const ENCODING *enc, const char *ptr, const char *end,
++     ptr += MINBPC(enc);
++     break;
++   }
++-  while (ptr != end) {
+++  while (ptr < end) {
++     switch (BYTE_TYPE(enc, ptr)) {
++ #define LEAD_CASE(n) \
++     case BT_LEAD ## n: \
++@@ -895,7 +895,7 @@ PREFIX(scanPercent)(const ENCODING *enc, const char *ptr, const char *end,
++     *nextTokPtr = ptr;
++     return XML_TOK_INVALID;
++   }
++-  while (ptr != end) {
+++  while (ptr < end) {
++     switch (BYTE_TYPE(enc, ptr)) {
++     CHECK_NAME_CASES(enc, ptr, end, nextTokPtr)
++     case BT_SEMI:
++@@ -921,7 +921,7 @@ PREFIX(scanPoundName)(const ENCODING *enc, const char *ptr, const char *end,
++     *nextTokPtr = ptr;
++     return XML_TOK_INVALID;
++   }
++-  while (ptr != end) {
+++  while (ptr < end) {
++     switch (BYTE_TYPE(enc, ptr)) {
++     CHECK_NAME_CASES(enc, ptr, end, nextTokPtr)
++     case BT_CR: case BT_LF: case BT_S:
++@@ -941,7 +941,7 @@ PREFIX(scanLit)(int open, const ENCODING *enc,
++                 const char *ptr, const char *end,
++                 const char **nextTokPtr)
++ {
++-  while (ptr != end) {
+++  while (ptr < end) {
++     int t = BYTE_TYPE(enc, ptr);
++     switch (t) {
++     INVALID_CASES(ptr, nextTokPtr)
++@@ -973,7 +973,7 @@ PREFIX(prologTok)(const ENCODING *enc, const char *ptr, const char *end,
++                   const char **nextTokPtr)
++ {
++   int tok;
++-  if (ptr == end)
+++  if (ptr >= end)
++     return XML_TOK_NONE;
++   if (MINBPC(enc) > 1) {
++     size_t n = end - ptr;
++@@ -1141,7 +1141,7 @@ PREFIX(prologTok)(const ENCODING *enc, const char *ptr, const char *end,
++     *nextTokPtr = ptr;
++     return XML_TOK_INVALID;
++   }
++-  while (ptr != end) {
+++  while (ptr < end) {
++     switch (BYTE_TYPE(enc, ptr)) {
++     CHECK_NAME_CASES(enc, ptr, end, nextTokPtr)
++     case BT_GT: case BT_RPAR: case BT_COMMA:
++@@ -1204,10 +1204,10 @@ PREFIX(attributeValueTok)(const ENCODING *enc, const char *ptr,
++                           const char *end, const char **nextTokPtr)
++ {
++   const char *start;
++-  if (ptr == end)
+++  if (ptr >= end)
++     return XML_TOK_NONE;
++   start = ptr;
++-  while (ptr != end) {
+++  while (ptr < end) {
++     switch (BYTE_TYPE(enc, ptr)) {
++ #define LEAD_CASE(n) \
++     case BT_LEAD ## n: ptr += n; break;
++@@ -1262,10 +1262,10 @@ PREFIX(entityValueTok)(const ENCODING *enc, const char *ptr,
++                        const char *end, const char **nextTokPtr)
++ {
++   const char *start;
++-  if (ptr == end)
+++  if (ptr >= end)
++     return XML_TOK_NONE;
++   start = ptr;
++-  while (ptr != end) {
+++  while (ptr < end) {
++     switch (BYTE_TYPE(enc, ptr)) {
++ #define LEAD_CASE(n) \
++     case BT_LEAD ## n: ptr += n; break;
++@@ -1326,7 +1326,7 @@ PREFIX(ignoreSectionTok)(const ENCODING *enc, const char *ptr,
++       end = ptr + n;
++     }
++   }
++-  while (ptr != end) {
+++  while (ptr < end) {
++     switch (BYTE_TYPE(enc, ptr)) {
++     INVALID_CASES(ptr, nextTokPtr)
++     case BT_LT:
++@@ -1373,7 +1373,7 @@ PREFIX(isPublicId)(const ENCODING *enc, const char *ptr, const char *end,
++ {
++   ptr += MINBPC(enc);
++   end -= MINBPC(enc);
++-  for (; ptr != end; ptr += MINBPC(enc)) {
+++  for (; ptr < end; ptr += MINBPC(enc)) {
++     switch (BYTE_TYPE(enc, ptr)) {
++     case BT_DIGIT:
++     case BT_HEX:
++@@ -1760,7 +1760,7 @@ PREFIX(updatePosition)(const ENCODING *enc,
++     case BT_CR:
++       pos->lineNumber++;
++       ptr += MINBPC(enc);
++-      if (ptr != end && BYTE_TYPE(enc, ptr) == BT_LF)
+++      if (ptr < end && BYTE_TYPE(enc, ptr) == BT_LF)
++         ptr += MINBPC(enc);
++       pos->columnNumber = (XML_Size)-1;
++       break;
++-- 
++2.8.2
++
 -- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+2.7.4
 
---94eb2c003142629db60535708aac
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Thu, Jun 16, 2016 at 7:46 PM, Andre McCurdy <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:armccurdy@gmail.com" target=3D"_blank">armccurdy@gmail.com</a>&=
-gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-left-col=
-or:rgb(204,204,204);padding-left:1ex"><span class=3D"">On Thu, Apr 28, 2016=
- at 12:06 PM, Carlos Rafael Giani<br>
-&lt;<a href=3D"mailto:dv@pseudoterminal.org">dv@pseudoterminal.org</a>&gt; =
-wrote:<br>
-&gt; The gst-inspect patch no longer applies, and according to upstream, is=
-<br>
-&gt; not needed.<br>
-<br>
-</span>This patch series seems to be missing an update for gstreamer1.0-plu=
-gins-bad ?</blockquote></div><br>gstreamer1.0-plugins-bad&#39;s upgrade was=
- delayed due to the pending gtk3 switch for sato, which has recently happen=
-ed, so I&#39;d expect that upgrade to come at some point in the near future=
-. See=C2=A0<a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D9=
-664">https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D9664</a>.<br>-- <b=
-r><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">Christo=
-pher Larson<br>clarson at kergoth dot com<br>Founder - BitBake, OpenEmbedde=
-d, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engineer, Mentor Gra=
-phics</div>
-</div></div>
-
---94eb2c003142629db60535708aac--
