@@ -1,32 +1,41 @@
-Return-Path: <ejo@pengutronix.de>
-Received: from metis.ext.4.pengutronix.de (metis.ext.4.pengutronix.de
-	[92.198.50.35])
-	by mail.openembedded.org (Postfix) with ESMTP id A73AC6067C
+Return-Path: <d.falko@partner.samsung.com>
+X-Greylist: delayed 603 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 17 Jun 2016 09:43:46 UTC
+Received: from mailout4.w1.samsung.com (mailout4.w1.samsung.com
+	[210.118.77.14])
+	by mail.openembedded.org (Postfix) with ESMTP id 222F060124
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jun 2016 09:32:04 +0000 (UTC)
-Received: from mango.hi.pengutronix.de ([2001:67c:670:100:76d4:35ff:fee8:98b3])
-	by metis.ext.pengutronix.de with esmtp (Exim 4.80)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1bDq8B-0000MT-C3; Fri, 17 Jun 2016 11:32:03 +0200
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-References: <c41bdd4ac5371d7c08318f7c7fc760b44ce59ba9.1463546289.git.raj.khem@gmail.com>
-	<85edcbf217242f13d1fa76bcf8258c153fc89db9.1463546289.git.raj.khem@gmail.com>
-	<1463643393.4578.90.camel@linuxfoundation.org>
-	<1463644963.4578.91.camel@linuxfoundation.org>
-From: Enrico Joerns <ejo@pengutronix.de>
-Message-ID: <5763C392.7070502@pengutronix.de>
-Date: Fri, 17 Jun 2016 11:32:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Icedove/38.8.0
-MIME-Version: 1.0
-In-Reply-To: <1463644963.4578.91.camel@linuxfoundation.org>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:76d4:35ff:fee8:98b3
-X-SA-Exim-Mail-From: ejo@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
-	SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/5] systemd: Create missing sysusers offline
+	Fri, 17 Jun 2016 09:43:46 +0000 (UTC)
+Received: from eucpsbgm2.samsung.com (unknown [203.254.199.245])
+	by mailout4.w1.samsung.com
+	(Oracle Communications Messaging Server 7.0.5.31.0 64bit (built May 5
+	2014)) with ESMTP id <0O8W00FMZT865H30@mailout4.w1.samsung.com> for
+	openembedded-core@lists.openembedded.org;
+	Fri, 17 Jun 2016 10:33:42 +0100 (BST)
+X-AuditID: cbfec7f5-f792a6d000001302-ba-5763c3f60899
+Received: from eusync4.samsung.com ( [203.254.199.214])
+	by eucpsbgm2.samsung.com (EUCPMTA) with SMTP id 66.FD.04866.6F3C3675;
+	Fri, 17 Jun 2016 10:33:42 +0100 (BST)
+Received: from falko-work.rnd.samsung.ru ([106.109.129.11])
+	by eusync4.samsung.com
+	(Oracle Communications Messaging Server 7.0.5.31.0 64bit (built May 5
+	2014)) with ESMTPA id <0O8W00H0ET8519A0@eusync4.samsung.com>; Fri,
+	17 Jun 2016 10:33:42 +0100 (BST)
+From: Dmitriy Falko <d.falko@partner.samsung.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 17 Jun 2016 12:33:39 +0300
+Message-id: <1466156019-32399-1-git-send-email-d.falko@partner.samsung.com>
+X-Mailer: git-send-email 2.7.4
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrMJMWRmVeSWpSXmKPExsVy+t/xa7rfDieHGxy9qWJx8PA0Zos7P9+x
+	OzB5nNu4gtHj4Ls9TAFMUVw2Kak5mWWpRfp2CVwZPbsvsBW0sVZ0/33M1MDYxdLFyMkhIWAi
+	8a/xKiOELSZx4d56ti5GLg4hgaWMEqvvXWSGcFqZJI5+PMsOUsUmYCjxp/kgUxcjB4eIgI7E
+	m49eIGFmAX2JTzf7mUBsYQEric/LHoKVsAioSnx+mQ8S5hXwltjS+pYZYpecxM1zncwTGLkX
+	MDKsYhRNLU0uKE5KzzXSK07MLS7NS9dLzs/dxAjx6tcdjEuPWR1iFOBgVOLhXSGaHC7EmlhW
+	XJl7iFGCg1lJhHfuQaAQb0piZVVqUX58UWlOavEhRmkOFiVx3pm73ocICaQnlqRmp6YWpBbB
+	ZJk4OKUaGPWfFj/Oet/tveCXV9jfIq9zVyzsrRKzQk6UnwsstS1aGmZ34VHd6fcd3zSmrgy7
+	OKNF2c4nf8+eDrXPHg0vN87ddXbVAnn9QyX3jtWy+a/ra7bcePDZrNLaqPXbTr7cHdV44NDE
+	FyWdjmt2yl/9X6fSPy3c4ePOmV/vK84TXVD/R9WTr5bdOlOJpTgj0VCLuag4EQAqB5QO5gEA	AA==
+Subject: [PATCH] Alias _obstack_free to fix binutils build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,47 +48,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jun 2016 09:32:05 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 17 Jun 2016 09:43:47 -0000
 
-Hi,
+Signed-off-by: Dmitriy Falko <d.falko@partner.samsung.com>
+---
+ libc/misc/gnu/obstack.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-On 05/19/2016 10:02 AM, Richard Purdie wrote:
-> On Thu, 2016-05-19 at 08:36 +0100, Richard Purdie wrote:
->> On Tue, 2016-05-17 at 21:40 -0700, Khem Raj wrote:
->>> Some system users which are needed by systemd components were
->>> missing
->>> create these users knobbed with relevant packageconfig
->>>
->>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>> ---
->>>   meta/recipes-core/systemd/systemd_229.bb | 8 +++++++-
->>>   1 file changed, 7 insertions(+), 1 deletion(-)
->>
->> This looks better but there do appear to still be problems:
->>
->> https://autobuilder.yoctoproject.org/main/builders/nightly-qa-systemd
->> /b
->> uilds/776/steps/Running%20Sanity%20Tests/logs/stdio
->>
->> and
->>
->> https://autobuilder.yoctoproject.org/main/builders/nightly-qa-systemd
->> /b
->> uilds/776/steps/Running%20Sanity%20Tests_2/logs/stdio
->
-
-I just stumbled over this issue when building systemd with networkd 
-enabled in krogoth release.
-Shouldn't this patch be backported to krogoth as well?
-
-Regards, Enrico
-
+diff --git a/libc/misc/gnu/obstack.c b/libc/misc/gnu/obstack.c
+index 38cfd83..2689263 100644
+--- a/libc/misc/gnu/obstack.c
++++ b/libc/misc/gnu/obstack.c
+@@ -385,11 +385,11 @@ obstack_free (struct obstack *h, void *obj)
+     abort ();
+ }
+ 
+-# if 0
++
+ /* Older versions of libc used a function _obstack_free intended to be
+    called by non-GCC compilers.  */
+ strong_alias (obstack_free, _obstack_free)
+-# endif
++
+ 
+ int
+ _obstack_memory_used (struct obstack *h)
 -- 
-Pengutronix e.K.                           | Enrico Jörns                |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
-Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-5080 |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+2.7.4
 
 
