@@ -1,45 +1,45 @@
 Return-Path: <armccurdy@gmail.com>
 Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D13365CB6
+	by mail.openembedded.org (Postfix) with ESMTP id D043862136
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jun 2016 02:38:11 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id k184so15387697wme.2
+	Fri, 17 Jun 2016 02:39:11 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id k184so15390433wme.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jun 2016 19:38:12 -0700 (PDT)
+	Thu, 16 Jun 2016 19:39:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=3c6WqPHDw+DGN5bud+Oee5ZqcIswwYBz7ew/xqr/AQQ=;
-	b=gXvO3rXZDf4/gR9f3IF35JA4X0dnT+MaRvYaCCpo3Bd2X1iBMjCNVjLIn+4MOGNFh/
-	Yld47t46pKyhhUgQ2OK1BsjPtINozu2op7J6s+TDnHei2u6idmUWlJUakN5TCaFwiTMX
-	7CPYA2iKDYoNI4wwtV9aMfMiCB8EkA5NsSyd8i9KkJR+3YnMZh/BFurFKHPBSumgRC6i
-	z03Oi0PKkQz8mzVGTJLBxpIp7tyBsBdMT+9Nn2zMSJIm5lgXEEn1Eq6FsY4Z1Ann8blE
-	VG0IK/gdwNXuAqKZro/OK7xFdsdYN+RahxkzeJx8KrUInST6cQqc7DkqdSNDpjLe95W3
-	K7Kg==
+	:cc; bh=TTocUMPbjxC4Zvv1iVSutRLgts2Cj6vDcI+KvF66iXE=;
+	b=QINEw2+XLKoWyXhk/aRli+vX6QwL8rNO3wQC+Rv4tmIcPl5sy6RcySmQi1mfX60x9T
+	mXzCTW4Pae6L0ccTPtfE+GQrrBRmMkkpCO5xF5YW91LtTDciD8J5+l9UlZiNRLW0Ws9w
+	4+B6AJw4c8edM4XTX1ORCMGOanbKcFaxhYFiI7AL+8s2HSrY3zhr/SkmyYOilbnw+Tkq
+	YOzaGG8kPEDtGBRNZnRsWZjmDVzwLcS3kw7KnO7wtK7qg5b19v8YSYRJLNm5BXevxi5c
+	0lvGlqyA04uAt8mPmb0J9L5Kipk4YJ1zECEJHkfRD+oE3MZrHn9KFUW5u3fTMFoLlxmj
+	GRhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=3c6WqPHDw+DGN5bud+Oee5ZqcIswwYBz7ew/xqr/AQQ=;
-	b=J1/GVFaiD1iCb+Q5VF/aFW7kzebcShwKCOsBk+UeeECdK3QzqnEfAVAWEzU9xoDvrS
-	F8BEou/AOapKN9/LUXDpJp0y/wYoDiOh2yYwoGE2R4opXDDCln5ftZ7DrUHnFJjQGOHV
-	8rV55Xo9w+YHnHkzY40EU6gp2cU+/hCjtSM5I6A7CrOI4OnlYlMmoSePczF86hkKuHzF
-	pj25nKGHPlL0205lty+mAP3x/g51m5/QZsviDmzP+Xkm9nPlGCo/SkcbpFCWJAB9LTWk
-	ULL3sS8cXkLO5cD8q2/SaRM9ce+oFXlftuvKhzMuDJUt9dlhZmoRweB9Ij2O/JxqCLTO
-	Rlqg==
-X-Gm-Message-State: ALyK8tLCyUn+CGJCMixVB+WgAN3GsfQeltxUR0vyMM9Imhzv4ZpE66F4RC0pLhLxTy92J5hIE/b2hs85Rr43yg==
-X-Received: by 10.28.223.215 with SMTP id w206mr17801157wmg.61.1466131091089; 
-	Thu, 16 Jun 2016 19:38:11 -0700 (PDT)
+	bh=TTocUMPbjxC4Zvv1iVSutRLgts2Cj6vDcI+KvF66iXE=;
+	b=T9qP29XC7FYdaa7U4jOTHEBuSBnYEIm0wAwuII/SddjjIFgQs4oDoIZvlDGAPs14vS
+	7U3PIyvHlcb0HrxPLXiXc/he39b1DYTKep+Cxf4+kAJ85evA5IKR8qeFkqGJpePBkgYC
+	hd7/mk58H5OwAg4wHe9lzKEa/+qCo9V5JyRQ0mWoOBg1qJb5XpWJ1xCvxnyhMI6XXTg4
+	PXdf/nBLuilDoAojT4pcE1otVvGIoqur/ITdmWrTPKGc7UKwKCeWqpw3c15qHKkJLH2J
+	71Vkw9qn6CJaacga1Yv1OoiO82Q8vlBA0SofOz5y0EQFrWjNSlbqiOc/igMvvyDh/N2Y
+	PLzw==
+X-Gm-Message-State: ALyK8tK3WSShl8apNZLIBHeJeVE0tsARdxoEXJjvTzQ9M4CtKk91/nEojV1XQ7Cn7u6SNGXibNyO1ScdnniYcQ==
+X-Received: by 10.28.89.6 with SMTP id n6mr17888177wmb.4.1466131151625; Thu,
+	16 Jun 2016 19:39:11 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.194.6.165 with HTTP; Thu, 16 Jun 2016 19:38:10 -0700 (PDT)
-In-Reply-To: <1466074764-14109-3-git-send-email-alexander.kanavin@linux.intel.com>
+Received: by 10.194.6.165 with HTTP; Thu, 16 Jun 2016 19:39:11 -0700 (PDT)
+In-Reply-To: <1466074764-14109-4-git-send-email-alexander.kanavin@linux.intel.com>
 References: <1466074764-14109-1-git-send-email-alexander.kanavin@linux.intel.com>
-	<1466074764-14109-3-git-send-email-alexander.kanavin@linux.intel.com>
+	<1466074764-14109-4-git-send-email-alexander.kanavin@linux.intel.com>
 From: Andre McCurdy <armccurdy@gmail.com>
-Date: Thu, 16 Jun 2016 19:38:10 -0700
-Message-ID: <CAJ86T=WziMrSqVgrqV-M5OhEUtMTkHaepk=XEzOzVYTXpUrmxg@mail.gmail.com>
+Date: Thu, 16 Jun 2016 19:39:11 -0700
+Message-ID: <CAJ86T=WKTAe3imuizQPWAmnZaMq5LvL-+2VqpaFC8GziS=gXxw@mail.gmail.com>
 To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/5] security_flags.inc: add -fPIC to SECURITY_NO_PIE_CFLAGS
+Subject: Re: [PATCH 4/5] security_flags.inc: add epiphany to SECURITY_NO_PIE_CFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,38 +52,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jun 2016 02:38:11 -0000
+X-List-Received-Date: Fri, 17 Jun 2016 02:39:12 -0000
 Content-Type: text/plain; charset=UTF-8
 
 On Thu, Jun 16, 2016 at 3:59 AM, Alexander Kanavin
 <alexander.kanavin@linux.intel.com> wrote:
-> The packages that break due to -fpie can be still built with -fPIC.
->
-> [YOCTO #9486]
->
+> Otherwise there is a QA warning about relocations in .text
+
+Typically these warnings come from assembler and can't be fixed via
+CFLAGS. If this one _can_ be fixed via CFLAGS then it suggests a bug
+in the Epiphany build somewhere (e.g. reusing an object file intended
+for a static lib in an .so). Maybe it's better to track that down and
+fix properly instead of working around it by globally adding -fPIC to
+CFLAGS?
+
 > Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 > ---
->  meta/conf/distro/include/security_flags.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  meta/conf/distro/include/security_flags.inc | 1 +
+>  1 file changed, 1 insertion(+)
 >
 > diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-> index a7be185..26804bd 100644
+> index 26804bd..ea00bdd 100644
 > --- a/meta/conf/distro/include/security_flags.inc
 > +++ b/meta/conf/distro/include/security_flags.inc
-> @@ -13,7 +13,7 @@ lcl_maybe_fortify = "${@base_conditional('DEBUG_BUILD','1','','-D_FORTIFY_SOURCE
->  SECURITY_STRINGFORMAT ?= "-Wformat -Wformat-security -Werror=format-security"
->
->  SECURITY_CFLAGS ?= "-fstack-protector-strong -pie -fpie ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
-> -SECURITY_NO_PIE_CFLAGS ?= "-fstack-protector-strong ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
-> +SECURITY_NO_PIE_CFLAGS ?= "-fPIC -fstack-protector-strong ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
-
-I don't think this does anything useful. An executable won't be
-position independent unless -pie is passed to the linker, so if
-linking with -pie doesn't work, forcing all object code to be position
-independent is just adding overhead with no benefit.
-
->  SECURITY_LDFLAGS ?= "-fstack-protector-strong -Wl,-z,relro,-z,now"
->  SECURITY_X_LDFLAGS ?= "-fstack-protector-strong -Wl,-z,relro"
+> @@ -38,6 +38,7 @@ SECURITY_CFLAGS_pn-glibc = ""
+>  SECURITY_CFLAGS_pn-glibc-initial = ""
+>  SECURITY_CFLAGS_pn-elfutils = "${SECURITY_NO_PIE_CFLAGS}"
+>  SECURITY_CFLAGS_pn-enchant = "${SECURITY_NO_PIE_CFLAGS}"
+> +SECURITY_CFLAGS_pn-epiphany = "${SECURITY_NO_PIE_CFLAGS}"
+>  SECURITY_CFLAGS_pn-expect = "${SECURITY_NO_PIE_CFLAGS}"
+>  SECURITY_CFLAGS_pn-flac = "${SECURITY_NO_PIE_CFLAGS}"
+>  SECURITY_CFLAGS_pn-flex = "${SECURITY_NO_PIE_CFLAGS}"
 > --
 > 2.8.1
 >
