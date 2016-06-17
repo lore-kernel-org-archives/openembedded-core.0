@@ -1,46 +1,45 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 7665276802
-	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jun 2016 01:10:09 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id 187so13184313wmz.1
-	for <Openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jun 2016 18:10:10 -0700 (PDT)
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D13365CB6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Jun 2016 02:38:11 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id k184so15387697wme.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 Jun 2016 19:38:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Y0BlG5LSmmBZ+qF++95cLQq6wg+uUIydtBC4hcUd/nY=;
-	b=AvlWWoSqEC09mNj2ljM5vnPfKtF+MyWVZIDYhKDifypCAd66ZBKgono2tRcY2Dz1Cb
-	sY9eFRzo/ENi+1dtuKeLA99RLbyvxJs0cIvb0/HUGbApn0XI100L5cmbSjqbMRmGCgdh
-	j9x1rk+AOg3fBpD0YGVC7SafP1qj6y50GOuJugxFbdoAePBq2tiE/mK2vPT48HGAmP7R
-	Vw+FR3lO4/198rtPNAFWeSHGhtOfw8/Ohd7VRCFd10QAv1aRMv9ClUzKglguszyRlvca
-	Zm8Tj/DcAmVpFQBfW9gjXkmaAZVRMypUIPrcIAbrR3h8UL72LpnN0OWlb7cwMlrswbhh
-	fMsA==
+	:cc; bh=3c6WqPHDw+DGN5bud+Oee5ZqcIswwYBz7ew/xqr/AQQ=;
+	b=gXvO3rXZDf4/gR9f3IF35JA4X0dnT+MaRvYaCCpo3Bd2X1iBMjCNVjLIn+4MOGNFh/
+	Yld47t46pKyhhUgQ2OK1BsjPtINozu2op7J6s+TDnHei2u6idmUWlJUakN5TCaFwiTMX
+	7CPYA2iKDYoNI4wwtV9aMfMiCB8EkA5NsSyd8i9KkJR+3YnMZh/BFurFKHPBSumgRC6i
+	z03Oi0PKkQz8mzVGTJLBxpIp7tyBsBdMT+9Nn2zMSJIm5lgXEEn1Eq6FsY4Z1Ann8blE
+	VG0IK/gdwNXuAqKZro/OK7xFdsdYN+RahxkzeJx8KrUInST6cQqc7DkqdSNDpjLe95W3
+	K7Kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=Y0BlG5LSmmBZ+qF++95cLQq6wg+uUIydtBC4hcUd/nY=;
-	b=icDRJv+ZVo3OOZ9M2HsQ1oPEqmQoNzTc/kQmkKqXaopPg+RrkTBy+YIIah3sONBKxF
-	NopLYjwkvhlD13lHrl1l2E3De91OF6y3x9vvG7qi/ykVVg9WtSllZP1SAzQ+wV41xIZs
-	PF7SrN6Y4uLZ6cDbTo5VSGzW7DF6Og+u3pEafs1/lcaPCcahnCLE6xUryKeyRvIN8X1F
-	7h3X7bOy/aAuu4DO6XyOCIwKOMbCkopRTq8BK01uRSJx8J+f+XqX7174mdjGf5gfF2gO
-	cgfAwB7fX7W6uAQO9yB6AQO5Wu9kykZx9jh6PtEYz2QjAB6Nu35K5RA88oIKA9lMHNAe
-	JfoA==
-X-Gm-Message-State: ALyK8tKVd2S8MiaS0dXlWjfWYxdYkX5V2IyTq9Uk1im2mGZDBxUUMi55Qow1SwFZjE1oVftTixvomh5mLZKclA==
-X-Received: by 10.194.76.33 with SMTP id h1mr1952890wjw.43.1466125809933; Thu,
-	16 Jun 2016 18:10:09 -0700 (PDT)
+	bh=3c6WqPHDw+DGN5bud+Oee5ZqcIswwYBz7ew/xqr/AQQ=;
+	b=J1/GVFaiD1iCb+Q5VF/aFW7kzebcShwKCOsBk+UeeECdK3QzqnEfAVAWEzU9xoDvrS
+	F8BEou/AOapKN9/LUXDpJp0y/wYoDiOh2yYwoGE2R4opXDDCln5ftZ7DrUHnFJjQGOHV
+	8rV55Xo9w+YHnHkzY40EU6gp2cU+/hCjtSM5I6A7CrOI4OnlYlMmoSePczF86hkKuHzF
+	pj25nKGHPlL0205lty+mAP3x/g51m5/QZsviDmzP+Xkm9nPlGCo/SkcbpFCWJAB9LTWk
+	ULL3sS8cXkLO5cD8q2/SaRM9ce+oFXlftuvKhzMuDJUt9dlhZmoRweB9Ij2O/JxqCLTO
+	Rlqg==
+X-Gm-Message-State: ALyK8tLCyUn+CGJCMixVB+WgAN3GsfQeltxUR0vyMM9Imhzv4ZpE66F4RC0pLhLxTy92J5hIE/b2hs85Rr43yg==
+X-Received: by 10.28.223.215 with SMTP id w206mr17801157wmg.61.1466131091089; 
+	Thu, 16 Jun 2016 19:38:11 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.194.6.165 with HTTP; Thu, 16 Jun 2016 18:10:09 -0700 (PDT)
-In-Reply-To: <CAJTo0LaEQgDLM2vxL7tGW8oefR6Jc1gEkWoHz4J7DkAD7N=sEA@mail.gmail.com>
-References: <1466099108-25355-1-git-send-email-mark.asselstine@windriver.com>
-	<1466110195-5473-1-git-send-email-mark.asselstine@windriver.com>
-	<CAJTo0LaEQgDLM2vxL7tGW8oefR6Jc1gEkWoHz4J7DkAD7N=sEA@mail.gmail.com>
+Received: by 10.194.6.165 with HTTP; Thu, 16 Jun 2016 19:38:10 -0700 (PDT)
+In-Reply-To: <1466074764-14109-3-git-send-email-alexander.kanavin@linux.intel.com>
+References: <1466074764-14109-1-git-send-email-alexander.kanavin@linux.intel.com>
+	<1466074764-14109-3-git-send-email-alexander.kanavin@linux.intel.com>
 From: Andre McCurdy <armccurdy@gmail.com>
-Date: Thu, 16 Jun 2016 18:10:09 -0700
-Message-ID: <CAJ86T=VA5n8==dM4v-AdToxkKfgTH3vTgOBijpJBYjcvygp_Jw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <Openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC][PATCH] vte: bring back old version to support xfce4-terminal
+Date: Thu, 16 Jun 2016 19:38:10 -0700
+Message-ID: <CAJ86T=WziMrSqVgrqV-M5OhEUtMTkHaepk=XEzOzVYTXpUrmxg@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/5] security_flags.inc: add -fPIC to SECURITY_NO_PIE_CFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,33 +52,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jun 2016 01:10:11 -0000
+X-List-Received-Date: Fri, 17 Jun 2016 02:38:11 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Thu, Jun 16, 2016 at 2:47 PM, Burton, Ross <ross.burton@intel.com> wrote:
+On Thu, Jun 16, 2016 at 3:59 AM, Alexander Kanavin
+<alexander.kanavin@linux.intel.com> wrote:
+> The packages that break due to -fpie can be still built with -fPIC.
 >
-> On 16 June 2016 at 21:49, Mark Asselstine <mark.asselstine@windriver.com>
-> wrote:
->>
->> While waiting to hear back about my inquiry I did take some
->> time to put together this patch that allows things that
->> require the older vte to continue to build. Since xfce4-terminal
->> lives in meta-openembedded this might make more sense to carry
->> over there. I am sure folks will have an opinion so sending this
->> out as an RFC.
+> [YOCTO #9486]
 >
-> That's certainly a good argument for putting the old vte in meta-oe.
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> ---
+>  meta/conf/distro/include/security_flags.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+> index a7be185..26804bd 100644
+> --- a/meta/conf/distro/include/security_flags.inc
+> +++ b/meta/conf/distro/include/security_flags.inc
+> @@ -13,7 +13,7 @@ lcl_maybe_fortify = "${@base_conditional('DEBUG_BUILD','1','','-D_FORTIFY_SOURCE
+>  SECURITY_STRINGFORMAT ?= "-Wformat -Wformat-security -Werror=format-security"
+>
+>  SECURITY_CFLAGS ?= "-fstack-protector-strong -pie -fpie ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
+> -SECURITY_NO_PIE_CFLAGS ?= "-fstack-protector-strong ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
+> +SECURITY_NO_PIE_CFLAGS ?= "-fPIC -fstack-protector-strong ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
 
-The meta-oe layers generally have a higher priority than oe-core, so
-having an older version in meta-oe and a newer version in oe-core can
-lead to unexpected results.
+I don't think this does anything useful. An executable won't be
+position independent unless -pie is passed to the linker, so if
+linking with -pie doesn't work, forcing all object code to be position
+independent is just adding overhead with no benefit.
 
-> Ross
+>  SECURITY_LDFLAGS ?= "-fstack-protector-strong -Wl,-z,relro,-z,now"
+>  SECURITY_X_LDFLAGS ?= "-fstack-protector-strong -Wl,-z,relro"
+> --
+> 2.8.1
 >
 > --
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
