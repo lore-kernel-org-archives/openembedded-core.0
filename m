@@ -1,29 +1,40 @@
-Return-Path: <Mark.Asselstine@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3941465CBB
-	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jun 2016 13:34:05 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u5HDY0dX008416
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Fri, 17 Jun 2016 06:34:03 -0700
-Received: from tal.localnet (128.224.21.250) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Fri, 17 Jun 2016 06:33:58 -0700
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 17 Jun 2016 09:33:56 -0400
-Message-ID: <10638163.jDLm51fopt@tal>
-Organization: Wind River 
-User-Agent: KMail/4.13.3 (Linux/3.13.0-85-generic; KDE/4.13.3; x86_64; ; )
-In-Reply-To: <CAJ86T=VA5n8==dM4v-AdToxkKfgTH3vTgOBijpJBYjcvygp_Jw@mail.gmail.com>
-References: <1466099108-25355-1-git-send-email-mark.asselstine@windriver.com>
-	<CAJTo0LaEQgDLM2vxL7tGW8oefR6Jc1gEkWoHz4J7DkAD7N=sEA@mail.gmail.com>
-	<CAJ86T=VA5n8==dM4v-AdToxkKfgTH3vTgOBijpJBYjcvygp_Jw@mail.gmail.com>
-MIME-Version: 1.0
-Cc: OE-core <Openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC][PATCH] vte: bring back old version to support xfce4-terminal
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id C1A2C65CC2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Jun 2016 13:41:20 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id 863AD2E2DB;
+	Fri, 17 Jun 2016 15:41:19 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id KoTSv0Gagbbo; Fri, 17 Jun 2016 15:41:18 +0200 (CEST)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bes.se.axis.com (Postfix) with ESMTP id B19812E21B;
+	Fri, 17 Jun 2016 15:41:18 +0200 (CEST)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 9B8FF1BAF;
+	Fri, 17 Jun 2016 15:41:18 +0200 (CEST)
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by boulder.se.axis.com (Postfix) with ESMTP id 90DCF1B88;
+	Fri, 17 Jun 2016 15:41:18 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by thoth.se.axis.com (Postfix) with ESMTP id 8EFF7DFA;
+	Fri, 17 Jun 2016 15:41:18 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id u5HDfIp2001936;
+	Fri, 17 Jun 2016 15:41:18 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id u5HDfITV001932;
+	Fri, 17 Jun 2016 15:41:18 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 17 Jun 2016 15:41:02 +0200
+Message-Id: <cover.1466170741.git.pkj@axis.com>
+X-Mailer: git-send-email 2.9.0
+Subject: [PATCH 0/4] Fixes for useradd-staticids.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,49 +47,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jun 2016 13:34:06 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 17 Jun 2016 13:41:21 -0000
 
-On June 16, 2016 18:10:09 Andre McCurdy wrote:
-> On Thu, Jun 16, 2016 at 2:47 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> > On 16 June 2016 at 21:49, Mark Asselstine <mark.asselstine@windriver.com>
-> > 
-> > wrote:
-> >> While waiting to hear back about my inquiry I did take some
-> >> time to put together this patch that allows things that
-> >> require the older vte to continue to build. Since xfce4-terminal
-> >> lives in meta-openembedded this might make more sense to carry
-> >> over there. I am sure folks will have an opinion so sending this
-> >> out as an RFC.
-> > 
-> > That's certainly a good argument for putting the old vte in meta-oe.
-> 
-> The meta-oe layers generally have a higher priority than oe-core, so
-> having an older version in meta-oe and a newer version in oe-core can
-> lead to unexpected results.
+The main change here is to fix the regression reported in
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=9777 which resulted
+in setting USERADD_ERROR_DYNAMIC having no effect if the user or group
+was not listed at all in a passwd or groups file.
 
-This should not be an issue. My change has the old recipe renamed with the API 
-version so the old version becomes referenced by 'vte-0.0' (per the commit log 
-the 0.0 is consistent with the API versioning upstream). So recipes which 
-require the old version, like xfce4-terminal, have to have their DEPENDS 
-adjusted accordingly. There should be no surprises.
+In the ticket discussion there was also a suggestion to allow the
+error to be turned into a warning. I have implemented this as well,
+whereby one can now set USERADD_ERROR_DYNAMIC to either "error" or
+"warn" to decide which behavior one wants. (It is of course still
+possible to set it to "1" for backwards compatibility.)
 
-I will have a closer look today to ensure nothing in oe-core is requiring the 
-old version and if not I will prepare a patch for meta-oe since that seems to 
-be the general agreement for a home for this. I need to do some further checks 
-and runtime tests but I will get this out shortly. In the meantime anyone else 
-running in to the build failure can exploit the RFC patch.
+The latter change requires some updates to the documentation, which is
+provided in the last commit. This is intended for the yocto-docs
+repository.
 
-Mark
+//Peter
 
-> 
-> > Ross
-> > 
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+The following changes since commit 4799e1e89fd9b0f8b606e3c502fe89f32d45fe76:
+
+  gtk+3: Add patch for --disable-opengl (2016-06-17 11:17:21 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib pkj/useradd-staticids-regression
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/useradd-staticids-regression
+
+Peter Kjellerstedt (4):
+  documentation.conf: Add information about USERADD varaibles
+  useradd-staticids.bbclass: Restore failure on missing UIDs/GIDs
+  useradd-staticids.bbclass: Allow missing UIDs/GIDs to generate
+    warnings
+  Update the documentation of USERADD_ERROR_DYNAMIC
+
+ documentation/ref-manual/ref-variables.xml | 19 +++++++++++--------
+ meta/classes/useradd-staticids.bbclass     | 22 ++++++++++++++++------
+ meta/conf/documentation.conf               |  4 ++++
+ 3 files changed, 31 insertions(+), 14 deletions(-)
+
+-- 
+2.9.0
 
 
