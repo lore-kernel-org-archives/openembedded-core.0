@@ -1,39 +1,50 @@
-Return-Path: <d.falko@partner.samsung.com>
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
-	[210.118.77.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5EBBE60017
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jun 2016 10:03:00 +0000 (UTC)
-Received: from eucpsbgm1.samsung.com (unknown [203.254.199.244])
-	by mailout1.w1.samsung.com
-	(Oracle Communications Messaging Server 7.0.5.31.0 64bit (built May 5
-	2014)) with ESMTP id <0O8W009TBUKZ0K30@mailout1.w1.samsung.com> for
-	openembedded-core@lists.openembedded.org;
-	Fri, 17 Jun 2016 11:02:59 +0100 (BST)
-X-AuditID: cbfec7f4-f796c6d000001486-06-5763cad33324
-Received: from eusync2.samsung.com ( [203.254.199.212])
-	by eucpsbgm1.samsung.com (EUCPMTA) with SMTP id 39.57.05254.3DAC3675;
-	Fri, 17 Jun 2016 11:02:59 +0100 (BST)
-Received: from falko-work.rnd.samsung.ru ([106.109.129.11])
-	by eusync2.samsung.com
-	(Oracle Communications Messaging Server 7.0.5.31.0 64bit (built May 5
-	2014)) with ESMTPA id <0O8W00CHRUKYOL20@eusync2.samsung.com>; Fri,
-	17 Jun 2016 11:02:59 +0100 (BST)
-From: Dmitriy Falko <d.falko@partner.samsung.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Jun 2016 13:02:57 +0300
-Message-id: <1466157777-11573-1-git-send-email-d.falko@partner.samsung.com>
-X-Mailer: git-send-email 2.7.4
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrMJMWRmVeSWpSXmKPExsVy+t/xK7qXTyWHG3w8oGpx8PA0Zos7P9+x
-	OzB5nNu4gtHj4Ls9TAFMUVw2Kak5mWWpRfp2CVwZpxvnMxXMFaz4ubeTqYHxJl8XIyeHhICJ
-	xMevV9kgbDGJC/fWA9lcHEICSxkl2mecYoZwWpkkHk3oZAKpYhMwlPjTfBDI5uAQEdCRePPR
-	CyTMLKAv8elmP1hYWCBW4sKiWJAwi4CqxKELd8Dm8wp4S3y98YYVYpecxM1zncwTGLkXMDKs
-	YhRNLU0uKE5KzzXUK07MLS7NS9dLzs/dxAjx6pcdjIuPWR1iFOBgVOLhXSGaHC7EmlhWXJl7
-	iFGCg1lJhFf+GFCINyWxsiq1KD++qDQntfgQozQHi5I479xd70OEBNITS1KzU1MLUotgskwc
-	nFINjAllvRs3yYT37GDhV07lV7wn9bQq/hPHC58XzDKzDnz6lXurMTkkJfhNcLb8dOWJTNkX
-	G7fyrOyRTj7H8fHOv7vNzK73bhr5O6X0RenO+BRhs3Sl9q8NT2ri2ieHXQiQ+e/7QC/1w2MD
-	9vC+q68Mk19czN+98vLj6spzE1rUgx9Mk/+y2pbxhRJLcUaioRZzUXEiAP9uDrXmAQAA
-Subject: [meta-oe][PATCH] Alias _obstack_free to obstack_free to build binutils with uclibc
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 2AD0660249
+	for <Openembedded-core@lists.openembedded.org>;
+	Fri, 17 Jun 2016 10:08:11 +0000 (UTC)
+Received: by mail-io0-f170.google.com with SMTP id n127so73590914iof.3
+	for <Openembedded-core@lists.openembedded.org>;
+	Fri, 17 Jun 2016 03:08:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=YUhLle3upr3BA/ACCHi8vMPoFlvtde0BaVcAb2EuDic=;
+	b=TWdPFr2//HtZicNh9z8+ITjlmPCzAwgYj4tTdhMQAp7pKXAZNHj/FDuWXc0mA91Ze6
+	Rf4INDATPOlE3CF11b5fawU9+dfxJDKJp+SPcrL3xzPEI4dX4JaLVnANpd7k5/3OFX5H
+	fM3SdeAkgnOrbsC/ulC1E/0Z9PFjJvN6wFVfpEt33+CsA8zeaqWawMb48LaoPVrKCHFC
+	m1ctytci+gPwH1w8c3PDlsjrUm37NMOaNvnefWaPdADPJ+DMsULjhhuLS9wyFaDxOOwk
+	Q+Qpm7jhdzbgyAij5bBxccNnx8XiRluOMU+bgZyO/XA5oNtKn0YnQe2jtxo7TUjDmj0r
+	L5BQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=YUhLle3upr3BA/ACCHi8vMPoFlvtde0BaVcAb2EuDic=;
+	b=RokySfC+2htMXQsZ0EAMwF0zu3XZlCBp8Sv3DgBOzd6Jfrb5sWjbx1wfP6QEOLzVac
+	yvmZO8gj00Chqp7xjhNFvS/e/nU5ajE0ntSdq0a/s9WZo2buS+mpSSf41EsUSTiAAzSN
+	sfi5uJ2XOy6or1ojcgROf62AgW+nEbvdVwwr+EKBUdTWiiN2O+V0tD1gJG2SQmOb4mLM
+	juMdqKzQikRIFlRT3B7aEPkTIkRLQ8KFVysIfFEE9zDrua5GgS1pUhq0DIEs0c4tZYQe
+	HjUd1EBrGPgXSLuedn5P4rfC+IBQSUGxIrK1RUQKmlbVP14dRjS0Rs7BGKhwa0evxrCw
+	5MCg==
+X-Gm-Message-State: ALyK8tIkX8FxZwca4bi2cxp8lxP9gnm9gTmj9U8DRPgPjkQeTobXLqF7SO9X+cGZlhq2sMlht+/MrxYS6KXjeBhH
+X-Received: by 10.107.154.210 with SMTP id c201mr1687640ioe.99.1466158092379; 
+	Fri, 17 Jun 2016 03:08:12 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.162.6 with HTTP; Fri, 17 Jun 2016 03:07:52 -0700 (PDT)
+In-Reply-To: <CAHiDW_Fg2tZFYWxewuNFJakxfd_2iHVcp2KgUJnWPdZqxTKZRw@mail.gmail.com>
+References: <1466099108-25355-1-git-send-email-mark.asselstine@windriver.com>
+	<1466110195-5473-1-git-send-email-mark.asselstine@windriver.com>
+	<CAJTo0LaEQgDLM2vxL7tGW8oefR6Jc1gEkWoHz4J7DkAD7N=sEA@mail.gmail.com>
+	<CAJ86T=VA5n8==dM4v-AdToxkKfgTH3vTgOBijpJBYjcvygp_Jw@mail.gmail.com>
+	<CAHiDW_Fg2tZFYWxewuNFJakxfd_2iHVcp2KgUJnWPdZqxTKZRw@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 17 Jun 2016 11:07:52 +0100
+Message-ID: <CAJTo0LZUBa0p0QhyFBTaJF8fx0vb1USH+LToWy5BB3bEG0yiSw@mail.gmail.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Cc: OE-core <Openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC][PATCH] vte: bring back old version to support xfce4-terminal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,65 +57,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jun 2016 10:03:01 -0000
+X-List-Received-Date: Fri, 17 Jun 2016 10:08:12 -0000
+Content-Type: multipart/alternative; boundary=001a1140fab648362f053576886a
 
-Signed-off-by: Dmitriy Falko <d.falko@partner.samsung.com>
----
- meta/recipes-core/uclibc/uclibc-git.inc            |  1 +
- ...Alias-_obstack_free-to-fix-binutils-build.patch | 31 ++++++++++++++++++++++
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-core/uclibc/uclibc-git/0001-Alias-_obstack_free-to-fix-binutils-build.patch
+--001a1140fab648362f053576886a
+Content-Type: text/plain; charset=UTF-8
 
-diff --git a/meta/recipes-core/uclibc/uclibc-git.inc b/meta/recipes-core/uclibc/uclibc-git.inc
-index a56fa7c..ea1d37d 100644
---- a/meta/recipes-core/uclibc/uclibc-git.inc
-+++ b/meta/recipes-core/uclibc/uclibc-git.inc
-@@ -6,6 +6,7 @@ FILESEXTRAPATHS =. "${FILE_DIRNAME}/uclibc-git:"
- 
- SRC_URI = "git://uclibc-ng.org/git/uclibc-ng \
-         file://0001-Disable-lrount_tes-function.patch \
-+        file://0001-Alias-_obstack_free-to-fix-binutils-build.patch \
-         file://uClibc.machine \
-         file://uClibc.distro \
-         file://obstack.cfg \
-diff --git a/meta/recipes-core/uclibc/uclibc-git/0001-Alias-_obstack_free-to-fix-binutils-build.patch b/meta/recipes-core/uclibc/uclibc-git/0001-Alias-_obstack_free-to-fix-binutils-build.patch
-new file mode 100644
-index 0000000..50425af
---- /dev/null
-+++ b/meta/recipes-core/uclibc/uclibc-git/0001-Alias-_obstack_free-to-fix-binutils-build.patch
-@@ -0,0 +1,31 @@
-+From f795fc77a2cf90ce77707faddc93a51f736a4553 Mon Sep 17 00:00:00 2001
-+From: Dmitriy Falko <d.falko@partner.samsung.com>
-+Date: Fri, 17 Jun 2016 11:31:02 +0300
-+Subject: [PATCH] Alias _obstack_free to fix binutils build
-+
-+Signed-off-by: Dmitriy Falko <d.falko@partner.samsung.com>
-+---
-+ libc/misc/gnu/obstack.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/libc/misc/gnu/obstack.c b/libc/misc/gnu/obstack.c
-+index 38cfd83..2689263 100644
-+--- a/libc/misc/gnu/obstack.c
-++++ b/libc/misc/gnu/obstack.c
-+@@ -385,11 +385,11 @@ obstack_free (struct obstack *h, void *obj)
-+     abort ();
-+ }
-+ 
-+-# if 0
-++
-+ /* Older versions of libc used a function _obstack_free intended to be
-+    called by non-GCC compilers.  */
-+ strong_alias (obstack_free, _obstack_free)
-+-# endif
-++
-+ 
-+ int
-+ _obstack_memory_used (struct obstack *h)
-+-- 
-+2.7.4
-+
--- 
-2.7.4
+On 17 June 2016 at 07:37, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
 
+> > That's certainly a good argument for putting the old vte in meta-oe.
+>>
+>> The meta-oe layers generally have a higher priority than oe-core, so
+>> having an older version in meta-oe and a newer version in oe-core can
+>> lead to unexpected results.
+>>
+>>
+> As far as I know the versions are parallel installable so that should not
+> be a problem. I removed the old one as there was no need for it in oe-core.
+> Should have checked meta-oe as well, but there were just so many moving
+> parts to juggle here... The right solution should indeed be to add the old
+> one into the layer where it's needed.
+>
 
+If they're parallel installable then the resurrected vte could have the
+version in the PN so both can be installed at the same time, until
+everything has moved to the modern vte and the old one can die for good.
+
+Ross
+
+--001a1140fab648362f053576886a
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 17 June 2016 at 07:37, Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen@intel.com<=
+/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
+0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D""><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px =
+#ccc solid;padding-left:1ex"><span>&gt; That&#39;s certainly a good argumen=
+t for putting the old vte in meta-oe.<br>
+<br>
+</span>The meta-oe layers generally have a higher priority than oe-core, so=
+<br>
+having an older version in meta-oe and a newer version in oe-core can<br>
+lead to unexpected results.<br>
+<div><div><br></div></div></blockquote><div><br></div></span><div>As far as=
+ I know the versions are parallel installable so that should not be a probl=
+em. I removed the old one as there was no need for it in oe-core. Should ha=
+ve checked meta-oe as well, but there were just so many moving parts to jug=
+gle here... The right solution should indeed be to add the old one into the=
+ layer where it&#39;s needed.</div></blockquote><div><br></div><div>If they=
+&#39;re parallel installable then the resurrected vte could have the versio=
+n in the PN so both can be installed at the same time, until everything has=
+ moved to the modern vte and the old one can die for good.</div><div><br></=
+div><div>Ross</div></div></div></div>
+
+--001a1140fab648362f053576886a--
