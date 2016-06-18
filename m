@@ -1,33 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id CAD4D6FFD8
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-oi0-f43.google.com (mail-oi0-f43.google.com
+	[209.85.218.43])
+	by mail.openembedded.org (Postfix) with ESMTP id AFF616080F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jun 2016 22:10:33 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u5HMAU6u029730; Fri, 17 Jun 2016 23:10:30 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id woqyai-14MMR; Fri, 17 Jun 2016 23:10:30 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u5HMARqK029725
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 17 Jun 2016 23:10:28 +0100
-Message-ID: <1466201427.25557.39.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Christopher Larson <clarson@kergoth.com>, "Jolley, Stephen K"
-	<stephen.k.jolley@intel.com>
-Date: Fri, 17 Jun 2016 23:10:27 +0100
-In-Reply-To: <CABcZANkPQBWukZTtzz69JQZHOFRpnXyPV1BvP8Bv-CZqqRtSkA@mail.gmail.com>
-References: <9ADD3FDE8B189B4AA2F8A3C711F8155E5718DD13@fmsmsx111.amr.corp.intel.com>
-	<CABcZANkPQBWukZTtzz69JQZHOFRpnXyPV1BvP8Bv-CZqqRtSkA@mail.gmail.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
+	Sat, 18 Jun 2016 12:56:57 +0000 (UTC)
+Received: by mail-oi0-f43.google.com with SMTP id d132so153101061oig.1
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 18 Jun 2016 05:56:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=G1Xy6vkck/WciBfUA+co57vBClSwWIT7GlgyYayXOVA=;
+	b=0nGbt8pZD4wtavj4NnBJML0M7+AqJ4kxc1uC3NMFS8/hewLnd3MRHX9PLQ7YmSkbJv
+	ghTRiopae1uYqD2WhxVIq1X0Goq91rdg+d5UoCW4ZEON0SqccrHILhxbCHbekDQgzODt
+	EISAK2F31cfLM3IJVVYafSh5WVrEmotHViNX0kyeeusFBLvjRixyA3eGJKjRFCtHf9PM
+	bL2ypi58bh6v1cKIyuLXr5f1TxTqPGj7DqxGwi+0+S3LTK18rmImiS5m7V/zcd0rWDh7
+	kwAa87tjc2YBR/d99EH96VZH+OuLE6jnYGPLWPJqX0I7CcfXZyFfM7dns0umnPBD23jc
+	Spkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=G1Xy6vkck/WciBfUA+co57vBClSwWIT7GlgyYayXOVA=;
+	b=eDnRwI/a3NAuQZapART4dpS9Q4/AujNTHsS3c8Hrjda3A8SsSu6w7nUpvhIb41ZT62
+	BBjp51hxYF+XerGUUsGeADeexhpiX+g6Fj+RGlaXHuEKPJ+t5K13Sb7MzFHfFinWBUHC
+	Vwms1HH3S2coLbw9AFMFJ3Uq3zR0pQt7jF0V4DPuf2Ck8NF9mXs5iNRL7aPWIT9cmcQs
+	XZaSvdLccWKxn/Dvvb77wuQbuANiD/iiyDl/OP14pk35vsRr4cAwxdoZFWyZc7bX/N+0
+	3/2gYJ/438S96XGgghP73EBOogpIG0tfI5qYfp0odQJUJ5zMlcL+GSOpz3+3iJVMHvYG
+	WX7g==
+X-Gm-Message-State: ALyK8tKe4Rue7QySPap3N9rKHRH6gNE1gDrztBsTsgFc3Rl0dv7aaX2Teu0f6zZ/+oEwVXrMmJDufCRXfSyxeG0u
+X-Received: by 10.202.197.214 with SMTP id v205mr3402364oif.63.1466254617551; 
+	Sat, 18 Jun 2016 05:56:57 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.202.61.5 with HTTP; Sat, 18 Jun 2016 05:56:28 -0700 (PDT)
+In-Reply-To: <1466175677-27464-1-git-send-email-jpardeiro@rapyuta-robotics.com>
+References: <1466175677-27464-1-git-send-email-jpardeiro@rapyuta-robotics.com>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Sat, 18 Jun 2016 15:56:28 +0300
+Message-ID: <CAHiDW_GLHV0Kzk5mYpXqKs0w0LfncThfp1DbhzVndzCMm4Ftdw@mail.gmail.com>
+To: Jose Pardeiro <jpardeiro@rapyuta-robotics.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Yocto Project Status WW25
+Subject: Re: [PATCH v2] cmake.bbclass: set the modules directory correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,33 +54,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jun 2016 22:10:34 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 18 Jun 2016 12:56:57 -0000
+Content-Type: multipart/alternative; boundary=001a113e388ca13e6805358d012a
 
-On Fri, 2016-06-17 at 14:42 -0700, Christopher Larson wrote:
-> On Fri, Jun 17, 2016 at 8:31 AM, Jolley, Stephen K <
-> stephen.k.jolley@intel.com> wrote:
-> > ·        There is a multilib issue related to the layout of the
-> > host libraries leaking into python’s build process which we’re
-> > struggling to debug
-> Could I get some details on this? I've seen something like this where
-> cmake and automake are relying on sys.lib from python3-native/python
-> -native to determine the sitepackages directory, is that the behavior
-> others are hitting? So python modules end up in /usr/lib/ rather than
-> /usr/lib64/, for example?
-> 
-> If that's the issue in question, the issue is the mismatch between
-> the native sys.lib and target. We already patch automake to fall back
-> to using our libdir + python version to determine the path, but only
-> if it wasn't able to use sys.lib to do so. If we change that to
-> always use libdir+python version, it should fix the automake
-> packages. Then we might need to patch FindPythonLibs in cmake to do
-> the same. I'm testing the automake change locally now.
+--001a113e388ca13e6805358d012a
+Content-Type: text/plain; charset=UTF-8
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=9717 is the bug
+On 17 June 2016 at 18:01, Jose Pardeiro <jpardeiro@rapyuta-robotics.com>
+wrote:
+>
+> The CMake recipes contain a mismatch between the environmental variable
+> which defines where the Modules are installed and the location where they
+> actually are. This patch fixes the environmental variable to point to the
+> proper folder defined according to the cmake version.
+>
+> Signed-off-by: Jose Pardeiro <jpardeiro@rapyuta-robotics.com>
+> ---
+>  meta/classes/cmake.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+> index e788310..6dbac2b 100644
+> --- a/meta/classes/cmake.bbclass
+> +++ b/meta/classes/cmake.bbclass
+> @@ -74,7 +74,7 @@ set( ENV{QT_CONF_PATH} ${WORKDIR}/qt.conf )
+>  set( CMAKE_INSTALL_RPATH ${OECMAKE_RPATH} )
+>
+>  # Use native cmake modules
+> -list(APPEND CMAKE_MODULE_PATH "${STAGING_DATADIR}/cmake/Modules/")
+> +list(APPEND CMAKE_MODULE_PATH
+"${STAGING_DATADIR}/cmake-\${CMAKE_MAJOR_VERSION}.\${CMAKE_MINOR_VERSION}/Modules/"
 
-Cheers,
 
-Richard
+This broke "bitbake cmake":
 
+| CMake Error at
+/home/jku/src/poky/build/tmp/work/core2-64-poky-linux/cmake/3.5.2-r0/toolchain.cmake:34
+(list):
+|   Syntax error in cmake code at
+|
+|
+/home/jku/src/poky/build/tmp/work/core2-64-poky-linux/cmake/3.5.2-r0/toolchain.cmake:34
+|
+|   when parsing string
+|
+|
+/home/jku/src/poky/build/tmp/sysroots/qemux86-64/usr/share/cmake-\3.5.${CMAKE_MINOR_VERSION}/Modules/
+|
+|   Invalid character escape '\3'.
+| Call Stack (most recent call first):
+|
+/home/jku/src/poky/build/tmp/sysroots/x86_64-linux/usr/share/cmake-3.5/Modules/CMakeDetermineSystem.cmake:98
+(include)
+|   CMakeLists.txt:19 (project)
+
+
+>
+>
+>
+>  # add for non /usr/lib libdir, e.g. /usr/lib64
+>  set( CMAKE_LIBRARY_PATH ${libdir} ${base_libdir})
+> --
+> 1.9.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--001a113e388ca13e6805358d012a
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On 17 June 2016 at 18:01, Jose Pardeiro &lt;<a href=3D"mai=
+lto:jpardeiro@rapyuta-robotics.com">jpardeiro@rapyuta-robotics.com</a>&gt; =
+wrote:<br>&gt;<br>&gt; The CMake recipes contain a mismatch between the env=
+ironmental variable<br>&gt; which defines where the Modules are installed a=
+nd the location where they<br>&gt; actually are. This patch fixes the envir=
+onmental variable to point to the<br>&gt; proper folder defined according t=
+o the cmake version.<br>&gt;<br>&gt; Signed-off-by: Jose Pardeiro &lt;<a hr=
+ef=3D"mailto:jpardeiro@rapyuta-robotics.com">jpardeiro@rapyuta-robotics.com=
+</a>&gt;<br>&gt; ---<br>&gt; =C2=A0meta/classes/cmake.bbclass | 2 +-<br>&gt=
+; =C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>&gt;<br>&gt; diff =
+--git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass<br>&gt; ind=
+ex e788310..6dbac2b 100644<br>&gt; --- a/meta/classes/cmake.bbclass<br>&gt;=
+ +++ b/meta/classes/cmake.bbclass<br>&gt; @@ -74,7 +74,7 @@ set( ENV{QT_CON=
+F_PATH} ${WORKDIR}/qt.conf )<br>&gt; =C2=A0set( CMAKE_INSTALL_RPATH ${OECMA=
+KE_RPATH} )<br>&gt;<br>&gt; =C2=A0# Use native cmake modules<br>&gt; -list(=
+APPEND CMAKE_MODULE_PATH &quot;${STAGING_DATADIR}/cmake/Modules/&quot;)<br>=
+&gt; +list(APPEND CMAKE_MODULE_PATH &quot;${STAGING_DATADIR}/cmake-\${CMAKE=
+_MAJOR_VERSION}.\${CMAKE_MINOR_VERSION}/Modules/&quot;<br><br><br>This brok=
+e &quot;bitbake cmake&quot;:<br><br>| CMake Error at /home/jku/src/poky/bui=
+ld/tmp/work/core2-64-poky-linux/cmake/3.5.2-r0/toolchain.cmake:34 (list):<b=
+r>| =C2=A0 Syntax error in cmake code at<br>| <br>| =C2=A0 =C2=A0 /home/jku=
+/src/poky/build/tmp/work/core2-64-poky-linux/cmake/3.5.2-r0/toolchain.cmake=
+:34<br>| <br>| =C2=A0 when parsing string<br>| <br>| =C2=A0 =C2=A0 /home/jk=
+u/src/poky/build/tmp/sysroots/qemux86-64/usr/share/cmake-\3.5.${CMAKE_MINOR=
+_VERSION}/Modules/<br>| <br>| =C2=A0 Invalid character escape &#39;\3&#39;.=
+<br>| Call Stack (most recent call first):<br>| =C2=A0 /home/jku/src/poky/b=
+uild/tmp/sysroots/x86_64-linux/usr/share/cmake-3.5/Modules/CMakeDetermineSy=
+stem.cmake:98 (include)<br>| =C2=A0 CMakeLists.txt:19 (project)<br><br><div=
+>=C2=A0<br>&gt;<br>&gt; =C2=A0<br>&gt;<br>&gt; =C2=A0# add for non /usr/lib=
+ libdir, e.g. /usr/lib64<br>&gt; =C2=A0set( CMAKE_LIBRARY_PATH ${libdir} ${=
+base_libdir})<br>&gt; --<br>&gt; 1.9.1<br>&gt;<br>&gt; --<br>&gt; _________=
+______________________________________<br>&gt; Openembedded-core mailing li=
+st<br>&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Open=
+embedded-core@lists.openembedded.org</a><br>&gt; <a href=3D"http://lists.op=
+enembedded.org/mailman/listinfo/openembedded-core">http://lists.openembedde=
+d.org/mailman/listinfo/openembedded-core</a></div></div>
+
+--001a113e388ca13e6805358d012a--
