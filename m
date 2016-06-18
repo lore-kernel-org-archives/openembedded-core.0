@@ -1,47 +1,56 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-oi0-f43.google.com (mail-oi0-f43.google.com
-	[209.85.218.43])
-	by mail.openembedded.org (Postfix) with ESMTP id AFF616080F
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 9880470100
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Jun 2016 12:56:57 +0000 (UTC)
-Received: by mail-oi0-f43.google.com with SMTP id d132so153101061oig.1
+	Sat, 18 Jun 2016 13:13:23 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id c82so818913wme.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Jun 2016 05:56:58 -0700 (PDT)
+	Sat, 18 Jun 2016 06:13:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=G1Xy6vkck/WciBfUA+co57vBClSwWIT7GlgyYayXOVA=;
-	b=0nGbt8pZD4wtavj4NnBJML0M7+AqJ4kxc1uC3NMFS8/hewLnd3MRHX9PLQ7YmSkbJv
-	ghTRiopae1uYqD2WhxVIq1X0Goq91rdg+d5UoCW4ZEON0SqccrHILhxbCHbekDQgzODt
-	EISAK2F31cfLM3IJVVYafSh5WVrEmotHViNX0kyeeusFBLvjRixyA3eGJKjRFCtHf9PM
-	bL2ypi58bh6v1cKIyuLXr5f1TxTqPGj7DqxGwi+0+S3LTK18rmImiS5m7V/zcd0rWDh7
-	kwAa87tjc2YBR/d99EH96VZH+OuLE6jnYGPLWPJqX0I7CcfXZyFfM7dns0umnPBD23jc
-	Spkw==
+	d=dominion-thruhere-net.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=EovxkgMeZ228H1Te+r+6Ci1LRDqwtoP+kfVTbLVQp/Y=;
+	b=Wufv6vrDaAERRixemMWFIRWyI/Cavcc8o5ZbXxEwqqTw2WDCPe+rUWvhEqzCZUb64Q
+	45B3cvtY7Wmt+35q9Y9Z7y9bUt/Mq9lfOlmEFArYzhNMqjKbbvjeRdUzZ3IzfS5X19rC
+	44QSQllhykd8cSlDvBof3qhtizM0sAwHh7FXuI4OGZ/G2Wd0nN4WpwsAWSTQcjIKswAm
+	eTe4qc8s+1bemFTtlVIxvx4upMI/+6r1QQn4EkoRe3/O94hDgUd/CfMf1x+996lnntqp
+	Zn77+vLBunFiLF8FXgeAgA95YT9E60mDikJ52cSJQRxMjc4qp0zCi8Gmz5oFHdbyHPNA
+	MpNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=G1Xy6vkck/WciBfUA+co57vBClSwWIT7GlgyYayXOVA=;
-	b=eDnRwI/a3NAuQZapART4dpS9Q4/AujNTHsS3c8Hrjda3A8SsSu6w7nUpvhIb41ZT62
-	BBjp51hxYF+XerGUUsGeADeexhpiX+g6Fj+RGlaXHuEKPJ+t5K13Sb7MzFHfFinWBUHC
-	Vwms1HH3S2coLbw9AFMFJ3Uq3zR0pQt7jF0V4DPuf2Ck8NF9mXs5iNRL7aPWIT9cmcQs
-	XZaSvdLccWKxn/Dvvb77wuQbuANiD/iiyDl/OP14pk35vsRr4cAwxdoZFWyZc7bX/N+0
-	3/2gYJ/438S96XGgghP73EBOogpIG0tfI5qYfp0odQJUJ5zMlcL+GSOpz3+3iJVMHvYG
-	WX7g==
-X-Gm-Message-State: ALyK8tKe4Rue7QySPap3N9rKHRH6gNE1gDrztBsTsgFc3Rl0dv7aaX2Teu0f6zZ/+oEwVXrMmJDufCRXfSyxeG0u
-X-Received: by 10.202.197.214 with SMTP id v205mr3402364oif.63.1466254617551; 
-	Sat, 18 Jun 2016 05:56:57 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.202.61.5 with HTTP; Sat, 18 Jun 2016 05:56:28 -0700 (PDT)
-In-Reply-To: <1466175677-27464-1-git-send-email-jpardeiro@rapyuta-robotics.com>
-References: <1466175677-27464-1-git-send-email-jpardeiro@rapyuta-robotics.com>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Sat, 18 Jun 2016 15:56:28 +0300
-Message-ID: <CAHiDW_GLHV0Kzk5mYpXqKs0w0LfncThfp1DbhzVndzCMm4Ftdw@mail.gmail.com>
-To: Jose Pardeiro <jpardeiro@rapyuta-robotics.com>
+	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=EovxkgMeZ228H1Te+r+6Ci1LRDqwtoP+kfVTbLVQp/Y=;
+	b=FXY/dv+kPv9pgPyYS5SOKhiRlJh/qODFw2fOQ1zDtkrCxWuUmtFRN5MGxxoxh4qxRS
+	h6PzKDoeEzfuHQxJhL2K4gOylSyELFdk472IlEet3ruZEwMNK4nU5IQqfJxh4nlJd2KJ
+	oZWoJzWcYjpWsI/3J6uQmhBbVceR6d8HFMJVT+FY8EHMtlDpKlLuwXGPEjrvIqpxgjjp
+	kCSZ3Re7FLOE1bsAo3G1pO1HWnNk6YROmJ/0RyZoBy0W/OHPD6nTwAK5Q0uIbiOQgHT8
+	G6onACz1/l0pdC6wuiKAd0y48rDpsNV36DqXkH/wvq/hB5ILZUT91TUEo9DTdNcPQ4Db
+	ajvg==
+X-Gm-Message-State: ALyK8tKPOcbgBLc5Bv3LQbLUCvsXW/KjCnZiWioGjdmoBKCnARdcFHF6UnfmANGXdzM6Ow==
+X-Received: by 10.28.46.141 with SMTP id u135mr3015182wmu.74.1466255603464;
+	Sat, 18 Jun 2016 06:13:23 -0700 (PDT)
+Received: from [172.20.0.187] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by smtp.gmail.com with ESMTPSA id
+	v70sm3659656wmf.18.2016.06.18.06.13.22
+	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sat, 18 Jun 2016 06:13:22 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1465045799.13979.33.camel@linuxfoundation.org>
+Date: Sat, 18 Jun 2016 15:08:04 +0200
+Message-Id: <F5F5FC08-7E44-4648-A769-EC4D8F4D9EB7@dominion.thruhere.net>
+References: <1464025857-23995-1-git-send-email-koen.kooi@linaro.org>
+	<0FCEA83D-C569-48F0-AFAA-2E9D5BD96820@dominion.thruhere.net>
+	<32A5DABC-B911-4C2E-B9CD-A520BCA395EC@dominion.thruhere.net>
+	<1465045799.13979.33.camel@linuxfoundation.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Mailer: Apple Mail (2.3124)
 Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] cmake.bbclass: set the modules directory correctly
+	<openembedded-core@lists.openembedded.org>,
+	Koen Kooi <koen.kooi@linaro.org>
+Subject: Re: [PATCH] Revert "image.bbclass: don't execute compression commands multiple times"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,114 +63,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 Jun 2016 12:56:57 -0000
-Content-Type: multipart/alternative; boundary=001a113e388ca13e6805358d012a
-
---001a113e388ca13e6805358d012a
-Content-Type: text/plain; charset=UTF-8
-
-On 17 June 2016 at 18:01, Jose Pardeiro <jpardeiro@rapyuta-robotics.com>
-wrote:
->
-> The CMake recipes contain a mismatch between the environmental variable
-> which defines where the Modules are installed and the location where they
-> actually are. This patch fixes the environmental variable to point to the
-> proper folder defined according to the cmake version.
->
-> Signed-off-by: Jose Pardeiro <jpardeiro@rapyuta-robotics.com>
-> ---
->  meta/classes/cmake.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-> index e788310..6dbac2b 100644
-> --- a/meta/classes/cmake.bbclass
-> +++ b/meta/classes/cmake.bbclass
-> @@ -74,7 +74,7 @@ set( ENV{QT_CONF_PATH} ${WORKDIR}/qt.conf )
->  set( CMAKE_INSTALL_RPATH ${OECMAKE_RPATH} )
->
->  # Use native cmake modules
-> -list(APPEND CMAKE_MODULE_PATH "${STAGING_DATADIR}/cmake/Modules/")
-> +list(APPEND CMAKE_MODULE_PATH
-"${STAGING_DATADIR}/cmake-\${CMAKE_MAJOR_VERSION}.\${CMAKE_MINOR_VERSION}/Modules/"
+X-List-Received-Date: Sat, 18 Jun 2016 13:13:23 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
-This broke "bitbake cmake":
+> Op 4 jun. 2016, om 15:09 heeft Richard Purdie =
+<richard.purdie@linuxfoundation.org> het volgende geschreven:
+>=20
+> On Sat, 2016-06-04 at 10:41 +0200, Koen Kooi wrote:
+>> ping 2
+>=20
+> It would be helpful if you'd cc'd the person who's patch you were
+> suggesting we revert. I added Sasha to cc.
 
-| CMake Error at
-/home/jku/src/poky/build/tmp/work/core2-64-poky-linux/cmake/3.5.2-r0/toolchain.cmake:34
-(list):
-|   Syntax error in cmake code at
-|
-|
-/home/jku/src/poky/build/tmp/work/core2-64-poky-linux/cmake/3.5.2-r0/toolchain.cmake:34
-|
-|   when parsing string
-|
-|
-/home/jku/src/poky/build/tmp/sysroots/qemux86-64/usr/share/cmake-\3.5.${CMAKE_MINOR_VERSION}/Modules/
-|
-|   Invalid character escape '\3'.
-| Call Stack (most recent call first):
-|
-/home/jku/src/poky/build/tmp/sysroots/x86_64-linux/usr/share/cmake-3.5/Modules/CMakeDetermineSystem.cmake:98
-(include)
-|   CMakeLists.txt:19 (project)
+Since the original committer has shown zero interest in responding here =
+or fixing the problem in the past month, can you please commit this? =
+This fixes a clear regression, which alone should have been reason =
+enough to commit this.
 
 
->
->
->
->  # add for non /usr/lib libdir, e.g. /usr/lib64
->  set( CMAKE_LIBRARY_PATH ${libdir} ${base_libdir})
-> --
-> 1.9.1
->
-> --
+>=20
+> I've seen multiple different conflicting patches regarding the image
+> types code and I've not had a chance to try and figure out what the
+> real set of problems are and which of the various proposed patches =
+make
+> things worse or better.
+>=20
+> Until someone can explain clearly to me what the problems are and how
+> we move forward, or I find time to dig into it myself, we're a bit
+> stuck :/. I just mention this since I expect you're getting frustrated
+> hearing nothing. This has been flagged in my inbox, I'm just lacking
+> the time to do everything I'd like :(
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
+>>> Op 30 mei 2016, om 13:28 heeft Koen Kooi <
+>>> koen@dominion.thruhere.net> het volgende geschreven:
+>>>=20
+>>> ping
+>>>=20
+>>>> Op 23 mei 2016, om 19:50 heeft Koen Kooi <koen.kooi@linaro.org>
+>>>> het volgende geschreven:
+>>>>=20
+>>>> The commit breaks image_types_uboot.bbclass:
+>>>>=20
+>>>> ERROR: Logfile of failure stored in:
+>>>> /build/linaro/build/build/tmp-glibc/work/genericarmv8-oe
+>>>> -linux/linaro-image-minimal-initramfs/1.0
+>>>> -r0/temp/log.do_image_cpio.16506
+>>>> Log data follows:
+>>>>> DEBUG: Executing python function set_image_size
+>>>>> DEBUG: Python function set_image_size finished
+>>>>> DEBUG: Executing shell function do_image_cpio
+>>>>> 31373 blocks
+>>>>> Image Name:   linaro-image-minimal-initramfs-g
+>>>>> Created:      Mon May 23 19:38:56 2016
+>>>>> Image Type:   ARM Linux RAMDisk Image (gzip compressed)
+>>>>> Data Size:    7326620 Bytes =3D 7154.90 kB =3D 6.99 MB
+>>>>> Load Address: 00000000
+>>>>> Entry Point:  00000000
+>>>>> mkimage: Can't open /build/linaro/build/build/tmp
+>>>>> -glibc/deploy/images/genericarmv8/linaro-image-minimal
+>>>>> -initramfs-genericarmv8-20160523173835.rootfs.cpio.gz: No such
+>>>>> file or directory
+>>>>=20
+>>>> This reverts commit 94f61c2682e5cfd819ac84535650c3e0a654415a.
+>>>>=20
+>>>> Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+>>>> ---
+>>>> meta/classes/image.bbclass | 8 ++------
+>>>> 1 file changed, 2 insertions(+), 6 deletions(-)
+>>>>=20
+>>>> diff --git a/meta/classes/image.bbclass
+>>>> b/meta/classes/image.bbclass
+>>>> index 9f4c83f..df3bd3a 100644
+>>>> --- a/meta/classes/image.bbclass
+>>>> +++ b/meta/classes/image.bbclass
+>>>> @@ -410,13 +410,9 @@ python () {
+>>>>                   # Create input image first.
+>>>>                   gen_conversion_cmds(type)
+>>>>                   localdata.setVar('type', type)
+>>>> -                    cmd =3D "\t" +
+>>>> localdata.getVar("COMPRESS_CMD_" + ctype, True)
+>>>> -                    if cmd not in cmds:
+>>>> -                        cmds.append(cmd)
+>>>> +                    cmds.append("\t" +
+>>>> localdata.getVar("COMPRESS_CMD_" + ctype, True))
+>>>>                   vardeps.add('COMPRESS_CMD_' + ctype)
+>>>> -                    subimage =3D type + "." + ctype
+>>>> -                    if subimage not in subimages:
+>>>> -                        subimages.append(subimage)
+>>>> +                    subimages.append(type + "." + ctype)
+>>>>                   if type not in alltypes:
+>>>>=20
+>>>> rm_tmp_images.add(localdata.expand("${IMAGE_NAME}${IMAGE_NAME_SU
+>>>> FFIX}.${type}"))
+>>>>=20
+>>>> --=20
+>>>> 2.4.3
+>>>>=20
+>>>> --=20
+>>>> _______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org
+>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>>=20
+>>>=20
+>>=20
+> --=20
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---001a113e388ca13e6805358d012a
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">On 17 June 2016 at 18:01, Jose Pardeiro &lt;<a href=3D"mai=
-lto:jpardeiro@rapyuta-robotics.com">jpardeiro@rapyuta-robotics.com</a>&gt; =
-wrote:<br>&gt;<br>&gt; The CMake recipes contain a mismatch between the env=
-ironmental variable<br>&gt; which defines where the Modules are installed a=
-nd the location where they<br>&gt; actually are. This patch fixes the envir=
-onmental variable to point to the<br>&gt; proper folder defined according t=
-o the cmake version.<br>&gt;<br>&gt; Signed-off-by: Jose Pardeiro &lt;<a hr=
-ef=3D"mailto:jpardeiro@rapyuta-robotics.com">jpardeiro@rapyuta-robotics.com=
-</a>&gt;<br>&gt; ---<br>&gt; =C2=A0meta/classes/cmake.bbclass | 2 +-<br>&gt=
-; =C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>&gt;<br>&gt; diff =
---git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass<br>&gt; ind=
-ex e788310..6dbac2b 100644<br>&gt; --- a/meta/classes/cmake.bbclass<br>&gt;=
- +++ b/meta/classes/cmake.bbclass<br>&gt; @@ -74,7 +74,7 @@ set( ENV{QT_CON=
-F_PATH} ${WORKDIR}/qt.conf )<br>&gt; =C2=A0set( CMAKE_INSTALL_RPATH ${OECMA=
-KE_RPATH} )<br>&gt;<br>&gt; =C2=A0# Use native cmake modules<br>&gt; -list(=
-APPEND CMAKE_MODULE_PATH &quot;${STAGING_DATADIR}/cmake/Modules/&quot;)<br>=
-&gt; +list(APPEND CMAKE_MODULE_PATH &quot;${STAGING_DATADIR}/cmake-\${CMAKE=
-_MAJOR_VERSION}.\${CMAKE_MINOR_VERSION}/Modules/&quot;<br><br><br>This brok=
-e &quot;bitbake cmake&quot;:<br><br>| CMake Error at /home/jku/src/poky/bui=
-ld/tmp/work/core2-64-poky-linux/cmake/3.5.2-r0/toolchain.cmake:34 (list):<b=
-r>| =C2=A0 Syntax error in cmake code at<br>| <br>| =C2=A0 =C2=A0 /home/jku=
-/src/poky/build/tmp/work/core2-64-poky-linux/cmake/3.5.2-r0/toolchain.cmake=
-:34<br>| <br>| =C2=A0 when parsing string<br>| <br>| =C2=A0 =C2=A0 /home/jk=
-u/src/poky/build/tmp/sysroots/qemux86-64/usr/share/cmake-\3.5.${CMAKE_MINOR=
-_VERSION}/Modules/<br>| <br>| =C2=A0 Invalid character escape &#39;\3&#39;.=
-<br>| Call Stack (most recent call first):<br>| =C2=A0 /home/jku/src/poky/b=
-uild/tmp/sysroots/x86_64-linux/usr/share/cmake-3.5/Modules/CMakeDetermineSy=
-stem.cmake:98 (include)<br>| =C2=A0 CMakeLists.txt:19 (project)<br><br><div=
->=C2=A0<br>&gt;<br>&gt; =C2=A0<br>&gt;<br>&gt; =C2=A0# add for non /usr/lib=
- libdir, e.g. /usr/lib64<br>&gt; =C2=A0set( CMAKE_LIBRARY_PATH ${libdir} ${=
-base_libdir})<br>&gt; --<br>&gt; 1.9.1<br>&gt;<br>&gt; --<br>&gt; _________=
-______________________________________<br>&gt; Openembedded-core mailing li=
-st<br>&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Open=
-embedded-core@lists.openembedded.org</a><br>&gt; <a href=3D"http://lists.op=
-enembedded.org/mailman/listinfo/openembedded-core">http://lists.openembedde=
-d.org/mailman/listinfo/openembedded-core</a></div></div>
-
---001a113e388ca13e6805358d012a--
