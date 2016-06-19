@@ -1,25 +1,46 @@
-Return-Path: <stephen.arnold42@gmail.com>
-Received: from gatekeeper.gentoogeek.org (gatekeeper.gentoogeek.org
-	[66.159.242.209])
-	by mail.openembedded.org (Postfix) with ESMTP id 09E686FF3D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
+	[209.85.223.171])
+	by mail.openembedded.org (Postfix) with ESMTP id AF3A365C8A
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Jun 2016 19:48:48 +0000 (UTC)
-Received: from prime.arnolds.bogus (prime.arnolds.bogus [192.168.0.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by gatekeeper.gentoogeek.org (Postfix) with ESMTPS id 182102126
+	Sun, 19 Jun 2016 19:51:34 +0000 (UTC)
+Received: by mail-io0-f171.google.com with SMTP id n127so115447911iof.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Jun 2016 12:48:48 -0700 (PDT)
-Received: from ptolemy.arnolds.bogus ([::ffff:192.168.0.11])
-	by prime.arnolds.bogus with ESMTP; Sun, 19 Jun 2016 12:48:43 -0700
-	id 0000000000241F19.5766F720.0000435F
-From: Stephen Arnold <sarnold@vctlabs.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 19 Jun 2016 12:40:13 -0700
-Message-Id: <1466365213-23167-1-git-send-email-sarnold@vctlabs.com>
-X-Mailer: git-send-email 2.8.1
-Cc: Stephen Arnold <nerdboy@gentoo.org>, Stephen Arnold <sarnold@vctlabs.com>
-Subject: [PATCH] qemu-native: set ld.bfd, fix cflags, and set some environment vars
+	Sun, 19 Jun 2016 12:51:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=3qsSe64HHeBHeZ8eoslnVriVhL8L1RNY6xu6h4bOmYc=;
+	b=L3Vs12kD8AyJ+xA7eXYibwVwfp05NvSwQyojSVAUBrqYTBQKsoNgXS/R5nLR3Gmhbq
+	PuyI7wf5fJFkNdSrOh+e+bE5soaffDiDpXx6INr3bmmwJoUbOqEUfA8ksJou6bb3SG0s
+	4JNJiSrWXLWJGJmOkkRAjNDjoW8IYPM3EPXHutC/Jsv6BXnmkNgfwsZStggDZdW+14jx
+	rGPBIhefORLNdj4B05tb5Gnfl/U+0iqd2JYGygDDzG0cT+rKMLT+iZPdIy/AF03dBWRl
+	G7R3PPgr0qAYN2bYCaD/AbsjHVccSRaemdb4/wYZ+te+xR/CLac0nTH1GYH5v/+pzstx
+	cWdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=3qsSe64HHeBHeZ8eoslnVriVhL8L1RNY6xu6h4bOmYc=;
+	b=gLQrpARJOndpOzbLCojhICpt29M6Cp7/UTzO64GNxyFf6feUUMMRya+6xHagHCQcF7
+	1GECC+GIGGizp0NqgPByPZZw638Qjz97SQUHWlsB30mhP3zgdWUE9SKOXoMRx1Y1oDbP
+	ZFfU7ELyxaIdKlw2wOsef8b4GmR6zGT+gukmQtCZwinkx65inbD7YIhFTYdo0ZWeLy9F
+	Vi+Oiq9RlyWOkJIDXNCEijtp5XfUUh6foAjOOSg5CGkvPBLUQvAfPV04bR2wxw3ondiG
+	J/Ivf5n+7ScZvLuxIHQlZqDpgdC/0UmR9yYzqh+gMBhszXV3foWCgPuY8OKT2YVr1v7x
+	gkBQ==
+X-Gm-Message-State: ALyK8tLwsEOg10sl8mS2bAqeoPHAWw/+xPR9atFBGc3bkBfrTX/YwwMYui9+m+XgfpWtJYXR9thF3GRELhJIVzsm
+X-Received: by 10.107.154.210 with SMTP id c201mr16879582ioe.99.1466365894956; 
+	Sun, 19 Jun 2016 12:51:34 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.162.6 with HTTP; Sun, 19 Jun 2016 12:51:15 -0700 (PDT)
+In-Reply-To: <1466329971.20368.18.camel@gmail.com>
+References: <1466329971.20368.18.camel@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Sun, 19 Jun 2016 20:51:15 +0100
+Message-ID: <CAJTo0LbtjhRL+ugz9sNjszXTePZ=R=R19vA1fQG-A5R1b7uDQg@mail.gmail.com>
+To: Max Krummenacher <max.oss.09@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: packageconfig, add depends if feature is disabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,112 +53,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Jun 2016 19:48:49 -0000
+X-List-Received-Date: Sun, 19 Jun 2016 19:51:37 -0000
+Content-Type: multipart/alternative; boundary=001a1140fab647abef0535a6ead4
 
-The main thing is build failures with gold linker, but qemu is also
-a little too aggressive at finding random tools on the build host, so
-we also set the build env for qemu-native and make sure it doesn't
-reset its own (hard-coded) cflags when we don't want it to.
+--001a1140fab647abef0535a6ead4
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Stephen Arnold <sarnold@vctlabs.com>
+On 19 June 2016 at 10:52, Max Krummenacher <max.oss.09@gmail.com> wrote:
 
-The cflags patch was imported from Gentoo Portage and has been
-manitained over several versions; this version was rebased against
-upstream qemu git.
+>     PACKAGECONFIG ?= "gtk3"
+>     PACKAGECONFIG[gtk2] = ",,gtk+"
+>     PACKAGECONFIG[gtk3] = "--enable-gtk3,,gtk+3"
+>
 
-Upstream-Status: Inappropriate
- - Patch addresses distribution maintenance and build environment
-   sanity.
+PACKAGECONFIGs are meant to be explicit so "thing which is enabled when
+something else is disabled" is obvious unless you write log comments
+explaining the options.
 
-Signed-off-by: Stephen Arnold <nerdboy@gentoo.org>
----
- meta/recipes-devtools/qemu/qemu.inc                | 13 +++++++--
- .../qemu/qemu/qemu-2.6.0-cflags.patch              | 31 ++++++++++++++++++++++
- meta/recipes-devtools/qemu/qemu_2.6.0.bb           |  1 +
- 3 files changed, 43 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/qemu/qemu/qemu-2.6.0-cflags.patch
+For example, what if PACKAGECONFIG was set to "" but gtk+ was already in
+the sysroot.  By the logic you've described that would result in your
+recipe being built with gtk+ despite being told not to, or maybe if gtk3 is
+autodetected first and that's also in the sysroot then gtk3 gets used
+instead.  You literally can't tell, and if bitbake can't tell then you'll
+have binary packages changing when they shouldn't be.
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index bf689bb..d5925fd 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -30,8 +30,12 @@ SRC_URI_append_class-native = "\
- 
- EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)} --disable-werror  --disable-bluez --disable-libiscsi --with-system-pixman --extra-cflags='${CFLAGS}'"
- 
--EXTRA_OECONF_class-nativesdk = "--target-list=${@get_qemu_target_list(d)} --disable-werror \
--				"
-+EXTRA_OECONF_class-nativesdk = "--target-list=${@get_qemu_target_list(d)} --disable-werror"
-+
-+EXTRA_OEMAKE_append_class-native = " LD='${LD}' AR='${AR}' OBJCOPY='${OBJCOPY}' LDFLAGS='${LDFLAGS}'"
-+
-+LDFLAGS_append_class-native = " -fuse-ld=bfd"
-+
- export LIBTOOL="${HOST_SYS}-libtool"
- 
- do_configure_prepend_class-native() {
-@@ -40,6 +44,11 @@ do_configure_prepend_class-native() {
- 	if [ ! -z "$BHOST_PKGCONFIG_PATH" ]; then
- 		export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$BHOST_PKGCONFIG_PATH
- 	fi
-+
-+	# Alter target makefiles to accept CFLAGS set via env
-+	sed -i -r \
-+		-e 's/^(C|OP_C|HELPER_C)FLAGS=/\1FLAGS+=/' \
-+		"${S}"/Makefile "${S}"/Makefile.target
- }
- 
- KVMENABLE = "--enable-kvm"
-diff --git a/meta/recipes-devtools/qemu/qemu/qemu-2.6.0-cflags.patch b/meta/recipes-devtools/qemu/qemu/qemu-2.6.0-cflags.patch
-new file mode 100644
-index 0000000..5b78edf
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/qemu-2.6.0-cflags.patch
-@@ -0,0 +1,31 @@
-+From 5d29baaf7a8c09f2f97231116e0f396b0402b23d Mon Sep 17 00:00:00 2001
-+From: Steve Arnold <stephen.arnold42@gmail.com>
-+Date: Sun, 19 Jun 2016 11:29:44 -0700
-+Subject: [PATCH] configure: remove hard-coded flags and let build env handle
-+ it
-+
-+Apply distribution patch for handling debug and fortify source options.
-+
-+Signed-off-by: Steve Arnold <nerdboy@gentoo.org>
-+---
-+ configure | 4 ----
-+ 1 file changed, 4 deletions(-)
-+
-+diff --git a/configure b/configure
-+index 10cb212..6f1b10c 100755
-+--- a/configure
-++++ b/configure
-+@@ -4539,10 +4539,6 @@ fi
-+ if test "$gcov" = "yes" ; then
-+   CFLAGS="-fprofile-arcs -ftest-coverage -g $CFLAGS"
-+   LDFLAGS="-fprofile-arcs -ftest-coverage $LDFLAGS"
-+-elif test "$fortify_source" = "yes" ; then
-+-  CFLAGS="-O2 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 $CFLAGS"
-+-elif test "$debug" = "no"; then
-+-  CFLAGS="-O2 $CFLAGS"
-+ fi
-+ 
-+ ##########################################
-+-- 
-+2.8.1
-+
-diff --git a/meta/recipes-devtools/qemu/qemu_2.6.0.bb b/meta/recipes-devtools/qemu/qemu_2.6.0.bb
-index e391326..62c509b 100644
---- a/meta/recipes-devtools/qemu/qemu_2.6.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_2.6.0.bb
-@@ -8,6 +8,7 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
-             file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch \
-             file://no-valgrind.patch \
-             file://pathlimit.patch \
-+            file://qemu-2.5.0-cflags.patch \
-            "
- SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
- SRC_URI[md5sum] = "ca3f70b43f093e33e9e014f144067f13"
--- 
-2.8.1
+Idiomatically you'd have - or expect - something like
 
+    PACKAGECONFIG ?= "gtk3"
+    PACKAGECONFIG[gtk2] = "--enable-gtk2,--disable-gtk2,gtk+"
+    PACKAGECONFIG[gtk3] = "--enable-gtk3,--disable-gtk3,gtk+3"
 
+If the upstream doesn't support this then you're hoping that they don't
+change the default values, or the configure doesn't attempt to auto-detect,
+or various other ways that having options with no enable or disable values
+can break.  At that point I'd actually fix upstream's configure and send a
+patch instead of attempting to work around it.
+
+Ross
+
+--001a1140fab647abef0535a6ead4
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 19 June 2016 at 10:52, Max Krummenacher <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:max.oss.09@gmail.com" target=3D"_blank">max.oss.09@gmail.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border=
+-left-style:solid;padding-left:1ex"><div id=3D":2zu" class=3D"">=C2=A0 =C2=
+=A0 PACKAGECONFIG ?=3D &quot;gtk3&quot;<br>
+=C2=A0 =C2=A0 PACKAGECONFIG[gtk2] =3D &quot;,,gtk+&quot;<br>
+=C2=A0 =C2=A0 PACKAGECONFIG[gtk3] =3D &quot;--enable-gtk3,,gtk+3&quot;</div=
+></blockquote></div><br>PACKAGECONFIGs are meant to be explicit so &quot;th=
+ing which is enabled when something else is disabled&quot; is obvious unles=
+s you write log comments explaining the options.</div><div class=3D"gmail_e=
+xtra"><br></div><div class=3D"gmail_extra">For example, what if PACKAGECONF=
+IG was set to &quot;&quot; but gtk+ was already in the sysroot.=C2=A0 By th=
+e logic you&#39;ve described that would result in your recipe being built w=
+ith gtk+ despite being told not to, or maybe if gtk3 is autodetected first =
+and that&#39;s also in the sysroot then gtk3 gets used instead.=C2=A0 You l=
+iterally can&#39;t tell, and if bitbake can&#39;t tell then you&#39;ll have=
+ binary packages changing when they shouldn&#39;t be.</div><div class=3D"gm=
+ail_extra"><br></div><div class=3D"gmail_extra">Idiomatically you&#39;d hav=
+e - or expect - something like</div><div class=3D"gmail_extra"><br></div>=
+=C2=A0 =C2=A0 PACKAGECONFIG ?=3D &quot;gtk3&quot;<br>=C2=A0 =C2=A0 PACKAGEC=
+ONFIG[gtk2] =3D &quot;--enable-gtk2,--disable-gtk2,gtk+&quot;<br>=C2=A0 =C2=
+=A0 PACKAGECONFIG[gtk3] =3D &quot;--enable-gtk3,--disable-gtk3,gtk+3&quot;<=
+div><br></div><div>If the upstream doesn&#39;t support this then you&#39;re=
+ hoping that they don&#39;t change the default values, or the configure doe=
+sn&#39;t attempt to auto-detect, or various other ways that having options =
+with no enable or disable values can break.=C2=A0 At that point I&#39;d act=
+ually fix upstream&#39;s configure and send a patch instead of attempting t=
+o work around it.</div><div><br></div><div>Ross</div></div>
+
+--001a1140fab647abef0535a6ead4--
