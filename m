@@ -1,36 +1,48 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 041C960043
+Return-Path: <max.oss.09@gmail.com>
+Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id C53E96FF6B
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Jun 2016 07:50:33 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u5J7oV3c016807; Sun, 19 Jun 2016 08:50:31 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id vEW_q_AYRkzB; Sun, 19 Jun 2016 08:50:31 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u5J7oQbY016804
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Sun, 19 Jun 2016 08:50:27 +0100
-Message-ID: <1466322626.3319.86.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Koen Kooi <koen.kooi@linaro.org>
-Date: Sun, 19 Jun 2016 08:50:26 +0100
-In-Reply-To: <24C09066-C7EA-47A6-8771-02E59FC60525@linaro.org>
-References: <1464025857-23995-1-git-send-email-koen.kooi@linaro.org>
-	<0FCEA83D-C569-48F0-AFAA-2E9D5BD96820@dominion.thruhere.net>
-	<32A5DABC-B911-4C2E-B9CD-A520BCA395EC@dominion.thruhere.net>
-	<1465045799.13979.33.camel@linuxfoundation.org>
-	<F5F5FC08-7E44-4648-A769-EC4D8F4D9EB7@dominion.thruhere.net>
-	<1466274078.3319.0.camel@linuxfoundation.org>
-	<24C09066-C7EA-47A6-8771-02E59FC60525@linaro.org>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+	Sun, 19 Jun 2016 09:52:53 +0000 (UTC)
+Received: by mail-wm0-f45.google.com with SMTP id a66so41088535wme.0
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 19 Jun 2016 02:52:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:subject:from:to:date:mime-version
+	:content-transfer-encoding;
+	bh=uS+ynNibcvgKP1JSEL8diWt1iWRktJNUFljSWue0PCQ=;
+	b=wEIteW1ZDMf3hfqKZXG5W2Wc6FO4IcKhQPpQB2G4yginVO9nh3neTfJZeKHi5X8oQ0
+	OQ/0wskWOehUV2UiyAYttIAVKERrHIxihhQdg/2b5JsN9CYZU99Xo7Ie/Sc8Uz91XcNb
+	T/a4qz9uNRpGzP54EtJ0vqVPDBGcvLuVAQ0Jeznfw79ttNb+F/ywHNzlco4+x3YVafUt
+	uUjYxdQv2MFjWmKUqKa6KKsKNelfWBXR+4CdZfJJnFsdZ+A34M+gzX1fuoDzxbBCd1ms
+	kxthAee0vyiiM3v6aiWA68mmefQE4IvOZPoWiB8jq/3W2ZdQJS2oJMsXgEPuQMKCPwyG
+	Ba5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:date:mime-version
+	:content-transfer-encoding;
+	bh=uS+ynNibcvgKP1JSEL8diWt1iWRktJNUFljSWue0PCQ=;
+	b=DqoPMlvwvVmILr/IBsF0887WZVcUQGiZSmnRrMT8jBj9r8WwXpP0IWjg1qq/O9oD4z
+	aCQpsdiv1RubJlFFfb6FYpTC8upWFfJu0YHuKAX+52FeTq9xw6dtAmKVqZMXqy0sAcl8
+	AflUQa8UvRlSRMREzQhNtHRdpqUTgNvxNmsgJ1qabCwBN08ujVX7HF9oXWpzpDEuWp2I
+	8GYd0B1cTx4GZVaVRKs05u/lO4r6jiPuLivgS6tImBK6Q1lTY3yvRTfacVxCJfedIs9v
+	pjlZt5oOQ18pVhpIM9V92oiMQvwyD4lb3ZXO8c1KmkxM/OjR4sNfIiH8RumeKkJeK8Xo
+	YH0Q==
+X-Gm-Message-State: ALyK8tLdhrgD0HNKP8P8S5hpYnAgJLIHZvTIZaRYGPtsscBgbNTm04zJq7hZqNI7Sq3+OQ==
+X-Received: by 10.28.191.90 with SMTP id p87mr5922587wmf.69.1466329973205;
+	Sun, 19 Jun 2016 02:52:53 -0700 (PDT)
+Received: from Saturn.local.all (212-41-125-187.adsl.solnet.ch.
+	[212.41.125.187]) by smtp.gmail.com with ESMTPSA id
+	qm9sm11955763wjc.36.2016.06.19.02.52.52
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 19 Jun 2016 02:52:52 -0700 (PDT)
+Message-ID: <1466329971.20368.18.camel@gmail.com>
+From: Max Krummenacher <max.oss.09@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 19 Jun 2016 11:52:51 +0200
+X-Mailer: Evolution 3.16.5 
 Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Revert "image.bbclass: don't execute compression commands multiple times"
+Subject: packageconfig, add depends if feature is disabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,52 +55,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Jun 2016 07:50:34 -0000
+X-List-Received-Date: Sun, 19 Jun 2016 09:52:54 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Sun, 2016-06-19 at 09:46 +0200, Koen Kooi wrote:
-> 
-> 
-> > Op 18 jun. 2016, om 20:21 heeft Richard Purdie <
-> > richard.purdie@linuxfoundation.org> het volgende geschreven:
-> > 
-> > On Sat, 2016-06-18 at 15:08 +0200, Koen Kooi wrote:
-> > > > Op 4 jun. 2016, om 15:09 heeft Richard Purdie <
-> > > > richard.purdie@linuxfoundation.org> het volgende geschreven:
-> > > > 
-> > > > On Sat, 2016-06-04 at 10:41 +0200, Koen Kooi wrote:
-> > > > > ping 2
-> > > > 
-> > > > It would be helpful if you'd cc'd the person who's patch you
-> > > > were
-> > > > suggesting we revert. I added Sasha to cc.
-> > > 
-> > > Since the original committer has shown zero interest in
-> > > responding
-> > > here or fixing the problem in the past month, can you please
-> > > commit
-> > > this? This fixes a clear regression, which alone should have been
-> > > reason enough to commit this.
-> > 
-> > Did 
-> > http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=7028192246552f
-> > d9e4aa3674da9c30670fd4ec86 fix this?
-> 
-> Don’t know since I use OE, not poky.
+Hi
 
-Ok. Let me paste the hash in "From OE-Core rev: 46bc438374de74af76d288520c6252c9b7840767"
-into a new url. I obviously have nothing better to do with my time.
+The recent unconditional move towards gtk3 in oe-core forces me to
+follow with some of my recipes.
 
-Did http://git.openembedded.org/openembedded-core/commit/?id=46bc438374de74af76d288520c6252c9b7840767
-fix this?
+I tried this with packageconfig, however there seems to be no easy way
+to specify DEPENDS in case a packageconfig feature is disabled.
+i.e. for gtk3 we need gtk+3 in depends while for gtk2 we need gtk+.
+I ended up with:
 
-Or in case you also don't have a web browser, did revision in the
-openembedded-core repository with hash 
-46bc438374de74af76d288520c6252c9b7840767 fix this issue?
+    PACKAGECONFIG ?= "gtk3"
+    PACKAGECONFIG[gtk3] = "--enable-gtk3,,gtk+3"
+    python __anonymous () {
+        depends = d.getVar("DEPENDS", d, 1)
+        if 'gtk3' not in d.getVar('PACKAGECONFIG', True):
+            d.setVar("DEPENDS", "%s gtk+" % depends)
+    }
 
-Cheers,
+The following would also be possible but then nothing makes sure that
+one, and exactly one of gtk2, gtk3 is in PACKAGECONFIG.
 
-Richard
+    PACKAGECONFIG ?= "gtk3"
+    PACKAGECONFIG[gtk2] = ",,gtk+"
+    PACKAGECONFIG[gtk3] = "--enable-gtk3,,gtk+3"
 
+Any ideas?
+Would this use case merit an extension to packageconfig, e.g.:
+
+    # PACKAGECONFIG ??= "<default options>"
+    # PACKAGECONFIG[foo] = "--enable-foo,--disable-foo,
+                            foo_depends,foo_runtime_depends,
+                            not_foo_depends,not_foo_rdepends"
+
+Which would simplify the above to:
+
+    PACKAGECONFIG ?= "gtk3"
+    PACKAGECONFIG[gtk3] = "--enable-gtk3,,gtk+3,,gtk+"
+
+Regards
+Max
 
