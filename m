@@ -1,48 +1,29 @@
-Return-Path: <max.oss.09@gmail.com>
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id C53E96FF6B
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
+	by mail.openembedded.org (Postfix) with ESMTP id A4FC160107
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Jun 2016 09:52:53 +0000 (UTC)
-Received: by mail-wm0-f45.google.com with SMTP id a66so41088535wme.0
+	Sun, 19 Jun 2016 13:26:03 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
+	via TCP (outbound) with ESMTPS id 20160619132602872_0685
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Jun 2016 02:52:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:subject:from:to:date:mime-version
-	:content-transfer-encoding;
-	bh=uS+ynNibcvgKP1JSEL8diWt1iWRktJNUFljSWue0PCQ=;
-	b=wEIteW1ZDMf3hfqKZXG5W2Wc6FO4IcKhQPpQB2G4yginVO9nh3neTfJZeKHi5X8oQ0
-	OQ/0wskWOehUV2UiyAYttIAVKERrHIxihhQdg/2b5JsN9CYZU99Xo7Ie/Sc8Uz91XcNb
-	T/a4qz9uNRpGzP54EtJ0vqVPDBGcvLuVAQ0Jeznfw79ttNb+F/ywHNzlco4+x3YVafUt
-	uUjYxdQv2MFjWmKUqKa6KKsKNelfWBXR+4CdZfJJnFsdZ+A34M+gzX1fuoDzxbBCd1ms
-	kxthAee0vyiiM3v6aiWA68mmefQE4IvOZPoWiB8jq/3W2ZdQJS2oJMsXgEPuQMKCPwyG
-	Ba5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:date:mime-version
-	:content-transfer-encoding;
-	bh=uS+ynNibcvgKP1JSEL8diWt1iWRktJNUFljSWue0PCQ=;
-	b=DqoPMlvwvVmILr/IBsF0887WZVcUQGiZSmnRrMT8jBj9r8WwXpP0IWjg1qq/O9oD4z
-	aCQpsdiv1RubJlFFfb6FYpTC8upWFfJu0YHuKAX+52FeTq9xw6dtAmKVqZMXqy0sAcl8
-	AflUQa8UvRlSRMREzQhNtHRdpqUTgNvxNmsgJ1qabCwBN08ujVX7HF9oXWpzpDEuWp2I
-	8GYd0B1cTx4GZVaVRKs05u/lO4r6jiPuLivgS6tImBK6Q1lTY3yvRTfacVxCJfedIs9v
-	pjlZt5oOQ18pVhpIM9V92oiMQvwyD4lb3ZXO8c1KmkxM/OjR4sNfIiH8RumeKkJeK8Xo
-	YH0Q==
-X-Gm-Message-State: ALyK8tLdhrgD0HNKP8P8S5hpYnAgJLIHZvTIZaRYGPtsscBgbNTm04zJq7hZqNI7Sq3+OQ==
-X-Received: by 10.28.191.90 with SMTP id p87mr5922587wmf.69.1466329973205;
-	Sun, 19 Jun 2016 02:52:53 -0700 (PDT)
-Received: from Saturn.local.all (212-41-125-187.adsl.solnet.ch.
-	[212.41.125.187]) by smtp.gmail.com with ESMTPSA id
-	qm9sm11955763wjc.36.2016.06.19.02.52.52
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 19 Jun 2016 02:52:52 -0700 (PDT)
-Message-ID: <1466329971.20368.18.camel@gmail.com>
-From: Max Krummenacher <max.oss.09@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 19 Jun 2016 11:52:51 +0200
-X-Mailer: Evolution 3.16.5 
-Mime-Version: 1.0
-Subject: packageconfig, add depends if feature is disabled
+	Sun, 19 Jun 2016 06:26:02 -0700
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [99.240.204.5] (port=36994 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1bEclM-0004Xs-0e for openembedded-core@lists.openembedded.org;
+	Sun, 19 Jun 2016 09:27:44 -0400
+Date: Sun, 19 Jun 2016 09:25:15 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1606190921480.6791@localhost.localdomain>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+MIME-Version: 1.0
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: will a "core-image-minimal-initramfs" run entirely off the initramfs?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,48 +36,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Jun 2016 09:52:54 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 19 Jun 2016 13:26:10 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-Hi
 
-The recent unconditional move towards gtk3 in oe-core forces me to
-follow with some of my recipes.
+  about to start playing with initramfs images, and i want to clarify
+that those images run entirely off of the embedded initramfs. i'm
+reading this bit at the top of core-image-minimal-initramfs.bb:
 
-I tried this with packageconfig, however there seems to be no easy way
-to specify DEPENDS in case a packageconfig feature is disabled.
-i.e. for gtk3 we need gtk+3 in depends while for gtk2 we need gtk+.
-I ended up with:
+"DESCRIPTION = "Small image capable of booting a device. The kernel includes \
+the Minimal RAM-based Initial Root Filesystem (initramfs), which finds the \
+first 'init' program more efficiently."
 
-    PACKAGECONFIG ?= "gtk3"
-    PACKAGECONFIG[gtk3] = "--enable-gtk3,,gtk+3"
-    python __anonymous () {
-        depends = d.getVar("DEPENDS", d, 1)
-        if 'gtk3' not in d.getVar('PACKAGECONFIG', True):
-            d.setVar("DEPENDS", "%s gtk+" % depends)
-    }
+and i'm not sure what is meant by, "finds the first 'init' program
+more efficiently."
 
-The following would also be possible but then nothing makes sure that
-one, and exactly one of gtk2, gtk3 is in PACKAGECONFIG.
+  finds it where? where does it go looking for it? in any event, i
+just want to verify that i can download a single kernel with an
+embedded initramfs, which will run entirely out of RAM and with no
+need of a second rootfs.
 
-    PACKAGECONFIG ?= "gtk3"
-    PACKAGECONFIG[gtk2] = ",,gtk+"
-    PACKAGECONFIG[gtk3] = "--enable-gtk3,,gtk+3"
+rday
 
-Any ideas?
-Would this use case merit an extension to packageconfig, e.g.:
+-- 
 
-    # PACKAGECONFIG ??= "<default options>"
-    # PACKAGECONFIG[foo] = "--enable-foo,--disable-foo,
-                            foo_depends,foo_runtime_depends,
-                            not_foo_depends,not_foo_rdepends"
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
 
-Which would simplify the above to:
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
-    PACKAGECONFIG ?= "gtk3"
-    PACKAGECONFIG[gtk3] = "--enable-gtk3,,gtk+3,,gtk+"
-
-Regards
-Max
 
