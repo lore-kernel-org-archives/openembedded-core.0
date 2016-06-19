@@ -1,45 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 795836612D
+Return-Path: <stephen.arnold42@gmail.com>
+Received: from gatekeeper.gentoogeek.org (gatekeeper.gentoogeek.org
+	[66.159.242.209])
+	by mail.openembedded.org (Postfix) with ESMTP id 09E686FF3D
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Jun 2016 19:30:35 +0000 (UTC)
-Received: by mail-wm0-f48.google.com with SMTP id r201so34966116wme.1
+	Sun, 19 Jun 2016 19:48:48 +0000 (UTC)
+Received: from prime.arnolds.bogus (prime.arnolds.bogus [192.168.0.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by gatekeeper.gentoogeek.org (Postfix) with ESMTPS id 182102126
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Jun 2016 12:30:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=M34FavrfDZTcHKkPLhhUHiHmM+71QzQ9OnXqaF/jdBI=;
-	b=SZTPinyhcXHBo0CAgzj8qW/n0wr1r8ycPl6HIr1APhj+uIM51IVARuNMzcgl3+Qn+G
-	zJmSFc4rkbepTKODgiWKrABAt7nB6eiogn92PWRWfyZeAuzdpK6hJnF4hRkieDSlitzW
-	xeotMskuk0qW2dvbdOcCk3ycqWEiQG43rMAe26+hLCotJFSPqmtrm8h9aLyFwtVacTeH
-	desuF0Epk70Z3vwhfuX1Ngd95YiW2RXVaZcYKwAafIBSpTPklFVHVQOsZykV/SQkZmRl
-	XEXWvd5huryYKHDO4hdWwB1Ps7qG/CR4zTB8rabGXCLP/PdVVb7bIu2hvg5gErAw0h89
-	U9rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=M34FavrfDZTcHKkPLhhUHiHmM+71QzQ9OnXqaF/jdBI=;
-	b=CSPobBIXi8gAh3c9V7/HWTLaoPcl4+jd48y52/K7MzpseiA+jx5pPNpxlME8cRvNMh
-	HewzLC1Cb0/co6h8a8rGMiT9HCQNLiGMPTJb2ak6ND/m+WgfEtnZLLLo2e9vean/XngK
-	CUFgQKSl+6vBNWISzN4bGPDDGgRfJ4meeBZQvblHrIT8cE3gxljsRqRrqzlU6zppbn2q
-	UIzBKQb+zEX/drMOudLCKhuaTrzvs5Z48BcdCEF8K1/VP+x9C7ZQ4Kk8Wt2gqrXHlmFA
-	61gor2ttFprnjunql+v6wdk3kKjfVHC7svMRYuTnQzI9RqvAEJ6HI+f6UKCxqKD0Ds+F
-	70lA==
-X-Gm-Message-State: ALyK8tKT8w8NF8jwOhwrRHCf929+/kIUf1eawcHMKPfy+uXOghF5Cuhbea95mSruW3DNfO43
-X-Received: by 10.28.182.68 with SMTP id g65mr8221951wmf.12.1466364635828;
-	Sun, 19 Jun 2016 12:30:35 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id z5sm4701092wme.5.2016.06.19.12.30.34
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 19 Jun 2016 12:30:35 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Sun, 19 Jun 2016 12:48:48 -0700 (PDT)
+Received: from ptolemy.arnolds.bogus ([::ffff:192.168.0.11])
+	by prime.arnolds.bogus with ESMTP; Sun, 19 Jun 2016 12:48:43 -0700
+	id 0000000000241F19.5766F720.0000435F
+From: Stephen Arnold <sarnold@vctlabs.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 19 Jun 2016 20:30:30 +0100
-Message-Id: <1466364630-24750-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.0.rc3
-Subject: [PATCH] gst-player: upgrade to latest HEAD
+Date: Sun, 19 Jun 2016 12:40:13 -0700
+Message-Id: <1466365213-23167-1-git-send-email-sarnold@vctlabs.com>
+X-Mailer: git-send-email 2.8.1
+Cc: Stephen Arnold <nerdboy@gentoo.org>, Stephen Arnold <sarnold@vctlabs.com>
+Subject: [PATCH] qemu-native: set ld.bfd, fix cflags, and set some environment vars
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,76 +32,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Jun 2016 19:30:37 -0000
+X-List-Received-Date: Sun, 19 Jun 2016 19:48:49 -0000
 
-Update to the latest revision now that we have gst-plugins-bad 1.8.x which has
-integrated the GstPlayer object.  This upstream is now just the user interface,
-so remove all redundant items from the packaging and package the binaries in PN
-instead of PN-bin.
+The main thing is build failures with gold linker, but qemu is also
+a little too aggressive at finding random tools on the build host, so
+we also set the build env for qemu-native and make sure it doesn't
+reset its own (hard-coded) cflags when we don't want it to.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Stephen Arnold <sarnold@vctlabs.com>
+
+The cflags patch was imported from Gentoo Portage and has been
+manitained over several versions; this version was rebased against
+upstream qemu git.
+
+Upstream-Status: Inappropriate
+ - Patch addresses distribution maintenance and build environment
+   sanity.
+
+Signed-off-by: Stephen Arnold <nerdboy@gentoo.org>
 ---
- .../recipes-multimedia/gstreamer/gst-player_git.bb | 31 ++++++++++------------
- 1 file changed, 14 insertions(+), 17 deletions(-)
+ meta/recipes-devtools/qemu/qemu.inc                | 13 +++++++--
+ .../qemu/qemu/qemu-2.6.0-cflags.patch              | 31 ++++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu_2.6.0.bb           |  1 +
+ 3 files changed, 43 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/qemu-2.6.0-cflags.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-player_git.bb b/meta/recipes-multimedia/gstreamer/gst-player_git.bb
-index 6d39c2d..b09244b 100644
---- a/meta/recipes-multimedia/gstreamer/gst-player_git.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-player_git.bb
-@@ -1,20 +1,20 @@
- SUMMARY = "GStreamer playback helper library and examples"
- LICENSE = "LGPL-2.0+"
--LIC_FILES_CHKSUM = "file://lib/gst/player/gstplayer.c;beginline=1;endline=19;md5=03aeca9d8295f811817909075a15ff65"
-+LIC_FILES_CHKSUM = "file://gtk/gtk-play.c;beginline=1;endline=20;md5=f8c72dae3d36823ec716a9ebcae593b9"
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index bf689bb..d5925fd 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -30,8 +30,12 @@ SRC_URI_append_class-native = "\
  
--DEPENDS = "glib-2.0 gstreamer1.0 gstreamer1.0-plugins-base gtk+3"
-+DEPENDS = "glib-2.0 gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad gtk+3"
+ EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)} --disable-werror  --disable-bluez --disable-libiscsi --with-system-pixman --extra-cflags='${CFLAGS}'"
  
- SRC_URI = "git://github.com/sdroege/gst-player.git \
--           file://filechooser.patch \
--           file://Fix-pause-play.patch \
--           file://Add-error-signal-emission-for-missing-plugins.patch \
-+           file://filechooser.patch;apply=0 \
-+           file://Fix-pause-play.patch;apply=0 \
-+           file://Add-error-signal-emission-for-missing-plugins.patch;apply=0 \
-            file://gst-player.desktop"
+-EXTRA_OECONF_class-nativesdk = "--target-list=${@get_qemu_target_list(d)} --disable-werror \
+-				"
++EXTRA_OECONF_class-nativesdk = "--target-list=${@get_qemu_target_list(d)} --disable-werror"
++
++EXTRA_OEMAKE_append_class-native = " LD='${LD}' AR='${AR}' OBJCOPY='${OBJCOPY}' LDFLAGS='${LDFLAGS}'"
++
++LDFLAGS_append_class-native = " -fuse-ld=bfd"
++
+ export LIBTOOL="${HOST_SYS}-libtool"
  
--SRCREV = "5386c5b984d40ef5434673ed62204e69aaf52645"
-+SRCREV = "ea90e63c1064503f9ba5d59aa4ca604f13ca5def"
- 
- S = "${WORKDIR}/git"
- 
--inherit autotools gtk-doc lib_package pkgconfig distro_features_check gobject-introspection
-+inherit autotools pkgconfig distro_features_check
- 
- ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
- 
-@@ -22,17 +22,14 @@ do_configure_prepend() {
- 	touch ${S}/ChangeLog
+ do_configure_prepend_class-native() {
+@@ -40,6 +44,11 @@ do_configure_prepend_class-native() {
+ 	if [ ! -z "$BHOST_PKGCONFIG_PATH" ]; then
+ 		export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$BHOST_PKGCONFIG_PATH
+ 	fi
++
++	# Alter target makefiles to accept CFLAGS set via env
++	sed -i -r \
++		-e 's/^(C|OP_C|HELPER_C)FLAGS=/\1FLAGS+=/' \
++		"${S}"/Makefile "${S}"/Makefile.target
  }
  
--EXTRA_OECONF += "ac_cv_path_VALGRIND=no ac_cv_path_GDB=no"
--
- do_install_append() {
- 	install -m 0644 -D ${WORKDIR}/gst-player.desktop ${D}${datadir}/applications/gst-player.desktop
- }
- 
--FILES_${PN}-bin += "${datadir}/applications/*.desktop"
--
--RDEPENDS_${PN}-bin = "gstreamer1.0-plugins-base-playback"
--RRECOMMENDS_${PN}-bin = "gstreamer1.0-plugins-base-meta \
--                         gstreamer1.0-plugins-good-meta \
--                         gstreamer1.0-plugins-bad-meta \
--                         ${@bb.utils.contains("LICENSE_FLAGS_WHITELIST", "commercial", "gstreamer1.0-libav", "", d)} \
--                         ${@bb.utils.contains("LICENSE_FLAGS_WHITELIST", "commercial", "gstreamer1.0-plugins-ugly-meta", "", d)}"
-+RDEPENDS_${PN} = "gstreamer1.0-plugins-base-playback"
-+RRECOMMENDS_${PN} = "gstreamer1.0-plugins-base-meta \
-+                     gstreamer1.0-plugins-good-meta \
-+                     gstreamer1.0-plugins-bad-meta \
-+                      ${@bb.utils.contains("LICENSE_FLAGS_WHITELIST", "commercial", "gstreamer1.0-libav", "", d)} \
-+                     ${@bb.utils.contains("LICENSE_FLAGS_WHITELIST", "commercial", "gstreamer1.0-plugins-ugly-meta", "", d)}"
-+RPROVIDES_${PN} += "${PN}-bin"
+ KVMENABLE = "--enable-kvm"
+diff --git a/meta/recipes-devtools/qemu/qemu/qemu-2.6.0-cflags.patch b/meta/recipes-devtools/qemu/qemu/qemu-2.6.0-cflags.patch
+new file mode 100644
+index 0000000..5b78edf
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/qemu-2.6.0-cflags.patch
+@@ -0,0 +1,31 @@
++From 5d29baaf7a8c09f2f97231116e0f396b0402b23d Mon Sep 17 00:00:00 2001
++From: Steve Arnold <stephen.arnold42@gmail.com>
++Date: Sun, 19 Jun 2016 11:29:44 -0700
++Subject: [PATCH] configure: remove hard-coded flags and let build env handle
++ it
++
++Apply distribution patch for handling debug and fortify source options.
++
++Signed-off-by: Steve Arnold <nerdboy@gentoo.org>
++---
++ configure | 4 ----
++ 1 file changed, 4 deletions(-)
++
++diff --git a/configure b/configure
++index 10cb212..6f1b10c 100755
++--- a/configure
+++++ b/configure
++@@ -4539,10 +4539,6 @@ fi
++ if test "$gcov" = "yes" ; then
++   CFLAGS="-fprofile-arcs -ftest-coverage -g $CFLAGS"
++   LDFLAGS="-fprofile-arcs -ftest-coverage $LDFLAGS"
++-elif test "$fortify_source" = "yes" ; then
++-  CFLAGS="-O2 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 $CFLAGS"
++-elif test "$debug" = "no"; then
++-  CFLAGS="-O2 $CFLAGS"
++ fi
++ 
++ ##########################################
++-- 
++2.8.1
++
+diff --git a/meta/recipes-devtools/qemu/qemu_2.6.0.bb b/meta/recipes-devtools/qemu/qemu_2.6.0.bb
+index e391326..62c509b 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.6.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.6.0.bb
+@@ -8,6 +8,7 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
+             file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch \
+             file://no-valgrind.patch \
+             file://pathlimit.patch \
++            file://qemu-2.5.0-cflags.patch \
+            "
+ SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
+ SRC_URI[md5sum] = "ca3f70b43f093e33e9e014f144067f13"
 -- 
-2.8.0.rc3
+2.8.1
 
 
