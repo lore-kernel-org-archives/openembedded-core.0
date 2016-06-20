@@ -1,50 +1,30 @@
-Return-Path: <christopher.w.clark@gmail.com>
-Received: from mail-pa0-f68.google.com (mail-pa0-f68.google.com
-	[209.85.220.68])
-	by mail.openembedded.org (Postfix) with ESMTP id EAB9D7318D
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 65E0662135
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jun 2016 02:24:40 +0000 (UTC)
-Received: by mail-pa0-f68.google.com with SMTP id us13so9833073pab.1
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Jun 2016 19:24:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=egeCtyc4kbWUDiqjKrz+j1/t2n9mR4wm5z+rAiYUlCs=;
-	b=RUyxrJnToWlucIcuPLtMOPaTyas2ny5loh1Pe+RfARCyIeX+nvDo++A+H/aIVR1X5i
-	pFE8rDlKK2fJ0GoTzaYUKiIz9AkssIggemcAAoS/yOJTWAmOFjW8ro7ZvIqpm9aDqtOj
-	Scn4N6YVJeKD7UCcpx/cvux+lYJKgid8jQuGE8GHD3PxU8NqSf7amgbRkGzHnyfpQm4X
-	gfpYeeN9nnxkR7bZrvDu7/JBeYad10nRAdnFTYbkq9uhrjdoZfBB5WMkHoJ5K1e7Z0Mo
-	ZDaYS8UffAb4XkG8XabMdO3L+QdbiSvKh7tscIuosjj2cKRkhSgmNDoawfa7za2gOXre
-	3yvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=egeCtyc4kbWUDiqjKrz+j1/t2n9mR4wm5z+rAiYUlCs=;
-	b=XN1F+5GEPK+V35Zyk+G6yfsybF6TghEgzUCpBygVpfkAMMcOHJdxblpPExgQLs9yvM
-	eEwWsG2tJNYo5PbYWU+iDs106kK0UcCGWobpnjhiaAtfhL1JHMIkgbBGNo38QNM6EN+s
-	oumX61e9ZY+SBRXHvsZaSAIP1xL1GXouEmrk1UuCGI6VGkAw1n8wbwO/MeSd5ud29msV
-	qVN4/vCpZzm0s6IS1pbBK0SncNVKM4TZ+slEByIxVLImYjq9T3QSio49+giYv1sfN5fB
-	94aDz4wxrLm1mKDdyuUV4So47K1dJcN1AbECjLS8gwozT76KFzWfLeDuK0WOGH3kH4Be
-	jsVg==
-X-Gm-Message-State: ALyK8tLrDyWmvJvCBBY5z+uvKLebSbKT0HcLwDoGawiih5ZdTWR11AAEWQ/BJ1jcPcvXSA==
-X-Received: by 10.66.222.202 with SMTP id qo10mr18418090pac.141.1466389481357; 
-	Sun, 19 Jun 2016 19:24:41 -0700 (PDT)
-Received: from localhost.localdomain
-	(static-50-53-79-155.bvtn.or.frontiernet.net. [50.53.79.155])
-	by smtp.gmail.com with ESMTPSA id
-	b67sm32347269pfg.85.2016.06.19.19.24.40
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 19 Jun 2016 19:24:40 -0700 (PDT)
-From: christopher.w.clark@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 19 Jun 2016 19:23:48 -0700
-Message-Id: <1466389428-4438-4-git-send-email-christopher.w.clark@gmail.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1466389428-4438-1-git-send-email-christopher.w.clark@gmail.com>
-References: <1466389428-4438-1-git-send-email-christopher.w.clark@gmail.com>
-Cc: Christopher Clark <christopher.clark6@baesystems.com>
-Subject: [PATCH v2 4/4] linux-firmware : add iwlwifi virtual package of all iwlwifi firmwares
+	Mon, 20 Jun 2016 06:26:04 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u5K6Q462007584
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 19 Jun 2016 23:26:04 -0700 (PDT)
+Received: from [128.224.162.229] (128.224.162.229) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
+	Sun, 19 Jun 2016 23:26:03 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1466134497.git.Qi.Chen@windriver.com>
+	<9cc3d71a9624333bd6c3c676ee2b855be1903568.1466134498.git.Qi.Chen@windriver.com>
+	<CAJTo0LY+hui18g90d4NZbD0JQjh0miqkn2uPTbRTxtUqFTPbuA@mail.gmail.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <57678C80.2050503@windriver.com>
+Date: Mon, 20 Jun 2016 14:26:08 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.7.2
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LY+hui18g90d4NZbD0JQjh0miqkn2uPTbRTxtUqFTPbuA@mail.gmail.com>
+X-Originating-IP: [128.224.162.229]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/4] systemd-bootchart: add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,64 +37,144 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jun 2016 02:24:41 -0000
+X-List-Received-Date: Mon, 20 Jun 2016 06:26:05 -0000
+Content-Type: multipart/alternative;
+	boundary="------------000505080603060405010104"
 
-From: Christopher Clark <christopher.clark6@baesystems.com>
+--------------000505080603060405010104
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Depends upon all available iwlwifi firmware packages at build time.
-Fix typo in ALLOW_EMPTY of earlier version.
+On 06/18/2016 02:36 AM, Burton, Ross wrote:
+>
+> On 17 June 2016 at 04:36, Chen Qi <Qi.Chen@windriver.com 
+> <mailto:Qi.Chen@windriver.com>> wrote:
+>
+>     +DEPENDS = "libxslt-native libxslt-native xmlto-native
+>     docbook-xml-dtd4-native docbook-xsl-stylesheets-native intltool"
+>
+>
+> Can we not disable documentation?
 
-Motivation: simplifies inclusion of all Intel wifi firmwares.
+Hi Ross,
 
-Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
----
- meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+There's not available option to disable it in its source codes.
+Do you think we should try to add one for it? Or we just leave things as 
+it is?
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index cdc7315..947e79b 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -220,7 +220,8 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
-              ${PN}-atheros-license ${PN}-ar9170 ${PN}-ath6k ${PN}-ath9k \
-              ${PN}-ar3k-license  ${PN}-ar3k  ${PN}-ath10k-license  ${PN}-ath10k  \
-              \
--             ${PN}-iwlwifi-license ${PN}-iwlwifi-135-6 \
-+             ${PN}-iwlwifi-license ${PN}-iwlwifi \
-+             ${PN}-iwlwifi-135-6 \
-              ${PN}-iwlwifi-3160-7 ${PN}-iwlwifi-3160-8 ${PN}-iwlwifi-3160-9 \
-              ${PN}-iwlwifi-6000-4 ${PN}-iwlwifi-6000g2a-5 ${PN}-iwlwifi-6000g2a-6 \
-              ${PN}-iwlwifi-6000g2b-5 ${PN}-iwlwifi-6000g2b-6 \
-@@ -444,6 +445,7 @@ FILES_${PN}-whence-license = "/lib/firmware/WHENCE"
- RDEPENDS_${PN}-bnx2-mips += "${PN}-whence-license"
- 
- # For iwlwifi
-+LICENSE_${PN}-iwlwifi           = "Firmware-iwlwifi_firmware"
- LICENSE_${PN}-iwlwifi-135-6     = "Firmware-iwlwifi_firmware"
- LICENSE_${PN}-iwlwifi-3160-7    = "Firmware-iwlwifi_firmware"
- LICENSE_${PN}-iwlwifi-3160-8    = "Firmware-iwlwifi_firmware"
-@@ -498,6 +500,8 @@ RDEPENDS_${PN}-iwlwifi-7265d     = "${PN}-iwlwifi-license"
- RDEPENDS_${PN}-iwlwifi-8000c     = "${PN}-iwlwifi-license"
- RDEPENDS_${PN}-iwlwifi-8265      = "${PN}-iwlwifi-license"
- 
-+ALLOW_EMPTY_${PN}-iwlwifi = "1"
-+
- # Handle package updating for the newly merged iwlwifi groupings
- RPROVIDES_${PN}-iwlwifi-7265 = "${PN}-iwlwifi-7265-8 ${PN}-iwlwifi-7265-9"
- RREPLACES_${PN}-iwlwifi-7265 = "${PN}-iwlwifi-7265-8 ${PN}-iwlwifi-7265-9"
-@@ -571,7 +575,11 @@ RDEPENDS_${PN} += "${PN}-license"
- RDEPENDS_${PN} += "${PN}-whence-license"
- 
- # Make linux-firmware depend on all of the split-out packages.
-+# Make linux-firmware-iwlwifi depend on all of the split-out iwlwifi packages.
- python populate_packages_prepend () {
-     firmware_pkgs = oe.utils.packages_filter_out_system(d)
-     d.appendVar('RDEPENDS_linux-firmware', ' ' + ' '.join(firmware_pkgs))
-+
-+    iwlwifi_pkgs = filter(lambda x: x.find('-iwlwifi-') != -1, firmware_pkgs)
-+    d.appendVar('RDEPENDS_linux-firmware-iwlwifi', ' ' + ' '.join(iwlwifi_pkgs))
- }
--- 
-2.1.4
+Best Regards,
+Chen Qi
+
+>     +SYSTEMD_SERVICE_${PN} = "systemd-bootchart.service"
+>     +SYSTEMD_AUTO_ENABLE_${PN} = "disable"
+>
+>
+> Enable by default, I'd suggest.
+>
+>     +do_configure_prepend() {
+>     +    # intltool.m4 is a soft link to /usr/share/aclocal/m4, delete
+>     it and use the one in our sysroot
+>     +    rm ${S}/m4/intltool.m4
+>     +    cp ${STAGING_DIR_TARGET}${datadir}/aclocal/intltool.m4
+>     ${S}/m4/intltool.m4
+>     +}
+>
+>
+> IIRC just deleting the file should be sufficient, as we'll pull it in 
+> from the sysroot automatically.
+>
+> Ross
 
 
+--------------000505080603060405010104
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">On 06/18/2016 02:36 AM, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LY+hui18g90d4NZbD0JQjh0miqkn2uPTbRTxtUqFTPbuA@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 17 June 2016 at 04:36, Chen Qi <span
+              dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:Qi.Chen@windriver.com" target="_blank">Qi.Chen@windriver.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id=":2v7" class="a3s aXjCH m1555c6f7c14e78e2">+DEPENDS
+                = "libxslt-native libxslt-native xmlto-native
+                docbook-xml-dtd4-native docbook-xsl-stylesheets-native
+                intltool"<br>
+              </div>
+            </blockquote>
+            <div><br>
+            </div>
+            <div>Can we not disable documentation?</div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+    Hi Ross,<br>
+    <br>
+    There's not available option to disable it in its source codes.<br>
+    Do you think we should try to add one for it? Or we just leave
+    things as it is?<br>
+    <br>
+    Best Regards,<br>
+    Chen Qi<br>
+    <br>
+    <blockquote
+cite="mid:CAJTo0LY+hui18g90d4NZbD0JQjh0miqkn2uPTbRTxtUqFTPbuA@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra">
+          <div class="gmail_quote">
+            <div> </div>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id=":2v7" class="a3s aXjCH m1555c6f7c14e78e2">
+                +SYSTEMD_SERVICE_${PN} = "systemd-bootchart.service"<br>
+                +SYSTEMD_AUTO_ENABLE_${PN} = "disable"<br>
+              </div>
+            </blockquote>
+            <div><br>
+            </div>
+            <div>Enable by default, I'd suggest.</div>
+            <div> </div>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id=":2v7" class="a3s aXjCH m1555c6f7c14e78e2">+do_configure_prepend()
+                {<br>
+                +    # intltool.m4 is a soft link to
+                /usr/share/aclocal/m4, delete it and use the one in our
+                sysroot<br>
+                +    rm ${S}/m4/intltool.m4<br>
+                +    cp
+                ${STAGING_DIR_TARGET}${datadir}/aclocal/intltool.m4
+                ${S}/m4/intltool.m4<br>
+                +}</div>
+            </blockquote>
+          </div>
+          <br>
+          IIRC just deleting the file should be sufficient, as we'll
+          pull it in from the sysroot automatically.</div>
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">Ross</div>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------000505080603060405010104--
