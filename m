@@ -1,61 +1,42 @@
-Return-Path: <anders@chargestorm.se>
-Received: from mail-lf0-f42.google.com (mail-lf0-f42.google.com
-	[209.85.215.42])
-	by mail.openembedded.org (Postfix) with ESMTP id DC5E360088
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id B55126FEE0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jun 2016 13:39:31 +0000 (UTC)
-Received: by mail-lf0-f42.google.com with SMTP id q132so37857782lfe.3
+	Mon, 20 Jun 2016 14:48:59 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id 187so14713801wmz.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jun 2016 06:39:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
-	h=date:from:to:subject:message-id:mail-followup-to:references
-	:mime-version:content-disposition:in-reply-to:organization
-	:user-agent; bh=hia0EkXRzisS11bcCUITC7DHj0oPEyGOSIVRVUAF08w=;
-	b=G8zQ+ZJo/hxAeccxZXlDs/+Tw0dOxRsX44lUmRQQdU1DjJgeMOv/4VX3gaUsvX87jn
-	+g4b3jwlDAqkrB31krdo7HYt5a1rJii12DbD2IytbXvVh0Xe0p3kGO/kJsvrlHDybfld
-	ZPy0Ri90dgpYNxEQtMPymxA8ciwqdgcU07Z5bkQkMhXQMPtJ7WSj2zZaqgYeCREyiusp
-	jIB9RvfID5AHE6mIbfcFpY5a+x0W3QGeRo/l78SpLlaHj8vX0M81nVyhCRAoACSxFrlc
-	zCMopb6BulM42/Dt2diJwgiWUbuiQ5nRWqP9YxEDABrnzFwqUluuiTfnHmaKQfkhotEn
-	MxQw==
+	Mon, 20 Jun 2016 07:49:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
-	:references:mime-version:content-disposition:in-reply-to
-	:organization:user-agent;
-	bh=hia0EkXRzisS11bcCUITC7DHj0oPEyGOSIVRVUAF08w=;
-	b=E1WVBLO532SoU6QSmrOq3HnBlIFLChcyZYBtRBtt1BIp2yzR1Snz3LUt8lRkeP6Jru
-	xWHv/faxUYcT+sKgnoBFTAgVifKv8bp93/zUsEOnbC7ORg8KkvPXRngAvx9D0o4VGm7G
-	eSM+s2vZU3QkXxaquqCW6n078bbxS1oVAyC7wMl2Q4ZQRdbxSeGWsPhqf1W0gayvPedh
-	pjR1+03lrnKA6c7jT4RYfQO2iUruAxw1Hp9A1l1Sh0tqpD2CFl0Bk1A3CwE5AK2U9+xu
-	uRa28bBQfjMBOgI3TCbURKyVvRCJ9fCYpvYnkZwyz+lam8DIf7FO7H/0b7nHOwCaHWzO
-	s+fQ==
-X-Gm-Message-State: ALyK8tI3A7W+o5GqhTHUZeDp3GjhybWbFVtTTt++SNqxyCuQRgkAwP20WRoWY4YW8HQndw==
-X-Received: by 10.25.39.78 with SMTP id n75mr3064228lfn.91.1466429970775;
-	Mon, 20 Jun 2016 06:39:30 -0700 (PDT)
-Received: from ad.chargestorm.se (213-64-218-130-no126.business.telia.com.
-	[213.64.218.130]) by smtp.gmail.com with ESMTPSA id
-	p126sm3603460lfb.3.2016.06.20.06.39.29
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=Uk6HVb6EtVgWCZykJesRamO97cbe2PXUSQX9cVFmQxw=;
+	b=cWytoteYUQBOtvSMBPPl3l+apdpszLUfZ3Qc01ai5C43g4xR0p/1+gXMS8lwCcyWFe
+	3UeBR+CSlVUimx1Pp5nRp5s56FlTnP+f46KWJ5Fcq/IbeQtFzPWdrkWHOfGgP7Mbg1xd
+	sArZY32HquLvxglaAOnsYM2kSFYuI1ueE/NENgs5rOukcCjJpEsINHdAluk0AW95LddZ
+	B84iPrvyNNru72k9eIZroIxRab1ykyX5v0hzz/AY47I+1u2jcKu9R+vHlZDI0BJ9j83F
+	LDhSBNyXhNpmZdzfUieDJyMk6TwOrYrHcnvFqWZ8rW3vTa0cRZwpfroqk5gn2PVMJ0LR
+	iT4A==
+X-Gm-Message-State: ALyK8tLrxOanuMVoL8saWmfVDxRMCHW2ju6m/IPN0retcYq4usjx5NBac0H0z6qGRAbRNQ==
+X-Received: by 10.28.168.7 with SMTP id r7mr12001796wme.9.1466434139462;
+	Mon, 20 Jun 2016 07:48:59 -0700 (PDT)
+Received: from localhost ([185.46.212.65]) by smtp.gmail.com with ESMTPSA id
+	q71sm14023698wme.17.2016.06.20.07.48.57
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 20 Jun 2016 06:39:29 -0700 (PDT)
-Date: Mon, 20 Jun 2016 15:39:28 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20160620133928.GA3741@ad.chargestorm.se>
-Mail-Followup-To: openembedded-core@lists.openembedded.org
-References: <cover.1464025858.git.akuster808@gmail.com>
-	<57593804.9040403@gmail.com> <20160609103438.GA2586@jama>
-	<57594F42.1080607@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <57594F42.1080607@gmail.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.6.0 (2016-04-01)
-Subject: Re: [PATCH 00/72] Krogoth-next V2, pull request
+	Mon, 20 Jun 2016 07:48:57 -0700 (PDT)
+Message-ID: <1466434134.6499.27.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 20 Jun 2016 15:48:54 +0100
+In-Reply-To: <CAMKF1srfaxLS3wn5d5Fu46i5-hU+kGj3dViD_v7YyF3wut013A@mail.gmail.com>
+References: <1465571533-21604-1-git-send-email-git@andred.net>
+	<1465571533-21604-2-git-send-email-git@andred.net>
+	<CAMKF1srfaxLS3wn5d5Fu46i5-hU+kGj3dViD_v7YyF3wut013A@mail.gmail.com>
+X-Mailer: Evolution 3.20.3-1 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] uclibc: never build with SSP
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,22 +49,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jun 2016 13:39:34 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 20 Jun 2016 14:49:00 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-* akuster808 <akuster808@gmail.com> [160609 13:14]:
+Hi Khem,
 
-> On 06/09/2016 03:34 AM, Martin Jansa wrote:
-> > On Thu, Jun 09, 2016 at 02:33:56AM -0700, akuster808 wrote:
-> > > ping
+On Mi, 2016-06-15 at 17:20 -0700, Khem Raj wrote:
+> On Fri, Jun 10, 2016 at 8:12 AM, André Draszik <git@andred.net> wrote:
+> > From: André Draszik <adraszik@tycoint.com>
+> > 
+> > This doesn't work, as the initial gcc that is used for compiling
+> > uclibc doesn't have support for SSP yet (since that will only
+> > be available once uclibc has been compiled). Since during that
+> > same compilation step uclibc is trying to build its own utils
+> > those are failing to compile with SSP enabled as the
+> > initial gcc doesn't have access to the required libraries,
+> > yet.
+> 
+> Please look at how we do this for glibc based systems.
 
-Do we have a status on this one?
+Are you saying glibc is compiled *with* SSP enabled?
+
+I can't seem to find anything relevant. The only thing I can find seems to
+result in glibc and (and glibc-initial) and all glibc executables (!) being
+compiled without stack protector. As you seem to have something in mind, can
+you please be more specific and give me a pointer?
+
+
+>  This patch is
+> not something we need.
+
+This patch fixes uclibc builds when SSP has been enabled by including
+security_flags.inc in distro.conf. Why is it not needed? Can you be more
+specific please?
+
 
 Cheers,
-Anders
+Andre
 
--- 
-Anders Darander, Senior System Architect
-ChargeStorm AB / eStorm AB
 
