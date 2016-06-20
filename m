@@ -1,48 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 15DF870100
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jun 2016 16:41:00 +0000 (UTC)
-Received: by mail-wm0-f43.google.com with SMTP id f126so76827060wma.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jun 2016 09:41:01 -0700 (PDT)
+Return-Path: <mhalstead@linuxfoundation.org>
+Received: from mail-pf0-f171.google.com (mail-pf0-f171.google.com
+	[209.85.192.171])
+	by mail.openembedded.org (Postfix) with ESMTP id AED56731D2
+	for <Openembedded-core@lists.openembedded.org>;
+	Mon, 20 Jun 2016 17:47:17 +0000 (UTC)
+Received: by mail-pf0-f171.google.com with SMTP id c2so56289772pfa.2
+	for <Openembedded-core@lists.openembedded.org>;
+	Mon, 20 Jun 2016 10:47:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=ok35lBqEmp4D6c7z2+7ySgeajRyYRhroJESOAjxCQzU=;
-	b=wL6MNO2e1uqZi/2gs0NZADrwd/sBu2A582bGjx9ioiH1eHG06+yXO8ldGU3lBnpM0B
-	pECjMBn6CWNGgIPIccRcyblDgG5YcZdOiISkiA1K6/X7SPlDn2zxsPEe/xTMgm87+TUs
-	tmL+sCOFgIPrNneChqIC2t23VWkhJmJN+HkH3Yr+ACcRlCTLMLqQQS+aSOQo7KiNfta3
-	GS8xbDHNvr4D9tnwaM+vYRiqj8RAmqCZIY58cX05rct5v2adYdJF3G57AFQOfZCzuaml
-	I2V2Nq/SEuYCGVxgCu40ON44jhVfU4BJmTuL/yV7zKx1+pp4Ej/AE03KD4xV5faVCwZe
-	hMAg==
+	d=linuxfoundation.org; s=google;
+	h=to:from:subject:cc:message-id:date:user-agent:mime-version
+	:content-transfer-encoding;
+	bh=+X6O1zGSio43Wm2gSwb6lHeU0Z8ZARXFUmUJsdW4cMg=;
+	b=iNrknTAkyOZmU4n8Ol8UgWtMuMiESxt34ANs/8MLlfllJu8vyJK7BVObju+whtppai
+	xDsh2BBhNRo73EjC0HJ9K3hKf6kz8myYjSfY5jDCDksamIUCJdkn0Q2hU531tLsiJ2jm
+	SIlNRyLZ/2CnRxuKXO7oTIXeiJYyHsv7PHJ2Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=ok35lBqEmp4D6c7z2+7ySgeajRyYRhroJESOAjxCQzU=;
-	b=fw/obaLXNtKT5tSuGLErZt9MwrpBpNWVRpRmhSrelOPCR1c8DnlQllzwll07fSNw22
-	5WKmBNel5VAZjxaEhURDn+DNKNnq/k57a1t2MmnOeax/FBafOnYL+05Zv9WmbH1r7EKl
-	csy+rbN2565Ogt1RnHLM416IClCNro65JGg3XU2R91FUrYkymM5bwgjLVkKfHDzZZ7IO
-	TruR9ylzjFnUiYFVu0K9GfBnprzMlsvVp0RbJaKEpo5S3UIHCajiZsPFXolNaw0K2iuV
-	7yCOse4sYvzp0tocLP2ABcH7ViuYvSEFCIPunafxie96tE2J7HWgmefICpD+l2XyKEyl
-	ic1Q==
-X-Gm-Message-State: ALyK8tJtO+L6w+Kf9SyqcwNEBZLdUhwMiBiOOcpF9LZoFtUUAZQZdfQ1pIpqpgtqKJv2xq7Z
-X-Received: by 10.28.217.146 with SMTP id q140mr12561551wmg.56.1466440861073; 
-	Mon, 20 Jun 2016 09:41:01 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id kc8sm659236wjb.0.2016.06.20.09.41.00
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 20 Jun 2016 09:41:00 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Jun 2016 17:40:54 +0100
-Message-Id: <1466440854-16120-3-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <1466440854-16120-1-git-send-email-ross.burton@intel.com>
-References: <1466440854-16120-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 3/3] oeqa/targetbuild: use os.path.join instead of string concatenation
+	h=x-gm-message-state:to:from:subject:cc:message-id:date:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=+X6O1zGSio43Wm2gSwb6lHeU0Z8ZARXFUmUJsdW4cMg=;
+	b=hZruEWr5FnEGQmEfEKeD/g9nBNMVMPHFc6Iuczy5j2o1uTCHbDG/yNWJz8pgFKs4xh
+	Hnhmjw07dXKC7PoN8uuU66bLlLjpNqMrPaYboh6bzPPWoTwabc1NoNNAVDNAB0AmpkWv
+	xXmNIyrdYqOmvKYlOSVt6Vdy0LkNltDRFXBGQOW1sCYpKRxWNcl9KdCCUpyPQDWXXlsu
+	4pMGxq7uoaD5bSNJ62AzmMaX/H5kNOZxqviPL3gBJExDWPPyllJJJZrWRT3LAV30warO
+	3TXt0I0+ypkcMnYdPnwaoEDD3vl/9QZgTW4T4m8ficwzPss4d+dror8+UMW0fEM/2FC6
+	f5ng==
+X-Gm-Message-State: ALyK8tI5qw6k1dBuyEeheD2yw/k4ff5eFz990Erf8dXg9SaxAC7CjqomdujZjxOqMY7JmMup
+X-Received: by 10.98.93.65 with SMTP id r62mr22693252pfb.114.1466444837911;
+	Mon, 20 Jun 2016 10:47:17 -0700 (PDT)
+Received: from yct-desktop.lan ([2001:470:b:16e:222:4dff:fe50:c906])
+	by smtp.gmail.com with ESMTPSA id da2sm6863331pad.3.2016.06.20.10.47.16
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 20 Jun 2016 10:47:16 -0700 (PDT)
+To: bitbake-devel@lists.openembedded.org,
+	Openembedded-core@lists.openembedded.org,
+	Openembedded-devel@lists.openembedded.org, yocto@yoctoproject.org
+From: Michael Halstead <mhalstead@linuxfoundation.org>
+Message-ID: <13986bd3-af12-4768-0a4c-78447c33c8b6@linuxfoundation.org>
+Date: Mon, 20 Jun 2016 10:47:16 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.1.1
+MIME-Version: 1.0
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>, "Perez Carranza,
+	Jose" <jose.perez.carranza@intel.com>
+Subject: Patchwork users: Help test new version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,27 +57,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jun 2016 16:41:01 -0000
+X-List-Received-Date: Mon, 20 Jun 2016 17:47:19 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/lib/oeqa/utils/targetbuild.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hello,
 
-diff --git a/meta/lib/oeqa/utils/targetbuild.py b/meta/lib/oeqa/utils/targetbuild.py
-index f087670..59593f5 100644
---- a/meta/lib/oeqa/utils/targetbuild.py
-+++ b/meta/lib/oeqa/utils/targetbuild.py
-@@ -117,7 +117,7 @@ class SDKBuildProject(BuildProject):
-         subprocess.check_call(cmd, shell=True)
- 
-         #Change targetdir to project folder
--        self.targetdir = self.targetdir + self.fname
-+        self.targetdir = os.path.join(self.targetdir, self.fname)
- 
-     def run_configure(self, configure_args='', extra_cmds=' gnu-configize; '):
-         return super(SDKBuildProject, self).run_configure(configure_args=(configure_args or '$CONFIGURE_FLAGS'), extra_cmds=extra_cmds)
+OpenEmbedded is nearly ready to upgrade to a new version of Patchwork.
+The new version offers several new features that will allow OpenEmbedded
+to improve developer workflow and automated checks on incoming patches.
+
+If you are a Patchwork user please visit
+https://patchwork-next.openembedded.org/ and take a look. If you find
+anything amiss please e-mail me directly and include patchwork in the
+subject line.
+
+Thank you for your help upgrading this important system!
+
 -- 
-2.8.1
-
+Michael Halstead
+Linux Foundation / SysAdmin
 
