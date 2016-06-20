@@ -1,49 +1,28 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-io0-f195.google.com (mail-io0-f195.google.com
-	[209.85.223.195])
-	by mail.openembedded.org (Postfix) with ESMTP id A00EF60053
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 2889E60290
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Jun 2016 23:55:51 +0000 (UTC)
-Received: by mail-io0-f195.google.com with SMTP id n127so16509792iof.2
+	Mon, 20 Jun 2016 01:54:40 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u5K1seLo006376
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Jun 2016 16:55:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=BIa2PJ2Q6FswNLjSexw30OjdNiULKHd46b/2pAW/DE4=;
-	b=BHChPSz+hR/o+RZlORwE1Bjk5k92Q8knGBOr6X8PuMGbyiM6UsEwGy3ijl3FszPSoW
-	oXcpzmdDjYzIPNRED1QKwH9fj2vVywM73B2HG79W5jAcNiKAdW8vL5A3ZvmjrwcwuczE
-	T7BJWGAy2Dgc3r9llCBDnvDvoBY1JdK639X/R8tJUoNSMquAGRmA1Ghgvg0FQFcZCi0M
-	jnhqsDirPhS2iKGasNJnWaUBTdc2jzDFUoNv16nj9m5UCyciet7ktdSSBKfXU8hAe5yX
-	grA/RkqrlkAjNxac5LF7UUlGgLER9lTQQ9Z72S3cwMZBv+1lwdFLSp7RU21+SkEWTqKj
-	I4Gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=BIa2PJ2Q6FswNLjSexw30OjdNiULKHd46b/2pAW/DE4=;
-	b=Z9FOBPbt7NceiPysiR+uJ8ToBJmvmAh/XK1WcZeIggjpRewOqidgKQvbYWJxs6Y1Va
-	je5zqMZsgPx8ZidWn/pT1MUrS9uz2whIHr/OtHCVwTCY7AAAEG5F82AUCPljmBcpKJvy
-	6Mv52zwWi7UCxzfKHMjAzxEqrMqId/mlDkk9fR9f+idb0an1IbTIXn4uMFcUt7Qua1ID
-	UGKx2X+ySUUuyqUoRSS4PpTHLcj4g23wD00XUp9uT5P+X2frrfxEcObrLK0ompvjMcj0
-	AXy0ilf5sU3FZk21v2NOI/cjpGGCgYSxDjaF/ozp02B1EME73Ww1fvNsiYq9LKmCRbyj
-	NiGw==
-X-Gm-Message-State: ALyK8tLXj9wLMhZHUGz/yT95yx2Yk4PURf5x6arLCiJK8xgbUMunjmTY7zuuQKkUSc7P0w+GdXW6kanpGFZhyQ==
-X-Received: by 10.107.147.86 with SMTP id v83mr3933354iod.3.1466380552002;
-	Sun, 19 Jun 2016 16:55:52 -0700 (PDT)
+	Sun, 19 Jun 2016 18:54:40 -0700 (PDT)
+Received: from [128.224.162.229] (128.224.162.229) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
+	Sun, 19 Jun 2016 18:54:40 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1466134497.git.Qi.Chen@windriver.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <57674CE4.6040809@windriver.com>
+Date: Mon, 20 Jun 2016 09:54:44 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.7.2
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.79.130.66 with HTTP; Sun, 19 Jun 2016 16:55:32 -0700 (PDT)
-In-Reply-To: <1466372305-8895-1-git-send-email-tdh@tkhanson.net>
-References: <1466372305-8895-1-git-send-email-tdh@tkhanson.net>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Sun, 19 Jun 2016 16:55:32 -0700
-X-Google-Sender-Auth: 3vyRK1AuvP2iqyK3VVOLty_h9zM
-Message-ID: <CABcZANm9moNF6yFYuAmdZurk6hxdq43C+HP+N0EdkqmoXziGqg@mail.gmail.com>
-To: "Troy D. Hanson" <tdh@tkhanson.net>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mkefidisk.sh; correct quoting
+In-Reply-To: <cover.1466134497.git.Qi.Chen@windriver.com>
+X-Originating-IP: [128.224.162.229]
+Subject: Re: [PATCH 0/4] Upgrade systemd, dbus and util-linux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,94 +35,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Jun 2016 23:55:53 -0000
-Content-Type: multipart/alternative; boundary=94eb2c05665ce860970535aa5331
+X-List-Received-Date: Mon, 20 Jun 2016 01:54:41 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---94eb2c05665ce860970535aa5331
-Content-Type: text/plain; charset=UTF-8
+Hi All,
 
-On Sun, Jun 19, 2016 at 2:38 PM, Troy D. Hanson <tdh@tkhanson.net> wrote:
+Thank you for your feedback.
+I'll fix problems you mentioned and sent out V2.
 
-> mkefidisk.sh writes embedded control characters into startup.nsh.
-> Causes bootup to fail, dropping user into EFI shell.  Encountered while
-> following the the Yocto Quick Start example with the Minnowboard Max.
->
-> [YOCTO #9665]
->
-> Signed-off-by: Troy D. Hanson <tdh@tkhanson.net>
-> ---
->  scripts/contrib/mkefidisk.sh | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.sh
-> index 333284f..a7b17d9 100755
-> --- a/scripts/contrib/mkefidisk.sh
-> +++ b/scripts/contrib/mkefidisk.sh
-> @@ -439,7 +439,7 @@ if [ -d $ROOTFS_MNT/etc/udev/ ] ; then
->  fi
->
->  # Add startup.nsh script for automated boot
-> -echo "fs0:\EFI\BOOT\bootx64.efi" > $BOOTFS_MNT/startup.nsh
-> +echo 'fs0:\\EFI\\BOOT\\bootx64.efi' > $BOOTFS_MNT/startup.nsh
+Best Regards,
+Chen Qi
+
+On 06/17/2016 11:36 AM, Chen Qi wrote:
+> ===================================
 >
 >
->  # Call cleanup to unmount devices and images and remove the TMPDIR
+> Note that I've removed ptest support for util-linux because the codes have changed a lot.
+> If you think that ptest support is necessary for util-linux, I'll try to add it back for the new version.
+>
+>
+> ===================================
+>
+>
+> The following changes since commit 7c1f1fc3d739d778886208d6833c34e6ca1dc148:
+>
+>    build-appliance-image: Add LC_ALL setting and drop pseudo pieces (2016-06-16 22:43:57 +0100)
+>
+> are available in the git repository at:
+>
+>    git://git.openembedded.org/openembedded-core-contrib ChenQi/PU-20160617
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/PU-20160617
+>
+> Chen Qi (4):
+>    dbus/dbus-test: upgrade to 1.10.8
+>    systemd: upgrade to 230
+>    systemd-bootchart: add recipe
+>    util-linux: upgrade to 2.28
+>
+>   .../{dbus-test_1.10.6.bb => dbus-test_1.10.8.bb}   |  4 +-
+>   ...onfigure.ac-support-large-file-for-stat64.patch | 53 -------------
+>   .../dbus/{dbus_1.10.6.bb => dbus_1.10.8.bb}        |  5 +-
+>   meta/recipes-core/systemd/systemd.inc              |  4 +-
+>   .../systemd/0003-define-exp10-if-missing.patch     | 15 ++--
+>   ...4-Make-root-s-home-directory-configurable.patch | 62 +++++++--------
+>   ...0015-systemd-user-avoid-using-system-auth.patch | 13 ++-
+>   ...-remove-userspace-firmware-loading-suppor.patch | 68 +++++++---------
+>   .../systemd/0018-make-test-dir-configurable.patch  | 32 ++++----
+>   .../systemd/{systemd_229.bb => systemd_230.bb}     |  5 +-
+>   meta/recipes-core/util-linux/util-linux.inc        | 31 +-------
+>   .../util-linux/avoid_parallel_tests.patch          | 19 -----
+>   .../util-linux/avoid_unsupported_grep_opts.patch   | 57 --------------
+>   .../util-linux/avoid_unsupported_sleep_param.patch | 20 -----
+>   .../util-linux/display_testname_for_subtest.patch  | 18 -----
+>   .../recipes-core/util-linux/util-linux/ptest.patch | 17 ----
+>   meta/recipes-core/util-linux/util-linux/run-ptest  | 25 ------
+>   .../util-linux/util-linux/util-linux-native.patch  | 57 --------------
+>   .../util-linux-ng-2.16-mount_lock_path.patch       | 27 -------
+>   .../util-linux/uuid-test-error-api.patch           | 92 ----------------------
+>   .../{util-linux_2.27.1.bb => util-linux_2.28.bb}   | 20 ++---
+>   .../systemd-bootchart/systemd-bootchart_230.bb     | 30 +++++++
+>   22 files changed, 130 insertions(+), 544 deletions(-)
+>   rename meta/recipes-core/dbus/{dbus-test_1.10.6.bb => dbus-test_1.10.8.bb} (93%)
+>   delete mode 100644 meta/recipes-core/dbus/dbus/0001-configure.ac-support-large-file-for-stat64.patch
+>   rename meta/recipes-core/dbus/{dbus_1.10.6.bb => dbus_1.10.8.bb} (96%)
+>   rename meta/recipes-core/systemd/{systemd_229.bb => systemd_230.bb} (99%)
+>   delete mode 100644 meta/recipes-core/util-linux/util-linux/avoid_parallel_tests.patch
+>   delete mode 100644 meta/recipes-core/util-linux/util-linux/avoid_unsupported_grep_opts.patch
+>   delete mode 100644 meta/recipes-core/util-linux/util-linux/avoid_unsupported_sleep_param.patch
+>   delete mode 100644 meta/recipes-core/util-linux/util-linux/display_testname_for_subtest.patch
+>   delete mode 100644 meta/recipes-core/util-linux/util-linux/ptest.patch
+>   delete mode 100644 meta/recipes-core/util-linux/util-linux/run-ptest
+>   delete mode 100644 meta/recipes-core/util-linux/util-linux/util-linux-native.patch
+>   delete mode 100644 meta/recipes-core/util-linux/util-linux/util-linux-ng-2.16-mount_lock_path.patch
+>   delete mode 100644 meta/recipes-core/util-linux/util-linux/uuid-test-error-api.patch
+>   rename meta/recipes-core/util-linux/{util-linux_2.27.1.bb => util-linux_2.28.bb} (44%)
+>   create mode 100644 meta/recipes-devtools/systemd-bootchart/systemd-bootchart_230.bb
 >
 
-We shouldn't be relying on particular unportable behaviors of echo. This
-should be replaced with printf for more reliable, predictable behavior.
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
 
---94eb2c05665ce860970535aa5331
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Sun, Jun 19, 2016 at 2:38 PM, Troy D. Hanson <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:tdh@tkhanson.net" target=3D"_blank">tdh@tkhanson.net</a>&gt;</=
-span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
-x;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1l2" class=3D"a3=
-s aXjCH m1556aa2dceef4864">mkefidisk.sh writes embedded control characters =
-into startup.nsh.<br>
-Causes bootup to fail, dropping user into EFI shell.=C2=A0 Encountered whil=
-e<br>
-following the the Yocto Quick Start example with the Minnowboard Max.<br>
-<br>
-[YOCTO #9665]<br>
-<br>
-Signed-off-by: Troy D. Hanson &lt;<a href=3D"mailto:tdh@tkhanson.net">tdh@t=
-khanson.net</a>&gt;<br>
----<br>
-=C2=A0scripts/contrib/mkefidisk.sh | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.sh<br=
->
-index 333284f..a7b17d9 100755<br>
---- a/scripts/contrib/mkefidisk.sh<br>
-+++ b/scripts/contrib/mkefidisk.sh<br>
-@@ -439,7 +439,7 @@ if [ -d $ROOTFS_MNT/etc/udev/ ] ; then<br>
-=C2=A0fi<br>
-<br>
-=C2=A0# Add startup.nsh script for automated boot<br>
--echo &quot;fs0:\EFI\BOOT\bootx64.efi&quot; &gt; $BOOTFS_MNT/startup.nsh<br=
->
-+echo &#39;fs0:\\EFI\\BOOT\\bootx64.efi&#39; &gt; $BOOTFS_MNT/startup.nsh<b=
-r>
-<br>
-<br>
-=C2=A0# Call cleanup to unmount devices and images and remove the TMPDIR</d=
-iv></blockquote></div><br>We shouldn&#39;t be relying on particular unporta=
-ble behaviors of echo. This should be replaced with printf for more reliabl=
-e, predictable behavior.<br>-- <br><div class=3D"gmail_signature" data-smar=
-tmail=3D"gmail_signature">Christopher Larson<br>clarson at kergoth dot com<=
-br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Sen=
-ior Software Engineer, Mentor Graphics</div>
-</div></div>
-
---94eb2c05665ce860970535aa5331--
