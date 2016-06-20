@@ -1,20 +1,22 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E259600B3
+	by mail.openembedded.org (Postfix) with ESMTP id 3DBA97318E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jun 2016 12:57:06 +0000 (UTC)
+	Mon, 20 Jun 2016 12:57:07 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
 	by fmsmga104.fm.intel.com with ESMTP; 20 Jun 2016 05:57:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,498,1459839600"; d="scan'208";a="125284201"
+X-IronPort-AV: E=Sophos;i="5.26,498,1459839600"; d="scan'208";a="125284260"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga004.fm.intel.com with ESMTP; 20 Jun 2016 05:57:01 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 20 Jun 2016 05:57:04 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Jun 2016 15:56:43 +0300
-Message-Id: <1466427408-31744-1-git-send-email-alexander.kanavin@linux.intel.com>
+Date: Mon, 20 Jun 2016 15:56:44 +0300
+Message-Id: <1466427408-31744-2-git-send-email-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.8.1
-Subject: [PATCH 1/6] security_flags.inc: add SECURITY_NO_PIE_CFLAGS to libgcc and gcc-sanitizers
+In-Reply-To: <1466427408-31744-1-git-send-email-alexander.kanavin@linux.intel.com>
+References: <1466427408-31744-1-git-send-email-alexander.kanavin@linux.intel.com>
+Subject: [PATCH 2/6] security_flags.inc: add python3-pycairo and libnewt-python to no-pie exception list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,50 +31,31 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 20 Jun 2016 12:57:07 -0000
 
-These recipes no longer seem to need full exclusion from security hardening.
-
-The rest (glibc, gcc-runtime, valgrind, grub, grub-efi, uclibc) still do.
-
-[YOCTO #9489]
-
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/conf/distro/include/security_flags.inc | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ meta/conf/distro/include/security_flags.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-index ea1d4e5..cd2b964 100644
+index cd2b964..a7be185 100644
 --- a/meta/conf/distro/include/security_flags.inc
 +++ b/meta/conf/distro/include/security_flags.inc
-@@ -43,7 +43,7 @@ SECURITY_CFLAGS_pn-flac = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-flex = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-gcc = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-gcc-runtime = ""
--SECURITY_CFLAGS_pn-gcc-sanitizers = ""
-+SECURITY_CFLAGS_pn-gcc-sanitizers = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-gdb = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-gmp = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-gnutls = "${SECURITY_NO_PIE_CFLAGS}"
-@@ -62,7 +62,7 @@ SECURITY_CFLAGS_pn-kexec-tools = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-iptables = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-libaio = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-libcap = "${SECURITY_NO_PIE_CFLAGS}"
--SECURITY_CFLAGS_pn-libgcc = ""
-+SECURITY_CFLAGS_pn-libgcc = "${SECURITY_NO_PIE_CFLAGS}"
+@@ -65,6 +65,7 @@ SECURITY_CFLAGS_pn-libcap = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libgcc = "${SECURITY_NO_PIE_CFLAGS}"
  SECURITY_CFLAGS_pn-libid3tag = "${SECURITY_NO_PIE_CFLAGS}"
  SECURITY_CFLAGS_pn-libnewt = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-libnewt-python = "${SECURITY_NO_PIE_CFLAGS}"
  SECURITY_CFLAGS_pn-libglu = "${SECURITY_NO_PIE_CFLAGS}"
-@@ -109,10 +109,8 @@ TARGET_CFLAGS_append_class-target = " ${SECURITY_CFLAGS}"
- TARGET_LDFLAGS_append_class-target = " ${SECURITY_LDFLAGS}"
- 
- SECURITY_LDFLAGS_remove_pn-gcc-runtime = "-fstack-protector-strong"
--SECURITY_LDFLAGS_remove_pn-gcc-sanitizers = "-fstack-protector-strong"
- SECURITY_LDFLAGS_remove_pn-glibc = "-fstack-protector-strong"
- SECURITY_LDFLAGS_remove_pn-glibc-initial = "-fstack-protector-strong"
--SECURITY_LDFLAGS_remove_pn-libgcc = "-fstack-protector-strong"
- SECURITY_LDFLAGS_remove_pn-uclibc = "-fstack-protector-strong"
- SECURITY_LDFLAGS_remove_pn-uclibc-initial = "-fstack-protector-strong"
- SECURITY_LDFLAGS_pn-xf86-video-fbdev = "${SECURITY_X_LDFLAGS}"
+ SECURITY_CFLAGS_pn-libpcap = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libpcre = "${SECURITY_NO_PIE_CFLAGS}"
+@@ -80,6 +81,7 @@ SECURITY_CFLAGS_pn-python-pycurl = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-python-smartpm = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-python-numpy = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-python3-numpy = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-python3-pycairo = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-python3 = "${SECURITY_NO_PIE_CFLAGS}"
+ # Revert RPM to using internally supported values
+ SECURITY_CFLAGS_pn-rpm = "${lcl_maybe_fortify} -fstack-protector"
 -- 
 2.8.1
 
