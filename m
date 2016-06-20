@@ -1,45 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id EA37D6080F
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 15DF870100
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jun 2016 16:40:59 +0000 (UTC)
-Received: by mail-wm0-f45.google.com with SMTP id a66so86940105wme.0
+	Mon, 20 Jun 2016 16:41:00 +0000 (UTC)
+Received: by mail-wm0-f43.google.com with SMTP id f126so76827060wma.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jun 2016 09:41:00 -0700 (PDT)
+	Mon, 20 Jun 2016 09:41:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=IJqlIi/vcV+XimedLUOHJQAnmbPD8I4yqTaeDaxLWAA=;
-	b=mkjnmJqnF4D0S3yo/ZJ3IvZMtUSTuoBWS4GifmYj1vHWDYtT54zV91nBNGoksrpBYX
-	aUu77VGilCBQw2ssLzg2QVfzp+YyeczOuNMFTiG4g/7tW0FzSAIyPZzOyFWRSIkkmJi7
-	Vk+go6NrPm0AVEHL6lhwQiXqhYQjAKkpcquZsM5K571N+QNG5e27HTNrd+zXIEnHV56G
-	qGxmlU/NADZbwPgqoHrYbvs07e1d6Dhr6SCYYbcT56bdMFIK5dSJSus5rAyAHDR4O3Dl
-	WsNjiljB8O0mgh3lVx1Pqwlui8iBi2obmXH4ESGg8leBUqyO2/bhgSBb+fxlMSLvg0o7
-	LrTQ==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=ok35lBqEmp4D6c7z2+7ySgeajRyYRhroJESOAjxCQzU=;
+	b=wL6MNO2e1uqZi/2gs0NZADrwd/sBu2A582bGjx9ioiH1eHG06+yXO8ldGU3lBnpM0B
+	pECjMBn6CWNGgIPIccRcyblDgG5YcZdOiISkiA1K6/X7SPlDn2zxsPEe/xTMgm87+TUs
+	tmL+sCOFgIPrNneChqIC2t23VWkhJmJN+HkH3Yr+ACcRlCTLMLqQQS+aSOQo7KiNfta3
+	GS8xbDHNvr4D9tnwaM+vYRiqj8RAmqCZIY58cX05rct5v2adYdJF3G57AFQOfZCzuaml
+	I2V2Nq/SEuYCGVxgCu40ON44jhVfU4BJmTuL/yV7zKx1+pp4Ej/AE03KD4xV5faVCwZe
+	hMAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=IJqlIi/vcV+XimedLUOHJQAnmbPD8I4yqTaeDaxLWAA=;
-	b=SIONxe2nuoUbbxWxxe0MKytEzGJ8H5cvYKwdlwC4GcGmOPtooUV5JK8wQuj2ASJn2x
-	CCRwOnMElIyXw+XFFi4rN4yFWaFsaE1WWqYJyacJpG7HHzJegSFqPmWTmVMljx2sC/nF
-	hegqzBIPCc4O3UkqCFJ1YGsKO3yTCzQsDd8p4QDq+cxsYZ/08RBecdi1+EegBBg1jjBV
-	W/aradWE+UfJkKolGGS1wSMAG02FzRde7U2SOul5HzpOpeih7n4jnHP8zCg75W6cvv9J
-	IG4Eyrs7MXjlucNCQXggfGzUf5lySQE/t0bjNDA5WfficZENvUsCcfn4Wykpaj+V0Wbx
-	NRSg==
-X-Gm-Message-State: ALyK8tLwjJNsByxk66WHSOb2aqJVVatIg1Y7oAZxFfpWpiP5qX15eKBgc9jn2DPuPy8lu+MF
-X-Received: by 10.194.0.178 with SMTP id 18mr17161413wjf.64.1466440859276;
-	Mon, 20 Jun 2016 09:40:59 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=ok35lBqEmp4D6c7z2+7ySgeajRyYRhroJESOAjxCQzU=;
+	b=fw/obaLXNtKT5tSuGLErZt9MwrpBpNWVRpRmhSrelOPCR1c8DnlQllzwll07fSNw22
+	5WKmBNel5VAZjxaEhURDn+DNKNnq/k57a1t2MmnOeax/FBafOnYL+05Zv9WmbH1r7EKl
+	csy+rbN2565Ogt1RnHLM416IClCNro65JGg3XU2R91FUrYkymM5bwgjLVkKfHDzZZ7IO
+	TruR9ylzjFnUiYFVu0K9GfBnprzMlsvVp0RbJaKEpo5S3UIHCajiZsPFXolNaw0K2iuV
+	7yCOse4sYvzp0tocLP2ABcH7ViuYvSEFCIPunafxie96tE2J7HWgmefICpD+l2XyKEyl
+	ic1Q==
+X-Gm-Message-State: ALyK8tJtO+L6w+Kf9SyqcwNEBZLdUhwMiBiOOcpF9LZoFtUUAZQZdfQ1pIpqpgtqKJv2xq7Z
+X-Received: by 10.28.217.146 with SMTP id q140mr12561551wmg.56.1466440861073; 
+	Mon, 20 Jun 2016 09:41:01 -0700 (PDT)
 Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id kc8sm659236wjb.0.2016.06.20.09.40.58
+	by smtp.gmail.com with ESMTPSA id kc8sm659236wjb.0.2016.06.20.09.41.00
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 20 Jun 2016 09:40:58 -0700 (PDT)
+	Mon, 20 Jun 2016 09:41:00 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Jun 2016 17:40:52 +0100
-Message-Id: <1466440854-16120-1-git-send-email-ross.burton@intel.com>
+Date: Mon, 20 Jun 2016 17:40:54 +0100
+Message-Id: <1466440854-16120-3-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.8.1
-Subject: [PATCH 1/3] oeqa/targetbuild: fix folder name estimate logic
+In-Reply-To: <1466440854-16120-1-git-send-email-ross.burton@intel.com>
+References: <1466440854-16120-1-git-send-email-ross.burton@intel.com>
+Subject: [PATCH 3/3] oeqa/targetbuild: use os.path.join instead of string concatenation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,30 +57,24 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 20 Jun 2016 16:41:01 -0000
 
-The re.sub() used to transform a tarball into a best guess folder name wasn't
-right, as there isn't enough escaping and tar.xz was missing.
-
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/lib/oeqa/utils/targetbuild.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/utils/targetbuild.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/lib/oeqa/utils/targetbuild.py b/meta/lib/oeqa/utils/targetbuild.py
-index d538f6b..6177a12 100644
+index f087670..59593f5 100644
 --- a/meta/lib/oeqa/utils/targetbuild.py
 +++ b/meta/lib/oeqa/utils/targetbuild.py
-@@ -17,9 +17,10 @@ class BuildProject(metaclass=ABCMeta):
-         self.uri = uri
-         self.archive = os.path.basename(uri)
-         self.localarchive = os.path.join(tmpdir,self.archive)
--        self.fname = re.sub(r'.tar.bz2|tar.gz$', '', self.archive)
-         if foldername:
-             self.fname = foldername
-+        else:
-+            self.fname = re.sub(r'\.tar\.bz2$|\.tar\.gz$|\.tar\.xz$', '', self.archive)
+@@ -117,7 +117,7 @@ class SDKBuildProject(BuildProject):
+         subprocess.check_call(cmd, shell=True)
  
-     # Download self.archive to self.localarchive
-     def _download_archive(self):
+         #Change targetdir to project folder
+-        self.targetdir = self.targetdir + self.fname
++        self.targetdir = os.path.join(self.targetdir, self.fname)
+ 
+     def run_configure(self, configure_args='', extra_cmds=' gnu-configize; '):
+         return super(SDKBuildProject, self).run_configure(configure_args=(configure_args or '$CONFIGURE_FLAGS'), extra_cmds=extra_cmds)
 -- 
 2.8.1
 
