@@ -1,28 +1,47 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2889E60290
+Return-Path: <christopher.w.clark@gmail.com>
+Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
+	[209.85.220.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 574696FFEA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jun 2016 01:54:40 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u5K1seLo006376
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 20 Jun 2016 02:24:13 +0000 (UTC)
+Received: by mail-pa0-f65.google.com with SMTP id us13so9832275pab.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Jun 2016 18:54:40 -0700 (PDT)
-Received: from [128.224.162.229] (128.224.162.229) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
-	Sun, 19 Jun 2016 18:54:40 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1466134497.git.Qi.Chen@windriver.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <57674CE4.6040809@windriver.com>
-Date: Mon, 20 Jun 2016 09:54:44 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.7.2
-MIME-Version: 1.0
-In-Reply-To: <cover.1466134497.git.Qi.Chen@windriver.com>
-X-Originating-IP: [128.224.162.229]
-Subject: Re: [PATCH 0/4] Upgrade systemd, dbus and util-linux
+	Sun, 19 Jun 2016 19:24:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=8+1I614lwAQIpWwXQKr6GQfVibCr9wdWyeiHjBVGSj0=;
+	b=tAdzaAspOiCoiz8JtK8bj3Sn6wo8vDwVnoBb8h1ylM7FlVkRXG2O22eh/cZAnpkPpH
+	KLOhzCJWXIX6upgvCM4dm6gAaLAFz6y9vU5F30Y9edVlMFlLiKzifdRC71ZkUPKzpLBc
+	B4VYXjPgDNFZzKMrPPMmq3H+w4UkN9spjGe1BnfxIJui15UlbTld/7buecrR5jhFvIyt
+	SxoHcPmJOfaTzK2K0Uqgf6pF6vAQv16QAftcPOMNqn1KARJBmkek3Ve93yivpYf4qcXR
+	yvf6jt9Kqs58aI++mYOjA11iqw3GGn+HuorNeHO/N4CocSB+uRpYGswGa2a0QYNonhaV
+	+UkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=8+1I614lwAQIpWwXQKr6GQfVibCr9wdWyeiHjBVGSj0=;
+	b=XPiF77Jsw74PyFpcUoAVIET26ZiHgYPKusI5zUU/6C85dZOZq4txxndiHEhHnT3Y81
+	ltxw+q6elyvlYWqVOmCAeWJem9qqgJEmmhBceb8beDfiAnyURnh1pHYPBxlUMa5jHe2C
+	xWnrTn1ERqyHbRYWvyV6ukX8RLtGVgiR0kUYpx6AG67YzvzTeyCPXFBFkChR3WkMJlky
+	SbqoKV/Tv4n45WKSd46J29BMvYyDKbp+0aH3rEyYo8WhiE9uLvWhCJMdbYcNi/kC4TC4
+	64E2UqVuANQ6MQibMOajmgGQdCMJ7PMgTZzpt+8awVm57phDeaalVSH0np2iEU14QUrW
+	ZgIw==
+X-Gm-Message-State: ALyK8tKJOAiUL8uCrHCLv8IfNQJo9Argg/3TPTaMhwv0mLbfS4+GQIjNphnnen+1suTymQ==
+X-Received: by 10.66.32.197 with SMTP id l5mr1920117pai.62.1466389454644;
+	Sun, 19 Jun 2016 19:24:14 -0700 (PDT)
+Received: from localhost.localdomain
+	(static-50-53-79-155.bvtn.or.frontiernet.net. [50.53.79.155])
+	by smtp.gmail.com with ESMTPSA id
+	b67sm32347269pfg.85.2016.06.19.19.24.13
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 19 Jun 2016 19:24:14 -0700 (PDT)
+From: christopher.w.clark@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 19 Jun 2016 19:23:45 -0700
+Message-Id: <1466389428-4438-1-git-send-email-christopher.w.clark@gmail.com>
+X-Mailer: git-send-email 2.1.4
+Cc: Christopher Clark <christopher.clark6@baesystems.com>
+Subject: [PATCH v2 1/4] linux-firmware : fix typo in LICENSE line for iwlwifi-6000g2b-5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,82 +54,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jun 2016 01:54:41 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 20 Jun 2016 02:24:14 -0000
 
-Hi All,
+From: Christopher Clark <christopher.clark6@baesystems.com>
 
-Thank you for your feedback.
-I'll fix problems you mentioned and sent out V2.
+Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
+---
+ meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Best Regards,
-Chen Qi
-
-On 06/17/2016 11:36 AM, Chen Qi wrote:
-> ===================================
->
->
-> Note that I've removed ptest support for util-linux because the codes have changed a lot.
-> If you think that ptest support is necessary for util-linux, I'll try to add it back for the new version.
->
->
-> ===================================
->
->
-> The following changes since commit 7c1f1fc3d739d778886208d6833c34e6ca1dc148:
->
->    build-appliance-image: Add LC_ALL setting and drop pseudo pieces (2016-06-16 22:43:57 +0100)
->
-> are available in the git repository at:
->
->    git://git.openembedded.org/openembedded-core-contrib ChenQi/PU-20160617
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/PU-20160617
->
-> Chen Qi (4):
->    dbus/dbus-test: upgrade to 1.10.8
->    systemd: upgrade to 230
->    systemd-bootchart: add recipe
->    util-linux: upgrade to 2.28
->
->   .../{dbus-test_1.10.6.bb => dbus-test_1.10.8.bb}   |  4 +-
->   ...onfigure.ac-support-large-file-for-stat64.patch | 53 -------------
->   .../dbus/{dbus_1.10.6.bb => dbus_1.10.8.bb}        |  5 +-
->   meta/recipes-core/systemd/systemd.inc              |  4 +-
->   .../systemd/0003-define-exp10-if-missing.patch     | 15 ++--
->   ...4-Make-root-s-home-directory-configurable.patch | 62 +++++++--------
->   ...0015-systemd-user-avoid-using-system-auth.patch | 13 ++-
->   ...-remove-userspace-firmware-loading-suppor.patch | 68 +++++++---------
->   .../systemd/0018-make-test-dir-configurable.patch  | 32 ++++----
->   .../systemd/{systemd_229.bb => systemd_230.bb}     |  5 +-
->   meta/recipes-core/util-linux/util-linux.inc        | 31 +-------
->   .../util-linux/avoid_parallel_tests.patch          | 19 -----
->   .../util-linux/avoid_unsupported_grep_opts.patch   | 57 --------------
->   .../util-linux/avoid_unsupported_sleep_param.patch | 20 -----
->   .../util-linux/display_testname_for_subtest.patch  | 18 -----
->   .../recipes-core/util-linux/util-linux/ptest.patch | 17 ----
->   meta/recipes-core/util-linux/util-linux/run-ptest  | 25 ------
->   .../util-linux/util-linux/util-linux-native.patch  | 57 --------------
->   .../util-linux-ng-2.16-mount_lock_path.patch       | 27 -------
->   .../util-linux/uuid-test-error-api.patch           | 92 ----------------------
->   .../{util-linux_2.27.1.bb => util-linux_2.28.bb}   | 20 ++---
->   .../systemd-bootchart/systemd-bootchart_230.bb     | 30 +++++++
->   22 files changed, 130 insertions(+), 544 deletions(-)
->   rename meta/recipes-core/dbus/{dbus-test_1.10.6.bb => dbus-test_1.10.8.bb} (93%)
->   delete mode 100644 meta/recipes-core/dbus/dbus/0001-configure.ac-support-large-file-for-stat64.patch
->   rename meta/recipes-core/dbus/{dbus_1.10.6.bb => dbus_1.10.8.bb} (96%)
->   rename meta/recipes-core/systemd/{systemd_229.bb => systemd_230.bb} (99%)
->   delete mode 100644 meta/recipes-core/util-linux/util-linux/avoid_parallel_tests.patch
->   delete mode 100644 meta/recipes-core/util-linux/util-linux/avoid_unsupported_grep_opts.patch
->   delete mode 100644 meta/recipes-core/util-linux/util-linux/avoid_unsupported_sleep_param.patch
->   delete mode 100644 meta/recipes-core/util-linux/util-linux/display_testname_for_subtest.patch
->   delete mode 100644 meta/recipes-core/util-linux/util-linux/ptest.patch
->   delete mode 100644 meta/recipes-core/util-linux/util-linux/run-ptest
->   delete mode 100644 meta/recipes-core/util-linux/util-linux/util-linux-native.patch
->   delete mode 100644 meta/recipes-core/util-linux/util-linux/util-linux-ng-2.16-mount_lock_path.patch
->   delete mode 100644 meta/recipes-core/util-linux/util-linux/uuid-test-error-api.patch
->   rename meta/recipes-core/util-linux/{util-linux_2.27.1.bb => util-linux_2.28.bb} (44%)
->   create mode 100644 meta/recipes-devtools/systemd-bootchart/systemd-bootchart_230.bb
->
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+index 52fd176..c39a9ca 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+@@ -451,7 +451,7 @@ LICENSE_${PN}-iwlwifi-3160-9    = "Firmware-iwlwifi_firmware"
+ LICENSE_${PN}-iwlwifi-6000-4    = "Firmware-iwlwifi_firmware"
+ LICENSE_${PN}-iwlwifi-6000g2a-5 = "Firmware-iwlwifi_firmware"
+ LICENSE_${PN}-iwlwifi-6000g2a-6 = "Firmware-iwlwifi_firmware"
+-LICENSE_${PN}-iwlwifi-6000g2a-5 = "Firmware-iwlwifi_firmware"
++LICENSE_${PN}-iwlwifi-6000g2b-5 = "Firmware-iwlwifi_firmware"
+ LICENSE_${PN}-iwlwifi-6000g2b-6 = "Firmware-iwlwifi_firmware"
+ LICENSE_${PN}-iwlwifi-6050-4    = "Firmware-iwlwifi_firmware"
+ LICENSE_${PN}-iwlwifi-6050-5    = "Firmware-iwlwifi_firmware"
+-- 
+2.1.4
 
 
