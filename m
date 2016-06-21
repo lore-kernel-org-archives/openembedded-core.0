@@ -1,49 +1,56 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f46.google.com (mail-it0-f46.google.com
-	[209.85.214.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 741A760797
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
+	[209.85.220.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 7AACF60721
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jun 2016 16:03:52 +0000 (UTC)
-Received: by mail-it0-f46.google.com with SMTP id g127so21935422ith.0
+	Tue, 21 Jun 2016 16:12:37 +0000 (UTC)
+Received: by mail-pa0-f44.google.com with SMTP id hl6so7637058pac.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jun 2016 09:03:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=58DVsEocxK65A4/oviRrBPUxR0PyZAbsyw17tB+Odao=;
-	b=WpZsMYK1bYjI8FShpxuibeg7xiWSDTYFC+i3TuOLuvEig6UFjjdy9D2Lw1UGirtZyC
-	nSQU4+XDRe8097KEn7hktx1f78mvIifNS8TzL9yt1NPNnyihOsfLJNKHTDKiVMrf7kzp
-	TVR1l+mmQ92xOcNGUDl6FGAbvroJKiq07cB7zqqbbiXx5RHvXTlhoTayVpMbsrpIGULY
-	+XO7ZsUeE6wplcPn7wK5xIFVCyU+dcF3RAG2jxBImDOfsD1I1RgF1uGC+550L1hEzHaj
-	UDaorAmlz5Nk59EzBhOXeY2iofSuCpP1UiJEVhRPTKRZb3lK3Sv/icm1Ro3uUYRDGxVf
-	WDnw==
+	Tue, 21 Jun 2016 09:12:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=wqNF6AaIlTdp8k6RbT+SL/ErSfgDYCicbRp2l3UhDIs=;
+	b=aLZwecb+yYB1fk4VrB1kYKCeVEksjc06nj+neKuxXYTROKIVU4Z05j5ZC+1gKWW1np
+	xTdAbnvxS57PAN7kUaAicUm4sMkHoj5DAGSU2LVuQ9s1UnfM3w7P7zfz8m8q5oMWB0M8
+	j+vERun5A8EVyJBWiwrojvCcRP++TBlJgCzUQILe9aEv8z4LbFYIDPKO4QvlcuoMlezr
+	jIkvsZPFceYhV+uYPC6YijavsLXFe/jqODMmHBA1pxpu7WqMPvQws84NlsR8ZEyY32rm
+	PfhfrJpmsT9Mnb+ot7ZPKCobd7bJiNkmy0vylgLGTUpa2jN01/emC5z0g/nIYspCOYqV
+	xmUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=58DVsEocxK65A4/oviRrBPUxR0PyZAbsyw17tB+Odao=;
-	b=lmrDTxKdCFJFMOmFu2TG2jYJDsSeR9P6/zcNkwlXRw4g69GNje8xAK+ROvv6ds4zjX
-	+JxIYwarsM601j3OPRPdBxxB+wUxvq8v4dWCfNI7y8Wk7MURukZ8AWHypV9O/8yAicVj
-	KHudsa5yetRcWQGfHHiiLvLX049hrY1LTMjIdeveDyJJtzWlPenRNRKeFPRgTJP1ycOB
-	S7aDwaHIvnOnh8xWVS3f7qmV41m+oR1YhIISNRMm3h1A3U6pSMeyj1v1yw+oC4tL02IZ
-	8vkR4izGDZXRudmLeNMaCPANy0VRPCh91rO0Yv1KWq1UtNOA9gKz4jhhPYxceq90M3am
-	VuyA==
-X-Gm-Message-State: ALyK8tKKybS8UIAITLPGWHyNgr0nUZLEaQHyb9PS6CK8dLy9jjPUUB24MgToJr4B5Cjj0lM3XOul2Rj6wmxiUBse
-X-Received: by 10.36.57.211 with SMTP id l202mr6999517ita.22.1466525033274;
-	Tue, 21 Jun 2016 09:03:53 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.162.6 with HTTP; Tue, 21 Jun 2016 09:03:33 -0700 (PDT)
-In-Reply-To: <CAMKF1spPd9sX7DmuLtzOuYuQT+jRgZhze6hCiNWwbW2-U_MytA@mail.gmail.com>
-References: <1466519942-5978-1-git-send-email-akuster808@gmail.com>
-	<CAMKF1spPd9sX7DmuLtzOuYuQT+jRgZhze6hCiNWwbW2-U_MytA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 21 Jun 2016 17:03:33 +0100
-Message-ID: <CAJTo0LYtMSmqz-hr6zxfPDrv3x0kDDEO02ceH5zDU3o6H5iY1w@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: akuster <akuster@mvista.com>,
-	Patches and discussions about the oe-core layer
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=wqNF6AaIlTdp8k6RbT+SL/ErSfgDYCicbRp2l3UhDIs=;
+	b=luYOvv+gZqqzLzrh3WUwBG4UXRLa71EqXkSXOaHGGuBQ+0Tsq4ew3FTEXMXVlHoFKT
+	bHIeEJQqL2tyVyoNw1P7FMOUZ1fHLwyY4cL2ksb1frat1V5gA4Kg0q0JtzYwdavWoy9Q
+	sios891R1H6MxdV9EcbIRkrg995mNnRSyIKL0GEv4J2pbyLvnPdpZI4TUHGPlPh7uye5
+	Jc2lRdYyn5uspk8+GfAS2k8CToGoldvAf9VrMHFPodlm7oI980ASVJizLXtf/AZ9Z+JZ
+	reo1R42R1c30GuZ/5HTszY5cqldYpLdlHEAt4q7C/6Iq5JJwtQ7R4KE60ZjqoKE04xL5
+	7Tqw==
+X-Gm-Message-State: ALyK8tJI+CGnICsyWDn+d0fRQ2XTmo2uqeBF8K9ctiJEXCNKFGrrDNlhcBfdPbrfctXtuw==
+X-Received: by 10.67.3.105 with SMTP id bv9mr12040919pad.29.1466525558008;
+	Tue, 21 Jun 2016 09:12:38 -0700 (PDT)
+Received: from ?IPv6:2601:646:8882:b8c:a187:b48d:cd1e:1c21?
+	([2601:646:8882:b8c:a187:b48d:cd1e:1c21])
+	by smtp.gmail.com with ESMTPSA id
+	v126sm34287312pfb.60.2016.06.21.09.12.36
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 21 Jun 2016 09:12:37 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Pgp-Agent: GPGMail 2.6b2
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1466434134.6499.27.camel@andred.net>
+Date: Tue, 21 Jun 2016 09:12:36 -0700
+Message-Id: <F0BF27CC-0D2F-4E58-B937-EFA6824F40A2@gmail.com>
+References: <1465571533-21604-1-git-send-email-git@andred.net>
+	<1465571533-21604-2-git-send-email-git@andred.net>
+	<CAMKF1srfaxLS3wn5d5Fu46i5-hU+kGj3dViD_v7YyF3wut013A@mail.gmail.com>
+	<1466434134.6499.27.camel@andred.net>
+To: =?utf-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
+X-Mailer: Apple Mail (2.3124)
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/3] Add qemuppc64 target
+Subject: Re: [PATCH 2/2] uclibc: never build with SSP
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,33 +63,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jun 2016 16:03:55 -0000
-Content-Type: multipart/alternative; boundary=001a114ab3caa9e6c60535cbf7b8
+X-List-Received-Date: Tue, 21 Jun 2016 16:12:40 -0000
+X-Groupsio-MsgNum: 83698
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_6471A0D0-4CEF-4B68-8345-591FC4C4242A";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---001a114ab3caa9e6c60535cbf7b8
-Content-Type: text/plain; charset=UTF-8
-
-On 21 June 2016 at 16:59, Khem Raj <raj.khem@gmail.com> wrote:
-
-> Can you also see if usermode qemu needs to be changed for ppc64 as well
->
-It needs enabling entirely - qemu-ppc64 doesn't exist currently so every
-build-time postinst fails.
-
-Ross
-
---001a114ab3caa9e6c60535cbf7b8
-Content-Type: text/html; charset=UTF-8
+--Apple-Mail=_6471A0D0-4CEF-4B68-8345-591FC4C4242A
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 21 June 2016 at 16:59, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:=
-raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wro=
-te:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
-left:1px #ccc solid;padding-left:1ex"><p dir=3D"ltr">Can you also see if us=
-ermode qemu needs to be changed for ppc64 as well</p><div class=3D"HOEnZb">=
-</div></blockquote></div>It needs enabling entirely - qemu-ppc64 doesn&#39;=
-t exist currently so every build-time postinst fails.</div><div class=3D"gm=
-ail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a114ab3caa9e6c60535cbf7b8--
+> On Jun 20, 2016, at 7:48 AM, Andr=C3=A9 Draszik <git@andred.net> =
+wrote:
+>=20
+> Hi Khem,
+>=20
+> On Mi, 2016-06-15 at 17:20 -0700, Khem Raj wrote:
+>> On Fri, Jun 10, 2016 at 8:12 AM, Andr=C3=A9 Draszik <git@andred.net> =
+wrote:
+>>> From: Andr=C3=A9 Draszik <adraszik@tycoint.com>
+>>>=20
+>>> This doesn't work, as the initial gcc that is used for compiling
+>>> uclibc doesn't have support for SSP yet (since that will only
+>>> be available once uclibc has been compiled). Since during that
+>>> same compilation step uclibc is trying to build its own utils
+>>> those are failing to compile with SSP enabled as the
+>>> initial gcc doesn't have access to the required libraries,
+>>> yet.
+>>=20
+>> Please look at how we do this for glibc based systems.
+>=20
+> Are you saying glibc is compiled *with* SSP enabled?
+
+We set the ssp variables manually (gcc_cv_libc_provides_ssp=3Dyes), when =
+building gcc initial.
+which should suffice for building core libraries. If uclibc build extra =
+utils then lets spin
+that via a separate recipe something like uclibc-utils or some such =
+which is built later than
+uclibc.
+
+>=20
+> I can't seem to find anything relevant. The only thing I can find =
+seems to
+> result in glibc and (and glibc-initial) and all glibc executables (!) =
+being
+> compiled without stack protector. As you seem to have something in =
+mind, can
+> you please be more specific and give me a pointer?
+>=20
+>=20
+>> This patch is
+>> not something we need.
+>=20
+> This patch fixes uclibc builds when SSP has been enabled by including
+> security_flags.inc in distro.conf. Why is it not needed? Can you be =
+more
+> specific please?
+>=20
+>=20
+> Cheers,
+> Andre
+
+
+--Apple-Mail=_6471A0D0-4CEF-4B68-8345-591FC4C4242A
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAldpZ3QACgkQuwUzVZGdMxSqIACgjI5cQM+y/Ecub13JMlf0tavl
+ALoAnRFqWTd+9mMj0LQCH3xE+lMszHjE
+=ADag
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_6471A0D0-4CEF-4B68-8345-591FC4C4242A--
