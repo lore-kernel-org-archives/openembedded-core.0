@@ -1,47 +1,50 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
-	[209.85.220.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 55BD360107
+Received: from mail-pa0-f66.google.com (mail-pa0-f66.google.com
+	[209.85.220.66])
+	by mail.openembedded.org (Postfix) with ESMTP id CC77170018
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jun 2016 14:39:04 +0000 (UTC)
-Received: by mail-pa0-f43.google.com with SMTP id hl6so6974563pac.2
+	Tue, 21 Jun 2016 14:39:06 +0000 (UTC)
+Received: by mail-pa0-f66.google.com with SMTP id ts6so1479782pac.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jun 2016 07:39:06 -0700 (PDT)
+	Tue, 21 Jun 2016 07:39:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=wG16pAHSYvo85z+hV879O4a+p1KZFKh5M5q8DAFbHDM=;
-	b=nYudUxQNaToU/2eZuDu9BZThiGNSFP2jYXrCNlf8dqfw9JxJSdDl4IX6QGknkKMsKv
-	5bIsPcL/cqTotyg3kaIYwLyJ3rebXarFCDC/m4+IKQi4Vs6WZO7BpGTuaeSZvR2xquII
-	TASrguwf8uy1r+IFESexCiH0tGjqmExjOMef1FuJAcEuxlp5m4/9GbKEiKdbl99Qcv8u
-	Z+8A/MRdlJlFU4DuApHg3P1HvJiMCSjsIHFpv6ImPiGbadXArK9wP01pLv4zPJmcisM9
-	NsT2qTpLooOu+Ii82JkxYde1o78TwEmEKe7KdCcDz6h8dBkFXsixO56DvT4doGiETBa5
-	qA5w==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=sN/VO5I/vdEsgWEMCaPK6dxQaxFVDbayMov9DVhozrE=;
+	b=pEz7jy1lZFyZWDrOOnB3iPnEJalmDjcYGqXOktbODY9bPhxH6mlSL28tCKjQL7qXTA
+	MqKVssHvJvPgo/LrG8A7w5ipMK9NZDiWbtrXHpddoFrxpgoPOGodrBPf+1ayxgXh6kq+
+	GqB3CHC4BLfqMT3Q7216eAiO2eINa6jNzJ0u639vtXzPs+4Iz6AE4z+4cFjyAQadkOKP
+	ieK9AYTsQN6oc39G5XdeNV/hRwcch3HBMXiFP+OKIbIRukRfSdOiZgvDXXfSj062O2VR
+	eKBs+WjF3kIcNCh8em3Lqc9mWkXKHPHV3Tdhv+YuD7UibPiaPXXYZ+h4QWyaXSxiZZZK
+	+Nzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=wG16pAHSYvo85z+hV879O4a+p1KZFKh5M5q8DAFbHDM=;
-	b=bZpRCpVrfKB5qETC5Qv2dPO1hGJoMOqJszlpO4yKclMrgiTsGaeGToltsBmH6nZ/C5
-	pqUXbSEUxJ1ZHLS9QzlviBzFQ/G1Devh1+w8O7qh1WQH5bGsEqvFUd2vm+OJ0/zFv9yR
-	KFUrKo2+1C/M1/Edn4kRO6r90dgMPD2wnaTj+ZeVD/3INwLIPZ7Upj0vjHNBPqeQhMNZ
-	mforHh7t93f7V/BJopH1oU+DTIsFcnlpRYMTEPiIZHKO/VhOGhYAlbBSl53UoYb2x0W7
-	3azogXOesay9k7hjTpSFWZoVoQ/cJc5GblQXVfa0Rry/FlWSAMW0+BvjNxsh3qzkX0x0
-	KNiQ==
-X-Gm-Message-State: ALyK8tJEf3toJqbGLGKL79/KknUra6zIAQLtL2H8qS5xAW9XvWLFyQk4Sl+AxkD443GJVQ==
-X-Received: by 10.66.88.100 with SMTP id bf4mr28919229pab.15.1466519945457;
-	Tue, 21 Jun 2016 07:39:05 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=sN/VO5I/vdEsgWEMCaPK6dxQaxFVDbayMov9DVhozrE=;
+	b=Y8PQZXZyQ+xBUGtTj3jDrb1csBL5JLVf9sNXtTp5iqH/euDgS5yE9yYgEwpC1KRljb
+	pclKcBtKuAPctJ7ZvAA6HFgb1J721QVFNjojxrBgQp0JMTjlmJw8oX7lSPC4Zx4EdSVq
+	Dl4F1uEqTHFAyn6CkTzRaSS/M2rIg9GS9Rh5p3JMfu45ZoEFCRdeZQhHZ9z1+7KT0HiW
+	mlEyoqK2Gr5RekODS1vHq64NDxh17cxOievgpWmLlMi0cCjDenxpDGvDN0ZOvVpdCpDN
+	TVGUUY/wfAXIIXuEAu32LZODQn7pnkpFCXASlhHu8ilpJkGwBv8Cvp56GCVO+R8Ug9Cz
+	RY6Q==
+X-Gm-Message-State: ALyK8tKDZK2fBfEGeFvtW0E2Ad5RxQBXztJmdaJzdY8FvRLQov3+ZhjZasgcnvLPJikZjQ==
+X-Received: by 10.66.190.71 with SMTP id go7mr28175027pac.146.1466519947183;
+	Tue, 21 Jun 2016 07:39:07 -0700 (PDT)
 Received: from akuster-ThinkPad-X240.hsd1.ca.comcast.net
 	(c-76-20-92-207.hsd1.ca.comcast.net. [76.20.92.207])
 	by smtp.gmail.com with ESMTPSA id
-	t4sm51199340paf.39.2016.06.21.07.39.03
+	t4sm51199340paf.39.2016.06.21.07.39.05
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 21 Jun 2016 07:39:04 -0700 (PDT)
+	Tue, 21 Jun 2016 07:39:06 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: akuster@mvista.com,
 	openembedded-core@lists.openembedded.org
-Date: Tue, 21 Jun 2016 07:38:59 -0700
-Message-Id: <1466519942-5978-1-git-send-email-akuster808@gmail.com>
+Date: Tue, 21 Jun 2016 07:39:00 -0700
+Message-Id: <1466519942-5978-2-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH 0/3] Add qemuppc64 target
+In-Reply-To: <1466519942-5978-1-git-send-email-akuster808@gmail.com>
+References: <1466519942-5978-1-git-send-email-akuster808@gmail.com>
+Subject: [PATCH 1/3] machine: add qemuppc64 machine
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,25 +57,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jun 2016 14:39:05 -0000
+X-List-Received-Date: Tue, 21 Jun 2016 14:39:07 -0000
 
-This is step 1 in support of Yocto bug 9778
-
-Boot tested on Ubuntu 14.04 (qemu 2.0)
-
-Armin Kuster (3):
-  machine: add qemuppc64 machine
-  linux-yocto: add qemuppc64
-  runqemu: Add qemuppc64
-
- meta/conf/machine/qemuppc64.conf             | 13 +++++++++++++
- meta/recipes-kernel/linux/linux-yocto_4.1.bb | 22 ++++++++++++----------
- meta/recipes-kernel/linux/linux-yocto_4.4.bb | 22 ++++++++++++----------
- scripts/runqemu                              |  9 ++++++---
- scripts/runqemu-internal                     | 24 ++++++++++++++++++------
- 5 files changed, 61 insertions(+), 29 deletions(-)
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+---
+ meta/conf/machine/qemuppc64.conf | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
  create mode 100644 meta/conf/machine/qemuppc64.conf
 
+diff --git a/meta/conf/machine/qemuppc64.conf b/meta/conf/machine/qemuppc64.conf
+new file mode 100644
+index 0000000..5501101
+--- /dev/null
++++ b/meta/conf/machine/qemuppc64.conf
+@@ -0,0 +1,13 @@
++#@TYPE: Machine
++#@NAME: qemu PPC 64 Emulator setup
++#@DESCRIPTION: Machine configuration for running an PPC system under qemu emulation
++
++require conf/machine/include/qemu.inc
++DEFAULTTUNE ?= "ppc64p6"
++require conf/machine/include/tune-power6.inc
++
++KERNEL_IMAGETYPE = "vmlinux"
++
++SERIAL_CONSOLES = "115200;ttyS0 115200;ttyS1"
++
++MACHINE_EXTRA_RRECOMMENDS = " kernel-modules"
 -- 
 1.9.1
 
