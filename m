@@ -1,48 +1,63 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
-	[209.85.220.193])
-	by mail.openembedded.org (Postfix) with ESMTP id BCC3F65CBC
+Return-Path: <bartlomiej.kucharczyk@nokia.com>
+X-Greylist: delayed 7265 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 21 Jun 2016 20:42:07 UTC
+Received: from emea01-am1-obe.outbound.protection.outlook.com
+	(mail-am1on0134.outbound.protection.outlook.com [157.56.112.134])
+	by mail.openembedded.org (Postfix) with ESMTP id 8372860132
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jun 2016 19:54:53 +0000 (UTC)
-Received: by mail-qk0-f193.google.com with SMTP id j2so5282723qkf.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jun 2016 12:54:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=zLjyGR+2TvdIUmrcHaCXg557pWleiHheUEtZrCTDgB0=;
-	b=pvkqvzNKxjbUWex2TM9MfcX7GnRIe/gDs5jLazmZ+KUBnxoxQmq8TucW2nHBSakmk6
-	4E9FMIBm+32yMo8vxU3M+A0WB+hh25BJRhmqmW0BQ05/s4Yd4GlRZ/SkmGdymGWMG/wB
-	w6FkxkMh9MuvOyz6cDpHeVj0VrmOW97qo1O1P4gN3W/Px/4nTfunG8BG1QaTa3WGZmHU
-	UJdrh0Vv4E/lrRG+hQYkPDhZvNZvPt1C47q+SDoIXpPcXtpgkKF/OFEAYW8zOpnsDO66
-	DYleOe0T1lHwcymwSHWtz7Zd52DvhNcEwbdjOt4TXHgoJj+rSPbGbMJOYrod+3Cn5wBh
-	BpCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=zLjyGR+2TvdIUmrcHaCXg557pWleiHheUEtZrCTDgB0=;
-	b=UO2mLomKxpayOaIA0GbQD7PZUZwWueVCSib33fiVhWdJVI+Rsfi05UvaiBZz2aBmcF
-	HEwGkF9YAm+AUvQ6Vcl+/2azFUZtGAYYSfpV33Tcvpwpt8uScSRY+VS93ASBqgWMQiMU
-	tz+ds0H95gBDEerVEcn+6XaCdIxfkHQBCguajoac98InjQ02lr6fV7m39Gk07WOSgwYc
-	m1tL4p2ooyC8cDTr/OX1ODDIbCOOlEOiUlDQNiD/ddof1CBBLZrQUmeLIAZv873jRxvv
-	08cPg6UR7QgARwB0bQ4GbqPKIi6a4PEVYvFRpgKtmmzovuKoLNHFUnNA6rQ/uf5B+nLB
-	YBSw==
-X-Gm-Message-State: ALyK8tJ1JE7E/e91+qUdS5S8zvmf1U03krtzNhYi9jr8OJZDKubfFHMkLLWJ17vVJsylOuQ01pxiPd8e7ANQsg==
-X-Received: by 10.233.239.18 with SMTP id d18mr33385118qkg.41.1466538893956;
-	Tue, 21 Jun 2016 12:54:53 -0700 (PDT)
+	Tue, 21 Jun 2016 20:42:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nokia.onmicrosoft.com; 
+	s=selector1-nokia-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+	bh=E1PsYUy4O0hPBu7G41ZDw2M5ik+Kq8Z2KBU8phNDrUw=;
+	b=TlNzc7Sg7M70N2GhPhezy+QpHH5bxuUfnVDaHhNoIdhjDDn0VbW1PDqqnbmJyZhF3UapRcAVGteNtL1FOqEl0bBakVrmaOSY4tbJEXF3SCog9p6Upq0hk5/l2BcgcpJVou1fcJ7mmJHx4tIxOdVpQFoftgqkvew/opNmSavc9dk=
+Received: from DBXPR07MB239.eurprd07.prod.outlook.com (10.141.11.18) by
+	DBXPR07MB240.eurprd07.prod.outlook.com (10.141.11.20) with Microsoft
+	SMTP Server (TLS) id 15.1.506.9; Tue, 21 Jun 2016 16:08:32 +0000
+Received: from DBXPR07MB239.eurprd07.prod.outlook.com ([10.141.11.18]) by
+	DBXPR07MB239.eurprd07.prod.outlook.com ([10.141.11.18]) with mapi id
+	15.01.0506.017; Tue, 21 Jun 2016 16:08:32 +0000
+From: "Kucharczyk, Bartlomiej (Nokia - PL/Wroclaw)"
+	<bartlomiej.kucharczyk@nokia.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Thread-Topic: Adding Bash to meta-toolchain.
+Thread-Index: AdHL1yAURM1ClMOIQRmp0ko80GJLvg==
+Date: Tue, 21 Jun 2016 16:08:32 +0000
+Message-ID: <DBXPR07MB2395258466152EFCDCB4ADEF92B0@DBXPR07MB239.eurprd07.prod.outlook.com>
+Accept-Language: pl-PL, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=bartlomiej.kucharczyk@nokia.com; 
+x-originating-ip: [131.228.2.27]
+x-ms-office365-filtering-correlation-id: 018ca17f-783f-4695-7d72-08d399ee4ab5
+x-microsoft-exchange-diagnostics: 1; DBXPR07MB240;
+	5:mGtTwqwsFiPBwBktxfUWMtYe99zhr4wDhqc0uf7iw0wPO3QG97D+eoJyxxZLHEh+DX9y1VaIkKjg1Wz7TwWDOdBWEV8s4bCr3/qFXtuubemGPVaKtELg/su1RqPCz1lF6/3aAKRRFeU2z+Wum1lMyw==;
+	24:22y/ff/hLuqyWJLvrXT89KnBWPxCHt8ijyA82B5YOJhsM6vb6E0OK3SSuQaEyyGSsuuScglAaoF+a1vvmg+JaYXZmHqCMmhzjq7boSbLVVU=;
+	7:i3nBByMrN/qKo7ZicP/zFd/imjuLwJfnyDbMo/UaxHoWg+x9gc6gINtTbr05sEGyHqa2Vw2lUTaDe4nS45LLRVaneadCC2aMJIO7NCHrchIyUJQ0BSRVjZGLDlUSYWOJVX/2AqaTonkUxe6Cv/hb1oNIRSqhERsJg/kj5F9TWxeR182bN0tzDzX79xGIF/Te4imhmeJYbSi28O1QYrm42Q==
+x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:DBXPR07MB240;
+x-microsoft-antispam-prvs: <DBXPR07MB24067379EEE9CC0FE53FDC9F92B0@DBXPR07MB240.eurprd07.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:;
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(601004)(2401047)(5005006)(8121501046)(3002001)(10201501046);
+	SRVR:DBXPR07MB240; BCL:0; PCL:0; RULEID:; SRVR:DBXPR07MB240; 
+x-forefront-prvs: 098076C36C
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10019020)(6009001)(7916002)(189002)(199003)(87936001)(106356001)(105586002)(50986999)(77096005)(5002640100001)(19580395003)(8676002)(54356999)(107886002)(3846002)(10400500002)(97736004)(68736007)(101416001)(110136002)(2906002)(8936002)(7736002)(5003600100003)(7846002)(7696003)(2900100001)(81166006)(122556002)(74316001)(11100500001)(33656002)(6116002)(586003)(81156014)(66066001)(86362001)(102836003)(3660700001)(450100001)(92566002)(189998001)(3280700002)(9686002)(76576001)(229853001);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:DBXPR07MB240;
+	H:DBXPR07MB239.eurprd07.prod.outlook.com; FPR:; SPF:None;
+	PTR:InfoNoRecords; MX:1; A:1; LANG:en; 
+received-spf: None (protection.outlook.com: nokia.com does not designate
+	permitted sender hosts)
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
 MIME-Version: 1.0
-Received: by 10.55.8.133 with HTTP; Tue, 21 Jun 2016 12:54:24 -0700 (PDT)
-In-Reply-To: <57698C05.7020704@mvista.com>
-References: <1466519942-5978-1-git-send-email-akuster808@gmail.com>
-	<CAMKF1spPd9sX7DmuLtzOuYuQT+jRgZhze6hCiNWwbW2-U_MytA@mail.gmail.com>
-	<57698C05.7020704@mvista.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 21 Jun 2016 12:54:24 -0700
-Message-ID: <CAMKF1sqV89fOAUo26zgZArWDfELjm=6OVBBYiD-MT6ANL9=ibg@mail.gmail.com>
-To: akuster <akuster@mvista.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/3] Add qemuppc64 target
+X-OriginatorOrg: nokia.com
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Jun 2016 16:08:32.1546 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 5d471751-9675-428d-917b-70f44f9630b0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBXPR07MB240
+Subject: Adding Bash to meta-toolchain.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,53 +70,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jun 2016 19:54:53 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 21 Jun 2016 20:42:13 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 21, 2016 at 11:48 AM, akuster <akuster@mvista.com> wrote:
->
->
-> On 06/21/2016 08:59 AM, Khem Raj wrote:
->> Can you also see if usermode qemu needs to be changed for ppc64 as well
->
-> It has one issue. It wont display input from keyboard. it over runs the
-> usb-kbd buffer. This is why I sent this series first. Working on bug
-> 9778 should also address usermode.
+Hello!
 
-OK thanks. I am not worried about kbd bug. We require qemu usermode to do a lot
-of stuff during cross builds too now a days.
+I have encountered the following issue when trying to add Bash to the SDK (=
+meta-toolchain).
+After SDK is installed, bash is not accessible in PATH.
 
->
-> thanks,
-> Armin
->
->> On Jun 21, 2016 7:39 AM, "Armin Kuster" <akuster808@gmail.com> wrote:
->>
->>> This is step 1 in support of Yocto bug 9778
->>>
->>> Boot tested on Ubuntu 14.04 (qemu 2.0)
->>>
->>> Armin Kuster (3):
->>>   machine: add qemuppc64 machine
->>>   linux-yocto: add qemuppc64
->>>   runqemu: Add qemuppc64
->>>
->>>  meta/conf/machine/qemuppc64.conf             | 13 +++++++++++++
->>>  meta/recipes-kernel/linux/linux-yocto_4.1.bb | 22 ++++++++++++----------
->>>  meta/recipes-kernel/linux/linux-yocto_4.4.bb | 22 ++++++++++++----------
->>>  scripts/runqemu                              |  9 ++++++---
->>>  scripts/runqemu-internal                     | 24 ++++++++++++++++++------
->>>  5 files changed, 61 insertions(+), 29 deletions(-)
->>>  create mode 100644 meta/conf/machine/qemuppc64.conf
->>>
->>> --
->>> 1.9.1
->>>
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>>
->>
+_Why_
+The bash binary is installed in ${base_bindir}, which is not part of PATH v=
+ariable in SDK environment script.
+
+_Possible solution_
+I can try to send a patch for this, but would like to clarify first if that=
+ is a good way. Please give some thoughts.
+
+Basically my solution is to adjust "meta/recipes-extended/bash/bash.inc", a=
+nd merge do_install_append (where /usr/bin/bash is moved to /bin/bash) into=
+ do_install_append_class-target. Additionally ALTERNATIVE_* variables must =
+be adjusted, due to:
+      WARNING: bash: NOT adding alternative provide
+
+With regards,
+Bartek
 
