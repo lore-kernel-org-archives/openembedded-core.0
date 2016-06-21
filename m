@@ -1,46 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-lb0-f170.google.com (mail-lb0-f170.google.com
-	[209.85.217.170])
-	by mail.openembedded.org (Postfix) with ESMTP id C6C77601D4
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
+	[209.85.220.193])
+	by mail.openembedded.org (Postfix) with ESMTP id BCC3F65CBC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jun 2016 19:01:53 +0000 (UTC)
-Received: by mail-lb0-f170.google.com with SMTP id o4so15985727lbp.2
+	Tue, 21 Jun 2016 19:54:53 +0000 (UTC)
+Received: by mail-qk0-f193.google.com with SMTP id j2so5282723qkf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jun 2016 12:01:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=xytQFjRzFGbbPQilzJwfb1Vc0qwiO8My3iEGhysCUnY=;
-	b=vVZUOCTr6GTXdB9c4ojuqQUKyAqqr8VYpfRdLNP3QBV1QVRSAeL988C5H166bVu8B/
-	XP1QwGJKmUGcEvBrIf0+TXNmj3VcX/Mm9rZTl83AhIiwYXBSDocfVBJtKHaE89FaQSj3
-	YlZvFTBmMKNmyCJ8WojqLS0a98+SJYP61IvVQK9XxjkF0UgotAQAO4HofP7SkfaJn/HW
-	BNwtD6vNf9FtYXIitCEIM1BcpfF1bylppb8/Gu5LOX0uv/9uvyU0X6XkvZpAt//I2mKm
-	o03wJAkeg/dbVcRfQGC4rULyRr2gOrRT1KCVni7tGoWLDMePVGrBCtJmVa8fdbr0ZATe
-	P1ww==
+	Tue, 21 Jun 2016 12:54:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=zLjyGR+2TvdIUmrcHaCXg557pWleiHheUEtZrCTDgB0=;
+	b=pvkqvzNKxjbUWex2TM9MfcX7GnRIe/gDs5jLazmZ+KUBnxoxQmq8TucW2nHBSakmk6
+	4E9FMIBm+32yMo8vxU3M+A0WB+hh25BJRhmqmW0BQ05/s4Yd4GlRZ/SkmGdymGWMG/wB
+	w6FkxkMh9MuvOyz6cDpHeVj0VrmOW97qo1O1P4gN3W/Px/4nTfunG8BG1QaTa3WGZmHU
+	UJdrh0Vv4E/lrRG+hQYkPDhZvNZvPt1C47q+SDoIXpPcXtpgkKF/OFEAYW8zOpnsDO66
+	DYleOe0T1lHwcymwSHWtz7Zd52DvhNcEwbdjOt4TXHgoJj+rSPbGbMJOYrod+3Cn5wBh
+	BpCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=xytQFjRzFGbbPQilzJwfb1Vc0qwiO8My3iEGhysCUnY=;
-	b=QpPUwMh303tCQJHGuT+62YfuJoBri7sAUOuGgavDBNeuUogshG0nHuLZZfaq40+Zyd
-	PDLLZgpSARKC5haghaj3Sclm76+7aXoNwFPklMn405PqrmBrpjwaCz7vkZwURL6YLBcK
-	MhAtpYDxcQIzzCzElD3cgEQmfL9YxKozL5qZLshxqKoxgoPLDYzvnuUZLeRtA5J5O6LI
-	M8MqBjzL5bpjP70gByhTscvEyRW9OAdKezbGMP+XckyxZGmGjvSXE3egcWo9KMHfmySl
-	/R/uoA7yqg3wP+e1C9sCp2X2YsHXFL9ozgYOu4I5aobM+ljpBHGn4fGygcAjA7aS4nyd
-	3Cbg==
-X-Gm-Message-State: ALyK8tLO8f9tqBhs/dVh4GNrlZLitVwuZ2DRK7Nxb5ywEF6CG3m8N+vBVhYg5BRtOHUo/kEb
-X-Received: by 10.194.162.168 with SMTP id yb8mr23042432wjb.32.1466535712810; 
-	Tue, 21 Jun 2016 12:01:52 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id u64sm4271766wmd.8.2016.06.21.12.01.51
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 21 Jun 2016 12:01:52 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Jun 2016 20:01:50 +0100
-Message-Id: <1466535710-30739-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] puzzles: fix Samba conflict, clean up recipe
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=zLjyGR+2TvdIUmrcHaCXg557pWleiHheUEtZrCTDgB0=;
+	b=UO2mLomKxpayOaIA0GbQD7PZUZwWueVCSib33fiVhWdJVI+Rsfi05UvaiBZz2aBmcF
+	HEwGkF9YAm+AUvQ6Vcl+/2azFUZtGAYYSfpV33Tcvpwpt8uScSRY+VS93ASBqgWMQiMU
+	tz+ds0H95gBDEerVEcn+6XaCdIxfkHQBCguajoac98InjQ02lr6fV7m39Gk07WOSgwYc
+	m1tL4p2ooyC8cDTr/OX1ODDIbCOOlEOiUlDQNiD/ddof1CBBLZrQUmeLIAZv873jRxvv
+	08cPg6UR7QgARwB0bQ4GbqPKIi6a4PEVYvFRpgKtmmzovuKoLNHFUnNA6rQ/uf5B+nLB
+	YBSw==
+X-Gm-Message-State: ALyK8tJ1JE7E/e91+qUdS5S8zvmf1U03krtzNhYi9jr8OJZDKubfFHMkLLWJ17vVJsylOuQ01pxiPd8e7ANQsg==
+X-Received: by 10.233.239.18 with SMTP id d18mr33385118qkg.41.1466538893956;
+	Tue, 21 Jun 2016 12:54:53 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.55.8.133 with HTTP; Tue, 21 Jun 2016 12:54:24 -0700 (PDT)
+In-Reply-To: <57698C05.7020704@mvista.com>
+References: <1466519942-5978-1-git-send-email-akuster808@gmail.com>
+	<CAMKF1spPd9sX7DmuLtzOuYuQT+jRgZhze6hCiNWwbW2-U_MytA@mail.gmail.com>
+	<57698C05.7020704@mvista.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 21 Jun 2016 12:54:24 -0700
+Message-ID: <CAMKF1sqV89fOAUo26zgZArWDfELjm=6OVBBYiD-MT6ANL9=ibg@mail.gmail.com>
+To: akuster <akuster@mvista.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/3] Add qemuppc64 target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,99 +55,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jun 2016 19:01:55 -0000
+X-List-Received-Date: Tue, 21 Jun 2016 19:54:53 -0000
+Content-Type: text/plain; charset=UTF-8
 
-The impetus for this was that puzzles-extra contains /usr/bin/net which
-conflicts with Samba.  Hopefully it's not controversial to say that Samba has
-priority here, so rename the binary in this recipe to puzzles-net.
+On Tue, Jun 21, 2016 at 11:48 AM, akuster <akuster@mvista.com> wrote:
+>
+>
+> On 06/21/2016 08:59 AM, Khem Raj wrote:
+>> Can you also see if usermode qemu needs to be changed for ppc64 as well
+>
+> It has one issue. It wont display input from keyboard. it over runs the
+> usb-kbd buffer. This is why I sent this series first. Working on bug
+> 9778 should also address usermode.
 
-Also fix the out-of-tree build problems (just run mkfiles in ${S}) so
-autotools-brokensep doesn't need to be used.
+OK thanks. I am not worried about kbd bug. We require qemu usermode to do a lot
+of stuff during cross builds too now a days.
 
-Modernise the anonymous Python block.
-
-Use ${bindir} instead of ${prefix}/bin.
-
-Use autotools do_install and append instead of brokenly replicating the install
-logic.
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-sato/puzzles/puzzles_git.bb | 29 ++++++++++++-----------------
- 1 file changed, 12 insertions(+), 17 deletions(-)
-
-diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
-index a9daacd..2c755d8 100644
---- a/meta/recipes-sato/puzzles/puzzles_git.bb
-+++ b/meta/recipes-sato/puzzles/puzzles_git.bb
-@@ -21,7 +21,7 @@ PV = "0.0+git${SRCPV}"
- 
- S = "${WORKDIR}/git"
- 
--inherit autotools-brokensep distro_features_check pkgconfig
-+inherit autotools distro_features_check pkgconfig
- 
- PACKAGECONFIG ??= "gtk3"
- PACKAGECONFIG[gtk2] = "--with-gtk=2,,gtk+,"
-@@ -32,46 +32,41 @@ FILES_${PN} = ""
- FILES_${PN}-extra = "${prefix}/bin ${datadir}/applications"
- 
- python __anonymous () {
--    var = bb.data.expand("FILES_${PN}", d, 1)
--    data = d.getVar(var, True)
-+    var = d.expand("FILES_${PN}")
-+    data = d.getVar(var, False)
-     for name in ("bridges", "fifteen", "inertia", "map", "samegame", "slant"):
--        data = data + " ${prefix}/bin/%s" % name
-+        data = data + " ${bindir}/%s" % name
-         data = data + " ${datadir}/applications/%s.desktop" % name
-     d.setVar(var, data)
- }
- 
--
- do_configure_prepend () {
-+    cd ${S}
-     ./mkfiles.pl
-+    cd ${B}
- }
- 
--do_install () {
--    rm -rf ${D}/*
--    export prefix=${D}
--    export DESTDIR=${D}
--    install -d ${D}/${prefix}/bin/
--    oe_runmake install
--
--
--    install -d ${D}/${datadir}/applications/
-+do_install_append () {
-+    # net conflicts with Samba, so rename it
-+    mv ${D}${bindir}/net ${D}${bindir}/puzzles-net
- 
-     # Create desktop shortcuts
-+    install -d ${D}/${datadir}/applications/
-     cd ${D}/${prefix}/bin
-     for prog in *; do
- 	if [ -x $prog ]; then
-             # Convert prog to Title Case
--            title=$(echo $prog | sed 's/\(^\| \)./\U&/g')
-+            title=$(echo $prog | sed 's/puzzles-//' | sed 's/\(^\| \)./\U&/g')
- 	    echo "making ${D}/${datadir}/applications/$prog.desktop"
- 	    cat <<STOP > ${D}/${datadir}/applications/$prog.desktop
- [Desktop Entry]
- Name=$title
--Exec=${prefix}/bin/$prog
-+Exec=${bindir}/$prog
- Icon=applications-games
- Terminal=false
- Type=Application
- Categories=Game;
- StartupNotify=true
--X-MB-SingleInstance=true
- STOP
-         fi
-     done
--- 
-2.8.1
-
+>
+> thanks,
+> Armin
+>
+>> On Jun 21, 2016 7:39 AM, "Armin Kuster" <akuster808@gmail.com> wrote:
+>>
+>>> This is step 1 in support of Yocto bug 9778
+>>>
+>>> Boot tested on Ubuntu 14.04 (qemu 2.0)
+>>>
+>>> Armin Kuster (3):
+>>>   machine: add qemuppc64 machine
+>>>   linux-yocto: add qemuppc64
+>>>   runqemu: Add qemuppc64
+>>>
+>>>  meta/conf/machine/qemuppc64.conf             | 13 +++++++++++++
+>>>  meta/recipes-kernel/linux/linux-yocto_4.1.bb | 22 ++++++++++++----------
+>>>  meta/recipes-kernel/linux/linux-yocto_4.4.bb | 22 ++++++++++++----------
+>>>  scripts/runqemu                              |  9 ++++++---
+>>>  scripts/runqemu-internal                     | 24 ++++++++++++++++++------
+>>>  5 files changed, 61 insertions(+), 29 deletions(-)
+>>>  create mode 100644 meta/conf/machine/qemuppc64.conf
+>>>
+>>> --
+>>> 1.9.1
+>>>
+>>> --
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>
+>>
 
