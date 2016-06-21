@@ -1,50 +1,50 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f68.google.com (mail-pa0-f68.google.com
-	[209.85.220.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 9EBBB7002B
+Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
+	[209.85.220.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 7AA1A70034
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jun 2016 14:39:08 +0000 (UTC)
-Received: by mail-pa0-f68.google.com with SMTP id us13so1472450pab.1
+	Tue, 21 Jun 2016 14:39:10 +0000 (UTC)
+Received: by mail-pa0-f65.google.com with SMTP id fg1so1470413pad.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jun 2016 07:39:09 -0700 (PDT)
+	Tue, 21 Jun 2016 07:39:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=+Cqq3EU9gY/dJQX3ly9fuVFzMcg7xBjo/VE8KOniDmA=;
-	b=yUm2U0EP0F7NLZ3upWPwoK09DsTeuHuC9ZmjIxxzZ1STxB/civ97NnYj9VIUb2t9vA
-	wojgqPj/DEJZngry0ZGPyEY4sjRlAgoaG3YwwwBNht9zGgErt5v6EZflggSz0fCfTdpy
-	y0TuebWm1zfhAeL+SR6KVHDtLKmgQZnh5othQXV8ceHKaqPqTBWhfgmOYuZ7tiwFJT82
-	ntpSwpytG4zowyPDZSTgPKdC2YmiJv2k4aR/9MurQmeZdVQIETSwykIheXvXWq7j7JvU
-	89PbebBsXHYXT4mxzON7RPxE74tUwYvENyPrVCdy1YePeN+p9738j6ut63HiYgTOQLFV
-	OHrw==
+	bh=81S/mWS3W9babdIGpUNZyCgPcWrormBaHhQPJhHikvg=;
+	b=bPW7iRzytTpSDdHJUstgbjijS3cwdbLGjgbmvzPJx6K8HtgipVjm+f3JMo12k076/E
+	u31m0P4jTyTGYNcYATzHCkkHLAZd61c9t14kMdEAqGqNyhifprEQo689L00p0Pd7UzZC
+	jq4X9LG1PHu+qSPw9sZ37G9Od+wk3ip1hiUOZhr/kIRM/9jv973k/pTzTSl80py293XZ
+	nN6c9rR+s2mVdPIYg0t9Jm8Y0lxGfECj6NyY5nqqbx7KCesopWn5Ey+tN6Blhqb53wNt
+	mqXyjhFy0exxp0fruWFvVx6BZeKDDWNTtYlHTQO+SrwC4Z0M8FFzRaIvAMU4xZANvjrl
+	gvmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=+Cqq3EU9gY/dJQX3ly9fuVFzMcg7xBjo/VE8KOniDmA=;
-	b=OIKNGMjO2/aUH6l6IpSJ5Y4ctiyYic/kmSRmFeVjeRd0c5nbKivhbS94lUnttMPM9H
-	dLwVzZjGDLdsnItoyAGS1lf5DmIysGDrV37qfLEuUn8BpVk/X1qNv6UJFp/or5dils95
-	muJwNYrS73MxmP6Xxc5Iulv6BJTRQZNjCviKq4HVFfTs2REz/hthZJUilKPxUQ+ZJ2r/
-	CGal5a2kFh46xwCQOSZq2FqsNEGteKwZTJNaPqm0i1RQ03d905VReA2c6nI19QePEHQx
-	gx2iynh6A6cy8dfn6YxVBdGqAKKq4/YoddCAerIpyJv+bFT2WEYo5Sj2u57Aa0uvd9TZ
-	1mBQ==
-X-Gm-Message-State: ALyK8tKwaAIIKORNcSIpumYhXd1/qvok30fjvgHSX+C1jXO//UBqDPEnIXE+IM37CNiWKA==
-X-Received: by 10.66.101.105 with SMTP id ff9mr28264553pab.84.1466519949040;
-	Tue, 21 Jun 2016 07:39:09 -0700 (PDT)
+	bh=81S/mWS3W9babdIGpUNZyCgPcWrormBaHhQPJhHikvg=;
+	b=N4DF6m3TnEaFH7Yy45FAfePhNa6W1TdBlaCm4nt8H6ep+r7HyPOihyKageg5U98cvr
+	qB8UM5fgfTH/qBay1ONUSjaDHjpmL5T1PCgW7SvOWnbPWNA5Ll2TiDAqU6K3c2EpnvS1
+	O/bQ7qKn/9Ef0y9gyv/7NVM11CR1ahuw1FXxA0xtWI2Zbu3BHLAF4FwoRB8MdiNOgkAP
+	uuQfs/PuapDMk/FIZ9l9xfKlV2e6hLg0EjPROliXvT7CEGYzlw2PBkppFSCAspKvPDjK
+	3kZm5hvWGCfT8MIou1SkOaBRdjpf35eipnXzq3n9lIj1Pb7pBM4w4Hmzi1QK4GT1g9Hc
+	aiOQ==
+X-Gm-Message-State: ALyK8tI/kT0SCTOxvZR/vMKH0dFYVoLZYl++U8ZuAvZAm07vWwgE4E6DlLl5uyVXDAt9Fg==
+X-Received: by 10.66.172.49 with SMTP id az17mr28518600pac.104.1466519950489; 
+	Tue, 21 Jun 2016 07:39:10 -0700 (PDT)
 Received: from akuster-ThinkPad-X240.hsd1.ca.comcast.net
 	(c-76-20-92-207.hsd1.ca.comcast.net. [76.20.92.207])
 	by smtp.gmail.com with ESMTPSA id
-	t4sm51199340paf.39.2016.06.21.07.39.07
+	t4sm51199340paf.39.2016.06.21.07.39.09
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 21 Jun 2016 07:39:07 -0700 (PDT)
+	Tue, 21 Jun 2016 07:39:09 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: akuster@mvista.com,
 	openembedded-core@lists.openembedded.org
-Date: Tue, 21 Jun 2016 07:39:01 -0700
-Message-Id: <1466519942-5978-3-git-send-email-akuster808@gmail.com>
+Date: Tue, 21 Jun 2016 07:39:02 -0700
+Message-Id: <1466519942-5978-4-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1466519942-5978-1-git-send-email-akuster808@gmail.com>
 References: <1466519942-5978-1-git-send-email-akuster808@gmail.com>
-Subject: [PATCH 2/3] linux-yocto: add qemuppc64
+Subject: [PATCH 3/3] runqemu: Add qemuppc64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,104 +57,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jun 2016 14:39:08 -0000
+X-List-Received-Date: Tue, 21 Jun 2016 14:39:10 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- meta/recipes-kernel/linux/linux-yocto_4.1.bb | 22 ++++++++++++----------
- meta/recipes-kernel/linux/linux-yocto_4.4.bb | 22 ++++++++++++----------
- 2 files changed, 24 insertions(+), 20 deletions(-)
+ scripts/runqemu          |  9 ++++++---
+ scripts/runqemu-internal | 24 ++++++++++++++++++------
+ 2 files changed, 24 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.1.bb b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-index 667212f..6053ea3 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-@@ -7,19 +7,21 @@ KBRANCH_qemuarm  ?= "standard/arm-versatile-926ejs"
- KBRANCH_qemuarm64 ?= "standard/qemuarm64"
- KBRANCH_qemumips ?= "standard/mti-malta32"
- KBRANCH_qemuppc  ?= "standard/qemuppc"
-+KBRANCH_qemuppc64  ?= "standard/qemuppc"
- KBRANCH_qemux86  ?= "standard/base"
- KBRANCH_qemux86-64 ?= "standard/base"
- KBRANCH_qemumips64 ?= "standard/mti-malta64"
+diff --git a/scripts/runqemu b/scripts/runqemu
+index de05035..9c73e25 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -121,7 +121,7 @@ while true; do
+     arg=${1}
+     case "$arg" in
+         "qemux86" | "qemux86-64" | "qemuarm" | "qemuarm64" | "qemumips" | "qemumipsel" | \
+-        "qemumips64" | "qemush4"  | "qemuppc" | "qemumicroblaze" | "qemuzynq" | "qemuzynqmp")
++        "qemumips64" | "qemush4"  | "qemuppc" | "qemuppc64" | "qemumicroblaze" | "qemuzynq" | "qemuzynqmp")
+             [ -z "$MACHINE" -o "$MACHINE" = "$arg" ] && MACHINE=$arg || \
+                 error "conflicting MACHINE types [$MACHINE] and [$arg]"
+             ;;
+@@ -251,13 +251,13 @@ fi
+ if [ -z "$MACHINE" ]; then
+     if [ "$IS_VM" = "true" ]; then
+         [ "x$FSTYPE" = "xwic" ] && filename=$ROOTFS || filename=$VM
+-        MACHINE=`basename $filename | sed -n 's/.*\(qemux86-64\|qemux86\|qemuarm64\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/p'`
++        MACHINE=`basename $filename | sed -n 's/.*\(qemux86-64\|qemux86\|qemuarm64\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemuppc64\|qemush4\).*/\1/p'`
+         if [ -z "$MACHINE" ]; then
+             error "Unable to set MACHINE from image filename [$VM]"
+         fi
+         echo "Set MACHINE to [$MACHINE] based on image [$VM]"
+     else
+-        MACHINE=`basename $KERNEL | sed -n 's/.*\(qemux86-64\|qemux86\|qemuarm64\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/p'`
++        MACHINE=`basename $KERNEL | sed -n 's/.*\(qemux86-64\|qemux86\|qemuarm64\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemuppc64\|qemush4\).*/\1/p'`
+         if [ -z "$MACHINE" ]; then
+             error "Unable to set MACHINE from kernel filename [$KERNEL]"
+         fi
+@@ -344,6 +344,9 @@ QEMUSH4_DEFAULT_FSTYPE=ext4
+ QEMUPPC_DEFAULT_KERNEL=vmlinux-qemuppc.bin
+ QEMUPPC_DEFAULT_FSTYPE=ext4
  
--SRCREV_machine_qemuarm ?= "a6899b7c294ed25d9d37afde858cdd52f41f86b0"
--SRCREV_machine_qemuarm64 ?= "9ba8c36e9ea7419d06accab5311e7fb0d56513ff"
--SRCREV_machine_qemumips ?= "69936a9614608b7aa893ae78bd69e5cc197816c3"
--SRCREV_machine_qemuppc ?= "9ba8c36e9ea7419d06accab5311e7fb0d56513ff"
--SRCREV_machine_qemux86 ?= "9ba8c36e9ea7419d06accab5311e7fb0d56513ff"
--SRCREV_machine_qemux86-64 ?= "9ba8c36e9ea7419d06accab5311e7fb0d56513ff"
--SRCREV_machine_qemumips64 ?= "f0eb9eabbeafa5eadf66893822ea42d80e04afbd"
--SRCREV_machine ?= "9ba8c36e9ea7419d06accab5311e7fb0d56513ff"
--SRCREV_meta ?= "9f68667031354532563766a3d04ca8a618e9177a"
-+SRCREV_machine_qemuarm ?= "a7b999561115b0b84814a2a27fe3f8c5b0599b0d"
-+SRCREV_machine_qemuarm64 ?= "57f17e7008c57885ef5c41bda2829589e499ae28"
-+SRCREV_machine_qemumips ?= "ce9d4e563925e65c7a4b73fd6027ed8d2a4fc5e4"
-+SRCREV_machine_qemuppc ?= "57f17e7008c57885ef5c41bda2829589e499ae28"
-+SRCREV_machine_qemuppc64 ?= "57f17e7008c57885ef5c41bda2829589e499ae28"
-+SRCREV_machine_qemux86 ?= "57f17e7008c57885ef5c41bda2829589e499ae28"
-+SRCREV_machine_qemux86-64 ?= "57f17e7008c57885ef5c41bda2829589e499ae28"
-+SRCREV_machine_qemumips64 ?= "75260c1966188a38e070420624ac65b188f77948"
-+SRCREV_machine ?= "57f17e7008c57885ef5c41bda2829589e499ae28"
-+SRCREV_meta ?= "4b4199bd24f206d459061bb0a920d009429d5ed3"
++QEMUPPC64_DEFAULT_KERNEL=vmlinux-qemuppc64.bin
++QEMUPPC64_DEFAULT_FSTYPE=ext4
++
+ QEMUMICROBLAZE_DEFAULT_KERNEL=linux.bin.ub
+ QEMUMICROBLAZE_DEFAULT_FSTYPE=cpio
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
-@@ -31,7 +33,7 @@ PV = "${LINUX_VERSION}+git${SRCPV}"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
+diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+index ea1a307..e8cc1a1 100755
+--- a/scripts/runqemu-internal
++++ b/scripts/runqemu-internal
+@@ -438,15 +438,27 @@ config_qemumips() {
+ }
  
--COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
-+COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|qemuppc|qemuppc64|qemumips|qemumips64|qemux86-64"
- 
- # Functionality flags
- KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.4.bb b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
-index d69ecec..a277199 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
-@@ -7,19 +7,21 @@ KBRANCH_qemuarm  ?= "standard/arm-versatile-926ejs"
- KBRANCH_qemuarm64 ?= "standard/qemuarm64"
- KBRANCH_qemumips ?= "standard/mti-malta32"
- KBRANCH_qemuppc  ?= "standard/qemuppc"
-+KBRANCH_qemuppc64  ?= "standard/qemuppc"
- KBRANCH_qemux86  ?= "standard/base"
- KBRANCH_qemux86-64 ?= "standard/base"
- KBRANCH_qemumips64 ?= "standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "cdfdcbd7ee553dc2e483813054a378ef9eaa44b6"
--SRCREV_machine_qemuarm64 ?= "bc64c8124504681545cb97a22b69a4e4bfeb55e2"
--SRCREV_machine_qemumips ?= "b1f51ad1d4e95be437bf7725e094d6ad1b8286b0"
--SRCREV_machine_qemuppc ?= "bc64c8124504681545cb97a22b69a4e4bfeb55e2"
--SRCREV_machine_qemux86 ?= "bc64c8124504681545cb97a22b69a4e4bfeb55e2"
--SRCREV_machine_qemux86-64 ?= "bc64c8124504681545cb97a22b69a4e4bfeb55e2"
--SRCREV_machine_qemumips64 ?= "4b17815085dbd2a0408d7969bf4689a4c2b12942"
--SRCREV_machine ?= "bc64c8124504681545cb97a22b69a4e4bfeb55e2"
--SRCREV_meta ?= "870134f4bfa6208d6e5339e065486be3b6e693a5"
-+SRCREV_machine_qemuarm ?= "ae04be16985c86803d8016b06aa57c02fe63cab3"
-+SRCREV_machine_qemuarm64 ?= "1f3e98df094cb7afb7d3d540dd0e47b3b8c89711"
-+SRCREV_machine_qemumips ?= "1d16db0bce02f4f46a925e5425194de8d25a926e"
-+SRCREV_machine_qemuppc ?= "1f3e98df094cb7afb7d3d540dd0e47b3b8c89711"
-+SRCREV_machine_qemuppc64 ?= "1f3e98df094cb7afb7d3d540dd0e47b3b8c89711"
-+SRCREV_machine_qemux86 ?= "1f3e98df094cb7afb7d3d540dd0e47b3b8c89711"
-+SRCREV_machine_qemux86-64 ?= "1f3e98df094cb7afb7d3d540dd0e47b3b8c89711"
-+SRCREV_machine_qemumips64 ?= "6fe42d5321cd24411c2a4b7f2aac8a01dfa82b8f"
-+SRCREV_machine ?= "1f3e98df094cb7afb7d3d540dd0e47b3b8c89711"
-+SRCREV_meta ?= "8900370d334ab4f7224fa71d7d46d62f0b11199d"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.4.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.4;destsuffix=${KMETA}"
-@@ -31,7 +33,7 @@ PV = "${LINUX_VERSION}+git${SRCPV}"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
-+COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|qemuppc|qemuppc64|qemumips|qemumips64|qemux86-64"
- 
- # Functionality flags
- KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
+ config_qemuppc() {
+-    set_mem_size 256
+-    QEMU=qemu-system-ppc
+-    MACHINE_SUBTYPE=mac99
+-    CPU_SUBTYPE=G4
++    case "$MACHINE" in
++        qemuppc)
++            set_mem_size 256
++            QEMU=qemu-system-ppc
++            MACHINE_SUBTYPE=mac99
++            CPU_SUBTYPE=G4
++            MODEL=pcnet
++        ;;
++        qemuppc64)
++            set_mem_size 1024
++            QEMU=qemu-system-ppc64
++            MACHINE_SUBTYPE=pseries
++            CPU_SUBTYPE=POWER7
++            MODEL=e1000
++        ;;
++    esac
+     QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS"
+     if [ "$SLIRP_ENABLED" = "yes" ]; then
+         QEMU_NETWORK_CMD=""
+     else
+-        QEMU_NETWORK_CMD="-net nic,model=pcnet $QEMU_TAP_CMD"
++        QEMU_NETWORK_CMD="-net nic,model=$MODEL $QEMU_TAP_CMD"
+     fi
+     if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" -o "$FSTYPE" = "wic" ]; then
+         KERNCMDLINE="root=$DROOT rw console=ttyS0 console=tty $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
+@@ -543,7 +555,7 @@ case "$MACHINE" in
+     "qemumips" | "qemumipsel" | "qemumips64")
+         config_qemumips
+         ;;
+-    "qemuppc")
++    "qemuppc" | "qemuppc64")
+         config_qemuppc
+         ;;
+     "qemush4")
 -- 
 1.9.1
 
