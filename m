@@ -1,51 +1,45 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f175.google.com (mail-pf0-f175.google.com
-	[209.85.192.175])
-	by mail.openembedded.org (Postfix) with ESMTP id DAA6460132
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f54.google.com (mail-it0-f54.google.com
+	[209.85.214.54])
+	by mail.openembedded.org (Postfix) with ESMTP id E50F860088
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jun 2016 20:51:41 +0000 (UTC)
-Received: by mail-pf0-f175.google.com with SMTP id c2so10034005pfa.2
+	Tue, 21 Jun 2016 21:07:06 +0000 (UTC)
+Received: by mail-it0-f54.google.com with SMTP id h190so24816312ith.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jun 2016 13:51:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=m5l7IpmmTJhCgC9yE3fr6U3ez+uy8fFH27Pu6Z5CHMc=;
-	b=XDYYbC6AOzvbb1mcjRnaMUD2gmXZaI7g2UUVY3rWBNuhyldb9bH6VqB3aXhyKX25kZ
-	qhlzw84kvZ9OVCE3m04Ty0mcTfja3/vW47k0BWrQuLExrbbtyGm3VPY8FCv565gRgbY/
-	OxIPZhbGP2S8hR8um1Ykj3tOrcrgOsGTtNQH4fVQhLhUNIrC+8Hm29x5RdmZzHI56peh
-	Yf0DorUo5gPVAp/ytkpm+QPHm84ukzaXcsGNyFSabvW6Z4Oauziswsb7A5/AOKw9+g13
-	+64k4MpUkUv2wPCuD5I9WKM5fQmYWOpJRfy6FFudyhcmWaLpmlyfOWqAhBSwZ9ig0R57
-	dokQ==
+	Tue, 21 Jun 2016 14:07:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=EORl1hSVOJzrvavBNx5vqAT+4u/he2Dp4pSk6ZL9Cy4=;
+	b=iNYGVRIWNGWgHZR/A8SRnYF7jA6raIpeZ76dlQKfu6pK8Dgz2suR7VMi9IY1biJPZK
+	ONFQD2mX00RjsHiqf1bLHyrOWuh72fOqpzeWcT+Dt1DpiHZfhHxDFTMXd9SW7vzPkBIb
+	YxrkmKzf71crPnKNSQ7wpf7yN7esCFvkSMNQgROXJsZJYRkkgm/PX9Si9ug9U/0WgFr+
+	QFPHVupyT4j/OQd9f4EBtsGzJai0GCrYKJUM0+AjkpB28KM/gp6BStZgQbrUE2m9VwDQ
+	hrd9hPvzFGNA6lnbFaTBfFTVvyOZmtBjgqJlxTtKIrXO8YLgPqluqmKsYrO/mv1MmCet
+	3WgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=m5l7IpmmTJhCgC9yE3fr6U3ez+uy8fFH27Pu6Z5CHMc=;
-	b=IubgH+/PqYQp3h8YX92X07mt3L5mc45wy4sHjsGZtM1RRyr7VgGNo8YQw/aEI6qeKS
-	Ep1RJMeiy3y+EJjsTcGs2clfMtATeSrDFQEmyLarpb/aV6TXIMb+651qsrUhgU09iYIb
-	N38rQQ/fvOWXoMHjCxcb5R8Z1PqsgYiL0N6+wVUb6dV/LJX3DLCU4ek7VITnhyQ/RDMe
-	LuExz9yZO8d4l6vcPhFLIXU+8xVWyMXFPchTUtnBqT9qQaRYRrimOGB9zBSUPCvpgIeV
-	SL+UCH0lIenHXC0QbrvVKg5JX6WFL/n0nPapAJ5dOZOyL576Nn8glv/UkcE43moPl3jO
-	w6oA==
-X-Gm-Message-State: ALyK8tII35ASS/+pRy3og3re/ZBI3e+3vP6K0zcbRHE1wzaRkSOnPNvCfbCxpC2MAH8FKg==
-X-Received: by 10.98.106.133 with SMTP id f127mr6998294pfc.139.1466542302181; 
-	Tue, 21 Jun 2016 13:51:42 -0700 (PDT)
-Received: from ?IPv6:2601:647:4c00:115c:3c68:c1a0:56a:aaa0?
-	([2601:647:4c00:115c:3c68:c1a0:56a:aaa0])
-	by smtp.gmail.com with ESMTPSA id
-	y66sm50262579pfg.94.2016.06.21.13.51.41
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 21 Jun 2016 13:51:41 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=EORl1hSVOJzrvavBNx5vqAT+4u/he2Dp4pSk6ZL9Cy4=;
+	b=Y+BYXRlyI7mVxGNJZ3xOeBFTQKAO4f4+59HdBk4dUcdrga5nD/W98WGdrAtQwaNWEj
+	tmdUZ7dqB74xDR6W0VYbcoItCBvD/uG/QY/bxwRY/n6fkeU2kxgxiY7tu4DYKlaGAK//
+	aeyZkEwDRMF3gD8nPqFthCBILLuXGcWeHM0YaiUg13S0BKcaYvvEFL3/iTxsPMhYBDJK
+	EKkQa7cS6tInivQfmkAWVTKxxroJ6tgC/KF3QUmljfNFL0uwjRFELM4iKMRK2yumCrwN
+	5j638Dadkm6Zxe7OaBu/N3TpDZ+GCtf3ivMHZd9ak6htBnwYDoA7Kcsh0djMFGjqKbEx
+	AzKg==
+X-Gm-Message-State: ALyK8tIX4nGqm5HXyuCFyb4rikstu7/lhObHUuZZ45rsyfnlQOH2ig7wiCsidqWm8a0J9O+gdfjoTFIUWTU4MtEn
+X-Received: by 10.36.2.71 with SMTP id 68mr9473444itu.38.1466543227462; Tue,
+	21 Jun 2016 14:07:07 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.162.6 with HTTP; Tue, 21 Jun 2016 14:06:48 -0700 (PDT)
 In-Reply-To: <DBXPR07MB2395258466152EFCDCB4ADEF92B0@DBXPR07MB239.eurprd07.prod.outlook.com>
-Date: Tue, 21 Jun 2016 13:51:35 -0700
-Message-Id: <7828DF45-F039-47DD-886C-40F84DFA743E@gmail.com>
 References: <DBXPR07MB2395258466152EFCDCB4ADEF92B0@DBXPR07MB239.eurprd07.prod.outlook.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 21 Jun 2016 22:06:48 +0100
+Message-ID: <CAJTo0Lb3D1Ktk4OUw_+Wa4ZHt4ncMa89-c_WaotXjJzmxs9YiQ@mail.gmail.com>
 To: "Kucharczyk,
 	Bartlomiej (Nokia - PL/Wroclaw)" <bartlomiej.kucharczyk@nokia.com>
-X-Mailer: Apple Mail (2.3124)
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
 Subject: Re: Adding Bash to meta-toolchain.
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -60,74 +54,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jun 2016 20:51:42 -0000
-X-Groupsio-MsgNum: 83705
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_1E07F2EB-980A-4E80-9488-56B3ACCB9009";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Tue, 21 Jun 2016 21:07:08 -0000
+Content-Type: multipart/alternative; boundary=001a1144b1d01effe70535d034a7
 
---Apple-Mail=_1E07F2EB-980A-4E80-9488-56B3ACCB9009
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+--001a1144b1d01effe70535d034a7
+Content-Type: text/plain; charset=UTF-8
 
+On 21 June 2016 at 17:08, Kucharczyk, Bartlomiej (Nokia - PL/Wroclaw) <
+bartlomiej.kucharczyk@nokia.com> wrote:
 
-> On Jun 21, 2016, at 9:08 AM, Kucharczyk, Bartlomiej (Nokia - =
-PL/Wroclaw) <bartlomiej.kucharczyk@nokia.com> wrote:
->=20
-> Hello!
->=20
-> I have encountered the following issue when trying to add Bash to the =
-SDK (meta-toolchain).
+> I have encountered the following issue when trying to add Bash to the SDK
+> (meta-toolchain).
 > After SDK is installed, bash is not accessible in PATH.
+>
 
-Are you needing bash on sdkhost or on the target. If you need it on =
-sdkhost you have to include nativesdk-bash
-into your image. =46rom what you explain it seems you are adding bash to =
-image, which will add bash and its level
-headers and libs to SDK target sysroot, meaning you can develop your =
-applications in cross environment and these
-apps can use the libs and headers of bash.
+Why do you want to install bash to the toolchain?  In general only tools
+that are specific to the SDK are part of the toolchain, so can't you just
+use the host's bash binary?
 
->=20
-> _Why_
-> The bash binary is installed in ${base_bindir}, which is not part of =
-PATH variable in SDK environment script.
->=20
-> _Possible solution_
-> I can try to send a patch for this, but would like to clarify first if =
-that is a good way. Please give some thoughts.
->=20
-> Basically my solution is to adjust =
-"meta/recipes-extended/bash/bash.inc", and merge do_install_append =
-(where /usr/bin/bash is moved to /bin/bash) into =
-do_install_append_class-target. Additionally ALTERNATIVE_* variables =
-must be adjusted, due to:
->      WARNING: bash: NOT adding alternative provide
->=20
-> With regards,
-> Bartek
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Ross
 
+--001a1144b1d01effe70535d034a7
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
---Apple-Mail=_1E07F2EB-980A-4E80-9488-56B3ACCB9009
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 21 June 2016 at 17:08, Kucharczyk, Bartlomiej (Nokia - PL/Wroclaw) <span=
+ dir=3D"ltr">&lt;<a href=3D"mailto:bartlomiej.kucharczyk@nokia.com" target=
+=3D"_blank">bartlomiej.kucharczyk@nokia.com</a>&gt;</span> wrote:<br><block=
+quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
+ solid;padding-left:1ex"><div id=3D":408" class=3D"a3s aXjCH m15574b40ca666=
+37c">I have encountered the following issue when trying to add Bash to the =
+SDK (meta-toolchain).<br>
+After SDK is installed, bash is not accessible in PATH.<br></div></blockquo=
+te></div><br>Why do you want to install bash to the toolchain?=C2=A0 In gen=
+eral only tools that are specific to the SDK are part of the toolchain, so =
+can&#39;t you just use the host&#39;s bash binary?</div><div class=3D"gmail=
+_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEUEARECAAYFAldpqNwACgkQuwUzVZGdMxSFiwCeMfIlnTAxMmhsXr21cWKeiaLl
-Z98Alii70zmVKNuuIooIJWk7MudjFco=
-=vndw
------END PGP SIGNATURE-----
-
---Apple-Mail=_1E07F2EB-980A-4E80-9488-56B3ACCB9009--
+--001a1144b1d01effe70535d034a7--
