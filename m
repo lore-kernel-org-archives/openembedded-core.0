@@ -1,36 +1,25 @@
-Return-Path: <daicy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 745FE65CBC
+Return-Path: <stephen.arnold42@gmail.com>
+Received: from gatekeeper.gentoogeek.org (gatekeeper.gentoogeek.org
+	[66.159.242.209])
+	by mail.openembedded.org (Postfix) with ESMTP id 21E7C73243
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jun 2016 00:58:12 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; 
-   d="scan'208";a="7891964"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 21 Jun 2016 08:58:07 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id E64CC498F583
+	Tue, 21 Jun 2016 01:03:24 +0000 (UTC)
+Received: from prime.arnolds.bogus (prime.arnolds.bogus [192.168.0.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by gatekeeper.gentoogeek.org (Postfix) with ESMTPS id E50492125
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jun 2016 08:58:05 +0800 (CST)
-Received: from G08CNEXMBPEKD02.g08.fujitsu.local ([10.167.33.84]) by
-	G08CNEXCHPEKD01.g08.fujitsu.local ([10.167.33.80]) with mapi id
-	14.03.0279.002; Tue, 21 Jun 2016 08:58:05 +0800
-From: "Dai, Caiyun" <daicy.fnst@cn.fujitsu.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] openssh: add systemd service file sshd.service
-Thread-Index: AdHLV+hi7Ep2JczOTq6sJJOWKCMSjg==
-Date: Tue, 21 Jun 2016 00:58:05 +0000
-Message-ID: <F96CF52C4114D94498E9D1443A2CDDE2CDA30D0B@G08CNEXMBPEKD02.g08.fujitsu.local>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.226.68]
-MIME-Version: 1.0
-X-yoursite-MailScanner-ID: E64CC498F583.A9E59
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: daicy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] openssh: add systemd service file sshd.service
+	Mon, 20 Jun 2016 18:03:24 -0700 (PDT)
+Received: from ptolemy.arnolds.bogus ([::ffff:192.168.0.11])
+	by prime.arnolds.bogus with ESMTP; Mon, 20 Jun 2016 18:03:18 -0700
+	id 0000000000241F19.5768925C.00002C60
+From: Stephen Arnold <sarnold@vctlabs.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 20 Jun 2016 17:54:48 -0700
+Message-Id: <1466470488-947-1-git-send-email-sarnold@vctlabs.com>
+X-Mailer: git-send-email 2.8.1
+Cc: Stephen Arnold <nerdboy@gentoo.org>, Stephen Arnold <sarnold@vctlabs.com>
+Subject: [PATCH] qemu-native: set ld.bfd, fix cflags, and set some environment vars
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,77 +32,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jun 2016 00:58:15 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 21 Jun 2016 01:03:27 -0000
 
-cGluZw0KDQoNCklmIHN5c3Zpbml0IGlzIGRpc2FibGVkIGZyb20gRElTVFJP
-X0ZFQVRVUkVTLHRoZW4gL2V0Yy9pbml0LmQvc3NoZCB3aWxsIGJlIHJlbW92
-ZWQsYW5kIHRoaXMgd2lsbCBjYXVzZSBzc2hkIGRhZW1vbiBmYWlsZWQgdG8g
-c3RhcnQgYnkgc3lzdGVtZCwgU28gYWRkIGl0Lg0KDQpTaWduZWQtb2ZmLWJ5
-OiBMaSBYaW4gPGxpeGluLmZuc3RAY24uZnVqaXRzdS5jb20+DQotLS0NCiAu
-Li4vcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzaC9vcGVuc3NoL3NzaGQu
-c2VydmljZSB8IDE5ICsrKysrKysrKysrKysrKysrKysNCiBtZXRhL3JlY2lw
-ZXMtY29ubmVjdGl2aXR5L29wZW5zc2gvb3BlbnNzaF83LjFwMi5iYiAgICB8
-ICA5ICsrKysrKystLQ0KIDIgZmlsZXMgY2hhbmdlZCwgMjYgaW5zZXJ0aW9u
-cygrKSwgMiBkZWxldGlvbnMoLSkgIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRh
-L3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2gvb3BlbnNzaC9zc2hkLnNl
-cnZpY2UNCg0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZp
-dHkvb3BlbnNzaC9vcGVuc3NoL3NzaGQuc2VydmljZSBiL21ldGEvcmVjaXBl
-cy1jb25uZWN0aXZpdHkvb3BlbnNzaC9vcGVuc3NoL3NzaGQuc2VydmljZQ0K
-bmV3IGZpbGUgbW9kZSAxMDA2NDQNCmluZGV4IDAwMDAwMDAuLjZjMDVmMjMN
-Ci0tLSAvZGV2L251bGwNCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZp
-dHkvb3BlbnNzaC9vcGVuc3NoL3NzaGQuc2VydmljZQ0KQEAgLTAsMCArMSwx
-OSBAQA0KK1tVbml0XQ0KK0Rlc2NyaXB0aW9uPU9wZW5TU0ggc2VydmVyIGRh
-ZW1vbg0KK0RvY3VtZW50YXRpb249bWFuOnNzaGQoOCkgbWFuOnNzaGRfY29u
-ZmlnKDUpIEFmdGVyPW5ldHdvcmsudGFyZ2V0IA0KK3NzaGQta2V5Z2VuLnNl
-cnZpY2UgV2FudHM9c3NoZC1rZXlnZW4uc2VydmljZQ0KKw0KK1tTZXJ2aWNl
-XQ0KK1R5cGU9Zm9ya2luZw0KK1BJREZpbGU9QGxvY2Fsc3RhdGVkaXJAL3J1
-bi9zc2hkLnBpZA0KK0Vudmlyb25tZW50RmlsZT0tQFNZU0NPTkZESVJAL3N5
-c2NvbmZpZy9zc2hkDQorRXhlY1N0YXJ0PUBTQklORElSQC9zc2hkICRPUFRJ
-T05TDQorRXhlY1JlbG9hZD1AQkFTRV9CSU5ESVJAL2tpbGwgLUhVUCAkTUFJ
-TlBJRCBLaWxsTW9kZT1wcm9jZXNzIA0KK1Jlc3RhcnQ9b24tZmFpbHVyZSBS
-ZXN0YXJ0U2VjPTQycw0KKw0KK1tJbnN0YWxsXQ0KK1dhbnRlZEJ5PW11bHRp
-LXVzZXIudGFyZ2V0DQorDQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNv
-bm5lY3Rpdml0eS9vcGVuc3NoL29wZW5zc2hfNy4xcDIuYmIgYi9tZXRhL3Jl
-Y2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2gvb3BlbnNzaF83LjFwMi5iYg0K
-aW5kZXggM2I1ZTI4YS4uOGIzMWI0MCAxMDA2NDQNCi0tLSBhL21ldGEvcmVj
-aXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzaC9vcGVuc3NoXzcuMXAyLmJiDQor
-KysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2gvb3BlbnNz
-aF83LjFwMi5iYg0KQEAgLTIzLDcgKzIzLDkgQEAgU1JDX1VSSSA9ICJmdHA6
-Ly9mdHAub3BlbmJzZC5vcmcvcHViL09wZW5CU0QvT3BlblNTSC9wb3J0YWJs
-ZS9vcGVuc3NoLSR7UFZ9LnRhci4NCiAgICAgICAgICAgIGZpbGU6Ly9ydW4t
-cHRlc3QgXA0KICAgICAgICAgICAgZmlsZTovL0NWRS0yMDE2LTE5MDdfdXBz
-dHJlYW1fY29tbWl0LnBhdGNoIFwNCiAgICAgICAgICAgIGZpbGU6Ly9DVkUt
-MjAxNi0xOTA3XzIucGF0Y2ggXA0KLSAgICAgICAgICAgZmlsZTovL0NWRS0y
-MDE2LTE5MDdfMy5wYXRjaCAiDQorICAgICAgICAgICBmaWxlOi8vQ1ZFLTIw
-MTYtMTkwN18zLnBhdGNoIFwNCisgICAgICAgICAgIGZpbGU6Ly9zc2hkLnNl
-cnZpY2UiDQorDQogDQogUEFNX1NSQ19VUkkgPSAiZmlsZTovL3NzaGQiDQog
-DQpAQCAtMzksNyArNDEsNyBAQCBJTklUU0NSSVBUX05BTUVfJHtQTn0tc3No
-ZCA9ICJzc2hkIg0KIElOSVRTQ1JJUFRfUEFSQU1TXyR7UE59LXNzaGQgPSAi
-ZGVmYXVsdHMgOSINCiANCiBTWVNURU1EX1BBQ0tBR0VTID0gIiR7UE59LXNz
-aGQiDQotU1lTVEVNRF9TRVJWSUNFXyR7UE59LXNzaGQgPSAic3NoZC5zb2Nr
-ZXQiDQorU1lTVEVNRF9TRVJWSUNFXyR7UE59LXNzaGQgPSAic3NoZC5zb2Nr
-ZXQgc3NoZC5zZXJ2aWNlIg0KIA0KIGluaGVyaXQgYXV0b3Rvb2xzLWJyb2tl
-bnNlcCBwdGVzdA0KIA0KQEAgLTExOCw5ICsxMjAsMTIgQEAgZG9faW5zdGFs
-bF9hcHBlbmQgKCkgew0KIAlpbnN0YWxsIC1jIC1tIDA2NDQgJHtXT1JLRElS
-fS9zc2hkLnNvY2tldCAke0R9JHtzeXN0ZW1kX3VuaXRkaXJ9L3N5c3RlbQ0K
-IAlpbnN0YWxsIC1jIC1tIDA2NDQgJHtXT1JLRElSfS9zc2hkQC5zZXJ2aWNl
-ICR7RH0ke3N5c3RlbWRfdW5pdGRpcn0vc3lzdGVtDQogCWluc3RhbGwgLWMg
-LW0gMDY0NCAke1dPUktESVJ9L3NzaGRnZW5rZXlzLnNlcnZpY2UgJHtEfSR7
-c3lzdGVtZF91bml0ZGlyfS9zeXN0ZW0NCisJaW5zdGFsbCAtYyAtbSAwNjQ0
-ICR7V09SS0RJUn0vc3NoZC5zZXJ2aWNlIA0KKyR7RH0ke3N5c3RlbWRfdW5p
-dGRpcn0vc3lzdGVtDQogCXNlZCAtaSAtZSAncyxAQkFTRV9CSU5ESVJALCR7
-YmFzZV9iaW5kaXJ9LGcnIFwNCiAJCS1lICdzLEBTQklORElSQCwke3NiaW5k
-aXJ9LGcnIFwNCiAJCS1lICdzLEBCSU5ESVJALCR7YmluZGlyfSxnJyBcDQor
-CQktZSAncyxAU1lTQ09ORkRJUkAsJHtzeXNjb25mZGlyfSxnJyBcDQorCQkt
-ZSAncyxAbG9jYWxzdGF0ZWRpckAsJHtsb2NhbHN0YXRlZGlyfSxnJyBcDQog
-CQkke0R9JHtzeXN0ZW1kX3VuaXRkaXJ9L3N5c3RlbS9zc2hkLnNvY2tldCAk
-e0R9JHtzeXN0ZW1kX3VuaXRkaXJ9L3N5c3RlbS8qLnNlcnZpY2UNCiB9DQog
-DQotLQ0KMS44LjQuMg0KDQoNCg0KLS0gDQpfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KT3BlbmVtYmVkZGVkLWNv
-cmUgbWFpbGluZyBsaXN0DQpPcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVu
-ZW1iZWRkZWQub3JnDQpodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9t
-YWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRlZC1jb3JlDQoKCg==
+The main thing is build failures with gold linker, but qemu is also a
+little too aggressive at finding random tools on the build host, so we
+also set the build env for qemu-native and make sure it doesn't reset
+its own (hard-coded) cflags when we don't want it to.
+
+Signed-off-by: Stephen Arnold <sarnold@vctlabs.com>
+
+The cflags patch was imported from Gentoo Portage and has been
+manitained over several versions; this version was rebased against
+upstream qemu git.
+
+Upstream-Status: Inappropriate
+ - Patch addresses distribution maintenance and build environment
+   sanity.
+
+Signed-off-by: Stephen Arnold <nerdboy@gentoo.org>
+---
+ meta/recipes-devtools/qemu/qemu.inc                | 11 ++++++--
+ .../qemu/qemu/qemu-2.6.0-cflags.patch              | 31 ++++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu_2.6.0.bb           |  1 +
+ 3 files changed, 41 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/qemu-2.6.0-cflags.patch
+
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index bf689bb..0a68f05 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -30,8 +30,10 @@ SRC_URI_append_class-native = "\
+ 
+ EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)} --disable-werror  --disable-bluez --disable-libiscsi --with-system-pixman --extra-cflags='${CFLAGS}'"
+ 
+-EXTRA_OECONF_class-nativesdk = "--target-list=${@get_qemu_target_list(d)} --disable-werror \
+-				"
++EXTRA_OECONF_class-nativesdk = "--target-list=${@get_qemu_target_list(d)} --disable-werror"
++
++EXTRA_OEMAKE_append_class-native = " LD="${TARGET_PREFIX}ld.bfd" AR="${AR}" OBJCOPY="${OBJCOPY}" LDFLAGS="${LDFLAGS}""
++
+ export LIBTOOL="${HOST_SYS}-libtool"
+ 
+ do_configure_prepend_class-native() {
+@@ -40,6 +42,11 @@ do_configure_prepend_class-native() {
+ 	if [ ! -z "$BHOST_PKGCONFIG_PATH" ]; then
+ 		export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$BHOST_PKGCONFIG_PATH
+ 	fi
++
++	# Alter target makefiles to accept CFLAGS set via env
++	sed -i -r \
++		-e 's/^(C|OP_C|HELPER_C)FLAGS=/\1FLAGS+=/' \
++		"${S}"/Makefile "${S}"/Makefile.target
+ }
+ 
+ KVMENABLE = "--enable-kvm"
+diff --git a/meta/recipes-devtools/qemu/qemu/qemu-2.6.0-cflags.patch b/meta/recipes-devtools/qemu/qemu/qemu-2.6.0-cflags.patch
+new file mode 100644
+index 0000000..5b78edf
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/qemu-2.6.0-cflags.patch
+@@ -0,0 +1,31 @@
++From 5d29baaf7a8c09f2f97231116e0f396b0402b23d Mon Sep 17 00:00:00 2001
++From: Steve Arnold <stephen.arnold42@gmail.com>
++Date: Sun, 19 Jun 2016 11:29:44 -0700
++Subject: [PATCH] configure: remove hard-coded flags and let build env handle
++ it
++
++Apply distribution patch for handling debug and fortify source options.
++
++Signed-off-by: Steve Arnold <nerdboy@gentoo.org>
++---
++ configure | 4 ----
++ 1 file changed, 4 deletions(-)
++
++diff --git a/configure b/configure
++index 10cb212..6f1b10c 100755
++--- a/configure
+++++ b/configure
++@@ -4539,10 +4539,6 @@ fi
++ if test "$gcov" = "yes" ; then
++   CFLAGS="-fprofile-arcs -ftest-coverage -g $CFLAGS"
++   LDFLAGS="-fprofile-arcs -ftest-coverage $LDFLAGS"
++-elif test "$fortify_source" = "yes" ; then
++-  CFLAGS="-O2 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 $CFLAGS"
++-elif test "$debug" = "no"; then
++-  CFLAGS="-O2 $CFLAGS"
++ fi
++ 
++ ##########################################
++-- 
++2.8.1
++
+diff --git a/meta/recipes-devtools/qemu/qemu_2.6.0.bb b/meta/recipes-devtools/qemu/qemu_2.6.0.bb
+index e391326..62c509b 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.6.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.6.0.bb
+@@ -8,6 +8,7 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
+             file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch \
+             file://no-valgrind.patch \
+             file://pathlimit.patch \
++            file://qemu-2.5.0-cflags.patch \
+            "
+ SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
+ SRC_URI[md5sum] = "ca3f70b43f093e33e9e014f144067f13"
+-- 
+2.8.1
+
 
