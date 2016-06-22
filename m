@@ -1,23 +1,23 @@
 Return-Path: <patrick@stwcx.xyz>
-X-Greylist: delayed 910 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 22 Jun 2016 16:23:21 UTC
 Received: from sender163-mail.zoho.com (sender163-mail.zoho.com
 	[74.201.84.163])
-	by mail.openembedded.org (Postfix) with ESMTP id D9BF7605BA
+	by mail.openembedded.org (Postfix) with ESMTP id 90FCB605BA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2016 16:23:21 +0000 (UTC)
+	Wed, 22 Jun 2016 16:31:51 +0000 (UTC)
 Received: from localhost (32.97.110.52 [32.97.110.52]) by mx.zohomail.com
-	with SMTPS id 1466611688584936.0629465230608;
-	Wed, 22 Jun 2016 09:08:08 -0700 (PDT)
+	with SMTPS id 1466613109701313.146120115715;
+	Wed, 22 Jun 2016 09:31:49 -0700 (PDT)
 From: Patrick Williams <patrick@stwcx.xyz>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Jun 2016 11:08:03 -0500
-Message-Id: <1466611683-25298-1-git-send-email-patrick@stwcx.xyz>
+Date: Wed, 22 Jun 2016 11:31:46 -0500
+Message-Id: <1466613106-26550-1-git-send-email-patrick@stwcx.xyz>
 X-Mailer: git-send-email 2.8.2
+In-Reply-To: <1466611683-25298-1-git-send-email-patrick@stwcx.xyz>
+References: <1466611683-25298-1-git-send-email-patrick@stwcx.xyz>
 X-ZohoMail: Z_56716065 SPT_1 Z_56716064 SPT_1 SLF_D
 X-Zoho-Virus-Status: 2
 Cc: Patrick Williams <patrick@stwcx.xyz>
-Subject: [PATCH] linux-libc-headers: Update doc for recipe depends
+Subject: [PATCH v2] linux-libc-headers: Update doc for recipe depends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,10 +30,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2016 16:23:22 -0000
+X-List-Received-Date: Wed, 22 Jun 2016 16:31:51 -0000
 
 The previous documentation has not been accurate since at least
-commit 46cdaf1.  Recipes that follow the old documentation will
+commit 6a1ff0e.  Recipes that follow the old documentation will
 not correctly build when sstate is enabled because the kernel
 source will not actually be available.
 
