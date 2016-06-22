@@ -1,50 +1,49 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id C3A3073178
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id EE21D731DB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2016 15:30:03 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id t190so4344423pfb.2
+	Wed, 22 Jun 2016 15:30:05 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id t190so4344498pfb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2016 08:30:04 -0700 (PDT)
+	Wed, 22 Jun 2016 08:30:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=LhF6WwoB+BCLjYBmP0MLEKqHcK7yWJFSnv3TB02E/PM=;
-	b=iHx9cWUSSNU4Z9goWCDYRwQJuhomb8k+/ENYoDzbLn99uQv9W4bGb4PunRuwpvj4kP
-	ljvhEx58iuYGF5rPu8TtDIYSr4bHOE05CRdUtACWhE2bSCmCubjGCELrglEih758YUEb
-	/aLaVGCf4roW6USxBTgy9UJM8U0/oVpmxwVkPtSoBKwiiRXrp0N15Y562h9tJWFH9rrh
-	Xp/LA235VBQ2PzHpCHmXR/6t9YPvXogi2JPzw689Bxn5VwUTtnpqYHyKibPxwYiP6tmk
-	6nsLaMb23vFxRfBg11EKfp579QzXxcl24+paplroOpiKiMYIiofE/yzblQhR0IYcLuBG
-	exWQ==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=PV34RVuTqLsVcEo9xb9vnttybTeSxfVMuIoAGYm9bIg=;
+	b=lQ8fskExuNqTwq0y3f2rn01jPry4+fL1k10FXsG8ol/gz+jXegDUtX6+bQ+zUeBh9y
+	N5iEIEeMmzxHVhU8G9grmo0txRNjqaFXnL3bfXwWSPwubyk3eoLvvym0/3qVlbhdOnA2
+	wTNm0Z4j81NWaSNXCxjp867/NP8GyEXEEOcbekRHy65VTqFXmFnm1Z6mAS7a1/Q6yRrh
+	W3nLcRqsaHXXDHpe++eLMTUV/o2t5tca6ktMscou8gJA0u2RreMEZSpNhzLK37FSY8jN
+	r/Ul7OF7Bm4Bytsx1qhMeCoPOOEvBihXHtR1TkdwYqCzv3iPmWMC8RNNdheKmeVTQnKk
+	Tpzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=LhF6WwoB+BCLjYBmP0MLEKqHcK7yWJFSnv3TB02E/PM=;
-	b=b9Hk1Qnw2G/BEp17Xs9Ly3N3CO3wbPU8Osa6kzzNoEx+JKDprbo3Ohn8RSk9wj6mS1
-	K8MY+2lWrpN2hQbLUf7CvLuZYS7U6ZR8syXAjMbvEyzP/ABodhCAwQcmJOdLArIaF91D
-	Hz3A09EFyEgtSaw/1g4SGkEtpvOKAplcSZ3/XmN1MXTDOD0/QfMi3dQ0dMXFu3P0yKaO
-	waghDFIZsSrI69gVwcLAhNb633PlwDDUpKE0tiqM/z58Fz3O4IUo31WKl3YRPfCTLuqX
-	BE5qw124u0rPBfhX4V+eznSFrQ46eFtOmcXW6R6NUtIZvrGkvBnAsaHKh8zHZVGXND9v
-	osgQ==
-X-Gm-Message-State: ALyK8tLMSKu54hPTCiwx/fjYJs9aFdsvJvu4TrlSOyznUnrwYC12v+s7twsP6ckE4h3zWA==
-X-Received: by 10.98.15.68 with SMTP id x65mr35458634pfi.66.1466609404078;
-	Wed, 22 Jun 2016 08:30:04 -0700 (PDT)
+	bh=PV34RVuTqLsVcEo9xb9vnttybTeSxfVMuIoAGYm9bIg=;
+	b=Uaq39QmlPG33kCYo8GlZFZ26KWU94MxU8W8+3PbqvF4woJme4WKCucctxCUrDmDYc0
+	Ip9D4+G+ZtpEh65eATia5CGXpniq1fOzWbeCczXujPzqZCliXvrUcnZCyo/9sUf8XnP1
+	VlixW2QhnVF3M1SGcjRO6aJGfMJyWw3tXiO5smKFCPqaAhMt7yPcE3vEBa2pt252akSD
+	2tnOYg1vcDKtkrNpnBuyplf11aiszshFhj8jAGELSDyabDbJ6CLl8GrZWksKeGSzpZ8v
+	t6c8p1CSU+DUuFOd3YqcPG7VHugl2GLGVOc8tOjEJab/2VPtbYJhkgM0lzCLZgo/GVli
+	iGMg==
+X-Gm-Message-State: ALyK8tI41cbEEy9Rgn46zF78Epn7375LxuRfLubWq/T4pGAg8ObBzUNk25dV0MZHnvafOA==
+X-Received: by 10.98.56.86 with SMTP id f83mr35410120pfa.83.1466609405862;
+	Wed, 22 Jun 2016 08:30:05 -0700 (PDT)
 Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207])
-	by smtp.gmail.com with ESMTPSA id qc16sm811450pab.1.2016.06.22.08.30.02
+	by smtp.gmail.com with ESMTPSA id qc16sm811450pab.1.2016.06.22.08.30.04
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Jun 2016 08:30:03 -0700 (PDT)
+	Wed, 22 Jun 2016 08:30:04 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	akuster808@gmail.com
-Date: Wed, 22 Jun 2016 08:29:57 -0700
-Message-Id: <1466609398-17634-2-git-send-email-akuster808@gmail.com>
+Date: Wed, 22 Jun 2016 08:29:58 -0700
+Message-Id: <1466609398-17634-3-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.3.5
 In-Reply-To: <1466609398-17634-1-git-send-email-akuster808@gmail.com>
 References: <1466609398-17634-1-git-send-email-akuster808@gmail.com>
-Cc: Armin Kuster <akuster@mvista.com>
-Subject: [PATCH 1/2] build summary: add gcc version being used.
+Subject: [PATCH 2/2] build summary: add TCLIBC being used
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,39 +56,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2016 15:30:03 -0000
+X-List-Received-Date: Wed, 22 Jun 2016 15:30:07 -0000
 
-From: Armin Kuster <akuster@mvista.com>
-
-Signed-off-by: Armin Kuster <akuster@mvista.com>
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/classes/base.bbclass | 2 ++
- meta/conf/bitbake.conf    | 2 +-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 5d8e8d6..b90e9ce 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -195,6 +195,8 @@ def buildcfg_vars(d):
-         if value is not None:
-             yield '%-17s = "%s"' % (var, value)
- 
-+    yield '%-17s = "%s"' % ("GCC_VERSION", d.getVar("GCCVERSION", True).strip('%'))
-+
- def buildcfg_neededvars(d):
-     needed_vars = oe.data.typed_value("BUILDCFG_NEEDEDVARS", d)
-     pesteruser = []
 diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 942b8b1..7132922 100644
+index 7132922..c575f55 100644
 --- a/meta/conf/bitbake.conf
 +++ b/meta/conf/bitbake.conf
 @@ -650,7 +650,7 @@ PREFERRED_PROVIDER_virtual/fakeroot-native ?= "pseudo-native"
  
  # Pre-build configuration output
  BUILDCFG_HEADER = "Build Configuration:"
--BUILDCFG_VARS = "BB_VERSION BUILD_SYS NATIVELSBSTRING TARGET_SYS MACHINE DISTRO DISTRO_VERSION TUNE_FEATURES TARGET_FPU"
-+BUILDCFG_VARS = "BB_VERSION BUILD_SYS NATIVELSBSTRING TARGET_SYS MACHINE DISTRO DISTRO_VERSION TUNE_FEATURES TARGET_FPU GCC_VERSION"
+-BUILDCFG_VARS = "BB_VERSION BUILD_SYS NATIVELSBSTRING TARGET_SYS MACHINE DISTRO DISTRO_VERSION TUNE_FEATURES TARGET_FPU GCC_VERSION"
++BUILDCFG_VARS = "BB_VERSION BUILD_SYS NATIVELSBSTRING TARGET_SYS MACHINE DISTRO DISTRO_VERSION TUNE_FEATURES TARGET_FPU GCC_VERSION TCLIBC"
  BUILDCFG_VARS[type] = "list"
  BUILDCFG_NEEDEDVARS = "TARGET_ARCH TARGET_OS"
  BUILDCFG_NEEDEDVARS[type] = "list"
