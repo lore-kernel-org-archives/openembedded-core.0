@@ -1,25 +1,46 @@
-Return-Path: <Li.Zhou@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2EDFF60053
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2016 05:19:43 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u5M5Jhxh018133
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jun 2016 22:19:43 -0700
-Received: from pek-lzhou2-d1.corp.ad.wrs.com (128.224.162.243) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server
-	(TLS) id 14.3.248.2; Tue, 21 Jun 2016 22:19:42 -0700
-From: Li Zhou <li.zhou@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Jun 2016 13:19:27 +0800
-Message-ID: <20160622051927.17908-1-li.zhou@windriver.com>
-X-Mailer: git-send-email 2.9.0
+Return-Path: <jefro.net@gmail.com>
+Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
+	[209.85.213.65])
+	by mail.openembedded.org (Postfix) with ESMTP id C01F0607F8;
+	Wed, 22 Jun 2016 06:13:24 +0000 (UTC)
+Received: by mail-vk0-f65.google.com with SMTP id w1so6152872vka.1;
+	Tue, 21 Jun 2016 23:13:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:from:date:message-id:subject:to;
+	bh=590SFT4TaxlCNdr0j3VEQur0AIOrELVyJ59DFlgG4Fk=;
+	b=NIPh5wrKB4shG+YPncNxxedCKVxHAjWp4ca2N7bi00DtFcbGhS2PBw+J6bQzFxZh6h
+	OmjVGuA1eUWZkYb9HyZPBa/579x8CMxzZKCiy+70vQ2VO2KPXj8Wz2naFsmnOg8IndAu
+	EKR5ljIIn7lVqVAKqSjmgkoELkSmCYUP3HoHIS1TZut9H7CrNnnnb0GCzpu8iLu9Wmhm
+	Ebh6BeJcAwNQN2wDE7ffDcThSeIKMPv/lLjLgg63IMtO5UlFnN2BUmSxlVPxXISqWFS1
+	qlneTdUL2zpirgtlRKljGStqwi4GGiWDWTnHVI6CmkkZ+xFmFT2ZfXcsXx7q3QPEL4rO
+	4NIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+	:to; bh=590SFT4TaxlCNdr0j3VEQur0AIOrELVyJ59DFlgG4Fk=;
+	b=AKRdqiC7EKQFhRWrRjjj86EvQ7JSfuAiyf1yTDd/ZwgkUMJDvA90sXlguppILch1yw
+	jWf9RYlNyoTNkzitMUMmCjEMzb0YsUmbbCi1HFAXGhEJ47ySwQWoNvZucug1SjeyI1dz
+	UyrE8R7hOAW6WBVDFgAb/0Yn/dGY/U5bnMjAx5j9s+kokxZR0oXZ91PqjI9mVSJmLBrr
+	Ug7GLBA9M4llvoA4SfuAFFd4Wb5DQ9i8nLY4gaeZWsTGFI1/OfMRwjZp2+5ukwfUR2wb
+	pBWn/bUyiHWaelzU5F8b8O8YCQ3n2uSJCt5vkgXKkb1r0u+FldjcdPahBJq49Krnq32M
+	GBRg==
+X-Gm-Message-State: ALyK8tKTeJzjBV5aWjyrXmyK0RCo3/Mv08UQhXjFlBoYSl5p9EP3TfJ+C6mSLEbvJhMyhE5RsfOaOZKYGgg5YA==
+X-Received: by 10.31.227.196 with SMTP id a187mr12107486vkh.116.1466576004645; 
+	Tue, 21 Jun 2016 23:13:24 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.243]
-Subject: [PATCH] smartpm: make "smart query/info" search package name in Provides too.
+Sender: jefro.net@gmail.com
+Received: by 10.103.68.65 with HTTP; Tue, 21 Jun 2016 23:13:05 -0700 (PDT)
+From: Jeff Osier-Mixon <jefro@jefro.net>
+Date: Tue, 21 Jun 2016 23:13:05 -0700
+X-Google-Sender-Auth: XrBW79hJthLU1s_dM7TQog3e0Us
+Message-ID: <CA+YB3rapfPf_s6sWGxR+Ya9oCQMnsMp7vPYGDO4n2Ws=-6bm6w@mail.gmail.com>
+To: "openembedded-members@lists.openembedded.org"
+	<openembedded-members@lists.openembedded.org>, 
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>, 
+	openembedded-core <openembedded-core@lists.openembedded.org>, 
+	Yocto Project <yocto@yoctoproject.org>
+Subject: Yocto Project Developer Day & OEDEM at ELCE this fall
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,94 +53,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2016 05:19:44 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 22 Jun 2016 06:13:25 -0000
+Content-Type: text/plain; charset=UTF-8
 
-"smart query glibc" or "smart info glibc" will get result as:
-"error: 'glibc' matches no packages".
-While "smart install glibc" can get result as:
-"libc6-xxx (for glibc) is already installed".
-Here change "smart query/info" to search package name in Provides too,
-and one result example is: "smart query glibc" gets the same result
-with "smart query libc6".
+Hi all - in case folks are starting to make travel arrangements for
+ELCE in Berlin this October, we are planning both a YP DevDay (paid
+training event) and OEDEM (OpenEmbedded members & developers meeting).
+We don't have venues yet, but these two events will likely occur on
+the Monday and Friday before and after ELCE, Oct 10 and Oct 14. We
+aren't sure yet which will be on which day, but chances are good that
+DevDay will be on Monday and OEDEM on Friday.
 
-Signed-off-by: Li Zhou <li.zhou@windriver.com>
----
- ...e-smart-query-info-search-package-name-in.patch | 51 ++++++++++++++++++++++
- meta/recipes-devtools/python/python-smartpm_git.bb |  1 +
- 2 files changed, 52 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python-smartpm/0001-smartpm-make-smart-query-info-search-package-name-in.patch
+I will keep these lists informed as we move forward.
 
-diff --git a/meta/recipes-devtools/python/python-smartpm/0001-smartpm-make-smart-query-info-search-package-name-in.patch b/meta/recipes-devtools/python/python-smartpm/0001-smartpm-make-smart-query-info-search-package-name-in.patch
-new file mode 100644
-index 0000000..75389c3
---- /dev/null
-+++ b/meta/recipes-devtools/python/python-smartpm/0001-smartpm-make-smart-query-info-search-package-name-in.patch
-@@ -0,0 +1,51 @@
-+From 7b7b7c120dd20f825ec886a9b90b1d4291d1d332 Mon Sep 17 00:00:00 2001
-+From: Li Zhou <li.zhou@windriver.com>
-+Date: Wed, 22 Jun 2016 11:09:20 +0800
-+Subject: [PATCH] smartpm: make "smart query/info" search package name in
-+ Provides too.
-+
-+"smart query glibc" or "smart info glibc" will get result as:
-+"error: 'glibc' matches no packages".
-+While "smart install glibc" can get result as:
-+"libc6-xxx (for glibc) is already installed".
-+Here change "smart query/info" to search package name in Provides too,
-+and one result example is: "smart query glibc" gets the same result
-+with "smart query libc6".
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Li Zhou <li.zhou@windriver.com>
-+---
-+ smart/commands/info.py  | 2 +-
-+ smart/commands/query.py | 2 +-
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/smart/commands/info.py b/smart/commands/info.py
-+index 59fbe98..85d05f9 100644
-+--- a/smart/commands/info.py
-++++ b/smart/commands/info.py
-+@@ -75,7 +75,7 @@ def main(ctrl, opts, reloadchannels=True):
-+     if opts.args:
-+         pkgs = {}
-+         for arg in opts.args:
-+-            ratio, results, suggestions = ctrl.search(arg, addprovides=False)
-++            ratio, results, suggestions = ctrl.search(arg)
-+ 
-+             if not results:
-+                 if suggestions:
-+diff --git a/smart/commands/query.py b/smart/commands/query.py
-+index b6f5697..22cb60f 100644
-+--- a/smart/commands/query.py
-++++ b/smart/commands/query.py
-+@@ -165,7 +165,7 @@ def main(ctrl, opts, reloadchannels=True):
-+     else:
-+         packages = {}
-+         for arg in opts.args:
-+-            ratio, results, suggestions = ctrl.search(arg, addprovides=False)
-++            ratio, results, suggestions = ctrl.search(arg)
-+             if not results:
-+                 if suggestions:
-+                     dct = {}
-+-- 
-+2.9.0
-+
-diff --git a/meta/recipes-devtools/python/python-smartpm_git.bb b/meta/recipes-devtools/python/python-smartpm_git.bb
-index d9a908d..b926f66 100644
---- a/meta/recipes-devtools/python/python-smartpm_git.bb
-+++ b/meta/recipes-devtools/python/python-smartpm_git.bb
-@@ -23,6 +23,7 @@ SRC_URI = "\
-           file://smart-already-installed-message.patch \
-           file://smart-set-noprogress-for-pycurl.patch \
-           file://smart-cache.py-getPackages-matches-name-version.patch \
-+          file://0001-smartpm-make-smart-query-info-search-package-name-in.patch \
-          "
- 
- SRCREV = "407a7eca766431257dcd1da15175cc36a1bb22d0"
+Also, the CFP for ELCE, OpenIOT Summit, and LinuxCon EU are still
+open, so please get your talks in. ELCE is here:
+
+http://events.linuxfoundation.org/events/embedded-linux-conference-europe
+
+Please feel free to let me know of any questions.
+
 -- 
-2.9.0
-
+Jeff Osier-Mixon - Open Source Community Engineer, Intel Corporation
 
