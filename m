@@ -1,47 +1,51 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
-	[209.85.223.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 35E0F731C5
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id ABE0B601D3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2016 14:36:02 +0000 (UTC)
-Received: by mail-io0-f178.google.com with SMTP id g13so38885821ioj.1
+	Wed, 22 Jun 2016 14:42:21 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id a66so1839937wme.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2016 07:36:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=C9BxIbgpkXG8YVptaPF58MQvSsr0Z3mJQGc4bfG9Kds=;
-	b=XNwNeHKeFvLHAsSTcOGoALwKxHDUIIq531kGf+z2NLhC8j2dYlXxYDksAPcs+bjCbf
-	Ihkfd7cfZeSWaKZn4xATFvszz0QAeyzGZIpRRoeLpRGEO7IDHvgjQj/M2B2z0ZsjRk1r
-	Dynz0o4RDfmlVbGdWQFNcJ7RKt47T7f087Fv4WfuAJzSd3b2HVso7lusTkAjQNjbDuIF
-	p4pMD0uolrByVYQzcQ0l0YpHJ8T3swOT+TNw4KVIQYyMzD3NDGsSjDvRT8QXRvSvHhsT
-	DW9SZB5oRQborkxZ9T+g6ZrzOCjoFJI6bTUNxfaM9SFTJY6UfCxM3FCQ3JvbOgtD6rbe
-	xstw==
+	Wed, 22 Jun 2016 07:42:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=YIX9DKe+NeCvR2k7zOqDtTUdYECzKNpzKNaS7ViA6qg=;
+	b=s9R0GV+fQFBEY+PNRBsiMjp5C0v4MAeOsV104LpsVS0tMvTbMCf2+d1xyhhvBANOC8
+	uwYl6NuQPbE8BTJj24aGV621o/dPtBnpETx5FAeIBNkhZXU5PJjo1LA4a/8IuHe+I8hR
+	1JXWB36bRNr1H5WTh3z0wvIC88jxtSHm1o2KWFMAHLSmlBnDDsmQ7nLI1l5DgmZtp1LU
+	ML8pFwxd77dhFoZmun010Rcpd1riApQZTHiTF5+LuQucuOU8IFYu4phAQpQd8N9VBW0I
+	HSXmHEMSZgFoPE6JT9BwWq9SZwNpsvnmtERGAQAD8iJOuRvn23e/cr1vzvf2yJ+AdCos
+	yzag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=C9BxIbgpkXG8YVptaPF58MQvSsr0Z3mJQGc4bfG9Kds=;
-	b=F1zy4F9VbSku3PgITMAosGdF4OykbLOYkdJFnMb/e5yGR05lEgmorg7BW7fCEbSqCQ
-	sH6uf5yuSxpsrfx25VMdOn6feN7BhSN47psfkQTcUkpc1n3oggjSZv6MOS2pQ105Y/WP
-	d1q5Nwr+V67TLEfP4iLBX+lIi1fVyDtW3okhGJMwNXTkYP+S/i99Yi6DihGysIUAyu7J
-	xjfcrllxmVrxYQ3mq+3e/R+2qC3jY2/FkakpNO+DUIsXGCNzQIHNhTxB/n8/swkqSEb7
-	9LBJpgHudMImjnFuLPUme7BRMJI2tzgHu4DRWMXoJmXhDNOu7Y5JJouYzhZGuHOoWZKZ
-	ngcA==
-X-Gm-Message-State: ALyK8tJG65OBy0K/gDfkFfzTK5bsVy5CY956BEntFVJ4F+15qfK18fw2vFf5ewQVdFEtYboJ2ZuMvqGMk2+KLJtV
-X-Received: by 10.107.154.210 with SMTP id c201mr38842644ioe.99.1466606163251; 
-	Wed, 22 Jun 2016 07:36:03 -0700 (PDT)
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=YIX9DKe+NeCvR2k7zOqDtTUdYECzKNpzKNaS7ViA6qg=;
+	b=Ky3Irhke/QKZK4XSdx0kiTVc7uzlKbJCC00O2gjwyuVkmG7hD79KhJKluGZ+fnOcnC
+	G5cOBva7DmlkqVmAN1t3RjLWuenZFGO6tUmt4WNxHoTws1xypNIO3iGweQSqkotTDmwG
+	W0jZ9iJhtk5897Zkk03iq1u5cGMnQ/eehuzOK6/0aO0nw5qPyAdIAxcQ3OpsbggfnukI
+	TQmjQocufMrgAeOr3w9yZgEy/uTuhczme4zVSQ4vJnvF4sP8+Ew1qd8D392MK+hhH3IC
+	ygQujrOtkvVzPjvIfuHI/YFgY34Mwi63Lf9s6YUb3ClsaW0fOaO6u+7+UjFEcsxMB0wf
+	Myaw==
+X-Gm-Message-State: ALyK8tJj32SdoHaa1GRGo6m2z0kde0qM5q8eTf6D7EZhmi4Xz8HQCsIa6gwuJkWH4nG4HQ==
+X-Received: by 10.28.89.6 with SMTP id n6mr8823988wmb.4.1466606541724;
+	Wed, 22 Jun 2016 07:42:21 -0700 (PDT)
+Received: from localhost (ip-89-176-104-169.net.upcbroadband.cz.
+	[89.176.104.169]) by smtp.gmail.com with ESMTPSA id
+	p9sm74436447wjv.21.2016.06.22.07.42.20
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 22 Jun 2016 07:42:20 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 22 Jun 2016 16:42:41 +0200
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <20160622144241.GA4153@jama>
+References: <1466503279-28937-1-git-send-email-alexander.kanavin@linux.intel.com>
 MIME-Version: 1.0
-Received: by 10.107.162.6 with HTTP; Wed, 22 Jun 2016 07:35:43 -0700 (PDT)
-In-Reply-To: <03eac8deaa244de132c505a9db7d411fc363f782.1466595928.git.jussi.kukkonen@intel.com>
-References: <cover.1466595928.git.jussi.kukkonen@intel.com>
-	<03eac8deaa244de132c505a9db7d411fc363f782.1466595928.git.jussi.kukkonen@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 22 Jun 2016 15:35:43 +0100
-Message-ID: <CAJTo0LZmcuyPQEi3K8XxctBaC_MHTjnWpqgbT2koLirX62bHOA@mail.gmail.com>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 09/10] vte: don't build test app
+In-Reply-To: <1466503279-28937-1-git-send-email-alexander.kanavin@linux.intel.com>
+User-Agent: Mutt/1.6.1 (2016-04-27)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] e2fsprogs: remove the extra dot from the recipe filename
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,119 +58,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2016 14:36:03 -0000
-Content-Type: multipart/alternative; boundary=001a1140fab663336c0535dedb9a
+X-List-Received-Date: Wed, 22 Jun 2016 14:42:24 -0000
+X-Groupsio-MsgNum: 83737
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="17pEHd4RhPHOinZp"
+Content-Disposition: inline
 
---001a1140fab663336c0535dedb9a
-Content-Type: text/plain; charset=UTF-8
+--17pEHd4RhPHOinZp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The patch should explain why we're disabling the test application.
+On Tue, Jun 21, 2016 at 01:01:19PM +0300, Alexander Kanavin wrote:
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 
-If we don't build the test app then the "vte" package is pretty pointless:
+Even with PR bump RP did it's still going backwards:
 
-libvte:
-        /usr/lib/libvte-2.91.so.0
-        /usr/lib/libvte-2.91.so.0.4400.1
-vte:
-        /etc/profile.d/vte.sh
-        /usr/lib/girepository-1.0/Vte-2.91.typelib
+WARNING: e2fsprogs-1.43-r0 do_packagedata: QA Issue: Package version for pa=
+ckage e2fsprogs-locale-uk went backwards which would break package feeds fr=
+om (0:1.43.-r0.1 to 0:1.43-r0.0) [version-going-backwards]
 
-The typelib should be with the library, and that sh fragment is fairly
-pointless.  Should libvte and vte be merged (ie package the library into
-$PN and let the renamer do its job)?
-
-Ross
-
-On 22 June 2016 at 12:52, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
-
-> Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 > ---
->  meta/recipes-support/vte/vte_0.44.1.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-support/vte/vte_0.44.1.bb
-> b/meta/recipes-support/vte/vte_0.44.1.bb
-> index ecbf58a..f3baa1e 100644
-> --- a/meta/recipes-support/vte/vte_0.44.1.bb
-> +++ b/meta/recipes-support/vte/vte_0.44.1.bb
-> @@ -18,7 +18,7 @@ PACKAGECONFIG[gnutls] =
-> "--with-gnutls,--without-gnutls,gnutls"
->  CFLAGS += "-D_GNU_SOURCE"
->
->  # Enable vala only if gobject-introspection is enabled
-> -EXTRA_OECONF = "--enable-vala=auto"
-> +EXTRA_OECONF = "--enable-vala=auto --disable-test-application"
->
->  # libtool adds "-nostdlib" when g++ is used. This breaks PIE builds.
->  # Use libtool-cross (which has a hack to prevent that) instead.
-> --
-> 2.1.4
->
-> --
+>  meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.43..bb =3D> e2fsprogs_1.43.=
+bb} | 0
+>  1 file changed, 0 insertions(+), 0 deletions(-)
+>  rename meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.43..bb =3D> e2fsprog=
+s_1.43.bb} (100%)
+>=20
+> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43..bb b/meta/re=
+cipes-devtools/e2fsprogs/e2fsprogs_1.43.bb
+> similarity index 100%
+> rename from meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43..bb
+> rename to meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb
+> --=20
+> 2.8.1
+>=20
+> --=20
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
---001a1140fab663336c0535dedb9a
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-<div dir=3D"ltr"><div>The patch should explain why we&#39;re disabling the =
-test application.</div><div><br></div>If we don&#39;t build the test app th=
-en the &quot;vte&quot; package is pretty pointless:<div><br></div><div><div=
->libvte:</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 /usr/lib/libvte-2.91.so.0</d=
-iv><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 /usr/lib/libvte-2.91.so.0.4400.1</div><=
-div>vte:</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 /etc/profile.d/vte.sh</div><=
-div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 /usr/lib/girepository-1.0/Vte-2.91.typelib<=
-/div></div><div><br></div><div>The typelib should be with the library, and =
-that sh fragment is fairly pointless.=C2=A0 Should libvte and vte be merged=
- (ie package the library into $PN and let the renamer do its job)?</div><di=
-v><br></div><div>Ross</div></div><div class=3D"gmail_extra"><br><div class=
-=3D"gmail_quote">On 22 June 2016 at 12:52, Jussi Kukkonen <span dir=3D"ltr"=
->&lt;<a href=3D"mailto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.ku=
-kkonen@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote"=
- style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Si=
-gned-off-by: Jussi Kukkonen &lt;<a href=3D"mailto:jussi.kukkonen@intel.com"=
->jussi.kukkonen@intel.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-support/vte/<a href=3D"http://vte_0.44.1.bb" rel=3D"nore=
-ferrer" target=3D"_blank">vte_0.44.1.bb</a> | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-support/vte/<a href=3D"http://vte_0.44.1.bb" rel=
-=3D"noreferrer" target=3D"_blank">vte_0.44.1.bb</a> b/meta/recipes-support/=
-vte/<a href=3D"http://vte_0.44.1.bb" rel=3D"noreferrer" target=3D"_blank">v=
-te_0.44.1.bb</a><br>
-index ecbf58a..f3baa1e 100644<br>
---- a/meta/recipes-support/vte/<a href=3D"http://vte_0.44.1.bb" rel=3D"nore=
-ferrer" target=3D"_blank">vte_0.44.1.bb</a><br>
-+++ b/meta/recipes-support/vte/<a href=3D"http://vte_0.44.1.bb" rel=3D"nore=
-ferrer" target=3D"_blank">vte_0.44.1.bb</a><br>
-@@ -18,7 +18,7 @@ PACKAGECONFIG[gnutls] =3D &quot;--with-gnutls,--without-g=
-nutls,gnutls&quot;<br>
-=C2=A0CFLAGS +=3D &quot;-D_GNU_SOURCE&quot;<br>
-<br>
-=C2=A0# Enable vala only if gobject-introspection is enabled<br>
--EXTRA_OECONF =3D &quot;--enable-vala=3Dauto&quot;<br>
-+EXTRA_OECONF =3D &quot;--enable-vala=3Dauto --disable-test-application&quo=
-t;<br>
-<br>
-=C2=A0# libtool adds &quot;-nostdlib&quot; when g++ is used. This breaks PI=
-E builds.<br>
-=C2=A0# Use libtool-cross (which has a hack to prevent that) instead.<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.1.4<br>
-<br>
---<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</font></span></blockquote></div><br></div>
+--17pEHd4RhPHOinZp
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
---001a1140fab663336c0535dedb9a--
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAldqn+AACgkQN1Ujt2V2gBz8JQCgsumdrkASj8QEXTck7EKY2EW3
+TbsAoJX3JMLrWv5dqDuPCaObzDc3S7wP
+=S5rV
+-----END PGP SIGNATURE-----
+
+--17pEHd4RhPHOinZp--
