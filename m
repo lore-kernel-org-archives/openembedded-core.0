@@ -1,23 +1,51 @@
-Return-Path: <stephano.cetola@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 8AB586FF25
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f180.google.com (mail-pf0-f180.google.com
+	[209.85.192.180])
+	by mail.openembedded.org (Postfix) with ESMTP id DE7546FF01
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2016 19:35:15 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP; 22 Jun 2016 12:35:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,509,1459839600"; d="scan'208";a="833370432"
-Received: from yocto-dev86.jf.intel.com ([10.7.198.60])
-	by orsmga003.jf.intel.com with ESMTP; 22 Jun 2016 12:35:16 -0700
-From: Stephano Cetola <stephano.cetola@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Jun 2016 12:35:52 -0700
-Message-Id: <20160622193552.14761-2-stephano.cetola@linux.intel.com>
-X-Mailer: git-send-email 2.8.3
-In-Reply-To: <20160622193552.14761-1-stephano.cetola@linux.intel.com>
-References: <20160622193552.14761-1-stephano.cetola@linux.intel.com>
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Subject: [PATCH] useradd-staticids.bbclass: Restore failure on missing UIDs/GIDs
+	Wed, 22 Jun 2016 19:59:30 +0000 (UTC)
+Received: by mail-pf0-f180.google.com with SMTP id h14so20674028pfe.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Jun 2016 12:59:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=qAqA+ym/jrpyO1Ac4c3H16X72pE/GbNZxa8gpGfQg9c=;
+	b=0ZEq3tEViU7mkc9OUn96LjZt25220PPsYcZZoLXW8ApqHTCPQf1TC5rVFX7UvWlHE7
+	lH5KHuQCUjWu9sCrVqQokKUeL5dh21qnhvDYM5VLABWMAthrtp1zEQHNkvih085E/g3W
+	piuLc22AhQ63ymr6vQRM4UkpOqVGbxhP+C68JDMKnr3KrCzCR2PQ00xZ4HBD7al6WNMc
+	hDBLro/vQj75C64mtcSy9zXMCllToGVrDg4cWP7Ertb3Se7+D6UItaXWXJkvsF9Kvj9Y
+	pMTmGeTkRB0683Oh4b+OXYKm9N9sV5jpzNVvqcomX9uiiRCIH8JtCUm/XdHB6+uCyqBt
+	pcwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=qAqA+ym/jrpyO1Ac4c3H16X72pE/GbNZxa8gpGfQg9c=;
+	b=dllrFg3w4fB8ChzuGjwv3IdGlFmdYnuN0CyrfDo6g3Z3icdSCzgPcWau9M3C0GfWFb
+	KaJu3u4dn7S8PLE9PCQ8TD6/eOelbebtwDVY7dSXOJ3/9grzuRYuvJT4hwu8ch6bNqr/
+	cKjih9jfIPxbegMHNLRjuQ26zlOhv62sxQl4E3nFUxLu4VCFWDMLoTFwJUcpZMsLNE3z
+	szAEIoB5uEuOigtdU5n76RXq1kLzurs4mHkaDHG3mH9puQEoKITjW/WUqJImggnW32f0
+	9MZg7KCRvvxmbjpgEPzQ1moIkspYI1ZH32fONT8NpebC98JE9akfHbJEhE0Yrvc3dD+3
+	0sZw==
+X-Gm-Message-State: ALyK8tIN3WI81H3XIMEqFKcktgB5AlHnvoj4kYh6tvnCTsVuN5GVWoeMd1lt4tUlATgugA==
+X-Received: by 10.98.71.155 with SMTP id p27mr29390767pfi.132.1466625570991;
+	Wed, 22 Jun 2016 12:59:30 -0700 (PDT)
+Received: from ?IPv6:2601:647:4c00:115c:c15d:825f:58bc:113e?
+	([2601:647:4c00:115c:c15d:825f:58bc:113e])
+	by smtp.gmail.com with ESMTPSA id h66sm1709173pfe.6.2016.06.22.12.59.29
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 22 Jun 2016 12:59:30 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Pgp-Agent: GPGMail 2.6b2
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <alpine.LFD.2.20.1606020932230.27421@localhost.localdomain>
+Date: Wed, 22 Jun 2016 12:59:26 -0700
+Message-Id: <745E9387-3B72-4992-98BF-CED5DB1537E8@gmail.com>
+References: <alpine.LFD.2.20.1606020932230.27421@localhost.localdomain>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-Mailer: Apple Mail (2.3124)
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: easiest way to patch some headers in gcc-5.2 source?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,83 +58,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2016 19:35:15 -0000
+X-List-Received-Date: Wed, 22 Jun 2016 19:59:32 -0000
+X-Groupsio-MsgNum: 83756
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_56490158-D8E4-4761-B914-76B98EEB0A81";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-
-A regression was introduced with commit 3149319a whereby setting
-USERADD_ERROR_DYNAMIC no longer resulted in an error for users and
-groups that were missing numeric UIDs and GIDs but were not mentioned
-at all in any passwd or groups file.
-
-[YOCTO #9777]
-
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit adc0f830a695c417b4d282fa580c5231e1f0afbe)
----
- meta/classes/useradd-staticids.bbclass | 19 +++++++++++++------
- 1 file changed, 13 insertions(+), 6 deletions(-)
-
-diff --git a/meta/classes/useradd-staticids.bbclass b/meta/classes/useradd-staticids.bbclass
-index a9b506d..50a7481 100644
---- a/meta/classes/useradd-staticids.bbclass
-+++ b/meta/classes/useradd-staticids.bbclass
-@@ -46,6 +46,11 @@ def update_useradd_static_config(d):
- 
-         return id_table
- 
-+    def handle_missing_id(id, type, pkg):
-+        if d.getVar('USERADD_ERROR_DYNAMIC', True) == '1':
-+            #bb.error("Skipping recipe %s, package %s which adds %sname %s does not have a static ID defined." % (d.getVar('PN', True),  pkg, type, id))
-+            raise bb.build.FuncFailed("%s - %s: %sname %s does not have a static ID defined." % (d.getVar('PN', True), pkg, type, id))
-+
-     # We parse and rewrite the useradd components
-     def rewrite_useradd(params):
-         # The following comes from --help on useradd from shadow
-@@ -112,6 +117,8 @@ def update_useradd_static_config(d):
-                 users = merge_files(get_passwd_list(d), 7)
- 
-             if uaargs.LOGIN not in users:
-+                if not uaargs.uid or not uaargs.uid.isdigit() or not uaargs.gid:
-+                    handle_missing_id(uaargs.LOGIN, 'user', pkg)
-                 continue
- 
-             field = users[uaargs.LOGIN]
-@@ -161,9 +168,8 @@ def update_useradd_static_config(d):
-             uaargs.shell = field[6] or uaargs.shell
- 
-             # Should be an error if a specific option is set...
--            if d.getVar('USERADD_ERROR_DYNAMIC', True) == '1' and not ((uaargs.uid and uaargs.uid.isdigit()) and uaargs.gid):
--                #bb.error("Skipping recipe %s, package %s which adds username %s does not have a static uid defined." % (d.getVar('PN', True),  pkg, uaargs.LOGIN))
--                raise bb.build.FuncFailed("%s - %s: Username %s does not have a static uid defined." % (d.getVar('PN', True), pkg, uaargs.LOGIN))
-+            if not uaargs.uid or not uaargs.uid.isdigit() or not uaargs.gid:
-+                 handle_missing_id(uaargs.LOGIN, 'user', pkg)
- 
-             # Reconstruct the args...
-             newparam  = ['', ' --defaults'][uaargs.defaults]
-@@ -244,6 +250,8 @@ def update_useradd_static_config(d):
-                 groups = merge_files(get_group_list(d), 4)
- 
-             if gaargs.GROUP not in groups:
-+                if not gaargs.gid or not gaargs.gid.isdigit():
-+                    handle_missing_id(gaargs.GROUP, 'group', pkg)
-                 continue
- 
-             field = groups[gaargs.GROUP]
-@@ -253,9 +261,8 @@ def update_useradd_static_config(d):
-                     bb.warn("%s: Changing groupname %s's gid from (%s) to (%s), verify configuration files!" % (d.getVar('PN', True), gaargs.GROUP, gaargs.gid, field[2]))
-                 gaargs.gid = field[2]
- 
--            if d.getVar('USERADD_ERROR_DYNAMIC', True) == '1' and not (gaargs.gid and gaargs.gid.isdigit()):
--                #bb.error("Skipping recipe %s, package %s which adds groupname %s does not have a static gid defined." % (d.getVar('PN', True),  pkg, gaargs.GROUP))
--                raise bb.build.FuncFailed("%s - %s: Groupname %s does not have a static gid defined." % (d.getVar('PN', True), pkg, gaargs.GROUP))
-+            if not gaargs.gid or not gaargs.gid.isdigit():
-+                handle_missing_id(gaargs.GROUP, 'group', pkg)
- 
-             # Reconstruct the args...
-             newparam  = ['', ' --force'][gaargs.force]
--- 
-2.8.3
+--Apple-Mail=_56490158-D8E4-4761-B914-76B98EEB0A81
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain;
+	charset=us-ascii
 
 
+> On Jun 2, 2016, at 6:40 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+> 
+> 
+>  for backward compatibility reasons, i need to patch some header
+> files in gcc-5.2 to change some quoted includes to angle bracket-style
+> includes.
+> 
+>  i have the patch, and this change is only to make the resultant
+> cross-compiler work properly, but i figure the easiest thing to do is
+> just apply the patch to *all* gcc-5.2 compilations (native, cross,
+> whatever) since it's all fairly innocent and won't break anything that
+> already works.
+> 
+>  from what i see, in all the recipes and inc files under
+> oe-core/meta/recipes-devtools/gcc/, i can just add the application of
+> that patch to the gcc-source_5.2.bb recipe, which will then apply to
+> all gcc-5.2 compilation output, is that correct? so i'd create me a
+> little gcc-source_5.2.bbappend file and add my patch to SRC_URI.
+> 
+>  does all that sound reasonable? am i reading this correctly?
+
+did this work for you ?
+
+> 
+> rday
+> 
+> --
+> 
+> ========================================================================
+> Robert P. J. Day                                 Ottawa, Ontario, CANADA
+>                        http://crashcourse.ca
+> 
+> Twitter:                                       http://twitter.com/rpjday
+> LinkedIn:                               http://ca.linkedin.com/in/rpjday
+> ========================================================================
+> 
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+--Apple-Mail=_56490158-D8E4-4761-B914-76B98EEB0A81
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAldq7iEACgkQuwUzVZGdMxRoxACfcQk1JUQNyOn7VSB7IiWNmeJT
+KWsAnR7axg+AnHAOZ4wsoo9EeW4+Apzn
+=btOs
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_56490158-D8E4-4761-B914-76B98EEB0A81--
