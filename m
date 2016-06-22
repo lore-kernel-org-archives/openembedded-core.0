@@ -1,67 +1,47 @@
-Return-Path: <ting.liu@nxp.com>
-X-Greylist: delayed 9017 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 22 Jun 2016 12:14:33 UTC
-Received: from emea01-db3-obe.outbound.protection.outlook.com
-	(mail-db3on0061.outbound.protection.outlook.com [157.55.234.61])
-	by mail.openembedded.org (Postfix) with ESMTP id 54AF16FEF5
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 35E0F731C5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2016 12:14:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=Weg1kRO0HQ9Nb9r6D9V9Lgxk+hchOdGUBeUSmB/mvfU=;
-	b=iVhHPeA65Z4JLrHTZjN2ur/zKEAB4q1kbZrkILf9vZUHpW2G6Ds8Oe4ApF+bb87Z3loNOk5bUKFLXFJj0uUFSB/3F3mHQTGaBj+wzn4T9vnbO6jXH15xZGvnmpmKA8WJUNYJK9Wh9KFKjru3NvJt1VesMyVmLBRHAzVjCcGdyw4=
-Received: from DB3PR04MB042.eurprd04.prod.outlook.com (10.242.136.151) by
-	DB3PR04MB042.eurprd04.prod.outlook.com (10.242.136.151) with Microsoft
-	SMTP Server (TLS) id 15.1.517.8; Wed, 22 Jun 2016 09:44:16 +0000
-Received: from DB3PR04MB042.eurprd04.prod.outlook.com
-	([fe80::3131:6aa6:231e:9fae]) by DB3PR04MB042.eurprd04.prod.outlook.com
-	([fe80::3131:6aa6:231e:9fae%21]) with mapi id 15.01.0517.014;
-	Wed, 22 Jun 2016 09:44:16 +0000
-From: Ting Liu <ting.liu@nxp.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [oe-core][PATCH v2] u-boot: extend UBOOT_CONFIG format to
-	support different binary name
-Thread-Index: AQHRxxbRpHjbuev1Wk6zb+zvc2HZ7Z/1RtOQ
-Date: Wed, 22 Jun 2016 09:44:16 +0000
-Message-ID: <DB3PR04MB0421FF112832EC62FF6F650992C0@DB3PR04MB042.eurprd04.prod.outlook.com>
-References: <1466002870-9934-1-git-send-email-ting.liu@nxp.com>
-In-Reply-To: <1466002870-9934-1-git-send-email-ting.liu@nxp.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=ting.liu@nxp.com; 
-x-originating-ip: [199.59.231.64]
-x-ms-office365-filtering-correlation-id: e77d6233-0c36-482a-6140-08d39a81c703
-x-microsoft-exchange-diagnostics: 1; DB3PR04MB042;
-	6:Tq1B10NujRvZCXzkKrXkORMnV5t//OAmhTaqWYH3yUk4Fmy60uk7JDmP6z0qmsv0iQzseA9fS9x0DJ7D2q1VBy4cNgqnFA+ITa5rXz7vyhhS8yt75tosFijFyUesc04c3XX6UcKKTxtN3/nERcWl+2tSF0FQp/7oMYgad3upNu2C2rMu5kY7BVjLbEPxUGd194DfTpLSu+6VoFP8McpXqX6s9z98KlxtnQi9LppshnS0CBxAkHpa8AQft5xAkbw99+MVa+VU/Z/JB4xW6Q5XWTH5W4wBYKGBeloOgwKKl9iMiWybfIR4kkRlbRmCOIyggdIzWegGSHiu2+xCmn3Za0n9L3z5i3sgOo2z0K1Mf+U=;
-	5:aTfT7QV3INwiTqWnEA2TsUCOHkNKzI0q+78fzgEf3aKLgujPnA13WPr2kC3MnTtLIYEsn88ch9Y3UKPfbYF1BtGcXasgtKfqbBTn2Hn2BhSrC4dFrXhpf+2wali9ma89LhdqCda189zNyQ5HRLXrMQ==;
-	24:eZeD/j6NrHpEgeZfhqt/ADQ/g/YX42JAShzD2fzTKVYbL4eM97d2Jz2kdeBKO3fIV+z2n5PPu/EDlYdDle62MRYCxe8KxEBqCUWD2RODxDo=;
-	7:bzcfqE220+VFXH9OLCsldBvoiwjtAXpG62RaVT+/ZGku0YntlH4Av3389yVHW36V7Yp5zc2Ri1yjZLYiiM8suOJIbMJ5sNoXuL3dCquKTrMscsfq2YvzObg527Jp1B9v/K8fhGPPsCIPFZTETGmOeaAWHWI4BOUWyCr63Y6XqQzFJfNehU4Eq070dF9FgZUMsv+WM2dCQ03mCZrGlkTgG4+Y5QNeMYvGedYuEeu0nYQTzjPnP8vV9HaDCVLAjLhq
-x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:DB3PR04MB042;
-x-microsoft-antispam-prvs: <DB3PR04MB0424C5F796FA3FDF15D579D992C0@DB3PR04MB042.eurprd04.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:(185117386973197)(264703809997249);
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(601004)(2401047)(5005006)(8121501046)(10201501046)(3002001)(6055026);
-	SRVR:DB3PR04MB042; BCL:0; PCL:0; RULEID:; SRVR:DB3PR04MB042; 
-x-forefront-prvs: 0981815F2F
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(6009001)(7916002)(199003)(377454003)(189002)(13464003)(107886002)(2906002)(8936002)(189998001)(8676002)(50986999)(68736007)(7696003)(76176999)(5002640100001)(102836003)(5250100002)(2950100001)(54356999)(33656002)(2501003)(6116002)(81156014)(110136002)(86362001)(9686002)(586003)(3846002)(101416001)(5003600100003)(7846002)(97736004)(2900100001)(3660700001)(81166006)(76576001)(19580395003)(87936001)(74316001)(19580405001)(105586002)(106116001)(11100500001)(3280700002)(450100001)(106356001)(92566002)(2351001)(7736002)(66066001);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:DB3PR04MB042;
-	H:DB3PR04MB042.eurprd04.prod.outlook.com; FPR:; SPF:None;
-	PTR:InfoNoRecords; A:1; MX:1; CAT:NONE; LANG:en; CAT:NONE; 
-received-spf: None (protection.outlook.com: nxp.com does not designate
-	permitted sender hosts)
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
+	Wed, 22 Jun 2016 14:36:02 +0000 (UTC)
+Received: by mail-io0-f178.google.com with SMTP id g13so38885821ioj.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Jun 2016 07:36:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=C9BxIbgpkXG8YVptaPF58MQvSsr0Z3mJQGc4bfG9Kds=;
+	b=XNwNeHKeFvLHAsSTcOGoALwKxHDUIIq531kGf+z2NLhC8j2dYlXxYDksAPcs+bjCbf
+	Ihkfd7cfZeSWaKZn4xATFvszz0QAeyzGZIpRRoeLpRGEO7IDHvgjQj/M2B2z0ZsjRk1r
+	Dynz0o4RDfmlVbGdWQFNcJ7RKt47T7f087Fv4WfuAJzSd3b2HVso7lusTkAjQNjbDuIF
+	p4pMD0uolrByVYQzcQ0l0YpHJ8T3swOT+TNw4KVIQYyMzD3NDGsSjDvRT8QXRvSvHhsT
+	DW9SZB5oRQborkxZ9T+g6ZrzOCjoFJI6bTUNxfaM9SFTJY6UfCxM3FCQ3JvbOgtD6rbe
+	xstw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=C9BxIbgpkXG8YVptaPF58MQvSsr0Z3mJQGc4bfG9Kds=;
+	b=F1zy4F9VbSku3PgITMAosGdF4OykbLOYkdJFnMb/e5yGR05lEgmorg7BW7fCEbSqCQ
+	sH6uf5yuSxpsrfx25VMdOn6feN7BhSN47psfkQTcUkpc1n3oggjSZv6MOS2pQ105Y/WP
+	d1q5Nwr+V67TLEfP4iLBX+lIi1fVyDtW3okhGJMwNXTkYP+S/i99Yi6DihGysIUAyu7J
+	xjfcrllxmVrxYQ3mq+3e/R+2qC3jY2/FkakpNO+DUIsXGCNzQIHNhTxB/n8/swkqSEb7
+	9LBJpgHudMImjnFuLPUme7BRMJI2tzgHu4DRWMXoJmXhDNOu7Y5JJouYzhZGuHOoWZKZ
+	ngcA==
+X-Gm-Message-State: ALyK8tJG65OBy0K/gDfkFfzTK5bsVy5CY956BEntFVJ4F+15qfK18fw2vFf5ewQVdFEtYboJ2ZuMvqGMk2+KLJtV
+X-Received: by 10.107.154.210 with SMTP id c201mr38842644ioe.99.1466606163251; 
+	Wed, 22 Jun 2016 07:36:03 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Jun 2016 09:44:16.7117 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR04MB042
-Subject: Re: [PATCH v2] u-boot: extend UBOOT_CONFIG format to support different binary name
+Received: by 10.107.162.6 with HTTP; Wed, 22 Jun 2016 07:35:43 -0700 (PDT)
+In-Reply-To: <03eac8deaa244de132c505a9db7d411fc363f782.1466595928.git.jussi.kukkonen@intel.com>
+References: <cover.1466595928.git.jussi.kukkonen@intel.com>
+	<03eac8deaa244de132c505a9db7d411fc363f782.1466595928.git.jussi.kukkonen@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 22 Jun 2016 15:35:43 +0100
+Message-ID: <CAJTo0LZmcuyPQEi3K8XxctBaC_MHTjnWpqgbT2koLirX62bHOA@mail.gmail.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 09/10] vte: don't build test app
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -74,161 +54,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2016 12:14:35 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 22 Jun 2016 14:36:03 -0000
+Content-Type: multipart/alternative; boundary=001a1140fab663336c0535dedb9a
+
+--001a1140fab663336c0535dedb9a
+Content-Type: text/plain; charset=UTF-8
+
+The patch should explain why we're disabling the test application.
+
+If we don't build the test app then the "vte" package is pretty pointless:
+
+libvte:
+        /usr/lib/libvte-2.91.so.0
+        /usr/lib/libvte-2.91.so.0.4400.1
+vte:
+        /etc/profile.d/vte.sh
+        /usr/lib/girepository-1.0/Vte-2.91.typelib
+
+The typelib should be with the library, and that sh fragment is fairly
+pointless.  Should libvte and vte be merged (ie package the library into
+$PN and let the renamer do its job)?
+
+Ross
+
+On 22 June 2016 at 12:52, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
+
+> Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+> ---
+>  meta/recipes-support/vte/vte_0.44.1.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-support/vte/vte_0.44.1.bb
+> b/meta/recipes-support/vte/vte_0.44.1.bb
+> index ecbf58a..f3baa1e 100644
+> --- a/meta/recipes-support/vte/vte_0.44.1.bb
+> +++ b/meta/recipes-support/vte/vte_0.44.1.bb
+> @@ -18,7 +18,7 @@ PACKAGECONFIG[gnutls] =
+> "--with-gnutls,--without-gnutls,gnutls"
+>  CFLAGS += "-D_GNU_SOURCE"
+>
+>  # Enable vala only if gobject-introspection is enabled
+> -EXTRA_OECONF = "--enable-vala=auto"
+> +EXTRA_OECONF = "--enable-vala=auto --disable-test-application"
+>
+>  # libtool adds "-nostdlib" when g++ is used. This breaks PIE builds.
+>  # Use libtool-cross (which has a hack to prevent that) instead.
+> --
+> 2.1.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--001a1140fab663336c0535dedb9a
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Ping.
+<div dir=3D"ltr"><div>The patch should explain why we&#39;re disabling the =
+test application.</div><div><br></div>If we don&#39;t build the test app th=
+en the &quot;vte&quot; package is pretty pointless:<div><br></div><div><div=
+>libvte:</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 /usr/lib/libvte-2.91.so.0</d=
+iv><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 /usr/lib/libvte-2.91.so.0.4400.1</div><=
+div>vte:</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 /etc/profile.d/vte.sh</div><=
+div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 /usr/lib/girepository-1.0/Vte-2.91.typelib<=
+/div></div><div><br></div><div>The typelib should be with the library, and =
+that sh fragment is fairly pointless.=C2=A0 Should libvte and vte be merged=
+ (ie package the library into $PN and let the renamer do its job)?</div><di=
+v><br></div><div>Ross</div></div><div class=3D"gmail_extra"><br><div class=
+=3D"gmail_quote">On 22 June 2016 at 12:52, Jussi Kukkonen <span dir=3D"ltr"=
+>&lt;<a href=3D"mailto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.ku=
+kkonen@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Si=
+gned-off-by: Jussi Kukkonen &lt;<a href=3D"mailto:jussi.kukkonen@intel.com"=
+>jussi.kukkonen@intel.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-support/vte/<a href=3D"http://vte_0.44.1.bb" rel=3D"nore=
+ferrer" target=3D"_blank">vte_0.44.1.bb</a> | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-support/vte/<a href=3D"http://vte_0.44.1.bb" rel=
+=3D"noreferrer" target=3D"_blank">vte_0.44.1.bb</a> b/meta/recipes-support/=
+vte/<a href=3D"http://vte_0.44.1.bb" rel=3D"noreferrer" target=3D"_blank">v=
+te_0.44.1.bb</a><br>
+index ecbf58a..f3baa1e 100644<br>
+--- a/meta/recipes-support/vte/<a href=3D"http://vte_0.44.1.bb" rel=3D"nore=
+ferrer" target=3D"_blank">vte_0.44.1.bb</a><br>
++++ b/meta/recipes-support/vte/<a href=3D"http://vte_0.44.1.bb" rel=3D"nore=
+ferrer" target=3D"_blank">vte_0.44.1.bb</a><br>
+@@ -18,7 +18,7 @@ PACKAGECONFIG[gnutls] =3D &quot;--with-gnutls,--without-g=
+nutls,gnutls&quot;<br>
+=C2=A0CFLAGS +=3D &quot;-D_GNU_SOURCE&quot;<br>
+<br>
+=C2=A0# Enable vala only if gobject-introspection is enabled<br>
+-EXTRA_OECONF =3D &quot;--enable-vala=3Dauto&quot;<br>
++EXTRA_OECONF =3D &quot;--enable-vala=3Dauto --disable-test-application&quo=
+t;<br>
+<br>
+=C2=A0# libtool adds &quot;-nostdlib&quot; when g++ is used. This breaks PI=
+E builds.<br>
+=C2=A0# Use libtool-cross (which has a hack to prevent that) instead.<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+2.1.4<br>
+<br>
+--<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</font></span></blockquote></div><br></div>
 
-> -----Original Message-----
-> From: ting.liu@nxp.com [mailto:ting.liu@nxp.com]
-> Sent: Wednesday, June 15, 2016 11:01 PM
-> To: openembedded-core@lists.openembedded.org
-> Cc: Zhenhua Luo <zhenhua.luo@nxp.com>; Ting Liu <ting.liu@nxp.com>
-> Subject: [oe-core][PATCH v2] u-boot: extend UBOOT_CONFIG format to
-> support different binary name
->=20
-> From: Ting Liu <ting.liu@nxp.com>
->=20
-> When using UBOOT_CONFIG format, the final u-boot binary for each config
-> may have different names. Extend UBOOT_CONFIG format to support
-> different binary to be copied.
->=20
-> The new format is supposed to be compatible with old one as
-> ${UBOOT_BINARY} is copied by default, and images,binary can be empty.
->=20
-> An example format to specify it, in the machine, is:
-> UBOOT_CONFIG ??=3D "sdcard-ifc sdcard-qspi lpuart qspi secure-boot nor"
-> UBOOT_CONFIG[nor] =3D "ls1021atwr_nor_config,,u-boot-dtb.bin"
-> UBOOT_CONFIG[sdcard-ifc] =3D "ls1021atwr_sdcard_ifc_config,,u-boot-with-
-> spl-pbl.bin"
-> UBOOT_CONFIG[sdcard-qspi] =3D "ls1021atwr_sdcard_qspi_config,,u-boot-
-> with-spl-pbl.bin"
-> UBOOT_CONFIG[lpuart] =3D "ls1021atwr_nor_lpuart_config,,u-boot-dtb.bin"
-> UBOOT_CONFIG[qspi] =3D "ls1021atwr_qspi_config,,u-boot-dtb.bin"
-> UBOOT_CONFIG[secure-boot] =3D "ls1021atwr_nor_SECURE_BOOT_config"
->=20
-> Signed-off-by: Ting Liu <ting.liu@nxp.com>
-> ---
->  meta/classes/uboot-config.bbclass  | 19 ++++++++++++++++---
-> meta/recipes-bsp/u-boot/u-boot.inc | 12 +++++++++---
->  2 files changed, 25 insertions(+), 6 deletions(-)
->=20
-> diff --git a/meta/classes/uboot-config.bbclass b/meta/classes/uboot-
-> config.bbclass
-> index cb061af..3f760f2 100644
-> --- a/meta/classes/uboot-config.bbclass
-> +++ b/meta/classes/uboot-config.bbclass
-> @@ -3,7 +3,7 @@
->  # The format to specify it, in the machine, is:
->  #
->  # UBOOT_CONFIG ??=3D <default>
-> -# UBOOT_CONFIG[foo] =3D "config,images"
-> +# UBOOT_CONFIG[foo] =3D "config,images,binary"
->  #
->  # or
->  #
-> @@ -11,9 +11,13 @@
->  #
->  # Copyright 2013, 2014 (C) O.S. Systems Software LTDA.
->=20
-> +UBOOT_BINARY ?=3D "u-boot.${UBOOT_SUFFIX}"
-> +
->  python () {
->      ubootmachine =3D d.getVar("UBOOT_MACHINE", True)
->      ubootconfigflags =3D d.getVarFlags('UBOOT_CONFIG')
-> +    ubootbinary =3D d.getVar('UBOOT_BINARY', True)
-> +    ubootbinaries =3D d.getVar('UBOOT_BINARIES', True)
->      # The "doc" varflag is special, we don't want to see it here
->      ubootconfigflags.pop('doc', None)
->=20
-> @@ -27,6 +31,9 @@ python () {
->      if ubootmachine and ubootconfigflags:
->          raise bb.parse.SkipPackage("You cannot use UBOOT_MACHINE and
-> UBOOT_CONFIG at the same time.")
->=20
-> +    if ubootconfigflags and ubootbinaries:
-> +        raise bb.parse.SkipPackage("You cannot use UBOOT_BINARIES as it
-> + is internal to uboot_config.bbclass.")
-> +
->      if not ubootconfigflags:
->          return
->=20
-> @@ -36,13 +43,19 @@ python () {
->              for f, v in ubootconfigflags.items():
->                  if config =3D=3D f:
->                      items =3D v.split(',')
-> -                    if items[0] and len(items) > 2:
-> -                        raise bb.parse.SkipPackage('Only config,images c=
-an be
-> specified!')
-> +                    if items[0] and len(items) > 3:
-> +                        raise bb.parse.SkipPackage('Only
-> + config,images,binary can be specified!')
->                      d.appendVar('UBOOT_MACHINE', ' ' + items[0])
->                      # IMAGE_FSTYPES appending
->                      if len(items) > 1 and items[1]:
->                          bb.debug(1, "Appending '%s' to IMAGE_FSTYPES." %=
- items[1])
->                          d.appendVar('IMAGE_FSTYPES', ' ' + items[1])
-> +                    if len(items) > 2 and items[2]:
-> +                        bb.debug(1, "Appending '%s' to UBOOT_BINARIES." =
-% items[2])
-> +                        d.appendVar('UBOOT_BINARIES', ' ' + items[2])
-> +                    else:
-> +                        bb.debug(1, "Appending '%s' to UBOOT_BINARIES." =
-%
-> ubootbinary)
-> +                        d.appendVar('UBOOT_BINARIES', ' ' +
-> + ubootbinary)
->                      break
->      elif len(ubootconfig) =3D=3D 0:
->         raise bb.parse.SkipPackage('You must set a default in UBOOT_CONFI=
-G.')
-> diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-
-> boot/u-boot.inc
-> index 1071d1f..1f64faa 100644
-> --- a/meta/recipes-bsp/u-boot/u-boot.inc
-> +++ b/meta/recipes-bsp/u-boot/u-boot.inc
-> @@ -32,7 +32,6 @@ UBOOT_LOCALVERSION ?=3D ""
->  # but enable individual recipes to change this value.
->  UBOOT_SUFFIX ??=3D "bin"
->  UBOOT_IMAGE ?=3D "u-boot-${MACHINE}-${PV}-${PR}.${UBOOT_SUFFIX}"
-> -UBOOT_BINARY ?=3D "u-boot.${UBOOT_SUFFIX}"
->  UBOOT_SYMLINK ?=3D "u-boot-${MACHINE}.${UBOOT_SUFFIX}"
->  UBOOT_MAKE_TARGET ?=3D "all"
->=20
-> @@ -82,15 +81,22 @@ do_compile () {
->=20
->      if [ -n "${UBOOT_CONFIG}" ]
->      then
-> +        unset i j k
->          for config in ${UBOOT_MACHINE}; do
->              i=3D$(expr $i + 1);
-> -            for type  in ${UBOOT_CONFIG}; do
-> +            for type in ${UBOOT_CONFIG}; do
->                  j=3D$(expr $j + 1);
->                  if [ $j -eq $i ]
->                  then
->                      oe_runmake O=3D${config} ${config}
->                      oe_runmake O=3D${config} ${UBOOT_MAKE_TARGET}
-> -                    cp  ${S}/${config}/${UBOOT_BINARY}  ${S}/${config}/u=
--boot-
-> ${type}.${UBOOT_SUFFIX}
-> +                    for binary in ${UBOOT_BINARIES}; do
-> +                        k=3D$(expr $k + 1);
-> +                        if [ $k -eq $i ]; then
-> +                            cp ${S}/${config}/${binary} ${S}/${config}/u=
--boot-
-> ${type}.${UBOOT_SUFFIX}
-> +                        fi
-> +                    done
-> +                    unset k
->                  fi
->              done
->              unset  j
-> --
-> 1.9.2
-
-
+--001a1140fab663336c0535dedb9a--
