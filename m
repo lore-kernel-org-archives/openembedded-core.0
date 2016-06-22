@@ -1,53 +1,47 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-it0-f50.google.com (mail-it0-f50.google.com
-	[209.85.214.50])
-	by mail.openembedded.org (Postfix) with ESMTP id CDB6362135;
-	Wed, 22 Jun 2016 22:07:59 +0000 (UTC)
-Received: by mail-it0-f50.google.com with SMTP id f6so49716006ith.0;
-	Wed, 22 Jun 2016 15:08:00 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
+	[209.85.220.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B8EC62133
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Jun 2016 22:35:55 +0000 (UTC)
+Received: by mail-qk0-f174.google.com with SMTP id p10so85460583qke.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Jun 2016 15:35:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=FwO70BOPv9AnpWIs2iUbA8FMFMsnJsj+ni0KrlDmBtU=;
-	b=BkWoQajrtYd55CI84XF8f63xgNylTk3KyeMrYo2fQ7BqCFiQCtFT2iWh+FbxG9cz75
-	pvIaM7MCdfeHwQUQhwuHympDHFtVEMnwM+iNdwUtI2v7xmW+eKTfO0U00knBZux+ezPK
-	kWgRqde0Z/Z2Mws6evs0Q22m5cM2paTDzDhlouV84y+CvqESnI+QDzrmEI/bKrMEX9Lq
-	YEfCByddkoS51eRV8FoTh4QMSf4xm85H++VrawuGWXA6hgd845ZFi1VY8Yaoj5Mjq0Ye
-	lDHEed0d0lSKRRSlU6OFmKUzIvSdVhYjS6MK4FIkhGaqlwdt6QVT0gKlFJRlVlRlLc7S
-	qGfA==
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc; bh=oCGg9Bww6iySOC+AGiYhpmhTF8jMCgM+GvMPnVhi3a0=;
+	b=0iaV2dUGV3UeF7sF3x+oS1vt6Kc0Ex4RAMDpZSpUGdd+NTSM6M887FYxKplLgiSoip
+	7CsvvOH5IzjiDJytCS9hz2EyUc0HcelLiMbM6I3RI79DF002aW4ENKq9WhDvlTZmj0mw
+	PPWvCIEKjvkeID7n/HN2htQ0h/rcNO2lEzhE9o5Um1TkCx+YTrRz2IRK4ScKkMbmXPmB
+	khGtjXzKTgf3Jhs16iXm5nZ3B+XFTQ1FdsYUU2bANA4qD+3wyLr1fX7KWnPz7QTEFWaH
+	hjo4djHr1S1hzzXNFrTlNBYjeiyViaikCU77awO9wARew/niFdOpk6dozst5iSe4IdIb
+	04ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=FwO70BOPv9AnpWIs2iUbA8FMFMsnJsj+ni0KrlDmBtU=;
-	b=CAeqCUEgDFDT/vsKk4eHI9BkzfyVh+CrWAzjAD+65xjgvhYDEspxLwiqSfCEmt2t+Q
-	N8vu3gRsWPBsMp4Piy110NSHECYArPfWP+qI1Mldzu/MbAHJNra8mS10oXTurShJq626
-	4Bi2TkFnzWfpHjmiAkcq8rdA7o1GFR79af1ffk6bzk3YKXpuYYqffX8uDWgqG03+MOnR
-	OQv3s53Uz8FY3DE3NWe6+DigIJb1/CKGzpwEUjK/XQyL2+dvtJL13SlzjvtL4jbj0vaa
-	J2iWAO5L+8HynE/GUdmtF2W2EXplgbMzKwbWTrQoardyN1eQdoY1QKa96GwbW/CXYrrc
-	V78A==
-X-Gm-Message-State: ALyK8tLQzw3WDlRNJrrqaFiYKzXZjgcef20XiyUo6eQQsMEK4wQ/TSalwWhu3fBya/KiwIaxPFA/hBUJ4YxcoA==
-X-Received: by 10.36.43.216 with SMTP id h207mr18132046ita.66.1466633280152;
-	Wed, 22 Jun 2016 15:08:00 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc;
+	bh=oCGg9Bww6iySOC+AGiYhpmhTF8jMCgM+GvMPnVhi3a0=;
+	b=d2oIWVLcb8NGM+Y7NzXSgOT1TSmg2bEsYTgeye1GBcrxoKGlNw0YCe6hJDo/IPVaUd
+	u3znxQCHgl6q/eTBf7uo+628ovsPlJbRwXoKvtllTa7lYzd+psKBYPa4o0BxKzGFfHTs
+	/k6ES48c7xGpx5YTk2QDxSSjapJPGMVUv8lYrreJ5lvbqaI58RfpWu0A9InNohjsuOGF
+	M3tgyShMiZvWki0ERYkK5N+3tt5vKEzA299diANCL2BTV7euZtF0IziKotFxMJq67hQh
+	jM04KlLNibmLQSUxbbBfZxzAGncLigkSSXjIONQE5VTiV0JHvaNL6kBSVRDqlUegGfGT
+	5dJQ==
+X-Gm-Message-State: ALyK8tJSvakQmPpqmlsfY3x8bHC4yLDEpFhGsRpmcxphn4VVjjcVc+p6JS8ACkSaJwBOsCFOUzgCYbvaUvpHAw==
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.79.130.66 with HTTP; Wed, 22 Jun 2016 15:07:40 -0700 (PDT)
-In-Reply-To: <754f3c3e-6dfe-766f-eb7c-f0983c945cc7@windriver.com>
-References: <20160615073901.27831.65435@opal.openembedded.org>
-	<20160622155839.GC4153@jama>
-	<1466631350.3319.200.camel@linuxfoundation.org>
-	<754f3c3e-6dfe-766f-eb7c-f0983c945cc7@windriver.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Wed, 22 Jun 2016 15:07:40 -0700
-X-Google-Sender-Auth: AIAP8i-iZgJK37ZZQ8P5FzYj9Yo
-Message-ID: <CABcZAN=uCEb+SRsLW9pZ6d+9NnJWNjsb=yRz-vuqXsd_gmusWQ@mail.gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Cc: openembedded-commits@lists.openembedded.org,
-	"bitbake-devel@lists.openembedded.org"
-	<bitbake-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
+X-Received: by 10.55.141.134 with SMTP id p128mr37625351qkd.102.1466634956077; 
+	Wed, 22 Jun 2016 15:35:56 -0700 (PDT)
+Received: by 10.55.8.133 with HTTP; Wed, 22 Jun 2016 15:35:55 -0700 (PDT)
+Received: by 10.55.8.133 with HTTP; Wed, 22 Jun 2016 15:35:55 -0700 (PDT)
+In-Reply-To: <1466632764-22540-1-git-send-email-jslater@windriver.com>
+References: <1466632764-22540-1-git-send-email-jslater@windriver.com>
+Date: Wed, 22 Jun 2016 15:35:55 -0700
+Message-ID: <CAMKF1soa5wBYFyFV0sqxsN_0bpjTjpQ==Aow0Ui7ZAAhh-Mp=g@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+To: Joe Slater <jslater@windriver.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [bitbake-devel] Bitbake output format changed Was: [oe-commits] [bitbake] branch master updated (a3f464d -> 0219271)
+Subject: Re: [PATCH 0/1] blacklist: add BPNBLACKLIST support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,164 +54,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2016 22:08:01 -0000
-Content-Type: multipart/alternative; boundary=001a114748a2adf1830535e52be0
+X-List-Received-Date: Wed, 22 Jun 2016 22:35:56 -0000
+Content-Type: multipart/alternative; boundary=94eb2c081fe4927fb60535e58f4b
 
---001a114748a2adf1830535e52be0
+--94eb2c081fe4927fb60535e58f4b
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, Jun 22, 2016 at 2:56 PM, Mark Hatle <mark.hatle@windriver.com>
-wrote:
-
-> On 6/22/16 4:35 PM, Richard Purdie wrote:
-> > On Wed, 2016-06-22 at 17:58 +0200, Martin Jansa wrote:
-> >> On Wed, Jun 15, 2016 at 07:39:01AM +0000, git@git.openembedded.org wr
-> >> ote:
-> >>> rpurdie pushed a change to branch master
-> >>> in repository bitbake.
-> >>>
-> >>>       adds  2c88afb   taskdata/runqueue: Rewrite without use of ID
-> >>> indirection
-> >>
-> >> Is it expected that this change also changes the format of summary
-> >> shown at the end of the build and failed tasks.
-> >>
-> >> The commit message doesn't mention this (it even says:
-> >> ..
-> >> On the most part there shouldn't be user visible changes.
-> >> ..
-> >> There should be no functionality changes in this patch, its purely a
-> >> data structure change and that is visible in the patch.
-> >> ..
-> >> )
-> >>
-> >> So before I start fixing scripts (e.g. test-dependencies) which are
-> >> trying to parse bitbake output to work with new format, please
-> >> confirm that this was intentional and that it will stay this way.
-> >>
-> >> It's also not clear why the task is mentioned twice, e.g. as:
-> >>   NOTE: Running task 512 of 548 (ID: /OE/build/oe-core/openembedded
-> >> -core/meta/recipes-devtools/rpm/sftp.bb:do_fetch, /OE/build/oe
-> >> -core/openembedded-core/meta/recipes-devtools/rpm/sftp.bb:do_fetch)
-> >>   ERROR: Task /OE/build/oe-core/openembedded-core/meta/recipes
-> >> -devtools/rpm/sftp.bb:do_fetch (/OE/build/oe-core/openembedded
-> >> -core/meta/recipes-devtools/rpm/sftp.bb:do_fetch) failed with exit
-> >> code '1'
-> >>
-> >> are there cases where these 2 are different? and can both messages
-> >> use the same "format" for task description?
-> >
-> > The taskids are no more, there is simply no notion of them inside
-> > bitbake any longer. That means that yes, we probably do need to change
-> > the output a bit since the number doesn't mean anything.
-> >
-> > Equally, it shouldn't be showing the same thing twice, that is a bug.
-> > Internally to bitbake, everthing is now in the form (or will be when
-> > multiconfig lands) "[multiconfig:<configname>:]<recipe
-> > filename>:<taskname>". The question is whether we expose that to the
-> > user or massage it at all. I'm tempted just to expose that string to
-> > the user.
+On Jun 22, 2016 2:59 PM, "Joe Slater" <jslater@windriver.com> wrote:
 >
-> I'm certainly and advocate of just exposing that string.  I think in the
-> end
-> that is easier to explain to someone, then trying to understand a massaged
-> output.
+> We have encountered some issues with the use of PNBLACKLIST in recipes.
+> In particular, PNBLACKLIST[pkg] will not suppress building of lib32-pkg
+> or lib64-pkg so world builds can fail unexpectedly.
+>
+> One solution could be to implement BPNBLACKLIST[] which checks BPN instead
+> of PN when a recipe is being parsed.  I have included a patch to do this.
+>
+> If this were adopted, there are many recipes under meta-openembedded that
+> should probably changed to use BPNBLACKLIST instead of PNBLACKLIST.
 
+Bpn will also mean native and nativesdk among others. I think its better to
+list multilibs explicitly.
 
-I'd agree with that. Using the filenames is actually a nice convenience
-when you need to examine a recipe.
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+>
+> Joe Slater (1):
+>   blacklist: add BPNBLACKLIST support
+>
+>  meta/classes/blacklist.bbclass |   24 ++++++++++++++++++++----
+>  1 file changed, 20 insertions(+), 4 deletions(-)
+>
+> --
+> 1.7.9.5
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---001a114748a2adf1830535e52be0
+--94eb2c081fe4927fb60535e58f4b
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Wed, Jun 22, 2016 at 2:56 PM, Mark Hatle <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:mark.hatle@windriver.com" target=3D"_blank">mark.hatle@windriv=
-er.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"=
-margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=
-=3D"HOEnZb"><div class=3D"h5">On 6/22/16 4:35 PM, Richard Purdie wrote:<br>
-&gt; On Wed, 2016-06-22 at 17:58 +0200, Martin Jansa wrote:<br>
-&gt;&gt; On Wed, Jun 15, 2016 at 07:39:01AM +0000, <a href=3D"mailto:git@gi=
-t.openembedded.org">git@git.openembedded.org</a> wr<br>
-&gt;&gt; ote:<br>
-&gt;&gt;&gt; rpurdie pushed a change to branch master<br>
-&gt;&gt;&gt; in repository bitbake.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0adds=C2=A0 2c88afb=C2=A0 =C2=A0taskd=
-ata/runqueue: Rewrite without use of ID<br>
-&gt;&gt;&gt; indirection<br>
-&gt;&gt;<br>
-&gt;&gt; Is it expected that this change also changes the format of summary=
-<br>
-&gt;&gt; shown at the end of the build and failed tasks.<br>
-&gt;&gt;<br>
-&gt;&gt; The commit message doesn&#39;t mention this (it even says:<br>
-&gt;&gt; ..<br>
-&gt;&gt; On the most part there shouldn&#39;t be user visible changes.<br>
-&gt;&gt; ..<br>
-&gt;&gt; There should be no functionality changes in this patch, its purely=
- a<br>
-&gt;&gt; data structure change and that is visible in the patch.<br>
-&gt;&gt; ..<br>
-&gt;&gt; )<br>
-&gt;&gt;<br>
-&gt;&gt; So before I start fixing scripts (e.g. test-dependencies) which ar=
-e<br>
-&gt;&gt; trying to parse bitbake output to work with new format, please<br>
-&gt;&gt; confirm that this was intentional and that it will stay this way.<=
-br>
-&gt;&gt;<br>
-&gt;&gt; It&#39;s also not clear why the task is mentioned twice, e.g. as:<=
-br>
-&gt;&gt;=C2=A0 =C2=A0NOTE: Running task 512 of 548 (ID: /OE/build/oe-core/o=
-penembedded<br>
-&gt;&gt; -core/meta/recipes-devtools/rpm/sftp.bb:do_fetch, /OE/build/oe<br>
-&gt;&gt; -core/openembedded-core/meta/recipes-devtools/rpm/sftp.bb:do_fetch=
-)<br>
-&gt;&gt;=C2=A0 =C2=A0ERROR: Task /OE/build/oe-core/openembedded-core/meta/r=
-ecipes<br>
-&gt;&gt; -devtools/rpm/sftp.bb:do_fetch (/OE/build/oe-core/openembedded<br>
-&gt;&gt; -core/meta/recipes-devtools/rpm/sftp.bb:do_fetch) failed with exit=
-<br>
-&gt;&gt; code &#39;1&#39;<br>
-&gt;&gt;<br>
-&gt;&gt; are there cases where these 2 are different? and can both messages=
-<br>
-&gt;&gt; use the same &quot;format&quot; for task description?<br>
+<p dir=3D"ltr"><br>
+On Jun 22, 2016 2:59 PM, &quot;Joe Slater&quot; &lt;<a href=3D"mailto:jslat=
+er@windriver.com">jslater@windriver.com</a>&gt; wrote:<br>
 &gt;<br>
-&gt; The taskids are no more, there is simply no notion of them inside<br>
-&gt; bitbake any longer. That means that yes, we probably do need to change=
-<br>
-&gt; the output a bit since the number doesn&#39;t mean anything.<br>
+&gt; We have encountered some issues with the use of PNBLACKLIST in recipes=
+.<br>
+&gt; In particular, PNBLACKLIST[pkg] will not suppress building of lib32-pk=
+g<br>
+&gt; or lib64-pkg so world builds can fail unexpectedly.<br>
 &gt;<br>
-&gt; Equally, it shouldn&#39;t be showing the same thing twice, that is a b=
-ug.<br>
-&gt; Internally to bitbake, everthing is now in the form (or will be when<b=
-r>
-&gt; multiconfig lands) &quot;[multiconfig:&lt;configname&gt;:]&lt;recipe<b=
-r>
-&gt; filename&gt;:&lt;taskname&gt;&quot;. The question is whether we expose=
- that to the<br>
-&gt; user or massage it at all. I&#39;m tempted just to expose that string =
-to<br>
-&gt; the user.<br>
-<br>
-</div></div>I&#39;m certainly and advocate of just exposing that string.=C2=
-=A0 I think in the end<br>
-that is easier to explain to someone, then trying to understand a massaged =
-output.</blockquote><div><br></div><div>I&#39;d agree with that. Using the =
-filenames is actually a nice convenience when you need to examine a recipe.=
-</div></div>-- <br><div class=3D"gmail_signature" data-smartmail=3D"gmail_s=
-ignature">Christopher Larson<br>clarson at kergoth dot com<br>Founder - Bit=
-Bake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Eng=
-ineer, Mentor Graphics</div>
-</div></div>
+&gt; One solution could be to implement BPNBLACKLIST[] which checks BPN ins=
+tead<br>
+&gt; of PN when a recipe is being parsed.=C2=A0 I have included a patch to =
+do this.<br>
+&gt;<br>
+&gt; If this were adopted, there are many recipes under meta-openembedded t=
+hat<br>
+&gt; should probably changed to use BPNBLACKLIST instead of PNBLACKLIST.</p=
+>
+<p dir=3D"ltr">Bpn will also mean native and nativesdk among others. I thin=
+k its better to list multilibs explicitly.</p>
+<p dir=3D"ltr">&gt;<br>
+&gt; Joe Slater (1):<br>
+&gt; =C2=A0 blacklist: add BPNBLACKLIST support<br>
+&gt;<br>
+&gt; =C2=A0meta/classes/blacklist.bbclass |=C2=A0 =C2=A024 ++++++++++++++++=
+++++----<br>
+&gt; =C2=A01 file changed, 20 insertions(+), 4 deletions(-)<br>
+&gt;<br>
+&gt; --<br>
+&gt; 1.7.9.5<br>
+&gt;<br>
+&gt; --<br>
+&gt; _______________________________________________<br>
+&gt; Openembedded-core mailing list<br>
+&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
+ed-core@lists.openembedded.org</a><br>
+&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
+-core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a>=
+</p>
 
---001a114748a2adf1830535e52be0--
+--94eb2c081fe4927fb60535e58f4b--
