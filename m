@@ -1,52 +1,49 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
-	[209.85.220.44])
-	by mail.openembedded.org (Postfix) with ESMTP id E593E60088
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-vk0-f43.google.com (mail-vk0-f43.google.com
+	[209.85.213.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 2BBD1608B7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2016 17:31:57 +0000 (UTC)
-Received: by mail-pa0-f44.google.com with SMTP id wo6so18742433pac.3
+	Wed, 22 Jun 2016 18:24:27 +0000 (UTC)
+Received: by mail-vk0-f43.google.com with SMTP id u64so73450368vkf.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2016 10:31:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=Yo6hDnzP+8f/tcn/a8EL03vyCUddGNBRqdyWSN38Dyg=;
-	b=NuBi2CrTGIfYnkFng23eElkrDYx40i0I7r1Bnv51Oq0XpWq9dOAsiXchuHj5+yDeAH
-	Z3qqGy3OE6eUbCzoUd6vUfLlBROqdUZmNo9ZoBkuMUvYS/Qe8TmGlQr04WuegMBIcaQE
-	4PB9jfhmZUf84TWTQXOkSJn087/t/g5BKUU+KwLpQ2crY1sSw8MtXAiP4mWEe04krP+k
-	rjdNgTgp5fN5hAqijYvZJLk9qqsWsvfzrUmFZYrKTpg9uCeQmUCrqE+7Z6TwCMpDh3qb
-	Osl3IO6hAf0SXL0v/tAXZ2BnEOBHGCXBEzN6amcA6h9l1vKv2u1RENEqrxLlS3yyVKPN
-	1O5A==
+	Wed, 22 Jun 2016 11:24:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=FutbgwB2wffWpt+Buu+0i00Ue2lS2zp3UA9cnDuS3zo=;
+	b=InItvODVq8fmnlFylhrjbL5dDw3CGrsUX2rZVmEt8Hp7HAtEkBdPUBcmhYedpBuGJc
+	G7l7kUWv7cRjin42BIPk1YZ+MW+Ibkvk+91isT1s9TkpvtMfObsSb3AD/3mibhZ6jjc9
+	bmN7jAeg5s8Kfn1bH2ClfnSyDSXPTKv4tktmRmei1DJ2L+7okU6VNkv2Ec2vzlq4iAjJ
+	i1Xshhx/xTVQOGriQMEl+0OSF1uwqM9shickwh7SUe029Tpo0QWrp1Ans8l6Qky2TfWH
+	WCo6I2uU12e1DPCF1MqeDz0Vzi6R8o2PHYzrHGhJos8q2+WE2boZdVr8aBDTXNfBGV1I
+	iNWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=Yo6hDnzP+8f/tcn/a8EL03vyCUddGNBRqdyWSN38Dyg=;
-	b=AVqYbYKI9w3cgsxVa+vfl1w+NVspGmUSU5OplxXBzlEaxNWVD1z2qtNjiYpg4Qv+yt
-	TQV+4lI2WfdrsR7SZMYwhoU0MpOqKECtiLHfVCS5NBk8hyMz9VfE+5rUGeFIImvetkZ8
-	sAvxezvkgFYAEFg2RlA1WWWLqVvR12WzCS45lzdsoUhXgt5WasqXBY7mLegdPXSmx7ri
-	bnnUxo0leS4Nkrzzq4wpEqk6zpNoSGSry95jd54sJCetRi6YtKVoJr3e4gNS4kV3zh4D
-	qgmRpJhQZh7gcvf5JCIzfyIdHewvImfCFoSzrX/vgjqZRSjl9Zv84xtW+b+of1x8x7BY
-	KB5A==
-X-Gm-Message-State: ALyK8tL6GQIckb47oiOpKYXTK2hgl0wtnrgTLiQZSs7TuwSTV9+iDZPCzRCadt3KcJAc5Q==
-X-Received: by 10.66.253.168 with SMTP id ab8mr3064959pad.77.1466616718314;
-	Wed, 22 Jun 2016 10:31:58 -0700 (PDT)
-Received: from ?IPv6:2601:646:8882:b8c:fcd1:61e:b1e8:f28?
-	([2601:646:8882:b8c:fcd1:61e:b1e8:f28])
-	by smtp.gmail.com with ESMTPSA id
-	w194sm1145130pfd.58.2016.06.22.10.31.57
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 22 Jun 2016 10:31:57 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAFUnDm_LEnNqq3ebvHqN8hw1o1XeBvwhH2693tg97d-hmQKytA@mail.gmail.com>
-Date: Wed, 22 Jun 2016 10:31:50 -0700
-Message-Id: <4A7CD120-C038-4A5D-9CE9-0C9EF6AD51B2@gmail.com>
-References: <CAFUnDm_LEnNqq3ebvHqN8hw1o1XeBvwhH2693tg97d-hmQKytA@mail.gmail.com>
-To: mubin syed <mubin10@gmail.com>
-X-Mailer: Apple Mail (2.3124)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: LICENCE file for LLVM based recipes
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=FutbgwB2wffWpt+Buu+0i00Ue2lS2zp3UA9cnDuS3zo=;
+	b=d8H+DAG7bSSA23mQ17K/D7ThpKTwDBEqUCaW1ebJ5Tu8YEZnqQnctG7u5Mos9YqSW0
+	YD2ARz+YXcC/kVyqsN5DbsTa7+kuLK7F6r8yB4enjhHcHK8mD9bFy6MO5AHBy39amqJp
+	x6mxn1r+/TJeKOg/9Pw1N1L59YDjsZcLF5Y3tS+VFtxwMqgxsN6IMjHoLAs+3GnM/CtH
+	o26zQ0fwCwOvbVzvYLM6ZhowkZ8AiKVFJ02oQ2Dw0I85Fzm08+xQ48N6gmvtgA9k21WX
+	9We1HOHRGh7AB+lr4gasjvER4TOXy7vUIXKCofFzoWmEZ1bFvjfbQfkzZo096PgwWOfa
+	8v0Q==
+X-Gm-Message-State: ALyK8tKJbYZgFHwRQ6i2cDWBFtnlJJ4b5MHqhWf3Ddq6WDV7bM8mcqPKF0iUWgWPeritIE6Jcl69zUYoryyEYw==
+X-Received: by 10.31.56.216 with SMTP id f207mr13046257vka.135.1466619867863; 
+	Wed, 22 Jun 2016 11:24:27 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.176.3.72 with HTTP; Wed, 22 Jun 2016 11:24:27 -0700 (PDT)
+In-Reply-To: <e12014df714d835b217acfbfbcfc1b5d1b4408db.1465891164.git.jussi.kukkonen@intel.com>
+References: <cover.1465891164.git.jussi.kukkonen@intel.com>
+	<cab121fcc6b904939f6187832ba9b48b3d5fe53f.1465891164.git.jussi.kukkonen@intel.com>
+	<e12014df714d835b217acfbfbcfc1b5d1b4408db.1465891164.git.jussi.kukkonen@intel.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Date: Wed, 22 Jun 2016 20:24:27 +0200
+Message-ID: <CALbNGRRsxRZompgFMb+EtLdSXdnCZbUgXFmuf8WC8rztncox5w@mail.gmail.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv3 10/30] vte: Upgrade to 0.44.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,57 +56,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2016 17:31:58 -0000
-X-Groupsio-MsgNum: 83751
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_53BD05A6-C460-4549-A017-ACA15C594EBC";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Wed, 22 Jun 2016 18:24:29 -0000
+Content-Type: text/plain; charset=UTF-8
 
---Apple-Mail=_53BD05A6-C460-4549-A017-ACA15C594EBC
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+On Tue, Jun 14, 2016 at 10:14 AM, Jussi Kukkonen
+<jussi.kukkonen@intel.com> wrote:
+> * License change LGPL 2.0 -> LGPL 2.1+
+> * vte-termcap is no more
+> * API break: current version seems to be parallel installable
+Could we move vte to meta-oe to avoid further world blacklisting?
 
+Andreas
 
-> On Jun 6, 2016, at 12:32 AM, mubin syed <mubin10@gmail.com> wrote:
->=20
-> Hi,
->=20
-> I am trying to write recipe for dhrystone benchmarks, it is LLVM =
-licensed benchmarks.
-> I went through some of the LLVM recipes, they are using NCSA license =
-files(not using explicit
-> LLVM license files).
-
-LLVM is under University of Illinois/NCSA
-thats what you should use.
-
-> Please let me know, which license file  i need to use for =
-dhrystone(i.e. LLVM licensed benchmark) recipe.
->=20
-> Thanks & Regards,
-> Mubin
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
---Apple-Mail=_53BD05A6-C460-4549-A017-ACA15C594EBC
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAldqy4oACgkQuwUzVZGdMxRjRwCeL0h7GrTOfU97z85xUTIhslWl
-VXYAn3Ha/PxldSdQHgiAJfXaJkBpUN4r
-=zLAm
------END PGP SIGNATURE-----
-
---Apple-Mail=_53BD05A6-C460-4549-A017-ACA15C594EBC--
