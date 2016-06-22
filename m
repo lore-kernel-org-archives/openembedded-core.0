@@ -1,24 +1,20 @@
-Return-Path: <jussi.kukkonen@intel.com>
+Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 078FC731C1
+	by mail.openembedded.org (Postfix) with ESMTP id AB7226FF93
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2016 11:52:43 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 22 Jun 2016 04:52:44 -0700
+	Wed, 22 Jun 2016 12:06:45 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 22 Jun 2016 05:06:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,509,1459839600"; d="scan'208";a="1002968813"
-Received: from theory.fi.intel.com ([10.237.72.196])
-	by orsmga002.jf.intel.com with ESMTP; 22 Jun 2016 04:52:44 -0700
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+X-IronPort-AV: E=Sophos;i="5.26,509,1459839600"; d="scan'208";a="992846208"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga001.fm.intel.com with ESMTP; 22 Jun 2016 05:06:44 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Jun 2016 14:52:29 +0300
-Message-Id: <ebf7e3ba362baaa975b3903509aede9bdd3043e8.1466595928.git.jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <d54f69d5faec48cd7dda7efbbc1b7fdd0bb0bd65.1466595928.git.jussi.kukkonen@intel.com>
-References: <d54f69d5faec48cd7dda7efbbc1b7fdd0bb0bd65.1466595928.git.jussi.kukkonen@intel.com>
-In-Reply-To: <cover.1466595928.git.jussi.kukkonen@intel.com>
-References: <cover.1466595928.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 10/10] connman-gnome: StatusIcon adapts to size changes
+Date: Wed, 22 Jun 2016 15:06:34 +0300
+Message-Id: <1466597195-1142-1-git-send-email-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH 1/2] gdb-cross: do not hardcode the use of Python 2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,225 +27,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2016 11:52:43 -0000
+X-List-Received-Date: Wed, 22 Jun 2016 12:06:45 -0000
 
-Update the Gtk3 patch to make the StatusIcon load pixbufs at (more)
-correct sizes -- Gtk3 does not seem to reliably position the icon
-otherwise.
+This was overlooked in the move to Python 3
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../connman/connman-gnome/0001-Port-to-Gtk3.patch  | 136 ++++++++++++++++++---
- 1 file changed, 121 insertions(+), 15 deletions(-)
+ meta/recipes-devtools/gdb/gdb-cross.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/connman/connman-gnome/0001-Port-to-Gtk3.patch b/meta/recipes-connectivity/connman/connman-gnome/0001-Port-to-Gtk3.patch
-index c93e9b4..279ca05 100644
---- a/meta/recipes-connectivity/connman/connman-gnome/0001-Port-to-Gtk3.patch
-+++ b/meta/recipes-connectivity/connman/connman-gnome/0001-Port-to-Gtk3.patch
-@@ -1,10 +1,11 @@
--From a59b0fac02e74a971ac3f08bf28c17ce361a9526 Mon Sep 17 00:00:00 2001
-+From 092fe0793b39c6feb6464bfbd568b050960d62c0 Mon Sep 17 00:00:00 2001
- From: Jussi Kukkonen <jussi.kukkonen@intel.com>
- Date: Wed, 2 Mar 2016 15:47:49 +0200
- Subject: [PATCH] Port to Gtk3
+diff --git a/meta/recipes-devtools/gdb/gdb-cross.inc b/meta/recipes-devtools/gdb/gdb-cross.inc
+index 7579205..5fa7c33 100644
+--- a/meta/recipes-devtools/gdb/gdb-cross.inc
++++ b/meta/recipes-devtools/gdb/gdb-cross.inc
+@@ -6,7 +6,7 @@ inherit python3native
  
- Some unused (or not useful) code was removed, functionality should stay
--the same.
-+the same, although applet now loads icons based on actual size available
-+to it.
+ # Overrides PACKAGECONFIG variables in gdb-common.inc
+ PACKAGECONFIG ??= "python readline"
+-PACKAGECONFIG[python] = "--with-python=${STAGING_BINDIR_NATIVE}/python-native/python,--without-python,python3-native"
++PACKAGECONFIG[python] = "--with-python=${PYTHON},--without-python,python3-native"
+ PACKAGECONFIG[readline] = "--with-system-readline,--without-system-readline,readline-native"
  
- Code still contains quite a few uses of deprecated API.
- 
-@@ -12,13 +13,13 @@ Upstream-Status: Submitted
- Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
- ---
-  applet/agent.c        |  3 +--
-- applet/main.c         | 43 -------------------------------------------
-- applet/status.c       |  8 --------
-+ applet/main.c         | 43 ------------------------------
-+ applet/status.c       | 74 +++++++++++++++++++++++++++++++++------------------
-  configure.ac          |  3 +--
-- properties/ethernet.c | 14 +++++++-------
-+ properties/ethernet.c | 14 +++++-----
-  properties/main.c     |  2 +-
-- properties/wifi.c     | 12 ++++++------
-- 7 files changed, 16 insertions(+), 69 deletions(-)
-+ properties/wifi.c     | 12 ++++-----
-+ 7 files changed, 64 insertions(+), 87 deletions(-)
- 
- diff --git a/applet/agent.c b/applet/agent.c
- index 65bed08..04fe86a 100644
-@@ -42,7 +43,7 @@ index 65bed08..04fe86a 100644
-  	label = gtk_label_new(_("Please provide some network information:"));
-  	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
- diff --git a/applet/main.c b/applet/main.c
--index f12d371..cd16285 100644
-+index c7b3c7f..f2ce46b 100644
- --- a/applet/main.c
- +++ b/applet/main.c
- @@ -157,46 +157,6 @@ static void name_owner_changed(DBusGProxy *proxy, const char *name,
-@@ -103,10 +104,26 @@ index f12d371..cd16285 100644
-  			"copyright", "Copyright \xc2\xa9 2008 Intel Corporation",
-  			"comments", _("A connection manager for the GNOME desktop"),
- diff --git a/applet/status.c b/applet/status.c
--index aed6f1e..015ff29 100644
-+index aed6f1e..6ecbf3a 100644
- --- a/applet/status.c
- +++ b/applet/status.c
--@@ -102,8 +102,6 @@ static void icon_animation_start(IconAnimation *animation,
-+@@ -30,13 +30,14 @@
-+ static gboolean available = FALSE;
-+ 
-+ static GtkStatusIcon *statusicon = NULL;
-++static gint icon_size = 0;
-+ 
-+ static GdkPixbuf *pixbuf_load(GtkIconTheme *icontheme, const gchar *name)
-+ {
-+ 	GdkPixbuf *pixbuf;
-+ 	GError *error = NULL;
-+ 
-+-	pixbuf = gtk_icon_theme_load_icon(icontheme, name, 22, 0, &error);
-++	pixbuf = gtk_icon_theme_load_icon(icontheme, name, icon_size, 0, &error);
-+ 
-+ 	if (pixbuf == NULL) {
-+ 		g_warning("Missing icon %s: %s", name, error->message);
-+@@ -102,8 +103,6 @@ static void icon_animation_start(IconAnimation *animation,
-  {
-  	available = TRUE;
-  
-@@ -115,7 +132,7 @@ index aed6f1e..015ff29 100644
-  	animation->start = start;
-  	animation->end = (end == 0) ? animation->count - 1 : end;
-  
--@@ -120,8 +118,6 @@ static void icon_animation_stop(IconAnimation *animation)
-+@@ -120,8 +119,6 @@ static void icon_animation_stop(IconAnimation *animation)
-  {
-  	available = TRUE;
-  
-@@ -124,7 +141,96 @@ index aed6f1e..015ff29 100644
-  	if (animation->id > 0)
-  		g_source_remove(animation->id);
-  
--@@ -251,8 +247,6 @@ void status_unavailable(void)
-+@@ -190,6 +187,42 @@ static GdkPixbuf *pixbuf_none;
-+ static GdkPixbuf *pixbuf_wired;
-+ static GdkPixbuf *pixbuf_signal[5];
-+ 
-++static void
-++load_icons (gint size)
-++{
-++        // educated guess to preload correct size
-++        if (size == 0)
-++                size = 34;
-++
-++        if (icon_size == size)
-++                return;
-++
-++        icon_size = size;
-++
-++        if(pixbuf_none)
-++                status_cleanup();
-++
-++        g_debug ("Loading icons at size %d", icon_size);
-++        animation = icon_animation_load(icontheme, "connman-connecting", 33);
-++        pixbuf_signal[0] = pixbuf_load(icontheme, "connman-signal-01");
-++        pixbuf_signal[1] = pixbuf_load(icontheme, "connman-signal-02");
-++        pixbuf_signal[2] = pixbuf_load(icontheme, "connman-signal-03");
-++        pixbuf_signal[3] = pixbuf_load(icontheme, "connman-signal-04");
-++        pixbuf_signal[4] = pixbuf_load(icontheme, "connman-signal-05");
-++
-++        pixbuf_none = pixbuf_load(icontheme, "connman-type-none");
-++        pixbuf_wired = pixbuf_load(icontheme, "connman-type-wired");
-++        pixbuf_notifier = pixbuf_load(icontheme, "connman-notifier-unavailable");
-++}
-++
-++static gboolean
-++size_changed_cb (GtkStatusIcon *statusicon,
-++                 gint           size,
-++                 gpointer       user_data)
-++{
-++        load_icons (size);
-++}
-++
-+ int status_init(StatusCallback activate, GtkWidget *popup)
-+ {
-+ 	GdkScreen *screen;
-+@@ -204,17 +237,9 @@ int status_init(StatusCallback activate, GtkWidget *popup)
-+ 
-+ 	gtk_icon_theme_append_search_path(icontheme, ICONDIR);
-+ 
-+-	animation = icon_animation_load(icontheme, "connman-connecting", 33);
-+-
-+-	pixbuf_signal[0] = pixbuf_load(icontheme, "connman-signal-01");
-+-	pixbuf_signal[1] = pixbuf_load(icontheme, "connman-signal-02");
-+-	pixbuf_signal[2] = pixbuf_load(icontheme, "connman-signal-03");
-+-	pixbuf_signal[3] = pixbuf_load(icontheme, "connman-signal-04");
-+-	pixbuf_signal[4] = pixbuf_load(icontheme, "connman-signal-05");
-+-
-+-	pixbuf_none = pixbuf_load(icontheme, "connman-type-none");
-+-	pixbuf_wired = pixbuf_load(icontheme, "connman-type-wired");
-+-	pixbuf_notifier = pixbuf_load(icontheme, "connman-notifier-unavailable");
-++	g_signal_connect (statusicon, "size-changed",
-++			  G_CALLBACK(size_changed_cb), NULL);
-++	load_icons (gtk_status_icon_get_size (statusicon));
-+ 
-+ 	if (activate != NULL)
-+ 		g_signal_connect(statusicon, "activate",
-+@@ -231,17 +256,18 @@ void status_cleanup(void)
-+ 	int i;
-+ 
-+ 	icon_animation_free(animation);
-++	animation = NULL;
-+ 
-+ 	for (i = 0; i < 5; i++)
-+-		g_object_unref(pixbuf_signal[i]);
-++		g_clear_object(&pixbuf_signal[i]);
-+ 
-+-	g_object_unref(pixbuf_none);
-+-	g_object_unref(pixbuf_wired);
-+-	g_object_unref(pixbuf_notifier);
-++	g_clear_object(&pixbuf_none);
-++	g_clear_object(&pixbuf_wired);
-++	g_clear_object(&pixbuf_notifier);
-+ 
-+-	g_object_unref(icontheme);
-++	g_clear_object(&icontheme);
-+ 
-+-	g_object_unref(statusicon);
-++	g_clear_object(&statusicon);
-+ }
-+ 
-+ void status_unavailable(void)
-+@@ -251,8 +277,6 @@ void status_unavailable(void)
-  	available = FALSE;
-  
-  	gtk_status_icon_set_from_pixbuf(statusicon, pixbuf_notifier);
-@@ -133,7 +239,7 @@ index aed6f1e..015ff29 100644
-  
-  	gtk_status_icon_set_visible(statusicon, TRUE);
-  }
--@@ -299,7 +293,6 @@ static void set_ready(gint signal)
-+@@ -299,7 +323,6 @@ static void set_ready(gint signal)
-  
-  	if (signal < 0) {
-  		gtk_status_icon_set_from_pixbuf(statusicon, pixbuf_wired);
-@@ -141,7 +247,7 @@ index aed6f1e..015ff29 100644
-  		return;
-  	}
-  
--@@ -311,7 +304,6 @@ static void set_ready(gint signal)
-+@@ -311,7 +334,6 @@ static void set_ready(gint signal)
-  		index = 4;
-  
-  	gtk_status_icon_set_from_pixbuf(statusicon, pixbuf_signal[index]);
-@@ -273,5 +379,5 @@ index bd325ef..a5827e0 100644
-  		}
-  		break;
- -- 
--2.8.1
-+2.1.4
- 
+ do_compile_prepend() {
 -- 
-2.1.4
+2.8.1
 
 
