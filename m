@@ -1,51 +1,50 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f180.google.com (mail-pf0-f180.google.com
-	[209.85.192.180])
-	by mail.openembedded.org (Postfix) with ESMTP id DE7546FF01
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f50.google.com (mail-it0-f50.google.com
+	[209.85.214.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 631C760125
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2016 19:59:30 +0000 (UTC)
-Received: by mail-pf0-f180.google.com with SMTP id h14so20674028pfe.1
+	Wed, 22 Jun 2016 20:18:28 +0000 (UTC)
+Received: by mail-it0-f50.google.com with SMTP id h190so48853056ith.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2016 12:59:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=qAqA+ym/jrpyO1Ac4c3H16X72pE/GbNZxa8gpGfQg9c=;
-	b=0ZEq3tEViU7mkc9OUn96LjZt25220PPsYcZZoLXW8ApqHTCPQf1TC5rVFX7UvWlHE7
-	lH5KHuQCUjWu9sCrVqQokKUeL5dh21qnhvDYM5VLABWMAthrtp1zEQHNkvih085E/g3W
-	piuLc22AhQ63ymr6vQRM4UkpOqVGbxhP+C68JDMKnr3KrCzCR2PQ00xZ4HBD7al6WNMc
-	hDBLro/vQj75C64mtcSy9zXMCllToGVrDg4cWP7Ertb3Se7+D6UItaXWXJkvsF9Kvj9Y
-	pMTmGeTkRB0683Oh4b+OXYKm9N9sV5jpzNVvqcomX9uiiRCIH8JtCUm/XdHB6+uCyqBt
-	pcwA==
+	Wed, 22 Jun 2016 13:18:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=FCyrpRongs/HtOCTB1kROx8iHVSiBlDHpPeqaMS93yU=;
+	b=xHy4lhYPajDDgtLcQMyU+GmLlnoEEydRcu8VrLlgnQ539Or8dSEF05/ThnGTfF0jav
+	06MbwWh00u8CI62pJBc+QVnpGqiCyPBt4ehBeP1jfpP7ApPtARzF/zhoWjSxC14MfmfL
+	bMfphD9PJRV5wNzMCtq5REJC+3/bErOILtL6F/W9WiG6TBhtYhnzVSTltzsNO5/n4x31
+	cbBb7kaBaPaFouFKHNr8gO3zNukwzz3C9j2WdIL7i4SRrANHweSeNOHJZhYo5etINBcz
+	0+lMGqhmhqDqe5p02unSnfNPM6ione0OAcKFWzWA7rzvJqS5OrWEJ66VE0D7jXcfTeaD
+	eX9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=qAqA+ym/jrpyO1Ac4c3H16X72pE/GbNZxa8gpGfQg9c=;
-	b=dllrFg3w4fB8ChzuGjwv3IdGlFmdYnuN0CyrfDo6g3Z3icdSCzgPcWau9M3C0GfWFb
-	KaJu3u4dn7S8PLE9PCQ8TD6/eOelbebtwDVY7dSXOJ3/9grzuRYuvJT4hwu8ch6bNqr/
-	cKjih9jfIPxbegMHNLRjuQ26zlOhv62sxQl4E3nFUxLu4VCFWDMLoTFwJUcpZMsLNE3z
-	szAEIoB5uEuOigtdU5n76RXq1kLzurs4mHkaDHG3mH9puQEoKITjW/WUqJImggnW32f0
-	9MZg7KCRvvxmbjpgEPzQ1moIkspYI1ZH32fONT8NpebC98JE9akfHbJEhE0Yrvc3dD+3
-	0sZw==
-X-Gm-Message-State: ALyK8tIN3WI81H3XIMEqFKcktgB5AlHnvoj4kYh6tvnCTsVuN5GVWoeMd1lt4tUlATgugA==
-X-Received: by 10.98.71.155 with SMTP id p27mr29390767pfi.132.1466625570991;
-	Wed, 22 Jun 2016 12:59:30 -0700 (PDT)
-Received: from ?IPv6:2601:647:4c00:115c:c15d:825f:58bc:113e?
-	([2601:647:4c00:115c:c15d:825f:58bc:113e])
-	by smtp.gmail.com with ESMTPSA id h66sm1709173pfe.6.2016.06.22.12.59.29
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 22 Jun 2016 12:59:30 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <alpine.LFD.2.20.1606020932230.27421@localhost.localdomain>
-Date: Wed, 22 Jun 2016 12:59:26 -0700
-Message-Id: <745E9387-3B72-4992-98BF-CED5DB1537E8@gmail.com>
-References: <alpine.LFD.2.20.1606020932230.27421@localhost.localdomain>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-Mailer: Apple Mail (2.3124)
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: easiest way to patch some headers in gcc-5.2 source?
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=FCyrpRongs/HtOCTB1kROx8iHVSiBlDHpPeqaMS93yU=;
+	b=LdO6qD9bQXv+wEKdFoPWzEiK2s2MZv+Ut/Xq6y7RWuettfpJoJ7vJfuGYVI5b3lC1f
+	dXZDnjkjzeEe8HIL/kN4ZiptY33yvfxXSAl713hERxWwqfl1zIxBgnbH4OoH6md7yOOB
+	71g74WcjtQro1Ifzzh5Z5C4m7rTzWPcm5AWOwY5RUSnKYZ4wJIqaQnyb7pNB0EN+TYCl
+	3RoQNN2+4A/5kIvxHsn0pnt56vcZPFncrO6Ll8FKtsGlFLrCfIPNbTt+PvbVCuMp9Q4F
+	GAsV36DRBXCGT0bND5Fnhf2XHBvg7lhGSXOnYpwGqJDTAJ4yZzZbxT/QR2M2KgePHVDr
+	A/tg==
+X-Gm-Message-State: ALyK8tKD3mEdmo3oomxkzipckNW1ktry6zx0muDluAvCzoQn4qzwMBASnI2wouyIlm73hEfi2X0gEAwRLk6L9gl8
+X-Received: by 10.36.57.211 with SMTP id l202mr17155705ita.22.1466626709695;
+	Wed, 22 Jun 2016 13:18:29 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.162.6 with HTTP; Wed, 22 Jun 2016 13:18:10 -0700 (PDT)
+In-Reply-To: <CALbNGRRsxRZompgFMb+EtLdSXdnCZbUgXFmuf8WC8rztncox5w@mail.gmail.com>
+References: <cover.1465891164.git.jussi.kukkonen@intel.com>
+	<cab121fcc6b904939f6187832ba9b48b3d5fe53f.1465891164.git.jussi.kukkonen@intel.com>
+	<e12014df714d835b217acfbfbcfc1b5d1b4408db.1465891164.git.jussi.kukkonen@intel.com>
+	<CALbNGRRsxRZompgFMb+EtLdSXdnCZbUgXFmuf8WC8rztncox5w@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 22 Jun 2016 21:18:10 +0100
+Message-ID: <CAJTo0LaFO1qPMVWK_kk3H7mxviFuV4=_a7-4H5KSU_FTTq1svw@mail.gmail.com>
+To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv3 10/30] vte: Upgrade to 0.44.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,75 +57,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2016 19:59:32 -0000
-X-Groupsio-MsgNum: 83756
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_56490158-D8E4-4761-B914-76B98EEB0A81";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Wed, 22 Jun 2016 20:18:29 -0000
+Content-Type: multipart/alternative; boundary=001a114ab3ca0cd8f50535e3a47e
 
---Apple-Mail=_56490158-D8E4-4761-B914-76B98EEB0A81
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain;
-	charset=us-ascii
+--001a114ab3ca0cd8f50535e3a47e
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+On 22 June 2016 at 19:24, Andreas M=C3=BCller <schnitzeltony@googlemail.com=
+>
+wrote:
 
-> On Jun 2, 2016, at 6:40 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
-> 
-> 
->  for backward compatibility reasons, i need to patch some header
-> files in gcc-5.2 to change some quoted includes to angle bracket-style
-> includes.
-> 
->  i have the patch, and this change is only to make the resultant
-> cross-compiler work properly, but i figure the easiest thing to do is
-> just apply the patch to *all* gcc-5.2 compilations (native, cross,
-> whatever) since it's all fairly innocent and won't break anything that
-> already works.
-> 
->  from what i see, in all the recipes and inc files under
-> oe-core/meta/recipes-devtools/gcc/, i can just add the application of
-> that patch to the gcc-source_5.2.bb recipe, which will then apply to
-> all gcc-5.2 compilation output, is that correct? so i'd create me a
-> little gcc-source_5.2.bbappend file and add my patch to SRC_URI.
-> 
->  does all that sound reasonable? am i reading this correctly?
+> Could we move vte to meta-oe to avoid further world blacklisting?
+>
 
-did this work for you ?
+This was the agreement in the other thread - Mark was going to restore the
+old version with a new PN for meta-xfce.
 
-> 
-> rday
-> 
-> --
-> 
-> ========================================================================
-> Robert P. J. Day                                 Ottawa, Ontario, CANADA
->                        http://crashcourse.ca
-> 
-> Twitter:                                       http://twitter.com/rpjday
-> LinkedIn:                               http://ca.linkedin.com/in/rpjday
-> ========================================================================
-> 
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Ross
 
+--001a114ab3ca0cd8f50535e3a47e
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
---Apple-Mail=_56490158-D8E4-4761-B914-76B98EEB0A81
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 22 June 2016 at 19:24, Andreas M=C3=BCller <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:schnitzeltony@googlemail.com" target=3D"_blank">schnitzeltony@go=
+oglemail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div i=
+d=3D":5v1" class=3D"a3s aXjCH m155795c864c68b65">Could we move vte to meta-=
+oe to avoid further world blacklisting?<br></div></blockquote><div><br></di=
+v><div>This was the agreement in the other thread - Mark was going to resto=
+re the old version with a new PN for meta-xfce.</div><div><br></div><div>Ro=
+ss</div></div><br></div></div>
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAldq7iEACgkQuwUzVZGdMxRoxACfcQk1JUQNyOn7VSB7IiWNmeJT
-KWsAnR7axg+AnHAOZ4wsoo9EeW4+Apzn
-=btOs
------END PGP SIGNATURE-----
-
---Apple-Mail=_56490158-D8E4-4761-B914-76B98EEB0A81--
+--001a114ab3ca0cd8f50535e3a47e--
