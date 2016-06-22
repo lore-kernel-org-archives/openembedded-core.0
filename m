@@ -1,65 +1,47 @@
-Return-Path: <bartlomiej.kucharczyk@nokia.com>
-Received: from emea01-am1-obe.outbound.protection.outlook.com
-	(mail-am1on0128.outbound.protection.outlook.com [157.56.112.128])
-	by mail.openembedded.org (Postfix) with ESMTP id D0D0970100
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
+	[209.85.223.182])
+	by mail.openembedded.org (Postfix) with ESMTP id C546D60118
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2016 10:23:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nokia.onmicrosoft.com; 
-	s=selector1-nokia-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=RJHQ9+9cPB62uMfvZ/hE++qRfFSnlteycaOW9WdOe20=;
-	b=b9cx9ZyqgtJwpwl2SlqYikmbvVwcM2ePqu4KBb12QthEwVpNmmYRbpf4AaOSWMKpbrN+YonDkqrLYCH9Y23GdBfa/uzuEKUbXjpyeAbFhl5CqgW/ZEO3maosBzb4Mdaj2evHT8hZIfKr/8iIgW5f+llXaN9WV/e2SjTrLVrDuOY=
-Received: from DBXPR07MB239.eurprd07.prod.outlook.com (10.141.11.18) by
-	DBXPR07MB238.eurprd07.prod.outlook.com (10.141.11.15) with Microsoft
-	SMTP Server (TLS) id 15.1.506.9; Wed, 22 Jun 2016 10:23:57 +0000
-Received: from DBXPR07MB239.eurprd07.prod.outlook.com ([10.141.11.18]) by
-	DBXPR07MB239.eurprd07.prod.outlook.com ([10.141.11.18]) with mapi id
-	15.01.0506.017; Wed, 22 Jun 2016 10:23:57 +0000
-From: "Kucharczyk, Bartlomiej (Nokia - PL/Wroclaw)"
-	<bartlomiej.kucharczyk@nokia.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] Adding Bash to meta-toolchain.
-Thread-Index: AdHL1yAURM1ClMOIQRmp0ko80GJLvgAKbLEAABrYzRA=
-Date: Wed, 22 Jun 2016 10:23:57 +0000
-Message-ID: <DBXPR07MB2393693F5FA837BE8A6FD47F92C0@DBXPR07MB239.eurprd07.prod.outlook.com>
-References: <DBXPR07MB2395258466152EFCDCB4ADEF92B0@DBXPR07MB239.eurprd07.prod.outlook.com>
-	<CAJTo0Lb3D1Ktk4OUw_+Wa4ZHt4ncMa89-c_WaotXjJzmxs9YiQ@mail.gmail.com>
-In-Reply-To: <CAJTo0Lb3D1Ktk4OUw_+Wa4ZHt4ncMa89-c_WaotXjJzmxs9YiQ@mail.gmail.com>
-Accept-Language: pl-PL, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=bartlomiej.kucharczyk@nokia.com; 
-x-originating-ip: [131.228.2.27]
-x-ms-office365-filtering-correlation-id: 29ad9a8d-05c5-4cad-61c2-08d39a8751f0
-x-microsoft-exchange-diagnostics: 1; DBXPR07MB238;
-	5:W6XoR86wc65TypV75jeLTFb4EKH6E4TcVyYsBYpOIeVzVEX5VkFSomW30QRY13/uwqw52xEUC/HLnk92gohXd82lPtw8qDoKyhRJyA48feUj82d0epJZCTM0dpoWnP1sgJBcALVkdN7KIGDvhlWJIw==;
-	24:gpHBmWGugUGGx8HOKfJmNTvJTce0MBifkCUHpIijMx2hKjWUPDuUwplgI+to34Vj+YQqDojr4MNVWLY5zcxyz1J7F6obhbwEgCC5Aeg9J8g=;
-	7:vjaGeNr7jxPRbfVDys5Gybtu/r/iei74MzfqJ8oimzMPXQW3AWLVKKSitlBsjHLF1xmCvXYS05887LG4eDwRV3d+M29YWFO/I+O0OA8/z9BhqIpqIQaFIG8xhm3QFz+dD/6iQGLSSbbfJmi6XmDJ93Mi1ugXc5LwMaT3fvU3poVoau7uCiXyAJ0BjNfDzeBu
-x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:DBXPR07MB238;
-x-microsoft-antispam-prvs: <DBXPR07MB238A3D7F0E111E942C02BEFF92C0@DBXPR07MB238.eurprd07.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:;
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(601004)(2401047)(8121501046)(5005006)(10201501046)(3002001);
-	SRVR:DBXPR07MB238; BCL:0; PCL:0; RULEID:; SRVR:DBXPR07MB238; 
-x-forefront-prvs: 0981815F2F
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(6009001)(7916002)(199003)(189002)(66066001)(6116002)(86362001)(9686002)(3846002)(3660700001)(102836003)(11100500001)(33656002)(76576001)(92566002)(586003)(3280700002)(189998001)(97736004)(5002640100001)(19580395003)(74316001)(8936002)(76176999)(106356001)(50986999)(54356999)(105586002)(10400500002)(77096005)(87936001)(7846002)(68736007)(81156014)(2900100001)(2950100001)(81166006)(2906002)(122556002)(101416001)(110136002)(4326007)(5003600100003)(7696003)(7736002)(8676002);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:DBXPR07MB238;
-	H:DBXPR07MB239.eurprd07.prod.outlook.com; FPR:; SPF:None;
-	PTR:InfoNoRecords; A:1; MX:1; LANG:en; 
-received-spf: None (protection.outlook.com: nokia.com does not designate
-	permitted sender hosts)
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
+	Wed, 22 Jun 2016 10:57:52 +0000 (UTC)
+Received: by mail-io0-f182.google.com with SMTP id s63so36659193ioi.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Jun 2016 03:57:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=/omH/ZO6APKuv9bnfJv0nTIzbJyPzZEcFXJ+92mqPyw=;
+	b=PdLV+igwLOWM15GZQYllQQECFaQfwHJIGPFsWHiNOv5aFFlaICrfXZQqRve4mK3NwG
+	3+uvOGA0GkDheD52xdlCwG/FeWe/+x1Xylv/DXgPob7ZCVXu8+YX6v5jifYFipjUTHqW
+	LehJo5TmuPK/LHfnt2/u8PylnKp7algJ54j68mtFdySADp3gMIEgkOnVSVhsV7icAsQ8
+	7b2udACHSEjgpq8nLRHmnGkc1ysE3kgwJbs4TcclSnE4IuHd+BdAZsHrCdzbRQiXJzVb
+	Dp2XnSXkRDLs7BLUYPnDgjafb0U7CvogQmwoRhwtdnBTzuykrqzxd4eArzw9LRRmLE9T
+	Ru3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=/omH/ZO6APKuv9bnfJv0nTIzbJyPzZEcFXJ+92mqPyw=;
+	b=fsdDFYjXYK/Xa4wVXr7YAsUAR6IBoCR4bjzGvzkY+QYCLWPBoVq69Z9Y1biGv7caA1
+	sNU9+Txl6dwgCYUgoKtZT9vkoE5B37ui9S++VPtyNneiWC7he3ETqACXVDPiAQTEwOjk
+	QvGnu+XNsPnCZ4J+fV8SZ75UXFnD3StGH+5RQPQlbQx1uURrYaOKvz/JI/qsVxV4D3O9
+	DTNTw9X9xIAV25iXeUFJNjehb27gCzDkHp5SX1eIotBLu3CDMiJq8BFdLUe/IzSkocDa
+	gTEkHFn5xdAjkIx18HKg2J2/2Y/xCqP3zIFMYNwWwHFpw6js5HEtCAsVDDVShYXqRl0Q
+	KrRg==
+X-Gm-Message-State: ALyK8tIqXaidNPNXVPTj5BPgwUY0zYgTkkiwJB3hdwtSAbaR8kClyFCl1Nyln+sXmubxlkizFwtuE4Cefz1mCESs
+X-Received: by 10.107.138.201 with SMTP id c70mr37023170ioj.148.1466593073113; 
+	Wed, 22 Jun 2016 03:57:53 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: nokia.com
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Jun 2016 10:23:57.3780 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 5d471751-9675-428d-917b-70f44f9630b0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBXPR07MB238
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Adding Bash to meta-toolchain.
+Received: by 10.107.162.6 with HTTP; Wed, 22 Jun 2016 03:57:33 -0700 (PDT)
+In-Reply-To: <18032fc6b17d21b4fcb431114a6000042b38e3d9.1466069361.git.Qi.Chen@windriver.com>
+References: <cover.1466069361.git.Qi.Chen@windriver.com>
+	<18032fc6b17d21b4fcb431114a6000042b38e3d9.1466069361.git.Qi.Chen@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 22 Jun 2016 11:57:33 +0100
+Message-ID: <CAJTo0LYpa5AMtaiOT_9L851vTyMbcNuPSWjdvmWQJq=EhJYzhA@mail.gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] recipetool/create.py: fix LICENSE value
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -72,19 +54,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2016 10:24:00 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 22 Jun 2016 10:57:55 -0000
+Content-Type: multipart/alternative; boundary=001a113e8e6a275f650535dbcf06
 
-PiBXaHkgZG8geW91IHdhbnQgdG8gaW5zdGFsbCBiYXNoIHRvIHRoZSB0b29sY2hhaW4/wqAgDQoN
-ClRoZXJlIGFyZSBzZXZlcmFsIHJlYXNvbnMgZm9yIGRvaW5nIHRoYXQ6DQorIEkgd291bGQgbGlr
-ZSB0byBjcmVhdGUgYW4gU0RLIHdpdGggZXZlcnkgdG9vbCB0aGF0IGlzIG5lZWRlZCBmb3IgdGhl
-IGNvbXBpbGF0aW9uOyANCiAgICArIHRvIG1ha2UgU0RLIGFzIG11Y2ggaG9zdCB0b29scyBpbmRl
-cGVuZGVudCBhcyBwb3NzaWJsZTsNCiAgICArIHRvIG1ha2UgYnVpbGRzIHRoYXQgdXNlIFNESyBt
-dWNoIG1vcmUgZGV0ZXJtaW5pc3RpYyAod2hlbiB1c2luZyBkaWZmZXJlbnQgYnVpbGQgaG9zdHMp
-Ow0KKyBJIHdvdWxkIGxpa2UgdG8gc3VwcG9ydCBSSEVMNSAoc3RpbGwpLCB3aGVyZSBiYXNoIDMg
-aXMgZGVmYXVsdDsNCisgYW5kLCBmaW5hbGx5LCBiZWNhdXNlIEkgY2FuIChiYXNoLmJiIHJlY2lw
-ZSBhbGxvd3MgbWUgdG8gZG8gdGhhdCk7DQoNCkkgY291bGQgYXNrOiBXaHkgbmF0aXZlc2RrLWJh
-c2ggaXMgZm9yPyBJdCBkb2VzIG5vdCB3b3JrLg0KDQpCYXJ0ZWsNCg==
+--001a113e8e6a275f650535dbcf06
+Content-Type: text/plain; charset=UTF-8
 
+On 16 June 2016 at 10:30, Chen Qi <Qi.Chen@windriver.com> wrote:
+
+> When there multiple license in a repo, the LICENSE value be created as
+> something like "LGPLv2.1 GPLv2", which causes the following warning.
+>
+> LICENSE value "LGPLv2.1 GPLv2" has an invalid format - license names must
+> be separated by the following characters to indicate the license
+> selection: &|()
+>
+> Fix it by using '&' to join multiple licenses.
+>
+
+This behaviour is intentional, as recipetool isn't smart enough to read the
+licensing terms and decide if there are multiple licenses in aggregate (&)
+or a choice of licenses (|).  The solution is to list all the licenses that
+have been found, let bitbake throw a warning, and the person creating a
+recipe comprehend the licensing situation and add the relevant operations.
+
+Ross
+
+--001a113e8e6a275f650535dbcf06
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 16 June 2016 at 10:30, Chen Qi <span dir=3D"ltr">&lt;<a href=3D"mailto:Q=
+i.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.com</a>&gt;</span=
+> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex"><div id=3D":4h0" class=3D"a3s aX=
+jCH m155588cf4b54ba0a">When there multiple license in a repo, the LICENSE v=
+alue be created as<br>
+something like &quot;LGPLv2.1 GPLv2&quot;, which causes the following warni=
+ng.<br>
+<br>
+LICENSE value &quot;LGPLv2.1 GPLv2&quot; has an invalid format - license na=
+mes must<br>
+be separated by the following characters to indicate the license selection:=
+ &amp;|()<br>
+<br>
+Fix it by using &#39;&amp;&#39; to join multiple licenses.<br></div></block=
+quote></div><br>This behaviour is intentional, as recipetool isn&#39;t smar=
+t enough to read the licensing terms and decide if there are multiple licen=
+ses in aggregate (&amp;) or a choice of licenses (|).=C2=A0 The solution is=
+ to list all the licenses that have been found, let bitbake throw a warning=
+, and the person creating a recipe comprehend the licensing situation and a=
+dd the relevant operations.</div><div class=3D"gmail_extra"><br></div><div =
+class=3D"gmail_extra">Ross</div></div>
+
+--001a113e8e6a275f650535dbcf06--
