@@ -1,46 +1,30 @@
-Return-Path: <jefro.net@gmail.com>
-Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
-	[209.85.213.65])
-	by mail.openembedded.org (Postfix) with ESMTP id C01F0607F8;
-	Wed, 22 Jun 2016 06:13:24 +0000 (UTC)
-Received: by mail-vk0-f65.google.com with SMTP id w1so6152872vka.1;
-	Tue, 21 Jun 2016 23:13:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:from:date:message-id:subject:to;
-	bh=590SFT4TaxlCNdr0j3VEQur0AIOrELVyJ59DFlgG4Fk=;
-	b=NIPh5wrKB4shG+YPncNxxedCKVxHAjWp4ca2N7bi00DtFcbGhS2PBw+J6bQzFxZh6h
-	OmjVGuA1eUWZkYb9HyZPBa/579x8CMxzZKCiy+70vQ2VO2KPXj8Wz2naFsmnOg8IndAu
-	EKR5ljIIn7lVqVAKqSjmgkoELkSmCYUP3HoHIS1TZut9H7CrNnnnb0GCzpu8iLu9Wmhm
-	Ebh6BeJcAwNQN2wDE7ffDcThSeIKMPv/lLjLgg63IMtO5UlFnN2BUmSxlVPxXISqWFS1
-	qlneTdUL2zpirgtlRKljGStqwi4GGiWDWTnHVI6CmkkZ+xFmFT2ZfXcsXx7q3QPEL4rO
-	4NIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-	:to; bh=590SFT4TaxlCNdr0j3VEQur0AIOrELVyJ59DFlgG4Fk=;
-	b=AKRdqiC7EKQFhRWrRjjj86EvQ7JSfuAiyf1yTDd/ZwgkUMJDvA90sXlguppILch1yw
-	jWf9RYlNyoTNkzitMUMmCjEMzb0YsUmbbCi1HFAXGhEJ47ySwQWoNvZucug1SjeyI1dz
-	UyrE8R7hOAW6WBVDFgAb/0Yn/dGY/U5bnMjAx5j9s+kokxZR0oXZ91PqjI9mVSJmLBrr
-	Ug7GLBA9M4llvoA4SfuAFFd4Wb5DQ9i8nLY4gaeZWsTGFI1/OfMRwjZp2+5ukwfUR2wb
-	pBWn/bUyiHWaelzU5F8b8O8YCQ3n2uSJCt5vkgXKkb1r0u+FldjcdPahBJq49Krnq32M
-	GBRg==
-X-Gm-Message-State: ALyK8tKTeJzjBV5aWjyrXmyK0RCo3/Mv08UQhXjFlBoYSl5p9EP3TfJ+C6mSLEbvJhMyhE5RsfOaOZKYGgg5YA==
-X-Received: by 10.31.227.196 with SMTP id a187mr12107486vkh.116.1466576004645; 
-	Tue, 21 Jun 2016 23:13:24 -0700 (PDT)
-MIME-Version: 1.0
-Sender: jefro.net@gmail.com
-Received: by 10.103.68.65 with HTTP; Tue, 21 Jun 2016 23:13:05 -0700 (PDT)
-From: Jeff Osier-Mixon <jefro@jefro.net>
-Date: Tue, 21 Jun 2016 23:13:05 -0700
-X-Google-Sender-Auth: XrBW79hJthLU1s_dM7TQog3e0Us
-Message-ID: <CA+YB3rapfPf_s6sWGxR+Ya9oCQMnsMp7vPYGDO4n2Ws=-6bm6w@mail.gmail.com>
-To: "openembedded-members@lists.openembedded.org"
-	<openembedded-members@lists.openembedded.org>, 
-	"openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>, 
-	Yocto Project <yocto@yoctoproject.org>
-Subject: Yocto Project Developer Day & OEDEM at ELCE this fall
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id C8557607A5
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Jun 2016 06:24:18 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u5M6OIUo009597 for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Jun 2016 07:24:18 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id txFPYTFVCBDI
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Jun 2016 07:24:18 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u5M6OGTH009594
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Jun 2016 07:24:18 +0100
+Message-ID: <1466576656.3319.184.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 22 Jun 2016 07:24:16 +0100
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: [PATCH] bitbake.conf: Drop BUILDSDK_LDFLAGS rpath, rpath-link
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,26 +37,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2016 06:13:25 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 22 Jun 2016 06:24:19 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi all - in case folks are starting to make travel arrangements for
-ELCE in Berlin this October, we are planning both a YP DevDay (paid
-training event) and OEDEM (OpenEmbedded members & developers meeting).
-We don't have venues yet, but these two events will likely occur on
-the Monday and Friday before and after ELCE, Oct 10 and Oct 14. We
-aren't sure yet which will be on which day, but chances are good that
-DevDay will be on Monday and OEDEM on Friday.
+The SDK used to work differently and didn't include its own libc/loader.
+In that case, these options were needed to correctly handle the different
+library locations. With the modern relocatable SDK, we don't need these 
+options any more as the default paths in the dynamic loader are good enough.
+They just given potential for errors so drop them.
 
-I will keep these lists informed as we move forward.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Also, the CFP for ELCE, OpenIOT Summit, and LinuxCon EU are still
-open, so please get your talks in. ELCE is here:
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 942b8b1..f814d04 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -522,12 +522,7 @@ export BUILD_LDFLAGS = "-L${STAGING_LIBDIR_NATIVE} \
+                         -Wl,-rpath,${STAGING_BASE_LIBDIR_NATIVE} \
+                         -Wl,-O1"
+ 
+-BUILDSDK_LDFLAGS = "-L${STAGING_LIBDIR} \
+-                    -Wl,-rpath-link,${STAGING_LIBDIR} \
+-                    -Wl,-rpath,${libdir} -Wl,-O1 \
+-                    -L${STAGING_DIR_HOST}${base_libdir} \
+-                    -Wl,-rpath-link,${STAGING_DIR_HOST}${base_libdir} \
+-                    -Wl,-rpath,${base_libdir} -Wl,-O1"
++BUILDSDK_LDFLAGS = "-Wl,-O1"
+ 
+ LINKER_HASH_STYLE ??= "gnu"
+ # mips does not support GNU hash style therefore we override
 
-http://events.linuxfoundation.org/events/embedded-linux-conference-europe
 
-Please feel free to let me know of any questions.
-
--- 
-Jeff Osier-Mixon - Open Source Community Engineer, Intel Corporation
 
