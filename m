@@ -1,46 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id BFA3873192
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id CD7CD65C8A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2016 11:34:27 +0000 (UTC)
-Received: by mail-wm0-f45.google.com with SMTP id v199so83563414wmv.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2016 04:34:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=DMasqjzEAtHA3oP++DSEadw93UDcnVxuHbbVT5GrtAo=;
-	b=O9ABLHbLAKpWvA6WFoOeylczwWoNe0b1BpfkFKjs9IYOPVlFFXs6NhQoGgelUHQQzs
-	mUnWTdd6khS/82Av9GC9JhODAUPqGyQ5giFQ8KyZ2BccnWQj2p1Q1cvDb3isUdC6poUW
-	sOPg6wthdK2m06VfQk2N9s8YXoQBXtbygXbwpkanYWLmSRTAhZIfDpQ985B0kZSqxPZ5
-	FuibII+WTQKNaoXN0ct0I4EwISmyJUZZIla5DQDFXXWpOoVneYSGC7YA6cm6OiyDPGwg
-	n7BYlSZW2Poy5Lq5rVat5nzNY6tDJs229VUyBQPTnrwPudVXgw59iUuAu0u4yhgLTupl
-	ONPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=DMasqjzEAtHA3oP++DSEadw93UDcnVxuHbbVT5GrtAo=;
-	b=RXzpDanAN6NSNVMG1wRHaMWeB00zWBEIVsQ+1v1Qj3G7ms+rg/0NMhXKV6W1r9inW3
-	7EyaqtzraLq/kCDhDqJOCMmxNSXE7fTSS7TPhp1efbaZHtRRVC8pR1cejelyxT7M5lRT
-	emm3aKHWMAxHFBLMakccXa9/KKt6jup1wMuAEc4CVqX5ejAla8WMHs7VJYZe9VJaGak7
-	0yNEYi04x3nfiEpdYazD/vo0WHbkZVm5+adicShhLTELmwib6pQReOhakXx7cuMK/B03
-	u5zkeVq9EHsvPL/JuliXP3Z3d84a4vyf8Gu5Ynji1GMGlrXNQ0YZVU+//1XVHV52XyFc
-	kqyQ==
-X-Gm-Message-State: ALyK8tJUNWC76uEyEraM4naATp5HKkWKSuywW+wzqTTq/p0vLD23Mldq3O6visCZPi9RjRe1
-X-Received: by 10.28.50.194 with SMTP id y185mr7740170wmy.51.1466595267864;
-	Wed, 22 Jun 2016 04:34:27 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	b187sm185135wmg.15.2016.06.22.04.34.26
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Jun 2016 04:34:27 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Wed, 22 Jun 2016 11:43:36 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 22 Jun 2016 04:43:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,509,1459839600"; d="scan'208";a="981068336"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga001.jf.intel.com with ESMTP; 22 Jun 2016 04:43:37 -0700
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Jun 2016 12:34:25 +0100
-Message-Id: <1466595265-4646-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] qemu: add PACKAGECONFIG stanza for bzip2
+References: <1466519942-5978-1-git-send-email-akuster808@gmail.com>
+	<CAMKF1spPd9sX7DmuLtzOuYuQT+jRgZhze6hCiNWwbW2-U_MytA@mail.gmail.com>
+	<CAJTo0LYtMSmqz-hr6zxfPDrv3x0kDDEO02ceH5zDU3o6H5iY1w@mail.gmail.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <6b1040c9-6ca6-92e5-ac9d-c2a74d67db8f@linux.intel.com>
+Date: Wed, 22 Jun 2016 14:43:27 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.1.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LYtMSmqz-hr6zxfPDrv3x0kDDEO02ceH5zDU3o6H5iY1w@mail.gmail.com>
+Subject: Re: [PATCH 0/3] Add qemuppc64 target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,28 +34,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2016 11:34:29 -0000
+X-List-Received-Date: Wed, 22 Jun 2016 11:43:38 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This is just for reading bzip-compressed DMG files, so disable it by default.
+On 06/21/2016 07:03 PM, Burton, Ross wrote:
+>     Can you also see if usermode qemu needs to be changed for ppc64 as well
+>
+> It needs enabling entirely - qemu-ppc64 doesn't exist currently so every
+> build-time postinst fails.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/qemu/qemu.inc | 1 +
- 1 file changed, 1 insertion(+)
+There were reports that qemu-ppc64 does not work even when enabled:
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 44e6744..b865223 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -131,6 +131,7 @@ PACKAGECONFIG[glx] = "--enable-opengl,--disable-opengl,mesa"
- PACKAGECONFIG[lzo] = "--enable-lzo,--disable-lzo,lzo"
- PACKAGECONFIG[numa] = "--enable-numa,--disable-numa,numactl"
- PACKAGECONFIG[gnutls] = "--enable-gnutls,--disable-gnutls,gnutls"
-+PACKAGECONFIG[bzip2] = "--enable-bzip2,--disable-bzip2,bzip2"
- 
- EXTRA_OECONF += "${@bb.utils.contains('PACKAGECONFIG', 'alsa', '--audio-drv-list=oss,alsa', '', d)}"
- 
--- 
-2.8.1
+https://lists.yoctoproject.org/pipermail/yocto/2016-April/029698.html
+
+Alex
 
 
