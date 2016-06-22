@@ -1,22 +1,67 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id E8D5A6FF93
+Return-Path: <ting.liu@nxp.com>
+X-Greylist: delayed 9017 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 22 Jun 2016 12:14:33 UTC
+Received: from emea01-db3-obe.outbound.protection.outlook.com
+	(mail-db3on0061.outbound.protection.outlook.com [157.55.234.61])
+	by mail.openembedded.org (Postfix) with ESMTP id 54AF16FEF5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2016 12:06:45 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 22 Jun 2016 05:06:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,509,1459839600"; d="scan'208";a="992846211"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 22 Jun 2016 05:06:46 -0700
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Jun 2016 15:06:35 +0300
-Message-Id: <1466597195-1142-2-git-send-email-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <1466597195-1142-1-git-send-email-alexander.kanavin@linux.intel.com>
-References: <1466597195-1142-1-git-send-email-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 2/2] pythonnative.bbclass, python3native.bbclass: export STAGING_INCDIR, STAGING_LIBDIR, PYTHON variables
+	Wed, 22 Jun 2016 12:14:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+	bh=Weg1kRO0HQ9Nb9r6D9V9Lgxk+hchOdGUBeUSmB/mvfU=;
+	b=iVhHPeA65Z4JLrHTZjN2ur/zKEAB4q1kbZrkILf9vZUHpW2G6Ds8Oe4ApF+bb87Z3loNOk5bUKFLXFJj0uUFSB/3F3mHQTGaBj+wzn4T9vnbO6jXH15xZGvnmpmKA8WJUNYJK9Wh9KFKjru3NvJt1VesMyVmLBRHAzVjCcGdyw4=
+Received: from DB3PR04MB042.eurprd04.prod.outlook.com (10.242.136.151) by
+	DB3PR04MB042.eurprd04.prod.outlook.com (10.242.136.151) with Microsoft
+	SMTP Server (TLS) id 15.1.517.8; Wed, 22 Jun 2016 09:44:16 +0000
+Received: from DB3PR04MB042.eurprd04.prod.outlook.com
+	([fe80::3131:6aa6:231e:9fae]) by DB3PR04MB042.eurprd04.prod.outlook.com
+	([fe80::3131:6aa6:231e:9fae%21]) with mapi id 15.01.0517.014;
+	Wed, 22 Jun 2016 09:44:16 +0000
+From: Ting Liu <ting.liu@nxp.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [oe-core][PATCH v2] u-boot: extend UBOOT_CONFIG format to
+	support different binary name
+Thread-Index: AQHRxxbRpHjbuev1Wk6zb+zvc2HZ7Z/1RtOQ
+Date: Wed, 22 Jun 2016 09:44:16 +0000
+Message-ID: <DB3PR04MB0421FF112832EC62FF6F650992C0@DB3PR04MB042.eurprd04.prod.outlook.com>
+References: <1466002870-9934-1-git-send-email-ting.liu@nxp.com>
+In-Reply-To: <1466002870-9934-1-git-send-email-ting.liu@nxp.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=ting.liu@nxp.com; 
+x-originating-ip: [199.59.231.64]
+x-ms-office365-filtering-correlation-id: e77d6233-0c36-482a-6140-08d39a81c703
+x-microsoft-exchange-diagnostics: 1; DB3PR04MB042;
+	6:Tq1B10NujRvZCXzkKrXkORMnV5t//OAmhTaqWYH3yUk4Fmy60uk7JDmP6z0qmsv0iQzseA9fS9x0DJ7D2q1VBy4cNgqnFA+ITa5rXz7vyhhS8yt75tosFijFyUesc04c3XX6UcKKTxtN3/nERcWl+2tSF0FQp/7oMYgad3upNu2C2rMu5kY7BVjLbEPxUGd194DfTpLSu+6VoFP8McpXqX6s9z98KlxtnQi9LppshnS0CBxAkHpa8AQft5xAkbw99+MVa+VU/Z/JB4xW6Q5XWTH5W4wBYKGBeloOgwKKl9iMiWybfIR4kkRlbRmCOIyggdIzWegGSHiu2+xCmn3Za0n9L3z5i3sgOo2z0K1Mf+U=;
+	5:aTfT7QV3INwiTqWnEA2TsUCOHkNKzI0q+78fzgEf3aKLgujPnA13WPr2kC3MnTtLIYEsn88ch9Y3UKPfbYF1BtGcXasgtKfqbBTn2Hn2BhSrC4dFrXhpf+2wali9ma89LhdqCda189zNyQ5HRLXrMQ==;
+	24:eZeD/j6NrHpEgeZfhqt/ADQ/g/YX42JAShzD2fzTKVYbL4eM97d2Jz2kdeBKO3fIV+z2n5PPu/EDlYdDle62MRYCxe8KxEBqCUWD2RODxDo=;
+	7:bzcfqE220+VFXH9OLCsldBvoiwjtAXpG62RaVT+/ZGku0YntlH4Av3389yVHW36V7Yp5zc2Ri1yjZLYiiM8suOJIbMJ5sNoXuL3dCquKTrMscsfq2YvzObg527Jp1B9v/K8fhGPPsCIPFZTETGmOeaAWHWI4BOUWyCr63Y6XqQzFJfNehU4Eq070dF9FgZUMsv+WM2dCQ03mCZrGlkTgG4+Y5QNeMYvGedYuEeu0nYQTzjPnP8vV9HaDCVLAjLhq
+x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:DB3PR04MB042;
+x-microsoft-antispam-prvs: <DB3PR04MB0424C5F796FA3FDF15D579D992C0@DB3PR04MB042.eurprd04.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:(185117386973197)(264703809997249);
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(601004)(2401047)(5005006)(8121501046)(10201501046)(3002001)(6055026);
+	SRVR:DB3PR04MB042; BCL:0; PCL:0; RULEID:; SRVR:DB3PR04MB042; 
+x-forefront-prvs: 0981815F2F
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(6009001)(7916002)(199003)(377454003)(189002)(13464003)(107886002)(2906002)(8936002)(189998001)(8676002)(50986999)(68736007)(7696003)(76176999)(5002640100001)(102836003)(5250100002)(2950100001)(54356999)(33656002)(2501003)(6116002)(81156014)(110136002)(86362001)(9686002)(586003)(3846002)(101416001)(5003600100003)(7846002)(97736004)(2900100001)(3660700001)(81166006)(76576001)(19580395003)(87936001)(74316001)(19580405001)(105586002)(106116001)(11100500001)(3280700002)(450100001)(106356001)(92566002)(2351001)(7736002)(66066001);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:DB3PR04MB042;
+	H:DB3PR04MB042.eurprd04.prod.outlook.com; FPR:; SPF:None;
+	PTR:InfoNoRecords; A:1; MX:1; CAT:NONE; LANG:en; CAT:NONE; 
+received-spf: None (protection.outlook.com: nxp.com does not designate
+	permitted sender hosts)
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
+MIME-Version: 1.0
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Jun 2016 09:44:16.7117 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR04MB042
+Subject: Re: [PATCH v2] u-boot: extend UBOOT_CONFIG format to support different binary name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,198 +74,161 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2016 12:06:46 -0000
+X-List-Received-Date: Wed, 22 Jun 2016 12:14:35 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-We patch Python's distutils modules to access STAGING_INCDIR/LIBDIR, so when
-they are not set, scripts that utilize distutils (e.g. python-config) fail.
-Several recipes need to export those manually to prevent such failures,
-so let's do that in the class instead.
+Ping.
 
-PYTHON variable is exported because otherwise autotools' python.m4
-macro will pick up its own internal default, which may not be the version
-that we want.
-
-glib recipe in particular was previously using Python 2.x during build due to python.m4
-defaulting to it - now it's using Python 3.x, and so needs a small fix in
-deletion of *.pyc files.
-
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- meta/classes/gobject-introspection.bbclass                        | 5 -----
- meta/classes/python3native.bbclass                                | 8 ++++++++
- meta/classes/pythonnative.bbclass                                 | 8 ++++++++
- meta/recipes-core/glib-2.0/glib.inc                               | 1 +
- meta/recipes-core/libxml/libxml2_2.9.4.bb                         | 4 ----
- meta/recipes-devtools/python/python3-dbus_1.2.4.bb                | 4 ----
- meta/recipes-extended/libuser/libuser_0.62.bb                     | 2 --
- meta/recipes-extended/newt/libnewt_0.52.19.bb                     | 2 --
- .../gobject-introspection/gobject-introspection_1.48.0.bb         | 7 -------
- meta/recipes-kernel/perf/perf.bb                                  | 2 --
- meta/recipes-support/libcap-ng/libcap-ng_0.7.7.bb                 | 3 ---
- 11 files changed, 17 insertions(+), 29 deletions(-)
-
-diff --git a/meta/classes/gobject-introspection.bbclass b/meta/classes/gobject-introspection.bbclass
-index 8cd7b7e..37389cb 100644
---- a/meta/classes/gobject-introspection.bbclass
-+++ b/meta/classes/gobject-introspection.bbclass
-@@ -24,11 +24,6 @@ DEPENDS_append_class-target = " gobject-introspection gobject-introspection-nati
- DEPENDS_append_class-native = " gobject-introspection-native"
- DEPENDS_append_class-nativesdk = " gobject-introspection-native"
- 
--# This is necessary for python scripts to succeed - distutils fails if these
--# are not set
--export STAGING_INCDIR
--export STAGING_LIBDIR
--
- # This is used by introspection tools to find .gir includes
- export XDG_DATA_DIRS = "${STAGING_DATADIR}"
- 
-diff --git a/meta/classes/python3native.bbclass b/meta/classes/python3native.bbclass
-index 1899863..d7b2d35 100644
---- a/meta/classes/python3native.bbclass
-+++ b/meta/classes/python3native.bbclass
-@@ -3,3 +3,11 @@ inherit python3-dir
- PYTHON="${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}"
- EXTRANATIVEPATH += "${PYTHON_PN}-native"
- DEPENDS += " ${PYTHON_PN}-native "
-+
-+# python-config and other scripts are using distutils modules
-+# which we patch to access these variables
-+export STAGING_INCDIR
-+export STAGING_LIBDIR
-+
-+# autoconf macros will use their internal default preference otherwise
-+export PYTHON
-diff --git a/meta/classes/pythonnative.bbclass b/meta/classes/pythonnative.bbclass
-index 97029dc..bd239fa 100644
---- a/meta/classes/pythonnative.bbclass
-+++ b/meta/classes/pythonnative.bbclass
-@@ -6,3 +6,11 @@ PYTHON="${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}"
- PYTHON_EXECUTABLE="${PYTHON}"
- EXTRANATIVEPATH += "${PYTHON_PN}-native"
- DEPENDS += " ${PYTHON_PN}-native "
-+
-+# python-config and other scripts are using distutils modules
-+# which we patch to access these variables
-+export STAGING_INCDIR
-+export STAGING_LIBDIR
-+
-+# autoconf macros will use their internal default preference otherwise
-+export PYTHON
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index c6b8e57..c2cceda 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -77,6 +77,7 @@ do_install_append () {
- 	fi
- 
- 	# Remove some unpackaged files
-+	rm -rf ${D}${datadir}/glib-2.0/codegen/__pycache__
- 	rm -f ${D}${datadir}/glib-2.0/codegen/*.pyc
- 	rm -f ${D}${datadir}/glib-2.0/codegen/*.pyo
- 
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.4.bb b/meta/recipes-core/libxml/libxml2_2.9.4.bb
-index 5ff508a..e2febf0 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.4.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.4.bb
-@@ -47,10 +47,6 @@ EXTRA_OECONF_class-native = "--without-legacy --without-docbook --with-c14n --wi
- EXTRA_OECONF_class-nativesdk = "--without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
- EXTRA_OECONF_linuxstdbase = "--with-debug --with-legacy --with-docbook --with-c14n --without-lzma --with-zlib"
- 
--# required for python binding
--export STAGING_LIBDIR
--export STAGING_INCDIR
--
- python populate_packages_prepend () {
-     # autonamer would call this libxml2-2, but we don't want that
-     if d.getVar('DEBIAN_NAMES', True):
-diff --git a/meta/recipes-devtools/python/python3-dbus_1.2.4.bb b/meta/recipes-devtools/python/python3-dbus_1.2.4.bb
-index 759512c..de5a01c 100644
---- a/meta/recipes-devtools/python/python3-dbus_1.2.4.bb
-+++ b/meta/recipes-devtools/python/python3-dbus_1.2.4.bb
-@@ -18,10 +18,6 @@ PACKAGECONFIG ?= ""
- PACKAGECONFIG[docs] = "--enable-html-docs,--disable-html-docs,python3-docutils-native"
- PACKAGECONFIG[api-docs] = "--enable-api-docs,--disable-api-docs,python3-docutils-native python3-epydoc-native"
- 
--do_configure_prepend() {
--    export PYTHON=${PYTHON}
--}
--
- RDEPENDS_${PN} = "python3-io python3-logging python3-stringold python3-threading python3-xml"
- 
- FILES_${PN}-dev += "${libdir}/pkgconfig"
-diff --git a/meta/recipes-extended/libuser/libuser_0.62.bb b/meta/recipes-extended/libuser/libuser_0.62.bb
-index 8590563..960f789 100644
---- a/meta/recipes-extended/libuser/libuser_0.62.bb
-+++ b/meta/recipes-extended/libuser/libuser_0.62.bb
-@@ -24,8 +24,6 @@ DEPENDS = "popt libpam glib-2.0 docbook-utils-native linuxdoc-tools-native pytho
- 
- inherit autotools gettext python3native python3-dir pkgconfig
- 
--export PYTHON
--
- EXTRA_OEMAKE = "PYTHON_CPPFLAGS=-I${STAGING_INCDIR}/${PYTHON_DIR}${PYTHON_ABI}"
- 
- PACKAGES += "${PN}-python "
-diff --git a/meta/recipes-extended/newt/libnewt_0.52.19.bb b/meta/recipes-extended/newt/libnewt_0.52.19.bb
-index b45461c..22bdaf5 100644
---- a/meta/recipes-extended/newt/libnewt_0.52.19.bb
-+++ b/meta/recipes-extended/newt/libnewt_0.52.19.bb
-@@ -35,8 +35,6 @@ inherit autotools-brokensep
- 
- CLEANBROKEN = "1"
- 
--export STAGING_INCDIR
--export STAGING_LIBDIR
- export CPPFLAGS
- 
- PACKAGES_prepend = "whiptail "
-diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.48.0.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.48.0.bb
-index 8adede6..6948aff 100644
---- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.48.0.bb
-+++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.48.0.bb
-@@ -21,13 +21,6 @@ SRC_URI[sha256sum] = "fa275aaccdbfc91ec0bc9a6fd0562051acdba731e7d584b64a277fec60
- inherit autotools pkgconfig gtk-doc python3native qemu gobject-introspection-data
- BBCLASSEXTEND = "native"
- 
--# necessary to let the call for python-config from configure.ac succeed
--export STAGING_INCDIR
--export STAGING_LIBDIR
--
--# autoconf macros otherwise will default to Python 2
--export PYTHON
--
- # needed for writing out the qemu wrapper script
- export STAGING_DIR_HOST
- export B
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index d668300..171d23f 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -40,8 +40,6 @@ inherit linux-kernel-base kernel-arch pythonnative
- 
- # needed for building the tools/perf Python bindings
- inherit python-dir
--export STAGING_INCDIR
--export STAGING_LIBDIR
- export PYTHON_SITEPACKAGES_DIR
- 
- #kernel 3.1+ supports WERROR to disable warnings as errors
-diff --git a/meta/recipes-support/libcap-ng/libcap-ng_0.7.7.bb b/meta/recipes-support/libcap-ng/libcap-ng_0.7.7.bb
-index 5608f49..a38a818 100644
---- a/meta/recipes-support/libcap-ng/libcap-ng_0.7.7.bb
-+++ b/meta/recipes-support/libcap-ng/libcap-ng_0.7.7.bb
-@@ -17,9 +17,6 @@ SRC_URI[sha256sum] = "615549ce39b333f6b78baee0c0b4ef18bc726c6bf1cca123dfd89dd963
- 
- DEPENDS += "swig-native python3"
- 
--export PYTHON
--export STAGING_INCDIR
--export STAGING_LIBDIR
- EXTRA_OECONF += "--with-python --with-python3"
- EXTRA_OEMAKE += "PYLIBVER='python${PYTHON_BASEVERSION}${PYTHON_ABI}' PYINC='${STAGING_INCDIR}/${PYLIBVER}'"
- 
--- 
-2.8.1
+> -----Original Message-----
+> From: ting.liu@nxp.com [mailto:ting.liu@nxp.com]
+> Sent: Wednesday, June 15, 2016 11:01 PM
+> To: openembedded-core@lists.openembedded.org
+> Cc: Zhenhua Luo <zhenhua.luo@nxp.com>; Ting Liu <ting.liu@nxp.com>
+> Subject: [oe-core][PATCH v2] u-boot: extend UBOOT_CONFIG format to
+> support different binary name
+>=20
+> From: Ting Liu <ting.liu@nxp.com>
+>=20
+> When using UBOOT_CONFIG format, the final u-boot binary for each config
+> may have different names. Extend UBOOT_CONFIG format to support
+> different binary to be copied.
+>=20
+> The new format is supposed to be compatible with old one as
+> ${UBOOT_BINARY} is copied by default, and images,binary can be empty.
+>=20
+> An example format to specify it, in the machine, is:
+> UBOOT_CONFIG ??=3D "sdcard-ifc sdcard-qspi lpuart qspi secure-boot nor"
+> UBOOT_CONFIG[nor] =3D "ls1021atwr_nor_config,,u-boot-dtb.bin"
+> UBOOT_CONFIG[sdcard-ifc] =3D "ls1021atwr_sdcard_ifc_config,,u-boot-with-
+> spl-pbl.bin"
+> UBOOT_CONFIG[sdcard-qspi] =3D "ls1021atwr_sdcard_qspi_config,,u-boot-
+> with-spl-pbl.bin"
+> UBOOT_CONFIG[lpuart] =3D "ls1021atwr_nor_lpuart_config,,u-boot-dtb.bin"
+> UBOOT_CONFIG[qspi] =3D "ls1021atwr_qspi_config,,u-boot-dtb.bin"
+> UBOOT_CONFIG[secure-boot] =3D "ls1021atwr_nor_SECURE_BOOT_config"
+>=20
+> Signed-off-by: Ting Liu <ting.liu@nxp.com>
+> ---
+>  meta/classes/uboot-config.bbclass  | 19 ++++++++++++++++---
+> meta/recipes-bsp/u-boot/u-boot.inc | 12 +++++++++---
+>  2 files changed, 25 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/meta/classes/uboot-config.bbclass b/meta/classes/uboot-
+> config.bbclass
+> index cb061af..3f760f2 100644
+> --- a/meta/classes/uboot-config.bbclass
+> +++ b/meta/classes/uboot-config.bbclass
+> @@ -3,7 +3,7 @@
+>  # The format to specify it, in the machine, is:
+>  #
+>  # UBOOT_CONFIG ??=3D <default>
+> -# UBOOT_CONFIG[foo] =3D "config,images"
+> +# UBOOT_CONFIG[foo] =3D "config,images,binary"
+>  #
+>  # or
+>  #
+> @@ -11,9 +11,13 @@
+>  #
+>  # Copyright 2013, 2014 (C) O.S. Systems Software LTDA.
+>=20
+> +UBOOT_BINARY ?=3D "u-boot.${UBOOT_SUFFIX}"
+> +
+>  python () {
+>      ubootmachine =3D d.getVar("UBOOT_MACHINE", True)
+>      ubootconfigflags =3D d.getVarFlags('UBOOT_CONFIG')
+> +    ubootbinary =3D d.getVar('UBOOT_BINARY', True)
+> +    ubootbinaries =3D d.getVar('UBOOT_BINARIES', True)
+>      # The "doc" varflag is special, we don't want to see it here
+>      ubootconfigflags.pop('doc', None)
+>=20
+> @@ -27,6 +31,9 @@ python () {
+>      if ubootmachine and ubootconfigflags:
+>          raise bb.parse.SkipPackage("You cannot use UBOOT_MACHINE and
+> UBOOT_CONFIG at the same time.")
+>=20
+> +    if ubootconfigflags and ubootbinaries:
+> +        raise bb.parse.SkipPackage("You cannot use UBOOT_BINARIES as it
+> + is internal to uboot_config.bbclass.")
+> +
+>      if not ubootconfigflags:
+>          return
+>=20
+> @@ -36,13 +43,19 @@ python () {
+>              for f, v in ubootconfigflags.items():
+>                  if config =3D=3D f:
+>                      items =3D v.split(',')
+> -                    if items[0] and len(items) > 2:
+> -                        raise bb.parse.SkipPackage('Only config,images c=
+an be
+> specified!')
+> +                    if items[0] and len(items) > 3:
+> +                        raise bb.parse.SkipPackage('Only
+> + config,images,binary can be specified!')
+>                      d.appendVar('UBOOT_MACHINE', ' ' + items[0])
+>                      # IMAGE_FSTYPES appending
+>                      if len(items) > 1 and items[1]:
+>                          bb.debug(1, "Appending '%s' to IMAGE_FSTYPES." %=
+ items[1])
+>                          d.appendVar('IMAGE_FSTYPES', ' ' + items[1])
+> +                    if len(items) > 2 and items[2]:
+> +                        bb.debug(1, "Appending '%s' to UBOOT_BINARIES." =
+% items[2])
+> +                        d.appendVar('UBOOT_BINARIES', ' ' + items[2])
+> +                    else:
+> +                        bb.debug(1, "Appending '%s' to UBOOT_BINARIES." =
+%
+> ubootbinary)
+> +                        d.appendVar('UBOOT_BINARIES', ' ' +
+> + ubootbinary)
+>                      break
+>      elif len(ubootconfig) =3D=3D 0:
+>         raise bb.parse.SkipPackage('You must set a default in UBOOT_CONFI=
+G.')
+> diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-
+> boot/u-boot.inc
+> index 1071d1f..1f64faa 100644
+> --- a/meta/recipes-bsp/u-boot/u-boot.inc
+> +++ b/meta/recipes-bsp/u-boot/u-boot.inc
+> @@ -32,7 +32,6 @@ UBOOT_LOCALVERSION ?=3D ""
+>  # but enable individual recipes to change this value.
+>  UBOOT_SUFFIX ??=3D "bin"
+>  UBOOT_IMAGE ?=3D "u-boot-${MACHINE}-${PV}-${PR}.${UBOOT_SUFFIX}"
+> -UBOOT_BINARY ?=3D "u-boot.${UBOOT_SUFFIX}"
+>  UBOOT_SYMLINK ?=3D "u-boot-${MACHINE}.${UBOOT_SUFFIX}"
+>  UBOOT_MAKE_TARGET ?=3D "all"
+>=20
+> @@ -82,15 +81,22 @@ do_compile () {
+>=20
+>      if [ -n "${UBOOT_CONFIG}" ]
+>      then
+> +        unset i j k
+>          for config in ${UBOOT_MACHINE}; do
+>              i=3D$(expr $i + 1);
+> -            for type  in ${UBOOT_CONFIG}; do
+> +            for type in ${UBOOT_CONFIG}; do
+>                  j=3D$(expr $j + 1);
+>                  if [ $j -eq $i ]
+>                  then
+>                      oe_runmake O=3D${config} ${config}
+>                      oe_runmake O=3D${config} ${UBOOT_MAKE_TARGET}
+> -                    cp  ${S}/${config}/${UBOOT_BINARY}  ${S}/${config}/u=
+-boot-
+> ${type}.${UBOOT_SUFFIX}
+> +                    for binary in ${UBOOT_BINARIES}; do
+> +                        k=3D$(expr $k + 1);
+> +                        if [ $k -eq $i ]; then
+> +                            cp ${S}/${config}/${binary} ${S}/${config}/u=
+-boot-
+> ${type}.${UBOOT_SUFFIX}
+> +                        fi
+> +                    done
+> +                    unset k
+>                  fi
+>              done
+>              unset  j
+> --
+> 1.9.2
 
 
