@@ -1,50 +1,46 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id ABE0B601D3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f45.google.com (mail-it0-f45.google.com
+	[209.85.214.45])
+	by mail.openembedded.org (Postfix) with ESMTP id EAB90731C1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2016 14:42:21 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id a66so1839937wme.2
+	Wed, 22 Jun 2016 14:45:46 +0000 (UTC)
+Received: by mail-it0-f45.google.com with SMTP id a5so101716645ita.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2016 07:42:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=YIX9DKe+NeCvR2k7zOqDtTUdYECzKNpzKNaS7ViA6qg=;
-	b=s9R0GV+fQFBEY+PNRBsiMjp5C0v4MAeOsV104LpsVS0tMvTbMCf2+d1xyhhvBANOC8
-	uwYl6NuQPbE8BTJj24aGV621o/dPtBnpETx5FAeIBNkhZXU5PJjo1LA4a/8IuHe+I8hR
-	1JXWB36bRNr1H5WTh3z0wvIC88jxtSHm1o2KWFMAHLSmlBnDDsmQ7nLI1l5DgmZtp1LU
-	ML8pFwxd77dhFoZmun010Rcpd1riApQZTHiTF5+LuQucuOU8IFYu4phAQpQd8N9VBW0I
-	HSXmHEMSZgFoPE6JT9BwWq9SZwNpsvnmtERGAQAD8iJOuRvn23e/cr1vzvf2yJ+AdCos
-	yzag==
+	Wed, 22 Jun 2016 07:45:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=35PhtsbNJEXfF3OCl2RBSRhUHoGYFSY62oLnjZoVOno=;
+	b=JrOfNgtVjJjxLIBB8JbroAnLQ2dWRI1rVEQ5m4xW1rio6ExcjZyBE3nCqnqLrc6KSn
+	TTS9cC+RD03ChRtq5p80vktKjRQfO7uZiT0y7jzXxMekqNzJ8yIWGJ67Dg2RaFlq/fiz
+	/8J7eYVJZKWZwDATWid1sAgazEILbWo+o3acw+T9UsiElCtUdr4jXAHGkfMJDLtuVaCS
+	7GQGR4qnPDJklIDh8C0uW4RkXgABqr6Ciiwisl3D9VBPikzxt/vMRhMleL5bFcZuFlKw
+	8GxLOtSAtb1FtCibz5Wh0qVCqbF+sOSS9u6ceHxZ1jJzfM2cz9Uc2nNEd1PxZhGyDCwj
+	ssbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=YIX9DKe+NeCvR2k7zOqDtTUdYECzKNpzKNaS7ViA6qg=;
-	b=Ky3Irhke/QKZK4XSdx0kiTVc7uzlKbJCC00O2gjwyuVkmG7hD79KhJKluGZ+fnOcnC
-	G5cOBva7DmlkqVmAN1t3RjLWuenZFGO6tUmt4WNxHoTws1xypNIO3iGweQSqkotTDmwG
-	W0jZ9iJhtk5897Zkk03iq1u5cGMnQ/eehuzOK6/0aO0nw5qPyAdIAxcQ3OpsbggfnukI
-	TQmjQocufMrgAeOr3w9yZgEy/uTuhczme4zVSQ4vJnvF4sP8+Ew1qd8D392MK+hhH3IC
-	ygQujrOtkvVzPjvIfuHI/YFgY34Mwi63Lf9s6YUb3ClsaW0fOaO6u+7+UjFEcsxMB0wf
-	Myaw==
-X-Gm-Message-State: ALyK8tJj32SdoHaa1GRGo6m2z0kde0qM5q8eTf6D7EZhmi4Xz8HQCsIa6gwuJkWH4nG4HQ==
-X-Received: by 10.28.89.6 with SMTP id n6mr8823988wmb.4.1466606541724;
-	Wed, 22 Jun 2016 07:42:21 -0700 (PDT)
-Received: from localhost (ip-89-176-104-169.net.upcbroadband.cz.
-	[89.176.104.169]) by smtp.gmail.com with ESMTPSA id
-	p9sm74436447wjv.21.2016.06.22.07.42.20
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 22 Jun 2016 07:42:20 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 22 Jun 2016 16:42:41 +0200
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <20160622144241.GA4153@jama>
-References: <1466503279-28937-1-git-send-email-alexander.kanavin@linux.intel.com>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=35PhtsbNJEXfF3OCl2RBSRhUHoGYFSY62oLnjZoVOno=;
+	b=LI+0ACxasDRm4a5AERvgJpGgq3Kdr5OUu6oMRT2e9aBm9V/9VRlpH+Xm7Mty4u+vEY
+	qRPhsQOsoz9qTu8CngLuZoFjB1ugEsldggAkDwA/zYaXi0HCTRezeJ4Urdw+H/k+k/RQ
+	TJCQ8UBxqLh0KPTFsMCC6NgG0rFqkJ02pRSFJ3M4JwfwBVh45J90Fqb39WRykg9PkXQf
+	4NZQG0UsitQ1RNYSHyIzmvSyhasWX6NfszYlyB3XwtgXYOwP59JAOowPI5wrVu+27zZm
+	QSfL0FVywhoisPOBoP0UNkHbIsfGe3ISl5yHC5wQ1hmVayEtnOOENs2D9EzXIVUkNiaw
+	426A==
+X-Gm-Message-State: ALyK8tLZjXl8k2yUN/bFCTx4DV4efo15GpW/G/fjVNuhFBzSpcC+TqThlt3c8m3FBMq5zNaqejRIpC6PuxswgYnZ
+X-Received: by 10.36.57.211 with SMTP id l202mr15035771ita.22.1466606747335;
+	Wed, 22 Jun 2016 07:45:47 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1466503279-28937-1-git-send-email-alexander.kanavin@linux.intel.com>
-User-Agent: Mutt/1.6.1 (2016-04-27)
-Cc: openembedded-core@lists.openembedded.org
+Received: by 10.107.162.6 with HTTP; Wed, 22 Jun 2016 07:45:27 -0700 (PDT)
+In-Reply-To: <20160622144241.GA4153@jama>
+References: <1466503279-28937-1-git-send-email-alexander.kanavin@linux.intel.com>
+	<20160622144241.GA4153@jama>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 22 Jun 2016 15:45:27 +0100
+Message-ID: <CAJTo0Lar56vj6VOo097yhbTMtAx78PsS7kU3Yeh_7xb-XpBy0g@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] e2fsprogs: remove the extra dot from the recipe filename
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -58,60 +54,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2016 14:42:24 -0000
-X-Groupsio-MsgNum: 83737
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="17pEHd4RhPHOinZp"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 22 Jun 2016 14:45:47 -0000
+Content-Type: multipart/alternative; boundary=001a114ab3ca33664b0535defe7f
 
---17pEHd4RhPHOinZp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--001a114ab3ca33664b0535defe7f
+Content-Type: text/plain; charset=UTF-8
+
+On 22 June 2016 at 15:42, Martin Jansa <martin.jansa@gmail.com> wrote:
+
+> WARNING: e2fsprogs-1.43-r0 do_packagedata: QA Issue: Package version for
+> package e2fsprogs-locale-uk went backwards which would break package feeds
+> from (0:1.43.-r0.1 to 0:1.43-r0.0) [version-going-backwards]
+>
+
+Have you checked what opkg/rpm actually think about this?  Maybe the sanity
+test is broken.
+
+Ross
+
+--001a114ab3ca33664b0535defe7f
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 21, 2016 at 01:01:19PM +0300, Alexander Kanavin wrote:
-> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 22 June 2016 at 15:42, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4rf" class=3D=
+"a3s aXjCH m1557890b56a23db4">WARNING: e2fsprogs-1.43-r0 do_packagedata: QA=
+ Issue: Package version for package e2fsprogs-locale-uk went backwards whic=
+h would break package feeds from (0:1.43.-r0.1 to 0:1.43-r0.0) [version-goi=
+ng-backwards]<br>
+<div class=3D"HOEnZb"></div></div></blockquote></div><br>Have you checked w=
+hat opkg/rpm actually think about this?=C2=A0 Maybe the sanity test is brok=
+en.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ro=
+ss</div></div>
 
-Even with PR bump RP did it's still going backwards:
-
-WARNING: e2fsprogs-1.43-r0 do_packagedata: QA Issue: Package version for pa=
-ckage e2fsprogs-locale-uk went backwards which would break package feeds fr=
-om (0:1.43.-r0.1 to 0:1.43-r0.0) [version-going-backwards]
-
-> ---
->  meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.43..bb =3D> e2fsprogs_1.43.=
-bb} | 0
->  1 file changed, 0 insertions(+), 0 deletions(-)
->  rename meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.43..bb =3D> e2fsprog=
-s_1.43.bb} (100%)
->=20
-> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43..bb b/meta/re=
-cipes-devtools/e2fsprogs/e2fsprogs_1.43.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43..bb
-> rename to meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb
-> --=20
-> 2.8.1
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---17pEHd4RhPHOinZp
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAldqn+AACgkQN1Ujt2V2gBz8JQCgsumdrkASj8QEXTck7EKY2EW3
-TbsAoJX3JMLrWv5dqDuPCaObzDc3S7wP
-=S5rV
------END PGP SIGNATURE-----
-
---17pEHd4RhPHOinZp--
+--001a114ab3ca33664b0535defe7f--
