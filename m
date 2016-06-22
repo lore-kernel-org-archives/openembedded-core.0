@@ -1,49 +1,51 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-vk0-f43.google.com (mail-vk0-f43.google.com
-	[209.85.213.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 2BBD1608B7
+Return-Path: <max.oss.09@gmail.com>
+Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id CBEC5601A5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2016 18:24:27 +0000 (UTC)
-Received: by mail-vk0-f43.google.com with SMTP id u64so73450368vkf.3
+	Wed, 22 Jun 2016 19:25:06 +0000 (UTC)
+Received: by mail-wm0-f46.google.com with SMTP id v199so99658893wmv.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2016 11:24:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=FutbgwB2wffWpt+Buu+0i00Ue2lS2zp3UA9cnDuS3zo=;
-	b=InItvODVq8fmnlFylhrjbL5dDw3CGrsUX2rZVmEt8Hp7HAtEkBdPUBcmhYedpBuGJc
-	G7l7kUWv7cRjin42BIPk1YZ+MW+Ibkvk+91isT1s9TkpvtMfObsSb3AD/3mibhZ6jjc9
-	bmN7jAeg5s8Kfn1bH2ClfnSyDSXPTKv4tktmRmei1DJ2L+7okU6VNkv2Ec2vzlq4iAjJ
-	i1Xshhx/xTVQOGriQMEl+0OSF1uwqM9shickwh7SUe029Tpo0QWrp1Ans8l6Qky2TfWH
-	WCo6I2uU12e1DPCF1MqeDz0Vzi6R8o2PHYzrHGhJos8q2+WE2boZdVr8aBDTXNfBGV1I
-	iNWA==
+	Wed, 22 Jun 2016 12:25:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=jEbRrvzakMTjSFcEK+fIKB/JQVAzpcgxCcWyt03mPY0=;
+	b=iBXqQC21PzsgHFns+5OMjD7G5Yt/29Fmu5ds8rNENPN1A1C9+uzud9ad6ucN8KBi7G
+	2Y6GJGuxf7CjxK3q5qiBKtEwye1bucIdhnawx5F0wkq2q+V1qS8gp2KCbR5TRE0tr43h
+	v8feURQ1otcNCKPl6OVt8ukdy/2+byUT1uR9mHxN2R0m/em80UsrBLdF+LfqBDa5epgh
+	VgbM5Q4bKCD/OX/cHsRzNwRqlr58LPsNxdO4vQtghD2YvqLuhargRjMuAo59/1QyywyQ
+	VFyW+B0Cbl00S9qd6NzC6ZijT57Xp82bIJiWpQg/tuS3RDt30q2yHD4J2mLklwiyff+c
+	vqAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=FutbgwB2wffWpt+Buu+0i00Ue2lS2zp3UA9cnDuS3zo=;
-	b=d8H+DAG7bSSA23mQ17K/D7ThpKTwDBEqUCaW1ebJ5Tu8YEZnqQnctG7u5Mos9YqSW0
-	YD2ARz+YXcC/kVyqsN5DbsTa7+kuLK7F6r8yB4enjhHcHK8mD9bFy6MO5AHBy39amqJp
-	x6mxn1r+/TJeKOg/9Pw1N1L59YDjsZcLF5Y3tS+VFtxwMqgxsN6IMjHoLAs+3GnM/CtH
-	o26zQ0fwCwOvbVzvYLM6ZhowkZ8AiKVFJ02oQ2Dw0I85Fzm08+xQ48N6gmvtgA9k21WX
-	9We1HOHRGh7AB+lr4gasjvER4TOXy7vUIXKCofFzoWmEZ1bFvjfbQfkzZo096PgwWOfa
-	8v0Q==
-X-Gm-Message-State: ALyK8tKJbYZgFHwRQ6i2cDWBFtnlJJ4b5MHqhWf3Ddq6WDV7bM8mcqPKF0iUWgWPeritIE6Jcl69zUYoryyEYw==
-X-Received: by 10.31.56.216 with SMTP id f207mr13046257vka.135.1466619867863; 
-	Wed, 22 Jun 2016 11:24:27 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.176.3.72 with HTTP; Wed, 22 Jun 2016 11:24:27 -0700 (PDT)
-In-Reply-To: <e12014df714d835b217acfbfbcfc1b5d1b4408db.1465891164.git.jussi.kukkonen@intel.com>
-References: <cover.1465891164.git.jussi.kukkonen@intel.com>
-	<cab121fcc6b904939f6187832ba9b48b3d5fe53f.1465891164.git.jussi.kukkonen@intel.com>
-	<e12014df714d835b217acfbfbcfc1b5d1b4408db.1465891164.git.jussi.kukkonen@intel.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-Date: Wed, 22 Jun 2016 20:24:27 +0200
-Message-ID: <CALbNGRRsxRZompgFMb+EtLdSXdnCZbUgXFmuf8WC8rztncox5w@mail.gmail.com>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv3 10/30] vte: Upgrade to 0.44.1
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=jEbRrvzakMTjSFcEK+fIKB/JQVAzpcgxCcWyt03mPY0=;
+	b=C9/Lw7VrepD4fbuWQviJBUu4pfHYEzr3pkK3qr8/2CqxWdRKqbzg+SkA+KWN1Grb2V
+	qz6NlGZstA99ysEyRqZkM7/V3URCXLIcldxWZM90wGA/atkPil+yH4PBuRbHbTlPpZPJ
+	wuyKkCUGpUwGBMk0T8gXldFzKfPMJySlhRouETMna+yIwfWjIQ9LmC7NSKVsepoJQZYI
+	xDTn91DHEswU50b2G1/jHide0eR5ITQCdiEP8yN317xUVKI3mHFTYa2smNTcXMaWaA2u
+	w1p7c9qFgZk7aUNLvQidB92hXeu8Ze4pE/zEZUGjVejz9Fu+Ce7L6PhwvVTtD/SAZSSJ
+	YAVQ==
+X-Gm-Message-State: ALyK8tLnoD4EZeXUbz/idzo6/1XvgYpZ1/+ttIxMKwzGLEGhg/tk915LzWoMVHMrYYMuhA==
+X-Received: by 10.194.178.199 with SMTP id da7mr26252681wjc.123.1466623505177; 
+	Wed, 22 Jun 2016 12:25:05 -0700 (PDT)
+Received: from Saturn.local.all (212-41-115-162.adsl.solnet.ch.
+	[212.41.115.162])
+	by smtp.gmail.com with ESMTPSA id b4sm773062wjd.16.2016.06.22.12.25.03
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 22 Jun 2016 12:25:04 -0700 (PDT)
+Message-ID: <1466623503.2906.1.camel@gmail.com>
+From: Max Krummenacher <max.oss.09@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 22 Jun 2016 21:25:03 +0200
+In-Reply-To: <CAJTo0LbtjhRL+ugz9sNjszXTePZ=R=R19vA1fQG-A5R1b7uDQg@mail.gmail.com>
+References: <1466329971.20368.18.camel@gmail.com>
+	<CAJTo0LbtjhRL+ugz9sNjszXTePZ=R=R19vA1fQG-A5R1b7uDQg@mail.gmail.com>
+X-Mailer: Evolution 3.16.5 
+Mime-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: packageconfig, add depends if feature is disabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,15 +58,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2016 18:24:29 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 22 Jun 2016 19:25:07 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jun 14, 2016 at 10:14 AM, Jussi Kukkonen
-<jussi.kukkonen@intel.com> wrote:
-> * License change LGPL 2.0 -> LGPL 2.1+
-> * vte-termcap is no more
-> * API break: current version seems to be parallel installable
-Could we move vte to meta-oe to avoid further world blacklisting?
+Hi Ross
 
-Andreas
+Am Sonntag, den 19.06.2016, 20:51 +0100 schrieb Burton, Ross:
+> On 19 June 2016 at 10:52, Max Krummenacher <max.oss.09@gmail.com>
+> wrote:
+> 
+> >     PACKAGECONFIG ?= "gtk3"
+> >     PACKAGECONFIG[gtk2] = ",,gtk+"
+> >     PACKAGECONFIG[gtk3] = "--enable-gtk3,,gtk+3"
+> > 
+> 
+> PACKAGECONFIGs are meant to be explicit so "thing which is enabled
+> when
+> something else is disabled" is obvious unless you write log comments
+> explaining the options.
+> 
+> For example, what if PACKAGECONFIG was set to "" but gtk+ was already
+> in
+> the sysroot.  By the logic you've described that would result in your
+> recipe being built with gtk+ despite being told not to, or maybe if
+> gtk3 is
+> autodetected first and that's also in the sysroot then gtk3 gets used
+> instead.  You literally can't tell, and if bitbake can't tell then
+> you'll
+> have binary packages changing when they shouldn't be.
+> 
+> Idiomatically you'd have - or expect - something like
+> 
+>     PACKAGECONFIG ?= "gtk3"
+>     PACKAGECONFIG[gtk2] = "--enable-gtk2,--disable-gtk2,gtk+"
+>     PACKAGECONFIG[gtk3] = "--enable-gtk3,--disable-gtk3,gtk+3"
+> 
+> If the upstream doesn't support this then you're hoping that they
+> don't
+> change the default values, or the configure doesn't attempt to auto
+> -detect,
+> or various other ways that having options with no enable or disable
+> values
+> can break.  At that point I'd actually fix upstream's configure and
+> send a
+> patch instead of attempting to work around it.
+> 
+> Ross
+
+Understood. Will have a look into configure of the packages.
+
+Thanks
+Max
+
 
