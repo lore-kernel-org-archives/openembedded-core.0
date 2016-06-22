@@ -1,24 +1,24 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id DB823731AE
+	by mail.openembedded.org (Postfix) with ESMTP id 2E70E731D6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2016 11:52:37 +0000 (UTC)
+	Wed, 22 Jun 2016 11:52:39 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 22 Jun 2016 04:52:39 -0700
+	by orsmga102.jf.intel.com with ESMTP; 22 Jun 2016 04:52:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,509,1459839600"; d="scan'208";a="1002968786"
+X-IronPort-AV: E=Sophos;i="5.26,509,1459839600"; d="scan'208";a="1002968794"
 Received: from theory.fi.intel.com ([10.237.72.196])
-	by orsmga002.jf.intel.com with ESMTP; 22 Jun 2016 04:52:38 -0700
+	by orsmga002.jf.intel.com with ESMTP; 22 Jun 2016 04:52:40 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Jun 2016 14:52:25 +0300
-Message-Id: <d467cc7b85888e033b061790065efd39f93f9467.1466595928.git.jussi.kukkonen@intel.com>
+Date: Wed, 22 Jun 2016 14:52:26 +0300
+Message-Id: <6f686ede4672437ff0980234b15e321ab236001a.1466595928.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <d54f69d5faec48cd7dda7efbbc1b7fdd0bb0bd65.1466595928.git.jussi.kukkonen@intel.com>
 References: <d54f69d5faec48cd7dda7efbbc1b7fdd0bb0bd65.1466595928.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1466595928.git.jussi.kukkonen@intel.com>
 References: <cover.1466595928.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 06/10] puzzles: Keep building even with deprecation warnings
+Subject: [PATCH 07/10] cairo: inherit upstream-version-is-even
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,26 +31,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2016 11:52:38 -0000
+X-List-Received-Date: Wed, 22 Jun 2016 11:52:39 -0000
+
+Even versions are releases, odd are "snapshots".
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- meta/recipes-sato/puzzles/puzzles_git.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-graphics/cairo/cairo.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
-index a9daacd..882ee44 100644
---- a/meta/recipes-sato/puzzles/puzzles_git.bb
-+++ b/meta/recipes-sato/puzzles/puzzles_git.bb
-@@ -23,6 +23,8 @@ S = "${WORKDIR}/git"
+diff --git a/meta/recipes-graphics/cairo/cairo.inc b/meta/recipes-graphics/cairo/cairo.inc
+index c7e686d..e5fe308 100644
+--- a/meta/recipes-graphics/cairo/cairo.inc
++++ b/meta/recipes-graphics/cairo/cairo.inc
+@@ -36,7 +36,7 @@ EXTRA_OECONF += "${@get_cairo_fpu_setting(bb, d)} \
+                  --enable-tee \
+                 "
  
- inherit autotools-brokensep distro_features_check pkgconfig
+-inherit autotools pkgconfig
++inherit autotools pkgconfig upstream-version-is-even
  
-+CFLAGS_append = " -Wno-deprecated-declarations"
-+
- PACKAGECONFIG ??= "gtk3"
- PACKAGECONFIG[gtk2] = "--with-gtk=2,,gtk+,"
- PACKAGECONFIG[gtk3] = "--with-gtk=3,,gtk+3,"
+ # We don't depend on binutils so we need to disable this
+ export ac_cv_lib_bfd_bfd_openr="no"
 -- 
 2.1.4
 
