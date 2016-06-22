@@ -1,23 +1,51 @@
-Return-Path: <patrick@stwcx.xyz>
-Received: from sender163-mail.zoho.com (sender163-mail.zoho.com
-	[74.201.84.163])
-	by mail.openembedded.org (Postfix) with ESMTP id EF46260107
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f178.google.com (mail-pf0-f178.google.com
+	[209.85.192.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 5084460621
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2016 16:34:09 +0000 (UTC)
-Received: from localhost (32.97.110.52 [32.97.110.52]) by mx.zohomail.com
-	with SMTPS id 146661324849173.4208188908442;
-	Wed, 22 Jun 2016 09:34:08 -0700 (PDT)
-Date: Wed, 22 Jun 2016 11:34:06 -0500
-From: Patrick Williams <patrick@stwcx.xyz>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20160622163406.GA20922@asimov.austin.ibm.com>
-References: <1466611683-25298-1-git-send-email-patrick@stwcx.xyz>
-	<1466613106-26550-1-git-send-email-patrick@stwcx.xyz>
-MIME-Version: 1.0
-In-Reply-To: <1466613106-26550-1-git-send-email-patrick@stwcx.xyz>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Zoho-Virus-Status: 1
-Subject: Re: [PATCH v2] linux-libc-headers: Update doc for recipe depends
+	Wed, 22 Jun 2016 16:52:55 +0000 (UTC)
+Received: by mail-pf0-f178.google.com with SMTP id h14so19372170pfe.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Jun 2016 09:52:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=yxoopMaASpgIfI5VY+8zrUw4RPtf6Iw9TB9/XtMv5ew=;
+	b=TrdnWRqFNJeEtg3TeMe257tP5hMFlKsQs4ore6RcinJadxzO4Yqj9Vn3q4TOCiL1qr
+	+Sj3hmKjkMnuiS0/FTViUHvsDWSyHB5i8kKoRof3SJc1U2ypUYyI9JkemeJFbr9uG5Is
+	kcwDAoO0VPKQb0dOlnVhh5YQK5DcndZKrQW8A2k7sX/AEFBGC0xx7KLO71/rhfJz7re9
+	GIPcTt6EFOwDAKtFZXiiDWVaPM7q9+qVrMPxzWFlrgn9shSnVum7nUUpdhtVDibgAYvs
+	wT2xbMvMejMubGAMlMetStTxcYF88vOVzmeh1LFGvKh7IbqixhVggwU3B1r5yeQ2LpcY
+	d8Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=yxoopMaASpgIfI5VY+8zrUw4RPtf6Iw9TB9/XtMv5ew=;
+	b=jayCEkgHcm6tRlB/YbD1ZwU6aZ2kYScrPG5oHPgRizfLrSST1J4KjmjkxMO/e4ci9n
+	PAf6z7DYolJ187/h1JeJ0pXE/dagMg2XpcWMJzJUZ1ylf8XPIMkwD9W/y3dh2LoHHOy3
+	T6RF+gV90tbCRyZKFoxh4E1EDTCl2Iobyy0woi+qxwD87H9zD7k7CV70vcCAj+rRuEoA
+	MKEV3L+kBc/jPGvJjCsSumPiNU6WkVtSaKtw5EIDzDOCnzzThVkNMnbFmgAbtXel4cQ/
+	vrL4hS4uk6miefNE6OI2aLk2BQSYKBWVmFQxSQsL8jWbTRRGx29Ke3e1QJ/EcaDmLmkI
+	GPiA==
+X-Gm-Message-State: ALyK8tLmyx37RFYHa7htUQG30R3/+qXD2+Kv3zWveaLtaJNPHq1ejOy7t4WlAq6C8rjw1g==
+X-Received: by 10.98.135.71 with SMTP id i68mr35643779pfe.3.1466614375996;
+	Wed, 22 Jun 2016 09:52:55 -0700 (PDT)
+Received: from [192.168.0.6] (c-76-102-32-192.hsd1.ca.comcast.net.
+	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
+	ym9sm1125061pac.25.2016.06.22.09.52.55
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 22 Jun 2016 09:52:55 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Pgp-Agent: GPGMail 2.6b2
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1466609398-17634-1-git-send-email-akuster808@gmail.com>
+Date: Wed, 22 Jun 2016 09:52:53 -0700
+Message-Id: <9FC96606-1A87-49F3-8A49-F692CDF8C2AA@gmail.com>
+References: <1466609398-17634-1-git-send-email-akuster808@gmail.com>
+To: Armin Kuster <akuster808@gmail.com>
+X-Mailer: Apple Mail (2.3124)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/2] Add gcc version and tclibc to build summary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,52 +58,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2016 16:34:10 -0000
-X-Groupsio-MsgNum: 83746
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="5mCyUwZo2JvN/JJP"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 22 Jun 2016 16:52:56 -0000
+X-Groupsio-MsgNum: 83747
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_0BA71029-E886-4F53-94C7-49288E62D2F3";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---5mCyUwZo2JvN/JJP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--Apple-Mail=_0BA71029-E886-4F53-94C7-49288E62D2F3
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
-On Wed, Jun 22, 2016 at 11:31:46AM -0500, Patrick Williams wrote:
-> The previous documentation has not been accurate since at least
-> commit 6a1ff0e.  Recipes that follow the old documentation will
-> not correctly build when sstate is enabled because the kernel
-> source will not actually be available.
+
+> On Jun 22, 2016, at 8:29 AM, Armin Kuster <akuster808@gmail.com> =
+wrote:
 >=20
-> Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
-> ---
+> Since there are two gcc versions supported and any number of tcglibc,
+> it would be nice to know which ones are being used.
+> Add those to the build summary.
+>=20
+> Build summary
+> TCLIBC            =3D =E2=80=9Cglibc"
 
-I referenced a Yocto commit number instead of an OECore one in v1,
-hence v2 fixes that.  Sorry for the extra noise.
+libc is evident from TARGET_SYS
 
---=20
-Patrick Williams
+> GCC_VERSION       =3D "6.1"
+>=20
+> Not sure if the gcc version bit is best practice.
+>=20
+> Armin Kuster (2):
+>  build summary: add gcc version being used.
+>  build summary: add TCLIBC being used
+>=20
+> meta/classes/base.bbclass | 2 ++
+> meta/conf/bitbake.conf    | 2 +-
+> 2 files changed, 3 insertions(+), 1 deletion(-)
+>=20
+> --
+> 2.3.5
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---5mCyUwZo2JvN/JJP
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+
+--Apple-Mail=_0BA71029-E886-4F53-94C7-49288E62D2F3
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
 
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+Comment: GPGTools - https://gpgtools.org
 
-iQIcBAEBCAAGBQJXar3+AAoJEKsDR8wtAMEZJIQP/0EUzm6xf8tz3hMMnLw/dk0Z
-vx+b5Fmxj8rnSEzXB6hNqsrp+LvP/++MI4i6d93cGtDg5csNhtJFvUw1sTMdUTgy
-mIsAHt8OLDDPEnCzZU5C4T+umZjciFzsbtKMHnytyT8R+0MYW8PMCuUqOaX/ysW9
-6sLW6pxKDZb5pk6PMjQQ8/cyJ9PqUQOZmHKdiSHPiTDbvPYWpmYh10HyX3RBn9lk
-RyWTgrLMDAxH0rgMkGjgXU4pz5qgBAMBAtVmCOStF2NFZQJF5SgKC5DDzPvteOuN
-I0AdC7IAWFbiADiBNyHI8hCefSRxsi9oA9IRbzEKmrWE0Nf+hwMGe1oPsDQ1MhGO
-O7IUFe7csmUl8Bt9ByZ1uP/u7HQQDewcWlTPN5ccUapxhUbG0zWbbsoQm8QbREAK
-abwvy5Zttkkkx+s+Yt2wDLXzu6ZCBuaFZB7JWunrj2e58tq4boNt73Wsc18coxXO
-I00RoAvwEDxiFMA0pXB7CjqpauhSbZKm3GagX8gsr8Cb5yN4sTLG8mF9mgqIlEmR
-DBi5OglAuyiQ7H0oM2cyNtwoww2TYMhg6AHWcWjv7etKipAHsWxEL0l+j311DjTr
-Jiu8r8lA5v1keT4Oznxwz7IgyLE83kn//NlcdDzp07ZICPp3xN0+buCUWp1pQzFj
-BHHpTiUvVWC/Qb5g0W1k
-=dyIl
+iEYEARECAAYFAldqwmUACgkQuwUzVZGdMxT4eACcDo45F6WiQJGzd0kAE3V75JAd
+UboAn17fNfXEok0SK8wxzRQbxP6MK+jE
+=bQAn
 -----END PGP SIGNATURE-----
 
---5mCyUwZo2JvN/JJP--
+--Apple-Mail=_0BA71029-E886-4F53-94C7-49288E62D2F3--
