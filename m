@@ -1,34 +1,31 @@
-Return-Path: <>
-X-Greylist: delayed 535 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 22 Jun 2016 20:20:00 UTC
-Received: from bear.ext.ti.com (bear.ext.ti.com [198.47.19.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C11AD60125
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2016 20:20:00 +0000 (UTC)
-Received: from dflxv15.itg.ti.com ([128.247.5.124])
-	by bear.ext.ti.com (8.13.7/8.13.7) with ESMTP id u5MKB5DE016767
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2016 15:11:05 -0500
-Received: from DLEE70.ent.ti.com (dlee70.ent.ti.com [157.170.170.113])
-	by dflxv15.itg.ti.com (8.14.3/8.13.8) with ESMTP id u5MKB5cV000486
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2016 15:11:05 -0500
-Received: from dflp33.itg.ti.com (10.64.6.16) by DLEE70.ent.ti.com
-	(157.170.170.113) with Microsoft SMTP Server id 14.3.294.0;
-	Wed, 22 Jun 2016 15:11:04 -0500
-Received: from legion.dal.design.ti.com (legion.dal.design.ti.com
-	[128.247.22.53])	by dflp33.itg.ti.com (8.14.3/8.13.8) with ESMTP id
-	u5MKB5mH007192;	Wed, 22 Jun 2016 15:11:05 -0500
-Received: from localhost (uda0226330.am.dhcp.ti.com [128.247.83.90])	by
-	legion.dal.design.ti.com (8.11.7p1+Sun/8.11.7) with ESMTP id
-	u5MKB4327185; Wed, 22 Jun 2016 15:11:04 -0500 (CDT)
-From: "Andrew F. Davis" <afd@ti.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Jun 2016 15:11:02 -0500
-Message-ID: <20160622201102.10039-1-afd@ti.com>
-X-Mailer: git-send-email 2.9.0
-MIME-Version: 1.0
-Subject: [PATCH] libsdl2: Add missing comma typo
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id D2572600B3;
+	Wed, 22 Jun 2016 21:35:53 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u5MLZp2w023193; Wed, 22 Jun 2016 22:35:51 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id NCqjgoGHRw6M; Wed, 22 Jun 2016 22:35:51 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u5MLZohR023189
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 22 Jun 2016 22:35:51 +0100
+Message-ID: <1466631350.3319.200.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>,
+	openembedded-core@lists.openembedded.org,
+	bitbake-devel@lists.openembedded.org
+Date: Wed, 22 Jun 2016 22:35:50 +0100
+In-Reply-To: <20160622155839.GC4153@jama>
+References: <20160615073901.27831.65435@opal.openembedded.org>
+	<20160622155839.GC4153@jama>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: Bitbake output format changed Was: [oe-commits] [bitbake] branch master updated (a3f464d -> 0219271)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,28 +38,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2016 20:20:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 22 Jun 2016 21:35:54 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Andrew F. Davis <afd@ti.com>
----
- meta/recipes-graphics/libsdl2/libsdl2_2.0.4.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, 2016-06-22 at 17:58 +0200, Martin Jansa wrote:
+> On Wed, Jun 15, 2016 at 07:39:01AM +0000, git@git.openembedded.org wr
+> ote:
+> > rpurdie pushed a change to branch master
+> > in repository bitbake.
+> > 
+> >       adds  2c88afb   taskdata/runqueue: Rewrite without use of ID
+> > indirection
+> 
+> Is it expected that this change also changes the format of summary 
+> shown at the end of the build and failed tasks.
+> 
+> The commit message doesn't mention this (it even says:
+> ..
+> On the most part there shouldn't be user visible changes.
+> ..
+> There should be no functionality changes in this patch, its purely a
+> data structure change and that is visible in the patch.
+> ..
+> )
+> 
+> So before I start fixing scripts (e.g. test-dependencies) which are 
+> trying to parse bitbake output to work with new format, please 
+> confirm that this was intentional and that it will stay this way.
+> 
+> It's also not clear why the task is mentioned twice, e.g. as:
+>   NOTE: Running task 512 of 548 (ID: /OE/build/oe-core/openembedded
+> -core/meta/recipes-devtools/rpm/sftp.bb:do_fetch, /OE/build/oe
+> -core/openembedded-core/meta/recipes-devtools/rpm/sftp.bb:do_fetch)
+>   ERROR: Task /OE/build/oe-core/openembedded-core/meta/recipes
+> -devtools/rpm/sftp.bb:do_fetch (/OE/build/oe-core/openembedded
+> -core/meta/recipes-devtools/rpm/sftp.bb:do_fetch) failed with exit
+> code '1'
+> 
+> are there cases where these 2 are different? and can both messages
+> use the same "format" for task description?
 
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.4.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.4.bb
-index 8f079c8..844ff33 100644
---- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.4.bb
-+++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.4.bb
-@@ -46,7 +46,7 @@ PACKAGECONFIG ??= " \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
- "
- PACKAGECONFIG[alsa]       = "--enable-alsa --disable-alsatest,--disable-alsa,alsa-lib,"
--PACKAGECONFIG[directfb]   = "--enable-video-directfb --disable-video-directfb,directfb"
-+PACKAGECONFIG[directfb]   = "--enable-video-directfb,--disable-video-directfb,directfb"
- PACKAGECONFIG[gles2]      = "--enable-video-opengles,--disable-video-opengles,virtual/libgles2"
- PACKAGECONFIG[opengl]     = "--enable-video-opengl,--disable-video-opengl,virtual/libgl"
- PACKAGECONFIG[pulseaudio] = "--enable-pulseaudio,--disable-pulseaudio,pulseaudio"
--- 
-2.9.0
+The taskids are no more, there is simply no notion of them inside
+bitbake any longer. That means that yes, we probably do need to change
+the output a bit since the number doesn't mean anything.
+
+Equally, it shouldn't be showing the same thing twice, that is a bug.
+Internally to bitbake, everthing is now in the form (or will be when
+multiconfig lands) "[multiconfig:<configname>:]<recipe
+filename>:<taskname>". The question is whether we expose that to the
+user or massage it at all. I'm tempted just to expose that string to
+the user.
+
+Sorry about the script changes, not sure we can avoid it though :( The
+code is *way* easier to understand, debug and extend after these
+changes FWIW so I do believe it very worth doing.
+
+Cheers,
+
+Richard
 
 
