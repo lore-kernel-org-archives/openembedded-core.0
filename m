@@ -1,42 +1,59 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
-	[209.85.213.65])
-	by mail.openembedded.org (Postfix) with ESMTP id BC83F73163
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
+	[209.85.213.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E9DA6FFCD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jun 2016 17:44:59 +0000 (UTC)
-Received: by mail-vk0-f65.google.com with SMTP id x7so7940208vka.0
+	Thu, 23 Jun 2016 17:48:13 +0000 (UTC)
+Received: by mail-vk0-f68.google.com with SMTP id t7so14953238vkf.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jun 2016 10:45:00 -0700 (PDT)
+	Thu, 23 Jun 2016 10:48:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=/m4+hSRdpGqcJCBTQ0gSR1edwLK9hgfsadMRGwYOTic=;
+	b=f1Q/04f0zmU373icySMzn+qWprhLMtWDglh3z9iZpMyjUgb5cSmY07lM0O+6DinlH6
+	Cwb7KJ3T6nL7X32RbyvJ0SShHYzhsPRccbjc/jcTNT56aKBgaKDGvMm8o5YyPkEpobEe
+	2x2ngMlZObagn+p+iMMI+OBiATYskP66gkVFZRS98svi9xNdCEZ76/Fr3mZZKPUsB0Ml
+	BLMckDEZzKVhnwnXkF08LR1bDUEqszbHkdvkfZoIIs5brPoFDfZLyJC9vJAyB9Mnh4zx
+	7j7Ok5YtXBO+zfXeDu2QTOrv67vDzk+n5x/7dkpJXLvVqh0nQG/FE9IlRqppofSuKkcX
+	pVuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:organization;
-	bh=KLcsI+Z8AzR/1Lvw8wCJ1IrojsrXv4exVFZ0hkl9aSU=;
-	b=KVM9n3HdhgoWwOetI3SqF5Ex8CcdadLubmXyAkIcDLEzOFR2fEItRmlWLvIZ6K7jqR
-	DGpuQtwKeWA/tRuy5JeRah1MhXDAlpWZReyBlJ/xkL5ezGn2AXKu9Yv0lg5zJiniK7ti
-	zUh4rMubWPIENXpuAul7tQFWNTBbJpAFolKRLOvuH36uD9udKMdrkZ98DJO3YC5BDPVd
-	5ECxjnKGYB0eO+nkbuG/ckeIzmQAgsLKtqsjGnR87a9MOZq9XMvGssLhK1/HJh+7crT2
-	PvpLamdIsys6Mas1B+EsCvQ4J1LQ08ZRwOKEQAXxhBoRAMl/GB8YmkrRGUGUoWcoa+ah
-	Vbhg==
-X-Gm-Message-State: ALyK8tIlPPtw6sci92vGv4L2FoiqhM+NYPmYzARlSrHqyrfwchJ4VbdJFcVVQbRItGCk/w==
-X-Received: by 10.31.84.131 with SMTP id i125mr16360451vkb.29.1466703900146;
-	Thu, 23 Jun 2016 10:45:00 -0700 (PDT)
-Received: from localhost ([179.105.243.72])
-	by smtp.gmail.com with ESMTPSA id 48sm453063uai.3.2016.06.23.10.44.57
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=/m4+hSRdpGqcJCBTQ0gSR1edwLK9hgfsadMRGwYOTic=;
+	b=SgdhyRIN/iPcSW+9kSDVlyGbRnedg/7Xe+WUlC54SubPuH72KFI4eoOKp2sCSpJtXA
+	OeOde7pgEHE5Lpx0Dn92aRzmApKMStfGVfOZ0zC+Z9e+SY13+GboUso/X+s7e4HeRRYg
+	JtF/PNpk23CRUFCUtey0BPbaMVmS6ff/u24xeuoRJjKUCYiyV8f+F7JPW5CiWBDUYh8R
+	90dYgUBTntLRSaTKzUHvm/OVAIUoqfDlpmlmoQlil25AA3d4WusAq3WiZqaNdQHQ85Da
+	mR7W3V+XsvWX8rYAKaAha6Qw5nbYFaP9BqYYk2DyByV2OiwpQH70qcjpqbArpofWBOC0
+	1KWg==
+X-Gm-Message-State: ALyK8tK25LWF+U0L+e4M35RAn8O7YmRqVYjAgv6wui9EBhI+hjHxPGXHBV3ieKU4Lvhi9Q==
+X-Received: by 10.176.1.7 with SMTP id 7mr12218299uak.72.1466704093995;
+	Thu, 23 Jun 2016 10:48:13 -0700 (PDT)
+Received: from mail-vk0-f41.google.com (mail-vk0-f41.google.com.
+	[209.85.213.41])
+	by smtp.gmail.com with ESMTPSA id x70sm453424vkd.10.2016.06.23.10.48.12
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 Jun 2016 10:44:59 -0700 (PDT)
-Received: by localhost (sSMTP sendmail emulation);
-	Thu, 23 Jun 2016 14:44:55 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Thu, 23 Jun 2016 14:44:48 -0300
-Message-Id: <20160623174448.5504-2-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.8.3
+	Thu, 23 Jun 2016 10:48:12 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-vk0-f41.google.com with SMTP id d185so117042554vkg.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Jun 2016 10:48:12 -0700 (PDT)
+X-Received: by 10.31.56.69 with SMTP id f66mr2382337vka.135.1466704092436;
+	Thu, 23 Jun 2016 10:48:12 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.31.192.195 with HTTP; Thu, 23 Jun 2016 10:48:11 -0700 (PDT)
 In-Reply-To: <20160623174448.5504-1-otavio@ossystems.com.br>
 References: <20160623174448.5504-1-otavio@ossystems.com.br>
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v2 2/2] initramfs-framework: mdev: Add a runtime dependency on busybox-mdev
+Date: Thu, 23 Jun 2016 14:48:11 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKpCUX-EvQKNEsXCE+-v1XTSnKcQanj875qPv60_EQRrzg@mail.gmail.com>
+Message-ID: <CAP9ODKpCUX-EvQKNEsXCE+-v1XTSnKcQanj875qPv60_EQRrzg@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 1/2] initramfs-framework: base: Ensures /run/lock is available
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,34 +66,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jun 2016 17:44:59 -0000
+X-List-Received-Date: Thu, 23 Jun 2016 17:48:14 -0000
+Content-Type: text/plain; charset=UTF-8
 
-The mdev support relies on the mdev support inside busybox, which thus
-builds the busybox-mdev package. Adding the runtime dependency ensures
-its installation fails if mdev support is disabled.
+On Thu, Jun 23, 2016 at 2:44 PM, Otavio Salvador
+<otavio@ossystems.com.br> wrote:
+> Depending on the module we use, the /run/lock may be required. This
+> creates it as part of initial setup and thus makes it available for
+> every sub module.
+>
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
+Please ignore those as I missed it ended being merged already.
 
-Changes in v2: None
 
- meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-index 0664a95..e5cf9cb 100644
---- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-@@ -50,7 +50,7 @@ PACKAGES = "${PN}-base \
- FILES_${PN}-base = "/init /init.d/99-finish /dev"
- 
- SUMMARY_initramfs-module-mdev = "initramfs support for mdev"
--RDEPENDS_initramfs-module-mdev = "${PN}-base"
-+RDEPENDS_initramfs-module-mdev = "${PN}-base busybox-mdev"
- FILES_initramfs-module-mdev = "/init.d/01-mdev"
- 
- SUMMARY_initramfs-module-udev = "initramfs support for udev"
 -- 
-2.8.3
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
