@@ -1,61 +1,36 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-vk0-f66.google.com (mail-vk0-f66.google.com
-	[209.85.213.66])
-	by mail.openembedded.org (Postfix) with ESMTP id E686D65C8A
+Return-Path: <joe.slater@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 941DB60851
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jun 2016 15:17:07 +0000 (UTC)
-Received: by mail-vk0-f66.google.com with SMTP id x7so7216359vka.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jun 2016 08:17:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=WapYFjNH/a525DfeKFiHd2bSxzeYj+NiT2RyI0eQa9c=;
-	b=Uzsr34PZYU2KHKtUbyHxsfith3iTs9RVEWeVnKV0cW1zJSqoDlXCyDBwdgaGFl8g6O
-	GV0cpZDAkweD7pVTBDHTKl0/MRvQGr1fHnaOjTZGZo/OgVzds0Vpp24DzGpkT+VQcUcB
-	bUHgTAHtbCP8XMU0MXhE2OVN0G6qikHNrA+7H/gHAmC4tR708v8tASGazwINaEH+/rWP
-	pVUr6/Hs1G36Mdcmk8vZMyvozevvlSF4YmHMS5pAK0YvHqVC2m6D3+IO1yYuHJ7XYryB
-	zyG6YAxdAKSlKaH7vCfY+nvi8TCYmNcy9+Ipu83bxUpoi+3faO39n3Z8CQkwB9y/GGjl
-	4K1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=WapYFjNH/a525DfeKFiHd2bSxzeYj+NiT2RyI0eQa9c=;
-	b=eL53VRUHdUP/hPK7Q/9hvNrRJXrWpVU6lLDU5q19KH4HsGmC6P/XjpLH+ro4p6xAsR
-	0xu3YV6Ur41OPlbVoIQQbIIZsFgq+TKh+y3KKdRMbo7Tj6IUt000IktST35+HRVeDIbd
-	/sGhRl9RNuwe2SvL9+bLIb9x57oie+P1ZY/b28lbngGkCgmpGrXRz9Cyi8HEpNo8Zk/0
-	KM19iieWijMrizc9YmIagzHADPaDHq9xUfrFXoPY3rt9mSK4tjrOXHtYp8ohgira79Cy
-	WjvDZAg5FN1vnyTyIyqUgec1yTVsNyxm01SWXht6KKgG4s1HqUGqdrOHcN3snSzs2f3d
-	y05w==
-X-Gm-Message-State: ALyK8tISUyuHVp2TpsUCWTtHvSagYkcIeGkCNST7I1wbUpemKrv8gxJ4LvDvruvzTgC5uA==
-X-Received: by 10.31.64.76 with SMTP id n73mr16217437vka.42.1466695027348;
-	Thu, 23 Jun 2016 08:17:07 -0700 (PDT)
-Received: from mail-vk0-f48.google.com (mail-vk0-f48.google.com.
-	[209.85.213.48])
-	by smtp.gmail.com with ESMTPSA id 73sm236041uau.2.2016.06.23.08.17.06
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 Jun 2016 08:17:06 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-vk0-f48.google.com with SMTP id d185so110759380vkg.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jun 2016 08:17:06 -0700 (PDT)
-X-Received: by 10.159.53.102 with SMTP id o93mr15897302uao.131.1466695025712; 
-	Thu, 23 Jun 2016 08:17:05 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.31.192.195 with HTTP; Thu, 23 Jun 2016 08:17:04 -0700 (PDT)
-In-Reply-To: <888ea509ee84e93297278e52a394057993b9a8a4.1466669684.git.Qi.Chen@windriver.com>
-References: <cover.1466669684.git.Qi.Chen@windriver.com>
-	<888ea509ee84e93297278e52a394057993b9a8a4.1466669684.git.Qi.Chen@windriver.com>
-Date: Thu, 23 Jun 2016 12:17:04 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKqwCeVEqnKvBy+YNTjJV8fK80cxe4G1ZgUPhWQEAvvWzg@mail.gmail.com>
-Message-ID: <CAP9ODKqwCeVEqnKvBy+YNTjJV8fK80cxe4G1ZgUPhWQEAvvWzg@mail.gmail.com>
-To: Chen Qi <Qi.Chen@windriver.com>
-Cc: Patches and discussions about the oe-core layer
+	Thu, 23 Jun 2016 16:39:52 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u5NGdqLB023895
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 23 Jun 2016 09:39:52 -0700 (PDT)
+Received: from ALA-MBB.corp.ad.wrs.com ([169.254.1.50]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0248.002;
+	Thu, 23 Jun 2016 09:39:52 -0700
+From: "Slater, Joseph" <joe.slater@windriver.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/5] systemd: upgrade to 230
+Thread-Topic: [OE-core] [oe-core][PATCH 0/1] blacklist: add BPNBLACKLIST
+	support
+Thread-Index: AQHRzNFXgkcZQlaJh0GUM1SGzyNKHp/2iJaAgAACy4CAAD61gIAAdLjw
+Date: Thu, 23 Jun 2016 16:39:50 +0000
+Message-ID: <007BD92917A2324FA403BCF9A464CF84A6F851D2@ALA-MBB.corp.ad.wrs.com>
+References: <1466632764-22540-1-git-send-email-jslater@windriver.com>
+	<CAMKF1soa5wBYFyFV0sqxsN_0bpjTjpQ==Aow0Ui7ZAAhh-Mp=g@mail.gmail.com>
+	<6ea53ae7-5516-a991-f9f6-111db319e5dc@windriver.com>
+	<2774839.1y5EqQaVkY@peggleto-mobl.ger.corp.intel.com>
+In-Reply-To: <2774839.1y5EqQaVkY@peggleto-mobl.ger.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.11.216.160]
+MIME-Version: 1.0
+Subject: Re: [PATCH 0/1] blacklist: add BPNBLACKLIST support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,25 +43,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jun 2016 15:17:08 -0000
-Content-Type: text/plain; charset=UTF-8
-
-On Thu, Jun 23, 2016 at 5:16 AM, Chen Qi <Qi.Chen@windriver.com> wrote:
-> Patches are rebased or removed for the latest version.
->
-> 'python' is added to RDEPENDS of systemd-ptest.
->
-> systemd-bootchart is now seprated from systemd, thus removing the
-> related configuration items.
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-
-The bootchart addition should, ideally, be done in this very same
-commit so we know when this happened and why
+X-List-Received-Date: Thu, 23 Jun 2016 16:39:54 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+
+> -----Original Message-----
+> From: Paul Eggleton [mailto:paul.eggleton@linux.intel.com]
+> Sent: Wednesday, June 22, 2016 7:30 PM
+> To: openembedded-core@lists.openembedded.org
+> Cc: Hatle, Mark; Slater, Joseph; Khem Raj
+> Subject: Re: [OE-core] [oe-core][PATCH 0/1] blacklist: add BPNBLACKLIST s=
+upport
+>=20
+> On Wed, 22 Jun 2016 17:45:55 Mark Hatle wrote:
+> > On 6/22/16 5:35 PM, Khem Raj wrote:
+> > > On Jun 22, 2016 2:59 PM, "Joe Slater" <jslater@windriver.com
+> > >
+> > > <mailto:jslater@windriver.com>> wrote:
+> > >> We have encountered some issues with the use of PNBLACKLIST in recip=
+es.
+> > >> In particular, PNBLACKLIST[pkg] will not suppress building of lib32-=
+pkg
+> > >> or lib64-pkg so world builds can fail unexpectedly.
+> > >>
+> > >> One solution could be to implement BPNBLACKLIST[] which checks BPN
+> > >> instead
+> > >> of PN when a recipe is being parsed.  I have included a patch to do =
+this.
+> > >>
+> > >> If this were adopted, there are many recipes under meta-openembedded=
+ that
+> > >> should probably changed to use BPNBLACKLIST instead of PNBLACKLIST.
+> > >
+> > > Bpn will also mean native and nativesdk among others. I think its bet=
+ter
+> > > to list multilibs explicitly.
+> >
+> > This is intentional.
+> >
+> > The problem with saying we have to list multilibs explicitly.  multilib
+> > naming is arbitrary.  I can say that it probably fits the pattern of li=
+b64,
+> > lib32, libn32 and libx32.... but it doesn't have to.
+> >
+> > But then I'd also need to blacklist native and nativesdk versions as we=
+ll..
+> > so for a simple recipe that for some reason I want blacklisted, it's ea=
+sier
+> > to hack the recipe to just blacklist itself -- then enter 7 or more
+> > blacklists.
+> >
+> > Using the BPNBLACKLIST I can blacklist a single recipe with one command=
+ and
+> > not worry about multilibs, class extensions, etc.
+> >
+> > (The patch leave PNBLACKLIST, specifically so that in the case where yo=
+u
+> > want only partial usage blacklisted you can.)
+>=20
+> So blacklist.bbclass already has code to extend PNBLACKLIST with multilib
+> variants - so we don't actually need this for multilib, right? It only he=
+lps
+> cover multilib and native/nativesdk AFAICT.
+
+But the original problem was that PNBLACKLIST[] does not create more varfla=
+gs
+for multilib when used in a recipe.  Anyway, I like your approach.  Of cour=
+se, I also liked
+introducing a variable named SELFBLACKLIST, too.  I guess, then,
+
+PNBLACKLIST_class-target in a recipe would be the same as
+PNBLACKLIST[pkg] in a conf file is today (if pkg is a "vanilla" name).
+
+Maybe the old syntax could be deprecated and the eventhandler in the class =
+ditched at some point?
+
+Joe
+
+>=20
+> If we are going to make changes here I do have an alternative suggestion =
+-
+> a while ago I wrote this patch but never got around to sending it because
+> I wasn't quite sure if it's the right approach. It makes PNBLACKLIST work
+> a bit more like other variables where you use overrides rather than
+> varflags to make it specific to a recipe:
+>=20
+>   http://git.yoctoproject.org/cgit/cgit.cgi/poky-
+> contrib/commit/?h=3Dpaule/stuff3&id=3D7383419cbe69c4d62b9695e6ae65adc8b54=
+741f7
+>=20
+> Does anyone else see value in this?
+>=20
+> Cheers,
+> Paul
+>=20
+> --
+>=20
+> Paul Eggleton
+> Intel Open Source Technology Centre
 
