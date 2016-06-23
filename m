@@ -1,30 +1,39 @@
-Return-Path: <Mark.Asselstine@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E4FC607A4
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
+	[209.85.213.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 931536012C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jun 2016 16:58:17 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u5NGwHVe024233
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 23 Jun 2016 09:58:17 -0700 (PDT)
-Received: from super-penguin.localnet (128.224.22.202) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.248.2; Thu, 23 Jun 2016 09:58:16 -0700
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Reply-To: <mark.asselstine@windriver.com>
-Date: Thu, 23 Jun 2016 12:58:15 -0400
-Message-ID: <1626225.BYJfg8YDzs@super-penguin>
-Organization: Wind River Systems Inc.
-User-Agent: KMail/5.1.3 (Linux/4.4.0-21-generic; KDE/5.18.0; x86_64; ; )
-In-Reply-To: <CAJTo0LaFO1qPMVWK_kk3H7mxviFuV4=_a7-4H5KSU_FTTq1svw@mail.gmail.com>
-References: <cover.1465891164.git.jussi.kukkonen@intel.com>
-	<CALbNGRRsxRZompgFMb+EtLdSXdnCZbUgXFmuf8WC8rztncox5w@mail.gmail.com>
-	<CAJTo0LaFO1qPMVWK_kk3H7mxviFuV4=_a7-4H5KSU_FTTq1svw@mail.gmail.com>
-MIME-Version: 1.0
-X-Originating-IP: [128.224.22.202]
-Subject: Re: [PATCHv3 10/30] vte: Upgrade to 0.44.1
+	Thu, 23 Jun 2016 17:44:54 +0000 (UTC)
+Received: by mail-vk0-f68.google.com with SMTP id n127so935677vkb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Jun 2016 10:44:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=mgHcS/skMhfONwTajHpn6Fo+vrrtLA7rUUPYcoQ1lx8=;
+	b=Btx/ElY/i2l+Q6KA06k9PjN/WxTFWN7G/B5k8dqpZ58oBxot7AtB11JY1xinAdsIdj
+	wlBWxYEh3UWv3aRfg1O26Pe20WceNqPkw3THJGcWAKGFAwbQW5u9FjnluxrRz01NJixO
+	+VK+0eQ+8lYSE0BzBV3APnjMqnPFF6ku+1vy69Q16pRokNiiLoblYvGy49qAgi3ugafL
+	SUgA5wVG/2lex14TZ7/clpeZvl2YvKiLAFvXTohY9HNXx9Au5uqutBeO72zZj9Pbjkma
+	UcEGsijS9qtTxi0MRRhDoBxwZgJLnCcT7DvjbrSBKFVunPKNCgVdwn03ow49KnK/4DSO
+	Xh9g==
+X-Gm-Message-State: ALyK8tLiPEFlhndUP9lqceH/JeSgo1Qc3lehAZBVqtMLd2okwxVedr8UbZOjv2lOe027pw==
+X-Received: by 10.31.190.211 with SMTP id o202mr16604621vkf.118.1466703894756; 
+	Thu, 23 Jun 2016 10:44:54 -0700 (PDT)
+Received: from localhost ([179.105.243.72])
+	by smtp.gmail.com with ESMTPSA id 80sm432088uag.27.2016.06.23.10.44.52
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 23 Jun 2016 10:44:53 -0700 (PDT)
+Received: by localhost (sSMTP sendmail emulation);
+	Thu, 23 Jun 2016 14:44:49 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Thu, 23 Jun 2016 14:44:47 -0300
+Message-Id: <20160623174448.5504-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.8.3
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH v2 1/2] initramfs-framework: base: Ensures /run/lock is available
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,25 +46,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jun 2016 16:58:19 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+X-List-Received-Date: Thu, 23 Jun 2016 17:44:56 -0000
 
-On Wednesday, June 22, 2016 9:18:10 PM EDT Burton, Ross wrote:
-> On 22 June 2016 at 19:24, Andreas M=FCller <schnitzeltony@googlemail.com>
->=20
-> wrote:
-> > Could we move vte to meta-oe to avoid further world blacklisting?
->=20
-> This was the agreement in the other thread - Mark was going to restore the
-> old version with a new PN for meta-xfce.
+Depending on the module we use, the /run/lock may be required. This
+creates it as part of initial setup and thus makes it available for
+every sub module.
 
-Jussi got to it first and has a review out for this on for meta-oe.
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
 
-Mark
+Changes in v2:
+- New patch
 
->=20
-> Ross
+ meta/recipes-core/initrdscripts/initramfs-framework/init | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/init b/meta/recipes-core/initrdscripts/initramfs-framework/init
+index 204f237..37527a8 100755
+--- a/meta/recipes-core/initrdscripts/initramfs-framework/init
++++ b/meta/recipes-core/initrdscripts/initramfs-framework/init
+@@ -76,8 +76,8 @@ MODULES_DIR=/init.d  # place to look for modules
+ # make mount stop complaining about missing /etc/fstab
+ touch /etc/fstab
+ 
+-# initialize /proc, /sys and /var/lock
+-mkdir -p /proc /sys /var/lock
++# initialize /proc, /sys, /run/lock and /var/lock
++mkdir -p /proc /sys /run/lock /var/lock
+ mount -t proc proc /proc
+ mount -t sysfs sysfs /sys
+ 
+-- 
+2.8.3
 
 
