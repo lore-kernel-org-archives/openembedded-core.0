@@ -1,48 +1,48 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 67B13731B9
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id B45ED731B9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jun 2016 10:25:36 +0000 (UTC)
-Received: by mail-wm0-f49.google.com with SMTP id v199so120454047wmv.0
+	Thu, 23 Jun 2016 10:58:13 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id c82so9899019wme.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jun 2016 03:25:37 -0700 (PDT)
+	Thu, 23 Jun 2016 03:58:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:mime-version:content-disposition
-	:user-agent; bh=ff8Aq/LpWiUfjt3h4U+buQ+pwvnrDVvxQP8Gecndyj8=;
-	b=01ASuDF71Coi/gXU7Np41qy3EWZBoon2rHWvVn8R+/XYg0pGLPWIgxnr5DXvDN6roI
-	RzeFJYzjiIzFumOsNpTj9FLx5dhPKvBEEY13/BsRsAqaSycd/5VvDItxbmVDggk5wkL4
-	/SwspzSkARM8wHIy+Xskei2x29NtvP/i7Qqa8XAG160cJpaa82ssThOvCQkAnUAlAxXu
-	DyVmyDQfdcY4B8L1bewlFNltIgn5f19O/nvm9bZvTBlqvdR/o0NYp8fRivUA2sn0AHYx
-	rppARogiUOnvZmyvZx84K8f+YDRI4AAdXd65y0f3xBA5pfENX3f74RdICHUwbZp3j/kt
-	ezng==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=V5+kyy/YCWMepinXLZRVDsL92JHCMlUeQQYGKpNDm34=;
+	b=TbGm7QjMsn2lTk4sN/VuhNO2zXHJWqOHuJ+mccfjPz5uJ2ykG+Carbdzcf5nsawA4o
+	zGgfbkpX9rP4UgA/qWi4hjVR5vaKQ1uvIBJkUle0QwMl7pFaIbRa8igVuhnroCJs0Ixb
+	sOzYsBHYLyjK8MwmmNPtHZsmY/boPjG2jmXzwtpO2mKBy9SBu8Fi8wbG9i/JTag3AA3d
+	3qCwg8y33dt6mfNK3/8NYWwBJdJCMA+tpsUoB9OccpNrPjFYl37B2KQjFYDnX19EDUof
+	uwk+xTGCv+RM9tX2KaGAWTg9H8i5ksHdmAPuNJ4ZgYCxVrl1XEBRxlBGOzKWB0wR0t6y
+	/+5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:mime-version
-	:content-disposition:user-agent;
-	bh=ff8Aq/LpWiUfjt3h4U+buQ+pwvnrDVvxQP8Gecndyj8=;
-	b=UvVI4fCg+xHwsXEntRUBcCSPYu+F14XGSufU1zsmJ9VswH6g0b4IFmCgs6uuSlWFp/
-	jIui3JPxpGiUfaIS/z2AyG4xeNEPuK1la/b4yo0bB5sfkzQOO+6ex9sp23ukWK+YPdKV
-	XwzbB3jIMv8M85ZKJZsRPX7VITutYXud0K/+sClwFM1v9LHFUoQ0sPQXLgBjpG2oea17
-	1HWE0uLfuk0jTncr56VRvqC7ZkPOHLOqCt4+XPdWzCmwPs6wX3c3+Wdnyohtoan/DpOR
-	GKiOjbP4aWCKVTzSnoY23cnujxjqIHldih2s4Mi27yPHFsaZolXQgt/TBoeH3hsIIgn0
-	A4bQ==
-X-Gm-Message-State: ALyK8tL7Ci1XySifVkHOpF7LjSAx7c1VxeWEnc7YHurPyWV/ikcaqraZL9mNz4eI2NZ7nA==
-X-Received: by 10.194.22.169 with SMTP id e9mr29295908wjf.128.1466677536418;
-	Thu, 23 Jun 2016 03:25:36 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=V5+kyy/YCWMepinXLZRVDsL92JHCMlUeQQYGKpNDm34=;
+	b=iSeG0nwiz9QnVtbdsgBKaSLNqXiV1ZF10UR68AGW3XL6Np9y44VoNHb7fedNmPf4hq
+	O9SXlsNsmWBnNpockLKv7olCehwmxIMCWENyoZ+nATGfjIyWzDcbbHBV17y0oXXVsedW
+	vWtRb1D4ijQLJq82u/nowWFYpV2UbKk8OgT3NB4sIr029N9Iv3KzrXFVozhKSXQiYT2P
+	QZKNxlpTdWFs6et8X4ZJE99myIwBVnoG9eL/qAyxmpe+GFpkgRWwaJzzmfUxns/7BAbG
+	9TsCd8H/qCLBmEwd8DY/gIkg6u9ky9EMtMi4TebofUaGg5/LZpxWODxxJ/aa8QEF2Czw
+	xwwA==
+X-Gm-Message-State: ALyK8tKCihMamhKj2f0NC13js9lAXeJOq6apToQBG40kFzom3a0krAfvyqP/R66P925viA==
+X-Received: by 10.194.164.98 with SMTP id yp2mr27601850wjb.85.1466679493616;
+	Thu, 23 Jun 2016 03:58:13 -0700 (PDT)
 Received: from localhost (ip-89-176-104-169.net.upcbroadband.cz.
-	[89.176.104.169])
-	by smtp.gmail.com with ESMTPSA id c142sm36318wme.18.2016.06.23.03.25.35
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 23 Jun 2016 03:25:35 -0700 (PDT)
+	[89.176.104.169]) by smtp.gmail.com with ESMTPSA id
+	x10sm3833035wjj.14.2016.06.23.03.58.12
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 23 Jun 2016 03:58:12 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 23 Jun 2016 12:26:03 +0200
-To: markus.lehtonen@linux.intel.com
-Message-ID: <20160623102603.GB2567@jama>
-MIME-Version: 1.0
-User-Agent: Mutt/1.6.1 (2016-04-27)
-Cc: openembedded-core@lists.openembedded.org
-Subject: marquiz/build-perf/python-rewrite branch in openembedded-core-contrib
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 23 Jun 2016 12:58:39 +0200
+Message-Id: <20160623105839.27075-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.9.0
+In-Reply-To: <20160622155839.GC4153@jama>
+References: <20160622155839.GC4153@jama>
+Subject: [PATCH] test-dependencies.sh: Strip also '\.bb; .*' before adding failed recipe to list of failed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,62 +55,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jun 2016 10:25:36 -0000
-X-Groupsio-MsgNum: 83784
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="CUfgB8w4ZwR/yMy5"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 23 Jun 2016 10:58:16 -0000
 
---CUfgB8w4ZwR/yMy5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+* format of bitbake tasks changed in:
+  2c88afb   taskdata/runqueue: Rewrite without use of ID indirection
 
-Can you please use different branch name for this?
+-ERROR: Task 4 (/OE/build/oe-core/openembedded-core/meta/recipes-devtools/rpm/sftp.bb, do_fetch) failed with exit code '1'
++ERROR: Task /OE/build/oe-core/openembedded-core/meta/recipes-devtools/rpm/sftp.bb:do_fetch (/OE/build/oe-core/openembedded-core/meta/recipes-devtools/rpm/sftp.bb:do_fetch) failed with exit code '1'
 
-There was marquiz/build-perf branch just few days ago:
+  so strip not only '\.bb, .*' used before, but also '\.bb;.*' to drop
+  the task name to get recipe name.
 
-OE @ ~/openembedded-core $ git log --pretty=3Dfuller
-contrib/marquiz/build-perf
-commit 51bd580b2b44636007e698832f585bbd5785ca02
-Author:     Markus Lehtonen <markus.lehtonen@linux.intel.com>
-AuthorDate: Fri May 27 16:53:08 2016 +0300
-Commit:     Markus Lehtonen <markus.lehtonen@linux.intel.com>
-CommitDate: Thu Jun 16 15:31:15 2016 +0300
+* for more details see:
+  http://lists.openembedded.org/pipermail/openembedded-core/2016-June/123132.html
 
-    oe-build-perf-test: print summary of test statuses
-   =20
-    Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+* without this change you can see test-dependencies.sh trying to rebuild packages
+  like:
+  Building recipe: fbprogress (6/21)
+  Building recipe: fbprogress.bb:do (7/21)
+  where the later of course doesn't exist as a recipe
 
-And now everybody would need to run git remote prune, to remove this
-branch in order to fetch new marquiz/build-perf/python-rewrite (where
-marquiz/build-perf will serve as a directory - so there cannot be a
-branch with the same name here)
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ scripts/test-dependencies.sh | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/test-dependencies.sh b/scripts/test-dependencies.sh
+index 0170947..00c50e0 100755
+--- a/scripts/test-dependencies.sh
++++ b/scripts/test-dependencies.sh
+@@ -141,7 +141,7 @@ build_all() {
+   bitbake -k $targets 2>&1 | tee -a ${OUTPUT1}/complete.log
+   RESULT+=${PIPESTATUS[0]}
+   grep "ERROR: Task.*failed" ${OUTPUT1}/complete.log > ${OUTPUT1}/failed-tasks.log
+-  cat ${OUTPUT1}/failed-tasks.log | sed 's@.*/@@g; s@_.*@@g; s@\.bb, .*@@g' | sort -u > ${OUTPUT1}/failed-recipes.log
++  cat ${OUTPUT1}/failed-tasks.log | sed 's@.*/@@g; s@_.*@@g; s@\.bb, .*@@g; s@\.bb;.*@@g' | sort -u > ${OUTPUT1}/failed-recipes.log
+ }
+ 
+ build_every_recipe() {
+@@ -178,7 +178,7 @@ build_every_recipe() {
+       RESULT+=${RECIPE_RESULT}
+       mv ${OUTPUTB}/${recipe}.log ${OUTPUTB}/failed/
+       grep "ERROR: Task.*failed"  ${OUTPUTB}/failed/${recipe}.log | tee -a ${OUTPUTB}/failed-tasks.log
+-      grep "ERROR: Task.*failed"  ${OUTPUTB}/failed/${recipe}.log | sed 's@.*/@@g; s@_.*@@g; s@\.bb, .*@@g' >> ${OUTPUTB}/failed-recipes.log
++      grep "ERROR: Task.*failed"  ${OUTPUTB}/failed/${recipe}.log | sed 's@.*/@@g; s@_.*@@g; s@\.bb, .*@@g; s@\.bb;.*@@g' >> ${OUTPUTB}/failed-recipes.log
+       # and append also ${recipe} in case the failed task was from some dependency
+       echo ${recipe} >> ${OUTPUTB}/failed-recipes.log
+     else
+-- 
+2.9.0
 
 
-Processing openembedded-core: From
-git://git.openembedded.org/openembedded-core-contrib
- * [new branch]      ChenQi/PU-20160623 -> origin/ChenQi/PU-20160623
-error: 'refs/remotes/origin/marquiz/build-perf' exists; cannot create
-'refs/remotes/origin/marquiz/build-perf/python-rewrite'
- ! [new branch]      marquiz/build-perf/python-rewrite ->
-origin/marquiz/build-perf/python-rewrite  (unable to update local ref)
-error: some local refs could not be updated; try running
- 'git remote prune origin' to remove any old, conflicting branches
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---CUfgB8w4ZwR/yMy5
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAldruToACgkQN1Ujt2V2gBxQ5ACeJnmtL4swiJPGpzLYDggJB0nz
-m94An0opZ+5tKeM4bG9P7+QoQzbiNa9D
-=sREE
------END PGP SIGNATURE-----
-
---CUfgB8w4ZwR/yMy5--
