@@ -1,22 +1,27 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 70DDE7002B
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 8ABC960111
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jun 2016 19:04:26 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP; 23 Jun 2016 12:04:02 -0700
+	Thu, 23 Jun 2016 22:10:56 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga102.fm.intel.com with ESMTP; 23 Jun 2016 15:10:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,518,1459839600"; d="scan'208";a="834070148"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga003.jf.intel.com with ESMTP; 23 Jun 2016 12:04:01 -0700
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.26,518,1459839600"; d="scan'208";a="127550160"
+Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com)
+	([10.255.149.208])
+	by fmsmga004.fm.intel.com with ESMTP; 23 Jun 2016 15:10:55 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Jun 2016 22:03:48 +0300
-Message-Id: <1466708628-25003-2-git-send-email-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <1466708628-25003-1-git-send-email-alexander.kanavin@linux.intel.com>
-References: <1466708628-25003-1-git-send-email-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 2/2] pythonnative.bbclass, python3native.bbclass: use DEPENDS_append instead of DEPENDS +=
+Date: Fri, 24 Jun 2016 10:10:52 +1200
+Message-ID: <1989845.BISI2eGfos@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.5.7-200.fc23.x86_64; KDE/4.14.20; x86_64; ;
+	)
+In-Reply-To: <10c9f0e4d8316f79212cb3d346e6ff5218edc928.1466683248.git.paul.eggleton@linux.intel.com>
+References: <cover.1466683248.git.paul.eggleton@linux.intel.com>
+	<10c9f0e4d8316f79212cb3d346e6ff5218edc928.1466683248.git.paul.eggleton@linux.intel.com>
+MIME-Version: 1.0
+Subject: Re: [PATCH v2 07/10] classes/populate_sdk_ext: eliminate double execution on install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,44 +34,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jun 2016 19:04:26 -0000
+X-List-Received-Date: Thu, 23 Jun 2016 22:10:57 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Otherwise -native variants of recipes that use these classes don't get a proper python[3]-native
-dependency for some reason.
+On Fri, 24 Jun 2016 00:07:03 Paul Eggleton wrote:
+> One result of this change is that you get the errors printed on the
+> console during normal output rather than this going to the
+> preparing_build_system.log file first. In OE-Core revision
+> 227d2cbf9e0b8c35fa6644e3d72e0699db9607fa, we changed to always print the
+> contents of preparing_build_system.log on failure, but now at least the
+> error contents of that log is duplicated. Besides, I intentionally
+> didn't print out the contents of that log during normal usage because
+> it's quite verbose - the bug that we were attempting to fix was about
+> not getting this information when seeing failures in the automated
+> tests, thus I've moved printing the log to the test handling code
+> instead.
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- meta/classes/python3native.bbclass | 2 +-
- meta/classes/pythonnative.bbclass  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+I just realised, this comment and the associated changes should have been 
+squashed into patch 9/10 and not this one. Accordingly I have moved them there 
+and pushed a new paule/startup-oe branch - ultimately the code at the end of 
+the series ends up being exactly the same though.
 
-diff --git a/meta/classes/python3native.bbclass b/meta/classes/python3native.bbclass
-index d7b2d35..ef468b3 100644
---- a/meta/classes/python3native.bbclass
-+++ b/meta/classes/python3native.bbclass
-@@ -2,7 +2,7 @@ inherit python3-dir
- 
- PYTHON="${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}"
- EXTRANATIVEPATH += "${PYTHON_PN}-native"
--DEPENDS += " ${PYTHON_PN}-native "
-+DEPENDS_append = " ${PYTHON_PN}-native "
- 
- # python-config and other scripts are using distutils modules
- # which we patch to access these variables
-diff --git a/meta/classes/pythonnative.bbclass b/meta/classes/pythonnative.bbclass
-index bd239fa..4e0381b 100644
---- a/meta/classes/pythonnative.bbclass
-+++ b/meta/classes/pythonnative.bbclass
-@@ -5,7 +5,7 @@ PYTHON="${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}"
- # PYTHON_EXECUTABLE is used by cmake
- PYTHON_EXECUTABLE="${PYTHON}"
- EXTRANATIVEPATH += "${PYTHON_PN}-native"
--DEPENDS += " ${PYTHON_PN}-native "
-+DEPENDS_append = " ${PYTHON_PN}-native "
- 
- # python-config and other scripts are using distutils modules
- # which we patch to access these variables
+Cheers,
+Paul
+
 -- 
-2.8.1
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
