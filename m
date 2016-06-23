@@ -1,30 +1,29 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B9C960124
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 60EBB60118
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jun 2016 01:30:19 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u5N1UJJ0018910
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 22 Jun 2016 18:30:19 -0700 (PDT)
-Received: from [128.224.162.229] (128.224.162.229) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
-	Wed, 22 Jun 2016 18:30:18 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1466069361.git.Qi.Chen@windriver.com>
-	<18032fc6b17d21b4fcb431114a6000042b38e3d9.1466069361.git.Qi.Chen@windriver.com>
-	<CAJTo0LYpa5AMtaiOT_9L851vTyMbcNuPSWjdvmWQJq=EhJYzhA@mail.gmail.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <576B3BB2.4090604@windriver.com>
-Date: Thu, 23 Jun 2016 09:30:26 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.7.2
+	Thu, 23 Jun 2016 02:30:26 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga104.fm.intel.com with ESMTP; 22 Jun 2016 19:30:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,509,1459839600"; d="scan'208";a="993338143"
+Received: from clim19-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.149.148])
+	by fmsmga001.fm.intel.com with ESMTP; 22 Jun 2016 19:30:23 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 23 Jun 2016 14:30:21 +1200
+Message-ID: <2774839.1y5EqQaVkY@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.5.7-200.fc23.x86_64; KDE/4.14.20; x86_64; ;
+	)
+In-Reply-To: <6ea53ae7-5516-a991-f9f6-111db319e5dc@windriver.com>
+References: <1466632764-22540-1-git-send-email-jslater@windriver.com>
+	<CAMKF1soa5wBYFyFV0sqxsN_0bpjTjpQ==Aow0Ui7ZAAhh-Mp=g@mail.gmail.com>
+	<6ea53ae7-5516-a991-f9f6-111db319e5dc@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYpa5AMtaiOT_9L851vTyMbcNuPSWjdvmWQJq=EhJYzhA@mail.gmail.com>
-X-Originating-IP: [128.224.162.229]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] recipetool/create.py: fix LICENSE value
+Cc: Joe Slater <jslater@windriver.com>
+Subject: Re: [PATCH 0/1] blacklist: add BPNBLACKLIST support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,102 +36,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jun 2016 01:30:21 -0000
-Content-Type: multipart/alternative;
-	boundary="------------030909070901030405080407"
+X-List-Received-Date: Thu, 23 Jun 2016 02:30:29 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---------------030909070901030405080407
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+On Wed, 22 Jun 2016 17:45:55 Mark Hatle wrote:
+> On 6/22/16 5:35 PM, Khem Raj wrote:
+> > On Jun 22, 2016 2:59 PM, "Joe Slater" <jslater@windriver.com
+> > 
+> > <mailto:jslater@windriver.com>> wrote:
+> >> We have encountered some issues with the use of PNBLACKLIST in recipes.
+> >> In particular, PNBLACKLIST[pkg] will not suppress building of lib32-pkg
+> >> or lib64-pkg so world builds can fail unexpectedly.
+> >> 
+> >> One solution could be to implement BPNBLACKLIST[] which checks BPN
+> >> instead
+> >> of PN when a recipe is being parsed.  I have included a patch to do this.
+> >> 
+> >> If this were adopted, there are many recipes under meta-openembedded that
+> >> should probably changed to use BPNBLACKLIST instead of PNBLACKLIST.
+> > 
+> > Bpn will also mean native and nativesdk among others. I think its better
+> > to list multilibs explicitly.
+> 
+> This is intentional.
+> 
+> The problem with saying we have to list multilibs explicitly.  multilib
+> naming is arbitrary.  I can say that it probably fits the pattern of lib64,
+> lib32, libn32 and libx32.... but it doesn't have to.
+> 
+> But then I'd also need to blacklist native and nativesdk versions as well..
+> so for a simple recipe that for some reason I want blacklisted, it's easier
+> to hack the recipe to just blacklist itself -- then enter 7 or more
+> blacklists.
+> 
+> Using the BPNBLACKLIST I can blacklist a single recipe with one command and
+> not worry about multilibs, class extensions, etc.
+> 
+> (The patch leave PNBLACKLIST, specifically so that in the case where you
+> want only partial usage blacklisted you can.)
 
-On 06/22/2016 06:57 PM, Burton, Ross wrote:
->
-> On 16 June 2016 at 10:30, Chen Qi <Qi.Chen@windriver.com 
-> <mailto:Qi.Chen@windriver.com>> wrote:
->
->     When there multiple license in a repo, the LICENSE value be created as
->     something like "LGPLv2.1 GPLv2", which causes the following warning.
->
->     LICENSE value "LGPLv2.1 GPLv2" has an invalid format - license
->     names must
->     be separated by the following characters to indicate the license
->     selection: &|()
->
->     Fix it by using '&' to join multiple licenses.
->
->
-> This behaviour is intentional, as recipetool isn't smart enough to 
-> read the licensing terms and decide if there are multiple licenses in 
-> aggregate (&) or a choice of licenses (|).  The solution is to list 
-> all the licenses that have been found, let bitbake throw a warning, 
-> and the person creating a recipe comprehend the licensing situation 
-> and add the relevant operations.
->
-> Ross
+So blacklist.bbclass already has code to extend PNBLACKLIST with multilib
+variants - so we don't actually need this for multilib, right? It only helps
+cover multilib and native/nativesdk AFAICT.
 
-Thanks for your detailed explanation.
+If we are going to make changes here I do have an alternative suggestion -
+a while ago I wrote this patch but never got around to sending it because
+I wasn't quite sure if it's the right approach. It makes PNBLACKLIST work
+a bit more like other variables where you use overrides rather than
+varflags to make it specific to a recipe:
 
-Best Regards,
-Chen Qi
+  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=paule/stuff3&id=7383419cbe69c4d62b9695e6ae65adc8b54741f7
 
---------------030909070901030405080407
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Does anyone else see value in this?
 
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 06/22/2016 06:57 PM, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0LYpa5AMtaiOT_9L851vTyMbcNuPSWjdvmWQJq=EhJYzhA@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 16 June 2016 at 10:30, Chen Qi <span
-              dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:Qi.Chen@windriver.com" target="_blank">Qi.Chen@windriver.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div id=":4h0" class="a3s aXjCH m155588cf4b54ba0a">When
-                there multiple license in a repo, the LICENSE value be
-                created as<br>
-                something like "LGPLv2.1 GPLv2", which causes the
-                following warning.<br>
-                <br>
-                LICENSE value "LGPLv2.1 GPLv2" has an invalid format -
-                license names must<br>
-                be separated by the following characters to indicate the
-                license selection: &amp;|()<br>
-                <br>
-                Fix it by using '&amp;' to join multiple licenses.<br>
-              </div>
-            </blockquote>
-          </div>
-          <br>
-          This behaviour is intentional, as recipetool isn't smart
-          enough to read the licensing terms and decide if there are
-          multiple licenses in aggregate (&amp;) or a choice of licenses
-          (|).  The solution is to list all the licenses that have been
-          found, let bitbake throw a warning, and the person creating a
-          recipe comprehend the licensing situation and add the relevant
-          operations.</div>
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Ross</div>
-      </div>
-    </blockquote>
-    <br>
-    Thanks for your detailed explanation.<br>
-    <br>
-    Best Regards,<br>
-    Chen Qi<br>
-  </body>
-</html>
+Cheers,
+Paul
 
---------------030909070901030405080407--
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
+
