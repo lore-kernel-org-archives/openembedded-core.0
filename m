@@ -1,48 +1,25 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id B45ED731B9
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 2122660123
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jun 2016 10:58:13 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id c82so9899019wme.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jun 2016 03:58:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=V5+kyy/YCWMepinXLZRVDsL92JHCMlUeQQYGKpNDm34=;
-	b=TbGm7QjMsn2lTk4sN/VuhNO2zXHJWqOHuJ+mccfjPz5uJ2ykG+Carbdzcf5nsawA4o
-	zGgfbkpX9rP4UgA/qWi4hjVR5vaKQ1uvIBJkUle0QwMl7pFaIbRa8igVuhnroCJs0Ixb
-	sOzYsBHYLyjK8MwmmNPtHZsmY/boPjG2jmXzwtpO2mKBy9SBu8Fi8wbG9i/JTag3AA3d
-	3qCwg8y33dt6mfNK3/8NYWwBJdJCMA+tpsUoB9OccpNrPjFYl37B2KQjFYDnX19EDUof
-	uwk+xTGCv+RM9tX2KaGAWTg9H8i5ksHdmAPuNJ4ZgYCxVrl1XEBRxlBGOzKWB0wR0t6y
-	/+5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=V5+kyy/YCWMepinXLZRVDsL92JHCMlUeQQYGKpNDm34=;
-	b=iSeG0nwiz9QnVtbdsgBKaSLNqXiV1ZF10UR68AGW3XL6Np9y44VoNHb7fedNmPf4hq
-	O9SXlsNsmWBnNpockLKv7olCehwmxIMCWENyoZ+nATGfjIyWzDcbbHBV17y0oXXVsedW
-	vWtRb1D4ijQLJq82u/nowWFYpV2UbKk8OgT3NB4sIr029N9Iv3KzrXFVozhKSXQiYT2P
-	QZKNxlpTdWFs6et8X4ZJE99myIwBVnoG9eL/qAyxmpe+GFpkgRWwaJzzmfUxns/7BAbG
-	9TsCd8H/qCLBmEwd8DY/gIkg6u9ky9EMtMi4TebofUaGg5/LZpxWODxxJ/aa8QEF2Czw
-	xwwA==
-X-Gm-Message-State: ALyK8tKCihMamhKj2f0NC13js9lAXeJOq6apToQBG40kFzom3a0krAfvyqP/R66P925viA==
-X-Received: by 10.194.164.98 with SMTP id yp2mr27601850wjb.85.1466679493616;
-	Thu, 23 Jun 2016 03:58:13 -0700 (PDT)
-Received: from localhost (ip-89-176-104-169.net.upcbroadband.cz.
-	[89.176.104.169]) by smtp.gmail.com with ESMTPSA id
-	x10sm3833035wjj.14.2016.06.23.03.58.12
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 Jun 2016 03:58:12 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+	Thu, 23 Jun 2016 12:07:35 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP; 23 Jun 2016 05:07:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,516,1459839600"; d="scan'208";a="1003730790"
+Received: from clim19-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.149.148])
+	by orsmga002.jf.intel.com with ESMTP; 23 Jun 2016 05:07:34 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Jun 2016 12:58:39 +0200
-Message-Id: <20160623105839.27075-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.9.0
-In-Reply-To: <20160622155839.GC4153@jama>
-References: <20160622155839.GC4153@jama>
-Subject: [PATCH] test-dependencies.sh: Strip also '\.bb; .*' before adding failed recipe to list of failed
+Date: Fri, 24 Jun 2016 00:06:57 +1200
+Message-Id: <e734f5689c4eeb0b7ac448bddabe623f1b6e3541.1466683248.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.5.5
+In-Reply-To: <cover.1466683248.git.paul.eggleton@linux.intel.com>
+References: <cover.1466683248.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1466683248.git.paul.eggleton@linux.intel.com>
+References: <cover.1466683248.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH v2 01/10] bitbake.conf: whitelist progress varflag
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,54 +32,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jun 2016 10:58:16 -0000
+X-List-Received-Date: Thu, 23 Jun 2016 12:07:35 -0000
 
-* format of bitbake tasks changed in:
-  2c88afb   taskdata/runqueue: Rewrite without use of ID indirection
+We don't want the value of this varflag in any signatures since it's
+only there for the purpose of aiding display of task execution.
 
--ERROR: Task 4 (/OE/build/oe-core/openembedded-core/meta/recipes-devtools/rpm/sftp.bb, do_fetch) failed with exit code '1'
-+ERROR: Task /OE/build/oe-core/openembedded-core/meta/recipes-devtools/rpm/sftp.bb:do_fetch (/OE/build/oe-core/openembedded-core/meta/recipes-devtools/rpm/sftp.bb:do_fetch) failed with exit code '1'
-
-  so strip not only '\.bb, .*' used before, but also '\.bb;.*' to drop
-  the task name to get recipe name.
-
-* for more details see:
-  http://lists.openembedded.org/pipermail/openembedded-core/2016-June/123132.html
-
-* without this change you can see test-dependencies.sh trying to rebuild packages
-  like:
-  Building recipe: fbprogress (6/21)
-  Building recipe: fbprogress.bb:do (7/21)
-  where the later of course doesn't exist as a recipe
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/test-dependencies.sh | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/conf/bitbake.conf | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/test-dependencies.sh b/scripts/test-dependencies.sh
-index 0170947..00c50e0 100755
---- a/scripts/test-dependencies.sh
-+++ b/scripts/test-dependencies.sh
-@@ -141,7 +141,7 @@ build_all() {
-   bitbake -k $targets 2>&1 | tee -a ${OUTPUT1}/complete.log
-   RESULT+=${PIPESTATUS[0]}
-   grep "ERROR: Task.*failed" ${OUTPUT1}/complete.log > ${OUTPUT1}/failed-tasks.log
--  cat ${OUTPUT1}/failed-tasks.log | sed 's@.*/@@g; s@_.*@@g; s@\.bb, .*@@g' | sort -u > ${OUTPUT1}/failed-recipes.log
-+  cat ${OUTPUT1}/failed-tasks.log | sed 's@.*/@@g; s@_.*@@g; s@\.bb, .*@@g; s@\.bb;.*@@g' | sort -u > ${OUTPUT1}/failed-recipes.log
- }
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 942b8b1..2e95819 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -822,7 +822,8 @@ BB_SIGNATURE_EXCLUDE_FLAGS ?= "doc deps depends \
+     lockfiles type vardepsexclude vardeps vardepvalue vardepvalueexclude \
+     file-checksums python func task export unexport noexec nostamp dirs cleandirs \
+     sstate-lockfile-shared prefuncs postfuncs export_func deptask rdeptask \
+-    recrdeptask nodeprrecs stamp-extra-info sstate-outputdirs filename lineno"
++    recrdeptask nodeprrecs stamp-extra-info sstate-outputdirs filename lineno \
++    progress"
  
- build_every_recipe() {
-@@ -178,7 +178,7 @@ build_every_recipe() {
-       RESULT+=${RECIPE_RESULT}
-       mv ${OUTPUTB}/${recipe}.log ${OUTPUTB}/failed/
-       grep "ERROR: Task.*failed"  ${OUTPUTB}/failed/${recipe}.log | tee -a ${OUTPUTB}/failed-tasks.log
--      grep "ERROR: Task.*failed"  ${OUTPUTB}/failed/${recipe}.log | sed 's@.*/@@g; s@_.*@@g; s@\.bb, .*@@g' >> ${OUTPUTB}/failed-recipes.log
-+      grep "ERROR: Task.*failed"  ${OUTPUTB}/failed/${recipe}.log | sed 's@.*/@@g; s@_.*@@g; s@\.bb, .*@@g; s@\.bb;.*@@g' >> ${OUTPUTB}/failed-recipes.log
-       # and append also ${recipe} in case the failed task was from some dependency
-       echo ${recipe} >> ${OUTPUTB}/failed-recipes.log
-     else
+ MLPREFIX ??= ""
+ MULTILIB_VARIANTS ??= ""
 -- 
-2.9.0
+2.5.5
 
 
