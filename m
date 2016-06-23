@@ -1,59 +1,20 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
-	[209.85.213.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E9DA6FFCD
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 32D9F602D9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jun 2016 17:48:13 +0000 (UTC)
-Received: by mail-vk0-f68.google.com with SMTP id t7so14953238vkf.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jun 2016 10:48:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=/m4+hSRdpGqcJCBTQ0gSR1edwLK9hgfsadMRGwYOTic=;
-	b=f1Q/04f0zmU373icySMzn+qWprhLMtWDglh3z9iZpMyjUgb5cSmY07lM0O+6DinlH6
-	Cwb7KJ3T6nL7X32RbyvJ0SShHYzhsPRccbjc/jcTNT56aKBgaKDGvMm8o5YyPkEpobEe
-	2x2ngMlZObagn+p+iMMI+OBiATYskP66gkVFZRS98svi9xNdCEZ76/Fr3mZZKPUsB0Ml
-	BLMckDEZzKVhnwnXkF08LR1bDUEqszbHkdvkfZoIIs5brPoFDfZLyJC9vJAyB9Mnh4zx
-	7j7Ok5YtXBO+zfXeDu2QTOrv67vDzk+n5x/7dkpJXLvVqh0nQG/FE9IlRqppofSuKkcX
-	pVuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=/m4+hSRdpGqcJCBTQ0gSR1edwLK9hgfsadMRGwYOTic=;
-	b=SgdhyRIN/iPcSW+9kSDVlyGbRnedg/7Xe+WUlC54SubPuH72KFI4eoOKp2sCSpJtXA
-	OeOde7pgEHE5Lpx0Dn92aRzmApKMStfGVfOZ0zC+Z9e+SY13+GboUso/X+s7e4HeRRYg
-	JtF/PNpk23CRUFCUtey0BPbaMVmS6ff/u24xeuoRJjKUCYiyV8f+F7JPW5CiWBDUYh8R
-	90dYgUBTntLRSaTKzUHvm/OVAIUoqfDlpmlmoQlil25AA3d4WusAq3WiZqaNdQHQ85Da
-	mR7W3V+XsvWX8rYAKaAha6Qw5nbYFaP9BqYYk2DyByV2OiwpQH70qcjpqbArpofWBOC0
-	1KWg==
-X-Gm-Message-State: ALyK8tK25LWF+U0L+e4M35RAn8O7YmRqVYjAgv6wui9EBhI+hjHxPGXHBV3ieKU4Lvhi9Q==
-X-Received: by 10.176.1.7 with SMTP id 7mr12218299uak.72.1466704093995;
-	Thu, 23 Jun 2016 10:48:13 -0700 (PDT)
-Received: from mail-vk0-f41.google.com (mail-vk0-f41.google.com.
-	[209.85.213.41])
-	by smtp.gmail.com with ESMTPSA id x70sm453424vkd.10.2016.06.23.10.48.12
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 Jun 2016 10:48:12 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-vk0-f41.google.com with SMTP id d185so117042554vkg.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jun 2016 10:48:12 -0700 (PDT)
-X-Received: by 10.31.56.69 with SMTP id f66mr2382337vka.135.1466704092436;
-	Thu, 23 Jun 2016 10:48:12 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.31.192.195 with HTTP; Thu, 23 Jun 2016 10:48:11 -0700 (PDT)
-In-Reply-To: <20160623174448.5504-1-otavio@ossystems.com.br>
-References: <20160623174448.5504-1-otavio@ossystems.com.br>
-Date: Thu, 23 Jun 2016 14:48:11 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKpCUX-EvQKNEsXCE+-v1XTSnKcQanj875qPv60_EQRrzg@mail.gmail.com>
-Message-ID: <CAP9ODKpCUX-EvQKNEsXCE+-v1XTSnKcQanj875qPv60_EQRrzg@mail.gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/2] initramfs-framework: base: Ensures /run/lock is available
+	Thu, 23 Jun 2016 19:04:25 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP; 23 Jun 2016 12:04:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,518,1459839600"; d="scan'208";a="834070116"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by orsmga003.jf.intel.com with ESMTP; 23 Jun 2016 12:03:59 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 23 Jun 2016 22:03:47 +0300
+Message-Id: <1466708628-25003-1-git-send-email-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH 1/2] security_flags.inc: enable PIE for a few recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,22 +27,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jun 2016 17:48:14 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 23 Jun 2016 19:04:26 -0000
 
-On Thu, Jun 23, 2016 at 2:44 PM, Otavio Salvador
-<otavio@ossystems.com.br> wrote:
-> Depending on the module we use, the /run/lock may be required. This
-> creates it as part of initial setup and thus makes it available for
-> every sub module.
->
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+They used to fail with PIE enabled, but no longer do.
 
-Please ignore those as I missed it ended being merged already.
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ meta/conf/distro/include/security_flags.inc | 14 --------------
+ 1 file changed, 14 deletions(-)
 
-
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+index a7be185..83b9dc0 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -29,10 +29,8 @@ SECURITY_CFLAGS_pn-libmatchbox_powerpc = ""
+ SECURITY_CFLAGS_pn-lttng-tools_arm = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-aspell = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-beecrypt = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-blktrace = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-coreutils = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-cups = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-db = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-directfb = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-glibc = ""
+ SECURITY_CFLAGS_pn-glibc-initial = ""
+@@ -40,7 +38,6 @@ SECURITY_CFLAGS_pn-elfutils = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-enchant = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-expect = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-flac = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-flex = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-gcc = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-gcc-runtime = ""
+ SECURITY_CFLAGS_pn-gcc-sanitizers = "${SECURITY_NO_PIE_CFLAGS}"
+@@ -53,8 +50,6 @@ SECURITY_CFLAGS_pn-grub-efi-native = ""
+ SECURITY_CFLAGS_pn-grub-efi-x86-native = ""
+ SECURITY_CFLAGS_pn-grub-efi-i586-native = ""
+ SECURITY_CFLAGS_pn-grub-efi-x86-64-native = ""
+-SECURITY_CFLAGS_pn-gst-plugins-bad = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-gst-plugins-gl = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-gstreamer1.0-plugins-bad = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-gstreamer1.0-plugins-good = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-harfbuzz = "${SECURITY_NO_PIE_CFLAGS}"
+@@ -64,19 +59,15 @@ SECURITY_CFLAGS_pn-libaio = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libcap = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libgcc = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libid3tag = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-libnewt = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libnewt-python = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libglu = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libpcap = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libpcre = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libproxy = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-lttng-ust = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-mesa = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-mesa-gl = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-openssl = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-opensp = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-ppp = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-python = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-python-pycurl = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-python-smartpm = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-python-numpy = "${SECURITY_NO_PIE_CFLAGS}"
+@@ -85,7 +76,6 @@ SECURITY_CFLAGS_pn-python3-pycairo = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-python3 = "${SECURITY_NO_PIE_CFLAGS}"
+ # Revert RPM to using internally supported values
+ SECURITY_CFLAGS_pn-rpm = "${lcl_maybe_fortify} -fstack-protector"
+-SECURITY_CFLAGS_pn-syslinux = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-tcl = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-tiff = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-uclibc = ""
+@@ -93,10 +83,6 @@ SECURITY_CFLAGS_pn-uclibc-initial = ""
+ SECURITY_CFLAGS_pn-valgrind = ""
+ SECURITY_CFLAGS_pn-zlib = "${SECURITY_NO_PIE_CFLAGS}"
+ 
+-# These 2 have text relco errors with the pie options enabled
+-SECURITY_CFLAGS_pn-ltp = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-pulseaudio = "${SECURITY_NO_PIE_CFLAGS}"
+-
+ # Recipes which fail to compile when elevating -Wformat-security to an error
+ SECURITY_STRINGFORMAT_pn-busybox = ""
+ SECURITY_STRINGFORMAT_pn-console-tools = ""
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.8.1
+
 
