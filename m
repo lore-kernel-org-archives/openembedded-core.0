@@ -1,27 +1,58 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id EEA4D6E630
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-vk0-f66.google.com (mail-vk0-f66.google.com
+	[209.85.213.66])
+	by mail.openembedded.org (Postfix) with ESMTP id E686D65C8A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jun 2016 14:31:11 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 23 Jun 2016 07:31:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,517,1459839600"; d="scan'208";a="993687407"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 23 Jun 2016 07:31:09 -0700
-To: Khem Raj <raj.khem@gmail.com>
+	Thu, 23 Jun 2016 15:17:07 +0000 (UTC)
+Received: by mail-vk0-f66.google.com with SMTP id x7so7216359vka.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Jun 2016 08:17:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=WapYFjNH/a525DfeKFiHd2bSxzeYj+NiT2RyI0eQa9c=;
+	b=Uzsr34PZYU2KHKtUbyHxsfith3iTs9RVEWeVnKV0cW1zJSqoDlXCyDBwdgaGFl8g6O
+	GV0cpZDAkweD7pVTBDHTKl0/MRvQGr1fHnaOjTZGZo/OgVzds0Vpp24DzGpkT+VQcUcB
+	bUHgTAHtbCP8XMU0MXhE2OVN0G6qikHNrA+7H/gHAmC4tR708v8tASGazwINaEH+/rWP
+	pVUr6/Hs1G36Mdcmk8vZMyvozevvlSF4YmHMS5pAK0YvHqVC2m6D3+IO1yYuHJ7XYryB
+	zyG6YAxdAKSlKaH7vCfY+nvi8TCYmNcy9+Ipu83bxUpoi+3faO39n3Z8CQkwB9y/GGjl
+	4K1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=WapYFjNH/a525DfeKFiHd2bSxzeYj+NiT2RyI0eQa9c=;
+	b=eL53VRUHdUP/hPK7Q/9hvNrRJXrWpVU6lLDU5q19KH4HsGmC6P/XjpLH+ro4p6xAsR
+	0xu3YV6Ur41OPlbVoIQQbIIZsFgq+TKh+y3KKdRMbo7Tj6IUt000IktST35+HRVeDIbd
+	/sGhRl9RNuwe2SvL9+bLIb9x57oie+P1ZY/b28lbngGkCgmpGrXRz9Cyi8HEpNo8Zk/0
+	KM19iieWijMrizc9YmIagzHADPaDHq9xUfrFXoPY3rt9mSK4tjrOXHtYp8ohgira79Cy
+	WjvDZAg5FN1vnyTyIyqUgec1yTVsNyxm01SWXht6KKgG4s1HqUGqdrOHcN3snSzs2f3d
+	y05w==
+X-Gm-Message-State: ALyK8tISUyuHVp2TpsUCWTtHvSagYkcIeGkCNST7I1wbUpemKrv8gxJ4LvDvruvzTgC5uA==
+X-Received: by 10.31.64.76 with SMTP id n73mr16217437vka.42.1466695027348;
+	Thu, 23 Jun 2016 08:17:07 -0700 (PDT)
+Received: from mail-vk0-f48.google.com (mail-vk0-f48.google.com.
+	[209.85.213.48])
+	by smtp.gmail.com with ESMTPSA id 73sm236041uau.2.2016.06.23.08.17.06
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 23 Jun 2016 08:17:06 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-vk0-f48.google.com with SMTP id d185so110759380vkg.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Jun 2016 08:17:06 -0700 (PDT)
+X-Received: by 10.159.53.102 with SMTP id o93mr15897302uao.131.1466695025712; 
+	Thu, 23 Jun 2016 08:17:05 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.31.192.195 with HTTP; Thu, 23 Jun 2016 08:17:04 -0700 (PDT)
+In-Reply-To: <888ea509ee84e93297278e52a394057993b9a8a4.1466669684.git.Qi.Chen@windriver.com>
 References: <cover.1466669684.git.Qi.Chen@windriver.com>
 	<888ea509ee84e93297278e52a394057993b9a8a4.1466669684.git.Qi.Chen@windriver.com>
-	<825a92a1-c9ed-11f3-7580-0cef384914db@linux.intel.com>
-	<CAMKF1so3JSBtJC6_Uz4L5NJ50HCjtpztxoJ+_H+aU1mVLOduxA@mail.gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <f82a34ab-311a-b69e-8922-de59e6c4f971@linux.intel.com>
-Date: Thu, 23 Jun 2016 17:31:02 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.1.0
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1so3JSBtJC6_Uz4L5NJ50HCjtpztxoJ+_H+aU1mVLOduxA@mail.gmail.com>
+Date: Thu, 23 Jun 2016 12:17:04 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKqwCeVEqnKvBy+YNTjJV8fK80cxe4G1ZgUPhWQEAvvWzg@mail.gmail.com>
+Message-ID: <CAP9ODKqwCeVEqnKvBy+YNTjJV8fK80cxe4G1ZgUPhWQEAvvWzg@mail.gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 2/5] systemd: upgrade to 230
@@ -37,23 +68,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jun 2016 14:31:12 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 23 Jun 2016 15:17:08 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 06/23/2016 04:56 PM, Khem Raj wrote:
-
->> This is not correct. Systemd is configured using --without-python, and so
->> the python scripts are not added to the list of tests in the top level
->> Makefile.am. However they are still installed by the recipe - the correct
->> fix is to remove them from the test target directory after all the tests
->> have been copied into it.
+On Thu, Jun 23, 2016 at 5:16 AM, Chen Qi <Qi.Chen@windriver.com> wrote:
+> Patches are rebased or removed for the latest version.
 >
-> python support could be added too. Using packageconfig
+> 'python' is added to RDEPENDS of systemd-ptest.
+>
+> systemd-bootchart is now seprated from systemd, thus removing the
+> related configuration items.
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 
-Yes, if Python 3.x is used. Python 2.x is no longer the default choice 
-in oe-core.
+The bootchart addition should, ideally, be done in this very same
+commit so we know when this happened and why
 
-Alex
 
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
