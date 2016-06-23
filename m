@@ -1,26 +1,29 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 69F19731A9
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 351FA73197
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jun 2016 08:16:39 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u5N8GeFn006318
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jun 2016 01:16:40 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.229) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Thu, 23 Jun 2016 01:16:39 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 23 Jun 2016 16:16:32 +0800
-Message-ID: <f6d1abddac2c8d8e2e02e2a23ecdb2c09fb93f55.1466669684.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1466669684.git.Qi.Chen@windriver.com>
-References: <cover.1466669684.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 5/5] bash-completion: delete files util-linux provides
+	Thu, 23 Jun 2016 08:17:19 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u5N8HCHc013603; Thu, 23 Jun 2016 09:17:19 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id MM3_I2gBXe74; Thu, 23 Jun 2016 09:17:19 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u5N8HFW7013615
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 23 Jun 2016 09:17:16 +0100
+Message-ID: <1466669835.3319.205.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Robert Yang <liezhi.yang@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 23 Jun 2016 09:17:15 +0100
+In-Reply-To: <cover.1462867278.git.liezhi.yang@windriver.com>
+References: <cover.1462867278.git.liezhi.yang@windriver.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [RFC PATCH 0/8] [WIP] runqemu/runqemu-internal: refactor it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,28 +36,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jun 2016 08:16:39 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 23 Jun 2016 08:17:20 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-support/bash-completion/bash-completion_2.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi Robert,
 
-diff --git a/meta/recipes-support/bash-completion/bash-completion_2.1.bb b/meta/recipes-support/bash-completion/bash-completion_2.1.bb
-index 9877720..4126262 100644
---- a/meta/recipes-support/bash-completion/bash-completion_2.1.bb
-+++ b/meta/recipes-support/bash-completion/bash-completion_2.1.bb
-@@ -25,7 +25,7 @@ do_install_append() {
- 
- 	# Delete files already provided by util-linux
- 	local i
--	for i in cal dmesg eject hexdump hwclock ionice look renice rtcwake su; do
-+	for i in cal dmesg eject hexdump hwclock ionice look renice rtcwake su mount umount; do
- 		rm ${D}${datadir}/${BPN}/completions/$i
- 	done
- 
--- 
-1.9.1
+On Tue, 2016-05-10 at 01:13 -0700, Robert Yang wrote:
+> This is still WIP, I send this out to make sure that I won't walk on
+> wrong way too far. Please feel free to give any comments.
+> 
+> TODO:
+> * Update the one which uses runqemu, such as oeqa
+> * Boot EFI image
+> * Boot multilib image such as lib32-foo
+> * Change the vars name such as QEMU_SYSTEM_OPTIONS and
+>   QEMU_SECOND_SERIAL_OPT
+> * More testing
+> 
+> 
+> === Taken from patch 8/8's commit message:
+> * Why refactor
+>   The old runqemu had hardcoded machine knowledge, which limited its
+>   usage, for example, qemu-system-foo can boot the target, but
+> runqemu
+>   can't, and we need edit runqemu/runqemu-internal a lot to support
+> boot
+>   it.
+> 
+> * Brief introduction on implemention
+>   The basic thought is that, machine/bsp developer knows clearly on
+>   whether qemu can boot the target or not (QEMU_BOOT_SUPPORTED = "1"
+> or
+>   "0"), and how to boot it, so we leave these settings in the
+> machine's
+>   configuration.
+>   - qemu-boot.bbclass will write machine's info to
+>     ${DEPLOY_DIR_IMAGE}/qemu-boot, and runqemu will invoke it.
+>   - We need use "runqemu -m <machine>" rather than "runqemu
+> <machine>"
+>     since the scripts knows nothing about machine any more, and the
+>     similar to other old options, this is good for future's
+> extension.
+>   - I have updated all the machine's configuration except qemush4,
+> since
+>     I can't find this machine anywhere.
+>   - Several machines such as genericx86 and genericx86-64 can be boot
+> by
+>     new runqemu without any changes.
+>   - Added help info for supported options such as slirp and audio.
+> 
+> * Usage
+> Usage: runqemu <options>
+>     -m <machine>, specify machine
+>     -k <kernel>, specify kernel
+>     -r <rootfs>, specify disk image, rootfs or nfs dir
+>     -t <fstype>, specify fstypes, supported types:
+>                  ext[234], jffs2, btrfs, cpio.gz(ramfs), cpio,
+> hddimg,
+>                  hdddirect, vmdk, wic, qcow2, vdi
+>     -n, nographic, disables video console
+>     -K, enable KVM when running x86 and x86-64 (VT-capable CPU
+> required)
+>     -V, enables KVM with VHOST support when running x86 and x86-64
+> (VT-capable CPU required)
+>     -v, publicvnc - enable a VNC server open to all hosts
+>     -u, slirp mode, use user mode networking (no root privilege is
+> required)
+>     -a, support audio
+>     -s, enable a serial console on /dev/ttyS0
+>     -q <qemuparams> - specify custom parameters to QEMU
+>     -b <bootparams> - specify custom kernel parameters during boot
+>     -p <portnum>, tcp serial port number
+>     -B <biosdir>, bios directory
+>     -F <biosfilename>, bios filename.
+> 
+>     Examples:
+>       runqemu -m qemuarm -n
+>       runqemu -m qemuarm -t ext4
+>       runqemu -m qemux86-64 -r core-image-sato -t ext4
+>       runqemu -m qemux86 -r path/to/nfsrootdir/
+>       runqemu -r path/to/deploy/dir/image/file.vmdk
+>       runqemu -m qemumips -q "-m 256"
+>       runqemu -m qemuppc -b "psplash=false"
 
+Sorry about not responding to this before now. My concerns:
+
+a) The commandline structure is changing and I'm not sure I like the
+new one or believe its an improvement. This is particularly problematic
+from a documentation perspective. Is there a way to preserve the
+existing syntax?
+
+b) The question of python verses shell. I'm leaning towards making this
+a python script rather than shell at this point. It would mean you'd
+need python to run the scripts but we already need that for a variety
+of other tools so in general I think I prefer that. We do need to make
+sure the new python version supports what the current shell script does
+though.
+
+c) I don't think qemu-boot should be added be hardcoded into 
+image.bbclass, we need to find a better way to do this.
+
+d) I think we need to document the new API/variables somewhere so that
+we don't just have a random ever changing set of variables but some
+kind of standard we're trying to encourage.
+
+Cheers,
+
+Richard
 
