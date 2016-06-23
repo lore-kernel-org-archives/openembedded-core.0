@@ -1,52 +1,26 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id C1A546FFCE;
-	Thu, 23 Jun 2016 10:21:10 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id a66so9616536wme.2;
-	Thu, 23 Jun 2016 03:21:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=qP7FBmyOFKII4gJ51w5TWStakw4luCd27DlbxFvcs3A=;
-	b=y1RQu1GlTFph4Ctfk665zYKbs8DHRizgwlHnzl3/FF2scWCQcT9XKCEo+JLx8gHdUF
-	cwfJOPq3dAJIXLFU3EK2H0tXLpJSKOBDu8DvUQcOQoAwJ2OHb8xHBohQJy0/7YODAL6r
-	bM51bi9DT614tPZJw8I8prBv9qqm3PrY9/qqty3T+EM1xx+vQ0WUlejTUAXbVEw8dRiX
-	VZFVwZ7Q3GZg+g8WcllfkaziJaYO2pNOTNt1aCqQCfZuraDIcR2bhBBzt7MOOnOnvxfi
-	pO+oEdmyqfpVjV5Wk+xst9wGVaB7zOD9IhVREeCWP1s4wY6p/rHr87ehE81UQF0cpdvL
-	ua+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=qP7FBmyOFKII4gJ51w5TWStakw4luCd27DlbxFvcs3A=;
-	b=Nk5iPFsTMeFCs0VF/xrRAVinr1R/Rc8xtBb8LhYYeZRyopzt9mBcLwRlk8fAW03Ugd
-	uVX5kAaMVUdgTneL3WIHH9LAOgVJ5wNj5fkwQYaQ7IvnXSMwN7b6UrAuLulzitN8t+SO
-	YCSel3hXMt4AhiquYt3NPPUBd1X5n/PkfFxEhQ+GlaNVtqtZjMWbu3M3vawYoY7K9VY1
-	Ogu8s2Mh5nlJunH6p0411+tXFuOYr32xtHALwHWZtlZJU9kLCgT75LQRZY85jemWCcGC
-	sczLeLRSHHxg7PAL315VS6WpJMIgcWqNHDwrwpRbPHfBDOsTTDrkP2RGyubJStTF0BoK
-	IW+Q==
-X-Gm-Message-State: ALyK8tK0rAo66Vs/xDqhbkYHZAVEchuKVvRtZE1cYdxcQWdaDOGDi9ByaXOhdUjjuPR/zw==
-X-Received: by 10.28.224.69 with SMTP id x66mr13034142wmg.89.1466677271460;
-	Thu, 23 Jun 2016 03:21:11 -0700 (PDT)
-Received: from localhost (ip-89-176-104-169.net.upcbroadband.cz.
-	[89.176.104.169])
-	by smtp.gmail.com with ESMTPSA id k6sm3650133wjz.28.2016.06.23.03.21.10
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 23 Jun 2016 03:21:10 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 23 Jun 2016 12:21:38 +0200
-To: Michael Halstead <mhalstead@linuxfoundation.org>
-Message-ID: <20160623102138.GA2567@jama>
-References: <13986bd3-af12-4768-0a4c-78447c33c8b6@linuxfoundation.org>
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A6F8731B9
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Jun 2016 10:23:47 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga104.fm.intel.com with ESMTP; 23 Jun 2016 03:23:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,516,1459839600"; d="scan'208";a="981762685"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga001.jf.intel.com with ESMTP; 23 Jun 2016 03:23:47 -0700
+To: openembedded-core@lists.openembedded.org
+References: <cover.1466669684.git.Qi.Chen@windriver.com>
+	<888ea509ee84e93297278e52a394057993b9a8a4.1466669684.git.Qi.Chen@windriver.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <825a92a1-c9ed-11f3-7580-0cef384914db@linux.intel.com>
+Date: Thu, 23 Jun 2016 13:23:40 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.1.0
 MIME-Version: 1.0
-In-Reply-To: <13986bd3-af12-4768-0a4c-78447c33c8b6@linuxfoundation.org>
-User-Agent: Mutt/1.6.1 (2016-04-27)
-Cc: yocto@yoctoproject.org, Paul Eggleton <paul.eggleton@linux.intel.com>,
-	bitbake-devel@lists.openembedded.org,
-	Openembedded-devel@lists.openembedded.org,
-	Openembedded-core@lists.openembedded.org
-Subject: Re: [yocto] Patchwork users: Help test new version
+In-Reply-To: <888ea509ee84e93297278e52a394057993b9a8a4.1466669684.git.Qi.Chen@windriver.com>
+Subject: Re: [PATCH 2/5] systemd: upgrade to 230
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,50 +33,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jun 2016 10:21:15 -0000
-X-Groupsio-MsgNum: 83782
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="tThc/1wpZn/ma/RB"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 23 Jun 2016 10:23:48 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
---tThc/1wpZn/ma/RB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 06/23/2016 11:16 AM, Chen Qi wrote:
+> 'python' is added to RDEPENDS of systemd-ptest.
+> -RDEPENDS_${PN}-ptest += "gawk make perl bash xz \
+> +RDEPENDS_${PN}-ptest += "gawk make perl bash xz python\
 
-On Mon, Jun 20, 2016 at 10:47:16AM -0700, Michael Halstead wrote:
-> Hello,
->=20
-> OpenEmbedded is nearly ready to upgrade to a new version of Patchwork.
-> The new version offers several new features that will allow OpenEmbedded
-> to improve developer workflow and automated checks on incoming patches.
->=20
-> If you are a Patchwork user please visit
-> https://patchwork-next.openembedded.org/ and take a look. If you find
-> anything amiss please e-mail me directly and include patchwork in the
-> subject line.
->=20
-> Thank you for your help upgrading this important system!
+This is not correct. Systemd is configured using --without-python, and 
+so the python scripts are not added to the list of tests in the top 
+level Makefile.am. However they are still installed by the recipe - the 
+correct fix is to remove them from the test target directory after all 
+the tests have been copied into it.
 
-I was using it to update meta-oe/master-next in last few days and it
-seems to work the same as old patchwork for me.
+Alex
 
-But quite often I've noticed very slow response, is it running on
-slower HW while testing or is the new version just a lot slower?
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---tThc/1wpZn/ma/RB
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAldruCgACgkQN1Ujt2V2gBwgPQCfYHbLjnHn3pjTP/YHXoUHWAVZ
-KocAoKj1yLQp5ooBXz9WUaXJypP1TJDT
-=ANzc
------END PGP SIGNATURE-----
-
---tThc/1wpZn/ma/RB--
