@@ -1,23 +1,23 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id EA7E5731E0
+	by mail.openembedded.org (Postfix) with ESMTP id 2BEE2731E0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jun 2016 10:38:17 +0000 (UTC)
+	Fri, 24 Jun 2016 10:38:20 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP; 24 Jun 2016 03:38:19 -0700
+	by orsmga101.jf.intel.com with ESMTP; 24 Jun 2016 03:38:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,520,1459839600"; d="scan'208";a="724410447"
+X-IronPort-AV: E=Sophos;i="5.26,520,1459839600"; d="scan'208";a="724410456"
 Received: from skenned1-mobl.ger.corp.intel.com (HELO
 	mqz-osx-suse64.fi.intel.com) ([10.252.9.142])
-	by FMSMGA003.fm.intel.com with ESMTP; 24 Jun 2016 03:38:17 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 24 Jun 2016 03:38:19 -0700
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Jun 2016 13:37:37 +0300
-Message-Id: <1466764661-24544-25-git-send-email-markus.lehtonen@linux.intel.com>
+Date: Fri, 24 Jun 2016 13:37:38 +0300
+Message-Id: <1466764661-24544-26-git-send-email-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.6.6
 In-Reply-To: <1466764661-24544-1-git-send-email-markus.lehtonen@linux.intel.com>
 References: <1466764661-24544-1-git-send-email-markus.lehtonen@linux.intel.com>
-Subject: [PATCH 24/28] oeqa.buildperf: add git revision and branch to result data
+Subject: [PATCH 25/28] oe-build-perf-test: implement --globalres-file option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,74 +30,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jun 2016 10:38:18 -0000
+X-List-Received-Date: Fri, 24 Jun 2016 10:38:20 -0000
 
-BuildPerfTestRunner determines these from the Git repository under which
-it is being run (i.e. where the build directory exists). The branch and
-revision may be defined/overridden with OE_BUILDPERFTEST_GIT_BRANCH
-and OE_BUILDPERFTEST_GIT_BRANCH environment variables, if needed. This
-makes it possible to run the build performance test script even if the
-top directory is not a git repository clone, for example.
+Using this option the script appends test results into a 'global results
+file'. A CSV-formatted output of the results. This option is to provide
+compatibility with the old build-perf-test.sh.
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
  meta/lib/oeqa/buildperf/base.py | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+ scripts/oe-build-perf-test      |  5 +++++
+ 2 files changed, 37 insertions(+)
 
 diff --git a/meta/lib/oeqa/buildperf/base.py b/meta/lib/oeqa/buildperf/base.py
-index c0318a1..e10cbf4 100644
+index e10cbf4..527563b 100644
 --- a/meta/lib/oeqa/buildperf/base.py
 +++ b/meta/lib/oeqa/buildperf/base.py
-@@ -22,6 +22,7 @@ import traceback
- from datetime import datetime, timedelta
+@@ -152,6 +152,38 @@ class BuildPerfTestRunner(object):
+         os.makedirs(os.path.dirname(tgt_dir))
+         shutil.copytree(src_dir, tgt_dir)
  
- from oeqa.utils.commands import runCmd, get_bb_vars
-+from oeqa.utils.git import GitError, GitRepo
- 
- # Get logger for this module
- log = logging.getLogger('build-perf')
-@@ -85,10 +86,41 @@ class BuildPerfTestRunner(object):
-         if not os.path.exists(self.out_dir):
-             os.makedirs(self.out_dir)
- 
-+        # Get Git parameters
-+        try:
-+            self.repo = GitRepo('.')
-+        except GitError:
-+            self.repo = None
-+        self.git_rev, self.git_branch = self.get_git_revision()
-+        log.info("Using Git branch:revision %s:%s", self.git_branch,
-+                 self.git_rev)
-+
-+    def get_git_revision(self):
-+        """Get git branch and revision under testing"""
-+        rev = os.getenv('OE_BUILDPERFTEST_GIT_REVISION')
-+        branch = os.getenv('OE_BUILDPERFTEST_GIT_BRANCH')
-+        if not self.repo and (not rev or not branch):
-+            log.info("The current working directory doesn't seem to be a Git "
-+                     "repository clone. You can specify branch and revision "
-+                     "used in test results with OE_BUILDPERFTEST_GIT_REVISION "
-+                     "and OE_BUILDPERFTEST_GIT_BRANCH environment variables")
++    def update_globalres_file(self, filename):
++        """Write results to globalres csv file"""
++        if self.repo:
++            git_tag_rev = self.repo.run_cmd(['describe', self.git_rev])
 +        else:
-+            if not rev:
-+                rev = self.repo.run_cmd(['rev-parse', 'HEAD'])
-+            if not branch:
-+                try:
-+                    # Strip 11 chars, i.e. 'refs/heads' from the beginning
-+                    branch = self.repo.run_cmd(['symbolic-ref', 'HEAD'])[11:]
-+                except GitError:
-+                    log.debug('Currently on detached HEAD')
-+                    branch = None
-+        return str(rev), str(branch)
++            git_tag_rev = self.git_rev
++        times = []
++        sizes = []
++        for test in self.results['tests'].values():
++            for measurement in test['measurements']:
++                res_type = measurement['type']
++                values = measurement['values']
++                if res_type == BuildPerfTest.SYSRES:
++                    e_sec = values['elapsed_time'].total_seconds()
++                    times.append('{:d}:{:02d}:{:.2f}'.format(
++                        int(e_sec / 3600),
++                        int((e_sec % 3600) / 60),
++                        e_sec % 60))
++                elif res_type == BuildPerfTest.DISKUSAGE:
++                    sizes.append(str(values['size']))
++                else:
++                    log.warning("Unable to handle '%s' values in "
++                                "globalres.log", res_type)
++
++        log.debug("Writing globalres log to %s", filename)
++        with open(filename, 'a') as fobj:
++            fobj.write('{},{}:{},{},'.format(self.results['tester_host'],
++                                             self.results['git_branch'],
++                                             self.results['git_revision'],
++                                             git_tag_rev))
++            fobj.write(','.join(times + sizes) + '\n')
++
  
-     def run_tests(self):
-         """Method that actually runs the tests"""
-         self.results['schema_version'] = 1
-+        self.results['git_revision'] = self.git_rev
-+        self.results['git_branch'] = self.git_branch
-         self.results['tester_host'] = socket.gethostname()
-         start_time = datetime.utcnow()
-         self.results['start_time'] = start_time
+ def perf_test_case(obj):
+     """Decorator for adding test classes"""
+diff --git a/scripts/oe-build-perf-test b/scripts/oe-build-perf-test
+index ca90f69..9dd073c 100755
+--- a/scripts/oe-build-perf-test
++++ b/scripts/oe-build-perf-test
+@@ -70,6 +70,8 @@ def parse_args(argv):
+ 
+     parser.add_argument('-D', '--debug', action='store_true',
+                         help='Enable debug level logging')
++    parser.add_argument('--globalres-file',
++                        help="Append results to 'globalres' csv file")
+ 
+     return parser.parse_args(argv)
+ 
+@@ -94,6 +96,9 @@ def main(argv=None):
+     # Run actual tests
+     runner = BuildPerfTestRunner(out_dir)
+     ret = runner.run_tests()
++    if not ret:
++        if args.globalres_file:
++            runner.update_globalres_file(args.globalres_file)
+ 
+     return ret
+ 
 -- 
 2.6.6
 
