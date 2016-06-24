@@ -1,47 +1,43 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
-	[209.85.220.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 44C046FEF6
+Return-Path: <fabio.berton@ossystems.com.br>
+Received: from mail-lf0-f46.google.com (mail-lf0-f46.google.com
+	[209.85.215.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 7CCD360589
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jun 2016 14:05:20 +0000 (UTC)
-Received: by mail-qk0-f193.google.com with SMTP id j2so21085246qkf.1
+	Fri, 24 Jun 2016 14:07:46 +0000 (UTC)
+Received: by mail-lf0-f46.google.com with SMTP id f6so116480289lfg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jun 2016 07:05:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=jNko6iW79RIfLnAVCj/EsH+T3QmQ5vCdEtuEbkKDb+I=;
-	b=QYJrZW1/9cBz0wr+tZShBF8bxtIIHxt24mJhb8eSOZMBUFPfIkCi5dsUDf6vwXRo3z
-	VUShZ1PkK5/3sQRmUAFaL8RvVbzgtb0Krgc9ES2Ywc4RI8j8fJPQ3eeqplptkHXt44Cp
-	5tXcAXVd8f0ZlzBUqrQ0KEX/pmB0Kcry4jSxfCHMMyDF67MdxHHSNsvKjfFlkBRWDz/f
-	PLGxWLqnq8kMal3RifkEYOkuwUEoRADCi690HIAD8YfxEGs0be5aYzVHC4I2lBZKdsRq
-	ZFjIvJz0dlLNLVxakaAxgGFJ+JVmfUUUc6v3u8IBrXdNPnPdzumYhrWcfEmepBICq0Iu
-	12jw==
+	Fri, 24 Jun 2016 07:07:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=bAzNY5gNc9b7MJzVItSAP2HgNylMTrCRNvZGvDBcnms=;
+	b=ef2TO+oynDLUwxOPwgBKSPPa55XxkAWWfTBtZKuAE7UjIh5xHy2WF8rdyIxF2DAYGc
+	95RY2nHv3oWzXUxl0j8mCDFCUWs5KO8/sWIRZ1ysbrGnSoThmWONhsO6YPnouPiUEt1l
+	Yw/CspKgCOqzQ9OkyTjZL5UOuPgrU8spz+YDAHLihq6NhvcUnpNTPkm6WUbSh2nvS+az
+	jMuZ21rqWB/pFijk00mCqlBj3cmcZd0xSGeM//mdsIGBcKqLdezWBwJkAjNUf6m6wtqV
+	84GoqihJ/LmF68UG6vSRTZK1oGrfPynKr3RKsSPR91CCyoFVPbXJ5QLfqoknyLKEOZE6
+	qjsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=jNko6iW79RIfLnAVCj/EsH+T3QmQ5vCdEtuEbkKDb+I=;
-	b=MCC5oykvWuuGcGcY78ebvTYZGIhLdwdzK66HlGxvktymlG13lE4SdOf7ffnfWIKveC
-	Ju4ITwvgaoErXkxehxTZI47gHsSk0R0Jb+LMTp1qgoNauuhHr9EQPtYVTmgBEFHgXJ4F
-	9nNwH6hEtvG1+fFuJkoD5GFVVB1Ee4eAbdABRrvjHta/qD9EXJmoUAf0fWaGRvrkQvG+
-	mbbFwkAF1ykeWRspV5l8mwdZNOYkhuGdjfxM2qn7F6cFqbfuHm0k41FvjcErVLOeZe1l
-	2wGJujXi3ZXxmjxUUCh+l+nOzIP4HIgjYtv/PdfySwSQARZnGO64rA0yzeFVRPC5Fhzj
-	Jq4A==
-X-Gm-Message-State: ALyK8tI16b0ksXgkJERr2fMJvtExl+EzC86HQ/jdFonKpNuEKnOTQ3jlJTCLJ2Z7xV+u5WHdA7pTOC4O2IOpKw==
-X-Received: by 10.55.39.141 with SMTP id n135mr5227695qkn.149.1466777121584;
-	Fri, 24 Jun 2016 07:05:21 -0700 (PDT)
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=bAzNY5gNc9b7MJzVItSAP2HgNylMTrCRNvZGvDBcnms=;
+	b=Y7S8n9fdr0BN4Duj05FQB1VcRLhD1OaX59b0EqLo8+3/OLzoAA4muZ4xBaPcriPgM3
+	4LuMych1CUiq/gReOrlC8L0x09YfLq1deM4s42M9vBCBaadzwBiL4au1eKjQaUmSfkhn
+	Oa0IQjqqt4NsEBSWYBLuNiODTleTbVmHRyGSiAVS4SWazbFGeu6OoeTotRspX4d+tHU4
+	dLnMeJP97hA7iFUa8PPDCI6QYCSbbNg++QEEXhwA08WzGpwIattk6yxKjwmtVeMr5lQX
+	9jj9q6cMPeNnD9eYmsmLrdVyVPfVE7EzedKRpmkJO3E0yL1A9Py4qJXrVWGzYPTY8zVc
+	ilVQ==
+X-Gm-Message-State: ALyK8tIUy3xGykaKHVx3hbsDjdfQSNJ/vMz7d2XIW5yAMbLm2gLKzKQfmrKukrZr938zzuCPA/mQI6jlVU2rag==
+X-Received: by 10.25.161.142 with SMTP id k136mr1161960lfe.0.1466777266562;
+	Fri, 24 Jun 2016 07:07:46 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.55.8.133 with HTTP; Fri, 24 Jun 2016 07:04:52 -0700 (PDT)
-In-Reply-To: <576CD0F6.2050408@windriver.com>
-References: <1458264628.9397.10.camel@intel.com>
-	<576CD0F6.2050408@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 24 Jun 2016 07:04:52 -0700
-Message-ID: <CAMKF1sorf1ALWRyUj=CPG5be=gdC1Zw8=2H9Ef-QWg4OTJTrPg@mail.gmail.com>
-To: ChenQi <Qi.Chen@windriver.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] grub: add -Wno-error=trampolines to native CFLAGS
+Received: by 10.25.5.215 with HTTP; Fri, 24 Jun 2016 07:07:16 -0700 (PDT)
+X-Originating-IP: [179.105.243.72]
+From: Fabio Berton <fabio.berton@ossystems.com.br>
+Date: Fri, 24 Jun 2016 11:07:16 -0300
+Message-ID: <CAAPZna2Gu=QZ-mFn1FPaq3HfNSbSXhFPafWWY_FQTU+OO6e-1w@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: WIC error when using rawcopy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,61 +50,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jun 2016 14:05:24 -0000
+X-List-Received-Date: Fri, 24 Jun 2016 14:07:48 -0000
+Content-Type: multipart/alternative; boundary=001a11410fb4f0402e053606b145
+
+--001a11410fb4f0402e053606b145
 Content-Type: text/plain; charset=UTF-8
 
-On Thu, Jun 23, 2016 at 11:19 PM, ChenQi <Qi.Chen@windriver.com> wrote:
-> Hi,
->
-> Is the error still there for gcc6 without this option for CFLAGS?
-> The problem is that gcc on some old hosts don't support this option.
+Hi all!
 
-how old is the host. We should start recommending minimum required GCC
-version on build host.
-Sometimes a newer gcc is available for older distros too as alternative package.
+I'm getting one error when trying to make an image using wic.
+My wks file is:
 
->
-> Best Regards,
-> Chen Qi
->
-> On 03/18/2016 09:30 AM, Randle, William C wrote:
->>
->> Previous patch was not against master. Updated against master branch.
->>
->> Fixes YOCTO 9201
->> Adds -Wno-error=trampolines to native CFLAGS prevent multiple compile
->> errors when using gcc 5.3.0 for gentoo.
->>
->> Signed-off-by: Bill Randle <william.c.randle@intel.com>
->> ---
->>   meta/recipes-bsp/grub/grub-efi_2.00.bb | 4 ++++
->>   1 file changed, 4 insertions(+)
->>
->> diff --git a/meta/recipes-bsp/grub/grub-efi_2.00.bb
->> b/meta/recipes-bsp/grub/grub-efi_2.00.bb
->> index 4e80e18..ca73234 100644
->> --- a/meta/recipes-bsp/grub/grub-efi_2.00.bb
->> +++ b/meta/recipes-bsp/grub/grub-efi_2.00.bb
->> @@ -35,6 +35,10 @@ EXTRA_OECONF = "--with-platform=efi
->> --disable-grub-mkfont \
->>     EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'largefile',
->> '--enable-largefile ac_cv_sizeof_off_t=8', '--disable-largefile', d)}"
->>   +# ldm.c:114:7: error: trampoline generated for nested function 'hook'
->> [-Werror=trampolines]
->> +# and many other places in the grub code when compiled with some native
->> gcc 5.3 compilers
->> +CFLAGS_append_class-native = " -Wno-error=trampolines"
->> +
->>   do_install_class-native() {
->>      install -d ${D}${bindir}
->>      install -m 755 grub-mkimage ${D}${bindir}
->> --
->> 2.5.0
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+part u-boot --source rawcopy --sourceparams="file=u-boot.imx" --ondisk
+mmcblk --no-table --align 1
+part /boot --source bootimg-partition --ondisk mmcblk0 --fstype=vfat
+--label boot --align 8192 --size 25M --extra-space 0
+part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --label system --size
+512M --align 8192 --extra-space 0
+part / --size 512M --ondisk mmcblk0 --align 8192 --extra-space 0
+
+bootloader --ptable msdos
+
+
+and when building an image I get error:
+
+Log data follows:
+| DEBUG: Executing python function set_image_size
+| DEBUG: Python function set_image_size finished
+| DEBUG: Executing shell function do_image_wic
+| Error: exec_cmd: dd
+if=/home/user/src/prj/build/tmp/deploy/images/nitrogen6x/core-image-minimal-nitrogen6x-20160624134453/build/u-boot.imx
+of=/home/user/src/prj/build/tmp/deploy/images/nitrogen6x/core-image-minimal-nitrogen6x-20160624134453/build/core-image-201606241045-mmcblk.direct
+bs=512 seek=2 count=942 conv=notrunc returned '1' instead of 0
+| Checking basic build environment...
+| Done.
+|
+| Creating image(s)...
+|
+| WARNING:
+/home/user/src/prj/build/tmp/work/nitrogen6x-prj-linux-gnueabi/core-image-minimal/1.0-r0/temp/run.do_image_wic.31619:1
+exit 1 from 'BUILDDIR="/home/user/src/prj/build" wic create "$wks" --vars
+"/home/user/src/prj/build/tmp/sysroots/nitrogen6x/imgdata/" -e
+"core-image-minimal" -o "$out/"'
+
+
+If I remove line:
+part u-boot --source rawcopy --sourceparams="file=u-boot.imx" --ondisk
+mmcblk --no-table --align 1
+
+image builds fine, so I think the problem it's on rawcopy.
+
+After I run bitbake and execution fail, I cd to wic build directory
+deploy/images/nitrogen6x/core-image-minimal-nitrogen6x-20160624135131/build
+and u-boot.imx is not in this dir.
+
+Can you help me on this? I'm using krogoth branch.
+
+Regards,
+
+Fabio
+
+--001a11410fb4f0402e053606b145
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:monospac=
+e,monospace;font-size:small">Hi all!<br><br></div><div class=3D"gmail_defau=
+lt" style=3D"font-family:monospace,monospace;font-size:small">I&#39;m getti=
+ng one error when trying to make an image using wic. <br>My wks file is:<br=
+><br><br>part u-boot --source rawcopy --sourceparams=3D&quot;file=3Du-boot.=
+imx&quot; --ondisk mmcblk --no-table --align 1<br>part /boot --source booti=
+mg-partition --ondisk mmcblk0 --fstype=3Dvfat --label boot --align 8192 --s=
+ize 25M --extra-space 0<br>part / --source rootfs --ondisk mmcblk0 --fstype=
+=3Dext4 --label system --size 512M --align 8192 --extra-space 0<br>part / -=
+-size 512M --ondisk mmcblk0 --align 8192 --extra-space 0<br><br>bootloader =
+--ptable msdos<br><br><br></div><div class=3D"gmail_default" style=3D"font-=
+family:monospace,monospace;font-size:small">and when building an image I ge=
+t error:<br><br>Log data follows:<br>| DEBUG: Executing python function set=
+_image_size<br>| DEBUG: Python function set_image_size finished<br>| DEBUG:=
+ Executing shell function do_image_wic<br>| Error: exec_cmd: dd if=3D/home/=
+user/src/prj/build/tmp/deploy/images/nitrogen6x/core-image-minimal-nitrogen=
+6x-20160624134453/build/u-boot.imx of=3D/home/user/src/prj/build/tmp/deploy=
+/images/nitrogen6x/core-image-minimal-nitrogen6x-20160624134453/build/core-=
+image-201606241045-mmcblk.direct bs=3D512 seek=3D2 count=3D942 conv=3Dnotru=
+nc returned &#39;1&#39; instead of 0<br>| Checking basic build environment.=
+..<br>| Done.<br>|<br>| Creating image(s)...<br>|<br>| WARNING: /home/user/=
+src/prj/build/tmp/work/nitrogen6x-prj-linux-gnueabi/core-image-minimal/1.0-=
+r0/temp/run.do_image_wic.31619:1 exit 1 from &#39;BUILDDIR=3D&quot;/home/us=
+er/src/prj/build&quot; wic create &quot;$wks&quot; --vars &quot;/home/user/=
+src/prj/build/tmp/sysroots/nitrogen6x/imgdata/&quot; -e &quot;core-image-mi=
+nimal&quot; -o &quot;$out/&quot;&#39;<br><br><br></div><div class=3D"gmail_=
+default" style=3D"font-family:monospace,monospace;font-size:small">If I rem=
+ove line:<br>part u-boot --source rawcopy --sourceparams=3D&quot;file=3Du-b=
+oot.imx&quot; --ondisk mmcblk --no-table --align 1<br><br></div><div class=
+=3D"gmail_default" style=3D"font-family:monospace,monospace;font-size:small=
+">image builds fine, so I think the problem it&#39;s on rawcopy.<br><br></d=
+iv><div class=3D"gmail_default" style=3D"font-family:monospace,monospace;fo=
+nt-size:small">After I run bitbake and execution fail, I cd to wic build di=
+rectory deploy/images/nitrogen6x/core-image-minimal-nitrogen6x-201606241351=
+31/build and u-boot.imx is not in this dir.<br><br></div><div class=3D"gmai=
+l_default" style=3D"font-family:monospace,monospace;font-size:small">Can yo=
+u help me on this? I&#39;m using krogoth branch.<br><br></div><div class=3D=
+"gmail_default" style=3D"font-family:monospace,monospace;font-size:small">R=
+egards,<br><br></div><div class=3D"gmail_default" style=3D"font-family:mono=
+space,monospace;font-size:small">Fabio<br></div></div>
+
+--001a11410fb4f0402e053606b145--
