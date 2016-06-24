@@ -1,23 +1,23 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id D67F9731DA
+	by mail.openembedded.org (Postfix) with ESMTP id 73A34731DA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jun 2016 10:38:14 +0000 (UTC)
+	Fri, 24 Jun 2016 10:38:16 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP; 24 Jun 2016 03:38:16 -0700
+	by orsmga101.jf.intel.com with ESMTP; 24 Jun 2016 03:38:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,520,1459839600"; d="scan'208";a="724410442"
+X-IronPort-AV: E=Sophos;i="5.26,520,1459839600"; d="scan'208";a="724410445"
 Received: from skenned1-mobl.ger.corp.intel.com (HELO
 	mqz-osx-suse64.fi.intel.com) ([10.252.9.142])
-	by FMSMGA003.fm.intel.com with ESMTP; 24 Jun 2016 03:38:14 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 24 Jun 2016 03:38:16 -0700
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Jun 2016 13:37:35 +0300
-Message-Id: <1466764661-24544-23-git-send-email-markus.lehtonen@linux.intel.com>
+Date: Fri, 24 Jun 2016 13:37:36 +0300
+Message-Id: <1466764661-24544-24-git-send-email-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.6.6
 In-Reply-To: <1466764661-24544-1-git-send-email-markus.lehtonen@linux.intel.com>
 References: <1466764661-24544-1-git-send-email-markus.lehtonen@linux.intel.com>
-Subject: [PATCH 22/28] oe-build-perf-test: enable logging into file
+Subject: [PATCH 23/28] oeqa.utils: add git module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,48 +30,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jun 2016 10:38:14 -0000
+X-List-Received-Date: Fri, 24 Jun 2016 10:38:16 -0000
+
+A new helper module for easier interaction with Git repositories.
+Provides GitRepo class that represents one local Git repository clone.
+The GitRepo class currently only has one method, run_cmd(), for running
+arbitrary git commands in the repository. More specialized methods for
+commonly used git operations can be added later.
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- scripts/oe-build-perf-test | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/utils/git.py | 38 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
+ create mode 100644 meta/lib/oeqa/utils/git.py
 
-diff --git a/scripts/oe-build-perf-test b/scripts/oe-build-perf-test
-index 0a9fc9e..ca90f69 100755
---- a/scripts/oe-build-perf-test
-+++ b/scripts/oe-build-perf-test
-@@ -52,6 +52,17 @@ def pre_run_sanity_check():
-     return True
- 
- 
-+def setup_file_logging(log_file):
-+    """Setup loggin to file"""
-+    log_dir = os.path.dirname(log_file)
-+    if not os.path.exists(log_dir):
-+        os.makedirs(log_dir)
-+    formatter = logging.Formatter(LOG_FORMAT)
-+    handler = logging.FileHandler(log_file)
-+    handler.setFormatter(formatter)
-+    log.addHandler(handler)
+diff --git a/meta/lib/oeqa/utils/git.py b/meta/lib/oeqa/utils/git.py
+new file mode 100644
+index 0000000..a4c6741
+--- /dev/null
++++ b/meta/lib/oeqa/utils/git.py
+@@ -0,0 +1,38 @@
++#
++# Copyright (C) 2016 Intel Corporation
++#
++# Released under the MIT license (see COPYING.MIT)
++#
++"""Git repository interactions"""
++from oeqa.utils.commands import runCmd
 +
 +
- def parse_args(argv):
-     """Parse command line arguments"""
-     parser = argparse.ArgumentParser(
-@@ -76,8 +87,11 @@ def main(argv=None):
-     # Check our capability to drop caches and ask pass if needed
-     KernelDropCaches.check()
- 
--    # Run actual tests
-+    # Set-up log file
-     out_dir = 'results-{}'.format(datetime.now().strftime('%Y%m%d%H%M%S'))
-+    setup_file_logging(os.path.join(out_dir, 'output.log'))
++class GitError(Exception):
++    """Git error handling"""
++    pass
 +
-+    # Run actual tests
-     runner = BuildPerfTestRunner(out_dir)
-     ret = runner.run_tests()
- 
++class GitRepo(object):
++    """Class representing a Git repository clone"""
++    def __init__(self, cwd):
++        self.top_dir = self._run_git_cmd_at(['rev-parse', '--show-toplevel'],
++                                            cwd)
++
++    @staticmethod
++    def _run_git_cmd_at(git_args, cwd, **kwargs):
++        """Run git command at a specified directory"""
++        git_cmd = 'git ' if isinstance(git_args, str) else ['git']
++        git_cmd += git_args
++        ret = runCmd(git_cmd, ignore_status=True, cwd=cwd, **kwargs)
++        if ret.status:
++            cmd_str = git_cmd if isinstance(git_cmd, str) \
++                                else ' '.join(git_cmd)
++            raise GitError("'{}' failed with exit code {}: {}".format(
++                cmd_str, ret.status, ret.output))
++        return ret.output.strip()
++
++    def run_cmd(self, git_args):
++        """Run Git command"""
++        return self._run_git_cmd_at(git_args, self.top_dir)
++
++
++
 -- 
 2.6.6
 
