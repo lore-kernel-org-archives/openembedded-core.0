@@ -1,48 +1,49 @@
 Return-Path: <raj.khem@gmail.com>
 Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
 	[209.85.220.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 00F446FF5B
+	by mail.openembedded.org (Postfix) with ESMTP id 8952065CBC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jun 2016 13:52:47 +0000 (UTC)
-Received: by mail-qk0-f194.google.com with SMTP id r136so2161169qke.3
+	Fri, 24 Jun 2016 13:57:28 +0000 (UTC)
+Received: by mail-qk0-f194.google.com with SMTP id b136so21055782qkg.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jun 2016 06:52:48 -0700 (PDT)
+	Fri, 24 Jun 2016 06:57:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=xM/3AkRjz1NE47kJZiCuoBjlLegx/NthJhrCGOzYNSc=;
-	b=olk7s7aU21nlJC40OIKsbryChdVqiT/kPF5uufGiCuWU79fpVO78lZIVVG7T32loD6
-	0cpCqd5wTEXqEpLieUlFFP8sPW6xp0WuXrleXGfSn73OqthdCnnCCS2FVpYxGjmSPTKg
-	9S0y3T3pBHHrGJM+vocH/Azkxj4DqdFB4SchIQ/CNWUBcdHzI3xhBAaFVvkC+ARA5M8+
-	BbxmGGoFcigAueCAW8shG9AcT79cRd/mk27kVJVXm91Xr+V6EWd6Ac1Ad44w+ZSZPZV2
-	00rxBMwCuclpIExq6Dl4zilYLEVaYju4pF/rOJEGH/OXOdpRzsLbwg4+87qZyL5bOT3O
-	Ozdw==
+	:cc; bh=h6vPKwS45laNXCksKE8+G5UiP2CnTCB0zns4EkqC1dE=;
+	b=Nvu2BL3zZPVIvTCgy8dBRGNpRt1T5mx4m8Xs/ZQvhZsSGFAbgfHwPGJfIPscxwIKMl
+	+UFeRj8YxpXDFiiPwWq6iSGqIZD0GcrYHfR1xAdLpnhw1J5cxZyrfdY9aWUrozmTm7h2
+	RQUJbdTYUMArdzH7JIds9pxQZppX+3IBqYC27EgDNT7qXdbDpRGJoEAIX7YoRuto3s3A
+	MBtJT3efvIvD/Dt2HHzpat50G+lbLc7bzphbHh2RNrSOFRcib71b0Do+4eKpik6nBFpH
+	CpgBnaCX3VvFO144dX7HwLGApKSLTuNL5W7jEcbK8mAKrUhhHKlU+E7naJHCzP9Tbnpz
+	Ji0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=xM/3AkRjz1NE47kJZiCuoBjlLegx/NthJhrCGOzYNSc=;
-	b=QBrdSxvdJUYzF025RvKHV6PoE9YSLouv161VPCjuMQdQfBxACzsc22AT9tYe+PeTU8
-	Jc5kteg2SX/T4uI19qTyJS6UopqA6lnAoASvVNBoxViIibX6DW1DCUcLMZ7m3TpVftfr
-	m1Yr4NEbIOeIgtRl7CS68VaBqFONabxSAvYmb3tIYfK6cG07qmtYamfT5EY/mAoHwPK5
-	yS7/VcZE3P3uTRRmtiwILFXr2nDOmVon/59RmwKCoufZ9AaMvoDECtLh8vm5OqiIJy9p
-	wS0g5joBJcycB/m6LMEmylG0K6eYFnlSN+wXiM0uC2IOJGomvQ+88RPhhJvyjtzm16oT
-	rF8w==
-X-Gm-Message-State: ALyK8tLdN0rf2OvhxJExD16/ZU4ifBjpLGduyk/mzqTo+PEn5QBuIRHaT5lEWjsVa0Qiud1krMH6H7j9wRY1nw==
-X-Received: by 10.55.97.5 with SMTP id v5mr5183784qkb.41.1466776368121; Fri,
-	24 Jun 2016 06:52:48 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=h6vPKwS45laNXCksKE8+G5UiP2CnTCB0zns4EkqC1dE=;
+	b=LeGOx5dT0cgoih2jo519wNLqRniCFWgSJLy1MUVnvIb+sXd3Id+pmDgZJyYi9Bos/X
+	5naQlrchMjOJtZeA/SOXqZf23wL08xFVeqn7Xe8LJYZldPU1vGMzg70uOav8kS2D5PiF
+	SpiE5VbJPdAA83X0vJGwFdespesgcUP19x+ffxecNC6rGG/hKMI8f7tgTbsDScTzO+ib
+	aLU/wmK2eYpW8dm+X/dIT5ry3G2SIK+2uUCX0et1XCiee7sbBvmc5KU4FhoCWbGZdY7k
+	DlIqk5Y3xSLb0O+MOLoQzpoWJmXjsCt9BwnRUNCXMbJPQjxcTytX5AhkLPQPV9mR2VjC
+	w7Eg==
+X-Gm-Message-State: ALyK8tLGiO+pk6/NaKVvTdkrph/I5PhjsHt9gYWqeJrX+Dpz41Cl6SFMay++4Uxp0VSKHbf5JkIDoL67jyCtAQ==
+X-Received: by 10.200.33.172 with SMTP id 41mr4981312qty.26.1466776649684;
+	Fri, 24 Jun 2016 06:57:29 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.55.8.133 with HTTP; Fri, 24 Jun 2016 06:52:18 -0700 (PDT)
-In-Reply-To: <1466765671-22371-3-git-send-email-git@andred.net>
+Received: by 10.55.8.133 with HTTP; Fri, 24 Jun 2016 06:57:00 -0700 (PDT)
+In-Reply-To: <CAJTo0LbTunHyH_iss4dLTzcOwADNnVp2gdmGoMrWtgyt0Myx_w@mail.gmail.com>
 References: <1466765671-22371-1-git-send-email-git@andred.net>
-	<1466765671-22371-3-git-send-email-git@andred.net>
+	<1466765671-22371-4-git-send-email-git@andred.net>
+	<CAMKF1soqpKFDgoeKcAjiqbptR4xDFQ+VYRSt9kT67Uy=Bj8v7g@mail.gmail.com>
+	<CAJTo0LbTunHyH_iss4dLTzcOwADNnVp2gdmGoMrWtgyt0Myx_w@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 24 Jun 2016 06:52:18 -0700
-Message-ID: <CAMKF1srjbnbVaeKRYVTiKHsdBJN3QhcpULFG2AMLpbmcstUD3g@mail.gmail.com>
-To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
+Date: Fri, 24 Jun 2016 06:57:00 -0700
+Message-ID: <CAMKF1spjUmGWxmS_+inmTCecFLQtbwQ5Pj=LAzsarA5_ymO4CQ@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] uclibc: backport patch to fix gdb 7.11 compilation
+Subject: Re: [PATCH 4/4] uclibc: really enable verbose compilation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,102 +56,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jun 2016 13:52:48 -0000
+X-List-Received-Date: Fri, 24 Jun 2016 13:57:30 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-similar patch was proposed by someone in past.
-
-http://patchwork.openembedded.org/patch/125181/
-
-this one is better since its a proper backport. May be add the
-relevant bug ID to commit msg and drop the other one
-
-
-On Fri, Jun 24, 2016 at 3:54 AM, Andr=C3=A9 Draszik <git@andred.net> wrote:
-> From: Andr=C3=A9 Draszik <adraszik@tycoint.com>
+On Fri, Jun 24, 2016 at 6:51 AM, Burton, Ross <ross.burton@intel.com> wrote:
 >
-> Signed-off-by: Andr=C3=A9 Draszik <adraszik@tycoint.com>
-> ---
->  meta/recipes-core/uclibc/uclibc-git.inc            |  1 +
->  .../0001-Provide-an-alias-to-_obstack_free.patch   | 44 ++++++++++++++++=
-++++++
->  2 files changed, 45 insertions(+)
->  create mode 100644 meta/recipes-core/uclibc/uclibc-git/0001-Provide-an-a=
-lias-to-_obstack_free.patch
+> On 24 June 2016 at 14:46, Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>> keep V=2
 >
-> diff --git a/meta/recipes-core/uclibc/uclibc-git.inc b/meta/recipes-core/=
-uclibc/uclibc-git.inc
-> index a56fa7c..718bee9 100644
-> --- a/meta/recipes-core/uclibc/uclibc-git.inc
-> +++ b/meta/recipes-core/uclibc/uclibc-git.inc
-> @@ -6,6 +6,7 @@ FILESEXTRAPATHS =3D. "${FILE_DIRNAME}/uclibc-git:"
 >
->  SRC_URI =3D "git://uclibc-ng.org/git/uclibc-ng \
->          file://0001-Disable-lrount_tes-function.patch \
-> +        file://0001-Provide-an-alias-to-_obstack_free.patch \
->          file://uClibc.machine \
->          file://uClibc.distro \
->          file://obstack.cfg \
-> diff --git a/meta/recipes-core/uclibc/uclibc-git/0001-Provide-an-alias-to=
--_obstack_free.patch b/meta/recipes-core/uclibc/uclibc-git/0001-Provide-an-=
-alias-to-_obstack_free.patch
-> new file mode 100644
-> index 0000000..30b443f
-> --- /dev/null
-> +++ b/meta/recipes-core/uclibc/uclibc-git/0001-Provide-an-alias-to-_obsta=
-ck_free.patch
-> @@ -0,0 +1,44 @@
-> +From 06e4fe64bbd01f16ee84da161b8e1a61e73b4cdb Mon Sep 17 00:00:00 2001
-> +From: Alexey Neyman <aneyman@lynx.com>
-> +Date: Thu, 31 Mar 2016 13:02:47 -0700
-> +Subject: [PATCH] Provide an alias to _obstack_free
-> +
-> +GDB 7.11 does not build if compiled against uclibc-ng (1.0.12 was used,
-> +but the problematic code exists in 1.0.13 as well). The reason is that
-> +GDB release includes its own obstack implementation, but elides the code
-> +if <gnu-versions.h> declares a compatible obstack implementation in
-> +libc. uclibc-ng does claim compatible obstack interface (GDB expects
-> +version 2, but accepts version 1 if sizeof(int) =3D=3D sizeof(size_t)),
-> +however, uclibc-ng does not provide the _obstack_free symbol that is a
-> +part of the interface (glibc does provide this symbol). This later
-> +causes a link failure.
-> +
-> +The attached patch makes uclibc-ng enables an alias _obstack_free ->
-> +obstack_free.
-> +
-> +Signed-off-by: Alexey Neyman <stilor@att.net>
-> +---
-> +Upstream-Status: Backport
-> +
-> + libc/misc/gnu/obstack.c | 2 --
-> + 1 file changed, 2 deletions(-)
-> +
-> +diff --git a/libc/misc/gnu/obstack.c b/libc/misc/gnu/obstack.c
-> +index 38cfd83..6acc567 100644
-> +--- a/libc/misc/gnu/obstack.c
-> ++++ b/libc/misc/gnu/obstack.c
-> +@@ -385,11 +385,9 @@ obstack_free (struct obstack *h, void *obj)
-> +     abort ();
-> + }
-> +
-> +-# if 0
-> + /* Older versions of libc used a function _obstack_free intended to be
-> +    called by non-GCC compilers.  */
-> + strong_alias (obstack_free, _obstack_free)
-> +-# endif
-> +
-> + int
-> + _obstack_memory_used (struct obstack *h)
-> +--
-> +2.8.1
-> +
-> --
-> 2.8.1
+> That's very concise Khem.  If V=2 doesn't produce verbose output but V=1 in
+> EXTRA_OEMAKE does, why keep the export V=2?
+
+too early here for me. I took it as if exporting it did not work , so
+now I tried here with uclibc-ng for both
+
+make V=2
+
+  CC ldso/ldso/ldso.oS -DNDEBUG -DNOT_IN_libc -DIS_IN_rtld
+-DUCLIBC_RUNTIME_PREFIX="/usr/x86_64-linux-uclibc/"
+-DUCLIBC_LDSO="ld64-uClibc.so.1" -DIN_LIB=rtld -DSHARED
+-DLDSO_ELFINTERP="x86_64/elfinterp.c"
+
+make V=1
+
+gcc -c ldso/ldso/ldso.c -o /tmp/uu/ldso/ldso/ldso.oS -Wall
+-Wstrict-prototypes -Wstrict-aliasing -funsigned-char -fno-builtin
+-fno-asm -fmerge-all-constants -std=gnu99 -fno-stack-protector
+-nostdinc -I/tmp/uu/include -I./include -include libc-symbols.h
+-I./libc/sysdeps/linux/x86_64 -I./libc/sysdeps/linux
+-I./ldso/ldso/x86_64 -I./ldso/include -I. -Os -fstrict-aliasing
+-I./libc/sysdeps/linux/common -isystem
+/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.1/include-fixed -isystem
+/usr/lib/gcc/x86_64-pc-linux-gnu/6.1.1/include -I/ -DNDEBUG
+-DNOT_IN_libc -DIS_IN_rtld -fno-stack-protector
+-fno-omit-frame-pointer -I./ldso/ldso/x86_64 -I./ldso/include
+-I./ldso/ldso -DUCLIBC_RUNTIME_PREFIX=\"/usr/x86_64-linux-uclibc/\"
+-DUCLIBC_LDSO=\"ld64-uClibc.so.1\" -DIN_LIB=rtld -fPIC -DSHARED
+-DLDSO_ELFINTERP=\"x86_64/elfinterp.c\" -MT /tmp/uu/ldso/ldso/ldso.oS
+-MD -MP -MF /tmp/uu/ldso/ldso/.ldso.oS.dep
+
+So it must be local issue.
+
 >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Ross
 
