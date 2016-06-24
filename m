@@ -1,39 +1,48 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id D902A65CBC
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
+	[209.85.220.194])
+	by mail.openembedded.org (Postfix) with ESMTP id E885D65CBC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jun 2016 13:40:11 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id 187so5132367wmz.1
+	Fri, 24 Jun 2016 13:47:19 +0000 (UTC)
+Received: by mail-qk0-f194.google.com with SMTP id b136so21010563qkg.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jun 2016 06:40:12 -0700 (PDT)
+	Fri, 24 Jun 2016 06:47:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=xwQRPhr6oXx2rUi0fthxk8FwS9vW7LfiN5iWqn2BNvQ=;
+	b=OtjXbG8lM4Kf0mZ1McomqC1h1zxWOQejumGnClzUIXJKmt9BP80k7EMc9NwXmlyAk+
+	P/g9WjvcETY3lMriBoM87S8cTB4uqDcugx5hj+zG5Xemm9LkEe1Kh5mNFSGm3BVWfsED
+	XOIH02OHCVJn+eNB0GrnqBkIHOKYQLKjesB3TRANo44ETe8gn/dWhpRAue47wb3vV0Z7
+	4K0wQo7kLIHSHwTBKQlfGbI9uLdZ1ITbMz+TngMFnsp/ecMwkZNsXUmRdqXYiGHwygEJ
+	MGOloK4gKvH36hyhUw1zZbpcv/iS+U7Ny1xZG/8BxcymmZScdROq/nebCQ25LTOZz0SA
+	Rv5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=2VmN9qxzJLPjkiZzj3DLq0A3Il/0fmRTu/DvF+beHJQ=;
-	b=CVO+dRXslY5AdNhQjmzxVP5Qkao++gyXv9Zz6N76GpUIAEclbOXteu304sqFqqRqLn
-	UOfwL+FY2NDrhVl7xAQejucA3BNIxmVwfONcUpIioJRocCHSzeLch/NMIsNKfdqqT+ul
-	7463fQh6tXd2/dHwkl+NeLgr2+yoHHz5ZtiuuIqOy+kDfZT+BPnAmjObZoONHbpcDo8m
-	+vklEK15RsbyZCm3RDYo66tfxIXhFJMIlResC/NhfceH80eJ2FJf7X8d8UkFqLVD3szV
-	vSsn1cZXoKd9bET3OBXIueaaUaiA/efF3iIrzfgl5jwJirIkbNhvR85xRnOSRfc8gDZW
-	7A3g==
-X-Gm-Message-State: ALyK8tKXir0h0XSNyCePnu0cPMKlzsst/kxxrg8WIu1h9MyAQ2+da6xoAR/iJv2nLtOs4w==
-X-Received: by 10.28.71.74 with SMTP id u71mr6501027wma.0.1466775611569;
-	Fri, 24 Jun 2016 06:40:11 -0700 (PDT)
-Received: from tfsielt31850.TYCOFS.COM ([185.46.212.65])
-	by smtp.gmail.com with ESMTPSA id g4sm5204559wju.30.2016.06.24.06.40.10
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 24 Jun 2016 06:40:10 -0700 (PDT)
-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Jun 2016 14:40:08 +0100
-Message-Id: <1466775608-15708-1-git-send-email-git@andred.net>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <1466764953-20079-2-git-send-email-git@andred.net>
-References: <1466764953-20079-2-git-send-email-git@andred.net>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=xwQRPhr6oXx2rUi0fthxk8FwS9vW7LfiN5iWqn2BNvQ=;
+	b=UQek1dY4ZD2hGypAhmloTrc5OPqaO7uNuL0MIStOizJ487DYAoeVIK34XSfZGVSrVf
+	9o2ir/gWwWSLwu8+vhbBJQHmSJY2n/1sNUTBigf0hFO54FqpN1l9+tGE2QfS/gBlWijr
+	+5a25l6yapMLEtEyydUGU1V2laHs0L8pMoVT0TVNtFM4zSdgbgYEiNAN89xFGEPv6NJm
+	6jURufbKh925KRLEA7m1FYzxKUSJkjcUCUAEzpS6J6LNDG7BG4NmyvSjBG1rAX2Ro60y
+	2rrAA7+RA5dnUj33o9E3AznxXXOd7+3dKiZFkHtN3+/b9OhSp+6CJJ8APnYlUB5SGNJj
+	g6Gg==
+X-Gm-Message-State: ALyK8tLB84s7MxDfViMAXLbivKsv3z+pqSFLBcBrgRFDwnOjhjdrPSIFmgMKnkZF+YDTR3Co5vMhfBex97oJ0Q==
+X-Received: by 10.200.37.9 with SMTP id 9mr4995643qtm.31.1466776039856; Fri,
+	24 Jun 2016 06:47:19 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH v2] classes/kernel: fix symlink logic when bundling initramfs images
+Received: by 10.55.8.133 with HTTP; Fri, 24 Jun 2016 06:46:50 -0700 (PDT)
+In-Reply-To: <1466765671-22371-4-git-send-email-git@andred.net>
+References: <1466765671-22371-1-git-send-email-git@andred.net>
+	<1466765671-22371-4-git-send-email-git@andred.net>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 24 Jun 2016 06:46:50 -0700
+Message-ID: <CAMKF1soqpKFDgoeKcAjiqbptR4xDFQ+VYRSt9kT67Uy=Bj8v7g@mail.gmail.com>
+To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/4] uclibc: really enable verbose compilation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,52 +55,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jun 2016 13:40:12 -0000
+X-List-Received-Date: Fri, 24 Jun 2016 13:47:20 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-From: André Draszik <adraszik@tycoint.com>
+On Fri, Jun 24, 2016 at 3:54 AM, Andr=C3=A9 Draszik <git@andred.net> wrote:
+> From: Andr=C3=A9 Draszik <adraszik@tycoint.com>
+>
+> Things must have changed at some point in the past. V=3D2 doesn't
+> give us verbose make output anymore. On the other hand,
+> adding V=3D1 to EXTRA_OEMAKE works fine, similar to how things
+> are done in other recipes that use kbuild.
+>
+> Signed-off-by: Andr=C3=A9 Draszik <adraszik@tycoint.com>
+> ---
+>  meta/recipes-core/uclibc/uclibc.inc | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/recipes-core/uclibc/uclibc.inc b/meta/recipes-core/ucli=
+bc/uclibc.inc
+> index 71d4bdd..57f87fa 100644
+> --- a/meta/recipes-core/uclibc/uclibc.inc
+> +++ b/meta/recipes-core/uclibc/uclibc.inc
+> @@ -52,13 +52,11 @@ EXTRA_OEMAKE =3D "${OEMAKE_NO_CC} \
+>                  'HOSTCC=3D${BUILD_CC}' \
+>                  'HOST_CFLAGS=3D${BUILD_CFLAGS}' \
+>                  'CC=3D${CC}' \
+> -                ARCH=3D${UCLIBC_ARCH}"
+> +                ARCH=3D${UCLIBC_ARCH} \
+> +                V=3D1"
 
-If linkpath points to the a file in KERNEL_OUTPUT_DIR, rather than
-outside, then symlink creation for the bundled initramfs image files
-fails.
+keep V=3D2
 
-This is because in that case $linkpath.initramfs and $realpath.initramfs
-are in the same directory, KERNEL_OUTPUT_DIR, and hence are the same.
-Since we just created $realpath.initramfs, creating a symlink with the
-same name will fail.
-
-Given that $linkpath is not necessarily the same as the kernel image type,
-just removing this symlink creation is not the right thing to do, as
-in that case kernel_do_deploy() wouldn't find the bundled file.
-
-What we really want is a symlink from the name of the initramfs-bundled
-kernel image type to the real initramfs-bundled kernel image, as that is
-what is actually used later in do_deploy().
-
-This brings the code path for when $KERNEL_OUTPUT_DIR/$type is a symlink
-in line with when it is not.
-
-Signed-off-by: André Draszik <adraszik@tycoint.com>
----
- meta/classes/kernel.bbclass | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 3127590..a56b66b 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -232,8 +232,7 @@ do_bundle_initramfs () {
- 			if [ -n "$realpath" ]; then
- 				mv -f $realpath $realpath.initramfs
- 				mv -f $realpath.bak $realpath
--				cd ${B}/${KERNEL_OUTPUT_DIR}
--				ln -sf $linkpath.initramfs
-+				ln -sf $linkpath.initramfs ${B}/${KERNEL_OUTPUT_DIR}/$type.initramfs
- 			else
- 				mv -f ${KERNEL_OUTPUT_DIR}/$type ${KERNEL_OUTPUT_DIR}/$type.initramfs
- 				mv -f ${KERNEL_OUTPUT_DIR}/$type.bak ${KERNEL_OUTPUT_DIR}/$type
--- 
-2.8.1
-
+>
+>  EXTRA_OEMAKE_task_do_package =3D "${OEMAKE_NO_CC}"
+>
+> -# enable verbose output:
+> -export V=3D"2"
+> -
+>  # -O<n> -fno-omit-frame-pointer ends up with GCC ICE on thumb as reporte=
+d
+>  # http://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D44860
+>  #
+> --
+> 2.8.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
