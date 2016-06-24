@@ -1,45 +1,21 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f66.google.com (mail-pa0-f66.google.com
-	[209.85.220.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 94D6F60043
+Return-Path: <ricardo.neri-calderon@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id D3AF460017
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jun 2016 18:47:10 +0000 (UTC)
-Received: by mail-pa0-f66.google.com with SMTP id us13so9694248pab.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jun 2016 11:47:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=te52F2OV7lRSMPXRNe+K62TGHdrcKFayQkVlkWloTlM=;
-	b=WDjwogNFQafOXG5lxAXKpP3+1pRv8K8qkT5vxnna1Mh5vJsXuSrqn5YUzCAcOW0Ka6
-	auWw8ux12ESlpS0NPAOvTiq9xydGHJAw83Zn+GMsI6n4BJoG2H+QyBay9B6RnG60F4NU
-	XUjlyL3PhcznJ2uih47Wh2y0a+dT3+E1hDUAhlxGdFQrSKAhVDCgtn+UNeaadnPbVqq5
-	7j64u11Mr0+TmfuV1tHKyUFftCS+FVbGpA1EqJ+8SIfXes7WtnEj5pgAq4SK4RzGbnIn
-	sevzBsNZRJZVlYGh08Ar3bd3Gy64CJQT7Rd/0wZRzeDSCMMU2baGJgkh00G0TQqoglPP
-	TUOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=te52F2OV7lRSMPXRNe+K62TGHdrcKFayQkVlkWloTlM=;
-	b=afFSlLaEZIPKcAMquvv0iKNYw+H4HQgAAq4BfJMEGue4OaOZL1yYniP2T2LLZf0kjQ
-	/f5Yq2EPCg5yqaIwNhDQOeeqN9Y6iCuI7QXPTw5N9YAv3C5hBjic3jgfOgEuhKfZprZF
-	+qm3DnFiGBZcOaZkEjJpzsgKpHobmwzDpqYi6W5l/HfV2deObobVzlVenJoLdWWLvf7B
-	khJgs9K9kUpCeBqWVNYIxtAkGz5y8ar8rJfhr8dk4ERiO4x6tj00npNJOPZf2i25NQGc
-	c2HNAGbEJ2356pYnGYnISpe7tVLvg5lkk6CJIRruo9rDLGWvXjnFVrudXxpdcGJCfp+c
-	Oy3w==
-X-Gm-Message-State: ALyK8tIFp+9tItb8kYDtLL5HpkI3DiTbYL+Tp/54m6+CRKtODFL/EX3A45zEt2J86aZhBw==
-X-Received: by 10.66.161.41 with SMTP id xp9mr10152610pab.78.1466794031360;
-	Fri, 24 Jun 2016 11:47:11 -0700 (PDT)
-Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
-	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	qc16sm1889741pab.1.2016.06.24.11.47.10
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 24 Jun 2016 11:47:10 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+	Fri, 24 Jun 2016 23:43:24 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 24 Jun 2016 16:43:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,523,1459839600"; d="scan'208";a="724697500"
+Received: from unknown (HELO luv-build.sc.intel.com) ([172.25.110.25])
+	by FMSMGA003.fm.intel.com with ESMTP; 24 Jun 2016 16:43:25 -0700
+From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Jun 2016 11:47:02 -0700
-Message-Id: <20160624184702.7007-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.9.0
-Subject: [PATCH] watchdog: Fix build with musl
+Date: Fri, 24 Jun 2016 16:42:28 -0700
+Message-Id: <1466811748-31237-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
+X-Mailer: git-send-email 2.8.1
+Cc: Megha Dey <megha.dey@intel.com>
+Subject: [PATCH] kernel-module-split.bbclass: add a prefix for module package name pattern
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,72 +28,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jun 2016 18:47:12 -0000
+X-List-Received-Date: Fri, 24 Jun 2016 23:43:26 -0000
 
-A similar patch has been submitted upstream
+When splitting kernel modules into individual packages, such packages take
+their names from the module name. This is OK under most of the circumstances.
+However, it may lead to package naming collisions if there exists two
+modules with the same name.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Situations like this can occur when building testing modules. For instance,
+there exists testing versions of the modules for non-volatile memory that
+are built with different linker options but bear the same module name. If
+one wants to package such modules, it is be good to be able to name
+packages differently. This can be done by prefixing the package name with
+a KERNEL_MODULE_PACKAGE_PREFIX that can be set by the recipes that inherit
+from module.bbclass.
+
+Cc: Megha Dey <megha.dey@intel.com>
+Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 ---
- ...inux-param.h-for-EXEC_PAGESIZE-definition.patch | 32 ++++++++++++++++++++++
- meta/recipes-extended/watchdog/watchdog_5.15.bb    |  5 ++--
- 2 files changed, 35 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-extended/watchdog/watchdog/0001-Include-linux-param.h-for-EXEC_PAGESIZE-definition.patch
+ meta/classes/kernel-module-split.bbclass | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/watchdog/watchdog/0001-Include-linux-param.h-for-EXEC_PAGESIZE-definition.patch b/meta/recipes-extended/watchdog/watchdog/0001-Include-linux-param.h-for-EXEC_PAGESIZE-definition.patch
-new file mode 100644
-index 0000000..198f198
---- /dev/null
-+++ b/meta/recipes-extended/watchdog/watchdog/0001-Include-linux-param.h-for-EXEC_PAGESIZE-definition.patch
-@@ -0,0 +1,32 @@
-+From 8f91385dbd5e7c14b36ecbd8a01ca82c709f6d77 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Fri, 24 Jun 2016 18:19:29 +0000
-+Subject: [PATCH] Include linux/param.h for EXEC_PAGESIZE definition
-+
-+Musl does not include linux/param.h whereas glibc
-+does, so it fails to build on musl.
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+Upstream-Status: Submitted
-+
-+ src/watchdog.c | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/src/watchdog.c b/src/watchdog.c
-+index acf6450..486384a 100644
-+--- a/src/watchdog.c
-++++ b/src/watchdog.c
-+@@ -26,6 +26,9 @@
-+ #include <sys/param.h>		/* For EXEC_PAGESIZE */
-+ #include <linux/oom.h>
-+ #include <linux/watchdog.h>
-++#ifdef __linux__
-++#include <linux/param.h>
-++#endif
-+ #include <string.h>
-+ 
-+ #include <libgen.h>
-+-- 
-+1.8.3.1
-+
-diff --git a/meta/recipes-extended/watchdog/watchdog_5.15.bb b/meta/recipes-extended/watchdog/watchdog_5.15.bb
-index 76a3b42..ee1a893 100644
---- a/meta/recipes-extended/watchdog/watchdog_5.15.bb
-+++ b/meta/recipes-extended/watchdog/watchdog_5.15.bb
-@@ -9,8 +9,9 @@ LICENSE = "GPL-2.0+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=ecc0551bf54ad97f6b541720f84d6569"
+diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
+index e1a70e6..ed42d2b 100644
+--- a/meta/classes/kernel-module-split.bbclass
++++ b/meta/classes/kernel-module-split.bbclass
+@@ -30,6 +30,8 @@ PACKAGESPLITFUNCS_prepend = "split_kernel_module_packages "
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/watchdog/watchdog-${PV}.tar.gz \
--	   file://watchdog-init.patch \
--	   file://watchdog-conf.patch \
-+           file://0001-Include-linux-param.h-for-EXEC_PAGESIZE-definition.patch \
-+           file://watchdog-init.patch \
-+           file://watchdog-conf.patch \
- "
+ KERNEL_MODULES_META_PACKAGE ?= "kernel-modules"
  
- SRC_URI[md5sum] = "678c32f6f35a0492c9c1b76b4aa88828"
++KERNEL_MODULE_PACKAGE_PREFIX ?= ""
++
+ python split_kernel_module_packages () {
+     import re
+ 
+@@ -181,7 +183,9 @@ python split_kernel_module_packages () {
+ 
+     module_deps = parse_depmod()
+     module_regex = '^(.*)\.k?o$'
+-    module_pattern = 'kernel-module-%s'
++
++    module_pattern_prefix = d.getVar('KERNEL_MODULE_PACKAGE_PREFIX', True)
++    module_pattern = module_pattern_prefix + 'kernel-module-%s'
+ 
+     postinst = d.getVar('pkg_postinst_modules', True)
+     postrm = d.getVar('pkg_postrm_modules', True)
 -- 
-2.9.0
+2.8.1
 
 
