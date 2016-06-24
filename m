@@ -1,39 +1,39 @@
 Return-Path: <andre.draszik@gmail.com>
 Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id DEA2365CBB
+	by mail.openembedded.org (Postfix) with ESMTP id DFD4E73178
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jun 2016 10:54:36 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id c82so3978000wme.3
+	Fri, 24 Jun 2016 10:54:37 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id r201so4005878wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jun 2016 03:54:37 -0700 (PDT)
+	Fri, 24 Jun 2016 03:54:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=jzIN23d7OH0EvULvem/PjM/MIoO5DjSrls4CEFZXk50=;
-	b=EWkkj95Y5X22cKmEFJ9gsfNZtl+zk8rUliJXxbnWCD3fMV7bQDv1y3jrydrsDT9Cxy
-	FFPjbw+SJkTwJ6W8iGGQ6VvE6Mp2MuwcKLmQIgRsPEwGD/9II0ZdYCnlMLi1u9CFQYVL
-	VqgXkcp/rqWT7jrJi8edvmcodHwL2GgLqCcNdfVBH54Wu4NJ/Nnw0N7lSdSttvyNb9O+
-	dWC7Mtp+FgLrAXTmzGAfleseWORbOfMyzIToM7emYI9fgTfaqFQ1DpTt3j3TuruG9oBE
-	RsmyqrjPBfT6tAVK4tswt9C4o9ncyg4AX620CzurdCZlnBFmqTMwp2flIbceimiAIhL7
-	4hIQ==
-X-Gm-Message-State: ALyK8tKAfsWeS0h1lXYpebHndhfTFdfnezdKQaZpjC7+DiK43LKNhPyJPkWqwuB/8N2FmQ==
-X-Received: by 10.28.135.69 with SMTP id j66mr18215758wmd.10.1466765676933;
-	Fri, 24 Jun 2016 03:54:36 -0700 (PDT)
+	bh=XvPmJ03dPM17durxoxpiQlyOzLzVEqaTB4pO9FNA9sg=;
+	b=Lhniv9UvisMf875Y/+KRaA8PGkWC2J8BxcZZflgq8fpI2nX8F7ZpwnGeOsw+HOmusf
+	edpM+6TLPleTYBFDxGLXC75WZfQ5Nc2ekX35K4M/7NLnW3+FlJ5NAHRdEoPoz6WuIQfv
+	Mqjzgn/eqhbjMk+TMDtlRPau3MaN1uUmJ/mBvhTIlYdArEK+3Fh7E+kiZwcV9vc4zur6
+	bkL/hX+1+4PK5o/9c9eT2u6FJwdBc56Q8jx212S3RucWJhPk5bgCQb5SZaASv70xdytE
+	EfHUi2m25FTnBBxGuO7vFLA0NUA6r5bbOh8dIAXtVPzN1cIh4YLLM27U8BGlFhf7g1ja
+	K7Ug==
+X-Gm-Message-State: ALyK8tIyfof7eZqaqbc8Nf2lckB3BctjjUtcRdWqEGJXOgVmTmi5yZbQo7EDC0EqYPCq9w==
+X-Received: by 10.28.20.139 with SMTP id 133mr5132645wmu.35.1466765677938;
+	Fri, 24 Jun 2016 03:54:37 -0700 (PDT)
 Received: from tfsielt31850.TYCOFS.COM ([185.46.212.65])
-	by smtp.gmail.com with ESMTPSA id b4sm4588563wjd.16.2016.06.24.03.54.35
+	by smtp.gmail.com with ESMTPSA id b4sm4588563wjd.16.2016.06.24.03.54.36
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 24 Jun 2016 03:54:36 -0700 (PDT)
+	Fri, 24 Jun 2016 03:54:37 -0700 (PDT)
 From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Jun 2016 11:54:30 +0100
-Message-Id: <1466765671-22371-3-git-send-email-git@andred.net>
+Date: Fri, 24 Jun 2016 11:54:31 +0100
+Message-Id: <1466765671-22371-4-git-send-email-git@andred.net>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <1466765671-22371-1-git-send-email-git@andred.net>
 References: <1466765671-22371-1-git-send-email-git@andred.net>
 MIME-Version: 1.0
-Subject: [PATCH 3/4] uclibc: backport patch to fix gdb 7.11 compilation
+Subject: [PATCH 4/4] uclibc: really enable verbose compilation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,75 +52,36 @@ Content-Transfer-Encoding: 8bit
 
 From: André Draszik <adraszik@tycoint.com>
 
+Things must have changed at some point in the past. V=2 doesn't
+give us verbose make output anymore. On the other hand,
+adding V=1 to EXTRA_OEMAKE works fine, similar to how things
+are done in other recipes that use kbuild.
+
 Signed-off-by: André Draszik <adraszik@tycoint.com>
 ---
- meta/recipes-core/uclibc/uclibc-git.inc            |  1 +
- .../0001-Provide-an-alias-to-_obstack_free.patch   | 44 ++++++++++++++++++++++
- 2 files changed, 45 insertions(+)
- create mode 100644 meta/recipes-core/uclibc/uclibc-git/0001-Provide-an-alias-to-_obstack_free.patch
+ meta/recipes-core/uclibc/uclibc.inc | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-core/uclibc/uclibc-git.inc b/meta/recipes-core/uclibc/uclibc-git.inc
-index a56fa7c..718bee9 100644
---- a/meta/recipes-core/uclibc/uclibc-git.inc
-+++ b/meta/recipes-core/uclibc/uclibc-git.inc
-@@ -6,6 +6,7 @@ FILESEXTRAPATHS =. "${FILE_DIRNAME}/uclibc-git:"
+diff --git a/meta/recipes-core/uclibc/uclibc.inc b/meta/recipes-core/uclibc/uclibc.inc
+index 71d4bdd..57f87fa 100644
+--- a/meta/recipes-core/uclibc/uclibc.inc
++++ b/meta/recipes-core/uclibc/uclibc.inc
+@@ -52,13 +52,11 @@ EXTRA_OEMAKE = "${OEMAKE_NO_CC} \
+                 'HOSTCC=${BUILD_CC}' \
+                 'HOST_CFLAGS=${BUILD_CFLAGS}' \
+                 'CC=${CC}' \
+-                ARCH=${UCLIBC_ARCH}"
++                ARCH=${UCLIBC_ARCH} \
++                V=1"
  
- SRC_URI = "git://uclibc-ng.org/git/uclibc-ng \
-         file://0001-Disable-lrount_tes-function.patch \
-+        file://0001-Provide-an-alias-to-_obstack_free.patch \
-         file://uClibc.machine \
-         file://uClibc.distro \
-         file://obstack.cfg \
-diff --git a/meta/recipes-core/uclibc/uclibc-git/0001-Provide-an-alias-to-_obstack_free.patch b/meta/recipes-core/uclibc/uclibc-git/0001-Provide-an-alias-to-_obstack_free.patch
-new file mode 100644
-index 0000000..30b443f
---- /dev/null
-+++ b/meta/recipes-core/uclibc/uclibc-git/0001-Provide-an-alias-to-_obstack_free.patch
-@@ -0,0 +1,44 @@
-+From 06e4fe64bbd01f16ee84da161b8e1a61e73b4cdb Mon Sep 17 00:00:00 2001
-+From: Alexey Neyman <aneyman@lynx.com>
-+Date: Thu, 31 Mar 2016 13:02:47 -0700
-+Subject: [PATCH] Provide an alias to _obstack_free
-+
-+GDB 7.11 does not build if compiled against uclibc-ng (1.0.12 was used,
-+but the problematic code exists in 1.0.13 as well). The reason is that
-+GDB release includes its own obstack implementation, but elides the code
-+if <gnu-versions.h> declares a compatible obstack implementation in
-+libc. uclibc-ng does claim compatible obstack interface (GDB expects
-+version 2, but accepts version 1 if sizeof(int) == sizeof(size_t)),
-+however, uclibc-ng does not provide the _obstack_free symbol that is a
-+part of the interface (glibc does provide this symbol). This later
-+causes a link failure.
-+
-+The attached patch makes uclibc-ng enables an alias _obstack_free ->
-+obstack_free.
-+
-+Signed-off-by: Alexey Neyman <stilor@att.net>
-+---
-+Upstream-Status: Backport
-+
-+ libc/misc/gnu/obstack.c | 2 --
-+ 1 file changed, 2 deletions(-)
-+
-+diff --git a/libc/misc/gnu/obstack.c b/libc/misc/gnu/obstack.c
-+index 38cfd83..6acc567 100644
-+--- a/libc/misc/gnu/obstack.c
-++++ b/libc/misc/gnu/obstack.c
-+@@ -385,11 +385,9 @@ obstack_free (struct obstack *h, void *obj)
-+     abort ();
-+ }
-+ 
-+-# if 0
-+ /* Older versions of libc used a function _obstack_free intended to be
-+    called by non-GCC compilers.  */
-+ strong_alias (obstack_free, _obstack_free)
-+-# endif
-+ 
-+ int
-+ _obstack_memory_used (struct obstack *h)
-+-- 
-+2.8.1
-+
+ EXTRA_OEMAKE_task_do_package = "${OEMAKE_NO_CC}"
+ 
+-# enable verbose output:
+-export V="2"
+-
+ # -O<n> -fno-omit-frame-pointer ends up with GCC ICE on thumb as reported
+ # http://gcc.gnu.org/bugzilla/show_bug.cgi?id=44860
+ #
 -- 
 2.8.1
 
