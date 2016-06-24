@@ -1,23 +1,37 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 1FD1573CF7
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 8FD4E70018
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jun 2016 10:38:27 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP; 24 Jun 2016 03:38:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,520,1459839600"; d="scan'208";a="724410472"
-Received: from skenned1-mobl.ger.corp.intel.com (HELO
-	mqz-osx-suse64.fi.intel.com) ([10.252.9.142])
-	by FMSMGA003.fm.intel.com with ESMTP; 24 Jun 2016 03:38:25 -0700
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+	Fri, 24 Jun 2016 10:42:36 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id c82so3904268wme.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Jun 2016 03:42:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=bwts/N+eG/LUJWdar6VsuA0uvMh9ge9x7iG2zPoOWmI=;
+	b=K5B7YayBsP9IY28OpBbvUNkedy+COWdF7ddb+wX2XQLhi3JAwgRnUBJItRYOF7EY0q
+	sA+X1SUd7B3CoQ9AimgYsyzxFb+eGwjVwMToFqJH7q5qeSmCLAzQ7A/dDp0aFEJTxP2v
+	GqlVnPPrRKZ2RMyRTVjVfMs09UtJjnDYjSX9wrtwHtiCuUZpqvhkoL3nwQUJA9GjLQ1u
+	K3qt/kfsf/kBI6S/9UwM3cg/Sws5+brHwspvV9/fIDLv3ueRHujNWcnF3F/JziVtqw2d
+	OWdKkncqSdp/LCXuNk5NEuLLJQHixnDTo6OAIG4eaho1nb3CEW3A90EjigA+MzU7xdST
+	89gQ==
+X-Gm-Message-State: ALyK8tKnR3YYM/a1mz5wk+qrTiN1MRaKNPc1CklDaEXDYG10oBe45ld8DMF3PjRdvBIbaw==
+X-Received: by 10.194.216.106 with SMTP id op10mr3591389wjc.178.1466764956298; 
+	Fri, 24 Jun 2016 03:42:36 -0700 (PDT)
+Received: from tfsielt31850.TYCOFS.COM ([185.46.212.65])
+	by smtp.gmail.com with ESMTPSA id
+	p76sm2516569wmd.10.2016.06.24.03.42.34
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 24 Jun 2016 03:42:35 -0700 (PDT)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Jun 2016 13:37:41 +0300
-Message-Id: <1466764661-24544-29-git-send-email-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-In-Reply-To: <1466764661-24544-1-git-send-email-markus.lehtonen@linux.intel.com>
-References: <1466764661-24544-1-git-send-email-markus.lehtonen@linux.intel.com>
-Subject: [PATCH 28/28] scripts/contrib: introduce build-perf-test-wrapper.sh
+Date: Fri, 24 Jun 2016 11:42:32 +0100
+Message-Id: <1466764953-20079-1-git-send-email-git@andred.net>
+X-Mailer: git-send-email 2.8.1
+MIME-Version: 1.0
+Subject: [meta-oe][PATCH 1/2] classes/kernel: fix symlink creation in DEPLOYDIR for bundled initramfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,128 +44,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jun 2016 10:38:27 -0000
+X-List-Received-Date: Fri, 24 Jun 2016 10:42:37 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-A shell script wrapper around oe-build-perf-test script. The purpose of
-this wrapper is to act as a executor script, making it possible to run
-the tests with a single command. The wrapper script initializes the
-build environment, runs oe-build-perf-test and archives the results.
+From: André Draszik <adraszik@tycoint.com>
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+If multiple kernel image types have been specified, only the very first
+one would receive a symlink in DEPLOYDIR.
+
+The reason is that we're looping over the list of image types and check
+if a bundled initramfs images exists using a relative path. As part of
+the loop we're changing the current directory, hence all additional
+iterations fail to see the files we're looking for, and hence no symlinks
+are being created.
+
+Fix by not changing the directory and adjusting the ln invocation instead.
+
+Signed-off-by: André Draszik <adraszik@tycoint.com>
 ---
- scripts/contrib/build-perf-test-wrapper.sh | 102 +++++++++++++++++++++++++++++
- 1 file changed, 102 insertions(+)
- create mode 100755 scripts/contrib/build-perf-test-wrapper.sh
+ meta/classes/kernel.bbclass | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/scripts/contrib/build-perf-test-wrapper.sh b/scripts/contrib/build-perf-test-wrapper.sh
-new file mode 100755
-index 0000000..e8e8021
---- /dev/null
-+++ b/scripts/contrib/build-perf-test-wrapper.sh
-@@ -0,0 +1,102 @@
-+#!/bin/bash
-+#
-+# Build performance test script wrapper
-+#
-+# Copyright (c) 2016, Intel Corporation.
-+#
-+# This program is free software; you can redistribute it and/or modify it
-+# under the terms and conditions of the GNU General Public License,
-+# version 2, as published by the Free Software Foundation.
-+#
-+# This program is distributed in the hope it will be useful, but WITHOUT
-+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+# more details.
-+#
-+#
-+# This script is a simple wrapper around the actual build performance tester
-+# script. This script initializes the build environment, runs
-+# oe-build-perf-test and archives the results.
-+
-+script=`basename $0`
-+usage () {
-+    echo "Usage: $script [COMMITISH]"
-+}
-+
-+if [ $# -gt 1 ]; then
-+    usage
-+    exit 1
-+fi
-+commitish=$1
-+
-+echo "Running on `uname -n`"
-+
-+if ! git_topdir=$(git rev-parse --show-toplevel); then
-+        echo "The current working dir doesn't seem to be a git clone. Please cd there before running `basename $0`"
-+        exit 1
-+fi
-+
-+cd "$git_topdir"
-+
-+if [ -n "$commitish" ]; then
-+    # Checkout correct revision
-+    echo "Checking out $commitish"
-+    git fetch &> /dev/null
-+    git checkout HEAD^0 &> /dev/null
-+    git branch -D $commitish &> /dev/null
-+    if ! git checkout -f $commitish &> /dev/null; then
-+        echo "Git checkout failed"
-+        exit 1
-+    fi
-+fi
-+
-+# Setup build environment
-+timestamp=`date "+%Y%m%d%H%M%S"`
-+git_rev=$(git rev-parse --short HEAD)  || exit 1
-+base_dir="$git_topdir/build-perf-test"
-+build_dir="$base_dir/build-$git_rev-$timestamp"
-+results_dir="$base_dir/results-$git_rev-$timestamp"
-+globalres_log="$base_dir/globalres.log"
-+
-+mkdir -p "$base_dir"
-+source ./oe-init-build-env $build_dir >/dev/null || exit 1
-+
-+# Additional config
-+auto_conf="$build_dir/conf/auto.conf"
-+echo 'MACHINE = "qemux86"' > "$auto_conf"
-+echo 'BB_NUMBER_THREADS = "8"' >> "$auto_conf"
-+echo 'PARALLEL_MAKE = "-j 8"' >> "$auto_conf"
-+echo "DL_DIR = \"$base_dir/downloads\"" >> "$auto_conf"
-+# Disabling network sanity check slightly reduces the variance of timing results
-+echo 'CONNECTIVITY_CHECK_URIS = ""' >> "$auto_conf"
-+# Possibility to define extra settings
-+if [ -f "$base_dir/auto.conf.extra" ]; then
-+    cat "$base_dir/auto.conf.extra" >> "$auto_conf"
-+fi
-+
-+# Run actual test script
-+if ! oe-build-perf-test --out-dir "$results_dir" \
-+                        --globalres-file "$globalres_log" \
-+                        --lock-file "$base_dir/oe-build-perf.lock"; then
-+    echo "oe-build-perf-test script failed!"
-+    exit 1
-+fi
-+
-+echo -ne "\n\n-----------------\n"
-+echo "Global results file:"
-+echo -ne "\n"
-+
-+cat "$globalres_log"
-+
-+echo -ne "\n\n-----------------\n"
-+echo "Archiving results dir..."
-+archive_dir=~/perf-results/archives
-+mkdir -p "$archive_dir"
-+results_basename=`basename "$results_dir"`
-+results_dirname=`dirname "$results_dir"`
-+tar -czf "$archive_dir/`uname -n`-${results_basename}.tar.gz" -C "$results_dirname" "$results_basename"
-+
-+rm -rf "$build_dir"
-+rm -rf "$results_dir"
-+
-+echo "DONE"
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 59bbbe8..3127590 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -586,8 +586,7 @@ kernel_do_deploy() {
+ 			initramfs_base_name=${type}-${INITRAMFS_BASE_NAME}
+ 			initramfs_symlink_name=${type}-initramfs-${MACHINE}
+ 			install -m 0644 ${KERNEL_OUTPUT_DIR}/${type}.initramfs ${DEPLOYDIR}/${initramfs_base_name}.bin
+-			cd ${DEPLOYDIR}
+-			ln -sf ${initramfs_base_name}.bin ${initramfs_symlink_name}.bin
++			ln -sf ${initramfs_base_name}.bin ${DEPLOYDIR}/${initramfs_symlink_name}.bin
+ 		fi
+ 	done
+ }
 -- 
-2.6.6
+2.8.1
 
 
