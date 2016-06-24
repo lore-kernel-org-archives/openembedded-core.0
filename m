@@ -1,23 +1,23 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id ABCF773259
+	by mail.openembedded.org (Postfix) with ESMTP id 55330731A3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jun 2016 10:38:22 +0000 (UTC)
+	Fri, 24 Jun 2016 10:38:24 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP; 24 Jun 2016 03:38:23 -0700
+	by orsmga101.jf.intel.com with ESMTP; 24 Jun 2016 03:38:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,520,1459839600"; d="scan'208";a="724410463"
+X-IronPort-AV: E=Sophos;i="5.26,520,1459839600"; d="scan'208";a="724410466"
 Received: from skenned1-mobl.ger.corp.intel.com (HELO
 	mqz-osx-suse64.fi.intel.com) ([10.252.9.142])
-	by FMSMGA003.fm.intel.com with ESMTP; 24 Jun 2016 03:38:21 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 24 Jun 2016 03:38:24 -0700
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Jun 2016 13:37:39 +0300
-Message-Id: <1466764661-24544-27-git-send-email-markus.lehtonen@linux.intel.com>
+Date: Fri, 24 Jun 2016 13:37:40 +0300
+Message-Id: <1466764661-24544-28-git-send-email-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.6.6
 In-Reply-To: <1466764661-24544-1-git-send-email-markus.lehtonen@linux.intel.com>
 References: <1466764661-24544-1-git-send-email-markus.lehtonen@linux.intel.com>
-Subject: [PATCH 26/28] oe-build-perf-test: enable locking
+Subject: [PATCH 27/28] oe-build-perf-test: add --out-dir command line argument
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,70 +30,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jun 2016 10:38:23 -0000
+X-List-Received-Date: Fri, 24 Jun 2016 10:38:24 -0000
 
-Makes it possible to guard that multiple tests are not run in parallel.
+The new option defines the output directory for the test result data.
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- scripts/oe-build-perf-test | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ scripts/oe-build-perf-test | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/scripts/oe-build-perf-test b/scripts/oe-build-perf-test
-index 9dd073c..64873c9 100755
+index 64873c9..996996b 100755
 --- a/scripts/oe-build-perf-test
 +++ b/scripts/oe-build-perf-test
-@@ -15,6 +15,8 @@
- #
- """Build performance test script"""
- import argparse
-+import errno
-+import fcntl
- import logging
- import os
- import sys
-@@ -33,6 +35,19 @@ logging.basicConfig(level=logging.INFO, format=LOG_FORMAT)
- log = logging.getLogger()
- 
- 
-+def acquire_lock(lock_f):
-+    """Acquire flock on file"""
-+    log.debug("Acquiring lock %s", os.path.abspath(lock_f.name))
-+    try:
-+        fcntl.flock(lock_f, fcntl.LOCK_EX | fcntl.LOCK_NB)
-+    except IOError as err:
-+        if err.errno == errno.EAGAIN:
-+            return False
-+        raise
-+    log.debug("Lock acquired")
-+    return True
-+
-+
- def pre_run_sanity_check():
-     """Sanity check of build environment"""
-     build_dir = os.environ.get("BUILDDIR")
-@@ -72,6 +87,9 @@ def parse_args(argv):
-                         help='Enable debug level logging')
-     parser.add_argument('--globalres-file',
-                         help="Append results to 'globalres' csv file")
-+    parser.add_argument('--lock-file', default='./oe-build-perf.lock',
-+                        metavar='FILENAME',
-+                        help="Lock file to use")
+@@ -90,6 +90,8 @@ def parse_args(argv):
+     parser.add_argument('--lock-file', default='./oe-build-perf.lock',
+                         metavar='FILENAME',
+                         help="Lock file to use")
++    parser.add_argument('-o', '--out-dir', default='results-{date}',
++                        help="Output directory for test results")
  
      return parser.parse_args(argv)
  
-@@ -83,6 +101,11 @@ def main(argv=None):
-     if args.debug:
-         log.setLevel(logging.DEBUG)
+@@ -113,7 +115,7 @@ def main(argv=None):
+     KernelDropCaches.check()
  
-+    lock_f = open(args.lock_file, 'w')
-+    if not acquire_lock(lock_f):
-+        log.error("Another instance of this script is running, exiting...")
-+        return 1
-+
-     if not pre_run_sanity_check():
-         return 1
+     # Set-up log file
+-    out_dir = 'results-{}'.format(datetime.now().strftime('%Y%m%d%H%M%S'))
++    out_dir = args.out_dir.format(date=datetime.now().strftime('%Y%m%d%H%M%S'))
+     setup_file_logging(os.path.join(out_dir, 'output.log'))
  
+     # Run actual tests
 -- 
 2.6.6
 
