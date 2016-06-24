@@ -1,43 +1,44 @@
-Return-Path: <fabio.berton@ossystems.com.br>
-Received: from mail-lf0-f46.google.com (mail-lf0-f46.google.com
-	[209.85.215.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 7CCD360589
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 6423960589
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jun 2016 14:07:46 +0000 (UTC)
-Received: by mail-lf0-f46.google.com with SMTP id f6so116480289lfg.0
+	Fri, 24 Jun 2016 14:19:43 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id 187so5403740wmz.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jun 2016 07:07:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=bAzNY5gNc9b7MJzVItSAP2HgNylMTrCRNvZGvDBcnms=;
-	b=ef2TO+oynDLUwxOPwgBKSPPa55XxkAWWfTBtZKuAE7UjIh5xHy2WF8rdyIxF2DAYGc
-	95RY2nHv3oWzXUxl0j8mCDFCUWs5KO8/sWIRZ1ysbrGnSoThmWONhsO6YPnouPiUEt1l
-	Yw/CspKgCOqzQ9OkyTjZL5UOuPgrU8spz+YDAHLihq6NhvcUnpNTPkm6WUbSh2nvS+az
-	jMuZ21rqWB/pFijk00mCqlBj3cmcZd0xSGeM//mdsIGBcKqLdezWBwJkAjNUf6m6wtqV
-	84GoqihJ/LmF68UG6vSRTZK1oGrfPynKr3RKsSPR91CCyoFVPbXJ5QLfqoknyLKEOZE6
-	qjsA==
+	Fri, 24 Jun 2016 07:19:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=bAzNY5gNc9b7MJzVItSAP2HgNylMTrCRNvZGvDBcnms=;
-	b=Y7S8n9fdr0BN4Duj05FQB1VcRLhD1OaX59b0EqLo8+3/OLzoAA4muZ4xBaPcriPgM3
-	4LuMych1CUiq/gReOrlC8L0x09YfLq1deM4s42M9vBCBaadzwBiL4au1eKjQaUmSfkhn
-	Oa0IQjqqt4NsEBSWYBLuNiODTleTbVmHRyGSiAVS4SWazbFGeu6OoeTotRspX4d+tHU4
-	dLnMeJP97hA7iFUa8PPDCI6QYCSbbNg++QEEXhwA08WzGpwIattk6yxKjwmtVeMr5lQX
-	9jj9q6cMPeNnD9eYmsmLrdVyVPfVE7EzedKRpmkJO3E0yL1A9Py4qJXrVWGzYPTY8zVc
-	ilVQ==
-X-Gm-Message-State: ALyK8tIUy3xGykaKHVx3hbsDjdfQSNJ/vMz7d2XIW5yAMbLm2gLKzKQfmrKukrZr938zzuCPA/mQI6jlVU2rag==
-X-Received: by 10.25.161.142 with SMTP id k136mr1161960lfe.0.1466777266562;
-	Fri, 24 Jun 2016 07:07:46 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.25.5.215 with HTTP; Fri, 24 Jun 2016 07:07:16 -0700 (PDT)
-X-Originating-IP: [179.105.243.72]
-From: Fabio Berton <fabio.berton@ossystems.com.br>
-Date: Fri, 24 Jun 2016 11:07:16 -0300
-Message-ID: <CAAPZna2Gu=QZ-mFn1FPaq3HfNSbSXhFPafWWY_FQTU+OO6e-1w@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: WIC error when using rawcopy
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=2JipT8iGEBRsd5KqPWJRxeOHAdWztfTrpJN6Yx1mK1U=;
+	b=OSvTxAcPh3f+Gy0z9HdcHotCXW4YzGqUI0mGCg9uv3R93LdXawpgt0etCN9AjDu4Lf
+	pme9ZP2ed5rCV5eKTMVP2eXt5qJ9q7coCNjf4bCEQ2bHSNlOC66xM8A7qrcVnIFcqjsA
+	t0dUqfCnHGA8wYTSROwbfHceB2AgV1GBqhiHu/UHaVZgA3UMHKTy5RCTDDKlXgD0cUAP
+	uBUWV1Z/c8I8wOp1N55gowZuuQDlcyyvrR9RuK9sHBG8ilNmcaBrtO0DI70wiqQSkUcU
+	CVrvvhwfuodA+8czzkQm02OXGgeO+zVdIKvVX9kWcDVGDz7y9bPhFYOnnx43+fjb6aqX
+	S3Iw==
+X-Gm-Message-State: ALyK8tIV8AV8gHaOdGY3Q578Ol79vicWFLBdzGaKlbdYs7IFYycAhgs1Dol/dOyCIAWZqw==
+X-Received: by 10.194.48.7 with SMTP id h7mr4085254wjn.9.1466777983921;
+	Fri, 24 Jun 2016 07:19:43 -0700 (PDT)
+Received: from localhost ([185.46.212.65])
+	by smtp.gmail.com with ESMTPSA id b84sm3369937wmb.6.2016.06.24.07.19.42
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 24 Jun 2016 07:19:43 -0700 (PDT)
+Message-ID: <1466777979.30669.6.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: Khem Raj <raj.khem@gmail.com>, "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 24 Jun 2016 15:19:39 +0100
+In-Reply-To: <CAMKF1spjUmGWxmS_+inmTCecFLQtbwQ5Pj=LAzsarA5_ymO4CQ@mail.gmail.com>
+References: <1466765671-22371-1-git-send-email-git@andred.net>
+	<1466765671-22371-4-git-send-email-git@andred.net>
+	<CAMKF1soqpKFDgoeKcAjiqbptR4xDFQ+VYRSt9kT67Uy=Bj8v7g@mail.gmail.com>
+	<CAJTo0LbTunHyH_iss4dLTzcOwADNnVp2gdmGoMrWtgyt0Myx_w@mail.gmail.com>
+	<CAMKF1spjUmGWxmS_+inmTCecFLQtbwQ5Pj=LAzsarA5_ymO4CQ@mail.gmail.com>
+X-Mailer: Evolution 3.20.3-1 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/4] uclibc: really enable verbose compilation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,110 +51,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jun 2016 14:07:48 -0000
-Content-Type: multipart/alternative; boundary=001a11410fb4f0402e053606b145
+X-List-Received-Date: Fri, 24 Jun 2016 14:19:44 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
---001a11410fb4f0402e053606b145
-Content-Type: text/plain; charset=UTF-8
+Hi Khem,
 
-Hi all!
+On Fr, 2016-06-24 at 06:57 -0700, Khem Raj wrote:
+> make V=2
+> 
+>   CC ldso/ldso/ldso.oS -DNDEBUG -DNOT_IN_libc -DIS_IN_rtld
+> -DUCLIBC_RUNTIME_PREFIX="/usr/x86_64-linux-uclibc/"
+> -DUCLIBC_LDSO="ld64-uClibc.so.1" -DIN_LIB=rtld -DSHARED
+> -DLDSO_ELFINTERP="x86_64/elfinterp.c"
+> 
+> make V=1
+> 
+> gcc -c ldso/ldso/ldso.c -o /tmp/uu/ldso/ldso/ldso.oS -Wall
+> -Wstrict-prototypes -Wstrict-aliasing -funsigned-char -fno-builtin
+> -fno-asm -fmerge-all-constants -std=gnu99 -fno-stack-protector
+> -nostdinc -I/tmp/uu/include -I./include -include libc-symbols.h
+> -I./libc/sysdeps/linux/x86_64 -I./libc/sysdeps/linux
+> -I./ldso/ldso/x86_64 -I./ldso/include -I. -Os -fstrict-aliasing
+> -I./libc/sysdeps/linux/common -isystem
+> /usr/lib/gcc/x86_64-pc-linux-gnu/6.1.1/include-fixed -isystem
+> /usr/lib/gcc/x86_64-pc-linux-gnu/6.1.1/include -I/ -DNDEBUG
+> -DNOT_IN_libc -DIS_IN_rtld -fno-stack-protector
+> -fno-omit-frame-pointer -I./ldso/ldso/x86_64 -I./ldso/include
+> -I./ldso/ldso -DUCLIBC_RUNTIME_PREFIX=\"/usr/x86_64-linux-uclibc/\"
+> -DUCLIBC_LDSO=\"ld64-uClibc.so.1\" -DIN_LIB=rtld -fPIC -DSHARED
+> -DLDSO_ELFINTERP=\"x86_64/elfinterp.c\" -MT /tmp/uu/ldso/ldso/ldso.oS
+> -MD -MP -MF /tmp/uu/ldso/ldso/.ldso.oS.dep
+> 
+> So it must be local issue.
 
-I'm getting one error when trying to make an image using wic.
-My wks file is:
+Well exactly, V=1 gives more verbose output than V=2 :-)
+
+One of the reasons this is useful is that with V=1 one can now simply
+copy/paste the command line and modify it for test purposes. In addition,
+you can easily verify that everything is on the command line as expected.
+
+make V=2
+
+  CC libc/sysdeps/linux/common/execve.os -D__USE_STDIO_FUTEXES__
+-DHAVE_FORCED_UNWIND -D_LIBC_REENTRANT -DNDEBUG -DIN_LIB=libc
 
 
-part u-boot --source rawcopy --sourceparams="file=u-boot.imx" --ondisk
-mmcblk --no-table --align 1
-part /boot --source bootimg-partition --ondisk mmcblk0 --fstype=vfat
---label boot --align 8192 --size 25M --extra-space 0
-part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --label system --size
-512M --align 8192 --extra-space 0
-part / --size 512M --ondisk mmcblk0 --align 8192 --extra-space 0
+vs.
 
-bootloader --ptable msdos
+make V=1
 
-
-and when building an image I get error:
-
-Log data follows:
-| DEBUG: Executing python function set_image_size
-| DEBUG: Python function set_image_size finished
-| DEBUG: Executing shell function do_image_wic
-| Error: exec_cmd: dd
-if=/home/user/src/prj/build/tmp/deploy/images/nitrogen6x/core-image-minimal-nitrogen6x-20160624134453/build/u-boot.imx
-of=/home/user/src/prj/build/tmp/deploy/images/nitrogen6x/core-image-minimal-nitrogen6x-20160624134453/build/core-image-201606241045-mmcblk.direct
-bs=512 seek=2 count=942 conv=notrunc returned '1' instead of 0
-| Checking basic build environment...
-| Done.
-|
-| Creating image(s)...
-|
-| WARNING:
-/home/user/src/prj/build/tmp/work/nitrogen6x-prj-linux-gnueabi/core-image-minimal/1.0-r0/temp/run.do_image_wic.31619:1
-exit 1 from 'BUILDDIR="/home/user/src/prj/build" wic create "$wks" --vars
-"/home/user/src/prj/build/tmp/sysroots/nitrogen6x/imgdata/" -e
-"core-image-minimal" -o "$out/"'
+mipsel-poky-linux-uclibc-gcc  -mel -mabi=32 -msoft-float -march=mips32r2
+-mno-mips16  -minterlink-compressed -mtune=24kec -mdsp --sysroot=<sysroot1>
+-c libc/sysdeps/linux/common/execve.c -o libc/sysdeps/linux/common/execve.os
+-Wall -Wstrict-prototypes -Wstrict-aliasing -funsigned-char -fno-builtin
+-fno-asm -fmerge-all-constants -msoft-float -std=gnu99 -mabi=32 -fno-stack-
+protector -nostdinc -I./include -I./include -include libc-symbols.h
+-I./libc/sysdeps/linux/mips -I./libc/sysdeps/linux -I./ldso/ldso/mips
+-I./ldso/include -I. -Os -fstrict-aliasing -mno-split-addresses -O2 -pipe -g
+-feliminate-unused-debug-types -fdebug-prefix-
+map=<map1>=/usr/src/debug/uclibc/1.0.15+gitAUTOINC+95174cb69c-r0 -fdebug-
+prefix-map=<map2>= -fdebug-prefix-map=<map3>= -D__USE_STDIO_FUTEXES__
+-DHAVE_FORCED_UNWIND -D_LIBC_REENTRANT -I./libpthread/nptl
+-I./libpthread/nptl -I./libpthread/nptl/sysdeps/unix/sysv/linux/mips
+-I./libpthread/nptl/sysdeps/mips -I./libpthread/nptl/sysdeps/mips
+-I./libpthread/nptl/sysdeps/unix/sysv/linux
+-I./libpthread/nptl/sysdeps/unix/sysv/linux
+-I./libpthread/nptl/sysdeps/pthread -I./libpthread/nptl/sysdeps/pthread/bits
+-I./libpthread/nptl/sysdeps/generic -I./libc/sysdeps/linux/common -isystem
+<...>/x86_64-linux/usr/lib/mipsel-poky-linux-uclibc.gcc-cross-initial-
+mipsel/gcc/mipsel-poky-linux-uclibc/6.1.1/include-fixed -isystem .../x86_64-
+linux/usr/lib/mipsel-poky-linux-uclibc.gcc-cross-initial-mipsel/gcc/mipsel-
+poky-linux-uclibc/6.1.1/include -I.../usr/include/ -DNDEBUG -DIN_LIB=libc
+-fPIC -MT libc/sysdeps/linux/common/execve.os -MD -MP -MF
+libc/sysdeps/linux/common/.execve.os.dep
 
 
-If I remove line:
-part u-boot --source rawcopy --sourceparams="file=u-boot.imx" --ondisk
-mmcblk --no-table --align 1
+I honestly think the latter to be more useful...
 
-image builds fine, so I think the problem it's on rawcopy.
 
-After I run bitbake and execution fail, I cd to wic build directory
-deploy/images/nitrogen6x/core-image-minimal-nitrogen6x-20160624135131/build
-and u-boot.imx is not in this dir.
+Cheers,
+Andre'
 
-Can you help me on this? I'm using krogoth branch.
 
-Regards,
-
-Fabio
-
---001a11410fb4f0402e053606b145
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:monospac=
-e,monospace;font-size:small">Hi all!<br><br></div><div class=3D"gmail_defau=
-lt" style=3D"font-family:monospace,monospace;font-size:small">I&#39;m getti=
-ng one error when trying to make an image using wic. <br>My wks file is:<br=
-><br><br>part u-boot --source rawcopy --sourceparams=3D&quot;file=3Du-boot.=
-imx&quot; --ondisk mmcblk --no-table --align 1<br>part /boot --source booti=
-mg-partition --ondisk mmcblk0 --fstype=3Dvfat --label boot --align 8192 --s=
-ize 25M --extra-space 0<br>part / --source rootfs --ondisk mmcblk0 --fstype=
-=3Dext4 --label system --size 512M --align 8192 --extra-space 0<br>part / -=
--size 512M --ondisk mmcblk0 --align 8192 --extra-space 0<br><br>bootloader =
---ptable msdos<br><br><br></div><div class=3D"gmail_default" style=3D"font-=
-family:monospace,monospace;font-size:small">and when building an image I ge=
-t error:<br><br>Log data follows:<br>| DEBUG: Executing python function set=
-_image_size<br>| DEBUG: Python function set_image_size finished<br>| DEBUG:=
- Executing shell function do_image_wic<br>| Error: exec_cmd: dd if=3D/home/=
-user/src/prj/build/tmp/deploy/images/nitrogen6x/core-image-minimal-nitrogen=
-6x-20160624134453/build/u-boot.imx of=3D/home/user/src/prj/build/tmp/deploy=
-/images/nitrogen6x/core-image-minimal-nitrogen6x-20160624134453/build/core-=
-image-201606241045-mmcblk.direct bs=3D512 seek=3D2 count=3D942 conv=3Dnotru=
-nc returned &#39;1&#39; instead of 0<br>| Checking basic build environment.=
-..<br>| Done.<br>|<br>| Creating image(s)...<br>|<br>| WARNING: /home/user/=
-src/prj/build/tmp/work/nitrogen6x-prj-linux-gnueabi/core-image-minimal/1.0-=
-r0/temp/run.do_image_wic.31619:1 exit 1 from &#39;BUILDDIR=3D&quot;/home/us=
-er/src/prj/build&quot; wic create &quot;$wks&quot; --vars &quot;/home/user/=
-src/prj/build/tmp/sysroots/nitrogen6x/imgdata/&quot; -e &quot;core-image-mi=
-nimal&quot; -o &quot;$out/&quot;&#39;<br><br><br></div><div class=3D"gmail_=
-default" style=3D"font-family:monospace,monospace;font-size:small">If I rem=
-ove line:<br>part u-boot --source rawcopy --sourceparams=3D&quot;file=3Du-b=
-oot.imx&quot; --ondisk mmcblk --no-table --align 1<br><br></div><div class=
-=3D"gmail_default" style=3D"font-family:monospace,monospace;font-size:small=
-">image builds fine, so I think the problem it&#39;s on rawcopy.<br><br></d=
-iv><div class=3D"gmail_default" style=3D"font-family:monospace,monospace;fo=
-nt-size:small">After I run bitbake and execution fail, I cd to wic build di=
-rectory deploy/images/nitrogen6x/core-image-minimal-nitrogen6x-201606241351=
-31/build and u-boot.imx is not in this dir.<br><br></div><div class=3D"gmai=
-l_default" style=3D"font-family:monospace,monospace;font-size:small">Can yo=
-u help me on this? I&#39;m using krogoth branch.<br><br></div><div class=3D=
-"gmail_default" style=3D"font-family:monospace,monospace;font-size:small">R=
-egards,<br><br></div><div class=3D"gmail_default" style=3D"font-family:mono=
-space,monospace;font-size:small">Fabio<br></div></div>
-
---001a11410fb4f0402e053606b145--
