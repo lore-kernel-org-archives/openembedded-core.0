@@ -1,37 +1,39 @@
 Return-Path: <andre.draszik@gmail.com>
 Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 636CF65CBB
+	by mail.openembedded.org (Postfix) with ESMTP id 087F170100
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jun 2016 10:58:32 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id 187so4028497wmz.1
+	Fri, 24 Jun 2016 10:58:33 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id r201so4030530wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jun 2016 03:58:33 -0700 (PDT)
+	Fri, 24 Jun 2016 03:58:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=hxDg9bgvT9cIxl7OTOyPW1jCt2VnI1B1NauS6YT/sVE=;
-	b=U6wLmm+6p/8oNxTSRPGmJ28DVwk5npgApFIQ0nZDuLpK8BijNR6j9EF9Vt082rNxN7
-	MEomtuWyl61SJIzqznEpAbw3pJl4Whl2Ni6yXU77wM88H0nGvVFQxB6opJBLvc1zU2ad
-	Y9TA+65My1z1yF0B+DErMDhsTVMwiYMfA82p0HWHitcFiseA4chutu+rq8gkK+p9wTk0
-	FELbdOT/Rvlz+xozDDOEcY9d+ZAPcnkp0kVc3WhKseK2Bk2cBfSZKoxL6bYwYQm1XeA2
-	Ek4ajnGxztLOtWPBxkjp0vwa5AlTnEjyruprhNrI2KzHdNoP7B1SHcqhkIQ+wukVFgGh
-	J6yg==
-X-Gm-Message-State: ALyK8tIBoK8NNCtRkl4aJls7r6FRqd29SsoRcuFC4u+/h+wOI4Lrmb7Qy756yzl1XqLc4w==
-X-Received: by 10.28.145.68 with SMTP id t65mr17444903wmd.31.1466765912498;
-	Fri, 24 Jun 2016 03:58:32 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=UnSGWsIdcPEYNnhaFEeBp+lafC67yduhoakThfFJO/0=;
+	b=KrDyxMzIMi3gv608sauQLF+K7p/Ut1gh1EKLbAqX1/EjSCvH+muXKV9e3AbQ1n1KKt
+	E2ytBLD70iIx2vB6E7jBAqHjWJ0DKa4kIhCTF9aYp5Dg8X9WpqEpp51p+KQVaEuTgz4p
+	INnaT02fvkPnlXLwTyf0EcCwqfxrQZZCVjYgj1fXAz65MauCXfKydeZaiuIHU9ojKjlc
+	4Zr0miu4y/lRf+TzBWLGbsv82Mz/r1LI/n3fZDkAA4R3eGUySghgfWvqW2IOC3I0Xs/V
+	kc9ii2Q4uB+6La79I2PC1qYhq/NkkeYY9JeR+Ec0xIY+xaWvn1vX+EEUUZOhfAn1gp+8
+	i4xQ==
+X-Gm-Message-State: ALyK8tIYhRUJKy1bdWRF+tImkB/3bxQ529/OrD6Vy15InA+8srmOg43vA5GhPLE59s9TDQ==
+X-Received: by 10.28.111.215 with SMTP id c84mr5162656wmi.21.1466765913467;
+	Fri, 24 Jun 2016 03:58:33 -0700 (PDT)
 Received: from tfsielt31850.TYCOFS.COM ([185.46.212.65])
-	by smtp.gmail.com with ESMTPSA id q69sm2574157wmd.4.2016.06.24.03.58.31
+	by smtp.gmail.com with ESMTPSA id q69sm2574157wmd.4.2016.06.24.03.58.32
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 24 Jun 2016 03:58:31 -0700 (PDT)
+	Fri, 24 Jun 2016 03:58:32 -0700 (PDT)
 From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Jun 2016 11:58:27 +0100
-Message-Id: <1466765910-22989-1-git-send-email-git@andred.net>
+Date: Fri, 24 Jun 2016 11:58:28 +0100
+Message-Id: <1466765910-22989-2-git-send-email-git@andred.net>
 X-Mailer: git-send-email 2.8.1
+In-Reply-To: <1466765910-22989-1-git-send-email-git@andred.net>
+References: <1466765910-22989-1-git-send-email-git@andred.net>
 MIME-Version: 1.0
-Subject: [PATCH 1/4] gmp: don't compile in mips16e mode
+Subject: [PATCH 2/4] uclibc: don't compile in mips16e mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,27 +52,29 @@ Content-Transfer-Encoding: 8bit
 
 From: André Draszik <adraszik@tycoint.com>
 
-gmp contains hand-written assembly which is not compatible with
+uClibc contains hand-written assembly which is not compatible with
 the MIPS16e mode.
 
 Signed-off-by: André Draszik <adraszik@tycoint.com>
 ---
- meta/recipes-support/gmp/gmp_6.1.0.bb | 4 ++++
+ meta/recipes-core/uclibc/uclibc.inc | 4 ++++
  1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-support/gmp/gmp_6.1.0.bb b/meta/recipes-support/gmp/gmp_6.1.0.bb
-index de827f5..9acf5cf 100644
---- a/meta/recipes-support/gmp/gmp_6.1.0.bb
-+++ b/meta/recipes-support/gmp/gmp_6.1.0.bb
-@@ -30,4 +30,8 @@ do_install_append_class-target() {
- 
- SSTATE_SCAN_FILES += "gmp.h"
+diff --git a/meta/recipes-core/uclibc/uclibc.inc b/meta/recipes-core/uclibc/uclibc.inc
+index 57f87fa..02cd8d1 100644
+--- a/meta/recipes-core/uclibc/uclibc.inc
++++ b/meta/recipes-core/uclibc/uclibc.inc
+@@ -63,6 +63,10 @@ EXTRA_OEMAKE_task_do_package = "${OEMAKE_NO_CC}"
+ CFLAGS_remove_arm = "-fno-omit-frame-pointer"
+ UCLIBC_EXTRA_CFLAGS  = "${@oe_filter_out('(-I\S+|-i\S+)', '${CFLAGS}', d)}"
  
 +# Doesn't compile in MIPS16e mode due to use of hand-written
 +# assembly
-+MIPS_INSTRUCTION_SET = "mips"
++MIPS_INSTRUCTION_SET_pn-uclibc = "mips"
 +
- BBCLASSEXTEND = "native nativesdk"
+ configmangle = '/^KERNEL_HEADERS/d; \
+                 /^RUNTIME_PREFIX/d; \
+                 /^DEVEL_PREFIX/d; \
 -- 
 2.8.1
 
