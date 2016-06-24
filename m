@@ -1,23 +1,23 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id AB06970018
+	by mail.openembedded.org (Postfix) with ESMTP id 6C38B70018
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jun 2016 10:37:53 +0000 (UTC)
+	Fri, 24 Jun 2016 10:37:56 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP; 24 Jun 2016 03:37:54 -0700
+	by orsmga101.jf.intel.com with ESMTP; 24 Jun 2016 03:37:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,520,1459839600"; d="scan'208";a="724410336"
+X-IronPort-AV: E=Sophos;i="5.26,520,1459839600"; d="scan'208";a="724410343"
 Received: from skenned1-mobl.ger.corp.intel.com (HELO
 	mqz-osx-suse64.fi.intel.com) ([10.252.9.142])
-	by FMSMGA003.fm.intel.com with ESMTP; 24 Jun 2016 03:37:52 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 24 Jun 2016 03:37:55 -0700
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Jun 2016 13:37:21 +0300
-Message-Id: <1466764661-24544-9-git-send-email-markus.lehtonen@linux.intel.com>
+Date: Fri, 24 Jun 2016 13:37:22 +0300
+Message-Id: <1466764661-24544-10-git-send-email-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.6.6
 In-Reply-To: <1466764661-24544-1-git-send-email-markus.lehtonen@linux.intel.com>
 References: <1466764661-24544-1-git-send-email-markus.lehtonen@linux.intel.com>
-Subject: [PATCH 08/28] oeqa.buildperf: functionality to drop kernel caches
+Subject: [PATCH 09/28] oeqa.buildperf: add BuildPerfTest class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,109 +30,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jun 2016 10:37:53 -0000
+X-List-Received-Date: Fri, 24 Jun 2016 10:37:56 -0000
 
-Add a new utility class for dropping Linux kernel caches.  It uses sudo
-and tee to write to the drop_caches file. Checking if the user has the
-permissions to drop caches (without a password) is done by trying to
-writing an invalid value to the drop_caches file. This way, we will find
-if writing (with tee) is possible but not really dropping caches, yet.
-
-User can avoid giving the password by adding something like:
-<user> ALL = NOPASSWD: /usr/bin/tee /proc/sys/vm/drop_caches
-to the system sudoers file.
+The new class will be used as an abstract base class for build
+performance tests. This implementation contains some common
+functionality used in multiple tests, "copied" from the
+build-perf-test.sh shell script.
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- meta/lib/oeqa/buildperf/__init__.py |  1 +
- meta/lib/oeqa/buildperf/base.py     | 46 +++++++++++++++++++++++++++++++++++++
- scripts/oe-build-perf-test          |  4 ++++
- 3 files changed, 51 insertions(+)
- create mode 100644 meta/lib/oeqa/buildperf/base.py
+ meta/lib/oeqa/buildperf/__init__.py |  2 +-
+ meta/lib/oeqa/buildperf/base.py     | 78 ++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 78 insertions(+), 2 deletions(-)
 
 diff --git a/meta/lib/oeqa/buildperf/__init__.py b/meta/lib/oeqa/buildperf/__init__.py
-index c953559..bab122e 100644
+index bab122e..3bee5b9 100644
 --- a/meta/lib/oeqa/buildperf/__init__.py
 +++ b/meta/lib/oeqa/buildperf/__init__.py
-@@ -10,3 +10,4 @@
+@@ -10,4 +10,4 @@
  # more details.
  #
  """Build performance tests"""
-+from .base import KernelDropCaches
+-from .base import KernelDropCaches
++from .base import BuildPerfTest, KernelDropCaches
 diff --git a/meta/lib/oeqa/buildperf/base.py b/meta/lib/oeqa/buildperf/base.py
-new file mode 100644
-index 0000000..3cbdfa7
---- /dev/null
+index 3cbdfa7..3ef0384 100644
+--- a/meta/lib/oeqa/buildperf/base.py
 +++ b/meta/lib/oeqa/buildperf/base.py
-@@ -0,0 +1,46 @@
-+# Copyright (c) 2016, Intel Corporation.
-+#
-+# This program is free software; you can redistribute it and/or modify it
-+# under the terms and conditions of the GNU General Public License,
-+# version 2, as published by the Free Software Foundation.
-+#
-+# This program is distributed in the hope it will be useful, but WITHOUT
-+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+# more details.
-+#
-+"""Build performance test base classes and functionality"""
-+from oeqa.utils.commands import runCmd
+@@ -10,7 +10,16 @@
+ # more details.
+ #
+ """Build performance test base classes and functionality"""
+-from oeqa.utils.commands import runCmd
++import logging
++import os
++import shutil
++import time
++from datetime import datetime
 +
++from oeqa.utils.commands import runCmd, get_bb_vars
 +
-+class KernelDropCaches(object):
-+    """Container of the functions for dropping kernel caches"""
-+    sudo_passwd = None
-+
-+    @classmethod
-+    def check(cls):
-+        """Check permssions for dropping kernel caches"""
-+        from getpass import getpass
-+        from locale import getdefaultlocale
-+        cmd = ['sudo', '-k', '-n', 'tee', '/proc/sys/vm/drop_caches']
-+        ret = runCmd(cmd, ignore_status=True, data=b'0')
-+        if ret.output.startswith('sudo:'):
-+            pass_str = getpass(
-+                "\nThe script requires sudo access to drop caches between "
-+                "builds (echo 3 > /proc/sys/vm/drop_caches).\n"
-+                "Please enter your sudo password: ")
-+            cls.sudo_passwd = bytes(pass_str, getdefaultlocale()[1])
-+
-+    @classmethod
-+    def drop(cls):
-+        """Drop kernel caches"""
-+        cmd = ['sudo', '-k']
-+        if cls.sudo_passwd:
-+            cmd.append('-S')
-+            input_data = cls.sudo_passwd + b'\n'
-+        else:
-+            cmd.append('-n')
-+            input_data = b''
-+        cmd += ['tee', '/proc/sys/vm/drop_caches']
-+        input_data += b'3'
-+        runCmd(cmd, data=input_data)
-diff --git a/scripts/oe-build-perf-test b/scripts/oe-build-perf-test
-index 9fb4310..9589dee 100755
---- a/scripts/oe-build-perf-test
-+++ b/scripts/oe-build-perf-test
-@@ -22,6 +22,7 @@ import sys
- sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)) + '/lib')
- import scriptpath
- scriptpath.add_oe_lib_path()
-+from oeqa.buildperf import KernelDropCaches
- from oeqa.utils.commands import runCmd
++# Get logger for this module
++log = logging.getLogger('build-perf')
  
  
-@@ -71,6 +72,9 @@ def main(argv=None):
-     if not pre_run_sanity_check():
-         return 1
- 
-+    # Check our capability to drop caches and ask pass if needed
-+    KernelDropCaches.check()
+ class KernelDropCaches(object):
+@@ -44,3 +53,70 @@ class KernelDropCaches(object):
+         cmd += ['tee', '/proc/sys/vm/drop_caches']
+         input_data += b'3'
+         runCmd(cmd, data=input_data)
 +
-     return 0
- 
- 
++
++class BuildPerfTest(object):
++    """Base class for build performance tests"""
++    name = None
++    description = None
++
++    def __init__(self, out_dir):
++        self.out_dir = out_dir
++        self.results = {'name':self.name,
++                        'description': self.description,
++                        'status': 'NOTRUN',
++                        'start_time': None,
++                        'elapsed_time': None,
++                        'measurements': []}
++        if not os.path.exists(self.out_dir):
++            os.makedirs(self.out_dir)
++        if not self.name:
++            self.name = self.__class__.__name__
++        self.bb_vars = get_bb_vars()
++
++    def run(self):
++        """Run test"""
++        self.results['status'] = 'FAILED'
++        self.results['start_time'] = datetime.now()
++        self._run()
++        self.results['elapsed_time'] = (datetime.now() -
++                                        self.results['start_time'])
++        # Test is regarded as completed if it doesn't raise an exception
++        self.results['status'] = 'COMPLETED'
++
++    def _run(self):
++        """Actual test payload"""
++        raise NotImplementedError
++
++    @staticmethod
++    def force_rm(path):
++        """Equivalent of 'rm -rf'"""
++        if os.path.isfile(path) or os.path.islink(path):
++            os.unlink(path)
++        elif os.path.isdir(path):
++            shutil.rmtree(path)
++
++    def rm_tmp(self):
++        """Cleanup temporary/intermediate files and directories"""
++        log.debug("Removing temporary and cache files")
++        for name in ['bitbake.lock', 'conf/sanity_info',
++                     self.bb_vars['TMPDIR']]:
++            self.force_rm(name)
++
++    def rm_sstate(self):
++        """Remove sstate directory"""
++        log.debug("Removing sstate-cache")
++        self.force_rm(self.bb_vars['SSTATE_DIR'])
++
++    def rm_cache(self):
++        """Drop bitbake caches"""
++        self.force_rm(self.bb_vars['PERSISTENT_DIR'])
++
++    @staticmethod
++    def sync():
++        """Sync and drop kernel caches"""
++        log.debug("Syncing and dropping kernel caches""")
++        KernelDropCaches.drop()
++        os.sync()
++        # Wait a bit for all the dirty blocks to be written onto disk
++        time.sleep(3)
 -- 
 2.6.6
 
