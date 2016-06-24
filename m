@@ -1,23 +1,23 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 2BEE2731E0
+	by mail.openembedded.org (Postfix) with ESMTP id ABCF773259
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jun 2016 10:38:20 +0000 (UTC)
+	Fri, 24 Jun 2016 10:38:22 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP; 24 Jun 2016 03:38:21 -0700
+	by orsmga101.jf.intel.com with ESMTP; 24 Jun 2016 03:38:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,520,1459839600"; d="scan'208";a="724410456"
+X-IronPort-AV: E=Sophos;i="5.26,520,1459839600"; d="scan'208";a="724410463"
 Received: from skenned1-mobl.ger.corp.intel.com (HELO
 	mqz-osx-suse64.fi.intel.com) ([10.252.9.142])
-	by FMSMGA003.fm.intel.com with ESMTP; 24 Jun 2016 03:38:19 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 24 Jun 2016 03:38:21 -0700
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Jun 2016 13:37:38 +0300
-Message-Id: <1466764661-24544-26-git-send-email-markus.lehtonen@linux.intel.com>
+Date: Fri, 24 Jun 2016 13:37:39 +0300
+Message-Id: <1466764661-24544-27-git-send-email-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.6.6
 In-Reply-To: <1466764661-24544-1-git-send-email-markus.lehtonen@linux.intel.com>
 References: <1466764661-24544-1-git-send-email-markus.lehtonen@linux.intel.com>
-Subject: [PATCH 25/28] oe-build-perf-test: implement --globalres-file option
+Subject: [PATCH 26/28] oe-build-perf-test: enable locking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,83 +30,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jun 2016 10:38:20 -0000
+X-List-Received-Date: Fri, 24 Jun 2016 10:38:23 -0000
 
-Using this option the script appends test results into a 'global results
-file'. A CSV-formatted output of the results. This option is to provide
-compatibility with the old build-perf-test.sh.
+Makes it possible to guard that multiple tests are not run in parallel.
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- meta/lib/oeqa/buildperf/base.py | 32 ++++++++++++++++++++++++++++++++
- scripts/oe-build-perf-test      |  5 +++++
- 2 files changed, 37 insertions(+)
+ scripts/oe-build-perf-test | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-diff --git a/meta/lib/oeqa/buildperf/base.py b/meta/lib/oeqa/buildperf/base.py
-index e10cbf4..527563b 100644
---- a/meta/lib/oeqa/buildperf/base.py
-+++ b/meta/lib/oeqa/buildperf/base.py
-@@ -152,6 +152,38 @@ class BuildPerfTestRunner(object):
-         os.makedirs(os.path.dirname(tgt_dir))
-         shutil.copytree(src_dir, tgt_dir)
- 
-+    def update_globalres_file(self, filename):
-+        """Write results to globalres csv file"""
-+        if self.repo:
-+            git_tag_rev = self.repo.run_cmd(['describe', self.git_rev])
-+        else:
-+            git_tag_rev = self.git_rev
-+        times = []
-+        sizes = []
-+        for test in self.results['tests'].values():
-+            for measurement in test['measurements']:
-+                res_type = measurement['type']
-+                values = measurement['values']
-+                if res_type == BuildPerfTest.SYSRES:
-+                    e_sec = values['elapsed_time'].total_seconds()
-+                    times.append('{:d}:{:02d}:{:.2f}'.format(
-+                        int(e_sec / 3600),
-+                        int((e_sec % 3600) / 60),
-+                        e_sec % 60))
-+                elif res_type == BuildPerfTest.DISKUSAGE:
-+                    sizes.append(str(values['size']))
-+                else:
-+                    log.warning("Unable to handle '%s' values in "
-+                                "globalres.log", res_type)
-+
-+        log.debug("Writing globalres log to %s", filename)
-+        with open(filename, 'a') as fobj:
-+            fobj.write('{},{}:{},{},'.format(self.results['tester_host'],
-+                                             self.results['git_branch'],
-+                                             self.results['git_revision'],
-+                                             git_tag_rev))
-+            fobj.write(','.join(times + sizes) + '\n')
-+
- 
- def perf_test_case(obj):
-     """Decorator for adding test classes"""
 diff --git a/scripts/oe-build-perf-test b/scripts/oe-build-perf-test
-index ca90f69..9dd073c 100755
+index 9dd073c..64873c9 100755
 --- a/scripts/oe-build-perf-test
 +++ b/scripts/oe-build-perf-test
-@@ -70,6 +70,8 @@ def parse_args(argv):
+@@ -15,6 +15,8 @@
+ #
+ """Build performance test script"""
+ import argparse
++import errno
++import fcntl
+ import logging
+ import os
+ import sys
+@@ -33,6 +35,19 @@ logging.basicConfig(level=logging.INFO, format=LOG_FORMAT)
+ log = logging.getLogger()
  
-     parser.add_argument('-D', '--debug', action='store_true',
+ 
++def acquire_lock(lock_f):
++    """Acquire flock on file"""
++    log.debug("Acquiring lock %s", os.path.abspath(lock_f.name))
++    try:
++        fcntl.flock(lock_f, fcntl.LOCK_EX | fcntl.LOCK_NB)
++    except IOError as err:
++        if err.errno == errno.EAGAIN:
++            return False
++        raise
++    log.debug("Lock acquired")
++    return True
++
++
+ def pre_run_sanity_check():
+     """Sanity check of build environment"""
+     build_dir = os.environ.get("BUILDDIR")
+@@ -72,6 +87,9 @@ def parse_args(argv):
                          help='Enable debug level logging')
-+    parser.add_argument('--globalres-file',
-+                        help="Append results to 'globalres' csv file")
+     parser.add_argument('--globalres-file',
+                         help="Append results to 'globalres' csv file")
++    parser.add_argument('--lock-file', default='./oe-build-perf.lock',
++                        metavar='FILENAME',
++                        help="Lock file to use")
  
      return parser.parse_args(argv)
  
-@@ -94,6 +96,9 @@ def main(argv=None):
-     # Run actual tests
-     runner = BuildPerfTestRunner(out_dir)
-     ret = runner.run_tests()
-+    if not ret:
-+        if args.globalres_file:
-+            runner.update_globalres_file(args.globalres_file)
+@@ -83,6 +101,11 @@ def main(argv=None):
+     if args.debug:
+         log.setLevel(logging.DEBUG)
  
-     return ret
++    lock_f = open(args.lock_file, 'w')
++    if not acquire_lock(lock_f):
++        log.error("Another instance of this script is running, exiting...")
++        return 1
++
+     if not pre_run_sanity_check():
+         return 1
  
 -- 
 2.6.6
