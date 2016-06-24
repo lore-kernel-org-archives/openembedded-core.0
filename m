@@ -1,39 +1,38 @@
 Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 42B05731B9
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 6468A65CBB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jun 2016 10:58:35 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id 187so4028738wmz.1
+	Fri, 24 Jun 2016 10:59:24 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id 187so4034128wmz.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jun 2016 03:58:36 -0700 (PDT)
+	Fri, 24 Jun 2016 03:59:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=6wlfZ7IZbMOzV79uZ0TbevztpIkLNrBX8cf+YUDQb9E=;
-	b=DMmJzB5miu7C2d6cs/p/cSobJe7JnZYCbEq77LjMwnkrgz5HYPL70Nu7CvJKu9mrHO
-	UABmqrP3Z73oOIrXXHznOvUiWPbRWQtmjZUXzuyX/45b5YC4qG2kYZswQXTJPUCdPQ1p
-	2lq/t5kQxoNIa+I6mVYJQTis6X4eZgB/f00HjEV34fUt2BioUyc+HSbPTtzaHkkoIw+8
-	lJwqioylpGwk5NddGNw2MtKcsvbJs2hNwMiLpRzFNcgybKhcPkGgAAram45jseSq88E3
-	KgCGm7b513e5BRe/mhWqifQfvOsd+EUaLTe2N6AX8sFy/b0CDQZozFVGXwSjawpV7OBO
-	dCiA==
-X-Gm-Message-State: ALyK8tLkRXBjtfvL3bnbvhM2ngCClssRbbdJ6j1D24h+oF2CvaRwhYA0BJmEPFhS2eQk5g==
-X-Received: by 10.28.46.71 with SMTP id u68mr5025017wmu.99.1466765915496;
-	Fri, 24 Jun 2016 03:58:35 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=fLV4Lv6qud688OFAY7XnrZFjXGwh2UobeQI8lj838EQ=;
+	b=TmlmDr/S5XAmPTGn/gZ3QOOmf9Qtv8O5RnxhI83XnDzjvUdapOADiROFJhUD2fzQf+
+	1ScAUxSgCvekCgHpMjptmMMROWbY42XBy1f3jWvusRdciVrrf+oHpGUtn246bgZwt96b
+	3ypabJSVncU0dpMPQfN5qePh6zkmKliE9SopVyEBEGZs20CnsKP5PHTIYP4eH6R6Okhe
+	I5gfnenwbAJObo8xOANN/Y8eNlDGXqdpgEJFEB9ZQqy4iEwNZwfJQlEhjWixxGbv43D+
+	94tKGgoi6j8bL+XBW2Id7iVrPB2P8mRWzj6xiw6IL4xZwGUChcSmY5maiI8+EJLaBits
+	kQJA==
+X-Gm-Message-State: ALyK8tIWuyqiwagspryLFLIoPHyPTeJxJ/E5fyIxSqTTFV6oVLE0tXYnw5PCAk4JU+sELg==
+X-Received: by 10.194.42.69 with SMTP id m5mr3293484wjl.89.1466765965230;
+	Fri, 24 Jun 2016 03:59:25 -0700 (PDT)
 Received: from tfsielt31850.TYCOFS.COM ([185.46.212.65])
-	by smtp.gmail.com with ESMTPSA id q69sm2574157wmd.4.2016.06.24.03.58.34
+	by smtp.gmail.com with ESMTPSA id
+	ue1sm4561143wjc.44.2016.06.24.03.59.24
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 24 Jun 2016 03:58:34 -0700 (PDT)
+	Fri, 24 Jun 2016 03:59:24 -0700 (PDT)
 From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Jun 2016 11:58:30 +0100
-Message-Id: <1466765910-22989-4-git-send-email-git@andred.net>
+Date: Fri, 24 Jun 2016 11:59:22 +0100
+Message-Id: <1466765962-23197-1-git-send-email-git@andred.net>
 X-Mailer: git-send-email 2.8.1
-In-Reply-To: <1466765910-22989-1-git-send-email-git@andred.net>
-References: <1466765910-22989-1-git-send-email-git@andred.net>
 MIME-Version: 1.0
-Subject: [PATCH 4/4] glib: disable valgrind support when compiling in mips16e mode
+Subject: [PATCH] security_flags.inc: libidn fails to build w/ -Wformat-security
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,56 +45,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jun 2016 10:58:35 -0000
+X-List-Received-Date: Fri, 24 Jun 2016 10:59:25 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From: André Draszik <adraszik@tycoint.com>
 
-| mipsel-poky-linux-uclibc-gcc -mel -mabi=32 -msoft-float \
-|   -march=mips32r2 -mips16 -minterlink-compressed -mtune=24kec \
-|   -mdsp --sysroot=<sysroot> -DHAVE_CONFIG_H -I. \
-|   -I<glib>/glib -I.. -I.. -I../glib -I<glib>/glib -I<glib> \
-|   -DG_LOG_DOMAIN=\"GLib\" -DG_DISABLE_CAST_CHECKS -DGLIB_COMPILATION \
-|   -DPCRE_STATIC -pthread -Wall -Wstrict-prototypes \
-|   -Werror=declaration-after-statement -Werror=missing-prototypes \
-|   -Werror=implicit-function-declaration -Werror=pointer-arith \
-|   -Werror=init-self -Werror=format=2 -Werror=missing-include-dirs \
-|   -fvisibility=hidden -O2 -pipe -g -feliminate-unused-debug-types \
-|   -c <glib>/glib/gslice.c  -fPIC -DPIC -o .libs/libglib_2_0_la-gslice.o
-| {standard input}: Assembler messages:
-| {standard input}:2485: Error: invalid operands `move $11,$8'
-| {standard input}:2487: Error: invalid operands `srl $0,$0,13'
-| {standard input}:2488: Error: invalid operands `srl $0,$0,29'
-| {standard input}:2489: Error: invalid operands `srl $0,$0,3'
-| {standard input}:2490: Error: invalid operands `srl $0,$0,19'
-| {standard input}:2491: Error: invalid operands `or $13,$13,$13'
-| Makefile:2076: recipe for target 'libglib_2_0_la-gslice.lo' failed
-
-The alternative would probably be to force compilation in normal mips
-mode for all of glib (as is done for armv4 and armv5). While that
-would retain the valgrind support, valgrind support itself shouldn't
-be needed on the target device, and we rather keep the mips16e mode.
+../../libidn-1.32/src/idn.c: In function 'main':
+../../libidn-1.32/src/idn.c:172:7: error: format not a string literal and no format arguments [-Werror=format-security]
+       error (0, 0, _("only one of -s, -e, -d, -a, -u or -n can be specified"));
+       ^~~~~
+../../libidn-1.32/src/idn.c:187:5: error: format not a string literal and no format arguments [-Werror=format-security]
+     fprintf (stderr, _("Type each input string on a line by itself, "
+     ^~~~~~~
+../../libidn-1.32/src/idn.c:202:4: error: format not a string literal and no format arguments [-Werror=format-security]
+    error (EXIT_FAILURE, errno, _("input error"));
+    ^~~~~
+../../libidn-1.32/src/idn.c:220:8: error: format not a string literal and no format arguments [-Werror=format-security]
+        _("could not convert from UTF-8 to UCS-4"));
+        ^
+../../libidn-1.32/src/idn.c:245:8: error: format not a string literal and no format arguments [-Werror=format-security]
+        _("could not convert from UTF-8 to UCS-4"));
+        ^
+../../libidn-1.32/src/idn.c:281:6: error: format not a string literal and no format arguments [-Werror=format-security]
+      _("could not convert from UTF-8 to UCS-4"));
+      ^
+../../libidn-1.32/src/idn.c:340:6: error: format not a string literal and no format arguments [-Werror=format-security]
+      _("could not convert from UCS-4 to UTF-8"));
+      ^
+../../libidn-1.32/src/idn.c:364:6: error: format not a string literal and no format arguments [-Werror=format-security]
+      _("could not convert from UCS-4 to UTF-8"));
+      ^
+../../libidn-1.32/src/idn.c:442:8: error: format not a string literal and no format arguments [-Werror=format-security]
+        _("could not convert from UCS-4 to UTF-8"));
+        ^
+../../libidn-1.32/src/idn.c:498:6: error: format not a string literal and no format arguments [-Werror=format-security]
+      _("could not convert from UTF-8 to UCS-4"));
+      ^
+../../libidn-1.32/src/idn.c:527:5: error: format not a string literal and no format arguments [-Werror=format-security]
+     _("could not convert from UTF-8 to UCS-4"));
+     ^
+../../libidn-1.32/src/idn.c:540:6: error: format not a string literal and no format arguments [-Werror=format-security]
+      error (EXIT_FAILURE, 0, _("could not do NFKC normalization"));
+      ^~~~~
+../../libidn-1.32/src/idn.c:551:5: error: format not a string literal and no format arguments [-Werror=format-security]
+     _("could not convert from UTF-8 to UCS-4"));
+     ^
 
 Signed-off-by: André Draszik <adraszik@tycoint.com>
 ---
- meta/recipes-core/glib-2.0/glib.inc | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/conf/distro/include/security_flags.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index c6b8e57..767492d 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -68,6 +68,9 @@ FILES_${PN}-utils = "${bindir}/*"
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+index a7be185..3f52afb 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -105,6 +105,7 @@ SECURITY_STRINGFORMAT_pn-expect = ""
+ SECURITY_STRINGFORMAT_pn-gcc = ""
+ SECURITY_STRINGFORMAT_pn-gettext = ""
+ SECURITY_STRINGFORMAT_pn-kexec-tools = ""
++SECURITY_STRINGFORMAT_pn-libidn = ""
+ SECURITY_STRINGFORMAT_pn-oh-puzzles = ""
  
- ARM_INSTRUCTION_SET_armv4 = "arm"
- ARM_INSTRUCTION_SET_armv5 = "arm"
-+# Valgrind runtime detection works using hand-written assembly, which
-+# doesn't support mips16e
-+CPPFLAGS_append_class-target_mips16e = " -DNVALGRIND=1"
- 
- USE_NLS = "yes"
- 
+ TARGET_CFLAGS_append_class-target = " ${SECURITY_CFLAGS}"
 -- 
 2.8.1
 
