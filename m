@@ -1,29 +1,53 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
-	by mail.openembedded.org (Postfix) with ESMTP id D617460088
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
+	[209.85.220.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 06E0260043
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Jun 2016 10:07:37 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
-	via TCP (outbound) with ESMTPS id 20160625100736956_0685
+	Sat, 25 Jun 2016 15:11:31 +0000 (UTC)
+Received: by mail-pa0-f65.google.com with SMTP id hf6so11489704pac.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Jun 2016 03:07:36 -0700
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [99.240.204.5] (port=46638 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1bGkWc-0004f6-VW for openembedded-core@lists.openembedded.org;
-	Sat, 25 Jun 2016 06:09:19 -0400
-Date: Sat, 25 Jun 2016 06:06:47 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.20.1606250600140.10173@localhost.localdomain>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+	Sat, 25 Jun 2016 08:11:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding;
+	bh=bjcOjA3Pc+Ci3nLpNix0eAYKk+il2+1EPLPQFDylvy0=;
+	b=Om7ZZfE0b0YPOniRxcCgTLhFjnOkZGtAYpqi96kEF6X7W8Dfm4VAuo7D3IJYfkXbe3
+	wLhhK9BpWpgJqf8JXoMFUObmmWx2Yy0J9U76FLUg87x7u/SJTh7p2IEgSzkdLYBoROkY
+	wS7aUrZWll7UB56df1M+7gOguDX7a80kwVcpJ2IZDL5Gkd2kPvnMyzO1szX8MUHOxhkp
+	IFMr7wAydPSgcSXcW05hCincMikj4jJGKwveJ0PHNvUnuxnOVcf65pGkTGEgXQzqjksq
+	2J0As+dl25jv8zn8jUbdRRvcGYZCV5WnMUNtFzsdA3KVBUBcoiNzXdB6d0S0rPoXADBO
+	RRUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=bjcOjA3Pc+Ci3nLpNix0eAYKk+il2+1EPLPQFDylvy0=;
+	b=fdn5m8JvTMgnObnFpTQMsqmbvrz23nimnMGRwybxFP40dsOcRa3sBWvipWpg5R0jUG
+	o/5ldKmeodfS4qnIJAKqfRRnFExxeKwHkY8Q/FsxL92HwrsgMe6C604Up8S7plDBplY5
+	p5TUXbG3SC24YAzo9d7GL528so/5DRbhhk43bScIkPAnZARwm+7hIcQdsKR3Hds4KZ6M
+	w2eb5cN69FxpEDnvtpCunGtGrTVBOJXc9XIi7URXwucfFrrx+SIUuSSQcMb4rZDT06n2
+	EXGualrfLh0NBtvJ79+pulqlAHgPA2Ke1gBhn8r3+we3CU0swgJ6v0kZ+6pGKBDXi0HP
+	GrQA==
+X-Gm-Message-State: ALyK8tJrrbWNYa1pgU58OmijiywSLgGtHlDbxWJGXuQxzcDlp+DlRnc8QyzfL/QVLgORCA==
+X-Received: by 10.67.3.105 with SMTP id bv9mr17553084pad.29.1466867492573;
+	Sat, 25 Jun 2016 08:11:32 -0700 (PDT)
+Received: from ?IPv6:2601:202:4001:9ea0:60ad:4dfb:8f30:e657?
+	([2601:202:4001:9ea0:60ad:4dfb:8f30:e657])
+	by smtp.googlemail.com with ESMTPSA id
+	o6sm650136pax.9.2016.06.25.08.11.31
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 25 Jun 2016 08:11:31 -0700 (PDT)
+To: Stephano Cetola <stephano.cetola@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <20160622193552.14761-1-stephano.cetola@linux.intel.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <576E9F21.3050608@gmail.com>
+Date: Sat, 25 Jun 2016 08:11:29 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.1
 MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: want to clarify relationship between UBOOT_MACHINE and UBOOT_CONFIG
+In-Reply-To: <20160622193552.14761-1-stephano.cetola@linux.intel.com>
+Subject: Re: [PATCH][for-krogoth] backport staticid fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,38 +60,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 Jun 2016 10:07:42 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Sat, 25 Jun 2016 15:11:33 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
+staged for krogoth-next
 
-  this *looks* straightforward, i just want to make sure i'm
-understanding it properly before diving into the code. for machines
-that require u-boot, there are two ways to identify the u-boot config
-file to use for the configuration.
+thanks,
+Armin
 
-  the simple way is to just set UBOOT_MACHINE to refer to one of the
-numerous config files that come with u-boot, and that's it, you're
-done.
-
-  the more flexible way is to use UBOOT_CONFIG, which gives you the
-ability to identify a *number* of possible u-boot config files, based
-on the image fstypes you want to generate. in the end, all the
-UBOOT_CONFIG possibilities still have to map directly to u-boot config
-files.
-
-  that's it, right? is there anything more subtle happening under the
-hood than that? thanks.
-
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
+On 06/22/2016 12:35 PM, Stephano Cetola wrote:
+> I've backported this from master and tested.
+> 
+> [ YOCTO #9777 ]
+> 
+> Peter Kjellerstedt (1):
+>   useradd-staticids.bbclass: Restore failure on missing UIDs/GIDs
+> 
+>  meta/classes/useradd-staticids.bbclass | 19 +++++++++++++------
+>  1 file changed, 13 insertions(+), 6 deletions(-)
+> 
 
