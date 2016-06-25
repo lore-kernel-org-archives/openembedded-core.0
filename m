@@ -1,53 +1,56 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
-	[209.85.220.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 06E0260043
+Received: from mail-yw0-f194.google.com (mail-yw0-f194.google.com
+	[209.85.161.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D11F60088
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Jun 2016 15:11:31 +0000 (UTC)
-Received: by mail-pa0-f65.google.com with SMTP id hf6so11489704pac.2
+	Sat, 25 Jun 2016 15:30:09 +0000 (UTC)
+Received: by mail-yw0-f194.google.com with SMTP id l125so18224928ywb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Jun 2016 08:11:33 -0700 (PDT)
+	Sat, 25 Jun 2016 08:30:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding;
-	bh=bjcOjA3Pc+Ci3nLpNix0eAYKk+il2+1EPLPQFDylvy0=;
-	b=Om7ZZfE0b0YPOniRxcCgTLhFjnOkZGtAYpqi96kEF6X7W8Dfm4VAuo7D3IJYfkXbe3
-	wLhhK9BpWpgJqf8JXoMFUObmmWx2Yy0J9U76FLUg87x7u/SJTh7p2IEgSzkdLYBoROkY
-	wS7aUrZWll7UB56df1M+7gOguDX7a80kwVcpJ2IZDL5Gkd2kPvnMyzO1szX8MUHOxhkp
-	IFMr7wAydPSgcSXcW05hCincMikj4jJGKwveJ0PHNvUnuxnOVcf65pGkTGEgXQzqjksq
-	2J0As+dl25jv8zn8jUbdRRvcGYZCV5WnMUNtFzsdA3KVBUBcoiNzXdB6d0S0rPoXADBO
-	RRUQ==
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding;
+	bh=zoXmYMxk8YICYnVngw2spfkak4rlLAGp6dZxCmC4dFU=;
+	b=NCSaUpyS8uARseIZH+rHeYiiqHZxmi87bMLEUUeFc2Siclxw20unf96bNfkSPBla+e
+	Q4p0Lr89nKngrd0ge2FZYs9n4aPpUc4MduScSBLrC27FHriQi9TAWAbIN3bgGnuZN71Z
+	vRpzUekZIusJgvmvIdYDl4OED7m+dTBnVvSNy1+sJ+U0M9l0p6BtvuWveD4Csia0WC5a
+	aR4TpH+B/cRBn3nQObdIIQa07+akRyURWNs3D4GqI/Tv23W64jhXJz1OvmORPhCxeizl
+	YwcdIump2n6xGGcS5ZWIYxIfZpvcddtoYVUqToYS+8BmaWsy1CwPdS0zM8Zg5yWEpJGu
+	nh5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=bjcOjA3Pc+Ci3nLpNix0eAYKk+il2+1EPLPQFDylvy0=;
-	b=fdn5m8JvTMgnObnFpTQMsqmbvrz23nimnMGRwybxFP40dsOcRa3sBWvipWpg5R0jUG
-	o/5ldKmeodfS4qnIJAKqfRRnFExxeKwHkY8Q/FsxL92HwrsgMe6C604Up8S7plDBplY5
-	p5TUXbG3SC24YAzo9d7GL528so/5DRbhhk43bScIkPAnZARwm+7hIcQdsKR3Hds4KZ6M
-	w2eb5cN69FxpEDnvtpCunGtGrTVBOJXc9XIi7URXwucfFrrx+SIUuSSQcMb4rZDT06n2
-	EXGualrfLh0NBtvJ79+pulqlAHgPA2Ke1gBhn8r3+we3CU0swgJ6v0kZ+6pGKBDXi0HP
-	GrQA==
-X-Gm-Message-State: ALyK8tJrrbWNYa1pgU58OmijiywSLgGtHlDbxWJGXuQxzcDlp+DlRnc8QyzfL/QVLgORCA==
-X-Received: by 10.67.3.105 with SMTP id bv9mr17553084pad.29.1466867492573;
-	Sat, 25 Jun 2016 08:11:32 -0700 (PDT)
-Received: from ?IPv6:2601:202:4001:9ea0:60ad:4dfb:8f30:e657?
-	([2601:202:4001:9ea0:60ad:4dfb:8f30:e657])
+	bh=zoXmYMxk8YICYnVngw2spfkak4rlLAGp6dZxCmC4dFU=;
+	b=Vl3PKpLmwpu7mA9QtL37V1cvLIGECtyDNdIEyFL/N6id+4gs5cU6Ll0xoIzIcUzBUH
+	pp5+OiVQvt68qC+7plgJl93PIs+nTUJ6O6OVtjWejjyMiGcPwP5H1P2vGSY7ude6G4JB
+	IoGX0c/6/Y8zj7lcS3LCi+dCZKPbHC+QrQwKuuRtsdtuWXYI9e1TES1j8WZZAWtH6odG
+	jp2s0f5N362OOCdt5xoO7r6oGCGsXHXeJID/ovXKK1lcX+sfkc3643jcjdybZkijE72n
+	dTpQYs/nHspEIqqIgpSv8+jqJ8+FVdo+MAZQXsoePtS3PxLSQYOZnXz0aOhOSaIpRJq0
+	yj5A==
+X-Gm-Message-State: ALyK8tIKsVGX1uDkCNCUcWCFge1Z47K4aAlPTPGP9Ial+ED7r3zYL3AZdo5/BbAyaYuXlw==
+X-Received: by 10.37.47.213 with SMTP id v204mr6362615ybv.91.1466868610489;
+	Sat, 25 Jun 2016 08:30:10 -0700 (PDT)
+Received: from ?IPv6:2601:202:4001:9ea0:7088:5913:fd08:49ed?
+	([2601:202:4001:9ea0:7088:5913:fd08:49ed])
 	by smtp.googlemail.com with ESMTPSA id
-	o6sm650136pax.9.2016.06.25.08.11.31
+	x82sm2016227ywd.27.2016.06.25.08.30.08
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 25 Jun 2016 08:11:31 -0700 (PDT)
-To: Stephano Cetola <stephano.cetola@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <20160622193552.14761-1-stephano.cetola@linux.intel.com>
+	Sat, 25 Jun 2016 08:30:08 -0700 (PDT)
+To: Khem Raj <raj.khem@gmail.com>
+References: <1466609398-17634-1-git-send-email-akuster808@gmail.com>
+	<9FC96606-1A87-49F3-8A49-F692CDF8C2AA@gmail.com>
+	<576AC542.9020709@gmail.com>
+	<112E5421-6EE1-465A-9D4A-AEC9A38B9EB7@gmail.com>
 From: akuster808 <akuster808@gmail.com>
-Message-ID: <576E9F21.3050608@gmail.com>
-Date: Sat, 25 Jun 2016 08:11:29 -0700
+Message-ID: <576EA37E.6050705@gmail.com>
+Date: Sat, 25 Jun 2016 08:30:06 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
 	Thunderbird/38.5.1
 MIME-Version: 1.0
-In-Reply-To: <20160622193552.14761-1-stephano.cetola@linux.intel.com>
-Subject: Re: [PATCH][for-krogoth] backport staticid fix
+In-Reply-To: <112E5421-6EE1-465A-9D4A-AEC9A38B9EB7@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/2] Add gcc version and tclibc to build summary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,24 +63,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 Jun 2016 15:11:33 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 25 Jun 2016 15:30:10 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-staged for krogoth-next
 
-thanks,
-Armin
 
-On 06/22/2016 12:35 PM, Stephano Cetola wrote:
-> I've backported this from master and tested.
+On 06/22/2016 10:21 AM, Khem Raj wrote:
 > 
-> [ YOCTO #9777 ]
+>> On Jun 22, 2016, at 10:05 AM, akuster808 <akuster808@gmail.com> wrote:
+>>
+>>
+>>
+>> On 06/22/2016 09:52 AM, Khem Raj wrote:
+>>>
+>>>> On Jun 22, 2016, at 8:29 AM, Armin Kuster <akuster808@gmail.com> wrote:
+>>>>
+>>>> Since there are two gcc versions supported and any number of tcglibc,
+>>>> it would be nice to know which ones are being used.
+>>>> Add those to the build summary.
+>>>>
+>>>> Build summary
+>>>> TCLIBC            = “glibc"
+>>>
+>>> libc is evident from TARGET_SYS
+>>
+>> TARGET_SYS="x86_64-oe-linux", this is not the my intent.
+>>
+>>
+>> The intent is to track which libc is being used. I changed TCLIBC =
+>> "musl" local.conf and now build summary show.
+>>
+>> TCLIBC            = "musl"
+>> GCC_VERSION       = "6.1"
+>>
+>> Is there a clearer / better way to display this?
 > 
-> Peter Kjellerstedt (1):
->   useradd-staticids.bbclass: Restore failure on missing UIDs/GIDs
+> if you set TCLIBC = “musl” then TARGET_SYS should have changed to x86_64-oe-linux-musl
+> and TARGET_SYS is displayed with build configuration.
+
+Ah, ok. now I get it.
+
+Would TCMODE be more useful?
+
+
+is the GCC summary part OK?
+
+- armin
 > 
->  meta/classes/useradd-staticids.bbclass | 19 +++++++++++++------
->  1 file changed, 13 insertions(+), 6 deletions(-)
+>>
+>> - armin
+>>>
+>>>> GCC_VERSION       = "6.1"
+>>>>
+>>>> Not sure if the gcc version bit is best practice.
+>>>>
+>>>> Armin Kuster (2):
+>>>> build summary: add gcc version being used.
+>>>> build summary: add TCLIBC being used
+>>>>
+>>>> meta/classes/base.bbclass | 2 ++
+>>>> meta/conf/bitbake.conf    | 2 +-
+>>>> 2 files changed, 3 insertions(+), 1 deletion(-)
+>>>>
+>>>> --
+>>>> 2.3.5
+>>>>
+>>>> --
+>>>> _______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org
+>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>
 > 
 
