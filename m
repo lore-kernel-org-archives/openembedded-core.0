@@ -1,21 +1,46 @@
-Return-Path: <william.c.randle@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 9EE50606D0
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
+	[209.85.220.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 5483A6013D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jun 2016 15:56:09 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP; 27 Jun 2016 08:56:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,537,1459839600"; d="scan'208";a="836022613"
-Received: from wcrandle-mobl1.amr.corp.intel.com (HELO
-	wcrandle-mobl1.jf.intel.com) ([10.7.199.59])
-	by orsmga003.jf.intel.com with ESMTP; 27 Jun 2016 08:56:09 -0700
-From: Bill Randle <william.c.randle@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Jun 2016 08:56:06 -0700
-Message-Id: <1467042966-4127-1-git-send-email-william.c.randle@intel.com>
-X-Mailer: git-send-email 2.5.5
-Subject: [PATCH] keep platform_extra and default_platform_extra lists ordered
+	Mon, 27 Jun 2016 16:05:43 +0000 (UTC)
+Received: by mail-pa0-f51.google.com with SMTP id bz2so60328798pad.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Jun 2016 09:05:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id;
+	bh=yOvjHNTHzvOvbE+ZCIRkq8i9koKzeMOUJw0+ckpp/x0=;
+	b=ovuobzUak3+c/W5TWNBfwzGZ73g7yAkoOOXXcgxdVoCH6Bngh/mbSUOeoDxWBZrDSd
+	PVEw9BaSbBxKg5FKJOWX05slYPUU5Qc19daWE2z7C2YLQ1AX/MIq5ZKlunG+gkGYZqDe
+	E7NEU2ML3n3zEYoevJK/YW09935Deg6Yt4dIrm2UtMJmI6y+lbsQ03ktp2QM8g40HyWu
+	9guW8QxTpJ4YDCOeCjS4tHCNSj7Yyrr8o9nh2UMZhegvEK2DjorJAP5DIyQGt/B/ulEb
+	bsT7jdJhhPgnrz3NNBIsZgA02W43f2dGp7sCEVpNhchDwVtbExJocUgYMUCLUolDLGQE
+	I+ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=yOvjHNTHzvOvbE+ZCIRkq8i9koKzeMOUJw0+ckpp/x0=;
+	b=f8cqg1d/+FC/kYh9TpJ5xTh87AIGeU8IPBY87IWhaMA5suhQKpUIzlSoTI4kRIKS0q
+	rMZyC6bSEDokOtqouO5nYqonl7KAkbvK7k23EvNjcNprlo+/GzseGf6RnfUr4rS/yEYR
+	hh1RaDUFG6hirQd24NkiMJlYHdzIlqS0+plxnTMb+aekklYIumwh24uVndliwCHJ66pi
+	1kjhvmciDb6RRUvhEc0u8A9P2O+c1u1YFRnQBnXia7xNY23YL/tZcCWET4CH0nUV/r9O
+	svuWqWDwptOQ3BrSd/IzpXldyhZBbmW0gtEKFn8u6XGvJ6UqbzflGNpTDXsO53uq4c7e
+	Yx1g==
+X-Gm-Message-State: ALyK8tIb4yz7xuht5h54So7aazyueNnzQlmRTTFnZh/YmsKTjfWMRYcOVSLZTUGIlifMOQ==
+X-Received: by 10.66.127.47 with SMTP id nd15mr35465243pab.74.1467043544540;
+	Mon, 27 Jun 2016 09:05:44 -0700 (PDT)
+Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207])
+	by smtp.gmail.com with ESMTPSA id 64sm633520pfj.96.2016.06.27.09.05.42
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 27 Jun 2016 09:05:43 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	akuster808@gmail.com
+Date: Mon, 27 Jun 2016 09:05:37 -0700
+Message-Id: <1467043538-18722-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.3.5
+Subject: [PATCH] Add tcmode to build summary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,52 +53,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Jun 2016 15:56:10 -0000
+X-List-Received-Date: Mon, 27 Jun 2016 16:05:44 -0000
 
-In RpmPM:insert_feeds_uris, the paths are kept in sets, which are unordered,
-but they are later used to set the priority for the Smart channels, so
-unexpected results could occur. Change the sets to lists and use the same
-code as in create_configs() to add items to the list, reather than the set
-operators.
+Dropped tclibc in favor of tcmode for build summary
 
-[YOCTO #9717]
+Armin Kuster (1):
+  build summary: add TCMODE to build summary
 
-Signed-off-by: Bill Randle <william.c.randle@intel.com>
----
- meta/lib/oe/package_manager.py | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 717246d..2004a42 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -700,18 +700,19 @@ class RpmPM(PackageManager):
-             arch_list = self.feed_archs.split()
-         else:
-             # List must be prefered to least preferred order
--            default_platform_extra = set()
--            platform_extra = set()
-+            default_platform_extra = list()
-+            platform_extra = list()
-             bbextendvariant = self.d.getVar('BBEXTENDVARIANT', True) or ""
-             for mlib in self.ml_os_list:
-                 for arch in self.ml_prefix_list[mlib]:
-                     plt = arch.replace('-', '_') + '-.*-' + self.ml_os_list[mlib]
-                     if mlib == bbextendvariant:
--                            default_platform_extra.add(plt)
-+                        if plt not in default_platform_extra:
-+                            default_platform_extra.append(plt)
-                     else:
--                            platform_extra.add(plt)
--
--            platform_extra = platform_extra.union(default_platform_extra)
-+                        if plt not in platform_extra:
-+                            platform_extra.append(plt)
-+            platform_extra = default_platform_extra + platform_extra
- 
-             for canonical_arch in platform_extra:
-                 arch = canonical_arch.split('-')[0]
 -- 
-2.5.5
+2.3.5
 
 
