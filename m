@@ -1,46 +1,45 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
-	by mail.openembedded.org (Postfix) with ESMTP id AB39D6FFEF
+Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
+	by mail.openembedded.org (Postfix) with ESMTP id B162170101
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jun 2016 22:16:48 +0000 (UTC)
-Received: by mail-wm0-f46.google.com with SMTP id r190so23694185wmr.0
+	Mon, 27 Jun 2016 22:17:40 +0000 (UTC)
+Received: by mail-wm0-f48.google.com with SMTP id a66so2012283wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jun 2016 15:16:49 -0700 (PDT)
+	Mon, 27 Jun 2016 15:17:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id;
-	bh=t52W7vxC4fVqryPyoXsj7uRQWmRrVLTbkBnZHaCeaYM=;
-	b=wpcFp8f+w1JdwfuFzMXjgDzGhmMSkU15Bwc5P9fmWGsscLlKj1CS8G0n5MD41/pKa2
-	g6AnZrUUrFuh3EVeQ6YV0Jre6IVgBSCbqHZMja4OLcpyTh2hhhsk97JLIBUX5p7l3+5p
-	j1aBoNF0LKUjcmzPItXguHFCHyVeHTM+dpn7PLiE2P+ImhoT/SRW8lqy7zDzZrSbBDG4
-	510HmXA5Tp76CbmyfdzsCSHioqka5Ty6oTo19lwvADLDb4VrAj3+h+FGaDF5w900p0h2
-	eKQOCdOchG7Kyu4IUbeUpAr/bRhXb23fTc7XvzrWnom7nyHQO9XYklQ/jG4Mc+Uh3uJt
-	p05A==
+	bh=boSq+592WaOv1RcP+PboCQ1RXQ5/NnJq31aFPfcMl9Q=;
+	b=peT8tPkwcnf7qbCy9ECW8/lebrAuiIx3myJZ1ZxXvQHs881uQAmankai9LtioC2bZg
+	ejfit9DqmBdZL7fEoVAlyCROv088hSI2ihrkvQ7r6MaRzXXti8UOFJSZBdkEqMnPL2A1
+	zEguoLM6k7aCrgRG5KhdfocCuPFvFjvZVYWjm9R0fGzp+BBz1+xE0u2rLc+PW4l2xU3G
+	XEe7dp/Y2Pg+7wxnWScqTbOls65AjKYdDENVgIFZSnRVCjuGldztPMgCcrnIf49YPLNx
+	/eDJUReKUp6RauMUoBqjhwjKoJFHhqbehQHSii9ro76/KMgJE0708uU1xpyit9GHFDnA
+	lKHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=t52W7vxC4fVqryPyoXsj7uRQWmRrVLTbkBnZHaCeaYM=;
-	b=Lzqqtk2RQEgRmKiqhQ56Oahu7qXF5ZnlISQjs5iAUigM5L4t+M/9dCTpg8WU0+yMxX
-	jssBAyEYEd4OUDJez0QhZ3H0A37kiRTaq16QFA7WJ16D0OnnaGoY6cVkxLA7ttFL/ZSz
-	aIRXtMB5YfEV2MMpKcCsEDk4zIxdouKxAzeIoRJXmsiFRA0LaZIrnO4C0drQ+FIOWBg8
-	zLwwqjwUbirgXTjC4SgG77AS8wm/HFCXMAaLYXaQclMIqnsEDW/4NGJ0rQXvfffgQkzu
-	WWq6gAgCkS8j0ShhguynX8JzVkOkQOSYZRZQPuyFcn0cVlu31IRdNvTQ5771DZuE70vj
-	LHKw==
-X-Gm-Message-State: ALyK8tJaAWlS0rvYGBPYanD7vEd0Dpfodjfv+xd7Kzf4CIUr3LXnjY5GLY4fiku9D8eOuHM7
-X-Received: by 10.194.141.65 with SMTP id rm1mr2786208wjb.167.1467065808174;
-	Mon, 27 Jun 2016 15:16:48 -0700 (PDT)
+	bh=boSq+592WaOv1RcP+PboCQ1RXQ5/NnJq31aFPfcMl9Q=;
+	b=FKN9lN2icuUsxsrWidiAJy8xgUGuxc5ecCZFZUZEg6fA4DnA+Tnks0Oy+5DT8PAIQg
+	p81os/uhYuWe5f5397IVJmE84hatqeNGFQcKoJn0kgaxEhCl4IIJEfTApEwosVv8TOLX
+	0YcS+B5JyS+3htQHXtLRnLSdCCzNUkNkUNpIgEIVjm33Yd5rViZY4X/k8wb8dO1pJXGP
+	WaKPq2uBEgPz54R5meA3sPqQJ/kGi0cRXaQPldweVJUExbsby7gw2GkuIx9PdJwukyao
+	WifzumrhmI1/zLGwetJh+59IAyDZYfJDnd4fE5kGBQUvd/HFNZLOYPI11hZeo1FYzvc4
+	LWcw==
+X-Gm-Message-State: ALyK8tJrRmvhiS4OUyIPMo7I0HaWmBRvMBy3A9Ez+EMMzMrRq6XM1m/BYSehic9Jc1K2/BQQ
+X-Received: by 10.28.184.5 with SMTP id i5mr90787wmf.85.1467065860299;
+	Mon, 27 Jun 2016 15:17:40 -0700 (PDT)
 Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	e69sm13711428wma.2.2016.06.27.15.16.46
+	by smtp.gmail.com with ESMTPSA id e16sm43685wma.12.2016.06.27.15.17.39
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 27 Jun 2016 15:16:47 -0700 (PDT)
+	Mon, 27 Jun 2016 15:17:39 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Jun 2016 23:16:43 +0100
-Message-Id: <1467065803-6643-1-git-send-email-ross.burton@intel.com>
+Date: Mon, 27 Jun 2016 23:17:37 +0100
+Message-Id: <1467065857-6759-1-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] db: use S/B more idiomatically
+Subject: [PATCH][V2] db: use S/B more idiomatically
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,14 +52,12 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Jun 2016 22:16:49 -0000
+X-List-Received-Date: Mon, 27 Jun 2016 22:17:40 -0000
 
 Instead of setting S to a directory inside the tarball and B to another
 directory inside the tarball, use the default value of S and set
-AUTOTOOLS_SCRIPT_PATH to the right path to find configure.
-
-Rebase two patches to reflect the change of patch root, and add patchdir to the
-db_5.3.28 recipe so the patches still apply.
+AUTOTOOLS_SCRIPT_PATH to the right path to find configure.  Update the patches
+so they still apply, and clean up the recipe slightly.
 
 Because something is not quite right regarding quilt and patching, add a PR bump
 to the recipes to ensure that a clean work directory is used: for some reason
