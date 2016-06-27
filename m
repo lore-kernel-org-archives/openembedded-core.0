@@ -1,29 +1,31 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 259D26013D
+Return-Path: <leimaohui@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F0AF6013D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Jul 2016 09:24:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u669OavM010027
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed,  6 Jul 2016 09:42:14 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; 
+   d="scan'208";a="8440082"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 06 Jul 2016 17:42:05 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id AE86541C0BBA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 6 Jul 2016 02:24:36 -0700 (PDT)
-Received: from [128.224.163.140] (128.224.163.140) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
-	Wed, 6 Jul 2016 02:24:35 -0700
-To: Catalin Enache <catalin.enache@windriver.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1462536830-30243-1-git-send-email-catalin.enache@windriver.com>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <577CCDED.9060707@windriver.com>
-Date: Wed, 6 Jul 2016 17:22:53 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
+	Wed,  6 Jul 2016 17:41:59 +0800 (CST)
+Received: from localhost.localdomain (10.167.226.93) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.279.2; Wed, 6 Jul 2016 17:41:59 +0800
+From: Lei Maohui <leimaohui@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sun, 26 Jun 2016 17:11:41 -0700
+Message-ID: <1466986302-33565-1-git-send-email-leimaohui@cn.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <1462536830-30243-1-git-send-email-catalin.enache@windriver.com>
-X-Originating-IP: [128.224.163.140]
-Subject: Re: [PATCH] grub-efi: run autogen.sh before configure
+X-Originating-IP: [10.167.226.93]
+X-yoursite-MailScanner-ID: AE86541C0BBA.AFDF2
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] To make yocto-spdx support spdx2.0 SPEC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,48 +38,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jul 2016 09:24:37 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 06 Jul 2016 09:42:28 -0000
+Content-Type: text/plain
+
+There are some problems in spdx module(spdx.bbclass).
+1. The newest version of spdxi specification is 2.0. But even spdx 1.1, yocto+SPDX can't support well.
+2. It is complex to build a Yocto+SPDX environment.
+3. Creating a spdx file spends too much time, especially for large software.
+
+To improve spdx module ,I change the spdx create tool from fossology to dosocs2.
+With this patch:
+1. Also gets license informations by scanner from fossology.
+1. Can support SPDX2.0 SPEC.
+2. Because dosocs2 can work on directories, so there is no necessary to pack source code before do_spdx. It can save time for large software.
+
+Lei Maohui (1):
+  To Make yocto-spdx support spdx v2.0 specification.
+
+ meta/classes/spdx.bbclass | 488 +++++++++++++++++-----------------------------
+ meta/conf/licenses.conf   |  67 +------
+ 2 files changed, 184 insertions(+), 371 deletions(-)
+
+-- 
+1.9.1
 
 
-ping
 
-Thanks,
-Grace
-
-On 2016年05月06日 20:13, Catalin Enache wrote:
-> When adding new source files from upstream the autogen.sh
-> script needs to be run.
->
-> Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
-> ---
->   meta/recipes-bsp/grub/grub-efi_2.00.bb | 6 ++++++
->   1 file changed, 6 insertions(+)
->
-> diff --git a/meta/recipes-bsp/grub/grub-efi_2.00.bb b/meta/recipes-bsp/grub/grub-efi_2.00.bb
-> index 5a0dc95..62ded6e 100644
-> --- a/meta/recipes-bsp/grub/grub-efi_2.00.bb
-> +++ b/meta/recipes-bsp/grub/grub-efi_2.00.bb
-> @@ -2,6 +2,7 @@ require grub2.inc
->
->   DEPENDS_class-target = "grub-efi-native"
->   RDEPENDS_${PN}_class-target = "diffutils freetype"
-> +DEPENDS += "autogen-native"
->   PR = "r3"
->
->   SRC_URI += " \
-> @@ -39,6 +40,11 @@ EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'largefile', '--enable-
->   # and many other places in the grub code when compiled with some native gcc compilers (specifically, gentoo)
->   CFLAGS_append_class-native = " -Wno-error=trampolines"
->
-> +do_configure_prepend() {
-> +    ( cd ${S}
-> +    ${S}/autogen.sh )
-> +}
-> +
->   do_install_class-native() {
->   	install -d ${D}${bindir}
->   	install -m 755 grub-mkimage ${D}${bindir}
->
 
