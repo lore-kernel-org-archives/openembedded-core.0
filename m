@@ -1,26 +1,54 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 755CE605BA
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id E8D6D6FFA4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jun 2016 09:42:31 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 27 Jun 2016 02:42:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,536,1459839600"; d="scan'208";a="983953147"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 27 Jun 2016 02:42:31 -0700
-To: openembedded-core@lists.openembedded.org
-References: <1466765962-23197-1-git-send-email-git@andred.net>
-	<CAJTo0La+NmXWrJW4hp9e2JtqB2DTeREfOYhhLi4MJWqkZygc3g@mail.gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <40d4fd66-6794-03bd-ee48-20f376483f6a@linux.intel.com>
-Date: Mon, 27 Jun 2016 12:42:28 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.1.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0La+NmXWrJW4hp9e2JtqB2DTeREfOYhhLi4MJWqkZygc3g@mail.gmail.com>
-Subject: Re: [PATCH] security_flags.inc: libidn fails to build w/ -Wformat-security
+	Mon, 27 Jun 2016 10:12:42 +0000 (UTC)
+Received: by mail-io0-f170.google.com with SMTP id g13so141003450ioj.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Jun 2016 03:12:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=gTtfmBLsR7nlLpU9GkbYaEsdtXsvbqndtX4//suSOEk=;
+	b=eM1HTCHMyncH6NAkgsMsQXVkAOK4CHN7sxkMuUcIyiBGsoI7LF5S5lahBGOA9txbTy
+	Sxl1CdWH76SYif40HZFTetwcTX8SLsbZp0hAXheztRHt158wBiIUMDlatsPC0hhoCyer
+	JQtdmpuVGe01CExZPTqiVqL6nrYmrKrgzBVgdUY8FonYTJV4gZpWSWXCbRNYk6m4BSum
+	Ie39Kb/k32JHgqYKbA0Z7nFE42grV27AVdP3/Yvho6tBCHmEVu/RenRbkjS/hRI07EKa
+	7d5wCewU4EBzqZcqVXN6LWpsc4ijvVZWMiS2DXJy8ObsmdyN+6V1JCsqK9hgi9+bpYwU
+	xFbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=gTtfmBLsR7nlLpU9GkbYaEsdtXsvbqndtX4//suSOEk=;
+	b=DHEJnddhFChqtTjbuRTXKnvY1eC+9oEzgGPvLzIFgd3POXOB2eA2YhFCEX3KwqKT5m
+	FxhtLmD7f+mGAPQ3Osqw6TwBFh72bHRqL/oV5RLET24JFz7qtidEe56ZzOegXKfbT+r6
+	gH3PmWeEO4PyLJ5HC0//FIovOtWu7LhPMF3Qfrzp+7tQtODZrcGexlfE9wTlEvK5VTzB
+	U3O1ET2yofVxUpGo24fBH4eL8b/036kgJbxEi5dnufpsgwel30VA3ges8yBlAACczvhb
+	JwDLlZzPBJA5VPftX14fUpht3ntvTLrKh4WJZ0BCG03WZrm0ftr9c3stmgwIYJu1zJGE
+	IWsA==
+X-Gm-Message-State: ALyK8tJMiQQScUy8puAQPmtlouxtC+PT77TC87Qt9BLqIO3UiSid4/uv3yFd84VbP2KIGYd2
+X-Received: by 10.107.10.35 with SMTP id u35mr12410ioi.92.1467022363118;
+	Mon, 27 Jun 2016 03:12:43 -0700 (PDT)
+Received: from pohly-mobl1 (p57A5698B.dip0.t-ipconnect.de. [87.165.105.139])
+	by smtp.gmail.com with ESMTPSA id
+	e41sm9104726iod.17.2016.06.27.03.12.41
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 27 Jun 2016 03:12:42 -0700 (PDT)
+Message-ID: <1467022360.25432.22.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Joshua G Lock <joshua.g.lock@linux.intel.com>
+Date: Mon, 27 Jun 2016 12:12:40 +0200
+In-Reply-To: <1467013411.2892.2.camel@linux.intel.com>
+References: <1466590945-10412-1-git-send-email-joshua.g.lock@intel.com>
+	<1467013411.2892.2.camel@linux.intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] rootfs-postcommands: don't hard-code .rootfs in manifest filename
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +61,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Jun 2016 09:42:32 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Mon, 27 Jun 2016 10:12:48 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 06/27/2016 12:10 PM, Burton, Ross wrote:
->     ../../libidn-1.32/src/idn.c: In function 'main':
->     ../../libidn-1.32/src/idn.c:172:7: error: format not a string
->     literal and no format arguments [-Werror=format-security]
->            error (0, 0, _("only one of -s, -e, -d, -a, -u or -n can be
->     specified"));
->
->
-> As libidn will be dealing with data from the network it seems like the
-> sort of package that should be built with format-security enabled.
-> Wouldn't it be better to fix up the calls to error() instead?
+On Mon, 2016-06-27 at 08:43 +0100, Joshua G Lock wrote:
+> On Wed, 2016-06-22 at 11:22 +0100, Joshua Lock wrote:
+> > The .rootfs suffix of a generated image can be overridden by setting
+> > IMAGE_NAME_SUFFIX, to ensure manifest filenames match the associated
+> > image make use of this variable in the manifest filename.
+> 
+> This change will break a few external layers so probably isn't worth it
+> for a minor cosmetic change?
 
-Also, in general the point of adding this check was that we try to fix 
-the problems in the code. Adding packages to the list of exceptions is 
-missing the point :)
+Agreed, please don't merge yet.
 
-Please write a patch - I'd say we should accept new exceptions only if 
-fixing the code is shown to be too difficult.
+The problem is a bit more complicated: is IMAGE_MANIFEST the manifest
+file for the entire image (as the name implies), or just of the main
+partition? The two are not necessarily the same, because some image
+types combine the main partition with additional content (like a boot
+loader and the kernel).
+
+This conceptual issue needs further work.
+
+-- 
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
 
-Alex
 
 
