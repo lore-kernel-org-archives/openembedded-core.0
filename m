@@ -1,36 +1,46 @@
-Return-Path: <biannm@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id E47926E630
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
+	[209.85.220.174])
+	by mail.openembedded.org (Postfix) with ESMTP id CD202605BB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jun 2016 03:41:21 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; 
-   d="scan'208";a="8084782"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 27 Jun 2016 11:41:14 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 8381641C0BB0
+	Mon, 27 Jun 2016 05:43:49 +0000 (UTC)
+Received: by mail-qk0-f174.google.com with SMTP id q79so51410753qke.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jun 2016 11:41:10 +0800 (CST)
-Received: from G08CNEXMBPEKD02.g08.fujitsu.local ([10.167.33.84]) by
-	G08CNEXCHPEKD01.g08.fujitsu.local ([10.167.33.80]) with mapi id
-	14.03.0279.002; Mon, 27 Jun 2016 11:41:10 +0800
-From: "Bian, Naimeng" <biannm@cn.fujitsu.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: question about security_flags.inc
-Thread-Index: AdHQJVv3Cvb/r9U9QXK/9AE3ORL+gQ==
-Date: Mon, 27 Jun 2016 03:41:09 +0000
-Message-ID: <30DC4EDFD798C94083F3E083754532CC0141022F89@G08CNEXMBPEKD02.g08.fujitsu.local>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.226.22]
+	Sun, 26 Jun 2016 22:43:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=J9JZZ689D2pQLEq4IdquNVGeX0ruDs/Azgv4A0DN+lQ=;
+	b=LKvjs675BPQaskzvm35+/wumRjS6WoQiZClyuiM7KAgG42vOTps329nJ5zc/8e2WWg
+	wUYNcXrsuBgFcgaLFr4U1l/Gwgz/dz8ss5x6Yexb3jRi6yC2ttR0B/XgatgXatUQ5wMe
+	qNjXh1iawSoMxLnI/zD6pDqtXvF2bufnG9vwFdScWMl/UtNfiyOOQvcFDoJyV/lcQ8j7
+	Sz+OL2CIb+WPlqamZcvzZJBgEBnanwWO+y8fU+RmuMXjlY1MP/EpN1Jt5sS7y8rKe/B9
+	A8P2pnaPhYElZ20yWiqwJMjx3PY5swjUb/EoKJ7Nn5tSrWhDTMnuZJ6fvi53JeoSotgs
+	mTkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=J9JZZ689D2pQLEq4IdquNVGeX0ruDs/Azgv4A0DN+lQ=;
+	b=jekPAgCDfM8ep31OSzjgiVrRRrYeZzkRzvTQE/0VDCctVTW+Nz+MWGltYXopKNjAe3
+	MbZPa6+oPbWNt7D5JSVgdXWH3feeAc3p4Vt18l7Y2JiMU8E1GU8Eo6Bs4iF+bgO/p9T/
+	37WouSAwSBq7j852eAd+g8S/LsHnb4miCTlVYOYlRMoJGGNj4GdD00Git4zJEf8+Qeyv
+	J1Gwq+gAquhd0cuPOX6VjYb5wLgFxQMfN/vgmJZl3WVfqZKQINOiMV8O07tOYc5ErmU1
+	doLjX/L6k9RKTDWEk5lbOay/zj1tRMj8KMILpZBUp1T3ldd6hzkLlSW4zeo6FFt0OAtR
+	e+sQ==
+X-Gm-Message-State: ALyK8tLa6t1WSVq0lhuDa5t4Dn1vE9uG7eJKpd4/y48hTrvwG1LCABnrQsXmLYTBdccIN4U0e2G/974+k7tmGg==
+X-Received: by 10.55.39.141 with SMTP id n135mr22214751qkn.149.1467006229606; 
+	Sun, 26 Jun 2016 22:43:49 -0700 (PDT)
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: 8381641C0BB0.A8FA8
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: biannm@cn.fujitsu.com
-X-Spam-Status: No
-Subject: question about security_flags.inc
+Received: by 10.55.214.83 with HTTP; Sun, 26 Jun 2016 22:43:20 -0700 (PDT)
+In-Reply-To: <30DC4EDFD798C94083F3E083754532CC0141022F89@G08CNEXMBPEKD02.g08.fujitsu.local>
+References: <30DC4EDFD798C94083F3E083754532CC0141022F89@G08CNEXMBPEKD02.g08.fujitsu.local>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 26 Jun 2016 22:43:20 -0700
+Message-ID: <CAMKF1sri8r0Cv3rEqt6M+q2UvojuvmfNBWnCJ+da_RFkv3n7mA@mail.gmail.com>
+To: "Bian, Naimeng" <biannm@cn.fujitsu.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: question about security_flags.inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,23 +53,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Jun 2016 03:41:22 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="shift_jis"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 27 Jun 2016 05:43:50 -0000
+Content-Type: text/plain; charset=UTF-8
 
-SGkNCg0KVGhlIHNldHRpbmdzIGFzIGZvbGxvd2luZyBpbiBtZXRhL2NvbmYv
-ZGlzdHJvL2luY2x1ZGUvc2VjdXJpdHlfZmxhZ3MuaW5jIHdlcmUgYWRkZWQg
-aW4gMjAxMywNCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQogIyBUaGVzZSAyIGhh
-dmUgdGV4dCByZWxjbyBlcnJvcnMgd2l0aCB0aGUgcGllIG9wdGlvbnMgZW5h
-YmxlZA0KIFNFQ1VSSVRZX0NGTEFHU19wbi1sdHAgPSAiJHtTRUNVUklUWV9O
-T19QSUVfQ0ZMQUdTfSINCiBTRUNVUklUWV9DRkxBR1NfcG4tcHVsc2VhdWRp
-byA9ICIke1NFQ1VSSVRZX05PX1BJRV9DRkxBR1N9Ig0KLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0NCg0KV291bGQgeW91IHRlbGwgbWUgd2hldGhlciB0aGVzZSBl
-cnJvcnMgdGVsbCB1cyB0aGVyZSBhcmUgc29tZSBidWdzIGluIExUUC9QdWxz
-ZWF1ZGlvIG9yIEdDQz8NCklmIHNvLCB3aHkgaGF2ZSBub3QgYmVlbiBmaXhl
-ZCBhbHRob3VnaCB0aGV5IGhhdmUgYmVlbiB0aGVyZSAzeWVhcnMuDQoNClRo
-YW5rcw0KIEJpYW4NCgoK
+On Sun, Jun 26, 2016 at 8:41 PM, Bian, Naimeng <biannm@cn.fujitsu.com> wrote:
+> Hi
+>
+> The settings as following in meta/conf/distro/include/security_flags.inc were added in 2013,
+> -----------------------------------------------------------------
+>  # These 2 have text relco errors with the pie options enabled
+>  SECURITY_CFLAGS_pn-ltp = "${SECURITY_NO_PIE_CFLAGS}"
+>  SECURITY_CFLAGS_pn-pulseaudio = "${SECURITY_NO_PIE_CFLAGS}"
+> -----------------------------------------------------------------
+>
+> Would you tell me whether these errors tell us there are some bugs in LTP/Pulseaudio or GCC?
+
+this is most probably a bug in package not in gcc.
+
+> If so, why have not been fixed although they have been there 3years.
+
+it probably has been, no one might have retried. Feel free to remove
+these and see if they work ok now.
+
+>
+> Thanks
+>  Bian
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
