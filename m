@@ -1,46 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f169.google.com (mail-io0-f169.google.com
-	[209.85.223.169])
-	by mail.openembedded.org (Postfix) with ESMTP id CACFA6072C
+Return-Path: <maxin.john@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 5127B607F8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jun 2016 08:39:33 +0000 (UTC)
-Received: by mail-io0-f169.google.com with SMTP id f30so146469766ioj.2
+	Mon, 27 Jun 2016 08:47:39 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga103.fm.intel.com with ESMTP; 27 Jun 2016 01:47:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,536,1459839600"; d="scan'208";a="129085731"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga004.fm.intel.com with ESMTP; 27 Jun 2016 01:47:40 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id B74186A4006
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jun 2016 01:39:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=TFZ/iBHmTzb23OTx9oclENJxKYC+8hdZnN1yNL+liw4=;
-	b=UfyYHAUirsq0PFGKG1ATI/4RMm71dfvP8GFeY0xGsVU2vpfErab+uwPcralz6Uc7H3
-	r3IZvF3mly13U74zhXEk3TUB8PHgw+Iqca1gTlgzcWFWblVamTCB/G73vnJpRpldNFe9
-	doePmYDTTGUgfTqpIWbtd6i2igdaVoIDv/GgPaao+BCgvl9Fpg2McXLWvWHpRF7pnyKG
-	9ifVAyLC/3SL2xwXys1Rg6DnJAGT8VXZqc8TMcQgsrbSqJbDVXtSpRJQBUq+0S9nsHt0
-	rDtcnfdi4goGcnrq+yaNshvSA+Nt/TzbcLbsmn98/3Frm+bB/yw9Goxh5gzB1v/Vv5Gh
-	+Kmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=TFZ/iBHmTzb23OTx9oclENJxKYC+8hdZnN1yNL+liw4=;
-	b=CjvbSJ92qWmoJITpcCEQtvivZpCmXJBeAkTWON5Tht3r/4ISEe25CvNZyyU5worPC8
-	x0XxrgrYSw6HXOuC+OORluXQSxSH9dXlcB+p2Za0PZ9krlT3nWztUrHcQ7nBloLh6m4F
-	TgHJNEHuI0KM79G+1MvUTUYwlvGPu/Hi6+T40Z0Ic7Gen8NfnC7ZZB7klgNW0Cgymb1u
-	Io77ZUq68U/T5Jn4a7wjwGo+x86RH1Yl9p+uT8hZrjV/zdpwHKrlFxgRcjH7lqyJ8JKJ
-	dNMWJ6FwZhSq4vIXUpG2NYhg4V4svwiwMrHDH3FDh2zdQXn5U3RosncmYVQnLsW7MHpX
-	1NkQ==
-X-Gm-Message-State: ALyK8tJeNr5AQAwyvgIK4m5wacSorrD74MazwVm5bfAS0VtfV6H44KFeWuUREi1W9HE+8bau7Pvg2EV/w/4zTot/
-X-Received: by 10.107.135.137 with SMTP id r9mr16977083ioi.133.1467016774138; 
-	Mon, 27 Jun 2016 01:39:34 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.142.151 with HTTP; Mon, 27 Jun 2016 01:39:14 -0700 (PDT)
-In-Reply-To: <1467015833-11686-1-git-send-email-dmitry.rozhkov@linux.intel.com>
-References: <1467015833-11686-1-git-send-email-dmitry.rozhkov@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 27 Jun 2016 09:39:14 +0100
-Message-ID: <CAJTo0LYLxkfDWQpH02-5nHg5gXFRd-Ark4KtJm_67sD7bFUNBg@mail.gmail.com>
-To: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH] libxfce4ui: Use native intltool for building the lib
+	Mon, 27 Jun 2016 01:47:36 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 27 Jun 2016 06:54:15 +0300
+Message-Id: <1466999661-1892-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH 0/6] upgrade gstreamer git recipes to version 1.8.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,35 +34,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Jun 2016 08:39:35 -0000
-Content-Type: multipart/alternative; boundary=001a113ec842b3d61e05363e753a
+X-List-Received-Date: Mon, 27 Jun 2016 08:47:41 -0000
 
---001a113ec842b3d61e05363e753a
-Content-Type: text/plain; charset=UTF-8
+Keep the gstreamer git recipes updated.
 
-On 27 June 2016 at 09:23, Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
-wrote:
+[YOCTO #9811]
 
->  meta-xfce/recipes-xfce/libxfce4ui/libxfce4ui_4.12.1.bb | 2 +-
->
+Maxin B. John (6):
+  gstreamer1.0_git: bump to 1.8.2
+  gstreamer1.0-plugins-good_git: bump version to 1.8.2
+  gstreamer1.0-plugins-bad_git: bump version to 1.8.2
+  gstreamer1.0-plugins-base_git: bump version to 1.8.2
+  gstreamer1.0-plugins-ugly_git: bump version to 1.8.2
+  gstreamer1.0-libav_git: bump version to 1.8.2
 
-Wrong list, you meant openembedded-devel@.
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_git.bb  | 10 +++++-----
+ .../gstreamer/gstreamer1.0-plugins-bad_git.bb                |  8 ++++----
+ .../gstreamer/gstreamer1.0-plugins-base_git.bb               | 12 ++++++++----
+ .../gstreamer/gstreamer1.0-plugins-good_git.bb               |  9 +++++----
+ .../gstreamer/gstreamer1.0-plugins-ugly_git.bb               |  8 ++++----
+ meta/recipes-multimedia/gstreamer/gstreamer1.0_git.bb        |  8 ++++----
+ 6 files changed, 30 insertions(+), 25 deletions(-)
 
-Ross
+-- 
+2.4.0
 
---001a113ec842b3d61e05363e753a
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 27 June 2016 at 09:23, Dmitry Rozhkov <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:dmitry.rozhkov@linux.intel.com" target=3D"_blank">dmitry.rozhkov@linu=
-x.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
-=3D":6ed" class=3D"a3s aXjCH m15590f695a65e902">=C2=A0meta-xfce/recipes-xfc=
-e/libxfce4ui/<a href=3D"http://libxfce4ui_4.12.1.bb" rel=3D"noreferrer" tar=
-get=3D"_blank">libxfce4ui_4.12.1.bb</a> | 2 +-<br></div></blockquote></div>=
-<br>Wrong list, you meant openembedded-devel@.</div><div class=3D"gmail_ext=
-ra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a113ec842b3d61e05363e753a--
