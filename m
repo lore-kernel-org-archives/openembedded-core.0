@@ -1,25 +1,28 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AA3106AC4B
+Return-Path: <roy_garrard@selinc.com>
+X-Greylist: delayed 5405 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 28 Jun 2016 22:41:23 UTC
+Received: from volare.selinc.com (volare.selinc.com [74.117.214.143])
+	by mail.openembedded.org (Postfix) with ESMTP id 452ED7318F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jun 2016 20:53:21 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u5SKrMxP029150
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 28 Jun 2016 22:41:23 +0000 (UTC)
+Received: from edison.ad.selinc.com (edison.ad.selinc.com [10.100.0.15])
+	by volare.selinc.com (8.16.0.11/8.16.0.11) with ESMTP id u5SLBI13009901
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jun 2016 13:53:22 -0700 (PDT)
-Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Tue, 28 Jun 2016 13:53:21 -0700
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <liezhi.yang@windriver.com>,
-	<randy.macleod@windriver.com>
-Date: Tue, 28 Jun 2016 13:53:21 -0700
-Message-ID: <1467147201-31282-1-git-send-email-jslater@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
+	Tue, 28 Jun 2016 14:11:18 -0700
+To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
-Subject: [PATCH 1/1] l3afpad: add check for GTK3DISTROFEATURES
+X-KeepSent: 62825DA9:8A958726-88257FE0:00736231;
+ type=4; name=$KeepSent
+X-Mailer: IBM Notes Release 9.0.1FP3 SHF227 March 23, 2015
+Message-ID: <OF62825DA9.8A958726-ON88257FE0.00736231-87257FE0.00746332@selinc.com>
+From: roy_garrard@selinc.com
+Date: Tue, 28 Jun 2016 15:11:17 -0600
+X-MIMETrack: Serialize by Router on Edison/SEL(Release 9.0.1FP3 HF515|April 25,
+	2015) at 06/28/2016 02:11:18 PM,
+	Serialize complete at 06/28/2016 02:11:18 PM
+X-Proofpoint-Virus-Version: vendor=nai engine=5800 definitions=8210
+	signatures=670740
+Subject: Mercurial Fetcher and Autorev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,29 +35,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jun 2016 20:53:26 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 28 Jun 2016 22:41:24 -0000
+Content-Type: multipart/alternative;
+	boundary="=_alternative 0074633087257FE0_="
 
-We want world builds without GTK3DISTROFEATURES to work.
+--=_alternative 0074633087257FE0_=
+Content-Type: text/plain; charset="US-ASCII"
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
----
- meta/recipes-sato/l3afpad/l3afpad_git.bb |    2 ++
- 1 file changed, 2 insertions(+)
+Hey y'all,
 
-diff --git a/meta/recipes-sato/l3afpad/l3afpad_git.bb b/meta/recipes-sato/l3afpad/l3afpad_git.bb
-index 1e7c82f..ccfda26 100644
---- a/meta/recipes-sato/l3afpad/l3afpad_git.bb
-+++ b/meta/recipes-sato/l3afpad/l3afpad_git.bb
-@@ -19,5 +19,7 @@ S = "${WORKDIR}/git"
- 
- inherit autotools pkgconfig distro_features_check
- 
-+ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
-+
- EXTRA_OECONF = "--disable-emacs --disable-print"
- FILES_${PN} += "${datadir}/icons"
--- 
-1.7.9.5
+I'm having a bit of trouble using the AUTOREV variable with the hg 
+fetcher. I brought up the issue on StackOverflow and was pointed this way.
 
+The Yocto mega manual states that only Subversion, Git, and Bazaar support 
+AUTOREV (5.21). But the code itself has a function called 
+supports_srcrev() that returns True. Also, I've seen references to others 
+that seemed to have success in using it (like this guy).
 
+Does the hg_fetcher support AUTOREV? And if so, how can I get it to work?
+
+- Roy, Software Engineer Intern at SEL
+
+--=_alternative 0074633087257FE0_=
+Content-Type: text/html; charset="US-ASCII"
+
+<font size=2 face="sans-serif">Hey y'all,</font>
+<br>
+<br><font size=2 face="sans-serif">I'm having a bit of trouble using the
+AUTOREV variable with the hg fetcher. I brought up the issue on </font><a href="http://stackoverflow.com/questions/37973689/mercurial-fetcher-and-autorev?noredirect=1#comment63578429_37973689"><font size=2 color=blue face="sans-serif">StackOverflow
+</font></a><font size=2 face="sans-serif">and was pointed this way.</font>
+<br>
+<br><font size=2 face="sans-serif">The Yocto mega manual states that only
+Subversion, Git, and Bazaar support AUTOREV (5.21). But the code itself
+has a function called supports_srcrev() that returns True. Also, I've seen
+references to others that seemed to have success in using it (like</font><a href="http://gumstix.8.x6.nabble.com/How-to-Use-Hg-Mercurial-URI-in-SRC-URI-Variable-to-Fetch-Code-td4866429.html"><font size=2 color=blue face="sans-serif">
+this guy</font></a><font size=2 face="sans-serif">).</font>
+<br>
+<br><font size=2 face="sans-serif">Does the hg_fetcher support AUTOREV?
+And if so, how can I get it to work?</font>
+<br>
+<br><font size=2 face="sans-serif">- Roy, Software Engineer Intern at SEL</font>
+
+--=_alternative 0074633087257FE0_=--
