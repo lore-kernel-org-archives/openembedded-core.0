@@ -1,45 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id B162170101
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 979326FF60
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jun 2016 22:17:40 +0000 (UTC)
-Received: by mail-wm0-f48.google.com with SMTP id a66so2012283wme.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jun 2016 15:17:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=boSq+592WaOv1RcP+PboCQ1RXQ5/NnJq31aFPfcMl9Q=;
-	b=peT8tPkwcnf7qbCy9ECW8/lebrAuiIx3myJZ1ZxXvQHs881uQAmankai9LtioC2bZg
-	ejfit9DqmBdZL7fEoVAlyCROv088hSI2ihrkvQ7r6MaRzXXti8UOFJSZBdkEqMnPL2A1
-	zEguoLM6k7aCrgRG5KhdfocCuPFvFjvZVYWjm9R0fGzp+BBz1+xE0u2rLc+PW4l2xU3G
-	XEe7dp/Y2Pg+7wxnWScqTbOls65AjKYdDENVgIFZSnRVCjuGldztPMgCcrnIf49YPLNx
-	/eDJUReKUp6RauMUoBqjhwjKoJFHhqbehQHSii9ro76/KMgJE0708uU1xpyit9GHFDnA
-	lKHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=boSq+592WaOv1RcP+PboCQ1RXQ5/NnJq31aFPfcMl9Q=;
-	b=FKN9lN2icuUsxsrWidiAJy8xgUGuxc5ecCZFZUZEg6fA4DnA+Tnks0Oy+5DT8PAIQg
-	p81os/uhYuWe5f5397IVJmE84hatqeNGFQcKoJn0kgaxEhCl4IIJEfTApEwosVv8TOLX
-	0YcS+B5JyS+3htQHXtLRnLSdCCzNUkNkUNpIgEIVjm33Yd5rViZY4X/k8wb8dO1pJXGP
-	WaKPq2uBEgPz54R5meA3sPqQJ/kGi0cRXaQPldweVJUExbsby7gw2GkuIx9PdJwukyao
-	WifzumrhmI1/zLGwetJh+59IAyDZYfJDnd4fE5kGBQUvd/HFNZLOYPI11hZeo1FYzvc4
-	LWcw==
-X-Gm-Message-State: ALyK8tJrRmvhiS4OUyIPMo7I0HaWmBRvMBy3A9Ez+EMMzMrRq6XM1m/BYSehic9Jc1K2/BQQ
-X-Received: by 10.28.184.5 with SMTP id i5mr90787wmf.85.1467065860299;
-	Mon, 27 Jun 2016 15:17:40 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id e16sm43685wma.12.2016.06.27.15.17.39
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 27 Jun 2016 15:17:39 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Jun 2016 23:17:37 +0100
-Message-Id: <1467065857-6759-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH][V2] db: use S/B more idiomatically
+	Tue, 28 Jun 2016 02:41:07 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u5S2f65u023822
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 27 Jun 2016 19:41:07 -0700 (PDT)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Mon, 27 Jun 2016 19:41:06 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Mon, 27 Jun 2016 22:40:57 -0400
+Message-ID: <1178d9f3be603c79a131b4eb02b765314ca22c18.1467081584.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
+In-Reply-To: <cover.1467081584.git.bruce.ashfield@windriver.com>
+References: <cover.1467081584.git.bruce.ashfield@windriver.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/8] linux-yocto/4.1: tpm2, pinctrl, powercap and watchdog backports
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,239 +33,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Jun 2016 22:17:40 -0000
+X-List-Received-Date: Tue, 28 Jun 2016 02:41:07 -0000
+Content-Type: text/plain
 
-Instead of setting S to a directory inside the tarball and B to another
-directory inside the tarball, use the default value of S and set
-AUTOTOOLS_SCRIPT_PATH to the right path to find configure.  Update the patches
-so they still apply, and clean up the recipe slightly.
+Backporting the following changes from the mainline kernel to enhance/add
+support for tpm2, pinctrl, powercap and watchdog:
 
-Because something is not quite right regarding quilt and patching, add a PR bump
-to the recipes to ensure that a clean work directory is used: for some reason
-rebuilds will rarely fail to patch correctly.
+   634eecdb20b watchdog: omap_wdt: fix null pointer dereference
+   79dcc6dabe63 Watchdog: Fix parent of watchdog_devices
+   94a2e8f1d47e watchdog: st_wdt: Update IP layout information to include Clocksource
+   3a74938a9610 watchdog: st_wdt: Add new driver for ST's LPC Watchdog
+   fb6b94faa82c watchdog: digicolor: driver for Conexant Digicolor CX92755 SoC
+   22fb7b1353dd watchdog: omap_wdt: early_enable module parameter
+   aa70c2480483 watchdog: omap_wdt: implement get_timeleft
+   47b7a1a5f70f watchdog: docs: omap_wdt also understands nowayout
+   9d833b82f706 watchdog: omap: put struct watchdog_device into driver data
+   87ded7189286 watchdog: omap: use watchdog_init_timeout instead of open coding it
+   abccc104fcad watchdog: da9062: DA9062 watchdog driver
+   95f8b1024989 pinctrl: intel: fix offset calculation issue of register PAD_OWN
+   8e6606474fa0 pinctrl: intel: fix bug of register offset calculation
+   2423468cb317 MAINTAINERS: add new maintainer for TPM DEVICE DRIVER
+   cf94113f05a6 sysfs: added __compat_only_sysfs_link_entry_to_kobj()
+   cdb63d5cd801 tpm: fix missing migratable flag in sealing functionality for TPM2
+   95f738feaafe keys, trusted: seal/unseal with TPM 2.0 chips
+   92eb9052fd50 tpm: seal/unseal for TPM 2.0
+   d9c7bb89ec85 keys, trusted: move struct trusted_key_options to trusted-type.h
+   a3b394e91b31 tpm: introduce tpm_buf
+   bd68d3a21139 tpm: move the PPI attributes to character device directory.
+   54fb01659b83 tpm, tpm_crb: fix unaligned read of the command buffer address
+   0ab522f5ef11 powercap / RAPL: disable the 2nd power limit properly
+   9ba8c36e9ea7 thermal/powerclamp: remove cpu whitelist
+   2971561c8fc9 thermal/powerclamp: add cpu id for Skylake u/y
+   cec457da34d0 thermal/powerclamp: add cpu id for denlow platform
+   fc30ea2abdc5 thermal/powerclamp: add cpu id for skylake h/s
+   3eea18356747 intel powerclamp: support Knights Landing
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- ...akefile-let-libso_target-depend-on-bt_rec.patch |  4 +-
- .../recipes-support/db/db/fix-parallel-build.patch |  4 +-
- meta/recipes-support/db/db_5.3.28.bb               | 28 +++++-------
- meta/recipes-support/db/db_6.0.30.bb               | 53 ++++++++++------------
- 4 files changed, 40 insertions(+), 49 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb |  2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 16 ++++++++--------
+ 3 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/meta/recipes-support/db/db/Makefile-let-libso_target-depend-on-bt_rec.patch b/meta/recipes-support/db/db/Makefile-let-libso_target-depend-on-bt_rec.patch
-index 329bff5..9ec117a 100644
---- a/meta/recipes-support/db/db/Makefile-let-libso_target-depend-on-bt_rec.patch
-+++ b/meta/recipes-support/db/db/Makefile-let-libso_target-depend-on-bt_rec.patch
-@@ -17,8 +17,8 @@ Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
- 
- diff --git a/Makefile.in b/Makefile.in
- index e451f70..0a42375 100644
----- a/Makefile.in
--+++ b/Makefile.in
-+--- db/dist/Makefile.in
-++++ db/dist/Makefile.in
- @@ -863,7 +863,7 @@ $(libdb_version): $(C_OBJS)
-  	$(LN) -s $(libdb_version) $(libdb)
-  
-diff --git a/meta/recipes-support/db/db/fix-parallel-build.patch b/meta/recipes-support/db/db/fix-parallel-build.patch
-index 2c7f1e1..88bc6b3 100644
---- a/meta/recipes-support/db/db/fix-parallel-build.patch
-+++ b/meta/recipes-support/db/db/fix-parallel-build.patch
-@@ -6,8 +6,8 @@ Upstream-Status: Pending
- 
- Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
- 
----- dist.orig/Makefile.in	2012-05-11 19:57:48.000000000 +0200
--+++ dist/Makefile.in	2013-10-31 18:17:11.875532522 +0100
-+--- db/dist.orig/Makefile.in	2012-05-11 19:57:48.000000000 +0200
-++++ db/dist/Makefile.in	2013-10-31 18:17:11.875532522 +0100
- @@ -1034,7 +1034,7 @@
-  	    db_recover@o@ util_sig@o@ $(DEF_LIB) $(LIBS)
-  	$(POSTLINK) $@
-diff --git a/meta/recipes-support/db/db_5.3.28.bb b/meta/recipes-support/db/db_5.3.28.bb
-index c724f04..6b0e76b 100644
---- a/meta/recipes-support/db/db_5.3.28.bb
-+++ b/meta/recipes-support/db/db_5.3.28.bb
-@@ -15,15 +15,17 @@ LICENSE = "Sleepycat"
- VIRTUAL_NAME ?= "virtual/db"
- RCONFLICTS_${PN} = "db3"
- 
-+PR = "r1"
-+
- SRC_URI = "http://download.oracle.com/berkeley-db/db-${PV}.tar.gz"
--SRC_URI += "file://arm-thumb-mutex_db5.patch;patchdir=.. \
-+SRC_URI += "file://arm-thumb-mutex_db5.patch \
-             file://fix-parallel-build.patch \
-            "
- 
- SRC_URI[md5sum] = "b99454564d5b4479750567031d66fe24"
- SRC_URI[sha256sum] = "e0a992d740709892e81f9d93f06daf305cf73fb81b545afe72478043172c3628"
- 
--LIC_FILES_CHKSUM = "file://../LICENSE;md5=ed1158e31437f4f87cdd4ab2b8613955"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=ed1158e31437f4f87cdd4ab2b8613955"
- 
- inherit autotools
- 
-@@ -36,14 +38,6 @@ inherit autotools
- # to select the correct db in the build (distro) .conf
- PROVIDES += "${VIRTUAL_NAME}"
- 
--# bitbake isn't quite clever enough to deal with sleepycat,
--# the distribution sits in the expected directory, but all
--# the builds must occur from a sub-directory.  The following
--# persuades bitbake to go to the right place
--S = "${WORKDIR}/db-${PV}/dist"
--B = "${WORKDIR}/db-${PV}/build_unix"
--SPDX_S = "${WORKDIR}/db-${PV}"
--
- # The executables go in a separate package - typically there
- # is no need to install these unless doing real database
- # management on the system.
-@@ -75,21 +69,22 @@ ARM_MUTEX = "--with-mutex=ARM/gcc-assembly"
- MUTEX = ""
- MUTEX_arm = "${ARM_MUTEX}"
- MUTEX_armeb = "${ARM_MUTEX}"
--EXTRA_OECONF += "${MUTEX}"
--EXTRA_OEMAKE_class-target = "LIBTOOL=${STAGING_BINDIR_CROSS}/${HOST_SYS}-libtool"
-+EXTRA_OECONF += "${MUTEX} STRIP=true"
-+
-+AUTOTOOLS_SCRIPT_PATH = "${S}/dist"
- 
- # Cancel the site stuff - it's set for db3 and destroys the
- # configure.
- CONFIG_SITE = ""
- do_configure() {
--	gnu-configize --force ${S}
--	export STRIP="true"
-+    cd ${B}
-+	gnu-configize --force ${AUTOTOOLS_SCRIPT_PATH}
- 	oe_runconf
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
+index 9eaecd4075c1..456ae80e85d8 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
+@@ -11,7 +11,7 @@ python () {
+         raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
  }
  
- do_compile_prepend() {
--	sed -i -e 's|hardcode_into_libs=yes|hardcode_into_libs=no|' \
--		${B}/libtool
-+    # Stop libtool adding RPATHs
-+    sed -i -e 's|hardcode_into_libs=yes|hardcode_into_libs=no|' ${B}/libtool
- }
+-SRCREV_machine ?= "576bba030082fcdcdf9e58a285c92558f27d1e73"
++SRCREV_machine ?= "8fd10e4d4113e72bf46e5bc9eb15c8ccf32bc15a"
+ SRCREV_meta ?= "9f68667031354532563766a3d04ca8a618e9177a"
  
- do_install_append() {
-@@ -114,4 +109,3 @@ INSANE_SKIP_${PN} = "dev-so"
- INSANE_SKIP_${PN}-cxx = "dev-so"
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;branch=${KBRANCH};name=machine \
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
+index 7e0f66fa84cd..77da5de8adc7 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
+@@ -9,7 +9,7 @@ LINUX_VERSION ?= "4.1.26"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
  
- BBCLASSEXTEND = "native nativesdk"
--
-diff --git a/meta/recipes-support/db/db_6.0.30.bb b/meta/recipes-support/db/db_6.0.30.bb
-index 018dd58..0852820 100644
---- a/meta/recipes-support/db/db_6.0.30.bb
-+++ b/meta/recipes-support/db/db_6.0.30.bb
-@@ -15,13 +15,15 @@ LICENSE = "AGPL-3.0"
- VIRTUAL_NAME ?= "virtual/db"
- RCONFLICTS_${PN} = "db3"
+-SRCREV_machine ?= "9ba8c36e9ea7419d06accab5311e7fb0d56513ff"
++SRCREV_machine ?= "e634eecdb20b865f5b3d94e2006832c3e6e85358"
+ SRCREV_meta ?= "9f68667031354532563766a3d04ca8a618e9177a"
  
-+PR = "r1"
-+
- # Note, when upgraded to 6.1.x, a patch in RPM will need to be removed to activate db 6.1 support.
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.1.bb b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
+index 667212f1df18..0ab26e63a85c 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
+@@ -11,14 +11,14 @@ KBRANCH_qemux86  ?= "standard/base"
+ KBRANCH_qemux86-64 ?= "standard/base"
+ KBRANCH_qemumips64 ?= "standard/mti-malta64"
  
--SRC_URI = "http://download.oracle.com/berkeley-db/db-${PV}.tar.gz"
--SRC_URI += "file://arm-thumb-mutex_db5.patch;patchdir=.. \
--            file://fix-parallel-build.patch \
--            file://Makefile-let-libso_target-depend-on-bt_rec.patch \
--            file://Makefile-let-libdb-6.0.la-depend-os_map.l.patch;patchdir=.. \
-+SRC_URI = "http://download.oracle.com/berkeley-db/db-${PV}.tar.gz \
-+           file://arm-thumb-mutex_db5.patch \
-+           file://fix-parallel-build.patch \
-+           file://Makefile-let-libso_target-depend-on-bt_rec.patch \
-+           file://Makefile-let-libdb-6.0.la-depend-os_map.l.patch \
-            "
+-SRCREV_machine_qemuarm ?= "a6899b7c294ed25d9d37afde858cdd52f41f86b0"
+-SRCREV_machine_qemuarm64 ?= "9ba8c36e9ea7419d06accab5311e7fb0d56513ff"
+-SRCREV_machine_qemumips ?= "69936a9614608b7aa893ae78bd69e5cc197816c3"
+-SRCREV_machine_qemuppc ?= "9ba8c36e9ea7419d06accab5311e7fb0d56513ff"
+-SRCREV_machine_qemux86 ?= "9ba8c36e9ea7419d06accab5311e7fb0d56513ff"
+-SRCREV_machine_qemux86-64 ?= "9ba8c36e9ea7419d06accab5311e7fb0d56513ff"
+-SRCREV_machine_qemumips64 ?= "f0eb9eabbeafa5eadf66893822ea42d80e04afbd"
+-SRCREV_machine ?= "9ba8c36e9ea7419d06accab5311e7fb0d56513ff"
++SRCREV_machine_qemuarm ?= "4f0e75ff79949f2924a5103079ce1fc5e0a1d244"
++SRCREV_machine_qemuarm64 ?= "e634eecdb20b865f5b3d94e2006832c3e6e85358"
++SRCREV_machine_qemumips ?= "332b2b5ef3de2ec31ff8d7687ff7b60892c2b052"
++SRCREV_machine_qemuppc ?= "e634eecdb20b865f5b3d94e2006832c3e6e85358"
++SRCREV_machine_qemux86 ?= "e634eecdb20b865f5b3d94e2006832c3e6e85358"
++SRCREV_machine_qemux86-64 ?= "e634eecdb20b865f5b3d94e2006832c3e6e85358"
++SRCREV_machine_qemumips64 ?= "5133c3b201f3cee041b0911928672d2f1a2c8c9a"
++SRCREV_machine ?= "e634eecdb20b865f5b3d94e2006832c3e6e85358"
+ SRCREV_meta ?= "9f68667031354532563766a3d04ca8a618e9177a"
  
- SRC_URI[md5sum] = "ad28eb86ad3203b5422844db179c585b"
-@@ -31,9 +33,7 @@ SRC_URI[sha256sum] = "608e4b1cf390e9bf54c0ef00c5bd9ca76d36e2261b9f4d33d54516f3f6
- UPSTREAM_CHECK_REGEX = "db-(?P<pver>\d+\.\d+(\.\d+)?).tar"
- UPSTREAM_CHECK_URI = "http://www.oracle.com/technetwork/products/berkeleydb/downloads/index-082944.html"
- 
--LIC_FILES_CHKSUM = "file://../LICENSE;md5=1ec8b0b17cc31513fe35ab10716f8490"
--
--inherit autotools
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=1ec8b0b17cc31513fe35ab10716f8490"
- 
- # Put virtual/db in any appropriate provider of a
- # relational database, use it as a dependency in
-@@ -44,13 +44,7 @@ inherit autotools
- # to select the correct db in the build (distro) .conf
- PROVIDES += "${VIRTUAL_NAME}"
- 
--# bitbake isn't quite clever enough to deal with sleepycat,
--# the distribution sits in the expected directory, but all
--# the builds must occur from a sub-directory.  The following
--# persuades bitbake to go to the right place
--S = "${WORKDIR}/db-${PV}/dist"
--B = "${WORKDIR}/db-${PV}/build_unix"
--SPDX_S = "${WORKDIR}/db-${PV}"
-+inherit autotools
- 
- # The executables go in a separate package - typically there
- # is no need to install these unless doing real database
-@@ -60,7 +54,6 @@ inherit lib_package
- PACKAGES =+ "${PN}-cxx"
- FILES_${PN}-cxx = "${libdir}/*cxx*so"
- 
--
- # The dev package has the .so link (as in db3) and the .a's -
- # it is therefore incompatible (cannot be installed at the
- # same time) as the db3 package
-@@ -74,6 +67,17 @@ DB6_CONFIG ?= "--enable-o_direct --disable-cryptography --disable-queue --disabl
- 
- EXTRA_OECONF = "${DB6_CONFIG} --enable-shared --enable-cxx --with-sysroot"
- 
-+# Cancel the site stuff - it's set for db3 and destroys the configure.
-+CONFIG_SITE = ""
-+
-+AUTOTOOLS_SCRIPT_PATH = "${S}/dist"
-+
-+do_configure() {
-+	cd ${B}
-+	gnu-configize --force ${AUTOTOOLS_SCRIPT_PATH}
-+	oe_runconf
-+}
-+
- # Override the MUTEX setting here, the POSIX library is
- # the default - "POSIX/pthreads/library".
- # Don't ignore the nice SWP instruction on the ARM:
-@@ -83,20 +87,11 @@ MUTEX = ""
- MUTEX_arm = "${ARM_MUTEX}"
- MUTEX_armeb = "${ARM_MUTEX}"
- EXTRA_OECONF += "${MUTEX}"
--EXTRA_OEMAKE_class-target = "LIBTOOL=${STAGING_BINDIR_CROSS}/${HOST_SYS}-libtool"
--
--# Cancel the site stuff - it's set for db3 and destroys the
--# configure.
--CONFIG_SITE = ""
--do_configure() {
--	gnu-configize --force ${S}
--	export STRIP="true"
--	oe_runconf
--}
-+EXTRA_OEMAKE += "STRIP=true"
- 
- do_compile_prepend() {
--	sed -i -e 's|hardcode_into_libs=yes|hardcode_into_libs=no|' \
--		${B}/libtool
-+	# Stop libtool adding RPATHs
-+	sed -i -e 's|hardcode_into_libs=yes|hardcode_into_libs=no|' ${B}/libtool
- }
- 
- do_install_append() {
-@@ -117,6 +112,8 @@ do_install_append() {
- 	chown -R root:root ${D}
- }
- 
-+# libdb isn't versioned in the typical manner (libdb-6.0.so is the full library
-+# name) so skip these checks.
- INSANE_SKIP_${PN} = "dev-so"
- INSANE_SKIP_${PN}-cxx = "dev-so"
- 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;name=machine;branch=${KBRANCH}; \
 -- 
-2.8.1
+2.5.0
 
 
