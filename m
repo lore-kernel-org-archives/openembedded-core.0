@@ -1,22 +1,22 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 74A047001D
+	by mail.openembedded.org (Postfix) with ESMTP id 80916731A2
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 28 Jun 2016 08:06:38 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga103.fm.intel.com with ESMTP; 28 Jun 2016 01:06:32 -0700
+	by fmsmga103.fm.intel.com with ESMTP; 28 Jun 2016 01:06:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,540,1459839600"; d="scan'208";a="129745502"
+X-IronPort-AV: E=Sophos;i="5.26,540,1459839600"; d="scan'208";a="129745522"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga004.fm.intel.com with ESMTP; 28 Jun 2016 01:06:32 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 28 Jun 2016 01:06:33 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Jun 2016 11:06:15 +0300
-Message-Id: <1467101180-23116-5-git-send-email-alexander.kanavin@linux.intel.com>
+Date: Tue, 28 Jun 2016 11:06:16 +0300
+Message-Id: <1467101180-23116-6-git-send-email-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <1467101180-23116-1-git-send-email-alexander.kanavin@linux.intel.com>
 References: <1467101180-23116-1-git-send-email-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 05/10] bash-completion: update to 2.3
+Subject: [PATCH 06/10] gnutls: update to 3.5.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,59 +31,55 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 28 Jun 2016 08:06:38 -0000
 
-Drop files that are no longer present upstream.
-Package cmake modules.
+Remove no longer supported --disable-crywrap option.
+Add a checksum for the LICENSE file with licensing overview.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../{bash-completion_2.1.bb => bash-completion_2.3.bb}  | 17 +++++------------
- 1 file changed, 5 insertions(+), 12 deletions(-)
- rename meta/recipes-support/bash-completion/{bash-completion_2.1.bb => bash-completion_2.3.bb} (64%)
+ meta/recipes-support/gnutls/gnutls.inc                            | 6 +++---
+ meta/recipes-support/gnutls/{gnutls_3.4.11.bb => gnutls_3.5.1.bb} | 4 ++--
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-support/gnutls/{gnutls_3.4.11.bb => gnutls_3.5.1.bb} (60%)
 
-diff --git a/meta/recipes-support/bash-completion/bash-completion_2.1.bb b/meta/recipes-support/bash-completion/bash-completion_2.3.bb
-similarity index 64%
-rename from meta/recipes-support/bash-completion/bash-completion_2.1.bb
-rename to meta/recipes-support/bash-completion/bash-completion_2.3.bb
-index 9877720..e7b0f82 100644
---- a/meta/recipes-support/bash-completion/bash-completion_2.1.bb
-+++ b/meta/recipes-support/bash-completion/bash-completion_2.3.bb
-@@ -7,10 +7,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
+index e7c91eb..0ac7c37 100644
+--- a/meta/recipes-support/gnutls/gnutls.inc
++++ b/meta/recipes-support/gnutls/gnutls.inc
+@@ -8,8 +8,9 @@ LICENSE_${PN}-xx = "LGPLv2.1+"
+ LICENSE_${PN}-bin = "GPLv3+"
+ LICENSE_${PN}-openssl = "GPLv3+"
  
- SECTION = "console/utils"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+-                    file://COPYING.LESSER;md5=a6f89e2100d9b6cdffcea4f398e37343"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=71391c8e0c1cfe68077e7fce3b586283 \
++                    file://doc/COPYING;md5=d32239bcb673463ab874e80d47fae504 \
++                    file://doc/COPYING.LESSER;md5=a6f89e2100d9b6cdffcea4f398e37343"
  
--SRC_URI="http://bash-completion.alioth.debian.org/files/${BPN}-${PV}.tar.bz2"
-+SRC_URI = "https://github.com/scop/bash-completion/releases/download/${PV}/${BPN}-${PV}.tar.xz"
+ DEPENDS = "nettle gmp virtual/libiconv"
+ DEPENDS_append_libc-musl = " argp-standalone"
+@@ -30,7 +31,6 @@ PACKAGECONFIG[tpm] = "--with-tpm,--without-tpm,trousers"
+ PACKAGECONFIG[zlib] = "--with-zlib,--without-zlib,zlib"
  
--SRC_URI[md5sum] = "4e2a9f11a4042a38ee79ddcd048e8b9e"
--SRC_URI[sha256sum] = "2b606804a7d5f823380a882e0f7b6c8a37b0e768e72c3d4107c51fbe8a46ae4f"
-+SRC_URI[md5sum] = "6697dc47adfe70cab5023b7b8186ad57"
-+SRC_URI[sha256sum] = "b2e081af317f3da4fff3a332bfdbebeb5514ebc6c2d2a9cf781180acab15e8e9"
- UPSTREAM_CHECK_REGEX = "bash-completion-(?P<pver>(?!2008).+)\.tar"
- UPSTREAM_CHECK_URI = "https://github.com/scop/bash-completion/releases"
- 
-@@ -22,15 +22,6 @@ do_install_append() {
- 	# compatdir
- 	install -d ${D}${sysconfdir}/bash_completion.d/
- 	echo '. ${datadir}/${BPN}/bash_completion' >${D}${sysconfdir}/bash_completion
--
--	# Delete files already provided by util-linux
--	local i
--	for i in cal dmesg eject hexdump hwclock ionice look renice rtcwake su; do
--		rm ${D}${datadir}/${BPN}/completions/$i
--	done
--
--	# Delete files for networkmanager
--	rm ${D}${datadir}/${BPN}/completions/nmcli
- }
- 
- RDEPENDS_${PN} = "bash"
-@@ -40,4 +31,6 @@ PACKAGES =+ "${PN}-extra"
- FILES_${PN}-extra = "${datadir}/${BPN}/completions/ \
-     ${datadir}/${BPN}/helpers/"
- 
-+FILES_${PN}-dev += "${datadir}/cmake"
-+
- BBCLASSEXTEND = "nativesdk"
+ EXTRA_OECONF = " \
+-    --disable-crywrap \
+     --disable-libdane \
+     --disable-guile \
+     --disable-rpath \
+diff --git a/meta/recipes-support/gnutls/gnutls_3.4.11.bb b/meta/recipes-support/gnutls/gnutls_3.5.1.bb
+similarity index 60%
+rename from meta/recipes-support/gnutls/gnutls_3.4.11.bb
+rename to meta/recipes-support/gnutls/gnutls_3.5.1.bb
+index 4203548..85d9904 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.4.11.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.5.1.bb
+@@ -4,5 +4,5 @@ SRC_URI += "file://correct_rpl_gettimeofday_signature.patch \
+             file://0001-configure.ac-fix-sed-command.patch \
+             file://use-pkg-config-to-locate-zlib.patch \
+            "
+-SRC_URI[md5sum] = "4da148b5a0048aaac4961e2d9ba95798"
+-SRC_URI[sha256sum] = "70ef9c9f95822d363036c6e6b5479750e5b7fc34f50e750c3464a98ec65a9ab8"
++SRC_URI[md5sum] = "cb48bb0cf36d329f7321c6cdc0d7ae36"
++SRC_URI[sha256sum] = "bc4a0f80a627c3aca6e7ea59d30e50cda118c61e0e3fab367ff1451d6ec8bdbd"
 -- 
 2.8.1
 
