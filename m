@@ -1,22 +1,22 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 60E0B73174
+	by mail.openembedded.org (Postfix) with ESMTP id 4B97773179
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 28 Jun 2016 08:06:37 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga103.fm.intel.com with ESMTP; 28 Jun 2016 01:06:30 -0700
+	by fmsmga103.fm.intel.com with ESMTP; 28 Jun 2016 01:06:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,540,1459839600"; d="scan'208";a="129745454"
+X-IronPort-AV: E=Sophos;i="5.26,540,1459839600"; d="scan'208";a="129745482"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga004.fm.intel.com with ESMTP; 28 Jun 2016 01:06:29 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 28 Jun 2016 01:06:30 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Jun 2016 11:06:13 +0300
-Message-Id: <1467101180-23116-3-git-send-email-alexander.kanavin@linux.intel.com>
+Date: Tue, 28 Jun 2016 11:06:14 +0300
+Message-Id: <1467101180-23116-4-git-send-email-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <1467101180-23116-1-git-send-email-alexander.kanavin@linux.intel.com>
 References: <1467101180-23116-1-git-send-email-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 03/10] libarchive: update to 3.2.1
+Subject: [PATCH 04/10] babeltrace: update to 1.4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,111 +29,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jun 2016 08:06:37 -0000
+X-List-Received-Date: Tue, 28 Jun 2016 08:06:38 -0000
 
-Drop merged 0001-configure.ac-check-acl-libacl.h-and-sys-acl.h-based-.patch
+Switch to using tarballs for upstream releases.
+
+Drop merged patches.
+
+Add a --disable-debug-info parameter to ./configure, as it otherwise
+attempts to execute a small test binary. If this (new) feature is truly needed,
+we can set up a qemu wrapper later, or patch autoconf macros.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- ...c-check-acl-libacl.h-and-sys-acl.h-based-.patch | 66 ----------------------
- .../{libarchive_3.2.0.bb => libarchive_3.2.1.bb}   |  5 +-
- 2 files changed, 2 insertions(+), 69 deletions(-)
- delete mode 100644 meta/recipes-extended/libarchive/libarchive/0001-configure.ac-check-acl-libacl.h-and-sys-acl.h-based-.patch
- rename meta/recipes-extended/libarchive/{libarchive_3.2.0.bb => libarchive_3.2.1.bb} (91%)
+ ...nvalid-pointer-free-with-trace-collection.patch | 44 ----------------------
+ ...Include-sys-param.h-for-MAXNAMLEN-definti.patch | 29 --------------
+ .../{babeltrace_1.3.2.bb => babeltrace_1.4.0.bb}   | 10 +++--
+ 3 files changed, 6 insertions(+), 77 deletions(-)
+ delete mode 100644 meta/recipes-kernel/lttng/babeltrace/0001-Fix-invalid-pointer-free-with-trace-collection.patch
+ delete mode 100644 meta/recipes-kernel/lttng/babeltrace/0001-lttng-live-Include-sys-param.h-for-MAXNAMLEN-definti.patch
+ rename meta/recipes-kernel/lttng/{babeltrace_1.3.2.bb => babeltrace_1.4.0.bb} (69%)
 
-diff --git a/meta/recipes-extended/libarchive/libarchive/0001-configure.ac-check-acl-libacl.h-and-sys-acl.h-based-.patch b/meta/recipes-extended/libarchive/libarchive/0001-configure.ac-check-acl-libacl.h-and-sys-acl.h-based-.patch
+diff --git a/meta/recipes-kernel/lttng/babeltrace/0001-Fix-invalid-pointer-free-with-trace-collection.patch b/meta/recipes-kernel/lttng/babeltrace/0001-Fix-invalid-pointer-free-with-trace-collection.patch
 deleted file mode 100644
-index 4b41d62..0000000
---- a/meta/recipes-extended/libarchive/libarchive/0001-configure.ac-check-acl-libacl.h-and-sys-acl.h-based-.patch
+index 3e2c4e1..0000000
+--- a/meta/recipes-kernel/lttng/babeltrace/0001-Fix-invalid-pointer-free-with-trace-collection.patch
 +++ /dev/null
-@@ -1,66 +0,0 @@
--From b30c530aaf5068a652a479f3e46c74eb1716861a Mon Sep 17 00:00:00 2001
--From: "Maxin B. John" <maxin.john@intel.com>
--Date: Thu, 2 Jun 2016 16:08:02 +0300
--Subject: [PATCH] configure.ac: check acl/libacl.h and sys/acl.h based on
-- requirement
+@@ -1,44 +0,0 @@
+-From e4cad900994cf286d971796a947fea782dfc6651 Mon Sep 17 00:00:00 2001
+-From: Francis Giraldeau <francis.giraldeau@gmail.com>
+-Date: Mon, 15 Jun 2015 11:43:02 -0400
+-Subject: [PATCH] Fix invalid pointer free with trace collection
 -
--acl/libacl.h and sys/acl.h check should not happen when we explicitly
--disable it with --disable-acl.
+-Upstream-Status: Submitted
 -
--Similarly, update attr/xattr.h for --disable-xattr option.
+-Patch proposed by Li RongQing related to bug# 790
 -
--Update the help texts to reflect what it really does.
--
--Upstream-Status: Accepted
--
--Signed-off-by: Maxin B. John <maxin.john@intel.com>
+-Signed-off-by: Mikael Beckius <mikael.beckius@windriver.com>
+-Signed-off-by: Francis Giraldeau <francis.giraldeau@gmail.com>
 ----
-- configure.ac | 9 +++++----
-- 1 file changed, 5 insertions(+), 4 deletions(-)
+- lib/context.c | 8 +++-----
+- 1 file changed, 3 insertions(+), 5 deletions(-)
 -
--diff --git a/configure.ac b/configure.ac
--index cb6943f..0638182 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -252,7 +252,7 @@ esac
-- # Checks for header files.
-- AC_HEADER_DIRENT
-- AC_HEADER_SYS_WAIT
---AC_CHECK_HEADERS([acl/libacl.h attr/xattr.h copyfile.h ctype.h])
--+AC_CHECK_HEADERS([copyfile.h ctype.h])
-- AC_CHECK_HEADERS([errno.h ext2fs/ext2_fs.h fcntl.h grp.h])
+-diff --git a/lib/context.c b/lib/context.c
+-index 45aab34..8d3770f 100644
+---- a/lib/context.c
+-+++ b/lib/context.c
+-@@ -79,7 +79,7 @@ int bt_context_add_trace(struct bt_context *ctx, const char *path,
+- 	struct bt_trace_descriptor *td;
+- 	struct bt_format *fmt;
+- 	struct bt_trace_handle *handle;
+--	int ret, closeret;
+-+	int ret;
 - 
-- AC_CACHE_CHECK([whether EXT2_IOC_GETFLAGS is usable],
--@@ -272,7 +272,7 @@ AC_CHECK_HEADERS([linux/fiemap.h linux/fs.h linux/magic.h linux/types.h])
-- AC_CHECK_HEADERS([locale.h paths.h poll.h pthread.h pwd.h])
-- AC_CHECK_HEADERS([readpassphrase.h signal.h spawn.h])
-- AC_CHECK_HEADERS([stdarg.h stdint.h stdlib.h string.h])
---AC_CHECK_HEADERS([sys/acl.h sys/cdefs.h sys/extattr.h])
--+AC_CHECK_HEADERS([sys/cdefs.h sys/extattr.h])
-- AC_CHECK_HEADERS([sys/ioctl.h sys/mkdev.h sys/mount.h])
-- AC_CHECK_HEADERS([sys/param.h sys/poll.h sys/select.h sys/statfs.h sys/statvfs.h])
-- AC_CHECK_HEADERS([sys/time.h sys/utime.h sys/utsname.h sys/vfs.h])
--@@ -644,7 +644,7 @@ AC_CHECK_MEMBER(struct dirent.d_namlen,,,
-- # Check for Extended Attributes support
-- AC_ARG_ENABLE([xattr],
-- 		AS_HELP_STRING([--disable-xattr],
---		[Enable Extended Attributes support (default: check)]))
--+		[Disable Extended Attributes support (default: check)]))
+- 	if (!ctx || !format_name || (!path && !stream_list))
+- 		return -EINVAL;
+-@@ -159,10 +159,8 @@ int bt_context_add_trace(struct bt_context *ctx, const char *path,
+- 	return handle->id;
 - 
-- if test "x$enable_xattr" != "xno"; then
-- 	AC_CHECK_HEADERS([attr/xattr.h])
--@@ -670,9 +670,10 @@ fi
-- #
-- AC_ARG_ENABLE([acl],
-- 		AS_HELP_STRING([--disable-acl],
---		[Enable ACL support (default: check)]))
--+		[Disable ACL support (default: check)]))
-- 
-- if test "x$enable_acl" != "xno"; then
--+   AC_CHECK_HEADERS([acl/libacl.h])
--    AC_CHECK_HEADERS([sys/acl.h])
--    AC_CHECK_LIB([acl],[acl_get_file])
--    AC_CHECK_FUNCS([acl_create_entry acl_init acl_set_fd acl_set_fd_np acl_set_file])
+- error:
+--	closeret = fmt->close_trace(td);
+--	if (closeret) {
+--		fprintf(stderr, "Error in close_trace callback\n");
+--	}
+-+	if (handle)
+-+		bt_context_remove_trace(ctx, handle->id);
+- end:
+- 	return ret;
+- }
 --- 
--2.4.0
+-1.9.1
 -
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.2.0.bb b/meta/recipes-extended/libarchive/libarchive_3.2.1.bb
-similarity index 91%
-rename from meta/recipes-extended/libarchive/libarchive_3.2.0.bb
-rename to meta/recipes-extended/libarchive/libarchive_3.2.1.bb
-index f183b74..b65b5df 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.2.0.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.2.1.bb
-@@ -32,11 +32,10 @@ PACKAGECONFIG[nettle] = "--with-nettle,--without-nettle,nettle,"
- PACKAGECONFIG[lz4] = "--with-lz4,--without-lz4,lz4,"
+diff --git a/meta/recipes-kernel/lttng/babeltrace/0001-lttng-live-Include-sys-param.h-for-MAXNAMLEN-definti.patch b/meta/recipes-kernel/lttng/babeltrace/0001-lttng-live-Include-sys-param.h-for-MAXNAMLEN-definti.patch
+deleted file mode 100644
+index eb16cd1..0000000
+--- a/meta/recipes-kernel/lttng/babeltrace/0001-lttng-live-Include-sys-param.h-for-MAXNAMLEN-definti.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-From 8331b87845cafdda40e59a682f2ca8120ed0c472 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Thu, 31 Dec 2015 08:17:40 +0000
+-Subject: [PATCH] lttng-live: Include sys/param.h for MAXNAMLEN defintion
+-
+-exposed on musl based systems
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+-Upstream-Status: pending
+-
+- formats/lttng-live/lttng-live.h | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/formats/lttng-live/lttng-live.h b/formats/lttng-live/lttng-live.h
+-index 4ab641d..808ed2b 100644
+---- a/formats/lttng-live/lttng-live.h
+-+++ b/formats/lttng-live/lttng-live.h
+-@@ -25,6 +25,7 @@
+-  */
+- 
+- #include <stdint.h>
+-+#include <sys/param.h>
+- #include "lttng-viewer-abi.h"
+- 
+- #define LTTNG_DEFAULT_NETWORK_VIEWER_PORT	5344
+--- 
+-2.6.4
+-
+diff --git a/meta/recipes-kernel/lttng/babeltrace_1.3.2.bb b/meta/recipes-kernel/lttng/babeltrace_1.4.0.bb
+similarity index 69%
+rename from meta/recipes-kernel/lttng/babeltrace_1.3.2.bb
+rename to meta/recipes-kernel/lttng/babeltrace_1.4.0.bb
+index a7df630..854e278 100644
+--- a/meta/recipes-kernel/lttng/babeltrace_1.3.2.bb
++++ b/meta/recipes-kernel/lttng/babeltrace_1.4.0.bb
+@@ -12,9 +12,11 @@ inherit autotools pkgconfig
  
- SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
--           file://0001-configure.ac-check-acl-libacl.h-and-sys-acl.h-based-.patch \
-            "
+ SRCREV = "c551f7a1ed635138b083b4e9e0c445ef63d0a562"
  
--SRC_URI[md5sum] = "596210b5a9c2ff74a0f7ca34838d655f"
--SRC_URI[sha256sum] = "7bce45fd71ff01dc20d19edd78322d4965583d81b8bed8e26cacb65d6f5baa87"
-+SRC_URI[md5sum] = "afa257047d1941a565216edbf0171e72"
-+SRC_URI[sha256sum] = "72ee1a4e3fd534525f13a0ba1aa7b05b203d186e0c6072a8a4738649d0b3cfd2"
+-SRC_URI = "git://git.efficios.com/babeltrace.git;branch=stable-1.3 \
+-           file://0001-Fix-invalid-pointer-free-with-trace-collection.patch \
+-           file://0001-lttng-live-Include-sys-param.h-for-MAXNAMLEN-definti.patch \
++SRC_URI = "http://www.efficios.com/files/babeltrace/babeltrace-${PV}.tar.bz2 \
+ "
  
- inherit autotools update-alternatives pkgconfig
- 
+-S = "${WORKDIR}/git"
++EXTRA_OECONF = "--disable-debug-info"
++
++SRC_URI[md5sum] = "fa99064048af5c9c6ff00e489ac809c2"
++SRC_URI[sha256sum] = "9469eeb22617cd12668683b04c27003e5337e9ac66ade914988df3642fc0d0e4"
++
 -- 
 2.8.1
 
