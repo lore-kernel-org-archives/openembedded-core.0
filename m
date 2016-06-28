@@ -1,22 +1,22 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B97773179
+	by mail.openembedded.org (Postfix) with ESMTP id 74A047001D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jun 2016 08:06:37 +0000 (UTC)
+	Tue, 28 Jun 2016 08:06:38 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga103.fm.intel.com with ESMTP; 28 Jun 2016 01:06:31 -0700
+	by fmsmga103.fm.intel.com with ESMTP; 28 Jun 2016 01:06:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,540,1459839600"; d="scan'208";a="129745482"
+X-IronPort-AV: E=Sophos;i="5.26,540,1459839600"; d="scan'208";a="129745502"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga004.fm.intel.com with ESMTP; 28 Jun 2016 01:06:30 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 28 Jun 2016 01:06:32 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Jun 2016 11:06:14 +0300
-Message-Id: <1467101180-23116-4-git-send-email-alexander.kanavin@linux.intel.com>
+Date: Tue, 28 Jun 2016 11:06:15 +0300
+Message-Id: <1467101180-23116-5-git-send-email-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <1467101180-23116-1-git-send-email-alexander.kanavin@linux.intel.com>
 References: <1467101180-23116-1-git-send-email-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 04/10] babeltrace: update to 1.4.0
+Subject: [PATCH 05/10] bash-completion: update to 2.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,132 +31,59 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 28 Jun 2016 08:06:38 -0000
 
-Switch to using tarballs for upstream releases.
-
-Drop merged patches.
-
-Add a --disable-debug-info parameter to ./configure, as it otherwise
-attempts to execute a small test binary. If this (new) feature is truly needed,
-we can set up a qemu wrapper later, or patch autoconf macros.
+Drop files that are no longer present upstream.
+Package cmake modules.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- ...nvalid-pointer-free-with-trace-collection.patch | 44 ----------------------
- ...Include-sys-param.h-for-MAXNAMLEN-definti.patch | 29 --------------
- .../{babeltrace_1.3.2.bb => babeltrace_1.4.0.bb}   | 10 +++--
- 3 files changed, 6 insertions(+), 77 deletions(-)
- delete mode 100644 meta/recipes-kernel/lttng/babeltrace/0001-Fix-invalid-pointer-free-with-trace-collection.patch
- delete mode 100644 meta/recipes-kernel/lttng/babeltrace/0001-lttng-live-Include-sys-param.h-for-MAXNAMLEN-definti.patch
- rename meta/recipes-kernel/lttng/{babeltrace_1.3.2.bb => babeltrace_1.4.0.bb} (69%)
+ .../{bash-completion_2.1.bb => bash-completion_2.3.bb}  | 17 +++++------------
+ 1 file changed, 5 insertions(+), 12 deletions(-)
+ rename meta/recipes-support/bash-completion/{bash-completion_2.1.bb => bash-completion_2.3.bb} (64%)
 
-diff --git a/meta/recipes-kernel/lttng/babeltrace/0001-Fix-invalid-pointer-free-with-trace-collection.patch b/meta/recipes-kernel/lttng/babeltrace/0001-Fix-invalid-pointer-free-with-trace-collection.patch
-deleted file mode 100644
-index 3e2c4e1..0000000
---- a/meta/recipes-kernel/lttng/babeltrace/0001-Fix-invalid-pointer-free-with-trace-collection.patch
-+++ /dev/null
-@@ -1,44 +0,0 @@
--From e4cad900994cf286d971796a947fea782dfc6651 Mon Sep 17 00:00:00 2001
--From: Francis Giraldeau <francis.giraldeau@gmail.com>
--Date: Mon, 15 Jun 2015 11:43:02 -0400
--Subject: [PATCH] Fix invalid pointer free with trace collection
--
--Upstream-Status: Submitted
--
--Patch proposed by Li RongQing related to bug# 790
--
--Signed-off-by: Mikael Beckius <mikael.beckius@windriver.com>
--Signed-off-by: Francis Giraldeau <francis.giraldeau@gmail.com>
-----
-- lib/context.c | 8 +++-----
-- 1 file changed, 3 insertions(+), 5 deletions(-)
--
--diff --git a/lib/context.c b/lib/context.c
--index 45aab34..8d3770f 100644
----- a/lib/context.c
--+++ b/lib/context.c
--@@ -79,7 +79,7 @@ int bt_context_add_trace(struct bt_context *ctx, const char *path,
-- 	struct bt_trace_descriptor *td;
-- 	struct bt_format *fmt;
-- 	struct bt_trace_handle *handle;
---	int ret, closeret;
--+	int ret;
-- 
-- 	if (!ctx || !format_name || (!path && !stream_list))
-- 		return -EINVAL;
--@@ -159,10 +159,8 @@ int bt_context_add_trace(struct bt_context *ctx, const char *path,
-- 	return handle->id;
-- 
-- error:
---	closeret = fmt->close_trace(td);
---	if (closeret) {
---		fprintf(stderr, "Error in close_trace callback\n");
---	}
--+	if (handle)
--+		bt_context_remove_trace(ctx, handle->id);
-- end:
-- 	return ret;
-- }
---- 
--1.9.1
--
-diff --git a/meta/recipes-kernel/lttng/babeltrace/0001-lttng-live-Include-sys-param.h-for-MAXNAMLEN-definti.patch b/meta/recipes-kernel/lttng/babeltrace/0001-lttng-live-Include-sys-param.h-for-MAXNAMLEN-definti.patch
-deleted file mode 100644
-index eb16cd1..0000000
---- a/meta/recipes-kernel/lttng/babeltrace/0001-lttng-live-Include-sys-param.h-for-MAXNAMLEN-definti.patch
-+++ /dev/null
-@@ -1,29 +0,0 @@
--From 8331b87845cafdda40e59a682f2ca8120ed0c472 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Thu, 31 Dec 2015 08:17:40 +0000
--Subject: [PATCH] lttng-live: Include sys/param.h for MAXNAMLEN defintion
--
--exposed on musl based systems
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
--Upstream-Status: pending
--
-- formats/lttng-live/lttng-live.h | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/formats/lttng-live/lttng-live.h b/formats/lttng-live/lttng-live.h
--index 4ab641d..808ed2b 100644
----- a/formats/lttng-live/lttng-live.h
--+++ b/formats/lttng-live/lttng-live.h
--@@ -25,6 +25,7 @@
--  */
-- 
-- #include <stdint.h>
--+#include <sys/param.h>
-- #include "lttng-viewer-abi.h"
-- 
-- #define LTTNG_DEFAULT_NETWORK_VIEWER_PORT	5344
---- 
--2.6.4
--
-diff --git a/meta/recipes-kernel/lttng/babeltrace_1.3.2.bb b/meta/recipes-kernel/lttng/babeltrace_1.4.0.bb
-similarity index 69%
-rename from meta/recipes-kernel/lttng/babeltrace_1.3.2.bb
-rename to meta/recipes-kernel/lttng/babeltrace_1.4.0.bb
-index a7df630..854e278 100644
---- a/meta/recipes-kernel/lttng/babeltrace_1.3.2.bb
-+++ b/meta/recipes-kernel/lttng/babeltrace_1.4.0.bb
-@@ -12,9 +12,11 @@ inherit autotools pkgconfig
+diff --git a/meta/recipes-support/bash-completion/bash-completion_2.1.bb b/meta/recipes-support/bash-completion/bash-completion_2.3.bb
+similarity index 64%
+rename from meta/recipes-support/bash-completion/bash-completion_2.1.bb
+rename to meta/recipes-support/bash-completion/bash-completion_2.3.bb
+index 9877720..e7b0f82 100644
+--- a/meta/recipes-support/bash-completion/bash-completion_2.1.bb
++++ b/meta/recipes-support/bash-completion/bash-completion_2.3.bb
+@@ -7,10 +7,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
  
- SRCREV = "c551f7a1ed635138b083b4e9e0c445ef63d0a562"
+ SECTION = "console/utils"
  
--SRC_URI = "git://git.efficios.com/babeltrace.git;branch=stable-1.3 \
--           file://0001-Fix-invalid-pointer-free-with-trace-collection.patch \
--           file://0001-lttng-live-Include-sys-param.h-for-MAXNAMLEN-definti.patch \
-+SRC_URI = "http://www.efficios.com/files/babeltrace/babeltrace-${PV}.tar.bz2 \
- "
+-SRC_URI="http://bash-completion.alioth.debian.org/files/${BPN}-${PV}.tar.bz2"
++SRC_URI = "https://github.com/scop/bash-completion/releases/download/${PV}/${BPN}-${PV}.tar.xz"
  
--S = "${WORKDIR}/git"
-+EXTRA_OECONF = "--disable-debug-info"
+-SRC_URI[md5sum] = "4e2a9f11a4042a38ee79ddcd048e8b9e"
+-SRC_URI[sha256sum] = "2b606804a7d5f823380a882e0f7b6c8a37b0e768e72c3d4107c51fbe8a46ae4f"
++SRC_URI[md5sum] = "6697dc47adfe70cab5023b7b8186ad57"
++SRC_URI[sha256sum] = "b2e081af317f3da4fff3a332bfdbebeb5514ebc6c2d2a9cf781180acab15e8e9"
+ UPSTREAM_CHECK_REGEX = "bash-completion-(?P<pver>(?!2008).+)\.tar"
+ UPSTREAM_CHECK_URI = "https://github.com/scop/bash-completion/releases"
+ 
+@@ -22,15 +22,6 @@ do_install_append() {
+ 	# compatdir
+ 	install -d ${D}${sysconfdir}/bash_completion.d/
+ 	echo '. ${datadir}/${BPN}/bash_completion' >${D}${sysconfdir}/bash_completion
+-
+-	# Delete files already provided by util-linux
+-	local i
+-	for i in cal dmesg eject hexdump hwclock ionice look renice rtcwake su; do
+-		rm ${D}${datadir}/${BPN}/completions/$i
+-	done
+-
+-	# Delete files for networkmanager
+-	rm ${D}${datadir}/${BPN}/completions/nmcli
+ }
+ 
+ RDEPENDS_${PN} = "bash"
+@@ -40,4 +31,6 @@ PACKAGES =+ "${PN}-extra"
+ FILES_${PN}-extra = "${datadir}/${BPN}/completions/ \
+     ${datadir}/${BPN}/helpers/"
+ 
++FILES_${PN}-dev += "${datadir}/cmake"
 +
-+SRC_URI[md5sum] = "fa99064048af5c9c6ff00e489ac809c2"
-+SRC_URI[sha256sum] = "9469eeb22617cd12668683b04c27003e5337e9ac66ade914988df3642fc0d0e4"
-+
+ BBCLASSEXTEND = "nativesdk"
 -- 
 2.8.1
 
