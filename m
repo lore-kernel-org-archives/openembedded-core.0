@@ -1,28 +1,40 @@
-Return-Path: <roy_garrard@selinc.com>
-X-Greylist: delayed 5405 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 28 Jun 2016 22:41:23 UTC
-Received: from volare.selinc.com (volare.selinc.com [74.117.214.143])
-	by mail.openembedded.org (Postfix) with ESMTP id 452ED7318F
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 4EB757319C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jun 2016 22:41:23 +0000 (UTC)
-Received: from edison.ad.selinc.com (edison.ad.selinc.com [10.100.0.15])
-	by volare.selinc.com (8.16.0.11/8.16.0.11) with ESMTP id u5SLBI13009901
+	Tue, 28 Jun 2016 22:53:24 +0000 (UTC)
+Received: by mail-wm0-f44.google.com with SMTP id v199so157983017wmv.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jun 2016 14:11:18 -0700
-To: openembedded-core@lists.openembedded.org
+	Tue, 28 Jun 2016 15:53:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=TJunRojZk9mnop0chc8n9uZRxQL2/kjHxxyGcVub0Ho=;
+	b=mKlfd5nzNSFcHRz1mbtTdumU5dH3Q3Y0KpbucJXSyeMqvPle5mO/3AzpVE5FveI3OA
+	Diu9Fhh+e47af9U6tEyKyMz9rAwaqagPOsEFKqllVfcw1sGaado4XKR/piYGCOIzdhTz
+	nLTnB1Ssd4Bz/2YjE1weRTzPjQnq1LxwxpksDxnYtf07sQ5ZJLe6Lsj/1+jKP6TJPNI7
+	DIr7UBlvLnyH4QX9nS1P2RoGWp94pmOKZON+xsGTa5gOhlkW2Gs+HPGmASAl1edfHCoE
+	aC0KRctp4qlxnSSjZGUE/j/TF22mnaZlzspwPBeI9FiNwQDq6VJSG3R6I2lYqmrcU0Bm
+	kbJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=TJunRojZk9mnop0chc8n9uZRxQL2/kjHxxyGcVub0Ho=;
+	b=ZY0gRV1qkkL8KqbWkWyO5ptCgecQn3OfVdwrEMuPD0oCEpkj1hDO2ZfWw6hobKBkrY
+	qmOp3+FagT4mjPjCXhBLQGovPLFfM+VvtDFsFr36BSEI36WqItpQaPcu2OQSmHKPOWbE
+	thh3hWVf/na/uT8Aawfb2dtFONyZpMeGQRAGmLNOJfzz9DBGBEyWD6OwhiVpK/qd9ZFl
+	YX4xfWeZt0mFYaUudJCKswfeABcWusALWCyPxjP9tmy5l/QYKi1YQViewTtEFSZborV/
+	QvhqaONzsTor/g16SrXDQXYEDc7ZRvUtu6+tcShBOmo3sBqMyehT65y553Xb0U3NtnXj
+	HxaA==
+X-Gm-Message-State: ALyK8tICNspw3wL/wdxD1AiXBfDbMOVyM2sPP8pBUwu8Fl1osYpsNtLnuYtdVw/ilJl1VYebxJ0OxxI9XK6/Sg==
+X-Received: by 10.28.225.196 with SMTP id y187mr17554418wmg.72.1467154405048; 
+	Tue, 28 Jun 2016 15:53:25 -0700 (PDT)
 MIME-Version: 1.0
-X-KeepSent: 62825DA9:8A958726-88257FE0:00736231;
- type=4; name=$KeepSent
-X-Mailer: IBM Notes Release 9.0.1FP3 SHF227 March 23, 2015
-Message-ID: <OF62825DA9.8A958726-ON88257FE0.00736231-87257FE0.00746332@selinc.com>
-From: roy_garrard@selinc.com
-Date: Tue, 28 Jun 2016 15:11:17 -0600
-X-MIMETrack: Serialize by Router on Edison/SEL(Release 9.0.1FP3 HF515|April 25,
-	2015) at 06/28/2016 02:11:18 PM,
-	Serialize complete at 06/28/2016 02:11:18 PM
-X-Proofpoint-Virus-Version: vendor=nai engine=5800 definitions=8210
-	signatures=670740
-Subject: Mercurial Fetcher and Autorev
+Received: by 10.194.6.165 with HTTP; Tue, 28 Jun 2016 15:53:24 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 28 Jun 2016 15:53:24 -0700
+Message-ID: <CAJ86T=UX4mrrftUtmnFX=Gv5JHXr0nFbh+qj7JOxbxFnKcfT9w@mail.gmail.com>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Setting SRC_URI via anonymous Python fails in OE 2.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,45 +47,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jun 2016 22:41:24 -0000
-Content-Type: multipart/alternative;
-	boundary="=_alternative 0074633087257FE0_="
+X-List-Received-Date: Tue, 28 Jun 2016 22:53:25 -0000
+Content-Type: text/plain; charset=UTF-8
 
---=_alternative 0074633087257FE0_=
-Content-Type: text/plain; charset="US-ASCII"
+The following works in OE 2.0, but fails in 2.1 and master:
 
-Hey y'all,
+  python () {
+      d.setVar("SRC_URI_FOO", "http://foo.com/foo.tgz")
+  }
 
-I'm having a bit of trouble using the AUTOREV variable with the hg 
-fetcher. I brought up the issue on StackOverflow and was pointed this way.
+  SRC_URI = "${SRC_URI_FOO}"
 
-The Yocto mega manual states that only Subversion, Git, and Bazaar support 
-AUTOREV (5.21). But the code itself has a function called 
-supports_srcrev() that returns True. Also, I've seen references to others 
-that seemed to have success in using it (like this guy).
 
-Does the hg_fetcher support AUTOREV? And if so, how can I get it to work?
+Is it a regression or was something like that never intended to work?
 
-- Roy, Software Engineer Intern at SEL
-
---=_alternative 0074633087257FE0_=
-Content-Type: text/html; charset="US-ASCII"
-
-<font size=2 face="sans-serif">Hey y'all,</font>
-<br>
-<br><font size=2 face="sans-serif">I'm having a bit of trouble using the
-AUTOREV variable with the hg fetcher. I brought up the issue on </font><a href="http://stackoverflow.com/questions/37973689/mercurial-fetcher-and-autorev?noredirect=1#comment63578429_37973689"><font size=2 color=blue face="sans-serif">StackOverflow
-</font></a><font size=2 face="sans-serif">and was pointed this way.</font>
-<br>
-<br><font size=2 face="sans-serif">The Yocto mega manual states that only
-Subversion, Git, and Bazaar support AUTOREV (5.21). But the code itself
-has a function called supports_srcrev() that returns True. Also, I've seen
-references to others that seemed to have success in using it (like</font><a href="http://gumstix.8.x6.nabble.com/How-to-Use-Hg-Mercurial-URI-in-SRC-URI-Variable-to-Fetch-Code-td4866429.html"><font size=2 color=blue face="sans-serif">
-this guy</font></a><font size=2 face="sans-serif">).</font>
-<br>
-<br><font size=2 face="sans-serif">Does the hg_fetcher support AUTOREV?
-And if so, how can I get it to work?</font>
-<br>
-<br><font size=2 face="sans-serif">- Roy, Software Engineer Intern at SEL</font>
-
---=_alternative 0074633087257FE0_=--
