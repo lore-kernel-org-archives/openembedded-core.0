@@ -1,27 +1,29 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id AEF2460043
+Return-Path: <ejo@pengutronix.de>
+Received: from metis.ext.4.pengutronix.de (metis.ext.4.pengutronix.de
+	[92.198.50.35])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B8776010B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jun 2016 09:26:17 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u5T9QEIY024549
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jun 2016 02:26:14 -0700 (PDT)
-Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 29 Jun 2016 02:26:13 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <1467187725-7761-1-git-send-email-kai.kang@windriver.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <57739433.40200@windriver.com>
-Date: Wed, 29 Jun 2016 17:26:11 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
+	Wed, 29 Jun 2016 09:29:32 +0000 (UTC)
+Received: from mango.hi.pengutronix.de ([2001:67c:670:100:76d4:35ff:fee8:98b3])
+	by metis.ext.pengutronix.de with esmtp (Exim 4.80)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1bIBoL-0004g6-Du; Wed, 29 Jun 2016 11:29:33 +0200
+To: Armin Kuster <akuster@mvista.com>
+References: <1461516768-29868-1-git-send-email-raj.khem@gmail.com>
+From: Enrico Joerns <ejo@pengutronix.de>
+Message-ID: <47b17632-bc9a-64a2-b9a2-0fb75e9bdcde@pengutronix.de>
+Date: Wed, 29 Jun 2016 11:29:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.1.0
 MIME-Version: 1.0
-In-Reply-To: <1467187725-7761-1-git-send-email-kai.kang@windriver.com>
-Subject: Re: [PATCH] libpfm4: fix compile error
+In-Reply-To: <1461516768-29868-1-git-send-email-raj.khem@gmail.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:76d4:35ff:fee8:98b3
+X-SA-Exim-Mail-From: ejo@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+	SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [krogoth] systemd: Create missing sysusers offline
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,94 +36,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jun 2016 09:26:17 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Wed, 29 Jun 2016 09:29:36 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 2016年06月29日 16:08, kai.kang@windriver.com wrote:
-> From: Kai Kang <kai.kang@windriver.com>
->
-> It fails to compile libpfm4 with misleading-indentation error:
->
-> | syst_count.c:346:3: error: this 'for' clause does not guard...  [-Werror=misleading-indentation]
-> |   for(c=cmin ; c < cmax; c++)
-> |      ^~~
->
-> Add clauses to fix it.
+Hi,
 
-Oops...
-s/clauses/braces/
+this patch is required, for example, to successfully build systemd with 
+networkd enabled in krogoth release, too. Thus it should be backported.
 
---Kai
+It is in oe-core master, id d18957925c6c073b7194e3a233efea24e436f74e.
 
+Best regards, Enrico
+
+On 04/24/2016 06:52 PM, Khem Raj wrote:
+> Some system users which are needed by systemd components were missing
+> create these users knobbed with relevant packageconfig
 >
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
 > ---
->   .../files/fix-misleading-indentation-error.patch   | 38 ++++++++++++++++++++++
->   meta/recipes-kernel/libpfm/libpfm4_4.6.0.bb        |  1 +
->   2 files changed, 39 insertions(+)
->   create mode 100644 meta/recipes-kernel/libpfm/files/fix-misleading-indentation-error.patch
+> Changes from v1->v2:
+>  -Create systemd-journal-remote
+>  -Create systemd-journal-upload
 >
-> diff --git a/meta/recipes-kernel/libpfm/files/fix-misleading-indentation-error.patch b/meta/recipes-kernel/libpfm/files/fix-misleading-indentation-error.patch
-> new file mode 100644
-> index 0000000..25d47ef
-> --- /dev/null
-> +++ b/meta/recipes-kernel/libpfm/files/fix-misleading-indentation-error.patch
-> @@ -0,0 +1,38 @@
-> +Upstream-Status: Pending
-> +
-> +Fix compile error:
-> +
-> +| syst_count.c:346:3: error: this 'for' clause does not guard... [-Werror=misleading-indentation]
-> +|    for(c=cmin ; c < cmax; c++)
-> +|       ^~~
-> +
-> +Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> +---
-> +diff --git a/perf_examples/syst_count.c b/perf_examples/syst_count.c
-> +index 0d53078..2dfb9b9 100644
-> +--- a/perf_examples/syst_count.c
-> ++++ b/perf_examples/syst_count.c
-> +@@ -343,8 +343,9 @@ measure(void)
-> +
-> + 		for (delay = 1 ; delay <= options.delay; delay++) {
-> +
-> +-		for(c=cmin ; c < cmax; c++)
-> +-			start_cpu(c);
-> ++			for(c=cmin ; c < cmax; c++) {
-> ++				start_cpu(c);
-> ++			}
-> +
-> + 			if (0) {
-> + 				tv.tv_sec = 0;
-> +@@ -353,8 +354,9 @@ measure(void)
-> + 			} else
-> + 				sleep(1);
-> +
-> +-		for(c=cmin ; c < cmax; c++)
-> +-			stop_cpu(c);
-> ++			for(c=cmin ; c < cmax; c++) {
-> ++				stop_cpu(c);
-> ++			}
-> +
-> + 			for(c = cmin; c < cmax; c++) {
-> + 				printf("# %'ds -----\n", delay);
-> diff --git a/meta/recipes-kernel/libpfm/libpfm4_4.6.0.bb b/meta/recipes-kernel/libpfm/libpfm4_4.6.0.bb
-> index 0b024ad..4136eac 100644
-> --- a/meta/recipes-kernel/libpfm/libpfm4_4.6.0.bb
-> +++ b/meta/recipes-kernel/libpfm/libpfm4_4.6.0.bb
-> @@ -14,6 +14,7 @@ COMPATIBLE_HOST = "powerpc64"
->   
->   SRC_URI = "http://downloads.sourceforge.net/project/perfmon2/${BPN}/libpfm-${PV}.tar.gz \
->              file://0001-Makefile-Add-LDFLAGS-variable-to-SLDFLAGS.patch \
-> +           file://fix-misleading-indentation-error.patch \
->             "
->   
->   SRC_URI[md5sum] = "5077b9022440e4951d96f2d0e73bd487"
-
+>  meta/recipes-core/systemd/systemd_229.bb | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/systemd/systemd_229.bb b/meta/recipes-core/systemd/systemd_229.bb
+> index c23c749..cf34921 100644
+> --- a/meta/recipes-core/systemd/systemd_229.bb
+> +++ b/meta/recipes-core/systemd/systemd_229.bb
+> @@ -319,10 +319,16 @@ PACKAGES =+ "\
+>  SYSTEMD_PACKAGES = "${@bb.utils.contains('PACKAGECONFIG', 'binfmt', '${PN}-binfmt', '', d)}"
+>  SYSTEMD_SERVICE_${PN}-binfmt = "systemd-binfmt.service"
+>
+> -USERADD_PACKAGES = "${PN}"
+> +USERADD_PACKAGES = "${PN} ${PN}-extra-utils"
+>  USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '--system -d / -M --shell /bin/nologin systemd-journal-gateway;', '', d)}"
+> +USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '--system -d / -M --shell /bin/nologin systemd-journal-remote;', '', d)}"
+> +USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'journal-upload', '--system -d / -M --shell /bin/nologin systemd-journal-upload;', '', d)}"
+>  USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'timesyncd', '--system -d / -M --shell /bin/nologin systemd-timesync;', '', d)}"
+> +USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'networkd', '--system -d / -M --shell /bin/nologin systemd-network;', '', d)}"
+> +USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'coredump', '--system -d / -M --shell /bin/nologin systemd-coredump;', '', d)}"
+> +USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'resolved', '--system -d / -M --shell /bin/nologin systemd-resolve;', '', d)}"
+>  GROUPADD_PARAM_${PN} = "-r lock; -r systemd-journal"
+> +USERADD_PARAM_${PN}-extra-utils += "--system -d / -M --shell /bin/nologin systemd-bus-proxy"
+>
+>  FILES_${PN}-analyze = "${bindir}/systemd-analyze"
+>
+>
 
 -- 
-Regards,
-Neil | Kai Kang
+Pengutronix e.K.                           | Enrico J�rns                |
+Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-5080 |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
 
 
