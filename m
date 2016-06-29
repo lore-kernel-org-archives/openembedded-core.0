@@ -1,17 +1,17 @@
 Return-Path: <ejo@pengutronix.de>
 Received: from metis.ext.4.pengutronix.de (metis.ext.4.pengutronix.de
 	[92.198.50.35])
-	by mail.openembedded.org (Postfix) with ESMTP id F179D60132
+	by mail.openembedded.org (Postfix) with ESMTP id F280D60797
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 29 Jun 2016 08:54:14 +0000 (UTC)
 Received: from mango.hi.pengutronix.de ([2001:67c:670:100:76d4:35ff:fee8:98b3])
 	by metis.ext.pengutronix.de with esmtp (Exim 4.80)
 	(envelope-from <ejo@pengutronix.de>)
-	id 1bIBG9-0001cP-Mo; Wed, 29 Jun 2016 10:54:13 +0200
+	id 1bIBG9-0001cQ-IE; Wed, 29 Jun 2016 10:54:13 +0200
 From: Enrico Jorns <ejo@pengutronix.de>
 To: openembedded-core@lists.openembedded.org
 References: <20160528115341.4965-1-rm.santos.caldas@gmail.com>
-Message-ID: <29280c37-2ba2-5edf-0f18-c576d7953f93@pengutronix.de>
+Message-ID: <2b549026-2cbe-0348-ed33-ad6c0fb46267@pengutronix.de>
 Date: Wed, 29 Jun 2016 10:54:12 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Icedove/45.1.0
@@ -22,7 +22,8 @@ X-SA-Exim-Mail-From: ejo@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
 	SAEximRunCond expanded to false
 X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
-Subject: [PATCH][jethro] perl-ptest.inc: fix tar call to prevent objcopy failure
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: [PATCH][krogoth] perl-ptest.inc: fix tar call to prevent objcopy failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
