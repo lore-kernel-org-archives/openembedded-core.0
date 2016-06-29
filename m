@@ -1,29 +1,27 @@
-Return-Path: <ejo@pengutronix.de>
-Received: from metis.ext.4.pengutronix.de (metis.ext.4.pengutronix.de
-	[92.198.50.35])
-	by mail.openembedded.org (Postfix) with ESMTP id F280D60797
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id AEF2460043
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jun 2016 08:54:14 +0000 (UTC)
-Received: from mango.hi.pengutronix.de ([2001:67c:670:100:76d4:35ff:fee8:98b3])
-	by metis.ext.pengutronix.de with esmtp (Exim 4.80)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1bIBG9-0001cQ-IE; Wed, 29 Jun 2016 10:54:13 +0200
-From: Enrico Jorns <ejo@pengutronix.de>
-To: openembedded-core@lists.openembedded.org
-References: <20160528115341.4965-1-rm.santos.caldas@gmail.com>
-Message-ID: <2b549026-2cbe-0348-ed33-ad6c0fb46267@pengutronix.de>
-Date: Wed, 29 Jun 2016 10:54:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.1.0
+	Wed, 29 Jun 2016 09:26:17 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u5T9QEIY024549
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Jun 2016 02:26:14 -0700 (PDT)
+Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 29 Jun 2016 02:26:13 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <1467187725-7761-1-git-send-email-kai.kang@windriver.com>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <57739433.40200@windriver.com>
+Date: Wed, 29 Jun 2016 17:26:11 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.6.0
 MIME-Version: 1.0
-In-Reply-To: <20160528115341.4965-1-rm.santos.caldas@gmail.com>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:76d4:35ff:fee8:98b3
-X-SA-Exim-Mail-From: ejo@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
-	SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
-Cc: Armin Kuster <akuster@mvista.com>
-Subject: [PATCH][krogoth] perl-ptest.inc: fix tar call to prevent objcopy failure
+In-Reply-To: <1467187725-7761-1-git-send-email-kai.kang@windriver.com>
+Subject: Re: [PATCH] libpfm4: fix compile error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,79 +34,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jun 2016 08:54:15 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 29 Jun 2016 09:26:17 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi,
+On 2016年06月29日 16:08, kai.kang@windriver.com wrote:
+> From: Kai Kang <kai.kang@windriver.com>
+>
+> It fails to compile libpfm4 with misleading-indentation error:
+>
+> | syst_count.c:346:3: error: this 'for' clause does not guard...  [-Werror=misleading-indentation]
+> |   for(c=cmin ; c < cmax; c++)
+> |      ^~~
+>
+> Add clauses to fix it.
 
-I recived some request to send this patch for backporting to 
-jethro/krogoth. It is required for building Yocto with tar >= 1.29.
+Oops...
+s/clauses/braces/
 
-It is already in oe-core master, id 
-2e498879098f7d84610aed7961d92433083d9a02.
+--Kai
 
-Best regards, Enrico
+>
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>   .../files/fix-misleading-indentation-error.patch   | 38 ++++++++++++++++++++++
+>   meta/recipes-kernel/libpfm/libpfm4_4.6.0.bb        |  1 +
+>   2 files changed, 39 insertions(+)
+>   create mode 100644 meta/recipes-kernel/libpfm/files/fix-misleading-indentation-error.patch
+>
+> diff --git a/meta/recipes-kernel/libpfm/files/fix-misleading-indentation-error.patch b/meta/recipes-kernel/libpfm/files/fix-misleading-indentation-error.patch
+> new file mode 100644
+> index 0000000..25d47ef
+> --- /dev/null
+> +++ b/meta/recipes-kernel/libpfm/files/fix-misleading-indentation-error.patch
+> @@ -0,0 +1,38 @@
+> +Upstream-Status: Pending
+> +
+> +Fix compile error:
+> +
+> +| syst_count.c:346:3: error: this 'for' clause does not guard... [-Werror=misleading-indentation]
+> +|    for(c=cmin ; c < cmax; c++)
+> +|       ^~~
+> +
+> +Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> +---
+> +diff --git a/perf_examples/syst_count.c b/perf_examples/syst_count.c
+> +index 0d53078..2dfb9b9 100644
+> +--- a/perf_examples/syst_count.c
+> ++++ b/perf_examples/syst_count.c
+> +@@ -343,8 +343,9 @@ measure(void)
+> +
+> + 		for (delay = 1 ; delay <= options.delay; delay++) {
+> +
+> +-		for(c=cmin ; c < cmax; c++)
+> +-			start_cpu(c);
+> ++			for(c=cmin ; c < cmax; c++) {
+> ++				start_cpu(c);
+> ++			}
+> +
+> + 			if (0) {
+> + 				tv.tv_sec = 0;
+> +@@ -353,8 +354,9 @@ measure(void)
+> + 			} else
+> + 				sleep(1);
+> +
+> +-		for(c=cmin ; c < cmax; c++)
+> +-			stop_cpu(c);
+> ++			for(c=cmin ; c < cmax; c++) {
+> ++				stop_cpu(c);
+> ++			}
+> +
+> + 			for(c = cmin; c < cmax; c++) {
+> + 				printf("# %'ds -----\n", delay);
+> diff --git a/meta/recipes-kernel/libpfm/libpfm4_4.6.0.bb b/meta/recipes-kernel/libpfm/libpfm4_4.6.0.bb
+> index 0b024ad..4136eac 100644
+> --- a/meta/recipes-kernel/libpfm/libpfm4_4.6.0.bb
+> +++ b/meta/recipes-kernel/libpfm/libpfm4_4.6.0.bb
+> @@ -14,6 +14,7 @@ COMPATIBLE_HOST = "powerpc64"
+>   
+>   SRC_URI = "http://downloads.sourceforge.net/project/perfmon2/${BPN}/libpfm-${PV}.tar.gz \
+>              file://0001-Makefile-Add-LDFLAGS-variable-to-SLDFLAGS.patch \
+> +           file://fix-misleading-indentation-error.patch \
+>             "
+>   
+>   SRC_URI[md5sum] = "5077b9022440e4951d96f2d0e73bd487"
 
 
---->8---->8---->8-----
-
-
-With tar version 1.29, the tar call used to copy the ptest files will
-not work anymore. While the call did not match the man page (but worked)
-before, anyway, the latest update of tar seems to have a more strict 
-argument
-handling.
-
-With the current version of the tar call, the copying of files still
-works with latest tar version, but the excludes will not be handled
-properly anymore.
-This results in having binaries compiled with host GCC in the package.
-When doing the strip_and_split files in do_package() with the target
-objcopy, bitbake will fail with this error:
-
-   ERROR: objcopy failed with exit code 256 (cmd was [...])
-   [...]
-   File format not recognized
-
-Thus, the current argument issues and required changes are:
-
-  * Options must be placed _before_ the pathnames.
-
-  * --exclude must be followd by a '=' in order to work properly
-
-  * 'f' options is for providing an archive file, which is unnecessary in
-    this case
-
-Note that this could also be a candidate for backporting.
-
-Signed-off-by: Enrico Jorns <ejo@pengutronix.de>
----
-
-  meta/recipes-devtools/perl/perl-ptest.inc | 4 ++--
-  1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-devtools/perl/perl-ptest.inc 
-b/meta/recipes-devtools/perl/perl-ptest.inc
-index 948ea7c..5f0989f 100644
---- a/meta/recipes-devtools/perl/perl-ptest.inc
-+++ b/meta/recipes-devtools/perl/perl-ptest.inc
-@@ -7,8 +7,8 @@ do_install_ptest () {
-  	mkdir -p ${D}${PTEST_PATH}
-  	sed -e "s:\/opt:\/usr:" -i Porting/add-package.pl
-  	sed -e "s:\/local\/gnu\/:\/:" -i hints/cxux.sh
--	tar -cf - * --exclude \*.o --exclude libperl.so --exclude Makefile 
---exclude makefile --exclude hostperl \
--		--exclude miniperl --exclude generate_uudmap --exclude patches | ( cd 
-${D}${PTEST_PATH} && tar -xf - )
-+	tar -c --exclude=\*.o --exclude=libperl.so --exclude=Makefile 
---exclude=makefile --exclude=hostperl \
-+		--exclude=miniperl --exclude=generate_uudmap --exclude=patches * | ( 
-cd ${D}${PTEST_PATH} && tar -x )
-   	sed -i -e "s,${D},,g" \
-  	       -e "s,--sysroot=${STAGING_DIR_HOST},,g" \
 -- 
-2.8.1
-
+Regards,
+Neil | Kai Kang
 
 
