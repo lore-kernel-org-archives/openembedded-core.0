@@ -1,27 +1,21 @@
 Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 5EEAF731BC
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id D885B731C4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jun 2016 02:15:32 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 28 Jun 2016 19:15:33 -0700
+	Wed, 29 Jun 2016 03:09:42 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP; 28 Jun 2016 20:09:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,543,1459839600"; d="scan'208";a="996998241"
+X-IronPort-AV: E=Sophos;i="5.26,544,1459839600"; d="scan'208";a="1007162924"
 Received: from hkao-mobl1.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.176.158])
-	by fmsmga001.fm.intel.com with ESMTP; 28 Jun 2016 19:15:31 -0700
+	by orsmga002.jf.intel.com with ESMTP; 28 Jun 2016 20:09:40 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Date: Wed, 29 Jun 2016 14:15:29 +1200
-Message-ID: <4011216.TxvZQ32zt2@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.5.7-200.fc23.x86_64; KDE/4.14.20; x86_64; ;
-	)
-In-Reply-To: <CAJ86T=UX4mrrftUtmnFX=Gv5JHXr0nFbh+qj7JOxbxFnKcfT9w@mail.gmail.com>
-References: <CAJ86T=UX4mrrftUtmnFX=Gv5JHXr0nFbh+qj7JOxbxFnKcfT9w@mail.gmail.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Setting SRC_URI via anonymous Python fails in OE 2.1
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 29 Jun 2016 15:09:15 +1200
+Message-Id: <cover.1467169702.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.5.5
+Subject: [PATCH 0/1] Drop left-over RPM4 example
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,33 +28,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jun 2016 02:15:33 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 29 Jun 2016 03:09:43 -0000
 
-Hi Andre,
+The following changes since commit 646c366c2566bd8dd6f73681cea9f5b021589a56:
 
-On Tue, 28 Jun 2016 15:53:24 Andre McCurdy wrote:
-> The following works in OE 2.0, but fails in 2.1 and master:
-> 
->   python () {
->       d.setVar("SRC_URI_FOO", "http://foo.com/foo.tgz")
->   }
-> 
->   SRC_URI = "${SRC_URI_FOO}"
-> 
-> 
-> Is it a regression or was something like that never intended to work?
+  gst-player: upgrade to latest HEAD (2016-06-27 14:08:37 +0100)
 
-You didn't mention how it fails. However, I don't see any reason why we 
-wouldn't want this to work, so if it does no longer work that seems like a bug 
-to me.
+are available in the git repository at:
 
-Cheers,
-Paul
+  git://git.openembedded.org/openembedded-core-contrib paule/rpm4-remove
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/rpm4-remove
+
+Paul Eggleton (1):
+  local.conf.sample.extended: drop RPM4 example
+
+ meta/conf/local.conf.sample.extended | 10 ----------
+ 1 file changed, 10 deletions(-)
 
 -- 
+2.5.5
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
