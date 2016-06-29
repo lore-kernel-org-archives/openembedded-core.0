@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D21A731F4
+	by mail.openembedded.org (Postfix) with ESMTP id 765F06FF6B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jun 2016 03:14:04 +0000 (UTC)
+	Wed, 29 Jun 2016 03:14:06 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 28 Jun 2016 20:14:06 -0700
+	by orsmga103.jf.intel.com with ESMTP; 28 Jun 2016 20:14:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,544,1459839600"; d="scan'208";a="1007165027"
+X-IronPort-AV: E=Sophos;i="5.26,544,1459839600"; d="scan'208";a="1007165062"
 Received: from hkao-mobl1.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.176.158])
-	by orsmga002.jf.intel.com with ESMTP; 28 Jun 2016 20:14:03 -0700
+	by orsmga002.jf.intel.com with ESMTP; 28 Jun 2016 20:14:05 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Jun 2016 15:13:51 +1200
-Message-Id: <ee31a5dbc1f2fe6e7d8e459865c18d6c0f4267d8.1467169999.git.paul.eggleton@linux.intel.com>
+Date: Wed, 29 Jun 2016 15:13:52 +1200
+Message-Id: <aa9884cb82fc31f73b9f37907a59fdd106338b08.1467169999.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.5
 In-Reply-To: <cover.1467169999.git.paul.eggleton@linux.intel.com>
 References: <cover.1467169999.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1467169999.git.paul.eggleton@linux.intel.com>
 References: <cover.1467169999.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/2] classes/populate_sdk_ext: ensure tasks to build the image are included
+Subject: [PATCH 2/2] classes/populate_sdk_ext: exclude initramfs images from locked signatures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,43 +32,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jun 2016 03:14:04 -0000
+X-List-Received-Date: Wed, 29 Jun 2016 03:14:06 -0000
 
-If you build an extensible SDK for an image and IMAGE_FSTYPES includes
-"live" then the extensible SDK will fail to install with a bunch of
-unexpected task execution errors, matching the missing items required to
-build the live image. The issue was we were still depending on do_rootfs
-rather than do_image_complete. The fix was slightly more complicated
-than just changing the task name as do_image_complete's dependencies are
-in the form of dependencies on tasks within the same recipe (represented
-in the "deps" varflag rather than the "depends" varflag).
+Tasks for image recipes cannot be locked - there's nothing to restore
+from shared state to cover them and as a result, if you had "live" in
+IMAGE_FSTYPES the build would fail with "taskhash mismatch" errors for
+do_rootfs and do_image_complete for the initramfs image recipe, since it
+had to try to run those. We should probably catch that issue earlier in
+the build and produce a proper error, but for now at least exclude these
+signatures from the locked-sigs.inc file so that extensible SDK
+installers built when IMAGE_FSTYPES includes "live". (It turned out we
+already had code to find other image tasks in the task list in order to
+generate the list of install targets.)
 
-Fixes [YOCTO #9826].
+Follow-up fix for [YOCTO #9826].
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/classes/populate_sdk_ext.bbclass | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ meta/classes/populate_sdk_ext.bbclass | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index b9d9543..f68cee6 100644
+index f68cee6..23dedae 100644
 --- a/meta/classes/populate_sdk_ext.bbclass
 +++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -447,7 +447,13 @@ fakeroot python do_populate_sdk_ext() {
- }
+@@ -39,7 +39,7 @@ SDK_UPDATE_URL ?= ""
  
- def get_ext_sdk_depends(d):
--    return d.getVarFlag('do_rootfs', 'depends', True) + ' ' + d.getVarFlag('do_build', 'depends', True)
-+    # Note: the deps varflag is a list not a string, so we need to specify expand=False
-+    deps = d.getVarFlag('do_image_complete', 'deps', False)
-+    pn = d.getVar('PN', True)
-+    deplist = ['%s:%s' % (pn, dep) for dep in deps]
-+    for task in ['do_image_complete', 'do_rootfs', 'do_build']:
-+        deplist.extend((d.getVarFlag(task, 'depends', True) or '').split())
-+    return ' '.join(deplist)
+ SDK_TARGETS ?= "${PN}"
  
- python do_sdk_depends() {
-     # We have to do this separately in its own task so we avoid recursing into
+-def get_sdk_install_targets(d):
++def get_sdk_install_targets(d, images_only=False):
+     sdk_install_targets = ''
+     if d.getVar('SDK_EXT_TYPE', True) != 'minimal':
+         sdk_install_targets = d.getVar('SDK_TARGETS', True)
+@@ -50,8 +50,9 @@ def get_sdk_install_targets(d):
+                 if v[0] not in sdk_install_targets:
+                     sdk_install_targets += ' {}'.format(v[0])
+ 
+-    if d.getVar('SDK_INCLUDE_PKGDATA', True) == '1':
+-        sdk_install_targets += ' meta-world-pkgdata:do_allpackagedata'
++    if not images_only:
++        if d.getVar('SDK_INCLUDE_PKGDATA', True) == '1':
++            sdk_install_targets += ' meta-world-pkgdata:do_allpackagedata'
+ 
+     return sdk_install_targets
+ 
+@@ -280,7 +281,7 @@ python copy_buildsystem () {
+             f.write('\n')
+ 
+     # Filter the locked signatures file to just the sstate tasks we are interested in
+-    excluded_targets = d.getVar('SDK_TARGETS', True)
++    excluded_targets = get_sdk_install_targets(d, images_only=True)
+     sigfile = d.getVar('WORKDIR', True) + '/locked-sigs.inc'
+     lockedsigs_pruned = baseoutpath + '/conf/locked-sigs.inc'
+     oe.copy_buildsystem.prune_lockedsigs([],
 -- 
 2.5.5
 
