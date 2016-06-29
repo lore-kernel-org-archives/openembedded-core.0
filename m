@@ -1,27 +1,28 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D4D03731DA
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 2286573172
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jun 2016 03:28:59 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u5T3T0kC022564
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jun 2016 20:29:00 -0700 (PDT)
-Received: from [128.224.162.173] (128.224.162.173) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 28 Jun 2016 20:28:59 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1467170719.git.hongxu.jia@windriver.com>
-From: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <5773407A.4080607@windriver.com>
-Date: Wed, 29 Jun 2016 11:28:58 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.8.0
-MIME-Version: 1.0
-In-Reply-To: <cover.1467170719.git.hongxu.jia@windriver.com>
-Subject: Re: [PATCH 0/1]l3afpad: Use distro_features_check for gtk+3
+	Wed, 29 Jun 2016 06:33:11 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u5T6XAnT028921; Wed, 29 Jun 2016 07:33:10 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id HmpbJ5emReI0; Wed, 29 Jun 2016 07:33:10 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u5T6X79R028918
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 29 Jun 2016 07:33:09 +0100
+Message-ID: <1467181987.8590.105.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Li Zhou <li.zhou@windriver.com>, openembedded-core@lists.openembedded.org
+Date: Wed, 29 Jun 2016 07:33:07 +0100
+In-Reply-To: <20160629031255.3551-1-li.zhou@windriver.com>
+References: <20160629031255.3551-1-li.zhou@windriver.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH] python3: correct the multilib support patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,32 +35,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jun 2016 03:29:01 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 29 Jun 2016 06:33:12 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This fix is duplicated with Joe Slater's "l3afpad: add check for 
-GTK3DISTROFEATURES"
+On Wed, 2016-06-29 at 11:12 +0800, Li Zhou wrote:
+> When python3 rebased its multilib patch, the hard coded "lib" path
+> isn't really changed because of the rebasing's error, and cause
+> phthon3's failure when running on 64bit platforms as below:
+> Could not find platform independent libraries <prefix>
+> Could not find platform dependent libraries <exec_prefix>
+> Consider setting $PYTHONHOME to <prefix>[:<exec_prefix>]
+> Fatal Python error: Py_Initialize: Unable to get the locale encoding
+> ImportError: No module named 'encodings'
+> 
+> Here correct the rebasing error and solve this issue.
+> 
+> Signed-off-by: Li Zhou <li.zhou@windriver.com>
+> ---
+>  ...ython3-correct-the-multilib-support-patch.patch | 47
+> ++++++++++++++++++++++
+>  meta/recipes-devtools/python/python3_3.5.1.bb      |  1 +
+>  2 files changed, 48 insertions(+)
+>  create mode 100644 meta/recipes-devtools/python/python3/0001-python3
+> -correct-the-multilib-support-patch.patch
 
-Please drop this one.
 
-//Hongxu
+Don't we want to correct the "bad" patch rather than adding an
+additional patch? Or did I misunderstand the problem?
 
-On 2016年06月29日 11:26, Hongxu Jia wrote:
-> The following changes since commit 13eb4a832b533f84001fca8be960ad1e58fc823f:
->
->    gst-player: upgrade to latest HEAD (2016-06-27 14:08:43 +0100)
->
-> are available in the git repository at:
->
->    git://git.openembedded.org/openembedded-core-contrib hongxu/fix-l3afpad
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=hongxu/fix-l3afpad
->
-> Hongxu Jia (1):
->    l3afpad: Use distro_features_check for gtk+3
->
->   meta/recipes-sato/l3afpad/l3afpad_git.bb | 3 +++
->   1 file changed, 3 insertions(+)
->
+Also, are there some automated tests we should be adding to catch this
+kind of problem? I'm a little worried none of our testing caught this.
 
+Cheers,
+
+Richard
 
