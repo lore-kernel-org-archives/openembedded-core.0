@@ -1,47 +1,36 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f47.google.com (mail-it0-f47.google.com
-	[209.85.214.47])
-	by mail.openembedded.org (Postfix) with ESMTP id BC96C60119
+Return-Path: <joe.slater@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A506560119
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jun 2016 18:47:19 +0000 (UTC)
-Received: by mail-it0-f47.google.com with SMTP id f6so77202969ith.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jun 2016 11:47:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=mUXobEAv731g2dSHCknJenbgsgahUdT8lCueidMFWY8=;
-	b=EKCJRHdQYbbYJpDIYNDkWw/xWssSG2crK8SD0k0BF7Q+D9ei3Xq+E3DuPA4K7CiZsj
-	IV7VnGUXHO8//Cr2QtbuldVefmOuCwmDzeIulGDCWwr2WoqhIHn9AlKqV3klMS/jKVoG
-	ZmaZGkP1E9R1unJjW9prP8++weuR85tlBSK0D+Ov7rNkql2516peHSskAXJYc++hVxsJ
-	pXtHt/uot/OKuom4MGUPCimoIqjVuGMUDR3ycCyUDPtY1mTyXKgu2KzKzYz5Xo5KpBWe
-	s4AoHEFL/2+k4d7u2GEzNQUgDbPQ0wNsPpjO7c2pJ1L5g1PygGMG/gojyPTCOrfD67en
-	1lkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=mUXobEAv731g2dSHCknJenbgsgahUdT8lCueidMFWY8=;
-	b=AeUmgPg8YZ0C1LdKEjzkBD/TFZx4aqS6MJm4oTdKHyftBvtEwXFbkAqn1oXhE5oMfI
-	nSUnKnkM4z+yUvvwy7HLRPV9YpCaZCaJ1vH5pkXG4ip4y+pE4S53Az4pxxMYsCV78DKL
-	0oDfrYnsqQCFKzMEEBljtSd5U4/4oc1JHuEJfvz25Zcl5UAyI+gX1h3xmqzlwjwPtFHV
-	jKcX/V+pQ++ihP9t+YImyBWotJycxZmznl5+zJ7LVZo3POuYh4TJm5q407Zmc3knJhvE
-	UNEN0qOGPJouESEFXBvw9gduehiti7kwkgwVfL+JMpsjZj2BhC086BxsClPzNd+UCTAG
-	LEMw==
-X-Gm-Message-State: ALyK8tJ6L1tt34YTxzDrvZju5dSLdbIHyNOnOaEA85B6PN2iuWv3mEMgBFaMJEtnmWXZCN6upqjM+4+tnp0Taf+p
-X-Received: by 10.36.120.71 with SMTP id p68mr28004437itc.22.1467312439974;
-	Thu, 30 Jun 2016 11:47:19 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.142.151 with HTTP; Thu, 30 Jun 2016 11:47:00 -0700 (PDT)
-In-Reply-To: <1467306469-15442-1-git-send-email-michael.davis@essvote.com>
-References: <1467306469-15442-1-git-send-email-michael.davis@essvote.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 30 Jun 2016 19:47:00 +0100
-Message-ID: <CAJTo0LYPJ8_d2fyPtUqaiFNhGd7RyN9ToQQ5eDBSnpD8g9oU4Q@mail.gmail.com>
-To: "Davis, Michael" <michael.davis@essvote.com>
-Cc: "openembedded-core@lists.openembedded.org"
+	Thu, 30 Jun 2016 18:49:12 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u5UIn7lI028600
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Thu, 30 Jun 2016 11:49:12 -0700
+Received: from ALA-MBB.corp.ad.wrs.com ([169.254.1.50]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0248.002;
+	Thu, 30 Jun 2016 11:49:07 -0700
+From: "Slater, Joseph" <joe.slater@windriver.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] image.bbclass: do exact match for rootfs type
+Thread-Topic: [OE-core] [oe-core][PATCH 0/1] blacklist: add BPNBLACKLIST
+	support
+Thread-Index: AQHRzNFXgkcZQlaJh0GUM1SGzyNKHp/2iJaAgAACy4CAAD61gIALmwMA
+Date: Thu, 30 Jun 2016 18:49:05 +0000
+Message-ID: <007BD92917A2324FA403BCF9A464CF84A6F8AF36@ALA-MBB.corp.ad.wrs.com>
+References: <1466632764-22540-1-git-send-email-jslater@windriver.com>
+	<CAMKF1soa5wBYFyFV0sqxsN_0bpjTjpQ==Aow0Ui7ZAAhh-Mp=g@mail.gmail.com>
+	<6ea53ae7-5516-a991-f9f6-111db319e5dc@windriver.com>
+	<2774839.1y5EqQaVkY@peggleto-mobl.ger.corp.intel.com>
+In-Reply-To: <2774839.1y5EqQaVkY@peggleto-mobl.ger.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.11.216.160]
+MIME-Version: 1.0
+Subject: Re: [PATCH 0/1] blacklist: add BPNBLACKLIST support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,38 +43,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jun 2016 18:47:20 -0000
-Content-Type: multipart/alternative; boundary=001a114a9388c27ee90536834c73
-
---001a114a9388c27ee90536834c73
-Content-Type: text/plain; charset=UTF-8
-
-On 30 June 2016 at 18:08, Davis, Michael <michael.davis@essvote.com> wrote:
-
-> Do exact match for rootfs type, instead of pattern match, to avoid
-> unexpected build error due to redundant rootfs type build.
->
-
-This is already in oe-core master (as is hinted at my the "from OE-Core"
-tags), so was this meant to be a backport request for a particular branch?
-
-Ross
-
---001a114a9388c27ee90536834c73
-Content-Type: text/html; charset=UTF-8
+X-List-Received-Date: Thu, 30 Jun 2016 18:49:13 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 30 June 2016 at 18:08, Davis, Michael <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:michael.davis@essvote.com" target=3D"_blank">michael.davis@essvote.co=
-m</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":bno" =
-class=3D"a3s aXjCH m155a249941dd32fa">Do exact match for rootfs type, inste=
-ad of pattern match, to avoid<br>
-unexpected build error due to redundant rootfs type build.<br></div></block=
-quote></div><br>This is already in oe-core master (as is hinted at my the &=
-quot;from OE-Core&quot; tags), so was this meant to be a backport request f=
-or a particular branch?</div><div class=3D"gmail_extra"><br></div><div clas=
-s=3D"gmail_extra">Ross</div></div>
+I do not think I have seen any comments about Paul's suggestion, but I beli=
+eve it
+would be valuable to implement it.  World builds for multilib, or even manu=
+al builds
+for a non-default lib type can get quite annoying when supposedly blacklist=
+ed recipes
+are selected.  And, if these recipes do not fail, you are not building what=
+ you think
+you are.
 
---001a114a9388c27ee90536834c73--
+Joe
+
+
+> -----Original Message-----
+> From: Paul Eggleton [mailto:paul.eggleton@linux.intel.com]
+> Sent: Wednesday, June 22, 2016 7:30 PM
+> To: openembedded-core@lists.openembedded.org
+> Cc: Hatle, Mark; Slater, Joseph; Khem Raj
+> Subject: Re: [OE-core] [oe-core][PATCH 0/1] blacklist: add BPNBLACKLIST s=
+upport
+>=20
+> On Wed, 22 Jun 2016 17:45:55 Mark Hatle wrote:
+> > On 6/22/16 5:35 PM, Khem Raj wrote:
+> > > On Jun 22, 2016 2:59 PM, "Joe Slater" <jslater@windriver.com
+> > >
+> > > <mailto:jslater@windriver.com>> wrote:
+> > >> We have encountered some issues with the use of PNBLACKLIST in recip=
+es.
+> > >> In particular, PNBLACKLIST[pkg] will not suppress building of lib32-=
+pkg
+> > >> or lib64-pkg so world builds can fail unexpectedly.
+> > >>
+> > >> One solution could be to implement BPNBLACKLIST[] which checks BPN
+> > >> instead
+> > >> of PN when a recipe is being parsed.  I have included a patch to do =
+this.
+> > >>
+> > >> If this were adopted, there are many recipes under meta-openembedded=
+ that
+> > >> should probably changed to use BPNBLACKLIST instead of PNBLACKLIST.
+> > >
+> > > Bpn will also mean native and nativesdk among others. I think its bet=
+ter
+> > > to list multilibs explicitly.
+> >
+> > This is intentional.
+> >
+> > The problem with saying we have to list multilibs explicitly.  multilib
+> > naming is arbitrary.  I can say that it probably fits the pattern of li=
+b64,
+> > lib32, libn32 and libx32.... but it doesn't have to.
+> >
+> > But then I'd also need to blacklist native and nativesdk versions as we=
+ll..
+> > so for a simple recipe that for some reason I want blacklisted, it's ea=
+sier
+> > to hack the recipe to just blacklist itself -- then enter 7 or more
+> > blacklists.
+> >
+> > Using the BPNBLACKLIST I can blacklist a single recipe with one command=
+ and
+> > not worry about multilibs, class extensions, etc.
+> >
+> > (The patch leave PNBLACKLIST, specifically so that in the case where yo=
+u
+> > want only partial usage blacklisted you can.)
+>=20
+> So blacklist.bbclass already has code to extend PNBLACKLIST with multilib
+> variants - so we don't actually need this for multilib, right? It only he=
+lps
+> cover multilib and native/nativesdk AFAICT.
+>=20
+> If we are going to make changes here I do have an alternative suggestion =
+-
+> a while ago I wrote this patch but never got around to sending it because
+> I wasn't quite sure if it's the right approach. It makes PNBLACKLIST work
+> a bit more like other variables where you use overrides rather than
+> varflags to make it specific to a recipe:
+>=20
+>   http://git.yoctoproject.org/cgit/cgit.cgi/poky-
+> contrib/commit/?h=3Dpaule/stuff3&id=3D7383419cbe69c4d62b9695e6ae65adc8b54=
+741f7
+>=20
+> Does anyone else see value in this?
+>=20
+> Cheers,
+> Paul
+>=20
+> --
+>=20
+> Paul Eggleton
+> Intel Open Source Technology Centre
+
