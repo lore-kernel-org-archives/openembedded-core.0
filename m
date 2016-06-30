@@ -1,49 +1,39 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-it0-f68.google.com (mail-it0-f68.google.com
-	[209.85.214.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 09A3E607F8
+Return-Path: <prvs=5989a55d29=michael.davis@essvote.com>
+Received: from mail1.essvote.com (mail1.essvote.com [66.37.226.19])
+	by mail.openembedded.org (Postfix) with ESMTP id 99CFF607F8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jun 2016 17:01:24 +0000 (UTC)
-Received: by mail-it0-f68.google.com with SMTP id g127so9480034ith.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jun 2016 10:01:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=FHP39hFa+h2wWss6q5MUUe4N7J/9Z7te/++zMWIWoI4=;
-	b=C81jmH1ZO/W0kQCnJFSRV9UAX83zwEIWmM8zCYLpYvf1i9E+xSfKN4gw4oZE6JJiVz
-	vxIFCvO/FX6G5ZBeZJvK1CmgbN7kYZPEGJkGJb0LW/jFW8dJBBUF2awdTsx/1ZSXl9BU
-	cIil17dH7W7SNtloHK9mmPahKTRCQzGbiuEpfPJ+op9SawRff/o/VbFoxaChnKfrp6EO
-	IW1sSiGsVH1FmGlx/Pa/99NlZd4h+CHJnv5Nf1TcQYpKpn4irlwWQXikMoS5sY0D7VAV
-	fsZvYVxDGin66f/a8N8ahfqbj/K3uyeRZCBtDdqHzjgxvtpBK7MQQTVvjZlLfOl58JvT
-	q+BQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=FHP39hFa+h2wWss6q5MUUe4N7J/9Z7te/++zMWIWoI4=;
-	b=JQI7cwg2oSDYrFF5uF7ehgVhEaKANuSRRQg9ue4KOP8tGseusJDUTqcvgBAebuKXFY
-	+L/SiDsP714pGS/WvZlflDUSB3iVnOJqPyciQkhWVMiZAnYPLzpIeQeOiK4ZmXR/N64r
-	H8H7CszfykIncE/vILufNqwCoV901Iq/VifZO9M3pXCdkddpJbpT1+FIMg4tgutC5KCl
-	NqEW/aCHNfrucjLouI9B/yVlVP171YTXYNkGA3Vj4Ixg36EDh0xd43XC4cJU5DnXQmzc
-	scqAcs7RvTTQvjQ22eaFZ73IxdNaQKFLWRVc6Q6YWdLYUjobPsiTFUTELsATd6wfvAqX
-	12ew==
-X-Gm-Message-State: ALyK8tIaerGEZKvm6+MmV+5PSTTrKF33Vz4AU+fo1wErdoNXmwWZfwBgLcNRUSthi/Zd4Pr38HWQsd3CI49Wsw==
-X-Received: by 10.36.216.5 with SMTP id b5mr16475283itg.19.1467306084921; Thu,
-	30 Jun 2016 10:01:24 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.79.19.70 with HTTP; Thu, 30 Jun 2016 10:01:05 -0700 (PDT)
-In-Reply-To: <1467296262-3088-1-git-send-email-michael.davis@essvote.com>
-References: <1467296262-3088-1-git-send-email-michael.davis@essvote.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Thu, 30 Jun 2016 10:01:05 -0700
-X-Google-Sender-Auth: _EhDZt25gCHAuWmMerJtxtGQ_gY
-Message-ID: <CABcZAN=2jFoPiCKudWxgMzn8zRLrT0kF498eMLzZzHQxRnmwSg@mail.gmail.com>
-To: "Davis, Michael" <michael.davis@essvote.com>
-Cc: "openembedded-core@lists.openembedded.org"
+	Thu, 30 Jun 2016 17:08:23 +0000 (UTC)
+X-AuditID: 0a000213-f79066d0000013b8-1c-577552073b4c
+Received: from ESS-EX01.essvote.corp.local (Unknown_Domain [172.16.110.40])
+	by mail1.essvote.com (Symantec Messaging Gateway) with SMTP id
+	63.E1.05048.70255775; Thu, 30 Jun 2016 12:08:23 -0500 (CDT)
+Received: from ESS-EX01.essvote.corp.local ([::1]) by
+	ESS-EX01.essvote.corp.local ([::1]) with mapi id 14.03.0301.000;
+	Thu, 30 Jun 2016 12:08:23 -0500
+From: "Davis, Michael" <michael.davis@essvote.com>
+To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] pulseaudio: Disable unit tests
+Thread-Topic: [PATCH] image.bbclass: do exact match for rootfs type
+Thread-Index: AQHR0vICzDgRvRXQb0aC0Vtfzu4C3Q==
+Date: Thu, 30 Jun 2016 17:08:23 +0000
+Message-ID: <1467306469-15442-1-git-send-email-michael.davis@essvote.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.1.1.137]
+MIME-Version: 1.0
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrOLMWRmVeSWpSXmKPExsWyRiBPQ5c9qDTcYOZRa4s7P9+xW/x4NpHV
+	YtLOW2wOzB77565h9zi3cQWjx8Z3O5gCmKO4bZISS8qCM9Pz9O0SuDOenXvLVnCOq6K3bwt7
+	A+Nsji5GTg4JAROJV4veMEPYYhIX7q1n62Lk4hASOMEoMb3rEyuEM4tR4vzWJywgVWwCRhLn
+	rm9iBLFFBKIlls6YyQ5iMwvESPxecg8sLixgJ3Hjy192iBpniSWzNkHZehJXf60Bm8MioCrx
+	unM1mM0r4Cnx8cUhVhCbEeiK76fWMEHMFJe49WQ+E8R1AhJL9pyHulRU4uXjf0D1HEC2nMT/
+	LR4Q5XoSN6ZOYYOwtSWWLXzNDDFeUOLkzCcsExhFZiGZOgtJyywkLbOQtCxgZFnFKJibmJlj
+	qJdaXFyWX5Kql5yfu4kRGB1cDEzCOxjnTLE9xCjAwajEw3vBrCRciDWxrLgy9xCjNAeLkjiv
+	ipBSuJBAemJJanZqakFqUXxRaU5q8SFGJg7OQ4wSHFxSIsWpeSmpRYmlJRnxoNiKLwZGl1QD
+	o43dJlVWtcDFjblPOja62py7XxX/W1Y55FbVpNdXEhn7d70UmnNpB8u9e/aejXGivMsXSOy9
+	qyzGGO851emrctKhOTP951w4HHvlge09jfNtt3OC5i9TPqp+XFjvaNjKE+tVhU+UfZlxVYo5
+	JneGsmF44Qlh78bmcxo/uC7n8t9JvHgyO9OKRYmlOCPRUIu5qDgRAIjScWiKAgAA
+Subject: [PATCH] image.bbclass: do exact match for rootfs type
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,87 +46,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jun 2016 17:01:27 -0000
-Content-Type: multipart/alternative; boundary=94eb2c05cc14f7f797053681d131
-
---94eb2c05cc14f7f797053681d131
-Content-Type: text/plain; charset=UTF-8
-
-On Thu, Jun 30, 2016 at 7:18 AM, Davis, Michael <michael.davis@essvote.com>
-wrote:
-
-> Signed-off-by: Michael Davis <michael.davis@essvote.com>
-> ---
->  meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> index 8a28ca7..accafe1 100644
-> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> @@ -30,6 +30,7 @@ EXTRA_OECONF = "\
->                 --without-zsh-completion-dir \
->                 --with-udev-rules-dir=`pkg-config --variable=udevdir
-> udev`/rules.d \
->                  ac_cv_header_valgrind_memcheck_h=no \
-> +                --disable-tests \
->  "
->
->  # soxr (the SoX Resampler library) doesn't seem to be currently packaged
-> in
-> --
-> 2.5.5
->
-
-The commit message says nothing about *why* you're doing this.
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
-
---94eb2c05cc14f7f797053681d131
-Content-Type: text/html; charset=UTF-8
+X-List-Received-Date: Thu, 30 Jun 2016 17:08:28 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Thu, Jun 30, 2016 at 7:18 AM, Davis, Michael <span dir=3D"ltr">&lt;<=
-a href=3D"mailto:michael.davis@essvote.com" target=3D"_blank">michael.davis=
-@essvote.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Signed=
--off-by: Michael Davis &lt;<a href=3D"mailto:michael.davis@essvote.com">mic=
-hael.davis@essvote.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 1 +<br>
-=C2=A01 file changed, 1 insertion(+)<br>
-<br>
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recip=
-es-multimedia/pulseaudio/pulseaudio.inc<br>
-index 8a28ca7..accafe1 100644<br>
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc<br>
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc<br>
-@@ -30,6 +30,7 @@ EXTRA_OECONF =3D &quot;\<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --without-zsh-compl=
-etion-dir \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --with-udev-rules-d=
-ir=3D`pkg-config --variable=3Dudevdir udev`/rules.d \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ac_cv_header_=
-valgrind_memcheck_h=3Dno \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --disable-tests \<=
-br>
-=C2=A0&quot;<br>
-<br>
-=C2=A0# soxr (the SoX Resampler library) doesn&#39;t seem to be currently p=
-ackaged in<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.5.5<br></font></span></blockquote><div>=C2=A0</div></div><div>The commit =
-message says nothing about *why* you&#39;re doing this.</div>-- <br><div cl=
-ass=3D"gmail_signature" data-smartmail=3D"gmail_signature">Christopher Lars=
-on<br>clarson at kergoth dot com<br>Founder - BitBake, OpenEmbedded, OpenZa=
-urus<br>Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics</di=
-v>
-</div></div>
+From: Zhenhua Luo <zhenhua.luo@nxp.com>
 
---94eb2c05cc14f7f797053681d131--
+Do exact match for rootfs type, instead of pattern match, to avoid
+unexpected build error due to redundant rootfs type build.
+
+E.g. when building ext2.gz.u-boot, both .gz.u-boot and .u-boot are matched,
+the following build error will appear, actually .u-boot is not needed.
+| mkimage: Can't open .../core-image-minimal-<machine>-<yyyymmddhhmmss>.roo=
+tfs.ext2.gz: No such file or directory
+
+(From OE-Core rev: 46bc438374de74af76d288520c6252c9b7840767)
+
+(From OE-Core rev: 1d0ea655e266e7c5acc9c282fa91406fbe9bfb85)
+
+Signed-off-by: Zhenhua Luo <zhenhua.luo@nxp.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/image.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 6b9f979..64eb845 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -395,7 +395,7 @@ python () {
+         rm_tmp_images =3D set()
+         def gen_conversion_cmds(bt):
+             for ctype in ctypes:
+-                if bt.endswith("." + ctype):
++                if bt[bt.find('.') + 1:] =3D=3D ctype:
+                     type =3D bt[0:-len(ctype) - 1]
+                     if type.startswith("debugfs_"):
+                         type =3D type[8:]
+--=20
+2.5.5
+
