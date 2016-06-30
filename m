@@ -1,49 +1,48 @@
-Return-Path: <jefro.net@gmail.com>
-Received: from mail-vk0-f41.google.com (mail-vk0-f41.google.com
-	[209.85.213.41])
-	by mail.openembedded.org (Postfix) with ESMTP id D0C9B60107
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jun 2016 22:50:05 +0000 (UTC)
-Received: by mail-vk0-f41.google.com with SMTP id c2so130907212vkg.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jun 2016 15:50:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=WMSIv+4g+123UOj8ZILR18Ttwt9oGgN/mrCaxfnzJUw=;
-	b=tx0mIv+meKgL1s9gfCyMctgxWFzhMcEcfdtofzjeDYRyH5tPlmLCz/HAm4oDBXM8hP
-	bsoQjgRl0U6JwjG8vU/0Ad6CGj4DJBQ/fPJ2ZQ4KURC6uRq92uTM+DeCmb4prBpXCwWk
-	vjwZ1wqRx7cG+AIQbZnkuZbij1u/wg3mdd9qgHSGQkDpy8Rkn2spQDF4w2i+Bb7dI4bo
-	FUC8qxOWSKMQlNa9Ew654sZZSSyzfU6/6Wql/g9TqOsAp+pkBfc9Cmbf2Q9GOVi3I+Xt
-	cArP6CXZ5yGSueTTzSBxWFxCH/epS9LNr6OyNsmV7N0uoiXf1YJCCzImk+MJyZZ6ZfZM
-	nJEQ==
+Return-Path: <mhalstead@linuxfoundation.org>
+Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
+	[209.85.220.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C28860797
+	for <Openembedded-core@lists.openembedded.org>;
+	Thu, 30 Jun 2016 23:03:07 +0000 (UTC)
+Received: by mail-pa0-f53.google.com with SMTP id bz2so32449494pad.1
+	for <Openembedded-core@lists.openembedded.org>;
+	Thu, 30 Jun 2016 16:03:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=to:from:subject:message-id:date:user-agent:mime-version
+	:content-transfer-encoding;
+	bh=JdyA5e9e8cGPSPva1gKfq9rs7DpFmLWV//og5oxYWKM=;
+	b=WOO8wEwo2MAl3Rjc0JR7Ax3WHFP+Un2BoM99L5DOwsnEdqlGUF2EYIYgGILC5Djc4y
+	sfhOkONj6yTOwjhpjqzPyNJJfDLuMO89jESah3yVM0f4yAIXg0evQ6nLYBoQOlU3Egz8
+	LmD7+IiYU2FzNaIZm9inUEqezL3jOtpp5MCXU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=WMSIv+4g+123UOj8ZILR18Ttwt9oGgN/mrCaxfnzJUw=;
-	b=hRvaI2jHD+2VecyEkHt/6P/m1arNeFFJq/M3a3pWi07piYTkInYHZqrfBKjQ0alFo1
-	LsS1ObU7P3WLBZ5rOjYLgQLMDNspr/Pk4wRGz+/F3aNt2+LwF5XAZ05JlkMNuAPuGlv1
-	qTct3CUqncBQN42O0+F+h4bvpa1btg5kjCV8VzLJ+Vh5Y7qiA42WQDByshbc9ZaaBlP/
-	qMZQ0RHDqJLc/SwHtIXtXirts8iwO1C2CvcMFd5ZML9tAhgO79M2mvjJd38xHJ0xRr9U
-	j9lK94MY82eSgjHHKoQpJiOi9qyp7+16GbBoe1vGbctmekJJ77TpVO47q1eQeJVbZ9b2
-	n+OQ==
-X-Gm-Message-State: ALyK8tKIJkbAkEweuDp4EYQf+WhJUt7xzBvmKHU2GZsnCJw8Hv56Ci/t4TF5kMkMrqG0Yg7JSIJaIa8Blgb0OA==
-X-Received: by 10.159.37.66 with SMTP id 60mr6799421uaz.56.1467327005788; Thu,
-	30 Jun 2016 15:50:05 -0700 (PDT)
+	h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=JdyA5e9e8cGPSPva1gKfq9rs7DpFmLWV//og5oxYWKM=;
+	b=E12IIGyzqzgJtE0+1YT/BhGdyw9ZtbKjWjIwLDtG7M2IIv0KKI3W3MddZcosieyEiU
+	oPYff0eVu6xQvDVnqg8m3Fhz9hVXHXmjdf7ELv/dL2CoKZ+PGfazrWEuu9Yp7FuAcIvL
+	YwPVsM9qXQCayJXgIn0IjDWyGLd4hC2cK9D15L6rl1M6PMgEI40IkzI47ki/T3xb0Vzh
+	uQbcn3eW4NS/jv8I+3KrnemlQHZ4UCfwm5AdKK3/vr7ZIPMdhmFCwxcWP109/fzy+uOc
+	Tio7rER5dyQgX50YJv65igF2N3KRif8wPqBfX/naxN27ludmgCmjAhuqCjDPJM3nKMvf
+	UVKw==
+X-Gm-Message-State: ALyK8tLEBubRhmbKJIcibw4MbAxoxBeU0QbczK6oGqnAluq20LCInZdkW+c/RQS1NdpbUyMY
+X-Received: by 10.66.234.65 with SMTP id uc1mr25495792pac.81.1467327788549;
+	Thu, 30 Jun 2016 16:03:08 -0700 (PDT)
+Received: from yct-desktop.lan ([2001:470:b:16e:222:4dff:fe50:c906])
+	by smtp.gmail.com with ESMTPSA id s12sm168716pfj.57.2016.06.30.16.03.07
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 30 Jun 2016 16:03:07 -0700 (PDT)
+To: bitbake-devel@lists.openembedded.org,
+	Openembedded-core@lists.openembedded.org,
+	Openembedded-devel@lists.openembedded.org, yocto@yoctoproject.org
+From: Michael Halstead <mhalstead@linuxfoundation.org>
+Message-ID: <ae4e2654-ca20-85d1-d53b-b0b05ab25a26@linuxfoundation.org>
+Date: Thu, 30 Jun 2016 16:03:06 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.1.1
 MIME-Version: 1.0
-Sender: jefro.net@gmail.com
-Received: by 10.103.68.65 with HTTP; Thu, 30 Jun 2016 15:49:46 -0700 (PDT)
-In-Reply-To: <09856974BCEE6F48AB378E52E4CAA73C230FDAAF@chn-hclt-mbs04.HCLT.CORP.HCL.IN>
-References: <09856974BCEE6F48AB378E52E4CAA73C230FDAAF@chn-hclt-mbs04.HCLT.CORP.HCL.IN>
-From: Jeff Osier-Mixon <jefro@jefro.net>
-Date: Thu, 30 Jun 2016 15:49:46 -0700
-X-Google-Sender-Auth: LmF_wFTHimfAKPjuYdLa_D0Nsjk
-Message-ID: <CA+YB3rYjiB4A1XgUjwiVB5y1y136WofFuJFx5cHPUD1G_oNFVw@mail.gmail.com>
-To: Praveenreddy Padamati <praveenreddy.p@hcl.com>
-Cc: Phani Kara <phani.k@hcl.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Reg: Yocto installation problem
+Subject: Patchwork upgrade tonight
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,87 +55,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jun 2016 22:50:06 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 30 Jun 2016 23:03:09 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-Hi Praveen - make sure you follow the guidelines in the Quick Start
-Guide for which packages need to be installed in Ubuntu before running
-bitbake.
+After 2 weeks of testing and some performance tuning we are going to
+proceed with the Patchwork upgrade. Data entered into the current
+version in the next few hours may need to be re-entered after the upgrade.
 
-http://www.yoctoproject.org/docs/2.1/yocto-project-qs/yocto-project-qs.html
+All features of the current Patchwork install work in the new version.
+So while there are still issues surrounding detection of patch series
+there are no known regressions. Series detection can be addressed after
+the upgrade.
 
-In general, you'll
+The rollback plan can be executed very quickly if needed.
 
-(1) install the required packages
-(2) clone poky from the git repository
-(3) check out the current release
-(4) run the environment script
-(5) then run bitbake
-
-The Quick Start Guide goes over all these steps in detail.
-
-You might also get responses more specific to the Yocto Project by
-posting on the yocto mailing list, rather than OE. You can join the
-yocto list here:
-
-https://lists.yoctoproject.org/listinfo/yocto
-
-hope this helps
-
-
-On Wed, Jun 29, 2016 at 9:56 PM, Praveenreddy Padamati
-<praveenreddy.p@hcl.com> wrote:
-> Hi all,
->
-> I am installing the yocto in ubuntu version 14. Installtion is aborted
-> intermediately. It comes out with the error
->
-> "ERROR: Task 984
-> (/home/kumarn/imx6_build/fsl-release-bsp/sources/poky/meta/recipes-devtools/perl/perl-native_5.22.0.bb,
-> do_configure) failed with exit code '1'".
->
-> Please find the log file in the attachment.
->
-> Thanks
-> Praveen Reddy P
-> 9989642159
->
->
->
-> ::DISCLAIMER::
-> ----------------------------------------------------------------------------------------------------------------------------------------------------
->
-> The contents of this e-mail and any attachment(s) are confidential and
-> intended for the named recipient(s) only.
-> E-mail transmission is not guaranteed to be secure or error-free as
-> information could be intercepted, corrupted,
-> lost, destroyed, arrive late or incomplete, or may contain viruses in
-> transmission. The e mail and its contents
-> (with or without referred errors) shall therefore not attach any liability
-> on the originator or HCL or its affiliates.
-> Views or opinions, if any, presented in this email are solely those of the
-> author and may not necessarily reflect the
-> views or opinions of HCL or its affiliates. Any form of reproduction,
-> dissemination, copying, disclosure, modification,
-> distribution and / or publication of this message without the prior written
-> consent of authorized representative of
-> HCL is strictly prohibited. If you have received this email in error please
-> delete it and notify the sender immediately.
-> Before opening any email and/or attachments, please check them for viruses
-> and other defects.
->
-> ----------------------------------------------------------------------------------------------------------------------------------------------------
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
-
+Please reach out if you have concerns.
 
 -- 
-Jeff Osier-Mixon - Open Source Community Engineer, Intel Corporation
+Michael Halstead
+Linux Foundation / SysAdmin
 
