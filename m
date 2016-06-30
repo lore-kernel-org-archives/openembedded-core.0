@@ -1,42 +1,47 @@
-Return-Path: <embedded@die-kriestens.de>
-Received: from outbound1.flatbooster.com (outbound1.flatbooster.com
-	[84.200.50.201])
-	by mail.openembedded.org (Postfix) with ESMTP id AB2F4601B8
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f67.google.com (mail-pa0-f67.google.com
+	[209.85.220.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 63C5A601B8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jun 2016 06:03:21 +0000 (UTC)
-Received: from localhost (outbound1.flatbooster.com [127.0.0.1])
-	by outbound1.flatbooster.com (Postfix) with ESMTP id D04B06D63E88
+	Thu, 30 Jun 2016 06:26:19 +0000 (UTC)
+Received: by mail-pa0-f67.google.com with SMTP id av7so6339926pac.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jun 2016 08:03:21 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at outbound1.flatbooster.com
-Received: from outbound1.flatbooster.com ([127.0.0.1])
-	by localhost (outbound1.flatbooster.com [127.0.0.1]) (amavisd-new,
-	port 10024) with ESMTP id 1mvTP4_Sn63V
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jun 2016 08:03:21 +0200 (CEST)
-Received: from rex23.flatbooster.com (rex23b.flatbooster.com [93.186.195.156])
-	by outbound1.flatbooster.com (Postfix) with ESMTPS
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jun 2016 08:03:20 +0200 (CEST)
-Received: from [10.53.55.146] (e-251-121.hrz.tu-chemnitz.de [134.109.251.121])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested) (Authenticated sender: web130220p1)
-	by rex23.flatbooster.com (Postfix) with ESMTPSA id 59CE21B2F9C
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jun 2016 08:03:20 +0200 (CEST)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-From: Daniel Kriesten <embedded@die-kriestens.de>
-X-Mailtags-Timestamp: 2016-06-30 08:03:19 +0200
-In-Reply-To: <CAJTo0LbuTrNE4kemiZK_yEqUFo4CN9TJJLZzqwTjzVK=xuK1MA@mail.gmail.com>
-Date: Thu, 30 Jun 2016 08:03:19 +0200
-X-Mailtags-Version: 4
-Message-Id: <D94025A2-518C-4CC8-AE9C-93DB39CDD687@die-kriestens.de>
-References: <1586B03B-3244-4FB3-82F7-803CFD983532@die-kriestens.de>
-	<CAJTo0LbuTrNE4kemiZK_yEqUFo4CN9TJJLZzqwTjzVK=xuK1MA@mail.gmail.com>
-X-Mailtags: {"mailTagsProject":"Mailingliste"}
-To: OE-core <openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.3124)
-Subject: Re: Building Perl-5.22.1-r0 on Arch Linux fails with QA Issue
+	Wed, 29 Jun 2016 23:26:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=SzrPbZ/BZiLZ3lQeO6Nk7DfbcrgnzReAEYTk/vshLgU=;
+	b=sHiu2qnMWKfTsH/71V+WmdQnk98scbITtNB6JXhDQG9klfJPE4W8yIgFe6Lco0NVWp
+	5jZzgP6LLSsr7iKvsF9mocWlyjUznxbUrD0V1YKSpXSmQ/VxWIDM7alIWPGaBZ/Fgj87
+	vZj4U77LVvYlitZmgNlmjgYLN29p9FCKRxRR+Zm+RCo1U5rElgHT6KUHT+af6WAehYlX
+	L8cqQCZx8chRmAailbE2KZ9P0dOJ8ZciJJml16jfYDwhuIPngjaDkr8swSwJYNCJy9s8
+	Nx7n88q4I2M0Ejb6yqvmuGDieM0t21gDzGZpAj+YeqT4w1xhDTFeG/DB5qX0n7VlWJDU
+	FxSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=SzrPbZ/BZiLZ3lQeO6Nk7DfbcrgnzReAEYTk/vshLgU=;
+	b=huDhGw/Z+W8tUTWaICK+C4RTwlBR7Orv00dqfqDUe8sKQj4mdEGcXHpYL9KRn4d+9P
+	jo9zgkQgkj6n2AtRFtlqJkwTBv9Cn8pKFPE/HLu78jufTs/HgCUYyiLODtcFwZQEGR1y
+	jocPI2rI+u7wgFuD6yvFcQ8p0d7lvC2WBe26xDUcW40QfgMGChpQ4wLkRYuz0jrQnvoR
+	93DBJqoPFZCFAb+0YjhC4AeJt5KuzaMSojFBohpPDo/Luv1MMPF2/vM/AwJOKc50Otks
+	Z2VrNuHGjsHXLdbbIu7lULJag1+rYNb9nJ+chowOlg/TGElB6T/TBwceqUFwNjIIWa2e
+	1i3g==
+X-Gm-Message-State: ALyK8tIrnWuBiK6vNs2G2kNx2sIXHEIaHMZLCil5K+rxcTIFmvgiqc15zJ63ItLtqSzp9Q==
+X-Received: by 10.66.150.67 with SMTP id ug3mr18602187pab.41.1467267980479;
+	Wed, 29 Jun 2016 23:26:20 -0700 (PDT)
+Received: from localhost.localdomain ([76.126.209.57])
+	by smtp.gmail.com with ESMTPSA id u4sm2383094pfi.53.2016.06.29.23.26.18
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 29 Jun 2016 23:26:18 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 29 Jun 2016 23:26:11 -0700
+Message-Id: <1467267971-15500-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Subject: [krogoth][PATCH] feature-arm-vfp.inc: fix overzealous ARMPKGSFX_FPU modification
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,101 +54,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jun 2016 06:03:23 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 30 Jun 2016 06:26:22 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Sorry. I thought it=E2=80=99s more like a RTFM-answer. So here is the =
-error message.
+From: André Draszik <git@andred.net>
 
-Oh - well. Thanks for bringing me thus far. while reproducing the error, =
-I see a difference as well. Here is the from ssl-community. It complains =
-about uudmap. When building for i586, the message was a different one. =
-Reproducing that one will take some hours.
+Since commit 972b4fc (feature-arm-neon.inc: restore vfpv3-d16 support)
+we're replacing _all_ dashes (-) in ARMPKGSFX_FPU, which is causing
+problems for all legitimate uses of the dash as TUNE_PKGARCH doesn't
+have the right value anymore:
 
----------- >8 ----------
-WARNING: Host distribution "Arch-rolling" has not been validated with =
-this version of the build system; you may possibly experience unexpected =
-failures. It is recommended that you use a tested distribution.
-Loading cache: 100% =
-|#########################################################################=
-#########| ETA:  00:00:00
-Loaded 2197 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
+E.g. on raspberrypi2:
 
-Build Configuration:
-BB_VERSION        =3D "1.30.0"
-BUILD_SYS         =3D "x86_64-linux"
-NATIVELSBSTRING   =3D "universal"
-TARGET_SYS        =3D "arm-poky-linux-gnueabi"
-MACHINE           =3D "imx6q-elo"
-DISTRO            =3D "poky"
-DISTRO_VERSION    =3D "2.1"
-TUNE_FEATURES     =3D "arm armv7a vfp thumb neon       =
-callconvention-hard       cortexa9"
-TARGET_FPU        =3D "hard"
-meta
-meta-poky         =3D "HEAD:4376fb851791a1fb514873ad239d516dd7159341"
-meta-oe
-meta-multimedia   =3D "HEAD:247b1267bbe95719cd4877d2d3cfbaf2a2f4865a"
-meta-fsl-arm      =3D "HEAD:3f34509381092a893b8efe4451018b8d67a5abf6"
-meta-fsl-arm-extra =3D "HEAD:698cf389aa446244a39b597fbf58be1d55096500"
-meta-fsl-demos    =3D "HEAD:7e4237db1f48cbbde776b17a66d71def14e3809e"
+ERROR:  OE-core's config sanity checker detected a potential misconfiguration.
+    Either fix the cause of this error or at your own risk disable the checker (see sanity.conf).
+    Following is the list of potential problems / advisories:
 
-NOTE: Preparing RunQueue
-NOTE: Executing SetScene Tasks
-NOTE: Executing RunQueue Tasks
+    Error, the PACKAGE_ARCHS variable (all any noarch armv5hf-vfp armv5thf-vfp
+armv5ehf-vfp armv5tehf-vfp armv6hf-vfp armv6thf-vfp armv7ahf-vfp
+armv7at2hf-vfp armv7vehf-vfp armv7vet2hf-vfp armv7vehf-neon armv7vet2hf-neon
+armv7vehf-neon-vfpv4 armv7vet2hf-neon-vfpv4 cortexa7hf-vfp cortexa7hf-neon
+cortexa7hf-neon-vfpv4 cortexa7t2hf-vfp cortexa7t2hf-neon
+cortexa7t2hf-neon-vfpv4 raspberrypi3) for DEFAULTTUNE (cortexa7thf-neon-vfpv4)
+does not contain TUNE_PKGARCH (cortexa7hf-neonvfpv4).
 
-ERROR: perl-5.22.1-r0 do_package: objcopy failed with exit code 256 (cmd =
-was 'arm-poky-linux-gnueabi-objcopy' --only-keep-debug =
-'/home/krid/Develop/Yocto/fsl-community-bsp/build-imx6q-elo/tmp/work/corte=
-xa9hf-neon-poky-linux-gnueabi/perl/5.22.1-r0/package/usr/lib/perl/ptest/ge=
-nerate_uudmap' =
-'/home/krid/Develop/Yocto/fsl-community-bsp/build-imx6q-elo/tmp/work/corte=
-xa9hf-neon-poky-linux-gnueabi/perl/5.22.1-r0/package/usr/lib/perl/ptest/.d=
-ebug/generate_uudmap'):
-=
-arm-poky-linux-gnueabi-objcopy:/home/krid/Develop/Yocto/fsl-community-bsp/=
-build-imx6q-elo/tmp/work/cortexa9hf-neon-poky-linux-gnueabi/perl/5.22.1-r0=
-/package/usr/lib/perl/ptest/generate_uudmap: File format not recognized
-ERROR: perl-5.22.1-r0 do_package: Function failed: split_and_strip_files
-ERROR: Logfile of failure stored in: =
-/home/krid/Develop/Yocto/fsl-community-bsp/build-imx6q-elo/tmp/work/cortex=
-a9hf-neon-poky-linux-gnueabi/perl/5.22.1-r0/temp/log.do_package.31441
-ERROR: Task 1126 =
-(/home/krid/Develop/Yocto/fsl-community-bsp/sources/poky/meta/recipes-devt=
-ools/perl/perl_5.22.1.bb, do_package) failed with exit code '1'
-NOTE: Tasks Summary: Attempted 1436 tasks of which 1414 didn't need to =
-be rerun and 1 failed.
-Waiting for 0 running tasks to finish:
+Fix this by being more explicit about what we're modifying.
 
-Summary: 1 task failed:
-  =
-/home/krid/Develop/Yocto/fsl-community-bsp/sources/poky/meta/recipes-devto=
-ols/perl/perl_5.22.1.bb, do_package
-Summary: There was 1 WARNING message shown.
-Summary: There were 2 ERROR messages shown, returning a non-zero exit =
-code.
----------- 8< ----------
+Reported-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: André Draszik <git@andred.net>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/conf/machine/include/arm/feature-arm-vfp.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-> Am 29.06.2016 um 21:47 schrieb Burton, Ross <ross.burton@intel.com>:
->=20
->=20
-> On 29 June 2016 at 20:24, Daniel Kriesten <embedded@die-kriestens.de> =
-wrote:
-> ERROR: QA Issue: Architecture did not match (=E2=80=A6) on =
-work/i586-poky-linux/perl/5.22.1-r0/packages=E2=80=A6
->=20
-> Can you fill in the ... so we're not guessing what the error actually =
-is?
->=20
-> Ross
-
-
---=20
-Daniel Kriesten
-daniel@die-kriestens.de
-http://www.die-kriestens.de
+diff --git a/meta/conf/machine/include/arm/feature-arm-vfp.inc b/meta/conf/machine/include/arm/feature-arm-vfp.inc
+index bd366a1..9ef31e7 100644
+--- a/meta/conf/machine/include/arm/feature-arm-vfp.inc
++++ b/meta/conf/machine/include/arm/feature-arm-vfp.inc
+@@ -6,7 +6,7 @@ TUNEVALID[vfp] = "Enable Vector Floating Point (vfp) unit."
+ TUNE_CCARGS_MFPU .= "${@bb.utils.contains('TUNE_FEATURES', 'vfp', ' vfp', '', d)}"
+ 
+ TUNE_CCARGS  .= "${@ (' -mfpu=%s ' % d.getVar('TUNE_CCARGS_MFPU', True).split()[-1]) if (d.getVar('TUNE_CCARGS_MFPU', True) != '') else ''}"
+-ARMPKGSFX_FPU = "${@ ('-%s'        % d.getVar('TUNE_CCARGS_MFPU', True).split()[-1].replace('-', '')) if (d.getVar('TUNE_CCARGS_MFPU', True) != '') else ''}"
++ARMPKGSFX_FPU = "${@ ('-%s'        % d.getVar('TUNE_CCARGS_MFPU', True).split()[-1].replace('vfpv3-d16', 'vfpv3d16')) if (d.getVar('TUNE_CCARGS_MFPU', True) != '') else ''}"
+ 
+ TUNEVALID[callconvention-hard] = "Enable EABI hard float call convention, requires VFP."
+ TUNE_CCARGS_MFLOAT = "${@ bb.utils.contains('TUNE_FEATURES', 'callconvention-hard', 'hard', 'softfp', d) if (d.getVar('TUNE_CCARGS_MFPU', True) != '') else '' }"
+-- 
+2.7.4
 
 
