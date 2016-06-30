@@ -1,25 +1,23 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 012A46FF78
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 13F076E64A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jun 2016 15:15:18 +0000 (UTC)
+	Thu, 30 Jun 2016 16:29:40 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga101.jf.intel.com with ESMTP; 30 Jun 2016 08:15:18 -0700
+	by fmsmga104.fm.intel.com with ESMTP; 30 Jun 2016 09:29:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,552,1459839600"; d="scan'208";a="131307216"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga004.fm.intel.com with ESMTP; 30 Jun 2016 08:15:10 -0700
+X-IronPort-AV: E=Sophos;i="5.26,552,1459839600"; d="scan'208";a="131350947"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga004.fm.intel.com with ESMTP; 30 Jun 2016 09:29:41 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
+	by linux.intel.com (Postfix) with ESMTP id 426912C8001;
+	Thu, 30 Jun 2016 09:29:36 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <7be77d90-7458-0427-8a34-11fa771874e0@linux.intel.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <cbdb6434-43b3-4252-70eb-3d82f82979d1@linux.intel.com>
-Date: Thu, 30 Jun 2016 18:15:10 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.1.0
-MIME-Version: 1.0
-In-Reply-To: <7be77d90-7458-0427-8a34-11fa771874e0@linux.intel.com>
-Subject: Re: oe-core package maintenance Q&A document
+Date: Thu, 30 Jun 2016 19:29:18 +0300
+Message-Id: <1467304158-1798-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [wic][PATCH] wic: rawcopy: make source filenames unique
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,16 +30,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jun 2016 15:15:24 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 30 Jun 2016 16:29:41 -0000
 
-On 06/30/2016 06:13 PM, Alexander Kanavin wrote:
-> http://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbeddedOpenembbedded-core
->
-> package maintenance
+Rawcopy plugin copies source files to build folder before using them
+to assemble result image. After assembling the image wic renames
+source files to <image>.p<partition number>. If the same source file
+is used in multiple partitions wic breaks trying to rename file that
+doesn't exist.
 
-This should read simply 'Openembbedded-core package maintenance'.
+Added <line number> suffix to the files when copying them to the
+build dir. This should make filename unique even if the same source
+file is used for multiple partitions.
 
-Alex
+[YOCTO #9826]
+
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ scripts/lib/wic/plugins/source/rawcopy.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/lib/wic/plugins/source/rawcopy.py b/scripts/lib/wic/plugins/source/rawcopy.py
+index ba014b0..e0b11f9 100644
+--- a/scripts/lib/wic/plugins/source/rawcopy.py
++++ b/scripts/lib/wic/plugins/source/rawcopy.py
+@@ -68,7 +68,7 @@ class RawCopyPlugin(SourcePlugin):
+             return
+ 
+         src = os.path.join(bootimg_dir, source_params['file'])
+-        dst = os.path.join(cr_workdir, source_params['file'])
++        dst = os.path.join(cr_workdir, "%s.%s" % (source_params['file'], part.lineno))
+ 
+         if 'skip' in source_params:
+             sparse_copy(src, dst, skip=source_params['skip'])
+-- 
+2.1.4
+
 
