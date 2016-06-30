@@ -1,39 +1,47 @@
-Return-Path: <prvs=5989a55d29=michael.davis@essvote.com>
-Received: from mail1.essvote.com (mail1.essvote.com [66.37.226.19])
-	by mail.openembedded.org (Postfix) with ESMTP id 99CFF607F8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f47.google.com (mail-it0-f47.google.com
+	[209.85.214.47])
+	by mail.openembedded.org (Postfix) with ESMTP id BC96C60119
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jun 2016 17:08:23 +0000 (UTC)
-X-AuditID: 0a000213-f79066d0000013b8-1c-577552073b4c
-Received: from ESS-EX01.essvote.corp.local (Unknown_Domain [172.16.110.40])
-	by mail1.essvote.com (Symantec Messaging Gateway) with SMTP id
-	63.E1.05048.70255775; Thu, 30 Jun 2016 12:08:23 -0500 (CDT)
-Received: from ESS-EX01.essvote.corp.local ([::1]) by
-	ESS-EX01.essvote.corp.local ([::1]) with mapi id 14.03.0301.000;
-	Thu, 30 Jun 2016 12:08:23 -0500
-From: "Davis, Michael" <michael.davis@essvote.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH] image.bbclass: do exact match for rootfs type
-Thread-Index: AQHR0vICzDgRvRXQb0aC0Vtfzu4C3Q==
-Date: Thu, 30 Jun 2016 17:08:23 +0000
-Message-ID: <1467306469-15442-1-git-send-email-michael.davis@essvote.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.1.1.137]
+	Thu, 30 Jun 2016 18:47:19 +0000 (UTC)
+Received: by mail-it0-f47.google.com with SMTP id f6so77202969ith.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Jun 2016 11:47:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=mUXobEAv731g2dSHCknJenbgsgahUdT8lCueidMFWY8=;
+	b=EKCJRHdQYbbYJpDIYNDkWw/xWssSG2crK8SD0k0BF7Q+D9ei3Xq+E3DuPA4K7CiZsj
+	IV7VnGUXHO8//Cr2QtbuldVefmOuCwmDzeIulGDCWwr2WoqhIHn9AlKqV3klMS/jKVoG
+	ZmaZGkP1E9R1unJjW9prP8++weuR85tlBSK0D+Ov7rNkql2516peHSskAXJYc++hVxsJ
+	pXtHt/uot/OKuom4MGUPCimoIqjVuGMUDR3ycCyUDPtY1mTyXKgu2KzKzYz5Xo5KpBWe
+	s4AoHEFL/2+k4d7u2GEzNQUgDbPQ0wNsPpjO7c2pJ1L5g1PygGMG/gojyPTCOrfD67en
+	1lkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=mUXobEAv731g2dSHCknJenbgsgahUdT8lCueidMFWY8=;
+	b=AeUmgPg8YZ0C1LdKEjzkBD/TFZx4aqS6MJm4oTdKHyftBvtEwXFbkAqn1oXhE5oMfI
+	nSUnKnkM4z+yUvvwy7HLRPV9YpCaZCaJ1vH5pkXG4ip4y+pE4S53Az4pxxMYsCV78DKL
+	0oDfrYnsqQCFKzMEEBljtSd5U4/4oc1JHuEJfvz25Zcl5UAyI+gX1h3xmqzlwjwPtFHV
+	jKcX/V+pQ++ihP9t+YImyBWotJycxZmznl5+zJ7LVZo3POuYh4TJm5q407Zmc3knJhvE
+	UNEN0qOGPJouESEFXBvw9gduehiti7kwkgwVfL+JMpsjZj2BhC086BxsClPzNd+UCTAG
+	LEMw==
+X-Gm-Message-State: ALyK8tJ6L1tt34YTxzDrvZju5dSLdbIHyNOnOaEA85B6PN2iuWv3mEMgBFaMJEtnmWXZCN6upqjM+4+tnp0Taf+p
+X-Received: by 10.36.120.71 with SMTP id p68mr28004437itc.22.1467312439974;
+	Thu, 30 Jun 2016 11:47:19 -0700 (PDT)
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrOLMWRmVeSWpSXmKPExsWyRiBPQ5c9qDTcYOZRa4s7P9+xW/x4NpHV
-	YtLOW2wOzB77565h9zi3cQWjx8Z3O5gCmKO4bZISS8qCM9Pz9O0SuDOenXvLVnCOq6K3bwt7
-	A+Nsji5GTg4JAROJV4veMEPYYhIX7q1n62Lk4hASOMEoMb3rEyuEM4tR4vzWJywgVWwCRhLn
-	rm9iBLFFBKIlls6YyQ5iMwvESPxecg8sLixgJ3Hjy192iBpniSWzNkHZehJXf60Bm8MioCrx
-	unM1mM0r4Cnx8cUhVhCbEeiK76fWMEHMFJe49WQ+E8R1AhJL9pyHulRU4uXjf0D1HEC2nMT/
-	LR4Q5XoSN6ZOYYOwtSWWLXzNDDFeUOLkzCcsExhFZiGZOgtJyywkLbOQtCxgZFnFKJibmJlj
-	qJdaXFyWX5Kql5yfu4kRGB1cDEzCOxjnTLE9xCjAwajEw3vBrCRciDWxrLgy9xCjNAeLkjiv
-	ipBSuJBAemJJanZqakFqUXxRaU5q8SFGJg7OQ4wSHFxSIsWpeSmpRYmlJRnxoNiKLwZGl1QD
-	o43dJlVWtcDFjblPOja62py7XxX/W1Y55FbVpNdXEhn7d70UmnNpB8u9e/aejXGivMsXSOy9
-	qyzGGO851emrctKhOTP951w4HHvlge09jfNtt3OC5i9TPqp+XFjvaNjKE+tVhU+UfZlxVYo5
-	JneGsmF44Qlh78bmcxo/uC7n8t9JvHgyO9OKRYmlOCPRUIu5qDgRAIjScWiKAgAA
-Subject: [PATCH] image.bbclass: do exact match for rootfs type
+Received: by 10.107.142.151 with HTTP; Thu, 30 Jun 2016 11:47:00 -0700 (PDT)
+In-Reply-To: <1467306469-15442-1-git-send-email-michael.davis@essvote.com>
+References: <1467306469-15442-1-git-send-email-michael.davis@essvote.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 30 Jun 2016 19:47:00 +0100
+Message-ID: <CAJTo0LYPJ8_d2fyPtUqaiFNhGd7RyN9ToQQ5eDBSnpD8g9oU4Q@mail.gmail.com>
+To: "Davis, Michael" <michael.davis@essvote.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] image.bbclass: do exact match for rootfs type
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,44 +54,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jun 2016 17:08:28 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
+X-List-Received-Date: Thu, 30 Jun 2016 18:47:20 -0000
+Content-Type: multipart/alternative; boundary=001a114a9388c27ee90536834c73
+
+--001a114a9388c27ee90536834c73
+Content-Type: text/plain; charset=UTF-8
+
+On 30 June 2016 at 18:08, Davis, Michael <michael.davis@essvote.com> wrote:
+
+> Do exact match for rootfs type, instead of pattern match, to avoid
+> unexpected build error due to redundant rootfs type build.
+>
+
+This is already in oe-core master (as is hinted at my the "from OE-Core"
+tags), so was this meant to be a backport request for a particular branch?
+
+Ross
+
+--001a114a9388c27ee90536834c73
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-From: Zhenhua Luo <zhenhua.luo@nxp.com>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 30 June 2016 at 18:08, Davis, Michael <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:michael.davis@essvote.com" target=3D"_blank">michael.davis@essvote.co=
+m</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":bno" =
+class=3D"a3s aXjCH m155a249941dd32fa">Do exact match for rootfs type, inste=
+ad of pattern match, to avoid<br>
+unexpected build error due to redundant rootfs type build.<br></div></block=
+quote></div><br>This is already in oe-core master (as is hinted at my the &=
+quot;from OE-Core&quot; tags), so was this meant to be a backport request f=
+or a particular branch?</div><div class=3D"gmail_extra"><br></div><div clas=
+s=3D"gmail_extra">Ross</div></div>
 
-Do exact match for rootfs type, instead of pattern match, to avoid
-unexpected build error due to redundant rootfs type build.
-
-E.g. when building ext2.gz.u-boot, both .gz.u-boot and .u-boot are matched,
-the following build error will appear, actually .u-boot is not needed.
-| mkimage: Can't open .../core-image-minimal-<machine>-<yyyymmddhhmmss>.roo=
-tfs.ext2.gz: No such file or directory
-
-(From OE-Core rev: 46bc438374de74af76d288520c6252c9b7840767)
-
-(From OE-Core rev: 1d0ea655e266e7c5acc9c282fa91406fbe9bfb85)
-
-Signed-off-by: Zhenhua Luo <zhenhua.luo@nxp.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/image.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 6b9f979..64eb845 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -395,7 +395,7 @@ python () {
-         rm_tmp_images =3D set()
-         def gen_conversion_cmds(bt):
-             for ctype in ctypes:
--                if bt.endswith("." + ctype):
-+                if bt[bt.find('.') + 1:] =3D=3D ctype:
-                     type =3D bt[0:-len(ctype) - 1]
-                     if type.startswith("debugfs_"):
-                         type =3D type[8:]
---=20
-2.5.5
-
+--001a114a9388c27ee90536834c73--
