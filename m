@@ -1,23 +1,48 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 13F076E64A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f54.google.com (mail-it0-f54.google.com
+	[209.85.214.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B866607F8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jun 2016 16:29:40 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga104.fm.intel.com with ESMTP; 30 Jun 2016 09:29:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,552,1459839600"; d="scan'208";a="131350947"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga004.fm.intel.com with ESMTP; 30 Jun 2016 09:29:41 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
-	by linux.intel.com (Postfix) with ESMTP id 426912C8001;
-	Thu, 30 Jun 2016 09:29:36 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 Jun 2016 19:29:18 +0300
-Message-Id: <1467304158-1798-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [wic][PATCH] wic: rawcopy: make source filenames unique
+	Thu, 30 Jun 2016 16:57:08 +0000 (UTC)
+Received: by mail-it0-f54.google.com with SMTP id g127so152661591ith.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Jun 2016 09:57:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=3xMSTwGxvW5cibDs/BMcMv8NAhCRYqLQSqSQX/H0pzM=;
+	b=t+BJmqoBuwNIuDk6PbgbaDIrK8k3A6aWskUwZAbSjmQ7w1RRIWs291T38fW5rYujss
+	NlKuAhAfDhJtIbYMxLcAtz4csLmsL9/rua8s5LH7YYhpYk9OolwY2nD4vlXSRqKyqlXz
+	HReO0KUpce5LrPDsHHLJu+vIqz8Fs2VhVUkCtEo5ddSldjciBMdMewL2xJyiuovztduI
+	52wh8L5G04UYXWsaBnAtIm57uyFG6ayXzxAAlh4faPd1PV/AfDnxwnKq4GWuumIKhoIK
+	cenp73LZv+OAUXHIvfiMNP0QHkIT/O6MDqVvMI4LgzjNWURLYxrutSt5AOk4RIOeah/R
+	4oOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=3xMSTwGxvW5cibDs/BMcMv8NAhCRYqLQSqSQX/H0pzM=;
+	b=Do0Ehh8uJ5cH8zZ/SOI6upRJpxESKQ0KiaFY1OBQkgU9TeLKXbH4e/CUoy4T/toQ8W
+	+5LGYNrmgpl6oZoOWX+mNiiAysl3TD9QcGjEclVNFLPCgr7pOue1gmOvfZmSpd1lnyol
+	OTDWG1JzH5itWGebldH0vcff+tGLCb82WUWQfTh/uon0sInAHggK8kHOzQwhTCi50lNf
+	hKedsj/JH1myb8FfvMOiS/9GJVd+KvgBWaqAOGmejJ0pk+BKTr8vzxJKsj+xyeDpU20i
+	oJRuxjFzjoytxnrXKyOSDl/dyKPePG+ZftYRzN7KOAjSMs9H4hX9Mk6BM951zOUmwsYP
+	UCfA==
+X-Gm-Message-State: ALyK8tJSz/5I5E2SJkNSKinXcDR2YID8G0A3kLwVMZKc5nftIgx5iwkIBjb56C5gNNliNNDktqKE7pgLE4ai61VC
+X-Received: by 10.36.217.68 with SMTP id p65mr16646895itg.38.1467305829252;
+	Thu, 30 Jun 2016 09:57:09 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.142.151 with HTTP; Thu, 30 Jun 2016 09:56:49 -0700 (PDT)
+In-Reply-To: <D94025A2-518C-4CC8-AE9C-93DB39CDD687@die-kriestens.de>
+References: <1586B03B-3244-4FB3-82F7-803CFD983532@die-kriestens.de>
+	<CAJTo0LbuTrNE4kemiZK_yEqUFo4CN9TJJLZzqwTjzVK=xuK1MA@mail.gmail.com>
+	<D94025A2-518C-4CC8-AE9C-93DB39CDD687@die-kriestens.de>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 30 Jun 2016 17:56:49 +0100
+Message-ID: <CAJTo0La_VCQ5P1ELePTyLQLU_Zy3rC6z+qh24ZtMcGJ7_FKg3Q@mail.gmail.com>
+To: Daniel Kriesten <embedded@die-kriestens.de>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Building Perl-5.22.1-r0 on Arch Linux fails with QA Issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,39 +55,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jun 2016 16:29:41 -0000
+X-List-Received-Date: Thu, 30 Jun 2016 16:57:09 -0000
+Content-Type: multipart/alternative; boundary=001a114631b6bad68f053681c27d
 
-Rawcopy plugin copies source files to build folder before using them
-to assemble result image. After assembling the image wic renames
-source files to <image>.p<partition number>. If the same source file
-is used in multiple partitions wic breaks trying to rename file that
-doesn't exist.
+--001a114631b6bad68f053681c27d
+Content-Type: text/plain; charset=UTF-8
 
-Added <line number> suffix to the files when copying them to the
-build dir. This should make filename unique even if the same source
-file is used for multiple partitions.
+On 30 June 2016 at 07:03, Daniel Kriesten <embedded@die-kriestens.de> wrote:
 
-[YOCTO #9826]
+> ERROR: perl-5.22.1-r0 do_package: objcopy failed with exit code 256 (cmd
+> was 'arm-poky-linux-gnueabi-objcopy' --only-keep-debug
+> '/home/krid/Develop/Yocto/fsl-community-bsp/build-imx6q-elo/tmp/work/cortexa9hf-neon-poky-linux-gnueabi/perl/5.22.1-r0/package/usr/lib/perl/ptest/generate_uudmap'
+> '/home/krid/Develop/Yocto/fsl-community-bsp/build-imx6q-elo/tmp/work/cortexa9hf-neon-poky-linux-gnueabi/perl/5.22.1-r0/package/usr/lib/perl/ptest/.debug/generate_uudmap'):
+> arm-poky-linux-gnueabi-objcopy:/home/krid/Develop/Yocto/fsl-community-bsp/build-imx6q-elo/tmp/work/cortexa9hf-neon-poky-linux-gnueabi/perl/5.22.1-r0/package/usr/lib/perl/ptest/generate_uudmap:
+> File format not recognized
+>
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- scripts/lib/wic/plugins/source/rawcopy.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Can you run file on the binary that objdump is complaining about?
+(/home/krid/Develop/Yocto/fsl-community-bsp/build-imx6q-elo/tmp/work/cortexa9hf-neon-poky-linux-gnueabi/perl/5.22.1-r0/package/usr/lib/perl/ptest/generate_uudmap)
 
-diff --git a/scripts/lib/wic/plugins/source/rawcopy.py b/scripts/lib/wic/plugins/source/rawcopy.py
-index ba014b0..e0b11f9 100644
---- a/scripts/lib/wic/plugins/source/rawcopy.py
-+++ b/scripts/lib/wic/plugins/source/rawcopy.py
-@@ -68,7 +68,7 @@ class RawCopyPlugin(SourcePlugin):
-             return
- 
-         src = os.path.join(bootimg_dir, source_params['file'])
--        dst = os.path.join(cr_workdir, source_params['file'])
-+        dst = os.path.join(cr_workdir, "%s.%s" % (source_params['file'], part.lineno))
- 
-         if 'skip' in source_params:
-             sparse_copy(src, dst, skip=source_params['skip'])
--- 
-2.1.4
+Ross
 
+--001a114631b6bad68f053681c27d
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 30 June 2016 at 07:03, Daniel Kriesten <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:embedded@die-kriestens.de" target=3D"_blank">embedded@die-kriestens.=
+de</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,20=
+4);border-left-style:solid;padding-left:1ex"><div id=3D":bnq" class=3D"">ER=
+ROR: perl-5.22.1-r0 do_package: objcopy failed with exit code 256 (cmd was =
+&#39;arm-poky-linux-gnueabi-objcopy&#39; --only-keep-debug &#39;/home/krid/=
+Develop/Yocto/fsl-community-bsp/build-imx6q-elo/tmp/work/cortexa9hf-neon-po=
+ky-linux-gnueabi/perl/5.22.1-r0/package/usr/lib/perl/ptest/generate_uudmap&=
+#39; &#39;/home/krid/Develop/Yocto/fsl-community-bsp/build-imx6q-elo/tmp/wo=
+rk/cortexa9hf-neon-poky-linux-gnueabi/perl/5.22.1-r0/package/usr/lib/perl/p=
+test/.debug/generate_uudmap&#39;):<br>
+arm-poky-linux-gnueabi-objcopy:/home/krid/Develop/Yocto/fsl-community-bsp/b=
+uild-imx6q-elo/tmp/work/cortexa9hf-neon-poky-linux-gnueabi/perl/5.22.1-r0/p=
+ackage/usr/lib/perl/ptest/generate_uudmap: File format not recognized</div>=
+</blockquote></div><br>Can you run file on the binary that objdump is compl=
+aining about?</div><div class=3D"gmail_extra">(/home/krid/Develop/Yocto/fsl=
+-community-bsp/build-imx6q-elo/tmp/work/cortexa9hf-neon-poky-linux-gnueabi/=
+perl/5.22.1-r0/package/usr/lib/perl/ptest/generate_uudmap)</div><div class=
+=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a114631b6bad68f053681c27d--
