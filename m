@@ -1,45 +1,49 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A894602D9
+Received: from mail-it0-f68.google.com (mail-it0-f68.google.com
+	[209.85.214.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 80048601F6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Jul 2016 00:19:09 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id 187so1428453wmz.1
+	Fri,  1 Jul 2016 02:43:26 +0000 (UTC)
+Received: by mail-it0-f68.google.com with SMTP id g127so856272ith.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jun 2016 17:19:10 -0700 (PDT)
+	Thu, 30 Jun 2016 19:43:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=Y4gb/CYWpMZnbwSn4+xZOi4ezELNTv92NF2STBUHVcE=;
-	b=Sh1fehmzkcdW7lRraquz6f9jEi/HNJ6vzQWcDoI66lrs8mk/IyS5gK46X2SXfTSO+M
-	HYFM+16ViYxz/feqQAa8bpBtERxAAtg2SzMwARqq3+ijDwc+5kd8Eibwa7g0dGbYfFTz
-	lP27h80LMXxAF/M5Xb+yOJP0zRxnclGZK2NK37UzfDzrK76rL91WVY+5XG7CjGGBMLdy
-	jOPVNWJb96mzOlvT5b9QHDeB3Kl2rKmzFc7TIdkmVX89p1OXHRecdqH5hoZBGJq/s8Cb
-	Fe83Dr7XpJ7aknJyUZwlAFQn4WapVYN5S59j0Itb35frKeBA1XW+iqA+abS75merI+O4
-	aixQ==
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=7aakfs9MU0CHv4PRvRX2ZtyURywE4t/Wrh8YTo/+4xQ=;
+	b=ehUhnK32JQpX859xPbPyhMj0zGdO9jRBKRJ6cy6u97xcKxcyi4zT7VCY1qnF2F/TBQ
+	EYNui8WIkI8r6Eokv1UE/SvQnwlRYxretZywD3uGCzhcoFYYynoYhQt0VWCpMvsuzNyf
+	WEDbg1ldDDWm+Hkv6DZoaXo3qZNdzEY9RgGBFyi6KcbdKhH6Lfnchyb/AR8AGtprmAxX
+	JqGAusgq93T8ddzgd0IpPl+m9k7pUkF2+/AgwPoRUl9DUpTrQ4ckPIBV6DFyxuy4HKUo
+	IkdwvM8tIkZRzBsaLxmOhPTIdKBnKvyYUeK3/zEVunyc39VGiJgOmR6zrAzbYTV5ZYgt
+	Lw0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Y4gb/CYWpMZnbwSn4+xZOi4ezELNTv92NF2STBUHVcE=;
-	b=ag54R3SXF4OPgG1P4q2JZk57Nu12q1BCLgI8bnXqu4HjbpvsoDCZDV0NO87oZKMGBz
-	zRiIAlh/+DOT13EQ0AV8Y7YfolDT3hAiwdGvZrcKi5RywRCbAkxjLU3c3GQmbc2oHe6G
-	I79fiZhCy9oxb6iOP69ghxJlYBd311FWd14Dq9x+nlUIFJ5WGaMW2vSWkSQNpqhc+LhO
-	oMX/sNEW74JxLijEh1AoJ1RFN6KsgGEzEovI64iZK9Jgi4D7KdxgCtfoBJ1ihjcK5Tmg
-	0hF2nKR5+ka7jl80bg8EknV3quFvqwsiJfDArW1vGFPUuilPwQ76uZPJ6iGh97GkoJzl
-	8pqg==
-X-Gm-Message-State: ALyK8tKnzE97BDo3zIgSCzWX0fGb15FT0xEiDLw6GD7wwf5M8Q/EyRy69dMkLynmATunTA==
-X-Received: by 10.194.80.106 with SMTP id q10mr655649wjx.155.1467332349656;
-	Thu, 30 Jun 2016 17:19:09 -0700 (PDT)
-Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by smtp.gmail.com with ESMTPSA id
-	t198sm5373859wmt.16.2016.06.30.17.19.05
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 30 Jun 2016 17:19:08 -0700 (PDT)
-From: Christopher Larson <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 Jun 2016 17:18:44 -0700
-Message-Id: <1467332324-27040-1-git-send-email-kergoth@gmail.com>
-X-Mailer: git-send-email 2.8.0
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=7aakfs9MU0CHv4PRvRX2ZtyURywE4t/Wrh8YTo/+4xQ=;
+	b=A5eBatLmkGx8kEgxFCuXq4Cin2Dlr/z0wOUimXT3zH+lcZhQY6O8z9QK2roVqXcmHC
+	X/DwxcaG0O1H2KPR+uSf10I1lmOM34BOEmPCija5o6miGpRpb+VL8DuPPc91aGyBPKNO
+	xIZe5wx0CONF+MRyMLlrNZ8ySaeH5B/sH3GRMi+0BhFXwqRfVL8pFEEmTsYZo4leZiMF
+	feAhvZu4Z0HasuLRb1ZLC0u4njo5cxOsC8Ehorgxs8VCq8KmglldsfOZxxnOsLXycJBH
+	JSiS/BU/Xv7LGry6rJbsiDWBMjeqWHT5/A3z/furfOY3aTKVMHRS6N33ReU9orM7j0hP
+	R5wQ==
+X-Gm-Message-State: ALyK8tL6KZP3sHc1N4XgoE84I1gTL6RpIzOPLCub/Nz4ylgrz3LD5VpTdguVBYYIRz0bzpeziFcdsnasS3Tdxg==
+X-Received: by 10.36.216.5 with SMTP id b5mr18501271itg.19.1467341006845; Thu,
+	30 Jun 2016 19:43:26 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.79.19.70 with HTTP; Thu, 30 Jun 2016 19:43:07 -0700 (PDT)
+In-Reply-To: <1467332324-27040-1-git-send-email-kergoth@gmail.com>
+References: <1467332324-27040-1-git-send-email-kergoth@gmail.com>
+From: Christopher Larson <chris_larson@mentor.com>
+Date: Thu, 30 Jun 2016 19:43:07 -0700
+X-Google-Sender-Auth: URdCUmBR_TfQc5osjavS_5R5eBU
+Message-ID: <CABcZANmrSbfS_FFuqw523-22p9qJ+S-2sqoCpSe6iPx+q2f4ag@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH] buildstats-summary: round the floating point percentage
+Subject: Re: [PATCH] buildstats-summary: round the floating point percentage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,38 +56,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jul 2016 00:19:10 -0000
+X-List-Received-Date: Fri, 01 Jul 2016 02:43:28 -0000
+Content-Type: multipart/alternative; boundary=94eb2c05cc147a3c9b053689f3bb
 
-From: Christopher Larson <chris_larson@mentor.com>
+--94eb2c05cc147a3c9b053689f3bb
+Content-Type: text/plain; charset=UTF-8
 
-This was rounded in python 2, but python 3 changed the default behavior of /.
-We could switch to the same behavior as previous by switching to // rather
-than /, but there's value in keeping at least one decimal point, to avoid the
-misleading case where it says 0% but the reuse is non-zero.
+On Thu, Jun 30, 2016 at 5:18 PM, Christopher Larson <kergoth@gmail.com>
+wrote:
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- meta/classes/buildstats-summary.bbclass | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+> From: Christopher Larson <chris_larson@mentor.com>
+>
+> This was rounded in python 2, but python 3 changed the default behavior of
+> /.
+> We could switch to the same behavior as previous by switching to // rather
+> than /, but there's value in keeping at least one decimal point, to avoid
+> the
+> misleading case where it says 0% but the reuse is non-zero.
+>
+> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+>
 
-diff --git a/meta/classes/buildstats-summary.bbclass b/meta/classes/buildstats-summary.bbclass
-index d73350b..b8ac52c 100644
---- a/meta/classes/buildstats-summary.bbclass
-+++ b/meta/classes/buildstats-summary.bbclass
-@@ -30,7 +30,11 @@ python buildstats_summary () {
-                 header_printed = True
-                 bb.note("Build completion summary:")
- 
--            bb.note("  {0}: {1}% sstate reuse ({2} setscene, {3} scratch)".format(t, 100*len(sstate)/(len(sstate)+len(no_sstate)), len(sstate), len(no_sstate)))
-+            sstate_count = len(sstate)
-+            no_sstate_count = len(no_sstate)
-+            total_count = sstate_count + no_sstate_count
-+            bb.note("  {0}: {1}% sstate reuse ({2} setscene, {3} scratch)".format(
-+                t, round(100 * sstate_count / total_count, 1), sstate_count, no_sstate_count))
- }
- addhandler buildstats_summary
- buildstats_summary[eventmask] = "bb.event.BuildCompleted"
+Hold off on this, should probably address the rounding via the formatting,
+otherwise we'll only get good results when the number can be fully
+represented by the float type.
 -- 
-2.8.0
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
+--94eb2c05cc147a3c9b053689f3bb
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On T=
+hu, Jun 30, 2016 at 5:18 PM, Christopher Larson <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:kergoth@gmail.com" target=3D"_blank">kergoth@gmail.com</a>&gt;=
+</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":x4" class=3D"a=
+3s aXjCH m155a3d2c8df6ffdc">From: Christopher Larson &lt;<a href=3D"mailto:=
+chris_larson@mentor.com">chris_larson@mentor.com</a>&gt;<br>
+<br>
+This was rounded in python 2, but python 3 changed the default behavior of =
+/.<br>
+We could switch to the same behavior as previous by switching to // rather<=
+br>
+than /, but there&#39;s value in keeping at least one decimal point, to avo=
+id the<br>
+misleading case where it says 0% but the reuse is non-zero.<br>
+<br>
+Signed-off-by: Christopher Larson &lt;<a href=3D"mailto:chris_larson@mentor=
+.com">chris_larson@mentor.com</a>&gt;</div></blockquote><div><br></div><div=
+>Hold off on this, should probably address the rounding via the formatting,=
+ otherwise we&#39;ll only get good results when the number can be fully rep=
+resented by the float type.</div></div>-- <br><div class=3D"gmail_signature=
+" data-smartmail=3D"gmail_signature"><div dir=3D"ltr">Christopher Larson<br=
+>kergoth at gmail dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br=
+>Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics</div></div=
+>
+</div></div>
+
+--94eb2c05cc147a3c9b053689f3bb--
