@@ -1,45 +1,47 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
-	[209.85.220.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A6A360124
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
+	[209.85.220.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 25D2160124
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Jul 2016 20:49:13 +0000 (UTC)
-Received: by mail-qk0-f195.google.com with SMTP id t2so2919677qkh.2
+	Fri,  1 Jul 2016 21:19:50 +0000 (UTC)
+Received: by mail-qk0-f196.google.com with SMTP id n132so26263198qka.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Jul 2016 13:49:14 -0700 (PDT)
+	Fri, 01 Jul 2016 14:19:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=fcbkJYyemvsjOTkt9+wh2ajnyo2r7jHpD1qZQROW7Js=;
-	b=DN+nmbTvK71JK4Xz8og7Mndj9/egPliWZtHD2NHLLbBumthECJjzquZL9Jj74UhaIo
-	OQnqW7F/6nLs22hHgaPVyz090N0fs+YznsAQfVk0KBPEXC151Qo/4m801HVW8D/HG0Aq
-	6HQfK1vRFJpTpRjvIqbf94FpGo4+o86sZbyiSUy50nGBw7EBhaP7sBuny2sYVw2k4hvx
-	qREI7dQDPBb15JW9LR11dMESgpT5TVx4FPO5Dhv/gHdB+PQyfx6XHo+BLvPvDFTQ3OfF
-	blpNFYxmHpj/lXHS8uuzI/or8HISqu5m9chsbZFSn9xTDFUsTNDQPWW4u0RfciOgfAgZ
-	oAyQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=V0TNPBTbgfOgJtbY+vlr0N0Cdlrk+nI6w9EuNO/V32E=;
+	b=OygTK/is1/psGfim4VCC/6skJGxB3pHw9zFzuvlkax3Q0Q+PqT6EDtp3gMQw+9G+mr
+	DDtXEVpKecJNe2npi06tGggzWgG9JWJgHCe3J0aR6CsEYawhn4eoiSrmizjQZfoFZXE8
+	GbLr8aSKjMs+Rpjw97WgoAwwqz7b96XY55aoKnEEEgav4ldWW197FO38OWeoFMkKOnZ/
+	Jdwqo/IcL6w/izoZIeTgDXUny4fGldg8XYWMC0JyzGDUDuXhVPzSVlnKSXsaGLj9kk/9
+	1lj0vJW7jF6jmD4HrCqOJv2xTYfZMDKxfxVP3VrRBzrlSo4xpdCEapaf2eMECqTBURE6
+	S6Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=fcbkJYyemvsjOTkt9+wh2ajnyo2r7jHpD1qZQROW7Js=;
-	b=FOOwFtj7hZdmr1jz4mBC8LzMuVypoWt+XEuOiq4VVyquu4wRszFeRdMaoUk9BnoREZ
-	H0ZL/1FdMK7xATpI2H3oWkP/jmaJmBTNiY91WJVoGj7ExROxk2plXSs3ZFrjlro7FmAK
-	Ajn9cGxTrxRaOXkPlg4wkHzWXRlkYeHy5uFEQrRQUMYIAX6aSYmkjmjKLfQbJFvjjCZE
-	kPsomTD9ug/Y1w2xjgj4E0TL6KCDFj+qA4jctFqGOxAvZegp8tSClj91N2WrOIQ78oJm
-	kCL+zGccMUGDo3SNi5Ju3jNOd6+XKeTMz/ewydSaMMrgW2eleDxBWsHoMjPB1N9mDnmV
-	USyg==
-X-Gm-Message-State: ALyK8tLFjOOKwfmPY5K9eazwGb/5tBWhYrXJLu2L6XRjEdO9PFLD3j8ap4pbevZvUyMm4Q==
-X-Received: by 10.55.77.4 with SMTP id a4mr316684qkb.198.1467406153771;
-	Fri, 01 Jul 2016 13:49:13 -0700 (PDT)
-Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by smtp.gmail.com with ESMTPSA id u1sm1859020qtu.43.2016.07.01.13.49.11
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 01 Jul 2016 13:49:12 -0700 (PDT)
-From: Christopher Larson <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Jul 2016 13:49:09 -0700
-Message-Id: <1467406149-16571-1-git-send-email-kergoth@gmail.com>
-X-Mailer: git-send-email 2.8.0
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH] service: obey CFLAGS, LDFLAGS
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=V0TNPBTbgfOgJtbY+vlr0N0Cdlrk+nI6w9EuNO/V32E=;
+	b=AGs7c8sgruQQOWy5RKSZPJ7hTRGBFMuEJD2n8tM3oVz4s11Ktq6psghaUG6n3nT7mN
+	PhEM6wS/hN3SKM4VDZuX9gg+7Nqu9RmBvHERtKsPIs2kCHS87bs1ovLiEYVy90C+dvVF
+	eCmx2nzZ1j3lFUSjmC1d6SLyUqPxgtt0p5vEiSbflmSICUP9K9RHJv6IXfAXHJt7XaCP
+	MKrVP7WE3hU6aqC0MRU6WE4DD0rZO4h/eIr0eLdGZLYEDhk+zLxyq7PHIwgdofAjvcmw
+	9iw++LS3aociXE4SM7ggrMAnCJluqeVn9ObZVO3jMW7deeQLK9RaDi17NaIa2msMNQ78
+	Yaxw==
+X-Gm-Message-State: ALyK8tKg7P6/M7CjSztaMSamTIgG1JTO9Dn3ymtRV6a9ElecJUzHOmEVkSUUk4wbJUnhxoqWAerA4F4bAavOkg==
+X-Received: by 10.55.97.80 with SMTP id v77mr527376qkb.41.1467407990874; Fri,
+	01 Jul 2016 14:19:50 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.55.214.83 with HTTP; Fri, 1 Jul 2016 14:19:21 -0700 (PDT)
+In-Reply-To: <1467405897-14036-1-git-send-email-kergoth@gmail.com>
+References: <1467405897-14036-1-git-send-email-kergoth@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 1 Jul 2016 14:19:21 -0700
+Message-ID: <CAMKF1sqOmppX34XM=GpKrZwxHO1Rmdc+kfKR_P=MT4xra99v2w@mail.gmail.com>
+To: Christopher Larson <kergoth@gmail.com>
+Cc: Christopher Larson <chris_larson@mentor.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2] gcc-cross: remove --with-linker-hash-style
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,29 +54,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jul 2016 20:49:13 -0000
+X-List-Received-Date: Fri, 01 Jul 2016 21:19:51 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Christopher Larson <chris_larson@mentor.com>
+On Fri, Jul 1, 2016 at 1:44 PM, Christopher Larson <kergoth@gmail.com> wrote:
+> From: Christopher Larson <chris_larson@mentor.com>
+>
+> We explicitly set the hash style to gnu in our LDFLAGS. Setting the default to
+> this in the toolchain, while convenient, actually hides bugs, as a failure to
+> obey LDFLAGS isn't noticed. By removing this, it's not dissimilar to how we
+> poison the sysroot -- rather than relying on the default, notice right away if
+> somoeone isn't obeying the needed flags.
+>
+> This will result in a failure to obey LDFLAGS causing a GNU_HASH QA failure,
+> which is what's often seen with external toolchains. This brings us all on the
+> same page, and makes sure a failure to obey LDFLAGS is seen early.
+>
+> This is limited to cross, to retain ease of use for SDKs.
+>
+> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+> ---
+>  meta/recipes-devtools/gcc/gcc-4.9.inc   | 3 ++-
+>  meta/recipes-devtools/gcc/gcc-5.3.inc   | 3 ++-
+>  meta/recipes-devtools/gcc/gcc-6.1.inc   | 3 ++-
+>  meta/recipes-devtools/gcc/gcc-cross.inc | 1 +
+>  4 files changed, 7 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
+> index 64701c8..05e02d9 100644
+> --- a/meta/recipes-devtools/gcc/gcc-4.9.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
+> @@ -107,13 +107,14 @@ JAVA = ""
+>
+>  LTO = "--enable-lto"
+>
+> +OECONF_HASH_STYLE = "--with-linker-hash-style=${LINKER_HASH_STYLE}"
+>  EXTRA_OECONF_BASE = "\
+>      ${LTO} \
+> +    ${OECONF_HASH_STYLE} \
+>      --enable-libssp \
+>      --disable-bootstrap \
+>      --disable-libmudflap \
+>      --with-system-zlib \
+> -    --with-linker-hash-style=${LINKER_HASH_STYLE} \
+>      --enable-linker-build-id \
+>      --with-ppl=no \
+>      --with-cloog=no \
+> diff --git a/meta/recipes-devtools/gcc/gcc-5.3.inc b/meta/recipes-devtools/gcc/gcc-5.3.inc
+> index 8613a10..faa1292 100644
+> --- a/meta/recipes-devtools/gcc/gcc-5.3.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-5.3.inc
+> @@ -113,14 +113,15 @@ JAVA = ""
+>
+>  LTO = "--enable-lto"
+>
+> +OECONF_HASH_STYLE = "--with-linker-hash-style=${LINKER_HASH_STYLE}"
+>  EXTRA_OECONF_BASE = "\
+>      ${LTO} \
+> +    ${OECONF_HASH_STYLE} \
+>      --enable-libssp \
+>      --enable-libitm \
+>      --disable-bootstrap \
+>      --disable-libmudflap \
+>      --with-system-zlib \
+> -    --with-linker-hash-style=${LINKER_HASH_STYLE} \
+>      --enable-linker-build-id \
+>      --with-ppl=no \
+>      --with-cloog=no \
+> diff --git a/meta/recipes-devtools/gcc/gcc-6.1.inc b/meta/recipes-devtools/gcc/gcc-6.1.inc
+> index 1a00f3f..e3ff9cb 100644
+> --- a/meta/recipes-devtools/gcc/gcc-6.1.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-6.1.inc
+> @@ -93,14 +93,15 @@ JAVA = ""
+>
+>  LTO = "--enable-lto"
+>
+> +OECONF_HASH_STYLE = "--with-linker-hash-style=${LINKER_HASH_STYLE}"
+>  EXTRA_OECONF_BASE = "\
+>      ${LTO} \
+> +    ${OECONF_HASH_STYLE} \
+>      --enable-libssp \
+>      --enable-libitm \
+>      --disable-bootstrap \
+>      --disable-libmudflap \
+>      --with-system-zlib \
+> -    --with-linker-hash-style=${LINKER_HASH_STYLE} \
+>      --enable-linker-build-id \
+>      --with-ppl=no \
+>      --with-cloog=no \
+> diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc b/meta/recipes-devtools/gcc/gcc-cross.inc
+> index f479360..850c63a 100644
+> --- a/meta/recipes-devtools/gcc/gcc-cross.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-cross.inc
+> @@ -33,6 +33,7 @@ EXTRA_OECONF_PATHS = "\
+>      --with-sysroot=/not/exist \
+>      --with-build-sysroot=${STAGING_DIR_TARGET} \
+>  "
+> +OECONF_HASH_STYLE = ""
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- meta-skeleton/recipes-skeleton/service/service_0.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+May be we can just explicitly override default LINKER_HASH_STYLE here
+by setting LINKER_HASH_STYLE = "sysv"
+which is effectively what we are doing by removing the option.
 
-diff --git a/meta-skeleton/recipes-skeleton/service/service_0.1.bb b/meta-skeleton/recipes-skeleton/service/service_0.1.bb
-index c5cd7a9..6416618 100644
---- a/meta-skeleton/recipes-skeleton/service/service_0.1.bb
-+++ b/meta-skeleton/recipes-skeleton/service/service_0.1.bb
-@@ -9,7 +9,7 @@ SRC_URI = "file://skeleton \
- 	   "
- 
- do_compile () {
--	${CC} ${WORKDIR}/skeleton_test.c -o ${WORKDIR}/skeleton-test
-+	${CC} ${CFLAGS} ${LDFLAGS} ${WORKDIR}/skeleton_test.c -o ${WORKDIR}/skeleton-test
- }
- 
- do_install () {
--- 
-2.8.0
-
+>
+>  ARCH_FLAGS_FOR_TARGET += "-isystem${STAGING_DIR_TARGET}${target_includedir}"
+>
+> --
+> 2.8.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
