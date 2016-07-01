@@ -1,29 +1,29 @@
 Return-Path: <maxin.john@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 6AC1F60111
+	by mail.openembedded.org (Postfix) with ESMTP id 360E06FF6B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Jul 2016 11:13:45 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP; 01 Jul 2016 04:13:39 -0700
+	Fri,  1 Jul 2016 11:13:48 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 01 Jul 2016 04:13:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,556,1459839600"; d="scan'208";a="1008874484"
+X-IronPort-AV: E=Sophos;i="5.26,556,1459839600"; d="scan'208";a="998717015"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga002.jf.intel.com with ESMTP; 01 Jul 2016 04:13:39 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 01 Jul 2016 04:13:46 -0700
 Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
 	[10.237.72.71])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id C43C22C8001
+	by linux.intel.com (Postfix) with ESMTP id DBA182C8001
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Jul 2016 04:13:33 -0700 (PDT)
+	Fri,  1 Jul 2016 04:13:40 -0700 (PDT)
 From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Jul 2016 14:13:06 +0300
-Message-Id: <1467371591-12270-2-git-send-email-maxin.john@intel.com>
+Date: Fri,  1 Jul 2016 14:13:10 +0300
+Message-Id: <1467371591-12270-6-git-send-email-maxin.john@intel.com>
 X-Mailer: git-send-email 2.4.0
 In-Reply-To: <1467371591-12270-1-git-send-email-maxin.john@intel.com>
 References: <1467371591-12270-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 1/6] remove packagegroup-core-directfb.bb
+Subject: [PATCH 5/6] buildoptions.py: remove directfb image build test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,38 +36,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jul 2016 11:13:47 -0000
+X-List-Received-Date: Fri, 01 Jul 2016 11:13:48 -0000
 
-remove packagegroup-core-directfb.bb as part of moving directfb
-from oe-core
+removing this test since we move directfb out of oe-core
 
 Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- .../packagegroups/packagegroup-core-directfb.bb           | 15 ---------------
- 1 file changed, 15 deletions(-)
- delete mode 100644 meta/recipes-graphics/packagegroups/packagegroup-core-directfb.bb
+ meta/lib/oeqa/selftest/buildoptions.py | 13 -------------
+ 1 file changed, 13 deletions(-)
 
-diff --git a/meta/recipes-graphics/packagegroups/packagegroup-core-directfb.bb b/meta/recipes-graphics/packagegroups/packagegroup-core-directfb.bb
-deleted file mode 100644
-index 5ead60d..0000000
---- a/meta/recipes-graphics/packagegroups/packagegroup-core-directfb.bb
-+++ /dev/null
-@@ -1,15 +0,0 @@
--SUMMARY = "DirectFB without X11"
+diff --git a/meta/lib/oeqa/selftest/buildoptions.py b/meta/lib/oeqa/selftest/buildoptions.py
+index b6151d7..4d01921 100644
+--- a/meta/lib/oeqa/selftest/buildoptions.py
++++ b/meta/lib/oeqa/selftest/buildoptions.py
+@@ -199,19 +199,6 @@ class BuildhistoryTests(BuildhistoryBase):
+         self.run_buildhistory_operation(target, target_config="PR = \"r1\"", change_bh_location=True)
+         self.run_buildhistory_operation(target, target_config="PR = \"r0\"", change_bh_location=False, expect_error=True, error_regex=error)
+ 
 -
--PACKAGE_ARCH = "${MACHINE_ARCH}"
+-class BuildImagesTest(oeSelfTest):
+-    @testcase(563)
+-    def test_directfb(self):
+-        """
+-        This method is used to test the build of directfb image for arm arch.
+-        In essence we build a coreimagedirectfb and test the exitcode of bitbake that in case of success is 0.
+-        """
+-        self.add_command_to_tearDown('cleanup-workdir')
+-        self.write_config("DISTRO_FEATURES_remove = \"x11\"\nDISTRO_FEATURES_append = \" directfb\"\nMACHINE ??= \"qemuarm\"")
+-        res = bitbake("core-image-directfb", ignore_status=True)
+-        self.assertEqual(res.status, 0, "\ncoreimagedirectfb failed to build. Please check logs for further details.\nbitbake output %s" % res.output)
 -
--inherit packagegroup
--
--TOUCH = ' ${@bb.utils.contains("MACHINE_FEATURES", "touchscreen", "tslib tslib-calibrate tslib-tests", "",d)}'
--
--RDEPENDS_${PN} = " \
--		directfb \
--		directfb-examples \
--		pango \
--		fontconfig \
--		${TOUCH} \
--"
+ class ArchiverTest(oeSelfTest):
+     @testcase(926)
+     def test_arch_work_dir_and_export_source(self):
 -- 
 2.4.0
 
