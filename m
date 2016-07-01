@@ -1,45 +1,61 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E6E160124
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-vk0-f66.google.com (mail-vk0-f66.google.com
+	[209.85.213.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 9FCFB60124
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Jul 2016 15:59:32 +0000 (UTC)
-Received: by mail-wm0-f50.google.com with SMTP id f126so32076517wma.1
+	Fri,  1 Jul 2016 17:51:01 +0000 (UTC)
+Received: by mail-vk0-f66.google.com with SMTP id v190so16603804vka.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Jul 2016 08:59:33 -0700 (PDT)
+	Fri, 01 Jul 2016 10:51:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=CyoguLAvIIklrb1UtZIqwjcFS6mSiR9fq88pPX+BrAo=;
-	b=AUQ3Ev4fw6sK69siCh52sPIX6k8YVXL5/JL9u/mPALZ0Epj816Fcr4rxnzZFSwF5G4
-	37AbSOnsjJxS9sgkcMGqwLOHNO1B5EuYKUBWUVxVax6JCD/c5IdoZ/NlzkmgeRI4VAt4
-	5FG2af/KqPvbDkFkrqTb+p4T8IWUIchMTD+tyqZvTV4qOg2PuR4B2ocRYsDuv6d66bPJ
-	aoBoB2AVznvGJNz8nxXS22zcJJo04hqEesZLbJKHDkgw8Y3t3dg4/uIj6LsCd8j82n/u
-	g4VwunBC0n0hfr7+1s2/iaFMdQjA7oQWAwPurg2fbBQKFIw3ZvTYsOb8SQ7rPoZ6QrVQ
-	/12g==
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=5EP+QkG0WOnNfungJQ57ZKAkntnsVwcSv/TCXhW4oa4=;
+	b=XBSnY5rmoubqTwt+/l+UMd6uXK7o9YRP4XfjuMoWVFQiYw+pBzJC38TuwUIFOZBIwg
+	e3fGxzHYmPhtkg7eRJ9loeyLVpZsMHKd/m6izmVyGRg27e/n10uFYt85LPWEEGgFFUXJ
+	RzmLj3v239nHDTkvGU83Jc5rZCcet8HnNTIb+QSqvaT1S4CvL7vgYYcbs1HnU1KCTHlw
+	0kyfY5f3AugKPtyW9BzTuL5RmJBe+E1kWtL+B7gE4aMrfrdz9HJPjiG5jhqeIq1hBbhS
+	mMHNEo8Vw+aPO0YvoifmAcZjmF8nUgFhiLZsNm1+ZsKvXfnyNKDVj/O1xqDTge6qL4KD
+	o8SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=CyoguLAvIIklrb1UtZIqwjcFS6mSiR9fq88pPX+BrAo=;
-	b=NLuoYYCT8D51ptXu/PnEAlQWOvyHHVmBzT+OoyplHZfI1ik7Nb7VGupa1wdtbRajUG
-	LzhatGLhlRtU1jHKmgESvMHhopc+itlPvCGSW+PgRW0A8l6CB5Jy0FEo/8iqnLTDwKpN
-	Li3Fwqq4wEEgV4F7+vxEcmIDcbeEYhrVzXQy09hfAYe7XfNwNfB782AQI6D/z/6je4wN
-	hh5apatznQmu7cSVsGL6nlhQCTgHw40Ox4SAiMs1KG3mgbFBcOK63OIVl6f7CLGG75W4
-	em9hQ7gzS1Gvs/Ai4E9SyK/Umv6HKhPoZXjvm00boQjlLHkireEN27xkqLIjzra6iSwn
-	6AEA==
-X-Gm-Message-State: ALyK8tI1CdIUVB24YBCukBvvQCQ6c+c8O1797YXLgRQoVG6d39R1gAL7KLL/YVdI8GXlwPtX
-X-Received: by 10.194.216.33 with SMTP id on1mr4211083wjc.153.1467388772699;
-	Fri, 01 Jul 2016 08:59:32 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id b84sm4870141wmb.6.2016.07.01.08.59.31
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=5EP+QkG0WOnNfungJQ57ZKAkntnsVwcSv/TCXhW4oa4=;
+	b=SubwIUC2Yhv23tOy1VJKrI7zpORcOCyVRBJFm+FeBwak8AwsmVh4z7/9yfR+GtC0Qn
+	iqsY+SzhgV5mLSjuaOAtq6P3svxQcnCJrDMEdswJ5Z1ZW2Hn3WqdeLvFH7uAMelC7Axz
+	1VaN5ZXV6nZdITPpCMREeKar1+eyuo9kXE4V+TEaan16M6hanP7R8AYAVj63Qx5kgy+W
+	Wz2DuHL3Qop4D+3zD3J4ekE8Tfmh6PjBp+rKRXeD+Q+PH+03QoZfjb051PZlkZh5wjkv
+	0I9dW8cDQZrAmjLe1NtlN4QJDkx4K0VE7RG8lnsO41PnAu5By2hs8TEjB28Y7j2ZSPsa
+	5tbg==
+X-Gm-Message-State: ALyK8tJJ47qKjwTV6L0vQJANb8PKKPLp0N9R/pd3z5CoKVpKE4wWbERNxlTbpsK0k1S/OQ==
+X-Received: by 10.31.199.6 with SMTP id x6mr10454198vkf.17.1467395461152;
+	Fri, 01 Jul 2016 10:51:01 -0700 (PDT)
+Received: from mail-vk0-f50.google.com (mail-vk0-f50.google.com.
+	[209.85.213.50]) by smtp.gmail.com with ESMTPSA id
+	a67sm2402674vke.16.2016.07.01.10.50.59
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 01 Jul 2016 08:59:32 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Jul 2016 16:59:27 +0100
-Message-Id: <1467388767-20705-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] lib/oe/path: remove oe.path.check_output
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 01 Jul 2016 10:50:59 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-vk0-f50.google.com with SMTP id m127so102922788vkb.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 01 Jul 2016 10:50:59 -0700 (PDT)
+X-Received: by 10.31.161.81 with SMTP id k78mr10134111vke.122.1467395459368;
+	Fri, 01 Jul 2016 10:50:59 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.31.192.195 with HTTP; Fri, 1 Jul 2016 10:50:58 -0700 (PDT)
+In-Reply-To: <25bb70f088ffb603e1f389b7657c1fbf3f2871bb.1467378176.git.patrick.ohly@intel.com>
+References: <cover.1467378176.git.patrick.ohly@intel.com>
+	<25bb70f088ffb603e1f389b7657c1fbf3f2871bb.1467378176.git.patrick.ohly@intel.com>
+Date: Fri, 1 Jul 2016 14:50:58 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKo=BAgtk8iUbSgcOVh4+uVW-SBuEri6f8MkRH2qXfpVSw@mail.gmail.com>
+Message-ID: <CAP9ODKo=BAgtk8iUbSgcOVh4+uVW-SBuEri6f8MkRH2qXfpVSw@mail.gmail.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] meta-ostro-fixes: initramfs-framework: add retry loop for slow boot devices (like USB)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,95 +68,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jul 2016 15:59:34 -0000
+X-List-Received-Date: Fri, 01 Jul 2016 17:51:01 -0000
+Content-Type: text/plain; charset=UTF-8
 
-This was a copy-and-paste of subprocess.check_output() from when we supported
-Python <2.7, so simply delete it and use subprocess.check_output() instead.
+On Fri, Jul 1, 2016 at 10:53 AM, Patrick Ohly <patrick.ohly@intel.com> wrote:
+> On some hardware platforms (Gigabyte, qemu), detection of USB devices
+> by the kernel is slow enough such that it happens only after the first
+> attempt to mount the rootfs. We need to keep trying for a while
+> (default: 5s seconds, controlled by roottimeout=<seconds>) and sleep
+> between each attempt (default: one second, rootdelay=<seconds>).
+>
+> This change intentionally splits finding the rootfs (in the new
+> "rootfs") and switching to it ("finish"). That is needed to keep udev
+> running while waiting for the rootfs, because it shuts down before
+> "finish" starts. It is also the direction that was discussed on the OE
+> mailing list for future changes to initramfs-framework (like
+> supporting a "live CD" module, which would replace or further augment
+> mounting of the rootfs).
+>
+> Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/lib/oe/path.py | 49 ++++---------------------------------------------
- 1 file changed, 4 insertions(+), 45 deletions(-)
+Agreed but please split the rootfs in another module; so we don't
+force it to be included. The e2fs can rdepend on it.
 
-diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
-index 413ebfb..dbba60a 100644
---- a/meta/lib/oe/path.py
-+++ b/meta/lib/oe/path.py
-@@ -66,21 +66,21 @@ def copytree(src, dst):
- 
-     bb.utils.mkdirhier(dst)
-     cmd = 'tar -cf - -C %s -p . | tar -xf - -C %s' % (src, dst)
--    check_output(cmd, shell=True, stderr=subprocess.STDOUT)
-+    subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
- 
- def copyhardlinktree(src, dst):
-     """ Make the hard link when possible, otherwise copy. """
-     bb.utils.mkdirhier(dst)
-     if os.path.isdir(src) and not len(os.listdir(src)):
--        return	
-+        return
- 
-     if (os.stat(src).st_dev ==  os.stat(dst).st_dev):
-         # Need to copy directories only with tar first since cp will error if two 
-         # writers try and create a directory at the same time
-         cmd = 'cd %s; find . -type d -print | tar -cf - -C %s -p --files-from - --no-recursion | tar -xf - -C %s' % (src, src, dst)
--        check_output(cmd, shell=True, stderr=subprocess.STDOUT)
-+        subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
-         cmd = 'cd %s; find . -print0 | cpio --null -pdlu %s' % (src, dst)
--        check_output(cmd, shell=True, stderr=subprocess.STDOUT)
-+        subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
-     else:
-         copytree(src, dst)
- 
-@@ -105,47 +105,6 @@ def symlink(source, destination, force=False):
-         if e.errno != errno.EEXIST or os.readlink(destination) != source:
-             raise
- 
--class CalledProcessError(Exception):
--    def __init__(self, retcode, cmd, output = None):
--        self.retcode = retcode
--        self.cmd = cmd
--        self.output = output
--    def __str__(self):
--        return "Command '%s' returned non-zero exit status %d with output %s" % (self.cmd, self.retcode, self.output)
--
--# Not needed when we move to python 2.7
--def check_output(*popenargs, **kwargs):
--    r"""Run command with arguments and return its output as a byte string.
--
--    If the exit code was non-zero it raises a CalledProcessError.  The
--    CalledProcessError object will have the return code in the returncode
--    attribute and output in the output attribute.
--
--    The arguments are the same as for the Popen constructor.  Example:
--
--    >>> check_output(["ls", "-l", "/dev/null"])
--    'crw-rw-rw- 1 root root 1, 3 Oct 18  2007 /dev/null\n'
--
--    The stdout argument is not allowed as it is used internally.
--    To capture standard error in the result, use stderr=STDOUT.
--
--    >>> check_output(["/bin/sh", "-c",
--    ...               "ls -l non_existent_file ; exit 0"],
--    ...              stderr=STDOUT)
--    'ls: non_existent_file: No such file or directory\n'
--    """
--    if 'stdout' in kwargs:
--        raise ValueError('stdout argument not allowed, it will be overridden.')
--    process = subprocess.Popen(stdout=subprocess.PIPE, *popenargs, **kwargs)
--    output, unused_err = process.communicate()
--    retcode = process.poll()
--    if retcode:
--        cmd = kwargs.get("args")
--        if cmd is None:
--            cmd = popenargs[0]
--        raise CalledProcessError(retcode, cmd, output=output)
--    return output
--
- def find(dir, **walkoptions):
-     """ Given a directory, recurses into that directory,
-     returning all files as absolute paths. """
 -- 
-2.8.1
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
