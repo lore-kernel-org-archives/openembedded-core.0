@@ -1,49 +1,38 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-it0-f68.google.com (mail-it0-f68.google.com
-	[209.85.214.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 80048601F6
+Return-Path: <embedded@die-kriestens.de>
+Received: from outbound1.flatbooster.com (outbound1.flatbooster.com
+	[84.200.50.201])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A18B60111
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Jul 2016 02:43:26 +0000 (UTC)
-Received: by mail-it0-f68.google.com with SMTP id g127so856272ith.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jun 2016 19:43:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=7aakfs9MU0CHv4PRvRX2ZtyURywE4t/Wrh8YTo/+4xQ=;
-	b=ehUhnK32JQpX859xPbPyhMj0zGdO9jRBKRJ6cy6u97xcKxcyi4zT7VCY1qnF2F/TBQ
-	EYNui8WIkI8r6Eokv1UE/SvQnwlRYxretZywD3uGCzhcoFYYynoYhQt0VWCpMvsuzNyf
-	WEDbg1ldDDWm+Hkv6DZoaXo3qZNdzEY9RgGBFyi6KcbdKhH6Lfnchyb/AR8AGtprmAxX
-	JqGAusgq93T8ddzgd0IpPl+m9k7pUkF2+/AgwPoRUl9DUpTrQ4ckPIBV6DFyxuy4HKUo
-	IkdwvM8tIkZRzBsaLxmOhPTIdKBnKvyYUeK3/zEVunyc39VGiJgOmR6zrAzbYTV5ZYgt
-	Lw0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=7aakfs9MU0CHv4PRvRX2ZtyURywE4t/Wrh8YTo/+4xQ=;
-	b=A5eBatLmkGx8kEgxFCuXq4Cin2Dlr/z0wOUimXT3zH+lcZhQY6O8z9QK2roVqXcmHC
-	X/DwxcaG0O1H2KPR+uSf10I1lmOM34BOEmPCija5o6miGpRpb+VL8DuPPc91aGyBPKNO
-	xIZe5wx0CONF+MRyMLlrNZ8ySaeH5B/sH3GRMi+0BhFXwqRfVL8pFEEmTsYZo4leZiMF
-	feAhvZu4Z0HasuLRb1ZLC0u4njo5cxOsC8Ehorgxs8VCq8KmglldsfOZxxnOsLXycJBH
-	JSiS/BU/Xv7LGry6rJbsiDWBMjeqWHT5/A3z/furfOY3aTKVMHRS6N33ReU9orM7j0hP
-	R5wQ==
-X-Gm-Message-State: ALyK8tL6KZP3sHc1N4XgoE84I1gTL6RpIzOPLCub/Nz4ylgrz3LD5VpTdguVBYYIRz0bzpeziFcdsnasS3Tdxg==
-X-Received: by 10.36.216.5 with SMTP id b5mr18501271itg.19.1467341006845; Thu,
-	30 Jun 2016 19:43:26 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.79.19.70 with HTTP; Thu, 30 Jun 2016 19:43:07 -0700 (PDT)
-In-Reply-To: <1467332324-27040-1-git-send-email-kergoth@gmail.com>
-References: <1467332324-27040-1-git-send-email-kergoth@gmail.com>
-From: Christopher Larson <chris_larson@mentor.com>
-Date: Thu, 30 Jun 2016 19:43:07 -0700
-X-Google-Sender-Auth: URdCUmBR_TfQc5osjavS_5R5eBU
-Message-ID: <CABcZANmrSbfS_FFuqw523-22p9qJ+S-2sqoCpSe6iPx+q2f4ag@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: Re: [PATCH] buildstats-summary: round the floating point percentage
+	Fri,  1 Jul 2016 05:49:25 +0000 (UTC)
+Received: from localhost (outbound1.flatbooster.com [127.0.0.1])
+	by outbound1.flatbooster.com (Postfix) with ESMTP id 10BC66D642A5;
+	Fri,  1 Jul 2016 07:49:25 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at outbound1.flatbooster.com
+Received: from outbound1.flatbooster.com ([127.0.0.1])
+	by localhost (outbound1.flatbooster.com [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id o_mTVcBKjjHQ; Fri,  1 Jul 2016 07:49:24 +0200 (CEST)
+Received: from rex23.flatbooster.com (rex23b.flatbooster.com [93.186.195.156])
+	by outbound1.flatbooster.com (Postfix) with ESMTPS;
+	Fri,  1 Jul 2016 07:49:24 +0200 (CEST)
+Received: from [10.53.10.54] (e-248-163.hrz.tu-chemnitz.de [134.109.248.163])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested) (Authenticated sender: web130220p1)
+	by rex23.flatbooster.com (Postfix) with ESMTPSA id CEAAF1B2A24;
+	Fri,  1 Jul 2016 07:49:23 +0200 (CEST)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+From: Daniel Kriesten <embedded@die-kriestens.de>
+In-Reply-To: <CAJTo0La_VCQ5P1ELePTyLQLU_Zy3rC6z+qh24ZtMcGJ7_FKg3Q@mail.gmail.com>
+Date: Fri, 1 Jul 2016 07:49:23 +0200
+Message-Id: <CBCA3234-905B-4408-B26F-B78D1B2A2719@die-kriestens.de>
+References: <1586B03B-3244-4FB3-82F7-803CFD983532@die-kriestens.de>
+	<CAJTo0LbuTrNE4kemiZK_yEqUFo4CN9TJJLZzqwTjzVK=xuK1MA@mail.gmail.com>
+	<D94025A2-518C-4CC8-AE9C-93DB39CDD687@die-kriestens.de>
+	<CAJTo0La_VCQ5P1ELePTyLQLU_Zy3rC6z+qh24ZtMcGJ7_FKg3Q@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Mailer: Apple Mail (2.3124)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Building Perl-5.22.1-r0 on Arch Linux fails with QA Issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,66 +45,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jul 2016 02:43:28 -0000
-Content-Type: multipart/alternative; boundary=94eb2c05cc147a3c9b053689f3bb
-
---94eb2c05cc147a3c9b053689f3bb
-Content-Type: text/plain; charset=UTF-8
-
-On Thu, Jun 30, 2016 at 5:18 PM, Christopher Larson <kergoth@gmail.com>
-wrote:
-
-> From: Christopher Larson <chris_larson@mentor.com>
->
-> This was rounded in python 2, but python 3 changed the default behavior of
-> /.
-> We could switch to the same behavior as previous by switching to // rather
-> than /, but there's value in keeping at least one decimal point, to avoid
-> the
-> misleading case where it says 0% but the reuse is non-zero.
->
-> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
->
-
-Hold off on this, should probably address the rounding via the formatting,
-otherwise we'll only get good results when the number can be fully
-represented by the float type.
--- 
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
-
---94eb2c05cc147a3c9b053689f3bb
-Content-Type: text/html; charset=UTF-8
+X-List-Received-Date: Fri, 01 Jul 2016 05:49:26 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On T=
-hu, Jun 30, 2016 at 5:18 PM, Christopher Larson <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:kergoth@gmail.com" target=3D"_blank">kergoth@gmail.com</a>&gt;=
-</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":x4" class=3D"a=
-3s aXjCH m155a3d2c8df6ffdc">From: Christopher Larson &lt;<a href=3D"mailto:=
-chris_larson@mentor.com">chris_larson@mentor.com</a>&gt;<br>
-<br>
-This was rounded in python 2, but python 3 changed the default behavior of =
-/.<br>
-We could switch to the same behavior as previous by switching to // rather<=
-br>
-than /, but there&#39;s value in keeping at least one decimal point, to avo=
-id the<br>
-misleading case where it says 0% but the reuse is non-zero.<br>
-<br>
-Signed-off-by: Christopher Larson &lt;<a href=3D"mailto:chris_larson@mentor=
-.com">chris_larson@mentor.com</a>&gt;</div></blockquote><div><br></div><div=
->Hold off on this, should probably address the rounding via the formatting,=
- otherwise we&#39;ll only get good results when the number can be fully rep=
-resented by the float type.</div></div>-- <br><div class=3D"gmail_signature=
-" data-smartmail=3D"gmail_signature"><div dir=3D"ltr">Christopher Larson<br=
->kergoth at gmail dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br=
->Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics</div></div=
->
-</div></div>
+> Am 30.06.2016 um 18:56 schrieb Burton, Ross <ross.burton@intel.com>:
+>=20
+>=20
+> On 30 June 2016 at 07:03, Daniel Kriesten <embedded@die-kriestens.de> =
+wrote:
+> ERROR: perl-5.22.1-r0 do_package: objcopy failed with exit code 256 =
+(cmd was 'arm-poky-linux-gnueabi-objcopy' --only-keep-debug =
+'/home/krid/Develop/Yocto/fsl-community-bsp/build-imx6q-elo/tmp/work/corte=
+xa9hf-neon-poky-linux-gnueabi/perl/5.22.1-r0/package/usr/lib/perl/ptest/ge=
+nerate_uudmap' =
+'/home/krid/Develop/Yocto/fsl-community-bsp/build-imx6q-elo/tmp/work/corte=
+xa9hf-neon-poky-linux-gnueabi/perl/5.22.1-r0/package/usr/lib/perl/ptest/.d=
+ebug/generate_uudmap'):
+> =
+arm-poky-linux-gnueabi-objcopy:/home/krid/Develop/Yocto/fsl-community-bsp/=
+build-imx6q-elo/tmp/work/cortexa9hf-neon-poky-linux-gnueabi/perl/5.22.1-r0=
+/package/usr/lib/perl/ptest/generate_uudmap: File format not recognized
+>=20
+> Can you run file on the binary that objdump is complaining about?
+> =
+(/home/krid/Develop/Yocto/fsl-community-bsp/build-imx6q-elo/tmp/work/corte=
+xa9hf-neon-poky-linux-gnueabi/perl/5.22.1-r0/package/usr/lib/perl/ptest/ge=
+nerate_uudmap)
 
---94eb2c05cc147a3c9b053689f3bb--
+$ file =
+/home/krid/Develop/Yocto/fsl-community-bsp/build-imx6q-elo/tmp/work/cortex=
+a9hf-neon-poky-linux-gnueabi/perl/5.22.1-r0/package/usr/lib/perl/ptest/gen=
+erate_uudmap
+=
+/home/krid/Develop/Yocto/fsl-community-bsp/build-imx6q-elo/tmp/work/cortex=
+a9hf-neon-poky-linux-gnueabi/perl/5.22.1-r0/package/usr/lib/perl/ptest/gen=
+erate_uudmap: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), =
+dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for =
+GNU/Linux 2.6.32, =
+BuildID[sha1]=3D48ab21d6bc4545ce1c9b695001a5179192c40d9a, not stripped
+
+So this one is build for the host, not the target =E2=80=A6
+
+With kind regards
+	Daniel
+
+--=20
+Daniel Kriesten
+daniel@die-kriestens.de
+http://www.die-kriestens.de
+
+
