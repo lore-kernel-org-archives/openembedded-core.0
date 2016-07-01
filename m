@@ -1,49 +1,45 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-it0-f45.google.com (mail-it0-f45.google.com
-	[209.85.214.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D4626012C
+Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
+	[209.85.216.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 079A76012C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Jul 2016 20:43:20 +0000 (UTC)
-Received: by mail-it0-f45.google.com with SMTP id f6so25436183ith.0
+	Fri,  1 Jul 2016 20:45:02 +0000 (UTC)
+Received: by mail-qt0-f195.google.com with SMTP id f89so7738813qtd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Jul 2016 13:43:21 -0700 (PDT)
+	Fri, 01 Jul 2016 13:45:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=vy85vY4T5FgFQ7ZsmZgYevBjoqcAMg0Y5Apz9Dr5H3o=;
-	b=rvKcKZvpE78R4/ndq2DeJIaQGMHlX6nzpih97v558OA/X8QusyGedLAiYnniI04UFh
-	QBSoC4QyQge2W5gLLnbk7i+uvbhOBkwJt9wpJKwUNWnxkkc7N85Hbqe1t6mh+UUQ0/Sv
-	i/iv85UHBuk9LLv7nOJQskdZxsyhkX9ZLOGizjZiXYQG9lXDPxSVODBGGAVSTbbclsPE
-	xNETvw7Kkq0SefVg/h72/YK9Ky0h5zKfncRcghDLrXDsdnDdc647IJB0bX0g1EdyR3zb
-	QBBgGpzyMiicVnwGxwK+G5CKwMS1OR1gYH4vaOgHTULBWwaTkKMLgZm0dv1h8+w9jZtf
-	GCQg==
+	h=from:to:cc:subject:date:message-id;
+	bh=3z3znYPD+NelVMF5Y1LpeDVLV9qgKGMgvOeAarcLxkk=;
+	b=SBVNzh1R+PDX7u0iNUIGl2gDu3n+sw4QR/r6+QXu/t7QIrvHieDW6xd8QtE8bbCRFS
+	Y40RdLksISjSrpNw0tBGSogie9lRdA9wtnx82mSGtNCUKX4vc3B9KD48CYgrvil83Le/
+	pPzIt4luTzXDqxKscLWn32Pif2dQAfwlJy2TQjJ1dw7f3q5yiAE8Wo+a+xnbMSWYlJ3F
+	Jr+rnyfUCL12zNymZKu/+RHNSM49x3ugOeqDA57RCjzS6FHIyGXz/BoZ5oIMgRFyGAAa
+	kIJw43Acop4CroASiodHWkLYSu+t/bbQyDfqjF0pzlrSIsN2ei//EtY/aQeh/jPQDadB
+	m00g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=vy85vY4T5FgFQ7ZsmZgYevBjoqcAMg0Y5Apz9Dr5H3o=;
-	b=IXZjidSTVmyofXW3zLkoM12skQ/eOG1HYNAfpOaDAAypyaa4qTdzUbt1jYnf4qWZsq
-	gFNzc3JCzePZ12gcgoWnLJEkTEIgQBNlzVJ9NCpQAzEVX4e1Z0H8NYelIrVPT8cOidYC
-	A+GjbGH68Lq2D3qdiq5d/lZ/FUYYQOODc1b4YVRyK5v1tx21BJQG9leoxo+9PU0T/UUK
-	V/+QQwEz/tiXdEV4X1CQSgNXtB3WSPqyI0gWn3UkbbgGP6lkJlkzv+FRljeBvTsuSIK3
-	r8N1pqfA1Kx6JMfdJr40C2gOLRG11MX+ncYrVOPhXVSYBr6GrNv0igR/rxjCetgIadRq
-	AoKg==
-X-Gm-Message-State: ALyK8tIenHcgCgKPTZguQCKnBPixNKzfwryjct5DJ45jeaEsVYgkiA5pS3O4tYtiEVlgINlLmZxhDfA0DGaeDA==
-X-Received: by 10.36.43.216 with SMTP id h207mr177059ita.66.1467405800774;
-	Fri, 01 Jul 2016 13:43:20 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.79.19.70 with HTTP; Fri, 1 Jul 2016 13:43:01 -0700 (PDT)
-In-Reply-To: <1467405590-12602-1-git-send-email-kergoth@gmail.com>
-References: <1467405590-12602-1-git-send-email-kergoth@gmail.com>
-From: Christopher Larson <chris_larson@mentor.com>
-Date: Fri, 1 Jul 2016 13:43:01 -0700
-X-Google-Sender-Auth: SzqLUdVUlNqMG1PN7kMHxIFr6kg
-Message-ID: <CABcZAN=wa8OVmvKSAoLb=Gk+UjiAQd9aUYJWwAkXM6UpSXCU=Q@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=3z3znYPD+NelVMF5Y1LpeDVLV9qgKGMgvOeAarcLxkk=;
+	b=D7hpsE2LlDDUUTDHHoSOYjkvVoE7zUF40IXq32wS2+7bYTs/z0WSoKsIiiE2E55fgP
+	z6YrsLHH3RIu0Pd/uMDe/yzyRVYTlxgy+aQNqhAFCLXiUzSFH2oF5kFg/+LxgNuwP6Yd
+	L8ZQJjV435VKr3uofUU8uZJ/hXvUnQul4eK/Ef3driPvpSqeaiSeUsfCLa6+GlNACS+J
+	irAvBb2WAgUdugNg2ki0xPunWz+8SCDpN9sI4yXNmSoMO/lJACyk+FdXrTzqq60sUIsw
+	YVrUNntfSIIJNoG3LV0tTXzBLhdum+x75EMe3EmGkX2IgEqH1oq7ettrPcVBf1Wmj/bY
+	vG0g==
+X-Gm-Message-State: ALyK8tL013PBgWu5jfrzGUQIKHPTdsBeJqH/dPNTgIb8bn4YXZAL4ztl2xqlKkHvIXBhFA==
+X-Received: by 10.237.40.99 with SMTP id r90mr423070qtd.0.1467405902880;
+	Fri, 01 Jul 2016 13:45:02 -0700 (PDT)
+Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by smtp.gmail.com with ESMTPSA id 1sm1798407qtv.13.2016.07.01.13.45.01
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 01 Jul 2016 13:45:01 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  1 Jul 2016 13:44:57 -0700
+Message-Id: <1467405897-14036-1-git-send-email-kergoth@gmail.com>
+X-Mailer: git-send-email 2.8.0
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: Re: [PATCHv2] buildstats-summary: round the floating point percentage
+Subject: [PATCHv2] gcc-cross: remove --with-linker-hash-style
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,63 +52,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jul 2016 20:43:21 -0000
-Content-Type: multipart/alternative; boundary=001a114748a27f2208053699098e
+X-List-Received-Date: Fri, 01 Jul 2016 20:45:03 -0000
 
---001a114748a27f2208053699098e
-Content-Type: text/plain; charset=UTF-8
+From: Christopher Larson <chris_larson@mentor.com>
 
-On Fri, Jul 1, 2016 at 1:39 PM, Christopher Larson <kergoth@gmail.com>
-wrote:
+We explicitly set the hash style to gnu in our LDFLAGS. Setting the default to
+this in the toolchain, while convenient, actually hides bugs, as a failure to
+obey LDFLAGS isn't noticed. By removing this, it's not dissimilar to how we
+poison the sysroot -- rather than relying on the default, notice right away if
+somoeone isn't obeying the needed flags.
 
-> From: Christopher Larson <chris_larson@mentor.com>
->
-> This was rounded in python 2, but python 3 changed the default behavior of
-> /.
-> We could switch to the same behavior as previous by switching to // rather
-> than /, but there's value in keeping at least one decimal point, to avoid
-> the
-> misleading case where it says 0% but the reuse is non-zero.
->
-> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
->
+This will result in a failure to obey LDFLAGS causing a GNU_HASH QA failure,
+which is what's often seen with external toolchains. This brings us all on the
+same page, and makes sure a failure to obey LDFLAGS is seen early.
 
-v2 changes: fixed to correctly do the rounding as part of the string
-formatting.
+This is limited to cross, to retain ease of use for SDKs.
+
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+---
+ meta/recipes-devtools/gcc/gcc-4.9.inc   | 3 ++-
+ meta/recipes-devtools/gcc/gcc-5.3.inc   | 3 ++-
+ meta/recipes-devtools/gcc/gcc-6.1.inc   | 3 ++-
+ meta/recipes-devtools/gcc/gcc-cross.inc | 1 +
+ 4 files changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
+index 64701c8..05e02d9 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.9.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
+@@ -107,13 +107,14 @@ JAVA = ""
+ 
+ LTO = "--enable-lto"
+ 
++OECONF_HASH_STYLE = "--with-linker-hash-style=${LINKER_HASH_STYLE}"
+ EXTRA_OECONF_BASE = "\
+     ${LTO} \
++    ${OECONF_HASH_STYLE} \
+     --enable-libssp \
+     --disable-bootstrap \
+     --disable-libmudflap \
+     --with-system-zlib \
+-    --with-linker-hash-style=${LINKER_HASH_STYLE} \
+     --enable-linker-build-id \
+     --with-ppl=no \
+     --with-cloog=no \
+diff --git a/meta/recipes-devtools/gcc/gcc-5.3.inc b/meta/recipes-devtools/gcc/gcc-5.3.inc
+index 8613a10..faa1292 100644
+--- a/meta/recipes-devtools/gcc/gcc-5.3.inc
++++ b/meta/recipes-devtools/gcc/gcc-5.3.inc
+@@ -113,14 +113,15 @@ JAVA = ""
+ 
+ LTO = "--enable-lto"
+ 
++OECONF_HASH_STYLE = "--with-linker-hash-style=${LINKER_HASH_STYLE}"
+ EXTRA_OECONF_BASE = "\
+     ${LTO} \
++    ${OECONF_HASH_STYLE} \
+     --enable-libssp \
+     --enable-libitm \
+     --disable-bootstrap \
+     --disable-libmudflap \
+     --with-system-zlib \
+-    --with-linker-hash-style=${LINKER_HASH_STYLE} \
+     --enable-linker-build-id \
+     --with-ppl=no \
+     --with-cloog=no \
+diff --git a/meta/recipes-devtools/gcc/gcc-6.1.inc b/meta/recipes-devtools/gcc/gcc-6.1.inc
+index 1a00f3f..e3ff9cb 100644
+--- a/meta/recipes-devtools/gcc/gcc-6.1.inc
++++ b/meta/recipes-devtools/gcc/gcc-6.1.inc
+@@ -93,14 +93,15 @@ JAVA = ""
+ 
+ LTO = "--enable-lto"
+ 
++OECONF_HASH_STYLE = "--with-linker-hash-style=${LINKER_HASH_STYLE}"
+ EXTRA_OECONF_BASE = "\
+     ${LTO} \
++    ${OECONF_HASH_STYLE} \
+     --enable-libssp \
+     --enable-libitm \
+     --disable-bootstrap \
+     --disable-libmudflap \
+     --with-system-zlib \
+-    --with-linker-hash-style=${LINKER_HASH_STYLE} \
+     --enable-linker-build-id \
+     --with-ppl=no \
+     --with-cloog=no \
+diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc b/meta/recipes-devtools/gcc/gcc-cross.inc
+index f479360..850c63a 100644
+--- a/meta/recipes-devtools/gcc/gcc-cross.inc
++++ b/meta/recipes-devtools/gcc/gcc-cross.inc
+@@ -33,6 +33,7 @@ EXTRA_OECONF_PATHS = "\
+     --with-sysroot=/not/exist \
+     --with-build-sysroot=${STAGING_DIR_TARGET} \
+ "
++OECONF_HASH_STYLE = ""
+ 
+ ARCH_FLAGS_FOR_TARGET += "-isystem${STAGING_DIR_TARGET}${target_includedir}"
+ 
 -- 
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+2.8.0
 
---001a114748a27f2208053699098e
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Fri, Jul 1, 2016 at 1:39 PM, Christopher Larson <span dir=3D"ltr">&lt;<a=
- href=3D"mailto:kergoth@gmail.com" target=3D"_blank">kergoth@gmail.com</a>&=
-gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":a6" class=
-=3D"a3s aXjCH m155a8309fa19cc81">From: Christopher Larson &lt;<a href=3D"ma=
-ilto:chris_larson@mentor.com">chris_larson@mentor.com</a>&gt;<br>
-<br>
-This was rounded in python 2, but python 3 changed the default behavior of =
-/.<br>
-We could switch to the same behavior as previous by switching to // rather<=
-br>
-than /, but there&#39;s value in keeping at least one decimal point, to avo=
-id the<br>
-misleading case where it says 0% but the reuse is non-zero.<br>
-<br>
-Signed-off-by: Christopher Larson &lt;<a href=3D"mailto:chris_larson@mentor=
-.com">chris_larson@mentor.com</a>&gt;</div></blockquote></div><br>v2 change=
-s: fixed to correctly do the rounding as part of the string formatting.<br>=
--- <br><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><d=
-iv dir=3D"ltr">Christopher Larson<br>kergoth at gmail dot com<br>Founder - =
-BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software =
-Engineer, Mentor Graphics</div></div>
-</div></div>
-
---001a114748a27f2208053699098e--
