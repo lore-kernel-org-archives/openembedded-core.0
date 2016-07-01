@@ -1,20 +1,47 @@
-Return-Path: <humberto.ibarra.lopez@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 0DF926067C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f46.google.com (mail-it0-f46.google.com
+	[209.85.214.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 3417B60124
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Jul 2016 15:35:46 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP; 01 Jul 2016 08:35:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,557,1459839600"; d="scan'208";a="1009015596"
-Received: from jhibarra-mobl1.zpn.intel.com ([10.219.16.87])
-	by orsmga002.jf.intel.com with ESMTP; 01 Jul 2016 08:35:35 -0700
-From: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Jul 2016 10:37:24 -0500
-Message-Id: <1467387444-4550-1-git-send-email-humberto.ibarra.lopez@intel.com>
-X-Mailer: git-send-email 2.4.11
-Subject: [PATCH] scripts: Fixed typo in parameter that was causing exception
+	Fri,  1 Jul 2016 15:44:57 +0000 (UTC)
+Received: by mail-it0-f46.google.com with SMTP id h190so20049621ith.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 01 Jul 2016 08:44:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=UmvOqiBOupDS4i3q162wBZLuBFSlRnL3JTKs03EQ5oc=;
+	b=igxeYMBkNZQ7/RAEmzDOekQwaqdz3A3Y0Hl+oQ0fPjSY0BZtQG3h8ln+P2XtjL6vLP
+	nA29wfSugup7YQrHktQKfDDtMRjojleO8O5Slav6ksoB8s1wKunZTuocYHEaVkfQWjDX
+	g0V0YnS1KR/vcfWd7LBh05x37myjDbW3H2iwOc1l+8GeOHdYT5xx96MASDypNYCWZGgy
+	VubwzRbczXqETV+VyXFYQKYKUBAOhuP5BITzmITbNP+OAR8oIVZ5tzC6F7i5noUVxh44
+	JqY7fUIyfmRyblT/IlQUzuwZq/GDG8HyIENgIqaLBwAHfUzaAqFw4KyYqyW9kWiXVycW
+	cujw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=UmvOqiBOupDS4i3q162wBZLuBFSlRnL3JTKs03EQ5oc=;
+	b=czNiCZjmt/neS1How6UOiQcLrTRWjoO76NVt4fRqwRERa+zW5i+dWF8TQNkCucU6mo
+	WfyufTaUbYG+mEzay/BR6bcxtMBVlpYpJZ3szInnZfCYFSmroOAyVw2uEgGYj1OE+aXf
+	s6ZpJR/5HtXGRsz428VsQCr43CZgW0LO2tSjF0pfoCfLOK7RS9rNYzP9ysUY4c2PLRYw
+	pT3855kZ7IzgtZ/U6VSKIEXWFoMh8tdTaKCcv8SJ9Fk8SmB3u8aLEZjpWV2MTfMPA8zo
+	JUz5nys2BMs9fiYMSVUlLFEyWRMqgU1s3EIWmGbTdb3xVU+bEGy5VKFqVgnzy/mt+BRf
+	3IVQ==
+X-Gm-Message-State: ALyK8tImO1+0IO83ff39pgjr8I026FoRnVV8XPJQpy+dR2gl1GqnCIxhkVuM3eWoqZ0JfvagAOJ/oabO3CRsD3Ko
+X-Received: by 10.36.20.212 with SMTP id 203mr156535itg.83.1467387898570; Fri,
+	01 Jul 2016 08:44:58 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.142.151 with HTTP; Fri, 1 Jul 2016 08:44:39 -0700 (PDT)
+In-Reply-To: <1467371591-12270-4-git-send-email-maxin.john@intel.com>
+References: <1467371591-12270-1-git-send-email-maxin.john@intel.com>
+	<1467371591-12270-4-git-send-email-maxin.john@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 1 Jul 2016 16:44:39 +0100
+Message-ID: <CAJTo0LbeJ947NY76c-RZxxDZiFih9ZZ+Dk23Q+SvGEX4HUHH-A@mail.gmail.com>
+To: "Maxin B. John" <maxin.john@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/6] default-distrovars.inc: remove directfb from GTK2DISTROFEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,57 +54,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jul 2016 15:35:49 -0000
+X-List-Received-Date: Fri, 01 Jul 2016 15:44:58 -0000
+Content-Type: multipart/alternative; boundary=001a1143e19871479f053694de8d
 
-There is a typo in the logging parameters, "filname" is being used instead of "filename" for yocto-kernel, yocto-layer and wic scripts. This didn't cause issues before since python 2 didn't validate unused parameters but with python >= 3.4.3 an exception is thrown. This patch fixes this parameter name.
+--001a1143e19871479f053694de8d
+Content-Type: text/plain; charset=UTF-8
 
-[YOCTO #9834]
----
- scripts/wic          | 2 +-
- scripts/yocto-kernel | 2 +-
- scripts/yocto-layer  | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+On 1 July 2016 at 12:13, Maxin B. John <maxin.john@intel.com> wrote:
 
-diff --git a/scripts/wic b/scripts/wic
-index 9023755..fe2c33f 100755
---- a/scripts/wic
-+++ b/scripts/wic
-@@ -294,7 +294,7 @@ subcommands = {
- 
- 
- def start_logging(loglevel):
--    logging.basicConfig(filname='wic.log', filemode='w', level=loglevel)
-+    logging.basicConfig(filename='wic.log', filemode='w', level=loglevel)
- 
- 
- def main(argv):
-diff --git a/scripts/yocto-kernel b/scripts/yocto-kernel
-index fd97cb7..5c70d0c 100755
---- a/scripts/yocto-kernel
-+++ b/scripts/yocto-kernel
-@@ -351,7 +351,7 @@ subcommands = {
- 
- 
- def start_logging(loglevel):
--    logging.basicConfig(filname = 'yocto-kernel.log', filemode = 'w', level=loglevel)
-+    logging.basicConfig(filename = 'yocto-kernel.log', filemode = 'w', level=loglevel)
- 
- 
- def main():
-diff --git a/scripts/yocto-layer b/scripts/yocto-layer
-index a5267f2..d58faca 100755
---- a/scripts/yocto-layer
-+++ b/scripts/yocto-layer
-@@ -113,7 +113,7 @@ subcommands = {
- 
- 
- def start_logging(loglevel):
--    logging.basicConfig(filname = 'yocto-layer.log', filemode = 'w', level=loglevel)
-+    logging.basicConfig(filename = 'yocto-layer.log', filemode = 'w', level=loglevel)
- 
- 
- def main():
--- 
-2.4.11
+> -GTK2DISTROFEATURES = "directfb x11"
+> +GTK2DISTROFEATURES = "x11"
+>
 
+I think we should keep this, for people who want to use their own directfb
+recipe.
 
+Ross
+
+--001a1143e19871479f053694de8d
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 1 July 2016 at 12:13, Maxin B. John <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:maxin.john@intel.com" target=3D"_blank">maxin.john@intel.com</a>&gt;</s=
+pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
+;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":dc8" class=3D"a3s=
+ aXjCH m155a62b320397aea">-GTK2DISTROFEATURES =3D &quot;directfb x11&quot;<=
+br>
++GTK2DISTROFEATURES =3D &quot;x11&quot;<br></div></blockquote></div><br>I t=
+hink we should keep this, for people who want to use their own directfb rec=
+ipe.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">R=
+oss</div></div>
+
+--001a1143e19871479f053694de8d--
