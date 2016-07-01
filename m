@@ -1,43 +1,43 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-pa0-f67.google.com (mail-pa0-f67.google.com
-	[209.85.220.67])
-	by mail.openembedded.org (Postfix) with ESMTP id CE53C60124
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 8094A6012C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Jul 2016 20:40:07 +0000 (UTC)
-Received: by mail-pa0-f67.google.com with SMTP id ts6so10486496pac.0
+	Fri,  1 Jul 2016 20:42:33 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id 66so10789123pfy.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Jul 2016 13:40:08 -0700 (PDT)
+	Fri, 01 Jul 2016 13:42:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id;
 	bh=TjFpDschnTCuk+k/VP0awppe/ZPqfbdo3qVoyKhltIE=;
-	b=SGd+b9fBNHZztYVtfsPdNX1lp85Pmnkt/cmpAkM/PM3TkoYv2FhT+8AUVFKmcYGXpZ
-	FjIjTGThagneniRW5ktVOYddDISW0IwgJh29zvaBCQKk8qHTyh3sQcX8cMtpVYgq5Qg6
-	wh+8NsSDFiqZ/4T2ujxJKE3MtC5aG0uYyB9oRS0VJjta4flMaxwvZZEkE9Sdu0VtaR09
-	DFmnIYuXbpPVXnfWqFYKrGRWeqzjpxUdPp+V7BQMwoC8v7VGMjBl3RjQ9JVssTrz/QN3
-	zib73fiiwhT5DxMbf119VaMkYoWXUjiFUWAT4DFHcsS7sTXMempWczrs/PiAkWZ5QQnW
-	pdeA==
+	b=vncZnbEa8EVbWkr0qfzLvIJsMZfICTagW7IQLdwO1hZHB8LpaSGSF9b/CItu+ZBY+x
+	qmZfK66SHfqYESK+SGGv4mvFYBQmkP789iJHD3IwnehtlX+UTCUTMBeyuhgi08azj8Gn
+	XSDUUisF9t2aJIUyf0fRUnaxp8nBKIv+IILKicurtzMTmyLL4JMcQVMO9nGhVWsAfi1H
+	zOoxydJMZB0KoouSvQxK9neJM5vxzF8g+Jme8hXNWQtyjMofuOA8e5B8swJ2CFuHsT//
+	/oD9oEr3z7ZrSphVilKNl+ZpsHNmbL1grReSa3b8glVIpxZtYz2KgLP97eqG/0d60we0
+	osvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
 	bh=TjFpDschnTCuk+k/VP0awppe/ZPqfbdo3qVoyKhltIE=;
-	b=UKXrfq2CHULTWJCpxpAbRgbcmR2HS+0nM7ktFEAz64Jt1YN+8KPwHwdg9DRMlNrQJf
-	5iNTS5TKXy765nTRR+/VOPbeLL4aGkuMopgt+pyqP/VdmMwM//r7ezVM0V26Zrf768wr
-	vo+6MY/NxPbVeO2DMvlSBFkNpjbvSiMT0W3yGYH4zPyjdbpWbfBv8fodqgcYXjUjyCoK
-	Rau+nNc5dCzrSvicGgJKLiLN8wEKAUjJ4VfvhYvcwAuowaUmMcPBne3DMdmGhunYjm20
-	8yj6ZlRUusvMCI3iFsD2HEWVQNsoMOkNSwvAgmgumOouxhKRyK9gZFDAlFIOTedd5YE2
-	Lacg==
-X-Gm-Message-State: ALyK8tLTRnLnMMntcr+eR80cfroeOZOoKo1ekZT7bCXJ6fUifwVpj/FiAfTS+2orIfzLoA==
-X-Received: by 10.66.118.169 with SMTP id kn9mr247950pab.109.1467405607995;
-	Fri, 01 Jul 2016 13:40:07 -0700 (PDT)
+	b=isegP1PWRnI4s/1Ryux70nlbsN3o1BpQyJelZLs0ldeo8UxQ6cztOjnyOFC27pGbT0
+	los5EvXCISKBeQBO1E1aII89xLYpQapfkCl4T1AbAw/z4Kgx6DAG27NALtg9EsuLMfly
+	znQavR6e9HanShow4KYbR2lJtYNruug9pyjgSwqJWNh3En/fIzgkuXiwgrKZM7Lc8/eE
+	/nCnogzpnSkUN0Ow7/Q3fDw4JHzyxX2/cIOAEyX7vG61dUxw+q/N7dIYabQX0jrW6lfI
+	leC5WsyqJiAaBXTEP08F5Y+taXu+FMzeAJ4uDdkN6B/HYaP++7ZX8jIbJtXxKzZj3BFA
+	vZ6Q==
+X-Gm-Message-State: ALyK8tKQJ3SfxTq5pqiWrawngJCAZ9RrTG5GnGEXwpLi13yAB1MqgxgzZcCpaDmccRzKjg==
+X-Received: by 10.98.38.69 with SMTP id m66mr299757pfm.57.1467405754674;
+	Fri, 01 Jul 2016 13:42:34 -0700 (PDT)
 Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
 	by smtp.gmail.com with ESMTPSA id
-	b71sm7748827pfc.51.2016.07.01.13.40.06
+	o22sm7729561pfa.15.2016.07.01.13.42.33
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 01 Jul 2016 13:40:06 -0700 (PDT)
+	Fri, 01 Jul 2016 13:42:33 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Jul 2016 13:39:50 -0700
-Message-Id: <1467405590-12602-1-git-send-email-kergoth@gmail.com>
+Date: Fri,  1 Jul 2016 13:42:30 -0700
+Message-Id: <1467405750-13691-1-git-send-email-kergoth@gmail.com>
 X-Mailer: git-send-email 2.8.0
 Cc: Christopher Larson <chris_larson@mentor.com>
 Subject: [PATCHv2] buildstats-summary: round the floating point percentage
@@ -53,7 +53,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jul 2016 20:40:08 -0000
+X-List-Received-Date: Fri, 01 Jul 2016 20:42:37 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
