@@ -1,61 +1,45 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-vk0-f66.google.com (mail-vk0-f66.google.com
-	[209.85.213.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 9FCFB60124
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 026F960124
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Jul 2016 17:51:01 +0000 (UTC)
-Received: by mail-vk0-f66.google.com with SMTP id v190so16603804vka.0
+	Fri,  1 Jul 2016 18:23:12 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id t190so10582823pfb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Jul 2016 10:51:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=5EP+QkG0WOnNfungJQ57ZKAkntnsVwcSv/TCXhW4oa4=;
-	b=XBSnY5rmoubqTwt+/l+UMd6uXK7o9YRP4XfjuMoWVFQiYw+pBzJC38TuwUIFOZBIwg
-	e3fGxzHYmPhtkg7eRJ9loeyLVpZsMHKd/m6izmVyGRg27e/n10uFYt85LPWEEGgFFUXJ
-	RzmLj3v239nHDTkvGU83Jc5rZCcet8HnNTIb+QSqvaT1S4CvL7vgYYcbs1HnU1KCTHlw
-	0kyfY5f3AugKPtyW9BzTuL5RmJBe+E1kWtL+B7gE4aMrfrdz9HJPjiG5jhqeIq1hBbhS
-	mMHNEo8Vw+aPO0YvoifmAcZjmF8nUgFhiLZsNm1+ZsKvXfnyNKDVj/O1xqDTge6qL4KD
-	o8SA==
+	Fri, 01 Jul 2016 11:23:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=yt2ccemhWlpIoHiETZi0F6Mi+RJ+hjdy71yrSH+fAOA=;
+	b=VQY1FbzelG3VJXGxaAAEJZWimoNn+JDowCJ1v1Qyd7jAB8MlnMhzvg1ccc8h73nVii
+	mJkKSe4xQPSIrW7nUsmH7+FODRTbK7x8sirXrCKL63GsjtyExUU7ttneWJG208msclEI
+	D3eAAamtKfavHqmlGNOQZcocRsVT8Dzh1Bo9i1VZNVS53I1GJElHWKxaJTxh/apcHe7h
+	eOH+vCESinOdAzd9AIN2WwJ1JUtiiKuVGtZC3Zu6/dNoFVtfThUIsvsOV8wn6see3gpw
+	pWcNfFDOn0cQa1aNit5ij5kSCUkMVClSjeocuofBY9vcvgxYSq+5sgGFo6x/CR49QJ3r
+	AvjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=5EP+QkG0WOnNfungJQ57ZKAkntnsVwcSv/TCXhW4oa4=;
-	b=SubwIUC2Yhv23tOy1VJKrI7zpORcOCyVRBJFm+FeBwak8AwsmVh4z7/9yfR+GtC0Qn
-	iqsY+SzhgV5mLSjuaOAtq6P3svxQcnCJrDMEdswJ5Z1ZW2Hn3WqdeLvFH7uAMelC7Axz
-	1VaN5ZXV6nZdITPpCMREeKar1+eyuo9kXE4V+TEaan16M6hanP7R8AYAVj63Qx5kgy+W
-	Wz2DuHL3Qop4D+3zD3J4ekE8Tfmh6PjBp+rKRXeD+Q+PH+03QoZfjb051PZlkZh5wjkv
-	0I9dW8cDQZrAmjLe1NtlN4QJDkx4K0VE7RG8lnsO41PnAu5By2hs8TEjB28Y7j2ZSPsa
-	5tbg==
-X-Gm-Message-State: ALyK8tJJ47qKjwTV6L0vQJANb8PKKPLp0N9R/pd3z5CoKVpKE4wWbERNxlTbpsK0k1S/OQ==
-X-Received: by 10.31.199.6 with SMTP id x6mr10454198vkf.17.1467395461152;
-	Fri, 01 Jul 2016 10:51:01 -0700 (PDT)
-Received: from mail-vk0-f50.google.com (mail-vk0-f50.google.com.
-	[209.85.213.50]) by smtp.gmail.com with ESMTPSA id
-	a67sm2402674vke.16.2016.07.01.10.50.59
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=yt2ccemhWlpIoHiETZi0F6Mi+RJ+hjdy71yrSH+fAOA=;
+	b=iegUP3sbNWgs5vKdrz+nYZeDbuZ00QsaSpmRTau1F8jHaHRsunwFOgkbJ8F6VOpdYQ
+	oQ49FZign7XB6WzsRF6+064LRowdEEIkvgj/JW561A2cstGXtKj5RhLbthfjyDjiMn6n
+	GIk40Yt9OjcdfAIjX5azqX39dNQGnm1wKSczfVyEDuWrHIRCFrbUiZx/F+q3i1tTZck3
+	DJe4r9vMJVAKwQgJ443RY4NQO9hu1XRnRtcwaVMXLDrRSayTofmrKLXnA87u40hJIfEz
+	ot8ope9igrdO6s37i5lvy3Wols0V3rRczSYJzLRaUat98Uh1b9aRveFEq25gaQdDCAyC
+	neNg==
+X-Gm-Message-State: ALyK8tI9mdHg5zAYgnnriWeOVRDcIWzBcG555MtWvgrUMNYYdLhzOg8cw9XGi+YpvAQoKA==
+X-Received: by 10.98.4.193 with SMTP id 184mr33622998pfe.98.1467397393411;
+	Fri, 01 Jul 2016 11:23:13 -0700 (PDT)
+Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
+	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
+	zo15sm7381680pab.15.2016.07.01.11.23.12
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 01 Jul 2016 10:50:59 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-vk0-f50.google.com with SMTP id m127so102922788vkb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Jul 2016 10:50:59 -0700 (PDT)
-X-Received: by 10.31.161.81 with SMTP id k78mr10134111vke.122.1467395459368;
-	Fri, 01 Jul 2016 10:50:59 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.31.192.195 with HTTP; Fri, 1 Jul 2016 10:50:58 -0700 (PDT)
-In-Reply-To: <25bb70f088ffb603e1f389b7657c1fbf3f2871bb.1467378176.git.patrick.ohly@intel.com>
-References: <cover.1467378176.git.patrick.ohly@intel.com>
-	<25bb70f088ffb603e1f389b7657c1fbf3f2871bb.1467378176.git.patrick.ohly@intel.com>
-Date: Fri, 1 Jul 2016 14:50:58 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKo=BAgtk8iUbSgcOVh4+uVW-SBuEri6f8MkRH2qXfpVSw@mail.gmail.com>
-Message-ID: <CAP9ODKo=BAgtk8iUbSgcOVh4+uVW-SBuEri6f8MkRH2qXfpVSw@mail.gmail.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] meta-ostro-fixes: initramfs-framework: add retry loop for slow boot devices (like USB)
+	Fri, 01 Jul 2016 11:23:12 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  1 Jul 2016 11:23:07 -0700
+Message-Id: <20160701182307.25464-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.9.0
+Subject: [PATCH] glibc: Upgrade to latest tip of master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,31 +52,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jul 2016 17:51:01 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 01 Jul 2016 18:23:13 -0000
 
-On Fri, Jul 1, 2016 at 10:53 AM, Patrick Ohly <patrick.ohly@intel.com> wrote:
-> On some hardware platforms (Gigabyte, qemu), detection of USB devices
-> by the kernel is slow enough such that it happens only after the first
-> attempt to mount the rootfs. We need to keep trying for a while
-> (default: 5s seconds, controlled by roottimeout=<seconds>) and sleep
-> between each attempt (default: one second, rootdelay=<seconds>).
->
-> This change intentionally splits finding the rootfs (in the new
-> "rootfs") and switching to it ("finish"). That is needed to keep udev
-> running while waiting for the rootfs, because it shuts down before
-> "finish" starts. It is also the direction that was discussed on the OE
-> mailing list for future changes to initramfs-framework (like
-> supporting a "live CD" module, which would replace or further augment
-> mounting of the rootfs).
->
-> Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+Stepping towards 2.24 release
 
-Agreed but please split the rootfs in another module; so we don't
-force it to be included. The e2fs can rdepend on it.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/glibc/cross-localedef-native_2.24.bb | 2 +-
+ meta/recipes-core/glibc/glibc_2.24.bb                  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/meta/recipes-core/glibc/cross-localedef-native_2.24.bb b/meta/recipes-core/glibc/cross-localedef-native_2.24.bb
+index 79c3132..c921211 100644
+--- a/meta/recipes-core/glibc/cross-localedef-native_2.24.bb
++++ b/meta/recipes-core/glibc/cross-localedef-native_2.24.bb
+@@ -22,7 +22,7 @@ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
+ SRCBRANCH ?= "master"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+(\.\d+)*)"
+ 
+-SRCREV_glibc ?= "1ac3eaa6bcc473a56340c24511786ff48a91293e"
++SRCREV_glibc ?= "76a0b73e8102c5bfb5cb791e34992472f5d1d33e"
+ SRCREV_localedef ?= "29869b6dc11427c5bab839bdb155c85a7c644c71"
+ 
+ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+diff --git a/meta/recipes-core/glibc/glibc_2.24.bb b/meta/recipes-core/glibc/glibc_2.24.bb
+index 77630e3..a5e1ad6 100644
+--- a/meta/recipes-core/glibc/glibc_2.24.bb
++++ b/meta/recipes-core/glibc/glibc_2.24.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b36d3209f380deb394b213 \
+ 
+ DEPENDS += "gperf-native"
+ 
+-SRCREV ?= "1ac3eaa6bcc473a56340c24511786ff48a91293e"
++SRCREV ?= "76a0b73e8102c5bfb5cb791e34992472f5d1d33e"
+ 
+ #SRCBRANCH ?= "release/${PV}/master"
+ SRCBRANCH ?= "master"
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.9.0
+
 
