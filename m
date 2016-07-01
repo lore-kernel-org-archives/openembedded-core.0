@@ -1,29 +1,46 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 360E06FF6B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 874D660111
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Jul 2016 11:13:48 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 01 Jul 2016 04:13:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,556,1459839600"; d="scan'208";a="998717015"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga001.fm.intel.com with ESMTP; 01 Jul 2016 04:13:46 -0700
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id DBA182C8001
+	Fri,  1 Jul 2016 12:29:02 +0000 (UTC)
+Received: by mail-wm0-f43.google.com with SMTP id a66so27230065wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Jul 2016 04:13:40 -0700 (PDT)
-From: "Maxin B. John" <maxin.john@intel.com>
+	Fri, 01 Jul 2016 05:29:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=vaARyGkexyP1NJIcxqPBnLMnd8P+CPq+3Yam4PQWnXQ=;
+	b=MmX/WGRG38N4ryY4I3TovdmfGwK6w5YYBor9voha9zHwL8hVsNakK/Z0WUVQIhTYcl
+	qk415vrlfw7yiaToKUd9qXsvtL2CbEU3ydjjAMrtGLGdLDDFzSeRVpXLyHNYTHj/j9nZ
+	2bPB2KXks0aTGsAjmsDTlufS8G1Eo+TOspr29MfkWPKn23/SOSmZLOoFAqakuM0yAi8p
+	6qNtaIBVEs5Bn4DenLqnJZHEKyNF+bwASbOQSB2BYfEGJ+BAy9ykFyXd9ybC/d305Gxf
+	cGbjfA80ES1n1T+jd22SRx3mnx60WLXQvg9FDVVjZ2u/GNLKTeJ8TNnrTl7wDsVn0Gcv
+	HTdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=vaARyGkexyP1NJIcxqPBnLMnd8P+CPq+3Yam4PQWnXQ=;
+	b=hoOs/BncKoy5NKr414sL//fchxPlMe/9kFA6ay8oRkoCug/wW9XzxO7vaR8MM4qZXf
+	+qyn3vRW5CzAaGu9HfWayls7pJEICPVLK/zmUIlTd/jRXnOiOfKS5Qr/O+Q68qKEq+Uc
+	keHPkfQuwCIlqvvVqiQIOF8R3l86ZBZf6KVaJbtAQMtUoR53KyzX7sqS/0l90uEJQp7Z
+	LKnvZlOBqXepXgAOeCmn8tFG9nDEgIujXCJYGrwCIrQsGXQkrMm1ueRSgFkgFvDCSWDC
+	Gk+Q2M59EzpnH7AkjiZ3NTp13EKOs7UaY1lY9yuPKA9Wy9w1Tu7X2FQ7SfKZb/UhJq9K
+	H7AA==
+X-Gm-Message-State: ALyK8tLZI5LA4G9V1l4MZ+P8DpTjSh6dlZAAN5iOpPJnz7E+1r52JJD7ns0hp4aHYXNKnutv
+X-Received: by 10.194.203.233 with SMTP id kt9mr3422502wjc.75.1467376142410;
+	Fri, 01 Jul 2016 05:29:02 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	hf7sm8111027wjc.48.2016.07.01.05.29.01
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 01 Jul 2016 05:29:01 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Jul 2016 14:13:10 +0300
-Message-Id: <1467371591-12270-6-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-In-Reply-To: <1467371591-12270-1-git-send-email-maxin.john@intel.com>
-References: <1467371591-12270-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 5/6] buildoptions.py: remove directfb image build test
+Date: Fri,  1 Jul 2016 13:28:55 +0100
+Message-Id: <1467376136-19506-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH 1/2] gcc: remove unused patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,40 +53,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jul 2016 11:13:48 -0000
+X-List-Received-Date: Fri, 01 Jul 2016 12:29:03 -0000
 
-removing this test since we move directfb out of oe-core
-
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/lib/oeqa/selftest/buildoptions.py | 13 -------------
- 1 file changed, 13 deletions(-)
+ ...-Symlink-c-header-in-target_triplet-for-S.patch | 49 ----------------------
+ 1 file changed, 49 deletions(-)
+ delete mode 100644 meta/recipes-devtools/gcc/0001-gcc-runtime-Symlink-c-header-in-target_triplet-for-S.patch
 
-diff --git a/meta/lib/oeqa/selftest/buildoptions.py b/meta/lib/oeqa/selftest/buildoptions.py
-index b6151d7..4d01921 100644
---- a/meta/lib/oeqa/selftest/buildoptions.py
-+++ b/meta/lib/oeqa/selftest/buildoptions.py
-@@ -199,19 +199,6 @@ class BuildhistoryTests(BuildhistoryBase):
-         self.run_buildhistory_operation(target, target_config="PR = \"r1\"", change_bh_location=True)
-         self.run_buildhistory_operation(target, target_config="PR = \"r0\"", change_bh_location=False, expect_error=True, error_regex=error)
- 
+diff --git a/meta/recipes-devtools/gcc/0001-gcc-runtime-Symlink-c-header-in-target_triplet-for-S.patch b/meta/recipes-devtools/gcc/0001-gcc-runtime-Symlink-c-header-in-target_triplet-for-S.patch
+deleted file mode 100644
+index c598a0d..0000000
+--- a/meta/recipes-devtools/gcc/0001-gcc-runtime-Symlink-c-header-in-target_triplet-for-S.patch
++++ /dev/null
+@@ -1,49 +0,0 @@
+-From 0ef3d75514ee5a74b7c04ea36423cff97843fbb8 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Tue, 10 May 2016 01:07:24 -0700
+-Subject: [PATCH] gcc-runtime: Symlink c++ header in target_triplet for SDK use
 -
--class BuildImagesTest(oeSelfTest):
--    @testcase(563)
--    def test_directfb(self):
--        """
--        This method is used to test the build of directfb image for arm arch.
--        In essence we build a coreimagedirectfb and test the exitcode of bitbake that in case of success is 0.
--        """
--        self.add_command_to_tearDown('cleanup-workdir')
--        self.write_config("DISTRO_FEATURES_remove = \"x11\"\nDISTRO_FEATURES_append = \" directfb\"\nMACHINE ??= \"qemuarm\"")
--        res = bitbake("core-image-directfb", ignore_status=True)
--        self.assertEqual(res.status, 0, "\ncoreimagedirectfb failed to build. Please check logs for further details.\nbitbake output %s" % res.output)
+-We build SDKs such that gcc-cross-candian is built for only one
+-target *-*-linux and then use -muclibc or -mmusl to let it compile
+-code for other libc variants. This works fine when libc = glibc
+-however it does not work for c++ programs when libc != glibc since
+-there are c++ headers installed under ${includedir}/c++/${BINV}/${TARGET_SYS}
+-which is fine when gcc-runtime and gcc-cross-candian uses same --target options
+-gxx includedir searches in right triplet, but it fails with musl/uclibc
+-since gcc will look for glibc based triplet but gcc-runtime will install
+-them under musl/uclibc triplet.
 -
- class ArchiverTest(oeSelfTest):
-     @testcase(926)
-     def test_arch_work_dir_and_export_source(self):
+-This patch symlinks the musl/uclibc triplet to glibc triplet when libc != glibc
+-
+-This fixes SDKs for musl/uclibc
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- meta/recipes-devtools/gcc/gcc-runtime.inc | 6 ++++--
+- 1 file changed, 4 insertions(+), 2 deletions(-)
+-
+-diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
+-index 8639c1c..8e4d5eb 100644
+---- a/meta/recipes-devtools/gcc/gcc-runtime.inc
+-+++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+-@@ -70,13 +70,15 @@ do_install () {
+- 	if [ -d ${D}${infodir} ]; then
+- 		rmdir --ignore-fail-on-non-empty -p ${D}${infodir}
+- 	fi
+-+}
+-+
+-+do_install_append_class-target () {
+- 	if [ "${TARGET_VENDOR_MULTILIB_ORIGINAL}" != "" -a "${TARGET_VENDOR}" != "${TARGET_VENDOR_MULTILIB_ORIGINAL}" ]; then
+- 		ln -s ${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-${TARGET_OS}
+- 	fi
+--	if [ "${TARGET_OS}" = "linux-gnuspe" ]; then
+-+	if [ "${TARGET_OS}" = "linux-gnuspe" -o "${TCLIBC}" != "glibc" ]; then
+- 		ln -s ${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux
+- 	fi
+--	chown -R root:root ${D}
+- }
+- 
+- INHIBIT_DEFAULT_DEPS = "1"
+--- 
+-2.8.2
+-
 -- 
-2.4.0
+2.8.1
 
 
