@@ -1,38 +1,51 @@
-Return-Path: <embedded@die-kriestens.de>
-Received: from outbound1.flatbooster.com (outbound1.flatbooster.com
-	[84.200.50.201])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A18B60111
+Return-Path: <mhalstead@linuxfoundation.org>
+Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
+	[209.85.220.47])
+	by mail.openembedded.org (Postfix) with ESMTP id B130860111
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Jul 2016 05:49:25 +0000 (UTC)
-Received: from localhost (outbound1.flatbooster.com [127.0.0.1])
-	by outbound1.flatbooster.com (Postfix) with ESMTP id 10BC66D642A5;
-	Fri,  1 Jul 2016 07:49:25 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at outbound1.flatbooster.com
-Received: from outbound1.flatbooster.com ([127.0.0.1])
-	by localhost (outbound1.flatbooster.com [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id o_mTVcBKjjHQ; Fri,  1 Jul 2016 07:49:24 +0200 (CEST)
-Received: from rex23.flatbooster.com (rex23b.flatbooster.com [93.186.195.156])
-	by outbound1.flatbooster.com (Postfix) with ESMTPS;
-	Fri,  1 Jul 2016 07:49:24 +0200 (CEST)
-Received: from [10.53.10.54] (e-248-163.hrz.tu-chemnitz.de [134.109.248.163])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested) (Authenticated sender: web130220p1)
-	by rex23.flatbooster.com (Postfix) with ESMTPSA id CEAAF1B2A24;
-	Fri,  1 Jul 2016 07:49:23 +0200 (CEST)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-From: Daniel Kriesten <embedded@die-kriestens.de>
-In-Reply-To: <CAJTo0La_VCQ5P1ELePTyLQLU_Zy3rC6z+qh24ZtMcGJ7_FKg3Q@mail.gmail.com>
-Date: Fri, 1 Jul 2016 07:49:23 +0200
-Message-Id: <CBCA3234-905B-4408-B26F-B78D1B2A2719@die-kriestens.de>
-References: <1586B03B-3244-4FB3-82F7-803CFD983532@die-kriestens.de>
-	<CAJTo0LbuTrNE4kemiZK_yEqUFo4CN9TJJLZzqwTjzVK=xuK1MA@mail.gmail.com>
-	<D94025A2-518C-4CC8-AE9C-93DB39CDD687@die-kriestens.de>
-	<CAJTo0La_VCQ5P1ELePTyLQLU_Zy3rC6z+qh24ZtMcGJ7_FKg3Q@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.3124)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Building Perl-5.22.1-r0 on Arch Linux fails with QA Issue
+	Fri,  1 Jul 2016 07:37:57 +0000 (UTC)
+Received: by mail-pa0-f47.google.com with SMTP id bz2so36412084pad.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 01 Jul 2016 00:37:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding;
+	bh=plHsSs825T1X2YKqFlyZfztmyqe00mAo3vG3O0+Dp0s=;
+	b=FsQsA4aHS7Tk3Ki1eC7vo20nEvpUfX5TUt+cACaMQ11L0rDeNGPAcFIlSas1hbA2ke
+	jY+qQCIO8zdXXeOu64ul0iR2Y0zKSmjJ12rWTxaCALZEGPyizxRjmegm0nymlY8oNijI
+	08uPI47Vl+FelS1qVT5ddMD2ar03ZrsY7RdPM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=plHsSs825T1X2YKqFlyZfztmyqe00mAo3vG3O0+Dp0s=;
+	b=A6Tgd2lFl9xFpfrzzFu1qGDPLMO6ClnC3907c7qFb3VKcRlFpFFORSKURXlyCCXAxh
+	jH0wVaV8Qr9w1zmodiONfH82s+Zq94uCYOHTa5gD2uP0XVzQjr7jSyRjHiMfzxQTkv/s
+	n33nvzT2nTcev+w7J1tDARlW34loAYDvA/y1rJ0QY0tpcbfeyPBSgdAkUrKt+3Fzxdfz
+	cT6WVlbG2rdokWzvF8XLHhlOvc/APVZrKEvLRG0dSEt4s02pEhdEFBtv2VG0Wo20THAV
+	w9QSpJMJ226A1mS2YInya/Wo/1cAa7aq/T1qi1Lt5IAGzBi8YVkGOnJZ3qMa8QM1+VoQ
+	1jWQ==
+X-Gm-Message-State: ALyK8tJL2LaFBhHWylBvEWT2SE+w7IZxK5GLq3rSbr+LAEBFHMTOtuPu9raiF4JGgxbj1+6G
+X-Received: by 10.66.75.72 with SMTP id a8mr28608288paw.99.1467358677767;
+	Fri, 01 Jul 2016 00:37:57 -0700 (PDT)
+Received: from yct-desktop.lan ([2001:470:b:16e:222:4dff:fe50:c906])
+	by smtp.gmail.com with ESMTPSA id
+	i68sm2838035pfe.64.2016.07.01.00.37.56
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 01 Jul 2016 00:37:56 -0700 (PDT)
+To: openembedded-core@lists.openembedded.org
+References: <ae4e2654-ca20-85d1-d53b-b0b05ab25a26@linuxfoundation.org>
+	<CAMKF1srZ=NCMop1BWgZ9PACGJEjVguDngZT4tcAt0jqnBZt_rA@mail.gmail.com>
+From: Michael Halstead <mhalstead@linuxfoundation.org>
+Message-ID: <a4af0a4c-f6f2-a46d-2a0c-97220b0c3dc4@linuxfoundation.org>
+Date: Fri, 1 Jul 2016 00:37:55 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.1.1
+MIME-Version: 1.0
+In-Reply-To: <CAMKF1srZ=NCMop1BWgZ9PACGJEjVguDngZT4tcAt0jqnBZt_rA@mail.gmail.com>
+Subject: Re: [oe] Patchwork upgrade tonight
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,54 +58,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jul 2016 05:49:26 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 01 Jul 2016 07:37:59 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-> Am 30.06.2016 um 18:56 schrieb Burton, Ross <ross.burton@intel.com>:
->=20
->=20
-> On 30 June 2016 at 07:03, Daniel Kriesten <embedded@die-kriestens.de> =
-wrote:
-> ERROR: perl-5.22.1-r0 do_package: objcopy failed with exit code 256 =
-(cmd was 'arm-poky-linux-gnueabi-objcopy' --only-keep-debug =
-'/home/krid/Develop/Yocto/fsl-community-bsp/build-imx6q-elo/tmp/work/corte=
-xa9hf-neon-poky-linux-gnueabi/perl/5.22.1-r0/package/usr/lib/perl/ptest/ge=
-nerate_uudmap' =
-'/home/krid/Develop/Yocto/fsl-community-bsp/build-imx6q-elo/tmp/work/corte=
-xa9hf-neon-poky-linux-gnueabi/perl/5.22.1-r0/package/usr/lib/perl/ptest/.d=
-ebug/generate_uudmap'):
-> =
-arm-poky-linux-gnueabi-objcopy:/home/krid/Develop/Yocto/fsl-community-bsp/=
-build-imx6q-elo/tmp/work/cortexa9hf-neon-poky-linux-gnueabi/perl/5.22.1-r0=
-/package/usr/lib/perl/ptest/generate_uudmap: File format not recognized
->=20
-> Can you run file on the binary that objdump is complaining about?
-> =
-(/home/krid/Develop/Yocto/fsl-community-bsp/build-imx6q-elo/tmp/work/corte=
-xa9hf-neon-poky-linux-gnueabi/perl/5.22.1-r0/package/usr/lib/perl/ptest/ge=
-nerate_uudmap)
+The new patchwork is in place at https://patchwork.openembedded.org/.
+The performance changes appear to be working well. Please e-mail if you
+notice any problems.
 
-$ file =
-/home/krid/Develop/Yocto/fsl-community-bsp/build-imx6q-elo/tmp/work/cortex=
-a9hf-neon-poky-linux-gnueabi/perl/5.22.1-r0/package/usr/lib/perl/ptest/gen=
-erate_uudmap
-=
-/home/krid/Develop/Yocto/fsl-community-bsp/build-imx6q-elo/tmp/work/cortex=
-a9hf-neon-poky-linux-gnueabi/perl/5.22.1-r0/package/usr/lib/perl/ptest/gen=
-erate_uudmap: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), =
-dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for =
-GNU/Linux 2.6.32, =
-BuildID[sha1]=3D48ab21d6bc4545ce1c9b695001a5179192c40d9a, not stripped
+On 06/30/2016 04:11 PM, Khem Raj wrote:
+> On Thu, Jun 30, 2016 at 4:03 PM, Michael Halstead
+> <mhalstead@linuxfoundation.org> wrote:
+>> Please reach out if you have concerns.
+> 
+> Hi Mike
+> 
+> I have been playing with the new instance no issues so far. Send a
+> note when you bring down the system and again another when its all up.
+> 
+There should have been no down time. Both systems remain running and the
+cut over was done with a DNS change.
 
-So this one is build for the host, not the target =E2=80=A6
-
-With kind regards
-	Daniel
-
---=20
-Daniel Kriesten
-daniel@die-kriestens.de
-http://www.die-kriestens.de
-
+-- 
+Michael Halstead
+Linux Foundation / SysAdmin
 
