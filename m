@@ -1,45 +1,48 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
-	[209.85.220.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 172DB60124
+Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
+	[209.85.220.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 10C436067C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Jul 2016 21:27:05 +0000 (UTC)
-Received: by mail-qk0-f195.google.com with SMTP id r68so23520647qka.3
+	Fri,  1 Jul 2016 21:27:14 +0000 (UTC)
+Received: by mail-qk0-f193.google.com with SMTP id t2so3096376qkh.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Jul 2016 14:27:06 -0700 (PDT)
+	Fri, 01 Jul 2016 14:27:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=43QoC6WkQKHOHT9ztyMPkACkqMaw+HPq+aaTHpyR3L0=;
-	b=z0NdY9Xcz5w7KecIiKp8nc0uRuvndJ6ojD1K25D8RXNTk113aaBjSLfSVQhZg9q13T
-	hnS65h5nEKK8ouI6dzjPP/h4sDrnPaRy1pdG3cqNsUBbqjYv+so0jOEA3wRNGDetHDYf
-	As3FKeS9q7rhzV53th9TwFERxrJMKEoYBNP00hGesEthw8mvptd7DM2FvmSf/qEIRizK
-	Z58oZAJV2bVUflHfX8AgUYs+1a4NrOQPiw1uVZYjTHMvEvXymaE7jm89P8q5jCzS71Cd
-	MYIX/UKCBoW0hvzzQNm1DhfVR1roII6vr0szqCKuta5BIyqXIzQlVL6o0yKgaCWsQI74
-	qQXw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=RE6Kl9zpjkGUgDoRAq4y3Y6W5F1oyKZPHT+zx8pZh3k=;
+	b=ily+Mm/JeFomQH/c1Jy7Q65zveL0HwNhAeecKqfG1UGl1EMuTB/QkA85LYfIw9DwEG
+	GgC+HmtDHlsTxf7z12KFVjbiAzeUW4Ks8kN7Vz8B8EyoxQT5WYnO6ASeHYKvigHrxshi
+	7zXWC+GvxDbmUmn/1Z1irREMiC9KkLbSxP451mV7JSEmN61nhA03eYdg6ZQsBuSvtWIu
+	sa0+KGuIwCuUdFlvl8NsTnjy/IRMWE7LUT1GFbU2F2t1FJk7EZIgj3GOf1GfHtVgqYRe
+	/rAsshTV9Iu6USJoUQsNDMawnGJr1nvCZwP9uCPfo2SuXaS4pjqP1JVvA4mIXiTVD02Z
+	VsjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=43QoC6WkQKHOHT9ztyMPkACkqMaw+HPq+aaTHpyR3L0=;
-	b=H7GLXIFDmlrCp6CODe+rhpUPbPOAxzuwybCvmCLSeE4gqewOsBsMk9hgGqo3u+1gTj
-	7Dfi2yEiQUYtbfVPkw4hzpyNAjS+8tWPrbbz0hpzdHs8mr/EQXIkX2XJpgJ+CUATvd+B
-	EmvZcRgDxtAwAcot8v6XrAqojtsI3oCF+jQEIgUY+aW3V8oWXVuiNqffEu2ozOWSghYO
-	/2HibzPxCecgSo8U/NNKT1EVUXGjUUkrd/DBWLWystVQ99kdTuNy+3j0LFcskg+Oj/ZD
-	06iKKkygyyH20XWWjB6uTyuZyDY9IjrHMRz80grx0sdLwOGL/jFhGMHO9GoRjoSB89VS
-	k9tg==
-X-Gm-Message-State: ALyK8tKEDu9o8k1is9AulmQnuE4dEqdHLVj8xStfdG0OlEQupEkugFxl0MeBhY5MuA9v7A==
-X-Received: by 10.55.17.88 with SMTP id b85mr563027qkh.104.1467408426391;
-	Fri, 01 Jul 2016 14:27:06 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=RE6Kl9zpjkGUgDoRAq4y3Y6W5F1oyKZPHT+zx8pZh3k=;
+	b=Usp7a5IcD5KpQccaVm/XsAtRrOeRvx5sTXWxSQAUVA4eFihyaCpRyiK2g5ak+gUrXU
+	6W3p/vG7ZWKkZVNAQ4jMVfqmoaRq6UQI1m9QCzlqm2Gp2xaKVN72VObZeXKZqR4PqHo7
+	4JZCdDvWr6Q3p042g7Sonh22m6m0CKMonU3ffuQuHlu5VygePm/LP7+GOfV2Kzz94WWt
+	cJKCg7z4VgqoqTC4pxRQ2uqEDYzBzn/VUoL5K1Z6CEMfXzDGuMrLCnHOo9GOjVuCzY0G
+	nqSRcnn0bQELX0Y7275k+ViuhBddHrdnCZkbHRpUEpPwqCDCdS9z+NdAhDgni4mCKOgG
+	sOJQ==
+X-Gm-Message-State: ALyK8tJCVxhKzXSBt2ppBCPpNjmvFfCyNLKK2CiSNKH7TXyeSHjNkZ0E0mH4LyTggLI1xw==
+X-Received: by 10.55.109.195 with SMTP id i186mr488820qkc.207.1467408435544;
+	Fri, 01 Jul 2016 14:27:15 -0700 (PDT)
 Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by smtp.gmail.com with ESMTPSA id 29sm2652727qtz.19.2016.07.01.14.27.04
+	by smtp.gmail.com with ESMTPSA id l2sm1660633qkb.45.2016.07.01.14.27.13
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 01 Jul 2016 14:27:04 -0700 (PDT)
+	Fri, 01 Jul 2016 14:27:13 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Jul 2016 14:27:00 -0700
-Message-Id: <cover.1467408317.git.chris_larson@mentor.com>
+Date: Fri,  1 Jul 2016 14:27:08 -0700
+Message-Id: <ce4d11cf2caf0fa17dc28a71df76ab9bea7d107b.1467408317.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 2.8.0
+In-Reply-To: <cover.1467408317.git.chris_larson@mentor.com>
+References: <cover.1467408317.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCHv2 0/2] Support template files for wic
+Subject: [PATCHv2 1/2] image_types.bbclass: add intermediate var for WKS_FILE_CHECKSUM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,47 +55,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jul 2016 21:27:06 -0000
+X-List-Received-Date: Fri, 01 Jul 2016 21:27:16 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-This adds support for .wks.in files as WKS_FILE.
+This is a bit nicer to work with, and easier to override.
 
-This is a re-send of the RFC PATCH series as a regular PATCH series, to
-attempt to get the feature merged. There's a clear value-add, there were no
-major objections to the RFC series, and further improvements can be added on
-from here.
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+---
+ meta/classes/image_types.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-These files are treated as the contents of a bitbake variable, so usual
-bitbake variable references are supported. I considered using another
-templating mechanism, for example the one used by yocto-layer, but then we'd
-end up largely mapping metadata variables to template fields anyway, which is
-a pointless indirection. Let bitbake expand the variables directly instead.
-
-This feature lets us, for example, reference ${APPEND} in --append, and avoid
-hardcoding the serial console tty in the wks file, and let the user's changes
-to APPEND affect wic the way they do the other image construction mechanisms.
-
-The template is read in and set in a variable at parse time, so changes to the
-variables referenced by the template will result in rebuilding the image.
-
-
-The following changes since commit 646c366c2566bd8dd6f73681cea9f5b021589a56:
-
-  gst-player: upgrade to latest HEAD (2016-06-27 14:08:37 +0100)
-
-are available in the git repository at:
-
-  git://github.com/kergoth/openembedded-core wks.in2
-  https://github.com/kergoth/openembedded-core/tree/wks.in2
-
-Christopher Larson (2):
-  image_types.bbclass: add intermediate var for WKS_FILE_CHECKSUM
-  image_types.bbclass: support template .wks.in files for wic
-
- meta/classes/image_types.bbclass | 49 +++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 48 insertions(+), 1 deletion(-)
-
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 72e8ed3..f7de756 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -215,7 +215,8 @@ IMAGE_CMD_wic[vardepsexclude] = "WKS_FULL_PATH WKS_FILES"
+ 
+ # Rebuild when the wks file or vars in WICVARS change
+ USING_WIC = "${@bb.utils.contains_any('IMAGE_FSTYPES', 'wic ' + ' '.join('wic.%s' % c for c in '${COMPRESSIONTYPES}'.split()), '1', '', d)}"
+-do_image_wic[file-checksums] += "${@'${WKS_FULL_PATH}:%s' % os.path.exists('${WKS_FULL_PATH}') if '${USING_WIC}' else ''}"
++WKS_FILE_CHECKSUM = "${@'${WKS_FULL_PATH}:%s' % os.path.exists('${WKS_FULL_PATH}') if '${USING_WIC}' else ''}"
++do_image_wic[file-checksums] += "${WKS_FILE_CHECKSUM}"
+ 
+ EXTRA_IMAGECMD = ""
+ 
 -- 
 2.8.0
 
