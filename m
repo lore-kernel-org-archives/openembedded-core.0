@@ -1,47 +1,45 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
-	[209.85.220.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 25D2160124
+Return-Path: <kergoth@gmail.com>
+Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
+	[209.85.220.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 172DB60124
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Jul 2016 21:19:50 +0000 (UTC)
-Received: by mail-qk0-f196.google.com with SMTP id n132so26263198qka.0
+	Fri,  1 Jul 2016 21:27:05 +0000 (UTC)
+Received: by mail-qk0-f195.google.com with SMTP id r68so23520647qka.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Jul 2016 14:19:51 -0700 (PDT)
+	Fri, 01 Jul 2016 14:27:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=V0TNPBTbgfOgJtbY+vlr0N0Cdlrk+nI6w9EuNO/V32E=;
-	b=OygTK/is1/psGfim4VCC/6skJGxB3pHw9zFzuvlkax3Q0Q+PqT6EDtp3gMQw+9G+mr
-	DDtXEVpKecJNe2npi06tGggzWgG9JWJgHCe3J0aR6CsEYawhn4eoiSrmizjQZfoFZXE8
-	GbLr8aSKjMs+Rpjw97WgoAwwqz7b96XY55aoKnEEEgav4ldWW197FO38OWeoFMkKOnZ/
-	Jdwqo/IcL6w/izoZIeTgDXUny4fGldg8XYWMC0JyzGDUDuXhVPzSVlnKSXsaGLj9kk/9
-	1lj0vJW7jF6jmD4HrCqOJv2xTYfZMDKxfxVP3VrRBzrlSo4xpdCEapaf2eMECqTBURE6
-	S6Rg==
+	h=from:to:cc:subject:date:message-id;
+	bh=43QoC6WkQKHOHT9ztyMPkACkqMaw+HPq+aaTHpyR3L0=;
+	b=z0NdY9Xcz5w7KecIiKp8nc0uRuvndJ6ojD1K25D8RXNTk113aaBjSLfSVQhZg9q13T
+	hnS65h5nEKK8ouI6dzjPP/h4sDrnPaRy1pdG3cqNsUBbqjYv+so0jOEA3wRNGDetHDYf
+	As3FKeS9q7rhzV53th9TwFERxrJMKEoYBNP00hGesEthw8mvptd7DM2FvmSf/qEIRizK
+	Z58oZAJV2bVUflHfX8AgUYs+1a4NrOQPiw1uVZYjTHMvEvXymaE7jm89P8q5jCzS71Cd
+	MYIX/UKCBoW0hvzzQNm1DhfVR1roII6vr0szqCKuta5BIyqXIzQlVL6o0yKgaCWsQI74
+	qQXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=V0TNPBTbgfOgJtbY+vlr0N0Cdlrk+nI6w9EuNO/V32E=;
-	b=AGs7c8sgruQQOWy5RKSZPJ7hTRGBFMuEJD2n8tM3oVz4s11Ktq6psghaUG6n3nT7mN
-	PhEM6wS/hN3SKM4VDZuX9gg+7Nqu9RmBvHERtKsPIs2kCHS87bs1ovLiEYVy90C+dvVF
-	eCmx2nzZ1j3lFUSjmC1d6SLyUqPxgtt0p5vEiSbflmSICUP9K9RHJv6IXfAXHJt7XaCP
-	MKrVP7WE3hU6aqC0MRU6WE4DD0rZO4h/eIr0eLdGZLYEDhk+zLxyq7PHIwgdofAjvcmw
-	9iw++LS3aociXE4SM7ggrMAnCJluqeVn9ObZVO3jMW7deeQLK9RaDi17NaIa2msMNQ78
-	Yaxw==
-X-Gm-Message-State: ALyK8tKg7P6/M7CjSztaMSamTIgG1JTO9Dn3ymtRV6a9ElecJUzHOmEVkSUUk4wbJUnhxoqWAerA4F4bAavOkg==
-X-Received: by 10.55.97.80 with SMTP id v77mr527376qkb.41.1467407990874; Fri,
-	01 Jul 2016 14:19:50 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.55.214.83 with HTTP; Fri, 1 Jul 2016 14:19:21 -0700 (PDT)
-In-Reply-To: <1467405897-14036-1-git-send-email-kergoth@gmail.com>
-References: <1467405897-14036-1-git-send-email-kergoth@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 1 Jul 2016 14:19:21 -0700
-Message-ID: <CAMKF1sqOmppX34XM=GpKrZwxHO1Rmdc+kfKR_P=MT4xra99v2w@mail.gmail.com>
-To: Christopher Larson <kergoth@gmail.com>
-Cc: Christopher Larson <chris_larson@mentor.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2] gcc-cross: remove --with-linker-hash-style
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=43QoC6WkQKHOHT9ztyMPkACkqMaw+HPq+aaTHpyR3L0=;
+	b=H7GLXIFDmlrCp6CODe+rhpUPbPOAxzuwybCvmCLSeE4gqewOsBsMk9hgGqo3u+1gTj
+	7Dfi2yEiQUYtbfVPkw4hzpyNAjS+8tWPrbbz0hpzdHs8mr/EQXIkX2XJpgJ+CUATvd+B
+	EmvZcRgDxtAwAcot8v6XrAqojtsI3oCF+jQEIgUY+aW3V8oWXVuiNqffEu2ozOWSghYO
+	/2HibzPxCecgSo8U/NNKT1EVUXGjUUkrd/DBWLWystVQ99kdTuNy+3j0LFcskg+Oj/ZD
+	06iKKkygyyH20XWWjB6uTyuZyDY9IjrHMRz80grx0sdLwOGL/jFhGMHO9GoRjoSB89VS
+	k9tg==
+X-Gm-Message-State: ALyK8tKEDu9o8k1is9AulmQnuE4dEqdHLVj8xStfdG0OlEQupEkugFxl0MeBhY5MuA9v7A==
+X-Received: by 10.55.17.88 with SMTP id b85mr563027qkh.104.1467408426391;
+	Fri, 01 Jul 2016 14:27:06 -0700 (PDT)
+Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by smtp.gmail.com with ESMTPSA id 29sm2652727qtz.19.2016.07.01.14.27.04
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 01 Jul 2016 14:27:04 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  1 Jul 2016 14:27:00 -0700
+Message-Id: <cover.1467408317.git.chris_larson@mentor.com>
+X-Mailer: git-send-email 2.8.0
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCHv2 0/2] Support template files for wic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,117 +52,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jul 2016 21:19:51 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 01 Jul 2016 21:27:06 -0000
 
-On Fri, Jul 1, 2016 at 1:44 PM, Christopher Larson <kergoth@gmail.com> wrote:
-> From: Christopher Larson <chris_larson@mentor.com>
->
-> We explicitly set the hash style to gnu in our LDFLAGS. Setting the default to
-> this in the toolchain, while convenient, actually hides bugs, as a failure to
-> obey LDFLAGS isn't noticed. By removing this, it's not dissimilar to how we
-> poison the sysroot -- rather than relying on the default, notice right away if
-> somoeone isn't obeying the needed flags.
->
-> This will result in a failure to obey LDFLAGS causing a GNU_HASH QA failure,
-> which is what's often seen with external toolchains. This brings us all on the
-> same page, and makes sure a failure to obey LDFLAGS is seen early.
->
-> This is limited to cross, to retain ease of use for SDKs.
->
-> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-> ---
->  meta/recipes-devtools/gcc/gcc-4.9.inc   | 3 ++-
->  meta/recipes-devtools/gcc/gcc-5.3.inc   | 3 ++-
->  meta/recipes-devtools/gcc/gcc-6.1.inc   | 3 ++-
->  meta/recipes-devtools/gcc/gcc-cross.inc | 1 +
->  4 files changed, 7 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
-> index 64701c8..05e02d9 100644
-> --- a/meta/recipes-devtools/gcc/gcc-4.9.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
-> @@ -107,13 +107,14 @@ JAVA = ""
->
->  LTO = "--enable-lto"
->
-> +OECONF_HASH_STYLE = "--with-linker-hash-style=${LINKER_HASH_STYLE}"
->  EXTRA_OECONF_BASE = "\
->      ${LTO} \
-> +    ${OECONF_HASH_STYLE} \
->      --enable-libssp \
->      --disable-bootstrap \
->      --disable-libmudflap \
->      --with-system-zlib \
-> -    --with-linker-hash-style=${LINKER_HASH_STYLE} \
->      --enable-linker-build-id \
->      --with-ppl=no \
->      --with-cloog=no \
-> diff --git a/meta/recipes-devtools/gcc/gcc-5.3.inc b/meta/recipes-devtools/gcc/gcc-5.3.inc
-> index 8613a10..faa1292 100644
-> --- a/meta/recipes-devtools/gcc/gcc-5.3.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-5.3.inc
-> @@ -113,14 +113,15 @@ JAVA = ""
->
->  LTO = "--enable-lto"
->
-> +OECONF_HASH_STYLE = "--with-linker-hash-style=${LINKER_HASH_STYLE}"
->  EXTRA_OECONF_BASE = "\
->      ${LTO} \
-> +    ${OECONF_HASH_STYLE} \
->      --enable-libssp \
->      --enable-libitm \
->      --disable-bootstrap \
->      --disable-libmudflap \
->      --with-system-zlib \
-> -    --with-linker-hash-style=${LINKER_HASH_STYLE} \
->      --enable-linker-build-id \
->      --with-ppl=no \
->      --with-cloog=no \
-> diff --git a/meta/recipes-devtools/gcc/gcc-6.1.inc b/meta/recipes-devtools/gcc/gcc-6.1.inc
-> index 1a00f3f..e3ff9cb 100644
-> --- a/meta/recipes-devtools/gcc/gcc-6.1.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-6.1.inc
-> @@ -93,14 +93,15 @@ JAVA = ""
->
->  LTO = "--enable-lto"
->
-> +OECONF_HASH_STYLE = "--with-linker-hash-style=${LINKER_HASH_STYLE}"
->  EXTRA_OECONF_BASE = "\
->      ${LTO} \
-> +    ${OECONF_HASH_STYLE} \
->      --enable-libssp \
->      --enable-libitm \
->      --disable-bootstrap \
->      --disable-libmudflap \
->      --with-system-zlib \
-> -    --with-linker-hash-style=${LINKER_HASH_STYLE} \
->      --enable-linker-build-id \
->      --with-ppl=no \
->      --with-cloog=no \
-> diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc b/meta/recipes-devtools/gcc/gcc-cross.inc
-> index f479360..850c63a 100644
-> --- a/meta/recipes-devtools/gcc/gcc-cross.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-cross.inc
-> @@ -33,6 +33,7 @@ EXTRA_OECONF_PATHS = "\
->      --with-sysroot=/not/exist \
->      --with-build-sysroot=${STAGING_DIR_TARGET} \
->  "
-> +OECONF_HASH_STYLE = ""
+From: Christopher Larson <chris_larson@mentor.com>
 
-May be we can just explicitly override default LINKER_HASH_STYLE here
-by setting LINKER_HASH_STYLE = "sysv"
-which is effectively what we are doing by removing the option.
+This adds support for .wks.in files as WKS_FILE.
 
->
->  ARCH_FLAGS_FOR_TARGET += "-isystem${STAGING_DIR_TARGET}${target_includedir}"
->
-> --
-> 2.8.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+This is a re-send of the RFC PATCH series as a regular PATCH series, to
+attempt to get the feature merged. There's a clear value-add, there were no
+major objections to the RFC series, and further improvements can be added on
+from here.
+
+These files are treated as the contents of a bitbake variable, so usual
+bitbake variable references are supported. I considered using another
+templating mechanism, for example the one used by yocto-layer, but then we'd
+end up largely mapping metadata variables to template fields anyway, which is
+a pointless indirection. Let bitbake expand the variables directly instead.
+
+This feature lets us, for example, reference ${APPEND} in --append, and avoid
+hardcoding the serial console tty in the wks file, and let the user's changes
+to APPEND affect wic the way they do the other image construction mechanisms.
+
+The template is read in and set in a variable at parse time, so changes to the
+variables referenced by the template will result in rebuilding the image.
+
+
+The following changes since commit 646c366c2566bd8dd6f73681cea9f5b021589a56:
+
+  gst-player: upgrade to latest HEAD (2016-06-27 14:08:37 +0100)
+
+are available in the git repository at:
+
+  git://github.com/kergoth/openembedded-core wks.in2
+  https://github.com/kergoth/openembedded-core/tree/wks.in2
+
+Christopher Larson (2):
+  image_types.bbclass: add intermediate var for WKS_FILE_CHECKSUM
+  image_types.bbclass: support template .wks.in files for wic
+
+ meta/classes/image_types.bbclass | 49 +++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 48 insertions(+), 1 deletion(-)
+
+-- 
+2.8.0
+
 
