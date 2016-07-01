@@ -1,47 +1,45 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f46.google.com (mail-it0-f46.google.com
-	[209.85.214.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 3417B60124
+Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E6E160124
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Jul 2016 15:44:57 +0000 (UTC)
-Received: by mail-it0-f46.google.com with SMTP id h190so20049621ith.1
+	Fri,  1 Jul 2016 15:59:32 +0000 (UTC)
+Received: by mail-wm0-f50.google.com with SMTP id f126so32076517wma.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Jul 2016 08:44:58 -0700 (PDT)
+	Fri, 01 Jul 2016 08:59:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=UmvOqiBOupDS4i3q162wBZLuBFSlRnL3JTKs03EQ5oc=;
-	b=igxeYMBkNZQ7/RAEmzDOekQwaqdz3A3Y0Hl+oQ0fPjSY0BZtQG3h8ln+P2XtjL6vLP
-	nA29wfSugup7YQrHktQKfDDtMRjojleO8O5Slav6ksoB8s1wKunZTuocYHEaVkfQWjDX
-	g0V0YnS1KR/vcfWd7LBh05x37myjDbW3H2iwOc1l+8GeOHdYT5xx96MASDypNYCWZGgy
-	VubwzRbczXqETV+VyXFYQKYKUBAOhuP5BITzmITbNP+OAR8oIVZ5tzC6F7i5noUVxh44
-	JqY7fUIyfmRyblT/IlQUzuwZq/GDG8HyIENgIqaLBwAHfUzaAqFw4KyYqyW9kWiXVycW
-	cujw==
+	h=from:to:subject:date:message-id;
+	bh=CyoguLAvIIklrb1UtZIqwjcFS6mSiR9fq88pPX+BrAo=;
+	b=AUQ3Ev4fw6sK69siCh52sPIX6k8YVXL5/JL9u/mPALZ0Epj816Fcr4rxnzZFSwF5G4
+	37AbSOnsjJxS9sgkcMGqwLOHNO1B5EuYKUBWUVxVax6JCD/c5IdoZ/NlzkmgeRI4VAt4
+	5FG2af/KqPvbDkFkrqTb+p4T8IWUIchMTD+tyqZvTV4qOg2PuR4B2ocRYsDuv6d66bPJ
+	aoBoB2AVznvGJNz8nxXS22zcJJo04hqEesZLbJKHDkgw8Y3t3dg4/uIj6LsCd8j82n/u
+	g4VwunBC0n0hfr7+1s2/iaFMdQjA7oQWAwPurg2fbBQKFIw3ZvTYsOb8SQ7rPoZ6QrVQ
+	/12g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=UmvOqiBOupDS4i3q162wBZLuBFSlRnL3JTKs03EQ5oc=;
-	b=czNiCZjmt/neS1How6UOiQcLrTRWjoO76NVt4fRqwRERa+zW5i+dWF8TQNkCucU6mo
-	WfyufTaUbYG+mEzay/BR6bcxtMBVlpYpJZ3szInnZfCYFSmroOAyVw2uEgGYj1OE+aXf
-	s6ZpJR/5HtXGRsz428VsQCr43CZgW0LO2tSjF0pfoCfLOK7RS9rNYzP9ysUY4c2PLRYw
-	pT3855kZ7IzgtZ/U6VSKIEXWFoMh8tdTaKCcv8SJ9Fk8SmB3u8aLEZjpWV2MTfMPA8zo
-	JUz5nys2BMs9fiYMSVUlLFEyWRMqgU1s3EIWmGbTdb3xVU+bEGy5VKFqVgnzy/mt+BRf
-	3IVQ==
-X-Gm-Message-State: ALyK8tImO1+0IO83ff39pgjr8I026FoRnVV8XPJQpy+dR2gl1GqnCIxhkVuM3eWoqZ0JfvagAOJ/oabO3CRsD3Ko
-X-Received: by 10.36.20.212 with SMTP id 203mr156535itg.83.1467387898570; Fri,
-	01 Jul 2016 08:44:58 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.142.151 with HTTP; Fri, 1 Jul 2016 08:44:39 -0700 (PDT)
-In-Reply-To: <1467371591-12270-4-git-send-email-maxin.john@intel.com>
-References: <1467371591-12270-1-git-send-email-maxin.john@intel.com>
-	<1467371591-12270-4-git-send-email-maxin.john@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 1 Jul 2016 16:44:39 +0100
-Message-ID: <CAJTo0LbeJ947NY76c-RZxxDZiFih9ZZ+Dk23Q+SvGEX4HUHH-A@mail.gmail.com>
-To: "Maxin B. John" <maxin.john@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/6] default-distrovars.inc: remove directfb from GTK2DISTROFEATURES
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=CyoguLAvIIklrb1UtZIqwjcFS6mSiR9fq88pPX+BrAo=;
+	b=NLuoYYCT8D51ptXu/PnEAlQWOvyHHVmBzT+OoyplHZfI1ik7Nb7VGupa1wdtbRajUG
+	LzhatGLhlRtU1jHKmgESvMHhopc+itlPvCGSW+PgRW0A8l6CB5Jy0FEo/8iqnLTDwKpN
+	Li3Fwqq4wEEgV4F7+vxEcmIDcbeEYhrVzXQy09hfAYe7XfNwNfB782AQI6D/z/6je4wN
+	hh5apatznQmu7cSVsGL6nlhQCTgHw40Ox4SAiMs1KG3mgbFBcOK63OIVl6f7CLGG75W4
+	em9hQ7gzS1Gvs/Ai4E9SyK/Umv6HKhPoZXjvm00boQjlLHkireEN27xkqLIjzra6iSwn
+	6AEA==
+X-Gm-Message-State: ALyK8tI1CdIUVB24YBCukBvvQCQ6c+c8O1797YXLgRQoVG6d39R1gAL7KLL/YVdI8GXlwPtX
+X-Received: by 10.194.216.33 with SMTP id on1mr4211083wjc.153.1467388772699;
+	Fri, 01 Jul 2016 08:59:32 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id b84sm4870141wmb.6.2016.07.01.08.59.31
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 01 Jul 2016 08:59:32 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  1 Jul 2016 16:59:27 +0100
+Message-Id: <1467388767-20705-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] lib/oe/path: remove oe.path.check_output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,37 +52,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jul 2016 15:44:58 -0000
-Content-Type: multipart/alternative; boundary=001a1143e19871479f053694de8d
+X-List-Received-Date: Fri, 01 Jul 2016 15:59:34 -0000
 
---001a1143e19871479f053694de8d
-Content-Type: text/plain; charset=UTF-8
+This was a copy-and-paste of subprocess.check_output() from when we supported
+Python <2.7, so simply delete it and use subprocess.check_output() instead.
 
-On 1 July 2016 at 12:13, Maxin B. John <maxin.john@intel.com> wrote:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/lib/oe/path.py | 49 ++++---------------------------------------------
+ 1 file changed, 4 insertions(+), 45 deletions(-)
 
-> -GTK2DISTROFEATURES = "directfb x11"
-> +GTK2DISTROFEATURES = "x11"
->
+diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
+index 413ebfb..dbba60a 100644
+--- a/meta/lib/oe/path.py
++++ b/meta/lib/oe/path.py
+@@ -66,21 +66,21 @@ def copytree(src, dst):
+ 
+     bb.utils.mkdirhier(dst)
+     cmd = 'tar -cf - -C %s -p . | tar -xf - -C %s' % (src, dst)
+-    check_output(cmd, shell=True, stderr=subprocess.STDOUT)
++    subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
+ 
+ def copyhardlinktree(src, dst):
+     """ Make the hard link when possible, otherwise copy. """
+     bb.utils.mkdirhier(dst)
+     if os.path.isdir(src) and not len(os.listdir(src)):
+-        return	
++        return
+ 
+     if (os.stat(src).st_dev ==  os.stat(dst).st_dev):
+         # Need to copy directories only with tar first since cp will error if two 
+         # writers try and create a directory at the same time
+         cmd = 'cd %s; find . -type d -print | tar -cf - -C %s -p --files-from - --no-recursion | tar -xf - -C %s' % (src, src, dst)
+-        check_output(cmd, shell=True, stderr=subprocess.STDOUT)
++        subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
+         cmd = 'cd %s; find . -print0 | cpio --null -pdlu %s' % (src, dst)
+-        check_output(cmd, shell=True, stderr=subprocess.STDOUT)
++        subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
+     else:
+         copytree(src, dst)
+ 
+@@ -105,47 +105,6 @@ def symlink(source, destination, force=False):
+         if e.errno != errno.EEXIST or os.readlink(destination) != source:
+             raise
+ 
+-class CalledProcessError(Exception):
+-    def __init__(self, retcode, cmd, output = None):
+-        self.retcode = retcode
+-        self.cmd = cmd
+-        self.output = output
+-    def __str__(self):
+-        return "Command '%s' returned non-zero exit status %d with output %s" % (self.cmd, self.retcode, self.output)
+-
+-# Not needed when we move to python 2.7
+-def check_output(*popenargs, **kwargs):
+-    r"""Run command with arguments and return its output as a byte string.
+-
+-    If the exit code was non-zero it raises a CalledProcessError.  The
+-    CalledProcessError object will have the return code in the returncode
+-    attribute and output in the output attribute.
+-
+-    The arguments are the same as for the Popen constructor.  Example:
+-
+-    >>> check_output(["ls", "-l", "/dev/null"])
+-    'crw-rw-rw- 1 root root 1, 3 Oct 18  2007 /dev/null\n'
+-
+-    The stdout argument is not allowed as it is used internally.
+-    To capture standard error in the result, use stderr=STDOUT.
+-
+-    >>> check_output(["/bin/sh", "-c",
+-    ...               "ls -l non_existent_file ; exit 0"],
+-    ...              stderr=STDOUT)
+-    'ls: non_existent_file: No such file or directory\n'
+-    """
+-    if 'stdout' in kwargs:
+-        raise ValueError('stdout argument not allowed, it will be overridden.')
+-    process = subprocess.Popen(stdout=subprocess.PIPE, *popenargs, **kwargs)
+-    output, unused_err = process.communicate()
+-    retcode = process.poll()
+-    if retcode:
+-        cmd = kwargs.get("args")
+-        if cmd is None:
+-            cmd = popenargs[0]
+-        raise CalledProcessError(retcode, cmd, output=output)
+-    return output
+-
+ def find(dir, **walkoptions):
+     """ Given a directory, recurses into that directory,
+     returning all files as absolute paths. """
+-- 
+2.8.1
 
-I think we should keep this, for people who want to use their own directfb
-recipe.
 
-Ross
-
---001a1143e19871479f053694de8d
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 1 July 2016 at 12:13, Maxin B. John <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:maxin.john@intel.com" target=3D"_blank">maxin.john@intel.com</a>&gt;</s=
-pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
-;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":dc8" class=3D"a3s=
- aXjCH m155a62b320397aea">-GTK2DISTROFEATURES =3D &quot;directfb x11&quot;<=
-br>
-+GTK2DISTROFEATURES =3D &quot;x11&quot;<br></div></blockquote></div><br>I t=
-hink we should keep this, for people who want to use their own directfb rec=
-ipe.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">R=
-oss</div></div>
-
---001a1143e19871479f053694de8d--
