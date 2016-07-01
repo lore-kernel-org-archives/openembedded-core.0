@@ -1,49 +1,45 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-it0-f66.google.com (mail-it0-f66.google.com
-	[209.85.214.66])
-	by mail.openembedded.org (Postfix) with ESMTP id CDC6C60124
+Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
+	[209.85.220.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A6A360124
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Jul 2016 20:47:39 +0000 (UTC)
-Received: by mail-it0-f66.google.com with SMTP id f6so3342354ith.1
+	Fri,  1 Jul 2016 20:49:13 +0000 (UTC)
+Received: by mail-qk0-f195.google.com with SMTP id t2so2919677qkh.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Jul 2016 13:47:40 -0700 (PDT)
+	Fri, 01 Jul 2016 13:49:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=Avx5+Dlw8yMcgnstC9Nmb4x5n0u4/rsKc8VhcgFZEbM=;
-	b=d9+lco0E+r3hvB6fgCoRDkxRksivIZ9X9+38x4m7hUDsY3iW12DQTsACTg8obP+dsW
-	/atogGzlAapWjKbSEEFb59TGdijs/wlwYofs/Sce7RdLOlG9EZyFx++2fH5S8V3KOU7X
-	9kMxm4Mn1b+y+T5C7Fc/ke0Vplva8BjNKoUsjQDmfqF62fxGyiYBXkbFD6vHLpmDmMM6
-	9uFGXTdR+pFFObhCt2n4NDiVT4+xw3HA060Lcb3YJELbq7iNqRjoqGgeP50iDAr/I8za
-	3ahoVn92F3w4WxWYH7lA1O2PFMgQgQIqKKRBNddxLdRKkH+ZDi3d4D/5CEfF2URnKOHB
-	smow==
+	h=from:to:cc:subject:date:message-id;
+	bh=fcbkJYyemvsjOTkt9+wh2ajnyo2r7jHpD1qZQROW7Js=;
+	b=DN+nmbTvK71JK4Xz8og7Mndj9/egPliWZtHD2NHLLbBumthECJjzquZL9Jj74UhaIo
+	OQnqW7F/6nLs22hHgaPVyz090N0fs+YznsAQfVk0KBPEXC151Qo/4m801HVW8D/HG0Aq
+	6HQfK1vRFJpTpRjvIqbf94FpGo4+o86sZbyiSUy50nGBw7EBhaP7sBuny2sYVw2k4hvx
+	qREI7dQDPBb15JW9LR11dMESgpT5TVx4FPO5Dhv/gHdB+PQyfx6XHo+BLvPvDFTQ3OfF
+	blpNFYxmHpj/lXHS8uuzI/or8HISqu5m9chsbZFSn9xTDFUsTNDQPWW4u0RfciOgfAgZ
+	oAyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=Avx5+Dlw8yMcgnstC9Nmb4x5n0u4/rsKc8VhcgFZEbM=;
-	b=QCz59a4OOGhmbjDJb42TFb8BNsORWL4nyqMxu9TRYF1hzlftT14d7aXBvY4aXc2eJx
-	WhgOMlw2QC4cqGbIJ4k47sB72WHdaLJGJ9xsbmjyUzzmO0FjNDIufT87wto1uP84wpXJ
-	XGJNn3jl+3t+JSIkbVgubvq51pGlqjDeo3as606drlwgXqy47dLSdJDBHHOYz302oNMe
-	SbHX686UjWPyyw8TC7y9ks0nWRdwXUnwLrkMVbJd5kGvxD7RKDHbMZ3y04kow3a1JezY
-	qaPQusAqWswqfwPCzZTUnvaQg/vlLECD76aGle7vZZrO6CbbLHcNmPE2CA23x+PQGBYB
-	hWpg==
-X-Gm-Message-State: ALyK8tLF3BZfIdyUF4pjs/jlSuekGcJBTKsVYHaO/9uEtbhQyF92KuUttB4FA1t8QLeAcqSTaS7G3n1ELVX6AA==
-X-Received: by 10.36.43.216 with SMTP id h207mr188615ita.66.1467406059796;
-	Fri, 01 Jul 2016 13:47:39 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.79.19.70 with HTTP; Fri, 1 Jul 2016 13:47:20 -0700 (PDT)
-In-Reply-To: <1467405897-14036-1-git-send-email-kergoth@gmail.com>
-References: <1467405897-14036-1-git-send-email-kergoth@gmail.com>
-From: Christopher Larson <chris_larson@mentor.com>
-Date: Fri, 1 Jul 2016 13:47:20 -0700
-X-Google-Sender-Auth: uipYqVUdzBoV3SrJiIsQsOlC00w
-Message-ID: <CABcZANkSdOTP+KWytUrDPnQ8cEwS4fACmQiHAPiOK3t9gsjk6A@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=fcbkJYyemvsjOTkt9+wh2ajnyo2r7jHpD1qZQROW7Js=;
+	b=FOOwFtj7hZdmr1jz4mBC8LzMuVypoWt+XEuOiq4VVyquu4wRszFeRdMaoUk9BnoREZ
+	H0ZL/1FdMK7xATpI2H3oWkP/jmaJmBTNiY91WJVoGj7ExROxk2plXSs3ZFrjlro7FmAK
+	Ajn9cGxTrxRaOXkPlg4wkHzWXRlkYeHy5uFEQrRQUMYIAX6aSYmkjmjKLfQbJFvjjCZE
+	kPsomTD9ug/Y1w2xjgj4E0TL6KCDFj+qA4jctFqGOxAvZegp8tSClj91N2WrOIQ78oJm
+	kCL+zGccMUGDo3SNi5Ju3jNOd6+XKeTMz/ewydSaMMrgW2eleDxBWsHoMjPB1N9mDnmV
+	USyg==
+X-Gm-Message-State: ALyK8tLFjOOKwfmPY5K9eazwGb/5tBWhYrXJLu2L6XRjEdO9PFLD3j8ap4pbevZvUyMm4Q==
+X-Received: by 10.55.77.4 with SMTP id a4mr316684qkb.198.1467406153771;
+	Fri, 01 Jul 2016 13:49:13 -0700 (PDT)
+Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by smtp.gmail.com with ESMTPSA id u1sm1859020qtu.43.2016.07.01.13.49.11
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 01 Jul 2016 13:49:12 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  1 Jul 2016 13:49:09 -0700
+Message-Id: <1467406149-16571-1-git-send-email-kergoth@gmail.com>
+X-Mailer: git-send-email 2.8.0
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: Re: [PATCHv2] gcc-cross: remove --with-linker-hash-style
+Subject: [PATCH] service: obey CFLAGS, LDFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,88 +52,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jul 2016 20:47:40 -0000
-Content-Type: multipart/alternative; boundary=001a114748a2ef801305369918da
+X-List-Received-Date: Fri, 01 Jul 2016 20:49:13 -0000
 
---001a114748a2ef801305369918da
-Content-Type: text/plain; charset=UTF-8
+From: Christopher Larson <chris_larson@mentor.com>
 
-On Fri, Jul 1, 2016 at 1:44 PM, Christopher Larson <kergoth@gmail.com>
-wrote:
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+---
+ meta-skeleton/recipes-skeleton/service/service_0.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> From: Christopher Larson <chris_larson@mentor.com>
->
-> We explicitly set the hash style to gnu in our LDFLAGS. Setting the
-> default to
-> this in the toolchain, while convenient, actually hides bugs, as a failure
-> to
-> obey LDFLAGS isn't noticed. By removing this, it's not dissimilar to how we
-> poison the sysroot -- rather than relying on the default, notice right
-> away if
-> somoeone isn't obeying the needed flags.
->
-> This will result in a failure to obey LDFLAGS causing a GNU_HASH QA
-> failure,
-> which is what's often seen with external toolchains. This brings us all on
-> the
-> same page, and makes sure a failure to obey LDFLAGS is seen early.
->
-> This is limited to cross, to retain ease of use for SDKs.
->
-> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
->
-
-v2 changes: dropped the change to the sdk to keep ease of use there, as we
-mainly want this for fixing recipes, not externally built stuff. The fixes
-for qt3 and some other recipes were merged. Only one is pending, a fix for
-service in meta-skeleton to obey LDFLAGS, which is forthcoming.
+diff --git a/meta-skeleton/recipes-skeleton/service/service_0.1.bb b/meta-skeleton/recipes-skeleton/service/service_0.1.bb
+index c5cd7a9..6416618 100644
+--- a/meta-skeleton/recipes-skeleton/service/service_0.1.bb
++++ b/meta-skeleton/recipes-skeleton/service/service_0.1.bb
+@@ -9,7 +9,7 @@ SRC_URI = "file://skeleton \
+ 	   "
+ 
+ do_compile () {
+-	${CC} ${WORKDIR}/skeleton_test.c -o ${WORKDIR}/skeleton-test
++	${CC} ${CFLAGS} ${LDFLAGS} ${WORKDIR}/skeleton_test.c -o ${WORKDIR}/skeleton-test
+ }
+ 
+ do_install () {
 -- 
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+2.8.0
 
---001a114748a2ef801305369918da
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Fri, Jul 1, 2016 at 1:44 PM, Christopher Larson <span dir=3D"ltr">&lt;<a=
- href=3D"mailto:kergoth@gmail.com" target=3D"_blank">kergoth@gmail.com</a>&=
-gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":123" class=
-=3D"a3s aXjCH m155a8351e2550f08">From: Christopher Larson &lt;<a href=3D"ma=
-ilto:chris_larson@mentor.com">chris_larson@mentor.com</a>&gt;<br>
-<br>
-We explicitly set the hash style to gnu in our LDFLAGS. Setting the default=
- to<br>
-this in the toolchain, while convenient, actually hides bugs, as a failure =
-to<br>
-obey LDFLAGS isn&#39;t noticed. By removing this, it&#39;s not dissimilar t=
-o how we<br>
-poison the sysroot -- rather than relying on the default, notice right away=
- if<br>
-somoeone isn&#39;t obeying the needed flags.<br>
-<br>
-This will result in a failure to obey LDFLAGS causing a GNU_HASH QA failure=
-,<br>
-which is what&#39;s often seen with external toolchains. This brings us all=
- on the<br>
-same page, and makes sure a failure to obey LDFLAGS is seen early.<br>
-<br>
-This is limited to cross, to retain ease of use for SDKs.<br>
-<br>
-Signed-off-by: Christopher Larson &lt;<a href=3D"mailto:chris_larson@mentor=
-.com">chris_larson@mentor.com</a>&gt;</div></blockquote></div><br>v2 change=
-s: dropped the change to the sdk to keep ease of use there, as we mainly wa=
-nt this for fixing recipes, not externally built stuff. The fixes for qt3 a=
-nd some other recipes were merged. Only one is pending, a fix for service i=
-n meta-skeleton to obey LDFLAGS, which is forthcoming.<br>-- <br><div class=
-=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr">Ch=
-ristopher Larson<br>kergoth at gmail dot com<br>Founder - BitBake, OpenEmbe=
-dded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engineer, Mentor =
-Graphics</div></div>
-</div></div>
-
---001a114748a2ef801305369918da--
