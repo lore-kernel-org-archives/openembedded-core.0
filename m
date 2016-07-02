@@ -1,49 +1,45 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f182.google.com (mail-qk0-f182.google.com
-	[209.85.220.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E5F26012C
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id EC55A60088
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  2 Jul 2016 06:56:53 +0000 (UTC)
-Received: by mail-qk0-f182.google.com with SMTP id j2so177430228qkf.3
+	Sat,  2 Jul 2016 08:19:34 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id c74so11896329pfb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Jul 2016 23:56:54 -0700 (PDT)
+	Sat, 02 Jul 2016 01:19:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=txfGcRZ8h8p9FfojlQA2E4B44MCIBHrJTdfoNRdgXB8=;
-	b=a+cJm6cKv82prvZ93DwfzqmFiT7kDABCO4cRkIbuEzAKi5qVuqO4eThHDNpkH6U809
-	ljSWxWBF/C3mqG3nTJPR+wt+jNby+m0BI/iALw1Ga0kp48NNGlwlTiWT7kIBn9VnZUT8
-	A5uTQVbJAxVssivgsARA6DbQvRWie+DJQHb1P3rxBjmikoAraPfkwPxOZlORY6F8Ukza
-	B4fDPM8/moGK2LFAO9H+CpkFrUKE4LNM8eOzGZKNUp5VcmbQfwu894O5/8todPA452tN
-	Gii32kV2vGvHaqeqKWbrubZcHH6gCJwVvGQadmrX844C1roI+NRgEKrxmGAQWWe6NLe0
-	T9qA==
+	h=from:to:cc:subject:date:message-id;
+	bh=SzkRdgrjqxz0N2nchFYfbY+5xPFaAEvuD5BYvQqQkjY=;
+	b=A+3F7NE9AKksMP3L+ka2Md2jcFjKBE2XIeLHAgnIqhhvWmPeprjJ6sCq/8ZxSMRpT8
+	1ggvD8g/jCi0GXX9NMq+ys8mMNc9yKcCkImhvJL1H5YyiQgh4ZCzIucOXAl5Q2rPLPLY
+	hwKdxUWJtXlveJCafo7jlnfoVEaT5zJO5EUNOknHq4KfgpjVq0SbVYctd1TG7AyaQ0Ql
+	e9+VioVW6OJGXpR7U0jI3LMVlZ3z8FVdN+dgvgfgYp0Xhj5ryplpsQmrf2Y3bfCF02X1
+	nVEcZ82LXOdbD2SCa/sVW8xYjCsc9FaQtOxaJcabuiYJ+YBG3XDo7A2qSM0G1L+Z1UNY
+	KYjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=txfGcRZ8h8p9FfojlQA2E4B44MCIBHrJTdfoNRdgXB8=;
-	b=QHu+W8f6pZJPXTQoZhdag5GPXYDCDd3zAdjIlbvtMv4E4LBfPx5Dj98sXIEIYmqVTW
-	Vz6f/9Ld+z01YSPyCIw0XDnF8f4Lqfhdkz4svPEkn/6sjRTP+7XVE5C0IHqqg7NeiVV9
-	SbMFtmYrbZ8fIPHUcGLtG41mwRZXjmPjmbxCaoAgZVKbc71UvPNocSomegzBV/A997Oe
-	VZ4CZiKpQrpGfg21VTsFVqjkrWLeTjIM4RP+HjpaIATiwEi5w9pAZF+dbuJPnAE2Fp2o
-	yehq+iD0x6rP2eEgFcMdxJg5ihzZ6GjT81FbO4OScnbuw65rZLXDGJtK41dQAwRTankq
-	k22g==
-X-Gm-Message-State: ALyK8tLW2ULWP2OaoCZwFOjnZUEGr7RPunUthqPgGPratDOJH0EdN33aecrxZL8hCWTLiSBGu21T+ENblPE2TQ==
-X-Received: by 10.55.178.195 with SMTP id b186mr2505467qkf.81.1467442612810;
-	Fri, 01 Jul 2016 23:56:52 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.55.214.83 with HTTP; Fri, 1 Jul 2016 23:56:23 -0700 (PDT)
-In-Reply-To: <5777601A.8040409@mlbassoc.com>
-References: <1467376136-19506-1-git-send-email-ross.burton@intel.com>
-	<1467376136-19506-2-git-send-email-ross.burton@intel.com>
-	<CAMKF1spyK+oAN03A6FNM-nqjoU53wDDYnQiVr6J4+956xUmsBQ@mail.gmail.com>
-	<5777601A.8040409@mlbassoc.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=SzkRdgrjqxz0N2nchFYfbY+5xPFaAEvuD5BYvQqQkjY=;
+	b=PZSjkEmcMwERRBb+XXahhYigacotg3+LeGdKMMDNLGo2UptViyjJ3UMlYOcv0ftBAd
+	OJlEVpwkFOiYtlj5//g1hOtVapIBupMmQCVbabYZRmZKQfwGOfW2yFc5vbxWNysSN/6H
+	Sb2uqBNbsq0xRwyxaIIjS1tluSumobvjGNX/lYQatllAJrZc5Jn85Q4fpugkm5lg2hxc
+	rTZhKi5hwvMTMfXlZD0y6lA6WJ2LqPy47WlAH44nvppWnPXCP1VFh2QtUazaoWu7Vq0M
+	2uintV2vaN8za+89c7eMYBO4qsF2GQqSVXJWQ/jIzOK9aGeFIYLTneKOYNer0WMnYI55
+	i8AQ==
+X-Gm-Message-State: ALyK8tKk0QMxcrUgM0C65pvQxNNlCSyY/aiAIyyziFqdtSlnjRd8OmAo+12jL4AFmqlG/Q==
+X-Received: by 10.98.99.132 with SMTP id x126mr4152452pfb.48.1467447575278;
+	Sat, 02 Jul 2016 01:19:35 -0700 (PDT)
+Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
+	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
+	z189sm3076306pfb.34.2016.07.02.01.19.33
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 02 Jul 2016 01:19:33 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 1 Jul 2016 23:56:23 -0700
-Message-ID: <CAMKF1srwXZaxpUKw2LN63FTvK3vXdRVMju47hS96E2v=e=coUg@mail.gmail.com>
-To: Gary Thomas <gary@mlbassoc.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] gcc: remove GCC 4.9
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  2 Jul 2016 01:19:27 -0700
+Message-Id: <20160702081927.7365-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.9.0
+Subject: [PATCH V2] glibc: Upgrade to latest tip of master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,42 +52,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Jul 2016 06:56:57 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 02 Jul 2016 08:19:35 -0000
 
-On Fri, Jul 1, 2016 at 11:32 PM, Gary Thomas <gary@mlbassoc.com> wrote:
-> On 2016-07-01 16:36, Khem Raj wrote:
->>
->> I am ok with this patch. If someone intends to keep using gcc 4.9 with
->> 2.2, please speak up.
->
->
-> I am still [very much] using 4.9.  I'm happy to use my own layer to
-> support this - what file(s) do I need to have to clone this?
+- libc-package.bbclass: Do not use --old-style
+  This option has been dropped from latest glibc
 
-just copy all the files that this patch is deleting and put them in
-your own layer
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/classes/libc-package.bbclass                      | 4 ++--
+ meta/recipes-core/glibc/cross-localedef-native_2.24.bb | 2 +-
+ meta/recipes-core/glibc/glibc_2.24.bb                  | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
+diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
+index 4f321d4..6624746 100644
+--- a/meta/classes/libc-package.bbclass
++++ b/meta/classes/libc-package.bbclass
+@@ -290,7 +290,7 @@ python package_do_split_gconvs () {
+                 bb.error("locale_arch_options not found for target_arch=" + target_arch)
+                 raise bb.build.FuncFailed("unknown arch:" + target_arch + " for locale_arch_options")
+ 
+-            localedef_opts += " --force --old-style --no-archive --prefix=%s \
++            localedef_opts += " --force  --no-archive --prefix=%s \
+                 --inputfile=%s/%s/i18n/locales/%s --charmap=%s %s/%s" \
+                 % (treedir, treedir, datadir, locale, encoding, outputpath, name)
+ 
+@@ -298,7 +298,7 @@ python package_do_split_gconvs () {
+                 (path, i18npath, gconvpath, localedef_opts)
+         else: # earlier slower qemu way 
+             qemu = qemu_target_binary(d) 
+-            localedef_opts = "--force --old-style --no-archive --prefix=%s \
++            localedef_opts = "--force --no-archive --prefix=%s \
+                 --inputfile=%s/i18n/locales/%s --charmap=%s %s" \
+                 % (treedir, datadir, locale, encoding, name)
+ 
+diff --git a/meta/recipes-core/glibc/cross-localedef-native_2.24.bb b/meta/recipes-core/glibc/cross-localedef-native_2.24.bb
+index 79c3132..c921211 100644
+--- a/meta/recipes-core/glibc/cross-localedef-native_2.24.bb
++++ b/meta/recipes-core/glibc/cross-localedef-native_2.24.bb
+@@ -22,7 +22,7 @@ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
+ SRCBRANCH ?= "master"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+(\.\d+)*)"
+ 
+-SRCREV_glibc ?= "1ac3eaa6bcc473a56340c24511786ff48a91293e"
++SRCREV_glibc ?= "76a0b73e8102c5bfb5cb791e34992472f5d1d33e"
+ SRCREV_localedef ?= "29869b6dc11427c5bab839bdb155c85a7c644c71"
+ 
+ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+diff --git a/meta/recipes-core/glibc/glibc_2.24.bb b/meta/recipes-core/glibc/glibc_2.24.bb
+index 77630e3..a5e1ad6 100644
+--- a/meta/recipes-core/glibc/glibc_2.24.bb
++++ b/meta/recipes-core/glibc/glibc_2.24.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b36d3209f380deb394b213 \
+ 
+ DEPENDS += "gperf-native"
+ 
+-SRCREV ?= "1ac3eaa6bcc473a56340c24511786ff48a91293e"
++SRCREV ?= "76a0b73e8102c5bfb5cb791e34992472f5d1d33e"
+ 
+ #SRCBRANCH ?= "release/${PV}/master"
+ SRCBRANCH ?= "master"
+-- 
+2.9.0
 
->
->
->>
->> On Fri, Jul 1, 2016 at 5:28 AM, Ross Burton <ross.burton@intel.com> wrote:
->>>
->>> Signed-off-by: Ross Burton <ross.burton@intel.com>
->>> ---
->>>   meta/recipes-devtools/gcc/gcc-4.9.inc              |  141 -
->
->   ...
->
-> --
-> ------------------------------------------------------------
-> Gary Thomas                 |  Consulting for the
-> MLB Associates              |    Embedded world
-> ------------------------------------------------------------
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
