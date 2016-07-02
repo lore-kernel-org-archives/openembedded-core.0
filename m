@@ -1,45 +1,52 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id EC55A60088
-	for <openembedded-core@lists.openembedded.org>;
-	Sat,  2 Jul 2016 08:19:34 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id c74so11896329pfb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 02 Jul 2016 01:19:35 -0700 (PDT)
+Return-Path: <ticotimo@gmail.com>
+Received: from mail-lf0-f52.google.com (mail-lf0-f52.google.com
+	[209.85.215.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 81A0960088;
+	Sat,  2 Jul 2016 18:19:22 +0000 (UTC)
+Received: by mail-lf0-f52.google.com with SMTP id q132so95347807lfe.3;
+	Sat, 02 Jul 2016 11:19:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=SzkRdgrjqxz0N2nchFYfbY+5xPFaAEvuD5BYvQqQkjY=;
-	b=A+3F7NE9AKksMP3L+ka2Md2jcFjKBE2XIeLHAgnIqhhvWmPeprjJ6sCq/8ZxSMRpT8
-	1ggvD8g/jCi0GXX9NMq+ys8mMNc9yKcCkImhvJL1H5YyiQgh4ZCzIucOXAl5Q2rPLPLY
-	hwKdxUWJtXlveJCafo7jlnfoVEaT5zJO5EUNOknHq4KfgpjVq0SbVYctd1TG7AyaQ0Ql
-	e9+VioVW6OJGXpR7U0jI3LMVlZ3z8FVdN+dgvgfgYp0Xhj5ryplpsQmrf2Y3bfCF02X1
-	nVEcZ82LXOdbD2SCa/sVW8xYjCsc9FaQtOxaJcabuiYJ+YBG3XDo7A2qSM0G1L+Z1UNY
-	KYjg==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=umqEB3tn+K2RqG4lSp8+xKwCAEVL7+EGsj52H5iMKkA=;
+	b=xc3Jb69KSjxkbkQ6y2IGS7sMaSYyMvKeVeyaj3r2LRVzqpw/g9La6oSowE6PTepe7R
+	d2XI9CJaJro7BVeOINYiP8tfja/O4sbqjSsAU8asqqjE/NKYGU5wEiW3eNHD1ZqFSrFw
+	vDOI7pgrzh/+YyXXfN0x2AUkg7zc6X7ceYUKqzaCno+VzZqhzzDBwu38prpVOlQCEnPc
+	C4iSjdxnr7OYdGwnFhYYP1887hIsQhF2FqYk7U0X2O2D7NjtmirF4FjqjRe1AbJvrrP0
+	fp3vmTXAjHYXrJe19ujM+VDsPiqMDrVqxkvOMTrDsl5wmjXP3WYS+hWhpIEGxKKbWolV
+	6bDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=SzkRdgrjqxz0N2nchFYfbY+5xPFaAEvuD5BYvQqQkjY=;
-	b=PZSjkEmcMwERRBb+XXahhYigacotg3+LeGdKMMDNLGo2UptViyjJ3UMlYOcv0ftBAd
-	OJlEVpwkFOiYtlj5//g1hOtVapIBupMmQCVbabYZRmZKQfwGOfW2yFc5vbxWNysSN/6H
-	Sb2uqBNbsq0xRwyxaIIjS1tluSumobvjGNX/lYQatllAJrZc5Jn85Q4fpugkm5lg2hxc
-	rTZhKi5hwvMTMfXlZD0y6lA6WJ2LqPy47WlAH44nvppWnPXCP1VFh2QtUazaoWu7Vq0M
-	2uintV2vaN8za+89c7eMYBO4qsF2GQqSVXJWQ/jIzOK9aGeFIYLTneKOYNer0WMnYI55
-	i8AQ==
-X-Gm-Message-State: ALyK8tKk0QMxcrUgM0C65pvQxNNlCSyY/aiAIyyziFqdtSlnjRd8OmAo+12jL4AFmqlG/Q==
-X-Received: by 10.98.99.132 with SMTP id x126mr4152452pfb.48.1467447575278;
-	Sat, 02 Jul 2016 01:19:35 -0700 (PDT)
-Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
-	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	z189sm3076306pfb.34.2016.07.02.01.19.33
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 02 Jul 2016 01:19:33 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  2 Jul 2016 01:19:27 -0700
-Message-Id: <20160702081927.7365-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.9.0
-Subject: [PATCH V2] glibc: Upgrade to latest tip of master
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=umqEB3tn+K2RqG4lSp8+xKwCAEVL7+EGsj52H5iMKkA=;
+	b=gMwD58x9zoh5q43pbdrWww1mgO/EVTi5TPVlNAsJFrJU6oGiG6miMm92+nQZC/svcb
+	P+Cr2v088S5Jl9r9t2N2n5cF7mKYZtRwW1Q2mFMwyMsbkW6fv5nIrSFSuitaygslVLkd
+	CjEg+IuzkEB2IXAzxMXiwtObpYBjVYmeLk+vJTGner2Cim7JrRjOStgHDyype9ivYt/S
+	XMdrhWyy9O23Xm6kmVUCaj1hJYvhwFqOrJiOfSnNi04GUgJu3NJpKjyQKf4INnptPqbF
+	+oe9v6DJrc/3xCXWWIymqz9MG5bSzQaTDTlTHsaEIazFVbdZfUfZZu1hKUWzGgKBQ3EV
+	bh3Q==
+X-Gm-Message-State: ALyK8tIJrxm+tytfEiEKWsXZBlUdxyKDReV1FHKOaKCdpabK3kwT7VLkQUdL5snh6XbXIx/lMUHByvAbwdsBVw==
+X-Received: by 10.25.21.32 with SMTP id l32mr808633lfi.229.1467483562775; Sat,
+	02 Jul 2016 11:19:22 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.25.23.39 with HTTP; Sat, 2 Jul 2016 11:19:21 -0700 (PDT)
+In-Reply-To: <4128fb32-07bb-94d1-6b77-acb8984635fd@linux.intel.com>
+References: <cfce0a18-6762-9da4-1f4a-1969a912bf50@linux.intel.com>
+	<c487579e-eb43-81b5-b888-da9ad493102a@balister.org>
+	<CAJTo0LZnh1+tvznjgKKFrSoP-ie0vMD0m_5AtTEi0DcrpFjX6g@mail.gmail.com>
+	<33320.10.7.198.51.1465487815.squirrel@linux.intel.com>
+	<CAHPquwP2RDW3T5hiizow6=1xJzwgCPDDs=z+OHgaEedcXTh6bg@mail.gmail.com>
+	<CAJTo0LZhrKJvg=m05_SUPktikELaDRq8gTvvtjfhaj_9Uq+vPw@mail.gmail.com>
+	<4128fb32-07bb-94d1-6b77-acb8984635fd@linux.intel.com>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Sat, 2 Jul 2016 11:19:21 -0700
+Message-ID: <CANx9H-D1+8-2q9PvnYCJjSSO1iFXMqeh_TUkqCecN=jh_ox5uQ@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: "openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] the fate of Vala in OE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,67 +59,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Jul 2016 08:19:35 -0000
+X-List-Received-Date: Sat, 02 Jul 2016 18:19:24 -0000
+Content-Type: multipart/alternative; boundary=001a1140826e791c7a0536ab242b
 
-- libc-package.bbclass: Do not use --old-style
-  This option has been dropped from latest glibc
+--001a1140826e791c7a0536ab242b
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/classes/libc-package.bbclass                      | 4 ++--
- meta/recipes-core/glibc/cross-localedef-native_2.24.bb | 2 +-
- meta/recipes-core/glibc/glibc_2.24.bb                  | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+On Fri, Jun 10, 2016 at 6:21 AM, Alexander Kanavin <
+alexander.kanavin@linux.intel.com> wrote:
 
-diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
-index 4f321d4..6624746 100644
---- a/meta/classes/libc-package.bbclass
-+++ b/meta/classes/libc-package.bbclass
-@@ -290,7 +290,7 @@ python package_do_split_gconvs () {
-                 bb.error("locale_arch_options not found for target_arch=" + target_arch)
-                 raise bb.build.FuncFailed("unknown arch:" + target_arch + " for locale_arch_options")
- 
--            localedef_opts += " --force --old-style --no-archive --prefix=%s \
-+            localedef_opts += " --force  --no-archive --prefix=%s \
-                 --inputfile=%s/%s/i18n/locales/%s --charmap=%s %s/%s" \
-                 % (treedir, treedir, datadir, locale, encoding, outputpath, name)
- 
-@@ -298,7 +298,7 @@ python package_do_split_gconvs () {
-                 (path, i18npath, gconvpath, localedef_opts)
-         else: # earlier slower qemu way 
-             qemu = qemu_target_binary(d) 
--            localedef_opts = "--force --old-style --no-archive --prefix=%s \
-+            localedef_opts = "--force --no-archive --prefix=%s \
-                 --inputfile=%s/i18n/locales/%s --charmap=%s %s" \
-                 % (treedir, datadir, locale, encoding, name)
- 
-diff --git a/meta/recipes-core/glibc/cross-localedef-native_2.24.bb b/meta/recipes-core/glibc/cross-localedef-native_2.24.bb
-index 79c3132..c921211 100644
---- a/meta/recipes-core/glibc/cross-localedef-native_2.24.bb
-+++ b/meta/recipes-core/glibc/cross-localedef-native_2.24.bb
-@@ -22,7 +22,7 @@ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
- SRCBRANCH ?= "master"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+(\.\d+)*)"
- 
--SRCREV_glibc ?= "1ac3eaa6bcc473a56340c24511786ff48a91293e"
-+SRCREV_glibc ?= "76a0b73e8102c5bfb5cb791e34992472f5d1d33e"
- SRCREV_localedef ?= "29869b6dc11427c5bab839bdb155c85a7c644c71"
- 
- SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-diff --git a/meta/recipes-core/glibc/glibc_2.24.bb b/meta/recipes-core/glibc/glibc_2.24.bb
-index 77630e3..a5e1ad6 100644
---- a/meta/recipes-core/glibc/glibc_2.24.bb
-+++ b/meta/recipes-core/glibc/glibc_2.24.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b36d3209f380deb394b213 \
- 
- DEPENDS += "gperf-native"
- 
--SRCREV ?= "1ac3eaa6bcc473a56340c24511786ff48a91293e"
-+SRCREV ?= "76a0b73e8102c5bfb5cb791e34992472f5d1d33e"
- 
- #SRCBRANCH ?= "release/${PV}/master"
- SRCBRANCH ?= "master"
--- 
-2.9.0
+> On 06/09/2016 07:36 PM, Burton, Ross wrote:
+>
+>     We do use Vala for internal gstreamer-related projects so I would
+>>     volunteer to support it in oe-core.
+>>
+>>
+>> Would you volunteer to maintain it in a separate layer if possible?  If
+>> nothing in core uses it and it can be maintained out of core then I
+>> think it should be moved out.  Currently, vala support is in oe-core but
+>> nothing in oe-core uses it... so the autobuilder can't tell if it works.
+>>
+>
+> How about?
+>
+> 1) vala compiler recipe and support for generating library bindings stays
+> in oe-core
+>
+> 2) we take care of updating the vala recipe to latest stable upstream
+> version
+>
+> 3) we make sure that vala recipe builds correctly and library bindings are
+> generated without error for libraries that are in oe-core
+>
+> 4) any other issues, such as compiler not working properly, or issues with
+> bindings for things that are not in oe-core are handled by 'the community'.
+>
+>
+Excellent compromise. I volunteer to help with that.
+ --Tim
 
+>
+>
+> Alex
+>
+>
 
+--001a1140826e791c7a0536ab242b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Fri, Jun 10, 2016 at 6:21 AM, Alexander Kanavin <span dir=3D"ltr">&l=
+t;<a href=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">al=
+exander.kanavin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex"><span class=3D"">On 06/09/2016 07:36 PM, Burton, Ross wrote:<=
+br>
+<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+=C2=A0 =C2=A0 We do use Vala for internal gstreamer-related projects so I w=
+ould<br>
+=C2=A0 =C2=A0 volunteer to support it in oe-core.<br>
+<br>
+<br>
+Would you volunteer to maintain it in a separate layer if possible?=C2=A0 I=
+f<br>
+nothing in core uses it and it can be maintained out of core then I<br>
+think it should be moved out.=C2=A0 Currently, vala support is in oe-core b=
+ut<br>
+nothing in oe-core uses it... so the autobuilder can&#39;t tell if it works=
+.<br>
+</blockquote>
+<br></span>
+How about?<br>
+<br>
+1) vala compiler recipe and support for generating library bindings stays i=
+n oe-core<br>
+<br>
+2) we take care of updating the vala recipe to latest stable upstream versi=
+on<br>
+<br>
+3) we make sure that vala recipe builds correctly and library bindings are =
+generated without error for libraries that are in oe-core<br>
+<br>
+4) any other issues, such as compiler not working properly, or issues with =
+bindings for things that are not in oe-core are handled by &#39;the communi=
+ty&#39;.<br>
+<br></blockquote><div><br></div><div>Excellent compromise. I volunteer to h=
+elp with that.<br></div><div>=C2=A0--Tim<br></div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
+:1ex">
+<br>
+<br>
+Alex<div class=3D"HOEnZb"><div class=3D"h5"><br>
+</div></div></blockquote></div><br></div></div>
+
+--001a1140826e791c7a0536ab242b--
