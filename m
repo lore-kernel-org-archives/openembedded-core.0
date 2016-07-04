@@ -1,28 +1,49 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id DDD0173163
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
+	[209.85.220.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B8866FF80
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jul 2016 21:59:21 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 04 Jul 2016 14:59:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,576,1459839600"; d="scan'208";a="1000892688"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga001.fm.intel.com with ESMTP; 04 Jul 2016 14:59:22 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
-	by linux.intel.com (Postfix) with ESMTP id BB4BC6A4080
+	Mon,  4 Jul 2016 22:04:29 +0000 (UTC)
+Received: by mail-qk0-f170.google.com with SMTP id e3so73109840qkd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jul 2016 14:59:15 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Jul 2016 00:48:12 +0300
-Message-Id: <f41411fe8fd2c5bda239f5e2be4338ba880eda58.1467668390.git.ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1467668390.git.ed.bartosh@linux.intel.com>
-References: <cover.1467668390.git.ed.bartosh@linux.intel.com>
-In-Reply-To: <cover.1467668390.git.ed.bartosh@linux.intel.com>
-References: <cover.1467668390.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 4/4] oepydevshell-internal: python3: encode/decode pty content
+	Mon, 04 Jul 2016 15:04:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=7VGLg2iruIX0FO5+HZyXjFNVQdfjh0jMyV/qCxTD9X4=;
+	b=Djm12kILhs9tmgpz+DOmpUuMr74KLHJDLNgqmw/lycfEg1NgFDTTNhNtFbsyGOPLif
+	/OLdLpsewWU3x9YvqfM2h8gQ6gv7MEBPZnkkMfwEkRG4hKLxnLk8a5F+ASIIjuOFggJw
+	3lvs6id5bMEYIIhIa3ohMoiQae6TwDtsN4wLSfe3BHxO5lTeysKMYKsuoT9VCuSfbLdJ
+	DGi6ObOJFfR7uOjlb1p+TKG5OGt+NGqJ1XFT/Rs6x7sVl2WJjXkkNZ4eqoLVYigLCc/k
+	S1JCXc2tju6EpQQa8pjmTML/3NH93AfHSFhnrtOwAHYyk8hp3Xtrz9jHn1J/s6dSXkvu
+	OXkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=7VGLg2iruIX0FO5+HZyXjFNVQdfjh0jMyV/qCxTD9X4=;
+	b=cXMtEP6nnzpNln59RPZbuPR/5txz0EMjpTekxcgd1UzvC99np3s+hjFmworoR48Oz0
+	GQSFDjVon+B7R2KEKdJdWEGzao6DP66vzYBhGDQDcGWruZncnhAvMcBXpMaGURDwKLmF
+	vp9NhfAA8lus1ZI5TxfCWz1JgGQmvYuLKtzxnT/IX6k8yEJxALuGEntCwxJgkqpvsqhf
+	YB7cIod4rDx++nZgI5GoSBzy50DVvg0XOrHhOqksWkBgkwtBA1FQCxRCg3m0Htd1VcMM
+	G8gDMZ4pDWdP9WU1nGaXhGE+7M6WLUtf+Gw5mJAaYx+V49EwgfjfZAuK0EmffGVblU9o
+	Evhg==
+X-Gm-Message-State: ALyK8tLEc6hk2af+z+KdB2V4pMRospVBSHl79eIaBPT6SX66m28RivX/ds3QbFCz2e+gNni4moUlFu9mcl176g==
+X-Received: by 10.55.16.232 with SMTP id 101mr19452949qkq.151.1467669870544;
+	Mon, 04 Jul 2016 15:04:30 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.55.214.83 with HTTP; Mon, 4 Jul 2016 15:04:00 -0700 (PDT)
+In-Reply-To: <CAJTo0LYdAVqHZ8h1tAMo5HELqL-2SkkOk-iFT9n06s6C7ufytQ@mail.gmail.com>
+References: <1467637324-16642-1-git-send-email-maxin.john@intel.com>
+	<1467637324-16642-2-git-send-email-maxin.john@intel.com>
+	<CAJTo0LZUvOTA9X=SE=GrK4PkFvO-F4S556zEUjdSK2yBhZkShA@mail.gmail.com>
+	<CAMKF1sr-kDvBVC7swKrDHCqW+ojvtDNxEifL-91gMazoj7NuEg@mail.gmail.com>
+	<CAJTo0LYdAVqHZ8h1tAMo5HELqL-2SkkOk-iFT9n06s6C7ufytQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 4 Jul 2016 15:04:00 -0700
+Message-ID: <CAMKF1spq-AB_xxu_9Mh8c4tXdC+gY7znz4D-EA_PtsYt+rxDTA@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/4] libsolv: upgrade to 0.6.22
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,51 +56,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jul 2016 21:59:22 -0000
+X-List-Received-Date: Mon, 04 Jul 2016 22:04:30 -0000
+Content-Type: text/plain; charset=UTF-8
 
-As /dev/pty opened in binary mode its content has to
-be decoded when reading from it and encoded when writing to it.
+On Mon, Jul 4, 2016 at 6:35 AM, Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On 4 July 2016 at 14:18, Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>> we do not do that for recipes with git fetchers usually. PV is encoded
+>> as PV+git{SRCPV}
+>
+>
+> For recipes which are tracking releases, it's fairly common - and I feel
+> clearer - use have the PV in the filename and thus PV instead of spreading
+> the SHA everywhere for no reason. It's version 0.6.22, nobody cares what the
+> SHA is.
+>
+> *If* it was a SHA beyond 0.6.22 then PV+SHA makes perfect sense.
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- scripts/oepydevshell-internal.py | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+seems ok. dont have strong opinions either way
 
-diff --git a/scripts/oepydevshell-internal.py b/scripts/oepydevshell-internal.py
-index 31a75ac..a22bec3 100755
---- a/scripts/oepydevshell-internal.py
-+++ b/scripts/oepydevshell-internal.py
-@@ -47,7 +47,7 @@ try:
-     # Need cbreak/noecho whilst in select so we trigger on any keypress
-     cbreaknoecho(sys.stdin.fileno())
-     # Send our PID to the other end so they can kill us.
--    pty.write(str(os.getpid()) + "\n")
-+    pty.write(str(os.getpid()).encode('utf-8') + b"\n")
-     while True:
-         try:
-             writers = []
-@@ -56,7 +56,7 @@ try:
-             (ready, _, _) = select.select([pty, sys.stdin], writers , [], 0)
-             try:
-                 if pty in ready:
--                    i = i + pty.read()
-+                    i = i + pty.read().decode('utf-8')
-                 if i:
-                     # Write a page at a time to avoid overflowing output 
-                     # d.keys() is a good way to do that
-@@ -65,9 +65,9 @@ try:
-                     i = i[4096:]
-                 if sys.stdin in ready:
-                     echonocbreak(sys.stdin.fileno())
--                    o = input()
-+                    o = input().encode('utf-8')
-                     cbreaknoecho(sys.stdin.fileno())
--                    pty.write(o + "\n")
-+                    pty.write(o + b"\n")
-             except (IOError, OSError) as e:
-                 if e.errno == 11:
-                     continue
--- 
-2.1.4
-
+>
+> Ross
 
