@@ -1,24 +1,27 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C6A506072C
+Return-Path: <Li.Zhou@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 925A96013D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jul 2016 06:40:48 +0000 (UTC)
+	Mon,  4 Jul 2016 07:12:12 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u646enpZ016984
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u647CCDX015373
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 3 Jul 2016 23:40:49 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.229) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Sun, 3 Jul 2016 23:40:48 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
+	Mon, 4 Jul 2016 00:12:12 -0700
+Received: from [128.224.162.243] (128.224.162.243) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 4 Jul 2016 00:12:11 -0700
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 4 Jul 2016 14:41:14 +0800
-Message-ID: <cover.1467614424.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
+References: <20160622051927.17908-1-li.zhou@windriver.com>
+From: "Zhou, Li" <li.zhou@windriver.com>
+Message-ID: <577A0C2F.9080405@windriver.com>
+Date: Mon, 4 Jul 2016 15:11:43 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.8.0
 MIME-Version: 1.0
-Subject: [PATCH 0/1] gettext: fix for low-version recipe
+In-Reply-To: <20160622051927.17908-1-li.zhou@windriver.com>
+Subject: Re: [PATCH] smartpm: make "smart query/info" search package name in Provides too.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,25 +34,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jul 2016 06:40:51 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 04 Jul 2016 07:12:13 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The following changes since commit 53fcfe4348a2ca727844f2b0bd3fca2902cbdda0:
+Ping
 
-  lib/oeqa: add Galculator to SDK and runtime tests (2016-07-01 16:08:54 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib ChenQi/gettext-native
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/gettext-native
-
-Chen Qi (1):
-  gettext: fix for low-version recipe
-
- meta/recipes-core/gettext/gettext_0.16.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 06/22/2016 01:19 PM, Li Zhou wrote:
+> "smart query glibc" or "smart info glibc" will get result as:
+> "error: 'glibc' matches no packages".
+> While "smart install glibc" can get result as:
+> "libc6-xxx (for glibc) is already installed".
+> Here change "smart query/info" to search package name in Provides too,
+> and one result example is: "smart query glibc" gets the same result
+> with "smart query libc6".
+>
+> Signed-off-by: Li Zhou <li.zhou@windriver.com>
+> ---
+>   ...e-smart-query-info-search-package-name-in.patch | 51 ++++++++++++++++++++++
+>   meta/recipes-devtools/python/python-smartpm_git.bb |  1 +
+>   2 files changed, 52 insertions(+)
+>   create mode 100644 meta/recipes-devtools/python/python-smartpm/0001-smartpm-make-smart-query-info-search-package-name-in.patch
+>
+> diff --git a/meta/recipes-devtools/python/python-smartpm/0001-smartpm-make-smart-query-info-search-package-name-in.patch b/meta/recipes-devtools/python/python-smartpm/0001-smartpm-make-smart-query-info-search-package-name-in.patch
+> new file mode 100644
+> index 0000000..75389c3
+> --- /dev/null
+> +++ b/meta/recipes-devtools/python/python-smartpm/0001-smartpm-make-smart-query-info-search-package-name-in.patch
+> @@ -0,0 +1,51 @@
+> +From 7b7b7c120dd20f825ec886a9b90b1d4291d1d332 Mon Sep 17 00:00:00 2001
+> +From: Li Zhou <li.zhou@windriver.com>
+> +Date: Wed, 22 Jun 2016 11:09:20 +0800
+> +Subject: [PATCH] smartpm: make "smart query/info" search package name in
+> + Provides too.
+> +
+> +"smart query glibc" or "smart info glibc" will get result as:
+> +"error: 'glibc' matches no packages".
+> +While "smart install glibc" can get result as:
+> +"libc6-xxx (for glibc) is already installed".
+> +Here change "smart query/info" to search package name in Provides too,
+> +and one result example is: "smart query glibc" gets the same result
+> +with "smart query libc6".
+> +
+> +Upstream-Status: Pending
+> +
+> +Signed-off-by: Li Zhou <li.zhou@windriver.com>
+> +---
+> + smart/commands/info.py  | 2 +-
+> + smart/commands/query.py | 2 +-
+> + 2 files changed, 2 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/smart/commands/info.py b/smart/commands/info.py
+> +index 59fbe98..85d05f9 100644
+> +--- a/smart/commands/info.py
+> ++++ b/smart/commands/info.py
+> +@@ -75,7 +75,7 @@ def main(ctrl, opts, reloadchannels=True):
+> +     if opts.args:
+> +         pkgs = {}
+> +         for arg in opts.args:
+> +-            ratio, results, suggestions = ctrl.search(arg, addprovides=False)
+> ++            ratio, results, suggestions = ctrl.search(arg)
+> +
+> +             if not results:
+> +                 if suggestions:
+> +diff --git a/smart/commands/query.py b/smart/commands/query.py
+> +index b6f5697..22cb60f 100644
+> +--- a/smart/commands/query.py
+> ++++ b/smart/commands/query.py
+> +@@ -165,7 +165,7 @@ def main(ctrl, opts, reloadchannels=True):
+> +     else:
+> +         packages = {}
+> +         for arg in opts.args:
+> +-            ratio, results, suggestions = ctrl.search(arg, addprovides=False)
+> ++            ratio, results, suggestions = ctrl.search(arg)
+> +             if not results:
+> +                 if suggestions:
+> +                     dct = {}
+> +--
+> +2.9.0
+> +
+> diff --git a/meta/recipes-devtools/python/python-smartpm_git.bb b/meta/recipes-devtools/python/python-smartpm_git.bb
+> index d9a908d..b926f66 100644
+> --- a/meta/recipes-devtools/python/python-smartpm_git.bb
+> +++ b/meta/recipes-devtools/python/python-smartpm_git.bb
+> @@ -23,6 +23,7 @@ SRC_URI = "\
+>             file://smart-already-installed-message.patch \
+>             file://smart-set-noprogress-for-pycurl.patch \
+>             file://smart-cache.py-getPackages-matches-name-version.patch \
+> +          file://0001-smartpm-make-smart-query-info-search-package-name-in.patch \
+>            "
+>   
+>   SRCREV = "407a7eca766431257dcd1da15175cc36a1bb22d0"
 
 -- 
-1.9.1
+Best Regards!
+Zhou Li
+Phone number: 86-10-84778511
 
 
