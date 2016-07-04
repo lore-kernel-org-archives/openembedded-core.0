@@ -1,47 +1,44 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f54.google.com (mail-it0-f54.google.com
-	[209.85.214.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 637B160119
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-lf0-f54.google.com (mail-lf0-f54.google.com
+	[209.85.215.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 00E7960119
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jul 2016 10:18:50 +0000 (UTC)
-Received: by mail-it0-f54.google.com with SMTP id f6so16094379ith.0
+	Mon,  4 Jul 2016 10:28:51 +0000 (UTC)
+Received: by mail-lf0-f54.google.com with SMTP id l188so114365908lfe.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Jul 2016 03:18:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=MJ41Fq+SKZybQyt9S3v7A8nexPtQrtgp6sRqvKde8CM=;
-	b=jAZG57rs8+dzGB1H747P45LfWpV4ZG8CSLCpdKk8daYmY1vJpi3vQXNzqULlt6JF6b
-	fv6wclKp6ec8qtvAN4B/SI1MWX2QFPnFgd6QHSIqBIg5GNu32NM0+fKYUxz8Y7r9eII6
-	f5jtwStSjJNPMj07rttTJIpto7Lut2a4uLes2ue+3C4xYu2AhH4DcbOiUS7lawuiY9l/
-	n+x/eRH06ck1M4S0rQNTkHKUmoGeG2zqPvX2kEeJEuUiHULynqHkxf4QFS+/IJY2Qy1z
-	aVE+jCRlcnOcN8KuMLUXX5RSLUgpk80lHGzLxziSj3/Is+tXvSiB8V4r3Mbac2N4LLQD
-	05ow==
+	Mon, 04 Jul 2016 03:28:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=6+DHpvlNsWZnHi4vuSGh3x/icZ2mcMUWSwLgIdvQcD8=;
+	b=eajD9H+w3GwGkEfpH+z6FIIN+FfSg7kkwThmZmG+Y33tsz7fcH97XQ+r/GQ+IhDsgM
+	5RK+PofilZiFzcMXWu/ehg/dm2JX2tBcRrjcdz27IKIjhoacj5buTzjXUMFRKeTz6oV/
+	FE0t1Br9pXWROAh6nIzWDwJ8PBlbAZOdoOgTRiIRjoyB/fTSAA97pVNcZQmF/d/Iu7L0
+	MlpD1jUgeOts708CoM39Ilaz2Z2RydEO1/ugueWvSObPQ+KrZoDUSmTdsr3yWD26GBzD
+	Ge84TWRS6zwS4dxZnjWWPg9FU8hmdLBrBD4ZMnqDgZU0jnwOPkvNweiUsgunvnjfeB+V
+	7Y0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=MJ41Fq+SKZybQyt9S3v7A8nexPtQrtgp6sRqvKde8CM=;
-	b=GCfHCYRv7JBhOJnRCRYbisTBMJoTOcOf2j+0xDj0OTOGSTLG9yagJ2TSJCFUtV2i9M
-	HAbyCAmdXuV1+/pO2tNvvceMT82kQVQG+iDeYw6S2eedUInc0CYzA2sWVJtW6ulJrkZa
-	wFTGQYkIaY5wz2A4nh9/ei/19Y4c7ZNlzmT7J/iXtkb2dODZw2P5lbX/bz0mcd7a1NMp
-	pOvba2jJJdJ5TKNoURy+pOayCbs5Zk43EPTs1vi8ZvvBfmpwvCC8kd0VXbnkzHniu41S
-	M+sUlcdSdtnc36BLtxdp5DpR3gPi/inhwKBmB3JCpb24Izjcq7qrwdaqxQnzQ24v7v0Z
-	T+8g==
-X-Gm-Message-State: ALyK8tLdHu398EFc6LIcLskAesVeHdT00tKAxpbLAoClcaktzfBriD+FExlpa7JIAODXw6TrwGHGTKOwdkBuVuUm
-X-Received: by 10.36.20.212 with SMTP id 203mr7970876itg.83.1467627531474;
-	Mon, 04 Jul 2016 03:18:51 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.142.151 with HTTP; Mon, 4 Jul 2016 03:18:32 -0700 (PDT)
-In-Reply-To: <1467611193-31658-2-git-send-email-carol.zhu@nxp.com>
-References: <1467611193-31658-1-git-send-email-carol.zhu@nxp.com>
-	<1467611193-31658-2-git-send-email-carol.zhu@nxp.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 4 Jul 2016 11:18:32 +0100
-Message-ID: <CAJTo0LZa0nqhg5ZTcP+4kz_yMAY2h-u3YoLgoeby814UXNmxEA@mail.gmail.com>
-To: Yuqing Zhu <carol.zhu@nxp.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [poky][PATCH 1/6] gstreamer1.0-plugins-bad: Enable gldeinterlace on OpenGL ES
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=6+DHpvlNsWZnHi4vuSGh3x/icZ2mcMUWSwLgIdvQcD8=;
+	b=fAkJ+C4ywnhYO8PZ7STzFLPlgB1RDW349zCmc3JIJuw4wY0+BjPKvEHchTxuRVaHAr
+	/SOyAPvCDSCLEsUSZed8h5uusQogQ0YviQoHvTE7Xn2ppH4bwy7EVyHD+UTXdYgD6x8R
+	ypg+/s9Ha6LfQptj14F58qNMrGvbIaMFpBLHJ8B/xfVGBLTU1MeQ8+yt6CBjqzutiBc5
+	wqabOfZuLN4MxbdjTzdooIlzrBB6/XWSMj0XaJOU1Iai0ZGvj+q2jvKZK9jWRiGKhuqB
+	i9G5pUd++bk4DGvABv5OSRc5xndEAsCq4nCMmhvR+rbROtNCSY1zNETD7sl2/eKTeAIi
+	/4aw==
+X-Gm-Message-State: ALyK8tI0MZHbEhnOf3H//gYgSn2ZDTs86Q5I21F1KE+tomr+tqV/o8b4T42BMB8mF/jqfQ==
+X-Received: by 10.25.16.230 with SMTP id 99mr2568572lfq.21.1467628131479;
+	Mon, 04 Jul 2016 03:28:51 -0700 (PDT)
+Received: from e6520.dcclabs.tv ([212.75.108.115])
+	by smtp.gmail.com with ESMTPSA id 142sm4592831ljj.4.2016.07.04.03.28.50
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 04 Jul 2016 03:28:50 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  4 Jul 2016 03:28:40 -0700
+Message-Id: <1467628120-21954-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: Spurious warning with nested meta layers?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,45 +51,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jul 2016 10:18:52 -0000
-Content-Type: multipart/alternative; boundary=001a1143e198ad52f20536cca9ca
+X-List-Received-Date: Mon, 04 Jul 2016 10:28:52 -0000
 
---001a1143e198ad52f20536cca9ca
-Content-Type: text/plain; charset=UTF-8
+Is it valid to nest a meta layer within another meta layer?
 
-On 4 July 2016 at 06:46, Yuqing Zhu <carol.zhu@nxp.com> wrote:
+After applying the patch below (to create s test layer within the OE
+core top-level meta directory) and updating bblayers.conf BBLAYERS
+to include openembedded-core/meta/meta-foo, everything seems to work
+OK (ie the foo recipe is parsed and usable) however I see a spurious
+warning that no .bb files were found within meta-foo:
 
-> +Upstream-Status: Pending
-> +
-> +https://bugzilla.gnome.org/show_bug.cgi?id=764873
->
+  WARNING: No bb files matched BBFILE_PATTERN_foo '^/home/andre/rdk/rdk-master/openembedded-core/meta/meta-foo/'
 
-U-S says Pending, bug says fixed.
+The warning goes away if meta-foo is not nested within another meta
+layer.
 
-Is this a backport of a change that actually landed upstream?  I don't
-really agree with OE-Core carrying new API and features in a core component
-like GStreamer that are not backported.
+---
+ meta/meta-foo/conf/layer.conf               | 7 +++++++
+ meta/meta-foo/recipes-foo/foo/files/foo.txt | 0
+ meta/meta-foo/recipes-foo/foo/foo_0.1.bb    | 3 +++
+ 3 files changed, 10 insertions(+)
+ create mode 100644 meta/meta-foo/conf/layer.conf
+ create mode 100644 meta/meta-foo/recipes-foo/foo/files/foo.txt
+ create mode 100644 meta/meta-foo/recipes-foo/foo/foo_0.1.bb
 
-Ross
+diff --git a/meta/meta-foo/conf/layer.conf b/meta/meta-foo/conf/layer.conf
+new file mode 100644
+index 0000000..ef23fc2
+--- /dev/null
++++ b/meta/meta-foo/conf/layer.conf
+@@ -0,0 +1,7 @@
++BBPATH .= ":${LAYERDIR}"
++
++BBFILES += "${LAYERDIR}/recipes-*/*/*.bb"
++
++BBFILE_COLLECTIONS += "foo"
++BBFILE_PATTERN_foo := "^${LAYERDIR}/"
++BBFILE_PRIORITY_foo = "1"
+diff --git a/meta/meta-foo/recipes-foo/foo/files/foo.txt b/meta/meta-foo/recipes-foo/foo/files/foo.txt
+new file mode 100644
+index 0000000..e69de29
+diff --git a/meta/meta-foo/recipes-foo/foo/foo_0.1.bb b/meta/meta-foo/recipes-foo/foo/foo_0.1.bb
+new file mode 100644
+index 0000000..a5b5412
+--- /dev/null
++++ b/meta/meta-foo/recipes-foo/foo/foo_0.1.bb
+@@ -0,0 +1,3 @@
++LICENSE = "CLOSED"
++
++SRC_URI = "file://foo.txt"
+-- 
+1.9.1
 
---001a1143e198ad52f20536cca9ca
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 4 July 2016 at 06:46, Yuqing Zhu <span dir=3D"ltr">&lt;<a href=3D"mailto=
-:carol.zhu@nxp.com" target=3D"_blank">carol.zhu@nxp.com</a>&gt;</span> wrot=
-e:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
-eft:1px #ccc solid;padding-left:1ex"><div id=3D":fnd" class=3D"a3s aXjCH m1=
-55b48282ccb8ecd">+Upstream-Status: Pending<br>
-+<br>
-+<a href=3D"https://bugzilla.gnome.org/show_bug.cgi?id=3D764873" rel=3D"nor=
-eferrer" target=3D"_blank">https://bugzilla.gnome.org/show_bug.cgi?id=3D764=
-873</a></div></blockquote></div><br>U-S says Pending, bug says fixed.</div>=
-<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Is this a b=
-ackport of a change that actually landed upstream?=C2=A0 I don&#39;t really=
- agree with OE-Core carrying new API and features in a core component like =
-GStreamer that are not backported.</div><div class=3D"gmail_extra"><br></di=
-v><div class=3D"gmail_extra">Ross</div></div>
-
---001a1143e198ad52f20536cca9ca--
