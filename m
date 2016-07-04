@@ -1,23 +1,47 @@
-Return-Path: <sergeimir@emcraft.com>
-Received: from ocean.emcraft.com (ocean.emcraft.com [185.75.190.205])
-	by mail.openembedded.org (Postfix) with ESMTP id B59E860119
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f54.google.com (mail-it0-f54.google.com
+	[209.85.214.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 637B160119
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jul 2016 09:18:59 +0000 (UTC)
-Received: from sergmir.emcraft.com ([172.17.0.19] helo=sergmir.localdomain)
-	by ocean.emcraft.com with esmtps (TLSv1:AES256-SHA:256) (Exim 4.76)
-	(envelope-from <sergeimir@emcraft.com>)
-	id 1bJzDC-00033l-HY; Mon, 04 Jul 2016 11:26:38 +0300
-From: Sergei Miroshnichenko <sergeimir@emcraft.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Jul 2016 11:25:48 +0300
-Message-Id: <1467620748-20129-2-git-send-email-sergeimir@emcraft.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <1467620748-20129-1-git-send-email-sergeimir@emcraft.com>
-References: <1467620748-20129-1-git-send-email-sergeimir@emcraft.com>
-Cc: WolfgangDenkwd@denx.de, Alexander Dyachenko <sasha_d@emcraft.com>,
-	Roger Meier <r.meier@siemens.com>,
-	Sergei Miroshnichenko <sergeimir@emcraft.com>
-Subject: [PATCH v2 1/1] license: Add support for SPDX 2.0 operators
+	Mon,  4 Jul 2016 10:18:50 +0000 (UTC)
+Received: by mail-it0-f54.google.com with SMTP id f6so16094379ith.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 04 Jul 2016 03:18:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=MJ41Fq+SKZybQyt9S3v7A8nexPtQrtgp6sRqvKde8CM=;
+	b=jAZG57rs8+dzGB1H747P45LfWpV4ZG8CSLCpdKk8daYmY1vJpi3vQXNzqULlt6JF6b
+	fv6wclKp6ec8qtvAN4B/SI1MWX2QFPnFgd6QHSIqBIg5GNu32NM0+fKYUxz8Y7r9eII6
+	f5jtwStSjJNPMj07rttTJIpto7Lut2a4uLes2ue+3C4xYu2AhH4DcbOiUS7lawuiY9l/
+	n+x/eRH06ck1M4S0rQNTkHKUmoGeG2zqPvX2kEeJEuUiHULynqHkxf4QFS+/IJY2Qy1z
+	aVE+jCRlcnOcN8KuMLUXX5RSLUgpk80lHGzLxziSj3/Is+tXvSiB8V4r3Mbac2N4LLQD
+	05ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=MJ41Fq+SKZybQyt9S3v7A8nexPtQrtgp6sRqvKde8CM=;
+	b=GCfHCYRv7JBhOJnRCRYbisTBMJoTOcOf2j+0xDj0OTOGSTLG9yagJ2TSJCFUtV2i9M
+	HAbyCAmdXuV1+/pO2tNvvceMT82kQVQG+iDeYw6S2eedUInc0CYzA2sWVJtW6ulJrkZa
+	wFTGQYkIaY5wz2A4nh9/ei/19Y4c7ZNlzmT7J/iXtkb2dODZw2P5lbX/bz0mcd7a1NMp
+	pOvba2jJJdJ5TKNoURy+pOayCbs5Zk43EPTs1vi8ZvvBfmpwvCC8kd0VXbnkzHniu41S
+	M+sUlcdSdtnc36BLtxdp5DpR3gPi/inhwKBmB3JCpb24Izjcq7qrwdaqxQnzQ24v7v0Z
+	T+8g==
+X-Gm-Message-State: ALyK8tLdHu398EFc6LIcLskAesVeHdT00tKAxpbLAoClcaktzfBriD+FExlpa7JIAODXw6TrwGHGTKOwdkBuVuUm
+X-Received: by 10.36.20.212 with SMTP id 203mr7970876itg.83.1467627531474;
+	Mon, 04 Jul 2016 03:18:51 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.142.151 with HTTP; Mon, 4 Jul 2016 03:18:32 -0700 (PDT)
+In-Reply-To: <1467611193-31658-2-git-send-email-carol.zhu@nxp.com>
+References: <1467611193-31658-1-git-send-email-carol.zhu@nxp.com>
+	<1467611193-31658-2-git-send-email-carol.zhu@nxp.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 4 Jul 2016 11:18:32 +0100
+Message-ID: <CAJTo0LZa0nqhg5ZTcP+4kz_yMAY2h-u3YoLgoeby814UXNmxEA@mail.gmail.com>
+To: Yuqing Zhu <carol.zhu@nxp.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [poky][PATCH 1/6] gstreamer1.0-plugins-bad: Enable gldeinterlace on OpenGL ES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,94 +54,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jul 2016 09:19:00 -0000
+X-List-Received-Date: Mon, 04 Jul 2016 10:18:52 -0000
+Content-Type: multipart/alternative; boundary=001a1143e198ad52f20536cca9ca
 
-LICENSE can contain "OR", "AND" and "WITH" operators of SPDX: map
-them to "|" and "&" accordingly.
+--001a1143e198ad52f20536cca9ca
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Sergei Miroshnichenko <sergeimir@emcraft.com>
----
- meta/classes/license.bbclass | 17 ++++++++++-------
- meta/lib/oe/license.py       | 21 ++++++++++++++++-----
- 2 files changed, 26 insertions(+), 12 deletions(-)
+On 4 July 2016 at 06:46, Yuqing Zhu <carol.zhu@nxp.com> wrote:
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index c543637..8efb545 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -643,20 +643,23 @@ def check_license_format(d):
-     """
-     pn = d.getVar('PN', True)
-     licenses = d.getVar('LICENSE', True)
--    from oe.license import license_operator, license_operator_chars, license_pattern
-+    from oe.license import license_operator, license_pattern
- 
-     elements = list(filter(lambda x: x.strip(), license_operator.split(licenses)))
-     for pos, element in enumerate(elements):
--        if license_pattern.match(element):
--            if pos > 0 and license_pattern.match(elements[pos - 1]):
-+        operator_match = license_operator.match(element)
-+        license_match = license_pattern.match(element)
-+
-+        if license_match and not operator_match:
-+            if pos > 0 and license_pattern.match(elements[pos - 1]) and not license_operator.match(elements[pos - 1]):
-                 bb.warn('%s: LICENSE value "%s" has an invalid format - license names ' \
--                        'must be separated by the following characters to indicate ' \
-+                        'must be separated by the following operators to indicate ' \
-                         'the license selection: %s' %
--                        (pn, licenses, license_operator_chars))
--        elif not license_operator.match(element):
-+                        (pn, licenses, license_operator.pattern))
-+        elif not operator_match:
-             bb.warn('%s: LICENSE value "%s" has an invalid separator "%s" that is not ' \
-                     'in the valid list of separators (%s)' %
--                    (pn, licenses, element, license_operator_chars))
-+                    (pn, licenses, element, license_operator.pattern))
- 
- SSTATETASKS += "do_populate_lic"
- do_populate_lic[sstate-inputdirs] = "${LICSSTATEDIR}"
-diff --git a/meta/lib/oe/license.py b/meta/lib/oe/license.py
-index 39ef965..6769c55 100644
---- a/meta/lib/oe/license.py
-+++ b/meta/lib/oe/license.py
-@@ -40,8 +40,13 @@ class InvalidLicense(LicenseError):
-         return "invalid characters in license '%s'" % self.license
- 
- license_operator_chars = '&|() '
--license_operator = re.compile('([' + license_operator_chars + '])')
--license_pattern = re.compile('[a-zA-Z0-9.+_\-]+$')
-+license_operator = re.compile('([' + license_operator_chars + ']|AND|OR|WITH)')
-+license_pattern = re.compile('^(?:DocumentRef-[a-zA-Z0-9.\-]+:)?(?:LicenseRef-)?([a-zA-Z0-9_.+\-]+)$')
-+
-+license_operator_map = {}
-+license_operator_map["OR"] = '|'
-+license_operator_map["AND"] = '&'
-+license_operator_map["WITH"] = '&'
- 
- class LicenseVisitor(ast.NodeVisitor):
-     """Get elements based on OpenEmbedded license strings"""
-@@ -49,11 +54,17 @@ class LicenseVisitor(ast.NodeVisitor):
-         new_elements = []
-         elements = list([x for x in license_operator.split(licensestr) if x.strip()])
-         for pos, element in enumerate(elements):
--            if license_pattern.match(element):
--                if pos > 0 and license_pattern.match(elements[pos-1]):
-+            operator_match = license_operator.match(element)
-+            license_match = license_pattern.match(element)
-+            if operator_match:
-+                if license_operator_map.get(element, None) != None:
-+                    element = license_operator_map.get(element)
-+            elif license_match:
-+                if pos > 0 and license_pattern.match(elements[pos-1]) and not license_operator.match(elements[pos-1]):
-                     new_elements.append('&')
-+                element = license_match.group(1)
-                 element = '"' + element + '"'
--            elif not license_operator.match(element):
-+            else:
-                 raise InvalidLicense(element)
-             new_elements.append(element)
- 
--- 
-2.1.0
+> +Upstream-Status: Pending
+> +
+> +https://bugzilla.gnome.org/show_bug.cgi?id=764873
+>
 
+U-S says Pending, bug says fixed.
 
+Is this a backport of a change that actually landed upstream?  I don't
+really agree with OE-Core carrying new API and features in a core component
+like GStreamer that are not backported.
+
+Ross
+
+--001a1143e198ad52f20536cca9ca
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 4 July 2016 at 06:46, Yuqing Zhu <span dir=3D"ltr">&lt;<a href=3D"mailto=
+:carol.zhu@nxp.com" target=3D"_blank">carol.zhu@nxp.com</a>&gt;</span> wrot=
+e:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
+eft:1px #ccc solid;padding-left:1ex"><div id=3D":fnd" class=3D"a3s aXjCH m1=
+55b48282ccb8ecd">+Upstream-Status: Pending<br>
++<br>
++<a href=3D"https://bugzilla.gnome.org/show_bug.cgi?id=3D764873" rel=3D"nor=
+eferrer" target=3D"_blank">https://bugzilla.gnome.org/show_bug.cgi?id=3D764=
+873</a></div></blockquote></div><br>U-S says Pending, bug says fixed.</div>=
+<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Is this a b=
+ackport of a change that actually landed upstream?=C2=A0 I don&#39;t really=
+ agree with OE-Core carrying new API and features in a core component like =
+GStreamer that are not backported.</div><div class=3D"gmail_extra"><br></di=
+v><div class=3D"gmail_extra">Ross</div></div>
+
+--001a1143e198ad52f20536cca9ca--
