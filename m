@@ -1,49 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
-	[209.85.220.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B8866FF80
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 6124A6011C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jul 2016 22:04:29 +0000 (UTC)
-Received: by mail-qk0-f170.google.com with SMTP id e3so73109840qkd.0
+	Mon,  4 Jul 2016 22:18:20 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 04 Jul 2016 15:18:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.26,576,1459839600"; d="scan'208";a="1010879271"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga002.jf.intel.com with ESMTP; 04 Jul 2016 15:18:16 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
+	by linux.intel.com (Postfix) with ESMTP id 5DFAF6A4080
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Jul 2016 15:04:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=7VGLg2iruIX0FO5+HZyXjFNVQdfjh0jMyV/qCxTD9X4=;
-	b=Djm12kILhs9tmgpz+DOmpUuMr74KLHJDLNgqmw/lycfEg1NgFDTTNhNtFbsyGOPLif
-	/OLdLpsewWU3x9YvqfM2h8gQ6gv7MEBPZnkkMfwEkRG4hKLxnLk8a5F+ASIIjuOFggJw
-	3lvs6id5bMEYIIhIa3ohMoiQae6TwDtsN4wLSfe3BHxO5lTeysKMYKsuoT9VCuSfbLdJ
-	DGi6ObOJFfR7uOjlb1p+TKG5OGt+NGqJ1XFT/Rs6x7sVl2WJjXkkNZ4eqoLVYigLCc/k
-	S1JCXc2tju6EpQQa8pjmTML/3NH93AfHSFhnrtOwAHYyk8hp3Xtrz9jHn1J/s6dSXkvu
-	OXkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=7VGLg2iruIX0FO5+HZyXjFNVQdfjh0jMyV/qCxTD9X4=;
-	b=cXMtEP6nnzpNln59RPZbuPR/5txz0EMjpTekxcgd1UzvC99np3s+hjFmworoR48Oz0
-	GQSFDjVon+B7R2KEKdJdWEGzao6DP66vzYBhGDQDcGWruZncnhAvMcBXpMaGURDwKLmF
-	vp9NhfAA8lus1ZI5TxfCWz1JgGQmvYuLKtzxnT/IX6k8yEJxALuGEntCwxJgkqpvsqhf
-	YB7cIod4rDx++nZgI5GoSBzy50DVvg0XOrHhOqksWkBgkwtBA1FQCxRCg3m0Htd1VcMM
-	G8gDMZ4pDWdP9WU1nGaXhGE+7M6WLUtf+Gw5mJAaYx+V49EwgfjfZAuK0EmffGVblU9o
-	Evhg==
-X-Gm-Message-State: ALyK8tLEc6hk2af+z+KdB2V4pMRospVBSHl79eIaBPT6SX66m28RivX/ds3QbFCz2e+gNni4moUlFu9mcl176g==
-X-Received: by 10.55.16.232 with SMTP id 101mr19452949qkq.151.1467669870544;
-	Mon, 04 Jul 2016 15:04:30 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.55.214.83 with HTTP; Mon, 4 Jul 2016 15:04:00 -0700 (PDT)
-In-Reply-To: <CAJTo0LYdAVqHZ8h1tAMo5HELqL-2SkkOk-iFT9n06s6C7ufytQ@mail.gmail.com>
-References: <1467637324-16642-1-git-send-email-maxin.john@intel.com>
-	<1467637324-16642-2-git-send-email-maxin.john@intel.com>
-	<CAJTo0LZUvOTA9X=SE=GrK4PkFvO-F4S556zEUjdSK2yBhZkShA@mail.gmail.com>
-	<CAMKF1sr-kDvBVC7swKrDHCqW+ojvtDNxEifL-91gMazoj7NuEg@mail.gmail.com>
-	<CAJTo0LYdAVqHZ8h1tAMo5HELqL-2SkkOk-iFT9n06s6C7ufytQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 4 Jul 2016 15:04:00 -0700
-Message-ID: <CAMKF1spq-AB_xxu_9Mh8c4tXdC+gY7znz4D-EA_PtsYt+rxDTA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] libsolv: upgrade to 0.6.22
+	Mon,  4 Jul 2016 15:18:10 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  5 Jul 2016 01:08:12 +0300
+Message-Id: <cover.1467669922.git.ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH v2 0/3] devpyshell fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,26 +31,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jul 2016 22:04:30 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 04 Jul 2016 22:18:22 -0000
 
-On Mon, Jul 4, 2016 at 6:35 AM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 4 July 2016 at 14:18, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> we do not do that for recipes with git fetchers usually. PV is encoded
->> as PV+git{SRCPV}
->
->
-> For recipes which are tracking releases, it's fairly common - and I feel
-> clearer - use have the PV in the filename and thus PV instead of spreading
-> the SHA everywhere for no reason. It's version 0.6.22, nobody cares what the
-> SHA is.
->
-> *If* it was a SHA beyond 0.6.22 then PV+SHA makes perfect sense.
+Hi,
 
-seems ok. dont have strong opinions either way
+This patchset fixes several devpyshell bugs caused by moving to Python 3.
 
->
-> Ross
+Please, note that it contains fix for double unbuffering, which was sent in
+a separate patchset targeting jethro, krogoth and master. It's included here
+just to keep it together with the rest of devpyshell fixes for master.
+
+Changes in v2: removed bitbake patch from the series
+
+The following changes since commit 5c11e365e19357f721c49d076971567e7b64b61b:
+
+  lib/oeqa: add Galculator to SDK and runtime tests (2016-07-01 16:22:48 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ed/oe-core/devpyshell-python3
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/oe-core/devpyshell-python3
+
+Ed Bartosh (3):
+  devshell.bbclass: fix double unbuffering
+  devpyshell: python3: flush stdout explicitly
+  oepydevshell-internal: python3: encode/decode pty content
+
+ meta/classes/devshell.bbclass    |  5 ++---
+ scripts/oepydevshell-internal.py | 12 +++++-------
+ 2 files changed, 7 insertions(+), 10 deletions(-)
+
+--
+Regards,
+Ed
+
 
