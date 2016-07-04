@@ -1,29 +1,47 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id C308373169
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
+	[209.85.223.182])
+	by mail.openembedded.org (Postfix) with ESMTP id BAA8A60616
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jul 2016 13:02:39 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP; 04 Jul 2016 06:02:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,574,1459839600"; d="scan'208";a="988798570"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga001.jf.intel.com with ESMTP; 04 Jul 2016 06:02:18 -0700
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 5246F6A4082
+	Mon,  4 Jul 2016 13:07:02 +0000 (UTC)
+Received: by mail-io0-f182.google.com with SMTP id f30so151555130ioj.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jul 2016 06:02:11 -0700 (PDT)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Jul 2016 16:02:03 +0300
-Message-Id: <1467637324-16642-4-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-In-Reply-To: <1467637324-16642-1-git-send-email-maxin.john@intel.com>
+	Mon, 04 Jul 2016 06:07:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=eOTu8lz+2LvVyP56PjVQwx36gkcWMawBUcmzot29Oe4=;
+	b=ybLZHAfnnBLeOYyEQNezzlz5V1ddFURjE31/lDOj0Pby4ZRx3lIRrAasJvGjqkEFwe
+	b4SGcaPyD+7jQItj4PWRr3F9cxB9MkCjmYsc16FfPjDnmV5NLSF+Cbjt5+IOykOO5E9F
+	uFaU2BW462BKWXOuS0cWoAazTXjkxFuueYciyEELA8S46L5shqm83O8FptfCvf+hXYw8
+	5mrAGNNFXnlODUn6qqsFb666GaKRL2F5Er4Cy8IfNlm9iPMGlEG8V5w5b0LGBnMluY1M
+	ZzprEPoOM5LPUgDnVJudHFI6OMPkKvxIsrrTUfygvcnxBnYbhq1PeWvSSvtPPPEgs9JR
+	5qZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=eOTu8lz+2LvVyP56PjVQwx36gkcWMawBUcmzot29Oe4=;
+	b=O6lHwI6VsC2mOUuwnJ48hKQF19Qh7UE0hmNdWjT93kJuVux22noH8xIlBYLPLA9lI3
+	NL9wb+XvI+FUvGR8rzCSsEUipEcE95HRd0UPn2A4GFbJEV1cKx7UBieKOcuBxuderDkd
+	K5pFnPivJONcbK4PktHsKt8I1hhf0LDzRdMDqPfdSUz3nPVtrH1JybslBr1xzobHaru9
+	zO8vh6wu9tEZB5HG4kNTefTGXiBli7n881y8C+gqUh29iLdkg616fPYI8go8G9a8XrQY
+	J+xq6bGHfuCxPlWPjPa/936EYwv3l8zzLs7Zc/O2uCAudtwRXdol0qPMlYMeQrRAtmkb
+	kEEQ==
+X-Gm-Message-State: ALyK8tI4sAsT12JpGWHRvLfSjcf/rZ0+hZ3nmOEUUMITKEUdjLYT/8WLIFPA0XGv9u+koEyJmijd6AwJaxXkrkkP
+X-Received: by 10.107.135.137 with SMTP id r9mr9965770ioi.133.1467637623671;
+	Mon, 04 Jul 2016 06:07:03 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.142.151 with HTTP; Mon, 4 Jul 2016 06:06:44 -0700 (PDT)
+In-Reply-To: <1467637324-16642-2-git-send-email-maxin.john@intel.com>
 References: <1467637324-16642-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 3/4] libatomic-ops: upgrade to 7.4.4
+	<1467637324-16642-2-git-send-email-maxin.john@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 4 Jul 2016 14:06:44 +0100
+Message-ID: <CAJTo0LZUvOTA9X=SE=GrK4PkFvO-F4S556zEUjdSK2yBhZkShA@mail.gmail.com>
+To: "Maxin B. John" <maxin.john@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/4] libsolv: upgrade to 0.6.22
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,33 +54,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jul 2016 13:02:40 -0000
+X-List-Received-Date: Mon, 04 Jul 2016 13:07:04 -0000
+Content-Type: multipart/alternative; boundary=001a113ec84237e2410536cf0315
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- .../libatomic-ops/{libatomic-ops_7.4.2.bb => libatomic-ops_7.4.4.bb}  | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/libatomic-ops/{libatomic-ops_7.4.2.bb => libatomic-ops_7.4.4.bb} (85%)
+--001a113ec84237e2410536cf0315
+Content-Type: text/plain; charset=UTF-8
 
-diff --git a/meta/recipes-support/libatomic-ops/libatomic-ops_7.4.2.bb b/meta/recipes-support/libatomic-ops/libatomic-ops_7.4.4.bb
-similarity index 85%
-rename from meta/recipes-support/libatomic-ops/libatomic-ops_7.4.2.bb
-rename to meta/recipes-support/libatomic-ops/libatomic-ops_7.4.4.bb
-index fdb70d8..930c1b8 100644
---- a/meta/recipes-support/libatomic-ops/libatomic-ops_7.4.2.bb
-+++ b/meta/recipes-support/libatomic-ops/libatomic-ops_7.4.4.bb
-@@ -12,8 +12,8 @@ SRC_URI = "\
- 	file://0001-Add-initial-nios2-architecture-support.patch \
- 	"
- 
--SRC_URI[md5sum] = "1d6538604b314d2fccdf86915e5c0857"
--SRC_URI[sha256sum] = "04fa615f62992547bcbda562260e28b504bc4c06e2f985f267f3ade30304b5dd"
-+SRC_URI[md5sum] = "426d804baae12c372967a6d183e25af2"
-+SRC_URI[sha256sum] = "bf210a600dd1becbf7936dd2914cf5f5d3356046904848dcfd27d0c8b12b6f8f"
- 
- S = "${WORKDIR}/libatomic_ops-${PV}"
- 
--- 
-2.4.0
+On 4 July 2016 at 14:02, Maxin B. John <maxin.john@intel.com> wrote:
 
+> --- a/meta/recipes-extended/libsolv/libsolv_git.bb
+> +++ b/meta/recipes-extended/libsolv/libsolv_git.bb
+>
 
+As we're tracking versions, can you change the filename to libsolv_0.6.22.bb
+so you don't need to specify PV explicitly
+
+Ross
+
+--001a113ec84237e2410536cf0315
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 4 July 2016 at 14:02, Maxin B. John <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:maxin.john@intel.com" target=3D"_blank">maxin.john@intel.com</a>&gt;</s=
+pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
+;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":fp9" class=3D"a3s=
+ aXjCH m155b603489f63151">--- a/meta/recipes-extended/libsolv/<a href=3D"ht=
+tp://libsolv_git.bb" rel=3D"noreferrer" target=3D"_blank">libsolv_git.bb</a=
+><br>
++++ b/meta/recipes-extended/libsolv/<a href=3D"http://libsolv_git.bb" rel=
+=3D"noreferrer" target=3D"_blank">libsolv_git.bb</a><br></div></blockquote>=
+</div><br>As we&#39;re tracking versions, can you change the filename to <a=
+ href=3D"http://libsolv_0.6.22.bb">libsolv_0.6.22.bb</a> so you don&#39;t n=
+eed to specify PV explicitly</div><div class=3D"gmail_extra"><br></div><div=
+ class=3D"gmail_extra">Ross</div></div>
+
+--001a113ec84237e2410536cf0315--
