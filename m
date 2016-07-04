@@ -1,25 +1,24 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 6ADC96011C
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id EEB2B6011C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jul 2016 20:29:20 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga101.jf.intel.com with ESMTP; 04 Jul 2016 13:29:21 -0700
+	Mon,  4 Jul 2016 21:58:19 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga104.fm.intel.com with ESMTP; 04 Jul 2016 14:58:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.26,576,1459839600"; d="scan'208";a="840575372"
-Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
-	([10.54.69.55])
-	by orsmga003.jf.intel.com with ESMTP; 04 Jul 2016 13:29:21 -0700
-From: mariano.lopez@linux.intel.com
+X-IronPort-AV: E=Sophos;i="5.26,576,1459839600"; d="scan'208";a="1015619885"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga002.fm.intel.com with ESMTP; 04 Jul 2016 14:58:20 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
+	by linux.intel.com (Postfix) with ESMTP id 5EDE56A4080
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  4 Jul 2016 14:58:14 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Jul 2016 12:23:16 +0000
-Message-Id: <b95ab7aa97a4eee3d6d1d2576cd3d1be2404a7d2.1467634829.git.mariano.lopez@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-In-Reply-To: <cover.1467634829.git.mariano.lopez@linux.intel.com>
-References: <cover.1467634829.git.mariano.lopez@linux.intel.com>
-In-Reply-To: <cover.1467634829.git.mariano.lopez@linux.intel.com>
-References: <cover.1467634829.git.mariano.lopez@linux.intel.com>
-Subject: [PATCHv2 1/1] oetest.py: Add command line parameter support for tag in testexport
+Date: Tue,  5 Jul 2016 00:48:08 +0300
+Message-Id: <cover.1467668390.git.ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/4] devpyshell fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,95 +31,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jul 2016 20:29:20 -0000
+X-List-Received-Date: Mon, 04 Jul 2016 21:58:20 -0000
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+Hi,
 
-This allows to use a command line argument to change the
-tag used to filter test instead of rebuilding the tests.
+This patchset fixes several devpyshell bugs caused by moving to Python 3.
 
-[YOCTO #8532]
+Please, note that it contains fix for double unbuffering, which was sent in
+a separate patchset targeting jethro, krogoth and master. It's included here
+to keep it together with the rest of devpyshell fixes for master.
 
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
----
- meta/lib/oeqa/oetest.py      | 16 +++++++++++++---
- meta/lib/oeqa/runexported.py |  6 +++++-
- 2 files changed, 18 insertions(+), 4 deletions(-)
+The following changes since commit 5c11e365e19357f721c49d076971567e7b64b61b:
 
-diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
-index 4a740fb..a63fd9b 100644
---- a/meta/lib/oeqa/oetest.py
-+++ b/meta/lib/oeqa/oetest.py
-@@ -397,8 +397,6 @@ class RuntimeTestContext(TestContext):
-     def __init__(self, d, target, exported=False):
-         super(RuntimeTestContext, self).__init__(d, exported)
- 
--        self.tagexp =  d.getVar("TEST_SUITES_TAGS", True)
--
-         self.target = target
- 
-         self.pkgmanifest = {}
-@@ -592,6 +590,8 @@ class ImageTestContext(RuntimeTestContext):
-     def __init__(self, d, target, host_dumper):
-         super(ImageTestContext, self).__init__(d, target)
- 
-+        self.tagexp = d.getVar("TEST_SUITES_TAGS", True)
-+
-         self.host_dumper = host_dumper
- 
-         self.sigterm = False
-@@ -612,8 +612,18 @@ class ImageTestContext(RuntimeTestContext):
-         super(ImageTestContext, self).install_uninstall_packages(test_id, pkg_dir, install)
- 
- class ExportTestContext(RuntimeTestContext):
--    def __init__(self, d, target, exported=False):
-+    def __init__(self, d, target, exported=False, parsedArgs={}):
-+        """
-+        This class is used when exporting tests and when are executed outside OE environment.
-+
-+        parsedArgs can contain the following:
-+            - tag:      Filter test by tag.
-+        """
-         super(ExportTestContext, self).__init__(d, target, exported)
-+
-+        tag = parsedArgs.get("tag", None)
-+        self.tagexp = tag if tag != None else d.getVar("TEST_SUITES_TAGS", True)
-+
-         self.sigterm = None
- 
-     def install_uninstall_packages(self, test_id, install=True):
-diff --git a/meta/lib/oeqa/runexported.py b/meta/lib/oeqa/runexported.py
-index 5886739..ae46225 100755
---- a/meta/lib/oeqa/runexported.py
-+++ b/meta/lib/oeqa/runexported.py
-@@ -81,6 +81,7 @@ def main():
-             specified in the json if that directory actually exists or it will error out.")
-     parser.add_argument("-l", "--log-dir", dest="log_dir", help="This sets the path for TEST_LOG_DIR. If not specified \
-             the current dir is used. This is used for usually creating a ssh log file and a scp test file.")
-+    parser.add_argument("-a", "--tag", dest="tag", help="Only run test with specified tag.")
-     parser.add_argument("json", help="The json file exported by the build system", default="testdata.json", nargs='?')
- 
-     args = parser.parse_args()
-@@ -107,6 +108,9 @@ def main():
-         if not os.path.isdir(d["DEPLOY_DIR"]):
-             print("WARNING: The path to DEPLOY_DIR does not exist: %s" % d["DEPLOY_DIR"])
- 
-+    parsedArgs = {}
-+    parsedArgs["tag"] = args.tag
-+
-     extract_sdk(d)
- 
-     target = FakeTarget(d)
-@@ -114,7 +118,7 @@ def main():
-         setattr(target, key, loaded["target"][key])
- 
-     target.exportStart()
--    tc = ExportTestContext(d, target, True)
-+    tc = ExportTestContext(d, target, True, parsedArgs)
-     tc.loadTests()
-     tc.runTests()
- 
--- 
-2.6.6
+  lib/oeqa: add Galculator to SDK and runtime tests (2016-07-01 16:22:48 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ed/oe-core/devpyshell-python3
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/oe-core/devpyshell-python3
+
+Ed Bartosh (4):
+  devshell.bbclass: fix double unbuffering
+  bitbake-worker: don't reassign sys.stdout
+  devpyshell: python3: flush stdout explicitly
+  oepydevshell-internal: python3: encode/decode pty content
+
+ bitbake/bin/bitbake-worker       |  3 +--
+ meta/classes/devshell.bbclass    |  5 ++---
+ scripts/oepydevshell-internal.py | 12 +++++-------
+ 3 files changed, 8 insertions(+), 12 deletions(-)
+
+--
+Regards,
+Ed
 
 
