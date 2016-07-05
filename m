@@ -1,47 +1,46 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
-	[209.85.220.174])
-	by mail.openembedded.org (Postfix) with ESMTP id E3B9060116
+Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
+	[209.85.216.193])
+	by mail.openembedded.org (Postfix) with ESMTP id E645C60116
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jul 2016 15:12:43 +0000 (UTC)
-Received: by mail-qk0-f174.google.com with SMTP id u68so14483688qkc.3
+	Tue,  5 Jul 2016 15:16:10 +0000 (UTC)
+Received: by mail-qt0-f193.google.com with SMTP id i30so13723552qtd.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Jul 2016 08:12:44 -0700 (PDT)
+	Tue, 05 Jul 2016 08:16:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=LrFZx/A+e03rmjM9l/jlyPzisp/WsCjjB5MpHtFvH4o=;
-	b=iaE12aIm8FXpSbW/zEFXa7MBSVHDxBBDm/UCPmT/LW7r4JZXvMwlhtBdGymq1+1O3K
-	Pbq0ZOrznyfADwnLTMGil56M9zYNXNbyq80Mg2Vr2VbZb5vAKfym7A3LIRsg5venIIok
-	uKlchRUBkhXfgmjQWrfGVyrUgncl9BOmVPv/HlCXYVvgemTvzyVtWaSntJyg+L7B9Agz
-	edx/2jGBon79IBhOds8oL43MgpXpjMLWflNidLbYCi9Sqho0LlLZK7lboVEC39Hd9l4m
-	Jx8T5S0vrf7/ieQtXj15GQv327rkgYadqdFh2oi3GEoVAyx9qTVaBkTHTRqqb4k3Vn++
-	1YqQ==
+	:cc; bh=BzUYtjTSiuBeQIOJYRtywO1+p1Rgzw59blVbWXqH854=;
+	b=guFuKvd65cec5hvw62mG9C70cV5h+sZbddp2PX7lzUMp777ELVbrO2pV3Z0WEoaXmh
+	n6pEC2apzi7TrQgoAQpWG3X0iqy1h0p9zo4EBUsoyQzp42E248NO5fokMiIdwypLEF7T
+	r0HWtWEFWGi/LKHytNT9m7Me8l929Wmm3lRqm88pZd/isXmEfkgjhpZpKCtOa66xd696
+	82lbsdVnsLFdWpZSxiAgxbdrLhC3+V4J6Bo5jv+NUDj/W8gxdGs5iyV1Kv640+3IMEtk
+	tyE5s6BD6I/sNXlsVhjemmJ8rRgDxl/x5k3V/p15zp0EVMmvWLi0U+tSxfPmUxIWK7RF
+	IdIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=LrFZx/A+e03rmjM9l/jlyPzisp/WsCjjB5MpHtFvH4o=;
-	b=mYzdiXONqkaqca3wiblDD8c8yhVmJNU/H0CfWjADjoAklCAx+fosook6e+lW3rHDzA
-	FoA3Rp3hlvw2yQ7GVH6UV4PT28t9JJnBNx+o/V2DNtLfyHJ07o6LhuTjtuDacF2sNIuZ
-	0NITstCXQnIxsnf47GTUf3yNHMTQT5Z9mtJsl9fITpnZJxnN3J5H/1CJhB4zt+lBvGea
-	LcjezOHek2ZvD5RfuTSH2XPoupIwNtFdHlyB58Pc8qRQgZ6Q+1UXS9mSiCaysIXK1g99
-	iplfZnqmDnsABKGWamZGyWBdLwJbTtQDMGJRGEeKc6VMQmOPHZWWt0in41M/vlsL3Kpp
-	Khug==
-X-Gm-Message-State: ALyK8tIKyRjWMBpZs07pX2RkPS/km98R8PtphZKzqk1ewWhdAUKURnLHMIgkiN7ZG65uguITO2lOSEvS61HqVA==
-X-Received: by 10.55.141.134 with SMTP id p128mr22806345qkd.102.1467731564059; 
-	Tue, 05 Jul 2016 08:12:44 -0700 (PDT)
+	bh=BzUYtjTSiuBeQIOJYRtywO1+p1Rgzw59blVbWXqH854=;
+	b=nOG99kq8N1b/Bx0D/18Uci7bkbjHFnWhPnP6RQLDd1h04OVyvxDYD7CaiXABipGzNG
+	6sWzz+bzBmdrG2JBV1TgxAxGGI3FymeDXYFl7vyVe3DWpm7aaDZhqf+7ndJDB2+vp+VV
+	PPvmZN/1g7jZBVCH9nAua70NmtJQHr3B9Mm59K1gVEohMFkYXyCXJZjF1Yihf+5wesK2
+	f9XdyWvdFALsdcFeD6Qw/ViznmT/yyOVc3SZC9s53fqGuvtRsGN2jbr+csr5mStnMT2F
+	3P3OFGWeuMB3MVeZJ3I7AOTlDXvx4qlPUEURODOLig6JJpsMsX/5UDgqS6DpG3r3GqHL
+	Z2fA==
+X-Gm-Message-State: ALyK8tKS9MmAvt0MUwRroT5knhA9TqR08vOlk+l2rMKLxZPV8lFPEK3gCifn5aP7RhscxyEEAj+y4s+oO9fmUg==
+X-Received: by 10.200.33.172 with SMTP id 41mr27941275qty.26.1467731771139;
+	Tue, 05 Jul 2016 08:16:11 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.55.214.83 with HTTP; Tue, 5 Jul 2016 08:12:14 -0700 (PDT)
-In-Reply-To: <CAJ86T=UTXq=aPkTRV1U+aN71KO3hCyz+fsT45=Mbm8ALZvPmiA@mail.gmail.com>
-References: <CAJ86T=XCwABdHj0rXHFsfK9pLndsKGQYv8R2=jOh4tz_9HmeAQ@mail.gmail.com>
-	<CAJTo0LZjsiwdv6QB1SdDmyxtTvByjyiend_uSnXFQ_tRi8HwcA@mail.gmail.com>
-	<CAJ86T=UTXq=aPkTRV1U+aN71KO3hCyz+fsT45=Mbm8ALZvPmiA@mail.gmail.com>
+Received: by 10.55.214.83 with HTTP; Tue, 5 Jul 2016 08:15:41 -0700 (PDT)
+In-Reply-To: <1467699658-4985-1-git-send-email-zhenhua.luo@nxp.com>
+References: <1467699658-4985-1-git-send-email-zhenhua.luo@nxp.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 5 Jul 2016 08:12:14 -0700
-Message-ID: <CAMKF1squ8mH9Aq9k1j9PZ=KDPp02DagQtuf9tWrrSqZ6XEMr4A@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: Automatically creating tar files for bin_package.bbclass
+Date: Tue, 5 Jul 2016 08:15:41 -0700
+Message-ID: <CAMKF1soJ0_8FcopQ4ipqLv+Bgi9qFyvTOUKVshdxvcEphRi6sw@mail.gmail.com>
+To: Zhenhua Luo <zhenhua.luo@nxp.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] tcl: fix INCLUDE_SPEC and LIB_SPEC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,42 +53,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jul 2016 15:12:44 -0000
+X-List-Received-Date: Tue, 05 Jul 2016 15:16:12 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Tue, Jul 5, 2016 at 1:21 AM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> On Mon, Jul 4, 2016 at 8:58 AM, Burton, Ross <ross.burton@intel.com> wrote:
->>
->> On 4 July 2016 at 16:00, Andre McCurdy <armccurdy@gmail.com> wrote:
->>>
->>> Say I have a proprietary library which only I can build from source
->>> and I have a conventional recipe which builds it within OE. I would
->>> now like to create a tar file of the library and headers etc, plus a
->>> companion recipe based on bin_package.bbclass to allow others to make
->>> use of the library in their OE builds. ie the situation described
->>> here:
->>>
->>> http://www.yoctoproject.org/docs/2.1/mega-manual/mega-manual.html#packaging-externally-produced-binaries
->>>
->>> Is there a recommended way to create the tar file to support that?
->>> e.g. a class which automatically creates a deployable tar file of a
->>> recipe's ${D} directory?
->>
->> You *may* be able to use package_tar in the recipe in some way to achieve
->> this.
+On Mon, Jul 4, 2016 at 11:20 PM, Zhenhua Luo <zhenhua.luo@nxp.com> wrote:
+> TCL_INCLUDE_SPEC -I+<includedir> and TCL_LIB_SPEC -L+${libdir} break
+> the cross-compile of packages which require tcl headers and libraries.
 >
-> It only seems to support creating tar files after packages have been
-> split ( ie individual tar files for each subdirectory under
-> ${WORKDIR}/packages-split ). I don't think it's going to be directly
-> useful for creating a tar file of ${D}.
+> One example is that postgresql configure failed at the following error:
+> | checking for tcl.h... no
+> | configure: error: header file <tcl.h> is required for Tcl
+>
+> Signed-off-by: Zhenhua Luo <zhenhua.luo@nxp.com>
+> ---
+>  meta/recipes-devtools/tcltk/tcl_8.6.5.bb | 2 --
+>  1 file changed, 2 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.5.bb b/meta/recipes-devtools/tcltk/tcl_8.6.5.bb
+> index 46fc8a7..d75232b 100644
+> --- a/meta/recipes-devtools/tcltk/tcl_8.6.5.bb
+> +++ b/meta/recipes-devtools/tcltk/tcl_8.6.5.bb
+> @@ -56,8 +56,6 @@ do_install() {
+>         ln -sf tclsh8.6 ${D}${bindir}/tclsh${VER}
+>         sed -i "s+-L${B}+-L${STAGING_LIBDIR}+g" tclConfig.sh
+>         sed -i "s+${WORKDIR}+${STAGING_INCDIR}+g" tclConfig.sh
+> -       sed -i "s,-L${libdir},-L=${libdir},g" tclConfig.sh
+> -       sed -i "s,-I${includedir},-I=${includedir},g" tclConfig.sh
 
-package_tar is just another packaging format here so you will get
-individual package separately
-you might want to add another class to package everything into 1 thats
-a separate issue, you have
-to either add this via a bbclass or additional function
+does this now include some of your host headers in build then ?
+
+>         install -d ${D}${bindir_crossscripts}
+>         install -m 0755 tclConfig.sh ${D}${bindir_crossscripts}
+>         install -m 0755 tclConfig.sh ${D}${libdir}
+> --
+> 2.7.4
 >
->> Ross
 > --
 > _______________________________________________
 > Openembedded-core mailing list
