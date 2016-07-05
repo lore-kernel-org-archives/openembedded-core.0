@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 66B6073181
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F6FA73172
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jul 2016 06:43:54 +0000 (UTC)
+	Tue,  5 Jul 2016 06:43:55 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u656ht0B018202
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u656huU4026568
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 4 Jul 2016 23:43:55 -0700 (PDT)
+	Mon, 4 Jul 2016 23:43:56 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 4 Jul 2016 23:43:54 -0700
+	Mon, 4 Jul 2016 23:43:55 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 4 Jul 2016 23:43:49 -0700
-Message-ID: <a1b1ba5f809eb2e790f363dc4703fd084782dfca.1467700975.git.liezhi.yang@windriver.com>
+Date: Mon, 4 Jul 2016 23:43:50 -0700
+Message-ID: <5fcd798ab39a117bedc07e2e66dc4f6c073122e3.1467700975.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.8.0
 In-Reply-To: <cover.1467700975.git.liezhi.yang@windriver.com>
 References: <cover.1467700975.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/6] tzcode: update to 2016e
+Subject: [PATCH 4/6] tzdata: update to 2016e
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,58 +33,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jul 2016 06:43:54 -0000
+X-List-Received-Date: Tue, 05 Jul 2016 06:43:55 -0000
 Content-Type: text/plain
 
 From: Armin Kuster <akuster@mvista.com>
 
-V2: typo in title (jet lagged)
-Changes to code
+Changes affecting future time stamps
 
-zic now outputs a dummy transition at time 2**31 - 1 in zones
-whose POSIX-style TZ strings contain a '<'.  This mostly works
-around Qt bug 53071 <https://bugreports.qt.io/browse/QTBUG-53071>.
-(Thanks to Zhanibek Adilbekov for reporting the Qt bug.)
+Africa/Cairo observes DST in 2016 from July 7 to the end of October.
+Guess October 27 and 24:00 transitions. (Thanks to Steffen Thorsen.)
+For future years, guess April's last Thursday to October's last
+Thursday except for Ramadan.
 
-Changes affecting documentation and commentary
+Changes affecting past time stamps
 
-tz-link.htm says why governments should give plenty of notice for
-time zone or DST changes, and refers to Matt Johnson's blog post.
-tz-link.htm mentions Tzdata for Elixir.  (Thanks to Matt Johnson.)
+Locations while uninhabited now use '-00', not 'zzz', as a
+placeholder time zone abbreviation.  This is inspired by Internet
+RFC 3339 and is more consistent with numeric time zone
+abbreviations already used elsewhere.  The change affects several
+arctic and antarctic locations, e.g., America/Cambridge_Bay before
+1920 and Antarctica/Troll before 2005.
 
-(From OE-Core master rev: 5f3340e5c966f4233e0cd4ec468b20a1fd5a7346)
+Asia/Baku's 1992-09-27 transition from +04 (DST) to +04 (non-DST) was
+at 03:00, not 23:00 the previous day.  (Thanks to Michael Deckers.)
+
+(From OE-Core master rev: ddcf128e76ed0678ce42416531f4ecb309c57439)
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../tzcode/{tzcode-native_2016d.bb => tzcode-native_2016e.bb}    | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
- rename meta/recipes-extended/tzcode/{tzcode-native_2016d.bb => tzcode-native_2016e.bb} (67%)
+ meta/recipes-extended/tzdata/{tzdata_2016d.bb => tzdata_2016e.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/tzdata/{tzdata_2016d.bb => tzdata_2016e.bb} (98%)
 
-diff --git a/meta/recipes-extended/tzcode/tzcode-native_2016d.bb b/meta/recipes-extended/tzcode/tzcode-native_2016e.bb
-similarity index 67%
-rename from meta/recipes-extended/tzcode/tzcode-native_2016d.bb
-rename to meta/recipes-extended/tzcode/tzcode-native_2016e.bb
-index 647ce2d..1e0f298 100644
---- a/meta/recipes-extended/tzcode/tzcode-native_2016d.bb
-+++ b/meta/recipes-extended/tzcode/tzcode-native_2016e.bb
-@@ -8,10 +8,11 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=76ae2becfcb9a685041c6f166b44c2c2"
- SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode \
-            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata"
+diff --git a/meta/recipes-extended/tzdata/tzdata_2016d.bb b/meta/recipes-extended/tzdata/tzdata_2016e.bb
+similarity index 98%
+rename from meta/recipes-extended/tzdata/tzdata_2016d.bb
+rename to meta/recipes-extended/tzdata/tzdata_2016e.bb
+index 7b64c85..1c32d2a 100644
+--- a/meta/recipes-extended/tzdata/tzdata_2016d.bb
++++ b/meta/recipes-extended/tzdata/tzdata_2016e.bb
+@@ -8,8 +8,8 @@ DEPENDS = "tzcode-native"
  
--SRC_URI[tzcode.md5sum] = "06fc6fc111cd8dd681abdc5326529afd"
--SRC_URI[tzcode.sha256sum] = "a8f33d6f87aef7e109e4769fc7f6e63637d52d07ddf6440a1a50df3d9a34e0ca"
+ SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata"
+ 
 -SRC_URI[tzdata.md5sum] = "14bf84b6c2cdab0a9428991e0150ebe6"
 -SRC_URI[tzdata.sha256sum] = "d9554dfba0efd76053582bd89e8c7036ef12eee14fdd506675b08a5b59f0a1b4"
-+SRC_URI[tzcode.md5sum] = "6e6d3f0046a9383aafba8c2e0708a3a3"
-+SRC_URI[tzcode.sha256sum] = "57d8c4fcd5e8a90657d0e298eac5effb1a642119c92308db68d13a4612fa459e"
-+
 +SRC_URI[tzdata.md5sum] = "43f9f929a8baf0dd2f17efaea02c2d2a"
 +SRC_URI[tzdata.sha256sum] = "ba00f899f18dc4048d7fa21f5e1fdef434496084eedc06f6caa15e5ecdb6bd81"
  
- S = "${WORKDIR}"
+ inherit allarch
  
 -- 
 2.8.0
