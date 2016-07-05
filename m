@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AFC146080F
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A13506080F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jul 2016 06:43:52 +0000 (UTC)
+	Tue,  5 Jul 2016 06:43:53 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u656hqrW018197
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u656hrPH026565
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 4 Jul 2016 23:43:52 -0700 (PDT)
+	Mon, 4 Jul 2016 23:43:53 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 4 Jul 2016 23:43:52 -0700
+	Mon, 4 Jul 2016 23:43:53 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 4 Jul 2016 23:43:46 -0700
-Message-ID: <cover.1467700975.git.liezhi.yang@windriver.com>
+Date: Mon, 4 Jul 2016 23:43:47 -0700
+Message-ID: <40a94321244c7359f29e1d0e7d79b03c571a5f9d.1467700975.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.8.0
+In-Reply-To: <cover.1467700975.git.liezhi.yang@windriver.com>
+References: <cover.1467700975.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/6] [jethro] Consolidated pull
+Subject: [PATCH 1/6] bluez5: move btmgmt to common READLINE section
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,41 +36,40 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 05 Jul 2016 06:43:53 -0000
 Content-Type: text/plain
 
-The following changes since commit 1f4bfa33073584c25396d74f3929f263f3df188b:
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
 
-  toasterconf.json: exclude releases Toaster can't build (2016-06-03 13:36:19 +0100)
+Upstream in 5.33 btmgmt was moved from experimental to common READLINE section,
+in commit e4f0c5582f1fe3451d5588243adba9de1ed68b80, but this was never updated
+in the recipe.
 
-are available in the git repository at:
+This is a backport from master branch, commit
+28777e593d3dd3a5d0ee2effcdca6a971e2887f9.
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/jethro-next
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/jethro-next
+Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+---
+ meta/recipes-connectivity/bluez5/bluez5_5.33.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Anuj Mittal (1):
-  gcc: make sure header path is set correctly
-
-Armin Kuster (2):
-  tzcode: update to 2016e
-  tzdata: update to 2016e
-
-Enrico Jorns (1):
-  perl-ptest.inc: fix tar call to prevent objcopy failure
-
-George McCollister (1):
-  wic: fix path parsing, use last occurrence
-
-Nicolas Dechesne (1):
-  bluez5: move btmgmt to common READLINE section
-
- meta/recipes-connectivity/bluez5/bluez5_5.33.bb                  | 2 +-
- meta/recipes-devtools/gcc/gcc-target.inc                         | 1 -
- meta/recipes-devtools/perl/perl-ptest.inc                        | 4 ++--
- .../tzcode/{tzcode-native_2016d.bb => tzcode-native_2016e.bb}    | 9 +++++----
- .../recipes-extended/tzdata/{tzdata_2016d.bb => tzdata_2016e.bb} | 4 ++--
- scripts/lib/wic/plugin.py                                        | 2 +-
- 6 files changed, 11 insertions(+), 11 deletions(-)
- rename meta/recipes-extended/tzcode/{tzcode-native_2016d.bb => tzcode-native_2016e.bb} (67%)
- rename meta/recipes-extended/tzdata/{tzdata_2016d.bb => tzdata_2016e.bb} (98%)
-
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.33.bb b/meta/recipes-connectivity/bluez5/bluez5_5.33.bb
+index 23c7397..3084a64 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5_5.33.bb
++++ b/meta/recipes-connectivity/bluez5/bluez5_5.33.bb
+@@ -10,6 +10,7 @@ NOINST_TOOLS_READLINE ?= " \
+     tools/obex-server-tool \
+     tools/bluetooth-player \
+     tools/obexctl \
++    tools/btmgmt \
+ "
+ 
+ # noinst programs in Makefile.tools that are conditional on EXPERIMENTAL
+@@ -34,7 +35,6 @@ NOINST_TOOLS_EXPERIMENTAL ?= " \
+     tools/hwdb \
+     tools/hcieventmask \
+     tools/hcisecfilter \
+-    tools/btmgmt \
+     tools/btinfo \
+     tools/btattach \
+     tools/btsnoop \
 -- 
 2.8.0
 
