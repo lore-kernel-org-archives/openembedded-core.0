@@ -1,47 +1,47 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
-	[209.85.220.195])
-	by mail.openembedded.org (Postfix) with ESMTP id A796E6013D
+Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
+	[209.85.216.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E3026013D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Jul 2016 21:04:22 +0000 (UTC)
-Received: by mail-qk0-f195.google.com with SMTP id 82so2731719qko.1
+	Wed,  6 Jul 2016 21:06:54 +0000 (UTC)
+Received: by mail-qt0-f193.google.com with SMTP id z36so16348589qtb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Jul 2016 14:04:23 -0700 (PDT)
+	Wed, 06 Jul 2016 14:06:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=vmzcc2H29xLd2wk0rX0PGFpbSPXiQgmqE50+4uhoAt8=;
-	b=kXpb5iniEKUjR8RJFS8gsl61yPp3rnreDvze5c6XN3rSKfNHpHsV/ZAZu6nHrSgAFD
-	IB/7I1diqtM4jNw5rMhk/GybVh5QkISSspf5hP3bhf4KYhZCL/z94WXRPbNKRrNsYtlx
-	RKeT01xx4Q9PMQoToxxKFSlImddcz3nwuDLvb1DTE5DKnoZBW5gIWud/aEMMcrOsiphX
-	TZ5KnuNUNAZUEuWIbjqmYPcPyWPLv4L/eMZUPqVL3U8SSTQxScBYfsZ+6pKaf6kMc0Yw
-	WkYYbMihH6CHMuFWj7KTSYeIxgYDDhiqBY1xif7g31q4z5Qt/y5sZr0XKM1BLJuqwpJt
-	IpSQ==
+	:cc; bh=DG+TQE7ms3XcMqautCGCzsq4SVjXxEmgyt/ePm1QZv4=;
+	b=lJwOj6PdnnpW7wvFB7S10wnloKf1KfIWvgrZ4STbvVVPAX2WIJjTKwsN7niEB3F2f5
+	0z/hZofz3xLCCTM/13MwcHBg35p2jZ/RuToZvyULIj92WH4c0PO/joVRLhs5FaTqcjOJ
+	I8zJSqq/rNdnLbkc6jebl/53n+b2f5iUjdWznrjNXvLUGU3T2CBQwSVBFawCoZfZQ+NP
+	7iXuyfmqHGRvCzFVBCWcCp7ElIdqO/+3rO1aAlS9M4qFI5ii2gVAauqPd1qOJSrKKgpj
+	uO8+h5jyvIHtT6H9Fmv5UMoO+1k1RCth0RkjgFxMgdAcYyFxLXztZ5Lrji7f6YsBgQTb
+	7BZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=vmzcc2H29xLd2wk0rX0PGFpbSPXiQgmqE50+4uhoAt8=;
-	b=ArJi0tIRdimQ+RQHUzr563xP2uUJc1bos7usF7JCAB4f4xZ7FUKkkgUyW+wo48+pYX
-	FNxHhd/Qmc272idWtj0bzv8A7i8uwjCSbGnjNINQ0gNQxvBzTOS/wHHYSsxpnPyUNmtk
-	Kb/4kUXdy+XDf2xKrRKHwqJdNR3U7O0t++CujcwWqI/TP9hq2DS1klEI5Gauljp2IuRO
-	Z33K1cbYqhUWXvHHDJUCkzSIDRfvOkDwlFf9TrTz3qeJD9SmlvSIWvCbVAouRV6w5bxN
-	ZyYFMMXWUHoagbcNWwJY+swokqCaYQYnFXBzLwzFrKHqJZGw1hNGjricwxPQfatCrHBp
-	HLrQ==
-X-Gm-Message-State: ALyK8tL7a7gMGnVpgt8DHgneZEZJEwRcK3oQEg0e7/stFuY5N7s4GUcJ29DjubKqu9mWOPuU+cKJErCfhAKyRA==
-X-Received: by 10.55.74.138 with SMTP id x132mr4303947qka.26.1467839062391;
-	Wed, 06 Jul 2016 14:04:22 -0700 (PDT)
+	bh=DG+TQE7ms3XcMqautCGCzsq4SVjXxEmgyt/ePm1QZv4=;
+	b=J89YOSCXfEfhNLJzbIAPx9KMY5DKqU5R2IS6EE+O5D8/Yc+jHA/pdoDq2JKPT4hqf8
+	++YD4tyo6bCaR+WyAn5iOZXErZB4NFdCnWt/pbaAqiRsMt+Xp68pbzcu538L8DsKwe1b
+	Ho8TlH10WMKoHrO3gGMR4y0LxcDX93A0Qvyh03lkqCVaNh1/WvTvC4URVnEAej7dmhuM
+	ZLDj80VcWkzGitQ9DwjLtwUE1+Qer/7W4UbRC0v4B7pzrXU3eksxj2WQ9Wk7puDGENfd
+	n5MoqDBaDafeWdCgeuIr1SlLIyaClBd9zSFFunIPmpS8/7YM95sSYsTyy9bJ5sL+3QzY
+	6Vog==
+X-Gm-Message-State: ALyK8tIBV/ypTYCAU4n766o8hDtKG1fKOU8hIXtXVH4hLEI8e0I0glDTPmhQY22G1N6nfIOEvZuuefIi/w2sBw==
+X-Received: by 10.200.37.9 with SMTP id 9mr39680155qtm.31.1467839214921; Wed,
+	06 Jul 2016 14:06:54 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.55.214.83 with HTTP; Wed, 6 Jul 2016 14:03:53 -0700 (PDT)
-In-Reply-To: <9e9da3e1b8034b9c233471e6053c920aa6476bad.1467838464.git.paul.eggleton@linux.intel.com>
+Received: by 10.55.214.83 with HTTP; Wed, 6 Jul 2016 14:06:25 -0700 (PDT)
+In-Reply-To: <b999c120aa54bd09eb2bd6d5acd362d01b19a7da.1467838464.git.paul.eggleton@linux.intel.com>
 References: <cover.1467838464.git.paul.eggleton@linux.intel.com>
-	<9e9da3e1b8034b9c233471e6053c920aa6476bad.1467838464.git.paul.eggleton@linux.intel.com>
+	<b999c120aa54bd09eb2bd6d5acd362d01b19a7da.1467838464.git.paul.eggleton@linux.intel.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 6 Jul 2016 14:03:53 -0700
-Message-ID: <CAMKF1spDqBxSpQ_kumzEgUR1YeEKOka+5yNoKH=ZdJHOAaZ8ow@mail.gmail.com>
+Date: Wed, 6 Jul 2016 14:06:25 -0700
+Message-ID: <CAMKF1srfzXyx=D1rh_ofH4YdBXn5UTPtcofGp3aYmyXgkUdqwA@mail.gmail.com>
 To: Paul Eggleton <paul.eggleton@linux.intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] gcc-runtime: add SUMMARY values
+Subject: Re: [PATCH 1/2] gcc: add runtime packages to RRECOMMENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,140 +54,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jul 2016 21:04:25 -0000
+X-List-Received-Date: Wed, 06 Jul 2016 21:06:56 -0000
 Content-Type: text/plain; charset=UTF-8
 
 On Wed, Jul 6, 2016 at 1:55 PM, Paul Eggleton
 <paul.eggleton@linux.intel.com> wrote:
-> It's useful to know what the various libraries are that get produced by
-> gcc-runtime, as well as to have a specific SUMMARY for the recipe.
+> In order to use certain features of gcc, you need the corresponding
+> runtime library. It seems to me that these ought to be installed by
+> default when installing the compiler since they are required if certain
+> command line options are used, so add them to RRECOMMENDS. I used
+> RRECOMMENDS since some of these packages may or may not exist depending
+> on architecture and build options; additionally it makes it possible to
+> use BAD_RECOMMENDATIONS if you really want to exclude them.
+>
+> The impact of this isn't too bad in the context of an image providing
+> on-target compilation - about a 30MB increase in size for an image
+> containing gcc and g++.
 >
 > Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 > ---
->  meta/recipes-devtools/gcc/gcc-runtime.inc | 27 +++++++++++++++++++++++++++
->  1 file changed, 27 insertions(+)
+>  meta/recipes-devtools/gcc/gcc-target.inc | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
 >
-> diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-> index 99f50f8..8e42a57 100644
-> --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-> @@ -1,5 +1,7 @@
->  require gcc-configure-common.inc
+> diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-devtools/gcc/gcc-target.inc
+> index 37c5c62..2eac2bc 100644
+> --- a/meta/recipes-devtools/gcc/gcc-target.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-target.inc
+> @@ -42,6 +42,16 @@ FILES_${PN} = "\
+>      ${gcclibdir}/${TARGET_SYS}/${BINV}/include-fixed \
+>  "
+>  INSANE_SKIP_${PN} += "dev-so"
+> +RRECOMMENDS_${PN} += "\
+> +    libssp \
+> +    libssp-dev \
+> +    libquadmath \
+> +    libquadmath-dev \
+> +    libgomp \
+> +    libgomp-dev \
+> +    libitm \
+> +    libitm-dev \
+> +"
+
+I think besides libssp/libquadmath others seems not commonly used. I
+wouldnt suggest to add them
+
 >
-> +SUMMARY = "Runtime libraries for GCC compilers"
+>  FILES_${PN}-dev = "\
+>      ${gcclibdir}/${TARGET_SYS}/${BINV}/lib*${SOLIBSDEV} \
+> @@ -69,6 +79,11 @@ FILES_g77-symlinks = "\
+>      ${bindir}/g77 \
+>      ${bindir}/f77 \
+>  "
+> +RRECOMMENDS_g77 = "\
+> +    libg2c \
+> +    libg2c-dev \
+> +"
 > +
->  # Over-ride the LICENSE set by gcc-${PV}.inc to remove "& GPLv3"
->  # All gcc-runtime packages are now covered by the runtime exception.
->  LICENSE = "GPL-3.0-with-GCC-exception"
-> @@ -135,73 +137,98 @@ FILES_${PN}-dbg += "\
+>  FILES_gfortran = "\
+>      ${bindir}/${TARGET_PREFIX}gfortran \
+>      ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/f951 \
+> @@ -98,6 +113,12 @@ FILES_g++-symlinks = "\
+>      ${bindir}/c++ \
+>      ${bindir}/g++ \
 >  "
+> +RRECOMMENDS_g++ = "\
+> +    libstdc++ \
+> +    libstdc++-dev \
+> +    libatomic \
+> +    libatomic-dev \
+> +"
 >
->  FILES_libg2c = "${target_libdir}/libg2c.so.*"
-> +SUMMARY_libg2c = "Companion runtime library for g77"
->  FILES_libg2c-dev = "\
->      ${libdir}/libg2c.so \
->      ${libdir}/libg2c.a \
->      ${libdir}/libfrtbegin.a \
->  "
-> +SUMMARY_libg2c-dev = "Companion runtime library for g77 - development files"
->
->  FILES_libstdc++ = "${libdir}/libstdc++.so.*"
-> +SUMMARY_libstdc++ = "C++ standard library for g++"
-
-Drop for g++ here, something like GNU Standard C++ Library is better
-in general replace g++/gcc with GNU
-
->  FILES_libstdc++-dev = "\
->      ${includedir}/c++/ \
->      ${libdir}/libstdc++.so \
->      ${libdir}/libstdc++*.la \
->      ${libdir}/libsupc++.la \
->  "
-> +SUMMARY_libstdc++-dev = "C++ standard library for g++ - development files"
->  FILES_libstdc++-staticdev = "\
->      ${libdir}/libstdc++*.a \
->      ${libdir}/libsupc++.a \
->  "
-> +SUMMARY_libstdc++-staticdev = "C++ standard library for g++ - static development files"
->
-
-same here Header files and libraries for C++ development
-
->  FILES_libstdc++-precompile-dev = "${includedir}/c++/${TARGET_SYS}/bits/*.gch"
-> +SUMMARY_libstdc++-precompile-dev = "C++ standard library from gcc - precompiled header files"
->
->  FILES_libssp = "${libdir}/libssp.so.*"
-> +SUMMARY_libssp = "Stack smashing protection library for gcc"
-
-same here
-
->  FILES_libssp-dev = "\
->      ${libdir}/libssp*.so \
->      ${libdir}/libssp*_nonshared.a \
->      ${libdir}/libssp*.la \
->      ${libdir}/gcc/${TARGET_SYS}/${BINV}/include/ssp \
->  "
-> +SUMMARY_libssp-dev = "Stack smashing protection library for gcc - development files"
->  FILES_libssp-staticdev = "${libdir}/libssp*.a"
-> +SUMMARY_libssp-staticdev = "Stack smashing protection library for gcc - static development files"
->
->  FILES_libquadmath = "${libdir}/libquadmath*.so.*"
-> +SUMMARY_libquadmath = "Quad-precision math library for gcc"
->  FILES_libquadmath-dev = "\
->      ${libdir}/gcc/${TARGET_SYS}/${BINV}/include/quadmath* \
->      ${libdir}/libquadmath*.so \
->      ${libdir}/libquadmath.la \
->  "
-> +SUMMARY_libquadmath-dev = "Quad-precision math library for gcc - development files"
->  FILES_libquadmath-staticdev = "${libdir}/libquadmath.a"
-> +SUMMARY_libquadmath-staticdev = "Quad-precision math library for gcc - static development files"
->
-> +# NOTE: mudflap has been removed as of gcc 4.9 and has been superseded by the address sanitiser
->  FILES_libmudflap = "${libdir}/libmudflap*.so.*"
-> +SUMMARY_libmudflap = "Pointer debugging library for gcc"
->  FILES_libmudflap-dev = "\
->      ${libdir}/libmudflap*.so \
->      ${libdir}/libmudflap.la \
->  "
-> +SUMMARY_libmudflap-dev = "Pointer debugging library for gcc - development files"
->  FILES_libmudflap-staticdev = "${libdir}/libmudflap.a"
-> +SUMMARY_libmudflap-staticdev = "Pointer debugging library for gcc - static development files"
->
->  FILES_libgomp = "${libdir}/libgomp*${SOLIBS}"
-> +SUMMARY_libgomp = "GNU OpenMP parallel programming library for gcc"
->  FILES_libgomp-dev = "\
->      ${libdir}/libgomp*${SOLIBSDEV} \
->      ${libdir}/libgomp*.la \
->      ${libdir}/libgomp.spec \
->      ${libdir}/gcc/${TARGET_SYS}/${BINV}/include/omp.h \
->  "
-> +SUMMARY_libgomp-dev = "GNU OpenMP parallel programming library for gcc - development files"
->  FILES_libgomp-staticdev = "${libdir}/libgomp*.a"
-> +SUMMARY_libgomp-staticdev = "GNU OpenMP parallel programming library for gcc - static development files"
->
->  FILES_libatomic = "${libdir}/libatomic.so.*"
-> +SUMMARY_libatomic = "C++11 atomics support library for g++"
->  FILES_libatomic-dev = "\
->      ${libdir}/libatomic.so \
->      ${libdir}/libatomic.la \
->  "
-> +SUMMARY_libatomic-dev = "C++11 atomics support library for g++ - development files"
->  FILES_libatomic-staticdev = "${libdir}/libatomic.a"
-> +SUMMARY_libatomic-staticdev = "C++11 atomics support library for g++ - static development files"
->
->  FILES_libitm = "${libdir}/libitm.so.*"
-> +SUMMARY_libitm = "Transactional memory support library for gcc"
->  FILES_libitm-dev = "\
->      ${libdir}/libitm.so \
->      ${libdir}/libitm.la \
->      ${libdir}/libitm.spec \
->  "
-> +SUMMARY_libitm-dev = "Transactional memory support library for gcc - development files"
->  FILES_libitm-staticdev = "${libdir}/libitm.a"
-> +SUMMARY_libitm-staticdev = "Transactional memory support library for gcc - static development files"
->
->  do_package_write_ipk[depends] += "virtual/${MLPREFIX}libc:do_packagedata"
->  do_package_write_deb[depends] += "virtual/${MLPREFIX}libc:do_packagedata"
+>  FILES_${PN}-doc = "\
+>      ${infodir} \
 > --
 > 2.5.5
 >
