@@ -1,33 +1,29 @@
-Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 920C06013D
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 259D26013D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Jul 2016 09:16:14 +0000 (UTC)
+	Wed,  6 Jul 2016 09:24:36 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u669GDRE028166
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 6 Jul 2016 02:16:13 -0700 (PDT)
-Received: from [128.224.162.178] (128.224.162.178) by ALA-HCA.corp.ad.wrs.com
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u669OavM010027
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 6 Jul 2016 02:24:36 -0700 (PDT)
+Received: from [128.224.163.140] (128.224.163.140) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
-	Wed, 6 Jul 2016 02:16:12 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, "Burton, Ross"
-	<ross.burton@intel.com>
-References: <cover.1467792379.git.yi.zhao@windriver.com>
-	<6125589935ee01e7b5dec39659932f3ef3f47374.1467792379.git.yi.zhao@windriver.com>
-	<CAJTo0LZ_gOmi8QffB+TChddE+ps0z348DJ0tRUwWM+1dMLDOmA@mail.gmail.com>
-	<1467795297.8590.208.camel@linuxfoundation.org>
-From: Yi Zhao <yi.zhao@windriver.com>
-Message-ID: <577CCC58.4000402@windriver.com>
-Date: Wed, 6 Jul 2016 17:16:08 +0800
+	Wed, 6 Jul 2016 02:24:35 -0700
+To: Catalin Enache <catalin.enache@windriver.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <1462536830-30243-1-git-send-email-catalin.enache@windriver.com>
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+Message-ID: <577CCDED.9060707@windriver.com>
+Date: Wed, 6 Jul 2016 17:22:53 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.8.0
+	Thunderbird/38.4.0
 MIME-Version: 1.0
-In-Reply-To: <1467795297.8590.208.camel@linuxfoundation.org>
-X-Originating-IP: [128.224.162.178]
-Cc: Yue Tao <yue.tao@windriver.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] randrproto: set ALLOW_EMPTY
+In-Reply-To: <1462536830-30243-1-git-send-email-catalin.enache@windriver.com>
+X-Originating-IP: [128.224.163.140]
+Subject: Re: [PATCH] grub-efi: run autogen.sh before configure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,52 +36,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jul 2016 09:16:16 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Wed, 06 Jul 2016 09:24:37 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Hi Ross & Richard,
 
-So that's a wrong usage for adding this package to an image.
-Thank you for the explanation.
+ping
 
-Yi
+Thanks,
+Grace
 
-
-在 2016年07月06日 16:54, Richard Purdie 写道:
-> On Wed, 2016-07-06 at 09:41 +0100, Burton, Ross wrote:
->> On 6 July 2016 at 09:09, Yi Zhao <yi.zhao@windriver.com> wrote:
->>> When adding package randrproto to an image with
->>> IMAGE_INSTALL_append = " randrproto", an error occurs:
->>>
->>> $ bitbake core-image-sato
->>> [snip]
->>> ERROR: randrproto not found in the base feeds (qemux86 i586 x86
->>> noarch any all).
->>> [snip]
->>>
->> No.
->>
->> $ oe-pkgdata-util list-pkgs -rp randrproto
->> randrproto-dbg
->> randrproto-dev
->> randrproto-doc
->>
->> The answer here is to not add randrproto to an image, as the package
->> doesn't exist.  Especially when this is whack-a-mole:
->>
->> $ oe-pkgdata-util list-pkgs -rp renderproto
->> renderproto-dev
->> renderproto-dbg
->> renderproto-doc
->>
->> (repeat for every recipe in x11-proto)
-> Agreed. We've seen patches like this before, we rejected them last time
-> and we will do again.
+On 2016年05月06日 20:13, Catalin Enache wrote:
+> When adding new source files from upstream the autogen.sh
+> script needs to be run.
 >
-> Cheers,
+> Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
+> ---
+>   meta/recipes-bsp/grub/grub-efi_2.00.bb | 6 ++++++
+>   1 file changed, 6 insertions(+)
 >
-> Richard
+> diff --git a/meta/recipes-bsp/grub/grub-efi_2.00.bb b/meta/recipes-bsp/grub/grub-efi_2.00.bb
+> index 5a0dc95..62ded6e 100644
+> --- a/meta/recipes-bsp/grub/grub-efi_2.00.bb
+> +++ b/meta/recipes-bsp/grub/grub-efi_2.00.bb
+> @@ -2,6 +2,7 @@ require grub2.inc
 >
-
+>   DEPENDS_class-target = "grub-efi-native"
+>   RDEPENDS_${PN}_class-target = "diffutils freetype"
+> +DEPENDS += "autogen-native"
+>   PR = "r3"
+>
+>   SRC_URI += " \
+> @@ -39,6 +40,11 @@ EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'largefile', '--enable-
+>   # and many other places in the grub code when compiled with some native gcc compilers (specifically, gentoo)
+>   CFLAGS_append_class-native = " -Wno-error=trampolines"
+>
+> +do_configure_prepend() {
+> +    ( cd ${S}
+> +    ${S}/autogen.sh )
+> +}
+> +
+>   do_install_class-native() {
+>   	install -d ${D}${bindir}
+>   	install -m 755 grub-mkimage ${D}${bindir}
+>
 
