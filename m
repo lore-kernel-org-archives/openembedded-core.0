@@ -1,26 +1,28 @@
 Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 193C26013D
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E287B6013D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Jul 2016 08:09:17 +0000 (UTC)
+	Wed,  6 Jul 2016 08:09:21 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u6689D1u018499
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u6689LHk018718
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 6 Jul 2016 01:09:16 -0700
+	Wed, 6 Jul 2016 01:09:21 -0700 (PDT)
 Received: from localhost (128.224.162.178) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
-	Wed, 6 Jul 2016 01:09:10 -0700
+	Wed, 6 Jul 2016 01:09:20 -0700
 From: Yi Zhao <yi.zhao@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 6 Jul 2016 16:09:05 +0800
-Message-ID: <cover.1467792379.git.yi.zhao@windriver.com>
+Date: Wed, 6 Jul 2016 16:09:06 +0800
+Message-ID: <6125589935ee01e7b5dec39659932f3ef3f47374.1467792379.git.yi.zhao@windriver.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1467792379.git.yi.zhao@windriver.com>
+References: <cover.1467792379.git.yi.zhao@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.162.178]
 Cc: yue.tao@windriver.com
-Subject: [PATCH 0/1] randrproto: set ALLOW_EMPTY
+Subject: [PATCH 1/1] randrproto: set ALLOW_EMPTY
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,25 +35,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jul 2016 08:09:18 -0000
+X-List-Received-Date: Wed, 06 Jul 2016 08:09:22 -0000
 Content-Type: text/plain
 
+From: Yue Tao <Yue.Tao@windriver.com>
 
-The following changes since commit 5c11e365e19357f721c49d076971567e7b64b61b:
+When adding package randrproto to an image with
+IMAGE_INSTALL_append = " randrproto", an error occurs:
 
-  lib/oeqa: add Galculator to SDK and runtime tests (2016-07-01 16:22:48 +0100)
+$ bitbake core-image-sato
+[snip]
+ERROR: randrproto not found in the base feeds (qemux86 i586 x86 noarch any all).
+[snip]
 
-are available in the git repository at:
+Set ALLOW_EMPTY to avoid this issue.
 
-  git://git.pokylinux.org/poky-contrib yzhao/fix-randrproto
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=yzhao/fix-randrproto
-
-Yue Tao (1):
-  randrproto: set ALLOW_EMPTY
-
+Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
  meta/recipes-graphics/xorg-proto/randrproto_1.5.0.bb | 2 ++
  1 file changed, 2 insertions(+)
 
+diff --git a/meta/recipes-graphics/xorg-proto/randrproto_1.5.0.bb b/meta/recipes-graphics/xorg-proto/randrproto_1.5.0.bb
+index b59e525..22c7f81 100644
+--- a/meta/recipes-graphics/xorg-proto/randrproto_1.5.0.bb
++++ b/meta/recipes-graphics/xorg-proto/randrproto_1.5.0.bb
+@@ -17,3 +17,5 @@ BBCLASSEXTEND = "native nativesdk"
+ 
+ SRC_URI[md5sum] = "a46765c8dcacb7114c821baf0df1e797"
+ SRC_URI[sha256sum] = "4c675533e79cd730997d232c8894b6692174dce58d3e207021b8f860be498468"
++
++ALLOW_EMPTY_${PN} = "1"
 -- 
 2.7.4
 
