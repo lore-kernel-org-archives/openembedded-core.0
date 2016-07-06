@@ -1,31 +1,29 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.analogue-micro.com (mail.analogue-micro.com
-	[217.144.149.242])
-	by mail.openembedded.org (Postfix) with ESMTP id CBBFA60119
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp484.redcondor.net (smtp484.redcondor.net [208.80.204.84])
+	by mail.openembedded.org (Postfix) with ESMTP id C846960119
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Jul 2016 18:16:23 +0000 (UTC)
-Received: by mail.analogue-micro.com (Postfix, from userid 999)
-	id 3AA2A68A01C; Wed,  6 Jul 2016 19:16:24 +0100 (BST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	loki.analogue-micro-ltd.com
-X-Spam-Level: **
-X-Spam-Status: No, score=2.5 required=5.0 tests=ALL_TRUSTED,BAYES_50,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
-	by mail.analogue-micro.com (Postfix) with ESMTP id 817FB68A019;
-	Wed,  6 Jul 2016 19:16:23 +0100 (BST)
-Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
-	by zeus.mlbassoc.com (Postfix) with ESMTP id 3F09C6740023;
-	Wed,  6 Jul 2016 20:16:23 +0200 (CEST)
-To: openembedded-core@lists.openembedded.org
+	Wed,  6 Jul 2016 18:22:38 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp484.redcondor.net ({c48374e7-08df-40d9-a0de-96cc9883a037})
+	via TCP (outbound) with ESMTPS id 20160706182226966_0484;
+	Wed, 06 Jul 2016 18:22:26 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+Received: from [99.240.204.5] (port=51692 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1bKrUY-0005ZH-Hp; Wed, 06 Jul 2016 14:24:10 -0400
+Date: Wed, 6 Jul 2016 14:21:27 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: Gary Thomas <gary@mlbassoc.com>
+In-Reply-To: <577D4AF7.8040302@mlbassoc.com>
+Message-ID: <alpine.LFD.2.20.1607061419520.2200@localhost.localdomain>
 References: <alpine.LFD.2.20.1607061252280.599@localhost.localdomain>
-From: Gary Thomas <gary@mlbassoc.com>
-Message-ID: <577D4AF7.8040302@mlbassoc.com>
-Date: Wed, 6 Jul 2016 20:16:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.8.0
+	<577D4AF7.8040302@mlbassoc.com>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-In-Reply-To: <alpine.LFD.2.20.1607061252280.599@localhost.localdomain>
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: how to bbappend(?) to u-boot-fw-utils to add a custom /etc/fw_env.config??
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -39,96 +37,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jul 2016 18:16:26 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 06 Jul 2016 18:22:39 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-On 2016-07-06 19:10, Robert P. J. Day wrote:
+On Wed, 6 Jul 2016, Gary Thomas wrote:
+
+,,, snip ...
+
+> I do something like this in my machine layer, in a .u-boot-fw-utils_%.bbappend
+> file:
 >
->    i may be looking at this entirely incorrectly at the moment, but
-> what is the preferred way to sneak in a custom, target-specific
-> /etc/fw_env.config file when adding u-boot-fw-utils to one's image?
+> ====================================================================
+> FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 >
->    if i examine u-boot-fw-utils_2016.03.bb, i can see that that package
-> is based on (predictably) the source code for u-boot:
+> SRC_URI += "file://fw_env.config"
 >
->    SRC_URI = "git://git.denx.de/u-boot.git;branch=master"
->    S = "${WORKDIR}/git"
->
-> which is fine, but if look at the overriding do_install() routine in
-> that recipe file, i see:
->
->    do_install () {
->          install -d ${D}${base_sbindir}
->          install -d ${D}${sysconfdir}
->          install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_printenv
->          install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_setenv
->          install -m 0644 ${S}/tools/env/fw_env.config ${D}${sysconfdir}/fw_env.config
->
-> so as i read it, the last action of do_install() is to install ... the
-> generic fw_env.config file sitting in u-boot's tools/env/ directory,
-> which really has no value. so how does one overcome this?
->
->    i poked around and found a couple layers, here's meta-mender:
->
-> https://github.com/mendersoftware/meta-mender/blob/master/recipes-bsp/u-boot/u-boot-fw-utils_2015.10.bbappend
->
-> which adds a whole new task just to install a custom config file:
->
->
-> # Keep this separately from the rest of the .bb file in case that .bb file is
-> # overridden from another layer.
-> require u-boot-mender.inc
->
-> DEPENDS = "u-boot"
->
-> # Configure fw_printenv so that it looks in the right place for the environment.
-> do_configure_fw_printenv () {
->      cat > ${D}${sysconfdir}/fw_env.config <<EOF
-> /uboot/uboot.env 0x0000 ${BOOTENV_SIZE}
-> EOF
+> do_install_append() {
+>    install -d ${D}${sysconfdir}
+>    install -m 0644 ${WORKDIR}/fw_env.config ${D}${sysconfdir}/fw_env.config
 > }
-> addtask do_configure_fw_printenv before do_package after do_install
 >
+> PACKAGE_ARCH = "${MACHINE_ARCH}"
 >
->    i was expecting to see SRC_URI appending that file; however, if i
-> look in u-boot.inc, i can see:
+> ====================================================================
 >
->      if [ -e ${WORKDIR}/fw_env.config ] ; then
->          install -d ${D}${sysconfdir}
->          install -m 644 ${WORKDIR}/fw_env.config ${D}${sysconfdir}/fw_env.config
->      fi
->
-> which is sort of what i was looking for, but the fact that that is in
-> u-boot.inc doesn't seem to affect the u-boot-fw-utils recipe.
->
->    so what is the recommended way to add a custom /etc/fw_env.config to
-> my image if i'm adding u-boot-fw-utils?
+> Yes, this "installs" the same file twice, but it does what you
+> need, it installs the desired file in the correct place. And, yes,
+> it's too bad that this "info" is kept in two completely different
+> recipes.
 
-I do something like this in my machine layer, in a .u-boot-fw-utils_%.bbappend file:
+  that is, pretty much, line for line what i came up with as well. as
+you suggest, it just seems ... sloppy.
 
-====================================================================
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
-
-SRC_URI += "file://fw_env.config"
-
-do_install_append() {
-    install -d ${D}${sysconfdir}
-    install -m 0644 ${WORKDIR}/fw_env.config ${D}${sysconfdir}/fw_env.config
-}
-
-PACKAGE_ARCH = "${MACHINE_ARCH}"
-
-====================================================================
-
-Yes, this "installs" the same file twice, but it does what you
-need, it installs the desired file in the correct place. And, yes,
-it's too bad that this "info" is kept in two completely different
-recipes.
+rday
 
 -- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
 
