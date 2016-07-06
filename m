@@ -1,50 +1,30 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
-	[209.85.220.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 6731160119
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id AF91E60119
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Jul 2016 15:04:24 +0000 (UTC)
-Received: by mail-pa0-f43.google.com with SMTP id dx3so12561126pab.2
+	Wed,  6 Jul 2016 16:09:02 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u66G92jT018472 for <openembedded-core@lists.openembedded.org>;
+	Wed, 6 Jul 2016 17:09:02 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id iA1QlXVVrJ7B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Jul 2016 08:04:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=3sYKGvs2RTq+BfzY6H/AhyNiFTOS+Z4kKkoT12FzWZ0=;
-	b=PGDj25IB3d40fnvrb6UsVAceM7Gp9/hdHt23KRMtb8Nf94WRVjQgN+4Z870v7HIdyR
-	0tqXjToGBt1b+9rgyBaE5vIF/j8qY0oLPdil1oT2Foo5LgGluemnywxKXyXh+8Gr5Ku7
-	FET7AnDDLZk7KDc5F9AaE0w+nPtf9WzLin0VRChBibsfdn+qTnN5XdUTpTqn7YeMxgu/
-	wfpcKAtVKK7TInCVuQZqnS/okQ6uAgF0bI0zmgkl33sOTCEBR9kqJBtWqimTyfLTAvkh
-	xLK74iqfgXhsIy0cMEWZVAU989f0cqVdGzHtMjzFAS58XDGSeJHwh5ydfay23UVNX5fp
-	Uz5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=3sYKGvs2RTq+BfzY6H/AhyNiFTOS+Z4kKkoT12FzWZ0=;
-	b=LZT9sH3bX44jmkapE5VFOz7OZ91abbjCgQq+JRRULAQ4fqqZXLpPzSxP1wsoCqkjZ5
-	5seypgPFy0ixGMPVmbpon60shEVcUotzBBHTW843FTqFSiU16RDmdHQzz72EPmTlaUX+
-	mrgRpOHxBpKN7IvNhwzsLbH28R6N5o7SxFmwJR+G5WozYsbkD1BYxnqigGzTFr/M30aP
-	NFX1ubUpDfxaUc4fg5TVddRZIxs382jYe3ga9ctTC4/aRGEBvteGiiueQolYKS7wQdQ2
-	Ep8DBPh5OEyMrL7X6umnIAntY9iHYFNAkTHL1UnWmRPhNw0VHQc0qxdB45Hb6lPN/qO+
-	bWMQ==
-X-Gm-Message-State: ALyK8tLEIcmGLJQyHGJMa8Iw8lMlZV7s4HskQR2kA6Itz5Eb4m6Aeo4cH759RRs7iJC5UA==
-X-Received: by 10.66.251.170 with SMTP id zl10mr42366861pac.25.1467817465070; 
-	Wed, 06 Jul 2016 08:04:25 -0700 (PDT)
-Received: from akuster-ThinkPad-X240.hsd1.ca.comcast.net
-	(c-76-20-92-207.hsd1.ca.comcast.net. [76.20.92.207])
-	by smtp.gmail.com with ESMTPSA id
-	bw1sm5423663pab.17.2016.07.06.08.04.23
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 06 Jul 2016 08:04:23 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	akuster@mvista.com
-Date: Wed,  6 Jul 2016 08:04:10 -0700
-Message-Id: <cover.1467816214.git.akuster808@gmail.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH 0/6] Krogoth pull request
+	Wed,  6 Jul 2016 17:09:02 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u66G8vp5018457
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 6 Jul 2016 17:08:59 +0100
+Message-ID: <1467821337.8590.212.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 06 Jul 2016 17:08:57 +0100
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: [PATCH] terminal: Fix gnome-terminal to work with recent versions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,47 +37,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jul 2016 15:04:27 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 06 Jul 2016 16:09:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Here are a few more changes for krogoth-next. The first two are the ones we talked about in the YPTM. The rest are bonus.
+Currently gnome-terminal just returns straight away, opening a terminal in a new 
+separate process we have no insight into. For patch resolution, this leads to 
+spawning many different terminal windows, for pydevshell, it just flashes a window
+up and then closes.
 
+We need to block until the command completes but gnome-terminal gives us no way 
+to do this. We therefore write the pid to a file using a "phonehome" wrapper 
+script, then monitor the pid until it exits.
 
-The following changes since commit 7e9297e5722d0a589fae1158908cf8cf8c1d0b37:
+[YOCTO #7254]
+(also fixing do_devpyshell)
 
-  bitbake: bitbake: fetch2: Safer check for BB_ORIGENV datastore (2016-06-28 15:22:59 -0700)
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-are available in the git repository at:
+diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
+index 7f4458e..4a5ab1a 100644
+--- a/meta/lib/oe/terminal.py
++++ b/meta/lib/oe/terminal.py
+@@ -66,7 +66,28 @@ class Gnome(XTerminal):
+         if vernum and LooseVersion(vernum) >= '3.10':
+             logger.debug(1, 'Gnome-Terminal 3.10 or later does not support --disable-factory')
+             self.command = 'gnome-terminal -t "{title}" -x {command}'
+-        XTerminal.__init__(self, sh_cmd, title, env, d)
++
++        # We need to know when the command completes but gnome-terminal gives us no way 
++        # to do this. We therefore write the pid to a file using a "phonehome" wrapper
++        # script, then monitor the pid until it exits. Thanks gnome!
++
++        import tempfile
++        pidfile = tempfile.NamedTemporaryFile(delete = False).name
++        try:
++            sh_cmd = "oe-gnome-terminal-phonehome " + pidfile + " " + sh_cmd
++            XTerminal.__init__(self, sh_cmd, title, env, d)
++            while os.stat(pidfile).st_size <= 0:
++                continue
++            with open(pidfile, "r") as f:
++                pid = int(f.readline())
++        finally:
++            os.unlink(pidfile)
++
++        while True:
++            try:
++                os.kill(pid, 0)
++            except OSError:
++               return
+ 
+ class Mate(XTerminal):
+     command = 'mate-terminal -t "{title}" -x {command}'
+diff --git a/scripts/oe-gnome-terminal-phonehome b/scripts/oe-gnome-terminal-phonehome
+new file mode 100755
+index 0000000..e023548
+--- /dev/null
++++ b/scripts/oe-gnome-terminal-phonehome
+@@ -0,0 +1,10 @@
++#!/bin/sh
++#
++# Gnome terminal won't tell us which PID a given command is run as 
++# or allow a single instance so we can't tell when it completes.
++# This allows us to figure out the PID of the target so we can tell 
++# when its done.
++#
++echo $$ > $1
++shift
++exec $@
 
-  http://git.yoctoproject.org/git/poky-contrib akuster/krogoth-next
-  http://git.yoctoproject.org/cgit.cgi//log/?h=akuster/krogoth-next
-
-André Draszik (1):
-  feature-arm-vfp.inc: fix overzealous ARMPKGSFX_FPU modification
-
-Anuj Mittal (1):
-  gcc: make sure header path is set correctly
-
-Armin Kuster (1):
-  Revert "openssl: prevent ABI break from earlier krogoth releases"
-
-Ed Bartosh (2):
-  devshell.bbclass: fix double unbuffering
-  wic: rawcopy: make source filenames unique
-
-Khem Raj (1):
-  gcc-5: Fix hang with mmusl option on cmdline
-
- meta/classes/devshell.bbclass                      |  1 -
- meta/conf/machine/include/arm/feature-arm-vfp.inc  |  2 +-
- .../openssl/debian1.0.2/version-script.patch       | 31 +++-------
- ...l-as-a-musl-libc-specifier-and-the-necess.patch | 72 +++++++++++-----------
- meta/recipes-devtools/gcc/gcc-target.inc           |  1 -
- scripts/lib/wic/plugins/source/rawcopy.py          |  2 +-
- 6 files changed, 47 insertions(+), 62 deletions(-)
-
--- 
-1.9.1
 
 
