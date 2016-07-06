@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 0EAA1601A4
+	by mail.openembedded.org (Postfix) with ESMTP id 0E30560123
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Jul 2016 23:57:38 +0000 (UTC)
+	Wed,  6 Jul 2016 23:57:40 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga102.jf.intel.com with ESMTP; 06 Jul 2016 16:57:38 -0700
+	by orsmga102.jf.intel.com with ESMTP; 06 Jul 2016 16:57:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,322,1464678000"; d="scan'208";a="1016966570"
+X-IronPort-AV: E=Sophos;i="5.28,322,1464678000"; d="scan'208";a="1016966581"
 Received: from lynhueyo-mobl.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.176.219])
-	by fmsmga002.fm.intel.com with ESMTP; 06 Jul 2016 16:57:36 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 06 Jul 2016 16:57:39 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Jul 2016 11:57:08 +1200
-Message-Id: <1af81cbbb566c950662ddb51922d0980f93ce401.1467849364.git.paul.eggleton@linux.intel.com>
+Date: Thu,  7 Jul 2016 11:57:09 +1200
+Message-Id: <2e1423fa0b0ac6bf9facbe5e9ed9df1051ccd6fa.1467849364.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.5
 In-Reply-To: <cover.1467849364.git.paul.eggleton@linux.intel.com>
 References: <cover.1467849364.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1467849364.git.paul.eggleton@linux.intel.com>
 References: <cover.1467849364.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 2/6] recipetool: create: support specifying a file as the local source
+Subject: [PATCH 3/6] lib/oe/patch: handle encoding differences in patch files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,74 +32,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jul 2016 23:57:38 -0000
+X-List-Received-Date: Wed, 06 Jul 2016 23:57:40 -0000
 
-It is currently possible to specify a file (e.g. a tarball) on the local
-disk as the source, but you have to know to put file:// in front of it.
-There's really no need to force users to jump through that hoop if they
-really want to do this so check if the specified source is a file and
-prefix it with file:// if that's the case.
-
-Also ensure the same works for "devtool add" at the same time.
+With Python 3, the encoding of a file is significant; several recipes in
+OE-Core have patches which are not fully utf-8 decodable e.g. man,
+lrzsz, and gstreamer1.0-libav, leading to errors when using devtool's
+modify, upgrade or extract subcommands on these recipes. To work around
+this, try reading the patch file as utf-8 first and if that fails try
+latin-1 before giving up.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/lib/devtool/standard.py  |  4 ++++
- scripts/lib/recipetool/create.py | 15 ++++++++++-----
- 2 files changed, 14 insertions(+), 5 deletions(-)
+ meta/lib/oe/patch.py | 100 +++++++++++++++++++++++++++++----------------------
+ 1 file changed, 57 insertions(+), 43 deletions(-)
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index ed49a93..737ecc1 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -65,6 +65,10 @@ def add(args, config, basepath, workspace):
-         elif os.path.isdir(args.recipename):
-             logger.warn('Ambiguous argument %s - assuming you mean it to be the recipe name')
+diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+index 4a0d3f7..af3adec 100644
+--- a/meta/lib/oe/patch.py
++++ b/meta/lib/oe/patch.py
+@@ -117,43 +117,50 @@ class PatchSet(object):
+                 return None
+             return os.sep.join(filesplit[striplevel:])
  
-+    if args.srctree and os.path.isfile(args.srctree):
-+        args.fetchuri = 'file://' + os.path.abspath(args.srctree)
-+        args.srctree = ''
+-        copiedmode = False
+-        filelist = []
+-        with open(patchfile) as f:
+-            for line in f:
+-                if line.startswith('--- '):
+-                    patchpth = patchedpath(line)
+-                    if not patchpth:
+-                        break
+-                    if copiedmode:
+-                        addedfile = patchpth
+-                    else:
+-                        removedfile = patchpth
+-                elif line.startswith('+++ '):
+-                    addedfile = patchedpath(line)
+-                    if not addedfile:
+-                        break
+-                elif line.startswith('*** '):
+-                    copiedmode = True
+-                    removedfile = patchedpath(line)
+-                    if not removedfile:
+-                        break
+-                else:
+-                    removedfile = None
+-                    addedfile = None
+-
+-                if addedfile and removedfile:
+-                    if removedfile == '/dev/null':
+-                        mode = 'A'
+-                    elif addedfile == '/dev/null':
+-                        mode = 'D'
+-                    else:
+-                        mode = 'M'
+-                    if srcdir:
+-                        fullpath = os.path.abspath(os.path.join(srcdir, addedfile))
+-                    else:
+-                        fullpath = addedfile
+-                    filelist.append((fullpath, mode))
++        for encoding in ['utf-8', 'latin-1']:
++            try:
++                copiedmode = False
++                filelist = []
++                with open(patchfile) as f:
++                    for line in f:
++                        if line.startswith('--- '):
++                            patchpth = patchedpath(line)
++                            if not patchpth:
++                                break
++                            if copiedmode:
++                                addedfile = patchpth
++                            else:
++                                removedfile = patchpth
++                        elif line.startswith('+++ '):
++                            addedfile = patchedpath(line)
++                            if not addedfile:
++                                break
++                        elif line.startswith('*** '):
++                            copiedmode = True
++                            removedfile = patchedpath(line)
++                            if not removedfile:
++                                break
++                        else:
++                            removedfile = None
++                            addedfile = None
 +
-     if args.fetch:
-         if args.fetchuri:
-             raise DevtoolError('URI specified as positional argument as well as -f/--fetch')
-diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index c6b9d36..12a25c6 100644
---- a/scripts/lib/recipetool/create.py
-+++ b/scripts/lib/recipetool/create.py
-@@ -351,11 +351,16 @@ def create_recipe(args):
-     extravalues = {}
-     checksums = (None, None)
-     tempsrc = ''
-+    source = args.source
-     srcsubdir = ''
-     srcrev = '${AUTOREV}'
--    if '://' in args.source:
-+
-+    if os.path.isfile(source):
-+        source = 'file://%s' % os.path.abspath(source)
-+
-+    if '://' in source:
-         # Fetch a URL
--        fetchuri = reformat_git_uri(urldefrag(args.source)[0])
-+        fetchuri = reformat_git_uri(urldefrag(source)[0])
-         if args.binary:
-             # Assume the archive contains the directory structure verbatim
-             # so we need to extract to a subdirectory
-@@ -426,10 +431,10 @@ def create_recipe(args):
-         if args.extract_to:
-             logger.error('--extract-to cannot be specified if source is a directory')
-             sys.exit(1)
--        if not os.path.isdir(args.source):
--            logger.error('Invalid source directory %s' % args.source)
-+        if not os.path.isdir(source):
-+            logger.error('Invalid source directory %s' % source)
-             sys.exit(1)
--        srctree = args.source
-+        srctree = source
-         srcuri = ''
-         if os.path.exists(os.path.join(srctree, '.git')):
-             # Try to get upstream repo location from origin remote
++                        if addedfile and removedfile:
++                            if removedfile == '/dev/null':
++                                mode = 'A'
++                            elif addedfile == '/dev/null':
++                                mode = 'D'
++                            else:
++                                mode = 'M'
++                            if srcdir:
++                                fullpath = os.path.abspath(os.path.join(srcdir, addedfile))
++                            else:
++                                fullpath = addedfile
++                            filelist.append((fullpath, mode))
++            except UnicodeDecodeError:
++                continue
++            break
++        else:
++            raise PatchError('Unable to decode %s' % patchfile)
+ 
+         return filelist
+ 
+@@ -280,12 +287,19 @@ class GitApplyTree(PatchTree):
+         """
+         Extract just the header lines from the top of a patch file
+         """
+-        lines = []
+-        with open(patchfile, 'r') as f:
+-            for line in f.readlines():
+-                if line.startswith('Index: ') or line.startswith('diff -') or line.startswith('---'):
+-                    break
+-                lines.append(line)
++        for encoding in ['utf-8', 'latin-1']:
++            lines = []
++            try:
++                with open(patchfile, 'r', encoding=encoding) as f:
++                    for line in f:
++                        if line.startswith('Index: ') or line.startswith('diff -') or line.startswith('---'):
++                            break
++                        lines.append(line)
++            except UnicodeDecodeError:
++                continue
++            break
++        else:
++            raise PatchError('Unable to find a character encoding to decode %s' % patchfile)
+         return lines
+ 
+     @staticmethod
 -- 
 2.5.5
 
