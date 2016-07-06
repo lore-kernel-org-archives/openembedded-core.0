@@ -1,29 +1,29 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 93F2B60119
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
+	by mail.openembedded.org (Postfix) with ESMTP id 7FE1960119
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Jul 2016 16:48:07 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u66Gm80b020673; Wed, 6 Jul 2016 17:48:08 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Gs3XpObwSUYW; Wed,  6 Jul 2016 17:48:07 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u66Gm55V020663
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 6 Jul 2016 17:48:06 +0100
-Message-ID: <1467823685.8590.217.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Joe MacDonald <joe_macdonald@mentor.com>,
-	openembedded-core@lists.openembedded.org
-Date: Wed, 06 Jul 2016 17:48:05 +0100
-In-Reply-To: <1467812717-26591-1-git-send-email-joe_macdonald@mentor.com>
-References: <1467812717-26591-1-git-send-email-joe_macdonald@mentor.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH] dpkg-deb: strip virtual/ package prefix in control files
+	Wed,  6 Jul 2016 17:11:48 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
+	via TCP (outbound) with ESMTPS id 20160706171148024_0685
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 06 Jul 2016 10:11:48 -0700
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [99.240.204.5] (port=50322 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1bKqOD-0003jd-3P for openembedded-core@lists.openembedded.org;
+	Wed, 06 Jul 2016 13:13:33 -0400
+Date: Wed, 6 Jul 2016 13:10:48 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1607061252280.599@localhost.localdomain>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+MIME-Version: 1.0
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: how to bbappend(?) to u-boot-fw-utils to add a custom /etc/fw_env.config??
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,35 +36,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jul 2016 16:48:09 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-On Wed, 2016-07-06 at 09:45 -0400, Joe MacDonald wrote:
-> If a recipe provides a 'virtual/foo', dpkg-deb will fail as '/'
-> characters
-> are not allowed in any of the Depends, Recommends, Suggests, etc.
-> fields.
-> The intent of these in the Debian package system and the few cases
-> where
-> they are used in Yocto layers seems like throwing away the 'virtual/'
-> prefix preserves the intent, while not requiring it to be removed for
-> package systems that allow it (eg. opkg and rpm).
-> 
-> Signed-off-by: Joe MacDonald <joe_macdonald@mentor.com>
-> ---
->  meta/classes/package_deb.bbclass | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-
-Our virtual/ namespace is only used in DEPENDS, not in the runtime
-package namespaces (RDEPENDS, RRECOMMENDS and friends). We therefore
-shouldn't need this patch...
-
-Cheers,
-
-Richard
+X-List-Received-Date: Wed, 06 Jul 2016 17:11:51 -0000
+Content-Type: text/plain; charset=US-ASCII
 
 
+  i may be looking at this entirely incorrectly at the moment, but
+what is the preferred way to sneak in a custom, target-specific
+/etc/fw_env.config file when adding u-boot-fw-utils to one's image?
+
+  if i examine u-boot-fw-utils_2016.03.bb, i can see that that package
+is based on (predictably) the source code for u-boot:
+
+  SRC_URI = "git://git.denx.de/u-boot.git;branch=master"
+  S = "${WORKDIR}/git"
+
+which is fine, but if look at the overriding do_install() routine in
+that recipe file, i see:
+
+  do_install () {
+        install -d ${D}${base_sbindir}
+        install -d ${D}${sysconfdir}
+        install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_printenv
+        install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_setenv
+        install -m 0644 ${S}/tools/env/fw_env.config ${D}${sysconfdir}/fw_env.config
+
+so as i read it, the last action of do_install() is to install ... the
+generic fw_env.config file sitting in u-boot's tools/env/ directory,
+which really has no value. so how does one overcome this?
+
+  i poked around and found a couple layers, here's meta-mender:
+
+https://github.com/mendersoftware/meta-mender/blob/master/recipes-bsp/u-boot/u-boot-fw-utils_2015.10.bbappend
+
+which adds a whole new task just to install a custom config file:
+
+
+# Keep this separately from the rest of the .bb file in case that .bb file is
+# overridden from another layer.
+require u-boot-mender.inc
+
+DEPENDS = "u-boot"
+
+# Configure fw_printenv so that it looks in the right place for the environment.
+do_configure_fw_printenv () {
+    cat > ${D}${sysconfdir}/fw_env.config <<EOF
+/uboot/uboot.env 0x0000 ${BOOTENV_SIZE}
+EOF
+}
+addtask do_configure_fw_printenv before do_package after do_install
+
+
+  i was expecting to see SRC_URI appending that file; however, if i
+look in u-boot.inc, i can see:
+
+    if [ -e ${WORKDIR}/fw_env.config ] ; then
+        install -d ${D}${sysconfdir}
+        install -m 644 ${WORKDIR}/fw_env.config ${D}${sysconfdir}/fw_env.config
+    fi
+
+which is sort of what i was looking for, but the fact that that is in
+u-boot.inc doesn't seem to affect the u-boot-fw-utils recipe.
+
+  so what is the recommended way to add a custom /etc/fw_env.config to
+my image if i'm adding u-boot-fw-utils?
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
 
