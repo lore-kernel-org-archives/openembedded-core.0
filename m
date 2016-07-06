@@ -1,49 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id BB9746013D
+Return-Path: <fabio.berton@ossystems.com.br>
+Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
+	[209.85.215.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F88D60119
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Jul 2016 09:57:02 +0000 (UTC)
-Received: by mail-wm0-f42.google.com with SMTP id z126so105200683wme.0
+	Wed,  6 Jul 2016 12:39:01 +0000 (UTC)
+Received: by mail-lf0-f67.google.com with SMTP id l102so9917783lfi.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Jul 2016 02:57:03 -0700 (PDT)
+	Wed, 06 Jul 2016 05:39:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=vQ9xKU9iJuF+szN5xzgqEnvMO93SnczVs6BFhA3V234=;
-	b=VxF5o9uWG0ET5opWhITEA4Yt0LsaQOlGKGfzONFtr0iB4cP/uWo+jc8EYI61FDOrWE
-	/GYwS0n8tzXVmp1hiMj+GtoBNUCOo+orYxHIlS++pWhdvIfIVZ9uKFITZGeH8h5hfFMB
-	VEGwipSlyfKmhgn12PGHXEEwk/plOIyYaAwBfozYquZesBocmBHJKUMXKbUFYl+GeQfT
-	UcohNZXfrxYqOJh+KorNSElsevtBFBzvNCcYMSjHSm3a2JK1v5GVtDAkl5KKTrxcZuGC
-	sryVy9OMw2L/V97IoSnV5AwobBJJYCliAgbGfwOx1+69kBbakBP93WICHBqHDDKlbeMw
-	GChw==
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=ikP4RIfmjLC31GloRZI0abeU4EsW28yi6HQ/F7l6EAU=;
+	b=zQ1TNbGQLIvNMF+WzFsdWecX5CJEs3e0bp14U4MpH4Gbw5bzpaQTxmPgAX9CyxtsLL
+	r35FjADU9UcZr1z6ZDkCG5oxWDcjEVhDMfidcItk+eDJWkYdsORNY7L4v/WQmaF9epKd
+	G9TUZW7jG3FXmN05URAGu4jm6MyhChAtl94/SzR+hQIzHm3KHZcq5cM8pZ/aAONR65EM
+	wxPzpEHDSblHBw4aBsV91z2N5gzQli32lzsBzyvEUKCX/kPnwk5F1Bt0wktar6uevRPM
+	e+NQmBiyAJz9bMOIVewhu7UIDowoDP5nCXv3OQTRwiPqM5ziBdYxIoOmcTcxmzyGb8LG
+	yG3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=vQ9xKU9iJuF+szN5xzgqEnvMO93SnczVs6BFhA3V234=;
-	b=BLGwSxbiy0PCqusNrOKeU2vGqh+Mq0PkoQWbzGHPgl+zEVsljt0gk7s+yfLU7uiNpE
-	HfCtQcIzzIwpUh05HAi3vuIxmT0EAaaT7124maG9XP34b6VpEjkR5YjL3frhwnPaEu+r
-	eTUA3YkBowNWa2WJC+a2cauq8ScWu0DyigeVaNuuYaDXBbV8E/B3sphBxX6AfAwgIi8f
-	7GCz0MKppRr1NYH0pfo3rTmgNc9rAV+fTtVIsCjFl/ewOjUTNgjXxLc8fIP1v/Px3syL
-	1Pvn/63edOUY03Bmgw3zSwxmnDKLgxKS8g4kywAZKO1VtKpeig02ejJLHpDD8i+pA5hO
-	MMzg==
-X-Gm-Message-State: ALyK8tK4Nl0Cvwyle9OkHju7VE5pkE3s9pnAcxBz+xST73bQk6GIVptBZYuZYHF6QBzdh7wA
-X-Received: by 10.28.18.203 with SMTP id 194mr21196161wms.75.1467799022490;
-	Wed, 06 Jul 2016 02:57:02 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	bh7sm1688488wjb.22.2016.07.06.02.57.01
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 06 Jul 2016 02:57:01 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Jul 2016 10:56:54 +0100
-Message-Id: <1467799014-3012-2-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <1467799014-3012-1-git-send-email-ross.burton@intel.com>
-References: <1467799014-3012-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 2/2] classes/libc-package: remove pointless copying when running localedef
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=ikP4RIfmjLC31GloRZI0abeU4EsW28yi6HQ/F7l6EAU=;
+	b=Av6gISmRsXqrQUMitBLj83P5WxXGgDxr2glYamSybP19ZFZ/ycded0a92viUDwbwqs
+	Soc/T5jIIRNcGzcAMaIDQ3pxUvUAVcgRO+SfXttthAmVkwxXaIFpBeg8k7SM4k0gHEEb
+	xWM6+hpyFY6JECrNltpMp6WthMMJuZQCCLuNo6M6QgmbxkYRGpcaDhuEBMPQvyni3s9A
+	onCdTqc3SSRwBtmOnotm7kl/0VyEHJLxrNaMUHiEBTX/07uLQ5dytbPQp6eaaC/Swmj3
+	BhcIcsII+VNlzfeLMTVLjfJd7gOI0CN2TV3n5w5TB5/eEtknP9B5RH4ieh5Cju9RTa7k
+	F1fQ==
+X-Gm-Message-State: ALyK8tLNoy5az3qkF7qJVna0o7fDibgjVMf/P0UfERN5G2p+96lTiBORcMT0WsQ98jdHPGEPgckQYLG1EO5RJA==
+X-Received: by 10.25.15.213 with SMTP id 82mr4783034lfp.126.1467808741656;
+	Wed, 06 Jul 2016 05:39:01 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.25.5.215 with HTTP; Wed, 6 Jul 2016 05:38:31 -0700 (PDT)
+X-Originating-IP: [177.100.227.79]
+In-Reply-To: <1467360339-10236-1-git-send-email-ed.bartosh@linux.intel.com>
+References: <1467360339-10236-1-git-send-email-ed.bartosh@linux.intel.com>
+From: Fabio Berton <fabio.berton@ossystems.com.br>
+Date: Wed, 6 Jul 2016 09:38:31 -0300
+Message-ID: <CAAPZna3qZAF=TL+s6VNmhObPqLd80qtS9UO01PGRzZDfoESrFQ@mail.gmail.com>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [krogoth][wic][PATCH] wic: rawcopy: make source filenames unique
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,67 +54,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jul 2016 09:57:02 -0000
+X-List-Received-Date: Wed, 06 Jul 2016 12:39:04 -0000
+Content-Type: multipart/alternative; boundary=001a113fb78aa51fb10536f6dadc
 
-localedef handles attempts to read/write the archive in parallel correctly by
-creating the file atomically, gracefully handling racing to create, and has
-exclusive locks when writing.  Therefore I can't see any purpose to copying the
-archive to /tmp and back again when manipulating it.
+--001a113fb78aa51fb10536f6dadc
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/libc-package.bbclass | 24 ++----------------------
- 1 file changed, 2 insertions(+), 22 deletions(-)
+Hi Ed,
 
-diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
-index a8d86cf..8c99d61 100644
---- a/meta/classes/libc-package.bbclass
-+++ b/meta/classes/libc-package.bbclass
-@@ -47,7 +47,6 @@ python __anonymous () {
- 
- OVERRIDES_append = ":${TARGET_ARCH}-${TARGET_OS}"
- 
--# indentation removed on purpose
- locale_base_postinst() {
- #!/bin/sh
- 
-@@ -55,33 +54,14 @@ if [ "x$D" != "x" ]; then
- 	exit 1
- fi
- 
--rm -rf ${TMP_LOCALE}
--mkdir -p ${TMP_LOCALE}
--if [ -f ${localedir}/locale-archive ]; then
--        cp ${localedir}/locale-archive ${TMP_LOCALE}/
--fi
--localedef --inputfile=${datadir}/i18n/locales/%s --charmap=%s --prefix=/tmp/locale %s
--mkdir -p ${localedir}/
--mv ${TMP_LOCALE}/locale-archive ${localedir}/
--rm -rf ${TMP_LOCALE}
-+localedef --inputfile=${datadir}/i18n/locales/%s --charmap=%s %s
- }
- 
--# indentation removed on purpose
- locale_base_postrm() {
- #!/bin/sh
--
--rm -rf ${TMP_LOCALE}
--mkdir -p ${TMP_LOCALE}
--if [ -f ${localedir}/locale-archive ]; then
--	cp ${localedir}/locale-archive ${TMP_LOCALE}/
--fi
--localedef --delete-from-archive --inputfile=${datadir}/locales/%s --charmap=%s --prefix=/tmp/locale %s
--mv ${TMP_LOCALE}/locale-archive ${localedir}/
--rm -rf ${TMP_LOCALE}
-+localedef --delete-from-archive --inputfile=${datadir}/locales/%s --charmap=%s %s
- }
- 
--
--TMP_LOCALE="/tmp/locale${localedir}"
- LOCALETREESRC ?= "${PKGD}"
- 
- do_prep_locale_tree() {
--- 
-2.8.1
+This patch was already tested, can be applied to krogoth?
 
+Regards,
 
+Fabio
+
+On Fri, Jul 1, 2016 at 5:05 AM, Ed Bartosh <ed.bartosh@linux.intel.com>
+wrote:
+
+> Rawcopy plugin copies source files to build folder before using them
+> to assemble result image. After assembling the image wic renames
+> source files to <image>.p<partition number>. If the same source file
+> is used in multiple partitions wic breaks trying to rename file that
+> doesn't exist.
+>
+> Added <line number> suffix to the files when copying them to the
+> build dir. This should make filename unique even if the same source
+> file is used for multiple partitions.
+>
+> [YOCTO #9826]
+>
+> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+> ---
+>  scripts/lib/wic/plugins/source/rawcopy.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/lib/wic/plugins/source/rawcopy.py
+> b/scripts/lib/wic/plugins/source/rawcopy.py
+> index 0472f53..7ce0cc4 100644
+> --- a/scripts/lib/wic/plugins/source/rawcopy.py
+> +++ b/scripts/lib/wic/plugins/source/rawcopy.py
+> @@ -67,7 +67,7 @@ class RawCopyPlugin(SourcePlugin):
+>              return
+>
+>          src = os.path.join(bootimg_dir, source_params['file'])
+> -        dst = os.path.join(cr_workdir, source_params['file'])
+> +        dst = os.path.join(cr_workdir, "%s.%s" % (source_params['file'],
+> part.lineno))
+>
+>          if 'skip' in source_params:
+>              dd_cmd = "dd if=%s of=%s ibs=%s skip=1 conv=notrunc" % \
+> --
+> 2.1.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--001a113fb78aa51fb10536f6dadc
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:monospac=
+e,monospace;font-size:small">Hi Ed,<br><br></div><div class=3D"gmail_defaul=
+t" style=3D"font-family:monospace,monospace;font-size:small">This patch was=
+ already tested, can be applied to krogoth?<br><br></div><div class=3D"gmai=
+l_default" style=3D"font-family:monospace,monospace;font-size:small">Regard=
+s,<br><br></div><div class=3D"gmail_default" style=3D"font-family:monospace=
+,monospace;font-size:small">Fabio<br></div></div><div class=3D"gmail_extra"=
+><br><div class=3D"gmail_quote">On Fri, Jul 1, 2016 at 5:05 AM, Ed Bartosh =
+<span dir=3D"ltr">&lt;<a href=3D"mailto:ed.bartosh@linux.intel.com" target=
+=3D"_blank">ed.bartosh@linux.intel.com</a>&gt;</span> wrote:<br><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc soli=
+d;padding-left:1ex">Rawcopy plugin copies source files to build folder befo=
+re using them<br>
+to assemble result image. After assembling the image wic renames<br>
+source files to &lt;image&gt;.p&lt;partition number&gt;. If the same source=
+ file<br>
+is used in multiple partitions wic breaks trying to rename file that<br>
+doesn&#39;t exist.<br>
+<br>
+Added &lt;line number&gt; suffix to the files when copying them to the<br>
+build dir. This should make filename unique even if the same source<br>
+file is used for multiple partitions.<br>
+<br>
+[YOCTO #9826]<br>
+<br>
+Signed-off-by: Ed Bartosh &lt;<a href=3D"mailto:ed.bartosh@linux.intel.com"=
+>ed.bartosh@linux.intel.com</a>&gt;<br>
+---<br>
+=C2=A0scripts/lib/wic/plugins/source/rawcopy.py | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/scripts/lib/wic/plugins/source/rawcopy.py b/scripts/lib/wic/pl=
+ugins/source/rawcopy.py<br>
+index 0472f53..7ce0cc4 100644<br>
+--- a/scripts/lib/wic/plugins/source/rawcopy.py<br>
++++ b/scripts/lib/wic/plugins/source/rawcopy.py<br>
+@@ -67,7 +67,7 @@ class RawCopyPlugin(SourcePlugin):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0src =3D os.path.join(bootimg_dir, source_=
+params[&#39;file&#39;])<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dst =3D os.path.join(cr_workdir, source_params=
+[&#39;file&#39;])<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 dst =3D os.path.join(cr_workdir, &quot;%s.%s&q=
+uot; % (source_params[&#39;file&#39;], part.lineno))<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if &#39;skip&#39; in source_params:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dd_cmd =3D &quot;dd if=3D%s=
+ of=3D%s ibs=3D%s skip=3D1 conv=3Dnotrunc&quot; % \<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+2.1.4<br>
+<br>
+--<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</font></span></blockquote></div><br></div>
+
+--001a113fb78aa51fb10536f6dadc--
