@@ -1,27 +1,20 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 181896013D
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 971496013D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jul 2016 15:13:53 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga103.fm.intel.com with ESMTP; 07 Jul 2016 08:13:30 -0700
+	Thu,  7 Jul 2016 15:39:27 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga104.fm.intel.com with ESMTP; 07 Jul 2016 08:39:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,324,1464678000"; d="scan'208";a="1017395080"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga002.fm.intel.com with ESMTP; 07 Jul 2016 08:13:29 -0700
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id C6C536A4006
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jul 2016 08:13:22 -0700 (PDT)
-From: "Maxin B. John" <maxin.john@intel.com>
+X-IronPort-AV: E=Sophos;i="5.28,324,1464678000"; d="scan'208";a="730970497"
+Received: from theory.fi.intel.com ([10.237.72.196])
+	by FMSMGA003.fm.intel.com with ESMTP; 07 Jul 2016 08:39:27 -0700
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Jul 2016 18:13:03 +0300
-Message-Id: <1467904384-841-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [PATCH 1/2] neard: upgrade to 0.16
+Date: Thu,  7 Jul 2016 18:39:07 +0300
+Message-Id: <cover.1467905611.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/5] Upgrade piglit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,35 +27,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jul 2016 15:13:55 -0000
+X-List-Received-Date: Thu, 07 Jul 2016 15:39:30 -0000
 
-0.15 -> 0.16
+This set upgrades piglit, adds python-six (new piglit dependency),
+moves piglit to python3 and fixes all the python module issues that
+popped up.
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- meta/recipes-connectivity/neard/{neard_0.15.bb => neard_0.16.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/neard/{neard_0.15.bb => neard_0.16.bb} (93%)
+A word of warning to anyone else using piglit: it was big before and
+has now tripled in size (30000 new tests!). The installed size is over
+1.5GB and packaging takes a very long time.
 
-diff --git a/meta/recipes-connectivity/neard/neard_0.15.bb b/meta/recipes-connectivity/neard/neard_0.16.bb
-similarity index 93%
-rename from meta/recipes-connectivity/neard/neard_0.15.bb
-rename to meta/recipes-connectivity/neard/neard_0.16.bb
-index 93bddb3..b7126f6 100644
---- a/meta/recipes-connectivity/neard/neard_0.15.bb
-+++ b/meta/recipes-connectivity/neard/neard_0.16.bb
-@@ -10,8 +10,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/network/nfc/${BP}.tar.xz \
-            file://Makefile.am-fix-parallel-issue.patch \
-            file://Makefile.am-do-not-ship-version.h.patch \
-           "
--SRC_URI[md5sum] = "b746ce62eeef88e8de90765e00a75a1c"
--SRC_URI[sha256sum] = "651f6513d32cdaf8a426255d03aff38a6620a89b0567ec2b36606c6330a93353"
-+SRC_URI[md5sum] = "5c691fb7872856dc0d909c298bc8cb41"
-+SRC_URI[sha256sum] = "eae3b11c541a988ec11ca94b7deab01080cd5b58cfef3ced6ceac9b6e6e65b36"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
-  file://src/near.h;beginline=1;endline=20;md5=358e4deefef251a4761e1ffacc965d13 \
+For reference, the results with PIGLIT_NO_WINDOW=1 look like this on
+a NUC (Haswell with HD5000 graphics) running current master:
+
+       name:  quick
+       ----  ------
+       pass:  33717
+       fail:    438
+      crash:      5
+       skip:  30887
+       warn:      7
+      total:  65054
+
+Jussi
+
+
+The following changes since commit 5c11e365e19357f721c49d076971567e7b64b61b:
+
+  lib/oeqa: add Galculator to SDK and runtime tests (2016-07-01 16:22:48 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/piglit
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/piglit
+
+Jussi Kukkonen (5):
+  python-six: Add to oe-core
+  python3: Add compression to python3-shell dependencies
+  python3: Add dependencies for python3-misc
+  python3-native: Add "io" to rprovides
+  piglit: Upgrade version, use python3
+
+ .../python/python-3.5-manifest.inc                 |  2 +-
+ meta/recipes-devtools/python/python-six.inc        | 23 ++++++++++++++++++
+ meta/recipes-devtools/python/python-six_1.10.0.bb  |  4 ++++
+ .../python/python3-native_3.5.1.bb                 |  2 +-
+ meta/recipes-devtools/python/python3-six_1.10.0.bb |  4 ++++
+ meta/recipes-devtools/python/python3_3.5.1.bb      |  2 +-
+ ...0001-tests-Fix-missing-include-of-Xutil.h.patch | 28 ----------------------
+ meta/recipes-graphics/piglit/piglit_git.bb         | 18 +++++++-------
+ scripts/contrib/python/generate-manifest-3.5.py    |  2 +-
+ 9 files changed, 44 insertions(+), 41 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python-six.inc
+ create mode 100644 meta/recipes-devtools/python/python-six_1.10.0.bb
+ create mode 100644 meta/recipes-devtools/python/python3-six_1.10.0.bb
+ delete mode 100644 meta/recipes-graphics/piglit/piglit/0001-tests-Fix-missing-include-of-Xutil.h.patch
+
 -- 
-2.4.0
+2.1.4
 
 
