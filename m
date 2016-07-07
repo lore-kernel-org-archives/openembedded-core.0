@@ -1,41 +1,46 @@
-Return-Path: <goodoldbasil@gmail.com>
-Received: from mail-lf0-f48.google.com (mail-lf0-f48.google.com
-	[209.85.215.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D9EC6013D
+Return-Path: <kergoth@gmail.com>
+Received: from mail-io0-f195.google.com (mail-io0-f195.google.com
+	[209.85.223.195])
+	by mail.openembedded.org (Postfix) with ESMTP id E145A6013D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jul 2016 20:42:42 +0000 (UTC)
-Received: by mail-lf0-f48.google.com with SMTP id q132so19005169lfe.3
+	Thu,  7 Jul 2016 21:08:39 +0000 (UTC)
+Received: by mail-io0-f195.google.com with SMTP id l202so3554185ioe.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Jul 2016 13:42:43 -0700 (PDT)
+	Thu, 07 Jul 2016 14:08:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=nnFCI6qPy1gXe1/NHgADIEXveW7ck4JOX/o7a4QddeQ=;
-	b=ntMMovsru9uD/TyFhp23oKM3+CxRXs7P4FgzkKLJY5WVThWWevjHYbaiaWYnjrn0JJ
-	d6xfWOqNm0efVOB6JXelVI4h/4qYI+V4wNiNaka35X1sbDZdZOpFBAcJSroln7ESujzS
-	fitJ0qEtgUZZ7Za/i6hbWQeS6lbtt/GyTauxBeFCcwNXSt2kDormd+j3HLjlwc1BNvNa
-	z5YlzHdPUw9kTuROcEbFOtHpteRHnsCG32phwdrB0QRr/MDHqkggnZovFIB+jOrfFZad
-	2Pe180KEoWSGTE/GRmbm1kfzDQtHm1X1mOKeifiqbFy4zOdxCTYryqq0exOUloft5vTI
-	rg7Q==
+	h=from:to:cc:subject:date:message-id;
+	bh=7phcwdMEgXskCkYLJE8Iylce76dv8yYLOlEqh4Wh5mY=;
+	b=d1zrxAaPHmyFo7X59J2ergz5AUfreqpGvxrNMvEJ/uXVl9XmYQJUQ5y4eB9uSR/0Qz
+	t0bqi+A/4/L+lfYyUo5TAgEOjRO6ASErnhuuF1eQuU12VC6lyTLRd1lWg7gOPXuRF9d/
+	ItjUQBxUbthICAMwq/7Ol36i9G42sMuHQepXL4Rzt/bt9D6W7BOkDKiyczDKD8UrraVL
+	f+AFjH8AlrcX5e1u2TqwujON8eIm6fcYbWPr/V1e0hNfa+rU9wwjPv5yyQGRlRM1Z/KQ
+	x0aLUjPBfpKQF/T3rYO/EgA9rW0JzoPyFiTQ18a7FnwY15wStCB4v8w+8YcZY2QijwVf
+	7OSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=nnFCI6qPy1gXe1/NHgADIEXveW7ck4JOX/o7a4QddeQ=;
-	b=aZdi2neeeeZvOXDmauVRppInCI6WSLvTgwCLlkm1dlz3Oe8rp4HB2Nu8nfCtV9XWpM
-	3ukpvzCB2zd8C30kBH8HhawtW7hY4wxf2dfJFvVWvTixL7T84Lbx9DfjROuo/KftaICf
-	n4MAW4n1LqPYWBJgB8/NVmT30gbteAu3KAo0d3GuuypR25ngesShvpcGEajhpR0wEGcZ
-	RjhN71mNndl4VR1/ItFRnlXd7Q4OyiVJKDM2GzPjVezCuW6/1A0pwzs+wYhm6y6M3ZUp
-	G3WEifjG1LTGgYhE6F+o+n2+q3VYAFeBmTa7dZvj+DYhGvAmwCQdeLLQmk3rUK5h+DAF
-	qasw==
-X-Gm-Message-State: ALyK8tLUGJhnsEeND7XG3ekluEbVNXtlNUWgV8v3EmvsGpu0m36W14GV7f9kLxcqvz31UcrkVLVm0BHHO7b5BQ==
-X-Received: by 10.25.139.135 with SMTP id n129mr524547lfd.209.1467924161946;
-	Thu, 07 Jul 2016 13:42:41 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.25.143.2 with HTTP; Thu, 7 Jul 2016 13:42:02 -0700 (PDT)
-From: Basil Varghese <goodoldbasil@gmail.com>
-Date: Thu, 7 Jul 2016 13:42:02 -0700
-Message-ID: <CACzhctu+ihWvbeUSCo75sEz1Thhoh3eEDXB_+Q=QaD3zNUvHAQ@mail.gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=7phcwdMEgXskCkYLJE8Iylce76dv8yYLOlEqh4Wh5mY=;
+	b=H1dEcHULlaqAg2UxBAH2MoZMhG6NDGkd3Vzem4wGxpRBmjKaOliVycI0AsHMoH0/+l
+	mlb+0ZQEMv0+vTJb3YjIfXDGwX3OxChC6eh246L0BwisRgCY8ap3FE1Tsvwra8/HpMeF
+	pWhu9UG1CUWm2wSzEitHLVlszoN38wX7lemmYPfM2lcWTVD8Fcnqeu1594byGYvettEa
+	7EtuiMp/yu/v3JCnhQ6vSDHA8nejiYCJVEFi/0pvJc6H5eur+X++w7KI8hceNvGOooKz
+	W6e4e9TLBEG1UKSvta87F3yswPNzt17LsLe9v909vbi/KZ9jvzCMRTjDqGVQ+9m4rm9Z
+	B3tQ==
+X-Gm-Message-State: ALyK8tJkMzcpc4gRUrRGPCLaoTSyMMT+nyZgzX8uiQL4/2lFgVnTNQ7jnBAMEw8HAkilGA==
+X-Received: by 10.107.173.72 with SMTP id w69mr5367577ioe.127.1467925720172;
+	Thu, 07 Jul 2016 14:08:40 -0700 (PDT)
+Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by smtp.gmail.com with ESMTPSA id
+	i13sm1676902ita.18.2016.07.07.14.08.38
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 07 Jul 2016 14:08:38 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: How do I configure OpenBMC kernel boot logs to be displayed on a specific UART?
+Date: Thu,  7 Jul 2016 14:08:33 -0700
+Message-Id: <1467925713-13460-1-git-send-email-kergoth@gmail.com>
+X-Mailer: git-send-email 2.8.0
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCHv3] gcc-cross: default linker hash style to sysv
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,127 +53,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jul 2016 20:42:44 -0000
-Content-Type: multipart/alternative; boundary=001a113fc2f63aeae4053711ba01
+X-List-Received-Date: Thu, 07 Jul 2016 21:08:40 -0000
 
---001a113fc2f63aeae4053711ba01
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+From: Christopher Larson <chris_larson@mentor.com>
 
-Hi,
-I am using OpenBMC-1.0 (phosphor).
-On an AST2500-based board, the boot-logs get stuck at
-*           Uncompressing Linux=E2=80=A6 done, booting the kernel.*
+We explicitly set the hash style to gnu in our LDFLAGS. Setting the default to
+this in the toolchain, while convenient, actually hides bugs, as a failure to
+obey LDFLAGS isn't noticed. By removing this, it's not dissimilar to how we
+poison the sysroot -- rather than relying on the default, notice right away if
+somoeone isn't obeying the needed flags.
 
-The u-boot uses the correct UART console because its logs are displayed.
-But after that, the kernel boot logs are not seen. I am sure it is booting,
-but the problem is that the kernel seems to be configured to use the wrong
-serial console.
-I tried changing the *'device' *variable in obmc-console.conf from
-*device=3DttyS5 * to different values, but it's no use.
-Could someone please suggest how to make the kernel boot logs be displayed
-on the correct UART?
+This will result in a failure to obey LDFLAGS causing a GNU_HASH QA failure,
+which is what's often seen with external toolchains. This brings us all on the
+same page, and makes sure a failure to obey LDFLAGS is seen early.
 
-------------------------------------------- FYI the boot logs:
- -----------------------------------------
+This is limited to cross, to retain ease of use for SDKs.
 
-DRAM Init-V0B-DDR4
-0abc1-4Gb-Done
-Read margin-DL:0.3509/DH:0.3803 CK (min:0.35)
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+---
+
+Supercedes '[PATCHv2] gcc-cross: remove --with-linker-hash-style'
+v3 changes: per khem's advice, switched to use of LINKER_HASH_STYLE
+
+diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc b/meta/recipes-devtools/gcc/gcc-cross.inc
+index f479360..c0b8751 100644
+--- a/meta/recipes-devtools/gcc/gcc-cross.inc
++++ b/meta/recipes-devtools/gcc/gcc-cross.inc
+@@ -13,6 +13,11 @@ PN = "gcc-cross-${TARGET_ARCH}"
+ 
+ require gcc-configure-common.inc
+ 
++# While we want the 'gnu' hash style, we explicitly set it to sysv here to
++# ensure that any recipe which doesn't obey our LDFLAGS (which also set it to
++# gnu) will hit a QA failure.
++LINKER_HASH_STYLE ?= "sysv"
++
+ EXTRA_OECONF += "--enable-poison-system-directories"
+ EXTRA_OECONF_append_sh4 = " \
+     --with-multilib-list= \
+-- 
+2.8.0
 
 
-U-Boot 2016.05 (Jul 06 2016 - 17:22:40 +0100)
-
-DRAM:  496 MiB
-Flash: 32 MiB
-*** Warning - bad CRC, using default environment
-
-In:    serial
-Out:   serial
-Err:   serial
-Net:   MAC0 : RGMII
-MAC1 : RGMII
-FTGMAC100#0
-Error: FTGMAC100#0 address not set.
-, FTGMAC100#1
-Error: FTGMAC100#1 address not set.
-
-Hit any key to stop autoboot:  0
-## Booting kernel from Legacy Image at 20080000 ...
-   Image Name:   Phosphor OpenBMC (Phosphor OpenB
-   Image Type:   ARM Linux Kernel Image (uncompressed)
-   Data Size:    2004098 Bytes =3D 1.9 MiB
-   Load Address: 80001000
-   Entry Point:  80001000
-   Verifying Checksum ... OK
-## Loading init Ramdisk from Legacy Image at 20300000 ...
-   Image Name:   obmc-phosphor-image
-   Image Type:   ARM Linux RAMDisk Image (lzma compressed)
-   Data Size:    1670931 Bytes =3D 1.6 MiB
-   Load Address: 81000000
-   Entry Point:  81000000
-   Verifying Checksum ... OK
-   Loading Kernel Image ... OK
-
-Starting kernel ...
-
-Uncompressing Linux... done, booting the kernel.
----------------------------------------------------------------------------=
-----------------------------
-
-Thanks,
-*Basil Varghese*
-*______________________________________*
-
---001a113fc2f63aeae4053711ba01
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi,<div>I am using OpenBMC-1.0 (phosphor).<br>On an AST250=
-0-based board, the boot-logs get stuck at=C2=A0</div><div><b><span style=3D=
-"font-size:11pt;font-family:Calibri,sans-serif">=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0Uncompressing Linux=E2=80=A6 done, booting the kernel.</span>=
-</b></div><div><font face=3D"Calibri, sans-serif"><span style=3D"font-size:=
-14.6667px"><b><br clear=3D"all"></b></span></font><div><div data-smartmail=
-=3D"gmail_signature"><div dir=3D"ltr">The u-boot uses the correct UART cons=
-ole because its logs are displayed.<br>But after that, the kernel boot logs=
- are not seen. I am sure it is booting, but the problem is that the kernel =
-seems to be configured to use the wrong serial console.<br>I tried changing=
- the=C2=A0<i>&#39;device&#39;=C2=A0</i>variable in obmc-console.conf from=
-=C2=A0<i>device=3DttyS5=C2=A0</i>=C2=A0to different values, but it&#39;s no=
- use.<br>Could someone please suggest how to make the kernel boot logs be d=
-isplayed on the correct UART?</div><div dir=3D"ltr"><br></div><div dir=3D"l=
-tr">------------------------------------------- FYI the boot logs: =C2=A0--=
----------------------------------------</div><div><br><div>DRAM Init-V0B-DD=
-R4</div><div>0abc1-4Gb-Done</div><div>Read margin-DL:0.3509/DH:0.3803 CK (m=
-in:0.35)</div><div><br></div><div><br></div><div>U-Boot 2016.05 (Jul 06 201=
-6 - 17:22:40 +0100)</div><div><br></div><div>DRAM: =C2=A0496 MiB</div><div>=
-Flash: 32 MiB</div><div>*** Warning - bad CRC, using default environment</d=
-iv><div><br></div><div>In: =C2=A0 =C2=A0serial</div><div>Out: =C2=A0 serial=
-</div><div>Err: =C2=A0 serial</div><div>Net: =C2=A0 MAC0 : RGMII=C2=A0</div=
-><div>MAC1 : RGMII=C2=A0</div><div>FTGMAC100#0</div><div>Error: FTGMAC100#0=
- address not set.</div><div>, FTGMAC100#1</div><div>Error: FTGMAC100#1 addr=
-ess not set.</div><div><br></div><div>Hit any key to stop autoboot: =C2=A00=
-=C2=A0</div><div>## Booting kernel from Legacy Image at 20080000 ...</div><=
-div>=C2=A0 =C2=A0Image Name: =C2=A0 Phosphor OpenBMC (Phosphor OpenB</div><=
-div>=C2=A0 =C2=A0Image Type: =C2=A0 ARM Linux Kernel Image (uncompressed)</=
-div><div>=C2=A0 =C2=A0Data Size: =C2=A0 =C2=A02004098 Bytes =3D 1.9 MiB</di=
-v><div>=C2=A0 =C2=A0Load Address: 80001000</div><div>=C2=A0 =C2=A0Entry Poi=
-nt: =C2=A080001000</div><div>=C2=A0 =C2=A0Verifying Checksum ... OK</div><d=
-iv>## Loading init Ramdisk from Legacy Image at 20300000 ...</div><div>=C2=
-=A0 =C2=A0Image Name: =C2=A0 obmc-phosphor-image</div><div>=C2=A0 =C2=A0Ima=
-ge Type: =C2=A0 ARM Linux RAMDisk Image (lzma compressed)</div><div>=C2=A0 =
-=C2=A0Data Size: =C2=A0 =C2=A01670931 Bytes =3D 1.6 MiB</div><div>=C2=A0 =
-=C2=A0Load Address: 81000000</div><div>=C2=A0 =C2=A0Entry Point: =C2=A08100=
-0000</div><div>=C2=A0 =C2=A0Verifying Checksum ... OK</div><div>=C2=A0 =C2=
-=A0Loading Kernel Image ... OK</div><div><br></div><div>Starting kernel ...=
-</div><div><br></div><div>Uncompressing Linux... done, booting the kernel.<=
-/div><div>-----------------------------------------------------------------=
---------------------------------------</div><br></div><div>Thanks,<br><i><b=
->Basil Varghese</b></i><br></div></div></div></div><div><div class=3D"gmail=
-_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><div d=
-ir=3D"ltr"><div><div dir=3D"ltr"><div><i>__________________________________=
-____</i></div></div></div></div></div></div></div></div>
-</div>
-
---001a113fc2f63aeae4053711ba01--
