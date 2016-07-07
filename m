@@ -1,49 +1,24 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id AE1B560119
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D75F46013D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jul 2016 01:35:20 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id c74so348710pfb.0
+	Thu,  7 Jul 2016 01:37:06 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u671b7WT007686
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Jul 2016 18:35:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=EmPHnKqHj6w2PCnYTzJJe7RkkgEEktX21EWg3S91v08=;
-	b=s2zLQVhcPOMeKh0nHF3s9Sjn1nIqcbgSKyRfTvgfy86V/yBJBgBZ1Sr/r4Xm87LmXl
-	A45SMqKKX+Lf9aylm+qJVMYNBMAJPAA4kA/p7cBKnZZvc169oGrP7hBbIArGfwHCyEd4
-	LHNQXi8q2FlCEaGexmyNb7hn4lDGx5qrPrL7S48SU6wzrSnWLD8n+YVMgcqoqmKCGKZL
-	+rq+F/4hrvgxJyG0TU/z43weUp5X7+TINtBcOupnqFXFoeYBEu9390KejlxWH6yaWoPx
-	lQKeMwEuqT2Xeurutg7ViJKzVXjp7m0jYwEK2catvHWR/ObPhfZ68zZ6XBD95FnfSEOX
-	A2ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=EmPHnKqHj6w2PCnYTzJJe7RkkgEEktX21EWg3S91v08=;
-	b=YjH1V3GWzsYnYKFp6HOz/94xiLYBx8IExbeNAL/ev8qzoUK4DRPH2PkajPu9JNwRxn
-	+gLUipEq4TEZOrAyGxBZ4eTZpN0lLxohHXV8hS1O/T0QaYS2a4ykG/W6bbQZuwEmSg/i
-	n7W67VFy9W5IlpCJoiOfQFPUDhi3lilvZtw7S97dA/GqtEsJ35ILEa11ciiz6Pt+VgE7
-	Mc5DKDjXAYbiC3uidaaRe1jzidGhGCEfqgPVdHITAU5cDHqihmDEVKK/gTszDSgDrK5R
-	pD2Iixfjy3qqt9mJBc+6o85dRjuztNVXpnQ/8zbgcRXg6gx0uwM+oZsdJl65ngfP1k/n
-	ijaQ==
-X-Gm-Message-State: ALyK8tLIxNbBPd9NQr1PqMETmqDFpRer+01gpyBWmZV2S0UeOVTiChLSyMUmvWcw95Rb7Q==
-X-Received: by 10.98.79.194 with SMTP id f63mr692264pfj.95.1467855320959;
-	Wed, 06 Jul 2016 18:35:20 -0700 (PDT)
-Received: from akuster-ThinkPad-X240.hsd1.ca.comcast.net
-	(c-76-20-92-207.hsd1.ca.comcast.net. [76.20.92.207])
-	by smtp.gmail.com with ESMTPSA id ct7sm447197pac.13.2016.07.06.18.35.19
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 06 Jul 2016 18:35:19 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	akuster@mvista.com
-Date: Wed,  6 Jul 2016 18:35:14 -0700
-Message-Id: <1467855314-5646-2-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1467855314-5646-1-git-send-email-akuster808@gmail.com>
-References: <1467855314-5646-1-git-send-email-akuster808@gmail.com>
-Subject: [PATCH 2/2] tzdata: update to 2016f
+	Wed, 6 Jul 2016 18:37:07 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 6 Jul 2016 18:37:06 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 6 Jul 2016 18:36:59 -0700
+Message-ID: <cover.1467855356.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.9.0
+MIME-Version: 1.0
+Subject: [PATCH 0/7] Packages Upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,52 +31,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jul 2016 01:35:20 -0000
+X-List-Received-Date: Thu, 07 Jul 2016 01:37:07 -0000
+Content-Type: text/plain
 
- Changes affecting future time stamps
+The following changes since commit 53fcfe4348a2ca727844f2b0bd3fca2902cbdda0:
 
-    The Egyptian government changed its mind on short notice, and
-    Africa/Cairo will not introduce DST starting 2016-07-07 after all.
-    (Thanks to Mina Samuel.)
+  lib/oeqa: add Galculator to SDK and runtime tests (2016-07-01 16:08:54 +0100)
 
-    Asia/Novosibirsk switches from +06 to +07 on 2016-07-24 at 02:00.
-    (Thanks to Stepan Golosunov.)
+are available in the git repository at:
 
-  Changes to past and future time stamps
+  git://git.openembedded.org/openembedded-core-contrib rbt/pu
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/pu
 
-    Asia/Novokuznetsk and Asia/Novosibirsk now use numeric time zone
-    abbreviations instead of invented ones.
+Robert Yang (7):
+  debianutils: 4.7 -> 4.8
+  e2fsprogs: 1.43 -> 1.43.1
+  git: 2.8.4 -> 2.9.0
+  gmp: 6.1.0 -> 6.1.1
+  libpcre: 8.38 -> 8.39
+  wget: 1.17.1 -> 1.18
+  file: 5.27 -> 5.28
 
-  Changes affecting past time stamps
+ .../{e2fsprogs_1.43.bb => e2fsprogs_1.43.1.bb}     |   4 +-
+ meta/recipes-devtools/file/file/host-file.patch    |  32 ----
+ .../file/{file_5.27.bb => file_5.28.bb}            |   3 +-
+ meta/recipes-devtools/git/git_2.8.4.bb             |  11 --
+ meta/recipes-devtools/git/git_2.9.0.bb             |  11 ++
+ .../wget/{wget_1.17.1.bb => wget_1.18.bb}          |   4 +-
+ .../{debianutils_4.7.bb => debianutils_4.8.bb}     |   6 +-
+ ...user-provided-flags-to-the-auto-detected-.patch |   0
+ .../gmp/{gmp-6.1.0 => gmp-6.1.1}/amd64.patch       |   0
+ .../{gmp-6.1.0 => gmp-6.1.1}/use-includedir.patch  |   0
+ .../gmp/{gmp_6.1.0.bb => gmp_6.1.1.bb}             |   4 +-
+ .../libpcre/libpcre/CVE-2016-3191.patch            | 174 ---------------------
+ .../libpcre/{libpcre_8.38.bb => libpcre_8.39.bb}   |   7 +-
+ 13 files changed, 23 insertions(+), 233 deletions(-)
+ rename meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.43.bb => e2fsprogs_1.43.1.bb} (98%)
+ delete mode 100644 meta/recipes-devtools/file/file/host-file.patch
+ rename meta/recipes-devtools/file/{file_5.27.bb => file_5.28.bb} (94%)
+ delete mode 100644 meta/recipes-devtools/git/git_2.8.4.bb
+ create mode 100644 meta/recipes-devtools/git/git_2.9.0.bb
+ rename meta/recipes-extended/wget/{wget_1.17.1.bb => wget_1.18.bb} (53%)
+ rename meta/recipes-support/debianutils/{debianutils_4.7.bb => debianutils_4.8.bb} (86%)
+ rename meta/recipes-support/gmp/{gmp-6.1.0 => gmp-6.1.1}/0001-Append-the-user-provided-flags-to-the-auto-detected-.patch (100%)
+ rename meta/recipes-support/gmp/{gmp-6.1.0 => gmp-6.1.1}/amd64.patch (100%)
+ rename meta/recipes-support/gmp/{gmp-6.1.0 => gmp-6.1.1}/use-includedir.patch (100%)
+ rename meta/recipes-support/gmp/{gmp_6.1.0.bb => gmp_6.1.1.bb} (87%)
+ delete mode 100644 meta/recipes-support/libpcre/libpcre/CVE-2016-3191.patch
+ rename meta/recipes-support/libpcre/{libpcre_8.38.bb => libpcre_8.39.bb} (91%)
 
-    Europe/Minsk's 1992-03-29 spring-forward transition was at 02:00 not 00:00.
-    (Thanks to Stepan Golosunov.)
-
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- meta/recipes-extended/tzdata/{tzdata_2016e.bb => tzdata_2016f.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/tzdata/{tzdata_2016e.bb => tzdata_2016f.bb} (98%)
-
-diff --git a/meta/recipes-extended/tzdata/tzdata_2016e.bb b/meta/recipes-extended/tzdata/tzdata_2016f.bb
-similarity index 98%
-rename from meta/recipes-extended/tzdata/tzdata_2016e.bb
-rename to meta/recipes-extended/tzdata/tzdata_2016f.bb
-index ac05726..a66603f 100644
---- a/meta/recipes-extended/tzdata/tzdata_2016e.bb
-+++ b/meta/recipes-extended/tzdata/tzdata_2016f.bb
-@@ -9,8 +9,8 @@ DEPENDS = "tzcode-native"
- SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata"
- UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
- 
--SRC_URI[tzdata.md5sum] = "43f9f929a8baf0dd2f17efaea02c2d2a"
--SRC_URI[tzdata.sha256sum] = "ba00f899f18dc4048d7fa21f5e1fdef434496084eedc06f6caa15e5ecdb6bd81"
-+SRC_URI[tzdata.md5sum] = "b20b3c1618db1984aac685e763de001d"
-+SRC_URI[tzdata.sha256sum] = "ed8c951008d12f1db55a11e96fc055718c6571233327d9de16a7f8475e2502b0"
- 
- inherit allarch
- 
 -- 
-1.9.1
+2.9.0
 
 
