@@ -1,48 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
-	[209.85.216.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 626FB60119
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f67.google.com (mail-pa0-f67.google.com
+	[209.85.220.67])
+	by mail.openembedded.org (Postfix) with ESMTP id DAC0960119
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jul 2016 00:42:51 +0000 (UTC)
-Received: by mail-qt0-f196.google.com with SMTP id i30so197030qtd.2
+	Thu,  7 Jul 2016 01:35:18 +0000 (UTC)
+Received: by mail-pa0-f67.google.com with SMTP id ts6so372443pac.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Jul 2016 17:42:52 -0700 (PDT)
+	Wed, 06 Jul 2016 18:35:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=zC7MO2gQ6NfVf/s4sWqVBIwEEXZSCdnnHU4N9snfjtI=;
-	b=t8oYLeX0KpmRFdwIx/Qb+/vPWPMHd1+72Do1brKevLbQQ2no0UnP3Erv1/4bu1GjTX
-	AsFeA4kZY/S+GD3kAoibvM/CwsPyTk1SRx16DZzqCUBr+2/ciC2rRgRtU3P4dGcbsF6P
-	IAL/uEi/FwJKkPYWdzpzKnkHxTF0wMBevg69GUlYbeepNHk5Q9wHE+KoxQguxeXpLloY
-	tk7cFgPOHAHmNVEuzJJSblaShvGNL9rnGpqIY01AzHDHpwDOnICviDd+mQhK+WNoMvd5
-	c9x3w9Lrz/wLzeZPlp5pYmwUfTR6CRTt10QuoxBqjGk58PcIVBLxsWnocWpVloRKa8Ks
-	TVLQ==
+	h=from:to:subject:date:message-id;
+	bh=JB1X4JdrUgIa8eVOAvG0F5YrCefXcL51eiaWCcu05I8=;
+	b=WdrB6i3nXlMGjsSMB6uTZWo6uANuLvGf8xUlC+mhiM5xWiNIfZwLFYP32Okqkpju6a
+	9SvjjM5uJsxLPgjSHY639Df7ZbBcKhrGpkGfFJXKxL33xEeVsjt+ezw6jHWjqLtgPJv7
+	FHONAkUplBU84IsDJwzUXO7wpnqJWp3rsW751W6m7RzhJ0x05XWh0wzf7Dg018YjWZ2V
+	8npWRr8r0YdV8hu3kSpLUuMdfod31ydIT6tmDEVld50LW/MLPz3klbvcAhXkfTDadMN7
+	TnPXRUXokz54LzY5Hhi1E8iOBfQ2awh0ZguuaZAtef9Ncd+x7e8NSw0RIg5Z0bhTeVna
+	xjpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=zC7MO2gQ6NfVf/s4sWqVBIwEEXZSCdnnHU4N9snfjtI=;
-	b=P4kfHvZfJdHh7kmQDedAidk+49ZfPWdLNJybYIs4EfzzjfUYlmQ8vas45SDFYSWmAK
-	knJqPnZ5dBwAZfE1d5qPRvNyI0RjN4vSSrqOQYWUK/O+B3akyX3k2i+/wRCqwoB3Xz5w
-	sOca0nDyKvANvWNsKXT5NESgr65e6cebry35iTcX9a1bix3CUV+2zpk9kAQidpRTIgzZ
-	lp68aGq3K2s+8gk6qrxHoldhoP+E8wTCsWzDMZUSMeHfNdja8N+lTMSuVtuQedII8IYe
-	bVhd7dQXWW5pvhQej2Q4xk0SVMjJAhTDoMakt+2EHg5h+3wG3pBRw13cZvQH1cU2265g
-	0O1Q==
-X-Gm-Message-State: ALyK8tKISgvZsyEw7C1yKtAs4WfYo0khAMj5alNgXa2QrUfiurNUDvCguut7Djk/mWv1lP0xAAXlrBL9QC+afQ==
-X-Received: by 10.200.33.172 with SMTP id 41mr40138924qty.26.1467852171846;
-	Wed, 06 Jul 2016 17:42:51 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.55.214.83 with HTTP; Wed, 6 Jul 2016 17:42:22 -0700 (PDT)
-In-Reply-To: <353972ade9bce1a35f889dd8a9496ea104a1470e.1467849364.git.paul.eggleton@linux.intel.com>
-References: <cover.1467849364.git.paul.eggleton@linux.intel.com>
-	<353972ade9bce1a35f889dd8a9496ea104a1470e.1467849364.git.paul.eggleton@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 6 Jul 2016 17:42:22 -0700
-Message-ID: <CAMKF1sp1hg6u2HpdMDy+-6Ek1-rWm7_6HWeHtdrQ+L=_83zFYg@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 6/6] scripts/contrib/devtool-stress: exclude more recipes by default
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=JB1X4JdrUgIa8eVOAvG0F5YrCefXcL51eiaWCcu05I8=;
+	b=PfhKa5U7im6CNxsKTVs6LK39qHPup3Gn9g1EEP7v33/m3A1uxzzw52XKf3Ixo4Rmlc
+	vWugm0Gy0ZBMZjoHFT4N0KuSJOWbRoU6PsbkqdAoBn0fBh0nC+gR7O5OvWerqagdEoAX
+	DQwUEFXyCWRp4aCNDN6LIo+MANxnTJQpZN8je+FJGFxMnHkGTL/FMHnHXExkmLXaK5nB
+	D0zgZ+GPaWvau9fAk1OpXyYB8y8Nemmq7zfegEfrnCrr7Twke5iN4O0HiMSdQN05XrS4
+	8vGUE4FX0JT/mfvoytKMoDh4HzGI/3m04wrACeee1t3JLfn8BIVkqWT8Put01ugHOOQq
+	Xlow==
+X-Gm-Message-State: ALyK8tLc2tN6UpRUd6SsB7eVwTPdJ53gn3W91eQm7/vQU7/fEgEd0PfrAxb9yqdMpzH1hg==
+X-Received: by 10.66.26.105 with SMTP id k9mr47710338pag.103.1467855319252;
+	Wed, 06 Jul 2016 18:35:19 -0700 (PDT)
+Received: from akuster-ThinkPad-X240.hsd1.ca.comcast.net
+	(c-76-20-92-207.hsd1.ca.comcast.net. [76.20.92.207])
+	by smtp.gmail.com with ESMTPSA id ct7sm447197pac.13.2016.07.06.18.35.17
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 06 Jul 2016 18:35:17 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	akuster@mvista.com
+Date: Wed,  6 Jul 2016 18:35:13 -0700
+Message-Id: <1467855314-5646-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 1/2] tzcode-native: update to 2016f
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,56 +53,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jul 2016 00:42:51 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 07 Jul 2016 01:35:20 -0000
 
-On Wed, Jul 6, 2016 at 4:57 PM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> These recipes can't be used with devtool because they can't be unpacked
-> in the normal way.
+changes done in data
 
-May be we should have a devtoop blacklist variable that can be added
-to the recipe
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ .../tzcode/{tzcode-native_2016e.bb => tzcode-native_2016f.bb}     | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-extended/tzcode/{tzcode-native_2016e.bb => tzcode-native_2016f.bb} (69%)
 
->
-> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-> ---
->  scripts/contrib/devtool-stress.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/scripts/contrib/devtool-stress.py b/scripts/contrib/devtool-=
-stress.py
-> index ab77a2d..5f396aa 100755
-> --- a/scripts/contrib/devtool-stress.py
-> +++ b/scripts/contrib/devtool-stress.py
-> @@ -210,7 +210,7 @@ def main():
->      parser.add_argument('-d', '--debug', help=3D'Enable debug output', a=
-ction=3D'store_true')
->      parser.add_argument('-r', '--resume-from', help=3D'Resume from speci=
-fied recipe', metavar=3D'PN')
->      parser.add_argument('-o', '--only', help=3D'Only test specified reci=
-pes (comma-separated without spaces, wildcards allowed)', metavar=3D'PNLIST=
-')
-> -    parser.add_argument('-s', '--skip', help=3D'Skip specified recipes (=
-comma-separated without spaces, wildcards allowed)', metavar=3D'PNLIST')
-> +    parser.add_argument('-s', '--skip', help=3D'Skip specified recipes (=
-comma-separated without spaces, wildcards allowed)', metavar=3D'PNLIST', de=
-fault=3D'gcc-source-*,kernel-devsrc,package-index,perf,meta-world-pkgdata,g=
-libc-locale,glibc-mtrace,glibc-scripts,os-release')
->      parser.add_argument('-c', '--skip-classes', help=3D'Skip recipes inh=
-eriting specified classes (comma-separated) - default %(default)s', metavar=
-=3D'CLASSLIST', default=3D'native,nativesdk,cross,cross-canadian,image,popu=
-late_sdk,meta,packagegroup')
->      subparsers =3D parser.add_subparsers(title=3D'subcommands', metavar=
-=3D'<subcommand>')
->      subparsers.required =3D True
-> --
-> 2.5.5
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-extended/tzcode/tzcode-native_2016e.bb b/meta/recipes-extended/tzcode/tzcode-native_2016f.bb
+similarity index 69%
+rename from meta/recipes-extended/tzcode/tzcode-native_2016e.bb
+rename to meta/recipes-extended/tzcode/tzcode-native_2016f.bb
+index 78af639..bdf47d2 100644
+--- a/meta/recipes-extended/tzcode/tzcode-native_2016e.bb
++++ b/meta/recipes-extended/tzcode/tzcode-native_2016f.bb
+@@ -9,11 +9,11 @@ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz
+            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata"
+ UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
+ 
+-SRC_URI[tzcode.md5sum] = "6e6d3f0046a9383aafba8c2e0708a3a3"
+-SRC_URI[tzcode.sha256sum] = "57d8c4fcd5e8a90657d0e298eac5effb1a642119c92308db68d13a4612fa459e"
++SRC_URI[tzcode.md5sum] = "b93618bb84e38dee102e0e41ec9d13e2"
++SRC_URI[tzcode.sha256sum] = "72325f384490a310eeb2ea0fab7e6f011a5be19adab2ff9d83bf9d1993b066ed"
+ 
+-SRC_URI[tzdata.md5sum] = "43f9f929a8baf0dd2f17efaea02c2d2a"
+-SRC_URI[tzdata.sha256sum] = "ba00f899f18dc4048d7fa21f5e1fdef434496084eedc06f6caa15e5ecdb6bd81"
++SRC_URI[tzdata.md5sum] = "b20b3c1618db1984aac685e763de001d"
++SRC_URI[tzdata.sha256sum] = "ed8c951008d12f1db55a11e96fc055718c6571233327d9de16a7f8475e2502b0"
+ 
+ S = "${WORKDIR}"
+ 
+-- 
+1.9.1
+
 
