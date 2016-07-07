@@ -1,24 +1,48 @@
-Return-Path: <tom.zanussi@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 690C46013D
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f68.google.com (mail-pa0-f68.google.com
+	[209.85.220.68])
+	by mail.openembedded.org (Postfix) with ESMTP id C9EA26013D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jul 2016 17:10:44 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga104.fm.intel.com with ESMTP; 07 Jul 2016 10:10:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,324,1464678000"; d="scan'208";a="135442445"
-Received: from tzanussi-mobl.amr.corp.intel.com (HELO localhost)
-	([10.254.182.227])
-	by fmsmga004.fm.intel.com with ESMTP; 07 Jul 2016 10:10:44 -0700
-From: Tom Zanussi <tom.zanussi@linux.intel.com>
-To: akuster@mvista.com,
-	openembedded-core@lists.openembedded.org
-Date: Thu,  7 Jul 2016 12:10:42 -0500
-Message-Id: <986bed1f886d185c3fcae005c9a016b990fac717.1467911314.git.tom.zanussi@linux.intel.com>
-X-Mailer: git-send-email 1.9.3
-In-Reply-To: <cover.1467911314.git.tom.zanussi@linux.intel.com>
-References: <cover.1467911314.git.tom.zanussi@linux.intel.com>
-Subject: [PATCH 1/1][krogoth] systemtap: Add missing memory flag to fix stap module compilation
+	Thu,  7 Jul 2016 18:08:35 +0000 (UTC)
+Received: by mail-pa0-f68.google.com with SMTP id ts6so2367333pac.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 07 Jul 2016 11:08:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=VWPquG0l95VgdzSAaTKof3uYtOVp0zwY1wNx/cZYVeQ=;
+	b=DOtb2Fpvj7UbctqaWhs2VaZv+ttuXDhF7n03tUAbJstuHJqC2ETGdQBsXcdwODPP5R
+	gp4QmaETS9vZe/TRTDkwelBGKANxHRk1CgSKmjjou+66XSmUPxhYqqs6vR0711Uk2RF7
+	eSu5Wp8hcVtlCXiBfeDVRRvIcH6lyOq/43bLaerc544WuI7Y9IpktA5BcntvE5ZgNGUj
+	GQlT/IAjpqzXJ0VPkLPTsWrCanQ1LBKBZ5QC4AUr3/uxcCsvkPATJIpZTagD1a1m5koz
+	l0utmUBmsGcA7Jvp48ZnHz2Hmbc+HT3FATOgmXxjmvYn6uvkFswg3zrjdb8XD6Qu6SUh
+	SfcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=VWPquG0l95VgdzSAaTKof3uYtOVp0zwY1wNx/cZYVeQ=;
+	b=filoYBOitsROs5g2fqiqaIPpltPzvbtTmUbd+e8JVmjuP64pk0JWfw9ok7cdL27Gxp
+	bb2ze/3baajk9XSJ+UzZUQH9xlGpr0Kz7DDEZta6oE/7CJ/IiqhnQXq2dtu2mTnwBd1V
+	CF+Tdmc5DBbGk3qhcnfPdvXRpu/ufKrjYDDYExS72Wsi+f2RZpJociWyen+tfXs/wK+3
+	JKXzW8VAdFEdCJ+k6UsPqWge9soPI3b1kC38uAyNb8l28KgxRb/Q6ZBNM3DLpjYiPlLL
+	hfCiK89yywch4VHq0HzPP4L6B9gRlPIhJTRO2oLrkOdTyxz8RNHU5jL1LMtVAOgW8QZg
+	7trA==
+X-Gm-Message-State: ALyK8tJyk2PguAZN3oJVvZyDUNzh73mhu0KbzllLbg3fYs3lvJUQkkLowO3bmgtitYaTxA==
+X-Received: by 10.66.193.39 with SMTP id hl7mr2532959pac.10.1467914914715;
+	Thu, 07 Jul 2016 11:08:34 -0700 (PDT)
+Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
+	[76.102.32.192])
+	by smtp.gmail.com with ESMTPSA id j8sm6106747paj.22.2016.07.07.11.08.33
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 07 Jul 2016 11:08:34 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  7 Jul 2016 11:08:26 -0700
+Message-Id: <35285b0dd386fd16e53678361ee33e8525671a21.1467914773.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 2.9.0
+In-Reply-To: <cover.1467914773.git.raj.khem@gmail.com>
+References: <cover.1467914773.git.raj.khem@gmail.com>
+Subject: [PATCH 1/4] gcc-5.4: Fix hang with mmusl option on cmdline
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,115 +55,161 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jul 2016 17:10:44 -0000
+X-List-Received-Date: Thu, 07 Jul 2016 18:08:36 -0000
 
-The 4.4 kernel removed some memory flag definitions, which cause
-module compilation errors, rendering sytemtap essentially useless in
-krogoth.
+When using -m32 -mmusl options in this order, gcc hangs
+in parsing the options decode_cmdline_options_to_array()
+the reason is that we have broken the link when adding
+mmusl options, the order of specifying libc was not kept
+in order as a result it was unable to contruct the array
+correctly and ended in parse hang.
 
-The problem is fixed in systemtap 3.0 and therefore in master, but as
-mentioned in Systemtap BZ1285348, the fix for older versions is this
-patch.
+We fix the options to specify the order properly.
 
-Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...48-by-updating-systemtap-s-memory-flag-us.patch | 73 ++++++++++++++++++++++
- meta/recipes-kernel/systemtap/systemtap_git.inc    |  1 +
- 2 files changed, 74 insertions(+)
- create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-Fix-BZ1285348-by-updating-systemtap-s-memory-flag-us.patch
+ ...l-as-a-musl-libc-specifier-and-the-necess.patch | 72 +++++++++++-----------
+ 1 file changed, 36 insertions(+), 36 deletions(-)
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-Fix-BZ1285348-by-updating-systemtap-s-memory-flag-us.patch b/meta/recipes-kernel/systemtap/systemtap/0001-Fix-BZ1285348-by-updating-systemtap-s-memory-flag-us.patch
-new file mode 100644
-index 0000000..4c34d77
---- /dev/null
-+++ b/meta/recipes-kernel/systemtap/systemtap/0001-Fix-BZ1285348-by-updating-systemtap-s-memory-flag-us.patch
-@@ -0,0 +1,73 @@
-+From 3d010295efd215cf83a7d07eecf89137973c154a Mon Sep 17 00:00:00 2001
-+Message-Id: <3d010295efd215cf83a7d07eecf89137973c154a.1467836241.git.tom.zanussi@linux.intel.com>
-+From: Jesper Brouer <jbrouer@redhat.com>
-+Date: Mon, 30 Nov 2015 11:24:29 -0600
-+Subject: [PATCH] Fix BZ1285348 by updating systemtap's memory flag usage.
-+
-+* runtime/linux/runtime_defines.h: Make sure __GFP_WAIT is defined.
-+* runtime/stp_utrace.c (utrace_task_alloc): Change GFP_IOFS to
-+  STP_ALLOC_FLAGS.
-+  (utrace_attach_task): Ditto.
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
-+---
-+ runtime/linux/runtime_defines.h | 23 +++++++++++++++++++++++
-+ runtime/stp_utrace.c            |  5 +++--
-+ 2 files changed, 26 insertions(+), 2 deletions(-)
-+
-+diff --git a/runtime/linux/runtime_defines.h b/runtime/linux/runtime_defines.h
-+index e69de29..6b44e0d 100644
-+--- a/runtime/linux/runtime_defines.h
-++++ b/runtime/linux/runtime_defines.h
-+@@ -0,0 +1,23 @@
-++// The following kernel commit renamed __GFP_WAIT to __GRP_RECLAIM:
-++//
-++//   commit 71baba4b92dc1fa1bc461742c6ab1942ec6034e9
-++//   Author: Mel Gorman <mgorman@techsingularity.net>
-++//   Date:   Fri Nov 6 16:28:28 2015 -0800
-++// 
-++//       mm, page_alloc: rename __GFP_WAIT to __GFP_RECLAIM
-++//     
-++//       __GFP_WAIT was used to signal that the caller was in atomic
-++//       context and could not sleep.  Now it is possible to
-++//       distinguish between true atomic context and callers that are
-++//       not willing to sleep.  The latter should clear
-++//       __GFP_DIRECT_RECLAIM so kswapd will still wake.  As clearing
-++//       __GFP_WAIT behaves differently, there is a risk that people
-++//       will clear the wrong flags.  This patch renames __GFP_WAIT to
-++//       __GFP_RECLAIM to clearly indicate what it does -- setting it
-++//       allows all reclaim activity, clearing them prevents it.
-++//
-++// Handle the rename by defining __GFP_WAIT as __GFP_RECLAIM.
-++#include <linux/gfp.h>
-++#ifndef __GFP_WAIT
-++#define __GFP_WAIT __GFP_RECLAIM
-++#endif
-+diff --git a/runtime/stp_utrace.c b/runtime/stp_utrace.c
-+index c69dec1..a8afc0d 100644
-+--- a/runtime/stp_utrace.c
-++++ b/runtime/stp_utrace.c
-+@@ -511,7 +511,8 @@ static struct utrace *__task_utrace_struct(struct task_struct *task)
-+  */
-+ static bool utrace_task_alloc(struct task_struct *task)
-+ {
-+-	struct utrace *utrace = kmem_cache_zalloc(utrace_cachep, GFP_IOFS);
-++	struct utrace *utrace = kmem_cache_zalloc(utrace_cachep,
-++						  STP_ALLOC_FLAGS);
-+ 	struct utrace *u;
-+ 
-+ 	if (unlikely(!utrace))
-+@@ -782,7 +783,7 @@ static struct utrace_engine *utrace_attach_task(
-+ 		utrace = task_utrace_struct(target);
-+ 	}
-+ 
-+-	engine = kmem_cache_alloc(utrace_engine_cachep, GFP_IOFS);
-++	engine = kmem_cache_alloc(utrace_engine_cachep, STP_ALLOC_FLAGS);
-+ 	if (unlikely(!engine))
-+ 		return ERR_PTR(-ENOMEM);
-+ 
-+-- 
-+2.5.0
-+
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
-index 656f15f..2ea98b2 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.inc
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
-@@ -9,6 +9,7 @@ SRC_URI = "git://sourceware.org/git/systemtap.git \
-            file://system_map_location.patch \
-            file://configure-allow-to-disable-libvirt.patch \
-            file://x32_abi_time.patch \
-+           file://0001-Fix-BZ1285348-by-updating-systemtap-s-memory-flag-us.patch \
-           "
+diff --git a/meta/recipes-devtools/gcc/gcc-5.4/0044-Adding-mmusl-as-a-musl-libc-specifier-and-the-necess.patch b/meta/recipes-devtools/gcc/gcc-5.4/0044-Adding-mmusl-as-a-musl-libc-specifier-and-the-necess.patch
+index b91c02d..26aa96c 100644
+--- a/meta/recipes-devtools/gcc/gcc-5.4/0044-Adding-mmusl-as-a-musl-libc-specifier-and-the-necess.patch
++++ b/meta/recipes-devtools/gcc/gcc-5.4/0044-Adding-mmusl-as-a-musl-libc-specifier-and-the-necess.patch
+@@ -15,10 +15,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  gcc/ginclude/stddef.h         |   3 ++
+  6 files changed, 110 insertions(+), 13 deletions(-)
  
- # systemtap doesn't support mips
+-diff --git a/gcc/config.gcc b/gcc/config.gcc
+-index 3825bd5..39ce047 100644
+---- a/gcc/config.gcc
+-+++ b/gcc/config.gcc
++Index: gcc-5.4.0/gcc/config.gcc
++===================================================================
++--- gcc-5.4.0.orig/gcc/config.gcc
+++++ gcc-5.4.0/gcc/config.gcc
+ @@ -575,7 +575,7 @@ case ${target} in
+  esac
+  
+@@ -50,11 +50,11 @@ index 3825bd5..39ce047 100644
+  	if test x${enable_secureplt} = xyes; then
+  		tm_file="rs6000/secureplt.h ${tm_file}"
+  	fi
+-diff --git a/gcc/config/linux.h b/gcc/config/linux.h
+-index 22b9be5..ca9a17f 100644
+---- a/gcc/config/linux.h
+-+++ b/gcc/config/linux.h
+-@@ -32,10 +32,12 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
++Index: gcc-5.4.0/gcc/config/linux.h
++===================================================================
++--- gcc-5.4.0.orig/gcc/config/linux.h
+++++ gcc-5.4.0/gcc/config/linux.h
++@@ -32,10 +32,12 @@ see the files COPYING3 and COPYING.RUNTI
+  #define OPTION_GLIBC  (DEFAULT_LIBC == LIBC_GLIBC)
+  #define OPTION_UCLIBC (DEFAULT_LIBC == LIBC_UCLIBC)
+  #define OPTION_BIONIC (DEFAULT_LIBC == LIBC_BIONIC)
+@@ -67,7 +67,7 @@ index 22b9be5..ca9a17f 100644
+  #endif
+  
+  #define GNU_USER_TARGET_OS_CPP_BUILTINS()			\
+-@@ -53,18 +55,21 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
++@@ -53,18 +55,21 @@ see the files COPYING3 and COPYING.RUNTI
+     uClibc or Bionic is the default C library and whether
+     -muclibc or -mglibc or -mbionic has been passed to change the default.  */
+  
+@@ -97,7 +97,7 @@ index 22b9be5..ca9a17f 100644
+  #else
+  #error "Unsupported DEFAULT_LIBC"
+  #endif /* DEFAULT_LIBC */
+-@@ -84,16 +89,16 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
++@@ -84,16 +89,16 @@ see the files COPYING3 and COPYING.RUNTI
+  
+  #define GNU_USER_DYNAMIC_LINKER						\
+    CHOOSE_DYNAMIC_LINKER (GLIBC_DYNAMIC_LINKER, UCLIBC_DYNAMIC_LINKER,	\
+@@ -118,7 +118,7 @@ index 22b9be5..ca9a17f 100644
+  
+  /* Whether we have Bionic libc runtime */
+  #undef TARGET_HAS_BIONIC
+-@@ -123,3 +128,74 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
++@@ -123,3 +128,74 @@ see the files COPYING3 and COPYING.RUNTI
+  # define TARGET_LIBC_HAS_FUNCTION linux_libc_has_function
+  
+  #endif
+@@ -193,32 +193,35 @@ index 22b9be5..ca9a17f 100644
+ +    { 0, 0, 0, 0, 0, 0 }				\
+ +  }
+ +#endif
+-diff --git a/gcc/config/linux.opt b/gcc/config/linux.opt
+-index c054338..9334f74 100644
+---- a/gcc/config/linux.opt
+-+++ b/gcc/config/linux.opt
+-@@ -30,3 +30,7 @@ Use GNU C library
++Index: gcc-5.4.0/gcc/config/linux.opt
++===================================================================
++--- gcc-5.4.0.orig/gcc/config/linux.opt
+++++ gcc-5.4.0/gcc/config/linux.opt
++@@ -28,5 +28,9 @@ Target Report RejectNegative Var(linux_l
++ Use GNU C library
++ 
+  muclibc
+- Target Report RejectNegative Var(linux_libc,LIBC_UCLIBC) Negative(mbionic)
++-Target Report RejectNegative Var(linux_libc,LIBC_UCLIBC) Negative(mbionic)
+++Target Report RejectNegative Var(linux_libc,LIBC_UCLIBC) Negative(mmusl)
+  Use uClibc C library
+ +
+ +mmusl
+-+Target Report RejectNegative Var(linux_libc,LIBC_MUSL) Negative(mglibc)
+++Target Report RejectNegative Var(linux_libc,LIBC_MUSL) Negative(mbionic)
+ +Use musl C library
+-diff --git a/gcc/config/rs6000/secureplt.h b/gcc/config/rs6000/secureplt.h
+-index b463463..77edf2a 100644
+---- a/gcc/config/rs6000/secureplt.h
+-+++ b/gcc/config/rs6000/secureplt.h
+-@@ -18,3 +18,4 @@ along with GCC; see the file COPYING3.  If not see
++Index: gcc-5.4.0/gcc/config/rs6000/secureplt.h
++===================================================================
++--- gcc-5.4.0.orig/gcc/config/rs6000/secureplt.h
+++++ gcc-5.4.0/gcc/config/rs6000/secureplt.h
++@@ -18,3 +18,4 @@ along with GCC; see the file COPYING3.
+  <http://www.gnu.org/licenses/>.  */
+  
+  #define CC1_SECURE_PLT_DEFAULT_SPEC "-msecure-plt"
+ +#define LINK_SECURE_PLT_DEFAULT_SPEC "--secure-plt"
+-diff --git a/gcc/config/rs6000/sysv4.h b/gcc/config/rs6000/sysv4.h
+-index c6c31dc..7cd07e0 100644
+---- a/gcc/config/rs6000/sysv4.h
+-+++ b/gcc/config/rs6000/sysv4.h
+-@@ -538,6 +538,10 @@ ENDIAN_SELECT(" -mbig", " -mlittle", DEFAULT_ASM_ENDIAN)
++Index: gcc-5.4.0/gcc/config/rs6000/sysv4.h
++===================================================================
++--- gcc-5.4.0.orig/gcc/config/rs6000/sysv4.h
+++++ gcc-5.4.0/gcc/config/rs6000/sysv4.h
++@@ -538,6 +538,10 @@ ENDIAN_SELECT(" -mbig", " -mlittle", DEF
+  #define CC1_SECURE_PLT_DEFAULT_SPEC ""
+  #endif
+  
+@@ -237,10 +240,10 @@ index c6c31dc..7cd07e0 100644
+    { "cpp_os_ads",		CPP_OS_ADS_SPEC },			\
+    { "cpp_os_yellowknife",	CPP_OS_YELLOWKNIFE_SPEC },		\
+    { "cpp_os_mvme",		CPP_OS_MVME_SPEC },			\
+-diff --git a/gcc/ginclude/stddef.h b/gcc/ginclude/stddef.h
+-index f20a41b..eb879ef 100644
+---- a/gcc/ginclude/stddef.h
+-+++ b/gcc/ginclude/stddef.h
++Index: gcc-5.4.0/gcc/ginclude/stddef.h
++===================================================================
++--- gcc-5.4.0.orig/gcc/ginclude/stddef.h
+++++ gcc-5.4.0/gcc/ginclude/stddef.h
+ @@ -184,6 +184,7 @@ typedef __PTRDIFF_TYPE__ ptrdiff_t;
+  #ifndef _GCC_SIZE_T
+  #ifndef _SIZET_
+@@ -265,6 +268,3 @@ index f20a41b..eb879ef 100644
+  #endif /* __size_t */
+  #endif /* _SIZET_ */
+  #endif /* _GCC_SIZE_T */
+--- 
+-2.6.3
+-
 -- 
-1.9.3
+2.9.0
 
 
