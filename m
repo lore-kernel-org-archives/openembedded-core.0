@@ -1,21 +1,25 @@
 Return-Path: <mariano.lopez@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D5146013D
+	by mail.openembedded.org (Postfix) with ESMTP id A933C606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jul 2016 22:55:03 +0000 (UTC)
+	Thu,  7 Jul 2016 22:55:04 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP; 07 Jul 2016 15:55:04 -0700
+	by orsmga101.jf.intel.com with ESMTP; 07 Jul 2016 15:55:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,325,1464678000"; d="scan'208";a="731145095"
+X-IronPort-AV: E=Sophos;i="5.28,325,1464678000"; d="scan'208";a="731145114"
 Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
 	([10.54.69.55])
-	by FMSMGA003.fm.intel.com with ESMTP; 07 Jul 2016 15:55:04 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 07 Jul 2016 15:55:05 -0700
 From: mariano.lopez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Jul 2016 14:48:54 +0000
-Message-Id: <cover.1467902737.git.mariano.lopez@linux.intel.com>
+Date: Thu,  7 Jul 2016 14:48:55 +0000
+Message-Id: <502cac006f7b2e23d74a9a1f2037e3a5d8948053.1467902737.git.mariano.lopez@linux.intel.com>
 X-Mailer: git-send-email 2.6.6
-Subject: [PATCH 0/2] Add selftest to test testexport's SDK feature
+In-Reply-To: <cover.1467902737.git.mariano.lopez@linux.intel.com>
+References: <cover.1467902737.git.mariano.lopez@linux.intel.com>
+In-Reply-To: <cover.1467902737.git.mariano.lopez@linux.intel.com>
+References: <cover.1467902737.git.mariano.lopez@linux.intel.com>
+Subject: [PATCH 1/2] lib/oeqa/utils/commands.py: Move updateEnv() from runexported.py
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,31 +36,69 @@ X-List-Received-Date: Thu, 07 Jul 2016 22:55:05 -0000
 
 From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-This adds a new selftest for testexport in the CI to avoid
-breaking SDK functionality.
+updateEnv() can be used in other places so move the
+function to utils/commands.py
 
-This depends on:
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+---
+ meta/lib/oeqa/runexported.py    | 16 ++--------------
+ meta/lib/oeqa/utils/commands.py | 12 ++++++++++++
+ 2 files changed, 14 insertions(+), 14 deletions(-)
 
-http://lists.openembedded.org/pipermail/openembedded-core/2016-June/122785.html
-
-The following changes since commit 242d70bf0af2eb56ed6da83d4ec7dce2172ebe70:
-
-  selftest/runtime-test.py: Add test for import test from other layers (2016-07-06 11:37:49 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib mariano/bug9765
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mariano/bug9765
-
-Mariano Lopez (2):
-  lib/oeqa/utils/commands.py: Move updateEnv() from runexported.py
-  selftest/runtime-test.py: Add test for testexport SDK feature
-
- meta/lib/oeqa/runexported.py           | 16 ++-------
- meta/lib/oeqa/selftest/runtime-test.py | 60 +++++++++++++++++++++++++++++++++-
- meta/lib/oeqa/utils/commands.py        | 31 ++++++++++++++++++
- 3 files changed, 92 insertions(+), 15 deletions(-)
-
+diff --git a/meta/lib/oeqa/runexported.py b/meta/lib/oeqa/runexported.py
+index 5886739..125e86d 100755
+--- a/meta/lib/oeqa/runexported.py
++++ b/meta/lib/oeqa/runexported.py
+@@ -31,7 +31,7 @@ except ImportError:
+ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "oeqa")))
+ 
+ from oeqa.oetest import ExportTestContext
+-from oeqa.utils.commands import runCmd
++from oeqa.utils.commands import runCmd, updateEnv
+ from oeqa.utils.sshcontrol import SSHControl
+ 
+ # this isn't pretty but we need a fake target object
+@@ -137,19 +137,7 @@ def extract_sdk(d):
+             if f.startswith("environment-setup"):
+                 print("Setting up SDK environment...")
+                 env_file = os.path.join(extract_path, f)
+-                update_env(env_file)
+-
+-def update_env(env_file):
+-    """
+-    Source a file and update environment
+-    """
+-
+-    cmd = ". %s; env -0" % env_file
+-    result = runCmd(cmd)
+-
+-    for line in result.output.split("\0"):
+-        (key, _, value) = line.partition("=")
+-        os.environ[key] = value
++                updateEnv(env_file)
+ 
+ if __name__ == "__main__":
+     try:
+diff --git a/meta/lib/oeqa/utils/commands.py b/meta/lib/oeqa/utils/commands.py
+index 418643a..4f79d15 100644
+--- a/meta/lib/oeqa/utils/commands.py
++++ b/meta/lib/oeqa/utils/commands.py
+@@ -261,3 +261,15 @@ def runqemu(pn, ssh=True):
+             qemu.stop()
+         except:
+             pass
++
++def updateEnv(env_file):
++    """
++    Source a file and update environment.
++    """
++
++    cmd = ". %s; env -0" % env_file
++    result = runCmd(cmd)
++
++    for line in result.output.split("\0"):
++        (key, _, value) = line.partition("=")
++        os.environ[key] = value
 -- 
 2.6.6
 
