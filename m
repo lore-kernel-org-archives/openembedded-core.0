@@ -1,26 +1,26 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C844073179
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B522F73175
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jul 2016 18:39:14 +0000 (UTC)
+	Thu,  7 Jul 2016 18:39:15 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u67IdEf0021368
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u67IdFlJ000006
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 7 Jul 2016 11:39:14 -0700 (PDT)
+	Thu, 7 Jul 2016 11:39:15 -0700 (PDT)
 Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Thu, 7 Jul 2016 11:39:14 -0700
+	14.3.248.2; Thu, 7 Jul 2016 11:39:15 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Thu, 7 Jul 2016 14:39:07 -0400
-Message-ID: <86525cbe55dcd30f14c3af434be306ce5a282385.1467916601.git.bruce.ashfield@windriver.com>
+Date: Thu, 7 Jul 2016 14:39:08 -0400
+Message-ID: <2d632f93d89f9fb6d0146d2e1f9434c22363d3fc.1467916601.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <cover.1467916601.git.bruce.ashfield@windriver.com>
 References: <cover.1467916601.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/6] linux-yocto/config: mei, gpio and usb type c
+Subject: [PATCH 5/6] linux-yocto/4.1: update to 4.1.27
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,63 +33,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jul 2016 18:39:14 -0000
+X-List-Received-Date: Thu, 07 Jul 2016 18:39:15 -0000
 Content-Type: text/plain
 
-Merging the following configuration changes into the 4.1 and
-4.4 linux-yocto kernel meta data:
-
-  mei.cfg: mei driver is no longer in staging
-  bsp/intel-common: add keyboard-gpio to intel-common-drivers
-  features/thermal: Enable Intel PMIC thermal feature
-  broxton: Enable USB Type C feature for broxton
+Integrating the korg -stable release.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_4.4.bb      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 20 ++++++++++----------
+ 3 files changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
-index eb99e6ebab14..63b2c7f2cece 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
-@@ -12,7 +12,7 @@ python () {
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
+index 858518baa0f7..7f2e31d57884 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
+@@ -11,13 +11,13 @@ python () {
+         raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
  }
  
- SRCREV_machine ?= "3bdc347cc2087a0217e3acddccda5bb775cd570b"
--SRCREV_meta ?= "4ebb8be6799bf2b738d46a3db49ebe59187f3b96"
-+SRCREV_meta ?= "01ac19ede037b753d2b3f0adb20ab1becb7e1511"
+-SRCREV_machine ?= "6d00f6d73a3268e99092096a3f5699c57370ece0"
+-SRCREV_meta ?= "0845ec79bc2fbc45efcf4c44138fd698039960c5"
++SRCREV_machine ?= "dc71da8bddd86d34896d97291e0d84c29fe4806d"
++SRCREV_meta ?= "672a86bd4bac288b4cc222112d3826837181583b"
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.4.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.4;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
-index 4e63eb0c5fe2..51cca1283aba 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
-@@ -10,7 +10,7 @@ KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
  
- SRCREV_machine ?= "0e30a74f2cbbab0c7014561fe4eab1c9d8bfe560"
--SRCREV_meta ?= "4ebb8be6799bf2b738d46a3db49ebe59187f3b96"
-+SRCREV_meta ?= "01ac19ede037b753d2b3f0adb20ab1becb7e1511"
+-LINUX_VERSION ?= "4.1.26"
++LINUX_VERSION ?= "4.1.27"
  
  PV = "${LINUX_VERSION}+git${SRCPV}"
  
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.4.bb b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
-index 46a0e827c4dc..bfcf04dbc2a0 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
-@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "0e30a74f2cbbab0c7014561fe4eab1c9d8bfe560"
- SRCREV_machine_qemux86-64 ?= "0e30a74f2cbbab0c7014561fe4eab1c9d8bfe560"
- SRCREV_machine_qemumips64 ?= "14a513a5ba6a6b6968347014040d800496339622"
- SRCREV_machine ?= "0e30a74f2cbbab0c7014561fe4eab1c9d8bfe560"
--SRCREV_meta ?= "4ebb8be6799bf2b738d46a3db49ebe59187f3b96"
-+SRCREV_meta ?= "01ac19ede037b753d2b3f0adb20ab1becb7e1511"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
+index a062272c3d46..1ea77a4f8aa9 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
+@@ -4,13 +4,13 @@ KCONFIG_MODE = "--allnoconfig"
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.4.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.4;destsuffix=${KMETA}"
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-LINUX_VERSION ?= "4.1.26"
++LINUX_VERSION ?= "4.1.27"
+ 
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine ?= "75d56a13f86fc48002e4a3f9ed60546db30432b7"
+-SRCREV_meta ?= "0845ec79bc2fbc45efcf4c44138fd698039960c5"
++SRCREV_machine ?= "15cf090ded5157e67302313bff9da0fa056e8ea9"
++SRCREV_meta ?= "672a86bd4bac288b4cc222112d3826837181583b"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.1.bb b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
+index 49adad0fd15e..5004fb5d897d 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
+@@ -11,20 +11,20 @@ KBRANCH_qemux86  ?= "standard/base"
+ KBRANCH_qemux86-64 ?= "standard/base"
+ KBRANCH_qemumips64 ?= "standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "494bf106c15685dafa318f418ce86228728006f1"
+-SRCREV_machine_qemuarm64 ?= "75d56a13f86fc48002e4a3f9ed60546db30432b7"
+-SRCREV_machine_qemumips ?= "3d9c0d5f502f7ae6f74766b2e9980df2cf5f661c"
+-SRCREV_machine_qemuppc ?= "75d56a13f86fc48002e4a3f9ed60546db30432b7"
+-SRCREV_machine_qemux86 ?= "75d56a13f86fc48002e4a3f9ed60546db30432b7"
+-SRCREV_machine_qemux86-64 ?= "75d56a13f86fc48002e4a3f9ed60546db30432b7"
+-SRCREV_machine_qemumips64 ?= "6c9b0acfa18a1c86da12ae17da643cde03dd82cd"
+-SRCREV_machine ?= "75d56a13f86fc48002e4a3f9ed60546db30432b7"
+-SRCREV_meta ?= "0845ec79bc2fbc45efcf4c44138fd698039960c5"
++SRCREV_machine_qemuarm ?= "f217a40e5b17deb87ed3859b29b1c355e3bb4abc"
++SRCREV_machine_qemuarm64 ?= "15cf090ded5157e67302313bff9da0fa056e8ea9"
++SRCREV_machine_qemumips ?= "7f1ea2fe2cf42f117c37cd174236e07eba576382"
++SRCREV_machine_qemuppc ?= "15cf090ded5157e67302313bff9da0fa056e8ea9"
++SRCREV_machine_qemux86 ?= "15cf090ded5157e67302313bff9da0fa056e8ea9"
++SRCREV_machine_qemux86-64 ?= "15cf090ded5157e67302313bff9da0fa056e8ea9"
++SRCREV_machine_qemumips64 ?= "7d7a10a3c4465eca0e0879b3596da9b013ed3bb8"
++SRCREV_machine ?= "15cf090ded5157e67302313bff9da0fa056e8ea9"
++SRCREV_meta ?= "672a86bd4bac288b4cc222112d3826837181583b"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;name=machine;branch=${KBRANCH}; \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
+ 
+-LINUX_VERSION ?= "4.1.26"
++LINUX_VERSION ?= "4.1.27"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
 -- 
 2.5.0
 
