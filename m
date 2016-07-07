@@ -1,50 +1,41 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
-	[209.85.220.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B19A6013D
+Return-Path: <goodoldbasil@gmail.com>
+Received: from mail-lf0-f48.google.com (mail-lf0-f48.google.com
+	[209.85.215.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D9EC6013D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jul 2016 20:25:52 +0000 (UTC)
-Received: by mail-qk0-f169.google.com with SMTP id e3so24907896qkd.0
+	Thu,  7 Jul 2016 20:42:42 +0000 (UTC)
+Received: by mail-lf0-f48.google.com with SMTP id q132so19005169lfe.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Jul 2016 13:25:53 -0700 (PDT)
+	Thu, 07 Jul 2016 13:42:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=WQ3tGg9iNS2I8uTDPib7p8R/9Sw/v5UjH2ctkUij97s=;
-	b=rqpdZSJYY8C177BwEvia/LsWbI8xwWpJk8PMADX5TeouKXarPzlKcn+8cIoBk6+flq
-	iY7GkHBYA7T2WbobkpISYvZNDcue5/V4rrk4LLXf6UT9yIU2kjl0HXSXJ+ZeVaW0ZnaJ
-	OGuGSjYtENuy6h8i7jqYRSP+kxj8xDxmVVbKaJGbljCUkYgPjA4h0GVwnwN9uN6KZq1Z
-	EE4RHoNcnCT2WqT+pAmcxb3G/IOMxAKpR3SGpvtre5AFGQ22/7cJcwITdZvfiSUA3Hk6
-	3l42SkK+JYSWfkXtOnDhgcVOYm4/BGPAQVK4figcjTBb/4ndE5L5nbpjfSMuoivG04at
-	dx4g==
+	h=mime-version:from:date:message-id:subject:to;
+	bh=nnFCI6qPy1gXe1/NHgADIEXveW7ck4JOX/o7a4QddeQ=;
+	b=ntMMovsru9uD/TyFhp23oKM3+CxRXs7P4FgzkKLJY5WVThWWevjHYbaiaWYnjrn0JJ
+	d6xfWOqNm0efVOB6JXelVI4h/4qYI+V4wNiNaka35X1sbDZdZOpFBAcJSroln7ESujzS
+	fitJ0qEtgUZZ7Za/i6hbWQeS6lbtt/GyTauxBeFCcwNXSt2kDormd+j3HLjlwc1BNvNa
+	z5YlzHdPUw9kTuROcEbFOtHpteRHnsCG32phwdrB0QRr/MDHqkggnZovFIB+jOrfFZad
+	2Pe180KEoWSGTE/GRmbm1kfzDQtHm1X1mOKeifiqbFy4zOdxCTYryqq0exOUloft5vTI
+	rg7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=WQ3tGg9iNS2I8uTDPib7p8R/9Sw/v5UjH2ctkUij97s=;
-	b=UVmqDq229sfdoTlxQT0griX0ReTHyYbp646cil6GFRLjQj+mcG1g/HBjMegPiQ4Xw8
-	l9DSdb0fWnIkU8ojd6lmt4KZ2+gUvCUTdHASnFb3bZ7Ti8FpzByr28PRYQwzIbLnUaP/
-	ZKYSB0NlXKBgKORpxVx/mgj0ALF42mPOSJXwmZwX1DRmZs5mk5QnRGmm+0wh1h3Dud/3
-	2Yy0TzAfVjDhP6lLcF4lrVvPyu8TghhfGLzcj87D1Sa5NmU+HXOGAvxEhvaWXiDCLNjy
-	RwevocLsywL8o4X6xfzrDPf3Qyetb6trvaogSZZ39CgJ7/aU06YI/pK3jASkkYMHdNGA
-	liwQ==
-X-Gm-Message-State: ALyK8tLJhiMMG3sEA0krNiUmXk7/jpsH1oCkAb4re4fV7mB8iBW8rRrh3YQ9skQWk8a3DQ8rbqeq84A6sn/J/g==
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=nnFCI6qPy1gXe1/NHgADIEXveW7ck4JOX/o7a4QddeQ=;
+	b=aZdi2neeeeZvOXDmauVRppInCI6WSLvTgwCLlkm1dlz3Oe8rp4HB2Nu8nfCtV9XWpM
+	3ukpvzCB2zd8C30kBH8HhawtW7hY4wxf2dfJFvVWvTixL7T84Lbx9DfjROuo/KftaICf
+	n4MAW4n1LqPYWBJgB8/NVmT30gbteAu3KAo0d3GuuypR25ngesShvpcGEajhpR0wEGcZ
+	RjhN71mNndl4VR1/ItFRnlXd7Q4OyiVJKDM2GzPjVezCuW6/1A0pwzs+wYhm6y6M3ZUp
+	G3WEifjG1LTGgYhE6F+o+n2+q3VYAFeBmTa7dZvj+DYhGvAmwCQdeLLQmk3rUK5h+DAF
+	qasw==
+X-Gm-Message-State: ALyK8tLUGJhnsEeND7XG3ekluEbVNXtlNUWgV8v3EmvsGpu0m36W14GV7f9kLxcqvz31UcrkVLVm0BHHO7b5BQ==
+X-Received: by 10.25.139.135 with SMTP id n129mr524547lfd.209.1467924161946;
+	Thu, 07 Jul 2016 13:42:41 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.55.74.138 with SMTP id x132mr2843057qka.26.1467923152842;
-	Thu, 07 Jul 2016 13:25:52 -0700 (PDT)
-Received: by 10.55.214.83 with HTTP; Thu, 7 Jul 2016 13:25:52 -0700 (PDT)
-Received: by 10.55.214.83 with HTTP; Thu, 7 Jul 2016 13:25:52 -0700 (PDT)
-In-Reply-To: <20160707200510.GA4311@openSUSE-i7.site>
-References: <20160702081927.7365-1-raj.khem@gmail.com>
-	<20160707053905.GA28068@openSUSE-i7.site>
-	<CAMKF1spS0OSZ=aWRP+ZJPkcBPn=SfMrgP=uA9SvR8CmNiXm4PQ@mail.gmail.com>
-	<20160707200510.GA4311@openSUSE-i7.site>
-Date: Thu, 7 Jul 2016 13:25:52 -0700
-Message-ID: <CAMKF1soSd7zJt4PXa0oDzycHK5G6+r1xeh2AvCw3srgFZ-mSCA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-To: Trevor Woerner <twoerner@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] glibc: Upgrade to latest tip of master
+Received: by 10.25.143.2 with HTTP; Thu, 7 Jul 2016 13:42:02 -0700 (PDT)
+From: Basil Varghese <goodoldbasil@gmail.com>
+Date: Thu, 7 Jul 2016 13:42:02 -0700
+Message-ID: <CACzhctu+ihWvbeUSCo75sEz1Thhoh3eEDXB_+Q=QaD3zNUvHAQ@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: How do I configure OpenBMC kernel boot logs to be displayed on a specific UART?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,58 +48,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jul 2016 20:25:53 -0000
-Content-Type: multipart/alternative; boundary=001a114a82f81535060537117e81
+X-List-Received-Date: Thu, 07 Jul 2016 20:42:44 -0000
+Content-Type: multipart/alternative; boundary=001a113fc2f63aeae4053711ba01
 
---001a114a82f81535060537117e81
+--001a113fc2f63aeae4053711ba01
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Ok thanks. Let me know if you get to see the same issue on say qemuarm or
-qemuarm64
+Hi,
+I am using OpenBMC-1.0 (phosphor).
+On an AST2500-based board, the boot-logs get stuck at
+*           Uncompressing Linux=E2=80=A6 done, booting the kernel.*
 
-On Jul 7, 2016 1:04 PM, "Trevor Woerner" <twoerner@gmail.com> wrote:
+The u-boot uses the correct UART console because its logs are displayed.
+But after that, the kernel boot logs are not seen. I am sure it is booting,
+but the problem is that the kernel seems to be configured to use the wrong
+serial console.
+I tried changing the *'device' *variable in obmc-console.conf from
+*device=3DttyS5 * to different values, but it's no use.
+Could someone please suggest how to make the kernel boot logs be displayed
+on the correct UART?
 
-> On Thu 2016-07-07 @ 09:27:30 AM, Khem Raj wrote:
-> > Is it specific to x86-64
->
-> Up to this point I've only been focused on x86-64, but now that I have
-> things
-> cleared up on that arch, I'll be working on aarch64 to see how that goes.
->
-> My "solution" for the time-being is to simply pull in the glibc_2.23
-> recipes
-> into my build and set GLIBCVERSION to match. At some point I'll be trying
-> to
-> bisect the glibc commits themselves to see if I can find anything
-> conclusive
-> (but, as always, that'll take some time).
->
+------------------------------------------- FYI the boot logs:
+ -----------------------------------------
 
---001a114a82f81535060537117e81
+DRAM Init-V0B-DDR4
+0abc1-4Gb-Done
+Read margin-DL:0.3509/DH:0.3803 CK (min:0.35)
+
+
+U-Boot 2016.05 (Jul 06 2016 - 17:22:40 +0100)
+
+DRAM:  496 MiB
+Flash: 32 MiB
+*** Warning - bad CRC, using default environment
+
+In:    serial
+Out:   serial
+Err:   serial
+Net:   MAC0 : RGMII
+MAC1 : RGMII
+FTGMAC100#0
+Error: FTGMAC100#0 address not set.
+, FTGMAC100#1
+Error: FTGMAC100#1 address not set.
+
+Hit any key to stop autoboot:  0
+## Booting kernel from Legacy Image at 20080000 ...
+   Image Name:   Phosphor OpenBMC (Phosphor OpenB
+   Image Type:   ARM Linux Kernel Image (uncompressed)
+   Data Size:    2004098 Bytes =3D 1.9 MiB
+   Load Address: 80001000
+   Entry Point:  80001000
+   Verifying Checksum ... OK
+## Loading init Ramdisk from Legacy Image at 20300000 ...
+   Image Name:   obmc-phosphor-image
+   Image Type:   ARM Linux RAMDisk Image (lzma compressed)
+   Data Size:    1670931 Bytes =3D 1.6 MiB
+   Load Address: 81000000
+   Entry Point:  81000000
+   Verifying Checksum ... OK
+   Loading Kernel Image ... OK
+
+Starting kernel ...
+
+Uncompressing Linux... done, booting the kernel.
+---------------------------------------------------------------------------=
+----------------------------
+
+Thanks,
+*Basil Varghese*
+*______________________________________*
+
+--001a113fc2f63aeae4053711ba01
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<p dir=3D"ltr">Ok thanks. Let me know if you get to see the same issue on s=
-ay qemuarm or qemuarm64</p>
-<div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Jul 7, 2016 1:=
-04 PM, &quot;Trevor Woerner&quot; &lt;<a href=3D"mailto:twoerner@gmail.com"=
->twoerner@gmail.com</a>&gt; wrote:<br type=3D"attribution"><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
-ding-left:1ex">On Thu 2016-07-07 @ 09:27:30 AM, Khem Raj wrote:<br>
-&gt; Is it specific to x86-64<br>
-<br>
-Up to this point I&#39;ve only been focused on x86-64, but now that I have =
-things<br>
-cleared up on that arch, I&#39;ll be working on aarch64 to see how that goe=
-s.<br>
-<br>
-My &quot;solution&quot; for the time-being is to simply pull in the glibc_2=
-.23 recipes<br>
-into my build and set GLIBCVERSION to match. At some point I&#39;ll be tryi=
-ng to<br>
-bisect the glibc commits themselves to see if I can find anything conclusiv=
-e<br>
-(but, as always, that&#39;ll take some time).<br>
-</blockquote></div></div>
+<div dir=3D"ltr">Hi,<div>I am using OpenBMC-1.0 (phosphor).<br>On an AST250=
+0-based board, the boot-logs get stuck at=C2=A0</div><div><b><span style=3D=
+"font-size:11pt;font-family:Calibri,sans-serif">=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0Uncompressing Linux=E2=80=A6 done, booting the kernel.</span>=
+</b></div><div><font face=3D"Calibri, sans-serif"><span style=3D"font-size:=
+14.6667px"><b><br clear=3D"all"></b></span></font><div><div data-smartmail=
+=3D"gmail_signature"><div dir=3D"ltr">The u-boot uses the correct UART cons=
+ole because its logs are displayed.<br>But after that, the kernel boot logs=
+ are not seen. I am sure it is booting, but the problem is that the kernel =
+seems to be configured to use the wrong serial console.<br>I tried changing=
+ the=C2=A0<i>&#39;device&#39;=C2=A0</i>variable in obmc-console.conf from=
+=C2=A0<i>device=3DttyS5=C2=A0</i>=C2=A0to different values, but it&#39;s no=
+ use.<br>Could someone please suggest how to make the kernel boot logs be d=
+isplayed on the correct UART?</div><div dir=3D"ltr"><br></div><div dir=3D"l=
+tr">------------------------------------------- FYI the boot logs: =C2=A0--=
+---------------------------------------</div><div><br><div>DRAM Init-V0B-DD=
+R4</div><div>0abc1-4Gb-Done</div><div>Read margin-DL:0.3509/DH:0.3803 CK (m=
+in:0.35)</div><div><br></div><div><br></div><div>U-Boot 2016.05 (Jul 06 201=
+6 - 17:22:40 +0100)</div><div><br></div><div>DRAM: =C2=A0496 MiB</div><div>=
+Flash: 32 MiB</div><div>*** Warning - bad CRC, using default environment</d=
+iv><div><br></div><div>In: =C2=A0 =C2=A0serial</div><div>Out: =C2=A0 serial=
+</div><div>Err: =C2=A0 serial</div><div>Net: =C2=A0 MAC0 : RGMII=C2=A0</div=
+><div>MAC1 : RGMII=C2=A0</div><div>FTGMAC100#0</div><div>Error: FTGMAC100#0=
+ address not set.</div><div>, FTGMAC100#1</div><div>Error: FTGMAC100#1 addr=
+ess not set.</div><div><br></div><div>Hit any key to stop autoboot: =C2=A00=
+=C2=A0</div><div>## Booting kernel from Legacy Image at 20080000 ...</div><=
+div>=C2=A0 =C2=A0Image Name: =C2=A0 Phosphor OpenBMC (Phosphor OpenB</div><=
+div>=C2=A0 =C2=A0Image Type: =C2=A0 ARM Linux Kernel Image (uncompressed)</=
+div><div>=C2=A0 =C2=A0Data Size: =C2=A0 =C2=A02004098 Bytes =3D 1.9 MiB</di=
+v><div>=C2=A0 =C2=A0Load Address: 80001000</div><div>=C2=A0 =C2=A0Entry Poi=
+nt: =C2=A080001000</div><div>=C2=A0 =C2=A0Verifying Checksum ... OK</div><d=
+iv>## Loading init Ramdisk from Legacy Image at 20300000 ...</div><div>=C2=
+=A0 =C2=A0Image Name: =C2=A0 obmc-phosphor-image</div><div>=C2=A0 =C2=A0Ima=
+ge Type: =C2=A0 ARM Linux RAMDisk Image (lzma compressed)</div><div>=C2=A0 =
+=C2=A0Data Size: =C2=A0 =C2=A01670931 Bytes =3D 1.6 MiB</div><div>=C2=A0 =
+=C2=A0Load Address: 81000000</div><div>=C2=A0 =C2=A0Entry Point: =C2=A08100=
+0000</div><div>=C2=A0 =C2=A0Verifying Checksum ... OK</div><div>=C2=A0 =C2=
+=A0Loading Kernel Image ... OK</div><div><br></div><div>Starting kernel ...=
+</div><div><br></div><div>Uncompressing Linux... done, booting the kernel.<=
+/div><div>-----------------------------------------------------------------=
+--------------------------------------</div><br></div><div>Thanks,<br><i><b=
+>Basil Varghese</b></i><br></div></div></div></div><div><div class=3D"gmail=
+_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><div d=
+ir=3D"ltr"><div><div dir=3D"ltr"><div><i>__________________________________=
+____</i></div></div></div></div></div></div></div></div>
+</div>
 
---001a114a82f81535060537117e81--
+--001a113fc2f63aeae4053711ba01--
