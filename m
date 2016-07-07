@@ -1,47 +1,30 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f66.google.com (mail-pa0-f66.google.com
-	[209.85.220.66])
-	by mail.openembedded.org (Postfix) with ESMTP id C82DA60119
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 3AB6A6013D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jul 2016 01:57:14 +0000 (UTC)
-Received: by mail-pa0-f66.google.com with SMTP id us13so408951pab.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Jul 2016 18:57:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=mkVbjcX4Sy3/MXj5HjzoMnDh7qCFgt1wo1QT51l8hbk=;
-	b=zbftFOQHOi/1ezSt2sQ167l+yuGC6OFtbYrlxo7+rSPOzcFyxnMoDkbsM3esfzraa8
-	Udd+qb7Ir+/RkkwabROWmLXhU+aSC3PJalLrTj9qfwbCgRjpWAkonlax7Hzk/7BSd5IO
-	+BkZalGSdv0/23bB0uWwekpWbl4NhKwSBrLPoqDvLXg9lKhHXc7Xv6B0ONjVWwsWZ8i0
-	gU70K3spfIHJro1Mx+ud3+VvbQdM/+hooucjyllB4wi8BcyWLN4czhi3MaECOq2zNVHd
-	xhOjYD65AJVWItUyXVRij/3S80/tYdNIcA1aGtyPRA+DiF1ACWfPcB5gGVemAGw58173
-	75/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=mkVbjcX4Sy3/MXj5HjzoMnDh7qCFgt1wo1QT51l8hbk=;
-	b=BrRAz3JLiG7fVcrbYZdteUAAWD2h20xa9DTmjseEWhc1KGRIYOj/HSSRazvMrpSpVQ
-	0ZA7cU2h4sAW4oa5m5U+IOyDzxP1KEVnQgFhY384Gjaj6b3IZcqc8JW5HphRQUdy9vlB
-	ZWeQEuKVT9z6AXHQlQweFtHA9yUS8oXx8/54HsXCyCDUvFdQ2RpxdshYwFrtz3KraJr+
-	CF3AtgQj0DbXjSMDrEnueRL6DYXIz+yE2itMNE3F6QQpqsjdCa+Sl8W2TQejRmbveVFh
-	ICAXFHGTQ5yLIduWuvcdYCVVaRYWbMC+ybYUsa/VduOZGd8mXzTZ12cs4SkORP1L/Zc5
-	s3Mw==
-X-Gm-Message-State: ALyK8tIlDagZYXWsfHbhiXBw8jSP+LayeXpUNgjzjQwo03+H2kDxuLYuWpxF2nWl2xwQ0Q==
-X-Received: by 10.66.83.35 with SMTP id n3mr47305738pay.124.1467856634924;
-	Wed, 06 Jul 2016 18:57:14 -0700 (PDT)
-Received: from akuster-ThinkPad-X240.hsd1.ca.comcast.net
-	(c-76-20-92-207.hsd1.ca.comcast.net. [76.20.92.207])
-	by smtp.gmail.com with ESMTPSA id
-	b185sm225145pfb.55.2016.07.06.18.57.13
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 06 Jul 2016 18:57:13 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	akuster@mvista.com
-Date: Wed,  6 Jul 2016 18:57:11 -0700
-Message-Id: <1467856631-29679-1-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [[Krogoth]PATCH] ghostscript: update SRC_URI
+	Thu,  7 Jul 2016 02:21:02 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP; 06 Jul 2016 19:21:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,322,1464678000"; d="scan'208";a="990453120"
+Received: from lynhueyo-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.176.219])
+	by orsmga001.jf.intel.com with ESMTP; 06 Jul 2016 19:20:59 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 07 Jul 2016 14:20:57 +1200
+Message-ID: <1587491.zLnaHlMPYp@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.5.7-202.fc23.x86_64; KDE/4.14.20; x86_64; ;
+	)
+In-Reply-To: <CAMKF1srwZapMVvohESS8L8+CT0YCQmtVUbH32X_KvLwRZnokpQ@mail.gmail.com>
+References: <cover.1467849364.git.paul.eggleton@linux.intel.com>
+	<2740868.VrTjpvQuVY@peggleto-mobl.ger.corp.intel.com>
+	<CAMKF1srwZapMVvohESS8L8+CT0YCQmtVUbH32X_KvLwRZnokpQ@mail.gmail.com>
+MIME-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 6/6] scripts/contrib/devtool-stress: exclude more recipes by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,31 +37,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jul 2016 01:57:15 -0000
+X-List-Received-Date: Thu, 07 Jul 2016 02:21:05 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-From: Armin Kuster <akuster@mvista.com>
+On Wed, 06 Jul 2016 18:54:37 Khem Raj wrote:
+> On Wed, Jul 6, 2016 at 6:39 PM, Paul Eggleton
+> <paul.eggleton@linux.intel.com> wrote:
+> > devtool itself already understands not to try to deal with these recipes -
+> > it will print out a reasonable error for the user. The exception list is
+> > just for the devtool-stress script so that it produces clean output.
+> 
+> OK understood the case, I was just thinking of cases where recipes are
+> external and for some reason dont yet work with devtool, may be can be
+> blacklisted in recipes
+> instead of having a central list.
 
-ERROR: Function failed: Fetcher failure for URL: 'http://downloads.ghostscript.com/public/ghostscript-9.18.tar.gz'. URL http://downloads.ghostscript.com/public/ghostscript-9.18.tar.gz doesn't work
+Let's break this down a bit:
 
-Signed-off-by: Armin Kuster <akuster@mvista.com>
----
- meta/recipes-extended/ghostscript/ghostscript_9.18.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+devtool itself looks at various things to determine whether the recipe can be 
+used with "devtool modify" - the implementation is in 
+_check_compatible_recipe() in scripts/lib/devtool/standard.py. I don't think 
+it would make sense to break this up.
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.18.bb b/meta/recipes-extended/ghostscript/ghostscript_9.18.bb
-index d4222c7..aa39345 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_9.18.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_9.18.bb
-@@ -16,7 +16,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=b17cea54743435ab2a581c237bea294a"
- DEPENDS = "ghostscript-native tiff jpeg fontconfig cups libpng"
- DEPENDS_class-native = "libpng-native"
- 
--SRC_URI_BASE = "http://downloads.ghostscript.com/public/ghostscript-${PV}.tar.gz \
-+SRC_URI_BASE = "http://downloads.ghostscript.com/public/old-gs-releases/ghostscript-${PV}.tar.gz \
-                 file://ghostscript-9.15-parallel-make.patch \
-                 file://ghostscript-9.16-Werror-return-type.patch \
-                 file://png_mak.patch \
+The devtool-stress.py script is just for testing. I'm not even sure if anyone 
+else but me actually runs it. To go and put things in a bunch of recipes 
+solely for the purpose of this script seems a bit excessive.
+
+Thinking about it, I guess we could have devtool modify return a particular 
+exit code for incompatible recipes and have the stress script consider those 
+"skipped" rather than "failed". That to me would be a better alternative.
+
+Cheers,
+Paul
+
 -- 
-1.9.1
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
