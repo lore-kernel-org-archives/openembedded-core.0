@@ -1,28 +1,29 @@
-Return-Path: <j.remmet@phytec.de>
-Received: from root.phytec.de (mail.tricorecenter.de [217.6.246.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 23A276013D
+Return-Path: <maxin.john@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id C956F6013D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jul 2016 14:24:11 +0000 (UTC)
-Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
-	by root.phytec.de (Postfix) with ESMTP id C1528A00310
+	Thu,  7 Jul 2016 15:13:32 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga104.fm.intel.com with ESMTP; 07 Jul 2016 08:13:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,324,1464678000"; d="scan'208";a="990802931"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga001.jf.intel.com with ESMTP; 07 Jul 2016 08:13:31 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 5C3266A4006
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jul 2016 16:25:23 +0200 (CEST)
-Received: from augenblix.phytec.de ([172.16.0.56])
-	by idefix.phytec.de (IBM Domino Release 9.0.1FP5 HF413)
-	with ESMTP id 2016070716241054-63645 ;
-	Thu, 7 Jul 2016 16:24:10 +0200 
-From: Jan Remmet <j.remmet@phytec.de>
+	Thu,  7 Jul 2016 08:13:25 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 7 Jul 2016 16:21:44 +0200
-Message-Id: <1467901304-46789-1-git-send-email-j.remmet@phytec.de>
-X-Mailer: git-send-email 1.9.1
-X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP5
-	HF413|March 21, 2016) at 07.07.2016 16:24:10,
-	Serialize by Router on Idefix/Phytec(Release 9.0.1FP5 HF413|March 21,
-	2016) at 07.07.2016 16:24:10,
-	Serialize complete at 07.07.2016 16:24:10
-X-TNEFEvaluated: 1
-Subject: [PATCH] mtd-utils: build also for nativesdk
+Date: Thu,  7 Jul 2016 18:13:04 +0300
+Message-Id: <1467904384-841-2-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+In-Reply-To: <1467904384-841-1-git-send-email-maxin.john@intel.com>
+References: <1467904384-841-1-git-send-email-maxin.john@intel.com>
+Subject: [PATCH 2/2] graph-tool: convert to python3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,27 +36,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jul 2016 14:24:14 -0000
+X-List-Received-Date: Thu, 07 Jul 2016 15:13:33 -0000
 
-Signed-off-by: Jan Remmet <j.remmet@phytec.de>
+move graph-tool to python3
+
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- meta/recipes-devtools/mtd/mtd-utils_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/contrib/graph-tool | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_git.bb
-index cd9ae06..8a3afaf 100644
---- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
-+++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
-@@ -39,7 +39,7 @@ FILES_mtd-utils-jffs2 = "${sbindir}/mkfs.jffs2 ${sbindir}/jffs2dump ${sbindir}/j
- FILES_mtd-utils-ubifs = "${sbindir}/mkfs.ubifs ${sbindir}/ubi*"
- FILES_mtd-utils-misc = "${sbindir}/nftl* ${sbindir}/ftl* ${sbindir}/rfd* ${sbindir}/doc* ${sbindir}/serve_image ${sbindir}/recv_image"
+diff --git a/scripts/contrib/graph-tool b/scripts/contrib/graph-tool
+index 6dc7d33..0275fbd 100755
+--- a/scripts/contrib/graph-tool
++++ b/scripts/contrib/graph-tool
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python
++#!/usr/bin/env python3
  
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
- 
- # git/.compr.c.dep:46: warning: NUL character seen; rest of line ignored
- # git/.compr.c.dep:47: *** missing separator.  Stop.
+ # Simple graph query utility
+ # useful for getting answers from .dot files produced by bitbake -g
+@@ -56,7 +56,7 @@ def find_paths(args, usage):
+     paths = list(get_path_networkx(args[0], fromnode, tonode))
+     if paths:
+         for path in paths:
+-            print ' -> '.join(path)
++            print(" -> ".join(map(str,path)))
+     else:
+         print("ERROR: no path from %s to %s in graph" % (fromnode, tonode))
+         sys.exit(1)
 -- 
-1.9.1
+2.4.0
 
 
