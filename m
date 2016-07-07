@@ -1,25 +1,25 @@
 Return-Path: <mariano.lopez@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id A933C606D0
+	by mail.openembedded.org (Postfix) with ESMTP id 274916013D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jul 2016 22:55:04 +0000 (UTC)
+	Thu,  7 Jul 2016 22:55:06 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP; 07 Jul 2016 15:55:05 -0700
+	by orsmga101.jf.intel.com with ESMTP; 07 Jul 2016 15:55:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,325,1464678000"; d="scan'208";a="731145114"
+X-IronPort-AV: E=Sophos;i="5.28,325,1464678000"; d="scan'208";a="731145135"
 Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
 	([10.54.69.55])
-	by FMSMGA003.fm.intel.com with ESMTP; 07 Jul 2016 15:55:05 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 07 Jul 2016 15:55:07 -0700
 From: mariano.lopez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Jul 2016 14:48:55 +0000
-Message-Id: <502cac006f7b2e23d74a9a1f2037e3a5d8948053.1467902737.git.mariano.lopez@linux.intel.com>
+Date: Thu,  7 Jul 2016 14:48:56 +0000
+Message-Id: <7a66aca2c0d7674033fcb06e09d05f3c4d86af0b.1467902737.git.mariano.lopez@linux.intel.com>
 X-Mailer: git-send-email 2.6.6
 In-Reply-To: <cover.1467902737.git.mariano.lopez@linux.intel.com>
 References: <cover.1467902737.git.mariano.lopez@linux.intel.com>
 In-Reply-To: <cover.1467902737.git.mariano.lopez@linux.intel.com>
 References: <cover.1467902737.git.mariano.lopez@linux.intel.com>
-Subject: [PATCH 1/2] lib/oeqa/utils/commands.py: Move updateEnv() from runexported.py
+Subject: [PATCH 2/2] selftest/runtime-test.py: Add test for testexport SDK feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,73 +32,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jul 2016 22:55:05 -0000
+X-List-Received-Date: Thu, 07 Jul 2016 22:55:06 -0000
 
 From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-updateEnv() can be used in other places so move the
-function to utils/commands.py
+This adds test_testexport_sdk() to test the SDK feature
+of testexport in the CI in order to avoid breaking it.
+
+[YOCTO #9765]
 
 Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- meta/lib/oeqa/runexported.py    | 16 ++--------------
- meta/lib/oeqa/utils/commands.py | 12 ++++++++++++
- 2 files changed, 14 insertions(+), 14 deletions(-)
+ meta/lib/oeqa/selftest/runtime-test.py | 60 +++++++++++++++++++++++++++++++++-
+ meta/lib/oeqa/utils/commands.py        | 19 +++++++++++
+ 2 files changed, 78 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/runexported.py b/meta/lib/oeqa/runexported.py
-index 5886739..125e86d 100755
---- a/meta/lib/oeqa/runexported.py
-+++ b/meta/lib/oeqa/runexported.py
-@@ -31,7 +31,7 @@ except ImportError:
- sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "oeqa")))
+diff --git a/meta/lib/oeqa/selftest/runtime-test.py b/meta/lib/oeqa/selftest/runtime-test.py
+index 1e1d3b0..d2f9334 100644
+--- a/meta/lib/oeqa/selftest/runtime-test.py
++++ b/meta/lib/oeqa/selftest/runtime-test.py
+@@ -1,5 +1,5 @@
+ from oeqa.selftest.base import oeSelfTest
+-from oeqa.utils.commands import runCmd, bitbake, get_bb_var, runqemu
++from oeqa.utils.commands import runCmd, bitbake, get_bb_var, runqemu, updateEnv, restoreEnv
+ from oeqa.utils.decorators import testcase
+ import os
  
- from oeqa.oetest import ExportTestContext
--from oeqa.utils.commands import runCmd
-+from oeqa.utils.commands import runCmd, updateEnv
- from oeqa.utils.sshcontrol import SSHControl
+@@ -43,6 +43,64 @@ class TestExport(oeSelfTest):
+             failure = True if 'FAIL' in result.output else False
+             self.assertNotEqual(True, failure, 'ping test failed')
  
- # this isn't pretty but we need a fake target object
-@@ -137,19 +137,7 @@ def extract_sdk(d):
-             if f.startswith("environment-setup"):
-                 print("Setting up SDK environment...")
-                 env_file = os.path.join(extract_path, f)
--                update_env(env_file)
--
--def update_env(env_file):
--    """
--    Source a file and update environment
--    """
--
--    cmd = ". %s; env -0" % env_file
--    result = runCmd(cmd)
--
--    for line in result.output.split("\0"):
--        (key, _, value) = line.partition("=")
--        os.environ[key] = value
++    def test_testexport_sdk(self):
++        """
++        Summary: Check sdk functionality for testexport.
++        Expected: 1. testexport directory must be created.
++                  2. SDK tarball must exists.
++                  3. Uncompressing of tarball must succeed.
++                  4. Check if the SDK directory is added to PATH.
++                  5. Run tar from the SDK directory.
++        Product: oe-core
++        Author: Mariano Lopez <mariano.lopez@intel.com>
++        """
++
++        features = 'INHERIT += "testexport"\n'
++        # These aren't the actual IP addresses but testexport class needs something defined
++        features += 'TEST_SERVER_IP = "192.168.7.1"\n'
++        features += 'TEST_TARGET_IP = "192.168.7.1"\n'
++        features += 'TEST_SUITES = "ping"\n'
++        features += 'TEST_EXPORT_SDK_ENABLED = "1"\n'
++        features += 'TEST_EXPORT_SDK_PACKAGES = "nativesdk-tar"\n'
++        self.write_config(features)
++
++        # Build tesexport for core-image-minimal
++        bitbake('core-image-minimal')
++        bitbake('-c testexport core-image-minimal')
++
++        # Check for SDK
++        testexport_dir = get_bb_var('TEST_EXPORT_DIR', 'core-image-minimal')
++        sdk_dir = get_bb_var('TEST_EXPORT_SDK_DIR', 'core-image-minimal')
++        tarball_name = "%s.sh" % get_bb_var('TEST_EXPORT_SDK_NAME', 'core-image-minimal')
++        tarball_path = os.path.join(testexport_dir, sdk_dir, tarball_name)
++        self.assertEqual(os.path.isfile(tarball_path), True, "Couldn't find SDK tarball: %s" % tarball_path)
++
++        # Uncompress SDK
++        extract_path = os.path.join(testexport_dir, "sysroot")
++        result = runCmd("%s -y -d %s" % (tarball_path, extract_path))
++
++        # Setting up environment
++        current_env = dict(os.environ)
++        for f in os.listdir(extract_path):
++            if f.startswith("environment-setup"):
++                env_file = os.path.join(extract_path, f)
 +                updateEnv(env_file)
++
++        # Check if the SDK directory was added to PATH
++        working_path = False
++        for path in os.environ['PATH'].split(":"):
++            if testexport_dir in path:
++                working_path = True
++                sdk_path = path
++                break
++
++        self.assertEqual(working_path, True, "Couldn't find SDK path in PATH")
++
++        # Execute tar from SDK path
++        cmd_tar = os.path.join(sdk_path, "tar")
++        result = runCmd("%s --version" % cmd_tar)
++
++        restoreEnv(current_env)
  
- if __name__ == "__main__":
-     try:
+ class TestImage(oeSelfTest):
+ 
 diff --git a/meta/lib/oeqa/utils/commands.py b/meta/lib/oeqa/utils/commands.py
-index 418643a..4f79d15 100644
+index 4f79d15..4cfa2e1 100644
 --- a/meta/lib/oeqa/utils/commands.py
 +++ b/meta/lib/oeqa/utils/commands.py
-@@ -261,3 +261,15 @@ def runqemu(pn, ssh=True):
-             qemu.stop()
-         except:
-             pass
+@@ -273,3 +273,22 @@ def updateEnv(env_file):
+     for line in result.output.split("\0"):
+         (key, _, value) = line.partition("=")
+         os.environ[key] = value
 +
-+def updateEnv(env_file):
++def restoreEnv(old_env):
 +    """
-+    Source a file and update environment.
++    Restore environment with os.environ.
++
++    os.environ.clear() will throw an exception if there is
++    environment variable without any value, this function
++    will deal with such cases.
 +    """
 +
-+    cmd = ". %s; env -0" % env_file
-+    result = runCmd(cmd)
++    keys = list(os.environ.keys())
 +
-+    for line in result.output.split("\0"):
-+        (key, _, value) = line.partition("=")
-+        os.environ[key] = value
++    for var in keys:
++        if var:
++            if not os.environ[var]:
++                os.environ[var] = "tmp"
++            del os.environ[var]
++
++    os.environ.update(old_env)
 -- 
 2.6.6
 
