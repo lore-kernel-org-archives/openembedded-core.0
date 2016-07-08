@@ -1,28 +1,50 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B34D60119
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
+	[209.85.220.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 70DCF60119
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jul 2016 20:29:59 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 08 Jul 2016 13:30:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,331,1464678000"; 
-	d="scan'208,217";a="1013386432"
-Received: from aehernan-mobl1.zpn.intel.com (HELO [10.219.17.113])
-	([10.219.17.113])
-	by orsmga002.jf.intel.com with ESMTP; 08 Jul 2016 13:30:00 -0700
-To: openembedded-core@lists.openembedded.org
-References: <cover.1467905611.git.jussi.kukkonen@intel.com>
-	<b0ba31b71ad1e9d540ab007713fe034a3bc1f7d1.1467905611.git.jussi.kukkonen@intel.com>
-	<CAJTo0LZ67c7MXQrsBYzK6c+dQ3DGq0Xp5To+pz64qo=Cu8qeKQ@mail.gmail.com>
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-Message-ID: <da5b22b8-5378-46d9-c787-a34f25542742@linux.intel.com>
-Date: Fri, 8 Jul 2016 15:30:01 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.1.1
+	Fri,  8 Jul 2016 20:55:47 +0000 (UTC)
+Received: by mail-qk0-f194.google.com with SMTP id 82so11811125qko.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 08 Jul 2016 13:55:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Hn7bEAC26WQ2DDIP9U8n0FsflxX4pcsCeI7Qevok4mk=;
+	b=RH+RzYn80vwmzU6MUQgiiOSfGl3c4YdDIU4TjgXRLcIsBuuRVqCAEKSkVeh9cHx27M
+	X2ztLkNr2sOXkAZtGY7N7SB2b1d/U8qZpFPWSMldWcSVR8C8+6ePENJTVzeSyAdtjF9t
+	2zVYv5qrO2mDJctqn7ybQRt/0nt2nZ8wkIgvAD8p327QQd+gRvdR0y0hdfQfWBXAz45E
+	qaPfZ7ntN3eEQY+xfW6jHv68pp+4h/5it+IvtdolLSLClxkUS+JDS0wKbA6ghQeiR55V
+	4wCSh4zVvD8cPbuA/IcsgXDRLmooxa7K6JVPaXRwlEXXUfMPcq/VhwbX8EC6eHhYSU+/
+	PrNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Hn7bEAC26WQ2DDIP9U8n0FsflxX4pcsCeI7Qevok4mk=;
+	b=CcsUsg/W8C1GCghqBD0/oJsgKZQ9YrenXgjXCjZGOtn4nQIPreDyYuwWNykm21Jbzx
+	myIJlzckQIVZbe+ZffgBSIH+4XdA3pogk4ESGyiLHilFopo/wyF85RXw8fntbb4x9PjC
+	cAZV5GagF/hBbjfkbq3lg6ys+TiNl53lUcQqhaD5wQkWTzGTpaMMG1sGYuewJaY87ma6
+	n/hmkUDL8rXBuinQ0oEUlQH3zy+iqzpX1/qH/w8HGloxeoLy5xLPM/JnLGIGoyG+kBIb
+	tLopqAxTfRgL89GGNHIAPQFyGfCJv/5ASslwJh7COuA2tAa/TvtPutFddxVMFR1ej3O2
+	gsJw==
+X-Gm-Message-State: ALyK8tJg5TTXXODWyYfsRPB+EFavz6+hIPyxH1MpZGtsYyLcaUJLrQlCHNVIkz5AW9neOYvcE27ZUdk2SlxKOA==
+X-Received: by 10.55.178.195 with SMTP id b186mr9447668qkf.81.1468011347514;
+	Fri, 08 Jul 2016 13:55:47 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZ67c7MXQrsBYzK6c+dQ3DGq0Xp5To+pz64qo=Cu8qeKQ@mail.gmail.com>
-Subject: Re: [PATCH 1/5] python-six: Add to oe-core
+Received: by 10.55.214.83 with HTTP; Fri, 8 Jul 2016 13:55:18 -0700 (PDT)
+In-Reply-To: <CAMKF1soSd7zJt4PXa0oDzycHK5G6+r1xeh2AvCw3srgFZ-mSCA@mail.gmail.com>
+References: <20160702081927.7365-1-raj.khem@gmail.com>
+	<20160707053905.GA28068@openSUSE-i7.site>
+	<CAMKF1spS0OSZ=aWRP+ZJPkcBPn=SfMrgP=uA9SvR8CmNiXm4PQ@mail.gmail.com>
+	<20160707200510.GA4311@openSUSE-i7.site>
+	<CAMKF1soSd7zJt4PXa0oDzycHK5G6+r1xeh2AvCw3srgFZ-mSCA@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 8 Jul 2016 13:55:18 -0700
+Message-ID: <CAMKF1srYvEAAeMu8aGhB2OVaG9h+MpweZ-YPdWhME99V-0JMTw@mail.gmail.com>
+To: Trevor Woerner <twoerner@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2] glibc: Upgrade to latest tip of master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,92 +57,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jul 2016 20:30:00 -0000
-Content-Type: multipart/alternative;
-	boundary="------------2F1707DDD6BB58894F1FE7FA"
+X-List-Received-Date: Fri, 08 Jul 2016 20:55:47 -0000
+Content-Type: text/plain; charset=UTF-8
 
---------------2F1707DDD6BB58894F1FE7FA
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+Trevor
 
-On 07/08/2016 03:17 PM, Burton, Ross wrote:
->
-> On 7 July 2016 at 16:39, Jussi Kukkonen <jussi.kukkonen@intel.com 
-> <mailto:jussi.kukkonen@intel.com>> wrote:
->
->     +do_compile_append() {
->     +    ${PYTHON} setup.py -q bdist_egg --dist-dir ./
->     +}
->     +do_install_append() {
->     +    install -m 0644 ${S}/*.egg ${D}/${PYTHON_SITEPACKAGES_DIR}/
->     +}
->
->
-> Is this actually required?  The setuptools class should be doing all 
-> the magic, and this appears to be building and installing an egg, 
-> which we generally try not to do.
->
-> Ross
+On Thu, Jul 7, 2016 at 1:25 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> Ok thanks. Let me know if you get to see the same issue on say qemuarm or
+> qemuarm64
 
-As far as I remember, if the package uses the setuptools class this 
-should be handled automatically.
+I built core-image-sato/qemux86-64 vmdk with chromium added
+
+CORE_IMAGE_EXTRA_INSTALL_append = " chromium "
+
+launched this image in VM and chromium starts normally.
+
+I am using github.com/kraj/openembedded-core kraj/master branch and
+github.com/kraj/meta-raspberrypi kraj/master
+everything else is upstream master and gcc is 5.x
+
+here is my build info
+
+Build Configuration:
+BB_VERSION        = "1.31.0"
+BUILD_SYS         = "x86_64-linux"
+NATIVELSBSTRING   = "universal"
+TARGET_SYS        = "x86_64-oe-linux"
+MACHINE           = "qemux86-64"
+DISTRO            = "nodistro"
+DISTRO_VERSION    = "nodistro.0"
+TUNE_FEATURES     = "m64 core2"
+TARGET_FPU        = ""
+meta-raspberrypi  = "kraj/master:b9ba221e520f39bc3e273f709b5ceea02897d525"
+meta-qcom         = "master:0eaea003cac6c3175b0a3682efd6e1f20ecc9dab"
+meta-96boards     = "master:6b2744bf3e82154a9329ab89cf03eec9d1f80837"
+oe-meta-go        = "master:dc19a245ae5224d1c9859119a9c53b6331812400"
+meta-browser      = "master:77736988073a5d90fcff9d0005c8477332ede387"
+meta-metrological = "kraj/master:356f0c33298eb63af415f333fe06121d056261e1"
+meta-multimedia
+meta-gnome
+meta-oe           = "master:f11f8664de82e4f8c23b075542f4c98c16ce1f5e"
+meta              = "kraj/master:96ed9e94082589a62a6c602e5f774c11de3328c6"
+
+
+
 >
 >
+> On Jul 7, 2016 1:04 PM, "Trevor Woerner" <twoerner@gmail.com> wrote:
+>>
+>> On Thu 2016-07-07 @ 09:27:30 AM, Khem Raj wrote:
+>> > Is it specific to x86-64
+>>
+>> Up to this point I've only been focused on x86-64, but now that I have
+>> things
+>> cleared up on that arch, I'll be working on aarch64 to see how that goes.
+>>
+>> My "solution" for the time-being is to simply pull in the glibc_2.23
+>> recipes
+>> into my build and set GLIBCVERSION to match. At some point I'll be trying
+>> to
+>> bisect the glibc commits themselves to see if I can find anything
+>> conclusive
+>> (but, as always, that'll take some time).
 
-
---------------2F1707DDD6BB58894F1FE7FA
-Content-Type: text/html; charset=windows-1252
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=windows-1252"
-      http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    On 07/08/2016 03:17 PM, Burton, Ross wrote:<br>
-    <blockquote
-cite="mid:CAJTo0LZ67c7MXQrsBYzK6c+dQ3DGq0Xp5To+pz64qo=Cu8qeKQ@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 7 July 2016 at 16:39, Jussi
-            Kukkonen <span dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:jussi.kukkonen@intel.com" target="_blank">jussi.kukkonen@intel.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div id=":4hm" class="a3s aXjCH m155c60503c651065">+do_compile_append()
-                {<br>
-                +    ${PYTHON} setup.py -q bdist_egg --dist-dir ./<br>
-                +}<br>
-                +do_install_append() {<br>
-                +    install -m 0644 ${S}/*.egg
-                ${D}/${PYTHON_SITEPACKAGES_DIR}/<br>
-                +}</div>
-            </blockquote>
-          </div>
-          <br>
-          Is this actually required?  The setuptools class should be
-          doing all the magic, and this appears to be building and
-          installing an egg, which we generally try not to do.</div>
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Ross</div>
-      </div>
-    </blockquote>
-    <br>
-    As far as I remember, if the package uses the setuptools class this
-    should be handled automatically.<br>
-    <blockquote
-cite="mid:CAJTo0LZ67c7MXQrsBYzK6c+dQ3DGq0Xp5To+pz64qo=Cu8qeKQ@mail.gmail.com"
-      type="cite">
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <br>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------2F1707DDD6BB58894F1FE7FA--
