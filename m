@@ -1,50 +1,47 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
-	[209.85.220.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 70DCF60119
+Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
+	[209.85.220.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 2981660119
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jul 2016 20:55:47 +0000 (UTC)
-Received: by mail-qk0-f194.google.com with SMTP id 82so11811125qko.1
+	Fri,  8 Jul 2016 20:58:48 +0000 (UTC)
+Received: by mail-qk0-f195.google.com with SMTP id 82so11814956qko.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jul 2016 13:55:48 -0700 (PDT)
+	Fri, 08 Jul 2016 13:58:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Hn7bEAC26WQ2DDIP9U8n0FsflxX4pcsCeI7Qevok4mk=;
-	b=RH+RzYn80vwmzU6MUQgiiOSfGl3c4YdDIU4TjgXRLcIsBuuRVqCAEKSkVeh9cHx27M
-	X2ztLkNr2sOXkAZtGY7N7SB2b1d/U8qZpFPWSMldWcSVR8C8+6ePENJTVzeSyAdtjF9t
-	2zVYv5qrO2mDJctqn7ybQRt/0nt2nZ8wkIgvAD8p327QQd+gRvdR0y0hdfQfWBXAz45E
-	qaPfZ7ntN3eEQY+xfW6jHv68pp+4h/5it+IvtdolLSLClxkUS+JDS0wKbA6ghQeiR55V
-	4wCSh4zVvD8cPbuA/IcsgXDRLmooxa7K6JVPaXRwlEXXUfMPcq/VhwbX8EC6eHhYSU+/
-	PrNQ==
+	:cc; bh=Sjj4TFUF8C88lDHXmD11jCCjuNMGybnkguzWdUL07gk=;
+	b=NTgBkDvMsa9r7J9HLJfbr2UXcMBwDM1LGfFluWLk/6T2vwnItlLOIE8KV49y1tto24
+	Gnyd43/MGvaxmTfPpTfzfgoQjtz5ATsJBvPlPHmWWPudDTcMnHFKnjxm5/DcDXledG20
+	3Kf8hygVHBKo5VqiRudU5f2aJYJijwwctyRqBfFcwG+qgBgxn7vlr9rEt7LZt8JxbkZn
+	cCc+U3XQPrv3y58PioINjgmuQ6a/O/RfleXK5Qgbxr1bkEH7IZJnF6ao6mt+NfZ3mvrb
+	Kj3yhm3Adsc/UYhGiBBNCLZW8Yi6Eiwr1VyOrTnOuRh1mbnJKiPhCKRkoRdnj2iT5Vzt
+	ZKXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=Hn7bEAC26WQ2DDIP9U8n0FsflxX4pcsCeI7Qevok4mk=;
-	b=CcsUsg/W8C1GCghqBD0/oJsgKZQ9YrenXgjXCjZGOtn4nQIPreDyYuwWNykm21Jbzx
-	myIJlzckQIVZbe+ZffgBSIH+4XdA3pogk4ESGyiLHilFopo/wyF85RXw8fntbb4x9PjC
-	cAZV5GagF/hBbjfkbq3lg6ys+TiNl53lUcQqhaD5wQkWTzGTpaMMG1sGYuewJaY87ma6
-	n/hmkUDL8rXBuinQ0oEUlQH3zy+iqzpX1/qH/w8HGloxeoLy5xLPM/JnLGIGoyG+kBIb
-	tLopqAxTfRgL89GGNHIAPQFyGfCJv/5ASslwJh7COuA2tAa/TvtPutFddxVMFR1ej3O2
-	gsJw==
-X-Gm-Message-State: ALyK8tJg5TTXXODWyYfsRPB+EFavz6+hIPyxH1MpZGtsYyLcaUJLrQlCHNVIkz5AW9neOYvcE27ZUdk2SlxKOA==
-X-Received: by 10.55.178.195 with SMTP id b186mr9447668qkf.81.1468011347514;
-	Fri, 08 Jul 2016 13:55:47 -0700 (PDT)
+	bh=Sjj4TFUF8C88lDHXmD11jCCjuNMGybnkguzWdUL07gk=;
+	b=kypWoCZWTDg2CuN0lJE+nQk2JukUwKjEdaLg4gI/QeArDAeBKHtPsNRZjUvaYE3Hnt
+	ia9epuBVc21xJJGFVdd6/biNUEkEfeLjZ87Pbg4YCla3SeXSw3xfCJPe+IPL36slVBnB
+	KXsr7zODDnIzXRi08ORQQ11EPCFONUmaw80A68+wtJCil3oZ3+1hhK+zjR9GISq+8lfx
+	Y+x1NSdceS+52Xrnb4CkWUI0Pe5iWeP+sq6BKstsh/Vkyk6DpHENV7q5VbOjyil//CAs
+	Sw1DeIKcc6I8hm+g8QL5XN4NoYyuIHdYpvh2yCj3hzdd/TYIkXJoLq/wvdFSgn46u5qj
+	Rnjw==
+X-Gm-Message-State: ALyK8tLI6gHRAjdttK8uhj84GzZUkhL4L9aABgrDbSQTbvbUWAFjYoxARZOL9pD8Ymtyen4LVoGsWOx33m7dMg==
+X-Received: by 10.55.97.80 with SMTP id v77mr10451214qkb.41.1468011529049;
+	Fri, 08 Jul 2016 13:58:49 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.55.214.83 with HTTP; Fri, 8 Jul 2016 13:55:18 -0700 (PDT)
-In-Reply-To: <CAMKF1soSd7zJt4PXa0oDzycHK5G6+r1xeh2AvCw3srgFZ-mSCA@mail.gmail.com>
-References: <20160702081927.7365-1-raj.khem@gmail.com>
-	<20160707053905.GA28068@openSUSE-i7.site>
-	<CAMKF1spS0OSZ=aWRP+ZJPkcBPn=SfMrgP=uA9SvR8CmNiXm4PQ@mail.gmail.com>
-	<20160707200510.GA4311@openSUSE-i7.site>
-	<CAMKF1soSd7zJt4PXa0oDzycHK5G6+r1xeh2AvCw3srgFZ-mSCA@mail.gmail.com>
+Received: by 10.55.214.83 with HTTP; Fri, 8 Jul 2016 13:58:19 -0700 (PDT)
+In-Reply-To: <1467999870-190725-2-git-send-email-jianxun.zhang@linux.intel.com>
+References: <1467999870-190725-1-git-send-email-jianxun.zhang@linux.intel.com>
+	<1467999870-190725-2-git-send-email-jianxun.zhang@linux.intel.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 8 Jul 2016 13:55:18 -0700
-Message-ID: <CAMKF1srYvEAAeMu8aGhB2OVaG9h+MpweZ-YPdWhME99V-0JMTw@mail.gmail.com>
-To: Trevor Woerner <twoerner@gmail.com>
+Date: Fri, 8 Jul 2016 13:58:19 -0700
+Message-ID: <CAMKF1spYwDi0fp6Y3ROiNgciyLUSu1O+z3Vm4QSYd0LJs4Fwjg@mail.gmail.com>
+To: Jianxun Zhang <jianxun.zhang@linux.intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] glibc: Upgrade to latest tip of master
+Subject: Re: [PATCH 2/2] wic: clone gummiboot wks for systemd-boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,66 +54,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jul 2016 20:55:47 -0000
+X-List-Received-Date: Fri, 08 Jul 2016 20:58:52 -0000
 Content-Type: text/plain; charset=UTF-8
 
-Trevor
+On Fri, Jul 8, 2016 at 10:44 AM, Jianxun Zhang
+<jianxun.zhang@linux.intel.com> wrote:
+> This wks is just a copy of gummiboot wks with bootloader
+> changed to systemd-boot. A very basic boot test on a X86
+> target is done with a direct-boot image generated by:
+>
+> wic create mksystemd-bootdisk -e core-image-minimal
 
-On Thu, Jul 7, 2016 at 1:25 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> Ok thanks. Let me know if you get to see the same issue on say qemuarm or
-> qemuarm64
-
-I built core-image-sato/qemux86-64 vmdk with chromium added
-
-CORE_IMAGE_EXTRA_INSTALL_append = " chromium "
-
-launched this image in VM and chromium starts normally.
-
-I am using github.com/kraj/openembedded-core kraj/master branch and
-github.com/kraj/meta-raspberrypi kraj/master
-everything else is upstream master and gcc is 5.x
-
-here is my build info
-
-Build Configuration:
-BB_VERSION        = "1.31.0"
-BUILD_SYS         = "x86_64-linux"
-NATIVELSBSTRING   = "universal"
-TARGET_SYS        = "x86_64-oe-linux"
-MACHINE           = "qemux86-64"
-DISTRO            = "nodistro"
-DISTRO_VERSION    = "nodistro.0"
-TUNE_FEATURES     = "m64 core2"
-TARGET_FPU        = ""
-meta-raspberrypi  = "kraj/master:b9ba221e520f39bc3e273f709b5ceea02897d525"
-meta-qcom         = "master:0eaea003cac6c3175b0a3682efd6e1f20ecc9dab"
-meta-96boards     = "master:6b2744bf3e82154a9329ab89cf03eec9d1f80837"
-oe-meta-go        = "master:dc19a245ae5224d1c9859119a9c53b6331812400"
-meta-browser      = "master:77736988073a5d90fcff9d0005c8477332ede387"
-meta-metrological = "kraj/master:356f0c33298eb63af415f333fe06121d056261e1"
-meta-multimedia
-meta-gnome
-meta-oe           = "master:f11f8664de82e4f8c23b075542f4c98c16ce1f5e"
-meta              = "kraj/master:96ed9e94082589a62a6c602e5f774c11de3328c6"
-
-
+prefixing wks file with mk is that a nomenclature. if no then lets avoid it
 
 >
+> Because we plan to replace gummiboot with systemd-boot at any
+> time in the future, we summarize history (as much as I can) of
+> the current gummiboot wks before it's gone:
 >
-> On Jul 7, 2016 1:04 PM, "Trevor Woerner" <twoerner@gmail.com> wrote:
->>
->> On Thu 2016-07-07 @ 09:27:30 AM, Khem Raj wrote:
->> > Is it specific to x86-64
->>
->> Up to this point I've only been focused on x86-64, but now that I have
->> things
->> cleared up on that arch, I'll be working on aarch64 to see how that goes.
->>
->> My "solution" for the time-being is to simply pull in the glibc_2.23
->> recipes
->> into my build and set GLIBCVERSION to match. At some point I'll be trying
->> to
->> bisect the glibc commits themselves to see if I can find anything
->> conclusive
->> (but, as always, that'll take some time).
+> -----------------------------------------------------------------
+> commit 7d4bb40905fab38fb3db1d0e17afbc803622f00c
+> Author: Ed Bartosh <ed.bartosh@linux.intel.com>
+> Date:   Wed Sep 2 13:58:02 2015 +0300
+>
+>     wic: get rid of scripts/lib/image
+>
+>     Moved content of scripts/lib/image/ to scripts/lib/wic as
+>     one directory with the same name as a tool is self-explanatory
+>     and less confusing than two.
+>
+>     (From OE-Core rev: 5dc02d572794298b3362378cea3d7da654456c44)
+>
+>     Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+>     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>
+> commit 77561e719181d58289687373eebadce764f838a7
+> Author: Ed Bartosh <ed.bartosh@linux.intel.com>
+> Date:   Wed Sep 2 13:58:01 2015 +0300
+>
+>     wic: use ext4 in canned .wks files
+>
+>     Latest kernel doesn't have ext3 compiled in. Wic images produced
+>     from canned .wks can't boot because of that. Switching to ext4
+>     fixes this issue.
+>
+>     (From OE-Core rev: d281a65a81f369fc8d75023b8f911ce4106969c1)
+>
+>     Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+>     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>
+> commit 072657ce98414afdd6f68941847e21fc5ce496c7
+> Author: Tom Zanussi <tom.zanussi@linux.intel.com>
+> Date:   Mon Aug 11 20:35:41 2014 -0500
+>
+>     wic: Add mkgummidisk kickstart file
+>
+>     This is the same as mkefidisk but uses gummiboot instead of grub-efi.
+>
+>     (From OE-Core rev: 5979409ebfab0bb07b3c2b2fcf14a722c441f07b)
+>
+>     Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
+>     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> -----------------------------------------------------------------
+>
+> Signed-off-by: Jianxun Zhang <jianxun.zhang@linux.intel.com>
+> ---
+>  scripts/lib/wic/canned-wks/mksystemd-bootdisk.wks | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+>  create mode 100644 scripts/lib/wic/canned-wks/mksystemd-bootdisk.wks
+>
+> diff --git a/scripts/lib/wic/canned-wks/mksystemd-bootdisk.wks b/scripts/lib/wic/canned-wks/mksystemd-bootdisk.wks
+> new file mode 100644
+> index 0000000..df706e8
+> --- /dev/null
+> +++ b/scripts/lib/wic/canned-wks/mksystemd-bootdisk.wks
+> @@ -0,0 +1,11 @@
+> +# short-description: Create an EFI disk image
+> +# long-description: Creates a partitioned EFI disk image that the user
+> +# can directly dd to boot media.
+> +
+> +part /boot --source bootimg-efi --sourceparams="loader=systemd-boot" --ondisk sda --label msdos --active --align 1024
+> +
+> +part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024
+> +
+> +part swap --ondisk sda --size 44 --label swap1 --fstype=swap
+> +
+> +bootloader  --timeout=10  --append="rootwait rootfstype=ext4 console=ttyPCH0,115200 console=tty0 vmalloc=256MB snd-hda-intel.enable_msi=0"
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
