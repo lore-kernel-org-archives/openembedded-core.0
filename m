@@ -1,45 +1,47 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f67.google.com (mail-pa0-f67.google.com
-	[209.85.220.67])
-	by mail.openembedded.org (Postfix) with ESMTP id E6B2760119
+Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
+	[209.85.220.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D34D60119
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jul 2016 23:03:49 +0000 (UTC)
-Received: by mail-pa0-f67.google.com with SMTP id ts6so8955147pac.0
+	Fri,  8 Jul 2016 23:08:28 +0000 (UTC)
+Received: by mail-qk0-f196.google.com with SMTP id r68so11954253qka.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jul 2016 16:03:50 -0700 (PDT)
+	Fri, 08 Jul 2016 16:08:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=SYc6a+Tk46CEgY67QD1gmlkWppo2VqZWlyz5RNnRddA=;
-	b=FkkWTAf6S4udGepBOFhIIdPul8auP0IsU7op3/lMw9fXoWhLJVPAhYfe0vCnyWgd/t
-	659JZc7hctL2ZTiKMeIdT14vyS9XEdzvt/JrYRZll0GZpDpGqXmTpc+1meZY977xWb14
-	JPytedp1xqmYo9/qzqimU1ZbBP/bzx64cVGTYSwLkNfYdojoFE7q1tUCWS+fFqt8HWuS
-	m7YoKOXm/vZicdTRSb8JW5qWg0JJmPsrH4N0PIHwkEoJv7NqSru1mC3JBcJ4qvDJWNda
-	JV5vmzeqsONnha6aD4u4q1ZZOCuB+MF6IHWs9ZTdP4KKlM++B8z5RRJhdAYInk3wrDQ/
-	jOfQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=y744G0YJ3XR3FZ3MfpZDQKtvJWR/gchhQSDRg1kZtPY=;
+	b=mmCWtVbAUuUWfmOeERLApMW7NKECW9R8XgtUo7hpaVD9V+74Sm+q35nu2SJ5GcO9si
+	+IfAmjST2++U9v4IDmgw3Q1SrKsfKMMcirwTk35hUkCUCH0YkEzLgYI8XCifiTUSqf1P
+	b/b1yU35SzKWIm8pfu3wdjClWLkDNOZYIAj+7020dQA7XcenzEJWIPLHI//a3mb3a8lx
+	SqHsbuMYqeNm53ZGwvp6Oti3+dcP4sB4E7o/zMfas0K1xsKtLLE6MvuGQlLdKbp+MDba
+	qM75kaEK29ZYtWiE73OhWSZeBPFektFGddaG6XP/JMUj11wDgvIqpowzpyVlyOyg6nw2
+	V1tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=SYc6a+Tk46CEgY67QD1gmlkWppo2VqZWlyz5RNnRddA=;
-	b=OCZtWs5np4o4sToVOVWAPVlU7JcTUDpsVKpftu3Dp2T64eBP/nlwugFJ6koPeZrdVR
-	AmLy0vCuZRO45clu23p+Za3e01yhO99nXYE7LqSuXz9A9Wer68ujLmbZ2Wl4NESXA6/J
-	zBTWCI9CuxDYqMs6s67O77fWZ6YweC3EYFShs2AnOJZff2EvhYh9syKrBgiN1jpiwqMe
-	kA1qg5hocPbVqaQ0nRKK1pSuFkS6vptS/AJU+iAmkAhJnjn7QC+L2YsHJmYTX0JOStaE
-	ZMT5SnwoTyKVe0JZBGszahnlu+nDDJSoPZY82/9fEJv62OsGDglDzT4d+h2RrF7f7N/z
-	gN4w==
-X-Gm-Message-State: ALyK8tI/di0mGWfkip+vxOB+Znxdqc9gEBIgVmfGBzuXYPhr8PGsSTBpkFJqjKQ61aTBAw==
-X-Received: by 10.66.52.106 with SMTP id s10mr13734061pao.65.1468019030100;
-	Fri, 08 Jul 2016 16:03:50 -0700 (PDT)
-Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
-	[76.102.32.192])
-	by smtp.gmail.com with ESMTPSA id ff9sm2813373pac.5.2016.07.08.16.03.48
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 08 Jul 2016 16:03:48 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=y744G0YJ3XR3FZ3MfpZDQKtvJWR/gchhQSDRg1kZtPY=;
+	b=JawjAO075yznTLVPzziOlrx7Yfo6sI9hZUDyTcKyYZHaO1h02tBYF7qP4+oGyY9mH1
+	NomEYYzKq8u237pzGcSjEM8SbLAESIyPcTu5SHhY0XBH0XKBjFbAg+6Qjl1oAUlUAA6Z
+	/QueHwM06jcgy5S3w/LbT+391ihweuGBMXHMCnbpEEfjGUlYXZRRLjqEbkMqPJRG7Wly
+	iI5TRQVgYS3fM0p5f9U+eegTam2bEF0vhWMEaMSPb4oJsFfOo4LtIs2yq2AgifXvcnhu
+	4pOizjL7PrtQb7DFuWUrg05cVkFlrxDMMiDz7b/Nr3M5uEKGHJQg6HlRpC13D3zO49Ii
+	8fGg==
+X-Gm-Message-State: ALyK8tJ/oBGsKz2eqNS3GGeyL0BA2AVHpud9nxiJriewYzgTyax1pOuAn2YP0Ld/z4dPLgfv/M1UIcYOdIiP1Q==
+X-Received: by 10.55.178.195 with SMTP id b186mr10054539qkf.81.1468019309402; 
+	Fri, 08 Jul 2016 16:08:29 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.55.214.83 with HTTP; Fri, 8 Jul 2016 16:08:00 -0700 (PDT)
+In-Reply-To: <1468018113-32659-1-git-send-email-akuster808@gmail.com>
+References: <1468018113-32659-1-git-send-email-akuster808@gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Jul 2016 16:03:43 -0700
-Message-Id: <20160708230343.7747-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.9.0
-Subject: [PATCH] python{3}-numpy: Predefine of sizeof off_t on mips/mipsel/ppc
+Date: Fri, 8 Jul 2016 16:08:00 -0700
+Message-ID: <CAMKF1sro1hRSYMG8O4bEck78EyJbpWunmOWZG_43a2je3nPXQQ@mail.gmail.com>
+To: Armin Kuster <akuster808@gmail.com>
+Cc: Armin Kuster <akuster@mvisa.com>, Armin Kuster <akuster@mvista.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [master][PATCH] glibc: CVE-2016-4429
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,68 +54,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jul 2016 23:03:52 -0000
+X-List-Received-Date: Fri, 08 Jul 2016 23:08:29 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Fixes below errors as seen on musl
+On Fri, Jul 8, 2016 at 3:48 PM, Armin Kuster <akuster808@gmail.com> wrote:
+> From: Armin Kuster <akuster@mvista.com>
+>
+> Signed-off-by: Armin Kuster <akuster@mvisa.com>
+> ---
+>  meta/recipes-core/glibc/glibc/CVE-2016-4429.patch | 86 +++++++++++++++++++++++
+>  meta/recipes-core/glibc/glibc_2.24.bb             |  1 +
+>  2 files changed, 87 insertions(+)
+>  create mode 100644 meta/recipes-core/glibc/glibc/CVE-2016-4429.patch
+>
+> diff --git a/meta/recipes-core/glibc/glibc/CVE-2016-4429.patch b/meta/recipes-core/glibc/glibc/CVE-2016-4429.patch
+> new file mode 100644
+> index 0000000..074c60d
+> --- /dev/null
+> +++ b/meta/recipes-core/glibc/glibc/CVE-2016-4429.patch
+> @@ -0,0 +1,86 @@
+> +From bc779a1a5b3035133024b21e2f339fe4219fb11c Mon Sep 17 00:00:00 2001
+> +From: Florian Weimer <fweimer@redhat.com>
+> +Date: Mon, 23 May 2016 20:18:34 +0200
+> +Subject: [PATCH] CVE-2016-4429: sunrpc: Do not use alloca in clntudp_call [BZ
+> + #20112]
+> +
+> +The call is technically in a loop, and under certain circumstances
+> +(which are quite difficult to reproduce in a test case), alloca
+> +can be invoked repeatedly during a single call to clntudp_call.
+> +As a result, the available stack space can be exhausted (even
+> +though individual alloca sizes are bounded implicitly by what
+> +can fit into a UDP packet, as a side effect of the earlier
+> +successful send operation).
 
-| In file included from numpy/core/include/numpy/ndarraytypes.h:4:0,
-|                  from numpy/core/include/numpy/ndarrayobject.h:18,
-|                  from numpy/core/include/numpy/arrayobject.h:4,
-|                  from numpy/core/src/multiarray/compiled_base.c:7:
-| numpy/core/include/numpy/npy_common.h:167:10: error: #error Unsupported size for type off_t
-|          #error Unsupported size for type off_t
-|           ^~~~~
-| In file included from numpy/core/include/numpy/ndarraytypes.h:4:0,
-|                  from numpy/core/include/numpy/ndarrayobject.h:18,
-|                  from numpy/core/include/numpy/arrayobject.h:4,
-|                  from numpy/core/src/multiarray/compiled_base.c:7:
-| numpy/core/include/numpy/npy_common.h:167:10: error: #error Unsupported size for type off_t
-|          #error Unsupported size for type off_t
-|           ^~~~~
+this should be covered with latest pull I have sent especially this patch
+https://patchwork.openembedded.org/patch/126637/
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/python-numpy/files/mips/_numpyconfig.h    | 1 +
- meta/recipes-devtools/python-numpy/files/mipsel/numpyconfig.h   | 1 +
- meta/recipes-devtools/python-numpy/files/powerpc/_numpyconfig.h | 1 +
- 3 files changed, 3 insertions(+)
+would be nice if you could test this one out.
 
-diff --git a/meta/recipes-devtools/python-numpy/files/mips/_numpyconfig.h b/meta/recipes-devtools/python-numpy/files/mips/_numpyconfig.h
-index 05d2b8b..4c465c2 100644
---- a/meta/recipes-devtools/python-numpy/files/mips/_numpyconfig.h
-+++ b/meta/recipes-devtools/python-numpy/files/mips/_numpyconfig.h
-@@ -12,6 +12,7 @@
- #define NPY_SIZEOF_PY_INTPTR_T 4
- #define NPY_SIZEOF_PY_LONG_LONG 8
- #define NPY_SIZEOF_LONGLONG 8
-+#define NPY_SIZEOF_OFF_T 8
- #define NPY_NO_SMP 0
- #define NPY_HAVE_DECL_ISNAN
- #define NPY_HAVE_DECL_ISINF
-diff --git a/meta/recipes-devtools/python-numpy/files/mipsel/numpyconfig.h b/meta/recipes-devtools/python-numpy/files/mipsel/numpyconfig.h
-index c4bf654..0b7cd51 100644
---- a/meta/recipes-devtools/python-numpy/files/mipsel/numpyconfig.h
-+++ b/meta/recipes-devtools/python-numpy/files/mipsel/numpyconfig.h
-@@ -13,5 +13,6 @@
- 
- #define NPY_SIZEOF_LONGLONG 8 
- #define NPY_SIZEOF_PY_LONG_LONG 8 
-+#define NPY_SIZEOF_OFF_T 8
- /* #define CHAR_BIT 8 */
- 
-diff --git a/meta/recipes-devtools/python-numpy/files/powerpc/_numpyconfig.h b/meta/recipes-devtools/python-numpy/files/powerpc/_numpyconfig.h
-index 0f45d5b..6e7262a 100644
---- a/meta/recipes-devtools/python-numpy/files/powerpc/_numpyconfig.h
-+++ b/meta/recipes-devtools/python-numpy/files/powerpc/_numpyconfig.h
-@@ -12,6 +12,7 @@
- #define NPY_SIZEOF_PY_INTPTR_T 4
- #define NPY_SIZEOF_PY_LONG_LONG 8
- #define NPY_SIZEOF_LONGLONG 8
-+#define NPY_SIZEOF_OFF_T 8
- #define NPY_NO_SMP 0
- #define NPY_HAVE_DECL_ISNAN
- #define NPY_HAVE_DECL_ISINF
--- 
-2.9.0
-
+> +---
+> + ChangeLog         |  7 +++++++
+> + NEWS              |  4 ++++
+> + sunrpc/clnt_udp.c | 10 +++++++++-
+> + 3 files changed, 20 insertions(+), 1 deletion(-)
+> +
+> +Upstream-Status: Backport
+> +CVE: CVE-2016-4429
+> +Signed-of-by: Armin Kuster <akuster@mvista.com>
+> +
+> +Index: git/ChangeLog
+> +===================================================================
+> +--- git.orig/ChangeLog
+> ++++ git/ChangeLog
+> +@@ -1,3 +1,9 @@
+> ++2016-05-23  Florian Weimer  <fweimer@redhat.com>
+> ++       CVE-2016-4429
+> ++       [BZ #20112]
+> ++       * sunrpc/clnt_udp.c (clntudp_call): Use malloc/free for the error
+> ++       payload.
+> ++
+> + 2016-05-11  Florian Weimer  <fweimer@redhat.com>
+> +
+> +       Do not use mcheck in localedef.
+> +Index: git/NEWS
+> +===================================================================
+> +--- git.orig/NEWS
+> ++++ git/NEWS
+> +@@ -48,6 +48,10 @@ Security related changes:
+> +   called with the GLOB_ALTDIRFUNC flag and encountered a long file name.
+> +   Reported by Alexander Cherepanov.  (CVE-2016-1234)
+> +
+> ++* The Sun RPC UDP client could exhaust all available stack space when
+> ++  flooded with crafted ICMP and UDP messages.  Reported by Aldy Hernandez'
+> ++  alloca plugin for GCC.  (CVE-2016-4429)
+> ++
+> + The following bugs are resolved with this release:
+> +
+> +   [The release manager will add the list generated by
+> +Index: git/sunrpc/clnt_udp.c
+> +===================================================================
+> +--- git.orig/sunrpc/clnt_udp.c
+> ++++ git/sunrpc/clnt_udp.c
+> +@@ -388,9 +388,15 @@ send_again:
+> +         struct sock_extended_err *e;
+> +         struct sockaddr_in err_addr;
+> +         struct iovec iov;
+> +-        char *cbuf = (char *) alloca (outlen + 256);
+> ++        char *cbuf = malloc (outlen + 256);
+> +         int ret;
+> +
+> ++        if (cbuf == NULL)
+> ++          {
+> ++            cu->cu_error.re_errno = errno;
+> ++            return (cu->cu_error.re_status = RPC_CANTRECV);
+> ++          }
+> ++
+> +         iov.iov_base = cbuf + 256;
+> +         iov.iov_len = outlen;
+> +         msg.msg_name = (void *) &err_addr;
+> +@@ -415,10 +421,12 @@ send_again:
+> +                cmsg = CMSG_NXTHDR (&msg, cmsg))
+> +             if (cmsg->cmsg_level == SOL_IP && cmsg->cmsg_type == IP_RECVERR)
+> +               {
+> ++                free (cbuf);
+> +                 e = (struct sock_extended_err *) CMSG_DATA(cmsg);
+> +                 cu->cu_error.re_errno = e->ee_errno;
+> +                 return (cu->cu_error.re_status = RPC_CANTRECV);
+> +               }
+> ++        free (cbuf);
+> +       }
+> + #endif
+> +       do
+> diff --git a/meta/recipes-core/glibc/glibc_2.24.bb b/meta/recipes-core/glibc/glibc_2.24.bb
+> index 77630e3..c2a31e0 100644
+> --- a/meta/recipes-core/glibc/glibc_2.24.bb
+> +++ b/meta/recipes-core/glibc/glibc_2.24.bb
+> @@ -37,6 +37,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+>             file://0023-eglibc-Install-PIC-archives.patch \
+>             file://0024-eglibc-Forward-port-cross-locale-generation-support.patch \
+>             file://0025-Define-DUMMY_LOCALE_T-if-not-defined.patch \
+> +           file://CVE-2016-4429.patch \
+>  "
+>
+>  SRC_URI += "\
+> --
+> 2.3.5
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
