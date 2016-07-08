@@ -1,20 +1,47 @@
-Return-Path: <jianxun.zhang@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id AEED0605BA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
+	[209.85.223.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 9289060119
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jul 2016 17:42:30 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 08 Jul 2016 10:42:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,331,1464678000"; d="scan'208";a="1013300675"
-Received: from chang-s2600cp.jf.intel.com ([10.54.77.22])
-	by orsmga002.jf.intel.com with ESMTP; 08 Jul 2016 10:42:25 -0700
-From: Jianxun Zhang <jianxun.zhang@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Jul 2016 10:44:29 -0700
-Message-Id: <1467999870-190725-1-git-send-email-jianxun.zhang@linux.intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 1/2] wic: add systemd-boot option in EFI boot image plugin
+	Fri,  8 Jul 2016 20:17:20 +0000 (UTC)
+Received: by mail-io0-f177.google.com with SMTP id t74so53152071ioi.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 08 Jul 2016 13:17:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=lDufEjefzBoSI4zK/IvoKz002vlX47gxpp+mGBDNL3c=;
+	b=n/rJNi7H6SenXj1c3cSW2S3LtYjXNv1lWlgWFtpNQGJTjbgXjtPLYJBS1kxBnuNtT8
+	n25yG7mcPqAQqaQzrWVHH3Zia1rro28ZqTsztLfu6RUoVbOb1L+fyIfDLZPXbR36+Enm
+	Ljm1mrOrEJX86isuSEtykJv0B0JD267TnEnk8vf7b8Xo/Y9YS8AGxz54mcNyhOrQInhQ
+	jx7p2iqJm4bAZwFuLM+hYNsfINMfRqAb03BkkpJi/9G4Cn96eChmPqk8Ny409UjDr2mu
+	itny1+72VF0yIs10nr0faa++eht0ShjGVPdnZcA74BVRmUx0/OWGeYTu7G9dLoBqFU+1
+	xgtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=lDufEjefzBoSI4zK/IvoKz002vlX47gxpp+mGBDNL3c=;
+	b=CHP/kyhuGoZ7WYg7kRZUVDRFcWeN39X4NRAFau6zervRJ/DCZI4gZJ6ZDtyu9jt/Im
+	sOALnATORo7/+yOl5xAoCx0cPbHBbD0Sxpu6PotXrzaPg6maSLdgrqVEWPaIquWuNGrE
+	sLnagVGSpYVUWCLPqivcNs//1zjq/WBApFqecYja1X/NyQBQIvMHOsOXW33dUngcJp1a
+	v4+HVFrN4Uwkpjbdb4CSNZMLCcbN3C0E1KdiDyPakIrPimyKzxUk9lAoFCkRI1EWHSn7
+	iWZahVhypQIg12lp0WnSGOdwxBbFO23JR232SkUrifnWybgegUK7by8Ux8y58Qt//KnU
+	gIsw==
+X-Gm-Message-State: ALyK8tIFBIgUKitJKweR/daJNvWZfXPNHSVV75Y90K9wfAduaFzjPzLyIVOR6BIf/lGVabwCvrJgfTyGA68mQ0bK
+X-Received: by 10.107.135.161 with SMTP id r33mr9561359ioi.133.1468009041756; 
+	Fri, 08 Jul 2016 13:17:21 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.142.151 with HTTP; Fri, 8 Jul 2016 13:17:02 -0700 (PDT)
+In-Reply-To: <b0ba31b71ad1e9d540ab007713fe034a3bc1f7d1.1467905611.git.jussi.kukkonen@intel.com>
+References: <cover.1467905611.git.jussi.kukkonen@intel.com>
+	<b0ba31b71ad1e9d540ab007713fe034a3bc1f7d1.1467905611.git.jussi.kukkonen@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 8 Jul 2016 21:17:02 +0100
+Message-ID: <CAJTo0LZ67c7MXQrsBYzK6c+dQ3DGq0Xp5To+pz64qo=Cu8qeKQ@mail.gmail.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/5] python-six: Add to oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,60 +54,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jul 2016 17:42:31 -0000
+X-List-Received-Date: Fri, 08 Jul 2016 20:17:22 -0000
+Content-Type: multipart/alternative; boundary=001a113ecf5c761b350537257d4a
 
-The new systemd-boot enabled in OE is the old gummiboot
-merged into systemd project. Our intention is to replace
-gummiboot with systemd-boot in OE once every feature based
-on gummiboot is supported with systemd-boot.
+--001a113ecf5c761b350537257d4a
+Content-Type: text/plain; charset=UTF-8
 
-Before we can purge gummiboot, we temporarily keep both of
-the two bootloaders supported.
+On 7 July 2016 at 16:39, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
 
-Patch doesn't do replacement for every "gummi" occurrence.
-We think cleaning can be done in background after we disable
-people to use gummiboot, so we just keep change small and
-safe this time.
+> +do_compile_append() {
+> +    ${PYTHON} setup.py -q bdist_egg --dist-dir ./
+> +}
+> +do_install_append() {
+> +    install -m 0644 ${S}/*.egg ${D}/${PYTHON_SITEPACKAGES_DIR}/
+> +}
+>
 
-Signed-off-by: Jianxun Zhang <jianxun.zhang@linux.intel.com>
----
- scripts/lib/wic/plugins/source/bootimg-efi.py | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+Is this actually required?  The setuptools class should be doing all the
+magic, and this appears to be building and installing an egg, which we
+generally try not to do.
 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index 3a16861..8bc3622 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -84,7 +84,7 @@ class BootimgEFIPlugin(SourcePlugin):
-     @classmethod
-     def do_configure_gummiboot(cls, hdddir, creator, cr_workdir):
-         """
--        Create loader-specific (gummiboot) config
-+        Create loader-specific systemd-boot/gummiboot config
-         """
-         install_cmd = "install -d %s/loader" % hdddir
-         exec_cmd(install_cmd)
-@@ -149,7 +149,8 @@ class BootimgEFIPlugin(SourcePlugin):
-         try:
-             if source_params['loader'] == 'grub-efi':
-                 cls.do_configure_grubefi(hdddir, creator, cr_workdir)
--            elif source_params['loader'] == 'gummiboot':
-+            elif source_params['loader'] == 'gummiboot' \
-+                 or source_params['loader'] == 'systemd-boot':
-                 cls.do_configure_gummiboot(hdddir, creator, cr_workdir)
-             else:
-                 msger.error("unrecognized bootimg-efi loader: %s" % source_params['loader'])
-@@ -189,7 +190,8 @@ class BootimgEFIPlugin(SourcePlugin):
-                 exec_cmd(cp_cmd, True)
-                 shutil.move("%s/grub.cfg" % cr_workdir,
-                             "%s/hdd/boot/EFI/BOOT/grub.cfg" % cr_workdir)
--            elif source_params['loader'] == 'gummiboot':
-+            elif source_params['loader'] == 'gummiboot' \
-+                 or source_params['loader'] == 'systemd-boot':
-                 cp_cmd = "cp %s/EFI/BOOT/* %s/EFI/BOOT" % (bootimg_dir, hdddir)
-                 exec_cmd(cp_cmd, True)
-             else:
--- 
-2.7.4
+Ross
 
+--001a113ecf5c761b350537257d4a
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 7 July 2016 at 16:39, Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen@intel.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4hm" cla=
+ss=3D"a3s aXjCH m155c60503c651065">+do_compile_append() {<br>
++=C2=A0 =C2=A0 ${PYTHON} setup.py -q bdist_egg --dist-dir ./<br>
++}<br>
++do_install_append() {<br>
++=C2=A0 =C2=A0 install -m 0644 ${S}/*.egg ${D}/${PYTHON_SITEPACKAGES_DIR}/<=
+br>
++}</div></blockquote></div><br>Is this actually required?=C2=A0 The setupto=
+ols class should be doing all the magic, and this appears to be building an=
+d installing an egg, which we generally try not to do.</div><div class=3D"g=
+mail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a113ecf5c761b350537257d4a--
