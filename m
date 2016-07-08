@@ -1,60 +1,46 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-vk0-f67.google.com (mail-vk0-f67.google.com
-	[209.85.213.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B1C96067C
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
+	[209.85.220.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 7255F60119
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jul 2016 11:16:49 +0000 (UTC)
-Received: by mail-vk0-f67.google.com with SMTP id d67so8139003vkh.0
+	Fri,  8 Jul 2016 13:08:41 +0000 (UTC)
+Received: by mail-qk0-f196.google.com with SMTP id n132so8971920qka.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jul 2016 04:16:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=yIC8MDT0tzgI6NwBxYULEXp43MgB0HBulSf6xdtUtDE=;
-	b=1u2h+pHx9hjsUxqhjab+xuDGLfR37WTJuyyojyXdToCIRbKtHG38LqHExilcHUuOLJ
-	zMOrNZD2mEcHPb3ICEPoBYMwCGF8tJZNYxuk8kouY6tVbB0AuN+XwrutU5f3D8ZYaTFm
-	cupRBCBRCwg5ir2s6UbB5MkVvGOORpPkz4CnU5DJVz0YqlczzCova4Fh75kg/VGaUyVC
-	Do6SUtnSwsDZdcI6nZSEOryt/rVLX0prrrPV0Vj4zZZZG0wWU25BLdo2t0kVHQe5E4Bm
-	OIRLO+XQU3oZSVb8cRtfKJRdZ1jIr1CEz8clnPO7yIKdj14AMYf0HyBrw8+FE3aqycfV
-	1V3g==
+	Fri, 08 Jul 2016 06:08:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=klLSCXsYxCRX7VtLrlWTP2nsQ4hbQ9RVZme08sPQhf0=;
+	b=IJn55XNaPhA8V+KnwB2d6T5SZor4Hl0NrAQ4693f/XWXFQvKqVt8nyf0OO2EbIsTVf
+	OthtY0yluzYlEYsuWMjXBfZ8PMI92uQHpzgeFqDKod/I0/ivL8H+68QCC8UkvkRqtHfO
+	8MUid3ChOLBK7/R7z/P+FakpG28TAITdmpV0BQm4jbKU89aAjSxc2eDFb4uVxjYlRlCj
+	JCJlXPPKQcjGVhF+Xy4QFRz2S8zAw6zFOOJ/RyHIQRyVJEiolJHpIj6mYoI7wuwGAnTR
+	Eb1K3+Dxb6rvKv4V4TcLFmUw7N2N+uEoyF6ptqC41867p5Lj1DdmocG/973khvNKn1Ud
+	Vt6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=yIC8MDT0tzgI6NwBxYULEXp43MgB0HBulSf6xdtUtDE=;
-	b=cKESMO11pka/Keh5NTYFClfX+1pmM4xMBp6KNf2QJ32JZnuu71ro6LeTuAwfFMh3Jv
-	PMUwDZ3bqZCnzCKsGtY23NyqKiMdAsKLLg61PhCG/fKKRaMzk56OKzdknq3QAiXoF8L5
-	XYyZE9kShePAoe6AyT0DiqLmItgi8P2Ji/Dj8V9IoG1uIfu8bntcy7pl0blqKFn7vinz
-	7yxVq2csMHcCyf7wBnSkAruVM845kqXk89iFfs5xYbFnM5YWZpZ1FZujkRiR+OrCdbV6
-	OzdKTyiwsrQBRKA/7SKpq7uAn4rYh0vunu+820qXw4xjsZSU6MR4SUd3i+kEbjeN7m9U
-	kvvQ==
-X-Gm-Message-State: ALyK8tLxq6DE0Vh0M6eCv3kj9fDJDkdQeITAnganW3O8PabSYC4BWG91eXi9PD+wr9awxA==
-X-Received: by 10.31.51.9 with SMTP id z9mr2407977vkz.54.1467976609494;
-	Fri, 08 Jul 2016 04:16:49 -0700 (PDT)
-Received: from mail-vk0-f44.google.com (mail-vk0-f44.google.com.
-	[209.85.213.44]) by smtp.gmail.com with ESMTPSA id
-	w65sm1998205vkw.11.2016.07.08.04.16.48
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 08 Jul 2016 04:16:48 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-vk0-f44.google.com with SMTP id b192so53301914vke.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jul 2016 04:16:48 -0700 (PDT)
-X-Received: by 10.31.161.81 with SMTP id k78mr2374074vke.122.1467976607993;
-	Fri, 08 Jul 2016 04:16:47 -0700 (PDT)
+	bh=klLSCXsYxCRX7VtLrlWTP2nsQ4hbQ9RVZme08sPQhf0=;
+	b=Wr89RSXnT0E/hWq0PwZChqYXAuVzyHByRkEbczxgMyXP+Z5BQgcRaXMVTEINss8zzc
+	aFJjYkCkOFH1NXrGPrLpXaT7gDJ3LEnRuTiFHW5DZbQ/MztkUstTpSOqyURM3Hll439r
+	tycZYXiXiNiBY7T8vMpIspOlGQ+BIJ8ES+QLgFwIpZDW7Nv6rA5XGueX8UNfisI8OQYQ
+	x5zepSy0dEJY9WmKm6O8hWUfdzwXy9If2FYjyDvx2vsXhbdlkiFWwGYdWjA5yosP3HHY
+	joLHVFBOSemMLXRZUX+bkw8m/Q5LVnryEYgn8+zVAKufQ75mff/fdJb3eNuUFloRu5bB
+	4EPg==
+X-Gm-Message-State: ALyK8tKFg162vEE7kv9skT7UnCDqJBnqqRN04erMdUuNpAhFTrsZYDVnz6SVW2zeJGjVbB7GE7Ul5Uu1KHdW3Q==
+X-Received: by 10.194.90.81 with SMTP id bu17mr5244247wjb.43.1467983321710;
+	Fri, 08 Jul 2016 06:08:41 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.31.192.195 with HTTP; Fri, 8 Jul 2016 04:16:47 -0700 (PDT)
-In-Reply-To: <1467933891-16460-1-git-send-email-tom.hochstein@nxp.com>
-References: <1467933891-16460-1-git-send-email-tom.hochstein@nxp.com>
-Date: Fri, 8 Jul 2016 08:16:47 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKqoHfYVPibHPJAb8hBQrkx2_Q3x8XCpB=jTUkwwdf-iBg@mail.gmail.com>
-Message-ID: <CAP9ODKqoHfYVPibHPJAb8hBQrkx2_Q3x8XCpB=jTUkwwdf-iBg@mail.gmail.com>
-To: Tom Hochstein <tom.hochstein@nxp.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] nativesdk-packagegroup-sdk-host: Add wayland-scanner to the SDK native toolchain
+Received: by 10.194.145.39 with HTTP; Fri, 8 Jul 2016 06:08:41 -0700 (PDT)
+In-Reply-To: <1467925713-13460-1-git-send-email-kergoth@gmail.com>
+References: <1467925713-13460-1-git-send-email-kergoth@gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Fri, 8 Jul 2016 06:08:41 -0700
+Message-ID: <CAJ86T=U4xLC9wtd4_+uhkdEaR4J1A8PSZvwyYTCoN7SF92siVg@mail.gmail.com>
+To: Christopher Larson <kergoth@gmail.com>
+Cc: Christopher Larson <chris_larson@mentor.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv3] gcc-cross: default linker hash style to sysv
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,19 +53,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jul 2016 11:16:49 -0000
+X-List-Received-Date: Fri, 08 Jul 2016 13:08:43 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Thu, Jul 7, 2016 at 8:24 PM, Tom Hochstein <tom.hochstein@nxp.com> wrote:
-> The build tool wayland-scanner was missing from the native toolchain
-> of the Yocto Project SDK build.
+On Thu, Jul 7, 2016 at 2:08 PM, Christopher Larson <kergoth@gmail.com> wrote:
+> From: Christopher Larson <chris_larson@mentor.com>
 >
-> Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
+> We explicitly set the hash style to gnu in our LDFLAGS. Setting the default to
+> this in the toolchain, while convenient, actually hides bugs, as a failure to
+> obey LDFLAGS isn't noticed. By removing this, it's not dissimilar to how we
+> poison the sysroot -- rather than relying on the default, notice right away if
+> somoeone isn't obeying the needed flags.
+>
+> This will result in a failure to obey LDFLAGS causing a GNU_HASH QA failure,
+> which is what's often seen with external toolchains. This brings us all on the
+> same page, and makes sure a failure to obey LDFLAGS is seen early.
+>
+> This is limited to cross, to retain ease of use for SDKs.
+>
+> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+> ---
+>
+> Supercedes '[PATCHv2] gcc-cross: remove --with-linker-hash-style'
+> v3 changes: per khem's advice, switched to use of LINKER_HASH_STYLE
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc b/meta/recipes-devtools/gcc/gcc-cross.inc
+> index f479360..c0b8751 100644
+> --- a/meta/recipes-devtools/gcc/gcc-cross.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-cross.inc
+> @@ -13,6 +13,11 @@ PN = "gcc-cross-${TARGET_ARCH}"
+>
+>  require gcc-configure-common.inc
+>
+> +# While we want the 'gnu' hash style, we explicitly set it to sysv here to
+> +# ensure that any recipe which doesn't obey our LDFLAGS (which also set it to
+> +# gnu) will hit a QA failure.
+> +LINKER_HASH_STYLE ?= "sysv"
 
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+Defining a new variable (LINKER_HASH_STYLE_INVERSE ?) and setting it
+to the opposite of whatever bitbake.conf ends up assigning to
+LINKER_HASH_STYLE might be clearer here.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Otherwise MIPS toolchains will continue to default to the same hash
+style as MIPS LDFLAGS.
+
+> +
+>  EXTRA_OECONF += "--enable-poison-system-directories"
+>  EXTRA_OECONF_append_sh4 = " \
+>      --with-multilib-list= \
+> --
+> 2.8.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
