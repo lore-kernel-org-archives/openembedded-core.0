@@ -1,22 +1,28 @@
-Return-Path: <stephano.cetola@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F7CC60119
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id D0D4560119
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jul 2016 16:32:28 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP; 08 Jul 2016 09:32:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,330,1464678000"; d="scan'208";a="1013257674"
-Received: from yocto-dev86.jf.intel.com ([10.7.198.60])
-	by orsmga002.jf.intel.com with ESMTP; 08 Jul 2016 09:32:29 -0700
-From: Stephano Cetola <stephano.cetola@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Jul 2016 09:33:09 -0700
-Message-Id: <20160708163309.26556-2-stephano.cetola@linux.intel.com>
-X-Mailer: git-send-email 2.9.0
-In-Reply-To: <20160708163309.26556-1-stephano.cetola@linux.intel.com>
-References: <20160708163309.26556-1-stephano.cetola@linux.intel.com>
-Subject: [PATCH V2] rootfs.py: allow removal of support packages
+	Fri,  8 Jul 2016 17:00:55 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u68H0qTI030401; Fri, 8 Jul 2016 18:00:52 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id HC-bFOYgYlj6; Fri,  8 Jul 2016 18:00:52 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u68H0neW030398
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 8 Jul 2016 18:00:50 +0100
+Message-ID: <1467997249.28829.13.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 08 Jul 2016 18:00:49 +0100
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Cc: "Ashfield, Bruce" <Bruce.Ashfield@windriver.com>,
+	"saul.wold" <saul.wold@intel.com>
+Subject: [PATCH] linux-yocto-dev: Handle performance regression
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,57 +35,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jul 2016 16:32:28 -0000
+X-List-Received-Date: Fri, 08 Jul 2016 17:00:56 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-For images not containing a package manager, this allows the removal of support
-packages based on the REMOVE_PKG_SUPPORT variable. Packages that will be
-uninstalled include: update-rc.d, base-passwd, shadow, run-postinsts, and
-update-alternatives.
+After commit 0437a59e3c298d40aaa96af09b80bff8fcbe292d, the linux-yocto-dev
+recipe is being parsed every time we run "bitbake -p". This was spotted
+on some performance benchmarks and showed up as a performance regression.
 
-[ YOCTO #9491 ]
+We can tweak the recipe to ensure this doesn't happen and that its only
+used if selected.
 
-Signed-off-by: Stephano Cetola <stephano.cetola@linux.intel.com>
----
- meta/lib/oe/rootfs.py | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index ed0bab1..d05f6df 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -253,6 +253,22 @@ class Rootfs(object, metaclass=ABCMeta):
+diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+index 3085263..c50b319 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+@@ -20,6 +20,9 @@ include recipes-kernel/linux/linux-yocto-dev-revisions.inc
+ python () {
+     if d.getVar("PREFERRED_PROVIDER_virtual/kernel", True) != "linux-yocto-dev":
+         raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-dev to enable it")
++    else:
++        d.setVar("SRCREV_machine", "${AUTOREV}")
++        d.setVar("SRCREV_meta", "${AUTOREV}")
+ }
  
-         image_rorfs = bb.utils.contains("IMAGE_FEATURES", "read-only-rootfs",
-                                         True, False, self.d)
-+        runtime_pkgmanage = bb.utils.contains("IMAGE_FEATURES", "package-management",
-+                                        True, False, self.d)
-+
-+        if (not runtime_pkgmanage and self.d.getVar('REMOVE_PKG_SUPPORT', True) == "1"
-+                and delayed_postinsts is None):
-+            # Remove components that we don't need if we're not going to install
-+            # additional packages at runtime
-+            pkgs_installed = image_list_installed_packages(self.d)
-+            unneeded_pkgs = ["update-rc.d", "base-passwd", "shadow",
-+                    "update-alternatives", "run-postinsts",
-+                    self.d.getVar("ROOTFS_BOOTSTRAP_INSTALL", True)]
-+            pkgs_to_remove = [pkg for pkg in pkgs_installed if pkg in unneeded_pkgs]
-+
-+            if len(pkgs_to_remove) > 0:
-+                self.pm.remove(pkgs_to_remove, False)
-+
-         if image_rorfs:
-             # Remove components that we don't need if it's a read-only rootfs
-             unneeded_pkgs = self.d.getVar("ROOTFS_RO_UNNEEDED", True).split()
-@@ -271,8 +287,6 @@ class Rootfs(object, metaclass=ABCMeta):
-         post_uninstall_cmds = self.d.getVar("ROOTFS_POSTUNINSTALL_COMMAND", True)
-         execute_pre_post_process(self.d, post_uninstall_cmds)
+ KBRANCH = "standard/base"
+@@ -33,8 +36,8 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto-dev.git;branch=${KBRANCH};name
+ # linux-yocto-dev is the preferred provider, they will be overridden to
+ # AUTOREV in following anonymous python routine and resolved when the
+ # variables are finalized.
+-SRCREV_machine ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
+-SRCREV_meta ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
++SRCREV_machine ?= "29594404d7fe73cd80eaa4ee8c43dcc53970c60e"
++SRCREV_meta ?= "29594404d7fe73cd80eaa4ee8c43dcc53970c60e"
  
--        runtime_pkgmanage = bb.utils.contains("IMAGE_FEATURES", "package-management",
--                                              True, False, self.d)
-         if not runtime_pkgmanage:
-             # Remove the package manager data files
-             self.pm.remove_packaging_data()
--- 
-2.9.0
+ LINUX_VERSION ?= "4.6-rc+"
+ LINUX_VERSION_EXTENSION ?= "-yoctodev-${LINUX_KERNEL_TYPE}"
+
 
 
