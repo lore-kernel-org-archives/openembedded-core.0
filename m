@@ -1,29 +1,23 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BA9460119
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D15360119
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jul 2016 14:19:06 +0000 (UTC)
+	Fri,  8 Jul 2016 14:45:32 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga104.fm.intel.com with ESMTP; 08 Jul 2016 07:19:03 -0700
+	by orsmga103.jf.intel.com with ESMTP; 08 Jul 2016 07:45:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,330,1464678000"; d="scan'208";a="1018048299"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 08 Jul 2016 07:19:01 -0700
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1467914773.git.raj.khem@gmail.com>
-	<cee6d405-3fdf-157b-967b-91022d5e9b9c@linux.intel.com>
-	<CAMKF1sp+XRQ5bUd-8387q5PcWuQRspRj+UJS9LkuGGhr1WPw6w@mail.gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <aa5165d3-c97f-3a37-73b3-31cd5cc704e9@linux.intel.com>
-Date: Fri, 8 Jul 2016 17:19:10 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.1.0
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1sp+XRQ5bUd-8387q5PcWuQRspRj+UJS9LkuGGhr1WPw6w@mail.gmail.com>
-Cc: adraszik@tycoint.com
-Subject: Re: [PATCH 0/4] musl/glibc/binutils updates
+X-IronPort-AV: E=Sophos;i="5.28,330,1464678000"; d="scan'208";a="1018061145"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga002.fm.intel.com with ESMTP; 08 Jul 2016 07:45:29 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
+	by linux.intel.com (Postfix) with ESMTP id 762696A4080;
+	Fri,  8 Jul 2016 07:45:22 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  8 Jul 2016 17:35:20 +0300
+Message-Id: <1467988520-1574-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] buildhistory-diff: reduce PKGR noise
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,22 +30,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jul 2016 14:19:06 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 08 Jul 2016 14:45:33 -0000
 
-On 07/08/2016 05:07 PM, Khem Raj wrote:
->>> Fix gcc5 hang in SDK with -mmusl
->>> Update musl to 1.1.15 release
->>> Update binutils to 2.26.1
->>> Update glibc to latest on 2.24 freeze tree
->>
->>
->> What about uclibc? It should be updated as well.
->
-> I do not test it regularly. If there are users who want it we can continue
+When using PR service the buildhistory-diff output contains a lot of
+PKGR changes: In practice the mass of PKGR updates hide other important
+changes as they often account for 80% of all changes.
 
-Maybe we should reassign the recipes to André Draszik then?
+Skipped incremental and decremental changes of PKGR versions to reduce
+amount of the script output. All changes are still included in the
+output if script is run with -a/--report-all command line option.
 
-Alex
+[YOCTO #9755]
+
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ meta/lib/oe/buildhistory_analysis.py | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/meta/lib/oe/buildhistory_analysis.py b/meta/lib/oe/buildhistory_analysis.py
+index 4353381..b6c0265 100644
+--- a/meta/lib/oe/buildhistory_analysis.py
++++ b/meta/lib/oe/buildhistory_analysis.py
+@@ -359,6 +359,24 @@ def compare_dict_blobs(path, ablob, bblob, report_all, report_ver):
+                 if ' '.join(alist) == ' '.join(blist):
+                     continue
+ 
++            if key == 'PKGR' and not report_all:
++                vers = []
++                # strip leading 'r' and dots
++                for ver in (astr.split()[0], bstr.split()[0]):
++                    if ver.startswith('r'):
++                        ver = ver[1:]
++                    vers.append(ver.replace('.', ''))
++                maxlen = max(len(vers[0]), len(vers[1]))
++                try:
++                    # pad with '0' and convert to int
++                    vers = [int(ver.ljust(maxlen, '0')) for ver in vers]
++                except ValueError:
++                    pass
++                else:
++                     # skip decrements and increments
++                    if abs(vers[0] - vers[1]) == 1:
++                        continue
++
+             chg = ChangeRecord(path, key, astr, bstr, monitored)
+             changes.append(chg)
+     return changes
+-- 
+2.1.4
+
 
