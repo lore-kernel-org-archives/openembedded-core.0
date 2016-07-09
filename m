@@ -1,48 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
 Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
 	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id D436C605BA
+	by mail.openembedded.org (Postfix) with ESMTP id F36176067C
 	for <openembedded-core@lists.openembedded.org>;
 	Sat,  9 Jul 2016 08:01:02 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id c74so9986138pfb.0
+Received: by mail-pf0-f193.google.com with SMTP id 66so9928253pfy.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 09 Jul 2016 01:01:03 -0700 (PDT)
+	Sat, 09 Jul 2016 01:01:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=BfVy7Aoyl8O3/upE+XW8oD84ZdpGYO5tjCYn2GgM5rA=;
-	b=pnEmml4iUwoc6C2jOMxSsRnscSQSgCl0ozy1sLl+G1l4vkWNGzhGUsoEM7C4b92x9y
-	0WOAbZ+0Lj/tnCpOF6XDLskDj/O+KjndUqVQTPJUXOYAs5rAHtQ6Bofq3kdzAvogenXo
-	lf4tLfG5fKmaznB0mEQxsHQd3yOxtdCd0qvn+Oxp+mjRcxDPojn8EJz5yuYaXgiUtXcH
-	C6TQEVyfyX2Da4jSubfSPEcDPmj6F0T9oK3XyKtLnNqf66+jviM0ygrjIY1210CpkRZP
-	HlZf8ZIipl09VMfSH6CAacEcGCT9XGeT9MQpo05wvQydkNCe4bNTQjcp5p3exQoRCTUT
-	7ZyQ==
+	bh=oR/Oz96PFWyNWFTOr62coCs5+IK/mRIbN5+kbZJzuFY=;
+	b=B/KqJf1lWZ5E5UOb/1l+XgDPRC1tOlsZBO1h7W8lDLTca41fH8c5PmywQs12B6BsDS
+	ry9NTn192o5o/nJUGctFtpf3xzy+5cOBaiUOqfZbqTNN65zyIH8XdWJYHPHatY0ESTtR
+	TQ2QJ3TxKE8/lMyv8Mf2CL8G3FEIpa0s4C+TUnD5Morw225hpCdAucaPUM2PZYw5E2iz
+	wuGtM1uZFt5sNLkQWxN0tuJlaqvxEpwVBH+EX8WLnK8+BYN8HGf39zJmPTOo3RiiOTcM
+	S763w9TgDmo4U1an6hzY+xASRY1cZr7QcGKvQOa3lAw+HURNisrU7p8YYLzB5LHSideU
+	zgaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=BfVy7Aoyl8O3/upE+XW8oD84ZdpGYO5tjCYn2GgM5rA=;
-	b=m1YZQTBmuaSSOFTekuY1Bew1wYS5CzK0M5P/2TOjJyBoqMa8iE8WhmcbwMW3Vv3NyK
-	0h8lzbDvKFAr611/prgY5kxgYsz9NXsARk5pkTNu9cazbjZajFY+jZDhzSOKmgMTj6I+
-	kfPb4DBGIO+FDFkqI+fGgPK70Haaajla2kGxzIcQlYxr7LAIi6dfYNZi+YOdt1/f+VpY
-	A6TkZH4YnISGtWxbUSC3DmIG8hKPD0/MAM+DJEKY5ZprTGNJpR/04/rL8AYQS4jdSG/d
-	tO6I1qXbZXKOqZdxaeiohBHNUwOpzRvSIVEm7z/D1l2oDy5ntnElgN2dC9wZwy0akK7v
-	OyQQ==
-X-Gm-Message-State: ALyK8tJcmOn8yawpxcXoAw8KYcAOd5AcjcsqgV7S81fSbcLmKy4JaOE7B7zoUnA/3GZuYQ==
-X-Received: by 10.98.222.130 with SMTP id h124mr16827748pfg.78.1468051262800; 
-	Sat, 09 Jul 2016 01:01:02 -0700 (PDT)
+	bh=oR/Oz96PFWyNWFTOr62coCs5+IK/mRIbN5+kbZJzuFY=;
+	b=aiA/MxntQSg0I1eODV/KgnAX4qjj3T3eoVMW06va6sx7Bzdw5xVOsi1I6TRV15gzdW
+	3Ic6yl7/RjwS7xWR8ou2vRc1le4ydJt3Evcchg4ZQraul+VxdMfC2drJ1rxDaGyPeRnu
+	qKQ9UM1lZmdw2RLuiceyo8yNZ/tlIQ6EDl4mLdls621EowPzRdYVuKB5dsSk4BHImNPi
+	jBW9YcNHLlQNuDMF5e+/LLaxOqJdEey3kiHb2jrvPlodI9bvZqbz6VYK5ljKTtaCEJNX
+	YRyV+JziYnpF+8lXhpvBo094BovT42GTD1PQEH+WuvXgoCsDd0fza212XeKhbVYL8ksa
+	HAJg==
+X-Gm-Message-State: ALyK8tLESgEtd6oHrlrLBgqWT8XtSs6xjr6OW230t8bzSMwvX4ls9qtap/U6Bgfz5QeMsg==
+X-Received: by 10.98.59.77 with SMTP id i74mr16650773pfa.45.1468051263777;
+	Sat, 09 Jul 2016 01:01:03 -0700 (PDT)
 Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
 	[76.102.32.192])
 	by smtp.gmail.com with ESMTPSA id m78sm785822pfj.66.2016.07.09.01.01.02
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 09 Jul 2016 01:01:02 -0700 (PDT)
+	Sat, 09 Jul 2016 01:01:03 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  9 Jul 2016 01:00:53 -0700
-Message-Id: <20160709080054.21811-2-raj.khem@gmail.com>
+Date: Sat,  9 Jul 2016 01:00:54 -0700
+Message-Id: <20160709080054.21811-3-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.9.0
 In-Reply-To: <20160709080054.21811-1-raj.khem@gmail.com>
 References: <20160709080054.21811-1-raj.khem@gmail.com>
-Subject: [PATCH 2/3] libunwind: Port to ppc/musl
+Subject: [PATCH 3/3] piglit: Fix build on musl/arm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,277 +59,86 @@ X-List-Received-Date: Sat, 09 Jul 2016 08:01:03 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...der-ucontext-mismatches-between-glibc-and.patch | 248 +++++++++++++++++++++
- meta/recipes-support/libunwind/libunwind_git.bb    |   1 +
- 2 files changed, 249 insertions(+)
- create mode 100644 meta/recipes-support/libunwind/libunwind/0001-ppc32-Consider-ucontext-mismatches-between-glibc-and.patch
+ ...e-FE_UPWARD-only-if-its-defined-in-fenv.h.patch | 54 ++++++++++++++++++++++
+ meta/recipes-graphics/piglit/piglit_git.bb         |  4 +-
+ 2 files changed, 57 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/piglit/piglit/0001-tests-Use-FE_UPWARD-only-if-its-defined-in-fenv.h.patch
 
-diff --git a/meta/recipes-support/libunwind/libunwind/0001-ppc32-Consider-ucontext-mismatches-between-glibc-and.patch b/meta/recipes-support/libunwind/libunwind/0001-ppc32-Consider-ucontext-mismatches-between-glibc-and.patch
+diff --git a/meta/recipes-graphics/piglit/piglit/0001-tests-Use-FE_UPWARD-only-if-its-defined-in-fenv.h.patch b/meta/recipes-graphics/piglit/piglit/0001-tests-Use-FE_UPWARD-only-if-its-defined-in-fenv.h.patch
 new file mode 100644
-index 0000000..ca0641f
+index 0000000..f851a92
 --- /dev/null
-+++ b/meta/recipes-support/libunwind/libunwind/0001-ppc32-Consider-ucontext-mismatches-between-glibc-and.patch
-@@ -0,0 +1,248 @@
-+From e0eea53c77fce8537c58a072b684043507987bcc Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-graphics/piglit/piglit/0001-tests-Use-FE_UPWARD-only-if-its-defined-in-fenv.h.patch
+@@ -0,0 +1,54 @@
++From 0fc2c2932699cfd68be96c820fddfdd79b48b788 Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Sat, 9 Jul 2016 01:07:53 +0000
-+Subject: [PATCH] ppc32: Consider ucontext mismatches between glibc and musl
++Date: Sat, 9 Jul 2016 07:52:19 +0000
++Subject: [PATCH] tests: Use FE_UPWARD only if its defined in fenv.h
 +
-+This helps in porting libunwind onto musl based systems
-+ptrace.h change is required again an error that surfaces
-+with musl
++On ARM, musl does not define FE_* when arch does not have
++VFP, (which is right interpretation), therefore check if
++its defined before using it
 +
-+/mnt/oe/openembedded-core/build/tmp-musl/sysroots/qemuppc/usr/include/asm/ptrace.h:31:8: error: redefinition of 'struct pt_regs'
-+ struct pt_regs {
-+        ^~~~~~~
-+In file included from /mnt/oe/openembedded-core/build/tmp-musl/sysroots/qemuppc/usr/include/sys/user.h:11:0,
-+                 from /mnt/oe/openembedded-core/build/tmp-musl/sysroots/qemuppc/usr/include/sys/procfs.h:9,
-+                 from ../../git/src/ptrace/_UPT_internal.h:40,
-+                 from ../../git/src/ptrace/_UPT_reg_offset.c:27:
-+/mnt/oe/openembedded-core/build/tmp-musl/sysroots/qemuppc/usr/include/bits/user.h:1:8: note: originally defined here
-+ struct pt_regs {
-+        ^~~~~~~
++Fixes errors like
++
++tests/general/roundmode-pixelstore.c:82:19: error: 'FE_UPWARD' undeclared (first use in this function)
++  ret = fesetround(FE_UPWARD);
++                   ^~~~~~~~~
 +
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
 +Upstream-Status: Pending
 +
-+ src/ppc32/Ginit.c            |   6 +-
-+ src/ppc32/ucontext_i.h       | 158 ++++++++++++++++++++++---------------------
-+ src/ptrace/_UPT_reg_offset.c |   7 ++
-+ 3 files changed, 92 insertions(+), 79 deletions(-)
++ tests/general/roundmode-getintegerv.c | 2 ++
++ tests/general/roundmode-pixelstore.c  | 2 ++
++ 2 files changed, 4 insertions(+)
 +
-+diff --git a/src/ppc32/Ginit.c b/src/ppc32/Ginit.c
-+index f2e6e82..617aaa1 100644
-+--- a/src/ppc32/Ginit.c
-++++ b/src/ppc32/Ginit.c
-+@@ -48,12 +48,12 @@ uc_addr (ucontext_t *uc, int reg)
-+   void *addr;
-+ 
-+   if ((unsigned) (reg - UNW_PPC32_R0) < 32)
-+-    addr = &uc->uc_mcontext.uc_regs->gregs[reg - UNW_PPC32_R0];
-++    addr = &uc->GET_UC_REGS->gregs[reg - UNW_PPC32_R0];
-+ 
-+   else
-+   if ( ((unsigned) (reg - UNW_PPC32_F0) < 32) &&
-+        ((unsigned) (reg - UNW_PPC32_F0) >= 0) )
-+-    addr = &uc->uc_mcontext.uc_regs->fpregs.fpregs[reg - UNW_PPC32_F0];
-++    addr = &uc->GET_UC_REGS->fpregs.fpregs[reg - UNW_PPC32_F0];
-+ 
-+   else
-+     {
-+@@ -76,7 +76,7 @@ uc_addr (ucontext_t *uc, int reg)
-+         default:
-+           return NULL;
-+         }
-+-      addr = &uc->uc_mcontext.uc_regs->gregs[gregs_idx];
-++      addr = &uc->GET_UC_REGS->gregs[gregs_idx];
-+     }
-+   return addr;
-+ }
-+diff --git a/src/ppc32/ucontext_i.h b/src/ppc32/ucontext_i.h
-+index c6ba806..b79f15c 100644
-+--- a/src/ppc32/ucontext_i.h
-++++ b/src/ppc32/ucontext_i.h
-+@@ -46,83 +46,89 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  */
-+    various structure members. */
-+ static ucontext_t dmy_ctxt UNUSED;
-+ 
-+-#define UC_MCONTEXT_GREGS_R0 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[0] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_R1 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[1] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_R2 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[2] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_R3 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[3] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_R4 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[4] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_R5 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[5] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_R6 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[6] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_R7 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[7] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_R8 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[8] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_R9 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[9] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_R10 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[10] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_R11 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[11] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_R12 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[12] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_R13 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[13] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_R14 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[14] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_R15 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[15] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_R16 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[16] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_R17 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[17] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_R18 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[18] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_R19 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[19] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_R20 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[20] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_R21 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[21] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_R22 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[22] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_R23 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[23] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_R24 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[24] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_R25 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[25] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_R26 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[26] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_R27 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[27] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_R28 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[28] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_R29 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[29] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_R30 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[30] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_R31 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[31] - (void *)&dmy_ctxt)
-++#ifdef __GLIBC__
-++#define GET_UC_REGS uc_mcontext.uc_regs
-++#else
-++#define GET_UC_REGS uc_regs
++diff --git a/tests/general/roundmode-getintegerv.c b/tests/general/roundmode-getintegerv.c
++index 28ecfaf..5c27579 100644
++--- a/tests/general/roundmode-getintegerv.c
+++++ b/tests/general/roundmode-getintegerv.c
++@@ -81,7 +81,9 @@ piglit_init(int argc, char **argv)
++ {
++ 	int ret;
++ 	bool pass = true;
+++#ifdef FE_UPWARD
++ 	ret = fesetround(FE_UPWARD);
 ++#endif
-++
-++#define UC_MCONTEXT_GREGS_R0 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[0] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_R1 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[1] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_R2 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[2] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_R3 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[3] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_R4 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[4] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_R5 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[5] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_R6 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[6] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_R7 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[7] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_R8 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[8] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_R9 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[9] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_R10 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[10] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_R11 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[11] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_R12 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[12] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_R13 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[13] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_R14 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[14] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_R15 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[15] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_R16 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[16] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_R17 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[17] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_R18 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[18] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_R19 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[19] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_R20 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[20] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_R21 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[21] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_R22 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[22] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_R23 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[23] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_R24 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[24] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_R25 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[25] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_R26 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[26] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_R27 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[27] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_R28 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[28] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_R29 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[29] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_R30 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[30] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_R31 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[31] - (void *)&dmy_ctxt)
-+ 
-+-#define UC_MCONTEXT_GREGS_MSR ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[MSR_IDX] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_ORIG_GPR3 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[ORIG_GPR3_IDX] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_CTR ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[CTR_IDX] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_LINK ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[LINK_IDX] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_XER ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[XER_IDX] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_CCR ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[CCR_IDX] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_SOFTE ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[SOFTE_IDX] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_TRAP ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[TRAP_IDX] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_DAR ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[DAR_IDX] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_DSISR ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[DSISR_IDX] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_GREGS_RESULT ((void *)&dmy_ctxt.uc_mcontext.uc_regs->gregs[RESULT_IDX] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_MSR ((void *)&dmy_ctxt.GET_UC_REGS->gregs[MSR_IDX] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_ORIG_GPR3 ((void *)&dmy_ctxt.GET_UC_REGS->gregs[ORIG_GPR3_IDX] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_CTR ((void *)&dmy_ctxt.GET_UC_REGS->gregs[CTR_IDX] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_LINK ((void *)&dmy_ctxt.GET_UC_REGS->gregs[LINK_IDX] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_XER ((void *)&dmy_ctxt.GET_UC_REGS->gregs[XER_IDX] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_CCR ((void *)&dmy_ctxt.GET_UC_REGS->gregs[CCR_IDX] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_SOFTE ((void *)&dmy_ctxt.GET_UC_REGS->gregs[SOFTE_IDX] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_TRAP ((void *)&dmy_ctxt.GET_UC_REGS->gregs[TRAP_IDX] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_DAR ((void *)&dmy_ctxt.GET_UC_REGS->gregs[DAR_IDX] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_DSISR ((void *)&dmy_ctxt.GET_UC_REGS->gregs[DSISR_IDX] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_GREGS_RESULT ((void *)&dmy_ctxt.GET_UC_REGS->gregs[RESULT_IDX] - (void *)&dmy_ctxt)
-+ 
-+-#define UC_MCONTEXT_FREGS_R0 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[0] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_FREGS_R1 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[1] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_FREGS_R2 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[2] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_FREGS_R3 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[3] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_FREGS_R4 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[4] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_FREGS_R5 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[5] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_FREGS_R6 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[6] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_FREGS_R7 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[7] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_FREGS_R8 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[8] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_FREGS_R9 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[9] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_FREGS_R10 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[10] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_FREGS_R11 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[11] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_FREGS_R12 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[12] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_FREGS_R13 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[13] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_FREGS_R14 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[14] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_FREGS_R15 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[15] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_FREGS_R16 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[16] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_FREGS_R17 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[17] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_FREGS_R18 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[18] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_FREGS_R19 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[19] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_FREGS_R20 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[20] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_FREGS_R21 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[21] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_FREGS_R22 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[22] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_FREGS_R23 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[23] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_FREGS_R24 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[24] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_FREGS_R25 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[25] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_FREGS_R26 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[26] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_FREGS_R27 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[27] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_FREGS_R28 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[28] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_FREGS_R29 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[29] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_FREGS_R30 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[30] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_FREGS_R31 ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[31] - (void *)&dmy_ctxt)
-+-#define UC_MCONTEXT_FREGS_FPSCR ((void *)&dmy_ctxt.uc_mcontext.uc_regs->fpregs.fpregs[32] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_FREGS_R0 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[0] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_FREGS_R1 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[1] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_FREGS_R2 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[2] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_FREGS_R3 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[3] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_FREGS_R4 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[4] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_FREGS_R5 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[5] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_FREGS_R6 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[6] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_FREGS_R7 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[7] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_FREGS_R8 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[8] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_FREGS_R9 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[9] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_FREGS_R10 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[10] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_FREGS_R11 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[11] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_FREGS_R12 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[12] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_FREGS_R13 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[13] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_FREGS_R14 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[14] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_FREGS_R15 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[15] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_FREGS_R16 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[16] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_FREGS_R17 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[17] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_FREGS_R18 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[18] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_FREGS_R19 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[19] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_FREGS_R20 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[20] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_FREGS_R21 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[21] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_FREGS_R22 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[22] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_FREGS_R23 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[23] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_FREGS_R24 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[24] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_FREGS_R25 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[25] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_FREGS_R26 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[26] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_FREGS_R27 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[27] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_FREGS_R28 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[28] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_FREGS_R29 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[29] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_FREGS_R30 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[30] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_FREGS_R31 ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[31] - (void *)&dmy_ctxt)
-++#define UC_MCONTEXT_FREGS_FPSCR ((void *)&dmy_ctxt.GET_UC_REGS->fpregs.fpregs[32] - (void *)&dmy_ctxt)
-+ 
-+ #endif
-+diff --git a/src/ptrace/_UPT_reg_offset.c b/src/ptrace/_UPT_reg_offset.c
-+index 68461a2..fcc43f7 100644
-+--- a/src/ptrace/_UPT_reg_offset.c
-++++ b/src/ptrace/_UPT_reg_offset.c
-+@@ -27,6 +27,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  */
-+ #include "_UPT_internal.h"
-+ 
-+ #include <stddef.h>
-++#if !defined(__GLIBC__)
-++# define pt_regs uapi_pt_regs
++ 	if (ret != 0) {
++ 		printf("Couldn't set rounding mode\n");
++ 		piglit_report_result(PIGLIT_SKIP);
++diff --git a/tests/general/roundmode-pixelstore.c b/tests/general/roundmode-pixelstore.c
++index 9284f43..3fcb396 100644
++--- a/tests/general/roundmode-pixelstore.c
+++++ b/tests/general/roundmode-pixelstore.c
++@@ -79,7 +79,9 @@ piglit_init(int argc, char **argv)
++ {
++ 	int ret;
++ 	bool pass = true;
+++#ifdef FE_UPWARD
++ 	ret = fesetround(FE_UPWARD);
 ++#endif
-++#include <asm/ptrace.h>
-++#if !defined(__GLIBC__)
-++# undef pt_regs
-++#endif
-+ 
-+ #ifdef HAVE_ASM_PTRACE_OFFSETS_H
-+ # include <asm/ptrace_offsets.h>
++ 	if (ret != 0) {
++ 		printf("Couldn't set rounding mode\n");
++ 		piglit_report_result(PIGLIT_SKIP);
 +-- 
 +1.8.3.1
 +
-diff --git a/meta/recipes-support/libunwind/libunwind_git.bb b/meta/recipes-support/libunwind/libunwind_git.bb
-index cc8c2b5..6d1d9fb 100644
---- a/meta/recipes-support/libunwind/libunwind_git.bb
-+++ b/meta/recipes-support/libunwind/libunwind_git.bb
-@@ -10,6 +10,7 @@ SRC_URI = "git://git.sv.gnu.org/libunwind.git \
-            file://0001-x86-Stub-out-x86_local_resume.patch \
-            file://0001-Fix-build-on-mips-musl.patch \
-            file://0001-add-knobs-to-disable-enable-tests.patch \
-+           file://0001-ppc32-Consider-ucontext-mismatches-between-glibc-and.patch \
-            "
+diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
+index 607f236..fbe35ef 100644
+--- a/meta/recipes-graphics/piglit/piglit_git.bb
++++ b/meta/recipes-graphics/piglit/piglit_git.bb
+@@ -3,7 +3,9 @@ LICENSE = "MIT & LGPLv2+ & GPLv3 & GPLv2+ & BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b2beded7103a3d8a442a2a0391d607b0"
  
- EXTRA_OECONF_append_libc-musl = " --disable-documentation --disable-tests "
+ SRC_URI = "git://anongit.freedesktop.org/piglit \
+-           file://0001-tests-Fix-missing-include-of-Xutil.h.patch"
++           file://0001-tests-Fix-missing-include-of-Xutil.h.patch \
++           file://0001-tests-Use-FE_UPWARD-only-if-its-defined-in-fenv.h.patch \
++"
+ 
+ # From 2015-02-19
+ SRCREV = "c4585427913e4cb28994b4bfb11d49778273aa2c"
 -- 
 2.9.0
 
