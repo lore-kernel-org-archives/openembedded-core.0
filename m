@@ -1,38 +1,50 @@
-Return-Path: <gchoc-openembedded-core@m.gmane.org>
-X-Greylist: delayed 902 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sun, 10 Jul 2016 17:25:07 UTC
-Received: from plane.gmane.org (plane.gmane.org [80.91.229.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E932601F6
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
+	[209.85.216.195])
+	by mail.openembedded.org (Postfix) with ESMTP id A1789601F6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Jul 2016 17:25:07 +0000 (UTC)
-Received: from list by plane.gmane.org with local (Exim 4.69)
-	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
-	id 1bMIF1-0005U2-Ud for openembedded-core@lists.openembedded.org;
-	Sun, 10 Jul 2016 19:10:04 +0200
-Received: from 112.133.237.57 ([112.133.237.57])
-	by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
-	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Jul 2016 19:10:03 +0200
-Received: from venkateshv377 by 112.133.237.57 with local (Gmexim 0.1 (Debian))
-	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Jul 2016 19:10:03 +0200
-X-Injected-Via-Gmane: http://gmane.org/
-To: openembedded-core@lists.openembedded.org
-From: Venkatesh <venkateshv377@gmail.com>
-Date: Sun, 10 Jul 2016 16:49:56 +0000 (UTC)
-Message-ID: <loom.20160710T184732-108@post.gmane.org>
-References: <1410665660-25145-1-git-send-email-denis@denix.org>
-	<CAJTo0Law3iWz=+A1vA7QsikNozeVP7U49=+T9fkT7YgLzJ_hcA@mail.gmail.com>
-	<20141107194159.GD9512@denix.org>
-	<CAJTo0LYLh9A8zYJDMtyCBw2r1pX8KxNjv=mq5MBX=B8BZvRObw@mail.gmail.com>
-	<20141107205445.GF9512@denix.org> <20141107223001.GG9512@denix.org>
-Mime-Version: 1.0
-X-Complaints-To: usenet@ger.gmane.org
-X-Gmane-NNTP-Posting-Host: sea.gmane.org
-User-Agent: Loom/3.14 (http://gmane.org/)
-X-Loom-IP: 112.133.237.57 (Mozilla/5.0 (X11; Ubuntu; Linux x86_64;
-	rv:47.0) Gecko/20100101 Firefox/47.0)
-Subject: Re: [PATCH] u-boot: update to version 2014.07
+	Sun, 10 Jul 2016 17:59:12 +0000 (UTC)
+Received: by mail-qt0-f195.google.com with SMTP id q11so1139331qtb.2
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 10 Jul 2016 10:59:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc; bh=XUVKUfzbEJbU4GYZ+XTeWUDlkcYtxrZlXpukILDzsnY=;
+	b=fJnwJogniS8fkL3KUZrfxAN++FLD3iNjn1ypIH+xZY25yMcjaTqc0YmZNo/4SJoGzj
+	5LeNCp3Ma9vDAb61j1wx9tqEuJaCa94OzO+gfn8DjWA06LvOG7rpkU8I/Q7VhfvhngzB
+	CpQiVD2oKYbifHITamzsfKC8f3GWa9MQFb5div6nrjMtBtgUz3vRFZiVeGj42bIze0ii
+	Q2VcYgW543SmcZJPaP0juD8B70X9H149J0ge0Z0w0jB6SlMKG6rayZtMEmAA850d72kb
+	IKicSRdw22VmxkElx+W7ndUs5Yp/0+tv/vepFCy+me0xlUvNWpt6oJ1B8ITwUSq5lo09
+	LRZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc;
+	bh=XUVKUfzbEJbU4GYZ+XTeWUDlkcYtxrZlXpukILDzsnY=;
+	b=lDS0HK98nSFBaYNNo/T+O0AP4gTUyFDODqR06QOD+TRNmbzJgx5retipfL07z/Jo2s
+	UPvY0uX9I/q6LCubQCqXK5rJRzGGVvHH78xECdBKpgP+KA6Dw8/uB/t+Eh7qNtQyGTHU
+	Dos9YSP8Lv9JcsT2thEk2IfGcondseWutIhwfWGhO2m8Nt4ZKAYoQl7Or886/Xzmsv3+
+	S0x6e5HnZHCdw2HIW7Or09s3gFSyBAFr3h9oOOy5VPrE75Fpl4Jwe9NrJ21GdoODMVEr
+	GFTK135xck4ic2T5faPJ67vZBO7QOFiK4AdNe2DGyU2WFX9OtHrR8z27yxlnx1SVSZr4
+	5wuQ==
+X-Gm-Message-State: ALyK8tLV9NOqbrWgFknkxABp/Xi9kg29pNGPbNrU3gI0UNIFzV63G8H8ZkQSxJxINRoycv1fNzJ+hvjzCPooJA==
+MIME-Version: 1.0
+X-Received: by 10.200.48.141 with SMTP id v13mr18604366qta.76.1468173552731;
+	Sun, 10 Jul 2016 10:59:12 -0700 (PDT)
+Received: by 10.55.214.83 with HTTP; Sun, 10 Jul 2016 10:59:12 -0700 (PDT)
+Received: by 10.55.214.83 with HTTP; Sun, 10 Jul 2016 10:59:12 -0700 (PDT)
+In-Reply-To: <CAMKF1sq1oH4c96XyTX1CK7pZgLYgjHEQKmjJ4ndS9GyV4A1zZg@mail.gmail.com>
+References: <20160709232717.22380-1-raj.khem@gmail.com>
+	<CAJTo0LbkQBgu89Ow79weX5mVPwtWewtkUeDzkc39+Mz9VHN85w@mail.gmail.com>
+	<CAMKF1spk0f9xpNUUaqpLvx4aAPZ0cAU9NgG8eYLPtC7ziBDU2g@mail.gmail.com>
+	<CAMKF1sq1oH4c96XyTX1CK7pZgLYgjHEQKmjJ4ndS9GyV4A1zZg@mail.gmail.com>
+Date: Sun, 10 Jul 2016 10:59:12 -0700
+Message-ID: <CAMKF1sowh1yCm_0StdEjZJ1GWvSTanV3N-rFJmAS=B8=zaZf8g@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] v86d: Accept aarch64 as build host
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,73 +57,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Jul 2016 17:25:08 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 10 Jul 2016 17:59:15 -0000
+Content-Type: multipart/alternative; boundary=001a113a94b61449eb05374bcbf4
 
-Denys Dmytriyenko <denis@...> writes:
+--001a113a94b61449eb05374bcbf4
+Content-Type: text/plain; charset=UTF-8
 
-> 
-> On Fri, Nov 07, 2014 at 03:54:45PM -0500, Denys Dmytriyenko wrote:
-> > On Fri, Nov 07, 2014 at 08:43:38PM +0000, Burton, Ross wrote:
-> > > On 7 November 2014 19:41, Denys Dmytriyenko <denis@...> wrote:
-> > > 
-> > > > > | scripts/basic/fixdep: 1: scripts/basic/fixdep: Syntax error: word
-> > > > > unexpected (expecting ")")
-> > > > >
-> > > > > I suspect the real problem is:
-> > > > >
-> > > > > $ file fixdep
-> > > > > fixdep: ELF 32-bit LSB executable, ARM, version 1 (SYSV), dynamically
-> > > > > linked (uses shared libs), for GNU/Linux 2.6.32,
-> > > > > BuildID[sha1]=0xb4ea84a189f10b4f3e08fb10f8e490135e2b920c, not stripped
-> > > > >
-> > > > > It appears to have been built using the target compiler, not the host.
-> > > >
-> > > > Ross,
-> > > >
-> > > > I'm a bit lost here - as you said above, this is a target build and
-yet you
-> > > > say it shouldn't use the target compiler. Can you please explain
-what you
-> > > > mean?
-> > > 
-> > > 
-> > > Yes, it's building a binary (fixdep) and then executing it.  That binary
-> > > needs to be built with the host compiler (BUILD_CC).
-> > > 
-> > > Easily replicated for me with "MACHINE=qemuarm bitbake u-boot-mkimage".
-> > 
-> > Ah, got it. Didn't realize, as I build -native version. Give me a sec to
-fix 
-> > it. BTW, 2014.10 is out and I've been using it for a bit now - planning on 
-> > sending the update soon...
-> 
-> Ross,
-> 
-> I've just sent an RFC patch to allow building mkimage for the target. I'd
-like 
-> to collect feedback for it first, but feel free to squash it with the
-previous 
-> patch, if it's accepted (or commit separately - your choice). The update to 
-> 2014.10 will follow shortly, I just want this version to get through
-first, as 
-> it has been in limbo for a few months...
-> 
+On Jul 10, 2016 2:53 AM, "Burton, Ross" <ross.burton@intel.com> wrote:
+>
+>
+> On 10 July 2016 at 00:27, Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>> +       local m=`uname -m`
+>> +       if [ "$m" = "i686" -o "$m" = "i586" -o "$m" = "i486" -o "$m" =
+"i386" ]; then
+>> +               echo "n";
+>> +-      elif [ "$m" = "x86_64" ]; then
+>> ++      elif [ "$m" = "x86_64" -o "$m" = "aarch64" ]; then
+>> +               echo "y";
+>> +       else
+>
+>
+> Surely this entire block is wrong for cross-compilation - looking at
+uname to determine what to build for the target?
 
+Yes it is however the recipe is limited to x86 and now that we add a non
+x86 build host this is a compromise I came up with. Hopefully we wont have
+folks adding host architectures to Build oe on so regularly. Otherwise we
+wont need cross compiling ;)
+>
+> Ross
 
-I am encountering this problem while compiling my driver code for beagle
-bone black.
+--001a113a94b61449eb05374bcbf4
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-scripts/basic/fixdep: 1: scripts/basic/fixdep: Syntax error: word unexpected
-(expecting ")")
-make[2]: *** [/home/venkyvenkatesh/Driver_Compiler/driver_code.o] Error 2
-make[1]: *** [_module_/home/venkyvenkatesh/Driver_Compiler] Error 2
-make[1]: Leaving directory
-`/home/venkyvenkatesh/Driver_Compiler/usr/src/linux-3.14.4.1-bone-armhf.com'
-make: *** [all] Error 2
+<p dir=3D"ltr"></p>
+<p dir=3D"ltr">On Jul 10, 2016 2:53 AM, &quot;Burton, Ross&quot; &lt;<a hre=
+f=3D"mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt;<br>
+&gt; On 10 July 2016 at 00:27, Khem Raj &lt;<a href=3D"mailto:raj.khem@gmai=
+l.com">raj.khem@gmail.com</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0local m=3D`uname -m`<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ &quot;$m&quot; =3D &quot;i686&quo=
+t; -o &quot;$m&quot; =3D &quot;i586&quot; -o &quot;$m&quot; =3D &quot;i486&=
+quot; -o &quot;$m&quot; =3D &quot;i386&quot; ]; then<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo &quot=
+;n&quot;;<br>
+&gt;&gt; +-=C2=A0 =C2=A0 =C2=A0 elif [ &quot;$m&quot; =3D &quot;x86_64&quot=
+; ]; then<br>
+&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 elif [ &quot;$m&quot; =3D &quot;x86_64&quot=
+; -o &quot;$m&quot; =3D &quot;aarch64&quot; ]; then<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo &quot=
+;y&quot;;<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0else<br>
+&gt;<br>
+&gt;<br>
+&gt; Surely this entire block is wrong for cross-compilation - looking at u=
+name to determine what to build for the target?</p>
+<p dir=3D"ltr">Yes it is however the recipe is limited to x86 and now that =
+we add a non x86 build host this is a compromise I came up with. Hopefully =
+we wont have folks adding host architectures to Build oe on so regularly. O=
+therwise we wont need cross compiling ;)<br>
+&gt;<br>
+&gt; Ross<br></p>
 
-
-
-
-
+--001a113a94b61449eb05374bcbf4--
