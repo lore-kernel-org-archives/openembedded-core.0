@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C583731A3
+	by mail.openembedded.org (Postfix) with ESMTP id A9238731A3
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 10 Jul 2016 23:08:42 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 10 Jul 2016 16:08:37 -0700
+	by orsmga103.jf.intel.com with ESMTP; 10 Jul 2016 16:08:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,343,1464678000"; d="scan'208";a="732288717"
+X-IronPort-AV: E=Sophos;i="5.28,343,1464678000"; d="scan'208";a="732288720"
 Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com)
 	([10.255.164.140])
-	by FMSMGA003.fm.intel.com with ESMTP; 10 Jul 2016 16:08:34 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 10 Jul 2016 16:08:37 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Jul 2016 11:07:56 +1200
-Message-Id: <dc4b7dcfe2a1a7a9efb20903b5cb9232aedd3716.1468191874.git.paul.eggleton@linux.intel.com>
+Date: Mon, 11 Jul 2016 11:07:57 +1200
+Message-Id: <012693dc46810e2d941eae46f442e22e07c60d86.1468191874.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.5
 In-Reply-To: <cover.1468191874.git.paul.eggleton@linux.intel.com>
 References: <cover.1468191874.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1468191874.git.paul.eggleton@linux.intel.com>
 References: <cover.1468191874.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH v2 6/7] devtool: return specific exit code for incompatible recipes
+Subject: [PATCH v2 7/7] scripts/contrib/devtool-stress: skip incompatible recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,99 +34,113 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 10 Jul 2016 23:08:42 -0000
 
-Certain recipes cannot be used with devtool extract / modify / upgrade -
-usually because they don't provide any source. Return a specific exit
-code (4) so that scripts such as scripts/contrib/devtool-stress.py know
-the difference between this and a genuine failure.
+If devtool returns exit code 4 then record the recipes as "skipped"
+rather than "failed" - these are recipes we know cannot work (usually
+because they don't provide any source).
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/devtool                 |  2 +-
- scripts/lib/devtool/__init__.py |  5 +++--
- scripts/lib/devtool/standard.py | 16 +++++++++-------
- 3 files changed, 13 insertions(+), 10 deletions(-)
+ scripts/contrib/devtool-stress.py | 57 ++++++++++++++++++++++++---------------
+ 1 file changed, 35 insertions(+), 22 deletions(-)
 
-diff --git a/scripts/devtool b/scripts/devtool
-index a93a11f..b1274d6 100755
---- a/scripts/devtool
-+++ b/scripts/devtool
-@@ -334,7 +334,7 @@ def main():
-     except DevtoolError as err:
-         if str(err):
-             logger.error(str(err))
--        ret = 1
-+        ret = err.exitcode
-     except argparse_oe.ArgumentUsageError as ae:
-         parser.error_subcommand(ae.message, ae.subcommand)
+diff --git a/scripts/contrib/devtool-stress.py b/scripts/contrib/devtool-stress.py
+index ab77a2d..5fff257 100755
+--- a/scripts/contrib/devtool-stress.py
++++ b/scripts/contrib/devtool-stress.py
+@@ -121,14 +121,18 @@ def stress_extract(args):
+             sys.stdout.write('Testing %s ' % (pn + ' ').ljust(40, '.'))
+             sys.stdout.flush()
+             failed = False
++            skipped = None
  
-diff --git a/scripts/lib/devtool/__init__.py b/scripts/lib/devtool/__init__.py
-index 77b1fd9..65eb452 100644
---- a/scripts/lib/devtool/__init__.py
-+++ b/scripts/lib/devtool/__init__.py
-@@ -26,10 +26,11 @@ import re
+             srctree = os.path.join(tmpdir, pn)
+             try:
+                 bb.process.run('devtool extract %s %s' % (pn, srctree))
+-            except bb.process.CmdError as exc:
+-                failed = True
+-                with open('stress_%s_extract.log' % pn, 'w') as f:
+-                    f.write(str(exc))
++            except bb.process.ExecutionError as exc:
++                if exc.exitcode == 4:
++                    skipped = 'incompatible'
++                else:
++                    failed = True
++                    with open('stress_%s_extract.log' % pn, 'w') as f:
++                        f.write(str(exc))
  
- logger = logging.getLogger('devtool')
+             if os.path.exists(srctree):
+                 shutil.rmtree(srctree)
+@@ -136,6 +140,8 @@ def stress_extract(args):
+             if failed:
+                 print('failed')
+                 failures += 1
++            elif skipped:
++                print('skipped (%s)' % skipped)
+             else:
+                 print('ok')
+     except KeyboardInterrupt:
+@@ -162,29 +168,34 @@ def stress_modify(args):
+             sys.stdout.flush()
+             failed = False
+             reset = True
++            skipped = None
  
+             srctree = os.path.join(tmpdir, pn)
+             try:
+                 bb.process.run('devtool modify -x %s %s' % (pn, srctree))
+-            except bb.process.CmdError as exc:
+-                with open('stress_%s_modify.log' % pn, 'w') as f:
+-                    f.write(str(exc))
+-                failed = 'modify'
+-                reset = False
 -
- class DevtoolError(Exception):
-     """Exception for handling devtool errors"""
--    pass
-+    def __init__(self, message, exitcode=1):
-+        super(DevtoolError, self).__init__(message)
-+        self.exitcode = exitcode
+-            if not failed:
+-                try:
+-                    bb.process.run('bitbake -c install %s' % pn)
+-                except bb.process.CmdError as exc:
+-                    with open('stress_%s_install.log' % pn, 'w') as f:
++            except bb.process.ExecutionError as exc:
++                if exc.exitcode == 4:
++                    skipped = 'incompatible'
++                else:
++                    with open('stress_%s_modify.log' % pn, 'w') as f:
+                         f.write(str(exc))
+-                    failed = 'build'
+-            if reset:
+-                try:
+-                    bb.process.run('devtool reset %s' % pn)
+-                except bb.process.CmdError as exc:
+-                    print('devtool reset failed: %s' % str(exc))
+-                    break
++                    failed = 'modify'
++                    reset = False
++
++            if not skipped:
++                if not failed:
++                    try:
++                        bb.process.run('bitbake -c install %s' % pn)
++                    except bb.process.CmdError as exc:
++                        with open('stress_%s_install.log' % pn, 'w') as f:
++                            f.write(str(exc))
++                        failed = 'build'
++                if reset:
++                    try:
++                        bb.process.run('devtool reset %s' % pn)
++                    except bb.process.CmdError as exc:
++                        print('devtool reset failed: %s' % str(exc))
++                        break
  
- 
- def exec_build_env_command(init_path, builddir, cmd, watch=False, **options):
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 8236dd5..f2ba699 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -268,28 +268,30 @@ def _check_compatible_recipe(pn, d):
-     """Check if the recipe is supported by devtool"""
-     if pn == 'perf':
-         raise DevtoolError("The perf recipe does not actually check out "
--                           "source and thus cannot be supported by this tool")
-+                           "source and thus cannot be supported by this tool",
-+                           4)
- 
-     if pn in ['kernel-devsrc', 'package-index'] or pn.startswith('gcc-source'):
--        raise DevtoolError("The %s recipe is not supported by this tool" % pn)
-+        raise DevtoolError("The %s recipe is not supported by this tool" % pn, 4)
- 
-     if bb.data.inherits_class('image', d):
-         raise DevtoolError("The %s recipe is an image, and therefore is not "
--                           "supported by this tool" % pn)
-+                           "supported by this tool" % pn, 4)
- 
-     if bb.data.inherits_class('populate_sdk', d):
-         raise DevtoolError("The %s recipe is an SDK, and therefore is not "
--                           "supported by this tool" % pn)
-+                           "supported by this tool" % pn, 4)
- 
-     if bb.data.inherits_class('packagegroup', d):
-         raise DevtoolError("The %s recipe is a packagegroup, and therefore is "
--                           "not supported by this tool" % pn)
-+                           "not supported by this tool" % pn, 4)
- 
-     if bb.data.inherits_class('meta', d):
-         raise DevtoolError("The %s recipe is a meta-recipe, and therefore is "
--                           "not supported by this tool" % pn)
-+                           "not supported by this tool" % pn, 4)
- 
-     if bb.data.inherits_class('externalsrc', d) and d.getVar('EXTERNALSRC', True):
-+        # Not an incompatibility error per se, so we don't pass the error code
-         raise DevtoolError("externalsrc is currently enabled for the %s "
-                            "recipe. This prevents the normal do_patch task "
-                            "from working. You will need to disable this "
-@@ -502,7 +504,7 @@ def _extract_source(srctree, keep_temp, devbranch, sync, d):
- 
-         if 'noexec' in (d.getVarFlags('do_unpack', False) or []):
-             raise DevtoolError("The %s recipe has do_unpack disabled, unable to "
--                               "extract source" % pn)
-+                               "extract source" % pn, 4)
- 
-     if not sync:
-         # Prepare for shutil.move later on
+             if os.path.exists(srctree):
+                 shutil.rmtree(srctree)
+@@ -192,6 +203,8 @@ def stress_modify(args):
+             if failed:
+                 print('failed (%s)' % failed)
+                 failures += 1
++            elif skipped:
++                print('skipped (%s)' % skipped)
+             else:
+                 print('ok')
+     except KeyboardInterrupt:
 -- 
 2.5.5
 
