@@ -1,51 +1,21 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f54.google.com (mail-it0-f54.google.com
-	[209.85.214.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 504D165D00
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D51E607A4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Jul 2016 23:05:27 +0000 (UTC)
-Received: by mail-it0-f54.google.com with SMTP id f6so41464761ith.1
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Jul 2016 16:05:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=5l144JTwXAtzZK8WttoX3AARn7JCEneTPq1nzyhXCnA=;
-	b=iBI8T9LFGBYZP0WinFAFkkhylj98lSsnhb4/MOsoK6pRvfLttwUkcq60Ue7Swv65/1
-	2SkIVfZfUEMrbe3JXgtKJCsG16LxyDm4GMu4DqGN1G/DXiLSwAi7dsOaNODNNuv8YHOm
-	QZC4p+/kiTWd/WjLfGfgH+A4qbu01hQj5tcDNXnx/Xdm9z/8Dli7jbX+jFJ7oGOS+7dB
-	HzGRVNz2y4aV6L6rhmRW3GKD5/GxaVC2MttJhdsAey5MSn1n3kcw+CHE6ZSrGyic3jGZ
-	8bF2A5/Iw8EqILeY6zSamM0X0BuNZVIfH4E2UhCnA/UxFPCTU2vga4aFrn26wdVbDcIn
-	YxwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=5l144JTwXAtzZK8WttoX3AARn7JCEneTPq1nzyhXCnA=;
-	b=Tunw9N1AO+hBzAuN6BrDwaUAl9Ov2D1N84I7991FBW/7HAZU8B9cvk8vad9MlHFiLS
-	6fuO9jj2Pvz/+Zd8E7Y1CCNzEk3p+RmmSo+J+8g3yKcy/3qzMA5180LKoI6ZtojokhLu
-	VbLVrBga4m1aps47kcvZS5D3jKTicSHBbV8RZdcbx1aydfyoBySlcsbDs/rPzlX1WvCh
-	3IYSkDwOKxEpZonyfKzKX1t3LYpzZ+EcisDfKjuKLXUqCRL1zuKNKDqtHakH8tbg4DaO
-	ZJTRsRugSbTtexTLwHozHE1TS3o8Pqd4VNvRHfEIkOCd/wZBjr+eh+ooupBg8jRfNkYq
-	8yIQ==
-X-Gm-Message-State: ALyK8tLl8EPgPzyhWEonC1RLDjZW6Mmqit5SVcwyVCKiOtNo/AfGThUa4jplGI9vGOQAaSzPoyJhof/KWMM0sk10
-X-Received: by 10.36.121.21 with SMTP id z21mr13099344itc.38.1468191928483;
-	Sun, 10 Jul 2016 16:05:28 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.142.151 with HTTP; Sun, 10 Jul 2016 16:05:09 -0700 (PDT)
-In-Reply-To: <CAMKF1sowh1yCm_0StdEjZJ1GWvSTanV3N-rFJmAS=B8=zaZf8g@mail.gmail.com>
-References: <20160709232717.22380-1-raj.khem@gmail.com>
-	<CAJTo0LbkQBgu89Ow79weX5mVPwtWewtkUeDzkc39+Mz9VHN85w@mail.gmail.com>
-	<CAMKF1spk0f9xpNUUaqpLvx4aAPZ0cAU9NgG8eYLPtC7ziBDU2g@mail.gmail.com>
-	<CAMKF1sq1oH4c96XyTX1CK7pZgLYgjHEQKmjJ4ndS9GyV4A1zZg@mail.gmail.com>
-	<CAMKF1sowh1yCm_0StdEjZJ1GWvSTanV3N-rFJmAS=B8=zaZf8g@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 11 Jul 2016 00:05:09 +0100
-Message-ID: <CAJTo0LbCsLsLjG7J_ZtQMRnoipyNeLSYPi_7LipbWqjN6Bo6+Q@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] v86d: Accept aarch64 as build host
+	Sun, 10 Jul 2016 23:08:21 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga103.jf.intel.com with ESMTP; 10 Jul 2016 16:08:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,343,1464678000"; d="scan'208";a="732288668"
+Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com)
+	([10.255.164.140])
+	by FMSMGA003.fm.intel.com with ESMTP; 10 Jul 2016 16:08:20 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 11 Jul 2016 11:07:50 +1200
+Message-Id: <cover.1468191874.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.5.5
+Subject: [PATCH v2 0/7] devtool/recipetool fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,39 +28,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Jul 2016 23:05:28 -0000
-Content-Type: multipart/alternative; boundary=001a114a95a05c11b20537501239
+X-List-Received-Date: Sun, 10 Jul 2016 23:08:24 -0000
 
---001a114a95a05c11b20537501239
-Content-Type: text/plain; charset=UTF-8
+A bunch of fixes and minor improvements for devtool & recipetool.
 
-On 10 July 2016 at 18:59, Khem Raj <raj.khem@gmail.com> wrote:
+Changes since v1:
+* Have devtool return a specific error code on an incompatible recipe
+  and then have devtool-stress look for this instead of having a
+  hardcoded default skip list in devtool-stress
+* Rebase on top of master
 
-> Yes it is however the recipe is limited to x86 and now that we add a non
-> x86 build host this is a compromise I came up with. Hopefully we wont have
-> folks adding host architectures to Build oe on so regularly. Otherwise we
-> wont need cross compiling ;)
->
-Actually looked at the recipe and I see we override this value anyway, so
-ignore me. :)
 
-Ross
+The following changes since commit b17f91ed06a604e3d356fe17756bfe2ca61594b7:
 
---001a114a95a05c11b20537501239
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+  tune-ppce500mc.inc: pass -mcpu=e500mc for ppce500mc kernel compile (2016-07-10 14:12:07 +0100)
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 10 July 2016 at 18:59, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:=
-raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wro=
-te:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
-border-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:=
-solid;padding-left:1ex"><p>Yes it is however the recipe is limited to x86 a=
-nd now that we add a non x86 build host this is a compromise I came up with=
-. Hopefully we wont have folks adding host architectures to Build oe on so =
-regularly. Otherwise we wont need cross compiling ;)</p></blockquote></div>=
-</div><div class=3D"gmail_extra">Actually looked at the recipe and I see we=
- override this value anyway, so ignore me. :)</div><div class=3D"gmail_extr=
-a"><br></div><div class=3D"gmail_extra">Ross</div></div>
+are available in the git repository at:
 
---001a114a95a05c11b20537501239--
+  git://git.openembedded.org/openembedded-core-contrib paule/devtool18
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/devtool18
+
+Paul Eggleton (7):
+  recipetool: create: fix handling of github URLs
+  recipetool: create: support specifying a file as the local source
+  lib/oe/patch: handle encoding differences in patch files
+  devtool: update-recipe: fix --initial-rev option
+  devtool: reset: allow reset to work if the recipe file has been deleted
+  devtool: return specific exit code for incompatible recipes
+  scripts/contrib/devtool-stress: skip incompatible recipes
+
+ meta/lib/oe/patch.py              | 100 ++++++++++++++++++++++----------------
+ scripts/contrib/devtool-stress.py |  57 +++++++++++++---------
+ scripts/devtool                   |   2 +-
+ scripts/lib/devtool/__init__.py   |   5 +-
+ scripts/lib/devtool/standard.py   |  35 +++++++------
+ scripts/lib/recipetool/create.py  |  17 ++++---
+ 6 files changed, 126 insertions(+), 90 deletions(-)
+
+-- 
+2.5.5
+
+
