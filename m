@@ -1,21 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D51E607A4
+	by mail.openembedded.org (Postfix) with ESMTP id 1E69B70100
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Jul 2016 23:08:21 +0000 (UTC)
+	Sun, 10 Jul 2016 23:08:23 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 10 Jul 2016 16:08:23 -0700
+	by orsmga103.jf.intel.com with ESMTP; 10 Jul 2016 16:08:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,343,1464678000"; d="scan'208";a="732288668"
+X-IronPort-AV: E=Sophos;i="5.28,343,1464678000"; d="scan'208";a="732288679"
 Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com)
 	([10.255.164.140])
-	by FMSMGA003.fm.intel.com with ESMTP; 10 Jul 2016 16:08:20 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 10 Jul 2016 16:08:22 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Jul 2016 11:07:50 +1200
-Message-Id: <cover.1468191874.git.paul.eggleton@linux.intel.com>
+Date: Mon, 11 Jul 2016 11:07:51 +1200
+Message-Id: <aa33e3c26d53f41d094c1a0f563500c7c0508a63.1468191874.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.5
-Subject: [PATCH v2 0/7] devtool/recipetool fixes
+In-Reply-To: <cover.1468191874.git.paul.eggleton@linux.intel.com>
+References: <cover.1468191874.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1468191874.git.paul.eggleton@linux.intel.com>
+References: <cover.1468191874.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH v2 1/7] recipetool: create: fix handling of github URLs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,41 +34,31 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 10 Jul 2016 23:08:24 -0000
 
-A bunch of fixes and minor improvements for devtool & recipetool.
+For a while now, Github hasn't been advertising a specific repository
+URL since cloning the web URL with git works. Armed with this knowledge
+and fully expecting people to just paste the github URL, we need to
+handle this situation specially. If it looks like a github URL to the
+root of a repository then treat it as a git repository instead of a
+normal https URL to be fetched by the wget fetcher.
 
-Changes since v1:
-* Have devtool return a specific error code on an incompatible recipe
-  and then have devtool-stress look for this instead of having a
-  hardcoded default skip list in devtool-stress
-* Rebase on top of master
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ scripts/lib/recipetool/create.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-The following changes since commit b17f91ed06a604e3d356fe17756bfe2ca61594b7:
-
-  tune-ppce500mc.inc: pass -mcpu=e500mc for ppce500mc kernel compile (2016-07-10 14:12:07 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib paule/devtool18
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/devtool18
-
-Paul Eggleton (7):
-  recipetool: create: fix handling of github URLs
-  recipetool: create: support specifying a file as the local source
-  lib/oe/patch: handle encoding differences in patch files
-  devtool: update-recipe: fix --initial-rev option
-  devtool: reset: allow reset to work if the recipe file has been deleted
-  devtool: return specific exit code for incompatible recipes
-  scripts/contrib/devtool-stress: skip incompatible recipes
-
- meta/lib/oe/patch.py              | 100 ++++++++++++++++++++++----------------
- scripts/contrib/devtool-stress.py |  57 +++++++++++++---------
- scripts/devtool                   |   2 +-
- scripts/lib/devtool/__init__.py   |   5 +-
- scripts/lib/devtool/standard.py   |  35 +++++++------
- scripts/lib/recipetool/create.py  |  17 ++++---
- 6 files changed, 126 insertions(+), 90 deletions(-)
-
+diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
+index 430f5bb..95b16fb 100644
+--- a/scripts/lib/recipetool/create.py
++++ b/scripts/lib/recipetool/create.py
+@@ -324,7 +324,7 @@ def supports_srcrev(uri):
+ def reformat_git_uri(uri):
+     '''Convert any http[s]://....git URI into git://...;protocol=http[s]'''
+     checkuri = uri.split(';', 1)[0]
+-    if checkuri.endswith('.git') or '/git/' in checkuri:
++    if checkuri.endswith('.git') or '/git/' in checkuri or re.match('https?://github.com/[^/]+/[^/]+/?', checkuri):
+         res = re.match('(https?)://([^;]+(\.git)?)(;.*)?$', uri)
+         if res:
+             # Need to switch the URI around so that the git fetcher is used
 -- 
 2.5.5
 
