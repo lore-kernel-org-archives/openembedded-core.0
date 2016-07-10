@@ -1,25 +1,33 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A9238731A3
+Return-Path: <denis@denix.org>
+X-Greylist: delayed 3600 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sun, 10 Jul 2016 23:11:12 UTC
+Received: from vms173019pub.verizon.net (vms173019pub.verizon.net
+	[206.46.173.19])
+	by mail.openembedded.org (Postfix) with ESMTP id D060A65D00
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Jul 2016 23:08:42 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 10 Jul 2016 16:08:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,343,1464678000"; d="scan'208";a="732288720"
-Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com)
-	([10.255.164.140])
-	by FMSMGA003.fm.intel.com with ESMTP; 10 Jul 2016 16:08:37 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Sun, 10 Jul 2016 23:11:12 +0000 (UTC)
+Received: from vz-proxy-m006.mx.aol.com ([64.236.83.10])
+	by vms173019.mailsrvcs.net
+	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul 16
+	2014)) with ESMTPA id <0OA400IXDDM9NF90@vms173019.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Sun, 10 Jul 2016 17:10:57 -0500 (CDT)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.1 cv=Nc0brD34 c=1 sm=1 tr=0	a=pKq81LsWol7b8sI3Hpopew==:117
+	a=kj9zAlcOel0A:10 a=cAmyUtKerLwA:10	a=0qdUnEcgA0krgYN-DTgA:9
+	a=CjuIK1q_8ugA:10
+Received: by 100.15.86.14 with SMTP id 79fc306b; Sun, 10 Jul 2016 22:10:57 GMT
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 887121620AC; Sun,
+	10 Jul 2016 18:10:56 -0400 (EDT)
+Date: Sun, 10 Jul 2016 18:10:56 -0400
+From: Denys Dmytriyenko <denis@denix.org>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Jul 2016 11:07:57 +1200
-Message-Id: <012693dc46810e2d941eae46f442e22e07c60d86.1468191874.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.5.5
-In-Reply-To: <cover.1468191874.git.paul.eggleton@linux.intel.com>
-References: <cover.1468191874.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1468191874.git.paul.eggleton@linux.intel.com>
-References: <cover.1468191874.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH v2 7/7] scripts/contrib/devtool-stress: skip incompatible recipes
+Message-id: <20160710221056.GD8521@denix.org>
+References: <20160710213559.GC8521@denix.org>
+MIME-version: 1.0
+In-reply-to: <20160710213559.GC8521@denix.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Subject: Re: Can NOT get PRAUTO, exception [Errno -3] Temporary failure in name resolution
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,116 +40,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Jul 2016 23:08:42 -0000
+X-List-Received-Date: Sun, 10 Jul 2016 23:11:13 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-If devtool returns exit code 4 then record the recipes as "skipped"
-rather than "failed" - these are recipes we know cannot work (usually
-because they don't provide any source).
+On Sun, Jul 10, 2016 at 05:35:59PM -0400, Denys Dmytriyenko wrote:
+> Has anyone ever seen this error message:
+> 
+> ERROR: blah-blah do_package: Can NOT get PRAUTO, exception [Errno -3] Temporary failure in name resolution
+> 
+> I'm using centralized PR Service over the network on a local subnet. I just 
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- scripts/contrib/devtool-stress.py | 57 ++++++++++++++++++++++++---------------
- 1 file changed, 35 insertions(+), 22 deletions(-)
+Oh, forgot to mention - this seems to be intermittent, as it works fine now. 
+Trying to prevent it from happening again in the future.
 
-diff --git a/scripts/contrib/devtool-stress.py b/scripts/contrib/devtool-stress.py
-index ab77a2d..5fff257 100755
---- a/scripts/contrib/devtool-stress.py
-+++ b/scripts/contrib/devtool-stress.py
-@@ -121,14 +121,18 @@ def stress_extract(args):
-             sys.stdout.write('Testing %s ' % (pn + ' ').ljust(40, '.'))
-             sys.stdout.flush()
-             failed = False
-+            skipped = None
- 
-             srctree = os.path.join(tmpdir, pn)
-             try:
-                 bb.process.run('devtool extract %s %s' % (pn, srctree))
--            except bb.process.CmdError as exc:
--                failed = True
--                with open('stress_%s_extract.log' % pn, 'w') as f:
--                    f.write(str(exc))
-+            except bb.process.ExecutionError as exc:
-+                if exc.exitcode == 4:
-+                    skipped = 'incompatible'
-+                else:
-+                    failed = True
-+                    with open('stress_%s_extract.log' % pn, 'w') as f:
-+                        f.write(str(exc))
- 
-             if os.path.exists(srctree):
-                 shutil.rmtree(srctree)
-@@ -136,6 +140,8 @@ def stress_extract(args):
-             if failed:
-                 print('failed')
-                 failures += 1
-+            elif skipped:
-+                print('skipped (%s)' % skipped)
-             else:
-                 print('ok')
-     except KeyboardInterrupt:
-@@ -162,29 +168,34 @@ def stress_modify(args):
-             sys.stdout.flush()
-             failed = False
-             reset = True
-+            skipped = None
- 
-             srctree = os.path.join(tmpdir, pn)
-             try:
-                 bb.process.run('devtool modify -x %s %s' % (pn, srctree))
--            except bb.process.CmdError as exc:
--                with open('stress_%s_modify.log' % pn, 'w') as f:
--                    f.write(str(exc))
--                failed = 'modify'
--                reset = False
--
--            if not failed:
--                try:
--                    bb.process.run('bitbake -c install %s' % pn)
--                except bb.process.CmdError as exc:
--                    with open('stress_%s_install.log' % pn, 'w') as f:
-+            except bb.process.ExecutionError as exc:
-+                if exc.exitcode == 4:
-+                    skipped = 'incompatible'
-+                else:
-+                    with open('stress_%s_modify.log' % pn, 'w') as f:
-                         f.write(str(exc))
--                    failed = 'build'
--            if reset:
--                try:
--                    bb.process.run('devtool reset %s' % pn)
--                except bb.process.CmdError as exc:
--                    print('devtool reset failed: %s' % str(exc))
--                    break
-+                    failed = 'modify'
-+                    reset = False
-+
-+            if not skipped:
-+                if not failed:
-+                    try:
-+                        bb.process.run('bitbake -c install %s' % pn)
-+                    except bb.process.CmdError as exc:
-+                        with open('stress_%s_install.log' % pn, 'w') as f:
-+                            f.write(str(exc))
-+                        failed = 'build'
-+                if reset:
-+                    try:
-+                        bb.process.run('devtool reset %s' % pn)
-+                    except bb.process.CmdError as exc:
-+                        print('devtool reset failed: %s' % str(exc))
-+                        break
- 
-             if os.path.exists(srctree):
-                 shutil.rmtree(srctree)
-@@ -192,6 +203,8 @@ def stress_modify(args):
-             if failed:
-                 print('failed (%s)' % failed)
-                 failures += 1
-+            elif skipped:
-+                print('skipped (%s)' % skipped)
-             else:
-                 print('ok')
-     except KeyboardInterrupt:
+
+> got this message on 2 different machines for 3 separate packages. Should I be 
+> worried about it? Should I look into networking HW issues or into PR server 
+> instance or something else? Should I switch over to using IP address instead 
+> of FQDN and even more - use static IP? Any best practices? Thanks.
+
 -- 
-2.5.5
-
+Denys
 
