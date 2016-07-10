@@ -1,46 +1,39 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f182.google.com (mail-pf0-f182.google.com
-	[209.85.192.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C857601F6
+Return-Path: <denis@denix.org>
+X-Greylist: delayed 3602 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sun, 10 Jul 2016 22:28:27 UTC
+Received: from vms173007pub.verizon.net (vms173007pub.verizon.net
+	[206.46.173.7])
+	by mail.openembedded.org (Postfix) with ESMTP id B26B8601F6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Jul 2016 21:27:36 +0000 (UTC)
-Received: by mail-pf0-f182.google.com with SMTP id h14so28872234pfe.1
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Jul 2016 14:27:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=u7I2uJ8H44dKvi8HKEaH+RuZ2CtA+n1po9OXR/LC+kQ=;
-	b=FyZP5N4qOJI5BVgrsxh7DFnlc54NisrPMVdkAfZN9i3mlw3T5XgFlv+g7fC6nIz0Ga
-	EgaPPZm+T/RiPuBudvqRf18dzn7g+oVIWDomXvDdDijivZ/vKkD57PXpdbBOK0B/WsSO
-	G8f8YIEzMV/Vj+RRo2IB9fh40qldJAbQVkyA0tYw2fUkEtaumljTw+Oh4hO/zqA5wGPu
-	tRQs0yBSR1rZZyvrYHoqNbPaKzvsXfv8W7Z5ELEZJZ5W/JBN/o7Hwhch4bryHLzesc+0
-	i56+1G63KPsFbWo0lCoJvrh5gcvIuaPDrasNLF/0tMjnMJQPCFz6qR41TZNKzZhnWu2G
-	ZXKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=u7I2uJ8H44dKvi8HKEaH+RuZ2CtA+n1po9OXR/LC+kQ=;
-	b=XBoDzY15UI+yQkIu0fz/T8Nzxu9bgnYdijoWh05F0x2VGJRen9tZTJc/EW3c44qHZT
-	xeBnuwQEuLGMs0gDUMXwAWGLArr7q16hPJXIf3A6wbQwrub0y5JPPQpmk2xHWUZGGJhe
-	TaLCuLJUWSX4dUaby10NZv6G3lxhVzKIjMnz+elXVq11esaMQuCIFfzslpkQFEmxuxRo
-	gwc5FDi0OH1qet23i06VeQ6MwTS3ue9HacEyGgw0FFCIseU+DOwFi3Bdo/3U4SGQS1YG
-	5iB7AimaSEeXUcAgSlv/VkD0TnM177dIQTvn16cJ00UIe9U0oR7NpgMfgOKjc/2PkEc7
-	auLA==
-X-Gm-Message-State: ALyK8tIGk+G6DXA27TuWgtJZTi2npv0CXTMc9IKNhTmYKwgycapLA47iC9O515PaPOCziw==
-X-Received: by 10.98.54.198 with SMTP id d189mr29054963pfa.39.1468186057434;
-	Sun, 10 Jul 2016 14:27:37 -0700 (PDT)
-Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
-	186sm4252517pfg.39.2016.07.10.14.27.35
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 10 Jul 2016 14:27:36 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	akuster@mvista.com
-Date: Sun, 10 Jul 2016 14:27:18 -0700
-Message-Id: <cover.1468185892.git.akuster808@gmail.com>
-X-Mailer: git-send-email 2.3.5
-Subject: [PATCH 00/15] Fido-next libxml2 sercurity fixes
+	Sun, 10 Jul 2016 22:28:27 +0000 (UTC)
+Received: from vz-proxy-m005.mx.aol.com ([64.236.83.15])
+	by vms173007.mailsrvcs.net
+	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul 16
+	2014)) with ESMTPA id <0OA400J49BNCV900@vms173007.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Sun, 10 Jul 2016 16:28:24 -0500 (CDT)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.1 cv=WcjxEBVX c=1 sm=1 tr=0	a=NimJJ1rWho3RDXpqkQh0Zg==:117
+	a=kj9zAlcOel0A:10 a=cAmyUtKerLwA:10	a=y72ONi3lAAAA:8
+	a=c8cKn-tmQt8w5voVrtoA:9 a=CjuIK1q_8ugA:10
+Received: by 100.15.86.14 with SMTP id 688cf2c2; Sun, 10 Jul 2016 21:28:24 GMT
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id E27F61620AC; Sun,
+	10 Jul 2016 17:28:23 -0400 (EDT)
+Date: Sun, 10 Jul 2016 17:28:23 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Venkatesh <venkateshv377@gmail.com>
+Message-id: <20160710212822.GB8521@denix.org>
+References: <1410665660-25145-1-git-send-email-denis@denix.org>
+	<CAJTo0Law3iWz=+A1vA7QsikNozeVP7U49=+T9fkT7YgLzJ_hcA@mail.gmail.com>
+	<20141107194159.GD9512@denix.org>
+	<CAJTo0LYLh9A8zYJDMtyCBw2r1pX8KxNjv=mq5MBX=B8BZvRObw@mail.gmail.com>
+	<20141107205445.GF9512@denix.org> <20141107223001.GG9512@denix.org>
+	<loom.20160710T184732-108@post.gmane.org>
+MIME-version: 1.0
+In-reply-to: <loom.20160710T184732-108@post.gmane.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] u-boot: update to version 2014.07
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,72 +46,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Jul 2016 21:27:37 -0000
+X-List-Received-Date: Sun, 10 Jul 2016 22:28:28 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-Please consider these libxml2 fixes for fido-next
+On Sun, Jul 10, 2016 at 04:49:56PM +0000, Venkatesh wrote:
+> Denys Dmytriyenko <denis@...> writes:
+> 
+> > 
+> > On Fri, Nov 07, 2014 at 03:54:45PM -0500, Denys Dmytriyenko wrote:
+> > > On Fri, Nov 07, 2014 at 08:43:38PM +0000, Burton, Ross wrote:
+> > > > On 7 November 2014 19:41, Denys Dmytriyenko <denis@...> wrote:
+> > > > 
+> > > > > > | scripts/basic/fixdep: 1: scripts/basic/fixdep: Syntax error: word
+> > > > > > unexpected (expecting ")")
+> > > > > >
+> > > > > > I suspect the real problem is:
+> > > > > >
+> > > > > > $ file fixdep
+> > > > > > fixdep: ELF 32-bit LSB executable, ARM, version 1 (SYSV), dynamically
+> > > > > > linked (uses shared libs), for GNU/Linux 2.6.32,
+> > > > > > BuildID[sha1]=0xb4ea84a189f10b4f3e08fb10f8e490135e2b920c, not stripped
+> > > > > >
+> > > > > > It appears to have been built using the target compiler, not the host.
+> > > > >
+> > > > > Ross,
+> > > > >
+> > > > > I'm a bit lost here - as you said above, this is a target build and
+> yet you
+> > > > > say it shouldn't use the target compiler. Can you please explain
+> what you
+> > > > > mean?
+> > > > 
+> > > > 
+> > > > Yes, it's building a binary (fixdep) and then executing it.  That binary
+> > > > needs to be built with the host compiler (BUILD_CC).
+> > > > 
+> > > > Easily replicated for me with "MACHINE=qemuarm bitbake u-boot-mkimage".
+> > > 
+> > > Ah, got it. Didn't realize, as I build -native version. Give me a sec to
+> fix 
+> > > it. BTW, 2014.10 is out and I've been using it for a bit now - planning on 
+> > > sending the update soon...
+> > 
+> > Ross,
+> > 
+> > I've just sent an RFC patch to allow building mkimage for the target. I'd
+> like 
+> > to collect feedback for it first, but feel free to squash it with the
+> previous 
+> > patch, if it's accepted (or commit separately - your choice). The update to 
+> > 2014.10 will follow shortly, I just want this version to get through
+> first, as 
+> > it has been in limbo for a few months...
+> > 
+> 
+> 
+> I am encountering this problem while compiling my driver code for beagle
+> bone black.
+> 
+> scripts/basic/fixdep: 1: scripts/basic/fixdep: Syntax error: word unexpected
+> (expecting ")")
+> make[2]: *** [/home/venkyvenkatesh/Driver_Compiler/driver_code.o] Error 2
+> make[1]: *** [_module_/home/venkyvenkatesh/Driver_Compiler] Error 2
+> make[1]: Leaving directory
+> `/home/venkyvenkatesh/Driver_Compiler/usr/src/linux-3.14.4.1-bone-armhf.com'
+> make: *** [all] Error 2
 
-The following changes since commit c9f0a99050ec0050f0dbcd55d0cd2ab18848113f:
-
-  build-appliance-image: Update to fido head revision (2016-05-12 13:14:51 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib akuster/fido-next
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akuster/fido-next
-
-Armin Kuster (15):
-  libxml2: Security fix for CVE-2016-1762
-  libxml2: Security fix for CVE-2016-3705
-  libxml2: Security fix for CVE-2016-1834.patch
-  libxml2: Security fix for CVE-2016-4483.patch
-  libxml2: Security fix for CVE-2016-1840
-  libxml2: Security fix for CVE-2016-1838
-  libxml2: Security fix for CVE-2016-1839
-  libxml2: Security fix for CVE-2016-1836
-  libxml2: Security fix for CVE-2016-4449
-  libxml2: Security fix for CVE-2016-1837
-  libxml2: Security fix for CVE-2016-1835
-  libxml2: Security fix for CVE-2016-1833
-  libxml2: Security fix for CVE-2016-3627
-  libxml2: Security fix for CVE-2016-4447
-  libxml2: Security fix for CVE-2016-4448
-
- .../libxml/libxml2/CVE-2016-1762.patch             |   84 ++
- .../libxml/libxml2/CVE-2016-1833.patch             |  368 +++++++
- .../libxml/libxml2/CVE-2016-1834.patch             |   55 +
- .../libxml/libxml2/CVE-2016-1835.patch             |   95 ++
- .../libxml/libxml2/CVE-2016-1836.patch             |  443 ++++++++
- .../libxml/libxml2/CVE-2016-1837.patch             |  143 +++
- .../libxml/libxml2/CVE-2016-1838.patch             |   96 ++
- .../libxml/libxml2/CVE-2016-1839.patch             |  127 +++
- .../libxml/libxml2/CVE-2016-1840.patch             |   37 +
- .../libxml/libxml2/CVE-2016-3627.patch             |   64 ++
- .../libxml/libxml2/CVE-2016-3705.patch             |   71 ++
- .../libxml/libxml2/CVE-2016-4447.patch             |  208 ++++
- .../libxml/libxml2/CVE-2016-4448_1.patch           | 1067 ++++++++++++++++++++
- .../libxml/libxml2/CVE-2016-4448_2.patch           |  208 ++++
- .../libxml/libxml2/CVE-2016-4449.patch             |   47 +
- .../libxml/libxml2/CVE-2016-4483.patch             |   55 +
- meta/recipes-core/libxml/libxml2_2.9.2.bb          |   18 +
- 17 files changed, 3186 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-1762.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-1833.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-1834.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-1835.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-1836.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-1837.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-1838.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-1839.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-1840.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-3627.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-3705.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-4447.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-4448_1.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-4448_2.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-4449.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-4483.patch
+How is this related to u-boot? Or even OpenEmbedded?
 
 -- 
-2.3.5
-
+Denys
 
