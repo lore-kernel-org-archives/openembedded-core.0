@@ -1,50 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
-	[209.85.216.195])
-	by mail.openembedded.org (Postfix) with ESMTP id A1789601F6
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f182.google.com (mail-pf0-f182.google.com
+	[209.85.192.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C857601F6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Jul 2016 17:59:12 +0000 (UTC)
-Received: by mail-qt0-f195.google.com with SMTP id q11so1139331qtb.2
+	Sun, 10 Jul 2016 21:27:36 +0000 (UTC)
+Received: by mail-pf0-f182.google.com with SMTP id h14so28872234pfe.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Jul 2016 10:59:13 -0700 (PDT)
+	Sun, 10 Jul 2016 14:27:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=XUVKUfzbEJbU4GYZ+XTeWUDlkcYtxrZlXpukILDzsnY=;
-	b=fJnwJogniS8fkL3KUZrfxAN++FLD3iNjn1ypIH+xZY25yMcjaTqc0YmZNo/4SJoGzj
-	5LeNCp3Ma9vDAb61j1wx9tqEuJaCa94OzO+gfn8DjWA06LvOG7rpkU8I/Q7VhfvhngzB
-	CpQiVD2oKYbifHITamzsfKC8f3GWa9MQFb5div6nrjMtBtgUz3vRFZiVeGj42bIze0ii
-	Q2VcYgW543SmcZJPaP0juD8B70X9H149J0ge0Z0w0jB6SlMKG6rayZtMEmAA850d72kb
-	IKicSRdw22VmxkElx+W7ndUs5Yp/0+tv/vepFCy+me0xlUvNWpt6oJ1B8ITwUSq5lo09
-	LRZw==
+	h=from:to:subject:date:message-id;
+	bh=u7I2uJ8H44dKvi8HKEaH+RuZ2CtA+n1po9OXR/LC+kQ=;
+	b=FyZP5N4qOJI5BVgrsxh7DFnlc54NisrPMVdkAfZN9i3mlw3T5XgFlv+g7fC6nIz0Ga
+	EgaPPZm+T/RiPuBudvqRf18dzn7g+oVIWDomXvDdDijivZ/vKkD57PXpdbBOK0B/WsSO
+	G8f8YIEzMV/Vj+RRo2IB9fh40qldJAbQVkyA0tYw2fUkEtaumljTw+Oh4hO/zqA5wGPu
+	tRQs0yBSR1rZZyvrYHoqNbPaKzvsXfv8W7Z5ELEZJZ5W/JBN/o7Hwhch4bryHLzesc+0
+	i56+1G63KPsFbWo0lCoJvrh5gcvIuaPDrasNLF/0tMjnMJQPCFz6qR41TZNKzZhnWu2G
+	ZXKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=XUVKUfzbEJbU4GYZ+XTeWUDlkcYtxrZlXpukILDzsnY=;
-	b=lDS0HK98nSFBaYNNo/T+O0AP4gTUyFDODqR06QOD+TRNmbzJgx5retipfL07z/Jo2s
-	UPvY0uX9I/q6LCubQCqXK5rJRzGGVvHH78xECdBKpgP+KA6Dw8/uB/t+Eh7qNtQyGTHU
-	Dos9YSP8Lv9JcsT2thEk2IfGcondseWutIhwfWGhO2m8Nt4ZKAYoQl7Or886/Xzmsv3+
-	S0x6e5HnZHCdw2HIW7Or09s3gFSyBAFr3h9oOOy5VPrE75Fpl4Jwe9NrJ21GdoODMVEr
-	GFTK135xck4ic2T5faPJ67vZBO7QOFiK4AdNe2DGyU2WFX9OtHrR8z27yxlnx1SVSZr4
-	5wuQ==
-X-Gm-Message-State: ALyK8tLV9NOqbrWgFknkxABp/Xi9kg29pNGPbNrU3gI0UNIFzV63G8H8ZkQSxJxINRoycv1fNzJ+hvjzCPooJA==
-MIME-Version: 1.0
-X-Received: by 10.200.48.141 with SMTP id v13mr18604366qta.76.1468173552731;
-	Sun, 10 Jul 2016 10:59:12 -0700 (PDT)
-Received: by 10.55.214.83 with HTTP; Sun, 10 Jul 2016 10:59:12 -0700 (PDT)
-Received: by 10.55.214.83 with HTTP; Sun, 10 Jul 2016 10:59:12 -0700 (PDT)
-In-Reply-To: <CAMKF1sq1oH4c96XyTX1CK7pZgLYgjHEQKmjJ4ndS9GyV4A1zZg@mail.gmail.com>
-References: <20160709232717.22380-1-raj.khem@gmail.com>
-	<CAJTo0LbkQBgu89Ow79weX5mVPwtWewtkUeDzkc39+Mz9VHN85w@mail.gmail.com>
-	<CAMKF1spk0f9xpNUUaqpLvx4aAPZ0cAU9NgG8eYLPtC7ziBDU2g@mail.gmail.com>
-	<CAMKF1sq1oH4c96XyTX1CK7pZgLYgjHEQKmjJ4ndS9GyV4A1zZg@mail.gmail.com>
-Date: Sun, 10 Jul 2016 10:59:12 -0700
-Message-ID: <CAMKF1sowh1yCm_0StdEjZJ1GWvSTanV3N-rFJmAS=B8=zaZf8g@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] v86d: Accept aarch64 as build host
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=u7I2uJ8H44dKvi8HKEaH+RuZ2CtA+n1po9OXR/LC+kQ=;
+	b=XBoDzY15UI+yQkIu0fz/T8Nzxu9bgnYdijoWh05F0x2VGJRen9tZTJc/EW3c44qHZT
+	xeBnuwQEuLGMs0gDUMXwAWGLArr7q16hPJXIf3A6wbQwrub0y5JPPQpmk2xHWUZGGJhe
+	TaLCuLJUWSX4dUaby10NZv6G3lxhVzKIjMnz+elXVq11esaMQuCIFfzslpkQFEmxuxRo
+	gwc5FDi0OH1qet23i06VeQ6MwTS3ue9HacEyGgw0FFCIseU+DOwFi3Bdo/3U4SGQS1YG
+	5iB7AimaSEeXUcAgSlv/VkD0TnM177dIQTvn16cJ00UIe9U0oR7NpgMfgOKjc/2PkEc7
+	auLA==
+X-Gm-Message-State: ALyK8tIGk+G6DXA27TuWgtJZTi2npv0CXTMc9IKNhTmYKwgycapLA47iC9O515PaPOCziw==
+X-Received: by 10.98.54.198 with SMTP id d189mr29054963pfa.39.1468186057434;
+	Sun, 10 Jul 2016 14:27:37 -0700 (PDT)
+Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
+	186sm4252517pfg.39.2016.07.10.14.27.35
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 10 Jul 2016 14:27:36 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	akuster@mvista.com
+Date: Sun, 10 Jul 2016 14:27:18 -0700
+Message-Id: <cover.1468185892.git.akuster808@gmail.com>
+X-Mailer: git-send-email 2.3.5
+Subject: [PATCH 00/15] Fido-next libxml2 sercurity fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,71 +53,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Jul 2016 17:59:15 -0000
-Content-Type: multipart/alternative; boundary=001a113a94b61449eb05374bcbf4
+X-List-Received-Date: Sun, 10 Jul 2016 21:27:37 -0000
 
---001a113a94b61449eb05374bcbf4
-Content-Type: text/plain; charset=UTF-8
+Please consider these libxml2 fixes for fido-next
 
-On Jul 10, 2016 2:53 AM, "Burton, Ross" <ross.burton@intel.com> wrote:
->
->
-> On 10 July 2016 at 00:27, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> +       local m=`uname -m`
->> +       if [ "$m" = "i686" -o "$m" = "i586" -o "$m" = "i486" -o "$m" =
-"i386" ]; then
->> +               echo "n";
->> +-      elif [ "$m" = "x86_64" ]; then
->> ++      elif [ "$m" = "x86_64" -o "$m" = "aarch64" ]; then
->> +               echo "y";
->> +       else
->
->
-> Surely this entire block is wrong for cross-compilation - looking at
-uname to determine what to build for the target?
+The following changes since commit c9f0a99050ec0050f0dbcd55d0cd2ab18848113f:
 
-Yes it is however the recipe is limited to x86 and now that we add a non
-x86 build host this is a compromise I came up with. Hopefully we wont have
-folks adding host architectures to Build oe on so regularly. Otherwise we
-wont need cross compiling ;)
->
-> Ross
+  build-appliance-image: Update to fido head revision (2016-05-12 13:14:51 +0100)
 
---001a113a94b61449eb05374bcbf4
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+are available in the git repository at:
 
-<p dir=3D"ltr"></p>
-<p dir=3D"ltr">On Jul 10, 2016 2:53 AM, &quot;Burton, Ross&quot; &lt;<a hre=
-f=3D"mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt;<br>
-&gt; On 10 July 2016 at 00:27, Khem Raj &lt;<a href=3D"mailto:raj.khem@gmai=
-l.com">raj.khem@gmail.com</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0local m=3D`uname -m`<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ &quot;$m&quot; =3D &quot;i686&quo=
-t; -o &quot;$m&quot; =3D &quot;i586&quot; -o &quot;$m&quot; =3D &quot;i486&=
-quot; -o &quot;$m&quot; =3D &quot;i386&quot; ]; then<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo &quot=
-;n&quot;;<br>
-&gt;&gt; +-=C2=A0 =C2=A0 =C2=A0 elif [ &quot;$m&quot; =3D &quot;x86_64&quot=
-; ]; then<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 elif [ &quot;$m&quot; =3D &quot;x86_64&quot=
-; -o &quot;$m&quot; =3D &quot;aarch64&quot; ]; then<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo &quot=
-;y&quot;;<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0else<br>
-&gt;<br>
-&gt;<br>
-&gt; Surely this entire block is wrong for cross-compilation - looking at u=
-name to determine what to build for the target?</p>
-<p dir=3D"ltr">Yes it is however the recipe is limited to x86 and now that =
-we add a non x86 build host this is a compromise I came up with. Hopefully =
-we wont have folks adding host architectures to Build oe on so regularly. O=
-therwise we wont need cross compiling ;)<br>
-&gt;<br>
-&gt; Ross<br></p>
+  git://git.yoctoproject.org/poky-contrib akuster/fido-next
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akuster/fido-next
 
---001a113a94b61449eb05374bcbf4--
+Armin Kuster (15):
+  libxml2: Security fix for CVE-2016-1762
+  libxml2: Security fix for CVE-2016-3705
+  libxml2: Security fix for CVE-2016-1834.patch
+  libxml2: Security fix for CVE-2016-4483.patch
+  libxml2: Security fix for CVE-2016-1840
+  libxml2: Security fix for CVE-2016-1838
+  libxml2: Security fix for CVE-2016-1839
+  libxml2: Security fix for CVE-2016-1836
+  libxml2: Security fix for CVE-2016-4449
+  libxml2: Security fix for CVE-2016-1837
+  libxml2: Security fix for CVE-2016-1835
+  libxml2: Security fix for CVE-2016-1833
+  libxml2: Security fix for CVE-2016-3627
+  libxml2: Security fix for CVE-2016-4447
+  libxml2: Security fix for CVE-2016-4448
+
+ .../libxml/libxml2/CVE-2016-1762.patch             |   84 ++
+ .../libxml/libxml2/CVE-2016-1833.patch             |  368 +++++++
+ .../libxml/libxml2/CVE-2016-1834.patch             |   55 +
+ .../libxml/libxml2/CVE-2016-1835.patch             |   95 ++
+ .../libxml/libxml2/CVE-2016-1836.patch             |  443 ++++++++
+ .../libxml/libxml2/CVE-2016-1837.patch             |  143 +++
+ .../libxml/libxml2/CVE-2016-1838.patch             |   96 ++
+ .../libxml/libxml2/CVE-2016-1839.patch             |  127 +++
+ .../libxml/libxml2/CVE-2016-1840.patch             |   37 +
+ .../libxml/libxml2/CVE-2016-3627.patch             |   64 ++
+ .../libxml/libxml2/CVE-2016-3705.patch             |   71 ++
+ .../libxml/libxml2/CVE-2016-4447.patch             |  208 ++++
+ .../libxml/libxml2/CVE-2016-4448_1.patch           | 1067 ++++++++++++++++++++
+ .../libxml/libxml2/CVE-2016-4448_2.patch           |  208 ++++
+ .../libxml/libxml2/CVE-2016-4449.patch             |   47 +
+ .../libxml/libxml2/CVE-2016-4483.patch             |   55 +
+ meta/recipes-core/libxml/libxml2_2.9.2.bb          |   18 +
+ 17 files changed, 3186 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-1762.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-1833.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-1834.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-1835.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-1836.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-1837.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-1838.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-1839.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-1840.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-3627.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-3705.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-4447.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-4448_1.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-4448_2.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-4449.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-4483.patch
+
+-- 
+2.3.5
+
+
