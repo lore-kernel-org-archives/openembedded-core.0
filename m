@@ -1,45 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f67.google.com (mail-pa0-f67.google.com
-	[209.85.220.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 081F1601A4
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
+	[209.85.220.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E347605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Jul 2016 23:27:24 +0000 (UTC)
-Received: by mail-pa0-f67.google.com with SMTP id ts6so10490098pac.0
+	Sun, 10 Jul 2016 01:08:14 +0000 (UTC)
+Received: by mail-pa0-f42.google.com with SMTP id dx3so23379230pab.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 09 Jul 2016 16:27:25 -0700 (PDT)
+	Sat, 09 Jul 2016 18:08:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=SpnH/ZDwtJbtO3leO4txjhXDCu+b6IY1ugE9A79wufk=;
-	b=pqqQtw2Fr47cSgMXLA8kdL/1iqEkSot5wZ5q/ywh8vf2vga/ZkSk9G//nHB6i0S9Ht
-	mij1xbW4sDTEBJhmZPqP+yN35wxbEJ8Dm140zSDAQO7mEobdZDWPgnNpezhZ6yHT77gg
-	9QH838eUjKKIWRFoHOhDLpSMepimgbfAALsXVkF5UiGTcz3zvsZX9QE9EO4JAWRe72lw
-	9INF4/3d5Pc/+PqhX+OgmLdysjtm4RYZeYrwJhfUnPpqjgdq5XmvlE6slHT7FufLicJC
-	BCJy9hfHB+fWwjxSBb8VyKXSMc13fjgb5TdU/7ytFVteLd4F5ZmXLeEW484yUGKeK/AH
-	ttAw==
+	h=from:to:subject:date:message-id;
+	bh=75H3K9m787XYRCc+hDV2TLbR5lvpCyipSmVAv0Xe9g0=;
+	b=E0SZD+oirhx49N5hnFzYlo1tnRTsEidUqZxbnXbD9pyWX9ZyrUK+2Tu4CGP1J2W7Dl
+	FZDObSg87xgSa0wmzA43a3KRxYeBkEbNn7DftQBYYLxJiTRjJXX9q59Hg8IgZkAh+f0o
+	o8jBfhm1U/cKomLBsZ+WPtBNLjIMCRxhV7vB9mvqjTv1JdUvFG2/pUnaTEyeHbT/DRje
+	FTaAT0va2xDP7tP5i0tWlykn8kH77FnGNJsXRbOP7oNwhuejY10YWvD4LwDv+IP5LejC
+	5rfPkVi70/06N7vEQ3ke0pajePnqVJyW/VDxIw++2jYirySLgyECkHumpFsm3S3Y5FJu
+	gMlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=SpnH/ZDwtJbtO3leO4txjhXDCu+b6IY1ugE9A79wufk=;
-	b=amTaClkyC3CRcyDUVrHYFTEfQwAKWgcAROdbJ4G6kv5zagpXYjlruWYO3biVv0aI4i
-	0lbaSe8EgEG8PAlo5SAhwO5iUx9T8yHRIO7yGZBme0LKpyP/AkaWUVlFOssT+bhfSxGi
-	j6PSU8CRmF98hAwanRsufHY+uTVNZyIGyQdOX2k3FYV2t6Qv0EIY6C4iHQfe5XiiFp4y
-	7Ge2lQreFVEHXGaXh2upNwGgli9C72/F+4pMcUUZjqr2jSIDwEXY+MpOKaCdK2jsqsQK
-	dzSUdgSu1FHndTbQ4kWsv03kKo8In9uDNZcYMAaIhW4+yEk1aCAl/B6a+vMx0MQxExFM
-	cWPg==
-X-Gm-Message-State: ALyK8tJ7cnkglBAn5sezhxl29Rel4Qlyihvmd1QROZRM3iv5fBPEQM259+gEKmJTgQ9jxw==
-X-Received: by 10.66.193.39 with SMTP id hl7mr22090043pac.10.1468106845510;
-	Sat, 09 Jul 2016 16:27:25 -0700 (PDT)
-Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
-	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	i89sm5338293pfi.22.2016.07.09.16.27.24
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 09 Jul 2016 16:27:24 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  9 Jul 2016 16:27:17 -0700
-Message-Id: <20160709232717.22380-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.9.0
-Subject: [PATCH] v86d: Accept aarch64 as build host
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=75H3K9m787XYRCc+hDV2TLbR5lvpCyipSmVAv0Xe9g0=;
+	b=FMAKAVThA9vKt88STLNjQdvvTfaS7TMqSnQXto4ZLfAcoYH7sQuI12rK6+7jYDDHDY
+	Gx96CinuEmkQw8sBRs9Pk3hnA+QzXJzUwdWFNkMrgUXSXp9kWlOkGToL/E2g9HuY08oI
+	1QPC8E5HvLifupM1q704vcwCDWLUjhJJ8kdz4566i0myZgmXp1gLW8fV3WRNDXppW/UT
+	HvSb+1aVO6TzrT5qi9GNCIEvCO4kHK+c/NBOIKhmc7sut5WNneuO9ZkInJWILibwvCkz
+	+M0CmgNlc0RdwilpBGOCAvuls1iq430UOSROf8EHgkWIOBhBaBb/pRuoncLcRCn5JnXO
+	bQ0Q==
+X-Gm-Message-State: ALyK8tIryG8jj8LNo4wuCGmBXyPWOoqG/4geGmZcRtZef5wiS6b4u7a5KxiqB+d2oP0KZg==
+X-Received: by 10.67.3.7 with SMTP id bs7mr22731039pad.86.1468112895342;
+	Sat, 09 Jul 2016 18:08:15 -0700 (PDT)
+Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
+	d65sm6470421pfa.45.2016.07.09.18.08.13
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sat, 09 Jul 2016 18:08:13 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org, akuster808@gmail.com,
+	liezhi.yang@windriver.com
+Date: Sat,  9 Jul 2016 18:08:05 -0700
+Message-Id: <cover.1468111537.git.akuster@mvista.com>
+X-Mailer: git-send-email 2.3.5
+Subject: [PATCH 00/17] Jethro-next security fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,55 +53,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Jul 2016 23:27:25 -0000
+X-List-Received-Date: Sun, 10 Jul 2016 01:08:17 -0000
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-bsp/v86d/v86d/aarch64-host.patch | 18 ++++++++++++++++++
- meta/recipes-bsp/v86d/v86d_0.1.10.bb          |  4 +++-
- 2 files changed, 21 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-bsp/v86d/v86d/aarch64-host.patch
+From: Armin Kuster <akuster@mvista.com>
 
-diff --git a/meta/recipes-bsp/v86d/v86d/aarch64-host.patch b/meta/recipes-bsp/v86d/v86d/aarch64-host.patch
-new file mode 100644
-index 0000000..701fed7
---- /dev/null
-+++ b/meta/recipes-bsp/v86d/v86d/aarch64-host.patch
-@@ -0,0 +1,18 @@
-+Accept aarch64 as valid build host
-+
-+Upstream-Status: Pending
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Index: v86d-0.1.10/configure
-+===================================================================
-+--- v86d-0.1.10.orig/configure
-++++ v86d-0.1.10/configure
-+@@ -26,7 +26,7 @@ copt_x86emu_test()
-+ 	local m=`uname -m`
-+ 	if [ "$m" = "i686" -o "$m" = "i586" -o "$m" = "i486" -o "$m" = "i386" ]; then
-+ 		echo "n";
-+-	elif [ "$m" = "x86_64" ]; then
-++	elif [ "$m" = "x86_64" -o "$m" = "aarch64" ]; then
-+ 		echo "y";
-+ 	else
-+ 		echo "It looks like your architecture '$m' isn't supported by this version of v86d." >&2
-diff --git a/meta/recipes-bsp/v86d/v86d_0.1.10.bb b/meta/recipes-bsp/v86d/v86d_0.1.10.bb
-index f502072..1046d63 100644
---- a/meta/recipes-bsp/v86d/v86d_0.1.10.bb
-+++ b/meta/recipes-bsp/v86d/v86d_0.1.10.bb
-@@ -13,7 +13,9 @@ SRC_URI = "http://distfiles.gentoo.org/distfiles/${BP}.tar.bz2 \
-            file://Update-x86emu-from-X.org.patch \
-            file://fbsetup \
-            file://uvesafb.conf \
--           file://ar-from-env.patch"
-+           file://ar-from-env.patch \
-+           file://aarch64-host.patch \
-+"
- 
- SRC_URI[md5sum] = "51c792ba7b874ad8c43f0d3da4cfabe0"
- SRC_URI[sha256sum] = "634964ae18ef68c8493add2ce150e3b4502badeb0d9194b4bd81241d25e6735c"
+Please consider these changes for jethro-next.
+
+The libxml2 changes don't affect Master nor krogoth.
+Glibc changes have been sent for Master and soon for Krogoth.
+
+The following changes since commit 118380bc5d01e52b5edc574abb4176f6e70a54a6:
+
+  documentation: Updated date in the manual revision tables. (2016-06-21 12:59:47 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib akuster/jethro-next
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akuster/jethro-next
+
+Armin Kuster (17):
+  glibc: Security Fix for CVE-2016-3706
+  glibc: Security fix for CVE-2016-4429
+  libxml2: Security fix for CVE-2016-1762
+  libxml2: Security fix for CVE-2016-3705
+  libxml2: Security fix for CVE-2016-1834.patch
+  libxml2: Security fix for CVE-2016-4483.patch
+  libxml2: Security fix for CVE-2016-1840
+  libxml2: Security fix for CVE-2016-1838
+  libxml2: Security fix for CVE-2016-1839
+  libxml2: Security fix for CVE-2016-1836
+  libxml2: Security fix for CVE-2016-4449
+  libxml2: Security fix for CVE-2016-1837
+  libxml2: Security fix for CVE-2016-1835
+  libxml2: Security fix for CVE-2016-1833
+  libxml2: Security fix for CVE-2016-3627
+  libxml2: Security fix for CVE-2016-4447
+  libxml2: Security fix for CVE-2016-4448
+
+ meta/recipes-core/glibc/glibc/CVE-2016-3706.patch  |  226 +++++
+ meta/recipes-core/glibc/glibc/CVE-2016-4429.patch  |   89 ++
+ meta/recipes-core/glibc/glibc_2.22.bb              |    2 +
+ .../libxml/libxml2/CVE-2016-1762.patch             |   84 ++
+ .../libxml/libxml2/CVE-2016-1833.patch             |  368 +++++++
+ .../libxml/libxml2/CVE-2016-1834.patch             |   55 +
+ .../libxml/libxml2/CVE-2016-1835.patch             |   95 ++
+ .../libxml/libxml2/CVE-2016-1836.patch             |  443 ++++++++
+ .../libxml/libxml2/CVE-2016-1837.patch             |  143 +++
+ .../libxml/libxml2/CVE-2016-1838.patch             |   96 ++
+ .../libxml/libxml2/CVE-2016-1839.patch             |  127 +++
+ .../libxml/libxml2/CVE-2016-1840.patch             |   37 +
+ .../libxml/libxml2/CVE-2016-3627.patch             |   64 ++
+ .../libxml/libxml2/CVE-2016-3705.patch             |   71 ++
+ .../libxml/libxml2/CVE-2016-4447.patch             |  208 ++++
+ .../libxml/libxml2/CVE-2016-4448_1.patch           | 1067 ++++++++++++++++++++
+ .../libxml/libxml2/CVE-2016-4448_2.patch           |  208 ++++
+ .../libxml/libxml2/CVE-2016-4449.patch             |   47 +
+ .../libxml/libxml2/CVE-2016-4483.patch             |   55 +
+ meta/recipes-core/libxml/libxml2_2.9.2.bb          |   17 +
+ 20 files changed, 3502 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2016-3706.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2016-4429.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-1762.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-1833.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-1834.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-1835.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-1836.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-1837.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-1838.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-1839.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-1840.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-3627.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-3705.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-4447.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-4448_1.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-4448_2.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-4449.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2016-4483.patch
+
 -- 
-2.9.0
+2.3.5
 
 
