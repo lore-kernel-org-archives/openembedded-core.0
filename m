@@ -1,44 +1,83 @@
-Return-Path: <bounce+8e2b5a.3a5685-openembedded-core=lists.openembedded.org@asterius.io>
-Received: from mail4.static.mgsend.net (mail4.static.mgsend.net
-	[104.130.122.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FE01731A9
+Return-Path: <tom.hochstein@nxp.com>
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com
+	(mail-db5eur01on0078.outbound.protection.outlook.com [104.47.2.78])
+	by mail.openembedded.org (Postfix) with ESMTP id C0EAB731A9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2016 03:31:10 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=asterius.io; q=dns/txt;
-	s=mailo; t=1468294270; h=Content-Type: To: Subject: Message-ID: Date:
-	From: References: In-Reply-To: MIME-Version: Sender;
-	bh=EfQByfdZJ43D/pzdc8OjrXTuKhA4TZ4oCibBrATUVJc=;
-	b=ZnrWDt3hqcmaWpEneRfjF9T80ikP7l+4hnMKhPTm1ANtSUZWr7qRM+N9ErZaZ/QXeK7pFRQp
-	qMI5iVRhftQ8iuijGL3APDWOdjQfN5r0iRbla7bnzrCP35Cm5YYkqgTmh2Zq2U0KyDakXdKD
-	kV+Q0hHfaW+xKG3yW1NkEGCcIWw=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=asterius.io; s=mailo;
-	q=dns; h=Sender: MIME-Version: In-Reply-To: References: From: Date:
-	Message-ID: Subject: To: Content-Type;
-	b=Tkp0SyUv3TCSrJUlt9DmDBC7061IDK6v6Gi10/i3DiNZt9pxfY44fT7LeKzXNpJBTcE7D6
-	pJ1Lq1ZYAxrL7RZ63KjEUM5tEDDevClqjEF/icdla6idqpVqTkmvBXtR1XZjCbUagYzdFosL
-	U8GCyFiYPif04M267AmUSLuA3NDKQ=
-Sender: derek@asterius.io
-X-Mailgun-Sid: WyJiMTQwMSIsICJvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIiwgIjNhNTY4NSJd
-Received: from mail-it0-f48.google.com (mail-it0-f48.google.com
-	[209.85.214.48])
-	by mxa.mailgun.org with ESMTP id 5784647e.7f7e740c7470-in02;
-	Tue, 12 Jul 2016 03:31:10 -0000 (UTC)
-Received: by mail-it0-f48.google.com with SMTP id f6so5130240ith.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jul 2016 20:31:10 -0700 (PDT)
-X-Gm-Message-State: ALyK8tJOXPQtEt22+T5fUqVdbfYbxgN2Utscv2Ty29h9gYT6Qii/eBNGQY9tcrLTayPNJ102pPxMkpe03yYFWQ==
-X-Received: by 10.36.155.68 with SMTP id o65mr457198itd.96.1468294270174; Mon,
-	11 Jul 2016 20:31:10 -0700 (PDT)
+	Tue, 12 Jul 2016 03:43:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+	bh=+aTgfsa1kAq9TpRhjcV3Xedw4f2yvHHYuCGLuKTgdlA=;
+	b=T90jU5Nmx7kpfB5DS8lwDk98PadTwNqSm8binVYg+G/pBgtUcB8vMvrzoA7Gh/pDf7LUUy3Z7icf9BLTMkISTOSHirJyWruuwYV/guDJLb6JXxS1LIXZSyOF/ya9SywJ4uXVOJ6A+Lmshdy4CPZ8CxlHhws/BDiFSlw74ypZZW8=
+Authentication-Results: spf=none (sender IP is )
+	smtp.mailfrom=tom.hochstein@nxp.com; 
+Received: from tx30imx-01.am.freescale.net (192.88.168.49) by
+	AMSPR04MB309.eurprd04.prod.outlook.com (10.242.107.15) with Microsoft
+	SMTP Server (TLS) id 15.1.539.6; Mon, 11 Jul 2016 22:10:52 +0000
+From: Tom Hochstein <tom.hochstein@nxp.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 11 Jul 2016 17:06:49 -0500
+Message-ID: <1468274809-10301-1-git-send-email-tom.hochstein@nxp.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 10.107.178.215 with HTTP; Mon, 11 Jul 2016 20:31:09 -0700 (PDT)
-In-Reply-To: <1468260322-693-1-git-send-email-derek@asterius.io>
-References: <1468260322-693-1-git-send-email-derek@asterius.io>
-From: Derek Straka <derek@asterius.io>
-Date: Mon, 11 Jul 2016 23:31:09 -0400
-X-Gmail-Original-Message-ID: <CADNbA1rRGnZjkjbaz=UTFe5tY=bB_X1O_tKPhMCvyrpxkJW31g@mail.gmail.com>
-Message-ID: <CADNbA1rRGnZjkjbaz=UTFe5tY=bB_X1O_tKPhMCvyrpxkJW31g@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] python3: update manifest RDEPENDS for importlib and compression packages
+X-Originating-IP: [192.88.168.49]
+X-ClientProxiedBy: BLUPR0401CA0021.namprd04.prod.outlook.com (10.162.114.159)
+	To AMSPR04MB309.eurprd04.prod.outlook.com (10.242.107.15)
+X-MS-Office365-Filtering-Correlation-Id: fd3b5078-4001-4b33-1273-08d3a9d8393d
+X-Microsoft-Exchange-Diagnostics: 1; AMSPR04MB309;
+	2:zElNj32tl0NlPFcWB8LPTPxzUg/cC7uPi3iGC6w/dj9EfUcgHUm6VEAgQNtR4S/rwY3VGwKJLnoPVKMSEgYeA877Vm02Ctdu/CjxnpgfZArTq9WzPVXqJviNgdwvl75jQxnZoMvVRn9bkCbC1T2BEO3UbS2x2aD6VICMkECD8uen3QzpyWjEgvp+WCgRHKCH;
+	3:w4pbn9/q5XwamFTP7zA+4nFYpPym37DgtfnpbV+WHxBLcJ1MsxrTtUzRPlejfcGs6hjh37uzuLG+aKk+0VEfJ4yuCxhId64+0fx4/5+RwWHsxKJ6jZBWo3g4ZhTHljDY
+X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:AMSPR04MB309;
+X-Microsoft-Exchange-Diagnostics: 1; AMSPR04MB309;
+	25:h5PxXYh3YjExWhqjUOPI01R7Ot1uOEstihhEw0FfEOX4MTloLIsfMqF80Z+EH2HvSktmCeV93lSCIWlUTcFGCC5+PNDDIxv5Ky6PJp5sn/sgi4SQs+KJ96A7Aqr4SCiKFN/ApM/Cd3QVoYXLv3IoRdyIDVH9ufOX71623qsVLQs9v1ryGU4QQPOcgPirdAOvRmcn7FugYUeGBtr88Gnbz1FUkeCpattZASHkozPPaRyzFfP3vcNf5pehikMtnmY5XPJEmPinR8s+ng+3GXmy9Le3bcr4iIw2catvzwAVZ06IxnIrdpzbMRcEj4RIkuqSsZaVZJ3w0xhynPWZO7FPA2RMqwmFAXd9mKWjLkmvLRS5z6o2DupdPl94cN00JWxu07/lyF+KorK5Sc+evqevFmprdAJOMELc+aAmHDovKPNArmGYddgxYZEBrYjpnA7SGS1RkppwfvlOa/GuXE0zHEHC7FqdBMFAZ5sga9ez8yofsWx/OWgP+T+bXaIrqXIPT4Fop1v7momznUU0Bo3c3FhrvHv+4awd1MWns87yBwEywExnzb3spddYMnY5SJ5qNaweWLyhmp+bP7DVIJbHrYgseHNO6suVkkzoInG9s7pQ0EwjFqlIyecFXYauaj11SjCVC3oIhEELPwnfyY2NCZs1BOonXEk3Iz6S7WSKZmajl3m93VMONzGCM85RqS5BZDwXvzPdOtKtDOt0g/7aeo70vKJVYcLveIoglxR6bLE=;
+	31:+qIjkRoaDmWiCaHdW58DZnVY4osBpmbu137oOCS7dMuinf9edCMrHk5cxi/YfqA13jGVFU85Ou8Zg/7Dp7I9yZME+JYgfYZ3wTZwqRMFtyhkmRndJnkkVX1p0zvv1DVhCUn4yga5VXyUIZqZOnsf8H1NbME0uMvSLLc/GtBr3BUWNmWhXztlm6aIDWsSTqPH9aLh5O6wVevsaCOlnFCaHw==
+X-Microsoft-Exchange-Diagnostics: 1; AMSPR04MB309;
+	20:XUN7I4m2SaEQswuVHdT3ZOKshQIV7YZg+Eq9UMBIKbVsuTRV5vY1HsSqqiesftBh31emlGs/9hR5O3LKDdS1i6mZpsmrPMXrrnDuSNXYHZn1WJJNiHMAl32a2WGt/OlVIwFHJV+vlM9uFX3HZ1WDwJvRNZUswXjXjr0gfpltPr74lsup9BfUGS09QN7kBgLrJXEmydSCXGOZDb1Qh+dTwdBJx2dvFnf17srsRNIqYXyL8IyhFuLTMJ40mb56hhbbknMZdk148DGSNoeF6jes/AylLNGdkwWrdQ8mlEKSl1qwyapFKf+NZ6fy67gO+jmiZAVMQJQCvNcC4tnyGU4G/Rty6us0Q2fSv2BTSibjh7xY/u5gP2Zr1CXyACPCbgC4iBxKX2c7cozGK8bDkyfnje1ergdrKQTubkClxGgI5bbyvVst7nkzOFwSy0t6mLfpPg57tzy7WYruCQcBHzd0y7INKaq9IpJGLmHbEDUutScoBnX0buz/sY6v1JKKqQBr;
+	4:O/Gpg3E3SivCnxtZk1uv6Y4VMCk+v5XDWj+ehQxPHWGcTdkbQThy9TZZMQ4iDKT0thfCdyEhF/1eD0GFdAAYJkXeXxg6q2jANqOIrHRCF/Inghnqf0ds4P4jRHhCG7ch9lVpz4/9y0xhe1335ngPi15qpuYl24t/jWNh/IaOxqX5eH+FMjiXi6OKwCQzsbESYQFSB3U7BxhCU04Icm0sDoS3aodkyTu0+t9eL8LLqGdMnzogd+IRv9lhBktpMzOcDntjHURpMjzQV261LMt6ZNn20U+7W+hmx/4yVBskrltaBTF3QZU0StGhyCYI9Zoq0H1De+tuOy63rmiv8SDrJ1qzskRwBsjgftRgSI9ffJT51GvPFsUtA7rlBDdmk9yVOrc+MNVj8TMH/yKFJrfmCoHLThdtO8n0oAYTWypQ0mo2dTlkIVGuL7eI7P7FaeUk
+X-Microsoft-Antispam-PRVS: <AMSPR04MB3095FCF5D56301EA1FC2F78E23F0@AMSPR04MB309.eurprd04.prod.outlook.com>
+X-Exchange-Antispam-Report-Test: UriScan:(185117386973197);
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
+	RULEID:(601004)(2401047)(8121501046)(5005006)(3002001)(10201501046)(6055026);
+	SRVR:AMSPR04MB309; BCL:0; PCL:0; RULEID:; SRVR:AMSPR04MB309; 
+X-Forefront-PRVS: 00003DBFE7
+X-Forefront-Antispam-Report: SFV:NSPM;
+	SFS:(10009020)(4630300001)(6009001)(7916002)(199003)(189002)(4326007)(305945005)(5003940100001)(7846002)(86362001)(2906002)(7736002)(77096005)(586003)(450100001)(19580405001)(105586002)(19580395003)(101416001)(92566002)(8676002)(106356001)(47776003)(66066001)(50226002)(50986999)(81156014)(110136002)(81166006)(33646002)(3846002)(42186005)(2351001)(189998001)(50466002)(68736007)(229853001)(97736004)(48376002)(6116002)(36756003);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:AMSPR04MB309;
+	H:tx30imx-01.am.freescale.net; FPR:; SPF:None; PTR:InfoNoRecords;
+	A:1; MX:1; LANG:en; 
+Received-SPF: None (protection.outlook.com: nxp.com does not designate
+	permitted sender hosts)
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; AMSPR04MB309;
+	23:aSMtMUF26zNpuHnTDjvz3RP/55uFzJYctThzzICxOA?=
+	=?us-ascii?Q?kMfd9Yo7bV55sCsSfBiLmosyAmu9+yuWcj2lvZv7feGowihIFMJjknugVSTi?=
+	=?us-ascii?Q?/HH8p9ZZLBRXhwu7jGzqZykKrdlUlgcUpjqO7hI+bt6qtco7TZx+ZoW00bxG?=
+	=?us-ascii?Q?B/ycmDf8RqZthlhceQMmLt0JxZnYcZaIjvEX5k1Ka+AssgFAGqcNGHWWNOgP?=
+	=?us-ascii?Q?+f/n2qKXI/JdOUooNOKWLIiSkR+aDf/1SzIQzU9RgtNp/NW7WnT6vTL0v7gg?=
+	=?us-ascii?Q?rH1rea6JvEwbBEFMMRC52dIlgsV0+xJW+g/Iz54Y0FauaiPYd9FhPf0dfIQg?=
+	=?us-ascii?Q?IisIGufC/fpGqwAIc2B37gB+SfGPgcr1EXNLPadyagMMHn9fXY8mXplD9/6g?=
+	=?us-ascii?Q?KmNU0JewMuLht5F6ypF0q2UY85FOqjkVqAt5dPuS9zuavZM360wJq9EDRFUE?=
+	=?us-ascii?Q?uYqmBhJDcIEy6SKkU3porMl7EIxnVP4GNlnGZ00h9KkWgpjrs3/iC6mnEVur?=
+	=?us-ascii?Q?rb6VonU5gc+BvaAduzLGY8VtWFwXSiAWii/QM6sncjbRf3BsIUsVgnM4Ysiq?=
+	=?us-ascii?Q?uvxLnWO67a6f19i4YmY2f/YCZe7x1nnZMeD/tAeJpUC8luP3mvRogwP0Exkm?=
+	=?us-ascii?Q?1cAyHh9lKmimF+IDrflYx2kc+WAv1Sd6MouLTVq/MwqxomQBKz6fhO/IYTFc?=
+	=?us-ascii?Q?M7C9i+W6ZmFHOoHgYl5SJQhM0vTORRRZWEoFLPOA+M0H6RR7GT+QdUkvlh3b?=
+	=?us-ascii?Q?GUSuWb7udVJJEv5qJA4OjxZwGuzp3kxACZHboYrIWM0xbJ6DtlhZSP1zop4x?=
+	=?us-ascii?Q?yf5v3w9odJHsheJfLGF0yn/JCAsfLhengoPWEgoY9z8nn3qXJ9ipxjSpItel?=
+	=?us-ascii?Q?G+wCBgPqZdB8A+1N8pIoAf+AW1GqmAP6qI/8RGeXWmHMikBQAkaL4FdxEN+y?=
+	=?us-ascii?Q?ty/vJuIgPEyxD5Ec0x9vabNlPZaXLWrE4ixyDGWq1dQctRaz9xEGH0CLVRWg?=
+	=?us-ascii?Q?sflIH3lsDrJ6PPgi6fGNPD3JXgv1dNjDnXihIjHgiUdX5PdFl6Z5q54tLmHv?=
+	=?us-ascii?Q?iSLT8=3D?=
+X-Microsoft-Exchange-Diagnostics: 1; AMSPR04MB309;
+	6:RLTMjyGmMkRp+v81XfszWuWsV5/mSPZd96CFF1+9b4dhPS8BvnkS1GjeTmromDbq0dh+BW8EWOxilGrTobCsQzpJHjbgELAV8IE+Mn0PaM4mZxXiB3l9tuJgdPVjNuscIonEGuwhJ4B0xvWVTqhpR31fGUpn7siNxm8RSub+/o7GnqZagjvOiTH/5fHEEnXEdn54b/2WSxz2IoqUS6uviLbUtcjore1Lk+eKHBynk9mImxFED30k4sdfOOaW9lYf0R766LgMGZ71NGkYRbQHdhOeu3cC4x64kA9XAxhdoGcHbKl4RLcsJs71CWFVcCWXRpd9/WbjaHGWfj3SXqOPIg==;
+	5:zGt/7XNGT1ld9mto9FXFVLNl6WLtkdXwEXeeECkoeNB+hEl/MGr0MXkk21VjHBSiTanTcHOTCAk+WNVC3ssBzDwzsnFr5XMmn8GBkz9OYrtfeJS8fh+h3loPltIQ0gVExPueovzuioB39ZhMjJV8hQ==;
+	24:/Bz5rUfLd3ExjpnzpcH6PcBjhtgNriMXVwX2JqRCaHzsh61us3VHbllwLoKvoNZAuUaipUjircwfWQQGBKRYrpgDI1sac7nEBIy2UQASRYs=;
+	7:lIhkEjWIafwT50ApbQTjfGvvE+GnwroU3ruifBqyhZnvhIDyC8omu9RUKA2nH+WbnDautDoopc1sNtjYzHmkicjJbXDHiHHsBeJHsQosoF8woQnTEScfdIeIfqWoNmkexlF5to5LRduvOGtvT1wQi7tvsxyXqFX6v2DtIXzeli3Z1MoxAivTM0tyiN3oO4/tWZRP4iA6QNDmOX1Y+7OJA0m0c4fXg7sjd/tEw58H491hPjJ551MEs/WGu9MXLaEn
+SpamDiagnosticOutput: 1:99
+SpamDiagnosticMetadata: NSPM
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2016 22:10:52.2551 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMSPR04MB309
+Subject: [PATCH] weston-init: De-couple framebuffer console from Weston
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,334 +90,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jul 2016 03:31:11 -0000
-Content-Type: multipart/alternative; boundary=94eb2c05f4986651a4053767e6d2
+X-List-Received-Date: Tue, 12 Jul 2016 03:43:06 -0000
+Content-Type: text/plain
 
---94eb2c05f4986651a4053767e6d2
-Content-Type: text/plain; charset=UTF-8
+The framebuffer console was using the same I/O as Weston. We fix this
+by having openvt switch to the new VT when starting weston-launch.
 
-In going through the meta-python RDEPENDS for the python3 packages, I've
-found a fair number of modules/files missing from the expected packages
-that have fallen through to -misc (compression libs, crypt items, etc).
-I'm planning on taking a stab at getting the -misc items placed in their
-appropriate places unless someone else is already working this.  I'll
-resubmit another patch set pull request since that will be a bit more in
-depth than what is in this patch set.  Thanks.
+Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
+---
+ meta/recipes-graphics/wayland/weston-init/weston-start | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
--Derek
+diff --git a/meta/recipes-graphics/wayland/weston-init/weston-start b/meta/recipes-graphics/wayland/weston-init/weston-start
+index 5b7604f..1ede12e 100755
+--- a/meta/recipes-graphics/wayland/weston-init/weston-start
++++ b/meta/recipes-graphics/wayland/weston-init/weston-start
+@@ -37,7 +37,7 @@ else
+ 	launcher="weston-launch --"
+ fi
+ 
+-openvt_args=""
++openvt_args="-s"
+ while [ -n "$1" ]; do
+ 	openvt_args="$openvt_args $1"
+ 	shift
+-- 
+1.9.1
 
-On Mon, Jul 11, 2016 at 2:05 PM, Derek Straka <derek@asterius.io> wrote:
 
-> zipfile.py has dependencies on importlib, threading, and shell
-> importlib has a dependency on lang
-> operator and contextlib added to the lang package instead of falling into
-> misc
->
-> Signed-off-by: Derek Straka <derek@asterius.io>
-> ---
->  meta/recipes-devtools/python/python-3.5-manifest.inc | 6 +++---
->  scripts/contrib/python/generate-manifest-3.5.py      | 6 +++---
->  2 files changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/meta/recipes-devtools/python/python-3.5-manifest.inc
-> b/meta/recipes-devtools/python/python-3.5-manifest.inc
-> index b14d567..8de6f03 100644
-> --- a/meta/recipes-devtools/python/python-3.5-manifest.inc
-> +++ b/meta/recipes-devtools/python/python-3.5-manifest.inc
-> @@ -30,7 +30,7 @@ RDEPENDS_${PN}-compile="${PN}-core"
->  FILES_${PN}-compile="${libdir}/python3.5/py_compile.*
-> ${libdir}/python3.5/compileall.* "
->
->  SUMMARY_${PN}-compression="Python high-level compression support"
-> -RDEPENDS_${PN}-compression="${PN}-core ${PN}-codecs"
-> +RDEPENDS_${PN}-compression="${PN}-core ${PN}-codecs ${PN}-importlib
-> ${PN}-threading ${PN}-shell"
->  FILES_${PN}-compression="${libdir}/python3.5/gzip.*
-> ${libdir}/python3.5/zipfile.* ${libdir}/python3.5/tarfile.*
-> ${libdir}/python3.5/lib-dynload/bz2.*.so "
->
->  SUMMARY_${PN}-core="Python interpreter and core modules"
-> @@ -106,7 +106,7 @@ RDEPENDS_${PN}-image="${PN}-core"
->  FILES_${PN}-image="${libdir}/python3.5/colorsys.*
-> ${libdir}/python3.5/imghdr.* ${libdir}/python3.5/lib-dynload/imageop.*.so
-> ${libdir}/python3.5/lib-dynload/rgbimg.*.so "
->
->  SUMMARY_${PN}-importlib="Python import implementation library"
-> -RDEPENDS_${PN}-importlib="${PN}-core"
-> +RDEPENDS_${PN}-importlib="${PN}-core ${PN}-lang"
->  FILES_${PN}-importlib="${libdir}/python3.5/importlib "
->
->  SUMMARY_${PN}-io="Python low-level I/O"
-> @@ -119,7 +119,7 @@ FILES_${PN}-json="${libdir}/python3.5/json
-> ${libdir}/python3.5/lib-dynload/_json
->
->  SUMMARY_${PN}-lang="Python low-level language support"
->  RDEPENDS_${PN}-lang="${PN}-core"
-> -FILES_${PN}-lang="${libdir}/python3.5/lib-dynload/_bisect.*.so
-> ${libdir}/python3.5/lib-dynload/_collections.*.so
-> ${libdir}/python3.5/lib-dynload/_heapq.*.so
-> ${libdir}/python3.5/lib-dynload/_weakref.*.so
-> ${libdir}/python3.5/lib-dynload/_functools.*.so
-> ${libdir}/python3.5/lib-dynload/array.*.so
-> ${libdir}/python3.5/lib-dynload/itertools.*.so
-> ${libdir}/python3.5/lib-dynload/operator.*.so
-> ${libdir}/python3.5/lib-dynload/parser.*.so ${libdir}/python3.5/atexit.*
-> ${libdir}/python3.5/bisect.* ${libdir}/python3.5/code.*
-> ${libdir}/python3.5/codeop.* ${libdir}/python3.5/collections.*
-> ${libdir}/python3.5/_collections_abc.* ${libdir}/python3.5/dis.*
-> ${libdir}/python3.5/functools.* ${libdir}/python3.5/heapq.*
-> ${libdir}/python3.5/inspect.* ${libdir}/python3.5/keyword.*
-> ${libdir}/python3.5/opcode.* ${libdir}/python3.5/symbol.*
-> ${libdir}/python3.5/repr.* ${libdir}/python3.5/token.*
-> ${libdir}/python3.5/tokenize.* ${libdir}/python3.5/traceback.*
-> ${libdir}/python3.5/weakref.* "
-> +FILES_${PN}-lang="${libdir}/python3.5/lib-dynload/_bisect.*.so
-> ${libdir}/python3.5/lib-dynload/_collections.*.so
-> ${libdir}/python3.5/lib-dynload/_heapq.*.so
-> ${libdir}/python3.5/lib-dynload/_weakref.*.so
-> ${libdir}/python3.5/lib-dynload/_functools.*.so
-> ${libdir}/python3.5/lib-dynload/array.*.so
-> ${libdir}/python3.5/lib-dynload/itertools.*.so
-> ${libdir}/python3.5/lib-dynload/operator.*.so
-> ${libdir}/python3.5/lib-dynload/parser.*.so ${libdir}/python3.5/atexit.*
-> ${libdir}/python3.5/bisect.* ${libdir}/python3.5/code.*
-> ${libdir}/python3.5/codeop.* ${libdir}/python3.5/collections.*
-> ${libdir}/python3.5/_collections_abc.* ${libdir}/python3.5/contextlib.*
-> ${libdir}/python3.5/dis.* ${libdir}/python3.5/functools.*
-> ${libdir}/python3.5/heapq.* ${libdir}/python3.5/inspect.*
-> ${libdir}/python3.5/keyword.* ${libdir}/python3.5/opcode.*
-> ${libdir}/python3.5/operator.* ${libdir}/python3.5/symbol.*
-> ${libdir}/python3.5/repr.* ${libdir}/python3.5/token.*
-> ${libdir}/python3.5/tokenize.* ${libdir}/python3.5/traceback.*
-> ${libdir}/python3.5/weakref.* "
->
->  SUMMARY_${PN}-logging="Python logging support"
->  RDEPENDS_${PN}-logging="${PN}-core ${PN}-io ${PN}-lang ${PN}-pickle
-> ${PN}-stringold"
-> diff --git a/scripts/contrib/python/generate-manifest-3.5.py
-> b/scripts/contrib/python/generate-manifest-3.5.py
-> index e04da1d..775f0c2 100755
-> --- a/scripts/contrib/python/generate-manifest-3.5.py
-> +++ b/scripts/contrib/python/generate-manifest-3.5.py
-> @@ -217,7 +217,7 @@ if __name__ == "__main__":
->      m.addPackage( "${PN}-compile", "Python bytecode compilation support",
-> "${PN}-core",
->      "py_compile.* compileall.*" )
->
-> -    m.addPackage( "${PN}-compression", "Python high-level compression
-> support", "${PN}-core ${PN}-codecs",
-> +    m.addPackage( "${PN}-compression", "Python high-level compression
-> support", "${PN}-core ${PN}-codecs ${PN}-importlib ${PN}-threading
-> ${PN}-shell",
->      "gzip.* zipfile.* tarfile.* lib-dynload/bz2.*.so" )
->
->      m.addPackage( "${PN}-crypt", "Python basic cryptographic and hashing
-> support", "${PN}-core",
-> @@ -262,7 +262,7 @@ if __name__ == "__main__":
->      m.addPackage( "${PN}-html", "Python HTML processing support",
-> "${PN}-core",
->      "formatter.* htmlentitydefs.* htmllib.* markupbase.* sgmllib.*
-> HTMLParser.* " )
->
-> -    m.addPackage( "${PN}-importlib", "Python import implementation
-> library", "${PN}-core",
-> +    m.addPackage( "${PN}-importlib", "Python import implementation
-> library", "${PN}-core ${PN}-lang",
->      "importlib" )
->
->      m.addPackage( "${PN}-gdbm", "Python GNU database support",
-> "${PN}-core",
-> @@ -281,7 +281,7 @@ if __name__ == "__main__":
->      m.addPackage( "${PN}-lang", "Python low-level language support",
-> "${PN}-core",
->      "lib-dynload/_bisect.*.so lib-dynload/_collections.*.so
-> lib-dynload/_heapq.*.so lib-dynload/_weakref.*.so
-> lib-dynload/_functools.*.so " +
->      "lib-dynload/array.*.so lib-dynload/itertools.*.so
-> lib-dynload/operator.*.so lib-dynload/parser.*.so " +
-> -    "atexit.* bisect.* code.* codeop.* collections.* _collections_abc.*
-> dis.* functools.* heapq.* inspect.* keyword.* opcode.* symbol.* repr.*
-> token.* " +
-> +    "atexit.* bisect.* code.* codeop.* collections.* _collections_abc.*
-> contextlib.* dis.* functools.* heapq.* inspect.* keyword.* opcode.*
-> operator.* symbol.* repr.* token.* " +
->      "tokenize.* traceback.* weakref.*" )
->
->      m.addPackage( "${PN}-logging", "Python logging support", "${PN}-core
-> ${PN}-io ${PN}-lang ${PN}-pickle ${PN}-stringold",
-> --
-> 1.9.1
->
->
-
---94eb2c05f4986651a4053767e6d2
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">In going through the meta-python RDEPENDS for the python3 =
-packages, I&#39;ve found a fair number of modules/files missing from the ex=
-pected packages that have fallen through to -misc (compression libs, crypt =
-items, etc).=C2=A0 I&#39;m planning on taking a stab at getting the -misc i=
-tems placed in their appropriate places unless someone else is already work=
-ing this.=C2=A0 I&#39;ll resubmit another patch set pull request since that=
- will be a bit more in depth than what is in this patch set.=C2=A0 Thanks.<=
-div><br></div><div>-Derek=C2=A0</div></div><div class=3D"gmail_extra"><br><=
-div class=3D"gmail_quote">On Mon, Jul 11, 2016 at 2:05 PM, Derek Straka <sp=
-an dir=3D"ltr">&lt;<a href=3D"mailto:derek@asterius.io" target=3D"_blank">d=
-erek@asterius.io</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote"=
- style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">zi=
-pfile.py has dependencies on importlib, threading, and shell<br>
-importlib has a dependency on lang<br>
-operator and contextlib added to the lang package instead of falling into m=
-isc<br>
-<span class=3D""><br>
-Signed-off-by: Derek Straka &lt;<a href=3D"mailto:derek@asterius.io">derek@=
-asterius.io</a>&gt;<br>
----<br>
-</span>=C2=A0meta/recipes-devtools/python/python-3.5-manifest.inc | 6 +++--=
--<br>
-=C2=A0scripts/contrib/python/<a href=3D"http://generate-manifest-3.5.py" re=
-l=3D"noreferrer" target=3D"_blank">generate-manifest-3.5.py</a>=C2=A0 =C2=
-=A0 =C2=A0 | 6 +++---<br>
-=C2=A02 files changed, 6 insertions(+), 6 deletions(-)<br>
-<br>
-diff --git a/meta/recipes-devtools/python/python-3.5-manifest.inc b/meta/re=
-cipes-devtools/python/python-3.5-manifest.inc<br>
-index b14d567..8de6f03 100644<br>
-<span class=3D"">--- a/meta/recipes-devtools/python/python-3.5-manifest.inc=
-<br>
-+++ b/meta/recipes-devtools/python/python-3.5-manifest.inc<br>
-@@ -30,7 +30,7 @@ RDEPENDS_${PN}-compile=3D&quot;${PN}-core&quot;<br>
-=C2=A0FILES_${PN}-compile=3D&quot;${libdir}/python3.5/py_compile.* ${libdir=
-}/python3.5/compileall.* &quot;<br>
-<br>
-=C2=A0SUMMARY_${PN}-compression=3D&quot;Python high-level compression suppo=
-rt&quot;<br>
--RDEPENDS_${PN}-compression=3D&quot;${PN}-core ${PN}-codecs&quot;<br>
-</span>+RDEPENDS_${PN}-compression=3D&quot;${PN}-core ${PN}-codecs ${PN}-im=
-portlib ${PN}-threading ${PN}-shell&quot;<br>
-<span class=3D"">=C2=A0FILES_${PN}-compression=3D&quot;${libdir}/python3.5/=
-gzip.* ${libdir}/python3.5/zipfile.* ${libdir}/python3.5/tarfile.* ${libdir=
-}/python3.5/lib-dynload/bz2.*.so &quot;<br>
-<br>
-=C2=A0SUMMARY_${PN}-core=3D&quot;Python interpreter and core modules&quot;<=
-br>
-@@ -106,7 +106,7 @@ RDEPENDS_${PN}-image=3D&quot;${PN}-core&quot;<br>
-</span>=C2=A0FILES_${PN}-image=3D&quot;${libdir}/python3.5/colorsys.* ${lib=
-dir}/python3.5/imghdr.* ${libdir}/python3.5/lib-dynload/imageop.*.so ${libd=
-ir}/python3.5/lib-dynload/rgbimg.*.so &quot;<br>
-<span class=3D""><br>
-=C2=A0SUMMARY_${PN}-importlib=3D&quot;Python import implementation library&=
-quot;<br>
--RDEPENDS_${PN}-importlib=3D&quot;${PN}-core&quot;<br>
-</span>+RDEPENDS_${PN}-importlib=3D&quot;${PN}-core ${PN}-lang&quot;<br>
-<span class=3D"">=C2=A0FILES_${PN}-importlib=3D&quot;${libdir}/python3.5/im=
-portlib &quot;<br>
-<br>
-</span><span class=3D"">=C2=A0SUMMARY_${PN}-io=3D&quot;Python low-level I/O=
-&quot;<br>
-</span>@@ -119,7 +119,7 @@ FILES_${PN}-json=3D&quot;${libdir}/python3.5/jso=
-n ${libdir}/python3.5/lib-dynload/_json<br>
-<br>
-=C2=A0SUMMARY_${PN}-lang=3D&quot;Python low-level language support&quot;<br=
->
-=C2=A0RDEPENDS_${PN}-lang=3D&quot;${PN}-core&quot;<br>
--FILES_${PN}-lang=3D&quot;${libdir}/python3.5/lib-dynload/_bisect.*.so ${li=
-bdir}/python3.5/lib-dynload/_collections.*.so ${libdir}/python3.5/lib-dynlo=
-ad/_heapq.*.so ${libdir}/python3.5/lib-dynload/_weakref.*.so ${libdir}/pyth=
-on3.5/lib-dynload/_functools.*.so ${libdir}/python3.5/lib-dynload/array.*.s=
-o ${libdir}/python3.5/lib-dynload/itertools.*.so ${libdir}/python3.5/lib-dy=
-nload/operator.*.so ${libdir}/python3.5/lib-dynload/parser.*.so ${libdir}/p=
-ython3.5/atexit.* ${libdir}/python3.5/bisect.* ${libdir}/python3.5/code.* $=
-{libdir}/python3.5/codeop.* ${libdir}/python3.5/collections.* ${libdir}/pyt=
-hon3.5/_collections_abc.* ${libdir}/python3.5/dis.* ${libdir}/python3.5/fun=
-ctools.* ${libdir}/python3.5/heapq.* ${libdir}/python3.5/inspect.* ${libdir=
-}/python3.5/keyword.* ${libdir}/python3.5/opcode.* ${libdir}/python3.5/symb=
-ol.* ${libdir}/python3.5/repr.* ${libdir}/python3.5/token.* ${libdir}/pytho=
-n3.5/tokenize.* ${libdir}/python3.5/traceback.* ${libdir}/python3.5/weakref=
-.* &quot;<br>
-+FILES_${PN}-lang=3D&quot;${libdir}/python3.5/lib-dynload/_bisect.*.so ${li=
-bdir}/python3.5/lib-dynload/_collections.*.so ${libdir}/python3.5/lib-dynlo=
-ad/_heapq.*.so ${libdir}/python3.5/lib-dynload/_weakref.*.so ${libdir}/pyth=
-on3.5/lib-dynload/_functools.*.so ${libdir}/python3.5/lib-dynload/array.*.s=
-o ${libdir}/python3.5/lib-dynload/itertools.*.so ${libdir}/python3.5/lib-dy=
-nload/operator.*.so ${libdir}/python3.5/lib-dynload/parser.*.so ${libdir}/p=
-ython3.5/atexit.* ${libdir}/python3.5/bisect.* ${libdir}/python3.5/code.* $=
-{libdir}/python3.5/codeop.* ${libdir}/python3.5/collections.* ${libdir}/pyt=
-hon3.5/_collections_abc.* ${libdir}/python3.5/contextlib.* ${libdir}/python=
-3.5/dis.* ${libdir}/python3.5/functools.* ${libdir}/python3.5/heapq.* ${lib=
-dir}/python3.5/inspect.* ${libdir}/python3.5/keyword.* ${libdir}/python3.5/=
-opcode.* ${libdir}/python3.5/operator.* ${libdir}/python3.5/symbol.* ${libd=
-ir}/python3.5/repr.* ${libdir}/python3.5/token.* ${libdir}/python3.5/tokeni=
-ze.* ${libdir}/python3.5/traceback.* ${libdir}/python3.5/weakref.* &quot;<b=
-r>
-<br>
-=C2=A0SUMMARY_${PN}-logging=3D&quot;Python logging support&quot;<br>
-=C2=A0RDEPENDS_${PN}-logging=3D&quot;${PN}-core ${PN}-io ${PN}-lang ${PN}-p=
-ickle ${PN}-stringold&quot;<br>
-diff --git a/scripts/contrib/python/<a href=3D"http://generate-manifest-3.5=
-.py" rel=3D"noreferrer" target=3D"_blank">generate-manifest-3.5.py</a> b/sc=
-ripts/contrib/python/<a href=3D"http://generate-manifest-3.5.py" rel=3D"nor=
-eferrer" target=3D"_blank">generate-manifest-3.5.py</a><br>
-index e04da1d..775f0c2 100755<br>
-<span class=3D"">--- a/scripts/contrib/python/<a href=3D"http://generate-ma=
-nifest-3.5.py" rel=3D"noreferrer" target=3D"_blank">generate-manifest-3.5.p=
-y</a><br>
-+++ b/scripts/contrib/python/<a href=3D"http://generate-manifest-3.5.py" re=
-l=3D"noreferrer" target=3D"_blank">generate-manifest-3.5.py</a><br>
-@@ -217,7 +217,7 @@ if __name__ =3D=3D &quot;__main__&quot;:<br>
-=C2=A0 =C2=A0 =C2=A0m.addPackage( &quot;${PN}-compile&quot;, &quot;Python b=
-ytecode compilation support&quot;, &quot;${PN}-core&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0&quot;py_compile.* compileall.*&quot; )<br>
-<br>
--=C2=A0 =C2=A0 m.addPackage( &quot;${PN}-compression&quot;, &quot;Python hi=
-gh-level compression support&quot;, &quot;${PN}-core ${PN}-codecs&quot;,<br=
->
-</span>+=C2=A0 =C2=A0 m.addPackage( &quot;${PN}-compression&quot;, &quot;Py=
-thon high-level compression support&quot;, &quot;${PN}-core ${PN}-codecs ${=
-PN}-importlib ${PN}-threading ${PN}-shell&quot;,<br>
-<span class=3D"">=C2=A0 =C2=A0 =C2=A0&quot;gzip.* zipfile.* tarfile.* lib-d=
-ynload/bz2.*.so&quot; )<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0m.addPackage( &quot;${PN}-crypt&quot;, &quot;Python bas=
-ic cryptographic and hashing support&quot;, &quot;${PN}-core&quot;,<br>
-@@ -262,7 +262,7 @@ if __name__ =3D=3D &quot;__main__&quot;:<br>
-=C2=A0 =C2=A0 =C2=A0m.addPackage( &quot;${PN}-html&quot;, &quot;Python HTML=
- processing support&quot;, &quot;${PN}-core&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0&quot;formatter.* htmlentitydefs.* htmllib.* markupbase=
-.* sgmllib.* HTMLParser.* &quot; )<br>
-<br>
--=C2=A0 =C2=A0 m.addPackage( &quot;${PN}-importlib&quot;, &quot;Python impo=
-rt implementation library&quot;, &quot;${PN}-core&quot;,<br>
-</span>+=C2=A0 =C2=A0 m.addPackage( &quot;${PN}-importlib&quot;, &quot;Pyth=
-on import implementation library&quot;, &quot;${PN}-core ${PN}-lang&quot;,<=
-br>
-<span class=3D"">=C2=A0 =C2=A0 =C2=A0&quot;importlib&quot; )<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0m.addPackage( &quot;${PN}-gdbm&quot;, &quot;Python GNU =
-database support&quot;, &quot;${PN}-core&quot;,<br>
-</span>@@ -281,7 +281,7 @@ if __name__ =3D=3D &quot;__main__&quot;:<br>
-=C2=A0 =C2=A0 =C2=A0m.addPackage( &quot;${PN}-lang&quot;, &quot;Python low-=
-level language support&quot;, &quot;${PN}-core&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0&quot;lib-dynload/_bisect.*.so lib-dynload/_collections=
-.*.so lib-dynload/_heapq.*.so lib-dynload/_weakref.*.so lib-dynload/_functo=
-ols.*.so &quot; +<br>
-=C2=A0 =C2=A0 =C2=A0&quot;lib-dynload/array.*.so lib-dynload/itertools.*.so=
- lib-dynload/operator.*.so lib-dynload/parser.*.so &quot; +<br>
--=C2=A0 =C2=A0 &quot;atexit.* bisect.* code.* codeop.* collections.* _colle=
-ctions_abc.* dis.* functools.* heapq.* inspect.* keyword.* opcode.* symbol.=
-* repr.* token.* &quot; +<br>
-+=C2=A0 =C2=A0 &quot;atexit.* bisect.* code.* codeop.* collections.* _colle=
-ctions_abc.* contextlib.* dis.* functools.* heapq.* inspect.* keyword.* opc=
-ode.* operator.* symbol.* repr.* token.* &quot; +<br>
-=C2=A0 =C2=A0 =C2=A0&quot;tokenize.* traceback.* weakref.*&quot; )<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0m.addPackage( &quot;${PN}-logging&quot;, &quot;Python l=
-ogging support&quot;, &quot;${PN}-core ${PN}-io ${PN}-lang ${PN}-pickle ${P=
-N}-stringold&quot;,<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-1.9.1<br>
-<br>
-</font></span></blockquote></div><br></div>
-
---94eb2c05f4986651a4053767e6d2--
