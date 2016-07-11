@@ -1,50 +1,59 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
-	[209.85.220.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 8EDA0607A5
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-io0-f193.google.com (mail-io0-f193.google.com
+	[209.85.223.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F2C1607A5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jul 2016 17:37:41 +0000 (UTC)
-Received: by mail-qk0-f196.google.com with SMTP id q62so3338025qkf.2
+	Mon, 11 Jul 2016 17:39:21 +0000 (UTC)
+Received: by mail-io0-f193.google.com with SMTP id q83so2466891iod.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jul 2016 10:37:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=gWor3EZo9RKMF8cl8LxXV06hPPKBm8YnFmVYAxprJRw=;
-	b=L0Wdq5868q9XMLyuh8RT/nyORRciOkCOmQMI3vW045LgwgvxbzjxLTPOWDhwPg7yzh
-	qknvYLbPuUFmdS6PehgJlewtG4YkW+gw6qLyZ4Zq3JnPrzlJW4/LPDuz5D3YDGDYwO/2
-	lcb33ZpBwDgTsIwKh/gxy3oSg0YTrtJv/e1Lh243rRsIE13tMQ/6QckGe3SiX8ZrRFyw
-	ovPFGBFn+Sy3/jIv8QyGVqTbN9sz52iUTqzP3Neq4R02JnLns1Uz+xei3EaJTBvlbHqT
-	zn9LqGvHiRPscMQFUunDIeF/u3VDhBtMtF4OXnX/VHjZ12sa/S62xjFa+Ml8ZyrW0KqD
-	Ylcg==
+	Mon, 11 Jul 2016 10:39:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:date:message-id:subject:to
+	:content-transfer-encoding;
+	bh=k7Nr9f/PbwBpi77QKO/CO7c8iTBV37KdVVCFDyJbzJY=;
+	b=sbHNQ/VjSnlBe3zvgyK6yqIPGmWmI7agjhLkw7kWDziBSWl8J03d8+QKIQSxVqyAJD
+	giZAGmb5YCLgIuxGC1cM666tMJFVa/RF8+m46Ad+n43h/AeN7SCzLlqkem80AtqOpY+g
+	62LVpEhQxB5ZJ9O1BZqEGAdSrtUh6DJQtiGYYHHQ5WlrhzW+CROViAmhHmRWu7OlWYsG
+	RWohxFrpp+tFbuX+HXGrnStH4WcthgHzs17Sm9tnppoTxNIac4ZkgmbqgNDev4oZ29G+
+	2ChzDj8M0Y49nV9Snt2/Mcq37kjvtRM8lM+EM5iLjm9lZqkx5OQNZnQQnCCYOfwsAZLG
+	JL3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=gWor3EZo9RKMF8cl8LxXV06hPPKBm8YnFmVYAxprJRw=;
-	b=jjYu/uIJViPsaFIPTKDE4MW3T1KkTsdnXLtlZzTJHgbfskOmTq38uP5MKbg9vO6Iet
-	CLLLZ2UWtT8S/7dJaHlGgSKckiKUyct3BoLe+kx6LCUJeT+N0psjDzRDdp6FgFsJkCiE
-	WzufDb3zl500AMicDpGS4z4B0svK5APy4mxPPz4c5jy9CyDkceadTDn7ozzoRJBF7jJB
-	/ZghD8O1hCasgpz50mNfQfen7AhmLV8Q5haNLj3bgwoHY/Q0XaFHA/soBK7U9XkOmING
-	dfCoV5Pl8vJdhzj2JPP7NYTDB/HGUPt2w6B6gmRvIOFp+qpimfr69yg0Nz6tOe9U8THl
-	RUSw==
-X-Gm-Message-State: ALyK8tKlsO2chplLUuGsXz1Dgbw8LKJhBUkyQqTVaf5NwoXCCFaewKJWFLIwDSJSganWSgR0liEGKvyYpMaDgA==
-X-Received: by 10.55.74.138 with SMTP id x132mr27243726qka.26.1468258661423;
-	Mon, 11 Jul 2016 10:37:41 -0700 (PDT)
+	h=x-gm-message-state:from:mime-version:date:message-id:subject:to
+	:content-transfer-encoding;
+	bh=k7Nr9f/PbwBpi77QKO/CO7c8iTBV37KdVVCFDyJbzJY=;
+	b=UOxu2kyWtlp44wxvZfIfQm32Beg6DJT4ry197l2tvocD7wO9/0aH6iNEwY/hr1cdeM
+	dvFwBJuIONB4XxuoxdK3TZLdgb0aCG7gIrq8BES9RAuD5nimbXiwiNNK04gzrevq9vbB
+	8cgDHZGlgn0Ju1xZNYO4e8gnRCmbZdGlK92D4COL1MsS5ipjpI5nI/JfaD2z9eKkx8jI
+	D89yjDOrwmdM8cTcHYk6aNSK7YhjQyjKo6UR7EIsxC/kedLBv0IW0FCMID8NYfv7/oMZ
+	jck6a6TxFCxRtznETPcRl58Dy8sAOSjBEV3kaBUkDNoZB8h9lN3vSKy9T9pEn69v9/p+
+	jzUA==
+X-Gm-Message-State: ALyK8tJCOznYKVG/xkZ+50xKi8ZY0eGAWdmEV7Kt5AskLAzDcAcNcvcYv5biv4qhTFzcRQ==
+X-Received: by 10.107.173.205 with SMTP id m74mr20272812ioo.87.1468258761775; 
+	Mon, 11 Jul 2016 10:39:21 -0700 (PDT)
+Received: from mail-it0-f51.google.com (mail-it0-f51.google.com.
+	[209.85.214.51])
+	by smtp.gmail.com with ESMTPSA id 68sm7850528itl.22.2016.07.11.10.39.19
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 11 Jul 2016 10:39:20 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-it0-f51.google.com with SMTP id u186so66544557ita.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Jul 2016 10:39:19 -0700 (PDT)
+X-Received: by 10.36.13.19 with SMTP id 19mr12112931itx.76.1468258759593; Mon,
+	11 Jul 2016 10:39:19 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.55.214.83 with HTTP; Mon, 11 Jul 2016 10:37:12 -0700 (PDT)
-In-Reply-To: <435AD031-0463-4640-82C3-3ADCE44D1F54@linux.intel.com>
-References: <1467999870-190725-1-git-send-email-jianxun.zhang@linux.intel.com>
-	<1467999870-190725-2-git-send-email-jianxun.zhang@linux.intel.com>
-	<CAMKF1spYwDi0fp6Y3ROiNgciyLUSu1O+z3Vm4QSYd0LJs4Fwjg@mail.gmail.com>
-	<435AD031-0463-4640-82C3-3ADCE44D1F54@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 11 Jul 2016 10:37:12 -0700
-Message-ID: <CAMKF1srDp3b-nDXKVNzmeptWgKcri4txBae1Nhv4eAJjvZ6mgw@mail.gmail.com>
-To: Jianxun Zhang <jianxun.zhang@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] wic: clone gummiboot wks for systemd-boot
+Received: by 10.107.198.16 with HTTP; Mon, 11 Jul 2016 10:39:18 -0700 (PDT)
+Date: Mon, 11 Jul 2016 14:39:18 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKpQJ8aJ3ZcOoxWSUn6V+L7RtXDF_rreVmB=P42_K5N-Fw@mail.gmail.com>
+Message-ID: <CAP9ODKpQJ8aJ3ZcOoxWSUn6V+L7RtXDF_rreVmB=P42_K5N-Fw@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>, 
+	Armin Kuster <akuster808@gmail.com>
+Subject: [for-krogoth] musl backport
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,124 +66,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jul 2016 17:37:44 -0000
+X-List-Received-Date: Mon, 11 Jul 2016 17:39:22 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 11, 2016 at 10:03 AM, Jianxun Zhang
-<jianxun.zhang@linux.intel.com> wrote:
->
->> On Jul 8, 2016, at 1:58 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> On Fri, Jul 8, 2016 at 10:44 AM, Jianxun Zhang
->> <jianxun.zhang@linux.intel.com> wrote:
->>> This wks is just a copy of gummiboot wks with bootloader
->>> changed to systemd-boot. A very basic boot test on a X86
->>> target is done with a direct-boot image generated by:
->>>
->>> wic create mksystemd-bootdisk -e core-image-minimal
->>
->> prefixing wks file with mk is that a nomenclature. if no then lets avoid=
- it
-> Khem,
-> I thought following gummiboot wks naming is a safe call. :-)
-> I can change it to any new name suggested, just want to avoid any ambigui=
-ty for a V2:
-> Do you and others think =E2=80=9Csystemd-bootdisk=E2=80=9D is a good name=
- for new wks?
->
+Hello Khem and OE-Core fellows,
 
-yes looks better
+I would like to propose the backport of following changes:
 
+commit a572a1181411668a9bd4c264f5124d13f3d7cead (HEAD -> for-krogoth)
+Author: Khem Raj <raj.khem@gmail.com>
+Date:   Thu Jun 23 15:23:19 2016 -0700
 
-> Thanks
->>
->>>
->>> Because we plan to replace gummiboot with systemd-boot at any
->>> time in the future, we summarize history (as much as I can) of
->>> the current gummiboot wks before it's gone:
->>>
->>> -----------------------------------------------------------------
->>> commit 7d4bb40905fab38fb3db1d0e17afbc803622f00c
->>> Author: Ed Bartosh <ed.bartosh@linux.intel.com>
->>> Date:   Wed Sep 2 13:58:02 2015 +0300
->>>
->>>    wic: get rid of scripts/lib/image
->>>
->>>    Moved content of scripts/lib/image/ to scripts/lib/wic as
->>>    one directory with the same name as a tool is self-explanatory
->>>    and less confusing than two.
->>>
->>>    (From OE-Core rev: 5dc02d572794298b3362378cea3d7da654456c44)
->>>
->>>    Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
->>>    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->>>
->>> commit 77561e719181d58289687373eebadce764f838a7
->>> Author: Ed Bartosh <ed.bartosh@linux.intel.com>
->>> Date:   Wed Sep 2 13:58:01 2015 +0300
->>>
->>>    wic: use ext4 in canned .wks files
->>>
->>>    Latest kernel doesn't have ext3 compiled in. Wic images produced
->>>    from canned .wks can't boot because of that. Switching to ext4
->>>    fixes this issue.
->>>
->>>    (From OE-Core rev: d281a65a81f369fc8d75023b8f911ce4106969c1)
->>>
->>>    Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
->>>    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->>>
->>> commit 072657ce98414afdd6f68941847e21fc5ce496c7
->>> Author: Tom Zanussi <tom.zanussi@linux.intel.com>
->>> Date:   Mon Aug 11 20:35:41 2014 -0500
->>>
->>>    wic: Add mkgummidisk kickstart file
->>>
->>>    This is the same as mkefidisk but uses gummiboot instead of grub-efi=
-.
->>>
->>>    (From OE-Core rev: 5979409ebfab0bb07b3c2b2fcf14a722c441f07b)
->>>
->>>    Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
->>>    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->>> -----------------------------------------------------------------
->>>
->>> Signed-off-by: Jianxun Zhang <jianxun.zhang@linux.intel.com>
->>> ---
->>> scripts/lib/wic/canned-wks/mksystemd-bootdisk.wks | 11 +++++++++++
->>> 1 file changed, 11 insertions(+)
->>> create mode 100644 scripts/lib/wic/canned-wks/mksystemd-bootdisk.wks
->>>
->>> diff --git a/scripts/lib/wic/canned-wks/mksystemd-bootdisk.wks b/script=
-s/lib/wic/canned-wks/mksystemd-bootdisk.wks
->>> new file mode 100644
->>> index 0000000..df706e8
->>> --- /dev/null
->>> +++ b/scripts/lib/wic/canned-wks/mksystemd-bootdisk.wks
->>> @@ -0,0 +1,11 @@
->>> +# short-description: Create an EFI disk image
->>> +# long-description: Creates a partitioned EFI disk image that the user
->>> +# can directly dd to boot media.
->>> +
->>> +part /boot --source bootimg-efi --sourceparams=3D"loader=3Dsystemd-boo=
-t" --ondisk sda --label msdos --active --align 1024
->>> +
->>> +part / --source rootfs --ondisk sda --fstype=3Dext4 --label platform -=
--align 1024
->>> +
->>> +part swap --ondisk sda --size 44 --label swap1 --fstype=3Dswap
->>> +
->>> +bootloader  --timeout=3D10  --append=3D"rootwait rootfstype=3Dext4 con=
-sole=3DttyPCH0,115200 console=3Dtty0 vmalloc=3D256MB snd-hda-intel.enable_m=
-si=3D0"
->>> --
->>> 2.7.4
->>>
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+    musl: Upgrade to tip
+
+    Rich Felker (4):
+          fix undefined pointer arithmetic in CMSG_NXTHDR macro
+          fix a64l undefined behavior on ILP32 archs, wrong results on
+LP64 archs
+          avoid padding gaps in struct sockaddr_storage
+          remove comments on copyright status from UTF-8 implementation fil=
+es
+
+    Szabolcs Nagy (8):
+          fix the use of uninitialized value in regcomp
+          add preadv2 and pwritev2 syscall numbers for linux v4.6
+          add SO_CNX_ADVICE to sys/socket.h, new in linux v4.6
+          add ETH_P_MACSEC netinet/if_ether.h, new in linux v4.6
+          update siginfo struct for linux v4.6
+          add CLONE_NEWCGROUP clone flag, new in linux v4.6
+          add new tcp_info fields from linux v4.6
+          update sys/socket.h to linux v4.6
+
+    Signed-off-by: Khem Raj <raj.khem@gmail.com>
+    Signed-off-by: Ross Burton <ross.burton@intel.com>
+    (cherry picked from commit d81bb8c6362d59a124bbe9b3a60cb259733b120d)
+
+commit a8e05129847ac01bddb01dcd8f1592fcacf0c908
+Author: Khem Raj <raj.khem@gmail.com>
+Date:   Fri May 20 07:03:30 2016 -0700
+
+    musl: Update to latest tip
+
+    Bobby Bingham (3):
+          x32: remove arch-specific syscall remapping
+          x32: eliminate __X32_SYSCALL_BIT constant
+          deduplicate __NR_* and SYS_* syscall number definitions
+
+    Signed-off-by: Khem Raj <raj.khem@gmail.com>
+    Signed-off-by: Ross Burton <ross.burton@intel.com>
+    (cherry picked from commit 6993e88cccbfe2f990e4ea9bd7cc186d59e5a84b)
+
+commit d782ecec07bd270f1a9c7a440460cf4dd0cb1616
+Author: Khem Raj <raj.khem@gmail.com>
+Date:   Wed May 11 10:35:30 2016 -0700
+
+    musl: Upgrade to tip of tree
+
+    COPYRIGHT file was changed to clarfiy the MIT Licence
+    which resulted in checksum change, see
+
+    http://git.musl-libc.org/cgit/musl/commit/?id=3Df0a61399330bae42beeb27d=
+6ecd05570b3382a60
+
+    below are changes in upgrade
+
+    Andrew Kelley (1):
+          fix incorrect protocol name and number for egp
+
+    Bobby Bingham (1):
+          add powerpc64 port
+
+    LeMay, Michael (1):
+          fix redundant processing of --build flag in configure script
+
+    Petr Van=C4=9Bk (1):
+          remove dead store in res_msend
+
+    Rich Felker (10):
+          fix undefined pointer comparison in stdio-internal __toread
+          fix regression disabling use of pause instruction for x86 a_spin
+          fix read past end of haystack buffer for short needles in memmem
+          add support for mips and mips64 r6 isa
+          add mips n32 port (ILP32 ABI for mips64)
+          fix thread structure/dtv-pointer corruption on powerpc
+          fix FILE buffer underflow in ungetwc
+          update COPYRIGHT file to clarify that permissions apply for all f=
+iles
+          follow standard configure behavior for cross compile prefix
+          fix spurious trailing whitespace in powerpc & powerpc64 bits/errn=
+o.h
+
+    Signed-off-by: Khem Raj <raj.khem@gmail.com>
+    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+    (cherry picked from commit 21d8d60b2bfb205dcb5d304119d4dbd627db7163)
+
+We have been using those backports locally with success and it fixes a
+number of important things for our application, as musl is ABI
+compatible I think those backports would be good for stable. What do
+you think?
+
+Best Regards,
+
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
