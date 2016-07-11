@@ -1,45 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 8041960589
+Received: from mail-it0-f52.google.com (mail-it0-f52.google.com
+	[209.85.214.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B2EA60589
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jul 2016 21:07:19 +0000 (UTC)
-Received: by mail-wm0-f48.google.com with SMTP id f126so105608975wma.1
+	Mon, 11 Jul 2016 21:11:32 +0000 (UTC)
+Received: by mail-it0-f52.google.com with SMTP id f6so64628835ith.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jul 2016 14:07:20 -0700 (PDT)
+	Mon, 11 Jul 2016 14:11:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=4FmK+4JCqIlodBsDlOzDU7jk5S1ZJW93MZCT81THylw=;
-	b=Rc4U60w5bdSLrGzcDX2jqUQAn/OT7tHlQG6bpTa7U8ye2nVw2bQGVdmvLFDsM3QNSy
-	waISbfcoZ8biMefVAmoDDFW5QFQmhPHUm4fh1hcFONJFTeMZlYFKPJiFHO6oK01wP8kJ
-	LAzDaF2tjcrgY14QbaqGNRuQYqUwVlAacweCsZybjHMagbKfSYTiFhZelB/Gufd+keNU
-	lU416ztNFgFHtrTR0Pqlvr5yNgNERMaMYYg3SQbPSzt+DcvP6aHhUaYt2XQoHAedwc9m
-	kTOr2LOpYsbJwwwHjrMA6mmONghR+QvjdHJvx1PlnQJQK/lDz1W0RqE1MuvF0qOIR5+L
-	Q7BA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=zAOjIEzOMQhB65CXgEUyYsVVwpJ366sNImvFpxTo6NU=;
+	b=yLagqjdECgDTF9ms/UW/1cgD6jzVooQZmcu3mf13S5zkcovVMjSOlxWahT7rCCTCWV
+	RFsqob2eMB6ukIWJ5wOuT4ZkeO4S3ojetfYx+KZpXBTENFWJcIUROvBihhL2krOBkGcU
+	AvkO9N7ZkgTmq/ozPSmOnuM5IHdRUCt+2xgFbaoyEDrWzgXNKRuUgvuCXdyPqw09PgzL
+	HWDTc9bS7Kx6ngY35rnGgGDtx+9UJryjvzRH9o2FL9u+kERNSouWnv5yzTB704yuBRRa
+	ux1k+vS+E+sXiEHbk3fZ7BIF05maybOnCJY2xRD0ZYSkJB1ggyKpj6CScsRRHaL0tJy/
+	HR4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=4FmK+4JCqIlodBsDlOzDU7jk5S1ZJW93MZCT81THylw=;
-	b=JGCJ2Zv4YIsOxzSALsCD8ycW+oK/lM+QEr8vwVMgeF6Crp8lywoF6D7p1vfgLu+S8w
-	p5DdyW5VLluQe4Y7xBHS5CRZTUmg1GJDfR4pGK1BLQrmRqXAekaqr6jwEIHdwgSDbdOp
-	4VFpUfCbp6n3WqiVWFPmx5Eq2FJYslGPU9gpTnz49QRD2ouumIfLA5nHBXXG/f//jSHq
-	8phP9GrjZyC+kFdKxs+lfwBnNR0M+pLuyEZWoYaPeGGjookmK2iSNF1tJU6DLDcxfeog
-	YAkqqRdcYF4+rJ9w6w6gbPVh/AQuOAGwW2tKe4qnY2BPMYk6QCG87TQWe40s/lrqdPEz
-	kalQ==
-X-Gm-Message-State: ALyK8tJqePx+CYC3RsOx353PW+jpeyYpPplrtWt4fks1OU36Cr3XCRNWppnuH4OCjDQuqjHx
-X-Received: by 10.195.12.105 with SMTP id ep9mr1491403wjd.163.1468271238884;
-	Mon, 11 Jul 2016 14:07:18 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id jy5sm1625031wjb.9.2016.07.11.14.07.17
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 11 Jul 2016 14:07:18 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Jul 2016 22:07:16 +0100
-Message-Id: <1468271236-6781-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] glibc: add more Imagination Meta relocation to elf.h
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=zAOjIEzOMQhB65CXgEUyYsVVwpJ366sNImvFpxTo6NU=;
+	b=kXi+zD5iHa/pY3ntpnKbVUN/SRxUHs+eIhARj1NOR60Rem4qg9daL8d1LcV/mIWbJA
+	uSZ37p/vCb3CLDQUyvNa933+7J6p/5u68QPKvyKmakiMjhrZuxtj23t1SSfC5kmK9z2F
+	v9klLxBZSWajVvVYBW0EsvPBRb2U36pXU8bJ9u/s+szleKZmiBGFvT8OpE7s/7Tn4IpY
+	QE4yyrfJgG5LLtIYtwH/e5U85xn0iuBDunFbuThSMAkt6VojVJ1DfEVbERUvNnix5nPD
+	/F3MmQfFjzFTyyXYffWl/VN+YtwLvTUii+uXWaPCoH3x6jhviMYBHIy/qgqLH1k86cnL
+	qgbg==
+X-Gm-Message-State: ALyK8tKsSsNCR7vcll+2HyqcoxJPgscLHtvfbiXlBb0ElfxO9XqdIouj1FsaGgS8muMpZU64Lx51B64G1NE0vGfr
+X-Received: by 10.36.120.74 with SMTP id p71mr12760099itc.22.1468271492998;
+	Mon, 11 Jul 2016 14:11:32 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.18.17 with HTTP; Mon, 11 Jul 2016 14:11:13 -0700 (PDT)
+In-Reply-To: <CACS+7ZTMT_k1KqhxiwG82EtP-bK0iQ2Saw-vFwTN-=tSoeiYEA@mail.gmail.com>
+References: <cover.1467855356.git.liezhi.yang@windriver.com>
+	<fda7b83b51d93891bfe9c602f9c69cdee7a084d3.1467855356.git.liezhi.yang@windriver.com>
+	<CACS+7ZTMT_k1KqhxiwG82EtP-bK0iQ2Saw-vFwTN-=tSoeiYEA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 11 Jul 2016 22:11:13 +0100
+Message-ID: <CAJTo0LYb1BVYYq-grRyue1OGDkuB6tqyftH2VeLHN-oBrfT_-g@mail.gmail.com>
+To: Dan McGregor <danismostlikely@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/7] git: 2.8.4 -> 2.9.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,73 +56,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jul 2016 21:07:19 -0000
+X-List-Received-Date: Mon, 11 Jul 2016 21:11:34 -0000
+Content-Type: multipart/alternative; boundary=001a114aa394c6559905376298f7
 
-glibc master added the EM_METAG tag but didn't add the relocation defines.
-However the kernel tooling only checks for EM_METAG when defining its own values
-so scripts/recordmcount ends up using R_META_* symbols without their definition.
+--001a114aa394c6559905376298f7
+Content-Type: text/plain; charset=UTF-8
 
-Whilst the kernel can and should be fixed, this breaks all users of recordmcount
-so patch elf.h to add the values.
+On 7 July 2016 at 14:14, Dan McGregor <danismostlikely@gmail.com> wrote:
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-core/glibc/glibc/elf-meta.patch | 32 ++++++++++++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.24.bb        |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/elf-meta.patch
+> I have no real objection to this.. in fact I've done it locally. But I do
+> think we should wait for 2.9.1. It should be released soon hopefully.
+>
+2.9.1 was just released, fwiw.  2.9.0 is in my staging branch so will be in
+master this week (fingers crossed) unless someone beats me with a tested
+2.9.1.
 
-diff --git a/meta/recipes-core/glibc/glibc/elf-meta.patch b/meta/recipes-core/glibc/glibc/elf-meta.patch
-new file mode 100644
-index 0000000..fab66d7
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/elf-meta.patch
-@@ -0,0 +1,32 @@
-+Upstream-Status: Pending
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+From a495656665cd4a4f97744741a4741eafa621d65b Mon Sep 17 00:00:00 2001
-+From: Ross Burton <ross.burton@intel.com>
-+Date: Mon, 11 Jul 2016 16:57:38 +0100
-+Subject: [PATCH] elf.h: add relocations for Imagination META
-+
-+Adding EM_METAG but not the relocations means the kernel doesn't compile as it
-+guards its own declarations on the presence of EM_METAG.
-+---
-+ elf/elf.h | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/elf/elf.h b/elf/elf.h
-+index b6112d9..69e85a7 100644
-+--- a/elf/elf.h
-++++ b/elf/elf.h
-+@@ -3677,6 +3677,10 @@ enum
-+ 
-+ #define R_TILEGX_NUM		130
-+ 
-++/* Imagination META relocs */
-++#define R_METAG_ADDR32		2
-++#define R_METAG_NONE		3
-++
-+ /* BPF specific declarations.  */
-+ 
-+ #define R_BPF_NONE		0	/* No reloc */
-+-- 
-+2.8.1
-+
-diff --git a/meta/recipes-core/glibc/glibc_2.24.bb b/meta/recipes-core/glibc/glibc_2.24.bb
-index f0c6a03..456f206 100644
---- a/meta/recipes-core/glibc/glibc_2.24.bb
-+++ b/meta/recipes-core/glibc/glibc_2.24.bb
-@@ -37,6 +37,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0023-eglibc-Install-PIC-archives.patch \
-            file://0024-eglibc-Forward-port-cross-locale-generation-support.patch \
-            file://0025-Define-DUMMY_LOCALE_T-if-not-defined.patch \
-+           file://elf-meta.patch \
- "
- 
- SRC_URI += "\
--- 
-2.8.1
+Ross
 
+--001a114aa394c6559905376298f7
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 7 July 2016 at 14:14, Dan McGregor <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:danismostlikely@gmail.com" target=3D"_blank">danismostlikely@gmail.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><p dir=3D"ltr">I hav=
+e no real objection to this.. in fact I&#39;ve done it locally. But I do th=
+ink we should wait for 2.9.1. It should be released soon hopefully.</p><div=
+ class=3D"HOEnZb"></div></blockquote></div>2.9.1 was just released, fwiw. =
+=C2=A02.9.0 is in my staging branch so will be in master this week (fingers=
+ crossed) unless someone beats me with a tested 2.9.1.</div><div class=3D"g=
+mail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a114aa394c6559905376298f7--
