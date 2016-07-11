@@ -1,48 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 7DE9A60797
+Return-Path: <bounce+8e2b5a.3a5685-openembedded-core=lists.openembedded.org@asterius.io>
+X-Greylist: delayed 308 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 11 Jul 2016 13:06:41 UTC
+Received: from mail4.static.mgsend.net (mail4.static.mgsend.net
+	[104.130.122.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 048B8607A5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jul 2016 11:47:30 +0000 (UTC)
-Received: by mail-io0-f174.google.com with SMTP id 38so3726627iol.0
+	Mon, 11 Jul 2016 13:06:41 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=asterius.io; q=dns/txt;
+	s=mailo; t=1468242402; h=Content-Type: Cc: To: Subject: Message-ID:
+	Date: From: References: In-Reply-To: MIME-Version: Sender;
+	bh=nUP97GG9KYLrey6Db5TPPtpNdVgAKvPicbJn6Peux98=;
+	b=H/vGDr9jafLwKtw/6JO0ZyJ/pjVIhzseH3XVtRIVKHN3BXMs98KBeOLv6iGZ0vV6Hg7l0h47
+	k7CvqnRW8TZYX/r4voquzkQ6uzjNwWTu4+ZC5a73XqGMuyfCHmVwxBX0roH3XNuX/PxA5cne
+	Aeg1UkOb0VRQnyQ4n9BN3fzSQkk=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=asterius.io; s=mailo;
+	q=dns; h=Sender: MIME-Version: In-Reply-To: References: From: Date:
+	Message-ID: Subject: To: Cc: Content-Type;
+	b=aiKMcoM6y6sh/oGkeGaGLSMelSjKrB2Ea6FSiNJ7gdRpileLDe8IYZoUE7rQJjfLIxYl5c
+	rWUStVf00yiMfp7lqWtNH9UV6oafQzWDlQ36Zmkkx4klfTCa4BSPxNUEBo9S6Z7Rkv60Cv4P
+	WuKbLNHZ6qr/OkVfBF18GiD4c4nLQ=
+Sender: derek@asterius.io
+X-Mailgun-Sid: WyJiMTQwMSIsICJvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIiwgIjNhNTY4NSJd
+Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
+	[209.85.223.182])
+	by mxa.mailgun.org with ESMTP id 578398ad.7f2b3428de30-in3;
+	Mon, 11 Jul 2016 13:01:33 -0000 (UTC)
+Received: by mail-io0-f182.google.com with SMTP id b62so2910146iod.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jul 2016 04:47:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=oqoHcKwCwodlA89yGJViQ2AWKRQxbjqlUL16hGH/gI8=;
-	b=lH7buIrb4PXvKcJ4OFqHB54D98+MrRxHBAKO0xsLU9BX1GkSzKItAJNTpm/xdPXObt
-	ScjBpA/fSBZ3Z5udIwgg5+EpNNYFd9gR9zulcY2I9OeNOY5de5yGnGoS8et2oD/aK31E
-	cdoQLq+JWTDYqOVE30rmdH4ZRmzuP83/Au4r9UWNHKu4nWJew11nLar5gyVGPidS2Pn+
-	Qxh4FsdKq+LAElSEo0ykEbG2FHqx7fUmLV3H1kUg4AX5OQsWVYY4dx5IKc5RjbLdLHX7
-	/V1ooVFMw8OuH0nVWQmihGTvA3lG9LX0tIl2yNNCt26vs8mlVZYPoQBbvd9EicaD59Zt
-	2aYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=oqoHcKwCwodlA89yGJViQ2AWKRQxbjqlUL16hGH/gI8=;
-	b=lVcGyeIQLYyrBDRtT+8I4IH0I3xbRuvhPZJwm2BlopBcRsFrUiO/KUB6dFAOBvIPbv
-	Oxw8sqqrhXb3a1FzRdHsTfl6NUT233b2RJcDzK7r3Fk0ts16a/NTuLC/OssJFTlcGICp
-	waqNTXh+dcy1lUp2e0QLLphibZHn48W1osO15FkSJh/8O+a1AmOWobea/PWeWV8CcXyU
-	JN4YNdp4exXJw6q6/x8urMXOAgB9UdT8ulBBFWni/8JxZaebM1212O1CSCCh20oFQRQV
-	J0sENuleI7fqx0kGVXhYrYcPMkzXHn2k8OEa0DE6wZNy082/sVM3G7wkWpzrrFgFsm4V
-	djdg==
-X-Gm-Message-State: ALyK8tJQaWa13dAwq9zkaRAWC00sTS04MeqPHCFMF+kDUB7h5HAcNEmIY2xnjcn99SJpNBW6UUce+5OR6Rpq97XM
-X-Received: by 10.107.138.212 with SMTP id c81mr7551416ioj.148.1468237650608; 
-	Mon, 11 Jul 2016 04:47:30 -0700 (PDT)
+	Mon, 11 Jul 2016 06:01:33 -0700 (PDT)
+X-Gm-Message-State: ALyK8tIaB1MITY1ZSBGJjTYULDaeJFS0OH/RQiKJ5wZlCN+awhXMfmW3VDEbI2QJL9V22fdwK8fd3gRQRupDNA==
+X-Received: by 10.107.183.85 with SMTP id h82mr2150685iof.63.1468242092866;
+	Mon, 11 Jul 2016 06:01:32 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Mon, 11 Jul 2016 04:47:11 -0700 (PDT)
-In-Reply-To: <bb1a8cdb4a5bdc1ed1746244eb734f5efa8ec9c3.1467569369.git.akuster@mvista.com>
-References: <cover.1467569369.git.akuster@mvista.com>
-	<bb1a8cdb4a5bdc1ed1746244eb734f5efa8ec9c3.1467569369.git.akuster@mvista.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 11 Jul 2016 12:47:11 +0100
-Message-ID: <CAJTo0LZ-od=MPWkq3xgg5SPHicKf5mHXML--ZFJ-TieE4dKm4A@mail.gmail.com>
-To: Armin Kuster <akuster808@gmail.com>
-Cc: Armin Kuster <akuster@mvista.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/5] qemu: add ppc64 to QEMU_TARGETS
+Received: by 10.107.178.215 with HTTP; Mon, 11 Jul 2016 06:01:32 -0700 (PDT)
+In-Reply-To: <1468226297.28829.72.camel@linuxfoundation.org>
+References: <1468075833-13999-1-git-send-email-derek@asterius.io>
+	<1468226297.28829.72.camel@linuxfoundation.org>
+From: Derek Straka <derek@asterius.io>
+Date: Mon, 11 Jul 2016 09:01:32 -0400
+X-Gmail-Original-Message-ID: <CADNbA1qdBnzefvyLKU=UjT_5NkUACeLt0xYmtHunUcmQ=w64uA@mail.gmail.com>
+Message-ID: <CADNbA1qdBnzefvyLKU=UjT_5NkUACeLt0xYmtHunUcmQ=w64uA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] python3: update manifest RDEPENDS for importlib and compression packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,103 +55,140 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jul 2016 11:47:31 -0000
-Content-Type: multipart/alternative; boundary=001a113ed9329c7ff005375ab759
+X-List-Received-Date: Mon, 11 Jul 2016 13:06:42 -0000
+Content-Type: multipart/alternative; boundary=94eb2c0b8e4a63c72d05375bc073
 
---001a113ed9329c7ff005375ab759
+--94eb2c0b8e4a63c72d05375bc073
 Content-Type: text/plain; charset=UTF-8
 
-On 3 July 2016 at 19:15, Armin Kuster <akuster808@gmail.com> wrote:
+Sure.  I can pull out the pieces that are required by importlib out of
+-misc and into their own package instead of including all of items in
+-misc.  Thanks.
 
-> -QEMU_TARGETS ?= "arm aarch64 i386 mips mipsel mips64 mips64el ppc sh4
-> x86_64"
-> +QEMU_TARGETS ?= "arm aarch64 i386 mips mipsel mips64 mips64el ppc ppc64
-> sh4 x86_64"
+-Derek
+
+On Mon, Jul 11, 2016 at 4:38 AM, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+
+> On Sat, 2016-07-09 at 10:50 -0400, Derek Straka wrote:
+> >     * zipfile has dependencies on threading and importlib
+> >     * importlib has a dependency on operator via types import
+> >
+> > Signed-off-by: Derek Straka <derek@asterius.io>
+> > ---
+> >  meta/recipes-devtools/python/python-3.5-manifest.inc | 4 ++--
+> >  scripts/contrib/python/generate-manifest-3.5.py      | 4 ++--
+> >  2 files changed, 4 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/meta/recipes-devtools/python/python-3.5-manifest.inc
+> > b/meta/recipes-devtools/python/python-3.5-manifest.inc
+> > index 335c3ff..846e2a9 100644
+> > --- a/meta/recipes-devtools/python/python-3.5-manifest.inc
+> > +++ b/meta/recipes-devtools/python/python-3.5-manifest.inc
+> > @@ -30,7 +30,7 @@ RDEPENDS_${PN}-compile="${PN}-core"
+> >  FILES_${PN}-compile="${libdir}/python3.5/py_compile.*
+> > ${libdir}/python3.5/compileall.* "
+> >
+> >  SUMMARY_${PN}-compression="Python high-level compression support"
+> > -RDEPENDS_${PN}-compression="${PN}-core ${PN}-codecs"
+> > +RDEPENDS_${PN}-compression="${PN}-core ${PN}-codecs ${PN}-importlib
+> > ${PN}-threading"
+> >  FILES_${PN}-compression="${libdir}/python3.5/gzip.*
+> > ${libdir}/python3.5/zipfile.* ${libdir}/python3.5/tarfile.*
+> > ${libdir}/python3.5/lib-dynload/bz2.*.so "
+> >
+> >  SUMMARY_${PN}-core="Python interpreter and core modules"
+> > @@ -106,7 +106,7 @@ RDEPENDS_${PN}-image="${PN}-core"
+> >  FILES_${PN}-image="${libdir}/python3.5/colorsys.*
+> > ${libdir}/python3.5/imghdr.* ${libdir}/python3.5/lib
+> > -dynload/imageop.*.so ${libdir}/python3.5/lib-dynload/rgbimg.*.so "
+> >
+> >  SUMMARY_${PN}-importlib="Python import implementation library"
+> > -RDEPENDS_${PN}-importlib="${PN}-core"
+> > +RDEPENDS_${PN}-importlib="${PN}-core ${PN}-misc"
+> >  FILES_${PN}-importlib="${libdir}/python3.5/importlib "
+>
+> I suspect this means we need to split something off from -misc since
+> that package is quite large and we likely don't want to pull in all of
+> it here.
+>
+> Cheers,
+>
+> Richard
 >
 
-Is this series meant to support user-mode qemu yet?
-
-NOTE: Running intercept scripts:
-NOTE: > Executing update_font_cache intercept ...
-Invalid data memory access: 0x00000041bc926008
-NIP 000000400084055c   LR 00000040008404ac CTR 0000000000000000 XER
-0000000000000000 CPU#0
-MSR 8000000102806000 HID0 0000000000000000  HF 8000000002806000 idx 0
-TB 00005165 22187490268086
-GPR00 0000004000840480 000000400081e8b0 0000004000869e00 00000043789e6010
-GPR04 0000004000849478 000000000000000b 0000000000000002 0000000000000003
-GPR08 0000004000849482 00000041bc925ff4 0000000000000000 000000400086600a
-GPR12 0000000022242442 0000000000000000 00000040008634c0 0000004000847c18
-GPR16 0000004000863188 0000000000000000 000000400081ed60 000000400081ed68
-GPR20 000000400081ea10 0000000000000013 0000000000000000 0000000000000000
-GPR24 0000000000000001 0000004000000821 000000004a01ffff 0000000087e8d51f
-GPR28 00000043789e6010 000000002500ffff 0000004000866000 000000400081e8b0
-CR 22242444  [ E  E  E  G  E  G  G  G  ]             RES ffffffffffffffff
-FPR00 0000000000000000 0000000000000000 0000000000000000 0000000000000000
-FPR04 0000000000000000 0000000000000000 0000000000000000 0000000000000000
-FPR08 0000000000000000 0000000000000000 0000000000000000 0000000000000000
-FPR12 0000000000000000 0000000000000000 0000000000000000 0000000000000000
-FPR16 0000000000000000 0000000000000000 0000000000000000 0000000000000000
-FPR20 0000000000000000 0000000000000000 0000000000000000 0000000000000000
-FPR24 0000000000000000 0000000000000000 0000000000000000 0000000000000000
-FPR28 0000000000000000 0000000000000000 0000000000000000 0000000000000000
-FPSCR 0000000000000000
-qemu: uncaught target signal 11 (Segmentation fault) - core dumped
-Segmentation fault
-
-Ross
-
---001a113ed9329c7ff005375ab759
+--94eb2c0b8e4a63c72d05375bc073
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 3 July 2016 at 19:15, Armin Kuster <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:akuster808@gmail.com" target=3D"_blank">akuster808@gmail.com</a>&gt;</sp=
-an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left=
--style:solid;padding-left:1ex"><div id=3D":2yo" class=3D"">-QEMU_TARGETS ?=
-=3D &quot;arm aarch64 i386 mips mipsel mips64 mips64el ppc sh4 x86_64&quot;=
+<div dir=3D"ltr">Sure.=C2=A0 I can pull out the pieces that are required by=
+ importlib out of -misc and into their own package instead of including all=
+ of items in -misc.=C2=A0 Thanks.<div><br></div><div>-Derek</div></div><div=
+ class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Mon, Jul 11, 2016 =
+at 4:38 AM, Richard Purdie <span dir=3D"ltr">&lt;<a href=3D"mailto:richard.=
+purdie@linuxfoundation.org" target=3D"_blank">richard.purdie@linuxfoundatio=
+n.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D=
+"HOEnZb"><div class=3D"h5">On Sat, 2016-07-09 at 10:50 -0400, Derek Straka =
+wrote:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0* zipfile has dependencies on threading and importl=
+ib<br>
+&gt;=C2=A0 =C2=A0 =C2=A0* importlib has a dependency on operator via types =
+import<br>
+&gt;<br>
+&gt; Signed-off-by: Derek Straka &lt;<a href=3D"mailto:derek@asterius.io">d=
+erek@asterius.io</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/recipes-devtools/python/python-3.5-manifest.inc | 4 ++--<br=
+>
+&gt;=C2=A0 scripts/contrib/python/<a href=3D"http://generate-manifest-3.5.p=
+y" rel=3D"noreferrer" target=3D"_blank">generate-manifest-3.5.py</a>=C2=A0 =
+=C2=A0 =C2=A0 | 4 ++--<br>
+&gt;=C2=A0 2 files changed, 4 insertions(+), 4 deletions(-)<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-devtools/python/python-3.5-manifest.inc<br>
+&gt; b/meta/recipes-devtools/python/python-3.5-manifest.inc<br>
+&gt; index 335c3ff..846e2a9 100644<br>
+&gt; --- a/meta/recipes-devtools/python/python-3.5-manifest.inc<br>
+&gt; +++ b/meta/recipes-devtools/python/python-3.5-manifest.inc<br>
+&gt; @@ -30,7 +30,7 @@ RDEPENDS_${PN}-compile=3D&quot;${PN}-core&quot;<br>
+&gt;=C2=A0 FILES_${PN}-compile=3D&quot;${libdir}/python3.5/py_compile.*<br>
+&gt; ${libdir}/python3.5/compileall.* &quot;<br>
+&gt;<br>
+&gt;=C2=A0 SUMMARY_${PN}-compression=3D&quot;Python high-level compression =
+support&quot;<br>
+&gt; -RDEPENDS_${PN}-compression=3D&quot;${PN}-core ${PN}-codecs&quot;<br>
+&gt; +RDEPENDS_${PN}-compression=3D&quot;${PN}-core ${PN}-codecs ${PN}-impo=
+rtlib<br>
+&gt; ${PN}-threading&quot;<br>
+&gt;=C2=A0 FILES_${PN}-compression=3D&quot;${libdir}/python3.5/gzip.*<br>
+&gt; ${libdir}/python3.5/zipfile.* ${libdir}/python3.5/tarfile.*<br>
+&gt; ${libdir}/python3.5/lib-dynload/bz2.*.so &quot;<br>
+&gt;<br>
+&gt;=C2=A0 SUMMARY_${PN}-core=3D&quot;Python interpreter and core modules&q=
+uot;<br>
+&gt; @@ -106,7 +106,7 @@ RDEPENDS_${PN}-image=3D&quot;${PN}-core&quot;<br>
+&gt;=C2=A0 FILES_${PN}-image=3D&quot;${libdir}/python3.5/colorsys.*<br>
+&gt; ${libdir}/python3.5/imghdr.* ${libdir}/python3.5/lib<br>
+&gt; -dynload/imageop.*.so ${libdir}/python3.5/lib-dynload/rgbimg.*.so &quo=
+t;<br>
+&gt;<br>
+&gt;=C2=A0 SUMMARY_${PN}-importlib=3D&quot;Python import implementation lib=
+rary&quot;<br>
+&gt; -RDEPENDS_${PN}-importlib=3D&quot;${PN}-core&quot;<br>
+&gt; +RDEPENDS_${PN}-importlib=3D&quot;${PN}-core ${PN}-misc&quot;<br>
+&gt;=C2=A0 FILES_${PN}-importlib=3D&quot;${libdir}/python3.5/importlib &quo=
+t;<br>
 <br>
-+QEMU_TARGETS ?=3D &quot;arm aarch64 i386 mips mipsel mips64 mips64el ppc p=
-pc64 sh4 x86_64&quot;<br></div></blockquote></div><br>Is this series meant =
-to support user-mode qemu yet?</div><div class=3D"gmail_extra"><br></div><d=
-iv class=3D"gmail_extra"><div class=3D"gmail_extra">NOTE: Running intercept=
- scripts:</div><div class=3D"gmail_extra">NOTE: &gt; Executing update_font_=
-cache intercept ...</div><div class=3D"gmail_extra">Invalid data memory acc=
-ess: 0x00000041bc926008</div><div class=3D"gmail_extra">NIP 000000400084055=
-c =C2=A0 LR 00000040008404ac CTR 0000000000000000 XER 0000000000000000 CPU#=
-0</div><div class=3D"gmail_extra">MSR 8000000102806000 HID0 000000000000000=
-0 =C2=A0HF 8000000002806000 idx 0</div><div class=3D"gmail_extra">TB 000051=
-65 22187490268086</div><div class=3D"gmail_extra">GPR00 0000004000840480 00=
-0000400081e8b0 0000004000869e00 00000043789e6010</div><div class=3D"gmail_e=
-xtra">GPR04 0000004000849478 000000000000000b 0000000000000002 000000000000=
-0003</div><div class=3D"gmail_extra">GPR08 0000004000849482 00000041bc925ff=
-4 0000000000000000 000000400086600a</div><div class=3D"gmail_extra">GPR12 0=
-000000022242442 0000000000000000 00000040008634c0 0000004000847c18</div><di=
-v class=3D"gmail_extra">GPR16 0000004000863188 0000000000000000 00000040008=
-1ed60 000000400081ed68</div><div class=3D"gmail_extra">GPR20 000000400081ea=
-10 0000000000000013 0000000000000000 0000000000000000</div><div class=3D"gm=
-ail_extra">GPR24 0000000000000001 0000004000000821 000000004a01ffff 0000000=
-087e8d51f</div><div class=3D"gmail_extra">GPR28 00000043789e6010 0000000025=
-00ffff 0000004000866000 000000400081e8b0</div><div class=3D"gmail_extra">CR=
- 22242444 =C2=A0[ E =C2=A0E =C2=A0E =C2=A0G =C2=A0E =C2=A0G =C2=A0G =C2=A0G=
- =C2=A0] =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 RES ffffffffffffffff</di=
-v><div class=3D"gmail_extra">FPR00 0000000000000000 0000000000000000 000000=
-0000000000 0000000000000000</div><div class=3D"gmail_extra">FPR04 000000000=
-0000000 0000000000000000 0000000000000000 0000000000000000</div><div class=
-=3D"gmail_extra">FPR08 0000000000000000 0000000000000000 0000000000000000 0=
-000000000000000</div><div class=3D"gmail_extra">FPR12 0000000000000000 0000=
-000000000000 0000000000000000 0000000000000000</div><div class=3D"gmail_ext=
-ra">FPR16 0000000000000000 0000000000000000 0000000000000000 00000000000000=
-00</div><div class=3D"gmail_extra">FPR20 0000000000000000 0000000000000000 =
-0000000000000000 0000000000000000</div><div class=3D"gmail_extra">FPR24 000=
-0000000000000 0000000000000000 0000000000000000 0000000000000000</div><div =
-class=3D"gmail_extra">FPR28 0000000000000000 0000000000000000 0000000000000=
-000 0000000000000000</div><div class=3D"gmail_extra">FPSCR 0000000000000000=
-</div><div class=3D"gmail_extra">qemu: uncaught target signal 11 (Segmentat=
-ion fault) - core dumped</div><div class=3D"gmail_extra">Segmentation fault=
-</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross<=
-/div></div></div>
+</div></div>I suspect this means we need to split something off from -misc =
+since<br>
+that package is quite large and we likely don&#39;t want to pull in all of<=
+br>
+it here.<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+</blockquote></div><br></div>
 
---001a113ed9329c7ff005375ab759--
+--94eb2c0b8e4a63c72d05375bc073--
