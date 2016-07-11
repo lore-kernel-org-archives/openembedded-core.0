@@ -1,25 +1,45 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id DD3D66FFE2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 8041960589
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jul 2016 20:59:01 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 11 Jul 2016 13:58:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,348,1464678000"; d="scan'208";a="993112618"
-Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
-	([10.54.69.55])
-	by orsmga001.jf.intel.com with ESMTP; 11 Jul 2016 13:58:58 -0700
-From: mariano.lopez@linux.intel.com
+	Mon, 11 Jul 2016 21:07:19 +0000 (UTC)
+Received: by mail-wm0-f48.google.com with SMTP id f126so105608975wma.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Jul 2016 14:07:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=4FmK+4JCqIlodBsDlOzDU7jk5S1ZJW93MZCT81THylw=;
+	b=Rc4U60w5bdSLrGzcDX2jqUQAn/OT7tHlQG6bpTa7U8ye2nVw2bQGVdmvLFDsM3QNSy
+	waISbfcoZ8biMefVAmoDDFW5QFQmhPHUm4fh1hcFONJFTeMZlYFKPJiFHO6oK01wP8kJ
+	LAzDaF2tjcrgY14QbaqGNRuQYqUwVlAacweCsZybjHMagbKfSYTiFhZelB/Gufd+keNU
+	lU416ztNFgFHtrTR0Pqlvr5yNgNERMaMYYg3SQbPSzt+DcvP6aHhUaYt2XQoHAedwc9m
+	kTOr2LOpYsbJwwwHjrMA6mmONghR+QvjdHJvx1PlnQJQK/lDz1W0RqE1MuvF0qOIR5+L
+	Q7BA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=4FmK+4JCqIlodBsDlOzDU7jk5S1ZJW93MZCT81THylw=;
+	b=JGCJ2Zv4YIsOxzSALsCD8ycW+oK/lM+QEr8vwVMgeF6Crp8lywoF6D7p1vfgLu+S8w
+	p5DdyW5VLluQe4Y7xBHS5CRZTUmg1GJDfR4pGK1BLQrmRqXAekaqr6jwEIHdwgSDbdOp
+	4VFpUfCbp6n3WqiVWFPmx5Eq2FJYslGPU9gpTnz49QRD2ouumIfLA5nHBXXG/f//jSHq
+	8phP9GrjZyC+kFdKxs+lfwBnNR0M+pLuyEZWoYaPeGGjookmK2iSNF1tJU6DLDcxfeog
+	YAkqqRdcYF4+rJ9w6w6gbPVh/AQuOAGwW2tKe4qnY2BPMYk6QCG87TQWe40s/lrqdPEz
+	kalQ==
+X-Gm-Message-State: ALyK8tJqePx+CYC3RsOx353PW+jpeyYpPplrtWt4fks1OU36Cr3XCRNWppnuH4OCjDQuqjHx
+X-Received: by 10.195.12.105 with SMTP id ep9mr1491403wjd.163.1468271238884;
+	Mon, 11 Jul 2016 14:07:18 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id jy5sm1625031wjb.9.2016.07.11.14.07.17
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 11 Jul 2016 14:07:18 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Jul 2016 12:52:42 +0000
-Message-Id: <6b517d2088d87d4d5c3fbd67f72235a8a5aba99d.1468241364.git.mariano.lopez@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-In-Reply-To: <cover.1456412549.git.mariano.lopez@linux.intel.com>
-References: <cover.1456412549.git.mariano.lopez@linux.intel.com>
-In-Reply-To: <cover.1468241364.git.mariano.lopez@linux.intel.com>
-References: <cover.1468241364.git.mariano.lopez@linux.intel.com>
-Subject: [PATCHv3 2/2] cve-check.bbclass: Add class
+Date: Mon, 11 Jul 2016 22:07:16 +0100
+Message-Id: <1468271236-6781-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] glibc: add more Imagination Meta relocation to elf.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,304 +52,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jul 2016 20:59:03 -0000
+X-List-Received-Date: Mon, 11 Jul 2016 21:07:19 -0000
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+glibc master added the EM_METAG tag but didn't add the relocation defines.
+However the kernel tooling only checks for EM_METAG when defining its own values
+so scripts/recordmcount ends up using R_META_* symbols without their definition.
 
-This class adds a new task for all the recipes to use
-cve-check-tool in order to look for public CVEs affecting
-the packages generated.
+Whilst the kernel can and should be fixed, this breaks all users of recordmcount
+so patch elf.h to add the values.
 
-It is possible to use this class when building an image,
-building a recipe, or using the "world" or "universe" cases.
-
-In order to use this class it must be inherited and it will
-add the task automatically to every recipe.
-
-[YOCTO #7515]
-
-Co-authored by Ross Burton & Mariano Lopez
-
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/cve-check.bbclass | 267 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 267 insertions(+)
- create mode 100644 meta/classes/cve-check.bbclass
+ meta/recipes-core/glibc/glibc/elf-meta.patch | 32 ++++++++++++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.24.bb        |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/elf-meta.patch
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+diff --git a/meta/recipes-core/glibc/glibc/elf-meta.patch b/meta/recipes-core/glibc/glibc/elf-meta.patch
 new file mode 100644
-index 0000000..8251ca7
+index 0000000..fab66d7
 --- /dev/null
-+++ b/meta/classes/cve-check.bbclass
-@@ -0,0 +1,267 @@
-+# This class is used to check recipes against public CVEs.
-+#
-+# In order to use this class just inherit the class in the
-+# local.conf file and it will add the cve_check task for
-+# every recipe. The task can be used per recipe, per image,
-+# or using the special cases "world" and "universe". The
-+# cve_check task will print a warning for every unpatched
-+# CVE found and generate a file in the recipe WORKDIR/cve
-+# directory. If an image is build it will generate a report
-+# in DEPLOY_DIR_IMAGE for all the packages used.
-+#
-+# Example:
-+#   bitbake -c cve_check openssl
-+#   bitbake core-image-sato
-+#   bitbake -k -c cve_check universe
-+#
-+# DISCLAIMER
-+#
-+# This class/tool is meant to be used as support and not
-+# the only method to check against CVEs. Running this tool
-+# doesn't guarantee your packages are free of CVEs.
++++ b/meta/recipes-core/glibc/glibc/elf-meta.patch
+@@ -0,0 +1,32 @@
++Upstream-Status: Pending
++Signed-off-by: Ross Burton <ross.burton@intel.com>
 +
-+CVE_CHECK_DB_DIR ?= "${DL_DIR}/CVE_CHECK"
-+CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvd.db"
++From a495656665cd4a4f97744741a4741eafa621d65b Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@intel.com>
++Date: Mon, 11 Jul 2016 16:57:38 +0100
++Subject: [PATCH] elf.h: add relocations for Imagination META
 +
-+CVE_CHECK_LOCAL_DIR ?= "${WORKDIR}/cve"
-+CVE_CHECK_LOCAL_FILE ?= "${CVE_CHECK_LOCAL_DIR}/cve.log"
-+CVE_CHECK_TMP_FILE ?= "${TMPDIR}/cve_check"
++Adding EM_METAG but not the relocations means the kernel doesn't compile as it
++guards its own declarations on the presence of EM_METAG.
++---
++ elf/elf.h | 4 ++++
++ 1 file changed, 4 insertions(+)
 +
-+CVE_CHECK_DIR ??= "${DEPLOY_DIR}/cve"
-+CVE_CHECK_MANIFEST ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cve"
-+CVE_CHECK_COPY_FILES ??= "1"
-+CVE_CHECK_CREATE_MANIFEST ??= "1"
++diff --git a/elf/elf.h b/elf/elf.h
++index b6112d9..69e85a7 100644
++--- a/elf/elf.h
+++++ b/elf/elf.h
++@@ -3677,6 +3677,10 @@ enum
++ 
++ #define R_TILEGX_NUM		130
++ 
+++/* Imagination META relocs */
+++#define R_METAG_ADDR32		2
+++#define R_METAG_NONE		3
+++
++ /* BPF specific declarations.  */
++ 
++ #define R_BPF_NONE		0	/* No reloc */
++-- 
++2.8.1
 +
-+# Whitelist for packages (PN)
-+CVE_CHECK_PN_WHITELIST = "\
-+    glibc-locale \
-+"
-+
-+# Whitelist for CVE and version of package
-+CVE_CHECK_CVE_WHITELIST = "{\
-+    'CVE-2014-2524': ('6.3',), \
-+}"
-+
-+python do_cve_check () {
-+    """
-+    Check recipe for patched and unpatched CVEs
-+    """
-+
-+    if os.path.exists(d.getVar("CVE_CHECK_TMP_FILE", True)):
-+        patched_cves = get_patches_cves(d)
-+        patched, unpatched = check_cves(d, patched_cves)
-+        if patched or unpatched:
-+            cve_data = get_cve_info(d, patched + unpatched)
-+            cve_write_data(d, patched, unpatched, cve_data)
-+    else:
-+        bb.note("Failed to update CVE database, skipping CVE check")
-+}
-+
-+addtask cve_check after do_unpack before do_build
-+do_cve_check[depends] = "cve-check-tool-native:do_populate_cve_db"
-+do_cve_check[nostamp] = "1"
-+
-+python cve_check_cleanup () {
-+    """
-+    Delete the file used to gather all the CVE information.
-+    """
-+
-+    bb.utils.remove(e.data.getVar("CVE_CHECK_TMP_FILE", True))
-+}
-+
-+addhandler cve_check_cleanup
-+cve_check_cleanup[eventmask] = "bb.cooker.CookerExit"
-+
-+python cve_check_write_rootfs_manifest () {
-+    """
-+    Create CVE manifest when building an image
-+    """
-+
-+    import shutil
-+
-+    if os.path.exists(d.getVar("CVE_CHECK_TMP_FILE", True)):
-+        bb.note("Writing rootfs CVE manifest")
-+        deploy_dir = d.getVar("DEPLOY_DIR_IMAGE", True)
-+        link_name = d.getVar("IMAGE_LINK_NAME", True)
-+        manifest_name = d.getVar("CVE_CHECK_MANIFEST", True)
-+        cve_tmp_file = d.getVar("CVE_CHECK_TMP_FILE", True)
-+
-+        shutil.copyfile(cve_tmp_file, manifest_name)
-+
-+        if manifest_name and os.path.exists(manifest_name):
-+            manifest_link = os.path.join(deploy_dir, "%s.cve" % link_name)
-+            # If we already have another manifest, update symlinks
-+            if os.path.exists(os.path.realpath(manifest_link)):
-+                if d.getVar('RM_OLD_IMAGE', True) == "1":
-+                    os.remove(os.path.realpath(manifest_link))
-+                os.remove(manifest_link)
-+            os.symlink(os.path.basename(manifest_name), manifest_link)
-+            bb.plain("Image CVE report stored in: %s" % manifest_name)
-+}
-+
-+ROOTFS_POSTPROCESS_COMMAND_prepend = "${@'cve_check_write_rootfs_manifest; ' if d.getVar('CVE_CHECK_CREATE_MANIFEST', True) == '1' else ''}"
-+
-+def get_patches_cves(d):
-+    """
-+    Get patches that solve CVEs using the "CVE: " tag.
-+    """
-+
-+    import re
-+
-+    pn = d.getVar("PN", True)
-+    cve_match = re.compile("CVE:( CVE\-\d{4}\-\d+)+")
-+    patched_cves = set()
-+    bb.debug(2, "Looking for patches that solves CVEs for %s" % pn)
-+    for url in src_patches(d):
-+        patch_file = bb.fetch.decodeurl(url)[2]
-+        with open(patch_file, "r", encoding="utf-8") as f:
-+            try:
-+                patch_text = f.read()
-+            except UnicodeDecodeError:
-+                bb.debug(1, "Failed to read patch %s using UTF-8 encoding"
-+                        " trying with iso8859-1" %  patch_file)
-+                f.close()
-+                with open(patch_file, "r", encoding="iso8859-1") as f:
-+                    patch_text = f.read()
-+
-+        # Search for the "CVE: " line
-+        match = cve_match.search(patch_text)
-+        if match:
-+            # Get only the CVEs without the "CVE: " tag
-+            cves = patch_text[match.start()+5:match.end()]
-+            for cve in cves.split():
-+                bb.debug(2, "Patch %s solves %s" % (patch_file, cve))
-+                patched_cves.add(cve)
-+        else:
-+            bb.debug(2, "Patch %s doesn't solve CVEs" % patch_file)
-+
-+    return patched_cves
-+
-+def check_cves(d, patched_cves):
-+    """
-+    Run cve-check-tool looking for patched and unpatched CVEs.
-+    """
-+
-+    import ast, csv, tempfile, subprocess, io
-+
-+    cves_patched = []
-+    cves_unpatched = []
-+    bpn = d.getVar("BPN", True)
-+    pv = d.getVar("PV", True).split("git+")[0]
-+    cves = " ".join(patched_cves)
-+    cve_db_dir = d.getVar("CVE_CHECK_DB_DIR", True)
-+    cve_whitelist = ast.literal_eval(d.getVar("CVE_CHECK_CVE_WHITELIST", True))
-+    cve_cmd = "cve-check-tool"
-+    cmd = [cve_cmd, "--no-html", "--csv", "--not-affected", "-t", "faux", "-d", cve_db_dir]
-+
-+    # If the recipe has been whitlisted we return empty lists
-+    if d.getVar("PN", True) in d.getVar("CVE_CHECK_PN_WHITELIST", True).split():
-+        bb.note("Recipe has been whitelisted, skipping check")
-+        return ([], [])
-+
-+    # It is needed to export the proxies to download the database using HTTP
-+    bb.utils.export_proxies(d)
-+
-+    try:
-+        # Write the faux CSV file to be used with cve-check-tool
-+        fd, faux = tempfile.mkstemp(prefix="cve-faux-")
-+        with os.fdopen(fd, "w") as f:
-+            f.write("%s,%s,%s," % (bpn, pv, cves))
-+        cmd.append(faux)
-+
-+        output = subprocess.check_output(cmd, stderr=subprocess.STDOUT).decode("utf-8")
-+        bb.debug(2, "Output of command %s:\n%s" % ("\n".join(cmd), output))
-+    except subprocess.CalledProcessError as e:
-+        bb.warn("Couldn't check for CVEs: %s (output %s)" % (e, e.output))
-+    finally:
-+        os.remove(faux)
-+
-+    for row in csv.reader(io.StringIO(output)):
-+        # Third row has the unpatched CVEs
-+        if row[2]:
-+            for cve in row[2].split():
-+                # Skip if the CVE has been whitlisted for the current version
-+                if pv in cve_whitelist.get(cve,[]):
-+                    bb.note("%s-%s has been whitelisted for %s" % (bpn, pv, cve))
-+                else:
-+                    cves_unpatched.append(cve)
-+                    bb.debug(2, "%s-%s is not patched for %s" % (bpn, pv, cve))
-+        # Fourth row has patched CVEs
-+        if row[3]:
-+            for cve in row[3].split():
-+                cves_patched.append(cve)
-+                bb.debug(2, "%s-%s is patched for %s" % (bpn, pv, cve))
-+
-+    return (cves_patched, cves_unpatched)
-+
-+def get_cve_info(d, cves):
-+    """
-+    Get CVE information from the database used by cve-check-tool.
-+
-+    Unfortunately the only way to get CVE info is set the output to
-+    html (hard to parse) or query directly the database.
-+    """
-+
-+    try:
-+        import sqlite3
-+    except ImportError:
-+        from pysqlite2 import dbapi2 as sqlite3
-+
-+    cve_data = {}
-+    db_file = d.getVar("CVE_CHECK_DB_FILE", True)
-+    placeholder = ",".join("?" * len(cves))
-+    query = "SELECT * FROM NVD WHERE id IN (%s)" % placeholder
-+    conn = sqlite3.connect(db_file)
-+    cur = conn.cursor()
-+    for row in cur.execute(query, tuple(cves)):
-+        cve_data[row[0]] = {}
-+        cve_data[row[0]]["summary"] = row[1]
-+        cve_data[row[0]]["score"] = row[2]
-+        cve_data[row[0]]["modified"] = row[3]
-+        cve_data[row[0]]["vector"] = row[4]
-+    conn.close()
-+
-+    return cve_data
-+
-+def cve_write_data(d, patched, unpatched, cve_data):
-+    """
-+    Write CVE information in WORKDIR; and to CVE_CHECK_DIR, and
-+    CVE manifest if enabled.
-+    """
-+
-+    cve_file = d.getVar("CVE_CHECK_LOCAL_FILE", True)
-+    nvd_link = "https://web.nvd.nist.gov/view/vuln/detail?vulnId="
-+    write_string = ""
-+    first_alert = True
-+    bb.utils.mkdirhier(d.getVar("CVE_CHECK_LOCAL_DIR", True))
-+
-+    for cve in sorted(cve_data):
-+        write_string += "PACKAGE NAME: %s\n" % d.getVar("PN", True)
-+        write_string += "PACKAGE VERSION: %s\n" % d.getVar("PV", True)
-+        write_string += "CVE: %s\n" % cve
-+        if cve in patched:
-+            write_string += "CVE STATUS: Patched\n"
-+        else:
-+            write_string += "CVE STATUS: Unpatched\n"
-+            if first_alert:
-+                bb.warn("Found unpatched CVE, for more information check %s" % cve_file)
-+                first_alert = False
-+        write_string += "CVE SUMMARY: %s\n" % cve_data[cve]["summary"]
-+        write_string += "CVSS v2 BASE SCORE: %s\n" % cve_data[cve]["score"]
-+        write_string += "VECTOR: %s\n" % cve_data[cve]["vector"]
-+        write_string += "MORE INFORMATION: %s%s\n\n" % (nvd_link, cve)
-+
-+    with open(cve_file, "w") as f:
-+        bb.note("Writing file %s with CVE information" % cve_file)
-+        f.write(write_string)
-+
-+    if d.getVar("CVE_CHECK_COPY_FILES", True) == "1":
-+        cve_dir = d.getVar("CVE_CHECK_DIR", True)
-+        bb.utils.mkdirhier(cve_dir)
-+        deploy_file = os.path.join(cve_dir, d.getVar("PN", True))
-+        with open(deploy_file, "w") as f:
-+            f.write(write_string)
-+
-+    if d.getVar("CVE_CHECK_CREATE_MANIFEST", True) == "1":
-+        with open(d.getVar("CVE_CHECK_TMP_FILE", True), "a") as f:
-+            f.write("%s" % write_string)
+diff --git a/meta/recipes-core/glibc/glibc_2.24.bb b/meta/recipes-core/glibc/glibc_2.24.bb
+index f0c6a03..456f206 100644
+--- a/meta/recipes-core/glibc/glibc_2.24.bb
++++ b/meta/recipes-core/glibc/glibc_2.24.bb
+@@ -37,6 +37,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0023-eglibc-Install-PIC-archives.patch \
+            file://0024-eglibc-Forward-port-cross-locale-generation-support.patch \
+            file://0025-Define-DUMMY_LOCALE_T-if-not-defined.patch \
++           file://elf-meta.patch \
+ "
+ 
+ SRC_URI += "\
 -- 
-2.6.6
+2.8.1
 
 
