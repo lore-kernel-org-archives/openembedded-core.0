@@ -1,66 +1,26 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-vk0-f67.google.com (mail-vk0-f67.google.com
-	[209.85.213.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 26B34607A5
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id EF5E4607A5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jul 2016 15:17:36 +0000 (UTC)
-Received: by mail-vk0-f67.google.com with SMTP id a5so13601460vkc.2
+	Mon, 11 Jul 2016 15:17:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u6BFHbnu021347
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jul 2016 08:17:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=lrC0ZlHk+QhiQ2VxClePCAF4pTmEWE2ftUdIYNKjBgM=;
-	b=BZcxV1LQXmZvp+sQH/JXmiiDTy2JhKbjeygK/hPCgFmdidZ3QFbDu2IXVPGqBOp7IL
-	dvMjyKgaL2jwbsMJc/GsspNTaHf+IONuxJsJZiNl/KU6ftwru0cm5fvSuASCEMqqsj2h
-	4Iv4AIWKs7wbCNjVNbiyIEARinGEpUMDcIRadPkCM0KAK3Zd7yQF9bmcQWxMOIbK03y5
-	YvlzU9atCgZCWl6hVkS7R9OoiDQ3E4hf0MxrR16XbW2XjPj6tQ5hM9Qf3VKYnDmwkK6M
-	2MRkaXMcLX9DmyKVsDXp0Qf7v3aMNYDe5So2FIMXl6WbFfua7dmzF6T0k8lcbfTuwzss
-	QK5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=lrC0ZlHk+QhiQ2VxClePCAF4pTmEWE2ftUdIYNKjBgM=;
-	b=Sjqryhr2+JRuZqL13GwaS+aDCOPsOnyzPVVjFi0Mtk1IchyzjglKd7KggSh8VfWbwf
-	XXDKtG2ONJWM9XqMzHXGBMMvoQqYweqiolLRbpA0es68zLDNMhXh9+zIQwf+4dCI+aCk
-	gsn10yx5l1oKpL4Q/qipvyGC5Q6GPJh69OFFO8clgox3QFWpkPyU5fsgU87UboplWAkh
-	nfoK530vGNdpCi5N5HTBkgOBpWx42Pu0O1DUusfvAldd3kgVF2LkMe9/bUb1lpp0LfEg
-	17stlAIS7wwSeRO/e1BhlFm/yRUMlT/b6uC/TL4vLezmy3ggMhfwl0t3/3ToA7pzBGhy
-	N8hw==
-X-Gm-Message-State: ALyK8tLjnZ7TMBTCLGLgXBFUzDZTF1JbhkU9qc56tbxmxKOa1UWmrPVrPnfM1GxSm9Mneg==
-X-Received: by 10.176.67.199 with SMTP id l65mr9350919ual.61.1468250256769;
-	Mon, 11 Jul 2016 08:17:36 -0700 (PDT)
-Received: from mail-vk0-f49.google.com (mail-vk0-f49.google.com.
-	[209.85.213.49])
-	by smtp.gmail.com with ESMTPSA id 92sm2165366uay.26.2016.07.11.08.17.35
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 11 Jul 2016 08:17:35 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-vk0-f49.google.com with SMTP id x130so16041978vkc.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jul 2016 08:17:35 -0700 (PDT)
-X-Received: by 10.176.3.116 with SMTP id 107mr9380767uat.131.1468250254674;
-	Mon, 11 Jul 2016 08:17:34 -0700 (PDT)
+	Mon, 11 Jul 2016 08:17:38 -0700
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 11 Jul 2016 08:17:37 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 11 Jul 2016 08:17:31 -0700
+Message-ID: <962a3164d0a138e899515dede8ffcb43ce6f9331.1468249600.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.9.0
+In-Reply-To: <cover.1468249600.git.liezhi.yang@windriver.com>
+References: <cover.1468249600.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Received: by 10.31.192.195 with HTTP; Mon, 11 Jul 2016 08:17:33 -0700 (PDT)
-In-Reply-To: <1468249814.17048.1.camel@intel.com>
-References: <cover.1467378176.git.patrick.ohly@intel.com>
-	<25bb70f088ffb603e1f389b7657c1fbf3f2871bb.1467378176.git.patrick.ohly@intel.com>
-	<CAP9ODKo=BAgtk8iUbSgcOVh4+uVW-SBuEri6f8MkRH2qXfpVSw@mail.gmail.com>
-	<CAP9ODKrNecB=hRAkFb-LL4TcTc9XXw=AmKu-efdjPs3PKDkY1A@mail.gmail.com>
-	<1468249814.17048.1.camel@intel.com>
-Date: Mon, 11 Jul 2016 12:17:33 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKps8qLV8cvyR4DHq8yZ+iFk5A1f3ON7EFNrdr=hq__HJA@mail.gmail.com>
-Message-ID: <CAP9ODKps8qLV8cvyR4DHq8yZ+iFk5A1f3ON7EFNrdr=hq__HJA@mail.gmail.com>
-To: Patrick Ohly <patrick.ohly@intel.com>, "Burton,
-	Ross" <ross.burton@intel.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] meta-ostro-fixes: initramfs-framework: add retry loop for slow boot devices (like USB)
+Subject: [PATCH 1/6] rpm: make --nosignature work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -73,33 +33,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jul 2016 15:17:37 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 11 Jul 2016 15:17:38 -0000
+Content-Type: text/plain
 
-On Mon, Jul 11, 2016 at 12:10 PM, Patrick Ohly <patrick.ohly@intel.com> wrote:
-> On Mon, 2016-07-11 at 11:35 -0300, Otavio Salvador wrote:
->> Hello Ross,
->>
->> On Fri, Jul 1, 2016 at 2:50 PM, Otavio Salvador <otavio@ossystems.com.br> wrote:
->> > Agreed but please split the rootfs in another module; so we don't
->> > force it to be included. The e2fs can rdepend on it.
->>
->> I noticed this has been merged but my comment here was totally ignored. Why?
->
-> I can't speak for Ross, but perhaps he felt that it was already a
-> worthwhile improvement. I wanted to address your comment (and still do),
-> but didn't find the time last week. I'll do it via another patch now,
-> okay?
+OE-core uses rpm's --nosignature, but it never worked:
+self._invoke_smart('config --set rpm-check-signatures=false')
 
-Ok but Ross action is wrong in my opinion, in worse case he should
-have asked before. If comments are ignored there is no point in people
-spend time doing so.
+Now fix it with:
+* Define SUPPORT_NOSIGNATURES to 1 in system.h
+* !QVA_ISSET(qva->qva_flags, SIGNATURE) -> QVA_ISSET(qva->qva_flags, SIGNATURE),
+  otherwise, when use --nosignature would read database and verify
+  signature, this is not expected.
 
-I wanted the change to be atomic and not two changes which may
-required more rework for same logic change. :-(
+This can fix some race issues, for example, when more than one process
+are querying rpm file with "rpm -qp --nosignature", they may hang up
+because of race issues (the processes are trying to get RW/RD lock on
+the database, but they shouldn't read the database at all since -qp and
+--nosignature are used).
 
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ ...0001-system.h-query.c-support-nosignature.patch | 64 ++++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_5.4.16.bb            |  1 +
+ 2 files changed, 65 insertions(+)
+ create mode 100644 meta/recipes-devtools/rpm/rpm/0001-system.h-query.c-support-nosignature.patch
+
+diff --git a/meta/recipes-devtools/rpm/rpm/0001-system.h-query.c-support-nosignature.patch b/meta/recipes-devtools/rpm/rpm/0001-system.h-query.c-support-nosignature.patch
+new file mode 100644
+index 0000000..410ae78
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/rpm/0001-system.h-query.c-support-nosignature.patch
+@@ -0,0 +1,64 @@
++From d8fcc3cbeec4defb5babde5bd09ea294dd3fd08b Mon Sep 17 00:00:00 2001
++From: Robert Yang <liezhi.yang@windriver.com>
++Date: Sun, 3 Jul 2016 19:01:59 -0700
++Subject: [PATCH] system.h/query.c: support nosignature
++
++* Define SUPPORT_NOSIGNATURES to 1 in system.h
++* !QVA_ISSET(qva->qva_flags, SIGNATURE) -> QVA_ISSET(qva->qva_flags, SIGNATURE),
++  otherwise, when use --nosignature would read database and verify
++  signature, this is not expected.
++
++Upstream-Status: Submitting [Sent email to rpm-devel@rpm5.org]
++
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++---
++ lib/query.c | 6 +++---
++ system.h    | 4 ++--
++ 2 files changed, 5 insertions(+), 5 deletions(-)
++
++diff --git a/lib/query.c b/lib/query.c
++index 50a7453..b761d76 100644
++--- a/lib/query.c
+++++ b/lib/query.c
++@@ -954,19 +954,19 @@ JBJDEBUG((stderr, "--> %s(%p,%p,%p)\n", __FUNCTION__, ts, qva, argv));
++     vsflags = (rpmVSFlags) rpmExpandNumeric("%{?_vsflags_query}");
++     vsflags = (rpmVSFlags) 0;	/* XXX FIXME: ignore default disablers. */
++ #if defined(SUPPORT_NOSIGNATURES)
++-    if (!QVA_ISSET(qva->qva_flags, DIGEST)) {
+++    if (QVA_ISSET(qva->qva_flags, DIGEST)) {
++ 	VSF_SET(vsflags, NOSHA1HEADER);
++ 	VSF_SET(vsflags, NOMD5HEADER);
++ 	VSF_SET(vsflags, NOSHA1);
++ 	VSF_SET(vsflags, NOMD5);
++     }
++-    if (!QVA_ISSET(qva->qva_flags, SIGNATURE)) {
+++    if (QVA_ISSET(qva->qva_flags, SIGNATURE)) {
++ 	VSF_SET(vsflags, NODSAHEADER);
++ 	VSF_SET(vsflags, NORSAHEADER);
++ 	VSF_SET(vsflags, NODSA);
++ 	VSF_SET(vsflags, NORSA);
++     }
++-    if (!QVA_ISSET(qva->qva_flags, HDRCHK)) {
+++    if (QVA_ISSET(qva->qva_flags, HDRCHK)) {
++ 	VSF_SET(vsflags, NOHDRCHK);
++     }
++     VSF_CLR(vsflags, NEEDPAYLOAD);	/* XXX needed? */
++diff --git a/system.h b/system.h
++index 2ff8906..ad4619a 100644
++--- a/system.h
+++++ b/system.h
++@@ -787,9 +787,9 @@ static inline const char *rcsid(const char *p) { \
++ #define SUPPORT_I18NSTRING_TYPE	1
++ 
++ /**
++- * Eliminate signature/digest disablers.
+++ * Signature/digest disablers.
++  */
++-#undef	SUPPORT_NOSIGNATURES
+++#define SUPPORT_NOSIGNATURES 1
++ 
++ /**
++  * Permit ar(1) payloads. Disabled while rpmio/iosm.c is under development.
++-- 
++2.9.0
++
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.16.bb b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
+index 3adb29c..d264d50 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4.16.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
+@@ -117,6 +117,7 @@ SRC_URI += " \
+ 	   file://rpmqv.c-check-_gpg_passphrase-before-ask-for-input.patch \
+ 	   file://0001-Disable-__sync_add_and_fetch_8-on-nios2.patch \
+ 	   file://gcc6-stdlib.patch \
++	   file://0001-system.h-query.c-support-nosignature.patch \
+ "
+ 
+ # OE specific changes
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.9.0
+
 
