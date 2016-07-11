@@ -1,23 +1,46 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id E55DE605BA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f53.google.com (mail-it0-f53.google.com
+	[209.85.214.53])
+	by mail.openembedded.org (Postfix) with ESMTP id D71DC6E5CB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jul 2016 09:53:16 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga101.fm.intel.com with ESMTP; 11 Jul 2016 02:53:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,345,1464678000"; d="scan'208";a="137093216"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga004.fm.intel.com with ESMTP; 11 Jul 2016 02:53:17 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
-	by linux.intel.com (Postfix) with ESMTP id 990C36A4080;
-	Mon, 11 Jul 2016 02:53:09 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Jul 2016 12:43:09 +0300
-Message-Id: <1468230189-13944-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] sstate.bbclass: make PV to depend on PV variable value
+	Mon, 11 Jul 2016 10:22:49 +0000 (UTC)
+Received: by mail-it0-f53.google.com with SMTP id f6so51385342ith.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Jul 2016 03:22:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=a28xWt3OtzkSTiG5eMfEMSIR4mESWZugrWWZBulG6kc=;
+	b=cRvPJRN4WPdJce5C7WOb5J0DGKuXe5fXl/v+rG7ZLSN1cSj6X3XgaG4XF4FOKn4Z0X
+	hAhqdfE5XxELqvFsCJd/FK+2eLxfJYc7OU5+zkorkUYqQSU5fq/Jgbd6WlY7awQdSMIF
+	4Lkc+clrvsTgky4bnFvlmvkNTk6F6XlDMDnVfCm3muXzTCgiZmGgzOQLNkBZGCIUWsWY
+	vwPJp6bipc5IiECSm1v2JT34URFqhJrlfNbffdMfIKr4PbZNwwhCO9PtWjb2GIwOakzp
+	tg6mkcRKTrwYddi2uHX4aovdlaCDAbXFlodn6yDX5GA/a06g/ROFqhU+fywbygu+6hKI
+	gtug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=a28xWt3OtzkSTiG5eMfEMSIR4mESWZugrWWZBulG6kc=;
+	b=IB8LCybS7mH4ndlOwRQ1wCkJqUCwZCGiB5Nw1nfsQJ1ozw5HSIySce/S5LDaUDJDnJ
+	Z1JEUYgNTUiWbaCQYbMv76epoMt3XKHH1IrWarSRtMFH9VrhBQtpY3+buV6RITk6hgGw
+	xnjHjlmPyPWoC5eGQ21mBXFPU9taJV6dFgK46/zxV40X1Xje9RYrM08wSeIWxCWWyRFp
+	i9asSgyPttMnQZuhRvEiLiG+cNGw18vVr/gzQf7HK8MrhPijlUiVDgNHzaT5hnqCmpsS
+	86UHdBD0KKchHTPTeo/Sfmq4afu0G9S7QvecC+fOiSjqCiSb8poLJicNQ2spsCSH/8pw
+	eM+g==
+X-Gm-Message-State: ALyK8tJtUBkt6E4zWGib8yaRETC6XVJrMGIpHfu4urGR8qMZ1dys5zhSk5iZRLffrS8iTMlrxkWANoZPvdfv17jX
+X-Received: by 10.36.120.74 with SMTP id p71mr9699538itc.22.1468232570009;
+	Mon, 11 Jul 2016 03:22:50 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.18.17 with HTTP; Mon, 11 Jul 2016 03:22:30 -0700 (PDT)
+In-Reply-To: <1462536830-30243-1-git-send-email-catalin.enache@windriver.com>
+References: <1462536830-30243-1-git-send-email-catalin.enache@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 11 Jul 2016 11:22:30 +0100
+Message-ID: <CAJTo0La2hOxuxNsEdoEVE2tKDsL_3nRd6zonG-iLn7_=HRtqyQ@mail.gmail.com>
+To: Catalin Enache <catalin.enache@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] grub-efi: run autogen.sh before configure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,41 +53,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jul 2016 09:53:17 -0000
+X-List-Received-Date: Mon, 11 Jul 2016 10:22:50 -0000
+Content-Type: multipart/alternative; boundary=001a114aa394c88d3b0537598893
 
-Currently PV is defined in meta/conf/bitbake.conf as a python
-expression: "${@bb.parse.BBHandler.vars_from_file(d.getVar('FILE',
-False),d)[1] or '1.0'}". As FILE is whitelisted it causes PV to
-not depend on it. This causes sstate code to not detect that
-PV changes when recipe filename changes.
+--001a114aa394c88d3b0537598893
+Content-Type: text/plain; charset=UTF-8
 
-Making PV to explicitly depend on PV variable value overrides default
-behaviour. Instead of depending on python expression bitbake depends
-on evaluated value of PV variable, which should fix the above
-mentioned issue.
+On 6 May 2016 at 13:13, Catalin Enache <catalin.enache@windriver.com> wrote:
 
-[YOCTO #9806]
+>  DEPENDS_class-target = "grub-efi-native"
+>  RDEPENDS_${PN}_class-target = "diffutils freetype"
+> +DEPENDS += "autogen-native"
+>
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- meta/classes/sstate.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+Because += happens after overrides this results in autogen-native only a
+dependency in native builds, so you can't be sure it will be present for
+target builds.
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 621dc37..d706d75 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -17,6 +17,9 @@ SSTATE_EXTRAPATH   = ""
- SSTATE_EXTRAPATHWILDCARD = ""
- SSTATE_PATHSPEC   = "${SSTATE_DIR}/${SSTATE_EXTRAPATHWILDCARD}*/${SSTATE_PKGSPEC}"
- 
-+# explicitly make PV to depend on evaluated value of PV variable
-+PV[vardepvalue] = "${PV}"
-+
- # We don't want the sstate to depend on things like the distro string
- # of the system, we let the sstate paths take care of this.
- SSTATE_EXTRAPATH[vardepvalue] = ""
--- 
-2.1.4
+Should the configure_prepend and autogen-native be added to grub2.inc so
+that every recipe has that dependency?
 
+Ross
 
+--001a114aa394c88d3b0537598893
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 6 May 2016 at 13:13, Catalin Enache <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:catalin.enache@windriver.com" target=3D"_blank">catalin.enache@windrive=
+r.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div>=C2=A0DE=
+PENDS_class-target =3D &quot;<span>grub</span>-<span>efi</span>-native&quot=
+;<br>
+=C2=A0RDEPENDS_${PN}_class-target =3D &quot;diffutils freetype&quot;<br>
++DEPENDS +=3D &quot;autogen-native&quot;</div></blockquote></div><br>Becaus=
+e +=3D happens after overrides this results in autogen-native only a depend=
+ency in native builds, so you can&#39;t be sure it will be present for targ=
+et builds.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ex=
+tra">Should the configure_prepend and autogen-native be added to grub2.inc =
+so that every recipe has that dependency?</div><div class=3D"gmail_extra"><=
+br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a114aa394c88d3b0537598893--
