@@ -1,56 +1,58 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-vk0-f42.google.com (mail-vk0-f42.google.com
-	[209.85.213.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B58873185
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
+	[209.85.223.173])
+	by mail.openembedded.org (Postfix) with ESMTP id E36AD607A5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jul 2016 14:41:34 +0000 (UTC)
-Received: by mail-vk0-f42.google.com with SMTP id v6so141376794vkb.2
+	Mon, 11 Jul 2016 15:10:18 +0000 (UTC)
+Received: by mail-io0-f173.google.com with SMTP id m101so25168323ioi.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jul 2016 07:41:36 -0700 (PDT)
+	Mon, 11 Jul 2016 08:10:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:date:message-id:subject:to:cc;
-	bh=BBiMUJNyDxgX1/aws45Og2hIC0OinNHRwCo0mH6DRxs=;
-	b=kM3uRDF/T6CjZEhPvzG2hc+CGF0W9dNiorWSHhFl26+YX9yI4OC6waIUzDtX834Q4W
-	gRCnyq5WpYSmIoffKrEN38KYjuf32S/9uSE5zVSaY324wezZi6yVLMOcLmMhw5Qa/8+l
-	Am+fLU4ZtWuIG2dCC5pEMhFYlQTGMzLOlR17lBiegWOFLvk18erII4m480zdaKDELRyW
-	veFMyCUKwXJBlm6LSrQMXLgbyAG0BE0pFwIoTxyA0yCv22QZyj+R9OE/QWew9vZ8/fyJ
-	Pk7ygB51BILxhGggUoNYsruPUbQyNS1l/Q//FZN21t2lBrZaBznaXVBWS2egPNrYmQct
-	9xNA==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=Thz/D4oyUeihgFkHZQHAmnRxpsPjImjpUhgO802nr+U=;
+	b=YCBgHzX2iJiiS1f0SBRcaBa+Jx9JKLPfFAqnKcBQMj0ZiELExRlaz7glQJCV6oYZB3
+	F6MjEmG0eGREGSmznXXOSgHI1lPXhiC5QURahKk+vCAAegE66KBfzVRQrHTBhwe90Vq9
+	Gl6gvaD6WHFfS8bFIEyzMjOZZvCd9E5AyUnTI2ZCXmQ+Hs40B9US66V/BhEukRyTpOxk
+	uRN+72FAE9Jfnn90453O0qmiHNyA/ap3ynEYVLatmfW2GB7IzmT0nrB/zYOAjazyG1ej
+	+bkumHlDdAHpta3dvt4t/0Yz2R8JMHRz8mt6BSopbVS75JW+GKQvR9JJgHDQgKuLXVdT
+	7X2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:date:message-id:subject:to:cc;
-	bh=BBiMUJNyDxgX1/aws45Og2hIC0OinNHRwCo0mH6DRxs=;
-	b=L9Xo7a94EfB0S9r/pQjyMTzGXbA5D+HWW5Qv9Ar9mvgfziTUegx3Mh5smnxhW9DVSC
-	bNfWy/YB3mQMt/vFXmamO4IECBw5vxQ7M0nRTZmnjemyGfQA0AXVE1mWxcIvaYIsHTuV
-	bcshjGDVG654IoAvNnFdghg77s7jht/VDX37RGjqd0gnNSKfHt5gZ5RDHxbrB5Wz67TZ
-	rDin1qXOBE9buNhL9vjdPMQ1V4n7kpOHWCR5YHkz3PuJtgtmF6V5kf7l1UnJuKsckYys
-	b1dZDAKSmVlQbptZYYoXxD7473vUIZCHSNpLAM8HP5OHs3roshkmVdCnOD8tg3vccVeK
-	wbsw==
-X-Gm-Message-State: ALyK8tI7wge54sPS/d21gd6uSnO3+6dqKavm0HStxwAUltmKJjeeShcTlw28cffpR5pZpg==
-X-Received: by 10.176.0.39 with SMTP id 36mr7596167uai.137.1468248095135;
-	Mon, 11 Jul 2016 07:41:35 -0700 (PDT)
-Received: from mail-vk0-f54.google.com (mail-vk0-f54.google.com.
-	[209.85.213.54])
-	by smtp.gmail.com with ESMTPSA id 92sm2137065uay.26.2016.07.11.07.41.33
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=Thz/D4oyUeihgFkHZQHAmnRxpsPjImjpUhgO802nr+U=;
+	b=Oyw7nGP9NbyBaa4TBqyyk9ovD/pZGwyZxjwotyzq+/cjZBVSFxCzhXlouC38iNifpb
+	zSSCny9Dl5g9eAgqELZq0PuOScuqfX9g243UCphdKOLRkMhsFBC/j4W5Yjsm37/ynsxt
+	Tr0r0K3XZkSL2sBAvJvHUW7QTtOyoxcLeFxo9ZubPncsYAhyCyIn4cfkPSAbUNWeI8EY
+	6FuWtzsxQYojUCC5VZ1aaaJTuLp+fLuw8Wx/ljqs/QA5PjQaZ/OZOl0s3mSCUH76cVQj
+	0RqWk87MHo8ShOEz3p/uIg7C454r5Lwjz5UWwMaXljB5YMIvkSmi4aX6ulaxVmPUBJ/P
+	WHHQ==
+X-Gm-Message-State: ALyK8tIf/jhdJS34TPO1jhtxZlxov9F+fKQAaW15zhzgBaBcKAdTDQRTfmnOBXVv53rQjzQD
+X-Received: by 10.107.130.170 with SMTP id m42mr8760226ioi.78.1468249819130;
+	Mon, 11 Jul 2016 08:10:19 -0700 (PDT)
+Received: from pohly-mobl1 (host-091-097-062-046.ewe-ip-backbone.de.
+	[91.97.62.46]) by smtp.gmail.com with ESMTPSA id
+	j201sm478167ioe.15.2016.07.11.08.10.17
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 11 Jul 2016 07:41:33 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-vk0-f54.google.com with SMTP id o63so58493337vkg.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jul 2016 07:41:33 -0700 (PDT)
-X-Received: by 10.176.1.106 with SMTP id 97mr6017482uak.154.1468248092640;
-	Mon, 11 Jul 2016 07:41:32 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.31.192.195 with HTTP; Mon, 11 Jul 2016 07:41:32 -0700 (PDT)
-Date: Mon, 11 Jul 2016 11:41:32 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKp17vE1xOJiePAq6d3poMvCkkK-BCdf4_m6yAUXgsWsPw@mail.gmail.com>
-Message-ID: <CAP9ODKp17vE1xOJiePAq6d3poMvCkkK-BCdf4_m6yAUXgsWsPw@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
+	Mon, 11 Jul 2016 08:10:18 -0700 (PDT)
+Message-ID: <1468249814.17048.1.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Date: Mon, 11 Jul 2016 17:10:14 +0200
+In-Reply-To: <CAP9ODKrNecB=hRAkFb-LL4TcTc9XXw=AmKu-efdjPs3PKDkY1A@mail.gmail.com>
+References: <cover.1467378176.git.patrick.ohly@intel.com>
+	<25bb70f088ffb603e1f389b7657c1fbf3f2871bb.1467378176.git.patrick.ohly@intel.com>
+	<CAP9ODKo=BAgtk8iUbSgcOVh4+uVW-SBuEri6f8MkRH2qXfpVSw@mail.gmail.com>
+	<CAP9ODKrNecB=hRAkFb-LL4TcTc9XXw=AmKu-efdjPs3PKDkY1A@mail.gmail.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: [for-krogoth] Backport of new libarchive release
+Subject: Re: [PATCH 1/2] meta-ostro-fixes: initramfs-framework: add retry loop for slow boot devices (like USB)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,104 +65,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jul 2016 14:41:35 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 11 Jul 2016 15:10:19 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hello Armin and OE-Core fellows,
+On Mon, 2016-07-11 at 11:35 -0300, Otavio Salvador wrote:
+> Hello Ross,
+> 
+> On Fri, Jul 1, 2016 at 2:50 PM, Otavio Salvador <otavio@ossystems.com.br> wrote:
+> > Agreed but please split the rootfs in another module; so we don't
+> > force it to be included. The e2fs can rdepend on it.
+> 
+> I noticed this has been merged but my comment here was totally ignored. Why?
 
-The libarchive 3.2.1 fixes several bugs and security related issues so
-it seems like a good candidate for backport. I list below the commits
-I did in our local fork while testing it:
-
-commit 95e2a448d857659935ecd4762faea851151d1bce (HEAD -> for-krogoth)
-Author: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Date:   Tue Jun 28 11:06:13 2016 +0300
-
-    libarchive: update to 3.2.1
-
-    Drop merged 0001-configure.ac-check-acl-libacl.h-and-sys-acl.h-based-.patch
-
-    Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-    Signed-off-by: Ross Burton <ross.burton@intel.com>
-    (cherry picked from commit 4d65a93d3e705cfb9b4cfe102e9d0cabaffe7a52)
-
-commit 088ad58922bd6af83a17c3c0a9ae3b78564e798d
-Author: Maxin B. John <maxin.john@intel.com>
-Date:   Mon Jun 6 00:12:03 2016 +0300
-
-    libarchive: respect disable-acl configuration option
-
-    Update configure.ac to properly handle --disable-acl option
-
-    [YOCTO #9668]
-
-    Signed-off-by: Maxin B. John <maxin.john@intel.com>
-    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-    (cherry picked from commit 84fe3f29f2bdaf98c9beefdfede143084fba093b)
-
-commit 71a550d24e1098e34e35da68335d83f893afe169
-Author: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date:   Sat Jun 4 09:04:26 2016 +0100
-
-    libarchive: Add PACKAGECONFIG for lz4 to ensure determinism
-
-    This avoids:
-
-    WARNING: opkg-1_0.3.1-r0 do_package_qa: QA Issue: libopkg rdepends
-on lz4, but it isn't a build dependency, missing lz4 in DEPENDS or
-PACKAGECONFIG? [build-deps]
-
-    and ERROR:
-
-    build-appliance-image-15.0.0-r0 do_rootfs: Unable to install
-packages. Command
-'/home/pokybuild/yocto-autobuilder/yocto-worker/build-appliance/build/build/tmp/sysroots/x86_64-linux/usr/bin/smart
---log-level=warning
---data-dir=/home/pokybuild/yocto-autobuilder/yocto-worker/build-appliance/build/build/tmp/work/qemux86_64-poky-linux/build-appliance-image/15.0.0-r0/rootfs/var/lib/smart
-install -y packagegroup-core-boot@qemux86_64
-packagegroup-core-ssh-openssh@all psplash@core2_64
-kernel-dev@qemux86_64 packagegroup-core-x11-base@all
-kernel-devsrc@qemux86_64 smartpm@core2_64 packagegroup-self-hosted@all
-rpm@core2_64 locale-base-en-us@core2_64 locale-base-en-gb@core2_64'
-returned 1:
-    Loading cache...
-    Updating cache...
-######################################## [100%]
-
-    Computing transaction...error: Can't install
-libopkg1-1:0.3.1-r0.0@core2_64: no package provides lz4 >=
-131+git0+d86dc9167
-
-    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-    (cherry picked from commit f12fe90a78ca1239691e8fd8f7b06ce59b8b72cc)
-
-commit afc19399bfe4e5dfff5243ed14ab806c78c092bb
-Author: Paul Barker <paul@paulbarker.me.uk>
-Date:   Sat May 28 14:26:15 2016 +0100
-
-    libarchive: Upgrade to v3.2.0
-
-    All patches are removed as they are no longer needed. Most were
-merged into this
-    release of libarchive. "0001-Set-xattrs-after-setting-times.patch"
-was dropped
-    upstream after discussion, see
-https://github.com/libarchive/libarchive/pull/664.
-
-    The COPYING file in libarchive had a couple of minor changes to
-clarify which
-    files are under which copyrights but the overall license is unaffected.
-
-    Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
-    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-    (cherry picked from commit 4976382011106b9515e44359f2f6bb1d0c69fdb3)
-
-Please consider those for next krogoth pull request.
-
-Thanks in advance,
+I can't speak for Ross, but perhaps he felt that it was already a
+worthwhile improvement. I wanted to address your comment (and still do),
+but didn't find the time last week. I'll do it via another patch now,
+okay?
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
+
 
