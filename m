@@ -1,37 +1,37 @@
 Return-Path: <straka.derek@gmail.com>
-Received: from mail-qt0-f194.google.com (mail-qt0-f194.google.com
-	[209.85.216.194])
-	by mail.openembedded.org (Postfix) with ESMTP id AA400607A5
+Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
+	[209.85.216.193])
+	by mail.openembedded.org (Postfix) with ESMTP id ECA246E5CB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jul 2016 18:05:42 +0000 (UTC)
-Received: by mail-qt0-f194.google.com with SMTP id j37so1675226qta.0
+	Mon, 11 Jul 2016 18:07:58 +0000 (UTC)
+Received: by mail-qt0-f193.google.com with SMTP id u25so2481171qtb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jul 2016 11:05:43 -0700 (PDT)
+	Mon, 11 Jul 2016 11:07:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=so6xAZtye0eCZPcdAwMW/XPNE+miCVQyAWA/Tp2BwvY=;
-	b=aqyXiydpDCfaTgM574bf6mInigkG7JCv2egwgFtpgJSyzYB/0tZ3sRavFLQTepzURm
-	djGba6Ax3jKoW/LzAnetComkDbyv5J0mfV2n1DMizrGazxInjAgR3xQwbQrHrZbYxCtG
-	LpEoTvpG/bSO3ofOaiTgXN3kfCG4stB2tuH1k8R+42NXw+Couc7XaF8QApck8eBJAp3L
-	vN+inNRGdSJNuxXZ6jWjsOPMBO2ePiTCCvSCFwJfbrctFncCrPw0j7FqVIgm2l7OojRG
-	jn3OZmmqZ+Ko8V3jmXkEHHJiVlfxp2xv6VfHYMtfBhGjfuFkON01LUvJb05t74OiAKSX
-	k9VA==
-X-Gm-Message-State: ALyK8tIjsxtwegmXzN9px4L9QtlyapanRBzcHQxd2tGDr7bNgzXInpQpwLlwlH5sTqXPWA==
-X-Received: by 10.237.34.44 with SMTP id n41mr32409489qtc.25.1468260343062;
-	Mon, 11 Jul 2016 11:05:43 -0700 (PDT)
+	bh=KqG5QfXbyj4HLmhONlM83wR1S6NF+k+HGGJvJ5WtN/Y=;
+	b=c/MyLEurbgM003ViRdB2oladoz1Ff4I5QO5oP35bTMrY/s74TEMsI7v9m3XL5lyO94
+	EBIWgnDUlFypLqm6xsBWTbgOZbZEPzRX5QBDzrDo8Y8TDf3XsWu50N7qI6NOJesasmNE
+	O/ve6AVddSenHwYf9rDLuevqQ74iyKU2/k+yx0E3RkWLD8qOoFMU5JE4wDlr4TOhMBOW
+	FKNfKKFPrMNKaj9tArGwJ3yX3Y/MLLeSWVOA7JCmUSC0qoiiMLAMzEGlE43qUa6Ned0c
+	n9VG+LSYo6N7n3U5x6X1+iq4rpFyHcyec5itS1nQy3ch8FGJitZorSSqlY4ZT6YnY/D2
+	GUtA==
+X-Gm-Message-State: ALyK8tLdBnIPFPkPcuU5GAgR7pbDUk04OAplsC3m4/xpEKcJGmkeEkVaap6tXci9jCtUPA==
+X-Received: by 10.237.37.58 with SMTP id v55mr17996271qtc.9.1468260479067;
+	Mon, 11 Jul 2016 11:07:59 -0700 (PDT)
 Received: from lnx-dereks-laptop.star.lab
 	(c-68-34-224-206.hsd1.al.comcast.net. [68.34.224.206])
-	by smtp.gmail.com with ESMTPSA id z64sm2782636qkb.3.2016.07.11.11.05.41
+	by smtp.gmail.com with ESMTPSA id z64sm2788668qkb.3.2016.07.11.11.07.58
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 11 Jul 2016 11:05:42 -0700 (PDT)
+	Mon, 11 Jul 2016 11:07:58 -0700 (PDT)
 From: Derek Straka <derek@asterius.io>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Jul 2016 14:05:22 -0400
-Message-Id: <1468260322-693-1-git-send-email-derek@asterius.io>
+Date: Mon, 11 Jul 2016 14:07:39 -0400
+Message-Id: <1468260459-826-1-git-send-email-derek@asterius.io>
 X-Mailer: git-send-email 1.9.1
 Cc: Derek Straka <derek@asterius.io>
-Subject: [PATCH v2] python3: update manifest RDEPENDS for importlib and compression packages
+Subject: [PATCH] python3: regenerate outdated manifest file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,80 +44,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jul 2016 18:05:46 -0000
+X-List-Received-Date: Mon, 11 Jul 2016 18:08:05 -0000
 
-zipfile.py has dependencies on importlib, threading, and shell
-importlib has a dependency on lang
-operator and contextlib added to the lang package instead of falling into misc
+generate-manifest-3.5.py updated in fa4275bbc0098124f3b44e0eafae83692db778b9
 
 Signed-off-by: Derek Straka <derek@asterius.io>
 ---
- meta/recipes-devtools/python/python-3.5-manifest.inc | 6 +++---
- scripts/contrib/python/generate-manifest-3.5.py      | 6 +++---
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ meta/recipes-devtools/python/python-3.5-manifest.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/recipes-devtools/python/python-3.5-manifest.inc b/meta/recipes-devtools/python/python-3.5-manifest.inc
-index b14d567..8de6f03 100644
+index 335c3ff..b14d567 100644
 --- a/meta/recipes-devtools/python/python-3.5-manifest.inc
 +++ b/meta/recipes-devtools/python/python-3.5-manifest.inc
-@@ -30,7 +30,7 @@ RDEPENDS_${PN}-compile="${PN}-core"
- FILES_${PN}-compile="${libdir}/python3.5/py_compile.* ${libdir}/python3.5/compileall.* "
- 
- SUMMARY_${PN}-compression="Python high-level compression support"
--RDEPENDS_${PN}-compression="${PN}-core ${PN}-codecs"
-+RDEPENDS_${PN}-compression="${PN}-core ${PN}-codecs ${PN}-importlib ${PN}-threading ${PN}-shell"
- FILES_${PN}-compression="${libdir}/python3.5/gzip.* ${libdir}/python3.5/zipfile.* ${libdir}/python3.5/tarfile.* ${libdir}/python3.5/lib-dynload/bz2.*.so "
+@@ -35,7 +35,7 @@ FILES_${PN}-compression="${libdir}/python3.5/gzip.* ${libdir}/python3.5/zipfile.
  
  SUMMARY_${PN}-core="Python interpreter and core modules"
-@@ -106,7 +106,7 @@ RDEPENDS_${PN}-image="${PN}-core"
- FILES_${PN}-image="${libdir}/python3.5/colorsys.* ${libdir}/python3.5/imghdr.* ${libdir}/python3.5/lib-dynload/imageop.*.so ${libdir}/python3.5/lib-dynload/rgbimg.*.so "
+ RDEPENDS_${PN}-core="${PN}-lang ${PN}-re ${PN}-reprlib ${PN}-codecs ${PN}-io ${PN}-math"
+-FILES_${PN}-core="${libdir}/python3.5/__future__.* ${libdir}/python3.5/_abcoll.* ${libdir}/python3.5/abc.* ${libdir}/python3.5/ast.* ${libdir}/python3.5/copy.* ${libdir}/python3.5/copyreg.* ${libdir}/python3.5/ConfigParser.* ${libdir}/python3.5/genericpath.* ${libdir}/python3.5/getopt.* ${libdir}/python3.5/linecache.* ${libdir}/python3.5/new.* ${libdir}/python3.5/os.* ${libdir}/python3.5/posixpath.* ${libdir}/python3.5/struct.* ${libdir}/python3.5/warnings.* ${libdir}/python3.5/site.* ${libdir}/python3.5/stat.* ${libdir}/python3.5/UserDict.* ${libdir}/python3.5/UserList.* ${libdir}/python3.5/UserString.* ${libdir}/python3.5/lib-dynload/binascii.*.so ${libdir}/python3.5/lib-dynload/_struct.*.so ${libdir}/python3.5/lib-dynload/time.*.so ${libdir}/python3.5/lib-dynload/xreadlines.*.so ${libdir}/python3.5/types.* ${libdir}/python3.5/platform.* ${bindir}/python* ${libdir}/python3.5/_weakrefset.* ${libdir}/python3.5/sysconfig.* ${libdir}/python3.5/_sysconfigdata.* ${libdir}/python3.5/config/Makefile ${includedir}/python${PYTHON_BINABI}/pyconfig*.h ${libdir}/python${PYTHON_MAJMIN}/collections ${libdir}/python${PYTHON_MAJMIN}/_collections_abc.* ${libdir}/python${PYTHON_MAJMIN}/_sitebuiltins.* ${libdir}/python${PYTHON_MAJMIN}/sitecustomize.py "
++FILES_${PN}-core="${libdir}/python3.5/__future__.* ${libdir}/python3.5/_abcoll.* ${libdir}/python3.5/abc.* ${libdir}/python3.5/ast.* ${libdir}/python3.5/copy.* ${libdir}/python3.5/copyreg.* ${libdir}/python3.5/configparser.* ${libdir}/python3.5/genericpath.* ${libdir}/python3.5/getopt.* ${libdir}/python3.5/linecache.* ${libdir}/python3.5/new.* ${libdir}/python3.5/os.* ${libdir}/python3.5/posixpath.* ${libdir}/python3.5/struct.* ${libdir}/python3.5/warnings.* ${libdir}/python3.5/site.* ${libdir}/python3.5/stat.* ${libdir}/python3.5/UserDict.* ${libdir}/python3.5/UserList.* ${libdir}/python3.5/UserString.* ${libdir}/python3.5/lib-dynload/binascii.*.so ${libdir}/python3.5/lib-dynload/_struct.*.so ${libdir}/python3.5/lib-dynload/time.*.so ${libdir}/python3.5/lib-dynload/xreadlines.*.so ${libdir}/python3.5/types.* ${libdir}/python3.5/platform.* ${bindir}/python* ${libdir}/python3.5/_weakrefset.* ${libdir}/python3.5/sysconfig.* ${libdir}/python3.5/_sysconfigdata.* ${libdir}/python3.5/config/Makefile ${includedir}/python${PYTHON_BINABI}/pyconfig*.h ${libdir}/python${PYTHON_MAJMIN}/collections ${libdir}/python${PYTHON_MAJMIN}/_collections_abc.* ${libdir}/python${PYTHON_MAJMIN}/_sitebuiltins.* ${libdir}/python${PYTHON_MAJMIN}/sitecustomize.py "
  
- SUMMARY_${PN}-importlib="Python import implementation library"
--RDEPENDS_${PN}-importlib="${PN}-core"
-+RDEPENDS_${PN}-importlib="${PN}-core ${PN}-lang"
- FILES_${PN}-importlib="${libdir}/python3.5/importlib "
- 
- SUMMARY_${PN}-io="Python low-level I/O"
-@@ -119,7 +119,7 @@ FILES_${PN}-json="${libdir}/python3.5/json ${libdir}/python3.5/lib-dynload/_json
- 
- SUMMARY_${PN}-lang="Python low-level language support"
- RDEPENDS_${PN}-lang="${PN}-core"
--FILES_${PN}-lang="${libdir}/python3.5/lib-dynload/_bisect.*.so ${libdir}/python3.5/lib-dynload/_collections.*.so ${libdir}/python3.5/lib-dynload/_heapq.*.so ${libdir}/python3.5/lib-dynload/_weakref.*.so ${libdir}/python3.5/lib-dynload/_functools.*.so ${libdir}/python3.5/lib-dynload/array.*.so ${libdir}/python3.5/lib-dynload/itertools.*.so ${libdir}/python3.5/lib-dynload/operator.*.so ${libdir}/python3.5/lib-dynload/parser.*.so ${libdir}/python3.5/atexit.* ${libdir}/python3.5/bisect.* ${libdir}/python3.5/code.* ${libdir}/python3.5/codeop.* ${libdir}/python3.5/collections.* ${libdir}/python3.5/_collections_abc.* ${libdir}/python3.5/dis.* ${libdir}/python3.5/functools.* ${libdir}/python3.5/heapq.* ${libdir}/python3.5/inspect.* ${libdir}/python3.5/keyword.* ${libdir}/python3.5/opcode.* ${libdir}/python3.5/symbol.* ${libdir}/python3.5/repr.* ${libdir}/python3.5/token.* ${libdir}/python3.5/tokenize.* ${libdir}/python3.5/traceback.* ${libdir}/python3.5/weakref.* "
-+FILES_${PN}-lang="${libdir}/python3.5/lib-dynload/_bisect.*.so ${libdir}/python3.5/lib-dynload/_collections.*.so ${libdir}/python3.5/lib-dynload/_heapq.*.so ${libdir}/python3.5/lib-dynload/_weakref.*.so ${libdir}/python3.5/lib-dynload/_functools.*.so ${libdir}/python3.5/lib-dynload/array.*.so ${libdir}/python3.5/lib-dynload/itertools.*.so ${libdir}/python3.5/lib-dynload/operator.*.so ${libdir}/python3.5/lib-dynload/parser.*.so ${libdir}/python3.5/atexit.* ${libdir}/python3.5/bisect.* ${libdir}/python3.5/code.* ${libdir}/python3.5/codeop.* ${libdir}/python3.5/collections.* ${libdir}/python3.5/_collections_abc.* ${libdir}/python3.5/contextlib.* ${libdir}/python3.5/dis.* ${libdir}/python3.5/functools.* ${libdir}/python3.5/heapq.* ${libdir}/python3.5/inspect.* ${libdir}/python3.5/keyword.* ${libdir}/python3.5/opcode.* ${libdir}/python3.5/operator.* ${libdir}/python3.5/symbol.* ${libdir}/python3.5/repr.* ${libdir}/python3.5/token.* ${libdir}/python3.5/tokenize.* ${libdir}/python3.5/traceback.* ${libdir}/python3.5/weakref.* "
- 
- SUMMARY_${PN}-logging="Python logging support"
- RDEPENDS_${PN}-logging="${PN}-core ${PN}-io ${PN}-lang ${PN}-pickle ${PN}-stringold"
-diff --git a/scripts/contrib/python/generate-manifest-3.5.py b/scripts/contrib/python/generate-manifest-3.5.py
-index e04da1d..775f0c2 100755
---- a/scripts/contrib/python/generate-manifest-3.5.py
-+++ b/scripts/contrib/python/generate-manifest-3.5.py
-@@ -217,7 +217,7 @@ if __name__ == "__main__":
-     m.addPackage( "${PN}-compile", "Python bytecode compilation support", "${PN}-core",
-     "py_compile.* compileall.*" )
- 
--    m.addPackage( "${PN}-compression", "Python high-level compression support", "${PN}-core ${PN}-codecs",
-+    m.addPackage( "${PN}-compression", "Python high-level compression support", "${PN}-core ${PN}-codecs ${PN}-importlib ${PN}-threading ${PN}-shell",
-     "gzip.* zipfile.* tarfile.* lib-dynload/bz2.*.so" )
- 
-     m.addPackage( "${PN}-crypt", "Python basic cryptographic and hashing support", "${PN}-core",
-@@ -262,7 +262,7 @@ if __name__ == "__main__":
-     m.addPackage( "${PN}-html", "Python HTML processing support", "${PN}-core",
-     "formatter.* htmlentitydefs.* htmllib.* markupbase.* sgmllib.* HTMLParser.* " )
- 
--    m.addPackage( "${PN}-importlib", "Python import implementation library", "${PN}-core",
-+    m.addPackage( "${PN}-importlib", "Python import implementation library", "${PN}-core ${PN}-lang",
-     "importlib" )
- 
-     m.addPackage( "${PN}-gdbm", "Python GNU database support", "${PN}-core",
-@@ -281,7 +281,7 @@ if __name__ == "__main__":
-     m.addPackage( "${PN}-lang", "Python low-level language support", "${PN}-core",
-     "lib-dynload/_bisect.*.so lib-dynload/_collections.*.so lib-dynload/_heapq.*.so lib-dynload/_weakref.*.so lib-dynload/_functools.*.so " +
-     "lib-dynload/array.*.so lib-dynload/itertools.*.so lib-dynload/operator.*.so lib-dynload/parser.*.so " +
--    "atexit.* bisect.* code.* codeop.* collections.* _collections_abc.* dis.* functools.* heapq.* inspect.* keyword.* opcode.* symbol.* repr.* token.* " +
-+    "atexit.* bisect.* code.* codeop.* collections.* _collections_abc.* contextlib.* dis.* functools.* heapq.* inspect.* keyword.* opcode.* operator.* symbol.* repr.* token.* " +
-     "tokenize.* traceback.* weakref.*" )
- 
-     m.addPackage( "${PN}-logging", "Python logging support", "${PN}-core ${PN}-io ${PN}-lang ${PN}-pickle ${PN}-stringold",
+ SUMMARY_${PN}-crypt="Python basic cryptographic and hashing support"
+ RDEPENDS_${PN}-crypt="${PN}-core"
 -- 
 1.9.1
 
