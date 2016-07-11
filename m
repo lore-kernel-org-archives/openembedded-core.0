@@ -1,39 +1,28 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
-	[209.85.216.195])
-	by mail.openembedded.org (Postfix) with ESMTP id D31BB60797
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id B13496FF7B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jul 2016 14:27:35 +0000 (UTC)
-Received: by mail-qt0-f195.google.com with SMTP id j37so1464083qta.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jul 2016 07:27:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=pcXPbHEtO0e1Q/ZXScvmBANjwJitQVAJM+lg2XV+tbs=;
-	b=lBsp0TjK1FEpXf0TtiGuJzoPiFKPCDYgKBIHtxSYg+eBZd2NPNIqGklDpeduK8F1NW
-	fUJ7uqcq9u/712ugQ0dBo+vrEPbmAm/2R+Ngr0D1qC3zAvm4gJ4xKXtgLhKhHDOAHe7a
-	6MFAlUUaAHmSJCfb92N3E/JFgQAdAVopInxDFiUnQKnbpxTaZw6HsNIf+BwrO+sPBGv2
-	aZQfhbKoHUM0bnWDjqbRq99PhCfno6g5duOy4a6N79eTChw+Z09OPf6p14MB64J3ooe5
-	M1bySdmNeNuwnWyvRDS2mcRWvuPJjjJVLYCYg+HqpSdp1rAC0e7S7W7M/FTdZZN7FMTn
-	im1g==
-X-Gm-Message-State: ALyK8tLoYgbFmfLSccriqWH246tPNVMWE+s0bWlpliONNwOFcTN5qGrjIZXDKBxVnWiLmg==
-X-Received: by 10.200.56.90 with SMTP id r26mr4638090qtb.37.1468247256249;
-	Mon, 11 Jul 2016 07:27:36 -0700 (PDT)
-Received: from localhost ([177.100.227.79])
-	by smtp.gmail.com with ESMTPSA id l1sm992456qtd.49.2016.07.11.07.27.33
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 11 Jul 2016 07:27:35 -0700 (PDT)
-Received: by localhost (sSMTP sendmail emulation);
-	Mon, 11 Jul 2016 11:27:29 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Jul 2016 11:27:27 -0300
-Message-Id: <20160711142727.20938-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.9.0
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] libarchive: Update to 3.2.1 release
+	Mon, 11 Jul 2016 14:28:23 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP; 11 Jul 2016 07:28:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,346,1464678000"; d="scan'208";a="992868987"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga001.jf.intel.com with ESMTP; 11 Jul 2016 07:28:23 -0700
+To: openembedded-core@lists.openembedded.org
+References: <cover.1467905611.git.jussi.kukkonen@intel.com>
+	<b0ba31b71ad1e9d540ab007713fe034a3bc1f7d1.1467905611.git.jussi.kukkonen@intel.com>
+	<CAJTo0LZ67c7MXQrsBYzK6c+dQ3DGq0Xp5To+pz64qo=Cu8qeKQ@mail.gmail.com>
+	<CAHiDW_G_NZWhoq-Grt=jjpc4H+pkkuOdbGL7kf5Omho1dLhNFA@mail.gmail.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <71487947-2b12-ecb8-110f-be7002efb8d4@linux.intel.com>
+Date: Mon, 11 Jul 2016 17:27:31 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.1.0
+MIME-Version: 1.0
+In-Reply-To: <CAHiDW_G_NZWhoq-Grt=jjpc4H+pkkuOdbGL7kf5Omho1dLhNFA@mail.gmail.com>
+Subject: Re: [PATCH 1/5] python-six: Add to oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,116 +35,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jul 2016 14:27:36 -0000
+X-List-Received-Date: Mon, 11 Jul 2016 14:28:25 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This update to 3.2.1 which includes a handful of security and other
-critical issues with 3.2.0.
+On 07/11/2016 02:46 PM, Jussi Kukkonen wrote:
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
+> Not sure where a URL like that comes from or why it would be accessed
+> during build? Li Xin, any comment?
 
- ...c-check-acl-libacl.h-and-sys-acl.h-based-.patch | 66 ----------------------
- .../{libarchive_3.2.0.bb => libarchive_3.2.1.bb}   |  9 +--
- 2 files changed, 3 insertions(+), 72 deletions(-)
- delete mode 100644 meta/recipes-extended/libarchive/libarchive/0001-configure.ac-check-acl-libacl.h-and-sys-acl.h-based-.patch
- rename meta/recipes-extended/libarchive/{libarchive_3.2.0.bb => libarchive_3.2.1.bb} (90%)
+A few recipes in meta-oe have this issue, for example python-mccabe:
 
-diff --git a/meta/recipes-extended/libarchive/libarchive/0001-configure.ac-check-acl-libacl.h-and-sys-acl.h-based-.patch b/meta/recipes-extended/libarchive/libarchive/0001-configure.ac-check-acl-libacl.h-and-sys-acl.h-based-.patch
-deleted file mode 100644
-index 4b41d62..0000000
---- a/meta/recipes-extended/libarchive/libarchive/0001-configure.ac-check-acl-libacl.h-and-sys-acl.h-based-.patch
-+++ /dev/null
-@@ -1,66 +0,0 @@
--From b30c530aaf5068a652a479f3e46c74eb1716861a Mon Sep 17 00:00:00 2001
--From: "Maxin B. John" <maxin.john@intel.com>
--Date: Thu, 2 Jun 2016 16:08:02 +0300
--Subject: [PATCH] configure.ac: check acl/libacl.h and sys/acl.h based on
-- requirement
--
--acl/libacl.h and sys/acl.h check should not happen when we explicitly
--disable it with --disable-acl.
--
--Similarly, update attr/xattr.h for --disable-xattr option.
--
--Update the help texts to reflect what it really does.
--
--Upstream-Status: Accepted
--
--Signed-off-by: Maxin B. John <maxin.john@intel.com>
-----
-- configure.ac | 9 +++++----
-- 1 file changed, 5 insertions(+), 4 deletions(-)
--
--diff --git a/configure.ac b/configure.ac
--index cb6943f..0638182 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -252,7 +252,7 @@ esac
-- # Checks for header files.
-- AC_HEADER_DIRENT
-- AC_HEADER_SYS_WAIT
---AC_CHECK_HEADERS([acl/libacl.h attr/xattr.h copyfile.h ctype.h])
--+AC_CHECK_HEADERS([copyfile.h ctype.h])
-- AC_CHECK_HEADERS([errno.h ext2fs/ext2_fs.h fcntl.h grp.h])
-- 
-- AC_CACHE_CHECK([whether EXT2_IOC_GETFLAGS is usable],
--@@ -272,7 +272,7 @@ AC_CHECK_HEADERS([linux/fiemap.h linux/fs.h linux/magic.h linux/types.h])
-- AC_CHECK_HEADERS([locale.h paths.h poll.h pthread.h pwd.h])
-- AC_CHECK_HEADERS([readpassphrase.h signal.h spawn.h])
-- AC_CHECK_HEADERS([stdarg.h stdint.h stdlib.h string.h])
---AC_CHECK_HEADERS([sys/acl.h sys/cdefs.h sys/extattr.h])
--+AC_CHECK_HEADERS([sys/cdefs.h sys/extattr.h])
-- AC_CHECK_HEADERS([sys/ioctl.h sys/mkdev.h sys/mount.h])
-- AC_CHECK_HEADERS([sys/param.h sys/poll.h sys/select.h sys/statfs.h sys/statvfs.h])
-- AC_CHECK_HEADERS([sys/time.h sys/utime.h sys/utsname.h sys/vfs.h])
--@@ -644,7 +644,7 @@ AC_CHECK_MEMBER(struct dirent.d_namlen,,,
-- # Check for Extended Attributes support
-- AC_ARG_ENABLE([xattr],
-- 		AS_HELP_STRING([--disable-xattr],
---		[Enable Extended Attributes support (default: check)]))
--+		[Disable Extended Attributes support (default: check)]))
-- 
-- if test "x$enable_xattr" != "xno"; then
-- 	AC_CHECK_HEADERS([attr/xattr.h])
--@@ -670,9 +670,10 @@ fi
-- #
-- AC_ARG_ENABLE([acl],
-- 		AS_HELP_STRING([--disable-acl],
---		[Enable ACL support (default: check)]))
--+		[Disable ACL support (default: check)]))
-- 
-- if test "x$enable_acl" != "xno"; then
--+   AC_CHECK_HEADERS([acl/libacl.h])
--    AC_CHECK_HEADERS([sys/acl.h])
--    AC_CHECK_LIB([acl],[acl_get_file])
--    AC_CHECK_FUNCS([acl_create_entry acl_init acl_set_fd acl_set_fd_np acl_set_file])
---- 
--2.4.0
--
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.2.0.bb b/meta/recipes-extended/libarchive/libarchive_3.2.1.bb
-similarity index 90%
-rename from meta/recipes-extended/libarchive/libarchive_3.2.0.bb
-rename to meta/recipes-extended/libarchive/libarchive_3.2.1.bb
-index f183b74..a690b14 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.2.0.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.2.1.bb
-@@ -31,12 +31,9 @@ PACKAGECONFIG[lzo] = "--with-lzo2,--without-lzo2,lzo,"
- PACKAGECONFIG[nettle] = "--with-nettle,--without-nettle,nettle,"
- PACKAGECONFIG[lz4] = "--with-lz4,--without-lz4,lz4,"
- 
--SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
--           file://0001-configure.ac-check-acl-libacl.h-and-sys-acl.h-based-.patch \
--           "
--
--SRC_URI[md5sum] = "596210b5a9c2ff74a0f7ca34838d655f"
--SRC_URI[sha256sum] = "7bce45fd71ff01dc20d19edd78322d4965583d81b8bed8e26cacb65d6f5baa87"
-+SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz"
-+SRC_URI[md5sum] = "afa257047d1941a565216edbf0171e72"
-+SRC_URI[sha256sum] = "72ee1a4e3fd534525f13a0ba1aa7b05b203d186e0c6072a8a4738649d0b3cfd2"
- 
- inherit autotools update-alternatives pkgconfig
- 
--- 
-2.9.0
+DEBUG: Executing shell function do_compile
+Download error on https://pypi.python.org/simple/pytest-runner/: [Errno 
+110] Connection timed out -- Some packages may not be found!
+Couldn't find index page for 'pytest-runner' (maybe misspelled?)
+Download error on https://pypi.python.org/simple/: [Errno 110] 
+Connection timed out -- Some packages may not be found!
+No local packages or download links found for pytest-runner
+Traceback (most recent call last):
+   File "setup.py", line 57, in <module>
+     'Topic :: Software Development :: Quality Assurance',
+   File 
+"/home/ak/development/poky/build-meta-openembedded/tmp/sysroots/x86_64-linux/usr/lib/python2.7/distutils/core.py", 
+line 111, in setup
+     _setup_distribution = dist = klass(attrs)
+   File 
+"/home/ak/development/poky/build-meta-openembedded/tmp/sysroots/x86_64-linux/usr/lib/python2.7/site-packages/setuptools-22.0.5-py2.7.egg/setuptools/dist.py", 
+line 269, in __init__
+   File 
+"/home/ak/development/poky/build-meta-openembedded/tmp/sysroots/x86_64-linux/usr/lib/python2.7/site-packages/setuptools-22.0.5-py2.7.egg/setuptools/dist.py", 
+line 313, in fetch_build_eggs
+   File 
+"/home/ak/development/poky/build-meta-openembedded/tmp/sysroots/x86_64-linux/usr/lib/python2.7/site-packages/setuptools-22.0.5-py2.7.egg/pkg_resources/__init__.py", 
+line 826, in resolve
+   File 
+"/home/ak/development/poky/build-meta-openembedded/tmp/sysroots/x86_64-linux/usr/lib/python2.7/site-packages/setuptools-22.0.5-py2.7.egg/pkg_resources/__init__.py", 
+line 1092, in best_match
+   File 
+"/home/ak/development/poky/build-meta-openembedded/tmp/sysroots/x86_64-linux/usr/lib/python2.7/site-packages/setuptools-22.0.5-py2.7.egg/pkg_resources/__init__.py", 
+line 1104, in obtain
+   File 
+"/home/ak/development/poky/build-meta-openembedded/tmp/sysroots/x86_64-linux/usr/lib/python2.7/site-packages/setuptools-22.0.5-py2.7.egg/setuptools/dist.py", 
+line 380, in fetch_build_egg
+   File 
+"/home/ak/development/poky/build-meta-openembedded/tmp/sysroots/x86_64-linux/usr/lib/python2.7/site-packages/setuptools-22.0.5-py2.7.egg/setuptools/command/easy_install.py", 
+line 659, in easy_install
+distutils.errors.DistutilsError: Could not find suitable distribution 
+for Requirement.parse('pytest-runner')
+WARNING: exit code 1 from a shell command.
+ERROR: Function failed: do_compile (log file is located at 
+/home/ak/development/poky/build-meta-openembedded/tmp/work/i586-poky-linux/python-mccabe/0.4.0-r0/temp/log.do_compile.3493)
 
+
+Alex
 
