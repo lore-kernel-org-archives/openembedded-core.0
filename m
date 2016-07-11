@@ -1,24 +1,66 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0293260797
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-vk0-f67.google.com (mail-vk0-f67.google.com
+	[209.85.213.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 26B34607A5
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 11 Jul 2016 15:17:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u6BFHafP009045
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+Received: by mail-vk0-f67.google.com with SMTP id a5so13601460vkc.2
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 11 Jul 2016 08:17:37 -0700 (PDT)
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 11 Jul 2016 08:17:36 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Jul 2016 08:17:30 -0700
-Message-ID: <cover.1468249600.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.9.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=lrC0ZlHk+QhiQ2VxClePCAF4pTmEWE2ftUdIYNKjBgM=;
+	b=BZcxV1LQXmZvp+sQH/JXmiiDTy2JhKbjeygK/hPCgFmdidZ3QFbDu2IXVPGqBOp7IL
+	dvMjyKgaL2jwbsMJc/GsspNTaHf+IONuxJsJZiNl/KU6ftwru0cm5fvSuASCEMqqsj2h
+	4Iv4AIWKs7wbCNjVNbiyIEARinGEpUMDcIRadPkCM0KAK3Zd7yQF9bmcQWxMOIbK03y5
+	YvlzU9atCgZCWl6hVkS7R9OoiDQ3E4hf0MxrR16XbW2XjPj6tQ5hM9Qf3VKYnDmwkK6M
+	2MRkaXMcLX9DmyKVsDXp0Qf7v3aMNYDe5So2FIMXl6WbFfua7dmzF6T0k8lcbfTuwzss
+	QK5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=lrC0ZlHk+QhiQ2VxClePCAF4pTmEWE2ftUdIYNKjBgM=;
+	b=Sjqryhr2+JRuZqL13GwaS+aDCOPsOnyzPVVjFi0Mtk1IchyzjglKd7KggSh8VfWbwf
+	XXDKtG2ONJWM9XqMzHXGBMMvoQqYweqiolLRbpA0es68zLDNMhXh9+zIQwf+4dCI+aCk
+	gsn10yx5l1oKpL4Q/qipvyGC5Q6GPJh69OFFO8clgox3QFWpkPyU5fsgU87UboplWAkh
+	nfoK530vGNdpCi5N5HTBkgOBpWx42Pu0O1DUusfvAldd3kgVF2LkMe9/bUb1lpp0LfEg
+	17stlAIS7wwSeRO/e1BhlFm/yRUMlT/b6uC/TL4vLezmy3ggMhfwl0t3/3ToA7pzBGhy
+	N8hw==
+X-Gm-Message-State: ALyK8tLjnZ7TMBTCLGLgXBFUzDZTF1JbhkU9qc56tbxmxKOa1UWmrPVrPnfM1GxSm9Mneg==
+X-Received: by 10.176.67.199 with SMTP id l65mr9350919ual.61.1468250256769;
+	Mon, 11 Jul 2016 08:17:36 -0700 (PDT)
+Received: from mail-vk0-f49.google.com (mail-vk0-f49.google.com.
+	[209.85.213.49])
+	by smtp.gmail.com with ESMTPSA id 92sm2165366uay.26.2016.07.11.08.17.35
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 11 Jul 2016 08:17:35 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-vk0-f49.google.com with SMTP id x130so16041978vkc.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Jul 2016 08:17:35 -0700 (PDT)
+X-Received: by 10.176.3.116 with SMTP id 107mr9380767uat.131.1468250254674;
+	Mon, 11 Jul 2016 08:17:34 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 0/6] packagefeed-stability: add class to help reduce package feed churn
+Received: by 10.31.192.195 with HTTP; Mon, 11 Jul 2016 08:17:33 -0700 (PDT)
+In-Reply-To: <1468249814.17048.1.camel@intel.com>
+References: <cover.1467378176.git.patrick.ohly@intel.com>
+	<25bb70f088ffb603e1f389b7657c1fbf3f2871bb.1467378176.git.patrick.ohly@intel.com>
+	<CAP9ODKo=BAgtk8iUbSgcOVh4+uVW-SBuEri6f8MkRH2qXfpVSw@mail.gmail.com>
+	<CAP9ODKrNecB=hRAkFb-LL4TcTc9XXw=AmKu-efdjPs3PKDkY1A@mail.gmail.com>
+	<1468249814.17048.1.camel@intel.com>
+Date: Mon, 11 Jul 2016 12:17:33 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKps8qLV8cvyR4DHq8yZ+iFk5A1f3ON7EFNrdr=hq__HJA@mail.gmail.com>
+Message-ID: <CAP9ODKps8qLV8cvyR4DHq8yZ+iFk5A1f3ON7EFNrdr=hq__HJA@mail.gmail.com>
+To: Patrick Ohly <patrick.ohly@intel.com>, "Burton,
+	Ross" <ross.burton@intel.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] meta-ostro-fixes: initramfs-framework: add retry loop for slow boot devices (like USB)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,57 +74,32 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 11 Jul 2016 15:17:37 -0000
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
 
-* This work is based on Paul's packagefeed-stability, thanks Paul. It is
-  aimed for reducing PR bumps for binary packages when use PRServer. 
-* It works well for rpm:
-  - Afer bumped rpm-native's PR and rebuild world, less than 20 recipes'
-    Packages bumped PR, they are because of pseudo, I had sent email
-    before:
-    http://lists.openembedded.org/pipermail/openembedded-core/2016-July/123511.html
-  - When elf files are rebuilt, it will bump the PR.
+On Mon, Jul 11, 2016 at 12:10 PM, Patrick Ohly <patrick.ohly@intel.com> wrote:
+> On Mon, 2016-07-11 at 11:35 -0300, Otavio Salvador wrote:
+>> Hello Ross,
+>>
+>> On Fri, Jul 1, 2016 at 2:50 PM, Otavio Salvador <otavio@ossystems.com.br> wrote:
+>> > Agreed but please split the rootfs in another module; so we don't
+>> > force it to be included. The e2fs can rdepend on it.
+>>
+>> I noticed this has been merged but my comment here was totally ignored. Why?
+>
+> I can't speak for Ross, but perhaps he felt that it was already a
+> worthwhile improvement. I wanted to address your comment (and still do),
+> but didn't find the time last week. I'll do it via another patch now,
+> okay?
 
-* I've sent build-compare' patches to upstream.
+Ok but Ross action is wrong in my opinion, in worse case he should
+have asked before. If comments are ignored there is no point in people
+spend time doing so.
 
-TODO:
-* pkg-diff.sh can't work well with ipk or deb, we need work with upstream
-  to make them work as better as rpm.
-
-// Robert
-
-The following changes since commit b17f91ed06a604e3d356fe17756bfe2ca61594b7:
-
-  tune-ppce500mc.inc: pass -mcpu=e500mc for ppce500mc kernel compile (2016-07-10 14:12:07 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/feed
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/feed
-
-Paul Eggleton (1):
-  packagefeed-stability: add class to help reduce package feed churn
-
-Robert Yang (5):
-  rpm: make --nosignature work
-  build-compare: remove space at head
-  build-compare: make pkg-diff.sh 75% faster
-  packagefeed-stability.bbclass: minor fixes
-  packagefeed-stability.bbclass: copy all packages of a recipe
-
- meta/classes/packagefeed-stability.bbclass         | 239 ++++++++++++++
- .../build-compare/build-compare_git.bb             |   2 +
- .../files/functions.sh-remove-space-at-head.patch  |  41 +++
- ...nctions.sh-run-rpm-once-to-make-it-faster.patch | 361 +++++++++++++++++++++
- ...0001-system.h-query.c-support-nosignature.patch |  64 ++++
- meta/recipes-devtools/rpm/rpm_5.4.16.bb            |   1 +
- 6 files changed, 708 insertions(+)
- create mode 100644 meta/classes/packagefeed-stability.bbclass
- create mode 100644 meta/recipes-devtools/build-compare/files/functions.sh-remove-space-at-head.patch
- create mode 100644 meta/recipes-devtools/build-compare/files/functions.sh-run-rpm-once-to-make-it-faster.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/0001-system.h-query.c-support-nosignature.patch
+I wanted the change to be atomic and not two changes which may
+required more rework for same logic change. :-(
 
 -- 
-2.9.0
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
