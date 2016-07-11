@@ -1,47 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f50.google.com (mail-it0-f50.google.com
-	[209.85.214.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 71C646E5CB
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
+	[209.85.216.195])
+	by mail.openembedded.org (Postfix) with ESMTP id D31BB60797
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jul 2016 13:44:23 +0000 (UTC)
-Received: by mail-it0-f50.google.com with SMTP id u186so60489552ita.0
+	Mon, 11 Jul 2016 14:27:35 +0000 (UTC)
+Received: by mail-qt0-f195.google.com with SMTP id j37so1464083qta.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jul 2016 06:44:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=eR3XGlqoT6CyBNFblfhkFZvNU3y1o07kCHOV5YUaulI=;
-	b=as+kZ6wQN/KE33tMy/bKf0vDwx8csR+Q+htngI/DyxeydhcgM+WWUO/0pXma1w5+VX
-	i8QbzUvBcIEJHXudHgcW4npkDEekSRdSYchgnvp97td3GonUwNyW2Y0aXqox0kAkj5kK
-	/ciDcrN7sgdxanCFlf0+sOTvTmsvhkODbiNSwpa+Uzi1KAdrCtyRmn9BZWDpDDJDiZkO
-	UT3mljdlNgKkA7XLSbsclt8swQOd9WdzC+OqTV1RhXqcjTvc+nF/K0gRdX8Bn/GCzPZd
-	HCpEhDnHPESk97qNISEku0UFWOe9SWnd7s9XZ/vyPPmMeC+GelxNoBTY1M4Y+4puZEi2
-	OILQ==
+	Mon, 11 Jul 2016 07:27:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=eR3XGlqoT6CyBNFblfhkFZvNU3y1o07kCHOV5YUaulI=;
-	b=Vb7KURqML+hvt3UjfxlbH5uFzmxmT8S1ZJDKJKgwBIwLDjG7UhHDibJEQm/mHrEOeq
-	HDG9X2+DbMT3KsXknipaG75+8Jxry2A9gKtQ2liwfVZzH9rvXHa0wjuoLnsVfQ7+TiK1
-	FVfpUaQAZiENMp02AwDs7PoQJ9+Orq5ajn1MvNZTSEEMpfoWDwprVZeWUz42Ve5MKwGM
-	+5rPaOLCKqFibLIxyqpGM9O68RnwDl6qTTlQ41QYT5AHmbIgjVVqldqtllD6J1PZolFy
-	bBSGNRtPSPV/igy+AHUWeDVyFq+6Txet0KFEY9C6TGHDqCS9DXE5MXb/ChlwArE6tffK
-	/mJA==
-X-Gm-Message-State: ALyK8tIac1ZtAy67Vw+K6oE9HKp4Qyl/z8xIZxl2lyl7FE5qNh6TvdT3C3qvhjJYNsLS1uGnYEhbc/bK6hxksGDN
-X-Received: by 10.36.57.70 with SMTP id l67mr15462542ita.22.1468244664663;
-	Mon, 11 Jul 2016 06:44:24 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Mon, 11 Jul 2016 06:44:05 -0700 (PDT)
-In-Reply-To: <20160708163309.26556-2-stephano.cetola@linux.intel.com>
-References: <20160708163309.26556-1-stephano.cetola@linux.intel.com>
-	<20160708163309.26556-2-stephano.cetola@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 11 Jul 2016 14:44:05 +0100
-Message-ID: <CAJTo0La3k4_q_=ikvUNE+9Lsc5sAnN6M9Q3QG-kZKv4vM7wWPA@mail.gmail.com>
-To: Stephano Cetola <stephano.cetola@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] rootfs.py: allow removal of support packages
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=pcXPbHEtO0e1Q/ZXScvmBANjwJitQVAJM+lg2XV+tbs=;
+	b=lBsp0TjK1FEpXf0TtiGuJzoPiFKPCDYgKBIHtxSYg+eBZd2NPNIqGklDpeduK8F1NW
+	fUJ7uqcq9u/712ugQ0dBo+vrEPbmAm/2R+Ngr0D1qC3zAvm4gJ4xKXtgLhKhHDOAHe7a
+	6MFAlUUaAHmSJCfb92N3E/JFgQAdAVopInxDFiUnQKnbpxTaZw6HsNIf+BwrO+sPBGv2
+	aZQfhbKoHUM0bnWDjqbRq99PhCfno6g5duOy4a6N79eTChw+Z09OPf6p14MB64J3ooe5
+	M1bySdmNeNuwnWyvRDS2mcRWvuPJjjJVLYCYg+HqpSdp1rAC0e7S7W7M/FTdZZN7FMTn
+	im1g==
+X-Gm-Message-State: ALyK8tLoYgbFmfLSccriqWH246tPNVMWE+s0bWlpliONNwOFcTN5qGrjIZXDKBxVnWiLmg==
+X-Received: by 10.200.56.90 with SMTP id r26mr4638090qtb.37.1468247256249;
+	Mon, 11 Jul 2016 07:27:36 -0700 (PDT)
+Received: from localhost ([177.100.227.79])
+	by smtp.gmail.com with ESMTPSA id l1sm992456qtd.49.2016.07.11.07.27.33
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 11 Jul 2016 07:27:35 -0700 (PDT)
+Received: by localhost (sSMTP sendmail emulation);
+	Mon, 11 Jul 2016 11:27:29 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Mon, 11 Jul 2016 11:27:27 -0300
+Message-Id: <20160711142727.20938-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.9.0
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] libarchive: Update to 3.2.1 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,48 +46,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jul 2016 13:44:25 -0000
-Content-Type: multipart/alternative; boundary=001a114a9c66ae533105375c59e5
+X-List-Received-Date: Mon, 11 Jul 2016 14:27:36 -0000
 
---001a114a9c66ae533105375c59e5
-Content-Type: text/plain; charset=UTF-8
+This update to 3.2.1 which includes a handful of security and other
+critical issues with 3.2.0.
 
-On 8 July 2016 at 17:33, Stephano Cetola <stephano.cetola@linux.intel.com>
-wrote:
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
 
-> +            unneeded_pkgs = ["update-rc.d", "base-passwd", "shadow",
-> +                    "update-alternatives", "run-postinsts",
-> +                    self.d.getVar("ROOTFS_BOOTSTRAP_INSTALL", True)]
->
+ ...c-check-acl-libacl.h-and-sys-acl.h-based-.patch | 66 ----------------------
+ .../{libarchive_3.2.0.bb => libarchive_3.2.1.bb}   |  9 +--
+ 2 files changed, 3 insertions(+), 72 deletions(-)
+ delete mode 100644 meta/recipes-extended/libarchive/libarchive/0001-configure.ac-check-acl-libacl.h-and-sys-acl.h-based-.patch
+ rename meta/recipes-extended/libarchive/{libarchive_3.2.0.bb => libarchive_3.2.1.bb} (90%)
 
-The getVar() will return a string, so whilst this currently works (as all
-package manager classes end up joining the passed list of packages into a
-single string) I think the getVar() should be ran through split and then
-appended to the list just in case the implementation changes.
+diff --git a/meta/recipes-extended/libarchive/libarchive/0001-configure.ac-check-acl-libacl.h-and-sys-acl.h-based-.patch b/meta/recipes-extended/libarchive/libarchive/0001-configure.ac-check-acl-libacl.h-and-sys-acl.h-based-.patch
+deleted file mode 100644
+index 4b41d62..0000000
+--- a/meta/recipes-extended/libarchive/libarchive/0001-configure.ac-check-acl-libacl.h-and-sys-acl.h-based-.patch
++++ /dev/null
+@@ -1,66 +0,0 @@
+-From b30c530aaf5068a652a479f3e46c74eb1716861a Mon Sep 17 00:00:00 2001
+-From: "Maxin B. John" <maxin.john@intel.com>
+-Date: Thu, 2 Jun 2016 16:08:02 +0300
+-Subject: [PATCH] configure.ac: check acl/libacl.h and sys/acl.h based on
+- requirement
+-
+-acl/libacl.h and sys/acl.h check should not happen when we explicitly
+-disable it with --disable-acl.
+-
+-Similarly, update attr/xattr.h for --disable-xattr option.
+-
+-Update the help texts to reflect what it really does.
+-
+-Upstream-Status: Accepted
+-
+-Signed-off-by: Maxin B. John <maxin.john@intel.com>
+----
+- configure.ac | 9 +++++----
+- 1 file changed, 5 insertions(+), 4 deletions(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index cb6943f..0638182 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -252,7 +252,7 @@ esac
+- # Checks for header files.
+- AC_HEADER_DIRENT
+- AC_HEADER_SYS_WAIT
+--AC_CHECK_HEADERS([acl/libacl.h attr/xattr.h copyfile.h ctype.h])
+-+AC_CHECK_HEADERS([copyfile.h ctype.h])
+- AC_CHECK_HEADERS([errno.h ext2fs/ext2_fs.h fcntl.h grp.h])
+- 
+- AC_CACHE_CHECK([whether EXT2_IOC_GETFLAGS is usable],
+-@@ -272,7 +272,7 @@ AC_CHECK_HEADERS([linux/fiemap.h linux/fs.h linux/magic.h linux/types.h])
+- AC_CHECK_HEADERS([locale.h paths.h poll.h pthread.h pwd.h])
+- AC_CHECK_HEADERS([readpassphrase.h signal.h spawn.h])
+- AC_CHECK_HEADERS([stdarg.h stdint.h stdlib.h string.h])
+--AC_CHECK_HEADERS([sys/acl.h sys/cdefs.h sys/extattr.h])
+-+AC_CHECK_HEADERS([sys/cdefs.h sys/extattr.h])
+- AC_CHECK_HEADERS([sys/ioctl.h sys/mkdev.h sys/mount.h])
+- AC_CHECK_HEADERS([sys/param.h sys/poll.h sys/select.h sys/statfs.h sys/statvfs.h])
+- AC_CHECK_HEADERS([sys/time.h sys/utime.h sys/utsname.h sys/vfs.h])
+-@@ -644,7 +644,7 @@ AC_CHECK_MEMBER(struct dirent.d_namlen,,,
+- # Check for Extended Attributes support
+- AC_ARG_ENABLE([xattr],
+- 		AS_HELP_STRING([--disable-xattr],
+--		[Enable Extended Attributes support (default: check)]))
+-+		[Disable Extended Attributes support (default: check)]))
+- 
+- if test "x$enable_xattr" != "xno"; then
+- 	AC_CHECK_HEADERS([attr/xattr.h])
+-@@ -670,9 +670,10 @@ fi
+- #
+- AC_ARG_ENABLE([acl],
+- 		AS_HELP_STRING([--disable-acl],
+--		[Enable ACL support (default: check)]))
+-+		[Disable ACL support (default: check)]))
+- 
+- if test "x$enable_acl" != "xno"; then
+-+   AC_CHECK_HEADERS([acl/libacl.h])
+-    AC_CHECK_HEADERS([sys/acl.h])
+-    AC_CHECK_LIB([acl],[acl_get_file])
+-    AC_CHECK_FUNCS([acl_create_entry acl_init acl_set_fd acl_set_fd_np acl_set_file])
+--- 
+-2.4.0
+-
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.2.0.bb b/meta/recipes-extended/libarchive/libarchive_3.2.1.bb
+similarity index 90%
+rename from meta/recipes-extended/libarchive/libarchive_3.2.0.bb
+rename to meta/recipes-extended/libarchive/libarchive_3.2.1.bb
+index f183b74..a690b14 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.2.0.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.2.1.bb
+@@ -31,12 +31,9 @@ PACKAGECONFIG[lzo] = "--with-lzo2,--without-lzo2,lzo,"
+ PACKAGECONFIG[nettle] = "--with-nettle,--without-nettle,nettle,"
+ PACKAGECONFIG[lz4] = "--with-lz4,--without-lz4,lz4,"
+ 
+-SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
+-           file://0001-configure.ac-check-acl-libacl.h-and-sys-acl.h-based-.patch \
+-           "
+-
+-SRC_URI[md5sum] = "596210b5a9c2ff74a0f7ca34838d655f"
+-SRC_URI[sha256sum] = "7bce45fd71ff01dc20d19edd78322d4965583d81b8bed8e26cacb65d6f5baa87"
++SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz"
++SRC_URI[md5sum] = "afa257047d1941a565216edbf0171e72"
++SRC_URI[sha256sum] = "72ee1a4e3fd534525f13a0ba1aa7b05b203d186e0c6072a8a4738649d0b3cfd2"
+ 
+ inherit autotools update-alternatives pkgconfig
+ 
+-- 
+2.9.0
 
-Ross
 
---001a114a9c66ae533105375c59e5
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 8 July 2016 at 17:33, Stephano Cetola <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:stephano.cetola@linux.intel.com" target=3D"_blank">stephano.cetola@li=
-nux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div =
-id=3D":1ro" class=3D"a3s aXjCH m155cb5ae0ee1ab73">+=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 unneeded_pkgs =3D [&quot;update-rc.d&quot;, &quot;base-pa=
-sswd&quot;, &quot;shadow&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quo=
-t;update-alternatives&quot;, &quot;run-postinsts&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self=
-.d.getVar(&quot;ROOTFS_BOOTSTRAP_INSTALL&quot;, True)]<br></div></blockquot=
-e></div><br>The getVar() will return a string, so whilst this currently wor=
-ks (as all package manager classes end up joining the passed list of packag=
-es into a single string) I think the getVar() should be ran through split a=
-nd then appended to the list just in case the implementation changes.</div>=
-<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div><=
-/div>
-
---001a114a9c66ae533105375c59e5--
