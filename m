@@ -1,34 +1,20 @@
-Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 361B4606D0
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id AC7BB606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2016 10:58:57 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u6CAwviU027709; Tue, 12 Jul 2016 05:58:57 -0500
-Received: from adi-pc-linux ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016071205585761-752915 ;
-	Tue, 12 Jul 2016 05:58:57 -0500 
-Date: Tue, 12 Jul 2016 13:57:46 +0300
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-To: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <20160712135746.762f93c9@adi-pc-linux>
-In-Reply-To: <57846393.1090200@windriver.com>
-References: <1462536830-30243-1-git-send-email-catalin.enache@windriver.com>
-	<CAJTo0La2hOxuxNsEdoEVE2tKDsL_3nRd6zonG-iLn7_=HRtqyQ@mail.gmail.com>
-	<57846393.1090200@windriver.com>
-Organization: National Instruments
-MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 07/12/2016 05:58:57 AM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 07/12/2016 05:58:57 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-07-12_06:, , signatures=0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] grub-efi: run autogen.sh before configure
+	Tue, 12 Jul 2016 11:14:49 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga103.jf.intel.com with ESMTP; 12 Jul 2016 04:14:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,351,1464678000"; d="scan'208";a="1020065007"
+Received: from theory.fi.intel.com ([10.237.72.196])
+	by fmsmga002.fm.intel.com with ESMTP; 12 Jul 2016 04:14:49 -0700
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 12 Jul 2016 14:14:43 +0300
+Message-Id: <cover.1468310468.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCHv2 0/5] Upgrade piglit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,56 +27,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jul 2016 10:59:00 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 12 Jul 2016 11:14:52 -0000
 
-Hello
+Changes since v1:
+* Sacrifice piglit debug binaries for build speed
+* Add a missing signed-off-by
+* Do not install .egg for python-six
+The python-six .egg install was added to avoid a build problem in
+python-cryptography (6b4cee975 in meta-oe). I cannot reproduce the
+problem: python-cryptography builds fine without a network connection.
 
-On Tue, 12 Jul 2016 11:27:15 +0800
-"Yu, Mingli" <mingli.yu@windriver.com> wrote:
 
-> On 2016=E5=B9=B407=E6=9C=8811=E6=97=A5 18:22, Burton, Ross wrote:
-> >
-> > On 6 May 2016 at 13:13, Catalin Enache <catalin.enache@windriver.com
-> > <mailto:catalin.enache@windriver.com>> wrote:
-> >
-> >       DEPENDS=5Fclass-target =3D "grub-efi-native"
-> >       RDEPENDS=5F${PN}=5Fclass-target =3D "diffutils freetype"
-> >     +DEPENDS +=3D "autogen-native"
-> >
-> >
-> > Because +=3D happens after overrides this results in autogen-native onl=
-y a
-> > dependency in native builds, so you can't be sure it will be present for
-> > target builds. =20
->=20
-> Thanks Ross! Will update the line as:
-> DEPENDS=5Fappend =3D " autogen-native"
-> >
-> > Should the configure=5Fprepend and autogen-native be added to grub2.inc=
- so
-> > that every recipe has that dependency? =20
->=20
-> Hi Catalin,
-> Could you help to confirm if the three recipes (grub-efi=5F2.00.bb,=20
-> grub=5F2.00.bb, grub=5Fgit.bb) all need configure=5Fprepend and=20
-> autogen-native? if yes, I will resent the patch to add configure=5Fprepen=
-d=20
-> and autogen-native to grub2.inc, if not, then we still let it stay in=20
-> grub-efi recipe.
+Original cover letter follows:
 
-I would really appreciate if you could add the autogen call to all grub rec=
-ipes,
-not only to grub-efi, because I'm also carrying OOT patches and have to add
-it into a bbappend.
+This set upgrades piglit, adds python-six (new piglit dependency),
+moves piglit to python3 and fixes all the python module issues that
+popped up.
 
->=20
-> Thanks,
-> Grace
-> >
-> > Ross
-> >
-> > =20
+A word of warning to anyone else using piglit: it was big before and
+has now tripled in size (30000 new tests!). The installed size is over
+1.5GB and packaging takes a very long time.
+
+For reference, the results with PIGLIT_NO_WINDOW=1 look like this on
+a NUC (Haswell with HD5000 graphics) running current master:
+
+       name:  quick
+       ----  ------
+       pass:  33717
+       fail:    438
+      crash:      5
+       skip:  30887
+       warn:      7
+      total:  65054
+
+Jussi
+
+The following changes since commit 5c11e365e19357f721c49d076971567e7b64b61b:
+
+  lib/oeqa: add Galculator to SDK and runtime tests (2016-07-01 16:22:48 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/piglit
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/piglit
+
+Jussi Kukkonen (5):
+  python-six: Add to oe-core
+  python3: Add compression to python3-shell dependencies
+  python3: Add dependencies for python3-misc
+  python3-native: Add "io" to rprovides
+  piglit: Upgrade version, use python3
+
+ .../python/python-3.5-manifest.inc                 |  2 +-
+ meta/recipes-devtools/python/python-six.inc        | 16 +++++++++++++
+ meta/recipes-devtools/python/python-six_1.10.0.bb  |  4 ++++
+ .../python/python3-native_3.5.1.bb                 |  2 +-
+ meta/recipes-devtools/python/python3-six_1.10.0.bb |  4 ++++
+ meta/recipes-devtools/python/python3_3.5.1.bb      |  2 +-
+ ...0001-tests-Fix-missing-include-of-Xutil.h.patch | 28 ----------------------
+ meta/recipes-graphics/piglit/piglit_git.bb         | 24 +++++++++++--------
+ scripts/contrib/python/generate-manifest-3.5.py    |  2 +-
+ 9 files changed, 42 insertions(+), 42 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python-six.inc
+ create mode 100644 meta/recipes-devtools/python/python-six_1.10.0.bb
+ create mode 100644 meta/recipes-devtools/python/python3-six_1.10.0.bb
+ delete mode 100644 meta/recipes-graphics/piglit/piglit/0001-tests-Fix-missing-include-of-Xutil.h.patch
+
+-- 
+2.1.4
 
 
