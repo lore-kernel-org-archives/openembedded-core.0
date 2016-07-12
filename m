@@ -1,46 +1,60 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 4EE44606D0
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-vk0-f66.google.com (mail-vk0-f66.google.com
+	[209.85.213.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 4378D606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2016 09:42:52 +0000 (UTC)
-Received: by mail-wm0-f46.google.com with SMTP id f65so94083672wmi.0
+	Tue, 12 Jul 2016 10:13:06 +0000 (UTC)
+Received: by mail-vk0-f66.google.com with SMTP id v6so659899vkb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2016 02:42:53 -0700 (PDT)
+	Tue, 12 Jul 2016 03:13:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=yO/9b+Wial1yCpKnzvgiV/FEZ9kTq62NACGzgz/uyhw=;
-	b=LouYs3qTjpsK0e4F6MOghSMz6HjxjJnnYcyYmAPlrhlVdBXUzNrtjHBjuaoiB+vScL
-	1QzTMv2trF7/hUaMWQ4DY4c44EZJCJ4xT30w3jm81k5JcqVHXG/aqPiHy26pK0fjGzL4
-	zINvaL076ua0cXQYp1knORExpM3RU5jk9NpDFU7igv7IBe8KZSy+MoenDiLVC6LhPeTp
-	czrYwjxwzpdz5nUiyMNTAwu9Tz1nIu5fBDGs1pCTswfU7b6dv+DJDN5D2mr2jcDC7zTE
-	WvBj4D+rDugnJmXAlYhEpQL8n2fhdhYKV9Ved2HetThK3ydcXPSOl7jwSW0jaN6MQ6Lf
-	4hKg==
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=Cqmr+peJR6D9cVExtp6EGfpDREU7HLXO5Z0czC/Qsc8=;
+	b=bIGiqSqD+cLR5tNVJi3TKJufIncE2Otrx8gZfPRijELY1pb5WjSkpm8ggIZSwelJGT
+	xTWlzRUYNEhV7B0u7FbNl9qkEmM1fJlIDNOuK4EFs8fj1yFu2P5jm6tB4lAsHiZ3Ke3o
+	j0XezN0/OOCI1BphY1g0zCqWEqaDQmN4Iyio39Gfn3lr2Z5MSAIPg0HlfdjMWJwQ5tAp
+	gxke4/xbryBV0PmZDzV1BxLkw/8WMkxGRN9VT96ZRhbm6llumR+xxJVJbiptu6ROj08H
+	mqRaBM0d9kz1RXR/ymwpTmDMaGfSNV45y31CJ7uXiaMhH1UBXFEAObE8cOjvuyG3f5rp
+	qLrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=yO/9b+Wial1yCpKnzvgiV/FEZ9kTq62NACGzgz/uyhw=;
-	b=QqJkts8VT64+tf6nhe5YiqcBenJbEzqHtTxwmXXdoCG52zRZZ7ya1N/VZ/VA6QwAyb
-	E7Ae9/VOrFPbdu7r6xY9ZhgDEzmNUG45N61Wtyzt28NYRB07qoGRarO7TqciPZh2Yr5D
-	ou1bkZq2qQ4mhJM+bNJVPMvEe5zIbJi7gnb5++FyH1WlGRjexb8bBWuo3cPU2w/HN6mu
-	xCAwsIaxsc7FzukHPdOi9P1xN71FtlQc6/marFwLU/N0dbpFnrwoPtqp4uKqS2D5pS9F
-	9SVJbuja0WGs2GMu/HPQJKRCTcBd+9U8kLh4ebSsNuRavwC9/cLtydk/J7PjY9/itXQS
-	49cQ==
-X-Gm-Message-State: ALyK8tJozPk8wUkjYfZH3mCafPrVd6bhOQrHsombieSM0FMUC1jy9r6wJSpiX5/Dc/14BKtX
-X-Received: by 10.28.238.154 with SMTP id j26mr17651070wmi.94.1468316572684;
-	Tue, 12 Jul 2016 02:42:52 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	b200sm2391677wmb.9.2016.07.12.02.42.51
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=Cqmr+peJR6D9cVExtp6EGfpDREU7HLXO5Z0czC/Qsc8=;
+	b=T5l7hHJiJ4KwKNt6PFDjJutypSEWISG88h7ALNXqwV8/lGLfTmR9NmE6QmumcuWKmi
+	aZ1OaIBqS3JMBv9iAwUtmWFjw/XMx1OSUedB2PXy2MB8Mn8FijCihgxk+atlzjmg/Drd
+	MlZcY4KmZuW2jxbkqQeUJB34jYjbsDTtS6DZ4BE01aGT3gw3ISDfaLCI9uR/YzAjqUN4
+	6X/4urP68Sj0QXv3j+5dgqfa14yAfwwJO+e0EtAM2tkhI82NrXfVFSJPpcftr1apnhcA
+	7px5v/nqYKKOEqpFfKxokvsiZcqaFJdJXFluXdL48LvYL/7clsMGoTCevNFdeX6jaBYD
+	SWZA==
+X-Gm-Message-State: ALyK8tKwx3G1gd/tHJSExwABNhCAlaIEqkTbOUch03Q8DTMyWVFhclCLchB4AusdAt/mlQ==
+X-Received: by 10.31.171.74 with SMTP id u71mr655879vke.119.1468318386196;
+	Tue, 12 Jul 2016 03:13:06 -0700 (PDT)
+Received: from mail-vk0-f51.google.com (mail-vk0-f51.google.com.
+	[209.85.213.51]) by smtp.gmail.com with ESMTPSA id
+	w65sm5177384vkw.11.2016.07.12.03.13.04
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 12 Jul 2016 02:42:51 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Jul 2016 10:42:50 +0100
-Message-Id: <1468316570-26620-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] report-error: replace build paths with markers not whitespace
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 12 Jul 2016 03:13:04 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-vk0-f51.google.com with SMTP id v6so14806270vkb.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Jul 2016 03:13:04 -0700 (PDT)
+X-Received: by 10.176.0.180 with SMTP id 49mr532079uaj.107.1468318384259; Tue,
+	12 Jul 2016 03:13:04 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.31.192.195 with HTTP; Tue, 12 Jul 2016 03:13:03 -0700 (PDT)
+In-Reply-To: <1468274809-10301-1-git-send-email-tom.hochstein@nxp.com>
+References: <1468274809-10301-1-git-send-email-tom.hochstein@nxp.com>
+Date: Tue, 12 Jul 2016 07:13:03 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKrf1L7UTe4FnHOZ=pcKPjEoXnp9iR39tPEXd8-BOiUv-g@mail.gmail.com>
+Message-ID: <CAP9ODKrf1L7UTe4FnHOZ=pcKPjEoXnp9iR39tPEXd8-BOiUv-g@mail.gmail.com>
+To: Tom Hochstein <tom.hochstein@nxp.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] weston-init: De-couple framebuffer console from Weston
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,46 +67,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jul 2016 09:42:54 -0000
+X-List-Received-Date: Tue, 12 Jul 2016 10:13:09 -0000
+Content-Type: text/plain; charset=UTF-8
 
-To remove potentially personal information and reduce irrelevant noise when
-searching for similar reports the error reporting class removes ${TOPDIR} from
-the logs.  Whilst this is valid intention, the replacement of ' ' results in
-potentially confusing logs as it appears that builds are happening in /tmp, or
-whitespace can appear in places where it isn't allowed which can look like a
-bug.
+On Mon, Jul 11, 2016 at 7:06 PM, Tom Hochstein <tom.hochstein@nxp.com> wrote:
+> The framebuffer console was using the same I/O as Weston. We fix this
+> by having openvt switch to the new VT when starting weston-launch.
+>
+> Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
 
-Solve both of these by replacing the value of TOPDIR with the literal string
-TOPDIR.
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
-Also replace TMPDIR after TOPDIR, as it's not uncommon to have TMPDIR somewhere
-other than directly under TOPDIR.
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/report-error.bbclass | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
-
-diff --git a/meta/classes/report-error.bbclass b/meta/classes/report-error.bbclass
-index 5cbf8f0..c8c15bd 100644
---- a/meta/classes/report-error.bbclass
-+++ b/meta/classes/report-error.bbclass
-@@ -59,9 +59,11 @@ python errorreport_handler () {
-                     logFile = codecs.open(log, 'r', 'utf-8')
-                     logdata = logFile.read()
- 
--                    topdir = e.data.getVar('TOPDIR', True)
--                    if topdir:
--                        logdata = logdata.replace(topdir, ' ')
-+                    # Replace host-specific paths so the logs are cleaner
-+                    for d in ("TOPDIR", "TMPDIR"):
-+                        s = e.data.getVar(d, True)
-+                        if s:
-+                            logdata = logdata.replace(s, d)
- 
-                     logFile.close()
-                 except:
 -- 
-2.8.1
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
