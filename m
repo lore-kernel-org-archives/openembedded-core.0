@@ -1,29 +1,29 @@
 Return-Path: <maxin.john@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 440FE73196
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id DEF5B73167
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2016 14:08:18 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga102.jf.intel.com with ESMTP; 12 Jul 2016 07:08:01 -0700
+	Tue, 12 Jul 2016 14:08:33 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP; 12 Jul 2016 07:07:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,352,1464678000"; d="scan'208";a="733091138"
+X-IronPort-AV: E=Sophos;i="5.28,352,1464678000"; d="scan'208";a="993689671"
 Received: from linux.intel.com ([10.54.29.200])
-	by FMSMGA003.fm.intel.com with ESMTP; 12 Jul 2016 07:08:01 -0700
+	by orsmga001.jf.intel.com with ESMTP; 12 Jul 2016 07:07:54 -0700
 Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
 	[10.237.72.71])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id BFD406A4080
+	by linux.intel.com (Postfix) with ESMTP id C3CC76A4080
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2016 07:07:53 -0700 (PDT)
+	Tue, 12 Jul 2016 07:07:46 -0700 (PDT)
 From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Jul 2016 17:07:43 +0300
-Message-Id: <1468332463-4154-9-git-send-email-maxin.john@intel.com>
+Date: Tue, 12 Jul 2016 17:07:39 +0300
+Message-Id: <1468332463-4154-5-git-send-email-maxin.john@intel.com>
 X-Mailer: git-send-email 2.4.0
 In-Reply-To: <1468332463-4154-1-git-send-email-maxin.john@intel.com>
 References: <1468332463-4154-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 8/8] distro_alias.inc: remove pointercal and xtscal references
+Subject: [PATCH 4/8] pointercal: remove recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,44 +36,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jul 2016 14:08:19 -0000
+X-List-Received-Date: Tue, 12 Jul 2016 14:08:34 -0000
 
-Remove pointercal and xtscal references from distro_alias.inc file
-since we removed those recipes.
+Remove pointercal recipe along with xtscal since we replace it with
+xinput-calibrator
+
+[YOCTO #9365]
 
 Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- meta/conf/distro/include/distro_alias.inc | 3 ---
- 1 file changed, 3 deletions(-)
+ meta/recipes-bsp/pointercal/pointercal/COPYING     |   2 --
+ meta/recipes-bsp/pointercal/pointercal/pointercal  |   0
+ .../pointercal/pointercal/qemuarm/pointercal       |   1 -
+ .../pointercal/pointercal/qemuarmv6/pointercal     |   1 -
+ .../pointercal/pointercal/qemuarmv7/pointercal     |   1 -
+ .../pointercal/pointercal/qemumips/pointercal      |   1 -
+ .../pointercal/pointercal/qemuppc/pointercal       | Bin 36 -> 0 bytes
+ .../pointercal/pointercal/qemux86-64/pointercal    |   1 -
+ .../pointercal/pointercal/qemux86/pointercal       |   1 -
+ meta/recipes-bsp/pointercal/pointercal_0.0.bb      |  22 ---------------------
+ 10 files changed, 30 deletions(-)
+ delete mode 100644 meta/recipes-bsp/pointercal/pointercal/COPYING
+ delete mode 100644 meta/recipes-bsp/pointercal/pointercal/pointercal
+ delete mode 100644 meta/recipes-bsp/pointercal/pointercal/qemuarm/pointercal
+ delete mode 100644 meta/recipes-bsp/pointercal/pointercal/qemuarmv6/pointercal
+ delete mode 100644 meta/recipes-bsp/pointercal/pointercal/qemuarmv7/pointercal
+ delete mode 100644 meta/recipes-bsp/pointercal/pointercal/qemumips/pointercal
+ delete mode 100644 meta/recipes-bsp/pointercal/pointercal/qemuppc/pointercal
+ delete mode 100644 meta/recipes-bsp/pointercal/pointercal/qemux86-64/pointercal
+ delete mode 100644 meta/recipes-bsp/pointercal/pointercal/qemux86/pointercal
+ delete mode 100644 meta/recipes-bsp/pointercal/pointercal_0.0.bb
 
-diff --git a/meta/conf/distro/include/distro_alias.inc b/meta/conf/distro/include/distro_alias.inc
-index 7574032..d01d083 100644
---- a/meta/conf/distro/include/distro_alias.inc
-+++ b/meta/conf/distro/include/distro_alias.inc
-@@ -209,7 +209,6 @@ DISTRO_PN_ALIAS_pn-liburcu = "Fedora=userspace-rcu Ubuntu=liburcu0"
- DISTRO_PN_ALIAS_pn-libusb1 = "Debian=libusb-1.0-0 Fedora=libusb1"
- DISTRO_PN_ALIAS_pn-libusb-compat = "OSPDT"
- DISTRO_PN_ALIAS_pn-libx11 = "Debian=libx11-6 Fedora=libX11 Ubuntu=libx11-6 OpenSuSE=xorg-x11-libX11"
--DISTRO_PN_ALIAS_pn-libxcalibrate = "OSPDT upstream=http://cgit.freedesktop.org/xorg/lib/libXCalibrate/"
- DISTRO_PN_ALIAS_pn-libxft = "Mandriva=libxft Debian=libxft2 Ubuntu=libxft2"
- DISTRO_PN_ALIAS_pn-libxi = "Ubuntu=libxi Fedora=libXi"
- DISTRO_PN_ALIAS_pn-libxkbcommon = "Fedora=libxkbcommon Debian=libxkbcommon"
-@@ -313,7 +312,6 @@ DISTRO_PN_ALIAS_pn-patchelf = "Opensuse=patchelf Fedora=patchelf"
- DISTRO_PN_ALIAS_pn-perf = "OSPDT"
- DISTRO_PN_ALIAS_pn-piglit = "OE-Core"
- DISTRO_PN_ALIAS_pn-pkgconfig = "Ubuntu=pkg-config Fedora=pkgconfig"
--DISTRO_PN_ALIAS_pn-pointercal = "OE-Core"
- DISTRO_PN_ALIAS_pn-pointercal-xinput = "OE-Core"
- DISTRO_PN_ALIAS_pn-pong-clock = "OpenedHand"
- DISTRO_PN_ALIAS_pn-portmap = "Debian=rpcbind Fedora=rpcbind"
-@@ -450,7 +448,6 @@ DISTRO_PN_ALIAS_pn-xserver-xf86-dri-lite = "Fedora=xorg-x11-server Ubuntu=xserve
- DISTRO_PN_ALIAS_pn-xserver-xf86-lite = "Fedora=xorg-x11-server Ubuntu=xserver-xorg"
- DISTRO_PN_ALIAS_pn-xserver-xorg = "Fedora=xorg-x11-server Ubuntu=xserver-xorg"
- DISTRO_PN_ALIAS_pn-xset = "Fedora=xorg-x11-server-utils Ubuntu=x11-xserver-utils Debian=x11-xserver-utils Opensuse=xorg-x11"
--DISTRO_PN_ALIAS_pn-xtscal = "OSPDT upstream=http://gpe.linuxtogo.org/download/source/"
- DISTRO_PN_ALIAS_pn-xuser-account = "OE-Core"
- DISTRO_PN_ALIAS_pn-xvideo-tests = "OpenedHand"
- DISTRO_PN_ALIAS_pn-xvinfo = "Fedora=xorg-x11-utils Ubuntu=x11-utils"
+diff --git a/meta/recipes-bsp/pointercal/pointercal/COPYING b/meta/recipes-bsp/pointercal/pointercal/COPYING
+deleted file mode 100644
+index 63f5293..0000000
+--- a/meta/recipes-bsp/pointercal/pointercal/COPYING
++++ /dev/null
+@@ -1,2 +0,0 @@
+-This is a blank COPYING file, and should be filled in by original author in future.
+-
+diff --git a/meta/recipes-bsp/pointercal/pointercal/pointercal b/meta/recipes-bsp/pointercal/pointercal/pointercal
+deleted file mode 100644
+index e69de29..0000000
+diff --git a/meta/recipes-bsp/pointercal/pointercal/qemuarm/pointercal b/meta/recipes-bsp/pointercal/pointercal/qemuarm/pointercal
+deleted file mode 100644
+index abd84ca..0000000
+--- a/meta/recipes-bsp/pointercal/pointercal/qemuarm/pointercal
++++ /dev/null
+@@ -1 +0,0 @@
+-8313 4 -8526 7 8334 -82604 65536
+diff --git a/meta/recipes-bsp/pointercal/pointercal/qemuarmv6/pointercal b/meta/recipes-bsp/pointercal/pointercal/qemuarmv6/pointercal
+deleted file mode 100644
+index abd84ca..0000000
+--- a/meta/recipes-bsp/pointercal/pointercal/qemuarmv6/pointercal
++++ /dev/null
+@@ -1 +0,0 @@
+-8313 4 -8526 7 8334 -82604 65536
+diff --git a/meta/recipes-bsp/pointercal/pointercal/qemuarmv7/pointercal b/meta/recipes-bsp/pointercal/pointercal/qemuarmv7/pointercal
+deleted file mode 100644
+index abd84ca..0000000
+--- a/meta/recipes-bsp/pointercal/pointercal/qemuarmv7/pointercal
++++ /dev/null
+@@ -1 +0,0 @@
+-8313 4 -8526 7 8334 -82604 65536
+diff --git a/meta/recipes-bsp/pointercal/pointercal/qemumips/pointercal b/meta/recipes-bsp/pointercal/pointercal/qemumips/pointercal
+deleted file mode 100644
+index abd84ca..0000000
+--- a/meta/recipes-bsp/pointercal/pointercal/qemumips/pointercal
++++ /dev/null
+@@ -1 +0,0 @@
+-8313 4 -8526 7 8334 -82604 65536
+diff --git a/meta/recipes-bsp/pointercal/pointercal/qemuppc/pointercal b/meta/recipes-bsp/pointercal/pointercal/qemuppc/pointercal
+deleted file mode 100644
+index c2d6e37bf0c0d956ba17ba9955613c4cee5a147a..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+literal 36
+mcmXpsFt#*Q&;=n=3lPgl!O+0i%uK=9!qiZ~%+%D_i~#_8+XjmO
+
+diff --git a/meta/recipes-bsp/pointercal/pointercal/qemux86-64/pointercal b/meta/recipes-bsp/pointercal/pointercal/qemux86-64/pointercal
+deleted file mode 100644
+index 640053d..0000000
+--- a/meta/recipes-bsp/pointercal/pointercal/qemux86-64/pointercal
++++ /dev/null
+@@ -1 +0,0 @@
+-1280 0 1002 0 960 328 65536
+diff --git a/meta/recipes-bsp/pointercal/pointercal/qemux86/pointercal b/meta/recipes-bsp/pointercal/pointercal/qemux86/pointercal
+deleted file mode 100644
+index 640053d..0000000
+--- a/meta/recipes-bsp/pointercal/pointercal/qemux86/pointercal
++++ /dev/null
+@@ -1 +0,0 @@
+-1280 0 1002 0 960 328 65536
+diff --git a/meta/recipes-bsp/pointercal/pointercal_0.0.bb b/meta/recipes-bsp/pointercal/pointercal_0.0.bb
+deleted file mode 100644
+index df735a5..0000000
+--- a/meta/recipes-bsp/pointercal/pointercal_0.0.bb
++++ /dev/null
+@@ -1,22 +0,0 @@
+-SUMMARY = "Touchscreen calibration data"
+-SECTION = "base"
+-PR = "r11"
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=4b5fcfc87fb615860d398b5e38685edf"
+-
+-SRC_URI = "file://pointercal \
+-           file://COPYING"
+-
+-S = "${WORKDIR}"
+-
+-do_install() {
+-	# Only install file if it has a contents
+-	if [ -s ${S}/pointercal ]; then
+-	        install -d ${D}${sysconfdir}/
+-	        install -m 0644 ${S}/pointercal ${D}${sysconfdir}/
+-	fi
+-}
+-
+-ALLOW_EMPTY_${PN} = "1"
+-PACKAGE_ARCH = "${MACHINE_ARCH}"
+-INHIBIT_DEFAULT_DEPS = "1"
 -- 
 2.4.0
 
