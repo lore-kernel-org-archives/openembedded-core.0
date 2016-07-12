@@ -1,24 +1,32 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CFE8E6AC4B
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id DE1FF73178
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2016 12:04:07 +0000 (UTC)
+	Tue, 12 Jul 2016 12:05:05 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u6CC4420019205
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2016 05:04:06 -0700
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 12 Jul 2016 05:04:02 -0700
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u6CC55Ww020315
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 12 Jul 2016 05:05:05 -0700 (PDT)
+Received: from [128.224.162.240] (128.224.162.240) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Tue, 12 Jul 2016 05:05:04 -0700
+To: "Burton, Ross" <ross.burton@intel.com>, Dan McGregor
+	<danismostlikely@gmail.com>
+References: <cover.1467855356.git.liezhi.yang@windriver.com>
+	<fda7b83b51d93891bfe9c602f9c69cdee7a084d3.1467855356.git.liezhi.yang@windriver.com>
+	<CACS+7ZTMT_k1KqhxiwG82EtP-bK0iQ2Saw-vFwTN-=tSoeiYEA@mail.gmail.com>
+	<CAJTo0LYb1BVYYq-grRyue1OGDkuB6tqyftH2VeLHN-oBrfT_-g@mail.gmail.com>
 From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 12 Jul 2016 05:04:00 -0700
-Message-ID: <cover.1468324994.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.9.0
+Message-ID: <5784DCEE.8020707@windriver.com>
+Date: Tue, 12 Jul 2016 20:05:02 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.8.0
 MIME-Version: 1.0
-Subject: [PATCH 0/2] fix oe-selftest and testimage.bbclass
+In-Reply-To: <CAJTo0LYb1BVYYq-grRyue1OGDkuB6tqyftH2VeLHN-oBrfT_-g@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/7] git: 2.8.4 -> 2.9.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,27 +39,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jul 2016 12:04:09 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 12 Jul 2016 12:05:06 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The following changes since commit b17f91ed06a604e3d356fe17756bfe2ca61594b7:
 
-  tune-ppce500mc.inc: pass -mcpu=e500mc for ppce500mc kernel compile (2016-07-10 14:12:07 +0100)
 
-are available in the git repository at:
+On 07/12/2016 05:11 AM, Burton, Ross wrote:
+>
+> On 7 July 2016 at 14:14, Dan McGregor <danismostlikely@gmail.com
+> <mailto:danismostlikely@gmail.com>> wrote:
+>
+>     I have no real objection to this.. in fact I've done it locally. But I do
+>     think we should wait for 2.9.1. It should be released soon hopefully.
+>
+> 2.9.1 was just released, fwiw.  2.9.0 is in my staging branch so will be in
+> master this week (fingers crossed) unless someone beats me with a tested 2.9.1.
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/test
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/test
+Thanks, either is fine to me.
 
-Robert Yang (2):
-  oe-selftest: print errors when failed to find test
-  testimage.bbclass: INHERIT -> IMAGE_CLASSES
+// Robert
 
- meta/classes/testimage.bbclass |  2 +-
- scripts/oe-selftest            | 12 ++++++++++--
- 2 files changed, 11 insertions(+), 3 deletions(-)
-
--- 
-2.9.0
-
+>
+> Ross
 
