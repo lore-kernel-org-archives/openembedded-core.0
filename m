@@ -1,60 +1,51 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-vk0-f66.google.com (mail-vk0-f66.google.com
-	[209.85.213.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 4378D606D0
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-oi0-f47.google.com (mail-oi0-f47.google.com
+	[209.85.218.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 91099606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2016 10:13:06 +0000 (UTC)
-Received: by mail-vk0-f66.google.com with SMTP id v6so659899vkb.1
+	Tue, 12 Jul 2016 10:39:20 +0000 (UTC)
+Received: by mail-oi0-f47.google.com with SMTP id j185so9856393oih.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2016 03:13:07 -0700 (PDT)
+	Tue, 12 Jul 2016 03:39:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=Cqmr+peJR6D9cVExtp6EGfpDREU7HLXO5Z0czC/Qsc8=;
-	b=bIGiqSqD+cLR5tNVJi3TKJufIncE2Otrx8gZfPRijELY1pb5WjSkpm8ggIZSwelJGT
-	xTWlzRUYNEhV7B0u7FbNl9qkEmM1fJlIDNOuK4EFs8fj1yFu2P5jm6tB4lAsHiZ3Ke3o
-	j0XezN0/OOCI1BphY1g0zCqWEqaDQmN4Iyio39Gfn3lr2Z5MSAIPg0HlfdjMWJwQ5tAp
-	gxke4/xbryBV0PmZDzV1BxLkw/8WMkxGRN9VT96ZRhbm6llumR+xxJVJbiptu6ROj08H
-	mqRaBM0d9kz1RXR/ymwpTmDMaGfSNV45y31CJ7uXiaMhH1UBXFEAObE8cOjvuyG3f5rp
-	qLrw==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=/6KrHmL2yCDYFmov/QkN0vAL4HLdQcq6F2eDQcd9c7I=;
+	b=EZY0VSFfkfpoy+EEHMBNb84J8qlsFTytTkgoLuWpXSPDAS1tmU8l38muDgenuxjN7z
+	/Qf/n5gnEWQsJVvHU8oxoiVEcxq1UfNF9eJKOnRyW04XcrIPf8sq5pEa35ApZFs8ToAx
+	1YxVFusX+ld8M8rBFdWHkKZ6s01V4Ftm9fIn3YMUB4TYM88CZllJh5P0xalw+tmGNkxn
+	qmTy9RBObkqXFiPWKmrT7JneniAFogiCEX/V7tN2YO+83sw6b+dNVZPMYtq3j3n5qu3m
+	5spWDSWXkCKHJeEIlyni11sxLNnqRGjZBRLE28NZXNY8WmePXVUHbdT8hqXFkROWe/gT
+	xEYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=Cqmr+peJR6D9cVExtp6EGfpDREU7HLXO5Z0czC/Qsc8=;
-	b=T5l7hHJiJ4KwKNt6PFDjJutypSEWISG88h7ALNXqwV8/lGLfTmR9NmE6QmumcuWKmi
-	aZ1OaIBqS3JMBv9iAwUtmWFjw/XMx1OSUedB2PXy2MB8Mn8FijCihgxk+atlzjmg/Drd
-	MlZcY4KmZuW2jxbkqQeUJB34jYjbsDTtS6DZ4BE01aGT3gw3ISDfaLCI9uR/YzAjqUN4
-	6X/4urP68Sj0QXv3j+5dgqfa14yAfwwJO+e0EtAM2tkhI82NrXfVFSJPpcftr1apnhcA
-	7px5v/nqYKKOEqpFfKxokvsiZcqaFJdJXFluXdL48LvYL/7clsMGoTCevNFdeX6jaBYD
-	SWZA==
-X-Gm-Message-State: ALyK8tKwx3G1gd/tHJSExwABNhCAlaIEqkTbOUch03Q8DTMyWVFhclCLchB4AusdAt/mlQ==
-X-Received: by 10.31.171.74 with SMTP id u71mr655879vke.119.1468318386196;
-	Tue, 12 Jul 2016 03:13:06 -0700 (PDT)
-Received: from mail-vk0-f51.google.com (mail-vk0-f51.google.com.
-	[209.85.213.51]) by smtp.gmail.com with ESMTPSA id
-	w65sm5177384vkw.11.2016.07.12.03.13.04
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 12 Jul 2016 03:13:04 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-vk0-f51.google.com with SMTP id v6so14806270vkb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2016 03:13:04 -0700 (PDT)
-X-Received: by 10.176.0.180 with SMTP id 49mr532079uaj.107.1468318384259; Tue,
-	12 Jul 2016 03:13:04 -0700 (PDT)
+	bh=/6KrHmL2yCDYFmov/QkN0vAL4HLdQcq6F2eDQcd9c7I=;
+	b=UdBMmJVQDW3K36mz75x6jV7KoI8iBiJtybn5/YeFL0H8vJTwW6B0pWe0fBguHTPe8b
+	yzLWVUVhQHxnCyvV3AvRRIYCqixAt3tmU6qspyYRiPwXSOUNgDB5aSBA0bUhzUHXIwMB
+	oV0/AZbWgGdml/WrsADebYOIgSUnSOq+565s/ro+zSafltj77k1g/pdKiUae2Nz3Guev
+	sMH+HiB9JyL/KNApCzQsuAqYeS/ox1vTRqmArFAiMb5/FkwIgPT4x66JQO9BgG90idkm
+	xOv3CSpPS3YXMv33uYTKtA0HeacWWmm5UCd8UWM0ytJD+RK9JTCO4n41tLx6nS/ac2HH
+	Q2zw==
+X-Gm-Message-State: ALyK8tKYosfOSAOgg+jq7sgnfs60ygNFnrcLI8h9UoeXJCQfcIX94sWRcZUs3vnaS0ZHFfB9ovvX0w2COcIBlkgK
+X-Received: by 10.202.228.133 with SMTP id b127mr13344424oih.168.1468319960001;
+	Tue, 12 Jul 2016 03:39:20 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.31.192.195 with HTTP; Tue, 12 Jul 2016 03:13:03 -0700 (PDT)
-In-Reply-To: <1468274809-10301-1-git-send-email-tom.hochstein@nxp.com>
-References: <1468274809-10301-1-git-send-email-tom.hochstein@nxp.com>
-Date: Tue, 12 Jul 2016 07:13:03 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKrf1L7UTe4FnHOZ=pcKPjEoXnp9iR39tPEXd8-BOiUv-g@mail.gmail.com>
-Message-ID: <CAP9ODKrf1L7UTe4FnHOZ=pcKPjEoXnp9iR39tPEXd8-BOiUv-g@mail.gmail.com>
-To: Tom Hochstein <tom.hochstein@nxp.com>
+Received: by 10.202.199.134 with HTTP; Tue, 12 Jul 2016 03:38:50 -0700 (PDT)
+In-Reply-To: <71487947-2b12-ecb8-110f-be7002efb8d4@linux.intel.com>
+References: <cover.1467905611.git.jussi.kukkonen@intel.com>
+	<b0ba31b71ad1e9d540ab007713fe034a3bc1f7d1.1467905611.git.jussi.kukkonen@intel.com>
+	<CAJTo0LZ67c7MXQrsBYzK6c+dQ3DGq0Xp5To+pz64qo=Cu8qeKQ@mail.gmail.com>
+	<CAHiDW_G_NZWhoq-Grt=jjpc4H+pkkuOdbGL7kf5Omho1dLhNFA@mail.gmail.com>
+	<71487947-2b12-ecb8-110f-be7002efb8d4@linux.intel.com>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Tue, 12 Jul 2016 13:38:50 +0300
+Message-ID: <CAHiDW_EGQ3d1ndn3HjJqU4EmVrYVMyG+Ouk6d2miT_qW02pasA@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] weston-init: De-couple framebuffer console from Weston
+Subject: Re: [PATCH 1/5] python-six: Add to oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,19 +58,179 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jul 2016 10:13:09 -0000
+X-List-Received-Date: Tue, 12 Jul 2016 10:39:23 -0000
+Content-Type: multipart/alternative; boundary=001a1141b28aa204e905376de125
+
+--001a1141b28aa204e905376de125
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Jul 11, 2016 at 7:06 PM, Tom Hochstein <tom.hochstein@nxp.com> wrote:
-> The framebuffer console was using the same I/O as Weston. We fix this
-> by having openvt switch to the new VT when starting weston-launch.
+On 11 July 2016 at 17:27, Alexander Kanavin <
+alexander.kanavin@linux.intel.com> wrote:
+
+> On 07/11/2016 02:46 PM, Jussi Kukkonen wrote:
 >
-> Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
+> Not sure where a URL like that comes from or why it would be accessed
+>> during build? Li Xin, any comment?
+>>
+>
+> A few recipes in meta-oe have this issue, for example python-mccabe:
+>
+> DEBUG: Executing shell function do_compile
+> Download error on https://pypi.python.org/simple/pytest-runner/: [Errno
+> 110] Connection timed out -- Some packages may not be found!
+> Couldn't find index page for 'pytest-runner' (maybe misspelled?)
+> Download error on https://pypi.python.org/simple/: [Errno 110] Connection
+> timed out -- Some packages may not be found!
+> No local packages or download links found for pytest-runner
+> Traceback (most recent call last):
+>   File "setup.py", line 57, in <module>
+>     'Topic :: Software Development :: Quality Assurance',
+>   File
+> "/home/ak/development/poky/build-meta-openembedded/tmp/sysroots/x86_64-linux/usr/lib/python2.7/distutils/core.py",
+> line 111, in setup
+>     _setup_distribution = dist = klass(attrs)
+>   File
+> "/home/ak/development/poky/build-meta-openembedded/tmp/sysroots/x86_64-linux/usr/lib/python2.7/site-packages/setuptools-22.0.5-py2.7.egg/setuptools/dist.py",
+> line 269, in __init__
+>   File
+> "/home/ak/development/poky/build-meta-openembedded/tmp/sysroots/x86_64-linux/usr/lib/python2.7/site-packages/setuptools-22.0.5-py2.7.egg/setuptools/dist.py",
+> line 313, in fetch_build_eggs
+>
 
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+So mccabe recipe doesn't depend on pytest-runner but does have it in
+"setup_requires": as a result setuptools tries to download and unpack the
+pytest-runner egg. I think that might be solved by depending on
+pytest-runner, although  "setup_requires" handling does have some issues so
+I'm not sure about that: https://github.com/pypa/pip/issues/410 .
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Interestingly  python-cryptography does not have six in "setup_requires" so
+I still don't understand why it would do this. I'll do a few tests on that
+before sending the updated patch set.
 
+Jussi
+
+
+  File
+> "/home/ak/development/poky/build-meta-openembedded/tmp/sysroots/x86_64-linux/usr/lib/python2.7/site-packages/setuptools-22.0.5-py2.7.egg/pkg_resources/__init__.py",
+> line 826, in resolve
+>   File
+> "/home/ak/development/poky/build-meta-openembedded/tmp/sysroots/x86_64-linux/usr/lib/python2.7/site-packages/setuptools-22.0.5-py2.7.egg/pkg_resources/__init__.py",
+> line 1092, in best_match
+>   File
+> "/home/ak/development/poky/build-meta-openembedded/tmp/sysroots/x86_64-linux/usr/lib/python2.7/site-packages/setuptools-22.0.5-py2.7.egg/pkg_resources/__init__.py",
+> line 1104, in obtain
+>   File
+> "/home/ak/development/poky/build-meta-openembedded/tmp/sysroots/x86_64-linux/usr/lib/python2.7/site-packages/setuptools-22.0.5-py2.7.egg/setuptools/dist.py",
+> line 380, in fetch_build_egg
+>   File
+> "/home/ak/development/poky/build-meta-openembedded/tmp/sysroots/x86_64-linux/usr/lib/python2.7/site-packages/setuptools-22.0.5-py2.7.egg/setuptools/command/easy_install.py",
+> line 659, in easy_install
+> distutils.errors.DistutilsError: Could not find suitable distribution for
+> Requirement.parse('pytest-runner')
+> WARNING: exit code 1 from a shell command.
+> ERROR: Function failed: do_compile (log file is located at
+> /home/ak/development/poky/build-meta-openembedded/tmp/work/i586-poky-linux/python-mccabe/0.4.0-r0/temp/log.do_compile.3493)
+>
+>
+> Alex
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--001a1141b28aa204e905376de125
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 1=
+1 July 2016 at 17:27, Alexander Kanavin <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander.kanavin=
+@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:=
+solid;border-left-color:rgb(204,204,204);padding-left:1ex"><span>On 07/11/2=
+016 02:46 PM, Jussi Kukkonen wrote:<br>
+<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left-width:1px;border-left-style:solid;border-left-color:rgb(204,204,204);p=
+adding-left:1ex">
+Not sure where a URL like that comes from or why it would be accessed<br>
+during build? Li Xin, any comment?<br>
+</blockquote>
+<br></span>
+A few recipes in meta-oe have this issue, for example python-mccabe:<br>
+<br>
+DEBUG: Executing shell function do_compile<br>
+Download error on <a href=3D"https://pypi.python.org/simple/pytest-runner/"=
+ rel=3D"noreferrer" target=3D"_blank">https://pypi.python.org/simple/pytest=
+-runner/</a>: [Errno 110] Connection timed out -- Some packages may not be =
+found!<br>
+Couldn&#39;t find index page for &#39;pytest-runner&#39; (maybe misspelled?=
+)<br>
+Download error on <a href=3D"https://pypi.python.org/simple/" rel=3D"norefe=
+rrer" target=3D"_blank">https://pypi.python.org/simple/</a>: [Errno 110] Co=
+nnection timed out -- Some packages may not be found!<br>
+No local packages or download links found for pytest-runner<br>
+Traceback (most recent call last):<br>
+=C2=A0 File &quot;setup.py&quot;, line 57, in &lt;module&gt;<br>
+=C2=A0 =C2=A0 &#39;Topic :: Software Development :: Quality Assurance&#39;,=
+<br>
+=C2=A0 File &quot;/home/ak/development/poky/build-meta-openembedded/tmp/sys=
+roots/x86_64-linux/usr/lib/python2.7/distutils/core.py&quot;, line 111, in =
+setup<br>
+=C2=A0 =C2=A0 _setup_distribution =3D dist =3D klass(attrs)<br>
+=C2=A0 File &quot;/home/ak/development/poky/build-meta-openembedded/tmp/sys=
+roots/x86_64-linux/usr/lib/python2.7/site-packages/setuptools-22.0.5-py2.7.=
+egg/setuptools/dist.py&quot;, line 269, in __init__<br>
+=C2=A0 File &quot;/home/ak/development/poky/build-meta-openembedded/tmp/sys=
+roots/x86_64-linux/usr/lib/python2.7/site-packages/setuptools-22.0.5-py2.7.=
+egg/setuptools/dist.py&quot;, line 313, in fetch_build_eggs<br></blockquote=
+><div><br></div><div>So mccabe recipe doesn&#39;t depend on pytest-runner b=
+ut does have it in &quot;setup_requires&quot;: as a result setuptools tries=
+ to download and unpack the pytest-runner egg. I think that might be solved=
+ by depending on pytest-runner, although =C2=A0&quot;setup_requires&quot; h=
+andling does have some issues so I&#39;m not sure about that: <a href=3D"ht=
+tps://github.com/pypa/pip/issues/410" target=3D"_blank">https://github.com/=
+pypa/pip/issues/410</a> .</div><div><br></div><div>Interestingly =C2=A0pyth=
+on-cryptography does not have six in &quot;setup_requires&quot; so I still =
+don&#39;t understand why it would do this. I&#39;ll do a few tests on that =
+before sending the updated patch set.<br></div><div><br></div><div>Jussi</d=
+iv><div><br></div><div><br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;bor=
+der-left-color:rgb(204,204,204);padding-left:1ex">
+=C2=A0 File &quot;/home/ak/development/poky/build-meta-openembedded/tmp/sys=
+roots/x86_64-linux/usr/lib/python2.7/site-packages/setuptools-22.0.5-py2.7.=
+egg/pkg_resources/__init__.py&quot;, line 826, in resolve<br>
+=C2=A0 File &quot;/home/ak/development/poky/build-meta-openembedded/tmp/sys=
+roots/x86_64-linux/usr/lib/python2.7/site-packages/setuptools-22.0.5-py2.7.=
+egg/pkg_resources/__init__.py&quot;, line 1092, in best_match<br>
+=C2=A0 File &quot;/home/ak/development/poky/build-meta-openembedded/tmp/sys=
+roots/x86_64-linux/usr/lib/python2.7/site-packages/setuptools-22.0.5-py2.7.=
+egg/pkg_resources/__init__.py&quot;, line 1104, in obtain<br>
+=C2=A0 File &quot;/home/ak/development/poky/build-meta-openembedded/tmp/sys=
+roots/x86_64-linux/usr/lib/python2.7/site-packages/setuptools-22.0.5-py2.7.=
+egg/setuptools/dist.py&quot;, line 380, in fetch_build_egg<br>
+=C2=A0 File &quot;/home/ak/development/poky/build-meta-openembedded/tmp/sys=
+roots/x86_64-linux/usr/lib/python2.7/site-packages/setuptools-22.0.5-py2.7.=
+egg/setuptools/command/easy_install.py&quot;, line 659, in easy_install<br>
+distutils.errors.DistutilsError: Could not find suitable distribution for R=
+equirement.parse(&#39;pytest-runner&#39;)<br>
+WARNING: exit code 1 from a shell command.<br>
+ERROR: Function failed: do_compile (log file is located at /home/ak/develop=
+ment/poky/build-meta-openembedded/tmp/work/i586-poky-linux/python-mccabe/0.=
+4.0-r0/temp/log.do_compile.3493)<br>
+<br>
+<br>
+Alex<span><font color=3D"#888888"><br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</font></span></blockquote></div><br></div></div>
+
+--001a1141b28aa204e905376de125--
