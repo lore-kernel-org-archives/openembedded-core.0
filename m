@@ -1,83 +1,48 @@
-Return-Path: <tom.hochstein@nxp.com>
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com
-	(mail-db5eur01on0078.outbound.protection.outlook.com [104.47.2.78])
-	by mail.openembedded.org (Postfix) with ESMTP id C0EAB731A9
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
+	[209.85.223.171])
+	by mail.openembedded.org (Postfix) with ESMTP id DFDA760589
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2016 03:43:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=+aTgfsa1kAq9TpRhjcV3Xedw4f2yvHHYuCGLuKTgdlA=;
-	b=T90jU5Nmx7kpfB5DS8lwDk98PadTwNqSm8binVYg+G/pBgtUcB8vMvrzoA7Gh/pDf7LUUy3Z7icf9BLTMkISTOSHirJyWruuwYV/guDJLb6JXxS1LIXZSyOF/ya9SywJ4uXVOJ6A+Lmshdy4CPZ8CxlHhws/BDiFSlw74ypZZW8=
-Authentication-Results: spf=none (sender IP is )
-	smtp.mailfrom=tom.hochstein@nxp.com; 
-Received: from tx30imx-01.am.freescale.net (192.88.168.49) by
-	AMSPR04MB309.eurprd04.prod.outlook.com (10.242.107.15) with Microsoft
-	SMTP Server (TLS) id 15.1.539.6; Mon, 11 Jul 2016 22:10:52 +0000
-From: Tom Hochstein <tom.hochstein@nxp.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Jul 2016 17:06:49 -0500
-Message-ID: <1468274809-10301-1-git-send-email-tom.hochstein@nxp.com>
-X-Mailer: git-send-email 1.9.1
+	Tue, 12 Jul 2016 07:48:42 +0000 (UTC)
+Received: by mail-io0-f171.google.com with SMTP id m101so9285942ioi.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Jul 2016 00:48:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=V713puTxiDRiFdIzR7InB67ct8JzbKGsxrRD3vtkIMI=;
+	b=vTOG7mwbnDHBYh3eg3+waQt2p2HML6QtmDWqFe5ke7pJMLzwlskuq7IWg90eJ+PVm+
+	T9m84qYBkh1hsbgjlMuzTLOMUZ7+9VgKKRhV9o5UZxB4KlL9sBVtrrQFwkNwFvh3JPho
+	1vGwvMa71gi5ngwaGMMTu6mdaexQSQBO3UV8SK8hHKFZalAHbrwVCrQy3dJHrEMn2UO+
+	J/tmuBpNisTfpMqbefDSbjjNhU+2r9bbWIZaeHMdHiO+4fY1sHycZmQOLFQNKEO9Te3j
+	JBxgtnfGZ1irEwaAeREMwECZM1AoCuZB2S0KZe7dRiefBDtz9N8+/zuYvdIMSscMnzWa
+	a25Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=V713puTxiDRiFdIzR7InB67ct8JzbKGsxrRD3vtkIMI=;
+	b=WBfLhMfkRy1aNOeb9/3KLFg/bTBmEhpMrwCnrCQrpAU6JrQ6hZUtGn1LLuu+YMOT6s
+	KFTo24xzMJ8ElSg8Lc4Cil+GsYCJi0T9tWAn6YMhb2MQgwE2If4YtKChg9LfyXfBH5wD
+	htoCbSpJK29STrMsVnPjyMY0a8bPPsi32ZTphhgQDMjK73OxDvn6L1cT7NaSdL+QfxKa
+	83XfseW/Lxkrng5MDd+ClfKO0FnEMnTZELLagq1FYcboif77/vXaMhGhfLp2U12xBUvB
+	GU1uZZmaXwd9B2wcbC2ORK/wD+8Cn8oDiN4PGpBAc92e8uojauTwS2e3A6N8E2+DwJoP
+	KExA==
+X-Gm-Message-State: ALyK8tIdCaAzhiGHnUABUbDTFEWH9n2UY5nyZormxaMHfifaceZA/jIqoNTno47+Ff/slaoDU9FEQnvqnx1hy18F
+X-Received: by 10.107.154.210 with SMTP id c201mr1225031ioe.99.1468309722815; 
+	Tue, 12 Jul 2016 00:48:42 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [192.88.168.49]
-X-ClientProxiedBy: BLUPR0401CA0021.namprd04.prod.outlook.com (10.162.114.159)
-	To AMSPR04MB309.eurprd04.prod.outlook.com (10.242.107.15)
-X-MS-Office365-Filtering-Correlation-Id: fd3b5078-4001-4b33-1273-08d3a9d8393d
-X-Microsoft-Exchange-Diagnostics: 1; AMSPR04MB309;
-	2:zElNj32tl0NlPFcWB8LPTPxzUg/cC7uPi3iGC6w/dj9EfUcgHUm6VEAgQNtR4S/rwY3VGwKJLnoPVKMSEgYeA877Vm02Ctdu/CjxnpgfZArTq9WzPVXqJviNgdwvl75jQxnZoMvVRn9bkCbC1T2BEO3UbS2x2aD6VICMkECD8uen3QzpyWjEgvp+WCgRHKCH;
-	3:w4pbn9/q5XwamFTP7zA+4nFYpPym37DgtfnpbV+WHxBLcJ1MsxrTtUzRPlejfcGs6hjh37uzuLG+aKk+0VEfJ4yuCxhId64+0fx4/5+RwWHsxKJ6jZBWo3g4ZhTHljDY
-X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:AMSPR04MB309;
-X-Microsoft-Exchange-Diagnostics: 1; AMSPR04MB309;
-	25:h5PxXYh3YjExWhqjUOPI01R7Ot1uOEstihhEw0FfEOX4MTloLIsfMqF80Z+EH2HvSktmCeV93lSCIWlUTcFGCC5+PNDDIxv5Ky6PJp5sn/sgi4SQs+KJ96A7Aqr4SCiKFN/ApM/Cd3QVoYXLv3IoRdyIDVH9ufOX71623qsVLQs9v1ryGU4QQPOcgPirdAOvRmcn7FugYUeGBtr88Gnbz1FUkeCpattZASHkozPPaRyzFfP3vcNf5pehikMtnmY5XPJEmPinR8s+ng+3GXmy9Le3bcr4iIw2catvzwAVZ06IxnIrdpzbMRcEj4RIkuqSsZaVZJ3w0xhynPWZO7FPA2RMqwmFAXd9mKWjLkmvLRS5z6o2DupdPl94cN00JWxu07/lyF+KorK5Sc+evqevFmprdAJOMELc+aAmHDovKPNArmGYddgxYZEBrYjpnA7SGS1RkppwfvlOa/GuXE0zHEHC7FqdBMFAZ5sga9ez8yofsWx/OWgP+T+bXaIrqXIPT4Fop1v7momznUU0Bo3c3FhrvHv+4awd1MWns87yBwEywExnzb3spddYMnY5SJ5qNaweWLyhmp+bP7DVIJbHrYgseHNO6suVkkzoInG9s7pQ0EwjFqlIyecFXYauaj11SjCVC3oIhEELPwnfyY2NCZs1BOonXEk3Iz6S7WSKZmajl3m93VMONzGCM85RqS5BZDwXvzPdOtKtDOt0g/7aeo70vKJVYcLveIoglxR6bLE=;
-	31:+qIjkRoaDmWiCaHdW58DZnVY4osBpmbu137oOCS7dMuinf9edCMrHk5cxi/YfqA13jGVFU85Ou8Zg/7Dp7I9yZME+JYgfYZ3wTZwqRMFtyhkmRndJnkkVX1p0zvv1DVhCUn4yga5VXyUIZqZOnsf8H1NbME0uMvSLLc/GtBr3BUWNmWhXztlm6aIDWsSTqPH9aLh5O6wVevsaCOlnFCaHw==
-X-Microsoft-Exchange-Diagnostics: 1; AMSPR04MB309;
-	20:XUN7I4m2SaEQswuVHdT3ZOKshQIV7YZg+Eq9UMBIKbVsuTRV5vY1HsSqqiesftBh31emlGs/9hR5O3LKDdS1i6mZpsmrPMXrrnDuSNXYHZn1WJJNiHMAl32a2WGt/OlVIwFHJV+vlM9uFX3HZ1WDwJvRNZUswXjXjr0gfpltPr74lsup9BfUGS09QN7kBgLrJXEmydSCXGOZDb1Qh+dTwdBJx2dvFnf17srsRNIqYXyL8IyhFuLTMJ40mb56hhbbknMZdk148DGSNoeF6jes/AylLNGdkwWrdQ8mlEKSl1qwyapFKf+NZ6fy67gO+jmiZAVMQJQCvNcC4tnyGU4G/Rty6us0Q2fSv2BTSibjh7xY/u5gP2Zr1CXyACPCbgC4iBxKX2c7cozGK8bDkyfnje1ergdrKQTubkClxGgI5bbyvVst7nkzOFwSy0t6mLfpPg57tzy7WYruCQcBHzd0y7INKaq9IpJGLmHbEDUutScoBnX0buz/sY6v1JKKqQBr;
-	4:O/Gpg3E3SivCnxtZk1uv6Y4VMCk+v5XDWj+ehQxPHWGcTdkbQThy9TZZMQ4iDKT0thfCdyEhF/1eD0GFdAAYJkXeXxg6q2jANqOIrHRCF/Inghnqf0ds4P4jRHhCG7ch9lVpz4/9y0xhe1335ngPi15qpuYl24t/jWNh/IaOxqX5eH+FMjiXi6OKwCQzsbESYQFSB3U7BxhCU04Icm0sDoS3aodkyTu0+t9eL8LLqGdMnzogd+IRv9lhBktpMzOcDntjHURpMjzQV261LMt6ZNn20U+7W+hmx/4yVBskrltaBTF3QZU0StGhyCYI9Zoq0H1De+tuOy63rmiv8SDrJ1qzskRwBsjgftRgSI9ffJT51GvPFsUtA7rlBDdmk9yVOrc+MNVj8TMH/yKFJrfmCoHLThdtO8n0oAYTWypQ0mo2dTlkIVGuL7eI7P7FaeUk
-X-Microsoft-Antispam-PRVS: <AMSPR04MB3095FCF5D56301EA1FC2F78E23F0@AMSPR04MB309.eurprd04.prod.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:(185117386973197);
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(601004)(2401047)(8121501046)(5005006)(3002001)(10201501046)(6055026);
-	SRVR:AMSPR04MB309; BCL:0; PCL:0; RULEID:; SRVR:AMSPR04MB309; 
-X-Forefront-PRVS: 00003DBFE7
-X-Forefront-Antispam-Report: SFV:NSPM;
-	SFS:(10009020)(4630300001)(6009001)(7916002)(199003)(189002)(4326007)(305945005)(5003940100001)(7846002)(86362001)(2906002)(7736002)(77096005)(586003)(450100001)(19580405001)(105586002)(19580395003)(101416001)(92566002)(8676002)(106356001)(47776003)(66066001)(50226002)(50986999)(81156014)(110136002)(81166006)(33646002)(3846002)(42186005)(2351001)(189998001)(50466002)(68736007)(229853001)(97736004)(48376002)(6116002)(36756003);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:AMSPR04MB309;
-	H:tx30imx-01.am.freescale.net; FPR:; SPF:None; PTR:InfoNoRecords;
-	A:1; MX:1; LANG:en; 
-Received-SPF: None (protection.outlook.com: nxp.com does not designate
-	permitted sender hosts)
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; AMSPR04MB309;
-	23:aSMtMUF26zNpuHnTDjvz3RP/55uFzJYctThzzICxOA?=
-	=?us-ascii?Q?kMfd9Yo7bV55sCsSfBiLmosyAmu9+yuWcj2lvZv7feGowihIFMJjknugVSTi?=
-	=?us-ascii?Q?/HH8p9ZZLBRXhwu7jGzqZykKrdlUlgcUpjqO7hI+bt6qtco7TZx+ZoW00bxG?=
-	=?us-ascii?Q?B/ycmDf8RqZthlhceQMmLt0JxZnYcZaIjvEX5k1Ka+AssgFAGqcNGHWWNOgP?=
-	=?us-ascii?Q?+f/n2qKXI/JdOUooNOKWLIiSkR+aDf/1SzIQzU9RgtNp/NW7WnT6vTL0v7gg?=
-	=?us-ascii?Q?rH1rea6JvEwbBEFMMRC52dIlgsV0+xJW+g/Iz54Y0FauaiPYd9FhPf0dfIQg?=
-	=?us-ascii?Q?IisIGufC/fpGqwAIc2B37gB+SfGPgcr1EXNLPadyagMMHn9fXY8mXplD9/6g?=
-	=?us-ascii?Q?KmNU0JewMuLht5F6ypF0q2UY85FOqjkVqAt5dPuS9zuavZM360wJq9EDRFUE?=
-	=?us-ascii?Q?uYqmBhJDcIEy6SKkU3porMl7EIxnVP4GNlnGZ00h9KkWgpjrs3/iC6mnEVur?=
-	=?us-ascii?Q?rb6VonU5gc+BvaAduzLGY8VtWFwXSiAWii/QM6sncjbRf3BsIUsVgnM4Ysiq?=
-	=?us-ascii?Q?uvxLnWO67a6f19i4YmY2f/YCZe7x1nnZMeD/tAeJpUC8luP3mvRogwP0Exkm?=
-	=?us-ascii?Q?1cAyHh9lKmimF+IDrflYx2kc+WAv1Sd6MouLTVq/MwqxomQBKz6fhO/IYTFc?=
-	=?us-ascii?Q?M7C9i+W6ZmFHOoHgYl5SJQhM0vTORRRZWEoFLPOA+M0H6RR7GT+QdUkvlh3b?=
-	=?us-ascii?Q?GUSuWb7udVJJEv5qJA4OjxZwGuzp3kxACZHboYrIWM0xbJ6DtlhZSP1zop4x?=
-	=?us-ascii?Q?yf5v3w9odJHsheJfLGF0yn/JCAsfLhengoPWEgoY9z8nn3qXJ9ipxjSpItel?=
-	=?us-ascii?Q?G+wCBgPqZdB8A+1N8pIoAf+AW1GqmAP6qI/8RGeXWmHMikBQAkaL4FdxEN+y?=
-	=?us-ascii?Q?ty/vJuIgPEyxD5Ec0x9vabNlPZaXLWrE4ixyDGWq1dQctRaz9xEGH0CLVRWg?=
-	=?us-ascii?Q?sflIH3lsDrJ6PPgi6fGNPD3JXgv1dNjDnXihIjHgiUdX5PdFl6Z5q54tLmHv?=
-	=?us-ascii?Q?iSLT8=3D?=
-X-Microsoft-Exchange-Diagnostics: 1; AMSPR04MB309;
-	6:RLTMjyGmMkRp+v81XfszWuWsV5/mSPZd96CFF1+9b4dhPS8BvnkS1GjeTmromDbq0dh+BW8EWOxilGrTobCsQzpJHjbgELAV8IE+Mn0PaM4mZxXiB3l9tuJgdPVjNuscIonEGuwhJ4B0xvWVTqhpR31fGUpn7siNxm8RSub+/o7GnqZagjvOiTH/5fHEEnXEdn54b/2WSxz2IoqUS6uviLbUtcjore1Lk+eKHBynk9mImxFED30k4sdfOOaW9lYf0R766LgMGZ71NGkYRbQHdhOeu3cC4x64kA9XAxhdoGcHbKl4RLcsJs71CWFVcCWXRpd9/WbjaHGWfj3SXqOPIg==;
-	5:zGt/7XNGT1ld9mto9FXFVLNl6WLtkdXwEXeeECkoeNB+hEl/MGr0MXkk21VjHBSiTanTcHOTCAk+WNVC3ssBzDwzsnFr5XMmn8GBkz9OYrtfeJS8fh+h3loPltIQ0gVExPueovzuioB39ZhMjJV8hQ==;
-	24:/Bz5rUfLd3ExjpnzpcH6PcBjhtgNriMXVwX2JqRCaHzsh61us3VHbllwLoKvoNZAuUaipUjircwfWQQGBKRYrpgDI1sac7nEBIy2UQASRYs=;
-	7:lIhkEjWIafwT50ApbQTjfGvvE+GnwroU3ruifBqyhZnvhIDyC8omu9RUKA2nH+WbnDautDoopc1sNtjYzHmkicjJbXDHiHHsBeJHsQosoF8woQnTEScfdIeIfqWoNmkexlF5to5LRduvOGtvT1wQi7tvsxyXqFX6v2DtIXzeli3Z1MoxAivTM0tyiN3oO4/tWZRP4iA6QNDmOX1Y+7OJA0m0c4fXg7sjd/tEw58H491hPjJ551MEs/WGu9MXLaEn
-SpamDiagnosticOutput: 1:99
-SpamDiagnosticMetadata: NSPM
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2016 22:10:52.2551 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMSPR04MB309
-Subject: [PATCH] weston-init: De-couple framebuffer console from Weston
+Received: by 10.107.18.17 with HTTP; Tue, 12 Jul 2016 00:48:23 -0700 (PDT)
+In-Reply-To: <CAMKF1sqMyAKWu1Hos94LsmrEr=mHHqxC6ybZy558erPJKrtHjw@mail.gmail.com>
+References: <1468271236-6781-1-git-send-email-ross.burton@intel.com>
+	<CAMKF1sqMyAKWu1Hos94LsmrEr=mHHqxC6ybZy558erPJKrtHjw@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 12 Jul 2016 08:48:23 +0100
+Message-ID: <CAJTo0LZvENFmQiDn=6WdCjrRPq=O26oCpsg8PgQr6W7ikPmU4A@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glibc: add more Imagination Meta relocation to elf.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -90,31 +55,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jul 2016 03:43:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 12 Jul 2016 07:48:43 -0000
+Content-Type: multipart/alternative; boundary=001a1140fab672f59905376b7fae
 
-The framebuffer console was using the same I/O as Weston. We fix this
-by having openvt switch to the new VT when starting weston-launch.
+--001a1140fab672f59905376b7fae
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
----
- meta/recipes-graphics/wayland/weston-init/weston-start | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 12 July 2016 at 02:24, Khem Raj <raj.khem@gmail.com> wrote:
 
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston-start b/meta/recipes-graphics/wayland/weston-init/weston-start
-index 5b7604f..1ede12e 100755
---- a/meta/recipes-graphics/wayland/weston-init/weston-start
-+++ b/meta/recipes-graphics/wayland/weston-init/weston-start
-@@ -37,7 +37,7 @@ else
- 	launcher="weston-launch --"
- fi
- 
--openvt_args=""
-+openvt_args="-s"
- while [ -n "$1" ]; do
- 	openvt_args="$openvt_args $1"
- 	shift
--- 
-1.9.1
+> 1. Move them after BPF declarations.
+>
+
+Sure.
 
 
+> 2. Write a ChangeLog entry, something like
+>
+
+<blinks>.  Really?! :)
+
+Ross
+
+--001a1140fab672f59905376b7fae
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 12 July 2016 at 02:24, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:=
+raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wro=
+te:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
+left:1px #ccc solid;padding-left:1ex"><div id=3D":2c3" class=3D"a3s aXjCH m=
+155dcb533a0a6625">1. Move them after BPF declarations.<br></div></blockquot=
+e><div><br></div><div>Sure.</div><div>=C2=A0</div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
+:1ex"><div id=3D":2c3" class=3D"a3s aXjCH m155dcb533a0a6625">
+2. Write a ChangeLog entry, something like</div></blockquote></div><br>&lt;=
+blinks&gt;.=C2=A0 Really?! :)</div><div class=3D"gmail_extra"><br></div><di=
+v class=3D"gmail_extra">Ross</div></div>
+
+--001a1140fab672f59905376b7fae--
