@@ -1,47 +1,30 @@
-Return-Path: <maciej.borzecki@rndity.com>
-Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
-	[209.85.215.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 581D6606D0
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BAA89606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2016 11:37:31 +0000 (UTC)
-Received: by mail-lf0-f66.google.com with SMTP id f93so638830lfi.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2016 04:37:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=rndity-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=W5+IbqXXkGh1mJ//bbzPA0MPU8BGTszTgwqyxCl2bYM=;
-	b=zEUrjeL3i+Ovr0zIsiF8Ays9gDTmM6onr0a7rg/6OExTEeL3+9yltvR8elKQ90vqdP
-	IiINaxaX/SeSrxMEFa7EqMMF8Hr5o5micmgS8wmWW67AwMQ5nmclWLKwN/MvNiR/DYRr
-	6xGhrxrMFhfAIhfllhL9x+KvX6Mg9jCnlr9bUMq8GR99wl9geFsdri/PVfYHwUP0DPmP
-	9qQwmj3qFMR4V9DZSLZV34YKT86QPNPTZLmvsaGjr7QakPFLsnZJrmttp6fKMVfluQJq
-	740BcBGWvDrSEK3VGoqApxF6ZxFOp0Ini0aXA/hWEx2E4c/4DOXbEDjZLUklcTNVVmZq
-	RkVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=W5+IbqXXkGh1mJ//bbzPA0MPU8BGTszTgwqyxCl2bYM=;
-	b=P7/QwBUq5MrX0htrKQHH9vXD6VFlBE84KqfV8zdLOL4wBmEtyL+fgxPHGbhhUVPUWp
-	jNXdEFwIhhzf/jgnbaDUTuZ5cjysuDwkmuiA5xSzs6ZEwDUkSRomZUyKyGQTqS+ccj8W
-	qPwOkRWelEVmvQT7oghO9JEzRJH2sdWn/GOLp8tMXTosYQxPiPiyS08wMCuGKdTLFAsg
-	8JvtUZxP7MF44hL78PpLUVTiT5G+W7NBVaSz8DC/Pn6D4Huq8QJ+aVKXSgQ/IAyZlpW9
-	hEX3T3GD1N2lvVsD4mazJZoEKmxUlbWr/P5m+EXQ4ruM4uFjyH3WIxwnvqFbjjP8cokZ
-	XYNA==
-X-Gm-Message-State: ALyK8tLbierKjgnj4enWzCNanvCxIQgzF4/YxrA3eVbjBn0zrhQKDargEdBfRmbjOTCpkQ==
-X-Received: by 10.46.71.18 with SMTP id u18mr810785lja.20.1468323451860;
-	Tue, 12 Jul 2016 04:37:31 -0700 (PDT)
-Received: from comp_016_pc_buildenv.localdomain
-	(staticline-31-182-60-238.toya.net.pl. [31.182.60.238])
-	by smtp.gmail.com with ESMTPSA id
-	q123sm5797501lfq.42.2016.07.12.04.37.30
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 12 Jul 2016 04:37:31 -0700 (PDT)
-From: Maciej Borzecki <maciej.borzecki@rndity.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Jul 2016 13:37:25 +0200
-Message-Id: <f797bf73d4af0da787c3bb8dd296fe03bdd16afb.1468322776.git.maciej.borzecki@rndity.com>
-X-Mailer: git-send-email 2.5.0
-Subject: [PATCH] wic: mountpoint is an optional argument
+	Tue, 12 Jul 2016 11:46:21 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u6CBkLL0020231
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 12 Jul 2016 04:46:21 -0700 (PDT)
+Received: from [128.224.162.240] (128.224.162.240) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Tue, 12 Jul 2016 04:46:19 -0700
+To: "Burton, Ross" <ross.burton@intel.com>, Andre McCurdy <armccurdy@gmail.com>
+References: <cover.1467855356.git.liezhi.yang@windriver.com>
+	<102523f6b96c68522c940a9c004ce5fc3f977f7b.1467855356.git.liezhi.yang@windriver.com>
+	<CAJ86T=USf+vf3xe-J6yNw97Ro9oKbMjjv9dOF5-5JpA_Vt7Lzw@mail.gmail.com>
+	<CAJTo0LaRh6d67+eKrcGA2fQSxeR06-xQd7tB7xs_4_kx4FRakw@mail.gmail.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <5784D88A.4080101@windriver.com>
+Date: Tue, 12 Jul 2016 19:46:18 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.8.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LaRh6d67+eKrcGA2fQSxeR06-xQd7tB7xs_4_kx4FRakw@mail.gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/7] e2fsprogs: 1.43 -> 1.43.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,33 +37,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jul 2016 11:37:33 -0000
+X-List-Received-Date: Tue, 12 Jul 2016 11:46:22 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-According to wic documentation partition mount point is an optional
-argument. Skipping mount point also makes sense in certain
-configurations when one needs to specify a partition that is not mounted
-by the running system, such as a recovery or a mirror partition (in dual
-rootfs setups).
 
-Signed-off-by: Maciej Borzecki <maciej.borzecki@rndity.com>
----
- scripts/lib/wic/ksparser.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-index 6887a7d02441165d7696318ddd132c739c8121b3..0894e2b199a299fbbed272f2e1c95e9d692e3ab1 100644
---- a/scripts/lib/wic/ksparser.py
-+++ b/scripts/lib/wic/ksparser.py
-@@ -124,7 +124,7 @@ class KickStart():
-         subparsers = parser.add_subparsers()
- 
-         part = subparsers.add_parser('part')
--        part.add_argument('mountpoint')
-+        part.add_argument('mountpoint', nargs='?')
-         part.add_argument('--active', action='store_true')
-         part.add_argument('--align', type=int)
-         part.add_argument("--extra-space", type=sizetype, default=10*1024)
--- 
-2.5.0
+On 07/07/2016 05:53 PM, Burton, Ross wrote:
+>
+> On 7 July 2016 at 08:54, Andre McCurdy <armccurdy@gmail.com
+> <mailto:armccurdy@gmail.com>> wrote:
+>
+>     Based on the e2fsprogs release notes, v1.43.1 adds a new configure
+>     option, --enable-hardening
+>
+>     http://e2fsprogs.sourceforge.net/e2fsprogs-release.html#1.43.1
+>
+>     It might be nice to either enable that by default, or provide a
+>     PACKAGECONFIG to control it (and in either case, verify that it
+>     doesn't conflict with security_flags.inc).
+>
+>
+> I'd lean toward enabling by default and then nullifying security_flags, assuming
+> that the latter is effectively the same as the former, considering that the
+> flags are supported upstream.
 
+Hi Ross,
+
+I updated it in the repo, enable it by default for target, it can't build
+with native:
+
+     | checking for uuid_generate in -luuid... no
+     | configure: error: external uuid library not found
+
+
+And "require conf/distro/include/security_flags.inc" doesn't affect the
+build result.
+
+   git://git.openembedded.org/openembedded-core-contrib rbt/pu
+   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/pu
+
+Robert Yang (7):
+   debianutils: 4.7 -> 4.8
+   e2fsprogs: 1.43 -> 1.43.1
+   git: 2.8.4 -> 2.9.0
+   gmp: 6.1.0 -> 6.1.1
+   libpcre: 8.38 -> 8.39
+   wget: 1.17.1 -> 1.18
+   file: 5.27 -> 5.28
+
+// Robert
+
+
+>
+> Ross
 
