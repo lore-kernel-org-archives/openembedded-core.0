@@ -1,60 +1,27 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f42.google.com (mail-it0-f42.google.com
-	[209.85.214.42])
-	by mail.openembedded.org (Postfix) with ESMTP id E98626067C
+Return-Path: <maxin.john@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id DBD396E660
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2016 13:30:38 +0000 (UTC)
-Received: by mail-it0-f42.google.com with SMTP id u186so87028671ita.0
+	Tue, 12 Jul 2016 14:07:46 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga104.fm.intel.com with ESMTP; 12 Jul 2016 07:07:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,352,1464678000"; d="scan'208";a="137812562"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga004.fm.intel.com with ESMTP; 12 Jul 2016 07:07:46 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 5A1AD6A4080
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2016 06:30:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=N413EpYiWu09LzJ5cra4FRMysvZG9Q2+P7UJs4fsgsY=;
-	b=yIuvaw4LSWdpEPsJz/o7P5PDEQ9PxRo/U8McJp5s9FHGu0kqCSp4n6hOhPH3Ha8RCI
-	3OtLtcTXD39zBF6BtZ3OEBfHeoDsAXgX/p17F4YVNn5VAlbyY9R+16QZay4z9GlU/fTL
-	EnsGLDwRyquh/HvOhr/ZeryJ3OoEc0J2j++gccG23S6lUa2J4Y/KsCojI29lTtPbLCWx
-	kSIEGD8QAo9eKlvoG4gN5AHzXKyzAzYgc/phOyAMdxOwp9tvz6MYN6n/ncRlpZ3e7heg
-	WmsmKyh4fwIHrXiRSeNJIckO9i3l36N3J4vZ1VVwr6txND2QDV8+mP+Ac+mpSiiiZ4Oa
-	fnGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=N413EpYiWu09LzJ5cra4FRMysvZG9Q2+P7UJs4fsgsY=;
-	b=j6atFVWYXxM/mnYsziNfhko2X7HLxCN4ybFPBKD8LRxxiAMG4MPmeuY25iAidXutTn
-	bg8zVH4G4YjuxLA+lxk23k4fQ/GrvgBICyZuKxrnRc/QlVF91DN95lzWuA0HJ/geFWVu
-	3y4f+lfD6dxCYXClqARoUOKXth3trerQlkjO8PvCteZOIW0RD+RPJYQmIdZ+r6kaLP1k
-	XYmIUfNOwBLOxSSBnTdj7VGdAzQw2tlRztBwhzvRp887uyEbLIdWMcUe6aXc028yCEx/
-	y4fejEsEyzt5C16z9PdmFMNS5b75dNOqQC+a00NlSSZ6Lyh0PyuHA70YRvv0489/LVkk
-	o98Q==
-X-Gm-Message-State: ALyK8tJKndO1Moy9ix5upwgBygvTscmiBUNF/0Z5lTnpCh37t/5fRw+hLKNiRjViySMcBNVY
-X-Received: by 10.36.26.81 with SMTP id 78mr1083938iti.4.1468330238846;
-	Tue, 12 Jul 2016 06:30:38 -0700 (PDT)
-Received: from pohly-mobl1 (host-091-097-029-052.ewe-ip-backbone.de.
-	[91.97.29.52])
-	by smtp.gmail.com with ESMTPSA id 39sm1475890iop.25.2016.07.12.06.30.37
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 12 Jul 2016 06:30:38 -0700 (PDT)
-Message-ID: <1468330235.31553.5.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Date: Tue, 12 Jul 2016 15:30:35 +0200
-In-Reply-To: <CAP9ODKps8qLV8cvyR4DHq8yZ+iFk5A1f3ON7EFNrdr=hq__HJA@mail.gmail.com>
-References: <cover.1467378176.git.patrick.ohly@intel.com>
-	<25bb70f088ffb603e1f389b7657c1fbf3f2871bb.1467378176.git.patrick.ohly@intel.com>
-	<CAP9ODKo=BAgtk8iUbSgcOVh4+uVW-SBuEri6f8MkRH2qXfpVSw@mail.gmail.com>
-	<CAP9ODKrNecB=hRAkFb-LL4TcTc9XXw=AmKu-efdjPs3PKDkY1A@mail.gmail.com>
-	<1468249814.17048.1.camel@intel.com>
-	<CAP9ODKps8qLV8cvyR4DHq8yZ+iFk5A1f3ON7EFNrdr=hq__HJA@mail.gmail.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] meta-ostro-fixes: initramfs-framework: add retry loop for slow boot devices (like USB)
+	Tue, 12 Jul 2016 07:07:39 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 12 Jul 2016 17:07:35 +0300
+Message-Id: <1468332463-4154-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH 0/8] replace xtscal with xinput-calibrator
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,53 +34,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jul 2016 13:30:40 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 12 Jul 2016 14:07:48 -0000
 
-On Mon, 2016-07-11 at 12:17 -0300, Otavio Salvador wrote:
-> On Mon, Jul 11, 2016 at 12:10 PM, Patrick Ohly <patrick.ohly@intel.com> wrote:
-> > On Mon, 2016-07-11 at 11:35 -0300, Otavio Salvador wrote:
-> >> Hello Ross,
-> >>
-> >> On Fri, Jul 1, 2016 at 2:50 PM, Otavio Salvador <otavio@ossystems.com.br> wrote:
-> >> > Agreed but please split the rootfs in another module; so we don't
-> >> > force it to be included. The e2fs can rdepend on it.
-> >>
-> >> I noticed this has been merged but my comment here was totally ignored. Why?
-> >
-> > I can't speak for Ross, but perhaps he felt that it was already a
-> > worthwhile improvement. I wanted to address your comment (and still do),
-> > but didn't find the time last week. I'll do it via another patch now,
-> > okay?
-> 
-> Ok but Ross action is wrong in my opinion, in worse case he should
-> have asked before. If comments are ignored there is no point in people
-> spend time doing so.
-> 
-> I wanted the change to be atomic and not two changes which may
-> required more rework for same logic change. :-(
+Remove xtscal in preference of xinput-calibrator
 
-It turned out to be just a mistake that it was already merge.
+[YOCTO #9365]
 
-On the other hand, one can also argue that these are two separate
-logical changes - adding the retry loop, and then making that code just
-the optional default implementation for mounting.
+Maxin B. John (8):
+  xtscal: remove recipe
+  x11-common: replace xtscal with xinput-calibrator
+  pointercal-xinput: add a dummy calibration file for qemu
+  pointercal: remove recipe
+  tslib: replace pointercal with pointercal-xinput
+  packagegroup-core-x11-base.bb: replace pointercal with
+    pointercal-xinput
+  layer.conf: remove pointercal
+  distro_alias.inc: remove pointercal and xtscal references
 
-Anyway, see "initramfs-framework: make rootfs module optional" for that
-second part. Note that I did not make e2fs depend on rootfs, because
-there's no real connection between the two (for example, the rootfs
-could also be btrfs). Instead it is the finish script which depends on
-some kind of rootfs mounting.
+ meta/conf/distro/include/distro_alias.inc          |   3 -
+ meta/conf/layer.conf                               |   1 -
+ meta/recipes-bsp/pointercal/pointercal/COPYING     |   2 -
+ meta/recipes-bsp/pointercal/pointercal/pointercal  |   0
+ .../pointercal/pointercal/qemuarm/pointercal       |   1 -
+ .../pointercal/pointercal/qemuarmv6/pointercal     |   1 -
+ .../pointercal/pointercal/qemuarmv7/pointercal     |   1 -
+ .../pointercal/pointercal/qemumips/pointercal      |   1 -
+ .../pointercal/pointercal/qemuppc/pointercal       | Bin 36 -> 0 bytes
+ .../pointercal/pointercal/qemux86-64/pointercal    |   1 -
+ .../pointercal/pointercal/qemux86/pointercal       |   1 -
+ meta/recipes-bsp/pointercal/pointercal_0.0.bb      |  22 -
+ .../packagegroups/packagegroup-core-x11-base.bb    |   2 +-
+ meta/recipes-graphics/tslib/tslib_1.1.bb           |   2 +-
+ meta/recipes-graphics/x11-common/x11-common_0.1.bb |   2 +-
+ .../pointercal-xinput/qemuall/pointercal.xinput    |   2 +
+ .../xtscal/xtscal/30xTs_Calibrate.sh               |  13 -
+ .../xtscal/xtscal/change-cross.patch               |  18 -
+ meta/recipes-graphics/xtscal/xtscal/cleanup.patch  | 621 ---------------------
+ .../xtscal/dso_linking_change_build_fix.patch      |  27 -
+ meta/recipes-graphics/xtscal/xtscal_0.6.3.bb       |  33 --
+ 21 files changed, 5 insertions(+), 749 deletions(-)
+ delete mode 100644 meta/recipes-bsp/pointercal/pointercal/COPYING
+ delete mode 100644 meta/recipes-bsp/pointercal/pointercal/pointercal
+ delete mode 100644 meta/recipes-bsp/pointercal/pointercal/qemuarm/pointercal
+ delete mode 100644 meta/recipes-bsp/pointercal/pointercal/qemuarmv6/pointercal
+ delete mode 100644 meta/recipes-bsp/pointercal/pointercal/qemuarmv7/pointercal
+ delete mode 100644 meta/recipes-bsp/pointercal/pointercal/qemumips/pointercal
+ delete mode 100644 meta/recipes-bsp/pointercal/pointercal/qemuppc/pointercal
+ delete mode 100644 meta/recipes-bsp/pointercal/pointercal/qemux86-64/pointercal
+ delete mode 100644 meta/recipes-bsp/pointercal/pointercal/qemux86/pointercal
+ delete mode 100644 meta/recipes-bsp/pointercal/pointercal_0.0.bb
+ create mode 100644 meta/recipes-graphics/xinput-calibrator/pointercal-xinput/qemuall/pointercal.xinput
+ delete mode 100644 meta/recipes-graphics/xtscal/xtscal/30xTs_Calibrate.sh
+ delete mode 100644 meta/recipes-graphics/xtscal/xtscal/change-cross.patch
+ delete mode 100644 meta/recipes-graphics/xtscal/xtscal/cleanup.patch
+ delete mode 100644 meta/recipes-graphics/xtscal/xtscal/dso_linking_change_build_fix.patch
+ delete mode 100644 meta/recipes-graphics/xtscal/xtscal_0.6.3.bb
 
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
+2.4.0
 
 
