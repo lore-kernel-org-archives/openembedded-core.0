@@ -1,29 +1,29 @@
 Return-Path: <maxin.john@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 12C55731A5
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id AFFD973178
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2016 14:07:57 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 12 Jul 2016 07:07:58 -0700
+	Tue, 12 Jul 2016 14:08:09 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga101.jf.intel.com with ESMTP; 12 Jul 2016 07:07:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,352,1464678000"; d="scan'208";a="1005316915"
+X-IronPort-AV: E=Sophos;i="5.28,352,1464678000"; d="scan'208";a="137812698"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga001.fm.intel.com with ESMTP; 12 Jul 2016 07:07:58 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 12 Jul 2016 07:07:59 -0700
 Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
 	[10.237.72.71])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 4AC6B6A4080
+	by linux.intel.com (Postfix) with ESMTP id F0D4C6A4080
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2016 07:07:50 -0700 (PDT)
+	Tue, 12 Jul 2016 07:07:51 -0700 (PDT)
 From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Jul 2016 17:07:41 +0300
-Message-Id: <1468332463-4154-7-git-send-email-maxin.john@intel.com>
+Date: Tue, 12 Jul 2016 17:07:42 +0300
+Message-Id: <1468332463-4154-8-git-send-email-maxin.john@intel.com>
 X-Mailer: git-send-email 2.4.0
 In-Reply-To: <1468332463-4154-1-git-send-email-maxin.john@intel.com>
 References: <1468332463-4154-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 6/8] packagegroup-core-x11-base.bb: replace pointercal with pointercal-xinput
+Subject: [PATCH 7/8] layer.conf: remove pointercal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,28 +36,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jul 2016 14:07:57 -0000
+X-List-Received-Date: Tue, 12 Jul 2016 14:08:09 -0000
 
-Replace pointercal with pointercal-xinput since we removed pointercal recipe.
+Since we removed the pointercal recipe, remove it from layer.conf
 
 Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- meta/recipes-graphics/packagegroups/packagegroup-core-x11-base.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/conf/layer.conf | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/packagegroups/packagegroup-core-x11-base.bb b/meta/recipes-graphics/packagegroups/packagegroup-core-x11-base.bb
-index db3dfe3..6e8e50d 100644
---- a/meta/recipes-graphics/packagegroups/packagegroup-core-x11-base.bb
-+++ b/meta/recipes-graphics/packagegroups/packagegroup-core-x11-base.bb
-@@ -10,7 +10,7 @@ RDEPENDS_${PN} = "\
-     packagegroup-core-x11-xserver \
-     packagegroup-core-x11-utils \
-     dbus \
--    pointercal \
-+    pointercal-xinput \
-     matchbox-terminal \
-     matchbox-wm \
-     mini-x-session \
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index 81dd4be..b922234 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -26,7 +26,6 @@ SIGGEN_EXCLUDERECIPES_ABISAFE += " \
+   connman-conf \
+   formfactor \
+   xserver-xf86-config \
+-  pointercal \
+   pointercal-xinput \
+   base-files \
+   keymaps \
 -- 
 2.4.0
 
