@@ -1,54 +1,30 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id D187C731A4
+Return-Path: <joe.slater@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A7BA731A3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2016 01:25:24 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id g202so103034pfb.1
+	Tue, 12 Jul 2016 01:50:14 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u6C1oD63005102
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jul 2016 18:25:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding;
-	bh=ooF2dKeMYXS086jBEnxNO4OyMMmLkx1pW+EQB7m1QEQ=;
-	b=fLrkVolFxZUb2Mp38TJ6diVbT7UOQdjmxZyRQ4Z10TiJPdx+f2DDoU/Gw4UrBcAB/R
-	fDSPUh4jwCCVa6Qv6ndUHBvPK66kpbvih+f+j1O1nZ85fu4n4M+R0HPjA2LLkSRgGCJq
-	eb5dVconPFBe7dxsTe/MCFWvS802L7y3l+/pwtcINe+yoiGOB70eZKmWYbtSHTnJBKCj
-	jnH06VSb2sqLD3Jkm+SlXJhvyF4AXF+3JuBKqSM05jeMdAgEBZNccHSlFvdoiZJUZYg4
-	PSkgaITX3a+xvdhrM79MTP23JccSUcJWC0O9MfJ2hBGBzGl8i9PdmBATlmzfqdhU5CDi
-	wh8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=ooF2dKeMYXS086jBEnxNO4OyMMmLkx1pW+EQB7m1QEQ=;
-	b=jcbIZrjycegG8SOg/ZgiDg7jlPTH1L/zthr4JY1kSuhi6MEH2hQP3R1FCrw12JzIKJ
-	5SyrdzwgTIRir6hbxgY+/lJC51GiW2JJkJ7U/O52MJsux1wSn3100DhG1b/HKLrxmVBz
-	8xBLc50c6a+esLaF2ZV6K+Ski3yBF8Lz/lgj6iAi5IL+m1OMmWA0/qifc3H1xZfF1Rgl
-	s6Ry8sy/JPpdBu7FZEPmdCvlkPHS7xdlQcEUKXaRC4rGXUwBd69D4DS3yZqpIbwNGYEa
-	wKwgnhfsAbnCCFxa3jhkkzCsPpm0QC4jRfg50Kwp9vVrlK1JufOVFk0ltRwsXsiUTIUB
-	Zy0A==
-X-Gm-Message-State: ALyK8tJgTGwS9gmiPqvhiuhWDF8hFrfaUmkoQQZaIebPXIplb9HsiVt+QoPPcB8BYzucKw==
-X-Received: by 10.98.9.68 with SMTP id e65mr39957390pfd.121.1468286724781;
-	Mon, 11 Jul 2016 18:25:24 -0700 (PDT)
-Received: from ?IPv6:2601:202:4001:9ea0:344d:d49:bd5b:9177?
-	([2601:202:4001:9ea0:344d:d49:bd5b:9177])
-	by smtp.gmail.com with ESMTPSA id
-	n80sm1999193pfi.19.2016.07.11.18.25.23
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 11 Jul 2016 18:25:23 -0700 (PDT)
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
+	Mon, 11 Jul 2016 18:50:14 -0700
+Received: from ALA-MBB.corp.ad.wrs.com ([169.254.1.50]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0248.002;
+	Mon, 11 Jul 2016 18:50:12 -0700
+From: "Slater, Joseph" <joe.slater@windriver.com>
+To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-References: <CAP9ODKp17vE1xOJiePAq6d3poMvCkkK-BCdf4_m6yAUXgsWsPw@mail.gmail.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <57844702.9050108@gmail.com>
-Date: Mon, 11 Jul 2016 18:25:22 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.8.0
+Thread-Topic: recipes that inherit useradd delete users in do_configure
+Thread-Index: AdHb3huo1SeBZDt8QsaAXU9krtiwFw==
+Date: Tue, 12 Jul 2016 01:50:11 +0000
+Message-ID: <007BD92917A2324FA403BCF9A464CF84A6F92430@ALA-MBB.corp.ad.wrs.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.11.216.160]
 MIME-Version: 1.0
-In-Reply-To: <CAP9ODKp17vE1xOJiePAq6d3poMvCkkK-BCdf4_m6yAUXgsWsPw@mail.gmail.com>
-Subject: Re: [for-krogoth] Backport of new libarchive release
+Subject: recipes that inherit useradd delete users in do_configure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,117 +37,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jul 2016 01:25:24 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 12 Jul 2016 01:50:15 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_007BD92917A2324FA403BCF9A464CF84A6F92430ALAMBBcorpadwrs_"
 
+--_000_007BD92917A2324FA403BCF9A464CF84A6F92430ALAMBBcorpadwrs_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Otavio,
+This might or might not be a bug, but it does lead to unpleasant behavior i=
+f two recipes create the same user.  They probably should not, but who's st=
+opping them?
 
-On 07/11/2016 07:41 AM, Otavio Salvador wrote:
-> Hello Armin and OE-Core fellows,
->
-> The libarchive 3.2.1 fixes several bugs and security related issues so
-> it seems like a good candidate for backport. I list below the commits
-> I did in our local fork while testing it:
+I realize they are not in oe-core, but proftpd and vsftpd are an example of=
+ this.  We have seen failures when building world because proftpd creates "=
+ftp",
+then vsftpd deletes it, then proftpd tries to chown a directory to the now-=
+gone "ftp".
 
-CVE-2016-1541 is the only missing CVE. Are you aware of others? General 
-bug fixes are good.  But If I am not mistaken, there are 803 commits 
-between 3.1.2 (krogoth) and 3.2.1 (master). The is more than I want to 
-take at this time.
+Is this a recipe by recipe issue, or should something be changed in the beh=
+avior of useradd.bbclass?
 
-thanks for keeping an eye out for changes needing to go into krogoth.
+Joe
 
-kind regards,
-Armin
+--_000_007BD92917A2324FA403BCF9A464CF84A6F92430ALAMBBcorpadwrs_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
 >
-> commit 95e2a448d857659935ecd4762faea851151d1bce (HEAD -> for-krogoth)
-> Author: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-> Date:   Tue Jun 28 11:06:13 2016 +0300
->
->      libarchive: update to 3.2.1
->
->      Drop merged 0001-configure.ac-check-acl-libacl.h-and-sys-acl.h-based-.patch
->
->      Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
->      Signed-off-by: Ross Burton <ross.burton@intel.com>
->      (cherry picked from commit 4d65a93d3e705cfb9b4cfe102e9d0cabaffe7a52)
->
-> commit 088ad58922bd6af83a17c3c0a9ae3b78564e798d
-> Author: Maxin B. John <maxin.john@intel.com>
-> Date:   Mon Jun 6 00:12:03 2016 +0300
->
->      libarchive: respect disable-acl configuration option
->
->      Update configure.ac to properly handle --disable-acl option
->
->      [YOCTO #9668]
->
->      Signed-off-by: Maxin B. John <maxin.john@intel.com>
->      Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->      (cherry picked from commit 84fe3f29f2bdaf98c9beefdfede143084fba093b)
->
-> commit 71a550d24e1098e34e35da68335d83f893afe169
-> Author: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Date:   Sat Jun 4 09:04:26 2016 +0100
->
->      libarchive: Add PACKAGECONFIG for lz4 to ensure determinism
->
->      This avoids:
->
->      WARNING: opkg-1_0.3.1-r0 do_package_qa: QA Issue: libopkg rdepends
-> on lz4, but it isn't a build dependency, missing lz4 in DEPENDS or
-> PACKAGECONFIG? [build-deps]
->
->      and ERROR:
->
->      build-appliance-image-15.0.0-r0 do_rootfs: Unable to install
-> packages. Command
-> '/home/pokybuild/yocto-autobuilder/yocto-worker/build-appliance/build/build/tmp/sysroots/x86_64-linux/usr/bin/smart
-> --log-level=warning
-> --data-dir=/home/pokybuild/yocto-autobuilder/yocto-worker/build-appliance/build/build/tmp/work/qemux86_64-poky-linux/build-appliance-image/15.0.0-r0/rootfs/var/lib/smart
-> install -y packagegroup-core-boot@qemux86_64
-> packagegroup-core-ssh-openssh@all psplash@core2_64
-> kernel-dev@qemux86_64 packagegroup-core-x11-base@all
-> kernel-devsrc@qemux86_64 smartpm@core2_64 packagegroup-self-hosted@all
-> rpm@core2_64 locale-base-en-us@core2_64 locale-base-en-gb@core2_64'
-> returned 1:
->      Loading cache...
->      Updating cache...
-> ######################################## [100%]
->
->      Computing transaction...error: Can't install
-> libopkg1-1:0.3.1-r0.0@core2_64: no package provides lz4 >=
-> 131+git0+d86dc9167
->
->      Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->      (cherry picked from commit f12fe90a78ca1239691e8fd8f7b06ce59b8b72cc)
->
-> commit afc19399bfe4e5dfff5243ed14ab806c78c092bb
-> Author: Paul Barker <paul@paulbarker.me.uk>
-> Date:   Sat May 28 14:26:15 2016 +0100
->
->      libarchive: Upgrade to v3.2.0
->
->      All patches are removed as they are no longer needed. Most were
-> merged into this
->      release of libarchive. "0001-Set-xattrs-after-setting-times.patch"
-> was dropped
->      upstream after discussion, see
-> https://github.com/libarchive/libarchive/pull/664.
->
->      The COPYING file in libarchive had a couple of minor changes to
-> clarify which
->      files are under which copyrights but the overall license is unaffected.
->
->      Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
->      Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->      (cherry picked from commit 4976382011106b9515e44359f2f6bb1d0c69fdb3)
->
-> Please consider those for next krogoth pull request.
->
-> Thanks in advance,
->
+<meta name=3D"Generator" content=3D"Microsoft Word 14 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri","sans-serif";
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri","sans-serif";}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">This might or might not be a bug, but it does lead t=
+o unpleasant behavior if two recipes create the same user.&nbsp; They proba=
+bly should not, but who's stopping them?<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">I realize they are not in oe-core, but proftpd and v=
+sftpd are an example of this.&nbsp; We have seen failures when building wor=
+ld because proftpd creates &quot;ftp&quot;,<o:p></o:p></p>
+<p class=3D"MsoNormal">then vsftpd deletes it, then proftpd tries to chown =
+a directory to the now-gone &quot;ftp&quot;.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Is this a recipe by recipe issue, or should somethin=
+g be changed in the behavior of useradd.bbclass?<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Joe<o:p></o:p></p>
+</div>
+</body>
+</html>
 
-
+--_000_007BD92917A2324FA403BCF9A464CF84A6F92430ALAMBBcorpadwrs_--
