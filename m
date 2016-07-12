@@ -1,20 +1,22 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id AC7BB606D0
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E48173195
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2016 11:14:49 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga103.jf.intel.com with ESMTP; 12 Jul 2016 04:14:51 -0700
+	Tue, 12 Jul 2016 11:14:57 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 12 Jul 2016 04:14:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,351,1464678000"; d="scan'208";a="1020065007"
+X-IronPort-AV: E=Sophos;i="5.28,351,1464678000"; d="scan'208";a="1005225648"
 Received: from theory.fi.intel.com ([10.237.72.196])
-	by fmsmga002.fm.intel.com with ESMTP; 12 Jul 2016 04:14:49 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 12 Jul 2016 04:14:57 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Jul 2016 14:14:43 +0300
-Message-Id: <cover.1468310468.git.jussi.kukkonen@intel.com>
+Date: Tue, 12 Jul 2016 14:14:51 +0300
+Message-Id: <1db1fda82b07a5750e581f05d967e01f1f0906b2.1468310468.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCHv2 0/5] Upgrade piglit
+In-Reply-To: <cover.1468310468.git.jussi.kukkonen@intel.com>
+References: <cover.1468310468.git.jussi.kukkonen@intel.com>
+Subject: [PATCHv2 1/5] python-six: Add to oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,72 +29,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jul 2016 11:14:52 -0000
+X-List-Received-Date: Tue, 12 Jul 2016 11:14:57 -0000
 
-Changes since v1:
-* Sacrifice piglit debug binaries for build speed
-* Add a missing signed-off-by
-* Do not install .egg for python-six
-The python-six .egg install was added to avoid a build problem in
-python-cryptography (6b4cee975 in meta-oe). I cannot reproduce the
-problem: python-cryptography builds fine without a network connection.
+Recipes are moved from meta-openembedded/meta-python
 
+Changes compared to meta-python version:
+* Modified to not inherit pypi
+* Fix python-io dependency for python3
+* Support native, nativesdk
+* Do not install .egg
 
-Original cover letter follows:
-
-This set upgrades piglit, adds python-six (new piglit dependency),
-moves piglit to python3 and fixes all the python module issues that
-popped up.
-
-A word of warning to anyone else using piglit: it was big before and
-has now tripled in size (30000 new tests!). The installed size is over
-1.5GB and packaging takes a very long time.
-
-For reference, the results with PIGLIT_NO_WINDOW=1 look like this on
-a NUC (Haswell with HD5000 graphics) running current master:
-
-       name:  quick
-       ----  ------
-       pass:  33717
-       fail:    438
-      crash:      5
-       skip:  30887
-       warn:      7
-      total:  65054
-
-Jussi
-
-The following changes since commit 5c11e365e19357f721c49d076971567e7b64b61b:
-
-  lib/oeqa: add Galculator to SDK and runtime tests (2016-07-01 16:22:48 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib jku/piglit
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/piglit
-
-Jussi Kukkonen (5):
-  python-six: Add to oe-core
-  python3: Add compression to python3-shell dependencies
-  python3: Add dependencies for python3-misc
-  python3-native: Add "io" to rprovides
-  piglit: Upgrade version, use python3
-
- .../python/python-3.5-manifest.inc                 |  2 +-
- meta/recipes-devtools/python/python-six.inc        | 16 +++++++++++++
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+---
+ meta/recipes-devtools/python/python-six.inc        | 16 ++++++++++++++++
  meta/recipes-devtools/python/python-six_1.10.0.bb  |  4 ++++
- .../python/python3-native_3.5.1.bb                 |  2 +-
  meta/recipes-devtools/python/python3-six_1.10.0.bb |  4 ++++
- meta/recipes-devtools/python/python3_3.5.1.bb      |  2 +-
- ...0001-tests-Fix-missing-include-of-Xutil.h.patch | 28 ----------------------
- meta/recipes-graphics/piglit/piglit_git.bb         | 24 +++++++++++--------
- scripts/contrib/python/generate-manifest-3.5.py    |  2 +-
- 9 files changed, 42 insertions(+), 42 deletions(-)
+ 3 files changed, 24 insertions(+)
  create mode 100644 meta/recipes-devtools/python/python-six.inc
  create mode 100644 meta/recipes-devtools/python/python-six_1.10.0.bb
  create mode 100644 meta/recipes-devtools/python/python3-six_1.10.0.bb
- delete mode 100644 meta/recipes-graphics/piglit/piglit/0001-tests-Fix-missing-include-of-Xutil.h.patch
 
+diff --git a/meta/recipes-devtools/python/python-six.inc b/meta/recipes-devtools/python/python-six.inc
+new file mode 100644
+index 0000000..bd12fa9
+--- /dev/null
++++ b/meta/recipes-devtools/python/python-six.inc
+@@ -0,0 +1,16 @@
++SUMMARY = "Python 2 and 3 compatibility library"
++HOMEPAGE = "https://pypi.python.org/pypi/six/"
++SECTION = "devel/python"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=6f00d4a50713fa859858dd9abaa35b21"
++
++SRC_URI = "https://files.pythonhosted.org/packages/source/s/six/six-${PV}.tar.gz"
++SRC_URI[md5sum] = "34eed507548117b2ab523ab14b2f8b55"
++SRC_URI[sha256sum] = "105f8d68616f8248e24bf0e9372ef04d3cc10104f1980f54d57b2ce73a5ad56a"
++
++UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/six/"
++UPSTREAM_CHECK_REGEX = "/six/(?P<pver>(\d+[\.\-_]*)+)"
++
++BBCLASSEXTEND = "native nativesdk"
++
++S = "${WORKDIR}/six-${PV}"
+diff --git a/meta/recipes-devtools/python/python-six_1.10.0.bb b/meta/recipes-devtools/python/python-six_1.10.0.bb
+new file mode 100644
+index 0000000..4350485
+--- /dev/null
++++ b/meta/recipes-devtools/python/python-six_1.10.0.bb
+@@ -0,0 +1,4 @@
++inherit setuptools
++require python-six.inc
++
++RDEPENDS_${PN} += "python-io"
+diff --git a/meta/recipes-devtools/python/python3-six_1.10.0.bb b/meta/recipes-devtools/python/python3-six_1.10.0.bb
+new file mode 100644
+index 0000000..38a47b7
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-six_1.10.0.bb
+@@ -0,0 +1,4 @@
++inherit setuptools3
++require python-six.inc
++
++RDEPENDS_${PN} += "python3-io"
 -- 
 2.1.4
 
