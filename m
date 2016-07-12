@@ -1,46 +1,53 @@
-Return-Path: <george.mccollister@gmail.com>
-Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
-	[209.85.218.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 3051B6067C
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
+	[209.85.220.65])
+	by mail.openembedded.org (Postfix) with ESMTP id AB2036067C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2016 19:11:39 +0000 (UTC)
-Received: by mail-oi0-f68.google.com with SMTP id l9so2310616oih.0
+	Tue, 12 Jul 2016 21:14:52 +0000 (UTC)
+Received: by mail-pa0-f65.google.com with SMTP id dx3so1725217pab.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2016 12:11:40 -0700 (PDT)
+	Tue, 12 Jul 2016 14:14:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=+opH4jAHRodJdezEHAGZVOpIHH/2Mdxs+uxvBeNkOIQ=;
-	b=u6LShfsmTPOd7+9kjcE5xsqhVFIsIe0talW4L/jh35ddfYz5Zt3eCbdM8e29Jfvx36
-	LvH0i2Botfdnwg7zIdXVl/GJA5cS+Vqp7fOA14O7HeobogGbSpsqfmKUcQiaUAUs7S8S
-	cLxwAsHCLa7sYAg8qoq8DK2ulbOUYKLLKKy0iz5tNom2cFX/drfD5Q+h/0Gfym0xQAEE
-	SEpbof7fdZZDuN4WigOU/pc3pF9hJd1HV9jx/9QWrXEQmZB7Ko+VhEZLpHOOJw5lj4KQ
-	d/lbc1Hj3QI/SPGCZx3KZbRFH7+riYlO+y3RdOOP29mB1mp+GD1m6iAjav7xLledmYj4
-	goTQ==
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding;
+	bh=JSeBxtZ2GL2mQ23NNKvvB9FpZsNdyw7mCUIUXqAjbUk=;
+	b=Vvstbewebp4779aErIekUxwliVj17cB61psOQuCkguiTX6X27EMZvf7qPI0G/BF4hH
+	1XzjFNArTVwvrz/kxM9a0C7giLEh5yrdOPi/WvuGwFbBhuMicBOJirV4cO0EOUQtYDdz
+	1Emh1DWO+mL2HYClPMdhj8mvoIu+mURCjFpDHnnAfQDZyjxp9ARcxNhZ63nI4F9yAqJT
+	iWx0KJ3ilIdFnCjYSOOOn+ggnC+hfJoWdP1EvLsr9j8zQomxJdmmdJqcMgpkWLMUkQNE
+	fQzkA3diUdZSaqDaWczaRIEivwq0pbIgqXvTRJPgGkOxebHw2i7OLjQUe2SagH7e9jCO
+	g1SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=+opH4jAHRodJdezEHAGZVOpIHH/2Mdxs+uxvBeNkOIQ=;
-	b=TtQFPMTl2RMbJW4eY0O66oyNCqVbP+jP7BQIEtIoD7/5AwT3gJH3GTZMF8zwhIXj5D
-	FzRF1nvTuBp/klGIRPma8noW0ekgeerlzIE6wAt4fxPR+xyrHhy2WaTiMdwK4m6NQNXK
-	IXt6QjqNbmbONcA6AabJIAQ+2WdQmhQ8P3RJ4S5xvIYplL25mxyHpCmnbGExhzwR0KZB
-	32dNdvubPwi//1gyM3Hq6msz4C5GJwNU5ZQ+XIsNqj6VM4wzm15HG1XIFX2UqU0N8vx/
-	kCSWv1pqw6Wq+lgPdApkM4XibW1uZ/7SZ8LwvBuNTmM/pdtRIo7PwFMe6Y6jjYKoOKOo
-	gW0w==
-X-Gm-Message-State: ALyK8tIuiz1cU5RFX5LvIGDDFtm+9tuAAHZn7gFW3nKaLVDXawfu8JiUl++TWAraM1EfpQ==
-X-Received: by 10.157.16.35 with SMTP id h32mr2505800ote.147.1468350700063;
-	Tue, 12 Jul 2016 12:11:40 -0700 (PDT)
-Received: from localhost.localdomain (216-21-169-52.slc.googlefiber.net.
-	[216.21.169.52]) by smtp.gmail.com with ESMTPSA id
-	o126sm742805oia.15.2016.07.12.12.11.39
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 12 Jul 2016 12:11:39 -0700 (PDT)
-From: George McCollister <george.mccollister@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Jul 2016 14:10:54 -0500
-Message-Id: <1468350654-14702-1-git-send-email-george.mccollister@gmail.com>
-X-Mailer: git-send-email 2.8.0
-Cc: peter.kjellerstedt@axis.com
-Subject: [PATCH] useradd-staticids: use map() instead of imap()
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=JSeBxtZ2GL2mQ23NNKvvB9FpZsNdyw7mCUIUXqAjbUk=;
+	b=kdLHQcJUzUMgQVBatW63L6Cif4p8rokqqBcHCVTPpk6XuX04M65h+Y6dHx/+YGyjN9
+	lkmjBqy8Z60aDYbXeQC9seJGjX9quca42yjZdhws6Hm1PskcwvlAYUbyz7bR2E12JeBG
+	/0JTua6nM9twIfq41yJs1p3lBsIQ7llMEXoxht/wfUpzut9iZ3x065CvArW9RvVx/Dgu
+	zk6d8lQdrFqGSRF61gjg1wROivV85djSa9WTjwxWbBXPeUDMNuK6MTMipZF/CMfGGH3g
+	re0EVhspc7pYLhzBi81xXiKNgoA6Xy57yFo8T/QtYJs+SjIY5gAuFixonI7VWT1+df0+
+	JxgA==
+X-Gm-Message-State: ALyK8tKcpzxGrKp7mtsky5QQdRqrJMBxlFm7+E9uejWK+mjt4Cmcq7EslkDtQ773bL4HbA==
+X-Received: by 10.66.76.132 with SMTP id k4mr7552774paw.22.1468358092863;
+	Tue, 12 Jul 2016 14:14:52 -0700 (PDT)
+Received: from [10.43.100.29] ([50.233.148.158])
+	by smtp.googlemail.com with ESMTPSA id
+	h8sm6261235pfh.49.2016.07.12.14.14.51
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 12 Jul 2016 14:14:51 -0700 (PDT)
+To: "Burton, Ross" <ross.burton@intel.com>, Gary Thomas <gary@mlbassoc.com>
+References: <5784A2D0.9030902@mlbassoc.com>
+	<CAJTo0LbByAsem7asRmieaeVvLHarr8D9zynCUncEqt0J2JvmfQ@mail.gmail.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <57855DCA.1080807@gmail.com>
+Date: Tue, 12 Jul 2016 14:14:50 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.1
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LbByAsem7asRmieaeVvLHarr8D9zynCUncEqt0J2JvmfQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Future of GCC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,31 +60,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jul 2016 19:11:40 -0000
+X-List-Received-Date: Tue, 12 Jul 2016 21:14:57 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-In Python3 the itertools module's imap function has been migrated to the
-globalname space as map(). Calling itertools.imap() will fail because it
-no longer exists.
 
-Signed-off-by: George McCollister <george.mccollister@gmail.com>
----
- meta/classes/useradd-staticids.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/useradd-staticids.bbclass b/meta/classes/useradd-staticids.bbclass
-index b6e498c..149245b 100644
---- a/meta/classes/useradd-staticids.bbclass
-+++ b/meta/classes/useradd-staticids.bbclass
-@@ -43,7 +43,7 @@ def update_useradd_static_config(d):
-                         if fields[0] not in id_table:
-                             id_table[fields[0]] = fields
-                         else:
--                            id_table[fields[0]] = list(itertools.imap(lambda x, y: x or y, fields, id_table[fields[0]]))
-+                            id_table[fields[0]] = list(map(lambda x, y: x or y, fields, id_table[fields[0]]))
-             except IOError as e:
-                 if e.errno == errno.ENOENT:
-                     pass
--- 
-2.8.0
+On 07/12/2016 01:15 AM, Burton, Ross wrote:
+> On 12 July 2016 at 08:57, Gary Thomas <gary@mlbassoc.com> wrote:
+> 
+>> Now that GCC 4.x is gone, we're left with (currently) 5.4 & 6.1
+>> Is the intention to track these both for a while, or will 5.x
+>> also be gone once things are working with 6.x?
+>>
+>> ... just wondering where to spend my effort since I'll have to
+>> make my targets (some are very old) work with at least 5.x
+>>
+>> Any advice?  Thanks
+>>
+> 
+> Personally I was thinking that gcc 5.x and 6.x should stay in oe-core for
+> this cycle, and then drop 5.x after the release.
 
+
+Wouldn't that be dropped iff GCC 7.0 is release? or are you saying we
+should only have one GCC version?
+
+- armin
+
+I'm not the toolchain
+> owner though so that's just an opinion.
+
+
+> 
+> In theory bringing back toolchains isn't rocket science - just copying the
+> 4.x recipes from oe-core prior to their removal into a new layer and
+> setting GCCVERSION should work.
+> 
+> Ross
+> 
+> 
+> 
 
