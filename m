@@ -1,46 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F92C60589
+Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 4EE44606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2016 08:16:08 +0000 (UTC)
-Received: by mail-io0-f174.google.com with SMTP id b62so9765243iod.3
+	Tue, 12 Jul 2016 09:42:52 +0000 (UTC)
+Received: by mail-wm0-f46.google.com with SMTP id f65so94083672wmi.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2016 01:16:09 -0700 (PDT)
+	Tue, 12 Jul 2016 02:42:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=RsyUyCTZ8JhSIhmkF1z1OCYevCRFblQYvJChuPaBs9k=;
-	b=Qc7mjC0OupD2U/HzDtVH8Wm+H0AJfcT20dpM93KztzQ45qBcRLGE9d65l2TtoKWG/I
-	wysKjf2nmDfVqQaDocaPAZThmCtQ5jXX7VXE570g9f94xM79pQ61bgg/Ph9hEdb72ind
-	qUiIDvoBpL8FCgRY72xA5p6xP3338PyzCVoMaEPht8zi4zdsjLCF3SQbQVRRMcw+zrFx
-	1bCYm3Cx+NkR2LZ15kWolVBvGZPlQFenvANLZE50sJOGtPcxgpuGoy+dLwIk1ZLk+Yg5
-	gyRNr3rO1AU3TMtF92K3u/1EeYkAGkghKRrhtFE70H1B/OgyI61FIf2RqG7mqq/+7+9O
-	Yv2A==
+	h=from:to:subject:date:message-id;
+	bh=yO/9b+Wial1yCpKnzvgiV/FEZ9kTq62NACGzgz/uyhw=;
+	b=LouYs3qTjpsK0e4F6MOghSMz6HjxjJnnYcyYmAPlrhlVdBXUzNrtjHBjuaoiB+vScL
+	1QzTMv2trF7/hUaMWQ4DY4c44EZJCJ4xT30w3jm81k5JcqVHXG/aqPiHy26pK0fjGzL4
+	zINvaL076ua0cXQYp1knORExpM3RU5jk9NpDFU7igv7IBe8KZSy+MoenDiLVC6LhPeTp
+	czrYwjxwzpdz5nUiyMNTAwu9Tz1nIu5fBDGs1pCTswfU7b6dv+DJDN5D2mr2jcDC7zTE
+	WvBj4D+rDugnJmXAlYhEpQL8n2fhdhYKV9Ved2HetThK3ydcXPSOl7jwSW0jaN6MQ6Lf
+	4hKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=RsyUyCTZ8JhSIhmkF1z1OCYevCRFblQYvJChuPaBs9k=;
-	b=PPYlF933o26LTZTfBeo/lc3RRxZYXqXHvRTmPJB8N2e2E3CltojPnbIY/5uRQfigg9
-	KxsBO+ucroNXWxN6eZkE4/Gq1zE/0RgEI/BQhg2DnhMMkAzTkcJPBLDm1m2OGipm432R
-	IORJwTxmiHZ6EU5iEW187EpXDwk32LRXdappC1wfoA1V2JuoASXizKDRp3xIT5Ch1X8R
-	o2xQCKHJ4Js2d6O7G/dBAElbif1erZ/E1IjeQsq4xMoltSwn0oFgLTTSznf0HijKj2k0
-	aj6U9v5Xa+dH5G7jnc4kwandMiXbIYoQ9ptoW69NGnLT1BLQJZykhhnSkynCl4+JaBdF
-	tvpg==
-X-Gm-Message-State: ALyK8tKU5D0n02k4JyHNP0E+n/ENy6RKGJ+X0EDaCo0lnmGml39a5h2sXG8zw6eWbj5ozbfV0v0RmNXmNBYgelTq
-X-Received: by 10.107.154.210 with SMTP id c201mr1329434ioe.99.1468311368969; 
-	Tue, 12 Jul 2016 01:16:08 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Tue, 12 Jul 2016 01:15:49 -0700 (PDT)
-In-Reply-To: <5784A2D0.9030902@mlbassoc.com>
-References: <5784A2D0.9030902@mlbassoc.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 12 Jul 2016 09:15:49 +0100
-Message-ID: <CAJTo0LbByAsem7asRmieaeVvLHarr8D9zynCUncEqt0J2JvmfQ@mail.gmail.com>
-To: Gary Thomas <gary@mlbassoc.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Future of GCC
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=yO/9b+Wial1yCpKnzvgiV/FEZ9kTq62NACGzgz/uyhw=;
+	b=QqJkts8VT64+tf6nhe5YiqcBenJbEzqHtTxwmXXdoCG52zRZZ7ya1N/VZ/VA6QwAyb
+	E7Ae9/VOrFPbdu7r6xY9ZhgDEzmNUG45N61Wtyzt28NYRB07qoGRarO7TqciPZh2Yr5D
+	ou1bkZq2qQ4mhJM+bNJVPMvEe5zIbJi7gnb5++FyH1WlGRjexb8bBWuo3cPU2w/HN6mu
+	xCAwsIaxsc7FzukHPdOi9P1xN71FtlQc6/marFwLU/N0dbpFnrwoPtqp4uKqS2D5pS9F
+	9SVJbuja0WGs2GMu/HPQJKRCTcBd+9U8kLh4ebSsNuRavwC9/cLtydk/J7PjY9/itXQS
+	49cQ==
+X-Gm-Message-State: ALyK8tJozPk8wUkjYfZH3mCafPrVd6bhOQrHsombieSM0FMUC1jy9r6wJSpiX5/Dc/14BKtX
+X-Received: by 10.28.238.154 with SMTP id j26mr17651070wmi.94.1468316572684;
+	Tue, 12 Jul 2016 02:42:52 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	b200sm2391677wmb.9.2016.07.12.02.42.51
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 12 Jul 2016 02:42:51 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 12 Jul 2016 10:42:50 +0100
+Message-Id: <1468316570-26620-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] report-error: replace build paths with markers not whitespace
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,58 +53,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jul 2016 08:16:11 -0000
-Content-Type: multipart/alternative; boundary=001a1140fab6913b6005376be10e
+X-List-Received-Date: Tue, 12 Jul 2016 09:42:54 -0000
 
---001a1140fab6913b6005376be10e
-Content-Type: text/plain; charset=UTF-8
+To remove potentially personal information and reduce irrelevant noise when
+searching for similar reports the error reporting class removes ${TOPDIR} from
+the logs.  Whilst this is valid intention, the replacement of ' ' results in
+potentially confusing logs as it appears that builds are happening in /tmp, or
+whitespace can appear in places where it isn't allowed which can look like a
+bug.
 
-On 12 July 2016 at 08:57, Gary Thomas <gary@mlbassoc.com> wrote:
+Solve both of these by replacing the value of TOPDIR with the literal string
+TOPDIR.
 
-> Now that GCC 4.x is gone, we're left with (currently) 5.4 & 6.1
-> Is the intention to track these both for a while, or will 5.x
-> also be gone once things are working with 6.x?
->
-> ... just wondering where to spend my effort since I'll have to
-> make my targets (some are very old) work with at least 5.x
->
-> Any advice?  Thanks
->
+Also replace TMPDIR after TOPDIR, as it's not uncommon to have TMPDIR somewhere
+other than directly under TOPDIR.
 
-Personally I was thinking that gcc 5.x and 6.x should stay in oe-core for
-this cycle, and then drop 5.x after the release.  I'm not the toolchain
-owner though so that's just an opinion.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/report-error.bbclass | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-In theory bringing back toolchains isn't rocket science - just copying the
-4.x recipes from oe-core prior to their removal into a new layer and
-setting GCCVERSION should work.
+diff --git a/meta/classes/report-error.bbclass b/meta/classes/report-error.bbclass
+index 5cbf8f0..c8c15bd 100644
+--- a/meta/classes/report-error.bbclass
++++ b/meta/classes/report-error.bbclass
+@@ -59,9 +59,11 @@ python errorreport_handler () {
+                     logFile = codecs.open(log, 'r', 'utf-8')
+                     logdata = logFile.read()
+ 
+-                    topdir = e.data.getVar('TOPDIR', True)
+-                    if topdir:
+-                        logdata = logdata.replace(topdir, ' ')
++                    # Replace host-specific paths so the logs are cleaner
++                    for d in ("TOPDIR", "TMPDIR"):
++                        s = e.data.getVar(d, True)
++                        if s:
++                            logdata = logdata.replace(s, d)
+ 
+                     logFile.close()
+                 except:
+-- 
+2.8.1
 
-Ross
 
---001a1140fab6913b6005376be10e
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 12 July 2016 at 08:57, Gary Thomas <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:gary@mlbassoc.com" target=3D"_blank">gary@mlbassoc.com</a>&gt;</span> wr=
-ote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
--left:1px #ccc solid;padding-left:1ex"><div id=3D":1a4" class=3D"a3s aXjCH =
-m155de24c88ee7ce1">Now that GCC 4.x is gone, we&#39;re left with (currently=
-) 5.4 &amp; 6.1<br>
-Is the intention to track these both for a while, or will 5.x<br>
-also be gone once things are working with 6.x?<br>
-<br>
-... just wondering where to spend my effort since I&#39;ll have to<br>
-make my targets (some are very old) work with at least 5.x<br>
-<br>
-Any advice?=C2=A0 Thanks</div></blockquote></div><br>Personally I was think=
-ing that gcc 5.x and 6.x should stay in oe-core for this cycle, and then dr=
-op 5.x after the release.=C2=A0 I&#39;m not the toolchain owner though so t=
-hat&#39;s just an opinion.</div><div class=3D"gmail_extra"><br></div><div c=
-lass=3D"gmail_extra">In theory bringing back toolchains isn&#39;t rocket sc=
-ience - just copying the 4.x recipes from oe-core prior to their removal in=
-to a new layer and setting GCCVERSION should work.</div><div class=3D"gmail=
-_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a1140fab6913b6005376be10e--
