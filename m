@@ -1,24 +1,24 @@
-Return-Path: <brian.avery@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id DEEA56E667
+Return-Path: <stephano.cetola@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 06CD86067C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2016 22:53:13 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga101.jf.intel.com with ESMTP; 12 Jul 2016 15:53:15 -0700
+	Tue, 12 Jul 2016 23:01:03 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 12 Jul 2016 16:01:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,354,1464678000"; d="scan'208";a="845145075"
-Received: from bavery-ws-desk.jf.intel.com ([10.7.201.28])
-	by orsmga003.jf.intel.com with ESMTP; 12 Jul 2016 15:53:13 -0700
-From: bavery <brian.avery@intel.com>
+X-IronPort-AV: E=Sophos;i="5.28,354,1464678000"; d="scan'208";a="1005620589"
+Received: from yocto-dev86.jf.intel.com (HELO
+	bkrishn1-mobl.amr.corp.intel.com) ([10.7.198.60])
+	by fmsmga001.fm.intel.com with ESMTP; 12 Jul 2016 16:01:04 -0700
+Date: Tue, 12 Jul 2016 16:01:03 -0700
+From: Stephano Cetola <stephano.cetola@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Jul 2016 15:54:28 -0700
-Message-Id: <e0d625695ec9757e35c5ca9bfc044d40017e4fea.1468363460.git.brian.avery@intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <3579e2e48364aef2f63e9fc8b4bc04dbfa07bc5d.1468363460.git.brian.avery@intel.com>
-References: <3579e2e48364aef2f63e9fc8b4bc04dbfa07bc5d.1468363460.git.brian.avery@intel.com>
-In-Reply-To: <cover.1468363460.git.brian.avery@intel.com>
-References: <cover.1468363460.git.brian.avery@intel.com>
-Subject: [PATCH 2/2] toaster.bbclass: only scan files-in-image.txt if it exists
+Message-ID: <20160712230103.GA1303@bkrishn1-mobl.amr.corp.intel.com>
+References: <20160712124501.5216-1-stephano.cetola@linux.intel.com>
+MIME-Version: 1.0
+In-Reply-To: <20160712124501.5216-1-stephano.cetola@linux.intel.com>
+User-Agent: Mutt/1.6.2 (2016-07-01)
+Subject: Re: [PATCH V4] rootfs.py: allow removal of support packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,62 +31,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jul 2016 22:53:15 -0000
+X-List-Received-Date: Tue, 12 Jul 2016 23:01:04 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Elliot Smith <elliot.smith@intel.com>
-
-We can reach the method in toaster.bbclass which tries to read from
-the files-in-image.txt file via a build which doesn't create that
-file (e.g. "bitbake core-image-minimal -c rootfs"). This causes
-the build to fail with an exception.
-
-Check that this file exists before trying to read from it.
-
-[YOCTO #9784]
-
-Signed-off-by: Elliot Smith <elliot.smith@intel.com>
-Signed-off-by: bavery <brian.avery@intel.com>
----
- classes/toaster.bbclass | 25 ++++++++++++++++---------
- 1 file changed, 16 insertions(+), 9 deletions(-)
-
-diff --git a/classes/toaster.bbclass b/classes/toaster.bbclass
-index 90ea563..972efb9 100644
---- a/classes/toaster.bbclass
-+++ b/classes/toaster.bbclass
-@@ -288,15 +288,22 @@ python toaster_buildhistory_dump() {
-                             images[target][dependsname] = {'size': 0, 'depends' : []}
-                         images[target][pname]['depends'].append((dependsname, deptype))
- 
--            with open("%s/files-in-image.txt" % installed_img_path, "r") as fin:
--                for line in fin:
--                    lc = [ x for x in line.strip().split(" ") if len(x) > 0 ]
--                    if lc[0].startswith("l"):
--                        files[target]['syms'].append(lc)
--                    elif lc[0].startswith("d"):
--                        files[target]['dirs'].append(lc)
--                    else:
--                        files[target]['files'].append(lc)
-+            # files-in-image.txt is only generated if an image file is created,
-+            # so the file entries ('syms', 'dirs', 'files') for a target will be
-+            # empty for rootfs builds and other "image" tasks which don't
-+            # produce image files
-+            # (e.g. "bitbake core-image-minimal -c populate_sdk")
-+            files_in_image_path = "%s/files-in-image.txt" % installed_img_path
-+            if os.path.exists(files_in_image_path):
-+                with open(files_in_image_path, "r") as fin:
-+                    for line in fin:
-+                        lc = [ x for x in line.strip().split(" ") if len(x) > 0 ]
-+                        if lc[0].startswith("l"):
-+                            files[target]['syms'].append(lc)
-+                        elif lc[0].startswith("d"):
-+                            files[target]['dirs'].append(lc)
-+                        else:
-+                            files[target]['files'].append(lc)
- 
-             for pname in images[target]:
-                 if not pname in allpkgs:
--- 
-1.9.1
-
+On 07/12, Stephano Cetola wrote:
+> Changes from V3:
+> Split off of whitespace rather than comma.
+> 
+> Stephano Cetola (1):
+>   rootfs.py: allow removal of support packages
+> 
+>  meta/lib/oe/rootfs.py | 20 ++++++++++++++++++--
+>  1 file changed, 18 insertions(+), 2 deletions(-)
+> 
+> -- 
+> 2.9.0
+> 
+I spoke with Paul today and I'm going to be reworking this a bit. Please hold
+off on merging this.  Thanks.
 
