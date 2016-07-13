@@ -1,46 +1,32 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F3DB6067C
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.analogue-micro.com (mail.analogue-micro.com
+	[217.144.149.242])
+	by mail.openembedded.org (Postfix) with ESMTP id 982426067C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jul 2016 14:36:16 +0000 (UTC)
-Received: by mail-wm0-f47.google.com with SMTP id i5so72521868wmg.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jul 2016 07:36:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=JUSjmmF1yoNg+l9mGpihxsboXiW39i3qnSrl2UYbECo=;
-	b=AaxupoffOmtGTx76Huucs4itJ2k1Qq7WWTRQnZbFUg3kJW5BzEic4zCc1HkO74NKNT
-	f43/EkrriXrYEyWN27nrBp9kBDpDah5U+teqd0gU07JqiAYiQ+l6jVrG4Tkbe4NsTOxe
-	5Omy0LYNvzFstRzlK/vsHZAeHjLHRcIDvgycliJ7RK7ficyRidXMX8x6bHG0YIQ94EaQ
-	k5FYETlnCs+txAQab1iqRz8uKWmYOphx7oC/1E5EEwxO5CicGItMaUvYVQRfc6FBDY7Q
-	u7VWdVMDWGqqHpMj80c4jfHx2405ugGWGmZVkJouVtBxBBQouzYiy0lnM4u6fV2Awuse
-	c+lA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=JUSjmmF1yoNg+l9mGpihxsboXiW39i3qnSrl2UYbECo=;
-	b=M2d3qlheplrCFzAxVA1rg2Mlhh5dstvmS7FYzaUZBaeoBC+Zb995DZ46trJMXRuxsd
-	X8ic7LysY05Tx/OtcFbYrzot1FivbaVBa8JfKLYBPuz8dKtj9NqpxYjwPO65RT1vJnCc
-	jRXqyCtc8CxvweQc5bYvJkhk+wseLejychiWwoFaYkzrWmY8uIzt1/67FugD4LQHIOPq
-	ij0T/rBUP1hL4aAnmJhQQayS8L9IvrUKwR1mF6/kk1+YZE9QPXHWn/BPdAd/Z+Eg+ejn
-	Zv8e1DnbaocuKCCGFW5nRLbhGVOjXjF9aNCvu4aDs68+/6xcCKyg14ds2AqGAaVq5n+V
-	CY0Q==
-X-Gm-Message-State: ALyK8tLlZ+WQ4UqBw3PNy50FyZujE+LUIzKPcGVqCR1u9el7L7RtOxb0afiTBGyLEqEkSVCU
-X-Received: by 10.194.5.97 with SMTP id r1mr1420511wjr.36.1468420576891;
-	Wed, 13 Jul 2016 07:36:16 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	d80sm9041144wmd.14.2016.07.13.07.36.15
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 13 Jul 2016 07:36:16 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Wed, 13 Jul 2016 14:41:07 +0000 (UTC)
+Received: by mail.analogue-micro.com (Postfix, from userid 999)
+	id 341C068A019; Wed, 13 Jul 2016 15:41:08 +0100 (BST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	loki.analogue-micro-ltd.com
+X-Spam-Level: **
+X-Spam-Status: No, score=2.5 required=5.0 tests=ALL_TRUSTED,BAYES_50,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
+	by mail.analogue-micro.com (Postfix) with ESMTP id 67F4E68A019;
+	Wed, 13 Jul 2016 15:41:07 +0100 (BST)
+Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
+	by zeus.mlbassoc.com (Postfix) with ESMTP id 263C36740256;
+	Wed, 13 Jul 2016 16:41:07 +0200 (CEST)
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Jul 2016 15:36:14 +0100
-Message-Id: <1468420574-13115-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] oe/lib/package: handle shlibs files disappearing
+References: <20160713142422.aihj4b5qmni7uair@jama>
+From: Gary Thomas <gary@mlbassoc.com>
+Message-ID: <57865303.30805@mlbassoc.com>
+Date: Wed, 13 Jul 2016 16:41:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.8.0
+MIME-Version: 1.0
+In-Reply-To: <20160713142422.aihj4b5qmni7uair@jama>
+Subject: Re: Downloads from sourceforge.net
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,39 +39,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jul 2016 14:36:17 -0000
+X-List-Received-Date: Wed, 13 Jul 2016 14:41:10 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-During a parallel build it's possible for unrelated shlib files to be removed if
-the recipe they came from is about to be rebuilt.  They can't be involved in the
-dependency chains as otherwise they wouldn't be removed, so just silently handle
-files disappearing.
+On 2016-07-13 16:24, Martin Jansa wrote:
+> Just FYI
+>
+> If you're seeing a lot of do_fetch failures because of SRC_URI checksums
+> mismatch, be aware that there is some issue with sourceforge.net, all my
+> source archive downloads (with wget) download just this HTML:
+>
+> wget http://downloads.sourceforge.net/project/gptfdisk/gptfdisk/0.8.10/gptfdisk-0.8.10.tar.gz
+>
+> <html><head>
+> <title>SourceForge</title>
+> <!-- <script src="/js/jquery.com/jquery-1.11.0.min.js"></script> -->
+> <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+> <script src="//sourceforge.net/js/mirrors.js"></script>
+> <script src="/js/sf.js"></script>
+> <script>
+> var DR_loc = DR_parse_hash_url();
+> if (DR_loc) {
+>      DR_sf_main(DR_loc);
+> } else {
+>      window.location.href = 'http://sourceforge.net/home.html';
+> }
+> </script>
+> </head><body>
+> <noscript>
+> We're sorry -- the Sourceforge site is currently in Disaster Recovery mode, and currently requires
+> the use of javascript to function.  Please check back later.
+> </noscript>
+> </body></html>
+>
+> Which of course has different checksums than tarball with sources.
+>
+> You can see similar message if you try to access e.g. their blog (to find out if it's already
+> known issue for them):
+> http://sourceforge.net/blog/
+> or
+> http://sourceforge.net/blog/category/sitestatus/
+>
+> Until it's resolved continue to use your better-be-already-populated premirrors.
 
-[ YOCTO #8555 ]
+It seems to have been short lived - I had this issue with docbook-xsl-1.79.1.tar.bz2
+and the second time I tried it (a few minutes later) it was fine.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/lib/oe/package.py | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
-index faa0ab2..02642f2 100644
---- a/meta/lib/oe/package.py
-+++ b/meta/lib/oe/package.py
-@@ -114,7 +114,12 @@ def read_shlib_providers(d):
-             m = list_re.match(file)
-             if m:
-                 dep_pkg = m.group(1)
--                fd = open(os.path.join(dir, file))
-+                try:
-+                    fd = open(os.path.join(dir, file))
-+                except IOError:
-+                    # During a build unrelated shlib files may be deleted, so
-+                    # handle files disappearing between the listdirs and open.
-+                    continue
-                 lines = fd.readlines()
-                 fd.close()
-                 for l in lines:
 -- 
-2.8.1
-
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
