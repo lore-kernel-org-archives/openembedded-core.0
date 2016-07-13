@@ -1,30 +1,45 @@
-Return-Path: <alejandro.delcastillo@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id A490773199
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 4DBA26067C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jul 2016 21:05:35 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u6DL5Zwh001804 for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jul 2016 16:05:35 -0500
-Received: from delcastillo2.natinst.com ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016071316053569-821037 ;
-	Wed, 13 Jul 2016 16:05:35 -0500 
-From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+	Wed, 13 Jul 2016 23:30:16 +0000 (UTC)
+Received: by mail-wm0-f42.google.com with SMTP id r190so1496958wmr.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Jul 2016 16:30:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=FuexTPcuSwwukA1vCU/+8A3rV9magAESprFyTPczTbA=;
+	b=xkgj8ik7jJf7+LaAU7iOvi4726htLgwRAPetVBbfy0WACWyrOppTPfOB5MtTSqVyd/
+	yHgP4LRO2UVJiLXP8O4LVAWsZvJkgYJFTOS3tIOcKT3KIXv1KpShNxIeTdgKN/Qo6Nj7
+	ptnxiGiW3Dp3qwC5FyCicSUUmTeBK+Xr7XGPVPsga+sMabefeXKFF7WywImtcDGSeTe4
+	Ua+O7UwHrU+3e9jjPAj26Xf/3KFPTswroAFsfG5ARvi879nUTuFHWx4PQDPy2ubzf/nq
+	xaXccZnd5Zf0XgQ0sRXJrYHYNIp3Ru56yL1wwz7VIH+BL7ZhyNuL8AOr5s6hbeVlEjGQ
+	5qaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=FuexTPcuSwwukA1vCU/+8A3rV9magAESprFyTPczTbA=;
+	b=GIYJ9uRoH+2OJwdvLlIy+C287DSBngyTcuTnAlzD0MA3JF0wx4eGH8p0hyisY8zaML
+	+WJ1CseKIgmELpYXXDwfqHmoWa6GEllnnHZGp+pdR4iWGkeCwuYA6CEPWM3bISsgGjJT
+	z6annC1MnDult67ssRx+7rmw0RKNona7XAozKCSqcJE2rXoAwnjasuTOoF1iA0tYm+yS
+	ktYZWptmrR8pVGotAOocFLJ8aa0/gcZG3k3duIlZi/sLxLbsK/edjnZgBD1k4yTaH/Ua
+	QXAvqW/MfKkms7VM5FCRiHYt/ZZ9HYPmezC1V7txVoacqlT3fusbwv6S75REq39GaDL0
+	RfSQ==
+X-Gm-Message-State: ALyK8tJl2g4pNpvNR3KVHI13VBvn19Wv0KwlE94hWivhLYga4i02qOqG6zVkeIF9pqWX5fse
+X-Received: by 10.194.247.39 with SMTP id yb7mr3381858wjc.114.1468452616774;
+	Wed, 13 Jul 2016 16:30:16 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	d64sm3097921wmc.22.2016.07.13.16.30.15
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 13 Jul 2016 16:30:15 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Jul 2016 16:05:34 -0500
-Message-Id: <1468443934-22202-1-git-send-email-alejandro.delcastillo@ni.com>
-X-Mailer: git-send-email 1.9.1
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 07/13/2016 04:05:35 PM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 07/13/2016 04:05:35 PM,
-	Serialize complete at 07/13/2016 04:05:35 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-07-13_11:, , signatures=0
-Subject: [PATCH] opkg: upgrade to v0.3.3
+Date: Thu, 14 Jul 2016 00:30:09 +0100
+Message-Id: <1468452609-23296-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH][dizzy] rpmresolve.c: Fix unfreed pointers that keep DB opened
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,39 +52,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jul 2016 21:05:35 -0000
+X-List-Received-Date: Wed, 13 Jul 2016 23:30:19 -0000
 
-Bug fix release to address two regressions:
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-*  Fix build breakage when using configure option --enable-sha256
-*  Do not remove packages if removal operation is not valid due to
-   installed dependents
+There are some unfreed rpmmi pointers in printDepList()
+function; this happens when the package have null as
+the requirement.
 
-Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+This patch fixes these unfreed pointers and add small
+changes to keep consistency with some variables.
+
+[YOCTO #8028]
+
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-devtools/opkg/{opkg_0.3.2.bb => opkg_0.3.3.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/opkg/{opkg_0.3.2.bb => opkg_0.3.3.bb} (94%)
+ meta/recipes-devtools/rpm/rpmresolve/rpmresolve.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/opkg/opkg_0.3.2.bb b/meta/recipes-devtools/opkg/opkg_0.3.3.bb
-similarity index 94%
-rename from meta/recipes-devtools/opkg/opkg_0.3.2.bb
-rename to meta/recipes-devtools/opkg/opkg_0.3.3.bb
-index 0251b7d..bce72fc 100644
---- a/meta/recipes-devtools/opkg/opkg_0.3.2.bb
-+++ b/meta/recipes-devtools/opkg/opkg_0.3.3.bb
-@@ -17,8 +17,8 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz
-            file://0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch \
- "
+diff --git a/meta/recipes-devtools/rpm/rpmresolve/rpmresolve.c b/meta/recipes-devtools/rpm/rpmresolve/rpmresolve.c
+index 7f4caf9..c0b4d56 100644
+--- a/meta/recipes-devtools/rpm/rpmresolve/rpmresolve.c
++++ b/meta/recipes-devtools/rpm/rpmresolve/rpmresolve.c
+@@ -42,7 +42,7 @@ FILE *outf;
+ int getPackageStr(rpmts ts, const char *NVRA, rpmTag tag, char **value)
+ {
+     int rc = -1;
+-    rpmmi mi = rpmtsInitIterator(ts, RPMTAG_NVRA, NVRA, 0);
++    rpmmi mi = rpmmiInit(rpmtsGetRdb(ts), RPMTAG_NVRA, NVRA, 0);
+     Header h;
+     if ((h = rpmmiNext(mi)) != NULL) {
+         HE_t he = (HE_t) memset(alloca(sizeof(*he)), 0, sizeof(*he));
+@@ -225,7 +225,7 @@ int processPackages(rpmts *ts, int tscount, const char *packagelistfn, int ignor
+ int lookupProvider(rpmts ts, const char *req, char **provider)
+ {
+     int rc = 0;
+-    rpmmi provmi = rpmtsInitIterator(ts, RPMTAG_PROVIDENAME, req, 0);
++    rpmmi provmi = rpmmiInit(rpmtsGetRdb(ts), RPMTAG_PROVIDENAME, req, 0);
+     if(provmi) {
+         Header h;
+         if ((h = rpmmiNext(provmi)) != NULL) {
+@@ -266,7 +266,7 @@ int printDepList(rpmts *ts, int tscount)
+         HE_t he = (HE_t) memset(alloca(sizeof(*he)), 0, sizeof(*he));
+         int nkeys = argvCount(keys);
+         for(i=0; i<nkeys; i++) {
+-            rpmmi mi = rpmtsInitIterator(ts[0], RPMTAG_NVRA, keys[i], 0);
++            rpmmi mi = rpmmiInit(db, RPMTAG_NVRA, keys[i], 0);
+             Header h;
+             if ((h = rpmmiNext(mi)) != NULL) {
+                 /* Get name of package */
+@@ -280,6 +280,8 @@ int printDepList(rpmts *ts, int tscount)
+                         printf("DEBUG: %s requires null\n", name);
+                     }
+                     rc = 0;
++                    free(name);
++                    (void)rpmmiFree(mi);
+                     continue;
+                 }
+                 ARGV_t reqs = (ARGV_t)he->p.ptr;
+@@ -412,7 +414,7 @@ int main(int argc, char **argv)
+     }
  
--SRC_URI[md5sum] = "b2cc1baa89d0b3d49e63ab002fd2e0a6"
--SRC_URI[sha256sum] = "c9fa948a779a4e493b9669c239de317d43c43accbccbb0cf84056f9b269ba7b0"
-+SRC_URI[md5sum] = "a4613038c8afc7d8d482f5c53f137bdf"
-+SRC_URI[sha256sum] = "19db9e73121a5e4c91fa228b0a6a4c55cc3591056130cfb3c66c30aa32f8d00e"
+     for(i=0; i<tscount; i++)
+-        (void) rpmtsCloseDB(ts[i]);
++        (void)rpmtsFree(ts[i]);
+     free(ts);
  
- inherit autotools pkgconfig systemd
- 
+     if( outfile ) {
 -- 
-1.9.1
+2.8.1
 
 
