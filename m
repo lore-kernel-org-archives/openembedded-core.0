@@ -1,45 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
-	[209.85.220.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 09F566E667
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A89C731B3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jul 2016 06:38:56 +0000 (UTC)
-Received: by mail-pa0-f65.google.com with SMTP id hh10so2451350pac.1
+	Wed, 13 Jul 2016 06:38:57 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id i6so2224540pfe.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2016 23:38:57 -0700 (PDT)
+	Tue, 12 Jul 2016 23:38:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=AWnshyBrj9Y/qQ6sS9LrR8/599eCm+DqFJrq8DFw6as=;
-	b=h0866/SQ/CEfl36QdfyORTVd2EM7C4fA3eIPk4RKYEQoLnFzwiKyrk3IKjfhMubKHo
-	oSUcS0RtA//4QfkV03PJWTvP4TUVk8WNDpkMALgrlEkE8MajbdxFMXIviDra3T3/7zIP
-	0kj4hUcWg5yi+VC83PKOT8JjeZJj1dKPA44KMaaALdZh/bXvRnZTGjPMuNgw4kBEwptL
-	J5xs/GGVqN0zeQb5nXtxsAciVVI37E+2uuqRrqg5/5bphEFwPjkPoWCK4MMmetd56wh0
-	UjQeeOUbaYb6Y0myvgaI9kJHuTE8oyq9azrWVHn8v3tt4dlhkUApqwwe2ujUX3ShjvRI
-	sOgg==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=2pTd86KZp5FiosR3+5TS5NGsudALF5Bmjihagr9W4rk=;
+	b=anekTqtGBoT4IpHN1YffGarD+RpUDKPHhD+ipKafizDhll6XbI8ll3Ya+RI/pSSJhD
+	WjPBffqir6iio3h90CZ0XJh1ffF7tMZZNJF38l6IsHJJiTogk5/wblavu2xxQHxEbxv+
+	AtFSpyaXVIaMOEb8d40YMwvOWNtlEqDQezXYZPM7huMnUiY0Aep2w9ir5FDKtXE3ixsA
+	vq1VtPEoVV6MC/pwzx+IQ/20P+DQHpizZnUTDx28RDtNZYumkLeQytxLCWRQiTCdc7Ns
+	mGRXi6DJqQCx35ybKGRTxyHkZn+jFaTdTB18tOZ7UwNFHBuSlgUh7Y8hxWRO30D5OLBW
+	nBoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=AWnshyBrj9Y/qQ6sS9LrR8/599eCm+DqFJrq8DFw6as=;
-	b=fH843fS+k2iZ5ZQxiQ1ynLYIpoZ+iOPWD5DjdCSvmteVnOKX06e3EtCowA+KVhQQYy
-	osaSxUSTNeCoZlNaaGujo2r2GLRKy7/blMNGnpT6zim/ASl7IFeNFEgObchaHmoKp3Am
-	EKeKqG5bDgHs+k7+/meI+rc9+fJmwJCHulh57cbSs6SzbCwbxdHBBtdBG4yWrPKEIvv1
-	evsMTeGQbZ8OZcEPdcHKWzLbDCvhTnqriE6pJb4CY2YPdfxdFvhm0hQTjYy+M+vg7wg2
-	NycdD0mo6WWo945cAguYXM3eogL/fXjgORfWmuZbnMxgV/OpXE3ioY4QyYgzcevgjARD
-	a6dw==
-X-Gm-Message-State: ALyK8tIFhLC2mpJOgfxsgAq/1G/zoimPLdibic4nr7mvFsNumG1qYe+ctY77yQ7eK/oMfQ==
-X-Received: by 10.66.47.133 with SMTP id d5mr10670769pan.48.1468391936975;
-	Tue, 12 Jul 2016 23:38:56 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=2pTd86KZp5FiosR3+5TS5NGsudALF5Bmjihagr9W4rk=;
+	b=gpet3SfWT9z2CucHlPSiTfai7Tb1peW6mcLDL6amj9VD8owbfJDySi0EynPHPwWfz6
+	e4DxkZEYhA5drvEZ3QPwf0BOa1TVW66K2JtDZ7MteBw4T4lcmifF60iFNJSdlMG+KnX1
+	KOBIJcFJ/YoQjDfRSiU0zZC4bLYfLnQjNDqDbmGokKiCRbGFhEN3crSMMqh9cbNmgGAr
+	UZ5jARVIr/0Jc6Ls0UOf+yrCbH83aXF97HucEnTDM6lBAuJRgzFVWfErwZFBe1sY6biG
+	/wBc4fv5e6BZ+2l5zxAcR144QhHERFs0JDnvdd0eqvzIBqmlR1FBTh+qKfyZ5iic392h
+	q+9g==
+X-Gm-Message-State: ALyK8tJOYVvogLUo8vGIiDhOvasfaUwPkGKf9uyKaMdqJ+B62a0fEkYBhJRO/ZCCk8V5CQ==
+X-Received: by 10.98.19.214 with SMTP id 83mr638030pft.117.1468391937798;
+	Tue, 12 Jul 2016 23:38:57 -0700 (PDT)
 Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
 	[76.102.32.192])
-	by smtp.gmail.com with ESMTPSA id j8sm1718040paj.22.2016.07.12.23.38.56
+	by smtp.gmail.com with ESMTPSA id j8sm1718040paj.22.2016.07.12.23.38.57
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 12 Jul 2016 23:38:56 -0700 (PDT)
+	Tue, 12 Jul 2016 23:38:57 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Jul 2016 23:38:49 -0700
-Message-Id: <20160713063850.31283-1-raj.khem@gmail.com>
+Date: Tue, 12 Jul 2016 23:38:50 -0700
+Message-Id: <20160713063850.31283-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.9.0
-Subject: [PATCH 1/2] nss: Fix build with clang
+In-Reply-To: <20160713063850.31283-1-raj.khem@gmail.com>
+References: <20160713063850.31283-1-raj.khem@gmail.com>
+Subject: [PATCH 2/2] site: Move rsync_cv_HAVE_C99_VSNPRINTF to common-linux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,109 +57,86 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 13 Jul 2016 06:38:59 -0000
 
-Add a patch to disable a clang specific warning
-and avoid passing clang options to gcc when we have
-cross compiler is clang but host compiler is gcc
-We do not need to use target cflags when building
-native pieces and hence avoid the inter-mixing of
-compiler options
+If we do not cache is then configure in distcc will try
+to compute it using AC_TRY_RUN which will give some result
+on x86-64 host when target is x86-64 but it generally is wrong
+for cross compilation. We therefore cache it for all linux
+targets.
+
+This issue is highlighted by clang when compiling distcc
+where it figures that its cross compiling and therefore triggers
+it to include its own implementation of snprintf() which does
+not go well with clang, gcc compiles it fine thats why we
+never saw the problem thus far.
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../nss/nss/disable-Wvarargs-with-clang.patch      | 33 ++++++++++++++++++++++
- .../nss/nss/nss-fix-nsinstall-build.patch          | 11 ++++----
- meta/recipes-support/nss/nss_3.24.bb               |  2 ++
- 3 files changed, 41 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-support/nss/nss/disable-Wvarargs-with-clang.patch
+ meta/site/arm-common   | 1 -
+ meta/site/common-linux | 3 +++
+ meta/site/ix86-common  | 1 -
+ meta/site/nios2-linux  | 1 -
+ meta/site/sh-common    | 1 -
+ 5 files changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-support/nss/nss/disable-Wvarargs-with-clang.patch b/meta/recipes-support/nss/nss/disable-Wvarargs-with-clang.patch
-new file mode 100644
-index 0000000..86b1b60
---- /dev/null
-+++ b/meta/recipes-support/nss/nss/disable-Wvarargs-with-clang.patch
-@@ -0,0 +1,33 @@
-+clang 3.9 add this warning to rightly flag undefined
-+behavior, we relegate this to be just a warning instead
-+of error and keep the behavior as it was. Right fix would
-+be to not pass enum to the function with variadic arguments
-+as last named argument
-+
-+Fixes errors like
-+ocsp.c:2220:22: error: passing an object that undergoes default argument promotion to 'va_start' has undefined behavior [-Werror,-Wvarargs]
-+        va_start(ap, responseType0);
-+                     ^
-+ocsp.c:2200:43: note: parameter of type 'SECOidTag' is declared here
-+                                SECOidTag responseType0, ...)
-+
-+see
-+https://www.securecoding.cert.org/confluence/display/cplusplus/EXP58-CPP.+Pass+an+object+of+the+correct+type+to+va_start
-+for more details
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Upstream-Status: Pending
-+
-+Index: nss-3.24/nss/coreconf/Werror.mk
-+===================================================================
-+--- nss-3.24.orig/nss/coreconf/Werror.mk
-++++ nss-3.24/nss/coreconf/Werror.mk
-+@@ -54,7 +54,7 @@ ifndef WARNING_CFLAGS
-+     ifdef CC_IS_CLANG
-+       # -Qunused-arguments : clang objects to arguments that it doesn't understand
-+       #    and fixing this would require rearchitecture
-+-      WARNING_CFLAGS += -Qunused-arguments
-++      WARNING_CFLAGS += -Qunused-arguments -Wno-error=varargs
-+       # -Wno-parentheses-equality : because clang warns about macro expansions
-+       WARNING_CFLAGS += $(call disable_warning,parentheses-equality)
-+       ifdef BUILD_OPT
-diff --git a/meta/recipes-support/nss/nss/nss-fix-nsinstall-build.patch b/meta/recipes-support/nss/nss/nss-fix-nsinstall-build.patch
-index 866de07..181c69a 100644
---- a/meta/recipes-support/nss/nss/nss-fix-nsinstall-build.patch
-+++ b/meta/recipes-support/nss/nss/nss-fix-nsinstall-build.patch
-@@ -16,11 +16,11 @@ Upstream-Status: Pending
+diff --git a/meta/site/arm-common b/meta/site/arm-common
+index a3c979f..198c98c 100644
+--- a/meta/site/arm-common
++++ b/meta/site/arm-common
+@@ -113,7 +113,6 @@ rsync_cv_HAVE_SHORT_INO_T=${rsync_cv_HAVE_SHORT_INO_T=no}
+ rsync_cv_HAVE_UNSIGNED_CHAR=${rsync_cv_HAVE_UNSIGNED_CHAR=no}
+ rsync_cv_HAVE_BROKEN_READDIR=${rsync_cv_HAVE_BROKEN_READDIR=no}
+ rsync_cv_HAVE_GETTIMEOFDAY_TZ=${rsync_cv_HAVE_GETTIMEOFDAY_TZ=yes}
+-rsync_cv_HAVE_C99_VSNPRINTF=${rsync_cv_HAVE_C99_VSNPRINTF=yes}
+ rsync_cv_HAVE_SECURE_MKSTEMP=${rsync_cv_HAVE_SECURE_MKSTEMP=yes}
+ rsync_cv_REPLACE_INET_NTOA=${rsync_cv_REPLACE_INET_NTOA=no}
+ rsync_cv_REPLACE_INET_ATON=${rsync_cv_REPLACE_INET_ATON=no}
+diff --git a/meta/site/common-linux b/meta/site/common-linux
+index 0a752a4..2958716 100644
+--- a/meta/site/common-linux
++++ b/meta/site/common-linux
+@@ -61,3 +61,6 @@ ac_cv_have_long_long_format=yes
  
- Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
- ===================================================
--diff --git a/nss/coreconf/nsinstall/Makefile b/nss/coreconf/nsinstall/Makefile
--index 1850bcb..5aee84f 100644
----- a/nss/coreconf/nsinstall/Makefile
--+++ b/nss/coreconf/nsinstall/Makefile
--@@ -18,6 +18,12 @@ INTERNAL_TOOLS  = 1
-+Index: nss-3.24/nss/coreconf/nsinstall/Makefile
-+===================================================================
-+--- nss-3.24.orig/nss/coreconf/nsinstall/Makefile
-++++ nss-3.24/nss/coreconf/nsinstall/Makefile
-+@@ -18,6 +18,13 @@ INTERNAL_TOOLS  = 1
-  
-  include $(DEPTH)/coreconf/config.mk
-  
-@@ -29,6 +29,7 @@ index 1850bcb..5aee84f 100644
- +# to clean the '-m64' from ARCHFLAG and LDFLAGS.
- +ARCHFLAG =
- +LDFLAGS =
-++CFLAGS =
- +
-  ifeq (,$(filter-out OS2 WIN%,$(OS_TARGET)))
-  PROGRAM		=
-diff --git a/meta/recipes-support/nss/nss_3.24.bb b/meta/recipes-support/nss/nss_3.24.bb
-index 95a33f2..caed7fa 100644
---- a/meta/recipes-support/nss/nss_3.24.bb
-+++ b/meta/recipes-support/nss/nss_3.24.bb
-@@ -20,6 +20,7 @@ SRC_URI = "\
-     file://nss-no-rpath-for-cross-compiling.patch \
-     file://nss-fix-incorrect-shebang-of-perl.patch \
-     file://nss-fix-nsinstall-build.patch \
-+    file://disable-Wvarargs-with-clang.patch \
-     file://nss.pc.in \
-     file://signlibs.sh \
- "
-@@ -62,6 +63,7 @@ do_compile_prepend_class-native() {
- do_compile() {
-     export CROSS_COMPILE=1
-     export NATIVE_CC="gcc"
-+    export NATIVE_FLAGS="${HOST_CFLAGS}"
-     export BUILD_OPT=1
- 
-     export FREEBL_NO_DEPEND=1
+ # apache
+ ac_cv_o_nonblock_inherited=${ac_cv_o_nonblock_inherited=no}
++
++# rsync
++rsync_cv_HAVE_C99_VSNPRINTF=${rsync_cv_HAVE_C99_VSNPRINTF=yes}
+diff --git a/meta/site/ix86-common b/meta/site/ix86-common
+index 23b8e8b..f4cf0b8 100644
+--- a/meta/site/ix86-common
++++ b/meta/site/ix86-common
+@@ -154,7 +154,6 @@ rsync_cv_HAVE_SHORT_INO_T=${rsync_cv_HAVE_SHORT_INO_T=no}
+ rsync_cv_HAVE_UNSIGNED_CHAR=${rsync_cv_HAVE_UNSIGNED_CHAR=no}
+ rsync_cv_HAVE_BROKEN_READDIR=${rsync_cv_HAVE_BROKEN_READDIR=no}
+ rsync_cv_HAVE_GETTIMEOFDAY_TZ=${rsync_cv_HAVE_GETTIMEOFDAY_TZ=yes}
+-rsync_cv_HAVE_C99_VSNPRINTF=${rsync_cv_HAVE_C99_VSNPRINTF=yes}
+ rsync_cv_HAVE_SECURE_MKSTEMP=${rsync_cv_HAVE_SECURE_MKSTEMP=yes}
+ rsync_cv_REPLACE_INET_NTOA=${rsync_cv_REPLACE_INET_NTOA=no}
+ rsync_cv_REPLACE_INET_ATON=${rsync_cv_REPLACE_INET_ATON=no}
+diff --git a/meta/site/nios2-linux b/meta/site/nios2-linux
+index 95c09d3..2f4e570 100644
+--- a/meta/site/nios2-linux
++++ b/meta/site/nios2-linux
+@@ -171,7 +171,6 @@ rsync_cv_HAVE_SHORT_INO_T=${rsync_cv_HAVE_SHORT_INO_T=no}
+ rsync_cv_HAVE_UNSIGNED_CHAR=${rsync_cv_HAVE_UNSIGNED_CHAR=no}
+ rsync_cv_HAVE_BROKEN_READDIR=${rsync_cv_HAVE_BROKEN_READDIR=no}
+ rsync_cv_HAVE_GETTIMEOFDAY_TZ=${rsync_cv_HAVE_GETTIMEOFDAY_TZ=yes}
+-rsync_cv_HAVE_C99_VSNPRINTF=${rsync_cv_HAVE_C99_VSNPRINTF=yes}
+ rsync_cv_HAVE_SECURE_MKSTEMP=${rsync_cv_HAVE_SECURE_MKSTEMP=yes}
+ rsync_cv_REPLACE_INET_NTOA=${rsync_cv_REPLACE_INET_NTOA=no}
+ rsync_cv_REPLACE_INET_ATON=${rsync_cv_REPLACE_INET_ATON=no}
+diff --git a/meta/site/sh-common b/meta/site/sh-common
+index 5cbf36a..fc4d6ad 100644
+--- a/meta/site/sh-common
++++ b/meta/site/sh-common
+@@ -216,7 +216,6 @@ rsync_cv_HAVE_SHORT_INO_T=${rsync_cv_HAVE_SHORT_INO_T=no}
+ rsync_cv_HAVE_UNSIGNED_CHAR=${rsync_cv_HAVE_UNSIGNED_CHAR=no}
+ rsync_cv_HAVE_BROKEN_READDIR=${rsync_cv_HAVE_BROKEN_READDIR=no}
+ rsync_cv_HAVE_GETTIMEOFDAY_TZ=${rsync_cv_HAVE_GETTIMEOFDAY_TZ=yes}
+-rsync_cv_HAVE_C99_VSNPRINTF=${rsync_cv_HAVE_C99_VSNPRINTF=yes}
+ rsync_cv_HAVE_SECURE_MKSTEMP=${rsync_cv_HAVE_SECURE_MKSTEMP=yes}
+ rsync_cv_REPLACE_INET_NTOA=${rsync_cv_REPLACE_INET_NTOA=no}
+ rsync_cv_REPLACE_INET_ATON=${rsync_cv_REPLACE_INET_ATON=no}
 -- 
 2.9.0
 
