@@ -1,64 +1,61 @@
-Return-Path: <public@plane.gmane.org>
-X-Greylist: delayed 902 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 13 Jul 2016 08:28:53 UTC
-Received: from plane.gmane.org (plane.gmane.org [80.91.229.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 7EB3A6E65F
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-vk0-f42.google.com (mail-vk0-f42.google.com
+	[209.85.213.42])
+	by mail.openembedded.org (Postfix) with ESMTP id EBC8F6067C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jul 2016 08:28:53 +0000 (UTC)
-Received: from public by plane.gmane.org with local (Exim 4.69)
-	(envelope-from <public@plane.gmane.org>) id 1bNFIl-00053H-Jw
-	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Jul 2016 10:13:51 +0200
-Received: from public by plane.gmane.org with local (Exim 4.69)
-	(envelope-from <forlorn18@gmail.com>) id 1bNFIb-0004xh-AS for
-	public-openembedded-core-ZwoEplunGu3dfDuKDZ/zN51Ccm5ICvs9@plane.gmane.org;
-	Wed, 13 Jul 2016 10:13:41 +0200
-Received: from mail-wm0-f65.google.com ([74.125.82.65])
-	by plane.gmane.org with esmtp (Exim 4.69)
-	(envelope-from <forlorn18@gmail.com>)
-	id 1bNF6u-0007Qm-Fp; Wed, 13 Jul 2016 10:01:36 +0200
-Received: by mail-wm0-f65.google.com with SMTP id q128so299861wma.1;
-	Wed, 13 Jul 2016 01:01:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:subject:from:to:date:in-reply-to:references:mime-version; 
-	bh=G8dc9jSP6tjlG5420IxeC+qvm/hgSpSftLkh4CVt7XY=;
-	b=PNm53sCIswESPuqe/DMrQJJjzDJlXdcoIRvbdl0/Fcrxw3jZ5k9/s446IMqPYKvneu
-	fMTsgUhNLvcKtM8w1YreTLKdPsZhKeLJBr0tJLqbd8isXc5SFLCZlJZ9VH9Wv7N07lQl
-	OaFKukb/p/PbIF5vfAI1TiBnbie8cg6WLx7RcyExCpnAdtozIHNOD63+gvxp5hAxMgsV
-	/9WhvAQCakcFywHCJNjl6DFyqKlIJ5HCiXtWq32YHob2b6S0/jIVgM3/xw+/yK4hM39S
-	+AYuFN4CdMdh0izCSOOqaGKDdRq6Nw+3Fqi1SLxfmuFk/PFV2wQA6PAOjrpBd3KxSYHV
-	JEOA==
+	Wed, 13 Jul 2016 09:59:35 +0000 (UTC)
+Received: by mail-vk0-f42.google.com with SMTP id v6so58006006vkb.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Jul 2016 02:59:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=J9cphY7+x88ylFsiTEHwXDaj34G85ZfRkF37949s8qE=;
+	b=o3Nq1xhvDzG2ZpFn8aVFaRiJSzjh8Tc6nkJthYvVBR+c9+XrI0PSPSKKTBNCkF0Bdw
+	VBUxX0gK8A25XUdla7ptW2kMfpPI/OW9d7uN0K1gi6FktJOrQFWB7U0SlET4jY+TmQ1C
+	auyVeallmDZ5d9UL+SrBfbUKt0bHby1Cy47Yr2GhLa2EYXvEwTmRLSrIrR5kCclV5jxI
+	tOYmE0O4ls9MFoxEcgm3bfdsEiLuVJ45xJA3zT91ZfcL8hARt/YLuHpmq7bi+wOdG37w
+	web3ux5hhinq2IKIGiYfqK0PU2fY9vKikM8hfcaUeef2sQQPydV1+XlhvWoH2jIizHNL
+	eX/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version;
-	bh=G8dc9jSP6tjlG5420IxeC+qvm/hgSpSftLkh4CVt7XY=;
-	b=S8G9CUQjB+rmj3NRPIRmYKBFcVTzE8MotxaLsq586/NKkSuzFFFCQpXTlxV08MVZah
-	PHe8BnpTnxDSkOtoo+mjUx94I2U9FiTqKWjT/UZFGjssblALjqNM0hd+LQ1SJURLB0pe
-	Zi/4sCZLzAm0OSNVIi2tduK003gulTmL6e9y0wCp0BWPCZGKNrV8QeyOdBHP+Re814Sm
-	LZ2YS6WAayDxizT+dzXJ+otzrMmoBB0NE900YBk5bw+HFAhm6DimbGBV4ZJ5SQQ18Z/1
-	aHrGr4uP3FZ0Pk9AE14tVDhgOFwe+TOtXANA8TzLSKX+/tIBp7d4znKtKXJFOIExaoKv
-	N0NA==
-X-Gm-Message-State: ALyK8tKD87lGhVewhYThA7GMY0ws63UHfDrmJW38jKNf+QnEsdbpcfKsTviwtTKA/IY5bg==
-X-Received: by 10.28.157.10 with SMTP id g10mr1187089wme.34.1468396895548;
-	Wed, 13 Jul 2016 01:01:35 -0700 (PDT)
-Received: from ConcEmb (ger67-1-88-180-180-180.fbx.proxad.net.
-	[88.180.180.180]) by smtp.gmail.com with ESMTPSA id
-	t71sm27165705wmt.24.2016.07.13.01.01.34
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 13 Jul 2016 01:01:35 -0700 (PDT)
-Message-ID: <1468396893.6315.6.camel@gmail.com>
-From: Francois Muller <forlorn18@gmail.com>
-To: public-ed.bartosh-VuQAYsv1563Yd54FQh9/CA@plane.gmane.org, 
-	public-openembedded-core-ZwoEplunGu3dfDuKDZ/zN51Ccm5ICvs9@plane.gmane.org
-Date: Wed, 13 Jul 2016 10:01:33 +0200
-In-Reply-To: <20160229151106.GA3674@linux.intel.com>
-References: <1456420909-9926-1-git-send-email-kergoth@gmail.com>
-	<20160229151106.GA3674@linux.intel.com>
-X-Mailer: Evolution 3.20.3-1 
-Mime-Version: 1.0
-X-TMDA-Confirmed: Wed, 13 Jul 2016 10:13:41 +0200
-Subject: Re: [PATCH] wic: don't throw away our created swap partition
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=J9cphY7+x88ylFsiTEHwXDaj34G85ZfRkF37949s8qE=;
+	b=KjyYJ2pA0WddYse5aWYf9VGphqWK5W262QtN3IRpAtw+g1yrzqfWBbh7tPGAtZ1qPE
+	JWUPqJ5henZpnL/Yu8s0jhEwLpim90K8sEWyomIofX30I2NILGAS2Y8jajUPjquFZMer
+	8QIfQTEAmBInPTDR+RPLTBaH5AC6cNuoxpz9YW2rRoMwWrL2xV/KVAptTQehdHHBMICx
+	Zzg2Yp6rIEwKpuEnNLUStmzCYzuX6C/ZrVgTvkg3tWpxdb3qEYCdXle7L9arsuHqrdap
+	+x9ecxddKlNWYt0Jd96YeOvY+vTQdVvZYhtoLm0L/mDgbtaL1FGpLgo7RGoJhiufgEQS
+	1QRw==
+X-Gm-Message-State: ALyK8tIts0fXDcxCw20/RVBPXf8AI7tR6biX/s0vz3qW+IMwFJVga78grxor/RAKYQtpPg==
+X-Received: by 10.159.32.105 with SMTP id 96mr3474243uam.23.1468403975170;
+	Wed, 13 Jul 2016 02:59:35 -0700 (PDT)
+Received: from mail-vk0-f48.google.com (mail-vk0-f48.google.com.
+	[209.85.213.48])
+	by smtp.gmail.com with ESMTPSA id 79sm6544729uaf.18.2016.07.13.02.59.33
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 13 Jul 2016 02:59:34 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-vk0-f48.google.com with SMTP id x130so58212615vkc.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Jul 2016 02:59:33 -0700 (PDT)
+X-Received: by 10.31.163.72 with SMTP id m69mr3450833vke.72.1468403973550;
+	Wed, 13 Jul 2016 02:59:33 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.31.192.195 with HTTP; Wed, 13 Jul 2016 02:59:32 -0700 (PDT)
+In-Reply-To: <CAMKF1srQZpiu1fkeTc9KYmc+p-jztbrL_5zywzPs2eipoE4G=Q@mail.gmail.com>
+References: <57857E9B.2060607@gmail.com>
+	<CAMKF1srQZpiu1fkeTc9KYmc+p-jztbrL_5zywzPs2eipoE4G=Q@mail.gmail.com>
+Date: Wed, 13 Jul 2016 06:59:32 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKoGdjPSq-=-XTYj+yRCz=9QWBJkPsUx8whiG_HMwyhYoA@mail.gmail.com>
+Message-ID: <CAP9ODKoGdjPSq-=-XTYj+yRCz=9QWBJkPsUx8whiG_HMwyhYoA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: musl 1.1.15 for krogoth?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -71,126 +68,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jul 2016 08:28:54 -0000
-Content-Type: multipart/alternative; boundary="=-OtBJMcsQ3qYkO+GJ9/R/"
+X-List-Received-Date: Wed, 13 Jul 2016 09:59:36 -0000
+Content-Type: text/plain; charset=UTF-8
 
---=-OtBJMcsQ3qYkO+GJ9/R/
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+On Tue, Jul 12, 2016 at 8:37 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> On Tue, Jul 12, 2016 at 4:34 PM, akuster808 <akuster808@gmail.com> wrote:
+>>
+>> Khem,
+>>
+>> would updating Krogoth musl to 1.1.15 be safe?
+>
+> It would be, since there are no ABI breaking changes between 1.1.14 and 1.1.15
+> incremental fixes and new architectures primarily.
+>
+>>
+>> I already pulled in the other musl tip updates.
+>
+> OK thanks
 
-Hi Ed,
-May you also apply this patch to jethro branch please ?
-Wks-created images requires also running mkswap on the target but it
-shouldn't be necessary.
-Best regards,
-François
-Le lundi 29 février 2016 à 17:11 +0200, Ed Bartosh a écrit :
-> Hi Cristopher,
-> 
-> Thank you for the patch!
-> 
-> Acked-by: Ed Bartosh 
-> org>
-> 
-> On Thu, Feb 25, 2016 at 10:21:49AM -0700, Christopher Larson wrote:
-> > From: Christopher Larson 
-> > c.gmane.org>
-> > 
-> > We were creating the partition, mkswap'ing it, and then not dd'ing
-> > it into
-> > place in the final image, as source_file wasn't being set for swap
-> > partitions.
-> > This would result in a swap partition that couldn't be enabled on
-> > target until
-> > mkswap was run.
-> > 
-> > Signed-off-by: Christopher Larson 
-> > lfA@public.gmane.org>
-> > ---
-> >  scripts/lib/wic/kickstart/custom_commands/partition.py | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/scripts/lib/wic/kickstart/custom_commands/partition.py
-> > b/scripts/lib/wic/kickstart/custom_commands/partition.py
-> > index eee25a4..a0e74aa 100644
-> > --- a/scripts/lib/wic/kickstart/custom_commands/partition.py
-> > +++ b/scripts/lib/wic/kickstart/custom_commands/partition.py
-> > @@ -173,6 +173,7 @@ class Wic_PartData(FC4_PartData):
-> >              if self.fstype and self.fstype == "swap":
-> >                  self.prepare_swap_partition(cr_workdir,
-> > oe_builddir,
-> >                                              native_sysroot)
-> > +                self.source_file = "%s/fs.%s" % (cr_workdir,
-> > self.fstype)
-> >              elif self.fstype:
-> >                  rootfs = "%s/fs_%s.%s.%s" % (cr_workdir,
-> > self.label,
-> >                                               self.lineno,
-> > self.fstype)
-> > -- 
-> > 2.2.1
-> > 
-> > -- 
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core-ZwoEplunGu3dfDuKDZ/zN51Ccm5ICvs9@public.gmane.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
-> -- 
-> --
-> Regards,
-> Ed
-
---=-OtBJMcsQ3qYkO+GJ9/R/
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html><head></head><body><div>Hi Ed,</div><div><br></div><div>May you also apply this patch to jethro branch please ?</div><div>Wks-created images requires also running mkswap on the target but it shouldn't be necessary.</div><div><br></div><div>Best regards,</div><div>François</div><div><br></div><div class="-x-evo-paragraph -x-evo-top-signature-spacer"><br></div><div>Le lundi 29 février 2016 à 17:11 +0200, Ed Bartosh a écrit&nbsp;:</div><blockquote type="cite"><pre>Hi Cristopher,
-
-Thank you for the patch!
-
-Acked-by: Ed Bartosh &lt;ed.bartosh-VuQAYsv1563Yd54FQh9/<a href="mailto:CA@public.gmane.org">CA@public.gmane.org</a>&gt;
-
-On Thu, Feb 25, 2016 at 10:21:49AM -0700, Christopher Larson wrote:
-<blockquote type="cite">
-From: Christopher Larson &lt;<a href="mailto:chris_larson-nmGgyN9QBj3QT0dZR+AlfA@public.gmane.org">chris_larson-nmGgyN9QBj3QT0dZR+AlfA@public.gmane.org</a>&gt;
-
-We were creating the partition, mkswap'ing it, and then not dd'ing it into
-place in the final image, as source_file wasn't being set for swap partitions.
-This would result in a swap partition that couldn't be enabled on target until
-mkswap was run.
-
-Signed-off-by: Christopher Larson &lt;<a href="mailto:chris_larson-nmGgyN9QBj3QT0dZR+AlfA@public.gmane.org">chris_larson-nmGgyN9QBj3QT0dZR+AlfA@public.gmane.org</a>&gt;
----
- scripts/lib/wic/kickstart/custom_commands/partition.py | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/scripts/lib/wic/kickstart/custom_commands/partition.py b/scripts/lib/wic/kickstart/custom_commands/partition.py
-index eee25a4..a0e74aa 100644
---- a/scripts/lib/wic/kickstart/custom_commands/partition.py
-+++ b/scripts/lib/wic/kickstart/custom_commands/partition.py
-@@ -173,6 +173,7 @@ class Wic_PartData(FC4_PartData):
-             if self.fstype and self.fstype == "swap":
-                 self.prepare_swap_partition(cr_workdir, oe_builddir,
-                                             native_sysroot)
-+                self.source_file = "%s/fs.%s" % (cr_workdir, self.fstype)
-             elif self.fstype:
-                 rootfs = "%s/fs_%s.%s.%s" % (cr_workdir, self.label,
-                                              self.lineno, self.fstype)
--- 
-2.2.1
+Most of 1.1.15 changes are already in, so I think it should go as well.
 
 -- 
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core-ZwoEplunGu3dfDuKDZ/<a href="mailto:zN51Ccm5ICvs9@public.gmane.org">zN51Ccm5ICvs9@public.gmane.org</a>
-<a href="http://lists.openembedded.org/mailman/listinfo/openembedded-core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a>
-</blockquote>
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
--- 
---
-Regards,
-Ed
-</pre></blockquote></body></html>
-
---=-OtBJMcsQ3qYkO+GJ9/R/--
