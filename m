@@ -1,28 +1,48 @@
-Return-Path: <benjamin.esquivel@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 5546E6067C
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F7396067C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jul 2016 14:09:51 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP; 13 Jul 2016 07:09:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,357,1464678000"; d="scan'208";a="845543095"
-Received: from besquive-mobl.amr.corp.intel.com (HELO besquiveMOBL)
-	([10.219.24.75])
-	by orsmga003.jf.intel.com with ESMTP; 13 Jul 2016 07:09:52 -0700
-Reply-To: <benjamin.esquivel@intel.com>
-From: "Benjamin Esquivel" <benjamin.esquivel@linux.intel.com>
-To: <mariano.lopez@linux.intel.com>, <openembedded-core@lists.openembedded.org>
-References: <cover.1468328858.git.mariano.lopez@linux.intel.com>
-	<54304422afaa3f1b3c8504f9bf2e8e74b9f15837.1468328858.git.mariano.lopez@linux.intel.com>
-In-Reply-To: <54304422afaa3f1b3c8504f9bf2e8e74b9f15837.1468328858.git.mariano.lopez@linux.intel.com>
-Date: Wed, 13 Jul 2016 09:09:51 -0500
-Organization: Intel Corporation
-Message-ID: <008101d1dd10$397e5190$ac7af4b0$@linux.intel.com>
+	Wed, 13 Jul 2016 14:24:13 +0000 (UTC)
+Received: by mail-wm0-f50.google.com with SMTP id i5so71949168wmg.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Jul 2016 07:24:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:subject:message-id:mime-version:content-disposition
+	:user-agent; bh=ZvaOBNfAlvEr2BvmTA04DxznFKk/Lh7R3VH+VVRZusU=;
+	b=Bh7sK//E0biyHkKaEqRY13ajpaveRP/sgHuj1ncbvXu1Gfh/RGlT7Odf4BSGEdmrqG
+	/OlIn3rZd/d6WqQzoyeqQ7vkcS9FusJSTheoYrIdQy68B5fz+akijBojkk3BgunYdq7S
+	epuDv9oaqA/kC3dAWN4oS9pRPCcDwwZLuTykvoLvkVIlcnSy1scucWBQrpojOL8K3LUr
+	xxZqTJN4FeI5R0y5IkerurTorqjYERurAZAfQiUfk4DIupPb2F32qHYaVU+pojXCiB66
+	nar57vuvVSH0v+W1TLBCdVOJUxYZVmnnAxBvsqbRLE9Qy9jzEfAAh8iSpQAAa4/3jIro
+	SsQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:date:to:subject:message-id:mime-version
+	:content-disposition:user-agent;
+	bh=ZvaOBNfAlvEr2BvmTA04DxznFKk/Lh7R3VH+VVRZusU=;
+	b=fSJtg7K7/WzET3lJQfxBmCYLlfOGWemk8+67HmCdhlXlHBkZysd54jKyn17V18qxv4
+	N2NlrY7GGFluvU/vhDaKBidKSvKLmcGKtFVyv0pIpbQ/rr14P0tYMjGoOztbA1urcBOl
+	Q3yxR9dWkj94UqlUJ0s4T2PPeLbs8LYZI8vA+2veUww1MallRN9GSXb35deX065i0WOw
+	4zo+8LkUwkARbd0xF8Ia9eWbeLsxd9u5nFO5VuGa7XbKLp5nN9JyERYym1IGALXAZlNy
+	+Fi36d7YVbhungN3Qg8yAxZ/X8L0JFhew1EMtpQZ1WPdoazrl5zyvzLkjG1FURX+5bUw
+	zuxA==
+X-Gm-Message-State: ALyK8tJVKR3kVBmTrYRCAAh1wkNTDGVkItyzX5mFeK+mFe74H0smWIDF+uWFYL5nDCzGrg==
+X-Received: by 10.28.223.139 with SMTP id w133mr4946346wmg.90.1468419852762;
+	Wed, 13 Jul 2016 07:24:12 -0700 (PDT)
+Received: from localhost (ip-89-176-104-169.net.upcbroadband.cz.
+	[89.176.104.169]) by smtp.gmail.com with ESMTPSA id
+	bf3sm1162393wjc.45.2016.07.13.07.24.11
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 13 Jul 2016 07:24:11 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 13 Jul 2016 16:24:22 +0200
+To: OE-core <openembedded-core@lists.openembedded.org>
+Message-ID: <20160713142422.aihj4b5qmni7uair@jama>
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 15.0
-Thread-Index: AQH3XAQ1/78q8eM1KdmnvXd5aDhLVAILRaL8n7sLT/A=
-Subject: Re: [PATCH 1/1] selftest/seltest.py: Add test to check imports from other layers
+User-Agent: Mutt/1.6.2 (2016-06-11)
+Subject: Downloads from sourceforge.net
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,103 +55,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jul 2016 14:09:53 -0000
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-Content-Language: en-us
+X-List-Received-Date: Wed, 13 Jul 2016 14:24:16 -0000
+X-Groupsio-MsgNum: 84464
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="csylf73ypnnpoayi"
+Content-Disposition: inline
 
-Comments below
+--csylf73ypnnpoayi
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The test looks good.
+Just FYI
 
-> -----Original Message-----
-> From: mariano.lopez@linux.intel.com
-> [mailto:mariano.lopez@linux.intel.com]
-> Sent: Tuesday, July 12, 2016 8:10 AM
-> To: openembedded-core@lists.openembedded.org
-> Cc: benjamin.esquivel@linux.intel.com; Mariano Lopez
-> <mariano.lopez@linux.intel.com>
-> Subject: [PATCH 1/1] selftest/seltest.py: Add test to check imports from
-> other layers
-> 
-> From: Mariano Lopez <mariano.lopez@linux.intel.com>
-> 
-> This tests adds a check of selftest itself to verify if can add test from
-other
-> layers.
-> 
-> [YOCTO #9770]
-> 
-> Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
-> ---
->  meta-selftest/lib/oeqa/selftest/imported.py | 14 ++++++++++++++
->  meta/lib/oeqa/selftest/seltest.py           | 19 +++++++++++++++++++
->  2 files changed, 33 insertions(+)
->  create mode 100644 meta-selftest/lib/oeqa/selftest/imported.py
->  create mode 100644 meta/lib/oeqa/selftest/seltest.py
-> 
-> diff --git a/meta-selftest/lib/oeqa/selftest/imported.py b/meta-
-> selftest/lib/oeqa/selftest/imported.py
-> new file mode 100644
-> index 0000000..b80150b
-> --- /dev/null
-> +++ b/meta-selftest/lib/oeqa/selftest/imported.py
-> @@ -0,0 +1,14 @@
-> +from oeqa.selftest.base import oeSelfTest from oeqa.utils.decorators
-> +import testcase
-> +
-> +class ImportedTests(oeSelfTest):
-> +
-> +    def test_import_dummy(self):
-There is a bug where I am proposing some changes to the naming of the tests.
-I'll take this test name as an example:
-imported.ImportedTests.test_import_dummy. With my proposal I'd name this
-test something more along these lines:
-external_layer.ImportedTests.test_inconditional_pass.
-> +        """
-> +        Summary: Doesn't check anything, used to check import test from
-other
-> layers.
-> +        Expected: 1. Pass unconditionally
-> +        Product: oe-core
-> +        Author: Mariano Lopez <mariano.lopez@intel.comr
-typo at the end of the line
-> +        """
-> +
-> +        self.assertEqual(True, True, msg = "Impossible to fail this
-> + test")
-> diff --git a/meta/lib/oeqa/selftest/seltest.py
-> b/meta/lib/oeqa/selftest/seltest.py
-> new file mode 100644
-> index 0000000..ea185ec
-> --- /dev/null
-> +++ b/meta/lib/oeqa/selftest/seltest.py
-> @@ -0,0 +1,19 @@
-> +from oeqa.selftest.base import oeSelfTest from oeqa.utils.commands
-> +import runCmd from oeqa.utils.decorators import testcase
-> +
-> +class Selftest(oeSelfTest):
-> +
-> +    def test_import_test_from_layer(self):
-Based on the naming guidelines comment above, proposing something like:
-selftest.externalLayer.test_list_imported
-> +        """
-> +        Summary: Checks functionality to import tests from other layers.
-> +        Expected: 1. Must show "test_import_dummy" in the test list.
-> +        Product: oe-core
-> +        Author: Mariano Lopez <mariano.lopez@intel.com>
-> +        """
-> +
-> +        test_name = "imported.ImportedTests.test_import_dummy"
-> +        error_msg = "Couldn't find test: %s; Not importing tests from
-other
-> layers" % test_name
-> +        result = runCmd("oe-selftest --list-tests")
-> +        success = True if test_name in result.output else False
-> +        self.assertEqual(success, True, msg = error_msg)
-> --
-> 2.6.6
+If you're seeing a lot of do_fetch failures because of SRC_URI checksums
+mismatch, be aware that there is some issue with sourceforge.net, all my
+source archive downloads (with wget) download just this HTML:
 
+wget http://downloads.sourceforge.net/project/gptfdisk/gptfdisk/0.8.10/gptf=
+disk-0.8.10.tar.gz
 
+<html><head>
+<title>SourceForge</title>
+<!-- <script src=3D"/js/jquery.com/jquery-1.11.0.min.js"></script> -->
+<script src=3D"//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src=3D"//sourceforge.net/js/mirrors.js"></script>
+<script src=3D"/js/sf.js"></script>
+<script>
+var DR_loc =3D DR_parse_hash_url();
+if (DR_loc) {
+    DR_sf_main(DR_loc);
+} else {
+    window.location.href =3D 'http://sourceforge.net/home.html';
+}
+</script>
+</head><body>
+<noscript>
+We're sorry -- the Sourceforge site is currently in Disaster Recovery mode,=
+ and currently requires
+the use of javascript to function.  Please check back later.
+</noscript>
+</body></html>
 
+Which of course has different checksums than tarball with sources.
+
+You can see similar message if you try to access e.g. their blog (to find o=
+ut if it's already
+known issue for them):
+http://sourceforge.net/blog/
+or
+http://sourceforge.net/blog/category/sitestatus/
+
+Until it's resolved continue to use your better-be-already-populated premir=
+rors.
+
+Regards,
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--csylf73ypnnpoayi
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAleGTxQACgkQN1Ujt2V2gByXNACfSIEj8CXFDi+fdCmpZHL97knZ
+twIAn11n1hm6hVjzRCjIM+7x/O6V9bXn
+=mLJP
+-----END PGP SIGNATURE-----
+
+--csylf73ypnnpoayi--
