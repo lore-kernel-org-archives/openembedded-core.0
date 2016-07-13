@@ -1,42 +1,38 @@
 Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F2F96067C
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 73B506067C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jul 2016 10:14:37 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id i5so5321467wmg.2
+	Wed, 13 Jul 2016 10:19:15 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id q128so898701wma.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jul 2016 03:14:38 -0700 (PDT)
+	Wed, 13 Jul 2016 03:19:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=iBO8FVRcOFF9cNbksrY8RVLrys57s+GubGpF8yADbMA=;
-	b=YMOddecaJ4yVWsNsahiHC/Ty4cigkTEBGvS5sGjzRPN0rR3oRtkIwdeL4aQQfqC8KL
-	xBmMwPRjHq7IWIQNKy/kRZ47vU2hwetG9LR7tnZpxR1udWBldoUTtuFkewegZ4yHivjd
-	LASbRbg/iFm+dEaIC4vAGTZfwxXN6UilXpR4uEYbuVHcpLIRAtXcHET0CnI4QPgjbGsH
-	MVepodaOyX1WUynrJBQKS5tVgJ1fyELGZ98VtTAUogBtaUGefNN9AAUJzhDJRF/SPq4j
-	aR7oNFEsnKNI25xUzKdEU/dAJXY3eo/OLdizCtH5wopsQRs8kHIFVN1Q7xPm1w6iBSNQ
-	Brtg==
-X-Gm-Message-State: ALyK8tK1AD4oMbluuw3qlU1Omo3feT6N0u74PwMuwKJg7G7+v/atllNLBvq+4yd/EQOxPA==
-X-Received: by 10.28.193.140 with SMTP id r134mr4127498wmf.81.1468404877710;
-	Wed, 13 Jul 2016 03:14:37 -0700 (PDT)
-Received: from localhost ([185.46.212.59]) by smtp.gmail.com with ESMTPSA id
-	r13sm8014131wmf.12.2016.07.13.03.14.36
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 13 Jul 2016 03:14:36 -0700 (PDT)
-Message-ID: <1468404872.23527.7.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 13 Jul 2016 11:14:32 +0100
-In-Reply-To: <aa5165d3-c97f-3a37-73b3-31cd5cc704e9@linux.intel.com>
-References: <cover.1467914773.git.raj.khem@gmail.com>
-	<cee6d405-3fdf-157b-967b-91022d5e9b9c@linux.intel.com>
-	<CAMKF1sp+XRQ5bUd-8387q5PcWuQRspRj+UJS9LkuGGhr1WPw6w@mail.gmail.com>
-	<aa5165d3-c97f-3a37-73b3-31cd5cc704e9@linux.intel.com>
-X-Mailer: Evolution 3.20.3-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 0/4] musl/glibc/binutils updates
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=pGw8N3NYweNsbMW+NkMgHGS4l145bwpGA2QxOEQbBW8=;
+	b=mOMWYheY6vyYMYXXvIIxmCKaYrRuKapw8KgadbbbY7xZDpb8HpPAGxpAKTeDmoQGML
+	s1RfEXFiRQvOJjyg/Jb14QYZzg8jxyK1wuKPjKFDfrwywnkCMnd5IioSdEQuzIv056g/
+	F/0MW2nwiDsCmVBJgXQd+91IPpozS7TC9Bl5sIGk0qUJqQw/wr1rv4QKg5McTCSVtCns
+	GV33ArZxDio90ykeYEb4BmfULH8ngnkRpcEsVt6ybBauKP1zXtcoGOeMb1g/KyowNeuD
+	wa2uz5DkzOZ44UF6eQZn3tFBXST1DF8Uj2Pk2W5V+SoKMHbsQ+lTZuLanMqr57cWiiMp
+	mksQ==
+X-Gm-Message-State: ALyK8tKwB9MPem/i5JFDkSFChzCQkMqUpGaZqjtgEBkmp3+5NhsPbRnySvpNqyGtBV2iOg==
+X-Received: by 10.28.191.193 with SMTP id o62mr25181950wmi.64.1468405154937;
+	Wed, 13 Jul 2016 03:19:14 -0700 (PDT)
+Received: from tfsielt31850.TYCOFS.COM ([185.46.212.59])
+	by smtp.gmail.com with ESMTPSA id
+	r13sm8034465wmf.12.2016.07.13.03.19.13
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 13 Jul 2016 03:19:13 -0700 (PDT)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 13 Jul 2016 11:19:12 +0100
+Message-Id: <1468405152-1725-1-git-send-email-git@andred.net>
+X-Mailer: git-send-email 2.8.1
+MIME-Version: 1.0
+Subject: [PATCH] opkg: backport patch to fix build when sha256 support is enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,33 +45,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jul 2016 10:14:38 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 13 Jul 2016 10:19:17 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On Fr, 2016-07-08 at 17:19 +0300, Alexander Kanavin wrote:
-> On 07/08/2016 05:07 PM, Khem Raj wrote:
-> > > > Fix gcc5 hang in SDK with -mmusl
-> > > > Update musl to 1.1.15 release
-> > > > Update binutils to 2.26.1
-> > > > Update glibc to latest on 2.24 freeze tree
-> > > 
-> > > 
-> > > What about uclibc? It should be updated as well.
-> > 
-> > I do not test it regularly. If there are users who want it we can
-> > continue
-> 
-> Maybe we should reassign the recipes to André Draszik then?
+---
+ ...-implicit-declaration-of-release_get_sha2.patch | 78 ++++++++++++++++++++++
+ meta/recipes-devtools/opkg/opkg_0.3.2.bb           |  1 +
+ 2 files changed, 79 insertions(+)
+ create mode 100644 meta/recipes-devtools/opkg/opkg/0001-release-fix-implicit-declaration-of-release_get_sha2.patch
 
-Thanks for thinking of me :-) I do have a plan to move away from uClibc as
-well, though.
-
-Ross, so if consensus is to remove it from OE, I don't really have a problem
-with that.
-
-
-Cheers,
-Andre'
+diff --git a/meta/recipes-devtools/opkg/opkg/0001-release-fix-implicit-declaration-of-release_get_sha2.patch b/meta/recipes-devtools/opkg/opkg/0001-release-fix-implicit-declaration-of-release_get_sha2.patch
+new file mode 100644
+index 0000000..57f5fe8
+--- /dev/null
++++ b/meta/recipes-devtools/opkg/opkg/0001-release-fix-implicit-declaration-of-release_get_sha2.patch
+@@ -0,0 +1,78 @@
++From 3fe6c043f5d62710f86ca92692b02f4ffd3bb5c9 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <ad@andred.net>
++Date: Fri, 24 Jun 2016 13:18:52 +0100
++Subject: [PATCH] release: fix implicit declaration of release_get_sha256()
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++| ../../opkg-0.3.2/libopkg/release.c: In function ‘release_verify_file’:
++| ../../opkg-0.3.2/libopkg/release.c:120:26: warning: implicit declaration of function ‘release_get_sha256’ [-Wimplicit-function-declaration]
++|      const char *sha256 = release_get_sha256(release, pathname);
++|                           ^
++| ../../opkg-0.3.2/libopkg/release.c:120:26: warning: initialization makes pointer from integer without a cast [-Wint-conversion]
++| ../../opkg-0.3.2/libopkg/release.c: At top level:
++| ../../opkg-0.3.2/libopkg/release.c:324:13: error: conflicting types for ‘release_get_sha256’
++|  const char *release_get_sha256(release_t * release, const char *pathname)
++|              ^
++| ../../opkg-0.3.2/libopkg/release.c:120:26: note: previous implicit declaration of ‘release_get_sha256’ was here
++|      const char *sha256 = release_get_sha256(release, pathname);
++|                           ^
++
++At the same time, make it static, too, similar to
++release_get_md5().
++
++Signed-off-by: André Draszik <adraszik@tycoint.com>
++Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
++---
++Upstream-Status: Backport
++
++ libopkg/release.c | 28 ++++++++++++++--------------
++ 1 file changed, 14 insertions(+), 14 deletions(-)
++
++diff --git a/libopkg/release.c b/libopkg/release.c
++index b6aceb4..7db0bd4 100644
++--- a/libopkg/release.c
+++++ b/libopkg/release.c
++@@ -109,6 +109,20 @@ static const char *release_get_md5(release_t * release, const char *pathname)
++     return '\0';
++ }
++ 
+++#ifdef HAVE_SHA256
+++static const char *release_get_sha256(release_t * release, const char *pathname)
+++{
+++    const cksum_t *cksum;
+++
+++    if (release->sha256sums) {
+++        cksum = cksum_list_find(release->sha256sums, pathname);
+++        return cksum->value;
+++    }
+++
+++    return '\0';
+++}
+++#endif
+++
++ int release_verify_file(release_t * release, const char *file_name,
++                         const char *pathname)
++ {
++@@ -319,17 +333,3 @@ int release_download(release_t * release, pkg_src_t * dist, char *lists_dir,
++ 
++     return ret;
++ }
++-
++-#ifdef HAVE_SHA256
++-const char *release_get_sha256(release_t * release, const char *pathname)
++-{
++-    const cksum_t *cksum;
++-
++-    if (release->sha256sums) {
++-        cksum = cksum_list_find(release->sha256sums, pathname);
++-        return cksum->value;
++-    }
++-
++-    return '\0';
++-}
++-#endif
++-- 
++2.8.1
++
+diff --git a/meta/recipes-devtools/opkg/opkg_0.3.2.bb b/meta/recipes-devtools/opkg/opkg_0.3.2.bb
+index 0251b7d..5731939 100644
+--- a/meta/recipes-devtools/opkg/opkg_0.3.2.bb
++++ b/meta/recipes-devtools/opkg/opkg_0.3.2.bb
+@@ -15,6 +15,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz
+            file://opkg-configure.service \
+            file://opkg.conf \
+            file://0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch \
++           file://0001-release-fix-implicit-declaration-of-release_get_sha2.patch \
+ "
+ 
+ SRC_URI[md5sum] = "b2cc1baa89d0b3d49e63ab002fd2e0a6"
+-- 
+2.8.1
 
 
