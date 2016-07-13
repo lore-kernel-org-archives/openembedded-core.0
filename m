@@ -1,45 +1,57 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id F00496067C
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 5DC966AC4B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jul 2016 12:45:55 +0000 (UTC)
-Received: by mail-wm0-f42.google.com with SMTP id f65so27370294wmi.0
+	Wed, 13 Jul 2016 12:46:50 +0000 (UTC)
+Received: by mail-wm0-f51.google.com with SMTP id r190so9257055wmr.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jul 2016 05:45:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=95xHRhkx2zfVpKsyHrPVhNvxp4r16/mBBOchBsDnEvg=;
-	b=DoKk7RT7V0XPeIK0rZ7ns42/5bM8t4YiO964AMB9LfkUPHnJraPa4+eMQfvGQ6SC+Q
-	AE8jK55eWBTnkZaObVsZgriQDr3Z8vDii1f6IsTbR9k7mm7X8Ua0I7IzD5CbmHiOLoLX
-	WrABkKEcL54eAwf58PtrrvR1gD22ChIKhnyTWwzB1Xp9475GzKz/QmaFWfYIpu090H/T
-	f58N/rqI3JuvoEAyKu+JzCWZsiE6DCxEeuQVaurS5eII4AfpGCwUtoZ9rfs0qbbeLRVp
-	y/vDGO3xvUJCeLcQZ9tbUH5/Obr+DAx/Wrg10fO+d9pVKzSFu2aFOG/L5FwVD+4HDruX
-	y/Yg==
+	Wed, 13 Jul 2016 05:46:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=mPIXc3yRVIuyXfAeMb9KBl9joqCjYhKimxmIEoy/4wM=;
+	b=ChDW7jeQz+aVKHZffLJgABfyDJXMHXkuIAeEd0qOkHHBexqTMeAMSizXxnXXCVO412
+	DBK1yaV2jha6vMK0kQEGZpL9iPstfdKHfKoRxD4XxS+Drc2EI+kk17neT/w+6e0Sw8Pl
+	vUXHTZcRRpRDsx/awqPgixl3JNuULPWgngyq1QcT8apEK7nt+TO05iNwonaLsPHBqVrw
+	L4w7Tg8PrflNRpvB/ibLGDakefnynn5eDRNdYQ4EpqAdVgDLjcPoh/0KmJ94povUbDTP
+	MhuodijejIeAv0HB/IwVMkYoZSf2ytQ0eaguuH1ZCPNUEEk/sHovukmShQUAR86Gz1p/
+	Zpjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=95xHRhkx2zfVpKsyHrPVhNvxp4r16/mBBOchBsDnEvg=;
-	b=Z0ph2ag5MEzegzQz0clg4ogupQxZNjjH07/60wlzsCOdckBha+nX/zxT/ikEIX6UUx
-	BVvy3F+XcKfw7gfBFHgh59bpLQfrcQtQKgBx7Yh2ydBNyVkoyYlvJIx3LtzJV0O0+xWP
-	mhRpEb8hFNhb/PlQY6T8vp/3/s9bSa1duGARmP3jtPpeveefWr4JHGlZkpl6sNFW8pMY
-	t29emGt8AopxhAVnXV7U+YtQcVyJkvJRFbwjQ8oi+z1e60FQ7yEiTelvbvHVO2DmINtR
-	p7J67tYQYDdEFAxOLal7JiN0nJQRT7eJXyYLFLAGhuTCv11sqJamKliPztZ1UDf086Vn
-	Mx5g==
-X-Gm-Message-State: ALyK8tIuP/5iYEESUq0B9Rja01Dezf0FgQKMwpfff+9Au9X8jQ7I2LRR3cfBw860InBxQhdR
-X-Received: by 10.28.69.210 with SMTP id l79mr9736886wmi.31.1468413955359;
-	Wed, 13 Jul 2016 05:45:55 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id o7sm750229wjw.27.2016.07.13.05.45.54
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 13 Jul 2016 05:45:54 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Jul 2016 13:45:52 +0100
-Message-Id: <1468413952-16084-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] bitbake.conf: use ${prefix} to define exec_prefix
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=mPIXc3yRVIuyXfAeMb9KBl9joqCjYhKimxmIEoy/4wM=;
+	b=E0x4HRq1QaFNp2VysM7Bh0wiwHHzoESvlgH9BqLGScsc2SQL8mxoeLOHx20FlToZVc
+	jEOBMFlO/GOWWJ/xPscJk1mlKr151r5FOaqO5SrjwLfn4hvxgO+T92poSPTpUEcq3XJ3
+	lhDpO5I2dhG+o8roeB4JiAWZNsfJWpoOnN+cKn+kpF5UvzdfJ1THwQqE2g+D8pJIdRR8
+	LzOGK2JnNKKMee1qhcb20xtgCo9K8/tfGUBjwVhZ4xwkKjuZIqqyBetc5hzOU/j0Dile
+	WDbApUfSpuuTvJOpwHm11enUQVxvjc51IsJQ0KVzBPL0F6cVMgDqirWMuzLOD2rmGLyJ
+	n+eA==
+X-Gm-Message-State: ALyK8tIZ69oMvKgQO/fYs+pOo9SSGKznXPTmllvR1BZ1F0OYaHU0BXBVE3sujGdL3qFaNQ==
+X-Received: by 10.28.184.82 with SMTP id i79mr28355492wmf.26.1468414009768;
+	Wed, 13 Jul 2016 05:46:49 -0700 (PDT)
+Received: from localhost (ip-89-176-104-169.net.upcbroadband.cz.
+	[89.176.104.169])
+	by smtp.gmail.com with ESMTPSA id eb8sm754976wjb.13.2016.07.13.05.46.48
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 13 Jul 2016 05:46:48 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 13 Jul 2016 14:46:58 +0200
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20160713124658.phdpvspfesue372e@jama>
+References: <5784A2D0.9030902@mlbassoc.com>
+	<CAJTo0LbByAsem7asRmieaeVvLHarr8D9zynCUncEqt0J2JvmfQ@mail.gmail.com>
+	<57855DCA.1080807@gmail.com>
+	<CAJTo0LbJfZSNr5U9G8rBLXfqWfjf3R7uSatEwuQFSA9SfWh+xQ@mail.gmail.com>
+	<5785627D.9080800@gmail.com>
+	<1468362435.28829.118.camel@linuxfoundation.org>
+MIME-Version: 1.0
+In-Reply-To: <1468362435.28829.118.camel@linuxfoundation.org>
+User-Agent: Mutt/1.6.2 (2016-06-11)
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Gary Thomas <gary@mlbassoc.com>
+Subject: Re: Future of GCC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,30 +64,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jul 2016 12:45:57 -0000
+X-List-Received-Date: Wed, 13 Jul 2016 12:46:53 -0000
+X-Groupsio-MsgNum: 84453
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="fyrjxe6fjmmagjwj"
+Content-Disposition: inline
 
-This was simply changing prefix will relocate everything which is generally the
-intention, whilst still allowing the variables to be set independently.
+--fyrjxe6fjmmagjwj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Tue, Jul 12, 2016 at 11:27:15PM +0100, Richard Purdie wrote:
+> On Tue, 2016-07-12 at 14:34 -0700, akuster808 wrote:
+> >=20
+> > On 07/12/2016 02:24 PM, Burton, Ross wrote:
+> > > On 12 July 2016 at 22:14, akuster808 <akuster808@gmail.com> wrote:
+> > >=20
+> > > > > Personally I was thinking that gcc 5.x and 6.x should stay in
+> > > > > oe-core for
+> > > > > this cycle, and then drop 5.x after the release.
+> > > >=20
+> > > >=20
+> > > > Wouldn't that be dropped iff GCC 7.0 is release? or are you
+> > > > saying we
+> > > > should only have one GCC version?
+> > > >=20
+> > >=20
+> > > Well, depends on the adoption and migration problems.  I don't
+> > > think we
+> > > should carry three versions,
+> >=20
+> > I agree. 3 is too many.
+> >=20
+> >  and ideally one, but two is acceptable to ease
+> > > migration.
+> >=20
+> > One makes Stable maintenance less costly in time.
+>=20
+> I'm personally a fan of one if we can do it. We've taken a bit of an
+> "easier" path recently but it might be time to change that. Right now
+> I'm not aware of any of our core usecases which need 5.x, all work with
+> 6.x. I am aware of some BSPs on older kernels which would however have
+> issues.
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 613fc4c..af3b181 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -15,7 +15,7 @@ BASELIB_powerpc64 = "lib64"
- # Path prefixes
- export base_prefix = ""
- export prefix = "/usr"
--export exec_prefix = "/usr"
-+export exec_prefix = "${prefix}"
- 
- # Base paths
- export base_bindir = "${base_prefix}/bin"
--- 
-2.8.1
+There are many PNBLACKLIST in other layers in recipes which don't even
+build with gcc-6 and other which possibly have more issues in runtime.
 
+But I agree that it's easier to officially support just one default gcc
+and I'm in favour of removing 5.x from oe-core.
 
+We also used to have gcc 4.3 in meta-openembedded/toolchain-layer which
+was removed in:
+
+commit 5a5ec1c0607466d0369170c7a3e25ca92d51ca1c
+Author: mike.looijmans@topic.nl <mike.looijmans@topic.nl>
+Date:   Thu Oct 8 07:39:20 2015 +0200
+
+    Remove toolchain-layer
+
+If there is enough interest to share the 5.x recipes somewhere, then
+people actually using/testing it should do that and I would accept
+meta-openembedded patch reviving toolchain-layer with 5.x in it.
+
+--fyrjxe6fjmmagjwj
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAleGOD4ACgkQN1Ujt2V2gBywcwCcDwiQ/fvU7zvRdErudrMeWLPV
+5egAn2PLoAMpNnMIDk5yg9HnI0XGAxH1
+=/Xh3
+-----END PGP SIGNATURE-----
+
+--fyrjxe6fjmmagjwj--
