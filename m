@@ -1,38 +1,39 @@
 Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 73B506067C
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id DA2746067C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jul 2016 10:19:15 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id q128so898701wma.1
+	Wed, 13 Jul 2016 10:23:03 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id q128so910201wma.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jul 2016 03:19:17 -0700 (PDT)
+	Wed, 13 Jul 2016 03:23:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=pGw8N3NYweNsbMW+NkMgHGS4l145bwpGA2QxOEQbBW8=;
-	b=mOMWYheY6vyYMYXXvIIxmCKaYrRuKapw8KgadbbbY7xZDpb8HpPAGxpAKTeDmoQGML
-	s1RfEXFiRQvOJjyg/Jb14QYZzg8jxyK1wuKPjKFDfrwywnkCMnd5IioSdEQuzIv056g/
-	F/0MW2nwiDsCmVBJgXQd+91IPpozS7TC9Bl5sIGk0qUJqQw/wr1rv4QKg5McTCSVtCns
-	GV33ArZxDio90ykeYEb4BmfULH8ngnkRpcEsVt6ybBauKP1zXtcoGOeMb1g/KyowNeuD
-	wa2uz5DkzOZ44UF6eQZn3tFBXST1DF8Uj2Pk2W5V+SoKMHbsQ+lTZuLanMqr57cWiiMp
-	mksQ==
-X-Gm-Message-State: ALyK8tKwB9MPem/i5JFDkSFChzCQkMqUpGaZqjtgEBkmp3+5NhsPbRnySvpNqyGtBV2iOg==
-X-Received: by 10.28.191.193 with SMTP id o62mr25181950wmi.64.1468405154937;
-	Wed, 13 Jul 2016 03:19:14 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=G/3cJFgfFb1uSw8qK6ersPx2y0F3U2e3zlSW7kzJiuk=;
+	b=BB+Ck9z2WGBcs18Rt1VOszbQwPMD8ZoquezcPyBpcq4m0KCWxHh/XoHxgxkH8d1ILH
+	NAbA+ZBhFIuhRiIb7s1NpMlghOFpwaDkESbmgMIrCVY4Fpg8QyoawKh832h1MhfBtZuq
+	SkDEbrBJxkRMNfDGQHao3X/TYXGNZKYj3SQGC1q1SoQyKAVWSNCUfHbwAw3vCMptl97d
+	Q9Le7M9du0GxMRu5Ud/4RiegP22pDoeZ3SSbncEKqAPuWXtcFPFud90NaevEFdODD2/f
+	Zis7fvXQzM89+UMTJgfxt6Pn9MMee2XUgskkDEGHdYTeEa3ZaKDEO5bMyCnckPtvyXsm
+	dPiQ==
+X-Gm-Message-State: ALyK8tJVqUXoLhqXS/4dvmGGuqvKauZfblhZOuu3p2qIT1VZhHNuCvcUY4Fe8kpkEsXOow==
+X-Received: by 10.28.103.6 with SMTP id b6mr7527941wmc.89.1468405382706;
+	Wed, 13 Jul 2016 03:23:02 -0700 (PDT)
 Received: from tfsielt31850.TYCOFS.COM ([185.46.212.59])
-	by smtp.gmail.com with ESMTPSA id
-	r13sm8034465wmf.12.2016.07.13.03.19.13
+	by smtp.gmail.com with ESMTPSA id wr9sm136614wjc.48.2016.07.13.03.23.01
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 13 Jul 2016 03:19:13 -0700 (PDT)
+	Wed, 13 Jul 2016 03:23:01 -0700 (PDT)
 From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Jul 2016 11:19:12 +0100
-Message-Id: <1468405152-1725-1-git-send-email-git@andred.net>
+Date: Wed, 13 Jul 2016 11:22:59 +0100
+Message-Id: <1468405379-2760-1-git-send-email-git@andred.net>
 X-Mailer: git-send-email 2.8.1
+In-Reply-To: <1468405152-1725-1-git-send-email-git@andred.net>
+References: <1468405152-1725-1-git-send-email-git@andred.net>
 MIME-Version: 1.0
-Subject: [PATCH] opkg: backport patch to fix build when sha256 support is enabled
+Subject: [PATCH v2] opkg: backport patch to fix build when sha256 support is enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,10 +46,11 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jul 2016 10:19:17 -0000
+X-List-Received-Date: Wed, 13 Jul 2016 10:23:07 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+Signed-off-by: André Draszik <git@andred.net>
 ---
  ...-implicit-declaration-of-release_get_sha2.patch | 78 ++++++++++++++++++++++
  meta/recipes-devtools/opkg/opkg_0.3.2.bb           |  1 +
