@@ -1,57 +1,20 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DC966AC4B
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 0DE1D6067C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jul 2016 12:46:50 +0000 (UTC)
-Received: by mail-wm0-f51.google.com with SMTP id r190so9257055wmr.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jul 2016 05:46:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=mPIXc3yRVIuyXfAeMb9KBl9joqCjYhKimxmIEoy/4wM=;
-	b=ChDW7jeQz+aVKHZffLJgABfyDJXMHXkuIAeEd0qOkHHBexqTMeAMSizXxnXXCVO412
-	DBK1yaV2jha6vMK0kQEGZpL9iPstfdKHfKoRxD4XxS+Drc2EI+kk17neT/w+6e0Sw8Pl
-	vUXHTZcRRpRDsx/awqPgixl3JNuULPWgngyq1QcT8apEK7nt+TO05iNwonaLsPHBqVrw
-	L4w7Tg8PrflNRpvB/ibLGDakefnynn5eDRNdYQ4EpqAdVgDLjcPoh/0KmJ94povUbDTP
-	MhuodijejIeAv0HB/IwVMkYoZSf2ytQ0eaguuH1ZCPNUEEk/sHovukmShQUAR86Gz1p/
-	Zpjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=mPIXc3yRVIuyXfAeMb9KBl9joqCjYhKimxmIEoy/4wM=;
-	b=E0x4HRq1QaFNp2VysM7Bh0wiwHHzoESvlgH9BqLGScsc2SQL8mxoeLOHx20FlToZVc
-	jEOBMFlO/GOWWJ/xPscJk1mlKr151r5FOaqO5SrjwLfn4hvxgO+T92poSPTpUEcq3XJ3
-	lhDpO5I2dhG+o8roeB4JiAWZNsfJWpoOnN+cKn+kpF5UvzdfJ1THwQqE2g+D8pJIdRR8
-	LzOGK2JnNKKMee1qhcb20xtgCo9K8/tfGUBjwVhZ4xwkKjuZIqqyBetc5hzOU/j0Dile
-	WDbApUfSpuuTvJOpwHm11enUQVxvjc51IsJQ0KVzBPL0F6cVMgDqirWMuzLOD2rmGLyJ
-	n+eA==
-X-Gm-Message-State: ALyK8tIZ69oMvKgQO/fYs+pOo9SSGKznXPTmllvR1BZ1F0OYaHU0BXBVE3sujGdL3qFaNQ==
-X-Received: by 10.28.184.82 with SMTP id i79mr28355492wmf.26.1468414009768;
-	Wed, 13 Jul 2016 05:46:49 -0700 (PDT)
-Received: from localhost (ip-89-176-104-169.net.upcbroadband.cz.
-	[89.176.104.169])
-	by smtp.gmail.com with ESMTPSA id eb8sm754976wjb.13.2016.07.13.05.46.48
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 13 Jul 2016 05:46:48 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 13 Jul 2016 14:46:58 +0200
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20160713124658.phdpvspfesue372e@jama>
-References: <5784A2D0.9030902@mlbassoc.com>
-	<CAJTo0LbByAsem7asRmieaeVvLHarr8D9zynCUncEqt0J2JvmfQ@mail.gmail.com>
-	<57855DCA.1080807@gmail.com>
-	<CAJTo0LbJfZSNr5U9G8rBLXfqWfjf3R7uSatEwuQFSA9SfWh+xQ@mail.gmail.com>
-	<5785627D.9080800@gmail.com>
-	<1468362435.28829.118.camel@linuxfoundation.org>
-MIME-Version: 1.0
-In-Reply-To: <1468362435.28829.118.camel@linuxfoundation.org>
-User-Agent: Mutt/1.6.2 (2016-06-11)
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Gary Thomas <gary@mlbassoc.com>
-Subject: Re: Future of GCC
+	Wed, 13 Jul 2016 12:54:16 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga101.jf.intel.com with ESMTP; 13 Jul 2016 05:53:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,357,1464678000"; d="scan'208";a="1020860126"
+Received: from theory.fi.intel.com ([10.237.72.196])
+	by fmsmga002.fm.intel.com with ESMTP; 13 Jul 2016 05:53:49 -0700
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 13 Jul 2016 15:53:42 +0300
+Message-Id: <cover.1468414126.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/7] Minor version upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,79 +27,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jul 2016 12:46:53 -0000
-X-Groupsio-MsgNum: 84453
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="fyrjxe6fjmmagjwj"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 13 Jul 2016 12:54:17 -0000
 
---fyrjxe6fjmmagjwj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Some smaller version upgrades (the freetype uprade is a bigger one
+but the new hinting mode is not on by default) and a cairo recipe fix.
 
-On Tue, Jul 12, 2016 at 11:27:15PM +0100, Richard Purdie wrote:
-> On Tue, 2016-07-12 at 14:34 -0700, akuster808 wrote:
-> >=20
-> > On 07/12/2016 02:24 PM, Burton, Ross wrote:
-> > > On 12 July 2016 at 22:14, akuster808 <akuster808@gmail.com> wrote:
-> > >=20
-> > > > > Personally I was thinking that gcc 5.x and 6.x should stay in
-> > > > > oe-core for
-> > > > > this cycle, and then drop 5.x after the release.
-> > > >=20
-> > > >=20
-> > > > Wouldn't that be dropped iff GCC 7.0 is release? or are you
-> > > > saying we
-> > > > should only have one GCC version?
-> > > >=20
-> > >=20
-> > > Well, depends on the adoption and migration problems.  I don't
-> > > think we
-> > > should carry three versions,
-> >=20
-> > I agree. 3 is too many.
-> >=20
-> >  and ideally one, but two is acceptable to ease
-> > > migration.
-> >=20
-> > One makes Stable maintenance less costly in time.
->=20
-> I'm personally a fan of one if we can do it. We've taken a bit of an
-> "easier" path recently but it might be time to change that. Right now
-> I'm not aware of any of our core usecases which need 5.x, all work with
-> 6.x. I am aware of some BSPs on older kernels which would however have
-> issues.
+Jussi
 
-There are many PNBLACKLIST in other layers in recipes which don't even
-build with gcc-6 and other which possibly have more issues in runtime.
+The following changes since commit 627d01997fcf6a0581d88047735769ffb2592b82:
 
-But I agree that it's easier to officially support just one default gcc
-and I'm in favour of removing 5.x from oe-core.
+  useradd-staticids: use map() instead of imap() (2016-07-12 23:12:00 +0100)
 
-We also used to have gcc 4.3 in meta-openembedded/toolchain-layer which
-was removed in:
+are available in the git repository at:
 
-commit 5a5ec1c0607466d0369170c7a3e25ca92d51ca1c
-Author: mike.looijmans@topic.nl <mike.looijmans@topic.nl>
-Date:   Thu Oct 8 07:39:20 2015 +0200
+  git://git.yoctoproject.org/poky-contrib jku/updates
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/updates
 
-    Remove toolchain-layer
+Jussi Kukkonen (7):
+  expat: Upgrade 2.1.1 -> 2.2.0
+  cairo: Remove unnecessary UPSTREAM_CHECK_REGEX
+  fontconfig: Upgrade 2.11.95 -> 2.12.0
+  freetype: Upgrade 2.6.3 -> 2.6.5
+  libgpg-error: Upgrade 1.22 -> 1.23
+  librsvg: Upgrade 2.40.15 -> 2.40.16
+  libevdev: Upgrade 1.5.1 -> 1.5.2
 
-If there is enough interest to share the 5.x recipes somewhere, then
-people actually using/testing it should do that and I would accept
-meta-openembedded patch reviving toolchain-layer with 5.x in it.
+ meta/recipes-core/expat/expat.inc                  |   1 -
+ meta/recipes-core/expat/expat/CVE-2016-0718.patch  | 760 ---------------------
+ meta/recipes-core/expat/expat_2.1.1.bb             |   5 -
+ meta/recipes-core/expat/expat_2.2.0.bb             |   5 +
+ .../{librsvg_2.40.15.bb => librsvg_2.40.16.bb}     |   4 +-
+ meta/recipes-graphics/cairo/cairo_1.14.6.bb        |   2 -
+ ...{fontconfig_2.11.95.bb => fontconfig_2.12.0.bb} |   6 +-
+ .../{freetype_2.6.3.bb => freetype_2.6.5.bb}       |   6 +-
+ .../{libevdev_1.5.1.bb => libevdev_1.5.2.bb}       |   4 +-
+ .../{libgpg-error_1.22.bb => libgpg-error_1.23.bb} |   4 +-
+ 10 files changed, 17 insertions(+), 780 deletions(-)
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2016-0718.patch
+ delete mode 100644 meta/recipes-core/expat/expat_2.1.1.bb
+ create mode 100644 meta/recipes-core/expat/expat_2.2.0.bb
+ rename meta/recipes-gnome/librsvg/{librsvg_2.40.15.bb => librsvg_2.40.16.bb} (91%)
+ rename meta/recipes-graphics/fontconfig/{fontconfig_2.11.95.bb => fontconfig_2.12.0.bb} (87%)
+ rename meta/recipes-graphics/freetype/{freetype_2.6.3.bb => freetype_2.6.5.bb} (89%)
+ rename meta/recipes-support/libevdev/{libevdev_1.5.1.bb => libevdev_1.5.2.bb} (74%)
+ rename meta/recipes-support/libgpg-error/{libgpg-error_1.22.bb => libgpg-error_1.23.bb} (92%)
 
---fyrjxe6fjmmagjwj
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+-- 
+2.1.4
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
 
-iEYEARECAAYFAleGOD4ACgkQN1Ujt2V2gBywcwCcDwiQ/fvU7zvRdErudrMeWLPV
-5egAn2PLoAMpNnMIDk5yg9HnI0XGAxH1
-=/Xh3
------END PGP SIGNATURE-----
-
---fyrjxe6fjmmagjwj--
