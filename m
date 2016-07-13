@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 63B77731BA
+	by mail.openembedded.org (Postfix) with ESMTP id 9D70B73199
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jul 2016 21:05:10 +0000 (UTC)
+	Wed, 13 Jul 2016 21:05:11 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga104.fm.intel.com with ESMTP; 13 Jul 2016 14:05:11 -0700
+	by fmsmga104.fm.intel.com with ESMTP; 13 Jul 2016 14:05:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,359,1464678000"; d="scan'208";a="733801478"
+X-IronPort-AV: E=Sophos;i="5.28,359,1464678000"; d="scan'208";a="733801551"
 Received: from apbalanx-mobl.ccr.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.177.79])
-	by FMSMGA003.fm.intel.com with ESMTP; 13 Jul 2016 14:05:01 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 13 Jul 2016 14:05:03 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Jul 2016 09:04:23 +1200
-Message-Id: <68dc2d22b71dc60035207000e00f23c355127903.1468443702.git.paul.eggleton@linux.intel.com>
+Date: Thu, 14 Jul 2016 09:04:24 +1200
+Message-Id: <12c51b58cb273e5104aca84996ef0474465efc6d.1468443702.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.5
 In-Reply-To: <cover.1468443702.git.paul.eggleton@linux.intel.com>
 References: <cover.1468443702.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1468443702.git.paul.eggleton@linux.intel.com>
 References: <cover.1468443702.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 5/7] devtool: update-recipe: refactor to allow calling separately
+Subject: [PATCH 6/7] devtool: upgrade: record original recipe files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,172 +32,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jul 2016 21:05:10 -0000
+X-List-Received-Date: Wed, 13 Jul 2016 21:05:11 -0000
 
-This will be called by "devtool finish" to allow it to update the recipe
-or create the bbappend depending on the destination.
+This provides us with the information we need to remove the original
+version recipe and associated files when running "devtool finish" after
+"devtool upgrade".
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/lib/devtool/standard.py | 56 +++++++++++++++++++++--------------------
- 1 file changed, 29 insertions(+), 27 deletions(-)
+ meta/lib/oe/recipeutils.py     |  4 +++-
+ scripts/lib/devtool/upgrade.py | 16 ++++++++++------
+ 2 files changed, 13 insertions(+), 7 deletions(-)
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 769c3ce..5a5995f 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -876,10 +876,10 @@ def _remove_file_entries(srcuri, filelist):
-                 break
-     return entries, remaining
- 
--def _remove_source_files(args, files, destpath):
-+def _remove_source_files(append, files, destpath):
-     """Unlink existing patch files"""
-     for path in files:
--        if args.append:
-+        if append:
-             if not destpath:
-                 raise Exception('destpath should be set here')
-             path = os.path.join(destpath, os.path.basename(path))
-@@ -1055,7 +1055,7 @@ def _determine_files_dir(rd):
-     return os.path.join(recipedir, rd.getVar('BPN', True))
- 
- 
--def _update_recipe_srcrev(args, srctree, rd, config_data):
-+def _update_recipe_srcrev(srctree, rd, appendlayerdir, wildcard_version, no_remove):
-     """Implement the 'srcrev' mode of update-recipe"""
-     import bb
-     import oe.recipeutils
-@@ -1084,7 +1084,7 @@ def _update_recipe_srcrev(args, srctree, rd, config_data):
-     try:
-         local_files_dir = tempfile.mkdtemp(dir=tempdir)
-         upd_f, new_f, del_f = _export_local_files(srctree, rd, local_files_dir)
--        if not args.no_remove:
-+        if not no_remove:
-             # Find list of existing patches in recipe file
-             patches_dir = tempfile.mkdtemp(dir=tempdir)
-             old_srcrev = (rd.getVar('SRCREV', False) or '')
-@@ -1097,7 +1097,7 @@ def _update_recipe_srcrev(args, srctree, rd, config_data):
-                 removedentries = _remove_file_entries(srcuri, remove_files)[0]
-                 update_srcuri = True
- 
--        if args.append:
-+        if appendlayerdir:
-             files = dict((os.path.join(local_files_dir, key), val) for
-                           key, val in list(upd_f.items()) + list(new_f.items()))
-             removevalues = {}
-@@ -1105,7 +1105,7 @@ def _update_recipe_srcrev(args, srctree, rd, config_data):
-                 removevalues  = {'SRC_URI': removedentries}
-                 patchfields['SRC_URI'] = '\\\n    '.join(srcuri)
-             _, destpath = oe.recipeutils.bbappend_recipe(
--                    rd, args.append, files, wildcardver=args.wildcard_version,
-+                    rd, appendlayerdir, files, wildcardver=wildcard_version,
-                     extralines=patchfields, removevalues=removevalues)
+diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py
+index cb4ed53..b8d481a 100644
+--- a/meta/lib/oe/recipeutils.py
++++ b/meta/lib/oe/recipeutils.py
+@@ -365,6 +365,7 @@ def copy_recipe_files(d, tgt_dir, whole_dir=False, download=True):
+     # Copy local files to target directory and gather any remote files
+     bb_dir = os.path.dirname(d.getVar('FILE', True)) + os.sep
+     remotes = []
++    copied = []
+     includes = [path for path in d.getVar('BBINCLUDED', True).split() if
+                 path.startswith(bb_dir) and os.path.exists(path)]
+     for path in fetch.localpaths() + includes:
+@@ -376,13 +377,14 @@ def copy_recipe_files(d, tgt_dir, whole_dir=False, download=True):
+                 if not os.path.exists(subdir):
+                     os.makedirs(subdir)
+                 shutil.copy2(path, os.path.join(tgt_dir, relpath))
++                copied.append(relpath)
          else:
-             files_dir = _determine_files_dir(rd)
-@@ -1129,21 +1129,21 @@ def _update_recipe_srcrev(args, srctree, rd, config_data):
-                     'point to a git repository where you have pushed your '
-                     'changes')
+             remotes.append(path)
+     # Simply copy whole meta dir, if requested
+     if whole_dir:
+         shutil.copytree(bb_dir, tgt_dir)
  
--    _remove_source_files(args, remove_files, destpath)
-+    _remove_source_files(appendlayerdir, remove_files, destpath)
-     return True
+-    return remotes
++    return copied, remotes
  
--def _update_recipe_patch(args, config, workspace, srctree, rd, config_data):
-+def _update_recipe_patch(recipename, workspace, srctree, rd, appendlayerdir, wildcard_version, no_remove, initial_rev):
-     """Implement the 'patch' mode of update-recipe"""
-     import bb
-     import oe.recipeutils
  
-     recipefile = rd.getVar('FILE', True)
--    append = workspace[args.recipename]['bbappend']
-+    append = workspace[recipename]['bbappend']
-     if not os.path.exists(append):
-         raise DevtoolError('unable to find workspace bbappend for recipe %s' %
--                           args.recipename)
-+                           recipename)
+ def get_recipe_local_files(d, patches=False):
+diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.py
+index 66e5f59..8ea72ef 100644
+--- a/scripts/lib/devtool/upgrade.py
++++ b/scripts/lib/devtool/upgrade.py
+@@ -105,7 +105,7 @@ def _rename_recipe_files(oldrecipe, bpn, oldpv, newpv, path):
+     _rename_recipe_dirs(oldpv, newpv, path)
+     return _rename_recipe_file(oldrecipe, bpn, oldpv, newpv, path)
  
--    initial_rev, update_rev, changed_revs = _get_patchset_revs(srctree, append, args.initial_rev)
-+    initial_rev, update_rev, changed_revs = _get_patchset_revs(srctree, append, initial_rev)
-     if not initial_rev:
-         raise DevtoolError('Unable to find initial revision - please specify '
-                            'it with --initial-rev')
-@@ -1154,7 +1154,7 @@ def _update_recipe_patch(args, config, workspace, srctree, rd, config_data):
-         upd_f, new_f, del_f = _export_local_files(srctree, rd, local_files_dir)
+-def _write_append(rc, srctree, same_dir, no_same_dir, rev, workspace, d):
++def _write_append(rc, srctree, same_dir, no_same_dir, rev, copied, workspace, d):
+     """Writes an append file"""
+     if not os.path.exists(rc):
+         raise DevtoolError("bbappend not created because %s does not exist" % rc)
+@@ -128,8 +128,12 @@ def _write_append(rc, srctree, same_dir, no_same_dir, rev, workspace, d):
+         b_is_s = use_external_build(same_dir, no_same_dir, d)
+         if b_is_s:
+             f.write('EXTERNALSRC_BUILD_pn-%s = "%s"\n' % (pn, srctree))
++        f.write('\n')
+         if rev:
+-            f.write('\n# initial_rev: %s\n' % rev)
++            f.write('# initial_rev: %s\n' % rev)
++        if copied:
++            f.write('# original_path: %s\n' % os.path.dirname(d.getVar('FILE', True)))
++            f.write('# original_files: %s\n' % ' '.join(copied))
+     return af
  
-         remove_files = []
--        if not args.no_remove:
-+        if not no_remove:
-             # Get all patches from source tree and check if any should be removed
-             all_patches_dir = tempfile.mkdtemp(dir=tempdir)
-             upd_p, new_p, del_p = _export_patches(srctree, rd, initial_rev,
-@@ -1170,7 +1170,7 @@ def _update_recipe_patch(args, config, workspace, srctree, rd, config_data):
-         updaterecipe = False
-         destpath = None
-         srcuri = (rd.getVar('SRC_URI', False) or '').split()
--        if args.append:
-+        if appendlayerdir:
-             files = dict((os.path.join(local_files_dir, key), val) for
-                          key, val in list(upd_f.items()) + list(new_f.items()))
-             files.update(dict((os.path.join(patches_dir, key), val) for
-@@ -1185,7 +1185,7 @@ def _update_recipe_patch(args, config, workspace, srctree, rd, config_data):
-                                      item in remaining]
-                         removevalues = {'SRC_URI': removedentries + remaining}
-                 _, destpath = oe.recipeutils.bbappend_recipe(
--                                rd, args.append, files,
-+                                rd, appendlayerdir, files,
-                                 removevalues=removevalues)
-             else:
-                 logger.info('No patches or local source files needed updating')
-@@ -1235,7 +1235,7 @@ def _update_recipe_patch(args, config, workspace, srctree, rd, config_data):
-     finally:
-         shutil.rmtree(tempdir)
+ def _cleanup_on_error(rf, srctree):
+@@ -267,7 +271,7 @@ def _create_new_recipe(newpv, md5, sha256, srcrev, srcbranch, workspace, tinfoil
+     bpn = rd.getVar('BPN', True)
+     path = os.path.join(workspace, 'recipes', bpn)
+     bb.utils.mkdirhier(path)
+-    oe.recipeutils.copy_recipe_files(rd, path)
++    copied, _ = oe.recipeutils.copy_recipe_files(rd, path)
  
--    _remove_source_files(args, remove_files, destpath)
-+    _remove_source_files(appendlayerdir, remove_files, destpath)
-     return True
+     oldpv = rd.getVar('PV', True)
+     if not newpv:
+@@ -317,7 +321,7 @@ def _create_new_recipe(newpv, md5, sha256, srcrev, srcbranch, workspace, tinfoil
+     rd = oe.recipeutils.parse_recipe(fullpath, None, tinfoil.config_data)
+     oe.recipeutils.patch_recipe(rd, fullpath, newvalues)
  
- def _guess_recipe_update_mode(srctree, rdata):
-@@ -1260,6 +1260,19 @@ def _guess_recipe_update_mode(srctree, rdata):
+-    return fullpath
++    return fullpath, copied
  
-     return 'patch'
+ def upgrade(args, config, basepath, workspace):
+     """Entry point for the devtool 'upgrade' subcommand"""
+@@ -360,7 +364,7 @@ def upgrade(args, config, basepath, workspace):
+         rev2, md5, sha256 = _extract_new_source(args.version, srctree, args.no_patch,
+                                                 args.srcrev, args.branch, args.keep_temp,
+                                                 tinfoil, rd)
+-        rf = _create_new_recipe(args.version, md5, sha256, args.srcrev, args.srcbranch, config.workspace_path, tinfoil, rd)
++        rf, copied = _create_new_recipe(args.version, md5, sha256, args.srcrev, args.srcbranch, config.workspace_path, tinfoil, rd)
+     except bb.process.CmdError as e:
+         _upgrade_error(e, rf, srctree)
+     except DevtoolError as e:
+@@ -368,7 +372,7 @@ def upgrade(args, config, basepath, workspace):
+     standard._add_md5(config, pn, os.path.dirname(rf))
  
-+def _update_recipe(recipename, workspace, rd, mode, appendlayerdir, wildcard_version, no_remove, initial_rev):
-+    srctree = workspace[recipename]['srctree']
-+    if mode == 'auto':
-+        mode = _guess_recipe_update_mode(srctree, rd)
-+
-+    if mode == 'srcrev':
-+        updated = _update_recipe_srcrev(srctree, rd, appendlayerdir, wildcard_version, no_remove)
-+    elif mode == 'patch':
-+        updated = _update_recipe_patch(recipename, workspace, srctree, rd, appendlayerdir, wildcard_version, no_remove, initial_rev)
-+    else:
-+        raise DevtoolError('update_recipe: invalid mode %s' % mode)
-+    return updated
-+
- def update_recipe(args, config, basepath, workspace):
-     """Entry point for the devtool 'update-recipe' subcommand"""
-     check_workspace_recipe(workspace, args.recipename)
-@@ -1278,18 +1291,7 @@ def update_recipe(args, config, basepath, workspace):
-     if not rd:
-         return 1
- 
--    srctree = workspace[args.recipename]['srctree']
--    if args.mode == 'auto':
--        mode = _guess_recipe_update_mode(srctree, rd)
--    else:
--        mode = args.mode
--
--    if mode == 'srcrev':
--        updated = _update_recipe_srcrev(args, srctree, rd, tinfoil.config_data)
--    elif mode == 'patch':
--        updated = _update_recipe_patch(args, config, workspace, srctree, rd, tinfoil.config_data)
--    else:
--        raise DevtoolError('update_recipe: invalid mode %s' % mode)
-+    updated = _update_recipe(args.recipename, workspace, rd, args.mode, args.append, args.wildcard_version, args.no_remove, args.initial_rev)
- 
-     if updated:
-         rf = rd.getVar('FILE', True)
+     af = _write_append(rf, srctree, args.same_dir, args.no_same_dir, rev2,
+-                       config.workspace_path, rd)
++                       copied, config.workspace_path, rd)
+     standard._add_md5(config, pn, af)
+     logger.info('Upgraded source extracted to %s' % srctree)
+     logger.info('New recipe is %s' % rf)
 -- 
 2.5.5
 
