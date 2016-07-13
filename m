@@ -1,61 +1,42 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-vk0-f42.google.com (mail-vk0-f42.google.com
-	[209.85.213.42])
-	by mail.openembedded.org (Postfix) with ESMTP id EBC8F6067C
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F2F96067C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jul 2016 09:59:35 +0000 (UTC)
-Received: by mail-vk0-f42.google.com with SMTP id v6so58006006vkb.2
+	Wed, 13 Jul 2016 10:14:37 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id i5so5321467wmg.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jul 2016 02:59:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=J9cphY7+x88ylFsiTEHwXDaj34G85ZfRkF37949s8qE=;
-	b=o3Nq1xhvDzG2ZpFn8aVFaRiJSzjh8Tc6nkJthYvVBR+c9+XrI0PSPSKKTBNCkF0Bdw
-	VBUxX0gK8A25XUdla7ptW2kMfpPI/OW9d7uN0K1gi6FktJOrQFWB7U0SlET4jY+TmQ1C
-	auyVeallmDZ5d9UL+SrBfbUKt0bHby1Cy47Yr2GhLa2EYXvEwTmRLSrIrR5kCclV5jxI
-	tOYmE0O4ls9MFoxEcgm3bfdsEiLuVJ45xJA3zT91ZfcL8hARt/YLuHpmq7bi+wOdG37w
-	web3ux5hhinq2IKIGiYfqK0PU2fY9vKikM8hfcaUeef2sQQPydV1+XlhvWoH2jIizHNL
-	eX/g==
+	Wed, 13 Jul 2016 03:14:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=J9cphY7+x88ylFsiTEHwXDaj34G85ZfRkF37949s8qE=;
-	b=KjyYJ2pA0WddYse5aWYf9VGphqWK5W262QtN3IRpAtw+g1yrzqfWBbh7tPGAtZ1qPE
-	JWUPqJ5henZpnL/Yu8s0jhEwLpim90K8sEWyomIofX30I2NILGAS2Y8jajUPjquFZMer
-	8QIfQTEAmBInPTDR+RPLTBaH5AC6cNuoxpz9YW2rRoMwWrL2xV/KVAptTQehdHHBMICx
-	Zzg2Yp6rIEwKpuEnNLUStmzCYzuX6C/ZrVgTvkg3tWpxdb3qEYCdXle7L9arsuHqrdap
-	+x9ecxddKlNWYt0Jd96YeOvY+vTQdVvZYhtoLm0L/mDgbtaL1FGpLgo7RGoJhiufgEQS
-	1QRw==
-X-Gm-Message-State: ALyK8tIts0fXDcxCw20/RVBPXf8AI7tR6biX/s0vz3qW+IMwFJVga78grxor/RAKYQtpPg==
-X-Received: by 10.159.32.105 with SMTP id 96mr3474243uam.23.1468403975170;
-	Wed, 13 Jul 2016 02:59:35 -0700 (PDT)
-Received: from mail-vk0-f48.google.com (mail-vk0-f48.google.com.
-	[209.85.213.48])
-	by smtp.gmail.com with ESMTPSA id 79sm6544729uaf.18.2016.07.13.02.59.33
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 13 Jul 2016 02:59:34 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-vk0-f48.google.com with SMTP id x130so58212615vkc.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jul 2016 02:59:33 -0700 (PDT)
-X-Received: by 10.31.163.72 with SMTP id m69mr3450833vke.72.1468403973550;
-	Wed, 13 Jul 2016 02:59:33 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.31.192.195 with HTTP; Wed, 13 Jul 2016 02:59:32 -0700 (PDT)
-In-Reply-To: <CAMKF1srQZpiu1fkeTc9KYmc+p-jztbrL_5zywzPs2eipoE4G=Q@mail.gmail.com>
-References: <57857E9B.2060607@gmail.com>
-	<CAMKF1srQZpiu1fkeTc9KYmc+p-jztbrL_5zywzPs2eipoE4G=Q@mail.gmail.com>
-Date: Wed, 13 Jul 2016 06:59:32 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKoGdjPSq-=-XTYj+yRCz=9QWBJkPsUx8whiG_HMwyhYoA@mail.gmail.com>
-Message-ID: <CAP9ODKoGdjPSq-=-XTYj+yRCz=9QWBJkPsUx8whiG_HMwyhYoA@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: musl 1.1.15 for krogoth?
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=iBO8FVRcOFF9cNbksrY8RVLrys57s+GubGpF8yADbMA=;
+	b=YMOddecaJ4yVWsNsahiHC/Ty4cigkTEBGvS5sGjzRPN0rR3oRtkIwdeL4aQQfqC8KL
+	xBmMwPRjHq7IWIQNKy/kRZ47vU2hwetG9LR7tnZpxR1udWBldoUTtuFkewegZ4yHivjd
+	LASbRbg/iFm+dEaIC4vAGTZfwxXN6UilXpR4uEYbuVHcpLIRAtXcHET0CnI4QPgjbGsH
+	MVepodaOyX1WUynrJBQKS5tVgJ1fyELGZ98VtTAUogBtaUGefNN9AAUJzhDJRF/SPq4j
+	aR7oNFEsnKNI25xUzKdEU/dAJXY3eo/OLdizCtH5wopsQRs8kHIFVN1Q7xPm1w6iBSNQ
+	Brtg==
+X-Gm-Message-State: ALyK8tK1AD4oMbluuw3qlU1Omo3feT6N0u74PwMuwKJg7G7+v/atllNLBvq+4yd/EQOxPA==
+X-Received: by 10.28.193.140 with SMTP id r134mr4127498wmf.81.1468404877710;
+	Wed, 13 Jul 2016 03:14:37 -0700 (PDT)
+Received: from localhost ([185.46.212.59]) by smtp.gmail.com with ESMTPSA id
+	r13sm8014131wmf.12.2016.07.13.03.14.36
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 13 Jul 2016 03:14:36 -0700 (PDT)
+Message-ID: <1468404872.23527.7.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 13 Jul 2016 11:14:32 +0100
+In-Reply-To: <aa5165d3-c97f-3a37-73b3-31cd5cc704e9@linux.intel.com>
+References: <cover.1467914773.git.raj.khem@gmail.com>
+	<cee6d405-3fdf-157b-967b-91022d5e9b9c@linux.intel.com>
+	<CAMKF1sp+XRQ5bUd-8387q5PcWuQRspRj+UJS9LkuGGhr1WPw6w@mail.gmail.com>
+	<aa5165d3-c97f-3a37-73b3-31cd5cc704e9@linux.intel.com>
+X-Mailer: Evolution 3.20.3-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 0/4] musl/glibc/binutils updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,28 +49,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jul 2016 09:59:36 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 13 Jul 2016 10:14:38 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jul 12, 2016 at 8:37 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Tue, Jul 12, 2016 at 4:34 PM, akuster808 <akuster808@gmail.com> wrote:
->>
->> Khem,
->>
->> would updating Krogoth musl to 1.1.15 be safe?
->
-> It would be, since there are no ABI breaking changes between 1.1.14 and 1.1.15
-> incremental fixes and new architectures primarily.
->
->>
->> I already pulled in the other musl tip updates.
->
-> OK thanks
+On Fr, 2016-07-08 at 17:19 +0300, Alexander Kanavin wrote:
+> On 07/08/2016 05:07 PM, Khem Raj wrote:
+> > > > Fix gcc5 hang in SDK with -mmusl
+> > > > Update musl to 1.1.15 release
+> > > > Update binutils to 2.26.1
+> > > > Update glibc to latest on 2.24 freeze tree
+> > > 
+> > > 
+> > > What about uclibc? It should be updated as well.
+> > 
+> > I do not test it regularly. If there are users who want it we can
+> > continue
+> 
+> Maybe we should reassign the recipes to André Draszik then?
 
-Most of 1.1.15 changes are already in, so I think it should go as well.
+Thanks for thinking of me :-) I do have a plan to move away from uClibc as
+well, though.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Ross, so if consensus is to remove it from OE, I don't really have a problem
+with that.
+
+
+Cheers,
+Andre'
+
 
