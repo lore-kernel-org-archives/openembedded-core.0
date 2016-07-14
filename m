@@ -1,26 +1,35 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BC666067C
+Return-Path: <denis@denix.org>
+X-Greylist: delayed 3601 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 14 Jul 2016 04:04:56 UTC
+Received: from vms173021pub.verizon.net (vms173021pub.verizon.net
+	[206.46.173.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 9484E6FF0E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jul 2016 03:25:57 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u6E3Prvb022298
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jul 2016 20:25:57 -0700
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.229) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Wed, 13 Jul 2016 20:25:51 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 14 Jul 2016 11:25:51 +0800
-Message-ID: <b833d4bb5bd450464c93f49727f0dd31691897a5.1468466649.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1468466649.git.Qi.Chen@windriver.com>
-References: <cover.1468466649.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] systemd: split systemd-container
+	Thu, 14 Jul 2016 04:04:56 +0000 (UTC)
+Received: from vz-proxy-m008.mx.aol.com ([64.236.83.1])
+	by vms173021.mailsrvcs.net
+	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul 16
+	2014)) with ESMTPA id <0OAA000KKB7DD780@vms173021.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Wed, 13 Jul 2016 22:04:40 -0500 (CDT)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.1 cv=J+9Xl1TS c=1 sm=1 tr=0	a=IfeYs1eZmZ/JIJO4DN4ZPw==:117
+	a=kj9zAlcOel0A:10 a=cAmyUtKerLwA:10	a=UHoPCrU2904b6yr_c0oA:9
+	a=EwmOyqi4aYsJlSbv:21 a=whwtp5YpGkQkSlO-:21	a=CjuIK1q_8ugA:10
+Received: by 100.15.86.14 with SMTP id 5cbad026; Thu, 14 Jul 2016 03:04:40 GMT
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id CE3EA1620B6; Wed,
+	13 Jul 2016 23:04:24 -0400 (EDT)
+Date: Wed, 13 Jul 2016 23:04:24 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-id: <20160714030424.GF8521@denix.org>
+References: <20160710213559.GC8521@denix.org> <20160710221056.GD8521@denix.org>
+	<1468225929.28829.71.camel@linuxfoundation.org>
+MIME-version: 1.0
+In-reply-to: <1468225929.28829.71.camel@linuxfoundation.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Can NOT get PRAUTO, exception [Errno -3] Temporary failure in name resolution
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,83 +42,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jul 2016 03:25:58 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 14 Jul 2016 04:04:56 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-Split container/vm related units into a new package, systemd-container.
+On Mon, Jul 11, 2016 at 09:32:09AM +0100, Richard Purdie wrote:
+> On Sun, 2016-07-10 at 18:10 -0400, Denys Dmytriyenko wrote:
+> > On Sun, Jul 10, 2016 at 05:35:59PM -0400, Denys Dmytriyenko wrote:
+> > > Has anyone ever seen this error message:
+> > > 
+> > > ERROR: blah-blah do_package: Can NOT get PRAUTO, exception [Errno 
+> > > -3] Temporary failure in name resolution
+> > > 
+> > > I'm using centralized PR Service over the network on a local
+> > > subnet. I just 
+> > 
+> > Oh, forgot to mention - this seems to be intermittent, as it works
+> > fine now. 
+> > Trying to prevent it from happening again in the future.
+> > 
+> > 
+> > > got this message on 2 different machines for 3 separate packages.
+> > > Should I be 
+> > > worried about it? Should I look into networking HW issues or into
+> > > PR server 
+> > > instance or something else? Should I switch over to using IP
+> > > address instead 
+> > > of FQDN and even more - use static IP? Any best practices? Thanks.
+> 
+> Failure in name resolution sounds like something went odd with the
+> network setup. It would be the host networking stack and the general
+> network setup that would be responsible for that rather than bitbake
+> specifically.
+> 
+> I assume you're using a FQDN which needs DNS resolution from a remote
+> DNS server? Any local caching of DNS?
+> 
+> It does sound like the DNS server became unreachable for a short period
+> and there wasn't a local cache. Its also possible we resolve the name
+> often enough (in many different processes) to trigger some kind of
+> repeat lookup protection on a DNS server if you have a more paranoid
+> security setup.
+> 
+> A static IP, or a static entry in hosts would likely work around the
+> issue, or simply using an IP address.
 
-The split mainly references Fedora 24, with a few differences.
-Apart from the bash and zsh completion files, the differences include
-adding systemd-spawn@.service into the systemd-container package.
+Thanks, Richard! I will look into setting a static IP and/or hosts entry to 
+avoid any potential DNS resolution issues in the future...
 
-[YOCTO #9835]
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-core/systemd/systemd_230.bb | 35 +++++++++++++++++++++++++++++---
- 1 file changed, 32 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-core/systemd/systemd_230.bb b/meta/recipes-core/systemd/systemd_230.bb
-index 374a197..cf8aec1 100644
---- a/meta/recipes-core/systemd/systemd_230.bb
-+++ b/meta/recipes-core/systemd/systemd_230.bb
-@@ -291,6 +291,7 @@ PACKAGES =+ "\
-     ${PN}-pam \
-     ${PN}-zsh-completion \
-     ${PN}-xorg-xinitrc \
-+    ${PN}-container \
-     ${PN}-extra-utils \
- "
- 
-@@ -348,6 +349,37 @@ RRECOMMENDS_${PN}-binfmt = "kernel-module-binfmt-misc"
- 
- RRECOMMENDS_${PN}-vconsole-setup = "kbd kbd-consolefonts kbd-keymaps"
- 
-+FILES_${PN}-container = "${sysconfdir}/dbus-1/system.d/org.freedesktop.import1.conf \
-+                         ${sysconfdir}/dbus-1/system.d/org.freedesktop.machine1.conf \
-+                         ${base_bindir}/machinectl \
-+                         ${bindir}/systemd-nspawn \
-+                         ${exec_prefix}/lib/systemd/import-pubring.gpg \
-+                         ${systemd_unitdir}/system/busnames.target.wants/org.freedesktop.import1.busname \
-+                         ${systemd_unitdir}/system/busnames.target.wants/org.freedesktop.machine1.busname \
-+                         ${systemd_unitdir}/system/local-fs.target.wants/var-lib-machines.mount \
-+                         ${systemd_unitdir}/system/machine.slice \
-+                         ${systemd_unitdir}/system/machines.target \
-+                         ${systemd_unitdir}/system/org.freedesktop.import1.busname \
-+                         ${systemd_unitdir}/system/org.freedesktop.machine1.busname \
-+                         ${systemd_unitdir}/system/systemd-importd.service \
-+                         ${systemd_unitdir}/system/systemd-machined.service \
-+                         ${systemd_unitdir}/system/var-lib-machines.mount \
-+                         ${rootlibexecdir}/systemd/systemd-import \
-+                         ${rootlibexecdir}/systemd/systemd-importd \
-+                         ${rootlibexecdir}/systemd/systemd-journal-gatewayd \
-+                         ${rootlibexecdir}/systemd/systemd-journal-remote \
-+                         ${rootlibexecdir}/systemd/systemd-journal-upload \
-+                         ${rootlibexecdir}/systemd/systemd-machined \
-+                         ${rootlibexecdir}/systemd/systemd-pull \
-+                         ${exec_prefix}/lib/tmpfiles.d/systemd-nspawn.conf \
-+                         ${systemd_unitdir}/system/systemd-nspawn@.service \
-+                         ${libdir}/libnss_mymachines.so.2 \
-+                         ${datadir}/dbus-1/system-services/org.freedesktop.import1.service \
-+                         ${datadir}/dbus-1/system-services/org.freedesktop.machine1.service \
-+                         ${datadir}/polkit-1/actions/org.freedesktop.import1.policy \
-+                         ${datadir}/polkit-1/actions/org.freedesktop.machine1.policy \
-+                        "
-+
- FILES_${PN}-extra-utils = "\
-                         ${base_bindir}/systemd-escape \
-                         ${base_bindir}/systemd-inhibit \
-@@ -371,9 +403,6 @@ FILES_${PN}-extra-utils = "\
-                         ${rootlibexecdir}/systemd/systemd-resolve-host \
-                         ${rootlibexecdir}/systemd/systemd-ac-power \
-                         ${rootlibexecdir}/systemd/systemd-activate \
--                        ${bindir}/systemd-nspawn \
--                        ${exec_prefix}/lib/tmpfiles.d/systemd-nspawn.conf \
--                        ${systemd_unitdir}/system/systemd-nspawn@.service \
-                         ${rootlibexecdir}/systemd/systemd-bus-proxyd \
-                         ${systemd_unitdir}/system/systemd-bus-proxyd.service \
-                         ${systemd_unitdir}/system/systemd-bus-proxyd.socket \
 -- 
-1.9.1
-
+Denys
 
