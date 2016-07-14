@@ -1,20 +1,24 @@
-Return-Path: <stephano.cetola@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id BCD066AC4B
+Return-Path: <joe.slater@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 24A266AC4B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jul 2016 18:11:46 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga101.jf.intel.com with ESMTP; 14 Jul 2016 11:11:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,364,1464678000"; d="scan'208";a="846406541"
-Received: from yocto-dev86.jf.intel.com ([10.7.198.60])
-	by orsmga003.jf.intel.com with ESMTP; 14 Jul 2016 11:11:47 -0700
-From: Stephano Cetola <stephano.cetola@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Jul 2016 11:12:40 -0700
-Message-Id: <20160714181240.11728-1-stephano.cetola@linux.intel.com>
-X-Mailer: git-send-email 2.9.0
-Subject: [PATCH] systemd: allow add users to groups in rootfs postprocess
+	Thu, 14 Jul 2016 18:45:56 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u6EIjuPJ016268
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Jul 2016 11:45:56 -0700 (PDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.248.2; Thu, 14 Jul 2016 11:45:55 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 14 Jul 2016 11:45:54 -0700
+Message-ID: <1468521955-14769-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
+MIME-Version: 1.0
+Subject: [PATCH 0/1] add license info for libidn
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,39 +31,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jul 2016 18:11:50 -0000
+X-List-Received-Date: Thu, 14 Jul 2016 18:46:00 -0000
+Content-Type: text/plain
 
-Currently the functionality checks for the "u" and "g" flags to create users and
-groups, but not the "m" flag to add users to groups. This change first checks to
-be sure that the users and groups are created, creates them if necessary, then
-adds the user to the group.
+This might be a re-send of something I sent last week.  It
+avoids the appearance of GPLV3 on a target including libidn
+but not idn.
 
-Signed-off-by: Stephano Cetola <stephano.cetola@linux.intel.com>
----
- meta/classes/rootfs-postcommands.bbclass | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Joe Slater (1):
+  libidn: add license per package
 
-diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
-index db8b551..b38b6a5 100644
---- a/meta/classes/rootfs-postcommands.bbclass
-+++ b/meta/classes/rootfs-postcommands.bbclass
-@@ -45,6 +45,15 @@ systemd_create_users () {
- 			[ "$id" != "-" ] && groupadd_params="$groupadd_params --gid $id"
- 			groupadd_params="$groupadd_params --system $name"
- 			eval groupadd --root ${IMAGE_ROOTFS} $groupadd_params || true
-+		elif [ "$type" = "m" ]; then
-+			group=$id
-+			if [ ! `grep -q "^${group}:" ${IMAGE_ROOTFS}${sysconfdir}/group` ]; then
-+				eval groupadd --root ${IMAGE_ROOTFS} --system $group
-+			fi
-+			if [ ! `grep -q "^${name}:" ${IMAGE_ROOTFS}${sysconfdir}/passwd` ]; then
-+				eval useradd --root ${IMAGE_ROOTFS} --shell /sbin/nologin --system $name
-+			fi
-+			eval usermod --root ${IMAGE_ROOTFS} -a -G $group $name
- 		fi
- 		done
- 	done
+ meta/recipes-extended/libidn/libidn_1.32.bb |    3 +++
+ 1 file changed, 3 insertions(+)
+
 -- 
-2.9.0
+1.7.9.5
 
 
