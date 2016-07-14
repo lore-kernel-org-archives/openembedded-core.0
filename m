@@ -1,28 +1,45 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2252E6AC4B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 73A9E6AC4B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jul 2016 18:57:59 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u6EIvx43016358
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 14 Jul 2016 11:57:59 -0700 (PDT)
-Received: from soho-mhatle-m.corp.ad.wrs.com (147.11.4.176) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.248.2; Thu, 14 Jul 2016 11:57:59 -0700
-To: Ross Burton <ross.burton@intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1468514260-5560-1-git-send-email-ross.burton@intel.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <1ce58e9f-a312-dd9a-d1b2-d787773fa18e@windriver.com>
-Date: Thu, 14 Jul 2016 11:58:00 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
-	Gecko/20100101 Thunderbird/45.1.1
-MIME-Version: 1.0
-In-Reply-To: <1468514260-5560-1-git-send-email-ross.burton@intel.com>
-Subject: Re: [PATCH] glibc: use the host locale archive in nativesdk builds
+	Thu, 14 Jul 2016 19:04:25 +0000 (UTC)
+Received: by mail-wm0-f46.google.com with SMTP id f126so528267wma.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Jul 2016 12:04:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=tixot0gXBbuZl0gIKDa7xjql2MH9aaBEZb9RnO61vlw=;
+	b=s43ZgZyJgJnkD2SZImenih9xVwqo/QVoKiObu/hcOTWKqymUaKKfkCa98DApNxj0R0
+	ADz3GBT/ECrl7Y/PePt0lygaD69HcsuBIW3j4A5+MCO6VaNpdUav3E7/pGG1wqbQsjmX
+	5vDlzToLWKvtXA3JYdQX0AOIcKT6g+sbsX7zm5nUvxl/taTr1CO9WYhmoUPMzxsGrZdU
+	gIhXiJtjMDuNMSAsZN0SQ+Isu5SBCQRNG50BOnVavGCVWmHU3Jot93ywXdWPSIHvnFJd
+	aCoDsQOD1ezHKGkkr/jw10Zk6IC0+aXy0ZUVd3kDFuvmskAMbxnQ2pEA0Ep99lbFr8aI
+	c5CA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=tixot0gXBbuZl0gIKDa7xjql2MH9aaBEZb9RnO61vlw=;
+	b=fMzymURKrLtdo1HX5NOH6WX09ESHlmuBtPs8VHLp3QqVKfivnGhuUoTL+E4PwTdzqG
+	LttT8W5C0XdUEeLIl59H80G6I+x5ecRo/uLpWvORyG5voTfqMRdInWxUm/W+TbcVY+pW
+	IpLLcV2uPlk7WI8RFFP/55+0YZRB40eJQVJg+sfo5sB9nmpjiMvCHM6JB5RrT6cghjoW
+	H3mlM/FwefhDiQm3twdr6YWaYAt2wdXwXTgPYD31ExLpREWETtAjHbEwRPgN6ZQcLbSV
+	Uq1cgxIlwtL4nIEn9zev+8YrM1RjjrR7D/xq2Q5nBfz4utWbXjWTnLxZqyxbPxIlFMCU
+	rWQQ==
+X-Gm-Message-State: ALyK8tLIfTdt6DJC1j1u4DoQvUwjn1OMd1impIzNUE69D5N8bSHty9CBQlzk04EU7TJqEvUQ
+X-Received: by 10.28.131.200 with SMTP id f191mr18910981wmd.80.1468523066041; 
+	Thu, 14 Jul 2016 12:04:26 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id d62sm5828095wmd.7.2016.07.14.12.04.24
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 14 Jul 2016 12:04:25 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 14 Jul 2016 20:04:23 +0100
+Message-Id: <1468523063-25726-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] binutils: backport fix for TLSDESC relocations with no TLS segment on arch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,72 +52,214 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jul 2016 18:58:01 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 14 Jul 2016 19:04:29 -0000
 
-On 7/14/16 9:37 AM, Ross Burton wrote:
-> The nativesdk libc when used by buildtools has a hard requirement on supporting
-> a UTF-8 locale because Python 3 needs a UTF-8 locale.  However we currently only
-> ship the C locale, which means that Python attempts to lookup the user's locale
-> (for example, en_NZ.UTF-8) in the locale archive under it's prefix it fails and
-> falls back to C.  This the results in Python using ASCII instead of UTF-8 for
-> file encoding, and bitbake breaks.
+As exposed by WebKit on aarch64 hosts, which causes binutils to throw an
+internal error.
 
-Have you considered shipping a single C.UTF-8 local?  (Not all distributions
-have this.)
+[ YOCTO #9509 ]
 
-Then defaulting to that for the buildtools usage.  This would keep things small
-and contained.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-devtools/binutils/binutils-2.26.inc   |   1 +
+ .../binutils/binutils/aarch64-tls.patch            | 175 +++++++++++++++++++++
+ 2 files changed, 176 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/aarch64-tls.patch
 
-> Th obvious solution would be to ship all locales, but this would add
-> approximately 250MB to the size of the buildtools tarball (which is currently
-> around 30MB).  Generating a binary locale archive reduces this down to 100MB,
-> but this is still a drastic increase in footprint.  If we ship a subset of
-> locales in the tarball then there will be users whose locale isn't in the
-> tarball, and they'll have to change their locale to an "approved" one, which
-> isn't the best of messages to send to new users.
-> 
-> The alternative is to tell the nativesdk libc that the locale archive isn't
-> under it own prefix but is in fact at /usr/lib/locale/locale-archive, so the
-> buildtools libc uses the host locale archive. The locale archive format appears
-> to be at least fairly stable: our glibc 2.24 can read the locale archive
-> generated by glibc 2.17 (Centos 7).
-
-Patching glibc to use the host system as a backup for the locales makes sense to
-me as well.  However it is definitely more work and may not be worth it...
-
-In the buildtools case, do any of the other components we ship actually have
-localized content?  If we're shipping message catalogs for non-english systems
--- then we definitely need non-english locale to work.  But if we're only
-shipping english -- C.utf-8 might be enough.
-
---Mark
-
-> [ YOCTO #9775 ]
-> 
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-core/glibc/glibc_2.24.bb | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/meta/recipes-core/glibc/glibc_2.24.bb b/meta/recipes-core/glibc/glibc_2.24.bb
-> index 456f206..4bc6443 100644
-> --- a/meta/recipes-core/glibc/glibc_2.24.bb
-> +++ b/meta/recipes-core/glibc/glibc_2.24.bb
-> @@ -129,6 +129,12 @@ do_compile () {
->  
->  }
->  
-> +# Use the host locale archive when built for nativesdk so that we don't need to
-> +# ship a complete (100MB) locale set.
-> +do_compile_prepend_class-nativesdk() {
-> +    echo "complocaledir=/usr/lib/locale" >> ${S}/configparms
-> +}
-> +
->  require glibc-package.inc
->  
->  BBCLASSEXTEND = "nativesdk"
-> 
+diff --git a/meta/recipes-devtools/binutils/binutils-2.26.inc b/meta/recipes-devtools/binutils/binutils-2.26.inc
+index 82cb7f5..1f7bee2 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.26.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.26.inc
+@@ -35,6 +35,7 @@ SRC_URI = "\
+      file://0013-Fix-GOT-address-computations-in-initial-PLT-entries-.patch \
+      file://0014-Correct-nios2-_gp-address-computation.patch \
+      file://0015-fix-the-incorrect-assembling-for-ppc-wait-mnemonic.patch \
++     file://aarch64-tls.patch \
+ "
+ S  = "${WORKDIR}/git"
+ 
+diff --git a/meta/recipes-devtools/binutils/binutils/aarch64-tls.patch b/meta/recipes-devtools/binutils/binutils/aarch64-tls.patch
+new file mode 100644
+index 0000000..5321829
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/aarch64-tls.patch
+@@ -0,0 +1,175 @@
++Building WebKit on an aarch64 host will fail:
++
++gold/ld-new: internal error in relocate_tls, at ../../binutils/gold/aarch64.cc:7418
++
++This was a binutils bug, so backport the fix.
++
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++From d21f123b0ead1806416cf0dafae12bec4cca8920 Mon Sep 17 00:00:00 2001
++From: Cary Coutant <ccoutant@gmail.com>
++Date: Mon, 11 Jan 2016 23:57:44 -0800
++Subject: [PATCH] Fix internal error when applying TLSDESC relocations with no TLS segment.
++
++gold/
++	PR gold/19353
++	* aarch64.cc (Target_aarch64::relocate_tls): Don't insist that
++	we have a TLS segment for GD-to-IE optimization.
++	* i386.cc (Target_i386::tls_gd_to_ie): Remove tls_segment parameter.
++	Adjust all calls.
++	(Target_i386::tls_desc_gd_to_ie): Likewise.
++	(Target_i386::relocate_tls): Don't insist that we have a TLS segment
++	for TLSDESC GD-to-IE optimizations.
++	* x86_64.cc (Target_x86_64::tls_gd_to_ie): Remove tls_segment parameter.
++	Adjust all calls.
++	(Target_x86_64::tls_desc_gd_to_ie): Likewise.
++	(Target_x86_64::relocate_tls): Don't insist that we have a TLS segment
++	for TLSDESC GD-to-IE optimizations.
++---
++ gold/ChangeLog  |   16 ++++++++++++++++
++ gold/aarch64.cc |    6 ------
++ gold/i386.cc    |   14 ++------------
++ gold/x86_64.cc  |   14 ++------------
++ 4 files changed, 20 insertions(+), 30 deletions(-)
++
++diff --git a/gold/aarch64.cc b/gold/aarch64.cc
++index 20f2f4f..5ad061b 100644
++--- a/gold/aarch64.cc
+++++ b/gold/aarch64.cc
++@@ -7422,12 +7422,6 @@ Target_aarch64<size, big_endian>::Relocate::relocate_tls(
++ 	      }
++ 	    if (tlsopt == tls::TLSOPT_TO_IE)
++ 	      {
++-		if (tls_segment == NULL)
++-		  {
++-		    gold_assert(parameters->errors()->error_count() > 0
++-				|| issue_undefined_symbol_error(gsym));
++-		    return aarch64_reloc_funcs::STATUS_BAD_RELOC;
++-		  }
++ 		return tls_desc_gd_to_ie(relinfo, target, rela, r_type,
++ 					 view, psymval, got_entry_address,
++ 					 address);
++diff --git a/gold/i386.cc b/gold/i386.cc
++index 82886d4..a7168a8 100644
++--- a/gold/i386.cc
+++++ b/gold/i386.cc
++@@ -668,7 +668,6 @@ class Target_i386 : public Sized_target<32, false>
++     // Do a TLS General-Dynamic to Initial-Exec transition.
++     inline void
++     tls_gd_to_ie(const Relocate_info<32, false>*, size_t relnum,
++-		 Output_segment* tls_segment,
++ 		 const elfcpp::Rel<32, false>&, unsigned int r_type,
++ 		 elfcpp::Elf_types<32>::Elf_Addr value,
++ 		 unsigned char* view,
++@@ -687,7 +686,6 @@ class Target_i386 : public Sized_target<32, false>
++     // transition.
++     inline void
++     tls_desc_gd_to_ie(const Relocate_info<32, false>*, size_t relnum,
++-		      Output_segment* tls_segment,
++ 		      const elfcpp::Rel<32, false>&, unsigned int r_type,
++ 		      elfcpp::Elf_types<32>::Elf_Addr value,
++ 		      unsigned char* view,
++@@ -3054,7 +3052,7 @@ Target_i386::Relocate::relocate_tls(const Relocate_info<32, false>* relinfo,
++ 	    }
++ 	  if (optimized_type == tls::TLSOPT_TO_IE)
++ 	    {
++-	      this->tls_gd_to_ie(relinfo, relnum, tls_segment, rel, r_type,
+++	      this->tls_gd_to_ie(relinfo, relnum, rel, r_type,
++ 				 got_offset, view, view_size);
++ 	      break;
++ 	    }
++@@ -3116,13 +3114,7 @@ Target_i386::Relocate::relocate_tls(const Relocate_info<32, false>* relinfo,
++ 	    }
++ 	  if (optimized_type == tls::TLSOPT_TO_IE)
++ 	    {
++-	      if (tls_segment == NULL)
++-		{
++-		  gold_assert(parameters->errors()->error_count() > 0
++-			      || issue_undefined_symbol_error(gsym));
++-		  return;
++-		}
++-	      this->tls_desc_gd_to_ie(relinfo, relnum, tls_segment, rel, r_type,
+++	      this->tls_desc_gd_to_ie(relinfo, relnum, rel, r_type,
++ 				      got_offset, view, view_size);
++ 	      break;
++ 	    }
++@@ -3354,7 +3346,6 @@ Target_i386::Relocate::tls_gd_to_le(const Relocate_info<32, false>* relinfo,
++ inline void
++ Target_i386::Relocate::tls_gd_to_ie(const Relocate_info<32, false>* relinfo,
++ 				    size_t relnum,
++-				    Output_segment*,
++ 				    const elfcpp::Rel<32, false>& rel,
++ 				    unsigned int,
++ 				    elfcpp::Elf_types<32>::Elf_Addr value,
++@@ -3449,7 +3440,6 @@ inline void
++ Target_i386::Relocate::tls_desc_gd_to_ie(
++     const Relocate_info<32, false>* relinfo,
++     size_t relnum,
++-    Output_segment*,
++     const elfcpp::Rel<32, false>& rel,
++     unsigned int r_type,
++     elfcpp::Elf_types<32>::Elf_Addr value,
++diff --git a/gold/x86_64.cc b/gold/x86_64.cc
++index 3cfc064..4ad5afc 100644
++--- a/gold/x86_64.cc
+++++ b/gold/x86_64.cc
++@@ -816,7 +816,6 @@ class Target_x86_64 : public Sized_target<size, false>
++     // Do a TLS General-Dynamic to Initial-Exec transition.
++     inline void
++     tls_gd_to_ie(const Relocate_info<size, false>*, size_t relnum,
++-		 Output_segment* tls_segment,
++ 		 const elfcpp::Rela<size, false>&, unsigned int r_type,
++ 		 typename elfcpp::Elf_types<size>::Elf_Addr value,
++ 		 unsigned char* view,
++@@ -835,7 +834,6 @@ class Target_x86_64 : public Sized_target<size, false>
++     // Do a TLSDESC-style General-Dynamic to Initial-Exec transition.
++     inline void
++     tls_desc_gd_to_ie(const Relocate_info<size, false>*, size_t relnum,
++-		      Output_segment* tls_segment,
++ 		      const elfcpp::Rela<size, false>&, unsigned int r_type,
++ 		      typename elfcpp::Elf_types<size>::Elf_Addr value,
++ 		      unsigned char* view,
++@@ -3733,7 +3731,7 @@ Target_x86_64<size>::Relocate::relocate_tls(
++ 	  if (optimized_type == tls::TLSOPT_TO_IE)
++ 	    {
++ 	      value = target->got_plt_section()->address() + got_offset;
++-	      this->tls_gd_to_ie(relinfo, relnum, tls_segment, rela, r_type,
+++	      this->tls_gd_to_ie(relinfo, relnum, rela, r_type,
++ 				 value, view, address, view_size);
++ 	      break;
++ 	    }
++@@ -3800,14 +3798,8 @@ Target_x86_64<size>::Relocate::relocate_tls(
++ 	    }
++ 	  if (optimized_type == tls::TLSOPT_TO_IE)
++ 	    {
++-	      if (tls_segment == NULL)
++-		{
++-		  gold_assert(parameters->errors()->error_count() > 0
++-			      || issue_undefined_symbol_error(gsym));
++-		  return;
++-		}
++ 	      value = target->got_plt_section()->address() + got_offset;
++-	      this->tls_desc_gd_to_ie(relinfo, relnum, tls_segment,
+++	      this->tls_desc_gd_to_ie(relinfo, relnum,
++ 				      rela, r_type, value, view, address,
++ 				      view_size);
++ 	      break;
++@@ -3973,7 +3965,6 @@ inline void
++ Target_x86_64<size>::Relocate::tls_gd_to_ie(
++     const Relocate_info<size, false>* relinfo,
++     size_t relnum,
++-    Output_segment*,
++     const elfcpp::Rela<size, false>& rela,
++     unsigned int,
++     typename elfcpp::Elf_types<size>::Elf_Addr value,
++@@ -4085,7 +4076,6 @@ inline void
++ Target_x86_64<size>::Relocate::tls_desc_gd_to_ie(
++     const Relocate_info<size, false>* relinfo,
++     size_t relnum,
++-    Output_segment*,
++     const elfcpp::Rela<size, false>& rela,
++     unsigned int r_type,
++     typename elfcpp::Elf_types<size>::Elf_Addr value,
++-- 
++1.7.1
+-- 
+2.8.1
 
 
