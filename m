@@ -1,45 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 73A9E6AC4B
+Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id DD9466AC4B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jul 2016 19:04:25 +0000 (UTC)
-Received: by mail-wm0-f46.google.com with SMTP id f126so528267wma.1
+	Thu, 14 Jul 2016 19:12:18 +0000 (UTC)
+Received: by mail-io0-f176.google.com with SMTP id m101so84412313ioi.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jul 2016 12:04:27 -0700 (PDT)
+	Thu, 14 Jul 2016 12:12:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=tixot0gXBbuZl0gIKDa7xjql2MH9aaBEZb9RnO61vlw=;
-	b=s43ZgZyJgJnkD2SZImenih9xVwqo/QVoKiObu/hcOTWKqymUaKKfkCa98DApNxj0R0
-	ADz3GBT/ECrl7Y/PePt0lygaD69HcsuBIW3j4A5+MCO6VaNpdUav3E7/pGG1wqbQsjmX
-	5vDlzToLWKvtXA3JYdQX0AOIcKT6g+sbsX7zm5nUvxl/taTr1CO9WYhmoUPMzxsGrZdU
-	gIhXiJtjMDuNMSAsZN0SQ+Isu5SBCQRNG50BOnVavGCVWmHU3Jot93ywXdWPSIHvnFJd
-	aCoDsQOD1ezHKGkkr/jw10Zk6IC0+aXy0ZUVd3kDFuvmskAMbxnQ2pEA0Ep99lbFr8aI
-	c5CA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=YVGUfC5H1ij3HellGPkpMrPK2py+w4e6VbN/bVowxL4=;
+	b=mdnaYtmXZnIt50v6JMgHXPUKp8OivRHjLOStkrS3CbI/wacMYgJJpk3dEbfT6vaWVs
+	t4Q/SuMZ0q7Ba1Aqq+XdcA1ZqyZ5jLfVT/fePdvq3qvGUnBpSbljpvpVVihb5USccZ8y
+	LVAJ2yaumdyz3KzvzV/rSX702VCptgrvJ0kmjoUv2wn0hrqhELlH/YqOajD26iD/GRqk
+	DBFlEJDLGVYyCbnzoO+T9zqRh/A3G9GRlzLE7DB2D+97Feg7atpVsD4sRu7fSyc1bd+7
+	3U4whqIUlLJv0xqKwyIxKXCT224UebyCYcL4Xrwy0192v3j1R8Z6nqPLJI2Ag/6VdhgF
+	P+Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=tixot0gXBbuZl0gIKDa7xjql2MH9aaBEZb9RnO61vlw=;
-	b=fMzymURKrLtdo1HX5NOH6WX09ESHlmuBtPs8VHLp3QqVKfivnGhuUoTL+E4PwTdzqG
-	LttT8W5C0XdUEeLIl59H80G6I+x5ecRo/uLpWvORyG5voTfqMRdInWxUm/W+TbcVY+pW
-	IpLLcV2uPlk7WI8RFFP/55+0YZRB40eJQVJg+sfo5sB9nmpjiMvCHM6JB5RrT6cghjoW
-	H3mlM/FwefhDiQm3twdr6YWaYAt2wdXwXTgPYD31ExLpREWETtAjHbEwRPgN6ZQcLbSV
-	Uq1cgxIlwtL4nIEn9zev+8YrM1RjjrR7D/xq2Q5nBfz4utWbXjWTnLxZqyxbPxIlFMCU
-	rWQQ==
-X-Gm-Message-State: ALyK8tLIfTdt6DJC1j1u4DoQvUwjn1OMd1impIzNUE69D5N8bSHty9CBQlzk04EU7TJqEvUQ
-X-Received: by 10.28.131.200 with SMTP id f191mr18910981wmd.80.1468523066041; 
-	Thu, 14 Jul 2016 12:04:26 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id d62sm5828095wmd.7.2016.07.14.12.04.24
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 14 Jul 2016 12:04:25 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Jul 2016 20:04:23 +0100
-Message-Id: <1468523063-25726-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] binutils: backport fix for TLSDESC relocations with no TLS segment on arch64
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=YVGUfC5H1ij3HellGPkpMrPK2py+w4e6VbN/bVowxL4=;
+	b=VH1C1I4Vf5g6ZiqsueacWMtlpDtcNvGqAIq5OyptwzflOB1bkD4D8dkQdwEbJwqJY0
+	nN4YRz53Z8RciRrIhqIuK2JcRUrPyIavnh/Rn4nxRQcBTfqSimy8l93Kyus5eJjlaIMP
+	+ga0ZkMm+pRfi1X5nFQF7uehsjZN6VDh9xOyTX5u7Y15liudHNk1nkLrEsjANdBqqd5t
+	9gCk7rr3xfzzMxEpI4WTiy7EMJ+ikbp9VRi2iJ3hCOzy2nGiMRS0f5RNuagKUNh/EmXH
+	F0Ge8uYfVVD+Hm+V9NOk9mPEvN45KrjaQ+QmJJE/KR6Jvfq2nnJfssRnhu0qxDWVf5Yh
+	U0Yw==
+X-Gm-Message-State: ALyK8tKD5S2ujZ8qJoXSNRczY1aJjiqtXhKjCdC/J/1AMdqd+DS6fsxrtngAYWkwVRCp3ikdp4/NfglNTg5aPjH6
+X-Received: by 10.107.138.212 with SMTP id c81mr15792433ioj.148.1468523538828; 
+	Thu, 14 Jul 2016 12:12:18 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.18.17 with HTTP; Thu, 14 Jul 2016 12:11:59 -0700 (PDT)
+In-Reply-To: <1ce58e9f-a312-dd9a-d1b2-d787773fa18e@windriver.com>
+References: <1468514260-5560-1-git-send-email-ross.burton@intel.com>
+	<1ce58e9f-a312-dd9a-d1b2-d787773fa18e@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 14 Jul 2016 20:11:59 +0100
+Message-ID: <CAJTo0La0jY021zwJOOQnZeX_2dHwVD-FvJpXGgX-fZrh82giqQ@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glibc: use the host locale archive in nativesdk builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,214 +54,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jul 2016 19:04:29 -0000
+X-List-Received-Date: Thu, 14 Jul 2016 19:12:19 -0000
+Content-Type: multipart/alternative; boundary=001a113ed932e0611205379d4784
 
-As exposed by WebKit on aarch64 hosts, which causes binutils to throw an
-internal error.
+--001a113ed932e0611205379d4784
+Content-Type: text/plain; charset=UTF-8
 
-[ YOCTO #9509 ]
+On 14 July 2016 at 19:58, Mark Hatle <mark.hatle@windriver.com> wrote:
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/binutils/binutils-2.26.inc   |   1 +
- .../binutils/binutils/aarch64-tls.patch            | 175 +++++++++++++++++++++
- 2 files changed, 176 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/aarch64-tls.patch
-
-diff --git a/meta/recipes-devtools/binutils/binutils-2.26.inc b/meta/recipes-devtools/binutils/binutils-2.26.inc
-index 82cb7f5..1f7bee2 100644
---- a/meta/recipes-devtools/binutils/binutils-2.26.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.26.inc
-@@ -35,6 +35,7 @@ SRC_URI = "\
-      file://0013-Fix-GOT-address-computations-in-initial-PLT-entries-.patch \
-      file://0014-Correct-nios2-_gp-address-computation.patch \
-      file://0015-fix-the-incorrect-assembling-for-ppc-wait-mnemonic.patch \
-+     file://aarch64-tls.patch \
- "
- S  = "${WORKDIR}/git"
- 
-diff --git a/meta/recipes-devtools/binutils/binutils/aarch64-tls.patch b/meta/recipes-devtools/binutils/binutils/aarch64-tls.patch
-new file mode 100644
-index 0000000..5321829
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/aarch64-tls.patch
-@@ -0,0 +1,175 @@
-+Building WebKit on an aarch64 host will fail:
-+
-+gold/ld-new: internal error in relocate_tls, at ../../binutils/gold/aarch64.cc:7418
-+
-+This was a binutils bug, so backport the fix.
-+
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+From d21f123b0ead1806416cf0dafae12bec4cca8920 Mon Sep 17 00:00:00 2001
-+From: Cary Coutant <ccoutant@gmail.com>
-+Date: Mon, 11 Jan 2016 23:57:44 -0800
-+Subject: [PATCH] Fix internal error when applying TLSDESC relocations with no TLS segment.
-+
-+gold/
-+	PR gold/19353
-+	* aarch64.cc (Target_aarch64::relocate_tls): Don't insist that
-+	we have a TLS segment for GD-to-IE optimization.
-+	* i386.cc (Target_i386::tls_gd_to_ie): Remove tls_segment parameter.
-+	Adjust all calls.
-+	(Target_i386::tls_desc_gd_to_ie): Likewise.
-+	(Target_i386::relocate_tls): Don't insist that we have a TLS segment
-+	for TLSDESC GD-to-IE optimizations.
-+	* x86_64.cc (Target_x86_64::tls_gd_to_ie): Remove tls_segment parameter.
-+	Adjust all calls.
-+	(Target_x86_64::tls_desc_gd_to_ie): Likewise.
-+	(Target_x86_64::relocate_tls): Don't insist that we have a TLS segment
-+	for TLSDESC GD-to-IE optimizations.
-+---
-+ gold/ChangeLog  |   16 ++++++++++++++++
-+ gold/aarch64.cc |    6 ------
-+ gold/i386.cc    |   14 ++------------
-+ gold/x86_64.cc  |   14 ++------------
-+ 4 files changed, 20 insertions(+), 30 deletions(-)
-+
-+diff --git a/gold/aarch64.cc b/gold/aarch64.cc
-+index 20f2f4f..5ad061b 100644
-+--- a/gold/aarch64.cc
-++++ b/gold/aarch64.cc
-+@@ -7422,12 +7422,6 @@ Target_aarch64<size, big_endian>::Relocate::relocate_tls(
-+ 	      }
-+ 	    if (tlsopt == tls::TLSOPT_TO_IE)
-+ 	      {
-+-		if (tls_segment == NULL)
-+-		  {
-+-		    gold_assert(parameters->errors()->error_count() > 0
-+-				|| issue_undefined_symbol_error(gsym));
-+-		    return aarch64_reloc_funcs::STATUS_BAD_RELOC;
-+-		  }
-+ 		return tls_desc_gd_to_ie(relinfo, target, rela, r_type,
-+ 					 view, psymval, got_entry_address,
-+ 					 address);
-+diff --git a/gold/i386.cc b/gold/i386.cc
-+index 82886d4..a7168a8 100644
-+--- a/gold/i386.cc
-++++ b/gold/i386.cc
-+@@ -668,7 +668,6 @@ class Target_i386 : public Sized_target<32, false>
-+     // Do a TLS General-Dynamic to Initial-Exec transition.
-+     inline void
-+     tls_gd_to_ie(const Relocate_info<32, false>*, size_t relnum,
-+-		 Output_segment* tls_segment,
-+ 		 const elfcpp::Rel<32, false>&, unsigned int r_type,
-+ 		 elfcpp::Elf_types<32>::Elf_Addr value,
-+ 		 unsigned char* view,
-+@@ -687,7 +686,6 @@ class Target_i386 : public Sized_target<32, false>
-+     // transition.
-+     inline void
-+     tls_desc_gd_to_ie(const Relocate_info<32, false>*, size_t relnum,
-+-		      Output_segment* tls_segment,
-+ 		      const elfcpp::Rel<32, false>&, unsigned int r_type,
-+ 		      elfcpp::Elf_types<32>::Elf_Addr value,
-+ 		      unsigned char* view,
-+@@ -3054,7 +3052,7 @@ Target_i386::Relocate::relocate_tls(const Relocate_info<32, false>* relinfo,
-+ 	    }
-+ 	  if (optimized_type == tls::TLSOPT_TO_IE)
-+ 	    {
-+-	      this->tls_gd_to_ie(relinfo, relnum, tls_segment, rel, r_type,
-++	      this->tls_gd_to_ie(relinfo, relnum, rel, r_type,
-+ 				 got_offset, view, view_size);
-+ 	      break;
-+ 	    }
-+@@ -3116,13 +3114,7 @@ Target_i386::Relocate::relocate_tls(const Relocate_info<32, false>* relinfo,
-+ 	    }
-+ 	  if (optimized_type == tls::TLSOPT_TO_IE)
-+ 	    {
-+-	      if (tls_segment == NULL)
-+-		{
-+-		  gold_assert(parameters->errors()->error_count() > 0
-+-			      || issue_undefined_symbol_error(gsym));
-+-		  return;
-+-		}
-+-	      this->tls_desc_gd_to_ie(relinfo, relnum, tls_segment, rel, r_type,
-++	      this->tls_desc_gd_to_ie(relinfo, relnum, rel, r_type,
-+ 				      got_offset, view, view_size);
-+ 	      break;
-+ 	    }
-+@@ -3354,7 +3346,6 @@ Target_i386::Relocate::tls_gd_to_le(const Relocate_info<32, false>* relinfo,
-+ inline void
-+ Target_i386::Relocate::tls_gd_to_ie(const Relocate_info<32, false>* relinfo,
-+ 				    size_t relnum,
-+-				    Output_segment*,
-+ 				    const elfcpp::Rel<32, false>& rel,
-+ 				    unsigned int,
-+ 				    elfcpp::Elf_types<32>::Elf_Addr value,
-+@@ -3449,7 +3440,6 @@ inline void
-+ Target_i386::Relocate::tls_desc_gd_to_ie(
-+     const Relocate_info<32, false>* relinfo,
-+     size_t relnum,
-+-    Output_segment*,
-+     const elfcpp::Rel<32, false>& rel,
-+     unsigned int r_type,
-+     elfcpp::Elf_types<32>::Elf_Addr value,
-+diff --git a/gold/x86_64.cc b/gold/x86_64.cc
-+index 3cfc064..4ad5afc 100644
-+--- a/gold/x86_64.cc
-++++ b/gold/x86_64.cc
-+@@ -816,7 +816,6 @@ class Target_x86_64 : public Sized_target<size, false>
-+     // Do a TLS General-Dynamic to Initial-Exec transition.
-+     inline void
-+     tls_gd_to_ie(const Relocate_info<size, false>*, size_t relnum,
-+-		 Output_segment* tls_segment,
-+ 		 const elfcpp::Rela<size, false>&, unsigned int r_type,
-+ 		 typename elfcpp::Elf_types<size>::Elf_Addr value,
-+ 		 unsigned char* view,
-+@@ -835,7 +834,6 @@ class Target_x86_64 : public Sized_target<size, false>
-+     // Do a TLSDESC-style General-Dynamic to Initial-Exec transition.
-+     inline void
-+     tls_desc_gd_to_ie(const Relocate_info<size, false>*, size_t relnum,
-+-		      Output_segment* tls_segment,
-+ 		      const elfcpp::Rela<size, false>&, unsigned int r_type,
-+ 		      typename elfcpp::Elf_types<size>::Elf_Addr value,
-+ 		      unsigned char* view,
-+@@ -3733,7 +3731,7 @@ Target_x86_64<size>::Relocate::relocate_tls(
-+ 	  if (optimized_type == tls::TLSOPT_TO_IE)
-+ 	    {
-+ 	      value = target->got_plt_section()->address() + got_offset;
-+-	      this->tls_gd_to_ie(relinfo, relnum, tls_segment, rela, r_type,
-++	      this->tls_gd_to_ie(relinfo, relnum, rela, r_type,
-+ 				 value, view, address, view_size);
-+ 	      break;
-+ 	    }
-+@@ -3800,14 +3798,8 @@ Target_x86_64<size>::Relocate::relocate_tls(
-+ 	    }
-+ 	  if (optimized_type == tls::TLSOPT_TO_IE)
-+ 	    {
-+-	      if (tls_segment == NULL)
-+-		{
-+-		  gold_assert(parameters->errors()->error_count() > 0
-+-			      || issue_undefined_symbol_error(gsym));
-+-		  return;
-+-		}
-+ 	      value = target->got_plt_section()->address() + got_offset;
-+-	      this->tls_desc_gd_to_ie(relinfo, relnum, tls_segment,
-++	      this->tls_desc_gd_to_ie(relinfo, relnum,
-+ 				      rela, r_type, value, view, address,
-+ 				      view_size);
-+ 	      break;
-+@@ -3973,7 +3965,6 @@ inline void
-+ Target_x86_64<size>::Relocate::tls_gd_to_ie(
-+     const Relocate_info<size, false>* relinfo,
-+     size_t relnum,
-+-    Output_segment*,
-+     const elfcpp::Rela<size, false>& rela,
-+     unsigned int,
-+     typename elfcpp::Elf_types<size>::Elf_Addr value,
-+@@ -4085,7 +4076,6 @@ inline void
-+ Target_x86_64<size>::Relocate::tls_desc_gd_to_ie(
-+     const Relocate_info<size, false>* relinfo,
-+     size_t relnum,
-+-    Output_segment*,
-+     const elfcpp::Rela<size, false>& rela,
-+     unsigned int r_type,
-+     typename elfcpp::Elf_types<size>::Elf_Addr value,
-+-- 
-+1.7.1
--- 
-2.8.1
+> Patching glibc to use the host system as a backup for the locales makes
+> sense to
+> me as well.  However it is definitely more work and may not be worth it...
 
 
+Agreed and agreed, which is why I went with this patch.
+
+
+> In the buildtools case, do any of the other components we ship actually
+> have
+> localized content?  If we're shipping message catalogs for non-english
+> systems
+> -- then we definitely need non-english locale to work.  But if we're only
+> shipping english -- C.utf-8 might be enough.
+>
+
+The problem for buildtools shipping just C.UTF-8 is that the moment you
+have a system that needs buildtools and use them, you're forced into using
+C.UTF-8 for everything in that session unless you keep that terminal for
+just bitbake invocations.  If you're like me and often run
+git/emacs/meld/etc in the same terminal as bitbake and don't speak English
+then your experience is going to suffer.
+
+Ross
+
+--001a113ed932e0611205379d4784
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra">On 14 July 2016 at 19:58, Mark =
+Hatle <span dir=3D"ltr">&lt;<a href=3D"mailto:mark.hatle@windriver.com" tar=
+get=3D"_blank">mark.hatle@windriver.com</a>&gt;</span> wrote:</div><div cla=
+ss=3D"gmail_extra"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border=
+-left-style:solid;padding-left:1ex"><span style=3D"font-size:13px">Patching=
+ glibc to use the host system as a backup for the locales makes sense to<br=
+></span><span style=3D"font-size:13px">me as well.=C2=A0 However it is defi=
+nitely more work and may not be worth it...</span></blockquote><div><br></d=
+iv><div>Agreed and agreed, which is why I went with this patch.</div><div>=
+=C2=A0</div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb=
+(204,204,204);border-left-style:solid;padding-left:1ex"><div id=3D":13x" cl=
+ass=3D"">In the buildtools case, do any of the other components we ship act=
+ually have<br>
+localized content?=C2=A0 If we&#39;re shipping message catalogs for non-eng=
+lish systems<br>
+-- then we definitely need non-english locale to work.=C2=A0 But if we&#39;=
+re only<br>
+shipping english -- C.utf-8 might be enough.</div></blockquote></div><br>Th=
+e problem for buildtools shipping just C.UTF-8 is that the moment you have =
+a system that needs buildtools and use them, you&#39;re forced into using C=
+.UTF-8 for everything in that session unless you keep that terminal for jus=
+t bitbake invocations.=C2=A0 If you&#39;re like me and often run git/emacs/=
+meld/etc in the same terminal as bitbake and don&#39;t speak English then y=
+our experience is going to suffer.</div><div class=3D"gmail_extra"><br></di=
+v><div class=3D"gmail_extra">Ross</div></div>
+
+--001a113ed932e0611205379d4784--
