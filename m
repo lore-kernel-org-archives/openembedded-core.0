@@ -1,26 +1,20 @@
-Return-Path: <philip@balister.org>
-Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
-	by mail.openembedded.org (Postfix) with SMTP id 08B4673166
+Return-Path: <stephano.cetola@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id BCD066AC4B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jul 2016 17:03:41 +0000 (UTC)
-Received: (qmail 18965 invoked by uid 1003); 14 Jul 2016 17:03:41 -0000
-Received: from unknown (HELO ?192.168.11.142?)
-	(philip@opensdr.com@108.44.115.86)
-	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
-	14 Jul 2016 17:03:40 -0000
-To: "openembedded-members@lists.openembedded.org"
-	<openembedded-members@lists.openembedded.org>,
-	"openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>,
-	Yocto Project <yocto@yoctoproject.org>
-From: Philip Balister <philip@balister.org>
-Message-ID: <4037473c-25e3-015d-25fb-be5cd3ece4bc@balister.org>
-Date: Thu, 14 Jul 2016 13:03:39 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.1.1
-MIME-Version: 1.0
-Subject: Save the dates (OEDEM and Yocto Project Developer Day)
+	Thu, 14 Jul 2016 18:11:46 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga101.jf.intel.com with ESMTP; 14 Jul 2016 11:11:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,364,1464678000"; d="scan'208";a="846406541"
+Received: from yocto-dev86.jf.intel.com ([10.7.198.60])
+	by orsmga003.jf.intel.com with ESMTP; 14 Jul 2016 11:11:47 -0700
+From: Stephano Cetola <stephano.cetola@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 14 Jul 2016 11:12:40 -0700
+Message-Id: <20160714181240.11728-1-stephano.cetola@linux.intel.com>
+X-Mailer: git-send-email 2.9.0
+Subject: [PATCH] systemd: allow add users to groups in rootfs postprocess
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,20 +27,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jul 2016 17:03:44 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 14 Jul 2016 18:11:50 -0000
 
-ELCE is in Berlin this year on Oct 11-13 (Tuesday-Thursday). After
-conversations with the Yocto Project, we've worked out that there will
-be a Yocto Project developer day on Monday, Oct 10 and OEDEM
-(OpenEmbedded developer meeting) on Friday, Oct 14.
+Currently the functionality checks for the "u" and "g" flags to create users and
+groups, but not the "m" flag to add users to groups. This change first checks to
+be sure that the users and groups are created, creates them if necessary, then
+adds the user to the group.
 
-The Yocto Project developer day is basically a training class with
-beginner and advanced topics.
+Signed-off-by: Stephano Cetola <stephano.cetola@linux.intel.com>
+---
+ meta/classes/rootfs-postcommands.bbclass | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-The OpenEmbedded developer meeting is a chance to talk with developers
-about various project topics. We'll work out the agenda closer to ELCE.
+diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
+index db8b551..b38b6a5 100644
+--- a/meta/classes/rootfs-postcommands.bbclass
++++ b/meta/classes/rootfs-postcommands.bbclass
+@@ -45,6 +45,15 @@ systemd_create_users () {
+ 			[ "$id" != "-" ] && groupadd_params="$groupadd_params --gid $id"
+ 			groupadd_params="$groupadd_params --system $name"
+ 			eval groupadd --root ${IMAGE_ROOTFS} $groupadd_params || true
++		elif [ "$type" = "m" ]; then
++			group=$id
++			if [ ! `grep -q "^${group}:" ${IMAGE_ROOTFS}${sysconfdir}/group` ]; then
++				eval groupadd --root ${IMAGE_ROOTFS} --system $group
++			fi
++			if [ ! `grep -q "^${name}:" ${IMAGE_ROOTFS}${sysconfdir}/passwd` ]; then
++				eval useradd --root ${IMAGE_ROOTFS} --shell /sbin/nologin --system $name
++			fi
++			eval usermod --root ${IMAGE_ROOTFS} -a -G $group $name
+ 		fi
+ 		done
+ 	done
+-- 
+2.9.0
 
-Philip
 
