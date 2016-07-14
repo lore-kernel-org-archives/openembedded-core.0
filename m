@@ -1,46 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f53.google.com (mail-it0-f53.google.com
-	[209.85.214.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C3116AC4B
+Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 6AB786AC4B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jul 2016 16:19:24 +0000 (UTC)
-Received: by mail-it0-f53.google.com with SMTP id u186so52016683ita.0
+	Thu, 14 Jul 2016 16:37:44 +0000 (UTC)
+Received: by mail-wm0-f46.google.com with SMTP id o80so120333666wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jul 2016 09:19:25 -0700 (PDT)
+	Thu, 14 Jul 2016 09:37:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=W7ThPtWhpQ414ERnEciHncSsQct1wle+/8KZM1/ojxs=;
-	b=XRhaP6gxmH5wb2GepbQkzubVEoo/LzoYFMjTmb7eVb2KwiLS5BnhkjLaRAPVubFH4d
-	sota1bG53kbWQCcM7jak50HxfPvDxRuKIyoPe5t7Tz5YcTMfRGfd0C+uKJxi2OUqkvj+
-	gyBJwCXktff7Ooof7POJS8dGh2rh12DrgF6yWLaAZoXnYky/1dMjc213E0VgJItybKCb
-	QZMjrnN4biKQg5QpO1778OvO/Cd5sr+jQO6RihDPrqUfGvJR1mj9Y0X1MtRW7oIfTvhN
-	o6UiuIfhYRcuA8d4V9YEwC4vx1hcgV1gT4VcSb/SwbCZ9QT2YtRx5sew2ZyohV6Nr3cv
-	YmRg==
+	h=from:to:subject:date:message-id;
+	bh=S8LNa/DmgqIOvGWBHxMmkqtdBMmJZ5tmUtP+tyZTeA0=;
+	b=cSUMwzoW6l5vZ7/BYsLqzb62CwO61+Y6vz+nuWsoOQuLtycC9QBeBQ7QcFu00Vw84p
+	WjWQKZCTs1RZWccVJ5B7s9fk7aMAQaEVJu4Hsz0O+kDyD/vr5ubfHDzgtkxO3EgW9dD2
+	d75pdTCN0/jxQkmYBlsTyc559wW6yIs6vGFploB0SOvxxibDcxyigy+yY8NxVgLlm7Jw
+	/pKxdDemWOl9F0jlDnHYk8WIOZkn7lmBG8zigRMKOQXttF9vqvlpyam9euw+DHZwRCpo
+	7bO3rG+raQTQ1B6MjmaV6xsDqmmnt0lePjeGwVOMBPik0/CQtmACUcAoG9n5BExry2OQ
+	sdGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=W7ThPtWhpQ414ERnEciHncSsQct1wle+/8KZM1/ojxs=;
-	b=SYbRky3zYIOin6TD3k3yiEy3cURUYoO1R4/vA2Rf/aRSwOU6XAJ/IG5DwbkXnN9WQp
-	PG9d7Ot53PBSIqGG8hD9dzIUJ5fEvKOnoTt2Av7f5lhxFIA8v+D/s2gaRkMPpB0Nf6Du
-	11uevXL3foyW9pro9nMjl83vTwF/F+J+1WVe1K8kBAsrxO9MqfQLk2wbndxnfm1KwKLf
-	TSZy06AF3E4bp8/hynXhmNMIfplzL7120/IUfST7daBdouKe+BC60ktstz8rDG5/0YsK
-	CZKNvqblYIkuWFOhNsjvh3bZGCGxv4VMt8kCsAR4SCDjT5AtfxN3RtuA9GxSWMlc5NI7
-	Fzyw==
-X-Gm-Message-State: ALyK8tL2RT7rF/FjrL4e5BI9s7ya9iLWYWKt9BBLDSuu1ZY+bcZGwbaDewegx7x6oOqSw2ro92FLpRPedJhgrpWt
-X-Received: by 10.36.147.198 with SMTP id y189mr15617975itd.83.1468513165190; 
-	Thu, 14 Jul 2016 09:19:25 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Thu, 14 Jul 2016 09:19:05 -0700 (PDT)
-In-Reply-To: <1468247633-24172-1-git-send-email-alexander.kanavin@linux.intel.com>
-References: <1468247633-24172-1-git-send-email-alexander.kanavin@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 14 Jul 2016 17:19:05 +0100
-Message-ID: <CAJTo0La-MQN-asb6P=vRknycs437BwHPW8khjteg0+wEBpZALg@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/8] security_flags.inc: enable PIE for a few recipes
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=S8LNa/DmgqIOvGWBHxMmkqtdBMmJZ5tmUtP+tyZTeA0=;
+	b=LdGN+5Eiv9qog0eX+mhhhU/i4p8oOot99PCIsyqVbRfFZmOJg7AKuiwDLYWnLTxioI
+	MO+lTDFneDYoLVrA3n7+jaPc09bhNcYNp1JsC+4+UB8PGSAMFrZhFoxf4orY+lcRWD8L
+	IcW66quy2vOJ7XLT8D3hbAUwgzvxcXYqDux9KJzEwyoPbvermdXIJRyv95AJGW4vJVhy
+	Y4vsyCMYKg0TgO/obGO2z7yXtWEEt4pn/qIUaPrmHxy+IUl6zPH9cqiVkEPF0oOGpf4P
+	X+ZXN2/AZUojbRsmmdu3wdZpMdv8jW7VogpHfe00Afcgv8p9g47uD4bAm/3bAcTrkSA7
+	+lAw==
+X-Gm-Message-State: ALyK8tKgs2uVBUVRZmwVe+ANjkC/3qJ0bIrDhTW8b0NbWKcJPgEAO52pkPncQYDqpfjl7MRN
+X-Received: by 10.28.184.82 with SMTP id i79mr35721220wmf.26.1468514264685;
+	Thu, 14 Jul 2016 09:37:44 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	f187sm4832818wmf.15.2016.07.14.09.37.43
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 14 Jul 2016 09:37:43 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 14 Jul 2016 17:37:40 +0100
+Message-Id: <1468514260-5560-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] glibc: use the host locale archive in nativesdk builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,50 +53,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jul 2016 16:19:29 -0000
-Content-Type: multipart/alternative; boundary=94eb2c089e148f3f3305379add76
+X-List-Received-Date: Thu, 14 Jul 2016 16:37:51 -0000
 
---94eb2c089e148f3f3305379add76
-Content-Type: text/plain; charset=UTF-8
+The nativesdk libc when used by buildtools has a hard requirement on supporting
+a UTF-8 locale because Python 3 needs a UTF-8 locale.  However we currently only
+ship the C locale, which means that Python attempts to lookup the user's locale
+(for example, en_NZ.UTF-8) in the locale archive under it's prefix it fails and
+falls back to C.  This the results in Python using ASCII instead of UTF-8 for
+file encoding, and bitbake breaks.
 
-On 11 July 2016 at 15:33, Alexander Kanavin <
-alexander.kanavin@linux.intel.com> wrote:
+Th obvious solution would be to ship all locales, but this would add
+approximately 250MB to the size of the buildtools tarball (which is currently
+around 30MB).  Generating a binary locale archive reduces this down to 100MB,
+but this is still a drastic increase in footprint.  If we ship a subset of
+locales in the tarball then there will be users whose locale isn't in the
+tarball, and they'll have to change their locale to an "approved" one, which
+isn't the best of messages to send to new users.
 
-> -SECURITY_CFLAGS_pn-python = "${SECURITY_NO_PIE_CFLAGS}"
->
+The alternative is to tell the nativesdk libc that the locale archive isn't
+under it own prefix but is in fact at /usr/lib/locale/locale-archive, so the
+buildtools libc uses the host locale archive. The locale archive format appears
+to be at least fairly stable: our glibc 2.24 can read the locale archive
+generated by glibc 2.17 (Centos 7).
 
-This was fun: python with  PIE flags silently fails to build various
-modules, including the zlib support.
+[ YOCTO #9775 ]
 
--SECURITY_CFLAGS_pn-syslinux = "${SECURITY_NO_PIE_CFLAGS}"
->
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-core/glibc/glibc_2.24.bb | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-This failed to link although I can't find the log on the AB right now...
+diff --git a/meta/recipes-core/glibc/glibc_2.24.bb b/meta/recipes-core/glibc/glibc_2.24.bb
+index 456f206..4bc6443 100644
+--- a/meta/recipes-core/glibc/glibc_2.24.bb
++++ b/meta/recipes-core/glibc/glibc_2.24.bb
+@@ -129,6 +129,12 @@ do_compile () {
+ 
+ }
+ 
++# Use the host locale archive when built for nativesdk so that we don't need to
++# ship a complete (100MB) locale set.
++do_compile_prepend_class-nativesdk() {
++    echo "complocaledir=/usr/lib/locale" >> ${S}/configparms
++}
++
+ require glibc-package.inc
+ 
+ BBCLASSEXTEND = "nativesdk"
+-- 
+2.8.1
 
-I've ripped these out of the patch for now.
 
-Ross
-
---94eb2c089e148f3f3305379add76
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 11 July 2016 at 15:33, Alexander Kanavin <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander.k=
-anavin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_=
-quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
-ex"><div id=3D":1tu" class=3D"a3s aXjCH m155da628bf4360b7">-SECURITY_CFLAGS=
-_pn-python =3D &quot;${SECURITY_NO_PIE_CFLAGS}&quot;<br></div></blockquote>=
-<div><br></div><div>This was fun: python with =C2=A0PIE flags silently fail=
-s to build various modules, including the zlib support.<br></div><div><br><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
-ft:1px #ccc solid;padding-left:1ex"><div id=3D":1tu" class=3D"a3s aXjCH m15=
-5da628bf4360b7">-SECURITY_CFLAGS_pn-syslinux =3D &quot;${SECURITY_NO_PIE_CF=
-LAGS}&quot;</div></blockquote></div><br>This failed to link although I can&=
-#39;t find the log on the AB right now...</div><div class=3D"gmail_extra"><=
-br></div><div class=3D"gmail_extra">I&#39;ve ripped these out of the patch =
-for now.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extr=
-a">Ross</div></div>
-
---94eb2c089e148f3f3305379add76--
