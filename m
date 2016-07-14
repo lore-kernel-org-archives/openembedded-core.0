@@ -1,24 +1,26 @@
 Return-Path: <joe.slater@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 24A266AC4B
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A86F370100
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jul 2016 18:45:56 +0000 (UTC)
+	Thu, 14 Jul 2016 18:45:57 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u6EIjuPJ016268
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u6EIjvqI012207
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jul 2016 11:45:56 -0700 (PDT)
+	Thu, 14 Jul 2016 11:45:57 -0700
 Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Thu, 14 Jul 2016 11:45:55 -0700
+	14.3.248.2; Thu, 14 Jul 2016 11:45:56 -0700
 From: Joe Slater <jslater@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 14 Jul 2016 11:45:54 -0700
-Message-ID: <1468521955-14769-1-git-send-email-jslater@windriver.com>
+Date: Thu, 14 Jul 2016 11:45:55 -0700
+Message-ID: <1468521955-14769-2-git-send-email-jslater@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
+In-Reply-To: <1468521955-14769-1-git-send-email-jslater@windriver.com>
+References: <1468521955-14769-1-git-send-email-jslater@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] add license info for libidn
+Subject: [PATCH 1/1] libidn: add license per package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,16 +36,27 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 14 Jul 2016 18:46:00 -0000
 Content-Type: text/plain
 
-This might be a re-send of something I sent last week.  It
-avoids the appearance of GPLV3 on a target including libidn
-but not idn.
+The idn package is GPLv3 and the rest is LGPLv2.1+ or LGPLv3.
 
-Joe Slater (1):
-  libidn: add license per package
-
+Signed-off-by: Joe Slater <jslater@windriver.com>
+---
  meta/recipes-extended/libidn/libidn_1.32.bb |    3 +++
  1 file changed, 3 insertions(+)
 
+diff --git a/meta/recipes-extended/libidn/libidn_1.32.bb b/meta/recipes-extended/libidn/libidn_1.32.bb
+index 565c75d..af828cb 100644
+--- a/meta/recipes-extended/libidn/libidn_1.32.bb
++++ b/meta/recipes-extended/libidn/libidn_1.32.bb
+@@ -28,6 +28,9 @@ SRC_URI[sha256sum] = "ba5d5afee2beff703a34ee094668da5c6ea5afa38784cebba8924105e1
+ PACKAGES =+ "idn"
+ FILES_idn = "${bindir}/*"
+ 
++LICENSE_${PN} = "LGPLv2.1+ | LGPLv3"
++LICENSE_idn = "GPLv3+"
++
+ EXTRA_OECONF = "--disable-csharp"
+ 
+ do_install_append() {
 -- 
 1.7.9.5
 
