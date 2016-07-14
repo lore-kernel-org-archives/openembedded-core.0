@@ -1,44 +1,45 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id DD9466AC4B
+Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
+	[209.85.223.174])
+	by mail.openembedded.org (Postfix) with ESMTP id C67DD6AC4B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jul 2016 19:12:18 +0000 (UTC)
-Received: by mail-io0-f176.google.com with SMTP id m101so84412313ioi.2
+	Thu, 14 Jul 2016 19:14:15 +0000 (UTC)
+Received: by mail-io0-f174.google.com with SMTP id b62so84568777iod.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jul 2016 12:12:19 -0700 (PDT)
+	Thu, 14 Jul 2016 12:14:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=YVGUfC5H1ij3HellGPkpMrPK2py+w4e6VbN/bVowxL4=;
-	b=mdnaYtmXZnIt50v6JMgHXPUKp8OivRHjLOStkrS3CbI/wacMYgJJpk3dEbfT6vaWVs
-	t4Q/SuMZ0q7Ba1Aqq+XdcA1ZqyZ5jLfVT/fePdvq3qvGUnBpSbljpvpVVihb5USccZ8y
-	LVAJ2yaumdyz3KzvzV/rSX702VCptgrvJ0kmjoUv2wn0hrqhELlH/YqOajD26iD/GRqk
-	DBFlEJDLGVYyCbnzoO+T9zqRh/A3G9GRlzLE7DB2D+97Feg7atpVsD4sRu7fSyc1bd+7
-	3U4whqIUlLJv0xqKwyIxKXCT224UebyCYcL4Xrwy0192v3j1R8Z6nqPLJI2Ag/6VdhgF
-	P+Bw==
+	:cc; bh=qV0LICVtNWCdxoAdinBo8JScwnGFyTcqiA2iOYCfAic=;
+	b=dqcURjPsYQXC8urQNTSJ/sSfUnh3ERz2V/guHXWGiT5B3fS6UmKmvkx/HPy7q4us8d
+	fUOS7L694bhcNgYyGJYV876UIWaGvUrMXh+kImm4Lwty/YRYsiYYxnhTEkMAn97PP+MT
+	8oPrI1EVPdvN9hYk2jodzO/w87/6BTM/hnB5eCnL1MQKA+q6S41RTTxlJA4qCuf2ozvX
+	Br9Xg1MdJ+iebGtxYEEq6+CpMqcs1sA17N7CQgfex09M6hS2woaTVNtDxuDT0PbO6K4V
+	fFtegvidz9b5ZypMRLv+FPOASHRwtolf2RhC5HfOJZ8HR8uzcDnOXiWWYeFOASBcEfmp
+	wIag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=YVGUfC5H1ij3HellGPkpMrPK2py+w4e6VbN/bVowxL4=;
-	b=VH1C1I4Vf5g6ZiqsueacWMtlpDtcNvGqAIq5OyptwzflOB1bkD4D8dkQdwEbJwqJY0
-	nN4YRz53Z8RciRrIhqIuK2JcRUrPyIavnh/Rn4nxRQcBTfqSimy8l93Kyus5eJjlaIMP
-	+ga0ZkMm+pRfi1X5nFQF7uehsjZN6VDh9xOyTX5u7Y15liudHNk1nkLrEsjANdBqqd5t
-	9gCk7rr3xfzzMxEpI4WTiy7EMJ+ikbp9VRi2iJ3hCOzy2nGiMRS0f5RNuagKUNh/EmXH
-	F0Ge8uYfVVD+Hm+V9NOk9mPEvN45KrjaQ+QmJJE/KR6Jvfq2nnJfssRnhu0qxDWVf5Yh
-	U0Yw==
-X-Gm-Message-State: ALyK8tKD5S2ujZ8qJoXSNRczY1aJjiqtXhKjCdC/J/1AMdqd+DS6fsxrtngAYWkwVRCp3ikdp4/NfglNTg5aPjH6
-X-Received: by 10.107.138.212 with SMTP id c81mr15792433ioj.148.1468523538828; 
-	Thu, 14 Jul 2016 12:12:18 -0700 (PDT)
+	bh=qV0LICVtNWCdxoAdinBo8JScwnGFyTcqiA2iOYCfAic=;
+	b=mji4ujepvIxWwlxxw3pfDJ7Ii6pX4NAVIMX8F2xb0j5AgXTGyQb829G5dD0zlnilGv
+	jnS/HuR9r8rLgeawVGUs9pkQXHthEiKwQ3nfRxaEha2S0hiLZq16CYx+rIHMuDTRUAPQ
+	eKwV+zxneGFW8yGpGg/N8AJbGW3d9Q829io1fFqCjR5rVzksJcrq8IAaMkppkPVF3BMQ
+	nXE4zAo2liJAXbhN8Xuzp4wWAi2JCFh5Aecwp8YZxpa5fKpZ7ERL5Zjw9AnPzgjiKE7L
+	HsnzeON+y/6+P8TnVsXI9bpe6dpmH2jynaNkooHJmfOu/RsTVmKKPm6cqvLCt1OCmKmz
+	uwLA==
+X-Gm-Message-State: ALyK8tJOYI3ovXoohgmsd4POGkFPWQpZBlFFpsx2IOGHtPerxt8R4lkuibfPKlHnihfYBHGDlJFT1wgNX5vwdMvL
+X-Received: by 10.107.154.210 with SMTP id c201mr15767942ioe.99.1468523656145; 
+	Thu, 14 Jul 2016 12:14:16 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Thu, 14 Jul 2016 12:11:59 -0700 (PDT)
-In-Reply-To: <1ce58e9f-a312-dd9a-d1b2-d787773fa18e@windriver.com>
+Received: by 10.107.18.17 with HTTP; Thu, 14 Jul 2016 12:13:56 -0700 (PDT)
+In-Reply-To: <CAJTo0La0jY021zwJOOQnZeX_2dHwVD-FvJpXGgX-fZrh82giqQ@mail.gmail.com>
 References: <1468514260-5560-1-git-send-email-ross.burton@intel.com>
 	<1ce58e9f-a312-dd9a-d1b2-d787773fa18e@windriver.com>
+	<CAJTo0La0jY021zwJOOQnZeX_2dHwVD-FvJpXGgX-fZrh82giqQ@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 14 Jul 2016 20:11:59 +0100
-Message-ID: <CAJTo0La0jY021zwJOOQnZeX_2dHwVD-FvJpXGgX-fZrh82giqQ@mail.gmail.com>
+Date: Thu, 14 Jul 2016 20:13:56 +0100
+Message-ID: <CAJTo0LZRQExoMedd6Vm_hDbY9ULjuogiCEz0sKsR4arga=P69g@mail.gmail.com>
 To: Mark Hatle <mark.hatle@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] glibc: use the host locale archive in nativesdk builds
@@ -54,69 +55,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jul 2016 19:12:19 -0000
-Content-Type: multipart/alternative; boundary=001a113ed932e0611205379d4784
+X-List-Received-Date: Thu, 14 Jul 2016 19:14:18 -0000
+Content-Type: multipart/alternative; boundary=001a1140fab6de859705379d4e4f
 
---001a113ed932e0611205379d4784
+--001a1140fab6de859705379d4e4f
 Content-Type: text/plain; charset=UTF-8
 
-On 14 July 2016 at 19:58, Mark Hatle <mark.hatle@windriver.com> wrote:
+On 14 July 2016 at 20:11, Burton, Ross <ross.burton@intel.com> wrote:
 
-> Patching glibc to use the host system as a backup for the locales makes
-> sense to
-> me as well.  However it is definitely more work and may not be worth it...
+> The problem for buildtools shipping just C.UTF-8 is that the moment you
+> have a system that needs buildtools and use them, you're forced into using
+> C.UTF-8 for everything in that session unless you keep that terminal for
+> just bitbake invocations.  If you're like me and often run
+> git/emacs/meld/etc in the same terminal as bitbake and don't speak English
+> then your experience is going to suffer.
 
 
-Agreed and agreed, which is why I went with this patch.
-
-
-> In the buildtools case, do any of the other components we ship actually
-> have
-> localized content?  If we're shipping message catalogs for non-english
-> systems
-> -- then we definitely need non-english locale to work.  But if we're only
-> shipping english -- C.utf-8 might be enough.
->
-
-The problem for buildtools shipping just C.UTF-8 is that the moment you
-have a system that needs buildtools and use them, you're forced into using
-C.UTF-8 for everything in that session unless you keep that terminal for
-just bitbake invocations.  If you're like me and often run
-git/emacs/meld/etc in the same terminal as bitbake and don't speak English
-then your experience is going to suffer.
+Clarification: whilst bitbake currently enforces en_US.UTF-8 internally to
+ensure that it has a UTF-8 locale this is internal only.  The moment you
+use buildtools then a number of binaries - such as git - now link to our
+libc and if that doesn't understand your locale then you don't get
+translations.
 
 Ross
 
---001a113ed932e0611205379d4784
+--001a1140fab6de859705379d4e4f
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra">On 14 July 2016 at 19:58, Mark =
-Hatle <span dir=3D"ltr">&lt;<a href=3D"mailto:mark.hatle@windriver.com" tar=
-get=3D"_blank">mark.hatle@windriver.com</a>&gt;</span> wrote:</div><div cla=
-ss=3D"gmail_extra"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border=
--left-style:solid;padding-left:1ex"><span style=3D"font-size:13px">Patching=
- glibc to use the host system as a backup for the locales makes sense to<br=
-></span><span style=3D"font-size:13px">me as well.=C2=A0 However it is defi=
-nitely more work and may not be worth it...</span></blockquote><div><br></d=
-iv><div>Agreed and agreed, which is why I went with this patch.</div><div>=
-=C2=A0</div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb=
-(204,204,204);border-left-style:solid;padding-left:1ex"><div id=3D":13x" cl=
-ass=3D"">In the buildtools case, do any of the other components we ship act=
-ually have<br>
-localized content?=C2=A0 If we&#39;re shipping message catalogs for non-eng=
-lish systems<br>
--- then we definitely need non-english locale to work.=C2=A0 But if we&#39;=
-re only<br>
-shipping english -- C.utf-8 might be enough.</div></blockquote></div><br>Th=
-e problem for buildtools shipping just C.UTF-8 is that the moment you have =
-a system that needs buildtools and use them, you&#39;re forced into using C=
-.UTF-8 for everything in that session unless you keep that terminal for jus=
-t bitbake invocations.=C2=A0 If you&#39;re like me and often run git/emacs/=
-meld/etc in the same terminal as bitbake and don&#39;t speak English then y=
-our experience is going to suffer.</div><div class=3D"gmail_extra"><br></di=
-v><div class=3D"gmail_extra">Ross</div></div>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 14 July 2016 at 20:11, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;<=
+/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex">The problem for buildtools =
+shipping just C.UTF-8 is that the moment you have a system that needs build=
+tools and use them, you&#39;re forced into using C.UTF-8 for everything in =
+that session unless you keep that terminal for just bitbake invocations.=C2=
+=A0 If you&#39;re like me and often run git/emacs/meld/etc in the same term=
+inal as bitbake and don&#39;t speak English then your experience is going t=
+o suffer.</blockquote></div><br>Clarification: whilst bitbake currently enf=
+orces en_US.UTF-8 internally to ensure that it has a UTF-8 locale this is i=
+nternal only.=C2=A0 The moment you use buildtools then a number of binaries=
+ - such as git - now link to our libc and if that doesn&#39;t understand yo=
+ur locale then you don&#39;t get translations.</div><div class=3D"gmail_ext=
+ra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a113ed932e0611205379d4784--
+--001a1140fab6de859705379d4e4f--
