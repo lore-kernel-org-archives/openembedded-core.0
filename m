@@ -1,26 +1,47 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id E5D336AC4B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f46.google.com (mail-it0-f46.google.com
+	[209.85.214.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 36D3A731A1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jul 2016 18:50:00 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 14 Jul 2016 11:50:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,364,1464678000"; d="scan'208";a="734332743"
-Received: from lsandov1-mobl2.zpn.intel.com (HELO [10.219.5.47])
-	([10.219.5.47])
-	by FMSMGA003.fm.intel.com with ESMTP; 14 Jul 2016 11:50:00 -0700
-To: Ross Burton <ross.burton@intel.com>,
-	openembedded-core@lists.openembedded.org
+	Thu, 14 Jul 2016 18:56:29 +0000 (UTC)
+Received: by mail-it0-f46.google.com with SMTP id f6so364882ith.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Jul 2016 11:56:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=rR/vCaipUbehvzL/+PP/kIuUyDV7LzpCwwfguww2jM8=;
+	b=wn7c6D6nPvRnZy5Ur4e4mT9i0E3hWkDJBBRaTRwuXNLAdhR+Z8wjM9Y/cZWVXgg+/3
+	SlH2puc97vrSpmLvXJO1Xg/OGrvciUSTf9fDf3shXBg0atIjkTnL1SPuZaFbskDyHHFO
+	NUf25YrzN8KLzbqelmDB2pbcSZ2lifeRZJr2zsEu83X3AfUSArtnHWOc7xrgdBqWVTma
+	EWd1tPEXm5sg+7izwCmqvWz5szPv66rBardylTJWogQ1RbpfFCiQTViiqnksXR8pG2JQ
+	OE8Ui+gI4UoxtqrVNqNJ0pEr9Ei2igbWHrdNnNirD1hPeklKYf8BhNV3HdJr8xM+CIpC
+	UYcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=rR/vCaipUbehvzL/+PP/kIuUyDV7LzpCwwfguww2jM8=;
+	b=fI5zz6wnE6HTY96/R5ent/js+/PioMTUgkgTCqk7KrgnmayMkPPfsgv82j2jnZfJoc
+	ZDACw5+ycH0i1WoddnsFaldP4k7Xz5o5JfbLLWlxqBhL7d7EYoYJIjQ9YJ4F3qDojoK7
+	4Xd9Hb8hoO6X/Mfm/DU8caGBL/iV+CXTWKEm3Ku4l0HAIsrONOKiW23+tiRepuzb/j3Z
+	IuT0TPfVoPHpyen1PqJ52NpsDpw0QIp9a3Vx/Rnmt344RFaeVLAR+haAaByypd/PDW64
+	H+JKXkUAUZSEMjbgiM2ejNOel/Yhl/9jmgilbWcxygcexvqlrbs3ArunVJIytWAFlbwk
+	m2NQ==
+X-Gm-Message-State: ALyK8tLYj14J0Q98iHIHSiXfMbHosHFbuG8T1VMN1Cs4hy867isEVxrJyHB4bm7SsfbWKcTgimE60FNnHnWxuFqH
+X-Received: by 10.36.121.21 with SMTP id z21mr17410848itc.38.1468522590244;
+	Thu, 14 Jul 2016 11:56:30 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.18.17 with HTTP; Thu, 14 Jul 2016 11:56:10 -0700 (PDT)
+In-Reply-To: <12a9fa85-952e-eeed-81ee-3bda503225ce@linux.intel.com>
 References: <1468514381-6587-1-git-send-email-ross.burton@intel.com>
 	<1468514381-6587-2-git-send-email-ross.burton@intel.com>
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Message-ID: <12a9fa85-952e-eeed-81ee-3bda503225ce@linux.intel.com>
-Date: Thu, 14 Jul 2016 13:52:33 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <1468514381-6587-2-git-send-email-ross.burton@intel.com>
+	<12a9fa85-952e-eeed-81ee-3bda503225ce@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 14 Jul 2016 19:56:10 +0100
+Message-ID: <CAJTo0LYktuO2dC4WrDbXDpBu=rKsYnH0gOH9U83HHUijEEWkZg@mail.gmail.com>
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 2/2] build: don't use $B as the default cwd for functions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -34,96 +55,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jul 2016 18:50:03 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 14 Jul 2016 18:56:31 -0000
+Content-Type: multipart/alternative; boundary=001a114a95a0564b7b05379d0f3f
 
-this is a bitbake change so it was sent to the wrong list.
+--001a114a95a0564b7b05379d0f3f
+Content-Type: text/plain; charset=UTF-8
 
-On 07/14/2016 11:39 AM, Ross Burton wrote:
-> When bitbake executes a shell or Python function it can cd/chdir() into a
-> directory before executing the task. If no directory is specified then the
-> default of $B is used.  However $B is an OpenEmbedded variable and BitBake
-> shouldn't be aware of it.
->
-> To solve this change the semantics slightly so that if no directory is
-> specified, the current working directory isn't changed.  There's also a sanity
-> check that emits a warning if a Python task does os.chdir() without restoring
-> the old path, and the previous working directory is restored.
->
-> This does change semantics: whereas before a function in OE would have $B as the
-> working directory unless specified, now the working directory is the top of the
-> build tree.  Any breakage this causes can be solved by either adding
-> do_some_task[dirs] = "${B}" or by using absolute paths in the task.
->
-> [ YOCTO #4634 ]
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->   bitbake/lib/bb/build.py | 23 +++++++++++++++++------
->   1 file changed, 17 insertions(+), 6 deletions(-)
->
-> diff --git a/bitbake/lib/bb/build.py b/bitbake/lib/bb/build.py
-> index 4fb2a77..4f01d66 100644
-> --- a/bitbake/lib/bb/build.py
-> +++ b/bitbake/lib/bb/build.py
-> @@ -188,6 +188,11 @@ class LogTee(object):
->   def exec_func(func, d, dirs = None, pythonexception=False):
->       """Execute a BB 'function'"""
->   
-> +    try:
-> +        oldcwd = os.getcwd()
-> +    except:
-> +        oldcwd = None
-> +
->       body = d.getVar(func, False)
->       if not body:
->           if body is None:
-> @@ -211,9 +216,7 @@ def exec_func(func, d, dirs = None, pythonexception=False):
->               bb.utils.mkdirhier(adir)
->           adir = dirs[-1]
->       else:
-> -        adir = d.getVar('B', True)
-> -        bb.utils.mkdirhier(adir)
-> -
-> +        adir = None
->       ispython = flags.get('python')
->   
->       lockflag = flags.get('lockfiles')
-> @@ -257,6 +260,13 @@ def exec_func(func, d, dirs = None, pythonexception=False):
->           else:
->               exec_func_shell(func, d, runfile, cwd=adir)
->   
-> +    if oldcwd and os.getcwd() != oldcwd:
-> +        try:
-> +            bb.warn("Task %s changed cwd to %s" % (func, os.getcwd()))
-> +            os.chdir(oldcwd)
-> +        except:
-> +            pass
-> +
->   _functionfmt = """
->   {function}(d)
->   """
-> @@ -272,7 +282,8 @@ def exec_func_python(func, d, runfile, cwd=None, pythonexception=False):
->       if cwd:
->           try:
->               olddir = os.getcwd()
-> -        except OSError:
-> +        except OSError as e:
-> +            bb.warn("%s: Cannot get cwd: %s" % (func, e))
->               olddir = None
->           os.chdir(cwd)
->   
-> @@ -298,8 +309,8 @@ def exec_func_python(func, d, runfile, cwd=None, pythonexception=False):
->           if cwd and olddir:
->               try:
->                   os.chdir(olddir)
-> -            except OSError:
-> -                pass
-> +            except OSError as e:
-> +                bb.warn("%s: Cannot restore cwd %s: %s" % (func, olddir, e))
->   
->   def shell_trap_code():
->       return '''#!/bin/sh\n
+On 14 July 2016 at 19:52, Leonardo Sandoval <
+leonardo.sandoval.gonzalez@linux.intel.com> wrote:
 
+> this is a bitbake change so it was sent to the wrong list.
+>
 
+Yes it was, I was in a rush to send patches before dinner :)
+
+Ross
+
+--001a114a95a0564b7b05379d0f3f
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 14 July 2016 at 19:52, Leonardo Sandoval <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:leonardo.sandoval.gonzalez@linux.intel.com" target=3D"_blank">le=
+onardo.sandoval.gonzalez@linux.intel.com</a>&gt;</span> wrote:<br><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc so=
+lid;padding-left:1ex"><div id=3D":14g" class=3D"a3s aXjCH m155eabeac07cffb4=
+">this is a bitbake change so it was sent to the wrong list.<div class=3D"y=
+j6qo ajU"><div id=3D":13m" class=3D"ajR" tabindex=3D"0"></div></div></div><=
+/blockquote></div><br>Yes it was, I was in a rush to send patches before di=
+nner :)</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra=
+">Ross</div></div>
+
+--001a114a95a0564b7b05379d0f3f--
