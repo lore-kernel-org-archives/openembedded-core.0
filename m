@@ -1,45 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 432AB6AC4B
+Received: from mail-it0-f53.google.com (mail-it0-f53.google.com
+	[209.85.214.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C3116AC4B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jul 2016 15:43:31 +0000 (UTC)
-Received: by mail-wm0-f43.google.com with SMTP id o80so118386715wme.1
+	Thu, 14 Jul 2016 16:19:24 +0000 (UTC)
+Received: by mail-it0-f53.google.com with SMTP id u186so52016683ita.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jul 2016 08:43:32 -0700 (PDT)
+	Thu, 14 Jul 2016 09:19:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=vn2AVQObaHsWuJ9mHnAYEQ44rUpvc10KJmdPgtXCYuI=;
-	b=N6o0X+/3Vta3bn7QkZCTmdNycRIEqSZBg/XhaxLWWEFVdVC+5MQh8CPS8k2q+MyGa8
-	QCcdjNJ12lVf89eORERxVaMMbXtpBPKOfYSpxfToVNKk3m0bU/lWDjoyETxId0EN5EnD
-	dXSWhpKyeqYL9HzlAggfEFI/wuV3jsfJeWPZMu+KEm7guCuB3qM91fPAZWaTxQ2qzpiR
-	ejtfMFssF+ybydirM84aNVOOoEb8LahPhkMRO/0jNKlUen/BuP7jjw8FCYEuICisEWrp
-	rdHnUbooA1yCW/LfD82/dx5U1FJ5U4MmBvqRGmv/YoJ1qBqaMuecLuwnrwlWy+9Qo4v9
-	zFrg==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=W7ThPtWhpQ414ERnEciHncSsQct1wle+/8KZM1/ojxs=;
+	b=XRhaP6gxmH5wb2GepbQkzubVEoo/LzoYFMjTmb7eVb2KwiLS5BnhkjLaRAPVubFH4d
+	sota1bG53kbWQCcM7jak50HxfPvDxRuKIyoPe5t7Tz5YcTMfRGfd0C+uKJxi2OUqkvj+
+	gyBJwCXktff7Ooof7POJS8dGh2rh12DrgF6yWLaAZoXnYky/1dMjc213E0VgJItybKCb
+	QZMjrnN4biKQg5QpO1778OvO/Cd5sr+jQO6RihDPrqUfGvJR1mj9Y0X1MtRW7oIfTvhN
+	o6UiuIfhYRcuA8d4V9YEwC4vx1hcgV1gT4VcSb/SwbCZ9QT2YtRx5sew2ZyohV6Nr3cv
+	YmRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=vn2AVQObaHsWuJ9mHnAYEQ44rUpvc10KJmdPgtXCYuI=;
-	b=QYDA7SnWvFx2OOPtgrPmsaymfFYj+VfBhGUvKFz7MKEgxKa/oAyOz6Pzs66wqSephg
-	RNCSN67qe6KpOxOyaa6UiBeuVofEOGAqaYDpetqZFuwAlL5/1ktaXT5Qm2Vgj8zga/rh
-	w4xNRNOZpyUZ7+LjVLKlNkmWAtqc7bOS/rmkR8w46BaLHBdWgjBoHhop30hesvrCEqNA
-	7sMBt7uRWBeVOS/L05kB/LuPnjQUZbp/pKtE8BmP3DtQC4XQv7aVuIqCI9ISMgmwNAsV
-	+Qda8ai4gCat7EV7NZJv2Ze0BJYMec5bL8U2ByApUZyTClzWhlA14CcWp4GAlrjSss1Y
-	MWBQ==
-X-Gm-Message-State: ALyK8tLCdnGjMZnKUmcVaJ0xxYBj2BozvAy2sIzJ/8TEtqMbw5u08hnUyf45txN9CUzTINgt
-X-Received: by 10.28.127.198 with SMTP id a189mr16583189wmd.16.1468511011161; 
-	Thu, 14 Jul 2016 08:43:31 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id z5sm2558819wme.5.2016.07.14.08.43.30
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 14 Jul 2016 08:43:30 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Jul 2016 16:43:26 +0100
-Message-Id: <1468511006-4514-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] bash: fix string format errors when enabling security flags
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=W7ThPtWhpQ414ERnEciHncSsQct1wle+/8KZM1/ojxs=;
+	b=SYbRky3zYIOin6TD3k3yiEy3cURUYoO1R4/vA2Rf/aRSwOU6XAJ/IG5DwbkXnN9WQp
+	PG9d7Ot53PBSIqGG8hD9dzIUJ5fEvKOnoTt2Av7f5lhxFIA8v+D/s2gaRkMPpB0Nf6Du
+	11uevXL3foyW9pro9nMjl83vTwF/F+J+1WVe1K8kBAsrxO9MqfQLk2wbndxnfm1KwKLf
+	TSZy06AF3E4bp8/hynXhmNMIfplzL7120/IUfST7daBdouKe+BC60ktstz8rDG5/0YsK
+	CZKNvqblYIkuWFOhNsjvh3bZGCGxv4VMt8kCsAR4SCDjT5AtfxN3RtuA9GxSWMlc5NI7
+	Fzyw==
+X-Gm-Message-State: ALyK8tL2RT7rF/FjrL4e5BI9s7ya9iLWYWKt9BBLDSuu1ZY+bcZGwbaDewegx7x6oOqSw2ro92FLpRPedJhgrpWt
+X-Received: by 10.36.147.198 with SMTP id y189mr15617975itd.83.1468513165190; 
+	Thu, 14 Jul 2016 09:19:25 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.18.17 with HTTP; Thu, 14 Jul 2016 09:19:05 -0700 (PDT)
+In-Reply-To: <1468247633-24172-1-git-send-email-alexander.kanavin@linux.intel.com>
+References: <1468247633-24172-1-git-send-email-alexander.kanavin@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 14 Jul 2016 17:19:05 +0100
+Message-ID: <CAJTo0La-MQN-asb6P=vRknycs437BwHPW8khjteg0+wEBpZALg@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/8] security_flags.inc: enable PIE for a few recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,62 +53,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jul 2016 15:43:32 -0000
+X-List-Received-Date: Thu, 14 Jul 2016 16:19:29 -0000
+Content-Type: multipart/alternative; boundary=94eb2c089e148f3f3305379add76
 
-If security_flags.inc is included then bash 3.2.48 fails to build:
+--94eb2c089e148f3f3305379add76
+Content-Type: text/plain; charset=UTF-8
 
-| ../bash-3.2.48/print_cmd.c:1152:3: error: format not a string literal and no format arguments [-Werror=format-security]
-|    cprintf (indentation_string);
+On 11 July 2016 at 15:33, Alexander Kanavin <
+alexander.kanavin@linux.intel.com> wrote:
 
-Backport a patch from upstream to solve this.
+> -SECURITY_CFLAGS_pn-python = "${SECURITY_NO_PIE_CFLAGS}"
+>
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../bash/bash-3.2.48/string-format.patch            | 21 +++++++++++++++++++++
- meta/recipes-extended/bash/bash_3.2.48.bb           |  1 +
- 2 files changed, 22 insertions(+)
- create mode 100644 meta/recipes-extended/bash/bash-3.2.48/string-format.patch
+This was fun: python with  PIE flags silently fails to build various
+modules, including the zlib support.
 
-diff --git a/meta/recipes-extended/bash/bash-3.2.48/string-format.patch b/meta/recipes-extended/bash/bash-3.2.48/string-format.patch
-new file mode 100644
-index 0000000..eda3964
---- /dev/null
-+++ b/meta/recipes-extended/bash/bash-3.2.48/string-format.patch
-@@ -0,0 +1,21 @@
-+Fix a string format warning when using security flags:
-+
-+| ../bash-3.2.48/print_cmd.c:1152:3: error: format not a string literal and no format arguments [-Werror=format-security]
-+|    cprintf (indentation_string);
-+
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+diff --git a/print_cmd.c b/print_cmd.c
-+index d1dfd1a..956db53 100644
-+--- a/print_cmd.c
-++++ b/print_cmd.c
-+@@ -1149,7 +1149,7 @@ indent (amount)
-+   for (i = 0; amount > 0; amount--)
-+     indentation_string[i++] = ' ';
-+   indentation_string[i] = '\0';
-+-  cprintf (indentation_string);
-++  cprintf ("%s", indentation_string);
-+ }
-+ 
-+ static void
-diff --git a/meta/recipes-extended/bash/bash_3.2.48.bb b/meta/recipes-extended/bash/bash_3.2.48.bb
-index d42b292..6b4028d 100644
---- a/meta/recipes-extended/bash/bash_3.2.48.bb
-+++ b/meta/recipes-extended/bash/bash_3.2.48.bb
-@@ -20,6 +20,7 @@ SRC_URI = "${GNU_MIRROR}/bash/bash-${PV}.tar.gz;name=tarball \
-            file://test-output.patch \
-            file://run-ptest \
-            file://dont-include-target-CFLAGS-in-host-LDFLAGS.patch \
-+           file://string-format.patch \
-           "
- 
- SRC_URI[tarball.md5sum] = "338dcf975a93640bb3eaa843ca42e3f8"
--- 
-2.8.1
+-SECURITY_CFLAGS_pn-syslinux = "${SECURITY_NO_PIE_CFLAGS}"
+>
 
+This failed to link although I can't find the log on the AB right now...
 
+I've ripped these out of the patch for now.
+
+Ross
+
+--94eb2c089e148f3f3305379add76
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 11 July 2016 at 15:33, Alexander Kanavin <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander.k=
+anavin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_=
+quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
+ex"><div id=3D":1tu" class=3D"a3s aXjCH m155da628bf4360b7">-SECURITY_CFLAGS=
+_pn-python =3D &quot;${SECURITY_NO_PIE_CFLAGS}&quot;<br></div></blockquote>=
+<div><br></div><div>This was fun: python with =C2=A0PIE flags silently fail=
+s to build various modules, including the zlib support.<br></div><div><br><=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
+ft:1px #ccc solid;padding-left:1ex"><div id=3D":1tu" class=3D"a3s aXjCH m15=
+5da628bf4360b7">-SECURITY_CFLAGS_pn-syslinux =3D &quot;${SECURITY_NO_PIE_CF=
+LAGS}&quot;</div></blockquote></div><br>This failed to link although I can&=
+#39;t find the log on the AB right now...</div><div class=3D"gmail_extra"><=
+br></div><div class=3D"gmail_extra">I&#39;ve ripped these out of the patch =
+for now.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extr=
+a">Ross</div></div>
+
+--94eb2c089e148f3f3305379add76--
