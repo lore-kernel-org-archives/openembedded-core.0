@@ -1,48 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f46.google.com (mail-it0-f46.google.com
-	[209.85.214.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 36D3A731A1
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 2252E6AC4B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jul 2016 18:56:29 +0000 (UTC)
-Received: by mail-it0-f46.google.com with SMTP id f6so364882ith.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jul 2016 11:56:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=rR/vCaipUbehvzL/+PP/kIuUyDV7LzpCwwfguww2jM8=;
-	b=wn7c6D6nPvRnZy5Ur4e4mT9i0E3hWkDJBBRaTRwuXNLAdhR+Z8wjM9Y/cZWVXgg+/3
-	SlH2puc97vrSpmLvXJO1Xg/OGrvciUSTf9fDf3shXBg0atIjkTnL1SPuZaFbskDyHHFO
-	NUf25YrzN8KLzbqelmDB2pbcSZ2lifeRZJr2zsEu83X3AfUSArtnHWOc7xrgdBqWVTma
-	EWd1tPEXm5sg+7izwCmqvWz5szPv66rBardylTJWogQ1RbpfFCiQTViiqnksXR8pG2JQ
-	OE8Ui+gI4UoxtqrVNqNJ0pEr9Ei2igbWHrdNnNirD1hPeklKYf8BhNV3HdJr8xM+CIpC
-	UYcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=rR/vCaipUbehvzL/+PP/kIuUyDV7LzpCwwfguww2jM8=;
-	b=fI5zz6wnE6HTY96/R5ent/js+/PioMTUgkgTCqk7KrgnmayMkPPfsgv82j2jnZfJoc
-	ZDACw5+ycH0i1WoddnsFaldP4k7Xz5o5JfbLLWlxqBhL7d7EYoYJIjQ9YJ4F3qDojoK7
-	4Xd9Hb8hoO6X/Mfm/DU8caGBL/iV+CXTWKEm3Ku4l0HAIsrONOKiW23+tiRepuzb/j3Z
-	IuT0TPfVoPHpyen1PqJ52NpsDpw0QIp9a3Vx/Rnmt344RFaeVLAR+haAaByypd/PDW64
-	H+JKXkUAUZSEMjbgiM2ejNOel/Yhl/9jmgilbWcxygcexvqlrbs3ArunVJIytWAFlbwk
-	m2NQ==
-X-Gm-Message-State: ALyK8tLYj14J0Q98iHIHSiXfMbHosHFbuG8T1VMN1Cs4hy867isEVxrJyHB4bm7SsfbWKcTgimE60FNnHnWxuFqH
-X-Received: by 10.36.121.21 with SMTP id z21mr17410848itc.38.1468522590244;
-	Thu, 14 Jul 2016 11:56:30 -0700 (PDT)
+	Thu, 14 Jul 2016 18:57:59 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u6EIvx43016358
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 14 Jul 2016 11:57:59 -0700 (PDT)
+Received: from soho-mhatle-m.corp.ad.wrs.com (147.11.4.176) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.248.2; Thu, 14 Jul 2016 11:57:59 -0700
+To: Ross Burton <ross.burton@intel.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <1468514260-5560-1-git-send-email-ross.burton@intel.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <1ce58e9f-a312-dd9a-d1b2-d787773fa18e@windriver.com>
+Date: Thu, 14 Jul 2016 11:58:00 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
+	Gecko/20100101 Thunderbird/45.1.1
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Thu, 14 Jul 2016 11:56:10 -0700 (PDT)
-In-Reply-To: <12a9fa85-952e-eeed-81ee-3bda503225ce@linux.intel.com>
-References: <1468514381-6587-1-git-send-email-ross.burton@intel.com>
-	<1468514381-6587-2-git-send-email-ross.burton@intel.com>
-	<12a9fa85-952e-eeed-81ee-3bda503225ce@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 14 Jul 2016 19:56:10 +0100
-Message-ID: <CAJTo0LYktuO2dC4WrDbXDpBu=rKsYnH0gOH9U83HHUijEEWkZg@mail.gmail.com>
-To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] build: don't use $B as the default cwd for functions
+In-Reply-To: <1468514260-5560-1-git-send-email-ross.burton@intel.com>
+Subject: Re: [PATCH] glibc: use the host locale archive in nativesdk builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,36 +35,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jul 2016 18:56:31 -0000
-Content-Type: multipart/alternative; boundary=001a114a95a0564b7b05379d0f3f
+X-List-Received-Date: Thu, 14 Jul 2016 18:58:01 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
---001a114a95a0564b7b05379d0f3f
-Content-Type: text/plain; charset=UTF-8
+On 7/14/16 9:37 AM, Ross Burton wrote:
+> The nativesdk libc when used by buildtools has a hard requirement on supporting
+> a UTF-8 locale because Python 3 needs a UTF-8 locale.  However we currently only
+> ship the C locale, which means that Python attempts to lookup the user's locale
+> (for example, en_NZ.UTF-8) in the locale archive under it's prefix it fails and
+> falls back to C.  This the results in Python using ASCII instead of UTF-8 for
+> file encoding, and bitbake breaks.
 
-On 14 July 2016 at 19:52, Leonardo Sandoval <
-leonardo.sandoval.gonzalez@linux.intel.com> wrote:
+Have you considered shipping a single C.UTF-8 local?  (Not all distributions
+have this.)
 
-> this is a bitbake change so it was sent to the wrong list.
->
+Then defaulting to that for the buildtools usage.  This would keep things small
+and contained.
 
-Yes it was, I was in a rush to send patches before dinner :)
+> Th obvious solution would be to ship all locales, but this would add
+> approximately 250MB to the size of the buildtools tarball (which is currently
+> around 30MB).  Generating a binary locale archive reduces this down to 100MB,
+> but this is still a drastic increase in footprint.  If we ship a subset of
+> locales in the tarball then there will be users whose locale isn't in the
+> tarball, and they'll have to change their locale to an "approved" one, which
+> isn't the best of messages to send to new users.
+> 
+> The alternative is to tell the nativesdk libc that the locale archive isn't
+> under it own prefix but is in fact at /usr/lib/locale/locale-archive, so the
+> buildtools libc uses the host locale archive. The locale archive format appears
+> to be at least fairly stable: our glibc 2.24 can read the locale archive
+> generated by glibc 2.17 (Centos 7).
 
-Ross
+Patching glibc to use the host system as a backup for the locales makes sense to
+me as well.  However it is definitely more work and may not be worth it...
 
---001a114a95a0564b7b05379d0f3f
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+In the buildtools case, do any of the other components we ship actually have
+localized content?  If we're shipping message catalogs for non-english systems
+-- then we definitely need non-english locale to work.  But if we're only
+shipping english -- C.utf-8 might be enough.
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 14 July 2016 at 19:52, Leonardo Sandoval <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:leonardo.sandoval.gonzalez@linux.intel.com" target=3D"_blank">le=
-onardo.sandoval.gonzalez@linux.intel.com</a>&gt;</span> wrote:<br><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc so=
-lid;padding-left:1ex"><div id=3D":14g" class=3D"a3s aXjCH m155eabeac07cffb4=
-">this is a bitbake change so it was sent to the wrong list.<div class=3D"y=
-j6qo ajU"><div id=3D":13m" class=3D"ajR" tabindex=3D"0"></div></div></div><=
-/blockquote></div><br>Yes it was, I was in a rush to send patches before di=
-nner :)</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra=
-">Ross</div></div>
+--Mark
 
---001a114a95a0564b7b05379d0f3f--
+> [ YOCTO #9775 ]
+> 
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/recipes-core/glibc/glibc_2.24.bb | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/meta/recipes-core/glibc/glibc_2.24.bb b/meta/recipes-core/glibc/glibc_2.24.bb
+> index 456f206..4bc6443 100644
+> --- a/meta/recipes-core/glibc/glibc_2.24.bb
+> +++ b/meta/recipes-core/glibc/glibc_2.24.bb
+> @@ -129,6 +129,12 @@ do_compile () {
+>  
+>  }
+>  
+> +# Use the host locale archive when built for nativesdk so that we don't need to
+> +# ship a complete (100MB) locale set.
+> +do_compile_prepend_class-nativesdk() {
+> +    echo "complocaledir=/usr/lib/locale" >> ${S}/configparms
+> +}
+> +
+>  require glibc-package.inc
+>  
+>  BBCLASSEXTEND = "nativesdk"
+> 
+
+
