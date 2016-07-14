@@ -1,46 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 8AAEA6AC4B
+Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id CBA3E6AC4B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jul 2016 19:59:23 +0000 (UTC)
-Received: by mail-wm0-f52.google.com with SMTP id i5so2372561wmg.0
+	Thu, 14 Jul 2016 19:59:41 +0000 (UTC)
+Received: by mail-wm0-f50.google.com with SMTP id f126so1955243wma.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jul 2016 12:59:24 -0700 (PDT)
+	Thu, 14 Jul 2016 12:59:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id;
-	bh=lYhxFVxr3GrcI8Cg2Tk7EzxuelB2+imc434WsacyIRw=;
-	b=TUBv1Ajgj41XSGCbe57x4RqQOa9S1ngv+cF9r4bNl3q/MQBOA4bnoZP5s3trsBZJIV
-	fk0w+oTIYGtIyvEDE2ZoyLkyx240kzAsO6jiIAXDQwgE+VFjNnLTQBeOKbQeerwaduP6
-	l3811fviU/17DfUue+TA/PH1H5cKrTsuG60na3zefBdTViO5YcSrgVQ/u7UA2Ni88eev
-	dhsi3tE7TnzFpQZ+VLatRcAKsJj/bsQXfPo+yhDALJHZYE+Ooc7EOo72ymXW889qJ08T
-	5DohpCcbQunyRLzzR+3R+Klgh8Rl/Gn2uktEhxeC77Gpa9i4LugNZLejCNGmE6tk9TK5
-	2J4w==
+	bh=anW5RUAccXzIKnJiBb1CFCAif3dCYwp5IfJo27VyCuA=;
+	b=bNldJuMV7OtBoLY2N7dqdiZOzTHZAXXFVW/mMpXiLhthHOE7VKpIjKhy2a2SDny6jy
+	FKiyz3bEWqrE6KCRJ75odS1/dHnA8Q12GcJa4/igQrUa8/6xo3oN/u5ppGFiH+XG5CT1
+	hWmC/5GslwMeFBrFrbraO55N2ntGbCareRkWiyGIlw4P69cbUbXoUypQot+pNair7k9J
+	W8gTuUnfF16ZvGdcglbFR8KNrf/SAGKwHoXoMWyPI0f48FkYMrrGbXZK0/4w0Xpzknc1
+	tSp+yBxEocQq/UwN2+wwb9QVUoQ0ztqUZW6U4mCdEwFxU49z9LEEp26yHXPvRnjp2iJT
+	0yWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=lYhxFVxr3GrcI8Cg2Tk7EzxuelB2+imc434WsacyIRw=;
-	b=MAjWr4dZSqbrTUlH0PMDYt+DeLxMl7G2OQvyDk4iAg3wZnJ9YqgbZI1fTsEDJ7Bmmt
-	YgTdrGgjUu6TgKiY/pOXPmXnBarhJYtyEFpSFsp43rj8Gz2GhmZ9mg2o2jnu6BcOvErQ
-	W5VZIrzKID4DBum22QDSYDna0SwkzWenp5JUCNsMwtDy8EWsosSbSMLvkhScZd0BIjwg
-	naMj2TgrSAc0v3xhE3ZAJJ5crV0dQCCi9JVbOxP+9gMbBaQrbLaJyC0b0g0fKwFXkSjY
-	5HAGCduQSxuKfkoKRxK8XAUdgMuwTPIREWrDNGwdDjvxBCsQUeKk7+D50vAsoxC8SFOl
-	A8lg==
-X-Gm-Message-State: ALyK8tJtwXXt8cl8nlu/GUboPaxCX9BJQQT+h4YQfPhbPWUMieeV8mZ6tQgYgnjzSQmZg/Zo
-X-Received: by 10.28.61.11 with SMTP id k11mr19160059wma.34.1468526362726;
-	Thu, 14 Jul 2016 12:59:22 -0700 (PDT)
+	bh=anW5RUAccXzIKnJiBb1CFCAif3dCYwp5IfJo27VyCuA=;
+	b=PR1kaU2LYCJMQslItBDwyhJUE4ZT1GnovkthwDlk1SHpaFMdqPxTNUUW6PBi+2mtWY
+	ZLKwOIagEa+lYMO3dd5zGlawwYCI3+cauJqiTY9aM8exM2JQxYQMK9Qk7qkYWLxwuzZF
+	VFV4hylBWcAGyh6Gtwq66gjSiCyZBG1t5jCHOFJS04TGwaDBgyvdHfpCJ+mRI+8ba7m+
+	vpT2A+/q5sCDfCwP2In4i4FopZ5MsrzIR6dMN4Xl3aiYxZ/SQvipQK7ok2J91PsOkXEb
+	TCJP3CB+hOcTZhZ3yMPDnMOZyqjE766SHetrSuIXsKGBN3O0oL51SyN6kPZwjGQGCH/m
+	7o0Q==
+X-Gm-Message-State: ALyK8tIE0QiYnMyphTi3eUdEpEXsScnfyUecW3G0ptLFOfv1sYKfUN0SSqSpxTDYOnwNvC+8
+X-Received: by 10.28.30.1 with SMTP id e1mr6942966wme.77.1468526381524;
+	Thu, 14 Jul 2016 12:59:41 -0700 (PDT)
 Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
 	by smtp.gmail.com with ESMTPSA id
-	q203sm6175649wmd.24.2016.07.14.12.59.21
+	x62sm9206437wmf.13.2016.07.14.12.59.40
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 14 Jul 2016 12:59:21 -0700 (PDT)
+	Thu, 14 Jul 2016 12:59:40 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Jul 2016 20:59:19 +0100
-Message-Id: <1468526359-16293-1-git-send-email-ross.burton@intel.com>
+Date: Thu, 14 Jul 2016 20:59:37 +0100
+Message-Id: <1468526377-32121-1-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.8.1
-Subject: [PATCH][krogoth] binutils: backport fix for TLSDESC relocations with no TLS segment on arch64
+Subject: [PATCH] binutils: backport fix for TLSDESC relocations with no TLS segment on arch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,7 +53,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jul 2016 19:59:28 -0000
+X-List-Received-Date: Thu, 14 Jul 2016 19:59:42 -0000
 
 As exposed by WebKit on aarch64 hosts, which causes binutils to throw an
 internal error.
@@ -68,13 +68,13 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
  create mode 100644 meta/recipes-devtools/binutils/binutils/aarch64-tls.patch
 
 diff --git a/meta/recipes-devtools/binutils/binutils-2.26.inc b/meta/recipes-devtools/binutils/binutils-2.26.inc
-index 6d535fc..703eac2 100644
+index 82cb7f5..1f7bee2 100644
 --- a/meta/recipes-devtools/binutils/binutils-2.26.inc
 +++ b/meta/recipes-devtools/binutils/binutils-2.26.inc
-@@ -34,6 +34,7 @@ SRC_URI = "\
-      file://0012-Add-support-for-Netlogic-XLP.patch \
+@@ -35,6 +35,7 @@ SRC_URI = "\
       file://0013-Fix-GOT-address-computations-in-initial-PLT-entries-.patch \
       file://0014-Correct-nios2-_gp-address-computation.patch \
+      file://0015-fix-the-incorrect-assembling-for-ppc-wait-mnemonic.patch \
 +     file://aarch64-tls.patch \
  "
  S  = "${WORKDIR}/git"
