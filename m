@@ -1,24 +1,24 @@
 Return-Path: <timothy.t.orling@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 0353E731B9
+	by mail.openembedded.org (Postfix) with ESMTP id EB9CF731B3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jul 2016 01:49:01 +0000 (UTC)
+	Fri, 15 Jul 2016 01:49:00 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga102.jf.intel.com with ESMTP; 14 Jul 2016 18:49:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,365,1464678000"; d="scan'208";a="995612656"
+X-IronPort-AV: E=Sophos;i="5.28,365,1464678000"; d="scan'208";a="995612655"
 Received: from timo-fedora.jf.intel.com ([10.7.201.162])
 	by orsmga001.jf.intel.com with ESMTP; 14 Jul 2016 18:49:02 -0700
 From: Tim Orling <timothy.t.orling@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Jul 2016 18:49:36 -0700
-Message-Id: <a7391cf7ad68817364c09cb966b0e02735c4465f.1468546499.git.timothy.t.orling@linux.intel.com>
+Date: Thu, 14 Jul 2016 18:49:35 -0700
+Message-Id: <94dbef78ead50f15af862cf8ddb9332bbe0126e9.1468546499.git.timothy.t.orling@linux.intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1468546499.git.timothy.t.orling@linux.intel.com>
 References: <cover.1468546499.git.timothy.t.orling@linux.intel.com>
 In-Reply-To: <cover.1468546499.git.timothy.t.orling@linux.intel.com>
 References: <cover.1468546499.git.timothy.t.orling@linux.intel.com>
-Subject: [krogoth][PATCH 5/8] glib-2.0: Ignore useless warning found with gcc-6
+Subject: [krogoth][PATCH 4/8] rpm: Fix build with gcc6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,192 +35,97 @@ X-List-Received-Date: Fri, 15 Jul 2016 01:49:02 -0000
 
 From: Khem Raj <raj.khem@gmail.com>
 
-../../glib-2.46.2/glib/gdate.c:2497:7: error: format not a string literal, format string not checked [-Werror=format-nonliteral]
-       tmplen = strftime (tmpbuf, tmpbufsize, locale_format, &tm);
-       ^~~~~~
-
-| ../../../../../../../../workspace/sources/glib-2.0/glib/tests/gdatetime.c: In function 'test_strftime':
-| ../../../../../../../../workspace/sources/glib-2.0/glib/tests/gdatetime.c:1338:3: error: '%c' yields only last 2 digits of year in some locales [-Werror=format-y2k]
-|    "a%a A%A b%b B%B c%c C%C d%d e%e F%F g%g G%G h%h H%H I%I j%j m%m M%M " \
-
-Additionally fix the problem seen where write() return code is ignored
-
-(From OE-Core rev: 3fdecff96dd7516605ec9248b2a39de4db81306f)
+(From OE-Core rev: e9c86d85460f45011bd978e1495a2b802d733020)
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../0001-Do-not-ignore-return-value-of-write.patch | 42 ++++++++++++++++++++++
- .../glib-2.0/0002-tests-Ignore-y2k-warnings.patch  | 42 ++++++++++++++++++++++
- .../ignore-format-nonliteral-warning.patch         | 39 ++++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.46.2.bb      |  7 ++--
- 4 files changed, 128 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-ignore-return-value-of-write.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0002-tests-Ignore-y2k-warnings.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/ignore-format-nonliteral-warning.patch
+ meta/recipes-devtools/rpm/rpm/gcc6-stdlib.patch | 54 +++++++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_5.4.16.bb         |  3 +-
+ 2 files changed, 56 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/rpm/rpm/gcc6-stdlib.patch
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-ignore-return-value-of-write.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-ignore-return-value-of-write.patch
+diff --git a/meta/recipes-devtools/rpm/rpm/gcc6-stdlib.patch b/meta/recipes-devtools/rpm/rpm/gcc6-stdlib.patch
 new file mode 100644
-index 0000000..aee96aa
+index 0000000..0a372c6
 --- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-ignore-return-value-of-write.patch
-@@ -0,0 +1,42 @@
-+From d6501b107940e9f548c89236d773c6d33c15a5c9 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sat, 16 Apr 2016 13:28:59 -0700
-+Subject: [PATCH 1/2] Do not ignore return value of write()
++++ b/meta/recipes-devtools/rpm/rpm/gcc6-stdlib.patch
+@@ -0,0 +1,54 @@
++gcc6 has fixed a long standing c++ include issue where <cheader>
++was different from <header.h> inclusion via
 +
-+gcc warns about ignoring return value when compiling
-+with fortify turned on.
++https://gcc.gnu.org/ml/libstdc++/2016-01/msg00025.html
 +
-+assert when write() fails
++and its also descibed in https://gcc.gnu.org/gcc-6/porting_to.html
++rpmio component uses some .cpp and .cc fies which need to use
++C stdlib.h from C library and not the C++ libstdc++ header
++therefore we pass _GLIBCXX_INCLUDE_NEXT_C_HEADERS so that it
++keeps the old behavior
 +
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+Upstream-Status: Submitted
++/a/build/tmp/sysroots/raspberrypi2/usr/include/c++/6.0.1/cstdlib:143:11: error: '::getenv' has not been declared
++   using ::getenv;
++           ^~~~~~
++In file included from ../../rpm-5.4.15/system.h:201:0,
++                 from ../../rpm-5.4.15/rpmio/rpmjs.cpp:1:
++/a/build/tmp/sysroots/raspberrypi2/usr/include/c++/6.0.1/stdlib.h:62:12: error: 'std::getenv' has not been declared
++ using std::getenv;
 +
-+ glib/tests/unix.c | 5 +++--
-+ 1 file changed, 3 insertions(+), 2 deletions(-)
-+
-+diff --git a/glib/tests/unix.c b/glib/tests/unix.c
-+index 3543458..4e7ed85 100644
-+--- a/glib/tests/unix.c
-++++ b/glib/tests/unix.c
-+@@ -32,14 +32,15 @@ test_pipe (void)
-+   GError *error = NULL;
-+   int pipefd[2];
-+   char buf[1024];
-+-  ssize_t bytes_read;
-++  ssize_t bytes_read, bytes_written;
-+   gboolean res;
-+ 
-+   res = g_unix_open_pipe (pipefd, FD_CLOEXEC, &error);
-+   g_assert (res);
-+   g_assert_no_error (error);
-+ 
-+-  write (pipefd[1], "hello", sizeof ("hello"));
-++  bytes_written = write (pipefd[1], "hello", sizeof ("hello"));
-++  g_assert (bytes_written != -1 && "write() failed");
-+   memset (buf, 0, sizeof (buf));
-+   bytes_read = read (pipefd[0], buf, sizeof(buf) - 1);
-+   g_assert_cmpint (bytes_read, >, 0);
-+-- 
-+2.8.0
-+
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0002-tests-Ignore-y2k-warnings.patch b/meta/recipes-core/glib-2.0/glib-2.0/0002-tests-Ignore-y2k-warnings.patch
-new file mode 100644
-index 0000000..f61fa0a
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/0002-tests-Ignore-y2k-warnings.patch
-@@ -0,0 +1,42 @@
-+From b06b22fecc7deda8c65e28670562ca2371e4e725 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sat, 16 Apr 2016 13:43:54 -0700
-+Subject: [PATCH 2/2] tests: Ignore y2k warnings
-+
-+silences
-+| ../../../../../../../../workspace/sources/glib-2.0/glib/tests/gdatetime.c: In function 'test_strftime':
-+| ../../../../../../../../workspace/sources/glib-2.0/glib/tests/gdatetime.c:1338:3: error: '%c' yields only last 2 digits of year in some locales [-Werror=format-y2k]
-+|    "a%a A%A b%b B%B c%c C%C d%d e%e F%F g%g G%G h%h H%H I%I j%j m%m M%M "
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+Upstream-Status: Submitted
-+
-+ glib/tests/gdatetime.c | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/glib/tests/gdatetime.c b/glib/tests/gdatetime.c
-+index 16a163c..e6062fc 100644
-+--- a/glib/tests/gdatetime.c
-++++ b/glib/tests/gdatetime.c
-+@@ -1326,6 +1326,9 @@ test_z (void)
-+   g_time_zone_unref (tz);
-+ }
-+ 
-++#pragma GCC diagnostic push
-++#pragma GCC diagnostic ignored "-Wformat-y2k"
-++
-+ static void
-+ test_strftime (void)
-+ {
-+@@ -1351,6 +1354,7 @@ test_strftime (void)
-+     }
-+ #endif
-+ }
-++#pragma GCC diagnostic pop
-+ 
-+ static void
-+ test_find_interval (void)
-+-- 
-+2.8.0
-+
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/ignore-format-nonliteral-warning.patch b/meta/recipes-core/glib-2.0/glib-2.0/ignore-format-nonliteral-warning.patch
-new file mode 100644
-index 0000000..d533975
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/ignore-format-nonliteral-warning.patch
-@@ -0,0 +1,39 @@
-+From 8cdbc7fb2c8c876902e457abe46ee18a0b134486 Mon Sep 17 00:00:00 2001
-+From: coypu <coypu@sdf.org>
-+Date: Wed, 2 Mar 2016 19:38:48 +0200
-+Subject: gdate: Move warning pragma outside of function
-+
-+Commit 0817af40e8c74c721c30f6ef482b1f53d12044c7 breaks the build on
-+older versions of GCC, which don't allow pragma inside functions.
-+
-+https://bugzilla.gnome.org/761550
-+---
-+Upstream-Status: Backport
++Upstream-Status: Pending
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +
-+ glib/gdate.c | 8 +++++---
-+ 1 file changed, 5 insertions(+), 3 deletions(-)
-+
-+diff --git a/glib/gdate.c b/glib/gdate.c
-+index cdc735c..92c34d2 100644
-+--- a/glib/gdate.c
-++++ b/glib/gdate.c
-+@@ -2439,6 +2439,9 @@ win32_strftime_helper (const GDate     *d,
-+  *
-+  * Returns: number of characters written to the buffer, or 0 the buffer was too small
-+  */
-++#pragma GCC diagnostic push
-++#pragma GCC diagnostic ignored "-Wformat-nonliteral"
-++
-+ gsize     
-+ g_date_strftime (gchar       *s, 
-+                  gsize        slen, 
-+@@ -2552,3 +2552,5 @@ g_date_strftime (gchar       *s,
-+   return retval;
-+ #endif
-+ }
-++
-++#pragma GCC diagnostic pop
-+-- 
-+cgit v0.12
-+
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.46.2.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.46.2.bb
-index 8e445b4..9e95149 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.46.2.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.46.2.bb
-@@ -13,11 +13,14 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://uclibc_musl_translation.patch \
-            file://0001-configure.ac-Do-not-use-readlink-when-cross-compilin.patch \
-            file://allow-run-media-sdX-drive-mount-if-username-root.patch \
--	   file://0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch \
-+           file://0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch \
-            file://Enable-more-tests-while-cross-compiling.patch \
-            file://gi-exclude.patch \
-            file://0001-Install-gio-querymodules-as-libexec_PROGRAM.patch \
--          "
-+           file://ignore-format-nonliteral-warning.patch \
-+           file://0001-Do-not-ignore-return-value-of-write.patch \
-+           file://0002-tests-Ignore-y2k-warnings.patch \
-+           "
++Index: rpm-5.4.15/rpmio/Makefile.am
++===================================================================
++--- rpm-5.4.15.orig/rpmio/Makefile.am
+++++ rpm-5.4.15/rpmio/Makefile.am
++@@ -151,7 +151,7 @@ librpmio_la_SOURCES = \
++ 	groestl.c hamsi.c jh.c keccak.c lane.c luffa.c md2.c md6.c radiogatun.c\
++ 	salsa10.c salsa20.c shabal.c shavite3.c simd.c skein.c tib3.c tiger.c \
++ 	rpmgit.c rpmio-stub.c \
++-	rpmjs.cpp rpmjsio.c rpmkeyring.c \
+++	rpmjni.cc rpmjs.cpp rpmjsio.c rpmkeyring.c \
++ 	rpmnix.c rpmodbc.c rpmsql.c set.c \
++ 	ar.c \
++ 	argv.c \
++@@ -195,7 +195,6 @@ librpmio_la_SOURCES = \
++ 	rpmhook.c \
++ 	rpmio.c \
++ 	rpmiob.c \
++-	rpmjni.cc \
++ 	rpmku.c \
++ 	rpmlog.c \
++ 	rpmltc.c \
++@@ -279,7 +278,9 @@ keccak.lo: $(top_srcdir)/rpmio/keccak.c
++ #rpmjs.lo: $(top_srcdir)/rpmio/rpmjs.c
++ #	@$(LTCOMPILE) -O0 -c $<
++ rpmjs.lo: $(top_srcdir)/rpmio/rpmjs.cpp
++-	@$(LTCOMPILE) -O0 -c $<
+++	@$(LTCOMPILE) -O0 -c -D_GLIBCXX_INCLUDE_NEXT_C_HEADERS $<
+++rpmjni.lo: $(top_srcdir)/rpmio/rpmjni.cc
+++	@$(LTCOMPILE) -O0 -c -D_GLIBCXX_INCLUDE_NEXT_C_HEADERS $<
++ 
++ YACC = byacc -d
++ getdate.c: getdate.y
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.16.bb b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
+index f2c12d2..7ebd5e9 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4.16.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
+@@ -116,6 +116,7 @@ SRC_URI += " \
+ 	   file://rpm-fix-lua-tests-compilation-failure.patch \
+ 	   file://rpmqv.c-check-_gpg_passphrase-before-ask-for-input.patch \
+ 	   file://0001-Disable-__sync_add_and_fetch_8-on-nios2.patch \
++	   file://gcc6-stdlib.patch \
+ "
  
- SRC_URI_append_class-native = " file://glib-gettextize-dir.patch \
-                                 file://relocate-modules.patch"
+ # OE specific changes
+@@ -344,7 +345,7 @@ EXTRA_OECONF += "--verbose \
+ 		--program-prefix= \
+ 		YACC=byacc"
+ 
+-CFLAGS_append = " -DRPM_VENDOR_WINDRIVER -DRPM_VENDOR_POKY -DRPM_VENDOR_OE"
++CFLAGS_append = " -DRPM_VENDOR_WINDRIVER -DRPM_VENDOR_POKY -DRPM_VENDOR_OE -D_GLIBCXX_INCLUDE_NEXT_C_HEADERS"
+ 
+ LDFLAGS_append_libc-uclibc = "-lrt -lpthread"
+ 
 -- 
 2.7.4
 
