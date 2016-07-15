@@ -1,29 +1,20 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id AB78A6FEFA
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id C78206E660
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jul 2016 12:08:59 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga104.fm.intel.com with ESMTP; 15 Jul 2016 05:08:58 -0700
+	Fri, 15 Jul 2016 12:19:46 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP; 15 Jul 2016 05:19:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,368,1464678000"; d="scan'208";a="1022325138"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga002.fm.intel.com with ESMTP; 15 Jul 2016 05:08:57 -0700
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 13B646A4006
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jul 2016 05:08:48 -0700 (PDT)
-From: "Maxin B. John" <maxin.john@intel.com>
+X-IronPort-AV: E=Sophos;i="5.28,368,1464678000"; d="scan'208";a="1007425018"
+Received: from theory.fi.intel.com ([10.237.72.196])
+	by fmsmga001.fm.intel.com with ESMTP; 15 Jul 2016 05:19:45 -0700
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Jul 2016 15:09:15 +0300
-Message-Id: <1468584555-32117-2-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-In-Reply-To: <1468584555-32117-1-git-send-email-maxin.john@intel.com>
-References: <1468584555-32117-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 2/2] libpng: update to 1.6.23
+Date: Fri, 15 Jul 2016 15:19:38 +0300
+Message-Id: <cover.1468584725.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/5] Updates to Sato components
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,45 +27,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jul 2016 12:09:00 -0000
+X-List-Received-Date: Fri, 15 Jul 2016 12:19:47 -0000
 
-1.6.22 -> 1.6.23
+Two themes in this patchset:
+* xsettings-client removal
+* Porting from ScalingImage to ScalingImage2
+The latter fixes the issue of mb-panel crashing when battery applet
+is loaded, which popped up recently.
 
-License files changes are due to updates in Copyright date and Version
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- .../libpng/{libpng_1.6.22.bb => libpng_1.6.23.bb}                 | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-multimedia/libpng/{libpng_1.6.22.bb => libpng_1.6.23.bb} (66%)
+Jussi
 
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.22.bb b/meta/recipes-multimedia/libpng/libpng_1.6.23.bb
-similarity index 66%
-rename from meta/recipes-multimedia/libpng/libpng_1.6.22.bb
-rename to meta/recipes-multimedia/libpng/libpng_1.6.23.bb
-index 0d5722f..b2813e3 100644
---- a/meta/recipes-multimedia/libpng/libpng_1.6.22.bb
-+++ b/meta/recipes-multimedia/libpng/libpng_1.6.23.bb
-@@ -2,14 +2,14 @@ SUMMARY = "PNG image format decoding library"
- HOMEPAGE = "http://www.libpng.org/"
- SECTION = "libs"
- LICENSE = "Libpng"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=327e99f9f6299935eab27262a3d0d97c \
--                    file://png.h;endline=149;md5=5b1126380a15a28a275c88bf13fe39c8"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=a92bbf77565352659482e381075d19e3 \
-+                    file://png.h;endline=149;md5=a0e24b62532fff585d25f060dd917236"
- DEPENDS = "zlib"
- 
- SRC_URI = "${GENTOO_MIRROR}/libpng-${PV}.tar.xz \
-           "
--SRC_URI[md5sum] = "f4ca54a3d945b8678fafed168c503f3b"
--SRC_URI[sha256sum] = "6b5a6ad5c5801ec4d24aacc87a0ed7b666cd586478174f69368a1d7747715226"
-+SRC_URI[md5sum] = "9b320a05ed4db1f3f0865c8a951fd9aa"
-+SRC_URI[sha256sum] = "6d921e7bdaec56e9f6594463ec1fe1981c3cd2d5fc925d3781e219b5349262f1"
- 
- BINCONFIG = "${bindir}/libpng-config ${bindir}/libpng16-config"
- 
+The following changes since commit 627d01997fcf6a0581d88047735769ffb2592b82:
+
+  useradd-staticids: use map() instead of imap() (2016-07-12 23:12:00 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/sato-scalingimage2
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/sato-scalingimage2
+
+Jussi Kukkonen (5):
+  matchbox-panel-2: Upgrade 2.10 -> 2.11
+  sato-screenshot: Upgrade 0.2 -> 0.3
+  matchbox-keyboard: Upgrade to 0.1.1
+  libmatchbox: Upgrade 1.11 -> 1.12
+  libxsettings-client: Remove as unneeded
+
+ meta/conf/distro/include/distro_alias.inc          |  1 -
+ meta/lib/oeqa/selftest/recipetool.py               |  4 +-
+ .../libmatchbox/libmatchbox/libpng.patch           | 69 ----------------------
+ .../{libmatchbox_1.11.bb => libmatchbox_1.12.bb}   | 16 ++---
+ .../libxsettings-client/MIT-style-license          | 22 -------
+ .../libxsettings-client/link-x11.patch             | 13 ----
+ .../obsolete_automake_macros.patch                 | 14 -----
+ .../libxsettings-client_0.10.bb                    | 43 --------------
+ ...-keyboard_git.bb => matchbox-keyboard_0.1.1.bb} |  5 +-
+ ...ox-panel-2_2.10.bb => matchbox-panel-2_2.11.bb} |  4 +-
+ ...to-screenshot_0.2.bb => sato-screenshot_0.3.bb} |  4 +-
+ 11 files changed, 16 insertions(+), 179 deletions(-)
+ delete mode 100644 meta/recipes-graphics/libmatchbox/libmatchbox/libpng.patch
+ rename meta/recipes-graphics/libmatchbox/{libmatchbox_1.11.bb => libmatchbox_1.12.bb} (57%)
+ delete mode 100644 meta/recipes-graphics/libxsettings-client/libxsettings-client/MIT-style-license
+ delete mode 100644 meta/recipes-graphics/libxsettings-client/libxsettings-client/link-x11.patch
+ delete mode 100644 meta/recipes-graphics/libxsettings-client/libxsettings-client/obsolete_automake_macros.patch
+ delete mode 100644 meta/recipes-graphics/libxsettings-client/libxsettings-client_0.10.bb
+ rename meta/recipes-sato/matchbox-keyboard/{matchbox-keyboard_git.bb => matchbox-keyboard_0.1.1.bb} (96%)
+ rename meta/recipes-sato/matchbox-panel-2/{matchbox-panel-2_2.10.bb => matchbox-panel-2_2.11.bb} (95%)
+ rename meta/recipes-sato/sato-screenshot/{sato-screenshot_0.2.bb => sato-screenshot_0.3.bb} (91%)
+
 -- 
-2.4.0
+2.1.4
 
 
