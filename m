@@ -1,24 +1,24 @@
 Return-Path: <timothy.t.orling@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 31E25731BE
+	by mail.openembedded.org (Postfix) with ESMTP id 20C01731BC
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 15 Jul 2016 01:49:01 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga102.jf.intel.com with ESMTP; 14 Jul 2016 18:49:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,365,1464678000"; d="scan'208";a="995612658"
+X-IronPort-AV: E=Sophos;i="5.28,365,1464678000"; d="scan'208";a="995612657"
 Received: from timo-fedora.jf.intel.com ([10.7.201.162])
 	by orsmga001.jf.intel.com with ESMTP; 14 Jul 2016 18:49:02 -0700
 From: Tim Orling <timothy.t.orling@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Jul 2016 18:49:38 -0700
-Message-Id: <bdeffd92ead05cd7c2d3bccb7bc1c9643b6beb64.1468546499.git.timothy.t.orling@linux.intel.com>
+Date: Thu, 14 Jul 2016 18:49:37 -0700
+Message-Id: <65069865417cc8d9a7d9f5a16daecebb2b3d4fe0.1468546499.git.timothy.t.orling@linux.intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1468546499.git.timothy.t.orling@linux.intel.com>
 References: <cover.1468546499.git.timothy.t.orling@linux.intel.com>
 In-Reply-To: <cover.1468546499.git.timothy.t.orling@linux.intel.com>
 References: <cover.1468546499.git.timothy.t.orling@linux.intel.com>
-Subject: [krogoth][PATCH 7/8] openjade-native: work around bug exposed by GCC 6
+Subject: [krogoth][PATCH 6/8] binutils: disable werror on native build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,35 +33,32 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 15 Jul 2016 01:49:02 -0000
 
-From: Daniel McGregor <daniel.mcgregor@vecima.com>
+From: Dan McGregor <dan.mcgregor@usask.ca>
 
-Simply turn off the optimzation that is causing this breakage. I had
-originally used -fno-lifetime-dse, but -fno-tree-dse works at least
-going back as far as gcc 4.8.
+It's disabled on cross builds, and it's needed for gcc 6
 
-This isn't a real fix, but it allows openjade to work enough to complete
-a build.
+(From OE-Core rev: ce1b37e29dc89b67dc698e856007b59faa16c4df)
 
-(From OE-Core rev: 39e7dd90878325158c143dfec8234d563b841b86)
-
-Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.com>
+Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/openjade/openjade-native_1.3.2.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-devtools/binutils/binutils_2.26.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
-index bc25008..afcb8ca 100644
---- a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
-+++ b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
-@@ -44,6 +44,7 @@ CONFIGUREOPTS := "${@d.getVar('CONFIGUREOPTS', True).replace('--datadir=${datadi
- oe_runconf[vardepsexclude] += "CONFIGUREOPTS"
+diff --git a/meta/recipes-devtools/binutils/binutils_2.26.bb b/meta/recipes-devtools/binutils/binutils_2.26.bb
+index b70ffbf..e976bad 100644
+--- a/meta/recipes-devtools/binutils/binutils_2.26.bb
++++ b/meta/recipes-devtools/binutils/binutils_2.26.bb
+@@ -13,7 +13,8 @@ EXTRA_OECONF += "--with-sysroot=/ \
+ EXTRA_OECONF_class-native = "--enable-targets=all \
+                              --enable-64-bit-bfd \
+                              --enable-install-libiberty \
+-                             --enable-install-libbfd"
++                             --enable-install-libbfd \
++                             --disable-werror"
  
- CFLAGS =+ "-I${S}/include"
-+CXXFLAGS += "-fno-tree-dse"
- 
- SSTATEPOSTINSTFUNCS += "openjade_sstate_postinst"
- SYSROOT_PREPROCESS_FUNCS += "openjade_sysroot_preprocess"
+ do_install_class-native () {
+ 	autotools_do_install
 -- 
 2.7.4
 
