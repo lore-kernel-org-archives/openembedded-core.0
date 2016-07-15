@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 421FC6E660
+Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
+	[209.85.220.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 5DC246E660
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jul 2016 14:16:26 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id g202so6476180pfb.1
+	Fri, 15 Jul 2016 14:20:03 +0000 (UTC)
+Received: by mail-pa0-f65.google.com with SMTP id hh10so6188804pac.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jul 2016 07:16:28 -0700 (PDT)
+	Fri, 15 Jul 2016 07:20:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:to:references:from:message-id:date:user-agent:mime-version
 	:in-reply-to:content-transfer-encoding;
-	bh=mb5wddqxNXYZ1VBAMFgD7ICzNhz4lBaO38wWLWYpWsk=;
-	b=1ISFEXAQbG3Z+NGojUMmsJYxvcsSAn0jjnk/DdCeFnTtJ69IDD5uAXVS3GeP5eIpCL
-	bH2E5kz2TWbg5pAO1AWcr35/XfdDKNu1AyX6wG7mu6cUGTecvzIedEL8kdVyQMYdX9gh
-	qmouhoKUKVgT8bK0+HGEki0ExGle62uyzf79b8i9WZScmWWb+LMAzr4OLmxjKwJxxrkv
-	T9/IpX+TbdZ9GuMwqA5BjBnYEJ6Y/RYjXorrW5tazIaVfS6VdQFRmcuTxU58n8fGXVCa
-	S8F7Q7zaQzqbSKK/fF8sUlyxH54rHbehcZdX1Q1amUXVfJG51zQtL5jGviQrDAAwIx2e
-	UZow==
+	bh=h/jy6s1JAlRmRqTFOwCRFx/hBItUSXWhZvJDKTQNu6A=;
+	b=mNUsMY3bIKVY/94oUP3Di2YPqfxka7wPIxZKAQkuh5FIlY5+MOYMrWtXtpzBVOcYV7
+	6LLGTbmuFc3qWCmhwiVXMPfBhqWg1oAWpHtGZ0wLasdM2J+wpBJYF5PROPuws1ILodrt
+	rvvp6/qX6FHaLTWuUC0PMzqW7nAxmlMe0smb+8YzvfhNy3SkjhtZITM01u6/75zFQPpv
+	5QoYbJzThzOLdIRbv6ebkNDGvIUOP4MrHSaXuQenhxI0gMtFhDRcScdDRB3d7Nj61cLS
+	LDu5bhs8U307qYgSWVvmR7a9mF/GyhfN7/s9snSmOClicJZJRkjH/EJyEqk8XpfH6wX9
+	OFQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:subject:to:references:from:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=mb5wddqxNXYZ1VBAMFgD7ICzNhz4lBaO38wWLWYpWsk=;
-	b=eYGIHfyYdbE2I6rzBlL5MBt0Ypwt7OoCQwaRm07jqNukguXxEUecL7HHSJdZ7OjlFZ
-	nF8Hpwp/wHHVJkOZIcwsAB9t5mtZqB4y6n6kD9lPcPunIpRtflbiqNjnrAmlhWMGqdna
-	MXskrzclTYU5cYGFnPPJHLARpghy/R6fmOsfXUYIXGTaDLWRbRORgXF8i6ltLgL7gSLm
-	XHCvANIKJDoONMqT0X/mQcekdCyH4cN8sruid0dKshN4dejTIU4HJojuDelGwB02+D2T
-	wHgPcypivenZ5rhX1fblITVUPDlxXWg9G3QL/5VB9IwKNGN5ww5nGJM2cVjLPc20isGF
-	57Jw==
-X-Gm-Message-State: ALyK8tKHroBwkdCg718k5E+QY4hWS0N+YiJTWUj35t5d9EZ9C3xHnmNF3fYrZiL3yTc3uA==
-X-Received: by 10.98.95.5 with SMTP id t5mr21936604pfb.103.1468592187315;
-	Fri, 15 Jul 2016 07:16:27 -0700 (PDT)
+	bh=h/jy6s1JAlRmRqTFOwCRFx/hBItUSXWhZvJDKTQNu6A=;
+	b=cFKEJT3A30/RDjqaQGqCimE9Q3OypUcl/owjQ9wVHmgvSrWNtHZhUEmCfbXMS35341
+	9ekdkXXCpB7mQHONvbMM9FeDJ+zbWT7H1Z59JMaiI+qnMonGwrVMxKLTHXFTAfXZAN5i
+	PYXm+clZKRnppBOPJFgBxVXGAi1f0bEFtc1s9POBEhGmAAkJOM87iLNieBKgF85Xn7iW
+	dBDZd02AMwtPdDN1vHbE8etopOFGLV9eCvklo5Efcx5BB2pjcB4+pOhvKNgq+jOH8H++
+	1fC1n/2jX3ls+MLPOH8rp0h4Niq984xPBXUHYqZBpxf/mQOO9PKBkb6GDeTiW2zszJ/n
+	s3Aw==
+X-Gm-Message-State: ALyK8tJQSh8E5pTyFTL8SCvbBh72rCyWbywl4D2KHbr4NKuXfX6HtnYw0jrmk3W60HezIw==
+X-Received: by 10.66.80.136 with SMTP id r8mr12535762pax.72.1468592404191;
+	Fri, 15 Jul 2016 07:20:04 -0700 (PDT)
 Received: from ?IPv6:2601:202:4001:9ea0:194d:2232:d2ef:3b9c?
 	([2601:202:4001:9ea0:194d:2232:d2ef:3b9c])
 	by smtp.googlemail.com with ESMTPSA id
-	k78sm3150165pfa.78.2016.07.15.07.16.25
+	p9sm4451615pfj.3.2016.07.15.07.20.02
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 15 Jul 2016 07:16:26 -0700 (PDT)
-To: Tim Orling <timothy.t.orling@linux.intel.com>,
+	Fri, 15 Jul 2016 07:20:02 -0700 (PDT)
+To: Pascal Bach <pascal.bach@siemens.com>,
 	openembedded-core@lists.openembedded.org
-References: <cover.1468546499.git.timothy.t.orling@linux.intel.com>
+References: <1468588941-2574-1-git-send-email-pascal.bach@siemens.com>
 From: akuster808 <akuster808@gmail.com>
-Message-ID: <5788F039.60603@gmail.com>
-Date: Fri, 15 Jul 2016 07:16:25 -0700
+Message-ID: <5788F111.9060305@gmail.com>
+Date: Fri, 15 Jul 2016 07:20:01 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
 	Thunderbird/38.8.0
 MIME-Version: 1.0
-In-Reply-To: <cover.1468546499.git.timothy.t.orling@linux.intel.com>
-Subject: Re: [krogoth][PATCH 0/8] Fixes for gcc-6 (Fedora-24)
+In-Reply-To: <1468588941-2574-1-git-send-email-pascal.bach@siemens.com>
+Subject: Re: [krogoth][PATCH] gcc, qemuppc: Explicitly disable forcing SPE flags for 4.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,90 +60,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jul 2016 14:16:29 -0000
+X-List-Received-Date: Fri, 15 Jul 2016 14:20:04 -0000
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 
+Pascal,
 
+The "0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch" is
+missing the OE patch standard header information.
 
-On 07/14/2016 06:49 PM, Tim Orling wrote:
-> [YOCTO #9897]
-> 
-> Fedora-24 only has gcc-6.1.1.
+please see http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
 
-thanks,
+Also, there is no .bb update so this patch will be applied.
 
-pulled into staging.
+regards,
+Armin
 
-- armin
+On 07/15/2016 06:22 AM, Pascal Bach wrote:
+> This ports the missing changes from commit: 7a51776a830167e43cbd185505f62f328704e271
+> from 5.3 to 4.9 so that qemuppc can be compiled.
 > 
-> This has caused a number of failures in -native recipes and gcc-cross.
+> Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+> ---
+>  ...Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
 > 
-> This series either cherry-picks commits from master or applies known good patches from upstream.
-> 
-> Fixes broken build for:
->  - pkgconfig-native
->  - elfutils-native
->  - rpm-native
->  - binutils-native
->  - glib-2.0-native
->  - docbook-utils-native (actually openjade-native was the culprit)
->  - gcc-cross (gcc-cross-arm build tested for beaglebone)
-> 
-> Other problems may be lurking and only a world build on Fedora-24 AB will tell for sure.
-> 
-> Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
-> 
-> 
-> The following changes since commit 98c57bb512ea6790db8604fcf0b88c81651d2ab4:
-> 
->   build-appliance-image: Update to krogoth head revision (2016-07-06 17:28:04 +0100)
-> 
-> are available in the git repository at:
-> 
->   git://git.yoctoproject.org/poky-contrib timo/krogoth-9897
->   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=timo/krogoth-9897
-> 
-> Dan McGregor (1):
->   binutils: disable werror on native build
-> 
-> Daniel McGregor (1):
->   openjade-native: work around bug exposed by GCC 6
-> 
-> Khem Raj (3):
->   elfutils-0.148: Fix build with gcc6
->   rpm: Fix build with gcc6
->   glib-2.0: Ignore useless warning found with gcc-6
-> 
-> Tim Orling (3):
->   pkgconfig: Fix build with gcc-6
->   elfutils: Fix build for gcc-6
->   gcc-5.3: fix build for gcc-6
-> 
->  .../0001-Do-not-ignore-return-value-of-write.patch |  42 +++
->  .../glib-2.0/0002-tests-Ignore-y2k-warnings.patch  |  42 +++
->  .../ignore-format-nonliteral-warning.patch         |  39 ++
->  meta/recipes-core/glib-2.0/glib-2.0_2.46.2.bb      |   7 +-
->  meta/recipes-devtools/binutils/binutils_2.26.bb    |   3 +-
->  .../elfutils/elfutils-0.148/gcc6.patch             |  23 ++
->  ...missing-brackets-around-if-statement-body.patch | 419 +++++++++++++++++++++
->  meta/recipes-devtools/elfutils/elfutils_0.148.bb   |   1 +
->  meta/recipes-devtools/elfutils/elfutils_0.164.bb   |   1 +
->  meta/recipes-devtools/gcc/gcc-5.3.inc              |   1 +
->  .../gcc-5.3/0060-fix-build-when-using-gcc6.patch   | 157 ++++++++
->  .../openjade/openjade-native_1.3.2.bb              |   1 +
->  ...te-suppress-string-format-literal-warning.patch |  34 ++
->  meta/recipes-devtools/pkgconfig/pkgconfig_git.bb   |   1 +
->  meta/recipes-devtools/rpm/rpm/gcc6-stdlib.patch    |  54 +++
->  meta/recipes-devtools/rpm/rpm_5.4.16.bb            |   3 +-
->  16 files changed, 824 insertions(+), 4 deletions(-)
->  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-ignore-return-value-of-write.patch
->  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0002-tests-Ignore-y2k-warnings.patch
->  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/ignore-format-nonliteral-warning.patch
->  create mode 100644 meta/recipes-devtools/elfutils/elfutils-0.148/gcc6.patch
->  create mode 100644 meta/recipes-devtools/elfutils/elfutils-0.164/libebl-Fix-missing-brackets-around-if-statement-body.patch
->  create mode 100644 meta/recipes-devtools/gcc/gcc-5.3/0060-fix-build-when-using-gcc6.patch
->  create mode 100644 meta/recipes-devtools/pkgconfig/pkgconfig/0001-gdate-suppress-string-format-literal-warning.patch
->  create mode 100644 meta/recipes-devtools/rpm/rpm/gcc6-stdlib.patch
+> diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch b/meta/recipes-devtools/gcc/gcc-4.9/0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch
+> index b98f8ff..77fa18a 100644
+> --- a/meta/recipes-devtools/gcc/gcc-4.9/0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch
+> +++ b/meta/recipes-devtools/gcc/gcc-4.9/0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch
+> @@ -37,6 +37,17 @@ index cb7a94e..d392c2b 100644
+>   	extra_options="${extra_options} rs6000/sysv4.opt"
+>   	tmake_file="rs6000/t-fprules rs6000/t-ppcos ${tmake_file} rs6000/t-ppccomm"
+>   	case ${target} in
+> +Index: gcc-4.9.3/gcc/config/rs6000/linuxspe.h
+> +===================================================================
+> +--- gcc-4.9.3.orig/gcc/config/rs6000/linuxspe.h
+> ++++ gcc-4.9.3/gcc/config/rs6000/linuxspe.h
+> +@@ -27,6 +27,3 @@
+> + #undef	TARGET_DEFAULT
+> + #define TARGET_DEFAULT MASK_STRICT_ALIGN
+> + #endif
+> +-
+> +-#undef  ASM_DEFAULT_SPEC
+> +-#define	ASM_DEFAULT_SPEC "-mppc -mspe -me500"
+>  -- 
+>  1.7.9.5
+>  
 > 
 
