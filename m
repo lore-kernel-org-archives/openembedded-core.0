@@ -1,53 +1,45 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
-	[209.85.220.65])
-	by mail.openembedded.org (Postfix) with ESMTP id BEB2E606D0
+Return-Path: <eu@felipetonello.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id EA3C0606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jul 2016 15:47:57 +0000 (UTC)
-Received: by mail-pa0-f65.google.com with SMTP id dx3so6329024pab.2
+	Fri, 15 Jul 2016 16:20:28 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id o80so2795802wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jul 2016 08:47:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding;
-	bh=2apEiWA8UtgE5+KiEeC4aeYlwywJpB0OYDwrqKOluK4=;
-	b=xf6sme2wQclhXgkr3g7Ub+3bR81zOa2qFsf4N1mBf1hyuLdELHdHid1qUBMTVEFpjx
-	aL26omCvSviq854dof/tFVTQ3t4ohAi+D9xkWE41YLZk2TlDMdok3xh9QDL0Z3UJE1VX
-	uPNBLDNn9UJGspJV652CXIHFo5jACHbEkPJvDjizJCbmDcH2tG5T86rDrEm8dsInnt6M
-	Zus8DnosJGZUkzgJF65kiK9H0XYK/F9zBLfPzx6s/y85suTgde+pvppNTeOogd4e55R/
-	nmOAVUxjRAwffUcWqU2uStn62sYWLmPkyw7xH0D2VHN8YxK3SrogbQp0ZXapf6MVlsMY
-	7wiQ==
+	Fri, 15 Jul 2016 09:20:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=felipetonello-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=e0TVNY+8guecnbA+1Ex922Znyfg+PDbZ49lPSeZpWsI=;
+	b=bWUIi2g4EkeJyLR7VAbYrrRKMdQ2ofuGHKuw7CwGN9cnF7gfG3zSfcoh2znGQX7k1T
+	d5FN2XfebLbeusgIPgyTmNIPAbD1o+ERICR9nmZQWrKI/niNpk8zIld6o+0eyvcoTnoQ
+	rZEy5TgdRiv/Q0O5+vROdGgWnZDfBerXHIb0XWElw76kVoI75bI0XoNWfZ42hJDo/K6y
+	J02YigRX7eTQu4rNTKHt74cAqy9M6UIVXxrZkL6sDKFXTautY80kM1PmCOMzrHYNCb92
+	QTdMmni9MoK362bhIfOipii6UCrVJ7OvPmVsTKFlfuIWAKI/7mjLt1R6fggDbGtVXJSu
+	MiHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=2apEiWA8UtgE5+KiEeC4aeYlwywJpB0OYDwrqKOluK4=;
-	b=Mm91LErPm720E4+9veyTwMR5BLgt82TXn1rNnM7fvhpFv4ZVkfHXGqSkggSp4nrOUf
-	rxJ0+Cit2N+hpOUX+ojhNE1ApwVaB5etbk0wUgmRa3APl9k0Rxju6K0FNbJKcO6naWoi
-	PrMZQaSaKcGGDQf11znI1eCUrPsJ7I2fqNSpBqpmf8W4zOADAVbltuqzKM4AbEj3F5cA
-	X7RN6XVKzjG+eHYF1IP+I0N6oVghppP4vyesGq8f/8gOasdoMd+KoUrw5YMu2N2Qy0et
-	Xi4oc/r9/e3nzOjvNIk23C+9wghP19FHJk6KwDS14JCrbc/q+FEqGDh0VaKKbGwOKIhj
-	BEvA==
-X-Gm-Message-State: ALyK8tJqeEisAByrhWMv5eLd/qu9nPz73BiPZL+wk2BAYNKOm2yy23CTY5jBYBz09HKz0w==
-X-Received: by 10.66.170.44 with SMTP id aj12mr33047320pac.131.1468597678471; 
-	Fri, 15 Jul 2016 08:47:58 -0700 (PDT)
-Received: from ?IPv6:2601:202:4001:9ea0:194d:2232:d2ef:3b9c?
-	([2601:202:4001:9ea0:194d:2232:d2ef:3b9c])
-	by smtp.googlemail.com with ESMTPSA id
-	lf11sm5644055pab.17.2016.07.15.08.47.56
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=e0TVNY+8guecnbA+1Ex922Znyfg+PDbZ49lPSeZpWsI=;
+	b=lL6WVpOEjxq+CEcHUMsiLlADbllDcmek1dUlHlVyc6vVNRFnRTwtXI0mGD/sHM2vuV
+	7KjrHYnT6Dx/W6W/r+65PqF8Ve3fxPGVh3tr4oV8v2ldVWIbmzcUTRkp5/TWrnE39SiR
+	GxQmmhlZXVPC1DLvD8Jdo9+EkoxVxSS8RIKr/5SDVCqldrHXDAshXeWSdYnj7AwupQhe
+	xeh08TfjnfbBA4/usSHNIsxJuMHj+5nnkJpHmV+8pA1nvob+VZohjwff8eGSy703iBLt
+	OjKANgJNLmrz5tysEtDpB5oZvYyr+06qP74aIjl3e7AslHzxPwvfladF5BmzmPHmhziI
+	nNNw==
+X-Gm-Message-State: ALyK8tKgsh+UqgfD2YojLgaFQAhJ+JD9b7ajQnZvq9XlY3AAb9Q8o+JtLLGiDq9rouy8xQ==
+X-Received: by 10.28.216.75 with SMTP id p72mr43565845wmg.67.1468599628650;
+	Fri, 15 Jul 2016 09:20:28 -0700 (PDT)
+Received: from localhost.localdomain ([81.145.202.106])
+	by smtp.gmail.com with ESMTPSA id u9sm1476941wjy.45.2016.07.15.09.20.27
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 15 Jul 2016 08:47:57 -0700 (PDT)
-To: Saul Wold <sgw@linux.intel.com>, Yocto Discussion <yocto@yoctoproject.org>,
-	OpenEmbedded List <openembedded-core@lists.openembedded.org>
-References: <1468596746.6912.772.camel@linux.intel.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <578905AB.4090701@gmail.com>
-Date: Fri, 15 Jul 2016 08:47:55 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.8.0
-MIME-Version: 1.0
-In-Reply-To: <1468596746.6912.772.camel@linux.intel.com>
-Subject: Re: [yocto] Yocto Project Status WW29
+	Fri, 15 Jul 2016 09:20:27 -0700 (PDT)
+From: "Felipe F. Tonello" <eu@felipetonello.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 15 Jul 2016 17:20:26 +0100
+Message-Id: <20160715162026.31179-1-eu@felipetonello.com>
+X-Mailer: git-send-email 2.9.0
+Subject: [PATCH] recipes-graphics: Added native and nativesdk support for some libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,56 +52,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jul 2016 15:48:01 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 15 Jul 2016 16:20:29 -0000
 
+These libraries are used in some recipes outside oe-core, so we should add
+this class support to avoid duplication and bbappends on other layers.
 
+Signed-off-by: Felipe F. Tonello <eu@felipetonello.com>
+---
+ meta/recipes-graphics/freetype/freetype_2.6.3.bb        | 2 +-
+ meta/recipes-graphics/xorg-lib/libxcursor_1.1.14.bb     | 2 +-
+ meta/recipes-graphics/xorg-lib/libxinerama_1.1.3.bb     | 2 ++
+ meta/recipes-graphics/xorg-proto/xineramaproto_1.2.1.bb | 2 ++
+ 4 files changed, 6 insertions(+), 2 deletions(-)
 
-On 07/15/2016 08:32 AM, Saul Wold wrote:
-> 
-> Current Dev Position: YP 2.2 M2
-> Next Deadline: YP 2.2 M2 cut off would
-> be: 7/18/16 (This coming Monday - 5:00pm GMT)
-> 
-> SWAT team rotation: Paul -> Ross
-> https://wiki.yoctoproject.org/wiki/Yoct
-> o_Build_Failure_Swat_Team
-> 
-> Key Status/Updates:
->  * Richard has been out this week, so the report will be thin.
->  * Performance regressions were narrowed down to the GCC6 Update, movingto GTK3 and the Python3 port. Investigation into how to mitigate thisis ongoing.
->  * We’re considering removing uclibc and GCC 5.4 (preferring musl and GCC6) from OE Core 2.2, so if this would impact you please speak up.
->  * 2.1.1 Completed QA, but there was a High found to do with supportingFedora 24, which released very soon after 2.1 initially released andshould be a supported build host. This will delay 2.1.1 until after M2QA is completed.
+diff --git a/meta/recipes-graphics/freetype/freetype_2.6.3.bb b/meta/recipes-graphics/freetype/freetype_2.6.3.bb
+index bcd50444cb83..c59376d66386 100644
+--- a/meta/recipes-graphics/freetype/freetype_2.6.3.bb
++++ b/meta/recipes-graphics/freetype/freetype_2.6.3.bb
+@@ -46,4 +46,4 @@ do_install_append() {
+ 
+ BINCONFIG = "${bindir}/freetype-config"
+ 
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-graphics/xorg-lib/libxcursor_1.1.14.bb b/meta/recipes-graphics/xorg-lib/libxcursor_1.1.14.bb
+index a8e4f24b6ba9..17629047b7b7 100644
+--- a/meta/recipes-graphics/xorg-lib/libxcursor_1.1.14.bb
++++ b/meta/recipes-graphics/xorg-lib/libxcursor_1.1.14.bb
+@@ -12,7 +12,7 @@ LICENSE = "MIT-style"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=8902e6643f7bcd7793b23dcd5d8031a4"
+ 
+ DEPENDS += "libxrender libxfixes"
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
+ 
+ PE = "1"
+ 
+diff --git a/meta/recipes-graphics/xorg-lib/libxinerama_1.1.3.bb b/meta/recipes-graphics/xorg-lib/libxinerama_1.1.3.bb
+index 027c8043d843..bb03f44e25ad 100644
+--- a/meta/recipes-graphics/xorg-lib/libxinerama_1.1.3.bb
++++ b/meta/recipes-graphics/xorg-lib/libxinerama_1.1.3.bb
+@@ -18,3 +18,5 @@ XORG_PN = "libXinerama"
+ 
+ SRC_URI[md5sum] = "9336dc46ae3bf5f81c247f7131461efd"
+ SRC_URI[sha256sum] = "7a45699f1773095a3f821e491cbd5e10c887c5a5fce5d8d3fced15c2ff7698e2"
++
++BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-graphics/xorg-proto/xineramaproto_1.2.1.bb b/meta/recipes-graphics/xorg-proto/xineramaproto_1.2.1.bb
+index d00774ece5dc..dde7e9db7aa8 100644
+--- a/meta/recipes-graphics/xorg-proto/xineramaproto_1.2.1.bb
++++ b/meta/recipes-graphics/xorg-proto/xineramaproto_1.2.1.bb
+@@ -15,3 +15,5 @@ PE = "1"
+ 
+ SRC_URI[md5sum] = "9959fe0bfb22a0e7260433b8d199590a"
+ SRC_URI[sha256sum] = "977574bb3dc192ecd9c55f59f991ec1dff340be3e31392c95deff423da52485b"
++
++BBCLASSEXTEND = "native nativesdk"
+-- 
+2.9.0
 
-Any idea on an ETA on M2QA will start. Since 2.1.1 is being delayed,
-does that open the door for more back ports not related to the F24 fixes ?
-
-- armin
-
->  * Reminder that the M2 cut off is this coming Monday!
-> 
-> Key YP 2.2 Dates:
->  * YP 2.2 M1 release would be: 6/24/16
->  * YP 2.2 M2 cut off would be: 7/18/16
->  * YP 2.2 M2 release would be: 7/29/16
->  * YP 2.2 M3 cut off would be: 8/29/16
->  * YP 2.2 M3 release would be: 9/9/16
->  * YP 2.2 M4 cut off would be: 10/3/16
->  * YP 2.2 M4 release would be: 10/28/16
-> 
-> Tracking Metrics:
-> 	WDD 2698 (last week 2747)
-> (https://wiki.yoctoproject.org/charts/combo.html)
-> 
-> Key Status Links for YP:
-> https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.2_Status
-> https://wiki.yoctoproject.org/wiki/Yocto_2.2_Schedule
-> https://wiki.yoctoproject.org/wiki/Yocto_2.2_Features
-> 
-> [If anyone has suggestions for other information you’d like to see on this weekly status update, let us know!]
-> 
-> 
-> 
-> 
 
