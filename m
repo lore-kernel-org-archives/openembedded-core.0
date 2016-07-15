@@ -1,31 +1,46 @@
-Return-Path: <clemens.lang@bmw-carit.de>
-X-Greylist: delayed 319 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 15 Jul 2016 16:31:59 UTC
-Received: from cit-hm8-gw01.bmw-carit.de (cit-hm8-mail01.bmw-carit.de
-	[212.118.206.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 2FAA3606D0
+Return-Path: <eu@felipetonello.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 8120E606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jul 2016 16:31:59 +0000 (UTC)
-Received: from [10.40.100.13] (port=39084 helo=cit-hm8-mail01.bmw-carit.de)
-	by cit-hm8-gw01.bmw-carit.de with esmtps (TLSv1.2:AES256-SHA:256)
-	(Exim 4.82_1-5b7a7c0-XX) (envelope-from <Clemens.Lang@bmw-carit.de>)
-	id 1bO5wj-0007bZ-0W for openembedded-core@lists.openembedded.org;
-	Fri, 15 Jul 2016 18:26:37 +0200
-Received: from clang-buildbox.bmw-carit.intra (172.20.20.251) by
-	CIT-HM8-EX01.bmw-carit.intra (10.40.100.13) with Microsoft SMTP Server
-	(TLS) id 15.0.1178.4; Fri, 15 Jul 2016 18:26:36 +0200
-X-CTCH-RefID: str=0001.0A0C0208.57890EBD.004B, ss=1, re=0.000, recu=0.000,
-	reip=0.000, cl=1, cld=1, fgs=0
-From: Clemens Lang <clemens.lang@bmw-carit.de>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 15 Jul 2016 18:26:26 +0200
-Message-ID: <1468599986-26072-1-git-send-email-clemens.lang@bmw-carit.de>
-X-Mailer: git-send-email 2.8.1
-MIME-Version: 1.0
-X-Originating-IP: [172.20.20.251]
-X-ClientProxiedBy: CIT-HM8-EX01.bmw-carit.intra (10.40.100.13) To
-	CIT-HM8-EX01.bmw-carit.intra (10.40.100.13)
-Subject: [PATCH] lib/oe/path: Fix tar invocation with --no-recursion
+	Fri, 15 Jul 2016 16:36:34 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id x83so2814136wma.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Jul 2016 09:36:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=felipetonello-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=0vHsuYkDJh/DTtLQtHtLFnG21wbqTwFJRw7C/0kM1cY=;
+	b=RGhAq32utIZkMizv2UmSrWaWW9QqJUZqVtNTi4zSuyuEkmMeTzQ12loQWB61uUYu6F
+	Sgd9LjhWdlQEbkMYUYJL5I01u3QZ4a7bjW4TWvffHO0yfCO5NtA3Lxe06ipCfR3iYrIx
+	iAjbGxiQZ38gYSmpL4RI0GM+1WvgmlNI03e5Ik+Sal0NUHoohhHYB9cBQ0i15/UC5sK9
+	TMNovE8WI8W68BbSd5FB8LSRsK1X/5t5ZhBfia6/TWr6RF6nIymTaRrw4GrHGHD7qIYM
+	shGB5ZVSf/m1Sd9iQ8lykY7hewZ1prYynno+h+8bp1cUG4/Nw1O3X7xwpxPuujJjt2K/
+	BMwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=0vHsuYkDJh/DTtLQtHtLFnG21wbqTwFJRw7C/0kM1cY=;
+	b=Ti1lQNajI4KDt2FuuzzfdKj8SsLlF9fxyeDuuujY/Bnj1znMRN1pkGLtaCIE4+sq9C
+	MxldB8dej/ntTMS6Qv8Hu70PF+W3KWv8nmqp/NTPYgDY+RSHCGzruybyXbPOT0Gb5pkO
+	k1akP3HFzMUQnQbti5RYhbNw8KdArTyx6oVv8dmR3HCsuytVTnhIPX5DYbtzmm2nB59h
+	DDx7kbSxWbqoeVq0/w4+QaANhxVvMrKzzZ2MjThF8d4OrHQxEYpIJ90Tn+cqTsCTseO1
+	OwF2MepujioRpFdPzKqB77/uFMPvVk7TsxfoMBllejdMVipwCoelrneWXmCMkDlhNI35
+	v1RA==
+X-Gm-Message-State: ALyK8tKJmBPl+LubRKqK94tty4IB/J4GIpH9YqvR/X7TAnOAl8j9pCFA/KUkKODVg1/yaw==
+X-Received: by 10.28.223.9 with SMTP id w9mr22984272wmg.65.1468600594195;
+	Fri, 15 Jul 2016 09:36:34 -0700 (PDT)
+Received: from localhost.localdomain ([81.145.202.106])
+	by smtp.gmail.com with ESMTPSA id
+	um3sm1546807wjb.44.2016.07.15.09.36.33
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 15 Jul 2016 09:36:33 -0700 (PDT)
+From: "Felipe F. Tonello" <eu@felipetonello.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 15 Jul 2016 17:36:31 +0100
+Message-Id: <20160715163633.6854-1-eu@felipetonello.com>
+X-Mailer: git-send-email 2.9.0
+Subject: [PATCH 0/2] JUCE Framework support for OE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,47 +53,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jul 2016 16:32:00 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 15 Jul 2016 16:36:35 -0000
 
-tar's --no-recursion flag only applies to files mentioned after the
-flag, which made it a no-op in this invocation of tar, because it was at
-the end of the command line.
+This patchset contains the needed infrastructure needed in order to easily
+support JUCE applications on OpenEmbedded.
 
-This is simple to verify with GNU tar 1.29:
+For more information about JUCE, check the patch #2.
 
-| $ mkdir foo
-| $ mkdir foo/dir
-| $ touch foo/dir/file
-| $ tar -cf - foo --no-recursion | tar t
-| foo/
-| foo/dir/
-| foo/dir/file
-| $ tar -cf - --no-recursion foo | tar t
-| foo/
+Felipe F. Tonello (2):
+  recipes-graphics: Added native and nativesdk support for some
+    libraries
+  juce: Added support for JUCE framework
 
-Modify the code so that it actually does what the comment says by moving
-the flag in front of the --files-from argument.
+ meta/classes/juce.bbclass                          | 37 +++++++++++++++++++
+ meta/recipes-devtools/juce/projucer_git.bb         | 41 ++++++++++++++++++++++
+ meta/recipes-graphics/freetype/freetype_2.6.3.bb   |  2 +-
+ .../recipes-graphics/xorg-lib/libxcursor_1.1.14.bb |  2 +-
+ .../recipes-graphics/xorg-lib/libxinerama_1.1.3.bb |  2 ++
+ .../xorg-proto/xineramaproto_1.2.1.bb              |  2 ++
+ 6 files changed, 84 insertions(+), 2 deletions(-)
+ create mode 100644 meta/classes/juce.bbclass
+ create mode 100644 meta/recipes-devtools/juce/projucer_git.bb
 
-Signed-off-by: Clemens Lang <clemens.lang@bmw-carit.de>
----
- meta/lib/oe/path.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
-index 413ebfb..9e238ea 100644
---- a/meta/lib/oe/path.py
-+++ b/meta/lib/oe/path.py
-@@ -77,7 +77,7 @@ def copyhardlinktree(src, dst):
-     if (os.stat(src).st_dev ==  os.stat(dst).st_dev):
-         # Need to copy directories only with tar first since cp will error if two 
-         # writers try and create a directory at the same time
--        cmd = 'cd %s; find . -type d -print | tar -cf - -C %s -p --files-from - --no-recursion | tar -xf - -C %s' % (src, src, dst)
-+        cmd = 'cd %s; find . -type d -print | tar -cf - -C %s -p --no-recursion --files-from - | tar -xf - -C %s' % (src, src, dst)
-         check_output(cmd, shell=True, stderr=subprocess.STDOUT)
-         cmd = 'cd %s; find . -print0 | cpio --null -pdlu %s' % (src, dst)
-         check_output(cmd, shell=True, stderr=subprocess.STDOUT)
 -- 
-2.8.1
+2.9.0
 
 
