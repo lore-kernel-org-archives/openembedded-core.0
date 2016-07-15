@@ -1,24 +1,27 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 766C8606D1
+Return-Path: <maxin.john@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id C0887606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jul 2016 10:42:14 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP; 15 Jul 2016 03:42:00 -0700
+	Fri, 15 Jul 2016 12:08:55 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 15 Jul 2016 05:08:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,367,1464678000"; d="scan'208";a="1017432575"
-Received: from theory.fi.intel.com ([10.237.72.196])
-	by orsmga002.jf.intel.com with ESMTP; 15 Jul 2016 03:41:59 -0700
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+X-IronPort-AV: E=Sophos;i="5.28,368,1464678000"; d="scan'208";a="995860957"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga001.jf.intel.com with ESMTP; 15 Jul 2016 05:08:55 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 6EC026A4006
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Jul 2016 05:08:47 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Jul 2016 13:41:46 +0300
-Message-Id: <17d1a5fdd1611369cd267d497ac8e6ea16cfb398.1468578590.git.jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <8673f0535cc7b0698e4d900b79f06975dd8670c1.1468578590.git.jussi.kukkonen@intel.com>
-References: <8673f0535cc7b0698e4d900b79f06975dd8670c1.1468578590.git.jussi.kukkonen@intel.com>
-In-Reply-To: <cover.1468578590.git.jussi.kukkonen@intel.com>
-References: <cover.1468578590.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 8/8] xf86-input-libinput: Upgrade 0.16.0 -> 0.19.0
+Date: Fri, 15 Jul 2016 15:09:14 +0300
+Message-Id: <1468584555-32117-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH 1/2] linux-firmware: update to revision cccb6a0da9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,35 +34,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jul 2016 10:42:14 -0000
+X-List-Received-Date: Fri, 15 Jul 2016 12:08:56 -0000
 
-Note that the xorg configuration file for input-libinput now sorts
-lower than it used to (90 -> 60).
+Upgrade to revision cccb6a0da9
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- .../{xf86-input-libinput_0.16.0.bb => xf86-input-libinput_0.19.0.bb}  | 4 ++--
+ meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-driver/{xf86-input-libinput_0.16.0.bb => xf86-input-libinput_0.19.0.bb} (63%)
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.16.0.bb b/meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.19.0.bb
-similarity index 63%
-rename from meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.16.0.bb
-rename to meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.19.0.bb
-index 0252baf..5e5c471 100644
---- a/meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.16.0.bb
-+++ b/meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.19.0.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5e6b20ea2ef94a998145f0ea3f788ee0"
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+index e908289..948dfa8 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+@@ -112,7 +112,7 @@ LIC_FILES_CHKSUM = "\
+     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
+     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
+     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
+-    file://WHENCE;md5=d4c5506dce2fe59ec0faa20bbd1a89bb \
++    file://WHENCE;md5=fc7f8a9fce11037078e90df415baad71 \
+ "
  
- DEPENDS += "libinput"
+ # These are not common licenses, set NO_GENERIC_LICENSE for them
+@@ -172,7 +172,7 @@ NO_GENERIC_LICENSE[Firmware-xc5000] = "LICENCE.xc5000"
+ NO_GENERIC_LICENSE[Firmware-xc5000c] = "LICENCE.xc5000c"
+ NO_GENERIC_LICENSE[WHENCE] = "WHENCE"
  
--SRC_URI[md5sum] = "2c8cb520f88da7bafaceebc0b34ea1d4"
--SRC_URI[sha256sum] = "fdade531e91e79acf6dce8ac55fa4f65abe3f1358c5d3d777ae48dbc74b76f49"
-+SRC_URI[md5sum] = "52c38b1369764243bfcf6ead1e4c6d32"
-+SRC_URI[sha256sum] = "6c5d30dc7c8b8ae34261340e1dc9cbb8ef435078e084b8ef507527a8a21af477"
+-SRCREV = "80d463be829abcee4dbdca8432b9a69452e2021d"
++SRCREV = "cccb6a0da98372bd66787710249727ad6b0aaf72"
+ PE = "1"
+ PV = "0.0+git${SRCPV}"
  
- FILES_${PN} += "${datadir}/X11/xorg.conf.d"
 -- 
-2.1.4
+2.4.0
 
 
