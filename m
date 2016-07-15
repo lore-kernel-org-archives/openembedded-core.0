@@ -1,27 +1,38 @@
-Return-Path: <pascal.bach@siemens.com>
-Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F3636E660
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id D4ED9606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jul 2016 14:43:53 +0000 (UTC)
-Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
-	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id u6FEhru5011182
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Fri, 15 Jul 2016 16:43:53 +0200
-Received: from [139.16.77.104] (MD1FZU9C.ww002.siemens.net [139.16.77.104])
-	by mail2.sbs.de (8.15.2/8.15.2) with ESMTPS id u6FEhrVo010318
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Fri, 15 Jul 2016 16:43:53 +0200
-To: akuster808 <akuster808@gmail.com>, openembedded-core@lists.openembedded.org
-References: <1468588941-2574-1-git-send-email-pascal.bach@siemens.com>
-	<5788F111.9060305@gmail.com>
-From: Pascal Bach <pascal.bach@siemens.com>
-Message-ID: <2f95d542-2ccd-7da3-49a2-0e350ca47a07@siemens.com>
-Date: Fri, 15 Jul 2016 16:43:49 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101
-	Thunderbird/45.1.1
+	Fri, 15 Jul 2016 15:03:30 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id o80so2525190wme.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Jul 2016 08:03:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=iuSB6ZfyBpnqdovGzSlZhIhgLJwG0Meu3L3DZHXPu0I=;
+	b=V4ESumEw8QY1cWmu62oQ9ZdMyVFJXvbPpEjpuwcaf+sWdrn7u9yCODCf0tCe2afSc2
+	Xr6rbOzev4Fz3e92XVfKN6lhl/9m4vTxvp0fvOMjvLs7h8fWF5/ZerGX0sUrSsBUHOOX
+	R+UW7BC/SCYb492FkkqTY7KU1vvjWdQhEtiD8Vo0gPjdDYwKofhPH6pM6yvFSdNqKzOr
+	DJhE7SH+kUIo14raZKKua9n3I49QVjOu4hgeEk92Syi/J8+lNow1VH0+4W6lRtUzHci+
+	mNpq+SlI0JtNRl3BI4X0v0I6TgtgizlV/q2h9tGEiOj0Ij1ZiUW8ReiGw/AsC4X1vKpW
+	nsdg==
+X-Gm-Message-State: ALyK8tI7z/nmJxUZzpJdIrTSeFV+RCI+lIhB27CBKKtcRVzE7yBgzvb99nERa5nScpOW4g==
+X-Received: by 10.28.155.196 with SMTP id d187mr41716224wme.30.1468595010502; 
+	Fri, 15 Jul 2016 08:03:30 -0700 (PDT)
+Received: from tfsielt31850.TYCOFS.COM ([185.46.212.59])
+	by smtp.gmail.com with ESMTPSA id
+	b203sm6317186wmh.20.2016.07.15.08.03.29
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 15 Jul 2016 08:03:29 -0700 (PDT)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 15 Jul 2016 16:03:27 +0100
+Message-Id: <1468595007-8031-1-git-send-email-git@andred.net>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-In-Reply-To: <5788F111.9060305@gmail.com>
-Subject: Re: [krogoth][PATCH] gcc, qemuppc: Explicitly disable forcing SPE flags for 4.9
+Subject: [PATCH] oe-git-proxy: don't depend on syslinux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,61 +45,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jul 2016 14:43:55 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 15 Jul 2016 15:03:32 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Armin
+gethostip comes from syslinux. It seems odd to depend on a bootloader
+to clone a git repository.
 
-The patch only modifies an existing patch which already has a header.
-I really just did the minimum change by copying and adapting the missing section from the corresponding patch for 5.3. to make qemuppc work again.
+Switch to using getent from the c-library, which should be available
+on every system.
 
-Pascal
+We now also support the case where a hostname resolves to more than
+one IP address.
 
-On 15.07.2016 16:20, akuster808 wrote:
-> Pascal,
->
-> The "0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch" is
-> missing the OE patch standard header information.
->
-> please see http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
->
-> Also, there is no .bb update so this patch will be applied.
->
-> regards,
-> Armin
->
-> On 07/15/2016 06:22 AM, Pascal Bach wrote:
->> This ports the missing changes from commit: 7a51776a830167e43cbd185505f62f328704e271
->> from 5.3 to 4.9 so that qemuppc can be compiled.
->>
->> Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
->> ---
->>  ...Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch | 11 +++++++++++
->>  1 file changed, 11 insertions(+)
->>
->> diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch b/meta/recipes-devtools/gcc/gcc-4.9/0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch
->> index b98f8ff..77fa18a 100644
->> --- a/meta/recipes-devtools/gcc/gcc-4.9/0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch
->> +++ b/meta/recipes-devtools/gcc/gcc-4.9/0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch
->> @@ -37,6 +37,17 @@ index cb7a94e..d392c2b 100644
->>   	extra_options="${extra_options} rs6000/sysv4.opt"
->>   	tmake_file="rs6000/t-fprules rs6000/t-ppcos ${tmake_file} rs6000/t-ppccomm"
->>   	case ${target} in
->> +Index: gcc-4.9.3/gcc/config/rs6000/linuxspe.h
->> +===================================================================
->> +--- gcc-4.9.3.orig/gcc/config/rs6000/linuxspe.h
->> ++++ gcc-4.9.3/gcc/config/rs6000/linuxspe.h
->> +@@ -27,6 +27,3 @@
->> + #undef	TARGET_DEFAULT
->> + #define TARGET_DEFAULT MASK_STRICT_ALIGN
->> + #endif
->> +-
->> +-#undef  ASM_DEFAULT_SPEC
->> +-#define	ASM_DEFAULT_SPEC "-mppc -mspe -me500"
->>  -- 
->>  1.7.9.5
->>  
->>
+Signed-off-by: André Draszik <git@andred.net>
+---
+ scripts/oe-git-proxy | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
+
+diff --git a/scripts/oe-git-proxy b/scripts/oe-git-proxy
+index 1247902..0078e95 100755
+--- a/scripts/oe-git-proxy
++++ b/scripts/oe-git-proxy
+@@ -86,13 +86,14 @@ match_host() {
+ 
+ 	# Match by netmask
+ 	if valid_ipv4 $GLOB; then
+-		HOST_IP=$(gethostip -d $HOST)
+-		if valid_ipv4 $HOST_IP; then
+-			match_ipv4 $GLOB $HOST_IP
+-			if [ $? -eq 0 ]; then
+-				return 0
++		for HOST_IP in $(getent ahostsv4 $HOST | grep ' STREAM ' | cut -d ' ' -f 1) ; do
++			if valid_ipv4 $HOST_IP; then
++				match_ipv4 $GLOB $HOST_IP
++				if [ $? -eq 0 ]; then
++					return 0
++				fi
+ 			fi
+-		fi
++		done
+ 	fi
+ 
+ 	return 1
+-- 
+2.8.1
 
 
