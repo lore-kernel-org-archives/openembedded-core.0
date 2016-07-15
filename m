@@ -1,24 +1,25 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id DDD2873172
+	by mail.openembedded.org (Postfix) with ESMTP id EEF95731A1
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 15 Jul 2016 12:20:37 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP; 15 Jul 2016 05:20:13 -0700
+	by orsmga103.jf.intel.com with ESMTP; 15 Jul 2016 05:20:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,368,1464678000"; d="scan'208";a="846866840"
+X-IronPort-AV: E=Sophos;i="5.28,368,1464678000"; d="scan'208";a="846866848"
 Received: from theory.fi.intel.com ([10.237.72.196])
-	by orsmga003.jf.intel.com with ESMTP; 15 Jul 2016 05:20:12 -0700
+	by orsmga003.jf.intel.com with ESMTP; 15 Jul 2016 05:20:13 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Jul 2016 15:20:04 +0300
-Message-Id: <bf4741f743e504bae5cd6e5018d175d666c6a201.1468584725.git.jussi.kukkonen@intel.com>
+Date: Fri, 15 Jul 2016 15:20:05 +0300
+Message-Id: <bb5efce96016aa40f5b34b22cac6f7c5d0f2b4b2.1468584725.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <2ff7f7848e6bb8353b2de9012edbf6aa6eb84394.1468584725.git.jussi.kukkonen@intel.com>
 References: <2ff7f7848e6bb8353b2de9012edbf6aa6eb84394.1468584725.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1468584725.git.jussi.kukkonen@intel.com>
 References: <cover.1468584725.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 4/5] libmatchbox: Upgrade 1.11 -> 1.12
+MIME-Version: 1.0
+Subject: [PATCH 5/5] libxsettings-client: Remove as unneeded
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,139 +33,176 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 15 Jul 2016 12:20:38 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-libmatchbox now has a in-tree xsettings-client.
-
-* Use git SRC_URI like the other matchbox components.
-* Remove upstreamed patch.
-* Update license info (xsettings code is MIT).
-* Stop depending on libxsettings-client
+xsettings-client is not meant to be a shared library and the only
+user in oe-core (libmatchbox) now has an in-tree copy.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- .../libmatchbox/libmatchbox/libpng.patch           | 69 ----------------------
- .../{libmatchbox_1.11.bb => libmatchbox_1.12.bb}   | 16 ++---
- 2 files changed, 8 insertions(+), 77 deletions(-)
- delete mode 100644 meta/recipes-graphics/libmatchbox/libmatchbox/libpng.patch
- rename meta/recipes-graphics/libmatchbox/{libmatchbox_1.11.bb => libmatchbox_1.12.bb} (57%)
+ meta/conf/distro/include/distro_alias.inc          |  1 -
+ meta/lib/oeqa/selftest/recipetool.py               |  4 +-
+ .../libxsettings-client/MIT-style-license          | 22 -----------
+ .../libxsettings-client/link-x11.patch             | 13 -------
+ .../obsolete_automake_macros.patch                 | 14 -------
+ .../libxsettings-client_0.10.bb                    | 43 ----------------------
+ 6 files changed, 2 insertions(+), 95 deletions(-)
+ delete mode 100644 meta/recipes-graphics/libxsettings-client/libxsettings-client/MIT-style-license
+ delete mode 100644 meta/recipes-graphics/libxsettings-client/libxsettings-client/link-x11.patch
+ delete mode 100644 meta/recipes-graphics/libxsettings-client/libxsettings-client/obsolete_automake_macros.patch
+ delete mode 100644 meta/recipes-graphics/libxsettings-client/libxsettings-client_0.10.bb
 
-diff --git a/meta/recipes-graphics/libmatchbox/libmatchbox/libpng.patch b/meta/recipes-graphics/libmatchbox/libmatchbox/libpng.patch
+diff --git a/meta/conf/distro/include/distro_alias.inc b/meta/conf/distro/include/distro_alias.inc
+index 7574032..8adafae 100644
+--- a/meta/conf/distro/include/distro_alias.inc
++++ b/meta/conf/distro/include/distro_alias.inc
+@@ -214,7 +214,6 @@ DISTRO_PN_ALIAS_pn-libxft = "Mandriva=libxft Debian=libxft2 Ubuntu=libxft2"
+ DISTRO_PN_ALIAS_pn-libxi = "Ubuntu=libxi Fedora=libXi"
+ DISTRO_PN_ALIAS_pn-libxkbcommon = "Fedora=libxkbcommon Debian=libxkbcommon"
+ DISTRO_PN_ALIAS_pn-libxscrnsaver = "Fedora=libXScrnSaver Ubuntu=libxss1 Mandriva=libxscrnsaver"
+-DISTRO_PN_ALIAS_pn-libxsettings-client = "Debian=libxsettings-client0 Ubuntu=libxsettings-client0 Mandriva=libXsettings-client0"
+ DISTRO_PN_ALIAS_pn-libxxf86misc = "Mandriva=libxxf86misc Fedora=libXxf86misc"
+ DISTRO_PN_ALIAS_pn-linux-dummy = "Intel"
+ DISTRO_PN_ALIAS_pn-linux-firmware = "Fedora=linux-firmware Ubuntu=linux-firmware"
+diff --git a/meta/lib/oeqa/selftest/recipetool.py b/meta/lib/oeqa/selftest/recipetool.py
+index 9436301..2e38758 100644
+--- a/meta/lib/oeqa/selftest/recipetool.py
++++ b/meta/lib/oeqa/selftest/recipetool.py
+@@ -383,7 +383,7 @@ class RecipetoolTests(RecipetoolBase):
+     @testcase(1194)
+     def test_recipetool_create_git(self):
+         # Ensure we have the right data in shlibs/pkgdata
+-        bitbake('libpng pango libx11 libxext jpeg libxsettings-client libcheck')
++        bitbake('libpng pango libx11 libxext jpeg libcheck')
+         # Try adding a recipe
+         tempsrc = os.path.join(self.tempdir, 'srctree')
+         os.makedirs(tempsrc)
+@@ -397,7 +397,7 @@ class RecipetoolTests(RecipetoolBase):
+         checkvars['S'] = '${WORKDIR}/git'
+         checkvars['PV'] = '1.11+git${SRCPV}'
+         checkvars['SRC_URI'] = srcuri
+-        checkvars['DEPENDS'] = set(['libcheck', 'libjpeg-turbo', 'libpng', 'libx11', 'libxsettings-client', 'libxext', 'pango'])
++        checkvars['DEPENDS'] = set(['libcheck', 'libjpeg-turbo', 'libpng', 'libx11', 'libxext', 'pango'])
+         inherits = ['autotools', 'pkgconfig']
+         self._test_recipe_contents(recipefile, checkvars, inherits)
+ 
+diff --git a/meta/recipes-graphics/libxsettings-client/libxsettings-client/MIT-style-license b/meta/recipes-graphics/libxsettings-client/libxsettings-client/MIT-style-license
 deleted file mode 100644
-index 8cd507f..0000000
---- a/meta/recipes-graphics/libmatchbox/libmatchbox/libpng.patch
+index 628de98..0000000
+--- a/meta/recipes-graphics/libxsettings-client/libxsettings-client/MIT-style-license
 +++ /dev/null
-@@ -1,69 +0,0 @@
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@intel.com>
+@@ -1,22 +0,0 @@
+-/*
+- * Copyright © 2001 Red Hat, Inc.
+- *
+- * Permission to use, copy, modify, distribute, and sell this software and its
+- * documentation for any purpose is hereby granted without fee, provided that
+- * the above copyright notice appear in all copies and that both that
+- * copyright notice and this permission notice appear in supporting
+- * documentation, and that the name of Red Hat not be used in advertising or
+- * publicity pertaining to distribution of the software without specific,
+- * written prior permission.  Red Hat makes no representations about the
+- * suitability of this software for any purpose.  It is provided "as is"
+- * without express or implied warranty.
+- *
+- * RED HAT DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL
+- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL RED HAT
+- * BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+- * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION
+- * OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+- * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+- *
+- * Author:  Owen Taylor, Red Hat, Inc.
+- */
+diff --git a/meta/recipes-graphics/libxsettings-client/libxsettings-client/link-x11.patch b/meta/recipes-graphics/libxsettings-client/libxsettings-client/link-x11.patch
+deleted file mode 100644
+index d08d0d5..0000000
+--- a/meta/recipes-graphics/libxsettings-client/libxsettings-client/link-x11.patch
++++ /dev/null
+@@ -1,13 +0,0 @@
+-Upstream-Status: Inappropriate [configuration]
 -
--From 19c3d242034748b3c60765683e1ff4e2df970205 Mon Sep 17 00:00:00 2001
--From: Ross Burton <ross.burton@intel.com>
--Date: Tue, 10 Dec 2013 11:37:32 +0000
--Subject: [PATCH] configure: improve libpng detection
--
--Instead of looking for "libpng12" explicitly though pkg-config and then falling
--back to library hunting, just use pkg-config to find "libpng" which is provided
--by both libpng12 and libpng16.
--
--This also makes the libpng detection deterministic.
--
--Signed-off-by: Ross Burton <ross.burton@intel.com>
-----
-- configure.ac | 29 +++++------------------------
-- 1 file changed, 5 insertions(+), 24 deletions(-)
--
--diff --git a/configure.ac b/configure.ac
--index 8a28076..65d7c79 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -34,7 +34,7 @@ AC_ARG_ENABLE(jpeg,
--   enable_jpeg=$enableval, enable_jpeg=no)
+-Index: Xsettings-client-0.10/Makefile.am
+-===================================================================
+---- Xsettings-client-0.10.orig/Makefile.am	2008-02-07 14:49:54.000000000 +0000
+-+++ Xsettings-client-0.10/Makefile.am	2008-02-07 14:50:00.000000000 +0000
+-@@ -9,4 +9,4 @@
 - 
-- AC_ARG_ENABLE(png,
---  [  --disable-png           disable png support [default=no]],
--+  [  --disable-png           disable PNG support [default=enabled]],
--      enable_png=$enableval, enable_png=yes )
+- libXsettings_client_la_SOURCES= $(source_c) $(source_h)
 - 
-- AC_ARG_ENABLE(doxygen-docs,     
--@@ -156,29 +156,10 @@ fi
-- dnl ------ Check for PNG ---------------------------------------------------
-- 
-- if test x$enable_png != xno; then
---  AC_MSG_CHECKING(for libpng12)
---  if test x$PKG_CONFIG != xno && $PKG_CONFIG --exists libpng12; then 
---        AC_MSG_RESULT(yes)
---        PNG_LIBS=`$PKG_CONFIG --libs libpng12`
---	PNG_CFLAGS=`$PKG_CONFIG --cflags libpng12`
---        AC_DEFINE(USE_PNG, [1], [Use Png])
---	SUPPORTS_PNG=1
---	PNG_REQUIRED="libpng12"
---  else
---	AC_MSG_RESULT(no)
---        # AC_CHECK_HEADERS(png.h, [ have_png_h="yes" ], [ have_png_h="no" ] )
---        AC_CHECK_LIB([png], [png_create_read_struct], [have_png="yes"], [have_png="no"])
---
---        if test x$have_png=xyes && test x$have_png_h=xyes; then 
---            AC_DEFINE(USE_PNG, [1], [Use Png])
---	    SUPPORTS_PNG=1
---            PNG_LIBS="-lpng -lz"
---            MB_EXTRA_LIBS="$MB_EXTRA_LIBS $PNG_LIBS"
---        else
---	    AC_MSG_WARN([*** Cannot find PNG, disabling support])
---            enable_png=no
---	fi
---  fi
--+  PKG_CHECK_MODULES(PNG, libpng)
--+  AC_DEFINE(USE_PNG, [1], [Use PNG])
--+  SUPPORTS_PNG=1
--+  PNG_REQUIRED="libpng"
-- fi
-- 
-- 
---- 
--1.8.5
+--libXsettings_client_la_LIBADD      = @X_LIBS@
+-\ No newline at end of file
+-+libXsettings_client_la_LIBADD      = @X_LIBS@ -lX11
+diff --git a/meta/recipes-graphics/libxsettings-client/libxsettings-client/obsolete_automake_macros.patch b/meta/recipes-graphics/libxsettings-client/libxsettings-client/obsolete_automake_macros.patch
+deleted file mode 100644
+index 905d08e..0000000
+--- a/meta/recipes-graphics/libxsettings-client/libxsettings-client/obsolete_automake_macros.patch
++++ /dev/null
+@@ -1,14 +0,0 @@
+-Upstream-Status: Pending
 -
-diff --git a/meta/recipes-graphics/libmatchbox/libmatchbox_1.11.bb b/meta/recipes-graphics/libmatchbox/libmatchbox_1.12.bb
-similarity index 57%
-rename from meta/recipes-graphics/libmatchbox/libmatchbox_1.11.bb
-rename to meta/recipes-graphics/libmatchbox/libmatchbox_1.12.bb
-index f2eb675..ce45e48 100644
---- a/meta/recipes-graphics/libmatchbox/libmatchbox_1.11.bb
-+++ b/meta/recipes-graphics/libmatchbox/libmatchbox_1.12.bb
-@@ -3,26 +3,26 @@ SECTION = "x11/libs"
- HOMEPAGE = "http://matchbox-project.org/"
- BUGTRACKER = "http://bugzilla.yoctoproject.com/"
- 
--LICENSE = "LGPLv2+"
-+LICENSE = "LGPLv2+ & MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34 \
-+                    file://COPYING.MIT;md5=f45ed9332b4f50a35adf2065adde4ca7 \
-                     file://libmb/mbexp.c;endline=20;md5=28c0aef3b23e308464f5dae6a11b0d2f \
--                    file://libmb/mbdotdesktop.c;endline=21;md5=5a287156b3207e851c1d68d09c439b51"
-+                    file://libmb/xsettings-client.c;endline=20;md5=4b106a387602db8d91a50d5cdfd65031"
- 
- DEPENDS = "virtual/libx11 libxext"
- 
--SRC_URI = "http://downloads.yoctoproject.org/releases/matchbox/${BPN}/${PV}/${BPN}-${PV}.tar.bz2 \
--           file://libpng.patch"
-+#SRCREV for 1.12
-+SRCREV = "e846ee434f8e23d9db38af13c523f791495e0e87"
-+SRC_URI = "git://git.yoctoproject.org/${BPN}"
- 
--SRC_URI[md5sum] = "fc6cc807f55a3e7c752d8013176875d7"
--SRC_URI[sha256sum] = "254cab52e304a3512c8df4be59d690cf3921bbb68a28ede7fe26b93534217b53"
-+S = "${WORKDIR}/git"
- 
- inherit autotools pkgconfig distro_features_check
- # depends on virtual/libx11
- REQUIRED_DISTRO_FEATURES = "x11"
- 
--PACKAGECONFIG ??= "jpeg png xft xsettings"
-+PACKAGECONFIG ??= "jpeg png xft"
- PACKAGECONFIG[jpeg] = "--enable-jpeg,--disable-jpeg,jpeg"
- PACKAGECONFIG[pango] = "--enable-pango,--disable-pango,pango"
- PACKAGECONFIG[png] = "--enable-png,--disable-png,libpng"
- PACKAGECONFIG[xft] = "--enable-xft,--disable-xft,libxft"
--PACKAGECONFIG[xsettings] = "--enable-xsettings,--disable-xsettings,libxsettings-client"
+-Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+-diff -Nurd Xsettings-client-0.10/configure.ac Xsettings-client-0.10/configure.ac
+---- Xsettings-client-0.10/configure.ac	2003-03-28 12:39:51.000000000 +0200
+-+++ Xsettings-client-0.10/configure.ac	2013-01-11 07:37:21.491597743 +0200
+-@@ -1,7 +1,7 @@
+- # Process this file with autoconf to produce a configure script.
+- AC_INIT(xsettings-client.c)
+- AM_INIT_AUTOMAKE(Xsettings-client, 0.10)
+--AM_CONFIG_HEADER(config.h)
+-+AC_CONFIG_HEADERS(config.h)
+-
+- CFLAGS="-Os -Wall"
+diff --git a/meta/recipes-graphics/libxsettings-client/libxsettings-client_0.10.bb b/meta/recipes-graphics/libxsettings-client/libxsettings-client_0.10.bb
+deleted file mode 100644
+index 9e9336e..0000000
+--- a/meta/recipes-graphics/libxsettings-client/libxsettings-client_0.10.bb
++++ /dev/null
+@@ -1,43 +0,0 @@
+-SUMMARY = "utility functions for the Xsettings protocol"
+-DESCRIPTION = "Libraries used for applications making use of the Xsettings configuration \
+-setting propagation protocol. Controls setting of double click timeout, drag-and-drop \
+-threshold, and default foreground and background colors for all applications running within a \
+-desktop."
+-HOMEPAGE = "http://matchbox-project.org/sources/optional-dependencies/"
+-BUGTRACKER = "http://bugzilla.yoctoproject.org/"
+-SECTION = "x/libs"
+-LICENSE = "MIT-style"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=7cfac9d2d4dc3694cc7eb605cf32a69b \
+-                    file://xsettings-client.h;endline=22;md5=7cfac9d2d4dc3694cc7eb605cf32a69b \
+-                    file://xsettings-client.c;endline=22;md5=7cfac9d2d4dc3694cc7eb605cf32a69b \
+-                    file://xsettings-common.h;endline=22;md5=7cfac9d2d4dc3694cc7eb605cf32a69b \
+-                    file://xsettings-common.c;endline=22;md5=7cfac9d2d4dc3694cc7eb605cf32a69b"
+-DEPENDS = "virtual/libx11"
+-
+-PR = "r5"
+-
+-headers = "xsettings-common.h xsettings-client.h"
+-
+-SRC_URI = "http://downloads.yoctoproject.org/releases/matchbox/optional-dependencies/Xsettings-client-0.10.tar.gz \
+-        file://MIT-style-license \
+-        file://link-x11.patch;apply=yes \
+-        file://obsolete_automake_macros.patch \
+-"
+-
+-SRC_URI[md5sum] = "c14aa9db6c097e0306dac97fb7da1add"
+-SRC_URI[sha256sum] = "f274a4bc969ae192994a856b7f786c6fce96bae77f96c1c2b71dd97599e06e43"
+-
+-S = "${WORKDIR}/Xsettings-client-0.10"
+-
+-inherit autotools gettext distro_features_check
+-# depends on virtual/libx11
+-REQUIRED_DISTRO_FEATURES = "x11"
+-
+-do_patch[postfuncs] += "update_copying_file"
+-update_copying_file() {
+-    # This package ships with a GPLv2 COPYING file, but the author says
+-    # it is actual MIT-style license, add the correct license here to
+-    # avoid confusion.
+-    cp -f ${WORKDIR}/MIT-style-license ${S}/COPYING
+-}
+-
 -- 
 2.1.4
 
