@@ -1,24 +1,24 @@
 Return-Path: <timothy.t.orling@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id D017973166
+	by mail.openembedded.org (Postfix) with ESMTP id 0353E731B9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jul 2016 01:49:00 +0000 (UTC)
+	Fri, 15 Jul 2016 01:49:01 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga102.jf.intel.com with ESMTP; 14 Jul 2016 18:49:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,365,1464678000"; d="scan'208";a="995612652"
+X-IronPort-AV: E=Sophos;i="5.28,365,1464678000"; d="scan'208";a="995612656"
 Received: from timo-fedora.jf.intel.com ([10.7.201.162])
 	by orsmga001.jf.intel.com with ESMTP; 14 Jul 2016 18:49:02 -0700
 From: Tim Orling <timothy.t.orling@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Jul 2016 18:49:32 -0700
-Message-Id: <ba010ae55186d533ee35ed38839d7761d7b004a3.1468546499.git.timothy.t.orling@linux.intel.com>
+Date: Thu, 14 Jul 2016 18:49:36 -0700
+Message-Id: <a7391cf7ad68817364c09cb966b0e02735c4465f.1468546499.git.timothy.t.orling@linux.intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1468546499.git.timothy.t.orling@linux.intel.com>
 References: <cover.1468546499.git.timothy.t.orling@linux.intel.com>
 In-Reply-To: <cover.1468546499.git.timothy.t.orling@linux.intel.com>
 References: <cover.1468546499.git.timothy.t.orling@linux.intel.com>
-Subject: [krogoth][PATCH 1/8] pkgconfig: Fix build with gcc-6
+Subject: [krogoth][PATCH 5/8] glib-2.0: Ignore useless warning found with gcc-6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,74 +31,196 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jul 2016 01:49:01 -0000
+X-List-Received-Date: Fri, 15 Jul 2016 01:49:02 -0000
 
-Our patch in master was on top of 0.29.1 update.
-commit b83a808fcbd3e7aec3b0757c7180cf83dac44e92
+From: Khem Raj <raj.khem@gmail.com>
 
-Apply to krogoth stable 0.29 version instead.
+../../glib-2.46.2/glib/gdate.c:2497:7: error: format not a string literal, format string not checked [-Werror=format-nonliteral]
+       tmplen = strftime (tmpbuf, tmpbufsize, locale_format, &tm);
+       ^~~~~~
 
-[YOCTO #9897] (Fedora-24)
+| ../../../../../../../../workspace/sources/glib-2.0/glib/tests/gdatetime.c: In function 'test_strftime':
+| ../../../../../../../../workspace/sources/glib-2.0/glib/tests/gdatetime.c:1338:3: error: '%c' yields only last 2 digits of year in some locales [-Werror=format-y2k]
+|    "a%a A%A b%b B%B c%c C%C d%d e%e F%F g%g G%G h%h H%H I%I j%j m%m M%M " \
 
-Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
+Additionally fix the problem seen where write() return code is ignored
+
+(From OE-Core rev: 3fdecff96dd7516605ec9248b2a39de4db81306f)
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...te-suppress-string-format-literal-warning.patch | 34 ++++++++++++++++++++++
- meta/recipes-devtools/pkgconfig/pkgconfig_git.bb   |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-devtools/pkgconfig/pkgconfig/0001-gdate-suppress-string-format-literal-warning.patch
+ .../0001-Do-not-ignore-return-value-of-write.patch | 42 ++++++++++++++++++++++
+ .../glib-2.0/0002-tests-Ignore-y2k-warnings.patch  | 42 ++++++++++++++++++++++
+ .../ignore-format-nonliteral-warning.patch         | 39 ++++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.46.2.bb      |  7 ++--
+ 4 files changed, 128 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-ignore-return-value-of-write.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0002-tests-Ignore-y2k-warnings.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/ignore-format-nonliteral-warning.patch
 
-diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig/0001-gdate-suppress-string-format-literal-warning.patch b/meta/recipes-devtools/pkgconfig/pkgconfig/0001-gdate-suppress-string-format-literal-warning.patch
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-ignore-return-value-of-write.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-ignore-return-value-of-write.patch
 new file mode 100644
-index 0000000..830d3d2
+index 0000000..aee96aa
 --- /dev/null
-+++ b/meta/recipes-devtools/pkgconfig/pkgconfig/0001-gdate-suppress-string-format-literal-warning.patch
-@@ -0,0 +1,34 @@
-+The upstream patch would not apply cleanly, so perform the same changes.
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-ignore-return-value-of-write.patch
+@@ -0,0 +1,42 @@
++From d6501b107940e9f548c89236d773c6d33c15a5c9 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sat, 16 Apr 2016 13:28:59 -0700
++Subject: [PATCH 1/2] Do not ignore return value of write()
 +
-+Original patch header:
-+From 00148329967adb196138372771052a3f606a6ea3 Mon Sep 17 00:00:00 2001
++gcc warns about ignoring return value when compiling
++with fortify turned on.
++
++assert when write() fails
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++Upstream-Status: Submitted
++
++ glib/tests/unix.c | 5 +++--
++ 1 file changed, 3 insertions(+), 2 deletions(-)
++
++diff --git a/glib/tests/unix.c b/glib/tests/unix.c
++index 3543458..4e7ed85 100644
++--- a/glib/tests/unix.c
+++++ b/glib/tests/unix.c
++@@ -32,14 +32,15 @@ test_pipe (void)
++   GError *error = NULL;
++   int pipefd[2];
++   char buf[1024];
++-  ssize_t bytes_read;
+++  ssize_t bytes_read, bytes_written;
++   gboolean res;
++ 
++   res = g_unix_open_pipe (pipefd, FD_CLOEXEC, &error);
++   g_assert (res);
++   g_assert_no_error (error);
++ 
++-  write (pipefd[1], "hello", sizeof ("hello"));
+++  bytes_written = write (pipefd[1], "hello", sizeof ("hello"));
+++  g_assert (bytes_written != -1 && "write() failed");
++   memset (buf, 0, sizeof (buf));
++   bytes_read = read (pipefd[0], buf, sizeof(buf) - 1);
++   g_assert_cmpint (bytes_read, >, 0);
++-- 
++2.8.0
++
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0002-tests-Ignore-y2k-warnings.patch b/meta/recipes-core/glib-2.0/glib-2.0/0002-tests-Ignore-y2k-warnings.patch
+new file mode 100644
+index 0000000..f61fa0a
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0002-tests-Ignore-y2k-warnings.patch
+@@ -0,0 +1,42 @@
++From b06b22fecc7deda8c65e28670562ca2371e4e725 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sat, 16 Apr 2016 13:43:54 -0700
++Subject: [PATCH 2/2] tests: Ignore y2k warnings
++
++silences
++| ../../../../../../../../workspace/sources/glib-2.0/glib/tests/gdatetime.c: In function 'test_strftime':
++| ../../../../../../../../workspace/sources/glib-2.0/glib/tests/gdatetime.c:1338:3: error: '%c' yields only last 2 digits of year in some locales [-Werror=format-y2k]
++|    "a%a A%A b%b B%B c%c C%C d%d e%e F%F g%g G%G h%h H%H I%I j%j m%m M%M "
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++Upstream-Status: Submitted
++
++ glib/tests/gdatetime.c | 4 ++++
++ 1 file changed, 4 insertions(+)
++
++diff --git a/glib/tests/gdatetime.c b/glib/tests/gdatetime.c
++index 16a163c..e6062fc 100644
++--- a/glib/tests/gdatetime.c
+++++ b/glib/tests/gdatetime.c
++@@ -1326,6 +1326,9 @@ test_z (void)
++   g_time_zone_unref (tz);
++ }
++ 
+++#pragma GCC diagnostic push
+++#pragma GCC diagnostic ignored "-Wformat-y2k"
+++
++ static void
++ test_strftime (void)
++ {
++@@ -1351,6 +1354,7 @@ test_strftime (void)
++     }
++ #endif
++ }
+++#pragma GCC diagnostic pop
++ 
++ static void
++ test_find_interval (void)
++-- 
++2.8.0
++
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/ignore-format-nonliteral-warning.patch b/meta/recipes-core/glib-2.0/glib-2.0/ignore-format-nonliteral-warning.patch
+new file mode 100644
+index 0000000..d533975
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/ignore-format-nonliteral-warning.patch
+@@ -0,0 +1,39 @@
++From 8cdbc7fb2c8c876902e457abe46ee18a0b134486 Mon Sep 17 00:00:00 2001
 +From: coypu <coypu@sdf.org>
-+Date: Wed, 2 Mar 2016 19:43:10 +0200
-+Subject: [PATCH 2/2] gdate: Suppress string format literal warning
++Date: Wed, 2 Mar 2016 19:38:48 +0200
++Subject: gdate: Move warning pragma outside of function
 +
-+Newer versions of GCC emit an error here, but we know it's safe.
++Commit 0817af40e8c74c721c30f6ef482b1f53d12044c7 breaks the build on
++older versions of GCC, which don't allow pragma inside functions.
++
 +https://bugzilla.gnome.org/761550
-+
++---
 +Upstream-Status: Backport
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +
-+Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
++ glib/gdate.c | 8 +++++---
++ 1 file changed, 5 insertions(+), 3 deletions(-)
 +
-+Index: git/glib/glib/gdate.c
-+===================================================================
-+--- git.orig/glib/glib/gdate.c
-++++ git/glib/glib/gdate.c
-+@@ -2439,6 +2439,8 @@ win32_strftime_helper (const GDate     *
++diff --git a/glib/gdate.c b/glib/gdate.c
++index cdc735c..92c34d2 100644
++--- a/glib/gdate.c
+++++ b/glib/gdate.c
++@@ -2439,6 +2439,9 @@ win32_strftime_helper (const GDate     *d,
 +  *
 +  * Returns: number of characters written to the buffer, or 0 the buffer was too small
 +  */
 ++#pragma GCC diagnostic push
 ++#pragma GCC diagnostic ignored "-Wformat-nonliteral"
+++
 + gsize     
 + g_date_strftime (gchar       *s, 
 +                  gsize        slen, 
-+@@ -2549,3 +2551,5 @@ g_date_strftime (gchar       *s,
++@@ -2552,3 +2552,5 @@ g_date_strftime (gchar       *s,
 +   return retval;
 + #endif
 + }
 ++
 ++#pragma GCC diagnostic pop
-diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
-index d34f608..cd4dc8e 100644
---- a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
-+++ b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
-@@ -18,6 +18,7 @@ PV = "0.29+git${SRCPV}"
- SRC_URI = "git://anongit.freedesktop.org/pkg-config \
-            file://pkg-config-native.in \
-            file://fix-glib-configure-libtool-usage.patch \
-+	   file://0001-gdate-suppress-string-format-literal-warning.patch \
-            "
++-- 
++cgit v0.12
++
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.46.2.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.46.2.bb
+index 8e445b4..9e95149 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.46.2.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.46.2.bb
+@@ -13,11 +13,14 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://uclibc_musl_translation.patch \
+            file://0001-configure.ac-Do-not-use-readlink-when-cross-compilin.patch \
+            file://allow-run-media-sdX-drive-mount-if-username-root.patch \
+-	   file://0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch \
++           file://0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch \
+            file://Enable-more-tests-while-cross-compiling.patch \
+            file://gi-exclude.patch \
+            file://0001-Install-gio-querymodules-as-libexec_PROGRAM.patch \
+-          "
++           file://ignore-format-nonliteral-warning.patch \
++           file://0001-Do-not-ignore-return-value-of-write.patch \
++           file://0002-tests-Ignore-y2k-warnings.patch \
++           "
  
- S = "${WORKDIR}/git"
+ SRC_URI_append_class-native = " file://glib-gettextize-dir.patch \
+                                 file://relocate-modules.patch"
 -- 
 2.7.4
 
