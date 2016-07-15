@@ -1,45 +1,52 @@
-Return-Path: <ticotimo@gmail.com>
-Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
-	[209.85.215.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AFF260722
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f67.google.com (mail-pa0-f67.google.com
+	[209.85.220.67])
+	by mail.openembedded.org (Postfix) with ESMTP id A8CB260722
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jul 2016 03:58:03 +0000 (UTC)
-Received: by mail-lf0-f65.google.com with SMTP id l89so6403046lfi.2
+	Fri, 15 Jul 2016 04:52:47 +0000 (UTC)
+Received: by mail-pa0-f67.google.com with SMTP id q2so5542361pap.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jul 2016 20:58:04 -0700 (PDT)
+	Thu, 14 Jul 2016 21:52:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=54k+U52Rm59fowLfbdoAYsY0wMX6iG0akgkfbwZmG4A=;
-	b=WKXlcH2/i9uAerFJbD1viE/AulpK2c6DtTHwjlgeam6q1r5OjKK7gsxAmVJ0MJP+Nw
-	KCQOa5AEisNFcgL6+yd7Lp1UMPiwsedEYypY61TY35dA7C/+lAOvkqgyrkIIKYh8mmQb
-	fFRcIfy3iYUdCCiZKMURsNBlhvrQeclt/XlQjGdQv7zYVUbrrRm4maeOoQkW5BQWUCUm
-	+knOvjG69Id6+Cn+w4Iktdouy6uclewRHT/tKq5FnBA48cdACO+2fO7JMzJl18UO4n++
-	p1Yg0LEVebuVq4WjhN5Q4o/48AtQ8kEM3HY9BZjC6ko7QAr/9A+MphASLoboUxdLW+dj
-	llgg==
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=K6rO+8ADAeMJZSVXUJ93OMPYet80DkmIz2kZUO5dlBU=;
+	b=Sk4Z4KMSfbaZ6T4imDDzThaMQZaI/5LcIl2TujgiB6YP9UNdXJR3NYN3KGbh3masex
+	cHl5ayOBnUT+HHddDDQTH9RjbixAsCzO8km2RdRR3R9B4k6+0uyHMUXAlavt7itffb68
+	C+TrcMiUxTyINlHbdeG8oRyVWq3hjof7CuQzCfCpOwquLGHS2TygbdihMjR2LatK+AJC
+	hxS/1YafAr6CLNfOvvtpqQvFrUzP4V2V7EzUedDj3DewO5QCIgHugxduhh65VS2ABYvO
+	/l/YRS3l8RbJXUaSmsJ7m84DZM98qjuxqo/vZL6L6x3lUQkLayqXCk5gz5lEe+bAyLPs
+	b77A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=54k+U52Rm59fowLfbdoAYsY0wMX6iG0akgkfbwZmG4A=;
-	b=f7LK4SxJyULFPAS/oGRv6LuzNDDgw+z4rFrQW/JL1L0vITApQ61CoKfI+H9SJjsCmr
-	S6ZuLyOzlC4xbsfNUv43iaOqqKoamVYr0+v2njYt4pmnyLFJfeshijz478g8mlAXzJAB
-	Q6vWPAo2A1cMhB9OyR3KKzcQ78zegDfl4ggC6CY2FtFDnVnorEnBoKpXIFifwgzz04nw
-	jPnGDyzKMSl6UtrEr1kEapqHNdKkLKZVDwWfYDHb0zsj/QOdwLQ4dhPp5tV7G/FBwc/O
-	Ak2aEx15Yj2IUfSoDQGfWddVkad/KfQPf8tbNSDCpp5MK6d4bVHV0eU6dvdagHr4N6Ry
-	S6kw==
-X-Gm-Message-State: ALyK8tKZwQqkjrWcW1qm7vwdhKNkGJjtJ7w2JoDuDXi3fT+8DbMv1aT/RzD+g239HSrSsMA/hwUdFJdJyWgRrg==
-MIME-Version: 1.0
-X-Received: by 10.46.1.148 with SMTP id f20mr8942255lji.52.1468555083902; Thu,
-	14 Jul 2016 20:58:03 -0700 (PDT)
-Received: by 10.25.10.10 with HTTP; Thu, 14 Jul 2016 20:58:03 -0700 (PDT)
-In-Reply-To: <55FCD1E3-857F-4E09-801F-5EA1A96F2FF9@gmail.com>
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=K6rO+8ADAeMJZSVXUJ93OMPYet80DkmIz2kZUO5dlBU=;
+	b=L7CcmoeH8uzvaFNAvTQ2iJk6lHW3lBXbTSknDbBjrbqov9Tf7H7GivivjM8qOSlZNU
+	4L4PuEkdlrYdogVzAtREKEbS4ryWcjoAkYDPQIIHM4JvpByoUYQU/LZNYCMM94EMSYnU
+	IJj7vBOvhYLlMkKZj4/MvJtmKc+hJzCTmY8ZMsQ/ZrYeL+4YGxWWADTA4/sdWu478WTi
+	vpKIXD7SxZ/ZDjK4otEk7Dg0ZvhlB+mIDaRqeqxcDX1ik0etTqXouukvlwMAO6Bpcaga
+	2f7eF8P9Wip6oAMA/jVu/DefSCItUUk68kD2cbyteE3ZAbg4eLW57C+OygT6REH4n4/m
+	BOew==
+X-Gm-Message-State: ALyK8tKfl6bjueVtpotacwEIuNN9NHTlUyXEO8LsQzkyCCDDjprqMwRe+z1Hr8N7pZEJdQ==
+X-Received: by 10.66.160.41 with SMTP id xh9mr28983281pab.85.1468558367704;
+	Thu, 14 Jul 2016 21:52:47 -0700 (PDT)
+Received: from ?IPv6:2601:646:8882:b8c:484e:ddb0:204b:d826?
+	([2601:646:8882:b8c:484e:ddb0:204b:d826])
+	by smtp.gmail.com with ESMTPSA id ln4sm607648pab.38.2016.07.14.21.52.46
+	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 14 Jul 2016 21:52:46 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Pgp-Agent: GPGMail
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <CANx9H-Caj+kFjyx2gHaXcCTM8_A_JKUxfb2xx=OuXhwg_cCHPg@mail.gmail.com>
+Date: Thu, 14 Jul 2016 21:52:40 -0700
+Message-Id: <F55C0DF8-841D-4E79-A9FB-584A55D92459@gmail.com>
 References: <cover.1468546499.git.timothy.t.orling@linux.intel.com>
 	<65069865417cc8d9a7d9f5a16daecebb2b3d4fe0.1468546499.git.timothy.t.orling@linux.intel.com>
 	<55FCD1E3-857F-4E09-801F-5EA1A96F2FF9@gmail.com>
-Date: Thu, 14 Jul 2016 20:58:03 -0700
-Message-ID: <CANx9H-Caj+kFjyx2gHaXcCTM8_A_JKUxfb2xx=OuXhwg_cCHPg@mail.gmail.com>
-From: Tim Orling <ticotimo@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
+	<CANx9H-Caj+kFjyx2gHaXcCTM8_A_JKUxfb2xx=OuXhwg_cCHPg@mail.gmail.com>
+To: Tim Orling <ticotimo@gmail.com>
+X-Mailer: Apple Mail (2.3124)
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [krogoth][PATCH 6/8] binutils: disable werror on native build
@@ -55,43 +62,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jul 2016 03:58:04 -0000
-Content-Type: multipart/alternative; boundary=001a1142c12e1bf9250537a4a0f5
+X-List-Received-Date: Fri, 15 Jul 2016 04:52:49 -0000
+X-Groupsio-MsgNum: 84539
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_1E9E0AA3-F190-4DF5-85FA-D7C05E42823F";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---001a1142c12e1bf9250537a4a0f5
-Content-Type: text/plain; charset=UTF-8
+--Apple-Mail=_1E9E0AA3-F190-4DF5-85FA-D7C05E42823F
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_DAE04652-9054-41E3-A598-88733C82A60F"
+
+--Apple-Mail=_DAE04652-9054-41E3-A598-88733C82A60F
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
-Hi Khem,
 
-Can you elaborate? What am I missing or unaware of? Happy to keep digging!
+> On Jul 14, 2016, at 8:58 PM, Tim Orling <ticotimo@gmail.com> wrote:
+>=20
+> Hi Khem,
+>=20
+> Can you elaborate? What am I missing or unaware of? Happy to keep =
+digging!
 
---Tim
+Can you try building an SDK ?
 
-On Thursday, July 14, 2016, Khem Raj <raj.khem@gmail.com> wrote:
-
->
-> > On Jul 14, 2016, at 6:49 PM, Tim Orling <
-> timothy.t.orling@linux.intel.com <javascript:;>> wrote:
+>=20
+> --Tim
+>=20
+> On Thursday, July 14, 2016, Khem Raj <raj.khem@gmail.com =
+<mailto:raj.khem@gmail.com>> wrote:
+>=20
+> > On Jul 14, 2016, at 6:49 PM, Tim Orling =
+<timothy.t.orling@linux.intel.com <javascript:;>> wrote:
 > >
 > > From: Dan McGregor <dan.mcgregor@usask.ca <javascript:;>>
 > >
 > > It's disabled on cross builds, and it's needed for gcc 6
 > >
-> > (From OE-Core rev: ce1b37e29dc89b67dc698e856007b59faa16c4df)
+> > (=46rom OE-Core rev: ce1b37e29dc89b67dc698e856007b59faa16c4df)
 > >
 > > Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca <javascript:;>>
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org
-> <javascript:;>>
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org =
+<javascript:;>>
 > > ---
-> > meta/recipes-devtools/binutils/binutils_2.26.bb | 3 ++-
+> > meta/recipes-devtools/binutils/binutils_2.26.bb =
+<http://binutils_2.26.bb/> | 3 ++-
 > > 1 file changed, 2 insertions(+), 1 deletion(-)
 > >
-> > diff --git a/meta/recipes-devtools/binutils/binutils_2.26.bb
-> b/meta/recipes-devtools/binutils/binutils_2.26.bb
+> > diff --git a/meta/recipes-devtools/binutils/binutils_2.26.bb =
+<http://binutils_2.26.bb/> =
+b/meta/recipes-devtools/binutils/binutils_2.26.bb =
+<http://binutils_2.26.bb/>
 > > index b70ffbf..e976bad 100644
-> > --- a/meta/recipes-devtools/binutils/binutils_2.26.bb
-> > +++ b/meta/recipes-devtools/binutils/binutils_2.26.bb
+> > --- a/meta/recipes-devtools/binutils/binutils_2.26.bb =
+<http://binutils_2.26.bb/>
+> > +++ b/meta/recipes-devtools/binutils/binutils_2.26.bb =
+<http://binutils_2.26.bb/>
 > > @@ -13,7 +13,8 @@ EXTRA_OECONF +=3D "--with-sysroot=3D/ \
 > > EXTRA_OECONF_class-native =3D "--enable-targets=3Dall \
 > >                              --enable-64-bit-bfd \
@@ -99,9 +126,9 @@ On Thursday, July 14, 2016, Khem Raj <raj.khem@gmail.com> wrote:
 > > -                             --enable-install-libbfd"
 > > +                             --enable-install-libbfd \
 > > +                             --disable-werror=E2=80=9D
->
+>=20
 > How about other flavors of binutils ?
->
+>=20
 > >
 > > do_install_class-native () {
 > >       autotools_do_install
@@ -112,82 +139,129 @@ On Thursday, July 14, 2016, Khem Raj <raj.khem@gmail.com> wrote:
 > > _______________________________________________
 > > Openembedded-core mailing list
 > > Openembedded-core@lists.openembedded.org <javascript:;>
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core =
+<http://lists.openembedded.org/mailman/listinfo/openembedded-core>
+>=20
 
---001a1142c12e1bf9250537a4a0f5
-Content-Type: text/html; charset=UTF-8
+
+--Apple-Mail=_DAE04652-9054-41E3-A598-88733C82A60F
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=utf-8
 
-Hi Khem,<div><br></div><div>Can you elaborate? What am I missing or unaware=
- of? Happy to keep digging!</div><div><br></div><div>--Tim<br><div><br>On T=
-hursday, July 14, 2016, Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">=
-raj.khem@gmail.com</a>&gt; wrote:<br><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-&gt; On Jul 14, 2016, at 6:49 PM, Tim Orling &lt;<a href=3D"javascript:;" o=
-nclick=3D"_e(event, &#39;cvml&#39;, &#39;timothy.t.orling@linux.intel.com&#=
-39;)">timothy.t.orling@linux.intel.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; From: Dan McGregor &lt;<a href=3D"javascript:;" onclick=3D"_e(event, &=
-#39;cvml&#39;, &#39;dan.mcgregor@usask.ca&#39;)">dan.mcgregor@usask.ca</a>&=
-gt;<br>
-&gt;<br>
-&gt; It&#39;s disabled on cross builds, and it&#39;s needed for gcc 6<br>
-&gt;<br>
-&gt; (From OE-Core rev: ce1b37e29dc89b67dc698e856007b59faa16c4df)<br>
-&gt;<br>
-&gt; Signed-off-by: Dan McGregor &lt;<a href=3D"javascript:;" onclick=3D"_e=
-(event, &#39;cvml&#39;, &#39;dan.mcgregor@usask.ca&#39;)">dan.mcgregor@usas=
-k.ca</a>&gt;<br>
-&gt; Signed-off-by: Richard Purdie &lt;<a href=3D"javascript:;" onclick=3D"=
-_e(event, &#39;cvml&#39;, &#39;richard.purdie@linuxfoundation.org&#39;)">ri=
-chard.purdie@linuxfoundation.org</a>&gt;<br>
-&gt; ---<br>
-&gt; meta/recipes-devtools/binutils/<a href=3D"http://binutils_2.26.bb" tar=
-get=3D"_blank">binutils_2.26.bb</a> | 3 ++-<br>
-&gt; 1 file changed, 2 insertions(+), 1 deletion(-)<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-devtools/binutils/<a href=3D"http://binutils=
-_2.26.bb" target=3D"_blank">binutils_2.26.bb</a> b/meta/recipes-devtools/bi=
-nutils/<a href=3D"http://binutils_2.26.bb" target=3D"_blank">binutils_2.26.=
-bb</a><br>
-&gt; index b70ffbf..e976bad 100644<br>
-&gt; --- a/meta/recipes-devtools/binutils/<a href=3D"http://binutils_2.26.b=
-b" target=3D"_blank">binutils_2.26.bb</a><br>
-&gt; +++ b/meta/recipes-devtools/binutils/<a href=3D"http://binutils_2.26.b=
-b" target=3D"_blank">binutils_2.26.bb</a><br>
-&gt; @@ -13,7 +13,8 @@ EXTRA_OECONF +=3D &quot;--with-sysroot=3D/ \<br>
-&gt; EXTRA_OECONF_class-native =3D &quot;--enable-targets=3Dall \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --enable-64-bit-bfd \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --enable-install-libiberty \<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--enable-install-libbfd&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--enable-install-libbfd \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--disable-werror=E2=80=9D<br>
-<br>
-How about other flavors of binutils ?<br>
-<br>
-&gt;<br>
-&gt; do_install_class-native () {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0autotools_do_install<br>
-&gt; --<br>
-&gt; 2.7.4<br>
-&gt;<br>
-&gt; --<br>
-&gt; _______________________________________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"javascript:;" onclick=3D"_e(event, &#39;cvml&#39;, &#39;Ope=
-nembedded-core@lists.openembedded.org&#39;)">Openembedded-core@lists.openem=
-bedded.org</a><br>
-&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
--core" target=3D"_blank">http://lists.openembedded.org/mailman/listinfo/ope=
-nembedded-core</a><br>
-<br>
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
+charset=3Dutf-8"></head><body style=3D"word-wrap: break-word; =
+-webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
+class=3D""><br class=3D""><div><blockquote type=3D"cite" class=3D""><div =
+class=3D"">On Jul 14, 2016, at 8:58 PM, Tim Orling &lt;<a =
+href=3D"mailto:ticotimo@gmail.com" class=3D"">ticotimo@gmail.com</a>&gt; =
+wrote:</div><br class=3D"Apple-interchange-newline"><div class=3D"">Hi =
+Khem,<div class=3D""><br class=3D""></div><div class=3D"">Can you =
+elaborate? What am I missing or unaware of? Happy to keep =
+digging!</div></div></blockquote><div><br class=3D""></div><div>Can you =
+try building an SDK ?</div><br class=3D""><blockquote type=3D"cite" =
+class=3D""><div class=3D""><div class=3D""><br class=3D""></div><div =
+class=3D"">--Tim<br class=3D""><div class=3D""><br class=3D"">On =
+Thursday, July 14, 2016, Khem Raj &lt;<a =
+href=3D"mailto:raj.khem@gmail.com" class=3D"">raj.khem@gmail.com</a>&gt; =
+wrote:<br class=3D""><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br class=3D"">
+&gt; On Jul 14, 2016, at 6:49 PM, Tim Orling &lt;<a href=3D"javascript:;" =
+onclick=3D"_e(event, 'cvml', 'timothy.t.orling@linux.intel.com')" =
+class=3D"">timothy.t.orling@linux.intel.com</a>&gt; wrote:<br class=3D"">
+&gt;<br class=3D"">
+&gt; From: Dan McGregor &lt;<a href=3D"javascript:;" onclick=3D"_e(event, =
+'cvml', 'dan.mcgregor@usask.ca')" =
+class=3D"">dan.mcgregor@usask.ca</a>&gt;<br class=3D"">
+&gt;<br class=3D"">
+&gt; It's disabled on cross builds, and it's needed for gcc 6<br =
+class=3D"">
+&gt;<br class=3D"">
+&gt; (=46rom OE-Core rev: ce1b37e29dc89b67dc698e856007b59faa16c4df)<br =
+class=3D"">
+&gt;<br class=3D"">
+&gt; Signed-off-by: Dan McGregor &lt;<a href=3D"javascript:;" =
+onclick=3D"_e(event, 'cvml', 'dan.mcgregor@usask.ca')" =
+class=3D"">dan.mcgregor@usask.ca</a>&gt;<br class=3D"">
+&gt; Signed-off-by: Richard Purdie &lt;<a href=3D"javascript:;" =
+onclick=3D"_e(event, 'cvml', 'richard.purdie@linuxfoundation.org')" =
+class=3D"">richard.purdie@linuxfoundation.org</a>&gt;<br class=3D"">
+&gt; ---<br class=3D"">
+&gt; meta/recipes-devtools/binutils/<a href=3D"http://binutils_2.26.bb/" =
+target=3D"_blank" class=3D"">binutils_2.26.bb</a> | 3 ++-<br class=3D"">
+&gt; 1 file changed, 2 insertions(+), 1 deletion(-)<br class=3D"">
+&gt;<br class=3D"">
+&gt; diff --git a/meta/recipes-devtools/binutils/<a =
+href=3D"http://binutils_2.26.bb/" target=3D"_blank" =
+class=3D"">binutils_2.26.bb</a> b/meta/recipes-devtools/binutils/<a =
+href=3D"http://binutils_2.26.bb/" target=3D"_blank" =
+class=3D"">binutils_2.26.bb</a><br class=3D"">
+&gt; index b70ffbf..e976bad 100644<br class=3D"">
+&gt; --- a/meta/recipes-devtools/binutils/<a =
+href=3D"http://binutils_2.26.bb/" target=3D"_blank" =
+class=3D"">binutils_2.26.bb</a><br class=3D"">
+&gt; +++ b/meta/recipes-devtools/binutils/<a =
+href=3D"http://binutils_2.26.bb/" target=3D"_blank" =
+class=3D"">binutils_2.26.bb</a><br class=3D"">
+&gt; @@ -13,7 +13,8 @@ EXTRA_OECONF +=3D "--with-sysroot=3D/ \<br =
+class=3D"">
+&gt; EXTRA_OECONF_class-native =3D "--enable-targets=3Dall \<br =
+class=3D"">
+&gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; --enable-64-bit-bfd \<br =
+class=3D"">
+&gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; --enable-install-libiberty =
+\<br class=3D"">
+&gt; -&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;--enable-install-libbfd"<br =
+class=3D"">
+&gt; +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;--enable-install-libbfd \<br =
+class=3D"">
+&gt; +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;--disable-werror=E2=80=9D<br =
+class=3D"">
+<br class=3D"">
+How about other flavors of binutils ?<br class=3D"">
+<br class=3D"">
+&gt;<br class=3D"">
+&gt; do_install_class-native () {<br class=3D"">
+&gt;&nbsp; &nbsp; &nbsp; &nbsp;autotools_do_install<br class=3D"">
+&gt; --<br class=3D"">
+&gt; 2.7.4<br class=3D"">
+&gt;<br class=3D"">
+&gt; --<br class=3D"">
+&gt; _______________________________________________<br class=3D"">
+&gt; Openembedded-core mailing list<br class=3D"">
+&gt; <a href=3D"javascript:;" onclick=3D"_e(event, 'cvml', =
+'Openembedded-core@lists.openembedded.org')" =
+class=3D"">Openembedded-core@lists.openembedded.org</a><br class=3D"">
+&gt; <a =
+href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core" =
+target=3D"_blank" =
+class=3D"">http://lists.openembedded.org/mailman/listinfo/openembedded-cor=
+e</a><br class=3D"">
+<br class=3D"">
 </blockquote></div></div>
+</div></blockquote></div><br class=3D""></body></html>=
 
---001a1142c12e1bf9250537a4a0f5--
+--Apple-Mail=_DAE04652-9054-41E3-A598-88733C82A60F--
+
+--Apple-Mail=_1E9E0AA3-F190-4DF5-85FA-D7C05E42823F
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAleIbB0ACgkQuwUzVZGdMxT0qACfW9197XDwmvIQpOp8jNgRNUA7
+HmcAn0Ad19I/SyJD+7Z1/K6HWJ1m1Pe3
+=zgLl
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_1E9E0AA3-F190-4DF5-85FA-D7C05E42823F--
