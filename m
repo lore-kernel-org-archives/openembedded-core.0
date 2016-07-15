@@ -1,47 +1,27 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
-	[209.85.216.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 03EBB6E667
+Return-Path: <pascal.bach@siemens.com>
+Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F3636E660
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jul 2016 14:36:54 +0000 (UTC)
-Received: by mail-qt0-f196.google.com with SMTP id j37so3914295qta.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jul 2016 07:36:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=5YyHRUxpHihf+AdVdYhKbJw1AgAs3gkmBDVncsjq5u4=;
-	b=vpoPAmhATKaBdWkXJmjAfvvZ2nVVRdxcyKlCxYJ2sLMisEQqNoTC67D3ArUZvVxNu3
-	OyEiG8n5nWHZqTvGrPioURqw2DEPtgJfWXR18Tdaphf68w6KenAQSfzDM7gcOQ/c72s+
-	WK3rGZAYPj4tfR9oOBe8QgTMbRcK5dH0WNyuzEj4PNXJfqNwdtiujDSIIcYB98EVZjK+
-	K7BDLIEkAqJ3hTreOGzLHX3ud7p5LtNAaY6OOHCD2t5JVVTjS+zAbXD7xebdO3rNpzQc
-	qBHzwUJXRr0obIUS7oYZ2JWnkZIQOckNGRKCRpE6wKzQ42yKrV8c4ICG+THgI18pvTaE
-	k49g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=5YyHRUxpHihf+AdVdYhKbJw1AgAs3gkmBDVncsjq5u4=;
-	b=bukF8Dnyw9dv0xXcgKbxX4WFkSvbYdZ8Y/EZu/YTQ7h1wtl6jZ1NHIBEMs6IAMoMHw
-	XKOPUhor5NCBxXv+TSm30/Ns2XnJIputz90sWVDqy3WNWtCHcpOxySiUBGoM4h22utoa
-	nmDpe01McWXegfgz1qsJn90xGzVOdDmUYKTEEs1B9yiEk4wi9c2eObY8+9Z+W7anUOb4
-	GQ9k8gaQN/UtkU+/P6iwI9g57b8e2VWE2DqoEj3fzHI/ImsOPIF/qXxrh0yjL0FYBtOF
-	AIVEh1/SxRa9F12CoAD7uKmWJqF9vTXDd/2ygCpCuxnNc/zs+BWE78S6+q7SG1KpJvrN
-	T2HQ==
-X-Gm-Message-State: ALyK8tIPLjkPzpF4lno3Vu5YWugbmcq7HlkJyMBO4AGJmYIFN6yWBNFWcLFDMEnf8RhqZqmSsDdCyd5uKQhzxA==
-X-Received: by 10.200.53.103 with SMTP id z36mr29497337qtb.5.1468593415245;
-	Fri, 15 Jul 2016 07:36:55 -0700 (PDT)
+	Fri, 15 Jul 2016 14:43:53 +0000 (UTC)
+Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
+	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id u6FEhru5011182
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Fri, 15 Jul 2016 16:43:53 +0200
+Received: from [139.16.77.104] (MD1FZU9C.ww002.siemens.net [139.16.77.104])
+	by mail2.sbs.de (8.15.2/8.15.2) with ESMTPS id u6FEhrVo010318
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 15 Jul 2016 16:43:53 +0200
+To: akuster808 <akuster808@gmail.com>, openembedded-core@lists.openembedded.org
+References: <1468588941-2574-1-git-send-email-pascal.bach@siemens.com>
+	<5788F111.9060305@gmail.com>
+From: Pascal Bach <pascal.bach@siemens.com>
+Message-ID: <2f95d542-2ccd-7da3-49a2-0e350ca47a07@siemens.com>
+Date: Fri, 15 Jul 2016 16:43:49 +0200
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101
+	Thunderbird/45.1.1
 MIME-Version: 1.0
-Received: by 10.55.214.83 with HTTP; Fri, 15 Jul 2016 07:36:25 -0700 (PDT)
-In-Reply-To: <5788F469.6080303@gmail.com>
-References: <20160715100325.29006-1-raj.khem@gmail.com>
-	<5788F469.6080303@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 15 Jul 2016 07:36:25 -0700
-Message-ID: <CAMKF1somxUOv_S6SQLyGef6aJz+hK2avog96eW3XiHQh=_G-Qw@mail.gmail.com>
-To: akuster808 <akuster808@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] nss: Fix build on mips/clang
+In-Reply-To: <5788F111.9060305@gmail.com>
+Subject: Re: [krogoth][PATCH] gcc, qemuppc: Explicitly disable forcing SPE flags for 4.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,75 +34,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jul 2016 14:36:55 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 15 Jul 2016 14:43:55 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jul 15, 2016 at 7:34 AM, akuster808 <akuster808@gmail.com> wrote:
-> Does this affect Krogoth?
+Hi Armin
 
+The patch only modifies an existing patch which already has a header.
+I really just did the minimum change by copying and adapting the missing section from the corresponding patch for 5.3. to make qemuppc work again.
 
-yes
+Pascal
 
-
-> - armin
+On 15.07.2016 16:20, akuster808 wrote:
+> Pascal,
 >
-> On 07/15/2016 03:03 AM, Khem Raj wrote:
->> This issue is also reported here
->> https://trac.macports.org/ticket/51709
->> Patch is also from same ticket
+> The "0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch" is
+> missing the OE patch standard header information.
+>
+> please see http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+>
+> Also, there is no .bb update so this patch will be applied.
+>
+> regards,
+> Armin
+>
+> On 07/15/2016 06:22 AM, Pascal Bach wrote:
+>> This ports the missing changes from commit: 7a51776a830167e43cbd185505f62f328704e271
+>> from 5.3 to 4.9 so that qemuppc can be compiled.
 >>
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
 >> ---
->>  .../recipes-support/nss/nss/pqg.c-ULL_addend.patch | 23 ++++++++++++++++++++++
->>  meta/recipes-support/nss/nss_3.24.bb               |  1 +
->>  2 files changed, 24 insertions(+)
->>  create mode 100644 meta/recipes-support/nss/nss/pqg.c-ULL_addend.patch
+>>  ...Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch | 11 +++++++++++
+>>  1 file changed, 11 insertions(+)
 >>
->> diff --git a/meta/recipes-support/nss/nss/pqg.c-ULL_addend.patch b/meta/recipes-support/nss/nss/pqg.c-ULL_addend.patch
->> new file mode 100644
->> index 0000000..9caaaeb
->> --- /dev/null
->> +++ b/meta/recipes-support/nss/nss/pqg.c-ULL_addend.patch
->> @@ -0,0 +1,23 @@
->> +nss does not build on mips with clang because wrong types are used?
->> +
->> +pqg.c:339:16: error: comparison of constant 18446744073709551615 with expression of type 'unsigned long' is always true [-Werror,-Wtautological-constant-out-of-range-compare]
->> +     if (addend < MP_DIGIT_MAX) {
->> +       ~~~~~~ ^ ~~~~~~~~~~~~
->> +
->> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> +Upstream-Status: Pending
->> +Index: nss-3.24/nss/lib/freebl/pqg.c
+>> diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch b/meta/recipes-devtools/gcc/gcc-4.9/0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch
+>> index b98f8ff..77fa18a 100644
+>> --- a/meta/recipes-devtools/gcc/gcc-4.9/0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch
+>> +++ b/meta/recipes-devtools/gcc/gcc-4.9/0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch
+>> @@ -37,6 +37,17 @@ index cb7a94e..d392c2b 100644
+>>   	extra_options="${extra_options} rs6000/sysv4.opt"
+>>   	tmake_file="rs6000/t-fprules rs6000/t-ppcos ${tmake_file} rs6000/t-ppccomm"
+>>   	case ${target} in
+>> +Index: gcc-4.9.3/gcc/config/rs6000/linuxspe.h
 >> +===================================================================
->> +--- nss-3.24.orig/nss/lib/freebl/pqg.c
->> ++++ nss-3.24/nss/lib/freebl/pqg.c
->> +@@ -322,8 +322,8 @@ generate_h_candidate(SECItem *hit, mp_in
->> +
->> + static SECStatus
->> + addToSeed(const SECItem * seed,
->> +-          unsigned long   addend,
->> +-          int             seedlen, /* g in 186-1 */
->> ++          unsigned long long  addend,
->> ++          int                 seedlen, /* g in 186-1 */
->> +           SECItem * seedout)
->> + {
->> +     mp_int s, sum, modulus, tmp;
->> diff --git a/meta/recipes-support/nss/nss_3.24.bb b/meta/recipes-support/nss/nss_3.24.bb
->> index caed7fa..c7c9fab 100644
->> --- a/meta/recipes-support/nss/nss_3.24.bb
->> +++ b/meta/recipes-support/nss/nss_3.24.bb
->> @@ -21,6 +21,7 @@ SRC_URI = "\
->>      file://nss-fix-incorrect-shebang-of-perl.patch \
->>      file://nss-fix-nsinstall-build.patch \
->>      file://disable-Wvarargs-with-clang.patch \
->> +    file://pqg.c-ULL_addend.patch \
->>      file://nss.pc.in \
->>      file://signlibs.sh \
->>  "
+>> +--- gcc-4.9.3.orig/gcc/config/rs6000/linuxspe.h
+>> ++++ gcc-4.9.3/gcc/config/rs6000/linuxspe.h
+>> +@@ -27,6 +27,3 @@
+>> + #undef	TARGET_DEFAULT
+>> + #define TARGET_DEFAULT MASK_STRICT_ALIGN
+>> + #endif
+>> +-
+>> +-#undef  ASM_DEFAULT_SPEC
+>> +-#define	ASM_DEFAULT_SPEC "-mppc -mspe -me500"
+>>  -- 
+>>  1.7.9.5
+>>  
 >>
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 
