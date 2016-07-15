@@ -1,27 +1,29 @@
 Return-Path: <maxin.john@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id C0887606D0
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id AB78A6FEFA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jul 2016 12:08:55 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 15 Jul 2016 05:08:56 -0700
+	Fri, 15 Jul 2016 12:08:59 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga104.fm.intel.com with ESMTP; 15 Jul 2016 05:08:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,368,1464678000"; d="scan'208";a="995860957"
+X-IronPort-AV: E=Sophos;i="5.28,368,1464678000"; d="scan'208";a="1022325138"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga001.jf.intel.com with ESMTP; 15 Jul 2016 05:08:55 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 15 Jul 2016 05:08:57 -0700
 Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
 	[10.237.72.71])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 6EC026A4006
+	by linux.intel.com (Postfix) with ESMTP id 13B646A4006
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jul 2016 05:08:47 -0700 (PDT)
+	Fri, 15 Jul 2016 05:08:48 -0700 (PDT)
 From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Jul 2016 15:09:14 +0300
-Message-Id: <1468584555-32117-1-git-send-email-maxin.john@intel.com>
+Date: Fri, 15 Jul 2016 15:09:15 +0300
+Message-Id: <1468584555-32117-2-git-send-email-maxin.john@intel.com>
 X-Mailer: git-send-email 2.4.0
-Subject: [PATCH 1/2] linux-firmware: update to revision cccb6a0da9
+In-Reply-To: <1468584555-32117-1-git-send-email-maxin.john@intel.com>
+References: <1468584555-32117-1-git-send-email-maxin.john@intel.com>
+Subject: [PATCH 2/2] libpng: update to 1.6.23
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,36 +36,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jul 2016 12:08:56 -0000
+X-List-Received-Date: Fri, 15 Jul 2016 12:09:00 -0000
 
-Upgrade to revision cccb6a0da9
+1.6.22 -> 1.6.23
+
+License files changes are due to updates in Copyright date and Version
 
 Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../libpng/{libpng_1.6.22.bb => libpng_1.6.23.bb}                 | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-multimedia/libpng/{libpng_1.6.22.bb => libpng_1.6.23.bb} (66%)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index e908289..948dfa8 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -112,7 +112,7 @@ LIC_FILES_CHKSUM = "\
-     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
-     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
-     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
--    file://WHENCE;md5=d4c5506dce2fe59ec0faa20bbd1a89bb \
-+    file://WHENCE;md5=fc7f8a9fce11037078e90df415baad71 \
- "
+diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.22.bb b/meta/recipes-multimedia/libpng/libpng_1.6.23.bb
+similarity index 66%
+rename from meta/recipes-multimedia/libpng/libpng_1.6.22.bb
+rename to meta/recipes-multimedia/libpng/libpng_1.6.23.bb
+index 0d5722f..b2813e3 100644
+--- a/meta/recipes-multimedia/libpng/libpng_1.6.22.bb
++++ b/meta/recipes-multimedia/libpng/libpng_1.6.23.bb
+@@ -2,14 +2,14 @@ SUMMARY = "PNG image format decoding library"
+ HOMEPAGE = "http://www.libpng.org/"
+ SECTION = "libs"
+ LICENSE = "Libpng"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=327e99f9f6299935eab27262a3d0d97c \
+-                    file://png.h;endline=149;md5=5b1126380a15a28a275c88bf13fe39c8"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=a92bbf77565352659482e381075d19e3 \
++                    file://png.h;endline=149;md5=a0e24b62532fff585d25f060dd917236"
+ DEPENDS = "zlib"
  
- # These are not common licenses, set NO_GENERIC_LICENSE for them
-@@ -172,7 +172,7 @@ NO_GENERIC_LICENSE[Firmware-xc5000] = "LICENCE.xc5000"
- NO_GENERIC_LICENSE[Firmware-xc5000c] = "LICENCE.xc5000c"
- NO_GENERIC_LICENSE[WHENCE] = "WHENCE"
+ SRC_URI = "${GENTOO_MIRROR}/libpng-${PV}.tar.xz \
+           "
+-SRC_URI[md5sum] = "f4ca54a3d945b8678fafed168c503f3b"
+-SRC_URI[sha256sum] = "6b5a6ad5c5801ec4d24aacc87a0ed7b666cd586478174f69368a1d7747715226"
++SRC_URI[md5sum] = "9b320a05ed4db1f3f0865c8a951fd9aa"
++SRC_URI[sha256sum] = "6d921e7bdaec56e9f6594463ec1fe1981c3cd2d5fc925d3781e219b5349262f1"
  
--SRCREV = "80d463be829abcee4dbdca8432b9a69452e2021d"
-+SRCREV = "cccb6a0da98372bd66787710249727ad6b0aaf72"
- PE = "1"
- PV = "0.0+git${SRCPV}"
+ BINCONFIG = "${bindir}/libpng-config ${bindir}/libpng16-config"
  
 -- 
 2.4.0
