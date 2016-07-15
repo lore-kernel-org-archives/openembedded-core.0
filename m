@@ -1,46 +1,45 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
-	[209.85.223.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 57CBA606D0
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f67.google.com (mail-pa0-f67.google.com
+	[209.85.220.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 90B54606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jul 2016 08:20:11 +0000 (UTC)
-Received: by mail-io0-f180.google.com with SMTP id 38so98176706iol.0
+	Fri, 15 Jul 2016 10:03:32 +0000 (UTC)
+Received: by mail-pa0-f67.google.com with SMTP id dx3so5925810pab.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jul 2016 01:20:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Xa10OZ3Ek/fs/2TZtZp5SuNxoAbOCp0PhdstL0QTiDA=;
-	b=jkZwRhe9si+2CYKRAUeexsrGcpKd3VhqJM/tBZTMkdfq9Q0RopkPcp5ahPEZCKk24m
-	JTkX5O9qH9Z3FA2QFZipHOAMuPcfl1T+CivbyM0RYL2cX2AquGnhAWbPtTHm4bvTZjdv
-	gKBFjLmF2q7mnY6AEYT7T0ngBTWs0J1mq2kZoKtMRdjZ29szWJ8pbsm8S0NqY+8Sl78v
-	qJbOeiVvT88M5U9/PscrW6yeOJnpmJI+iKKOySNpEHn5vs8wzKscg2UaKPoMUJ+CR4M4
-	mKZMw9GRBJ0b1Qhq+q6uZH0UoS3PKZHa12AXxM1t9Mv27HlxPaRnffr8HxNBaqyY24lo
-	+2TQ==
+	Fri, 15 Jul 2016 03:03:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=e1pXJZW8wEDs61QHS1+HHpXzLQNRS+PoGeq/S5/SaYo=;
+	b=OR49qPUekH66/IvF2TiSuCDrKaWIH0nAOkYMWtvG6N//ErhM8C8xHsHcQvng/j6eM3
+	tZLbd/kGWHP1GrKM/T4VkcE22UbAT6gDMj8OWgu/726uS63I+R4u7kUolHNxZdYrI+f7
+	D6tl8Cd7n5GrRMQanLAEuOnyOIitsedD637hxpyqJJ7MZIX99cJkmNW/Tp2aBxgNCQSC
+	jnLO5Nw4+AHD2bsqLhxLIFIARRsdQJmhm8PzzG9fuDb/BEIiUYDspdg04PyzIxgR4as5
+	58f8yiLt0rMxMUwIz3AlSXX+VBQBmsBLOvJkSSxKqnG5R1o/tV1wOWVtGq/rgYtorkSJ
+	PeMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Xa10OZ3Ek/fs/2TZtZp5SuNxoAbOCp0PhdstL0QTiDA=;
-	b=h9+FlT6joAllx6KxJi/z44vrRPeOWLuE1FOnFOBn6uh58yxt0mTrNlzVv+im5FeYEo
-	5VU5yJahdqMwc9SZAcNLJT3T/yi6KNGQOz4OBc+TC6PCcfjQRon44g6nCatBJhqNGtX7
-	LEWhPVJIHZ7+0DAnYUOcWG/NrDUGDhMPYS/+qF6VTIr1rmoaQo2xoqO8JHqlawsQMUvf
-	Axply2kv+Ei9ZB2gNjIXd8KGYd277xIRI66nDlOOnyaBJlE6nQa2xFjsOgt2qUSnenvZ
-	OZ1qIdl6au/KuD9Y3mtOHD8hRZ7Hj45aGCRw3oYcDwisa31XI5/7l10vgo8bwC2mNsrh
-	U24Q==
-X-Gm-Message-State: ALyK8tINADJK5jdfSiV4Ae/VC4WM0B9KgVha+jfLSy/PFDb77rTpdThfMd6pzLiXTzldR9c+7cfpjMhPjAzfHPz9
-X-Received: by 10.107.135.142 with SMTP id r14mr21256472ioi.133.1468570812641; 
-	Fri, 15 Jul 2016 01:20:12 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Fri, 15 Jul 2016 01:19:53 -0700 (PDT)
-In-Reply-To: <1468553065-6553-1-git-send-email-Yue.Tao@windriver.com>
-References: <1468553065-6553-1-git-send-email-Yue.Tao@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 15 Jul 2016 09:19:53 +0100
-Message-ID: <CAJTo0LZAtLB7GLhTp_8zX5-Ecm8n4g_JWxd2RmyKgWTuQw1YcA@mail.gmail.com>
-To: Yue Tao <Yue.Tao@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH] openssl: use the perl of perl-native instead of the host perl
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=e1pXJZW8wEDs61QHS1+HHpXzLQNRS+PoGeq/S5/SaYo=;
+	b=B7ch57/IkNbVj59S44pU8bG4d3eWKjQ2jq94Eejo/wiD5o+FipP76+QHwW93f2aJxJ
+	sSUxO4THC2u6TjNKrDpGfCD9prlel51eEcF9UvkUQmKZ5Xsjff0twipI1R6ctXOAbpaK
+	8IHDSKfgTs3cbNau9rjDmsZw9XRufIWqHR/HUBNMeSAydqURRag3eKelkwhH6gBqhkEm
+	iqFvrcn+9P18UA4y62rvYy4HTCBtMXTqOcWhw2J+NPGDgpDt12uyJ6RBGlkFdPI6pttn
+	uY/j6R3DOvuLsndhYhafJhp6H6OJA7v17MZUu8u7GqbfyErLaXGUmWMSILLY8injA/XU
+	Bu4w==
+X-Gm-Message-State: ALyK8tJnD9xHZ7RE4pkcpbzW1OTA8T75+gflkPDkbI/J+VcoG0KyXBR53ockGxAz1aN+lw==
+X-Received: by 10.66.248.35 with SMTP id yj3mr30048919pac.138.1468577013654;
+	Fri, 15 Jul 2016 03:03:33 -0700 (PDT)
+Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
+	[76.102.32.192])
+	by smtp.gmail.com with ESMTPSA id w63sm2589909pfi.9.2016.07.15.03.03.32
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 15 Jul 2016 03:03:32 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 15 Jul 2016 03:03:25 -0700
+Message-Id: <20160715100325.29006-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.9.0
+Subject: [PATCH] nss: Fix build on mips/clang
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,45 +52,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jul 2016 08:20:14 -0000
-Content-Type: multipart/alternative; boundary=001a113eccbc9d8c410537a849cf
+X-List-Received-Date: Fri, 15 Jul 2016 10:03:34 -0000
 
---001a113eccbc9d8c410537a849cf
-Content-Type: text/plain; charset=UTF-8
+This issue is also reported here
+https://trac.macports.org/ticket/51709
+Patch is also from same ticket
 
-On 15 July 2016 at 04:24, Yue Tao <Yue.Tao@windriver.com> wrote:
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../recipes-support/nss/nss/pqg.c-ULL_addend.patch | 23 ++++++++++++++++++++++
+ meta/recipes-support/nss/nss_3.24.bb               |  1 +
+ 2 files changed, 24 insertions(+)
+ create mode 100644 meta/recipes-support/nss/nss/pqg.c-ULL_addend.patch
 
-> The openssl can't build with very old perl, such as 5.8.9, so force it
-> to use the perl-native to avoid host dependence issue.
->
+diff --git a/meta/recipes-support/nss/nss/pqg.c-ULL_addend.patch b/meta/recipes-support/nss/nss/pqg.c-ULL_addend.patch
+new file mode 100644
+index 0000000..9caaaeb
+--- /dev/null
++++ b/meta/recipes-support/nss/nss/pqg.c-ULL_addend.patch
+@@ -0,0 +1,23 @@
++nss does not build on mips with clang because wrong types are used?
++
++pqg.c:339:16: error: comparison of constant 18446744073709551615 with expression of type 'unsigned long' is always true [-Werror,-Wtautological-constant-out-of-range-compare]
++     if (addend < MP_DIGIT_MAX) {
++       ~~~~~~ ^ ~~~~~~~~~~~~
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Pending
++Index: nss-3.24/nss/lib/freebl/pqg.c
++===================================================================
++--- nss-3.24.orig/nss/lib/freebl/pqg.c
+++++ nss-3.24/nss/lib/freebl/pqg.c
++@@ -322,8 +322,8 @@ generate_h_candidate(SECItem *hit, mp_in
++ 
++ static SECStatus
++ addToSeed(const SECItem * seed,
++-          unsigned long   addend,
++-          int             seedlen, /* g in 186-1 */
+++          unsigned long long  addend,
+++          int                 seedlen, /* g in 186-1 */
++           SECItem * seedout)
++ {
++     mp_int s, sum, modulus, tmp;
+diff --git a/meta/recipes-support/nss/nss_3.24.bb b/meta/recipes-support/nss/nss_3.24.bb
+index caed7fa..c7c9fab 100644
+--- a/meta/recipes-support/nss/nss_3.24.bb
++++ b/meta/recipes-support/nss/nss_3.24.bb
+@@ -21,6 +21,7 @@ SRC_URI = "\
+     file://nss-fix-incorrect-shebang-of-perl.patch \
+     file://nss-fix-nsinstall-build.patch \
+     file://disable-Wvarargs-with-clang.patch \
++    file://pqg.c-ULL_addend.patch \
+     file://nss.pc.in \
+     file://signlibs.sh \
+ "
+-- 
+2.9.0
 
-Considering that Perl 5.8.9 was released in 2008 (so eight years ago), what
-distribution is still shipping perl 5.8.9?  Instead of forcing everyone to
-build perl-native before openssl can build (and adding perlnative to more
-recipes as they're discovered to fail with ancient perl) anyone using an
-old distribution should simply use buildtools, as this is exactly what
-they're for.
 
-Ross
-
---001a113eccbc9d8c410537a849cf
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 15 July 2016 at 04:24, Yue Tao <span dir=3D"ltr">&lt;<a href=3D"mailto:Y=
-ue.Tao@windriver.com" target=3D"_blank">Yue.Tao@windriver.com</a>&gt;</span=
-> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex"><div id=3D":xh" class=3D"a3s aXj=
-CH m155ec9644b196e5a">The openssl can&#39;t build with very old perl, such =
-as 5.8.9, so force it<br>
-to use the perl-native to avoid host dependence issue.<br></div></blockquot=
-e></div><div class=3D"gmail_extra"><br></div>Considering that Perl 5.8.9 wa=
-s released in 2008 (so eight years ago), what distribution is still shippin=
-g perl 5.8.9?=C2=A0 Instead of forcing everyone to build perl-native before=
- openssl can build (and adding perlnative to more recipes as they&#39;re di=
-scovered to fail with ancient perl) anyone using an old distribution should=
- simply use buildtools, as this is exactly what they&#39;re for.</div><div =
-class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a113eccbc9d8c410537a849cf--
