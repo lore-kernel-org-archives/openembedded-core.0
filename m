@@ -1,66 +1,47 @@
-Return-Path: <tom.hochstein@nxp.com>
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com
-	(mail-db5eur01on0071.outbound.protection.outlook.com [104.47.2.71])
-	by mail.openembedded.org (Postfix) with ESMTP id 964C47317F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f42.google.com (mail-it0-f42.google.com
+	[209.85.214.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 06F667316D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jul 2016 17:50:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=OcAPpT2v6ExdhRFX9lhP3vIJ0tsDWVlv2R/Y58267AE=;
-	b=knqBA5eXDejUSfcKpY34p/YSEzr06PWLqq/Zn/k/mOkD+dzgbvDjU5Yr06KROpQvfQz5Y8gLJd5TTRDOJ4MJzhJYyJoDNebzli8wZiS6IjL2phwXLk17vbSUMNRnKEtxwHYpR6FWb0ZO1tVw1+FjODzYyBccgZIt1eTJIzL50NA=
-Received: from AMSPR04MB309.eurprd04.prod.outlook.com (10.242.107.15) by
-	AMSPR04MB311.eurprd04.prod.outlook.com (10.242.107.22) with Microsoft
-	SMTP Server (TLS) id 15.1.539.14; Fri, 15 Jul 2016 16:16:11 +0000
-Received: from AMSPR04MB309.eurprd04.prod.outlook.com ([10.242.107.15]) by
-	AMSPR04MB309.eurprd04.prod.outlook.com ([10.242.107.15]) with mapi id
-	15.01.0539.019; Fri, 15 Jul 2016 16:16:11 +0000
-From: Tom Hochstein <tom.hochstein@nxp.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Thread-Topic: [OE-core] [PATCH] weston-init: De-couple framebuffer console
-	from Weston
-Thread-Index: AQHR3CX9uJqS0ovxdkOqTmCAlydYmaAZryTg
-Date: Fri, 15 Jul 2016 16:16:11 +0000
-Message-ID: <AMSPR04MB30944A9A9CC3FF94EA20678E2330@AMSPR04MB309.eurprd04.prod.outlook.com>
-References: <1468274809-10301-1-git-send-email-tom.hochstein@nxp.com>
-	<CAP9ODKrf1L7UTe4FnHOZ=pcKPjEoXnp9iR39tPEXd8-BOiUv-g@mail.gmail.com>
-In-Reply-To: <CAP9ODKrf1L7UTe4FnHOZ=pcKPjEoXnp9iR39tPEXd8-BOiUv-g@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=tom.hochstein@nxp.com; 
-x-originating-ip: [192.88.168.1]
-x-ms-office365-filtering-correlation-id: 869a8734-dc25-46f7-05e5-08d3accb565f
-x-microsoft-exchange-diagnostics: 1; AMSPR04MB311;
-	6:U4v72nemM7fd+Kw2F4NjexMcW/tJV6nSHpZjRZuXwgf9Or6pxMWDYbXpHmd37cSqGQnVwfZFd4DfpMD3Je4ciRceixgeqyBam8uo5xM+lKmONROuUWgqS9vPElMKIF5vP22Xl7g4yCoEC6uoxErWqwDijZxf+kDcJCkI1MV/npKwquYlL7aq7vZeCbusD8qNt10O6XGTVP839QUVdMqu7dg0fTjP8S7pSk/70SoJieYnYYETRTGalPenFGQQ4OH+mNVPwc/Lf4Mj6YoRpC+glUJQvq8dBaHKHAPixoRiC/ivvpnoau9FUwkcAeJd6uyE3074Cx7uZILM3C+QSlH8xw==;
-	5:PNpOfl7y+9z/aJzeShw/eJkor6ZSBb9CYIbTQPdGwxwvPRi/UHAk1pSKI6GgrTEcDssM+yogOn+SHqnCLqfmhvUOvFbjp3Lf2stcqfq1pJrWezLL2xNEn8JIE0rtQZXESgPKwbY6v1fkWWn0UQNcRQ==;
-	24:Gfm+RZ6nFb5tHwp87Hii+R8V1XeXGYgZrSdKao1qeOfrdPhuf0gNiEfKJwAEL24lxSMj5I6VN2GSK6yh9jGyUiaqvS6l9qqJO7wHbX49yp0=;
-	7:MeH2sP8Q5kgawdOdc6TrqOwFWPvCypBfO921pmRExzdxfpPQ2oUY+sVGLFdlRuAJTFsSTvhGMzsR521Mhspec6pWYncXV5wx2RWZioRH3+1o8JwM5XOaXaDr6zej+9pZqBKcMSSegjbPyl6etfqqRP79Bw5LdUh9wkaKqVHoLsAxGJoIQnNPS8suL7irNpAfrhidonxam+ogOoGSEr/fivoyu+Tf78taS+JjcWBM9Py4dZdYs3N35Q+fUdHT7tTa
-x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:AMSPR04MB311;
-x-microsoft-antispam-prvs: <AMSPR04MB311ACC5BA604E70CF764E5FE2330@AMSPR04MB311.eurprd04.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:(185117386973197)(264703809997249)(166494164430575); 
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(601004)(2401047)(8121501046)(5005006)(3002001)(10201501046)(6055026);
-	SRVR:AMSPR04MB311; BCL:0; PCL:0; RULEID:; SRVR:AMSPR04MB311; 
-x-forefront-prvs: 00046D390F
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(6009001)(7916002)(377454003)(13464003)(189002)(24454002)(199003)(2950100001)(8676002)(16601075003)(86362001)(33656002)(5002640100001)(9686002)(87936001)(101416001)(77096005)(15975445007)(106356001)(10400500002)(76576001)(97736004)(6116002)(54356999)(76176999)(2900100001)(110136002)(586003)(11100500001)(102836003)(3846002)(50986999)(3280700002)(2906002)(8936002)(3660700001)(66066001)(7846002)(106116001)(4326007)(105586002)(189998001)(74316002)(92566002)(122556002)(305945005)(7736002)(81166006)(81156014)(7696003)(5003600100003)(19580395003)(19580405001)(68736007);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:AMSPR04MB311;
-	H:AMSPR04MB309.eurprd04.prod.outlook.com; FPR:; SPF:None;
-	PTR:InfoNoRecords; MX:1; A:1; LANG:en; 
-received-spf: None (protection.outlook.com: nxp.com does not designate
-	permitted sender hosts)
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
+	Fri, 15 Jul 2016 19:35:03 +0000 (UTC)
+Received: by mail-it0-f42.google.com with SMTP id h190so27711888ith.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Jul 2016 12:35:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=V+hEaN2r6tPUXQD6Lp/6lU9uZAeFJiATjUTYWzaWqgM=;
+	b=lT9hgnOKrcEwS8LNzj9wk0LgYout50A4SExBs+kwP5JZoXc8fdKmfPNFHR/nmTtD6+
+	uZb1e4uE4+zEWobHZF34eTrF2QdZgxGkCBABcePG8RTCxBGgW4cmpTnGxNzHPsTSsHf+
+	fWHOd8gMdHLADh6CE8b2X0ycNy2FrfydKkTl0ax2qEn9hcExr9mmSiqGXdERLiiLvLhC
+	8njFUj5hS9AWvlhZ2lsNWe6Vtd71GXOb/yoWrs6aPzlADPj0NQt79erIkUrMCyZJA6sp
+	3Ue2hl/Lt06N1gc0hN1w7Zj8MmodyJy+x9xN44HfFs+Hii0zGeaxL/1Z+FsK7LnatxLC
+	OCRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=V+hEaN2r6tPUXQD6Lp/6lU9uZAeFJiATjUTYWzaWqgM=;
+	b=Br9qPdEWIRa8F4xuTGoE3Ywqg2fX0vam29pvdvCtWY2MdoAb3y1D4q/gnCcJ6m97Pk
+	5Lon4oEqgjCRyemPANxw2MH5xF79E7WeQWbRSBgEBxFQy44TYbpfAx5/NiGa48RtdyA3
+	nmBv6o07blqCF8vIIPLYy1YHCRT232TE6tyqNk6qlrIfTt4eiCvrgfbAGfSIhmr1GZ5x
+	jtaSO1kgiq8yhZA4mcaLEOVg35ReR4KiBomMvtnNN/xKgFo5JbJoQHC3tORwuu3KJZff
+	VqdOPCUS0G1I00twusYLUM51N2CDS3fcERU1fLUBuIiysS8u+0ytuXqFdFLMm6UcUp7G
+	ONrw==
+X-Gm-Message-State: ALyK8tJbyl/Dtql90jrxwKBmyYqYczHh6lSLh37IRhw/UXcHtiCscZgGJnK/F/HMU961mh2ZJs9j7QhMmdszHBwM
+X-Received: by 10.36.147.198 with SMTP id y189mr22879085itd.83.1468611304097; 
+	Fri, 15 Jul 2016 12:35:04 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jul 2016 16:16:11.4096 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMSPR04MB311
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] weston-init: De-couple framebuffer console from Weston
+Received: by 10.107.18.17 with HTTP; Fri, 15 Jul 2016 12:34:44 -0700 (PDT)
+In-Reply-To: <1468358990-14377-3-git-send-email-anibal.limon@linux.intel.com>
+References: <1468358990-14377-1-git-send-email-anibal.limon@linux.intel.com>
+	<1468358990-14377-3-git-send-email-anibal.limon@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 15 Jul 2016 20:34:44 +0100
+Message-ID: <CAJTo0LZ_jV7BoyhGAn_xjydZMCFsbcdp_5dvaGTgbNy5MDsfqg@mail.gmail.com>
+To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] classes/testimage: When image is systemd enable debug log level
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -73,29 +54,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jul 2016 17:50:18 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 15 Jul 2016 19:35:04 -0000
+Content-Type: multipart/alternative; boundary=94eb2c089e14181ffd0537b1b71e
 
-U29ycnksIGxvb2tzIGxpa2UgdGhpcyBmaXggaXMgaW4gdGhlIHdyb25nIHBsYWNlLiBUaGUgc3lz
-dmluaXQgc29sdXRpb24gcGFzc2VzIHRoZSAtcyBvcGVudnQgYXJnIHRvIHdlc3Rvbi1zdGFydCwg
-YW5kIHRoZSBzeXN0ZW1kIHNvbHV0aW9uIHNob3VsZCBkbyB0aGUgc2FtZS4gV2lsbCBoYXZlIGEg
-bmV3IHBhdGNoIHNob3J0bHkuDQoNClRvbQ0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0K
-RnJvbTogT3RhdmlvIFNhbHZhZG9yIFttYWlsdG86b3RhdmlvLnNhbHZhZG9yQG9zc3lzdGVtcy5j
-b20uYnJdIA0KU2VudDogVHVlc2RheSwgSnVseSAxMiwgMjAxNiA1OjEzIEFNDQpUbzogVG9tIEhv
-Y2hzdGVpbiA8dG9tLmhvY2hzdGVpbkBueHAuY29tPg0KQ2M6IFBhdGNoZXMgYW5kIGRpc2N1c3Np
-b25zIGFib3V0IHRoZSBvZS1jb3JlIGxheWVyIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVu
-ZW1iZWRkZWQub3JnPg0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIHdlc3Rvbi1pbml0
-OiBEZS1jb3VwbGUgZnJhbWVidWZmZXIgY29uc29sZSBmcm9tIFdlc3Rvbg0KDQpPbiBNb24sIEp1
-bCAxMSwgMjAxNiBhdCA3OjA2IFBNLCBUb20gSG9jaHN0ZWluIDx0b20uaG9jaHN0ZWluQG54cC5j
-b20+IHdyb3RlOg0KPiBUaGUgZnJhbWVidWZmZXIgY29uc29sZSB3YXMgdXNpbmcgdGhlIHNhbWUg
-SS9PIGFzIFdlc3Rvbi4gV2UgZml4IHRoaXMNCj4gYnkgaGF2aW5nIG9wZW52dCBzd2l0Y2ggdG8g
-dGhlIG5ldyBWVCB3aGVuIHN0YXJ0aW5nIHdlc3Rvbi1sYXVuY2guDQo+DQo+IFNpZ25lZC1vZmYt
-Ynk6IFRvbSBIb2Noc3RlaW4gPHRvbS5ob2Noc3RlaW5AbnhwLmNvbT4NCg0KQWNrZWQtYnk6IE90
-YXZpbyBTYWx2YWRvciA8b3RhdmlvQG9zc3lzdGVtcy5jb20uYnI+DQoNCi0tIA0KT3RhdmlvIFNh
-bHZhZG9yICAgICAgICAgICAgICAgICAgICAgICAgICAgICBPLlMuIFN5c3RlbXMNCmh0dHA6Ly93
-d3cub3NzeXN0ZW1zLmNvbS5iciAgICAgICAgaHR0cDovL2NvZGUub3NzeXN0ZW1zLmNvbS5icg0K
-TW9iaWxlOiArNTUgKDUzKSA5OTgxLTc4NTQgICAgICAgICAgICBNb2JpbGU6ICsxICgzNDcpIDkw
-My05NzUwDQo=
+--94eb2c089e14181ffd0537b1b71e
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+On 12 July 2016 at 22:29, An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.intel.=
+com> wrote:
+
+> +            bootparams =3D 'systemd.log_level=3Ddebug systemd
+> .log_target=3Dconsole'
+>
+
+The problem with this is that it appears that logger output then goes
+*only* to the console and not the journal or syslog, which breaks selftest
+(and expected behaviour).
+
+https://autobuilder.yoctoproject.org/main/builders/nightly-qa-systemd/build=
+s/851
+for example, which goes green if I revert this patch.
+
+If this is the case then it would be great if there was a
+journal-and-console log_target I guess.
+
+Ross
+
+--94eb2c089e14181ffd0537b1b71e
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 12 July 2016 at 22:29, An=C3=ADbal Lim=C3=B3n <span dir=3D"ltr">&lt;<a h=
+ref=3D"mailto:anibal.limon@linux.intel.com" target=3D"_blank">anibal.limon@=
+linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" =
+style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:r=
+gb(204,204,204);border-left-style:solid;padding-left:1ex"><div id=3D":301" =
+class=3D"">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bootparams =3D &#39;<=
+span class=3D"">systemd</span>.log_level=3Ddebug <span class=3D"">systemd</=
+span>.log_target=3Dconsole&#39;<br></div></blockquote></div><br>The problem=
+ with this is that it appears that logger output then goes *only* to the co=
+nsole and not the journal or syslog, which breaks selftest (and expected be=
+haviour).</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ext=
+ra"><a href=3D"https://autobuilder.yoctoproject.org/main/builders/nightly-q=
+a-systemd/builds/851">https://autobuilder.yoctoproject.org/main/builders/ni=
+ghtly-qa-systemd/builds/851</a> for example, which goes green if I revert t=
+his patch.<br></div><div class=3D"gmail_extra"><br></div><div class=3D"gmai=
+l_extra">If this is the case then it would be great if there was a journal-=
+and-console log_target I guess.</div><div class=3D"gmail_extra"><br></div><=
+div class=3D"gmail_extra">Ross</div></div>
+
+--94eb2c089e14181ffd0537b1b71e--
