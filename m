@@ -1,50 +1,50 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
-	[209.85.220.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C03D6067C
+Received: from mail-pa0-f67.google.com (mail-pa0-f67.google.com
+	[209.85.220.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 2844E6067C
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Jul 2016 23:04:21 +0000 (UTC)
-Received: by mail-pa0-f65.google.com with SMTP id q2so8382073pap.0
+	Sat, 16 Jul 2016 23:04:23 +0000 (UTC)
+Received: by mail-pa0-f67.google.com with SMTP id dx3so8423633pab.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Jul 2016 16:04:22 -0700 (PDT)
+	Sat, 16 Jul 2016 16:04:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=ZXkk/G9G8wz9OIt6G27V2RFmNN+WwE33E7Xfppc99Y4=;
-	b=WXRdt4qzzOA/tjlWyp5sK4Cnexi0UHUNxAM/nZIJXkuhUFL+WUYjPpSbhprarRyj8a
-	U/ygYQy77EV9e7f+AKHLpdfUEUWxWJ4qRsoutjVLe64wkZlijvbVytEJaFL2onhBfm31
-	LunNJ96Q3SVXHJ3CQqrjrZtLlcb7T+eI1aV7mR331rKYz4ROWE4nETBFUUZuMJ1M+TS2
-	3A3MqH6mpAZH1fbEnYqgh507wrO7g5/XPkQoIhmxdCW7//+cYJV77gKdnLR/QeGyBay9
-	W+gqLIBjWWHO6gb/rrhkfkVdI4dwzDeVF2US/x1L6U7JcxzejMAZ+csg4za35FX5yxnz
-	nUiw==
+	bh=2M3CBXjF3rANr1NRjMLSSUpRalIJHf1J8dkG4nx4k9c=;
+	b=ws/w2AAeSSQ4oYSOXigKTfliJD0su7xwrlDHW74XpP404qrtyJAAG0pgAn57jbIeQV
+	3jRA2yhGuk9yJRQZWo+eSd8e2Y1p9yFfzDZU1x08Mps6nlPT/kGIhzp6nMhgKrkZ/DEc
+	T6/wKVG5vraPNrP3fqwcHP+DQXimEUGDwtN3c6XXZoLM4GzOlFMaW+QVXujNTud739m3
+	1dfuhisirXOYTy5DLeYun5dfwMxtI2pbOK6AXV5A9XLGlFSYEZ0/6vSkvnklPd1nyhOX
+	LCoVO32HaU6emCVDGbngb6GELofYVy5YgW2vWTfVvfbLPss5kl+sBZYAXljDtvTkxMEi
+	MQqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=ZXkk/G9G8wz9OIt6G27V2RFmNN+WwE33E7Xfppc99Y4=;
-	b=P9P8ACjKUbEcbRe3Uo1wA1+5UUP/aXtjMnEnsEyI0D525t9qfv2L6X8s5BDyTPkrJ0
-	uvXfgKZvDXeFuZVI/V3RvQDqzto+Rd2Ynx5zdkZV67aa1JE/uc+SNvgKOxFq5G5NNnk+
-	N+xadrtOgPdmtkTz10clqU/Lh3UBi1yDSNKQq69BmNrLLrLaHjaWCYs8JY5xN9uxzmIx
-	jzUsDv8Sbdq7EAel5jWUizG0hO0VmoZLSGxqqaEDfLfEHtvBGiq4WrZQ8BwkAPBC2CRt
-	VBkbwP8UBvvGA9eSfTQ91F2MX6WmWTNyjiKUsrjv7xDoEo7Wv40S+lNup9XsP23CI2bX
-	voag==
-X-Gm-Message-State: ALyK8tLhTxv9TMMlKDDiz401jiJKLDcqoq2gs9Etz2IbeNVgKDgrocN596INaxf0FkcDDQ==
-X-Received: by 10.66.138.74 with SMTP id qo10mr43468676pab.135.1468710262115; 
-	Sat, 16 Jul 2016 16:04:22 -0700 (PDT)
+	bh=2M3CBXjF3rANr1NRjMLSSUpRalIJHf1J8dkG4nx4k9c=;
+	b=AtNBYD9nWvo6qEJDuKeHOY9ijnigt8hZ04Vooztz3aLp59lxLvRD73yh8t7kZRwDa5
+	/YmXmABwMujZw9N9Vl09VnS8M7wCrtB+RBm+xrFdCpCjYavqAauqGFWhymU3LUt77zZG
+	3Mk1Bh8BhL62L8+YWapznbFjTNLCFkN9nOOR99RbdQ4GgNj3oa97Z/nY9I8GxBtC6yEG
+	8+Yp6D6ibQlsr21iYEfCItF3hU6Eup9+QHRvuePD5/ydC4mvw5fOU6IZpVtqerJLsCYT
+	rpFaGrh7xyB8xKdpzo1g0QeJXOMgWnNVMBcMjCpri5oNRZVfNgaeVyLQfqLyBW4GNTd4
+	xl0Q==
+X-Gm-Message-State: ALyK8tLJ405+9dNGyr/bXq1mrhzK2ytBji7SzXCrVbp5kX6FsMETnEyCEDQyYlCOnWfTyQ==
+X-Received: by 10.66.94.71 with SMTP id da7mr43734660pab.31.1468710264251;
+	Sat, 16 Jul 2016 16:04:24 -0700 (PDT)
 Received: from Pahoa2.hsd1.ca.comcast.net (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207])
-	by smtp.gmail.com with ESMTPSA id 84sm2346368pfp.59.2016.07.16.16.04.20
+	by smtp.gmail.com with ESMTPSA id 84sm2346368pfp.59.2016.07.16.16.04.22
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 16 Jul 2016 16:04:21 -0700 (PDT)
+	Sat, 16 Jul 2016 16:04:22 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	akuster808@gmail.com
-Date: Sat, 16 Jul 2016 16:04:13 -0700
-Message-Id: <1468710255-5030-3-git-send-email-akuster808@gmail.com>
+Date: Sat, 16 Jul 2016 16:04:14 -0700
+Message-Id: <1468710255-5030-4-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.3.5
 In-Reply-To: <1468710255-5030-1-git-send-email-akuster808@gmail.com>
 References: <1468710255-5030-1-git-send-email-akuster808@gmail.com>
 Cc: Armin Kuster <akuster@mvista.com>
-Subject: [master][PATCH] 3/5] bzip2: Security fix CVE-2016-3189
+Subject: [master][PATCH] 4/5] python2: Security fix CVE-2016-5636
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,59 +57,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Jul 2016 23:04:21 -0000
+X-List-Received-Date: Sat, 16 Jul 2016 23:04:24 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
-Affects bzip2 <= 1.0.6
-CVSS v2 Base Score: 4.3 MEDIUM
+Affects python2 < 2.7.11
+Base score (4.4) Medium
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- .../bzip2/bzip2-1.0.6/CVE-2016-3189.patch              | 18 ++++++++++++++++++
- meta/recipes-extended/bzip2/bzip2_1.0.6.bb             |  4 +++-
- 2 files changed, 21 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/bzip2/bzip2-1.0.6/CVE-2016-3189.patch
+ .../python/python/CVE-2016-5636.patch              | 44 ++++++++++++++++++++++
+ meta/recipes-devtools/python/python_2.7.11.bb      |  1 +
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python/CVE-2016-5636.patch
 
-diff --git a/meta/recipes-extended/bzip2/bzip2-1.0.6/CVE-2016-3189.patch b/meta/recipes-extended/bzip2/bzip2-1.0.6/CVE-2016-3189.patch
+diff --git a/meta/recipes-devtools/python/python/CVE-2016-5636.patch b/meta/recipes-devtools/python/python/CVE-2016-5636.patch
 new file mode 100644
-index 0000000..1d0c3a6
+index 0000000..9a37471
 --- /dev/null
-+++ b/meta/recipes-extended/bzip2/bzip2-1.0.6/CVE-2016-3189.patch
-@@ -0,0 +1,18 @@
-+Upstream-Status: Backport
-+https://bugzilla.suse.com/attachment.cgi?id=681334
++++ b/meta/recipes-devtools/python/python/CVE-2016-5636.patch
+@@ -0,0 +1,44 @@
 +
-+CVE: CVE-2016-3189
++# HG changeset patch
++# User Benjamin Peterson <benjamin@python.org>
++# Date 1453357424 28800
++# Node ID 985fc64c60d6adffd1138b6cc46df388ca91ca5d
++# Parent  7ec954b9fc54448a35b56d271340ba109eb381b9
++prevent buffer overflow in get_data (closes #26171)
++
++Upstream-Status: Backport
++https://hg.python.org/cpython/rev/985fc64c60d6
++
++CVE: CVE-2016-5636
 +Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
-+Index: bzip2-1.0.6/bzip2recover.c
++Index: Python-2.7.11/Misc/NEWS
 +===================================================================
-+--- bzip2-1.0.6.orig/bzip2recover.c
-++++ bzip2-1.0.6/bzip2recover.c
-+@@ -457,6 +457,7 @@ Int32 main ( Int32 argc, Char** argv )
-+             bsPutUChar ( bsWr, 0x50 ); bsPutUChar ( bsWr, 0x90 );
-+             bsPutUInt32 ( bsWr, blockCRC );
-+             bsClose ( bsWr );
-++            outFile = NULL;
-+          }
-+          if (wrBlock >= rbCtr) break;
-+          wrBlock++;
-diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
-index f717d85..ef7bc89 100644
---- a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
-+++ b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
-@@ -12,7 +12,9 @@ SRC_URI = "http://www.bzip.org/${PV}/${BP}.tar.gz \
-            file://fix-bunzip2-qt-returns-0-for-corrupt-archives.patch \
-            file://configure.ac;subdir=${BP} \
-            file://Makefile.am;subdir=${BP} \
--           file://run-ptest"
-+           file://run-ptest \
-+           file://CVE-2016-3189.patch \
-+           "
++--- Python-2.7.11.orig/Misc/NEWS
+++++ Python-2.7.11/Misc/NEWS
++@@ -7,6 +7,9 @@ What's New in Python 2.7.11?
++ 
++ *Release date: 2015-12-05*
++ 
+++- Issue #26171: Fix possible integer overflow and heap corruption in
+++  zipimporter.get_data().
+++
++ Library
++ -------
++ 
++Index: Python-2.7.11/Modules/zipimport.c
++===================================================================
++--- Python-2.7.11.orig/Modules/zipimport.c
+++++ Python-2.7.11/Modules/zipimport.c
++@@ -895,6 +895,11 @@ get_data(char *archive, PyObject *toc_en
++         PyMarshal_ReadShortFromFile(fp);        /* local header size */
++     file_offset += l;           /* Start of file data */
++ 
+++    if (data_size > LONG_MAX - 1) {
+++        fclose(fp);
+++        PyErr_NoMemory();
+++        return NULL;
+++    }
++     raw_data = PyString_FromStringAndSize((char *)NULL, compress == 0 ?
++                                           data_size : data_size + 1);
++     if (raw_data == NULL) {
+diff --git a/meta/recipes-devtools/python/python_2.7.11.bb b/meta/recipes-devtools/python/python_2.7.11.bb
+index 7eced2d..1e4a30d 100644
+--- a/meta/recipes-devtools/python/python_2.7.11.bb
++++ b/meta/recipes-devtools/python/python_2.7.11.bb
+@@ -27,6 +27,7 @@ SRC_URI += "\
+   file://use_sysroot_ncurses_instead_of_host.patch \
+   file://avoid_parallel_make_races_on_pgen.patch \
+   file://add-CROSSPYTHONPATH-for-PYTHON_FOR_BUILD.patch \
++  file://CVE-2016-5636.patch \
+ "
  
- SRC_URI[md5sum] = "00b516f4704d4a7cb50a1d97e6e8e15b"
- SRC_URI[sha256sum] = "a2848f34fcd5d6cf47def00461fcb528a0484d8edef8208d6d2e2909dc61d9cd"
+ S = "${WORKDIR}/Python-${PV}"
 -- 
 2.3.5
 
