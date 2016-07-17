@@ -1,48 +1,20 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-oi0-f43.google.com (mail-oi0-f43.google.com
-	[209.85.218.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 367B7606D0
+Return-Path: <timothy.t.orling@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 512B560589
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Jul 2016 09:41:48 +0000 (UTC)
-Received: by mail-oi0-f43.google.com with SMTP id j185so211727961oih.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Jul 2016 02:41:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=dOPRcGDMQhJvkgqmcdOPnLO3AEKAt4P5HIhWnfJgcpc=;
-	b=G6yryva6SNM7WLxvesZjhIGkhqURFtqNcZtllK1/82VbKQKmkamqjyu93kgcG0hd2Z
-	51onKt7hdJ7aLL4j4llIsyFI/2ZmhkES3oW9vwEl23yTTHUyaqQXtamb58qEodHStM1S
-	n1ES6J9mz/ep/eOyq4WLWkv+2PD5CvipQ4Np4LQ0ZuFzYlNHfJtzcRg0yzkiDIGKmhRB
-	O0pVuVWecuNKL/97B2GkeCDseh78buHIJ3IDkHQ8Q0GV11NWNV7wkZVwWr9+DVF4LQhF
-	pGYRMmnyhNHoEUzU8eBQH8GZ5ag97h3OipZEjbOMLvL+GtvK7/cpSBHpUBOV5s1DOUsU
-	Frfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=dOPRcGDMQhJvkgqmcdOPnLO3AEKAt4P5HIhWnfJgcpc=;
-	b=bw2NtEHdM0Y8X2Uk1/OuulpcvvrgIXKvgbCzqj+cbd8hPStdV+gsmWpx8/xMUFFXF6
-	EMS4OfgsV/bNFOX5fbV1qRbTQv++5nhVN5rGKuK4Pmcrao343+jlbVjxHxUcFRCuE0u/
-	ZJqiI55omUdipO+5jwSaWuHwkSDF6PiYy0hW3rmOB6mP3U56tOkhQlLbvnifESbkMKWe
-	UJxBG4u5FCctcz2hkLnZOGZ6Sn3/tu4jTUeryq716uS83V9ipXy/tZga7Q6wBierJS3x
-	WhHG+XDJxc7hypUUBaCtJz869ouuHyUguQMcyBTcRI41n9F+HiBBpmwrfaQt7iW8g5qe
-	Qxng==
-X-Gm-Message-State: ALyK8tI7VQWs9otn9l0Xs4RDe/fulX6nkjHckHuPbuN6qH1SFvV0eWhX7eh+ExP+NgZCz3pPAYt39x4SVKjay67q
-X-Received: by 10.202.117.1 with SMTP id q1mr8694698oic.63.1468748509039; Sun,
-	17 Jul 2016 02:41:49 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.202.199.134 with HTTP; Sun, 17 Jul 2016 02:41:19 -0700 (PDT)
-In-Reply-To: <CAJTo0LY+whG89qBDKHYmk8j1q1UJb2oH6Y+8d6=ffNCXHw9HRw@mail.gmail.com>
-References: <cover.1468578590.git.jussi.kukkonen@intel.com>
-	<8673f0535cc7b0698e4d900b79f06975dd8670c1.1468578590.git.jussi.kukkonen@intel.com>
-	<CAJTo0LY+whG89qBDKHYmk8j1q1UJb2oH6Y+8d6=ffNCXHw9HRw@mail.gmail.com>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Sun, 17 Jul 2016 12:41:19 +0300
-Message-ID: <CAHiDW_EyU1Xc2ch6__EZRAZd8-9CBcy=-ibTuv95OcSAV8YYhw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/8] mesa: Upgrade 11.2.2 -> 12.0.1
+	Sun, 17 Jul 2016 18:36:47 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga101.fm.intel.com with ESMTP; 17 Jul 2016 11:36:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,379,1464678000"; d="scan'208";a="847951703"
+Received: from timo-fedora.jf.intel.com ([10.7.201.162])
+	by orsmga003.jf.intel.com with ESMTP; 17 Jul 2016 11:36:49 -0700
+From: Tim Orling <timothy.t.orling@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 17 Jul 2016 11:37:23 -0700
+Message-Id: <1468780643-2189-1-git-send-email-timothy.t.orling@linux.intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [krogoth][PATCH] nss: fix build for gcc-6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,101 +27,379 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Jul 2016 09:41:49 -0000
-Content-Type: multipart/alternative; boundary=001a11c17e0a2561e50537d1a963
+X-List-Received-Date: Sun, 17 Jul 2016 18:36:49 -0000
 
---001a11c17e0a2561e50537d1a963
-Content-Type: text/plain; charset=UTF-8
+[YOCTO #9897] (Fedora-24 host is gcc-6)
 
-On 16 July 2016 at 22:47, Burton, Ross <ross.burton@intel.com> wrote:
+Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
+---
+ meta/recipes-support/nss/nss/nss-gcc6-fix.patch | 343 ++++++++++++++++++++++++
+ meta/recipes-support/nss/nss_3.21.bb            |   1 +
+ 2 files changed, 344 insertions(+)
+ create mode 100644 meta/recipes-support/nss/nss/nss-gcc6-fix.patch
 
->
-> On 15 July 2016 at 11:41, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
->
->> Massive mesa upgrade (OpenGL 4.3, GLVND support, vulkan driver
->> for intel etc), although many new things are disabled by default.
->>
->
-> Looks like something changed - likely for the good - and mesa-demos in
-> X11-free builds are now failing:
-> http://errors.yoctoproject.org/Errors/Details/71162/
->
-> Why that was looking for GL.h when X11 should have been disabled I don't
-> know...
->
+diff --git a/meta/recipes-support/nss/nss/nss-gcc6-fix.patch b/meta/recipes-support/nss/nss/nss-gcc6-fix.patch
+new file mode 100644
+index 0000000..97422f6
+--- /dev/null
++++ b/meta/recipes-support/nss/nss/nss-gcc6-fix.patch
+@@ -0,0 +1,343 @@
++Fix gcc-6 -Werror=misleading-indentation errors
++
++Patch did not apply cleanly, so re-create the same changes.
++Also fixed some whitespace errors not addressed in the original patch.
++
++Upstream-Status: Backport
++Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
++
++From: Michel Normand <normand@linux.vnet.ibm.com>
++Subject: nss gcc6 change
++Date: Mon, 18 Apr 2016 19:11:03 +0200
++
++nss changes required to avoid build error with gcc6 like:
++===
++[   58s] h_page.c: In function 'new_lseek':
++[   58s] h_page.c:117:8: error: this 'if' clause does not guard... [-Werror=misleading-indentation]
++[   58s]         if(offset < 1)
++[   58s]         ^~
++[   58s] h_page.c:120:3: note: ...this statement, but the latter is misleadingly indented as if it is guarded by the 'if'
++[   58s]    cur_pos = lseek(fd, 0, SEEK_CUR);
++[   58s]    ^~~~~~~
++===
++
++Signed-off-by: Michel Normand <normand@linux.vnet.ibm.com>
++
++Index: nss-3.21/nss/cmd/bltest/blapitest.c
++===================================================================
++--- nss-3.21.orig/nss/cmd/bltest/blapitest.c
+++++ nss-3.21/nss/cmd/bltest/blapitest.c
++@@ -1571,8 +1571,7 @@ bltest_seed_init(bltestCipherInfo *ciphe
++ 	cipherInfo->cipher.symmkeyCipher = seed_Encrypt;
++     else
++ 	cipherInfo->cipher.symmkeyCipher = seed_Decrypt;
++-	
++-	return SECSuccess;
+++    return SECSuccess;
++ }
++ 
++ SECStatus
++Index: nss-3.21/nss/cmd/vfychain/vfychain.c
++===================================================================
++--- nss-3.21.orig/nss/cmd/vfychain/vfychain.c
+++++ nss-3.21/nss/cmd/vfychain/vfychain.c
++@@ -439,7 +439,8 @@ main(int argc, char *argv[], char *envp[
++ 	case  0  : /* positional parameter */  goto breakout;
++ 	case 'a' : isAscii  = PR_TRUE;                        break;
++ 	case 'b' : secStatus = DER_AsciiToTime(&time, optstate->value);
++-	           if (secStatus != SECSuccess) Usage(progName); break;
+++	           if (secStatus != SECSuccess) Usage(progName);
+++		   break;
++ 	case 'd' : certDir  = PL_strdup(optstate->value);     break;
++ 	case 'e' : ocsp_fetchingFailureIsAFailure = PR_FALSE;  break;
++ 	case 'f' : certFetching = PR_TRUE;                    break;
++Index: nss-3.21/nss/lib/dbm/src/h_page.c
++===================================================================
++--- nss-3.21.orig/nss/lib/dbm/src/h_page.c
+++++ nss-3.21/nss/lib/dbm/src/h_page.c
++@@ -112,26 +112,25 @@ long new_lseek(int fd, long offset, int
++ 	long end_pos=0;
++ 	long seek_pos=0;
++ 
++-	if(origin == SEEK_CUR)
++-      {	
++-      	if(offset < 1)							  
++-	    	return(lseek(fd, offset, SEEK_CUR));
+++	if (origin == SEEK_CUR) {
+++      		if (offset < 1)
+++			return(lseek(fd, offset, SEEK_CUR));
++ 
++ 		cur_pos = lseek(fd, 0, SEEK_CUR);
++ 
++-		if(cur_pos < 0)
+++		if (cur_pos < 0)
++ 			return(cur_pos);
++-	  }
++-										 
+++	}
+++
++ 	end_pos = lseek(fd, 0, SEEK_END);
++-	if(end_pos < 0)
+++	if (end_pos < 0)
++ 		return(end_pos);
++ 
++-	if(origin == SEEK_SET)
+++	if (origin == SEEK_SET)
++ 		seek_pos = offset;
++-	else if(origin == SEEK_CUR)
+++	else if (origin == SEEK_CUR)
++ 		seek_pos = cur_pos + offset;
++-	else if(origin == SEEK_END)
+++	else if (origin == SEEK_END)
++ 		seek_pos = end_pos + offset;
++  	else
++ 	  {
++@@ -143,7 +142,7 @@ long new_lseek(int fd, long offset, int
++ 	 * end of the file.  We don't need
++ 	 * to do anything special except the seek.
++ 	 */
++- 	if(seek_pos <= end_pos)
+++ 	if (seek_pos <= end_pos)
++  		return(lseek(fd, seek_pos, SEEK_SET));
++  		
++  	  /* the seek position is beyond the end of the
++@@ -161,7 +160,7 @@ long new_lseek(int fd, long offset, int
++ 	   	memset(buffer, 0, 1024);
++ 	   	while(len > 0)
++ 	      {
++-	        if(write(fd, buffer, (size_t)(1024 > len ? len : 1024)) < 0)
+++	        if (write(fd, buffer, (size_t)(1024 > len ? len : 1024)) < 0)
++ 				return(-1);
++ 		    len -= 1024;
++ 		  }
++@@ -245,10 +244,10 @@ __delpair(HTAB *hashp, BUFHEAD *bufp, in
++ 		 * Once we know dst_offset is < BSIZE, we can subtract it from BSIZE
++ 		 * to get an upper bound on length.
++ 		 */
++-		if(dst_offset > (uint32)hashp->BSIZE)
+++		if (dst_offset > (uint32)hashp->BSIZE)
++ 			return(DATABASE_CORRUPTED_ERROR);
++ 
++-		if(length > (uint32)(hashp->BSIZE - dst_offset))
+++		if (length > (uint32)(hashp->BSIZE - dst_offset))
++ 			return(DATABASE_CORRUPTED_ERROR);
++ 
++ 		memmove(dst, src, length);
++@@ -324,7 +323,7 @@ __split_page(HTAB *hashp, uint32 obucket
++ 		 * off.  If it is then the database has
++ 		 * been corrupted.
++ 		 */
++-		if(ino[n] > off)
+++		if (ino[n] > off)
++ 			return(DATABASE_CORRUPTED_ERROR);
++ 
++ 		key.size = off - ino[n];
++@@ -355,7 +354,7 @@ __split_page(HTAB *hashp, uint32 obucket
++ 			 * wrong.  LJM
++ 			 */
++ 			tmp_uint16_array = (uint16*)np;
++-			if(!PAIRFITS(tmp_uint16_array, &key, &val))
+++			if (!PAIRFITS(tmp_uint16_array, &key, &val))
++ 				return(DATABASE_CORRUPTED_ERROR);
++ 
++ 			putpair(np, &key, &val);
++@@ -440,7 +439,7 @@ ugly_split(HTAB *hashp, uint32 obucket,
++          */
++         loop_detection++;
++ 
++-        if(loop_detection > MAX_UGLY_SPLIT_LOOPS)
+++        if (loop_detection > MAX_UGLY_SPLIT_LOOPS)
++             return DATABASE_CORRUPTED_ERROR;
++ 
++ 		if (ino[2] < REAL_KEY && ino[2] != OVFLPAGE) {
++@@ -736,7 +735,7 @@ __get_page(HTAB *hashp,
++ 	     		 * the maximum number of entries
++ 	     		 * in the array
++ 	     		 */
++-				if((unsigned)max > (size / sizeof(uint16)))
+++				if ((unsigned)max > (size / sizeof(uint16)))
++ 					return(DATABASE_CORRUPTED_ERROR);
++ 
++ 				/* do the byte order swap
++@@ -749,7 +748,7 @@ __get_page(HTAB *hashp,
++ 		/* check the validity of the page here
++ 		 * (after doing byte order swaping if necessary)
++ 		 */
++-		if(!is_bitmap && bp[0] != 0)
+++		if (!is_bitmap && bp[0] != 0)
++ 		  {
++ 			uint16 num_keys = bp[0];
++ 			uint16 offset;
++@@ -760,11 +759,11 @@ __get_page(HTAB *hashp,
++ 			 * bp[0] is too large (larger than the whole
++ 			 * page) then the page is corrupted
++ 			 */
++-			if(bp[0] > (size / sizeof(uint16)))
+++			if (bp[0] > (size / sizeof(uint16)))
++ 				return(DATABASE_CORRUPTED_ERROR);
++ 			
++ 			/* bound free space */
++-			if(FREESPACE(bp) > size)
+++			if (FREESPACE(bp) > size)
++ 				return(DATABASE_CORRUPTED_ERROR);
++ 		
++ 			/* check each key and data offset to make
++@@ -776,10 +775,10 @@ __get_page(HTAB *hashp,
++ 			for(i=1 ; i <= num_keys; i+=2)
++   			  {
++ 				/* ignore overflow pages etc. */
++-				if(bp[i+1] >= REAL_KEY)
+++				if (bp[i+1] >= REAL_KEY)
++ 	  			  {
++ 						
++-					if(bp[i] > offset || bp[i+1] > bp[i])			
+++					if (bp[i] > offset || bp[i+1] > bp[i])
++ 						return(DATABASE_CORRUPTED_ERROR);
++ 			
++ 					offset = bp[i+1];
++@@ -832,7 +831,7 @@ __put_page(HTAB *hashp, char *p, uint32
++              * the maximum number of entries
++              * in the array
++              */
++-            if((unsigned)max > (size / sizeof(uint16)))
+++            if ((unsigned)max > (size / sizeof(uint16)))
++                 return(DATABASE_CORRUPTED_ERROR);
++ 
++ 			for (i = 0; i <= max; i++)
++@@ -1091,7 +1090,7 @@ __free_ovflpage(HTAB *hashp, BUFHEAD *ob
++ 	uint32 bit_address, free_page, free_bit;
++ 	uint16 ndx;
++ 
++-	if(!obufp || !obufp->addr)
+++	if (!obufp || !obufp->addr)
++ 	    return;
++ 
++ 	addr = obufp->addr;
++Index: nss-3.21/nss/lib/dbm/src/hash.c
++===================================================================
++--- nss-3.21.orig/nss/lib/dbm/src/hash.c
+++++ nss-3.21/nss/lib/dbm/src/hash.c
++@@ -154,7 +154,7 @@ __hash_open(const char *file, int flags,
++ 		return NULL;
++ 	}
++ 	hashp->fp = NO_FILE;
++-	if(file)
+++	if (file)
++ 		hashp->filename = strdup(file);
++ 
++ 	/*
++@@ -172,7 +172,7 @@ __hash_open(const char *file, int flags,
++ 			errno = 0; /* Just in case someone looks at errno */
++ 		new_table = 1;
++ 	}
++-	else if(statbuf.st_mtime && statbuf.st_size == 0)
+++	else if (statbuf.st_mtime && statbuf.st_size == 0)
++ 	{
++ 		/* check for a zero length file and delete it
++ 	 	 * if it exists
++@@ -288,7 +288,7 @@ hash_close(DB *dbp)
++ 		return (DBM_ERROR);
++ 
++ 	hashp = (HTAB *)dbp->internal;
++-	if(!hashp)
+++	if (!hashp)
++ 		return (DBM_ERROR);
++ 
++ 	retval = hdestroy(hashp);
++@@ -304,7 +304,7 @@ static int hash_fd(const DB *dbp)
++ 		return (DBM_ERROR);
++ 
++ 	hashp = (HTAB *)dbp->internal;
++-	if(!hashp)
+++	if (!hashp)
++ 		return (DBM_ERROR);
++ 
++ 	if (hashp->fp == -1) {
++@@ -480,7 +480,7 @@ hdestroy(HTAB *hashp)
++ 	if (hashp->fp != -1)
++ 		(void)close(hashp->fp);
++ 
++-	if(hashp->filename) {
+++	if (hashp->filename) {
++ #if defined(_WIN32) || defined(_WINDOWS) || defined(XP_OS2)
++ 		if (hashp->is_temp)
++ 			(void)unlink(hashp->filename);
++@@ -578,7 +578,7 @@ hash_sync(const DB *dbp, uint flags)
++ 		return (DBM_ERROR);
++ 
++ 	hashp = (HTAB *)dbp->internal;
++-	if(!hashp)
+++	if (!hashp)
++ 		return (DBM_ERROR);
++ 
++ 	if (!hashp->save_file)
++@@ -670,7 +670,7 @@ hash_get(
++ 
++ 	rv = hash_access(hashp, HASH_GET, (DBT *)key, data);
++ 
++-	if(rv == DATABASE_CORRUPTED_ERROR)
+++	if (rv == DATABASE_CORRUPTED_ERROR)
++ 	  {
++ #if defined(unix) && defined(DEBUG)
++ 		printf("\n\nDBM Database has been corrupted, tell Lou...\n\n");
++@@ -707,7 +707,7 @@ hash_put(
++ 	rv =  hash_access(hashp, flag == R_NOOVERWRITE ?
++ 	    HASH_PUTNEW : HASH_PUT, (DBT *)key, (DBT *)data);
++ 
++-	if(rv == DATABASE_CORRUPTED_ERROR)
+++	if (rv == DATABASE_CORRUPTED_ERROR)
++ 	  {
++ #if defined(unix) && defined(DEBUG)
++ 		printf("\n\nDBM Database has been corrupted, tell Lou...\n\n");
++@@ -741,7 +741,7 @@ hash_delete(
++ 	}
++ 	rv = hash_access(hashp, HASH_DELETE, (DBT *)key, NULL);
++ 
++-	if(rv == DATABASE_CORRUPTED_ERROR)
+++	if (rv == DATABASE_CORRUPTED_ERROR)
++ 	  {
++ #if defined(unix) && defined(DEBUG)
++ 		printf("\n\nDBM Database has been corrupted, tell Lou...\n\n");
++@@ -802,27 +802,27 @@ hash_access(
++ 			ndx += 2;
++ 		} else if (bp[1] == OVFLPAGE) {
++ 
++-            /* database corruption: overflow loop detection */
++-            if(last_overflow_page_no == (int32)*bp)
+++                    /* database corruption: overflow loop detection */
+++                    if (last_overflow_page_no == (int32)*bp)
++     			return (DATABASE_CORRUPTED_ERROR);
++ 
++-            last_overflow_page_no = *bp;
+++                    last_overflow_page_no = *bp;
++ 
++-			rbufp = __get_buf(hashp, *bp, rbufp, 0);
++-			if (!rbufp) {
++-				save_bufp->flags &= ~BUF_PIN;
++-				return (DBM_ERROR);
++-			}
+++		    rbufp = __get_buf(hashp, *bp, rbufp, 0);
+++		    if (!rbufp) {
+++			save_bufp->flags &= ~BUF_PIN;
+++			return (DBM_ERROR);
+++		    }
++ 
++-            ovfl_loop_count++;
++-            if(ovfl_loop_count > MAX_OVERFLOW_HASH_ACCESS_LOOPS)
+++                    ovfl_loop_count++;
+++                    if (ovfl_loop_count > MAX_OVERFLOW_HASH_ACCESS_LOOPS)
++     			return (DATABASE_CORRUPTED_ERROR);
++ 
++-			/* FOR LOOP INIT */
++-			bp = (uint16 *)rbufp->page;
++-			n = *bp++;
++-			ndx = 1;
++-			off = hashp->BSIZE;
+++		    /* FOR LOOP INIT */
+++		    bp = (uint16 *)rbufp->page;
+++		    n = *bp++;
+++		    ndx = 1;
+++		    off = hashp->BSIZE;
++ 		} else if (bp[1] < REAL_KEY) {
++ 			if ((ndx =
++ 			    __find_bigpair(hashp, rbufp, ndx, kp, (int)size)) > 0)
+diff --git a/meta/recipes-support/nss/nss_3.21.bb b/meta/recipes-support/nss/nss_3.21.bb
+index d2e2411..05d81c2 100644
+--- a/meta/recipes-support/nss/nss_3.21.bb
++++ b/meta/recipes-support/nss/nss_3.21.bb
+@@ -21,6 +21,7 @@ SRC_URI = "\
+     file://nss-fix-incorrect-shebang-of-perl.patch \
+     file://nss-fix-nsinstall-build.patch \
+     file://0001-Fix-build-failure-on-opensuse-13.1.patch \
++    file://nss-gcc6-fix.patch \
+     file://nss.pc.in \
+     file://signlibs.sh \
+ "
+-- 
+2.7.4
 
-Based on a quick look:
-* mesa-demos needs GL/gl.h but the recipe does not depend on virtual/libgl
-* for some reason mesa 11.2.2 builds glx even when configured not to
-  (--disable-glx used, configure log says "GLX: no", /GL/* headers end up
-in sysroot)
 
-So X11-free builds may have been not as X11-free as advertised?
-
-Jussi
-
-
-
-> Ross
->
-> ---------------------------------------------------------------------
-> Intel Corporation (UK) Limited
-> Registered No. 1134945 (England)
-> Registered Office: Pipers Way, Swindon SN3 1RJ
-> VAT No: 860 2173 47
->
-> This e-mail and any attachments may contain confidential material for
-> the sole use of the intended recipient(s). Any review or distribution
-> by others is strictly prohibited. If you are not the intended
-> recipient, please contact the sender and delete all copies.
->
-
---001a11c17e0a2561e50537d1a963
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 1=
-6 July 2016 at 22:47, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"mailto:=
-ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;</spa=
-n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(2=
-04,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_extra"><=
-span class=3D""><br><div class=3D"gmail_quote">On 15 July 2016 at 11:41, Ju=
-ssi Kukkonen <span dir=3D"ltr">&lt;<a href=3D"mailto:jussi.kukkonen@intel.c=
-om" target=3D"_blank">jussi.kukkonen@intel.com</a>&gt;</span> wrote:<br><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;padd=
-ing-left:1ex"><div>Massive <span>mesa</span> upgrade (OpenGL 4.3, GLVND sup=
-port, vulkan driver<br>
-for intel etc), although many new things are disabled by default.<br></div>=
-</blockquote></div><br></span>Looks like something changed - likely for the=
- good - and mesa-demos in X11-free builds are now failing: <a href=3D"http:=
-//errors.yoctoproject.org/Errors/Details/71162/" target=3D"_blank">http://e=
-rrors.yoctoproject.org/Errors/Details/71162/</a></div><div class=3D"gmail_e=
-xtra"><br></div><div class=3D"gmail_extra">Why that was looking for GL.h wh=
-en X11 should have been disabled I don&#39;t know...</div></div></blockquot=
-e><div><br></div><div>Based on a quick look:</div><div>* mesa-demos needs G=
-L/gl.h but the recipe does not depend on virtual/libgl</div><div>* for some=
- reason mesa 11.2.2 builds glx even when configured not to</div><div>=C2=A0=
- (--disable-glx used, configure log says &quot;GLX: no&quot;, /GL/* headers=
- end up in sysroot)</div><div><br></div><div>So X11-free builds may have be=
-en not as X11-free as advertised?<br></div><div><br></div><div>Jussi</div><=
-div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;borde=
-r-left-color:rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=
-=3D"gmail_extra">Ross</div></div>
-<p>---------------------------------------------------------------------<br=
->
-Intel Corporation (UK) Limited<br>
-Registered No. 1134945 (England)<br>
-Registered Office: Pipers Way, Swindon SN3 1RJ<br>
-VAT No: 860 2173 47</p>
-
-<p>This e-mail and any attachments may contain confidential material for<br=
->
-the sole use of the intended recipient(s). Any review or distribution<br>
-by others is strictly prohibited. If you are not the intended<br>
-recipient, please contact the sender and delete all copies.</p></blockquote=
-></div><br></div></div>
-
---001a11c17e0a2561e50537d1a963--
