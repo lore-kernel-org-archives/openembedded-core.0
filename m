@@ -1,27 +1,27 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 8CCC860797
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jul 2016 22:04:33 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP; 18 Jul 2016 15:04:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,386,1464678000"; d="scan'208";a="848733403"
-Received: from mlopezva-mobl2.zpn.intel.com (HELO [10.219.5.49])
-	([10.219.5.49])
-	by orsmga003.jf.intel.com with ESMTP; 18 Jul 2016 15:04:32 -0700
-To: akuster808 <akuster808@gmail.com>, openembedded-core@lists.openembedded.org
-References: <cover.1456412549.git.mariano.lopez@linux.intel.com>
-	<5249539744d86c132ab2566a3bb99de260880e6d.1468241364.git.mariano.lopez@linux.intel.com>
-	<57856CDA.5070201@gmail.com>
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
-Message-ID: <578D5274.2070208@linux.intel.com>
-Date: Mon, 18 Jul 2016 17:04:36 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.8.0
-MIME-Version: 1.0
-In-Reply-To: <57856CDA.5070201@gmail.com>
-Subject: Re: [PATCHv3 1/2] cve-check-tool: Add recipe
+Return-Path: <pb@pbcl.net>
+X-Greylist: delayed 1229 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 18 Jul 2016 22:39:02 UTC
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 386D760797;
+	Mon, 18 Jul 2016 22:39:02 +0000 (UTC)
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25] helo=e130.local)
+	by hetzner.pbcl.net with esmtpsa
+	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.84)
+	(envelope-from <pb@pbcl.net>)
+	id 1bPGrw-0001hi-IO; Tue, 19 Jul 2016 00:18:33 +0200
+Message-ID: <1468880306.2228.69.camel@pbcl.net>
+From: Phil Blundell <pb@pbcl.net>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 18 Jul 2016 23:18:26 +0100
+In-Reply-To: <CAJTo0LYNjoPfahXjaKEVP6ey=mY3MKDKK5DoCPB9Dp151UgFpw@mail.gmail.com>
+References: <CAJTo0LYNjoPfahXjaKEVP6ey=mY3MKDKK5DoCPB9Dp151UgFpw@mail.gmail.com>
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>,
+	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [Openembedded-architecture] Removal of uclibc from oe-core?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,49 +34,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jul 2016 22:04:35 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Mon, 18 Jul 2016 22:39:03 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+On Mon, 2016-07-18 at 23:01 +0100, Burton, Ross wrote:
+
+> Now that musl is fairly mature I think it's time to take uclibc out to
+> pasture, where the pasture is possibly called meta-uclibc.
+
+I think this is a splendid idea.
+
+p.
 
 
-On 07/12/2016 05:19 PM, akuster808 wrote:
-> Mariano,
->
->
-> On 07/11/2016 05:52 AM, mariano.lopez@linux.intel.com wrote:
->> From: Mariano Lopez <mariano.lopez@linux.intel.com>
->>
->> cve-check-tool is a program for public CVEs checking.
->> This tool also seek to determine if a vulnerability has
->> been addressed by a patch.
-> By tool do you mean the "cve-check-tool"? All the Nvd DB can tell you if
-> an CVE has been assigned, anything more than that is not guaranteed.
->
-> Look at https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5320
 
-Sorry for the confusion, here I was referring to patches in OE that 
-address the CVE, the class will look for the CVE tag for this.
-
->
->> The recipe also includes the do_populate_cve_db task
->> that will populate the database used by the tool.
-> This DB is big. May want to add a note to that affect. Maybe a note
-> about how to share the DB across builds like with the AB.
-
-You are right, the DB is big and it will take some time to download. By 
-default the tool will download the DB to DL_DIR, so if you have this dir 
-shared, it will be downloaded just one time, and incremental updates later.
-
->
-> time for me to play with this.
->
-> Thanks for driving this.
-
-Glad to be helping with this.
-
-> regards,
-> Armin
->
-Mariano
 
