@@ -1,73 +1,51 @@
-Return-Path: <tom.hochstein@nxp.com>
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com
-	(mail-db5eur01on0088.outbound.protection.outlook.com [104.47.2.88])
-	by mail.openembedded.org (Postfix) with ESMTP id B4AE560797
+Return-Path: <max.oss.09@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 81C5960589
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jul 2016 20:03:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=M5/PbcumFQhCYAD+mXv1nFXa1WXtUHrGq7Jkf7tycBg=;
-	b=j9Sa1E8I1gxsmnG78+mGKwhZSJWvlW2PgobfTE8vYRmDihR1cLlfOICYem0gm+g/hU/xWEvVQc+eetenE9ipbcBc8ykDYdtfDWKjuIa1yDyOwvXZMxHTK7JCRAbKaIgnlo5br1hXR61+a5xzgE8o22vSoEU5a43Kfzi9POwbhdM=
-Received: from AMSPR04MB309.eurprd04.prod.outlook.com (10.242.107.15) by
-	AMSPR04MB309.eurprd04.prod.outlook.com (10.242.107.15) with Microsoft
-	SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
-	15.1.549.5; Mon, 18 Jul 2016 16:47:20 +0000
-Received: from AMSPR04MB309.eurprd04.prod.outlook.com ([10.242.107.15]) by
-	AMSPR04MB309.eurprd04.prod.outlook.com ([10.242.107.15]) with mapi id
-	15.01.0549.003; Mon, 18 Jul 2016 16:47:20 +0000
-From: Tom Hochstein <tom.hochstein@nxp.com>
-To: "Burton, Ross" <ross.burton@intel.com>, Otavio Salvador
-	<otavio.salvador@ossystems.com.br>
-Thread-Topic: [OE-core] [PATCH v3 3/3] weston-init: Fix weston-start to allow
-	weston args without openvt args
-Thread-Index: AQHR4Qb9jEipY8QRpUOrY5FFWA1ZxKAeYPUAgAAEzcA=
-Date: Mon, 18 Jul 2016 16:47:20 +0000
-Message-ID: <AMSPR04MB309CF94B45691E4EFFB3199E2360@AMSPR04MB309.eurprd04.prod.outlook.com>
-References: <1468852986-2487-1-git-send-email-tom.hochstein@nxp.com>
-	<1468852986-2487-3-git-send-email-tom.hochstein@nxp.com>
-	<CAP9ODKp++LrcTb0wpKCiC3oPY4iLJzCdEmWd-xastZRqZu48dw@mail.gmail.com>
-	<CAJTo0LZd_8RmNnvnS0gW=pVmj3QQO8FbZmBjN-jARfBL_NqmgA@mail.gmail.com>
-In-Reply-To: <CAJTo0LZd_8RmNnvnS0gW=pVmj3QQO8FbZmBjN-jARfBL_NqmgA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=tom.hochstein@nxp.com; 
-x-originating-ip: [192.88.168.1]
-x-ms-office365-filtering-correlation-id: 0bf06b3e-b01e-4e9b-6e69-08d3af2b2fc3
-x-microsoft-exchange-diagnostics: 1; AMSPR04MB309;
-	6:gIDkCV95a14eud1x6uGHPeOTzZ5OdroLD98mtCFMvgAqrB60qN1k9TXlQgniwIwrfXl+DB4Ddv1g7hc9iZgHTf5aGc8UEMU7xb/oLq2y0175uePJXirrs+dIyjs04BdgvsYduLCJuLNKXZJmzn3v4/VI+yZCukWtDTDURTadhtwHO/0AGk+Ukl+7a7Dd8fBXGZlTXSqjW4amM3tPpX1rNrnl+YVraTi3q7Y+4jvrLvxnYKpOO2VPVj6nkZFFP+FHoLEdPQEdJ2rxUWkXy9xY0ZkSqdTqk1re02Z5dMeShpZcvmwRD0zIHffLRAYi6pOM+FpO0+rvgHuX/KaOwxhdcw==;
-	5:JPmEtM5kd0RDnR4FuDD3QiRXp9GnGm1J7xzBeXBvb8AaDytii6wRsfhej+O8iCua1rGt++6/53PI7ltzip52HW468JpdVdsIENAGVgAQNg8hNuWkl+tHqsQkYiDKozALQmrIEy9ivK62PjsEwMSVqg==;
-	24:v9OJ1TDXIR88O2rkXXiow2ydQfy3B408uICSHkgTCkpgp21Qzy6zpnfsDJxngwCwtj0P22R45dEsbovUJ8mlriDzsKoNcARTx0LIGhB7ZDk=;
-	7:YEZvQBHMig0kjpdppTJFG16P/ohWFzG2anMjfSBvngzRU9r/5fr96XVMNfS2CFqGf7zfgOvvI9BAZuTMWWh0ImIPQ/DCH/dWkjBEOD+nQVK3MElslO8algwjqLfGpVa6Pjo2xHGOWPPj5TS2Gy0edYm1aYXim8E6ncFEvwRKe3MIZt8SXaC0lbNFn9lbN4Niso0nZhrCrSyx+soKFt/Nv9UZHegUpvJLr6jzqIl+aijLWFp5p87wc0HsEf8a4S9I
-x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:AMSPR04MB309;
-x-microsoft-antispam-prvs: <AMSPR04MB3090E40BE880EB72EC01BCAE2360@AMSPR04MB309.eurprd04.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:(185117386973197)(264703809997249)(166494164430575)(21748063052155)(228905959029699);
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(601004)(2401047)(8121501046)(5005006)(3002001)(10201501046)(6055026);
-	SRVR:AMSPR04MB309; BCL:0; PCL:0; RULEID:; SRVR:AMSPR04MB309; 
-x-forefront-prvs: 00073DB75F
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(7916002)(377454003)(189002)(24454002)(199003)(76576001)(16601075003)(93886004)(11100500001)(87936001)(66066001)(8936002)(15975445007)(19617315012)(2950100001)(2900100001)(77096005)(10400500002)(106116001)(106356001)(16236675004)(86362001)(33656002)(54356999)(5001770100001)(97736004)(7846002)(6116002)(7906003)(790700001)(3846002)(5002640100001)(586003)(102836003)(105586002)(7696003)(5003600100003)(7736002)(3660700001)(9686002)(50986999)(76176999)(74316002)(19609705001)(81166006)(81156014)(19625215002)(8676002)(3280700002)(92566002)(122556002)(4326007)(2906002)(189998001)(101416001)(19300405004)(68736007)(19580405001)(19580395003);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:AMSPR04MB309;
-	H:AMSPR04MB309.eurprd04.prod.outlook.com; FPR:; SPF:None;
-	PTR:InfoNoRecords; MX:1; A:1; LANG:en; 
-received-spf: None (protection.outlook.com: nxp.com does not designate
-	permitted sender hosts)
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
-MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jul 2016 16:47:20.7341 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMSPR04MB309
-X-Microsoft-Exchange-Diagnostics: 1; AMSPR04MB309;
-	23:nmEQKH6Yph+83J6t3yCBl1JDVpeVwyInk92F7noIljtO3Wd5OGpb9FJdNTgig4Y71nzN8CG/u7SB97uv2wdEksUKg5uR2iOr+qDD+kJKrUPIe2QnjcFG+ldJCXZ6o5PXJMTv+ydhsWGOO4v0DTPJdMzLZISraLiftqHOjgyyqAFqA123cVRJiwqL/iDjS2lm
-X-OriginatorOrg: nxp.com
-Cc: Otavio Salvador <otavio@ossystems.com.br>, Patches and discussions about
-	the oe-core layer <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 3/3] weston-init: Fix weston-start to allow weston args without openvt args
+	Mon, 18 Jul 2016 20:07:35 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id q128so110787wma.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Jul 2016 13:07:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=H85ce7pRxPgB+WxG9FrcvP51s8XCjc8cp+i1S1nBuQI=;
+	b=cZRn5VeduLXJizzkbkZ/Zk4jGVmGNCxFtXeCvRKN61TY/82BwYzkN1jFrA+SjKGOd1
+	s619icYvTqSTlS36gUFdoYFLBUmUj65sJVLumx+m/XKt6HN11BSy9SafmA1R5Q2hdp9q
+	ODepCBZ2SbtJ2w3zmrGOFwp6KHZekZBJzwbmLxujkrZRZtSIrdxUFD1hwayCLxB8LTOT
+	xP8sFldWAlQb/iCpL8qx1hwbtEFi6D7v7S3iAAfEathQydWzggG0AyiNzXyU6n0Ibr68
+	X5evUQuJIuALUMxPOlH3EbOYydWcqWAkm6EGKd4pxv/rVpppuB7UKOMB+Qk0cylV/1m5
+	PHsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=H85ce7pRxPgB+WxG9FrcvP51s8XCjc8cp+i1S1nBuQI=;
+	b=lhHxn/7O/YyDyA66M8e/mdOliVoS2EgyVCU3E3s1TMgMzgjWwZAaQmXrHp7u77B8oG
+	3RWLGubdG1fHh6aJl/xjTWXDh2YRD+AUtR60/0AxVHIhlRgHUq/pfBJxPFpbczy7gV+7
+	Kz7E4CjbgFfFc05rt+0SA5kc65BUR9otOleEuoIu/qjrSmwG6ZTaxEVALeR9A8JW1ln9
+	lPBxq2MxmJblkveb3SP9Yqg0ED/mNv6IT3neFC0vUlA9a6qEhWr+vYaNhnHSQoYjgMFi
+	kcM/Bq+pbNaQYdnMztUzAqJB3b5c1z8/SOhnegxAjENwRtT2qUSK45/wJ453NcmEaCnC
+	JSdw==
+X-Gm-Message-State: ALyK8tIqkvY8lXh+mOCn9GTEdZ3KfXP7yup1Im+vbSwjrGx2L5EA7k7eIC2Ho2oZk1uKgg==
+X-Received: by 10.28.158.87 with SMTP id h84mr137947wme.43.1468872455663;
+	Mon, 18 Jul 2016 13:07:35 -0700 (PDT)
+Received: from Saturn.local.all (212-41-108-41.adsl.solnet.ch. [212.41.108.41])
+	by smtp.gmail.com with ESMTPSA id
+	le1sm2904865wjb.15.2016.07.18.13.07.34
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 18 Jul 2016 13:07:34 -0700 (PDT)
+Message-ID: <1468872453.3253.9.camel@gmail.com>
+From: Max Krummenacher <max.oss.09@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 18 Jul 2016 22:07:33 +0200
+In-Reply-To: <1459719934.7348.141.camel@linuxfoundation.org>
+References: <1459717038-10549-1-git-send-email-max.krummenacher@toradex.com>
+	<1459719934.7348.141.camel@linuxfoundation.org>
+X-Mailer: Evolution 3.16.5 
+Mime-Version: 1.0
+Subject: Re: [oe][Patch] package.bbclass: fix host contamination warnings for source files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -80,132 +58,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jul 2016 20:03:05 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_AMSPR04MB309CF94B45691E4EFFB3199E2360AMSPR04MB309eurprd_"
+X-List-Received-Date: Mon, 18 Jul 2016 20:07:35 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---_000_AMSPR04MB309CF94B45691E4EFFB3199E2360AMSPR04MB309eurprd_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Hi
 
-UmUtc2VudC4NCg0KRnJvbTogQnVydG9uLCBSb3NzIFttYWlsdG86cm9zcy5idXJ0b25AaW50ZWwu
-Y29tXQ0KU2VudDogTW9uZGF5LCBKdWx5IDE4LCAyMDE2IDExOjI5IEFNDQpUbzogT3RhdmlvIFNh
-bHZhZG9yIDxvdGF2aW8uc2FsdmFkb3JAb3NzeXN0ZW1zLmNvbS5icj4NCkNjOiBUb20gSG9jaHN0
-ZWluIDx0b20uaG9jaHN0ZWluQG54cC5jb20+OyBPdGF2aW8gU2FsdmFkb3IgPG90YXZpb0Bvc3N5
-c3RlbXMuY29tLmJyPjsgUGF0Y2hlcyBhbmQgZGlzY3Vzc2lvbnMgYWJvdXQgdGhlIG9lLWNvcmUg
-bGF5ZXIgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpTdWJqZWN0
-OiBSZTogW09FLWNvcmVdIFtQQVRDSCB2MyAzLzNdIHdlc3Rvbi1pbml0OiBGaXggd2VzdG9uLXN0
-YXJ0IHRvIGFsbG93IHdlc3RvbiBhcmdzIHdpdGhvdXQgb3BlbnZ0IGFyZ3MNCg0KSSBjYW4gb25s
-eSBzZWUgMS8zIGFuZCAzLzMsIGJ1dCBubyAyLzMuDQoNCk9uIDE4IEp1bHkgMjAxNiBhdCAxNjox
-MywgT3RhdmlvIFNhbHZhZG9yIDxvdGF2aW8uc2FsdmFkb3JAb3NzeXN0ZW1zLmNvbS5icjxtYWls
-dG86b3RhdmlvLnNhbHZhZG9yQG9zc3lzdGVtcy5jb20uYnI+PiB3cm90ZToNCk9uIE1vbiwgSnVs
-IDE4LCAyMDE2IGF0IDExOjQzIEFNLCBUb20gSG9jaHN0ZWluIDx0b20uaG9jaHN0ZWluQG54cC5j
-b208bWFpbHRvOnRvbS5ob2Noc3RlaW5AbnhwLmNvbT4+IHdyb3RlOg0KPiBUaGUgcGFyc2VyIGRp
-ZG4ndCBwcm9wZXJseSBoYW5kbGUgY29tbWFuZHMgb2YgdGhlIGZvcm0NCj4gd2VzdG9uLXN0YXJ0
-IC0tIDx3ZXN0b24tb3B0aW9ucz4uDQo+DQo+IFNpZ25lZC1vZmYtYnk6IFRvbSBIb2Noc3RlaW4g
-PHRvbS5ob2Noc3RlaW5AbnhwLmNvbTxtYWlsdG86dG9tLmhvY2hzdGVpbkBueHAuY29tPj4NCg0K
-DQoNCkFja2VkLWJ5OiBPdGF2aW8gU2FsdmFkb3IgPG90YXZpb0Bvc3N5c3RlbXMuY29tLmJyPG1h
-aWx0bzpvdGF2aW9Ab3NzeXN0ZW1zLmNvbS5icj4+DQoNCi0tDQpPdGF2aW8gU2FsdmFkb3IgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIE8uUy4gU3lzdGVtcw0KaHR0cDovL3d3dy5vc3N5c3Rl
-bXMuY29tLmJyICAgICAgICBodHRwOi8vY29kZS5vc3N5c3RlbXMuY29tLmJyDQpNb2JpbGU6ICs1
-NSAoNTMpIDk5ODEtNzg1NDx0ZWw6JTJCNTUlMjAlMjg1MyUyOSUyMDk5ODEtNzg1ND4gICAgICAg
-ICAgICBNb2JpbGU6ICsxICgzNDcpIDkwMy05NzUwPHRlbDolMkIxJTIwJTI4MzQ3JTI5JTIwOTAz
-LTk3NTA+DQotLQ0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18NCk9wZW5lbWJlZGRlZC1jb3JlIG1haWxpbmcgbGlzdA0KT3BlbmVtYmVkZGVkLWNvcmVAbGlz
-dHMub3BlbmVtYmVkZGVkLm9yZzxtYWlsdG86T3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZz4NCmh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL21haWxtYW4vbGlzdGlu
-Zm8vb3BlbmVtYmVkZGVkLWNvcmUNCg0K
+Am Sonntag, den 03.04.2016, 22:45 +0100 schrieb Richard Purdie:
+> On Sun, 2016-04-03 at 22:57 +0200, Max Krummenacher wrote:
+> > Addresses https://bugzilla.yoctoproject.org/show_bug.cgi?id=8939
+> > 
+> > Source files deployed with the *-dbg packages are owned by the user
+> > running bitbake leading to warnings as the one below.
+> > 
+> > WARNING: glibc-2.23-r0 do_package_qa: QA Issue: glibc: /glibc
+> > -dbg/usr/src/debug/glibc/2.23-r0/git/include/resolv.h is owned by
+> > uid
+> > 1000, which is the same as the user running bitbake. This may be
+> > due
+> > to host contamination
+> > glibc: /glibc-dbg/usr/src/debug/glibc/2.23
+> > -r0/git/include/monetary.h
+> > is owned by uid 1000, which is the same as the user running
+> > bitbake.
+> > This may be due to host contamination
+> > glibc: /glibc-dbg/usr/src/debug/glibc/2.23-r0/git/include/locale.h
+> > is
+> > owned by uid 1000, which is the same as the user running bitbake.
+> > This may be due to host contamination
+> > ...
+> > 
+> > The files are copied as part of the do_package task.
+> > The patch chowns all file in packages/usr/src after cpio copied
+> > them
+> > into the
+> > package directory.
+> > 
+> > Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+> > ---
+> > 
+> > 
+> >  meta/classes/package.bbclass | 23 +++++++++++++++++++++++
+> >  1 file changed, 23 insertions(+)
+> > 
+> > diff --git a/meta/classes/package.bbclass
+> > b/meta/classes/package.bbclass
+> > index bdbe96d..d9ef62c 100644
+> > --- a/meta/classes/package.bbclass
+> > +++ b/meta/classes/package.bbclass
+> > @@ -362,6 +362,7 @@ def copydebugsources(debugsrcdir, d):
+> >      # and copied to the destination here.
+> >  
+> >      import stat
+> > +    import subprocess
+> >  
+> >      sourcefile = d.expand("${WORKDIR}/debugsources.list")
+> >      if debugsrcdir and os.path.isfile(sourcefile):
+> > @@ -410,6 +411,28 @@ def copydebugsources(debugsrcdir, d):
+> >          if retval:
+> >              bb.fatal("debugsrc symlink fixup failed with exit code
+> > %s (cmd was %s)" % (retval, cmd))
+> >  
+> > +        # cpio --no-preserve-owner does not create the destination
+> > files with
+> > +        # owner root even when run under pseudo, chown them
+> > explicitely.
+> 
+> How about passing --owner=0:0 to cpio? 
+> 
+> I'm a little worried about why I don't see this failure on my own
+> local
+> builds.
+> 
+> We have a few cases where things sometimes seem to work out and
+> sometimes don't and I'd love to get to the bottom of how to reproduce
+> it and to understand why its different for different people.
 
---_000_AMSPR04MB309CF94B45691E4EFFB3199E2360AMSPR04MB309eurprd_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+I finally got enough time to investigate further.
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
-Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
-DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
-b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
-Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
-dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLmhvZW56Yg0KCXttc28t
-c3R5bGUtbmFtZTpob2VuemI7fQ0Kc3Bhbi5FbWFpbFN0eWxlMTgNCgl7bXNvLXN0eWxlLXR5cGU6
-cGVyc29uYWwtcmVwbHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLHNhbnMtc2VyaWY7DQoJY29s
-b3I6IzFGNDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25s
-eTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjt9DQpAcGFnZSBXb3JkU2VjdGlv
-bjENCgl7c2l6ZTo4LjVpbiAxMS4waW47DQoJbWFyZ2luOjEuMGluIDEuMGluIDEuMGluIDEuMGlu
-O30NCmRpdi5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48
-IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNw
-aWRtYXg9IjEwMjYiIC8+DQo8L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHht
-bD4NCjxvOnNoYXBlbGF5b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBk
-YXRhPSIxIiAvPg0KPC9vOnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0K
-PGJvZHkgbGFuZz0iRU4tVVMiIGxpbms9ImJsdWUiIHZsaW5rPSJwdXJwbGUiPg0KPGRpdiBjbGFz
-cz0iV29yZFNlY3Rpb24xIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250
-LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtj
-b2xvcjojMUY0OTdEIj5SZS1zZW50LjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJN
-c29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90
-O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpw
-Pjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBzdHlsZT0iZm9udC1z
-aXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPkZy
-b206PC9zcGFuPjwvYj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTom
-cXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3Nz
-LmJ1cnRvbkBpbnRlbC5jb21dDQo8YnI+DQo8Yj5TZW50OjwvYj4gTW9uZGF5LCBKdWx5IDE4LCAy
-MDE2IDExOjI5IEFNPGJyPg0KPGI+VG86PC9iPiBPdGF2aW8gU2FsdmFkb3IgJmx0O290YXZpby5z
-YWx2YWRvckBvc3N5c3RlbXMuY29tLmJyJmd0Ozxicj4NCjxiPkNjOjwvYj4gVG9tIEhvY2hzdGVp
-biAmbHQ7dG9tLmhvY2hzdGVpbkBueHAuY29tJmd0OzsgT3RhdmlvIFNhbHZhZG9yICZsdDtvdGF2
-aW9Ab3NzeXN0ZW1zLmNvbS5iciZndDs7IFBhdGNoZXMgYW5kIGRpc2N1c3Npb25zIGFib3V0IHRo
-ZSBvZS1jb3JlIGxheWVyICZsdDtvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQu
-b3JnJmd0Ozxicj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW09FLWNvcmVdIFtQQVRDSCB2MyAzLzNd
-IHdlc3Rvbi1pbml0OiBGaXggd2VzdG9uLXN0YXJ0IHRvIGFsbG93IHdlc3RvbiBhcmdzIHdpdGhv
-dXQgb3BlbnZ0IGFyZ3M8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
-Ij48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5JIGNh
-biBvbmx5IHNlZSAxLzMgYW5kIDMvMywgYnV0IG5vIDIvMy48bzpwPjwvbzpwPjwvcD4NCjwvZGl2
-Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRp
-dj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPk9uIDE4IEp1bHkgMjAxNiBhdCAxNjoxMywgT3Rhdmlv
-IFNhbHZhZG9yICZsdDs8YSBocmVmPSJtYWlsdG86b3RhdmlvLnNhbHZhZG9yQG9zc3lzdGVtcy5j
-b20uYnIiIHRhcmdldD0iX2JsYW5rIj5vdGF2aW8uc2FsdmFkb3JAb3NzeXN0ZW1zLmNvbS5icjwv
-YT4mZ3Q7IHdyb3RlOjxvOnA+PC9vOnA+PC9wPg0KPGJsb2NrcXVvdGUgc3R5bGU9ImJvcmRlcjpu
-b25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7cGFkZGluZzowaW4gMGluIDBpbiA2
-LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmlnaHQ6MGluIj4NCjxwIGNsYXNzPSJNc29O
-b3JtYWwiPk9uIE1vbiwgSnVsIDE4LCAyMDE2IGF0IDExOjQzIEFNLCBUb20gSG9jaHN0ZWluICZs
-dDs8YSBocmVmPSJtYWlsdG86dG9tLmhvY2hzdGVpbkBueHAuY29tIj50b20uaG9jaHN0ZWluQG54
-cC5jb208L2E+Jmd0OyB3cm90ZTo8YnI+DQomZ3Q7IFRoZSBwYXJzZXIgZGlkbid0IHByb3Blcmx5
-IGhhbmRsZSBjb21tYW5kcyBvZiB0aGUgZm9ybTxicj4NCiZndDsgd2VzdG9uLXN0YXJ0IC0tICZs
-dDt3ZXN0b24tb3B0aW9ucyZndDsuPGJyPg0KJmd0Ozxicj4NCiZndDsgU2lnbmVkLW9mZi1ieTog
-VG9tIEhvY2hzdGVpbiAmbHQ7PGEgaHJlZj0ibWFpbHRvOnRvbS5ob2Noc3RlaW5AbnhwLmNvbSI+
-dG9tLmhvY2hzdGVpbkBueHAuY29tPC9hPiZndDs8YnI+DQo8YnI+DQo8YnI+DQo8YnI+DQpBY2tl
-ZC1ieTogT3RhdmlvIFNhbHZhZG9yICZsdDs8YSBocmVmPSJtYWlsdG86b3RhdmlvQG9zc3lzdGVt
-cy5jb20uYnIiPm90YXZpb0Bvc3N5c3RlbXMuY29tLmJyPC9hPiZndDs8YnI+DQo8c3BhbiBzdHls
-ZT0iY29sb3I6Izg4ODg4OCI+PGJyPg0KPHNwYW4gY2xhc3M9ImhvZW56YiI+LS08L3NwYW4+PGJy
-Pg0KPHNwYW4gY2xhc3M9ImhvZW56YiI+T3RhdmlvIFNhbHZhZG9yJm5ic3A7ICZuYnNwOyAmbmJz
-cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
-OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDtPLlMuIFN5c3RlbXM8L3NwYW4+PGJyPg0KPHNw
-YW4gY2xhc3M9ImhvZW56YiI+PGEgaHJlZj0iaHR0cDovL3d3dy5vc3N5c3RlbXMuY29tLmJyIiB0
-YXJnZXQ9Il9ibGFuayI+aHR0cDovL3d3dy5vc3N5c3RlbXMuY29tLmJyPC9hPiZuYnNwOyAmbmJz
-cDsgJm5ic3A7ICZuYnNwOw0KPGEgaHJlZj0iaHR0cDovL2NvZGUub3NzeXN0ZW1zLmNvbS5iciIg
-dGFyZ2V0PSJfYmxhbmsiPmh0dHA6Ly9jb2RlLm9zc3lzdGVtcy5jb20uYnI8L2E+PC9zcGFuPjxi
-cj4NCjxzcGFuIGNsYXNzPSJob2VuemIiPk1vYmlsZTogPGEgaHJlZj0idGVsOiUyQjU1JTIwJTI4
-NTMlMjklMjA5OTgxLTc4NTQiPiYjNDM7NTUgKDUzKSA5OTgxLTc4NTQ8L2E+Jm5ic3A7ICZuYnNw
-OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgTW9iaWxlOg0KPGEgaHJlZj0idGVsOiUyQjEl
-MjAlMjgzNDclMjklMjA5MDMtOTc1MCI+JiM0MzsxICgzNDcpIDkwMy05NzUwPC9hPjwvc3Bhbj48
-L3NwYW4+PG86cD48L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
-Pi0tPGJyPg0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX188
-YnI+DQpPcGVuZW1iZWRkZWQtY29yZSBtYWlsaW5nIGxpc3Q8YnI+DQo8YSBocmVmPSJtYWlsdG86
-T3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyI+T3BlbmVtYmVkZGVkLWNv
-cmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzwvYT48YnI+DQo8YSBocmVmPSJodHRwOi8vbGlzdHMu
-b3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRlZC1jb3JlIiB0YXJn
-ZXQ9Il9ibGFuayI+aHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9vcGVuZW1iZWRkZWQtY29yZTwvYT48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8
-L2Jsb2NrcXVvdGU+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9v
-OnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
+I found cpio -l (i.e. createing hardlinks) under pseudo does not set
+the owner to root, neither width --no-preserve-owner nor width -
+-owner=0:0.
 
---_000_AMSPR04MB309CF94B45691E4EFFB3199E2360AMSPR04MB309eurprd_--
+The file ownership in yocto is corrected later with fs-perms.txt.
+Angstrom does provide its own fs perms configuration which disables the
+oe-core fs-perms.txt. But due to a bug the angstrom file is not active.
+Patch sent to the angstrom ML.
+http://article.gmane.org/gmane.linux.distributions.angstrom.devel/7856
+
+Max
+
+> Cheers,
+> 
+> Richard
+
