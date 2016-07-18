@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 179DE60290
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 736AB731C1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jul 2016 03:32:49 +0000 (UTC)
+	Mon, 18 Jul 2016 03:32:55 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u6I3WnD9017337
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u6I3Wqlg019046
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Jul 2016 20:32:50 -0700 (PDT)
+	Sun, 17 Jul 2016 20:32:54 -0700
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Sun, 17 Jul 2016 20:32:49 -0700
+	Sun, 17 Jul 2016 20:32:50 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 17 Jul 2016 20:32:40 -0700
-Message-ID: <cover.1468811788.git.liezhi.yang@windriver.com>
+Date: Sun, 17 Jul 2016 20:32:41 -0700
+Message-ID: <d120adbc702e84ccc6996df429c44d9002e7057e.1468811788.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.9.0
+In-Reply-To: <cover.1468811788.git.liezhi.yang@windriver.com>
+References: <cover.1468811788.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/9 V2] packagefeed-stability: add class to help reduce package feed churn
+Subject: [PATCH 1/9] rpm: make --nosignature work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,82 +33,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jul 2016 03:32:51 -0000
+X-List-Received-Date: Mon, 18 Jul 2016 03:32:57 -0000
 Content-Type: text/plain
 
-* V2
-  - Make ipk and deb work, now all of rpm, ipk and deb work well.
-  - World rebuild testing:
-    1) bitbake world
-    2) Edit base_do_configure()
-    3) bitbake world
-    There are 667 recipes *rebuilt*:
-    a) For rpm: 61 recipes' PR have been bumped (less than 10%)
-    b) For ipk and deb: 55 recipes' PR have been bumped (less than 10%)
+OE-core uses rpm's --nosignature, but it never worked:
+self._invoke_smart('config --set rpm-check-signatures=false')
 
-    The result is better than I expected. I've check these packages, some of
-    the PR bump are caused by pseudo's permission issues. For the others,
-    they are caused by dbg, ptest of elf different.
+Now fix it with:
+* Define SUPPORT_NOSIGNATURES to 1 in system.h
+* !QVA_ISSET(qva->qva_flags, SIGNATURE) -> QVA_ISSET(qva->qva_flags, SIGNATURE),
+  otherwise, when use --nosignature would read database and verify
+  signature, this is not expected.
 
-* V1
-  - This work is based on Paul's packagefeed-stability, thanks Paul. It is
-    aimed for reducing PR bumps for binary packages when use PRServer. 
-    It works well for rpm:
-    1) Afer bumped rpm-native's PR and rebuild world, less than 20 recipes'
-       Packages bumped PR, they are because of pseudo, I had sent email
-       before:
-       http://lists.openembedded.org/pipermail/openembedded-core/2016-July/123511.html
-    2) When elf files are rebuilt, it will bump the PR.
+This can fix some race issues, for example, when more than one process
+are querying rpm file with "rpm -qp --nosignature", they may hang up
+because of race issues (the processes are trying to get RW/RD lock on
+the database, but they shouldn't read the database at all since -qp and
+--nosignature are used).
 
-  - Sent build-compare' patches to upstream.
-
-// Robert
-
-The following changes since commit da7a2c7b00b40a8759dbe9f4ab6df3e337e3d6b6:
-
-  useradd-staticids: use map() instead of imap() (2016-07-12 23:11:57 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/feed
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/feed
-
-Paul Eggleton (1):
-  packagefeed-stability: add class to help reduce package feed churn
-
-Robert Yang (8):
-  rpm: make --nosignature work
-  build-compare: remove space at head
-  build-compare: make pkg-diff.sh 75% faster
-  build-compare: fix checking for named pipe and others
-  build-compare: improve deb and ipk checking
-  package_deb.bbclass/package_ipk.bbclass: sort RPROVIDES
-  packagefeed-stability.bbclass: minor fixes
-  packagefeed-stability.bbclass: copy all packages of a recipe
-
- meta/classes/package_deb.bbclass                   |   2 +
- meta/classes/package_ipk.bbclass                   |   2 +
- meta/classes/packagefeed-stability.bbclass         | 239 ++++++++++++++
- .../build-compare/build-compare_git.bb             |   6 +
- ...001-Add-support-for-deb-and-ipk-packaging.patch |   4 +-
- ...functions.sh-improve-deb-and-ipk-checking.patch | 117 +++++++
- .../files/functions.sh-remove-space-at-head.patch  |  41 +++
- ...nctions.sh-run-rpm-once-to-make-it-faster.patch | 361 +++++++++++++++++++++
- .../pkg-diff.sh-check-for-fifo-named-pipe.patch    |  35 ++
- ...-check_single_file-return-at-once-when-sa.patch |  37 +++
- ...diff.sh-remove-space-in-the-end-for-ftype.patch |  32 ++
- ...0001-system.h-query.c-support-nosignature.patch |  64 ++++
- meta/recipes-devtools/rpm/rpm_5.4.16.bb            |   1 +
- 13 files changed, 939 insertions(+), 2 deletions(-)
- create mode 100644 meta/classes/packagefeed-stability.bbclass
- create mode 100644 meta/recipes-devtools/build-compare/files/functions.sh-improve-deb-and-ipk-checking.patch
- create mode 100644 meta/recipes-devtools/build-compare/files/functions.sh-remove-space-at-head.patch
- create mode 100644 meta/recipes-devtools/build-compare/files/functions.sh-run-rpm-once-to-make-it-faster.patch
- create mode 100644 meta/recipes-devtools/build-compare/files/pkg-diff.sh-check-for-fifo-named-pipe.patch
- create mode 100644 meta/recipes-devtools/build-compare/files/pkg-diff.sh-check_single_file-return-at-once-when-sa.patch
- create mode 100644 meta/recipes-devtools/build-compare/files/pkg-diff.sh-remove-space-in-the-end-for-ftype.patch
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ ...0001-system.h-query.c-support-nosignature.patch | 64 ++++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_5.4.16.bb            |  1 +
+ 2 files changed, 65 insertions(+)
  create mode 100644 meta/recipes-devtools/rpm/rpm/0001-system.h-query.c-support-nosignature.patch
 
+diff --git a/meta/recipes-devtools/rpm/rpm/0001-system.h-query.c-support-nosignature.patch b/meta/recipes-devtools/rpm/rpm/0001-system.h-query.c-support-nosignature.patch
+new file mode 100644
+index 0000000..410ae78
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/rpm/0001-system.h-query.c-support-nosignature.patch
+@@ -0,0 +1,64 @@
++From d8fcc3cbeec4defb5babde5bd09ea294dd3fd08b Mon Sep 17 00:00:00 2001
++From: Robert Yang <liezhi.yang@windriver.com>
++Date: Sun, 3 Jul 2016 19:01:59 -0700
++Subject: [PATCH] system.h/query.c: support nosignature
++
++* Define SUPPORT_NOSIGNATURES to 1 in system.h
++* !QVA_ISSET(qva->qva_flags, SIGNATURE) -> QVA_ISSET(qva->qva_flags, SIGNATURE),
++  otherwise, when use --nosignature would read database and verify
++  signature, this is not expected.
++
++Upstream-Status: Submitting [Sent email to rpm-devel@rpm5.org]
++
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++---
++ lib/query.c | 6 +++---
++ system.h    | 4 ++--
++ 2 files changed, 5 insertions(+), 5 deletions(-)
++
++diff --git a/lib/query.c b/lib/query.c
++index 50a7453..b761d76 100644
++--- a/lib/query.c
+++++ b/lib/query.c
++@@ -954,19 +954,19 @@ JBJDEBUG((stderr, "--> %s(%p,%p,%p)\n", __FUNCTION__, ts, qva, argv));
++     vsflags = (rpmVSFlags) rpmExpandNumeric("%{?_vsflags_query}");
++     vsflags = (rpmVSFlags) 0;	/* XXX FIXME: ignore default disablers. */
++ #if defined(SUPPORT_NOSIGNATURES)
++-    if (!QVA_ISSET(qva->qva_flags, DIGEST)) {
+++    if (QVA_ISSET(qva->qva_flags, DIGEST)) {
++ 	VSF_SET(vsflags, NOSHA1HEADER);
++ 	VSF_SET(vsflags, NOMD5HEADER);
++ 	VSF_SET(vsflags, NOSHA1);
++ 	VSF_SET(vsflags, NOMD5);
++     }
++-    if (!QVA_ISSET(qva->qva_flags, SIGNATURE)) {
+++    if (QVA_ISSET(qva->qva_flags, SIGNATURE)) {
++ 	VSF_SET(vsflags, NODSAHEADER);
++ 	VSF_SET(vsflags, NORSAHEADER);
++ 	VSF_SET(vsflags, NODSA);
++ 	VSF_SET(vsflags, NORSA);
++     }
++-    if (!QVA_ISSET(qva->qva_flags, HDRCHK)) {
+++    if (QVA_ISSET(qva->qva_flags, HDRCHK)) {
++ 	VSF_SET(vsflags, NOHDRCHK);
++     }
++     VSF_CLR(vsflags, NEEDPAYLOAD);	/* XXX needed? */
++diff --git a/system.h b/system.h
++index 2ff8906..ad4619a 100644
++--- a/system.h
+++++ b/system.h
++@@ -787,9 +787,9 @@ static inline const char *rcsid(const char *p) { \
++ #define SUPPORT_I18NSTRING_TYPE	1
++ 
++ /**
++- * Eliminate signature/digest disablers.
+++ * Signature/digest disablers.
++  */
++-#undef	SUPPORT_NOSIGNATURES
+++#define SUPPORT_NOSIGNATURES 1
++ 
++ /**
++  * Permit ar(1) payloads. Disabled while rpmio/iosm.c is under development.
++-- 
++2.9.0
++
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.16.bb b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
+index 3adb29c..d264d50 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4.16.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
+@@ -117,6 +117,7 @@ SRC_URI += " \
+ 	   file://rpmqv.c-check-_gpg_passphrase-before-ask-for-input.patch \
+ 	   file://0001-Disable-__sync_add_and_fetch_8-on-nios2.patch \
+ 	   file://gcc6-stdlib.patch \
++	   file://0001-system.h-query.c-support-nosignature.patch \
+ "
+ 
+ # OE specific changes
 -- 
 2.9.0
 
