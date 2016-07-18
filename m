@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BCBB9731CA
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id EFA57731CD
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 18 Jul 2016 03:32:58 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u6I3Wxle009632
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u6I3WxO4017340
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 17 Jul 2016 20:32:59 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Sun, 17 Jul 2016 20:32:58 -0700
+	Sun, 17 Jul 2016 20:32:59 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 17 Jul 2016 20:32:43 -0700
-Message-ID: <d4492cb6685a0eff935e4dc94e72f7e70a84bf69.1468811788.git.liezhi.yang@windriver.com>
+Date: Sun, 17 Jul 2016 20:32:44 -0700
+Message-ID: <fd09dde8e9a412d23bbc7eae0c4cdbc6a029063a.1468811788.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.9.0
 In-Reply-To: <cover.1468811788.git.liezhi.yang@windriver.com>
 References: <cover.1468811788.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/9] build-compare: make pkg-diff.sh 75% faster
+Subject: [PATCH 4/9] build-compare: fix checking for named pipe and others
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,412 +36,154 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 18 Jul 2016 03:32:59 -0000
 Content-Type: text/plain
 
-The rpm tool is a heavy process, pkg-diff.sh ran 16 (or 17 for kernel)
-"rpm -qp" times when the pkgs are identical, now we only run
-"rpm -qp --qf <all we need>" twice (one is for old pkg, and one is for
-new), save the results to spec_old and spec_new, then use sed command to
-get what we need later, this can make it 75% faster when the pkgs are
-identical. Here is the rough data on my host Ubuntu 14.04.4, 32 cores
-CPU and 128G mem:
-* When the pkgs are identical:
-  - Before the patch: 1s
-  - After the patch: 0.26s
-  I compare the whole spec firstly, and return 0 if they are the same,
-  or go on checking one by one if not, without this, it would be 0.46s,
-  the gain is great when there are lot of packages, usually, we have
-  more than 10,000 rpms to compare.
-
-* When the pkgs are different:
-  That depends on where is the different, if the different is at the
-  comparing rpmtags stage:
-  - Before the patch: 0.26s
-  - After the patch: 0.29s
-  Increased 0.03s, but if the different is happend later than comparing
-  rpmtags, it will save time.
+* Fixed checking for named pipe
+* Return at once when archives are the same
+* Fix for type "directory"
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../build-compare/build-compare_git.bb             |   1 +
- ...nctions.sh-run-rpm-once-to-make-it-faster.patch | 361 +++++++++++++++++++++
- 2 files changed, 362 insertions(+)
- create mode 100644 meta/recipes-devtools/build-compare/files/functions.sh-run-rpm-once-to-make-it-faster.patch
+ .../build-compare/build-compare_git.bb             |  3 ++
+ .../pkg-diff.sh-check-for-fifo-named-pipe.patch    | 35 ++++++++++++++++++++
+ ...-check_single_file-return-at-once-when-sa.patch | 37 ++++++++++++++++++++++
+ ...diff.sh-remove-space-in-the-end-for-ftype.patch | 32 +++++++++++++++++++
+ 4 files changed, 107 insertions(+)
+ create mode 100644 meta/recipes-devtools/build-compare/files/pkg-diff.sh-check-for-fifo-named-pipe.patch
+ create mode 100644 meta/recipes-devtools/build-compare/files/pkg-diff.sh-check_single_file-return-at-once-when-sa.patch
+ create mode 100644 meta/recipes-devtools/build-compare/files/pkg-diff.sh-remove-space-in-the-end-for-ftype.patch
 
 diff --git a/meta/recipes-devtools/build-compare/build-compare_git.bb b/meta/recipes-devtools/build-compare/build-compare_git.bb
-index 88996e2..9ec8c23 100644
+index 9ec8c23..09740d4 100644
 --- a/meta/recipes-devtools/build-compare/build-compare_git.bb
 +++ b/meta/recipes-devtools/build-compare/build-compare_git.bb
-@@ -10,6 +10,7 @@ SRC_URI = "git://github.com/openSUSE/build-compare.git \
-            file://Ignore-DWARF-sections.patch;striplevel=1 \
+@@ -11,6 +11,9 @@ SRC_URI = "git://github.com/openSUSE/build-compare.git \
             file://0001-Add-support-for-deb-and-ipk-packaging.patch \
             file://functions.sh-remove-space-at-head.patch \
-+           file://functions.sh-run-rpm-once-to-make-it-faster.patch \
+            file://functions.sh-run-rpm-once-to-make-it-faster.patch \
++           file://pkg-diff.sh-check-for-fifo-named-pipe.patch \
++           file://pkg-diff.sh-check_single_file-return-at-once-when-sa.patch \
++           file://pkg-diff.sh-remove-space-in-the-end-for-ftype.patch \
             "
  
  SRCREV = "c5352c054c6ef15735da31b76d6d88620f4aff0a"
-diff --git a/meta/recipes-devtools/build-compare/files/functions.sh-run-rpm-once-to-make-it-faster.patch b/meta/recipes-devtools/build-compare/files/functions.sh-run-rpm-once-to-make-it-faster.patch
+diff --git a/meta/recipes-devtools/build-compare/files/pkg-diff.sh-check-for-fifo-named-pipe.patch b/meta/recipes-devtools/build-compare/files/pkg-diff.sh-check-for-fifo-named-pipe.patch
 new file mode 100644
-index 0000000..f5b99d9
+index 0000000..e4f0c54
 --- /dev/null
-+++ b/meta/recipes-devtools/build-compare/files/functions.sh-run-rpm-once-to-make-it-faster.patch
-@@ -0,0 +1,361 @@
-+From f34d632c427b1e1570ef9136454fc01d8c9f10a6 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/build-compare/files/pkg-diff.sh-check-for-fifo-named-pipe.patch
+@@ -0,0 +1,35 @@
++From a78fe4f792a9ac9f4d364e836c8855f48561d6f2 Mon Sep 17 00:00:00 2001
 +From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Thu, 7 Jul 2016 19:34:09 -0700
-+Subject: [PATCH] functions.sh: run rpm once to make it faster
++Date: Thu, 14 Jul 2016 19:52:18 -0700
++Subject: [PATCH 3/4] pkg-diff.sh: check for fifo(named pipe)
 +
-+The rpm tool is a heavy process, it ran 16 (or 17 for kernel)
-+"rpm -qp" times when the pkgs are identical, now we only run
-+"rpm -qp --qf <all we need>" twice (one is for old pkg, and one is for
-+new), save the results to spec_old and spec_new, then use sed command to
-+get what we need later, this can make it 75% faster when the pkgs are
-+identical. Here is the rough data on my host Ubuntu 14.04.4, 32 cores
-+CPU and 128G mem:
-+* When the pkgs are identical:
-+  - Before the patch: 1s
-+  - After the patch: 0.26s
-+  I compare the whole spec firstly, and return 0 if they are the same,
-+  or go on checking one by one if not, without this, it would be 0.46s,
-+  the gain is great when there are lot of packages, usually, we have
-+  more than 10,000 rpms to compare.
++Otherwise "cmp -s fifo1 fifo2" will wait for inputing forever.
 +
-+* When the pkgs are different:
-+  That depends on where is the different, if the different is at the
-+  comparing rpmtags stage:
-+  - Before the patch: 0.26s
-+  - After the patch: 0.29s
-+  Increased 0.03s, but if the different is happend later than comparing
-+  rpmtags, it will save time.
-+
-+Upstream-Status: Submitted [https://github.com/openSUSE/build-compare/pull/9]
++Upstream-Status: Submitted [https://github.com/openSUSE/build-compare/pull/10]
 +
 +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 +---
-+ functions.sh | 245 ++++++++++++++++++++++++++++++++---------------------------
-+ 1 file changed, 132 insertions(+), 113 deletions(-)
-+ mode change 100644 => 100755 functions.sh
++ pkg-diff.sh | 7 +++++++
++ 1 file changed, 7 insertions(+)
 +
-+diff --git a/functions.sh b/functions.sh
-+old mode 100644
-+new mode 100755
-+index b1069d2..aa572f9
-+--- a/functions.sh
-++++ b/functions.sh
-+@@ -10,9 +10,63 @@
-+ 
-+ RPM="rpm -qp --nodigest --nosignature"
-+ 
-+-check_header() 
-++# Name, Version, Release
-++QF_NAME="%{NAME}"
-++QF_VER_REL="%{VERSION}-%{RELEASE}"
-++QF_NAME_VER_REL="%{NAME}-%{VERSION}-%{RELEASE}"
-++
-++# provides destroy this because at least the self-provide includes the
-++# -buildnumber :-(
-++QF_PROVIDES="[%{PROVIDENAME} %{PROVIDEFLAGS} %{PROVIDEVERSION}\\n]\\n"
-++QF_PROVIDES="$QF_PROVIDES [%{REQUIRENAME} %{REQUIREFLAGS} %{REQUIREVERSION}\\n]\\n"
-++QF_PROVIDES="$QF_PROVIDES [%{CONFLICTNAME} %{CONFLICTFLAGS} %{CONFLICTVERSION}\\n]\\n"
-++QF_PROVIDES="$QF_PROVIDES [%{OBSOLETENAME} %{OBSOLETEFLAGS} %{OBSOLETEVERSION}\\n]\\n"
-++
-++# don't look at RELEASE, it contains our build number
-++QF_TAGS="%{NAME} %{VERSION} %{EPOCH}\\n"
-++QF_TAGS="$QF_TAGS %{SUMMARY}\\n%{DESCRIPTION}\\n"
-++# the DISTURL tag can be used as checkin ID
-++QF_TAGS="$QF_TAGS %{VENDOR} %{DISTRIBUTION} %{DISTURL}"
-++QF_TAGS="$QF_TAGS %{LICENSE} %{LICENSE}\\n"
-++QF_TAGS="$QF_TAGS %{GROUP} %{URL} %{EXCLUDEARCH} %{EXCLUDEOS} %{EXCLUSIVEARCH}\\n"
-++QF_TAGS="$QF_TAGS %{EXCLUSIVEOS} %{RPMVERSION} %{PLATFORM}\\n"
-++QF_TAGS="$QF_TAGS %{PAYLOADFORMAT} %{PAYLOADCOMPRESSOR} %{PAYLOADFLAGS}\\n"
-++
-++# XXX We also need to check the existence (but not the content (!))
-++# of SIGGPG (and perhaps the other SIG*)
-++# XXX We don't look at triggers
-++QF_TAGS="$QF_TAGS [%{VERIFYSCRIPTPROG} %{VERIFYSCRIPT}]\\n"
-++# Only the first ChangeLog entry; should be enough
-++QF_TAGS="$QF_TAGS %{CHANGELOGTIME} %{CHANGELOGNAME} %{CHANGELOGTEXT}\\n"
-++
-++# scripts, might contain release number
-++QF_SCRIPT="[%{PREINPROG} %{PREIN}\\n]\\n[%{POSTINPROG} %{POSTIN}\\n]\\n[%{PREUNPROG} %{PREUN}\\n]\\n[%{POSTUNPROG} %{POSTUN}\\n]\\n"
-++
-++# Now the files. We leave out mtime and size.  For normal files
-++# the size will influence the MD5 anyway.  For directories the sizes can
-++# differ, depending on which file system the package was built.  To not
-++# have to filter out directories we simply ignore all sizes.
-++# Also leave out FILEDEVICES, FILEINODES (depends on the build host),
-++# FILECOLORS, FILECLASS (normally useful but file output contains mtimes),
-++# FILEDEPENDSX and FILEDEPENDSN.
-++# Also FILELANGS (or?)
-++QF_FILELIST="[%{FILENAMES} %{FILEFLAGS} %{FILESTATES} %{FILEMODES:octal} %{FILEUSERNAME} %{FILEGROUPNAME} %{FILERDEVS} %{FILEVERIFYFLAGS} %{FILELINKTOS}\n]\\n"
-++# ??? what to do with FILEPROVIDE and FILEREQUIRE?
-++
-++QF_CHECKSUM="[%{FILENAMES} %{FILEMD5S} %{FILEFLAGS}\n]\\n"
-++
-++QF_ALL="\n___QF_NAME___\n${QF_NAME}\n___QF_NAME___\n"
-++QF_ALL="$QF_ALL\n___QF_TAGS___\n${QF_TAGS}\n___QF_TAGS___\n"
-++QF_ALL="$QF_ALL\n___QF_VER_REL___\n${QF_VER_REL}\n___QF_VER_REL___\n"
-++QF_ALL="$QF_ALL\n___QF_NAME_VER_REL___\n${QF_NAME_VER_REL}\n___QF_NAME_VER_REL___\n"
-++QF_ALL="$QF_ALL\n___QF_PROVIDES___\n${QF_PROVIDES}\n___QF_PROVIDES___\n"
-++QF_ALL="$QF_ALL\n___QF_SCRIPT___\n${QF_SCRIPT}\n___QF_SCRIPT___\n"
-++QF_ALL="$QF_ALL\n___QF_FILELIST___\n${QF_FILELIST}\n___QF_FILELIST___\n"
-++QF_ALL="$QF_ALL\n___QF_CHECKSUM___\n${QF_CHECKSUM}\n___QF_CHECKSUM___\n"
-++
-++check_header()
++diff --git a/pkg-diff.sh b/pkg-diff.sh
++index 5dd3a38..1f353aa 100644
++--- a/pkg-diff.sh
+++++ b/pkg-diff.sh
++@@ -735,6 +735,13 @@ check_single_file()
++          return 1
++        fi
++        ;;
+++     fifo*pipe*)
+++       ftype_new="`/usr/bin/file new/$file | sed -e 's@^[^:]\+:[[:blank:]]*@@' -e 's@[[:blank:]]*$@@'`"
+++       if [ "$ftype_new" = "$ftype"  ]; then
+++         return 0
+++       fi
+++       return 1
+++       ;;
++      *)
++        if ! diff_two_files; then
++            return 1
++-- 
++2.9.0
++
+diff --git a/meta/recipes-devtools/build-compare/files/pkg-diff.sh-check_single_file-return-at-once-when-sa.patch b/meta/recipes-devtools/build-compare/files/pkg-diff.sh-check_single_file-return-at-once-when-sa.patch
+new file mode 100644
+index 0000000..b42af25
+--- /dev/null
++++ b/meta/recipes-devtools/build-compare/files/pkg-diff.sh-check_single_file-return-at-once-when-sa.patch
+@@ -0,0 +1,37 @@
++From 657983ef9ca8f8354172682e17408c4f6b5bc667 Mon Sep 17 00:00:00 2001
++From: Robert Yang <liezhi.yang@windriver.com>
++Date: Thu, 14 Jul 2016 19:46:08 -0700
++Subject: [PATCH 1/4] pkg-diff.sh: check_single_file(): return at once when
++ same
++
++If the two files are the same, return at once, this can save a lot of
++time when there are archives inside archives.
++
++Upstream-Status: Submitted [https://github.com/openSUSE/build-compare/pull/10]
++
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++---
++ pkg-diff.sh | 7 +++++++
++ 1 file changed, 7 insertions(+)
++
++diff --git a/pkg-diff.sh b/pkg-diff.sh
++index 3cf10aa..402d4a4 100644
++--- a/pkg-diff.sh
+++++ b/pkg-diff.sh
++@@ -293,6 +293,13 @@ check_compressed_file()
++ check_single_file()
 + {
-+-   $RPM --qf "$QF" "$1"
-++   $RPM --qf "$1" "$2"
-+ }
-+ 
-+ # Trim version-release string:
-+@@ -47,18 +101,6 @@ function grep_release_new()
-+   grep -E "(/boot|/lib/modules|/lib/firmware|/usr/src)/[^/]+(${version_release_new_regex_l}(\$|[^/]+\$)|${version_release_new_regex_s}(\$|[^/]+\$))"
-+ }
-+ 
-+-function check_provides()
-+-{
-+-  local pkg=$1
-+-  # provides destroy this because at least the self-provide includes the
-+-  # -buildnumber :-(
-+-  QF="[%{PROVIDENAME} %{PROVIDEFLAGS} %{PROVIDEVERSION}\\n]\\n"
-+-  QF="$QF [%{REQUIRENAME} %{REQUIREFLAGS} %{REQUIREVERSION}\\n]\\n"
-+-  QF="$QF [%{CONFLICTNAME} %{CONFLICTFLAGS} %{CONFLICTVERSION}\\n]\\n"
-+-  QF="$QF [%{OBSOLETENAME} %{OBSOLETEFLAGS} %{OBSOLETEVERSION}\\n]\\n"
-+-  check_header "$pkg"
-+-}
-+-
-+ #usage unpackage <file> $dir
-+ # Unpack files in directory $dir
-+ # like /usr/bin/unpackage - just for one file and with no options
-+@@ -98,6 +140,30 @@ function unpackage()
-+     popd 1>/dev/null
-+ }
-+ 
-++# Run diff command on the files
-++# $1: printed info
-++# $2: file1
-++# $3: file2
-++function comp_file()
-++{
-++    echo "comparing $1"
-++    if ! diff -au $2 $3; then
-++      if test -z "$check_all"; then
-++        rm $2 $3 $spec_old $spec_new
-++        return 1
-++      fi
++   local file="$1"
+++
+++  # If the two files are the same, return at once.
+++  if [ -f old/$file -a -f new/$file ]; then
+++    if cmp -s old/$file new/$file; then
+++      return 0
 ++    fi
-++    return 0
-++}
-++
-++# Get var's value from specfile.
-++# $1: var name
-++# $2: specfile
-++function get_value()
-++{
-++    sed -n -e "/^___${1}___/,/^___${1}___/p" $2 | sed -e "/^___${1}___/d"
-++}
-++
-+ # Compare just the rpm meta data of two rpms
-+ # Returns:
-+ # 0 in case of same content
-+@@ -107,56 +173,29 @@ function unpackage()
-+ function cmp_spec ()
-+ {
-+     local RES
-+-    local file1 file2
-++    local file_old file_new
-+     local f
-+     local sh=$1
-+     local oldrpm=$2
-+     local newrpm=$3
+++  fi
++   case $file in
++     *.spec)
++        sed -i -e "s,Release:.*$release1,Release: @RELEASE@," old/$file
++-- 
++2.9.0
++
+diff --git a/meta/recipes-devtools/build-compare/files/pkg-diff.sh-remove-space-in-the-end-for-ftype.patch b/meta/recipes-devtools/build-compare/files/pkg-diff.sh-remove-space-in-the-end-for-ftype.patch
+new file mode 100644
+index 0000000..8077172
+--- /dev/null
++++ b/meta/recipes-devtools/build-compare/files/pkg-diff.sh-remove-space-in-the-end-for-ftype.patch
+@@ -0,0 +1,32 @@
++From 836a6783df9c582a834fca239f227063a5687715 Mon Sep 17 00:00:00 2001
++From: Robert Yang <liezhi.yang@windriver.com>
++Date: Thu, 14 Jul 2016 19:49:12 -0700
++Subject: [PATCH 2/4] pkg-diff.sh: remove space in the end for ftype
++
++Versions of file like 5.14 returns a " " in the end, for example:
++ftype="directory ", but we need ftype="directory", remove the space to
++fix the problem.
++
++Upstream-Status: Submitted [https://github.com/openSUSE/build-compare/pull/10]
++
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++---
++ pkg-diff.sh | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/pkg-diff.sh b/pkg-diff.sh
++index 402d4a4..5dd3a38 100644
++--- a/pkg-diff.sh
+++++ b/pkg-diff.sh
++@@ -633,7 +633,7 @@ check_single_file()
++       ;;
++   esac
 + 
-+-    QF="%{NAME}"
-+-    
-+-    # don't look at RELEASE, it contains our build number
-+-    QF="$QF %{VERSION} %{EPOCH}\\n"
-+-    QF="$QF %{SUMMARY}\\n%{DESCRIPTION}\\n"
-+-    QF="$QF %{VENDOR} %{DISTRIBUTION} %{DISTURL}"
-+-    QF="$QF %{LICENSE} %{LICENSE}\\n"
-+-    QF="$QF %{GROUP} %{URL} %{EXCLUDEARCH} %{EXCLUDEOS} %{EXCLUSIVEARCH}\\n"
-+-    QF="$QF %{EXCLUSIVEOS} %{RPMVERSION} %{PLATFORM}\\n"
-+-    QF="$QF %{PAYLOADFORMAT} %{PAYLOADCOMPRESSOR} %{PAYLOADFLAGS}\\n"
-+-    
-+- 
-+-    # XXX We also need to check the existence (but not the content (!))
-+-    # of SIGGPG (and perhaps the other SIG*)
-+-    
-+-    # XXX We don't look at triggers
-+-    
-+-    QF="$QF [%{VERIFYSCRIPTPROG} %{VERIFYSCRIPT}]\\n"
-+-    
-+-    # Only the first ChangeLog entry; should be enough
-+-    QF="$QF %{CHANGELOGTIME} %{CHANGELOGNAME} %{CHANGELOGTEXT}\\n"
-+-    
-+-    file1=`mktemp`
-+-    file2=`mktemp`
-+-    
-+-    check_header $oldrpm > $file1
-+-    check_header $newrpm > $file2
-+-    
-+-    # the DISTURL tag can be used as checkin ID
-+-    #echo "$QF"
-+-    echo "comparing rpmtags"
-+-    if ! diff -au $file1 $file2; then
-+-      if test -z "$check_all"; then
-+-        rm $file1 $file2
-+-        return 1
-+-      fi
-+-    fi
-+-    
-++    file_old=`mktemp`
-++    file_new=`mktemp`
-++    spec_old=`mktemp`
-++    spec_new=`mktemp`
-++
-++    check_header "$QF_ALL" $oldrpm > $spec_old
-++    check_header "$QF_ALL" $newrpm > $spec_new
-++
-++    name_new="$(get_value QF_NAME $spec_new)"
-++    version_release_new="$(get_value QF_VER_REL $spec_new)"
-++    name_ver_rel_new="$(get_value QF_NAME_VER_REL $spec_new)"
-++
-++    version_release_old="$(get_value QF_VER_REL $spec_old)"
-++    name_ver_rel_old="$(get_value QF_NAME_VER_REL $spec_old)"
-++
-+     # Remember to quote the . which is in release
-+-    version_release_old=$($RPM --qf "%{VERSION}-%{RELEASE}" "$oldrpm")
-+-    version_release_new=$($RPM --qf "%{VERSION}-%{RELEASE}" "$newrpm")
-+-    name_ver_rel_old=$($RPM --qf "%{NAME}-%{VERSION}-%{RELEASE}" "$oldrpm")
-+-    name_ver_rel_new=$($RPM --qf "%{NAME}-%{VERSION}-%{RELEASE}" "$newrpm")
-+-    # Short version without B_CNT
-++    # Short version without B_CN
-+     version_release_old_regex_s=${version_release_old%.*}
-+     version_release_old_regex_s=${version_release_old_regex_s//./\\.}
-+     version_release_new_regex_s=${version_release_new%.*}
-+@@ -166,10 +205,27 @@ function cmp_spec ()
-+     version_release_new_regex_l=${version_release_new//./\\.}
-+     name_ver_rel_old_regex_l=${name_ver_rel_old//./\\.}
-+     name_ver_rel_new_regex_l=${name_ver_rel_new//./\\.}
-++
-++    # Check the whole spec file at first, return 0 immediately if the
-++    # are the same.
-++    cat $spec_old | trim_release_old > $file_old
-++    cat $spec_new | trim_release_new > $file_new
-++    echo "comparing the whole specfile"
-++    if diff -au $spec_old $spec_new; then
-++      if test -z "$check_all"; then
-++        rm $file_old $file_new $spec_old $spec_new
-++        return 0
-++      fi
-++    fi
-++
-++    get_value QF_TAGS $spec_old > $file_old
-++    get_value QF_TAGS $spec_new > $file_new
-++    comp_file rpmtags $file_old $file_new || return 1
-++
-+     # This might happen when?!
-+     echo "comparing RELEASE"
-+     if [ "${version_release_old%.*}" != "${version_release_new%.*}" ] ; then
-+-      case $($RPM --qf '%{NAME}' "$newrpm") in
-++      case $name_new in
-+         kernel-*)
-+           # Make sure all kernel packages have the same %RELEASE
-+           echo "release prefix mismatch"
-+@@ -181,71 +237,34 @@ function cmp_spec ()
-+         *) ;;
-+       esac
-+     fi
-+-    
-+-    check_provides $oldrpm | trim_release_old | sort > $file1
-+-    check_provides $newrpm | trim_release_new | sort > $file2
-+-    
-+-    echo "comparing PROVIDES"
-+-    if ! diff -au $file1 $file2; then
-+-      if test -z "$check_all"; then
-+-        rm $file1 $file2
-+-        return 1
-+-      fi
-+-    fi
-+ 
-+-    # scripts, might contain release number
-+-    QF="[%{PREINPROG} %{PREIN}\\n]\\n[%{POSTINPROG} %{POSTIN}\\n]\\n[%{PREUNPROG} %{PREUN}\\n]\\n[%{POSTUNPROG} %{POSTUN}\\n]\\n"
-+-    check_header $oldrpm | trim_release_old > $file1
-+-    check_header $newrpm | trim_release_new > $file2
-++    get_value QF_PROVIDES $spec_old | trim_release_old | sort > $file_old
-++    get_value QF_PROVIDES $spec_new | trim_release_new | sort > $file_new
-++    comp_file PROVIDES $file_old $file_new || return 1
-++
-++    get_value QF_SCRIPT $spec_old | trim_release_old > $file_old
-++    get_value QF_SCRIPT $spec_new | trim_release_new > $file_new
-++    comp_file scripts $file_old $file_new || return 1
-+ 
-+-    echo "comparing scripts"
-+-    if ! diff -au $file1 $file2; then
-+-      if test -z "$check_all"; then
-+-        rm $file1 $file2
-+-        return 1
-+-      fi
-+-    fi
-+-    
-+     # First check the file attributes and later the md5s
-+-    
-+-    # Now the files.  We leave out mtime and size.  For normal files
-+-    # the size will influence the MD5 anyway.  For directories the sizes can
-+-    # differ, depending on which file system the package was built.  To not
-+-    # have to filter out directories we simply ignore all sizes.
-+-    # Also leave out FILEDEVICES, FILEINODES (depends on the build host),
-+-    # FILECOLORS, FILECLASS (normally useful but file output contains mtimes), 
-+-    # FILEDEPENDSX and FILEDEPENDSN. 
-+-    # Also FILELANGS (or?)
-+-    QF="[%{FILENAMES} %{FILEFLAGS} %{FILESTATES} %{FILEMODES:octal} %{FILEUSERNAME} %{FILEGROUPNAME} %{FILERDEVS} %{FILEVERIFYFLAGS} %{FILELINKTOS}\n]\\n"
-+-    # ??? what to do with FILEPROVIDE and FILEREQUIRE?
-+-
-+-    check_header $oldrpm | trim_release_old > $file1
-+-    check_header $newrpm | trim_release_new > $file2
-+-    
-+-    echo "comparing filelist"
-+-    if ! diff -au $file1 $file2; then
-+-      if test -z "$check_all"; then
-+-        rm $file1 $file2
-+-        return 1
-+-      fi
-+-    fi
-+-    
-++    get_value QF_FILELIST $spec_old | trim_release_old > $file_old
-++    get_value QF_FILELIST $spec_new | trim_release_new > $file_new
-++    comp_file filelist $file_old $file_new || return 1
-++
-+     # now the md5sums. if they are different, we check more detailed
-+     # if there are different filenames, we will already have aborted before
-+     # file flag 64 means "ghost", filter those out.
-+-    QF="[%{FILENAMES} %{FILEMD5S} %{FILEFLAGS}\n]\\n"
-+-    check_header $oldrpm |grep -v " 64$"| trim_release_old > $file1
-+-    check_header $newrpm |grep -v " 64$"| trim_release_new > $file2
-+-    
-++    get_value QF_CHECKSUM $spec_old | grep -v " 64$" | trim_release_old > $file_old
-++    get_value QF_CHECKSUM $spec_new | grep -v " 64$" | trim_release_new > $file_new
-+     RES=2
-+     # done if the same
-+     echo "comparing file checksum"
-+-    if cmp -s $file1 $file2; then
-++    if cmp -s $file_old $file_new; then
-+       RES=0
-+     fi
-+-    
-++
-+     # Get only files with different MD5sums
-+-    files=`diff -U0 $file1 $file2 | fgrep -v +++ | grep ^+ | cut -b2- | awk '{print $1}'`
-++    files=`diff -U0 $file_old $file_new | fgrep -v +++ | grep ^+ | cut -b2- | awk '{print $1}'`
-+ 
-+     if test -f "$sh"; then
-+       echo "creating rename script"
-+@@ -261,7 +280,7 @@ function cmp_spec ()
-+       done >> "${sh}"
-+     fi
-+     #
-+-    rm $file1 $file2
-++    rm $file_old $file_new
-+     return $RES
-+ }
-+ 
++-  ftype=`/usr/bin/file old/$file | sed 's@^[^:]\+:[[:blank:]]*@@'`
+++  ftype=`/usr/bin/file old/$file | sed -e 's@^[^:]\+:[[:blank:]]*@@' -e 's@[[:blank:]]*$@@'`
++   case $ftype in
++      PE32\ executable*Mono\/\.Net\ assembly*)
++        echo "PE32 Mono/.Net assembly: $file"
 +-- 
 +2.9.0
 +
