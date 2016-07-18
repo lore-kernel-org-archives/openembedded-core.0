@@ -1,26 +1,24 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id F0AD260290
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B9122606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jul 2016 03:33:10 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u6I3XBhF009648
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 18 Jul 2016 09:09:03 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u6I994gp025919
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Jul 2016 20:33:11 -0700 (PDT)
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Sun, 17 Jul 2016 20:33:11 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
+	Mon, 18 Jul 2016 02:09:04 -0700
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.248.2; Mon, 18 Jul 2016 02:09:03 -0700
+From: <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 17 Jul 2016 20:32:49 -0700
-Message-ID: <b42efd0c330793fcc8f1c6f258390a8f60e91598.1468811788.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.9.0
-In-Reply-To: <cover.1468811788.git.liezhi.yang@windriver.com>
-References: <cover.1468811788.git.liezhi.yang@windriver.com>
+Date: Mon, 18 Jul 2016 17:06:36 +0800
+Message-ID: <1468832796-21727-1-git-send-email-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.6.1
 MIME-Version: 1.0
-Subject: [PATCH 9/9] packagefeed-stability.bbclass: copy all packages of a recipe
+Subject: [PATCH] boost: fix CVE-2012-2677
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,157 +31,151 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jul 2016 03:33:11 -0000
+X-List-Received-Date: Mon, 18 Jul 2016 09:09:11 -0000
 Content-Type: text/plain
 
-A recipes can generate several rpms such as a.rpm, a-dev.rpm, a-dbg.rpm,
-when update one of them in the repo, we'd better update all of them,
-otherwise, there might be a-dev.r0.1.rpm and a-dbg.r0.3.rpm in the repo,
-which looks strange.
+From: Kai Kang <kai.kang@windriver.com>
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Backport patch to fix CVE-2012-2677 for boost from:
+
+https://svn.boost.org/trac/boost/changeset/78326
+
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/classes/packagefeed-stability.bbclass | 103 ++++++++++-------------------
- 1 file changed, 35 insertions(+), 68 deletions(-)
+ .../boost/boost/boost-CVE-2012-2677.patch          | 112 +++++++++++++++++++++
+ meta/recipes-support/boost/boost_1.61.0.bb         |   1 +
+ 2 files changed, 113 insertions(+)
+ create mode 100644 meta/recipes-support/boost/boost/boost-CVE-2012-2677.patch
 
-diff --git a/meta/classes/packagefeed-stability.bbclass b/meta/classes/packagefeed-stability.bbclass
-index 808a18f..df4c2ba 100644
---- a/meta/classes/packagefeed-stability.bbclass
-+++ b/meta/classes/packagefeed-stability.bbclass
-@@ -133,8 +133,10 @@ def package_compare_impl(pkgtype, d):
- 
-     pkgwritetask = 'package_write_%s' % pkgtype
-     files = []
--    copypkgs = []
-+    docopy = False
-     manifest, _ = oe.sstatesig.sstate_get_manifest_filename(pkgwritetask, d)
-+    # Copy recipe's all packages if one of the packages are different to make
-+    # they have the same PR.
-     with open(manifest, 'r') as f:
-         for line in f:
-             if line.startswith(prepath):
-@@ -164,88 +166,53 @@ def package_compare_impl(pkgtype, d):
-                         bb.warn('Unable to map %s back to package' % pkgbasename)
-                         destpathspec = destpath
- 
--                    oldfiles = glob.glob(destpathspec)
-                     oldfile = None
--                    docopy = True
--                    if oldfiles:
--                        oldfile = oldfiles[-1]
--                        result = subprocess.call(['pkg-diff.sh', oldfile, srcpath])
--                        if result == 0:
--                            docopy = False
--
--                    files.append((pkgname, pkgbasename, srcpath, oldfile, destpath))
--                    bb.debug(2, '%s: package %s %s' % (pn, files[-1], docopy))
--                    if docopy:
--                        copypkgs.append(pkgname)
--
--    # Ensure that dependencies on specific versions (such as -dev on the
--    # main package) are copied in lock-step
--    changed = True
--    while changed:
--        rpkgdict = {x[0]: x[1] for x in rpkglist}
--        changed = False
--        for pkgname, pkgbasename, srcpath, oldfile, destpath in files:
--            rdeps = rdepends.get(pkgname, None)
--            if not rdeps:
--                continue
--            rdepvers = bb.utils.explode_dep_versions2(rdeps)
--            for rdep, versions in rdepvers.items():
--                dep = rpkgdict.get(rdep, None)
--                for version in versions:
--                    if version and version.startswith('= '):
--                        if dep in copypkgs and not pkgname in copypkgs:
--                            bb.debug(2, '%s: copying %s because it has a fixed version dependency on %s and that package is going to be copied' % (pn, pkgname, dep))
--                            changed = True
--                            copypkgs.append(pkgname)
--                        elif pkgname in copypkgs and not dep in copypkgs:
--                            bb.debug(2, '%s: copying %s because %s has a fixed version dependency on it and that package is going to be copied' % (pn, dep, pkgname))
--                            changed = True
--                            copypkgs.append(dep)
--
--    # Read in old manifest so we can delete any packages we aren't going to replace or preserve
--    pcmanifest = os.path.join(prepath, d.expand('pkg-compare-manifest-${MULTIMACH_TARGET_SYS}-${PN}'))
--    try:
--        with open(pcmanifest, 'r') as f:
--            knownfiles = [x[3] for x in files if x[3]]
--            for line in f:
--                fn = line.rstrip()
--                if fn:
--                    if fn in knownfiles:
--                        knownfiles.remove(fn)
--                    else:
-+                    if not docopy:
-+                        oldfiles = glob.glob(destpathspec)
-+                        if oldfiles:
-+                            oldfile = oldfiles[-1]
-+                            result = subprocess.call(['pkg-diff.sh', oldfile, srcpath])
-+                            if result != 0:
-+                                docopy = True
-+                                bb.note("%s and %s are different, will copy packages" % (oldfile, srcpath))
-+                        else:
-+                            docopy = True
-+                            bb.note("No old packages found for %s, will copy packages" % pkgname)
+diff --git a/meta/recipes-support/boost/boost/boost-CVE-2012-2677.patch b/meta/recipes-support/boost/boost/boost-CVE-2012-2677.patch
+new file mode 100644
+index 0000000..859f4aa
+--- /dev/null
++++ b/meta/recipes-support/boost/boost/boost-CVE-2012-2677.patch
+@@ -0,0 +1,112 @@
++Reference
 +
-+                    files.append((pkgname, pkgbasename, srcpath, destpath))
++https://svn.boost.org/trac/boost/changeset/78326
 +
-+    # Remove all the old files and copy again if docopy
-+    if docopy:
-+        bb.plain('Copying packages for recipe %s' % pn)
-+        pcmanifest = os.path.join(prepath, d.expand('pkg-compare-manifest-${MULTIMACH_TARGET_SYS}-${PN}'))
-+        try:
-+            with open(pcmanifest, 'r') as f:
-+                for line in f:
-+                    fn = line.rstrip()
-+                    if fn:
-                         try:
-                             os.remove(fn)
--                            bb.warn('Removed old package %s' % fn)
-+                            bb.note('Removed old package %s' % fn)
-                         except OSError as e:
-                             if e.errno == errno.ENOENT:
-                                 pass
--    except IOError as e:
--        if e.errno == errno.ENOENT:
--            pass
-+        except IOError as e:
-+            if e.errno == errno.ENOENT:
-+                pass
- 
--    # Create new manifest
--    with open(pcmanifest, 'w') as f:
--        for pkgname, pkgbasename, srcpath, oldfile, destpath in files:
--            if pkgname in copypkgs:
--                bb.warn('Copying %s' % pkgbasename)
-+        # Create new manifest
-+        with open(pcmanifest, 'w') as f:
-+            for pkgname, pkgbasename, srcpath, destpath in files:
-                 destdir = os.path.dirname(destpath)
-                 bb.utils.mkdirhier(destdir)
--                if oldfile:
--                    try:
--                        os.remove(oldfile)
--                    except OSError as e:
--                        if e.errno == errno.ENOENT:
--                            pass
-                 if (os.stat(srcpath).st_dev == os.stat(destdir).st_dev):
-                     # Use a hard link to save space
-                     os.link(srcpath, destpath)
-                 else:
-                     shutil.copyfile(srcpath, destpath)
-                 f.write('%s\n' % destpath)
--            else:
--                bb.warn('Not copying %s' % pkgbasename)
--                f.write('%s\n' % oldfile)
--
-+    else:
-+        bb.plain('Not copying packages for %s' % pn)
- 
- do_cleanall_append() {
-     import errno
++Upstream-Status: Backport
++
++Signed-off-by: Yue Tao <yue.tao@windriver.com>
++
++diff --git a/boost/pool/pool.hpp.old b/boost/pool/pool.hpp
++index c47b11f..417a1e0 100644
++--- a/boost/pool/pool.hpp.old
+++++ b/boost/pool/pool.hpp
++@@ -26,6 +26,8 @@
++ 
++ #include <boost/pool/poolfwd.hpp>
++ 
+++// std::numeric_limits
+++#include <boost/limits.hpp>
++ // boost::integer::static_lcm
++ #include <boost/integer/common_factor_ct.hpp>
++ // boost::simple_segregated_storage
++@@ -355,6 +357,15 @@ class pool: protected simple_segregated_storage < typename UserAllocator::size_t
++       return s;
++     }
++ 
+++    size_type max_chunks() const
+++    { //! Calculated maximum number of memory chunks that can be allocated in a single call by this Pool.
+++      size_type partition_size = alloc_size();
+++      size_type POD_size = math::static_lcm<sizeof(size_type), sizeof(void *)>::value + sizeof(size_type);
+++      size_type max_chunks = (std::numeric_limits<size_type>::max() - POD_size) / alloc_size();
+++
+++      return max_chunks;
+++    }
+++
++     static void * & nextof(void * const ptr)
++     { //! \returns Pointer dereferenced.
++       //! (Provided and used for the sake of code readability :)
++@@ -375,6 +386,8 @@ class pool: protected simple_segregated_storage < typename UserAllocator::size_t
++       //!   the first time that object needs to allocate system memory.
++       //!   The default is 32. This parameter may not be 0.
++       //! \param nmax_size is the maximum number of chunks to allocate in one block.
+++      set_next_size(nnext_size);
+++      set_max_size(nmax_size);
++     }
++ 
++     ~pool()
++@@ -398,8 +411,8 @@ class pool: protected simple_segregated_storage < typename UserAllocator::size_t
++     }
++     void set_next_size(const size_type nnext_size)
++     { //! Set number of chunks to request from the system the next time that object needs to allocate system memory. This value should never be set to 0.
++-      //! \returns nnext_size.
++-      next_size = start_size = nnext_size;
+++      BOOST_USING_STD_MIN();
+++      next_size = start_size = min BOOST_PREVENT_MACRO_SUBSTITUTION(nnext_size, max_chunks());
++     }
++     size_type get_max_size() const
++     { //! \returns max_size.
++@@ -407,7 +420,8 @@ class pool: protected simple_segregated_storage < typename UserAllocator::size_t
++     }
++     void set_max_size(const size_type nmax_size)
++     { //! Set max_size.
++-      max_size = nmax_size;
+++      BOOST_USING_STD_MIN();
+++      max_size = min BOOST_PREVENT_MACRO_SUBSTITUTION(nmax_size, max_chunks());
++     }
++     size_type get_requested_size() const
++     { //!   \returns the requested size passed into the constructor.
++@@ -708,9 +722,9 @@ void * pool<UserAllocator>::malloc_need_resize()
++ 
++   BOOST_USING_STD_MIN();
++   if(!max_size)
++-    next_size <<= 1;
+++    set_next_size(next_size << 1);
++   else if( next_size*partition_size/requested_size < max_size)
++-    next_size = min BOOST_PREVENT_MACRO_SUBSTITUTION(next_size << 1, max_size*requested_size/ partition_size);
+++    set_next_size(min BOOST_PREVENT_MACRO_SUBSTITUTION(next_size << 1, max_size * requested_size / partition_size));
++ 
++   //  initialize it,
++   store().add_block(node.begin(), node.element_size(), partition_size);
++@@ -748,9 +762,9 @@ void * pool<UserAllocator>::ordered_malloc_need_resize()
++ 
++   BOOST_USING_STD_MIN();
++   if(!max_size)
++-    next_size <<= 1;
+++    set_next_size(next_size << 1);
++   else if( next_size*partition_size/requested_size < max_size)
++-    next_size = min BOOST_PREVENT_MACRO_SUBSTITUTION(next_size << 1, max_size*requested_size/ partition_size);
+++    set_next_size(min BOOST_PREVENT_MACRO_SUBSTITUTION(next_size << 1, max_size * requested_size / partition_size));
++ 
++   //  initialize it,
++   //  (we can use "add_block" here because we know that
++@@ -792,6 +806,8 @@ void * pool<UserAllocator>::ordered_malloc(const size_type n)
++ { //! Gets address of a chunk n, allocating new memory if not already available.
++   //! \returns Address of chunk n if allocated ok.
++   //! \returns 0 if not enough memory for n chunks.
+++  if (n > max_chunks())
+++    return 0;
++ 
++   const size_type partition_size = alloc_size();
++   const size_type total_req_size = n * requested_size;
++@@ -840,9 +856,9 @@ void * pool<UserAllocator>::ordered_malloc(const size_type n)
++ 
++   BOOST_USING_STD_MIN();
++   if(!max_size)
++-    next_size <<= 1;
+++    set_next_size(next_size << 1);
++   else if( next_size*partition_size/requested_size < max_size)
++-    next_size = min BOOST_PREVENT_MACRO_SUBSTITUTION(next_size << 1, max_size*requested_size/ partition_size);
+++    set_next_size(min BOOST_PREVENT_MACRO_SUBSTITUTION(next_size << 1, max_size * requested_size / partition_size));
++ 
++   //  insert it into the list,
++   //   handle border case.
+diff --git a/meta/recipes-support/boost/boost_1.61.0.bb b/meta/recipes-support/boost/boost_1.61.0.bb
+index d8b14fe..1116444 100644
+--- a/meta/recipes-support/boost/boost_1.61.0.bb
++++ b/meta/recipes-support/boost/boost_1.61.0.bb
+@@ -4,4 +4,5 @@ include boost.inc
+ SRC_URI += "\
+     file://arm-intrinsics.patch \
+     file://consider-hardfp.patch \
++    file://boost-CVE-2012-2677.patch \
+ "
 -- 
-2.9.0
+2.6.1
 
 
