@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id EFA57731CD
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id ADC7360290
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jul 2016 03:32:58 +0000 (UTC)
+	Mon, 18 Jul 2016 03:33:03 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u6I3WxO4017340
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u6I3X13Y019060
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Jul 2016 20:32:59 -0700 (PDT)
+	Sun, 17 Jul 2016 20:33:03 -0700
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
 	Sun, 17 Jul 2016 20:32:59 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 17 Jul 2016 20:32:44 -0700
-Message-ID: <fd09dde8e9a412d23bbc7eae0c4cdbc6a029063a.1468811788.git.liezhi.yang@windriver.com>
+Date: Sun, 17 Jul 2016 20:32:45 -0700
+Message-ID: <398faa2fed98c24766aceb983a2f794acb6f45fb.1468811788.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.9.0
 In-Reply-To: <cover.1468811788.git.liezhi.yang@windriver.com>
 References: <cover.1468811788.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/9] build-compare: fix checking for named pipe and others
+Subject: [PATCH 5/9] build-compare: improve deb and ipk checking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,157 +33,181 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jul 2016 03:32:59 -0000
+X-List-Received-Date: Mon, 18 Jul 2016 03:33:03 -0000
 Content-Type: text/plain
 
-* Fixed checking for named pipe
-* Return at once when archives are the same
-* Fix for type "directory"
+* The deb and ipk's depends version string is like:
+  Depends: libc6 (>= 2.24)
+  Update trim_release_old and trim_release_new to match the bracket in
+  the end ")".
+
+* The deb's data tarball now is .tar.xz, and ipk's is .tar.gz.
+
+* Update adjust_controlfile() to make ituse trim_release_old and
+  trim_release_new.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../build-compare/build-compare_git.bb             |  3 ++
- .../pkg-diff.sh-check-for-fifo-named-pipe.patch    | 35 ++++++++++++++++++++
- ...-check_single_file-return-at-once-when-sa.patch | 37 ++++++++++++++++++++++
- ...diff.sh-remove-space-in-the-end-for-ftype.patch | 32 +++++++++++++++++++
- 4 files changed, 107 insertions(+)
- create mode 100644 meta/recipes-devtools/build-compare/files/pkg-diff.sh-check-for-fifo-named-pipe.patch
- create mode 100644 meta/recipes-devtools/build-compare/files/pkg-diff.sh-check_single_file-return-at-once-when-sa.patch
- create mode 100644 meta/recipes-devtools/build-compare/files/pkg-diff.sh-remove-space-in-the-end-for-ftype.patch
+ .../build-compare/build-compare_git.bb             |   1 +
+ ...001-Add-support-for-deb-and-ipk-packaging.patch |   4 +-
+ ...functions.sh-improve-deb-and-ipk-checking.patch | 117 +++++++++++++++++++++
+ 3 files changed, 120 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/build-compare/files/functions.sh-improve-deb-and-ipk-checking.patch
 
 diff --git a/meta/recipes-devtools/build-compare/build-compare_git.bb b/meta/recipes-devtools/build-compare/build-compare_git.bb
-index 9ec8c23..09740d4 100644
+index 09740d4..fa9c6b4 100644
 --- a/meta/recipes-devtools/build-compare/build-compare_git.bb
 +++ b/meta/recipes-devtools/build-compare/build-compare_git.bb
-@@ -11,6 +11,9 @@ SRC_URI = "git://github.com/openSUSE/build-compare.git \
-            file://0001-Add-support-for-deb-and-ipk-packaging.patch \
-            file://functions.sh-remove-space-at-head.patch \
-            file://functions.sh-run-rpm-once-to-make-it-faster.patch \
-+           file://pkg-diff.sh-check-for-fifo-named-pipe.patch \
-+           file://pkg-diff.sh-check_single_file-return-at-once-when-sa.patch \
-+           file://pkg-diff.sh-remove-space-in-the-end-for-ftype.patch \
+@@ -14,6 +14,7 @@ SRC_URI = "git://github.com/openSUSE/build-compare.git \
+            file://pkg-diff.sh-check-for-fifo-named-pipe.patch \
+            file://pkg-diff.sh-check_single_file-return-at-once-when-sa.patch \
+            file://pkg-diff.sh-remove-space-in-the-end-for-ftype.patch \
++           file://functions.sh-improve-deb-and-ipk-checking.patch \
             "
  
  SRCREV = "c5352c054c6ef15735da31b76d6d88620f4aff0a"
-diff --git a/meta/recipes-devtools/build-compare/files/pkg-diff.sh-check-for-fifo-named-pipe.patch b/meta/recipes-devtools/build-compare/files/pkg-diff.sh-check-for-fifo-named-pipe.patch
+diff --git a/meta/recipes-devtools/build-compare/files/0001-Add-support-for-deb-and-ipk-packaging.patch b/meta/recipes-devtools/build-compare/files/0001-Add-support-for-deb-and-ipk-packaging.patch
+index 5c15218..82fd816 100644
+--- a/meta/recipes-devtools/build-compare/files/0001-Add-support-for-deb-and-ipk-packaging.patch
++++ b/meta/recipes-devtools/build-compare/files/0001-Add-support-for-deb-and-ipk-packaging.patch
+@@ -3,7 +3,7 @@ From: Paul Eggleton <paul.eggleton@linux.intel.com>
+ Date: Tue, 1 Sep 2015 12:04:33 +0100
+ Subject: [PATCH] Add support for deb and ipk packaging
+ 
+-Upstream-Status: Pending
++Upstream-Status: Submitted [https://github.com/openSUSE/build-compare/pull/10]
+ 
+ Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+ ---
+@@ -34,7 +34,7 @@ index 06079df..85c9003 100644
+      return $RES
+  }
+ +
+-+function adjust_controlfile () {
+++function adjust_controlfile() {
+ +    cat $1/control | sed '/^Version: /d' > $1/control.fixed
+ +    mv $1/control.fixed $1/control
+ +    cat $2/control | sed '/^Version: /d' > $2/control.fixed
+diff --git a/meta/recipes-devtools/build-compare/files/functions.sh-improve-deb-and-ipk-checking.patch b/meta/recipes-devtools/build-compare/files/functions.sh-improve-deb-and-ipk-checking.patch
 new file mode 100644
-index 0000000..e4f0c54
+index 0000000..05420f8
 --- /dev/null
-+++ b/meta/recipes-devtools/build-compare/files/pkg-diff.sh-check-for-fifo-named-pipe.patch
-@@ -0,0 +1,35 @@
-+From a78fe4f792a9ac9f4d364e836c8855f48561d6f2 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/build-compare/files/functions.sh-improve-deb-and-ipk-checking.patch
+@@ -0,0 +1,117 @@
++From b4eb7fde10318162bd2d02b9017ef51746752a91 Mon Sep 17 00:00:00 2001
 +From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Thu, 14 Jul 2016 19:52:18 -0700
-+Subject: [PATCH 3/4] pkg-diff.sh: check for fifo(named pipe)
++Date: Thu, 14 Jul 2016 23:14:21 -0700
++Subject: [PATCH 4/4] functions.sh: improve deb and ipk checking
 +
-+Otherwise "cmp -s fifo1 fifo2" will wait for inputing forever.
++* The deb and ipk's depends version string is like:
++  Depends: libc6 (>= 2.24)
++  Update trim_release_old and trim_release_new to match the bracket in
++  the end ")".
++
++* The deb's data tarball now is .tar.xz, and ipk's is .tar.gz.
++
++* Update adjust_controlfile() to make ituse trim_release_old and
++  trim_release_new.
 +
 +Upstream-Status: Submitted [https://github.com/openSUSE/build-compare/pull/10]
 +
 +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 +---
-+ pkg-diff.sh | 7 +++++++
-+ 1 file changed, 7 insertions(+)
++ functions.sh | 45 ++++++++++++++++++++++++++++-----------------
++ 1 file changed, 28 insertions(+), 17 deletions(-)
 +
-+diff --git a/pkg-diff.sh b/pkg-diff.sh
-+index 5dd3a38..1f353aa 100644
-+--- a/pkg-diff.sh
-++++ b/pkg-diff.sh
-+@@ -735,6 +735,13 @@ check_single_file()
-+          return 1
-+        fi
-+        ;;
-++     fifo*pipe*)
-++       ftype_new="`/usr/bin/file new/$file | sed -e 's@^[^:]\+:[[:blank:]]*@@' -e 's@[[:blank:]]*$@@'`"
-++       if [ "$ftype_new" = "$ftype"  ]; then
-++         return 0
-++       fi
-++       return 1
-++       ;;
-+      *)
-+        if ! diff_two_files; then
-+            return 1
-+-- 
-+2.9.0
-+
-diff --git a/meta/recipes-devtools/build-compare/files/pkg-diff.sh-check_single_file-return-at-once-when-sa.patch b/meta/recipes-devtools/build-compare/files/pkg-diff.sh-check_single_file-return-at-once-when-sa.patch
-new file mode 100644
-index 0000000..b42af25
---- /dev/null
-+++ b/meta/recipes-devtools/build-compare/files/pkg-diff.sh-check_single_file-return-at-once-when-sa.patch
-@@ -0,0 +1,37 @@
-+From 657983ef9ca8f8354172682e17408c4f6b5bc667 Mon Sep 17 00:00:00 2001
-+From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Thu, 14 Jul 2016 19:46:08 -0700
-+Subject: [PATCH 1/4] pkg-diff.sh: check_single_file(): return at once when
-+ same
-+
-+If the two files are the same, return at once, this can save a lot of
-+time when there are archives inside archives.
-+
-+Upstream-Status: Submitted [https://github.com/openSUSE/build-compare/pull/10]
-+
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ pkg-diff.sh | 7 +++++++
-+ 1 file changed, 7 insertions(+)
-+
-+diff --git a/pkg-diff.sh b/pkg-diff.sh
-+index 3cf10aa..402d4a4 100644
-+--- a/pkg-diff.sh
-++++ b/pkg-diff.sh
-+@@ -293,6 +293,13 @@ check_compressed_file()
-+ check_single_file()
++diff --git a/functions.sh b/functions.sh
++index aa572f9..fe493ba 100755
++--- a/functions.sh
+++++ b/functions.sh
++@@ -78,7 +78,7 @@ check_header()
++ function trim_release_old()
 + {
-+   local file="$1"
-++
-++  # If the two files are the same, return at once.
-++  if [ -f old/$file -a -f new/$file ]; then
-++    if cmp -s old/$file new/$file; then
-++      return 0
-++    fi
-++  fi
-+   case $file in
-+     *.spec)
-+        sed -i -e "s,Release:.*$release1,Release: @RELEASE@," old/$file
-+-- 
-+2.9.0
-+
-diff --git a/meta/recipes-devtools/build-compare/files/pkg-diff.sh-remove-space-in-the-end-for-ftype.patch b/meta/recipes-devtools/build-compare/files/pkg-diff.sh-remove-space-in-the-end-for-ftype.patch
-new file mode 100644
-index 0000000..8077172
---- /dev/null
-+++ b/meta/recipes-devtools/build-compare/files/pkg-diff.sh-remove-space-in-the-end-for-ftype.patch
-@@ -0,0 +1,32 @@
-+From 836a6783df9c582a834fca239f227063a5687715 Mon Sep 17 00:00:00 2001
-+From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Thu, 14 Jul 2016 19:49:12 -0700
-+Subject: [PATCH 2/4] pkg-diff.sh: remove space in the end for ftype
-+
-+Versions of file like 5.14 returns a " " in the end, for example:
-+ftype="directory ", but we need ftype="directory", remove the space to
-+fix the problem.
-+
-+Upstream-Status: Submitted [https://github.com/openSUSE/build-compare/pull/10]
-+
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ pkg-diff.sh | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/pkg-diff.sh b/pkg-diff.sh
-+index 402d4a4..5dd3a38 100644
-+--- a/pkg-diff.sh
-++++ b/pkg-diff.sh
-+@@ -633,7 +633,7 @@ check_single_file()
-+       ;;
-+   esac
++   sed -e "
++-  /\(\/boot\|\/lib\/modules\|\/lib\/firmware\|\/usr\/src\|$version_release_old_regex_l\$\)/{s,$version_release_old_regex_l,@VERSION@-@RELEASE_LONG@,g;s,$version_release_old_regex_s,@VERSION@-@RELEASE_SHORT@,g}
+++  /\(\/boot\|\/lib\/modules\|\/lib\/firmware\|\/usr\/src\|$version_release_old_regex_l\$\|$version_release_old_regex_l)\)/{s,$version_release_old_regex_l,@VERSION@-@RELEASE_LONG@,g;s,$version_release_old_regex_s,@VERSION@-@RELEASE_SHORT@,g}
++   s/\(\/var\/adm\/update-scripts\/\)${name_ver_rel_old_regex_l}\([^[:blank:]]\+\)/\1@NAME_VER_REL@\2/g
++   s/^ *//g
++   "
++@@ -86,7 +86,7 @@ function trim_release_old()
++ function trim_release_new()
++ {
++   sed -e "
++-  /\(\/boot\|\/lib\/modules\|\/lib\/firmware\|\/usr\/src\|$version_release_new_regex_l\$\)/{s,$version_release_new_regex_l,@VERSION@-@RELEASE_LONG@,g;s,$version_release_new_regex_s,@VERSION@-@RELEASE_SHORT@,g}
+++  /\(\/boot\|\/lib\/modules\|\/lib\/firmware\|\/usr\/src\|$version_release_new_regex_l\$\|$version_release_new_regex_l)\)/{s,$version_release_new_regex_l,@VERSION@-@RELEASE_LONG@,g;s,$version_release_new_regex_s,@VERSION@-@RELEASE_SHORT@,g}
++   s/\(\/var\/adm\/update-scripts\/\)${name_ver_rel_new_regex_l}\([^[:blank:]]\+\)/\1@NAME_VER_REL@\2/g
++   s/^ *//g
++   "
++@@ -133,8 +133,8 @@ function unpackage()
++             ar x $file
++             tar xf control.tar.gz
++             rm control.tar.gz
++-            tar xf data.tar.gz
++-            rm data.tar.gz
+++            tar xf data.tar.[xg]z
+++            rm data.tar.[xg]z
++             ;;
++     esac
++     popd 1>/dev/null
++@@ -164,6 +164,22 @@ function get_value()
++     sed -n -e "/^___${1}___/,/^___${1}___/p" $2 | sed -e "/^___${1}___/d"
++ }
 + 
-+-  ftype=`/usr/bin/file old/$file | sed 's@^[^:]\+:[[:blank:]]*@@'`
-++  ftype=`/usr/bin/file old/$file | sed -e 's@^[^:]\+:[[:blank:]]*@@' -e 's@[[:blank:]]*$@@'`
-+   case $ftype in
-+      PE32\ executable*Mono\/\.Net\ assembly*)
-+        echo "PE32 Mono/.Net assembly: $file"
+++# Set version_release_old_regex_s, version_release_old_regex_l and
+++# name_ver_rel_old_regex_l, also the new ones.
+++function set_regex() {
+++    # Remember to quote the . which is in release
+++    # Short version without B_CN
+++    version_release_old_regex_s=${version_release_old%.*}
+++    version_release_old_regex_s=${version_release_old_regex_s//./\\.}
+++    version_release_new_regex_s=${version_release_new%.*}
+++    version_release_new_regex_s=${version_release_new_regex_s//./\\.}
+++    # Long version with B_CNT
+++    version_release_old_regex_l=${version_release_old//./\\.}
+++    version_release_new_regex_l=${version_release_new//./\\.}
+++    name_ver_rel_old_regex_l=${name_ver_rel_old//./\\.}
+++    name_ver_rel_new_regex_l=${name_ver_rel_new//./\\.}
+++}
+++
++ # Compare just the rpm meta data of two rpms
++ # Returns:
++ # 0 in case of same content
++@@ -194,17 +210,7 @@ function cmp_spec ()
++     version_release_old="$(get_value QF_VER_REL $spec_old)"
++     name_ver_rel_old="$(get_value QF_NAME_VER_REL $spec_old)"
++ 
++-    # Remember to quote the . which is in release
++-    # Short version without B_CN
++-    version_release_old_regex_s=${version_release_old%.*}
++-    version_release_old_regex_s=${version_release_old_regex_s//./\\.}
++-    version_release_new_regex_s=${version_release_new%.*}
++-    version_release_new_regex_s=${version_release_new_regex_s//./\\.}
++-    # Long version with B_CNT
++-    version_release_old_regex_l=${version_release_old//./\\.}
++-    version_release_new_regex_l=${version_release_new//./\\.}
++-    name_ver_rel_old_regex_l=${name_ver_rel_old//./\\.}
++-    name_ver_rel_new_regex_l=${name_ver_rel_new//./\\.}
+++    set_regex
++ 
++     # Check the whole spec file at first, return 0 immediately if the
++     # are the same.
++@@ -285,9 +291,14 @@ function cmp_spec ()
++ }
++ 
++ function adjust_controlfile() {
++-    cat $1/control | sed '/^Version: /d' > $1/control.fixed
+++    version_release_old="`sed -ne 's/^Version: \(.*\)/\1/p' $1/control`"
+++    name_ver_rel_old="`sed -n -e 's/^Package: \(.*\)/\1/p' $1/control`-`sed -n -e 's/^Version: \(.*\)/\1/p' $1/control`"
+++    version_release_new="`sed -ne 's/^Version: \(.*\)/\1/p' $2/control`"
+++    name_ver_rel_new="`sed -n -e 's/^Package: \(.*\)/\1/p' $2/control`-`sed -n -e 's/^Version: \(.*\)/\1/p' $2/control`"
+++    set_regex
+++    cat $1/control | trim_release_old > $1/control.fixed
++     mv $1/control.fixed $1/control
++-    cat $2/control | sed '/^Version: /d' > $2/control.fixed
+++    cat $2/control | trim_release_new > $2/control.fixed
++     mv $2/control.fixed $2/control
++ }
++ 
 +-- 
 +2.9.0
 +
