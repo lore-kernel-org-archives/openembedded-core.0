@@ -1,24 +1,47 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B9122606D0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
+	[209.85.223.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 24B42606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jul 2016 09:09:03 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u6I994gp025919
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Mon, 18 Jul 2016 09:11:16 +0000 (UTC)
+Received: by mail-io0-f174.google.com with SMTP id q83so154501114iod.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jul 2016 02:09:04 -0700
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Mon, 18 Jul 2016 02:09:03 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 18 Jul 2016 17:06:36 +0800
-Message-ID: <1468832796-21727-1-git-send-email-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.6.1
+	Mon, 18 Jul 2016 02:11:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=eUdps9rXlAG3HDxRrvn+HNEDobg8VW5xA9jf0x/SWio=;
+	b=y+q922TK4KitDp3YmSTiQaCtURSPaZMmH3cj5nIiN1ausz9YX5lxaN0V+D/DlnYS7F
+	qQq0LkbW845cX9jATwZdOusCRaQFQpi3EaEEKi0+L/ceQHKk/gsqR8RqXm6LLAaWiTfW
+	pXtkduit/IXrgdz8dH9dpQIF6DbWWMAwlunMqF/a/wk6tsv4ff8k5o/CokQvQ/IIMhEs
+	MO6VHhUXdLQUqT0UPF2vTJJG/IzFOJvolmSU3Rwc7xJW7aUFgDcZp3R0B7MvaTpecfdf
+	HnfaU3KLnJgrpJZU+BzlI8Zr+ea6aoumMbyyy77qPa/zfc6Sedztn/aETFCGcwIUM/Ln
+	9zHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=eUdps9rXlAG3HDxRrvn+HNEDobg8VW5xA9jf0x/SWio=;
+	b=eUX+KO/whGMU3FjzYU19yONK/RyvhJaLopii0w/UL5Xfrz2SZor62wjhuQjbX/J2cU
+	I3+e/93Tkl+shiIFVbWFDMaZaCb0vjf8Gq9O37baXBqDjcpcHI2VxeeocNcohisbSFb0
+	G9viIc11LV4vwov3ZzKXTjyRRFRCCvXh7GAJdR3SP2vfEZgXdBsyaiPrCtYNgkLR0LrX
+	DXdhJQrpHI/R49O0odLQcDvmW9tQHp2JVtinxhsJVnBsTLHJ5+AvGFKhLIvsOmp5DIP1
+	8ZoMtz8v+31r2hrcyscRgCFHsmwpNvX8zotRPUPKj0ZcCfyaK2680LImhX970gDfx9Uv
+	QWGA==
+X-Gm-Message-State: ALyK8tKgnpfttKMFiwZkNUjvvhgrHwbmeqr9AzuMFMFt9UbAwVf28Rv2tkTwRFMha3723NBiRcxwsHX2aWJk0K9d
+X-Received: by 10.107.138.212 with SMTP id c81mr31008023ioj.148.1468833077570; 
+	Mon, 18 Jul 2016 02:11:17 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] boost: fix CVE-2012-2677
+Received: by 10.107.18.17 with HTTP; Mon, 18 Jul 2016 02:10:58 -0700 (PDT)
+In-Reply-To: <8ca29bb46b3385cfb2d8c8874487d2cd1a4c0c27.1468503047.git.joshua.g.lock@intel.com>
+References: <cover.1468503047.git.joshua.g.lock@intel.com>
+	<8ca29bb46b3385cfb2d8c8874487d2cd1a4c0c27.1468503047.git.joshua.g.lock@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 18 Jul 2016 10:10:58 +0100
+Message-ID: <CAJTo0LZumhkryN+hh1gr9vUcNdbN1Dy3y28mN=yo1iu+5JTe-A@mail.gmail.com>
+To: Joshua Lock <joshua.g.lock@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH v2 1/1] image: add do_image_qa task to run QA checks on the constructed image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,151 +54,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jul 2016 09:09:11 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 18 Jul 2016 09:11:17 -0000
+Content-Type: multipart/alternative; boundary=001a113ed932d2d29f0537e5596d
 
-From: Kai Kang <kai.kang@windriver.com>
+--001a113ed932d2d29f0537e5596d
+Content-Type: text/plain; charset=UTF-8
 
-Backport patch to fix CVE-2012-2677 for boost from:
+On 14 July 2016 at 14:36, Joshua Lock <joshua.g.lock@intel.com> wrote:
 
-https://svn.boost.org/trac/boost/changeset/78326
+> +            qamsg = qamsg + '\Image QA function %s failed' % e.name
+>
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- .../boost/boost/boost-CVE-2012-2677.patch          | 112 +++++++++++++++++++++
- meta/recipes-support/boost/boost_1.61.0.bb         |   1 +
- 2 files changed, 113 insertions(+)
- create mode 100644 meta/recipes-support/boost/boost/boost-CVE-2012-2677.patch
+I fixed this typo when merging to mut.
 
-diff --git a/meta/recipes-support/boost/boost/boost-CVE-2012-2677.patch b/meta/recipes-support/boost/boost/boost-CVE-2012-2677.patch
-new file mode 100644
-index 0000000..859f4aa
---- /dev/null
-+++ b/meta/recipes-support/boost/boost/boost-CVE-2012-2677.patch
-@@ -0,0 +1,112 @@
-+Reference
-+
-+https://svn.boost.org/trac/boost/changeset/78326
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Yue Tao <yue.tao@windriver.com>
-+
-+diff --git a/boost/pool/pool.hpp.old b/boost/pool/pool.hpp
-+index c47b11f..417a1e0 100644
-+--- a/boost/pool/pool.hpp.old
-++++ b/boost/pool/pool.hpp
-+@@ -26,6 +26,8 @@
-+ 
-+ #include <boost/pool/poolfwd.hpp>
-+ 
-++// std::numeric_limits
-++#include <boost/limits.hpp>
-+ // boost::integer::static_lcm
-+ #include <boost/integer/common_factor_ct.hpp>
-+ // boost::simple_segregated_storage
-+@@ -355,6 +357,15 @@ class pool: protected simple_segregated_storage < typename UserAllocator::size_t
-+       return s;
-+     }
-+ 
-++    size_type max_chunks() const
-++    { //! Calculated maximum number of memory chunks that can be allocated in a single call by this Pool.
-++      size_type partition_size = alloc_size();
-++      size_type POD_size = math::static_lcm<sizeof(size_type), sizeof(void *)>::value + sizeof(size_type);
-++      size_type max_chunks = (std::numeric_limits<size_type>::max() - POD_size) / alloc_size();
-++
-++      return max_chunks;
-++    }
-++
-+     static void * & nextof(void * const ptr)
-+     { //! \returns Pointer dereferenced.
-+       //! (Provided and used for the sake of code readability :)
-+@@ -375,6 +386,8 @@ class pool: protected simple_segregated_storage < typename UserAllocator::size_t
-+       //!   the first time that object needs to allocate system memory.
-+       //!   The default is 32. This parameter may not be 0.
-+       //! \param nmax_size is the maximum number of chunks to allocate in one block.
-++      set_next_size(nnext_size);
-++      set_max_size(nmax_size);
-+     }
-+ 
-+     ~pool()
-+@@ -398,8 +411,8 @@ class pool: protected simple_segregated_storage < typename UserAllocator::size_t
-+     }
-+     void set_next_size(const size_type nnext_size)
-+     { //! Set number of chunks to request from the system the next time that object needs to allocate system memory. This value should never be set to 0.
-+-      //! \returns nnext_size.
-+-      next_size = start_size = nnext_size;
-++      BOOST_USING_STD_MIN();
-++      next_size = start_size = min BOOST_PREVENT_MACRO_SUBSTITUTION(nnext_size, max_chunks());
-+     }
-+     size_type get_max_size() const
-+     { //! \returns max_size.
-+@@ -407,7 +420,8 @@ class pool: protected simple_segregated_storage < typename UserAllocator::size_t
-+     }
-+     void set_max_size(const size_type nmax_size)
-+     { //! Set max_size.
-+-      max_size = nmax_size;
-++      BOOST_USING_STD_MIN();
-++      max_size = min BOOST_PREVENT_MACRO_SUBSTITUTION(nmax_size, max_chunks());
-+     }
-+     size_type get_requested_size() const
-+     { //!   \returns the requested size passed into the constructor.
-+@@ -708,9 +722,9 @@ void * pool<UserAllocator>::malloc_need_resize()
-+ 
-+   BOOST_USING_STD_MIN();
-+   if(!max_size)
-+-    next_size <<= 1;
-++    set_next_size(next_size << 1);
-+   else if( next_size*partition_size/requested_size < max_size)
-+-    next_size = min BOOST_PREVENT_MACRO_SUBSTITUTION(next_size << 1, max_size*requested_size/ partition_size);
-++    set_next_size(min BOOST_PREVENT_MACRO_SUBSTITUTION(next_size << 1, max_size * requested_size / partition_size));
-+ 
-+   //  initialize it,
-+   store().add_block(node.begin(), node.element_size(), partition_size);
-+@@ -748,9 +762,9 @@ void * pool<UserAllocator>::ordered_malloc_need_resize()
-+ 
-+   BOOST_USING_STD_MIN();
-+   if(!max_size)
-+-    next_size <<= 1;
-++    set_next_size(next_size << 1);
-+   else if( next_size*partition_size/requested_size < max_size)
-+-    next_size = min BOOST_PREVENT_MACRO_SUBSTITUTION(next_size << 1, max_size*requested_size/ partition_size);
-++    set_next_size(min BOOST_PREVENT_MACRO_SUBSTITUTION(next_size << 1, max_size * requested_size / partition_size));
-+ 
-+   //  initialize it,
-+   //  (we can use "add_block" here because we know that
-+@@ -792,6 +806,8 @@ void * pool<UserAllocator>::ordered_malloc(const size_type n)
-+ { //! Gets address of a chunk n, allocating new memory if not already available.
-+   //! \returns Address of chunk n if allocated ok.
-+   //! \returns 0 if not enough memory for n chunks.
-++  if (n > max_chunks())
-++    return 0;
-+ 
-+   const size_type partition_size = alloc_size();
-+   const size_type total_req_size = n * requested_size;
-+@@ -840,9 +856,9 @@ void * pool<UserAllocator>::ordered_malloc(const size_type n)
-+ 
-+   BOOST_USING_STD_MIN();
-+   if(!max_size)
-+-    next_size <<= 1;
-++    set_next_size(next_size << 1);
-+   else if( next_size*partition_size/requested_size < max_size)
-+-    next_size = min BOOST_PREVENT_MACRO_SUBSTITUTION(next_size << 1, max_size*requested_size/ partition_size);
-++    set_next_size(min BOOST_PREVENT_MACRO_SUBSTITUTION(next_size << 1, max_size * requested_size / partition_size));
-+ 
-+   //  insert it into the list,
-+   //   handle border case.
-diff --git a/meta/recipes-support/boost/boost_1.61.0.bb b/meta/recipes-support/boost/boost_1.61.0.bb
-index d8b14fe..1116444 100644
---- a/meta/recipes-support/boost/boost_1.61.0.bb
-+++ b/meta/recipes-support/boost/boost_1.61.0.bb
-@@ -4,4 +4,5 @@ include boost.inc
- SRC_URI += "\
-     file://arm-intrinsics.patch \
-     file://consider-hardfp.patch \
-+    file://boost-CVE-2012-2677.patch \
- "
--- 
-2.6.1
+Ross
 
+--001a113ed932d2d29f0537e5596d
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 14 July 2016 at 14:36, Joshua Lock <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:joshua.g.lock@intel.com" target=3D"_blank">joshua.g.lock@intel.com</a>&g=
+t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":fu" class=3D=
+"a3s aXjCH m155e9a1a64044f25">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qa=
+msg =3D qamsg + &#39;\Image QA function %s failed&#39; % <a href=3D"http://=
+e.name" rel=3D"noreferrer" target=3D"_blank">e.name</a><br></div></blockquo=
+te></div><br>I fixed this typo when merging to mut.</div><div class=3D"gmai=
+l_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a113ed932d2d29f0537e5596d--
