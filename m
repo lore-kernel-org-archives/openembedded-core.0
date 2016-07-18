@@ -1,46 +1,53 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
-	[209.85.216.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 6526860797;
-	Mon, 18 Jul 2016 22:48:44 +0000 (UTC)
-Received: by mail-qt0-f196.google.com with SMTP id j37so57135qta.0;
-	Mon, 18 Jul 2016 15:48:46 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f174.google.com (mail-pf0-f174.google.com
+	[209.85.192.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B82060797;
+	Mon, 18 Jul 2016 23:27:39 +0000 (UTC)
+Received: by mail-pf0-f174.google.com with SMTP id p64so647452pfb.1;
+	Mon, 18 Jul 2016 16:27:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=cNLc40AETe4wuAT6LeYMbuQQVkl2RUtNPB8mh5xWP/Y=;
-	b=hKbkAKJPXc15IzJY2C9ilXrfxpE95DgvJEhpq3BlFxrqin6a+q4cT6esY8BOFtTfIR
-	f7HgycoEzkkQXmNpqKowDPF1TBSPjjE0oUfxwqZpkBZ7VVW/WWjEgw9yU33oXPeM94ur
-	mPXRIZZop5yppB3d0qNz2T0pJBTamH9vAZtD1VCHKUMXkqawo0c5xaAhdA17wSAZdJX5
-	hmf4t18HELhc39lEH3GH6qKAekSEzj+wz8FHWk9DkB5O4P3mHMiE6ZV6rjmZZPdGMV/+
-	c3C5ylflwiQlam5uQB/hvLymSIBY7DIy2EUuO3+7c+PrNbD6cwc69m0TarD84hoodWmX
-	sytw==
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=rnA0KY86zRx/HbT9W4Zwyp438fsxhmqM1b0ye338/VU=;
+	b=KrLxhNgdFP8w/ToX7sXT49gkckNQZ8ZOATQ3t37sbewkpSPlkhrqPF21xm8sJ6OWf4
+	oqb67FiZGv3xKBp2oN5iiyXLPVmhNAMz+PQJpBfUqLfoBckerljO7HyD8HtxUBXH9MxE
+	egsANjJ47K6yJOXi53EqQvAB6haHKiU/DjpQnnYP+QW2YT2xwOuYGfYe3X5efWX0ftGC
+	M17T7HzF5f6xuOHPxwXtE9oUltX5zLYT40b8g2x1Q2J38x6ztCqD13WZWODajT1FrOOI
+	q5cgLwAeRC8XUbXKwymAtC10sTskwiyLs7jYlaTfqnhNQZR4YBRAKBQLuF/cXHg0H1a2
+	7xxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=cNLc40AETe4wuAT6LeYMbuQQVkl2RUtNPB8mh5xWP/Y=;
-	b=eY1NjPVSQ6pMAUmp4VXvDM5hD4LZWOFrpo/44W5twgMCI71GMwYFNvAhce+QtE33Xj
-	Bjn42YalJhXlsH05ygFsQ+L57pWz9Fyib7W+R06zhoznLUfxMYA5d6cqdRdeks/0yyrw
-	3vmFIULU8AouA9hmxprn5ao0/La91pkZAKSS/UdX6oLRB9EC70q+ZEn7uHUO78+6Ovu6
-	B9LPs0CWEswsrAyU+ohsMOonvNAxfQqKKbNpSDgtPyeEhhICYydgjk9IdpWEz0EjxXgc
-	vYBMu20D8d4XveO3cc48ngBS2ugn8paQqHZm58RTnvWD2kqxFCz8eaK1UYneIb7DmLUB
-	t4Cg==
-X-Gm-Message-State: ALyK8tLBpwPhY73nvkjv4RbWY+B74t+98J6HsO5eMnMPPOoAPehIspzQ4xB5afrmKq2IzxkkkoBsJiJLtkmozw==
-X-Received: by 10.200.48.112 with SMTP id g45mr56586933qte.70.1468882125520;
-	Mon, 18 Jul 2016 15:48:45 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.200.50.137 with HTTP; Mon, 18 Jul 2016 15:48:44 -0700 (PDT)
-In-Reply-To: <1468880306.2228.69.camel@pbcl.net>
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=rnA0KY86zRx/HbT9W4Zwyp438fsxhmqM1b0ye338/VU=;
+	b=On+E1RkXkOK+pU304L3VQfGIVKUDOeWTSKy05xNq1AmXzjeEb1tSBecznnCTxdnTfx
+	kwTkUdFE87ttHJVTUuoW/t2xUHDLDVZP6kMe721tUKiY31rpKzaDFH2gWERouw44GpKu
+	Cy//EZXrz3zRKaw/v0iaaPOUm5j/BydqrzhX6b5pEx1CfHbRLvBilmN3nHVMAFSp8uXa
+	em+mzWtPlcs8VaL1Zxpp3i7OhXeT9mJk1bu37o+M2P7O61EEQlumwLgOSHasusGzxTB0
+	uYhwH1BdN53lZWN7KjC82hlQCqqlugjWBntLftrlHVvEtjSOyW6EZNL0YfMhc7l3p8ds
+	VKbw==
+X-Gm-Message-State: ALyK8tK1badYzp5XFGgE2Y3iMJpwp7YPRpi4kCuE7v9ZvcV32bPl/w5g07scdWv9BX4q4w==
+X-Received: by 10.98.49.133 with SMTP id x127mr49645286pfx.90.1468884460568;
+	Mon, 18 Jul 2016 16:27:40 -0700 (PDT)
+Received: from ?IPv6:2601:646:8882:b8c:2dca:f3e2:ce03:4e42?
+	([2601:646:8882:b8c:2dca:f3e2:ce03:4e42])
+	by smtp.gmail.com with ESMTPSA id l82sm7432829pfk.8.2016.07.18.16.27.39
+	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 18 Jul 2016 16:27:39 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Pgp-Agent: GPGMail
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <CADkTA4OMij4vsjGfw9Vwjh3ymGYkJDUsAKou6=hU7f0Yt05FXA@mail.gmail.com>
+Date: Mon, 18 Jul 2016 16:27:31 -0700
+Message-Id: <FD626B02-4D25-4358-8983-298FD08E6240@gmail.com>
 References: <CAJTo0LYNjoPfahXjaKEVP6ey=mY3MKDKK5DoCPB9Dp151UgFpw@mail.gmail.com>
 	<1468880306.2228.69.camel@pbcl.net>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 18 Jul 2016 18:48:44 -0400
-Message-ID: <CADkTA4OMij4vsjGfw9Vwjh3ymGYkJDUsAKou6=hU7f0Yt05FXA@mail.gmail.com>
-To: Phil Blundell <pb@pbcl.net>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	<CADkTA4OMij4vsjGfw9Vwjh3ymGYkJDUsAKou6=hU7f0Yt05FXA@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+X-Mailer: Apple Mail (2.3124)
+Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
 	openembedded-architecture
 	<openembedded-architecture@lists.openembedded.org>,
-	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
+	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [Openembedded-architecture] Removal of uclibc from oe-core?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -54,84 +61,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jul 2016 22:48:46 -0000
-Content-Type: multipart/alternative; boundary=001a1143c9c44f02800537f0c5dc
+X-List-Received-Date: Mon, 18 Jul 2016 23:27:40 -0000
+X-Groupsio-MsgNum: 84659
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_624F99E3-A077-458D-92F8-F60EFC42C8EE";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---001a1143c9c44f02800537f0c5dc
-Content-Type: text/plain; charset=UTF-8
+--Apple-Mail=_624F99E3-A077-458D-92F8-F60EFC42C8EE
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_533A9CAB-D380-451D-ACBE-A5D9A7F21B14"
 
-On Mon, Jul 18, 2016 at 6:18 PM, Phil Blundell <pb@pbcl.net> wrote:
+--Apple-Mail=_533A9CAB-D380-451D-ACBE-A5D9A7F21B14
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
+
+> On Jul 18, 2016, at 3:48 PM, Bruce Ashfield <bruce.ashfield@gmail.com> =
+wrote:
+>=20
+>=20
+>=20
+> On Mon, Jul 18, 2016 at 6:18 PM, Phil Blundell <pb@pbcl.net =
+<mailto:pb@pbcl.net>> wrote:
 > On Mon, 2016-07-18 at 23:01 +0100, Burton, Ross wrote:
->
-> > Now that musl is fairly mature I think it's time to take uclibc out to
+>=20
+> > Now that musl is fairly mature I think it's time to take uclibc out =
+to
 > > pasture, where the pasture is possibly called meta-uclibc.
->
+>=20
 > I think this is a splendid idea.
->
+>=20
+> Agreed.
+>=20
+> But do we need a sharpened stake to make sure it doesn't come back ?
 
-Agreed.
+I think its just about time. Given the health of uclibc project and =
+maintenance burden we impose on OE-Core, if someone
+needs to have it beyond 2.1, please step up and we can create a new =
+layer mnta-uclibc and it can be hosted there. but it
+certainly should go out of OE-Core.
 
-But do we need a sharpened stake to make sure it doesn't come back ?
-
-Bruce
-
-
->
+>=20
+> Bruce
+>=20
+>=20
 > p.
->
->
->
+>=20
+>=20
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org =
+<mailto:Openembedded-core@lists.openembedded.org>
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core =
+<http://lists.openembedded.org/mailman/listinfo/openembedded-core>
+>=20
+>=20
+>=20
+> --
+> "Thou shalt not follow the NULL pointer, for chaos and madness await =
+thee at its end"
 > --
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
 
+--Apple-Mail=_533A9CAB-D380-451D-ACBE-A5D9A7F21B14
+Content-Transfer-Encoding: 7bit
+Content-Type: text/html;
+	charset=us-ascii
 
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
-
---001a1143c9c44f02800537f0c5dc
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Mon, Jul 18, 2016 at 6:18 PM, Phil Blundell <span dir=3D"ltr">&lt;<a=
- href=3D"mailto:pb@pbcl.net" target=3D"_blank">pb@pbcl.net</a>&gt;</span> w=
-rote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
-r-left:1px #ccc solid;padding-left:1ex"><span class=3D"">On Mon, 2016-07-18=
- at 23:01 +0100, Burton, Ross wrote:<br>
-<br>
-&gt; Now that musl is fairly mature I think it&#39;s time to take uclibc ou=
-t to<br>
-&gt; pasture, where the pasture is possibly called meta-uclibc.<br>
-<br>
-</span>I think this is a splendid idea.<br></blockquote><div><br></div><div=
->Agreed.</div><div><br></div><div>But do we need a sharpened stake to make =
-sure it doesn&#39;t come back ?</div><div><br></div><div>Bruce</div><div>=
-=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex">
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
-p.<br>
-<br>
-<br>
-<br>
---<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
-r><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;T=
-hou shalt not follow the NULL pointer, for chaos and madness await thee at =
-its end&quot;</div>
+<html><head><meta http-equiv="Content-Type" content="text/html charset=us-ascii"></head><body style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" class=""><br class=""><div><blockquote type="cite" class=""><div class="">On Jul 18, 2016, at 3:48 PM, Bruce Ashfield &lt;<a href="mailto:bruce.ashfield@gmail.com" class="">bruce.ashfield@gmail.com</a>&gt; wrote:</div><br class="Apple-interchange-newline"><div class=""><div dir="ltr" class=""><br class=""><div class="gmail_extra"><br class=""><div class="gmail_quote">On Mon, Jul 18, 2016 at 6:18 PM, Phil Blundell <span dir="ltr" class="">&lt;<a href="mailto:pb@pbcl.net" target="_blank" class="">pb@pbcl.net</a>&gt;</span> wrote:<br class=""><blockquote class="gmail_quote" style="margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class="">On Mon, 2016-07-18 at 23:01 +0100, Burton, Ross wrote:<br class="">
+<br class="">
+&gt; Now that musl is fairly mature I think it's time to take uclibc out to<br class="">
+&gt; pasture, where the pasture is possibly called meta-uclibc.<br class="">
+<br class="">
+</span>I think this is a splendid idea.<br class=""></blockquote><div class=""><br class=""></div><div class="">Agreed.</div><div class=""><br class=""></div><div class="">But do we need a sharpened stake to make sure it doesn't come back ?</div></div></div></div></div></blockquote><div><br class=""></div><div>I think its just about time. Given the health of uclibc project and maintenance burden we impose on OE-Core, if someone</div><div>needs to have it beyond 2.1, please step up and we can create a new layer mnta-uclibc and it can be hosted there. but it</div><div>certainly should go out of OE-Core.&nbsp;</div><br class=""><blockquote type="cite" class=""><div class=""><div dir="ltr" class=""><div class="gmail_extra"><div class="gmail_quote"><div class=""><br class=""></div><div class="">Bruce</div><div class="">&nbsp;</div><blockquote class="gmail_quote" style="margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<span class="HOEnZb"><font color="#888888" class=""><br class="">
+p.<br class="">
+<br class="">
+<br class="">
+<br class="">
+--<br class="">
+_______________________________________________<br class="">
+Openembedded-core mailing list<br class="">
+<a href="mailto:Openembedded-core@lists.openembedded.org" class="">Openembedded-core@lists.openembedded.org</a><br class="">
+<a href="http://lists.openembedded.org/mailman/listinfo/openembedded-core" rel="noreferrer" target="_blank" class="">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a><br class="">
+</font></span></blockquote></div><br class=""><br clear="all" class=""><div class=""><br class=""></div>-- <br class=""><div class="gmail_signature" data-smartmail="gmail_signature">"Thou shalt not follow the NULL pointer, for chaos and madness await thee at its end"</div>
 </div></div>
+-- <br class="">_______________________________________________<br class="">Openembedded-core mailing list<br class=""><a href="mailto:Openembedded-core@lists.openembedded.org" class="">Openembedded-core@lists.openembedded.org</a><br class="">http://lists.openembedded.org/mailman/listinfo/openembedded-core<br class=""></div></blockquote></div><br class=""></body></html>
 
---001a1143c9c44f02800537f0c5dc--
+--Apple-Mail=_533A9CAB-D380-451D-ACBE-A5D9A7F21B14--
+
+--Apple-Mail=_624F99E3-A077-458D-92F8-F60EFC42C8EE
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAleNZekACgkQuwUzVZGdMxQ4DACgkFWhJ6aB5e/B8TNmP0wXmiaF
+4A8AnAqSHd9GaV57mKt5s36QWQ5OaRHs
+=aSta
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_624F99E3-A077-458D-92F8-F60EFC42C8EE--
