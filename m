@@ -1,47 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f51.google.com (mail-it0-f51.google.com
-	[209.85.214.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 7765A60797
+Return-Path: <clopez@igalia.com>
+X-Greylist: delayed 600 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 18 Jul 2016 21:30:35 UTC
+Received: from smtp4.mundo-r.com (smtp3.mundo-r.com [212.51.32.191])
+	by mail.openembedded.org (Postfix) with ESMTP id 330F260797
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jul 2016 21:21:45 +0000 (UTC)
-Received: by mail-it0-f51.google.com with SMTP id j124so2579608ith.1
+	Mon, 18 Jul 2016 21:30:35 +0000 (UTC)
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: A2ClAwAfR41X/5tjdVtbKgGDFFY1R7ZWgg+BehIQhy84FAEBAQEBAQFlJ4UuAXyBAog0AQmgR5UqAYhuhiqJWYF9C4MHBZkkhhOITAKCN4x8ApAeHjaDdWwBh2EBAQE
+X-IPAS-Result: A2ClAwAfR41X/5tjdVtbKgGDFFY1R7ZWgg+BehIQhy84FAEBAQEBAQFlJ4UuAXyBAog0AQmgR5UqAYhuhiqJWYF9C4MHBZkkhhOITAKCN4x8ApAeHjaDdWwBh2EBAQE
+X-IronPort-AV: E=Sophos;i="5.28,385,1464645600"; d="scan'208";a="152790867"
+Received: from fanzine.igalia.com ([91.117.99.155])
+	by smtp4.mundo-r.com with ESMTP; 18 Jul 2016 23:20:34 +0200
+Received: from 1.14.117.91.dynamic.reverse-mundo-r.com ([91.117.14.1]
+	helo=trinity.local.igalia.com) by fanzine.igalia.com with esmtpsa 
+	(Cipher TLS1.0:RSA_AES_128_CBC_SHA1:16) (Exim) id 1bPFxq-00052F-3E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jul 2016 14:21:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=MtCKMw1Xutx/jg3cMC+6y8M6JxztQRj5s+3D7fD+2uA=;
-	b=FupbUr0Ulcaz4asL7F+EZrAZpigu11362GNjcX7JTF9usM5Q7tv21c3pNvTIl2QkZE
-	xkkeDFsAhojeKUMOhEP4lHD7EuSRhDJ8qbECo4hVe1CU1aIm5NN9qdZXz4dl8OxEBGL0
-	Ztc0S8Mi2KrzV0A462RUT/YjK6acr6H7gkmAJ5MOv7Fv2sogQ7Adpe3jZZETltvAAjar
-	9xUyGG7ns1Fl9jCnSMM3wRWJzL8U/RLIcBCYLM31ge34ioRRrhXuy+EnJQfL0nUo33yW
-	r8OcgNlmfJyYUQtDlvKz8RQS794M+AmSX8CIk7xrm9LoFlX7A+afL/8mvjnOaSpjk9fi
-	BNnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=MtCKMw1Xutx/jg3cMC+6y8M6JxztQRj5s+3D7fD+2uA=;
-	b=hWySULyxl+1i+ZMi3NU54yHoVcINdRvm4zZ+bgw/aQ4gYlnQY0fBfWKS0pdDLcrEA1
-	7iacegr7FbQwKy9A6SRQy+fjThIghA2XodZMCQpSB1T2XknfkrXykL4VweEF+tXbgsyt
-	odjh3jotd/duZ5bpXXxyxTnrP7VL9FstWF3o8FXur1RFC+bOWL/E++jb6Q3wCHrDAqfk
-	jScoSRv0iV/rbM6qQGr7eXkAfgeBAWsYOeQAcaSSP/4hbZnILbf0WuzFS5+3DRDGxZAC
-	yO4WmyqkfLFHH1o5v5dcXSt57TswHc66ICtvIlmjijiNCPDX6UOcmgVfrOaX77yYrUYQ
-	ZYYA==
-X-Gm-Message-State: ALyK8tI+MJlO4DWgLwCz4cdd028t9hIexIlUZxt2m0+YidxEbzRGIpOFffepdeSehxF4QCWKYFAMbCJQgTncfhTf
-X-Received: by 10.36.121.204 with SMTP id z195mr36846763itc.22.1468876905591; 
-	Mon, 18 Jul 2016 14:21:45 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Mon, 18 Jul 2016 14:21:26 -0700 (PDT)
-In-Reply-To: <20160711175529.2650-2-stephano.cetola@linux.intel.com>
-References: <20160711175529.2650-1-stephano.cetola@linux.intel.com>
-	<20160711175529.2650-2-stephano.cetola@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 18 Jul 2016 22:21:26 +0100
-Message-ID: <CAJTo0LZfTnmKoMCwjZhU9-ooBZm4F1vsy=vC4sh9p0HQF6mVKQ@mail.gmail.com>
-To: Stephano Cetola <stephano.cetola@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V3] rootfs.py: allow removal of support packages
+	Mon, 18 Jul 2016 23:20:34 +0200
+From: Carlos Alberto Lopez Perez <clopez@igalia.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 18 Jul 2016 23:19:56 +0200
+Message-Id: <1468876796-16026-1-git-send-email-clopez@igalia.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] webkitgtk: Switch the ARMv7 build to Thumb2 and enable back the JSC JIT.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,41 +34,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jul 2016 21:21:45 -0000
-Content-Type: multipart/alternative; boundary=001a114aa4662d705c0537ef8e07
+X-List-Received-Date: Mon, 18 Jul 2016 21:30:37 -0000
 
---001a114aa4662d705c0537ef8e07
-Content-Type: text/plain; charset=UTF-8
+* The JSC JIT is broken on ARMv7 without Thumb2.
 
-On 11 July 2016 at 18:55, Stephano Cetola <stephano.cetola@linux.intel.com>
-wrote:
+[YOCTO #9474]
 
-> +            unneeded_pkgs.extend(self.d.getVar("ROOTFS_BOOTSTRAP_INSTALL",
-> +                True).split(","))
->
+Signed-off-by: Carlos Alberto Lopez Perez <clopez@igalia.com>
+---
+ meta/recipes-sato/webkit/webkitgtk_2.12.3.bb | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
-Sorry for not getting around to reviewing this...
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.12.3.bb b/meta/recipes-sato/webkit/webkitgtk_2.12.3.bb
+index c5e5432..536fa23 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.12.3.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.12.3.bb
+@@ -71,10 +71,6 @@ EXTRA_OECMAKE_append_armv5 = " -DENABLE_JIT=OFF "
+ EXTRA_OECMAKE_append_armv6 = " -DENABLE_JIT=OFF "
+ EXTRA_OECMAKE_append_armv4 = " -DENABLE_JIT=OFF "
+ 
+-# ARM JIT can build on armv7a, but doesnt' work on runtime, cause
+-# displaying problems or ephiphany hang.
+-EXTRA_OECMAKE_append_armv7a = " -DENABLE_JIT=OFF "
+-
+ # binutils 2.25.1 has a bug on aarch64:
+ # https://sourceware.org/bugzilla/show_bug.cgi?id=18430
+ EXTRA_OECMAKE_append_aarch64 = " -DUSE_LD_GOLD=OFF "
+@@ -89,7 +85,18 @@ SECURITY_CFLAGS_append_aarch64 = " -fPIE"
+ FILES_${PN} += "${libdir}/webkit2gtk-4.0/injected-bundle/libwebkit2gtkinjectedbundle.so"
+ 
+ # http://errors.yoctoproject.org/Errors/Details/20370/
+-ARM_INSTRUCTION_SET = "arm"
++ARM_INSTRUCTION_SET_armv4 = "arm"
++ARM_INSTRUCTION_SET_armv5 = "arm"
++ARM_INSTRUCTION_SET_armv6 = "arm"
++
++# https://bugzilla.yoctoproject.org/show_bug.cgi?id=9474
++# https://bugs.webkit.org/show_bug.cgi?id=159880
++# JSC JIT can build on ARMv7 with -marm, but doesn't work on runtime.
++# Upstream only tests regularly the JSC JIT on ARMv7 with Thumb2 (-mthumb).
++ARM_INSTRUCTION_SET_armv7a = "thumb"
++ARM_INSTRUCTION_SET_armv7r = "thumb"
++ARM_INSTRUCTION_SET_armv7m = "thumb"
++ARM_INSTRUCTION_SET_armv7ve = "thumb"
+ 
+ # Invalid data memory access: 0x00000000
+ # ...
+-- 
+2.1.4
 
-That variable is whitespace separated, not comma.
 
-Ross
-
---001a114aa4662d705c0537ef8e07
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 11 July 2016 at 18:55, Stephano Cetola <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:stephano.cetola@linux.intel.com" target=3D"_blank">stephano.cetola@l=
-inux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div=
- id=3D":235" class=3D"a3s aXjCH m155db1a243f47d1f">+=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 unneeded_pkgs.extend(self.d.getVar(&quot;ROOTFS_BOOTST=
-RAP_INSTALL&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 True).split(&quot;=
-,&quot;))<br></div></blockquote></div><br>Sorry for not getting around to r=
-eviewing this...</div><div class=3D"gmail_extra"><br></div><div class=3D"gm=
-ail_extra">That variable is whitespace separated, not comma.</div><div clas=
-s=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a114aa4662d705c0537ef8e07--
