@@ -1,24 +1,45 @@
-Return-Path: <Jianchuan.Wang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9EB4E6E5CB
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 5267360589
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jul 2016 02:41:20 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u6J2fL34013185
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 19 Jul 2016 04:43:13 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id y134so577273pfg.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jul 2016 19:41:21 -0700 (PDT)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 18 Jul 2016 19:41:20 -0700
-From: <jianchuan.wang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 18 Jul 2016 22:41:18 -0400
-Message-ID: <1468896078-226867-1-git-send-email-jianchuan.wang@windriver.com>
-X-Mailer: git-send-email 2.8.1
-MIME-Version: 1.0
-Subject: [PATCH 1/1] net-tools: lib/inet6.c:INET6_rresolve() - various fixes [ LIN9-1102 ]
+	Mon, 18 Jul 2016 21:43:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=8U1eZrvx+vxL7F+NhRrp+4qxR+8res1bV2FopKLhslc=;
+	b=D6ayvLzSmBvkhQ5WRwVZetDzVk4krxr/SyAdK+Y+oVJlKu56+Fqzw5izjNTuWjb407
+	QkxmQ28c6FdHc90n2fOmXJNbrXT95VCVIQ/O1GiMsmyEnyoWaV7F1zXJhuL6t9SsU9Fc
+	gzoeG0UuCBWUCMGelilgXLD+B38z5G0KcA7NrzZYQo72m3DY6If7W/lhh3+ZtZmLlk2Z
+	Q/Hy6pbqSfjQNhXcfa3/qAkoky2kpRLC4xpavblKK8N02A2Akb726BjUoK5Gihv1FDc+
+	HaT9yWh38uhihygIhVdtOlnP0b55oRL77RRoUqXZv8nSRCLLnO/qkwgW71U7XNiK17JE
+	W3fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=8U1eZrvx+vxL7F+NhRrp+4qxR+8res1bV2FopKLhslc=;
+	b=a4K8u8g6yWsruUmDG39PWKGqJWNjtgPkNVlOieY/BmcQBGHDxXH/Dr7aKaC1MBVMxa
+	frSz6SHTkSRAi4MjDyhl8nRY66DqetkWJ6KIH4MFAlIaImgDXnYQMlNBvIFc378z6G8l
+	MNwEvLUEmTxKFa0tFVsPQIvXQnFYwmmsKoi1kfOWrfeU5pMo8XZP2x1eE0nKKKzWxqcY
+	/5ris6l8OZLedvPP2Xd5EQLXce2luSmjGgovv5lfj1PqgKJsGWks0bUwYvelB7Zx1oEc
+	3dg+FmjSPxX9MGi3wQekMRdyGvJPjHOxdGFEVkYMZjnZlfYCx5LFlMrrgjxodf5uy/iG
+	YZnQ==
+X-Gm-Message-State: ALyK8tKCizOO0DukmyZgfMEgFuU0/orkjRWHLjaep7xHKuQopGcEEJzeeaC7r4e1VIhjew==
+X-Received: by 10.98.87.138 with SMTP id i10mr47622113pfj.16.1468903394327;
+	Mon, 18 Jul 2016 21:43:14 -0700 (PDT)
+Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
+	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
+	i137sm775514pfe.64.2016.07.18.21.43.13
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 18 Jul 2016 21:43:13 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 18 Jul 2016 21:43:07 -0700
+Message-Id: <20160719044307.16219-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.9.0
+Subject: [PATCH] glibc: Update to 2.24 after hard-freeze
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,128 +52,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jul 2016 02:41:20 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 19 Jul 2016 04:43:18 -0000
 
-From: Shan Hai <shan.hai@windriver.com>
+Drop upstreamed patch
 
-Integrate net-tools upstream commit a70c568b907d to fix a bug which
-causes the 'netstat -a' to print "[UNKNOWN]" in case of DNS problem
-instead of IPv6 address.
-
-Signed-off-by: Jianchuan Wang <jianchuan.wang@windriver.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...-lib-inet6.c-INET6_rresolve-various-fixes.patch | 87 ++++++++++++++++++++++
- .../net-tools/net-tools_1.60-26.bb                 |  1 +
- 2 files changed, 88 insertions(+)
- create mode 100644 meta/recipes-extended/net-tools/net-tools/0001-lib-inet6.c-INET6_rresolve-various-fixes.patch
+ .../glibc/cross-localedef-native_2.24.bb           |  2 +-
+ meta/recipes-core/glibc/glibc/elf-meta.patch       | 32 ----------------------
+ meta/recipes-core/glibc/glibc_2.24.bb              |  3 +-
+ 3 files changed, 2 insertions(+), 35 deletions(-)
+ delete mode 100644 meta/recipes-core/glibc/glibc/elf-meta.patch
 
-diff --git a/meta/recipes-extended/net-tools/net-tools/0001-lib-inet6.c-INET6_rresolve-various-fixes.patch b/meta/recipes-extended/net-tools/net-tools/0001-lib-inet6.c-INET6_rresolve-various-fixes.patch
-new file mode 100644
-index 0000000..8be45cc
---- /dev/null
-+++ b/meta/recipes-extended/net-tools/net-tools/0001-lib-inet6.c-INET6_rresolve-various-fixes.patch
-@@ -0,0 +1,87 @@
-+From 08abfcd923e9f37d1902db26771b1dc6731eb265 Mon Sep 17 00:00:00 2001
-+From: Jiri Popelka <jpopelka@redhat.com>
-+Date: Fri, 27 Sep 2013 18:40:06 +0200
-+Subject: [PATCH 1/1] lib/inet6.c:INET6_rresolve() - various fixes
-+
-+1) Fall-back to numeric address if getnameinfo fails.
-+   Reverse lookup is not mandatory, therefore its fail
-+   is not an error. Just return numeric address in that case.
-+   This makes netstat/route show IPv6 address instead of
-+   [UNKNOWN] in case of DNS problems.
-+
-+2) Pass length of 'name' buffer into function.
-+   'name' is a pointer and therefore sizeof(name)
-+   returns size of pointer and not size of the buffer.
-+   see http://stackoverflow.com/questions/14298710/c-pointers-and-arrays-sizeof-operator
-+   The sizeof() usage was added with commit 604785adc,
-+   so I checked all the other changes in that commit
-+   and they seem to be OK.
-+
-+3) remove unused 's' variable
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Shan Hai <shan.hai@windriver.com>
-+Signed-off-by: Jianchuan Wang <jianchuan.wang@windriver.com>
-+---
-+ lib/inet6.c | 21 ++++++++++-----------
-+ 1 file changed, 10 insertions(+), 11 deletions(-)
-+
-+diff --git a/lib/inet6.c b/lib/inet6.c
-+index 9a484a0..2a9c459 100644
-+--- a/lib/inet6.c
-++++ b/lib/inet6.c
-+@@ -84,10 +84,9 @@ static int INET6_resolve(char *name, struct sockaddr_in6 *sin6)
-+ #endif
-+ 
-+ 
-+-static int INET6_rresolve(char *name, struct sockaddr_in6 *sin6, int numeric)
-++static int INET6_rresolve(char *name, size_t namelen,
-++			  struct sockaddr_in6 *sin6, int numeric)
-+ {
-+-    int s;
-+-
-+     /* Grmpf. -FvK */
-+     if (sin6->sin6_family != AF_INET6) {
-+ #ifdef DEBUG
-+@@ -98,21 +97,20 @@ static int INET6_rresolve(char *name, struct sockaddr_in6 *sin6, int numeric)
-+ 	return (-1);
-+     }
-+     if (numeric & 0x7FFF) {
-+-	inet_ntop( AF_INET6, &sin6->sin6_addr, name, 80);
-++	inet_ntop( AF_INET6, &sin6->sin6_addr, name, namelen);
-+ 	return (0);
-+     }
-+     if (IN6_IS_ADDR_UNSPECIFIED(&sin6->sin6_addr)) {
-+         if (numeric & 0x8000)
-+-	    strcpy(name, "default");
-++	    safe_strncpy(name, "default", namelen);
-+ 	else
-+-	    strcpy(name, "[::]");
-++	    safe_strncpy(name, "[::]", namelen);
-+ 	return (0);
-+     }
-+ 
-+-    if ((s = getnameinfo((struct sockaddr *) sin6, sizeof(struct sockaddr_in6),
-+-			 name, 255 /* !! */ , NULL, 0, 0))) {
-+-	fputs("getnameinfo failed\n", stderr);
-+-	return -1;
-++    if (getnameinfo((struct sockaddr *) sin6, sizeof(struct sockaddr_in6),
-++		    name, namelen , NULL, 0, 0)) {
-++	inet_ntop( AF_INET6, &sin6->sin6_addr, name, namelen);
-+     }
-+     return (0);
-+ }
-+@@ -143,7 +141,8 @@ static char *INET6_sprint(struct sockaddr *sap, int numeric)
-+ 
-+     if (sap->sa_family == 0xFFFF || sap->sa_family == 0)
-+ 	return safe_strncpy(buff, _("[NONE SET]"), sizeof(buff));
-+-    if (INET6_rresolve(buff, (struct sockaddr_in6 *) sap, numeric) != 0)
-++    if (INET6_rresolve(buff, sizeof(buff),
-++		       (struct sockaddr_in6 *) sap, numeric) != 0)
-+ 	return safe_strncpy(buff, _("[UNKNOWN]"), sizeof(buff));
-+     return (fix_v4_address(buff, &((struct sockaddr_in6 *)sap)->sin6_addr));
-+ }
-+-- 
-+1.8.5.2.233.g932f7e4
-+
-diff --git a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
-index 759de0a..9c2adfa 100644
---- a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
-+++ b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
-@@ -15,6 +15,7 @@ SRC_URI = "http://snapshot.debian.org/archive/debian/20050312T000000Z/pool/main/
-            file://net-tools-1.60-sctp1.patch \
-            file://net-tools-1.60-sctp2-quiet.patch \
-            file://net-tools-1.60-sctp3-addrs.patch \
-+           file://0001-lib-inet6.c-INET6_rresolve-various-fixes.patch \
-           "
+diff --git a/meta/recipes-core/glibc/cross-localedef-native_2.24.bb b/meta/recipes-core/glibc/cross-localedef-native_2.24.bb
+index 104e38b..650c6c3 100644
+--- a/meta/recipes-core/glibc/cross-localedef-native_2.24.bb
++++ b/meta/recipes-core/glibc/cross-localedef-native_2.24.bb
+@@ -22,7 +22,7 @@ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
+ SRCBRANCH ?= "master"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+(\.\d+)*)"
  
- # for this package we're mostly interested in tracking debian patches,
+-SRCREV_glibc ?= "d461c9682d4954076f9ee9e07be903c2eef8e73b"
++SRCREV_glibc ?= "d957c4d3fa48d685ff2726c605c988127ef99395"
+ SRCREV_localedef ?= "29869b6dc11427c5bab839bdb155c85a7c644c71"
+ 
+ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+diff --git a/meta/recipes-core/glibc/glibc/elf-meta.patch b/meta/recipes-core/glibc/glibc/elf-meta.patch
+deleted file mode 100644
+index fab66d7..0000000
+--- a/meta/recipes-core/glibc/glibc/elf-meta.patch
++++ /dev/null
+@@ -1,32 +0,0 @@
+-Upstream-Status: Pending
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-From a495656665cd4a4f97744741a4741eafa621d65b Mon Sep 17 00:00:00 2001
+-From: Ross Burton <ross.burton@intel.com>
+-Date: Mon, 11 Jul 2016 16:57:38 +0100
+-Subject: [PATCH] elf.h: add relocations for Imagination META
+-
+-Adding EM_METAG but not the relocations means the kernel doesn't compile as it
+-guards its own declarations on the presence of EM_METAG.
+----
+- elf/elf.h | 4 ++++
+- 1 file changed, 4 insertions(+)
+-
+-diff --git a/elf/elf.h b/elf/elf.h
+-index b6112d9..69e85a7 100644
+---- a/elf/elf.h
+-+++ b/elf/elf.h
+-@@ -3677,6 +3677,10 @@ enum
+- 
+- #define R_TILEGX_NUM		130
+- 
+-+/* Imagination META relocs */
+-+#define R_METAG_ADDR32		2
+-+#define R_METAG_NONE		3
+-+
+- /* BPF specific declarations.  */
+- 
+- #define R_BPF_NONE		0	/* No reloc */
+--- 
+-2.8.1
+-
+diff --git a/meta/recipes-core/glibc/glibc_2.24.bb b/meta/recipes-core/glibc/glibc_2.24.bb
+index 456f206..03773c7 100644
+--- a/meta/recipes-core/glibc/glibc_2.24.bb
++++ b/meta/recipes-core/glibc/glibc_2.24.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b36d3209f380deb394b213 \
+ 
+ DEPENDS += "gperf-native"
+ 
+-SRCREV ?= "d461c9682d4954076f9ee9e07be903c2eef8e73b"
++SRCREV ?= "d957c4d3fa48d685ff2726c605c988127ef99395"
+ 
+ #SRCBRANCH ?= "release/${PV}/master"
+ SRCBRANCH ?= "master"
+@@ -37,7 +37,6 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0023-eglibc-Install-PIC-archives.patch \
+            file://0024-eglibc-Forward-port-cross-locale-generation-support.patch \
+            file://0025-Define-DUMMY_LOCALE_T-if-not-defined.patch \
+-           file://elf-meta.patch \
+ "
+ 
+ SRC_URI += "\
 -- 
-2.8.1
+2.9.0
 
 
