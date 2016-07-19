@@ -1,32 +1,49 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.analogue-micro.com (mail.analogue-micro.com
-	[217.144.149.242])
-	by mail.openembedded.org (Postfix) with ESMTP id A8FE065CBF
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
+	[209.85.223.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 4FF4160290
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jul 2016 08:06:01 +0000 (UTC)
-Received: by mail.analogue-micro.com (Postfix, from userid 999)
-	id 9F31668A01C; Tue, 19 Jul 2016 09:06:01 +0100 (BST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	loki.analogue-micro-ltd.com
-X-Spam-Level: 
-X-Spam-Status: No, score=-0.2 required=5.0 tests=ALL_TRUSTED,BAYES_00,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from zeus.mlbassoc.com (unknown [10.8.0.2])
-	by mail.analogue-micro.com (Postfix) with ESMTP id EE37A68A019;
-	Tue, 19 Jul 2016 09:05:58 +0100 (BST)
-Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
-	by zeus.mlbassoc.com (Postfix) with ESMTP id 52E27674036E;
-	Tue, 19 Jul 2016 10:05:58 +0200 (CEST)
-To: openembedded-core@lists.openembedded.org
-References: <1468876796-16026-1-git-send-email-clopez@igalia.com>
-From: Gary Thomas <gary@mlbassoc.com>
-Message-ID: <578DDF66.7030600@mlbassoc.com>
-Date: Tue, 19 Jul 2016 10:05:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.8.0
+	Tue, 19 Jul 2016 11:36:15 +0000 (UTC)
+Received: by mail-io0-f180.google.com with SMTP id m101so16142932ioi.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Jul 2016 04:36:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=/xWwXCe6vfH11tyt00OaZwX7DGus0Ntj9xge4FdUYog=;
+	b=1g8xwiuNy9sMIkKdPfuBQ57qdm04oy0mHARaoOOTjiKyuQwzK3t+0cVImwsW2VOjaD
+	O0IRTYBQ6p8cczyn7zgKtwz31mGSo3qGx6BWBY6xqhfWHAwnZBv6ZjsMRBhkw6/xN2JU
+	/okDNm/E0eHVek3RhudosHabxKwsijEdLPabWKatE19YGyQ+9zy5HoR3yY4EqcxUDWu2
+	Dl2/xG9m6NuKWROAdms/ScqiQfrfGvy9d1UnLsXUQBAeTH5L2bi+xOtEm76T7Id7ib6O
+	kS5DHuujNhHMzdj5nc6VwWhchyCmJsbIJOljlYI3l8kJKSw2fZ9gtKUYxguhNt2xD4NY
+	0yfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=/xWwXCe6vfH11tyt00OaZwX7DGus0Ntj9xge4FdUYog=;
+	b=TgMR7GY62ze/U4bzny+VX9I+UTWet30BV71W3YjTnLwbBTDxCeyR1onQFpaxmUfSTl
+	lRC7NZvylt1pPCTrWoMJytgA4+66FFIWWvHK6OM9cPzbQvu8MYW8bl13tXZbO1k29wMp
+	+NB+3K6T+eF3ctC9AWsadxb4voYSnBLXkskGzo2fGMwK6MbhPdZbyz3TC1VvDVSifwWT
+	Rlj9bBXJM3gUeUqvRVchcNS3ZanJO40ZQBxZ9Wi2zgwVet4ngSsXGOlAZI9//9Qomcx8
+	h1XYHzti489phKDwrWTsVuA/eFWV9HduAaW9H3GbzOOwt0iBBtrOP/0czuo/O34wh2xR
+	RPTA==
+X-Gm-Message-State: ALyK8tIZcC4Ap7pks1luky//B2f0dfwfi5ZyPX+bgYSJszgDq/KS1FKuYC49PTtYlTbzoSRaKU563qrcJimkRdUa
+X-Received: by 10.107.138.212 with SMTP id c81mr37082884ioj.148.1468928176702; 
+	Tue, 19 Jul 2016 04:36:16 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1468876796-16026-1-git-send-email-clopez@igalia.com>
-Subject: Re: [PATCH] webkitgtk: Switch the ARMv7 build to Thumb2 and enable back the JSC JIT.
+Received: by 10.107.18.17 with HTTP; Tue, 19 Jul 2016 04:35:57 -0700 (PDT)
+In-Reply-To: <20160719004552.GA25758@scvick-mobl.amr.corp.intel.com>
+References: <20160711175529.2650-1-stephano.cetola@linux.intel.com>
+	<20160711175529.2650-2-stephano.cetola@linux.intel.com>
+	<CAJTo0LZfTnmKoMCwjZhU9-ooBZm4F1vsy=vC4sh9p0HQF6mVKQ@mail.gmail.com>
+	<20160719004552.GA25758@scvick-mobl.amr.corp.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 19 Jul 2016 12:35:57 +0100
+Message-ID: <CAJTo0LYp6GpMLabjNDBS7=dyCVdS2jNYLyDUHDKxfp+JuRBkLg@mail.gmail.com>
+To: Stephano Cetola <stephano.cetola@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V3] rootfs.py: allow removal of support packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,66 +56,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jul 2016 08:06:03 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 19 Jul 2016 11:36:17 -0000
+Content-Type: multipart/alternative; boundary=001a113ed9322c70780537fb7e3b
 
-On 2016-07-18 23:19, Carlos Alberto Lopez Perez wrote:
-> * The JSC JIT is broken on ARMv7 without Thumb2.
->
-> [YOCTO #9474]
->
-> Signed-off-by: Carlos Alberto Lopez Perez <clopez@igalia.com>
+--001a113ed9322c70780537fb7e3b
+Content-Type: text/plain; charset=UTF-8
 
-Works on my i.MX6Q target!
+On 19 July 2016 at 01:45, Stephano Cetola <stephano.cetola@linux.intel.com>
+wrote:
 
-Acked-by: Gary Thomas <gary@mlbassoc.com>
-
-> ---
->   meta/recipes-sato/webkit/webkitgtk_2.12.3.bb | 17 ++++++++++++-----
->   1 file changed, 12 insertions(+), 5 deletions(-)
->
-> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.12.3.bb b/meta/recipes-sato/webkit/webkitgtk_2.12.3.bb
-> index c5e5432..536fa23 100644
-> --- a/meta/recipes-sato/webkit/webkitgtk_2.12.3.bb
-> +++ b/meta/recipes-sato/webkit/webkitgtk_2.12.3.bb
-> @@ -71,10 +71,6 @@ EXTRA_OECMAKE_append_armv5 = " -DENABLE_JIT=OFF "
->   EXTRA_OECMAKE_append_armv6 = " -DENABLE_JIT=OFF "
->   EXTRA_OECMAKE_append_armv4 = " -DENABLE_JIT=OFF "
->
-> -# ARM JIT can build on armv7a, but doesnt' work on runtime, cause
-> -# displaying problems or ephiphany hang.
-> -EXTRA_OECMAKE_append_armv7a = " -DENABLE_JIT=OFF "
-> -
->   # binutils 2.25.1 has a bug on aarch64:
->   # https://sourceware.org/bugzilla/show_bug.cgi?id=18430
->   EXTRA_OECMAKE_append_aarch64 = " -DUSE_LD_GOLD=OFF "
-> @@ -89,7 +85,18 @@ SECURITY_CFLAGS_append_aarch64 = " -fPIE"
->   FILES_${PN} += "${libdir}/webkit2gtk-4.0/injected-bundle/libwebkit2gtkinjectedbundle.so"
->
->   # http://errors.yoctoproject.org/Errors/Details/20370/
-> -ARM_INSTRUCTION_SET = "arm"
-> +ARM_INSTRUCTION_SET_armv4 = "arm"
-> +ARM_INSTRUCTION_SET_armv5 = "arm"
-> +ARM_INSTRUCTION_SET_armv6 = "arm"
-> +
-> +# https://bugzilla.yoctoproject.org/show_bug.cgi?id=9474
-> +# https://bugs.webkit.org/show_bug.cgi?id=159880
-> +# JSC JIT can build on ARMv7 with -marm, but doesn't work on runtime.
-> +# Upstream only tests regularly the JSC JIT on ARMv7 with Thumb2 (-mthumb).
-> +ARM_INSTRUCTION_SET_armv7a = "thumb"
-> +ARM_INSTRUCTION_SET_armv7r = "thumb"
-> +ARM_INSTRUCTION_SET_armv7m = "thumb"
-> +ARM_INSTRUCTION_SET_armv7ve = "thumb"
->
->   # Invalid data memory access: 0x00000000
->   # ...
+> There should be a V4 out there already that splits off space. Not sure
+> what I
+> was thinking here, but I realized pretty quickly my mistake :)
 >
 
+Somehow missed that, thanks!
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+Ross
 
+--001a113ed9322c70780537fb7e3b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 19 July 2016 at 01:45, Stephano Cetola <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:stephano.cetola@linux.intel.com" target=3D"_blank">stephano.cetola@l=
+inux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div=
+ id=3D":1c2" class=3D"a3s aXjCH m156009dc0d6dd493">There should be a V4 out=
+ there already that splits off space. Not sure what I<br>
+was thinking here, but I realized pretty quickly my mistake :)<br></div></b=
+lockquote></div><br>Somehow missed that, thanks!</div><div class=3D"gmail_e=
+xtra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a113ed9322c70780537fb7e3b--
