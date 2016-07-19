@@ -1,52 +1,52 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 863B260589
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jul 2016 20:32:09 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id g202so1986373pfb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jul 2016 13:32:10 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 02E666067D
+	for <Openembedded-core@lists.openembedded.org>;
+	Tue, 19 Jul 2016 21:39:16 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id h186so2064333pfg.2
+	for <Openembedded-core@lists.openembedded.org>;
+	Tue, 19 Jul 2016 14:39:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding;
-	bh=6cFP9T/6NMQxND9UBJA3BnuQ1rFKmaYHC7Tp1PiyM3U=;
-	b=F4Exqwiu4WjCk/RkJbTBI70p9Jf4EaGemrIy15jlTZIObFv1jmm4UjS1TrSIOqwA9Q
-	m7e64SS6if5IJG5PWBWY1hM7YW2y/pDsLTz5lXUtNXt8vptrqDPU+s+HNvihpSO9hyXe
-	ofvsk6mFy7GCGO/AwZAMBQEIaLMcEqfnJuDDi5EE3QG3JhCyt/KwN8QCeEv4392q/yMj
-	dM2FGpnjWTt5eoocSUc88UxXDv5emyPkMFVgxrdPpUW7jX4lbN3lDVxqWYPJ4BKk16ch
-	B4jGr2Q2L9GLFvtP0rRXi0+XyAFRDZ2exbPRqmZ7xq9y+4M2Cat+62gv76BN9Jh/80Dw
-	/Kzw==
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=QsquqtHJa5VQ3tluORH3HykddsYC+eQIXLscS+a9z1o=;
+	b=BXW62guLKuuk+BixhlA1e7IvOS75A1keXgxoRZOsxcPX4uCbUfMItk74YWWX/M03LW
+	265HozdKTtw3Bbrwwnw9/QXyE1aR0HuFuNwxNCQ5CNkZaI4hyZxtEWK8+fF8+NQQHLVV
+	xKjPlNgsMPFBgxY3Jp+wQ5iKsdIpoNI63sxF1Eg/BrQvRYu9La8H2UHhCWpZg2yQDrBs
+	JDSccN9JbHrx3zH8hKOuG/N9MokOBwUE5bjpf4TlQ8TpEP7FR2yP7hjuE2og5lvjxtuy
+	qTVm5c7wlubnTbdaKPQ8iSsO461Qu84HTgsSPpAqrQGnMkSLn/UwvQwjCyJKEmU75FXl
+	1wqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=6cFP9T/6NMQxND9UBJA3BnuQ1rFKmaYHC7Tp1PiyM3U=;
-	b=DnPO26qbDy0niivfwvrJ7Kjrm2MbfnYEPsLaRktzPw5cPJIEnhW642V6+wwHvf+jLf
-	+XGJTUZyfI50zqMxWOjC+GUmjZcGsCtkbYL+aR6Mc1gui6GOptlvu1fpmSJlDV+2ewEU
-	erDvr4wUWF4HJoTwus5b0Lf7Ab2dIcgyi9yg3h1qUhcwZXSq9CSFCAW+CWW2KdGhxKo9
-	QU8X7+lW3sZkxoPaYFYyEtmsOuBFwdYAXu9oLoNAZqQCLqe1bnw/RgSLbjgLTyf+6fiW
-	W1QW+yAOZGIaZfUmoNVunBDM78l1hAdL7FAZ9YFZGphpi6y2+m0qfrL2YBUsWs7cBAM+
-	+Rog==
-X-Gm-Message-State: ALyK8tKzFH6BkCp8soEAkYP41Sbx6AFFB95IfvlHX6BUG4M4upxIPsNo2kPJl5V00hwQRw==
-X-Received: by 10.98.10.71 with SMTP id s68mr49948960pfi.110.1468960329039;
-	Tue, 19 Jul 2016 13:32:09 -0700 (PDT)
-Received: from [10.43.100.29] ([50.233.148.158])
-	by smtp.googlemail.com with ESMTPSA id
-	w63sm7052040pfi.9.2016.07.19.13.32.07
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 19 Jul 2016 13:32:07 -0700 (PDT)
-To: openembedded-core@lists.openembedded.org
-References: <1468780643-2189-1-git-send-email-timothy.t.orling@linux.intel.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <578E8E43.3010509@gmail.com>
-Date: Tue, 19 Jul 2016 13:32:03 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.8.0
-MIME-Version: 1.0
-In-Reply-To: <1468780643-2189-1-git-send-email-timothy.t.orling@linux.intel.com>
-Subject: Re: [krogoth][PATCH] nss: fix build for gcc-6
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=QsquqtHJa5VQ3tluORH3HykddsYC+eQIXLscS+a9z1o=;
+	b=C9aSkKwXIZXao/HRw9AepeWM2Jwg7CjyU8B7SoYBlLAo5+kgkeUrPImPAFFf1WllOv
+	7c0SEaH8gjJxic746gMDP+6eX/9sgNcscEdGTaorvCFhw6RL2yQOgX0+E60p2XSxKcHd
+	fUOAs2bnAy+Tg/BtZHk2NyQ0Mpcew6NadOeH4l4qSLsuZHQyfvec1TxaYfmIHgIrYYpn
+	AdH0l4UX04OukVzZDw5Rkq+30yHy8yXRf86Qm6bKpdeMfj8xITvu0MoPeqW+1szzcvjP
+	ImPckqcZ6OFOsxC9eEqI+MaJ+do7AQGCapPP226mpqlf8kPXwym1bEtcNGxn8qZ5ykN+
+	1Kug==
+X-Gm-Message-State: ALyK8tJAERgBbz29DJGUmhk3KHT64UwLfvwIIfcfoUrVD9iPaqtJethxygzZu6mfRwtsCA==
+X-Received: by 10.98.7.200 with SMTP id 69mr6410090pfh.33.1468964357345;
+	Tue, 19 Jul 2016 14:39:17 -0700 (PDT)
+Received: from ?IPv6:2601:646:8882:b8c:7175:eb57:3b53:9c48?
+	([2601:646:8882:b8c:7175:eb57:3b53:9c48])
+	by smtp.gmail.com with ESMTPSA id
+	m128sm7542494pfm.42.2016.07.19.14.39.16
+	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 19 Jul 2016 14:39:16 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Pgp-Agent: GPGMail
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <578E10E8.9070003@mender.io>
+Date: Tue, 19 Jul 2016 14:39:15 -0700
+Message-Id: <CF96AE35-E069-4240-B2A6-D77EE3EF0919@gmail.com>
+References: <578E10E8.9070003@mender.io>
+To: Kristian Amlie <kristian.amlie@mender.io>
+X-Mailer: Apple Mail (2.3124)
+Cc: Openembedded-core@lists.openembedded.org
+Subject: Re: Patch: Krogoth systemd network service fails to start on boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,388 +59,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jul 2016 20:32:09 -0000
-Content-Type: text/plain; charset=windows-1252
+X-List-Received-Date: Tue, 19 Jul 2016 21:39:17 -0000
+X-Groupsio-MsgNum: 84696
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_451788B0-A769-4EE7-9F84-C3623CFEC6E2";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
+
+--Apple-Mail=_451788B0-A769-4EE7-9F84-C3623CFEC6E2
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
+
+thats fine. Post the patches using git-format patch and have [krogoth] =
+in the subject header
+
+> On Jul 19, 2016, at 4:37 AM, Kristian Amlie <kristian.amlie@mender.io> =
+wrote:
+>=20
+> Hey,
+>=20
+> on our krogoth build the systemd network service does not start, and =
+it
+> seems to be because of missing users, which has already been fixed on
+> master. I've cherry-picked the two patches that fixed the problem for
+> us. Note that they are not written by me, but by other people on this
+> list. I hope they can be applied to krogoth.
+>=20
+> Regards
+> Kristian Amlie
+> =
+<0001-systemd-Create-missing-sysusers-offline.patch><0002-systemd-allow-ad=
+d-users-as-a-rootfs-postprocess-cmd.patch>--
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+--Apple-Mail=_451788B0-A769-4EE7-9F84-C3623CFEC6E2
 Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
 
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
 
+iEYEARECAAYFAleOngQACgkQuwUzVZGdMxTrJACfVwMcbPqKq/TKXmoa9bbBaHwa
+eM4An1RAi70SdiWRjYDhnu/b/m6hebT8
+=plin
+-----END PGP SIGNATURE-----
 
-On 07/17/2016 11:37 AM, Tim Orling wrote:
-> [YOCTO #9897] (Fedora-24 host is gcc-6)
-> 
-> Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
-
-thanks,
-
-pulled in to staging.
-
--armin
-> ---
->  meta/recipes-support/nss/nss/nss-gcc6-fix.patch | 343 ++++++++++++++++++++++++
->  meta/recipes-support/nss/nss_3.21.bb            |   1 +
->  2 files changed, 344 insertions(+)
->  create mode 100644 meta/recipes-support/nss/nss/nss-gcc6-fix.patch
-> 
-> diff --git a/meta/recipes-support/nss/nss/nss-gcc6-fix.patch b/meta/recipes-support/nss/nss/nss-gcc6-fix.patch
-> new file mode 100644
-> index 0000000..97422f6
-> --- /dev/null
-> +++ b/meta/recipes-support/nss/nss/nss-gcc6-fix.patch
-> @@ -0,0 +1,343 @@
-> +Fix gcc-6 -Werror=misleading-indentation errors
-> +
-> +Patch did not apply cleanly, so re-create the same changes.
-> +Also fixed some whitespace errors not addressed in the original patch.
-> +
-> +Upstream-Status: Backport
-> +Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
-> +
-> +From: Michel Normand <normand@linux.vnet.ibm.com>
-> +Subject: nss gcc6 change
-> +Date: Mon, 18 Apr 2016 19:11:03 +0200
-> +
-> +nss changes required to avoid build error with gcc6 like:
-> +===
-> +[   58s] h_page.c: In function 'new_lseek':
-> +[   58s] h_page.c:117:8: error: this 'if' clause does not guard... [-Werror=misleading-indentation]
-> +[   58s]         if(offset < 1)
-> +[   58s]         ^~
-> +[   58s] h_page.c:120:3: note: ...this statement, but the latter is misleadingly indented as if it is guarded by the 'if'
-> +[   58s]    cur_pos = lseek(fd, 0, SEEK_CUR);
-> +[   58s]    ^~~~~~~
-> +===
-> +
-> +Signed-off-by: Michel Normand <normand@linux.vnet.ibm.com>
-> +
-> +Index: nss-3.21/nss/cmd/bltest/blapitest.c
-> +===================================================================
-> +--- nss-3.21.orig/nss/cmd/bltest/blapitest.c
-> ++++ nss-3.21/nss/cmd/bltest/blapitest.c
-> +@@ -1571,8 +1571,7 @@ bltest_seed_init(bltestCipherInfo *ciphe
-> + 	cipherInfo->cipher.symmkeyCipher = seed_Encrypt;
-> +     else
-> + 	cipherInfo->cipher.symmkeyCipher = seed_Decrypt;
-> +-	
-> +-	return SECSuccess;
-> ++    return SECSuccess;
-> + }
-> + 
-> + SECStatus
-> +Index: nss-3.21/nss/cmd/vfychain/vfychain.c
-> +===================================================================
-> +--- nss-3.21.orig/nss/cmd/vfychain/vfychain.c
-> ++++ nss-3.21/nss/cmd/vfychain/vfychain.c
-> +@@ -439,7 +439,8 @@ main(int argc, char *argv[], char *envp[
-> + 	case  0  : /* positional parameter */  goto breakout;
-> + 	case 'a' : isAscii  = PR_TRUE;                        break;
-> + 	case 'b' : secStatus = DER_AsciiToTime(&time, optstate->value);
-> +-	           if (secStatus != SECSuccess) Usage(progName); break;
-> ++	           if (secStatus != SECSuccess) Usage(progName);
-> ++		   break;
-> + 	case 'd' : certDir  = PL_strdup(optstate->value);     break;
-> + 	case 'e' : ocsp_fetchingFailureIsAFailure = PR_FALSE;  break;
-> + 	case 'f' : certFetching = PR_TRUE;                    break;
-> +Index: nss-3.21/nss/lib/dbm/src/h_page.c
-> +===================================================================
-> +--- nss-3.21.orig/nss/lib/dbm/src/h_page.c
-> ++++ nss-3.21/nss/lib/dbm/src/h_page.c
-> +@@ -112,26 +112,25 @@ long new_lseek(int fd, long offset, int
-> + 	long end_pos=0;
-> + 	long seek_pos=0;
-> + 
-> +-	if(origin == SEEK_CUR)
-> +-      {	
-> +-      	if(offset < 1)							  
-> +-	    	return(lseek(fd, offset, SEEK_CUR));
-> ++	if (origin == SEEK_CUR) {
-> ++      		if (offset < 1)
-> ++			return(lseek(fd, offset, SEEK_CUR));
-> + 
-> + 		cur_pos = lseek(fd, 0, SEEK_CUR);
-> + 
-> +-		if(cur_pos < 0)
-> ++		if (cur_pos < 0)
-> + 			return(cur_pos);
-> +-	  }
-> +-										 
-> ++	}
-> ++
-> + 	end_pos = lseek(fd, 0, SEEK_END);
-> +-	if(end_pos < 0)
-> ++	if (end_pos < 0)
-> + 		return(end_pos);
-> + 
-> +-	if(origin == SEEK_SET)
-> ++	if (origin == SEEK_SET)
-> + 		seek_pos = offset;
-> +-	else if(origin == SEEK_CUR)
-> ++	else if (origin == SEEK_CUR)
-> + 		seek_pos = cur_pos + offset;
-> +-	else if(origin == SEEK_END)
-> ++	else if (origin == SEEK_END)
-> + 		seek_pos = end_pos + offset;
-> +  	else
-> + 	  {
-> +@@ -143,7 +142,7 @@ long new_lseek(int fd, long offset, int
-> + 	 * end of the file.  We don't need
-> + 	 * to do anything special except the seek.
-> + 	 */
-> +- 	if(seek_pos <= end_pos)
-> ++ 	if (seek_pos <= end_pos)
-> +  		return(lseek(fd, seek_pos, SEEK_SET));
-> +  		
-> +  	  /* the seek position is beyond the end of the
-> +@@ -161,7 +160,7 @@ long new_lseek(int fd, long offset, int
-> + 	   	memset(buffer, 0, 1024);
-> + 	   	while(len > 0)
-> + 	      {
-> +-	        if(write(fd, buffer, (size_t)(1024 > len ? len : 1024)) < 0)
-> ++	        if (write(fd, buffer, (size_t)(1024 > len ? len : 1024)) < 0)
-> + 				return(-1);
-> + 		    len -= 1024;
-> + 		  }
-> +@@ -245,10 +244,10 @@ __delpair(HTAB *hashp, BUFHEAD *bufp, in
-> + 		 * Once we know dst_offset is < BSIZE, we can subtract it from BSIZE
-> + 		 * to get an upper bound on length.
-> + 		 */
-> +-		if(dst_offset > (uint32)hashp->BSIZE)
-> ++		if (dst_offset > (uint32)hashp->BSIZE)
-> + 			return(DATABASE_CORRUPTED_ERROR);
-> + 
-> +-		if(length > (uint32)(hashp->BSIZE - dst_offset))
-> ++		if (length > (uint32)(hashp->BSIZE - dst_offset))
-> + 			return(DATABASE_CORRUPTED_ERROR);
-> + 
-> + 		memmove(dst, src, length);
-> +@@ -324,7 +323,7 @@ __split_page(HTAB *hashp, uint32 obucket
-> + 		 * off.  If it is then the database has
-> + 		 * been corrupted.
-> + 		 */
-> +-		if(ino[n] > off)
-> ++		if (ino[n] > off)
-> + 			return(DATABASE_CORRUPTED_ERROR);
-> + 
-> + 		key.size = off - ino[n];
-> +@@ -355,7 +354,7 @@ __split_page(HTAB *hashp, uint32 obucket
-> + 			 * wrong.  LJM
-> + 			 */
-> + 			tmp_uint16_array = (uint16*)np;
-> +-			if(!PAIRFITS(tmp_uint16_array, &key, &val))
-> ++			if (!PAIRFITS(tmp_uint16_array, &key, &val))
-> + 				return(DATABASE_CORRUPTED_ERROR);
-> + 
-> + 			putpair(np, &key, &val);
-> +@@ -440,7 +439,7 @@ ugly_split(HTAB *hashp, uint32 obucket,
-> +          */
-> +         loop_detection++;
-> + 
-> +-        if(loop_detection > MAX_UGLY_SPLIT_LOOPS)
-> ++        if (loop_detection > MAX_UGLY_SPLIT_LOOPS)
-> +             return DATABASE_CORRUPTED_ERROR;
-> + 
-> + 		if (ino[2] < REAL_KEY && ino[2] != OVFLPAGE) {
-> +@@ -736,7 +735,7 @@ __get_page(HTAB *hashp,
-> + 	     		 * the maximum number of entries
-> + 	     		 * in the array
-> + 	     		 */
-> +-				if((unsigned)max > (size / sizeof(uint16)))
-> ++				if ((unsigned)max > (size / sizeof(uint16)))
-> + 					return(DATABASE_CORRUPTED_ERROR);
-> + 
-> + 				/* do the byte order swap
-> +@@ -749,7 +748,7 @@ __get_page(HTAB *hashp,
-> + 		/* check the validity of the page here
-> + 		 * (after doing byte order swaping if necessary)
-> + 		 */
-> +-		if(!is_bitmap && bp[0] != 0)
-> ++		if (!is_bitmap && bp[0] != 0)
-> + 		  {
-> + 			uint16 num_keys = bp[0];
-> + 			uint16 offset;
-> +@@ -760,11 +759,11 @@ __get_page(HTAB *hashp,
-> + 			 * bp[0] is too large (larger than the whole
-> + 			 * page) then the page is corrupted
-> + 			 */
-> +-			if(bp[0] > (size / sizeof(uint16)))
-> ++			if (bp[0] > (size / sizeof(uint16)))
-> + 				return(DATABASE_CORRUPTED_ERROR);
-> + 			
-> + 			/* bound free space */
-> +-			if(FREESPACE(bp) > size)
-> ++			if (FREESPACE(bp) > size)
-> + 				return(DATABASE_CORRUPTED_ERROR);
-> + 		
-> + 			/* check each key and data offset to make
-> +@@ -776,10 +775,10 @@ __get_page(HTAB *hashp,
-> + 			for(i=1 ; i <= num_keys; i+=2)
-> +   			  {
-> + 				/* ignore overflow pages etc. */
-> +-				if(bp[i+1] >= REAL_KEY)
-> ++				if (bp[i+1] >= REAL_KEY)
-> + 	  			  {
-> + 						
-> +-					if(bp[i] > offset || bp[i+1] > bp[i])			
-> ++					if (bp[i] > offset || bp[i+1] > bp[i])
-> + 						return(DATABASE_CORRUPTED_ERROR);
-> + 			
-> + 					offset = bp[i+1];
-> +@@ -832,7 +831,7 @@ __put_page(HTAB *hashp, char *p, uint32
-> +              * the maximum number of entries
-> +              * in the array
-> +              */
-> +-            if((unsigned)max > (size / sizeof(uint16)))
-> ++            if ((unsigned)max > (size / sizeof(uint16)))
-> +                 return(DATABASE_CORRUPTED_ERROR);
-> + 
-> + 			for (i = 0; i <= max; i++)
-> +@@ -1091,7 +1090,7 @@ __free_ovflpage(HTAB *hashp, BUFHEAD *ob
-> + 	uint32 bit_address, free_page, free_bit;
-> + 	uint16 ndx;
-> + 
-> +-	if(!obufp || !obufp->addr)
-> ++	if (!obufp || !obufp->addr)
-> + 	    return;
-> + 
-> + 	addr = obufp->addr;
-> +Index: nss-3.21/nss/lib/dbm/src/hash.c
-> +===================================================================
-> +--- nss-3.21.orig/nss/lib/dbm/src/hash.c
-> ++++ nss-3.21/nss/lib/dbm/src/hash.c
-> +@@ -154,7 +154,7 @@ __hash_open(const char *file, int flags,
-> + 		return NULL;
-> + 	}
-> + 	hashp->fp = NO_FILE;
-> +-	if(file)
-> ++	if (file)
-> + 		hashp->filename = strdup(file);
-> + 
-> + 	/*
-> +@@ -172,7 +172,7 @@ __hash_open(const char *file, int flags,
-> + 			errno = 0; /* Just in case someone looks at errno */
-> + 		new_table = 1;
-> + 	}
-> +-	else if(statbuf.st_mtime && statbuf.st_size == 0)
-> ++	else if (statbuf.st_mtime && statbuf.st_size == 0)
-> + 	{
-> + 		/* check for a zero length file and delete it
-> + 	 	 * if it exists
-> +@@ -288,7 +288,7 @@ hash_close(DB *dbp)
-> + 		return (DBM_ERROR);
-> + 
-> + 	hashp = (HTAB *)dbp->internal;
-> +-	if(!hashp)
-> ++	if (!hashp)
-> + 		return (DBM_ERROR);
-> + 
-> + 	retval = hdestroy(hashp);
-> +@@ -304,7 +304,7 @@ static int hash_fd(const DB *dbp)
-> + 		return (DBM_ERROR);
-> + 
-> + 	hashp = (HTAB *)dbp->internal;
-> +-	if(!hashp)
-> ++	if (!hashp)
-> + 		return (DBM_ERROR);
-> + 
-> + 	if (hashp->fp == -1) {
-> +@@ -480,7 +480,7 @@ hdestroy(HTAB *hashp)
-> + 	if (hashp->fp != -1)
-> + 		(void)close(hashp->fp);
-> + 
-> +-	if(hashp->filename) {
-> ++	if (hashp->filename) {
-> + #if defined(_WIN32) || defined(_WINDOWS) || defined(XP_OS2)
-> + 		if (hashp->is_temp)
-> + 			(void)unlink(hashp->filename);
-> +@@ -578,7 +578,7 @@ hash_sync(const DB *dbp, uint flags)
-> + 		return (DBM_ERROR);
-> + 
-> + 	hashp = (HTAB *)dbp->internal;
-> +-	if(!hashp)
-> ++	if (!hashp)
-> + 		return (DBM_ERROR);
-> + 
-> + 	if (!hashp->save_file)
-> +@@ -670,7 +670,7 @@ hash_get(
-> + 
-> + 	rv = hash_access(hashp, HASH_GET, (DBT *)key, data);
-> + 
-> +-	if(rv == DATABASE_CORRUPTED_ERROR)
-> ++	if (rv == DATABASE_CORRUPTED_ERROR)
-> + 	  {
-> + #if defined(unix) && defined(DEBUG)
-> + 		printf("\n\nDBM Database has been corrupted, tell Lou...\n\n");
-> +@@ -707,7 +707,7 @@ hash_put(
-> + 	rv =  hash_access(hashp, flag == R_NOOVERWRITE ?
-> + 	    HASH_PUTNEW : HASH_PUT, (DBT *)key, (DBT *)data);
-> + 
-> +-	if(rv == DATABASE_CORRUPTED_ERROR)
-> ++	if (rv == DATABASE_CORRUPTED_ERROR)
-> + 	  {
-> + #if defined(unix) && defined(DEBUG)
-> + 		printf("\n\nDBM Database has been corrupted, tell Lou...\n\n");
-> +@@ -741,7 +741,7 @@ hash_delete(
-> + 	}
-> + 	rv = hash_access(hashp, HASH_DELETE, (DBT *)key, NULL);
-> + 
-> +-	if(rv == DATABASE_CORRUPTED_ERROR)
-> ++	if (rv == DATABASE_CORRUPTED_ERROR)
-> + 	  {
-> + #if defined(unix) && defined(DEBUG)
-> + 		printf("\n\nDBM Database has been corrupted, tell Lou...\n\n");
-> +@@ -802,27 +802,27 @@ hash_access(
-> + 			ndx += 2;
-> + 		} else if (bp[1] == OVFLPAGE) {
-> + 
-> +-            /* database corruption: overflow loop detection */
-> +-            if(last_overflow_page_no == (int32)*bp)
-> ++                    /* database corruption: overflow loop detection */
-> ++                    if (last_overflow_page_no == (int32)*bp)
-> +     			return (DATABASE_CORRUPTED_ERROR);
-> + 
-> +-            last_overflow_page_no = *bp;
-> ++                    last_overflow_page_no = *bp;
-> + 
-> +-			rbufp = __get_buf(hashp, *bp, rbufp, 0);
-> +-			if (!rbufp) {
-> +-				save_bufp->flags &= ~BUF_PIN;
-> +-				return (DBM_ERROR);
-> +-			}
-> ++		    rbufp = __get_buf(hashp, *bp, rbufp, 0);
-> ++		    if (!rbufp) {
-> ++			save_bufp->flags &= ~BUF_PIN;
-> ++			return (DBM_ERROR);
-> ++		    }
-> + 
-> +-            ovfl_loop_count++;
-> +-            if(ovfl_loop_count > MAX_OVERFLOW_HASH_ACCESS_LOOPS)
-> ++                    ovfl_loop_count++;
-> ++                    if (ovfl_loop_count > MAX_OVERFLOW_HASH_ACCESS_LOOPS)
-> +     			return (DATABASE_CORRUPTED_ERROR);
-> + 
-> +-			/* FOR LOOP INIT */
-> +-			bp = (uint16 *)rbufp->page;
-> +-			n = *bp++;
-> +-			ndx = 1;
-> +-			off = hashp->BSIZE;
-> ++		    /* FOR LOOP INIT */
-> ++		    bp = (uint16 *)rbufp->page;
-> ++		    n = *bp++;
-> ++		    ndx = 1;
-> ++		    off = hashp->BSIZE;
-> + 		} else if (bp[1] < REAL_KEY) {
-> + 			if ((ndx =
-> + 			    __find_bigpair(hashp, rbufp, ndx, kp, (int)size)) > 0)
-> diff --git a/meta/recipes-support/nss/nss_3.21.bb b/meta/recipes-support/nss/nss_3.21.bb
-> index d2e2411..05d81c2 100644
-> --- a/meta/recipes-support/nss/nss_3.21.bb
-> +++ b/meta/recipes-support/nss/nss_3.21.bb
-> @@ -21,6 +21,7 @@ SRC_URI = "\
->      file://nss-fix-incorrect-shebang-of-perl.patch \
->      file://nss-fix-nsinstall-build.patch \
->      file://0001-Fix-build-failure-on-opensuse-13.1.patch \
-> +    file://nss-gcc6-fix.patch \
->      file://nss.pc.in \
->      file://signlibs.sh \
->  "
-> 
-
+--Apple-Mail=_451788B0-A769-4EE7-9F84-C3623CFEC6E2--
