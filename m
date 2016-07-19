@@ -1,26 +1,24 @@
-Return-Path: <stephano.cetola@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C8F270100
+Return-Path: <Jianchuan.Wang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9EB4E6E5CB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jul 2016 00:45:51 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP; 18 Jul 2016 17:45:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,386,1464678000"; d="scan'208";a="997889650"
-Received: from scvick-mobl.amr.corp.intel.com ([10.254.24.153])
-	by orsmga001.jf.intel.com with ESMTP; 18 Jul 2016 17:45:52 -0700
-Date: Mon, 18 Jul 2016 17:45:52 -0700
-From: Stephano Cetola <stephano.cetola@linux.intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20160719004552.GA25758@scvick-mobl.amr.corp.intel.com>
-References: <20160711175529.2650-1-stephano.cetola@linux.intel.com>
-	<20160711175529.2650-2-stephano.cetola@linux.intel.com>
-	<CAJTo0LZfTnmKoMCwjZhU9-ooBZm4F1vsy=vC4sh9p0HQF6mVKQ@mail.gmail.com>
+	Tue, 19 Jul 2016 02:41:20 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u6J2fL34013185
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Jul 2016 19:41:21 -0700 (PDT)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 18 Jul 2016 19:41:20 -0700
+From: <jianchuan.wang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 18 Jul 2016 22:41:18 -0400
+Message-ID: <1468896078-226867-1-git-send-email-jianchuan.wang@windriver.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZfTnmKoMCwjZhU9-ooBZm4F1vsy=vC4sh9p0HQF6mVKQ@mail.gmail.com>
-User-Agent: Mutt/1.6.2 (2016-07-01)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V3] rootfs.py: allow removal of support packages
+Subject: [PATCH 1/1] net-tools: lib/inet6.c:INET6_rresolve() - various fixes [ LIN9-1102 ]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +31,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jul 2016 00:45:52 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 19 Jul 2016 02:41:20 -0000
+Content-Type: text/plain
 
-On 07/18, Burton, Ross wrote:
-> On 11 July 2016 at 18:55, Stephano Cetola <stephano.cetola@linux.intel.com>
-> wrote:
-> 
-> > +            unneeded_pkgs.extend(self.d.getVar("ROOTFS_BOOTSTRAP_INSTALL",
-> > +                True).split(","))
-> >
-> 
-> Sorry for not getting around to reviewing this...
-> 
-> That variable is whitespace separated, not comma.
-> 
-> Ross
+From: Shan Hai <shan.hai@windriver.com>
 
-There should be a V4 out there already that splits off space. Not sure what I
-was thinking here, but I realized pretty quickly my mistake :)
+Integrate net-tools upstream commit a70c568b907d to fix a bug which
+causes the 'netstat -a' to print "[UNKNOWN]" in case of DNS problem
+instead of IPv6 address.
 
-https://patchwork.openembedded.org/patch/126893/
+Signed-off-by: Jianchuan Wang <jianchuan.wang@windriver.com>
+---
+ ...-lib-inet6.c-INET6_rresolve-various-fixes.patch | 87 ++++++++++++++++++++++
+ .../net-tools/net-tools_1.60-26.bb                 |  1 +
+ 2 files changed, 88 insertions(+)
+ create mode 100644 meta/recipes-extended/net-tools/net-tools/0001-lib-inet6.c-INET6_rresolve-various-fixes.patch
 
-Cheers,
-Stephano
+diff --git a/meta/recipes-extended/net-tools/net-tools/0001-lib-inet6.c-INET6_rresolve-various-fixes.patch b/meta/recipes-extended/net-tools/net-tools/0001-lib-inet6.c-INET6_rresolve-various-fixes.patch
+new file mode 100644
+index 0000000..8be45cc
+--- /dev/null
++++ b/meta/recipes-extended/net-tools/net-tools/0001-lib-inet6.c-INET6_rresolve-various-fixes.patch
+@@ -0,0 +1,87 @@
++From 08abfcd923e9f37d1902db26771b1dc6731eb265 Mon Sep 17 00:00:00 2001
++From: Jiri Popelka <jpopelka@redhat.com>
++Date: Fri, 27 Sep 2013 18:40:06 +0200
++Subject: [PATCH 1/1] lib/inet6.c:INET6_rresolve() - various fixes
++
++1) Fall-back to numeric address if getnameinfo fails.
++   Reverse lookup is not mandatory, therefore its fail
++   is not an error. Just return numeric address in that case.
++   This makes netstat/route show IPv6 address instead of
++   [UNKNOWN] in case of DNS problems.
++
++2) Pass length of 'name' buffer into function.
++   'name' is a pointer and therefore sizeof(name)
++   returns size of pointer and not size of the buffer.
++   see http://stackoverflow.com/questions/14298710/c-pointers-and-arrays-sizeof-operator
++   The sizeof() usage was added with commit 604785adc,
++   so I checked all the other changes in that commit
++   and they seem to be OK.
++
++3) remove unused 's' variable
++
++Upstream-Status: Pending
++
++Signed-off-by: Shan Hai <shan.hai@windriver.com>
++Signed-off-by: Jianchuan Wang <jianchuan.wang@windriver.com>
++---
++ lib/inet6.c | 21 ++++++++++-----------
++ 1 file changed, 10 insertions(+), 11 deletions(-)
++
++diff --git a/lib/inet6.c b/lib/inet6.c
++index 9a484a0..2a9c459 100644
++--- a/lib/inet6.c
+++++ b/lib/inet6.c
++@@ -84,10 +84,9 @@ static int INET6_resolve(char *name, struct sockaddr_in6 *sin6)
++ #endif
++ 
++ 
++-static int INET6_rresolve(char *name, struct sockaddr_in6 *sin6, int numeric)
+++static int INET6_rresolve(char *name, size_t namelen,
+++			  struct sockaddr_in6 *sin6, int numeric)
++ {
++-    int s;
++-
++     /* Grmpf. -FvK */
++     if (sin6->sin6_family != AF_INET6) {
++ #ifdef DEBUG
++@@ -98,21 +97,20 @@ static int INET6_rresolve(char *name, struct sockaddr_in6 *sin6, int numeric)
++ 	return (-1);
++     }
++     if (numeric & 0x7FFF) {
++-	inet_ntop( AF_INET6, &sin6->sin6_addr, name, 80);
+++	inet_ntop( AF_INET6, &sin6->sin6_addr, name, namelen);
++ 	return (0);
++     }
++     if (IN6_IS_ADDR_UNSPECIFIED(&sin6->sin6_addr)) {
++         if (numeric & 0x8000)
++-	    strcpy(name, "default");
+++	    safe_strncpy(name, "default", namelen);
++ 	else
++-	    strcpy(name, "[::]");
+++	    safe_strncpy(name, "[::]", namelen);
++ 	return (0);
++     }
++ 
++-    if ((s = getnameinfo((struct sockaddr *) sin6, sizeof(struct sockaddr_in6),
++-			 name, 255 /* !! */ , NULL, 0, 0))) {
++-	fputs("getnameinfo failed\n", stderr);
++-	return -1;
+++    if (getnameinfo((struct sockaddr *) sin6, sizeof(struct sockaddr_in6),
+++		    name, namelen , NULL, 0, 0)) {
+++	inet_ntop( AF_INET6, &sin6->sin6_addr, name, namelen);
++     }
++     return (0);
++ }
++@@ -143,7 +141,8 @@ static char *INET6_sprint(struct sockaddr *sap, int numeric)
++ 
++     if (sap->sa_family == 0xFFFF || sap->sa_family == 0)
++ 	return safe_strncpy(buff, _("[NONE SET]"), sizeof(buff));
++-    if (INET6_rresolve(buff, (struct sockaddr_in6 *) sap, numeric) != 0)
+++    if (INET6_rresolve(buff, sizeof(buff),
+++		       (struct sockaddr_in6 *) sap, numeric) != 0)
++ 	return safe_strncpy(buff, _("[UNKNOWN]"), sizeof(buff));
++     return (fix_v4_address(buff, &((struct sockaddr_in6 *)sap)->sin6_addr));
++ }
++-- 
++1.8.5.2.233.g932f7e4
++
+diff --git a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
+index 759de0a..9c2adfa 100644
+--- a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
++++ b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
+@@ -15,6 +15,7 @@ SRC_URI = "http://snapshot.debian.org/archive/debian/20050312T000000Z/pool/main/
+            file://net-tools-1.60-sctp1.patch \
+            file://net-tools-1.60-sctp2-quiet.patch \
+            file://net-tools-1.60-sctp3-addrs.patch \
++           file://0001-lib-inet6.c-INET6_rresolve-various-fixes.patch \
+           "
+ 
+ # for this package we're mostly interested in tracking debian patches,
+-- 
+2.8.1
 
 
