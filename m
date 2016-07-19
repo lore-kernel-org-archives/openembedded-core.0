@@ -1,22 +1,47 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 2BE8B60290
+Return-Path: <matt@madison.systems>
+Received: from mail-pf0-f178.google.com (mail-pf0-f178.google.com
+	[209.85.192.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 7259D6080F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jul 2016 12:17:01 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga101.fm.intel.com with ESMTP; 19 Jul 2016 05:17:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,389,1464678000"; d="scan'208";a="141829434"
-Received: from theory.fi.intel.com ([10.237.72.196])
-	by fmsmga004.fm.intel.com with ESMTP; 19 Jul 2016 05:17:01 -0700
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+	Tue, 19 Jul 2016 12:19:14 +0000 (UTC)
+Received: by mail-pf0-f178.google.com with SMTP id x72so6937189pfd.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Jul 2016 05:19:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=madison-systems.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=zjwXVHI06k6mF30CDp21mqqZrfCvetjvNIDW0Jsa2dI=;
+	b=bijC6Shk6kWsHrDKR3sR/40WWul+ZbgWozCL6/Ugg2FfvMcSZG+UydaLvTjklutnmT
+	YvwShUxxFeQKuE9KoeBceLsm+nIhzfJwT14DfpFCRk8e8wZLAjbr7IczbN3pwbwuYRAf
+	UCWE/5ln1La50xdA3NIhHZSnPRO38BiqePByjDZCJC9+sP/3FA5Gi6EXEjtHtbk+Im9t
+	IX0nZd5O2+Dl34EtcWcudnzYqb+rjTE7lqgVczaJk7748hf7HZLcgomX41fj9fmqzB0+
+	jxPugIMO276NvX1qt753aPTrIbrSA59WfHQVfbLCX+4u0k23YA6VifPhuSd9N5tFRC+7
+	ur2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=zjwXVHI06k6mF30CDp21mqqZrfCvetjvNIDW0Jsa2dI=;
+	b=bcU4BkcdPygavcNyoFEXwl0uTfcNLLSQoFLObD8vkNnEyMBwY0qnYhkW5yKqAs8HPv
+	2R/NzEXuz8DPU7Bp7Ml8ne3Z1ZT6vKG7rIDAxJX7INYYY6AOp+XP0vUeXoDcsZthewQM
+	yqPKbXPfQU8z3vhATSHVWPdo1LO/Jun4XM0db/55igDBZT16HZDc98T+Xh0PN5/PkqRC
+	YTjHo7euJsbcPaeD8OtcqgqtOdohtPkEiZLQbQp9FJorBx4KtsCFEWPCs4GVjojRl6tt
+	LtkevpY07g4BoNe+I45WnlG+/rtTijX0qYv8S0VdNCb/+1UVpAIZqCQ5WESOOo24g+2q
+	/Cjg==
+X-Gm-Message-State: ALyK8tLMY6WPH7TSOszmCCL1Os4Dwz54bf19u6MQJ+AEmj7Ifl5wBWNNZDb4SQdw3Zj/Tg==
+X-Received: by 10.98.43.68 with SMTP id r65mr54660189pfr.148.1468930754478;
+	Tue, 19 Jul 2016 05:19:14 -0700 (PDT)
+Received: from workhorse.madison.systems
+	(70.90.175.93-BusName-ca.sfba.hfc.comcastbusiness.net.
+	[70.90.175.93])
+	by smtp.gmail.com with ESMTPSA id z1sm4538087pab.19.2016.07.19.05.19.12
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 19 Jul 2016 05:19:13 -0700 (PDT)
+From: Matt Madison <matt@madison.systems>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jul 2016 15:16:35 +0300
-Message-Id: <1468930595-24113-1-git-send-email-jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1468310468.git.jussi.kukkonen@intel.com>
-References: <cover.1468310468.git.jussi.kukkonen@intel.com>
-Subject: [PATCH] piglit: Add build fix patch
+Date: Tue, 19 Jul 2016 05:18:47 -0700
+Message-Id: <1468930727-2937-1-git-send-email-matt@madison.systems>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] package_deb.bbclass: fix Python 3 error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,100 +54,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jul 2016 12:17:03 -0000
+X-List-Received-Date: Tue, 19 Jul 2016 12:19:17 -0000
 
-Fixes [YOCTO #9851] (fingers crossed).
+Don't modify an OrderedDict while walking its keys.
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Signed-off-by: Matt Madison <matt@madison.systems>
 ---
+ meta/classes/package_deb.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-This is a potential build fix for a problem Martin reported that I
-couldn't reproduce myself.
-
-I've pushed this on top of the piglit branch that isn't yet merged.
-
-  git://git.yoctoproject.org/poky-contrib jku/piglit
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/piglit
-
-Thanks, 
-  Jussi
-
-
- create mode 100644 meta/recipes-graphics/piglit/piglit/0001-cmake-Link-utils-with-xcb-explicitly.patch
-
-diff --git a/meta/recipes-graphics/piglit/piglit/0001-cmake-Link-utils-with-xcb-explicitly.patch b/meta/recipes-graphics/piglit/piglit/0001-cmake-Link-utils-with-xcb-explicitly.patch
-new file mode 100644
-index 0000000..d591da5
---- /dev/null
-+++ b/meta/recipes-graphics/piglit/piglit/0001-cmake-Link-utils-with-xcb-explicitly.patch
-@@ -0,0 +1,54 @@
-+From 73e4fbc5777eddd89bb0fb16e90343551fe3e0ef Mon Sep 17 00:00:00 2001
-+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Date: Tue, 5 Jul 2016 10:56:23 +0300
-+Subject: [PATCH] cmake: Link utils with xcb explicitly
-+
-+Linking with g++ can reportedly lead to:
-+
-+libpiglitutil_gl.so.0: error: undefined reference to 'xcb_connect'
-+libpiglitutil_gl.so.0: error: undefined reference to 'xcb_get_setup'
-+libpiglitutil_gl.so.0: error: undefined reference to 'xcb_setup_roots_iterator'
-+
-+This may have appeared now because xcb-dri2 used to overlink publicly
-+but now does not.
-+
-+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Upstream-Status: Pending
-+---
-+ CMakeLists.txt            | 1 +
-+ tests/util/CMakeLists.txt | 2 ++
-+ 2 files changed, 3 insertions(+)
-+
-+diff --git a/CMakeLists.txt b/CMakeLists.txt
-+index 8e2abba..2e1a473 100644
-+--- a/CMakeLists.txt
-++++ b/CMakeLists.txt
-+@@ -151,6 +151,7 @@ IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-+ 
-+ 	pkg_check_modules(LIBDRM QUIET libdrm)
-+ 	pkg_check_modules(LIBDRM_INTEL QUIET libdrm_intel)
-++	pkg_check_modules(XCB QUIET xcb)
-+ 	pkg_check_modules(XCB_DRI2 QUIET xcb-dri2)
-+ 	pkg_check_modules(GLPROTO QUIET glproto)
-+ ELSEIF(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-+diff --git a/tests/util/CMakeLists.txt b/tests/util/CMakeLists.txt
-+index fb22ffa..e1f8073 100644
-+--- a/tests/util/CMakeLists.txt
-++++ b/tests/util/CMakeLists.txt
-+@@ -121,11 +121,13 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-+ 
-+ 		list(APPEND UTIL_GL_LIBS
-+ 			${LIBDRM_LDFLAGS}
-++			${XCB_LDFLAGS}
-+ 			${XCB_DRI2_LDFLAGS}
-+ 		)
-+ 
-+ 		list(APPEND UTIL_GL_INCLUDES
-+ 			${LIBDRM_INCLUDE_DIRS}
-++			${XCB_INCLUDE_DIRS}
-+ 			${XCB_DRI2_INCLUDE_DIRS}
-+ 		)
-+ 
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
-index f5ef364..f14a7b4 100644
---- a/meta/recipes-graphics/piglit/piglit_git.bb
-+++ b/meta/recipes-graphics/piglit/piglit_git.bb
-@@ -4,6 +4,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b2beded7103a3d8a442a2a0391d607b0"
+diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
+index 8f9b09a..945df0e 100644
+--- a/meta/classes/package_deb.bbclass
++++ b/meta/classes/package_deb.bbclass
+@@ -232,7 +232,7 @@ python do_package_deb () {
  
- SRC_URI = "git://anongit.freedesktop.org/piglit \
-            file://0001-cmake-install-bash-completions-in-the-right-place.patch \
-+           file://0001-cmake-Link-utils-with-xcb-explicitly.patch \
-            "
- 
- # From 2016-07-07
+         rdepends = bb.utils.explode_dep_versions2(localdata.getVar("RDEPENDS", True) or "")
+         debian_cmp_remap(rdepends)
+-        for dep in rdepends.keys():
++        for dep in [k for k in rdepends.keys()]:
+                 if dep == pkg:
+                         del rdepends[dep]
+                         continue
+@@ -240,7 +240,7 @@ python do_package_deb () {
+                         del rdepends[dep]
+         rrecommends = bb.utils.explode_dep_versions2(localdata.getVar("RRECOMMENDS", True) or "")
+         debian_cmp_remap(rrecommends)
+-        for dep in rrecommends.keys():
++        for dep in [k for k in rrecommends.keys()]:
+                 if '*' in dep:
+                         del rrecommends[dep]
+         rsuggests = bb.utils.explode_dep_versions2(localdata.getVar("RSUGGESTS", True) or "")
 -- 
-2.1.4
+2.7.4
 
 
