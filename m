@@ -1,49 +1,22 @@
-Return-Path: <kristian.amlie@mender.io>
-Received: from mail-lf0-f51.google.com (mail-lf0-f51.google.com
-	[209.85.215.51])
-	by mail.openembedded.org (Postfix) with ESMTP id AFB786080F
-	for <Openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jul 2016 11:37:14 +0000 (UTC)
-Received: by mail-lf0-f51.google.com with SMTP id f93so11548255lfi.2
-	for <Openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jul 2016 04:37:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mender-io.20150623.gappssmtp.com; s=20150623;
-	h=to:from:subject:message-id:date:user-agent:mime-version;
-	bh=uax7YqBKdUIfZqLr83lEHckm6LFJAiL2zv5ME3eA5VI=;
-	b=kZrAs7xQ32rWcwVybMvV7BoqogyRcfLjGLJJmwRdpwMpwy4FbxxNSsyAB368d/SKjM
-	cQjCe38wcPssxxSiyT0YAIRYD1nivUdPozMmBYyVLBjNLLUfiYgSV/UlONTgmLHLb3H2
-	v6JceNxmfTJpFZ+Yia3MNXI9FDL6wI3PcRVdKjhsym8DXsePdZyJ8oE+2msUvisL5FED
-	EwhRwLuOGZgGMzqtggEHlSnPkC1seMePE7pKu/98mlMFYuFQ6ucHpBZjY1N7n3SjEBMg
-	pGKX2mlsRTNSVPW1u2NS/ZBor6cTeIce+To0sYCi+kzkCIDvw0UFhvctjt9Bd+7kkvis
-	d9jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:to:from:subject:message-id:date:user-agent
-	:mime-version;
-	bh=uax7YqBKdUIfZqLr83lEHckm6LFJAiL2zv5ME3eA5VI=;
-	b=BEjRneMTGhYmdOvstbtSCun6NUHUM9MxDvCPRINtclHizLaKtBAChBw0cNfQv++W6A
-	ws9hWr4dir7FEpGD+SLTYQpVZ4o6kJgezB2jgW7TvSLGaYwEULuskAv3On42lgMxrki9
-	XEpitH7ELmoN5lSszKINDO946U5rGjN0eL86anhK2rHmV0zWOJ38zi9JmX33nn28hFoh
-	ubBEDPcfEudQywahtn4BioQVx3H8KbllML/W6R/3//snHPBcSTjueld7ztmm1BgPWTus
-	o9B395e/Rnw1mPOQxePP+GYdvVCjxun+pGXifQm3TBVNvwZUlyz+gFFCQhBVU/1pvuqS
-	TB/g==
-X-Gm-Message-State: ALyK8tI+NgmR6KuoNS8gZEGdKva4K6wsFiMB3girkhmqmAMUxzCcSxdFwyLjkbpcY8Arhw==
-X-Received: by 10.25.212.5 with SMTP id l5mr6045834lfg.73.1468928234399;
-	Tue, 19 Jul 2016 04:37:14 -0700 (PDT)
-Received: from [10.25.0.170] ([195.159.140.90])
-	by smtp.googlemail.com with ESMTPSA id
-	90sm2924312lfs.7.2016.07.19.04.37.13
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 19 Jul 2016 04:37:13 -0700 (PDT)
-To: Openembedded-core@lists.openembedded.org
-From: Kristian Amlie <kristian.amlie@mender.io>
-Message-ID: <578E10E8.9070003@mender.io>
-Date: Tue, 19 Jul 2016 13:37:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.8.0
-MIME-Version: 1.0
-Subject: Patch: Krogoth systemd network service fails to start on boot
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 2BE8B60290
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Jul 2016 12:17:01 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga101.fm.intel.com with ESMTP; 19 Jul 2016 05:17:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,389,1464678000"; d="scan'208";a="141829434"
+Received: from theory.fi.intel.com ([10.237.72.196])
+	by fmsmga004.fm.intel.com with ESMTP; 19 Jul 2016 05:17:01 -0700
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 19 Jul 2016 15:16:35 +0300
+Message-Id: <1468930595-24113-1-git-send-email-jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <cover.1468310468.git.jussi.kukkonen@intel.com>
+References: <cover.1468310468.git.jussi.kukkonen@intel.com>
+Subject: [PATCH] piglit: Add build fix patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,179 +29,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jul 2016 11:37:19 -0000
-X-Groupsio-MsgNum: 84673
-Content-Type: multipart/mixed; boundary="------------010309060300020003040207"
+X-List-Received-Date: Tue, 19 Jul 2016 12:17:03 -0000
 
---------------010309060300020003040207
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Fixes [YOCTO #9851] (fingers crossed).
 
-Hey,
-
-on our krogoth build the systemd network service does not start, and it
-seems to be because of missing users, which has already been fixed on
-master. I've cherry-picked the two patches that fixed the problem for
-us. Note that they are not written by me, but by other people on this
-list. I hope they can be applied to krogoth.
-
-Regards
-Kristian Amlie
-
---------------010309060300020003040207
-Content-Type: text/x-patch;
- name="0001-systemd-Create-missing-sysusers-offline.patch"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="0001-systemd-Create-missing-sysusers-offline.patch"
-
-From 5da020f1b00c5ed003400baa3905843824db0a60 Mon Sep 17 00:00:00 2001
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 17 May 2016 21:40:21 -0700
-Subject: [PATCH 1/2] systemd: Create missing sysusers offline
-
-Some system users which are needed by systemd components were missing
-create these users knobbed with relevant packageconfig
-
-(From OE-Core rev: d18957925c6c073b7194e3a233efea24e436f74e)
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit fd36a447d0da53e713d992b17ce86dd31ea63c67)
-Signed-off-by: Kristian Amlie <kristian.amlie@mender.io>
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- meta/recipes-core/systemd/systemd_229.bb | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/systemd/systemd_229.bb b/meta/recipes-core/systemd/systemd_229.bb
-index c23c749..a2d35f8 100644
---- a/meta/recipes-core/systemd/systemd_229.bb
-+++ b/meta/recipes-core/systemd/systemd_229.bb
-@@ -319,10 +319,16 @@ PACKAGES =+ "\
- SYSTEMD_PACKAGES = "${@bb.utils.contains('PACKAGECONFIG', 'binfmt', '${PN}-binfmt', '', d)}"
- SYSTEMD_SERVICE_${PN}-binfmt = "systemd-binfmt.service"
+This is a potential build fix for a problem Martin reported that I
+couldn't reproduce myself.
+
+I've pushed this on top of the piglit branch that isn't yet merged.
+
+  git://git.yoctoproject.org/poky-contrib jku/piglit
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/piglit
+
+Thanks, 
+  Jussi
+
+
+ create mode 100644 meta/recipes-graphics/piglit/piglit/0001-cmake-Link-utils-with-xcb-explicitly.patch
+
+diff --git a/meta/recipes-graphics/piglit/piglit/0001-cmake-Link-utils-with-xcb-explicitly.patch b/meta/recipes-graphics/piglit/piglit/0001-cmake-Link-utils-with-xcb-explicitly.patch
+new file mode 100644
+index 0000000..d591da5
+--- /dev/null
++++ b/meta/recipes-graphics/piglit/piglit/0001-cmake-Link-utils-with-xcb-explicitly.patch
+@@ -0,0 +1,54 @@
++From 73e4fbc5777eddd89bb0fb16e90343551fe3e0ef Mon Sep 17 00:00:00 2001
++From: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Date: Tue, 5 Jul 2016 10:56:23 +0300
++Subject: [PATCH] cmake: Link utils with xcb explicitly
++
++Linking with g++ can reportedly lead to:
++
++libpiglitutil_gl.so.0: error: undefined reference to 'xcb_connect'
++libpiglitutil_gl.so.0: error: undefined reference to 'xcb_get_setup'
++libpiglitutil_gl.so.0: error: undefined reference to 'xcb_setup_roots_iterator'
++
++This may have appeared now because xcb-dri2 used to overlink publicly
++but now does not.
++
++Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Upstream-Status: Pending
++---
++ CMakeLists.txt            | 1 +
++ tests/util/CMakeLists.txt | 2 ++
++ 2 files changed, 3 insertions(+)
++
++diff --git a/CMakeLists.txt b/CMakeLists.txt
++index 8e2abba..2e1a473 100644
++--- a/CMakeLists.txt
+++++ b/CMakeLists.txt
++@@ -151,6 +151,7 @@ IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
++ 
++ 	pkg_check_modules(LIBDRM QUIET libdrm)
++ 	pkg_check_modules(LIBDRM_INTEL QUIET libdrm_intel)
+++	pkg_check_modules(XCB QUIET xcb)
++ 	pkg_check_modules(XCB_DRI2 QUIET xcb-dri2)
++ 	pkg_check_modules(GLPROTO QUIET glproto)
++ ELSEIF(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
++diff --git a/tests/util/CMakeLists.txt b/tests/util/CMakeLists.txt
++index fb22ffa..e1f8073 100644
++--- a/tests/util/CMakeLists.txt
+++++ b/tests/util/CMakeLists.txt
++@@ -121,11 +121,13 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
++ 
++ 		list(APPEND UTIL_GL_LIBS
++ 			${LIBDRM_LDFLAGS}
+++			${XCB_LDFLAGS}
++ 			${XCB_DRI2_LDFLAGS}
++ 		)
++ 
++ 		list(APPEND UTIL_GL_INCLUDES
++ 			${LIBDRM_INCLUDE_DIRS}
+++			${XCB_INCLUDE_DIRS}
++ 			${XCB_DRI2_INCLUDE_DIRS}
++ 		)
++ 
++-- 
++2.1.4
++
+diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
+index f5ef364..f14a7b4 100644
+--- a/meta/recipes-graphics/piglit/piglit_git.bb
++++ b/meta/recipes-graphics/piglit/piglit_git.bb
+@@ -4,6 +4,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b2beded7103a3d8a442a2a0391d607b0"
  
--USERADD_PACKAGES = "${PN}"
-+USERADD_PACKAGES = "${PN} ${PN}-extra-utils"
- USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '--system -d / -M --shell /bin/nologin systemd-journal-gateway;', '', d)}"
-+USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '--system -d / -M --shell /bin/nologin systemd-journal-remote;', '', d)}"
-+USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'journal-upload', '--system -d / -M --shell /bin/nologin systemd-journal-upload;', '', d)}"
- USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'timesyncd', '--system -d / -M --shell /bin/nologin systemd-timesync;', '', d)}"
-+USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'networkd', '--system -d / -M --shell /bin/nologin systemd-network;', '', d)}"
-+USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'coredump', '--system -d / -M --shell /bin/nologin systemd-coredump;', '', d)}"
-+USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'resolved', '--system -d / -M --shell /bin/nologin systemd-resolve;', '', d)}"
- GROUPADD_PARAM_${PN} = "-r lock; -r systemd-journal"
-+USERADD_PARAM_${PN}-extra-utils += "--system -d / -M --shell /bin/nologin systemd-bus-proxy;"
+ SRC_URI = "git://anongit.freedesktop.org/piglit \
+            file://0001-cmake-install-bash-completions-in-the-right-place.patch \
++           file://0001-cmake-Link-utils-with-xcb-explicitly.patch \
+            "
  
- FILES_${PN}-analyze = "${bindir}/systemd-analyze"
- 
+ # From 2016-07-07
 -- 
-2.7.4
+2.1.4
 
 
---------------010309060300020003040207
-Content-Type: text/x-patch;
- name="0002-systemd-allow-add-users-as-a-rootfs-postprocess-cmd.patch"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename*0="0002-systemd-allow-add-users-as-a-rootfs-postprocess-cmd.pat";
- filename*1="ch"
-
-From 27f74da024b459e0f8f02184f3e253dc58305cba Mon Sep 17 00:00:00 2001
-From: Stephano Cetola <stephano.cetola@linux.intel.com>
-Date: Tue, 31 May 2016 13:59:54 -0700
-Subject: [PATCH 2/2] systemd: allow add users as a rootfs postprocess cmd
-
-Adding all the users / groups to systemd is only available for readonly
-file systems. This change allows users to add them to read / write file
-systems as well by specifying:
-
-ROOTFS_POSTPROCESS_COMMAND += "systemd_create_users"
-
-Also, add "--shell /sbin/nologin" to each user's add params.
-
-[ YOCTO #9497 ]
-
-(From OE-Core rev: 98a4c642444a524f547f5d978a28814d20c12354)
-
-Signed-off-by: Stephano Cetola <stephano.cetola@linux.intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 79be110c1fdfd0affe6a310b96e7107c4549d23c)
-Signed-off-by: Kristian Amlie <kristian.amlie@mender.io>
----
- meta/classes/rootfs-postcommands.bbclass | 43 +++++++++++++++-----------------
- 1 file changed, 20 insertions(+), 23 deletions(-)
-
-diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
-index 95d28af..db8b551 100644
---- a/meta/classes/rootfs-postcommands.bbclass
-+++ b/meta/classes/rootfs-postcommands.bbclass
-@@ -21,7 +21,7 @@ ROOTFS_POSTUNINSTALL_COMMAND =+ "write_image_manifest ; "
- POSTINST_LOGFILE ?= "${localstatedir}/log/postinstall.log"
- # Set default target for systemd images
- SYSTEMD_DEFAULT_TARGET ?= '${@bb.utils.contains("IMAGE_FEATURES", "x11-base", "graphical.target", "multi-user.target", d)}'
--ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("DISTRO_FEATURES", "systemd", "set_systemd_default_target; ", "", d)}'
-+ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("DISTRO_FEATURES", "systemd", "set_systemd_default_target; systemd_create_users;", "", d)}'
- 
- ROOTFS_POSTPROCESS_COMMAND += 'empty_var_volatile;'
- 
-@@ -30,7 +30,25 @@ ROOTFS_POSTPROCESS_COMMAND += 'empty_var_volatile;'
- SSH_DISABLE_DNS_LOOKUP ?= " ssh_disable_dns_lookup ; "
- ROOTFS_POSTPROCESS_COMMAND_append_qemuall = "${SSH_DISABLE_DNS_LOOKUP}"
- 
--
-+systemd_create_users () {
-+	for conffile in ${IMAGE_ROOTFS}/usr/lib/sysusers.d/systemd.conf ${IMAGE_ROOTFS}/usr/lib/sysusers.d/systemd-remote.conf; do
-+		[ -e $conffile ] || continue
-+		grep -v "^#" $conffile | sed -e '/^$/d' | while read type name id comment; do
-+		if [ "$type" = "u" ]; then
-+			useradd_params="--shell /sbin/nologin"
-+			[ "$id" != "-" ] && useradd_params="$useradd_params --uid $id"
-+			[ "$comment" != "-" ] && useradd_params="$useradd_params --comment $comment"
-+			useradd_params="$useradd_params --system $name"
-+			eval useradd --root ${IMAGE_ROOTFS} $useradd_params || true
-+		elif [ "$type" = "g" ]; then
-+			groupadd_params=""
-+			[ "$id" != "-" ] && groupadd_params="$groupadd_params --gid $id"
-+			groupadd_params="$groupadd_params --system $name"
-+			eval groupadd --root ${IMAGE_ROOTFS} $groupadd_params || true
-+		fi
-+		done
-+	done
-+}
- 
- #
- # A hook function to support read-only-rootfs IMAGE_FEATURES
-@@ -73,27 +91,6 @@ read_only_rootfs_hook () {
- 			${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh
- 		fi
- 	fi
--
--	if ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "true", "false", d)}; then
--	    # Update user database files so that services don't fail for a read-only systemd system
--	    for conffile in ${IMAGE_ROOTFS}/usr/lib/sysusers.d/systemd.conf ${IMAGE_ROOTFS}/usr/lib/sysusers.d/systemd-remote.conf; do
--		[ -e $conffile ] || continue
--		grep -v "^#" $conffile | sed -e '/^$/d' | while read type name id comment; do
--		    if [ "$type" = "u" ]; then
--			useradd_params=""
--			[ "$id" != "-" ] && useradd_params="$useradd_params --uid $id"
--			[ "$comment" != "-" ] && useradd_params="$useradd_params --comment $comment"
--			useradd_params="$useradd_params --system $name"
--			eval useradd --root ${IMAGE_ROOTFS} $useradd_params || true
--		    elif [ "$type" = "g" ]; then
--			groupadd_params=""
--			[ "$id" != "-" ] && groupadd_params="$groupadd_params --gid $id"
--			groupadd_params="$groupadd_params --system $name"
--			eval groupadd --root ${IMAGE_ROOTFS} $groupadd_params || true
--		    fi
--		done
--	    done
--	fi
- }
- 
- #
--- 
-2.7.4
-
-
---------------010309060300020003040207--
