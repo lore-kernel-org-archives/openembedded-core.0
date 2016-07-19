@@ -1,31 +1,26 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E1DEF607A5
+Return-Path: <stephano.cetola@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C8F270100
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jul 2016 00:44:47 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u6J0iljs007923
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jul 2016 17:44:47 -0700
-Received: from soho-mhatle-m.local (172.25.36.235) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 18 Jul 2016 17:44:47 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <CAJTo0LYNjoPfahXjaKEVP6ey=mY3MKDKK5DoCPB9Dp151UgFpw@mail.gmail.com>
-	<1468880306.2228.69.camel@pbcl.net>
-	<CADkTA4OMij4vsjGfw9Vwjh3ymGYkJDUsAKou6=hU7f0Yt05FXA@mail.gmail.com>
-	<FD626B02-4D25-4358-8983-298FD08E6240@gmail.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <f004993f-3539-c846-cabd-4a226ebeedb3@windriver.com>
-Date: Mon, 18 Jul 2016 19:44:46 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
-	Gecko/20100101 Thunderbird/45.1.1
+	Tue, 19 Jul 2016 00:45:51 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga103.fm.intel.com with ESMTP; 18 Jul 2016 17:45:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,386,1464678000"; d="scan'208";a="997889650"
+Received: from scvick-mobl.amr.corp.intel.com ([10.254.24.153])
+	by orsmga001.jf.intel.com with ESMTP; 18 Jul 2016 17:45:52 -0700
+Date: Mon, 18 Jul 2016 17:45:52 -0700
+From: Stephano Cetola <stephano.cetola@linux.intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20160719004552.GA25758@scvick-mobl.amr.corp.intel.com>
+References: <20160711175529.2650-1-stephano.cetola@linux.intel.com>
+	<20160711175529.2650-2-stephano.cetola@linux.intel.com>
+	<CAJTo0LZfTnmKoMCwjZhU9-ooBZm4F1vsy=vC4sh9p0HQF6mVKQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <FD626B02-4D25-4358-8983-298FD08E6240@gmail.com>
-Subject: Re: [Openembedded-architecture] Removal of uclibc from oe-core?
+In-Reply-To: <CAJTo0LZfTnmKoMCwjZhU9-ooBZm4F1vsy=vC4sh9p0HQF6mVKQ@mail.gmail.com>
+User-Agent: Mutt/1.6.2 (2016-07-01)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V3] rootfs.py: allow removal of support packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,72 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jul 2016 00:44:50 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 19 Jul 2016 00:45:52 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 7/18/16 6:27 PM, Khem Raj wrote:
+On 07/18, Burton, Ross wrote:
+> On 11 July 2016 at 18:55, Stephano Cetola <stephano.cetola@linux.intel.com>
+> wrote:
 > 
->> On Jul 18, 2016, at 3:48 PM, Bruce Ashfield <bruce.ashfield@gmail.com
->> <mailto:bruce.ashfield@gmail.com>> wrote:
->>
->>
->>
->> On Mon, Jul 18, 2016 at 6:18 PM, Phil Blundell <pb@pbcl.net
->> <mailto:pb@pbcl.net>> wrote:
->>
->>     On Mon, 2016-07-18 at 23:01 +0100, Burton, Ross wrote:
->>
->>     > Now that musl is fairly mature I think it's time to take uclibc out to
->>     > pasture, where the pasture is possibly called meta-uclibc.
->>
->>     I think this is a splendid idea.
->>
->>
->> Agreed.
->>
->> But do we need a sharpened stake to make sure it doesn't come back ?
+> > +            unneeded_pkgs.extend(self.d.getVar("ROOTFS_BOOTSTRAP_INSTALL",
+> > +                True).split(","))
+> >
 > 
-> I think its just about time. Given the health of uclibc project and maintenance
-> burden we impose on OE-Core, if someone
-> needs to have it beyond 2.1, please step up and we can create a new layer
-> mnta-uclibc and it can be hosted there. but it
-> certainly should go out of OE-Core. 
+> Sorry for not getting around to reviewing this...
+> 
+> That variable is whitespace separated, not comma.
+> 
+> Ross
 
-Agreed.
+There should be a V4 out there already that splits off space. Not sure what I
+was thinking here, but I realized pretty quickly my mistake :)
 
---Mark
+https://patchwork.openembedded.org/patch/126893/
 
->>
->> Bruce
->>  
->>
->>
->>     p.
->>
->>
->>
->>     --
->>     _______________________________________________
->>     Openembedded-core mailing list
->>     Openembedded-core@lists.openembedded.org
->>     <mailto:Openembedded-core@lists.openembedded.org>
->>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->>
->>
->>
->> -- 
->> "Thou shalt not follow the NULL pointer, for chaos and madness await thee at
->> its end"
->> -- 
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> <mailto:Openembedded-core@lists.openembedded.org>
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
-> 
-> 
+Cheers,
+Stephano
 
 
