@@ -1,26 +1,46 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 62CD473166
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
+	[209.85.223.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 054B560722
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jul 2016 09:20:09 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u6K9KAIR015906
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 20 Jul 2016 11:56:33 +0000 (UTC)
+Received: by mail-io0-f177.google.com with SMTP id b62so45115958iod.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jul 2016 02:20:10 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Wed, 20 Jul 2016 02:20:09 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 20 Jul 2016 17:17:37 +0800
-Message-ID: <1d1bf4c0bd1e8e16b683396cfdba1728862b46e2.1469006054.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 2.6.1
-In-Reply-To: <cover.1469006054.git.kai.kang@windriver.com>
-References: <cover.1469006054.git.kai.kang@windriver.com>
+	Wed, 20 Jul 2016 04:56:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=nSh6iGXlogyMbr6EGHowZ8DXspCF3h8LN9lMKR2wNDA=;
+	b=z7Nz+UR5uZnI43dx+aHe90oSJjVx7oTsg8d7HtCXUFs1h0+wNry1DFhLgLKXEq3GjE
+	H3D8hiihl7aniJ7Cx+Ckw/do/E+FUmg9KlR5z/XQLrc3pD++e5MLuvBs5lPQYFXbulkl
+	EGPMyv3MFovYQ9WsqdgXQ8zzfPtCnlyBwu9yCxOe4PAOtxK8cY47M4gxRfR2uo7yzB7f
+	re9gzF4eepEpoBge7m2JTfgQvsH0LaxqeX80syWFKq5j1jFRkF4TX829GcWge0UIH0pV
+	rjeSCzPFy+lRi0yCARgHmCFtPDr1gt/6YpjqmcBAd9c8OfXYkynS49kCQKHscIHZSB4F
+	1rQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=nSh6iGXlogyMbr6EGHowZ8DXspCF3h8LN9lMKR2wNDA=;
+	b=QVwQV+gqBJorZlk2pBz5TcCqYvXJLK78LoRp0WiVtMxnLb6dxA0Wn9ATwWaSimcxFS
+	DDI1m1jAyZHev/FOe8GiZJibOVyy7ri/8AFfyOIVaUpvVFBOHgP0UPEGQuV+A/pMyLIL
+	elowW7V3+5yLsOBcOIMCcSJP6/p1lsIvd/3MU+9CTkwapgKbNkH2GR10/l8LyAXGqqoR
+	owaAezJs2bTUdSH7IuQpDjfwcdooNUDvKvqTbr/6OjmDEEf4jowfXodhKLsg8Io3gbSe
+	HDg6+8bXgxZCJzYQvKTgwYeO1b2OVp9eNEQx0qZ4kQhicj8Nw3+18QHhx6IaBp4tKtn/
+	iHVA==
+X-Gm-Message-State: ALyK8tKrOZNg3AwUz8EkyFS6UqUeMseOWz3TVsqlWNB3EyUhDzg9vTuplQiihtDK8JyGMWWmm+1w5/C4E6XkLpaW
+X-Received: by 10.107.135.142 with SMTP id r14mr48658499ioi.133.1469015794117; 
+	Wed, 20 Jul 2016 04:56:34 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 1/1] avahi: fix resource temporarily unavailable issue
+Received: by 10.107.18.17 with HTTP; Wed, 20 Jul 2016 04:56:14 -0700 (PDT)
+In-Reply-To: <1468930727-2937-1-git-send-email-matt@madison.systems>
+References: <1468930727-2937-1-git-send-email-matt@madison.systems>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 20 Jul 2016 12:56:14 +0100
+Message-ID: <CAJTo0LbN7s2Au_77p=rU=oMKrv9JC3u5EnijyPf572jxyiA3Qg@mail.gmail.com>
+To: Matt Madison <matt@madison.systems>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] package_deb.bbclass: fix Python 3 error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,74 +53,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jul 2016 09:20:10 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 20 Jul 2016 11:56:34 -0000
+Content-Type: multipart/alternative; boundary=001a113eccbc940ddd05380fe4ea
 
-From: Kai Kang <kai.kang@windriver.com>
+--001a113eccbc940ddd05380fe4ea
+Content-Type: text/plain; charset=UTF-8
 
-It sometimes fails to run avahi with error: "Could not receive return value
-from daemon process". It has same root cause with
-https://github.com/lxc/lxc/issues/25.
+On 19 July 2016 at 13:18, Matt Madison <matt@madison.systems> wrote:
 
-Backport patch to fix this issue.
+> -        for dep in rdepends.keys():
+> +        for dep in [k for k in rdepends.keys()]:
+>
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/recipes-connectivity/avahi/avahi_0.6.32.bb    |  2 ++
- .../files/avahi-fix-resource-unavaiable.patch      | 30 ++++++++++++++++++++++
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-connectivity/avahi/files/avahi-fix-resource-unavaiable.patch
+I'll admit to being fairly new to Python 3 idioms, but wouldn't
+list(rdepends.keys()) be neater?
 
-diff --git a/meta/recipes-connectivity/avahi/avahi_0.6.32.bb b/meta/recipes-connectivity/avahi/avahi_0.6.32.bb
-index 6670106..bfa6304 100644
---- a/meta/recipes-connectivity/avahi/avahi_0.6.32.bb
-+++ b/meta/recipes-connectivity/avahi/avahi_0.6.32.bb
-@@ -12,6 +12,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1 \
-                     file://avahi-daemon/main.c;endline=21;md5=9ee77368c5407af77caaef1b07285969 \
-                     file://avahi-client/client.h;endline=23;md5=f4ac741a25c4f434039ba3e18c8674cf"
- 
-+SRC_URI += "file://avahi-fix-resource-unavaiable.patch"
-+
- SRC_URI[md5sum] = "22b5e705d3eabb31d26f2e1e7b074013"
- SRC_URI[sha256sum] = "d54991185d514a0aba54ebeb408d7575b60f5818a772e28fa0e18b98bc1db454"
- 
-diff --git a/meta/recipes-connectivity/avahi/files/avahi-fix-resource-unavaiable.patch b/meta/recipes-connectivity/avahi/files/avahi-fix-resource-unavaiable.patch
-new file mode 100644
-index 0000000..5a2fd75
---- /dev/null
-+++ b/meta/recipes-connectivity/avahi/files/avahi-fix-resource-unavaiable.patch
-@@ -0,0 +1,30 @@
-+Upstream-Status: Backport
-+
-+Backport from:
-+https://github.com/experimental-platform/platform-hostname-avahi/pull/9
-+
-+It sometimes fails to run avahi with error: "Could not receive return value
-+from daemon process". It has same root cause with
-+https://github.com/lxc/lxc/issues/25.
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+---
-+From 5150983102ad5ad43f0dae203cb332c168eb5a71 Mon Sep 17 00:00:00 2001
-+From: Hinnerk Haardt <haardt@information-control.de>
-+Date: Thu, 17 Dec 2015 11:52:19 +0100
-+Subject: [PATCH] Fix `chroot.c: fork() failed: Resource temporarily
-+ unavailable` as per https://github.com/lxc/lxc/issues/25.
-+
-+---
-+ avahi-daemon/avahi-daemon.conf | 1 -
-+ 1 file changed, 1 deletion(-)
-+
-+diff --git a/avahi-daemon/avahi-daemon.conf b/avahi-daemon/avahi-daemon.conf
-+index 95166f8..3d5b7a6 100644
-+--- a/avahi-daemon/avahi-daemon.conf
-++++ b/avahi-daemon/avahi-daemon.conf
-+@@ -65,4 +65,3 @@ rlimit-data=4194304
-+ rlimit-fsize=0
-+ rlimit-nofile=768
-+ rlimit-stack=4194304
-+-rlimit-nproc=3
--- 
-2.6.1
+Ross
 
+--001a113eccbc940ddd05380fe4ea
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 19 July 2016 at 13:18, Matt Madison <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:matt@madison.systems" target=3D"_blank">matt@madison.systems</a>&gt;</s=
+pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
+;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3sv" class=3D"a3s=
+ aXjCH m1560319094e04058">-=C2=A0 =C2=A0 =C2=A0 =C2=A0 for dep in rdepends.=
+keys():<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 for dep in [k for k in rdepends.keys()]:<br></=
+div></blockquote></div><br>I&#39;ll admit to being fairly new to Python 3 i=
+dioms, but wouldn&#39;t list(rdepends.keys()) be neater?</div><div class=3D=
+"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a113eccbc940ddd05380fe4ea--
