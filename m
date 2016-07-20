@@ -1,38 +1,38 @@
 Return-Path: <tanuk@iki.fi>
 Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
 	[66.111.4.29])
-	by mail.openembedded.org (Postfix) with ESMTP id C207C606A8
+	by mail.openembedded.org (Postfix) with ESMTP id C4DC36FFF7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jul 2016 00:29:25 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id 46CE920585
+	Wed, 20 Jul 2016 00:29:26 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+	by mailout.nyi.internal (Postfix) with ESMTP id 0A2FC2057D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jul 2016 20:20:36 -0400 (EDT)
+	Tue, 19 Jul 2016 20:20:33 -0400 (EDT)
 Received: from frontend2 ([10.202.2.161])
-	by compute3.internal (MEProxy); Tue, 19 Jul 2016 20:20:36 -0400
+	by compute2.internal (MEProxy); Tue, 19 Jul 2016 20:20:33 -0400
 DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
 	messagingengine.com; h=date:from:in-reply-to:in-reply-to
 	:message-id:references:references:subject:to:x-sasl-enc
-	:x-sasl-enc; s=smtpout; bh=52qa9mAjajrhCgpoaQoUZmA5BQU=; b=HQTP5
-	S7aD8e82wj0vnHR/WJ9IHifNnf7JmhdJAQdZc9zz2x1oNsDm0lgrvJLku7QDauEd
-	xlWE9jN0Z+KpfhgNMdil0ishvr//a2tHtG+V7p1Ge3JniRZUxI0x0rTucmjK4utC
-	zGe3nZpDI64OY1iHzlkxLXAqIZ4Tn5mGQ5WeYk=
-X-Sasl-enc: AybWBAzBBkGu11er3JdTk2H6HNELZBitM2rUktv26Dlm 1468974035
+	:x-sasl-enc; s=smtpout; bh=apQtIC8QKSEUG7eSsGsPTNR9BQw=; b=qw3k+
+	AaVip23kTg6q97gACpksRcmRs3bYWlVqWRDtppGxKp7y92wAuHO2mjlKqaxGOCwg
+	+Q1dIr7G9rEjMMJ8JFn3zOaLLi4biqi9hKv4KM0yPrXKoN+AJP7QuP5w1PTx6vCJ
+	fUNQlofmo7oaC5udV4/Nlrffezml8ZU8uI3ohI=
+X-Sasl-enc: ouFdS+ALSdN5TlZioVjF7SKJoCwHjMySgz0E9ivVpVih 1468974032
 Received: from laptop.tanuk.dy.fi (a88-113-211-72.elisa-laajakaista.fi
 	[88.113.211.72])
-	by mail.messagingengine.com (Postfix) with ESMTPA id B2373CCD81
+	by mail.messagingengine.com (Postfix) with ESMTPA id 73095CCD81
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jul 2016 20:20:35 -0400 (EDT)
+	Tue, 19 Jul 2016 20:20:32 -0400 (EDT)
 From: Tanu Kaskinen <tanuk@iki.fi>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jul 2016 03:20:23 +0300
-Message-Id: <425887ce6e0187155974cabc2071f5189f7cc1a1.1468973641.git.tanuk@iki.fi>
+Date: Wed, 20 Jul 2016 03:20:21 +0300
+Message-Id: <2ff582728a1916c2cd6b44340250b98fd0648569.1468973641.git.tanuk@iki.fi>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <cover.1468973641.git.tanuk@iki.fi>
 References: <cover.1468973641.git.tanuk@iki.fi>
 In-Reply-To: <cover.1468973641.git.tanuk@iki.fi>
 References: <cover.1468973641.git.tanuk@iki.fi>
-Subject: [PATCH 3/3] pulseaudio: disable WebRTC code
+Subject: [PATCH 1/3] libsndfile1: 1.0.26 -> 1.0.27
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,31 +47,30 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 20 Jul 2016 00:29:28 -0000
 
-When updating pulseaudio to 9.0, I noticed webrtc-audio-processing is
-a potential floating dependency. It's not an issue right now, because
-webrtc-audio-processing isn't packaged for OpenEmbedded, but it would
-become an issue if anyone added the library to OE.
-
 Signed-off-by: Tanu Kaskinen <tanuk@iki.fi>
 ---
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 4 ++++
- 1 file changed, 4 insertions(+)
+ .../libsndfile/{libsndfile1_1.0.26.bb => libsndfile1_1.0.27.bb}       | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-multimedia/libsndfile/{libsndfile1_1.0.26.bb => libsndfile1_1.0.27.bb} (83%)
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index accafe1..2cf3fb4 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -37,6 +37,10 @@ EXTRA_OECONF = "\
- # oe-core nor meta-oe, so let's not add a PACKAGECONFIG entry for it for now.
- EXTRA_OECONF += "--without-soxr"
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.26.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.27.bb
+similarity index 83%
+rename from meta/recipes-multimedia/libsndfile/libsndfile1_1.0.26.bb
+rename to meta/recipes-multimedia/libsndfile/libsndfile1_1.0.27.bb
+index 80435d4..ec41719 100644
+--- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.26.bb
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.27.bb
+@@ -7,8 +7,8 @@ LICENSE = "LGPLv2.1"
  
-+# The WebRTC echo canceller depends on the webrtc-audio-processing library,
-+# which is not yet packaged for OpenEmbedded.
-+EXTRA_OECONF += "--disable-webrtc-aec"
-+
- PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'zeroconf', 'avahi', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
+ SRC_URI = "http://www.mega-nerd.com/libsndfile/files/libsndfile-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "ec810a0c60c08772a8a5552704b63393"
+-SRC_URI[sha256sum] = "cd6520ec763d1a45573885ecb1f8e4e42505ac12180268482a44b28484a25092"
++SRC_URI[md5sum] = "fd1d97c6077f03b5d984d7956ffedb7a"
++SRC_URI[sha256sum] = "a391952f27f4a92ceb2b4c06493ac107896ed6c76be9a613a4731f076d30fac0"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=e77fe93202736b47c07035910f47974a"
+ 
 -- 
 2.8.1
 
