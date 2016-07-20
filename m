@@ -1,51 +1,29 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-yw0-f180.google.com (mail-yw0-f180.google.com
-	[209.85.161.180])
-	by mail.openembedded.org (Postfix) with ESMTP id E255C606A8
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id AB7C06067D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jul 2016 02:21:51 +0000 (UTC)
-Received: by mail-yw0-f180.google.com with SMTP id u134so32815164ywg.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jul 2016 19:21:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=Bt1TMmRfKB0mk327/PpDNAPgmYfygDenlwYV1po8saM=;
-	b=CCv3V4n/nASF4hhOKDJ+PXv7gvptVxTeCdIoLOFpXHpmbrvcKinf4obw3ab6NKnY7s
-	fRaI3sdYJmvY8nqB0M3Tsm6JULBo1B3kxIVRdDpueeIsHUmOVl8S0lHM1GapT37P6nf/
-	Wp77YFK/xwP9Cx1zd33JRregxuB6//goHAg7w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=Bt1TMmRfKB0mk327/PpDNAPgmYfygDenlwYV1po8saM=;
-	b=C/NjoUj+LRMK3M9XzzjM+BikJ0pDF7lqRm6+Jrnq4jGDCbfBFqrclKec1DhnhcViNh
-	Wt6cX1bLQmJ/y/iYRwXLajj7UMtdZHea/QLMNzLBoIS8ydlR/GpqtdO/qSHzE58Q2Wbd
-	KIGwcM9A9+t37kgUDIK/poL4TIwyfFUR0VEbykuiuYN0U7ykWP6E9Q+KLQJAvQkN0qbN
-	2Eo2rQ0Aromcm+nYRwVX6retKZ4iOv5FeBeuH9hEHCC9HY6TmbZJk4t4bNMclmb5Pcmo
-	2wRcfUu7wk+K8ipO1xpGWzwlH0RCQL958ksfCgfVWw+Fk+gPEb5gsmtUp/z4HCQNsCNG
-	6qBA==
-X-Gm-Message-State: ALyK8tIR7DlA8Je7GzqYuiwUe7djfzkqHcP7icqq2jld8vHYQPT5ldZoXnLmW6xvLF6+1w==
-X-Received: by 10.129.115.194 with SMTP id o185mr31931642ywc.159.1468981312192;
-	Tue, 19 Jul 2016 19:21:52 -0700 (PDT)
-Received: from bill-the-cat
-	(cpe-2606-A000-1407-C0E8-B199-1101-CD04-8ABF.dyn6.twc.com.
-	[2606:a000:1407:c0e8:b199:1101:cd04:8abf])
-	by smtp.gmail.com with ESMTPSA id
-	j124sm173716ywg.49.2016.07.19.19.21.51
-	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
-	Tue, 19 Jul 2016 19:21:51 -0700 (PDT)
-Date: Tue, 19 Jul 2016 22:21:59 -0400
-From: Tom Rini <trini@konsulko.com>
-To: George McCollister <george.mccollister@gmail.com>
-Message-ID: <20160720022159.GQ7260@bill-the-cat>
-References: <cover.1468862824.git.george.mccollister@gmail.com>
-	<79c64bfd7932e78cae2876ac14b19737d5a4d578.1468862824.git.george.mccollister@gmail.com>
+	Wed, 20 Jul 2016 03:12:03 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u6K3C3Uw013911
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 19 Jul 2016 20:12:03 -0700 (PDT)
+Received: from [128.224.162.240] (128.224.162.240) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Tue, 19 Jul 2016 20:12:01 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1468935802.git.liezhi.yang@windriver.com>
+	<ad9ff8511f1da318f04d6b4ccdf05a639dbc166d.1468935802.git.liezhi.yang@windriver.com>
+	<CAJTo0Lbnc0JWAhc-wM8grZvr0mW4+Dd-Wzze5vAZnK+J9Evf9Q@mail.gmail.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <578EEC00.50304@windriver.com>
+Date: Wed, 20 Jul 2016 11:12:00 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.8.0
 MIME-Version: 1.0
-In-Reply-To: <79c64bfd7932e78cae2876ac14b19737d5a4d578.1468862824.git.george.mccollister@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: marex@denx.de, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] uboot-sign: Handle .rom signing the same as .img
+In-Reply-To: <CAJTo0Lbnc0JWAhc-wM8grZvr0mW4+Dd-Wzze5vAZnK+J9Evf9Q@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 6/8] gettext: 0.19.6 -> 0.19.8.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,19 +36,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jul 2016 02:21:52 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 20 Jul 2016 03:12:04 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jul 18, 2016 at 12:57:57PM -0500, George McCollister wrote:
 
-> Handle u-boot.rom signing (U-Boot as x86 BIOS replacement) the same way
-> that u-boot.img signing is handled.
-> 
-> Signed-off-by: George McCollister <george.mccollister@gmail.com>
 
-Reviewed-by: Tom Rini <trini@konsulko.com>
+On 07/20/2016 12:37 AM, Burton, Ross wrote:
+>
+> On 19 July 2016 at 14:44, Robert Yang <liezhi.yang@windriver.com
+> <mailto:liezhi.yang@windriver.com>> wrote:
+>
+>     +FILES_${PN} += "${datadir}/${BPN}-0.19.8/*"
+>
+>
+> Can this use a wildcard so we don't need to fix this every upgrade?
 
--- 
-Tom
+Yes, sounds, good, updated in the repo:
+
+   git://git.openembedded.org/openembedded-core-contrib rbt/pu
+   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/pu
+
+
+# The its/Makefile.am has defined:
+# itsdir = $(pkgdatadir)$(PACKAGE_SUFFIX)/its
+# not itsdir = $(pkgdatadir), so use wildcard to match the version.
+FILES_${PN} += "${datadir}/${BPN}-*/*"
+
+// Robert
+
+>
+> Ross
 
