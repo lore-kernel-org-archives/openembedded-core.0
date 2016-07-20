@@ -1,35 +1,50 @@
-Return-Path: <clopez@igalia.com>
-Received: from smtp4.mundo-r.com (smtp3.mundo-r.com [212.51.32.191])
-	by mail.openembedded.org (Postfix) with ESMTP id E50136067D
+Return-Path: <trini@konsulko.com>
+Received: from mail-yw0-f174.google.com (mail-yw0-f174.google.com
+	[209.85.161.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 141C66067D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jul 2016 02:20:44 +0000 (UTC)
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: A2BxAQCg345X/5tjdVtdGgEBAQGDIVZ8jSqpNYIPgXoihXgCgTQ4FAEBAQEBAQFlJ4RdAQEEIygBLRALGAkUDQICDwJGBg0GAgKIMAEJry2FSAGILQEBAQEBAQQBAQEBARQOhiqETYdBgloFk2OFQYM3gW5uiE+COYx+kB4eNoI+gTdsAYgkAQEB
-X-IPAS-Result: A2BxAQCg345X/5tjdVtdGgEBAQGDIVZ8jSqpNYIPgXoihXgCgTQ4FAEBAQEBAQFlJ4RdAQEEIygBLRALGAkUDQICDwJGBg0GAgKIMAEJry2FSAGILQEBAQEBAQQBAQEBARQOhiqETYdBgloFk2OFQYM3gW5uiE+COYx+kB4eNoI+gTdsAYgkAQEB
-X-IronPort-AV: E=Sophos;i="5.28,392,1464645600"; 
-	d="asc'?scan'208";a="86914156"
-Received: from fanzine.igalia.com ([91.117.99.155])
-	by smtp4.mundo-r.com with ESMTP; 20 Jul 2016 04:20:42 +0200
-Received: from 1.14.117.91.dynamic.reverse-mundo-r.com ([91.117.14.1]
-	helo=[192.168.0.23]) by fanzine.igalia.com with esmtpsa 
-	(Cipher TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16) (Exim)
-	id 1bPh7p-0000eT-MO; Wed, 20 Jul 2016 04:20:41 +0200
-To: Khem Raj <raj.khem@gmail.com>
-References: <1468876796-16026-1-git-send-email-clopez@igalia.com>
-	<CAMKF1spPAi60QxGcUJ8JtPSxih+wgkbPY5+tgDhDDMV4+aktTA@mail.gmail.com>
-From: Carlos Alberto Lopez Perez <clopez@igalia.com>
-Openpgp: id=B5D2B50BC48EC7F1EE90D9AB965089CE6B95F882;
-	url=http://key.neutrino.es
-Organization: Igalia S.L.
-Message-ID: <578EDFF0.20507@igalia.com>
-Date: Wed, 20 Jul 2016 04:20:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Icedove/38.8.0
+	Wed, 20 Jul 2016 02:21:40 +0000 (UTC)
+Received: by mail-yw0-f174.google.com with SMTP id u134so32812479ywg.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Jul 2016 19:21:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=NNOc6i3lWdymN1hOnoGDIH3SRdSzTvPfQ+jgIufmy/Y=;
+	b=D6WHMT9xFtXiogPSw2TZ0hqemHNrPD8+prbmTJ90SMAJhxWhcJwsmUJ+9W9gLgtbDc
+	39oOna3XbCAwg28zDHhwgx8LyXzTuyZ4YksPQ868n3Sf8Ue5NhPQzlWXwVEnPkbM/afz
+	ZL5I6Oqu1Ke+4GHbPBvSlKrBPMLaFx+yjCvbs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=NNOc6i3lWdymN1hOnoGDIH3SRdSzTvPfQ+jgIufmy/Y=;
+	b=M+Ma4Td80HpFgKFwqzZh6XVZ0KushQKHPyoFCx7dMQwTyoI5RaYrvuwyfl1Ro3C1tF
+	uPk6ZJtynM1dgd14o9CZkdgqI+FbXeTp8EvhfWR11RFZw2uyOvEo0UBkOTMEXPZ0UvBh
+	TqbP8E5nMuX6B+EynSuDJ46iIn8BfMXtRzynUnRXfi2YOVSg/i8S5DOxrQ/he9KKThzv
+	n1gY6UU+mik0cS8JUjiKdKnJL8gXaSp9WFnpyyw2npSDHrseJyqy5iIYSLCwmqytpih4
+	e4hu6KmMkkVvcGUsaK3D4GtMn5zf2DsYF/Pp0HV/xxzYBj3WLbh1QGnBzHLEQNPpeWZL
+	wrjw==
+X-Gm-Message-State: ALyK8tIBLJBjwE5CpDdxiLkiesmMk2bEPc7NcoK8E/C5of2YjVpqSYoJAbEvmQA6X4RtWw==
+X-Received: by 10.37.38.201 with SMTP id m192mr27599894ybm.156.1468981301309; 
+	Tue, 19 Jul 2016 19:21:41 -0700 (PDT)
+Received: from bill-the-cat
+	(cpe-2606-A000-1407-C0E8-B199-1101-CD04-8ABF.dyn6.twc.com.
+	[2606:a000:1407:c0e8:b199:1101:cd04:8abf])
+	by smtp.gmail.com with ESMTPSA id a138sm200663ywe.8.2016.07.19.19.21.40
+	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
+	Tue, 19 Jul 2016 19:21:40 -0700 (PDT)
+Date: Tue, 19 Jul 2016 22:21:48 -0400
+From: Tom Rini <trini@konsulko.com>
+To: George McCollister <george.mccollister@gmail.com>
+Message-ID: <20160720022148.GO7260@bill-the-cat>
+References: <cover.1468862824.git.george.mccollister@gmail.com>
+	<1c06daa2a3dad03821aff6a7f7502036fb90f2b4.1468862824.git.george.mccollister@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1spPAi60QxGcUJ8JtPSxih+wgkbPY5+tgDhDDMV4+aktTA@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] webkitgtk: Switch the ARMv7 build to Thumb2 and enable back the JSC JIT.
+In-Reply-To: <1c06daa2a3dad03821aff6a7f7502036fb90f2b4.1468862824.git.george.mccollister@gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: marex@denx.de, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 1/3] kernel-fitimage: add initramfs support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,101 +57,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jul 2016 02:20:46 -0000
-X-Groupsio-MsgNum: 84704
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature";
-	boundary="lcASWFfJsjB5x9QT77ewt5U8TrbI9M9sG"
+X-List-Received-Date: Wed, 20 Jul 2016 02:21:41 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---lcASWFfJsjB5x9QT77ewt5U8TrbI9M9sG
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+On Mon, Jul 18, 2016 at 12:57:55PM -0500, George McCollister wrote:
 
-On 19/07/16 21:26, Khem Raj wrote:
-> On Mon, Jul 18, 2016 at 2:19 PM, Carlos Alberto Lopez Perez
-> <clopez@igalia.com> wrote:
->> > * The JSC JIT is broken on ARMv7 without Thumb2.
->> >
->> > [YOCTO #9474]
->> >
->> > Signed-off-by: Carlos Alberto Lopez Perez <clopez@igalia.com>
->> > ---
->> >  meta/recipes-sato/webkit/webkitgtk_2.12.3.bb | 17 ++++++++++++-----=
+> If INITRAMFS_IMAGE is set, build an additional fitImage containing the
+> initramfs. Copy the additional fitImage and the source (*.its) file, used
+> to create it to DEPLOYDIR. The fitImage containing the initramfs must be
+> built before do_deploy and after do_install to avoid circular dependencies.
+> 
+> UBOOT_RD_LOADADDRESS - Specifies the load address used by u-boot for the
+>                        initramfs.
+> UBOOT_RD_ENTRYPOINT  - Specifies the entry point used by u-boot for the
+>                        initramfs.
+> 
+> Signed-off-by: George McCollister <george.mccollister@gmail.com>
 
->> >  1 file changed, 12 insertions(+), 5 deletions(-)
->> >
->> > diff --git a/meta/recipes-sato/webkit/webkitgtk_2.12.3.bb b/meta/rec=
-ipes-sato/webkit/webkitgtk_2.12.3.bb
->> > index c5e5432..536fa23 100644
->> > --- a/meta/recipes-sato/webkit/webkitgtk_2.12.3.bb
->> > +++ b/meta/recipes-sato/webkit/webkitgtk_2.12.3.bb
->> > @@ -71,10 +71,6 @@ EXTRA_OECMAKE_append_armv5 =3D " -DENABLE_JIT=3DO=
-FF "
->> >  EXTRA_OECMAKE_append_armv6 =3D " -DENABLE_JIT=3DOFF "
->> >  EXTRA_OECMAKE_append_armv4 =3D " -DENABLE_JIT=3DOFF "
->> >
->> > -# ARM JIT can build on armv7a, but doesnt' work on runtime, cause
->> > -# displaying problems or ephiphany hang.
->> > -EXTRA_OECMAKE_append_armv7a =3D " -DENABLE_JIT=3DOFF "
->> > -
->> >  # binutils 2.25.1 has a bug on aarch64:
->> >  # https://sourceware.org/bugzilla/show_bug.cgi?id=3D18430
->> >  EXTRA_OECMAKE_append_aarch64 =3D " -DUSE_LD_GOLD=3DOFF "
->> > @@ -89,7 +85,18 @@ SECURITY_CFLAGS_append_aarch64 =3D " -fPIE"
->> >  FILES_${PN} +=3D "${libdir}/webkit2gtk-4.0/injected-bundle/libwebki=
-t2gtkinjectedbundle.so"
->> >
->> >  # http://errors.yoctoproject.org/Errors/Details/20370/
->> > -ARM_INSTRUCTION_SET =3D "arm"
->> > +ARM_INSTRUCTION_SET_armv4 =3D "arm"
->> > +ARM_INSTRUCTION_SET_armv5 =3D "arm"
->> > +ARM_INSTRUCTION_SET_armv6 =3D "arm"
->> > +
->> > +# https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D9474
->> > +# https://bugs.webkit.org/show_bug.cgi?id=3D159880
->> > +# JSC JIT can build on ARMv7 with -marm, but doesn't work on runtim=
-e.
->> > +# Upstream only tests regularly the JSC JIT on ARMv7 with Thumb2 (-=
-mthumb).
->> > +ARM_INSTRUCTION_SET_armv7a =3D "thumb"
->> > +ARM_INSTRUCTION_SET_armv7r =3D "thumb"
->> > +ARM_INSTRUCTION_SET_armv7m =3D "thumb"
->> > +ARM_INSTRUCTION_SET_armv7ve =3D "thumb"
-> This should be ok. Do we need to specify 'm' ?
-> they should be thumb only anyway
->=20
+Reviewed-by: Tom Rini <trini@konsulko.com>
 
-Right, good catch..
+-- 
+Tom
 
-So I guess is not needed to specify anything for armv7m.
-
-Do you want me to send the patch again without the armv7m line?
-
-Regards.
-
-
---lcASWFfJsjB5x9QT77ewt5U8TrbI9M9sG
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-Comment: You can fetch my GnuPG key from http://key.neutrino.es
-
-iQIcBAEBCgAGBQJXjt/wAAoJEJZQic5rlfiCSJkP/3C3Wlso26RZNDWIQdh1MRpY
-Cs0XIMTasvmECBghPemClHlqu3cwSP5BjBz3SyL4OGDr33xfJ+Y12qAVX58kr0u2
-en23Ev2A0zwi+xafWIr3oQljauUDDypUSgApkaRzKnxk74yzjK/8FMWoFV662vG9
-t6Rf6AY+cJ4/bt0TXFFqlg4WVt3B2zpPlQnlEW9N5+y9kMV298mfNlzbl9UTDseZ
-6L7RMw9ajdnHm1nsiceUk332Hhiur7+8ofFItiVgb9uFEUe/45AjZhx/YAYWa2CU
-gW0d7OjFfMJEXpC9+CaswNQJKXvlME5GWW4FrlWhOWwdxqd4u9KlP7q2hmFCvg/+
-cwrmBMZLCC9rvgdC5KhvjDMcE7skB/DoUYnsHVyRPIBI1MB0Mo3y0Q80/9WNijUM
-eTM2jNhzCs0QgDjJ/U3i51/qRzNPVG8B5aqibyqK2/vN2b5Znvl5RZY+5Vf2+DSa
-6fZ4gGLS9a3ASRzCJNX1a9kCPoJuJKBuNshanomphV3QVNatP6nkbjpQ0sMEJ3e6
-XSFul9ZEQLNIrL2eH/arG3yo+6FUcGNzBN6jM00oQyPGTRrX86+ZWlNCBcgY2Miu
-XUVhZ+/X9f0d2J5GsR8Vkdv3CcFUeoRcds050kcLw1c1Rkw6MBLcfP3fMGtYejgA
-Pop7U7TP2f7MpQMBnFNx
-=Upxe
------END PGP SIGNATURE-----
-
---lcASWFfJsjB5x9QT77ewt5U8TrbI9M9sG--
