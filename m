@@ -1,38 +1,38 @@
-Return-Path: <tanuk@iki.fi>
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
-	[66.111.4.29])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A34B6067D
+Return-Path: <leimaohui@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 956616067D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jul 2016 01:18:56 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id E981A206CE;
-	Tue, 19 Jul 2016 21:18:56 -0400 (EDT)
-Received: from frontend1 ([10.202.2.160])
-	by compute1.internal (MEProxy); Tue, 19 Jul 2016 21:18:56 -0400
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-sasl-enc:x-sasl-enc; s=smtpout; bh=dtO+XuczyfrKfT2
-	nKsKfXjM+rjA=; b=LpHmEFxXdei2Gf7Ujq11JIl4N9zb61pSIQrqBxsTOoT2ZQS
-	DBB56QrIhDtPsdMpkzrjXpPvcYix6jlxrPfj2d7b3l/xQ7FCyJH4sqRH8ao3dffT
-	jYX8CfA32XNxXG6y9rvdUZkEg7hoytcNrHOOM6rPL74ObN0NArVJuL7ix4sE=
-X-Sasl-enc: n3emU7YBWPd377GAbLaTqYdhS9qH3BRTsCTlcapA0QCk 1468977536
-Received: from laptop (a88-113-211-72.elisa-laajakaista.fi [88.113.211.72])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 548E0F29EE;
-	Tue, 19 Jul 2016 21:18:56 -0400 (EDT)
-Message-ID: <1468977534.3210.168.camel@iki.fi>
-From: Tanu Kaskinen <tanuk@iki.fi>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 20 Jul 2016 04:18:54 +0300
-In-Reply-To: <CAMKF1sr8p21xDXNMScg8MUdRFh3=8O+zuxL--_A-jV52Dez1wQ@mail.gmail.com>
-References: <cover.1468973641.git.tanuk@iki.fi>
-	<425887ce6e0187155974cabc2071f5189f7cc1a1.1468973641.git.tanuk@iki.fi>
-	<CAMKF1sr8p21xDXNMScg8MUdRFh3=8O+zuxL--_A-jV52Dez1wQ@mail.gmail.com>
-X-Mailer: Evolution 3.20.3-1 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
+	Wed, 20 Jul 2016 02:13:53 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; 
+   d="scan'208";a="8883352"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 20 Jul 2016 10:13:52 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id 7883742B87C0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Jul 2016 10:13:49 +0800 (CST)
+Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
+	G08CNEXCHPEKD01.g08.fujitsu.local ([10.167.33.80]) with mapi id
+	14.03.0279.002; Wed, 20 Jul 2016 10:13:48 +0800
+From: "Lei, Maohui" <leimaohui@cn.fujitsu.com>
+To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] pulseaudio: disable WebRTC code
+Thread-Topic: [OE-core][PATCH] To make yocto-spdx support spdx2.0 SPEC
+Thread-Index: AQHR12qkoqTEIYZ7tEKcp0bRXF5G0KAgqcLQ
+Date: Wed, 20 Jul 2016 02:13:48 +0000
+Message-ID: <1B56A49860EB2D45ADE3731B15C959FDFE53CBCE@G08CNEXMBPEKD01.g08.fujitsu.local>
+References: <1466986302-33565-1-git-send-email-leimaohui@cn.fujitsu.com>
+In-Reply-To: <1466986302-33565-1-git-send-email-leimaohui@cn.fujitsu.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.167.226.93]
+MIME-Version: 1.0
+X-yoursite-MailScanner-ID: 7883742B87C0.AB853
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
+X-Spam-Status: No
+Subject: Re: [PATCH] To make yocto-spdx support spdx2.0 SPEC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,42 +45,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jul 2016 01:18:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 20 Jul 2016 02:13:54 -0000
+Content-Language: zh-CN
+Content-Type: text/plain; charset="shift_jis"
+Content-Transfer-Encoding: base64
 
-On Tue, 2016-07-19 at 17:54 -0700, Khem Raj wrote:
-> On Tue, Jul 19, 2016 at 5:20 PM, Tanu Kaskinen <tanuk@iki.fi> wrote:
-> > When updating pulseaudio to 9.0, I noticed webrtc-audio-processing is
-> > a potential floating dependency. It's not an issue right now, because
-> > webrtc-audio-processing isn't packaged for OpenEmbedded, but it would
-> > become an issue if anyone added the library to OE.
-> > 
-> > Signed-off-by: Tanu Kaskinen <tanuk@iki.fi>
-> > ---
-> >  meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> > 
-> > diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> > index accafe1..2cf3fb4 100644
-> > --- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> > +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> > @@ -37,6 +37,10 @@ EXTRA_OECONF = "\
-> >  # oe-core nor meta-oe, so let's not add a PACKAGECONFIG entry for it for now.
-> >  EXTRA_OECONF += "--without-soxr"
-> > 
-> > +# The WebRTC echo canceller depends on the webrtc-audio-processing library,
-> > +# which is not yet packaged for OpenEmbedded.
-> > +EXTRA_OECONF += "--disable-webrtc-aec"
-> > +
-> 
-> may be turn it into a packageconfig ?
-
-Ok, I can do that. I felt uncomfortable adding a packageconfig for
-this, because I'd have to reference a non-existing recipe, and who
-knows what the recipe will actually be named when it gets packaged, but
-I suppose a potential naming mismatch isn't a big risk.
-
--- 
-Tanu
+UGluZy4NCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9t
+OiBMZWksIE1hb2h1aQ0KPiBTZW50OiBNb25kYXksIEp1bmUgMjcsIDIwMTYg
+ODoxMiBBTQ0KPiBUbzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVt
+YmVkZGVkLm9yZw0KPiBDYzogTGVpLCBNYW9odWkNCj4gU3ViamVjdDogW09F
+LWNvcmVdW1BBVENIXSBUbyBtYWtlIHlvY3RvLXNwZHggc3VwcG9ydCBzcGR4
+Mi4wIFNQRUMNCj4gDQo+IFRoZXJlIGFyZSBzb21lIHByb2JsZW1zIGluIHNw
+ZHggbW9kdWxlKHNwZHguYmJjbGFzcykuDQo+IDEuIFRoZSBuZXdlc3QgdmVy
+c2lvbiBvZiBzcGR4aSBzcGVjaWZpY2F0aW9uIGlzIDIuMC4gQnV0IGV2ZW4g
+c3BkeCAxLjEsDQo+IHlvY3RvK1NQRFggY2FuJ3Qgc3VwcG9ydCB3ZWxsLg0K
+PiAyLiBJdCBpcyBjb21wbGV4IHRvIGJ1aWxkIGEgWW9jdG8rU1BEWCBlbnZp
+cm9ubWVudC4NCj4gMy4gQ3JlYXRpbmcgYSBzcGR4IGZpbGUgc3BlbmRzIHRv
+byBtdWNoIHRpbWUsIGVzcGVjaWFsbHkgZm9yIGxhcmdlDQo+IHNvZnR3YXJl
+Lg0KPiANCj4gVG8gaW1wcm92ZSBzcGR4IG1vZHVsZSAsSSBjaGFuZ2UgdGhl
+IHNwZHggY3JlYXRlIHRvb2wgZnJvbSBmb3Nzb2xvZ3kgdG8NCj4gZG9zb2Nz
+Mi4NCj4gV2l0aCB0aGlzIHBhdGNoOg0KPiAxLiBBbHNvIGdldHMgbGljZW5z
+ZSBpbmZvcm1hdGlvbnMgYnkgc2Nhbm5lciBmcm9tIGZvc3NvbG9neS4NCj4g
+MS4gQ2FuIHN1cHBvcnQgU1BEWDIuMCBTUEVDLg0KPiAyLiBCZWNhdXNlIGRv
+c29jczIgY2FuIHdvcmsgb24gZGlyZWN0b3JpZXMsIHNvIHRoZXJlIGlzIG5v
+IG5lY2Vzc2FyeSB0bw0KPiBwYWNrIHNvdXJjZSBjb2RlIGJlZm9yZSBkb19z
+cGR4LiBJdCBjYW4gc2F2ZSB0aW1lIGZvciBsYXJnZSBzb2Z0d2FyZS4NCj4g
+DQo+IExlaSBNYW9odWkgKDEpOg0KPiAgIFRvIE1ha2UgeW9jdG8tc3BkeCBz
+dXBwb3J0IHNwZHggdjIuMCBzcGVjaWZpY2F0aW9uLg0KPiANCj4gIG1ldGEv
+Y2xhc3Nlcy9zcGR4LmJiY2xhc3MgfCA0ODggKysrKysrKysrKysrKysrKyst
+LS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gLS0tLS0tLS0NCj4gIG1ldGEvY29u
+Zi9saWNlbnNlcy5jb25mICAgfCAgNjcgKy0tLS0tLQ0KPiAgMiBmaWxlcyBj
+aGFuZ2VkLCAxODQgaW5zZXJ0aW9ucygrKSwgMzcxIGRlbGV0aW9ucygtKQ0K
+PiANCj4gLS0NCj4gMS45LjENCg0KCgo=
 
