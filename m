@@ -1,35 +1,38 @@
 Return-Path: <tanuk@iki.fi>
-X-Greylist: delayed 537 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 20 Jul 2016 00:29:25 UTC
 Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
 	[66.111.4.29])
-	by mail.openembedded.org (Postfix) with ESMTP id C3F7C6FFAB
+	by mail.openembedded.org (Postfix) with ESMTP id C207C606A8
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 20 Jul 2016 00:29:25 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id D88E120547
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id 46CE920585
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jul 2016 20:20:28 -0400 (EDT)
+	Tue, 19 Jul 2016 20:20:36 -0400 (EDT)
 Received: from frontend2 ([10.202.2.161])
-	by compute4.internal (MEProxy); Tue, 19 Jul 2016 20:20:28 -0400
+	by compute3.internal (MEProxy); Tue, 19 Jul 2016 20:20:36 -0400
 DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=date:from:message-id:subject:to
-	:x-sasl-enc:x-sasl-enc; s=smtpout; bh=08qYAbG51jbdCjblDX0GXK1jsU
-	A=; b=SDMA4ixgsgvDqWp4dQyuO939ZhQz6D/XNdUmJ5Aj3rHkILRf4CmdgLI8bP
-	C0zdBYXBhExrrpr2VnbIW3TADFCJwOQFPYsJbAwZw98ssi0um2S92COejZpV5GTc
-	xfWenx35UwDtiBe3RwL+8UpN3LqNDNqef+eBQ/7NakgHuWVK4=
-X-Sasl-enc: Ff/Wruq/GwKK6lVHr0dfg/rAT1CQKniua8foj0ND8sGN 1468974028
+	messagingengine.com; h=date:from:in-reply-to:in-reply-to
+	:message-id:references:references:subject:to:x-sasl-enc
+	:x-sasl-enc; s=smtpout; bh=52qa9mAjajrhCgpoaQoUZmA5BQU=; b=HQTP5
+	S7aD8e82wj0vnHR/WJ9IHifNnf7JmhdJAQdZc9zz2x1oNsDm0lgrvJLku7QDauEd
+	xlWE9jN0Z+KpfhgNMdil0ishvr//a2tHtG+V7p1Ge3JniRZUxI0x0rTucmjK4utC
+	zGe3nZpDI64OY1iHzlkxLXAqIZ4Tn5mGQ5WeYk=
+X-Sasl-enc: AybWBAzBBkGu11er3JdTk2H6HNELZBitM2rUktv26Dlm 1468974035
 Received: from laptop.tanuk.dy.fi (a88-113-211-72.elisa-laajakaista.fi
 	[88.113.211.72])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 4A168CCD81
+	by mail.messagingengine.com (Postfix) with ESMTPA id B2373CCD81
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jul 2016 20:20:28 -0400 (EDT)
+	Tue, 19 Jul 2016 20:20:35 -0400 (EDT)
 From: Tanu Kaskinen <tanuk@iki.fi>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jul 2016 03:20:20 +0300
-Message-Id: <cover.1468973641.git.tanuk@iki.fi>
+Date: Wed, 20 Jul 2016 03:20:23 +0300
+Message-Id: <425887ce6e0187155974cabc2071f5189f7cc1a1.1468973641.git.tanuk@iki.fi>
 X-Mailer: git-send-email 2.8.1
-Subject: [PATCH 0/3] Audio recipe updates
+In-Reply-To: <cover.1468973641.git.tanuk@iki.fi>
+References: <cover.1468973641.git.tanuk@iki.fi>
+In-Reply-To: <cover.1468973641.git.tanuk@iki.fi>
+References: <cover.1468973641.git.tanuk@iki.fi>
+Subject: [PATCH 3/3] pulseaudio: disable WebRTC code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,41 +47,31 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 20 Jul 2016 00:29:28 -0000
 
-The following changes since commit 8b369cdd73ab17cdf834a591b97b25840caeb740:
+When updating pulseaudio to 9.0, I noticed webrtc-audio-processing is
+a potential floating dependency. It's not an issue right now, because
+webrtc-audio-processing isn't packaged for OpenEmbedded, but it would
+become an issue if anyone added the library to OE.
 
-  toaster.bbclass: only scan files-in-image.txt if it exists (2016-07-19 09:03:28 +0100)
+Signed-off-by: Tanu Kaskinen <tanuk@iki.fi>
+---
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib tanuk/updates
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=tanuk/updates
-
-Tanu Kaskinen (3):
-  libsndfile1: 1.0.26 -> 1.0.27
-  pulseaudio: 8.0 -> 9.0
-  pulseaudio: disable WebRTC code
-
- ...libsndfile1_1.0.26.bb => libsndfile1_1.0.27.bb} |   4 +-
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |   4 +
- ...le-switch-on-port-available-Route-to-pref.patch | 268 ---------------
- ...th-fail-if-user-requested-profile-doesn-.patch} |  30 +-
- .../0001-card-add-pa_card_profile.ports.patch      | 218 ------------
- ...-client-conf-Add-allow-autospawn-for-root.patch |  18 +-
- ...ard-don-t-allow-the-CARD_NEW-hook-to-fail.patch |  37 ++
- ...-move-profile-selection-after-pa_card_new.patch | 373 ++++++++++++---------
- ...rd-remove-pa_card_new_data.active_profile.patch |  72 ++++
- ...ailability-for-some-unavailable-profiles.patch} |  38 +--
- .../{pulseaudio_8.0.bb => pulseaudio_9.0.bb}       |  14 +-
- 11 files changed, 379 insertions(+), 697 deletions(-)
- rename meta/recipes-multimedia/libsndfile/{libsndfile1_1.0.26.bb => libsndfile1_1.0.27.bb} (83%)
- delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-Revert-module-switch-on-port-available-Route-to-pref.patch
- rename meta/recipes-multimedia/pulseaudio/pulseaudio/{0002-alsa-bluetooth-fail-if-user-requested-profile-doesn-.patch => 0001-alsa-bluetooth-fail-if-user-requested-profile-doesn-.patch} (69%)
- delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-card-add-pa_card_profile.ports.patch
- create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0002-card-don-t-allow-the-CARD_NEW-hook-to-fail.patch
- create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0004-card-remove-pa_card_new_data.active_profile.patch
- rename meta/recipes-multimedia/pulseaudio/pulseaudio/{0004-alsa-set-availability-for-some-unavailable-profiles.patch => 0005-alsa-set-availability-for-some-unavailable-profiles.patch} (74%)
- rename meta/recipes-multimedia/pulseaudio/{pulseaudio_8.0.bb => pulseaudio_9.0.bb} (54%)
-
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index accafe1..2cf3fb4 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -37,6 +37,10 @@ EXTRA_OECONF = "\
+ # oe-core nor meta-oe, so let's not add a PACKAGECONFIG entry for it for now.
+ EXTRA_OECONF += "--without-soxr"
+ 
++# The WebRTC echo canceller depends on the webrtc-audio-processing library,
++# which is not yet packaged for OpenEmbedded.
++EXTRA_OECONF += "--disable-webrtc-aec"
++
+ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'zeroconf', 'avahi', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
 -- 
 2.8.1
 
