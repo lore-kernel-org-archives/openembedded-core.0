@@ -1,30 +1,44 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 69244606A8
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id C2F8C606A8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jul 2016 13:20:04 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u6KDJsAt010708; Wed, 20 Jul 2016 14:20:01 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ghAEAGn8urr6; Wed, 20 Jul 2016 14:20:01 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u6KDJsqP010719
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 20 Jul 2016 14:19:55 +0100
-Message-ID: <1469020794.23580.11.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Stephano Cetola <stephano.cetola@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jul 2016 14:19:54 +0100
-In-Reply-To: <20160714212038.12385-1-stephano.cetola@linux.intel.com>
-References: <20160714212038.12385-1-stephano.cetola@linux.intel.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Cc: Steven Walter <stevenrwalter@gmail.com>
-Subject: Re: [PATCH] Allow for simultaneous do_rootfs tasks with rpm
+	Wed, 20 Jul 2016 13:47:31 +0000 (UTC)
+Received: by mail-wm0-f42.google.com with SMTP id i5so69767349wmg.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Jul 2016 06:47:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=lZdap5AMSmZbv5Zcjip8Ta/4U3jH0GgApuFqgIrQjDo=;
+	b=F7Jl1EKhNWQI+LpIkVineq8c3Majs5wUwiukjq972Curwf/Kw2GPBX83N5u89sH2Ho
+	kYnqXdB3PjEIlJ235jeA5wDKzCkBqqBdyX1p/8s55RPZsxy9myDhn2v6pv4UStvLRR6j
+	CwsVlLpRzD5xkxWP0B+gRBKn1Aici+NXldum4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=lZdap5AMSmZbv5Zcjip8Ta/4U3jH0GgApuFqgIrQjDo=;
+	b=UUdaWLvkK9qlq9EDgCRvYw9oT5rO9zgOtX4T0NmBFPH8ud2XV0pb21bOzxERuKlxzE
+	+cy9+w/dPXOZCX5Y8k9unROsQZVy721incDM+ZZrhBUAOm0W144KII29pWj/bstMia4z
+	liheouA7o8ZIA+Jjo/RiFxTdyW61FMGzmUWUhR18wAFzNUSaHSbpfZKHUDEkYYQxABXv
+	XUbUWu9duL/QPN9FyDbpf5ZzdtliUS7hISsbwJoQBDhCDp4G32nib9nI0bxU3TjuJA7B
+	pCR3lQDHbrQriTPeo0wrfwrrHhFFrr+EL41b1LVbOHXofV6Kvy7CU4zqJmPvkr4FjCdc
+	gn0w==
+X-Gm-Message-State: ALyK8tIiKCNsLUudf15NLDYVzbscPvBnmH0WcA/c9jlZWyrhDFdRDX9iS9RwHc5wkIohESpKKpXmhZy7E1K9JcjV
+X-Received: by 10.194.85.104 with SMTP id g8mr1462137wjz.105.1469022451165;
+	Wed, 20 Jul 2016 06:47:31 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.194.163.225 with HTTP; Wed, 20 Jul 2016 06:47:11 -0700 (PDT)
+In-Reply-To: <f5075f44fdc9bc1ca976ccb80a99f066b20df9c0.1468848064.git.jussi.kukkonen@intel.com>
+References: <cover.1468848064.git.jussi.kukkonen@intel.com>
+	<c67de06959dd87fa6ce214da11cd431c44da056f.1468848064.git.jussi.kukkonen@intel.com>
+	<f5075f44fdc9bc1ca976ccb80a99f066b20df9c0.1468848064.git.jussi.kukkonen@intel.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Wed, 20 Jul 2016 17:47:11 +0400
+Message-ID: <CAP71WjwkpzzouLO0jtt4EcBoPnDQM0YTpJBz9eaGt-piLo8FZQ@mail.gmail.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2 2/9] mesa: Upgrade 11.2.2 -> 12.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,66 +51,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jul 2016 13:20:08 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 20 Jul 2016 13:47:35 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Thu, 2016-07-14 at 14:20 -0700, Stephano Cetola wrote:
-> Give each rootfs its own RPM channel to use.  This puts the RPM
-> metadata
-> in a private subdirectory of $WORKDIR, rather than living in
-> DEPLOY_DIR
-> where other tasks may race with it.
-> 
-> This allows us to reduce the time that the rpm.lock is held to only
-> the
-> time needed to hardlink the RPMs, allowing the majority of the rootfs
-> operation to run in parallel.
-> 
-> [ YOCTO #9255 ]
-> 
-> Signed-Off-By: Steven Walter <stevenrwalter@gmail.com>
-> Signed-off-by: Stephano Cetola <stephano.cetola@linux.intel.com>
-> ---
->  meta/classes/rootfs_rpm.bbclass |  5 -----
->  meta/lib/oe/package_manager.py  | 17 ++++++++++++++---
->  2 files changed, 14 insertions(+), 8 deletions(-)
+On Mon, Jul 18, 2016 at 5:34 PM, Jussi Kukkonen
+<jussi.kukkonen@intel.com> wrote:
+> Massive mesa upgrade (OpenGL 4.3, GLVND support, vulkan driver
+> for intel etc), although many new things are disabled by default.
+>
+> License file change does not change the actual licenses.
+>
+> piglit results (with piglit update on ML) on an old NUC with Intel
+> HD5000 for reference:
+>        pass:   33972
+>        fail:     306
+>       crash:       2
+>        skip:   30857
+>        warn:       7
+>       total:   65144
+>
+> Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 
-Sadly, much as I'd love to merge this, testing shows we have some
-issues.
+thanks for the upgrade.
 
-Firstly, it means we no longer generate indexes in tmp/deploy/rpm and
-this breaks -c testimage since some of the tests connect and look for
-packages there, e.g. https://autobuilder.yoctoproject.org/main/builders
-/nightly-qa-logrotate/builds/851 but many others would have also
-failed.
-
-I've also started wondering what happens if we have some scenario where
-we have:
-
-bitbake core-image-sato epiphany
-<rootfs for core-image-sato starts>
-<rebuild for epiphany or one of its dependencies happens>
-<old package from epiphany or one of its dependencies is removed from
-tmp/deploy/rpm>
-<core-image-sato index references this now removed package>
-
-I'd hope the system should handle this since it should only be
-referencing things that are direct task dependencies but with
-rpm/smart, who knows :/. We should at least see how this fails (if it
-fails).
-
-It could get particularly ugly if we use globbing for the rootfs
-construction (e.g. *-locale) and the list of packages changed depending
-on what else was built. I'd guess we'd already have this problem but
-this patch could magnify any problem.
-
-We are going to have to at least solve the testimage package index
-problem before we can merge it.
-
-Cheers,
-
-Richard
-
-
+I have tested the mesa upgrade with Gallium3d/freedreno on Qualcomm
+based boards.. so far it seems to be working fine.
 
