@@ -1,49 +1,54 @@
 Return-Path: <kristian.amlie@mender.io>
-Received: from mail-lf0-f42.google.com (mail-lf0-f42.google.com
-	[209.85.215.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D0F3606A8
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jul 2016 07:54:11 +0000 (UTC)
-Received: by mail-lf0-f42.google.com with SMTP id g62so32140115lfe.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jul 2016 00:54:12 -0700 (PDT)
+Received: from mail-lf0-f48.google.com (mail-lf0-f48.google.com
+	[209.85.215.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 2261760746
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 20 Jul 2016 07:55:59 +0000 (UTC)
+Received: by mail-lf0-f48.google.com with SMTP id l69so32178783lfg.1
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 20 Jul 2016 00:56:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mender-io.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=k001OofMIokaHmozHROtwYXaDk6PFrg9o2WxLRyR9BA=;
-	b=BHyW39ZXa5HuVqiiWQVWH+o1D/CYAoxqoqYhBDi2+Twk5sL8UruWS4CtqtuWE6CSl4
-	Wvkvut0MaTZgfFuFDygYJX8pM1P/l2XT0bkMvou3CfPSK+k2lmqmOKF+LrU4aagNfJV8
-	gHgqPH/eW5xpI4KjjUYCNWwXjtKfkWCCnKLovWjYbN5k5SF/eJ0KQD1syXD2P+xR6ofs
-	klbi7j9PurDbKDxno6SAkY/QMMJG8ezC6Al/tUkmsAWvu4gIYcUrBNYV7F0FYgsnXj1B
-	DqWhurmLi1jZvYNRt61ZroJR9RxSoE8ITSUIUwKI/Bi5A9d/7EyAtOwvkc8KQjikNg+R
-	XrUQ==
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding;
+	bh=mLQ767sY8/Oce5aFj1lmFcYV7ijm3L1TK8h2cfzSRb0=;
+	b=XVilf1T0v4rSMJMHPCYaBusMKPnBVwR8ymGwebs+qrgYdpRIYgApBBBzYV7wFJghhV
+	HkgcTlgN2m45kQ+uHxHEeSin67qb8aAQjMqO2W3GwNm2tW9Y/s8WtHSVpt3uKdcV0xzP
+	G3pUnVyZtdI3dbbJtGEWE4AvdV0/xCbjDucTYZ8R+vmV+HpKyO7XodYiz2Z6GoalczR4
+	mU6n3C69VV2PboU0Ot1EuCi1X8Oj9NV7vDnasLJO53NOCPLKHXWge2zJAdxlCLkEHyyy
+	WZK7Fyf6wg3CIuakL6YaA/yFaFmXlZaix84LSR0sy3EU1x2C6FFHFMyJ6GIqatjJIxrW
+	E8PQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=k001OofMIokaHmozHROtwYXaDk6PFrg9o2WxLRyR9BA=;
-	b=G8ddssBjh6C5OVfEl4CaaEh7v86O05IEVRPCiVM8fpasyJPd0+XmZF7sEjjxnp2a3Z
-	M5hfFLA8T9CSzSJY2pAks/tdP7N3qv+bgEU8K06D7nYppS9VN9hgfKvzqp86IP6rpRrf
-	xy1CfdBNiCiO+gYJTgJeLSQxVV0OLCqkdIzp7bTHgF7ds1QEfO8uBj8S+9l2R6x3oaGX
-	DWx5oKq6yHxCPnxUvAB/2YPs9qNcUZFv0Dc9T4mJmWUqSqG3pmUOsyjWUkk5e0yjGbxI
-	fdtpeBdSmLq7p7RCztlC+KlXbe4aW3AnlxbgagMpkMqQbaKqEJCietguiprQNioKvzp2
-	BVzg==
-X-Gm-Message-State: ALyK8tLH+6F2rcOIBN9zW+bYAtMjv88SIVoneRaipeLH8a9YqxnegW/GFZU0biUrVwZFpQ==
-X-Received: by 10.25.160.15 with SMTP id j15mr7898735lfe.109.1469001251554;
-	Wed, 20 Jul 2016 00:54:11 -0700 (PDT)
-Received: from localhost.localdomain (cm-84.208.203.118.getinternet.no.
-	[84.208.203.118]) by smtp.googlemail.com with ESMTPSA id
-	s187sm334770lfd.3.2016.07.20.00.54.10
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 20 Jul 2016 00:54:10 -0700 (PDT)
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=mLQ767sY8/Oce5aFj1lmFcYV7ijm3L1TK8h2cfzSRb0=;
+	b=Awv9Q/AGwwSY2d33l7Y12ZEFVC46UIcI5xmEwI1e6SZPyjyVlai0WllhD5uzdQjgdU
+	pN9ZsTJDxz85rGz2ARn7IZqoUL2rWmwmz6eMkf8Hk1c4Sulxm45YIjlUiDPN6Tt+lTiA
+	mZsioPEAGZQiCIX7L7YnOipmELmX1PIat60gUSYXnl3o32nslM1a/ul0psfTKCzvgzmY
+	MeEbw2RpRPGReFmlQibgpapDhO0DutCinAgziY1rNm9UEIpg3g6tdKSlufBzXlIaKrHB
+	SYJIxGISX+HEvVA5Mr3ABYCHLQeymGlypPjHBXoW+2k2qBu2Mc4b3XcWRf26VHLM8QwS
+	ZZuw==
+X-Gm-Message-State: ALyK8tLKPiUJp2wLO0LBvbOIIUIayoSdXm97ylA6dFjPtzE4qb+7mtO8UcLIVl6DzGkrMg==
+X-Received: by 10.25.43.206 with SMTP id r197mr8499473lfr.80.1469001359639;
+	Wed, 20 Jul 2016 00:55:59 -0700 (PDT)
+Received: from [10.0.0.50] (cm-84.208.203.118.getinternet.no. [84.208.203.118])
+	by smtp.googlemail.com with ESMTPSA id
+	a15sm323946lfb.34.2016.07.20.00.55.58
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 20 Jul 2016 00:55:58 -0700 (PDT)
+To: Khem Raj <raj.khem@gmail.com>
+References: <578E10E8.9070003@mender.io>
+	<CF96AE35-E069-4240-B2A6-D77EE3EF0919@gmail.com>
 From: Kristian Amlie <kristian.amlie@mender.io>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jul 2016 09:53:41 +0200
-Message-Id: <1469001221-26502-3-git-send-email-kristian.amlie@mender.io>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1469001221-26502-1-git-send-email-kristian.amlie@mender.io>
-References: <1469001221-26502-1-git-send-email-kristian.amlie@mender.io>
-Subject: [PATCH 2/2] systemd: allow add users as a rootfs postprocess cmd
+Message-ID: <578F2E88.6030301@mender.io>
+Date: Wed, 20 Jul 2016 09:55:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.8.0
+MIME-Version: 1.0
+In-Reply-To: <CF96AE35-E069-4240-B2A6-D77EE3EF0919@gmail.com>
+Cc: Openembedded-core@lists.openembedded.org
+Subject: Re: Patch: Krogoth systemd network service fails to start on boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,99 +61,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jul 2016 07:54:11 -0000
+X-List-Received-Date: Wed, 20 Jul 2016 07:56:00 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-From: Stephano Cetola <stephano.cetola@linux.intel.com>
+On 19/07/16 23:39, Khem Raj wrote:
+> thats fine. Post the patches using git-format patch and have [krogoth] in the subject header
 
-Adding all the users / groups to systemd is only available for readonly
-file systems. This change allows users to add them to read / write file
-systems as well by specifying:
+Thanks, reposted!
 
-ROOTFS_POSTPROCESS_COMMAND += "systemd_create_users"
-
-Also, add "--shell /sbin/nologin" to each user's add params.
-
-[ YOCTO #9497 ]
-
-(From OE-Core rev: 98a4c642444a524f547f5d978a28814d20c12354)
-
-Signed-off-by: Stephano Cetola <stephano.cetola@linux.intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 79be110c1fdfd0affe6a310b96e7107c4549d23c)
-Signed-off-by: Kristian Amlie <kristian.amlie@mender.io>
----
- meta/classes/rootfs-postcommands.bbclass | 43 +++++++++++++++-----------------
- 1 file changed, 20 insertions(+), 23 deletions(-)
-
-diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
-index 95d28af..db8b551 100644
---- a/meta/classes/rootfs-postcommands.bbclass
-+++ b/meta/classes/rootfs-postcommands.bbclass
-@@ -21,7 +21,7 @@ ROOTFS_POSTUNINSTALL_COMMAND =+ "write_image_manifest ; "
- POSTINST_LOGFILE ?= "${localstatedir}/log/postinstall.log"
- # Set default target for systemd images
- SYSTEMD_DEFAULT_TARGET ?= '${@bb.utils.contains("IMAGE_FEATURES", "x11-base", "graphical.target", "multi-user.target", d)}'
--ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("DISTRO_FEATURES", "systemd", "set_systemd_default_target; ", "", d)}'
-+ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("DISTRO_FEATURES", "systemd", "set_systemd_default_target; systemd_create_users;", "", d)}'
- 
- ROOTFS_POSTPROCESS_COMMAND += 'empty_var_volatile;'
- 
-@@ -30,7 +30,25 @@ ROOTFS_POSTPROCESS_COMMAND += 'empty_var_volatile;'
- SSH_DISABLE_DNS_LOOKUP ?= " ssh_disable_dns_lookup ; "
- ROOTFS_POSTPROCESS_COMMAND_append_qemuall = "${SSH_DISABLE_DNS_LOOKUP}"
- 
--
-+systemd_create_users () {
-+	for conffile in ${IMAGE_ROOTFS}/usr/lib/sysusers.d/systemd.conf ${IMAGE_ROOTFS}/usr/lib/sysusers.d/systemd-remote.conf; do
-+		[ -e $conffile ] || continue
-+		grep -v "^#" $conffile | sed -e '/^$/d' | while read type name id comment; do
-+		if [ "$type" = "u" ]; then
-+			useradd_params="--shell /sbin/nologin"
-+			[ "$id" != "-" ] && useradd_params="$useradd_params --uid $id"
-+			[ "$comment" != "-" ] && useradd_params="$useradd_params --comment $comment"
-+			useradd_params="$useradd_params --system $name"
-+			eval useradd --root ${IMAGE_ROOTFS} $useradd_params || true
-+		elif [ "$type" = "g" ]; then
-+			groupadd_params=""
-+			[ "$id" != "-" ] && groupadd_params="$groupadd_params --gid $id"
-+			groupadd_params="$groupadd_params --system $name"
-+			eval groupadd --root ${IMAGE_ROOTFS} $groupadd_params || true
-+		fi
-+		done
-+	done
-+}
- 
- #
- # A hook function to support read-only-rootfs IMAGE_FEATURES
-@@ -73,27 +91,6 @@ read_only_rootfs_hook () {
- 			${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh
- 		fi
- 	fi
--
--	if ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "true", "false", d)}; then
--	    # Update user database files so that services don't fail for a read-only systemd system
--	    for conffile in ${IMAGE_ROOTFS}/usr/lib/sysusers.d/systemd.conf ${IMAGE_ROOTFS}/usr/lib/sysusers.d/systemd-remote.conf; do
--		[ -e $conffile ] || continue
--		grep -v "^#" $conffile | sed -e '/^$/d' | while read type name id comment; do
--		    if [ "$type" = "u" ]; then
--			useradd_params=""
--			[ "$id" != "-" ] && useradd_params="$useradd_params --uid $id"
--			[ "$comment" != "-" ] && useradd_params="$useradd_params --comment $comment"
--			useradd_params="$useradd_params --system $name"
--			eval useradd --root ${IMAGE_ROOTFS} $useradd_params || true
--		    elif [ "$type" = "g" ]; then
--			groupadd_params=""
--			[ "$id" != "-" ] && groupadd_params="$groupadd_params --gid $id"
--			groupadd_params="$groupadd_params --system $name"
--			eval groupadd --root ${IMAGE_ROOTFS} $groupadd_params || true
--		    fi
--		done
--	    done
--	fi
- }
- 
- #
--- 
-2.7.4
-
+Regards
+Kristian Amlie
 
