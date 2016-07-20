@@ -1,52 +1,35 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 02E666067D
-	for <Openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jul 2016 21:39:16 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id h186so2064333pfg.2
-	for <Openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jul 2016 14:39:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=QsquqtHJa5VQ3tluORH3HykddsYC+eQIXLscS+a9z1o=;
-	b=BXW62guLKuuk+BixhlA1e7IvOS75A1keXgxoRZOsxcPX4uCbUfMItk74YWWX/M03LW
-	265HozdKTtw3Bbrwwnw9/QXyE1aR0HuFuNwxNCQ5CNkZaI4hyZxtEWK8+fF8+NQQHLVV
-	xKjPlNgsMPFBgxY3Jp+wQ5iKsdIpoNI63sxF1Eg/BrQvRYu9La8H2UHhCWpZg2yQDrBs
-	JDSccN9JbHrx3zH8hKOuG/N9MokOBwUE5bjpf4TlQ8TpEP7FR2yP7hjuE2og5lvjxtuy
-	qTVm5c7wlubnTbdaKPQ8iSsO461Qu84HTgsSPpAqrQGnMkSLn/UwvQwjCyJKEmU75FXl
-	1wqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=QsquqtHJa5VQ3tluORH3HykddsYC+eQIXLscS+a9z1o=;
-	b=C9aSkKwXIZXao/HRw9AepeWM2Jwg7CjyU8B7SoYBlLAo5+kgkeUrPImPAFFf1WllOv
-	7c0SEaH8gjJxic746gMDP+6eX/9sgNcscEdGTaorvCFhw6RL2yQOgX0+E60p2XSxKcHd
-	fUOAs2bnAy+Tg/BtZHk2NyQ0Mpcew6NadOeH4l4qSLsuZHQyfvec1TxaYfmIHgIrYYpn
-	AdH0l4UX04OukVzZDw5Rkq+30yHy8yXRf86Qm6bKpdeMfj8xITvu0MoPeqW+1szzcvjP
-	ImPckqcZ6OFOsxC9eEqI+MaJ+do7AQGCapPP226mpqlf8kPXwym1bEtcNGxn8qZ5ykN+
-	1Kug==
-X-Gm-Message-State: ALyK8tJAERgBbz29DJGUmhk3KHT64UwLfvwIIfcfoUrVD9iPaqtJethxygzZu6mfRwtsCA==
-X-Received: by 10.98.7.200 with SMTP id 69mr6410090pfh.33.1468964357345;
-	Tue, 19 Jul 2016 14:39:17 -0700 (PDT)
-Received: from ?IPv6:2601:646:8882:b8c:7175:eb57:3b53:9c48?
-	([2601:646:8882:b8c:7175:eb57:3b53:9c48])
-	by smtp.gmail.com with ESMTPSA id
-	m128sm7542494pfm.42.2016.07.19.14.39.16
-	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 19 Jul 2016 14:39:16 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <578E10E8.9070003@mender.io>
-Date: Tue, 19 Jul 2016 14:39:15 -0700
-Message-Id: <CF96AE35-E069-4240-B2A6-D77EE3EF0919@gmail.com>
-References: <578E10E8.9070003@mender.io>
-To: Kristian Amlie <kristian.amlie@mender.io>
-X-Mailer: Apple Mail (2.3124)
-Cc: Openembedded-core@lists.openembedded.org
-Subject: Re: Patch: Krogoth systemd network service fails to start on boot
+Return-Path: <tanuk@iki.fi>
+X-Greylist: delayed 537 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 20 Jul 2016 00:29:25 UTC
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+	[66.111.4.29])
+	by mail.openembedded.org (Postfix) with ESMTP id C3F7C6FFAB
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Jul 2016 00:29:25 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.nyi.internal (Postfix) with ESMTP id D88E120547
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Jul 2016 20:20:28 -0400 (EDT)
+Received: from frontend2 ([10.202.2.161])
+	by compute4.internal (MEProxy); Tue, 19 Jul 2016 20:20:28 -0400
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=date:from:message-id:subject:to
+	:x-sasl-enc:x-sasl-enc; s=smtpout; bh=08qYAbG51jbdCjblDX0GXK1jsU
+	A=; b=SDMA4ixgsgvDqWp4dQyuO939ZhQz6D/XNdUmJ5Aj3rHkILRf4CmdgLI8bP
+	C0zdBYXBhExrrpr2VnbIW3TADFCJwOQFPYsJbAwZw98ssi0um2S92COejZpV5GTc
+	xfWenx35UwDtiBe3RwL+8UpN3LqNDNqef+eBQ/7NakgHuWVK4=
+X-Sasl-enc: Ff/Wruq/GwKK6lVHr0dfg/rAT1CQKniua8foj0ND8sGN 1468974028
+Received: from laptop.tanuk.dy.fi (a88-113-211-72.elisa-laajakaista.fi
+	[88.113.211.72])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 4A168CCD81
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Jul 2016 20:20:28 -0400 (EDT)
+From: Tanu Kaskinen <tanuk@iki.fi>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 20 Jul 2016 03:20:20 +0300
+Message-Id: <cover.1468973641.git.tanuk@iki.fi>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH 0/3] Audio recipe updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,57 +42,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jul 2016 21:39:17 -0000
-X-Groupsio-MsgNum: 84696
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_451788B0-A769-4EE7-9F84-C3623CFEC6E2";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Wed, 20 Jul 2016 00:29:28 -0000
 
---Apple-Mail=_451788B0-A769-4EE7-9F84-C3623CFEC6E2
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+The following changes since commit 8b369cdd73ab17cdf834a591b97b25840caeb740:
 
-thats fine. Post the patches using git-format patch and have [krogoth] =
-in the subject header
+  toaster.bbclass: only scan files-in-image.txt if it exists (2016-07-19 09:03:28 +0100)
 
-> On Jul 19, 2016, at 4:37 AM, Kristian Amlie <kristian.amlie@mender.io> =
-wrote:
->=20
-> Hey,
->=20
-> on our krogoth build the systemd network service does not start, and =
-it
-> seems to be because of missing users, which has already been fixed on
-> master. I've cherry-picked the two patches that fixed the problem for
-> us. Note that they are not written by me, but by other people on this
-> list. I hope they can be applied to krogoth.
->=20
-> Regards
-> Kristian Amlie
-> =
-<0001-systemd-Create-missing-sysusers-offline.patch><0002-systemd-allow-ad=
-d-users-as-a-rootfs-postprocess-cmd.patch>--
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib tanuk/updates
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=tanuk/updates
+
+Tanu Kaskinen (3):
+  libsndfile1: 1.0.26 -> 1.0.27
+  pulseaudio: 8.0 -> 9.0
+  pulseaudio: disable WebRTC code
+
+ ...libsndfile1_1.0.26.bb => libsndfile1_1.0.27.bb} |   4 +-
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |   4 +
+ ...le-switch-on-port-available-Route-to-pref.patch | 268 ---------------
+ ...th-fail-if-user-requested-profile-doesn-.patch} |  30 +-
+ .../0001-card-add-pa_card_profile.ports.patch      | 218 ------------
+ ...-client-conf-Add-allow-autospawn-for-root.patch |  18 +-
+ ...ard-don-t-allow-the-CARD_NEW-hook-to-fail.patch |  37 ++
+ ...-move-profile-selection-after-pa_card_new.patch | 373 ++++++++++++---------
+ ...rd-remove-pa_card_new_data.active_profile.patch |  72 ++++
+ ...ailability-for-some-unavailable-profiles.patch} |  38 +--
+ .../{pulseaudio_8.0.bb => pulseaudio_9.0.bb}       |  14 +-
+ 11 files changed, 379 insertions(+), 697 deletions(-)
+ rename meta/recipes-multimedia/libsndfile/{libsndfile1_1.0.26.bb => libsndfile1_1.0.27.bb} (83%)
+ delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-Revert-module-switch-on-port-available-Route-to-pref.patch
+ rename meta/recipes-multimedia/pulseaudio/pulseaudio/{0002-alsa-bluetooth-fail-if-user-requested-profile-doesn-.patch => 0001-alsa-bluetooth-fail-if-user-requested-profile-doesn-.patch} (69%)
+ delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-card-add-pa_card_profile.ports.patch
+ create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0002-card-don-t-allow-the-CARD_NEW-hook-to-fail.patch
+ create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0004-card-remove-pa_card_new_data.active_profile.patch
+ rename meta/recipes-multimedia/pulseaudio/pulseaudio/{0004-alsa-set-availability-for-some-unavailable-profiles.patch => 0005-alsa-set-availability-for-some-unavailable-profiles.patch} (74%)
+ rename meta/recipes-multimedia/pulseaudio/{pulseaudio_8.0.bb => pulseaudio_9.0.bb} (54%)
+
+-- 
+2.8.1
 
 
---Apple-Mail=_451788B0-A769-4EE7-9F84-C3623CFEC6E2
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAleOngQACgkQuwUzVZGdMxTrJACfVwMcbPqKq/TKXmoa9bbBaHwa
-eM4An1RAi70SdiWRjYDhnu/b/m6hebT8
-=plin
------END PGP SIGNATURE-----
-
---Apple-Mail=_451788B0-A769-4EE7-9F84-C3623CFEC6E2--
