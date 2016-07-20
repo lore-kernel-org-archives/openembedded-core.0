@@ -1,38 +1,35 @@
-Return-Path: <leimaohui@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 956616067D
+Return-Path: <clopez@igalia.com>
+Received: from smtp4.mundo-r.com (smtp3.mundo-r.com [212.51.32.191])
+	by mail.openembedded.org (Postfix) with ESMTP id E50136067D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jul 2016 02:13:53 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; 
-   d="scan'208";a="8883352"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 20 Jul 2016 10:13:52 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 7883742B87C0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jul 2016 10:13:49 +0800 (CST)
-Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
-	G08CNEXCHPEKD01.g08.fujitsu.local ([10.167.33.80]) with mapi id
-	14.03.0279.002; Wed, 20 Jul 2016 10:13:48 +0800
-From: "Lei, Maohui" <leimaohui@cn.fujitsu.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core][PATCH] To make yocto-spdx support spdx2.0 SPEC
-Thread-Index: AQHR12qkoqTEIYZ7tEKcp0bRXF5G0KAgqcLQ
-Date: Wed, 20 Jul 2016 02:13:48 +0000
-Message-ID: <1B56A49860EB2D45ADE3731B15C959FDFE53CBCE@G08CNEXMBPEKD01.g08.fujitsu.local>
-References: <1466986302-33565-1-git-send-email-leimaohui@cn.fujitsu.com>
-In-Reply-To: <1466986302-33565-1-git-send-email-leimaohui@cn.fujitsu.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.226.93]
+	Wed, 20 Jul 2016 02:20:44 +0000 (UTC)
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: A2BxAQCg345X/5tjdVtdGgEBAQGDIVZ8jSqpNYIPgXoihXgCgTQ4FAEBAQEBAQFlJ4RdAQEEIygBLRALGAkUDQICDwJGBg0GAgKIMAEJry2FSAGILQEBAQEBAQQBAQEBARQOhiqETYdBgloFk2OFQYM3gW5uiE+COYx+kB4eNoI+gTdsAYgkAQEB
+X-IPAS-Result: A2BxAQCg345X/5tjdVtdGgEBAQGDIVZ8jSqpNYIPgXoihXgCgTQ4FAEBAQEBAQFlJ4RdAQEEIygBLRALGAkUDQICDwJGBg0GAgKIMAEJry2FSAGILQEBAQEBAQQBAQEBARQOhiqETYdBgloFk2OFQYM3gW5uiE+COYx+kB4eNoI+gTdsAYgkAQEB
+X-IronPort-AV: E=Sophos;i="5.28,392,1464645600"; 
+	d="asc'?scan'208";a="86914156"
+Received: from fanzine.igalia.com ([91.117.99.155])
+	by smtp4.mundo-r.com with ESMTP; 20 Jul 2016 04:20:42 +0200
+Received: from 1.14.117.91.dynamic.reverse-mundo-r.com ([91.117.14.1]
+	helo=[192.168.0.23]) by fanzine.igalia.com with esmtpsa 
+	(Cipher TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16) (Exim)
+	id 1bPh7p-0000eT-MO; Wed, 20 Jul 2016 04:20:41 +0200
+To: Khem Raj <raj.khem@gmail.com>
+References: <1468876796-16026-1-git-send-email-clopez@igalia.com>
+	<CAMKF1spPAi60QxGcUJ8JtPSxih+wgkbPY5+tgDhDDMV4+aktTA@mail.gmail.com>
+From: Carlos Alberto Lopez Perez <clopez@igalia.com>
+Openpgp: id=B5D2B50BC48EC7F1EE90D9AB965089CE6B95F882;
+	url=http://key.neutrino.es
+Organization: Igalia S.L.
+Message-ID: <578EDFF0.20507@igalia.com>
+Date: Wed, 20 Jul 2016 04:20:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Icedove/38.8.0
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: 7883742B87C0.AB853
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
-X-Spam-Status: No
-Subject: Re: [PATCH] To make yocto-spdx support spdx2.0 SPEC
+In-Reply-To: <CAMKF1spPAi60QxGcUJ8JtPSxih+wgkbPY5+tgDhDDMV4+aktTA@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] webkitgtk: Switch the ARMv7 build to Thumb2 and enable back the JSC JIT.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,36 +42,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jul 2016 02:13:54 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="shift_jis"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 20 Jul 2016 02:20:46 -0000
+X-Groupsio-MsgNum: 84704
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature";
+	boundary="lcASWFfJsjB5x9QT77ewt5U8TrbI9M9sG"
 
-UGluZy4NCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9t
-OiBMZWksIE1hb2h1aQ0KPiBTZW50OiBNb25kYXksIEp1bmUgMjcsIDIwMTYg
-ODoxMiBBTQ0KPiBUbzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZw0KPiBDYzogTGVpLCBNYW9odWkNCj4gU3ViamVjdDogW09F
-LWNvcmVdW1BBVENIXSBUbyBtYWtlIHlvY3RvLXNwZHggc3VwcG9ydCBzcGR4
-Mi4wIFNQRUMNCj4gDQo+IFRoZXJlIGFyZSBzb21lIHByb2JsZW1zIGluIHNw
-ZHggbW9kdWxlKHNwZHguYmJjbGFzcykuDQo+IDEuIFRoZSBuZXdlc3QgdmVy
-c2lvbiBvZiBzcGR4aSBzcGVjaWZpY2F0aW9uIGlzIDIuMC4gQnV0IGV2ZW4g
-c3BkeCAxLjEsDQo+IHlvY3RvK1NQRFggY2FuJ3Qgc3VwcG9ydCB3ZWxsLg0K
-PiAyLiBJdCBpcyBjb21wbGV4IHRvIGJ1aWxkIGEgWW9jdG8rU1BEWCBlbnZp
-cm9ubWVudC4NCj4gMy4gQ3JlYXRpbmcgYSBzcGR4IGZpbGUgc3BlbmRzIHRv
-byBtdWNoIHRpbWUsIGVzcGVjaWFsbHkgZm9yIGxhcmdlDQo+IHNvZnR3YXJl
-Lg0KPiANCj4gVG8gaW1wcm92ZSBzcGR4IG1vZHVsZSAsSSBjaGFuZ2UgdGhl
-IHNwZHggY3JlYXRlIHRvb2wgZnJvbSBmb3Nzb2xvZ3kgdG8NCj4gZG9zb2Nz
-Mi4NCj4gV2l0aCB0aGlzIHBhdGNoOg0KPiAxLiBBbHNvIGdldHMgbGljZW5z
-ZSBpbmZvcm1hdGlvbnMgYnkgc2Nhbm5lciBmcm9tIGZvc3NvbG9neS4NCj4g
-MS4gQ2FuIHN1cHBvcnQgU1BEWDIuMCBTUEVDLg0KPiAyLiBCZWNhdXNlIGRv
-c29jczIgY2FuIHdvcmsgb24gZGlyZWN0b3JpZXMsIHNvIHRoZXJlIGlzIG5v
-IG5lY2Vzc2FyeSB0bw0KPiBwYWNrIHNvdXJjZSBjb2RlIGJlZm9yZSBkb19z
-cGR4LiBJdCBjYW4gc2F2ZSB0aW1lIGZvciBsYXJnZSBzb2Z0d2FyZS4NCj4g
-DQo+IExlaSBNYW9odWkgKDEpOg0KPiAgIFRvIE1ha2UgeW9jdG8tc3BkeCBz
-dXBwb3J0IHNwZHggdjIuMCBzcGVjaWZpY2F0aW9uLg0KPiANCj4gIG1ldGEv
-Y2xhc3Nlcy9zcGR4LmJiY2xhc3MgfCA0ODggKysrKysrKysrKysrKysrKyst
-LS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gLS0tLS0tLS0NCj4gIG1ldGEvY29u
-Zi9saWNlbnNlcy5jb25mICAgfCAgNjcgKy0tLS0tLQ0KPiAgMiBmaWxlcyBj
-aGFuZ2VkLCAxODQgaW5zZXJ0aW9ucygrKSwgMzcxIGRlbGV0aW9ucygtKQ0K
-PiANCj4gLS0NCj4gMS45LjENCg0KCgo=
+--lcASWFfJsjB5x9QT77ewt5U8TrbI9M9sG
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
+On 19/07/16 21:26, Khem Raj wrote:
+> On Mon, Jul 18, 2016 at 2:19 PM, Carlos Alberto Lopez Perez
+> <clopez@igalia.com> wrote:
+>> > * The JSC JIT is broken on ARMv7 without Thumb2.
+>> >
+>> > [YOCTO #9474]
+>> >
+>> > Signed-off-by: Carlos Alberto Lopez Perez <clopez@igalia.com>
+>> > ---
+>> >  meta/recipes-sato/webkit/webkitgtk_2.12.3.bb | 17 ++++++++++++-----=
+
+>> >  1 file changed, 12 insertions(+), 5 deletions(-)
+>> >
+>> > diff --git a/meta/recipes-sato/webkit/webkitgtk_2.12.3.bb b/meta/rec=
+ipes-sato/webkit/webkitgtk_2.12.3.bb
+>> > index c5e5432..536fa23 100644
+>> > --- a/meta/recipes-sato/webkit/webkitgtk_2.12.3.bb
+>> > +++ b/meta/recipes-sato/webkit/webkitgtk_2.12.3.bb
+>> > @@ -71,10 +71,6 @@ EXTRA_OECMAKE_append_armv5 =3D " -DENABLE_JIT=3DO=
+FF "
+>> >  EXTRA_OECMAKE_append_armv6 =3D " -DENABLE_JIT=3DOFF "
+>> >  EXTRA_OECMAKE_append_armv4 =3D " -DENABLE_JIT=3DOFF "
+>> >
+>> > -# ARM JIT can build on armv7a, but doesnt' work on runtime, cause
+>> > -# displaying problems or ephiphany hang.
+>> > -EXTRA_OECMAKE_append_armv7a =3D " -DENABLE_JIT=3DOFF "
+>> > -
+>> >  # binutils 2.25.1 has a bug on aarch64:
+>> >  # https://sourceware.org/bugzilla/show_bug.cgi?id=3D18430
+>> >  EXTRA_OECMAKE_append_aarch64 =3D " -DUSE_LD_GOLD=3DOFF "
+>> > @@ -89,7 +85,18 @@ SECURITY_CFLAGS_append_aarch64 =3D " -fPIE"
+>> >  FILES_${PN} +=3D "${libdir}/webkit2gtk-4.0/injected-bundle/libwebki=
+t2gtkinjectedbundle.so"
+>> >
+>> >  # http://errors.yoctoproject.org/Errors/Details/20370/
+>> > -ARM_INSTRUCTION_SET =3D "arm"
+>> > +ARM_INSTRUCTION_SET_armv4 =3D "arm"
+>> > +ARM_INSTRUCTION_SET_armv5 =3D "arm"
+>> > +ARM_INSTRUCTION_SET_armv6 =3D "arm"
+>> > +
+>> > +# https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D9474
+>> > +# https://bugs.webkit.org/show_bug.cgi?id=3D159880
+>> > +# JSC JIT can build on ARMv7 with -marm, but doesn't work on runtim=
+e.
+>> > +# Upstream only tests regularly the JSC JIT on ARMv7 with Thumb2 (-=
+mthumb).
+>> > +ARM_INSTRUCTION_SET_armv7a =3D "thumb"
+>> > +ARM_INSTRUCTION_SET_armv7r =3D "thumb"
+>> > +ARM_INSTRUCTION_SET_armv7m =3D "thumb"
+>> > +ARM_INSTRUCTION_SET_armv7ve =3D "thumb"
+> This should be ok. Do we need to specify 'm' ?
+> they should be thumb only anyway
+>=20
+
+Right, good catch..
+
+So I guess is not needed to specify anything for armv7m.
+
+Do you want me to send the patch again without the armv7m line?
+
+Regards.
+
+
+--lcASWFfJsjB5x9QT77ewt5U8TrbI9M9sG
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+Comment: You can fetch my GnuPG key from http://key.neutrino.es
+
+iQIcBAEBCgAGBQJXjt/wAAoJEJZQic5rlfiCSJkP/3C3Wlso26RZNDWIQdh1MRpY
+Cs0XIMTasvmECBghPemClHlqu3cwSP5BjBz3SyL4OGDr33xfJ+Y12qAVX58kr0u2
+en23Ev2A0zwi+xafWIr3oQljauUDDypUSgApkaRzKnxk74yzjK/8FMWoFV662vG9
+t6Rf6AY+cJ4/bt0TXFFqlg4WVt3B2zpPlQnlEW9N5+y9kMV298mfNlzbl9UTDseZ
+6L7RMw9ajdnHm1nsiceUk332Hhiur7+8ofFItiVgb9uFEUe/45AjZhx/YAYWa2CU
+gW0d7OjFfMJEXpC9+CaswNQJKXvlME5GWW4FrlWhOWwdxqd4u9KlP7q2hmFCvg/+
+cwrmBMZLCC9rvgdC5KhvjDMcE7skB/DoUYnsHVyRPIBI1MB0Mo3y0Q80/9WNijUM
+eTM2jNhzCs0QgDjJ/U3i51/qRzNPVG8B5aqibyqK2/vN2b5Znvl5RZY+5Vf2+DSa
+6fZ4gGLS9a3ASRzCJNX1a9kCPoJuJKBuNshanomphV3QVNatP6nkbjpQ0sMEJ3e6
+XSFul9ZEQLNIrL2eH/arG3yo+6FUcGNzBN6jM00oQyPGTRrX86+ZWlNCBcgY2Miu
+XUVhZ+/X9f0d2J5GsR8Vkdv3CcFUeoRcds050kcLw1c1Rkw6MBLcfP3fMGtYejgA
+Pop7U7TP2f7MpQMBnFNx
+=Upxe
+-----END PGP SIGNATURE-----
+
+--lcASWFfJsjB5x9QT77ewt5U8TrbI9M9sG--
