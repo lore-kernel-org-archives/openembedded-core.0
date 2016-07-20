@@ -1,54 +1,24 @@
-Return-Path: <kristian.amlie@mender.io>
-Received: from mail-lf0-f48.google.com (mail-lf0-f48.google.com
-	[209.85.215.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 2261760746
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jul 2016 07:55:59 +0000 (UTC)
-Received: by mail-lf0-f48.google.com with SMTP id l69so32178783lfg.1
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jul 2016 00:56:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mender-io.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:references:cc:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding;
-	bh=mLQ767sY8/Oce5aFj1lmFcYV7ijm3L1TK8h2cfzSRb0=;
-	b=XVilf1T0v4rSMJMHPCYaBusMKPnBVwR8ymGwebs+qrgYdpRIYgApBBBzYV7wFJghhV
-	HkgcTlgN2m45kQ+uHxHEeSin67qb8aAQjMqO2W3GwNm2tW9Y/s8WtHSVpt3uKdcV0xzP
-	G3pUnVyZtdI3dbbJtGEWE4AvdV0/xCbjDucTYZ8R+vmV+HpKyO7XodYiz2Z6GoalczR4
-	mU6n3C69VV2PboU0Ot1EuCi1X8Oj9NV7vDnasLJO53NOCPLKHXWge2zJAdxlCLkEHyyy
-	WZK7Fyf6wg3CIuakL6YaA/yFaFmXlZaix84LSR0sy3EU1x2C6FFHFMyJ6GIqatjJIxrW
-	E8PQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=mLQ767sY8/Oce5aFj1lmFcYV7ijm3L1TK8h2cfzSRb0=;
-	b=Awv9Q/AGwwSY2d33l7Y12ZEFVC46UIcI5xmEwI1e6SZPyjyVlai0WllhD5uzdQjgdU
-	pN9ZsTJDxz85rGz2ARn7IZqoUL2rWmwmz6eMkf8Hk1c4Sulxm45YIjlUiDPN6Tt+lTiA
-	mZsioPEAGZQiCIX7L7YnOipmELmX1PIat60gUSYXnl3o32nslM1a/ul0psfTKCzvgzmY
-	MeEbw2RpRPGReFmlQibgpapDhO0DutCinAgziY1rNm9UEIpg3g6tdKSlufBzXlIaKrHB
-	SYJIxGISX+HEvVA5Mr3ABYCHLQeymGlypPjHBXoW+2k2qBu2Mc4b3XcWRf26VHLM8QwS
-	ZZuw==
-X-Gm-Message-State: ALyK8tLKPiUJp2wLO0LBvbOIIUIayoSdXm97ylA6dFjPtzE4qb+7mtO8UcLIVl6DzGkrMg==
-X-Received: by 10.25.43.206 with SMTP id r197mr8499473lfr.80.1469001359639;
-	Wed, 20 Jul 2016 00:55:59 -0700 (PDT)
-Received: from [10.0.0.50] (cm-84.208.203.118.getinternet.no. [84.208.203.118])
-	by smtp.googlemail.com with ESMTPSA id
-	a15sm323946lfb.34.2016.07.20.00.55.58
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 20 Jul 2016 00:55:58 -0700 (PDT)
-To: Khem Raj <raj.khem@gmail.com>
-References: <578E10E8.9070003@mender.io>
-	<CF96AE35-E069-4240-B2A6-D77EE3EF0919@gmail.com>
-From: Kristian Amlie <kristian.amlie@mender.io>
-Message-ID: <578F2E88.6030301@mender.io>
-Date: Wed, 20 Jul 2016 09:55:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.8.0
+Return-Path: <Dengke.Du@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D3F3606A8
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Jul 2016 08:32:37 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u6K8WbGC015685
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Jul 2016 01:32:37 -0700 (PDT)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 20 Jul 2016 01:32:36 -0700
+From: Dengke Du <dengke.du@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 20 Jul 2016 04:32:34 -0400
+Message-ID: <cover.1468998858.git.dengke.du@windriver.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-In-Reply-To: <CF96AE35-E069-4240-B2A6-D77EE3EF0919@gmail.com>
-Cc: Openembedded-core@lists.openembedded.org
-Subject: Re: Patch: Krogoth systemd network service fails to start on boot
+Subject: [PATCH 0/1] LSB: 4.1.0 -> 5.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,15 +31,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jul 2016 07:56:00 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 20 Jul 2016 08:32:40 -0000
+Content-Type: text/plain
 
-On 19/07/16 23:39, Khem Raj wrote:
-> thats fine. Post the patches using git-format patch and have [krogoth] in the subject header
+The test steps:
+  1. Add the meta-qt4 layer to the ../conf/bblayers.conf
+  2. Set the MACHINE ?= "x86-64" to ../conf/local.conf
+  3. Set the DISTRO ?= "poky-lsb" to ../conf/local.conf
+  4. Set the IMAGE_ROOTFS_EXTRA_SPACE = "5242880" ../conf/local.conf (Because it will download tests and produce many report files)
+  5. Run the command: bitbake core-image-lsb qemuparams="-m 512" kvm
 
-Thanks, reposted!
+The test results:  
+  TEST          PASS    
+  cmdchk        98.7%
+  libchk        95.8%
+  alsa-t2c      99.9%
+  core-t2c      96.6%
+  cpp-t2c       99.9%
+  desktop       98.6%
+  desktop-t2c   98.7%
+  libstdcpp     89.8%
+  olver         99.8%
+  perl          90.1%
+  printing      84.8%
+  python        98.1%
+  qt4-azov      100%
+  xml2-azov     99.9%
+  apache        100%
+  expect        100%
+  groff         100%
+  raptor        100%
+  rsync         100%
+  samba         100%
+  xpdf          100%
+  tcl           88.5%
+  xts5		100%
 
-Regards
-Kristian Amlie
+Two special case:
+  core          54.3%
+
+Explanation:
+        total   passed  failed  untest  other
+  core  10661   5762    60      4826    91  
+  The untest is that tests not relevant/not applicable, it does not affect the results.  
+  The core tests contains 4826 untests, the failed is 60, so we consider it is a good results.
+
+The following changes since commit 5c11e365e19357f721c49d076971567e7b64b61b:
+
+  lib/oeqa: add Galculator to SDK and runtime tests (2016-07-01 16:22:48 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib dengke/LSB_Update_to_5.0
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=dengke/LSB_Update_to_5.0
+
+Dengke Du (1):
+  LSB: 4.1.0 -> 5.0
+
+ meta/recipes-extended/lsb/lsbtest/LSB_Test.sh      |  3 +-
+ meta/recipes-extended/lsb/lsbtest/packages_list    | 57 +++++++++++-----------
+ meta/recipes-extended/lsb/lsbtest/session          |  9 ----
+ .../packagegroups/packagegroup-core-lsb.bb         | 11 -----
+ 4 files changed, 29 insertions(+), 51 deletions(-)
+
+-- 
+2.8.1
+
 
