@@ -1,30 +1,45 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 5BBEA6FF93
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f170.google.com (mail-pf0-f170.google.com
+	[209.85.192.170])
+	by mail.openembedded.org (Postfix) with ESMTP id ED772606A8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jul 2016 14:53:56 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u6KEruSA014803; Wed, 20 Jul 2016 15:53:56 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id pJs06EZUy_yV; Wed, 20 Jul 2016 15:53:56 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u6KErqMS014798
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 20 Jul 2016 15:53:53 +0100
-Message-ID: <1469026432.23580.14.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: akuster808 <akuster808@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jul 2016 15:53:52 +0100
-In-Reply-To: <578F8DA0.3020200@gmail.com>
-References: <1466609398-17634-1-git-send-email-akuster808@gmail.com>
-	<1466609398-17634-2-git-send-email-akuster808@gmail.com>
-	<578F8DA0.3020200@gmail.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/2] build summary: add gcc version being used.
+	Wed, 20 Jul 2016 19:38:19 +0000 (UTC)
+Received: by mail-pf0-f170.google.com with SMTP id x72so22002899pfd.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Jul 2016 12:38:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=I/+9M139epZH0h/m7dxyXnkHV2Ac5uBpixJArgg3OXw=;
+	b=DYnxcy4KZsN9Jz+6sRajQoAsZGbS3iJBbEH/2D6GdUMuNm/sFLK9ctnRxt7Iag/SkC
+	aZicd9kfHbne44gOgvwtwADUZTKZbZHgJKID7SyK3PLOUCYqb4how4FUVxbbK1kdwkTQ
+	UFLU8Oc+LO3xVQl16qrz9U5lTr4balb8IyiR6eug0y6pnrOtyiweQhougKlm64zziUJl
+	NKctIdkt/kWIqp9sO907vZk1TjiDazN27K+Wbf41C1oJ9r0sUFxNP33ks9mYAcRO9Ivh
+	rZ0aC5BPDBUDrHHQ2tj752v8ZKp896U85rHu0eLxqIdsw2SQ3J1N/fzzAvpd/rKAB1ft
+	Iznw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=I/+9M139epZH0h/m7dxyXnkHV2Ac5uBpixJArgg3OXw=;
+	b=WDCyotITNOUf0W21LO9Anzl2N3izTCEQj+diuQChFPIO1OKtbthJUKuDBEeT6bkVVR
+	wb65SxSBggRtBQW9CR4SfH8OYebNEYHZnS8m+1pNw3Ms/M7UMR0uHE7Cy8hTVdkfakqc
+	HDR5TQWZGrPXUhKBkIfB/oeFVklMRqwkXqS8h5i/wR/LSIcuK2AIj1Y29ufOl31MQtCB
+	3OqYjskF9NA/NrgU9kJq7UPbD7fX2z53YtK2DFCgyhHJdPD9ICtUzu3uP4g+KK/2wuvR
+	67GsU4oLtfhHvfT3PoCij6SXzgvHy1lNok2l6gG0V8W+64wNdvVoSQoPh3svv1gxVyeR
+	Fbrg==
+X-Gm-Message-State: ALyK8tKdTgtL5BI9bDLjr0CPfDWtSMpCTP2V+W9Xk+uXf18q3LzN9LYC7glaVOUMeVGDZw==
+X-Received: by 10.98.95.5 with SMTP id t5mr67432919pfb.103.1469043500429;
+	Wed, 20 Jul 2016 12:38:20 -0700 (PDT)
+Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
+	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
+	k78sm6462995pfa.78.2016.07.20.12.38.19
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 20 Jul 2016 12:38:19 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 20 Jul 2016 12:38:09 -0700
+Message-Id: <cover.1469043317.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 2.9.0
+Subject: [PATCH 0/3] Misc fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,30 +52,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jul 2016 14:53:59 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 20 Jul 2016 19:38:20 -0000
 
-On Wed, 2016-07-20 at 07:41 -0700, akuster808 wrote:
-> I noticed this patch was being carried in mut builds and no is
-> missing.
-> 
-> does that mean this is rejected?
+General fixes for gcc and webkitgtk found on musl/clang
+Update glibc to latest on master
 
-I've been meaning to reply to this. I can certainly understand why we
-might want to add things to the summary, equally, we do need to
-carefully select what we display here. My own personal belief is that
-we need to rationalise what is there as there are some key things
-missing which are probably more important than gcc version.
+Khem Raj (3):
+  glibc: Update to 2.24 after hard-freeze
+  webkitgtk: Do not use gold with clang
+  gcc: Fix libgcc unresolved symbols with PIE on musl
 
-With gcc version, I'm very tempted to try and get OE-Core back to a
-single gcc version rather than try and put better debug messages in
-place as we never intended to have multiple versions.
+ .../glibc/cross-localedef-native_2.24.bb           |  2 +-
+ meta/recipes-core/glibc/glibc/elf-meta.patch       | 32 --------
+ meta/recipes-core/glibc/glibc_2.24.bb              |  3 +-
+ meta/recipes-devtools/gcc/gcc-6.1.inc              |  1 +
+ ...e-alias-for-__cpu_indicator_init-instead-.patch | 85 ++++++++++++++++++++++
+ meta/recipes-sato/webkit/webkitgtk_2.12.3.bb       |  2 +
+ 6 files changed, 90 insertions(+), 35 deletions(-)
+ delete mode 100644 meta/recipes-core/glibc/glibc/elf-meta.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-6.1/0047-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch
 
-So I guess I'd prefer we try and rationalise things a bit and put more
-thought into this...
+-- 
+2.9.0
 
-Cheers,
-
-Richard
 
