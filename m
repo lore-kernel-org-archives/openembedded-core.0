@@ -1,30 +1,53 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id BFF3673190
+Return-Path: <piotr.lewicki@elfin.de>
+Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id CE11173190
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jul 2016 06:54:51 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u6L6spUZ026715
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 20 Jul 2016 23:54:51 -0700 (PDT)
-Received: from [128.224.162.240] (128.224.162.240) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 20 Jul 2016 23:54:50 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1468994042.git.liezhi.yang@windriver.com>
-	<6dc817964ba46c0263b3b07cccf84a9917b72121.1468994042.git.liezhi.yang@windriver.com>
-	<CAJTo0La07P1tsmf_trC0Gj+WQHVYwM=QiASRjBS8fFaBUjSaAA@mail.gmail.com>
-	<579029B1.8030102@windriver.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <579071B9.1010705@windriver.com>
-Date: Thu, 21 Jul 2016 14:54:49 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.8.0
+	Thu, 21 Jul 2016 07:49:50 +0000 (UTC)
+Received: by mail-wm0-f52.google.com with SMTP id q128so12273589wma.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Jul 2016 00:49:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=elfin.de; s=google;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding;
+	bh=xxj8bVGZ0OaJVbVGaZ+HcCjxeUj9EsNc1BZ04Yqpsqs=;
+	b=NoL6Ab8Lx4/xlFHiNbAPXUbXueU6dUBVk1mevIDZ2bfD/QTbzRexw+BtuG/TYc87Eb
+	cf36Nh9I3pkOTFfDvRyOEfwMoYrcmi90mcwq6SXmg6GgFhq+FMoY4eG6bOpxLuyNe9Dw
+	mko4TCAJIi4f11JxSOkDT+64OEtW/2VgbxAPRj2reW7SNtFF08NDSqe+AklcufU4ReFe
+	AAhgVNG3qRkqSRPwC6BINiIOeu8yM8gj6kI11LHnKRJsfJIOyZCqFT1WyXviBYRFSdVz
+	rSRuWKIBjkjFwd0giyt0VcV8Q2nD9Rdfe3isjLiX8D1p9e6QZV/LubXxpdXqRrhntK89
+	rYrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=xxj8bVGZ0OaJVbVGaZ+HcCjxeUj9EsNc1BZ04Yqpsqs=;
+	b=LEvhlxzFxHjzIIcphI5c7/1ZFyNL2+1CcD3xl+ORCVBm3zlrBnwq35Qaw5OjZ6KU7u
+	FjZ6XFmbv/eZZr0zgzJNsLYfrSpXoM0bJvi1dkgXUfOeHFMSVSC4r5YGLr+IgJsr38Da
+	IVj+T/4kGKQ5iRMBzTriaDidy8HihC37kwe/S0dkhEXnuxNRXI1S8s1H5cLPGJdbrrKZ
+	MhBdFQVz3fwYkuy1TRg2P+2XgM5F3zCya5ZosF89YEPduYbGWRanM3FsQenm1o6PSrQb
+	ajBEldA0ibOcYSQnkYIlawJCOupIRpX41CelSdrY5bIO7Wup4kfV3CFhLTKGVL+3B9OK
+	P9CQ==
+X-Gm-Message-State: ALyK8tK8Vgg5oO90jhDnKru0UzJDQeRbCUCoFqInkaouqgPV6enzOzD7br/B1/9m9kH2iQ==
+X-Received: by 10.28.60.136 with SMTP id j130mr16484040wma.93.1469087389841;
+	Thu, 21 Jul 2016 00:49:49 -0700 (PDT)
+Received: from [192.168.2.129] (b2b-94-79-174-114.unitymedia.biz.
+	[94.79.174.114])
+	by smtp.gmail.com with ESMTPSA id jr2sm5033148wjb.7.2016.07.21.00.49.49
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 21 Jul 2016 00:49:49 -0700 (PDT)
+To: openembedded-core@lists.openembedded.org
+References: <1464681309-34628-1-git-send-email-herve.jourdain@neuf.fr>
+	<1464681309-34628-2-git-send-email-herve.jourdain@neuf.fr>
+	<005d01d1e1cd$ec5a6f30$c50f4d90$@neuf.fr>
+From: "piotr.lewicki" <piotr.lewicki@elfin.de>
+Message-ID: <2d4ffa1e-6080-745c-620c-b18ee2d4300e@elfin.de>
+Date: Thu, 21 Jul 2016 09:49:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-In-Reply-To: <579029B1.8030102@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] btrfs-tools: fix installed-vs-shipped
+In-Reply-To: <005d01d1e1cd$ec5a6f30$c50f4d90$@neuf.fr>
+Subject: Re: [PATCH v3] linux-dtb.inc: Support for .dtbo files for dtb overlays
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,79 +60,126 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jul 2016 06:54:53 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Thu, 21 Jul 2016 07:49:54 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
+Hi,
 
-On 07/21/2016 09:47 AM, Robert Yang wrote:
->
->
-> On 07/20/2016 07:59 PM, Burton, Ross wrote:
->>
->> On 20 July 2016 at 06:54, Robert Yang <liezhi.yang@windriver.com
->> <mailto:liezhi.yang@windriver.com>> wrote:
->>
->>        /lib64/udev/rules.d/64-btrfs-dm.rules
->>
->>
->> This says that the btrfstools recipe is broken, not the packaging.  udev looks
->> in /lib no matter what $libdir is.
->>
->> udev reads UDEVLIBEXECDIR/rules.d, where udevlibexecdir=$(rootprefix)/lib/udev
->> and we pass rootprefix=$baseprefix (which defaults to /).
->
-> Thanks, I was misleaded by eudev, whose udevlibexecdir is ${rootlibexecdir}
-> which is ${libdir}/udev, so it is /lib64/udev. It supports /lib/udev and
-> /lib64/udev as the code in eudev-3.2/src/udev/udev-rules.c shows:
->
-> static const char* const rules_dirs[] = {
->          UDEV_CONF_DIR "/rules.d",
->          UDEV_RULES_DIR,
->          UDEV_ROOT_RUN "/udev/rules.d",
->          UDEV_LIBEXEC_DIR "/rules.d",
-> #ifdef HAVE_SPLIT_USR
->          "/lib/udev/rules.d",
->          "/usr/lib/udev/rules.d",
-> #endif
->          NULL};
->
->
-> But for systemd, it hardcoded to $(rootprefix)/lib/udev.
->
-> I looked into tmp/deploy/rpms, the following packages doesn't install
-> to /lib/udev, but /lib64/udev or /usr/lib64/udev:
->
-> tmp/deploy/rpm/core2_64/pcmciautils-018-r1.0.core2_64.rpm
-> tmp/deploy/rpm/core2_64/pulseaudio-server-8.0-r0.0.core2_64.rpm
-> tmp/deploy/rpm/core2_64/alsa-utils-alsactl-1.1.1-r0.0.core2_64.rpm
-> tmp/deploy/rpm/core2_64/mdadm-3.4-r0.0.core2_64.rpm
-> tmp/deploy/rpm/core2_64/libinput-1.3.0-r0.0.core2_64.rpm
-> tmp/deploy/rpm/core2_64/bluez5-5.40-r0.0.core2_64.rpm
++1 : I also use this and I think this would be perfect to have this in 
+master instead of using patched fork.
 
-Hi Ross,
-
-I just found that when build with eudev, the files will be installed
-to /lib64/udev, and when build with systemd, they will be inistalled
-to /lib/udev, so I think that they are OK. They use
-"pkg-config --variable=udevdir udev" to find udev dir, while systemd
-is /lib/udev and eudev is /lib64/eudev.
-
-The one which has problem is libinput which installs /usr/lib/udev or
-/usr/lib64/udev, this in incorrect. Another problem is that systemd
-doesn't install udev.pc.
-
-I think that the fix for btrfs-tools is correct. I will send a V2 with
-another 2 fixes.
-
-// Robert
+Can this be merged?
 
 
+Thanks,
+
+Piotr
+
+
+On 19.07.2016 16:57, Herve Jourdain wrote:
+> Ping...
+> This is needed for support of "dynamic" device tree overlays, with
+> extensions .dtbo (instead of xxx-overlay.dtb), which are used in RaspberryPi
+> kernel since 4.4.6.
 >
-> I will fix all of them.
+> -----Original Message-----
+> From: Herve Jourdain [mailto:herve.jourdain@neuf.fr]
+> Sent: mardi 31 mai 2016 09:55
+> To: openembedded-core@lists.openembedded.org
+> Cc: Herve Jourdain <herve.jourdain@neuf.fr>
+> Subject: [OE-core][PATCH v3] linux-dtb.inc: Support for .dtbo files for dtb
+> overlays
 >
-> // Robert
+> Signed-off-by: Herve Jourdain <herve.jourdain@neuf.fr>
+> ---
+>   meta/recipes-kernel/linux/linux-dtb.inc | 18 +++++++++++-------
+>   1 file changed, 11 insertions(+), 7 deletions(-)
 >
->>
->> Ross
+> diff --git a/meta/recipes-kernel/linux/linux-dtb.inc
+> b/meta/recipes-kernel/linux/linux-dtb.inc
+> index 74f5ef8..8528d64 100644
+> --- a/meta/recipes-kernel/linux/linux-dtb.inc
+> +++ b/meta/recipes-kernel/linux/linux-dtb.inc
+> @@ -33,12 +33,13 @@ do_compile_append() {
+>   do_install_append() {
+>   	for DTB in ${KERNEL_DEVICETREE}; do
+>   		DTB=`normalize_dtb "${DTB}"`
+> -		DTB_BASE_NAME=`basename ${DTB} .dtb`
+> +		DTB_EXT=${DTB##*.}
+> +		DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
+>   		for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
+>   			symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
+>   			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed
+> "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+>   			DTB_PATH=`get_real_dtb_path_in_kernel "${DTB}"`
+> -			install -m 0644 ${DTB_PATH}
+> ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.dtb
+> +			install -m 0644 ${DTB_PATH}
+> ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT}
+>   		done
+>   	done
+>   }
+> @@ -46,7 +47,8 @@ do_install_append() {
+>   do_deploy_append() {
+>   	for DTB in ${KERNEL_DEVICETREE}; do
+>   		DTB=`normalize_dtb "${DTB}"`
+> -		DTB_BASE_NAME=`basename ${DTB} .dtb`
+> +		DTB_EXT=${DTB##*.}
+> +		DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
+>   		for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
+>   			base_name=${type}"-"${KERNEL_IMAGE_BASE_NAME}
+>   			symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
+> @@ -54,8 +56,8 @@ do_deploy_append() {
+>   			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed
+> "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+>   			DTB_PATH=`get_real_dtb_path_in_kernel "${DTB}"`
+>   			install -d ${DEPLOYDIR}
+> -			install -m 0644 ${DTB_PATH}
+> ${DEPLOYDIR}/${DTB_NAME}.dtb
+> -			ln -sf ${DTB_NAME}.dtb
+> ${DEPLOYDIR}/${DTB_SYMLINK_NAME}.dtb
+> +			install -m 0644 ${DTB_PATH}
+> ${DEPLOYDIR}/${DTB_NAME}.${DTB_EXT}
+> +			ln -sf ${DTB_NAME}.${DTB_EXT}
+> ${DEPLOYDIR}/${DTB_SYMLINK_NAME}.${DTB_EXT}
+>   		done
+>   	done
+>   }
+> @@ -65,9 +67,10 @@ pkg_postinst_kernel-devicetree () {
+>   	for DTB in ${KERNEL_DEVICETREE}; do
+>   		for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
+>   			symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
+> +			DTB_EXT=${DTB##*.}
+>   			DTB_BASE_NAME=`basename ${DTB} | awk -F "." '{print
+> $1}'`
+>   			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed
+> "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+> -			update-alternatives --install
+> /${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.dtb ${DTB_BASE_NAME}.dtb
+> /boot/devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
+> +			update-alternatives --install
+> /${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.${DTB_EXT} ${DTB_BASE_NAME}.${DTB_EXT}
+> /boot/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT} ${KERNEL_PRIORITY} || true
+>   		done
+>   	done
+>   }
+> @@ -77,9 +80,10 @@ pkg_postrm_kernel-devicetree () {
+>   	for DTB in ${KERNEL_DEVICETREE}; do
+>   		for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
+>   			symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
+> +			DTB_EXT=${DTB##*.}
+>   			DTB_BASE_NAME=`basename ${DTB} | awk -F "." '{print
+> $1}'`
+>   			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed
+> "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+> -			update-alternatives --remove ${DTB_BASE_NAME}.dtb
+> /boot/devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
+> +			update-alternatives --remove
+> ${DTB_BASE_NAME}.${DTB_EXT} /boot/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT}
+> ${KERNEL_PRIORITY} || true
+>   		done
+>   	done
+>   }
+
 
