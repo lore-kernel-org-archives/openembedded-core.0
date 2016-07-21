@@ -1,28 +1,41 @@
-Return-Path: <Jianchuan.Wang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 60C0A6FF0E
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
+	[209.85.215.66])
+	by mail.openembedded.org (Postfix) with ESMTP id F28946067D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jul 2016 09:37:21 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u6L9bGkI024648
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Thu, 21 Jul 2016 02:37:20 -0700
-Received: from [128.224.162.163] (128.224.162.163) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 21 Jul 2016 02:37:16 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1468896078-226867-1-git-send-email-jianchuan.wang@windriver.com>
-	<CAJTo0La8K1ujxo9K7pXm1roNarYH77ijc50ps13y_hP9uAgDeQ@mail.gmail.com>
-From: Jianchuan Wang <Jianchuan.Wang@windriver.com>
-Message-ID: <579097CA.108@windriver.com>
-Date: Thu, 21 Jul 2016 17:37:14 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.8.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0La8K1ujxo9K7pXm1roNarYH77ijc50ps13y_hP9uAgDeQ@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] net-tools: lib/inet6.c:INET6_rresolve() - various fixes [ LIN9-1102 ]
+	Thu, 21 Jul 2016 10:16:49 +0000 (UTC)
+Received: by mail-lf0-f66.google.com with SMTP id f93so5102867lfi.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Jul 2016 03:16:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=A2Xd+vMm7SnzRRxkspr8CqmWVZKQadYx2ZtN/PWb4ww=;
+	b=L7YiiAZoy0N5vucQp+rOU11z02lWib5ps+Py1rXOuCYmw2mGcdRWv5WOGpI18TrccD
+	oBQMwg28lMRNbl8bMzcRIklOFeWIA/67xnKCfUKI3rdnsOGaZtLxm7f6vx5CaRvPEv5i
+	iSBumti1+dnKe2SKKNQNYT8CtMGWea58/DYTlRr2NfKjC84d6KNLEgoJExBpB/gKnKY8
+	QKlXiO8DOFgtU74ebOwNu5B+LSAu/f+xKEnEE32AkuFJ9X9iUokESXr0QVEdXVlMNRD5
+	va3Hl4Yi0E9PP6h0y8bypfuAuoq/Yh3xTLBy8Lp8mZLP82MnXXo5e6Gd4ny8G7AbrZIL
+	XSkw==
+X-Gm-Message-State: ALyK8tI6yxheymHobfDxdbpvzHqDBZOEgSzoVGpNKt9FWHL6NiVZ1yNXR1Xih/w3KV/HNQ==
+X-Received: by 10.25.16.212 with SMTP id 81mr21714316lfq.174.1469096209202;
+	Thu, 21 Jul 2016 03:16:49 -0700 (PDT)
+Received: from localhost ([185.46.212.65])
+	by smtp.gmail.com with ESMTPSA id f4sm1497377lji.41.2016.07.21.03.16.47
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 21 Jul 2016 03:16:48 -0700 (PDT)
+Message-ID: <1469096205.6229.18.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 Jul 2016 11:16:45 +0100
+In-Reply-To: <76D6B136-02D8-404A-8AB1-3F236ABAB58D@gmail.com>
+References: <1469071188-26218-1-git-send-email-git@andred.net>
+	<76D6B136-02D8-404A-8AB1-3F236ABAB58D@gmail.com>
+X-Mailer: Evolution 3.20.4-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH] musl: don't compile in mips16e mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,118 +48,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jul 2016 09:37:22 -0000
-Content-Type: multipart/alternative;
-	boundary="------------060406060403080101070304"
-
---------------060406060403080101070304
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-
-
-
-On 07/20/2016 08:33 PM, Burton, Ross wrote:
-> Please have a more useful short summary.
->
-> On 19 July 2016 at 03:41, <jianchuan.wang@windriver.com 
-> <mailto:jianchuan.wang@windriver.com>> wrote:
->
->     From: Shan Hai <shan.hai@windriver.com
->     <mailto:shan.hai@windriver.com>>
->
->     Integrate net-tools upstream commit a70c568b907d to fix a bug which
->     causes the 'netstat -a' to print "[UNKNOWN]" in case of DNS problem
->     instead of IPv6 address.
->
-The commit a70c568b907d is from 
-https://github.com/ecki/net-tools/commit/a70c568b907d23ec2cf7defc81be50c351968f12, 
-not from net-tools upstream.
-
-I will correct the description.
-
-Thanks,
-Jianchuan
-
-> ...
->
->      +Upstream-Status: Pending
->
->
-> Don't you mean Backport?
->
-> Ross
-
-
---------------060406060403080101070304
-Content-Type: text/html; charset="utf-8"
+X-List-Received-Date: Thu, 21 Jul 2016 10:16:54 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <br>
-    <br>
-    <div class="moz-cite-prefix">On 07/20/2016 08:33 PM, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0La8K1ujxo9K7pXm1roNarYH77ijc50ps13y_hP9uAgDeQ@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div dir="ltr">Please have a more useful short summary.<br>
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 19 July 2016 at 03:41, <span
-              dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:jianchuan.wang@windriver.com"
-                target="_blank">jianchuan.wang@windriver.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">From:
-              Shan Hai &lt;<a moz-do-not-send="true"
-                href="mailto:shan.hai@windriver.com">shan.hai@windriver.com</a>&gt;<br>
-              <br>
-              Integrate net-tools upstream commit a70c568b907d to fix a
-              bug which<br>
-              causes the 'netstat -a' to print "[UNKNOWN]" in case of
-              DNS problem<br>
-              instead of IPv6 address.</blockquote>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    The commit a70c568b907d is from <a title="Follow link"
-href="https://github.com/ecki/net-tools/commit/a70c568b907d23ec2cf7defc81be50c351968f12">https://github.com/ecki/net-tools/commit/a70c568b907d23ec2cf7defc81be50c351968f12</a>,
-    not from net-tools upstream.<br>
-    <br>
-    I will correct the description.<br>
-    <br>
-    Thanks,<br>
-    Jianchuan<br>
-    <br>
-    <blockquote
-cite="mid:CAJTo0La8K1ujxo9K7pXm1roNarYH77ijc50ps13y_hP9uAgDeQ@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra">
-          <div class="gmail_quote">
-            <div>... </div>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex"> +Upstream-Status:
-              Pending</blockquote>
-            <div><br>
-            </div>
-            <div>Don't you mean Backport?</div>
-            <div><br>
-            </div>
-            <div>Ross</div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
+On Mi, 2016-07-20 at 20:22 -0700, Khem Raj wrote:
+> > 
+> > On Jul 20, 2016, at 8:19 PM, git@andred.net wrote:
+> > 
+> > From: André Draszik <adraszik@tycoint.com>
+> > 
+> > musl contains hand-written assembly which is not compatible with
+> > the MIPS16e mode.
+> > 
+> > Signed-off-by: André Draszik <adraszik@tycoint.com>
+> > ---
+> > meta/recipes-core/musl/musl.inc | 3 +++
+> > 1 file changed, 3 insertions(+)
+> > 
+> > diff --git a/meta/recipes-core/musl/musl.inc b/meta/recipes-
+> > core/musl/musl.inc
+> > index 5e6cd01..276b00f 100644
+> > --- a/meta/recipes-core/musl/musl.inc
+> > +++ b/meta/recipes-core/musl/musl.inc
+> > @@ -24,3 +24,6 @@ FILES_SOLIBSDEV = ""
+> > FILES_${PN} += "${libdir}/lib*${SOLIBSDEV}"
+> > INSANE_SKIP_${PN} = "dev-so"
+> > 
+> > +# Doesn't compile in MIPS16e mode due to use of hand-written
+> > +# assembly
+> > +MIPS_INSTRUCTION_SET = “mips"
+> 
+> Looks ok. However, does it make sense to have it compiled with mips ISA
+> for a mips16e
+> part ?
 
---------------060406060403080101070304--
+MIPS16e is just an optional extension (ASE) on some mips32 and mips64 parts.
+There can not be mips16e only parts.
+
+> will it work in all cases or only certain SOCs
+
+MIPS_INSTRUCTION_SET in OE is implemented similar to ARM_INSTRUCTION_SET. If
+set to 'mips' (as above), it will simply revert to the standard instruction
+set for the part we're building for, mips32/mips64/etc.
+
+Given mips16e is an optional ASE, this currently is hooked into 24k family
+type cores in OE, only.
+
+So yes, this should not break anything.
+
+BTW, Qemu supports mips16e (if the right target is selected).
+
+
+Cheers,
+Andre'
+
+
