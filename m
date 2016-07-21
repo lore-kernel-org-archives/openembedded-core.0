@@ -1,41 +1,38 @@
 Return-Path: <andre.draszik@gmail.com>
-Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
-	[209.85.215.66])
-	by mail.openembedded.org (Postfix) with ESMTP id F28946067D
+Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
+	[209.85.215.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 78C817319C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jul 2016 10:16:49 +0000 (UTC)
-Received: by mail-lf0-f66.google.com with SMTP id f93so5102867lfi.0
+	Thu, 21 Jul 2016 11:09:29 +0000 (UTC)
+Received: by mail-lf0-f65.google.com with SMTP id f93so5215252lfi.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jul 2016 03:16:50 -0700 (PDT)
+	Thu, 21 Jul 2016 04:09:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=A2Xd+vMm7SnzRRxkspr8CqmWVZKQadYx2ZtN/PWb4ww=;
-	b=L7YiiAZoy0N5vucQp+rOU11z02lWib5ps+Py1rXOuCYmw2mGcdRWv5WOGpI18TrccD
-	oBQMwg28lMRNbl8bMzcRIklOFeWIA/67xnKCfUKI3rdnsOGaZtLxm7f6vx5CaRvPEv5i
-	iSBumti1+dnKe2SKKNQNYT8CtMGWea58/DYTlRr2NfKjC84d6KNLEgoJExBpB/gKnKY8
-	QKlXiO8DOFgtU74ebOwNu5B+LSAu/f+xKEnEE32AkuFJ9X9iUokESXr0QVEdXVlMNRD5
-	va3Hl4Yi0E9PP6h0y8bypfuAuoq/Yh3xTLBy8Lp8mZLP82MnXXo5e6Gd4ny8G7AbrZIL
-	XSkw==
-X-Gm-Message-State: ALyK8tI6yxheymHobfDxdbpvzHqDBZOEgSzoVGpNKt9FWHL6NiVZ1yNXR1Xih/w3KV/HNQ==
-X-Received: by 10.25.16.212 with SMTP id 81mr21714316lfq.174.1469096209202;
-	Thu, 21 Jul 2016 03:16:49 -0700 (PDT)
-Received: from localhost ([185.46.212.65])
-	by smtp.gmail.com with ESMTPSA id f4sm1497377lji.41.2016.07.21.03.16.47
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=v2D/b9babnBuN864sVKsWCYlWBoku3kqK2mm0Ed8g9c=;
+	b=GRQdw1s7U/oMipORJADquw+RqolgdmKuLGt4d4eQMmEKEwymPlmgFaD6eRxQ1oi+XB
+	8HAD2Io476NOA6mtIh1K7l56OQYvvZRmrgGCuTG0qnsR+qFKHM5o8kC2Tx4QOCFZ4O0D
+	I2SPQZOE4lO/Q6Qe9VNT1lJ3tgqiEGz3qU1xg2mjjck6ZbvVVXvUN6gaYCvT3pfixxkw
+	TBmxW+P9RPgiQuA8u1fbXvO4GEV/7bqyAy/6HU6+1Ur3hPFb5ox+zFEfUth4o9Jm76mz
+	gi0isZ0XD+gte0KFsBUbTCgB5SYYS6/HLoErotMO/128RptdnZS30qyc260hSs3GHFRl
+	KdrQ==
+X-Gm-Message-State: ALyK8tJCFUOd16jjEX/ReTobqvkD/2WsIDsvxjqAWxgWS26bCy9FYXzlz5Sv7/6w8A9tSQ==
+X-Received: by 10.25.218.7 with SMTP id r7mr10705842lfg.161.1469099369362;
+	Thu, 21 Jul 2016 04:09:29 -0700 (PDT)
+Received: from tfsielt31850.TYCOFS.COM ([185.46.212.65])
+	by smtp.gmail.com with ESMTPSA id o36sm1596598lfi.5.2016.07.21.04.09.28
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 21 Jul 2016 03:16:48 -0700 (PDT)
-Message-ID: <1469096205.6229.18.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 21 Jul 2016 04:09:28 -0700 (PDT)
+From: git@andred.net
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Jul 2016 11:16:45 +0100
-In-Reply-To: <76D6B136-02D8-404A-8AB1-3F236ABAB58D@gmail.com>
-References: <1469071188-26218-1-git-send-email-git@andred.net>
-	<76D6B136-02D8-404A-8AB1-3F236ABAB58D@gmail.com>
-X-Mailer: Evolution 3.20.4-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH] musl: don't compile in mips16e mode
+Date: Thu, 21 Jul 2016 12:09:23 +0100
+Message-Id: <1469099363-23192-1-git-send-email-git@andred.net>
+X-Mailer: git-send-email 2.8.1
+MIME-Version: 1.0
+Subject: [PATCH] kernel.bbclass: explicitly set workdir in do_bundle_initramfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,59 +45,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jul 2016 10:16:54 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 21 Jul 2016 11:09:30 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On Mi, 2016-07-20 at 20:22 -0700, Khem Raj wrote:
-> > 
-> > On Jul 20, 2016, at 8:19 PM, git@andred.net wrote:
-> > 
-> > From: André Draszik <adraszik@tycoint.com>
-> > 
-> > musl contains hand-written assembly which is not compatible with
-> > the MIPS16e mode.
-> > 
-> > Signed-off-by: André Draszik <adraszik@tycoint.com>
-> > ---
-> > meta/recipes-core/musl/musl.inc | 3 +++
-> > 1 file changed, 3 insertions(+)
-> > 
-> > diff --git a/meta/recipes-core/musl/musl.inc b/meta/recipes-
-> > core/musl/musl.inc
-> > index 5e6cd01..276b00f 100644
-> > --- a/meta/recipes-core/musl/musl.inc
-> > +++ b/meta/recipes-core/musl/musl.inc
-> > @@ -24,3 +24,6 @@ FILES_SOLIBSDEV = ""
-> > FILES_${PN} += "${libdir}/lib*${SOLIBSDEV}"
-> > INSANE_SKIP_${PN} = "dev-so"
-> > 
-> > +# Doesn't compile in MIPS16e mode due to use of hand-written
-> > +# assembly
-> > +MIPS_INSTRUCTION_SET = “mips"
-> 
-> Looks ok. However, does it make sense to have it compiled with mips ISA
-> for a mips16e
-> part ?
+From: André Draszik <git@andred.net>
 
-MIPS16e is just an optional extension (ASE) on some mips32 and mips64 parts.
-There can not be mips16e only parts.
+bitbake rev 67a7b8b02 "build: don't use $B as the default cwd for
+functions" (included in current bitbake master) breaks the assumption
+that do_bundle_initramfs runs inside the build directory.
 
-> will it work in all cases or only certain SOCs
+This causes kernel_do_compile() as called from within
+do_bundle_initramfs() to fail, as the former is not being executed
+from the correct directory anymore. (Note that kernel_do_compile()
+as called from bitbake directly doesn't suffer from that problem,
+as it inherits the workdir from base_do_compile() in that case.)
 
-MIPS_INSTRUCTION_SET in OE is implemented similar to ARM_INSTRUCTION_SET. If
-set to 'mips' (as above), it will simply revert to the standard instruction
-set for the part we're building for, mips32/mips64/etc.
+Set workdir explicitly.
 
-Given mips16e is an optional ASE, this currently is hooked into 24k family
-type cores in OE, only.
+Signed-off-by: André Draszik <git@andred.net>
+---
+ meta/classes/kernel.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-So yes, this should not break anything.
-
-BTW, Qemu supports mips16e (if the right target is selected).
-
-
-Cheers,
-Andre'
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index a56b66b..fa76a14 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -246,6 +246,7 @@ do_bundle_initramfs () {
+ 		done
+ 	fi
+ }
++do_bundle_initramfs[dirs] = "${B}"
+ 
+ python do_devshell_prepend () {
+     os.environ["LDFLAGS"] = ''
+-- 
+2.8.1
 
 
