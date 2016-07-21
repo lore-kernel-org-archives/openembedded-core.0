@@ -1,32 +1,46 @@
-Return-Path: <mario.goulart@bmw-carit.de>
-X-Greylist: delayed 456 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 21 Jul 2016 14:09:03 UTC
-Received: from cit-hm8-gw01.bmw-carit.de (cit-hm8-mail01.bmw-carit.de
-	[212.118.206.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 556146E667
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id CE38E607A5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jul 2016 14:09:03 +0000 (UTC)
-Received: from [10.40.100.14] (port=23426 helo=cit-hm8-mail01.bmw-carit.de)
-	by cit-hm8-gw01.bmw-carit.de with esmtps (TLSv1.2:AES256-SHA:256)
-	(Exim 4.82_1-5b7a7c0-XX) (envelope-from <Mario.Goulart@bmw-carit.de>)
-	id 1bQEXV-0002Hc-1C for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jul 2016 16:01:25 +0200
-Received: from macbook-bmw.bmw-car.intra (10.242.6.13) by
-	CIT-HM8-EX02.bmw-carit.intra (10.40.100.14) with Microsoft SMTP Server
-	(TLS) id 15.0.1178.4; Thu, 21 Jul 2016 16:01:23 +0200
-X-CTCH-RefID: str=0001.0A0C0202.5790D5B5.0101, ss=1, re=0.000, recu=0.000,
-	reip=0.000, cl=1, cld=1, fgs=0
-From: Mario Domenech Goulart <mario.goulart@bmw-carit.de>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Jul 2016 16:00:59 +0200
-Message-ID: <1469109659-3336-1-git-send-email-mario.goulart@bmw-carit.de>
+	Thu, 21 Jul 2016 17:15:58 +0000 (UTC)
+Received: by mail-wm0-f43.google.com with SMTP id f65so29095491wmi.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Jul 2016 10:15:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=rWRwZO57f5Fy5U3BNEeXUmBWUgoq/rU/A68O4OWzuEg=;
+	b=yZ5XICIr8q6V3+p/zufh9S51HeEFPFA81MJvOiYDPMIizZTiWKHHViWgjZ+ay4G8gs
+	P0ewfwLYe+17WM/1PDg7BO/RbwU/WsiNLlFZ2M31rv7T+4c2BdSdI0Pv7+5yNxHTV3Ji
+	ak4L9vOA9X2YzWV39jbIuQ8JUOQWyiBUrz2W+HoVWB2kgQeELbOgulRTPwKl7ejARJ29
+	CuvbrOYOZIS/0FCBuUmsY7R7P8lwyvMXf4W2ABjwzjUsK0Upd8s7kjpoFGZSYmt6EHin
+	/T06O6g8nn5zDCocUW680cCxl223aEMJ6ywDzzsbYMsc1A8jTDQlDe4mRJN9/0gcfleZ
+	YMzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=rWRwZO57f5Fy5U3BNEeXUmBWUgoq/rU/A68O4OWzuEg=;
+	b=POpbqBlgIpZnZ3mup5JBX8rBue3SXdMmQDDcJ9qwFefmlTccqV314bC/gK6nur21Bq
+	Y5ZmghKZwPHay2o9scaVMjWOQ2QtYLuClx8gYTHv0pWypdUWY7bslbMawWvwERasAtH2
+	eLalnCxuQRj3aawtrr15li+x7Iz6OdpGAHPJ8Sd3vmDf851DoUrGMKQ+S+c5oBnhhfNY
+	5fvUo17Gh5dZtwuZDxdZKIB3vcsPeczDd0xGjxf6X6TVbJ1k9XsteD9o/aDckNRbXvDg
+	4NQ/CGoTVfcO5ntqy8cP67z0PGgiSRdl5/vmpMhYtKWe+Vy7R5Xb8gjNghdECOMYQkbC
+	PGTg==
+X-Gm-Message-State: ALyK8tIfFX28EJrIOIocmtKmSKE8YjIIPn2yXyJQYe8TKNyz4JVVBB9Ls2Kb8qvOCcF9ZX0Z
+X-Received: by 10.28.9.194 with SMTP id 185mr18300150wmj.37.1469121357909;
+	Thu, 21 Jul 2016 10:15:57 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	a194sm5552715wmd.24.2016.07.21.10.15.56
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 21 Jul 2016 10:15:57 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 Jul 2016 18:15:51 +0100
+Message-Id: <1469121352-29774-1-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.8.1
-MIME-Version: 1.0
-X-Originating-IP: [10.242.6.13]
-X-ClientProxiedBy: CIT-HM8-EX01.bmw-carit.intra (10.40.100.13) To
-	CIT-HM8-EX02.bmw-carit.intra (10.40.100.14)
-Cc: Mario Domenech Goulart <mario.goulart@bmw-carit.de>
-Subject: [PATCH] insane.bbclass: Typo fix in do_qa_unpack's bb.note
+Subject: [PATCH 1/2] oeqa/selftest/signing: use a temporary directory for GPG home
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,29 +53,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jul 2016 14:09:04 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 21 Jul 2016 17:15:59 -0000
 
-s/Checking has ${S} been created/Checking if ${S} has been created/
+Instead of using a directory in the layer as the GPG home and carefully deleting
+the right files from it, use tempfile to create a temporary directory which will
+be cleaned up for us.
 
-Signed-off-by: Mario Domenech Goulart <mario.goulart@bmw-carit.de>
+Also change the public/secret key variables to be absolute paths as they're
+always used as absolute paths.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/insane.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/signing.py | 32 ++++++++++----------------------
+ 1 file changed, 10 insertions(+), 22 deletions(-)
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 9b2337c..1b12d46 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -1246,7 +1246,7 @@ Missing inherit gettext?""" % (gt, config))
- }
+diff --git a/meta/lib/oeqa/selftest/signing.py b/meta/lib/oeqa/selftest/signing.py
+index 1babca0..beafd63 100644
+--- a/meta/lib/oeqa/selftest/signing.py
++++ b/meta/lib/oeqa/selftest/signing.py
+@@ -12,30 +12,18 @@ from oeqa.utils.ftools import write_file
+ class Signing(oeSelfTest):
  
- python do_qa_unpack() {
--    bb.note("Checking has ${S} been created")
-+    bb.note("Checking if ${S} has been created")
+     gpg_dir = ""
+-    pub_key_name = 'key.pub'
+-    secret_key_name = 'key.secret'
++    pub_key_path = ""
++    secret_key_path = ""
  
-     s_dir = d.getVar('S', True)
-     if not os.path.exists(s_dir):
+     @classmethod
+     def setUpClass(cls):
+-        # Import the gpg keys
++        cls.gpg_home_dir = tempfile.TemporaryDirectory(prefix="oeqa-signing-")
++        cls.gpg_dir = cls.gpg_home_dir.name
+ 
+-        cls.gpg_dir = os.path.join(cls.testlayer_path, 'files/signing/')
++        cls.pub_key_path = os.path.join(cls.testlayer_path, 'files', 'signing', "key.pub")
++        cls.secret_key_path = os.path.join(cls.testlayer_path, 'files', 'signing', "key.secret")
+ 
+-        # key.secret key.pub are located in gpg_dir
+-        pub_key_location = cls.gpg_dir + cls.pub_key_name
+-        secret_key_location = cls.gpg_dir + cls.secret_key_name
+-        runCmd('gpg --homedir %s --import %s %s' % (cls.gpg_dir, pub_key_location, secret_key_location))
+-
+-    @classmethod
+-    def tearDownClass(cls):
+-        # Delete the files generated by 'gpg --import'
+-
+-        gpg_files = glob.glob(cls.gpg_dir + '*.gpg*')
+-        random_seed_file = cls.gpg_dir + 'random_seed'
+-        gpg_files.append(random_seed_file)
+-
+-        for gpg_file in gpg_files:
+-            runCmd('rm -f ' + gpg_file)
++        runCmd('gpg --homedir %s --import %s %s' % (cls.gpg_dir, cls.pub_key_path, cls.secret_key_path))
+ 
+     @testcase(1362)
+     def test_signing_packages(self):
+@@ -57,7 +45,7 @@ class Signing(oeSelfTest):
+         feature = 'INHERIT += "sign_rpm"\n'
+         feature += 'RPM_GPG_PASSPHRASE = "test123"\n'
+         feature += 'RPM_GPG_NAME = "testuser"\n'
+-        feature += 'RPM_GPG_PUBKEY = "%s%s"\n' % (self.gpg_dir, self.pub_key_name)
++        feature += 'RPM_GPG_PUBKEY = "%s"\n' % self.pub_key_path
+         feature += 'GPG_PATH = "%s"\n' % self.gpg_dir
+ 
+         self.write_config(feature)
+@@ -81,8 +69,8 @@ class Signing(oeSelfTest):
+         # Use a temporary rpmdb
+         rpmdb = tempfile.mkdtemp(prefix='oeqa-rpmdb')
+ 
+-        runCmd('%s/rpm --define "_dbpath %s" --import %s%s' %
+-               (staging_bindir_native, rpmdb, self.gpg_dir, self.pub_key_name))
++        runCmd('%s/rpm --define "_dbpath %s" --import %s' %
++               (staging_bindir_native, rpmdb, self.pub_key_path))
+ 
+         ret = runCmd('%s/rpm --define "_dbpath %s" --checksig %s' %
+                      (staging_bindir_native, rpmdb, pkg_deploy))
 -- 
 2.8.1
 
