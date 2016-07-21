@@ -1,46 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f47.google.com (mail-it0-f47.google.com
-	[209.85.214.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 78CDA606BF
+Received: from mail-it0-f43.google.com (mail-it0-f43.google.com
+	[209.85.214.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 68ADC605BA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jul 2016 19:46:14 +0000 (UTC)
-Received: by mail-it0-f47.google.com with SMTP id j124so28137877ith.1
+	Thu, 21 Jul 2016 19:47:39 +0000 (UTC)
+Received: by mail-it0-f43.google.com with SMTP id j124so28172960ith.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jul 2016 12:46:16 -0700 (PDT)
+	Thu, 21 Jul 2016 12:47:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=rpAxxDuAfZN1OKGtEyWKmERQpRsMJtvYYuAlRCNf79o=;
-	b=eX7obG8yCT4aSgbtNY5hgZUg6fImsbHtCJvhQljE2IW934nqv/GhCmj+4XSmA+awgX
-	ieMsvjX8kxGWMgZY1vzF0ax+mvexrCtVuCKqD1CwMPwljJzKhbItQ06kl1yKS6C/kdXZ
-	z+m16r6mTlQ0o54mH3SFpzhjVFRm+v31HpjtU9kksj5Uk0xHOf3jVJ9AEABpsJ2on4Oj
-	+aKvdlmul9NA8nbuzoxjGSlZv1ZoQVfUJ+o8fpn1ZXpayuPWalhlnvnR6TuPVMAasGH/
-	sH2sO23+w3Ty6mih3Pj/0FopUUGrmyBoDnBUtmM0ZE6QG4L5HQchoOhHEz6k6fjOAVHy
-	1rVA==
+	:cc; bh=Sr1yv8pMLG1mdHBI/ZkhoqQl9fpmZ/RJcmBfV5+Qeco=;
+	b=D+deSUk5eiH938+O6hm/fGY2m9uWEdoVo30RO8ElYp/UJXOQDry0qE8QcTtcXVjnkc
+	EyRwqQvBu+/fD4/g9HDveyQNk0AMKP0ylxDqEIa9J7+iwNG6F+jZxuScy14ZQnEjB3Hp
+	KLtUhNhX8nC7QlSCvrkuDNMilCakmM2TxgQFm5nNc5UUahO7ClTVjkNjTKbg0bJPd6PQ
+	Uk3Kf861fVAwDtBjL472x4mDeyqbllozEM4S7atHFIrVCVL03yko+Waz8FW4lhEUK6rw
+	cd2nOgXHRdkyloemMYItElxxJesv46SpwZlt4M3m30z1PPvEi96SEDEE7YzXz8bIpkuB
+	rSBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=rpAxxDuAfZN1OKGtEyWKmERQpRsMJtvYYuAlRCNf79o=;
-	b=V4yFnURGAcDXP2+b6PqlzpWJukG30sPZfSrxcanMKogzvmPECx2iWMeuq1SxD6SR3Q
-	je65pyNvz8tocoDyXP57e1+XbrySBVROGufMFmKxOtafjjxZLmkwqzaCK+NM3uhdKDjq
-	PdwKxFxOI7RHVtdHa8P34+VBK0hBSrjb+legGSplqmh03sg6nutGlGHRFJs1/xXProrZ
-	OyZOS/l4yYfutCqQE46ye3Mpxyeanq5s6gLgfohWI/SvMrNiiwrdBPZnVRJlmyg8m8XP
-	tbaGnRfQdgwlAokZtQLALo13c/n402W8FnOG/3voxm8zBa2hYpcFwyGLP1zhh6rsvSxF
-	Z2vQ==
-X-Gm-Message-State: AEkoouuAvIccoi9+LTsfNZzqq15PWwptYzdKyu9n1xSUsVX0ye1ou9YTGKV/lrXTSTzyUrHieipdhXNAu+6a9hft
-X-Received: by 10.36.57.211 with SMTP id l202mr63825ita.22.1469130375622; Thu,
-	21 Jul 2016 12:46:15 -0700 (PDT)
+	bh=Sr1yv8pMLG1mdHBI/ZkhoqQl9fpmZ/RJcmBfV5+Qeco=;
+	b=WB6BApv2JFticntr81wfwt9waL2DtmhQGZKRYxoQkZwnWjhnmENuYZ/Si8VFDNLcXA
+	eG3XLDMETs+JfHbpxBSAtNdXoQVRmeb8EKGNwit70nFC84ND+uHS4K13Om7OowxOIE/D
+	nuGuwro99f924MvFcDFWTX/35SliOmTEbDQl2o4Z7h1Rz4/DfGq2b37SP3iHzRN7X/Y1
+	zai69hIANkoiK0fgFyGm4QSDcrhfJylpysjGpQmh9tvAotV/b8Poh1aqi+Bfi8FHHOVE
+	9AwX7RQMzd69E3br8RlsjngBxyLbzEsAqTL0CbiQZ1d1QBIhn0fU5vZqo1XPUdq+L0dG
+	IQmg==
+X-Gm-Message-State: ALyK8tKv7hFupQEylWRP1v/NURlzV5HOjHF5+MAwYY4avSyarr10YzwTpnmn/twRWWYy1NBRXNdhxNvY5DwMEgv2
+X-Received: by 10.36.19.75 with SMTP id 72mr17127057itz.83.1469130460214; Thu,
+	21 Jul 2016 12:47:40 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Thu, 21 Jul 2016 12:45:56 -0700 (PDT)
-In-Reply-To: <1468599986-26072-1-git-send-email-clemens.lang@bmw-carit.de>
-References: <1468599986-26072-1-git-send-email-clemens.lang@bmw-carit.de>
+Received: by 10.107.18.17 with HTTP; Thu, 21 Jul 2016 12:47:20 -0700 (PDT)
+In-Reply-To: <1469109659-3336-1-git-send-email-mario.goulart@bmw-carit.de>
+References: <1469109659-3336-1-git-send-email-mario.goulart@bmw-carit.de>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 21 Jul 2016 20:45:56 +0100
-Message-ID: <CAJTo0Lb=OdKYCog2jMW=r6XWNFkyHv7VB0ho4ndDOt=V1NDYyA@mail.gmail.com>
-To: Clemens Lang <clemens.lang@bmw-carit.de>
+Date: Thu, 21 Jul 2016 20:47:20 +0100
+Message-ID: <CAJTo0LY8HHRqgZ385S-mb2N8uB21ZvE64Cew903TC37D5sF51Q@mail.gmail.com>
+To: Mario Domenech Goulart <mario.goulart@bmw-carit.de>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] lib/oe/path: Fix tar invocation with --no-recursion
+Subject: Re: [PATCH] insane.bbclass: Typo fix in do_qa_unpack's bb.note
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,47 +53,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jul 2016 19:46:16 -0000
-Content-Type: multipart/alternative; boundary=001a114ab3ca2b3f3a05382a9247
+X-List-Received-Date: Thu, 21 Jul 2016 19:47:44 -0000
+Content-Type: multipart/alternative; boundary=001a1145180a35fd5f05382a9730
 
---001a114ab3ca2b3f3a05382a9247
+--001a1145180a35fd5f05382a9730
 Content-Type: text/plain; charset=UTF-8
 
-Hi Clemens,
+On 21 July 2016 at 15:00, Mario Domenech Goulart <mario.goulart@bmw-carit.de
+> wrote:
 
-On 15 July 2016 at 17:26, Clemens Lang <clemens.lang@bmw-carit.de> wrote:
-
-> -        cmd = 'cd %s; find . -type d -print | tar -cf - -C %s -p
-> --files-from - --no-recursion | tar -xf - -C %s' % (src, src, dst)
-> +        cmd = 'cd %s; find . -type d -print | tar -cf - -C %s -p
-> --no-recursion --files-from - | tar -xf - -C %s' % (src, src, dst)
+> -    bb.note("Checking has ${S} been created")
+> +    bb.note("Checking if ${S} has been created")
 >
 
-I applied this manually as it's just a one-liner, but please do try to send
-a patch based on master (the commit which caused this patch to not apply
-was a week old when this was sent).
+I actually just sent a patch to delete this line entirely as the log will
+say its entering that function anyway. :)
 
 Ross
 
---001a114ab3ca2b3f3a05382a9247
+--001a1145180a35fd5f05382a9730
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Clemens,</div><div class=3D"=
-gmail_extra"><br><div class=3D"gmail_quote">On 15 July 2016 at 17:26, Cleme=
-ns Lang <span dir=3D"ltr">&lt;<a href=3D"mailto:clemens.lang@bmw-carit.de" =
-target=3D"_blank">clemens.lang@bmw-carit.de</a>&gt;</span> wrote:<br><block=
-quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
- solid;padding-left:1ex"><div id=3D":5w4" class=3D"a3s aXjCH m155ef66fa597d=
-8ee">-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd =3D &#39;cd %s; find . -type d -print=
- | tar -cf - -C %s -p --files-from - --no-recursion | tar -xf - -C %s&#39; =
-% (src, src, dst)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd =3D &#39;cd %s; find . -type d -print | ta=
-r -cf - -C %s -p --no-recursion --files-from - | tar -xf - -C %s&#39; % (sr=
-c, src, dst)</div></blockquote></div><br>I applied this manually as it&#39;=
-s just a one-liner, but please do try to send a patch based on master (the =
-commit which caused this patch to not apply was a week old when this was se=
-nt).</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">R=
-oss</div></div>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 21 July 2016 at 15:00, Mario Domenech Goulart <span dir=3D"ltr">&lt;<a h=
+ref=3D"mailto:mario.goulart@bmw-carit.de" target=3D"_blank">mario.goulart@b=
+mw-carit.de</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
+=3D":5ht" class=3D"a3s aXjCH m1560dce86dc943ab">-=C2=A0 =C2=A0 bb.note(&quo=
+t;Checking has ${S} been created&quot;)<br>
++=C2=A0 =C2=A0 bb.note(&quot;Checking if ${S} has been created&quot;)<br></=
+div></blockquote></div><br>I actually just sent a patch to delete this line=
+ entirely as the log will say its entering that function anyway. :)</div><d=
+iv class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></d=
+iv>
 
---001a114ab3ca2b3f3a05382a9247--
+--001a1145180a35fd5f05382a9730--
