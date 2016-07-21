@@ -1,35 +1,30 @@
-Return-Path: <anujx.mittal@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 5012170100
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BFF3673190
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jul 2016 03:52:32 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 20 Jul 2016 20:52:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,397,1464678000"; d="scan'208";a="1010979767"
-Received: from pgsmsx105.gar.corp.intel.com ([10.221.44.96])
-	by fmsmga001.fm.intel.com with ESMTP; 20 Jul 2016 20:52:33 -0700
-Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.41]) by
-	PGSMSX105.gar.corp.intel.com ([169.254.4.204]) with mapi id
-	14.03.0248.002; Thu, 21 Jul 2016 11:52:31 +0800
-From: "Mittal, AnujX" <anujx.mittal@intel.com>
-To: "Yang, Liezhi (Wind River)" <liezhi.yang@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 0/6] [jethro] Consolidated pull
-Thread-Index: AQHR1ojIfyh5Lki8F0y817kY/A+CzKAiVwgw
-Date: Thu, 21 Jul 2016 03:52:31 +0000
-Message-ID: <DFCB2C9E62139C41B3FDE8F2B4659331D3778A@PGSMSX101.gar.corp.intel.com>
-References: <cover.1467700975.git.liezhi.yang@windriver.com>
-In-Reply-To: <cover.1467700975.git.liezhi.yang@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_IC
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiZTJhMWQ5ZDgtZWY5My00N2Y0LTkyNTItZTllMTVhZTYxZjllIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX0lDIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE1LjkuNi42IiwiVHJ1c3RlZExhYmVsSGFzaCI6Ikliek9JRmh5XC9zaHdTaCs1ZDRRYjhkcHVHdEtOd2ptSXZiaWpjcjJXWkMwPSJ9
-x-originating-ip: [172.30.20.206]
+	Thu, 21 Jul 2016 06:54:51 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u6L6spUZ026715
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 20 Jul 2016 23:54:51 -0700 (PDT)
+Received: from [128.224.162.240] (128.224.162.240) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 20 Jul 2016 23:54:50 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1468994042.git.liezhi.yang@windriver.com>
+	<6dc817964ba46c0263b3b07cccf84a9917b72121.1468994042.git.liezhi.yang@windriver.com>
+	<CAJTo0La07P1tsmf_trC0Gj+WQHVYwM=QiASRjBS8fFaBUjSaAA@mail.gmail.com>
+	<579029B1.8030102@windriver.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <579071B9.1010705@windriver.com>
+Date: Thu, 21 Jul 2016 14:54:49 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.8.0
 MIME-Version: 1.0
-Subject: Re: [PATCH 0/6] [jethro] Consolidated pull
+In-Reply-To: <579029B1.8030102@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] btrfs-tools: fix installed-vs-shipped
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,74 +37,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jul 2016 03:52:34 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 21 Jul 2016 06:54:53 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Just wanted to check - when will these changes be merged in Jethro?
 
-Thanks,
+On 07/21/2016 09:47 AM, Robert Yang wrote:
+>
+>
+> On 07/20/2016 07:59 PM, Burton, Ross wrote:
+>>
+>> On 20 July 2016 at 06:54, Robert Yang <liezhi.yang@windriver.com
+>> <mailto:liezhi.yang@windriver.com>> wrote:
+>>
+>>        /lib64/udev/rules.d/64-btrfs-dm.rules
+>>
+>>
+>> This says that the btrfstools recipe is broken, not the packaging.  udev looks
+>> in /lib no matter what $libdir is.
+>>
+>> udev reads UDEVLIBEXECDIR/rules.d, where udevlibexecdir=$(rootprefix)/lib/udev
+>> and we pass rootprefix=$baseprefix (which defaults to /).
+>
+> Thanks, I was misleaded by eudev, whose udevlibexecdir is ${rootlibexecdir}
+> which is ${libdir}/udev, so it is /lib64/udev. It supports /lib/udev and
+> /lib64/udev as the code in eudev-3.2/src/udev/udev-rules.c shows:
+>
+> static const char* const rules_dirs[] = {
+>          UDEV_CONF_DIR "/rules.d",
+>          UDEV_RULES_DIR,
+>          UDEV_ROOT_RUN "/udev/rules.d",
+>          UDEV_LIBEXEC_DIR "/rules.d",
+> #ifdef HAVE_SPLIT_USR
+>          "/lib/udev/rules.d",
+>          "/usr/lib/udev/rules.d",
+> #endif
+>          NULL};
+>
+>
+> But for systemd, it hardcoded to $(rootprefix)/lib/udev.
+>
+> I looked into tmp/deploy/rpms, the following packages doesn't install
+> to /lib/udev, but /lib64/udev or /usr/lib64/udev:
+>
+> tmp/deploy/rpm/core2_64/pcmciautils-018-r1.0.core2_64.rpm
+> tmp/deploy/rpm/core2_64/pulseaudio-server-8.0-r0.0.core2_64.rpm
+> tmp/deploy/rpm/core2_64/alsa-utils-alsactl-1.1.1-r0.0.core2_64.rpm
+> tmp/deploy/rpm/core2_64/mdadm-3.4-r0.0.core2_64.rpm
+> tmp/deploy/rpm/core2_64/libinput-1.3.0-r0.0.core2_64.rpm
+> tmp/deploy/rpm/core2_64/bluez5-5.40-r0.0.core2_64.rpm
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Robert Yang
-> Sent: Tuesday, July 05, 2016 2:44 PM
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH 0/6] [jethro] Consolidated pull
->=20
-> The following changes since commit
-> 1f4bfa33073584c25396d74f3929f263f3df188b:
->=20
->   toasterconf.json: exclude releases Toaster can't build (2016-06-03 13:3=
-6:19
-> +0100)
->=20
-> are available in the git repository at:
->=20
->   git://git.openembedded.org/openembedded-core-contrib rbt/jethro-next
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-
-> contrib/log/?h=3Drbt/jethro-next
->=20
-> Anuj Mittal (1):
->   gcc: make sure header path is set correctly
->=20
-> Armin Kuster (2):
->   tzcode: update to 2016e
->   tzdata: update to 2016e
->=20
-> Enrico Jorns (1):
->   perl-ptest.inc: fix tar call to prevent objcopy failure
->=20
-> George McCollister (1):
->   wic: fix path parsing, use last occurrence
->=20
-> Nicolas Dechesne (1):
->   bluez5: move btmgmt to common READLINE section
->=20
->  meta/recipes-connectivity/bluez5/bluez5_5.33.bb                  | 2 +-
->  meta/recipes-devtools/gcc/gcc-target.inc                         | 1 -
->  meta/recipes-devtools/perl/perl-ptest.inc                        | 4 ++-=
--
->  .../tzcode/{tzcode-native_2016d.bb =3D> tzcode-native_2016e.bb}    | 9 +=
-++++----
->  .../recipes-extended/tzdata/{tzdata_2016d.bb =3D> tzdata_2016e.bb} | 4 +=
-+--
->  scripts/lib/wic/plugin.py                                        | 2 +-
->  6 files changed, 11 insertions(+), 11 deletions(-)
->  rename meta/recipes-extended/tzcode/{tzcode-native_2016d.bb =3D> tzcode-
-> native_2016e.bb} (67%)
->  rename meta/recipes-extended/tzdata/{tzdata_2016d.bb =3D> tzdata_2016e.b=
-b}
-> (98%)
->=20
-> --
-> 2.8.0
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Hi Ross,
+
+I just found that when build with eudev, the files will be installed
+to /lib64/udev, and when build with systemd, they will be inistalled
+to /lib/udev, so I think that they are OK. They use
+"pkg-config --variable=udevdir udev" to find udev dir, while systemd
+is /lib/udev and eudev is /lib64/eudev.
+
+The one which has problem is libinput which installs /usr/lib/udev or
+/usr/lib64/udev, this in incorrect. Another problem is that systemd
+doesn't install udev.pc.
+
+I think that the fix for btrfs-tools is correct. I will send a V2 with
+another 2 fixes.
+
+// Robert
+
+
+>
+> I will fix all of them.
+>
+> // Robert
+>
+>>
+>> Ross
 
