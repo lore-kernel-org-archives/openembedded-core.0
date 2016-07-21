@@ -1,24 +1,26 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 08768731C3
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 244F1731C3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jul 2016 08:55:42 +0000 (UTC)
+	Thu, 21 Jul 2016 08:55:45 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u6L8td0j023780
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u6L8tj5n023151
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jul 2016 01:55:42 -0700
+	Thu, 21 Jul 2016 01:55:45 -0700 (PDT)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Thu, 21 Jul 2016 01:55:37 -0700
+	14.3.248.2; Thu, 21 Jul 2016 01:55:43 -0700
 From: <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Jul 2016 16:52:57 +0800
-Message-ID: <cover.1469091122.git.kai.kang@windriver.com>
+Date: Thu, 21 Jul 2016 16:52:58 +0800
+Message-ID: <321550cbcc119cec8a9e3675888e85420fe8090b.1469091122.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 2.9.2.368.g08bb350
+In-Reply-To: <cover.1469091122.git.kai.kang@windriver.com>
+References: <cover.1469091122.git.kai.kang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] Fix a error in kernel-uimage.bbclass
+Subject: [PATCH 1/1] kernel-uimage.bbclass: indeed update var KERNEL_IMAGETYPE_FOR_MAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,26 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jul 2016 08:55:43 -0000
+X-List-Received-Date: Thu, 21 Jul 2016 08:55:50 -0000
 Content-Type: text/plain
 
 From: Kai Kang <kai.kang@windriver.com>
 
-The following changes since commit 36feb38045b7a2af86ece147fec54b0db3bf491f:
+The replace() method of the python string class doesn't replace
+in-place, then the var KERNEL_IMAGETYPE_FOR_MAKE doesn't be updated as
+design.
 
-  linux-yocto: Update genericx86* SRCREVs for linux-yocto 4.4 (2016-07-21 07:48:53 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib kangkai/kernel
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/kernel
-
-Kai Kang (1):
-  kernel-uimage.bbclass: indeed update var KERNEL_IMAGETYPE_FOR_MAKE
-
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
  meta/classes/kernel-uimage.bbclass | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
+diff --git a/meta/classes/kernel-uimage.bbclass b/meta/classes/kernel-uimage.bbclass
+index 2a187f5..340503a 100644
+--- a/meta/classes/kernel-uimage.bbclass
++++ b/meta/classes/kernel-uimage.bbclass
+@@ -14,8 +14,7 @@ python __anonymous () {
+         if d.getVar("KEEPUIMAGE", True) != 'yes':
+             typeformake = d.getVar("KERNEL_IMAGETYPE_FOR_MAKE", True) or ""
+             if "uImage" in typeformake.split():
+-                typeformake.replace('uImage', 'vmlinux')
+-            d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake)
++                d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake.replace('uImage', 'vmlinux'))
+ }
+ 
+ do_uboot_mkimage() {
 -- 
 2.9.2.368.g08bb350
 
