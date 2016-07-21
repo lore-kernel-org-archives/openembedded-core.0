@@ -1,31 +1,28 @@
-Return-Path: <Liezhi.Yang@windriver.com>
+Return-Path: <Jianchuan.Wang@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 07E2560746
+	by mail.openembedded.org (Postfix) with ESMTP id 60C0A6FF0E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jul 2016 09:02:11 +0000 (UTC)
+	Thu, 21 Jul 2016 09:37:21 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u6L927Iq023950
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u6L9bGkI024648
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Thu, 21 Jul 2016 02:02:09 -0700
-Received: from [128.224.162.240] (128.224.162.240) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 21 Jul 2016 02:02:05 -0700
+	Thu, 21 Jul 2016 02:37:20 -0700
+Received: from [128.224.162.163] (128.224.162.163) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 21 Jul 2016 02:37:16 -0700
 To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1468994042.git.liezhi.yang@windriver.com>
-	<6dc817964ba46c0263b3b07cccf84a9917b72121.1468994042.git.liezhi.yang@windriver.com>
-	<CAJTo0La07P1tsmf_trC0Gj+WQHVYwM=QiASRjBS8fFaBUjSaAA@mail.gmail.com>
-	<579029B1.8030102@windriver.com>
-	<CAJTo0LZV214ESWaX+c6aRHofKGjKgkw1nK9-JF_xivKDP+Hj6Q@mail.gmail.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <57908F8B.8010709@windriver.com>
-Date: Thu, 21 Jul 2016 17:02:03 +0800
+References: <1468896078-226867-1-git-send-email-jianchuan.wang@windriver.com>
+	<CAJTo0La8K1ujxo9K7pXm1roNarYH77ijc50ps13y_hP9uAgDeQ@mail.gmail.com>
+From: Jianchuan Wang <Jianchuan.Wang@windriver.com>
+Message-ID: <579097CA.108@windriver.com>
+Date: Thu, 21 Jul 2016 17:37:14 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
 	Thunderbird/38.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZV214ESWaX+c6aRHofKGjKgkw1nK9-JF_xivKDP+Hj6Q@mail.gmail.com>
+In-Reply-To: <CAJTo0La8K1ujxo9K7pXm1roNarYH77ijc50ps13y_hP9uAgDeQ@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] btrfs-tools: fix installed-vs-shipped
+Subject: Re: [PATCH 1/1] net-tools: lib/inet6.c:INET6_rresolve() - various fixes [ LIN9-1102 ]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,31 +35,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jul 2016 09:02:13 -0000
+X-List-Received-Date: Thu, 21 Jul 2016 09:37:22 -0000
+Content-Type: multipart/alternative;
+	boundary="------------060406060403080101070304"
+
+--------------060406060403080101070304
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
-On 07/21/2016 04:46 PM, Burton, Ross wrote:
+On 07/20/2016 08:33 PM, Burton, Ross wrote:
+> Please have a more useful short summary.
 >
-> On 21 July 2016 at 02:47, Robert Yang <liezhi.yang@windriver.com
-> <mailto:liezhi.yang@windriver.com>> wrote:
+> On 19 July 2016 at 03:41, <jianchuan.wang@windriver.com 
+> <mailto:jianchuan.wang@windriver.com>> wrote:
 >
->     Thanks, I was misleaded by eudev, whose udevlibexecdir is ${rootlibexecdir}
->     which is ${libdir}/udev, so it is /lib64/udev. It supports /lib/udev and
->     /lib64/udev as the code in eudev-3.2/src/udev/udev-rules.c shows:
+>     From: Shan Hai <shan.hai@windriver.com
+>     <mailto:shan.hai@windriver.com>>
 >
+>     Integrate net-tools upstream commit a70c568b907d to fix a bug which
+>     causes the 'netstat -a' to print "[UNKNOWN]" in case of DNS problem
+>     instead of IPv6 address.
 >
-> Well thanks to eudev for introducing incompatible changes for no reason.
->
-> In that case we should fix the FILES definition in bitbake.conf which packages
-> the udev rules into PN.
+The commit a70c568b907d is from 
+https://github.com/ecki/net-tools/commit/a70c568b907d23ec2cf7defc81be50c351968f12, 
+not from net-tools upstream.
 
-Thanks, I will add ${base_libdir}/udev and send V2.
+I will correct the description.
 
-// Robert
+Thanks,
+Jianchuan
 
+> ...
+>
+>      +Upstream-Status: Pending
+>
+>
+> Don't you mean Backport?
 >
 > Ross
 
+
+--------------060406060403080101070304
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <br>
+    <br>
+    <div class="moz-cite-prefix">On 07/20/2016 08:33 PM, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0La8K1ujxo9K7pXm1roNarYH77ijc50ps13y_hP9uAgDeQ@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">Please have a more useful short summary.<br>
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 19 July 2016 at 03:41, <span
+              dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:jianchuan.wang@windriver.com"
+                target="_blank">jianchuan.wang@windriver.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">From:
+              Shan Hai &lt;<a moz-do-not-send="true"
+                href="mailto:shan.hai@windriver.com">shan.hai@windriver.com</a>&gt;<br>
+              <br>
+              Integrate net-tools upstream commit a70c568b907d to fix a
+              bug which<br>
+              causes the 'netstat -a' to print "[UNKNOWN]" in case of
+              DNS problem<br>
+              instead of IPv6 address.</blockquote>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    The commit a70c568b907d is from <a title="Follow link"
+href="https://github.com/ecki/net-tools/commit/a70c568b907d23ec2cf7defc81be50c351968f12">https://github.com/ecki/net-tools/commit/a70c568b907d23ec2cf7defc81be50c351968f12</a>,
+    not from net-tools upstream.<br>
+    <br>
+    I will correct the description.<br>
+    <br>
+    Thanks,<br>
+    Jianchuan<br>
+    <br>
+    <blockquote
+cite="mid:CAJTo0La8K1ujxo9K7pXm1roNarYH77ijc50ps13y_hP9uAgDeQ@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra">
+          <div class="gmail_quote">
+            <div>... </div>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex"> +Upstream-Status:
+              Pending</blockquote>
+            <div><br>
+            </div>
+            <div>Don't you mean Backport?</div>
+            <div><br>
+            </div>
+            <div>Ross</div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------060406060403080101070304--
