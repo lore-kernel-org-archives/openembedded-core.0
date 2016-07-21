@@ -1,46 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BB15605BA
+Received: from mail-it0-f47.google.com (mail-it0-f47.google.com
+	[209.85.214.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 78CDA606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jul 2016 19:31:11 +0000 (UTC)
-Received: by mail-wm0-f45.google.com with SMTP id f65so32662840wmi.0
+	Thu, 21 Jul 2016 19:46:14 +0000 (UTC)
+Received: by mail-it0-f47.google.com with SMTP id j124so28137877ith.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jul 2016 12:31:12 -0700 (PDT)
+	Thu, 21 Jul 2016 12:46:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=iNud5DqRk8d1XRo7Vy7CiXH9EtG5Cyq1dkR22/DT9tA=;
-	b=KR+CZ4+C1/hIBQzHzEDIXNsX+swmYHtl0Yno46xMGrCuEA+P2zTWGRdWvnYcGEIMu5
-	f84awFyXI8fo5jM433pScJh5AO5B3/39IViAAfHeJEBVi+ssOlsWA0c7zo9fxX2NSlww
-	Xf4dIJggozDQR9KQ5V6bXEu0TI/cpb+e15CWx/XpoY+D6pxmGsR/15KC54PuFDqvh0mQ
-	7XeXIx5etPKH8ab9KZVNYhwPSDm2+FPpG7tRfWUQmRL98GvUo5s9/5iCKVJMW9D0a9oa
-	IuqwZgr0Hh6oNp4rdojnq1QIAVLCdh1iw1oIJH0Cgfu4DQUAN/sNUPgnKYwBkfIiY7ak
-	31qA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=rpAxxDuAfZN1OKGtEyWKmERQpRsMJtvYYuAlRCNf79o=;
+	b=eX7obG8yCT4aSgbtNY5hgZUg6fImsbHtCJvhQljE2IW934nqv/GhCmj+4XSmA+awgX
+	ieMsvjX8kxGWMgZY1vzF0ax+mvexrCtVuCKqD1CwMPwljJzKhbItQ06kl1yKS6C/kdXZ
+	z+m16r6mTlQ0o54mH3SFpzhjVFRm+v31HpjtU9kksj5Uk0xHOf3jVJ9AEABpsJ2on4Oj
+	+aKvdlmul9NA8nbuzoxjGSlZv1ZoQVfUJ+o8fpn1ZXpayuPWalhlnvnR6TuPVMAasGH/
+	sH2sO23+w3Ty6mih3Pj/0FopUUGrmyBoDnBUtmM0ZE6QG4L5HQchoOhHEz6k6fjOAVHy
+	1rVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=iNud5DqRk8d1XRo7Vy7CiXH9EtG5Cyq1dkR22/DT9tA=;
-	b=lTFr4F/j3Jn2l/CFVJHJHO0b7V8IyLXkVTJE6m7358clR+iho/GlF/kQdBJGRmkP2q
-	hX0Nguk1X+nIKMnlmjWe6XU1DkD1FTih/k6hde3cLc6gFtBRJrL0hWbxVCqQJOZuuq2Q
-	5E44xxD4Q0LA+2e9GTA8VGbRpkAh/BSE4e9RlopphGlpEUMtphmc6KmW3LgZssSRLjGk
-	uXtzu5VmYB0bxvMjebO2xLoKU6OCdfsxM6E6/PG/J/ziSbIziZMUtNsYU43i6vVt6dwl
-	y5tS3jk/E2oypjWo/HcjNs+FQbVNipw/Z6bj5sE3fgJeP/Uu7yuC2AoZkH6FqRgRSmo7
-	Zjyg==
-X-Gm-Message-State: ALyK8tKK2t8yYjExMbafyA5LlhYJkchA/jR6A8Vt1l6xNYF9oSwaeWmiamkBkjMMavz7qkD/
-X-Received: by 10.28.148.21 with SMTP id w21mr16990185wmd.50.1469129470949;
-	Thu, 21 Jul 2016 12:31:10 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	q137sm6522351wmd.19.2016.07.21.12.31.09
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 21 Jul 2016 12:31:10 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Jul 2016 20:31:08 +0100
-Message-Id: <1469129468-2776-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] insane: only check ${S} exists if we had sources to fetch
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=rpAxxDuAfZN1OKGtEyWKmERQpRsMJtvYYuAlRCNf79o=;
+	b=V4yFnURGAcDXP2+b6PqlzpWJukG30sPZfSrxcanMKogzvmPECx2iWMeuq1SxD6SR3Q
+	je65pyNvz8tocoDyXP57e1+XbrySBVROGufMFmKxOtafjjxZLmkwqzaCK+NM3uhdKDjq
+	PdwKxFxOI7RHVtdHa8P34+VBK0hBSrjb+legGSplqmh03sg6nutGlGHRFJs1/xXProrZ
+	OyZOS/l4yYfutCqQE46ye3Mpxyeanq5s6gLgfohWI/SvMrNiiwrdBPZnVRJlmyg8m8XP
+	tbaGnRfQdgwlAokZtQLALo13c/n402W8FnOG/3voxm8zBa2hYpcFwyGLP1zhh6rsvSxF
+	Z2vQ==
+X-Gm-Message-State: AEkoouuAvIccoi9+LTsfNZzqq15PWwptYzdKyu9n1xSUsVX0ye1ou9YTGKV/lrXTSTzyUrHieipdhXNAu+6a9hft
+X-Received: by 10.36.57.211 with SMTP id l202mr63825ita.22.1469130375622; Thu,
+	21 Jul 2016 12:46:15 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.18.17 with HTTP; Thu, 21 Jul 2016 12:45:56 -0700 (PDT)
+In-Reply-To: <1468599986-26072-1-git-send-email-clemens.lang@bmw-carit.de>
+References: <1468599986-26072-1-git-send-email-clemens.lang@bmw-carit.de>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 21 Jul 2016 20:45:56 +0100
+Message-ID: <CAJTo0Lb=OdKYCog2jMW=r6XWNFkyHv7VB0ho4ndDOt=V1NDYyA@mail.gmail.com>
+To: Clemens Lang <clemens.lang@bmw-carit.de>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] lib/oe/path: Fix tar invocation with --no-recursion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,38 +53,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jul 2016 19:31:11 -0000
+X-List-Received-Date: Thu, 21 Jul 2016 19:46:16 -0000
+Content-Type: multipart/alternative; boundary=001a114ab3ca2b3f3a05382a9247
 
-Only check that ${S} actually exists if there was something in ${SRC_URI} to
-fetch, the argument being that if SRC_URI is empty the the recipe won't be using
-${S} at all.
+--001a114ab3ca2b3f3a05382a9247
+Content-Type: text/plain; charset=UTF-8
 
-In general recipes that have no sources can remove the unpack task, but
-expecting all recipes to do this relatively advanced operation isn't realistic.
+Hi Clemens,
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/insane.bbclass | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+On 15 July 2016 at 17:26, Clemens Lang <clemens.lang@bmw-carit.de> wrote:
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 9b2337c..c389cfe 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -1246,10 +1246,9 @@ Missing inherit gettext?""" % (gt, config))
- }
- 
- python do_qa_unpack() {
--    bb.note("Checking has ${S} been created")
--
-+    src_uri = d.getVar("SRC_URI", True)
-     s_dir = d.getVar('S', True)
--    if not os.path.exists(s_dir):
-+    if src_uri and not os.path.exists(s_dir):
-         bb.warn('%s: the directory %s (%s) pointed to by the S variable doesn\'t exist - please set S within the recipe to point to where the source has been unpacked to' % (d.getVar('PN', True), d.getVar('S', False), s_dir))
- }
- 
--- 
-2.8.1
+> -        cmd = 'cd %s; find . -type d -print | tar -cf - -C %s -p
+> --files-from - --no-recursion | tar -xf - -C %s' % (src, src, dst)
+> +        cmd = 'cd %s; find . -type d -print | tar -cf - -C %s -p
+> --no-recursion --files-from - | tar -xf - -C %s' % (src, src, dst)
+>
 
+I applied this manually as it's just a one-liner, but please do try to send
+a patch based on master (the commit which caused this patch to not apply
+was a week old when this was sent).
 
+Ross
+
+--001a114ab3ca2b3f3a05382a9247
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Clemens,</div><div class=3D"=
+gmail_extra"><br><div class=3D"gmail_quote">On 15 July 2016 at 17:26, Cleme=
+ns Lang <span dir=3D"ltr">&lt;<a href=3D"mailto:clemens.lang@bmw-carit.de" =
+target=3D"_blank">clemens.lang@bmw-carit.de</a>&gt;</span> wrote:<br><block=
+quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
+ solid;padding-left:1ex"><div id=3D":5w4" class=3D"a3s aXjCH m155ef66fa597d=
+8ee">-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd =3D &#39;cd %s; find . -type d -print=
+ | tar -cf - -C %s -p --files-from - --no-recursion | tar -xf - -C %s&#39; =
+% (src, src, dst)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd =3D &#39;cd %s; find . -type d -print | ta=
+r -cf - -C %s -p --no-recursion --files-from - | tar -xf - -C %s&#39; % (sr=
+c, src, dst)</div></blockquote></div><br>I applied this manually as it&#39;=
+s just a one-liner, but please do try to send a patch based on master (the =
+commit which caused this patch to not apply was a week old when this was se=
+nt).</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">R=
+oss</div></div>
+
+--001a114ab3ca2b3f3a05382a9247--
