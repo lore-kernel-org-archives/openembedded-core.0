@@ -1,49 +1,43 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 116076FF0E
+Return-Path: <kkobru@gmail.com>
+Received: from mail-lf0-f51.google.com (mail-lf0-f51.google.com
+	[209.85.215.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E0206FF0E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jul 2016 08:46:53 +0000 (UTC)
-Received: by mail-io0-f174.google.com with SMTP id 38so70232632iol.0
+	Thu, 21 Jul 2016 08:53:11 +0000 (UTC)
+Received: by mail-lf0-f51.google.com with SMTP id b199so55590645lfe.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jul 2016 01:46:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=EDOxP3+IIetPGudXR5SDAMVhbAgWaBt/51uaxd+MqkY=;
-	b=OfeRo8Zsj30qVgRWnHkkpWjd7jQrnfI4xHFtWeeCH5YrHfLZIvG/NBHucyiQ2bZB/u
-	JAlXAwTvhQMys3+Gi0qRgQd0SWNkUE62vH5q9jkotwOHAj1BoEXE5vyvoZL+jXSaUJqG
-	xeq4AX8nXyoV4L5oBY2G2VrYKBmxgbre2wr7FUWPLKwrbpIsCYgv7NzYAPtk2Nndk2yW
-	58UgtbwaSAQlTyilR8Mm18T6eao6FUNzNzysb9kipqa55iH76XNnhcnJWMng4WLuz+Eh
-	YwH7qkeS3eTxMrm2I6X7h9ssvVSkgexxRf/wAdrenfaBxugHiVbw0MKHZ/Fh213+4SCT
-	JU4w==
+	Thu, 21 Jul 2016 01:53:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:from:date:message-id:subject:to;
+	bh=QJKDvgsaOxnIFthThQi8O/JNQjWmI2A5AIHMcBcxmlM=;
+	b=bYc40xzJLHWo7c8hq1URFbRTWUPkD7WnRkl2I82luFaWB9bmXbBGVLDMFgnH0s8OnT
+	QyaM1mp1Lkn6vXbYhc1vCJmHlUW3NWMxGZoRx61/m0R5om4Dy3nI0MTY7RzjZGJb9e6r
+	U5/5UTrfGmNSjlRd+6zBY1oWOFAV3UImjni/FevUcqhziacmeAGpcDBbBl+71Igbh3jC
+	NAyHRlr6pyTwCN0ljHWlIXuY57YSBJiVemxIqjN/fXbmNigEJ/gCAPTYVTURDZhbjq3t
+	mamqvW1kfaENYHxdXdy8iiYu5ctv+sLY5lXNjzIKaGdUmzBwCRiXUs52VQKIJ2a3oJ4p
+	pspg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=EDOxP3+IIetPGudXR5SDAMVhbAgWaBt/51uaxd+MqkY=;
-	b=A1r8v5ZNdTRwLJUrMCYhGD0qx5gIfgO9zn+wmnH1zzMbSlC3k29cfiQ+G95JysqLbe
-	+9t9zWWU+fqIr2zL4JfwhWAyev4Nox9migNu2WX9Mv5l1zIjMnNmrS7fMPTyBJ0IHkfz
-	jwRqcl5VYOfZnnrgnDAEv89x0iu7QYIuXFCB10hSLsg95EcpThhJcWA5y3NJ4ddlpaQM
-	FnRQa7KJZ7u7duKGIzaizEaRI3mSqby/dsjIt7fWWUNvGkikFgkThJUpygLK+4qaklt4
-	XmrNQmhBHgTsdUlmk4k45H9WVGqj4/P6A+qv6qRq0c47jdBRCT7wGWcwYhdcT86T4mKU
-	X51Q==
-X-Gm-Message-State: ALyK8tK6xJ+QSFx16S0t4Gl6elih62V7EYqXTYGrAMorpYv6yc4iWaUb8GMKuw/Og81i/iJ+w2SFfKfXGEBwTa3e
-X-Received: by 10.107.154.196 with SMTP id c187mr19242724ioe.99.1469090814230; 
-	Thu, 21 Jul 2016 01:46:54 -0700 (PDT)
+	h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+	:to; bh=QJKDvgsaOxnIFthThQi8O/JNQjWmI2A5AIHMcBcxmlM=;
+	b=iCEArK4BLSwA6iMA9wDx1d7vKkxfS/lT4zcLI8Y2iIx0BuxA9Hi6Okob/PY2lhsoud
+	jEtRHyBQcxY9JobjxINhQW8YhpCv7RDbAJNOZpK5H5D1+8Huli5FgRAvPTWNkMTdLiGK
+	Gdm+dd8a/L88/9GzNqQeetsoLo/hai7rdRWQnh4f4AI+YkkdmTw581JNmQVxxNX+pa2z
+	/6695DTr6Oxpi+s36ehRK1ElgElVjA8wCXFVUZELloBvF7snpLKPjtwoUpeylud8sorU
+	KWk5YcqSRju1Ly1Jnsm1FypU2ozfq/RbVnNjCzPR67LQV3YjlHw8ksS1KHrxQyiml0F5
+	CjAw==
+X-Gm-Message-State: ALyK8tIJNxc+6wYCIyNzL4uCtyfdakaZtO3Kj/e8scArvgskn3BJJeZC2KWTV3ciGJKXTEJW30FRjTo2Ld/5Mw==
+X-Received: by 10.46.5.68 with SMTP id 65mr21663622ljf.16.1469091191780; Thu,
+	21 Jul 2016 01:53:11 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Thu, 21 Jul 2016 01:46:34 -0700 (PDT)
-In-Reply-To: <579029B1.8030102@windriver.com>
-References: <cover.1468994042.git.liezhi.yang@windriver.com>
-	<6dc817964ba46c0263b3b07cccf84a9917b72121.1468994042.git.liezhi.yang@windriver.com>
-	<CAJTo0La07P1tsmf_trC0Gj+WQHVYwM=QiASRjBS8fFaBUjSaAA@mail.gmail.com>
-	<579029B1.8030102@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 21 Jul 2016 09:46:34 +0100
-Message-ID: <CAJTo0LZV214ESWaX+c6aRHofKGjKgkw1nK9-JF_xivKDP+Hj6Q@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] btrfs-tools: fix installed-vs-shipped
+Sender: kkobru@gmail.com
+Received: by 10.114.82.40 with HTTP; Thu, 21 Jul 2016 01:53:11 -0700 (PDT)
+From: "Oleg V. Kobrin" <oleg@portlab.ru>
+Date: Thu, 21 Jul 2016 11:53:11 +0300
+X-Google-Sender-Auth: jbsh7pnZhvVCKCjQxDBiWLg6u8k
+Message-ID: <CAP1eXm6yhgsweLn8x5w2J4j1y6_qJeeunOmmy1-HeEfo54TYOg@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Cannot find the information on sdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,44 +50,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jul 2016 08:46:55 -0000
-Content-Type: multipart/alternative; boundary=001a1140e81e203e910538215c38
+X-List-Received-Date: Thu, 21 Jul 2016 08:53:13 -0000
+Content-Type: multipart/alternative; boundary=001a114a8dcaa0fa080538217294
 
---001a1140e81e203e910538215c38
+--001a114a8dcaa0fa080538217294
 Content-Type: text/plain; charset=UTF-8
 
-On 21 July 2016 at 02:47, Robert Yang <liezhi.yang@windriver.com> wrote:
+Good day!
 
-> Thanks, I was misleaded by eudev, whose udevlibexecdir is ${rootlibexecdir}
-> which is ${libdir}/udev, so it is /lib64/udev. It supports /lib/udev and
-> /lib64/udev as the code in eudev-3.2/src/udev/udev-rules.c shows:
->
+I am using the OE to build my application for Beaglebone Black, and it
+works fine, as I installed the sysrooted sdk on my machine and use it for
+build. The problem is that I need to add some libs (i.e. orbit2) to my
+project and cannot find the information how to add them to sysroot.
 
-Well thanks to eudev for introducing incompatible changes for no reason.
+For now I have sdk installed in /usr/local/oecore-x86_64/sysroots/. The
+opkg is not working in the sdk environment - opkg list is empty.
 
-In that case we should fix the FILES definition in bitbake.conf which
-packages the udev rules into PN.
+I see full sysroot with all the libraries in build/sysroots/x86_64-linux in
+my local OE directory, and it seems to be functional, but I have no idea
+how to transfer its contents to installed sysroot.
 
-Ross
+Any help? Thank you!
 
---001a1140e81e203e910538215c38
+-- 
+_____________
+Oleg V. Kobrin
+
+--001a114a8dcaa0fa080538217294
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 21 July 2016 at 02:47, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4se" cla=
-ss=3D"a3s aXjCH m1560b23584e8f820">Thanks, I was misleaded by eudev, whose =
-udevlibexecdir is ${rootlibexecdir}<br>
-which is ${libdir}/udev, so it is /lib64/udev. It supports /lib/udev and<br=
->
-/lib64/udev as the code in eudev-3.2/src/udev/udev-rules.c shows:<br></div>=
-</blockquote></div><br>Well thanks to eudev for introducing incompatible ch=
-anges for no reason.</div><div class=3D"gmail_extra"><br></div><div class=
-=3D"gmail_extra">In that case we should fix the FILES definition in bitbake=
-.conf which packages the udev rules into PN.</div><div class=3D"gmail_extra=
-"><br></div><div class=3D"gmail_extra">Ross</div></div>
+<div dir=3D"ltr"><span style=3D"font-size:12.8px">Good day!</span><div styl=
+e=3D"font-size:12.8px"><br></div><div style=3D"font-size:12.8px">I am using=
+ the OE to build my application for Beaglebone Black, and it works fine, as=
+ I installed the sysrooted sdk on my machine and use it for build. The prob=
+lem is that I need to add some libs (i.e. orbit2) to my project and cannot =
+find the information how to add them to sysroot.</div><div style=3D"font-si=
+ze:12.8px"><br></div><div style=3D"font-size:12.8px">For now I have sdk ins=
+talled in=C2=A0/usr/local/oecore-x86_64/sysroots/. The opkg is not working =
+in the sdk environment - opkg list is empty.</div><div style=3D"font-size:1=
+2.8px"><br></div><div style=3D"font-size:12.8px">I see full sysroot with al=
+l the libraries in build/sysroots/x86_64-linux in my local OE directory, an=
+d it seems to be functional, but I have no idea how to transfer its content=
+s to installed sysroot.</div><div style=3D"font-size:12.8px"><br></div><div=
+ style=3D"font-size:12.8px">Any help? Thank you!</div><div><br></div>-- <br=
+><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">________=
+_____<br>Oleg V. Kobrin</div>
 
---001a1140e81e203e910538215c38--
+</div>
+
+--001a114a8dcaa0fa080538217294--
