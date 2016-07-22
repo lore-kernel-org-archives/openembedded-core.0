@@ -1,45 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id F0D7660290
+Return-Path: <Jianchuan.Wang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 15FD660290
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jul 2016 01:17:27 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id i6so6323331pfe.0
+	Fri, 22 Jul 2016 02:21:20 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u6M2LLLY007887
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jul 2016 18:17:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=5nnkVi+Sb+iauFVERX9XfQJv0BuRqEEllhqSYe0nRu4=;
-	b=oulsaBcJmGRQWpH+iP6e+ug/xT7EIDip9zfZBm2/fAvHpr3KqwjAhH3D5udWslfp0D
-	0TaFmvOVQH5jqElqgHPUIem2+gU8i6W9SVYuIgsVjItUgrnTwXJgjkUVAcDZgwvS3Axz
-	SQtLuPmg+Q7YZbb7ZpzzEaLiGdcGxOnmA5zvEkLt6xZss5Ya1URaAWzeqjvpUF8OLlx9
-	dI67QTjRtDxpEieeOU4PbHC1uOPqPzdY0hs0WuqGbYA5P6+IxMNCdfGmNj6Ehu2mi3UI
-	PM+q3m2hdPuABguU3zPq/O6Ec8/4ert8nLQXGg9NfcBtERS2kMfHIaLK+WSz7Hm6vl2P
-	Glxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=5nnkVi+Sb+iauFVERX9XfQJv0BuRqEEllhqSYe0nRu4=;
-	b=hWSniZGMlgXki9kmVMf50oB5M3mKQs5/XhAC4z0PjQj1X77l1xL2PoHMVOdgPv5W+I
-	01GNPZSpvjzWUK2IpAPt0G2+BsW5fSDy8NdMYzjS/lhRNDSKsarmRUm9bVfZIdSsZPos
-	id0xyl9eY9tXsff5PvL2jZwofGjA1rjNQDPx2ttpVHF8106+UnlYcddUGo25gr7Y4Uqs
-	bgFt3ZQibTs9o5nNeuS0e7B3WyAhUUmFiBh+RJHn31ejjN7jSHfn+G5YeVdx0JuHQyWa
-	u518b3ycDYAAGA9AQm32j8tRcbIp/SzGu6yZ6VZRymiTJJH1ApzwVjDgalShTeSOjM7c
-	UGWw==
-X-Gm-Message-State: AEkooutjmwGXkONCCUg53XCpJhv4l2BYEnzSljAz1TrAIYLGyb5D+iWDxRi+Z4HfWCQH+A==
-X-Received: by 10.98.30.133 with SMTP id e127mr1902686pfe.104.1469150248372;
-	Thu, 21 Jul 2016 18:17:28 -0700 (PDT)
-Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
-	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	s89sm15027342pfi.83.2016.07.21.18.17.27
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 21 Jul 2016 18:17:27 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Jul 2016 18:17:20 -0700
-Message-Id: <20160722011720.5975-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.9.0
-Subject: [PATCH] gcc: Don't use vectorized builtins when Neon is not there
+	Thu, 21 Jul 2016 19:21:21 -0700 (PDT)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 21 Jul 2016 19:21:20 -0700
+From: <jianchuan.wang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 21 Jul 2016 22:21:19 -0400
+Message-ID: <1469154079-88534-1-git-send-email-jianchuan.wang@windriver.com>
+X-Mailer: git-send-email 2.8.1
+MIME-Version: 1.0
+Subject: [PATCH] net-tools: lib/inet6.c:INET6_rresolve() - various fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,128 +31,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jul 2016 01:17:28 -0000
+X-List-Received-Date: Fri, 22 Jul 2016 02:21:21 -0000
+Content-Type: text/plain
 
-Fixes [YOCTO #9991]
+From: Shan Hai <shan.hai@windriver.com>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Integrate the commit from https://github.com/ecki/net-tools/commit/a70c568b907d23ec2cf7defc81be50c351968f12
+to fix a bug which causes the 'netstat -a' to print "[UNKNOWN]" in case of
+DNS problem instead of IPv6 address.
+
+Signed-off-by: Jianchuan Wang <jianchuan.wang@windriver.com>
 ---
- meta/recipes-devtools/gcc/gcc-6.1.inc              |  1 +
- ...et-71056-Don-t-use-vectorized-builtins-wh.patch | 92 ++++++++++++++++++++++
- 2 files changed, 93 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-6.1/0048-ARM-PR-target-71056-Don-t-use-vectorized-builtins-wh.patch
+ ...-lib-inet6.c-INET6_rresolve-various-fixes.patch | 87 ++++++++++++++++++++++
+ .../net-tools/net-tools_1.60-26.bb                 |  1 +
+ 2 files changed, 88 insertions(+)
+ create mode 100644 meta/recipes-extended/net-tools/net-tools/0001-lib-inet6.c-INET6_rresolve-various-fixes.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-6.1.inc b/meta/recipes-devtools/gcc/gcc-6.1.inc
-index 0426028..f52842d 100644
---- a/meta/recipes-devtools/gcc/gcc-6.1.inc
-+++ b/meta/recipes-devtools/gcc/gcc-6.1.inc
-@@ -79,6 +79,7 @@ SRC_URI = "\
-            file://0045-libgcc-Add-knob-to-use-ldbl-128-on-ppc.patch \
-            file://0046-Link-libgcc-using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch \
-            file://0047-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch \
-+           file://0048-ARM-PR-target-71056-Don-t-use-vectorized-builtins-wh.patch \
-            ${BACKPORTS} \
-            file://CVE-2016-4490.patch \
- "
-diff --git a/meta/recipes-devtools/gcc/gcc-6.1/0048-ARM-PR-target-71056-Don-t-use-vectorized-builtins-wh.patch b/meta/recipes-devtools/gcc/gcc-6.1/0048-ARM-PR-target-71056-Don-t-use-vectorized-builtins-wh.patch
+diff --git a/meta/recipes-extended/net-tools/net-tools/0001-lib-inet6.c-INET6_rresolve-various-fixes.patch b/meta/recipes-extended/net-tools/net-tools/0001-lib-inet6.c-INET6_rresolve-various-fixes.patch
 new file mode 100644
-index 0000000..9c39c7f
+index 0000000..8be45cc
 --- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-6.1/0048-ARM-PR-target-71056-Don-t-use-vectorized-builtins-wh.patch
-@@ -0,0 +1,92 @@
-+From 84d2a5509892b65ed60d39e6e2f9719e3762e40e Mon Sep 17 00:00:00 2001
-+From: ktkachov <ktkachov@138bc75d-0d04-0410-961f-82ee72b054a4>
-+Date: Tue, 31 May 2016 08:29:39 +0000
-+Subject: [PATCH] [ARM] PR target/71056: Don't use vectorized builtins when
-+ NEON is not available
++++ b/meta/recipes-extended/net-tools/net-tools/0001-lib-inet6.c-INET6_rresolve-various-fixes.patch
+@@ -0,0 +1,87 @@
++From 08abfcd923e9f37d1902db26771b1dc6731eb265 Mon Sep 17 00:00:00 2001
++From: Jiri Popelka <jpopelka@redhat.com>
++Date: Fri, 27 Sep 2013 18:40:06 +0200
++Subject: [PATCH 1/1] lib/inet6.c:INET6_rresolve() - various fixes
 +
-+	PR target/71056
-+	* config/arm/arm-builtins.c (arm_builtin_vectorized_function): Return
-+	NULL_TREE early if NEON is not available.  Remove now redundant check
-+	in ARM_CHECK_BUILTIN_MODE.
++1) Fall-back to numeric address if getnameinfo fails.
++   Reverse lookup is not mandatory, therefore its fail
++   is not an error. Just return numeric address in that case.
++   This makes netstat/route show IPv6 address instead of
++   [UNKNOWN] in case of DNS problems.
 +
-+	* gcc.target/arm/pr71056.c: New test.
++2) Pass length of 'name' buffer into function.
++   'name' is a pointer and therefore sizeof(name)
++   returns size of pointer and not size of the buffer.
++   see http://stackoverflow.com/questions/14298710/c-pointers-and-arrays-sizeof-operator
++   The sizeof() usage was added with commit 604785adc,
++   so I checked all the other changes in that commit
++   and they seem to be OK.
 +
++3) remove unused 's' variable
 +
++Upstream-Status: Pending
 +
-+git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/branches/gcc-6-branch@236910 138bc75d-0d04-0410-961f-82ee72b054a4
++Signed-off-by: Shan Hai <shan.hai@windriver.com>
++Signed-off-by: Jianchuan Wang <jianchuan.wang@windriver.com>
 +---
-+Upstream-Status: Backport
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
++ lib/inet6.c | 21 ++++++++++-----------
++ 1 file changed, 10 insertions(+), 11 deletions(-)
 +
-+ gcc/ChangeLog                          |  7 +++++++
-+ gcc/config/arm/arm-builtins.c          |  6 +++++-
-+ gcc/testsuite/ChangeLog                |  5 +++++
-+ gcc/testsuite/gcc.target/arm/pr71056.c | 32 ++++++++++++++++++++++++++++++++
-+ 4 files changed, 49 insertions(+), 1 deletion(-)
-+ create mode 100644 gcc/testsuite/gcc.target/arm/pr71056.c
-+
-+diff --git a/gcc/config/arm/arm-builtins.c b/gcc/config/arm/arm-builtins.c
-+index 90fb40f..68b2839 100644
-+--- a/gcc/config/arm/arm-builtins.c
-++++ b/gcc/config/arm/arm-builtins.c
-+@@ -2861,6 +2861,10 @@ arm_builtin_vectorized_function (unsigned int fn, tree type_out, tree type_in)
-+   int in_n, out_n;
-+   bool out_unsigned_p = TYPE_UNSIGNED (type_out);
++diff --git a/lib/inet6.c b/lib/inet6.c
++index 9a484a0..2a9c459 100644
++--- a/lib/inet6.c
+++++ b/lib/inet6.c
++@@ -84,10 +84,9 @@ static int INET6_resolve(char *name, struct sockaddr_in6 *sin6)
++ #endif
 + 
-++  /* Can't provide any vectorized builtins when we can't use NEON.  */
-++  if (!TARGET_NEON)
-++    return NULL_TREE;
-++
-+   if (TREE_CODE (type_out) != VECTOR_TYPE
-+       || TREE_CODE (type_in) != VECTOR_TYPE)
-+     return NULL_TREE;
-+@@ -2875,7 +2879,7 @@ arm_builtin_vectorized_function (unsigned int fn, tree type_out, tree type_in)
-+    NULL_TREE is returned if no such builtin is available.  */
-+ #undef ARM_CHECK_BUILTIN_MODE
-+ #define ARM_CHECK_BUILTIN_MODE(C)    \
-+-  (TARGET_NEON && TARGET_FPU_ARMV8   \
-++  (TARGET_FPU_ARMV8   \
-+    && flag_unsafe_math_optimizations \
-+    && ARM_CHECK_BUILTIN_MODE_1 (C))
 + 
-+diff --git a/gcc/testsuite/gcc.target/arm/pr71056.c b/gcc/testsuite/gcc.target/arm/pr71056.c
-+new file mode 100644
-+index 0000000..136754e
-+--- /dev/null
-++++ b/gcc/testsuite/gcc.target/arm/pr71056.c
-+@@ -0,0 +1,32 @@
-++/* PR target/71056.  */
-++/* { dg-do compile } */
-++/* { dg-require-effective-target arm_vfp3_ok } */
-++/* { dg-options "-O3 -mfpu=vfpv3" } */
-++
-++/* Check that compiling for a non-NEON target doesn't try to introduce
-++   a NEON vectorized builtin.  */
-++
-++extern char *buff;
-++int f2 ();
-++struct T1
-++{
-++  int reserved[2];
-++  unsigned int ip;
-++  unsigned short cs;
-++  unsigned short rsrv2;
-++};
-++void
-++f3 (const char *p)
-++{
-++  struct T1 x;
-++  __builtin_memcpy (&x, p, sizeof (struct T1));
-++  x.reserved[0] = __builtin_bswap32 (x.reserved[0]);
-++  x.reserved[1] = __builtin_bswap32 (x.reserved[1]);
-++  x.ip = __builtin_bswap32 (x.ip);
-++  x.cs = x.cs << 8 | x.cs >> 8;
-++  x.rsrv2 = x.rsrv2 << 8 | x.rsrv2 >> 8;
-++  if (f2 ())
-++    {
-++      __builtin_memcpy (buff, "\n", 1);
-++    }
-++}
++-static int INET6_rresolve(char *name, struct sockaddr_in6 *sin6, int numeric)
+++static int INET6_rresolve(char *name, size_t namelen,
+++			  struct sockaddr_in6 *sin6, int numeric)
++ {
++-    int s;
++-
++     /* Grmpf. -FvK */
++     if (sin6->sin6_family != AF_INET6) {
++ #ifdef DEBUG
++@@ -98,21 +97,20 @@ static int INET6_rresolve(char *name, struct sockaddr_in6 *sin6, int numeric)
++ 	return (-1);
++     }
++     if (numeric & 0x7FFF) {
++-	inet_ntop( AF_INET6, &sin6->sin6_addr, name, 80);
+++	inet_ntop( AF_INET6, &sin6->sin6_addr, name, namelen);
++ 	return (0);
++     }
++     if (IN6_IS_ADDR_UNSPECIFIED(&sin6->sin6_addr)) {
++         if (numeric & 0x8000)
++-	    strcpy(name, "default");
+++	    safe_strncpy(name, "default", namelen);
++ 	else
++-	    strcpy(name, "[::]");
+++	    safe_strncpy(name, "[::]", namelen);
++ 	return (0);
++     }
++ 
++-    if ((s = getnameinfo((struct sockaddr *) sin6, sizeof(struct sockaddr_in6),
++-			 name, 255 /* !! */ , NULL, 0, 0))) {
++-	fputs("getnameinfo failed\n", stderr);
++-	return -1;
+++    if (getnameinfo((struct sockaddr *) sin6, sizeof(struct sockaddr_in6),
+++		    name, namelen , NULL, 0, 0)) {
+++	inet_ntop( AF_INET6, &sin6->sin6_addr, name, namelen);
++     }
++     return (0);
++ }
++@@ -143,7 +141,8 @@ static char *INET6_sprint(struct sockaddr *sap, int numeric)
++ 
++     if (sap->sa_family == 0xFFFF || sap->sa_family == 0)
++ 	return safe_strncpy(buff, _("[NONE SET]"), sizeof(buff));
++-    if (INET6_rresolve(buff, (struct sockaddr_in6 *) sap, numeric) != 0)
+++    if (INET6_rresolve(buff, sizeof(buff),
+++		       (struct sockaddr_in6 *) sap, numeric) != 0)
++ 	return safe_strncpy(buff, _("[UNKNOWN]"), sizeof(buff));
++     return (fix_v4_address(buff, &((struct sockaddr_in6 *)sap)->sin6_addr));
++ }
 +-- 
-+2.9.0
++1.8.5.2.233.g932f7e4
 +
+diff --git a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
+index 759de0a..9c2adfa 100644
+--- a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
++++ b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
+@@ -15,6 +15,7 @@ SRC_URI = "http://snapshot.debian.org/archive/debian/20050312T000000Z/pool/main/
+            file://net-tools-1.60-sctp1.patch \
+            file://net-tools-1.60-sctp2-quiet.patch \
+            file://net-tools-1.60-sctp3-addrs.patch \
++           file://0001-lib-inet6.c-INET6_rresolve-various-fixes.patch \
+           "
+ 
+ # for this package we're mostly interested in tracking debian patches,
 -- 
-2.9.0
+2.8.1
 
 
