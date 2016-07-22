@@ -1,28 +1,26 @@
 Return-Path: <amarnath.valluri@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id E919A606BF
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 20350606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jul 2016 10:35:28 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 22 Jul 2016 03:35:29 -0700
+	Fri, 22 Jul 2016 10:37:59 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga104.fm.intel.com with ESMTP; 22 Jul 2016 03:38:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,404,1464678000"; d="scan'208";a="1011862140"
+X-IronPort-AV: E=Sophos;i="5.28,404,1464678000"; d="scan'208";a="1021909716"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga001.fm.intel.com with ESMTP; 22 Jul 2016 03:35:29 -0700
+	by orsmga002.jf.intel.com with ESMTP; 22 Jul 2016 03:38:00 -0700
 Received: from avalluri-GigaByte.fi.intel.com (avalluri-gigabyte.fi.intel.com
 	[10.237.72.170]) (using TLSv1 with cipher AES128-SHA (128/128 bits))
 	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id EEBA66A4006
+	by linux.intel.com (Postfix) with ESMTP id 0FCE46A4006
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jul 2016 03:35:18 -0700 (PDT)
+	Fri, 22 Jul 2016 03:37:49 -0700 (PDT)
 From: Amarnath Valluri <amarnath.valluri@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Jul 2016 13:35:29 +0300
-Message-Id: <1469183729-8859-2-git-send-email-amarnath.valluri@intel.com>
+Date: Fri, 22 Jul 2016 13:38:20 +0300
+Message-Id: <1469183900-8985-1-git-send-email-amarnath.valluri@intel.com>
 X-Mailer: git-send-email 2.5.0
-In-Reply-To: <1469183729-8859-1-git-send-email-amarnath.valluri@intel.com>
-References: <1469183729-8859-1-git-send-email-amarnath.valluri@intel.com>
-Subject: [meta-oe][PATCH v2] swupd-client, swupd-server: Patch swupd to treat /home/* as non-state
+Subject: [meta-swupd][PATCH v2] swupd-client, swupd-server: Patch swupd to treat /home/* as non-state
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,7 +33,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jul 2016 10:35:30 -0000
+X-List-Received-Date: Fri, 22 Jul 2016 10:38:00 -0000
 
 This allows bundles to deploy content specific to user
 
