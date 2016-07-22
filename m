@@ -1,52 +1,22 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
-	[209.85.220.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 88F0260746
+Return-Path: <Nathan_Lynch@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 414396067D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jul 2016 20:44:42 +0000 (UTC)
-Received: by mail-qk0-f193.google.com with SMTP id q62so9392610qkf.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jul 2016 13:44:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=ouMlQylZArNDo5uZGGN+2ur/jngSriMJ6NkuvtbMDyg=;
-	b=j5l+fU3+lY5lLSWSP47hy8esj0xkt8XRWw1swT4juyH+QWvdokWjeAUZAaSdZRnd/n
-	CON6ftg69UJ8/DHTEOnfLCyEpp7LXd1gQOa/rnE6SWdaf5Z2aZJiyztCVt5Rij8EwxT7
-	YOiV8Nq0jcRe5XRIc3l6YXBjshfKdfvCOoBvZ658qSsoxrhSTYmnmxNjUBeXyfMH1rvh
-	z4AVUv2dGU53JUR0UDyp9Rk3TTXiTltqJi1JjkKQzhh/QsyCJ9UzDF2prXUlPTP/kMzh
-	MXWNZArR77KLMTvL717KG6vqCa/VtDO8ohbZjNUt2kop9YYvhlQE2siUkjMFxSMeZfui
-	+eUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=ouMlQylZArNDo5uZGGN+2ur/jngSriMJ6NkuvtbMDyg=;
-	b=Oy4l5vlCqhLFZ0N+/UjTPHsQOKp7J92oqCfsi0kjApaSBprun9023DRVX66Z0gcM12
-	EU3CsS71N4vH0rT/MH4hUcOE8jilaQS47C509xI45Q+Ih4rN2Zz/mK8weiNEU6GOWwHr
-	YCN6Ext3xUyo3tAcV2RWXKMGtdYjVkxDscEfwgKNgqjVueCzK9v7St8kod5MCdHQYGfN
-	jTtRrq5EvSm7qr4wql5bWnvGBKw8bIOH22VRPHJ4RQeSgHaahJtDwA5y7zLEZpxUCMHl
-	Kr8KH79tm6Igal3gGdarXCU6KBDHjEkWoxlVvXknWcmkO1Z7tn8h+pqhROXD+baI4cON
-	6Qdw==
-X-Gm-Message-State: AEkoouv5OkpREK36rO41xsxk87VjcAjlJ9tsQadWz/lizXuLz2bVz66I9EpfSJ5oWQUliMmCjJ5U7tU0zuaEBw==
+	Fri, 22 Jul 2016 20:53:48 +0000 (UTC)
+Received: from svr-orw-fem-05.mgc.mentorg.com ([147.34.97.43])
+	by relay1.mentorg.com with esmtp 
+	id 1bQhS9-0001x4-3q from Nathan_Lynch@mentor.com ;
+	Fri, 22 Jul 2016 13:53:49 -0700
+Received: from localhost (147.34.91.1) by svr-orw-fem-05.mgc.mentorg.com
+	(147.34.97.43) with Microsoft SMTP Server (TLS) id 14.3.224.2;
+	Fri, 22 Jul 2016 13:53:48 -0700
+From: Nathan Lynch <nathan_lynch@mentor.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 22 Jul 2016 15:53:46 -0500
+Message-ID: <1469220826-8991-1-git-send-email-nathan_lynch@mentor.com>
+X-Mailer: git-send-email 2.5.5
 MIME-Version: 1.0
-X-Received: by 10.55.178.195 with SMTP id b186mr6596542qkf.81.1469220282858;
-	Fri, 22 Jul 2016 13:44:42 -0700 (PDT)
-Received: by 10.55.214.83 with HTTP; Fri, 22 Jul 2016 13:44:42 -0700 (PDT)
-Received: by 10.55.214.83 with HTTP; Fri, 22 Jul 2016 13:44:42 -0700 (PDT)
-In-Reply-To: <CAMKF1spZ5qT2xfcyZtXKWYHk=6yiX0sQkWOpuOro_1ZAp_M=pQ@mail.gmail.com>
-References: <cover.1468935802.git.liezhi.yang@windriver.com>
-	<e6dc6baf0f850853605319815acc19cb14de189c.1468935802.git.liezhi.yang@windriver.com>
-	<CAJTo0LbWf5q40LQmEZQxPF0wLNVmoi=J7HXjtJNwCxgMU2WtOQ@mail.gmail.com>
-	<5791DDA1.1070707@windriver.com>
-	<CAJTo0LaXgox5AuqLkjJ6xiJoLpYX6SDAnVnP4pzf30W-SWeaxA@mail.gmail.com>
-	<CAMKF1spZ5qT2xfcyZtXKWYHk=6yiX0sQkWOpuOro_1ZAp_M=pQ@mail.gmail.com>
-Date: Fri, 22 Jul 2016 13:44:42 -0700
-Message-ID: <CAMKF1soDrhTdO0hxNb3L_Op=QCG-QGpkiS5oz2_PxRL=CVxNFg@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/8] e2fsprogs: 1.43 -> 1.43.1
+Subject: [PATCH] Revert "lttng-tools: filter random filename of ptest output"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,92 +29,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jul 2016 20:44:44 -0000
-Content-Type: multipart/alternative; boundary=94eb2c06ee040e81e605383f81f1
+X-List-Received-Date: Fri, 22 Jul 2016 20:53:49 -0000
+Content-Type: text/plain
 
---94eb2c06ee040e81e605383f81f1
-Content-Type: text/plain; charset=UTF-8
+This reverts commit 29a8c45be2862be02afe2ebbc5c026a42f351990.
 
-On Jul 22, 2016 12:52 PM, "Burton, Ross" <ross.burton@intel.com> wrote:
->
->
-> On 22 July 2016 at 09:47, Robert Yang <liezhi.yang@windriver.com> wrote:
->>
->> Sorry, updated in the repo:
->>
->>   git://git.openembedded.org/openembedded-core-contrib rbt/pu
->
->
-> And now I notice that its failing on musl:
->
-> | (cd elfshared; i586-poky-linux-musl-gcc  -m32 -march=i586
---sysroot=/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-musl/build/build/tmp/sysroots/qemux86
--o libcom_err.so.2.1 \
-> | -L../../../lib -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed
--Wl,-z,relro -Wl,-z,now -fPIC -shared \
-> | -Wl,-soname,libcom_err.so.2 error_message.o et_name.o init_et.o
-com_err.o com_right.o )
-> | i586-poky-linux-musl-ar rc libcom_err.a error_message.o et_name.o
-init_et.o com_err.o com_right.o
-> | error_message.o: In function `init_debug':
-> | /usr/src/debug/e2fsprogs/1.43.1-r0/git/lib/et/error_message.c:260:
-undefined reference to `__stack_chk_fail_local'
-> | com_err.o: In function `default_com_err_proc':
-> | /usr/src/debug/e2fsprogs/1.43.1-r0/git/lib/et/com_err.c:63: undefined
-reference to `__stack_chk_fail_local'
-> | collect2: error: ld returned 1 exit status
->
-> I guess the hardening needs to be glibc specific? (CC'ing Khem for an
-opinion).
+A few things wrong with this change:
 
-Musl work that have been done has been using hardening from day 1. So this
-should be fixed. Musl images work fine with pie
->
-> Ross
+1. It patches a patch (runtest-2.4.0.patch).
+2. It introduces deviations from the desired ptest output format.
+3. It discards PASS: lines from the test output; I *want* to see those.
+4. The upstream status of "pending" is incorrect; I do not see this
+   patch on the lttng-dev mailing list (not that it would apply anyway).
 
---94eb2c06ee040e81e605383f81f1
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Nathan Lynch <nathan_lynch@mentor.com>
+---
+ ...ls-filter-random-filename-of-tests-output.patch | 55 ----------------------
+ meta/recipes-kernel/lttng/lttng-tools_git.bb       |  1 -
+ 2 files changed, 56 deletions(-)
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-tools/0001-lttng-tools-filter-random-filename-of-tests-output.patch
 
-<p dir=3D"ltr"></p>
-<p dir=3D"ltr">On Jul 22, 2016 12:52 PM, &quot;Burton, Ross&quot; &lt;<a hr=
-ef=3D"mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br=
->
-&gt;<br>
-&gt;<br>
-&gt; On 22 July 2016 at 09:47, Robert Yang &lt;<a href=3D"mailto:liezhi.yan=
-g@windriver.com">liezhi.yang@windriver.com</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; Sorry, updated in the repo:<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0 git://<a href=3D"http://git.openembedded.org/openembedded-c=
-ore-contrib">git.openembedded.org/openembedded-core-contrib</a> rbt/pu<br>
-&gt;<br>
-&gt;<br>
-&gt; And now I notice that its failing on musl:<br>
-&gt;<br>
-&gt; | (cd elfshared; i586-poky-linux-musl-gcc =C2=A0-m32 -march=3Di586 --s=
-ysroot=3D/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-musl/build/=
-build/tmp/sysroots/qemux86 -o libcom_err.so.2.1 \<br>
-&gt; | -L../../../lib -Wl,-O1 -Wl,--hash-style=3Dgnu -Wl,--as-needed -Wl,-z=
-,relro -Wl,-z,now -fPIC -shared \<br>
-&gt; | -Wl,-soname,libcom_err.so.2 error_message.o et_name.o init_et.o com_=
-err.o com_right.o )<br>
-&gt; | i586-poky-linux-musl-ar rc libcom_err.a error_message.o et_name.o in=
-it_et.o com_err.o com_right.o<br>
-&gt; | error_message.o: In function `init_debug&#39;:<br>
-&gt; | /usr/src/debug/e2fsprogs/1.43.1-r0/git/lib/et/error_message.c:260: u=
-ndefined reference to `__stack_chk_fail_local&#39;<br>
-&gt; | com_err.o: In function `default_com_err_proc&#39;:<br>
-&gt; | /usr/src/debug/e2fsprogs/1.43.1-r0/git/lib/et/com_err.c:63: undefine=
-d reference to `__stack_chk_fail_local&#39;<br>
-&gt; | collect2: error: ld returned 1 exit status<br>
-&gt;<br>
-&gt; I guess the hardening needs to be glibc specific? (CC&#39;ing Khem for=
- an opinion).</p>
-<p dir=3D"ltr">Musl work that have been done has been using hardening from =
-day 1. So this should be fixed. Musl images work fine with pie<br>
-&gt;<br>
-&gt; Ross<br></p>
+diff --git a/meta/recipes-kernel/lttng/lttng-tools/0001-lttng-tools-filter-random-filename-of-tests-output.patch b/meta/recipes-kernel/lttng/lttng-tools/0001-lttng-tools-filter-random-filename-of-tests-output.patch
+deleted file mode 100644
+index fed5a2fb59d6..000000000000
+--- a/meta/recipes-kernel/lttng/lttng-tools/0001-lttng-tools-filter-random-filename-of-tests-output.patch
++++ /dev/null
+@@ -1,55 +0,0 @@
+-From b9744428d6dfb1cba7b6e3fdbf0613977914b12f Mon Sep 17 00:00:00 2001
+-From: Dengke Du <dengke.du@windriver.com>
+-Date: Fri, 29 Apr 2016 03:25:58 -0400
+-Subject: [PATCH] lttng-tools: filter random filename of tests output
+-
+-Show the failed tests, filter the random filename when the test
+-passed, add up the result.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Dengke Du <dengke.du@windriver.com>
+----
+- tests/run.sh | 25 +++++++++++++++++++++++--
+- 1 file changed, 23 insertions(+), 2 deletions(-)
+-
+-diff --git a/tests/run.sh b/tests/run.sh
+-index 6455359..9080afc 100755
+---- a/tests/run.sh
+-+++ b/tests/run.sh
+-@@ -17,9 +17,30 @@
+- # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+- #
+- 
+-+# Define two variable to store the passed and failed result
+-+pass_count=0
+-+fail_count=0
+-+
+- [ -z "$1" ] && echo "Error: No testlist. Please specify a testlist to run." && exit 1
+- 
+--prove --merge -v --exec '' - < $1 | sed \
+-+# Using a while loop to add up the passed and failed result, we use Here Strings
+-+# "<<<" in bash in order to redirect the test output to the while loop. If put the
+-+# test output as a pipeline, the while loop will run in subshell, we can't get the
+-+# pass_count and fail_count when the subshell exit. 
+-+while read line
+-+do
+-+	if [[ $line == "FAIL"* ]]; then
+-+		echo $line;((fail_count=fail_count+1))
+-+	fi  
+-+	if [[ $line == "PASS"* ]]; then
+-+		((pass_count=pass_count+1))
+-+	fi  
+-+done <<< "$(prove --merge -v --exec '' - < $1 | sed \
+-   -e 's|^ok \(.*\)|PASS: \1|' \
+-   -e 's|^not ok \(.*\)|FAIL: \1|' \
+--  | egrep -h 'PASS|FAIL'
+-+  | egrep -h 'PASS|FAIL')"
+-+
+-+# Add up the result and output the passed and failed tests
+-+echo "$1 statistics"
+-+echo "total pass: $pass_count tests passed!"
+-+echo "total fail: $fail_count tests failed!"
+--- 
+-2.8.1
+-
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_git.bb b/meta/recipes-kernel/lttng/lttng-tools_git.bb
+index da2b68552bce..b0c369ce964a 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_git.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_git.bb
+@@ -29,7 +29,6 @@ PACKAGECONFIG_remove_libc-musl = "lttng-ust"
+ SRC_URI = "git://git.lttng.org/lttng-tools.git;branch=stable-2.7 \
+            file://stop-using-SIGUNUSED.patch \
+            file://runtest-2.4.0.patch \
+-           file://0001-lttng-tools-filter-random-filename-of-tests-output.patch \
+            file://run-ptest"
+ 
+ S = "${WORKDIR}/git"
+-- 
+2.5.5
 
---94eb2c06ee040e81e605383f81f1--
+
