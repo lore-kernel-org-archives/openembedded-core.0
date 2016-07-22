@@ -1,46 +1,60 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 8BE6E6067D
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
+	[209.85.213.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 37DD26067D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jul 2016 14:03:33 +0000 (UTC)
-Received: by mail-wm0-f50.google.com with SMTP id o80so68111593wme.1
+	Fri, 22 Jul 2016 14:10:54 +0000 (UTC)
+Received: by mail-vk0-f65.google.com with SMTP id x130so9104442vkc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jul 2016 07:03:34 -0700 (PDT)
+	Fri, 22 Jul 2016 07:10:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=afqlEKjydHARC4gDRAv+pm8S7ydmnBI730563FNzLwo=;
-	b=wy87/bi0ibzlv9CL3piHS/2a8b+QGxXHJIni3bPzYy+q/u2qkvbj9ueRlyWDlasPzz
-	gg5EwQZFgbfHj5KH/avH05/nyKkJXdlnccx5yc0JLnG2a19HvtrUck4wDD5BEVM1CEpu
-	d4wxvzUarH9kz8hra0HA/e895IcVtEMNU/xF0RSg+AWT5yvPcAuP02MkcBKkcO5UwdBq
-	hORB0p+sCU2GRxLSrvgeVJeGSQeTt1S+ho+JmTyOXB+WVSI3PDeWphNcbYGjwUSSKdO5
-	kIi7ErR2hSn0blaIUB6kx6pca8Z6ssCYeOlDwGBa8pX3AFBh0GfDEV7bJlkOuA3teUkp
-	dIWQ==
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=3Q0Ovd0QVFNrULsDE6ufr+csvNqGD/TIBoyWOgITfKc=;
+	b=fhl7xCk5X69sjcXGIauLMc51qlC6WbrsGwMG//e49CyNzQ2RI67uMKRNTK5BHOgv5x
+	XYlp9MTqhSgcmX1TWXJLYq055901MoZqgCO7Tju4dkCS62UI9kPju1e+i95wFxeWZ46E
+	DCxej5qwxteXqFarZxX6VS+HHUBprvDlkvaiv20M1FQs7LzYV9JMeyG9PLy//TUpNlod
+	HPeMWf/ByZEJA08ylZbQpWpdFl7gHU02l4Np/PIR0idkX+i6E+9kD/iWBD4RPHCed8A8
+	pHfsrFWFIr8FkeoBCiu96lzwEGMzXos8kzpqrYCIwFhaAQBQvXlT/4cqg764q4uIPPBA
+	lL2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=afqlEKjydHARC4gDRAv+pm8S7ydmnBI730563FNzLwo=;
-	b=EMkFESr3X9o89zyxRA/YY31aYPTV1z+D6zrMHe22/Ag7Pv2s3RQk5O70q5McF8t4HB
-	VyxPHNi1f18Lmi4ZmQ4wucb3XvQAe+RmqdUOUd5P+0q4zV7hMJu24LVvTLDibAkzdl0E
-	ac7NYx2ffhNrVnlqrQfOZw8PUlQRW2G9oz/zf2QhhdinJEVXhxZKj8KTNOijbreedVHs
-	suCAXwGrJ8xe8rgZblZEbcN/wb5R+0Ei7IU3EV0k3I9w4P7scgburek1Wo8J63D3uowu
-	5eZFpm72067erEndbN90X7V76k3PtXoMmS2kSLrBI/u34caH7WkxT/MCsDBQi2aDo2Vy
-	HjEw==
-X-Gm-Message-State: ALyK8tLWxNwqNksm0am9oF68aS9XUZ5mHHz6oHLsCIzm9eoIhAPTIEzdNWYUj0RFvE+JHtgK
-X-Received: by 10.28.191.14 with SMTP id p14mr24629768wmf.39.1469196212784;
-	Fri, 22 Jul 2016 07:03:32 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	n131sm9696947wmd.3.2016.07.22.07.03.31
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=3Q0Ovd0QVFNrULsDE6ufr+csvNqGD/TIBoyWOgITfKc=;
+	b=OvsOfVwWYeyRX6SN73Md1iOhnVmHnqLhl0f0kHUuFe76uI0/xgvkRHRIyjucGBD6AV
+	twYcMihmZTLfWFYXim7MgbieXOR1pcHOHzaHiB7xbmUsvkMTchLOnUDXywtdAr6zFSGj
+	3tUxS066FfmpJ0OyFZ/1PCX+oXBUuics5Kjwb3pUSZM0GAtebxB4OM/YipUQWtC3PqAI
+	6mfivLOr23B+vXK2KJBprefdU5tsDupqy84S2QoMgnsh84ogBoOXYsEUQB9mzszCZ3vM
+	bYsbYEBHEyqPImZ2ORO0j5NJR9uOkEhvtzbS+IOuanRW3nVSnLR43+w8fuPSiIJm3gV+
+	Psng==
+X-Gm-Message-State: AEkoout3iZg0cFa8QZxCztjO8BePeNBeuoNJQN3dhJv26AgtmSlpoFAHQBHGIssN17VEYA==
+X-Received: by 10.176.64.194 with SMTP id i60mr1919066uad.98.1469196654855;
+	Fri, 22 Jul 2016 07:10:54 -0700 (PDT)
+Received: from mail-vk0-f47.google.com (mail-vk0-f47.google.com.
+	[209.85.213.47]) by smtp.gmail.com with ESMTPSA id
+	s124sm2173015vka.15.2016.07.22.07.10.53
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 22 Jul 2016 07:03:32 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Jul 2016 15:03:30 +0100
-Message-Id: <1469196210-29675-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] lib/oeqa/decorators: handle broken links when creating new symlink
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 22 Jul 2016 07:10:53 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-vk0-f47.google.com with SMTP id n129so113134999vke.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Jul 2016 07:10:53 -0700 (PDT)
+X-Received: by 10.159.35.143 with SMTP id 15mr2014252uao.39.1469196653444;
+	Fri, 22 Jul 2016 07:10:53 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.31.138.78 with HTTP; Fri, 22 Jul 2016 07:10:52 -0700 (PDT)
+In-Reply-To: <20160715163633.6854-1-eu@felipetonello.com>
+References: <20160715163633.6854-1-eu@felipetonello.com>
+Date: Fri, 22 Jul 2016 11:10:52 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKoOyQiXa8qPBBi4Vk7LLnbCOzt1G=oWx_S4pmrCGOcnFA@mail.gmail.com>
+Message-ID: <CAP9ODKoOyQiXa8qPBBi4Vk7LLnbCOzt1G=oWx_S4pmrCGOcnFA@mail.gmail.com>
+To: "Felipe F. Tonello" <eu@felipetonello.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2] JUCE Framework support for OE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,30 +67,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jul 2016 14:03:34 -0000
+X-List-Received-Date: Fri, 22 Jul 2016 14:10:55 -0000
+Content-Type: text/plain; charset=UTF-8
 
-When checking if a link exists before creating it, use os.path.lexists() as
-otherwise os.path.exists() on a broken link will return False.
+On Fri, Jul 15, 2016 at 1:36 PM, Felipe F. Tonello <eu@felipetonello.com> wrote:
+> This patchset contains the needed infrastructure needed in order to easily
+> support JUCE applications on OpenEmbedded.
+>
+> For more information about JUCE, check the patch #2.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/lib/oeqa/utils/decorators.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Meta-OE please.
 
-diff --git a/meta/lib/oeqa/utils/decorators.py b/meta/lib/oeqa/utils/decorators.py
-index 0b23565..615fd95 100644
---- a/meta/lib/oeqa/utils/decorators.py
-+++ b/meta/lib/oeqa/utils/decorators.py
-@@ -190,7 +190,7 @@ def LogResults(original_class):
-             local_log.results("Testcase "+str(test_case)+": PASSED")
- 
-         # Create symlink to the current log
--        if os.path.exists(linkfile):
-+        if os.path.lexists(linkfile):
-             os.remove(linkfile)
-         os.symlink(logfile, linkfile)
- 
+
 -- 
-2.8.1
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
