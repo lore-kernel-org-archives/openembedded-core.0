@@ -1,35 +1,46 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 557BD6067D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f44.google.com (mail-it0-f44.google.com
+	[209.85.214.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 276B66067D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jul 2016 22:16:55 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u6MMGr7q029182; Fri, 22 Jul 2016 23:16:53 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id T3WkKBym1zlJ; Fri, 22 Jul 2016 23:16:53 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u6MMGpeQ029173
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 22 Jul 2016 23:16:52 +0100
-Message-ID: <1469225811.23580.81.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 22 Jul 2016 23:16:51 +0100
-In-Reply-To: <D060F23D-DAE1-4A6B-8842-D3E177B7B76C@gmail.com>
-References: <1469197543.23580.65.camel@linuxfoundation.org>
-	<CAMKF1srw4bVtAHrq6uOVU__WueXjoNwKRsvxLNLudt_zFyzrzQ@mail.gmail.com>
-	<CAMKF1sqzsoR=+FyXL99f+SZts6gxnNOfH0_MpX_y2M1FP-gbdA@mail.gmail.com>
-	<CAMKF1spXDX=C9miFBi5DjRgzCKk7esdNZWH0QgakDjgU_9bT6A@mail.gmail.com>
-	<1469202930.23580.73.camel@linuxfoundation.org>
-	<D060F23D-DAE1-4A6B-8842-D3E177B7B76C@gmail.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] siteinfo: Add mechanism to extend siteinfo information from BSP layer
+	Fri, 22 Jul 2016 22:31:57 +0000 (UTC)
+Received: by mail-it0-f44.google.com with SMTP id u186so47449665ita.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Jul 2016 15:31:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=uY6TPCc9Thq4A76wPpRg5nMCgSFDKZOulig1XPo3dSs=;
+	b=zipauDbxi1OGhSccO4k4u1HqsWpXuXgdNQDxP8t23WvQ99lLkEcx5Q9Fri8M/E7/7N
+	uDnhBtAkbMKds2SG0SdS6ETXWRp8/RTSHJ/1chm+yaIfeR/MxLnjZ5ZGVmwBhXXEB85k
+	Gj8jhoegCgMT0bZMAktQZ8C9TAy4T3BFARKBWx2qzS0pyXpPhZgnzNDUVpVH5zYfIY5I
+	slwxXL9/kssUwdQ5/xav1f8XUKuslcsBNlHVOEqY+fD/qbQqFLQjV4q499UVqERWi00u
+	ygzCkjzQInKpp4PEijJNEb0ibE8U1wpJpJwNBCNqRyB3P0lsDhPra/dnxQNsAuOmBjhi
+	gsNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=uY6TPCc9Thq4A76wPpRg5nMCgSFDKZOulig1XPo3dSs=;
+	b=g7VSX6A4o4IrvCcBUB3Pyf64Phb/UsJ83JiQDW8ueKQ2NjB61fGFD2O4cp9JLHxeIJ
+	CMsbhIzaFPx6mxGasX791FnmwNmWDxfmv8YjhEafBMC7ebhSyAp/yjTSQK22nok83+Fy
+	9di32OJsGcIoD5Ua/qnUtSJAuDjiKeXLPKnW8b3znQ70a4DwOa/1qtGCGoDWhEb8KjK2
+	UO8FIjyXMunJlN1Rhc3A4HAxBU3+VM69LRIgnF6/F+KhNwE336R288uIacvZx0a8m5ek
+	ejj2nDrbbqLxhqC1va4ycmqwEaPwGVI/sGVJnS659e5fIIUZqeGNu84njf2PM0PpIgJQ
+	vlyw==
+X-Gm-Message-State: ALyK8tJygj36o4E1jQ8SnCHcBVbNpCicLkbwEEBD7Jq8FLXAYQtpPKUBsfZsaCdjgRBEhRl/KRtiSw3oi7HoGrcl
+X-Received: by 10.36.121.204 with SMTP id z195mr61612269itc.22.1469226718245; 
+	Fri, 22 Jul 2016 15:31:58 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.18.17 with HTTP; Fri, 22 Jul 2016 15:31:38 -0700 (PDT)
+In-Reply-To: <cover.1469190931.git.paul.eggleton@linux.intel.com>
+References: <cover.1469190931.git.paul.eggleton@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 22 Jul 2016 23:31:38 +0100
+Message-ID: <CAJTo0LZZD0poopBgYb9BbeJ_UUaJc5KZxTXSV5jndnLJC8EiCQ@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/8] Extensible SDK improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,90 +53,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jul 2016 22:16:57 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 22 Jul 2016 22:31:58 -0000
+Content-Type: multipart/alternative; boundary=001a114aa466a2d3700538410027
 
-On Fri, 2016-07-22 at 11:20 -0700, Khem Raj wrote:
-> > On Jul 22, 2016, at 8:55 AM, Richard Purdie <
-> > richard.purdie@linuxfoundation.org> wrote:
-> > 
-> > On Fri, 2016-07-22 at 08:47 -0700, Khem Raj wrote:
-> > > Whats the motivation here. This looks like a backdoor for bsps.
-> > > To
-> > > user it will make inconsistent behaviour. Even now its quite hard
-> > > to
-> > > root cause errors due to siteinfo
-> > 
-> > Right now if you have some new target, your only option is to
-> > either
-> > patch OE-Core, or copy the class into your new BSP.
-> 
-> May be we can make an exception and accept patches for these changes
-> into release branches
-> via master ofcourse
+--001a114aa466a2d3700538410027
+Content-Type: text/plain; charset=UTF-8
 
-That isn't really helping people doing development work though. Sure,
-eventually these changes can be ready for master but I've worked on
-things where master never really made sense for various reasons.
+On 22 July 2016 at 13:38, Paul Eggleton <paul.eggleton@linux.intel.com>
+wrote:
 
-> > This is
-> > particularly problematic if you're working on hardware that isn't
-> > supported by core OE or that is in active development.
-> > 
-> > Having hooks to allow you to write a new BSP without having to make
-> > changes to the core would seem to be a good thing.
-> 
-> This seems to be fair, however, they will surely keep these fragments
-> and supply their BSP to users. who will now have to chase different
-> places for finding siteinfo details.
+> Some fixes and enhancements centered around how the toolchain is
+> incorporated in the eSDK, as well as a couple of tweaks for buildhistory
+> that I found we needed during development.
+>
 
-The code is pretty good about printing a list of the siteinfo files its
-using so it should be clear if a siteinfo file is coming from a
-different layer and which siteinfo files are in use.
+This is happening in mut, could your branch be responsible:
 
-> > I'm not expecting users to regularly use this, just those writing
-> > more
-> > exotic BSPs or doing baremetal work for example.
-> > 
-> > I can sympathise with the problem as I've run into it several times
-> > now
-> > myself. We can't really demand that every time this happens, people
-> > send a patch for OE-Core (although if something is commonly used
-> > we'd
-> > obviously then encourage it).
-> 
-> This could also mean that I can override a definition e.g. size of
-> off_t
-> for arm in my BSP layer and inject it into a MultiBSP setups where
-> others will
-> get it too ?
+http://errors.yoctoproject.org/Errors/Details/73022/
 
-In theory you could. There are an awful lot of things you can do with
-the build system which aren't really recommended though. I'm not sure
-I'd single this one out as being something we should enforce as not
-being good.
+Ross (who will look further when its not 23:30 on Friday!)
 
-Let me put this another way.
+--001a114aa466a2d3700538410027
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-The principle is that you can add new hardware support to OE in a BSP
-layer. Juro and I tried that and we ran into problems where we could
-not make this work without hacking OE-Core meaning the principle
-failed.
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 22 July 2016 at 13:38, Paul Eggleton <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.eggleton@linux.i=
+ntel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(20=
+4,204,204);border-left-style:solid;padding-left:1ex"><div id=3D":6oc" class=
+=3D"">Some fixes and enhancements centered around how the toolchain is<br>
+incorporated in the eSDK, as well as a couple of tweaks for buildhistory<br=
+>
+that I found we needed during development.</div></blockquote></div><br>This=
+ is happening in mut, could your branch be responsible:</div><div class=3D"=
+gmail_extra"><br></div><div class=3D"gmail_extra"><a href=3D"http://errors.=
+yoctoproject.org/Errors/Details/73022/">http://errors.yoctoproject.org/Erro=
+rs/Details/73022/</a><br></div><div class=3D"gmail_extra"><br></div><div cl=
+ass=3D"gmail_extra">Ross (who will look further when its not 23:30 on Frida=
+y!)</div></div>
 
-We made a list and there were three places there were problems. I've
-sent patches for two of them, I've proposed a different approach for
-the third in the bug entry.
-
-I do feel pretty strongly that OE should have good support of
-independent BSP layers and if there are barriers to this, we should
-have mechanisms to cope with that.
-
-Yes, there is a risk of abuse but the whole system is so flexible we
-always have that. We can document when these things should be used and
-also name/shame anyone abusing them.
-
-Cheers,
-
-Richard
-
+--001a114aa466a2d3700538410027--
