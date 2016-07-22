@@ -1,26 +1,21 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id C2078606BF
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 5BEB66067D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jul 2016 11:22:49 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 22 Jul 2016 04:22:51 -0700
+	Fri, 22 Jul 2016 12:38:42 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP; 22 Jul 2016 05:38:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,404,1464678000"; d="scan'208";a="1027038912"
-Received: from mbabyjoh-desk.fi.intel.com (HELO
-	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.71])
-	by fmsmga002.fm.intel.com with ESMTP; 22 Jul 2016 04:22:49 -0700
-Date: Fri, 22 Jul 2016 09:28:47 +0300
-From: "Maxin B. John" <maxin.john@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20160722062847.GA2395@mbabyjoh-desk.ger.corp.intel.com>
-References: <1469167768-9827-1-git-send-email-maxin.john@intel.com>
-	<CAJTo0LYEB+iGcHnVn32jiJ9o7ry0gLTEUhS8+v70prrsMOCE7A@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYEB+iGcHnVn32jiJ9o7ry0gLTEUhS8+v70prrsMOCE7A@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] sysprof: fix floating dependency on polkit
+X-IronPort-AV: E=Sophos;i="5.28,404,1464678000"; d="scan'208";a="1000491738"
+Received: from lwong9-mobl4.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.176.13])
+	by orsmga001.jf.intel.com with ESMTP; 22 Jul 2016 05:38:41 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 23 Jul 2016 00:38:06 +1200
+Message-Id: <cover.1469190931.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.5.5
+Subject: [PATCH 0/8] Extensible SDK improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,24 +28,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jul 2016 11:22:51 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 22 Jul 2016 12:38:45 -0000
 
-Hi Ross,
+Some fixes and enhancements centered around how the toolchain is
+incorporated in the eSDK, as well as a couple of tweaks for buildhistory
+that I found we needed during development.
 
->On Fri, Jul 22, 2016 at 12:08:33PM +0100, Burton, Ross wrote:
->>On 22 July 2016 at 07:09, Maxin B. John <maxin.john@intel.com> wrote:
->>
->>   +FILES_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'polkit', '${datadir}/dbus-1/', '', d)}"
->
->
->    No need to do conditionals in FILES as it's fine for files to not exist.
+Note: this is on top of my earlier as-yet unmerged eSDK progress patch.
 
-Thanks, Sending v2 soon.
 
->    Ross
+The following changes since commit 7e4a33933d39f6406922231d64414637a5f52d66:
 
-Best Regards,
-Maxin
+  classes/populate_sdk_ext: show progress when preparing build system (2016-07-23 00:34:44 +1200)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/extsdkfixes12-oe
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/extsdkfixes12-oe
+
+Paul Eggleton (8):
+  classes/populate_sdk_ext: set default for SDK_INCLUDE_PKGDATA
+  meta-extsdk-toolchain: add meta-recipe to install toolchain into eSDK
+  classes/populate_sdk_ext: allow including toolchain in eSDK on install
+  scripts: add oe-check-sstate script
+  classes/populate_sdk_ext: filter sstate within the extensible SDK
+  classes/populate_sdk_ext: add gdb to full extensible SDK
+  classes/buildhistory: add additional variables for eSDK
+  classes/buildhistory: ensure eSDK sstate lists sorted secondarily by name
+
+ meta/classes/buildhistory.bbclass               |   6 +-
+ meta/classes/populate_sdk_ext.bbclass           |  92 +++++++++++++++++-
+ meta/classes/sstate.bbclass                     |   3 +
+ meta/lib/oe/copy_buildsystem.py                 |  27 +++++-
+ meta/recipes-core/meta/meta-extsdk-toolchain.bb |  28 ++++++
+ scripts/gen-lockedsig-cache                     |  16 +++-
+ scripts/oe-check-sstate                         | 121 ++++++++++++++++++++++++
+ 7 files changed, 280 insertions(+), 13 deletions(-)
+ create mode 100644 meta/recipes-core/meta/meta-extsdk-toolchain.bb
+ create mode 100755 scripts/oe-check-sstate
+
+-- 
+2.5.5
+
 
