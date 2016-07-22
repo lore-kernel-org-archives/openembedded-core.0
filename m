@@ -1,46 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f44.google.com (mail-it0-f44.google.com
-	[209.85.214.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 276B66067D
+Return-Path: <joe.slater@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B4E46067D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jul 2016 22:31:57 +0000 (UTC)
-Received: by mail-it0-f44.google.com with SMTP id u186so47449665ita.0
+	Fri, 22 Jul 2016 23:41:00 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u6MNewVn016224
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jul 2016 15:31:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=uY6TPCc9Thq4A76wPpRg5nMCgSFDKZOulig1XPo3dSs=;
-	b=zipauDbxi1OGhSccO4k4u1HqsWpXuXgdNQDxP8t23WvQ99lLkEcx5Q9Fri8M/E7/7N
-	uDnhBtAkbMKds2SG0SdS6ETXWRp8/RTSHJ/1chm+yaIfeR/MxLnjZ5ZGVmwBhXXEB85k
-	Gj8jhoegCgMT0bZMAktQZ8C9TAy4T3BFARKBWx2qzS0pyXpPhZgnzNDUVpVH5zYfIY5I
-	slwxXL9/kssUwdQ5/xav1f8XUKuslcsBNlHVOEqY+fD/qbQqFLQjV4q499UVqERWi00u
-	ygzCkjzQInKpp4PEijJNEb0ibE8U1wpJpJwNBCNqRyB3P0lsDhPra/dnxQNsAuOmBjhi
-	gsNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=uY6TPCc9Thq4A76wPpRg5nMCgSFDKZOulig1XPo3dSs=;
-	b=g7VSX6A4o4IrvCcBUB3Pyf64Phb/UsJ83JiQDW8ueKQ2NjB61fGFD2O4cp9JLHxeIJ
-	CMsbhIzaFPx6mxGasX791FnmwNmWDxfmv8YjhEafBMC7ebhSyAp/yjTSQK22nok83+Fy
-	9di32OJsGcIoD5Ua/qnUtSJAuDjiKeXLPKnW8b3znQ70a4DwOa/1qtGCGoDWhEb8KjK2
-	UO8FIjyXMunJlN1Rhc3A4HAxBU3+VM69LRIgnF6/F+KhNwE336R288uIacvZx0a8m5ek
-	ejj2nDrbbqLxhqC1va4ycmqwEaPwGVI/sGVJnS659e5fIIUZqeGNu84njf2PM0PpIgJQ
-	vlyw==
-X-Gm-Message-State: ALyK8tJygj36o4E1jQ8SnCHcBVbNpCicLkbwEEBD7Jq8FLXAYQtpPKUBsfZsaCdjgRBEhRl/KRtiSw3oi7HoGrcl
-X-Received: by 10.36.121.204 with SMTP id z195mr61612269itc.22.1469226718245; 
-	Fri, 22 Jul 2016 15:31:58 -0700 (PDT)
+	Fri, 22 Jul 2016 16:41:00 -0700
+Received: from ALA-MBA.corp.ad.wrs.com ([169.254.3.195]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0248.002;
+	Fri, 22 Jul 2016 16:40:56 -0700
+From: "Slater, Joseph" <joe.slater@windriver.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: odd problem finding oe-gnome-terminal-phonehome
+Thread-Index: AdHkcQVn4jnCJDRuTc+Zx9rjdQmfUw==
+Date: Fri, 22 Jul 2016 23:40:55 +0000
+Message-ID: <007BD92917A2324FA403BCF9A464CF84B61EB990@ALA-MBA.corp.ad.wrs.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.11.216.160]
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Fri, 22 Jul 2016 15:31:38 -0700 (PDT)
-In-Reply-To: <cover.1469190931.git.paul.eggleton@linux.intel.com>
-References: <cover.1469190931.git.paul.eggleton@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 22 Jul 2016 23:31:38 +0100
-Message-ID: <CAJTo0LZZD0poopBgYb9BbeJ_UUaJc5KZxTXSV5jndnLJC8EiCQ@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/8] Extensible SDK improvements
+Cc: +lpd-eng-userspace <lpd-eng-userspace@sympa-int.wrs.com>
+Subject: odd problem finding oe-gnome-terminal-phonehome
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,45 +38,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jul 2016 22:31:58 -0000
-Content-Type: multipart/alternative; boundary=001a114aa466a2d3700538410027
+X-List-Received-Date: Fri, 22 Jul 2016 23:41:00 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_007BD92917A2324FA403BCF9A464CF84B61EB990ALAMBAcorpadwrs_"
 
---001a114aa466a2d3700538410027
-Content-Type: text/plain; charset=UTF-8
-
-On 22 July 2016 at 13:38, Paul Eggleton <paul.eggleton@linux.intel.com>
-wrote:
-
-> Some fixes and enhancements centered around how the toolchain is
-> incorporated in the eSDK, as well as a couple of tweaks for buildhistory
-> that I found we needed during development.
->
-
-This is happening in mut, could your branch be responsible:
-
-http://errors.yoctoproject.org/Errors/Details/73022/
-
-Ross (who will look further when its not 23:30 on Friday!)
-
---001a114aa466a2d3700538410027
-Content-Type: text/html; charset=UTF-8
+--_000_007BD92917A2324FA403BCF9A464CF84B61EB990ALAMBAcorpadwrs_
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 22 July 2016 at 13:38, Paul Eggleton <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.eggleton@linux.i=
-ntel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(20=
-4,204,204);border-left-style:solid;padding-left:1ex"><div id=3D":6oc" class=
-=3D"">Some fixes and enhancements centered around how the toolchain is<br>
-incorporated in the eSDK, as well as a couple of tweaks for buildhistory<br=
->
-that I found we needed during development.</div></blockquote></div><br>This=
- is happening in mut, could your branch be responsible:</div><div class=3D"=
-gmail_extra"><br></div><div class=3D"gmail_extra"><a href=3D"http://errors.=
-yoctoproject.org/Errors/Details/73022/">http://errors.yoctoproject.org/Erro=
-rs/Details/73022/</a><br></div><div class=3D"gmail_extra"><br></div><div cl=
-ass=3D"gmail_extra">Ross (who will look further when its not 23:30 on Frida=
-y!)</div></div>
+I'm seeing strange behavior in terminal.py since the use of oe-gnome-termin=
+al-phonehome was added.  If the script is on
+my "base" path before starting a bitbake shell, everything is fine.  If it =
+is under oe-core/scripts, terminal.py does not find it.  If I manually sear=
+ch PATH in terminal.py, I
+will find it in oe-core/scripts and I can pass the full name when construct=
+ing sh_cmd.  That works fine, too.
 
---001a114aa466a2d3700538410027--
+I am wondering if something is not right with env as it is passed to XTermi=
+nal.__init__(self, sh_cmd, title, env, d), but that is just a wild guess.
+
+Joe
+
+
+--_000_007BD92917A2324FA403BCF9A464CF84B61EB990ALAMBAcorpadwrs_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 14 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri","sans-serif";
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri","sans-serif";}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">I'm seeing strange behavior in terminal.py since the=
+ use of oe-gnome-terminal-phonehome was added.&nbsp; If the script is on<o:=
+p></o:p></p>
+<p class=3D"MsoNormal">my &quot;base&quot; path before starting a bitbake s=
+hell, everything is fine.&nbsp; If it is under oe-core/scripts, terminal.py=
+ does not find it.&nbsp; If I manually search PATH in terminal.py, I<o:p></=
+o:p></p>
+<p class=3D"MsoNormal">will find it in oe-core/scripts and I can pass the f=
+ull name when constructing sh_cmd.&nbsp; That works fine, too.<o:p></o:p></=
+p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">I am wondering if something is not right with env as=
+ it is passed to XTerminal.__init__(self, sh_cmd, title, env, d), but that =
+is just a wild guess.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Joe<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_007BD92917A2324FA403BCF9A464CF84B61EB990ALAMBAcorpadwrs_--
