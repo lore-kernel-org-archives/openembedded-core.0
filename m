@@ -1,59 +1,45 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
-	[209.85.220.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 188466072C
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id D6D91601D3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Jul 2016 01:28:45 +0000 (UTC)
-Received: by mail-pa0-f65.google.com with SMTP id cf3so7700603pad.2
+	Sat, 23 Jul 2016 13:55:10 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id i6so8904929pfe.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jul 2016 18:28:46 -0700 (PDT)
+	Sat, 23 Jul 2016 06:55:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=WeFpWoVT0KJ3AAZt+DFb8tPOf9cXydlBlLaSCpCV2hY=;
-	b=R2HG2ENt2szsqK40YfvhrrIDguY/WI2oAMSv8NzO5yXSts0o0fBiQzmVtLMJsn1RpE
-	EVZDcC5w9pBbYSV7Zh8qeBP1DJKwSCXJ94yCM6uIGEhy7S8sijaZuHz14BTNzFBU8rA3
-	EmNx/v3jF70XeKa+oyvW5X6ZGr7RwMn1uog+it+kLuyYGCzO6PPdidmXvL64AHRrcKPw
-	1A0g8IQgL3c4MCjO6D0hEmHxXW0LJ38b7EAdfEdSsVD/f6xNirKYCoD2LWyx5HR00iOJ
-	AWTD39HvwC7ockWm7lPThJZiqD05rHauW+ASMECOyVns0Px7z0Rc6ouk9AZ+7Z/0G3Mb
-	9JOQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=cURwZB9Ums/z0ROTFjquuFf/oacUlv/bcmbjNeO1LF4=;
+	b=hVg8BdkqTSmshBou5XwAVLAX6rFkd+rK5vEPPSCWr/8lV0+HOfO5bm7A3xoO1NDkv8
+	xdrfbx5oSn9/NFIxPIo0FOO5DS51gOi0JETdCB/FKKzpXio8v09MhuBL0DCz0TyWPLqu
+	HAogetlsK0t19mVMuxDBoB2AVq1ELHI/Dqq6uyVWVckp/DPL4rZZs9ZQONmgJIXF1eK5
+	zNIIawuAxeY97OyycWO1keuw0DdQ8/uKmMtvYaj4ECywJXZZFwBNVo6Wy0lGr1YJ6ORz
+	VxK66s5gbf8wX9pEK2MbIamPGcjn/f4KiSS+zsj8mc/nPXvXwlKnxlp3CSh72zgy7FNo
+	7rYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=WeFpWoVT0KJ3AAZt+DFb8tPOf9cXydlBlLaSCpCV2hY=;
-	b=M4SDX4KgccREHZc5v1yB0i4SuCjnu7WuodDDP8MVtWHO3ruyipQyCq981z1inEjSyV
-	FykQpPpQa32l/BwGeIQyDKjrzgbAAwuuCzLaMSoJZGgpmMp14/QFos5G9/rk2we9ucm2
-	VEOMwZz71QsP9fsjE834d0LsjgsGas4KKk2R1tVYn0YpgmIDrx+IkOsPv7GakmeD8EJF
-	qeLp1i7LfmXu9hHxrtG4tgIC+7/IdrYOiF6aZVqmOykimpZaG9foSBmMcNOUA/UzZaMx
-	4GLh9uJ26UQyuR3T7HUiaNyxHj1e6CBVwOIRZLhuxTfnT9zVvQkS4Ni+uaXEE+UEAVHz
-	vr3g==
-X-Gm-Message-State: AEkoouuXKVrNlfBPd3UMrDVG5Cugp7aOHrUZiw1p5AgZOtFA1JO/hHt81RtyoFEgVOG45Q==
-X-Received: by 10.66.88.131 with SMTP id bg3mr11573708pab.43.1469237326349;
-	Fri, 22 Jul 2016 18:28:46 -0700 (PDT)
-Received: from ?IPv6:2601:646:8882:b8c:554a:89be:b887:e6a7?
-	([2601:646:8882:b8c:554a:89be:b887:e6a7])
-	by smtp.gmail.com with ESMTPSA id
-	q14sm22646016pfi.76.2016.07.22.18.28.44
-	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 22 Jul 2016 18:28:45 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1469225811.23580.81.camel@linuxfoundation.org>
-Date: Fri, 22 Jul 2016 18:28:39 -0700
-Message-Id: <CAD05943-64E1-428A-A5E0-E1B32BB441C1@gmail.com>
-References: <1469197543.23580.65.camel@linuxfoundation.org>
-	<CAMKF1srw4bVtAHrq6uOVU__WueXjoNwKRsvxLNLudt_zFyzrzQ@mail.gmail.com>
-	<CAMKF1sqzsoR=+FyXL99f+SZts6gxnNOfH0_MpX_y2M1FP-gbdA@mail.gmail.com>
-	<CAMKF1spXDX=C9miFBi5DjRgzCKk7esdNZWH0QgakDjgU_9bT6A@mail.gmail.com>
-	<1469202930.23580.73.camel@linuxfoundation.org>
-	<D060F23D-DAE1-4A6B-8842-D3E177B7B76C@gmail.com>
-	<1469225811.23580.81.camel@linuxfoundation.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Mailer: Apple Mail (2.3124)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] siteinfo: Add mechanism to extend siteinfo information from BSP layer
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=cURwZB9Ums/z0ROTFjquuFf/oacUlv/bcmbjNeO1LF4=;
+	b=OT4qG6aVveOaJ1XHDAJOu0NZTduBT6J5uVCWjQkydxUrd3RimeHlIDqn47hAGnOtEC
+	uk5q2orMnKbeWKh8T6pLU2QZLU5YuUDg6fV2Mo98I2k7J/Eo/HbX5zAAoceDsypgheZ0
+	0T6NKNZrXf5SR4vyqDSgp9soiNIqey53gpU3NSln9BwxKOf6um5ydcXu04zu7VWmIQXi
+	gbBcoynwz/uJmlIzO6sIT5j2OlDe/v5o55BN9HCVbLHhFuyjJos3Ii0U2HaGdjmeB3Hp
+	zmX3Kz/hW155RhaxYsYn+OI1r+KQQYdFBHcbtVYFF12j3SqLgxlTKO+vU4Q4aFbKf/UD
+	zVKg==
+X-Gm-Message-State: AEkoouuNhIyeWJ8gquFWdzTBYJYapUS2sHFx/JSqyrwi+f01I56lj3/AO4upDTUMgvN3Bg==
+X-Received: by 10.98.86.85 with SMTP id k82mr15351374pfb.82.1469282110719;
+	Sat, 23 Jul 2016 06:55:10 -0700 (PDT)
+Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
+	zq7sm27550200pac.6.2016.07.23.06.55.08
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sat, 23 Jul 2016 06:55:09 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 23 Jul 2016 06:55:05 -0700
+Message-Id: <1469282105-31036-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.3.5
+Subject: [jethro][PATCH] bind: CVE-2016-2088
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,138 +52,297 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 23 Jul 2016 01:28:46 -0000
-X-Groupsio-MsgNum: 84826
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_6D011258-F38A-42F5-8862-2AD9E1A9C052";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Sat, 23 Jul 2016 13:55:12 -0000
 
---Apple-Mail=_6D011258-F38A-42F5-8862-2AD9E1A9C052
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+
+Duplicate EDNS COOKIE options in a response could trigger an
+assertion failure: Fix with a backport.
+
+bind as built with the oe-core recipe is not at risk: Only servers
+which are built with DNS cookie support (--enable-sit) are vulnerable
+to denial of service.
+
+Fixes [YOCTO #9473]
+
+(From OE-Core rev: da38a9840b32e80464e2938395db5c9167729f7e)
+
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ .../bind/bind/CVE-2016-2088.patch                  | 247 +++++++++++++++++++++
+ meta/recipes-connectivity/bind/bind_9.10.2-P4.bb   |   1 +
+ 2 files changed, 248 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-2088.patch
+
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2016-2088.patch b/meta/recipes-connectivity/bind/bind/CVE-2016-2088.patch
+new file mode 100644
+index 0000000..1b84d46
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind/CVE-2016-2088.patch
+@@ -0,0 +1,247 @@
++CVE-2016-2088
++
++Backport commit d7ff9a1c41bf0ba9773cb3adb08b48b9fd57c956 from the
++v9_10_3_patch branch.
++
++https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-2088
++https://kb.isc.org/article/AA-01351
++
++CVE: CVE-2016-2088
++Upstream-Status: Backport
++Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++
++
++Original commit message from Mark Andrews <marka@isc.org> below:
++
++4322.   [security]      Duplicate EDNS COOKIE options in a response could
++                        trigger an assertion failure. (CVE-2016-2088)
++                        [RT #41809]
++
++(cherry picked from commit 455c0848f80a8acda27aad1466c72987cafaa029)
++(cherry picked from commit 7cd300abd6ee8b8ee8730593daf742ba53f90bc3)
++---
++ CHANGES            |  4 ++++
++ bin/dig/dighost.c  |  9 +++++++++
++ bin/named/client.c | 33 +++++++++++++++++++++++----------
++ doc/arm/notes.xml  |  7 +++++++
++ lib/dns/resolver.c | 14 +++++++++++++-
++ 5 files changed, 56 insertions(+), 11 deletions(-)
++
++diff --git a/CHANGES b/CHANGES
++index c5b5d2b..d2e3360 100644
++--- a/CHANGES
+++++ b/CHANGES
++@@ -1,3 +1,7 @@
+++4322.  [security]      Duplicate EDNS COOKIE options in a response could
+++                       trigger an assertion failure. (CVE-2016-2088)
+++                       [RT #41809]
+++
++ 4319.  [security]      Fix resolver assertion failure due to improper
++                        DNAME handling when parsing fetch reply messages.
++                        (CVE-2016-1286) [RT #41753]
++diff --git a/bin/dig/dighost.c b/bin/dig/dighost.c
++index ca82f8e..340904f 100644
++--- a/bin/dig/dighost.c
+++++ b/bin/dig/dighost.c
++@@ -3458,6 +3458,7 @@ process_opt(dig_lookup_t *l, dns_message_t *msg) {
++ 	isc_buffer_t optbuf;
++ 	isc_uint16_t optcode, optlen;
++ 	dns_rdataset_t *opt = msg->opt;
+++	isc_boolean_t seen_cookie = ISC_FALSE;
++ 
++ 	result = dns_rdataset_first(opt);
++ 	if (result == ISC_R_SUCCESS) {
++@@ -3470,7 +3471,15 @@ process_opt(dig_lookup_t *l, dns_message_t *msg) {
++ 			optlen = isc_buffer_getuint16(&optbuf);
++ 			switch (optcode) {
++ 			case DNS_OPT_COOKIE:
+++				/*
+++				 * Only process the first cookie option.
+++				 */
+++				if (seen_cookie) {
+++					isc_buffer_forward(&optbuf, optlen);
+++					break;
+++				}
++ 				process_sit(l, msg, &optbuf, optlen);
+++				seen_cookie = ISC_TRUE;
++ 				break;
++ 			default:
++ 				isc_buffer_forward(&optbuf, optlen);
++diff --git a/bin/named/client.c b/bin/named/client.c
++index 683305c..0d7331a 100644
++--- a/bin/named/client.c
+++++ b/bin/named/client.c
++@@ -120,7 +120,10 @@
++  */
++ #endif
++ 
++-#define SIT_SIZE 24U /* 8 + 4 + 4 + 8 */
+++#define COOKIE_SIZE 24U /* 8 + 4 + 4 + 8 */
+++
+++#define WANTNSID(x) (((x)->attributes & NS_CLIENTATTR_WANTNSID) != 0)
+++#define WANTEXPIRE(x) (((x)->attributes & NS_CLIENTATTR_WANTEXPIRE) != 0)
++ 
++ /*% nameserver client manager structure */
++ struct ns_clientmgr {
++@@ -1395,7 +1398,7 @@ ns_client_addopt(ns_client_t *client, dns_message_t *message,
++ {
++ 	char nsid[BUFSIZ], *nsidp;
++ #ifdef ISC_PLATFORM_USESIT
++-	unsigned char sit[SIT_SIZE];
+++	unsigned char sit[COOKIE_SIZE];
++ #endif
++ 	isc_result_t result;
++ 	dns_view_t *view;
++@@ -1420,7 +1423,7 @@ ns_client_addopt(ns_client_t *client, dns_message_t *message,
++ 	flags = client->extflags & DNS_MESSAGEEXTFLAG_REPLYPRESERVE;
++ 
++ 	/* Set EDNS options if applicable */
++-	if ((client->attributes & NS_CLIENTATTR_WANTNSID) != 0 &&
+++	if (WANTNSID(client) &&
++ 	    (ns_g_server->server_id != NULL ||
++ 	     ns_g_server->server_usehostname)) {
++ 		if (ns_g_server->server_usehostname) {
++@@ -1453,7 +1456,7 @@ ns_client_addopt(ns_client_t *client, dns_message_t *message,
++ 
++ 		INSIST(count < DNS_EDNSOPTIONS);
++ 		ednsopts[count].code = DNS_OPT_COOKIE;
++-		ednsopts[count].length = SIT_SIZE;
+++		ednsopts[count].length = COOKIE_SIZE;
++ 		ednsopts[count].value = sit;
++ 		count++;
++ 	}
++@@ -1661,19 +1664,26 @@ compute_sit(ns_client_t *client, isc_uint32_t when, isc_uint32_t nonce,
++ 
++ static void
++ process_sit(ns_client_t *client, isc_buffer_t *buf, size_t optlen) {
++-	unsigned char dbuf[SIT_SIZE];
+++	unsigned char dbuf[COOKIE_SIZE];
++ 	unsigned char *old;
++ 	isc_stdtime_t now;
++ 	isc_uint32_t when;
++ 	isc_uint32_t nonce;
++ 	isc_buffer_t db;
++ 
+++	/*
+++	 * If we have already seen a ECS option skip this ECS option.
+++	 */
+++	if ((client->attributes & NS_CLIENTATTR_WANTSIT) != 0) {
+++		isc_buffer_forward(buf, optlen);
+++		return;
+++	}
++ 	client->attributes |= NS_CLIENTATTR_WANTSIT;
++ 
++ 	isc_stats_increment(ns_g_server->nsstats,
++ 			    dns_nsstatscounter_sitopt);
++ 
++-	if (optlen != SIT_SIZE) {
+++	if (optlen != COOKIE_SIZE) {
++ 		/*
++ 		 * Not our token.
++ 		 */
++@@ -1717,14 +1727,13 @@ process_sit(ns_client_t *client, isc_buffer_t *buf, size_t optlen) {
++ 	isc_buffer_init(&db, dbuf, sizeof(dbuf));
++ 	compute_sit(client, when, nonce, &db);
++ 
++-	if (!isc_safe_memequal(old, dbuf, SIT_SIZE)) {
+++	if (!isc_safe_memequal(old, dbuf, COOKIE_SIZE)) {
++ 		isc_stats_increment(ns_g_server->nsstats,
++ 				    dns_nsstatscounter_sitnomatch);
++ 		return;
++ 	}
++ 	isc_stats_increment(ns_g_server->nsstats,
++ 			    dns_nsstatscounter_sitmatch);
++-
++ 	client->attributes |= NS_CLIENTATTR_HAVESIT;
++ }
++ #endif
++@@ -1783,7 +1792,9 @@ process_opt(ns_client_t *client, dns_rdataset_t *opt) {
++ 			optlen = isc_buffer_getuint16(&optbuf);
++ 			switch (optcode) {
++ 			case DNS_OPT_NSID:
++-				isc_stats_increment(ns_g_server->nsstats,
+++				if (!WANTNSID(client))
+++					isc_stats_increment(
+++						    ns_g_server->nsstats,
++ 						    dns_nsstatscounter_nsidopt);
++ 				client->attributes |= NS_CLIENTATTR_WANTNSID;
++ 				isc_buffer_forward(&optbuf, optlen);
++@@ -1794,7 +1805,9 @@ process_opt(ns_client_t *client, dns_rdataset_t *opt) {
++ 				break;
++ #endif
++ 			case DNS_OPT_EXPIRE:
++-				isc_stats_increment(ns_g_server->nsstats,
+++				if (!WANTEXPIRE(client))
+++					isc_stats_increment(
+++						  ns_g_server->nsstats,
++ 						  dns_nsstatscounter_expireopt);
++ 				client->attributes |= NS_CLIENTATTR_WANTEXPIRE;
++ 				isc_buffer_forward(&optbuf, optlen);
++diff --git a/doc/arm/notes.xml b/doc/arm/notes.xml
++index ebf4f55..095eb5b 100644
++--- a/doc/arm/notes.xml
+++++ b/doc/arm/notes.xml
++@@ -51,6 +51,13 @@
++     <title>Security Fixes</title>
++     <itemizedlist>
++       <listitem>
+++       <para>
+++         Duplicate EDNS COOKIE options in a response could trigger
+++         an assertion failure. This flaw is disclosed in CVE-2016-2088.
+++         [RT #41809]
+++       </para>
+++      </listitem>
+++      <listitem>
++ 	<para>
++ 	  Specific APL data could trigger an INSIST.  This flaw
++ 	  was discovered by Brian Mitchell and is disclosed in
++diff --git a/lib/dns/resolver.c b/lib/dns/resolver.c
++index a797e3f..ba1ae23 100644
++--- a/lib/dns/resolver.c
+++++ b/lib/dns/resolver.c
++@@ -7502,7 +7502,9 @@ process_opt(resquery_t *query, dns_rdataset_t *opt) {
++ 	unsigned char *sit;
++ 	dns_adbaddrinfo_t *addrinfo;
++ 	unsigned char cookie[8];
+++	isc_boolean_t seen_cookie = ISC_FALSE;
++ #endif
+++	isc_boolean_t seen_nsid = ISC_FALSE;
++ 
++ 	result = dns_rdataset_first(opt);
++ 	if (result == ISC_R_SUCCESS) {
++@@ -7516,14 +7518,23 @@ process_opt(resquery_t *query, dns_rdataset_t *opt) {
++ 			INSIST(optlen <= isc_buffer_remaininglength(&optbuf));
++ 			switch (optcode) {
++ 			case DNS_OPT_NSID:
++-				if (query->options & DNS_FETCHOPT_WANTNSID)
+++				if (!seen_nsid &&
+++				    query->options & DNS_FETCHOPT_WANTNSID)
++ 					log_nsid(&optbuf, optlen, query,
++ 						 ISC_LOG_DEBUG(3),
++ 						 query->fctx->res->mctx);
++ 				isc_buffer_forward(&optbuf, optlen);
+++				seen_nsid = ISC_TRUE;
++ 				break;
++ #ifdef ISC_PLATFORM_USESIT
++ 			case DNS_OPT_COOKIE:
+++				/*
+++				 * Only process the first cookie option.
+++				 */
+++				if (seen_cookie) {
+++					isc_buffer_forward(&optbuf, optlen);
+++					break;
+++				}
++ 				sit = isc_buffer_current(&optbuf);
++ 				compute_cc(query, cookie, sizeof(cookie));
++ 				INSIST(query->fctx->rmessage->sitbad == 0 &&
++@@ -7541,6 +7552,7 @@ process_opt(resquery_t *query, dns_rdataset_t *opt) {
++ 				isc_buffer_forward(&optbuf, optlen);
++ 				inc_stats(query->fctx->res,
++ 					  dns_resstatscounter_sitin);
+++				seen_cookie = ISC_TRUE;
++ 				break;
++ #endif
++ 			default:
++-- 
++2.1.4
++
+diff --git a/meta/recipes-connectivity/bind/bind_9.10.2-P4.bb b/meta/recipes-connectivity/bind/bind_9.10.2-P4.bb
+index f1951a0..0dfa314 100644
+--- a/meta/recipes-connectivity/bind/bind_9.10.2-P4.bb
++++ b/meta/recipes-connectivity/bind/bind_9.10.2-P4.bb
+@@ -28,6 +28,7 @@ SRC_URI = "ftp://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+            file://CVE-2016-1285.patch \
+            file://CVE-2016-1286_1.patch \
+            file://CVE-2016-1286_2.patch \
++           file://CVE-2016-2088.patch \
+            "
+ 
+ SRC_URI[md5sum] = "8b1f5064837756c938eadc1537dec5c7"
+-- 
+2.3.5
 
 
-> On Jul 22, 2016, at 3:16 PM, Richard Purdie =
-<richard.purdie@linuxfoundation.org> wrote:
->=20
-> On Fri, 2016-07-22 at 11:20 -0700, Khem Raj wrote:
->>> On Jul 22, 2016, at 8:55 AM, Richard Purdie <
->>> richard.purdie@linuxfoundation.org> wrote:
->>>=20
->>> On Fri, 2016-07-22 at 08:47 -0700, Khem Raj wrote:
->>>> Whats the motivation here. This looks like a backdoor for bsps.
->>>> To
->>>> user it will make inconsistent behaviour. Even now its quite hard
->>>> to
->>>> root cause errors due to siteinfo
->>>=20
->>> Right now if you have some new target, your only option is to
->>> either
->>> patch OE-Core, or copy the class into your new BSP.
->>=20
->> May be we can make an exception and accept patches for these changes
->> into release branches
->> via master ofcourse
->=20
-> That isn't really helping people doing development work though. Sure,
-> eventually these changes can be ready for master but I've worked on
-> things where master never really made sense for various reasons.
->=20
->>> This is
->>> particularly problematic if you're working on hardware that isn't
->>> supported by core OE or that is in active development.
->>>=20
->>> Having hooks to allow you to write a new BSP without having to make
->>> changes to the core would seem to be a good thing.
->>=20
->> This seems to be fair, however, they will surely keep these fragments
->> and supply their BSP to users. who will now have to chase different
->> places for finding siteinfo details.
->=20
-> The code is pretty good about printing a list of the siteinfo files =
-its
-> using so it should be clear if a siteinfo file is coming from a
-> different layer and which siteinfo files are in use.
->=20
->>> I'm not expecting users to regularly use this, just those writing
->>> more
->>> exotic BSPs or doing baremetal work for example.
->>>=20
->>> I can sympathise with the problem as I've run into it several times
->>> now
->>> myself. We can't really demand that every time this happens, people
->>> send a patch for OE-Core (although if something is commonly used
->>> we'd
->>> obviously then encourage it).
->>=20
->> This could also mean that I can override a definition e.g. size of
->> off_t
->> for arm in my BSP layer and inject it into a MultiBSP setups where
->> others will
->> get it too ?
->=20
-> In theory you could. There are an awful lot of things you can do with
-> the build system which aren't really recommended though. I'm not sure
-> I'd single this one out as being something we should enforce as not
-> being good.
->=20
-> Let me put this another way.
->=20
-> The principle is that you can add new hardware support to OE in a BSP
-> layer. Juro and I tried that and we ran into problems where we could
-> not make this work without hacking OE-Core meaning the principle
-> failed.
->=20
-> We made a list and there were three places there were problems. I've
-> sent patches for two of them, I've proposed a different approach for
-> the third in the bug entry.
->=20
-> I do feel pretty strongly that OE should have good support of
-> independent BSP layers and if there are barriers to this, we should
-> have mechanisms to cope with that.
-
-That seems a good in principle, but then we have been hard on some
-things e.g. linux-libc-headers, citing that we want interfaces
-from kernel to userspace to be consistent across all. But this
-falls apart when you insert different type system underneath
-this recommendation also makes no sense.
-
-
->=20
-> Yes, there is a risk of abuse but the whole system is so flexible we
-> always have that. We can document when these things should be used and
-> also name/shame anyone abusing them.
->=20
-
-I think implications on usability are huge. I just get this constant
-feedback that its complex to debug issues with yocto based systems.
-a real world example is where folks spend 4 weeks a problem which turns
-out to be a wrong assumption on OE=E2=80=99s part for cashing size of =
-off_t for
-one architecture and curl turning on heels over it.
-
-anyhow, I just wanted to present a perspective from a non BSP writers
-point of view, in the end these BSPs has to be used by someone and
-that should be more important IMO
-
-
-
-
---Apple-Mail=_6D011258-F38A-42F5-8862-2AD9E1A9C052
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAleSyEwACgkQuwUzVZGdMxRBhQCfeNi1/5IbzebfXu84Lc/SUiXy
-Bz0An2RCCvA6tTRjX+xqpnl5RrIJbH7C
-=jXxi
------END PGP SIGNATURE-----
-
---Apple-Mail=_6D011258-F38A-42F5-8862-2AD9E1A9C052--
