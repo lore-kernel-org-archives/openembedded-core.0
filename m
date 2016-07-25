@@ -1,48 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id D74757017B
+Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id BCE51606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jul 2016 20:17:32 +0000 (UTC)
-Received: by mail-io0-f172.google.com with SMTP id q83so173675425iod.1
+	Mon, 25 Jul 2016 20:22:16 +0000 (UTC)
+Received: by mail-wm0-f49.google.com with SMTP id o80so172999815wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jul 2016 13:17:33 -0700 (PDT)
+	Mon, 25 Jul 2016 13:22:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=E97BSNbZA2KgfVQXUrjbSCqjYOPkkgoN8EE/Mw2PdjU=;
-	b=Iy45Ml0j84g6ewZQO3PWqGZRDcPpnMPNFARA+isSwr8Idp0dBXPMFypwpd27Y+dRhf
-	x6TInqjTud5Nppd2wDaO49+BLHLeelLVPDYda9z5LkMI3fF/8J1W81+Riam7e9iOWBZy
-	ky3mYUSQbpcimzZFK8CytXwLMcSohY1JBi2s3EU2U6E9wvFUXqEaA3ikqTSyEckz6Gun
-	nbyHaKZ5WRPybfRpG4BzIzDzxfiQoAPiMG9yFyYjokyKJ3x3UtzjJhMUrjrWFi6eIkmC
-	Sm5B8QL01+fS8NsyviekkTsLW4l7AczBG8vWLtjihp+VxY46O9BhWhrNr2OeVHyVdVkY
-	Al3g==
+	h=from:to:subject:date:message-id;
+	bh=iyi+tGek0siMUG+f6O8dq2/ddLkcO2dSBIgUHZAS8ek=;
+	b=pPTbbJ0XCNWOYpIfr/VrMEFs7WzmpIJv6CE0TNuPrGKWi5Cmkomp+tmScifxS73T9D
+	DomtYq5WC7VAsq8rUVdRvEnXu65q6vTMLwXGKbGQTzwThVXWUxqrVwiDyHflHZoflTQd
+	zZUyYEm/tw9n8mILoEA3DULTyu4X+Ea0pG2DLxECTT+neR89qxVGW8D7gzj66olNBxhW
+	PF3hETfVJTrfCTyywew23GJHIg6G6k7HBE+0Odh91Hy5yHv1RH043Yh01eB0nyjobLSm
+	crlY1I2WVPkC0dmL3JHkHGiWJtVotUHbzBH06W76v1UyEp2H2eozjXtk8KxWP3G6UsZ4
+	Irmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=E97BSNbZA2KgfVQXUrjbSCqjYOPkkgoN8EE/Mw2PdjU=;
-	b=QdJahEXtab2ArK0eqJecWl87fzn0vCfDrIbURKBRItFB3Q/Yt8QFleiqvS6OHlFQlk
-	zXcvRjfGF6oGyuwJET95+3j5sMdRWzBFIoLOc/x7hbo+0rRkWL7WZlydk59olKIJIEmN
-	Kd3EOaNwkSGnCPymeLo6lxleMH9AJiaSFVO9wxMBTyn8jGzf661MdNm+iUgE1pt38Hl1
-	Ktqscnm74R/fB475+nOenvNjzcEVFd5FCT7pXFNQLaWrTcGIBCDnsq9OY0aP+7a7oCh5
-	4OSkU8mRE05wUY1xn5k4XJoJYsWLqRMQ9cYJ6RW10cGUnp7U6SlEvIvJswPJyTi5FZuL
-	r1Bw==
-X-Gm-Message-State: AEkooutmayl8jzJXwTGGi0OzZIdierNlHNbi0Ju/3y+RjqDokPwAF7nO/uV/tZG5Z7NJNj6YXGZ5B+Ha4BlRNkn8
-X-Received: by 10.107.154.196 with SMTP id c187mr21258576ioe.99.1469477853268; 
-	Mon, 25 Jul 2016 13:17:33 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Mon, 25 Jul 2016 13:17:13 -0700 (PDT)
-In-Reply-To: <20160724121138.i7fp26ateflny4kl@jama>
-References: <20160708085912.13734.77555@opal.openembedded.org>
-	<20160708085918.3A528501B3@opal.openembedded.org>
-	<20160724121138.i7fp26ateflny4kl@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 25 Jul 2016 21:17:13 +0100
-Message-ID: <CAJTo0LZmRoRqmHeCuNbQptBvM+Z46oQPPVsYXneeGmRK7P1V6w@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe-commits] [openembedded-core] 21/28: rt-tests: move ptest to python3
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=iyi+tGek0siMUG+f6O8dq2/ddLkcO2dSBIgUHZAS8ek=;
+	b=DAHpq60zc55SzBnRS9/BiCpxrNtgFBrrx6i0el2HcSU4JgFPDHA9kDMgWYr0WoncTj
+	GYHxKFzlooSWEZCAIzlClfW2tAlmKj3rtx3w5tqp66TQ7G535DnRyzskwqf7P3g5DRID
+	xO8jIdbDIl7KTPWNOz7Ux+QADcbh0HgteCDvweOmGt+y2N2jPnlCNOJAs2DHOh8/Xjiy
+	Xg/EtkDwjL75eSP4RAvDsPdpGPllFBTrHSTty4x+MQLK4bUlM4wF8bzSh0zEWQHXqccB
+	H81zqbQmSazwSbH7tsPI89io+W78VHEinUgTaoga4DPVJ5VOwCljPfcHUP5xlT/FFb5r
+	y+1Q==
+X-Gm-Message-State: ALyK8tK9O289+6S+4iia9gQwTqT/mmiINfq3+nPcAuVHAEJ8Xc1ij2b6fK8rR2QlKlvJIlP5
+X-Received: by 10.28.186.138 with SMTP id k132mr40102466wmf.65.1469478136040; 
+	Mon, 25 Jul 2016 13:22:16 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	k186sm26674089wmd.13.2016.07.25.13.22.14
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 25 Jul 2016 13:22:15 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 25 Jul 2016 21:22:12 +0100
+Message-Id: <1469478132-12585-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] layer.conf: bump version for uclibc removal and LSB update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,42 +53,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jul 2016 20:17:34 -0000
-Content-Type: multipart/alternative; boundary=001a1140e81e73289905387b79e1
+X-List-Received-Date: Mon, 25 Jul 2016 20:22:17 -0000
 
---001a1140e81e73289905387b79e1
-Content-Type: text/plain; charset=UTF-8
+As of oe-core layer version 9, uclibc has been removed and LSB approximates
+version 5 (which means that Qt 3 isn't required for LSB conformance).
 
-On 24 July 2016 at 13:11, Martin Jansa <martin.jansa@gmail.com> wrote:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/conf/layer.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Any idea why it fails now like this:
->
-> http://errors.yoctoproject.org/Errors/Details/73086/
->
-> ?
->
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index 81dd4be..b6d5f1c 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -9,7 +9,7 @@ BBFILE_PRIORITY_core = "5"
+ 
+ # This should only be incremented on significant changes that will
+ # cause compatibility issues with other layers
+-LAYERVERSION_core = "8"
++LAYERVERSION_core = "9"
+ 
+ BBLAYERS_LAYERINDEX_NAME_core = "openembedded-core"
+ 
+-- 
+2.8.1
 
-I've just sent a patch, can you see if that helps?
 
-Ross
-
---001a1140e81e73289905387b79e1
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 24 July 2016 at 13:11, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":ei" class=3D"=
-a3s aXjCH m1561cd1c3a78f129">Any idea why it fails now like this:<br>
-<br>
-<a href=3D"http://errors.yoctoproject.org/Errors/Details/73086/" rel=3D"nor=
-eferrer" target=3D"_blank">http://errors.yoctoproject.org/Errors/Details/73=
-086/</a><br>
-<br>
-?</div></blockquote></div><br>I&#39;ve just sent a patch, can you see if th=
-at helps?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ext=
-ra">Ross</div></div>
-
---001a1140e81e73289905387b79e1--
