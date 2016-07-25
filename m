@@ -1,47 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
-	[209.85.223.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C6A9606D0
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 832E7606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jul 2016 16:55:43 +0000 (UTC)
-Received: by mail-io0-f177.google.com with SMTP id 38so166960310iol.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jul 2016 09:55:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=xcoI2DSylbKr/TIWjTW0TKQOnDggM6MI3X/rggbFnJg=;
-	b=b/ixi842a3cjrDQuNLuuBoWsP5R9nbxBCxxKlAxgoxdTIBG+GFBeyKdd5Dqs0WYAkf
-	VPKfkflej+E3xKG+4LL6UqiA7c2xpW+olOkvqrBrm5nYI8QzTCBF1jrME+7lqiOQmcFs
-	Fn4Y2PW1GaPQrlHLOSJ4poC/SBAV80oxkqOciG4GSfvfo3DDr184nFTguDwDesyhGk8f
-	RkCUi1FyPHGHGTr1A1yeiz0FKLDgRGH2hv0pq4xU0Znooin13B517mDtb0sW51Q1pXqz
-	GrascYU1A0c+vlCV6mt02H9SSKx+9XZVkPIQO0kWMe7+rWge5uYJ9LuNNWSXAuvb8XHv
-	iLSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=xcoI2DSylbKr/TIWjTW0TKQOnDggM6MI3X/rggbFnJg=;
-	b=Z3v2cpmGOIrFXii2Ne118aaMfuGHiV3Xu4JH7WJ2Oyxo+ndtHy0WdOTpgyTgkDG+f7
-	vhBIWfPaepY+ED8Lh8Y4vMu2ExGkBT3RIWxSUieXaaCQ3OUqRvidfsyP3GYr68arhgOP
-	SVhKXSNyZgyquqiiDWZEMbLhhqrVhb6y5ZA9yy5m8W3rRQl1cXVq4i3YzU19re10T/Pm
-	GBkfosgZM+idPsBQyc7GbSulPQ4hlWnWCjLeF7SErb/pq6pGQ6UrJ/vnzfBhgtADLAvT
-	zkcrVrFx6P+mWayvlhJKuucAGTQTktgdLJGZ7n3b4a+4cRIZ6OQqX+XQ5M3/gEISddjX
-	MDcw==
-X-Gm-Message-State: AEkooutc0J3pX9yvvFece06j2XOsbVObsswuDZhP+RNJhjYHRTJBuQy7WwDS8JG7hDryQIRoiP6q6NFJNFf5DBpS
-X-Received: by 10.107.138.212 with SMTP id c81mr20733875ioj.148.1469465743649; 
-	Mon, 25 Jul 2016 09:55:43 -0700 (PDT)
+	Mon, 25 Jul 2016 17:20:46 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP; 25 Jul 2016 10:20:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,420,1464678000"; 
+	d="asc'?scan'208";a="853113103"
+Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.5.54]) ([10.219.5.54])
+	by orsmga003.jf.intel.com with ESMTP; 25 Jul 2016 10:20:47 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1468358990-14377-1-git-send-email-anibal.limon@linux.intel.com>
+	<1468358990-14377-3-git-send-email-anibal.limon@linux.intel.com>
+	<CAJTo0LZ_jV7BoyhGAn_xjydZMCFsbcdp_5dvaGTgbNy5MDsfqg@mail.gmail.com>
+From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Message-ID: <57964A92.1070204@linux.intel.com>
+Date: Mon, 25 Jul 2016 12:21:22 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Mon, 25 Jul 2016 09:55:24 -0700 (PDT)
-In-Reply-To: <9b789aaef553ad10b81868af8a32e48ed5d702ac.1469431638.git.liezhi.yang@windriver.com>
-References: <cover.1469431638.git.liezhi.yang@windriver.com>
-	<9b789aaef553ad10b81868af8a32e48ed5d702ac.1469431638.git.liezhi.yang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 25 Jul 2016 17:55:24 +0100
-Message-ID: <CAJTo0LaAduh5ep=xgK8NO1MHc0R1Cr-Hwqe8Ut1FrkCviv+Rpg@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
+In-Reply-To: <CAJTo0LZ_jV7BoyhGAn_xjydZMCFsbcdp_5dvaGTgbNy5MDsfqg@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/7] libinput: fix udevdir
+Subject: Re: [PATCH 3/3] classes/testimage: When image is systemd enable debug log level
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,33 +35,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jul 2016 16:55:45 -0000
-Content-Type: multipart/alternative; boundary=001a113ed932a90741053878a782
+X-List-Received-Date: Mon, 25 Jul 2016 17:20:47 -0000
+X-Groupsio-MsgNum: 84868
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature";
+	boundary="q9FxsL7hw8SG1LfM8EvwWr0IQRe6CGqUd"
 
---001a113ed932a90741053878a782
-Content-Type: text/plain; charset=UTF-8
-
-On 25 July 2016 at 08:28, Robert Yang <liezhi.yang@windriver.com> wrote:
-
-> +FILES_${PN} += "${base_libdir}/udev/ ${nonarch_base_libdir}/udev/"
->
-
-Isn't this covered by the bitbake.conf change?
-
-Ross
-
---001a113ed932a90741053878a782
-Content-Type: text/html; charset=UTF-8
+--q9FxsL7hw8SG1LfM8EvwWr0IQRe6CGqUd
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 25 July 2016 at 08:28, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":68d" cla=
-ss=3D"a3s aXjCH m15620f5615ee2b81">+FILES_${PN} +=3D &quot;${base_libdir}/u=
-dev/ ${nonarch_base_libdir}/udev/&quot;<br></div></blockquote><div><br></di=
-v><div>Isn&#39;t this covered by the bitbake.conf change?</div><div><br></d=
-iv><div>Ross=C2=A0</div></div><br></div></div>
 
---001a113ed932a90741053878a782--
+
+On 07/15/2016 02:34 PM, Burton, Ross wrote:
+> On 12 July 2016 at 22:29, An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.in=
+tel.com> wrote:
+>=20
+>> +            bootparams =3D 'systemd.log_level=3Ddebug systemd
+>> .log_target=3Dconsole'
+>>
+>=20
+> The problem with this is that it appears that logger output then goes
+> *only* to the console and not the journal or syslog, which breaks selft=
+est
+> (and expected behaviour).
+>=20
+> https://autobuilder.yoctoproject.org/main/builders/nightly-qa-systemd/b=
+uilds/851
+> for example, which goes green if I revert this patch.
+>=20
+> If this is the case then it would be great if there was a
+> journal-and-console log_target I guess.
+
+I'll review the issue i guess the journal test is failing for something
+else but if we change the backend to journalctl systemd starts to fail
+with timeout, seems that create a log of I/O writing in the journal
+database.
+
+	alimon
+
+>=20
+> Ross
+>=20
+
+
+--q9FxsL7hw8SG1LfM8EvwWr0IQRe6CGqUd
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQIcBAEBAgAGBQJXlkqXAAoJEGJqcE9h3glgg8UP/i+WmE5AUrbXU/fEfI/J6bmK
+vSLK/kaUpwj6Do2RzaX9AJSUWQc4Fy4pLQYeTaROH8Nf5SM6JUlq5J4iiXJhWbnE
+O9XZngSsrsf785U5rMRTVRD2Jqr3CN7zAY20i1Fj5mMd4dacpsQFIrUQwTJLl/j6
+6EBa5Tl313ghBIfly17/Gl0jXcg8Bm926ZZzSg2gFg0VSHsdDFHqlRnI6Pi/dX2G
+EMvRMmUtMs9qiWrpY7znL+1fUuH0haIXlvQzOOViKFhjYKjJSuU463PobhkRK8T0
+TmW9m9I7nshSOQl5ePktdElI90Anx1E08KuDxlrPRHmHP0COnfpCmiaJJmQAETqg
+Pp+BieTBQUaU4gYgrq/KJGcMTt3RaRFJeWnbchGxWTKNe6yarUdKcDsczFI9aFZn
+vPWKSzVws3W7VjD9FIP2cTjo4hckduzfGzhCkwrKrSvamytDBxuq/dUAqzGKsadE
+9VZUboMP8CfyCKE3zGPNtsuWOKm75cy0Mq4fCf8G2BMNRnpj1/XYOscggA0Aangy
+H3samaXqdHx0N+Frd50Lko3jX/Gf1uOCoHcfrhAn9HKJbSwu2ZecJF7CmAH7V5V3
+uqXwtdyzGdP1YHS3zF2UEBCxxRoYOZbw5x3WPy3dKPq+LZkMQ9HrZVNkiHwhQQOu
+38PRFTmBkpb8nx8vf59j
+=DZhN
+-----END PGP SIGNATURE-----
+
+--q9FxsL7hw8SG1LfM8EvwWr0IQRe6CGqUd--
