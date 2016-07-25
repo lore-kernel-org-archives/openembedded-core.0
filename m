@@ -1,63 +1,45 @@
-Return-Path: <thilo.cestonaro@ts.fujitsu.com>
-Received: from mail1.bemta3.messagelabs.com (mail1.bemta3.messagelabs.com
-	[195.245.230.165])
-	by mail.openembedded.org (Postfix) with ESMTP id 4391C606D0
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
+	[209.85.220.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 645CC606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jul 2016 14:06:34 +0000 (UTC)
-Received: from [195.245.230.51] by server-5.bemta-3.messagelabs.com id
-	1F/44-03281-9EC16975; Mon, 25 Jul 2016 14:06:33 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrCKsWRWlGSWpSXmKPExsViZ8MxRfelzLR
-	wg6872C3u/HzHbtF2fRajA5PHzll32T3ObVzBGMAUxZqZl5RfkcCaMfPoaZaCloiKveuPszcw
-	3g/rYuTiEBJoZZKY2LeRCcI5xijx480HdgjnIqPElZtvGLsYOTnYBNwltt67zwRiiwjoSjz//
-	JcFxGYWiJKYNPsVmC0s4CWx7fRDZogab4nVW5+wQNhWEq2zb7GC2CwCqhKn750As3kFTCWmzr
-	sONJ8DaFmNxOVl7iBhToFAiWtfz4CVCAGNOf1xNthIRgEViV13tzBCrBWXuPVkPtg5EgIiEg8
-	vnmaDsEUlXj7+xwphG0hsXbqPBcJWkpjStJAZordKovX4bCaIEwQlTs58wjKBUWwWkrGzkJTN
-	QlIGEdeUaN3+mx3CVpSY0v0QyraV2H91JTOEbSrx+uhHRmQ1Cxg5VjGqF6cWlaUW6ZrpJRVlp
-	meU5CZm5ugaGhjr5aYWFyemp+YkJhXrJefnbmIExm49AwPjDsYrbc6HGCU5mJREeR0Yp4UL8S
-	Xlp1RmJBZnxBeV5qQWH2KU4eBQkuD9Kg2UEyxKTU+tSMvMASYRmLQEB4+SCG8ySJq3uCAxtzg
-	zHSJ1ilFRSpy3CyQhAJLIKM2Da4MlrkuMslLCvIwMDAxCPAWpRbmZJajyrxjFORiVhHlfgUzh
-	ycwrgZv+CmgxE9DiBTyTQRaXJCKkpBoYG+73TPBbKa1wVLZXgt1rLgvr1J8d8yYKXU7Wmni1b
-	PG2z5sOVfR1CPmXnjxlZ/u86lwI8517prqv21kXMZb0pC959nPf8nec+s4Lj/txPY+ZEGeQrM
-	reb1nRFlh4UL+IlZvTJ/1f9L7kr4mp03bdFTK+wNQ1RfT5xN9xBQc1lvczqJRyPVqixFKckWi
-	oxVxUnAgAvMFjoFcDAAA=
-X-Env-Sender: thilo.cestonaro@ts.fujitsu.com
-X-Msg-Ref: server-13.tower-33.messagelabs.com!1469455592!47870285!1
-X-Originating-IP: [62.60.8.148]
-X-StarScan-Received: 
-X-StarScan-Version: 8.77; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 27490 invoked from network); 25 Jul 2016 14:06:33 -0000
-Received: from unknown (HELO mailhost1.uk.fujitsu.com) (62.60.8.148)
-	by server-13.tower-33.messagelabs.com with DHE-RSA-AES256-GCM-SHA384
-	encrypted SMTP; 25 Jul 2016 14:06:33 -0000
-Received: from R01UKEXCASM123.r01.fujitsu.local (ex2k13_123.fs.fujitsu.com
-	[10.183.43.175])
-	by mailhost1.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id
-	u6PE7ALO028125
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Mon, 25 Jul 2016 15:07:10 +0100
-Received: from R01UKEXCASM121.r01.fujitsu.local (10.183.43.173) by
-	R01UKEXCASM123.r01.fujitsu.local (10.183.43.175) with Microsoft SMTP
-	Server (TLS) id 15.0.1178.4; Mon, 25 Jul 2016 15:06:27 +0100
-Received: from R01UKEXCASM121.r01.fujitsu.local ([fe80::48eb:6503:a1bb:c29c])
-	by R01UKEXCASM121.r01.fujitsu.local ([fe80::48eb:6503:a1bb:c29c%22])
-	with mapi id 15.00.1178.000; Mon, 25 Jul 2016 15:06:27 +0100
-From: "thilo.cestonaro@ts.fujitsu.com" <thilo.cestonaro@ts.fujitsu.com>
-To: "raj.khem@gmail.com" <raj.khem@gmail.com>
-Thread-Topic: [OE-core] Building for armv7athf-neon but toolchain is softfp
-Thread-Index: AQHR5B58h/TNj18cYUuHrBoFZFSdxKAkbLqAgAS04oA=
-Date: Mon, 25 Jul 2016 14:06:26 +0000
-Message-ID: <1469455403.6896.29.camel@ts.fujitsu.com>
+	Mon, 25 Jul 2016 14:14:58 +0000 (UTC)
+Received: by mail-qk0-f170.google.com with SMTP id o67so162425904qke.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Jul 2016 07:14:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=BoZN6Ha4TWG5zwNFtLwuPQg7SziuCnHFLPmwMdih9WY=;
+	b=dZ2G7qs7lINa09fMgWK1QyHhIHPCTPArQ1OmgzjKkJZ7C2C/zelK22/p6127EZA6gf
+	Lzhlb6hBQccBmdHIe+QiaUG29kVc12jLjW+MRJrRTdfmaoFg8HRyTgxN+WRFe5b7HEGn
+	E6ZVChsRD6RqmiAQTCBWSGHowTXLLi3bdFsA+Vojl9haJEHbSD+tP+3Rq2h8YT2MC5Fr
+	NBkI9XOEbrHKhSQdAGO7f4XKzegJ4jJ/4w8G4BSWTCLI+ojWoeRS/gl6q15CQDJMagVN
+	WT5lmgkp8S99aLemmFaiPSAF+qTjrDETsy5GzplE/OE367IzAw0lSOisvWKIXYEpzFID
+	AuVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=BoZN6Ha4TWG5zwNFtLwuPQg7SziuCnHFLPmwMdih9WY=;
+	b=F9BuEMfJDwT+X2Td2RmXHBH8pfqipt749XCEEaJBqyBmVgK+tO7HveU74AxoGzfkrU
+	jVchwDGYU/2KaFf2GsFHol7b9xVGoao8HpcXEsbXyVQ4wIgp+tAx1x3R1cFYz95aCzpD
+	9ceApKz3vZXqUHUZO74cKbhCQhidB+q6IxzHKCLEzqrKXG5HXVwZS7qGflovD7nLIsn2
+	uF0rXTfe9oY9PvRVmKeVmw2q8xw6UCfhY1yNjopU50ROY8y523z4dAacwOo/3Gyjv7Vn
+	eRuyiskfmbOt1CLemtADfyQlh45hYNtkHKEcfant3ECW5GJjKZbQEhojEs1dX/nspbEf
+	ljrQ==
+X-Gm-Message-State: AEkoouvAe1fvaDpLRglz31Kfg3HoBbOEPjgHOUgP2mVV8EZ69Oj69qpJrL7dK/hYz9EGkysvhVN4XXclsSniaw==
+X-Received: by 10.55.16.232 with SMTP id 101mr23640859qkq.151.1469456098623;
+	Mon, 25 Jul 2016 07:14:58 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.55.214.83 with HTTP; Mon, 25 Jul 2016 07:14:57 -0700 (PDT)
+In-Reply-To: <1469455403.6896.29.camel@ts.fujitsu.com>
 References: <1469194596.6594.13.camel@ts.fujitsu.com>
 	<CAMKF1srBan-tupS7qGb3kDnAn-2-u8dox3vFk5ssGwQLzeGaHw@mail.gmail.com>
-In-Reply-To: <CAMKF1srBan-tupS7qGb3kDnAn-2-u8dox3vFk5ssGwQLzeGaHw@mail.gmail.com>
-Reply-To: "thilo.cestonaro@ts.fujitsu.com" <thilo.cestonaro@ts.fujitsu.com>
-Accept-Language: de-DE, en-GB, en-US
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.182.185.150]
-MIME-Version: 1.0
+	<1469455403.6896.29.camel@ts.fujitsu.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 25 Jul 2016 07:14:57 -0700
+Message-ID: <CAMKF1soyDLFePf+JqwQeyqCeig=CeZqHADwJJ7yZ=Nz9PcW0Hg@mail.gmail.com>
+To: "thilo.cestonaro@ts.fujitsu.com" <thilo.cestonaro@ts.fujitsu.com>
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: Building for armv7athf-neon but toolchain is softfp
@@ -73,166 +55,294 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jul 2016 14:06:35 -0000
-X-Groupsio-MsgNum: 84863
-Content-Language: en-US
-Content-Type: multipart/signed; micalg=sha-1;
-	protocol="application/x-pkcs7-signature";
-	boundary="=-p2J9USJfD3xJ4Tqz19nS"
+X-List-Received-Date: Mon, 25 Jul 2016 14:15:00 -0000
+Content-Type: multipart/alternative; boundary=001a113fe378c5abc105387668d6
 
---=-p2J9USJfD3xJ4Tqz19nS
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+--001a113fe378c5abc105387668d6
+Content-Type: text/plain; charset=UTF-8
 
-SGV5IEtoZW0hCgpUaGFua3MgZm9yIHlvdXIgYW5zd2VyIQoKPiA+wqAKPiA+IEkgd2FudCB0byBi
-dWlsZCBteSBvd24gZGlzdCBhbmQgYSBzZGsgZm9yIGl0LiBUaGUgZGlzdCBpcyB3b3JraW5nIGFu
-ZCBpcyBhcyBleHBlY3RlZCBieSB0aGUgREVGQVVMVF9UVU5FIG9mICJhcm12N2F0aGYtbmVvbiIs
-IGhhcmRmcC4KPiA+IAo+ID4gQnV0IHRoZSBUQVJHRVRfU1lTIGluIHRoZSBiaXRiYWtlIGhlYWRl
-ciBhbHdheXMgdGVsbHMgbWUsIHRoYXQgdGhlIHRvb2xjaGFpbiBpdCB1c2VzIGlzICIuLi4tZ251
-ZWFiaSIuIE5vdCAiaGYiIGluIHRoZXJlPyEKPiA+IFRoYXRzIHRoZSBmaXJzdCB0aGluZyB3aGF0
-IEkgY2FuJ3QgZmlndXJlIG91dC4KPiBXZSBkbyBub3QgcmVseSBvbiB0YXJnZXQgdHJpcGxldC4g
-Y2FsbGluZyBjb252ZW50aW9uIGlzIGRldGVybWluZWQgYnkKPiAtbWZsb2F0LWFiaSBzd2l0Y2gg
-dGhhdCBpcyB3aGF0IE9FIHJlbGllcyBvbi4KPiAKCk9rLiBVbmRlcnN0b29kLiBCdXQgZXZlbiB3
-aGVuIEkgYnVpbGQgd2l0aCAtbWZsb2F0LWFiaT1oYXJkIChhbmQgdGhlIFZGUCBSZWdpc3RlciBF
-bnRyeSBpcyB0aGVyZSB3aXRoIHJlYWRlbGYsIG9uIGJ1aWxkIG1hY2hpbmUgYW5kIHRhcmdldCku
-CkkgY2FuJ3QgZG8gbGRkIGhlbGxvd29ybGQgb24gdGhlIHRhcmdldC7CoAoKCgo+ID4gCj4gPiBU
-aGUgb3RoZXIgdGhpbmcgaXMsIHdoZW4gSSBub3cgdXNlIHRoZSBzZGssIGFmdGVyIHN1Y2Nlc3Nm
-dWxseSBwb3B1bGF0aW5nIGl0LCB0aGUgdG9vbGNoYWluIGluIHRoZXJlIGhhcyB0aGUgZGVmYXVs
-dCAtbWZsb2F0LWFiaT1zb2Z0ZnAgLi4uCj4gPiBCdXQgZXZlbiB3aGVuIEkgY29tcGlsZSB3aXRo
-IC1tZmxvYXQtYWJpPWhhcmQsIHRoZSBleGVjdXRhYmxlIHdoaWNoIEkgZ2V0LCBzZWdmYXVsdHMg
-b24gdGhlIHRhcmdldCBhbmQgbGRkIHRlbGxzIG1lICJub3QgYSBkeW5hbWljIGV4ZWN1dGFibGUi
-Lgo+ID4gQnV0IHJlYWRlbGYgKG9uIHRoZSB0YXJnZXQgb3IgaG9zdCkgdGVsbHMgbWUsIHRoYXQg
-IlRhZ19BQklfVkZQX2FyZ3M6IFZGUCByZWdpc3RlcnMiICh3aGljaCBpcyBkZXRlY3Rpb24gZm9y
-IGhhcmRmcCwgcmlnaHQ/KS4KPiA+IEFuZCBJIG1pc3MgdGhlICJoZiIgYXQgdGhlIGdudWVhYmkg
-aW4gdGhlIHNkayB0b29sY2hhaW4uCj4gSXMgdGFyZ2V0IHJ1bm5pbmcgdGhlIGltYWdlIGJ1aWxk
-IGJ5IHlvdSBhcyB3ZWxsID8gYW5kIHByZWZlcmVhYmx5Cj4gYnVpbGQgaW4gc2FtZSBzYW5kYm94
-IGFzIHRoZSBTREsKPiBpZiBub3QgdGhlbiB5b3UgbmVlZCB0byBmaWd1cmUgb3V0IGhvdyB0aGUg
-aW1hZ2Ugd2FzIGJ1aWx0LsKgwqB3aGF0IGlzCj4gb3V0cHV0IG9mIGxzIC9saWIvbGQtKgoKSXQn
-cyBhIGtyb2dvdGggYnVpbGQgd2l0aCBjYWxsY29udmVudGlvbi1oYXJkIGVuYWJsZWQgdmlhIERF
-RkFVTFRUVU5FLgpBbmQgSSBoYXZlIG9uZSByZWNpcGUgZm9yIHRoZSBpbWFnZSBhbmQgb25lIGZv
-ciB0aGUgc2RrIHRvb2xjaGFpbi4gU28gdGhlICJCdWlsZCIgYXJlIHR3byBiaXRiYWtlIGNhbGxz
-LgoKSE9TVCB3aXRoIFNESzoKJCAuIC9vcHQvYW1hbmEtc2RrL3Nkay1lbnZpcm9ubWVudAokIGVj
-aG8gJENYWAphcm0tbWFnbmEtbGludXgtZ251ZWFiaS1nKysgLW1hcmNoPWFybXY3LWEgLW1hcm0g
-LW1mcHU9bmVvbiAtbWZsb2F0LWFiaT1oYXJkIC0tc3lzcm9vdD0vb3B0L2FtYW5hLXNkay80LjAt
-MTQ2OTQ1MDgxMi9zeXNyb290cy9hcm12N2FoZi1uZW9uLW1hZ25hLWxpbnV4LWdudWVhYmkKJCAk
-e0NYWH0gLW8gaGVsbG93b3JsZCBoZWxsb3dvcmxkLmNwcMKgCiQgc2NwIGhlbGxvd29ybGQgdGFy
-Z2V0Oi91c3IvYmluCgoKVEFSR0VUOgojIGxkZCAvbGliL2xpYmMuc28uNsKgCgkvbGliL2xkLWxp
-bnV4LWFybWhmLnNvLjMgKDB4YjZmNDEwMDApCiMgbHMgLWwgL2xpYi9sZC0qCi1yd3hyLXhyLXjC
-oMKgwqDCoDEgcm9vdMKgwqDCoMKgwqByb290wqDCoMKgwqDCoMKgwqDCoDEzNDM5NiBKdWwgMjIg
-MTA6NTYgL2xpYi9sZC0yLjIzLnNvCmxyd3hyd3hyd3jCoMKgwqDCoDEgcm9vdMKgwqDCoMKgwqBy
-b290wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgMTAgSnVsIDIyIDEwOjU2IC9saWIvbGQtbGludXgt
-YXJtaGYuc28uMyAtPiBsZC0yLjIzLnNvCgojIC91c3IvYmluL2hlbGxvd29ybGQKU2VnbWVudGF0
-aW9uIGZhdWx0CgojIGxkZCAvdXNyL2Jpbi9oZWxsb3dvcmxkwqAKCW5vdCBhIGR5bmFtaWMgZXhl
-Y3V0YWJsZQoKIyByZWFkZWxmIC1BIC91c3IvYmluL2hlbGxvd29ybGTCoApBdHRyaWJ1dGUgU2Vj
-dGlvbjogYWVhYmkKRmlsZSBBdHRyaWJ1dGVzCsKgIFRhZ19DUFVfbmFtZTogIjctQSIKwqAgVGFn
-X0NQVV9hcmNoOiB2NwrCoCBUYWdfQ1BVX2FyY2hfcHJvZmlsZTogQXBwbGljYXRpb24KwqAgVGFn
-X0FSTV9JU0FfdXNlOiBZZXMKwqAgVGFnX1RIVU1CX0lTQV91c2U6IFRodW1iLTIKwqAgVGFnX0ZQ
-X2FyY2g6IFZGUHYzCsKgIFRhZ19BZHZhbmNlZF9TSU1EX2FyY2g6IE5FT052MQrCoCBUYWdfQUJJ
-X1BDU193Y2hhcl90OiA0CsKgIFRhZ19BQklfRlBfcm91bmRpbmc6IE5lZWRlZArCoCBUYWdfQUJJ
-X0ZQX2Rlbm9ybWFsOiBOZWVkZWQKwqAgVGFnX0FCSV9GUF9leGNlcHRpb25zOiBOZWVkZWQKwqAg
-VGFnX0FCSV9GUF9udW1iZXJfbW9kZWw6IElFRUUgNzU0CsKgIFRhZ19BQklfYWxpZ25fbmVlZGVk
-OiA4LWJ5dGUKwqAgVGFnX0FCSV9hbGlnbl9wcmVzZXJ2ZWQ6IDgtYnl0ZSwgZXhjZXB0IGxlYWYg
-U1AKwqAgVGFnX0FCSV9lbnVtX3NpemU6IGludArCoCBUYWdfQUJJX1ZGUF9hcmdzOiBWRlAgcmVn
-aXN0ZXJzCsKgIFRhZ19DUFVfdW5hbGlnbmVkX2FjY2VzczogdjYKCiMgcmVhZGVsZiAtaCAvdXNy
-L2Jpbi9oZWxsb3dvcmxkwqAKRUxGIEhlYWRlcjoKwqAgTWFnaWM6wqDCoMKgN2YgNDUgNGMgNDYg
-MDEgMDEgMDEgMDAgMDAgMDAgMDAgMDAgMDAgMDAgMDAgMDDCoArCoCBDbGFzczrCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgRUxGMzIKwqAg
-RGF0YTrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAyJ3MgY29tcGxlbWVudCwgbGl0dGxlIGVuZGlhbgrCoCBWZXJzaW9uOsKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoDEgKGN1cnJlbnQp
-CsKgIE9TL0FCSTrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoFVOSVggLSBTeXN0ZW0gVgrCoCBBQkkgVmVyc2lvbjrCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgMArCoCBUeXBlOsKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoEVYRUMgKEV4ZWN1dGFi
-bGUgZmlsZSkKwqAgTWFjaGluZTrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqBBUk0KwqAgVmVyc2lvbjrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAweDEKwqAgRW50cnkgcG9pbnQgYWRkcmVzczrC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAweDg1ZjQKwqAgU3RhcnQgb2YgcHJvZ3JhbSBo
-ZWFkZXJzOsKgwqDCoMKgwqDCoMKgwqDCoMKgNTIgKGJ5dGVzIGludG8gZmlsZSkKwqAgU3RhcnQg
-b2Ygc2VjdGlvbiBoZWFkZXJzOsKgwqDCoMKgwqDCoMKgwqDCoMKgNDIyNjQgKGJ5dGVzIGludG8g
-ZmlsZSkKwqAgRmxhZ3M6wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoDB4NTAwMDQwMCwgVmVyc2lvbjUgRUFCSSwgaGFyZC1mbG9hdCBBQkkK
-wqAgU2l6ZSBvZiB0aGlzIGhlYWRlcjrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqA1MiAo
-Ynl0ZXMpCsKgIFNpemUgb2YgcHJvZ3JhbSBoZWFkZXJzOsKgwqDCoMKgwqDCoMKgwqDCoMKgwqAz
-MiAoYnl0ZXMpCsKgIE51bWJlciBvZiBwcm9ncmFtIGhlYWRlcnM6wqDCoMKgwqDCoMKgwqDCoMKg
-OArCoCBTaXplIG9mIHNlY3Rpb24gaGVhZGVyczrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgNDAgKGJ5
-dGVzKQrCoCBOdW1iZXIgb2Ygc2VjdGlvbiBoZWFkZXJzOsKgwqDCoMKgwqDCoMKgwqDCoDM5CsKg
-IFNlY3Rpb24gaGVhZGVyIHN0cmluZyB0YWJsZSBpbmRleDogMzYKCgpBbnkgaWRlYSB3aGF0J3Mg
-d3JvbmcgaGVyZT8/CkkgZG9uJ3QgZ2V0IGl0LgoKQ2hlZXJzLApUaGlsbw==
+On Monday, July 25, 2016, thilo.cestonaro@ts.fujitsu.com <
+thilo.cestonaro@ts.fujitsu.com> wrote:
+
+> Hey Khem!
+>
+> Thanks for your answer!
+>
+> > >
+> > > I want to build my own dist and a sdk for it. The dist is working and
+> is as expected by the DEFAULT_TUNE of "armv7athf-neon", hardfp.
+> > >
+> > > But the TARGET_SYS in the bitbake header always tells me, that the
+> toolchain it uses is "...-gnueabi". Not "hf" in there?!
+> > > Thats the first thing what I can't figure out.
+> > We do not rely on target triplet. calling convention is determined by
+> > -mfloat-abi switch that is what OE relies on.
+> >
+>
+> Ok. Understood. But even when I build with -mfloat-abi=hard (and the VFP
+> Register Entry is there with readelf, on build machine and target).
+> I can't do ldd helloworld on the target.
+>
+>
+>
+> > >
+> > > The other thing is, when I now use the sdk, after successfully
+> populating it, the toolchain in there has the default -mfloat-abi=softfp ...
+> > > But even when I compile with -mfloat-abi=hard, the executable which I
+> get, segfaults on the target and ldd tells me "not a dynamic executable".
+> > > But readelf (on the target or host) tells me, that "Tag_ABI_VFP_args:
+> VFP registers" (which is detection for hardfp, right?).
+> > > And I miss the "hf" at the gnueabi in the sdk toolchain.
+> > Is target running the image build by you as well ? and prefereably
+> > build in same sandbox as the SDK
+> > if not then you need to figure out how the image was built.  what is
+> > output of ls /lib/ld-*
+>
+> It's a krogoth build with callconvention-hard enabled via DEFAULTTUNE.
+> And I have one recipe for the image and one for the sdk toolchain. So the
+> "Build" are two bitbake calls.
+>
+> HOST with SDK:
+> $ . /opt/amana-sdk/sdk-environment
+> $ echo $CXX
+> arm-magna-linux-gnueabi-g++ -march=armv7-a -marm -mfpu=neon
+> -mfloat-abi=hard
+> --sysroot=/opt/amana-sdk/4.0-1469450812/sysroots/armv7ahf-neon-magna-linux-gnueabi
+> $ ${CXX} -o helloworld helloworld.cpp
+> $ scp helloworld target:/usr/bin
+>
+>
+> TARGET:
+> # ldd /lib/libc.so.6
+>         /lib/ld-linux-armhf.so.3 (0xb6f41000)
+> # ls -l /lib/ld-*
+> -rwxr-xr-x    1 root     root        134396 Jul 22 10:56 /lib/ld-2.23.so
+> lrwxrwxrwx    1 root     root            10 Jul 22 10:56
+> /lib/ld-linux-armhf.so.3 -> ld-2.23.so
+>
+> # /usr/bin/helloworld
+> Segmentation fault
+>
+> # ldd /usr/bin/helloworld
+>         not a dynamic executable
+>
+> # readelf -A /usr/bin/helloworld
+> Attribute Section: aeabi
+> File Attributes
+>   Tag_CPU_name: "7-A"
+>   Tag_CPU_arch: v7
+>   Tag_CPU_arch_profile: Application
+>   Tag_ARM_ISA_use: Yes
+>   Tag_THUMB_ISA_use: Thumb-2
+>   Tag_FP_arch: VFPv3
+>   Tag_Advanced_SIMD_arch: NEONv1
+>   Tag_ABI_PCS_wchar_t: 4
+>   Tag_ABI_FP_rounding: Needed
+>   Tag_ABI_FP_denormal: Needed
+>   Tag_ABI_FP_exceptions: Needed
+>   Tag_ABI_FP_number_model: IEEE 754
+>   Tag_ABI_align_needed: 8-byte
+>   Tag_ABI_align_preserved: 8-byte, except leaf SP
+>   Tag_ABI_enum_size: int
+>   Tag_ABI_VFP_args: VFP registers
+>   Tag_CPU_unaligned_access: v6
+>
+> # readelf -h /usr/bin/helloworld
+> ELF Header:
+>   Magic:   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00
+>   Class:                             ELF32
+>   Data:                              2's complement, little endian
+>   Version:                           1 (current)
+>   OS/ABI:                            UNIX - System V
+>   ABI Version:                       0
+>   Type:                              EXEC (Executable file)
+>   Machine:                           ARM
+>   Version:                           0x1
+>   Entry point address:               0x85f4
+>   Start of program headers:          52 (bytes into file)
+>   Start of section headers:          42264 (bytes into file)
+>   Flags:                             0x5000400, Version5 EABI, hard-float
+> ABI
+>   Size of this header:               52 (bytes)
+>   Size of program headers:           32 (bytes)
+>   Number of program headers:         8
+>   Size of section headers:           40 (bytes)
+>   Number of section headers:         39
+>   Section header string table index: 36
+>
+>
+> Any idea what's wrong here??
+> I don't get it.
 
 
---=-p2J9USJfD3xJ4Tqz19nS
-Content-Type: application/x-pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
+Seems steps are all ok. Can you upload your hello world somewhere.
 
-MIAGCSqGSIb3DQEHAqCAMIACAQExCzAJBgUrDgMCGgUAMIAGCSqGSIb3DQEHAQAAoIIM6DCCA9Qw
-ggK8oAMCAQICEDTNElfINoNG4L/3PTADbgUwDQYJKoZIhvcNAQEFBQAwLzEtMCsGA1UEAxMkRnVq
-aXRzdSBUZWNobm9sb2d5IFNvbHV0aW9ucyBSb290IENBMB4XDTA5MDMxMjEyMjQ1OVoXDTE5MDMx
-MTEyMjQ1OVowLzEtMCsGA1UEAxMkRnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0aW9ucyBVc2VyIENB
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsBtNf0fN8EkW9y6QqoQGS6LUwezenV2B
-nDzORdGanukRtpGzYMAPdyiwtlp0/zONa+jCJGzkX4iYCjTsiJvx01SPRNZ24fHaFGXpJBX599q6
-ZF0isu+h1aIas1tfyCBalAbKKLvNgIuQjnXhdffVk4vSuBytO3OGcULtJ2+lYVSEvxzGt9iTSwT5
-RnEvKpR0iOC+9/UNVOiPK9XCz5u7bg3iehP5gD+v5uu3YIRwV/5gyd7AZPcckTfYP/GZcybcAXfE
-l5nb/bZiSLHeZEjxMMM8YZqFKhH9xymIdjkcRK7NJ2j8OD708QFv4b4bme1mHGfTjSbxb1nOoUTs
-NtshZwIDAQABo4HrMIHoMB0GA1UdDgQWBBQI9chqv4Dje1DEOfQHmEbobX6XqDALBgNVHQ8EBAMC
-AYYwHwYDVR0jBBgwFoAUFHXiV7YVNxWAKpflUUhlrM+GkMswEgYDVR0TAQH/BAgwBgEB/wIBADBH
-BggrBgEFBQcBAQQ7MDkwNwYIKwYBBQUHMAKGK2h0dHA6Ly9haWEudHMuZnVqaXRzdS5jb20vYWlh
-L2Z0czAxcm9vdC5jZXIwPAYDVR0fBDUwMzAxoC+gLYYraHR0cDovL2NkcC50cy5mdWppdHN1LmNv
-bS9jZHAvZnRzMDFyb290LmNybDANBgkqhkiG9w0BAQUFAAOCAQEAQ7pQP9Lw9bcnt1DhvV5UWb1z
-mnACSo6n6x+bupckQzlrf3aJ7HQZigZuaCak+dexL18I86iNDDOJBBsrz0DcD4XPszcLTUezqqGl
-AyIbviBq5mwDHAWBA9F11GRx6LdrHMKNdHPwAWyC3r6qv4GO6A+z16KUZFSP4kvuaN5YHI481T7F
-FxEmntkylphndX+6mQ1NABApMMhX0aN5dVhPAMAP8nENJ1hGk81IG8gzkoHDPSoLCtffAnNhYAqh
-vrDO2ybXb/9x+Sf3DQuzBg3hpB1yJM3K8foQaS3uTpFITfdMprcQyrIdl4Jw26s/6vpIs0siLVTp
-3yAwgNaqQSgxSTCCBIQwggNsoAMCAQICCiWUlIAAAAACJH0wDQYJKoZIhvcNAQEFBQAwLzEtMCsG
-A1UEAxMkRnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0aW9ucyBVc2VyIENBMB4XDTE0MDMyMTEyMTM1
-M1oXDTE3MDMyMDEyMTM1M1owQjEZMBcGA1UEAwwQQ2VzdG9uYXJvLCBUaGlsbzElMCMGA1UECgwc
-RnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0aW9uczCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA
-qP3ld/ylkJOTj2rXQ+VrRf/+YMgZS5CGDnMWk+sMoS5f6JqtwfGcfBU/DhfnLsePut2q+ex/RDZF
-M6yCraPS0vdnTKm2O3Q7/UhhAV1Mi4XzzGeY1Y0qm+85EgMBISPwB5mThLYPsun5UIFs6e8tvlwZ
-Rzp/jrv/AzAfsSbHGXcCAwEAAaOCAhEwggINMAsGA1UdDwQEAwIFoDByBgNVHREEazBpgR50aGls
-by5jZXN0b25hcm9AdHMuZnVqaXRzdS5jb22BI1RoaWxvLkNlc3RvbmFyb0BmdWppdHN1LXNpZW1l
-bnMuY29tgSIrNDk4MjE4MDQ4MjMyOEBpbmNvbWluZ2ZheC5mc2MubmV0MB0GA1UdDgQWBBSiHLgI
-jjo+7KxLJ4t1+YZxgBSn8TAfBgNVHSMEGDAWgBQI9chqv4Dje1DEOfQHmEbobX6XqDA8BgNVHR8E
-NTAzMDGgL6AthitodHRwOi8vY2RwLnRzLmZ1aml0c3UuY29tL2NkcC9mdHMwMXVzZXIuY3JsMEcG
-CCsGAQUFBwEBBDswOTA3BggrBgEFBQcwAoYraHR0cDovL2FpYS50cy5mdWppdHN1LmNvbS9haWEv
-ZnRzMDF1c2VyLmNlcjAMBgNVHRMBAf8EAjAAMD0GCSsGAQQBgjcVBwQwMC4GJisGAQQBgjcVCIWF
-xDKBh/9hgYWBBIbsgiCBx4EaeYOIoHGH0vEvAgFkAgEIMBMGA1UdJQQMMAoGCCsGAQUFBwMEMBsG
-CSsGAQQBgjcVCgQOMAwwCgYIKwYBBQUHAwQwRAYJKoZIhvcNAQkPBDcwNTAOBggqhkiG9w0DAgIC
-AIAwDgYIKoZIhvcNAwQCAgCAMAcGBSsOAwIHMAoGCCqGSIb3DQMHMA0GCSqGSIb3DQEBBQUAA4IB
-AQAEGTAyHPmTyCR029H+P/u9xRezlfA2OVvV97Ls/oLCXGGr6EkMvpHodTc6n4EWSb2ul3VPSRQf
-uSmBgIcHQJykHdSChisaqkeOpHG0rjM9GXh2eQ7ECovpQIfdIbRZKNxlJihSDsDWHyZldBlPVbDh
-xMeT6xJ/ylF8UQ8FXKUir6W/BSPZF5kLdsmCeOpWC4jOGNPEMUAcuiHZPyqAhjlWk750I4oJJKvD
-bwO8/mkxmzOjpOsk8O3CdljCjYPoYtJPI/oNVsYdmiokzne4FusPYKDzv5i0dN74KLR48maXvi3/
-WsTFqwks45QeBJT/z+1sYy+dYWpv9XGN+jR1o4ImMIIEhDCCA2ygAwIBAgIKJZSUgAAAAAIkfTAN
-BgkqhkiG9w0BAQUFADAvMS0wKwYDVQQDEyRGdWppdHN1IFRlY2hub2xvZ3kgU29sdXRpb25zIFVz
-ZXIgQ0EwHhcNMTQwMzIxMTIxMzUzWhcNMTcwMzIwMTIxMzUzWjBCMRkwFwYDVQQDDBBDZXN0b25h
-cm8sIFRoaWxvMSUwIwYDVQQKDBxGdWppdHN1IFRlY2hub2xvZ3kgU29sdXRpb25zMIGfMA0GCSqG
-SIb3DQEBAQUAA4GNADCBiQKBgQCo/eV3/KWQk5OPatdD5WtF//5gyBlLkIYOcxaT6wyhLl/omq3B
-8Zx8FT8OF+cux4+63ar57H9ENkUzrIKto9LS92dMqbY7dDv9SGEBXUyLhfPMZ5jVjSqb7zkSAwEh
-I/AHmZOEtg+y6flQgWzp7y2+XBlHOn+Ou/8DMB+xJscZdwIDAQABo4ICETCCAg0wCwYDVR0PBAQD
-AgWgMHIGA1UdEQRrMGmBHnRoaWxvLmNlc3RvbmFyb0B0cy5mdWppdHN1LmNvbYEjVGhpbG8uQ2Vz
-dG9uYXJvQGZ1aml0c3Utc2llbWVucy5jb22BIis0OTgyMTgwNDgyMzI4QGluY29taW5nZmF4LmZz
-Yy5uZXQwHQYDVR0OBBYEFKIcuAiOOj7srEsni3X5hnGAFKfxMB8GA1UdIwQYMBaAFAj1yGq/gON7
-UMQ59AeYRuhtfpeoMDwGA1UdHwQ1MDMwMaAvoC2GK2h0dHA6Ly9jZHAudHMuZnVqaXRzdS5jb20v
-Y2RwL2Z0czAxdXNlci5jcmwwRwYIKwYBBQUHAQEEOzA5MDcGCCsGAQUFBzAChitodHRwOi8vYWlh
-LnRzLmZ1aml0c3UuY29tL2FpYS9mdHMwMXVzZXIuY2VyMAwGA1UdEwEB/wQCMAAwPQYJKwYBBAGC
-NxUHBDAwLgYmKwYBBAGCNxUIhYXEMoGH/2GBhYEEhuyCIIHHgRp5g4igcYfS8S8CAWQCAQgwEwYD
-VR0lBAwwCgYIKwYBBQUHAwQwGwYJKwYBBAGCNxUKBA4wDDAKBggrBgEFBQcDBDBEBgkqhkiG9w0B
-CQ8ENzA1MA4GCCqGSIb3DQMCAgIAgDAOBggqhkiG9w0DBAICAIAwBwYFKw4DAgcwCgYIKoZIhvcN
-AwcwDQYJKoZIhvcNAQEFBQADggEBAAQZMDIc+ZPIJHTb0f4/+73FF7OV8DY5W9X3suz+gsJcYavo
-SQy+keh1NzqfgRZJva6XdU9JFB+5KYGAhwdAnKQd1IKGKxqqR46kcbSuMz0ZeHZ5DsQKi+lAh90h
-tFko3GUmKFIOwNYfJmV0GU9VsOHEx5PrEn/KUXxRDwVcpSKvpb8FI9kXmQt2yYJ46lYLiM4Y08Qx
-QBy6Idk/KoCGOVaTvnQjigkkq8NvA7z+aTGbM6Ok6yTw7cJ2WMKNg+hi0k8j+g1Wxh2aKiTOd7gW
-6w9goPO/mLR03vgotHjyZpe+Lf9axMWrCSzjlB4ElP/P7WxjL51ham/1cY36NHWjgiYxggHhMIIB
-3QIBATA9MC8xLTArBgNVBAMTJEZ1aml0c3UgVGVjaG5vbG9neSBTb2x1dGlvbnMgVXNlciBDQQIK
-JZSUgAAAAAIkfTAJBgUrDgMCGgUAoIH7MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZI
-hvcNAQkFMQ8XDTE2MDcyNTE0MDMyM1owIwYJKoZIhvcNAQkEMRYEFDL53ZIuMb8XHZxZerp+WJr8
-175wMEwGCSsGAQQBgjcQBDE/MD0wLzEtMCsGA1UEAxMkRnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0
-aW9ucyBVc2VyIENBAgollJSAAAAAAiR9ME4GCyqGSIb3DQEJEAILMT+gPTAvMS0wKwYDVQQDEyRG
-dWppdHN1IFRlY2hub2xvZ3kgU29sdXRpb25zIFVzZXIgQ0ECCiWUlIAAAAACJH0wDQYJKoZIhvcN
-AQEBBQAEgYBljoFaBf/6M73xFg2QvBlB0i/eHSVmfC1wvdia/BTLqznL9egxBdtQyQv4UnW38myU
-IL8/LwyCjy3ATJ3SmliiYA+A5TKSc1F1Qbqcq9l7Iqs+1XJArBEJfjZStSwvjZTwfgNL2Gjpxdvt
-XFSTOfoVcdjM+o4RaAzX/bSZ7TSbvQAAAAAAAA==
+>
+> Cheers,
+> Thilo
 
---=-p2J9USJfD3xJ4Tqz19nS--
+--001a113fe378c5abc105387668d6
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<br><br>On Monday, July 25, 2016, <a href=3D"mailto:thilo.cestonaro@ts.fuji=
+tsu.com">thilo.cestonaro@ts.fujitsu.com</a> &lt;<a href=3D"mailto:thilo.ces=
+tonaro@ts.fujitsu.com">thilo.cestonaro@ts.fujitsu.com</a>&gt; wrote:<br><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
+ccc solid;padding-left:1ex">Hey Khem!<br>
+<br>
+Thanks for your answer!<br>
+<br>
+&gt; &gt;=C2=A0<br>
+&gt; &gt; I want to build my own dist and a sdk for it. The dist is working=
+ and is as expected by the DEFAULT_TUNE of &quot;armv7athf-neon&quot;, hard=
+fp.<br>
+&gt; &gt;<br>
+&gt; &gt; But the TARGET_SYS in the bitbake header always tells me, that th=
+e toolchain it uses is &quot;...-gnueabi&quot;. Not &quot;hf&quot; in there=
+?!<br>
+&gt; &gt; Thats the first thing what I can&#39;t figure out.<br>
+&gt; We do not rely on target triplet. calling convention is determined by<=
+br>
+&gt; -mfloat-abi switch that is what OE relies on.<br>
+&gt;<br>
+<br>
+Ok. Understood. But even when I build with -mfloat-abi=3Dhard (and the VFP =
+Register Entry is there with readelf, on build machine and target).<br>
+I can&#39;t do ldd helloworld on the target.=C2=A0<br>
+<br>
+<br>
+<br>
+&gt; &gt;<br>
+&gt; &gt; The other thing is, when I now use the sdk, after successfully po=
+pulating it, the toolchain in there has the default -mfloat-abi=3Dsoftfp ..=
+.<br>
+&gt; &gt; But even when I compile with -mfloat-abi=3Dhard, the executable w=
+hich I get, segfaults on the target and ldd tells me &quot;not a dynamic ex=
+ecutable&quot;.<br>
+&gt; &gt; But readelf (on the target or host) tells me, that &quot;Tag_ABI_=
+VFP_args: VFP registers&quot; (which is detection for hardfp, right?).<br>
+&gt; &gt; And I miss the &quot;hf&quot; at the gnueabi in the sdk toolchain=
+.<br>
+&gt; Is target running the image build by you as well ? and prefereably<br>
+&gt; build in same sandbox as the SDK<br>
+&gt; if not then you need to figure out how the image was built.=C2=A0=C2=
+=A0what is<br>
+&gt; output of ls /lib/ld-*<br>
+<br>
+It&#39;s a krogoth build with callconvention-hard enabled via DEFAULTTUNE.<=
+br>
+And I have one recipe for the image and one for the sdk toolchain. So the &=
+quot;Build&quot; are two bitbake calls.<br>
+<br>
+HOST with SDK:<br>
+$ . /opt/amana-sdk/sdk-environment<br>
+$ echo $CXX<br>
+arm-magna-linux-gnueabi-g++ -march=3Darmv7-a -marm -mfpu=3Dneon -mfloat-abi=
+=3Dhard --sysroot=3D/opt/amana-sdk/4.0-1469450812/sysroots/armv7ahf-neon-ma=
+gna-linux-gnueabi<br>
+$ ${CXX} -o helloworld helloworld.cpp=C2=A0<br>
+$ scp helloworld target:/usr/bin<br>
+<br>
+<br>
+TARGET:<br>
+# ldd /lib/libc.so.6=C2=A0<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /lib/ld-linux-armhf.so.3 (0xb6f41000)<br>
+# ls -l /lib/ld-*<br>
+-rwxr-xr-x=C2=A0=C2=A0=C2=A0=C2=A01 root=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0root=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0134396 Jul 22 10:56 /lib/<a=
+ href=3D"http://ld-2.23.so" target=3D"_blank">ld-2.23.so</a><br>
+lrwxrwxrwx=C2=A0=C2=A0=C2=A0=C2=A01 root=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0root=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A010 =
+Jul 22 10:56 /lib/ld-linux-armhf.so.3 -&gt; <a href=3D"http://ld-2.23.so" t=
+arget=3D"_blank">ld-2.23.so</a><br>
+<br>
+# /usr/bin/helloworld<br>
+Segmentation fault<br>
+<br>
+# ldd /usr/bin/helloworld=C2=A0<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 not a dynamic executable<br>
+<br>
+# readelf -A /usr/bin/helloworld=C2=A0<br>
+Attribute Section: aeabi<br>
+File Attributes<br>
+=C2=A0 Tag_CPU_name: &quot;7-A&quot;<br>
+=C2=A0 Tag_CPU_arch: v7<br>
+=C2=A0 Tag_CPU_arch_profile: Application<br>
+=C2=A0 Tag_ARM_ISA_use: Yes<br>
+=C2=A0 Tag_THUMB_ISA_use: Thumb-2<br>
+=C2=A0 Tag_FP_arch: VFPv3<br>
+=C2=A0 Tag_Advanced_SIMD_arch: NEONv1<br>
+=C2=A0 Tag_ABI_PCS_wchar_t: 4<br>
+=C2=A0 Tag_ABI_FP_rounding: Needed<br>
+=C2=A0 Tag_ABI_FP_denormal: Needed<br>
+=C2=A0 Tag_ABI_FP_exceptions: Needed<br>
+=C2=A0 Tag_ABI_FP_number_model: IEEE 754<br>
+=C2=A0 Tag_ABI_align_needed: 8-byte<br>
+=C2=A0 Tag_ABI_align_preserved: 8-byte, except leaf SP<br>
+=C2=A0 Tag_ABI_enum_size: int<br>
+=C2=A0 Tag_ABI_VFP_args: VFP registers<br>
+=C2=A0 Tag_CPU_unaligned_access: v6<br>
+<br>
+# readelf -h /usr/bin/helloworld=C2=A0<br>
+ELF Header:<br>
+=C2=A0 Magic:=C2=A0=C2=A0=C2=A07f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00=
+ 00=C2=A0<br>
+=C2=A0 Class:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ELF32<br>
+=C2=A0 Data:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A02&#39;s complement, little endian=
+<br>
+=C2=A0 Version:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A01 (current)<br>
+=C2=A0 OS/ABI:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0UNIX - System V<br>
+=C2=A0 ABI Version:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A00<br>
+=C2=A0 Type:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0EXEC (Executable file)<br>
+=C2=A0 Machine:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0ARM<br>
+=C2=A0 Version:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A00x1<br>
+=C2=A0 Entry point address:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A00x85f4<br>
+=C2=A0 Start of program headers:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A052 (bytes into file)<br>
+=C2=A0 Start of section headers:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A042264 (bytes into file)<br>
+=C2=A0 Flags:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A00x5000400, Version5 EABI, hard-float=
+ ABI<br>
+=C2=A0 Size of this header:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A052 (bytes)<br>
+=C2=A0 Size of program headers:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A032 (bytes)<br>
+=C2=A0 Number of program headers:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A08<br>
+=C2=A0 Size of section headers:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A040 (bytes)<br>
+=C2=A0 Number of section headers:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A039<br>
+=C2=A0 Section header string table index: 36<br>
+<br>
+<br>
+Any idea what&#39;s wrong here??<br>
+I don&#39;t get it.</blockquote><div><br></div><div>Seems steps are all ok.=
+ Can you upload your hello world somewhere.=C2=A0</div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding=
+-left:1ex">
+<br>
+Cheers,<br>
+Thilo</blockquote>
+
+--001a113fe378c5abc105387668d6--
