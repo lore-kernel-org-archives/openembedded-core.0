@@ -1,26 +1,29 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B639B731CB
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id C5C56607A5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jul 2016 07:28:39 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u6P7Sea5022119
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jul 2016 00:28:40 -0700
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 25 Jul 2016 00:28:40 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 25 Jul 2016 00:28:34 -0700
-Message-ID: <70c603726afe20cdac2a78a9fad9fc1038d4e463.1469431638.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.9.0
-In-Reply-To: <cover.1469431638.git.liezhi.yang@windriver.com>
-References: <cover.1469431638.git.liezhi.yang@windriver.com>
+	Mon, 25 Jul 2016 07:42:12 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga104.fm.intel.com with ESMTP; 25 Jul 2016 00:42:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,418,1464678000"; d="scan'208";a="1001852876"
+Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com)
+	([10.255.139.129])
+	by orsmga001.jf.intel.com with ESMTP; 25 Jul 2016 00:42:12 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 25 Jul 2016 19:42:08 +1200
+Message-ID: <1948585.XiSYCAuUde@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.6.4-201.fc23.x86_64; KDE/4.14.20; x86_64; ;
+	)
+In-Reply-To: <1493839.LtSXxTmLfS@peggleto-mobl.ger.corp.intel.com>
+References: <cover.1469190931.git.paul.eggleton@linux.intel.com>
+	<CAJTo0LZZD0poopBgYb9BbeJ_UUaJc5KZxTXSV5jndnLJC8EiCQ@mail.gmail.com>
+	<1493839.LtSXxTmLfS@peggleto-mobl.ger.corp.intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 7/7] eudev: don't move udev directory
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/8] Extensible SDK improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,53 +36,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jul 2016 07:28:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 25 Jul 2016 07:42:13 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-The code did "mv ${D}${base_libdir}/udev ${D}${nonarch_base_libdir}"
-which is not needed any more, eudev can work with ${base_libdir}/udev.
+On Sat, 23 Jul 2016 13:11:39 Paul Eggleton wrote:
+> On Fri, 22 Jul 2016 23:31:38 Burton, Ross wrote:
+> > On 22 July 2016 at 13:38, Paul Eggleton <paul.eggleton@linux.intel.com>
+> > 
+> > wrote:
+> > > Some fixes and enhancements centered around how the toolchain is
+> > > incorporated in the eSDK, as well as a couple of tweaks for buildhistory
+> > > that I found we needed during development.
+> > 
+> > This is happening in mut, could your branch be responsible:
+> > 
+> > http://errors.yoctoproject.org/Errors/Details/73022/
+> > 
+> > Ross (who will look further when its not 23:30 on Friday!)
+> 
+> Hmm, it will be, but I can't tell immediately from the error message what
+> could be wrong...
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-core/udev/eudev_3.2.bb | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
+Ah, I believe this is bash vs. dash. Fix incoming, just need to test it.
 
-diff --git a/meta/recipes-core/udev/eudev_3.2.bb b/meta/recipes-core/udev/eudev_3.2.bb
-index 6270617..ac4285b 100644
---- a/meta/recipes-core/udev/eudev_3.2.bb
-+++ b/meta/recipes-core/udev/eudev_3.2.bb
-@@ -27,7 +27,6 @@ inherit autotools update-rc.d qemu
- 
- EXTRA_OECONF = " \
-     --sbindir=${base_sbindir} \
--    --libexecdir=${nonarch_base_libdir} \
-     --with-rootlibdir=${base_libdir} \
-     --with-rootprefix= \
- "
-@@ -53,13 +52,6 @@ do_install_append() {
- 	# Use classic network interface naming scheme
- 	touch ${D}${sysconfdir}/udev/rules.d/80-net-name-slot.rules
- 
--	# Fix for multilib systems where libs along with confs are installed incorrectly
--	if ! [ -d ${D}${nonarch_base_libdir}/udev ]
--	then
--		install -d ${D}${nonarch_base_libdir}/udev
--		mv ${D}${base_libdir}/udev ${D}${nonarch_base_libdir}
--	fi
--
- 	# hid2hci has moved to bluez4. removed in udev as of version 169
- 	rm -f ${D}${base_libdir}/udev/hid2hci
- }
-@@ -75,7 +67,7 @@ PACKAGES =+ "udev-cache"
- PACKAGES =+ "eudev-hwdb"
- 
- 
--FILES_${PN} += "${libexecdir} ${nonarch_base_libdir}/udev ${bindir}/udevadm"
-+FILES_${PN} += "${libexecdir} ${base_libdir}/udev ${bindir}/udevadm"
- FILES_${PN}-dev = "${datadir}/pkgconfig/udev.pc \
-                    ${includedir}/libudev.h ${libdir}/libudev.so \
-                    ${includedir}/udev.h ${libdir}/libudev.la \
+Cheers,
+Paul
+
 -- 
-2.9.0
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
