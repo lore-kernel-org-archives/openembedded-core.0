@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C98F6FFED
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6CFA36FFAB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jul 2016 07:28:35 +0000 (UTC)
+	Mon, 25 Jul 2016 07:28:36 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u6P7SZ8L022113
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u6P7Sb59009110
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jul 2016 00:28:35 -0700
+	Mon, 25 Jul 2016 00:28:37 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 25 Jul 2016 00:28:34 -0700
+	Mon, 25 Jul 2016 00:28:36 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 25 Jul 2016 00:28:28 -0700
-Message-ID: <4887c35ab513e10d8338a35ff0ba436771b4ae75.1469431638.git.liezhi.yang@windriver.com>
+Date: Mon, 25 Jul 2016 00:28:30 -0700
+Message-ID: <9b789aaef553ad10b81868af8a32e48ed5d702ac.1469431638.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.9.0
 In-Reply-To: <cover.1469431638.git.liezhi.yang@windriver.com>
 References: <cover.1469431638.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/7] bitbake.conf: add eudev's udevdir to FILES_${PN}
+Subject: [PATCH 3/7] libinput: fix udevdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,26 +36,28 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 25 Jul 2016 07:28:36 -0000
 Content-Type: text/plain
 
-The eudev's udevdir can be ${base_libdir}/udev or ${libdir}/udev, it
-doesn't have to be hardcoded to /lib/udev, so add them FILES_${PN}.
+Use "pkg-config --variable=udevdir udev" to fix udevdir, otherwise it
+would use ${libdir}/udev which is incorrect for systemd's udev.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/conf/bitbake.conf | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-graphics/wayland/libinput_1.3.0.bb | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index af3b181..50df2f0 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -285,6 +285,7 @@ FILES_${PN} = "${bindir}/* ${sbindir}/* ${libexecdir}/* ${libdir}/lib*${SOLIBS}
-             ${base_bindir}/* ${base_sbindir}/* \
-             ${base_libdir}/*${SOLIBS} \
-             ${base_prefix}/lib/udev/rules.d ${prefix}/lib/udev/rules.d \
-+            ${base_libdir}/udev/rules.d ${libdir}/udev/rules.d \
-             ${datadir}/${BPN} ${libdir}/${BPN}/* \
-             ${datadir}/pixmaps ${datadir}/applications \
-             ${datadir}/idl ${datadir}/omf ${datadir}/sounds \
+diff --git a/meta/recipes-graphics/wayland/libinput_1.3.0.bb b/meta/recipes-graphics/wayland/libinput_1.3.0.bb
+index 13724d5..f0b66de 100644
+--- a/meta/recipes-graphics/wayland/libinput_1.3.0.bb
++++ b/meta/recipes-graphics/wayland/libinput_1.3.0.bb
+@@ -20,4 +20,8 @@ PACKAGECONFIG[libunwind] = "--with-libunwind,--without-libunwind,libunwind"
+ PACKAGECONFIG[libwacom] = "--enable-libwacom,--disable-libwacom,libwacom"
+ PACKAGECONFIG[gui] = "--enable-event-gui,--disable-event-gui,cairo gtk+3"
+ 
+-FILES_${PN} += "${libdir}/udev/"
++UDEVDIR = "`pkg-config --variable=udevdir udev`"
++
++EXTRA_OECONF += "--with-udev-dir=${UDEVDIR}"
++
++FILES_${PN} += "${base_libdir}/udev/ ${nonarch_base_libdir}/udev/"
 -- 
 2.9.0
 
