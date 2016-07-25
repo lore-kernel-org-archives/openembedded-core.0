@@ -1,23 +1,47 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 14F45606D0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id D988E6FFAB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jul 2016 21:38:07 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP; 25 Jul 2016 14:38:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,421,1464678000"; d="scan'208";a="1023746097"
-Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
-	([10.54.69.55])
-	by orsmga002.jf.intel.com with ESMTP; 25 Jul 2016 14:38:08 -0700
-From: mariano.lopez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Jul 2016 13:31:25 +0000
-Message-Id: <a609076dc0570bcd0ae3b8ed790611098091259e.1469453438.git.mariano.lopez@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-In-Reply-To: <cover.1469453438.git.mariano.lopez@linux.intel.com>
-References: <cover.1469453438.git.mariano.lopez@linux.intel.com>
-Subject: [PATCH 1/1] useradd.bbclass: Fix delete user/group when more than one item
+	Mon, 25 Jul 2016 22:38:58 +0000 (UTC)
+Received: by mail-io0-f170.google.com with SMTP id m101so179996395ioi.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Jul 2016 15:38:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=xGa6UbMGe1r5iJdz41OkZqtOAmU6vLvZpwpB1QyvFCQ=;
+	b=1g/0iLGdFf4IqB2l7WvuQFHJdbnedCREi6vD/ba5pyj1BbuOFfLXVnL7QTh/xbUdkk
+	pN4CCdRRlurOIRi7BE+eneMzHFH1elYRfGST6R0l7S04gtTj+pc9lFe+qKAeoTmml9VW
+	PuKGrCZEGNUYeZyI6wRMDBcFt4UYRKR/vORIYTP1QgkFDL+2MjgnJU1ARt4Ar2llQK1i
+	bweai/NtOgHZtl8acA8PatSVkqP/JS0z/CIdEJ2tI3W8QXKuFJMl4msNnezaLJoRoW2W
+	VvzfizJ8QYzEQt5KDqXkbXKGIMI4z4QpAPtzTrB3CfdJOfexOfUwRODkmc0BdAptVinG
+	NIfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=xGa6UbMGe1r5iJdz41OkZqtOAmU6vLvZpwpB1QyvFCQ=;
+	b=Zn7LU0jy6X2YHECYyq2oV2kJw0oNa5z9nF7Jh7Am4va0/5VOZdy/IzRDnrah3SKsGK
+	IPaEhYVfnQu7QJ8+krw6c8EThy7iQS6n8ehRamty68TEI9H8tO5uTnx6vEl3TdDs7/Vn
+	Ywb0bGmI2y4azId8ayzRN2V95B/URJZL/ngOv817Qw9WaUHv+JRrwLF6R6cYEGq9oLNj
+	CpGGdveZA2a7LKDKLcMSCzYIwgnAAt/5pGZ/GYn0r944LBVIFo+y+8HMsQbU8mdQ3y44
+	aV+2EQkzINBHBLeEnlcOgZU8OCr0HH4xv9qBY8/E8AJpbzpSzG7DR9kS0NqsnsyA6epF
+	fTWQ==
+X-Gm-Message-State: AEkoouuHwiZUaeXvGVlL9w372EDywBXV1ladJhrJ4l22Ppldnn7/l4j8mgq+P69PrZDJKcI/71RBN8AASCM4mEMA
+X-Received: by 10.107.135.142 with SMTP id r14mr24899210ioi.133.1469486339451; 
+	Mon, 25 Jul 2016 15:38:59 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.18.17 with HTTP; Mon, 25 Jul 2016 15:38:40 -0700 (PDT)
+In-Reply-To: <4a96e992a3f5d117eb4b33513a2330e81ffd0b59.1465824701.git.mariano.lopez@linux.intel.com>
+References: <cover.1465824701.git.mariano.lopez@linux.intel.com>
+	<4a96e992a3f5d117eb4b33513a2330e81ffd0b59.1465824701.git.mariano.lopez@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 25 Jul 2016 23:38:40 +0100
+Message-ID: <CAJTo0LZG6Zqonn8miXcDzG=CxqcWgo67du49FX4ZMjw48nU1pw@mail.gmail.com>
+To: Mariano Lopez <mariano.lopez@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] selftest/runtime-test.py: Add test for import test from other layers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,56 +54,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jul 2016 21:38:08 -0000
+X-List-Received-Date: Mon, 25 Jul 2016 22:39:00 -0000
+Content-Type: multipart/alternative; boundary=001a113eccbc441c2205387d73be
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+--001a113eccbc441c2205387d73be
+Content-Type: text/plain; charset=UTF-8
 
-Currently when a recipe adds more than one user/group, the
-cleansstate task will delete only the first user/group. This
-will solve this behavior and delete all users/groups.
+On 13 June 2016 at 14:32, <mariano.lopez@linux.intel.com> wrote:
 
-[YOCTO #9943]
+> +        features = 'INHERIT += "testexport"\n'
+>
 
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
----
- meta/classes/useradd.bbclass | 22 ++++++++++++++--------
- 1 file changed, 14 insertions(+), 8 deletions(-)
-
-diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
-index 28dd341..8d51fb5 100644
---- a/meta/classes/useradd.bbclass
-+++ b/meta/classes/useradd.bbclass
-@@ -137,15 +137,21 @@ if test "x${STAGING_DIR_TARGET}" != "x"; then
-         GROUPADD_PARAM="${@get_all_cmd_params(d, 'groupadd')}"
-         USERADD_PARAM="${@get_all_cmd_params(d, 'useradd')}"
- 
--        if test "x`echo $USERADD_PARAM | tr -d '[:space:]'`" != "x"; then
--            user=`echo "$USERADD_PARAM" | cut -d ';' -f 1 | awk '{ print $NF }'`
-+        user=`echo "$USERADD_PARAM" | cut -d ';' -f 1 | awk '{ print $NF }'`
-+        remaining=`echo "$USERADD_PARAM" | cut -d ';' -f 2- -s | sed -e 's#[ \t]*$##'`
-+        while test "x$user" != "x"; do
-             perform_userdel "${STAGING_DIR_TARGET}" "$OPT $user"
--        fi
--
--        if test "x`echo $GROUPADD_PARAM | tr -d '[:space:]'`" != "x"; then
--            group=`echo "$GROUPADD_PARAM" | cut -d ';' -f 1 | awk '{ print $NF }'`
--            perform_groupdel "${STAGING_DIR_TARGET}" "$OPT $group"
--        fi
-+            user=`echo "$remaining" | cut -d ';' -f 1 | awk '{ print $NF }'`
-+            remaining=`echo "$remaining" | cut -d ';' -f 2- -s | sed -e 's#[ \t]*$##'`
-+        done
-+
-+        user=`echo "$GROUPADD_PARAM" | cut -d ';' -f 1 | awk '{ print $NF }'`
-+        remaining=`echo "$GROUPADD_PARAM" | cut -d ';' -f 2- -s | sed -e 's#[ \t]*$##'`
-+        while test "x$user" != "x"; do
-+            perform_groupdel "${STAGING_DIR_TARGET}" "$OPT $user"
-+            user=`echo "$remaining" | cut -d ';' -f 1 | awk '{ print $NF }'`
-+            remaining=`echo "$remaining" | cut -d ';' -f 2- -s | sed -e 's#[ \t]*$##'`
-+        done
- 
-     fi
- fi
--- 
-2.6.6
+You mean testimage here as that class isn't inherited by default.
 
 
+> +        features = 'TEST_SUITES = "ping ssh selftest"\n'
+>
+
+This overwrites the first assignment to features, and neither is actually
+written using self.write_config().
+
+
+> +        # Build core-image-sato and testimage
+> +        bitbake('core-image-sato socat')
+> +        bitbake('-c testimage core-image-sato')
+>
+
+I personally believe that core-image-sato is massive overkill for selftest
+and core-image-full-cmdline is just as comprehensive (has ssh, for example)
+without building all of Sato.
+
+Ross
+
+--001a113eccbc441c2205387d73be
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 13 June 2016 at 14:32,  <span dir=3D"ltr">&lt;<a href=3D"mailto:mariano.=
+lopez@linux.intel.com" target=3D"_blank">mariano.lopez@linux.intel.com</a>&=
+gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
+0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":132" class=
+=3D"a3s aXjCH m1554bb3cfec465aa">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 features =3D =
+&#39;INHERIT +=3D &quot;testexport&quot;\n&#39;<br></div></blockquote><div>=
+<br></div><div>You mean testimage here as that class isn&#39;t inherited by=
+ default.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":=
+132" class=3D"a3s aXjCH m1554bb3cfec465aa">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 features =3D &#39;TEST_SUITES =3D &quot;ping s=
+sh selftest&quot;\n&#39;<br></div></blockquote><div><br></div><div>This ove=
+rwrites the first assignment to features, and neither is actually written u=
+sing self.write_config().</div><div>=C2=A0</div><blockquote class=3D"gmail_=
+quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
+ex"><div id=3D":132" class=3D"a3s aXjCH m1554bb3cfec465aa">+=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 # Build core-image-sato and testimage<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 bitbake(&#39;core-image-sato socat&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 bitbake(&#39;-c testimage core-image-sato&#39;=
+)</div></blockquote></div><br>I personally believe that core-image-sato is =
+massive overkill for selftest and core-image-full-cmdline is just as compre=
+hensive (has ssh, for example) without building all of Sato.</div><div clas=
+s=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a113eccbc441c2205387d73be--
