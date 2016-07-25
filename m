@@ -1,53 +1,66 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 74C76606D0
+Return-Path: <thilo.cestonaro@ts.fujitsu.com>
+Received: from mail1.bemta3.messagelabs.com (mail1.bemta3.messagelabs.com
+	[195.245.230.165])
+	by mail.openembedded.org (Postfix) with ESMTP id 4391C606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jul 2016 13:35:25 +0000 (UTC)
-Received: by mail-io0-f172.google.com with SMTP id 38so161372960iol.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jul 2016 06:35:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=elTK1zv8tUwP/oQrJ4xX9Jd7miY+Bk6jiw2y20mrtBA=;
-	b=Nmk00wSYBGpaU3eSp2Tk6o2K3VtRESCNacf1Nk1i/SD+hmYtf/YXy69jpw0Tjg2l53
-	ObDeHYBfsdazniuUNpz1lazZy+yFq72Rq8XtDs9ij/xQDj0EcYwJL7Msz7B2+1oqzn/7
-	D+NK/mC+iMzErKE/vMEqsCl0oHDE165w7KM/cOuPcHsorTh7smByMaBiWWFTPIDg3bUJ
-	ZMOp0ojg5rO8aY5lq+2b3pC9ECH5bfpyAWmVgnoSKbweVPtYiqbDK9abGBf9BNIbkD7C
-	iCqeiewJo5E5bRqd6jE2TXfLYQQy/Z8NgV09FFc/ZHirif3jDTBD5VTsSk1d3CLkXSOc
-	RPRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=elTK1zv8tUwP/oQrJ4xX9Jd7miY+Bk6jiw2y20mrtBA=;
-	b=CnintvRYBFHOh/50/t02661sxO3PiE1WMBYcDaC4dL9t+x/8BHCs9VJpHa207U5IfA
-	BlGImoq1JfKHp9NhfDCvTs7SB7ev1uIQhpLA+QqXmQaciWnPOyguu/Od8tiIgZA4er4j
-	O4+q2W6TT0QK7zr0zhedrzALh7/D5ntWRfECx0ykfkZbxwRtU2qtdIsAZ9+WXrgvudVA
-	FEVHpTW9R94GlqqbVlrbO+Ocoy6XZwG8x7Zm1fWLGypGnn7QAb99McKluqMz+Km5xL0d
-	7Py4Tbx5ziG2zJDfiUXPnf4dyw1XnDeslj0wKRQH6cr8gypF33PAxUJyEBnnzP2H5XF2
-	CDUA==
-X-Gm-Message-State: AEkoousfXHCfpKAUVycCqrCF1pUXR02oafWXd4fk3fzgokennNLeMB/BcxCNJ8RZQ0WFlFEAHhHTC3tGanooL7xZ
-X-Received: by 10.107.154.196 with SMTP id c187mr19379406ioe.99.1469453725822; 
-	Mon, 25 Jul 2016 06:35:25 -0700 (PDT)
+	Mon, 25 Jul 2016 14:06:34 +0000 (UTC)
+Received: from [195.245.230.51] by server-5.bemta-3.messagelabs.com id
+	1F/44-03281-9EC16975; Mon, 25 Jul 2016 14:06:33 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrCKsWRWlGSWpSXmKPExsViZ8MxRfelzLR
+	wg6872C3u/HzHbtF2fRajA5PHzll32T3ObVzBGMAUxZqZl5RfkcCaMfPoaZaCloiKveuPszcw
+	3g/rYuTiEBJoZZKY2LeRCcI5xijx480HdgjnIqPElZtvGLsYOTnYBNwltt67zwRiiwjoSjz//
+	JcFxGYWiJKYNPsVmC0s4CWx7fRDZogab4nVW5+wQNhWEq2zb7GC2CwCqhKn750As3kFTCWmzr
+	sONJ8DaFmNxOVl7iBhToFAiWtfz4CVCAGNOf1xNthIRgEViV13tzBCrBWXuPVkPtg5EgIiEg8
+	vnmaDsEUlXj7+xwphG0hsXbqPBcJWkpjStJAZordKovX4bCaIEwQlTs58wjKBUWwWkrGzkJTN
+	QlIGEdeUaN3+mx3CVpSY0v0QyraV2H91JTOEbSrx+uhHRmQ1Cxg5VjGqF6cWlaUW6ZrpJRVlp
+	meU5CZm5ugaGhjr5aYWFyemp+YkJhXrJefnbmIExm49AwPjDsYrbc6HGCU5mJREeR0Yp4UL8S
+	Xlp1RmJBZnxBeV5qQWH2KU4eBQkuD9Kg2UEyxKTU+tSMvMASYRmLQEB4+SCG8ySJq3uCAxtzg
+	zHSJ1ilFRSpy3CyQhAJLIKM2Da4MlrkuMslLCvIwMDAxCPAWpRbmZJajyrxjFORiVhHlfgUzh
+	ycwrgZv+CmgxE9DiBTyTQRaXJCKkpBoYG+73TPBbKa1wVLZXgt1rLgvr1J8d8yYKXU7Wmni1b
+	PG2z5sOVfR1CPmXnjxlZ/u86lwI8517prqv21kXMZb0pC959nPf8nec+s4Lj/txPY+ZEGeQrM
+	reb1nRFlh4UL+IlZvTJ/1f9L7kr4mp03bdFTK+wNQ1RfT5xN9xBQc1lvczqJRyPVqixFKckWi
+	oxVxUnAgAvMFjoFcDAAA=
+X-Env-Sender: thilo.cestonaro@ts.fujitsu.com
+X-Msg-Ref: server-13.tower-33.messagelabs.com!1469455592!47870285!1
+X-Originating-IP: [62.60.8.148]
+X-StarScan-Received: 
+X-StarScan-Version: 8.77; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 27490 invoked from network); 25 Jul 2016 14:06:33 -0000
+Received: from unknown (HELO mailhost1.uk.fujitsu.com) (62.60.8.148)
+	by server-13.tower-33.messagelabs.com with DHE-RSA-AES256-GCM-SHA384
+	encrypted SMTP; 25 Jul 2016 14:06:33 -0000
+Received: from R01UKEXCASM123.r01.fujitsu.local (ex2k13_123.fs.fujitsu.com
+	[10.183.43.175])
+	by mailhost1.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id
+	u6PE7ALO028125
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+	Mon, 25 Jul 2016 15:07:10 +0100
+Received: from R01UKEXCASM121.r01.fujitsu.local (10.183.43.173) by
+	R01UKEXCASM123.r01.fujitsu.local (10.183.43.175) with Microsoft SMTP
+	Server (TLS) id 15.0.1178.4; Mon, 25 Jul 2016 15:06:27 +0100
+Received: from R01UKEXCASM121.r01.fujitsu.local ([fe80::48eb:6503:a1bb:c29c])
+	by R01UKEXCASM121.r01.fujitsu.local ([fe80::48eb:6503:a1bb:c29c%22])
+	with mapi id 15.00.1178.000; Mon, 25 Jul 2016 15:06:27 +0100
+From: "thilo.cestonaro@ts.fujitsu.com" <thilo.cestonaro@ts.fujitsu.com>
+To: "raj.khem@gmail.com" <raj.khem@gmail.com>
+Thread-Topic: [OE-core] Building for armv7athf-neon but toolchain is softfp
+Thread-Index: AQHR5B58h/TNj18cYUuHrBoFZFSdxKAkbLqAgAS04oA=
+Date: Mon, 25 Jul 2016 14:06:26 +0000
+Message-ID: <1469455403.6896.29.camel@ts.fujitsu.com>
+References: <1469194596.6594.13.camel@ts.fujitsu.com>
+	<CAMKF1srBan-tupS7qGb3kDnAn-2-u8dox3vFk5ssGwQLzeGaHw@mail.gmail.com>
+In-Reply-To: <CAMKF1srBan-tupS7qGb3kDnAn-2-u8dox3vFk5ssGwQLzeGaHw@mail.gmail.com>
+Reply-To: "thilo.cestonaro@ts.fujitsu.com" <thilo.cestonaro@ts.fujitsu.com>
+Accept-Language: de-DE, en-GB, en-US
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.182.185.150]
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Mon, 25 Jul 2016 06:35:06 -0700 (PDT)
-In-Reply-To: <CA+chaQckZcAKrVbj1Rt5=PhW1n5kj6hhDoCo61ckKs3PUsos6w@mail.gmail.com>
-References: <20160708085912.13734.77555@opal.openembedded.org>
-	<20160708085918.3A528501B3@opal.openembedded.org>
-	<20160724121138.i7fp26ateflny4kl@jama>
-	<CAMKF1spvPZ_tSZ_FDeZt6baoG4afvvys++PwVRnGY6j_DFsSZw@mail.gmail.com>
-	<CA+chaQckZcAKrVbj1Rt5=PhW1n5kj6hhDoCo61ckKs3PUsos6w@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 25 Jul 2016 14:35:06 +0100
-Message-ID: <CAJTo0LZpGXgtOs2msaRCzuxxm3YA0xKWQSXp=6eEWF90rn9uTw@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	"openembedded-commits@lists.openembedded.org"
-	<openembedded-commits@lists.openembedded.org>
-Subject: Re: [oe-commits] [openembedded-core] 21/28: rt-tests: move ptest to python3
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Building for armv7athf-neon but toolchain is softfp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,35 +73,166 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jul 2016 13:35:26 -0000
-Content-Type: multipart/alternative; boundary=001a1140e81e57aa18053875db3a
+X-List-Received-Date: Mon, 25 Jul 2016 14:06:35 -0000
+X-Groupsio-MsgNum: 84863
+Content-Language: en-US
+Content-Type: multipart/signed; micalg=sha-1;
+	protocol="application/x-pkcs7-signature";
+	boundary="=-p2J9USJfD3xJ4Tqz19nS"
 
---001a1140e81e57aa18053875db3a
-Content-Type: text/plain; charset=UTF-8
+--=-p2J9USJfD3xJ4Tqz19nS
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-On 24 July 2016 at 19:30, Martin Jansa <martin.jansa@gmail.com> wrote:
+SGV5IEtoZW0hCgpUaGFua3MgZm9yIHlvdXIgYW5zd2VyIQoKPiA+wqAKPiA+IEkgd2FudCB0byBi
+dWlsZCBteSBvd24gZGlzdCBhbmQgYSBzZGsgZm9yIGl0LiBUaGUgZGlzdCBpcyB3b3JraW5nIGFu
+ZCBpcyBhcyBleHBlY3RlZCBieSB0aGUgREVGQVVMVF9UVU5FIG9mICJhcm12N2F0aGYtbmVvbiIs
+IGhhcmRmcC4KPiA+IAo+ID4gQnV0IHRoZSBUQVJHRVRfU1lTIGluIHRoZSBiaXRiYWtlIGhlYWRl
+ciBhbHdheXMgdGVsbHMgbWUsIHRoYXQgdGhlIHRvb2xjaGFpbiBpdCB1c2VzIGlzICIuLi4tZ251
+ZWFiaSIuIE5vdCAiaGYiIGluIHRoZXJlPyEKPiA+IFRoYXRzIHRoZSBmaXJzdCB0aGluZyB3aGF0
+IEkgY2FuJ3QgZmlndXJlIG91dC4KPiBXZSBkbyBub3QgcmVseSBvbiB0YXJnZXQgdHJpcGxldC4g
+Y2FsbGluZyBjb252ZW50aW9uIGlzIGRldGVybWluZWQgYnkKPiAtbWZsb2F0LWFiaSBzd2l0Y2gg
+dGhhdCBpcyB3aGF0IE9FIHJlbGllcyBvbi4KPiAKCk9rLiBVbmRlcnN0b29kLiBCdXQgZXZlbiB3
+aGVuIEkgYnVpbGQgd2l0aCAtbWZsb2F0LWFiaT1oYXJkIChhbmQgdGhlIFZGUCBSZWdpc3RlciBF
+bnRyeSBpcyB0aGVyZSB3aXRoIHJlYWRlbGYsIG9uIGJ1aWxkIG1hY2hpbmUgYW5kIHRhcmdldCku
+CkkgY2FuJ3QgZG8gbGRkIGhlbGxvd29ybGQgb24gdGhlIHRhcmdldC7CoAoKCgo+ID4gCj4gPiBU
+aGUgb3RoZXIgdGhpbmcgaXMsIHdoZW4gSSBub3cgdXNlIHRoZSBzZGssIGFmdGVyIHN1Y2Nlc3Nm
+dWxseSBwb3B1bGF0aW5nIGl0LCB0aGUgdG9vbGNoYWluIGluIHRoZXJlIGhhcyB0aGUgZGVmYXVs
+dCAtbWZsb2F0LWFiaT1zb2Z0ZnAgLi4uCj4gPiBCdXQgZXZlbiB3aGVuIEkgY29tcGlsZSB3aXRo
+IC1tZmxvYXQtYWJpPWhhcmQsIHRoZSBleGVjdXRhYmxlIHdoaWNoIEkgZ2V0LCBzZWdmYXVsdHMg
+b24gdGhlIHRhcmdldCBhbmQgbGRkIHRlbGxzIG1lICJub3QgYSBkeW5hbWljIGV4ZWN1dGFibGUi
+Lgo+ID4gQnV0IHJlYWRlbGYgKG9uIHRoZSB0YXJnZXQgb3IgaG9zdCkgdGVsbHMgbWUsIHRoYXQg
+IlRhZ19BQklfVkZQX2FyZ3M6IFZGUCByZWdpc3RlcnMiICh3aGljaCBpcyBkZXRlY3Rpb24gZm9y
+IGhhcmRmcCwgcmlnaHQ/KS4KPiA+IEFuZCBJIG1pc3MgdGhlICJoZiIgYXQgdGhlIGdudWVhYmkg
+aW4gdGhlIHNkayB0b29sY2hhaW4uCj4gSXMgdGFyZ2V0IHJ1bm5pbmcgdGhlIGltYWdlIGJ1aWxk
+IGJ5IHlvdSBhcyB3ZWxsID8gYW5kIHByZWZlcmVhYmx5Cj4gYnVpbGQgaW4gc2FtZSBzYW5kYm94
+IGFzIHRoZSBTREsKPiBpZiBub3QgdGhlbiB5b3UgbmVlZCB0byBmaWd1cmUgb3V0IGhvdyB0aGUg
+aW1hZ2Ugd2FzIGJ1aWx0LsKgwqB3aGF0IGlzCj4gb3V0cHV0IG9mIGxzIC9saWIvbGQtKgoKSXQn
+cyBhIGtyb2dvdGggYnVpbGQgd2l0aCBjYWxsY29udmVudGlvbi1oYXJkIGVuYWJsZWQgdmlhIERF
+RkFVTFRUVU5FLgpBbmQgSSBoYXZlIG9uZSByZWNpcGUgZm9yIHRoZSBpbWFnZSBhbmQgb25lIGZv
+ciB0aGUgc2RrIHRvb2xjaGFpbi4gU28gdGhlICJCdWlsZCIgYXJlIHR3byBiaXRiYWtlIGNhbGxz
+LgoKSE9TVCB3aXRoIFNESzoKJCAuIC9vcHQvYW1hbmEtc2RrL3Nkay1lbnZpcm9ubWVudAokIGVj
+aG8gJENYWAphcm0tbWFnbmEtbGludXgtZ251ZWFiaS1nKysgLW1hcmNoPWFybXY3LWEgLW1hcm0g
+LW1mcHU9bmVvbiAtbWZsb2F0LWFiaT1oYXJkIC0tc3lzcm9vdD0vb3B0L2FtYW5hLXNkay80LjAt
+MTQ2OTQ1MDgxMi9zeXNyb290cy9hcm12N2FoZi1uZW9uLW1hZ25hLWxpbnV4LWdudWVhYmkKJCAk
+e0NYWH0gLW8gaGVsbG93b3JsZCBoZWxsb3dvcmxkLmNwcMKgCiQgc2NwIGhlbGxvd29ybGQgdGFy
+Z2V0Oi91c3IvYmluCgoKVEFSR0VUOgojIGxkZCAvbGliL2xpYmMuc28uNsKgCgkvbGliL2xkLWxp
+bnV4LWFybWhmLnNvLjMgKDB4YjZmNDEwMDApCiMgbHMgLWwgL2xpYi9sZC0qCi1yd3hyLXhyLXjC
+oMKgwqDCoDEgcm9vdMKgwqDCoMKgwqByb290wqDCoMKgwqDCoMKgwqDCoDEzNDM5NiBKdWwgMjIg
+MTA6NTYgL2xpYi9sZC0yLjIzLnNvCmxyd3hyd3hyd3jCoMKgwqDCoDEgcm9vdMKgwqDCoMKgwqBy
+b290wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgMTAgSnVsIDIyIDEwOjU2IC9saWIvbGQtbGludXgt
+YXJtaGYuc28uMyAtPiBsZC0yLjIzLnNvCgojIC91c3IvYmluL2hlbGxvd29ybGQKU2VnbWVudGF0
+aW9uIGZhdWx0CgojIGxkZCAvdXNyL2Jpbi9oZWxsb3dvcmxkwqAKCW5vdCBhIGR5bmFtaWMgZXhl
+Y3V0YWJsZQoKIyByZWFkZWxmIC1BIC91c3IvYmluL2hlbGxvd29ybGTCoApBdHRyaWJ1dGUgU2Vj
+dGlvbjogYWVhYmkKRmlsZSBBdHRyaWJ1dGVzCsKgIFRhZ19DUFVfbmFtZTogIjctQSIKwqAgVGFn
+X0NQVV9hcmNoOiB2NwrCoCBUYWdfQ1BVX2FyY2hfcHJvZmlsZTogQXBwbGljYXRpb24KwqAgVGFn
+X0FSTV9JU0FfdXNlOiBZZXMKwqAgVGFnX1RIVU1CX0lTQV91c2U6IFRodW1iLTIKwqAgVGFnX0ZQ
+X2FyY2g6IFZGUHYzCsKgIFRhZ19BZHZhbmNlZF9TSU1EX2FyY2g6IE5FT052MQrCoCBUYWdfQUJJ
+X1BDU193Y2hhcl90OiA0CsKgIFRhZ19BQklfRlBfcm91bmRpbmc6IE5lZWRlZArCoCBUYWdfQUJJ
+X0ZQX2Rlbm9ybWFsOiBOZWVkZWQKwqAgVGFnX0FCSV9GUF9leGNlcHRpb25zOiBOZWVkZWQKwqAg
+VGFnX0FCSV9GUF9udW1iZXJfbW9kZWw6IElFRUUgNzU0CsKgIFRhZ19BQklfYWxpZ25fbmVlZGVk
+OiA4LWJ5dGUKwqAgVGFnX0FCSV9hbGlnbl9wcmVzZXJ2ZWQ6IDgtYnl0ZSwgZXhjZXB0IGxlYWYg
+U1AKwqAgVGFnX0FCSV9lbnVtX3NpemU6IGludArCoCBUYWdfQUJJX1ZGUF9hcmdzOiBWRlAgcmVn
+aXN0ZXJzCsKgIFRhZ19DUFVfdW5hbGlnbmVkX2FjY2VzczogdjYKCiMgcmVhZGVsZiAtaCAvdXNy
+L2Jpbi9oZWxsb3dvcmxkwqAKRUxGIEhlYWRlcjoKwqAgTWFnaWM6wqDCoMKgN2YgNDUgNGMgNDYg
+MDEgMDEgMDEgMDAgMDAgMDAgMDAgMDAgMDAgMDAgMDAgMDDCoArCoCBDbGFzczrCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgRUxGMzIKwqAg
+RGF0YTrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAyJ3MgY29tcGxlbWVudCwgbGl0dGxlIGVuZGlhbgrCoCBWZXJzaW9uOsKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoDEgKGN1cnJlbnQp
+CsKgIE9TL0FCSTrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoFVOSVggLSBTeXN0ZW0gVgrCoCBBQkkgVmVyc2lvbjrCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgMArCoCBUeXBlOsKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoEVYRUMgKEV4ZWN1dGFi
+bGUgZmlsZSkKwqAgTWFjaGluZTrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqBBUk0KwqAgVmVyc2lvbjrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAweDEKwqAgRW50cnkgcG9pbnQgYWRkcmVzczrC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAweDg1ZjQKwqAgU3RhcnQgb2YgcHJvZ3JhbSBo
+ZWFkZXJzOsKgwqDCoMKgwqDCoMKgwqDCoMKgNTIgKGJ5dGVzIGludG8gZmlsZSkKwqAgU3RhcnQg
+b2Ygc2VjdGlvbiBoZWFkZXJzOsKgwqDCoMKgwqDCoMKgwqDCoMKgNDIyNjQgKGJ5dGVzIGludG8g
+ZmlsZSkKwqAgRmxhZ3M6wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoDB4NTAwMDQwMCwgVmVyc2lvbjUgRUFCSSwgaGFyZC1mbG9hdCBBQkkK
+wqAgU2l6ZSBvZiB0aGlzIGhlYWRlcjrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqA1MiAo
+Ynl0ZXMpCsKgIFNpemUgb2YgcHJvZ3JhbSBoZWFkZXJzOsKgwqDCoMKgwqDCoMKgwqDCoMKgwqAz
+MiAoYnl0ZXMpCsKgIE51bWJlciBvZiBwcm9ncmFtIGhlYWRlcnM6wqDCoMKgwqDCoMKgwqDCoMKg
+OArCoCBTaXplIG9mIHNlY3Rpb24gaGVhZGVyczrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgNDAgKGJ5
+dGVzKQrCoCBOdW1iZXIgb2Ygc2VjdGlvbiBoZWFkZXJzOsKgwqDCoMKgwqDCoMKgwqDCoDM5CsKg
+IFNlY3Rpb24gaGVhZGVyIHN0cmluZyB0YWJsZSBpbmRleDogMzYKCgpBbnkgaWRlYSB3aGF0J3Mg
+d3JvbmcgaGVyZT8/CkkgZG9uJ3QgZ2V0IGl0LgoKQ2hlZXJzLApUaGlsbw==
 
-> so it' probably some missing space in append or some wrong sed call in
-> some Makefile or something like that.
->
 
-CFLAGS_prepend is missing a trailing space, sounds like it.  Patch incoming.
+--=-p2J9USJfD3xJ4Tqz19nS
+Content-Type: application/x-pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
 
-Ross
+MIAGCSqGSIb3DQEHAqCAMIACAQExCzAJBgUrDgMCGgUAMIAGCSqGSIb3DQEHAQAAoIIM6DCCA9Qw
+ggK8oAMCAQICEDTNElfINoNG4L/3PTADbgUwDQYJKoZIhvcNAQEFBQAwLzEtMCsGA1UEAxMkRnVq
+aXRzdSBUZWNobm9sb2d5IFNvbHV0aW9ucyBSb290IENBMB4XDTA5MDMxMjEyMjQ1OVoXDTE5MDMx
+MTEyMjQ1OVowLzEtMCsGA1UEAxMkRnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0aW9ucyBVc2VyIENB
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsBtNf0fN8EkW9y6QqoQGS6LUwezenV2B
+nDzORdGanukRtpGzYMAPdyiwtlp0/zONa+jCJGzkX4iYCjTsiJvx01SPRNZ24fHaFGXpJBX599q6
+ZF0isu+h1aIas1tfyCBalAbKKLvNgIuQjnXhdffVk4vSuBytO3OGcULtJ2+lYVSEvxzGt9iTSwT5
+RnEvKpR0iOC+9/UNVOiPK9XCz5u7bg3iehP5gD+v5uu3YIRwV/5gyd7AZPcckTfYP/GZcybcAXfE
+l5nb/bZiSLHeZEjxMMM8YZqFKhH9xymIdjkcRK7NJ2j8OD708QFv4b4bme1mHGfTjSbxb1nOoUTs
+NtshZwIDAQABo4HrMIHoMB0GA1UdDgQWBBQI9chqv4Dje1DEOfQHmEbobX6XqDALBgNVHQ8EBAMC
+AYYwHwYDVR0jBBgwFoAUFHXiV7YVNxWAKpflUUhlrM+GkMswEgYDVR0TAQH/BAgwBgEB/wIBADBH
+BggrBgEFBQcBAQQ7MDkwNwYIKwYBBQUHMAKGK2h0dHA6Ly9haWEudHMuZnVqaXRzdS5jb20vYWlh
+L2Z0czAxcm9vdC5jZXIwPAYDVR0fBDUwMzAxoC+gLYYraHR0cDovL2NkcC50cy5mdWppdHN1LmNv
+bS9jZHAvZnRzMDFyb290LmNybDANBgkqhkiG9w0BAQUFAAOCAQEAQ7pQP9Lw9bcnt1DhvV5UWb1z
+mnACSo6n6x+bupckQzlrf3aJ7HQZigZuaCak+dexL18I86iNDDOJBBsrz0DcD4XPszcLTUezqqGl
+AyIbviBq5mwDHAWBA9F11GRx6LdrHMKNdHPwAWyC3r6qv4GO6A+z16KUZFSP4kvuaN5YHI481T7F
+FxEmntkylphndX+6mQ1NABApMMhX0aN5dVhPAMAP8nENJ1hGk81IG8gzkoHDPSoLCtffAnNhYAqh
+vrDO2ybXb/9x+Sf3DQuzBg3hpB1yJM3K8foQaS3uTpFITfdMprcQyrIdl4Jw26s/6vpIs0siLVTp
+3yAwgNaqQSgxSTCCBIQwggNsoAMCAQICCiWUlIAAAAACJH0wDQYJKoZIhvcNAQEFBQAwLzEtMCsG
+A1UEAxMkRnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0aW9ucyBVc2VyIENBMB4XDTE0MDMyMTEyMTM1
+M1oXDTE3MDMyMDEyMTM1M1owQjEZMBcGA1UEAwwQQ2VzdG9uYXJvLCBUaGlsbzElMCMGA1UECgwc
+RnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0aW9uczCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA
+qP3ld/ylkJOTj2rXQ+VrRf/+YMgZS5CGDnMWk+sMoS5f6JqtwfGcfBU/DhfnLsePut2q+ex/RDZF
+M6yCraPS0vdnTKm2O3Q7/UhhAV1Mi4XzzGeY1Y0qm+85EgMBISPwB5mThLYPsun5UIFs6e8tvlwZ
+Rzp/jrv/AzAfsSbHGXcCAwEAAaOCAhEwggINMAsGA1UdDwQEAwIFoDByBgNVHREEazBpgR50aGls
+by5jZXN0b25hcm9AdHMuZnVqaXRzdS5jb22BI1RoaWxvLkNlc3RvbmFyb0BmdWppdHN1LXNpZW1l
+bnMuY29tgSIrNDk4MjE4MDQ4MjMyOEBpbmNvbWluZ2ZheC5mc2MubmV0MB0GA1UdDgQWBBSiHLgI
+jjo+7KxLJ4t1+YZxgBSn8TAfBgNVHSMEGDAWgBQI9chqv4Dje1DEOfQHmEbobX6XqDA8BgNVHR8E
+NTAzMDGgL6AthitodHRwOi8vY2RwLnRzLmZ1aml0c3UuY29tL2NkcC9mdHMwMXVzZXIuY3JsMEcG
+CCsGAQUFBwEBBDswOTA3BggrBgEFBQcwAoYraHR0cDovL2FpYS50cy5mdWppdHN1LmNvbS9haWEv
+ZnRzMDF1c2VyLmNlcjAMBgNVHRMBAf8EAjAAMD0GCSsGAQQBgjcVBwQwMC4GJisGAQQBgjcVCIWF
+xDKBh/9hgYWBBIbsgiCBx4EaeYOIoHGH0vEvAgFkAgEIMBMGA1UdJQQMMAoGCCsGAQUFBwMEMBsG
+CSsGAQQBgjcVCgQOMAwwCgYIKwYBBQUHAwQwRAYJKoZIhvcNAQkPBDcwNTAOBggqhkiG9w0DAgIC
+AIAwDgYIKoZIhvcNAwQCAgCAMAcGBSsOAwIHMAoGCCqGSIb3DQMHMA0GCSqGSIb3DQEBBQUAA4IB
+AQAEGTAyHPmTyCR029H+P/u9xRezlfA2OVvV97Ls/oLCXGGr6EkMvpHodTc6n4EWSb2ul3VPSRQf
+uSmBgIcHQJykHdSChisaqkeOpHG0rjM9GXh2eQ7ECovpQIfdIbRZKNxlJihSDsDWHyZldBlPVbDh
+xMeT6xJ/ylF8UQ8FXKUir6W/BSPZF5kLdsmCeOpWC4jOGNPEMUAcuiHZPyqAhjlWk750I4oJJKvD
+bwO8/mkxmzOjpOsk8O3CdljCjYPoYtJPI/oNVsYdmiokzne4FusPYKDzv5i0dN74KLR48maXvi3/
+WsTFqwks45QeBJT/z+1sYy+dYWpv9XGN+jR1o4ImMIIEhDCCA2ygAwIBAgIKJZSUgAAAAAIkfTAN
+BgkqhkiG9w0BAQUFADAvMS0wKwYDVQQDEyRGdWppdHN1IFRlY2hub2xvZ3kgU29sdXRpb25zIFVz
+ZXIgQ0EwHhcNMTQwMzIxMTIxMzUzWhcNMTcwMzIwMTIxMzUzWjBCMRkwFwYDVQQDDBBDZXN0b25h
+cm8sIFRoaWxvMSUwIwYDVQQKDBxGdWppdHN1IFRlY2hub2xvZ3kgU29sdXRpb25zMIGfMA0GCSqG
+SIb3DQEBAQUAA4GNADCBiQKBgQCo/eV3/KWQk5OPatdD5WtF//5gyBlLkIYOcxaT6wyhLl/omq3B
+8Zx8FT8OF+cux4+63ar57H9ENkUzrIKto9LS92dMqbY7dDv9SGEBXUyLhfPMZ5jVjSqb7zkSAwEh
+I/AHmZOEtg+y6flQgWzp7y2+XBlHOn+Ou/8DMB+xJscZdwIDAQABo4ICETCCAg0wCwYDVR0PBAQD
+AgWgMHIGA1UdEQRrMGmBHnRoaWxvLmNlc3RvbmFyb0B0cy5mdWppdHN1LmNvbYEjVGhpbG8uQ2Vz
+dG9uYXJvQGZ1aml0c3Utc2llbWVucy5jb22BIis0OTgyMTgwNDgyMzI4QGluY29taW5nZmF4LmZz
+Yy5uZXQwHQYDVR0OBBYEFKIcuAiOOj7srEsni3X5hnGAFKfxMB8GA1UdIwQYMBaAFAj1yGq/gON7
+UMQ59AeYRuhtfpeoMDwGA1UdHwQ1MDMwMaAvoC2GK2h0dHA6Ly9jZHAudHMuZnVqaXRzdS5jb20v
+Y2RwL2Z0czAxdXNlci5jcmwwRwYIKwYBBQUHAQEEOzA5MDcGCCsGAQUFBzAChitodHRwOi8vYWlh
+LnRzLmZ1aml0c3UuY29tL2FpYS9mdHMwMXVzZXIuY2VyMAwGA1UdEwEB/wQCMAAwPQYJKwYBBAGC
+NxUHBDAwLgYmKwYBBAGCNxUIhYXEMoGH/2GBhYEEhuyCIIHHgRp5g4igcYfS8S8CAWQCAQgwEwYD
+VR0lBAwwCgYIKwYBBQUHAwQwGwYJKwYBBAGCNxUKBA4wDDAKBggrBgEFBQcDBDBEBgkqhkiG9w0B
+CQ8ENzA1MA4GCCqGSIb3DQMCAgIAgDAOBggqhkiG9w0DBAICAIAwBwYFKw4DAgcwCgYIKoZIhvcN
+AwcwDQYJKoZIhvcNAQEFBQADggEBAAQZMDIc+ZPIJHTb0f4/+73FF7OV8DY5W9X3suz+gsJcYavo
+SQy+keh1NzqfgRZJva6XdU9JFB+5KYGAhwdAnKQd1IKGKxqqR46kcbSuMz0ZeHZ5DsQKi+lAh90h
+tFko3GUmKFIOwNYfJmV0GU9VsOHEx5PrEn/KUXxRDwVcpSKvpb8FI9kXmQt2yYJ46lYLiM4Y08Qx
+QBy6Idk/KoCGOVaTvnQjigkkq8NvA7z+aTGbM6Ok6yTw7cJ2WMKNg+hi0k8j+g1Wxh2aKiTOd7gW
+6w9goPO/mLR03vgotHjyZpe+Lf9axMWrCSzjlB4ElP/P7WxjL51ham/1cY36NHWjgiYxggHhMIIB
+3QIBATA9MC8xLTArBgNVBAMTJEZ1aml0c3UgVGVjaG5vbG9neSBTb2x1dGlvbnMgVXNlciBDQQIK
+JZSUgAAAAAIkfTAJBgUrDgMCGgUAoIH7MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZI
+hvcNAQkFMQ8XDTE2MDcyNTE0MDMyM1owIwYJKoZIhvcNAQkEMRYEFDL53ZIuMb8XHZxZerp+WJr8
+175wMEwGCSsGAQQBgjcQBDE/MD0wLzEtMCsGA1UEAxMkRnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0
+aW9ucyBVc2VyIENBAgollJSAAAAAAiR9ME4GCyqGSIb3DQEJEAILMT+gPTAvMS0wKwYDVQQDEyRG
+dWppdHN1IFRlY2hub2xvZ3kgU29sdXRpb25zIFVzZXIgQ0ECCiWUlIAAAAACJH0wDQYJKoZIhvcN
+AQEBBQAEgYBljoFaBf/6M73xFg2QvBlB0i/eHSVmfC1wvdia/BTLqznL9egxBdtQyQv4UnW38myU
+IL8/LwyCjy3ATJ3SmliiYA+A5TKSc1F1Qbqcq9l7Iqs+1XJArBEJfjZStSwvjZTwfgNL2Gjpxdvt
+XFSTOfoVcdjM+o4RaAzX/bSZ7TSbvQAAAAAAAA==
 
---001a1140e81e57aa18053875db3a
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 24 July 2016 at 19:30, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div>so =
-it&#39; probably some missing space in append or some wrong sed call in som=
-e Makefile or something like that.</div></div><div class=3D"HOEnZb"></div><=
-/blockquote></div><br>CFLAGS_prepend is missing a trailing space, sounds li=
-ke it.=C2=A0 Patch incoming.</div><div class=3D"gmail_extra"><br></div><div=
- class=3D"gmail_extra">Ross</div></div>
-
---001a1140e81e57aa18053875db3a--
+--=-p2J9USJfD3xJ4Tqz19nS--
