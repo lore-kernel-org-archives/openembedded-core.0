@@ -1,27 +1,52 @@
-Return-Path: <jianxun.zhang@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 65FA6606D0
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
+	[209.85.220.65])
+	by mail.openembedded.org (Postfix) with ESMTP id B57C9606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jul 2016 18:40:03 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 25 Jul 2016 11:40:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,420,1464678000"; d="scan'208";a="1028845379"
-Received: from jzhang80-mac02.jf.intel.com ([10.24.1.79])
-	by fmsmga002.fm.intel.com with ESMTP; 25 Jul 2016 11:40:02 -0700
+	Mon, 25 Jul 2016 18:44:58 +0000 (UTC)
+Received: by mail-pa0-f65.google.com with SMTP id cf3so11843673pad.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Jul 2016 11:44:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=xpVtSmjN6992sGlq2zvMNqL/0w7oxxOBgOU/uiTF7Sk=;
+	b=nXYhW9pJRSKBmJ3XxCb553TmvgYZDc0d8VRKT/ne0b2jStg/caA5yyVcnL7CwszdIS
+	H0WXMYGKIZu3tIghIlDpVXbvPCc472L/G68SQiaxyXAwFa57D4nl3Jq9/3AqnZ5rfqAU
+	ch+QMe32n5PCxx3BKzik4ROJR0dXUNyIMDFZ0N1qlXDP7tXLDEKO7ENog2ddOu7B6xmK
+	T1YDVESHPTr+PvhFTXs/WkY0A3RGAHcpkqfnXUuAHEoScvXeJLmgGSB8L5hw1JkwBAwd
+	6tCtZRwhb0yW7Dv69RAfZn+jDVsZFMsPMZz2fpqT9vZ5mc1JZYj6k6QijGR+LZCWA9eB
+	ezHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=xpVtSmjN6992sGlq2zvMNqL/0w7oxxOBgOU/uiTF7Sk=;
+	b=b2/CLngfxZyPPg8dYZzM0Qw6yCPQ1Bs8IPSooQSxswcanPIOuRP/iyfkcGG2MM1d3G
+	8czI8pD7SdNmp40jGAos1HkpBuTCk/MQbJf61XNe9FmgAEnZn9Wp5Tddkq1lasEHKX0l
+	j9l2la0sLSShbJ3yZir6UcbLrbbNjaSUtDA9AObCWeJh+63AGzMI2X0PdZepept6lW8p
+	haZ0iFP2iJ92+9o2xvWxzNIs4TiGSk3TAgg3MyfAKX+KE+4GTHOKjg5fg9XvSqeGiloq
+	Ehggwk9AlUyrn1odGvJvKg7fEWzy3+pxmSOCP2/5ZJAIVdVmzgbmWbIUVa+/nuBgx/D0
+	VLrg==
+X-Gm-Message-State: AEkoouuVnTQYmfc7lQRq+hXp/NDvYQZgqMS4PSqPZZySMZfeZvOCREDnrgp4IrAQGwO56g==
+X-Received: by 10.66.25.171 with SMTP id d11mr31867425pag.3.1469472298621;
+	Mon, 25 Jul 2016 11:44:58 -0700 (PDT)
+Received: from [10.0.0.112] ([76.126.209.57]) by smtp.gmail.com with ESMTPSA id
+	d185sm41870342pfd.80.2016.07.25.11.44.57
+	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 25 Jul 2016 11:44:57 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-From: Jianxun Zhang <jianxun.zhang@linux.intel.com>
-In-Reply-To: <CAMKF1srDp3b-nDXKVNzmeptWgKcri4txBae1Nhv4eAJjvZ6mgw@mail.gmail.com>
-Date: Mon, 25 Jul 2016 11:40:01 -0700
-Message-Id: <2E4015A8-B6D1-4F3E-B311-CD28A7E91356@linux.intel.com>
+X-Pgp-Agent: GPGMail
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <2E4015A8-B6D1-4F3E-B311-CD28A7E91356@linux.intel.com>
+Date: Mon, 25 Jul 2016 11:44:52 -0700
+Message-Id: <2819670D-3B12-4264-932F-DF53ECB7A144@gmail.com>
 References: <1467999870-190725-1-git-send-email-jianxun.zhang@linux.intel.com>
 	<1467999870-190725-2-git-send-email-jianxun.zhang@linux.intel.com>
 	<CAMKF1spYwDi0fp6Y3ROiNgciyLUSu1O+z3Vm4QSYd0LJs4Fwjg@mail.gmail.com>
 	<435AD031-0463-4640-82C3-3ADCE44D1F54@linux.intel.com>
 	<CAMKF1srDp3b-nDXKVNzmeptWgKcri4txBae1Nhv4eAJjvZ6mgw@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Ross Burton <ross.burton@intel.com>
+	<2E4015A8-B6D1-4F3E-B311-CD28A7E91356@linux.intel.com>
+To: Jianxun Zhang <jianxun.zhang@linux.intel.com>
 X-Mailer: Apple Mail (2.3124)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -38,148 +63,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jul 2016 18:40:08 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Mon, 25 Jul 2016 18:44:58 -0000
+X-Groupsio-MsgNum: 84870
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_36F7E836-B3EC-496D-84B1-E0FF499E5CDF";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
+
+--Apple-Mail=_36F7E836-B3EC-496D-84B1-E0FF499E5CDF
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
 
-> On Jul 11, 2016, at 10:37 AM, Khem Raj <raj.khem@gmail.com> wrote:
+> On Jul 25, 2016, at 11:40 AM, Jianxun Zhang =
+<jianxun.zhang@linux.intel.com> wrote:
 >=20
-> On Mon, Jul 11, 2016 at 10:03 AM, Jianxun Zhang
-> <jianxun.zhang@linux.intel.com> wrote:
+>=20
+>> On Jul 11, 2016, at 10:37 AM, Khem Raj <raj.khem@gmail.com> wrote:
 >>=20
->>> On Jul 8, 2016, at 1:58 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>> On Mon, Jul 11, 2016 at 10:03 AM, Jianxun Zhang
+>> <jianxun.zhang@linux.intel.com> wrote:
 >>>=20
->>> On Fri, Jul 8, 2016 at 10:44 AM, Jianxun Zhang
->>> <jianxun.zhang@linux.intel.com> wrote:
->>>> This wks is just a copy of gummiboot wks with bootloader
->>>> changed to systemd-boot. A very basic boot test on a X86
->>>> target is done with a direct-boot image generated by:
+>>>> On Jul 8, 2016, at 1:58 PM, Khem Raj <raj.khem@gmail.com> wrote:
 >>>>=20
->>>> wic create mksystemd-bootdisk -e core-image-minimal
->>>=20
->>> prefixing wks file with mk is that a nomenclature. if no then lets =
+>>>> On Fri, Jul 8, 2016 at 10:44 AM, Jianxun Zhang
+>>>> <jianxun.zhang@linux.intel.com> wrote:
+>>>>> This wks is just a copy of gummiboot wks with bootloader
+>>>>> changed to systemd-boot. A very basic boot test on a X86
+>>>>> target is done with a direct-boot image generated by:
+>>>>>=20
+>>>>> wic create mksystemd-bootdisk -e core-image-minimal
+>>>>=20
+>>>> prefixing wks file with mk is that a nomenclature. if no then lets =
 avoid it
->> Khem,
->> I thought following gummiboot wks naming is a safe call. :-)
->> I can change it to any new name suggested, just want to avoid any =
+>>> Khem,
+>>> I thought following gummiboot wks naming is a safe call. :-)
+>>> I can change it to any new name suggested, just want to avoid any =
 ambiguity for a V2:
->> Do you and others think =E2=80=9Csystemd-bootdisk=E2=80=9D is a good =
+>>> Do you and others think =E2=80=9Csystemd-bootdisk=E2=80=9D is a good =
 name for new wks?
->>=20
->=20
-> yes looks better
->=20
-I have submitted V2 several days ago to address Khem=E2=80=99s =
-suggestion to rename mksystemd-bootdisk.wks to systemd-boot.wks.
-
-But today I found  this V1 has been merged in OE master (4c9b1a4). I am =
-not sure if it means maintainers made decision to prefer V1.
-
-You could see both wks files for same thing once V2 gets merged too.
-
-Worrying about a duplicate merge for V2, I will notice people in V2 =
-thread.=20
-
-Thanks
-
-
-
->=20
->> Thanks
 >>>=20
->>>>=20
->>>> Because we plan to replace gummiboot with systemd-boot at any
->>>> time in the future, we summarize history (as much as I can) of
->>>> the current gummiboot wks before it's gone:
->>>>=20
->>>> -----------------------------------------------------------------
->>>> commit 7d4bb40905fab38fb3db1d0e17afbc803622f00c
->>>> Author: Ed Bartosh <ed.bartosh@linux.intel.com>
->>>> Date:   Wed Sep 2 13:58:02 2015 +0300
->>>>=20
->>>>   wic: get rid of scripts/lib/image
->>>>=20
->>>>   Moved content of scripts/lib/image/ to scripts/lib/wic as
->>>>   one directory with the same name as a tool is self-explanatory
->>>>   and less confusing than two.
->>>>=20
->>>>   (=46rom OE-Core rev: 5dc02d572794298b3362378cea3d7da654456c44)
->>>>=20
->>>>   Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
->>>>   Signed-off-by: Richard Purdie =
-<richard.purdie@linuxfoundation.org>
->>>>=20
->>>> commit 77561e719181d58289687373eebadce764f838a7
->>>> Author: Ed Bartosh <ed.bartosh@linux.intel.com>
->>>> Date:   Wed Sep 2 13:58:01 2015 +0300
->>>>=20
->>>>   wic: use ext4 in canned .wks files
->>>>=20
->>>>   Latest kernel doesn't have ext3 compiled in. Wic images produced
->>>>   from canned .wks can't boot because of that. Switching to ext4
->>>>   fixes this issue.
->>>>=20
->>>>   (=46rom OE-Core rev: d281a65a81f369fc8d75023b8f911ce4106969c1)
->>>>=20
->>>>   Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
->>>>   Signed-off-by: Richard Purdie =
-<richard.purdie@linuxfoundation.org>
->>>>=20
->>>> commit 072657ce98414afdd6f68941847e21fc5ce496c7
->>>> Author: Tom Zanussi <tom.zanussi@linux.intel.com>
->>>> Date:   Mon Aug 11 20:35:41 2014 -0500
->>>>=20
->>>>   wic: Add mkgummidisk kickstart file
->>>>=20
->>>>   This is the same as mkefidisk but uses gummiboot instead of =
-grub-efi.
->>>>=20
->>>>   (=46rom OE-Core rev: 5979409ebfab0bb07b3c2b2fcf14a722c441f07b)
->>>>=20
->>>>   Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
->>>>   Signed-off-by: Richard Purdie =
-<richard.purdie@linuxfoundation.org>
->>>> -----------------------------------------------------------------
->>>>=20
->>>> Signed-off-by: Jianxun Zhang <jianxun.zhang@linux.intel.com>
->>>> ---
->>>> scripts/lib/wic/canned-wks/mksystemd-bootdisk.wks | 11 +++++++++++
->>>> 1 file changed, 11 insertions(+)
->>>> create mode 100644 =
-scripts/lib/wic/canned-wks/mksystemd-bootdisk.wks
->>>>=20
->>>> diff --git a/scripts/lib/wic/canned-wks/mksystemd-bootdisk.wks =
-b/scripts/lib/wic/canned-wks/mksystemd-bootdisk.wks
->>>> new file mode 100644
->>>> index 0000000..df706e8
->>>> --- /dev/null
->>>> +++ b/scripts/lib/wic/canned-wks/mksystemd-bootdisk.wks
->>>> @@ -0,0 +1,11 @@
->>>> +# short-description: Create an EFI disk image
->>>> +# long-description: Creates a partitioned EFI disk image that the =
-user
->>>> +# can directly dd to boot media.
->>>> +
->>>> +part /boot --source bootimg-efi =
---sourceparams=3D"loader=3Dsystemd-boot" --ondisk sda --label msdos =
---active --align 1024
->>>> +
->>>> +part / --source rootfs --ondisk sda --fstype=3Dext4 --label =
-platform --align 1024
->>>> +
->>>> +part swap --ondisk sda --size 44 --label swap1 --fstype=3Dswap
->>>> +
->>>> +bootloader  --timeout=3D10  --append=3D"rootwait rootfstype=3Dext4 =
-console=3DttyPCH0,115200 console=3Dtty0 vmalloc=3D256MB =
-snd-hda-intel.enable_msi=3D0"
->>>> --
->>>> 2.7.4
->>>>=20
->>>> --
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>=20
+>> yes looks better
+>>=20
+> I have submitted V2 several days ago to address Khem=E2=80=99s =
+suggestion to rename mksystemd-bootdisk.wks to systemd-boot.wks.
+>=20
+> But today I found  this V1 has been merged in OE master (4c9b1a4). I =
+am not sure if it means maintainers made decision to prefer V1.
+>=20
+> You could see both wks files for same thing once V2 gets merged too.
+>=20
+> Worrying about a duplicate merge for V2, I will notice people in V2 =
+thread.
 
+send a v3 rebased over v1
 
+--Apple-Mail=_36F7E836-B3EC-496D-84B1-E0FF499E5CDF
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAleWXigACgkQuwUzVZGdMxRmggCdEQ56xJPv6e/QmLO/ojoW4XQo
+9UoAnRealI44YJOndtoUihwKPVrShS9Y
+=GavY
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_36F7E836-B3EC-496D-84B1-E0FF499E5CDF--
