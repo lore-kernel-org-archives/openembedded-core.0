@@ -1,24 +1,46 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D7776FF9B
+Return-Path: <twoerner@gmail.com>
+Received: from mail-it0-f67.google.com (mail-it0-f67.google.com
+	[209.85.214.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B3B173166
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jul 2016 20:49:37 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 26 Jul 2016 13:49:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,426,1464678000"; d="scan'208";a="1029638297"
-Received: from jlock-mobl1.ger.corp.intel.com ([10.252.24.94])
-	by fmsmga002.fm.intel.com with ESMTP; 26 Jul 2016 13:49:37 -0700
-Message-ID: <1469566176.2740.13.camel@linux.intel.com>
-From: Joshua G Lock <joshua.g.lock@linux.intel.com>
-To: mariano.lopez@linux.intel.com, openembedded-core@lists.openembedded.org
-Date: Tue, 26 Jul 2016 21:49:36 +0100
-In-Reply-To: <366c51fefe3b613c5bca35f7801bd812722bb9c0.1469525800.git.mariano.lopez@linux.intel.com>
-References: <cover.1469525800.git.mariano.lopez@linux.intel.com>
-	<366c51fefe3b613c5bca35f7801bd812722bb9c0.1469525800.git.mariano.lopez@linux.intel.com>
-X-Mailer: Evolution 3.20.4 (3.20.4-1.fc24) 
-Mime-Version: 1.0
-Subject: Re: [PATCHv2 1/2] oeqa/oetest.py: Allow to export packages using symlinks
+	Tue, 26 Jul 2016 20:52:49 +0000 (UTC)
+Received: by mail-it0-f67.google.com with SMTP id j124so1432729ith.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Jul 2016 13:52:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id;
+	bh=+NoqS8bJgP21ULokWIHCy57TJgyfQ41CgmgNf+UjXlA=;
+	b=qqOz2Vw5kxB87KCD3Rq96vYiVl+s1gqCHubiIWhj0XP5vCAWhdYQhwQtCEXOnVJtvN
+	eYQubFckWMhqMOUx0QDgW18S0TaxPLMoYASiUOgVfbIW+7kTz5jBV2eJAnqFMFHihA0G
+	BhnFon1ORk2h0v/4AJ13TiUJHMwBfDyrk+oOJkkuAEpYyt7rWA78q8by/4LmQanhN1HQ
+	UWqMAFmzzHFzhTzcXecg26tpMg/sigGs/2L3yWJQGvth0019oMO+fdYP0Wz+dmOnvDtg
+	pqhTIdHx0wEqoNN1NkpqMxBT1Ny1s2FHfbfe5b8nZLoVhEWEWSvcHTpCD+nQzwDBVnfd
+	//JQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=+NoqS8bJgP21ULokWIHCy57TJgyfQ41CgmgNf+UjXlA=;
+	b=QhnQW4yo64CzLiBD+mJpl+LxCKfMAvif4IbS7+qnHzKUKNqj7kVGHU04mjdELDu2Rl
+	fPEg5RXf96huqAuvdwVv2Uu1lgUnNIk/SBFIjGXUoEcVVq8BtChjRKl1AYCXGTi1C0Ky
+	uJ38dRqnpHl7hKVpTWGi2DWwfWG+a5/mqZkfLoNXsET8YRc1UzF7GR0GBeIvTm2wzWTU
+	ydnIxjPcaHnOBT1mp9kuflVBeMT6AH6n3ocvwUEVdO73hQQqjsNfUfCH8umUfAF23vSi
+	xq66q35feBRuKe/fdHx5igN0SJF5NPgrDrcgaJv/b1FzNO5NSZt8pS40Uy/Q3rwQqrUi
+	2UXg==
+X-Gm-Message-State: AEkoout2rAsoQqcCUCTrF/xvoUKV7C+n7cZl4Jngbcy3WgxLPJXnrOVc4bgfa5LuQtVHow==
+X-Received: by 10.36.14.140 with SMTP id 134mr26331347ite.98.1469566370025;
+	Tue, 26 Jul 2016 13:52:50 -0700 (PDT)
+Received: from openSUSE-i7.site (104-247-228-241.cpe.teksavvy.com.
+	[104.247.228.241]) by smtp.gmail.com with ESMTPSA id
+	k186sm1283388ioe.22.2016.07.26.13.52.49
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 26 Jul 2016 13:52:49 -0700 (PDT)
+From: Trevor Woerner <twoerner@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Jul 2016 16:51:45 -0400
+Message-Id: <20160726205145.1781-1-twoerner@gmail.com>
+X-Mailer: git-send-email 2.9.2
+Subject: [PATCH] gstreamer1.0-plugins-bad: opengl handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,138 +53,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2016 20:49:39 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 26 Jul 2016 20:52:50 -0000
 
-On Tue, 2016-07-26 at 09:38 +0000, mariano.lopez@linux.intel.com wrote:
-> From: Mariano Lopez <mariano.lopez@linux.intel.com>
-> 
-> Currently packages that contains symlinks can't be extracted
-> and exported. This allows to export extracted such packages.
-> 
-> A nice side effect is improved readability.
-> 
-> [YOCTO #9932]
-> 
-> Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
-> ---
->  meta/classes/testexport.bbclass | 24 +++++-------------------
->  meta/lib/oeqa/oetest.py         | 17 +++++++++++++----
->  2 files changed, 18 insertions(+), 23 deletions(-)
-> 
-> diff --git a/meta/classes/testexport.bbclass
-> b/meta/classes/testexport.bbclass
-> index 15fa470..5147020 100644
-> --- a/meta/classes/testexport.bbclass
-> +++ b/meta/classes/testexport.bbclass
-> @@ -47,6 +47,7 @@ def exportTests(d,tc):
->      import shutil
->      import pkgutil
->      import re
-> +    import oe.path
->  
->      exportpath = d.getVar("TEST_EXPORT_DIR", True)
->  
-> @@ -103,7 +104,7 @@ def exportTests(d,tc):
->                      isfolder = True
->                      target_folder = os.path.join(exportpath, "oeqa",
-> "runtime", os.path.basename(foldername))
->                      if not os.path.exists(target_folder):
-> -                        shutil.copytree(foldername, target_folder)
-> +                        oe.path.copytree(foldername, target_folder)
->          if not isfolder:
->              shutil.copy2(mod.path, os.path.join(exportpath,
-> "oeqa/runtime"))
->              json_file = "%s.json" % mod.path.rsplit(".", 1)[0]
-> @@ -132,27 +133,12 @@ def exportTests(d,tc):
->      create_tarball(d, "testexport.tar.gz",
-> d.getVar("TEST_EXPORT_DIR", True))
->  
->      # Copy packages needed for runtime testing
-> -    export_pkg_dir = os.path.join(d.getVar("TEST_EXPORT_DIR", True),
-> "packages")
->      test_pkg_dir = d.getVar("TEST_NEEDED_PACKAGES_DIR", True)
-> -    need_pkg_dir = False
-> -    for root, subdirs, files in os.walk(test_pkg_dir):
-> -        for subdir in subdirs:
-> -            tmp_dir = os.path.join(root.replace(test_pkg_dir,
-> "").lstrip("/"), subdir)
-> -            new_dir = os.path.join(export_pkg_dir, tmp_dir)
-> -            bb.utils.mkdirhier(new_dir)
-> -
-> -        for f in files:
-> -            need_pkg_dir = True
-> -            src_f = os.path.join(root, f)
-> -            dst_f = os.path.join(export_pkg_dir,
-> root.replace(test_pkg_dir, "").lstrip("/"), f)
-> -            shutil.copy2(src_f, dst_f)
-> -
-> -    if need_pkg_dir:
-> +    if os.listdir(test_pkg_dir):
-> +        export_pkg_dir = os.path.join(d.getVar("TEST_EXPORT_DIR",
-> True), "packages")
-> +        oe.path.copytree(test_pkg_dir, export_pkg_dir)
->          # Create tar file for packages needed by the DUT
->          create_tarball(d, "testexport_packages_%s.tar.gz" %
-> d.getVar("MACHINE", True), export_pkg_dir)
-> -    else:
-> -        # Remov packages dir from exported test
-> -        bb.utils.remove(export_pkg_dir, True)
->  
->      # Copy SDK
->      if d.getVar("TEST_EXPORT_SDK_ENABLED", True) == "1":
-> diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
-> index e63ca56..3bf3643 100644
-> --- a/meta/lib/oeqa/oetest.py
-> +++ b/meta/lib/oeqa/oetest.py
-> @@ -447,6 +447,8 @@ class RuntimeTestContext(TestContext):
->          modules = self.getTestModules()
->          bbpaths = self.d.getVar("BBPATH", True).split(":")
->  
-> +        shutil.rmtree(self.d.getVar("TEST_EXTRACTED_DIR", True))
-> +        shutil.rmtree(self.d.getVar("TEST_PACKAGED_DIR", True))
+Enable the opengl configuration option if DISTRO_FEATURES contains opengl.
 
-Do we use the shutil module anywhere else in oetest.py? Could we drop
-it completely if we use oe.path.remove() rather than shutil.rmtree()?
-Perhaps you could send a follow-on patch?
+Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+---
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->          for module in modules:
->              json_file = self._getJsonFile(module)
->              if json_file:
-> @@ -458,6 +460,8 @@ class RuntimeTestContext(TestContext):
->          Extract packages that will be needed during runtime.
->          """
->  
-> +        import oe.path
-> +
->          extracted_path = self.d.getVar("TEST_EXTRACTED_DIR", True)
->          packaged_path = self.d.getVar("TEST_PACKAGED_DIR", True)
->  
-> @@ -481,13 +485,18 @@ class RuntimeTestContext(TestContext):
->                      dst_dir = os.path.join(packaged_path)
->  
->                  # Extract package and copy it to TEST_EXTRACTED_DIR
-> -                if extract and not os.path.exists(dst_dir):
-> -                    pkg_dir = self._extract_in_tmpdir(pkg)
-> -                    shutil.copytree(pkg_dir, dst_dir)
-> +                pkg_dir = self._extract_in_tmpdir(pkg)
-> +                if extract:
-> +
-> +                    # Same package used for more than one test,
-> +                    # don't need to extract again.
-> +                    if os.path.exists(dst_dir):
-> +                        continue
-> +                    oe.path.copytree(pkg_dir, dst_dir)
->                      shutil.rmtree(pkg_dir)
->  
->                  # Copy package to TEST_PACKAGED_DIR
-> -                elif not extract:
-> +                else:
->                      self._copy_package(pkg)
->  
->      def _getJsonFile(self, module):
-> -- 
-> 2.6.6
-> 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+index 9e2b94e..1a342f8 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+@@ -12,7 +12,7 @@ SRC_URI_append = " \
+ 
+ # opengl packageconfig factored out to make it easy for distros
+ # and BSP layers to pick either (desktop) opengl, gles2, or no GL
+-PACKAGECONFIG_GL ?= "${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gles2', '', d)}"
++PACKAGECONFIG_GL ?= "${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'opengl gles2', '', d)}"
+ 
+ # gtk is not in the PACKAGECONFIG variable by default until
+ # the transition to gtk+3 is finished
+-- 
+2.9.2
+
 
