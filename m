@@ -1,24 +1,26 @@
-Return-Path: <Jackie.Huang@windriver.com>
+Return-Path: <Mingli.Yu@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E012C60746
+	by mail.openembedded.org (Postfix) with ESMTP id 6B411606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jul 2016 06:49:54 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u6Q6nrZ8006087
+	Tue, 26 Jul 2016 07:36:14 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u6Q7aFlE015315
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jul 2016 23:49:53 -0700 (PDT)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 25 Jul 2016 23:49:52 -0700
-From: <jackie.huang@windriver.com>
+	Tue, 26 Jul 2016 00:36:15 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Tue, 26 Jul 2016 00:36:14 -0700
+From: <mingli.yu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 26 Jul 2016 02:49:51 -0400
-Message-ID: <1469515791-235219-1-git-send-email-jackie.huang@windriver.com>
+Date: Tue, 26 Jul 2016 15:33:18 +0800
+Message-ID: <1469518399-22052-2-git-send-email-mingli.yu@windriver.com>
 X-Mailer: git-send-email 2.8.1
+In-Reply-To: <1469518399-22052-1-git-send-email-mingli.yu@windriver.com>
+References: <1469518399-22052-1-git-send-email-mingli.yu@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH] screen: add back the patch for parallel build
+Subject: [PATCH 1/2] busybox: fix for syslog service in systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,104 +33,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2016 06:49:57 -0000
+X-List-Received-Date: Tue, 26 Jul 2016 07:36:15 -0000
 Content-Type: text/plain
 
-From: Jackie Huang <jackie.huang@windriver.com>
+This patch includes the following changes:
+1. Explicitly set StandardOutput of the log daemon to null.
+   This would avoid creating a feedback loop of the syslog service.
+   See link below for more information.
+   http://www.freedesktop.org/wiki/Software/systemd/syslog/
 
-The patch 0001-fix-for-multijob-build.patch was removed by:
-"d437921 screen: upgrade to 4.4.0"
+2. Use ALTERNATIVE machanism to manage the syslog service file.
+   This is because that other package may also provide a syslog
+   implementation.
 
-But in fact the fixes is not all in the version 4.4.0, we
-still get errors in parallel builds:
+3. Make the syslog daemon socket activated only. Otherwise, things
+   would crash if we install busybox-syslog and other syslog packages
+   together in one image.
 
-| ../screen-4.4.0/screen.h:48:18: fatal error: comm.h: No such file or directory
-
-So rebase the patch and add it back.
-
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 ---
- .../screen/0001-fix-for-multijob-build.patch       | 58 ++++++++++++++++++++++
- meta/recipes-extended/screen/screen_4.4.0.bb       |  1 +
- 2 files changed, 59 insertions(+)
- create mode 100644 meta/recipes-extended/screen/screen/0001-fix-for-multijob-build.patch
+ meta/recipes-core/busybox/busybox.inc                     | 9 +++++++--
+ meta/recipes-core/busybox/files/busybox-klogd.service.in  | 4 +---
+ meta/recipes-core/busybox/files/busybox-syslog.service.in | 7 +++----
+ 3 files changed, 11 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-extended/screen/screen/0001-fix-for-multijob-build.patch b/meta/recipes-extended/screen/screen/0001-fix-for-multijob-build.patch
-new file mode 100644
-index 0000000..fbdb0eb
---- /dev/null
-+++ b/meta/recipes-extended/screen/screen/0001-fix-for-multijob-build.patch
-@@ -0,0 +1,58 @@
-+From 79ad2885e26631077dd6b8aebe17ae95b38133a6 Mon Sep 17 00:00:00 2001
-+From: Jackie Huang <jackie.huang@windriver.com>
-+Date: Tue, 26 Jul 2016 14:23:59 +0800
-+Subject: [PATCH] fix for multijob build
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index 5e91a26..2865b36 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -295,13 +295,12 @@ do_install () {
+     if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
+         if grep -q "CONFIG_SYSLOGD=y" ${B}/.config; then
+             install -d ${D}${systemd_unitdir}/system
+-            sed 's,@base_sbindir@,${base_sbindir},g' < ${WORKDIR}/busybox-syslog.service.in \
++            sed -e 's,@base_sbindir@,${base_sbindir},g' -e 's,@SYSCONFDIR@,${sysconfdir},g' < ${WORKDIR}/busybox-syslog.service.in \
+ 		> ${D}${systemd_unitdir}/system/busybox-syslog.service
+             if [ -f ${WORKDIR}/busybox-syslog.default ] ; then
+ 		install -d ${D}${sysconfdir}/default
+ 		install -m 0644 ${WORKDIR}/busybox-syslog.default ${D}${sysconfdir}/default/busybox-syslog
+             fi
+-            ln -sf /dev/null ${D}${systemd_unitdir}/system/syslog.service
+         fi
+         if grep -q "CONFIG_KLOGD=y" ${B}/.config; then
+             install -d ${D}${systemd_unitdir}/system
+@@ -338,6 +337,12 @@ python () {
+         d.appendVar('ALTERNATIVE_%s-syslog' % (pn), ' syslog-startup-conf')
+         d.setVarFlag('ALTERNATIVE_LINK_NAME', 'syslog-startup-conf', '%s/syslog-startup.conf' % (d.getVar('sysconfdir', True)))
+         d.setVarFlag('ALTERNATIVE_TARGET', 'syslog-startup-conf', '%s/syslog-startup.conf.%s' % (d.getVar('sysconfdir', True), d.getVar('BPN', True)))
 +
-+make sure that comm.sh script generates comm.h header before doing
-+anything else
-+
-+Signed-off-by: Amadeusz Sawiski <amade@asmblr.net>
-+
-+Upstream-Status: Backport
-+
-+Backport patch to fix parallel build failure and update context to make patch
-+coulde be applied.
-+
-+http://git.savannah.gnu.org/cgit/screen.git/commit?id=c0de6dd
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-+---
-+ Makefile.in | 8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
-+
-+diff --git a/Makefile.in b/Makefile.in
-+index aca7da3..3607711 100644
-+--- a/Makefile.in
-++++ b/Makefile.in
-+@@ -298,7 +298,7 @@ search.o: layout.h viewport.h canvas.h search.c config.h screen.h os.h osdef.h a
-+  comm.h layer.h term.h image.h display.h window.h mark.h extern.h
-+ tty.o: layout.h viewport.h canvas.h tty.c config.h screen.h os.h osdef.h ansi.h acls.h comm.h \
-+  layer.h term.h image.h display.h window.h extern.h
-+-term.o: layout.h viewport.h canvas.h term.c term.h
-++term.o: layout.h viewport.h canvas.h term.c term.h comm.h
-+ window.o: layout.h viewport.h canvas.h window.c config.h screen.h os.h osdef.h ansi.h acls.h \
-+  comm.h layer.h term.h image.h display.h window.h extern.h logfile.h
-+ utmp.o: layout.h viewport.h canvas.h utmp.c config.h screen.h os.h osdef.h ansi.h acls.h \
-+@@ -324,7 +324,7 @@ canvas.o: layout.h viewport.h canvas.h canvas.c config.h screen.h os.h osdef.h a
-+  comm.h layer.h term.h image.h display.h window.h extern.h \
-+  braille.h
-+ comm.o: layout.h viewport.h canvas.h comm.c config.h acls.h comm.h
-+-kmapdef.o: layout.h viewport.h canvas.h kmapdef.c config.h
-++kmapdef.o: layout.h viewport.h canvas.h kmapdef.c config.h comm.h
-+ acls.o: layout.h viewport.h canvas.h acls.c config.h screen.h os.h osdef.h ansi.h acls.h comm.h \
-+  layer.h term.h image.h display.h window.h extern.h
-+ braille.o: layout.h viewport.h canvas.h braille.c config.h screen.h os.h osdef.h ansi.h acls.h \
-+@@ -350,7 +350,7 @@ layout.o: layout.h viewport.h canvas.h layout.c config.h screen.h os.h osdef.h a
-+ viewport.o: layout.h viewport.h canvas.h viewport.c config.h screen.h os.h osdef.h ansi.h acls.h \
-+  comm.h layer.h term.h image.h display.h window.h extern.h \
-+  braille.h
-+-list_generic.o: list_generic.h list_generic.c layer.h screen.h osdef.h
-+-list_display.o: list_generic.h list_display.c layer.h screen.h osdef.h
-++list_generic.o: list_generic.h list_generic.c layer.h screen.h osdef.h comm.h
-++list_display.o: list_generic.h list_display.c layer.h screen.h osdef.h comm.h
-+ list_window.o: list_generic.h list_window.c window.h layer.h screen.h osdef.h comm.h
-+ 
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-extended/screen/screen_4.4.0.bb b/meta/recipes-extended/screen/screen_4.4.0.bb
-index e970c5b..769bac1 100644
---- a/meta/recipes-extended/screen/screen_4.4.0.bb
-+++ b/meta/recipes-extended/screen/screen_4.4.0.bb
-@@ -23,6 +23,7 @@ SRC_URI = "${GNU_MIRROR}/screen/screen-${PV}.tar.gz \
-            file://Skip-host-file-system-checks-when-cross-compiling.patch \
-            file://Avoid-mis-identifying-systems-as-SVR4.patch \
-            file://0002-comm.h-now-depends-on-term.h.patch \
-+           file://0001-fix-for-multijob-build.patch \
-           "
++    if bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d):
++        pn = d.getVar('PN', True)
++        d.appendVar('ALTERNATIVE_%s-syslog' % (pn), ' syslog-service')
++        d.setVarFlag('ALTERNATIVE_LINK_NAME', 'syslog-service', '%s/systemd/system/syslog.service' % (d.getVar('sysconfdir', True)))
++        d.setVarFlag('ALTERNATIVE_TARGET', 'syslog-service', '%s/system/busybox-syslog.service' % (d.getVar('systemd_unitdir', True)))
+ }
  
- SRC_URI[md5sum] = "d26e11a3648c2b11aaefa215a55dfd39"
+ python do_package_prepend () {
+diff --git a/meta/recipes-core/busybox/files/busybox-klogd.service.in b/meta/recipes-core/busybox/files/busybox-klogd.service.in
+index d7c7755..90cfc50 100644
+--- a/meta/recipes-core/busybox/files/busybox-klogd.service.in
++++ b/meta/recipes-core/busybox/files/busybox-klogd.service.in
+@@ -3,6 +3,4 @@ Description=Kernel Logging Service
+ 
+ [Service]
+ ExecStart=@base_sbindir@/klogd -n
+-
+-[Install]
+-WantedBy=multi-user.target
++StandardOutput=null
+diff --git a/meta/recipes-core/busybox/files/busybox-syslog.service.in b/meta/recipes-core/busybox/files/busybox-syslog.service.in
+index 2e04321..c84edaf 100644
+--- a/meta/recipes-core/busybox/files/busybox-syslog.service.in
++++ b/meta/recipes-core/busybox/files/busybox-syslog.service.in
+@@ -1,13 +1,12 @@
+ [Unit]
+ Description=System Logging Service
+ Wants=busybox-klogd.service
++Requires=syslog.socket
+ 
+ [Service]
+-EnvironmentFile=-/etc/default/busybox-syslog
++EnvironmentFile=-@SYSCONFDIR@/default/busybox-syslog
+ ExecStart=@base_sbindir@/syslogd -n $OPTIONS
+-Sockets=syslog.socket
++StandardOutput=null
+ 
+ [Install]
+-WantedBy=multi-user.target
+ Also=busybox-klogd.service
+-Alias=syslog.service
 -- 
 2.8.1
 
