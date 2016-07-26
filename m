@@ -1,26 +1,24 @@
 Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B411606BF
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E3A7606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jul 2016 07:36:14 +0000 (UTC)
+	Tue, 26 Jul 2016 07:36:15 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u6Q7aFlE015315
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u6Q7aDld024500
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jul 2016 00:36:15 -0700 (PDT)
+	Tue, 26 Jul 2016 00:36:14 -0700
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Tue, 26 Jul 2016 00:36:14 -0700
+	14.3.248.2; Tue, 26 Jul 2016 00:36:13 -0700
 From: <mingli.yu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 26 Jul 2016 15:33:18 +0800
-Message-ID: <1469518399-22052-2-git-send-email-mingli.yu@windriver.com>
+Date: Tue, 26 Jul 2016 15:33:17 +0800
+Message-ID: <1469518399-22052-1-git-send-email-mingli.yu@windriver.com>
 X-Mailer: git-send-email 2.8.1
-In-Reply-To: <1469518399-22052-1-git-send-email-mingli.yu@windriver.com>
-References: <1469518399-22052-1-git-send-email-mingli.yu@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] busybox: fix for syslog service in systemd
+Subject: [PATCH] busybox: fix for syslog service in systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,97 +31,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2016 07:36:15 -0000
+X-List-Received-Date: Tue, 26 Jul 2016 07:36:16 -0000
 Content-Type: text/plain
 
-This patch includes the following changes:
-1. Explicitly set StandardOutput of the log daemon to null.
-   This would avoid creating a feedback loop of the syslog service.
-   See link below for more information.
-   http://www.freedesktop.org/wiki/Software/systemd/syslog/
+commit 9943ffeeed5c612d1bc44a12607d553f7704dc7e
+Author: Chen Qi <Qi.Chen@windriver.com>
+Date:   Thu Sep 11 04:55:35 2014 -0400
 
-2. Use ALTERNATIVE machanism to manage the syslog service file.
-   This is because that other package may also provide a syslog
-   implementation.
+    busybox: fix for syslog service in systemd
+    
+    This patch includes the following changes:
+    1. Explicitly set StandardOutput of the log daemon to null.
+       This would avoid creating a feedback loop of the syslog service.
+       See link below for more information.
+       http://www.freedesktop.org/wiki/Software/systemd/syslog/
+    
+    2. Use ALTERNATIVE machanism to manage the syslog service file.
+       This is because that other package may also provide a syslog
+       implementation.
+    
+    3. Make the syslog daemon socket activated only. Otherwise, things
+       would crash if we install busybox-syslog and other syslog packages
+       together in one image.
+    
+    Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+    Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 
-3. Make the syslog daemon socket activated only. Otherwise, things
-   would crash if we install busybox-syslog and other syslog packages
-   together in one image.
+commit 425d7b8605612cdc65daf2c1ef6cf5655ad8f227
+Author: Yadi.hu <yadi.hu@windriver.com>
+Date:   Wed Jun 1 17:54:17 2016 -0700
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
----
- meta/recipes-core/busybox/busybox.inc                     | 9 +++++++--
- meta/recipes-core/busybox/files/busybox-klogd.service.in  | 4 +---
- meta/recipes-core/busybox/files/busybox-syslog.service.in | 7 +++----
- 3 files changed, 11 insertions(+), 9 deletions(-)
-
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 5e91a26..2865b36 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -295,13 +295,12 @@ do_install () {
-     if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
-         if grep -q "CONFIG_SYSLOGD=y" ${B}/.config; then
-             install -d ${D}${systemd_unitdir}/system
--            sed 's,@base_sbindir@,${base_sbindir},g' < ${WORKDIR}/busybox-syslog.service.in \
-+            sed -e 's,@base_sbindir@,${base_sbindir},g' -e 's,@SYSCONFDIR@,${sysconfdir},g' < ${WORKDIR}/busybox-syslog.service.in \
- 		> ${D}${systemd_unitdir}/system/busybox-syslog.service
-             if [ -f ${WORKDIR}/busybox-syslog.default ] ; then
- 		install -d ${D}${sysconfdir}/default
- 		install -m 0644 ${WORKDIR}/busybox-syslog.default ${D}${sysconfdir}/default/busybox-syslog
-             fi
--            ln -sf /dev/null ${D}${systemd_unitdir}/system/syslog.service
-         fi
-         if grep -q "CONFIG_KLOGD=y" ${B}/.config; then
-             install -d ${D}${systemd_unitdir}/system
-@@ -338,6 +337,12 @@ python () {
-         d.appendVar('ALTERNATIVE_%s-syslog' % (pn), ' syslog-startup-conf')
-         d.setVarFlag('ALTERNATIVE_LINK_NAME', 'syslog-startup-conf', '%s/syslog-startup.conf' % (d.getVar('sysconfdir', True)))
-         d.setVarFlag('ALTERNATIVE_TARGET', 'syslog-startup-conf', '%s/syslog-startup.conf.%s' % (d.getVar('sysconfdir', True), d.getVar('BPN', True)))
-+
-+    if bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d):
-+        pn = d.getVar('PN', True)
-+        d.appendVar('ALTERNATIVE_%s-syslog' % (pn), ' syslog-service')
-+        d.setVarFlag('ALTERNATIVE_LINK_NAME', 'syslog-service', '%s/systemd/system/syslog.service' % (d.getVar('sysconfdir', True)))
-+        d.setVarFlag('ALTERNATIVE_TARGET', 'syslog-service', '%s/system/busybox-syslog.service' % (d.getVar('systemd_unitdir', True)))
- }
- 
- python do_package_prepend () {
-diff --git a/meta/recipes-core/busybox/files/busybox-klogd.service.in b/meta/recipes-core/busybox/files/busybox-klogd.service.in
-index d7c7755..90cfc50 100644
---- a/meta/recipes-core/busybox/files/busybox-klogd.service.in
-+++ b/meta/recipes-core/busybox/files/busybox-klogd.service.in
-@@ -3,6 +3,4 @@ Description=Kernel Logging Service
- 
- [Service]
- ExecStart=@base_sbindir@/klogd -n
--
--[Install]
--WantedBy=multi-user.target
-+StandardOutput=null
-diff --git a/meta/recipes-core/busybox/files/busybox-syslog.service.in b/meta/recipes-core/busybox/files/busybox-syslog.service.in
-index 2e04321..c84edaf 100644
---- a/meta/recipes-core/busybox/files/busybox-syslog.service.in
-+++ b/meta/recipes-core/busybox/files/busybox-syslog.service.in
-@@ -1,13 +1,12 @@
- [Unit]
- Description=System Logging Service
- Wants=busybox-klogd.service
-+Requires=syslog.socket
- 
- [Service]
--EnvironmentFile=-/etc/default/busybox-syslog
-+EnvironmentFile=-@SYSCONFDIR@/default/busybox-syslog
- ExecStart=@base_sbindir@/syslogd -n $OPTIONS
--Sockets=syslog.socket
-+StandardOutput=null
- 
- [Install]
--WantedBy=multi-user.target
- Also=busybox-klogd.service
--Alias=syslog.service
--- 
-2.8.1
-
+    busybox: handle syslog
+    
+    If CONFIG_KLOGD is not enabled, then the related service file should
+    not be installed, The error message is below:
+    
+        Cannot add dependency job for unit busybox-klogd.service,
+        ignoring: Unit busybox-klogd.service failed to load:
+        No such file or directory.
+    
+    So we should first check the configuration before we install these
+    service files.
+    
+    Signed-off-by: Yadi.hu <yadi.hu@windriver.com>
+    Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 
