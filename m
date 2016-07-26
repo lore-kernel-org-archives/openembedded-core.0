@@ -1,47 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f44.google.com (mail-it0-f44.google.com
-	[209.85.214.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 1BB29606D0
+Return-Path: <Dengke.Du@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A46B760721
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jul 2016 23:33:24 +0000 (UTC)
-Received: by mail-it0-f44.google.com with SMTP id f6so121209035ith.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jul 2016 16:33:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=CyWDdJz8zTznKS31ydfjGl+rXP946/QFpcdvE7/jRAA=;
-	b=oOOju0iGHgrFASMRQgIgO7juc/6xYaaDyfdy4wJ3TylJLalwRlvioGFFsd/vO1c9ZB
-	e7KK1glMf9M2oASfWC5YTguebBGzL7BcuOcbh2H/5TEUbgT8bErO5odDT499fZL+MYPJ
-	rge8w5MHk9w+W+wgIcdLwDDdpLqr6P5muKBHn/kTXvZpWmxbc5j9UmVIH8KyM1SF28lZ
-	siYIAm0Z7Jr4gy07HhLMXyH/BKfsxU3mCtJ01BBBIrFcUFuFFVA3iiwXs4dMSzXJrIrh
-	r1JFugzdyMlTPAvIGq4ywQHqlaYH2FP0HDpBsN7R6QjsrPBvUfcrIMeypmOZPIsCUPpF
-	PutA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=CyWDdJz8zTznKS31ydfjGl+rXP946/QFpcdvE7/jRAA=;
-	b=XbVw11ybuqhUzBqbY7b9RVvmeKqEDhEPKbPWWVlE7hwn0e3xi13xYYYrJWPU0J2GSv
-	C71jiRmfzz05DHYxXqZmns9XvOffdaBVroLHzwiYXkb9cUAoUTJWUAJe7BKVmVdLL79r
-	VBxly4RUzaYeHRPFWzNpB2dftaIV/BeBSeIo9HxCA/3iuik49yW780Kx4ZDh17/hH/Xi
-	tQZ8vzhl7dq1n7vXFd9NghGhQtHEua+Sr6BtS2ndtG/hnlaEGb7v/+efR630k7w4dDNT
-	BwB8gVtL+3VHZ4moyBTj6d4+IDAuDh7Or/xsI4Zrnw3KVCofLaDR9UIFFx6EWV/geKK3
-	qguA==
-X-Gm-Message-State: ALyK8tLGF9zTViZ5RGwof0tCpch5AF9IwqRyfTyzwNU4fjv6w0Ky3JAgCSeac32bJKTng5tGKeyC59Yu+luAwsKi
-X-Received: by 10.36.131.194 with SMTP id d185mr88473228ite.38.1469489605179; 
-	Mon, 25 Jul 2016 16:33:25 -0700 (PDT)
+	Tue, 26 Jul 2016 00:24:14 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u6Q0OEcd019078
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 25 Jul 2016 17:24:14 -0700 (PDT)
+Received: from [128.224.162.208] (128.224.162.208) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 25 Jul 2016 17:24:13 -0700
+To: Nathan Lynch <Nathan_Lynch@mentor.com>
+References: <1469220826-8991-1-git-send-email-nathan_lynch@mentor.com>
+	<57957417.6040208@windriver.com>
+	<a73ce349-5710-c586-b1f4-97cdec78a5a7@mentor.com>
+From: "dengke.du@windriver.com" <dengke.du@windriver.com>
+Message-ID: <5796ADAC.9060501@windriver.com>
+Date: Tue, 26 Jul 2016 08:24:12 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.7.2
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Mon, 25 Jul 2016 16:33:05 -0700 (PDT)
-In-Reply-To: <07cae7b73779e89d5e038bf48fbfa204d51b4b68.1469337362.git.liezhi.yang@windriver.com>
-References: <cover.1469337362.git.liezhi.yang@windriver.com>
-	<07cae7b73779e89d5e038bf48fbfa204d51b4b68.1469337362.git.liezhi.yang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 26 Jul 2016 00:33:05 +0100
-Message-ID: <CAJTo0LYCEP1nkeZ9-1i+K3YsK0OMAt+axx-4ezQsbxu+VwvyVA@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] epiphany: inherit perlnative
+In-Reply-To: <a73ce349-5710-c586-b1f4-97cdec78a5a7@mentor.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] Revert "lttng-tools: filter random filename of ptest output"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,42 +36,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jul 2016 23:33:25 -0000
-Content-Type: multipart/alternative; boundary=94eb2c049652eb1d0505387e3557
+X-List-Received-Date: Tue, 26 Jul 2016 00:24:15 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
---94eb2c049652eb1d0505387e3557
-Content-Type: text/plain; charset=UTF-8
+OK, thanks!
 
-On 24 July 2016 at 06:16, Robert Yang <liezhi.yang@windriver.com> wrote:
+//dengke
 
-> Fixed:
-> checking for XML::Parser... configure: error: XML::Parser perl module is
-> required for intltool
+On 2016年07月25日 21:34, Nathan Lynch wrote:
+> [please remember to cc the list]
 >
-> The module is installed to sysroot, but need use native perl to find it.
+> On 07/24/2016 09:06 PM, dengke.du@windriver.com wrote:
+>> OK, thanks for your remind, the 1,2 and 4 I will pick it up. I show a
+>> total PASS beacuse when the tests PASS that it output many random
+>> filenames.
+> I'm sorry but I don't understand what you intend to do, and I'm unsure
+> what you mean by "random filenames".  If you have some QA analysis code
+> which cannot handle strange or unpredictable filenames in the output
+> then that's what should be fixed.
 >
+> Please accept the revert, thanks.
+>
+>
+>> //dengke
+>>
+>> On 2016年07月23日 04:53, Nathan Lynch wrote:
+>>> This reverts commit 29a8c45be2862be02afe2ebbc5c026a42f351990.
+>>>
+>>> A few things wrong with this change:
+>>>
+>>> 1. It patches a patch (runtest-2.4.0.patch).
+>>> 2. It introduces deviations from the desired ptest output format.
+>>> 3. It discards PASS: lines from the test output; I *want* to see those.
+>>> 4. The upstream status of "pending" is incorrect; I do not see this
+>>>      patch on the lttng-dev mailing list (not that it would apply anyway).
+>>>
+>>> Signed-off-by: Nathan Lynch <nathan_lynch@mentor.com>
+>>> ---
+>>>    ...ls-filter-random-filename-of-tests-output.patch | 55
+>>> ----------------------
+>>>    meta/recipes-kernel/lttng/lttng-tools_git.bb       |  1 -
+>>>    2 files changed, 56 deletions(-)
+>>>    delete mode 100644
+>>> meta/recipes-kernel/lttng/lttng-tools/0001-lttng-tools-filter-random-filename-of-tests-output.patch
+>>>
+>>>
+>>> diff --git
+>>> a/meta/recipes-kernel/lttng/lttng-tools/0001-lttng-tools-filter-random-filename-of-tests-output.patch
+>>> b/meta/recipes-kernel/lttng/lttng-tools/0001-lttng-tools-filter-random-filename-of-tests-output.patch
+>>>
+>>> deleted file mode 100644
+>>> index fed5a2fb59d6..000000000000
+>>> ---
+>>> a/meta/recipes-kernel/lttng/lttng-tools/0001-lttng-tools-filter-random-filename-of-tests-output.patch
+>>>
+>>> +++ /dev/null
+>>> @@ -1,55 +0,0 @@
+>>> -From b9744428d6dfb1cba7b6e3fdbf0613977914b12f Mon Sep 17 00:00:00 2001
+>>> -From: Dengke Du <dengke.du@windriver.com>
+>>> -Date: Fri, 29 Apr 2016 03:25:58 -0400
+>>> -Subject: [PATCH] lttng-tools: filter random filename of tests output
+>>> -
+>>> -Show the failed tests, filter the random filename when the test
+>>> -passed, add up the result.
+>>> -
+>>> -Upstream-Status: Pending
+>>> -
+>>> -Signed-off-by: Dengke Du <dengke.du@windriver.com>
+>>> ----
+>>> - tests/run.sh | 25 +++++++++++++++++++++++--
+>>> - 1 file changed, 23 insertions(+), 2 deletions(-)
+>>> -
+>>> -diff --git a/tests/run.sh b/tests/run.sh
+>>> -index 6455359..9080afc 100755
+>>> ---- a/tests/run.sh
+>>> -+++ b/tests/run.sh
+>>> -@@ -17,9 +17,30 @@
+>>> - # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+>>> 02111-1307, USA.
+>>> - #
+>>> -
+>>> -+# Define two variable to store the passed and failed result
+>>> -+pass_count=0
+>>> -+fail_count=0
+>>> -+
+>>> - [ -z "$1" ] && echo "Error: No testlist. Please specify a testlist
+>>> to run." && exit 1
+>>> -
+>>> --prove --merge -v --exec '' - < $1 | sed \
+>>> -+# Using a while loop to add up the passed and failed result, we use
+>>> Here Strings
+>>> -+# "<<<" in bash in order to redirect the test output to the while
+>>> loop. If put the
+>>> -+# test output as a pipeline, the while loop will run in subshell, we
+>>> can't get the
+>>> -+# pass_count and fail_count when the subshell exit.
+>>> -+while read line
+>>> -+do
+>>> -+    if [[ $line == "FAIL"* ]]; then
+>>> -+        echo $line;((fail_count=fail_count+1))
+>>> -+    fi
+>>> -+    if [[ $line == "PASS"* ]]; then
+>>> -+        ((pass_count=pass_count+1))
+>>> -+    fi
+>>> -+done <<< "$(prove --merge -v --exec '' - < $1 | sed \
+>>> -   -e 's|^ok \(.*\)|PASS: \1|' \
+>>> -   -e 's|^not ok \(.*\)|FAIL: \1|' \
+>>> --  | egrep -h 'PASS|FAIL'
+>>> -+  | egrep -h 'PASS|FAIL')"
+>>> -+
+>>> -+# Add up the result and output the passed and failed tests
+>>> -+echo "$1 statistics"
+>>> -+echo "total pass: $pass_count tests passed!"
+>>> -+echo "total fail: $fail_count tests failed!"
+>>> ---
+>>> -2.8.1
+>>> -
+>>> diff --git a/meta/recipes-kernel/lttng/lttng-tools_git.bb
+>>> b/meta/recipes-kernel/lttng/lttng-tools_git.bb
+>>> index da2b68552bce..b0c369ce964a 100644
+>>> --- a/meta/recipes-kernel/lttng/lttng-tools_git.bb
+>>> +++ b/meta/recipes-kernel/lttng/lttng-tools_git.bb
+>>> @@ -29,7 +29,6 @@ PACKAGECONFIG_remove_libc-musl = "lttng-ust"
+>>>    SRC_URI = "git://git.lttng.org/lttng-tools.git;branch=stable-2.7 \
+>>>               file://stop-using-SIGUNUSED.patch \
+>>>               file://runtest-2.4.0.patch \
+>>> -
+>>> file://0001-lttng-tools-filter-random-filename-of-tests-output.patch \
+>>>               file://run-ptest"
+>>>      S = "${WORKDIR}/git"
 
-This is fixed by [PATCH 2/2] intltool: remove broken XML::Parser detection.
 
-Ross
-
---94eb2c049652eb1d0505387e3557
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 24 July 2016 at 06:16, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);b=
-order-left-style:solid;padding-left:1ex"><div id=3D":1mp" class=3D"">Fixed:=
-<br>
-checking for XML::Parser... configure: error: XML::Parser perl module is re=
-quired for <span class=3D"">intltool</span><br>
-<br>
-The module is installed to sysroot, but need use native perl to find it.</d=
-iv></blockquote></div><br>This is fixed=C2=A0by [PATCH 2/2] intltool: remov=
-e broken XML::Parser detection.</div><div class=3D"gmail_extra"><br></div><=
-div class=3D"gmail_extra">Ross</div></div>
-
---94eb2c049652eb1d0505387e3557--
