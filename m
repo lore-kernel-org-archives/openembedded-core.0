@@ -1,68 +1,23 @@
-Return-Path: <thilo.cestonaro@ts.fujitsu.com>
-Received: from mail1.bemta3.messagelabs.com (mail1.bemta3.messagelabs.com
-	[195.245.230.172])
-	by mail.openembedded.org (Postfix) with ESMTP id E9C51606BF
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id EBFD9606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jul 2016 09:39:39 +0000 (UTC)
-Received: from [85.158.138.179] by server-12.bemta-3.messagelabs.com id
-	43/F8-09160-ADF27975; Tue, 26 Jul 2016 09:39:38 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrIKsWRWlGSWpSXmKPExsViZ8MRqntLf3q
-	4wcn3ohZ3fr5jt2i7PovRgclj56y77B7nNq5gDGCKYs3MS8qvSGDNeNZ2jLXgsk7FpOfn2RsY
-	b2t3MXJxCAm0MkmsnLuKFcI5xihxecViJgjnIqPEgQXPGbsYOTnYBNwltt67zwRiiwjoSjz//
-	JcFxGYWiJKYNPsVmC0s4CWx7fRDZogab4nVW5+wQNhuEp3LO9hBbBYBVYnPPc1ANRwcvAImEi
-	c7PUDCQgLvGSXuNoDZnAKBElfv7mSEiHtLnP44G2wko4CKxK67Wxgh1opL3HoyH+wcCQERiYc
-	XT7NB2KISLx//Y4WwDSS2Lt3HAmErSUxpWsgM0VslsaVnE9g5vAKCEidnPmGZwCg2C8nYWUjK
-	ZiEpg4hrSrRu/80OYWtLLFv4mhnCtpXYf3UllG0q8froR0YIW1FiSvdD9gWMHKsYNYpTi8pSi
-	3SNzPSSijLTM0pyEzNzdA0NjPVyU4uLE9NTcxKTivWS83M3MQKjt56BgXEHY8Nev0OMkhxMSq
-	K8TBOmhQvxJeWnVGYkFmfEF5XmpBYfYpTh4FCS4BUEJgMhwaLU9NSKtMwcYBqBSUtw8CiJ8Hb
-	qAaV5iwsSc4sz0yFSpxh1Ob5Mv7aWSYglLz8vVUqcdxpIkQBIUUZpHtwIWEq7xCgrJczLyMDA
-	IMRTkFqUm1mCKv+KUZyDUUmYdxHIFJ7MvBK4Ta+AjmACOmIBz2SQI0oSEVJSDYx6Wo7J36Uvp
-	u3lTaxdl1H22NLEbsW9LWukrmxp3/9sQbjJbM/dHTeb99lJhyQ/f2TltHP/2oqIbmYnraQA+z
-	kHlrG4Hu87LdR5fkl1fkhsQ9XFVyLLFt+uf3JHKf7cO1+FoPNJvd+exy+LU1L4PM969+FLHeJ
-	zeb7LuSYc8fvzcMKHFZ0NCceVWIozEg21mIuKEwGQsmhRZAMAAA==
-X-Env-Sender: thilo.cestonaro@ts.fujitsu.com
-X-Msg-Ref: server-3.tower-169.messagelabs.com!1469525978!52769937!1
-X-Originating-IP: [62.60.8.85]
-X-StarScan-Received: 
-X-StarScan-Version: 8.77; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 9879 invoked from network); 26 Jul 2016 09:39:38 -0000
-Received: from unknown (HELO mailhost4.uk.fujitsu.com) (62.60.8.85)
-	by server-3.tower-169.messagelabs.com with DHE-RSA-AES256-GCM-SHA384
-	encrypted SMTP; 26 Jul 2016 09:39:38 -0000
-Received: from R01UKEXCASM126.r01.fujitsu.local (ex2k13_126.fs.fujitsu.com
-	[10.183.43.178])
-	by mailhost4.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id
-	u6Q9bdct013452
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Tue, 26 Jul 2016 10:37:48 +0100
-Received: from R01UKEXCASM121.r01.fujitsu.local (10.183.43.173) by
-	R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP
-	Server (TLS) id 15.0.1178.4; Tue, 26 Jul 2016 10:39:37 +0100
-Received: from R01UKEXCASM121.r01.fujitsu.local ([fe80::48eb:6503:a1bb:c29c])
-	by R01UKEXCASM121.r01.fujitsu.local ([fe80::48eb:6503:a1bb:c29c%22])
-	with mapi id 15.00.1178.000; Tue, 26 Jul 2016 10:39:37 +0100
-From: "thilo.cestonaro@ts.fujitsu.com" <thilo.cestonaro@ts.fujitsu.com>
-To: "raj.khem@gmail.com" <raj.khem@gmail.com>
-Thread-Topic: [OE-core] Building for armv7athf-neon but toolchain is softfp
-Thread-Index: AQHR5B58h/TNj18cYUuHrBoFZFSdxKAkbLqAgAS04oCAAAM7gIABRI6A
-Date: Tue, 26 Jul 2016 09:39:36 +0000
-Message-ID: <1469525795.6937.1.camel@ts.fujitsu.com>
-References: <1469194596.6594.13.camel@ts.fujitsu.com>
-	<CAMKF1srBan-tupS7qGb3kDnAn-2-u8dox3vFk5ssGwQLzeGaHw@mail.gmail.com>
-	<1469455403.6896.29.camel@ts.fujitsu.com>
-	<CAMKF1soyDLFePf+JqwQeyqCeig=CeZqHADwJJ7yZ=Nz9PcW0Hg@mail.gmail.com>
-In-Reply-To: <CAMKF1soyDLFePf+JqwQeyqCeig=CeZqHADwJJ7yZ=Nz9PcW0Hg@mail.gmail.com>
-Reply-To: "thilo.cestonaro@ts.fujitsu.com" <thilo.cestonaro@ts.fujitsu.com>
-Accept-Language: de-DE, en-GB, en-US
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.182.185.150]
-MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Building for armv7athf-neon but toolchain is softfp
+	Tue, 26 Jul 2016 09:54:50 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga103.fm.intel.com with ESMTP; 26 Jul 2016 02:54:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,424,1464678000"; d="scan'208";a="1002639736"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga001.jf.intel.com with ESMTP; 26 Jul 2016 02:54:49 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
+	by linux.intel.com (Postfix) with ESMTP id 39F336A4006;
+	Tue, 26 Jul 2016 02:54:38 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Jul 2016 12:18:14 +0300
+Message-Id: <1469524694-17187-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] uncovered: list uncovered python modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -75,100 +30,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2016 09:39:40 -0000
-X-Groupsio-MsgNum: 84897
-Content-Language: en-US
-Content-Type: multipart/signed; micalg=sha-1;
-	protocol="application/x-pkcs7-signature";
-	boundary="=-h1xZ9rTL5lJ4U6eBwyJK"
+X-List-Received-Date: Tue, 26 Jul 2016 09:54:52 -0000
 
---=-h1xZ9rTL5lJ4U6eBwyJK
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This bash script prints list of modules uncovered by oe-selftest
+or any other test that produces coverage report.
 
-Hey Khem,
+It expects coverage report on its stdin and a directory to look
+for python modules as a command line parameter, e.g.
+    coverage report --rcfile=build/.coveragerc | ./scripts/contrib/uncovered bitbake/
+should print list of uncovered python modules from bitbake/
+directory tree to stdout.
 
-> Seems steps are all ok. Can you upload your hello world somewhere.
+[YOCTO #9809]
 
-http://thilo.cestona.ro/~ephraim/public/helloworld.zip
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ scripts/contrib/uncovered | 39 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
+ create mode 100755 scripts/contrib/uncovered
 
-Hope you can find out whats going on here :).
+diff --git a/scripts/contrib/uncovered b/scripts/contrib/uncovered
+new file mode 100755
+index 0000000..a8399ad
+--- /dev/null
++++ b/scripts/contrib/uncovered
+@@ -0,0 +1,39 @@
++#!/bin/bash -eur
++# ex:ts=4:sw=4:sts=4:et
++# -*- tab-width: 4; c-basic-offset: 4; indent-tabs-mode: nil -*-
++#
++# Find python modules uncovered by oe-seltest
++#
++# Copyright (c) 2016, Intel Corporation
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License version 2 as
++# published by the Free Software Foundation.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License along
++# with this program; if not, write to the Free Software Foundation, Inc.,
++# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++#
++# Author: Ed Bartosh <ed.bartosh@linux.intel.com>
++#
++
++if [ ! "$#" -eq 1 -o -t 0 ] ; then
++    echo 'Usage: coverage report | ./scripts/contrib/uncovered <dir>' 1>&2
++    exit 1
++fi
++
++path=$(readlink -ev $1)
++
++if [ ! -d "$path" ] ; then
++    echo "directory $1 doesn't exist" 1>&2
++    exit 1
++fi
++
++diff -u <(grep "$path" | grep -v '0%$' | cut -f1 -d: | sort) \
++     <(find $path | xargs file | grep 'Python script' | cut -f1 -d:| sort) | \
++     grep "^+$path" | cut -c2-
+-- 
+2.1.4
 
-Cheers,
-Thilo
 
---=-h1xZ9rTL5lJ4U6eBwyJK
-Content-Type: application/x-pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExCzAJBgUrDgMCGgUAMIAGCSqGSIb3DQEHAQAAoIIM6DCCA9Qw
-ggK8oAMCAQICEDTNElfINoNG4L/3PTADbgUwDQYJKoZIhvcNAQEFBQAwLzEtMCsGA1UEAxMkRnVq
-aXRzdSBUZWNobm9sb2d5IFNvbHV0aW9ucyBSb290IENBMB4XDTA5MDMxMjEyMjQ1OVoXDTE5MDMx
-MTEyMjQ1OVowLzEtMCsGA1UEAxMkRnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0aW9ucyBVc2VyIENB
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsBtNf0fN8EkW9y6QqoQGS6LUwezenV2B
-nDzORdGanukRtpGzYMAPdyiwtlp0/zONa+jCJGzkX4iYCjTsiJvx01SPRNZ24fHaFGXpJBX599q6
-ZF0isu+h1aIas1tfyCBalAbKKLvNgIuQjnXhdffVk4vSuBytO3OGcULtJ2+lYVSEvxzGt9iTSwT5
-RnEvKpR0iOC+9/UNVOiPK9XCz5u7bg3iehP5gD+v5uu3YIRwV/5gyd7AZPcckTfYP/GZcybcAXfE
-l5nb/bZiSLHeZEjxMMM8YZqFKhH9xymIdjkcRK7NJ2j8OD708QFv4b4bme1mHGfTjSbxb1nOoUTs
-NtshZwIDAQABo4HrMIHoMB0GA1UdDgQWBBQI9chqv4Dje1DEOfQHmEbobX6XqDALBgNVHQ8EBAMC
-AYYwHwYDVR0jBBgwFoAUFHXiV7YVNxWAKpflUUhlrM+GkMswEgYDVR0TAQH/BAgwBgEB/wIBADBH
-BggrBgEFBQcBAQQ7MDkwNwYIKwYBBQUHMAKGK2h0dHA6Ly9haWEudHMuZnVqaXRzdS5jb20vYWlh
-L2Z0czAxcm9vdC5jZXIwPAYDVR0fBDUwMzAxoC+gLYYraHR0cDovL2NkcC50cy5mdWppdHN1LmNv
-bS9jZHAvZnRzMDFyb290LmNybDANBgkqhkiG9w0BAQUFAAOCAQEAQ7pQP9Lw9bcnt1DhvV5UWb1z
-mnACSo6n6x+bupckQzlrf3aJ7HQZigZuaCak+dexL18I86iNDDOJBBsrz0DcD4XPszcLTUezqqGl
-AyIbviBq5mwDHAWBA9F11GRx6LdrHMKNdHPwAWyC3r6qv4GO6A+z16KUZFSP4kvuaN5YHI481T7F
-FxEmntkylphndX+6mQ1NABApMMhX0aN5dVhPAMAP8nENJ1hGk81IG8gzkoHDPSoLCtffAnNhYAqh
-vrDO2ybXb/9x+Sf3DQuzBg3hpB1yJM3K8foQaS3uTpFITfdMprcQyrIdl4Jw26s/6vpIs0siLVTp
-3yAwgNaqQSgxSTCCBIQwggNsoAMCAQICCiWUlIAAAAACJH0wDQYJKoZIhvcNAQEFBQAwLzEtMCsG
-A1UEAxMkRnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0aW9ucyBVc2VyIENBMB4XDTE0MDMyMTEyMTM1
-M1oXDTE3MDMyMDEyMTM1M1owQjEZMBcGA1UEAwwQQ2VzdG9uYXJvLCBUaGlsbzElMCMGA1UECgwc
-RnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0aW9uczCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA
-qP3ld/ylkJOTj2rXQ+VrRf/+YMgZS5CGDnMWk+sMoS5f6JqtwfGcfBU/DhfnLsePut2q+ex/RDZF
-M6yCraPS0vdnTKm2O3Q7/UhhAV1Mi4XzzGeY1Y0qm+85EgMBISPwB5mThLYPsun5UIFs6e8tvlwZ
-Rzp/jrv/AzAfsSbHGXcCAwEAAaOCAhEwggINMAsGA1UdDwQEAwIFoDByBgNVHREEazBpgR50aGls
-by5jZXN0b25hcm9AdHMuZnVqaXRzdS5jb22BI1RoaWxvLkNlc3RvbmFyb0BmdWppdHN1LXNpZW1l
-bnMuY29tgSIrNDk4MjE4MDQ4MjMyOEBpbmNvbWluZ2ZheC5mc2MubmV0MB0GA1UdDgQWBBSiHLgI
-jjo+7KxLJ4t1+YZxgBSn8TAfBgNVHSMEGDAWgBQI9chqv4Dje1DEOfQHmEbobX6XqDA8BgNVHR8E
-NTAzMDGgL6AthitodHRwOi8vY2RwLnRzLmZ1aml0c3UuY29tL2NkcC9mdHMwMXVzZXIuY3JsMEcG
-CCsGAQUFBwEBBDswOTA3BggrBgEFBQcwAoYraHR0cDovL2FpYS50cy5mdWppdHN1LmNvbS9haWEv
-ZnRzMDF1c2VyLmNlcjAMBgNVHRMBAf8EAjAAMD0GCSsGAQQBgjcVBwQwMC4GJisGAQQBgjcVCIWF
-xDKBh/9hgYWBBIbsgiCBx4EaeYOIoHGH0vEvAgFkAgEIMBMGA1UdJQQMMAoGCCsGAQUFBwMEMBsG
-CSsGAQQBgjcVCgQOMAwwCgYIKwYBBQUHAwQwRAYJKoZIhvcNAQkPBDcwNTAOBggqhkiG9w0DAgIC
-AIAwDgYIKoZIhvcNAwQCAgCAMAcGBSsOAwIHMAoGCCqGSIb3DQMHMA0GCSqGSIb3DQEBBQUAA4IB
-AQAEGTAyHPmTyCR029H+P/u9xRezlfA2OVvV97Ls/oLCXGGr6EkMvpHodTc6n4EWSb2ul3VPSRQf
-uSmBgIcHQJykHdSChisaqkeOpHG0rjM9GXh2eQ7ECovpQIfdIbRZKNxlJihSDsDWHyZldBlPVbDh
-xMeT6xJ/ylF8UQ8FXKUir6W/BSPZF5kLdsmCeOpWC4jOGNPEMUAcuiHZPyqAhjlWk750I4oJJKvD
-bwO8/mkxmzOjpOsk8O3CdljCjYPoYtJPI/oNVsYdmiokzne4FusPYKDzv5i0dN74KLR48maXvi3/
-WsTFqwks45QeBJT/z+1sYy+dYWpv9XGN+jR1o4ImMIIEhDCCA2ygAwIBAgIKJZSUgAAAAAIkfTAN
-BgkqhkiG9w0BAQUFADAvMS0wKwYDVQQDEyRGdWppdHN1IFRlY2hub2xvZ3kgU29sdXRpb25zIFVz
-ZXIgQ0EwHhcNMTQwMzIxMTIxMzUzWhcNMTcwMzIwMTIxMzUzWjBCMRkwFwYDVQQDDBBDZXN0b25h
-cm8sIFRoaWxvMSUwIwYDVQQKDBxGdWppdHN1IFRlY2hub2xvZ3kgU29sdXRpb25zMIGfMA0GCSqG
-SIb3DQEBAQUAA4GNADCBiQKBgQCo/eV3/KWQk5OPatdD5WtF//5gyBlLkIYOcxaT6wyhLl/omq3B
-8Zx8FT8OF+cux4+63ar57H9ENkUzrIKto9LS92dMqbY7dDv9SGEBXUyLhfPMZ5jVjSqb7zkSAwEh
-I/AHmZOEtg+y6flQgWzp7y2+XBlHOn+Ou/8DMB+xJscZdwIDAQABo4ICETCCAg0wCwYDVR0PBAQD
-AgWgMHIGA1UdEQRrMGmBHnRoaWxvLmNlc3RvbmFyb0B0cy5mdWppdHN1LmNvbYEjVGhpbG8uQ2Vz
-dG9uYXJvQGZ1aml0c3Utc2llbWVucy5jb22BIis0OTgyMTgwNDgyMzI4QGluY29taW5nZmF4LmZz
-Yy5uZXQwHQYDVR0OBBYEFKIcuAiOOj7srEsni3X5hnGAFKfxMB8GA1UdIwQYMBaAFAj1yGq/gON7
-UMQ59AeYRuhtfpeoMDwGA1UdHwQ1MDMwMaAvoC2GK2h0dHA6Ly9jZHAudHMuZnVqaXRzdS5jb20v
-Y2RwL2Z0czAxdXNlci5jcmwwRwYIKwYBBQUHAQEEOzA5MDcGCCsGAQUFBzAChitodHRwOi8vYWlh
-LnRzLmZ1aml0c3UuY29tL2FpYS9mdHMwMXVzZXIuY2VyMAwGA1UdEwEB/wQCMAAwPQYJKwYBBAGC
-NxUHBDAwLgYmKwYBBAGCNxUIhYXEMoGH/2GBhYEEhuyCIIHHgRp5g4igcYfS8S8CAWQCAQgwEwYD
-VR0lBAwwCgYIKwYBBQUHAwQwGwYJKwYBBAGCNxUKBA4wDDAKBggrBgEFBQcDBDBEBgkqhkiG9w0B
-CQ8ENzA1MA4GCCqGSIb3DQMCAgIAgDAOBggqhkiG9w0DBAICAIAwBwYFKw4DAgcwCgYIKoZIhvcN
-AwcwDQYJKoZIhvcNAQEFBQADggEBAAQZMDIc+ZPIJHTb0f4/+73FF7OV8DY5W9X3suz+gsJcYavo
-SQy+keh1NzqfgRZJva6XdU9JFB+5KYGAhwdAnKQd1IKGKxqqR46kcbSuMz0ZeHZ5DsQKi+lAh90h
-tFko3GUmKFIOwNYfJmV0GU9VsOHEx5PrEn/KUXxRDwVcpSKvpb8FI9kXmQt2yYJ46lYLiM4Y08Qx
-QBy6Idk/KoCGOVaTvnQjigkkq8NvA7z+aTGbM6Ok6yTw7cJ2WMKNg+hi0k8j+g1Wxh2aKiTOd7gW
-6w9goPO/mLR03vgotHjyZpe+Lf9axMWrCSzjlB4ElP/P7WxjL51ham/1cY36NHWjgiYxggHhMIIB
-3QIBATA9MC8xLTArBgNVBAMTJEZ1aml0c3UgVGVjaG5vbG9neSBTb2x1dGlvbnMgVXNlciBDQQIK
-JZSUgAAAAAIkfTAJBgUrDgMCGgUAoIH7MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZI
-hvcNAQkFMQ8XDTE2MDcyNjA5MzYzNVowIwYJKoZIhvcNAQkEMRYEFMTCulW23da2G/zsmhFdUoJI
-zipaMEwGCSsGAQQBgjcQBDE/MD0wLzEtMCsGA1UEAxMkRnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0
-aW9ucyBVc2VyIENBAgollJSAAAAAAiR9ME4GCyqGSIb3DQEJEAILMT+gPTAvMS0wKwYDVQQDEyRG
-dWppdHN1IFRlY2hub2xvZ3kgU29sdXRpb25zIFVzZXIgQ0ECCiWUlIAAAAACJH0wDQYJKoZIhvcN
-AQEBBQAEgYCmnTrPgkE2t8NXzed3oRtebaxr3Ed2zz5j7WIn/TxulFoYLTRX39ZZqQOny5h9uqR/
-nIjxg7UcbMmn2laZZyjaEqFgNjo955rYGLJVhZkLQYJ89Yr1bOficZKxoCrjpUn16LUxxExtbGi+
-kCNTXSADO2L7EMEMFFheC/j4i1Lf6gAAAAAAAA==
-
---=-h1xZ9rTL5lJ4U6eBwyJK--
