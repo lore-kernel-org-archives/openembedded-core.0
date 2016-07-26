@@ -1,49 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
-	[209.85.214.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 012E8606BF
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 607DC606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jul 2016 14:43:53 +0000 (UTC)
-Received: by mail-it0-f49.google.com with SMTP id f6so14395905ith.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jul 2016 07:43:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Ecrzd8tzuDb1+hjijwxoJONbJlLkgcZd9E6m2E7t4Dw=;
-	b=i49XJS2KVnhkCpNsqXWtJ/7iMfjbiKNlhPHNxotRKFrZIVG9Dkt/heqld41ceYcNoH
-	x2gGXzFOaWmLIQoH7BIw4MczAVwysFcP/ptfz+UMa7/Qkls5jdNAfezRagePsKjQH5xK
-	LnnAorVeUSi2grBbXhFmcsSgrfzYZeCbF7DSvrYumoH3N5u7BbSR6PTSm4ywAD5pQWMg
-	cAw15ksuOf0oew9CQHvTz5vF5p7Bc6oKodKcJtY9H02uckEN1Kmh1ce6iaJKr27Mu/Yc
-	bLbCv+gGLVG2WMoOv1KTVT6yfBP8kHcn+qxpPQo4kW+7kgRXJ+7kC+HKYaviIoLYYSc5
-	F0og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Ecrzd8tzuDb1+hjijwxoJONbJlLkgcZd9E6m2E7t4Dw=;
-	b=Gk+zJ+a1IhtOR9GUc3Y4nLLpEOeL9qxeHNQYI0bYqRZPo8Joz1CxuGinJO4/HdOY79
-	5UsXYWizs1b/TzIpUjF7AvNXHBpJjCqz2oyIPKeYKXbI2EYniKtVnxwSi9lf9jcbggi5
-	eXo6O/HqdrLQh5Psa+cyW5MRDQORFcbCWHEdxVcYQk+O1p/3bgoMy8VLtvXcs1u6D7eJ
-	gka2TtmTCI7EI6NWYtviGVt9Z+nQmj0Dk2sTNpIFE8s6MiLq9HCtkv50CvZqk8NJYurD
-	xRwIVGdjm65nt2/ELRsvck7xAvZ5UWTaB8PHpnzYtOuFwFWWGpQu1uJu9VJ8BKJM03UJ
-	vwrw==
-X-Gm-Message-State: ALyK8tJxkmX95klZfMlmPun7Efb2a+QCbsg0T5hw77rgYAmbK+PI2p0ugsOVJs5iHuJ0bWPm1QpkazJluP83Nvu7
-X-Received: by 10.36.20.75 with SMTP id 72mr69039397itg.83.1469544233049; Tue,
-	26 Jul 2016 07:43:53 -0700 (PDT)
+	Tue, 26 Jul 2016 15:09:24 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga104.fm.intel.com with ESMTP; 26 Jul 2016 08:09:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,425,1464678000"; d="scan'208";a="739993687"
+Received: from linux.intel.com ([10.54.29.200])
+	by FMSMGA003.fm.intel.com with ESMTP; 26 Jul 2016 08:09:17 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.68])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 2CF886A4080;
+	Tue, 26 Jul 2016 08:09:01 -0700 (PDT)
+Date: Tue, 26 Jul 2016 17:32:44 +0300
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20160726143244.GA9326@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Tue, 26 Jul 2016 07:43:33 -0700 (PDT)
-In-Reply-To: <5796B3A9.4000809@windriver.com>
-References: <cover.1469431638.git.liezhi.yang@windriver.com>
-	<9b789aaef553ad10b81868af8a32e48ed5d702ac.1469431638.git.liezhi.yang@windriver.com>
-	<CAJTo0LaAduh5ep=xgK8NO1MHc0R1Cr-Hwqe8Ut1FrkCviv+Rpg@mail.gmail.com>
-	<5796B3A9.4000809@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 26 Jul 2016 15:43:33 +0100
-Message-ID: <CAJTo0LZ3oMquMKUZSJe=8KHuiS-M8VAgp=FHu56a3ECXhohAww@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/7] libinput: fix udevdir
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
+Subject: 2.7% build time regression caused by enabling debug/printk.scc KERNEL_FEATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,37 +36,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2016 14:43:54 -0000
-Content-Type: multipart/alternative; boundary=001a11446942fe35ed05388aed28
+X-List-Received-Date: Tue, 26 Jul 2016 15:09:25 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---001a11446942fe35ed05388aed28
-Content-Type: text/plain; charset=UTF-8
+Hi all,
 
-On 26 July 2016 at 01:49, Robert Yang <liezhi.yang@windriver.com> wrote:
+We've noticed quite big increase of core-image-minimal build time caused by commit
+d55b7650d305ffad953dd36595ee6b9aa8df5a72 linux-yocto: Enablei debug/printk.scc KERNEL_FEATURE on qemuall machines.
 
-> I'd like to update bitbake.conf to lib/udev (no rules.d) if no objections,
-> then we can drop this patch.
->
+Here are results of /usr/bin/time -v bitbake core-image-minimal for this
+and previous commits:
 
-Just actually looked at what libinput is shipping.  :) This seems sensible
-to me.
+linux-yocto: Enable debug/printk.scc KERNEL_FEATURE on qemuall machines: d55b7650d305ffad953dd36595ee6b9aa8df5a72
+        Command being timed: "bitbake core-image-minimal"
+        User time (seconds): 14966.24
+        System time (seconds): 3829.23
+        Percent of CPU this job got: 1212%
+        Elapsed (wall clock) time (h:mm:ss or m:ss): 25:50.52
+        Average shared text size (kbytes): 0
+        Average unshared data size (kbytes): 0
+        Average stack size (kbytes): 0
+        Average total size (kbytes): 0
+        Maximum resident set size (kbytes): 917592
+        Average resident set size (kbytes): 0
+        Major (requiring I/O) page faults: 8105
+        Minor (reclaiming a frame) page faults: 628476540
+        Voluntary context switches: 26886617
+        Involuntary context switches: 2033535
+        Swaps: 0
+        File system inputs: 3160048
+        File system outputs: 78417720
+        Socket messages sent: 0
+        Socket messages received: 0
+        Signals delivered: 0
+        Page size (bytes): 4096
+        Exit status: 0
 
-Ross
+commit: nativesdk-packagegroup-sdk-host: Add wayland-scanner to the SDK native toolchain: e833508075bcb8f2d1ccddcf46f579aea7a2ab1d
+        Command being timed: "bitbake core-image-minimal"
+        User time (seconds): 14526.89
+        System time (seconds): 3770.74
+        Percent of CPU this job got: 1193%
+        Elapsed (wall clock) time (h:mm:ss or m:ss): 25:33.44
+        Average shared text size (kbytes): 0
+        Average unshared data size (kbytes): 0
+        Average stack size (kbytes): 0
+        Average total size (kbytes): 0
+        Maximum resident set size (kbytes): 917792
+        Average resident set size (kbytes): 0
+        Major (requiring I/O) page faults: 8058
+        Minor (reclaiming a frame) page faults: 618283939
+        Voluntary context switches: 26538183
+        Involuntary context switches: 1859365
+        Swaps: 0
+        File system inputs: 3191584
+        File system outputs: 66411592
+        Socket messages sent: 0
+        Socket messages received: 0
+        Signals delivered: 0
+        Page size (bytes): 4096
+        Exit status: 0
 
---001a11446942fe35ed05388aed28
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+The total time (user time + system time) incresed by 2.72% which seems quite a lot.
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 26 July 2016 at 01:49, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":311" cla=
-ss=3D"a3s aXjCH m15624adf3faffbf9">I&#39;d like to update bitbake.conf to l=
-ib/udev (no rules.d) if no objections,<br>
-then we can drop this patch.<br></div></blockquote></div><div class=3D"gmai=
-l_extra"><br></div>Just actually looked at what libinput is shipping. =C2=
-=A0:) This seems sensible to me.</div><div class=3D"gmail_extra"><br></div>=
-<div class=3D"gmail_extra">Ross</div></div>
+diff of tasks utime shows biggest difference in do_package* tasks. This is probably
+due to increased size of packages:
 
---001a11446942fe35ed05388aed28--
+do_bundle_initramfs:utime: 21         |   do_bundle_initramfs:utime: 32
+do_compile:utime: 47                  |   do_compile:utime: 51
+do_compile_kernelmodules:utime: 39    |   do_compile_kernelmodules:utime: 42
+do_configure:utime: 20                |   do_configure:utime: 24
+do_deploy:utime: 38                   |   do_deploy:utime: 35
+do_fetch:utime: 25                    |   do_fetch:utime: 28
+do_install:utime: 26                  |   do_install:utime: 22
+do_kernel_checkout:utime: 21          |   do_kernel_checkout:utime: 24
+do_kernel_configcheck:utime: 21       |   do_kernel_configcheck:utime: 21
+do_kernel_configme:utime: 23          |   do_kernel_configme:utime: 23
+do_kernel_link_images:utime: 24       |   do_kernel_link_images:utime: 22
+do_kernel_metadata:utime: 25          |   do_kernel_metadata:utime: 23
+do_package:utime: 396                 |   do_package:utime: 378
+do_packagedata:utime: 35              |   do_packagedata:utime: 34
+do_package_qa:utime: 460              |   do_package_qa:utime: 492
+do_package_write_rpm:utime: 431       |   do_package_write_rpm:utime: 399
+do_patch:utime: 25                    |   do_patch:utime: 25
+do_populate_lic:utime: 30             |   do_populate_lic:utime: 29
+do_populate_sysroot:utime: 33         |   do_populate_sysroot:utime: 30
+do_shared_workdir:utime: 24           |   do_shared_workdir:utime: 25
+do_sizecheck:utime: 23                |   do_sizecheck:utime: 21
+do_strip:utime: 23                    |   do_strip:utime: 23
+do_uboot_mkimage:utime: 25            |   do_uboot_mkimage:utime: 24
+do_unpack:utime: 21                   |   do_unpack:utime: 22
+do_validate_branches:utime: 23        |   do_validate_branches:utime: 24
+
+There is also quite big increase in consumed disk space by the kernel
+and modules:
+$ ls -lh ./tmp.bad/work/qemux86-poky-linux/linux-yocto/4.4.14+gitAUTOINC+4800a400d5_8361321fec-r0/image/boot/vmlinux-4.4.14-yocto-standard
+-rw-r--r-- 1 ed ed 261M Jul 25 12:39 ./tmp.bad/work/qemux86-poky-linux/linux-yocto/4.4.14+gitAUTOINC+4800a400d5_8361321fec-r0/image/boot/vmlinux-4.4.14-yocto-standard
+$ ls -lh ./tmp.prev/work/qemux86-poky-linux/linux-yocto/4.4.14+gitAUTOINC+4800a400d5_8361321fec-r0/image/boot/vmlinux-4.4.14-yocto-standard
+-rw-r--r-- 1 ed ed 19M Jul 25 17:34 ./tmp.prev/work/qemux86-poky-linux/linux-yocto/4.4.14+gitAUTOINC+4800a400d5_8361321fec-r0/image/boot/vmlinux-4.4.14-yocto-standard
+
+$ ls -lh tmp.bad/deploy/images/qemux86/modules--4.4.14+git0+4800a400d5_8361321fec-r0-qemux86-20160725092744.tgz
+-rw-rw-r-- 2 ed ed 99M Jul 25 12:39 tmp.bad/deploy/images/qemux86/modules--4.4.14+git0+4800a400d5_8361321fec-r0-qemux86-20160725092744.tgz
+$ ls -lh tmp.prev/deploy/images/qemux86/modules--4.4.14+git0+4800a400d5_8361321fec-r0-qemux86-20160725105810.tgz
+-rw-rw-r-- 1 ed ed 4.3M Jul 25 17:34 tmp.prev/deploy/images/qemux86/modules--4.4.14+git0+4800a400d5_8361321fec-r0-qemux86-20160725105810.tgz
+
+Any thoughts on this? Is it normal or it should be tested further and fixed?
+
+--
+Regards,
+Ed
+
