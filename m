@@ -1,29 +1,24 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D106606BF
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D7776FF9B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jul 2016 20:24:00 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP; 26 Jul 2016 13:24:01 -0700
+	Tue, 26 Jul 2016 20:49:37 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 26 Jul 2016 13:49:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,426,1464678000"; 
-	d="scan'208,217";a="740121575"
-Received: from mlopezva-mobl2.zpn.intel.com (HELO [10.219.5.49])
-	([10.219.5.49])
-	by FMSMGA003.fm.intel.com with ESMTP; 26 Jul 2016 13:24:01 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1465824701.git.mariano.lopez@linux.intel.com>
-	<4a96e992a3f5d117eb4b33513a2330e81ffd0b59.1465824701.git.mariano.lopez@linux.intel.com>
-	<CAJTo0LZG6Zqonn8miXcDzG=CxqcWgo67du49FX4ZMjw48nU1pw@mail.gmail.com>
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
-Message-ID: <5797C6EE.2080600@linux.intel.com>
-Date: Tue, 26 Jul 2016 15:24:14 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.8.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZG6Zqonn8miXcDzG=CxqcWgo67du49FX4ZMjw48nU1pw@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] selftest/runtime-test.py: Add test for import test from other layers
+X-IronPort-AV: E=Sophos;i="5.28,426,1464678000"; d="scan'208";a="1029638297"
+Received: from jlock-mobl1.ger.corp.intel.com ([10.252.24.94])
+	by fmsmga002.fm.intel.com with ESMTP; 26 Jul 2016 13:49:37 -0700
+Message-ID: <1469566176.2740.13.camel@linux.intel.com>
+From: Joshua G Lock <joshua.g.lock@linux.intel.com>
+To: mariano.lopez@linux.intel.com, openembedded-core@lists.openembedded.org
+Date: Tue, 26 Jul 2016 21:49:36 +0100
+In-Reply-To: <366c51fefe3b613c5bca35f7801bd812722bb9c0.1469525800.git.mariano.lopez@linux.intel.com>
+References: <cover.1469525800.git.mariano.lopez@linux.intel.com>
+	<366c51fefe3b613c5bca35f7801bd812722bb9c0.1469525800.git.mariano.lopez@linux.intel.com>
+X-Mailer: Evolution 3.20.4 (3.20.4-1.fc24) 
+Mime-Version: 1.0
+Subject: Re: [PATCHv2 1/2] oeqa/oetest.py: Allow to export packages using symlinks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,117 +31,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2016 20:24:01 -0000
-Content-Type: multipart/alternative;
-	boundary="------------040809060700090407050605"
-
---------------040809060700090407050605
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-
-
-On 07/25/2016 05:38 PM, Burton, Ross wrote:
->
-> On 13 June 2016 at 14:32, <mariano.lopez@linux.intel.com 
-> <mailto:mariano.lopez@linux.intel.com>> wrote:
->
->     +   features = 'INHERIT += "testexport"\n'
->
->
-> You mean testimage here as that class isn't inherited by default.
->
->     +        features = 'TEST_SUITES = "ping ssh selftest"\n'
->
->
-> This overwrites the first assignment to features, and neither is 
-> actually written using self.write_config().
->
->     +   # Build core-image-sato and testimage
->     +        bitbake('core-image-sato socat')
->     +        bitbake('-c testimage core-image-sato')
->
->
-> I personally believe that core-image-sato is massive overkill for 
-> selftest and core-image-full-cmdline is just as comprehensive (has 
-> ssh, for example) without building all of Sato.
-
-I don't know what happened when I made this commit and submitted the 
-patch, this patch is just wrong. I swear I tested it locally, perhaps I 
-messed up the branches or something like that. I'll work on a v2 of this.
-
-Mariano
-
---------------040809060700090407050605
-Content-Type: text/html; charset=utf-8
+X-List-Received-Date: Tue, 26 Jul 2016 20:49:39 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <br>
-    <br>
-    <div class="moz-cite-prefix">On 07/25/2016 05:38 PM, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0LZG6Zqonn8miXcDzG=CxqcWgo67du49FX4ZMjw48nU1pw@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 13 June 2016 at 14:32, <span
-              dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:mariano.lopez@linux.intel.com"
-                target="_blank">mariano.lopez@linux.intel.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div id=":132" class="a3s aXjCH m1554bb3cfec465aa">+     
-                  features = 'INHERIT += "testexport"\n'<br>
-              </div>
-            </blockquote>
-            <div><br>
-            </div>
-            <div>You mean testimage here as that class isn't inherited
-              by default.</div>
-            <div> </div>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div id=":132" class="a3s aXjCH m1554bb3cfec465aa">
-                +        features = 'TEST_SUITES = "ping ssh
-                selftest"\n'<br>
-              </div>
-            </blockquote>
-            <div><br>
-            </div>
-            <div>This overwrites the first assignment to features, and
-              neither is actually written using self.write_config().</div>
-            <div> </div>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div id=":132" class="a3s aXjCH m1554bb3cfec465aa">+     
-                  # Build core-image-sato and testimage<br>
-                +        bitbake('core-image-sato socat')<br>
-                +        bitbake('-c testimage core-image-sato')</div>
-            </blockquote>
-          </div>
-          <br>
-          I personally believe that core-image-sato is massive overkill
-          for selftest and core-image-full-cmdline is just as
-          comprehensive (has ssh, for example) without building all of
-          Sato.</div>
-      </div>
-    </blockquote>
-    <br>
-    I don't know what happened when I made this commit and submitted the
-    patch, this patch is just wrong. I swear I tested it locally,
-    perhaps I messed up the branches or something like that. I'll work
-    on a v2 of this.<br>
-    <div class="moz-signature"> <br>
-      Mariano</div>
-  </body>
-</html>
+On Tue, 2016-07-26 at 09:38 +0000, mariano.lopez@linux.intel.com wrote:
+> From: Mariano Lopez <mariano.lopez@linux.intel.com>
+> 
+> Currently packages that contains symlinks can't be extracted
+> and exported. This allows to export extracted such packages.
+> 
+> A nice side effect is improved readability.
+> 
+> [YOCTO #9932]
+> 
+> Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+> ---
+>  meta/classes/testexport.bbclass | 24 +++++-------------------
+>  meta/lib/oeqa/oetest.py         | 17 +++++++++++++----
+>  2 files changed, 18 insertions(+), 23 deletions(-)
+> 
+> diff --git a/meta/classes/testexport.bbclass
+> b/meta/classes/testexport.bbclass
+> index 15fa470..5147020 100644
+> --- a/meta/classes/testexport.bbclass
+> +++ b/meta/classes/testexport.bbclass
+> @@ -47,6 +47,7 @@ def exportTests(d,tc):
+>      import shutil
+>      import pkgutil
+>      import re
+> +    import oe.path
+>  
+>      exportpath = d.getVar("TEST_EXPORT_DIR", True)
+>  
+> @@ -103,7 +104,7 @@ def exportTests(d,tc):
+>                      isfolder = True
+>                      target_folder = os.path.join(exportpath, "oeqa",
+> "runtime", os.path.basename(foldername))
+>                      if not os.path.exists(target_folder):
+> -                        shutil.copytree(foldername, target_folder)
+> +                        oe.path.copytree(foldername, target_folder)
+>          if not isfolder:
+>              shutil.copy2(mod.path, os.path.join(exportpath,
+> "oeqa/runtime"))
+>              json_file = "%s.json" % mod.path.rsplit(".", 1)[0]
+> @@ -132,27 +133,12 @@ def exportTests(d,tc):
+>      create_tarball(d, "testexport.tar.gz",
+> d.getVar("TEST_EXPORT_DIR", True))
+>  
+>      # Copy packages needed for runtime testing
+> -    export_pkg_dir = os.path.join(d.getVar("TEST_EXPORT_DIR", True),
+> "packages")
+>      test_pkg_dir = d.getVar("TEST_NEEDED_PACKAGES_DIR", True)
+> -    need_pkg_dir = False
+> -    for root, subdirs, files in os.walk(test_pkg_dir):
+> -        for subdir in subdirs:
+> -            tmp_dir = os.path.join(root.replace(test_pkg_dir,
+> "").lstrip("/"), subdir)
+> -            new_dir = os.path.join(export_pkg_dir, tmp_dir)
+> -            bb.utils.mkdirhier(new_dir)
+> -
+> -        for f in files:
+> -            need_pkg_dir = True
+> -            src_f = os.path.join(root, f)
+> -            dst_f = os.path.join(export_pkg_dir,
+> root.replace(test_pkg_dir, "").lstrip("/"), f)
+> -            shutil.copy2(src_f, dst_f)
+> -
+> -    if need_pkg_dir:
+> +    if os.listdir(test_pkg_dir):
+> +        export_pkg_dir = os.path.join(d.getVar("TEST_EXPORT_DIR",
+> True), "packages")
+> +        oe.path.copytree(test_pkg_dir, export_pkg_dir)
+>          # Create tar file for packages needed by the DUT
+>          create_tarball(d, "testexport_packages_%s.tar.gz" %
+> d.getVar("MACHINE", True), export_pkg_dir)
+> -    else:
+> -        # Remov packages dir from exported test
+> -        bb.utils.remove(export_pkg_dir, True)
+>  
+>      # Copy SDK
+>      if d.getVar("TEST_EXPORT_SDK_ENABLED", True) == "1":
+> diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
+> index e63ca56..3bf3643 100644
+> --- a/meta/lib/oeqa/oetest.py
+> +++ b/meta/lib/oeqa/oetest.py
+> @@ -447,6 +447,8 @@ class RuntimeTestContext(TestContext):
+>          modules = self.getTestModules()
+>          bbpaths = self.d.getVar("BBPATH", True).split(":")
+>  
+> +        shutil.rmtree(self.d.getVar("TEST_EXTRACTED_DIR", True))
+> +        shutil.rmtree(self.d.getVar("TEST_PACKAGED_DIR", True))
 
---------------040809060700090407050605--
+Do we use the shutil module anywhere else in oetest.py? Could we drop
+it completely if we use oe.path.remove() rather than shutil.rmtree()?
+Perhaps you could send a follow-on patch?
+
+>          for module in modules:
+>              json_file = self._getJsonFile(module)
+>              if json_file:
+> @@ -458,6 +460,8 @@ class RuntimeTestContext(TestContext):
+>          Extract packages that will be needed during runtime.
+>          """
+>  
+> +        import oe.path
+> +
+>          extracted_path = self.d.getVar("TEST_EXTRACTED_DIR", True)
+>          packaged_path = self.d.getVar("TEST_PACKAGED_DIR", True)
+>  
+> @@ -481,13 +485,18 @@ class RuntimeTestContext(TestContext):
+>                      dst_dir = os.path.join(packaged_path)
+>  
+>                  # Extract package and copy it to TEST_EXTRACTED_DIR
+> -                if extract and not os.path.exists(dst_dir):
+> -                    pkg_dir = self._extract_in_tmpdir(pkg)
+> -                    shutil.copytree(pkg_dir, dst_dir)
+> +                pkg_dir = self._extract_in_tmpdir(pkg)
+> +                if extract:
+> +
+> +                    # Same package used for more than one test,
+> +                    # don't need to extract again.
+> +                    if os.path.exists(dst_dir):
+> +                        continue
+> +                    oe.path.copytree(pkg_dir, dst_dir)
+>                      shutil.rmtree(pkg_dir)
+>  
+>                  # Copy package to TEST_PACKAGED_DIR
+> -                elif not extract:
+> +                else:
+>                      self._copy_package(pkg)
+>  
+>      def _getJsonFile(self, module):
+> -- 
+> 2.6.6
+> 
+
