@@ -1,29 +1,33 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 37C9860721
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6CEAD60721
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jul 2016 00:49:48 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u6Q0nlZR029762
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 25 Jul 2016 17:49:47 -0700 (PDT)
-Received: from [128.224.162.240] (128.224.162.240) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 25 Jul 2016 17:49:47 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1469431638.git.liezhi.yang@windriver.com>
-	<9b789aaef553ad10b81868af8a32e48ed5d702ac.1469431638.git.liezhi.yang@windriver.com>
-	<CAJTo0LaAduh5ep=xgK8NO1MHc0R1Cr-Hwqe8Ut1FrkCviv+Rpg@mail.gmail.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <5796B3A9.4000809@windriver.com>
-Date: Tue, 26 Jul 2016 08:49:45 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.8.0
+	Tue, 26 Jul 2016 01:46:39 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u6Q1kaoI019315
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Jul 2016 18:46:36 -0700 (PDT)
+Received: from ALA-MBA.corp.ad.wrs.com ([169.254.3.195]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0248.002;
+	Mon, 25 Jul 2016 18:46:35 -0700
+From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
+To: "BURTON, ROSS" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH] avahi-ui: use PACKAGECONFIG for gtk features
+Thread-Index: AQHR5raF4aY/E7OQl0+05hIz0J2ilqAp8Q0w
+Date: Tue, 26 Jul 2016 01:46:34 +0000
+Message-ID: <1B858668EC6A94408DCA5225FDFA85AA013100B58A@ALA-MBA.corp.ad.wrs.com>
+References: <1469436150-121312-1-git-send-email-jackie.huang@windriver.com>
+	<CAJTo0Lb_Dm-T8o-UDq-9mA_808xsvkuw+aWiCpStR3su-qWwWQ@mail.gmail.com>
+In-Reply-To: <CAJTo0Lb_Dm-T8o-UDq-9mA_808xsvkuw+aWiCpStR3su-qWwWQ@mail.gmail.com>
+Accept-Language: en-US, zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.162.143]
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LaAduh5ep=xgK8NO1MHc0R1Cr-Hwqe8Ut1FrkCviv+Rpg@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/7] libinput: fix udevdir
+Subject: Re: [PATCH] avahi-ui: use PACKAGECONFIG for gtk features
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,35 +40,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2016 00:49:53 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 26 Jul 2016 01:46:41 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_1B858668EC6A94408DCA5225FDFA85AA013100B58AALAMBAcorpadw_"
 
+--_000_1B858668EC6A94408DCA5225FDFA85AA013100B58AALAMBAcorpadw_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
+T2ssIEkgd2lsbCBsZWF2ZSBqdXN0IGd0azMgaW4gdGhlIGRlZmF1bHQuDQoNClRoYW5rcywNCkph
+Y2tpZQ0KDQpGcm9tOiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21d
+DQpTZW50OiBUdWVzZGF5LCBKdWx5IDI2LCAyMDE2IDQ6NTIgQU0NClRvOiBIdWFuZywgSmllIChK
+YWNraWUpDQpDYzogT0UtY29yZQ0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIGF2YWhp
+LXVpOiB1c2UgUEFDS0FHRUNPTkZJRyBmb3IgZ3RrIGZlYXR1cmVzDQoNCg0KT24gMjUgSnVseSAy
+MDE2IGF0IDA5OjQyLCA8amFja2llLmh1YW5nQHdpbmRyaXZlci5jb208bWFpbHRvOmphY2tpZS5o
+dWFuZ0B3aW5kcml2ZXIuY29tPj4gd3JvdGU6DQorQVZBSElfR1RLID0gImd0ayBndGszIg0KDQpB
+cyB3ZSd2ZSBtb3ZlZCBhd2F5IGZyb20gR1RLKzIgZm9yIG9lLWNvcmUgSSBzdGlsbCB0aGluayB0
+aGF0IHRoZSBkZWZhdWx0IGJ1aWx0IHNob3VsZCBiZSB3aXRoIGp1c3QgR1RLKyAzIGFuZCBhbnlv
+bmUgd2hvIGlzIHN0aWxsIHVzaW5nIGFuY2llbnQgc29mdHdhcmUgKGdub21lLWRpc2stdXRpbGl0
+eSAyLjMyIHdhcyByZWxlYXNlZCBpbiAyMDEwKSBjYW4gZW5hYmxlIGl0IGF0IHRoZWlyIGRpc3Ry
+byBsZXZlbC4NCg0KUm9zcw0K
 
-On 07/26/2016 12:55 AM, Burton, Ross wrote:
->
-> On 25 July 2016 at 08:28, Robert Yang <liezhi.yang@windriver.com
-> <mailto:liezhi.yang@windriver.com>> wrote:
->
->     +FILES_${PN} += "${base_libdir}/udev/ ${nonarch_base_libdir}/udev/"
->
->
-> Isn't this covered by the bitbake.conf change?
+--_000_1B858668EC6A94408DCA5225FDFA85AA013100B58AALAMBAcorpadw_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Hi Ross,
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
+b250LWZhbWlseTrlrovkvZM7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQpAZm9u
+dC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQg
+MyAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpUYWhvbWE7DQoJcGFub3NlLTE6MiAx
+MSA2IDQgMyA1IDQgNCAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiXEDlrovkvZMi
+Ow0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMg
+Ki8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBp
+bjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250LWZh
+bWlseToiVGltZXMgTmV3IFJvbWFuIiwic2VyaWYiO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxp
+bmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0
+aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7
+bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246
+dW5kZXJsaW5lO30NCnNwYW4uRW1haWxTdHlsZTE3DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFs
+LXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7DQoJY29sb3I6IzFG
+NDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25seTsNCglm
+b250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0K
+CXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4gMS4yNWluIDEuMGluIDEuMjVpbjt9
+DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEt
+LVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlk
+bWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+
+DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0
+YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxi
+b2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xhc3M9
+IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1z
+aXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2Vy
+aWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+T2ssIEkgd2lsbCBsZWF2ZSBqdXN0IGd0azMgaW4gdGhl
+IGRlZmF1bHQuPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNw
+YW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90
+OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+
+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6
+MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZx
+dW90Oztjb2xvcjojMUY0OTdEIj5UaGFua3MsPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xh
+c3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6
+JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0Qi
+PkphY2tpZTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFu
+IHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDss
+JnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwv
+c3Bhbj48L3A+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCBibHVl
+IDEuNXB0O3BhZGRpbmc6MGluIDBpbiAwaW4gNC4wcHQiPg0KPGRpdj4NCjxkaXYgc3R5bGU9ImJv
+cmRlcjpub25lO2JvcmRlci10b3A6c29saWQgI0I1QzRERiAxLjBwdDtwYWRkaW5nOjMuMHB0IDBp
+biAwaW4gMGluIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIHN0eWxlPSJmb250LXNp
+emU6MTAuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O1RhaG9tYSZxdW90OywmcXVvdDtzYW5zLXNlcmlm
+JnF1b3Q7Ij5Gcm9tOjwvc3Bhbj48L2I+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9u
+dC1mYW1pbHk6JnF1b3Q7VGFob21hJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPiBCdXJ0
+b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQo8YnI+DQo8Yj5TZW50Ojwv
+Yj4gVHVlc2RheSwgSnVseSAyNiwgMjAxNiA0OjUyIEFNPGJyPg0KPGI+VG86PC9iPiBIdWFuZywg
+SmllIChKYWNraWUpPGJyPg0KPGI+Q2M6PC9iPiBPRS1jb3JlPGJyPg0KPGI+U3ViamVjdDo8L2I+
+IFJlOiBbT0UtY29yZV0gW1BBVENIXSBhdmFoaS11aTogdXNlIFBBQ0tBR0VDT05GSUcgZm9yIGd0
+ayBmZWF0dXJlczxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFz
+cz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xh
+c3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1z
+b05vcm1hbCI+T24gMjUgSnVseSAyMDE2IGF0IDA5OjQyLCAmbHQ7PGEgaHJlZj0ibWFpbHRvOmph
+Y2tpZS5odWFuZ0B3aW5kcml2ZXIuY29tIiB0YXJnZXQ9Il9ibGFuayI+amFja2llLmh1YW5nQHdp
+bmRyaXZlci5jb208L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvcD4NCjxkaXYgaWQ9Ijp4MSI+
+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mIzQzO0FWQUhJX0dUSyA9ICZxdW90O2d0ayBndGszJnF1
+b3Q7PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
+PGJyPg0KQXMgd2UndmUgbW92ZWQgYXdheSBmcm9tIEdUSyYjNDM7MiBmb3Igb2UtY29yZSBJIHN0
+aWxsIHRoaW5rIHRoYXQgdGhlIGRlZmF1bHQgYnVpbHQgc2hvdWxkIGJlIHdpdGgganVzdCBHVEsm
+IzQzOyAzIGFuZCBhbnlvbmUgd2hvIGlzIHN0aWxsIHVzaW5nIGFuY2llbnQgc29mdHdhcmUgKGdu
+b21lLWRpc2stdXRpbGl0eSAyLjMyIHdhcyByZWxlYXNlZCBpbiAyMDEwKSBjYW4gZW5hYmxlIGl0
+IGF0IHRoZWlyIGRpc3RybyBsZXZlbC48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxw
+IGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0K
+PHAgY2xhc3M9Ik1zb05vcm1hbCI+Um9zczxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4N
+CjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
 
-No, it is the subdir udev/rules.d in bitbake.conf:
-
-${base_prefix}/lib/udev/rules.d ${prefix}/lib/udev/rules.d
-${base_libdir}/udev/rules.d ${libdir}/udev/rules.d
-
-I'd like to update bitbake.conf to lib/udev (no rules.d) if no objections,
-then we can drop this patch.
-
-// Robert
-
->
-> Ross
->
-
+--_000_1B858668EC6A94408DCA5225FDFA85AA013100B58AALAMBAcorpadw_--
