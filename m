@@ -1,45 +1,29 @@
-Return-Path: <jacob.kroon@gmail.com>
-Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
-	[209.85.215.66])
-	by mail.openembedded.org (Postfix) with ESMTP id D46FC606BF
+Return-Path: <mariano.lopez@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 60209606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jul 2016 16:58:15 +0000 (UTC)
-Received: by mail-lf0-f66.google.com with SMTP id l69so710947lfg.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jul 2016 09:58:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=1KtJA48bs3R5AKtRcpgNINzPPjk9kWwJlM18S3OeoQo=;
-	b=h5XXJk5G8FCqDUig/h91F+Txif390ADc6rCMnkhsI10d6gG7OedaMgjFM9ZKIeQZ3j
-	9fpVEyLuBmqoGzb/t3zP1aLFyPxmlw2Idh1v2qS3f96VkoRPqeuKdhOaDu4s2TMzTcNz
-	HWB6BFBk+TT4B0NJ2FCCORkhdsOZ5YoqveD/sTsXNJI4iW0WgSft7xJuZrTDORbXI+2e
-	to5l7Wk6kTa+P4YR26z1JOz+oBGJutaHz7ypU7gWz2yDs7bylp0dhAttKgtgxnbHkMjb
-	FSLlQP1tAVoB1UcP9CTdSqgMkaZDSrvHxOydeKKn84lXyb83t2zCpu4cuze9S0KYm08f
-	5g4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=1KtJA48bs3R5AKtRcpgNINzPPjk9kWwJlM18S3OeoQo=;
-	b=JN4JPJ4icNCqdnztdkdDaL+a+X/IxWxdsLAGBvUn/fnNir23fePv5hetUF5DxgRWwU
-	wojo/AEqNWDGJHu7Jvj3qyKE7FVcq9/UiZWqFdwssKKNmbK4Tb0Eo0OMH1fGxM++g42a
-	nl2dxb3HnY++sLXjBBirNHgkWqIyPKpNi91qYpady3I4ISHHJu0wjMMFgDd9pTnaTH1q
-	oSjKBmqOJHGsw2iCXcpF6zJqoEMzgYcmaR0Hr77wi/pCF2M5Z21SycYggwtywtjWmBvJ
-	wa0aX8qoztQ/e+BGs7bMQbkd+jMP8JcGkip9NkPaaQARbpSKV4SnRSpLyA0xkG749CE9
-	/bcg==
-X-Gm-Message-State: AEkoousyHRivN5CgbeFOPI3MXTyQBUyTF2+1TjqgKphDjcYdEN97Mzxq2+5tWiV9T4X2IQ==
-X-Received: by 10.25.91.149 with SMTP id p143mr8619751lfb.39.1469552296007;
-	Tue, 26 Jul 2016 09:58:16 -0700 (PDT)
-Received: from skeletor.greyskull (89-253-118-72.customers.ownit.se.
-	[89.253.118.72])
-	by smtp.gmail.com with ESMTPSA id e73sm263374lji.31.2016.07.26.09.58.14
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 26 Jul 2016 09:58:15 -0700 (PDT)
-From: Jacob Kroon <jacob.kroon@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Jul 2016 18:56:11 +0200
-Message-Id: <1469552171-8500-1-git-send-email-jacob.kroon@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] kernel-devsrc: Don't package kernel meta-data
+	Tue, 26 Jul 2016 17:34:33 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga101.jf.intel.com with ESMTP; 26 Jul 2016 10:34:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,425,1464678000"; 
+	d="scan'208,217";a="740058944"
+Received: from mlopezva-mobl2.zpn.intel.com (HELO [10.219.5.49])
+	([10.219.5.49])
+	by FMSMGA003.fm.intel.com with ESMTP; 26 Jul 2016 10:34:33 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1469518569.git.mariano.lopez@linux.intel.com>
+	<e87916a7973816a5310ca4b4574c6aac61a86741.1469518569.git.mariano.lopez@linux.intel.com>
+	<CAJTo0LZ_xcHiNGjWs7bJ7G9Tm6Zn5PDyPK5ppXHCdC7fekSk0g@mail.gmail.com>
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
+Message-ID: <57979F37.5090304@linux.intel.com>
+Date: Tue, 26 Jul 2016 12:34:47 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.8.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LZ_xcHiNGjWs7bJ7G9Tm6Zn5PDyPK5ppXHCdC7fekSk0g@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] oeqa/utils/commands.py: Add oeqa_copy function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,44 +36,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2016 16:58:18 -0000
+X-List-Received-Date: Tue, 26 Jul 2016 17:34:34 -0000
+Content-Type: multipart/alternative;
+	boundary="------------060800080508080107030103"
 
- * The kernel meta-data doesn't need to be distributed in the kernel source
-   package, so drop it
- * Fix a typo
- * Split long lines
-
-Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
----
- meta/recipes-kernel/linux/kernel-devsrc.bb | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-index 0fdd0ad..2dcf01e 100644
---- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-+++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -41,13 +41,17 @@ do_install() {
- 
-         #
-         # Copy the staging dir source (and module build support) into the devsrc structure.
--        # We can keep this copy simple and take everything, since a we'll clean up any build
-+        # We can keep this copy simple and take everything, since we'll clean up any build
-         # artifacts afterwards, and the extra i/o is not significant
-         #
-         cd ${B}
--        find . -type d -name '.git*' -prune -o -path '.debug' -prune -o -type f -print0 | cpio --null -pdlu $kerneldir
-+        find . -type d -name '.git*' -prune -o \
-+               -path '.debug' -prune -o \
-+               -type f -print0 | cpio --null -pdlu $kerneldir
-         cd ${S}
--        find . -type d -name '.git*' -prune -o -type f -print0 | cpio --null -pdlu $kerneldir
-+        find . -type d -name '.git*' -prune -o \
-+               -type d -name '.kernel-meta' -prune -o \
-+               -type f -print0 | cpio --null -pdlu $kerneldir
- 
-         # Explicitly set KBUILD_OUTPUT to ensure that the image directory is cleaned and not
-         # The main build artifacts. We clean the directory to avoid QA errors on mismatched
--- 
-2.7.4
+--------------060800080508080107030103
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
+
+On 07/26/2016 11:13 AM, Burton, Ross wrote:
+>
+> On 26 July 2016 at 08:39, <mariano.lopez@linux.intel.com 
+> <mailto:mariano.lopez@linux.intel.com>> wrote:
+>
+>     +def oeqa_copy(src, dst):
+>     +    """
+>     +    Copy files and symlinks trying to preserve metadata.
+>     +    """
+>     +
+>     +    shutil.copy2(src, dst, follow_symlinks=False)
+>
+>
+> Why not just use shutil directly instead of having a wrapper function?
+
+shutil.copytree didn't play nice with the symlinks, this is why I added 
+this function, nevertheless, I like Joshua's approach of use 
+oe.path.copytree(), so this function won't be needed.
+
+>
+> Ross
+
+Mariano
+
+--------------060800080508080107030103
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <br>
+    <br>
+    <div class="moz-cite-prefix">On 07/26/2016 11:13 AM, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LZ_xcHiNGjWs7bJ7G9Tm6Zn5PDyPK5ppXHCdC7fekSk0g@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 26 July 2016 at 08:39, <span
+              dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:mariano.lopez@linux.intel.com"
+                target="_blank">mariano.lopez@linux.intel.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id=":26q" class="a3s aXjCH m15627e33faca692c">+def
+                oeqa_copy(src, dst):<br>
+                +    """<br>
+                +    Copy files and symlinks trying to preserve
+                metadata.<br>
+                +    """<br>
+                +<br>
+                +    shutil.copy2(src, dst, follow_symlinks=False)</div>
+            </blockquote>
+          </div>
+          <br>
+          Why not just use shutil directly instead of having a wrapper
+          function?</div>
+      </div>
+    </blockquote>
+    <br>
+    shutil.copytree didn't play nice with the symlinks, this is why I
+    added this function, nevertheless, I like Joshua's approach of use
+    oe.path.copytree(), so this function won't be needed.<br>
+    <br>
+    <blockquote
+cite="mid:CAJTo0LZ_xcHiNGjWs7bJ7G9Tm6Zn5PDyPK5ppXHCdC7fekSk0g@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">Ross</div>
+      </div>
+    </blockquote>
+    <br>
+    <div class="moz-signature">Mariano</div>
+  </body>
+</html>
+
+--------------060800080508080107030103--
