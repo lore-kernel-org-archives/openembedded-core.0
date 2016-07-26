@@ -1,23 +1,29 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F93D606BF
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B07C606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jul 2016 22:12:44 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP; 26 Jul 2016 15:12:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,426,1464678000"; d="scan'208";a="740157134"
-Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.jf.intel.com)
-	([10.54.69.56])
-	by FMSMGA003.fm.intel.com with ESMTP; 26 Jul 2016 15:12:45 -0700
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+	Tue, 26 Jul 2016 22:32:39 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u6QMWdi0011521; Tue, 26 Jul 2016 17:32:39 -0500
+Received: from adi-pc-linux.natinst.com ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016072617323900-327456 ;
+	Tue, 26 Jul 2016 17:32:39 -0500 
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Jul 2016 22:10:02 +0000
-Message-Id: <12d562d929e08f3dae1d273fb4a1b6a5f1de0021.1469570866.git.alejandro.hernandez@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-In-Reply-To: <cover.1469570866.git.alejandro.hernandez@linux.intel.com>
-References: <cover.1469570866.git.alejandro.hernandez@linux.intel.com>
-Subject: [PATCH 1/1] initramfs-live-boot: Make sure we kill udev before switching root when live booting
+Date: Wed, 27 Jul 2016 01:31:08 +0300
+Message-Id: <20160726223108.4202-1-adrian.ratiu@ni.com>
+X-Mailer: git-send-email 2.9.0
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 07/26/2016 05:32:39 PM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 07/26/2016 05:32:39 PM,
+	Serialize complete at 07/26/2016 05:32:39 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-07-26_16:, , signatures=0
+Subject: [PATCH] kernel.bbclass: fix emit_depmod_pkgdata() workdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,36 +36,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2016 22:12:45 -0000
+X-List-Received-Date: Tue, 26 Jul 2016 22:32:40 -0000
 
-When live booting, we need to make sure the running udev processes are killed
-to avoid unexepected behavior, we do this just before switching root,
-once we do, a new udev process will be spawned from init and will take care
-of whatever work was still missing
+bitbake commit 67a7b8b02 "build: don't use $B as the default cwd for
+functions" breaks the assumption that this function is running under
+${B}. This causes build failures because System.map is under ${B}.
 
-[YOCTO #9520]
-
-Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
 ---
- meta/recipes-core/initrdscripts/files/init-live.sh | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/classes/kernel.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/initrdscripts/files/init-live.sh b/meta/recipes-core/initrdscripts/files/init-live.sh
-index 09fb479..441b41c 100644
---- a/meta/recipes-core/initrdscripts/files/init-live.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-live.sh
-@@ -80,7 +80,9 @@ read_args() {
- boot_live_root() {
-     # Watches the udev event queue, and exits if all current events are handled
-     udevadm settle --timeout=3 --quiet
--    killall "${_UDEV_DAEMON##*/}" 2>/dev/null
-+    # Kills the current udev running processes, which survived after
-+    # device node creation events were handled, to avoid unexpected behavior
-+    killall -9 "${_UDEV_DAEMON##*/}" 2>/dev/null
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index c17165a..125ad33 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -356,6 +356,7 @@ do_shared_workdir_setscene () {
+ }
  
-     # Allow for identification of the real root even after boot
-     mkdir -p  ${ROOT_MOUNT}/media/realroot
+ emit_depmod_pkgdata() {
++	cd ${B}
+ 	# Stash data for depmod
+ 	install -d ${PKGDESTWORK}/${KERNEL_PACKAGE_NAME}-depmod/
+ 	echo "${KERNEL_VERSION}" > ${PKGDESTWORK}/${KERNEL_PACKAGE_NAME}-depmod/${KERNEL_PACKAGE_NAME}-abiversion
 -- 
-2.6.6
+2.9.0
 
 
