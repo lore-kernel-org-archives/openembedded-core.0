@@ -1,52 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D3D5606BF
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id E3640606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jul 2016 18:02:24 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id h186so345579pfg.2
+	Tue, 26 Jul 2016 19:19:54 +0000 (UTC)
+Received: by mail-wm0-f44.google.com with SMTP id f65so186048506wmi.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jul 2016 11:02:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=SW+kwLNmj9WVt1Q1xIeVa27A0atm/OtDjZmeaGPcEC4=;
-	b=N2KixvcAwPkxWoaKGOiG394RZ1+osPRkw44MonaQZZpOeoZuIg58Eb6aT7AriZkQic
-	sTxphBIEx8z4mBxEtlTicDlujZTZKa5plMl93hLeEBIYanQenHhv6EclsC33fnVd9xof
-	vE7iC2r+0dsooLtZqfKh2hxakdFYkWv5RvC/ym4McBRswco1JsxMkcejhN+dNNUZm+nn
-	qSgzuTvhBBE/0g0hmjK2Ttf+3KdM7yJoDaUIQVRT6w1+8ya7WeH55QjLLsEI+u2gpzkZ
-	Gy4ndXBOdYgKTY7RJtbrusTGAe/AwGz3w/nYHp5AdGriErKJtYjBiZneOraW6W5AlnLQ
-	tVSw==
+	Tue, 26 Jul 2016 12:19:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=2d1jAAzrArov4elmPKLViVePWc03yYZMod1gAh49B8E=;
+	b=gV5+JmhwBMntN/Z/HO6TlOtuWpqq2BN/Ta3rmIVpPRVDv2hUm4c6ibX1k5xpkw8pnw
+	SR6/Hv9Hsh4YGMQhz3cNgvVf6iV/i1xgY+cHMNh3DrV8h03dMhsgQFhmrw7dtp9ZbIwa
+	MMVG/mBpbhY2Gi8QR/aXqUq+Kur8sYsSDlPE2qBGgu+6o6opg8hLZWNAJGzqmNcIxkN9
+	03IhhKDh65tnvYb22XZbwJQ5afsPYWL/xI6PiTXuPO6GE+LQEApC00WdD9f3opwHs2ip
+	/+vTF51iIG/rE0nGaUiQDauDolcGlE2epZoIePkhd18kfrLb2KZlqEtXItP64/QR/0rB
+	KnSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=SW+kwLNmj9WVt1Q1xIeVa27A0atm/OtDjZmeaGPcEC4=;
-	b=GEI1tK562hC6Ev+xeVAsKOJIrRTziQf1FJQ+tsHiW7War4v9DWPTYrdiaZz3ZpbAvR
-	hozYAoz9q6ncTVKNRaREeLJVtLXg+nAwSLruEuSiQF8eOUPVvneMtJ9GtI2FaEGZlMHr
-	Yd0CJQlHohdIt/c/XXCqIRHwFBCPxAdC9+jcq7EEzQ1j/RZEUnf/597si/0rpKhhy4tZ
-	2w16FBvZWmCagfLAh8zbFzOjSky9uqM1cotx8lZXucL70Te7zbyENhJPi5W/cyDGHmV9
-	xo7KR/hnGO1FCcH/krjKLlqYXJKYUsqn0wNG0xShf7EHxIPxntjUeqXYATkuZEejo3C5
-	3JMg==
-X-Gm-Message-State: AEkoouvtik29boJUlIwNT7xGnfosNfa4ZoTbgjCJjzFx0APWjE+ibys6hP7cbjgZ04LBLw==
-X-Received: by 10.98.106.65 with SMTP id f62mr41235677pfc.107.1469556145360;
-	Tue, 26 Jul 2016 11:02:25 -0700 (PDT)
-Received: from ?IPv6:2601:646:8882:b8c:885c:46d5:80be:2a67?
-	([2601:646:8882:b8c:885c:46d5:80be:2a67])
-	by smtp.gmail.com with ESMTPSA id f3sm3159812pff.26.2016.07.26.11.02.24
-	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 26 Jul 2016 11:02:24 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1469548140-4095-2-git-send-email-git@andred.net>
-Date: Tue, 26 Jul 2016 11:02:18 -0700
-Message-Id: <1FBAD0A9-9F86-4A09-A1A3-15FB78A57BF0@gmail.com>
-References: <1469548140-4095-1-git-send-email-git@andred.net>
-	<1469548140-4095-2-git-send-email-git@andred.net>
-To: =?utf-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
-X-Mailer: Apple Mail (2.3124)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] tune-mips-24k: add QEMU_EXTRAOPTIONS for DSP and MIPS16e cores
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=2d1jAAzrArov4elmPKLViVePWc03yYZMod1gAh49B8E=;
+	b=ZiiLQEYYlBTK+zaf9tOEHtSfMvMiGdyeeA/PUugjQGQ6iyUoueW7A8fh2kH9mybu8C
+	NQ9Ys4g9bYM16snlXL7hsgFRVsBTlhTJWlRj7+gy9RG9x8TPAxMbc6j3eevqyzr8Uq5K
+	4Wt/pUxtFBQjyZ8pjghu/4N9PuS+qNUox0t8aySv+NwAqQJIpQmCSU9elUM+DbbF7k7c
+	s17smCc07eiIIoyL919F0gE7YdI0Umn9yE2Z6SzBm5KVTLbSk3KsrVUdDTgMFbw1uq6+
+	pOo1jED/6/Dzw93klE0oKUmpuX8fIBRIaKouHFuTKfA+fXNevV7ljY2aKX2zwbJNhVhk
+	pJHg==
+X-Gm-Message-State: AEkoouvxC6LJt3ep+b8d8GL4tqC/pL+sV1azLAGdks7I5PKhNa8exuxRrOzh51SIXAUKTOvC
+X-Received: by 10.28.1.23 with SMTP id 23mr28133368wmb.22.1469560794524;
+	Tue, 26 Jul 2016 12:19:54 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	qe2sm2427660wjc.28.2016.07.26.12.19.53
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 26 Jul 2016 12:19:53 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Jul 2016 20:19:52 +0100
+Message-Id: <1469560792-20437-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] sysprof: clean up FILES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,108 +53,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2016 18:02:25 -0000
-X-Groupsio-MsgNum: 84928
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_900172F3-3B52-4F56-A415-DEED88F4B321";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Tue, 26 Jul 2016 19:19:55 -0000
 
---Apple-Mail=_900172F3-3B52-4F56-A415-DEED88F4B321
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+This recipe ships unversioned libraries so fiddle the intermediate variables
+instead of rewriting FILES directly.
 
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-kernel/sysprof/sysprof_git.bb | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-> On Jul 26, 2016, at 8:49 AM, Andr=C3=A9 Draszik <git@andred.net> =
-wrote:
->=20
-> The core emulated by default by qemu-mips(el) just crashes with
-> illegal instruction when encountering DSP and/or MIPS16e
-> instructions - we have to specify a CPU that supports the extra
-> instructions.
->=20
-> This is an issue when generating a rootfs and e.g. running some
-> of the package postinstall scriptlets.
->=20
-> The patch to qemu to add 24KEc as a CPU has been accepted
-> upstream, so let's use that CPU here as well as needed.
->=20
-> Signed-off-by: Andr=C3=A9 Draszik <git@andred.net>
-> ---
-> meta/conf/machine/include/mips/tune-mips-24k.inc | 6 ++++++
-
-These changes probably belong to meta/classes/qemu.bbclass
-
-> 1 file changed, 6 insertions(+)
->=20
-> diff --git a/meta/conf/machine/include/mips/tune-mips-24k.inc =
-b/meta/conf/machine/include/mips/tune-mips-24k.inc
-> index 154ab56..828acd4 100644
-> --- a/meta/conf/machine/include/mips/tune-mips-24k.inc
-> +++ b/meta/conf/machine/include/mips/tune-mips-24k.inc
-> @@ -22,12 +22,15 @@ TUNE_FEATURES_tune-mips32r2-24kec-m16 =3D =
-"${TUNE_FEATURES_tune-mips32r2-24kec} mi
->=20
-> MIPSPKGSFX_VARIANT_tune-mips32r2-24kc =3D "mips32r2-24kc"
-> PACKAGE_EXTRA_ARCHS_tune-mips32r2-24kc =3D =
-"${PACKAGE_EXTRA_ARCHS_tune-mips32r2-nf} mips32r2-24kc-nf"
-> +QEMU_EXTRAOPTIONS_mips32r2-24kc-nf =3D " -cpu 24Kc"
->=20
-> MIPSPKGSFX_VARIANT_tune-mips32r2-24kec =3D "mips32r2-24kec"
-> PACKAGE_EXTRA_ARCHS_tune-mips32r2-24kec =3D =
-"${PACKAGE_EXTRA_ARCHS_tune-mips32r2-24kc} mips32r2-24kec-nf"
-> +QEMU_EXTRAOPTIONS_mips32r2-24kec-nf =3D " -cpu 24KEc"
->=20
-> MIPSPKGSFX_VARIANT_tune-mips32r2-24kec-m16 =3D =
-"mips32r2-24kec${MIPSPKGSFX_MIPS16E}"
-> PACKAGE_EXTRA_ARCHS_tune-mips32r2-24kec-m16 =3D =
-"${PACKAGE_EXTRA_ARCHS_tune-mips32r2-24kec} mips32r2-24kec-m16-nf"
-> +QEMU_EXTRAOPTIONS_mips32r2-24kec-m16-nf =3D " -cpu 24KEc"
->=20
->=20
-> # little endian: kc, kc+dsp=3Dkec, kc+dsp+mips16e=3Dkec-m16
-> @@ -37,9 +40,12 @@ TUNE_FEATURES_tune-mips32r2el-24kec-m16 =3D =
-"${TUNE_FEATURES_tune-mips32r2el-24kec
->=20
-> MIPSPKGSFX_VARIANT_tune-mips32r2el-24kc =3D "mips32r2el-24kc"
-> PACKAGE_EXTRA_ARCHS_tune-mips32r2el-24kc =3D =
-"${PACKAGE_EXTRA_ARCHS_tune-mips32r2el-nf} mips32r2el-24kc-nf"
-> +QEMU_EXTRAOPTIONS_mips32r2el-24kc-nf =3D " -cpu 24Kc"
->=20
-> MIPSPKGSFX_VARIANT_tune-mips32r2el-24kec =3D "mips32r2el-24kec"
-> PACKAGE_EXTRA_ARCHS_tune-mips32r2el-24kec =3D =
-"${PACKAGE_EXTRA_ARCHS_tune-mips32r2el-24kc} mips32r2el-24kec-nf"
-> +QEMU_EXTRAOPTIONS_mips32r2el-24kec-nf =3D " -cpu 24KEc"
->=20
-> MIPSPKGSFX_VARIANT_tune-mips32r2el-24kec-m16 =3D =
-"mips32r2el-24kec${MIPSPKGSFX_MIPS16E}"
-> PACKAGE_EXTRA_ARCHS_tune-mips32r2el-24kec-m16 =3D =
-"${PACKAGE_EXTRA_ARCHS_tune-mips32r2el-24kec} mips32r2el-24kec-m16-nf"
-> +QEMU_EXTRAOPTIONS_mips32r2el-24kec-m16-nf =3D " -cpu 24KEc"
-> --
-> 2.8.1
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-kernel/sysprof/sysprof_git.bb b/meta/recipes-kernel/sysprof/sysprof_git.bb
+index 6324d20..8d8b626 100644
+--- a/meta/recipes-kernel/sysprof/sysprof_git.bb
++++ b/meta/recipes-kernel/sysprof/sysprof_git.bb
+@@ -30,8 +30,9 @@ PACKAGECONFIG ?= "${@bb.utils.contains_any('DISTRO_FEATURES', '${GTK3DISTROFEATU
+ PACKAGECONFIG[gtk] = "--enable-gtk,--disable-gtk,gtk+3"
+ PACKAGECONFIG[polkit] = "--enable-polkit,--disable-polkit,polkit dbus"
+ 
+-FILES_${PN} += "${datadir}/icons/ ${libdir}/libsysprof* ${datadir}/dbus-1/"
+-FILES_${PN}-dev = "${includedir} ${libdir}/pkgconfig"
++SOLIBS = ".so"
++FILES_SOLIBSDEV = ""
++FILES_${PN} += "${datadir}/icons/"
+ 
+ SYSTEMD_SERVICE_${PN} = "${@bb.utils.contains('PACKAGECONFIG', 'polkit', 'sysprof2.service', '', d)}"
+ 
+-- 
+2.8.1
 
 
---Apple-Mail=_900172F3-3B52-4F56-A415-DEED88F4B321
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAleXpa8ACgkQuwUzVZGdMxQRFACcCbkRUYKX77we0z0y5S1oDLoE
-s4MAn0LQcafFSJVEZKXd2vbBDNjp+M0w
-=kcMv
------END PGP SIGNATURE-----
-
---Apple-Mail=_900172F3-3B52-4F56-A415-DEED88F4B321--
