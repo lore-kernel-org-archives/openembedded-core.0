@@ -1,24 +1,21 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 395CF60721
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 69F1860721
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jul 2016 01:54:59 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u6Q1sxIf004273
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jul 2016 18:55:00 -0700 (PDT)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 25 Jul 2016 18:54:59 -0700
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 25 Jul 2016 21:54:57 -0400
-Message-ID: <1469498097-27040-1-git-send-email-jackie.huang@windriver.com>
-X-Mailer: git-send-email 2.8.1
-MIME-Version: 1.0
-Subject: [PATCH v2] avahi-ui: use PACKAGECONFIG for gtk features
+	Tue, 26 Jul 2016 02:58:17 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 25 Jul 2016 19:58:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,422,1464678000"; d="scan'208";a="1002452661"
+Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com)
+	([10.255.139.129])
+	by orsmga001.jf.intel.com with ESMTP; 25 Jul 2016 19:58:16 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Jul 2016 14:57:48 +1200
+Message-Id: <cover.1469501778.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.5.5
+Subject: [PATCH 0/2] A couple more recipetool fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,84 +28,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2016 01:55:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 26 Jul 2016 02:58:18 -0000
 
-From: Jackie Huang <jackie.huang@windriver.com>
+Fix a regression in "recipetool create" introduced by a recent patch of
+mine, and add tests to detect if it breaks again in future.
 
-The commit "054ea20 avahi-ui: Build with Gtk+3"
-enabled gtk3 and disabled gtk2, which causes failure on
-some package depends on gtk2, like gnome-disk-utility
-in meta-openembedded/meta-gnome:
+(This is independent of the recipetool patchset I sent yesterday.)
 
-| checking for GTK2... yes
-| checking for AVAHI_UI... no
-| configure: error: Package requirements (avahi-ui >= 0.6.25) were not met:
-|
-| No package 'avahi-ui' found
 
-The gtk2 and gtk3 feature for avahi-ui is not exclusive, so change
-to use PACKAGECONFIG for them so we can easily enable/disable one
-of them or both of them as needed.
+The following changes since commit 0a2df616a5c3316704742f1dcf37b450920e0280:
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- meta/recipes-connectivity/avahi/avahi-ui_0.6.32.bb |  4 ++--
- meta/recipes-connectivity/avahi/avahi.inc          | 10 +++++++---
- 2 files changed, 9 insertions(+), 5 deletions(-)
+  boost: fix CVE-2012-2677 (2016-07-21 07:45:01 +0100)
 
-diff --git a/meta/recipes-connectivity/avahi/avahi-ui_0.6.32.bb b/meta/recipes-connectivity/avahi/avahi-ui_0.6.32.bb
-index c6f67f1..ac36461 100644
---- a/meta/recipes-connectivity/avahi/avahi-ui_0.6.32.bb
-+++ b/meta/recipes-connectivity/avahi/avahi-ui_0.6.32.bb
-@@ -13,9 +13,9 @@ SRC_URI += "file://0001-configure.ac-install-GtkBuilder-interface-files-for-.pat
- SRC_URI[md5sum] = "22b5e705d3eabb31d26f2e1e7b074013"
- SRC_URI[sha256sum] = "d54991185d514a0aba54ebeb408d7575b60f5818a772e28fa0e18b98bc1db454"
- 
--DEPENDS += "avahi gtk+3"
-+DEPENDS += "avahi"
- 
--AVAHI_GTK = "--disable-gtk --enable-gtk3 --disable-pygtk"
-+AVAHI_GTK = "gtk3"
- 
- S = "${WORKDIR}/avahi-${PV}"
- 
-diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
-index 340b3e6..234646d 100644
---- a/meta/recipes-connectivity/avahi/avahi.inc
-+++ b/meta/recipes-connectivity/avahi/avahi.inc
-@@ -23,8 +23,14 @@ SRC_URI = "https://github.com/lathiat/avahi/releases/download/v${PV}/avahi-${PV}
-           "
- UPSTREAM_CHECK_URI = "https://github.com/lathiat/avahi/releases/"
- 
--PACKAGECONFIG ??= "dbus"
-+# For gtk related PACKAGECONFIGs: gtk, gtk3 and pygtk
-+AVAHI_GTK ?= ""
-+
-+PACKAGECONFIG ??= "dbus ${AVAHI_GTK}"
- PACKAGECONFIG[dbus] = "--enable-dbus,--disable-dbus,dbus"
-+PACKAGECONFIG[gtk] = "--enable-gtk,--disable-gtk,gtk+"
-+PACKAGECONFIG[gtk3] = "--enable-gtk3,--disable-gtk3,gtk+3"
-+PACKAGECONFIG[pygtk] = "--enable-pygtk,--disable-pygtk,"
- 
- USERADD_PACKAGES = "avahi-daemon avahi-autoipd"
- USERADD_PARAM_avahi-daemon = "--system --home /var/run/avahi-daemon \
-@@ -51,14 +57,12 @@ EXTRA_OECONF = "--with-avahi-priv-access-group=adm \
-              --disable-manpages \
-              ${EXTRA_OECONF_SYSVINIT} \
-              ${EXTRA_OECONF_SYSTEMD} \
--             ${AVAHI_GTK} \
-            "
- 
- # The distro choice determines what init scripts are installed
- EXTRA_OECONF_SYSVINIT = "${@bb.utils.contains('DISTRO_FEATURES','sysvinit','--with-distro=debian','--with-distro=none',d)}"
- EXTRA_OECONF_SYSTEMD = "${@bb.utils.contains('DISTRO_FEATURES','systemd','--with-systemdsystemunitdir=${systemd_unitdir}/system/','--without-systemdsystemunitdir',d)}"
- 
--AVAHI_GTK ?= "--disable-gtk --disable-gtk3"
- 
- LDFLAGS_append_libc-uclibc = " -lintl"
- LDFLAGS_append_uclinux-uclibc = " -lintl"
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/recipetool-fixes5
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/recipetool-fixes5
+
+Paul Eggleton (2):
+  recipetool: create: fix greedy regex that broke support for github
+    tarballs
+  oe-selftest: recipetool: add tests for git URL mangling
+
+ meta/lib/oeqa/selftest/recipetool.py | 43 ++++++++++++++++++++++++++++++++++++
+ scripts/lib/recipetool/create.py     |  2 +-
+ 2 files changed, 44 insertions(+), 1 deletion(-)
+
 -- 
-2.8.1
+2.5.5
 
 
