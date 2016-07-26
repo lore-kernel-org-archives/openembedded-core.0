@@ -1,28 +1,46 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp484.redcondor.net (smtp484.redcondor.net [208.80.204.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 2725A606BF
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F3E7606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jul 2016 14:19:15 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp484.redcondor.net ({c48374e7-08df-40d9-a0de-96cc9883a037})
-	via TCP (outbound) with ESMTPS id 20160726141914132_0484;
-	Tue, 26 Jul 2016 14:19:14 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [216.191.234.70] (port=21339 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1bS3ED-0001k8-Vg; Tue, 26 Jul 2016 10:21:02 -0400
-Date: Tue, 26 Jul 2016 10:19:04 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: "Burton, Ross" <ross.burton@intel.com>
-In-Reply-To: <CAJTo0LZZ_1V_68Pya9EUNT6imRVONTkrMzejFAGG9A8f3GYfTQ@mail.gmail.com>
-Message-ID: <alpine.LFD.2.20.1607261016100.14495@localhost.localdomain>
+	Tue, 26 Jul 2016 14:24:11 +0000 (UTC)
+Received: by mail-io0-f170.google.com with SMTP id 38so22760123iol.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Jul 2016 07:24:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=bV7byrcGQhEWGntUkRsQBAV/tWXL9/Nm1InxUOZWi9E=;
+	b=dg/SUIr8fDlK3VCi/PDvX2kUXtWqNgZNGH4yqCx8P7Wl6vWa2noGiGTV0dku6srQsg
+	1Q7SDPFQBbxcYAEgRlFuJTuLsYlkdYNy0j//g0vLFBYvQKciCavGReu5/Sp93/w5Hr5N
+	BcOKP56+HK/thIzwRMrslrJg1f6M8XykMM5Q/s2q03uLj3aRw4IhBkPxTqWG6WXejiwI
+	WIXOo/yvX3jDY5/xilltft+vgB5k5FUKQ+/juOBp4eO3l2/xHgK+z3Oi20eEaUl0tc5y
+	HURR6EzjGQdxMVB0T/hYc2cHv2uXoCsr4ZRLnk6Gdr1mNDpa35QGHS1yqjxb7XzqCxRg
+	unnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=bV7byrcGQhEWGntUkRsQBAV/tWXL9/Nm1InxUOZWi9E=;
+	b=BhAelD3oAxALUe7MB49ERl4Aja5zPjzQBMNOowtVO8+WNkqp7tUJV4GUcnlwG1rGAu
+	A0BJURkmgxGSqLujBb9a8kZdb72SgAM9lvp+qnMncDRJ9AfGdqhJ36PZNKDTcrK4nDx1
+	AXsaAkeeCRFlv3m66WWPDWX7Xjb8+rVQWsdnBnyN2xbZe5622GQZsWmj/H//WLWLDDDT
+	NRcQjSaH5QFRMvMoiP9roy7gWyEnx7TbFvTxg6B5OTpEgZxHk6W/aQJ68AZ33l8t9oOD
+	aLPgksq0vqR1J1KSv0FD1GtVEcd5pSEm3CSGEzW5F2hCe2mgki46bise4wkGnwG/oze9
+	z57g==
+X-Gm-Message-State: AEkoouuHdd4zoLrvl+eodH9v+xNL56SYlNpVHgJcFZXluHC0C2+h0zAsxIox1QnzljN4BZXw7b+5etBQZCSF49Ed
+X-Received: by 10.107.135.142 with SMTP id r14mr29246965ioi.133.1469543052825; 
+	Tue, 26 Jul 2016 07:24:12 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.18.17 with HTTP; Tue, 26 Jul 2016 07:23:53 -0700 (PDT)
+In-Reply-To: <alpine.LFD.2.20.1607261016100.14495@localhost.localdomain>
 References: <alpine.LFD.2.20.1607261001570.14189@localhost.localdomain>
 	<CAJTo0LZZ_1V_68Pya9EUNT6imRVONTkrMzejFAGG9A8f3GYfTQ@mail.gmail.com>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
-MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+	<alpine.LFD.2.20.1607261016100.14495@localhost.localdomain>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 26 Jul 2016 15:23:53 +0100
+Message-ID: <CAJTo0La791M2fVxEXcYud+K7A0SvGwwWUb51xMm-J0+kQ4=GYg@mail.gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: why is "run-postinsts" considered a "development" recipe?
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -37,48 +55,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2016 14:19:17 -0000
-Content-Type: multipart/mixed; BOUNDARY="8323328-1227494584-1469542746=:14495"
+X-List-Received-Date: Tue, 26 Jul 2016 14:24:15 -0000
+Content-Type: multipart/alternative; boundary=001a113eccbca5896005388aa74f
 
---8323328-1227494584-1469542746=:14495
+--001a113eccbca5896005388aa74f
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
 
-On Tue, 26 Jul 2016, Burton, Ross wrote:
+On 26 July 2016 at 15:19, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
 
+>   i'm good with that, and one more (potentially idiotic) question
+> about run-postinsts. i note in the OE recipe file that it inherits
+> "update-rc.d", but i'm not sure why.
 >
-> On 26 July 2016 at 15:03, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
->         for the first time, i want to use run-postinsts to run some initial
->       system setup, so i'm assuming i need to add that recipe to my image
->       and the associated files, but i'm curious as to why run-postinsts
->       lives under recipes-devtools. it doesn't strike me as a development
->       tool, so what's the reasoning there? thanks.
+>   AIUI (and i could be totally off-base here), i thought systemd
+> needed update-rc.d only for backward compatibility for sysvinit-style
+> services, is that right?
 >
-> For no reason reason other than it's intimately tied to
-> dpkg/opkg/rpm, which are also in devtools.
+>   so while run-postinsts is free to inherit update-rc.d, does that
+> have any value if one is not using any sysvinit-driven services? or am
+> i misunderstanding the fundamental functionality of update-rc.d?
+>
 
-  i'm good with that, and one more (potentially idiotic) question
-about run-postinsts. i note in the OE recipe file that it inherits
-"update-rc.d", but i'm not sure why.
+It inherits update-rcd and systemd so that it runs on both systemd and
+sysvinit systems.
 
-  AIUI (and i could be totally off-base here), i thought systemd
-needed update-rc.d only for backward compatibility for sysvinit-style
-services, is that right?
+Ross
 
-  so while run-postinsts is free to inherit update-rc.d, does that
-have any value if one is not using any sysvinit-driven services? or am
-i misunderstanding the fundamental functionality of update-rc.d?
+--001a113eccbca5896005388aa74f
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-rday
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 26 July 2016 at 15:19, Robert P. J. Day <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:rpjday@crashcourse.ca" target=3D"_blank">rpjday@crashcourse.ca</a>&=
+gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
+0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":38l" class=
+=3D"a3s aXjCH m15627962c5aa2b6e">=C2=A0 i&#39;m good with that, and one mor=
+e (potentially idiotic) question<br>
+about run-postinsts. i note in the OE recipe file that it inherits<br>
+&quot;update-rc.d&quot;, but i&#39;m not sure why.<br>
+<br>
+=C2=A0 AIUI (and i could be totally off-base here), i thought systemd<br>
+needed update-rc.d only for backward compatibility for sysvinit-style<br>
+services, is that right?<br>
+<br>
+=C2=A0 so while run-postinsts is free to inherit update-rc.d, does that<br>
+have any value if one is not using any sysvinit-driven services? or am<br>
+i misunderstanding the fundamental functionality of update-rc.d?</div></blo=
+ckquote></div><br>It inherits update-rcd and systemd so that it runs on bot=
+h systemd and sysvinit systems.</div><div class=3D"gmail_extra"><br></div><=
+div class=3D"gmail_extra">Ross</div></div>
 
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
---8323328-1227494584-1469542746=:14495--
+--001a113eccbca5896005388aa74f--
