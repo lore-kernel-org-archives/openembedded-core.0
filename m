@@ -1,31 +1,37 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2187F606BF
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 3BD76606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jul 2016 15:18:21 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u6QFI87Y027221
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 26 Jul 2016 08:18:08 -0700 (PDT)
-Received: from msp-dhcp16.wrs.com (172.25.34.16) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 26 Jul 2016 08:18:07 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Sergei Miroshnichenko
-	<sergeimir@emcraft.com>, <openembedded-core@lists.openembedded.org>
-References: <1469539192-18406-1-git-send-email-sergeimir@emcraft.com>
-	<1469542336.23580.101.camel@linuxfoundation.org>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <55cb9817-d62f-88bf-e886-b1f18549fbff@windriver.com>
-Date: Tue, 26 Jul 2016 10:18:06 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
-	Gecko/20100101 Thunderbird/45.1.1
+	Tue, 26 Jul 2016 15:26:32 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id i5so2214952wmg.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Jul 2016 08:26:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=avEZr687JANbuEmANoivVq8C+KQ3gMDmjfBHH3YD1IA=;
+	b=CDwhBj0qXwQqJBtZsaNvI9wODasbAVz+jj2iigICXidXRjwEK9aatYRFtkRCoIFDRz
+	QdCx9/fu2NGYipa/gQ+TyEQRJue0in9cJTzuaLicF3DLLukvDG4dXgrxFymL3FJNHUh9
+	n2tCU2z9JQDXgIeo1HDqlYvohvcRKBss4zs6xVF1UPzsmI5pTh3CTzHVlYCcGpkNAVP1
+	XJhGGy3yUTCVqM/uq8OCv42AV+fda2a0f0eB2FGm4panLpjv9Z7472hINH5Km3nki9ej
+	UrnCu33AiZroOtG+hbirEbUo1iYGbOvfQ5KaGj2DgxmQNXhatsUQoGlRe5GYm2hgDzFW
+	q59Q==
+X-Gm-Message-State: AEkoouuZU1i/TEfCAWB6YdPB+wkCWC0C5FuZzmmtgn2XN9OUcOMbe2FSmoKwYE11neIzrA==
+X-Received: by 10.28.45.69 with SMTP id t66mr24078160wmt.41.1469546792746;
+	Tue, 26 Jul 2016 08:26:32 -0700 (PDT)
+Received: from tfsielt31850.tycofs.com ([185.46.212.66])
+	by smtp.gmail.com with ESMTPSA id kc6sm1564266wjb.3.2016.07.26.08.26.31
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 26 Jul 2016 08:26:31 -0700 (PDT)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Jul 2016 16:26:30 +0100
+Message-Id: <1469546790-24621-1-git-send-email-git@andred.net>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-In-Reply-To: <1469542336.23580.101.camel@linuxfoundation.org>
-Cc: Alexander Dyachenko <sasha_d@emcraft.com>,
-	Roger Meier <r.meier@siemens.com>
-Subject: Re: [PATCH v3 0/4] license: Sync with SPDX 2.0, pull request
+Subject: [PATCH] bash: add patch to build w/ -Wformat-security
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,53 +44,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2016 15:18:23 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 26 Jul 2016 15:26:35 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 7/26/16 9:12 AM, Richard Purdie wrote:
-> On Tue, 2016-07-26 at 16:19 +0300, Sergei Miroshnichenko wrote:
->> Here are the request for a community review for a synchronization
->> with the SPDX License List (git.spdx.org/license-list.git) and adding
->> license operators to meet SPDX 2.0 specification compliance
->> (https://spdx.org/sites/spdx/files/SPDX-2.0.pdf Appendix IV: SPDX
->> License Expression).
->>
->> The whole patch series is way too big to send them to the mailing 
->> list (the biggest one is ~3MiB), so please find the diffs via gitweb 
->> of the -contrib repo.
-> 
-> Whilst we certainly want to collaborate with SPDX, we've never said our
-> LICENSE field should match what SPDX is doing. Your patch appears to
-> unequivocally join them as a 1:1 mapping and I'm not sure this is
-> something we've ever planned or agreed to. These fields do get written
-> into the packages and used in a variety of places.
-> 
-> Certainly if we are going to map them 1:1, this is something which
-> would need discussion on the OE architecture list first. I'd be nervous
-> about committing to do that, not knowing or having any influence over
-> what SPDX may do next. 
-> 
-> Is the intent here to map us 1:1 with SPDX and are you advocating that?
+From: André Draszik <adraszik@tycoint.com>
 
-I agree.  This needs to be set as part of the OE Architecture first.  I don't
-object to the format or contents of the change -- just that it's a pretty big
-change for how things work.
+Signed-off-by: André Draszik <adraszik@tycoint.com>
+---
+ ...1-help-fix-printf-format-security-warning.patch | 35 ++++++++++++++++++++++
+ meta/recipes-extended/bash/bash_4.3.30.bb          |  1 +
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-extended/bash/bash/0001-help-fix-printf-format-security-warning.patch
 
-Also looking over the patches, the changes to the license text (common-licenses)
-need some more explanation.  The comment says it syncs to the spdx license list.
- But mostly what I see are simply format changes that actually make it harder
-for developers to read the license text.
-
-Is there any reference/explanation as to why the formatting changes are
-required/suggested/etc?
-
---Mark
-
-
-> Cheers,
-> 
-> Richard
-> 
+diff --git a/meta/recipes-extended/bash/bash/0001-help-fix-printf-format-security-warning.patch b/meta/recipes-extended/bash/bash/0001-help-fix-printf-format-security-warning.patch
+new file mode 100644
+index 0000000..5405c84
+--- /dev/null
++++ b/meta/recipes-extended/bash/bash/0001-help-fix-printf-format-security-warning.patch
+@@ -0,0 +1,35 @@
++From e5837a42f8f48a6a721805ff8f7fcd32861d09ca Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <adraszik@tycoint.com>
++Date: Tue, 26 Jul 2016 13:09:47 +0100
++Subject: [PATCH] help: fix printf() format security warning
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++| ../../bash-4.3.30/builtins/../../bash-4.3.30/builtins/help.def: In function 'help_builtin':
++| ../../bash-4.3.30/builtins/../../bash-4.3.30/builtins/help.def:130:7: error: format not a string literal and no format arguments [-Werror=format-security]
++|        printf (ngettext ("Shell commands matching keyword `", "Shell commands matching keywords `", (list->next ? 2 : 1)));
++|        ^~~~~~
++
++Signed-off-by: André Draszik <adraszik@tycoint.com>
++---
++Upstream-Status: Pending
++ builtins/help.def | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/builtins/help.def b/builtins/help.def
++index 1894f17..cf624c6 100644
++--- a/builtins/help.def
+++++ b/builtins/help.def
++@@ -127,7 +127,7 @@ help_builtin (list)
++ 
++   if (glob_pattern_p (list->word->word))
++     {
++-      printf (ngettext ("Shell commands matching keyword `", "Shell commands matching keywords `", (list->next ? 2 : 1)));
+++      printf ("%s", ngettext ("Shell commands matching keyword `", "Shell commands matching keywords `", (list->next ? 2 : 1)));
++       print_word_list (list, ", ");
++       printf ("'\n\n");
++     }
++-- 
++2.8.1
++
+diff --git a/meta/recipes-extended/bash/bash_4.3.30.bb b/meta/recipes-extended/bash/bash_4.3.30.bb
+index 95ed392..16a3139 100644
+--- a/meta/recipes-extended/bash/bash_4.3.30.bb
++++ b/meta/recipes-extended/bash/bash_4.3.30.bb
+@@ -21,6 +21,7 @@ SRC_URI = "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
+            file://fix-run-coproc-run-heredoc-run-execscript-run-test-f.patch \
+            file://run-ptest \
+ 	   file://fix-run-builtins.patch \
++           file://0001-help-fix-printf-format-security-warning.patch \
+            "
+ 
+ SRC_URI[tarball.md5sum] = "a27b3ee9be83bd3ba448c0ff52b28447"
+-- 
+2.8.1
 
 
