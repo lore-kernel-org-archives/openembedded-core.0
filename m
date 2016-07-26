@@ -1,25 +1,24 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id ED10C731CB
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E012C60746
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jul 2016 02:58:21 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 25 Jul 2016 19:58:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,422,1464678000"; d="scan'208";a="1002452687"
-Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com)
-	([10.255.139.129])
-	by orsmga001.jf.intel.com with ESMTP; 25 Jul 2016 19:58:22 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Jul 2016 14:57:50 +1200
-Message-Id: <2e1841dcd78cef43462c9b8d6264d16d37f90f9f.1469501778.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.5.5
-In-Reply-To: <cover.1469501778.git.paul.eggleton@linux.intel.com>
-References: <cover.1469501778.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1469501778.git.paul.eggleton@linux.intel.com>
-References: <cover.1469501778.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 2/2] oe-selftest: recipetool: add tests for git URL mangling
+	Tue, 26 Jul 2016 06:49:54 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u6Q6nrZ8006087
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Jul 2016 23:49:53 -0700 (PDT)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 25 Jul 2016 23:49:52 -0700
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 26 Jul 2016 02:49:51 -0400
+Message-ID: <1469515791-235219-1-git-send-email-jackie.huang@windriver.com>
+X-Mailer: git-send-email 2.8.1
+MIME-Version: 1.0
+Subject: [PATCH] screen: add back the patch for parallel build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,72 +31,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2016 02:58:22 -0000
+X-List-Received-Date: Tue, 26 Jul 2016 06:49:57 -0000
+Content-Type: text/plain
 
-Add three tests to verify that the git URL mangling is working the way
-it's supposed to. This should prevent us regressing on this again in
-future.
+From: Jackie Huang <jackie.huang@windriver.com>
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+The patch 0001-fix-for-multijob-build.patch was removed by:
+"d437921 screen: upgrade to 4.4.0"
+
+But in fact the fixes is not all in the version 4.4.0, we
+still get errors in parallel builds:
+
+| ../screen-4.4.0/screen.h:48:18: fatal error: comm.h: No such file or directory
+
+So rebase the patch and add it back.
+
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- meta/lib/oeqa/selftest/recipetool.py | 43 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
+ .../screen/0001-fix-for-multijob-build.patch       | 58 ++++++++++++++++++++++
+ meta/recipes-extended/screen/screen_4.4.0.bb       |  1 +
+ 2 files changed, 59 insertions(+)
+ create mode 100644 meta/recipes-extended/screen/screen/0001-fix-for-multijob-build.patch
 
-diff --git a/meta/lib/oeqa/selftest/recipetool.py b/meta/lib/oeqa/selftest/recipetool.py
-index f8f6be3..db1f8de 100644
---- a/meta/lib/oeqa/selftest/recipetool.py
-+++ b/meta/lib/oeqa/selftest/recipetool.py
-@@ -442,6 +442,49 @@ class RecipetoolTests(RecipetoolBase):
-         inherits = ['cmake', 'python-dir', 'gettext', 'pkgconfig']
-         self._test_recipe_contents(recipefile, checkvars, inherits)
+diff --git a/meta/recipes-extended/screen/screen/0001-fix-for-multijob-build.patch b/meta/recipes-extended/screen/screen/0001-fix-for-multijob-build.patch
+new file mode 100644
+index 0000000..fbdb0eb
+--- /dev/null
++++ b/meta/recipes-extended/screen/screen/0001-fix-for-multijob-build.patch
+@@ -0,0 +1,58 @@
++From 79ad2885e26631077dd6b8aebe17ae95b38133a6 Mon Sep 17 00:00:00 2001
++From: Jackie Huang <jackie.huang@windriver.com>
++Date: Tue, 26 Jul 2016 14:23:59 +0800
++Subject: [PATCH] fix for multijob build
++
++make sure that comm.sh script generates comm.h header before doing
++anything else
++
++Signed-off-by: Amadeusz Sawiski <amade@asmblr.net>
++
++Upstream-Status: Backport
++
++Backport patch to fix parallel build failure and update context to make patch
++coulde be applied.
++
++http://git.savannah.gnu.org/cgit/screen.git/commit?id=c0de6dd
++
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
++Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
++---
++ Makefile.in | 8 ++++----
++ 1 file changed, 4 insertions(+), 4 deletions(-)
++
++diff --git a/Makefile.in b/Makefile.in
++index aca7da3..3607711 100644
++--- a/Makefile.in
+++++ b/Makefile.in
++@@ -298,7 +298,7 @@ search.o: layout.h viewport.h canvas.h search.c config.h screen.h os.h osdef.h a
++  comm.h layer.h term.h image.h display.h window.h mark.h extern.h
++ tty.o: layout.h viewport.h canvas.h tty.c config.h screen.h os.h osdef.h ansi.h acls.h comm.h \
++  layer.h term.h image.h display.h window.h extern.h
++-term.o: layout.h viewport.h canvas.h term.c term.h
+++term.o: layout.h viewport.h canvas.h term.c term.h comm.h
++ window.o: layout.h viewport.h canvas.h window.c config.h screen.h os.h osdef.h ansi.h acls.h \
++  comm.h layer.h term.h image.h display.h window.h extern.h logfile.h
++ utmp.o: layout.h viewport.h canvas.h utmp.c config.h screen.h os.h osdef.h ansi.h acls.h \
++@@ -324,7 +324,7 @@ canvas.o: layout.h viewport.h canvas.h canvas.c config.h screen.h os.h osdef.h a
++  comm.h layer.h term.h image.h display.h window.h extern.h \
++  braille.h
++ comm.o: layout.h viewport.h canvas.h comm.c config.h acls.h comm.h
++-kmapdef.o: layout.h viewport.h canvas.h kmapdef.c config.h
+++kmapdef.o: layout.h viewport.h canvas.h kmapdef.c config.h comm.h
++ acls.o: layout.h viewport.h canvas.h acls.c config.h screen.h os.h osdef.h ansi.h acls.h comm.h \
++  layer.h term.h image.h display.h window.h extern.h
++ braille.o: layout.h viewport.h canvas.h braille.c config.h screen.h os.h osdef.h ansi.h acls.h \
++@@ -350,7 +350,7 @@ layout.o: layout.h viewport.h canvas.h layout.c config.h screen.h os.h osdef.h a
++ viewport.o: layout.h viewport.h canvas.h viewport.c config.h screen.h os.h osdef.h ansi.h acls.h \
++  comm.h layer.h term.h image.h display.h window.h extern.h \
++  braille.h
++-list_generic.o: list_generic.h list_generic.c layer.h screen.h osdef.h
++-list_display.o: list_generic.h list_display.c layer.h screen.h osdef.h
+++list_generic.o: list_generic.h list_generic.c layer.h screen.h osdef.h comm.h
+++list_display.o: list_generic.h list_display.c layer.h screen.h osdef.h comm.h
++ list_window.o: list_generic.h list_window.c window.h layer.h screen.h osdef.h comm.h
++ 
++-- 
++1.9.1
++
+diff --git a/meta/recipes-extended/screen/screen_4.4.0.bb b/meta/recipes-extended/screen/screen_4.4.0.bb
+index e970c5b..769bac1 100644
+--- a/meta/recipes-extended/screen/screen_4.4.0.bb
++++ b/meta/recipes-extended/screen/screen_4.4.0.bb
+@@ -23,6 +23,7 @@ SRC_URI = "${GNU_MIRROR}/screen/screen-${PV}.tar.gz \
+            file://Skip-host-file-system-checks-when-cross-compiling.patch \
+            file://Avoid-mis-identifying-systems-as-SVR4.patch \
+            file://0002-comm.h-now-depends-on-term.h.patch \
++           file://0001-fix-for-multijob-build.patch \
+           "
  
-+    def test_recipetool_create_github(self):
-+        # Basic test to see if github URL mangling works
-+        temprecipe = os.path.join(self.tempdir, 'recipe')
-+        os.makedirs(temprecipe)
-+        recipefile = os.path.join(temprecipe, 'meson_git.bb')
-+        srcuri = 'https://github.com/mesonbuild/meson'
-+        result = runCmd('recipetool create -o %s %s' % (temprecipe, srcuri))
-+        self.assertTrue(os.path.isfile(recipefile))
-+        checkvars = {}
-+        checkvars['LICENSE'] = set(['Apache-2.0'])
-+        checkvars['SRC_URI'] = 'git://github.com/mesonbuild/meson;protocol=https'
-+        inherits = ['setuptools']
-+        self._test_recipe_contents(recipefile, checkvars, inherits)
-+
-+    def test_recipetool_create_github_tarball(self):
-+        # Basic test to ensure github URL mangling doesn't apply to release tarballs
-+        temprecipe = os.path.join(self.tempdir, 'recipe')
-+        os.makedirs(temprecipe)
-+        pv = '0.32.0'
-+        recipefile = os.path.join(temprecipe, 'meson_%s.bb' % pv)
-+        srcuri = 'https://github.com/mesonbuild/meson/releases/download/%s/meson-%s.tar.gz' % (pv, pv)
-+        result = runCmd('recipetool create -o %s %s' % (temprecipe, srcuri))
-+        self.assertTrue(os.path.isfile(recipefile))
-+        checkvars = {}
-+        checkvars['LICENSE'] = set(['Apache-2.0'])
-+        checkvars['SRC_URI'] = 'https://github.com/mesonbuild/meson/releases/download/${PV}/meson-${PV}.tar.gz'
-+        inherits = ['setuptools']
-+        self._test_recipe_contents(recipefile, checkvars, inherits)
-+
-+    def test_recipetool_create_git_http(self):
-+        # Basic test to check http git URL mangling works
-+        temprecipe = os.path.join(self.tempdir, 'recipe')
-+        os.makedirs(temprecipe)
-+        recipefile = os.path.join(temprecipe, 'matchbox-terminal_git.bb')
-+        srcuri = 'http://git.yoctoproject.org/git/matchbox-terminal'
-+        result = runCmd('recipetool create -o %s %s' % (temprecipe, srcuri))
-+        self.assertTrue(os.path.isfile(recipefile))
-+        checkvars = {}
-+        checkvars['LICENSE'] = set(['GPLv2'])
-+        checkvars['SRC_URI'] = 'git://git.yoctoproject.org/git/matchbox-terminal;protocol=http'
-+        inherits = ['pkgconfig', 'autotools']
-+        self._test_recipe_contents(recipefile, checkvars, inherits)
-+
- class RecipetoolAppendsrcBase(RecipetoolBase):
-     def _try_recipetool_appendsrcfile(self, testrecipe, newfile, destfile, options, expectedlines, expectedfiles):
-         cmd = 'recipetool appendsrcfile %s %s %s %s %s' % (options, self.templayerdir, testrecipe, newfile, destfile)
+ SRC_URI[md5sum] = "d26e11a3648c2b11aaefa215a55dfd39"
 -- 
-2.5.5
+2.8.1
 
 
