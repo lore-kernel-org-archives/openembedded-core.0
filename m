@@ -1,34 +1,28 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 2533D606BF
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2016 20:57:37 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 27 Jul 2016 13:57:39 -0700
+	by mail.openembedded.org (Postfix) with ESMTP id 93F1C60746;
+	Wed, 27 Jul 2016 21:13:46 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga101.jf.intel.com with ESMTP; 27 Jul 2016 14:13:47 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.28,431,1464678000"; 
-	d="asc'?scan'208";a="1015086136"
+	d="asc'?scan'208";a="854796328"
 Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.5.54]) ([10.219.5.54])
-	by fmsmga001.fm.intel.com with ESMTP; 27 Jul 2016 13:57:38 -0700
-To: "Sullivan, California L" <california.l.sullivan@intel.com>,
-	"Ashfield, Bruce (Wind River)" <bruce.ashfield@windriver.com>,
-	"ed.bartosh@linux.intel.com" <ed.bartosh@linux.intel.com>
-References: <1469620052.23580.115.camel@linuxfoundation.org>
-	<20160727122801.GA7061@linux.intel.com>
-	<5798B1E4.2090508@windriver.com>
-	<20160727131844.GA31757@linux.intel.com>
-	<5798C5A5.5050909@windriver.com>
-	<48F3FC2919BF894DA92986D5D64EA12801AC99C8@ORSMSX103.amr.corp.intel.com>
+	by orsmga003.jf.intel.com with ESMTP; 27 Jul 2016 14:13:48 -0700
+To: Mark Hatle <mark.hatle@windriver.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
+References: <5798ECAD.1060109@linux.intel.com>
+	<69a74e8b-5c4f-27d2-6563-0307f9c74dae@windriver.com>
 From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
-Message-ID: <57992068.702@linux.intel.com>
-Date: Wed, 27 Jul 2016 15:58:16 -0500
+Message-ID: <57992432.4000200@linux.intel.com>
+Date: Wed, 27 Jul 2016 16:14:26 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
 	Thunderbird/38.3.0
 MIME-Version: 1.0
-In-Reply-To: <48F3FC2919BF894DA92986D5D64EA12801AC99C8@ORSMSX103.amr.corp.intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: 2.7% build time regression caused by enabling debug/printk.scc KERNEL_FEATURE]
+In-Reply-To: <69a74e8b-5c4f-27d2-6563-0307f9c74dae@windriver.com>
+Subject: Re: Busybox drop systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,173 +35,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2016 20:57:38 -0000
-X-Groupsio-MsgNum: 85019
+X-List-Received-Date: Wed, 27 Jul 2016 21:13:47 -0000
+X-Groupsio-MsgNum: 85020
 Content-Type: multipart/signed; micalg=pgp-sha1;
 	protocol="application/pgp-signature";
-	boundary="Slg50QnW0Tc7nMUmL1ui6nuodcJu71upi"
+	boundary="Quh9qLwBJ1dBAp5pmv2bxG5mE9jL7eTSl"
 
---Slg50QnW0Tc7nMUmL1ui6nuodcJu71upi
+--Quh9qLwBJ1dBAp5pmv2bxG5mE9jL7eTSl
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: quoted-printable
 
 
 
-On 07/27/2016 03:06 PM, Sullivan, California L wrote:
-> Adding the debug-kernel fragment to the printk fragment was probably a
-> mistake on my part. I don't see anything that requires it.
->=20
-> I'm also seeing another issue: TTY_PRINTK depends on EXPERT, which is
-> only enabled on the developer kernel by default, so you currently won't=
-
-> be getting that option. From there, if we were to enable EXPERT,
-> DEBUG_KERNEL then gets selected automatically and we essentially end up=
-
-> where we started and have the build time regression.
->=20
-> Stuff to think about on my end I suppose. In the mean time I +1 removin=
-g
-> the debug-kernel include from printk.scc.
-
-I agree,
-
-	alimon
-
->=20
-> ---
-> Cal
->=20
-> On 07/27/2016 07:31 AM, Bruce Ashfield wrote:
->> On 2016-07-27 09:18 AM, Ed Bartosh wrote:
->>> On Wed, Jul 27, 2016 at 09:06:44AM -0400, Bruce Ashfield wrote:
->>>> On 2016-07-27 08:28 AM, Ed Bartosh wrote:
->>>>> Hi Bruce,
->>>>>
->>>>> Thank you for your suggestion to experiment with configuration opti=
-ons!
->>>>>
->>>>>> On 2016-07-26 10:32 AM, Ed Bartosh wrote:
->>>>>>> Hi all,
->>>>>>>
->>>>>>> We've noticed quite big increase of core-image-minimal build time=
- caused by commit
->>>>>>> d55b7650d305ffad953dd36595ee6b9aa8df5a72 linux-yocto: Enablei deb=
-ug/printk.scc KERNEL_FEATURE on qemuall machines.
->>>>>>>
->>>>>> That commit only enables the following options:
->>>>>>
->>>>>> CONFIG_PRINTK=3Dy
->>>>>> CONFIG_PRINTK_TIME=3Dy
->>>>>>
->>>>>> CONFIG_EARLY_PRINTK=3Dy
->>>>>>
->>>>>> CONFIG_EARLY_PRINTK_DBGP=3Dy
->>>>>> CONFIG_EARLY_PRINTK_EFI=3Dy
->>>>>> CONFIG_TTY_PRINTK=3Dy
->>>>>>
->>>>>> And yes, that will add some size to the kernel, but I'm not seeing=
-
->>>>>> similar size increases here.
->>>>>>
->>>>>> If you take a look through the kernel source and build, there are
->>>>>> relatively few additions to the actual kernel build that change
->>>>>> based on those options, and most of them are runtime changes versu=
-s
->>>>>> build-time changes.
->>>>>>
->>>>> The actuall difference in configuration is bigger as far as I can s=
-ee:
->>>>> $ diff -u ../build-kernel/tmp/work/qemux86_64-poky-linux/linux-yoct=
-o/4.4.14+gitAUTOINC+4800a400d5_8361321fec-r0/image/boot/config-4.4.14-yoc=
-to-standard
->>>>> tmp/work/qemux86_64-poky-linux/linux-yocto/4.4.14+gitAUTOINC+4800a4=
-00d5_8361321fec-r0/image/boot/config-4.4.14-yocto-standard | grep '^+C'
->>>>> +CONFIG_CONSOLE_POLL=3Dy
->>>>> +CONFIG_PRINTK_TIME=3Dy
->>>>> +CONFIG_DEBUG_INFO=3Dy
->>>>> +CONFIG_DEBUG_KERNEL=3Dy
->>>>> +CONFIG_SCHED_DEBUG=3Dy
->>>>> +CONFIG_DEBUG_PREEMPT=3Dy
->>>>> +CONFIG_KGDB=3Dy
->>>>> +CONFIG_KGDB_SERIAL_CONSOLE=3Dy
->>>>> +CONFIG_KGDB_LOW_LEVEL_TRAP=3Dy
->>>>> +CONFIG_KGDB_KDB=3Dy
->>>>> +CONFIG_KDB_DEFAULT_ENABLE=3D0x1
->>>>> +CONFIG_KDB_KEYBOARD=3Dy
->>>>> +CONFIG_KDB_CONTINUE_CATASTROPHIC=3D0
->>>>> +CONFIG_EARLY_PRINTK_DBGP=3Dy
->>>>> +CONFIG_EARLY_PRINTK_EFI=3Dy
->>>>> +CONFIG_DEBUG_RODATA=3Dy
->>>>> +CONFIG_DEBUG_RODATA_TEST=3Dy
->>>>> +CONFIG_X86_DEBUG_FPU=3Dy
->>>>>
->>>>> I guess the reason of this is that printk.scc includes debug-kernel=
-=2Escc,
->>>>> which brings more config options:
->>>>> CONFIG_DEBUG_KERNEL=3Dy
->>>>> CONFIG_DEBUG_INFO=3Dy
->>>>> CONFIG_DEBUG_PREEMPT=3Dy
->>>>>
->>>>> That probably explains the difference in kernel size and compile ti=
-me.
->>>>>
->>>> Yup.
->>>>
->>>>> After removing 'include debug-kernel.scc' the difference in
->>>>> configuration became more reasonable:
->>>>> +CONFIG_PRINTK_TIME=3Dy
->>>>> +CONFIG_EARLY_PRINTK_DBGP=3Dy
->>>>> +CONFIG_EARLY_PRINTK_EFI=3Dy
->>>>>
->>>>> And the size of kernel and modules became almost the same as before=
-
->>>>> enabling printk feature.
->>>>>
->>>>> Considering that the rest of the options from printk.scc don't appe=
-ar in
->>>>> the result configuration even if debug-kernel.scc is included I hop=
-e
->>>>> it should be ok to remove 'include debug-kernel.scc' from printk.sc=
-c.
->>>>>
->>>>> Does it make sense for you?
->>>> It does to me. Since we actually have a "developer" kernel type that=
-
->>>> is intended for this purpose. Anything that we add to the standard
->>>> kernel type should be more surgical.
->>>>
->>> Looking at guilty commit
->>> https://git.yoctoproject.org/cgit/cgit.cgi/yocto-kernel-cache/commit/=
-?h=3Dyocto-4.4&id=3Dfd8d90ca69f53d425fdb34fc9a9debac1d0c5f52
->>> I'd say that the rest of scc files should be also tested the same way=
-=2E
->>> We may not need to enable all 3 CONFIG_DEBUG options for each of them=
-=2E
->> Adding Cal, since he did the work on this split up.
+On 07/27/2016 12:58 PM, Mark Hatle wrote:
+> On 7/27/16 12:17 PM, An=EDbal Lim=F3n wrote:
+>> Hi folks,
 >>
->> The profiling feature makes sense with debug kernel being included, bu=
-t
->> I can see some latency top use cases that would be valid with a non
->> developer mode kernel (i.e. the standard kernel).
+>> I was working debugging an issue for missing /var/log/messages in
+>> systemd/busybox images [1] and then i found that busybox drop support
+>> for systemd from 1.25 version [2].
 >>
->> But yes, we don't want fragments that could be included by the standar=
-d
->> kernel to add typical functionality to add more than they need to
->> function. Further tweaking can be done, its part of the iterative
->> process on these fragments as we work through use cases.
+>> This ends in a set of questions of what we need to do in systemd/busyb=
+ox
+>> images since the next version of busybox will not support systemd,
 >>
->> Bruce
+>> I have a couple of ideas,
 >>
->>>
->>> --
->>> Regards,
->>> Ed
->>>
+>> - Remove the support of busybox in systemd images?, this is the hard
+>> one, we need an sw alternative here may be toybox...
+>> - Maintain the systemd support in busybox?, the patch [2] is small atm=
+
+>> but in the future may be this will cause problems for maintain it.
+>=20
+> I know we've had customers who want a 'busybox free' system.  In YP 2.0=
+ there
+> were still a few items provided by busybox, so just disabling it (black=
+list)
+> wasn't easy.
+>=20
+> This sounds like a good opportunity to make sure that you can make a sy=
+stem that
+> works with and without busybox.
+>=20
+
+I agree, currently we have the option to use core-image-{full-cmdline,
+lsb} that don't come with busybox but comes with standard linux
+utilities may me not targeted for embedded systems. Will be good if we
+could provide support for toybox or another busybox like implementation
+of shell, tools.
+
+> With that said, looking at [2] below.  I don't see that busybox ever re=
+ally
+> supported or not systemd (contrary to what it says.)
+
+The support was very basic for enable busybox-syslog start/stop with
+systemd.
+
+>=20
+> It just means if systemd is selected, and the user is using busybox -- =
+you
+> should not use syslogd out of busybox.  I think this is a reasonable re=
+quirement
+> -- and something that should be fairly easy to implement.  (With system=
+d, I'm
+> not sure why you would want to use the busybox syslogd anyway.. it's to=
+o limited
+> IMHO.)
+
+Yes that's an option to mantain to get rid of busybox-syslog and only
+use systemd journald.
+
+>=20
+> --Mark
+>=20
+>> Best regards,
+>> 	alimon
+>>
+>> [1]
+>> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Dali=
+mon/debug_times2&id=3Daa143dbe3cb233ee50944ebb62c541c823179a04
+>> [2]
+>> https://git.busybox.net/busybox/commit/?id=3Daccd9eeb719916da974584b33=
+b1aeced5f3bb346
+>>
+>>
 >>
 >=20
 
 
---Slg50QnW0Tc7nMUmL1ui6nuodcJu71upi
+--Quh9qLwBJ1dBAp5pmv2bxG5mE9jL7eTSl
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
@@ -215,19 +131,19 @@ Content-Disposition: attachment; filename="signature.asc"
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2
 
-iQIcBAEBAgAGBQJXmSBqAAoJEGJqcE9h3glgfCgQAI7SCCeWNgYhn5K31CfYWs91
-CV4ERaBLAHgh2j+YZ/zOSl0pFib4t53jkBe+qgs2AnXIz0QwVIWhhCUm//8ijLSB
-GnTASFLWnKDQEpjN+SwoNQzJnLj1Z0Nn0sHPTlJGS2lrmyD58Z7EedSQx4Es8Mar
-h1OdG5AA+GewS101SPhC5jtifFKVgnD+8YxiCjcP4kN4ey75DtdG/HmWd/IYL95V
-R6jDTVcA+IEptvrDPy+oH6y4uIPgqOKTLFc4hPkIjPN9rs+ineiHbSVoeTrndh4P
-myG4Mzw0DHyCrtyoWJ0iecS1m2wNW/tuu2WDKOtYfpPqNIx7sP/OP95uDObxrSvn
-EiBzyBJrz6Az+xbAKyj8Ah4XU5p5JPUaXykZN2CiTiYYLfydkBm8lEA+Jkl/QAq4
-CqtsiHgWxu19BCuJlqknF91O9mtgSgI/SN+wfAq7OHQ77Gy+yJ0/04Wlcu2QgQwo
-gw84lH9KSpCgvD+w0etZ44f+643J11UR5BIyevsHPi8XhQSWq5e5m/Zw9JHRI8gi
-g9IT18oF8O7D8JfI1DVKF5W5ELtVDuAGg+kg/z5WTqD4jOe78dJGQ02ySMEo4NHF
-sH4KfRmJZG4HXEoRbCwrvQ6aiAlGoH7ohK+SfUMMgCRhTPKvxY/BEXDv5J4c2RSB
-VbzUf6P3MFn6AqsqVtCt
-=j36V
+iQIcBAEBAgAGBQJXmSQ1AAoJEGJqcE9h3glgGm8P/1+yhawFxZCAe/rxuv2Pjcog
+GzQ+jJ4hWipcGEZk2Ci8MEbfZoOHJi7RUKGQxAd3Rf4gGQG2qwiWph/MW044NlBm
+3sbjaEm0qpWNsqUZXzOZZWF78uY8PEUhIkzXH/TN8t8l5HSiCoJGqdOiCfW3byGV
+4eg/KIgVzrLmknEFiYufVfMdBp/T1ghQPvRj82/kXpRYIRBANf+uW1V5oncAyhsd
+PtqxPOKYX/Vp6B/He4odSMWRRG7KhdTDGgkqtiazmnKYRbxU0rrDILzjKn4NJF7c
+NfYwH7BeS+junjhShmGURUwehf2gWyYOlJssKGS1Yt25qWYNFMYLL8IGeq0ZW16/
+EMlpP8csoGXv0GEOfzexFJBgU0Rik/27+ZmO9U8hDUfna/BHqqaqwlJUnaDvLSRb
+9TySjWdNVwgkbp3OWxEEUyokFB1ntSlMsF15N4uwVP0J8zEZboKdxNrSB5NOozUM
+BTpZmHjnUSRbfqLs7LiP9VjaCVKzgDP8Q0MQlVy/q2iJGpLm52uDBLBSiZqe6n5T
+hnJdAt4hB+Fi1EVir7HwdFBPApPC70AWX1SMZqzzqzuFOYGlCm/RoreUGfRx58OS
+prjbFq2MivVhMOO4xOub4cgyKWfwnXaCk9Pl+UZpDVQS53NZs3Q36IWKI5ZeWTOH
+ilgSdtQ/wPH89c9y8lJi
+=U5BF
 -----END PGP SIGNATURE-----
 
---Slg50QnW0Tc7nMUmL1ui6nuodcJu71upi--
+--Quh9qLwBJ1dBAp5pmv2bxG5mE9jL7eTSl--
