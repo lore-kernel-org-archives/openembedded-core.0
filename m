@@ -1,51 +1,25 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 831E5731C7
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2016 17:07:53 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id q128so7402472wma.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2016 10:07:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=C1xsFUM5agYHsYQGw2P08ai+CCDKGDPOynu0rusNKYM=;
-	b=lYrmLYK6K+frqRNUSaFcicdOtsX36rFR8FHHI/8+FoM9tP4a3Kb1GAY8y3AkpZTnGJ
-	hAURrBrEbQoDB7vWTN3uy+P7E6J/IfhNRYloeX5rMaH27jUQyxkXfv+Vp6Qv8KtIyGtu
-	d/AUtJP9w8sQXAkUXFt08L4JbX9QAyuQV2S+VhJoYd7RSu8Kl6WhEf2EQuqy9tZcrYjj
-	8+VmfWCBHO9TGfj0cP8ZAA/kf0jaW9axPiTkpOYzlpHByQRnoHgqJ+/JZuFB/kCy3R1I
-	/oLAwy8aayKBOQKMAjvlp3da2Yjbfeig5Hh4OhWefsUI06/dzBQhiqIeFstfmjRC/Fx8
-	uuGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=C1xsFUM5agYHsYQGw2P08ai+CCDKGDPOynu0rusNKYM=;
-	b=iYx2XONQBD1J5DuYe0fxDeWntjEN6NDrOf6MK4CZFaw/+CBbzT7S8fwYQs6+49dR3/
-	cQb3c1q1VWiprTmX1Uwts4nttgiH18PMBC7S/yfni5fGU+0D3Tx3puUMxRxxfynzdn9+
-	/glHz+rGtLSW5zXhr70UFE6nPa2ol5Qf+5KPauUQCkFlTjppRD7XeljtIVikaGSnpuSW
-	85m7P3EaD22DIEPZrPgi9HsTaz1rROU+ccFwKbyVqrwBMpKKXpYPbxklmb5rgdxC1j+Q
-	UqOlQstoRmSAVUUrjYa0ITIhQGCEOstThvCdEsxoQRgbEJtEGFlKvvvLhTvOFa4BY10r
-	Xiqw==
-X-Gm-Message-State: AEkoouswCxJfxeYfjBEEMzbHAHKdn/gLCF11nzaWJVPOJUklhGSIkmJemO3e2Ea4k0coWA==
-X-Received: by 10.194.73.136 with SMTP id l8mr28145682wjv.153.1469639273816;
-	Wed, 27 Jul 2016 10:07:53 -0700 (PDT)
-Received: from localhost (ip-89-176-104-169.net.upcbroadband.cz.
-	[89.176.104.169])
-	by smtp.gmail.com with ESMTPSA id he3sm7318484wjc.6.2016.07.27.10.07.52
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 27 Jul 2016 10:07:52 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 27 Jul 2016 19:07:56 +0200
-To: Ross Burton <ross.burton@intel.com>
-Message-ID: <20160727170756.aridi4qzmmuyedyt@jama>
-References: <1469637177-2657-1-git-send-email-ross.burton@intel.com>
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 82086606BF;
+	Wed, 27 Jul 2016 17:16:53 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga103.fm.intel.com with ESMTP; 27 Jul 2016 10:16:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,430,1464678000"; 
+	d="asc'?scan'208";a="1030245316"
+Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.5.54]) ([10.219.5.54])
+	by fmsmga002.fm.intel.com with ESMTP; 27 Jul 2016 10:16:53 -0700
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
+From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+X-Enigmail-Draft-Status: N1110
+Message-ID: <5798ECAD.1060109@linux.intel.com>
+Date: Wed, 27 Jul 2016 12:17:33 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
 MIME-Version: 1.0
-In-Reply-To: <1469637177-2657-1-git-send-email-ross.burton@intel.com>
-User-Agent: Mutt/1.6.2 (2016-06-11)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gstreamer1.0-plugins-bad: add missing wayland-native dependency
+Subject: Busybox drop systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,70 +32,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2016 17:07:55 -0000
-X-Groupsio-MsgNum: 85011
+X-List-Received-Date: Wed, 27 Jul 2016 17:16:56 -0000
+X-Groupsio-MsgNum: 85012
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="64itijzfxwe5ndsg"
-Content-Disposition: inline
+	protocol="application/pgp-signature";
+	boundary="RsmhhDq555cSCnefCfvbg534FoSXtt2Wf"
 
---64itijzfxwe5ndsg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--RsmhhDq555cSCnefCfvbg534FoSXtt2Wf
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 27, 2016 at 05:32:57PM +0100, Ross Burton wrote:
-> The wayland support requires wayland-scanner, so add a dependency on
-> wayland-native.
+Hi folks,
 
-Why is this needed when wayland already depends on wayland-native?
+I was working debugging an issue for missing /var/log/messages in
+systemd/busybox images [1] and then i found that busybox drop support
+for systemd from 1.25 version [2].
 
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.i=
-nc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-> index 9e2b94e..d8c8179 100644
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-> @@ -58,7 +58,7 @@ PACKAGECONFIG[srtp]            =3D "--enable-srtp,--dis=
-able-srtp,libsrtp"
->  PACKAGECONFIG[uvch264]         =3D "--enable-uvch264,--disable-uvch264,l=
-ibusb1 libgudev"
->  PACKAGECONFIG[voaacenc]        =3D "--enable-voaacenc,--disable-voaacenc=
-,vo-aacenc"
->  PACKAGECONFIG[voamrwbenc]      =3D "--enable-voamrwbenc,--disable-voamrw=
-benc,vo-amrwbenc"
-> -PACKAGECONFIG[wayland]         =3D "--enable-wayland --enable-egl,--disa=
-ble-wayland --disable-egl,wayland virtual/egl"
-> +PACKAGECONFIG[wayland]         =3D "--enable-wayland --enable-egl,--disa=
-ble-wayland --disable-egl,wayland-native wayland virtual/egl"
->  PACKAGECONFIG[webp]            =3D "--enable-webp,--disable-webp,libwebp"
-> =20
->  # these plugins have not been ported to 1.0 (yet):
-> --=20
-> 2.8.1
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+This ends in a set of questions of what we need to do in systemd/busybox
+images since the next version of busybox will not support systemd,
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+I have a couple of ideas,
 
---64itijzfxwe5ndsg
+- Remove the support of busybox in systemd images?, this is the hard
+one, we need an sw alternative here may be toybox...
+- Maintain the systemd support in busybox?, the patch [2] is small atm
+but in the future may be this will cause problems for maintain it.
+
+Best regards,
+	alimon
+
+[1]
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Dalimon=
+/debug_times2&id=3Daa143dbe3cb233ee50944ebb62c541c823179a04
+[2]
+https://git.busybox.net/busybox/commit/?id=3Daccd9eeb719916da974584b33b1a=
+eced5f3bb346
+
+
+--RsmhhDq555cSCnefCfvbg534FoSXtt2Wf
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2
 
-iEYEARECAAYFAleY6msACgkQN1Ujt2V2gBx5EQCfUa0vcYhRP4eCjS7rjiVXrGlp
-xI4AoLbDOf04GhAnNT1ODWMOPrQpeHj6
-=NdT0
+iQIcBAEBAgAGBQJXmOyvAAoJEGJqcE9h3glgrXEP/27NIdzwxLP2TWZXCCohrSbH
+eZkJe5/6R6V5DJ+ifUDYVtfaNaNFkuS3m/uTpiAIqbYxjRut322mSV/Y1jTV8usb
+OK7dOmfAehOmLlWVUspXB+Xd0/FbKlKtwxG2QQC3vHO5vYkOlTDMec5mJtMONRjF
+VEiPugLWJHbfG6dxIfxtFokGAJa0KMnFCjxx5ww/69aleyiJJSvK1KTyR/0bClio
+wHHZeEIl7QBLPBkuFs1ClqLP5OpIjAJPUNEUl8pK3sigBkkQ9VpqLl5idjpQ7gzF
+q71YkWdzld1NOS6m+lz8GZl68L/ChO1Uw9L0NZVzPxVupmjkeEsku5O0wp8/SolH
+tReRlO2Oic/x9muWaVXart5AwAPSOz46s+9/azgYA+6XSzFUaublPu2+3MCH4/et
+Ms9kIMD3PE8fEcpAykK/dhk61M28/4g5kuXJzV1tU3ecgenNs4HIPj4+BPAJQxOw
+rpOQ7dTQUHStpEae9Vsw0baL+7Xurbg5HNLtN+FW9J4BF1tnS+xYxdrwfhZI1aE2
+I7enIKhCr0YdJl62hmqI3t7+uJuCKdI6Ix2/W7SbdtZpLLZBLmqPLi098avErtrc
+WQfPMYPFKMwY4T1lbOMAhJMJqn0Cxpi/D/QkRWug3iWxeEOb2pN1yRay1HsscpDg
+v4U1DKOISk2dqSAL2qBH
+=O2Bd
 -----END PGP SIGNATURE-----
 
---64itijzfxwe5ndsg--
+--RsmhhDq555cSCnefCfvbg534FoSXtt2Wf--
