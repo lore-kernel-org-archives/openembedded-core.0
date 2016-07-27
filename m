@@ -1,26 +1,51 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B6859731C5
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 831E5731C7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2016 16:57:15 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u6RGvFGN010394
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 27 Jul 2016 09:57:16 -0700 (PDT)
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Wed, 27 Jul 2016 09:57:15 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Wed, 27 Jul 2016 12:57:08 -0400
-Message-ID: <20acc30a644a7ca14f1be77567507584e63eaabc.1469638333.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <cover.1469638333.git.bruce.ashfield@windriver.com>
-References: <cover.1469638333.git.bruce.ashfield@windriver.com>
+	Wed, 27 Jul 2016 17:07:53 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id q128so7402472wma.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Jul 2016 10:07:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=C1xsFUM5agYHsYQGw2P08ai+CCDKGDPOynu0rusNKYM=;
+	b=lYrmLYK6K+frqRNUSaFcicdOtsX36rFR8FHHI/8+FoM9tP4a3Kb1GAY8y3AkpZTnGJ
+	hAURrBrEbQoDB7vWTN3uy+P7E6J/IfhNRYloeX5rMaH27jUQyxkXfv+Vp6Qv8KtIyGtu
+	d/AUtJP9w8sQXAkUXFt08L4JbX9QAyuQV2S+VhJoYd7RSu8Kl6WhEf2EQuqy9tZcrYjj
+	8+VmfWCBHO9TGfj0cP8ZAA/kf0jaW9axPiTkpOYzlpHByQRnoHgqJ+/JZuFB/kCy3R1I
+	/oLAwy8aayKBOQKMAjvlp3da2Yjbfeig5Hh4OhWefsUI06/dzBQhiqIeFstfmjRC/Fx8
+	uuGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=C1xsFUM5agYHsYQGw2P08ai+CCDKGDPOynu0rusNKYM=;
+	b=iYx2XONQBD1J5DuYe0fxDeWntjEN6NDrOf6MK4CZFaw/+CBbzT7S8fwYQs6+49dR3/
+	cQb3c1q1VWiprTmX1Uwts4nttgiH18PMBC7S/yfni5fGU+0D3Tx3puUMxRxxfynzdn9+
+	/glHz+rGtLSW5zXhr70UFE6nPa2ol5Qf+5KPauUQCkFlTjppRD7XeljtIVikaGSnpuSW
+	85m7P3EaD22DIEPZrPgi9HsTaz1rROU+ccFwKbyVqrwBMpKKXpYPbxklmb5rgdxC1j+Q
+	UqOlQstoRmSAVUUrjYa0ITIhQGCEOstThvCdEsxoQRgbEJtEGFlKvvvLhTvOFa4BY10r
+	Xiqw==
+X-Gm-Message-State: AEkoouswCxJfxeYfjBEEMzbHAHKdn/gLCF11nzaWJVPOJUklhGSIkmJemO3e2Ea4k0coWA==
+X-Received: by 10.194.73.136 with SMTP id l8mr28145682wjv.153.1469639273816;
+	Wed, 27 Jul 2016 10:07:53 -0700 (PDT)
+Received: from localhost (ip-89-176-104-169.net.upcbroadband.cz.
+	[89.176.104.169])
+	by smtp.gmail.com with ESMTPSA id he3sm7318484wjc.6.2016.07.27.10.07.52
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 27 Jul 2016 10:07:52 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 27 Jul 2016 19:07:56 +0200
+To: Ross Burton <ross.burton@intel.com>
+Message-ID: <20160727170756.aridi4qzmmuyedyt@jama>
+References: <1469637177-2657-1-git-send-email-ross.burton@intel.com>
 MIME-Version: 1.0
+In-Reply-To: <1469637177-2657-1-git-send-email-ross.burton@intel.com>
+User-Agent: Mutt/1.6.2 (2016-06-11)
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 5/5] linux-yocto/4.4: mousedev and printk configuation streamlining
+Subject: Re: [PATCH] gstreamer1.0-plugins-bad: add missing wayland-native dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,90 +58,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2016 16:57:15 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 27 Jul 2016 17:07:55 -0000
+X-Groupsio-MsgNum: 85011
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="64itijzfxwe5ndsg"
+Content-Disposition: inline
 
-Integrating two changes to the 4.4 kernel:
+--64itijzfxwe5ndsg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-mousedev: fix warning err caused by __cpu_to_le16p()
+On Wed, Jul 27, 2016 at 05:32:57PM +0100, Ross Burton wrote:
+> The wayland support requires wayland-scanner, so add a dependency on
+> wayland-native.
 
-    mousedev: fix warning err caused by __cpu_to_le16p()
+Why is this needed when wayland already depends on wayland-native?
 
-    following warning msg is found when compiling the kernel for qemumips:
-    .../drivers/input/mousedev.c:749:15: warning: passing argument 1 of
-    '__cpu_to_le16p' from incompatible pointer type [-Wincompatible-pointer-types]
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.i=
+nc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+> index 9e2b94e..d8c8179 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+> @@ -58,7 +58,7 @@ PACKAGECONFIG[srtp]            =3D "--enable-srtp,--dis=
+able-srtp,libsrtp"
+>  PACKAGECONFIG[uvch264]         =3D "--enable-uvch264,--disable-uvch264,l=
+ibusb1 libgudev"
+>  PACKAGECONFIG[voaacenc]        =3D "--enable-voaacenc,--disable-voaacenc=
+,vo-aacenc"
+>  PACKAGECONFIG[voamrwbenc]      =3D "--enable-voamrwbenc,--disable-voamrw=
+benc,vo-amrwbenc"
+> -PACKAGECONFIG[wayland]         =3D "--enable-wayland --enable-egl,--disa=
+ble-wayland --disable-egl,wayland virtual/egl"
+> +PACKAGECONFIG[wayland]         =3D "--enable-wayland --enable-egl,--disa=
+ble-wayland --disable-egl,wayland-native wayland virtual/egl"
+>  PACKAGECONFIG[webp]            =3D "--enable-webp,--disable-webp,libwebp"
+> =20
+>  # these plugins have not been ported to 1.0 (yet):
+> --=20
+> 2.8.1
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-    convert the function's parameter to (__u16 *) to fix this warning.
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-    Signed-off-by: Zhenbo Gao <zhenbo.gao@windriver.com>
+--64itijzfxwe5ndsg
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-printk.scc: don't include kernel-debug.scc
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
-    There is no need to include kernel-debug.scc into printk.scc as
-    options from printk.cfg don't depend on CONFIG_DEBUG* options from
-    kernel-debug.cfg
+iEYEARECAAYFAleY6msACgkQN1Ujt2V2gBx5EQCfUa0vcYhRP4eCjS7rjiVXrGlp
+xI4AoLbDOf04GhAnNT1ODWMOPrQpeHj6
+=NdT0
+-----END PGP SIGNATURE-----
 
-    Moreover, enabling CONFIG_DEBUG* options makes kernel much bigger,
-    increases build time and consumed a lot of additional disk space.
-
-    Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-    Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_4.4.bb      | 6 +++---
- 3 files changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
-index ec573083c111..447f431ac90c 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
-@@ -12,7 +12,7 @@ python () {
- }
- 
- SRCREV_machine ?= "3bdc347cc2087a0217e3acddccda5bb775cd570b"
--SRCREV_meta ?= "4789b41c5605189902d2c1a674f8616d41ee218d"
-+SRCREV_meta ?= "d3cc76c3cb20247b16c16b2367decf08b5fb90fa"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.4.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.4;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
-index 635d91ca3ad7..557f17c9b4b6 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
-@@ -10,7 +10,7 @@ KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine ?= "ddab242999407fadae68e7ee5381b0ec6679d443"
--SRCREV_meta ?= "4789b41c5605189902d2c1a674f8616d41ee218d"
-+SRCREV_meta ?= "d3cc76c3cb20247b16c16b2367decf08b5fb90fa"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.4.bb b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
-index 036a5b1550e3..55ef6fdc22af 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.4.bb
-@@ -13,13 +13,13 @@ KBRANCH_qemumips64 ?= "standard/mti-malta64"
- 
- SRCREV_machine_qemuarm ?= "c2507bd62854f90030433307a3d783474332f821"
- SRCREV_machine_qemuarm64 ?= "ddab242999407fadae68e7ee5381b0ec6679d443"
--SRCREV_machine_qemumips ?= "8d0a4875a93017329b32b42ce7d67b02f63a173b"
-+SRCREV_machine_qemumips ?= "e42198f28a2c3e57ef64a0f5ccfdeed906d1c257"
- SRCREV_machine_qemuppc ?= "ddab242999407fadae68e7ee5381b0ec6679d443"
- SRCREV_machine_qemux86 ?= "ddab242999407fadae68e7ee5381b0ec6679d443"
- SRCREV_machine_qemux86-64 ?= "ddab242999407fadae68e7ee5381b0ec6679d443"
--SRCREV_machine_qemumips64 ?= "df3ba701aa1fa3b2faadc5445003e7577aa4f016"
-+SRCREV_machine_qemumips64 ?= "2d0080f2350e088bdc6129c376eb9e2654a0448a"
- SRCREV_machine ?= "ddab242999407fadae68e7ee5381b0ec6679d443"
--SRCREV_meta ?= "4789b41c5605189902d2c1a674f8616d41ee218d"
-+SRCREV_meta ?= "d3cc76c3cb20247b16c16b2367decf08b5fb90fa"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.4.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.4;destsuffix=${KMETA}"
--- 
-2.5.0
-
-
+--64itijzfxwe5ndsg--
