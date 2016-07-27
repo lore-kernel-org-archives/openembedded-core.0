@@ -1,28 +1,33 @@
 Return-Path: <ed.bartosh@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 5577D731D6
+	by mail.openembedded.org (Postfix) with ESMTP id 99EE3606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2016 13:29:04 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP; 27 Jul 2016 06:28:55 -0700
+	Wed, 27 Jul 2016 13:55:14 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP; 27 Jul 2016 06:55:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,429,1464678000"; d="scan'208";a="854529682"
+X-IronPort-AV: E=Sophos;i="5.28,430,1464678000"; d="scan'208";a="1014853844"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga003.jf.intel.com with ESMTP; 27 Jul 2016 06:28:48 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
-	by linux.intel.com (Postfix) with ESMTP id D2E8E6A4080
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2016 06:28:35 -0700 (PDT)
+	by fmsmga001.fm.intel.com with ESMTP; 27 Jul 2016 06:55:15 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.68])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 985FF6A4080;
+	Wed, 27 Jul 2016 06:55:01 -0700 (PDT)
+Date: Wed, 27 Jul 2016 16:18:44 +0300
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Jul 2016 15:51:23 +0300
-Message-Id: <b6277ced680b082957ec1678421e63d2a08e3459.1469623667.git.ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1469623667.git.ed.bartosh@linux.intel.com>
-References: <cover.1469623667.git.ed.bartosh@linux.intel.com>
-In-Reply-To: <cover.1469623667.git.ed.bartosh@linux.intel.com>
-References: <cover.1469623667.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH v4 3/4] image.bbclass: rename COMPRESS(ION) to CONVERSION
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <20160727131844.GA31757@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <1469620052.23580.115.camel@linuxfoundation.org>
+	<20160727122801.GA7061@linux.intel.com>
+	<5798B1E4.2090508@windriver.com>
+MIME-Version: 1.0
+In-Reply-To: <5798B1E4.2090508@windriver.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: 2.7% build time regression caused by enabling debug/printk.scc KERNEL_FEATURE]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,205 +40,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2016 13:29:05 -0000
+X-List-Received-Date: Wed, 27 Jul 2016 13:55:15 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Patrick Ohly <patrick.ohly@intel.com>
+On Wed, Jul 27, 2016 at 09:06:44AM -0400, Bruce Ashfield wrote:
+> On 2016-07-27 08:28 AM, Ed Bartosh wrote:
+> >Hi Bruce,
+> >
+> >Thank you for your suggestion to experiment with configuration options!
+> >
+> >>On 2016-07-26 10:32 AM, Ed Bartosh wrote:
+> >>>Hi all,
+> >>>
+> >>>We've noticed quite big increase of core-image-minimal build time caused by commit
+> >>>d55b7650d305ffad953dd36595ee6b9aa8df5a72 linux-yocto: Enablei debug/printk.scc KERNEL_FEATURE on qemuall machines.
+> >>>
+> >>
+> >>That commit only enables the following options:
+> >>
+> >>CONFIG_PRINTK=y
+> >>CONFIG_PRINTK_TIME=y
+> >>
+> >>CONFIG_EARLY_PRINTK=y
+> >>
+> >>CONFIG_EARLY_PRINTK_DBGP=y
+> >>CONFIG_EARLY_PRINTK_EFI=y
+> >>CONFIG_TTY_PRINTK=y
+> >>
+> >>And yes, that will add some size to the kernel, but I'm not seeing
+> >>similar size increases here.
+> >>
+> >>If you take a look through the kernel source and build, there are
+> >>relatively few additions to the actual kernel build that change
+> >>based on those options, and most of them are runtime changes versus
+> >>build-time changes.
+> >>
+> >
+> >The actuall difference in configuration is bigger as far as I can see:
+> >$ diff -u ../build-kernel/tmp/work/qemux86_64-poky-linux/linux-yocto/4.4.14+gitAUTOINC+4800a400d5_8361321fec-r0/image/boot/config-4.4.14-yocto-standard
+> >tmp/work/qemux86_64-poky-linux/linux-yocto/4.4.14+gitAUTOINC+4800a400d5_8361321fec-r0/image/boot/config-4.4.14-yocto-standard | grep '^+C'
+> >+CONFIG_CONSOLE_POLL=y
+> >+CONFIG_PRINTK_TIME=y
+> >+CONFIG_DEBUG_INFO=y
+> >+CONFIG_DEBUG_KERNEL=y
+> >+CONFIG_SCHED_DEBUG=y
+> >+CONFIG_DEBUG_PREEMPT=y
+> >+CONFIG_KGDB=y
+> >+CONFIG_KGDB_SERIAL_CONSOLE=y
+> >+CONFIG_KGDB_LOW_LEVEL_TRAP=y
+> >+CONFIG_KGDB_KDB=y
+> >+CONFIG_KDB_DEFAULT_ENABLE=0x1
+> >+CONFIG_KDB_KEYBOARD=y
+> >+CONFIG_KDB_CONTINUE_CATASTROPHIC=0
+> >+CONFIG_EARLY_PRINTK_DBGP=y
+> >+CONFIG_EARLY_PRINTK_EFI=y
+> >+CONFIG_DEBUG_RODATA=y
+> >+CONFIG_DEBUG_RODATA_TEST=y
+> >+CONFIG_X86_DEBUG_FPU=y
+> >
+> >I guess the reason of this is that printk.scc includes debug-kernel.scc,
+> >which brings more config options:
+> >CONFIG_DEBUG_KERNEL=y
+> >CONFIG_DEBUG_INFO=y
+> >CONFIG_DEBUG_PREEMPT=y
+> >
+> >That probably explains the difference in kernel size and compile time.
+> >
+> 
+> Yup.
+> 
+> >After removing 'include debug-kernel.scc' the difference in
+> >configuration became more reasonable:
+> >+CONFIG_PRINTK_TIME=y
+> >+CONFIG_EARLY_PRINTK_DBGP=y
+> >+CONFIG_EARLY_PRINTK_EFI=y
+> >
+> >And the size of kernel and modules became almost the same as before
+> >enabling printk feature.
+> >
+> >Considering that the rest of the options from printk.scc don't appear in
+> >the result configuration even if debug-kernel.scc is included I hope
+> >it should be ok to remove 'include debug-kernel.scc' from printk.scc.
+> >
+> >Does it make sense for you?
+> 
+> It does to me. Since we actually have a "developer" kernel type that
+> is intended for this purpose. Anything that we add to the standard
+> kernel type should be more surgical.
+> 
 
-With the enhanced functionality, the term "compression" is no longer
-accurate, because the mechanism also gets used for conversion
-operations that do not actually compress data.
+Looking at guilty commit
+https://git.yoctoproject.org/cgit/cgit.cgi/yocto-kernel-cache/commit/?h=yocto-4.4&id=fd8d90ca69f53d425fdb34fc9a9debac1d0c5f52
+I'd say that the rest of scc files should be also tested the same way.
+We may not need to enable all 3 CONFIG_DEBUG options for each of them.
 
-It is possible to remove this naming problem in a backward-compatible
-manner by including COMPRESSIONTYPES in CONVERSIONTYPES and checking for
-the old COMPRESS_CMD/DEPENDS as fallbacks.
 
-[YOCTO #9346]
-
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- meta/classes/image.bbclass             | 10 +++---
- meta/classes/image_types.bbclass       | 64 +++++++++++++++++-----------------
- meta/classes/image_types_uboot.bbclass | 18 +++++-----
- 3 files changed, 47 insertions(+), 45 deletions(-)
-
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 406b9e0..5edbca1 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -118,7 +118,7 @@ def rootfs_variables(d):
-                  'IMAGE_ROOTFS_MAXSIZE','IMAGE_NAME','IMAGE_LINK_NAME','IMAGE_MANIFEST','DEPLOY_DIR_IMAGE','RM_OLD_IMAGE','IMAGE_FSTYPES','IMAGE_INSTALL_COMPLEMENTARY','IMAGE_LINGUAS',
-                  'MULTILIBRE_ALLOW_REP','MULTILIB_TEMP_ROOTFS','MULTILIB_VARIANTS','MULTILIBS','ALL_MULTILIB_PACKAGE_ARCHS','MULTILIB_GLOBAL_VARIANTS','BAD_RECOMMENDATIONS','NO_RECOMMENDATIONS',
-                  'PACKAGE_ARCHS','PACKAGE_CLASSES','TARGET_VENDOR','TARGET_ARCH','TARGET_OS','OVERRIDES','BBEXTENDVARIANT','FEED_DEPLOYDIR_BASE_URI','INTERCEPT_DIR','USE_DEVFS',
--                 'COMPRESSIONTYPES', 'IMAGE_GEN_DEBUGFS', 'ROOTFS_RO_UNNEEDED']
-+                 'CONVERSIONTYPES', 'IMAGE_GEN_DEBUGFS', 'ROOTFS_RO_UNNEEDED']
-     variables.extend(rootfs_command_variables(d))
-     variables.extend(variable_depends(d))
-     return " ".join(variables)
-@@ -149,6 +149,7 @@ inherit ${IMAGE_TYPE_live}
- IMAGE_TYPE_vm = '${@ "image-vm" if image_type_active("hdddirect", d) else ""}'
- inherit ${IMAGE_TYPE_vm}
- 
-+
- python () {
-     deps = " " + image_getdepends(d)
-     d.appendVarFlag('do_rootfs', 'depends', deps)
-@@ -350,7 +351,7 @@ python setup_debugfs () {
- 
- python () {
-     vardeps = set()
--    # We allow COMPRESSIONTYPES to have duplicates. That avoids breaking
-+    # We allow CONVERSIONTYPES to have duplicates. That avoids breaking
-     # derived distros when OE-core or some other layer independently adds
-     # the same type. There is still only one command for each type, but
-     # presumably the commands will do the same when the type is the same,
-@@ -358,7 +359,7 @@ python () {
-     #
-     # Without de-duplication, gen_conversion_cmds() below
-     # would create the same compression command multiple times.
--    ctypes = set(d.getVar('COMPRESSIONTYPES', True).split())
-+    ctypes = set(d.getVar('CONVERSIONTYPES', True).split())
-     old_overrides = d.getVar('OVERRIDES', 0)
- 
-     basetypes = {}
-@@ -450,9 +451,10 @@ python () {
-                     # Create input image first.
-                     gen_conversion_cmds(type)
-                     localdata.setVar('type', type)
--                    cmd = "\t" + localdata.getVar("COMPRESS_CMD_" + ctype, True)
-+                    cmd = "\t" + (localdata.getVar("CONVERSION_CMD_" + ctype, True) or localdata.getVar("COMPRESS_CMD_" + ctype, True))
-                     if cmd not in cmds:
-                         cmds.append(cmd)
-+                    vardeps.add('CONVERSION_CMD_' + ctype)
-                     vardeps.add('COMPRESS_CMD_' + ctype)
-                     subimage = type + "." + ctype
-                     if subimage not in subimages:
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index b5092cf..e632fd1 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -36,11 +36,11 @@ def image_getdepends(d):
-                 deps.append(i)
- 
-     deps = []
--    ctypes = set(d.getVar('COMPRESSIONTYPES', True).split())
-+    ctypes = set(d.getVar('CONVERSIONTYPES', True).split())
-     for type in (d.getVar('IMAGE_FSTYPES', True) or "").split():
-         basetype, compressiontypes = image_split_type(type, ctypes)
-         for ctype in compressiontypes:
--            adddep(d.getVar("COMPRESS_DEPENDS_%s" % ctype, True), deps)
-+            adddep(d.getVar("CONVERSION_DEPENDS_%s" % ctype, True), deps)
-         for typedepends in (d.getVar("IMAGE_TYPEDEP_%s" % basetype, True) or "").split():
-             adddep(d.getVar('IMAGE_DEPENDS_%s' % typedepends, True) , deps)
-         adddep(d.getVar('IMAGE_DEPENDS_%s' % basetype, True) , deps)
-@@ -231,7 +231,7 @@ IMAGE_CMD_wic () {
- IMAGE_CMD_wic[vardepsexclude] = "WKS_FULL_PATH WKS_FILES"
- 
- # Rebuild when the wks file or vars in WICVARS change
--USING_WIC = "${@bb.utils.contains_any('IMAGE_FSTYPES', 'wic ' + ' '.join('wic.%s' % c for c in '${COMPRESSIONTYPES}'.split()), '1', '', d)}"
-+USING_WIC = "${@bb.utils.contains_any('IMAGE_FSTYPES', 'wic ' + ' '.join('wic.%s' % c for c in '${CONVERSIONTYPES}'.split()), '1', '', d)}"
- WKS_FILE_CHECKSUM = "${@'${WKS_FULL_PATH}:%s' % os.path.exists('${WKS_FULL_PATH}') if '${USING_WIC}' else ''}"
- do_image_wic[file-checksums] += "${WKS_FILE_CHECKSUM}"
- 
-@@ -344,35 +344,35 @@ IMAGE_TYPES = " \
-     wic wic.gz wic.bz2 wic.lzma \
- "
- 
--COMPRESSIONTYPES = "gz bz2 lzma xz lz4 zip sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap vmdk vdi qcow2"
--COMPRESS_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
--COMPRESS_CMD_gz = "gzip -f -9 -c ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
--COMPRESS_CMD_bz2 = "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
--COMPRESS_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_THREADS} --check=${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.xz"
--COMPRESS_CMD_lz4 = "lz4c -9 -c ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.lz4"
--COMPRESS_CMD_zip = "zip ${ZIP_COMPRESSION_LEVEL} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.zip ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
--COMPRESS_CMD_sum = "sumtool -i ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} -o ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sum ${JFFS2_SUM_EXTRA_ARGS}"
--COMPRESS_CMD_vmdk = "qemu-img convert -O vmdk ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vmdk"
--COMPRESS_CMD_vdi = "qemu-img convert -O vdi ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vdi"
--COMPRESS_CMD_qcow2 = "qemu-img convert -O qcow2 ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.qcow2"
--COMPRESS_CMD_md5sum = "md5sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.md5sum"
--COMPRESS_CMD_sha1sum = "sha1sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha1sum"
--COMPRESS_CMD_sha224sum = "sha224sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha224sum"
--COMPRESS_CMD_sha256sum = "sha256sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha256sum"
--COMPRESS_CMD_sha384sum = "sha384sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha384sum"
--COMPRESS_CMD_sha512sum = "sha512sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha512sum"
--COMPRESS_CMD_bmap = "bmaptool create ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} -o ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.bmap"
--COMPRESS_DEPENDS_lzma = "xz-native"
--COMPRESS_DEPENDS_gz = ""
--COMPRESS_DEPENDS_bz2 = "pbzip2-native"
--COMPRESS_DEPENDS_xz = "xz-native"
--COMPRESS_DEPENDS_lz4 = "lz4-native"
--COMPRESS_DEPENDS_zip = "zip-native"
--COMPRESS_DEPENDS_sum = "mtd-utils-native"
--COMPRESS_DEPENDS_bmap = "bmap-tools-native"
--COMPRESS_DEPENDS_vmdk = "qemu-native"
--COMPRESS_DEPENDS_vdi = "qemu-native"
--COMPRESS_DEPENDS_qcow2 = "qemu-native"
-+CONVERSIONTYPES = "gz bz2 lzma xz lz4 zip sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap vmdk vdi qcow2"
-+CONVERSION_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
-+CONVERSION_CMD_gz = "gzip -f -9 -c ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
-+CONVERSION_CMD_bz2 = "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
-+CONVERSION_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_THREADS} --check=${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.xz"
-+CONVERSION_CMD_lz4 = "lz4c -9 -c ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.lz4"
-+CONVERSION_CMD_zip = "zip ${ZIP_COMPRESSION_LEVEL} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.zip ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
-+CONVERSION_CMD_sum = "sumtool -i ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} -o ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sum ${JFFS2_SUM_EXTRA_ARGS}"
-+CONVERSION_CMD_vmdk = "qemu-img convert -O vmdk ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vmdk"
-+CONVERSION_CMD_vdi = "qemu-img convert -O vdi ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vdi"
-+CONVERSION_CMD_qcow2 = "qemu-img convert -O qcow2 ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.qcow2"
-+CONVERSION_CMD_md5sum = "md5sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.md5sum"
-+CONVERSION_CMD_sha1sum = "sha1sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha1sum"
-+CONVERSION_CMD_sha224sum = "sha224sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha224sum"
-+CONVERSION_CMD_sha256sum = "sha256sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha256sum"
-+CONVERSION_CMD_sha384sum = "sha384sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha384sum"
-+CONVERSION_CMD_sha512sum = "sha512sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha512sum"
-+CONVERSION_CMD_bmap = "bmaptool create ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} -o ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.bmap"
-+CONVERSION_DEPENDS_lzma = "xz-native"
-+CONVERSION_DEPENDS_gz = ""
-+CONVERSION_DEPENDS_bz2 = "pbzip2-native"
-+CONVERSION_DEPENDS_xz = "xz-native"
-+CONVERSION_DEPENDS_lz4 = "lz4-native"
-+CONVERSION_DEPENDS_zip = "zip-native"
-+CONVERSION_DEPENDS_sum = "mtd-utils-native"
-+CONVERSION_DEPENDS_bmap = "bmap-tools-native"
-+CONVERSION_DEPENDS_vmdk = "qemu-native"
-+CONVERSION_DEPENDS_vdi = "qemu-native"
-+CONVERSION_DEPENDS_qcow2 = "qemu-native"
- 
- RUNNABLE_IMAGE_TYPES ?= "ext2 ext3 ext4"
- RUNNABLE_MACHINE_PATTERNS ?= "qemu"
-diff --git a/meta/classes/image_types_uboot.bbclass b/meta/classes/image_types_uboot.bbclass
-index 19e4aa2..f72d9b2 100644
---- a/meta/classes/image_types_uboot.bbclass
-+++ b/meta/classes/image_types_uboot.bbclass
-@@ -8,19 +8,19 @@ oe_mkimage () {
-     fi
- }
- 
--COMPRESSIONTYPES += "gz.u-boot bz2.u-boot lzma.u-boot u-boot"
-+CONVERSIONTYPES += "gz.u-boot bz2.u-boot lzma.u-boot u-boot"
- 
--COMPRESS_DEPENDS_u-boot = "u-boot-mkimage-native"
--COMPRESS_CMD_u-boot      = "oe_mkimage ${IMAGE_NAME}.rootfs.${type} none"
-+CONVERSION_DEPENDS_u-boot = "u-boot-mkimage-native"
-+CONVERSION_CMD_u-boot      = "oe_mkimage ${IMAGE_NAME}.rootfs.${type} none"
- 
--COMPRESS_DEPENDS_gz.u-boot = "u-boot-mkimage-native"
--COMPRESS_CMD_gz.u-boot      = "${COMPRESS_CMD_gz}; oe_mkimage ${IMAGE_NAME}.rootfs.${type}.gz gzip clean"
-+CONVERSION_DEPENDS_gz.u-boot = "u-boot-mkimage-native"
-+CONVERSION_CMD_gz.u-boot      = "${CONVERSION_CMD_gz}; oe_mkimage ${IMAGE_NAME}.rootfs.${type}.gz gzip clean"
- 
--COMPRESS_DEPENDS_bz2.u-boot = "u-boot-mkimage-native"
--COMPRESS_CMD_bz2.u-boot      = "${COMPRESS_CMD_bz2}; oe_mkimage ${IMAGE_NAME}.rootfs.${type}.bz2 bzip2 clean"
-+CONVERSION_DEPENDS_bz2.u-boot = "u-boot-mkimage-native"
-+CONVERSION_CMD_bz2.u-boot      = "${CONVERSION_CMD_bz2}; oe_mkimage ${IMAGE_NAME}.rootfs.${type}.bz2 bzip2 clean"
- 
--COMPRESS_DEPENDS_lzma.u-boot = "u-boot-mkimage-native"
--COMPRESS_CMD_lzma.u-boot      = "${COMPRESS_CMD_lzma}; oe_mkimage ${IMAGE_NAME}.rootfs.${type}.lzma lzma clean"
-+CONVERSION_DEPENDS_lzma.u-boot = "u-boot-mkimage-native"
-+CONVERSION_CMD_lzma.u-boot      = "${CONVERSION_CMD_lzma}; oe_mkimage ${IMAGE_NAME}.rootfs.${type}.lzma lzma clean"
- 
- IMAGE_TYPES += "ext2.u-boot ext2.gz.u-boot ext2.bz2.u-boot ext2.lzma.u-boot ext3.gz.u-boot ext4.gz.u-boot cpio.gz.u-boot"
- 
--- 
-2.1.4
-
+--
+Regards,
+Ed
 
