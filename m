@@ -1,29 +1,29 @@
 Return-Path: <maxin.john@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id A4297731D3
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 685D3731CF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2016 13:04:09 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP; 27 Jul 2016 06:03:42 -0700
+	Wed, 27 Jul 2016 13:04:16 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga103.fm.intel.com with ESMTP; 27 Jul 2016 06:03:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,429,1464678000"; d="scan'208";a="854515631"
+X-IronPort-AV: E=Sophos;i="5.28,429,1464678000"; d="scan'208";a="740446902"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga003.jf.intel.com with ESMTP; 27 Jul 2016 06:03:41 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 27 Jul 2016 06:03:46 -0700
 Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
 	[10.237.72.71])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id C5B196A4080
+	by linux.intel.com (Postfix) with ESMTP id 093836A4080
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2016 06:03:29 -0700 (PDT)
+	Wed, 27 Jul 2016 06:03:34 -0700 (PDT)
 From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Jul 2016 16:02:51 +0300
-Message-Id: <1469624577-24972-4-git-send-email-maxin.john@intel.com>
+Date: Wed, 27 Jul 2016 16:02:54 +0300
+Message-Id: <1469624577-24972-7-git-send-email-maxin.john@intel.com>
 X-Mailer: git-send-email 2.4.0
 In-Reply-To: <1469624577-24972-1-git-send-email-maxin.john@intel.com>
 References: <1469624577-24972-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 3/9] libtasn1: upgrade to 4.9
+Subject: [PATCH 6/9] glew: upgrade to 2.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,34 +36,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2016 13:04:10 -0000
+X-List-Received-Date: Wed, 27 Jul 2016 13:04:16 -0000
 
-4.8 -> 4.9
+1.13.0 -> 2.0.0
 
 Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- meta/recipes-support/gnutls/{libtasn1_4.8.bb => libtasn1_4.9.bb} | 4 ++--
+ meta/recipes-graphics/glew/{glew_1.13.0.bb => glew_2.0.0.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/gnutls/{libtasn1_4.8.bb => libtasn1_4.9.bb} (81%)
+ rename meta/recipes-graphics/glew/{glew_1.13.0.bb => glew_2.0.0.bb} (90%)
 
-diff --git a/meta/recipes-support/gnutls/libtasn1_4.8.bb b/meta/recipes-support/gnutls/libtasn1_4.9.bb
-similarity index 81%
-rename from meta/recipes-support/gnutls/libtasn1_4.8.bb
-rename to meta/recipes-support/gnutls/libtasn1_4.9.bb
-index 360d529..5ce06d8 100644
---- a/meta/recipes-support/gnutls/libtasn1_4.8.bb
-+++ b/meta/recipes-support/gnutls/libtasn1_4.9.bb
-@@ -12,8 +12,8 @@ SRC_URI = "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz \
-            file://dont-depend-on-help2man.patch \
-            "
+diff --git a/meta/recipes-graphics/glew/glew_1.13.0.bb b/meta/recipes-graphics/glew/glew_2.0.0.bb
+similarity index 90%
+rename from meta/recipes-graphics/glew/glew_1.13.0.bb
+rename to meta/recipes-graphics/glew/glew_2.0.0.bb
+index a25c405..05594dc 100644
+--- a/meta/recipes-graphics/glew/glew_1.13.0.bb
++++ b/meta/recipes-graphics/glew/glew_2.0.0.bb
+@@ -11,8 +11,8 @@ DEPENDS = "virtual/libx11 virtual/libgl libglu libxext libxi libxmu"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/project/glew/glew/${PV}/glew-${PV}.tgz \
+            file://no-strip.patch"
  
--SRC_URI[md5sum] = "9a6767705725544f2b86670dcfb34107"
--SRC_URI[sha256sum] = "fa802fc94d79baa00e7397cedf29eb6827d4bd8b4dd77b577373577c93a8c513"
-+SRC_URI[md5sum] = "3018d0f466a32b66dde41bb122e6cab6"
-+SRC_URI[sha256sum] = "4f6f7a8fd691ac2b8307c8ca365bad711db607d4ad5966f6938a9d2ecd65c920"
+-SRC_URI[md5sum] = "7cbada3166d2aadfc4169c4283701066"
+-SRC_URI[sha256sum] = "aa25dc48ed84b0b64b8d41cdd42c8f40f149c37fa2ffa39cd97f42c78d128bc7"
++SRC_URI[md5sum] = "2a2cd7c98f13854d2fcddae0d2b20411"
++SRC_URI[sha256sum] = "c572c30a4e64689c342ba1624130ac98936d7af90c3103f9ce12b8a0c5736764"
  
- inherit autotools texinfo binconfig lib_package
- 
+ UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/glew/files/glew"
+ UPSTREAM_CHECK_REGEX = "/glew/(?P<pver>(\d+[\.\-_]*)+)/"
 -- 
 2.4.0
 
