@@ -1,29 +1,48 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 668A1606BF;
-	Wed, 27 Jul 2016 17:58:45 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u6RHwYAT010075
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Wed, 27 Jul 2016 10:58:35 -0700
-Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 27 Jul 2016 10:58:34 -0700
-To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>, Patches
-	and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, OpenEmbedded Devel List
-	<openembedded-devel@lists.openembedded.org>
-References: <5798ECAD.1060109@linux.intel.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <69a74e8b-5c4f-27d2-6563-0307f9c74dae@windriver.com>
-Date: Wed, 27 Jul 2016 12:58:33 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
-	Gecko/20100101 Thunderbird/45.1.1
+Return-Path: <alistair23@gmail.com>
+Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
+	[209.85.218.65])
+	by mail.openembedded.org (Postfix) with ESMTP id D89BF60746
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Jul 2016 18:03:07 +0000 (UTC)
+Received: by mail-oi0-f65.google.com with SMTP id w143so2032567oiw.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Jul 2016 11:03:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=QRRpQlQ8NolK7o6genkh65XhoUNzazaTne/wCvDO9l0=;
+	b=SZp7EFVTtkTZpBJlDewOJ45sNEwDGVgj+ot2meb+oAieJqefqkuxThzPUoz9rRXWtd
+	r5s//lg7MB5DNjpeYbBtfAWSdN2jap7Hw0Qj1Cf/4N6G5VdgcIgCsHYadBBy5472UD70
+	fZ+RtwF0Cfm3MWEyBbwefINjOCMC4mZYGMW+mFxZsbjTfX3v0mTTgOtch/kgGIUU2p4I
+	zo5d2gkFQ5GEPGdIzJzVlEEvW7E59Kx51GGP/CjV0NROJSw6OwcBSwiM9ktbPhmcu3Nb
+	4mshonl/HBcDqtlKUTMmysAFi18Lyrhsx86volIZX/M7sMD5pWmzSanndwV7PgwA1r26
+	pH/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=QRRpQlQ8NolK7o6genkh65XhoUNzazaTne/wCvDO9l0=;
+	b=SEKamzC07shsuGz21RV6zP3Kaxi/opbsZkyINGFL+IwOjY24/KiqBnjuLK5ZatQLRD
+	GWxG0FSFTqieOBbxCCeTw3HjqAPWGol2Rbkikybz2O+ipqtmYTwPnI0teIvj1pwTbifl
+	T2bY/wgOYo2nENPZZkkeG6VUOHx6ev/otbQZk5EPrLwlc9vk1ThlW+oUo+UZE9rg+V99
+	cQAkiyvtzH+Wh2Qq2dMW1IdFvwasqXiU/2oqh7nMfHZ/Ab/Ch2xnT3IJoP3W3RwFnnr7
+	24Ej9saMuALVlfmkA+essYU/JdZZq8KJiKJ2VLW21AgqXlJuuNf1JaLGxEMsrfPdygFp
+	h57g==
+X-Gm-Message-State: AEkoousf1sPwwFPYwgNUC9Sk77IJJpeVwkWdlHgCfpQLoxzqTc6M80Tqvln8F701hcpmiYAbT6q6bjGfGbQuHQ==
+X-Received: by 10.202.68.6 with SMTP id r6mr17500150oia.53.1469642588355; Wed,
+	27 Jul 2016 11:03:08 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <5798ECAD.1060109@linux.intel.com>
-Subject: Re: Busybox drop systemd support
+Sender: alistair23@gmail.com
+Received: by 10.182.14.72 with HTTP; Wed, 27 Jul 2016 11:02:38 -0700 (PDT)
+In-Reply-To: <1466023403-1976-1-git-send-email-alistair.francis@xilinx.com>
+References: <1466023403-1976-1-git-send-email-alistair.francis@xilinx.com>
+From: Alistair Francis <alistair.francis@xilinx.com>
+Date: Wed, 27 Jul 2016 11:02:38 -0700
+X-Google-Sender-Auth: Pyt76OpvH3YG8UyfEGjisxZQweI
+Message-ID: <CAKmqyKOviCTZBEnTXgSsWk2s+H6NJHAW490dPLkxy+Lz3Yuj2w@mail.gmail.com>
+To: Alistair Francis <alistair.francis@xilinx.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] runqemu: qemuzynqmp: Add Linux boot support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,54 +55,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2016 17:58:47 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 27 Jul 2016 18:03:09 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 7/27/16 12:17 PM, Aníbal Limón wrote:
-> Hi folks,
-> 
-> I was working debugging an issue for missing /var/log/messages in
-> systemd/busybox images [1] and then i found that busybox drop support
-> for systemd from 1.25 version [2].
-> 
-> This ends in a set of questions of what we need to do in systemd/busybox
-> images since the next version of busybox will not support systemd,
-> 
-> I have a couple of ideas,
-> 
-> - Remove the support of busybox in systemd images?, this is the hard
-> one, we need an sw alternative here may be toybox...
-> - Maintain the systemd support in busybox?, the patch [2] is small atm
-> but in the future may be this will cause problems for maintain it.
+Ping!
 
-I know we've had customers who want a 'busybox free' system.  In YP 2.0 there
-were still a few items provided by busybox, so just disabling it (blacklist)
-wasn't easy.
-
-This sounds like a good opportunity to make sure that you can make a system that
-works with and without busybox.
-
-With that said, looking at [2] below.  I don't see that busybox ever really
-supported or not systemd (contrary to what it says.)
-
-It just means if systemd is selected, and the user is using busybox -- you
-should not use syslogd out of busybox.  I think this is a reasonable requirement
--- and something that should be fairly easy to implement.  (With systemd, I'm
-not sure why you would want to use the busybox syslogd anyway.. it's too limited
-IMHO.)
-
---Mark
-
-> Best regards,
-> 	alimon
-> 
-> [1]
-> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=alimon/debug_times2&id=aa143dbe3cb233ee50944ebb62c541c823179a04
-> [2]
-> https://git.busybox.net/busybox/commit/?id=accd9eeb719916da974584b33b1aeced5f3bb346
-> 
-> 
-> 
-
+On Wed, Jun 15, 2016 at 1:43 PM, Alistair Francis
+<alistair.francis@xilinx.com> wrote:
+> Add support to direct boot Linux instead of just booting u-boot.
+>
+> Signed-off-by: Alistair Francis <alistair.francis@xilinx.com>
+> ---
+>  scripts/runqemu          | 3 +--
+>  scripts/runqemu-internal | 2 +-
+>  2 files changed, 2 insertions(+), 3 deletions(-)
+>
+> diff --git a/scripts/runqemu b/scripts/runqemu
+> index de05035..d52ea15 100755
+> --- a/scripts/runqemu
+> +++ b/scripts/runqemu
+> @@ -350,8 +350,7 @@ QEMUMICROBLAZE_DEFAULT_FSTYPE=cpio
+>  QEMUZYNQ_DEFAULT_KERNEL=uImage
+>  QEMUZYNQ_DEFAULT_FSTYPE=cpio
+>
+> -# Default to booting u-boot as a direct Linux boot isn't supported yet.
+> -QEMUZYNQMP_DEFAULT_KERNEL=u-boot-qemuzynqmp.elf
+> +QEMUZYNQMP_DEFAULT_KERNEL=Image
+>  QEMUZYNQMP_DEFAULT_FSTYPE=cpio
+>
+>  setup_path_vars() {
+> diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+> index ea1a307..ecc5e63 100755
+> --- a/scripts/runqemu-internal
+> +++ b/scripts/runqemu-internal
+> @@ -514,7 +514,7 @@ config_qemuzynqmp() {
+>      QEMU_NETWORK_CMD="-net nic -net nic -net nic -net nic -net user,net=10.10.70.0,dhcpstart=10.10.70.1,host=10.10.70.101"
+>      QEMU_SYSTEM_OPTIONS="$QEMU_NETWORK_CMD -M xlnx-ep108 -serial mon:stdio -dtb $DEPLOY_DIR_IMAGE/${QEMU_DTB}.dtb"
+>
+> -    QEMUOPTIONS="$QEMU_SYSTEM_OPTIONS $QEMU_UI_OPTIONS -tftp $DEPLOY_DIR_IMAGE"
+> +    QEMUOPTIONS="$QEMU_SYSTEM_OPTIONS $QEMU_UI_OPTIONS -initrd $ROOTFS"
+>  }
+>
+>  config_qemumicroblaze() {
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
