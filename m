@@ -1,53 +1,55 @@
 Return-Path: <thilo.cestonaro@ts.fujitsu.com>
-Received: from mail1.bemta3.messagelabs.com (mail1.bemta3.messagelabs.com
-	[195.245.230.163])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F122606BF
+X-Greylist: delayed 391 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 27 Jul 2016 12:21:00 UTC
+Received: from mail1.bemta14.messagelabs.com (mail1.bemta14.messagelabs.com
+	[193.109.254.114])
+	by mail.openembedded.org (Postfix) with ESMTP id 3572E606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2016 12:06:58 +0000 (UTC)
-Received: from [85.158.138.179] by server-3.bemta-3.messagelabs.com id
-	7E/EC-23620-2E3A8975; Wed, 27 Jul 2016 12:06:58 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrIKsWRWlGSWpSXmKPExsViZ8MRqvtw8Yx
-	wg5WPbCzu/HzHbtF2fRajA5PHzll32T3ObVzBGMAUxZqZl5RfkcCasWDSYfaChYYVax+aNjBu
-	1+9i5OIQEmhlkrg79QsLhHOMUaL32AEo5yKjxMuNXxi7GDk52ATcJbbeu88EYosI6Eo8//yXB
-	cRmFoiSmDT7FZgtLOAlse30Q2aIGm+J1VufsEDYYRLvV64Di7MIqEpsXL6AvYuRg4NXwFSia5
-	kPxK6zTBLnH/eD1XAK2Er8/rkLbJcQ0JzTH2eDxRkFVCR23d3CCLFXXOLWk/lgNRICIhIPL55
-	mg7BFJV4+/scKYRtIbF26jwXCVpKY0rSQGaK3SmLB03NgvbwCghInZz5hmcAoNgvJ2FlIymYh
-	KYOIa0q0bv/NDmFrSyxb+JoZwraV2H91JZRtKvH66EdGCFtRYkr3Q/YFjByrGDWKU4vKUot0D
-	Y31kooy0zNKchMzc3QNDYz1clOLixPTU3MSk4r1kvNzNzECo5cBCHYwbtvueYhRkoNJSZR3ke
-	OMcCG+pPyUyozE4oz4otKc1OJDjDIcHEoSvFsXAeUEi1LTUyvSMnOAaQQmLcHBoyTCWwOS5i0
-	uSMwtzkyHSJ1i1OX4Mv3aWiYhlrz8vFQpcd5pIEUCIEUZpXlwI2Ap7RKjrJQwLyPQUUI8BalF
-	uZklqPKvGMU5GJWEeVeBTOHJzCuB2/QK6AgmoCOKY8GOKElESEk1MDbbhU/xNmST+fdcYWHcg
-	fWLfG5FqMsHvHnpbZ1fIPLONvK9TsL1skmObUrTMt+l5p1lW5dsumWR8Xqdn4c+Ttzy6qy8fv
-	1xn/sxj/NCtHIbVT53PE4/WT5Nc3pdoO50xbaNGw88313DMllL2TE2z3tS8NquR+LN6xz1lm3
-	SVPV7oeSc+OKjphJLcUaioRZzUXEiAE9n9LVkAwAA
+	Wed, 27 Jul 2016 12:21:00 +0000 (UTC)
+Received: from [193.109.254.3] by server-10.bemta-14.messagelabs.com id
+	D0/39-03469-5A5A8975; Wed, 27 Jul 2016 12:14:29 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrMKsWRWlGSWpSXmKPExsViZ8MxVXfJ0hn
+	hBou38Fjc+fmO3aLt+ixGByaPnbPusnuc27iCMYApijUzLym/IoE1Y9LZdWwFHwwqbj3dw97A
+	2KzfxcjFISTQyiSx9eEKFgjnGKPElfdz2SCci4wSpxfdBcpwcrAJuEtsvXefCcQWEdCVeP75L
+	1icWSBKYtLsV2C2sICXxLbTD5kharwlVm99wgJhh0lM+fmLEcRmEVCVOHzhD1icV8BU4ubJKY
+	wQy84ySZx/3A/WzClgK/H75y6wZUJAg05/nA0WZxRQkdh1dwsjxGJxiVtP5oPVSAiISDy8eJo
+	NwhaVePn4HyuEbSCxdek+FghbSWJK00JmiN4qifcbHzNCHCEocXLmE5YJjGKzkIydhaRsFpIy
+	iLimROv23+wQtrbEsoWvmSFsW4n9V1dC2aYSr49+ZISwFSWmdD9kX8DIsYpRozi1qCy1SNfQR
+	C+pKDM9oyQ3MTNH1xDIzU0tLk5MT81JTCrWS87P3cQIjOB6BgbGHYzfT3seYpTkYFIS5V3kOC
+	NciC8pP6UyI7E4I76oNCe1+BCjDAeHkgTvwiVAOcGi1PTUirTMHGAqgUlLcPAoifBqLgZK8xY
+	XJOYWZ6ZDpE4x6nJ8mX5tLZMQS15+XqqUOK8FyAwBkKKM0jy4EbC0dolRVkqYl5GBgUGIpyC1
+	KDezBFX+FaM4B6OSMG83yBSezLwSuE2vgI5gAjqiOBbsiJJEhJRUA2NEtFBT6tWVPysuaLIaF
+	t05m/h7wg3lZf6TZ36tTFX9wRp+aJvE5LPyXX9VDwW7zXeLWczj8u7bvz7/IDmLL5rVHk8v7I
+	sqT+s4Yjlh+6EVHx5WGG1ebNy64dAv+aqNX0t3BDtfvabAuaey01lGaMWXR2mBJ4/MOe15O1Z
+	i3ZnZ5+y3KT7WqrymxFKckWioxVxUnAgAZ+sLJmYDAAA=
 X-Env-Sender: thilo.cestonaro@ts.fujitsu.com
-X-Msg-Ref: server-8.tower-169.messagelabs.com!1469621217!52957722!1
-X-Originating-IP: [62.60.8.85]
+X-Msg-Ref: server-13.tower-184.messagelabs.com!1469621668!62098654!1
+X-Originating-IP: [62.60.8.149]
 X-StarScan-Received: 
 X-StarScan-Version: 8.77; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 31263 invoked from network); 27 Jul 2016 12:06:57 -0000
-Received: from unknown (HELO mailhost4.uk.fujitsu.com) (62.60.8.85)
-	by server-8.tower-169.messagelabs.com with DHE-RSA-AES256-GCM-SHA384
-	encrypted SMTP; 27 Jul 2016 12:06:57 -0000
-Received: from R01UKEXCASM126.r01.fujitsu.local (ex2k13_126.fs.fujitsu.com
-	[10.183.43.178])
-	by mailhost4.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id
-	u6RC4wv4012712
+Received: (qmail 25749 invoked from network); 27 Jul 2016 12:14:28 -0000
+Received: from unknown (HELO mailhost2.uk.fujitsu.com) (62.60.8.149)
+	by server-13.tower-184.messagelabs.com with DHE-RSA-AES256-GCM-SHA384
+	encrypted SMTP; 27 Jul 2016 12:14:28 -0000
+Received: from R01UKEXCASM122.r01.fujitsu.local (ex2k13_122.fs.fujitsu.com
+	[10.183.43.174])
+	by mailhost2.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id
+	u6RCGU3h006978
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Wed, 27 Jul 2016 13:05:06 +0100
+	Wed, 27 Jul 2016 13:16:30 +0100
 Received: from R01UKEXCASM121.r01.fujitsu.local (10.183.43.173) by
-	R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP
-	Server (TLS) id 15.0.1178.4; Wed, 27 Jul 2016 13:06:54 +0100
+	R01UKEXCASM122.r01.fujitsu.local (10.183.43.174) with Microsoft SMTP
+	Server (TLS) id 15.0.1178.4; Wed, 27 Jul 2016 13:14:27 +0100
 Received: from R01UKEXCASM121.r01.fujitsu.local ([fe80::48eb:6503:a1bb:c29c])
 	by R01UKEXCASM121.r01.fujitsu.local ([fe80::48eb:6503:a1bb:c29c%22])
-	with mapi id 15.00.1178.000; Wed, 27 Jul 2016 13:06:54 +0100
+	with mapi id 15.00.1178.000; Wed, 27 Jul 2016 13:14:27 +0100
 From: "thilo.cestonaro@ts.fujitsu.com" <thilo.cestonaro@ts.fujitsu.com>
 To: "raj.khem@gmail.com" <raj.khem@gmail.com>
 Thread-Topic: [OE-core] Building for armv7athf-neon but toolchain is softfp
-Thread-Index: AQHR5B58h/TNj18cYUuHrBoFZFSdxKAkbLqAgAS04oCAAAM7gIABRI6AgAGYNoCAACNGAA==
-Date: Wed, 27 Jul 2016 12:06:53 +0000
-Message-ID: <1469621032.18503.4.camel@ts.fujitsu.com>
+Thread-Index: AQHR5B58h/TNj18cYUuHrBoFZFSdxKAkbLqAgAS04oCAAAM7gIABRI6AgAGYNoCAACVjAA==
+Date: Wed, 27 Jul 2016 12:14:27 +0000
+Message-ID: <1469621486.18503.9.camel@ts.fujitsu.com>
 References: <1469194596.6594.13.camel@ts.fujitsu.com>
 	<CAMKF1srBan-tupS7qGb3kDnAn-2-u8dox3vFk5ssGwQLzeGaHw@mail.gmail.com>
 	<1469455403.6896.29.camel@ts.fujitsu.com>
@@ -77,34 +79,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2016 12:07:03 -0000
-X-Groupsio-MsgNum: 84975
+X-List-Received-Date: Wed, 27 Jul 2016 12:21:04 -0000
+X-Groupsio-MsgNum: 84976
 Content-Language: en-US
 Content-Type: multipart/signed; micalg=sha-1;
 	protocol="application/x-pkcs7-signature";
-	boundary="=-z0PS9pDI9R2fEapjS5HX"
+	boundary="=-HnXcb4aKvkxBKW3sGZpf"
 
---=-z0PS9pDI9R2fEapjS5HX
+--=-HnXcb4aKvkxBKW3sGZpf
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hey Khem!
+Hey Khem,
 
-I changed the helloworld to the following, but it still doesn't work.
-------------------------
-#include <stdio.h>
+I figured, when I do the compile in 2 steps, so compile then link and chang=
+e the link command to use the ubuntu arm-linux-gnueabihf-gcc instead of the=
+ gcc from the sdk, the binary is useable.
 
-int main(int argc, char *argv[])
-{
-	printf("Hello World!\n");
-	return 0;
-}
--------------------------
-
-I updated the Zip of the Url to have the C-Helloworld.
+I hope that helps a bit!
 
 Cheers,
 Thilo
+
 
 On Mi, 2016-07-27 at 02:57 -0700, Khem Raj wrote:
 > >=20
@@ -125,7 +121,7 @@ e if that works.
 > > Cheers,
 > > Thilo
 
---=-z0PS9pDI9R2fEapjS5HX
+--=-HnXcb4aKvkxBKW3sGZpf
 Content-Type: application/x-pkcs7-signature; name="smime.p7s"
 Content-Disposition: attachment; filename="smime.p7s"
 Content-Transfer-Encoding: base64
@@ -191,12 +187,12 @@ QBy6Idk/KoCGOVaTvnQjigkkq8NvA7z+aTGbM6Ok6yTw7cJ2WMKNg+hi0k8j+g1Wxh2aKiTOd7gW
 6w9goPO/mLR03vgotHjyZpe+Lf9axMWrCSzjlB4ElP/P7WxjL51ham/1cY36NHWjgiYxggHhMIIB
 3QIBATA9MC8xLTArBgNVBAMTJEZ1aml0c3UgVGVjaG5vbG9neSBTb2x1dGlvbnMgVXNlciBDQQIK
 JZSUgAAAAAIkfTAJBgUrDgMCGgUAoIH7MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZI
-hvcNAQkFMQ8XDTE2MDcyNzEyMDM1MlowIwYJKoZIhvcNAQkEMRYEFGrUqdTn6Fq/a9k6kQOR3bJC
-B660MEwGCSsGAQQBgjcQBDE/MD0wLzEtMCsGA1UEAxMkRnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0
+hvcNAQkFMQ8XDTE2MDcyNzEyMTEyNlowIwYJKoZIhvcNAQkEMRYEFH96ErYzdkAeiZs0e7W7xqvV
+egVPMEwGCSsGAQQBgjcQBDE/MD0wLzEtMCsGA1UEAxMkRnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0
 aW9ucyBVc2VyIENBAgollJSAAAAAAiR9ME4GCyqGSIb3DQEJEAILMT+gPTAvMS0wKwYDVQQDEyRG
 dWppdHN1IFRlY2hub2xvZ3kgU29sdXRpb25zIFVzZXIgQ0ECCiWUlIAAAAACJH0wDQYJKoZIhvcN
-AQEBBQAEgYAeVfZ3J733StSytK4huHZRKDS6wEuVTmleaTmc9V3ed0kFMjGlMlKpYmtMH2f8jAyh
-6Si0gRZ6reTLUpEF60Ot7bF+hkK1s/SSUpwHTKbwYHgAC2rHdfE3gi9vSD44kduTU7uTDw9xX8We
-Ry4gE6j05+Nsx15TbR53lbWSiROnegAAAAAAAA==
+AQEBBQAEgYA/YKd/MnCBVIWNdh+n2RgKQ25RSxzI/srAEDx3UNqVZBYQ7JGpclrDgm4G9dU1uND1
+DyHib0mhcG1t/1/0dpKM7l1UaMFuEQyIvjksNLPrzhTVYwb2gELxQf4e1MHqs/phqk6da7z6THqK
+brC9889wVflGqHxs3cd7mBWoGQAJoQAAAAAAAA==
 
---=-z0PS9pDI9R2fEapjS5HX--
+--=-HnXcb4aKvkxBKW3sGZpf--
