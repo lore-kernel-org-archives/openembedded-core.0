@@ -1,25 +1,29 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id AAA8F60746
+Return-Path: <Liam.Howlett@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6DDA8606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2016 13:57:13 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 27 Jul 2016 06:57:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,430,1464678000"; d="scan'208";a="1003519727"
-Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
-	([10.54.69.55])
-	by orsmga001.jf.intel.com with ESMTP; 27 Jul 2016 06:57:14 -0700
-From: mariano.lopez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Jul 2016 05:50:27 +0000
-Message-Id: <4fd300f00e824cee55cde988e9a03caa1f7b8a1c.1469598413.git.mariano.lopez@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-In-Reply-To: <cover.1469598413.git.mariano.lopez@linux.intel.com>
-References: <cover.1469598413.git.mariano.lopez@linux.intel.com>
-In-Reply-To: <cover.1469598413.git.mariano.lopez@linux.intel.com>
-References: <cover.1469598413.git.mariano.lopez@linux.intel.com>
-Subject: [PATCHv2 1/1] selftest/runtime-test.py: Add test for import test from other layers
+	Wed, 27 Jul 2016 14:08:52 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u6RE8nFE003207
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 27 Jul 2016 07:08:50 -0700 (PDT)
+Received: from yow-lhowlett-d0.wrs.com (128.224.56.205) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.3.248.2; Wed, 27 Jul 2016 07:08:47 -0700
+Date: Wed, 27 Jul 2016 10:08:42 -0400
+From: "Liam R. Howlett" <Liam.Howlett@windriver.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20160727140842.GA3207@yow-lhowlett-d0.wrs.com>
+References: <1469211845-21125-1-git-send-email-Liam.Howlett@WindRiver.com>
+	<1469211845-21125-2-git-send-email-Liam.Howlett@WindRiver.com>
+	<CAJTo0LaiVPOSZfFt9ruzFGgtiL2gNFOZWHCNN2yZRBRsKm41TA@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LaiVPOSZfFt9ruzFGgtiL2gNFOZWHCNN2yZRBRsKm41TA@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+X-Originating-IP: [128.224.56.205]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] wget: Add --ssh-askpass support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,111 +36,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2016 13:57:14 -0000
+X-List-Received-Date: Wed, 27 Jul 2016 14:08:55 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+* Burton, Ross <ross.burton@intel.com> [160726 09:38]:
+> On 22 July 2016 at 19:24, Liam R. Howlett <Liam.Howlett@windriver.com>
+> wrote:
+> 
+> > diff --git a/meta/recipes-extended/wget/wget/0001-wget-Add-ssh-askpass-support.patch
+> > b/meta/recipes-extended/wget/wget/0001-wget-Add-ssh-askpass-support.patch
+> > new file mode 100644
+> > index 0000000..e402375
+> > --- /dev/null
+> > +++ b/meta/recipes-extended/wget/wget/0001-wget
+> > -Add-ssh-askpass-support.patch
+> > [snip]
+> >
+> 
+> 
+> > diff --git a/meta/recipes-extended/wget/wget_1.18.bb
+> > b/meta/recipes-extended/wget/wget_1.18.bb
+> > index c969b98..20ec503 100644
+> > --- a/meta/recipes-extended/wget/wget_1.18.bb
+> > +++ b/meta/recipes-extended/wget/wget_1.18.bb
+> > @@ -1,5 +1,6 @@
+> >  SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
+> >
+> > file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
+> > +           file://0001-Add-ssh-askpass-support.patch \
+> 
+> 
+> As the patch and the SRC_URI don't match, this patch clearly hasn't been
+> tested.
+> 
 
-There are some features in testimage/testexport that are not tested;
-this might lead to break some of these features without notice.
+Apologies for the SRC_URI mismatch.  I had tested my patch but during my
+development, I clarified my commit message which changed the filename.
+I did not update the include file SRC_URI and had left the old file in
+place while I tested.  I will resend a new version as soon as upstream
+is happy.
 
-This adds a new test in order to test two features of testimage:
-  - Import test from other layers.
-  - Install/Unistall in the DUT without a package manager.
+> Also if you're working with upstream then please change the Upstream-Status
+> to Submitted and provide a link (mailing list post, bug entry, whatever).
 
-[YOCTO #9764]
-[YOCTO #9766]
+There was a question as to where to send the patch and I wanted to get
+your input for new revisions as well.  I will update the status with a
+link on the next revision.
 
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
----
- meta-selftest/lib/oeqa/runtime/selftest.json       |  6 +++++
- meta-selftest/lib/oeqa/runtime/selftest.py         | 31 ++++++++++++++++++++++
- .../selftest/{testexport.py => runtime-test.py}    | 20 ++++++++++++++
- 3 files changed, 57 insertions(+)
- create mode 100644 meta-selftest/lib/oeqa/runtime/selftest.json
- create mode 100644 meta-selftest/lib/oeqa/runtime/selftest.py
- rename meta/lib/oeqa/selftest/{testexport.py => runtime-test.py} (74%)
+I appreciate your input.
 
-diff --git a/meta-selftest/lib/oeqa/runtime/selftest.json b/meta-selftest/lib/oeqa/runtime/selftest.json
-new file mode 100644
-index 0000000..e5ae46e
---- /dev/null
-+++ b/meta-selftest/lib/oeqa/runtime/selftest.json
-@@ -0,0 +1,6 @@
-+{
-+    "test_install_package": {
-+        "pkg": "socat",
-+        "rm": true
-+    }
-+}
-diff --git a/meta-selftest/lib/oeqa/runtime/selftest.py b/meta-selftest/lib/oeqa/runtime/selftest.py
-new file mode 100644
-index 0000000..b9c9b23
---- /dev/null
-+++ b/meta-selftest/lib/oeqa/runtime/selftest.py
-@@ -0,0 +1,31 @@
-+from oeqa.oetest import oeRuntimeTest, skipModule
-+from oeqa.utils.decorators import *
-+
-+class Selftest(oeRuntimeTest):
-+
-+    @skipUnlessPassed("test_ssh")
-+    def test_install_package(self):
-+        """
-+        Summary: Check basic package installation functionality.
-+        Expected: 1. Before the test socat must be installed using scp.
-+                  2. After the test socat must be unistalled using ssh.
-+                     This can't be checked in this test.
-+        Product: oe-core
-+        Author: Mariano Lopez <mariano.lopez@intel.com>
-+        """
-+
-+        (status, output) = self.target.run("socat -V")
-+        self.assertEqual(status, 0, msg="socat is not installed")
-+
-+    @skipUnlessPassed("test_install_package")
-+    def test_verify_unistall(self):
-+        """
-+        Summary: Check basic package installation functionality.
-+        Expected: 1. test_install_package must unistall socat.
-+                     This test is just to verify that.
-+        Product: oe-core
-+        Author: Mariano Lopez <mariano.lopez@intel.com>
-+        """
-+
-+        (status, output) = self.target.run("socat -V")
-+        self.assertNotEqual(status, 0, msg="socat is still installed")
-diff --git a/meta/lib/oeqa/selftest/testexport.py b/meta/lib/oeqa/selftest/runtime-test.py
-similarity index 74%
-rename from meta/lib/oeqa/selftest/testexport.py
-rename to meta/lib/oeqa/selftest/runtime-test.py
-index 5823b13..b8e1be1 100644
---- a/meta/lib/oeqa/selftest/testexport.py
-+++ b/meta/lib/oeqa/selftest/runtime-test.py
-@@ -42,3 +42,23 @@ class TestExport(oeSelfTest):
-             # Verify ping test was succesful
-             failure = True if 'FAIL' in result.output else False
-             self.assertNotEqual(True, failure, 'ping test failed')
-+
-+
-+class TestImage(oeSelfTest):
-+
-+    def test_testimage_install(self):
-+        """
-+        Summary: Check install packages functionality for testimage/testexport.
-+        Expected: 1. Import tests from a directory other than meta.
-+                  2. Check install/unistall of socat.
-+        Product: oe-core
-+        Author: Mariano Lopez <mariano.lopez@intel.com>
-+        """
-+
-+        features = 'INHERIT += "testimage"\n'
-+        features += 'TEST_SUITES = "ping ssh selftest"\n'
-+        self.write_config(features)
-+
-+        # Build core-image-sato and testimage
-+        bitbake('core-image-full-cmdline socat')
-+        bitbake('-c testimage core-image-full-cmdline')
--- 
-2.6.6
+Thanks,
+Liam
 
+> 
+> Ross
 
