@@ -1,41 +1,37 @@
 Return-Path: <andre.draszik@gmail.com>
 Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id C01A6606BF
+	by mail.openembedded.org (Postfix) with ESMTP id 873EF606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2016 08:16:51 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id q128so5258340wma.1
+	Wed, 27 Jul 2016 08:26:53 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id o80so5300767wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2016 01:16:52 -0700 (PDT)
+	Wed, 27 Jul 2016 01:26:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=i5/TcR8LCpKgyDsIaIdd4+fUxE/v4l5H2775/aSlbkI=;
-	b=ZV+7mJqCAJkULfxwLn7kAfqFpKy/LiY20a2TY4vRvj/JLk1vdCM31ey3ilOvzfiI4g
-	jKHZNmkLkbi0qO4AWaSMs16b2ZUdKN54EQ7yMt2kpvzVHlWhB/Nui4rrGD63WI+BIFnP
-	YtLNFx/mIEMVX74Jte/Q7q1JRmT+rrguvfhHrt4RjKy7Ll7ZYiouU5xHGzylxDQ7thBq
-	X50SxRB6f0XWM2QH7/O2cZVQSFz2b/Uz/D94xW/2RH0j/sq+jTfWb3rZxLdLwpQUkD3/
-	Nfzr4/vLhGfQhtnFCHiLKItI2mMDQj2b+fvNOW6dB//3/7PR4lkhqR3DQ2uaqfgMbABb
-	6v/w==
-X-Gm-Message-State: AEkoousM5VxkXKentMAtNUVd8XZ8lBgLZ8UZ9bYM9Zi1+3HulEgHwF5H0JXgYfZi7ybIqg==
-X-Received: by 10.28.4.77 with SMTP id 74mr31726002wme.84.1469607411482;
-	Wed, 27 Jul 2016 01:16:51 -0700 (PDT)
-Received: from localhost ([185.46.212.66]) by smtp.gmail.com with ESMTPSA id
-	c13sm5081811wjx.12.2016.07.27.01.16.50
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=EqnxwsHhe35TpfvPzLi8RN5/v8OCfVC/BzZOrRx8jzE=;
+	b=e7h6XM2+LWT8sfthMh9wpBcOGlSeRS4pjqzX2OCyGv/ZKC9NH6LXRNF7cqZF1Gt1MV
+	NNgzkByqioUo5NERuJYpGNcjaOGQF73Fg9lY2YHby3/XMEjfm8d+Ty1zqUTh34vXJoGU
+	Q7262PqIIp7ymLMcOG2Nqpmhu61yZ4V+V/mkJ+pGswqmr5sAkB2MCjSTUih10ioyMe9z
+	tc2i/VWFnMh/olmOEGBerWuo16nend5eiPNkzewGTPoDJlJtmNdip5vA13L6TPvgdj6d
+	MdUmq/MJDR1pXBRCsy9DD8fi5WAt97ArA8yzX0BBkPCKzwgesEiNGEJyp+KGBiQK9GIZ
+	qrzQ==
+X-Gm-Message-State: AEkoout9YGciCtZZYTv+YZ425DV1Fk4KJ3EPa5zIKSZQ6SUcHhmAx9cnHY6HjwcGsG/YPA==
+X-Received: by 10.194.120.129 with SMTP id lc1mr26123784wjb.131.1469608013408; 
+	Wed, 27 Jul 2016 01:26:53 -0700 (PDT)
+Received: from tfsielt31850.tycofs.com ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id f3sm5147246wjh.2.2016.07.27.01.26.52
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 27 Jul 2016 01:16:50 -0700 (PDT)
-Message-ID: <1469607409.14668.23.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 27 Jul 2016 01:26:52 -0700 (PDT)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Jul 2016 09:16:49 +0100
-In-Reply-To: <1FBAD0A9-9F86-4A09-A1A3-15FB78A57BF0@gmail.com>
-References: <1469548140-4095-1-git-send-email-git@andred.net>
-	<1469548140-4095-2-git-send-email-git@andred.net>
-	<1FBAD0A9-9F86-4A09-A1A3-15FB78A57BF0@gmail.com>
-X-Mailer: Evolution 3.20.4-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 2/2] tune-mips-24k: add QEMU_EXTRAOPTIONS for DSP and MIPS16e cores
+Date: Wed, 27 Jul 2016 09:26:51 +0100
+Message-Id: <1469608011-16915-1-git-send-email-git@andred.net>
+X-Mailer: git-send-email 2.8.1
+MIME-Version: 1.0
+Subject: [PATCH] qemu / tune-corei7: move QEMU_EXTRAOPTIONS into qemu.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,36 +44,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2016 08:16:53 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 27 Jul 2016 08:26:53 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On Di, 2016-07-26 at 11:02 -0700, Khem Raj wrote:
-> > 
-> > On Jul 26, 2016, at 8:49 AM, André Draszik <git@andred.net> wrote:
-> > 
-> > The core emulated by default by qemu-mips(el) just crashes with
-> > illegal instruction when encountering DSP and/or MIPS16e
-> > instructions - we have to specify a CPU that supports the extra
-> > instructions.
-> > 
-> > This is an issue when generating a rootfs and e.g. running some
-> > of the package postinstall scriptlets.
-> > 
-> > The patch to qemu to add 24KEc as a CPU has been accepted
-> > upstream, so let's use that CPU here as well as needed.
-> > 
-> > Signed-off-by: André Draszik <git@andred.net>
-> > ---
-> > meta/conf/machine/include/mips/tune-mips-24k.inc | 6 ++++++
-> 
-> These changes probably belong to meta/classes/qemu.bbclass
+Let's put them into all into one place, PPC defintions are
+done inside the class already.
 
-OK, I wasn't sure, as core-i7 puts them into the tune-file, and some PPCs
-put them into the qemu class.
-I'll send an updated patch.
+Signed-off-by: André Draszik <git@andred.net>
+---
+ meta/classes/qemu.bbclass                 | 3 +++
+ meta/conf/machine/include/tune-corei7.inc | 3 ---
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-Thanks!
-Andre'
+diff --git a/meta/classes/qemu.bbclass b/meta/classes/qemu.bbclass
+index 75739db..22d8169 100644
+--- a/meta/classes/qemu.bbclass
++++ b/meta/classes/qemu.bbclass
+@@ -50,6 +50,9 @@ def qemu_run_binary(data, rootfs_path, binary):
+ QEMU_OPTIONS = "-r ${OLDEST_KERNEL} ${@d.getVar("QEMU_EXTRAOPTIONS_%s" % d.getVar('PACKAGE_ARCH', True), True) or ""}"
+ QEMU_OPTIONS[vardeps] += "QEMU_EXTRAOPTIONS_${PACKAGE_ARCH}"
+ 
++QEMU_EXTRAOPTIONS_corei7-32 = " -cpu Nehalem,check=false"
++QEMU_EXTRAOPTIONS_corei7-64 = " -cpu Nehalem,check=false"
++QEMU_EXTRAOPTIONS_corei7-64-x32 = " -cpu Nehalem,check=false"
+ QEMU_EXTRAOPTIONS_ppce500v2 = " -cpu e500v2"
+ QEMU_EXTRAOPTIONS_ppce500mc = " -cpu e500mc"
+ QEMU_EXTRAOPTIONS_ppce5500 = " -cpu e500mc"
+diff --git a/meta/conf/machine/include/tune-corei7.inc b/meta/conf/machine/include/tune-corei7.inc
+index 6edfb68..ccce210 100644
+--- a/meta/conf/machine/include/tune-corei7.inc
++++ b/meta/conf/machine/include/tune-corei7.inc
+@@ -22,18 +22,15 @@ TUNE_FEATURES_tune-corei7-32 = "${TUNE_FEATURES_tune-x86} corei7"
+ BASE_LIB_tune-corei7-32 = "lib"
+ TUNE_PKGARCH_tune-corei7-32 = "corei7-32"
+ PACKAGE_EXTRA_ARCHS_tune-corei7-32 = "${PACKAGE_EXTRA_ARCHS_tune-core2-32} corei7-32"
+-QEMU_EXTRAOPTIONS_corei7-32 = " -cpu Nehalem,check=false"
+ 
+ AVAILTUNES += "corei7-64"
+ TUNE_FEATURES_tune-corei7-64 = "${TUNE_FEATURES_tune-x86-64} corei7"
+ BASE_LIB_tune-corei7-64 = "lib64"
+ TUNE_PKGARCH_tune-corei7-64 = "corei7-64"
+ PACKAGE_EXTRA_ARCHS_tune-corei7-64 = "${PACKAGE_EXTRA_ARCHS_tune-core2-64} corei7-64"
+-QEMU_EXTRAOPTIONS_corei7-64 = " -cpu Nehalem,check=false"
+ 
+ AVAILTUNES += "corei7-64-x32"
+ TUNE_FEATURES_tune-corei7-64-x32 = "${TUNE_FEATURES_tune-x86-64-x32} corei7"
+ BASE_LIB_tune-corei7-64-x32 = "libx32"
+ TUNE_PKGARCH_tune-corei7-64-x32 = "corei7-64-x32"
+ PACKAGE_EXTRA_ARCHS_tune-corei7-64-x32 = "${PACKAGE_EXTRA_ARCHS_tune-core2-64-x32} corei7-64-x32"
+-QEMU_EXTRAOPTIONS_corei7-64-x32 = " -cpu Nehalem,check=false"
+-- 
+2.8.1
 
 
