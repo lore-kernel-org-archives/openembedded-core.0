@@ -1,56 +1,29 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f54.google.com (mail-pa0-f54.google.com
-	[209.85.220.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 36040606BF
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
+	by mail.openembedded.org (Postfix) with ESMTP id E4FDF606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2016 09:57:43 +0000 (UTC)
-Received: by mail-pa0-f54.google.com with SMTP id ks6so9091319pab.0
+	Wed, 27 Jul 2016 11:40:30 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
+	via TCP (outbound) with ESMTPS id 20160727114029796_0684
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2016 02:57:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=wNW+bp7JfahwJdYQKg7p87ChZVkRoMi4uRoCbeGj750=;
-	b=TE7472b6CJYFEhFr38CTOsk3uSqvCnW/UhMDk+HeyV26fCHzKOugRgQzi7GcmUDDMn
-	y/aitqKTLs2pxGC5+/SogJ83bk1DtiDMsxMf4BB7B0T+Hzc6qFswb9LLk8piYsRHCHNS
-	F47DAqfG8eGCf2uzK7fGeJx1TLFQGp0uDtSwabqJXqcJZoXyFd31V3W1cm1rWuBpLwXO
-	vzH9GCh6MfNLKla9ANQOQ66qV0JeXxCGtBTmuskNWTcuxprYKBqh+awBBKac0qo/JE7U
-	5MYAiCvgpbM2DZS/M+V194Z9H4mYxuU/cJlSjQMWQmgXb5No5U3zuDZ5vkone8t347ou
-	bhog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=wNW+bp7JfahwJdYQKg7p87ChZVkRoMi4uRoCbeGj750=;
-	b=Gr/EoAjIVJFj/1PEQPNvvuLEDgIDvIRUogCDircPow+SrVCZ01CXD0tynEki87F2dP
-	BYgr5cAglpD/MpCaKVEtsBN8ifs1P/Ico6RkRy6QIAlLvuTM/M4QwhNo+ixLWTasKR7c
-	0XbT9Pn2DMMpRQLB7xJ98ZfV5KewJzLswv855vd3tiGifwShn74visY8EH08/Deptm5C
-	grqtZ2ZYCLOyCWgnfiW8xdktpGP4BVeX5yik0a5FR32h+BReidfsr4juLNhLEWQ3hJGp
-	Wlldb5n3k3SVsQKKFt5kVW1ipyePJaYkPMRdqOPoic3wqlElxjTv8edOsZ29M3d7e1Be
-	MTyA==
-X-Gm-Message-State: AEkooutilP+f7NK/D3lx1bjV56uYEZanx9df/GcfrmLsMmbZQQlqIOh4m0Q6c4S5yLeYyg==
-X-Received: by 10.66.74.103 with SMTP id s7mr47434708pav.1.1469613464214;
-	Wed, 27 Jul 2016 02:57:44 -0700 (PDT)
-Received: from [192.168.0.5] (c-76-102-32-192.hsd1.ca.comcast.net.
-	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	nd4sm7771110pab.14.2016.07.27.02.57.43
-	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 27 Jul 2016 02:57:43 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1469525795.6937.1.camel@ts.fujitsu.com>
-Date: Wed, 27 Jul 2016 02:57:37 -0700
-Message-Id: <AA7383CF-888C-4605-97BB-BB016A5EB450@gmail.com>
-References: <1469194596.6594.13.camel@ts.fujitsu.com>
-	<CAMKF1srBan-tupS7qGb3kDnAn-2-u8dox3vFk5ssGwQLzeGaHw@mail.gmail.com>
-	<1469455403.6896.29.camel@ts.fujitsu.com>
-	<CAMKF1soyDLFePf+JqwQeyqCeig=CeZqHADwJJ7yZ=Nz9PcW0Hg@mail.gmail.com>
-	<1469525795.6937.1.camel@ts.fujitsu.com>
-To: "thilo.cestonaro@ts.fujitsu.com" <thilo.cestonaro@ts.fujitsu.com>
-X-Mailer: Apple Mail (2.3124)
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Building for armv7athf-neon but toolchain is softfp
+	Wed, 27 Jul 2016 11:40:29 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [216.191.234.70] (port=41487 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1bSNEB-0001Fy-Eo for openembedded-core@lists.openembedded.org;
+	Wed, 27 Jul 2016 07:42:19 -0400
+Date: Wed, 27 Jul 2016 07:40:21 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1607270738460.26158@localhost.localdomain>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+MIME-Version: 1.0
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: [PATCH] update-rc.d: Correct trivial typo in DESCRIPTION line.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,50 +36,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2016 09:57:45 -0000
-X-Groupsio-MsgNum: 84973
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_C45CC17A-E652-4086-AE11-B181410B25AD";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_C45CC17A-E652-4086-AE11-B181410B25AD
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+X-List-Received-Date: Wed, 27 Jul 2016 11:40:35 -0000
+Content-Type: text/plain; charset=US-ASCII
 
 
-> On Jul 26, 2016, at 2:39 AM, thilo.cestonaro@ts.fujitsu.com wrote:
->=20
-> Hey Khem,
->=20
->> Seems steps are all ok. Can you upload your hello world somewhere.
->=20
-> http://thilo.cestona.ro/~ephraim/public/helloworld.zip
->=20
-> Hope you can find out whats going on here :).
->=20
+"utilities" -> "utility"
 
-This seems to contain C++ it seems. Can you try a simple C hello.c and =
-see if that works.
+Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
 
-> Cheers,
-> Thilo
+---
+
+diff --git a/meta/recipes-core/update-rc.d/update-rc.d_0.7.bb b/meta/recipes-core/update-rc.d/update-rc.d_0.7.bb
+index c15cb78..3b965c5 100644
+--- a/meta/recipes-core/update-rc.d/update-rc.d_0.7.bb
++++ b/meta/recipes-core/update-rc.d/update-rc.d_0.7.bb
+@@ -1,5 +1,5 @@
+ SUMMARY = "manage symlinks in /etc/rcN.d"
+-DESCRIPTION = "update-rc.d is a utilities that allows the management of symlinks to the initscripts in the /etc/rcN.d directory structure."
++DESCRIPTION = "update-rc.d is a utility that allows the management of symlinks to the initscripts in the /etc/rcN.d directory structure."
+ SECTION = "base"
+
+ LICENSE = "GPLv2+"
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
---Apple-Mail=_C45CC17A-E652-4086-AE11-B181410B25AD
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAleYhZYACgkQuwUzVZGdMxSIGACfc6wp8gyg+V5UjK7q7axsUqHu
-bCsAoINxRvbcybnlZ2CIFSQEOOD/kAxM
-=HRqY
------END PGP SIGNATURE-----
-
---Apple-Mail=_C45CC17A-E652-4086-AE11-B181410B25AD--
