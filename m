@@ -1,29 +1,32 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C70D606BF
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 970B1607A5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2016 08:02:43 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u6R82icD004422
+	Wed, 27 Jul 2016 08:06:23 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u6R86MwG016811
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 27 Jul 2016 01:02:44 -0700 (PDT)
-Received: from [128.224.162.240] (128.224.162.240) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 27 Jul 2016 01:02:43 -0700
-To: "Mittal, AnujX" <anujx.mittal@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1467700975.git.liezhi.yang@windriver.com>
-	<DFCB2C9E62139C41B3FDE8F2B4659331D3778A@PGSMSX101.gar.corp.intel.com>
+	Wed, 27 Jul 2016 01:06:22 -0700 (PDT)
+Received: from [128.224.162.240] (128.224.162.240) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 27 Jul 2016 01:06:21 -0700
+To: "Sergey 'Jin' Bostandzhyan" <jin@mediatomb.cc>
+References: <573C0726.3040402@windriver.com>
+	<CA+chaQdJPWncYizZAKZ8MHOCqYRn+oKGcDuPhKVoepQhKh+LwQ@mail.gmail.com>
+	<573C21EE.8040104@windriver.com> <20160518092029.GA2579@jama>
+	<573C365D.3070407@windriver.com>
+	<20160518122751.GD11766@deadlock.dhs.org>
 From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <57986AA2.9070509@windriver.com>
-Date: Wed, 27 Jul 2016 16:02:42 +0800
+Message-ID: <57986B7B.1000107@windriver.com>
+Date: Wed, 27 Jul 2016 16:06:19 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
 	Thunderbird/38.8.0
 MIME-Version: 1.0
-In-Reply-To: <DFCB2C9E62139C41B3FDE8F2B4659331D3778A@PGSMSX101.gar.corp.intel.com>
-Subject: Re: [PATCH 0/6] [jethro] Consolidated pull
+In-Reply-To: <20160518122751.GD11766@deadlock.dhs.org>
+Cc: Mike Looijmans <mike.looijmans@topic.nl>,
+	oe-core <openembedded-core@lists.openembedded.org>
+Subject: Re: PRServer's problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,73 +39,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2016 08:02:47 -0000
+X-List-Received-Date: Wed, 27 Jul 2016 08:06:25 -0000
 Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
+Hi Sergey,
 
-Hi Mittal,
+On 05/18/2016 08:27 PM, Sergey 'Jin' Bostandzhyan wrote:
+> Hi,
+>
+> just wanted to say that we are facing the same issue with PRServer and
+> live updates, looking forward to a possible solution.
 
-They are merged into jethro now.
+You can try packagefeed-stability.bbclass on master branch now, and please
+feel free to let me know if you find any bugs.
+
+Usage:
+
+INHERIT += "packagefeed-stability"
 
 // Robert
 
-On 07/21/2016 11:52 AM, Mittal, AnujX wrote:
-> Just wanted to check - when will these changes be merged in Jethro?
 >
-> Thanks,
+> Kind regards,
+> Sergey
 >
->> -----Original Message-----
->> From: openembedded-core-bounces@lists.openembedded.org
->> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
->> Robert Yang
->> Sent: Tuesday, July 05, 2016 2:44 PM
->> To: openembedded-core@lists.openembedded.org
->> Subject: [OE-core] [PATCH 0/6] [jethro] Consolidated pull
+> On Wed, May 18, 2016 at 05:31:09PM +0800, Robert Yang wrote:
 >>
->> The following changes since commit
->> 1f4bfa33073584c25396d74f3929f263f3df188b:
 >>
->>    toasterconf.json: exclude releases Toaster can't build (2016-06-03 13:36:19
->> +0100)
+>> On 05/18/2016 05:20 PM, Martin Jansa wrote:
+>>> On Wed, May 18, 2016 at 04:03:58PM +0800, Robert Yang wrote:
+>>>> Hi Martin,
+>>>>
+>>>> On 05/18/2016 03:39 PM, Martin Jansa wrote:
+>>>>> See:
+>>>>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=5970
+>>>>>
+>>>>> Just using recipe checksum wont work, because the main reason for PR bumps is to
+>>>>> automatically upgrade the packages when one of the dependencies changes .so
+>>>>> version, which you won't detect from recipe checksum of the app which is just
+>>>>> using the library.
+>>>>
+>>>> For the development branch like master, yes, that would happen. But for
+>>>> the stable release like jethro and krogoth, it is unlikely that would
+>>>> happen, and if if does, the user can manually bump the impacted recipe's
+>>>> PR to fix the problem. The current problem is that when *all* recipes'
+>>>> PR are bumped, there is no way to fix the problem.
+>>>
+>>> You can still stop using PR service and start doing manual PR bumps, but
 >>
->> are available in the git repository at:
+>> We can't stop PR service and start doing manual PR bumps since we need keep
+>> update to date with upstream, the changes from upstream don't do the manual
+>> PR, and I don't think that we have to if they can be done automatically.
 >>
->>    git://git.openembedded.org/openembedded-core-contrib rbt/jethro-next
->>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-
->> contrib/log/?h=rbt/jethro-next
+>>> it's quite annoying if you need to bump a lot of recipes you don't
+>>> control :).
 >>
->> Anuj Mittal (1):
->>    gcc: make sure header path is set correctly
+>> What's your opinion about only consider RDEPENDS for PR service's checksum,
+>> please ?
 >>
->> Armin Kuster (2):
->>    tzcode: update to 2016e
->>    tzdata: update to 2016e
+>> // Robert
 >>
->> Enrico Jorns (1):
->>    perl-ptest.inc: fix tar call to prevent objcopy failure
->>
->> George McCollister (1):
->>    wic: fix path parsing, use last occurrence
->>
->> Nicolas Dechesne (1):
->>    bluez5: move btmgmt to common READLINE section
->>
->>   meta/recipes-connectivity/bluez5/bluez5_5.33.bb                  | 2 +-
->>   meta/recipes-devtools/gcc/gcc-target.inc                         | 1 -
->>   meta/recipes-devtools/perl/perl-ptest.inc                        | 4 ++--
->>   .../tzcode/{tzcode-native_2016d.bb => tzcode-native_2016e.bb}    | 9 +++++----
->>   .../recipes-extended/tzdata/{tzdata_2016d.bb => tzdata_2016e.bb} | 4 ++--
->>   scripts/lib/wic/plugin.py                                        | 2 +-
->>   6 files changed, 11 insertions(+), 11 deletions(-)
->>   rename meta/recipes-extended/tzcode/{tzcode-native_2016d.bb => tzcode-
->> native_2016e.bb} (67%)
->>   rename meta/recipes-extended/tzdata/{tzdata_2016d.bb => tzdata_2016e.bb}
->> (98%)
->>
->> --
->> 2.8.0
->>
+>>>
+>>>>> On Wed, May 18, 2016 at 8:09 AM, Robert Yang <liezhi.yang@windriver.com
+>>>>> <mailto:liezhi.yang@windriver.com>> wrote:
+>>>>>
+>>>>>      The PRServer bumps PR according to do_package's task hash, that
+>>>>>      causes it bumps *all* packages' PR when recipes like pseudo-native
+>>>>>      and rpm-native is changed. It is a very bad user experience when we
+>>>>>      run "smart/opkg upgrade" on running target, for example, when we apply
+>>>>>      a CVE patch to pseudo-native or rpm-native, or do some slight changes
+>>>>>      in their do_compile, "smart/opkg upgrade" will download/install *all*
+>>>>>      the packages since all of the packages' PR are bumped.
+>>>>>
+>>>>>      Here are some rough suggestions to fix this problem, and please feel
+>>>>>      free to give your suggestions.
+>>>>>      1) Do not use do_package's task for bumping PR, the easiest way
+>>>>>          is simulate manually bump PR -- only bump PR when the recipe
+>>>>>          itself's checksum is changed.
+>>>>>
+>>>>>      2) Add a new task for PRServer, redefine its task hash for bumping
+>>>>>          PR, for example, this task hash only considers RDEPENDS (no
+>>>>>          DEPENDS), and drop any native dependencies.
+>>>>>
+>>>>>      I prefer the first way, and an alternative way maybe add a var so that
+>>>>>      the user can configure it:
+>>>>>      PR_CHECKSUM = "${BB_TASKHASH}" (current way)
+>>>>>      Or
+>>>>>      PR_CHECKSUM = "<recipe checksum>"
+>>>>>
+>>>>>      --
+>>>>>      Thanks
+>>>>>
+>>>>>      Robert
+>>>>>      --
+>>>>>      _______________________________________________
+>>>>>      Openembedded-core mailing list
+>>>>>      Openembedded-core@lists.openembedded.org
+>>>>>      <mailto:Openembedded-core@lists.openembedded.org>
+>>>>>      http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>>>
+>>>>>
+>>>
 >> --
 >> _______________________________________________
 >> Openembedded-core mailing list
