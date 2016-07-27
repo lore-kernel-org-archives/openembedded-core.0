@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1A99B731CB
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D408731CB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2016 09:28:02 +0000 (UTC)
+	Wed, 27 Jul 2016 09:28:03 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u6R9S332002941
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u6R9S40T004989
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2016 02:28:03 -0700 (PDT)
+	Wed, 27 Jul 2016 02:28:04 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 27 Jul 2016 02:28:02 -0700
+	Wed, 27 Jul 2016 02:28:03 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 27 Jul 2016 02:27:54 -0700
-Message-ID: <7f39399686f509b743177d8d692b64e9d7174dac.1469609666.git.liezhi.yang@windriver.com>
+Date: Wed, 27 Jul 2016 02:27:55 -0700
+Message-ID: <76d3551ccff4b297de63bde0b63cf83f366de455.1469609666.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.9.0
 In-Reply-To: <cover.1469609666.git.liezhi.yang@windriver.com>
 References: <cover.1469609666.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 6/9] xf86-input-vmmouse: remove duplicated udev setting from FILES_${PN}
+Subject: [PATCH V2 7/9] eudev: don't move udev directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,23 +36,49 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 27 Jul 2016 09:28:03 -0000
 Content-Type: text/plain
 
-bitbake.conf already sets it.
+The code did "mv ${D}${base_libdir}/udev ${D}${nonarch_base_libdir}"
+which is not needed any more, eudev can work with ${base_libdir}/udev.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-graphics/xorg-driver/xf86-input-vmmouse_13.1.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/udev/eudev_3.2.bb | 10 +---------
+ 1 file changed, 1 insertion(+), 9 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-vmmouse_13.1.0.bb b/meta/recipes-graphics/xorg-driver/xf86-input-vmmouse_13.1.0.bb
-index 8615b48..92a1b25 100644
---- a/meta/recipes-graphics/xorg-driver/xf86-input-vmmouse_13.1.0.bb
-+++ b/meta/recipes-graphics/xorg-driver/xf86-input-vmmouse_13.1.0.bb
-@@ -23,4 +23,4 @@ do_install_append () {
+diff --git a/meta/recipes-core/udev/eudev_3.2.bb b/meta/recipes-core/udev/eudev_3.2.bb
+index 6270617..ac4285b 100644
+--- a/meta/recipes-core/udev/eudev_3.2.bb
++++ b/meta/recipes-core/udev/eudev_3.2.bb
+@@ -27,7 +27,6 @@ inherit autotools update-rc.d qemu
  
- EXTRA_OECONF = "--with-udev-rules-dir=${nonarch_base_libdir}/udev/rules.d"
+ EXTRA_OECONF = " \
+     --sbindir=${base_sbindir} \
+-    --libexecdir=${nonarch_base_libdir} \
+     --with-rootlibdir=${base_libdir} \
+     --with-rootprefix= \
+ "
+@@ -53,13 +52,6 @@ do_install_append() {
+ 	# Use classic network interface naming scheme
+ 	touch ${D}${sysconfdir}/udev/rules.d/80-net-name-slot.rules
  
--FILES_${PN} += "${nonarch_base_libdir}/udev/rules.d/ ${datadir}/X11/xorg.conf.d"
-+FILES_${PN} += "${datadir}/X11/xorg.conf.d"
+-	# Fix for multilib systems where libs along with confs are installed incorrectly
+-	if ! [ -d ${D}${nonarch_base_libdir}/udev ]
+-	then
+-		install -d ${D}${nonarch_base_libdir}/udev
+-		mv ${D}${base_libdir}/udev ${D}${nonarch_base_libdir}
+-	fi
+-
+ 	# hid2hci has moved to bluez4. removed in udev as of version 169
+ 	rm -f ${D}${base_libdir}/udev/hid2hci
+ }
+@@ -75,7 +67,7 @@ PACKAGES =+ "udev-cache"
+ PACKAGES =+ "eudev-hwdb"
+ 
+ 
+-FILES_${PN} += "${libexecdir} ${nonarch_base_libdir}/udev ${bindir}/udevadm"
++FILES_${PN} += "${libexecdir} ${base_libdir}/udev ${bindir}/udevadm"
+ FILES_${PN}-dev = "${datadir}/pkgconfig/udev.pc \
+                    ${includedir}/libudev.h ${libdir}/libudev.so \
+                    ${includedir}/udev.h ${libdir}/libudev.la \
 -- 
 2.9.0
 
