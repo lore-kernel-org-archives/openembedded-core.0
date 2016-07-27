@@ -1,45 +1,56 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id D0535607A5
+Received: from mail-pa0-f54.google.com (mail-pa0-f54.google.com
+	[209.85.220.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 36040606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2016 09:38:14 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id h186so1538990pfg.2
+	Wed, 27 Jul 2016 09:57:43 +0000 (UTC)
+Received: by mail-pa0-f54.google.com with SMTP id ks6so9091319pab.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2016 02:38:15 -0700 (PDT)
+	Wed, 27 Jul 2016 02:57:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=GOk5oJzcJCK7SsV6lssxV0xTRK/+8pW2jOF+u0XYBL4=;
-	b=C+A8g/Sx7SnUraxB7rMRlTsrI5UWmy1UCvXZRSQrGvSJQOuQc6/5zT3YVjNZavAk2+
-	j7tpbwmyPUtlgwEAoTMcHxi54TmVhVALFeKNhMiP1JYZpYKzrsJ72CASnBs7HDZRET0Z
-	gSP4T9iPnL+OJ++ZMkRP0Vax9JMfq4v4heuDw5qYVbY6xbtl02u4umIV6oB8C+B9sK6M
-	C9d8MrABQqreiRZFJDWmk6gBSi6MHDsnxfPxCtT0XMRewx0xFcUDRFIBxa+28kDhw6Np
-	9bL9HSYguezdjQ4lSv2E7prgqhgJverHFeQr0tusegKyKhX5Kn2K1BXglfomDZ1sLHHo
-	QBDw==
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=wNW+bp7JfahwJdYQKg7p87ChZVkRoMi4uRoCbeGj750=;
+	b=TE7472b6CJYFEhFr38CTOsk3uSqvCnW/UhMDk+HeyV26fCHzKOugRgQzi7GcmUDDMn
+	y/aitqKTLs2pxGC5+/SogJ83bk1DtiDMsxMf4BB7B0T+Hzc6qFswb9LLk8piYsRHCHNS
+	F47DAqfG8eGCf2uzK7fGeJx1TLFQGp0uDtSwabqJXqcJZoXyFd31V3W1cm1rWuBpLwXO
+	vzH9GCh6MfNLKla9ANQOQ66qV0JeXxCGtBTmuskNWTcuxprYKBqh+awBBKac0qo/JE7U
+	5MYAiCvgpbM2DZS/M+V194Z9H4mYxuU/cJlSjQMWQmgXb5No5U3zuDZ5vkone8t347ou
+	bhog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=GOk5oJzcJCK7SsV6lssxV0xTRK/+8pW2jOF+u0XYBL4=;
-	b=Z+0PG9TEYQDn2KZqJZT2Eg0LWQOLx2hLV0v00MSPdhcNFte7bn5Ed/FSQV9RKLHvZb
-	rgzIgx5rx8egCIzsBWZLRluYnuXKV/exH8uUmPL5iLMRDKMBw+sDR3ol9MCjn77ldAl8
-	lyGedbQb6Y49KYo+0vf79i59mXnU3KkZkyb4jPa0yUUGATgJFTzfPNhiz59ZRSf5pFMF
-	fxHXyQJ4KkcC9FPIkY5x/Caq2kRHxZnlOuTdVbGxWEOHBg2nZ5Qp2Fas+53TQAvLc4Cb
-	LXKCzxG3ZK+/GpyoSHVCs4FHA3qcQU/mrhPDGE7fdHPol5ndfif5utYy+BNcLeSVyRTf
-	VOog==
-X-Gm-Message-State: AEkoouulaO7Rz/4EI1RQRP9RWXsrP04J/mOehkYm5mC3bQxvcXiZKKhEepibNDvpQMjmOw==
-X-Received: by 10.98.55.1 with SMTP id e1mr26871665pfa.58.1469612295170;
-	Wed, 27 Jul 2016 02:38:15 -0700 (PDT)
-Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=wNW+bp7JfahwJdYQKg7p87ChZVkRoMi4uRoCbeGj750=;
+	b=Gr/EoAjIVJFj/1PEQPNvvuLEDgIDvIRUogCDircPow+SrVCZ01CXD0tynEki87F2dP
+	BYgr5cAglpD/MpCaKVEtsBN8ifs1P/Ico6RkRy6QIAlLvuTM/M4QwhNo+ixLWTasKR7c
+	0XbT9Pn2DMMpRQLB7xJ98ZfV5KewJzLswv855vd3tiGifwShn74visY8EH08/Deptm5C
+	grqtZ2ZYCLOyCWgnfiW8xdktpGP4BVeX5yik0a5FR32h+BReidfsr4juLNhLEWQ3hJGp
+	Wlldb5n3k3SVsQKKFt5kVW1ipyePJaYkPMRdqOPoic3wqlElxjTv8edOsZ29M3d7e1Be
+	MTyA==
+X-Gm-Message-State: AEkooutilP+f7NK/D3lx1bjV56uYEZanx9df/GcfrmLsMmbZQQlqIOh4m0Q6c4S5yLeYyg==
+X-Received: by 10.66.74.103 with SMTP id s7mr47434708pav.1.1469613464214;
+	Wed, 27 Jul 2016 02:57:44 -0700 (PDT)
+Received: from [192.168.0.5] (c-76-102-32-192.hsd1.ca.comcast.net.
 	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	n69sm7519403pfa.77.2016.07.27.02.38.14
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 27 Jul 2016 02:38:14 -0700 (PDT)
+	nd4sm7771110pab.14.2016.07.27.02.57.43
+	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 27 Jul 2016 02:57:43 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Pgp-Agent: GPGMail
 From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Jul 2016 02:38:08 -0700
-Message-Id: <20160727093808.32459-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.9.0
-Subject: [PATCH] binutils: Cache gettext api version 1 and 2 support
+In-Reply-To: <1469525795.6937.1.camel@ts.fujitsu.com>
+Date: Wed, 27 Jul 2016 02:57:37 -0700
+Message-Id: <AA7383CF-888C-4605-97BB-BB016A5EB450@gmail.com>
+References: <1469194596.6594.13.camel@ts.fujitsu.com>
+	<CAMKF1srBan-tupS7qGb3kDnAn-2-u8dox3vFk5ssGwQLzeGaHw@mail.gmail.com>
+	<1469455403.6896.29.camel@ts.fujitsu.com>
+	<CAMKF1soyDLFePf+JqwQeyqCeig=CeZqHADwJJ7yZ=Nz9PcW0Hg@mail.gmail.com>
+	<1469525795.6937.1.camel@ts.fujitsu.com>
+To: "thilo.cestonaro@ts.fujitsu.com" <thilo.cestonaro@ts.fujitsu.com>
+X-Mailer: Apple Mail (2.3124)
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Building for armv7athf-neon but toolchain is softfp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,57 +63,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2016 09:38:14 -0000
+X-List-Received-Date: Wed, 27 Jul 2016 09:57:45 -0000
+X-Groupsio-MsgNum: 84973
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_C45CC17A-E652-4086-AE11-B181410B25AD";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-Problem described here
-
-https://lists.gnu.org/archive/html/bug-gettext/2015-11/msg00012.html
-
-gettext does not detect the gettext support in libc
-correctly if the libc is not glibc. Musl does support
-the gettext version 1 and 2 of APIs
-
-http://www.openwall.com/lists/musl/2015/04/16/3
-
-tests in gettext.m4 however fail since it pokes at glibc
-internal symbols to determine the gettext APIs
-musl's implementaitons are done differenty so the
-tests fail and hence it does not enable  the libc
-implementation. Since we install the header from
-libc it confuses the compilation and results in errors
-like
-
-libbfd.so: undefined reference to `libintl_dgettext'
-
-see
-http://savannah.gnu.org/bugs/?46436
-
-binutils need these variables in make env since
-binutils build system runs configure in the sub directories
-during make step, so we need to pass these flags
-in compile step in addition to configure step
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/binutils/binutils_2.26.bb | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/meta/recipes-devtools/binutils/binutils_2.26.bb b/meta/recipes-devtools/binutils/binutils_2.26.bb
-index e976bad..b51437b 100644
---- a/meta/recipes-devtools/binutils/binutils_2.26.bb
-+++ b/meta/recipes-devtools/binutils/binutils_2.26.bb
-@@ -10,6 +10,10 @@ EXTRA_OECONF += "--with-sysroot=/ \
-                 --with-system-zlib \
-                 "
- 
-+EXTRA_OEMAKE_append_libc-musl = "\
-+                                 gt_cv_func_gnugettext1_libc=yes \
-+                                 gt_cv_func_gnugettext2_libc=yes \
-+                                "
- EXTRA_OECONF_class-native = "--enable-targets=all \
-                              --enable-64-bit-bfd \
-                              --enable-install-libiberty \
--- 
-2.9.0
+--Apple-Mail=_C45CC17A-E652-4086-AE11-B181410B25AD
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
 
+> On Jul 26, 2016, at 2:39 AM, thilo.cestonaro@ts.fujitsu.com wrote:
+>=20
+> Hey Khem,
+>=20
+>> Seems steps are all ok. Can you upload your hello world somewhere.
+>=20
+> http://thilo.cestona.ro/~ephraim/public/helloworld.zip
+>=20
+> Hope you can find out whats going on here :).
+>=20
+
+This seems to contain C++ it seems. Can you try a simple C hello.c and =
+see if that works.
+
+> Cheers,
+> Thilo
+
+
+--Apple-Mail=_C45CC17A-E652-4086-AE11-B181410B25AD
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAleYhZYACgkQuwUzVZGdMxSIGACfc6wp8gyg+V5UjK7q7axsUqHu
+bCsAoINxRvbcybnlZ2CIFSQEOOD/kAxM
+=HRqY
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_C45CC17A-E652-4086-AE11-B181410B25AD--
