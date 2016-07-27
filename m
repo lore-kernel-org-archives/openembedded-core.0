@@ -1,48 +1,29 @@
-Return-Path: <alistair23@gmail.com>
-Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
-	[209.85.218.65])
-	by mail.openembedded.org (Postfix) with ESMTP id D89BF60746
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D0356212F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2016 18:03:07 +0000 (UTC)
-Received: by mail-oi0-f65.google.com with SMTP id w143so2032567oiw.2
+	Wed, 27 Jul 2016 18:23:10 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u6RIN8kC028219
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2016 11:03:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=QRRpQlQ8NolK7o6genkh65XhoUNzazaTne/wCvDO9l0=;
-	b=SZp7EFVTtkTZpBJlDewOJ45sNEwDGVgj+ot2meb+oAieJqefqkuxThzPUoz9rRXWtd
-	r5s//lg7MB5DNjpeYbBtfAWSdN2jap7Hw0Qj1Cf/4N6G5VdgcIgCsHYadBBy5472UD70
-	fZ+RtwF0Cfm3MWEyBbwefINjOCMC4mZYGMW+mFxZsbjTfX3v0mTTgOtch/kgGIUU2p4I
-	zo5d2gkFQ5GEPGdIzJzVlEEvW7E59Kx51GGP/CjV0NROJSw6OwcBSwiM9ktbPhmcu3Nb
-	4mshonl/HBcDqtlKUTMmysAFi18Lyrhsx86volIZX/M7sMD5pWmzSanndwV7PgwA1r26
-	pH/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=QRRpQlQ8NolK7o6genkh65XhoUNzazaTne/wCvDO9l0=;
-	b=SEKamzC07shsuGz21RV6zP3Kaxi/opbsZkyINGFL+IwOjY24/KiqBnjuLK5ZatQLRD
-	GWxG0FSFTqieOBbxCCeTw3HjqAPWGol2Rbkikybz2O+ipqtmYTwPnI0teIvj1pwTbifl
-	T2bY/wgOYo2nENPZZkkeG6VUOHx6ev/otbQZk5EPrLwlc9vk1ThlW+oUo+UZE9rg+V99
-	cQAkiyvtzH+Wh2Qq2dMW1IdFvwasqXiU/2oqh7nMfHZ/Ab/Ch2xnT3IJoP3W3RwFnnr7
-	24Ej9saMuALVlfmkA+essYU/JdZZq8KJiKJ2VLW21AgqXlJuuNf1JaLGxEMsrfPdygFp
-	h57g==
-X-Gm-Message-State: AEkoousf1sPwwFPYwgNUC9Sk77IJJpeVwkWdlHgCfpQLoxzqTc6M80Tqvln8F701hcpmiYAbT6q6bjGfGbQuHQ==
-X-Received: by 10.202.68.6 with SMTP id r6mr17500150oia.53.1469642588355; Wed,
-	27 Jul 2016 11:03:08 -0700 (PDT)
+	Wed, 27 Jul 2016 11:23:09 -0700 (PDT)
+Received: from [128.224.56.236] (128.224.56.236) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 27 Jul 2016 11:23:08 -0700
+To: Dengke Du <dengke.du@windriver.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1469595557.git.dengke.du@windriver.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <15e7860e-8025-82d3-b002-42c450c3b805@windriver.com>
+Date: Wed, 27 Jul 2016 14:23:07 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-Sender: alistair23@gmail.com
-Received: by 10.182.14.72 with HTTP; Wed, 27 Jul 2016 11:02:38 -0700 (PDT)
-In-Reply-To: <1466023403-1976-1-git-send-email-alistair.francis@xilinx.com>
-References: <1466023403-1976-1-git-send-email-alistair.francis@xilinx.com>
-From: Alistair Francis <alistair.francis@xilinx.com>
-Date: Wed, 27 Jul 2016 11:02:38 -0700
-X-Google-Sender-Auth: Pyt76OpvH3YG8UyfEGjisxZQweI
-Message-ID: <CAKmqyKOviCTZBEnTXgSsWk2s+H6NJHAW490dPLkxy+Lz3Yuj2w@mail.gmail.com>
-To: Alistair Francis <alistair.francis@xilinx.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] runqemu: qemuzynqmp: Add Linux boot support
+In-Reply-To: <cover.1469595557.git.dengke.du@windriver.com>
+X-Originating-IP: [128.224.56.236]
+Subject: Re: [PATCH 0/2] perf: enable man pages for 'help' functionality
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,54 +36,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2016 18:03:09 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 27 Jul 2016 18:23:13 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Ping!
+On 2016-07-27 01:02 AM, Dengke Du wrote:
+> The following changes since commit 36feb38045b7a2af86ece147fec54b0db3bf491f:
+>
+>   linux-yocto: Update genericx86* SRCREVs for linux-yocto 4.4 (2016-07-21 07:48:53 +0100)
+>
+> are available in the git repository at:
+>
+>   git://git.openembedded.org/openembedded-core-contrib dengke/enable-help-man-pages-for-perf
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=dengke/enable-help-man-pages-for-perf
+>
+> Dengke Du (2):
+>   Asciidoc: add it
+>   perf: enable man pages for 'help' functionality
+>
+>  meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb | 20 ++++++++++++++++++++
+>  meta/recipes-kernel/perf/perf.bb                 | 11 ++++++++++-
+>  2 files changed, 30 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
+>
 
-On Wed, Jun 15, 2016 at 1:43 PM, Alistair Francis
-<alistair.francis@xilinx.com> wrote:
-> Add support to direct boot Linux instead of just booting u-boot.
->
-> Signed-off-by: Alistair Francis <alistair.francis@xilinx.com>
-> ---
->  scripts/runqemu          | 3 +--
->  scripts/runqemu-internal | 2 +-
->  2 files changed, 2 insertions(+), 3 deletions(-)
->
-> diff --git a/scripts/runqemu b/scripts/runqemu
-> index de05035..d52ea15 100755
-> --- a/scripts/runqemu
-> +++ b/scripts/runqemu
-> @@ -350,8 +350,7 @@ QEMUMICROBLAZE_DEFAULT_FSTYPE=cpio
->  QEMUZYNQ_DEFAULT_KERNEL=uImage
->  QEMUZYNQ_DEFAULT_FSTYPE=cpio
->
-> -# Default to booting u-boot as a direct Linux boot isn't supported yet.
-> -QEMUZYNQMP_DEFAULT_KERNEL=u-boot-qemuzynqmp.elf
-> +QEMUZYNQMP_DEFAULT_KERNEL=Image
->  QEMUZYNQMP_DEFAULT_FSTYPE=cpio
->
->  setup_path_vars() {
-> diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-> index ea1a307..ecc5e63 100755
-> --- a/scripts/runqemu-internal
-> +++ b/scripts/runqemu-internal
-> @@ -514,7 +514,7 @@ config_qemuzynqmp() {
->      QEMU_NETWORK_CMD="-net nic -net nic -net nic -net nic -net user,net=10.10.70.0,dhcpstart=10.10.70.1,host=10.10.70.101"
->      QEMU_SYSTEM_OPTIONS="$QEMU_NETWORK_CMD -M xlnx-ep108 -serial mon:stdio -dtb $DEPLOY_DIR_IMAGE/${QEMU_DTB}.dtb"
->
-> -    QEMUOPTIONS="$QEMU_SYSTEM_OPTIONS $QEMU_UI_OPTIONS -tftp $DEPLOY_DIR_IMAGE"
-> +    QEMUOPTIONS="$QEMU_SYSTEM_OPTIONS $QEMU_UI_OPTIONS -initrd $ROOTFS"
->  }
->
->  config_qemumicroblaze() {
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Looks good .
+
+I was under the impression that asciidoc was larger but it's just
+  ~ 900KB plus it's all python so it's not going to add to the system
+build time directly.
+
+How much longer does it take to build perf?
+
+Did you test for python3 only?
+
+-- 
+# Randy MacLeod. SMTS, Linux, Wind River
+Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON, 
+Canada, K2K 2W5
 
