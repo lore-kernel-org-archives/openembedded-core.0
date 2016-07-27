@@ -1,48 +1,26 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-io0-f196.google.com (mail-io0-f196.google.com
-	[209.85.223.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 67139606BF
+Return-Path: <stephano.cetola@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B394606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2016 03:02:40 +0000 (UTC)
-Received: by mail-io0-f196.google.com with SMTP id y195so4619061iod.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jul 2016 20:02:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=/SBkaEl0tfV5Q8WKnlI8+5mcqs5DkouMawzx/BQ0aU8=;
-	b=Am3V7L0kn/UsVGAdgFO2d4AFp4a14wjswApyTR1iZBYjL6uD3cu3X5VFthM97D/A5i
-	y8tk1C4/92VTZ43wbs960gxJ5A2JpXJ5iHDXybxgm0OepnPB5t84icGEp5yPJpBO4D0M
-	t/wyjV1CMpqTsMPuXXeQy3iIBrL5mkYt5IaCpHyR087O1zZxw9qwVGhf8qBkHBpXHlCH
-	p347MhzxGc9kO5N6yiY3LQuJIFheDX1UDB5jSrm+KVBVQs5+fHs1+6b4MBc+ppc+31G9
-	5i4KGQ2bah5rJ4esyTq2mYOVKev3rj5w9hxsY0JeYvbv3W5TDa/jbqedXYxSFu6bBZvr
-	BqLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=/SBkaEl0tfV5Q8WKnlI8+5mcqs5DkouMawzx/BQ0aU8=;
-	b=S1NNUw4DDoPZa+bOlXEe3rPEqjpjJAawv2HFC0+ljQQe04i4Ykk54TQiX843CVs8fM
-	LDrNIwwIeqtSniT6bXzig/y4mNAvlxF/p/MBbeS4s8eAZA296X0HzlLotFzvlPWB+AZA
-	raic0c/cixvOdE9mqtXKruC+tKDjOzOVA6q8hAKzLBB+IjnxmDeZrSETLryvO7Yp7iEw
-	vXpxaBI9a55L0BbYjGvkiEcWEVMT2qgiA/nomkSrGmR6LakRXtSvJ66HzdTGp+QWIuiq
-	/8FPIavItuAgN8UQvG759j0F8C+tKTR6Q+Q1l21ZsL65SjAJYMQjhzzSzkF8wLgL8DTU
-	aaIg==
-X-Gm-Message-State: AEkoouss2tyGKLduwDIbZkNyCOGSwJ12kvmVZJgAZWAgkclqhPwzvYtwre5gxS+mPYHfUVRmEoOsYrCftSZbMQ==
-X-Received: by 10.107.131.170 with SMTP id n42mr30188715ioi.126.1469588560934; 
-	Tue, 26 Jul 2016 20:02:40 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.79.21.197 with HTTP; Tue, 26 Jul 2016 20:02:21 -0700 (PDT)
-In-Reply-To: <1469197500.23580.64.camel@linuxfoundation.org>
-References: <1469197500.23580.64.camel@linuxfoundation.org>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Tue, 26 Jul 2016 20:02:21 -0700
-X-Google-Sender-Auth: DFiMAk0qMoPGaXP5LEr7fxya6_E
-Message-ID: <CABcZANn61HMx3ttOZpY9tVHHLgV1yA+Vx_JhyUudEEkScPONGQ@mail.gmail.com>
+	Wed, 27 Jul 2016 03:43:30 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga103.jf.intel.com with ESMTP; 26 Jul 2016 20:43:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,428,1464678000"; d="scan'208";a="854251354"
+Received: from cakenne1-mobl.amr.corp.intel.com ([10.254.86.8])
+	by orsmga003.jf.intel.com with ESMTP; 26 Jul 2016 20:43:31 -0700
+Date: Tue, 26 Jul 2016 20:43:30 -0700
+From: Stephano Cetola <stephano.cetola@linux.intel.com>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] insane: Add mechanism to extend QA machine information from BSP layer
+Message-ID: <20160727034330.GA8090@cakenne1-mobl.amr.corp.intel.com>
+References: <20160714212038.12385-1-stephano.cetola@linux.intel.com>
+	<1469020794.23580.11.camel@linuxfoundation.org>
+MIME-Version: 1.0
+In-Reply-To: <1469020794.23580.11.camel@linuxfoundation.org>
+User-Agent: Mutt/1.6.2 (2016-07-01)
+Cc: Steven Walter <stevenrwalter@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] Allow for simultaneous do_rootfs tasks with rpm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,162 +33,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2016 03:02:41 -0000
-Content-Type: multipart/alternative; boundary=001a113ecb0624038a0538954041
+X-List-Received-Date: Wed, 27 Jul 2016 03:43:30 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---001a113ecb0624038a0538954041
-Content-Type: text/plain; charset=UTF-8
+On 07/20, Richard Purdie wrote:
+> On Thu, 2016-07-14 at 14:20 -0700, Stephano Cetola wrote:
+> > Give each rootfs its own RPM channel to use.  This puts the RPM
+> > metadata
+> > in a private subdirectory of $WORKDIR, rather than living in
+> > DEPLOY_DIR
+> > where other tasks may race with it.
+> > 
+> > This allows us to reduce the time that the rpm.lock is held to only
+> > the
+> > time needed to hardlink the RPMs, allowing the majority of the rootfs
+> > operation to run in parallel.
+> > 
+> > [ YOCTO #9255 ]
+> > 
+> > Signed-Off-By: Steven Walter <stevenrwalter@gmail.com>
+> > Signed-off-by: Stephano Cetola <stephano.cetola@linux.intel.com>
+> > ---
+> >  meta/classes/rootfs_rpm.bbclass |  5 -----
+> >  meta/lib/oe/package_manager.py  | 17 ++++++++++++++---
+> >  2 files changed, 14 insertions(+), 8 deletions(-)
+> 
+> Sadly, much as I'd love to merge this, testing shows we have some
+> issues.
+> 
+> Firstly, it means we no longer generate indexes in tmp/deploy/rpm and
+> this breaks -c testimage since some of the tests connect and look for
+> packages there, e.g. https://autobuilder.yoctoproject.org/main/builders
+> /nightly-qa-logrotate/builds/851 but many others would have also
+> failed.
+> 
 
-On Fri, Jul 22, 2016 at 7:25 AM, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+After digging into this I think that I can change the tests so that they
+point at the correct location:
 
-> In order to add a new architecture or sub-architecture to OE, you currently
-> need to tweak the table in insane.bbclass. This adds a mechanism so this
-> can be done from a BSP layer. It needs a function definition which needs
-> a class file but can then be done with something like:
->
-> def my_testfunc(machdata, d):
->     machdata["testmachine"] = {
->                         "test64":       ( 8,     0,    0,          False,
->        32),
->                         "testel":     ( 8,     0,    0,          True,
->       32),
->                       }
->     return machdata
->
-> PACKAGEQA_EXTRA_MACHDEFFUNCS = "my_testfunc"
->
-> [YOCTO #8554]
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->
-> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-> index 9b2337c..98381c2 100644
-> --- a/meta/classes/insane.bbclass
-> +++ b/meta/classes/insane.bbclass
-> @@ -54,8 +54,8 @@ UNKNOWN_CONFIGURE_WHITELIST ?= "--enable-nls
-> --disable-nls --disable-silent-rule
->  # feel free to add and correct.
->  #
->  #           TARGET_OS  TARGET_ARCH   MACHINE, OSABI, ABIVERSION, Little
-> Endian, 32bit?
-> -def package_qa_get_machine_dict():
-> -    return {
-> +def package_qa_get_machine_dict(d):
-> +    machdata = {
->              "darwin9" : {
->                          "arm" :       (40,     0,    0,          True,
->       32),
->                        },
-> @@ -168,6 +168,16 @@ def package_qa_get_machine_dict():
->                        },
->          }
->
-> +    # Add in any extra user supplied data which may come from a BSP
-> layer, removing the
-> +    # need to always change this class directly
-> +    extra_machdata = (d.getVar("PACKAGEQA_EXTRA_MACHDEFFUNCS", True) or
-> "").split()
-> +    for m in extra_machdata:
-> +        call = m + "(machdata, d)"
-> +        locs = { "machdata" : machdata, "d" : d}
-> +        machdata = bb.utils.better_eval(call, locs)
->
+e.g.
+tmp/work/qemux86-oe-linux/core-image-sato/1.0-r0/rpms/qemux86/repodata
 
-Out of curiosity, why pass in the dict and have it modify and return it,
-when it could just return a new dict that you add to machdata with
-machdata.update()?
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+based on the target triplet, image, PV (I'm guessing here), and arch
+variables. I realized when digging into this that using "rpms" in the
+path (which was a result of this patch) is wrong. It should be "rpm".
 
---001a113ecb0624038a0538954041
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Let me know if this sounds right or if I'm dreaming.
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Fri, Jul 22, 2016 at 7:25 AM, Richard Purdie <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.=
-purdie@linuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
-ft:1ex"><div id=3D":lb" class=3D"a3s aXjCH m15612ff545c4334f">In order to a=
-dd a new architecture or sub-architecture to OE, you currently<br>
-need to tweak the table in insane.<span class=3D"il">bbclass</span>. This a=
-dds a mechanism so this<br>
-can be done from a BSP layer. It needs a function definition which needs<br=
->
-a <span class=3D"il">class</span> file but can then be done with something =
-like:<br>
-<br>
-def my_testfunc(machdata, d):<br>
-=C2=A0 =C2=A0 machdata[&quot;testmachine&quot;] =3D {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 &quot;test64&quot;:=C2=A0 =C2=A0 =C2=A0 =C2=A0( 8,=C2=A0 =C2=A0 =
-=C2=A00,=C2=A0 =C2=A0 0,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 False,=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A032),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 &quot;testel&quot;:=C2=A0 =C2=A0 =C2=A0( 8,=C2=A0 =C2=A0 =C2=A00=
-,=C2=A0 =C2=A0 0,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 True,=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 32),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 }<br>
-=C2=A0 =C2=A0 return machdata<br>
-<br>
-PACKAGEQA_EXTRA_MACHDEFFUNCS =3D &quot;my_testfunc&quot;<br>
-<br>
-[YOCTO #8554]<br>
-<br>
-Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfou=
-ndation.org">richard.purdie@linuxfoundation.org</a>&gt;<br>
-<br>
-diff --git a/meta/classes/insane.<span class=3D"il">bbclass</span> b/meta/c=
-lasses/insane.<span class=3D"il">bbclass</span><br>
-index 9b2337c..98381c2 100644<br>
---- a/meta/classes/insane.<span class=3D"il">bbclass</span><br>
-+++ b/meta/classes/insane.<span class=3D"il">bbclass</span><br>
-@@ -54,8 +54,8 @@ UNKNOWN_CONFIGURE_WHITELIST ?=3D &quot;--enable-nls --dis=
-able-nls --disable-silent-rule<br>
-=C2=A0# feel free to add and correct.<br>
-=C2=A0#<br>
-=C2=A0#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0TARGET_OS=C2=A0 TARGET_ARCH=
-=C2=A0 =C2=A0MACHINE, OSABI, ABIVERSION, Little Endian, 32bit?<br>
--def package_qa_get_machine_dict():<br>
--=C2=A0 =C2=A0 return {<br>
-+def package_qa_get_machine_dict(d):<br>
-+=C2=A0 =C2=A0 machdata =3D {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;darwin9&quot; : {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0&quot;arm&quot; :=C2=A0 =C2=A0 =C2=A0 =C2=A0(40,=C2=A0 =C2=
-=A0 =C2=A00,=C2=A0 =C2=A0 0,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 True,=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 32),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0},<br>
-@@ -168,6 +168,16 @@ def package_qa_get_machine_dict():<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0},<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-+=C2=A0 =C2=A0 # Add in any extra user supplied data which may come from a =
-BSP layer, removing the<br>
-+=C2=A0 =C2=A0 # need to always change this <span class=3D"il">class</span>=
- directly<br>
-+=C2=A0 =C2=A0 extra_machdata =3D (d.getVar(&quot;PACKAGEQA_EXTRA_MACHDEFFU=
-NCS&quot;, True) or &quot;&quot;).split()<br>
-+=C2=A0 =C2=A0 for m in extra_machdata:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 call =3D m + &quot;(machdata, d)&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 locs =3D { &quot;machdata&quot; : machdata, &q=
-uot;d&quot; : d}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 machdata =3D <span class=3D"il">bb</span>.util=
-s.better_eval(call, locs)</div></blockquote></div><br>Out of curiosity, why=
- pass in the dict and have it modify and return it, when it could just retu=
-rn a new dict that you add to machdata with machdata.update()?<br>-- <br><d=
-iv class=3D"gmail_signature" data-smartmail=3D"gmail_signature">Christopher=
- Larson<br>clarson at kergoth dot com<br>Founder - BitBake, OpenEmbedded, O=
-penZaurus<br>Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphic=
-s</div>
-</div></div>
+> I've also started wondering what happens if we have some scenario where
+> we have:
+> 
+> bitbake core-image-sato epiphany
+> <rootfs for core-image-sato starts>
+> <rebuild for epiphany or one of its dependencies happens>
+> <old package from epiphany or one of its dependencies is removed from
+> tmp/deploy/rpm>
+> <core-image-sato index references this now removed package>
+> 
+> I'd hope the system should handle this since it should only be
+> referencing things that are direct task dependencies but with
+> rpm/smart, who knows :/. We should at least see how this fails (if it
+> fails).
+> 
 
---001a113ecb0624038a0538954041--
+When I build these two this morning I got a bunch of failures on
+webkit's configure stage. I'll have to look into those.
+
+> It could get particularly ugly if we use globbing for the rootfs
+> construction (e.g. *-locale) and the list of packages changed depending
+> on what else was built. I'd guess we'd already have this problem but
+> this patch could magnify any problem.
+> 
+> We are going to have to at least solve the testimage package index
+> problem before we can merge it.
+> 
+> Cheers,
+> 
+> Richard
+> 
+> 
+
