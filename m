@@ -1,29 +1,47 @@
-Return-Path: <Liam.Howlett@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DDA8606BF
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f45.google.com (mail-it0-f45.google.com
+	[209.85.214.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 869E1606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2016 14:08:52 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u6RE8nFE003207
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 27 Jul 2016 07:08:50 -0700 (PDT)
-Received: from yow-lhowlett-d0.wrs.com (128.224.56.205) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.248.2; Wed, 27 Jul 2016 07:08:47 -0700
-Date: Wed, 27 Jul 2016 10:08:42 -0400
-From: "Liam R. Howlett" <Liam.Howlett@windriver.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20160727140842.GA3207@yow-lhowlett-d0.wrs.com>
-References: <1469211845-21125-1-git-send-email-Liam.Howlett@WindRiver.com>
-	<1469211845-21125-2-git-send-email-Liam.Howlett@WindRiver.com>
-	<CAJTo0LaiVPOSZfFt9ruzFGgtiL2gNFOZWHCNN2yZRBRsKm41TA@mail.gmail.com>
+	Wed, 27 Jul 2016 14:20:55 +0000 (UTC)
+Received: by mail-it0-f45.google.com with SMTP id f6so143636454ith.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Jul 2016 07:20:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=St72+QtTpLWbszdPW3COLH+RNxIF3Ev9nFivGDOQEV8=;
+	b=Dwdqf5ZDac0+Fdd8jk/252jDF+rxHs4C0M6HHkTU50gcA0Z4lYssc6D/WeUdV+1/c0
+	X88aknDLe9mR3QFDZnK9i3LzzJryglFvnXUxkN9qolVNE7El3X/nH3I4uOwVR6JmpfrX
+	FNdpWjYiDXibpTDnV3186qlgnTb+ClOPU4jCw+jNtyil9zkz7Rl8ECGWkxHfZKLuYr/r
+	koDbFseJTKZ9DCI2YC9um5wcYEhTJsPowKLo5TQHcizyo4hcV72B+2f+7H6y+EYy9EhA
+	alXMHrvLYA5laUluw2sJRJHEKBUXJlrytCQfRL0xtX+3QnioHqlpvZPsVu8Aui2IHmeB
+	LdWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=St72+QtTpLWbszdPW3COLH+RNxIF3Ev9nFivGDOQEV8=;
+	b=a7Khy6QD1Jszt/RyvIBx8sMg9pUNWnk1VCZkIPejqfHzEcTLsT3uYBtWuok4BAprIe
+	V6m4zGPEtR5kaUJPsPsYR78ckGs0iL9PDfgNRvkXVr6oLNRI0BL5GskA73X2aZl9x6Zi
+	4ztCU0OsAEqUgIvHAdy33XB/65/0s89rwCZWMCKKIBTik2qYeRfEzhneV1/CO1Guwdl6
+	Y3xPZ/C/jz0hIFTlEgrah1z/jIoarYGBRxUO+5vFoI5sPS8grO0lEjDXwVOMf3q4tg73
+	5F/CpnTxG7QJADLYuZ54M+Fu6Gb9+xxFrZu4X2dB9qW2FuTZls011J6UIcGWaxy96dIw
+	lhFQ==
+X-Gm-Message-State: AEkooutB3MuLFvRjYE7fjnNTakYNTgkQ7WXSp3b1Sfz4p/yy+vj7L6BGJ4PamZHorK7+duywseQWBETwr2JENzsS
+X-Received: by 10.36.19.75 with SMTP id 72mr32274020itz.83.1469629255672; Wed,
+	27 Jul 2016 07:20:55 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LaiVPOSZfFt9ruzFGgtiL2gNFOZWHCNN2yZRBRsKm41TA@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-X-Originating-IP: [128.224.56.205]
+Received: by 10.107.18.17 with HTTP; Wed, 27 Jul 2016 07:20:36 -0700 (PDT)
+In-Reply-To: <0afb5f75385876d2ecbca040449289bb39fae4d7.1469598081.git.Qi.Chen@windriver.com>
+References: <cover.1469598081.git.Qi.Chen@windriver.com>
+	<0afb5f75385876d2ecbca040449289bb39fae4d7.1469598081.git.Qi.Chen@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 27 Jul 2016 15:20:36 +0100
+Message-ID: <CAJTo0LYjJ_grNCYtHBvFE=8pU+TDQtr_+JQc6b+yyz=wY6q35A@mail.gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] wget: Add --ssh-askpass support
+Subject: Re: [PATCH 1/2] distutils: fix to avoid file-rdeps QA issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,59 +54,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2016 14:08:55 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 27 Jul 2016 14:20:57 -0000
+Content-Type: multipart/alternative; boundary=001a1145180abc8c6d05389eb9a7
 
-* Burton, Ross <ross.burton@intel.com> [160726 09:38]:
-> On 22 July 2016 at 19:24, Liam R. Howlett <Liam.Howlett@windriver.com>
-> wrote:
-> 
-> > diff --git a/meta/recipes-extended/wget/wget/0001-wget-Add-ssh-askpass-support.patch
-> > b/meta/recipes-extended/wget/wget/0001-wget-Add-ssh-askpass-support.patch
-> > new file mode 100644
-> > index 0000000..e402375
-> > --- /dev/null
-> > +++ b/meta/recipes-extended/wget/wget/0001-wget
-> > -Add-ssh-askpass-support.patch
-> > [snip]
-> >
-> 
-> 
-> > diff --git a/meta/recipes-extended/wget/wget_1.18.bb
-> > b/meta/recipes-extended/wget/wget_1.18.bb
-> > index c969b98..20ec503 100644
-> > --- a/meta/recipes-extended/wget/wget_1.18.bb
-> > +++ b/meta/recipes-extended/wget/wget_1.18.bb
-> > @@ -1,5 +1,6 @@
-> >  SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
-> >
-> > file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
-> > +           file://0001-Add-ssh-askpass-support.patch \
-> 
-> 
-> As the patch and the SRC_URI don't match, this patch clearly hasn't been
-> tested.
-> 
+--001a1145180abc8c6d05389eb9a7
+Content-Type: text/plain; charset=UTF-8
 
-Apologies for the SRC_URI mismatch.  I had tested my patch but during my
-development, I clarified my commit message which changed the filename.
-I did not update the include file SRC_URI and had left the old file in
-place while I tested.  I will resend a new version as soon as upstream
-is happy.
+On 27 July 2016 at 06:52, Chen Qi <Qi.Chen@windriver.com> wrote:
 
-> Also if you're working with upstream then please change the Upstream-Status
-> to Submitted and provide a link (mailing list post, bug entry, whatever).
+> Fix this problem by hardcoding '/usr/bin/env'.
+>
+> Usually, we don't like hardcoding. But as far as I can see, /usr/bin/env is
+> a little special. We skip the 'file-rdeps' QA checking for '/usr/bin/env'
+> dependency. Besides, scripts in many packages do use '/usr/bin/env'. So we
+> should assume it's there in our system.
+>
 
-There was a question as to where to send the patch and I wanted to get
-your input for new revisions as well.  I will update the status with a
-link on the next revision.
+I think we should be replacing with ${bindir} for target binaries (so the
+right paths are used, no matter what bindir is set to) and hard-coding
+/usr/bin for native and nativesdk.
 
-I appreciate your input.
+If the sanity test is hardcoding /usr/bin/env then that likely should
+change to respect ${bindir} too.
 
-Thanks,
-Liam
+Ross
 
-> 
-> Ross
+--001a1145180abc8c6d05389eb9a7
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra">On 27 July 2016 at 06:52, Chen =
+Qi <span dir=3D"ltr">&lt;<a href=3D"mailto:Qi.Chen@windriver.com" target=3D=
+"_blank">Qi.Chen@windriver.com</a>&gt;</span> wrote:<br><div class=3D"gmail=
+_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
+-left:1px #ccc solid;padding-left:1ex"><div id=3D":4az" class=3D"a3s aXjCH =
+m1562ae92f8ccc7fc">Fix this problem by hardcoding &#39;/usr/bin/env&#39;.<b=
+r>
+<br>
+Usually, we don&#39;t like hardcoding. But as far as I can see, /usr/bin/en=
+v is<br>
+a little special. We skip the &#39;file-rdeps&#39; QA checking for &#39;/us=
+r/bin/env&#39;<br>
+dependency. Besides, scripts in many packages do use &#39;/usr/bin/env&#39;=
+. So we<br>
+should assume it&#39;s there in our system.<br></div></blockquote></div><br=
+>I think we should be replacing with ${bindir} for target binaries (so the =
+right paths are used, no matter what bindir is set to) and hard-coding /usr=
+/bin for native and nativesdk.</div><div class=3D"gmail_extra"><br></div><d=
+iv class=3D"gmail_extra">If the sanity test is hardcoding /usr/bin/env then=
+ that likely should change to respect ${bindir} too.</div><div class=3D"gma=
+il_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a1145180abc8c6d05389eb9a7--
