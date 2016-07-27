@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EA75F606BF
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 17C986FFAB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2016 09:27:57 +0000 (UTC)
+	Wed, 27 Jul 2016 09:27:58 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u6R9Rw0q002919
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u6R9Rxtr004983
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2016 02:27:58 -0700 (PDT)
+	Wed, 27 Jul 2016 02:27:59 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 27 Jul 2016 02:27:57 -0700
+	Wed, 27 Jul 2016 02:27:58 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 27 Jul 2016 02:27:48 -0700
-Message-ID: <cover.1469609666.git.liezhi.yang@windriver.com>
+Date: Wed, 27 Jul 2016 02:27:49 -0700
+Message-ID: <5cd01688b4e83aae60f42efe0882cbb51551231c.1469609666.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.9.0
+In-Reply-To: <cover.1469609666.git.liezhi.yang@windriver.com>
+References: <cover.1469609666.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 0/9] Fix udev dirs
+Subject: [PATCH V2 1/9] bitbake.conf: add eudev's udevdir to FILES_${PN}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,43 +36,31 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 27 Jul 2016 09:27:59 -0000
 Content-Type: text/plain
 
-* V2
-  - lib/udev/rules.d -> lib/udev in bitbake.conf
-  - Remove duplicated udev setting for more recipes
+* The eudev's udevdir can be ${base_libdir}/udev or ${libdir}/udev, it
+  doesn't have to be hardcoded to /lib/udev, so add them FILES_${PN}.
 
-// Robert
+* Use /lib/udev rather than /lib/udev/rules.d for FILES_${PN} since
+  there might be files in /lib/udev except subdir rules.d
 
-The following changes since commit b32d430c3c7dccf3a8d06ab492d648893a05950f:
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/conf/bitbake.conf | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-  dpkg: use snapshot.debian.org for SRC_URI (2016-07-26 08:56:08 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/udev
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/udev
-
-Robert Yang (9):
-  bitbake.conf: add eudev's udevdir to FILES_${PN}
-  systemd: install udev.pc
-  libinput: fix udevdir
-  ofono: remove duplicated udev setting from FILES_${PN}
-  mdadm: remove duplicated udev setting from FILES_${PN}
-  xf86-input-vmmouse: remove duplicated udev setting from FILES_${PN}
-  eudev: don't move udev directory
-  pcmciautils: remove duplicated udev setting from FILES_${PN}
-  bluez5: remove duplicated udev setting from FILES_${PN}
-
- meta/conf/bitbake.conf                                         |  3 ++-
- meta/recipes-bsp/pcmciautils/pcmciautils_018.bb                |  2 --
- meta/recipes-connectivity/bluez5/bluez5.inc                    |  2 +-
- meta/recipes-connectivity/ofono/ofono.inc                      |  2 +-
- meta/recipes-core/systemd/systemd_230.bb                       |  2 ++
- meta/recipes-core/udev/eudev_3.2.bb                            | 10 +---------
- meta/recipes-extended/mdadm/mdadm_3.4.bb                       |  2 --
- meta/recipes-graphics/wayland/libinput_1.3.0.bb                |  4 +++-
- meta/recipes-graphics/xorg-driver/xf86-input-vmmouse_13.1.0.bb |  2 +-
- 9 files changed, 11 insertions(+), 18 deletions(-)
-
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index af3b181..ae2a5df 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -284,7 +284,8 @@ FILES_${PN} = "${bindir}/* ${sbindir}/* ${libexecdir}/* ${libdir}/lib*${SOLIBS}
+             ${sysconfdir} ${sharedstatedir} ${localstatedir} \
+             ${base_bindir}/* ${base_sbindir}/* \
+             ${base_libdir}/*${SOLIBS} \
+-            ${base_prefix}/lib/udev/rules.d ${prefix}/lib/udev/rules.d \
++            ${base_prefix}/lib/udev ${prefix}/lib/udev \
++            ${base_libdir}/udev ${libdir}/udev \
+             ${datadir}/${BPN} ${libdir}/${BPN}/* \
+             ${datadir}/pixmaps ${datadir}/applications \
+             ${datadir}/idl ${datadir}/omf ${datadir}/sounds \
 -- 
 2.9.0
 
