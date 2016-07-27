@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D408731CB
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D625731C7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2016 09:28:03 +0000 (UTC)
+	Wed, 27 Jul 2016 09:28:04 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u6R9S40T004989
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u6R9S5qn030138
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2016 02:28:04 -0700 (PDT)
+	Wed, 27 Jul 2016 02:28:05 -0700
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 27 Jul 2016 02:28:03 -0700
+	Wed, 27 Jul 2016 02:28:04 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 27 Jul 2016 02:27:55 -0700
-Message-ID: <76d3551ccff4b297de63bde0b63cf83f366de455.1469609666.git.liezhi.yang@windriver.com>
+Date: Wed, 27 Jul 2016 02:27:56 -0700
+Message-ID: <0110533ab976ba36cd9bd6ccdfddacb85f766308.1469609666.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.9.0
 In-Reply-To: <cover.1469609666.git.liezhi.yang@windriver.com>
 References: <cover.1469609666.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 7/9] eudev: don't move udev directory
+Subject: [PATCH V2 8/9] pcmciautils: remove duplicated udev setting from FILES_${PN}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,52 +33,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2016 09:28:03 -0000
+X-List-Received-Date: Wed, 27 Jul 2016 09:28:04 -0000
 Content-Type: text/plain
 
-The code did "mv ${D}${base_libdir}/udev ${D}${nonarch_base_libdir}"
-which is not needed any more, eudev can work with ${base_libdir}/udev.
+bitbake.conf already sets it.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-core/udev/eudev_3.2.bb | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
+ meta/recipes-bsp/pcmciautils/pcmciautils_018.bb | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/meta/recipes-core/udev/eudev_3.2.bb b/meta/recipes-core/udev/eudev_3.2.bb
-index 6270617..ac4285b 100644
---- a/meta/recipes-core/udev/eudev_3.2.bb
-+++ b/meta/recipes-core/udev/eudev_3.2.bb
-@@ -27,7 +27,6 @@ inherit autotools update-rc.d qemu
+diff --git a/meta/recipes-bsp/pcmciautils/pcmciautils_018.bb b/meta/recipes-bsp/pcmciautils/pcmciautils_018.bb
+index 3556a45..bf0f58a 100644
+--- a/meta/recipes-bsp/pcmciautils/pcmciautils_018.bb
++++ b/meta/recipes-bsp/pcmciautils/pcmciautils_018.bb
+@@ -9,5 +9,3 @@ SRC_URI[md5sum] = "885431c3cefb76ffdad8cb985134e996"
+ SRC_URI[sha256sum] = "57c27be8f04ef4d535bcfa988567316cc57659fe69068327486dab53791e6558"
  
- EXTRA_OECONF = " \
-     --sbindir=${base_sbindir} \
--    --libexecdir=${nonarch_base_libdir} \
-     --with-rootlibdir=${base_libdir} \
-     --with-rootprefix= \
- "
-@@ -53,13 +52,6 @@ do_install_append() {
- 	# Use classic network interface naming scheme
- 	touch ${D}${sysconfdir}/udev/rules.d/80-net-name-slot.rules
- 
--	# Fix for multilib systems where libs along with confs are installed incorrectly
--	if ! [ -d ${D}${nonarch_base_libdir}/udev ]
--	then
--		install -d ${D}${nonarch_base_libdir}/udev
--		mv ${D}${base_libdir}/udev ${D}${nonarch_base_libdir}
--	fi
+ PR = "r1"
 -
- 	# hid2hci has moved to bluez4. removed in udev as of version 169
- 	rm -f ${D}${base_libdir}/udev/hid2hci
- }
-@@ -75,7 +67,7 @@ PACKAGES =+ "udev-cache"
- PACKAGES =+ "eudev-hwdb"
- 
- 
--FILES_${PN} += "${libexecdir} ${nonarch_base_libdir}/udev ${bindir}/udevadm"
-+FILES_${PN} += "${libexecdir} ${base_libdir}/udev ${bindir}/udevadm"
- FILES_${PN}-dev = "${datadir}/pkgconfig/udev.pc \
-                    ${includedir}/libudev.h ${libdir}/libudev.so \
-                    ${includedir}/udev.h ${libdir}/libudev.la \
+-FILES_${PN} += "*/udev */*/udev"
 -- 
 2.9.0
 
