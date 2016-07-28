@@ -1,20 +1,22 @@
 Return-Path: <california.l.sullivan@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 14420606BF
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 18FAD606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2016 23:17:00 +0000 (UTC)
+	Wed, 27 Jul 2016 23:17:14 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga104.fm.intel.com with ESMTP; 27 Jul 2016 16:17:00 -0700
+	by orsmga102.jf.intel.com with ESMTP; 27 Jul 2016 16:17:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,431,1464678000"; d="scan'208";a="1003825001"
+X-IronPort-AV: E=Sophos;i="5.28,431,1464678000"; d="scan'208";a="1003825095"
 Received: from clsulliv.jf.intel.com ([10.7.201.156])
-	by orsmga001.jf.intel.com with ESMTP; 27 Jul 2016 16:17:00 -0700
+	by orsmga001.jf.intel.com with ESMTP; 27 Jul 2016 16:17:15 -0700
 From: California Sullivan <california.l.sullivan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Jul 2016 19:14:19 -0700
-Message-Id: <1469672061-11406-1-git-send-email-california.l.sullivan@intel.com>
+Date: Wed, 27 Jul 2016 19:14:20 -0700
+Message-Id: <1469672061-11406-2-git-send-email-california.l.sullivan@intel.com>
 X-Mailer: git-send-email 2.5.5
-Subject: [PATCH RFC 0/2] Update SERIAL_CONSOLES_CHECK to allow aliasing
+In-Reply-To: <1469672061-11406-1-git-send-email-california.l.sullivan@intel.com>
+References: <1469672061-11406-1-git-send-email-california.l.sullivan@intel.com>
+Subject: [PATCH RFC 1/2] sysvinit-inittab_2.88dsf.bb: Allow aliasing with SERIAL_CONSOLES_CHECK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,29 +29,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2016 23:17:02 -0000
+X-List-Received-Date: Wed, 27 Jul 2016 23:17:15 -0000
 
-This patch set fixes the corner case described in [YOCTO #9440] and
-updates its documentation. I am a bit concerned with how I handled
-things, though, since the documentation was a ways off on how the
-variable worked in the first place. I'm not sure if the proper thing to
-do is update the docs to fit the functionality or update the
-functionality to fit what the docs have been claiming. I'm also not sure
-if I described the current functionality adequetly, so a look over this
-and some feedback would be appreciated.
+With some hardware the name of the device node and the name in
+/proc/console differ. This causes SERIAL_CONSOLES_CHECK to not enable
+working consoles in these cases. This patch changes SERIAL_CONSOLES_CHECK
+to have an optional alias for the checked consoles. The new format is:
 
-Thanks,
-Cal Sullivan
+<device>:<alias to check(optional)>
 
-California Sullivan (2):
-  sysvinit-inittab_2.88dsf.bb: Allow aliasing with SERIAL_CONSOLES_CHECK
-  documentation/ref-manual: Update SERIAL_CONSOLES_CHECK description
+Fixes [YOCTO #9440].
 
- documentation/ref-manual/ref-variables.xml             | 12 ++++++++----
- meta/conf/documentation.conf                           |  2 +-
- meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb |  7 +++++--
- 3 files changed, 14 insertions(+), 7 deletions(-)
+Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
+---
+ meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
+diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+index bdc3416..f136ad8 100644
+--- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
++++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+@@ -58,9 +58,12 @@ if [ "x$D" = "x" ] && [ -e /proc/consoles ]; then
+ 	tmp="${SERIAL_CONSOLES_CHECK}"
+ 	for i in $tmp
+ 	do
+-		j=`echo ${i} | sed s/^.*\;//g`
++		j=`echo ${i} | sed -e s/^.*\;//g -e s/\:.*//g`
++		k=`echo ${i} | sed s/^.*\://g`
+ 		if [ -z "`grep ${j} /proc/consoles`" ]; then
+-			sed -i /^.*${j}$/d /etc/inittab
++			if [ -z "${k}" ] || [ -z "`grep ${k} /proc/consoles`" ] || [ ! -e /dev/${j} ]; then
++				sed -i /^.*${j}$/d /etc/inittab
++			fi
+ 		fi
+ 	done
+ 	kill -HUP 1
 -- 
 2.5.5
 
