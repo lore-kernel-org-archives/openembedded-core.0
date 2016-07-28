@@ -1,53 +1,53 @@
 Return-Path: <thilo.cestonaro@ts.fujitsu.com>
 Received: from mail1.bemta3.messagelabs.com (mail1.bemta3.messagelabs.com
-	[195.245.230.162])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E6FB60722
+	[195.245.230.163])
+	by mail.openembedded.org (Postfix) with ESMTP id 0CE446080F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jul 2016 07:11:33 +0000 (UTC)
-Received: from [85.158.138.179] by server-2.bemta-3.messagelabs.com id
-	67/99-01945-520B9975; Thu, 28 Jul 2016 07:11:33 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrAKsWRWlGSWpSXmKPExsViZ8MRoqu6YWa
-	4wdp9zBZ3fr5jt2i7PovRgclj56y77B7nNq5gDGCKYs3MS8qvSGDNWLXmBHvBLoOKd8t+Mzcw
-	PtDrYuTiEBJoZZKYdaCdFcI5xigx+dQOdgjnIqPEnhebmLsYOTnYBNwltt67zwRiiwjoSjz//
-	JcFxGYWiJKYNPsVmC0s4CWx7fRDZogab4nVW58AxTmA7CSJlgVZIGEWAVWJnv8gyzg5eAVMJE
-	7Nec0MsWsNs8T+Z92MIAlOAVuJed8gbCGgOac/zgabySigIrHr7hZGiL3iEreezAe7R0JAROL
-	hxdNsELaoxMvH/1ghbDWJVVffsEPYBhJbl+5jgbCVJKY0LWQGuY1ZoEri02Y2iHsEJU7OfMIy
-	gVF8FpINsxCqZiGpgijRlGjd/psdwtaWWLbwNTOEbSux/+pKKNtU4vXRj4wQtqLElO6H7AsYO
-	VYxahSnFpWlFukaGeklFWWmZ5TkJmbm6BoaGOvlphYXJ6an5iQmFesl5+duYgTGdD0DA+MOxq
-	kn/A4xSnIwKYnyhoXODBfiS8pPqcxILM6ILyrNSS0+xCjDwaEkwZu9HignWJSanlqRlpkDTC4
-	waQkOHiUR3mqQNG9xQWJucWY6ROoUo6KUOK8lSEIAJJFRmgfXBktolxhlpYR5GRkYGIR4ClKL
-	cjNLUOVfMYpzMCoJ87aCTOHJzCuBm/4KaDET0OLi2Bkgi0sSEVJSDYyid3dfEnwqm5ayyHZdi
-	dClnXPUVwkmm9zOq4+Iv3JJjifLNjtPuUmu26Vk29fQBd099bM/nv8hcSvweUm6UfDR6acPvH
-	F5xPy+S+HG/rmBMeqnHjqZqe0Oe7548cx9SULme8LVYmwM/+epvjR7M73pd8S3flt3h/1LVr/
-	q7d3dnZ+T8l5tr5ISS3FGoqEWc1FxIgACK31eYwMAAA==
+	Thu, 28 Jul 2016 08:19:01 +0000 (UTC)
+Received: from [85.158.138.179] by server-3.bemta-3.messagelabs.com id
+	12/3A-23620-5FFB9975; Thu, 28 Jul 2016 08:19:01 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrAKsWRWlGSWpSXmKPExsViZ8MxRffL/pn
+	hBtsb9Szu/HzHbtF2fRajA5PHzll32T3ObVzBGMAUxZqZl5RfkcCa0XpavuCEecWzd/9YGxgv
+	mnQxcnEICbQyScxfdJWxi5ETyDnGKHHnVTWEfZFRYnGvIYjNJuAusfXefSYQW0RAV+L5578sI
+	DazQJTEpNmvwGxhAS+JbacfMkPUeEus3vqEBcLOknjZAlHPIqAqcX9lAzuIzStgInHm7zMmiC
+	OuM0ssaprFCpLgFDCVeLa8gxniCG+J0x9ng9mMAioSu+5uYYRYLC5x68l8sIMkBEQkHl48zQZ
+	hi0q8fPyPFcJWk1h19Q07hG0gsXXpPhYIW0liStNCZog5VRJvl+5hhDhIUOLkzCcsExjFZyFZ
+	MQtJ2SwkZRBxTYnW7b/ZIWxtiWULXzND2LYS+6+uhLJNJV4f/cgIYStKTOl+yL6AkWMVo0Zxa
+	lFZapGuoaFeUlFmekZJbmJmjq6hgbFebmpxcWJ6ak5iUrFecn7uJkZgTDMAwQ7G1b+dDjFKcj
+	ApifKGhc4MF+JLyk+pzEgszogvKs1JLT7EKMPBoSTBKwtMEUKCRanpqRVpmTnA5AKTluDgURL
+	hZQRJ8xYXJOYWZ6ZDpE4xKkqJ83KCJARAEhmleXBtsIR2iVFWSpiXEegQIZ6C1KLczBJU+VeM
+	4hyMSsK8LCBTeDLzSuCmvwJazAS0uDh2BsjikkSElFQDYwODr/3vFw92fCtK0Mxk//KlWGBK9
+	rndtuJ6T80q4gRYrTU83iZn7pVudbzwdIX54QVigSy6VZxBbs3WjoU7AgXnfFbJsZm/stu+zM
+	Q4ut/+3e+3jxsb5a7uO/1PgfuH4bnSaSZnfWwSS/kCKsM8ztv/dmBVO3qmSmCBUWhUmfJ9znT
+	zdXxKLMUZiYZazEXFiQA/VKHKYwMAAA==
 X-Env-Sender: thilo.cestonaro@ts.fujitsu.com
-X-Msg-Ref: server-2.tower-169.messagelabs.com!1469689892!53228583!1
-X-Originating-IP: [62.60.8.84]
+X-Msg-Ref: server-11.tower-169.messagelabs.com!1469693940!53280805!1
+X-Originating-IP: [62.60.8.148]
 X-StarScan-Received: 
 X-StarScan-Version: 8.77; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 31373 invoked from network); 28 Jul 2016 07:11:33 -0000
-Received: from unknown (HELO mailhost3.uk.fujitsu.com) (62.60.8.84)
-	by server-2.tower-169.messagelabs.com with DHE-RSA-AES256-GCM-SHA384
-	encrypted SMTP; 28 Jul 2016 07:11:33 -0000
-Received: from R01UKEXCASM123.r01.fujitsu.local (ex2k13_123.fs.fujitsu.com
-	[10.183.43.175])
-	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id
-	u6S73XJA005281
+Received: (qmail 24078 invoked from network); 28 Jul 2016 08:19:00 -0000
+Received: from unknown (HELO mailhost1.uk.fujitsu.com) (62.60.8.148)
+	by server-11.tower-169.messagelabs.com with DHE-RSA-AES256-GCM-SHA384
+	encrypted SMTP; 28 Jul 2016 08:19:00 -0000
+Received: from R01UKEXCASM125.r01.fujitsu.local (ex2k13_125.fs.fujitsu.com
+	[10.183.43.177])
+	by mailhost1.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id
+	u6S8JLdq011631
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Thu, 28 Jul 2016 08:03:33 +0100
+	Thu, 28 Jul 2016 09:19:21 +0100
 Received: from R01UKEXCASM121.r01.fujitsu.local (10.183.43.173) by
-	R01UKEXCASM123.r01.fujitsu.local (10.183.43.175) with Microsoft SMTP
-	Server (TLS) id 15.0.1178.4; Thu, 28 Jul 2016 08:11:18 +0100
+	R01UKEXCASM125.r01.fujitsu.local (10.183.43.177) with Microsoft SMTP
+	Server (TLS) id 15.0.1178.4; Thu, 28 Jul 2016 09:18:38 +0100
 Received: from R01UKEXCASM121.r01.fujitsu.local ([fe80::48eb:6503:a1bb:c29c])
 	by R01UKEXCASM121.r01.fujitsu.local ([fe80::48eb:6503:a1bb:c29c%22])
-	with mapi id 15.00.1178.000; Thu, 28 Jul 2016 08:11:18 +0100
+	with mapi id 15.00.1178.000; Thu, 28 Jul 2016 09:18:38 +0100
 From: "thilo.cestonaro@ts.fujitsu.com" <thilo.cestonaro@ts.fujitsu.com>
 To: "raj.khem@gmail.com" <raj.khem@gmail.com>
 Thread-Topic: [OE-core] Building for armv7athf-neon but toolchain is softfp
-Thread-Index: AQHR5B58h/TNj18cYUuHrBoFZFSdxKAkbLqAgAS04oCAAAM7gIABRI6AgAGYNoCAACVjAIAAND6AgAEJYwA=
-Date: Thu, 28 Jul 2016 07:11:17 +0000
-Message-ID: <1469689696.6948.1.camel@ts.fujitsu.com>
+Thread-Index: AQHR5B58h/TNj18cYUuHrBoFZFSdxKAkbLqAgAS04oCAAAM7gIABRI6AgAGYNoCAACVjAIAAND6AgAEJYwCAABLQAA==
+Date: Thu, 28 Jul 2016 08:18:37 +0000
+Message-ID: <1469693736.6948.5.camel@ts.fujitsu.com>
 References: <1469194596.6594.13.camel@ts.fujitsu.com>
 	<CAMKF1srBan-tupS7qGb3kDnAn-2-u8dox3vFk5ssGwQLzeGaHw@mail.gmail.com>
 	<1469455403.6896.29.camel@ts.fujitsu.com>
@@ -56,7 +56,8 @@ References: <1469194596.6594.13.camel@ts.fujitsu.com>
 	<AA7383CF-888C-4605-97BB-BB016A5EB450@gmail.com>
 	<1469621486.18503.9.camel@ts.fujitsu.com>
 	<0AFF0F4F-BAA0-43F7-ABE3-32ABEC5D924C@gmail.com>
-In-Reply-To: <0AFF0F4F-BAA0-43F7-ABE3-32ABEC5D924C@gmail.com>
+	<1469689696.6948.1.camel@ts.fujitsu.com>
+In-Reply-To: <1469689696.6948.1.camel@ts.fujitsu.com>
 Reply-To: "thilo.cestonaro@ts.fujitsu.com" <thilo.cestonaro@ts.fujitsu.com>
 Accept-Language: de-DE, en-GB, en-US
 X-MS-Has-Attach: yes
@@ -80,38 +81,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jul 2016 07:11:36 -0000
-X-Groupsio-MsgNum: 85041
+X-List-Received-Date: Thu, 28 Jul 2016 08:19:03 -0000
+X-Groupsio-MsgNum: 85042
 Content-Language: en-US
 Content-Type: multipart/signed; micalg=sha-1;
 	protocol="application/x-pkcs7-signature";
-	boundary="=-XlrEU9TcsisFrOwcsOBR"
+	boundary="=-tfc59fMrELaDnu35aZHp"
 
---=-XlrEU9TcsisFrOwcsOBR
+--=-tfc59fMrELaDnu35aZHp
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mi, 2016-07-27 at 08:18 -0700, Khem Raj wrote:
-> >=20
-> > On Jul 27, 2016, at 5:14 AM, thilo.cestonaro@ts.fujitsu.com wrote:
-> >=20
-> > Hey Khem,
-> >=20
-> > I figured, when I do the compile in 2 steps, so compile then link and c=
-hange the link command to use the ubuntu arm-linux-gnueabihf-gcc instead of=
- the gcc from the sdk, the binary is useable.
-> this could be a gnu_hash issue then. Can you add -Wl,--hash-style=3Dgnu t=
-o compiler cmd when linking using OE SDK
->=20
-No success :( ... I tested it, altough it was already included in LDFLAGS f=
-rom sdk env. Added it the the compile command and the link command. Doesn't=
- change anything :(.
-Any other idea?
+Hey Khem!
+
+Thanks for your help!! We used to have an extra ld-script which once worked=
+. It was injected into the sdk in our sdk-install script by moving the tool=
+chain ld to ld.real and creating a script which
+calls the ld.real with the ldscript as parameter. I didn't introduce this i=
+n the sdk install, so I thought it is from oe-core. But just found out that=
+ we create that ld script usage and removed it.
+
+That fix the executables. I guess, as we did the step from gcc 4 to 5, it w=
+as for gcc 4 and broke gcc 5.=C2=A0
+
+Anyway thanks for your patience and time!
 
 Cheers,
 Thilo
 
---=-XlrEU9TcsisFrOwcsOBR
+On Do, 2016-07-28 at 07:11 +0000, thilo.cestonaro@ts.fujitsu.com wrote:
+> On Mi, 2016-07-27 at 08:18 -0700, Khem Raj wrote:
+> >=20
+> > >=20
+> > >=20
+> > > On Jul 27, 2016, at 5:14 AM, thilo.cestonaro@ts.fujitsu.com wrote:
+> > >=20
+> > > Hey Khem,
+> > >=20
+> > > I figured, when I do the compile in 2 steps, so compile then link and=
+ change the link command to use the ubuntu arm-linux-gnueabihf-gcc instead =
+of the gcc from the sdk, the binary is useable.
+> > this could be a gnu_hash issue then. Can you add -Wl,--hash-style=3Dgnu=
+ to compiler cmd when linking using OE SDK
+> >=20
+> No success :( ... I tested it, altough it was already included in LDFLAGS=
+ from sdk env. Added it the the compile command and the link command. Doesn=
+'t change anything :(.
+> Any other idea?
+>=20
+> Cheers,
+> Thilo
+> --=C2=A0
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--=-tfc59fMrELaDnu35aZHp
 Content-Type: application/x-pkcs7-signature; name="smime.p7s"
 Content-Disposition: attachment; filename="smime.p7s"
 Content-Transfer-Encoding: base64
@@ -177,12 +203,12 @@ QBy6Idk/KoCGOVaTvnQjigkkq8NvA7z+aTGbM6Ok6yTw7cJ2WMKNg+hi0k8j+g1Wxh2aKiTOd7gW
 6w9goPO/mLR03vgotHjyZpe+Lf9axMWrCSzjlB4ElP/P7WxjL51ham/1cY36NHWjgiYxggHhMIIB
 3QIBATA9MC8xLTArBgNVBAMTJEZ1aml0c3UgVGVjaG5vbG9neSBTb2x1dGlvbnMgVXNlciBDQQIK
 JZSUgAAAAAIkfTAJBgUrDgMCGgUAoIH7MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZI
-hvcNAQkFMQ8XDTE2MDcyODA3MDgxNlowIwYJKoZIhvcNAQkEMRYEFMX5v0wUKyT1+oXd6HVXRGay
-g6hBMEwGCSsGAQQBgjcQBDE/MD0wLzEtMCsGA1UEAxMkRnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0
+hvcNAQkFMQ8XDTE2MDcyODA4MTUzNlowIwYJKoZIhvcNAQkEMRYEFJbSXE4jNK7+B8JuFwhOxIsH
+GEaDMEwGCSsGAQQBgjcQBDE/MD0wLzEtMCsGA1UEAxMkRnVqaXRzdSBUZWNobm9sb2d5IFNvbHV0
 aW9ucyBVc2VyIENBAgollJSAAAAAAiR9ME4GCyqGSIb3DQEJEAILMT+gPTAvMS0wKwYDVQQDEyRG
 dWppdHN1IFRlY2hub2xvZ3kgU29sdXRpb25zIFVzZXIgQ0ECCiWUlIAAAAACJH0wDQYJKoZIhvcN
-AQEBBQAEgYA1MOgc5UAEG+Vus0JhOITiMZW0drW9pXiXylewnLJ4B9ISrUgJAmVi8VI+pfCtIs7N
-uhGhn4n8+nqt+21y281fGM7VNJIerB80oJrsDPsVRo687xPFBUVON/G0ny32w1/xViKKKWBDA4uj
-qEllc/oviBf9bWGT/wNsfY+19/xtdgAAAAAAAA==
+AQEBBQAEgYCT8R1OOKfWbV6lN73D2sngi27X03GrXMlL7S9GQ00d634QgugyajlaPeTHI01H4b52
+NQd/ov22ewF/vBqdWt+X9bBnyyxeCmQdGvRLQPbCWHxI6izoUMtLlbO/BrzChBmxwpHFNK3gTOUK
+tsV5olm4JwVjRcXREhZv5SsC9QYplwAAAAAAAA==
 
---=-XlrEU9TcsisFrOwcsOBR--
+--=-tfc59fMrELaDnu35aZHp--
