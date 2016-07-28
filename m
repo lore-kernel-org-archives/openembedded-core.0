@@ -1,46 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 79BFA6072C
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 7CD116072C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jul 2016 19:40:35 +0000 (UTC)
-Received: by mail-wm0-f52.google.com with SMTP id i5so122646758wmg.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jul 2016 12:40:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=f96DPnR6lMDos2lmqqCEkADSz8JeOtdTBNXap2GcsGM=;
-	b=ySXLEnBe072MD2S6rKYBWcadxPmtGjyXBCbL9orvoEVBEMz2sLUHKzMKPKfwSlglZG
-	sWoYqPT3LVFqrVUs1oCS6o7fG5y5nSAGGnWX8zpybi6ya578sPUxly5hBsBu2v4SKaAw
-	7FbPDXY2NxZWw3dKjxJsgroosTivuSnEVJDsYRl9AssywSiAHUVZdvMJGr8yH7jDrE13
-	67lv/U9DiCHKVNhFhfFF3TDdCpqneE+EhoCuGLPiUaGFpJXB4SrC3FXJQrTnBCexojB6
-	gsOjaTIxI4fvAvS9xRDo1eYhC0ZSL4ZuZTynpgZDj5CNoinQiBtNuywnhOjtHsMALC8V
-	/Qnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=f96DPnR6lMDos2lmqqCEkADSz8JeOtdTBNXap2GcsGM=;
-	b=FG3qT0kgnwND3+crUJSim6XGCf741JjImR+83wSvnJKPuckRjGnp7MzkOLkCEFCsmX
-	5aDmfswhL0Ux449/B4sK5OnwEZVW7s5WZeVkatNZTOLa5B5ADyoYpz07YNn59KxlQeae
-	2ebe1QNgj0+DoQ/yq8zIq0BeoGB9/BEA7+BWSl0tD3w1I0apuezYFgtV4G/N9EQkN3nV
-	XVN3Cwhd4Op8IwRoYWXldPNOTmzEEZ/DtqgMnAhuzLLHDpKxwZBmOikoT87k+ol0EJN9
-	JpXqHKjhH8P1ygvRFKx8Z17EqbYRIqwD1wemJHCWMxzgaCMia/GMAYzTP68TLjVdP03G
-	yRPA==
-X-Gm-Message-State: AEkoouuL732rbZA/tRYkdx5hJ+JkoChmmXltJgVk0H7OWsjuJgR52L4H5oL3/GiZrs7vVfHu
-X-Received: by 10.194.77.97 with SMTP id r1mr37253083wjw.83.1469734835878;
-	Thu, 28 Jul 2016 12:40:35 -0700 (PDT)
-Received: from localhost.localdomain (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	r67sm13712650wmb.14.2016.07.28.12.40.34
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1 cipher=AES128-SHA bits=128/128);
-	Thu, 28 Jul 2016 12:40:35 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Jul 2016 20:40:24 +0100
-Message-Id: <1469734824-3351-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.7.4 (Apple Git-66)
-Subject: [PATCH] cml1: fix tasks after default [dirs] changed
+	Thu, 28 Jul 2016 20:03:29 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP; 28 Jul 2016 13:03:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,434,1464678000"; d="scan'208";a="1015763658"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga001.fm.intel.com with ESMTP; 28 Jul 2016 13:03:30 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.68])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 88D176A4080;
+	Thu, 28 Jul 2016 13:03:16 -0700 (PDT)
+Date: Thu, 28 Jul 2016 22:26:59 +0300
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: =?iso-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
+Message-ID: <20160728192659.GA31569@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <1469620052.23580.115.camel@linuxfoundation.org>
+	<20160727122801.GA7061@linux.intel.com>
+	<5798B1E4.2090508@windriver.com>
+	<20160727131844.GA31757@linux.intel.com>
+	<5798C5A5.5050909@windriver.com>
+	<48F3FC2919BF894DA92986D5D64EA12801AC99C8@ORSMSX103.amr.corp.intel.com>
+	<57992068.702@linux.intel.com>
+MIME-Version: 1.0
+In-Reply-To: <57992068.702@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "Ashfield,
+	Bruce \(Wind River\)" <bruce.ashfield@windriver.com>
+Subject: Re: 2.7% build time regression caused by enabling debug/printk.scc KERNEL_FEATURE]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,37 +46,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jul 2016 19:40:36 -0000
+X-List-Received-Date: Thu, 28 Jul 2016 20:03:31 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-These tasks relied upon [dirs] being ${B} by default.  As the functions are not
-simple, add back [dirs] so they work again.
+On Wed, Jul 27, 2016 at 03:58:16PM -0500, Aníbal Limón wrote:
+> 
+> 
+> On 07/27/2016 03:06 PM, Sullivan, California L wrote:
+> > Adding the debug-kernel fragment to the printk fragment was probably a
+> > mistake on my part. I don't see anything that requires it.
+> > 
+> > I'm also seeing another issue: TTY_PRINTK depends on EXPERT, which is
+> > only enabled on the developer kernel by default, so you currently won't
+> > be getting that option. From there, if we were to enable EXPERT,
+> > DEBUG_KERNEL then gets selected automatically and we essentially end up
+> > where we started and have the build time regression.
+> > 
+> > Stuff to think about on my end I suppose. In the mean time I +1 removing
+> > the debug-kernel include from printk.scc.
+> 
+> I agree,
+> 
+> 	alimon
 
-[ YOCTO #10027 ]
+The fix has been merged to yocto-4.4 branch of yocto-kernel-cache:
+https://git.yoctoproject.org/cgit/cgit.cgi/yocto-kernel-cache/commit/?h=yocto-4.4&id=d3cc76c3cb20247b16c16b2367decf08b5fb90fa
+And included into last kernel update:
+http://lists.openembedded.org/pipermail/openembedded-core/2016-July/124466.html
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/cml1.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+With the fix applied kernel build time decreased by 22.84%:
 
-diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
-index b5dc028..5834806 100644
---- a/meta/classes/cml1.bbclass
-+++ b/meta/classes/cml1.bbclass
-@@ -42,6 +42,7 @@ python do_menuconfig() {
- }
- do_menuconfig[depends] += "ncurses-native:do_populate_sysroot"
- do_menuconfig[nostamp] = "1"
-+do_menuconfig[dirs] = "${B}"
- addtask menuconfig after do_configure
- 
- python do_diffconfig() {
-@@ -73,4 +74,5 @@ python do_diffconfig() {
- }
- 
- do_diffconfig[nostamp] = "1"
-+do_diffconfig[dirs] = "${B}"
- addtask diffconfig
--- 
-2.7.4 (Apple Git-66)
+Build Configuration:
+BB_VERSION        = "1.31.0"
+BUILD_SYS         = "x86_64-linux"
+NATIVELSBSTRING   = "openSUSE-13.2"
+TARGET_SYS        = "i586-poky-linux"
+MACHINE           = "qemux86"
+DISTRO            = "poky"
+DISTRO_VERSION    = "2.1+snapshot-20160728"
+TUNE_FEATURES     = "m32 i586"
+TARGET_FPU        = ""
+meta
+meta-poky
+meta-yocto-bsp    = "master:039f47ad197a9a53109c9f3deadd9c35e62c056d"
 
+before the fix:
+	Command being timed: "bitbake virtual/kernel"
+	User time (seconds): 1367.06
+	System time (seconds): 162.06
+	Percent of CPU this job got: 372%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 6:50.56
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 627120
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 1292
+	Minor (reclaiming a frame) page faults: 61097551
+	Voluntary context switches: 885976
+	Involuntary context switches: 715312
+	Swaps: 0
+	File system inputs: 1024568
+	File system outputs: 13316088
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+
+after the fix:
+	Command being timed: "bitbake virtual/kernel"
+	User time (seconds): 1050.97
+	System time (seconds): 128.84
+	Percent of CPU this job got: 434%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 4:31.35
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 387148
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 1264
+	Minor (reclaiming a frame) page faults: 52467379
+	Voluntary context switches: 589830
+	Involuntary context switches: 457987
+	Swaps: 0
+	File system inputs: 1107424
+	File system outputs: 3363464
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+
+
+And consumed disk space decreased by 89.62%:
+
+before the fix:
+$ du -sh tmp/work/qemux86-poky-linux/linux-yocto/4.4.14+gitAUTOINC+4800a400d5_8361321fec-r0/deploy-linux-yocto/
+106M
+
+after the fix:
+$ du -sh tmp/work/qemux86-poky-linux/linux-yocto/4.4.14+gitAUTOINC+86bf91f444_8361321fec-r0/deploy-linux-yocto/
+11M
+
+--
+Regards,
+Ed
 
