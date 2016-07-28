@@ -1,31 +1,44 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C4086072C
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id ED63B6072C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jul 2016 20:53:20 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u6SKpHXS025144; Thu, 28 Jul 2016 21:51:17 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 7vyX3eMZIJtc; Thu, 28 Jul 2016 21:51:16 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u6SKpCIk025141
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 28 Jul 2016 21:51:13 +0100
-Message-ID: <1469739072.9142.19.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>,
-	openembedded-core@lists.openembedded.org, Patrick Ohly
-	<patrick.ohly@intel.com>
-Date: Thu, 28 Jul 2016 21:51:12 +0100
-In-Reply-To: <0dacdf96b1ac7c9c2bcd0071a0b8d88fcc6231d5.1469623667.git.ed.bartosh@linux.intel.com>
-References: <cover.1469623667.git.ed.bartosh@linux.intel.com>
-	<0dacdf96b1ac7c9c2bcd0071a0b8d88fcc6231d5.1469623667.git.ed.bartosh@linux.intel.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH v4 1/4] image.bbclass: fix dependency calculation when using conversion chaining
+	Thu, 28 Jul 2016 21:00:23 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id q128so12907058wma.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Jul 2016 14:00:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=n/bxxlEPIQYcI1PpVxNXF90Qh3X2+xAKFuAwYMrKYzQ=;
+	b=oItaRQyJZFn4koaN1KV/LZRxqXFObeOVGIZZCvu7HL/y0EJ0QP5W5vRgrY4KEn2VXv
+	tziKQ0wvbxHjJnQUwD8uVmCs6T97QhydGZEfdCodNGKwTnxcS7DoUBkV8Su3psQOwI1p
+	ujzwtniSVXWCiUi0vSlZ6Q3zL4XZtamMUuq6MsOzVaOnzCUq2PSs+0iMXBrrNxypSp3+
+	g1gVE6JxtJrRZqKSIOh5bS6jPstFObrk+WAKmZ/vw2hu1YwjXk6PCwr676xKbOd0tguC
+	syxTmEOEUBBwawjg9MBQxn8vhCZRZb3gN+YGuYNgpz7vvBPmPkHIQu7q9cpzIRiPYkxS
+	aizQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=n/bxxlEPIQYcI1PpVxNXF90Qh3X2+xAKFuAwYMrKYzQ=;
+	b=F9vRhutZqvO7/StABzFie0kHE+XzKa/1ukfDfRuNp7NkmCOV5rSSHHfeqev3fjoJNG
+	dDQXDL6183HwZFA4QRZFNpav7OoTAX9i++uSvUOwmJtOA2MqtpE+f2NmTqeR4+DxVpTm
+	iGJ1/DR+xBpG2WTommViC+8gpg4UudssuyF+Y+TnOxqCaxvAPPNXuvgJpsD6CC43V0c7
+	pxOo1tyR2Q1/e2ZQA2vjTTY5eBABLfgvP29Yr2UwDAfSrEk0Ucd7g8a1Gx/C67M+B6q2
+	+UgvMZrcaxoeboR3hL8PRo7FJrXe/Oiiqt3QGudSExla9SDoaKOAffBTcupB20y6E0j/
+	35wQ==
+X-Gm-Message-State: ALyK8tI+hT/fK7XV/RQ/Fx9guVIu7BCQKlTIgx81yRkbSD8zaSNKyoxiz6K7GfP7EGLx91JyxhrdznLWLZBU7w==
+X-Received: by 10.28.50.199 with SMTP id y190mr58984773wmy.61.1469739623891;
+	Thu, 28 Jul 2016 14:00:23 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.194.233.99 with HTTP; Thu, 28 Jul 2016 14:00:23 -0700 (PDT)
+In-Reply-To: <1469695788-12904-1-git-send-email-awais_belal@mentor.com>
+References: <1469695788-12904-1-git-send-email-awais_belal@mentor.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Thu, 28 Jul 2016 14:00:23 -0700
+Message-ID: <CAJ86T=UuFqo=AfB_TSzPXQMZ5pRErv-otyxbcjQui2Qc3y+_1g@mail.gmail.com>
+To: Awais Belal <awais_belal@mentor.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] init-install*: /etc/mtab make a link rather than a copy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,37 +51,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jul 2016 20:53:24 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 28 Jul 2016 21:00:26 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Wed, 2016-07-27 at 15:51 +0300, Ed Bartosh wrote:
-> From: Patrick Ohly <patrick.ohly@intel.com>
-> 
-> When using conversion chaining (for example example: .dsk.vdi.xz),
-> the imagetypes_getdepends() did not properly detect all compression
-> commands (thus skipping the corresponding COMPRESS_DEPENDS) and
-> the base type, leading to missing dependencies of the image's
-> do_rootfs
-> task.
-> 
-> This is not a big problem in practice because in those cases where
-> conversion chaining is useful (as in the example above), the missing
-> dependency is qemu-native, which typically gets built anyway.
-> 
-> imagetypes_getdepends() had hard-coded special treatment for certain
-> image types. This gets replaced with setting the normal IMAGE_DEPENDS
-> variables for these types.
+On Thu, Jul 28, 2016 at 1:49 AM, Awais Belal <awais_belal@mentor.com> wrote:
+> Using a copy would only make management of devices erroneous
+> and makes the system unstable in some scenarios as tools will
+> have to manipulate both files separately. A link ensures that
+> both files /proc/mounts and /etc/mtab will have the same
+> information at all times and this is how it is handled
+> on newer systems where there is such a need. Same is
+> suggested by busybox.
+>
+> Signed-off-by: Awais Belal <awais_belal@mentor.com>
+> ---
+>  meta/recipes-core/initrdscripts/files/init-install-efi.sh | 2 +-
+>  meta/recipes-core/initrdscripts/files/init-install.sh     | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+> index f564f4e..53f6508 100644
+> --- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+> +++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+> @@ -123,7 +123,7 @@ mkdir -p /tmp
+>
+>  # Create /etc/mtab if not present
+>  if [ ! -e /etc/mtab ]; then
+> -    cat /proc/mounts > /etc/mtab
+> +    ln -sf /etc/mtab /proc/mounts
 
-Also, where is this hardcoding? I can't see it in the patch.
+Did you mean:
 
-Perhaps http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=b567235c0c
-e427e2cd478a0268a295c74208e917 fixed this already?
+  ln -sf /proc/mounts /etc/mtab
 
-Just makes me all the more suspicious of this patch...
+?
 
-Cheers,
-
-Richard
-
+>  fi
+>
+>  disk_size=$(parted ${device} unit mb print | grep '^Disk .*: .*MB' | cut -d" " -f 3 | sed -e "s/MB//")
+> diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
+> index 72ce92b..21ae0a6 100644
+> --- a/meta/recipes-core/initrdscripts/files/init-install.sh
+> +++ b/meta/recipes-core/initrdscripts/files/init-install.sh
+> @@ -119,7 +119,7 @@ fi
+>
+>  mkdir -p /tmp
+>  if [ ! -L /etc/mtab ]; then
+> -    cat /proc/mounts > /etc/mtab
+> +    ln -sf /etc/mtab /proc/mounts
+>  fi
+>
+>  disk_size=$(parted ${device} unit mb print | grep '^Disk .*: .*MB' | cut -d" " -f 3 | sed -e "s/MB//")
+> --
+> 1.9.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
