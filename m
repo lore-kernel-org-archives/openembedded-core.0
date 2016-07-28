@@ -1,39 +1,31 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 7CD116072C
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 805AF6072C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jul 2016 20:03:29 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP; 28 Jul 2016 13:03:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,434,1464678000"; d="scan'208";a="1015763658"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga001.fm.intel.com with ESMTP; 28 Jul 2016 13:03:30 -0700
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.68])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 88D176A4080;
-	Thu, 28 Jul 2016 13:03:16 -0700 (PDT)
-Date: Thu, 28 Jul 2016 22:26:59 +0300
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: =?iso-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
-Message-ID: <20160728192659.GA31569@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <1469620052.23580.115.camel@linuxfoundation.org>
-	<20160727122801.GA7061@linux.intel.com>
-	<5798B1E4.2090508@windriver.com>
-	<20160727131844.GA31757@linux.intel.com>
-	<5798C5A5.5050909@windriver.com>
-	<48F3FC2919BF894DA92986D5D64EA12801AC99C8@ORSMSX103.amr.corp.intel.com>
-	<57992068.702@linux.intel.com>
-MIME-Version: 1.0
-In-Reply-To: <57992068.702@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "Ashfield,
-	Bruce \(Wind River\)" <bruce.ashfield@windriver.com>
-Subject: Re: 2.7% build time regression caused by enabling debug/printk.scc KERNEL_FEATURE]
+	Thu, 28 Jul 2016 20:42:51 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u6SKglQ2024885; Thu, 28 Jul 2016 21:42:47 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id HdjxHUCZNuvK; Thu, 28 Jul 2016 21:42:47 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u6SKgip6024882
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 28 Jul 2016 21:42:46 +0100
+Message-ID: <1469738564.9142.17.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>,
+	openembedded-core@lists.openembedded.org, Patrick Ohly
+	<patrick.ohly@intel.com>
+Date: Thu, 28 Jul 2016 21:42:44 +0100
+In-Reply-To: <0dacdf96b1ac7c9c2bcd0071a0b8d88fcc6231d5.1469623667.git.ed.bartosh@linux.intel.com>
+References: <cover.1469623667.git.ed.bartosh@linux.intel.com>
+	<0dacdf96b1ac7c9c2bcd0071a0b8d88fcc6231d5.1469623667.git.ed.bartosh@linux.intel.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH v4 1/4] image.bbclass: fix dependency calculation when using conversion chaining
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,114 +38,203 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jul 2016 20:03:31 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 28 Jul 2016 20:42:53 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 27, 2016 at 03:58:16PM -0500, Aníbal Limón wrote:
+On Wed, 2016-07-27 at 15:51 +0300, Ed Bartosh wrote:
+> From: Patrick Ohly <patrick.ohly@intel.com>
 > 
+> When using conversion chaining (for example example: .dsk.vdi.xz),
+> the imagetypes_getdepends() did not properly detect all compression
+> commands (thus skipping the corresponding COMPRESS_DEPENDS) and
+> the base type, leading to missing dependencies of the image's
+> do_rootfs
+> task.
 > 
-> On 07/27/2016 03:06 PM, Sullivan, California L wrote:
-> > Adding the debug-kernel fragment to the printk fragment was probably a
-> > mistake on my part. I don't see anything that requires it.
-> > 
-> > I'm also seeing another issue: TTY_PRINTK depends on EXPERT, which is
-> > only enabled on the developer kernel by default, so you currently won't
-> > be getting that option. From there, if we were to enable EXPERT,
-> > DEBUG_KERNEL then gets selected automatically and we essentially end up
-> > where we started and have the build time regression.
-> > 
-> > Stuff to think about on my end I suppose. In the mean time I +1 removing
-> > the debug-kernel include from printk.scc.
+> This is not a big problem in practice because in those cases where
+> conversion chaining is useful (as in the example above), the missing
+> dependency is qemu-native, which typically gets built anyway.
 > 
-> I agree,
+> imagetypes_getdepends() had hard-coded special treatment for certain
+> image types. This gets replaced with setting the normal IMAGE_DEPENDS
+> variables for these types.
 > 
-> 	alimon
+> [YOCTO #9076]
+> 
+> Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 
-The fix has been merged to yocto-4.4 branch of yocto-kernel-cache:
-https://git.yoctoproject.org/cgit/cgit.cgi/yocto-kernel-cache/commit/?h=yocto-4.4&id=d3cc76c3cb20247b16c16b2367decf08b5fb90fa
-And included into last kernel update:
-http://lists.openembedded.org/pipermail/openembedded-core/2016-July/124466.html
+This patch has come in multiple times and each time I look at it I ask
+that it be checked against changes that happened in parallel since I
+believe there is something "not right" in the merge. Its not an easy
+one to review as it makes several different kinds of changes.
 
-With the fix applied kernel build time decreased by 22.84%:
+I just spent a while comparing the changes and it removes the reference
+to IMAGE_FSTYPES_DEBUGFS so I do believe this patch *does* cause at
+least one regression. Whether there are other issues its really hard to
+say.
 
-Build Configuration:
-BB_VERSION        = "1.31.0"
-BUILD_SYS         = "x86_64-linux"
-NATIVELSBSTRING   = "openSUSE-13.2"
-TARGET_SYS        = "i586-poky-linux"
-MACHINE           = "qemux86"
-DISTRO            = "poky"
-DISTRO_VERSION    = "2.1+snapshot-20160728"
-TUNE_FEATURES     = "m32 i586"
-TARGET_FPU        = ""
-meta
-meta-poky
-meta-yocto-bsp    = "master:039f47ad197a9a53109c9f3deadd9c35e62c056d"
+Can someone try and perhaps make the diff more obvious and split it up?
 
-before the fix:
-	Command being timed: "bitbake virtual/kernel"
-	User time (seconds): 1367.06
-	System time (seconds): 162.06
-	Percent of CPU this job got: 372%
-	Elapsed (wall clock) time (h:mm:ss or m:ss): 6:50.56
-	Average shared text size (kbytes): 0
-	Average unshared data size (kbytes): 0
-	Average stack size (kbytes): 0
-	Average total size (kbytes): 0
-	Maximum resident set size (kbytes): 627120
-	Average resident set size (kbytes): 0
-	Major (requiring I/O) page faults: 1292
-	Minor (reclaiming a frame) page faults: 61097551
-	Voluntary context switches: 885976
-	Involuntary context switches: 715312
-	Swaps: 0
-	File system inputs: 1024568
-	File system outputs: 13316088
-	Socket messages sent: 0
-	Socket messages received: 0
-	Signals delivered: 0
-	Page size (bytes): 4096
-	Exit status: 0
+Cheers,
 
-after the fix:
-	Command being timed: "bitbake virtual/kernel"
-	User time (seconds): 1050.97
-	System time (seconds): 128.84
-	Percent of CPU this job got: 434%
-	Elapsed (wall clock) time (h:mm:ss or m:ss): 4:31.35
-	Average shared text size (kbytes): 0
-	Average unshared data size (kbytes): 0
-	Average stack size (kbytes): 0
-	Average total size (kbytes): 0
-	Maximum resident set size (kbytes): 387148
-	Average resident set size (kbytes): 0
-	Major (requiring I/O) page faults: 1264
-	Minor (reclaiming a frame) page faults: 52467379
-	Voluntary context switches: 589830
-	Involuntary context switches: 457987
-	Swaps: 0
-	File system inputs: 1107424
-	File system outputs: 3363464
-	Socket messages sent: 0
-	Socket messages received: 0
-	Signals delivered: 0
-	Page size (bytes): 4096
-	Exit status: 0
+Richard
 
 
-And consumed disk space decreased by 89.62%:
 
-before the fix:
-$ du -sh tmp/work/qemux86-poky-linux/linux-yocto/4.4.14+gitAUTOINC+4800a400d5_8361321fec-r0/deploy-linux-yocto/
-106M
-
-after the fix:
-$ du -sh tmp/work/qemux86-poky-linux/linux-yocto/4.4.14+gitAUTOINC+86bf91f444_8361321fec-r0/deploy-linux-yocto/
-11M
-
---
-Regards,
-Ed
+> ---
+>  meta/classes/image.bbclass       | 19 ++-----------
+>  meta/classes/image_types.bbclass | 60 ++++++++++++++++++++++++++++--
+> ----------
+>  2 files changed, 45 insertions(+), 34 deletions(-)
+> 
+> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> index af789f4..a3f48fa 100644
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -143,7 +143,7 @@ IMAGE_TYPE_vm = '${@bb.utils.contains_any("IMAGE_
+> FSTYPES", ["vmdk", "vdi", "qcow
+>  inherit ${IMAGE_TYPE_vm}
+>  
+>  python () {
+> -    deps = " " + imagetypes_getdepends(d)
+> +    deps = " " + image_getdepends(d)
+>      d.appendVarFlag('do_rootfs', 'depends', deps)
+>  
+>      deps = ""
+> @@ -354,19 +354,6 @@ python () {
+>      ctypes = set(d.getVar('COMPRESSIONTYPES', True).split())
+>      old_overrides = d.getVar('OVERRIDES', 0)
+>  
+> -    def _image_base_type(type):
+> -        basetype = type
+> -        for ctype in ctypes:
+> -            if type.endswith("." + ctype):
+> -                basetype = type[:-len("." + ctype)]
+> -                break
+> -
+> -        if basetype != type:
+> -            # New base type itself might be generated by a
+> conversion command.
+> -            basetype = _image_base_type(basetype)
+> -
+> -        return basetype
+> -
+>      basetypes = {}
+>      alltypes = d.getVar('IMAGE_FSTYPES', True).split()
+>      typedeps = {}
+> @@ -377,7 +364,7 @@ python () {
+>              alltypes.append("debugfs_" + t)
+>  
+>      def _add_type(t):
+> -        baset = _image_base_type(t)
+> +        baset = image_split_type(t, ctypes)[0]
+>          input_t = t
+>          if baset not in basetypes:
+>              basetypes[baset]= []
+> @@ -396,7 +383,7 @@ python () {
+>              if dep not in alltypes:
+>                  alltypes.append(dep)
+>              _add_type(dep)
+> -            basedep = _image_base_type(dep)
+> +            basedep = image_split_type(dep, ctypes)[0]
+>              typedeps[baset].add(basedep)
+>  
+>          if baset != input_t:
+> diff --git a/meta/classes/image_types.bbclass
+> b/meta/classes/image_types.bbclass
+> index 2b97397..c24df8f 100644
+> --- a/meta/classes/image_types.bbclass
+> +++ b/meta/classes/image_types.bbclass
+> @@ -9,30 +9,47 @@ IMAGE_NAME_SUFFIX ??= ".rootfs"
+>  # set this value to 2048 (2MiB alignment).
+>  IMAGE_ROOTFS_ALIGNMENT ?= "1"
+>  
+> -def imagetypes_getdepends(d):
+> -    def adddep(depstr, deps):
+> -        for d in (depstr or "").split():
+> -            # Add task dependency if not already present
+> -            if ":" not in d:
+> -                d += ":do_populate_sysroot"
+> -            deps.add(d)
+> +def image_split_type(type, allctypes):
+> +    '''Returns (basetype, set of compression types in use).'''
+> +    basetype = type
+> +    compressiontypes = set()
+> +    for ctype in allctypes:
+> +        if type.endswith("." + ctype):
+> +             basetype = type[:-len("." + ctype)]
+> +             compressiontypes.add(ctype)
+> +             break
+>  
+> -    fstypes = set((d.getVar('IMAGE_FSTYPES', True) or "").split())
+> -    fstypes |= set((d.getVar('IMAGE_FSTYPES_DEBUGFS', True) or
+> "").split())
+> +    if basetype != type:
+> +        # New base type itself might be generated by a conversion
+> command.
+> +        basetype, newctypes = image_split_type(basetype, allctypes)
+> +        compressiontypes.update(newctypes)
+>  
+> -    deps = set()
+> -    for typestring in fstypes:
+> -        types = typestring.split(".")
+> -        basetype, resttypes = types[0], types[1:]
+> +    return (basetype, compressiontypes)
+>  
+> -        adddep(d.getVar('IMAGE_DEPENDS_%s' % basetype, True) , deps)
+> +
+> +def image_getdepends(d):
+> +    def adddep(depstr, deps):
+> +        # It is not an error if the dependency was not set,
+> +        # simply do nothing in that case.
+> +        for i in (depstr or "").split():
+> +            if i not in deps:
+> +                deps.append(i)
+> +
+> +    deps = []
+> +    ctypes = set(d.getVar('COMPRESSIONTYPES', True).split())
+> +    for type in (d.getVar('IMAGE_FSTYPES', True) or "").split():
+> +        basetype, compressiontypes = image_split_type(type, ctypes)
+> +        for ctype in compressiontypes:
+> +            adddep(d.getVar("COMPRESS_DEPENDS_%s" % ctype, True),
+> deps)
+>          for typedepends in (d.getVar("IMAGE_TYPEDEP_%s" % basetype,
+> True) or "").split():
+>              adddep(d.getVar('IMAGE_DEPENDS_%s' % typedepends, True)
+> , deps)
+> -        for ctype in resttypes:
+> -            adddep(d.getVar("COMPRESS_DEPENDS_%s" % ctype, True),
+> deps)
+> +        adddep(d.getVar('IMAGE_DEPENDS_%s' % basetype, True) , deps)
+> +
+> +    depstr = ""
+> +    for dep in deps:
+> +        depstr += " " + dep + ":do_populate_sysroot"
+> +    return depstr
+>  
+> -    # Sort the set so that ordering is consistant
+> -    return " ".join(sorted(deps))
+>  
+>  XZ_COMPRESSION_LEVEL ?= "-3"
+>  XZ_INTEGRITY_CHECK ?= "crc32"
+> @@ -294,6 +311,13 @@ IMAGE_DEPENDS_ubifs = "mtd-utils-native"
+>  IMAGE_DEPENDS_multiubi = "mtd-utils-native"
+>  IMAGE_DEPENDS_wic = "parted-native"
+>  
+> +# Same dependencies as in ext4. image_getdepends() shouldn't
+> +# have to hard-code this, so just define it normally in
+> +# variables.
+> +IMAGE_DEPENDS_live = "${IMAGE_DEPENDS_ext4}"
+> +IMAGE_DEPENDS_iso = "${IMAGE_DEPENDS_ext4}"
+> +IMAGE_DEPENDS_hddimg = "${IMAGE_DEPENDS_ext4}"
+> +
+>  # This variable is available to request which values are suitable
+> for IMAGE_FSTYPES
+>  IMAGE_TYPES = " \
+>      jffs2 jffs2.sum \
+> -- 
+> 2.1.4
+> 
 
