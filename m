@@ -1,52 +1,21 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f68.google.com (mail-pa0-f68.google.com
-	[209.85.220.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 877D96072C
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 12EC46072C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jul 2016 17:01:55 +0000 (UTC)
-Received: by mail-pa0-f68.google.com with SMTP id ez1so3817808pab.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jul 2016 10:01:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=4jHnioaSPoD07NiysZbmfbBGxgxD8a4QdxioyFuG2nM=;
-	b=RrYsjgN+bKlfjomSM/XhK80LOy+nYoL+Y7lg0p58KHovLJysJQiNAcJngdDzxlY2Mh
-	c0YH24nXWbYpkeyWPW6E4zbaNuq2ZEnE0lfy342mLHp1q+hf368RSpvesMb2KEf7IMq0
-	0v9yzxJtnOG1JxEEz3Iy2sjtdtSuminXGMQQF0SZjplDhXe2vYmK+syYu2NWj/Sjhv/L
-	KdSgiNCA90sGXMon/swXDRApFkaIGREM97B0OvtN18pQtvgaKDnd9VUgqIF9iA2MP86j
-	OhHzP3budZytlJLnkpE3UcZFuteLvOP1AZgrM7o4dSKFsq7c86IfAu4R8cMGAqRW8LH+
-	F2lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=4jHnioaSPoD07NiysZbmfbBGxgxD8a4QdxioyFuG2nM=;
-	b=l2ZQHi6G2O4qTNoTPYi/JYQtnh+P3JAef/ehRAPak5yZvLiA36RHBtzO4lc7owZERg
-	B4i1YBsE+x7yuAh0xJDZThoQU7CRUdIap9OXrF1tSwjjT8CvSC4QRbDkax2iDNv1PRdy
-	9y6jHSmTtGMUV7kwSDCQDuHn2BRK/U8WZYvk3kgVWaJ9ntumWaANfGgWQWni+i3xKlzO
-	wfQbQ1EQPToO/8i9TzqE/8CjoM1NHwwG26cJMvdnBgvxIvHdmtTQnIrRdREAH63bw+xN
-	tyBKtu0x8lDaIEYs/6JhBaAHJcai+FYlhOQRu9wkv+DygSDsfioUqW5mvIb1DWkQv+QI
-	ESWg==
-X-Gm-Message-State: AEkoouvcnf1P2mV4tsJK5jya55E+Pp0MqipThO1Vh9LDIm75uB8KRzL//j2h8cT4hWzjog==
-X-Received: by 10.66.65.109 with SMTP id w13mr61779417pas.142.1469725316240;
-	Thu, 28 Jul 2016 10:01:56 -0700 (PDT)
-Received: from ?IPv6:2601:646:8882:b8c:2dbd:b1bd:9311:9c96?
-	([2601:646:8882:b8c:2dbd:b1bd:9311:9c96])
-	by smtp.gmail.com with ESMTPSA id
-	vt10sm18366150pab.43.2016.07.28.10.01.55
-	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 28 Jul 2016 10:01:55 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1469695788-12904-1-git-send-email-awais_belal@mentor.com>
-Date: Thu, 28 Jul 2016 10:01:50 -0700
-Message-Id: <94382486-A163-4AD9-88CD-D79109B796E9@gmail.com>
-References: <1469695788-12904-1-git-send-email-awais_belal@mentor.com>
-To: Awais Belal <awais_belal@mentor.com>
-X-Mailer: Apple Mail (2.3124)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] init-install*: /etc/mtab make a link rather than a copy
+	Thu, 28 Jul 2016 18:04:17 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga103.fm.intel.com with ESMTP; 28 Jul 2016 11:03:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,434,1464678000"; d="scan'208";a="1004392061"
+Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.jf.intel.com)
+	([10.54.69.56])
+	by orsmga001.jf.intel.com with ESMTP; 28 Jul 2016 11:03:35 -0700
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 28 Jul 2016 18:00:51 +0000
+Message-Id: <1469728851-20606-1-git-send-email-alejandro.hernandez@linux.intel.com>
+X-Mailer: git-send-email 2.6.6
+Subject: [PATCH v3] python-setuptools: Upgrade to v 25.1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,93 +28,131 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jul 2016 17:01:57 -0000
-X-Groupsio-MsgNum: 85076
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_6F0D4667-4780-4E8B-AFC9-5282FA7287D1";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Thu, 28 Jul 2016 18:04:18 -0000
 
---Apple-Mail=_6F0D4667-4780-4E8B-AFC9-5282FA7287D1
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+LICENCE checksum did not change, it is emebedded on the setup.py file,
+this file changed, so the line number where we get the checksum changed.
+
+Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+---
+ meta/recipes-devtools/python/python-setuptools.inc |  6 ++--
+ .../python/python-setuptools_22.0.5.bb             | 38 ----------------------
+ .../python/python-setuptools_25.1.0.bb             | 38 ++++++++++++++++++++++
+ 3 files changed, 41 insertions(+), 41 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python-setuptools_22.0.5.bb
+ create mode 100644 meta/recipes-devtools/python/python-setuptools_25.1.0.bb
+
+diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
+index 53a514b..f435e68 100644
+--- a/meta/recipes-devtools/python/python-setuptools.inc
++++ b/meta/recipes-devtools/python/python-setuptools.inc
+@@ -3,14 +3,14 @@ HOMEPAGE = "https://pypi.python.org/pypi/setuptools"
+ SECTION = "devel/python"
+ LICENSE = "MIT"
+ 
+-LIC_FILES_CHKSUM = "file://setup.py;beginline=134;endline=134;md5=3e8df024d6c1442d18e84acf8fbbc475"
++LIC_FILES_CHKSUM = "file://setup.py;beginline=155;endline=155;md5=3e8df024d6c1442d18e84acf8fbbc475"
+ 
+ SRCNAME = "setuptools"
+ 
+ SRC_URI = "https://files.pythonhosted.org/packages/source/s/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "869f3029dcc66a64ba39875e2a2f044a"
+-SRC_URI[sha256sum] = "19aad19471052d5daefe96f2c1fa2e88dcdb17488bf8708d7e6356881ea833cb"
++SRC_URI[md5sum] = "a4814dead37e74a86883c66f7d420d73"
++SRC_URI[sha256sum] = "6a0f8111feb5a3438c6309cda49810a16d23e73c173331281edc37dd1374d1d5"
+ 
+ UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/setuptools"
+ 
+diff --git a/meta/recipes-devtools/python/python-setuptools_22.0.5.bb b/meta/recipes-devtools/python/python-setuptools_22.0.5.bb
+deleted file mode 100644
+index c172039..0000000
+--- a/meta/recipes-devtools/python/python-setuptools_22.0.5.bb
++++ /dev/null
+@@ -1,38 +0,0 @@
+-require python-setuptools.inc
+-
+-PROVIDES = "python-distribute"
+-
+-DEPENDS += "python"
+-DEPENDS_class-native += "python-native"
+-
+-inherit distutils
+-
+-DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${libdir}/${PYTHON_DIR}/site-packages"
+-
+-RDEPENDS_${PN} = "\
+-  python-stringold \
+-  python-email \
+-  python-shell \
+-  python-distutils \
+-  python-compression \
+-  python-pkgutil \
+-  python-plistlib \
+-  python-numbers \
+-  python-html \
+-  python-netserver \
+-  python-ctypes \
+-  python-subprocess \
+-  python-unittest \
+-  python-compile \
+-"
+-
+-RDEPENDS_${PN}_class-native = "\
+-  python-distutils \
+-  python-compression \
+-"
+-
+-RREPLACES_${PN} = "python-distribute"
+-RPROVIDES_${PN} = "python-distribute"
+-RCONFLICTS_${PN} = "python-distribute"
+-
+-BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/python/python-setuptools_25.1.0.bb b/meta/recipes-devtools/python/python-setuptools_25.1.0.bb
+new file mode 100644
+index 0000000..c172039
+--- /dev/null
++++ b/meta/recipes-devtools/python/python-setuptools_25.1.0.bb
+@@ -0,0 +1,38 @@
++require python-setuptools.inc
++
++PROVIDES = "python-distribute"
++
++DEPENDS += "python"
++DEPENDS_class-native += "python-native"
++
++inherit distutils
++
++DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${libdir}/${PYTHON_DIR}/site-packages"
++
++RDEPENDS_${PN} = "\
++  python-stringold \
++  python-email \
++  python-shell \
++  python-distutils \
++  python-compression \
++  python-pkgutil \
++  python-plistlib \
++  python-numbers \
++  python-html \
++  python-netserver \
++  python-ctypes \
++  python-subprocess \
++  python-unittest \
++  python-compile \
++"
++
++RDEPENDS_${PN}_class-native = "\
++  python-distutils \
++  python-compression \
++"
++
++RREPLACES_${PN} = "python-distribute"
++RPROVIDES_${PN} = "python-distribute"
++RCONFLICTS_${PN} = "python-distribute"
++
++BBCLASSEXTEND = "native nativesdk"
+-- 
+2.6.6
 
 
-> On Jul 28, 2016, at 1:49 AM, Awais Belal <awais_belal@mentor.com> =
-wrote:
->=20
-> Using a copy would only make management of devices erroneous
-> and makes the system unstable in some scenarios as tools will
-> have to manipulate both files separately. A link ensures that
-> both files /proc/mounts and /etc/mtab will have the same
-> information at all times and this is how it is handled
-> on newer systems where there is such a need. Same is
-> suggested by busybox.
->=20
-> Signed-off-by: Awais Belal <awais_belal@mentor.com>
-> ---
-> meta/recipes-core/initrdscripts/files/init-install-efi.sh | 2 +-
-> meta/recipes-core/initrdscripts/files/init-install.sh     | 2 +-
-> 2 files changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh =
-b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-> index f564f4e..53f6508 100644
-> --- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-> +++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-> @@ -123,7 +123,7 @@ mkdir -p /tmp
->=20
-> # Create /etc/mtab if not present
-> if [ ! -e /etc/mtab ]; then
-> -    cat /proc/mounts > /etc/mtab
-> +    ln -sf /etc/mtab /proc/mounts
-> fi
-
-I think this does not consider the case where procfs may be disabled in =
-kernel. Is there such a possibility ?
-
->=20
-> disk_size=3D$(parted ${device} unit mb print | grep '^Disk .*: .*MB' | =
-cut -d" " -f 3 | sed -e "s/MB//")
-> diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh =
-b/meta/recipes-core/initrdscripts/files/init-install.sh
-> index 72ce92b..21ae0a6 100644
-> --- a/meta/recipes-core/initrdscripts/files/init-install.sh
-> +++ b/meta/recipes-core/initrdscripts/files/init-install.sh
-> @@ -119,7 +119,7 @@ fi
->=20
-> mkdir -p /tmp
-> if [ ! -L /etc/mtab ]; then
-> -    cat /proc/mounts > /etc/mtab
-> +    ln -sf /etc/mtab /proc/mounts
-> fi
->=20
-> disk_size=3D$(parted ${device} unit mb print | grep '^Disk .*: .*MB' | =
-cut -d" " -f 3 | sed -e "s/MB//")
-> --
-> 1.9.1
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
---Apple-Mail=_6F0D4667-4780-4E8B-AFC9-5282FA7287D1
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAleaOoIACgkQuwUzVZGdMxShoACeOMiDyV45r1hibrZS9TBPsCRU
-ThgAnjqaVDR9cm77ChBVFz2jg+vwQ7vz
-=1Vdj
------END PGP SIGNATURE-----
-
---Apple-Mail=_6F0D4667-4780-4E8B-AFC9-5282FA7287D1--
