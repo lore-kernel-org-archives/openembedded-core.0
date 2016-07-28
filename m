@@ -1,46 +1,38 @@
-Return-Path: <jacob.kroon@gmail.com>
-Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
-	[209.85.215.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 17E956072C
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 663496072C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jul 2016 10:58:23 +0000 (UTC)
-Received: by mail-lf0-f65.google.com with SMTP id l69so3470189lfg.1
+	Thu, 28 Jul 2016 11:56:56 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id q128so10801220wma.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jul 2016 03:58:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=T0Cflerok73Be6yeLg2xXjVE6TeDq4NXFr7xnbZyE94=;
-	b=UOsZi9BqpN5Xioj/F1xrejARTM1jb618SkaIt0rku9RjHYJamWD5UFhnlQTSgfI8rq
-	nbHkmLmijCfawpmLSfVvbHa/a/a4b9cCgCoeqx5Zk7lzKiLWNCLNcukGPyLcpwxDV733
-	aU61nsvb2nqM/EKnmvaff0ORS5Ym7JTc5FHH57RRmtXPBtDeSOMFSplI85scW98kregi
-	NdiknxGlUl7Oa3f1Zqk21ktdYvArlP1KweW+zEcjKnM+HIo9iK5porCPzipFiXxUIGvC
-	NTFk31h3fMTqZ8RCzsG9Qm/kfSSSxw/48fDJnC0DcFSz2ZEZ70gUOW2rMr4y8YwKguGT
-	ST0g==
+	Thu, 28 Jul 2016 04:56:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=T0Cflerok73Be6yeLg2xXjVE6TeDq4NXFr7xnbZyE94=;
-	b=gMyYfsoCvPlLQxWEUwc2u5UOBJWkwK7ELkSRwYcA0KaiyZtZnsygNkjzkwRN1ahhlp
-	O3Y5WAh1WR+sU/rMleSB03g9jbgOzDLi3dWCnyr/trvoQPTkkOP5WPAFY0AaqGU/496t
-	4Kk+ggm1Vnj66OfLDFe8W+Ns0F4S07k6MJSDVtrKNgmCslSJom0vScYVctalMhsPjC4v
-	bzJxPjfjf4ODEVMDg8eBiPd1ntjVhzx1HUY+pyji9LanfGDkdcDIm/wjcy5IIJsgjv7w
-	x1qdzJmzIqWfdL2askDa3WWBOId4D0ymXQKCeRpWqDjR1z6+PAICnKaqqtL8F0Fp8kdz
-	98oA==
-X-Gm-Message-State: AEkoous49NED1Z0ejQ+qw8sXEstSufvtkDH+vzEz+nkdv8BzDM1MRSkCRKrbubRKLNTBpg==
-X-Received: by 10.46.71.144 with SMTP id u138mr12634519lja.20.1469703502836;
-	Thu, 28 Jul 2016 03:58:22 -0700 (PDT)
-Received: from skeletor.greyskull (89-253-118-72.customers.ownit.se.
-	[89.253.118.72]) by smtp.gmail.com with ESMTPSA id
-	k63sm1841622lfe.48.2016.07.28.03.58.21
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=+EKxKrzXJr0Jhll4r1gT8i+9QAlQhzJbP0vJqJhp/rI=;
+	b=DPgLScZq6Tq+ZenOv1IS1iV/iMV52St1H5sdO7OugUj5RWooeXZZADosOxGyt5zliP
+	c4Hpte+D+C6qi1z54YOluOIUK3os04bGKzSeMur8mrzqOW7IlpsBskDo/sNt0waJQv2h
+	9RmB8lCLUzWuUxM0TjQmfRW+jM0YS+laLdApW1ShzAmzjrFUWLtqhf7nKxliol1T6sUB
+	zqAn9cqMIP5Oi6eSP8xDI1Bf/rGqme7TZ9xSHX+QhniVIMDyxofXoOivfqsySHMqum9F
+	Ugp6wzvJv3FK07jWi0J2qb8StGxEaaXn+jtf6+u9u1Y8q9alSog0s341va1hAQ4aaFyp
+	IDYA==
+X-Gm-Message-State: AEkoouu9uymZq1ztrTyjLyhBVkDdAduvb+L3MIXUVFv7LWu+smej+4Fb2MdNWtWXxbx5pA==
+X-Received: by 10.194.58.112 with SMTP id p16mr33652838wjq.24.1469707016695;
+	Thu, 28 Jul 2016 04:56:56 -0700 (PDT)
+Received: from tfsielt31850.tycofs.com ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	yz6sm11181446wjb.35.2016.07.28.04.56.55
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 28 Jul 2016 03:58:22 -0700 (PDT)
-From: Jacob Kroon <jacob.kroon@gmail.com>
+	Thu, 28 Jul 2016 04:56:55 -0700 (PDT)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Jul 2016 12:56:06 +0200
-Message-Id: <1469703366-3019-1-git-send-email-jacob.kroon@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] bitbake.conf/toolchain-scripts.bbclass: Remove debug prefix mappings in SDK
+Date: Thu, 28 Jul 2016 12:56:54 +0100
+Message-Id: <1469707014-20120-1-git-send-email-git@andred.net>
+X-Mailer: git-send-email 2.8.1
+MIME-Version: 1.0
+Subject: [PATCH] readline: don't install readline C examples
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,53 +45,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jul 2016 10:58:25 -0000
+X-List-Received-Date: Thu, 28 Jul 2016 11:56:58 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-CFLAGS/CXXFLAGS in the SDK environment script adds debug-prefix mappings
-that include staging area/work directories. Remove them since the SDK
-shouldn't be aware of them.
+They are unlikely to be of any use in the target file system.
 
-Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
+Signed-off-by: André Draszik <git@andred.net>
 ---
- meta/classes/toolchain-scripts.bbclass | 3 +++
- meta/conf/bitbake.conf                 | 8 ++++----
- 2 files changed, 7 insertions(+), 4 deletions(-)
+ meta/recipes-core/readline/readline.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-index 32d8c32..57874f3 100644
---- a/meta/classes/toolchain-scripts.bbclass
-+++ b/meta/classes/toolchain-scripts.bbclass
-@@ -6,6 +6,9 @@ REAL_MULTIMACH_TARGET_SYS ?= "${MULTIMACH_TARGET_SYS}"
- TARGET_CC_ARCH_append_libc-uclibc = " -muclibc"
- TARGET_CC_ARCH_append_libc-musl = " -mmusl"
+diff --git a/meta/recipes-core/readline/readline.inc b/meta/recipes-core/readline/readline.inc
+index 35df8b4..1a0a155 100644
+--- a/meta/recipes-core/readline/readline.inc
++++ b/meta/recipes-core/readline/readline.inc
+@@ -32,6 +32,8 @@ do_install_append () {
+ 	oe_libinstall -so -C shlib libreadline ${D}${libdir}
  
-+# default debug prefix map isn't valid in the SDK
-+DEBUG_PREFIX_MAP = ""
-+
- # This function creates an environment-setup-script for use in a deployable SDK
- toolchain_create_sdk_env_script () {
- 	# Create environment setup script.  Remember that $SDKTARGETSYSROOT should
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index af3b181..900d2fe 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -549,11 +549,11 @@ EXTRA_OEMAKE_prepend_task-install = "${PARALLEL_MAKEINST} "
- ##################################################################
- # Optimization flags.
- ##################################################################
--DEBUG_FLAGS ?= "-g -feliminate-unused-debug-types \
--                -fdebug-prefix-map=${WORKDIR}=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR} \
--                -fdebug-prefix-map=${STAGING_DIR_NATIVE}= \
--                -fdebug-prefix-map=${STAGING_DIR_HOST}= \
-+DEBUG_PREFIX_MAP ?= "-fdebug-prefix-map=${WORKDIR}=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR} \
-+                     -fdebug-prefix-map=${STAGING_DIR_NATIVE}= \
-+                     -fdebug-prefix-map=${STAGING_DIR_HOST}= \
- "
-+DEBUG_FLAGS ?= "-g -feliminate-unused-debug-types ${DEBUG_PREFIX_MAP}"
+ 	rmdir ${D}${bindir}
++	rm -rf ${D}${datadir}/${BPN}/*.c
++	rmdir ${D}${datadir}/${BPN} || true
  
- # Disabled until the option works properly -feliminate-dwarf2-dups
- FULL_OPTIMIZATION = "-O2 -pipe ${DEBUG_FLAGS}"
+ 	install -m 0755 -d ${D}${sysconfdir}
+ 	install -m 0644 ${WORKDIR}/inputrc ${D}${sysconfdir}/inputrc
 -- 
-2.7.4
+2.8.1
 
 
