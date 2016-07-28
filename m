@@ -1,28 +1,46 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 91FDF6072C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id BD4EC6072C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jul 2016 14:33:50 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 28 Jul 2016 07:33:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,434,1464678000"; 
-	d="asc'?scan'208";a="740986249"
-Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.5.54]) ([10.219.5.54])
-	by FMSMGA003.fm.intel.com with ESMTP; 28 Jul 2016 07:33:50 -0700
-To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <1469659242-12350-1-git-send-email-anibal.limon@linux.intel.com>
-	<1469659242-12350-6-git-send-email-anibal.limon@linux.intel.com>
-	<f10cdb53-0628-e44a-2c42-c0b488171a3a@linux.intel.com>
-From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
-Message-ID: <579A17F7.7040602@linux.intel.com>
-Date: Thu, 28 Jul 2016 09:34:31 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+	Thu, 28 Jul 2016 14:39:13 +0000 (UTC)
+Received: by mail-io0-f178.google.com with SMTP id q83so101779546iod.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Jul 2016 07:39:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=DNr+Rajmq2sVZyHJTxRu0CPKLPwCdVe+2Zv28r0aGhk=;
+	b=i74DqPOBooxQs/80VRk072Tw8gpH7hksKV2cyV65ZLEaLRQ9S2bAJB6hNAoP9mzX7H
+	3cXh5j/XhUzxb3kHWrSOK53m+ESHOrxGu+zCV6CqWYChwC9ORdPuepn+fw66LFIY8rZM
+	Tg3ZupJWb8cG7i7Kwnl72Zwovv8nF1iwCNInA/uFWoUqpk5cvtg3jqDSd2LVbvSWJ2i8
+	gOaWnizaXNJsXWOx9ahQO1mXGW61+WlRsGwBffdbq7GUdYYWX2vS7ZYTZ0yis4igo2TM
+	NMcUa7K6TpywuegasAV5C0UTE947aZzCqPrVcFSrkOZcBBihxQ7dgSXOKal0MtrZC5TD
+	NNAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=DNr+Rajmq2sVZyHJTxRu0CPKLPwCdVe+2Zv28r0aGhk=;
+	b=Vioab5OBoGHTdHUMVT2XeGOU0pNufN1jA/62wrqyM2wkpkjSI3izMolq592BXacaLt
+	k0G6/4Wn5oONSFUTIX6LrsbYWMO3LbgQi+11KcJONGDB0XvC/Xw5NhQCQsQBF1kkJRSu
+	LnrRsorS0fh/kNudfv10iyEaTal5DtPqig7/9klUXQj5pTjW4mhMVJ/QEXwjakltoLtf
+	8L0zZCoza3wJvpr8Rgy4mLIV22o7eMnp+xV2rANVnvS/rfIoERSbAw6G50h4Y4Hae5Ja
+	WsU7T74F3FmwhfQrdLi065P64A5adV8RKkrZ2t8eICnIDPXcRr2vDtlO5wJs5LZA60el
+	vlAg==
+X-Gm-Message-State: AEkooutFtQ5dAMJkkjnpG+NU2wbf/A27P9AfwCz9H3O+N2jdUozR6asZEiuQ1k6zLz3poV5Nm7bcMwBR453rTzZX
+X-Received: by 10.107.154.196 with SMTP id c187mr37040614ioe.99.1469716753963; 
+	Thu, 28 Jul 2016 07:39:13 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <f10cdb53-0628-e44a-2c42-c0b488171a3a@linux.intel.com>
-Subject: Re: [PATCH 5/5] oeqa/utils/commands.py: Command class improve validations/decoding in output
+Received: by 10.107.18.17 with HTTP; Thu, 28 Jul 2016 07:38:54 -0700 (PDT)
+In-Reply-To: <1469714682-31488-1-git-send-email-maxin.john@intel.com>
+References: <1469714682-31488-1-git-send-email-maxin.john@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 28 Jul 2016 15:38:54 +0100
+Message-ID: <CAJTo0LYu47+WLP0TXBsiVsm+orsqo_3wS0+7F2fs1suP+-jC9g@mail.gmail.com>
+To: "Maxin B. John" <maxin.john@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [krogoth] [PATCH 00/12] fix checkuri failures for krogoth
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,85 +53,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jul 2016 14:33:50 -0000
-X-Groupsio-MsgNum: 85070
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature";
-	boundary="ThsX4GFINrpSspg1S4MscmB2e2MGjk5Dm"
+X-List-Received-Date: Thu, 28 Jul 2016 14:39:17 -0000
+Content-Type: multipart/alternative; boundary=001a1140e81e0a80aa0538b319c4
 
---ThsX4GFINrpSspg1S4MscmB2e2MGjk5Dm
-Content-Type: text/plain; charset=utf-8
+--001a1140e81e0a80aa0538b319c4
+Content-Type: text/plain; charset=UTF-8
+
+On 28 July 2016 at 15:04, Maxin B. John <maxin.john@intel.com> wrote:
+
+> Recipes that use DEBIAN_MIRROR in SRC_URI are setting themselves up for
+> failure
+> as the Debian mirror network only stores active releases, so once a
+> version we
+> use isn't in oldstable/stable/testing/unstable then it will be removed.
+>
+> The solution here is to use the snapshot.debian.org service for the
+> SRC_URI,
+> and set UPSTREAM_CHECK_URI to the relevant pool directory on
+> DEBIAN_MIRRORS.
+> This way we get a stable SRC_URI but still have new upstream release
+> checking.
+>
+
+Will these all apply to master too?
+
+Ross
+
+--001a1140e81e0a80aa0538b319c4
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 28 July 2016 at 15:04, Maxin B. John <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:maxin.john@intel.com" target=3D"_blank">maxin.john@intel.com</a>&gt;</=
+span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2f5" class=3D"a3=
+s aXjCH m15631d6668b51e0f">Recipes that use DEBIAN_MIRROR in SRC_URI are se=
+tting themselves up for failure<br>
+as the Debian mirror network only stores active releases, so once a version=
+ we<br>
+use isn&#39;t in oldstable/stable/testing/unstable then it will be removed.=
+<br>
+<br>
+The solution here is to use the <a href=3D"http://snapshot.debian.org" rel=
+=3D"noreferrer" target=3D"_blank">snapshot.debian.org</a> service for the S=
+RC_URI,<br>
+and set UPSTREAM_CHECK_URI to the relevant pool directory on DEBIAN_MIRRORS=
+.<br>
+This way we get a stable SRC_URI but still have new upstream release checki=
+ng.<br></div></blockquote></div><br>Will these all apply to master too?</di=
+v><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div=
+></div>
 
-
-On 07/27/2016 10:18 PM, Leonardo Sandoval wrote:
-> Hi Anibal,
->=20
->=20
-> El 07/27/2016 a las 05:40 PM, An=C3=ADbal Lim=C3=B3n escribi=C3=B3:
->> When run a command sometimes the output isn't provided so validate
-> I wonder if this problem is related to a timeout, so at some point this=
-
-> is reached and no output is shown.
-
-This could be one scenario but the output needs to be validated in order
-to don't crash trying to use a None var.
-
-	alimon
-
->> before trying to encode to utf-8, also some output like BIOS/EFI
->> contains characters that can't be codified into utf-8 for this reason
->> set errors=3D'replace'.
->>
->> [YOCTO #10019]
->>
->> Signed-off-by: An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.intel.com>
->> ---
->>   meta/lib/oeqa/utils/commands.py | 5 ++++-
->>   1 file changed, 4 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/lib/oeqa/utils/commands.py
->> b/meta/lib/oeqa/utils/commands.py
->> index 4f79d15..a8e184d 100644
->> --- a/meta/lib/oeqa/utils/commands.py
->> +++ b/meta/lib/oeqa/utils/commands.py
->> @@ -78,7 +78,10 @@ class Command(object):
->>                   self.process.kill()
->>                   self.thread.join()
->>   -        self.output =3D self.output.decode("utf-8").rstrip()
->> +        if not self.output:
->> +            self.output =3D ""
->> +        else:
->> +            self.output =3D self.output.decode("utf-8",
->> errors=3D'replace').rstrip()
->>           self.status =3D self.process.poll()
->>             self.log.debug("Command '%s' returned %d as exit code." %
->> (self.cmd, self.status))
->=20
-
-
---ThsX4GFINrpSspg1S4MscmB2e2MGjk5Dm
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQIcBAEBAgAGBQJXmhf5AAoJEGJqcE9h3glg1qgQAIZRPzj7SLFDcx661oTGoqkU
-NNJRIEO9D8tpICiVsn70kc/26+Wkq0sPWTmS4c2nr7fHmUK+zp3JQ1APzf9n+rV6
-3zHtSDQkJwBnyC4yf87GgZAKqS1hstZZH+C2LeWYLvk82KfDiPcr0ZPZTnz+7yu1
-UgPsJFHP3lkLmXhxRkRIEOF2UpHjlv8fUNXgIeIKTvJutyMxxmU/1jtIVjvMug1j
-T9bM8OUUUrxIxVqXphy07J9OM+xqFa2UD6ZmVA8OM24/8iQWlEbEQxuNtREZuJxl
-+wALusThQ0BwL44QFFecgjaqdyZDKVNaevLz/S8l9WIiRx9U0eFTMcD5B3/qnMU3
-qW5NTjUcKi49NRVWC6ENxeCmx5JIa9dJx0QQWltB3IkojZGZjvw3pLEfysz7mBJH
-CmQ8Bcq+urtPKKSg2XRL0QwQd9MoCpTRqJ6tdtCm2izF49G9gJsJHX32Zfj8sWCW
-bmXzGIy+t0SrDvR202jdhfltYUjIcMElihW/H18S8jSo7ve8lbN+iFMYOzlTIBTS
-4+lqaVS8ZoDcNZTKvRi+bc5gnfWWvl3wWsIPioImiF3AUWo+aocH7QOY25ouuwmc
-xk5utgUeSEznEfG+/av35PwLpbZ2/84L4ZpeM5XBAzyOQzX2l5H1UltMxvOKNrVD
-h57bTCssYWR7EM90FbeY
-=qz/r
------END PGP SIGNATURE-----
-
---ThsX4GFINrpSspg1S4MscmB2e2MGjk5Dm--
+--001a1140e81e0a80aa0538b319c4--
