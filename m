@@ -1,21 +1,46 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B3BC6072C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 79BFA6072C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jul 2016 18:04:31 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP; 28 Jul 2016 11:03:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,434,1464678000"; d="scan'208";a="1015698489"
-Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.jf.intel.com)
-	([10.54.69.56])
-	by fmsmga001.fm.intel.com with ESMTP; 28 Jul 2016 11:03:28 -0700
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+	Thu, 28 Jul 2016 19:40:35 +0000 (UTC)
+Received: by mail-wm0-f52.google.com with SMTP id i5so122646758wmg.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Jul 2016 12:40:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=f96DPnR6lMDos2lmqqCEkADSz8JeOtdTBNXap2GcsGM=;
+	b=ySXLEnBe072MD2S6rKYBWcadxPmtGjyXBCbL9orvoEVBEMz2sLUHKzMKPKfwSlglZG
+	sWoYqPT3LVFqrVUs1oCS6o7fG5y5nSAGGnWX8zpybi6ya578sPUxly5hBsBu2v4SKaAw
+	7FbPDXY2NxZWw3dKjxJsgroosTivuSnEVJDsYRl9AssywSiAHUVZdvMJGr8yH7jDrE13
+	67lv/U9DiCHKVNhFhfFF3TDdCpqneE+EhoCuGLPiUaGFpJXB4SrC3FXJQrTnBCexojB6
+	gsOjaTIxI4fvAvS9xRDo1eYhC0ZSL4ZuZTynpgZDj5CNoinQiBtNuywnhOjtHsMALC8V
+	/Qnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=f96DPnR6lMDos2lmqqCEkADSz8JeOtdTBNXap2GcsGM=;
+	b=FG3qT0kgnwND3+crUJSim6XGCf741JjImR+83wSvnJKPuckRjGnp7MzkOLkCEFCsmX
+	5aDmfswhL0Ux449/B4sK5OnwEZVW7s5WZeVkatNZTOLa5B5ADyoYpz07YNn59KxlQeae
+	2ebe1QNgj0+DoQ/yq8zIq0BeoGB9/BEA7+BWSl0tD3w1I0apuezYFgtV4G/N9EQkN3nV
+	XVN3Cwhd4Op8IwRoYWXldPNOTmzEEZ/DtqgMnAhuzLLHDpKxwZBmOikoT87k+ol0EJN9
+	JpXqHKjhH8P1ygvRFKx8Z17EqbYRIqwD1wemJHCWMxzgaCMia/GMAYzTP68TLjVdP03G
+	yRPA==
+X-Gm-Message-State: AEkoouuL732rbZA/tRYkdx5hJ+JkoChmmXltJgVk0H7OWsjuJgR52L4H5oL3/GiZrs7vVfHu
+X-Received: by 10.194.77.97 with SMTP id r1mr37253083wjw.83.1469734835878;
+	Thu, 28 Jul 2016 12:40:35 -0700 (PDT)
+Received: from localhost.localdomain (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	r67sm13712650wmb.14.2016.07.28.12.40.34
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1 cipher=AES128-SHA bits=128/128);
+	Thu, 28 Jul 2016 12:40:35 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Jul 2016 18:00:42 +0000
-Message-Id: <1469728842-20557-1-git-send-email-alejandro.hernandez@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-Subject: [PATCH v2] python-pexpect: Upgrade to 4.2.0
+Date: Thu, 28 Jul 2016 20:40:24 +0100
+Message-Id: <1469734824-3351-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.7.4 (Apple Git-66)
+Subject: [PATCH] cml1: fix tasks after default [dirs] changed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,88 +53,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jul 2016 18:04:32 -0000
+X-List-Received-Date: Thu, 28 Jul 2016 19:40:36 -0000
 
-LICENCE checksum changed, although license didnt change,
-it says PEXPECT license instead of ISC, but its still ISC.
+These tasks relied upon [dirs] being ${B} by default.  As the functions are not
+simple, add back [dirs] so they work again.
 
-Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+[ YOCTO #10027 ]
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../python/python-pexpect_4.1.0.bb                 | 28 ----------------------
- .../python/python-pexpect_4.2.0.bb                 | 28 ++++++++++++++++++++++
- 2 files changed, 28 insertions(+), 28 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python-pexpect_4.1.0.bb
- create mode 100644 meta/recipes-devtools/python/python-pexpect_4.2.0.bb
+ meta/classes/cml1.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python-pexpect_4.1.0.bb b/meta/recipes-devtools/python/python-pexpect_4.1.0.bb
-deleted file mode 100644
-index 10590e4..0000000
---- a/meta/recipes-devtools/python/python-pexpect_4.1.0.bb
-+++ /dev/null
-@@ -1,28 +0,0 @@
--SUMMARY = "A Pure Python Expect like Module for Python"
--HOMEPAGE = "http://pexpect.readthedocs.org/"
--SECTION = "devel/python"
--LICENSE = "ISC"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=66c2378a96b307d56bfb3a9e58edafa8"
--
--SRCNAME = "pexpect"
--
--SRC_URI = "https://files.pythonhosted.org/packages/source/p/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
--SRC_URI[md5sum] = "562a1a21f2a60b36dfd5d906dbf0943e"
--SRC_URI[sha256sum] = "c381c60f1987355b65df8f08a27f428831914c8a81091bd1778ac336fa2f27e7"
--
--UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/pexpect"
--
--S = "${WORKDIR}/pexpect-${PV}"
--
--inherit setuptools
--
--RDEPENDS_${PN} = "\
--    python-core \
--    python-io \
--    python-terminal \
--    python-resource \
--    python-fcntl \
--    python-ptyprocess \
--"
--
--BBCLASSEXTEND = "nativesdk"
-diff --git a/meta/recipes-devtools/python/python-pexpect_4.2.0.bb b/meta/recipes-devtools/python/python-pexpect_4.2.0.bb
-new file mode 100644
-index 0000000..82e0fa8
---- /dev/null
-+++ b/meta/recipes-devtools/python/python-pexpect_4.2.0.bb
-@@ -0,0 +1,28 @@
-+SUMMARY = "A Pure Python Expect like Module for Python"
-+HOMEPAGE = "http://pexpect.readthedocs.org/"
-+SECTION = "devel/python"
-+LICENSE = "ISC"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=1c7a725251880af8c6a148181665385b"
-+
-+SRCNAME = "pexpect"
-+
-+SRC_URI = "https://files.pythonhosted.org/packages/source/p/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
-+SRC_URI[md5sum] = "8071ec5df0f3d515daedafad672d1632"
-+SRC_URI[sha256sum] = "bf6816b8cc8d301a499e7adf338828b39bc7548eb64dbed4dd410ed93d95f853"
-+
-+UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/pexpect"
-+
-+S = "${WORKDIR}/pexpect-${PV}"
-+
-+inherit setuptools
-+
-+RDEPENDS_${PN} = "\
-+    python-core \
-+    python-io \
-+    python-terminal \
-+    python-resource \
-+    python-fcntl \
-+    python-ptyprocess \
-+"
-+
-+BBCLASSEXTEND = "nativesdk"
+diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
+index b5dc028..5834806 100644
+--- a/meta/classes/cml1.bbclass
++++ b/meta/classes/cml1.bbclass
+@@ -42,6 +42,7 @@ python do_menuconfig() {
+ }
+ do_menuconfig[depends] += "ncurses-native:do_populate_sysroot"
+ do_menuconfig[nostamp] = "1"
++do_menuconfig[dirs] = "${B}"
+ addtask menuconfig after do_configure
+ 
+ python do_diffconfig() {
+@@ -73,4 +74,5 @@ python do_diffconfig() {
+ }
+ 
+ do_diffconfig[nostamp] = "1"
++do_diffconfig[dirs] = "${B}"
+ addtask diffconfig
 -- 
-2.6.6
+2.7.4 (Apple Git-66)
 
 
