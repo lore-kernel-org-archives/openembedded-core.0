@@ -1,26 +1,28 @@
 Return-Path: <maxin.john@intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id BD9B66072C
+	by mail.openembedded.org (Postfix) with ESMTP id B5D226E5CB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jul 2016 14:05:22 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga104.fm.intel.com with ESMTP; 28 Jul 2016 07:05:23 -0700
+	Thu, 28 Jul 2016 14:05:33 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga104.fm.intel.com with ESMTP; 28 Jul 2016 07:05:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,434,1464678000"; d="scan'208";a="1004213942"
+X-IronPort-AV: E=Sophos;i="5.28,434,1464678000"; d="scan'208";a="1025571104"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga001.jf.intel.com with ESMTP; 28 Jul 2016 07:05:23 -0700
+	by orsmga002.jf.intel.com with ESMTP; 28 Jul 2016 07:05:34 -0700
 Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
 	[10.237.72.71])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 0FF2A6A4006;
-	Thu, 28 Jul 2016 07:05:10 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id 7CE016A4006;
+	Thu, 28 Jul 2016 07:05:22 -0700 (PDT)
 From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Jul 2016 17:04:30 +0300
-Message-Id: <1469714682-31488-1-git-send-email-maxin.john@intel.com>
+Date: Thu, 28 Jul 2016 17:04:36 +0300
+Message-Id: <1469714682-31488-7-git-send-email-maxin.john@intel.com>
 X-Mailer: git-send-email 2.4.0
-Subject: [krogoth] [PATCH 00/12] fix checkuri failures for krogoth
+In-Reply-To: <1469714682-31488-1-git-send-email-maxin.john@intel.com>
+References: <1469714682-31488-1-git-send-email-maxin.john@intel.com>
+Subject: [krogoth][PATCH 06/12] linuxdoc-tools: use snapshot.debian.org for SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,60 +35,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jul 2016 14:05:23 -0000
+X-List-Received-Date: Thu, 28 Jul 2016 14:05:33 -0000
 
-Recipes that use DEBIAN_MIRROR in SRC_URI are setting themselves up for failure
-as the Debian mirror network only stores active releases, so once a version we
-use isn't in oldstable/stable/testing/unstable then it will be removed.
+Using ${DEBIAN_MIRROR} for SRC_URI doesn't work very well as that will
+only contain releases that are currently in Debian. So, move all of SRC_URI
+to the .bb so it can use snapshot.debian.org instead, and set
+UPSTREAM_CHECK_URI to ${DEBIAN_MIRROR} so upstream release checking continues
+to work.
 
-The solution here is to use the snapshot.debian.org service for the SRC_URI,
-and set UPSTREAM_CHECK_URI to the relevant pool directory on DEBIAN_MIRRORS.
-This way we get a stable SRC_URI but still have new upstream release checking.
+[YOCTO #10040]
 
-Fixes:
- [YOCTO #10005]
- [YOCTO #10040]
-
-The following changes since commit  e67395419dcb1142ae6dd4348736a2720d2ebe9d:
-
-  nss: fix build for gcc-6 (2016-07-17 11:37:23 -0700)
-
-are available in the git repository at:
-
-    git://git.yoctoproject.org/poky-contrib maxin/krogoth-next
-    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=maxin/krogoth-next
-
-Maxin B. John (10):
-  apmd: use snapshot.debian.org for SRC_URI
-  ossp-uuid: use snapshot.debian.org for SRC_URI
-  serf: use snapshot.debian.org for SRC_URI
-  netbase: use snapshot.debian.org for SRC_URI
-  docbook-xml-dtd4: use snapshot.debian.org for SRC_URI
-  linuxdoc-tools: use snapshot.debian.org for SRC_URI
-  blktool: use snapshot.debian.org for SRC_URI
-  libaio: use snapshot.debian.org for SRC_URI
-  mailx: use snapshot.debian.org for SRC_URI
-  libproxy: use snapshot.debian.org for SRC_URI
-
-Tim Orling (2):
-  dpkg: use snapshot.debian.org for SRC_URI
-  at: use snapshot.debian.org for SRC_URI
-
- meta/recipes-bsp/apmd/apmd_3.2.2-15.bb                               | 3 ++-
- meta/recipes-core/netbase/netbase_5.3.bb                             | 3 ++-
- meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb            | 4 +++-
- meta/recipes-devtools/dpkg/dpkg.inc                                  | 4 ++--
- meta/recipes-devtools/dpkg/dpkg_1.18.4.bb                            | 5 +++--
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
  meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb | 3 ++-
- meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.bb                   | 3 ++-
- meta/recipes-extended/at/at_3.1.18.bb                                | 4 +++-
- meta/recipes-extended/blktool/blktool_4-7.bb                         | 3 ++-
- meta/recipes-extended/libaio/libaio_0.3.110.bb                       | 4 +++-
- meta/recipes-extended/mailx/mailx_12.5-5.bb                          | 3 ++-
- meta/recipes-support/libproxy/libproxy_0.4.11.bb                     | 4 +++-
- meta/recipes-support/serf/serf_1.3.8.bb                              | 4 +++-
- 13 files changed, 32 insertions(+), 15 deletions(-)
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
+diff --git a/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb b/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb
+index a8a90fc..a5deb2e 100644
+--- a/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb
++++ b/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb
+@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=077ef64ec3ac257fb0d786531cf26931"
+ 
+ DEPENDS = "groff-native openjade-native"
+ 
+-SRC_URI = "${DEBIAN_MIRROR}/main/l/linuxdoc-tools/linuxdoc-tools_${PV}.orig.tar.gz \
++SRC_URI = "http://snapshot.debian.org/archive/debian/20160728T043443Z/pool/main/l/${BPN}/${BPN}_${PV}.orig.tar.gz \
+            file://disable_sgml2rtf.patch \
+            file://disable_txt_doc.patch \
+            file://disable_tex_doc.patch \
+@@ -14,6 +14,7 @@ SRC_URI = "${DEBIAN_MIRROR}/main/l/linuxdoc-tools/linuxdoc-tools_${PV}.orig.tar.
+ SRC_URI[md5sum] = "1d13d500918a7a145b0edc2f16f61dd1"
+ SRC_URI[sha256sum] = "7103facee18a2ea97186ca459d743d22f7f89ad4b5cd1dfd1c34f83d6bfd4101"
+ 
++UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/l/linuxdoc-tools/"
+ inherit autotools-brokensep native
+ 
+ do_configure () {
 -- 
 2.4.0
 
