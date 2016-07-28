@@ -1,47 +1,49 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f53.google.com (mail-it0-f53.google.com
-	[209.85.214.53])
-	by mail.openembedded.org (Postfix) with ESMTP id E44D260721
+Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
+	[209.85.223.173])
+	by mail.openembedded.org (Postfix) with ESMTP id D27B76080F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jul 2016 09:43:00 +0000 (UTC)
-Received: by mail-it0-f53.google.com with SMTP id u186so163854154ita.0
+	Thu, 28 Jul 2016 09:43:10 +0000 (UTC)
+Received: by mail-io0-f173.google.com with SMTP id q83so94962164iod.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jul 2016 02:43:02 -0700 (PDT)
+	Thu, 28 Jul 2016 02:43:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=ojMl28pEgCcCgu7ii5ezjVng/sHuNU+1Dv3BkqrYfHk=;
-	b=VzOypkMMKUxI7HBEi2ZahxqnuC/vFFT3MCIKcgOJ5SkPbB8mlVhlubcTCTIsUtK0EB
-	7VVBKxUWEbdlBwOHERqLKITPI8SJLsRqCmyVCBQ6IzCwwMqtMVL9tnJXKr8DfkNoZCzQ
-	zNvp8yehe0i3PR6X3e7F+qefreAsEnWPptQAUhEeFJP6vb3aDyYCfZ9d4iHu0LRqPPPk
-	U6sVG3aCWLrIQ7GOsGkXYHL5Tdfj8CEqVQJKGzz6xqu/AfVNzjYVGe3XPmgVz70DnRyL
-	hnEvk08NOrPZXUIb2LW4PFDD8M+vzXbwn2ExQlRSPHbZWhO2xk3wiNBtsrku+N84MU7J
-	qo1A==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=3LfokzNj8XMagQcZ5YVWFMACh0hnw0D+007YzbmDvjQ=;
+	b=UHqY9yj1p3UBIMGZlYB2PhQN9j+GBP2HrYaY3fZ4mbGCW3KopJQgs0X1YpmDZnXTdc
+	eBzBKywzLeNuJagQHM0zwXmEfMCr4AqMxLgI7N0aGepF1gBa+IMXWw3ru0wstkWDTdH+
+	R4+fFjpwzmkfOQ0gvYOd4g/oZDtL8zSJAUQvMT8WVlY9SXGn8Mjvez/4GXp3azBjCHEP
+	ANeXswWEX7rwK/rT3abT9deLo3Gx5MVHW4BTDsriM7D/vl2JaweM1WvB7AuNqb9v4yQF
+	udIZCWRBtN5JtCZBY5xR4WRoCGadUBP4SE5Hx3CrjGmvsJoKC9cJkf2OLzAAa+3TmY/P
+	T2ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=ojMl28pEgCcCgu7ii5ezjVng/sHuNU+1Dv3BkqrYfHk=;
-	b=fJSM4U1LSiZeNcF6X7MWRN3X2a4ljLUOtw5YwDMnjBbmMYwarz7gcqRAZHsdTQte3X
-	FOJZ4gDrUgF7P+L06090ROrKiV/MQa5QBbTXFjdwByvI/AycMCBU7tWgYDvWCEvmExwB
-	auI7Xyllv6KEATyJAH+ekFaCquxAZuxExCBYhEhwghMgv5IbR/FsgeLXw/tjUjLGkRjd
-	DcME9YD/8OqPwwADSHl9AzEDi/Xn5gIFjcFja3KhMyPvublkbg7JCmMRchke4ZOUtAmr
-	Ik7yzQuZK1ObUtRjCRU/RZVjhDsogtu+9EuQlPuIIpoNxv3VThhYR3iVRQCPiFYADo2p
-	i4tA==
-X-Gm-Message-State: ALyK8tKRZQiRGC32HZu7uHFogbOiADBJhmVjpQBDc6bYl3o0wf8TeqrjSekzVuGdbJcZxs2t
-X-Received: by 10.36.26.194 with SMTP id 185mr110547854iti.28.1469698981644;
-	Thu, 28 Jul 2016 02:43:01 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=3LfokzNj8XMagQcZ5YVWFMACh0hnw0D+007YzbmDvjQ=;
+	b=mD3lISI2vMq4mq18WY+6Uvs4c7Oy3npVbJOFA6SiMKjXeBBkDMuQeS77LhMG5RrRoR
+	n2mRLoMFSIl05icmQ8g6wPKLXse07uDtWnVa64iQ9iK+oA7CHpmx6WSYxb7TcgMuRsO+
+	xgm6E5inejQrp2TmuVdeDOLBGskZ6ATvmVrHdBZbo0p4xeJ9sS23XD5FiKD/gUnbzcxD
+	/FmmL4xUCfLWCGb94scvk3knxrSM9QVlt/EIaamktYyg+Mar4jgKPwAXxEosOrFN1Wo5
+	KKy6Gme0o6Wstf1DCL9lw1UjD8PQEZlNr2zOeAnuwCkgLeNr+jEdGknFyZpL31MvfBXo
+	3p9Q==
+X-Gm-Message-State: AEkoousY5uxfucrg6wTAIzJFY/jTR6FkZi9Do9zDsJ9/uTr73D4VTP01lsOrlbh+e1Gz6MIV
+X-Received: by 10.107.47.152 with SMTP id v24mr37331504iov.154.1469698990973; 
+	Thu, 28 Jul 2016 02:43:10 -0700 (PDT)
 Received: from pohly-desktop.fritz.box (p5DE8C97F.dip0.t-ipconnect.de.
 	[93.232.201.127]) by smtp.gmail.com with ESMTPSA id
-	a65sm4617642itd.18.2016.07.28.02.42.59
+	n190sm4625562ion.42.2016.07.28.02.43.09
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 28 Jul 2016 02:43:00 -0700 (PDT)
+	Thu, 28 Jul 2016 02:43:10 -0700 (PDT)
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Jul 2016 11:42:51 +0200
-Message-Id: <cover.1469697989.git.patrick.ohly@intel.com>
+Date: Thu, 28 Jul 2016 11:43:02 +0200
+Message-Id: <59d8aa02834a80f62cb13e0437a5ee167570bbd4.1469697989.git.patrick.ohly@intel.com>
 X-Mailer: git-send-email 2.1.4
-Cc: Dmitry Rozhkov <dmitry.rozhkov@intel.com>
-Subject: [PATCH 0/1] static IDs bugs and usability
+In-Reply-To: <cover.1469697989.git.patrick.ohly@intel.com>
+References: <cover.1469697989.git.patrick.ohly@intel.com>
+Subject: [PATCH 1/1] useradd-staticids.bbclass: trigger reparsing when table files change
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,60 +56,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jul 2016 09:43:02 -0000
+X-List-Received-Date: Thu, 28 Jul 2016 09:43:12 -0000
 
-In Ostro OS we just started to use useradd-staticids.bbclass. Dynamic
-IDs are an error (USERADD_ERROR_DYNAMIC = "error") by default because
-warnings probably wouldn't be noticed. I was a bit reluctant to make
-this change because Ostro OS is supposed to be customizable, and that
-becomes harder when developers also have to define IDs.
+This addresses (among others) the following problem:
+- USERADD_ERROR_DYNAMIC=error causes a recipe to get skipped
+  because a static ID entry is missing
+- the entry gets added to the file
+- using the recipe still fails with the same error as before
+  because the recipe gets loaded from the cache instead
+  of re-parsing it with the new table content
 
-But we didn't have a choice because after updating to recent OE-core,
-our dynamically assigned IDs started to change randomly between
-builds, which (as we learned only because of that change) broke the
-swupd update mechanism. Personally I suspect that Python3's
-randomization feature is responsible for not getting deterministic
-results anymore, but I haven't investigated further.
-
-useradd-staticids.bbclass has a bug which impacts developers when they
-edit the table files to fix a warning or error raised by the class:
-the cached version of the affected recipe continues to be used and thus
-editing the files has no effect. Patch fixing that follows.
-
-There's also a caveat associated with how USERADD_ERROR_DYNAMIC = "error"
-is implemented: it marks recipes as "skipped" with an error messages
-from useradd-staticids.bbclass. This is not particularly developer-friendly.
-
-For example, when the skipped recipe is deep down in the dependency
-chain, then building will fail with rather difficult to understand
-"nothing provides..." messages. It does mention eventually that a
-recipe was skipped with the right error, so the information is at
-least there.
-
-However, it's also possible that a recipe exists in two versions, and
-only the one normally picked as default gets skipped. In that case,
-the remaining version will get build, i.e. useradd-staticids.bbclass
-has the very undesirable effect of silently building something else
-than expected instead of aborting the build because of the error.
-
-I've not seen that in practice, though, so I don't know how big of a
-problem it is.
-
-The following changes since commit b32d430c3c7dccf3a8d06ab492d648893a05950f:
-
-  dpkg: use snapshot.debian.org for SRC_URI (2016-07-26 08:56:08 +0100)
-
-are available in the git repository at:
-
-  git://github.com/pohly/openembedded-core static-ids
-  https://github.com/pohly/openembedded-core/tree/static-ids
-
-Patrick Ohly (1):
-  useradd-staticids.bbclass: trigger reparsing when table files change
-
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+---
  meta/classes/useradd-staticids.bbclass | 13 +++++++++++++
  1 file changed, 13 insertions(+)
 
+diff --git a/meta/classes/useradd-staticids.bbclass b/meta/classes/useradd-staticids.bbclass
+index 149245b..46d4a4b 100644
+--- a/meta/classes/useradd-staticids.bbclass
++++ b/meta/classes/useradd-staticids.bbclass
+@@ -285,6 +285,19 @@ def update_useradd_static_config(d):
+ 
+         return ";".join(newparams).strip()
+ 
++    # The parsing of the current recipe depends on the content of
++    # the files listed in USERADD_UID/GID_TABLES. We need to tell bitbake
++    # about that explicitly to trigger re-parsing and thus re-execution of
++    # this code when the files change.
++    bbpath = d.getVar('BBPATH', True)
++    for varname, default in (('USERADD_UID_TABLES', 'files/passwd'),
++                             ('USERADD_GID_TABLES', 'files/group')):
++        tables = d.getVar(varname, True)
++        if not tables:
++            tables = default
++        for conf_file in tables.split():
++            bb.parse.mark_dependency(d, bb.utils.which(bbpath, conf_file))
++
+     # Load and process the users and groups, rewriting the adduser/addgroup params
+     useradd_packages = d.getVar('USERADD_PACKAGES', True)
+ 
 -- 
 2.1.4
 
