@@ -1,44 +1,33 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
-	[209.85.223.178])
-	by mail.openembedded.org (Postfix) with ESMTP id BD4EC6072C
+Return-Path: <maxin.john@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 72AD66072C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jul 2016 14:39:13 +0000 (UTC)
-Received: by mail-io0-f178.google.com with SMTP id q83so101779546iod.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jul 2016 07:39:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=DNr+Rajmq2sVZyHJTxRu0CPKLPwCdVe+2Zv28r0aGhk=;
-	b=i74DqPOBooxQs/80VRk072Tw8gpH7hksKV2cyV65ZLEaLRQ9S2bAJB6hNAoP9mzX7H
-	3cXh5j/XhUzxb3kHWrSOK53m+ESHOrxGu+zCV6CqWYChwC9ORdPuepn+fw66LFIY8rZM
-	Tg3ZupJWb8cG7i7Kwnl72Zwovv8nF1iwCNInA/uFWoUqpk5cvtg3jqDSd2LVbvSWJ2i8
-	gOaWnizaXNJsXWOx9ahQO1mXGW61+WlRsGwBffdbq7GUdYYWX2vS7ZYTZ0yis4igo2TM
-	NMcUa7K6TpywuegasAV5C0UTE947aZzCqPrVcFSrkOZcBBihxQ7dgSXOKal0MtrZC5TD
-	NNAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=DNr+Rajmq2sVZyHJTxRu0CPKLPwCdVe+2Zv28r0aGhk=;
-	b=Vioab5OBoGHTdHUMVT2XeGOU0pNufN1jA/62wrqyM2wkpkjSI3izMolq592BXacaLt
-	k0G6/4Wn5oONSFUTIX6LrsbYWMO3LbgQi+11KcJONGDB0XvC/Xw5NhQCQsQBF1kkJRSu
-	LnrRsorS0fh/kNudfv10iyEaTal5DtPqig7/9klUXQj5pTjW4mhMVJ/QEXwjakltoLtf
-	8L0zZCoza3wJvpr8Rgy4mLIV22o7eMnp+xV2rANVnvS/rfIoERSbAw6G50h4Y4Hae5Ja
-	WsU7T74F3FmwhfQrdLi065P64A5adV8RKkrZ2t8eICnIDPXcRr2vDtlO5wJs5LZA60el
-	vlAg==
-X-Gm-Message-State: AEkooutFtQ5dAMJkkjnpG+NU2wbf/A27P9AfwCz9H3O+N2jdUozR6asZEiuQ1k6zLz3poV5Nm7bcMwBR453rTzZX
-X-Received: by 10.107.154.196 with SMTP id c187mr37040614ioe.99.1469716753963; 
-	Thu, 28 Jul 2016 07:39:13 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Thu, 28 Jul 2016 07:38:54 -0700 (PDT)
-In-Reply-To: <1469714682-31488-1-git-send-email-maxin.john@intel.com>
+	Thu, 28 Jul 2016 14:52:16 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 28 Jul 2016 07:52:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,434,1464678000"; 
+	d="scan'208,217";a="1030863025"
+Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
+	by fmsmga002.fm.intel.com with ESMTP; 28 Jul 2016 07:52:16 -0700
+Received: from irsmsx103.ger.corp.intel.com ([169.254.3.204]) by
+	IRSMSX102.ger.corp.intel.com ([169.254.2.123]) with mapi id
+	14.03.0248.002; Thu, 28 Jul 2016 15:52:15 +0100
+From: "John, Maxin" <maxin.john@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [krogoth] [PATCH 00/12] fix checkuri failures for
+	krogoth
+Thread-Index: AQHR6NlpdJF/u5hCuEOB0/1l5dminaAt2REAgAAUIEA=
+Date: Thu, 28 Jul 2016 14:52:14 +0000
+Message-ID: <61C0517EAD808B429A1DE2DD9164D40036B347@IRSMSX103.ger.corp.intel.com>
 References: <1469714682-31488-1-git-send-email-maxin.john@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 28 Jul 2016 15:38:54 +0100
-Message-ID: <CAJTo0LYu47+WLP0TXBsiVsm+orsqo_3wS0+7F2fs1suP+-jC9g@mail.gmail.com>
-To: "Maxin B. John" <maxin.john@intel.com>
+	<CAJTo0LYu47+WLP0TXBsiVsm+orsqo_3wS0+7F2fs1suP+-jC9g@mail.gmail.com>
+In-Reply-To: <CAJTo0LYu47+WLP0TXBsiVsm+orsqo_3wS0+7F2fs1suP+-jC9g@mail.gmail.com>
+Accept-Language: fi-FI, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.181]
+MIME-Version: 1.0
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [krogoth] [PATCH 00/12] fix checkuri failures for krogoth
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -53,56 +42,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jul 2016 14:39:17 -0000
-Content-Type: multipart/alternative; boundary=001a1140e81e0a80aa0538b319c4
+X-List-Received-Date: Thu, 28 Jul 2016 14:52:17 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_61C0517EAD808B429A1DE2DD9164D40036B347IRSMSX103gercorpi_"
 
---001a1140e81e0a80aa0538b319c4
-Content-Type: text/plain; charset=UTF-8
+--_000_61C0517EAD808B429A1DE2DD9164D40036B347IRSMSX103gercorpi_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 28 July 2016 at 15:04, Maxin B. John <maxin.john@intel.com> wrote:
+SGkgUm9zcywNCg0KOSBvdXQgb2YgdGhvc2UgMTIgcGF0Y2hlcyBhcHBsaWVzIHRvIG1hc3Rlci4g
+SSBoYXZlIHB1c2hlZCB0aG9zZSBoZXJlOg0KaHR0cDovL2dpdC55b2N0b3Byb2plY3Qub3JnL2Nn
+aXQvY2dpdC5jZ2kvcG9reS1jb250cmliL2xvZy8/aD1tYXhpbi8xMDA0MA0KDQpXaWxsIHVwZGF0
+ZSBhbmQgcHVzaCB0aGUgb3RoZXIgcGF0Y2hlcyBzb29uLg0KDQpCZXN0IHJlZ2FyZHMsDQpNYXhp
+bg0KDQpGcm9tOiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQpT
+ZW50OiBUaHVyc2RheSwgSnVseSAyOCwgMjAxNiA1OjM5IFBNDQpUbzogSm9obiwgTWF4aW4gPG1h
+eGluLmpvaG5AaW50ZWwuY29tPg0KQ2M6IE9FLWNvcmUgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3Rz
+Lm9wZW5lbWJlZGRlZC5vcmc+DQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtrcm9nb3RoXSBbUEFU
+Q0ggMDAvMTJdIGZpeCBjaGVja3VyaSBmYWlsdXJlcyBmb3Iga3JvZ290aA0KDQoNCk9uIDI4IEp1
+bHkgMjAxNiBhdCAxNTowNCwgTWF4aW4gQi4gSm9obiA8bWF4aW4uam9obkBpbnRlbC5jb208bWFp
+bHRvOm1heGluLmpvaG5AaW50ZWwuY29tPj4gd3JvdGU6DQpSZWNpcGVzIHRoYXQgdXNlIERFQklB
+Tl9NSVJST1IgaW4gU1JDX1VSSSBhcmUgc2V0dGluZyB0aGVtc2VsdmVzIHVwIGZvciBmYWlsdXJl
+DQphcyB0aGUgRGViaWFuIG1pcnJvciBuZXR3b3JrIG9ubHkgc3RvcmVzIGFjdGl2ZSByZWxlYXNl
+cywgc28gb25jZSBhIHZlcnNpb24gd2UNCnVzZSBpc24ndCBpbiBvbGRzdGFibGUvc3RhYmxlL3Rl
+c3RpbmcvdW5zdGFibGUgdGhlbiBpdCB3aWxsIGJlIHJlbW92ZWQuDQoNClRoZSBzb2x1dGlvbiBo
+ZXJlIGlzIHRvIHVzZSB0aGUgc25hcHNob3QuZGViaWFuLm9yZzxodHRwOi8vc25hcHNob3QuZGVi
+aWFuLm9yZz4gc2VydmljZSBmb3IgdGhlIFNSQ19VUkksDQphbmQgc2V0IFVQU1RSRUFNX0NIRUNL
+X1VSSSB0byB0aGUgcmVsZXZhbnQgcG9vbCBkaXJlY3Rvcnkgb24gREVCSUFOX01JUlJPUlMuDQpU
+aGlzIHdheSB3ZSBnZXQgYSBzdGFibGUgU1JDX1VSSSBidXQgc3RpbGwgaGF2ZSBuZXcgdXBzdHJl
+YW0gcmVsZWFzZSBjaGVja2luZy4NCg0KV2lsbCB0aGVzZSBhbGwgYXBwbHkgdG8gbWFzdGVyIHRv
+bz8NCg0KUm9zcw0K
 
-> Recipes that use DEBIAN_MIRROR in SRC_URI are setting themselves up for
-> failure
-> as the Debian mirror network only stores active releases, so once a
-> version we
-> use isn't in oldstable/stable/testing/unstable then it will be removed.
->
-> The solution here is to use the snapshot.debian.org service for the
-> SRC_URI,
-> and set UPSTREAM_CHECK_URI to the relevant pool directory on
-> DEBIAN_MIRRORS.
-> This way we get a stable SRC_URI but still have new upstream release
-> checking.
->
+--_000_61C0517EAD808B429A1DE2DD9164D40036B347IRSMSX103gercorpi_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Will these all apply to master too?
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
+IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
+Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
+DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
+b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
+Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
+dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxNw0K
+CXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIs
+c2Fucy1zZXJpZjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHls
+ZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30N
+CkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjYxMi4wcHQgNzkyLjBwdDsNCgltYXJnaW46NzIu
+MHB0IDcyLjBwdCA3Mi4wcHQgNzIuMHB0O30NCmRpdi5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3Jk
+U2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBl
+ZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9IjEwMjYiIC8+DQo8L3htbD48IVtlbmRpZl0t
+LT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlbGF5b3V0IHY6ZXh0PSJlZGl0Ij4N
+CjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIxIiAvPg0KPC9vOnNoYXBlbGF5b3V0PjwveG1s
+PjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJvZHkgbGFuZz0iRU4tVVMiIGxpbms9ImJsdWUiIHZs
+aW5rPSJwdXJwbGUiPg0KPGRpdiBjbGFzcz0iV29yZFNlY3Rpb24xIj4NCjxwIGNsYXNzPSJNc29O
+b3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0Nh
+bGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj5IaSBSb3NzLDxvOnA+PC9vOnA+
+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6
+MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjoj
+MUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
+Ij48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJp
+JnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+OSBvdXQgb2YgdGhvc2UgMTIgcGF0Y2hl
+cyBhcHBsaWVzIHRvIG1hc3Rlci4gSSBoYXZlIHB1c2hlZCB0aG9zZSBoZXJlOjxicj4NCjxhIGhy
+ZWY9Imh0dHA6Ly9naXQueW9jdG9wcm9qZWN0Lm9yZy9jZ2l0L2NnaXQuY2dpL3Bva3ktY29udHJp
+Yi9sb2cvP2g9bWF4aW4vMTAwNDAiPmh0dHA6Ly9naXQueW9jdG9wcm9qZWN0Lm9yZy9jZ2l0L2Nn
+aXQuY2dpL3Bva3ktY29udHJpYi9sb2cvP2g9bWF4aW4vMTAwNDA8L2E+PGJyPg0KPGJyPg0KPG86
+cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZv
+bnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlm
+O2NvbG9yOiMxRjQ5N0QiPldpbGwgdXBkYXRlIGFuZCBwdXNoIHRoZSBvdGhlciBwYXRjaGVzIHNv
+b24uPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5
+bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5z
+LXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxicj4NCkJlc3QgcmVnYXJkcyw8YnI+DQpNYXhpbjxvOnA+
+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxhIG5hbWU9Il9NYWlsRW5k
+Q29tcG9zZSI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7
+Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+
+PC9zcGFuPjwvYT48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBzdHlsZT0iZm9u
+dC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYi
+PkZyb206PC9zcGFuPjwvYj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWls
+eTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPiBCdXJ0b24sIFJvc3MgW21haWx0bzpy
+b3NzLmJ1cnRvbkBpbnRlbC5jb21dDQo8YnI+DQo8Yj5TZW50OjwvYj4gVGh1cnNkYXksIEp1bHkg
+MjgsIDIwMTYgNTozOSBQTTxicj4NCjxiPlRvOjwvYj4gSm9obiwgTWF4aW4gJmx0O21heGluLmpv
+aG5AaW50ZWwuY29tJmd0Ozxicj4NCjxiPkNjOjwvYj4gT0UtY29yZSAmbHQ7b3BlbmVtYmVkZGVk
+LWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyZndDs8YnI+DQo8Yj5TdWJqZWN0OjwvYj4gUmU6
+IFtPRS1jb3JlXSBba3JvZ290aF0gW1BBVENIIDAwLzEyXSBmaXggY2hlY2t1cmkgZmFpbHVyZXMg
+Zm9yIGtyb2dvdGg8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
+bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+T24gMjgg
+SnVseSAyMDE2IGF0IDE1OjA0LCBNYXhpbiBCLiBKb2huICZsdDs8YSBocmVmPSJtYWlsdG86bWF4
+aW4uam9obkBpbnRlbC5jb20iIHRhcmdldD0iX2JsYW5rIj5tYXhpbi5qb2huQGludGVsLmNvbTwv
+YT4mZ3Q7IHdyb3RlOjxvOnA+PC9vOnA+PC9wPg0KPGJsb2NrcXVvdGUgc3R5bGU9ImJvcmRlcjpu
+b25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7cGFkZGluZzowY20gMGNtIDBjbSA2
+LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmlnaHQ6MGNtIj4NCjxkaXYgaWQ9IjoyZjUi
+Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+UmVjaXBlcyB0aGF0IHVzZSBERUJJQU5fTUlSUk9SIGlu
+IFNSQ19VUkkgYXJlIHNldHRpbmcgdGhlbXNlbHZlcyB1cCBmb3IgZmFpbHVyZTxicj4NCmFzIHRo
+ZSBEZWJpYW4gbWlycm9yIG5ldHdvcmsgb25seSBzdG9yZXMgYWN0aXZlIHJlbGVhc2VzLCBzbyBv
+bmNlIGEgdmVyc2lvbiB3ZTxicj4NCnVzZSBpc24ndCBpbiBvbGRzdGFibGUvc3RhYmxlL3Rlc3Rp
+bmcvdW5zdGFibGUgdGhlbiBpdCB3aWxsIGJlIHJlbW92ZWQuPGJyPg0KPGJyPg0KVGhlIHNvbHV0
+aW9uIGhlcmUgaXMgdG8gdXNlIHRoZSA8YSBocmVmPSJodHRwOi8vc25hcHNob3QuZGViaWFuLm9y
+ZyIgdGFyZ2V0PSJfYmxhbmsiPg0Kc25hcHNob3QuZGViaWFuLm9yZzwvYT4gc2VydmljZSBmb3Ig
+dGhlIFNSQ19VUkksPGJyPg0KYW5kIHNldCBVUFNUUkVBTV9DSEVDS19VUkkgdG8gdGhlIHJlbGV2
+YW50IHBvb2wgZGlyZWN0b3J5IG9uIERFQklBTl9NSVJST1JTLjxicj4NClRoaXMgd2F5IHdlIGdl
+dCBhIHN0YWJsZSBTUkNfVVJJIGJ1dCBzdGlsbCBoYXZlIG5ldyB1cHN0cmVhbSByZWxlYXNlIGNo
+ZWNraW5nLjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Jsb2NrcXVvdGU+DQo8L2Rpdj4NCjxw
+IGNsYXNzPSJNc29Ob3JtYWwiPjxicj4NCldpbGwgdGhlc2UgYWxsIGFwcGx5IHRvIG1hc3RlciB0
+b28/PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
+bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
+PlJvc3M8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwv
+aHRtbD4NCg==
 
-Ross
-
---001a1140e81e0a80aa0538b319c4
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 28 July 2016 at 15:04, Maxin B. John <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:maxin.john@intel.com" target=3D"_blank">maxin.john@intel.com</a>&gt;</=
-span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
-x;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2f5" class=3D"a3=
-s aXjCH m15631d6668b51e0f">Recipes that use DEBIAN_MIRROR in SRC_URI are se=
-tting themselves up for failure<br>
-as the Debian mirror network only stores active releases, so once a version=
- we<br>
-use isn&#39;t in oldstable/stable/testing/unstable then it will be removed.=
-<br>
-<br>
-The solution here is to use the <a href=3D"http://snapshot.debian.org" rel=
-=3D"noreferrer" target=3D"_blank">snapshot.debian.org</a> service for the S=
-RC_URI,<br>
-and set UPSTREAM_CHECK_URI to the relevant pool directory on DEBIAN_MIRRORS=
-.<br>
-This way we get a stable SRC_URI but still have new upstream release checki=
-ng.<br></div></blockquote></div><br>Will these all apply to master too?</di=
-v><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div=
-></div>
-
---001a1140e81e0a80aa0538b319c4--
+--_000_61C0517EAD808B429A1DE2DD9164D40036B347IRSMSX103gercorpi_--
