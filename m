@@ -1,21 +1,21 @@
 Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 12EC46072C
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B3BC6072C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jul 2016 18:04:17 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP; 28 Jul 2016 11:03:38 -0700
+	Thu, 28 Jul 2016 18:04:31 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP; 28 Jul 2016 11:03:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,434,1464678000"; d="scan'208";a="1004392061"
+X-IronPort-AV: E=Sophos;i="5.28,434,1464678000"; d="scan'208";a="1015698489"
 Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.jf.intel.com)
 	([10.54.69.56])
-	by orsmga001.jf.intel.com with ESMTP; 28 Jul 2016 11:03:35 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 28 Jul 2016 11:03:28 -0700
 From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Jul 2016 18:00:51 +0000
-Message-Id: <1469728851-20606-1-git-send-email-alejandro.hernandez@linux.intel.com>
+Date: Thu, 28 Jul 2016 18:00:42 +0000
+Message-Id: <1469728842-20557-1-git-send-email-alejandro.hernandez@linux.intel.com>
 X-Mailer: git-send-email 2.6.6
-Subject: [PATCH v3] python-setuptools: Upgrade to v 25.1.0
+Subject: [PATCH v2] python-pexpect: Upgrade to 4.2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,130 +28,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jul 2016 18:04:18 -0000
+X-List-Received-Date: Thu, 28 Jul 2016 18:04:32 -0000
 
-LICENCE checksum did not change, it is emebedded on the setup.py file,
-this file changed, so the line number where we get the checksum changed.
+LICENCE checksum changed, although license didnt change,
+it says PEXPECT license instead of ISC, but its still ISC.
 
 Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 ---
- meta/recipes-devtools/python/python-setuptools.inc |  6 ++--
- .../python/python-setuptools_22.0.5.bb             | 38 ----------------------
- .../python/python-setuptools_25.1.0.bb             | 38 ++++++++++++++++++++++
- 3 files changed, 41 insertions(+), 41 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python-setuptools_22.0.5.bb
- create mode 100644 meta/recipes-devtools/python/python-setuptools_25.1.0.bb
+ .../python/python-pexpect_4.1.0.bb                 | 28 ----------------------
+ .../python/python-pexpect_4.2.0.bb                 | 28 ++++++++++++++++++++++
+ 2 files changed, 28 insertions(+), 28 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python-pexpect_4.1.0.bb
+ create mode 100644 meta/recipes-devtools/python/python-pexpect_4.2.0.bb
 
-diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
-index 53a514b..f435e68 100644
---- a/meta/recipes-devtools/python/python-setuptools.inc
-+++ b/meta/recipes-devtools/python/python-setuptools.inc
-@@ -3,14 +3,14 @@ HOMEPAGE = "https://pypi.python.org/pypi/setuptools"
- SECTION = "devel/python"
- LICENSE = "MIT"
- 
--LIC_FILES_CHKSUM = "file://setup.py;beginline=134;endline=134;md5=3e8df024d6c1442d18e84acf8fbbc475"
-+LIC_FILES_CHKSUM = "file://setup.py;beginline=155;endline=155;md5=3e8df024d6c1442d18e84acf8fbbc475"
- 
- SRCNAME = "setuptools"
- 
- SRC_URI = "https://files.pythonhosted.org/packages/source/s/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
- 
--SRC_URI[md5sum] = "869f3029dcc66a64ba39875e2a2f044a"
--SRC_URI[sha256sum] = "19aad19471052d5daefe96f2c1fa2e88dcdb17488bf8708d7e6356881ea833cb"
-+SRC_URI[md5sum] = "a4814dead37e74a86883c66f7d420d73"
-+SRC_URI[sha256sum] = "6a0f8111feb5a3438c6309cda49810a16d23e73c173331281edc37dd1374d1d5"
- 
- UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/setuptools"
- 
-diff --git a/meta/recipes-devtools/python/python-setuptools_22.0.5.bb b/meta/recipes-devtools/python/python-setuptools_22.0.5.bb
+diff --git a/meta/recipes-devtools/python/python-pexpect_4.1.0.bb b/meta/recipes-devtools/python/python-pexpect_4.1.0.bb
 deleted file mode 100644
-index c172039..0000000
---- a/meta/recipes-devtools/python/python-setuptools_22.0.5.bb
+index 10590e4..0000000
+--- a/meta/recipes-devtools/python/python-pexpect_4.1.0.bb
 +++ /dev/null
-@@ -1,38 +0,0 @@
--require python-setuptools.inc
+@@ -1,28 +0,0 @@
+-SUMMARY = "A Pure Python Expect like Module for Python"
+-HOMEPAGE = "http://pexpect.readthedocs.org/"
+-SECTION = "devel/python"
+-LICENSE = "ISC"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=66c2378a96b307d56bfb3a9e58edafa8"
 -
--PROVIDES = "python-distribute"
+-SRCNAME = "pexpect"
 -
--DEPENDS += "python"
--DEPENDS_class-native += "python-native"
+-SRC_URI = "https://files.pythonhosted.org/packages/source/p/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
+-SRC_URI[md5sum] = "562a1a21f2a60b36dfd5d906dbf0943e"
+-SRC_URI[sha256sum] = "c381c60f1987355b65df8f08a27f428831914c8a81091bd1778ac336fa2f27e7"
 -
--inherit distutils
+-UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/pexpect"
 -
--DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${libdir}/${PYTHON_DIR}/site-packages"
+-S = "${WORKDIR}/pexpect-${PV}"
+-
+-inherit setuptools
 -
 -RDEPENDS_${PN} = "\
--  python-stringold \
--  python-email \
--  python-shell \
--  python-distutils \
--  python-compression \
--  python-pkgutil \
--  python-plistlib \
--  python-numbers \
--  python-html \
--  python-netserver \
--  python-ctypes \
--  python-subprocess \
--  python-unittest \
--  python-compile \
+-    python-core \
+-    python-io \
+-    python-terminal \
+-    python-resource \
+-    python-fcntl \
+-    python-ptyprocess \
 -"
 -
--RDEPENDS_${PN}_class-native = "\
--  python-distutils \
--  python-compression \
--"
--
--RREPLACES_${PN} = "python-distribute"
--RPROVIDES_${PN} = "python-distribute"
--RCONFLICTS_${PN} = "python-distribute"
--
--BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python-setuptools_25.1.0.bb b/meta/recipes-devtools/python/python-setuptools_25.1.0.bb
+-BBCLASSEXTEND = "nativesdk"
+diff --git a/meta/recipes-devtools/python/python-pexpect_4.2.0.bb b/meta/recipes-devtools/python/python-pexpect_4.2.0.bb
 new file mode 100644
-index 0000000..c172039
+index 0000000..82e0fa8
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python-setuptools_25.1.0.bb
-@@ -0,0 +1,38 @@
-+require python-setuptools.inc
++++ b/meta/recipes-devtools/python/python-pexpect_4.2.0.bb
+@@ -0,0 +1,28 @@
++SUMMARY = "A Pure Python Expect like Module for Python"
++HOMEPAGE = "http://pexpect.readthedocs.org/"
++SECTION = "devel/python"
++LICENSE = "ISC"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=1c7a725251880af8c6a148181665385b"
 +
-+PROVIDES = "python-distribute"
++SRCNAME = "pexpect"
 +
-+DEPENDS += "python"
-+DEPENDS_class-native += "python-native"
++SRC_URI = "https://files.pythonhosted.org/packages/source/p/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
++SRC_URI[md5sum] = "8071ec5df0f3d515daedafad672d1632"
++SRC_URI[sha256sum] = "bf6816b8cc8d301a499e7adf338828b39bc7548eb64dbed4dd410ed93d95f853"
 +
-+inherit distutils
++UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/pexpect"
 +
-+DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${libdir}/${PYTHON_DIR}/site-packages"
++S = "${WORKDIR}/pexpect-${PV}"
++
++inherit setuptools
 +
 +RDEPENDS_${PN} = "\
-+  python-stringold \
-+  python-email \
-+  python-shell \
-+  python-distutils \
-+  python-compression \
-+  python-pkgutil \
-+  python-plistlib \
-+  python-numbers \
-+  python-html \
-+  python-netserver \
-+  python-ctypes \
-+  python-subprocess \
-+  python-unittest \
-+  python-compile \
++    python-core \
++    python-io \
++    python-terminal \
++    python-resource \
++    python-fcntl \
++    python-ptyprocess \
 +"
 +
-+RDEPENDS_${PN}_class-native = "\
-+  python-distutils \
-+  python-compression \
-+"
-+
-+RREPLACES_${PN} = "python-distribute"
-+RPROVIDES_${PN} = "python-distribute"
-+RCONFLICTS_${PN} = "python-distribute"
-+
-+BBCLASSEXTEND = "native nativesdk"
++BBCLASSEXTEND = "nativesdk"
 -- 
 2.6.6
 
