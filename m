@@ -1,55 +1,26 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
-	[209.85.220.196])
-	by mail.openembedded.org (Postfix) with ESMTP id E28876072C
+Return-Path: <maxin.john@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id BD9B66072C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jul 2016 13:56:21 +0000 (UTC)
-Received: by mail-qk0-f196.google.com with SMTP id q8so4893922qke.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jul 2016 06:56:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=tzkaqXYUD4b+kMRZouYJZ6AAhlw+tbFmXRrJqTyPqCc=;
-	b=Wc/vWEpsu0IZ/Lur6REKYWOwqB+fGNibswbBvNHJI9ZihjCCrlPFIo4TXaORzc0Kly
-	W/VY6R7Muy14SRHdqBAunRZwZvDRDWpZa3skkEbv/vDCiiYKlcVLjPbSuXSYHhQ5T68j
-	SMqb9G1qBd6hi2iLE2aSRIQIbHDFpoNRrz27NDosjMLVGolHjF/lPqgDI5dOc/r78xTF
-	URPyAIeU7U90q3fDUWktLgxCHnXi+d1TSgWcmGae1OAE1Kot+h05z4LCcr851eI6BKti
-	/QryTXVWjT/JeNmMFKA07D04a9DfKdVjAdA8kSg7HSoR9uSrg0gLo7yq5VrzbOAZCiZr
-	p+bA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=tzkaqXYUD4b+kMRZouYJZ6AAhlw+tbFmXRrJqTyPqCc=;
-	b=M++RCX2fJygV3iflx2cuJBNigDgnu9MgeJ9AlKZ4m6Q1X8Lcl+F/zENBM/quDVyNqA
-	c2oDJe5UzP4ntyoBN8lqYLe8Mc8cBhYj6tb9RX1eJpF6h5Youfz85ketkGFnFwW0AFs9
-	spvzAEu3o2qe4DCf1x2weV45IPkkDEtaylcuvWKAaWo7cymSNhzYh38kskrzVPLb0ksg
-	ZVN9NDIFEmJ2FfRq8GULbszjN9oJCAVfrQhADQtfoBcqwDVMh1Yz03d5M2Hv6sObR26S
-	Uwd38SLCc9CNi2caImokmCpwv3iLGL42T8Ur+1/qsKvVwETJRHlCuYAiE4Ap0udJFy6X
-	shnA==
-X-Gm-Message-State: AEkoous1C+xFTbdeJ5hyiRHNE6lmUew0pwUs2Xl9Mf8p/7bHHVVsdJL0hpKIVPKjhq9dwzhHwnfYUUSX8e3EEQ==
-X-Received: by 10.55.39.142 with SMTP id n136mr44981236qkn.149.1469714181887; 
-	Thu, 28 Jul 2016 06:56:21 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.55.214.83 with HTTP; Thu, 28 Jul 2016 06:55:52 -0700 (PDT)
-In-Reply-To: <1469693736.6948.5.camel@ts.fujitsu.com>
-References: <1469194596.6594.13.camel@ts.fujitsu.com>
-	<CAMKF1srBan-tupS7qGb3kDnAn-2-u8dox3vFk5ssGwQLzeGaHw@mail.gmail.com>
-	<1469455403.6896.29.camel@ts.fujitsu.com>
-	<CAMKF1soyDLFePf+JqwQeyqCeig=CeZqHADwJJ7yZ=Nz9PcW0Hg@mail.gmail.com>
-	<1469525795.6937.1.camel@ts.fujitsu.com>
-	<AA7383CF-888C-4605-97BB-BB016A5EB450@gmail.com>
-	<1469621486.18503.9.camel@ts.fujitsu.com>
-	<0AFF0F4F-BAA0-43F7-ABE3-32ABEC5D924C@gmail.com>
-	<1469689696.6948.1.camel@ts.fujitsu.com>
-	<1469693736.6948.5.camel@ts.fujitsu.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 28 Jul 2016 06:55:52 -0700
-Message-ID: <CAMKF1soeCNV61bQ7JPjQZg8ZHHQwWp3hVFBWgfX+u5yWSZkkpQ@mail.gmail.com>
-To: "thilo.cestonaro@ts.fujitsu.com" <thilo.cestonaro@ts.fujitsu.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Building for armv7athf-neon but toolchain is softfp
+	Thu, 28 Jul 2016 14:05:22 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga104.fm.intel.com with ESMTP; 28 Jul 2016 07:05:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,434,1464678000"; d="scan'208";a="1004213942"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga001.jf.intel.com with ESMTP; 28 Jul 2016 07:05:23 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 0FF2A6A4006;
+	Thu, 28 Jul 2016 07:05:10 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 28 Jul 2016 17:04:30 +0300
+Message-Id: <1469714682-31488-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [krogoth] [PATCH 00/12] fix checkuri failures for krogoth
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,46 +33,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jul 2016 13:56:24 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 28 Jul 2016 14:05:23 -0000
 
-On Thu, Jul 28, 2016 at 1:18 AM, thilo.cestonaro@ts.fujitsu.com
-<thilo.cestonaro@ts.fujitsu.com> wrote:
-> Hey Khem!
->
-> Thanks for your help!! We used to have an extra ld-script which once worked. It was injected into the sdk in our sdk-install script by moving the toolchain ld to ld.real and creating a script which
-> calls the ld.real with the ldscript as parameter. I didn't introduce this in the sdk install, so I thought it is from oe-core. But just found out that we create that ld script usage and removed it.
->
+Recipes that use DEBIAN_MIRROR in SRC_URI are setting themselves up for failure
+as the Debian mirror network only stores active releases, so once a version we
+use isn't in oldstable/stable/testing/unstable then it will be removed.
 
-avoid such hacks in future. Or mention them when you describe the problem.
+The solution here is to use the snapshot.debian.org service for the SRC_URI,
+and set UPSTREAM_CHECK_URI to the relevant pool directory on DEBIAN_MIRRORS.
+This way we get a stable SRC_URI but still have new upstream release checking.
 
-> That fix the executables. I guess, as we did the step from gcc 4 to 5, it was for gcc 4 and broke gcc 5.
->
-> Anyway thanks for your patience and time!
->
-> Cheers,
-> Thilo
->
-> On Do, 2016-07-28 at 07:11 +0000, thilo.cestonaro@ts.fujitsu.com wrote:
->> On Mi, 2016-07-27 at 08:18 -0700, Khem Raj wrote:
->> >
->> > >
->> > >
->> > > On Jul 27, 2016, at 5:14 AM, thilo.cestonaro@ts.fujitsu.com wrote:
->> > >
->> > > Hey Khem,
->> > >
->> > > I figured, when I do the compile in 2 steps, so compile then link and change the link command to use the ubuntu arm-linux-gnueabihf-gcc instead of the gcc from the sdk, the binary is useable.
->> > this could be a gnu_hash issue then. Can you add -Wl,--hash-style=gnu to compiler cmd when linking using OE SDK
->> >
->> No success :( ... I tested it, altough it was already included in LDFLAGS from sdk env. Added it the the compile command and the link command. Doesn't change anything :(.
->> Any other idea?
->>
->> Cheers,
->> Thilo
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Fixes:
+ [YOCTO #10005]
+ [YOCTO #10040]
+
+The following changes since commit  e67395419dcb1142ae6dd4348736a2720d2ebe9d:
+
+  nss: fix build for gcc-6 (2016-07-17 11:37:23 -0700)
+
+are available in the git repository at:
+
+    git://git.yoctoproject.org/poky-contrib maxin/krogoth-next
+    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=maxin/krogoth-next
+
+Maxin B. John (10):
+  apmd: use snapshot.debian.org for SRC_URI
+  ossp-uuid: use snapshot.debian.org for SRC_URI
+  serf: use snapshot.debian.org for SRC_URI
+  netbase: use snapshot.debian.org for SRC_URI
+  docbook-xml-dtd4: use snapshot.debian.org for SRC_URI
+  linuxdoc-tools: use snapshot.debian.org for SRC_URI
+  blktool: use snapshot.debian.org for SRC_URI
+  libaio: use snapshot.debian.org for SRC_URI
+  mailx: use snapshot.debian.org for SRC_URI
+  libproxy: use snapshot.debian.org for SRC_URI
+
+Tim Orling (2):
+  dpkg: use snapshot.debian.org for SRC_URI
+  at: use snapshot.debian.org for SRC_URI
+
+ meta/recipes-bsp/apmd/apmd_3.2.2-15.bb                               | 3 ++-
+ meta/recipes-core/netbase/netbase_5.3.bb                             | 3 ++-
+ meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb            | 4 +++-
+ meta/recipes-devtools/dpkg/dpkg.inc                                  | 4 ++--
+ meta/recipes-devtools/dpkg/dpkg_1.18.4.bb                            | 5 +++--
+ meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb | 3 ++-
+ meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.bb                   | 3 ++-
+ meta/recipes-extended/at/at_3.1.18.bb                                | 4 +++-
+ meta/recipes-extended/blktool/blktool_4-7.bb                         | 3 ++-
+ meta/recipes-extended/libaio/libaio_0.3.110.bb                       | 4 +++-
+ meta/recipes-extended/mailx/mailx_12.5-5.bb                          | 3 ++-
+ meta/recipes-support/libproxy/libproxy_0.4.11.bb                     | 4 +++-
+ meta/recipes-support/serf/serf_1.3.8.bb                              | 4 +++-
+ 13 files changed, 32 insertions(+), 15 deletions(-)
+
+-- 
+2.4.0
+
 
