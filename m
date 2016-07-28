@@ -1,35 +1,44 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 72AD66072C
+Return-Path: <prvs=70178d4875=michael.davis@essvote.com>
+Received: from mail1.essvote.com (mail1.essvote.com [66.37.226.19])
+	by mail.openembedded.org (Postfix) with ESMTP id AF2746072C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jul 2016 14:52:16 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 28 Jul 2016 07:52:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,434,1464678000"; 
-	d="scan'208,217";a="1030863025"
-Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
-	by fmsmga002.fm.intel.com with ESMTP; 28 Jul 2016 07:52:16 -0700
-Received: from irsmsx103.ger.corp.intel.com ([169.254.3.204]) by
-	IRSMSX102.ger.corp.intel.com ([169.254.2.123]) with mapi id
-	14.03.0248.002; Thu, 28 Jul 2016 15:52:15 +0100
-From: "John, Maxin" <maxin.john@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [krogoth] [PATCH 00/12] fix checkuri failures for
-	krogoth
-Thread-Index: AQHR6NlpdJF/u5hCuEOB0/1l5dminaAt2REAgAAUIEA=
-Date: Thu, 28 Jul 2016 14:52:14 +0000
-Message-ID: <61C0517EAD808B429A1DE2DD9164D40036B347@IRSMSX103.ger.corp.intel.com>
+	Thu, 28 Jul 2016 15:07:33 +0000 (UTC)
+X-AuditID: 0a000213-f79d76d0000013de-20-579a1fb34e1d
+Received: from ESS-EX01.essvote.corp.local (Unknown_Domain [172.16.110.40])
+	by mail1.essvote.com (Symantec Messaging Gateway) with SMTP id
+	04.D1.05086.3BF1A975; Thu, 28 Jul 2016 10:07:31 -0500 (CDT)
+Received: from ESS-EX01.essvote.corp.local ([::1]) by
+	ESS-EX01.essvote.corp.local ([::1]) with mapi id 14.03.0301.000;
+	Thu, 28 Jul 2016 10:07:30 -0500
+From: "Davis, Michael" <michael.davis@essvote.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [krogoth] Backport Request: pulseaudio: Disable unit
+	tests
+Thread-Index: AQHR6OHCjDN3MLJuKkCqe1Rd4kZxBA==
+Date: Thu, 28 Jul 2016 15:07:30 +0000
+Message-ID: <8497383.b3k7HyhY1J@localhost.localdomain>
 References: <1469714682-31488-1-git-send-email-maxin.john@intel.com>
 	<CAJTo0LYu47+WLP0TXBsiVsm+orsqo_3wS0+7F2fs1suP+-jC9g@mail.gmail.com>
 In-Reply-To: <CAJTo0LYu47+WLP0TXBsiVsm+orsqo_3wS0+7F2fs1suP+-jC9g@mail.gmail.com>
-Accept-Language: fi-FI, en-US
+Reply-To: "Davis, Michael" <michael.davis@essvote.com>
+Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.181]
+x-originating-ip: [10.1.8.32]
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [krogoth] [PATCH 00/12] fix checkuri failures for krogoth
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrMLMWRmVeSWpSXmKPExsWyRiBPQ3ez/Kxwg48PFS3u/HzH7sDocW7j
+	CsYAxihum6TEkrLgzPQ8fbsE7owzbdPYC67zV5zp+cfewNjM18XIySEhYCLx7eV3ZghbTOLC
+	vfVsXYxcHEICJxglVl6dwgiSEBKYxSgxZ2UmiM0mYCRx7vomsLiIQLTE0hkz2bsYOTiEBXwl
+	TsyshgiHSOyduJ8JwtaT+DnnJDuIzSKgKtH6/RvYLl4BM4mXB39D7epmlPhy+yPYTE6BQInm
+	V/9ZIPaaSbQ9fAlmMwId9/3UGrChzALiEreezGeCOFpAYsme81APiEq8fPyPFcKWlZjzaiUz
+	RH2sxMZTWxkhFgtKnJz5hGUCo+gsJKNmISmbhaRsASPzKkbB3MTMHEO91OLisvySVL3k/NxN
+	jMCg52JgEt7BOGeK7SFGAQ5GJR7egIkzw4VYE8uKK3MPMUpzsCiJ86oIKYULCaQnlqRmp6YW
+	pBbFF5XmpBYfYmTi4DzEKMHBJSVSnJqXklqUWFqSEQ+KrfhiYHRJNTBGv1BX+b6OqWl2/UHN
+	X4reF7punL+orLvJ9VlLY63Lir9veyW9HXcUuS1MLYt1fXguoGbS17NfOS8veid34tOWiZbC
+	TjLfV5h8/xzLsFG82/WG770d7duDHoa58IY/c3v0/mtUdB3PtPCmZx6HH3gbvwrtUawPOWk1
+	56bd4z0HCtv3qceIqzxRYinOSDTUYi4qTgQAt259/nYCAAA=
+Subject: [krogoth] Backport Request: pulseaudio: Disable unit tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,121 +51,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jul 2016 14:52:17 -0000
+X-List-Received-Date: Thu, 28 Jul 2016 15:07:35 -0000
 Content-Language: en-US
 Content-Type: multipart/alternative;
-	boundary="_000_61C0517EAD808B429A1DE2DD9164D40036B347IRSMSX103gercorpi_"
+	boundary="_000_8497383b3k7HyhY1Jlocalhostlocaldomain_"
 
---_000_61C0517EAD808B429A1DE2DD9164D40036B347IRSMSX103gercorpi_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--_000_8497383b3k7HyhY1Jlocalhostlocaldomain_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-SGkgUm9zcywNCg0KOSBvdXQgb2YgdGhvc2UgMTIgcGF0Y2hlcyBhcHBsaWVzIHRvIG1hc3Rlci4g
-SSBoYXZlIHB1c2hlZCB0aG9zZSBoZXJlOg0KaHR0cDovL2dpdC55b2N0b3Byb2plY3Qub3JnL2Nn
-aXQvY2dpdC5jZ2kvcG9reS1jb250cmliL2xvZy8/aD1tYXhpbi8xMDA0MA0KDQpXaWxsIHVwZGF0
-ZSBhbmQgcHVzaCB0aGUgb3RoZXIgcGF0Y2hlcyBzb29uLg0KDQpCZXN0IHJlZ2FyZHMsDQpNYXhp
-bg0KDQpGcm9tOiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQpT
-ZW50OiBUaHVyc2RheSwgSnVseSAyOCwgMjAxNiA1OjM5IFBNDQpUbzogSm9obiwgTWF4aW4gPG1h
-eGluLmpvaG5AaW50ZWwuY29tPg0KQ2M6IE9FLWNvcmUgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3Rz
-Lm9wZW5lbWJlZGRlZC5vcmc+DQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtrcm9nb3RoXSBbUEFU
-Q0ggMDAvMTJdIGZpeCBjaGVja3VyaSBmYWlsdXJlcyBmb3Iga3JvZ290aA0KDQoNCk9uIDI4IEp1
-bHkgMjAxNiBhdCAxNTowNCwgTWF4aW4gQi4gSm9obiA8bWF4aW4uam9obkBpbnRlbC5jb208bWFp
-bHRvOm1heGluLmpvaG5AaW50ZWwuY29tPj4gd3JvdGU6DQpSZWNpcGVzIHRoYXQgdXNlIERFQklB
-Tl9NSVJST1IgaW4gU1JDX1VSSSBhcmUgc2V0dGluZyB0aGVtc2VsdmVzIHVwIGZvciBmYWlsdXJl
-DQphcyB0aGUgRGViaWFuIG1pcnJvciBuZXR3b3JrIG9ubHkgc3RvcmVzIGFjdGl2ZSByZWxlYXNl
-cywgc28gb25jZSBhIHZlcnNpb24gd2UNCnVzZSBpc24ndCBpbiBvbGRzdGFibGUvc3RhYmxlL3Rl
-c3RpbmcvdW5zdGFibGUgdGhlbiBpdCB3aWxsIGJlIHJlbW92ZWQuDQoNClRoZSBzb2x1dGlvbiBo
-ZXJlIGlzIHRvIHVzZSB0aGUgc25hcHNob3QuZGViaWFuLm9yZzxodHRwOi8vc25hcHNob3QuZGVi
-aWFuLm9yZz4gc2VydmljZSBmb3IgdGhlIFNSQ19VUkksDQphbmQgc2V0IFVQU1RSRUFNX0NIRUNL
-X1VSSSB0byB0aGUgcmVsZXZhbnQgcG9vbCBkaXJlY3Rvcnkgb24gREVCSUFOX01JUlJPUlMuDQpU
-aGlzIHdheSB3ZSBnZXQgYSBzdGFibGUgU1JDX1VSSSBidXQgc3RpbGwgaGF2ZSBuZXcgdXBzdHJl
-YW0gcmVsZWFzZSBjaGVja2luZy4NCg0KV2lsbCB0aGVzZSBhbGwgYXBwbHkgdG8gbWFzdGVyIHRv
-bz8NCg0KUm9zcw0K
+Can I please get master commit 92cfdb2ba7e04e2b70986c6569f500dd2a48b5d1 bac=
+kported to krogoth?
 
---_000_61C0517EAD808B429A1DE2DD9164D40036B347IRSMSX103gercorpi_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
-Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
-DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
-b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
-Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
-dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxNw0K
-CXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIs
-c2Fucy1zZXJpZjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHls
-ZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30N
-CkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjYxMi4wcHQgNzkyLjBwdDsNCgltYXJnaW46NzIu
-MHB0IDcyLjBwdCA3Mi4wcHQgNzIuMHB0O30NCmRpdi5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3Jk
-U2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBl
-ZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9IjEwMjYiIC8+DQo8L3htbD48IVtlbmRpZl0t
-LT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlbGF5b3V0IHY6ZXh0PSJlZGl0Ij4N
-CjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIxIiAvPg0KPC9vOnNoYXBlbGF5b3V0PjwveG1s
-PjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJvZHkgbGFuZz0iRU4tVVMiIGxpbms9ImJsdWUiIHZs
-aW5rPSJwdXJwbGUiPg0KPGRpdiBjbGFzcz0iV29yZFNlY3Rpb24xIj4NCjxwIGNsYXNzPSJNc29O
-b3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0Nh
-bGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj5IaSBSb3NzLDxvOnA+PC9vOnA+
-PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6
-MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjoj
-MUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
-Ij48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJp
-JnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+OSBvdXQgb2YgdGhvc2UgMTIgcGF0Y2hl
-cyBhcHBsaWVzIHRvIG1hc3Rlci4gSSBoYXZlIHB1c2hlZCB0aG9zZSBoZXJlOjxicj4NCjxhIGhy
-ZWY9Imh0dHA6Ly9naXQueW9jdG9wcm9qZWN0Lm9yZy9jZ2l0L2NnaXQuY2dpL3Bva3ktY29udHJp
-Yi9sb2cvP2g9bWF4aW4vMTAwNDAiPmh0dHA6Ly9naXQueW9jdG9wcm9qZWN0Lm9yZy9jZ2l0L2Nn
-aXQuY2dpL3Bva3ktY29udHJpYi9sb2cvP2g9bWF4aW4vMTAwNDA8L2E+PGJyPg0KPGJyPg0KPG86
-cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZv
-bnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlm
-O2NvbG9yOiMxRjQ5N0QiPldpbGwgdXBkYXRlIGFuZCBwdXNoIHRoZSBvdGhlciBwYXRjaGVzIHNv
-b24uPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5
-bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5z
-LXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxicj4NCkJlc3QgcmVnYXJkcyw8YnI+DQpNYXhpbjxvOnA+
-PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxhIG5hbWU9Il9NYWlsRW5k
-Q29tcG9zZSI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7
-Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+
-PC9zcGFuPjwvYT48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBzdHlsZT0iZm9u
-dC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYi
-PkZyb206PC9zcGFuPjwvYj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWls
-eTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPiBCdXJ0b24sIFJvc3MgW21haWx0bzpy
-b3NzLmJ1cnRvbkBpbnRlbC5jb21dDQo8YnI+DQo8Yj5TZW50OjwvYj4gVGh1cnNkYXksIEp1bHkg
-MjgsIDIwMTYgNTozOSBQTTxicj4NCjxiPlRvOjwvYj4gSm9obiwgTWF4aW4gJmx0O21heGluLmpv
-aG5AaW50ZWwuY29tJmd0Ozxicj4NCjxiPkNjOjwvYj4gT0UtY29yZSAmbHQ7b3BlbmVtYmVkZGVk
-LWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyZndDs8YnI+DQo8Yj5TdWJqZWN0OjwvYj4gUmU6
-IFtPRS1jb3JlXSBba3JvZ290aF0gW1BBVENIIDAwLzEyXSBmaXggY2hlY2t1cmkgZmFpbHVyZXMg
-Zm9yIGtyb2dvdGg8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
-bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
-PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+T24gMjgg
-SnVseSAyMDE2IGF0IDE1OjA0LCBNYXhpbiBCLiBKb2huICZsdDs8YSBocmVmPSJtYWlsdG86bWF4
-aW4uam9obkBpbnRlbC5jb20iIHRhcmdldD0iX2JsYW5rIj5tYXhpbi5qb2huQGludGVsLmNvbTwv
-YT4mZ3Q7IHdyb3RlOjxvOnA+PC9vOnA+PC9wPg0KPGJsb2NrcXVvdGUgc3R5bGU9ImJvcmRlcjpu
-b25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7cGFkZGluZzowY20gMGNtIDBjbSA2
-LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmlnaHQ6MGNtIj4NCjxkaXYgaWQ9IjoyZjUi
-Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+UmVjaXBlcyB0aGF0IHVzZSBERUJJQU5fTUlSUk9SIGlu
-IFNSQ19VUkkgYXJlIHNldHRpbmcgdGhlbXNlbHZlcyB1cCBmb3IgZmFpbHVyZTxicj4NCmFzIHRo
-ZSBEZWJpYW4gbWlycm9yIG5ldHdvcmsgb25seSBzdG9yZXMgYWN0aXZlIHJlbGVhc2VzLCBzbyBv
-bmNlIGEgdmVyc2lvbiB3ZTxicj4NCnVzZSBpc24ndCBpbiBvbGRzdGFibGUvc3RhYmxlL3Rlc3Rp
-bmcvdW5zdGFibGUgdGhlbiBpdCB3aWxsIGJlIHJlbW92ZWQuPGJyPg0KPGJyPg0KVGhlIHNvbHV0
-aW9uIGhlcmUgaXMgdG8gdXNlIHRoZSA8YSBocmVmPSJodHRwOi8vc25hcHNob3QuZGViaWFuLm9y
-ZyIgdGFyZ2V0PSJfYmxhbmsiPg0Kc25hcHNob3QuZGViaWFuLm9yZzwvYT4gc2VydmljZSBmb3Ig
-dGhlIFNSQ19VUkksPGJyPg0KYW5kIHNldCBVUFNUUkVBTV9DSEVDS19VUkkgdG8gdGhlIHJlbGV2
-YW50IHBvb2wgZGlyZWN0b3J5IG9uIERFQklBTl9NSVJST1JTLjxicj4NClRoaXMgd2F5IHdlIGdl
-dCBhIHN0YWJsZSBTUkNfVVJJIGJ1dCBzdGlsbCBoYXZlIG5ldyB1cHN0cmVhbSByZWxlYXNlIGNo
-ZWNraW5nLjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Jsb2NrcXVvdGU+DQo8L2Rpdj4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiPjxicj4NCldpbGwgdGhlc2UgYWxsIGFwcGx5IHRvIG1hc3RlciB0
-b28/PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
-bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
-PlJvc3M8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwv
-aHRtbD4NCg==
 
---_000_61C0517EAD808B429A1DE2DD9164D40036B347IRSMSX103gercorpi_--
+Thanks,
+
+Mike
+
+
+
+
+
+--_000_8497383b3k7HyhY1Jlocalhostlocaldomain_
+Content-Type: text/html; charset="us-ascii"
+Content-ID: <B3B4C977DA8B4F4992AC314885E0F8FD@essvote.com>
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-=
+html40/strict.dtd">
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"qrichtext" content=3D"1">
+<style type=3D"text/css">
+p, li { white-space: pre-wrap; }
+</style>
+</head>
+<body style=3D" font-family:'Sans Serif'; font-size:10pt; font-weight:400; =
+font-style:normal;">
+<p style=3D" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-rig=
+ht:0px; -qt-block-indent:0; text-indent:0px; -qt-user-state:0;">
+Can I please get master commit 92cfdb2ba7e04e2b70986c6569f500dd2a48b5d1 bac=
+kported to krogoth?</p>
+<p style=3D"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; ma=
+rgin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; ">
+&nbsp;</p>
+<p style=3D" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-rig=
+ht:0px; -qt-block-indent:0; text-indent:0px; -qt-user-state:0;">
+Thanks,</p>
+<p style=3D" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-rig=
+ht:0px; -qt-block-indent:0; text-indent:0px; -qt-user-state:0;">
+Mike</p>
+<p style=3D"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; ma=
+rgin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; ">
+&nbsp;</p>
+<p style=3D"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; ma=
+rgin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; ">
+&nbsp;</p>
+</body>
+</html>
+
+--_000_8497383b3k7HyhY1Jlocalhostlocaldomain_--
