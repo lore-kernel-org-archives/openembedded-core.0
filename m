@@ -1,32 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id C73BE60721
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f45.google.com (mail-it0-f45.google.com
+	[209.85.214.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 0DD9760721
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jul 2016 09:07:49 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u6S97hUZ021315; Thu, 28 Jul 2016 10:07:43 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id W7rX7XlMk8hu; Thu, 28 Jul 2016 10:07:43 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u6S97dta021310
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 28 Jul 2016 10:07:40 +0100
-Message-ID: <1469696859.3351.4.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 28 Jul 2016 10:07:39 +0100
-In-Reply-To: <03C3A5A6-D337-4FFA-9013-79FCCD0E50A9@gmail.com>
-References: <1469637177-2657-1-git-send-email-ross.burton@intel.com>
-	<20160727170756.aridi4qzmmuyedyt@jama>
-	<CAJTo0LZxbYTwvv0ywOwaBSVxaCJ82TAejikPefPh1F+Q1zvFkQ@mail.gmail.com>
-	<03C3A5A6-D337-4FFA-9013-79FCCD0E50A9@gmail.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
+	Thu, 28 Jul 2016 09:32:20 +0000 (UTC)
+Received: by mail-it0-f45.google.com with SMTP id f6so73439379ith.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Jul 2016 02:32:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=dUfl1Gs0TOmLBzZyYgNvThr/3tP7yPmHfSFz1H3RjdY=;
+	b=fzgHJnSXVDAkTkTR3I6Dga6f/bcIElZAdf8ToL9qgbGjnAx67jt9lnFyQAvQFn9kYN
+	g8y8iX9bQhoZA7zBEE719qR/LuuPJ82yckVkm/SzEuHtezo9H0Lbal20DoD44Pbl6FQx
+	Ub4MKdbV7g0qEpG5wzatShrucTSrpF7lYPNlgf3kI+uaok5GdMi2QreShKDQT3jaB0sK
+	bFxh/r5UvGXkmD1dCQtSf9dGmRxH5oZsxvSYdAasBq5e8Xjt0QQceOsdxLpVqFgY3p5a
+	WKdgXLf8GSgA5hjPw787gt6iEO388eouDCIZH9vAFzbuVlAHv3XBxmNmiMjY+3O42A+N
+	hhbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=dUfl1Gs0TOmLBzZyYgNvThr/3tP7yPmHfSFz1H3RjdY=;
+	b=OjRUK1w9QPtMjSrvJiah7qRozJj7N8Ma8Fin9CvqmAzZQ+PPIGfqXjLiNITJnl4n+e
+	ZQua6RCLapGITt3/zoj8BFLN1krTQGYIbSd9UedMrzogx3W/pWwWexk3QxBFVfBwPIGv
+	/87mcQ7XWVWN10rEJafp1ufif89P/XcP7fcVFG/7g0Dg8khXctR7+zbaSimo3KIFb1Q7
+	FSGHAYzETeHIUwVOYTPvpbQcxOQQxZOLZRWtnBhdTlyjzCNya6cfFe6eqQMrfWqNjCo+
+	QBdFWnex9bqXLb573Zo2QGg2Q6u9fn/5ehL9CDxTLv8yIDpry0dJOcIK46dgzbB2DPGN
+	uxKg==
+X-Gm-Message-State: ALyK8tJ1kBDEi5ZWH4VRRmK+/g6JOrpznZntyiQ1LTvzME3rj9zEhUEk2ZR4VmJGnvNPprZ0ihYIxGbLiIGfZCWI
+X-Received: by 10.36.131.194 with SMTP id d185mr104024418ite.38.1469698341422; 
+	Thu, 28 Jul 2016 02:32:21 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.18.17 with HTTP; Thu, 28 Jul 2016 02:32:02 -0700 (PDT)
+In-Reply-To: <88b4356a525164bda1717489d2051205f8a9fd17.1469656341.git.alejandro.hernandez@linux.intel.com>
+References: <cover.1469656341.git.alejandro.hernandez@linux.intel.com>
+	<88b4356a525164bda1717489d2051205f8a9fd17.1469656341.git.alejandro.hernandez@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 28 Jul 2016 10:32:02 +0100
+Message-ID: <CAJTo0LZsoRkedOP+HHXt7kTOjVt3jdYfs9nrkP32TTrNL8r2hQ@mail.gmail.com>
+To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gstreamer1.0-plugins-bad: add missing wayland-native dependency
+Subject: Re: [PATCH 3/5] python-pexpect: Upgrade to 4.2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,48 +54,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jul 2016 09:07:52 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 28 Jul 2016 09:32:21 -0000
+Content-Type: multipart/alternative; boundary=94eb2c049652915ad00538aecf70
 
-On Wed, 2016-07-27 at 18:40 -0700, Khem Raj wrote:
-> 
-> > On Jul 27, 2016, at 12:51 PM, Burton, Ross <ross.burton@intel.com>
-> > wrote:
-> > Why is this needed when wayland already depends on wayland
-> > > -native?
-> > Because builds from sstate won't pull in all the build dependencies
-> > transitively, just enough to do the required tasks. The
-> > requirements are the wayland runtime libraries (wayland) and the
-> > native tooling (waylaid-native).
-> Is it so that populate_sysroot tasks wont do the above two jobs ? if
-> yes then why
-> If you are saying that behavior is different with or without sstate
-> reuse if  I do
-> bitbake gstreamer1.0-plugins-bad, then I think there is a problem. 
->  The entries changed here will
-> get added to DEPENDS in the end. So Martin has a point.
+--94eb2c049652915ad00538aecf70
+Content-Type: text/plain; charset=UTF-8
 
-The way the sstate code is coded, it assumes that if a target recipe X
-is available from sstate, any -native/-cross dependencies of that
-target are not needed and not installed.
+On 27 July 2016 at 22:52, Alejandro Hernandez <
+alejandro.hernandez@linux.intel.com> wrote:
 
-In general this makes sense as quilt-native isn't needed if we aren't
-patching, we don't need a compiler/toolchain if we're not compiling and
-so on.
+> -LIC_FILES_CHKSUM = "file://LICENSE;md5=66c2378a96b307d56bfb3a9e58edafa8"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=1c7a725251880af8c6a148181665385b"
+>
 
-What it does mean is that any recipe needing a -native recipe to build 
-should list it in DEPENDS directly, not rely on other dependencies to
-pull it in for them. This applies to pkgconfig-native, intltool-native
-and also to wayland-native.
+Please state why the license checksum changed.
 
-I'm open to other ideas on how this could work but right now, its the
-only way I can see to make sstate use semi-optimal, rather tahn
-requiring *everything* come from sstate all the time.
+Ross
 
-Cheers,
+--94eb2c049652915ad00538aecf70
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Richard
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 27 July 2016 at 22:52, Alejandro Hernandez <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:alejandro.hernandez@linux.intel.com" target=3D"_blank">alejandro=
+.hernandez@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
+ft:1ex"><div id=3D":1z4" class=3D"a3s aXjCH m1562e5c70966bf64">-LIC_FILES_C=
+HKSUM =3D &quot;file://LICENSE;md5=3D66c2378a96b307d56bfb3a9e58edafa8&quot;=
+<br>
++LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D1c7a725251880af8c6a1481816=
+65385b&quot;</div></blockquote></div><br>Please state why the license check=
+sum changed.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_=
+extra">Ross</div></div>
 
-
-
+--94eb2c049652915ad00538aecf70--
