@@ -1,44 +1,29 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id ED63B6072C
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E4856072C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jul 2016 21:00:23 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id q128so12907058wma.1
+	Thu, 28 Jul 2016 21:30:25 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
+	via TCP (outbound) with ESMTPS id 20160728213023696_0685
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jul 2016 14:00:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=n/bxxlEPIQYcI1PpVxNXF90Qh3X2+xAKFuAwYMrKYzQ=;
-	b=oItaRQyJZFn4koaN1KV/LZRxqXFObeOVGIZZCvu7HL/y0EJ0QP5W5vRgrY4KEn2VXv
-	tziKQ0wvbxHjJnQUwD8uVmCs6T97QhydGZEfdCodNGKwTnxcS7DoUBkV8Su3psQOwI1p
-	ujzwtniSVXWCiUi0vSlZ6Q3zL4XZtamMUuq6MsOzVaOnzCUq2PSs+0iMXBrrNxypSp3+
-	g1gVE6JxtJrRZqKSIOh5bS6jPstFObrk+WAKmZ/vw2hu1YwjXk6PCwr676xKbOd0tguC
-	syxTmEOEUBBwawjg9MBQxn8vhCZRZb3gN+YGuYNgpz7vvBPmPkHIQu7q9cpzIRiPYkxS
-	aizQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=n/bxxlEPIQYcI1PpVxNXF90Qh3X2+xAKFuAwYMrKYzQ=;
-	b=F9vRhutZqvO7/StABzFie0kHE+XzKa/1ukfDfRuNp7NkmCOV5rSSHHfeqev3fjoJNG
-	dDQXDL6183HwZFA4QRZFNpav7OoTAX9i++uSvUOwmJtOA2MqtpE+f2NmTqeR4+DxVpTm
-	iGJ1/DR+xBpG2WTommViC+8gpg4UudssuyF+Y+TnOxqCaxvAPPNXuvgJpsD6CC43V0c7
-	pxOo1tyR2Q1/e2ZQA2vjTTY5eBABLfgvP29Yr2UwDAfSrEk0Ucd7g8a1Gx/C67M+B6q2
-	+UgvMZrcaxoeboR3hL8PRo7FJrXe/Oiiqt3QGudSExla9SDoaKOAffBTcupB20y6E0j/
-	35wQ==
-X-Gm-Message-State: ALyK8tI+hT/fK7XV/RQ/Fx9guVIu7BCQKlTIgx81yRkbSD8zaSNKyoxiz6K7GfP7EGLx91JyxhrdznLWLZBU7w==
-X-Received: by 10.28.50.199 with SMTP id y190mr58984773wmy.61.1469739623891;
-	Thu, 28 Jul 2016 14:00:23 -0700 (PDT)
+	Thu, 28 Jul 2016 14:30:23 -0700
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [174.114.62.25] (port=59828 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1bSsub-0007Fq-LR for openembedded-core@lists.openembedded.org;
+	Thu, 28 Jul 2016 17:32:13 -0400
+Date: Thu, 28 Jul 2016 17:30:14 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1607281728250.18613@localhost.localdomain>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-Received: by 10.194.233.99 with HTTP; Thu, 28 Jul 2016 14:00:23 -0700 (PDT)
-In-Reply-To: <1469695788-12904-1-git-send-email-awais_belal@mentor.com>
-References: <1469695788-12904-1-git-send-email-awais_belal@mentor.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Thu, 28 Jul 2016 14:00:23 -0700
-Message-ID: <CAJ86T=UuFqo=AfB_TSzPXQMZ5pRErv-otyxbcjQui2Qc3y+_1g@mail.gmail.com>
-To: Awais Belal <awais_belal@mentor.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] init-install*: /etc/mtab make a link rather than a copy
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: does "wic" allow one to actually format physical devices?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,63 +36,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jul 2016 21:00:26 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 28 Jul 2016 21:30:26 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-On Thu, Jul 28, 2016 at 1:49 AM, Awais Belal <awais_belal@mentor.com> wrote:
-> Using a copy would only make management of devices erroneous
-> and makes the system unstable in some scenarios as tools will
-> have to manipulate both files separately. A link ensures that
-> both files /proc/mounts and /etc/mtab will have the same
-> information at all times and this is how it is handled
-> on newer systems where there is such a need. Same is
-> suggested by busybox.
->
-> Signed-off-by: Awais Belal <awais_belal@mentor.com>
-> ---
->  meta/recipes-core/initrdscripts/files/init-install-efi.sh | 2 +-
->  meta/recipes-core/initrdscripts/files/init-install.sh     | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-> index f564f4e..53f6508 100644
-> --- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-> +++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-> @@ -123,7 +123,7 @@ mkdir -p /tmp
->
->  # Create /etc/mtab if not present
->  if [ ! -e /etc/mtab ]; then
-> -    cat /proc/mounts > /etc/mtab
-> +    ln -sf /etc/mtab /proc/mounts
 
-Did you mean:
+  never used "wic" before, and i'm wondering if it has the ability to
+not create dd-able images so much as partition and format physical
+target devices. surely, the underlying logic would be the same, i just
+want to work with the target hard drive and bypass creating the image
+itself.
 
-  ln -sf /proc/mounts /etc/mtab
+rday
 
-?
+-- 
 
->  fi
->
->  disk_size=$(parted ${device} unit mb print | grep '^Disk .*: .*MB' | cut -d" " -f 3 | sed -e "s/MB//")
-> diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
-> index 72ce92b..21ae0a6 100644
-> --- a/meta/recipes-core/initrdscripts/files/init-install.sh
-> +++ b/meta/recipes-core/initrdscripts/files/init-install.sh
-> @@ -119,7 +119,7 @@ fi
->
->  mkdir -p /tmp
->  if [ ! -L /etc/mtab ]; then
-> -    cat /proc/mounts > /etc/mtab
-> +    ln -sf /etc/mtab /proc/mounts
->  fi
->
->  disk_size=$(parted ${device} unit mb print | grep '^Disk .*: .*MB' | cut -d" " -f 3 | sed -e "s/MB//")
-> --
-> 1.9.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
 
