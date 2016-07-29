@@ -1,33 +1,29 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F79D607A4
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CED5E607A4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jul 2016 11:11:51 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 29 Jul 2016 04:11:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,439,1464678000"; d="scan'208";a="1031434458"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga002.fm.intel.com with ESMTP; 29 Jul 2016 04:11:51 -0700
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.68])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 89A7C6A4080;
-	Fri, 29 Jul 2016 04:11:39 -0700 (PDT)
-Date: Fri, 29 Jul 2016 13:35:22 +0300
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Message-ID: <20160729103522.GA376@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <alpine.LFD.2.20.1607281728250.18613@localhost.localdomain>
-	<20160729082501.GB32340@linux.intel.com>
-	<alpine.LFD.2.20.1607290614570.22106@localhost.localdomain>
+	Fri, 29 Jul 2016 11:16:09 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u6TBG0Ae004396
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Fri, 29 Jul 2016 04:16:00 -0700
+Received: from server.local (147.11.117.84) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Fri, 29 Jul 2016 04:15:59 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1469638333.git.bruce.ashfield@windriver.com>
+	<009dfcea9c78b09da41ed2502482b1e116772c78.1469638333.git.bruce.ashfield@windriver.com>
+	<1469774922.9142.39.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <ebc1baa1-18d7-8de4-0edc-6213aa62eb1c@windriver.com>
+Date: Fri, 29 Jul 2016 07:15:58 -0400
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
+	Gecko/20100101 Thunderbird/45.2.0
 MIME-Version: 1.0
-In-Reply-To: <alpine.LFD.2.20.1607290614570.22106@localhost.localdomain>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: does "wic" allow one to actually format physical devices?
+In-Reply-To: <1469774922.9142.39.camel@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/5] linux-yocto/4.1: bump to v4.1.28
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,39 +36,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jul 2016 11:11:52 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 29 Jul 2016 11:16:10 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jul 29, 2016 at 06:19:13AM -0400, Robert P. J. Day wrote:
-> On Fri, 29 Jul 2016, Ed Bartosh wrote:
-> 
-> > On Thu, Jul 28, 2016 at 05:30:14PM -0400, Robert P. J. Day wrote:
-> > >
-> > >   never used "wic" before, and i'm wondering if it has the ability
-> > > to not create dd-able images so much as partition and format
-> > > physical target devices. surely, the underlying logic would be the
-> > > same, i just want to work with the target hard drive and bypass
-> > > creating the image itself.
-> >
-> > The only purpose of wic is to create images. I'm afraid it doesn't
-> > have the functionality you're looking for.
-> 
->   i thought that was the case, just wanted to make sure. and perhaps
-> i'm just missing it, but where is the canonical documentation for wic,
-> it might still be useful for what i'm doing.
-The documentation is here:
-http://www.yoctoproject.org/docs/2.1/mega-manual/mega-manual.html#creating-partitioned-images
+On 2016-07-29 2:48 AM, Richard Purdie wrote:
+> On Wed, 2016-07-27 at 12:57 -0400, Bruce Ashfield wrote:
+>> Updating the 4.1 kernel to the korg -stable release
+>>
+>> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+>> ---
+>>  meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   |  6 +++---
+>>  meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb |  6 +++---
+>>  meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 20 ++++++++++---
+>> -------
+>>  3 files changed, 16 insertions(+), 16 deletions(-)
+>
+> https://autobuilder.yoctoproject.org/main/builders/nightly-mips-lsb/bui
+> lds/851/steps/BuildImages/logs/stdio
+>
+> http://errors.yoctoproject.org/Errors/Details/73456/
+>
+> | /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips-lsb/build/build/tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/setup.c: In function 'arch_mem_init':
+> | /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips-lsb/build/build/tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/setup.c:690:2: error: implicit declaration of function 'reserve_bootmem_region' [-Werror=implicit-function-declaration]
+> |   reserve_bootmem_region(__pa_symbol(&__nosave_begin),
+> |   ^~~~~~~~~~~~~~~~~~~~~~
+> |   CC      mm/swap.o
+> | cc1: all warnings being treated as errors
+> | /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips-lsb/build/build/tmp/work-shared/qemumips/kernel-source/scripts/Makefile.build:258: recipe for target 'arch/mips/kernel/setup.o' failed
+> | make[4]: *** [arch/mips/kernel/setup.o] Error 1
+> | make[4]: *** Waiting for unfinished jobs....
+>
+> also
+>
+> https://autobuilder.yoctoproject.org/main/builders/nightly-ppc-lsb/buil
+> ds/857/steps/BuildImages/logs/stdio
+>
+> http://errors.yoctoproject.org/Errors/Details/73450/
+>
+> TOPDIR/tmp/work-shared/qemuppc/kernel-source/arch/powerpc/kernel/prom.c:170:25: error: 'PPC_FEATURE2_HTM_NOSC_COMP' undeclared here (not in a function)
+>    PPC_FEATURE2_HTM_COMP|PPC_FEATURE2_HTM_NOSC_COMP, 22, 0, 0},
+>                          ^~~~~~~~~~~~~~~~~~~~~~~~~~
+> make[3]: *** [arch/powerpc/kernel/prom.o] Error 1
+> make[3]: *** Waiting for unfinished jobs....
+> make[2]: *** [arch/powerpc/kernel] Error 2
+> make[1]: *** [sub-make] Error 2
+> make: *** [__sub-make] Error 2
 
-you can get also gert some info from wic help overview|plugins|kickstart output.
+odd. My core-image-builds claim to have worked. I'll pick this up and
+re-submit my queue with some new 4.1 patches that fix any issues.
 
-> rday
-> 
-> p.s. i'm assuming you can use 'wic' only in the context of an OE
-> build, yes? at least it appears that way.
-Yes, wic is tightly coupled with OE.
+Bruce
 
---
-Regards,
-Ed
+>
+> Cheers,
+>
+> Richard
+>
+>
+
 
