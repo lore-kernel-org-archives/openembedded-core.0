@@ -1,29 +1,33 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id F40E460721
+	by mail.openembedded.org (Postfix) with ESMTP id B4E1C60746
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jul 2016 07:08:21 +0000 (UTC)
+	Fri, 29 Jul 2016 07:28:22 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u6T78HYF008300; Fri, 29 Jul 2016 08:08:17 +0100
+	u6T7QIBD008983; Fri, 29 Jul 2016 08:26:18 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id AxZ91JwrpyUJ; Fri, 29 Jul 2016 08:08:17 +0100 (BST)
+	with LMTP id psRDUR2tSmzx; Fri, 29 Jul 2016 08:26:18 +0100 (BST)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u6T78FjH008297
+	u6T7QDsa008980
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 29 Jul 2016 08:08:16 +0100
-Message-ID: <1469776095.9142.49.camel@linuxfoundation.org>
+	Fri, 29 Jul 2016 08:26:15 +0100
+Message-ID: <1469777173.9142.50.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: =?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Fri, 29 Jul 2016 08:08:15 +0100
-In-Reply-To: <1469659242-12350-1-git-send-email-anibal.limon@linux.intel.com>
-References: <1469659242-12350-1-git-send-email-anibal.limon@linux.intel.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>, "Burton, Ross"
+	<ross.burton@intel.com>
+Date: Fri, 29 Jul 2016 08:26:13 +0100
+In-Reply-To: <1948585.XiSYCAuUde@peggleto-mobl.ger.corp.intel.com>
+References: <cover.1469190931.git.paul.eggleton@linux.intel.com>
+	<CAJTo0LZZD0poopBgYb9BbeJ_UUaJc5KZxTXSV5jndnLJC8EiCQ@mail.gmail.com>
+	<1493839.LtSXxTmLfS@peggleto-mobl.ger.corp.intel.com>
+	<1948585.XiSYCAuUde@peggleto-mobl.ger.corp.intel.com>
 X-Mailer: Evolution 3.16.5-1ubuntu3.1 
 Mime-Version: 1.0
-Subject: Re: [PATCH 0/5] Fixes for busybox-syslog with systemd
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/8] Extensible SDK improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,40 +40,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jul 2016 07:08:23 -0000
+X-List-Received-Date: Fri, 29 Jul 2016 07:28:24 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Wed, 2016-07-27 at 17:40 -0500, Aníbal Limón wrote:
-> Changes can be reviewed at,
+On Mon, 2016-07-25 at 19:42 +1200, Paul Eggleton wrote:
+> On Sat, 23 Jul 2016 13:11:39 Paul Eggleton wrote:
+> > On Fri, 22 Jul 2016 23:31:38 Burton, Ross wrote:
+> > > On 22 July 2016 at 13:38, Paul Eggleton <
+> > > paul.eggleton@linux.intel.com>
+> > > 
+> > > wrote:
+> > > > Some fixes and enhancements centered around how the toolchain
+> > > > is
+> > > > incorporated in the eSDK, as well as a couple of tweaks for
+> > > > buildhistory
+> > > > that I found we needed during development.
+> > > 
+> > > This is happening in mut, could your branch be responsible:
+> > > 
+> > > http://errors.yoctoproject.org/Errors/Details/73022/
+> > > 
+> > > Ross (who will look further when its not 23:30 on Friday!)
+> > 
+> > Hmm, it will be, but I can't tell immediately from the error
+> > message what
+> > could be wrong...
 > 
-> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=alimon/simple_patches
-> 
-> Aníbal Limón (5):
->   oeqa/runtime/syslog.py: Improve test_syslog_logger
->   busybox-syslog.default: When systemd is enabled don't use circular
->     buffer
->   classes/testimage: When image is systemd, enable debug log level
->   oeqa/runtime/syslog: test_syslog_logger Don't try to use logread when
->     systemd is enabled
->   oeqa/utils/commands.py: Command class improve validations/decoding in
->     output
-> 
->  meta/classes/testimage.bbclass                         | 5 ++++-
->  meta/lib/oeqa/runtime/syslog.py                        | 9 +++++++--
->  meta/lib/oeqa/utils/commands.py                        | 5 ++++-
->  meta/recipes-core/busybox/files/busybox-syslog.default | 2 +-
->  4 files changed, 16 insertions(+), 5 deletions(-)
+> Ah, I believe this is bash vs. dash. Fix incoming, just need to test
+> it.
 
-We did see:
+Thanks for that fix. I think but am not 100% sure that this patchset
+may have also caused:
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-qa-systemd/b
-uilds/867/steps/Running%20Sanity%20Tests/logs/stdio
+https://autobuilder.yoctoproject.org/main/builders/nightly-oecore/build
+s/865
 
-which means we're probably still missing a tweak in this series?
+which happens only on OE-Core testing :/.
 
 Cheers,
 
 Richard
-
 
