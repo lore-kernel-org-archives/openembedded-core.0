@@ -1,52 +1,53 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 390986E5CB
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jul 2016 18:56:39 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id h186so5846001pfg.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jul 2016 11:56:40 -0700 (PDT)
+Received: from mail-pf0-f177.google.com (mail-pf0-f177.google.com
+	[209.85.192.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E6C6607A4
+	for <Openembedded-core@lists.openembedded.org>;
+	Fri, 29 Jul 2016 19:05:28 +0000 (UTC)
+Received: by mail-pf0-f177.google.com with SMTP id h186so35067269pfg.3
+	for <Openembedded-core@lists.openembedded.org>;
+	Fri, 29 Jul 2016 12:05:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=pGPFyQ7k7Ht734iiD0zHjD7szRFnOSa67edNTF5kn+I=;
-	b=mr9kZ7ClFcPBo3Iz2WhsGuSICoSUKKWHAlpb0wqzQjqIEi6SHGLsc/KVuPiFK744KC
-	rg3yNstn7gEf4x/7oxvHCnIzK503fAARo+znyN6gP+fHWu0VWj7fetOWSYPO6RW2d7cY
-	4hd0v2p8BfyyHFW1M6HdC4SSRX1h11jYRe0/dFlKBgQWYHOh+57DtArE2I8qZu5F8dP0
-	deeG9AafP7OgGZ/R3MH6dNB1CFl66W7/hxRrsP+QGrdlWbXTnqQifwXdBx1dj4j6BoaD
-	SUcgW3jKz9kE3ZZlCxnCq/hRK3svazncpbP6eyi0T1AS9KJSx0LWrouq59er8QJtn/0K
-	6ZqQ==
+	:to; bh=iaNoEGaYW98cnHuB3OTZX14ot8Txg56c1VDSpARbNiY=;
+	b=DXHL5tMoW6qIQH7gWgveLsZsSd8VZE8KW440h/LIYQmzwypvBmQVWRstW1hXXh81/9
+	tcIYVcS44EGl2iaJ52BmNshECi5BfsXz9FNsAOjChqH+oBlicql2+AgJ9r+P1ZFbn7Zr
+	Z+i2iBO53VAsu00txVKVFj1eL5fJpZNsLi7RupRsKjvnwduviDDPpjXSj1eh2+r6yoby
+	wPkDnTuXkAi0OmffSHzKF6rLCWuQRcPBsNqBQ/Zu6Z3PGZ4LkHHeOnzguRDZ52bTaSct
+	/kAkPFvSeMk4ZLe79MVY+sGXrHNchE7WpWDqJ/dv03oSo+9f7xI1f+RQ1PuYWnk2Rn8J
+	frEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
 	:message-id:references:to;
-	bh=pGPFyQ7k7Ht734iiD0zHjD7szRFnOSa67edNTF5kn+I=;
-	b=O7L3FsP4jBXFPv+CN6hoTFaUTUUJ+L800x+cfiDomnYEJ0RcK4zWp5natAjUhdvy4/
-	URr7Y00TGdfTEkpaYQGxnxooLQPbpBi7jwO4Mc6ai479utqB6GfovcsDvo39S9cr4Y4L
-	owe1KhF/xt5YamAKeqwnWtACNnOmdbClQ8Q+A4pwf8JadvQ8nHtTXsAvvc/bs4DfRiSV
-	ZQ1W8bcQBV1Qh6OICeqJK5fBC7OIEAzGwhp6cMd9qevHWhAa0wx2THxsR7nAyaeTq/dp
-	evpbKs3GF/JxoG9gcERdRJuUAqcPebr9JV/sh+/2NkVy9mwAgm+yKsOl3RA72WB/SzxH
-	y7YA==
-X-Gm-Message-State: AEkoouvwCZW4BaLaX0yq8Fj5+boVEE2c3faj1OMVIqI0PUuLxcF3rr6d1nQ997NsA6oyNg==
-X-Received: by 10.98.73.131 with SMTP id r3mr71297612pfi.112.1469818599530;
-	Fri, 29 Jul 2016 11:56:39 -0700 (PDT)
+	bh=iaNoEGaYW98cnHuB3OTZX14ot8Txg56c1VDSpARbNiY=;
+	b=WauRPFyZY00sgvG/GmAaCK7G3gaRcl50Tg+mtjG1rDISIsEQnLjdcLq7k7XMAmC2o5
+	/IUeCZttPf4k6+O6WOyvnGXcgWC8pNdbEYBsgbhjSyqdxdguDBY/amEPF8NehgaMQK2p
+	lfMt6eDzuMpPimB0EtlBpvVIMzAmgpO52QnAWaBkbz8kaDFpYLfRd+gOSWftzDENI+zW
+	bu18QXIoN8iN/wG6grqsfpPhpCLXpIlk38DVjI5ISWlNO8S7aSeQam82BWhZfEroczn7
+	bMiqS1D0TorqmgFMTGwn9aJYPczOBCiyc8X0gb3kmqaYDvqPs/ztY/+Uk7tY7n1yyM7l
+	9f3A==
+X-Gm-Message-State: AEkoouuLNAZ+vi0Ls9VYkRpn8xSmfc9pV9moHssHZi+a4iQSeI88Ics+qDUm/wGtLik8wA==
+X-Received: by 10.98.58.149 with SMTP id v21mr70653638pfj.19.1469819129842;
+	Fri, 29 Jul 2016 12:05:29 -0700 (PDT)
 Received: from ?IPv6:2601:647:4c00:3edf:99bc:2711:d44c:7b33?
 	([2601:647:4c00:3edf:99bc:2711:d44c:7b33])
 	by smtp.gmail.com with ESMTPSA id
-	15sm26799274pfz.36.2016.07.29.11.56.38
+	n80sm26846338pfi.19.2016.07.29.12.05.28
 	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 29 Jul 2016 11:56:38 -0700 (PDT)
+	Fri, 29 Jul 2016 12:05:29 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
 X-Pgp-Agent: GPGMail
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1469787760-19159-1-git-send-email-awais_belal@mentor.com>
-Date: Fri, 29 Jul 2016 11:56:37 -0700
-Message-Id: <327FC3F5-417C-46EE-B26C-237C938D26CA@gmail.com>
-References: <1469787760-19159-1-git-send-email-awais_belal@mentor.com>
-To: Awais Belal <awais_belal@mentor.com>
+In-Reply-To: <BLUPR0201MB1553BE8DD545F0CC1F13E518F7010@BLUPR0201MB1553.namprd02.prod.outlook.com>
+Date: Fri, 29 Jul 2016 12:05:24 -0700
+Message-Id: <5CB73D98-DACC-4B43-9863-FF4BDBB6A97A@gmail.com>
+References: <BLUPR0201MB1553BE8DD545F0CC1F13E518F7010@BLUPR0201MB1553.namprd02.prod.outlook.com>
+To: Edson Seabra <Edson.Seabra@zpesystems.com>
 X-Mailer: Apple Mail (2.3124)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [][PATCH v2] init-install*: /etc/mtab make a link rather than a copy
+Cc: "Openembedded-core@lists.openembedded.org"
+	<Openembedded-core@lists.openembedded.org>
+Subject: Re: metadata_scm - get branch/revision from svn repository
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,79 +60,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jul 2016 18:56:39 -0000
-X-Groupsio-MsgNum: 85136
+X-List-Received-Date: Fri, 29 Jul 2016 19:05:29 -0000
+X-Groupsio-MsgNum: 85137
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_8E27B1B4-85A5-4E3E-B69B-DCCDE1D035BF";
+	boundary="Apple-Mail=_3D342AD8-4495-40FF-BDE9-44597FEE6800";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_8E27B1B4-85A5-4E3E-B69B-DCCDE1D035BF
+--Apple-Mail=_3D342AD8-4495-40FF-BDE9-44597FEE6800
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_CFFF25E7-D7DE-4408-AB4F-DB0B54149CD5"
+
+--Apple-Mail=_CFFF25E7-D7DE-4408-AB4F-DB0B54149CD5
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
-	charset=us-ascii
+	charset=iso-8859-1
 
+Hi Edson
 
-> On Jul 29, 2016, at 3:22 AM, Awais Belal <awais_belal@mentor.com> =
-wrote:
+> On Jul 29, 2016, at 11:09 AM, Edson Seabra =
+<Edson.Seabra@zpesystems.com> wrote:
 >=20
-> Using a copy would only make management of devices erroneous
-> and makes the system unstable in some scenarios as tools will
-> have to manipulate both files separately. A link ensures that
-> both files /proc/mounts and /etc/mtab will have the same
-> information at all times and this is how it is handled
-> on newer systems where there is such a need. Same is
-> suggested by busybox.
+> Hi,
 >=20
-> Signed-off-by: Awais Belal <awais_belal@mentor.com>
-> ---
-> meta/recipes-core/initrdscripts/files/init-install-efi.sh | 2 +-
-> meta/recipes-core/initrdscripts/files/init-install.sh     | 2 +-
-> 2 files changed, 2 insertions(+), 2 deletions(-)
+> With this patch bitbake commands can display the branch/revision of =
+layers under svn control.
 >=20
-> diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh =
-b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-> index f564f4e..8b996ca 100644
-> --- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-> +++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-> @@ -123,7 +123,7 @@ mkdir -p /tmp
->=20
-> # Create /etc/mtab if not present
-> if [ ! -e /etc/mtab ]; then
-> -    cat /proc/mounts > /etc/mtab
-> +    ln -sf /proc/mounts /etc/mtab
-> fi
->=20
-> disk_size=3D$(parted ${device} unit mb print | grep '^Disk .*: .*MB' | =
-cut -d" " -f 3 | sed -e "s/MB//")
-> diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh =
-b/meta/recipes-core/initrdscripts/files/init-install.sh
-> index 72ce92b..2362c53 100644
-> --- a/meta/recipes-core/initrdscripts/files/init-install.sh
-> +++ b/meta/recipes-core/initrdscripts/files/init-install.sh
-> @@ -119,7 +119,7 @@ fi
->=20
-> mkdir -p /tmp
-> if [ ! -L /etc/mtab ]; then
 
-also check if /proc/mounts exists as well here.
+Can you submit the patch following the patch submitting guidelines
 
-> -    cat /proc/mounts > /etc/mtab
-> +    ln -sf /proc/mounts /etc/mtab
-> fi
->=20
-> disk_size=3D$(parted ${device} unit mb print | grep '^Disk .*: .*MB' | =
-cut -d" " -f 3 | sed -e "s/MB//")
-> --
-> 1.9.1
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+http://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded =
+<http://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded>
 
+--Apple-Mail=_CFFF25E7-D7DE-4408-AB4F-DB0B54149CD5
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=iso-8859-1
 
---Apple-Mail=_8E27B1B4-85A5-4E3E-B69B-DCCDE1D035BF
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
+charset=3Diso-8859-1"></head><body style=3D"word-wrap: break-word; =
+-webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
+class=3D"">Hi Edson<div class=3D""><br class=3D""><div><blockquote =
+type=3D"cite" class=3D""><div class=3D"">On Jul 29, 2016, at 11:09 AM, =
+Edson Seabra &lt;<a href=3D"mailto:Edson.Seabra@zpesystems.com" =
+class=3D"">Edson.Seabra@zpesystems.com</a>&gt; wrote:</div><br =
+class=3D"Apple-interchange-newline"><div class=3D""><div =
+id=3D"divtagdefaultwrapper" style=3D"font-style: normal; =
+font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
+orphans: auto; text-align: start; text-indent: 0px; text-transform: =
+none; white-space: normal; widows: auto; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; font-size: 12pt; background-color: =
+rgb(255, 255, 255); font-family: Calibri, Arial, Helvetica, sans-serif;" =
+class=3D""><div style=3D"margin-top: 0px; margin-bottom: 0px;" =
+class=3D"">Hi,</div><div style=3D"margin-top: 0px; margin-bottom: 0px;" =
+class=3D""><br class=3D""></div><div style=3D"margin-top: 0px; =
+margin-bottom: 0px;" class=3D"">With this patch bitbake commands can =
+display the branch/revision of layers under svn control.</div><div =
+style=3D"margin-top: 0px; margin-bottom: 0px;" class=3D""><br =
+class=3D""></div></div></div></blockquote><div><br =
+class=3D""></div><div>Can you submit the patch following the patch =
+submitting guidelines&nbsp;</div><div><br class=3D""></div><div><a =
+href=3D"http://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbe=
+dded" =
+class=3D"">http://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenE=
+mbedded</a></div></div><br class=3D""></div></body></html>=
+
+--Apple-Mail=_CFFF25E7-D7DE-4408-AB4F-DB0B54149CD5--
+
+--Apple-Mail=_3D342AD8-4495-40FF-BDE9-44597FEE6800
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -142,9 +137,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlebpuUACgkQuwUzVZGdMxSY+gCeLxFCfHTGeTCUm4nPOTwNrJ4S
-040AniOgv5S4rruIGFb8nidT7HkVZaxZ
-=KeGl
+iEYEARECAAYFAlebqPgACgkQuwUzVZGdMxQjsACgizoai5uK3pntQ/lw1BTX6bHD
+GMkAniEErQW/U6UopBDHS9uAsYSad7US
+=9LgM
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_8E27B1B4-85A5-4E3E-B69B-DCCDE1D035BF--
+--Apple-Mail=_3D342AD8-4495-40FF-BDE9-44597FEE6800--
