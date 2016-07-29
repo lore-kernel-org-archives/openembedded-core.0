@@ -1,31 +1,27 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 51F11607A4
+Return-Path: <maxin.john@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id C51BD607A4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jul 2016 12:06:14 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u6TC6E5T003422
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 29 Jul 2016 05:06:14 -0700 (PDT)
-Received: from server.local (147.11.117.84) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Fri, 29 Jul 2016 05:06:12 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1469638333.git.bruce.ashfield@windriver.com>
-	<009dfcea9c78b09da41ed2502482b1e116772c78.1469638333.git.bruce.ashfield@windriver.com>
-	<1469774922.9142.39.camel@linuxfoundation.org>
-	<ebc1baa1-18d7-8de4-0edc-6213aa62eb1c@windriver.com>
-	<1469793618.9142.62.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <567147ba-54c6-1ba2-9586-5ce359906e39@windriver.com>
-Date: Fri, 29 Jul 2016 08:06:12 -0400
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
-	Gecko/20100101 Thunderbird/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <1469793618.9142.62.camel@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/5] linux-yocto/4.1: bump to v4.1.28
+	Fri, 29 Jul 2016 12:46:17 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga101.fm.intel.com with ESMTP; 29 Jul 2016 05:46:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,439,1464678000"; d="scan'208";a="147503774"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga004.fm.intel.com with ESMTP; 29 Jul 2016 05:46:18 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id D21286A4080
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Jul 2016 05:46:05 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 29 Jul 2016 15:45:46 +0300
+Message-Id: <1469796346-9594-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH v2] glew: upgrade to 2.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,90 +34,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jul 2016 12:06:15 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 29 Jul 2016 12:46:18 -0000
 
-On 2016-07-29 8:00 AM, Richard Purdie wrote:
-> On Fri, 2016-07-29 at 07:15 -0400, Bruce Ashfield wrote:
->> On 2016-07-29 2:48 AM, Richard Purdie wrote:
->>> On Wed, 2016-07-27 at 12:57 -0400, Bruce Ashfield wrote:
->>>> Updating the 4.1 kernel to the korg -stable release
->>>>
->>>> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
->>>> ---
->>>>  meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   |  6 +++---
->>>>  meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb |  6 +++---
->>>>  meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 20
->>>> ++++++++++---
->>>> -------
->>>>  3 files changed, 16 insertions(+), 16 deletions(-)
->>>
->>> https://autobuilder.yoctoproject.org/main/builders/nightly-mips-lsb
->>> /bui
->>> lds/851/steps/BuildImages/logs/stdio
->>>
->>> http://errors.yoctoproject.org/Errors/Details/73456/
->>>
->>>> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips
->>>> -lsb/build/build/tmp/work-shared/qemumips/kernel
->>>> -source/arch/mips/kernel/setup.c: In function 'arch_mem_init':
->>>> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips
->>>> -lsb/build/build/tmp/work-shared/qemumips/kernel
->>>> -source/arch/mips/kernel/setup.c:690:2: error: implicit
->>>> declaration of function 'reserve_bootmem_region' [
->>>> -Werror=implicit-function-declaration]
->>>>   reserve_bootmem_region(__pa_symbol(&__nosave_begin),
->>>>   ^~~~~~~~~~~~~~~~~~~~~~
->>>>   CC      mm/swap.o
->>>> cc1: all warnings being treated as errors
->>>> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips
->>>> -lsb/build/build/tmp/work-shared/qemumips/kernel
->>>> -source/scripts/Makefile.build:258: recipe for target
->>>> 'arch/mips/kernel/setup.o' failed
->>>> make[4]: *** [arch/mips/kernel/setup.o] Error 1
->>>> make[4]: *** Waiting for unfinished jobs....
->>>
->>> also
->>>
->>> https://autobuilder.yoctoproject.org/main/builders/nightly-ppc-lsb/
->>> buil
->>> ds/857/steps/BuildImages/logs/stdio
->>>
->>> http://errors.yoctoproject.org/Errors/Details/73450/
->>>
->>> TOPDIR/tmp/work-shared/qemuppc/kernel
->>> -source/arch/powerpc/kernel/prom.c:170:25: error:
->>> 'PPC_FEATURE2_HTM_NOSC_COMP' undeclared here (not in a function)
->>>    PPC_FEATURE2_HTM_COMP|PPC_FEATURE2_HTM_NOSC_COMP, 22, 0, 0},
->>>                          ^~~~~~~~~~~~~~~~~~~~~~~~~~
->>> make[3]: *** [arch/powerpc/kernel/prom.o] Error 1
->>> make[3]: *** Waiting for unfinished jobs....
->>> make[2]: *** [arch/powerpc/kernel] Error 2
->>> make[1]: *** [sub-make] Error 2
->>> make: *** [__sub-make] Error 2
->>
->> odd. My core-image-builds claim to have worked. I'll pick this up and
->> re-submit my queue with some new 4.1 patches that fix any issues.
->
-> I've dropped the 4.1 patches from the test queue, I left the 4.4 ones
-> in since those seem ok and hopefully pull back a bit of performance so
-> you may not need to resubmit those.
+1.13.0 -> 2.0.0
 
-Ack'd.
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ meta/recipes-graphics/glew/{glew_1.13.0.bb => glew_2.0.0.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-graphics/glew/{glew_1.13.0.bb => glew_2.0.0.bb} (84%)
 
-I have builds with 4.1 forced running now. I'll check master and the
-queue before I resubmit. It will just be an incremental patch on the
-end to integrate whatever fixes i need.
-
-Cheers,
-
-Bruce
-
->
-> Cheers,
->
-> Richard
->
+diff --git a/meta/recipes-graphics/glew/glew_1.13.0.bb b/meta/recipes-graphics/glew/glew_2.0.0.bb
+similarity index 84%
+rename from meta/recipes-graphics/glew/glew_1.13.0.bb
+rename to meta/recipes-graphics/glew/glew_2.0.0.bb
+index a25c405..489dd7c 100644
+--- a/meta/recipes-graphics/glew/glew_1.13.0.bb
++++ b/meta/recipes-graphics/glew/glew_2.0.0.bb
+@@ -11,8 +11,8 @@ DEPENDS = "virtual/libx11 virtual/libgl libglu libxext libxi libxmu"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/project/glew/glew/${PV}/glew-${PV}.tgz \
+            file://no-strip.patch"
+ 
+-SRC_URI[md5sum] = "7cbada3166d2aadfc4169c4283701066"
+-SRC_URI[sha256sum] = "aa25dc48ed84b0b64b8d41cdd42c8f40f149c37fa2ffa39cd97f42c78d128bc7"
++SRC_URI[md5sum] = "2a2cd7c98f13854d2fcddae0d2b20411"
++SRC_URI[sha256sum] = "c572c30a4e64689c342ba1624130ac98936d7af90c3103f9ce12b8a0c5736764"
+ 
+ UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/glew/files/glew"
+ UPSTREAM_CHECK_REGEX = "/glew/(?P<pver>(\d+[\.\-_]*)+)/"
+@@ -29,7 +29,7 @@ EXTRA_OEMAKE = "SYSTEM='linux' \
+                 LDFLAGS.EXTRA='${LDFLAGS}' \
+                 POPT='${CFLAGS}' \
+                 GLEW_PREFIX='${prefix}' BINDIR='${bindir}' \
+-                LIBDIR='${libdir}' INCDIR='${includedir}/GL'"
++                LIBDIR='${libdir}' INCDIR='${includedir}/GL' PKGDIR='${libdir}/pkgconfig'"
+ 
+ do_compile() {
+ 	oe_runmake
+-- 
+2.4.0
 
 
