@@ -1,27 +1,29 @@
 Return-Path: <maxin.john@intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E664E607A4
+	by mail.openembedded.org (Postfix) with ESMTP id 026F2607A4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jul 2016 13:29:35 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP; 29 Jul 2016 06:29:20 -0700
+	Fri, 29 Jul 2016 13:29:40 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP; 29 Jul 2016 06:29:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,439,1464678000"; d="scan'208";a="855855505"
+X-IronPort-AV: E=Sophos;i="5.28,439,1464678000"; d="scan'208";a="1016199075"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga003.jf.intel.com with ESMTP; 29 Jul 2016 06:29:20 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 29 Jul 2016 06:29:25 -0700
 Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
 	[10.237.72.71])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 64AE56A4080
+	by linux.intel.com (Postfix) with ESMTP id 820D16A4080
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jul 2016 06:29:08 -0700 (PDT)
+	Fri, 29 Jul 2016 06:29:13 -0700 (PDT)
 From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 29 Jul 2016 16:28:45 +0300
-Message-Id: <1469798926-25302-1-git-send-email-maxin.john@intel.com>
+Date: Fri, 29 Jul 2016 16:28:46 +0300
+Message-Id: <1469798926-25302-2-git-send-email-maxin.john@intel.com>
 X-Mailer: git-send-email 2.4.0
-Subject: [PATCH v2] apmd: use snapshot.debian.org for SRC_URI
+In-Reply-To: <1469798926-25302-1-git-send-email-maxin.john@intel.com>
+References: <1469798926-25302-1-git-send-email-maxin.john@intel.com>
+Subject: [PATCH v2] glew: upgrade to 2.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,46 +36,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jul 2016 13:29:38 -0000
+X-List-Received-Date: Fri, 29 Jul 2016 13:29:41 -0000
 
-Using ${DEBIAN_MIRROR} for SRC_URI doesn't work very well as that will
-only contain releases that are currently in Debian.
-
-So, move all of SRC_URI to the .bb so it can use snapshot.debian.org
-instead, and set UPSTREAM_CHECK_URI to ${DEBIAN_MIRROR} so upstream
-release checking continues to work.
+1.13.0 -> 2.0.0
 
 v2:
-        use ${BPN} instead of ${PN} in SRC_URI for multilib builds
-
-[YOCTO #10040]
+        Fix installed-vs-shipped QA error for multilib build
 
 Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- meta/recipes-bsp/apmd/apmd_3.2.2-15.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-graphics/glew/{glew_1.13.0.bb => glew_2.0.0.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-graphics/glew/{glew_1.13.0.bb => glew_2.0.0.bb} (84%)
 
-diff --git a/meta/recipes-bsp/apmd/apmd_3.2.2-15.bb b/meta/recipes-bsp/apmd/apmd_3.2.2-15.bb
-index 4ff6ad0..82c2649 100644
---- a/meta/recipes-bsp/apmd/apmd_3.2.2-15.bb
-+++ b/meta/recipes-bsp/apmd/apmd_3.2.2-15.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     file://apm.h;beginline=6;endline=18;md5=7d4acc1250910a89f84ce3cc6557c4c2"
- DEPENDS = "libtool-cross"
+diff --git a/meta/recipes-graphics/glew/glew_1.13.0.bb b/meta/recipes-graphics/glew/glew_2.0.0.bb
+similarity index 84%
+rename from meta/recipes-graphics/glew/glew_1.13.0.bb
+rename to meta/recipes-graphics/glew/glew_2.0.0.bb
+index a25c405..489dd7c 100644
+--- a/meta/recipes-graphics/glew/glew_1.13.0.bb
++++ b/meta/recipes-graphics/glew/glew_2.0.0.bb
+@@ -11,8 +11,8 @@ DEPENDS = "virtual/libx11 virtual/libgl libglu libxext libxi libxmu"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/project/glew/glew/${PV}/glew-${PV}.tgz \
+            file://no-strip.patch"
  
--SRC_URI = "${DEBIAN_MIRROR}/main/a/apmd/apmd_3.2.2.orig.tar.gz;name=tarball \
-+SRC_URI = "http://snapshot.debian.org/archive/debian/20160728T043443Z/pool/main/a/${BPN}/${BPN}_3.2.2.orig.tar.gz;name=tarball \
-            file://legacy.patch \
-            file://libtool.patch \
-            file://unlinux.patch \
-@@ -26,6 +26,7 @@ SRC_URI[tarball.sha256sum] = "7f7d9f60b7766b852881d40b8ff91d8e39fccb0d1d913102a5
+-SRC_URI[md5sum] = "7cbada3166d2aadfc4169c4283701066"
+-SRC_URI[sha256sum] = "aa25dc48ed84b0b64b8d41cdd42c8f40f149c37fa2ffa39cd97f42c78d128bc7"
++SRC_URI[md5sum] = "2a2cd7c98f13854d2fcddae0d2b20411"
++SRC_URI[sha256sum] = "c572c30a4e64689c342ba1624130ac98936d7af90c3103f9ce12b8a0c5736764"
  
- # for this package we're mostly interested in tracking debian patches,
- # and not in the upstream version where all development has effectively stopped
-+UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/a/apmd/"
- UPSTREAM_CHECK_REGEX = "(?P<pver>((\d+\.*)+)-((\d+\.*)+))\.(diff|debian\.tar)\.(gz|xz)"
+ UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/glew/files/glew"
+ UPSTREAM_CHECK_REGEX = "/glew/(?P<pver>(\d+[\.\-_]*)+)/"
+@@ -29,7 +29,7 @@ EXTRA_OEMAKE = "SYSTEM='linux' \
+                 LDFLAGS.EXTRA='${LDFLAGS}' \
+                 POPT='${CFLAGS}' \
+                 GLEW_PREFIX='${prefix}' BINDIR='${bindir}' \
+-                LIBDIR='${libdir}' INCDIR='${includedir}/GL'"
++                LIBDIR='${libdir}' INCDIR='${includedir}/GL' PKGDIR='${libdir}/pkgconfig'"
  
- S = "${WORKDIR}/apmd-3.2.2.orig"
+ do_compile() {
+ 	oe_runmake
 -- 
 2.4.0
 
