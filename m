@@ -1,52 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f170.google.com (mail-pf0-f170.google.com
-	[209.85.192.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 481C7607A4
+Return-Path: <fabio.berton@ossystems.com.br>
+Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
+	[209.85.220.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 61C6B607A4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jul 2016 19:07:06 +0000 (UTC)
-Received: by mail-pf0-f170.google.com with SMTP id y134so35222855pfg.0
+	Fri, 29 Jul 2016 19:36:22 +0000 (UTC)
+Received: by mail-qk0-f194.google.com with SMTP id q62so7706915qkf.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jul 2016 12:07:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=MidWvlbzOXCCgZJLdaOkQv/rW+CB0octXslaQUT7x38=;
-	b=gGfTJjNXrMyqTqlYe5J4NL7OrOJY7I+1oqpwrVIHHcscqhl7epL7HIrJIAO8mdoauc
-	uDcYLt9rh4uCFi53UGhEu8aDdicNbx4JF6qNNLMvFUgCCe4G0M4vvC3QruKmewDSfpqY
-	jUuyJjOnXWg5g6QujCDMnYdbXWHA5m1H0BBscEd/YTUuWsH6tkLcSFUJVlWFxX7TQE5/
-	14M12rzAKFgBoY7cUOzyVUF6oQgVZEz5aZTfwoY3gLwAPMSVaWNZzCAC16jlVL82JdgV
-	6+OHZoQgxhxYag3UGg3JfyLQaL6egQPlwAyQsYH5Rzhaimnq2HB0Ug5cPx5AlClqFQUi
-	+sqQ==
+	Fri, 29 Jul 2016 12:36:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:organization;
+	bh=ZeV2IYjAYl9cjhcHJqdz8hP1p/K762544DKEzEjXEy8=;
+	b=w2pU67RPKFpULznZvrPOM72S6Uf5HlJPweVM7y84oRx8O21AJSRSfIxf2zW/g7qWwi
+	YTacKwr8iyMnd2J9W/M+OdF2uMwlZZDXAAWnwyj6FGQZ1p6t9jaxh3JeAurshIjJI1xB
+	ZwEeOmE5BFzzaHmtTNU/N4EMXK2DvlQeUQrmRM4LhEp0xPXV3bBjoxx0r78n1eQz0qsA
+	kO3bs2Nd4jxkEI+sTlaXeWeo3O7jJFxgA9hvVrYwMdWzvqmBw6I0a/UL7omiGpePs3K+
+	qYtAJDxS3DD+E68icUrLuGtBshyAMstOSwRQJT3JBWHrMQL6bzw1aJd+S9wqlQFfTLaY
+	7tzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=MidWvlbzOXCCgZJLdaOkQv/rW+CB0octXslaQUT7x38=;
-	b=bywtwHJTpeHsH1+MHv/zbG+Yy5Qa7l/rEdEeLDl16jdeVvll7ahcERFt8bvW2hpMx2
-	zEjVf4Jru7jOUU2le+WGSEhqVxPUsaBbiXYGnz/e3PU4FYDcXw4yjGt/zveo5PNkxQee
-	WvxXJlzhq1Ez9u+Sju3FuP442qPDVsJ5r4FoHHJtSga0nht29tks8J3si+GLhzE5tUFU
-	T7qLDmvT4Ol6YVAokTpkROVo+4SkoH3QnmKitKsMSv4DEQL9MdFv3CWXU24MowfrnPR8
-	fwTo8yJabDlSALvxIQT0ObU9Ha3YfTBrCTUC2cHo6stuv0L2xRoO6SUrPSvloDT3RPld
-	00BQ==
-X-Gm-Message-State: AEkoouuZRIkQK/CIwytwLTyVMHymmwi/Z1FB1ixL2Wrs0LxqmlBCIZbdbXBDJ6twNEURmw==
-X-Received: by 10.98.68.1 with SMTP id r1mr54007522pfa.161.1469819227718;
-	Fri, 29 Jul 2016 12:07:07 -0700 (PDT)
-Received: from ?IPv6:2601:647:4c00:3edf:99bc:2711:d44c:7b33?
-	([2601:647:4c00:3edf:99bc:2711:d44c:7b33])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=ZeV2IYjAYl9cjhcHJqdz8hP1p/K762544DKEzEjXEy8=;
+	b=GzUfKsWE5Gl7fHjETb97NQYgPe5C8mIEBDerik7b4+GfL7Tr2XtBKYXxWkkVy9c2Bd
+	t5iPqUdnIFCMXdxtAfvp0xfxQtI8C5iDC8tcXJ/JwYd0bKDIW2ZU4udY69kaVir4qIC8
+	m9sg5sqRqPGnE2qPfiH3yQu3mTn3HvA3w6ApCfeshqMeDXj0YQkR1K9E5siJit3mo8ME
+	1+Qj9kYd8726tbFeh6JCt7p9xL/IgibGpNO/IY+6vZsuDA9NxAIHKSzpNrlbb6mitNvs
+	y9ndAQqwrYS/VJjmlAK4QDhRWWNOtwU04rLKDu8G8NPXG5PrgPLq9mzq9H57mfk4le1s
+	N1ZQ==
+X-Gm-Message-State: AEkoouvA5lFwoNwMAs7nFPg2weB9yLIjk3tgCLO2+TMJRsmqatN19QJ4MCNkTHJreu2Jpg==
+X-Received: by 10.55.154.11 with SMTP id c11mr55524879qke.117.1469820983246;
+	Fri, 29 Jul 2016 12:36:23 -0700 (PDT)
+Received: from monster.lab.ossystems.com.br ([177.127.4.56])
 	by smtp.gmail.com with ESMTPSA id
-	o2sm26894110pfg.10.2016.07.29.12.07.06
-	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 29 Jul 2016 12:07:07 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAMSG=xVPrR7peULZh4Ng+EVrjo5SXWwRBU2+o2XjFJGb_F-Xyw@mail.gmail.com>
-Date: Fri, 29 Jul 2016 12:07:06 -0700
-Message-Id: <175B9BD5-9DEE-4B4C-B9AD-65F1D81438A3@gmail.com>
-References: <CAMSG=xVPrR7peULZh4Ng+EVrjo5SXWwRBU2+o2XjFJGb_F-Xyw@mail.gmail.com>
-To: Nemicolopterus Crypticus <ncrypticus@gmail.com>
-X-Mailer: Apple Mail (2.3124)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: multilib support on Jethro: populate_sdk help
+	l89sm10784730qte.41.2016.07.29.12.36.20
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 29 Jul 2016 12:36:22 -0700 (PDT)
+From: Fabio Berton <fabio.berton@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 29 Jul 2016 16:36:03 -0300
+Message-Id: <1469820963-6667-1-git-send-email-fabio.berton@ossystems.com.br>
+X-Mailer: git-send-email 2.1.4
+Organization: O.S. Systems Software LTDA.
+Subject: [meta-oe][PATCH] patchelf: Update to version 0.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,239 +54,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jul 2016 19:07:08 -0000
-X-Groupsio-MsgNum: 85138
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_8072522F-C75D-482B-957E-C91C499CAC2C";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Fri, 29 Jul 2016 19:36:23 -0000
 
---Apple-Mail=_8072522F-C75D-482B-957E-C91C499CAC2C
-Content-Type: multipart/alternative;
-	boundary="Apple-Mail=_9684580E-C773-47CD-AA8C-97AC52327FB0"
+Remove patch maxsize.patch already applied upstream.
 
---Apple-Mail=_9684580E-C773-47CD-AA8C-97AC52327FB0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+Add patch Skip-empty-section-fixes-66.patch to prevent errors like:
+
+ERROR: go-cross-1.6.2-r0 do_populate_sysroot_setscene: '('patchelf-uninative',
+'--set-interpreter', '/home/user/src/prj/build/tmp/sysroots-uninative/
+x86_64-linux/lib/ld-linux-x86-64.so.2', '/home/user/src/prj/build/tmp/
+work/x86_64-linux/go-cross/1.6.2-r0/sstate-install-populate_sysroot/x86_64-
+linux/usr/bin/aarch64-prj-linux/go')'
+failed with exit code 1 and the following output:
+cannot find section .rela.dyn
+
+Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+---
+ .../patchelf/Skip-empty-section-fixes-66.patch     | 30 ++++++++++++++++++++++
+ .../patchelf/patchelf/maxsize.patch                | 30 ----------------------
+ .../patchelf/{patchelf_0.8.bb => patchelf_0.9.bb}  |  8 +++---
+ 3 files changed, 35 insertions(+), 33 deletions(-)
+ create mode 100644 meta/recipes-devtools/patchelf/patchelf/Skip-empty-section-fixes-66.patch
+ delete mode 100644 meta/recipes-devtools/patchelf/patchelf/maxsize.patch
+ rename meta/recipes-devtools/patchelf/{patchelf_0.8.bb => patchelf_0.9.bb} (61%)
+
+diff --git a/meta/recipes-devtools/patchelf/patchelf/Skip-empty-section-fixes-66.patch b/meta/recipes-devtools/patchelf/patchelf/Skip-empty-section-fixes-66.patch
+new file mode 100644
+index 0000000..9ee8a55
+--- /dev/null
++++ b/meta/recipes-devtools/patchelf/patchelf/Skip-empty-section-fixes-66.patch
+@@ -0,0 +1,30 @@
++From 73526cb546ae6b00ea6169e40b01fb7b5f0dbb50 Mon Sep 17 00:00:00 2001
++From: Fabio Berton <fabio.berton@ossystems.com.br>
++Date: Thu, 28 Jul 2016 11:05:06 -0300
++Subject: [PATCH] Skip empty section (fixes #66)
++Organization: O.S. Systems Software LTDA.
++
++Upstream-Status: Pending
++
++Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
++---
++ src/patchelf.cc | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/src/patchelf.cc b/src/patchelf.cc
++index 136098f..2677a26 100644
++--- a/src/patchelf.cc
+++++ b/src/patchelf.cc
++@@ -684,6 +684,9 @@ void ElfFile<ElfFileParamNames>::rewriteSectionsExecutable()
++     for (unsigned int i = 1; i <= lastReplaced; ++i) {
++         Elf_Shdr & shdr(shdrs[i]);
++         string sectionName = getSectionName(shdr);
+++        if (sectionName == "") {
+++            continue;
+++        }
++         debug("looking at section `%s'\n", sectionName.c_str());
++         /* !!! Why do we stop after a .dynstr section? I can't
++            remember! */
++-- 
++2.1.4
++
+diff --git a/meta/recipes-devtools/patchelf/patchelf/maxsize.patch b/meta/recipes-devtools/patchelf/patchelf/maxsize.patch
+deleted file mode 100644
+index cc04a89..0000000
+--- a/meta/recipes-devtools/patchelf/patchelf/maxsize.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-From f6886c2c33a1cf8771163919f3d20f6340c0ce38 Mon Sep 17 00:00:00 2001
+-From: Eelco Dolstra <eelco.dolstra@logicblox.com>
+-Date: Fri, 10 Jul 2015 18:12:37 +0200
+-Subject: [PATCH] Quick fix for #47
+-
+-https://github.com/NixOS/patchelf/issues/47
+-
+-Avoid issues with holes in binaries such as qemu-pcc from qemu-native.
+-
+-Upstream-Status: Submitted
+-RP
+-2016/2/3
+-
+----
+- src/patchelf.cc | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/src/patchelf.cc b/src/patchelf.cc
+-index 8566ed9..df75593 100644
+---- a/src/patchelf.cc
+-+++ b/src/patchelf.cc
+-@@ -248,7 +248,7 @@ static void readFile(string fileName, mode_t * fileMode)
+-     if (stat(fileName.c_str(), &st) != 0) error("stat");
+-     fileSize = st.st_size;
+-     *fileMode = st.st_mode;
+--    maxSize = fileSize + 8 * 1024 * 1024;
+-+    maxSize = fileSize + 64 * 1024 * 1024;
+- 
+-     contents = (unsigned char *) malloc(fileSize + maxSize);
+-     if (!contents) abort();
+\ No newline at end of file
+diff --git a/meta/recipes-devtools/patchelf/patchelf_0.8.bb b/meta/recipes-devtools/patchelf/patchelf_0.9.bb
+similarity index 61%
+rename from meta/recipes-devtools/patchelf/patchelf_0.8.bb
+rename to meta/recipes-devtools/patchelf/patchelf_0.9.bb
+index 8484a7e..86afd48 100644
+--- a/meta/recipes-devtools/patchelf/patchelf_0.8.bb
++++ b/meta/recipes-devtools/patchelf/patchelf_0.9.bb
+@@ -1,10 +1,12 @@
+ SRC_URI = "http://nixos.org/releases/${BPN}/${BPN}-${PV}/${BPN}-${PV}.tar.bz2 \
+-           file://maxsize.patch"
++           file://Skip-empty-section-fixes-66.patch \
++"
++
+ LICENSE = "GPLv3"
+ SUMMARY = "Tool to allow editing of RPATH and interpreter fields in ELF binaries"
+ 
+-SRC_URI[md5sum] = "5b151e3c83b31f5931b4a9fc01635bfd"
+-SRC_URI[sha256sum] = "c99f84d124347340c36707089ec8f70530abd56e7827c54d506eb4cc097a17e7"
++SRC_URI[md5sum] = "d02687629c7e1698a486a93a0d607947"
++SRC_URI[sha256sum] = "a0f65c1ba148890e9f2f7823f4bedf7ecad5417772f64f994004f59a39014f83"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ 
+-- 
+2.1.4
 
 
-> On Jul 29, 2016, at 10:48 AM, Nemicolopterus Crypticus =
-<ncrypticus@gmail.com> wrote:
->=20
-> Hello all,
->=20
-> We are having issues with our generated SDK files. We're using the =
-jethro branch, and have enabled multilib (see relevant portion of =
-local.conf below).
->=20
-> I can succesfully run the command to generate the SDK:
-> $ bitbake <recipe name> -c populate_sdk
->=20
-> But the output is incorrect. While the aarch sysroots look good, the =
-sysroots for arm are completely missing. The environment setup script =
-ends up pointing to non-existent compilers. Please let me know if you =
-need more information!
-
-Thanks for report. It will be good if you can open a bugzilla entry for =
-this. So it can be tracked.
-
->=20
-> Steps to reproduce:
-> $ bitbake <recipe name> -c populate_sdk
-> $ cp tmp/deploy/sdk/<sdk-script>.sh /test/directory
-> $ cd /test/directory
-> $ bash <sdk-script>.sh
-> $ ls sysroots/
-> aarch64-poky-linux/   x86_64-pokysdk-linux/
->=20
-> Note the missing ARM directories.
->=20
-> Also, the setup script for arm sets this as the command for compiler:
->  12 export CC=3D"arm-pokymllib32-linux-gnueabi-gcc
->=20
-> But that compiler doesn't exist anywhere in the folder where I =
-installed everything, or environment!
->=20
-> So it appears that it's not completely or correctly packaging =
-everything for ARMv7.
->=20
-> The documentation does mention some environment variables =
-<http://www.yoctoproject.org/docs/2.0/mega-manual/mega-manual.html#sdk-dev=
--environment>, but it's not clear how those related to multilib.
->=20
-> For instance, none of our recipes have "SDKIMAGE_FEATURES" defined, =
-but clearly the aarch64 sysroots are getting populated correctly (we =
-succesfully compiled and ran a simple hello world).
->=20
-> Can anyone point me to an example, or discuss a successful use of =
-"multilib" on the Jethro branch (given desparate brainstorming below), =
-share some more verbose documentation, or ask follow-up questions?
->=20
->=20
-> _____________________________________________________________
-> Desperate brainstorming below:
-> I did find this years-old patch: =
-https://patchwork.openembedded.org/patch/30941/ =
-<https://patchwork.openembedded.org/patch/30941/>
-> Notably, the do_populate_sdk method in =
-poky/meta/classes/populate_sdk_base.bbclass iterates over the values =
-listed in the MULTILIB_VARIANTS variable:
->=20
-> +	variants =3D d.getVar("MULTILIB_VARIANTS", True) or ""
-> +	for item in variants.split():
-> +		# Load overrides from 'd' to avoid having to reset the =
-value...
-> +		overrides =3D d.getVar("OVERRIDES", False) + =
-":virtclass-multilib-" + item
-> +		localdata.setVar("OVERRIDES", overrides)
-> +		bb.data.update_data(localdata)
-> +		bb.build.exec_func("create_sdk_files", localdata)
->=20
->=20
-> The latest version in Jethro does not have anything equivalent to =
-that, but I did not dig deeply into the code or the commit history.
->=20
->=20
->=20
->=20
-> ______________________________________________________________
-> More data:
->=20
-> local.conf relevant section:
-> #
-> # Multilib configuration
-> #
-> # This sets any packages preprended with lib32- to be built with
-> # the armv7a tuning (32 bit) instead of 64 bit aarch.
-> #
-> require conf/multilib.conf
-> MULTILIBS =3D "multilib:lib32"
-> DEFAULTTUNE_virtclass-multilib-lib32 =3D "armv7at-neon"
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
---Apple-Mail=_9684580E-C773-47CD-AA8C-97AC52327FB0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=us-ascii
-
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
-charset=3Dus-ascii"></head><body style=3D"word-wrap: break-word; =
--webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
-class=3D""><br class=3D""><div><blockquote type=3D"cite" class=3D""><div =
-class=3D"">On Jul 29, 2016, at 10:48 AM, Nemicolopterus Crypticus &lt;<a =
-href=3D"mailto:ncrypticus@gmail.com" =
-class=3D"">ncrypticus@gmail.com</a>&gt; wrote:</div><br =
-class=3D"Apple-interchange-newline"><div class=3D""><div dir=3D"ltr" =
-class=3D""><div class=3D""><div class=3D"">Hello all,<br class=3D""><br =
-class=3D""></div>We are having issues with our=20
-generated SDK files. We're using the jethro branch, and have enabled=20
-multilib (see relevant portion of local.conf below).<br class=3D""><br =
-class=3D""></div><div class=3D"">I can succesfully run the command to =
-generate the SDK:<br class=3D""></div><div class=3D"">$ bitbake =
-&lt;recipe name&gt; -c populate_sdk<br class=3D""><br =
-class=3D""></div><div class=3D"">But the output is incorrect. <b =
-class=3D"">While
- the aarch sysroots look good, the sysroots for arm are completely=20
-missing. The environment setup script ends up pointing to non-existent=20=
-
-compilers. </b>Please let me know if you need more information!<br =
-class=3D""></div></div></div></blockquote><div><br =
-class=3D""></div><div>Thanks for report. It will be good if you can open =
-a bugzilla entry for this. So it can be tracked.</div><br =
-class=3D""><blockquote type=3D"cite" class=3D""><div class=3D""><div =
-dir=3D"ltr" class=3D""><div class=3D""><br class=3D""></div><div =
-class=3D"">Steps to reproduce:<br class=3D""></div><div class=3D"">$ =
-bitbake &lt;recipe name&gt; -c populate_sdk<br class=3D""></div><div =
-class=3D"">$ cp tmp/deploy/sdk/&lt;sdk-script&gt;.sh /test/directory<br =
-class=3D""></div><div class=3D"">$ cd /test/directory<br =
-class=3D""></div><div class=3D"">$ bash &lt;sdk-script&gt;.sh<br =
-class=3D""></div><div class=3D"">$ ls sysroots/<br =
-class=3D"">aarch64-poky-linux/&nbsp;&nbsp; x86_64-pokysdk-linux/ <br =
-class=3D""><br class=3D""></div><div class=3D"">Note the missing ARM =
-directories.<br class=3D""><br class=3D""></div><div class=3D"">Also, =
-the setup script for arm sets this as the command for compiler:<br =
-class=3D"">&nbsp;12 export CC=3D"arm-pokymllib32-linux-gnueabi-gcc<br =
-class=3D""><br class=3D""></div><div class=3D"">But that compiler =
-doesn't exist anywhere in the folder where I installed everything, or =
-environment!<br class=3D""><br class=3D""></div><div class=3D"">So it =
-appears that it's not completely or correctly packaging everything for =
-ARMv7.<br class=3D""></div><div class=3D""><br class=3D""></div><div =
-class=3D"">The <a target=3D"_blank" =
-href=3D"http://www.yoctoproject.org/docs/2.0/mega-manual/mega-manual.html#=
-sdk-dev-environment" class=3D"">documentation does mention some =
-environment variables</a>, but it's not clear how those related to =
-multilib.<br class=3D""><br class=3D""></div><div class=3D"">For
- instance, none of our recipes have "SDKIMAGE_FEATURES" defined, but=20
-clearly the aarch64 sysroots are getting populated correctly (we=20
-succesfully compiled and ran a simple hello world).<br class=3D""><br =
-class=3D""></div><div class=3D""><b class=3D"">Can
- anyone point me to an example, or discuss a successful use of=20
-"multilib" on the Jethro branch (given desparate brainstorming below),=20=
-
-share some more verbose documentation, or ask follow-up =
-questions?</b><br class=3D""></div><div class=3D""><br =
-class=3D""></div><div class=3D""><br =
-class=3D"">_____________________________________________________________<b=
-r class=3D""></div><div class=3D"">Desperate brainstorming below:<br =
-class=3D""></div><div class=3D"">I did find this years-old patch: <a =
-target=3D"_blank" href=3D"https://patchwork.openembedded.org/patch/30941/"=
- class=3D"">https://patchwork.openembedded.org/patch/30941/</a><br =
-class=3D""></div><div class=3D"">Notably, the do_populate_sdk method in =
-poky/meta/classes/populate_sdk_base.bbclass iterates over the values =
-listed in the MULTILIB_VARIANTS variable:<br class=3D""><br =
-class=3D""><pre class=3D""><span class=3D"">+	variants =3D =
-d.getVar("MULTILIB_VARIANTS", True) or ""</span>
-<span class=3D"">+	for item in variants.split():</span>
-<span class=3D"">+		# Load overrides from 'd' to avoid =
-having to reset the value...</span>
-<span class=3D"">+		overrides =3D d.getVar("OVERRIDES", =
-False) + ":virtclass-multilib-" + item</span>
-<span class=3D"">+		localdata.setVar("OVERRIDES", =
-overrides)</span>
-<span class=3D"">+		bb.data.update_data(localdata)</span>
-<span class=3D"">+		bb.build.exec_func("create_sdk_files", =
-localdata)</span></pre><br class=3D""></div><div class=3D""><br =
-class=3D""></div><div class=3D"">The latest version in Jethro does not =
-have anything equivalent to that, but I did not dig deeply into the code =
-or the commit history.<br class=3D""></div><div class=3D""><br =
-class=3D""><br class=3D""><br class=3D""><br =
-class=3D"">______________________________________________________________<=
-br class=3D""></div><div class=3D"">More data:<br class=3D""></div><div =
-class=3D""><br class=3D""></div>local.conf relevant section:<br =
-class=3D"">#<br class=3D""># Multilib configuration<br class=3D"">#<br =
-class=3D""># This sets any packages preprended with lib32- to be built =
-with<br class=3D""># the armv7a tuning (32 bit) instead of 64 bit =
-aarch.<br class=3D"">#<br class=3D"">require conf/multilib.conf<br =
-class=3D"">MULTILIBS =3D "multilib:lib32"<br =
-class=3D"">DEFAULTTUNE_virtclass-multilib-lib32 =3D "armv7at-neon"</div>
--- <br class=3D"">_______________________________________________<br =
-class=3D"">Openembedded-core mailing list<br class=3D""><a =
-href=3D"mailto:Openembedded-core@lists.openembedded.org" =
-class=3D"">Openembedded-core@lists.openembedded.org</a><br =
-class=3D"">http://lists.openembedded.org/mailman/listinfo/openembedded-cor=
-e<br class=3D""></div></blockquote></div><br class=3D""></body></html>=
-
---Apple-Mail=_9684580E-C773-47CD-AA8C-97AC52327FB0--
-
---Apple-Mail=_8072522F-C75D-482B-957E-C91C499CAC2C
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEUEARECAAYFAlebqVoACgkQuwUzVZGdMxTS6QCY9hVnm1I8bDF8hSEBO7qYpYxo
-5ACdHpjpBIxC6XWWtwLQb2ukaBnhENA=
-=TWCm
------END PGP SIGNATURE-----
-
---Apple-Mail=_8072522F-C75D-482B-957E-C91C499CAC2C--
