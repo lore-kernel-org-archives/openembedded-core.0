@@ -1,31 +1,28 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 99313607A4
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id CDFF9607A4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jul 2016 14:19:25 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u6TEJOZ8004547
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 29 Jul 2016 07:19:24 -0700 (PDT)
-Received: from server.local (147.11.117.84) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Fri, 29 Jul 2016 07:19:24 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1469638333.git.bruce.ashfield@windriver.com>
-	<009dfcea9c78b09da41ed2502482b1e116772c78.1469638333.git.bruce.ashfield@windriver.com>
-	<1469774922.9142.39.camel@linuxfoundation.org>
-	<ebc1baa1-18d7-8de4-0edc-6213aa62eb1c@windriver.com>
-	<1469793618.9142.62.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <9b2bed5c-4314-efa4-fc59-3337379e2342@windriver.com>
-Date: Fri, 29 Jul 2016 10:19:23 -0400
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
-	Gecko/20100101 Thunderbird/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <1469793618.9142.62.camel@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/5] linux-yocto/4.1: bump to v4.1.28
+	Fri, 29 Jul 2016 14:21:31 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga102.jf.intel.com with ESMTP; 29 Jul 2016 07:21:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,439,1464678000"; d="scan'208";a="741510824"
+Received: from linux.intel.com ([10.54.29.200])
+	by FMSMGA003.fm.intel.com with ESMTP; 29 Jul 2016 07:21:12 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.68])
+	by linux.intel.com (Postfix) with ESMTP id 700646A4080
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Jul 2016 07:20:59 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 29 Jul 2016 16:44:37 +0300
+Message-Id: <6b6fbba91ea7ac508bc8f8c53287ac90bdcff1b7.1469799731.git.ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <cover.1469799731.git.ed.bartosh@linux.intel.com>
+References: <cover.1469799731.git.ed.bartosh@linux.intel.com>
+In-Reply-To: <cover.1469799731.git.ed.bartosh@linux.intel.com>
+References: <cover.1469799731.git.ed.bartosh@linux.intel.com>
+Subject: [PATCH v5 1/2] image creation: support converting masked types
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,165 +35,336 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jul 2016 14:19:27 -0000
-X-Groupsio-MsgNum: 85121
-Content-Type: multipart/mixed; boundary="------------71E63913B07F8FC070D664D8"
+X-List-Received-Date: Fri, 29 Jul 2016 14:21:33 -0000
 
---------------71E63913B07F8FC070D664D8
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Patrick Ohly <patrick.ohly@intel.com>
 
-On 2016-07-29 8:00 AM, Richard Purdie wrote:
-> On Fri, 2016-07-29 at 07:15 -0400, Bruce Ashfield wrote:
->> On 2016-07-29 2:48 AM, Richard Purdie wrote:
->>> On Wed, 2016-07-27 at 12:57 -0400, Bruce Ashfield wrote:
->>>> Updating the 4.1 kernel to the korg -stable release
->>>>
->>>> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
->>>> ---
->>>>  meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   |  6 +++---
->>>>  meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb |  6 +++---
->>>>  meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 20
->>>> ++++++++++---
->>>> -------
->>>>  3 files changed, 16 insertions(+), 16 deletions(-)
->>>
->>> https://autobuilder.yoctoproject.org/main/builders/nightly-mips-lsb
->>> /bui
->>> lds/851/steps/BuildImages/logs/stdio
->>>
->>> http://errors.yoctoproject.org/Errors/Details/73456/
->>>
->>>> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips
->>>> -lsb/build/build/tmp/work-shared/qemumips/kernel
->>>> -source/arch/mips/kernel/setup.c: In function 'arch_mem_init':
->>>> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips
->>>> -lsb/build/build/tmp/work-shared/qemumips/kernel
->>>> -source/arch/mips/kernel/setup.c:690:2: error: implicit
->>>> declaration of function 'reserve_bootmem_region' [
->>>> -Werror=implicit-function-declaration]
->>>>   reserve_bootmem_region(__pa_symbol(&__nosave_begin),
->>>>   ^~~~~~~~~~~~~~~~~~~~~~
->>>>   CC      mm/swap.o
->>>> cc1: all warnings being treated as errors
->>>> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips
->>>> -lsb/build/build/tmp/work-shared/qemumips/kernel
->>>> -source/scripts/Makefile.build:258: recipe for target
->>>> 'arch/mips/kernel/setup.o' failed
->>>> make[4]: *** [arch/mips/kernel/setup.o] Error 1
->>>> make[4]: *** Waiting for unfinished jobs....
->>>
->>> also
->>>
->>> https://autobuilder.yoctoproject.org/main/builders/nightly-ppc-lsb/
->>> buil
->>> ds/857/steps/BuildImages/logs/stdio
->>>
->>> http://errors.yoctoproject.org/Errors/Details/73450/
->>>
->>> TOPDIR/tmp/work-shared/qemuppc/kernel
->>> -source/arch/powerpc/kernel/prom.c:170:25: error:
->>> 'PPC_FEATURE2_HTM_NOSC_COMP' undeclared here (not in a function)
->>>    PPC_FEATURE2_HTM_COMP|PPC_FEATURE2_HTM_NOSC_COMP, 22, 0, 0},
->>>                          ^~~~~~~~~~~~~~~~~~~~~~~~~~
->>> make[3]: *** [arch/powerpc/kernel/prom.o] Error 1
->>> make[3]: *** Waiting for unfinished jobs....
->>> make[2]: *** [arch/powerpc/kernel] Error 2
->>> make[1]: *** [sub-make] Error 2
->>> make: *** [__sub-make] Error 2
->>
->> odd. My core-image-builds claim to have worked. I'll pick this up and
->> re-submit my queue with some new 4.1 patches that fix any issues.
->
-> I've dropped the 4.1 patches from the test queue, I left the 4.4 ones
-> in since those seem ok and hopefully pull back a bit of performance so
-> you may not need to resubmit those.
+Conversion to vmdk/vdi/qcow2 is also useful for other base images
+types, not just for .hdddirect. This can be achieved by definining
+them as conversion commands and relying on the conversion chaining
+to convert arbitrary base images.
 
-Looks like -stable broke both ppc and mips builds for some platforms.
-There was a patch missing for ppc and a partial backport on mips.
+For this to work when the base image gets created by a masked image
+type, the additional conversion commands now get executed in a
+do_image_complete prefunc.
 
-I added the extra patch and reverted the offending mips commit.
+With all of that in place it becomes possible to remove the special
+purpose code for vmdk/vdi/qcow2 types from image-vm.bbclass and
+several other classes. This has (intentional!) implications on the
+valid IMAGE_FSTYPES and the file suffices: now
+"hdddirect.vmdk/vdi/qcow2" must be used as IMAGE_FSTYPES to select the
+former special-case types "vmdk/vdi/qcow2", and the image files and
+links will also have the extra .hdddirect suffix.
 
-I pushed the attached patch to the end of my zedd/kernel queue on
-poky-contrib.
+This is intentional because it makes it makes it possible to
+distinguish between virtual machine images created from .hdddirect and
+those created from other base images.
 
-Bruce
+The new support for virtual machine images can also be combined with
+compression, thus making it possible to create image files for
+publication in compressed format, for example with:
+  IMAGE_FSTYPES = "hdddirect.vdi.xz"
 
->
-> Cheers,
->
-> Richard
->
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ meta/classes/image-live.bbclass                    |  2 +-
+ meta/classes/image-vm.bbclass                      | 33 ++--------
+ meta/classes/image.bbclass                         | 73 +++++++++++++++-------
+ meta/classes/image_types.bbclass                   | 20 ++++--
+ meta/conf/documentation.conf                       |  1 -
+ .../images/build-appliance-image_15.0.0.bb         |  6 +-
+ 6 files changed, 75 insertions(+), 60 deletions(-)
+
+diff --git a/meta/classes/image-live.bbclass b/meta/classes/image-live.bbclass
+index f0e6647..039a977 100644
+--- a/meta/classes/image-live.bbclass
++++ b/meta/classes/image-live.bbclass
+@@ -43,7 +43,7 @@ ROOT_LIVE ?= "root=/dev/ram0"
+ INITRD_IMAGE_LIVE ?= "core-image-minimal-initramfs"
+ INITRD_LIVE ?= "${DEPLOY_DIR_IMAGE}/${INITRD_IMAGE_LIVE}-${MACHINE}.cpio.gz"
+ 
+-ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.ext4"
++ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.ext4"
+ 
+ IMAGE_TYPEDEP_live = "ext4"
+ IMAGE_TYPEDEP_iso = "ext4"
+diff --git a/meta/classes/image-vm.bbclass b/meta/classes/image-vm.bbclass
+index 72f7b4b..d37ce0a 100644
+--- a/meta/classes/image-vm.bbclass
++++ b/meta/classes/image-vm.bbclass
+@@ -26,14 +26,11 @@ do_bootdirectdisk[depends] += "dosfstools-native:do_populate_sysroot \
+                                ${PN}:do_image_${VM_ROOTFS_TYPE} \
+                                "
+ 
+-IMAGE_TYPEDEP_vmdk = "${VM_ROOTFS_TYPE}"
+-IMAGE_TYPEDEP_vdi = "${VM_ROOTFS_TYPE}"
+-IMAGE_TYPEDEP_qcow2 = "${VM_ROOTFS_TYPE}"
++VM_ROOTFS_TYPE ?= "ext4"
+ IMAGE_TYPEDEP_hdddirect = "${VM_ROOTFS_TYPE}"
+-IMAGE_TYPES_MASKED += "vmdk vdi qcow2 hdddirect"
++IMAGE_TYPES_MASKED += "hdddirect"
+ 
+-VM_ROOTFS_TYPE ?= "ext4"
+-ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.${VM_ROOTFS_TYPE}"
++ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.ext4"
+ 
+ # Used by bootloader
+ LABELS_VM ?= "boot"
+@@ -144,27 +141,5 @@ run_qemu_img (){
+     qemu-img convert -O $type ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.hdddirect ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.$type
+     ln -sf ${IMAGE_NAME}.$type ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.$type
+ }
+-create_vmdk_image () {
+-    run_qemu_img vmdk
+-}
+-
+-create_vdi_image () {
+-    run_qemu_img vdi
+-}
+-
+-create_qcow2_image () {
+-    run_qemu_img qcow2
+-}
+-
+-python do_vmimg() {
+-    if 'vmdk' in d.getVar('IMAGE_FSTYPES', True):
+-        bb.build.exec_func('create_vmdk_image', d)
+-    if 'vdi' in d.getVar('IMAGE_FSTYPES', True):
+-        bb.build.exec_func('create_vdi_image', d)
+-    if 'qcow2' in d.getVar('IMAGE_FSTYPES', True):
+-        bb.build.exec_func('create_qcow2_image', d)
+-}
+ 
+-addtask bootdirectdisk before do_vmimg
+-addtask vmimg after do_bootdirectdisk before do_image_complete
+-do_vmimg[depends] += "qemu-native:do_populate_sysroot"
++addtask bootdirectdisk before do_image_complete
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index af789f4..57e0744 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -127,6 +127,13 @@ do_rootfs[vardeps] += "${@rootfs_variables(d)}"
+ 
+ do_build[depends] += "virtual/kernel:do_deploy"
+ 
++def image_type_active(type, d):
++    '''True if any entry in IMAGE_FSTYPES is type or depends on it.'''
++    for entry in d.getVar("IMAGE_FSTYPES", True).split():
++        if entry == type or entry.startswith(type + "."):
++            return True
++    return False
++
+ def build_live(d):
+     if bb.utils.contains("IMAGE_FSTYPES", "live", "live", "0", d) == "0": # live is not set but hob might set iso or hddimg
+         d.setVar('NOISO', bb.utils.contains('IMAGE_FSTYPES', "iso", "0", "1", d))
+@@ -139,7 +146,7 @@ def build_live(d):
+ IMAGE_TYPE_live = "${@build_live(d)}"
+ inherit ${IMAGE_TYPE_live}
+ 
+-IMAGE_TYPE_vm = '${@bb.utils.contains_any("IMAGE_FSTYPES", ["vmdk", "vdi", "qcow2", "hdddirect"], "image-vm", "", d)}'
++IMAGE_TYPE_vm = '${@ "image-vm" if image_type_active("hdddirect", d) else ""}'
+ inherit ${IMAGE_TYPE_vm}
+ 
+ python () {
+@@ -414,9 +421,7 @@ python () {
+         cmds = []
+         subimages = []
+         realt = t
+-
+-        if t in maskedtypes:
+-            continue
++        ismasked = t in maskedtypes
+ 
+         localdata = bb.data.createCopy(d)
+         debug = ""
+@@ -434,12 +439,14 @@ python () {
+         localdata.delVar('DATETIME')
+         localdata.delVar('TMPDIR')
+ 
+-        image_cmd = localdata.getVar("IMAGE_CMD", True)
+-        vardeps.add('IMAGE_CMD_' + realt)
+-        if image_cmd:
+-            cmds.append("\t" + image_cmd)
+-        else:
+-            bb.fatal("No IMAGE_CMD defined for IMAGE_FSTYPES entry '%s' - possibly invalid type name or missing support class" % t)
++        if not ismasked:
++            image_cmd = localdata.getVar("IMAGE_CMD", True)
++            vardeps.add('IMAGE_CMD_' + realt)
++            if image_cmd:
++                cmds.append("\t" + image_cmd)
++            else:
++                bb.fatal("No IMAGE_CMD defined for IMAGE_FSTYPES entry '%s' - possibly invalid type name or missing support class" % t)
++
+         cmds.append(localdata.expand("\tcd ${DEPLOY_DIR_IMAGE}"))
+ 
+         # Since a copy of IMAGE_CMD_xxx will be inlined within do_image_xxx,
+@@ -487,17 +494,41 @@ python () {
+ 
+         t = t.replace("-", "_").replace(".", "_")
+ 
+-        d.setVar('do_image_%s' % t, '\n'.join(cmds))
+-        d.setVarFlag('do_image_%s' % t, 'func', '1')
+-        d.setVarFlag('do_image_%s' % t, 'fakeroot', '1')
+-        d.setVarFlag('do_image_%s' % t, 'prefuncs', debug + 'set_image_size')
+-        d.setVarFlag('do_image_%s' % t, 'postfuncs', 'create_symlinks')
+-        d.setVarFlag('do_image_%s' % t, 'subimages', ' '.join(subimages))
+-        d.appendVarFlag('do_image_%s' % t, 'vardeps', ' '.join(vardeps))
+-        d.appendVarFlag('do_image_%s' % t, 'vardepsexclude', 'DATETIME')
+-
+-        bb.debug(2, "Adding type %s before %s, after %s" % (t, 'do_image_complete', after))
+-        bb.build.addtask('do_image_%s' % t, 'do_image_complete', after, d)
++        if ismasked:
++            # If the type is masked, then some unknown task (for example,
++            # do_bootdirectdisk in boot-directdisk.bbclass for IMAGE_FSTYPES hdddirect)
++            # will create the actual base image. All we know is that the files will
++            # be there right before do_image_complete. So in that case we put the
++            # conversion commands into a do_image_complete prefunc. The 'after'
++            # dependencies can be ignored because we are guaranteed to run after
++            # all of them, and the conversion dependencies are dealt with
++            # by making do_rootfs depend on them.
++            d.setVar('image_%s_conversion' % t, '\n'.join(cmds))
++            d.setVarFlag('image_%s_conversion' % t, 'func', '1')
++            d.setVarFlag('image_%s_conversion' % t, 'fakeroot', '1')
++            d.appendVarFlag('image_%s_conversion' % t, 'vardeps', ' '.join(vardeps))
++            d.appendVarFlag('image_%s_conversion' % t, 'vardepsexclude', 'DATETIME')
++            prefuncs = set((d.getVarFlag('do_image_complete', 'prefuncs', True) or '').split())
++            prefuncs.add('image_%s_conversion' % t)
++            # create_symlinks must run after the commands which create the real files
++            # because create_symlinks checks for them.
++            prefuncs.discard('create_symlinks')
++            d.setVarFlag('do_image_complete', 'prefuncs', ' '.join(sorted(prefuncs)) + ' create_symlinks')
++            d.appendVarFlag('do_image_complete', 'subimages', ' ' + ' '.join(subimages))
++        else:
++            # If not masked, we generate a new task which executes the image
++            # creation and the conversion commands.
++            d.setVar('do_image_%s' % t, '\n'.join(cmds))
++            d.setVarFlag('do_image_%s' % t, 'func', '1')
++            d.setVarFlag('do_image_%s' % t, 'fakeroot', '1')
++            d.setVarFlag('do_image_%s' % t, 'prefuncs', debug + 'set_image_size')
++            d.setVarFlag('do_image_%s' % t, 'postfuncs', 'create_symlinks')
++            d.setVarFlag('do_image_%s' % t, 'subimages', ' '.join(subimages))
++            d.appendVarFlag('do_image_%s' % t, 'vardeps', ' '.join(vardeps))
++            d.appendVarFlag('do_image_%s' % t, 'vardepsexclude', 'DATETIME')
++
++            bb.debug(2, "Adding type %s before %s, after %s" % (t, 'do_image_complete', after))
++            bb.build.addtask('do_image_%s' % t, 'do_image_complete', after, d)
+ }
+ 
+ #
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 2b97397..c386bb6 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -284,6 +284,7 @@ IMAGE_DEPENDS_cramfs = "util-linux-native"
+ IMAGE_DEPENDS_ext2 = "e2fsprogs-native"
+ IMAGE_DEPENDS_ext3 = "e2fsprogs-native"
+ IMAGE_DEPENDS_ext4 = "e2fsprogs-native"
++IMAGE_DEPENDS_hdddirect = "${IMAGE_DEPENDS_ext4}"
+ IMAGE_DEPENDS_btrfs = "btrfs-tools-native"
+ IMAGE_DEPENDS_squashfs = "squashfs-tools-native"
+ IMAGE_DEPENDS_squashfs-xz = "squashfs-tools-native"
+@@ -295,6 +296,9 @@ IMAGE_DEPENDS_multiubi = "mtd-utils-native"
+ IMAGE_DEPENDS_wic = "parted-native"
+ 
+ # This variable is available to request which values are suitable for IMAGE_FSTYPES
++# TODO: several other variations are now also possible, for example ext4.zip,
++# hdddirect.xz, hdddirect.vdi.xz. Which variations are supposed to be listed here
++# and which not? Generate all possible variations dynamically?
+ IMAGE_TYPES = " \
+     jffs2 jffs2.sum \
+     cramfs \
+@@ -308,15 +312,15 @@ IMAGE_TYPES = " \
+     ubi ubifs multiubi \
+     tar tar.gz tar.bz2 tar.xz tar.lz4 \
+     cpio cpio.gz cpio.xz cpio.lzma cpio.lz4 \
+-    vmdk \
+-    vdi \
+-    qcow2 \
++    hdddirect.vmdk \
++    hdddirect.vdi \
++    hdddirect.qcow2 \
+     hdddirect \
+     elf \
+     wic wic.gz wic.bz2 wic.lzma \
+ "
+ 
+-COMPRESSIONTYPES = "gz bz2 lzma xz lz4 zip sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap"
++COMPRESSIONTYPES = "gz bz2 lzma xz lz4 zip sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap vmdk vdi qcow2"
+ COMPRESS_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+ COMPRESS_CMD_gz = "gzip -f -9 -c ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
+ COMPRESS_CMD_bz2 = "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+@@ -324,6 +328,9 @@ COMPRESS_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_THREADS} --check=${X
+ COMPRESS_CMD_lz4 = "lz4c -9 -c ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.lz4"
+ COMPRESS_CMD_zip = "zip ${ZIP_COMPRESSION_LEVEL} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.zip ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+ COMPRESS_CMD_sum = "sumtool -i ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} -o ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sum ${JFFS2_SUM_EXTRA_ARGS}"
++COMPRESS_CMD_vmdk = "qemu-img convert -O vmdk ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vmdk"
++COMPRESS_CMD_vdi = "qemu-img convert -O vdi ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vdi"
++COMPRESS_CMD_qcow2 = "qemu-img convert -O qcow2 ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.qcow2"
+ COMPRESS_CMD_md5sum = "md5sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.md5sum"
+ COMPRESS_CMD_sha1sum = "sha1sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha1sum"
+ COMPRESS_CMD_sha224sum = "sha224sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha224sum"
+@@ -339,6 +346,9 @@ COMPRESS_DEPENDS_lz4 = "lz4-native"
+ COMPRESS_DEPENDS_zip = "zip-native"
+ COMPRESS_DEPENDS_sum = "mtd-utils-native"
+ COMPRESS_DEPENDS_bmap = "bmap-tools-native"
++COMPRESS_DEPENDS_vmdk = "qemu-native"
++COMPRESS_DEPENDS_vdi = "qemu-native"
++COMPRESS_DEPENDS_qcow2 = "qemu-native"
+ 
+ RUNNABLE_IMAGE_TYPES ?= "ext2 ext3 ext4"
+ RUNNABLE_MACHINE_PATTERNS ?= "qemu"
+@@ -349,7 +359,7 @@ DEPLOYABLE_IMAGE_TYPES ?= "hddimg iso"
+ IMAGE_EXTENSION_live = "hddimg iso"
+ 
+ # The IMAGE_TYPES_MASKED variable will be used to mask out from the IMAGE_FSTYPES,
+-# images that will not be built at do_rootfs time: vmdk, vdi, qcow2, hdddirect, hddimg, iso, etc.
++# images that will not be built at do_rootfs time: hdddirect, hddimg, iso, etc.
+ IMAGE_TYPES_MASKED ?= ""
+ 
+ # The WICVARS variable is used to define list of bitbake variables used in wic code
+diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+index 51c4116..35e487c 100644
+--- a/meta/conf/documentation.conf
++++ b/meta/conf/documentation.conf
+@@ -56,7 +56,6 @@ do_testsdk[doc] = "Installs an SDK and performs runtime tests on the tools insta
+ do_uboot_mkimage[doc] = "Creates a uImage file from the kernel for the U-Boot bootloader"
+ do_unpack[doc] = "Unpacks the source code into a working directory"
+ do_validate_branches[doc] = "Ensures that the source/meta branches are on the locations specified by their SRCREV values for a linux-yocto style kernel"
+-do_vmimg[doc] = "Creates an image for use with VMware or VirtualBox compatible virtual machine hosts (based on IMAGE_FSTYPES either .vmdk or .vdi)"
+ 
+ # DESCRIPTIONS FOR VARIABLES #
+ 
+diff --git a/meta/recipes-core/images/build-appliance-image_15.0.0.bb b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
+index dc621d6..957b8cf 100644
+--- a/meta/recipes-core/images/build-appliance-image_15.0.0.bb
++++ b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
+@@ -18,7 +18,7 @@ IMAGE_ROOTFS_EXTRA_SPACE = "41943040"
+ APPEND += "rootfstype=ext4 quiet"
+ 
+ DEPENDS = "zip-native"
+-IMAGE_FSTYPES = "vmdk"
++IMAGE_FSTYPES = "hdddirect.vmdk"
+ 
+ inherit core-image module-base
+ 
+@@ -101,7 +101,7 @@ create_bundle_files () {
+ 	cd ${WORKDIR}
+ 	mkdir -p Yocto_Build_Appliance
+ 	cp *.vmx* Yocto_Build_Appliance
+-	ln -sf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.vmdk Yocto_Build_Appliance/Yocto_Build_Appliance.vmdk
++	ln -sf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hdddirect.vmdk Yocto_Build_Appliance/Yocto_Build_Appliance.vmdk
+ 	zip -r ${DEPLOY_DIR_IMAGE}/Yocto_Build_Appliance-${DATETIME}.zip Yocto_Build_Appliance
+ 	ln -sf Yocto_Build_Appliance-${DATETIME}.zip ${DEPLOY_DIR_IMAGE}/Yocto_Build_Appliance.zip 
+ }
+@@ -111,5 +111,5 @@ python do_bundle_files() {
+     bb.build.exec_func('create_bundle_files', d)
+ }
+ 
+-addtask bundle_files after do_vmimg before do_build
++addtask bundle_files after do_image_complete before do_build
+ do_bundle_files[nostamp] = "1"
+-- 
+2.1.4
 
 
---------------71E63913B07F8FC070D664D8
-Content-Type: application/mbox;
-	name="0001-linux-yocto-4.1-qemuppc-and-qemumips-build-fixes.patch"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
-	filename="0001-linux-yocto-4.1-qemuppc-and-qemumips-build-fixes.patch"
-
-RnJvbSAzYjc5MTIzMDU4MjMzOTEwOTU2Yjk5MGJjYzNkZDA2YmI2MzY1YTNlIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBCcnVjZSBBc2hmaWVsZCA8YnJ1Y2UuYXNoZmllbGRAd2luZHJp
-dmVyLmNvbT4KRGF0ZTogRnJpLCAyOSBKdWwgMjAxNiAxMDowNjo1OSAtMDQwMApTdWJqZWN0OiBb
-UEFUQ0hdIGxpbnV4LXlvY3RvLzQuMTogcWVtdXBwYyBhbmQgcWVtdW1pcHMgYnVpbGQgZml4ZXMK
-ClRoZSB2NC4xLjI4IC1zdGFibGUgdXBkYXRlIGJyb2tlIHRoZSBidWlsZCBmb3Igc29tZSBwcGMg
-YW5kIG1pcHMKcGxhdGZvcm1zLiBXZSBmaXggdGhlIGVycm9ycyBieSBiYWNrcG9ydGluZyBhIG1p
-c3NpbmcgY29tbWl0IGZvcgpwcGM6CgogIHBvd2VycGMvdG06IEFib3J0IHN5c2NhbGxzIGluIGFj
-dGl2ZSB0cmFuc2FjdGlvbnMKCkFuZCBieSByZXZlcnRpbmcgYSBjb21taXQgZm9yIG1pcHMgKHJh
-dGhlciB0aGFuIGJhY2twb3J0aW5nIG1vcmUKY2hhbmdlcyB0byAtbW0pOgoKICBSZXZlcnQgIk1J
-UFM6IFJlc2VydmUgbm9zYXZlIGRhdGEgZm9yIGhpYmVybmF0aW9uIgoKU2lnbmVkLW9mZi1ieTog
-QnJ1Y2UgQXNoZmllbGQgPGJydWNlLmFzaGZpZWxkQHdpbmRyaXZlci5jb20+Ci0tLQogbWV0YS9y
-ZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC15b2N0by1ydF80LjEuYmIgICB8IDIgKy0KIG1ldGEv
-cmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG8tdGlueV80LjEuYmIgfCAyICstCiBtZXRh
-L3JlY2lwZXMta2VybmVsL2xpbnV4L2xpbnV4LXlvY3RvXzQuMS5iYiAgICAgIHwgOCArKysrLS0t
-LQogMyBmaWxlcyBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDYgZGVsZXRpb25zKC0pCgpkaWZm
-IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC15b2N0by1ydF80LjEuYmIg
-Yi9tZXRhL3JlY2lwZXMta2VybmVsL2xpbnV4L2xpbnV4LXlvY3RvLXJ0XzQuMS5iYgppbmRleCA0
-OTE1NzkwMmFiNTkuLjQxNzEwNjIxNzI4MCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWtlcm5l
-bC9saW51eC9saW51eC15b2N0by1ydF80LjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9s
-aW51eC9saW51eC15b2N0by1ydF80LjEuYmIKQEAgLTEyLDcgKzEyLDcgQEAgcHl0aG9uICgpIHsK
-IH0KIAogU1JDUkVWX21hY2hpbmUgPz0gIjBiNjg0OTg3ODRkYTVkZWZiNzY1ODY3NWUzN2Q5YmM2
-MTVjZDRjNTAiCi1TUkNSRVZfbWV0YSA/PSAiYWZiYzZiZDAwZTZmYTg1NGFlMTBlYjY3YWI4YzNi
-ZTUxMTJmNmY0MSIKK1NSQ1JFVl9tZXRhID89ICIwZDZkZTYzZDQ2MDNiOWNjM2E0YTY4MzkxYmNi
-NTE1NmI5YjBjZjk2IgogCiBTUkNfVVJJID0gImdpdDovL2dpdC55b2N0b3Byb2plY3Qub3JnL2xp
-bnV4LXlvY3RvLTQuMS5naXQ7YnJhbmNoPSR7S0JSQU5DSH07bmFtZT1tYWNoaW5lIFwKICAgICAg
-ICAgICAgZ2l0Oi8vZ2l0LnlvY3RvcHJvamVjdC5vcmcveW9jdG8ta2VybmVsLWNhY2hlO3R5cGU9
-a21ldGE7bmFtZT1tZXRhO2JyYW5jaD15b2N0by00LjE7ZGVzdHN1ZmZpeD0ke0tNRVRBfSIKZGlm
-ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG8tdGlueV80LjEu
-YmIgYi9tZXRhL3JlY2lwZXMta2VybmVsL2xpbnV4L2xpbnV4LXlvY3RvLXRpbnlfNC4xLmJiCmlu
-ZGV4IDkxODdmODU0Mjk3NS4uMDhiOTMxY2E5ZmY3IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
-a2VybmVsL2xpbnV4L2xpbnV4LXlvY3RvLXRpbnlfNC4xLmJiCisrKyBiL21ldGEvcmVjaXBlcy1r
-ZXJuZWwvbGludXgvbGludXgteW9jdG8tdGlueV80LjEuYmIKQEAgLTEwLDcgKzEwLDcgQEAgS01F
-VEEgPSAia2VybmVsLW1ldGEiCiBLQ09ORl9CU1BfQVVESVRfTEVWRUwgPSAiMiIKIAogU1JDUkVW
-X21hY2hpbmUgPz0gIjQ0YWY5MDA3MTYyMDZkNGNhZTI4M2FhNzRlOTJmNDExODcyMDcyNGEiCi1T
-UkNSRVZfbWV0YSA/PSAiYWZiYzZiZDAwZTZmYTg1NGFlMTBlYjY3YWI4YzNiZTUxMTJmNmY0MSIK
-K1NSQ1JFVl9tZXRhID89ICIwZDZkZTYzZDQ2MDNiOWNjM2E0YTY4MzkxYmNiNTE1NmI5YjBjZjk2
-IgogCiBQViA9ICIke0xJTlVYX1ZFUlNJT059K2dpdCR7U1JDUFZ9IgogCmRpZmYgLS1naXQgYS9t
-ZXRhL3JlY2lwZXMta2VybmVsL2xpbnV4L2xpbnV4LXlvY3RvXzQuMS5iYiBiL21ldGEvcmVjaXBl
-cy1rZXJuZWwvbGludXgvbGludXgteW9jdG9fNC4xLmJiCmluZGV4IGZiMTBmNDA4MTFhMy4uZWYz
-ZDAwMGEyZjZkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMta2VybmVsL2xpbnV4L2xpbnV4LXlv
-Y3RvXzQuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMta2VybmVsL2xpbnV4L2xpbnV4LXlvY3RvXzQu
-MS5iYgpAQCAtMTMsMTMgKzEzLDEzIEBAIEtCUkFOQ0hfcWVtdW1pcHM2NCA/PSAic3RhbmRhcmQv
-bXRpLW1hbHRhNjQiCiAKIFNSQ1JFVl9tYWNoaW5lX3FlbXVhcm0gPz0gIjQ2MDM0MGYyOGRkNGVk
-NjA4ZmQ2NjY5MmJjYmFjMGJiMjRmZTRhYWYiCiBTUkNSRVZfbWFjaGluZV9xZW11YXJtNjQgPz0g
-IjQ0YWY5MDA3MTYyMDZkNGNhZTI4M2FhNzRlOTJmNDExODcyMDcyNGEiCi1TUkNSRVZfbWFjaGlu
-ZV9xZW11bWlwcyA/PSAiOWI5MzM3YWExNTZiZDNiY2YzZTgxMzQ1NWU0YmJkYzI4OTVjNGRhMSIK
-LVNSQ1JFVl9tYWNoaW5lX3FlbXVwcGMgPz0gIjQ0YWY5MDA3MTYyMDZkNGNhZTI4M2FhNzRlOTJm
-NDExODcyMDcyNGEiCitTUkNSRVZfbWFjaGluZV9xZW11bWlwcyA/PSAiMGZmMjFiMmE1ZTkyZGVm
-YTMyYjdjYjc2ZDM5OTgwYjYzYTJlYjVjYSIKK1NSQ1JFVl9tYWNoaW5lX3FlbXVwcGMgPz0gIjZi
-ZDI4NzJjZTdlMzk3ZDI4NWY3ZGYwMGY0ZDBlZmFjMjg2ZTI0MDEiCiBTUkNSRVZfbWFjaGluZV9x
-ZW11eDg2ID89ICI0NGFmOTAwNzE2MjA2ZDRjYWUyODNhYTc0ZTkyZjQxMTg3MjA3MjRhIgogU1JD
-UkVWX21hY2hpbmVfcWVtdXg4Ni02NCA/PSAiNDRhZjkwMDcxNjIwNmQ0Y2FlMjgzYWE3NGU5MmY0
-MTE4NzIwNzI0YSIKLVNSQ1JFVl9tYWNoaW5lX3FlbXVtaXBzNjQgPz0gImNiMDNiYjkyZWQ0ZDQ1
-YzU1ZTdhOGVjZmNjYTcxNGY5ODk3ZGE5NmIiCitTUkNSRVZfbWFjaGluZV9xZW11bWlwczY0ID89
-ICIyNDg4NjE5ODViNjA5ZDFjZDI0ZThkMjNiN2QxNWFiZmIzMWNiZGMyIgogU1JDUkVWX21hY2hp
-bmUgPz0gIjQ0YWY5MDA3MTYyMDZkNGNhZTI4M2FhNzRlOTJmNDExODcyMDcyNGEiCi1TUkNSRVZf
-bWV0YSA/PSAiYWZiYzZiZDAwZTZmYTg1NGFlMTBlYjY3YWI4YzNiZTUxMTJmNmY0MSIKK1NSQ1JF
-Vl9tZXRhID89ICIwZDZkZTYzZDQ2MDNiOWNjM2E0YTY4MzkxYmNiNTE1NmI5YjBjZjk2IgogCiBT
-UkNfVVJJID0gImdpdDovL2dpdC55b2N0b3Byb2plY3Qub3JnL2xpbnV4LXlvY3RvLTQuMS5naXQ7
-bmFtZT1tYWNoaW5lO2JyYW5jaD0ke0tCUkFOQ0h9OyBcCiAgICAgICAgICAgIGdpdDovL2dpdC55
-b2N0b3Byb2plY3Qub3JnL3lvY3RvLWtlcm5lbC1jYWNoZTt0eXBlPWttZXRhO25hbWU9bWV0YTti
-cmFuY2g9eW9jdG8tNC4xO2Rlc3RzdWZmaXg9JHtLTUVUQX0iCi0tIAoyLjUuMAoK
-
---------------71E63913B07F8FC070D664D8--
