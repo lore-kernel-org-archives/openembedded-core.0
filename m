@@ -1,45 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f67.google.com (mail-pa0-f67.google.com
-	[209.85.220.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 72410607A4
+Received: from mail-pa0-f68.google.com (mail-pa0-f68.google.com
+	[209.85.220.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 1DF5C607A4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jul 2016 22:28:13 +0000 (UTC)
-Received: by mail-pa0-f67.google.com with SMTP id ez1so5799760pab.3
+	Fri, 29 Jul 2016 22:28:14 +0000 (UTC)
+Received: by mail-pa0-f68.google.com with SMTP id q2so5822286pap.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jul 2016 15:28:15 -0700 (PDT)
+	Fri, 29 Jul 2016 15:28:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=c41LovbTIENkwx/WuK6p+3cGaiFQmIaVUdHxInWPnNk=;
-	b=q9/7MnSSrKsZMs9xc5yQMXvia81PUoi6c4PGIg7UHxJHHugdN7b12AwqJPHQmpPS/O
-	a6oTMpyqgpiyOoFqneX/sWqzpML2sqVLART7PEgm+dkKfGH9s+N7uZuRCcr1Xus8TVyL
-	ozRoLT6G9YMsysk8VQdImiswlsrdBf3jgTy4/xrwWgMQibkQDDvYOtgsYIIKyahiNaP7
-	RC1uJXEK2JC/w7Iac/VpzB5Zr/QMfrIXHE4K6MOuY5u/7sqajRkzTawLyDBBfmjHcaU6
-	myeWXvFoGkGr0iSdw6ZCgggOze4i2mbj6rtYovHb30HYSh95ziNUV1FlYvdCwlIQs6Vi
-	vd/w==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=3TZWkJipSp4UCyvI/FRky4zLyXkQLLdupy41chiUYpE=;
+	b=EkdqjF7k3hOEyNWv4YFwG7SY+/KMhOXoScxFBhTzaUz5Z4EZudEu5ufT2Q6e7Sjiis
+	IHOz0KmHA5EIGxznqbLWXZE5ORite9ui4o01BXZLWlcNkVlz3TjSdN08MClzXrMFx2/B
+	oHeF+E3YeSOjYpJ85RUo1i977AxmmFytmZV3oA57T0CmeX6AKJkgv4pve2kLPwdswjhX
+	0cwgVTl3iHd+Si/JTkkNYhT++zgyumaRh273Hr6tvm9RCb1SqbH4+rrptZWmyIYVjZAS
+	mJbRIBKySu9aZ/PFsFjO7m78FU4M6Q44eMpNcn02WoJYQLHBoBlvACW8pe+S3Q1isXHN
+	t4wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=c41LovbTIENkwx/WuK6p+3cGaiFQmIaVUdHxInWPnNk=;
-	b=IrI2C7p4SyosX3pecamBLbwKFi0i2UfdA7ruT1aOoI/SoiMwX87sh/1dCds8unc+PO
-	Esp28j6eFfkf0WQKxjT/BIIcFJnRi8/4m4zkRT1u9EELZycLew0r0h7xWdbaCw7JA+Mn
-	qoXd+phOCNJgipWGylekQVFQnFAVWi5ZZQq5uflhR3LU9fq+6aoufykxGhhArfKJJBtz
-	VkeiYw+Uyu96spyhjqDmVLybDMP3bMu0zsv1Ek+TZ9hg91NfTk6wh+MNbgbTTLvNdPcU
-	9YNaXjYGCWyZ35k7ywYCGwFebqK4g73xJSaNtcf0N++Mu2sf9ld8LyM4XCqzCM/OGpzL
-	wCVQ==
-X-Gm-Message-State: AEkoouv6rlfNDiZqriijtErg1W4jdLAvah5GRsyEuQyxxP7fihf0WPsCnNztuQE8ubfkoQ==
-X-Received: by 10.66.229.9 with SMTP id sm9mr72451467pac.138.1469831294863;
-	Fri, 29 Jul 2016 15:28:14 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=3TZWkJipSp4UCyvI/FRky4zLyXkQLLdupy41chiUYpE=;
+	b=KlexPAMlnLra8zZsi06UuNXV0ZgOqPEHZM0RTL/84YFyhiLg2Br/3LQItbW1l2tvrL
+	uye4wIx2Wpi27bu8KgxMlIwAJB7TAOXbSdbPN3Swz6jUZZlE6n9uYzJGOhsSYUOcVlT/
+	0wyfTAl0OLvse1KmcO6QSYXMVZuDSU+DyJvdiGYCg1lSr80XkiRyaIN3d2dsbNI+uuxX
+	93JzoRP9GBFiAj1yI16z1pATzRyWgcIx2y1bNULMtIolbVaUUmJDaqDtGWOkoqOJ7fuX
+	z5ahPtAqd//Ogigd2rvkv0ngTBvaTPxZCs8KAxcz90RCBBlEgCtfYO93e8JyU9o26R1p
+	POPA==
+X-Gm-Message-State: AEkoouvSVHd0GygP28P/RPiKcZSSwxxQGyO3j0NM9u4WwqCcnb5JKOlzDArOdsbu7hMVTQ==
+X-Received: by 10.66.76.9 with SMTP id g9mr72026645paw.51.1469831295619;
+	Fri, 29 Jul 2016 15:28:15 -0700 (PDT)
 Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
 	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	191sm27326626pfx.68.2016.07.29.15.28.13
+	191sm27326626pfx.68.2016.07.29.15.28.14
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 29 Jul 2016 15:28:13 -0700 (PDT)
+	Fri, 29 Jul 2016 15:28:15 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 29 Jul 2016 15:27:59 -0700
-Message-Id: <20160729222801.9806-1-raj.khem@gmail.com>
+Date: Fri, 29 Jul 2016 15:28:00 -0700
+Message-Id: <20160729222801.9806-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.9.0
-Subject: [PATCH 1/3] linux-dtb.inc: Support for .dtbo files for dtb overlays
+In-Reply-To: <20160729222801.9806-1-raj.khem@gmail.com>
+References: <20160729222801.9806-1-raj.khem@gmail.com>
+Subject: [PATCH 2/3] ffmpeg: Upgrade to 3.1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,81 +55,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jul 2016 22:28:14 -0000
+X-List-Received-Date: Fri, 29 Jul 2016 22:28:15 -0000
 
-From: Herve Jourdain <herve.jourdain@neuf.fr>
+Fix build on mips64 while on it.
+It was failing for mips64 with 3.1 too
 
-Signed-off-by: Herve Jourdain <herve.jourdain@neuf.fr>
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-kernel/linux/linux-dtb.inc | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
+ .../ffmpeg/ffmpeg/mips64_cpu_detection.patch       | 32 ++++++++++++++++++++++
+ .../ffmpeg/{ffmpeg_3.1.bb => ffmpeg_3.1.1.bb}      |  9 +++---
+ 2 files changed, 37 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/mips64_cpu_detection.patch
+ rename meta/recipes-multimedia/ffmpeg/{ffmpeg_3.1.bb => ffmpeg_3.1.1.bb} (95%)
 
-diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
-index 74f5ef8..8528d64 100644
---- a/meta/recipes-kernel/linux/linux-dtb.inc
-+++ b/meta/recipes-kernel/linux/linux-dtb.inc
-@@ -33,12 +33,13 @@ do_compile_append() {
- do_install_append() {
- 	for DTB in ${KERNEL_DEVICETREE}; do
- 		DTB=`normalize_dtb "${DTB}"`
--		DTB_BASE_NAME=`basename ${DTB} .dtb`
-+		DTB_EXT=${DTB##*.}
-+		DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
- 		for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
- 			symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
- 			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
- 			DTB_PATH=`get_real_dtb_path_in_kernel "${DTB}"`
--			install -m 0644 ${DTB_PATH} ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.dtb
-+			install -m 0644 ${DTB_PATH} ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT}
- 		done
- 	done
- }
-@@ -46,7 +47,8 @@ do_install_append() {
- do_deploy_append() {
- 	for DTB in ${KERNEL_DEVICETREE}; do
- 		DTB=`normalize_dtb "${DTB}"`
--		DTB_BASE_NAME=`basename ${DTB} .dtb`
-+		DTB_EXT=${DTB##*.}
-+		DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
- 		for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
- 			base_name=${type}"-"${KERNEL_IMAGE_BASE_NAME}
- 			symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
-@@ -54,8 +56,8 @@ do_deploy_append() {
- 			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
- 			DTB_PATH=`get_real_dtb_path_in_kernel "${DTB}"`
- 			install -d ${DEPLOYDIR}
--			install -m 0644 ${DTB_PATH} ${DEPLOYDIR}/${DTB_NAME}.dtb
--			ln -sf ${DTB_NAME}.dtb ${DEPLOYDIR}/${DTB_SYMLINK_NAME}.dtb
-+			install -m 0644 ${DTB_PATH} ${DEPLOYDIR}/${DTB_NAME}.${DTB_EXT}
-+			ln -sf ${DTB_NAME}.${DTB_EXT} ${DEPLOYDIR}/${DTB_SYMLINK_NAME}.${DTB_EXT}
- 		done
- 	done
- }
-@@ -65,9 +67,10 @@ pkg_postinst_kernel-devicetree () {
- 	for DTB in ${KERNEL_DEVICETREE}; do
- 		for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
- 			symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
-+			DTB_EXT=${DTB##*.}
- 			DTB_BASE_NAME=`basename ${DTB} | awk -F "." '{print $1}'`
- 			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
--			update-alternatives --install /${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.dtb ${DTB_BASE_NAME}.dtb /boot/devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
-+			update-alternatives --install /${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.${DTB_EXT} ${DTB_BASE_NAME}.${DTB_EXT} /boot/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT} ${KERNEL_PRIORITY} || true
- 		done
- 	done
- }
-@@ -77,9 +80,10 @@ pkg_postrm_kernel-devicetree () {
- 	for DTB in ${KERNEL_DEVICETREE}; do
- 		for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
- 			symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
-+			DTB_EXT=${DTB##*.}
- 			DTB_BASE_NAME=`basename ${DTB} | awk -F "." '{print $1}'`
- 			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
--			update-alternatives --remove ${DTB_BASE_NAME}.dtb /boot/devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
-+			update-alternatives --remove ${DTB_BASE_NAME}.${DTB_EXT} /boot/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT} ${KERNEL_PRIORITY} || true
- 		done
- 	done
- }
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/mips64_cpu_detection.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/mips64_cpu_detection.patch
+new file mode 100644
+index 0000000..69429af
+--- /dev/null
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/mips64_cpu_detection.patch
+@@ -0,0 +1,32 @@
++It will add -mips64r6 and -mips64r2 to cmdline which will
++cause conflicts
++
++in OE we user mips32r2 and mips64r2 for mips arch versions
++so there is no benefit of detecting it automatically by
++poking at tools especially in cross env
++
++Fixes errors like
++
++linking -mnan=2008 module with previous -mnan=legacy modules
++failed to merge target specific data of file
++
++-Khem
++Upstream-Status: Inappropriate [OE-Specific]
++
++Index: ffmpeg-3.1.1/configure
++===================================================================
++--- ffmpeg-3.1.1.orig/configure
+++++ ffmpeg-3.1.1/configure
++@@ -5220,12 +5220,9 @@ elif enabled mips; then
++ 
++     # Enable minimum ISA based on selected options
++     if enabled mips64; then
++-        enabled mips64r6 && check_inline_asm_flags mips64r6 '"dlsa $0, $0, $0, 1"' '-mips64r6'
++         enabled mips64r2 && check_inline_asm_flags mips64r2 '"dext $0, $0, 0, 1"' '-mips64r2'
++         disabled mips64r6 && disabled mips64r2 && check_inline_asm_flags mips64r1 '"daddi $0, $0, 0"' '-mips64'
++     else
++-        enabled mips32r6 && check_inline_asm_flags mips32r6 '"aui $0, $0, 0"' '-mips32r6'
++-        enabled mips32r5 && check_inline_asm_flags mips32r5 '"eretnc"' '-mips32r5'
++         enabled mips32r2 && check_inline_asm_flags mips32r2 '"ext $0, $0, 0, 1"' '-mips32r2'
++         disabled mips32r6 && disabled mips32r5 && disabled mips32r2 && check_inline_asm_flags mips32r1 '"addi $0, $0, 0"' '-mips32'
++     fi
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.1.1.bb
+similarity index 95%
+rename from meta/recipes-multimedia/ffmpeg/ffmpeg_3.1.bb
+rename to meta/recipes-multimedia/ffmpeg/ffmpeg_3.1.1.bb
+index 2d83ef0..b8acb61 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.1.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.1.1.bb
+@@ -13,10 +13,11 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://COPYING.LGPLv2.1;md5=bd7a443320af8c812e4c18d1b79df004 \
+                     file://COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02"
+ 
+-SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz"
+-
+-SRC_URI[md5sum] = "24ef0c0d541c857c8bc39215619b126f"
+-SRC_URI[sha256sum] = "919022430e2dad782fabccffdd6c4cae4e7029f84f0701aa662f036a9ca65423"
++SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
++           file://mips64_cpu_detection.patch \
++          "
++SRC_URI[md5sum] = "4ba7033da5d9ac4d0391516c7e5d97e4"
++SRC_URI[sha256sum] = "71bc11f2a8202ef3fbe5e43a9a163b4b698855da39fb6216d9a4614eddd031db"
+ 
+ # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
+ ARM_INSTRUCTION_SET = "arm"
 -- 
 2.9.0
 
