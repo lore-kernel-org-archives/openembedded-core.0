@@ -1,33 +1,30 @@
-Return-Path: <Awais_Belal@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id F1FF96080F
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BE4E60853
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jul 2016 10:18:52 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-05.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1bT4sX-0002y7-No from Awais_Belal@mentor.com ;
-	Fri, 29 Jul 2016 03:18:54 -0700
-Received: from EU-MBX-03.mgc.mentorg.com ([169.254.2.210]) by
-	SVR-IES-FEM-05.mgc.mentorg.com ([137.202.0.112]) with mapi id
-	14.03.0224.002; Fri, 29 Jul 2016 11:18:52 +0100
-From: "Belal, Awais" <Awais_Belal@mentor.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Thread-Topic: [OE-core] [PATCH] init-install*: /etc/mtab make a link rather
-	than a copy
-Thread-Index: AQHR6RMRLjAozuXzdUau8/xFjbL1TaAvMsCi
-Date: Fri, 29 Jul 2016 10:18:51 +0000
-Message-ID: <2021B186DC632746BD5A3CE32F12BD28011FCD60CB@EU-MBX-03.mgc.mentorg.com>
-References: <1469695788-12904-1-git-send-email-awais_belal@mentor.com>,
-	<CAJ86T=UuFqo=AfB_TSzPXQMZ5pRErv-otyxbcjQui2Qc3y+_1g@mail.gmail.com>
-In-Reply-To: <CAJ86T=UuFqo=AfB_TSzPXQMZ5pRErv-otyxbcjQui2Qc3y+_1g@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.202.0.69]
+	Fri, 29 Jul 2016 10:19:22 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
+	via TCP (outbound) with ESMTPS id 20160729101920679_0685;
+	Fri, 29 Jul 2016 03:19:20 -0700
+X-RC-FROM: <rpjday@crashcourse.ca>
+Received: from [216.191.234.70] (port=44564 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1bT4uj-0005So-VO; Fri, 29 Jul 2016 06:21:10 -0400
+Date: Fri, 29 Jul 2016 06:19:13 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+In-Reply-To: <20160729082501.GB32340@linux.intel.com>
+Message-ID: <alpine.LFD.2.20.1607290614570.22106@localhost.localdomain>
+References: <alpine.LFD.2.20.1607281728250.18613@localhost.localdomain>
+	<20160729082501.GB32340@linux.intel.com>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] init-install*: /etc/mtab make a link rather than a copy
+Subject: Re: does "wic" allow one to actually format physical devices?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,84 +37,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jul 2016 10:18:54 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 29 Jul 2016 10:19:23 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-Good catch Andre... I did a local update but forgot to send the v2. I'll do=
- so now.=0A=
-=0A=
-BR,=0A=
-Awais=0A=
-=0A=
-________________________________________=0A=
-From: Andre McCurdy [armccurdy@gmail.com]=0A=
-Sent: Friday, July 29, 2016 2:00 AM=0A=
-To: Belal, Awais=0A=
-Cc: OE Core mailing list=0A=
-Subject: Re: [OE-core] [PATCH] init-install*: /etc/mtab make a link rather =
-than a copy=0A=
-=0A=
-On Thu, Jul 28, 2016 at 1:49 AM, Awais Belal <awais_belal@mentor.com> wrote=
-:=0A=
-> Using a copy would only make management of devices erroneous=0A=
-> and makes the system unstable in some scenarios as tools will=0A=
-> have to manipulate both files separately. A link ensures that=0A=
-> both files /proc/mounts and /etc/mtab will have the same=0A=
-> information at all times and this is how it is handled=0A=
-> on newer systems where there is such a need. Same is=0A=
-> suggested by busybox.=0A=
->=0A=
-> Signed-off-by: Awais Belal <awais_belal@mentor.com>=0A=
-> ---=0A=
->  meta/recipes-core/initrdscripts/files/init-install-efi.sh | 2 +-=0A=
->  meta/recipes-core/initrdscripts/files/init-install.sh     | 2 +-=0A=
->  2 files changed, 2 insertions(+), 2 deletions(-)=0A=
->=0A=
-> diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/=
-meta/recipes-core/initrdscripts/files/init-install-efi.sh=0A=
-> index f564f4e..53f6508 100644=0A=
-> --- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh=0A=
-> +++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh=0A=
-> @@ -123,7 +123,7 @@ mkdir -p /tmp=0A=
->=0A=
->  # Create /etc/mtab if not present=0A=
->  if [ ! -e /etc/mtab ]; then=0A=
-> -    cat /proc/mounts > /etc/mtab=0A=
-> +    ln -sf /etc/mtab /proc/mounts=0A=
-=0A=
-Did you mean:=0A=
-=0A=
-  ln -sf /proc/mounts /etc/mtab=0A=
-=0A=
-?=0A=
-=0A=
->  fi=0A=
->=0A=
->  disk_size=3D$(parted ${device} unit mb print | grep '^Disk .*: .*MB' | c=
-ut -d" " -f 3 | sed -e "s/MB//")=0A=
-> diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta=
-/recipes-core/initrdscripts/files/init-install.sh=0A=
-> index 72ce92b..21ae0a6 100644=0A=
-> --- a/meta/recipes-core/initrdscripts/files/init-install.sh=0A=
-> +++ b/meta/recipes-core/initrdscripts/files/init-install.sh=0A=
-> @@ -119,7 +119,7 @@ fi=0A=
->=0A=
->  mkdir -p /tmp=0A=
->  if [ ! -L /etc/mtab ]; then=0A=
-> -    cat /proc/mounts > /etc/mtab=0A=
-> +    ln -sf /etc/mtab /proc/mounts=0A=
->  fi=0A=
->=0A=
->  disk_size=3D$(parted ${device} unit mb print | grep '^Disk .*: .*MB' | c=
-ut -d" " -f 3 | sed -e "s/MB//")=0A=
-> --=0A=
-> 1.9.1=0A=
->=0A=
-> --=0A=
-> _______________________________________________=0A=
-> Openembedded-core mailing list=0A=
-> Openembedded-core@lists.openembedded.org=0A=
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
+On Fri, 29 Jul 2016, Ed Bartosh wrote:
+
+> On Thu, Jul 28, 2016 at 05:30:14PM -0400, Robert P. J. Day wrote:
+> >
+> >   never used "wic" before, and i'm wondering if it has the ability
+> > to not create dd-able images so much as partition and format
+> > physical target devices. surely, the underlying logic would be the
+> > same, i just want to work with the target hard drive and bypass
+> > creating the image itself.
+>
+> The only purpose of wic is to create images. I'm afraid it doesn't
+> have the functionality you're looking for.
+
+  i thought that was the case, just wanted to make sure. and perhaps
+i'm just missing it, but where is the canonical documentation for wic,
+it might still be useful for what i'm doing.
+
+rday
+
+p.s. i'm assuming you can use 'wic' only in the context of an OE
+build, yes? at least it appears that way.
+
 
