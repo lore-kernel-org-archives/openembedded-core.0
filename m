@@ -1,32 +1,33 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id B342260853
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
+	by mail.openembedded.org (Postfix) with ESMTP id F3DFA60853
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jul 2016 12:00:22 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u6TC0NRW022022; Fri, 29 Jul 2016 13:00:23 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id wuz-edU0JzjI; Fri, 29 Jul 2016 13:00:23 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u6TC0Ih8022019
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 29 Jul 2016 13:00:20 +0100
-Message-ID: <1469793618.9142.62.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Date: Fri, 29 Jul 2016 13:00:18 +0100
-In-Reply-To: <ebc1baa1-18d7-8de4-0edc-6213aa62eb1c@windriver.com>
-References: <cover.1469638333.git.bruce.ashfield@windriver.com>
-	<009dfcea9c78b09da41ed2502482b1e116772c78.1469638333.git.bruce.ashfield@windriver.com>
-	<1469774922.9142.39.camel@linuxfoundation.org>
-	<ebc1baa1-18d7-8de4-0edc-6213aa62eb1c@windriver.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/5] linux-yocto/4.1: bump to v4.1.28
+	Fri, 29 Jul 2016 12:03:53 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
+	via TCP (outbound) with ESMTPS id 20160729120352064_0685;
+	Fri, 29 Jul 2016 05:03:52 -0700
+X-RC-FROM: <rpjday@crashcourse.ca>
+Received: from [216.191.234.70] (port=11945 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1bT6Xu-00070j-Sh; Fri, 29 Jul 2016 08:05:42 -0400
+Date: Fri, 29 Jul 2016 08:03:43 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+In-Reply-To: <1469793514.9142.61.camel@linuxfoundation.org>
+Message-ID: <alpine.LFD.2.20.1607290800130.24206@localhost.localdomain>
+References: <alpine.LFD.2.20.1607290725440.23675@localhost.localdomain>
+	<alpine.LFD.2.20.1607290735180.23808@localhost.localdomain>
+	<1469792913.9142.56.camel@linuxfoundation.org>
+	<alpine.LFD.2.20.1607290750390.23975@localhost.localdomain>
+	<1469793514.9142.61.camel@linuxfoundation.org>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+MIME-Version: 1.0
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: want to verify proper use of run-postinsts, if i may
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,76 +40,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jul 2016 12:00:24 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 29 Jul 2016 12:03:54 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-On Fri, 2016-07-29 at 07:15 -0400, Bruce Ashfield wrote:
-> On 2016-07-29 2:48 AM, Richard Purdie wrote:
-> > On Wed, 2016-07-27 at 12:57 -0400, Bruce Ashfield wrote:
-> > > Updating the 4.1 kernel to the korg -stable release
-> > > 
-> > > Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-> > > ---
-> > >  meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   |  6 +++---
-> > >  meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb |  6 +++---
-> > >  meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 20
-> > > ++++++++++---
-> > > -------
-> > >  3 files changed, 16 insertions(+), 16 deletions(-)
-> > 
-> > https://autobuilder.yoctoproject.org/main/builders/nightly-mips-lsb
-> > /bui
-> > lds/851/steps/BuildImages/logs/stdio
-> > 
-> > http://errors.yoctoproject.org/Errors/Details/73456/
-> > 
-> > > /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips
-> > > -lsb/build/build/tmp/work-shared/qemumips/kernel
-> > > -source/arch/mips/kernel/setup.c: In function 'arch_mem_init':
-> > > /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips
-> > > -lsb/build/build/tmp/work-shared/qemumips/kernel
-> > > -source/arch/mips/kernel/setup.c:690:2: error: implicit
-> > > declaration of function 'reserve_bootmem_region' [
-> > > -Werror=implicit-function-declaration]
-> > >   reserve_bootmem_region(__pa_symbol(&__nosave_begin),
-> > >   ^~~~~~~~~~~~~~~~~~~~~~
-> > >   CC      mm/swap.o
-> > > cc1: all warnings being treated as errors
-> > > /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips
-> > > -lsb/build/build/tmp/work-shared/qemumips/kernel
-> > > -source/scripts/Makefile.build:258: recipe for target
-> > > 'arch/mips/kernel/setup.o' failed
-> > > make[4]: *** [arch/mips/kernel/setup.o] Error 1
-> > > make[4]: *** Waiting for unfinished jobs....
-> > 
-> > also
-> > 
-> > https://autobuilder.yoctoproject.org/main/builders/nightly-ppc-lsb/
-> > buil
-> > ds/857/steps/BuildImages/logs/stdio
-> > 
-> > http://errors.yoctoproject.org/Errors/Details/73450/
-> > 
-> > TOPDIR/tmp/work-shared/qemuppc/kernel
-> > -source/arch/powerpc/kernel/prom.c:170:25: error:
-> > 'PPC_FEATURE2_HTM_NOSC_COMP' undeclared here (not in a function)
-> >    PPC_FEATURE2_HTM_COMP|PPC_FEATURE2_HTM_NOSC_COMP, 22, 0, 0},
-> >                          ^~~~~~~~~~~~~~~~~~~~~~~~~~
-> > make[3]: *** [arch/powerpc/kernel/prom.o] Error 1
-> > make[3]: *** Waiting for unfinished jobs....
-> > make[2]: *** [arch/powerpc/kernel] Error 2
-> > make[1]: *** [sub-make] Error 2
-> > make: *** [__sub-make] Error 2
-> 
-> odd. My core-image-builds claim to have worked. I'll pick this up and
-> re-submit my queue with some new 4.1 patches that fix any issues.
+On Fri, 29 Jul 2016, Richard Purdie wrote:
 
-I've dropped the 4.1 patches from the test queue, I left the 4.4 ones
-in since those seem ok and hopefully pull back a bit of performance so
-you may not need to resubmit those.
+> On Fri, 2016-07-29 at 07:54 -0400, Robert P. J. Day wrote:
+> > On Fri, 29 Jul 2016, Richard Purdie wrote:
+> >
+> > > On Fri, 2016-07-29 at 07:43 -0400, Robert P. J. Day wrote:
+> > > > On Fri, 29 Jul 2016, Robert P. J. Day wrote:
+> > > >
+> > > > ... snip ...
+> > > >
+> > > > > am i missing anything?  i'm assuming i'd use a .bbappend recipe
+> > > > > to
+> > > > > add the script names to SRC_URI, then define
+> > > > > "do_install_append()"
+> > > > > to manually copy them over, or is there a proper way to do that
+> > > > > i'm
+> > > > > not seeing?
+> > > >
+> > > >   never mind, just found an example that confirmed just what i
+> > > > suspected:
+> > > >
+> > > > https://github.com/meta-debian/meta-debian/blob/daisy/recipes-deb
+> > > > ian/
+> > > > run-postinsts/run-postinsts_1.0.bbappend
+> > >
+> > > Personally, I wouldn't take meta-debian as a good example of
+> > > anything, that layer is doing some things which I'd find
+> > > questionable. Obviously they are free to do so though.
+> > >
+> > > Most of the time the package manager sets up things to run under
+> > > run -postinsts as needed. Yes, you can do this automatically,
+> > > but why not just write a postinstall for your package and defer
+> > > it to first boot if that is what you need?
+> >
+> >   it's not just package post stuff here, i'm looking at
+> > run-postinsts to do a *lot* of subsequent setup of the target
+> > system -- effectively downloading and installing the entire
+> > proprietary application.
+> >
+> >   yes, i realize i could just make that app part of the initial
+> > image, but there are reasons for this. so i'm assuming just
+> > manually installing and running some scripts via run-postinsts is
+> > the way to go.
+>
+> Note that if there aren't files there to run, I think run-postinsts
+> disables itself from subsequent boots so it really is designed for "one
+> -shot" use. It may not run at all if there is nothing to run.
 
-Cheers,
+  that's fine, that's exactly what i want, an analogue to red hat's
+"firstboot" feature. but i just ran across this in the
+meta-intel-edison layer:
 
-Richard
+http://git.yoctoproject.org/cgit/cgit.cgi/meta-intel-edison/tree/meta-intel-edison-distro/recipes-core/post-install
+
+which, if i read this correctly, also does what i want, i just need to
+write a single script, post-install.sh.
+
+  in any event, i realize there's more than one way to do this, i'm
+just curious as to the recommmended way.
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
 
