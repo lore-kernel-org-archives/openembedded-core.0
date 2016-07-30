@@ -1,29 +1,60 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 8EAB260746
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ua0-f196.google.com (mail-ua0-f196.google.com
+	[209.85.217.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 78F4860746
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 30 Jul 2016 10:01:11 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga104.fm.intel.com with ESMTP; 30 Jul 2016 03:01:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,444,1464678000"; d="scan'208";a="741844351"
-Received: from yewhoech-mobl3.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.144.9])
-	by FMSMGA003.fm.intel.com with ESMTP; 30 Jul 2016 03:01:09 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Sat, 30 Jul 2016 22:01:07 +1200
-Message-ID: <1764674.1vv8fsSaHh@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.6.4-201.fc23.x86_64; KDE/4.14.20; x86_64; ;
-	)
-In-Reply-To: <1469777173.9142.50.camel@linuxfoundation.org>
-References: <cover.1469190931.git.paul.eggleton@linux.intel.com>
-	<1948585.XiSYCAuUde@peggleto-mobl.ger.corp.intel.com>
-	<1469777173.9142.50.camel@linuxfoundation.org>
+	Sat, 30 Jul 2016 11:00:49 +0000 (UTC)
+Received: by mail-ua0-f196.google.com with SMTP id m60so4810985uam.3
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 30 Jul 2016 04:00:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=pyslct3xZvmU7bhWVJnFTw+dTMqEwhZN2yC0FtTfoxI=;
+	b=dtK1x8u3UYbsnjkF+AttSVPKaNGhiI5iO4EyWjGDdGha2oF4th+Y3/13BBKv6jV0ex
+	M5UzKzCzQX9nHQJJliZrBAGp8t8J8yLnPis3FIyWai0TGfyfvoIW/nPALRfGr/DInuVa
+	3+z678v57epToALGuTNG7UIDNgaMM3wpMjnJBPKZEe/cGjYTtB8KRMQw9YSltP0gh7SG
+	UC8bAN0k8n2PiE0w2+FYoMNtEaESs0LuYqXh7+50B6JCPN88GHd7FXinh8EfgFecV+r8
+	Akb2dUsbFK6XWEoIjZsjeWHD1LfsA+yp5XIM453+oyk0EuF3rRI7ZaGkJ3vY6ClvRiMN
+	Q+4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=pyslct3xZvmU7bhWVJnFTw+dTMqEwhZN2yC0FtTfoxI=;
+	b=kHd9EusI/WDoylXOJWJLfcs7e/joVL4dPV9dWutETAufkPgm4dPnxcpwpUGNLDL66p
+	Bw2hnk68YLSP0XGDVnWCmge6XpeSzE5l0eUIn4u/cXWO0ikCdGYezvN0yMhbktt+qDGv
+	n6zVnyY4TabcJ222o1iUPRjVW7KjsJXlJsG/Ny5IZzQvfMjHLrjaq+TNXSh7vGdmokqa
+	+ofok+rqYI2uWCSy7l7dbsw+hLR2A+jvSI6OFNrneYvJ4tNop2XujTqlAOyewCEj4cqC
+	2pruZkUDk/zpKyK56b2sZqGZ1KDqa2D+K4EfbSI0cHRO7qN/uMXpWZkAVSg52m00Vqkd
+	pqHg==
+X-Gm-Message-State: AEkoousveAzHFQwEZUqaDOLFRV9Y6P4TpYXDSSj/ELkqzahWw/FMU6+2FBEMX+ApvtaKbg==
+X-Received: by 10.159.38.56 with SMTP id 53mr20620460uag.153.1469876449243;
+	Sat, 30 Jul 2016 04:00:49 -0700 (PDT)
+Received: from mail-vk0-f52.google.com (mail-vk0-f52.google.com.
+	[209.85.213.52])
+	by smtp.gmail.com with ESMTPSA id f69sm3431483vka.9.2016.07.30.04.00.47
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 30 Jul 2016 04:00:47 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-vk0-f52.google.com with SMTP id w127so70695495vkh.2
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 30 Jul 2016 04:00:47 -0700 (PDT)
+X-Received: by 10.31.193.20 with SMTP id r20mr20638299vkf.4.1469876446703;
+	Sat, 30 Jul 2016 04:00:46 -0700 (PDT)
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/8] Extensible SDK improvements
+Received: by 10.31.138.78 with HTTP; Sat, 30 Jul 2016 04:00:45 -0700 (PDT)
+In-Reply-To: <20160729222801.9806-1-raj.khem@gmail.com>
+References: <20160729222801.9806-1-raj.khem@gmail.com>
+Date: Sat, 30 Jul 2016 08:00:45 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKr5zc+cB-iGcze7Uq8DswUko=2cReYhWLyURe5DwLuE2Q@mail.gmail.com>
+Message-ID: <CAP9ODKr5zc+cB-iGcze7Uq8DswUko=2cReYhWLyURe5DwLuE2Q@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] linux-dtb.inc: Support for .dtbo files for dtb overlays
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,53 +67,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 30 Jul 2016 10:01:14 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Sat, 30 Jul 2016 11:00:50 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Fri, 29 Jul 2016 08:26:13 Richard Purdie wrote:
-> On Mon, 2016-07-25 at 19:42 +1200, Paul Eggleton wrote:
-> > On Sat, 23 Jul 2016 13:11:39 Paul Eggleton wrote:
-> > > On Fri, 22 Jul 2016 23:31:38 Burton, Ross wrote:
-> > > > On 22 July 2016 at 13:38, Paul Eggleton <
-> > > > paul.eggleton@linux.intel.com>
-> > > > 
-> > > > wrote:
-> > > > > Some fixes and enhancements centered around how the toolchain
-> > > > > is
-> > > > > incorporated in the eSDK, as well as a couple of tweaks for
-> > > > > buildhistory
-> > > > > that I found we needed during development.
-> > > > 
-> > > > This is happening in mut, could your branch be responsible:
-> > > > 
-> > > > http://errors.yoctoproject.org/Errors/Details/73022/
-> > > > 
-> > > > Ross (who will look further when its not 23:30 on Friday!)
-> > > 
-> > > Hmm, it will be, but I can't tell immediately from the error
-> > > message what
-> > > could be wrong...
-> > 
-> > Ah, I believe this is bash vs. dash. Fix incoming, just need to test
-> > it.
-> 
-> Thanks for that fix. I think but am not 100% sure that this patchset
-> may have also caused:
-> 
-> https://autobuilder.yoctoproject.org/main/builders/nightly-oecore/build
-> s/865
-> 
-> which happens only on OE-Core testing :/.
+On Fri, Jul 29, 2016 at 7:27 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> From: Herve Jourdain <herve.jourdain@neuf.fr>
+>
+> Signed-off-by: Herve Jourdain <herve.jourdain@neuf.fr>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-kernel/linux/linux-dtb.inc | 18 +++++++++++-------
+>  1 file changed, 11 insertions(+), 7 deletions(-)
+>
+> diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
+> index 74f5ef8..8528d64 100644
+> --- a/meta/recipes-kernel/linux/linux-dtb.inc
+> +++ b/meta/recipes-kernel/linux/linux-dtb.inc
+> @@ -33,12 +33,13 @@ do_compile_append() {
+>  do_install_append() {
+>         for DTB in ${KERNEL_DEVICETREE}; do
+>                 DTB=`normalize_dtb "${DTB}"`
+> -               DTB_BASE_NAME=`basename ${DTB} .dtb`
+> +               DTB_EXT=${DTB##*.}
 
-I'm a 100% sure it's *exposed* the issue, but I can't say what would be 
-causing the error itself. I'll investigate on Monday.
+Bashism, no?
 
-Cheers,
-Paul
+> +               DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
+>                 for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
+>                         symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
+>                         DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+>                         DTB_PATH=`get_real_dtb_path_in_kernel "${DTB}"`
+> -                       install -m 0644 ${DTB_PATH} ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.dtb
+> +                       install -m 0644 ${DTB_PATH} ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT}
+>                 done
+>         done
+>  }
+> @@ -46,7 +47,8 @@ do_install_append() {
+>  do_deploy_append() {
+>         for DTB in ${KERNEL_DEVICETREE}; do
+>                 DTB=`normalize_dtb "${DTB}"`
+> -               DTB_BASE_NAME=`basename ${DTB} .dtb`
+> +               DTB_EXT=${DTB##*.}
+> +               DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
+>                 for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
+>                         base_name=${type}"-"${KERNEL_IMAGE_BASE_NAME}
+>                         symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
+> @@ -54,8 +56,8 @@ do_deploy_append() {
+>                         DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+>                         DTB_PATH=`get_real_dtb_path_in_kernel "${DTB}"`
+>                         install -d ${DEPLOYDIR}
+> -                       install -m 0644 ${DTB_PATH} ${DEPLOYDIR}/${DTB_NAME}.dtb
+> -                       ln -sf ${DTB_NAME}.dtb ${DEPLOYDIR}/${DTB_SYMLINK_NAME}.dtb
+> +                       install -m 0644 ${DTB_PATH} ${DEPLOYDIR}/${DTB_NAME}.${DTB_EXT}
+> +                       ln -sf ${DTB_NAME}.${DTB_EXT} ${DEPLOYDIR}/${DTB_SYMLINK_NAME}.${DTB_EXT}
+>                 done
+>         done
+>  }
+> @@ -65,9 +67,10 @@ pkg_postinst_kernel-devicetree () {
+>         for DTB in ${KERNEL_DEVICETREE}; do
+>                 for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
+>                         symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
+> +                       DTB_EXT=${DTB##*.}
+>                         DTB_BASE_NAME=`basename ${DTB} | awk -F "." '{print $1}'`
+>                         DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+> -                       update-alternatives --install /${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.dtb ${DTB_BASE_NAME}.dtb /boot/devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
+> +                       update-alternatives --install /${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.${DTB_EXT} ${DTB_BASE_NAME}.${DTB_EXT} /boot/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT} ${KERNEL_PRIORITY} || true
+>                 done
+>         done
+>  }
+> @@ -77,9 +80,10 @@ pkg_postrm_kernel-devicetree () {
+>         for DTB in ${KERNEL_DEVICETREE}; do
+>                 for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
+>                         symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
+> +                       DTB_EXT=${DTB##*.}
+>                         DTB_BASE_NAME=`basename ${DTB} | awk -F "." '{print $1}'`
+>                         DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+> -                       update-alternatives --remove ${DTB_BASE_NAME}.dtb /boot/devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
+> +                       update-alternatives --remove ${DTB_BASE_NAME}.${DTB_EXT} /boot/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT} ${KERNEL_PRIORITY} || true
+>                 done
+>         done
+>  }
+> --
+> 2.9.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
 
 -- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
