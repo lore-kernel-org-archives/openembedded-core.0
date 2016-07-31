@@ -1,47 +1,46 @@
-Return-Path: <stephen.arnold42@gmail.com>
-Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com
-	[209.85.218.53])
-	by mail.openembedded.org (Postfix) with ESMTP id AE50560746
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id F2BD362132
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 30 Jul 2016 22:47:36 +0000 (UTC)
-Received: by mail-oi0-f53.google.com with SMTP id l72so150426436oig.2
+	Sun, 31 Jul 2016 15:30:24 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id g202so8664176pfb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 30 Jul 2016 15:47:37 -0700 (PDT)
+	Sun, 31 Jul 2016 08:30:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=YI2R2P46VSV9Cd8MiWzVo1eyskljBhtvY6ZNNxEeQS0=;
-	b=HqUxj7imrXRwkgzI91R7qbhL73tAk9UswNVpklppV2LibW2/tgcoN8QyPWoyoArCOn
-	PPQfL3cWNi4u4ugjGPVVvPAlTKx3fGhqDrWjJtLONXBJzcSx8ZWGsiaBkcRUER3NaJrC
-	sZaId5plz7/xTNcsEXdTm97W2dgx58k50xplY7CbPTXCP7ncs4SIL0bKK/ZbjkJLclTs
-	l0aN/rYDgK4d6MpQpxNGTicuh+m1vNZnlt5RXdmPK0T+ebzT4Xx6NGNykDVSeysOu8Ma
-	6co8bhYxZkgF8JGnVB8H0Ld1dYkgFI6l1GBh+rHDaVuYSAISZGBBJ1v14PKdSgh7VWJi
-	hp+g==
+	h=from:to:cc:subject:date:message-id;
+	bh=2R9r8Dm7+ZTb5DqM2cZL4Hq9Qs5md5bwv7DZLlJYu+A=;
+	b=iQsuZfS7hzFOxqAB1WPz7C96HV8l3WONzxZyTezsDfwgVb1U09mPQ7hneKNtqdJqtY
+	bCB4fWc4zlEDHADFp2mrkEm4S+nRXNWSdEVky4WPaCdtuJFjcuBxDsyLXjK6VmVvX28p
+	YqDdSJHK0CzHj6a6I6gLoG4fdyQIx0zUZdsVoIJMszaSRWCKjs5OSD2/PaWjJ9CPPjbl
+	58BUjP9eQY7u/gvQqMBYzW+Bwok6btKWZ4MvU/qvM8K9IJz7wGMX9GfvuXiDJIecEvVN
+	+ZCVZS3gCHObgxuaFZtvoqaOezkv+12OavdH7ygwzxPdo5PlyN/CIEZyPzYJWu6LdjeL
+	dWrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=YI2R2P46VSV9Cd8MiWzVo1eyskljBhtvY6ZNNxEeQS0=;
-	b=SPjQ188Gj3sI4syqb/iOhUEPWCir1cT17lyoVreAaa+Djc6JeKIGS7yQQOeIiM2svQ
-	7kdEOKh6HkeBERhfIp9u9TEvbZrWv2mwC4hfU+1xX/VBp4xwkilo78EIMAqDTDGsXytW
-	y2Xb6ou+mLuVTpLGqRQmDfA45htDHev0dAIVW7qiBXWWouqUto/5eRYGAyJsPCa/ReIr
-	8VjgrlD3QGHnyv2h+zGkStcjlJ1ad7TrvAP2DjZ/l+tRUcwiRL09kv8c6dLVg4+CLMRt
-	uf0gDqErklLxIRQX0MYHzSsgtYMSPwxYWO3MJpBjyAYyMTDGxkZVUyAm4AbhUX2wVAPN
-	8ldQ==
-X-Gm-Message-State: AEkoous935iyO8wc1RqH8dVOMeeYud+EYxbi9vJDMOxSYCanT4IXsYu+Li9v+mN+fTk/znAenO7i4V5v9U42sA==
-X-Received: by 10.157.46.75 with SMTP id c11mr31385824otd.46.1469918857226;
-	Sat, 30 Jul 2016 15:47:37 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.182.248.164 with HTTP; Sat, 30 Jul 2016 15:47:36 -0700 (PDT)
-In-Reply-To: <CAJTo0LZ8QS01A4eni=Ou5Yi_w7c=FZN0sRzaTaiaj5jQ5oEBEA@mail.gmail.com>
-References: <1461215114-5062-1-git-send-email-fan.xin@jp.fujitsu.com>
-	<CAJTo0LZ8QS01A4eni=Ou5Yi_w7c=FZN0sRzaTaiaj5jQ5oEBEA@mail.gmail.com>
-From: Stephen Arnold <stephen.arnold42@gmail.com>
-Date: Sat, 30 Jul 2016 15:47:36 -0700
-Message-ID: <CAOLEWZUfn=oGHCLmwKneiDNp_xYQXUqWjNSZDGny5=Rku-GUSA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Fan Xin <fan.xin@jp.fujitsu.com>
-Subject: Re: [PATCH] Replace foomatic-filters with cups-filters
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=2R9r8Dm7+ZTb5DqM2cZL4Hq9Qs5md5bwv7DZLlJYu+A=;
+	b=I9YM4LJzfFUWooiMBIWiWxEk4FNKUVpHBrXGtVWVAoXLevVLQmYWNkiIBmqMP9Y1JT
+	IzJGEo17XD8cWgHOuyWIxJRI7yTxPqtTt2WgXe2nBvDWGoZ7uOJCNqlfEMFB0D/i/MOe
+	VKdTasds4oE++2NosYzcKsZbgKMs0bU4mdrSqMczlVni27V8Lw/WyM7op7kXBBKKE64b
+	6W/rHID3oyesa2wATv5ptSUgi3EsbMQm4qtFkawTg+Lae7RN5/N2tehIqjEemNKsLRmv
+	k2XAqY6MipbKdqPLGf8w9e9b7PrYxKPSYD5VHQoPS7CpofZVKUwsqpSl96sZJfBZVU+P
+	5kbQ==
+X-Gm-Message-State: AEkoouukngClgXybJX87tyX4zMTWJ9HGx8WcGAilCBl085ghegvg3G+OBxzo7R4F+FGGSA==
+X-Received: by 10.98.103.214 with SMTP id t83mr87682416pfj.158.1469979024637; 
+	Sun, 31 Jul 2016 08:30:24 -0700 (PDT)
+Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
+	yj3sm27946959pac.42.2016.07.31.08.30.22
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 31 Jul 2016 08:30:23 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	akuster@mvista.com
+Date: Sun, 31 Jul 2016 08:30:17 -0700
+Message-Id: <1469979018-18008-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.3.5
+Subject: [PATCH][master][krogoth 1/2] foomatic-filters: Security fix CVE-2015-8560
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,33 +53,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 30 Jul 2016 22:47:37 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sun, 31 Jul 2016 15:30:25 -0000
 
-No answer to this?  cups-filters would be kinda important for actual
-printing, especially since the existing ghostscript/cups/poppler
-packages have all been gutted of anything called *toraster.  The
-current state (on krogoth at least) is completely broken; is there
-something on another branch somewhere?  If so, I can't see it with
-google...
+From: Armin Kuster <akuster@mvista.com>
 
-Steve
+CVE-2015-8560 cups-filters: foomatic-rip did not consider semicolon as illegal shell escape character
 
-On Fri, Apr 22, 2016 at 4:47 AM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 21 April 2016 at 06:05, Fan Xin <fan.xin@jp.fujitsu.com> wrote:
->>
->> +    cups-filters \
->
->
-> What recipe provides this package?
->
-> Ross
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+(From OE-Core rev: 307056ce062bf4063f6effeb4c891c82c949c053)
+
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ .../foomatic-filters-4.0.17/CVE-2015-8560.patch    | 23 ++++++++++++++++++++++
+ .../foomatic/foomatic-filters_4.0.17.bb            |  3 +++
+ 2 files changed, 26 insertions(+)
+ create mode 100644 meta/recipes-extended/foomatic/foomatic-filters-4.0.17/CVE-2015-8560.patch
+
+diff --git a/meta/recipes-extended/foomatic/foomatic-filters-4.0.17/CVE-2015-8560.patch b/meta/recipes-extended/foomatic/foomatic-filters-4.0.17/CVE-2015-8560.patch
+new file mode 100644
+index 0000000..dc973c4
+--- /dev/null
++++ b/meta/recipes-extended/foomatic/foomatic-filters-4.0.17/CVE-2015-8560.patch
+@@ -0,0 +1,23 @@
++Upstream-Status: Backport
++
++
++http://bzr.linuxfoundation.org/loggerhead/openprinting/cups-filters/revision/7419
++
++Hand applied change to util.c. Fix was for cups-filters but also applied to foomatic-filters.
++
++CVE: CVE-2015-8560
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++Index: util.c
++===================================================================
++--- a/util.c
+++++ b/util.c
++@@ -31,7 +31,7 @@
++ #include <assert.h>
++ 
++ 
++-const char* shellescapes = "|<>&!$\'\"#*?()[]{}";
+++const char* shellescapes = "|;<>&!$\'\"#*?()[]{}";
++ 
++ const char * temp_dir()
++ {
+diff --git a/meta/recipes-extended/foomatic/foomatic-filters_4.0.17.bb b/meta/recipes-extended/foomatic/foomatic-filters_4.0.17.bb
+index 0cffedd..497d2bf 100644
+--- a/meta/recipes-extended/foomatic/foomatic-filters_4.0.17.bb
++++ b/meta/recipes-extended/foomatic/foomatic-filters_4.0.17.bb
+@@ -17,6 +17,9 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/foomatic-filters-${PV}/COPYING;md5=393a5ca
+ 
+ SRC_URI = "http://www.openprinting.org/download/foomatic/foomatic-filters-${PV}.tar.gz"
+ 
++SRC_URI += "file://CVE-2015-8560.patch \
++           "
++
+ SRC_URI[md5sum] = "b05f5dcbfe359f198eef3df5b283d896"
+ SRC_URI[sha256sum] = "a2e2e53e502571e88eeb9010c45a0d54671f15707ee104f5c9c22b59ea7a33e3"
+ 
+-- 
+2.3.5
+
 
