@@ -1,40 +1,20 @@
-Return-Path: <fan.xin@jp.fujitsu.com>
-X-Greylist: delayed 672 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 01 Aug 2016 10:13:58 UTC
-Received: from mgwkm03.jp.fujitsu.com (mgwkm03.jp.fujitsu.com [202.219.69.170])
-	by mail.openembedded.org (Postfix) with ESMTP id EF2EF731FC
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 04CAB65CC2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Aug 2016 10:13:58 +0000 (UTC)
-Received: from kw-mxoi1.gw.nic.fujitsu.com (unknown [192.168.231.131]) by
-	mgwkm03.jp.fujitsu.com with smtp
-	id 5d86_867d_79e5a907_910e_4b81_8697_6ba59bbceb76;
-	Mon, 01 Aug 2016 19:02:41 +0900
-Received: from m3051.s.css.fujitsu.com (m3051.s.css.fujitsu.com
-	[10.134.21.209])
-	by kw-mxoi1.gw.nic.fujitsu.com (Postfix) with ESMTP id 4E69CAC0057
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Aug 2016 19:02:41 +0900 (JST)
-Received: from omame (omame.fct.css.fujitsu.com [10.24.14.171])
-	by m3051.s.css.fujitsu.com (Postfix) with ESMTP id 3CC1334E;
-	Mon,  1 Aug 2016 19:02:41 +0900 (JST)
-Received: from [10.24.19.99] (fan1.utsfd.cs.fujitsu.co.jp [10.24.19.99])
-	by omame (Postfix) with ESMTPSA id 25F731E0088;
-	Mon,  1 Aug 2016 19:02:41 +0900 (JST)
-To: Stephen Arnold <stephen.arnold42@gmail.com>,
-	"Burton, Ross" <ross.burton@intel.com>
-References: <1461215114-5062-1-git-send-email-fan.xin@jp.fujitsu.com>
-	<CAJTo0LZ8QS01A4eni=Ou5Yi_w7c=FZN0sRzaTaiaj5jQ5oEBEA@mail.gmail.com>
-	<CAOLEWZUfn=oGHCLmwKneiDNp_xYQXUqWjNSZDGny5=Rku-GUSA@mail.gmail.com>
-From: Fan Xin <fan.xin@jp.fujitsu.com>
-Message-ID: <f432f95f-589a-c4df-5db5-c4e037a03622@jp.fujitsu.com>
-Date: Mon, 1 Aug 2016 19:03:19 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <CAOLEWZUfn=oGHCLmwKneiDNp_xYQXUqWjNSZDGny5=Rku-GUSA@mail.gmail.com>
-X-TM-AS-MML: disable
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Replace foomatic-filters with cups-filters
+	Mon,  1 Aug 2016 11:00:33 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga104.fm.intel.com with ESMTP; 01 Aug 2016 04:00:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,454,1464678000"; d="scan'208";a="1006219463"
+Received: from jlock-mobl1.ger.corp.intel.com ([10.252.24.213])
+	by orsmga001.jf.intel.com with ESMTP; 01 Aug 2016 04:00:33 -0700
+From: Joshua Lock <joshua.g.lock@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  1 Aug 2016 12:00:25 +0100
+Message-Id: <cover.1470049100.git.joshua.g.lock@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 0/2] Pseudo performance regression
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,32 +27,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Aug 2016 10:14:00 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 01 Aug 2016 11:00:35 -0000
 
+The following series includes changes from upstream to mitigate a performance
+regression in pseudo 1.8.x, most notable when building images which make heavy
+use of extended attributes.
 
-On 2016年07月31日 07:47, Stephen Arnold wrote:
-> No answer to this?  cups-filters would be kinda important for actual
-> printing, especially since the existing ghostscript/cups/poppler
-> packages have all been gutted of anything called *toraster.  The
-> current state (on krogoth at least) is completely broken; is there
-> something on another branch somewhere?  If so, I can't see it with
-> google...
->
-> Steve
->
+Regards,
 
-Hi, Steve
+Joshua
 
-I am working on this one. Actually I have created the cups-filters 
-recipe file. But the cups-filters depends on qpdf.
-Just now I sent the qpdf recipe file to mailing list and will send the 
-cups-filters recipe files later.
+The following changes since commit b32d430c3c7dccf3a8d06ab492d648893a05950f:
 
-Cheers,
+  dpkg: use snapshot.debian.org for SRC_URI (2016-07-26 08:56:08 +0100)
 
-Fan
+are available in the git repository at:
 
+  git://git.openembedded.org/openembedded-core-contrib joshuagl/pseudo
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=joshuagl/pseudo
+
+Joshua Lock (2):
+  pseudo: backport patch to fix xattr performance
+  pseudo: update git recipe to include xattr perf fix
+
+ .../pseudo/files/Fix-xattr-performance.patch       | 117 +++++++++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_1.8.1.bb       |   1 +
+ meta/recipes-devtools/pseudo/pseudo_git.bb         |   2 +-
+ 3 files changed, 119 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/pseudo/files/Fix-xattr-performance.patch
+
+-- 
+2.7.4
 
 
