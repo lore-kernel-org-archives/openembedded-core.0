@@ -1,29 +1,36 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 453A5731CB
+Return-Path: <fan.xin@jp.fujitsu.com>
+X-Greylist: delayed 677 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 01 Aug 2016 08:35:02 UTC
+Received: from mgwym02.jp.fujitsu.com (mgwym02.jp.fujitsu.com [211.128.242.41])
+	by mail.openembedded.org (Postfix) with ESMTP id AF4876E660
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Aug 2016 05:57:21 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u715vHUh027221
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 31 Jul 2016 22:57:18 -0700 (PDT)
-Received: from [128.224.162.240] (128.224.162.240) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Sun, 31 Jul 2016 22:57:17 -0700
-To: Seebs <seebs@seebs.net>, oe-core <openembedded-core@lists.openembedded.org>
-References: <577B8AA9.5040808@windriver.com>
-	<dc216358-8a1f-1490-2fc0-db22f98741c3@windriver.com>
-	<579B07F9.9000708@windriver.com>
-	<B3108E03-1852-4237-8320-E2BFEC66F9B3@seebs.net>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <579EE4BB.6070709@windriver.com>
-Date: Mon, 1 Aug 2016 13:57:15 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.8.0
+	Mon,  1 Aug 2016 08:35:02 +0000 (UTC)
+Received: from yt-mxoi1.gw.nic.fujitsu.com (unknown [192.168.229.67]) by
+	mgwym02.jp.fujitsu.com with smtp
+	id 50c8_6428_03264681_33cd_4ec1_9f99_2dc99fb73118;
+	Mon, 01 Aug 2016 17:23:37 +0900
+Received: from g01jpfmpwkw02.exch.g01.fujitsu.local
+	(g01jpfmpwkw02.exch.g01.fujitsu.local [10.0.193.56])
+	by yt-mxoi1.gw.nic.fujitsu.com (Postfix) with ESMTP id 88DB5AC00E3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  1 Aug 2016 17:23:36 +0900 (JST)
+Received: from g01jpexchkw36.g01.fujitsu.local (unknown [10.0.193.4])
+	by g01jpfmpwkw02.exch.g01.fujitsu.local (Postfix) with ESMTP id
+	D83423287D5 for <openembedded-core@lists.openembedded.org>;
+	Mon,  1 Aug 2016 17:23:35 +0900 (JST)
+Received: from localhost.localdomain (10.24.19.99) by
+	g01jpexchkw36.g01.fujitsu.local (10.0.193.54) with Microsoft SMTP
+	Server id 14.3.266.1; Mon, 1 Aug 2016 17:23:36 +0900
+From: Fan Xin <fan.xin@jp.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 1 Aug 2016 17:24:11 +0900
+Message-ID: <1470039851-27561-1-git-send-email-fan.xin@jp.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <B3108E03-1852-4237-8320-E2BFEC66F9B3@seebs.net>
-Subject: Re: About pseudo's chmod
+X-SecurityPolicyCheck-GC: OK by FENCE-Mail
+X-TM-AS-MML: disable
+Cc: Fan Xin <fan.xin@jp.fujitsu.com>
+Subject: [PATCH] qpdf: add new recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,98 +43,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Aug 2016 05:57:23 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 01 Aug 2016 08:35:06 -0000
+Content-Type: text/plain
 
+QPDF is a command-line program that does structural,
+content-preserving transformation on PDF files.
 
-Hi Peter,
+Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
+---
+ meta/recipes-extended/qpdf/qpdf_6.0.0.bb | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
+ create mode 100644 meta/recipes-extended/qpdf/qpdf_6.0.0.bb
 
-Thanks for the reply.
+diff --git a/meta/recipes-extended/qpdf/qpdf_6.0.0.bb b/meta/recipes-extended/qpdf/qpdf_6.0.0.bb
+new file mode 100644
+index 0000000..edee741
+--- /dev/null
++++ b/meta/recipes-extended/qpdf/qpdf_6.0.0.bb
+@@ -0,0 +1,26 @@
++SUMMARY = "QPDF is a command-line program that does structural, content-preserving transformations on PDF files"
++DESCRIPTION = "QPDF is capable of creating linearized files and encrypted files. It is also capable of \
++converting PDF files with object streams to files with no compressed objects or to generate object streams \
++from files that don't have them. QPDF also supports a special mode designed to allow you to edit the content \
++of PDF files in a text editor."
++HOMEPAGE = "http://qpdf.sourceforge.net/"
++
++PR = "r0"
++
++RDEPENDS_${PN} = "libpcre zlib"
++
++LICENSE = "Artistic-2.0"
++LIC_FILES_CHKSUM = "file://${WORKDIR}/qpdf-${PV}/Artistic-2.0;md5=7806296b9fae874361e6fb10072b7ee3"
++
++SRC_URI = "http://nchc.dl.sourceforge.net/project/qpdf/qpdf/6.0.0/qpdf-${PV}.tar.gz"
++
++SRC_URI[md5sum] = "e014bd3ecf1c4d1a520bbc14d84ac20e"
++SRC_URI[sha256sum] = "a9fdc7e94d38fcd3831f37b6e0fe36492bf79aa6d54f8f66062cf7f9c4155233"
++
++inherit autotools-brokensep pkgconfig
++
++EXTRA_OECONF += "--with-random=/dev/urandom"
++
++do_configure_prepend() {
++      sh autogen.sh
++}
+-- 
+2.7.4
 
-On 07/30/2016 12:02 AM, Seebs wrote:
-> On 29 Jul 2016, at 2:38, Robert Yang wrote:
->
->> It got 0644 but not 0444 in the second build was because pseudo's unlink
->> doesn't take core of hard links, for example:
->> $ umask 0022
->> $ touch file1
->> $ ln file1 file2
->> $ chmod 0777 file1
->> $ ls -l file1 file2
->> We can see that both file1 and file2's mode is 0777.
->
->> But if we remove file1:
->> $ rm -f file1
->> $ ls file2
->> Now file2's mode is 0644 since the info had been removed from database.
->
-> I don't get that result. Before the remove, I see:
->
-> sqlite> select * from files;
-> 1|/home/seebs/pseudo/f1|2054|2757274|0|0|33279|0|0
-> 2|/home/seebs/pseudo/f2|2054|2757274|0|0|33279|0|0
->
-> So both files have the correct information stored for them. This is
-> because chmod-type operations on files update everything with the same
-> device and inode.
-
-Sorry, the steps were wrong, they should be:
-1) Out of pseudo:
-    $ umask 0022
-    $ touch file1
-2) Under pseudo:
-    $ ln file1 file2
-    $ chmod 777 file2
-    $ ls -l file1 file2
-    We can see that both file1 and file2's mode is 0777.
-    But if we remove file2:
-    $ rm -f file2
-    $ ls file1
-    Now file1's permission is 0755, not 0777 or 0644, it should be 0777 here.
-
->
->> After talked with RP online, there isn't any file systems that can support
->> different modes on different references for the same inode, so pseudo's
->> chmod should update all the references' mode
->
-> Yes.
->
->> in another word, it should
->> not remove the info from database if links count is greater than 1.
->
-> This doesn't seem right to me. I can't produce any failures from the
-> current code that match the behavior you're describing; updates like
-> chmod always propogate to all the links.
->
-> On the other hand, if f1 *already exists*, and was not being tracked
-> by pseudo, then we do indeed see a similar problem. The underlying file's
-> mode is actually changed.
->
-> I do not think it would be a good idea at all to stop removing entries from the
-> database when they become invalid. It seems to me that if we're hard linking to
-> a file inside pseudo, we should probably be tracking that file. Although if we
-
-Yes, I agree that we need track the src file when hard link.
-
-// Robert
-
-> track the file, now we'll just continue to see it as mode 777, because we
-> changed the mode of the file.
->
-> Consider, for a moment, what happens if you do this *without* pseudo involved.
-> Unpack an archive containing a file "foo", mode 444.
->
-> $ ln foo bar
-> $ chmod 777 bar
-> $ rm bar
-> $ ls -l foo
->
-> You'll find that foo's mode is now 0777. So it'd change either way; the
-> difference is that, when pseudo's doing this, it masks out group and
-> other write bits on the filesystem. (Because we don't want other people to be
-> able to overwrite things in the build tree just because they'd be writeable on
-> the target filesystem.)
->
-> -s
 
