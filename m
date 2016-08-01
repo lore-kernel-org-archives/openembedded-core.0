@@ -1,50 +1,47 @@
 Return-Path: <jpuhlman@mvista.com>
-Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
-	[209.85.220.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 3624460853
+Received: from mail-pf0-f181.google.com (mail-pf0-f181.google.com
+	[209.85.192.181])
+	by mail.openembedded.org (Postfix) with ESMTP id F1BF860853
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Aug 2016 16:03:18 +0000 (UTC)
-Received: by mail-pa0-f50.google.com with SMTP id iw10so54021040pac.2
+	Mon,  1 Aug 2016 16:04:54 +0000 (UTC)
+Received: by mail-pf0-f181.google.com with SMTP id y134so56672411pfg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Aug 2016 09:03:19 -0700 (PDT)
+	Mon, 01 Aug 2016 09:04:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mvista-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=mbk3vivWifh13uNW3PR4JbbX5ySw/OnKxOTXGfANZuw=;
-	b=Ps+9EzLuHqfOvUpqKSstNfXxhf0sPK3w9gDoudZ53b0KyyFNB+emqw3Xc5v1nJxH+t
-	RaByU9IpkS8Coc59dOyQy37TxPXUd9yJx35IjcplcexCReyqZkbFkPvyaBggpUJVMsC9
-	lio+/uGNZnAsTYnFnUAcwL+dalYyhujgA31InDpkwUmIPd6JluPh7zNY28Ben7e5jdzA
-	wp31WrRmXJKTA7Oo6gs61y9qxVl6nQmEQOhaT5EBBdqipL1IJ98CgpvMdOZyRr5rzAyi
-	kFzlWWNwV8BaBe7oAWlVPYBp5sm8XgIEp+i1WqPBCmmZ4X/VcBpGCMHT3Qopdx6MHZdq
-	nlpg==
+	h=from:to:cc:subject:date:message-id;
+	bh=7POznu6VVh0in2P15+RSxMR/FkGZBO0d5WiEzzpSTdc=;
+	b=FWnxJBxcGiX3lVLEFe1RAifYfAO9uWsIO3aOj7lVChvDdZD1OyNqlB8/LLJiueDgjX
+	pkQuuLeArHzOW1bLgPBJCII09JttDJhsLuZB6HUBYpodIxLksmhzC5JeqxP5BlnN9/IC
+	Uv05MVl60/9UCG0S+d7LUw1NocePFkuvrQ14R/zSiMj/ecTrZmBPrTskX838eoSWfc/T
+	V9O8MFT9k/mi4DZk14VdUEQOQGrQ1srdAlz2TY+2FTbubshqtts2I0fwxA/5Uq7x4Q0C
+	daJrP0RbkvpYT562eal1NBH+J8dgA472gehqjD2czpStQQbFzgiqhlvOKa2+jvJJUgr/
+	AE/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=mbk3vivWifh13uNW3PR4JbbX5ySw/OnKxOTXGfANZuw=;
-	b=MADHJMJpt8lky8JqpCKzZ6/6rmDO5prZHIoHgFmIA/H3lKrutNPFzYhp8NvpoBCFTS
-	3T+Nvp+7aXVkB0IIJLwofgIuUEGJaILYKYcPJWvIEXFjmwG9+c+UgP1gLPENervzo7Cx
-	BbzYKoPgVh3zg9VjuQ/jE0AyY3Wbyfwp02xfsLN6w4Fpnv3e9LDoyiGf+LQZETMrFms+
-	bbRMBYaOuy6NodZgGl+GhhK1OHTZDQWY6E1mNRD/CpcOQvWkh0EMTf+EfNFhZXb/DY6f
-	AxSPqvaSnCtZDdRR+ScQ6b+VtVFxZFPqj4UQ4gP4tjlhW7k/fvHtbi2CZ8MzpZMSbKdk
-	x3YA==
-X-Gm-Message-State: AEkoouvj1SzyrGmRZNAReWqemuO41E/Qq5eZzAFm5ZEePyX6FCzb4LB58dhjTiQE2YoG9oxw
-X-Received: by 10.66.181.16 with SMTP id ds16mr97832038pac.102.1470067399498; 
-	Mon, 01 Aug 2016 09:03:19 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=7POznu6VVh0in2P15+RSxMR/FkGZBO0d5WiEzzpSTdc=;
+	b=ZMiT71EAMmoaKAYsx2/L0J47MvD6oBUBTZZM0xh/Cjzjn4nAehK2pUJDovMtBKVlqb
+	iPjQmRElAaUcZ6qgb5mHivZSD7Y2C7OKuNpIqnrTu4YoGNih0DCv/Oguhc61W3msSuOA
+	LeBFq8homGC8DuRRmcKS/2Xj4yXwpGffFau6NljrWLOjcvxGokisNhwRZtFr73ZKd9NG
+	ujMoOJUxvlR16pFIH4PTQj3sVDksU+YSYKsRzzwb/X6GurwkkD8L/5Zj6qTX1f8aG0px
+	50Tno7B05a2jAEGq7ldN6UGazpWY48nR4aCady2837LFmkMqFQ+FU3EZd0aT5EBJ+dBj
+	U2qg==
+X-Gm-Message-State: AEkooutomohyJnhfF0twucDNXaffL/wRDH6Av6CxQWRPW0H0Kx+uRuFsnyx1P2zXjDaOTvdv
+X-Received: by 10.98.64.193 with SMTP id f62mr97537012pfd.141.1470067495033;
+	Mon, 01 Aug 2016 09:04:55 -0700 (PDT)
 Received: from workhorse.mvista.com
 	(99-0-9-164.lightspeed.frokca.sbcglobal.net. [99.0.9.164])
 	by smtp.gmail.com with ESMTPSA id
-	q4sm46807076pfb.18.2016.08.01.09.03.18
+	h86sm46773385pfh.46.2016.08.01.09.04.50
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 01 Aug 2016 09:03:18 -0700 (PDT)
+	Mon, 01 Aug 2016 09:04:51 -0700 (PDT)
 From: Jeremy Puhlman <jpuhlman@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 Aug 2016 09:02:55 -0700
-Message-Id: <1470067375-24907-2-git-send-email-jpuhlman@mvista.com>
+Date: Mon,  1 Aug 2016 09:04:44 -0700
+Message-Id: <1470067484-24989-1-git-send-email-jpuhlman@mvista.com>
 X-Mailer: git-send-email 2.6.2
-In-Reply-To: <1470067375-24907-1-git-send-email-jpuhlman@mvista.com>
-References: <1470067375-24907-1-git-send-email-jpuhlman@mvista.com>
-Subject: [PATCH 2/2] Set READELF for cross compilation
+Subject: [meta-oe][PATCH] mozjs: Fix incorrect usage of PN.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,40 +54,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Aug 2016 16:03:19 -0000
+X-List-Received-Date: Mon, 01 Aug 2016 16:04:57 -0000
 
-In the case of using an external toolchain that supports multilib
-compilation with a single binary, TARGET_PREFIX is the same for both main
-and multilib abis. Without READELF exported, python3 assumes it is
-either the readelf for ${BUILD_SYS}-readelf. Exporting cross readelf
-fixes the build issue.
+When building mutlilib, using ${PN} in the middle of the package name
+creates incorrect package names:
 
-checking LDLIBRARY... libpython$(LDVERSION).so
-checking for i586-montavistamllib32-linux-ranlib...
-x86_64-montavista-linux-ranlib
-checking for i586-montavistamllib32-linux-ar...
-x86_64-montavista-linux-ar
-checking for i586-montavistamllib32-linux-readelf... no
-checking for readelf... readelf
-configure: WARNING: using cross tools not prefixed with host triplet
+lib32-liblib32-mozjs
+lib32-liblib32-mozjs.shlibdeps
+
+Which in turn breaks license.bbclass during image creation.
 
 Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
 ---
- meta/conf/bitbake.conf | 1 +
- 1 file changed, 1 insertion(+)
+ meta-oe/recipes-extended/mozjs/mozjs_17.0.0.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index af3b181..9bf9bbb 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -471,6 +471,7 @@ export OBJCOPY = "${HOST_PREFIX}objcopy"
- export OBJDUMP = "${HOST_PREFIX}objdump"
- export STRINGS = "${HOST_PREFIX}strings"
- export NM = "${HOST_PREFIX}nm"
-+export READELF = "${HOST_PREFIX}readelf"
- PYTHON = "${@sys.executable}"
+diff --git a/meta-oe/recipes-extended/mozjs/mozjs_17.0.0.bb b/meta-oe/recipes-extended/mozjs/mozjs_17.0.0.bb
+index 02d5694..f147714 100644
+--- a/meta-oe/recipes-extended/mozjs/mozjs_17.0.0.bb
++++ b/meta-oe/recipes-extended/mozjs/mozjs_17.0.0.bb
+@@ -59,8 +59,8 @@ do_unpack() {
+ }
  
- export BUILD_CC = "${CCACHE}${BUILD_PREFIX}gcc ${BUILD_CC_ARCH}"
+ 
+-PACKAGES =+ "lib${PN}"
+-FILES_lib${PN} += "${libdir}/lib*.so"
++PACKAGES =+ "lib${BPN}"
++FILES_lib${BPN} += "${libdir}/lib*.so"
+ FILES_${PN}-dev += "${bindir}/js17-config"
+ 
+ # Fails to build with thumb-1 (qemuarm)
 -- 
 2.6.2
 
