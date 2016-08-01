@@ -1,27 +1,26 @@
-Return-Path: <seebs@seebs.net>
-Received: from mail.plethora.net (mail.plethora.net [184.173.250.112])
-	by mail.openembedded.org (Postfix) with ESMTP id 723886FFF7
+Return-Path: <morphis@gravedo.de>
+Received: from h1108419.serverkompetenz.net (gravedo.de [85.214.79.159])
+	by mail.openembedded.org (Postfix) with ESMTP id 7993770031
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Aug 2016 18:17:13 +0000 (UTC)
-Received: from [10.10.10.132] (home.seebs.net [74.122.98.108])
-	by mail.plethora.net (Postfix) with ESMTPSA id F2C16C495D
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Aug 2016 13:17:13 -0500 (CDT)
-From: Seebs <seebs@seebs.net>
-To: oe-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 01 Aug 2016 13:17:13 -0500
-Message-ID: <39329191-8DC4-43B6-9B38-5AD173C8F0DC@seebs.net>
-In-Reply-To: <579F0EE8.3080009@windriver.com>
-References: <577B8AA9.5040808@windriver.com>
-	<dc216358-8a1f-1490-2fc0-db22f98741c3@windriver.com>
-	<579B07F9.9000708@windriver.com>
-	<B3108E03-1852-4237-8320-E2BFEC66F9B3@seebs.net>
-	<579EE4BB.6070709@windriver.com>
-	<F5BAFB71-1FCC-4F9D-999C-5960E8CD7213@seebs.net>
-	<579F0EE8.3080009@windriver.com>
+	Mon,  1 Aug 2016 19:13:02 +0000 (UTC)
+Received: from [192.168.178.186] (pD9ED69EC.dip0.t-ipconnect.de
+	[217.237.105.236])
+	by h1108419.serverkompetenz.net (Postfix) with ESMTPSA id 35E50137C11BA;
+	Mon,  1 Aug 2016 21:13:01 +0200 (CEST)
+To: Khem Raj <raj.khem@gmail.com>
+References: <7603e18c-345c-ddcf-cd95-14df64b60077@gravedo.de>
+	<CAMKF1sqhL-beKuV1bTb_srgEh_bj+mm3BkgwNY_JxTEe=d04nw@mail.gmail.com>
+From: Simon Fels <morphis@gravedo.de>
+Message-ID: <40d07e3e-42b7-be21-35b8-90aa0b4b1efd@gravedo.de>
+Date: Mon, 1 Aug 2016 21:13:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-X-Mailer: MailMate (1.9.4r5234)
-Subject: Re: About pseudo's chmod
+In-Reply-To: <CAMKF1sqhL-beKuV1bTb_srgEh_bj+mm3BkgwNY_JxTEe=d04nw@mail.gmail.com>
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Snaps on Yocto/OpenEmbedded
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,26 +33,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Aug 2016 18:17:14 -0000
-Content-Type: text/plain; format=flowed
+X-List-Received-Date: Mon, 01 Aug 2016 19:13:03 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-On 1 Aug 2016, at 3:57, Robert Yang wrote:
+On 01.08.2016 15:55, Khem Raj wrote:
+> Simon
+> 
+> On Mon, Aug 1, 2016 at 5:32 AM, Simon Fels <morphis@gravedo.de> wrote:
+>> Hey everyone,
+>>
+>> I've worked on a new layer recently which brings snaps to any
+>> Yocto/OpenEmbedded based system.
+>>
+>> If you have never heard about snaps yet you will find most details at
+>> http://snapcraft.io/ but generally snaps are a new packaging format made
+>> with security and fast updates in mind and allows applications to be
+>> packaged once but run everywhere no matter of the distribution used or a
+>> particular device type.
+>>
+>> The layer is currently named meta-snappy and is available at
+>> https://github.com/morphis/meta-snappy
+>>
+>> It comes with some basic instructions how to get quickly started. A
+>> basic tour through the snap system and how to use it is available at
+>> http://snapcraft.io/
+>>
+>> If you have any questions, bugs or contributions feel free to get in
+>> contact with me.
+> 
+> Thank you for announcing your layer, I would also suggest that you
+> publish the layer
+> to layerindex as well. at layers.openembedded.org
+> 
+> since thats where most of folks go to find layers.
 
-> How about we track the src when hardlink, for example:
+That was already on my list and is done now.
 
-I don't think I like this.
+regards,
+Simon
 
-Fundamentally, the problem here is making a hard link to a file outside 
-of pseudo, and then modifying the file.
 
-Consider, if you will, what happens if you replace "chmod 0777 file2"
-with:
-	# echo "# last line" >> file2
 
-The problem here isn't pseudo's tracking; it's that we're making a hard 
-link to a file, modifying the hard link, deleting the hard link, and 
-expecting the original file to have the same attributes it had before
-this all happened.
 
--s
 
