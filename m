@@ -1,63 +1,35 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ua0-f179.google.com (mail-ua0-f179.google.com
-	[209.85.217.179])
-	by mail.openembedded.org (Postfix) with ESMTP id E638B6E660
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D175700F0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Aug 2016 19:42:43 +0000 (UTC)
-Received: by mail-ua0-f179.google.com with SMTP id j59so113679874uaj.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Aug 2016 12:42:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=XkLoK0neSLh8f/m4DKj8GpRXdZiOZNQ6PMLGGACdj2I=;
-	b=s3YUe3N85iGoHWvsbwjVL8SXGupI5/J7DaGkLez7x2Bt8gTFICFJ25DEMSqNTf1beo
-	yh3+yyrGDsEk5I2b7OZ7ocHjGOEHFnaDkxj8B/SuzZh5CCshEG6AGQLQpxkQzx6TAOnC
-	z8s0IIUJwUL8f7973WWyNNffmi5aDFsy3HeZhn3tig7wv6DWDmhA2IO8AnuOYpC5HX0T
-	5/GEqE2dL5Fisqpmj+1a+F3RqFNO4AseiVhrLB6AvFIlGakVbhGHvkLwKer7bhxMW5Jl
-	H47vzyOXvQ9rCRdSFppj30543DM5v0Wx3MwAHdknfWQ8uiuO8yXiMk+mBi2XZu2l8k5f
-	tZjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=XkLoK0neSLh8f/m4DKj8GpRXdZiOZNQ6PMLGGACdj2I=;
-	b=cyh3RCLnybwH/FD0fhFw4WlXQ1H0RZC978C+QCH+o9j9u37dP2V+kE4ZdmnoAZcvLO
-	h0l6M9mleFPVS2SMVNAwDowATiMNa5StJjlGohwPGoUfQruPqk9bSbx7TVhQ8G7URn7e
-	S+AeiwasF+ttXxV1sGsQ0h/2yzuElMLTIcoSFkBmX9XJ4kwjHtCRg2yhXQd/LbmxfrR4
-	2vaJnG/39rrdl9w2GfIxaY4Ai0GLkTVTDq9GoJk6qyaCPd3UeevSIpV2RH/HlwhbgoZg
-	vmatzVDEmR27YQgZCrM2uekYrH0lNW/2yazLezRIEpBN6EdcpiMRiGCxhvluzfBZbJZP
-	UYnA==
-X-Gm-Message-State: AEkoouupwqH8uaKq95fwqkvXviW/OG4B/vTAO+0TO4paXLHTTdAHdJP8Inww8J+UuTe+WQ==
-X-Received: by 10.176.6.9 with SMTP id f9mr24102180uaf.89.1470080564171;
-	Mon, 01 Aug 2016 12:42:44 -0700 (PDT)
-Received: from mail-vk0-f45.google.com (mail-vk0-f45.google.com.
-	[209.85.213.45]) by smtp.gmail.com with ESMTPSA id
-	o75sm5540205vkc.23.2016.08.01.12.42.43
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 01 Aug 2016 12:42:43 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-vk0-f45.google.com with SMTP id n129so106502621vke.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Aug 2016 12:42:43 -0700 (PDT)
-X-Received: by 10.31.161.81 with SMTP id k78mr27241336vke.122.1470080562064;
-	Mon, 01 Aug 2016 12:42:42 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.31.138.78 with HTTP; Mon, 1 Aug 2016 12:42:40 -0700 (PDT)
-In-Reply-To: <724fa3d2-1c27-a315-54da-02934bf062f2@gravedo.de>
-References: <7603e18c-345c-ddcf-cd95-14df64b60077@gravedo.de>
-	<CADkTA4Ng8BoOou9UiS_dh8+x=Z2_1OJYPiWYkkD2cD3MHk0pxA@mail.gmail.com>
-	<724fa3d2-1c27-a315-54da-02934bf062f2@gravedo.de>
-Date: Mon, 1 Aug 2016 16:42:40 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKrsuE54Yn7n7vk2KVuV21t+wDgaS_NXj817tPHp3ZkFYA@mail.gmail.com>
-Message-ID: <CAP9ODKrsuE54Yn7n7vk2KVuV21t+wDgaS_NXj817tPHp3ZkFYA@mail.gmail.com>
-To: Simon Fels <morphis@gravedo.de>
-Cc: Yocto Project Discussion <yocto@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Snaps on Yocto/OpenEmbedded
+	Mon,  1 Aug 2016 20:01:18 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u71K1Iqh017426; Mon, 1 Aug 2016 21:01:18 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id VZS2jLTF9t9X; Mon,  1 Aug 2016 21:01:18 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u71K1En7017423
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 1 Aug 2016 21:01:16 +0100
+Message-ID: <1470081674.9142.108.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Seebs <seebs@seebs.net>, oe-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 01 Aug 2016 21:01:14 +0100
+In-Reply-To: <39329191-8DC4-43B6-9B38-5AD173C8F0DC@seebs.net>
+References: <577B8AA9.5040808@windriver.com>
+	<dc216358-8a1f-1490-2fc0-db22f98741c3@windriver.com>
+	<579B07F9.9000708@windriver.com>
+	<B3108E03-1852-4237-8320-E2BFEC66F9B3@seebs.net>
+	<579EE4BB.6070709@windriver.com>
+	<F5BAFB71-1FCC-4F9D-999C-5960E8CD7213@seebs.net>
+	<579F0EE8.3080009@windriver.com>
+	<39329191-8DC4-43B6-9B38-5AD173C8F0DC@seebs.net>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: About pseudo's chmod
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,48 +42,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Aug 2016 19:42:46 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 01 Aug 2016 20:01:22 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 1, 2016 at 4:14 PM, Simon Fels <morphis@gravedo.de> wrote:
-> On 01.08.2016 16:06, Bruce Ashfield wrote:
->>
->>
->> On Mon, Aug 1, 2016 at 7:32 AM, Simon Fels <morphis@gravedo.de
->> <mailto:morphis@gravedo.de>> wrote:
->>
->>     Hey everyone,
->>
->>     I've worked on a new layer recently which brings snaps to any
->>     Yocto/OpenEmbedded based system.
->>
->>     If you have never heard about snaps yet you will find most details at
->>     http://snapcraft.io/ but generally snaps are a new packaging format made
->>     with security and fast updates in mind and allows applications to be
->>     packaged once but run everywhere no matter of the distribution used or a
->>     particular device type.
->>
->>     The layer is currently named meta-snappy and is available at
->>     https://github.com/morphis/meta-snappy
->>
->>
->> I had a quick browse this morning, and one question that jumped to mind was
->> if the oe-meta-go layer was causing problems for go/go-cross support ? I was
->> carrying some go/go-inc changes in meta-virtualization as well, but recent reports
->> are that oe-meta-go should work for everything now.
->>
->> I'm just asking, since it doesn't make sense for meta-virt or other layers to
->> continue to carry go build infrastructure when it could be unified.
-> When I started to put meta-snappy together I ran into different problems
-> with oe-meta-go and then reused what you put into meta-virt. I have the
-> point on my TODO list to check if we can just switch to oe-meta-go
-> rather than shipping go-cross on our own.
+On Mon, 2016-08-01 at 13:17 -0500, Seebs wrote:
+> On 1 Aug 2016, at 3:57, Robert Yang wrote:
+> 
+> > How about we track the src when hardlink, for example:
+> 
+> I don't think I like this.
+> 
+> Fundamentally, the problem here is making a hard link to a file
+> outside 
+> of pseudo, and then modifying the file.
+> 
+> Consider, if you will, what happens if you replace "chmod 0777 file2"
+> with:
+> 	# echo "# last line" >> file2
+> 
+> The problem here isn't pseudo's tracking; it's that we're making a
+> hard 
+> link to a file, modifying the hard link, deleting the hard link, and 
+> expecting the original file to have the same attributes it had before
+> this all happened.
 
-The meta-golang seems to be the most up to date one. Likely the best
-one to try to converge as a single place for go-cross provider.
+No, we're actually expecting it to retain the mode it was given via the
+hardlink under pseudo. 
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+This is what a real world system would do and in this case we could
+track it via pseudo since pseudo is loaded when the hardlink is
+created. It would be unreasonable for pseudo to track all hardlinks but
+tracking ones created under it does seem reasonable?
+
+Cheers,
+
+Richard
+
 
