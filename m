@@ -1,24 +1,24 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AC34607A4
+Return-Path: <Awais_Belal@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D3BD731F7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Aug 2016 11:24:52 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 01 Aug 2016 04:24:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,454,1464678000"; d="scan'208";a="742551457"
-Received: from mbabyjoh-desk.fi.intel.com (HELO
-	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.71])
-	by FMSMGA003.fm.intel.com with ESMTP; 01 Aug 2016 04:24:52 -0700
-Date: Mon, 1 Aug 2016 14:24:34 +0300
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20160801112434.GB30794@mbabyjoh-desk.ger.corp.intel.com>
-References: <1468332463-4154-1-git-send-email-maxin.john@intel.com>
+	Mon,  1 Aug 2016 11:32:04 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=SVR-IES-FEM-02.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtp 
+	id 1bUBS1-0003Lp-D6 from Awais_Belal@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Mon, 01 Aug 2016 04:32:05 -0700
+Received: from awais-Precision-M4700.pkl.mentorg.com (137.202.0.76) by
+	SVR-IES-FEM-02.mgc.mentorg.com (137.202.0.106) with Microsoft SMTP
+	Server id 14.3.224.2; Mon, 1 Aug 2016 12:32:03 +0100
+From: Awais Belal <awais_belal@mentor.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 1 Aug 2016 16:31:43 +0500
+Message-ID: <1470051103-4924-1-git-send-email-awais_belal@mentor.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <1468332463-4154-1-git-send-email-maxin.john@intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: Re: [PATCH 0/8] replace xtscal with xinput-calibrator
+Subject: [[PATCH v3] init-install*: /etc/mtab make a link rather than a copy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,73 +31,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Aug 2016 11:24:53 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 01 Aug 2016 11:32:08 -0000
+Content-Type: text/plain
 
-ping ..
+Using a copy would only make management of devices erroneous
+and makes the system unstable in some scenarios as tools will
+have to manipulate both files separately. A link ensures that
+both files /proc/mounts and /etc/mtab will have the same
+information at all times and this is how it is handled
+on newer systems where there is such a need. Same is
+suggested by busybox.
 
-On Tue, Jul 12, 2016 at 05:07:35PM +0300, Maxin B. John wrote:
-> Remove xtscal in preference of xinput-calibrator
-> 
-> [YOCTO #9365]
-> 
-> Maxin B. John (8):
->   xtscal: remove recipe
->   x11-common: replace xtscal with xinput-calibrator
->   pointercal-xinput: add a dummy calibration file for qemu
->   pointercal: remove recipe
->   tslib: replace pointercal with pointercal-xinput
->   packagegroup-core-x11-base.bb: replace pointercal with
->     pointercal-xinput
->   layer.conf: remove pointercal
->   distro_alias.inc: remove pointercal and xtscal references
-> 
->  meta/conf/distro/include/distro_alias.inc          |   3 -
->  meta/conf/layer.conf                               |   1 -
->  meta/recipes-bsp/pointercal/pointercal/COPYING     |   2 -
->  meta/recipes-bsp/pointercal/pointercal/pointercal  |   0
->  .../pointercal/pointercal/qemuarm/pointercal       |   1 -
->  .../pointercal/pointercal/qemuarmv6/pointercal     |   1 -
->  .../pointercal/pointercal/qemuarmv7/pointercal     |   1 -
->  .../pointercal/pointercal/qemumips/pointercal      |   1 -
->  .../pointercal/pointercal/qemuppc/pointercal       | Bin 36 -> 0 bytes
->  .../pointercal/pointercal/qemux86-64/pointercal    |   1 -
->  .../pointercal/pointercal/qemux86/pointercal       |   1 -
->  meta/recipes-bsp/pointercal/pointercal_0.0.bb      |  22 -
->  .../packagegroups/packagegroup-core-x11-base.bb    |   2 +-
->  meta/recipes-graphics/tslib/tslib_1.1.bb           |   2 +-
->  meta/recipes-graphics/x11-common/x11-common_0.1.bb |   2 +-
->  .../pointercal-xinput/qemuall/pointercal.xinput    |   2 +
->  .../xtscal/xtscal/30xTs_Calibrate.sh               |  13 -
->  .../xtscal/xtscal/change-cross.patch               |  18 -
->  meta/recipes-graphics/xtscal/xtscal/cleanup.patch  | 621 ---------------------
->  .../xtscal/dso_linking_change_build_fix.patch      |  27 -
->  meta/recipes-graphics/xtscal/xtscal_0.6.3.bb       |  33 --
->  21 files changed, 5 insertions(+), 749 deletions(-)
->  delete mode 100644 meta/recipes-bsp/pointercal/pointercal/COPYING
->  delete mode 100644 meta/recipes-bsp/pointercal/pointercal/pointercal
->  delete mode 100644 meta/recipes-bsp/pointercal/pointercal/qemuarm/pointercal
->  delete mode 100644 meta/recipes-bsp/pointercal/pointercal/qemuarmv6/pointercal
->  delete mode 100644 meta/recipes-bsp/pointercal/pointercal/qemuarmv7/pointercal
->  delete mode 100644 meta/recipes-bsp/pointercal/pointercal/qemumips/pointercal
->  delete mode 100644 meta/recipes-bsp/pointercal/pointercal/qemuppc/pointercal
->  delete mode 100644 meta/recipes-bsp/pointercal/pointercal/qemux86-64/pointercal
->  delete mode 100644 meta/recipes-bsp/pointercal/pointercal/qemux86/pointercal
->  delete mode 100644 meta/recipes-bsp/pointercal/pointercal_0.0.bb
->  create mode 100644 meta/recipes-graphics/xinput-calibrator/pointercal-xinput/qemuall/pointercal.xinput
->  delete mode 100644 meta/recipes-graphics/xtscal/xtscal/30xTs_Calibrate.sh
->  delete mode 100644 meta/recipes-graphics/xtscal/xtscal/change-cross.patch
->  delete mode 100644 meta/recipes-graphics/xtscal/xtscal/cleanup.patch
->  delete mode 100644 meta/recipes-graphics/xtscal/xtscal/dso_linking_change_build_fix.patch
->  delete mode 100644 meta/recipes-graphics/xtscal/xtscal_0.6.3.bb
-> 
-> -- 
-> 2.4.0
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Awais Belal <awais_belal@mentor.com>
+---
+ meta/recipes-core/initrdscripts/files/init-install-efi.sh | 4 ++--
+ meta/recipes-core/initrdscripts/files/init-install.sh     | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+index f564f4e..c5db2f0 100644
+--- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
++++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+@@ -122,8 +122,8 @@ umount ${device}* 2> /dev/null || /bin/true
+ mkdir -p /tmp
+ 
+ # Create /etc/mtab if not present
+-if [ ! -e /etc/mtab ]; then
+-    cat /proc/mounts > /etc/mtab
++if [ ! -e /etc/mtab ] && [ -e /proc/mounts ]; then
++    ln -sf /proc/mounts /etc/mtab
+ fi
+ 
+ disk_size=$(parted ${device} unit mb print | grep '^Disk .*: .*MB' | cut -d" " -f 3 | sed -e "s/MB//")
+diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
+index 72ce92b..bf92acb 100644
+--- a/meta/recipes-core/initrdscripts/files/init-install.sh
++++ b/meta/recipes-core/initrdscripts/files/init-install.sh
+@@ -118,8 +118,8 @@ if [ ! -b /dev/loop0 ] ; then
+ fi
+ 
+ mkdir -p /tmp
+-if [ ! -L /etc/mtab ]; then
+-    cat /proc/mounts > /etc/mtab
++if [ ! -L /etc/mtab ] && [ -e /proc/mounts ]; then
++    ln -sf /proc/mounts /etc/mtab
+ fi
+ 
+ disk_size=$(parted ${device} unit mb print | grep '^Disk .*: .*MB' | cut -d" " -f 3 | sed -e "s/MB//")
+-- 
+1.9.1
+
 
