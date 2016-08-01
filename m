@@ -1,25 +1,27 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A862607A4
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 9FC02731DF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Aug 2016 16:24:12 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP; 01 Aug 2016 09:23:44 -0700
+	Mon,  1 Aug 2016 16:33:15 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga103.fm.intel.com with ESMTP; 01 Aug 2016 09:33:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,456,1464678000"; d="scan'208";a="1033036847"
-Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
-	([10.54.69.55])
-	by fmsmga002.fm.intel.com with ESMTP; 01 Aug 2016 09:23:29 -0700
-From: mariano.lopez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 Aug 2016 08:16:33 +0000
-Message-Id: <be2d39d1c09081daff3237eb121868a11f4dabe2.1470039240.git.mariano.lopez@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-In-Reply-To: <cover.1470039240.git.mariano.lopez@linux.intel.com>
-References: <cover.1470039240.git.mariano.lopez@linux.intel.com>
-In-Reply-To: <cover.1470039240.git.mariano.lopez@linux.intel.com>
-References: <cover.1470039240.git.mariano.lopez@linux.intel.com>
-Subject: [PATCHv2 1/1] selftest/runtime-test.py: Add test for testexport SDK feature
+X-IronPort-AV: E=Sophos;i="5.28,456,1464678000"; d="scan'208";a="1006409213"
+Received: from amrendax-mobl4.amr.corp.intel.com (HELO [10.255.77.92])
+	([10.255.77.92])
+	by orsmga001.jf.intel.com with ESMTP; 01 Aug 2016 09:33:15 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+References: <1469728851-20606-1-git-send-email-alejandro.hernandez@linux.intel.com>
+	<1469741983.9142.34.camel@linuxfoundation.org>
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Message-ID: <80aaf536-45aa-239f-4c8c-15c3768adc18@linux.intel.com>
+Date: Mon, 1 Aug 2016 11:33:14 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.1.1
+MIME-Version: 1.0
+In-Reply-To: <1469741983.9142.34.camel@linuxfoundation.org>
+Subject: Re: [PATCH v3] python-setuptools: Upgrade to v 25.1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,130 +34,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Aug 2016 16:24:13 -0000
+X-List-Received-Date: Mon, 01 Aug 2016 16:33:16 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-This adds test_testexport_sdk() to test the SDK feature
-of testexport in the CI in order to avoid breaking it.
+On 07/28/2016 04:39 PM, Richard Purdie wrote:
+> On Thu, 2016-07-28 at 18:00 +0000, Alejandro Hernandez wrote:
+>> LICENCE checksum did not change, it is emebedded on the setup.py
+>> file,
+>> this file changed, so the line number where we get the checksum
+>> changed.
+>>
+>> Signed-off-by: Alejandro Hernandez <
+>> alejandro.hernandez@linux.intel.com>
+>> ---
+>>   meta/recipes-devtools/python/python-setuptools.inc |  6 ++--
+>>   .../python/python-setuptools_22.0.5.bb             | 38 ------------
+>> ----------
+>>   .../python/python-setuptools_25.1.0.bb             | 38
+>> ++++++++++++++++++++++
+>>   3 files changed, 41 insertions(+), 41 deletions(-)
+>>   delete mode 100644 meta/recipes-devtools/python/python
+>> -setuptools_22.0.5.bb
+>>   create mode 100644 meta/recipes-devtools/python/python
+>> -setuptools_25.1.0.bb
+> This patch results in:
+>
+> ERROR: python3-setuptools-22.0.5-r0 do_fetch: Checksum failure fetching https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-22.0.5.tar.gz
+> ERROR: python3-setuptools-22.0.5-r0 do_fetch: Function failed: Fetcher failure for URL: 'https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-22.0.5.tar.gz'. Checksum mismatch!
+> File: '/media/build3/sources/setuptools-22.0.5.tar.gz' has md5 checksum 869f3029dcc66a64ba39875e2a2f044a when a4814dead37e74a86883c66f7d420d73 was expected
+> File: '/media/build3/sources/setuptools-22.0.5.tar.gz' has sha256 checksum 19aad19471052d5daefe96f2c1fa2e88dcdb17488bf8708d7e6356881ea833cb when 6a0f8111feb5a3438c6309cda49810a16d23e73c173331281edc37dd1374d1d5 was expected
+> If this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:
+> SRC_URI[md5sum] = "869f3029dcc66a64ba39875e2a2f044a"
+> SRC_URI[sha256sum] = "19aad19471052d5daefe96f2c1fa2e88dcdb17488bf8708d7e6356881ea833cb"
+> Otherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.
+>
+> ERROR: Logfile of failure stored in: /media/build1/poky/build/tmp/work/core2-64-poky-linux/python3-setuptools/22.0.5-r0/temp/log.do_fetch.131527
+> ERROR: Task /media/build1/poky/meta/recipes-devtools/python/python3-setuptools_22.0.5.bb:do_fetch (/media/build1/poky/meta/recipes-devtools/python/python3-setuptools_22.0.5.bb:do_fetch) failed with exit code '1'
+>
+> Since I suspect there is a common file between python and python3...
 
-[YOCTO #9765]
-
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
----
- meta-selftest/lib/oeqa/runtime/selftest.py | 24 +++++++++++++++++
- meta/lib/oeqa/selftest/runtime-test.py     | 41 ++++++++++++++++++++++++++++++
- 2 files changed, 65 insertions(+)
-
-diff --git a/meta-selftest/lib/oeqa/runtime/selftest.py b/meta-selftest/lib/oeqa/runtime/selftest.py
-index b9c9b23..a7e58ab3 100644
---- a/meta-selftest/lib/oeqa/runtime/selftest.py
-+++ b/meta-selftest/lib/oeqa/runtime/selftest.py
-@@ -1,9 +1,13 @@
-+import os
-+
- from oeqa.oetest import oeRuntimeTest, skipModule
-+from oeqa.utils.commands import runCmd
- from oeqa.utils.decorators import *
- 
- class Selftest(oeRuntimeTest):
- 
-     @skipUnlessPassed("test_ssh")
-+    @tag("selftest_package_install")
-     def test_install_package(self):
-         """
-         Summary: Check basic package installation functionality.
-@@ -18,6 +22,7 @@ class Selftest(oeRuntimeTest):
-         self.assertEqual(status, 0, msg="socat is not installed")
- 
-     @skipUnlessPassed("test_install_package")
-+    @tag("selftest_package_install")
-     def test_verify_unistall(self):
-         """
-         Summary: Check basic package installation functionality.
-@@ -29,3 +34,22 @@ class Selftest(oeRuntimeTest):
- 
-         (status, output) = self.target.run("socat -V")
-         self.assertNotEqual(status, 0, msg="socat is still installed")
-+
-+    @tag("selftest_sdk")
-+    def test_sdk(self):
-+
-+        result = runCmd("env -0")
-+        sdk_path = search_sdk_path(result.output)
-+        self.assertTrue(sdk_path, msg="Can't find SDK path")
-+
-+        tar_cmd = os.path.join(sdk_path, "tar")
-+        result = runCmd("%s --help" % tar_cmd)
-+
-+def search_sdk_path(env):
-+    for line in env.split("\0"):
-+        (key, _, value) = line.partition("=")
-+        if key == "PATH":
-+            for path in value.split(":"):
-+                if "pokysdk" in path:
-+                    return path
-+    return ""
-diff --git a/meta/lib/oeqa/selftest/runtime-test.py b/meta/lib/oeqa/selftest/runtime-test.py
-index b8e1be1..c2d5b45 100644
---- a/meta/lib/oeqa/selftest/runtime-test.py
-+++ b/meta/lib/oeqa/selftest/runtime-test.py
-@@ -43,6 +43,46 @@ class TestExport(oeSelfTest):
-             failure = True if 'FAIL' in result.output else False
-             self.assertNotEqual(True, failure, 'ping test failed')
- 
-+    def test_testexport_sdk(self):
-+        """
-+        Summary: Check sdk functionality for testexport.
-+        Expected: 1. testexport directory must be created.
-+                  2. SDK tarball must exists.
-+                  3. Uncompressing of tarball must succeed.
-+                  4. Check if the SDK directory is added to PATH.
-+                  5. Run tar from the SDK directory.
-+        Product: oe-core
-+        Author: Mariano Lopez <mariano.lopez@intel.com>
-+        """
-+
-+        features = 'INHERIT += "testexport"\n'
-+        # These aren't the actual IP addresses but testexport class needs something defined
-+        features += 'TEST_SERVER_IP = "192.168.7.1"\n'
-+        features += 'TEST_TARGET_IP = "192.168.7.1"\n'
-+        features += 'TEST_SUITES = "ping"\n'
-+        features += 'TEST_SUITES_TAGS = "selftest_sdk"\n'
-+        features += 'TEST_EXPORT_SDK_ENABLED = "1"\n'
-+        features += 'TEST_EXPORT_SDK_PACKAGES = "nativesdk-tar"\n'
-+        self.write_config(features)
-+
-+        # Build tesexport for core-image-minimal
-+        bitbake('core-image-minimal')
-+        bitbake('-c testexport core-image-minimal')
-+
-+        # Check for SDK
-+        testexport_dir = get_bb_var('TEST_EXPORT_DIR', 'core-image-minimal')
-+        sdk_dir = get_bb_var('TEST_EXPORT_SDK_DIR', 'core-image-minimal')
-+        tarball_name = "%s.sh" % get_bb_var('TEST_EXPORT_SDK_NAME', 'core-image-minimal')
-+        tarball_path = os.path.join(testexport_dir, sdk_dir, tarball_name)
-+        self.assertEqual(os.path.isfile(tarball_path), True, "Couldn't find SDK tarball: %s" % tarball_path)
-+
-+        # Run runexported.py
-+        runexported_path = os.path.join(testexport_dir, "runexported.py")
-+        testdata_path = os.path.join(testexport_dir, "testdata.json")
-+        cmd = "%s %s" % (runexported_path, testdata_path)
-+        result = runCmd(cmd)
-+        self.assertEqual(0, result.status, 'runexported.py returned a non 0 status')
-+
- 
- class TestImage(oeSelfTest):
- 
-@@ -57,6 +97,7 @@ class TestImage(oeSelfTest):
- 
-         features = 'INHERIT += "testimage"\n'
-         features += 'TEST_SUITES = "ping ssh selftest"\n'
-+        features += 'TEST_SUITES_TAGS = "selftest_package_install"\n'
-         self.write_config(features)
- 
-         # Build core-image-sato and testimage
--- 
-2.6.6
+Oh sorry, I forgot to rename the python3-setuptools bb file, sending it 
+soon.
+>
+> Cheers,
+>
+> Richard
 
 
