@@ -1,24 +1,17 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D175700F0
+Return-Path: <seebs@seebs.net>
+Received: from mail.plethora.net (mail.plethora.net [184.173.250.112])
+	by mail.openembedded.org (Postfix) with ESMTP id 81A6D731C6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Aug 2016 20:01:18 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u71K1Iqh017426; Mon, 1 Aug 2016 21:01:18 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id VZS2jLTF9t9X; Mon,  1 Aug 2016 21:01:18 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u71K1En7017423
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 1 Aug 2016 21:01:16 +0100
-Message-ID: <1470081674.9142.108.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Seebs <seebs@seebs.net>, oe-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 01 Aug 2016 21:01:14 +0100
-In-Reply-To: <39329191-8DC4-43B6-9B38-5AD173C8F0DC@seebs.net>
+	Mon,  1 Aug 2016 20:17:58 +0000 (UTC)
+Received: from [10.10.10.132] (home.seebs.net [74.122.98.108])
+	by mail.plethora.net (Postfix) with ESMTPSA id CBA5AC4E05
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  1 Aug 2016 15:17:59 -0500 (CDT)
+From: Seebs <seebs@seebs.net>
+To: oe-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 01 Aug 2016 15:17:59 -0500
+Message-ID: <BDA8434F-AE7B-4D8D-B6C3-2D4ED599E9E8@seebs.net>
+In-Reply-To: <1470081674.9142.108.camel@linuxfoundation.org>
 References: <577B8AA9.5040808@windriver.com>
 	<dc216358-8a1f-1490-2fc0-db22f98741c3@windriver.com>
 	<579B07F9.9000708@windriver.com>
@@ -27,8 +20,9 @@ References: <577B8AA9.5040808@windriver.com>
 	<F5BAFB71-1FCC-4F9D-999C-5960E8CD7213@seebs.net>
 	<579F0EE8.3080009@windriver.com>
 	<39329191-8DC4-43B6-9B38-5AD173C8F0DC@seebs.net>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
+	<1470081674.9142.108.camel@linuxfoundation.org>
+MIME-Version: 1.0
+X-Mailer: MailMate (1.9.4r5234)
 Subject: Re: About pseudo's chmod
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -42,41 +36,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Aug 2016 20:01:22 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 01 Aug 2016 20:17:59 -0000
+Content-Type: text/plain; format=flowed
 
-On Mon, 2016-08-01 at 13:17 -0500, Seebs wrote:
-> On 1 Aug 2016, at 3:57, Robert Yang wrote:
-> 
-> > How about we track the src when hardlink, for example:
-> 
-> I don't think I like this.
-> 
-> Fundamentally, the problem here is making a hard link to a file
-> outside 
-> of pseudo, and then modifying the file.
-> 
-> Consider, if you will, what happens if you replace "chmod 0777 file2"
-> with:
-> 	# echo "# last line" >> file2
-> 
-> The problem here isn't pseudo's tracking; it's that we're making a
-> hard 
-> link to a file, modifying the hard link, deleting the hard link, and 
-> expecting the original file to have the same attributes it had before
-> this all happened.
+On 1 Aug 2016, at 15:01, Richard Purdie wrote:
 
-No, we're actually expecting it to retain the mode it was given via the
-hardlink under pseudo. 
+> No, we're actually expecting it to retain the mode it was given via 
+> the
+> hardlink under pseudo.
+>
+> This is what a real world system would do and in this case we could
+> track it via pseudo since pseudo is loaded when the hardlink is
+> created. It would be unreasonable for pseudo to track all hardlinks 
+> but
+> tracking ones created under it does seem reasonable?
 
-This is what a real world system would do and in this case we could
-track it via pseudo since pseudo is loaded when the hardlink is
-created. It would be unreasonable for pseudo to track all hardlinks but
-tracking ones created under it does seem reasonable?
+Hmm. Well, strictly speaking, the link created under pseudo *does* get 
+tracked. Hmm. But an implicit request to track also the thing linked to 
+is not a horrible idea. Although you'd still be able to beat it:
 
-Cheers,
+	$ touch file1
+	$ ln file1 file2
+	$ pseudo
+	# ln file2 file3
+	# chmod 777 file3
+	# rm file2 file3
+	# ls -l file1
 
-Richard
+The general case of "find everything this link also refers to" is 
+clearly out of scope. That said... Hmm. I think my main feeling is, if 
+we want
+to link to the file, and we want the changes to the linked file to
+survive, we should probably either create that file under pseudo, or 
+explicitly claim it with pseudo when we start wanting to do the 
+tracking.
+(You can trivially do this to a tree with chown -R root tree).
 
+-s
 
