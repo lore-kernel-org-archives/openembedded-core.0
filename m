@@ -1,46 +1,47 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-it0-f66.google.com (mail-it0-f66.google.com
-	[209.85.214.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 41B216FFFE
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
+	[209.85.220.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A446607A4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Aug 2016 12:32:59 +0000 (UTC)
-Received: by mail-it0-f66.google.com with SMTP id j124so11848070ith.3
+	Mon,  1 Aug 2016 13:55:49 +0000 (UTC)
+Received: by mail-qk0-f196.google.com with SMTP id q62so12021776qkf.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Aug 2016 05:33:00 -0700 (PDT)
+	Mon, 01 Aug 2016 06:55:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=rmA/u7IEZlgnyZF9SvYT9FLz7o+hu0YPnogEjIgPmvA=;
-	b=zIyf6lGgdBdcUHxBUCw462d7JO/1HfPjAMOngimQsSFNomeGnmo3HYwuEf/s5oF80l
-	/lL7GebG8rkjJJaNgMsC+U1ASNskxJl7bwwJbonV/TIGJDdOiUQ3hmRW08Q50rwyXHcH
-	cw8FI+BDUUD4z+eQ0ARvyyEEBs1tf/9f7QOKhyegrypyZSP+68kC0adDnhElJr83kTip
-	TQH9KgKuQlV0SvHEcoI156L9JIhmDso/1OSsAnBK4aRaoXryftNbv8FGt3Uj8U26WJU9
-	BFeLla/qeHGWKXUS69ttgvzye7dCBsS6xjOddwG6xDbPu+m1muAMpEPcDi1Lo7WL3U2Y
-	rtxw==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=DF6+LJfqVY0DEH8wNBf655nq+BelSv1iK4TMoFplEfY=;
+	b=w+TodkVyGTpRtmDz1ihPLjX2EalRseigCsqFi+V7bZWC5kh8xThEHgp/TJWKX/VmxL
+	pkU5SGJs/pL56WQjwIsolReGOHQH2mXMHnn59xaec8c8+CYF8V8ZKkCIjDmkfovHA3R2
+	rWVWW67vT5qGxm/RGuOHGreodAwMmISieS0XXEo6CccCOKg7XQX11eNnggUM0NYcFcS3
+	Rf2ECNhTQI+baP6Hn26MvTDTbbmcs68dyjmBd8V/a1tgzoI7zjGHbXa6ORxLa2wGKczf
+	TDEOKCQQjW5RP+rI7ZLyuARL2Bo47dGX7KyaVokeFag1Fer5GSP1hI+9m1weVK8//BYz
+	jvog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=rmA/u7IEZlgnyZF9SvYT9FLz7o+hu0YPnogEjIgPmvA=;
-	b=kBf0l/kIlbUAc6ETu2lNAsMlrD4E2QtGakTBcYEPm9qjVDa9LFhFgut9Uze1uNKkvI
-	9z2LZ7Kaig0SI1pBeiHpk9/qMqmr84LGwCo2+XTyx1zgLuHcK40p7vfWo1G0Y5gk29t6
-	fK3VJZyhwg666I0pKIzCusQcqhIJJgyjbDSFWuW0zboO2bce7wRPcUV8384cGhSWtckf
-	j6AdQssocC+7mg40FGbqYYotGicyaDhWMo046jPJFmqmzhNFfsgvHEj7j4p3A63kLAK9
-	SaWFII/81zZA7PeuCUUmAsdhLJYLSa8RJEJ27ehhfRLoFxv7mhwUWmWps+SCMCmLzebw
-	P5tQ==
-X-Gm-Message-State: AEkoouuJNdzXaq6LnuqFMepFJHqtgEVfuuH0vUxmgTNGkS1azH5hUtdRL6uLvoAHWvFSMQ==
-X-Received: by 10.36.206.129 with SMTP id v123mr13593026itg.11.1470054780394; 
-	Mon, 01 Aug 2016 05:33:00 -0700 (PDT)
-Received: from openSUSE-i7.site (dsl-67-55-28-109.acanac.net. [67.55.28.109])
-	by smtp.gmail.com with ESMTPSA id
-	t68sm7701653ita.1.2016.08.01.05.32.59
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 01 Aug 2016 05:32:59 -0700 (PDT)
-From: Trevor Woerner <twoerner@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 Aug 2016 08:32:53 -0400
-Message-Id: <20160801123253.9292-1-twoerner@gmail.com>
-X-Mailer: git-send-email 2.9.2
-Subject: [PATCH] kernel.bbclass: add lzop dependency
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=DF6+LJfqVY0DEH8wNBf655nq+BelSv1iK4TMoFplEfY=;
+	b=A0OYFpZnGTdWpLxhZ7pxLFLWFRpiuScRPJAOCN31K/gu45YpB3yvpscIXExZeTF2Pn
+	qS3CQolxmXiPLdcGvH3eaBs8Y7IPMl/phpHJkMa3tNvRoCk+58YmvesUPaQA8PjkGF+I
+	N3mmkVeTCeEUo+LCZipid2MvuxHFJsO5an1vcBw/xlMPFnb2lDHOj54KguNyw0zwNg5R
+	adxMZryMdsFLKAEgtNQHz/GmrUu0oQ97qULNQD2w4DWCXuBeedmP7P6ExwWz2Ly0yHG7
+	qkkDHTHpf7s9CeMFAJTBEXbcwTWowpcNNIwqU7dvmae72fLHTBowk/tF0zk38Umb7CxZ
+	IJdQ==
+X-Gm-Message-State: AEkoousudTBrydZDLCx/yiJ9rn4fLkBLkA5+MNJZZq1A4UsrkFgekFiegmInHnTosNVv5Xk507WP3whGgnahjg==
+X-Received: by 10.55.74.17 with SMTP id x17mr1777869qka.26.1470059749645; Mon,
+	01 Aug 2016 06:55:49 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.55.215.13 with HTTP; Mon, 1 Aug 2016 06:55:19 -0700 (PDT)
+In-Reply-To: <7603e18c-345c-ddcf-cd95-14df64b60077@gravedo.de>
+References: <7603e18c-345c-ddcf-cd95-14df64b60077@gravedo.de>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 1 Aug 2016 07:55:19 -0600
+Message-ID: <CAMKF1sqhL-beKuV1bTb_srgEh_bj+mm3BkgwNY_JxTEe=d04nw@mail.gmail.com>
+To: Simon Fels <morphis@gravedo.de>
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Snaps on Yocto/OpenEmbedded
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,29 +54,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Aug 2016 12:33:00 -0000
+X-List-Received-Date: Mon, 01 Aug 2016 13:55:50 -0000
+Content-Type: text/plain; charset=UTF-8
 
-If the initramfs image is type lzo, then a native lzop is needed.
+Simon
 
-Signed-off-by: Trevor Woerner <twoerner@gmail.com>
----
- meta/classes/kernel.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Mon, Aug 1, 2016 at 5:32 AM, Simon Fels <morphis@gravedo.de> wrote:
+> Hey everyone,
+>
+> I've worked on a new layer recently which brings snaps to any
+> Yocto/OpenEmbedded based system.
+>
+> If you have never heard about snaps yet you will find most details at
+> http://snapcraft.io/ but generally snaps are a new packaging format made
+> with security and fast updates in mind and allows applications to be
+> packaged once but run everywhere no matter of the distribution used or a
+> particular device type.
+>
+> The layer is currently named meta-snappy and is available at
+> https://github.com/morphis/meta-snappy
+>
+> It comes with some basic instructions how to get quickly started. A
+> basic tour through the snap system and how to use it is available at
+> http://snapcraft.io/
+>
+> If you have any questions, bugs or contributions feel free to get in
+> contact with me.
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index fa76a14..db42744 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -1,7 +1,7 @@
- inherit linux-kernel-base kernel-module-split
- 
- PROVIDES += "virtual/kernel"
--DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native depmodwrapper-cross bc-native"
-+DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native depmodwrapper-cross bc-native lzop-native"
- 
- S = "${STAGING_KERNEL_DIR}"
- B = "${WORKDIR}/build"
--- 
-2.9.2
+Thank you for announcing your layer, I would also suggest that you
+publish the layer
+to layerindex as well. at layers.openembedded.org
 
+since thats where most of folks go to find layers.
+
+>
+> regards,
+> Simon
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
