@@ -1,49 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f44.google.com (mail-it0-f44.google.com
-	[209.85.214.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 6CEA5731D6
+Return-Path: <stephen.arnold42@gmail.com>
+Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
+	[209.85.218.66])
+	by mail.openembedded.org (Postfix) with ESMTP id C741D700F0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Aug 2016 16:43:21 +0000 (UTC)
-Received: by mail-it0-f44.google.com with SMTP id f6so38685374ith.0
+	Mon,  1 Aug 2016 17:13:41 +0000 (UTC)
+Received: by mail-oi0-f66.google.com with SMTP id c199so14397062oig.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Aug 2016 09:43:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Mon, 01 Aug 2016 10:13:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=BjvfdsaDsFmFjJ0X/bzzAh17orTCZMJqG6OLzT6uBG8=;
-	b=asBVWskB8da4WonGvdT8cK+q6mJO20D/KMcBNPjfa1YhhkvjK9grpyrlqt0ewWWZG1
-	OqQCUzDZa+bJ/8COSbT94nZswFNv+WzYM1QEE+IdKLNgo/zrW9XYdDjAnb5PkEer+7bn
-	5zObsDaoPCvSJIGNJVcLzWF6p8mVf+YXDGYtxd8JxJh4ebYBosbdn7XkAzn6bPICAHjV
-	WrduWPKDFYQQVI8LhSGlghbOAkA2r38Qk3z7uTFaaxLRKO9eV42qdoYcOhtD3LSvhczq
-	SlxsdEg6EelZEjUE+ub/8TDGFVN35ImqHg2HaiQN0vvJAx1u7WFvZxbv3a3WGXPY8zHf
-	DItg==
+	:cc:content-transfer-encoding;
+	bh=hnZT4luVqIR5fd13tTjEo37Cmcg4LO+n10F7MNelk9A=;
+	b=B6sCtoOf1vfSZPUrCeMprhnXnLs7x8naTzQxFerEKsHluo4GM+71tnO/FT4T3/0cWK
+	uX9AwL+CarBrmq08InJTS6APQ1J+obsCH19OYnzZAo+GNSuy9V4TvmfHGDAVZ2v5Uahk
+	fajGJEiSEd42BdMeIlks9Hu26/WcXsM4f/9vGwzgHGMHD/mrVGJPTXCGqxI8ky/JFKzp
+	9+PIfL7aTYNakWwOfPDPYTvjfLVOA6mj0WIlJVhV7ULtOs+vGTUKf3jPjiuLF+KYX+Aj
+	jFG7T6MumFtuelGrT1IoOv5BoyHS0OMhKCoD5f/Y3TAL/5ehOWszlzJRl0WlYaVGAxIC
+	QrEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=BjvfdsaDsFmFjJ0X/bzzAh17orTCZMJqG6OLzT6uBG8=;
-	b=jMHw7d9xOoc8kv6RRFg9ksrd5WTES4110NDWREouYV1q9+BPSQRFrxz4RkKwMTB6Kw
-	qbz6bl1uf/D/P5daoYbXbvtYZZj0sjYJ5Cwbc88J0Hnb5q2UVP5aj5OqMl6LdNm0Hgw4
-	fTAy2aodglMq+zy2aF4/p6UMLHRCr6Qxn/OBzNdj9e/OxnFGo9sbF4lcCaXfduI+Gkx8
-	bUYJWhdXSL1HXeYB+yF73E6ie0QAGOMVZEk3/Sh4q1W1XRNaeQ4zFdshqPf6knI+Z3gy
-	KBGkJQl9ovhZECeDoVix7WM8d/gIOFYjyHSjTxp1r3dsYEzKOtx+WLH1u5jAt2msxMHF
-	OMzw==
-X-Gm-Message-State: AEkoouvBl8QR4awUyYhYXFEVJksSOex95HsNpmuw2uT/K48IKzu9inGsJT770oO9Unq8rFCM4LgvDx2oizWkb9mR
-X-Received: by 10.36.131.194 with SMTP id d185mr15239654ite.38.1470069802206; 
-	Mon, 01 Aug 2016 09:43:22 -0700 (PDT)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=hnZT4luVqIR5fd13tTjEo37Cmcg4LO+n10F7MNelk9A=;
+	b=I44RixFKeUF5l9T6jT2r7kyseYnyxW0cCwtbaxJbKUHohJHpSwFEkO6kPgcMYLmA+4
+	oEM9/LCi/nVhqhb+K6TjORJ7OYaT0aVdphfpW7rr2JvjP7f6/7THxsB9+D9ZMFIzIYj1
+	AszJ0Nv/lm0+/2Kxsgmd5ocrsfYC9EVQXOs/AaJm3XjMun9rKu8m4oG9/1V6DWc0K9l1
+	0fMlJGzqDtvK7Bi3Wxhrq8vG1OHRWMtTm/Q5fYUy8uVEZWV8sz1WsJblBG+IpskxQqLY
+	uP53bZivlXQgvRt0v87cyHdBQe0NpItp8482PXmmVaiYlFAoucHtugjH7vvVrN6JhILg
+	lhuQ==
+X-Gm-Message-State: AEkoousv9TDPUc9REPKisQQ31iNYyknRUCvfLt9yk46kBijShj/OAtWDQ+ptbSSDuZ++idDUU72/9ak3yLdMwA==
+X-Received: by 10.202.169.7 with SMTP id s7mr33517408oie.21.1470071621645;
+	Mon, 01 Aug 2016 10:13:41 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Mon, 1 Aug 2016 09:43:01 -0700 (PDT)
-In-Reply-To: <1367a7a6-b6f7-d0e8-d193-39a72b23489a@linux.intel.com>
-References: <a3e42644f10b61eb3dce9f12ca91a8e52cbce576.1469656341.git.alejandro.hernandez@linux.intel.com>
-	<4da54d831c7002a28d51e3edf23fbee28d98d948.1469656341.git.alejandro.hernandez@linux.intel.com>
-	<1469774951.9142.40.camel@linuxfoundation.org>
-	<1367a7a6-b6f7-d0e8-d193-39a72b23489a@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 1 Aug 2016 17:43:01 +0100
-Message-ID: <CAJTo0LYpe0X=RVX6B1C54TqCG==WoqzA6fvQJ+Rih99eKAUPUg@mail.gmail.com>
-To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/5] cronie: upgrade to 1.5.1
+Received: by 10.182.248.164 with HTTP; Mon, 1 Aug 2016 10:13:41 -0700 (PDT)
+In-Reply-To: <1470049297-6520-1-git-send-email-fan.xin@jp.fujitsu.com>
+References: <1470049297-6520-1-git-send-email-fan.xin@jp.fujitsu.com>
+From: Stephen Arnold <stephen.arnold42@gmail.com>
+Date: Mon, 1 Aug 2016 10:13:41 -0700
+Message-ID: <CAOLEWZVAjfydiq7GwgDKWydZyL_CXDL7+dgn5gsjt+QMhBQzgA@mail.gmail.com>
+To: Fan Xin <fan.xin@jp.fujitsu.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] Replace foomatic-filters with cups-filters
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,46 +54,182 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Aug 2016 16:43:24 -0000
-Content-Type: multipart/alternative; boundary=94eb2c0496525b30130539054c43
-
---94eb2c0496525b30130539054c43
+X-List-Received-Date: Mon, 01 Aug 2016 17:13:42 -0000
 Content-Type: text/plain; charset=UTF-8
-
-On 1 August 2016 at 17:35, Alejandro Hernandez <
-alejandro.hernandez@linux.intel.com> wrote:
-
-> Interesting, it didnt break on my build, I'll dig up whats going on
->
-
-You didn't do a build with PAM enabled (DISTRO_FEATURES_append=" pam").
-
-I usually have PAM enabled locally but forgot.  It's worth checking if the
-patch needs to be PAM-specific or if we're safe to always apply it.  As
-it's patching PAM configuration I expect we can always apply it as it won't
-be installed if PAM is disabled.
-
-Ross
-
---94eb2c0496525b30130539054c43
-Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 1 August 2016 at 17:35, Alejandro Hernandez <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:alejandro.hernandez@linux.intel.com" target=3D"_blank">alejandr=
-o.hernandez@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"g=
-mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
-eft:1ex"><div id=3D":22k" class=3D"a3s aXjCH m15646f7bdf0822e8">Interesting=
-, it didnt break on my build, I&#39;ll dig up whats going on<div class=3D"y=
-j6qo ajU"><div id=3D":pu" class=3D"ajR" tabindex=3D"0"></div></div></div></=
-blockquote></div><br>You didn&#39;t do a build with PAM enabled (DISTRO_FEA=
-TURES_append=3D&quot; pam&quot;).</div><div class=3D"gmail_extra"><br></div=
-><div class=3D"gmail_extra">I usually have PAM enabled locally but forgot.=
-=C2=A0 It&#39;s worth checking if the patch needs to be PAM-specific or if =
-we&#39;re safe to always apply it.=C2=A0 As it&#39;s patching PAM configura=
-tion I expect we can always apply it as it won&#39;t be installed if PAM is=
- disabled.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ex=
-tra">Ross</div></div>
+Thanks, our timing is great (since I just did the same thing on
+Saturday but didn't send anything to the list yet).  Still have some
+testing to do to see if it actually works; recipes are here:
 
---94eb2c0496525b30130539054c43--
+https://github.com/sarnold/meta-small-arm-extra/commits/master
+
+On Mon, Aug 1, 2016 at 4:01 AM, Fan Xin <fan.xin@jp.fujitsu.com> wrote:
+> The foomatic-filters community is inactive and foomatic-filter package is=
+ unmaintained.
+> (http://www.gossamer-threads.com/lists/gentoo/user/288184)
+>
+> The foomatic-rips is moved from foomatic-filters to cups-filters and
+> maintained by cups-filters according to the cups-filter's NEWS.
+> (http://bzr.linuxfoundation.org/loggerhead/openprinting/cups-filters/anno=
+tate/head:/NEWS)
+>
+> Signed-off-by: Fan Xin <fan.xin at jp.fujitsu.com>
+> ---
+>  .../cups-filters-1.8.2-disable-ijs.patch           | 65 ++++++++++++++++=
+++++++
+>  .../foomatic/cups-filters_1.8.3.bb                 | 34 +++++++++++
+>  .../packagegroups/packagegroup-core-lsb.bb         |  2 +-
+>  3 files changed, 100 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-extended/foomatic/cups-filters/cups-filt=
+ers-1.8.2-disable-ijs.patch
+>  create mode 100644 meta/recipes-extended/foomatic/cups-filters_1.8.3.bb
+>
+> diff --git a/meta/recipes-extended/foomatic/cups-filters/cups-filters-1.8=
+.2-disable-ijs.patch b/meta/recipes-extended/foomatic/cups-filters/cups-fil=
+ters-1.8.2-disable-ijs.patch
+> new file mode 100644
+> index 0000000..0a0a6ad
+> --- /dev/null
+> +++ b/meta/recipes-extended/foomatic/cups-filters/cups-filters-1.8.2-disa=
+ble-ijs.patch
+> @@ -0,0 +1,65 @@
+> +=3D=3D=3D modified file 'Makefile.am'
+> +--- Makefile.am        2016-02-10 15:16:33 +0000
+> ++++ Makefile.am        2016-03-02 20:46:26 +0000
+> +@@ -490,7 +490,6 @@
+> +       bannertopdf \
+> +       commandtoescpx \
+> +       commandtopclx \
+> +-      pdftoijs \
+> +       sys5ippprinter \
+> +       pdftops \
+> +       pdftoraster \
+> +@@ -499,6 +498,10 @@
+> +       texttopdf \
+> +       urftopdf \
+> +       rastertopdf
+> ++if ENABLE_IJS
+> ++pkgfilter_PROGRAMS +=3D \
+> ++      pdftoijs
+> ++endif
+> + if ENABLE_GHOSTSCRIPT
+> + pkgfilter_PROGRAMS +=3D \
+> +       gstoraster
+> +@@ -846,9 +849,12 @@
+> +       ppd/Fuji_Xerox-DocuPrint_CM305_df-PDF.ppd \
+> +       ppd/Generic-PDF_Printer-PDF.ppd \
+> +       ppd/HP-Color_LaserJet_CM3530_MFP-PDF.ppd \
+> +-      ppd/HP-PhotoSmart_Pro_B8300-hpijs-pdftoijs.ppd \
+> +       ppd/Ricoh-PDF_Printer-PDF.ppd \
+> +       ppd/textonly.ppd
+> ++if ENABLE_IJS
+> ++ppd_DATA +=3D \
+> ++      ppd/HP-PhotoSmart_Pro_B8300-hpijs-pdftoijs.ppd
+> ++endif
+> + if ENABLE_GHOSTSCRIPT
+> + ppd_DATA +=3D \
+> +       ppd/pxlcolor.ppd \
+> +=3D=3D=3D modified file 'configure.ac'
+> +--- configure.ac       2016-02-11 13:59:52 +0000
+> ++++ configure.ac       2016-03-02 21:18:05 +0000
+> +@@ -443,7 +443,7 @@
+> + ])
+> + PKG_CHECK_MODULES([FREETYPE], [freetype2], [AC_DEFINE([HAVE_FREETYPE_H]=
+, [1], [Have FreeType2 include files])])
+> + PKG_CHECK_MODULES([FONTCONFIG], [fontconfig >=3D 2.0.0])
+> +-PKG_CHECK_MODULES([IJS], [ijs])
+> ++PKG_CHECK_MODULES([IJS], [ijs], [have_ijs=3Dyes], [have_ijs=3Dno])
+> + PKG_CHECK_MODULES([POPPLER], [poppler >=3D 0.18])
+> + PKG_CHECK_MODULES([ZLIB], [zlib])
+> + AC_DEFINE([HAVE_LIBZ], [], [Define that we use zlib])
+> +@@ -489,6 +489,15 @@
+> +       [enable_ghostscript=3D"$enableval"],
+> +       [enable_ghostscript=3Dyes]
+> + )
+> ++AC_ARG_ENABLE([ijs],
+> ++      [AS_HELP_STRING([--disable-ijs], [Disable filters using IJS.])],
+> ++      [enable_ijs=3D"$enableval"],
+> ++      [enable_ijs=3Dyes]
+> ++)
+> ++AS_IF([test "x$enable_ijs" =3D "xyes" -a "x$have_ijs" !=3D "xyes"], [
+> ++       AC_MSG_ERROR([IJS not found, but requested.])
+> ++])
+> ++AM_CONDITIONAL(ENABLE_IJS, test "x$enable_ijs" =3D "xyes")
+> + AC_ARG_WITH([pdftops],
+> +       [AS_HELP_STRING([--with-pdftops=3Dvalue], [Set which pdftops to u=
+se (gs,pdftops,pdftocairo,acroread,hybrid).])],
+> +       [with_pdftops=3D"$withval"],
+> +
+> diff --git a/meta/recipes-extended/foomatic/cups-filters_1.8.3.bb b/meta/=
+recipes-extended/foomatic/cups-filters_1.8.3.bb
+> new file mode 100644
+> index 0000000..4eef7ef
+> --- /dev/null
+> +++ b/meta/recipes-extended/foomatic/cups-filters_1.8.3.bb
+> @@ -0,0 +1,34 @@
+> +SUMMARY =3D "OpenPrinting printer support - filters"
+> +DESCRIPTION =3D "CUPS is a standards-based, open source printing system =
+\
+> +developed by Apple Inc. for Mac OS=C2=AE X and other UNIX=C2=AE-like ope=
+rating systems. \
+> +CUPS uses the Internet Printing Protocol ("IPP") and provides System V a=
+nd \
+> +Berkeley command-line interfaces, a web interface, and a C API to manage=
+ printers \
+> +and print jobs. \
+> + \
+> +This package consists of filters used by the printer spoolers \
+> +to convert the incoming PostScript data into the printer's native \
+> +format using a printer-specific, but spooler-independent PPD file. \
+> +"
+> +
+> +DEPENDS +=3D "cups tiff lcms freetype fontconfig poppler qpdf"
+> +PR =3D "r0"
+> +
+> +LICENSE =3D "GPLv2 & LGPLv2 & MIT & GPLv2+ & GPLv3"
+> +LIC_FILES_CHKSUM =3D "file://${WORKDIR}/cups-filters-${PV}/COPYING;md5=
+=3Dd420e185486344da6176553848350932"
+> +
+> +SRC_URI =3D "http://www.openprinting.org/download/cups-filters/cups-filt=
+ers-${PV}.tar.gz \
+> +          "
+> +
+> +SRC_URI[md5sum] =3D "9ecda355e1f4c781784f902737df6321"
+> +SRC_URI[sha256sum] =3D "0ad46d15737b309fe648fe39023a4eb6a3528faadbeb97d6=
+ecf523df40950033"
+> +
+> +UPSTREAM_CHECK_REGEX =3D "cups-filters-(?P<pver>((\d|\d\d)\.*)+)\.tar\.g=
+z"
+> +
+> +inherit autotools-brokensep pkgconfig
+> +
+> +EXTRA_OECONF +=3D "--disable-ijs"
+> +
+> +FILES_${PN} +=3D "${datadir}"
+> +FILES_${PN} +=3D "${libdir}/cups"
+> +
+> +RDEPENDS_${PN} +=3D "bash"
+> diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb=
+ b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
+> index 29564e0..f9d356a 100644
+> --- a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
+> +++ b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
+> @@ -143,7 +143,7 @@ RDEPENDS_packagegroup-core-lsb-core =3D "\
+>      file \
+>      findutils \
+>      fontconfig-utils \
+> -    foomatic-filters \
+> +    cups-filters \
+>      gawk \
+>      ghostscript \
+>      grep \
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
