@@ -1,46 +1,63 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
-	[209.85.223.179])
-	by mail.openembedded.org (Postfix) with ESMTP id AB82C731C6
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ua0-f179.google.com (mail-ua0-f179.google.com
+	[209.85.217.179])
+	by mail.openembedded.org (Postfix) with ESMTP id E638B6E660
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Aug 2016 19:23:15 +0000 (UTC)
-Received: by mail-io0-f179.google.com with SMTP id b62so192297892iod.3
+	Mon,  1 Aug 2016 19:42:43 +0000 (UTC)
+Received: by mail-ua0-f179.google.com with SMTP id j59so113679874uaj.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Aug 2016 12:23:16 -0700 (PDT)
+	Mon, 01 Aug 2016 12:42:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=8WFfCT3vCXB1BxWTUQjMdQJwQwMbx+OYRjxDAvBJqvQ=;
-	b=LMldpqxLGoNmQ4L9U0mVuwFi4htTdOCnKq7pZ0X3rLGiLoPZKCtGrZgyZE1NVJaPv0
-	G/h5HsIk2B1xjoFb/51UYR4SBQiV9vmO+6giJcd3Uhf497Omy0Pd9KC5sr9CrDkAskfh
-	sWN6M354rPz58VfqovvwtW7dJz4H6p0rmmddFpbFMQUo2KBZVe388Di+vyq2X3r6M/JZ
-	EVPZs3e8LmY3j5WHkfs0OExved0o1VfgdpMYiom//4tfi0DqYZwEXEO5XsiekrPmdILR
-	oP6AAKu2EQGwm8gouJMmEz0iOlC0V3LJGOdDcIfTvgo/hB2XuYN2mor5UVijs85quBYv
-	v+eg==
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=XkLoK0neSLh8f/m4DKj8GpRXdZiOZNQ6PMLGGACdj2I=;
+	b=s3YUe3N85iGoHWvsbwjVL8SXGupI5/J7DaGkLez7x2Bt8gTFICFJ25DEMSqNTf1beo
+	yh3+yyrGDsEk5I2b7OZ7ocHjGOEHFnaDkxj8B/SuzZh5CCshEG6AGQLQpxkQzx6TAOnC
+	z8s0IIUJwUL8f7973WWyNNffmi5aDFsy3HeZhn3tig7wv6DWDmhA2IO8AnuOYpC5HX0T
+	5/GEqE2dL5Fisqpmj+1a+F3RqFNO4AseiVhrLB6AvFIlGakVbhGHvkLwKer7bhxMW5Jl
+	H47vzyOXvQ9rCRdSFppj30543DM5v0Wx3MwAHdknfWQ8uiuO8yXiMk+mBi2XZu2l8k5f
+	tZjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc;
-	bh=8WFfCT3vCXB1BxWTUQjMdQJwQwMbx+OYRjxDAvBJqvQ=;
-	b=kMJCSQ2gNyumIX0kcdETSd02uEvY9n4lU+CESo3OVAcZvNSmrKboWI2/W2rSP1sj8n
-	GZEZIqXEpxiUhRUl8vCZ6Y8BaDALbQ4vgfsac2IEYRtnCeRD5I+ohUXOrH/tcKWPBfsn
-	tOq6FH6ERJa311fHMrb7M3kNe6Xw4H5QGzbK1zMMM1sb70/izxUWrBYI0cXwKtRMkRDp
-	73wLBuWrwSE6iVW6woWfCSRQ9RcTdJAV+Lgz6g8Q5/ipbjh8nT5mPlHKSNy3YeBjv9el
-	fBJfoGm+sbbl6Up+vVDFgUL3DmgetZkjVqbBoat3xrvdXz4jZ3YAXy8WhiudamTOUzL0
-	7HIg==
-X-Gm-Message-State: AEkoouvADmGfgCdgxLnBLnu559YSkA0sIa+uyMZkAu/wJLxF3RVqgFMXVFLsK+s0QcSF6eyndQ2FFJYyDrmCb+g5
-X-Received: by 10.107.135.142 with SMTP id r14mr64332748ioi.133.1470079396032; 
-	Mon, 01 Aug 2016 12:23:16 -0700 (PDT)
+	bh=XkLoK0neSLh8f/m4DKj8GpRXdZiOZNQ6PMLGGACdj2I=;
+	b=cyh3RCLnybwH/FD0fhFw4WlXQ1H0RZC978C+QCH+o9j9u37dP2V+kE4ZdmnoAZcvLO
+	h0l6M9mleFPVS2SMVNAwDowATiMNa5StJjlGohwPGoUfQruPqk9bSbx7TVhQ8G7URn7e
+	S+AeiwasF+ttXxV1sGsQ0h/2yzuElMLTIcoSFkBmX9XJ4kwjHtCRg2yhXQd/LbmxfrR4
+	2vaJnG/39rrdl9w2GfIxaY4Ai0GLkTVTDq9GoJk6qyaCPd3UeevSIpV2RH/HlwhbgoZg
+	vmatzVDEmR27YQgZCrM2uekYrH0lNW/2yazLezRIEpBN6EdcpiMRiGCxhvluzfBZbJZP
+	UYnA==
+X-Gm-Message-State: AEkoouupwqH8uaKq95fwqkvXviW/OG4B/vTAO+0TO4paXLHTTdAHdJP8Inww8J+UuTe+WQ==
+X-Received: by 10.176.6.9 with SMTP id f9mr24102180uaf.89.1470080564171;
+	Mon, 01 Aug 2016 12:42:44 -0700 (PDT)
+Received: from mail-vk0-f45.google.com (mail-vk0-f45.google.com.
+	[209.85.213.45]) by smtp.gmail.com with ESMTPSA id
+	o75sm5540205vkc.23.2016.08.01.12.42.43
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 01 Aug 2016 12:42:43 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-vk0-f45.google.com with SMTP id n129so106502621vke.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 01 Aug 2016 12:42:43 -0700 (PDT)
+X-Received: by 10.31.161.81 with SMTP id k78mr27241336vke.122.1470080562064;
+	Mon, 01 Aug 2016 12:42:42 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Mon, 1 Aug 2016 12:22:55 -0700 (PDT)
-In-Reply-To: <1470016499-30815-1-git-send-email-mingli.yu@windriver.com>
-References: <1470016499-30815-1-git-send-email-mingli.yu@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 1 Aug 2016 20:22:55 +0100
-Message-ID: <CAJTo0LadvrbvgPVpC=-pDSBd6ykYyKX=+MqqkNQhzFtbYo=3Ew@mail.gmail.com>
-To: mingli.yu@windriver.com
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] grub2.inc: run autogen.sh before configure
+Received: by 10.31.138.78 with HTTP; Mon, 1 Aug 2016 12:42:40 -0700 (PDT)
+In-Reply-To: <724fa3d2-1c27-a315-54da-02934bf062f2@gravedo.de>
+References: <7603e18c-345c-ddcf-cd95-14df64b60077@gravedo.de>
+	<CADkTA4Ng8BoOou9UiS_dh8+x=Z2_1OJYPiWYkkD2cD3MHk0pxA@mail.gmail.com>
+	<724fa3d2-1c27-a315-54da-02934bf062f2@gravedo.de>
+Date: Mon, 1 Aug 2016 16:42:40 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKrsuE54Yn7n7vk2KVuV21t+wDgaS_NXj817tPHp3ZkFYA@mail.gmail.com>
+Message-ID: <CAP9ODKrsuE54Yn7n7vk2KVuV21t+wDgaS_NXj817tPHp3ZkFYA@mail.gmail.com>
+To: Simon Fels <morphis@gravedo.de>
+Cc: Yocto Project Discussion <yocto@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Snaps on Yocto/OpenEmbedded
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,63 +70,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Aug 2016 19:23:15 -0000
-Content-Type: multipart/alternative; boundary=001a113eccbc316426053907882d
-
---001a113eccbc316426053907882d
+X-List-Received-Date: Mon, 01 Aug 2016 19:42:46 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 1 August 2016 at 02:54, <mingli.yu@windriver.com> wrote:
+On Mon, Aug 1, 2016 at 4:14 PM, Simon Fels <morphis@gravedo.de> wrote:
+> On 01.08.2016 16:06, Bruce Ashfield wrote:
+>>
+>>
+>> On Mon, Aug 1, 2016 at 7:32 AM, Simon Fels <morphis@gravedo.de
+>> <mailto:morphis@gravedo.de>> wrote:
+>>
+>>     Hey everyone,
+>>
+>>     I've worked on a new layer recently which brings snaps to any
+>>     Yocto/OpenEmbedded based system.
+>>
+>>     If you have never heard about snaps yet you will find most details at
+>>     http://snapcraft.io/ but generally snaps are a new packaging format made
+>>     with security and fast updates in mind and allows applications to be
+>>     packaged once but run everywhere no matter of the distribution used or a
+>>     particular device type.
+>>
+>>     The layer is currently named meta-snappy and is available at
+>>     https://github.com/morphis/meta-snappy
+>>
+>>
+>> I had a quick browse this morning, and one question that jumped to mind was
+>> if the oe-meta-go layer was causing problems for go/go-cross support ? I was
+>> carrying some go/go-inc changes in meta-virtualization as well, but recent reports
+>> are that oe-meta-go should work for everything now.
+>>
+>> I'm just asking, since it doesn't make sense for meta-virt or other layers to
+>> continue to carry go build infrastructure when it could be unified.
+> When I started to put meta-snappy together I ran into different problems
+> with oe-meta-go and then reused what you put into meta-virt. I have the
+> point on my TODO list to check if we can just switch to oe-meta-go
+> rather than shipping go-cross on our own.
 
-> When adding new source files from upstream the autogen.sh
-> script needs to be run
->
+The meta-golang seems to be the most up to date one. Likely the best
+one to try to converge as a single place for go-cross provider.
 
-This results in this change:
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
-packages/corei7-64-poky-linux/grub-efi/grub-efi: PKGSIZE changed from
-6787555 to 7524227 (+10%)
-  * FILELIST: added "/usr/sbin/grub-sparc64-setup"
-packages/corei7-64-poky-linux/grub-efi/grub-efi: FILELIST: added
-"/usr/sbin/grub-sparc64-setup"
-packages/corei7-64-poky-linux/grub/grub-dbg: PKGSIZE changed from 26159624
-to 28829025 (+10%)
-packages/corei7-64-poky-linux/grub/grub: PKGSIZE changed from 5942339 to
-6679011 (+12%)
-  * FILELIST: added "/usr/sbin/grub-sparc64-setup"
-packages/corei7-64-poky-linux/grub/grub: FILELIST: added
-"/usr/sbin/grub-sparc64-setup"
-
-Is this intentional?
-
-Ross
-
---001a113eccbc316426053907882d
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 1 August 2016 at 02:54,  <span dir=3D"ltr">&lt;<a href=3D"mailto:mingli.=
-yu@windriver.com" target=3D"_blank">mingli.yu@windriver.com</a>&gt;</span> =
-wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-sty=
-le:solid;padding-left:1ex"><div id=3D":24c" class=3D"">When adding new sour=
-ce files from upstream the autogen.sh<br>
-script needs to be run<br></div></blockquote></div><br>This results in this=
- change:</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extr=
-a"><div class=3D"gmail_extra">packages/corei7-64-poky-linux/grub-efi/grub-e=
-fi: PKGSIZE changed from 6787555 to 7524227 (+10%)</div><div class=3D"gmail=
-_extra">=C2=A0 * FILELIST: added &quot;/usr/sbin/grub-sparc64-setup&quot;</=
-div><div class=3D"gmail_extra">packages/corei7-64-poky-linux/grub-efi/grub-=
-efi: FILELIST: added &quot;/usr/sbin/grub-sparc64-setup&quot;</div><div cla=
-ss=3D"gmail_extra">packages/corei7-64-poky-linux/grub/grub-dbg: PKGSIZE cha=
-nged from 26159624 to 28829025 (+10%)</div><div class=3D"gmail_extra">packa=
-ges/corei7-64-poky-linux/grub/grub: PKGSIZE changed from 5942339 to 6679011=
- (+12%)</div><div class=3D"gmail_extra">=C2=A0 * FILELIST: added &quot;/usr=
-/sbin/grub-sparc64-setup&quot;</div><div class=3D"gmail_extra">packages/cor=
-ei7-64-poky-linux/grub/grub: FILELIST: added &quot;/usr/sbin/grub-sparc64-s=
-etup&quot;</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ex=
-tra">Is this intentional?</div><div class=3D"gmail_extra"><br></div><div cl=
-ass=3D"gmail_extra">Ross</div></div></div>
-
---001a113eccbc316426053907882d--
