@@ -1,27 +1,28 @@
 Return-Path: <alejandro.hernandez@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 9FC02731DF
+	by mail.openembedded.org (Postfix) with ESMTP id 50D65731D6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Aug 2016 16:33:15 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP; 01 Aug 2016 09:33:15 -0700
+	Mon,  1 Aug 2016 16:36:17 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga103.fm.intel.com with ESMTP; 01 Aug 2016 09:36:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,456,1464678000"; d="scan'208";a="1006409213"
+X-IronPort-AV: E=Sophos;i="5.28,456,1464678000"; d="scan'208";a="1033043650"
 Received: from amrendax-mobl4.amr.corp.intel.com (HELO [10.255.77.92])
 	([10.255.77.92])
-	by orsmga001.jf.intel.com with ESMTP; 01 Aug 2016 09:33:15 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 01 Aug 2016 09:35:20 -0700
 To: Richard Purdie <richard.purdie@linuxfoundation.org>,
 	openembedded-core@lists.openembedded.org
-References: <1469728851-20606-1-git-send-email-alejandro.hernandez@linux.intel.com>
-	<1469741983.9142.34.camel@linuxfoundation.org>
+References: <a3e42644f10b61eb3dce9f12ca91a8e52cbce576.1469656341.git.alejandro.hernandez@linux.intel.com>
+	<4da54d831c7002a28d51e3edf23fbee28d98d948.1469656341.git.alejandro.hernandez@linux.intel.com>
+	<1469774951.9142.40.camel@linuxfoundation.org>
 From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-Message-ID: <80aaf536-45aa-239f-4c8c-15c3768adc18@linux.intel.com>
-Date: Mon, 1 Aug 2016 11:33:14 -0500
+Message-ID: <1367a7a6-b6f7-d0e8-d193-39a72b23489a@linux.intel.com>
+Date: Mon, 1 Aug 2016 11:35:19 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.1.1
 MIME-Version: 1.0
-In-Reply-To: <1469741983.9142.34.camel@linuxfoundation.org>
-Subject: Re: [PATCH v3] python-setuptools: Upgrade to v 25.1.0
+In-Reply-To: <1469774951.9142.40.camel@linuxfoundation.org>
+Subject: Re: [PATCH 2/5] cronie: upgrade to 1.5.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,52 +35,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Aug 2016 16:33:16 -0000
+X-List-Received-Date: Mon, 01 Aug 2016 16:36:17 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
-On 07/28/2016 04:39 PM, Richard Purdie wrote:
-> On Thu, 2016-07-28 at 18:00 +0000, Alejandro Hernandez wrote:
->> LICENCE checksum did not change, it is emebedded on the setup.py
->> file,
->> this file changed, so the line number where we get the checksum
->> changed.
->>
+
+On 07/29/2016 01:49 AM, Richard Purdie wrote:
+> On Wed, 2016-07-27 at 21:52 +0000, Alejandro Hernandez wrote:
 >> Signed-off-by: Alejandro Hernandez <
 >> alejandro.hernandez@linux.intel.com>
 >> ---
->>   meta/recipes-devtools/python/python-setuptools.inc |  6 ++--
->>   .../python/python-setuptools_22.0.5.bb             | 38 ------------
->> ----------
->>   .../python/python-setuptools_25.1.0.bb             | 38
->> ++++++++++++++++++++++
->>   3 files changed, 41 insertions(+), 41 deletions(-)
->>   delete mode 100644 meta/recipes-devtools/python/python
->> -setuptools_22.0.5.bb
->>   create mode 100644 meta/recipes-devtools/python/python
->> -setuptools_25.1.0.bb
-> This patch results in:
+>>   meta/recipes-extended/cronie/{cronie_1.5.0.bb => cronie_1.5.1.bb} |
+>> 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>   rename meta/recipes-extended/cronie/{cronie_1.5.0.bb =>
+>> cronie_1.5.1.bb} (95%)
+>>
+>> diff --git a/meta/recipes-extended/cronie/cronie_1.5.0.bb
+>> b/meta/recipes-extended/cronie/cronie_1.5.1.bb
+>> similarity index 95%
+>> rename from meta/recipes-extended/cronie/cronie_1.5.0.bb
+>> rename to meta/recipes-extended/cronie/cronie_1.5.1.bb
+>> index 697501a..99b2bb5 100644
+>> --- a/meta/recipes-extended/cronie/cronie_1.5.0.bb
+>> +++ b/meta/recipes-extended/cronie/cronie_1.5.1.bb
+>> @@ -23,8 +23,8 @@ SRC_URI = "
+>> https://fedorahosted.org/releases/c/r/cronie/cronie-${PV}.tar.gz \
+>>   PAM_SRC_URI = "file://crond_pam_config.patch"
+>>   PAM_DEPS = "libpam libpam-runtime pam-plugin-access pam-plugin
+>> -loginuid"
+>>   
+>> -SRC_URI[md5sum] = "9db75e1884d83a45e002d145c6c54d45"
+>> -SRC_URI[sha256sum] =
+>> "9cf0e3f4f5042a9c09413d62c8e0c055e12401f70b112465f0f81f2c84ebfb3f"
+>> +SRC_URI[md5sum] = "910e6effcc032998b0a49fbd46322e18"
+>> +SRC_URI[sha256sum] =
+>> "6c73666102a6b5d35e2eaf1bd06925f2d4b0cef8d3323c37286dda3089a85338"
+>>   
+>>   inherit autotools update-rc.d useradd systemd
+> https://autobuilder.yoctoproject.org/main/builders/nightly-arm-lsb/buil
+> ds/841/steps/BuildImages/logs/stdio
 >
-> ERROR: python3-setuptools-22.0.5-r0 do_fetch: Checksum failure fetching https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-22.0.5.tar.gz
-> ERROR: python3-setuptools-22.0.5-r0 do_fetch: Function failed: Fetcher failure for URL: 'https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-22.0.5.tar.gz'. Checksum mismatch!
-> File: '/media/build3/sources/setuptools-22.0.5.tar.gz' has md5 checksum 869f3029dcc66a64ba39875e2a2f044a when a4814dead37e74a86883c66f7d420d73 was expected
-> File: '/media/build3/sources/setuptools-22.0.5.tar.gz' has sha256 checksum 19aad19471052d5daefe96f2c1fa2e88dcdb17488bf8708d7e6356881ea833cb when 6a0f8111feb5a3438c6309cda49810a16d23e73c173331281edc37dd1374d1d5 was expected
-> If this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:
-> SRC_URI[md5sum] = "869f3029dcc66a64ba39875e2a2f044a"
-> SRC_URI[sha256sum] = "19aad19471052d5daefe96f2c1fa2e88dcdb17488bf8708d7e6356881ea833cb"
-> Otherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.
+> and it killed multiple other builds:
 >
-> ERROR: Logfile of failure stored in: /media/build1/poky/build/tmp/work/core2-64-poky-linux/python3-setuptools/22.0.5-r0/temp/log.do_fetch.131527
-> ERROR: Task /media/build1/poky/meta/recipes-devtools/python/python3-setuptools_22.0.5.bb:do_fetch (/media/build1/poky/meta/recipes-devtools/python/python3-setuptools_22.0.5.bb:do_fetch) failed with exit code '1'
->
-> Since I suspect there is a common file between python and python3...
-
-Oh sorry, I forgot to rename the python3-setuptools bb file, sending it 
-soon.
+> http://errors.yoctoproject.org/Errors/Latest/Autobuilder/?filter=7cb0ca
+> b0765669856e359f21a19c47383dcfe84c&type=commit
 >
 > Cheers,
 >
 > Richard
-
+Interesting, it didnt break on my build, I'll dig up whats going on
 
