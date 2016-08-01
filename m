@@ -1,45 +1,47 @@
-Return-Path: <stephen.arnold42@gmail.com>
-Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
-	[209.85.218.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 7513A6E667
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
+	[209.85.223.182])
+	by mail.openembedded.org (Postfix) with ESMTP id A22556E667
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Aug 2016 17:22:01 +0000 (UTC)
-Received: by mail-oi0-f67.google.com with SMTP id w143so14400828oiw.2
+	Mon,  1 Aug 2016 17:24:36 +0000 (UTC)
+Received: by mail-io0-f182.google.com with SMTP id 38so189426705iol.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Aug 2016 10:22:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	Mon, 01 Aug 2016 10:24:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=r8iMmk6d+/dM/Qbdub/+iWM/jg0bxRJ1Tylm/XnHP7M=;
-	b=BvjqDbFtk6EsNWkwJ7WSICu1CRDW+TYozf7BpVEADXWzx+DMmWU7XnWeA3Cr2KABzL
-	G1JX2axJNEKHib0UNxKwaS1UP87rJgSUJXKx51g/RIG8lWrUF9Ej4o2plSdGiyzpBtgk
-	eFXNt2k7s7ktvby7ffraHVF5Eoc+kyuDVVB7SaGx+A5JhrpHczYRbSgFLCNQvbYY6NEy
-	vT1H5261l5/soj0dhy69YJwwtQtg7bY+K6e2QuxZsvjM9UHNUGtKyPOOfQtphXX9tWad
-	eccGT2j+aVAz3ivUWeaYvj9sC1DkMJvHEbyg8yGks7k3RD8fuFQSctyjWw7P4+QXZtS4
-	3Edw==
+	:cc; bh=SzyP/4BqGpxWgMo8haYEA8o6xu3GPv0NGJeunnMMJYY=;
+	b=jr27/dxzZb0VtIfEAwitsn4gbIRDRScjg0NHQPfLaS6Je0I033PboaG/YfMU5t9wuD
+	FfeVOhFT+JsXEy+hz+t12gslAgRBfxB1YvhvUy+0MXSxNXXXhFIzZlq9IBnXJAdXZL8+
+	oW64L9SC0ib2xyXJnpjVtUpN0j3RzwgQ3GBmG2r8dJmIqAhIzRucl+qQaBTU113ezuJs
+	K3xhOQD2XeJ/HSWoLYpNaJtRTEjwIDA3XUmMU4BKzLNhWlolXiyITLcOgmUUCD0oJMVW
+	FWd1qHGo27XUhCvmAh0P2yODptRJDPr7JuabpuID2w2mPw1VyNAi3uBFKIJRc+0owGLz
+	H3fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=r8iMmk6d+/dM/Qbdub/+iWM/jg0bxRJ1Tylm/XnHP7M=;
-	b=WIIM9e9gHyFn099If429kt6TqjuYRH7EN8fU3PHrKr3RKSBRVI8nKdbAqnPzVQrEdW
-	6GxXNI6jKtwFzYJOO1Y+zvNPWdLkvCX5MDCOIzFMODcAMJDFRlJnzGy2qfkFtCEi3RdL
-	LHbG4U7LO30vqCTdow/MKh+QQxTi1vnWOnJaSaM4oIl8Y6g5J8CbIqTpnFBNQVV3W/L4
-	uUiVou4+YjKOffXlHWVvp36j00QwOzsFKZdjFlCWUPy/OY/oz6TIaNwEIlvTsyfz6nPj
-	cbmxNtywkYaQ7UgisyQ1L4XkuG4oERLCPN7MTTtd+tZlnihhWIDcbVLIV1utSJFJ2LqD
-	mi6Q==
-X-Gm-Message-State: AEkoouvVmiFJiRFFerJs0YLFaXcyvyjBEqYuFJxvj9Is6U3p8lCC3Iv69Yxt14kaHZxj50RpSe2uUHVcPteoMg==
-X-Received: by 10.202.253.149 with SMTP id b143mr35291486oii.34.1470072121766; 
-	Mon, 01 Aug 2016 10:22:01 -0700 (PDT)
+	bh=SzyP/4BqGpxWgMo8haYEA8o6xu3GPv0NGJeunnMMJYY=;
+	b=A7WlTOHYWUbqBZpKEdr9XIE5i9yWt9+jI98y3L6QoAMSqLbpbPHNntFZzodG9+q8uO
+	ClHDphSYPM7c1vxCXUezzYxqagP01WC+rQ5ZuHVUXbadC2bEZQePW2gjFfoDvixOe+lo
+	OnCx3PMCL88rTntm6k3BZeRyYnwqiIoC06v19euxorL40RqSnIZ48VdVP6b9RL38+tmd
+	btEIQ0kQ0kXQLw7A++iPCgft7qY/E/5zJJPSzYJeFuET4EtDMZpaDst67+4mCkmenTR+
+	2jKOqR2gUY1xOfYfZjQISMJORlI0gptyV+0naKNcFq3rXi9fwH7zVajl8pNWNAiIAt/j
+	N1zw==
+X-Gm-Message-State: AEkoout+fRfxEPPFQrs9tiaifI/55OHGBKiKTqHi1PipERBQiUgzCBpePrEx3F9NAHpuR14eRGeZcqiEaLv+wxXT
+X-Received: by 10.107.138.212 with SMTP id c81mr55282202ioj.148.1470072277148; 
+	Mon, 01 Aug 2016 10:24:37 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.182.248.164 with HTTP; Mon, 1 Aug 2016 10:22:01 -0700 (PDT)
-In-Reply-To: <CAJTo0La6G0jmhMVKu1rGjjWrDkACFWNX70hrgY9rnyk2ifXKFg@mail.gmail.com>
+Received: by 10.107.18.17 with HTTP; Mon, 1 Aug 2016 10:24:16 -0700 (PDT)
+In-Reply-To: <CAOLEWZWbyZXc53TgQijWtxRbTQ9bEnTULpM9uUa4Hp5Px4AYKw@mail.gmail.com>
 References: <1470049297-6520-1-git-send-email-fan.xin@jp.fujitsu.com>
 	<CAOLEWZVAjfydiq7GwgDKWydZyL_CXDL7+dgn5gsjt+QMhBQzgA@mail.gmail.com>
 	<CAJTo0La6G0jmhMVKu1rGjjWrDkACFWNX70hrgY9rnyk2ifXKFg@mail.gmail.com>
-From: Stephen Arnold <stephen.arnold42@gmail.com>
-Date: Mon, 1 Aug 2016 10:22:01 -0700
-Message-ID: <CAOLEWZWbyZXc53TgQijWtxRbTQ9bEnTULpM9uUa4Hp5Px4AYKw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+	<CAOLEWZWbyZXc53TgQijWtxRbTQ9bEnTULpM9uUa4Hp5Px4AYKw@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 1 Aug 2016 18:24:16 +0100
+Message-ID: <CAJTo0LbwrLtSG+wv=_379TeQOAAqBHVUet=bD0kfdUUg6_c-yw@mail.gmail.com>
+To: Stephen Arnold <stephen.arnold42@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>,
 	Fan Xin <fan.xin@jp.fujitsu.com>
@@ -56,33 +58,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Aug 2016 17:22:01 -0000
+X-List-Received-Date: Mon, 01 Aug 2016 17:24:36 -0000
+Content-Type: multipart/alternative; boundary=001a113ed932dfd57a053905df42
+
+--001a113ed932dfd57a053905df42
 Content-Type: text/plain; charset=UTF-8
 
-That's actually not a bad idea, but I need to crank out another
-abstract today (the deadline for special session snuck up on me).  We
-kinda needed this for a project, but I think a tiny print server is
-always useful.  What's your plan?
+On 1 August 2016 at 18:22, Stephen Arnold <stephen.arnold42@gmail.com>
+wrote:
 
-Steve
+> That's actually not a bad idea, but I need to crank out another
+> abstract today (the deadline for special session snuck up on me).  We
+> kinda needed this for a project, but I think a tiny print server is
+> always useful.  What's your plan?
+>
 
-On Mon, Aug 1, 2016 at 10:16 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> Hi,
->
-> On 1 August 2016 at 18:13, Stephen Arnold <stephen.arnold42@gmail.com>
-> wrote:
->>
->> Thanks, our timing is great (since I just did the same thing on
->> Saturday but didn't send anything to the list yet).  Still have some
->> testing to do to see if it actually works; recipes are here:
->>
->> https://github.com/sarnold/meta-small-arm-extra/commits/master
->
->
-> Literally ten minutes ago I was wondering if there was any interest in
-> ripping the obviously broken CUPS/ghostscript/etc out of oe-core and into a
-> meta-printing layer that someone could actually maintain.  Would you be
-> interested in that?
->
-> Ross
+Well my plan was:
 
+1) say that someone should create meta-printing
+2) watch someone create meta-printing
+3) delete everything printing related in oe-core
+
+I can help a bit on (2) I guess...  Fan Xin, would you or anyone else at
+Fujitsu (as you clearly have interest here) be able to help?
+
+Ross
+
+--001a113ed932dfd57a053905df42
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 1 August 2016 at 18:22, Stephen Arnold <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:stephen.arnold42@gmail.com" target=3D"_blank">stephen.arnold42@gmail=
+.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1j=
+4" class=3D"a3s aXjCH m15647209c6651ed3">That&#39;s actually not a bad idea=
+, but I need to crank out another<br>
+abstract today (the deadline for special session snuck up on me).=C2=A0 We<=
+br>
+kinda needed this for a project, but I think a tiny print server is<br>
+always useful.=C2=A0 What&#39;s your plan?</div></blockquote></div><br>Well=
+ my plan was:</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail=
+_extra">1) say that someone should create meta-printing</div><div class=3D"=
+gmail_extra">2) watch someone create meta-printing</div><div class=3D"gmail=
+_extra">3) delete everything printing related in oe-core</div><div class=3D=
+"gmail_extra"><br></div><div class=3D"gmail_extra">I can help a bit on (2) =
+I guess...=C2=A0 Fan Xin, would you or anyone else at Fujitsu (as you clear=
+ly have interest here) be able to help?</div><div class=3D"gmail_extra"><br=
+></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a113ed932dfd57a053905df42--
