@@ -1,47 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
-	[209.85.223.182])
-	by mail.openembedded.org (Postfix) with ESMTP id A22556E667
+Return-Path: <stephen.arnold42@gmail.com>
+Received: from mail-oi0-f44.google.com (mail-oi0-f44.google.com
+	[209.85.218.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 622456E667
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Aug 2016 17:24:36 +0000 (UTC)
-Received: by mail-io0-f182.google.com with SMTP id 38so189426705iol.0
+	Mon,  1 Aug 2016 17:32:45 +0000 (UTC)
+Received: by mail-oi0-f44.google.com with SMTP id j185so201779321oih.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Aug 2016 10:24:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Mon, 01 Aug 2016 10:32:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=SzyP/4BqGpxWgMo8haYEA8o6xu3GPv0NGJeunnMMJYY=;
-	b=jr27/dxzZb0VtIfEAwitsn4gbIRDRScjg0NHQPfLaS6Je0I033PboaG/YfMU5t9wuD
-	FfeVOhFT+JsXEy+hz+t12gslAgRBfxB1YvhvUy+0MXSxNXXXhFIzZlq9IBnXJAdXZL8+
-	oW64L9SC0ib2xyXJnpjVtUpN0j3RzwgQ3GBmG2r8dJmIqAhIzRucl+qQaBTU113ezuJs
-	K3xhOQD2XeJ/HSWoLYpNaJtRTEjwIDA3XUmMU4BKzLNhWlolXiyITLcOgmUUCD0oJMVW
-	FWd1qHGo27XUhCvmAh0P2yODptRJDPr7JuabpuID2w2mPw1VyNAi3uBFKIJRc+0owGLz
-	H3fg==
+	:cc; bh=dcANFafh9g1vvdzhaRDn9BkJkTyABn63/v8h9iz3Lv8=;
+	b=bd0QWLaVfg2BDZJxOoXYHZ4FrdrziGyp9XAbuoCV30uHwz/AwTEdrVlhcPXFlVCSm3
+	f80MKFtRMXWXii/IpPQ215gGXGlKxwrL29UO/r+DYCkglCOgK7krVPCenl8S3sZkPgLW
+	sambHRdR9rkx6hDiUT2lS+SWyiObD6QtUUTa4KCxfBDNuSMr1Ytzh1qNMOOu6URRfCPC
+	hGIumQ8R+ljUC47z4L4oJSHKZm7qBCv4pH5rJChCNcegfagbi+C5g83qvA5lxoh1kxlU
+	Dll1bLDIXQA48EgVoPqSolPmNfUFR9wtq75JWhoKA7pAvDqJLrtFrEsooGhH5EYP43TY
+	sXTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=SzyP/4BqGpxWgMo8haYEA8o6xu3GPv0NGJeunnMMJYY=;
-	b=A7WlTOHYWUbqBZpKEdr9XIE5i9yWt9+jI98y3L6QoAMSqLbpbPHNntFZzodG9+q8uO
-	ClHDphSYPM7c1vxCXUezzYxqagP01WC+rQ5ZuHVUXbadC2bEZQePW2gjFfoDvixOe+lo
-	OnCx3PMCL88rTntm6k3BZeRyYnwqiIoC06v19euxorL40RqSnIZ48VdVP6b9RL38+tmd
-	btEIQ0kQ0kXQLw7A++iPCgft7qY/E/5zJJPSzYJeFuET4EtDMZpaDst67+4mCkmenTR+
-	2jKOqR2gUY1xOfYfZjQISMJORlI0gptyV+0naKNcFq3rXi9fwH7zVajl8pNWNAiIAt/j
-	N1zw==
-X-Gm-Message-State: AEkoout+fRfxEPPFQrs9tiaifI/55OHGBKiKTqHi1PipERBQiUgzCBpePrEx3F9NAHpuR14eRGeZcqiEaLv+wxXT
-X-Received: by 10.107.138.212 with SMTP id c81mr55282202ioj.148.1470072277148; 
-	Mon, 01 Aug 2016 10:24:37 -0700 (PDT)
+	bh=dcANFafh9g1vvdzhaRDn9BkJkTyABn63/v8h9iz3Lv8=;
+	b=VGjoDE7Rki/paGH//Zu0TiSx7wfsSMeEP38OmdDWMgFxspflSSEPOrl22gk9Nb83Ly
+	QVycMGyw6Pbd1SD4nnMz8Zq8h+blT8yJ4NY4EYPZ1HwWaI9FXpdn0Y0b9AAkPUs5bdYD
+	V/ajAjWPzNHzMfVVaBPuDDICfskv9zpmp8W25T/AvyWusZIlbVFR0J9JXlEnhc9g+5Jb
+	fJ+vw0H7SfRUr5zn7H3Yn/s2RZbNEiLYqQve6tCJPsrkYe8+r+wGeBRhiQLqqo9lmZ3s
+	2+Vuiq+Fcf/YfkXJ8htY903tTu9go1RseXR5Mcvs7l6fOtEeGX2fiVPBx96rDck1dlB8
+	UdXg==
+X-Gm-Message-State: AEkoout2CcCJBATex/gNFeBBgKrDbH6tHX7uOzE+pQiqDF+hrJXfbpYlCmW6OpzYUneo6uOEV0MNgaQ9fzmbdg==
+X-Received: by 10.157.14.129 with SMTP id 1mr36382293otj.191.1470072765514;
+	Mon, 01 Aug 2016 10:32:45 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Mon, 1 Aug 2016 10:24:16 -0700 (PDT)
-In-Reply-To: <CAOLEWZWbyZXc53TgQijWtxRbTQ9bEnTULpM9uUa4Hp5Px4AYKw@mail.gmail.com>
+Received: by 10.182.248.164 with HTTP; Mon, 1 Aug 2016 10:32:44 -0700 (PDT)
+In-Reply-To: <CAJTo0LbwrLtSG+wv=_379TeQOAAqBHVUet=bD0kfdUUg6_c-yw@mail.gmail.com>
 References: <1470049297-6520-1-git-send-email-fan.xin@jp.fujitsu.com>
 	<CAOLEWZVAjfydiq7GwgDKWydZyL_CXDL7+dgn5gsjt+QMhBQzgA@mail.gmail.com>
 	<CAJTo0La6G0jmhMVKu1rGjjWrDkACFWNX70hrgY9rnyk2ifXKFg@mail.gmail.com>
 	<CAOLEWZWbyZXc53TgQijWtxRbTQ9bEnTULpM9uUa4Hp5Px4AYKw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 1 Aug 2016 18:24:16 +0100
-Message-ID: <CAJTo0LbwrLtSG+wv=_379TeQOAAqBHVUet=bD0kfdUUg6_c-yw@mail.gmail.com>
-To: Stephen Arnold <stephen.arnold42@gmail.com>
+	<CAJTo0LbwrLtSG+wv=_379TeQOAAqBHVUet=bD0kfdUUg6_c-yw@mail.gmail.com>
+From: Stephen Arnold <stephen.arnold42@gmail.com>
+Date: Mon, 1 Aug 2016 10:32:44 -0700
+Message-ID: <CAOLEWZUJ-0Usyb5fwqbgSCZSnsec2AeY8mTaDC8nU5q35Z=ADQ@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>,
 	Fan Xin <fan.xin@jp.fujitsu.com>
@@ -58,54 +58,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Aug 2016 17:24:36 -0000
-Content-Type: multipart/alternative; boundary=001a113ed932dfd57a053905df42
-
---001a113ed932dfd57a053905df42
+X-List-Received-Date: Mon, 01 Aug 2016 17:32:47 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 1 August 2016 at 18:22, Stephen Arnold <stephen.arnold42@gmail.com>
-wrote:
+Trying to remember what my dad said about "Ask a silly question..."
 
-> That's actually not a bad idea, but I need to crank out another
-> abstract today (the deadline for special session snuck up on me).  We
-> kinda needed this for a project, but I think a tiny print server is
-> always useful.  What's your plan?
+Steve
+
+On Mon, Aug 1, 2016 at 10:24 AM, Burton, Ross <ross.burton@intel.com> wrote:
 >
+> On 1 August 2016 at 18:22, Stephen Arnold <stephen.arnold42@gmail.com>
+> wrote:
+>>
+>> That's actually not a bad idea, but I need to crank out another
+>> abstract today (the deadline for special session snuck up on me).  We
+>> kinda needed this for a project, but I think a tiny print server is
+>> always useful.  What's your plan?
+>
+>
+> Well my plan was:
+>
+> 1) say that someone should create meta-printing
+> 2) watch someone create meta-printing
+> 3) delete everything printing related in oe-core
+>
+> I can help a bit on (2) I guess...  Fan Xin, would you or anyone else at
+> Fujitsu (as you clearly have interest here) be able to help?
+>
+> Ross
 
-Well my plan was:
-
-1) say that someone should create meta-printing
-2) watch someone create meta-printing
-3) delete everything printing related in oe-core
-
-I can help a bit on (2) I guess...  Fan Xin, would you or anyone else at
-Fujitsu (as you clearly have interest here) be able to help?
-
-Ross
-
---001a113ed932dfd57a053905df42
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 1 August 2016 at 18:22, Stephen Arnold <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:stephen.arnold42@gmail.com" target=3D"_blank">stephen.arnold42@gmail=
-.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1j=
-4" class=3D"a3s aXjCH m15647209c6651ed3">That&#39;s actually not a bad idea=
-, but I need to crank out another<br>
-abstract today (the deadline for special session snuck up on me).=C2=A0 We<=
-br>
-kinda needed this for a project, but I think a tiny print server is<br>
-always useful.=C2=A0 What&#39;s your plan?</div></blockquote></div><br>Well=
- my plan was:</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail=
-_extra">1) say that someone should create meta-printing</div><div class=3D"=
-gmail_extra">2) watch someone create meta-printing</div><div class=3D"gmail=
-_extra">3) delete everything printing related in oe-core</div><div class=3D=
-"gmail_extra"><br></div><div class=3D"gmail_extra">I can help a bit on (2) =
-I guess...=C2=A0 Fan Xin, would you or anyone else at Fujitsu (as you clear=
-ly have interest here) be able to help?</div><div class=3D"gmail_extra"><br=
-></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a113ed932dfd57a053905df42--
