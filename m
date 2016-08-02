@@ -1,17 +1,17 @@
 Return-Path: <seebs@seebs.net>
 Received: from mail.plethora.net (mail.plethora.net [184.173.250.112])
-	by mail.openembedded.org (Postfix) with ESMTP id DD9FA6080F
+	by mail.openembedded.org (Postfix) with ESMTP id 762F46080F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Aug 2016 19:16:15 +0000 (UTC)
+	Tue,  2 Aug 2016 19:19:02 +0000 (UTC)
 Received: from [10.10.10.132] (home.seebs.net [74.122.98.108])
-	by mail.plethora.net (Postfix) with ESMTPSA id BA459C4993
+	by mail.plethora.net (Postfix) with ESMTPSA id 62AC4C4993
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Aug 2016 14:16:15 -0500 (CDT)
+	Tue,  2 Aug 2016 14:19:03 -0500 (CDT)
 From: Seebs <seebs@seebs.net>
-To: oe-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 02 Aug 2016 14:16:15 -0500
-Message-ID: <DCF70298-25BA-4206-8B13-7FA3E198978C@seebs.net>
-In-Reply-To: <57A05A86.7000701@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 02 Aug 2016 14:19:02 -0500
+Message-ID: <5B4A0BBD-1322-4DE4-85DB-3D7216CB6BC4@seebs.net>
+In-Reply-To: <9034b8dd-a4dc-e2c4-fcb0-8e488e78296c@windriver.com>
 References: <577B8AA9.5040808@windriver.com>
 	<dc216358-8a1f-1490-2fc0-db22f98741c3@windriver.com>
 	<579B07F9.9000708@windriver.com>
@@ -29,7 +29,7 @@ References: <577B8AA9.5040808@windriver.com>
 	<E145B74B-3968-45C3-A0B0-D557C76ADC38@seebs.net>
 	<57A04154.1050909@windriver.com>
 	<9BFBB743-6513-4791-9046-6BFBED50A347@seebs.net>
-	<57A05A86.7000701@windriver.com>
+	<9034b8dd-a4dc-e2c4-fcb0-8e488e78296c@windriver.com>
 MIME-Version: 1.0
 X-Mailer: MailMate (1.9.4r5234)
 Subject: Re: About pseudo's chmod
@@ -45,23 +45,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2016 19:16:18 -0000
+X-List-Received-Date: Tue, 02 Aug 2016 19:19:02 -0000
+Content-Type: text/plain; format=flowed
 
-On 2 Aug 2016, at 3:32, Robert Yang wrote:
+On 2 Aug 2016, at 10:12, Mark Hatle wrote:
 
-> It is worth trying, I will try to remove os.chown() and os.chmod() from
-> package.bbclass to see what will happen:
->
->             if not cpath.islink(file):
->                 os.link(file, fpath)
->                 fstat = cpath.stat(file)
->                 os.chmod(fpath, fstat.st_mode)
->                 os.chown(fpath, fstat.st_uid, fstat.st_gid)
+> So the problem is -- pseudo is modifying the 'original' file perms, 
+> which on a
+> new instance of the pseudo database then gets inherited.  So we get
+> unpredictable results if this is the first time through -- or not the 
+> first time
+> through.
 
-... Okay, I admit, I can't figure this one out. Can anyone explain
-this?
+Yeah. And the problem here is in part that we're calling chmod on a file 
+linked to a file external to pseudo, but we're also checking that file's 
+mode to find out what permissions we want it to have. Which is probably 
+an error.
 
-Does python's os.link work across devices maybe?
+So, it does look like we need the tracking, but also if we stopped 
+doing:
+
+	stat file1 # obtain mode
+	ln file1 file2
+	chmod <mode> file2
+
+we'd save significant time AND avoid the problem.
 
 -s
 
