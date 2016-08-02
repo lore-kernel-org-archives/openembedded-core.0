@@ -1,17 +1,39 @@
-Return-Path: <seebs@seebs.net>
-Received: from mail.plethora.net (mail.plethora.net [184.173.250.112])
-	by mail.openembedded.org (Postfix) with ESMTP id 762F46080F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f51.google.com (mail-it0-f51.google.com
+	[209.85.214.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 830A36080F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Aug 2016 19:19:02 +0000 (UTC)
-Received: from [10.10.10.132] (home.seebs.net [74.122.98.108])
-	by mail.plethora.net (Postfix) with ESMTPSA id 62AC4C4993
+	Tue,  2 Aug 2016 19:19:19 +0000 (UTC)
+Received: by mail-it0-f51.google.com with SMTP id f6so279415744ith.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Aug 2016 14:19:03 -0500 (CDT)
-From: Seebs <seebs@seebs.net>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 02 Aug 2016 14:19:02 -0500
-Message-ID: <5B4A0BBD-1322-4DE4-85DB-3D7216CB6BC4@seebs.net>
-In-Reply-To: <9034b8dd-a4dc-e2c4-fcb0-8e488e78296c@windriver.com>
+	Tue, 02 Aug 2016 12:19:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=GgA0b/ZZm/4ATBZjtHzJYTHOyfgVtf7y8Pbz9MArgkg=;
+	b=lFaCWbmCr6kCTrOem496PNbm6EZeseN8FKUN1LbGNWu+URk372N9oKHyfoe7WNoX25
+	p3Q7Pov611brJHaje3nPeCb+uUfFZL6LeQd0u07O+Cma3vyp8JQMI3uZsBelWAX0jiHv
+	/jw3J1yx6CpGF+l23S56e+not4/yy2XBKYB9rO1YkDwQ+A4vAkuBt117yhiFHSi2gxRl
+	LbxsFcvHOs1v7g4QQ8tRRG0BBQ/7Ndi5zNqiBSyxt+sZVVYrH2oRJTzwHa8hjUFM8rpC
+	WPqGXCZNUrkGg6YH07ESFcRpcs9RvsnatxLxX0AGHEGhuUN+GUdr6EN/liKVA59apm/w
+	9TLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=GgA0b/ZZm/4ATBZjtHzJYTHOyfgVtf7y8Pbz9MArgkg=;
+	b=aynA0IrA4iORDEfHbU2Ns2FAaZoZqlV/y2fD/SuDYoP661+QxzQTEv0YrxdHGU+Efu
+	Yg7AvXlm6vF7ASKXugd4ppWs7P0VYd/xX82Mmoglu44RzmVHyu4RLbh+kNH/BQQuxFWn
+	IS2OJb9+dgGRfezcJv5/CcppqNZ/10WwF5wLRc6ilfMATK8GgX2+yYO5+uQLPirjLruG
+	ovXtZODaxVMFh1oRG5GedYxcV9DreMUi1iC+3bg/oF9Fp3slhN8gNHpw4T/lrgVIxTI1
+	BkiXr4msyrRLL73YyCoNkeBT/jdKZyv57Il4XMc7b8SATA9UkGo7qd21UWemt8VmF9c2
+	YLVw==
+X-Gm-Message-State: AEkoousgDi75B63qR9hxgGZGfo3SxeLF9ecW2zMffOPm9cBwl0EcTYbncHPOLSsVfm3mE8VKLqAOqDIogg9nqIAq
+X-Received: by 10.36.57.211 with SMTP id l202mr66036494ita.22.1470165559763;
+	Tue, 02 Aug 2016 12:19:19 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.18.17 with HTTP; Tue, 2 Aug 2016 12:18:59 -0700 (PDT)
+In-Reply-To: <DCF70298-25BA-4206-8B13-7FA3E198978C@seebs.net>
 References: <577B8AA9.5040808@windriver.com>
 	<dc216358-8a1f-1490-2fc0-db22f98741c3@windriver.com>
 	<579B07F9.9000708@windriver.com>
@@ -29,9 +51,13 @@ References: <577B8AA9.5040808@windriver.com>
 	<E145B74B-3968-45C3-A0B0-D557C76ADC38@seebs.net>
 	<57A04154.1050909@windriver.com>
 	<9BFBB743-6513-4791-9046-6BFBED50A347@seebs.net>
-	<9034b8dd-a4dc-e2c4-fcb0-8e488e78296c@windriver.com>
-MIME-Version: 1.0
-X-Mailer: MailMate (1.9.4r5234)
+	<57A05A86.7000701@windriver.com>
+	<DCF70298-25BA-4206-8B13-7FA3E198978C@seebs.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 2 Aug 2016 20:18:59 +0100
+Message-ID: <CAJTo0LZWA1T97eTwOR94SWgTMiB9dVusx+q6TYd-18XTLCCpBg@mail.gmail.com>
+To: Seebs <seebs@seebs.net>
+Cc: oe-core <openembedded-core@lists.openembedded.org>
 Subject: Re: About pseudo's chmod
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -45,31 +71,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2016 19:19:02 -0000
-Content-Type: text/plain; format=flowed
+X-List-Received-Date: Tue, 02 Aug 2016 19:19:19 -0000
+Content-Type: multipart/alternative; boundary=001a114ab3caf3b55005391b97f9
 
-On 2 Aug 2016, at 10:12, Mark Hatle wrote:
+--001a114ab3caf3b55005391b97f9
+Content-Type: text/plain; charset=UTF-8
 
-> So the problem is -- pseudo is modifying the 'original' file perms, 
-> which on a
-> new instance of the pseudo database then gets inherited.  So we get
-> unpredictable results if this is the first time through -- or not the 
-> first time
-> through.
+On 2 August 2016 at 20:16, Seebs <seebs@seebs.net> wrote:
 
-Yeah. And the problem here is in part that we're calling chmod on a file 
-linked to a file external to pseudo, but we're also checking that file's 
-mode to find out what permissions we want it to have. Which is probably 
-an error.
+> Does python's os.link work across devices maybe?
+>
 
-So, it does look like we need the tracking, but also if we stopped 
-doing:
+The documentation at least says hard link explicitly, so presumably not.
 
-	stat file1 # obtain mode
-	ln file1 file2
-	chmod <mode> file2
+Ross
 
-we'd save significant time AND avoid the problem.
+--001a114ab3caf3b55005391b97f9
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
--s
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 2 August 2016 at 20:16, Seebs <span dir=3D"ltr">&lt;<a href=3D"mailto:se=
+ebs@seebs.net" target=3D"_blank">seebs@seebs.net</a>&gt;</span> wrote:<br><=
+blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px=
+ #ccc solid;padding-left:1ex"><div id=3D":2pn" class=3D"a3s aXjCH m1564cb06=
+88c293b8">Does python&#39;s os.link work across devices maybe?<br></div></b=
+lockquote><div><br></div><div>The documentation at least says hard link exp=
+licitly, so presumably not.</div><div><br></div><div>Ross=C2=A0</div></div>=
+<br></div></div>
 
+--001a114ab3caf3b55005391b97f9--
