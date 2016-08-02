@@ -1,38 +1,27 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D8186E660
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 40E94731C6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Aug 2016 23:36:49 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u71NanIA009305
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 1 Aug 2016 16:36:49 -0700 (PDT)
-Received: from msp-dhcp2.wrs.com (172.25.34.2) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 1 Aug 2016 16:36:49 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <577B8AA9.5040808@windriver.com>
-	<dc216358-8a1f-1490-2fc0-db22f98741c3@windriver.com>
-	<579B07F9.9000708@windriver.com>
-	<B3108E03-1852-4237-8320-E2BFEC66F9B3@seebs.net>
-	<579EE4BB.6070709@windriver.com>
-	<F5BAFB71-1FCC-4F9D-999C-5960E8CD7213@seebs.net>
-	<579F0EE8.3080009@windriver.com>
-	<39329191-8DC4-43B6-9B38-5AD173C8F0DC@seebs.net>
-	<1470081674.9142.108.camel@linuxfoundation.org>
-	<BDA8434F-AE7B-4D8D-B6C3-2D4ED599E9E8@seebs.net>
-	<1470092106.9142.113.camel@linuxfoundation.org>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <0d7860ce-f28b-a019-d5e5-6c4d3af0e513@windriver.com>
-Date: Mon, 1 Aug 2016 18:36:48 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
-	Gecko/20100101 Thunderbird/45.2.0
+	Tue,  2 Aug 2016 01:33:58 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP; 01 Aug 2016 18:33:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,458,1464678000"; d="scan'208";a="1027999597"
+Received: from mpham2-mobl2.ccr.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.178.20])
+	by orsmga002.jf.intel.com with ESMTP; 01 Aug 2016 18:33:55 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Nathan Lynch <nathan_lynch@mentor.com>
+Date: Tue, 02 Aug 2016 13:33:53 +1200
+Message-ID: <1934077.UNhmxL79FM@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.6.4-201.fc23.x86_64; KDE/4.14.20; x86_64; ;
+	)
+In-Reply-To: <1469220826-8991-1-git-send-email-nathan_lynch@mentor.com>
+References: <1469220826-8991-1-git-send-email-nathan_lynch@mentor.com>
 MIME-Version: 1.0
-In-Reply-To: <1470092106.9142.113.camel@linuxfoundation.org>
-Subject: Re: About pseudo's chmod
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] Revert "lttng-tools: filter random filename of ptest output"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,78 +34,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Aug 2016 23:36:51 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 02 Aug 2016 01:34:01 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 8/1/16 5:55 PM, Richard Purdie wrote:
-> On Mon, 2016-08-01 at 15:17 -0500, Seebs wrote:
->> On 1 Aug 2016, at 15:01, Richard Purdie wrote:
->>
->>> No, we're actually expecting it to retain the mode it was given via
->>> the
->>> hardlink under pseudo.
->>>
->>> This is what a real world system would do and in this case we could
->>> track it via pseudo since pseudo is loaded when the hardlink is
->>> created. It would be unreasonable for pseudo to track all hardlinks
->>> but
->>> tracking ones created under it does seem reasonable?
->>
->> Hmm. Well, strictly speaking, the link created under pseudo *does*
->> get 
->> tracked. Hmm. But an implicit request to track also the thing linked
->> to 
->> is not a horrible idea. Although you'd still be able to beat it:
->>
->> 	$ touch file1
->> 	$ ln file1 file2
->> 	$ pseudo
->> 	# ln file2 file3
->> 	# chmod 777 file3
->> 	# rm file2 file3
->> 	# ls -l file1
->>
->> The general case of "find everything this link also refers to" is 
->> clearly out of scope.
-> 
-> Agreed.
-> 
->>  That said... Hmm. I think my main feeling is, if we want
->> to link to the file, and we want the changes to the linked file to
->> survive, we should probably either create that file under pseudo, or 
->> explicitly claim it with pseudo when we start wanting to do the 
->> tracking.
->> (You can trivially do this to a tree with chown -R root tree).
-> 
-> The trouble is that for speed, we do create trees of hardlinked files
-> and play games with those and sstate amongst other things. Its
-> obviously faster to do this than make physical copies of the files.
-> Given what I know of the code paths, I suspect that tracking the source
-> of a hardlink would make life much easier for us. Obviously we can go
-> and start adding "chown -R" calls everywhere but that seems a little
-> ugly to me and doesn't do performance any favours.
-> 
-> Is there any significant downside if we do track the source of
-> hardlinks?
+Hi Nathan,
 
-Would it makes sense to track the xattrs and linked files and such using some
-type of inode reference (virtual or otherwise)?
+On Fri, 22 Jul 2016 15:53:46 Nathan Lynch wrote:
+> This reverts commit 29a8c45be2862be02afe2ebbc5c026a42f351990.
+> 
+> A few things wrong with this change:
+> 
+> 1. It patches a patch (runtest-2.4.0.patch).
+> 2. It introduces deviations from the desired ptest output format.
+> 3. It discards PASS: lines from the test output; I *want* to see those.
+> 4. The upstream status of "pending" is incorrect; I do not see this
+>    patch on the lttng-dev mailing list (not that it would apply anyway).
 
-Since in the case of a hard link, on a normal Linux style filesystem, there will
-be a single inode that has a reference count higher then 1.  Thus you can know
-the modes, xattrs, etc for that inode.. then the file points to the inode with
-reference counts.  (this might require a rework on internal structures.. but
-also might solve the problem.)
+FYI, "pending" doesn't mean "pending acceptance", it means "pending 
+determination" so it was probably correct here - not that that makes any 
+difference to the other reasons for reverting. "Pending" is perhaps a bit of a 
+poor term though. In any event the reference is here in case you need it:
 
---Mark
+  http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_Header_Recommendations
 
-> Cheers,
-> 
-> Richard
-> 
-> 
-> 
-> 
+Cheers,
+Paul
 
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
