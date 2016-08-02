@@ -1,36 +1,48 @@
-Return-Path: <seebs@seebs.net>
-Received: from mail.plethora.net (mail.plethora.net [184.173.250.112])
-	by mail.openembedded.org (Postfix) with ESMTP id 65D28731E5
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
+	[209.85.223.171])
+	by mail.openembedded.org (Postfix) with ESMTP id B46AD7321C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Aug 2016 06:50:48 +0000 (UTC)
-Received: from [10.10.10.132] (home.seebs.net [74.122.98.108])
-	by mail.plethora.net (Postfix) with ESMTPSA id A4F0EC495D
+	Tue,  2 Aug 2016 08:24:17 +0000 (UTC)
+Received: by mail-io0-f171.google.com with SMTP id b62so205920651iod.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Aug 2016 01:50:49 -0500 (CDT)
-From: Seebs <seebs@seebs.net>
-To: oe-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 02 Aug 2016 01:50:48 -0500
-Message-ID: <9BFBB743-6513-4791-9046-6BFBED50A347@seebs.net>
-In-Reply-To: <57A04154.1050909@windriver.com>
-References: <577B8AA9.5040808@windriver.com>
-	<dc216358-8a1f-1490-2fc0-db22f98741c3@windriver.com>
-	<579B07F9.9000708@windriver.com>
-	<B3108E03-1852-4237-8320-E2BFEC66F9B3@seebs.net>
-	<579EE4BB.6070709@windriver.com>
-	<F5BAFB71-1FCC-4F9D-999C-5960E8CD7213@seebs.net>
-	<579F0EE8.3080009@windriver.com>
-	<39329191-8DC4-43B6-9B38-5AD173C8F0DC@seebs.net>
-	<1470081674.9142.108.camel@linuxfoundation.org>
-	<BDA8434F-AE7B-4D8D-B6C3-2D4ED599E9E8@seebs.net>
-	<1470092106.9142.113.camel@linuxfoundation.org>
-	<579FFCEB.6090200@windriver.com>
-	<47AE4E78-D57B-44C1-B5D5-4509B15AD3BC@seebs.net>
-	<57A03888.1@windriver.com>
-	<E145B74B-3968-45C3-A0B0-D557C76ADC38@seebs.net>
-	<57A04154.1050909@windriver.com>
+	Tue, 02 Aug 2016 01:24:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=8IxYEA2Xngwo5121q/CEs+GA3kR+k9YZM97cnD/g8OM=;
+	b=ywuepxLESd3216t8h02ZbOukRN5Fp78YjCbn7BeuDgKS3guDFGE54+nDCG9oz+7ut2
+	zrBdX21TjuauLL5XiNX1+TuVap7AZ3aJjd1BNwxJ9TjZFy5b9lCego4rCYm2M/cuDq0j
+	ErLas/Vzk6pmjjCrteNnHn4yg+mlveZI0XSJuDHYbihMKUvmLphZQ8RkP/BwGbjdL+oF
+	UimlyHwnAPlZ+LfrLIsIcdtklMS+vPXRw5KCCWqBJm3Y6lHINv2RyOzsrbfqW7RohxkX
+	0ysB9Zf2k5hA0idGw9FbIN0RPTHdCcmDRRWxdTOpe3+FO3SZ9b1u+IvAzw1VNFT5UEKW
+	V9lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=8IxYEA2Xngwo5121q/CEs+GA3kR+k9YZM97cnD/g8OM=;
+	b=VycClUeAzVIKvxUfDR9uiRpDvJ+wC2Bqg/CdmGLEnmYupaAqCUZUqAG7gytGif/GOx
+	v328H6fRSH2HFEbimrJFPo/Ewrld76GtY/7NHfUsKHlvXn04EhG7h+xS8XzkU6CAf/lX
+	fldIA2BOWRz4k/TprbrW9Tb5WOxs9HrvZx0vmL0L9+MSmOAF7FzHHOKSrprfprReZ7eR
+	HwBxQr1UKgCmelOsXkFSkixxii9yJyNVIvgwB8gwolWiVsKClg7Hf/eIX0H+OadAUrR5
+	wVMXGLpFiJSP8gFaSyeUePbip2R9PQolN0Q0poB/pYW5MdhT4bfkLxe0/8FuWsc+HAzz
+	zW5A==
+X-Gm-Message-State: AEkoousKUSku0gf/b005FPhoDp95+4YJH5Wqe32PA7QZ2lgMzD0csdrZcDiO3mbJRoaNZBdQD9RdAsl2vakd3BqS
+X-Received: by 10.107.135.142 with SMTP id r14mr67163777ioi.133.1470126258803; 
+	Tue, 02 Aug 2016 01:24:18 -0700 (PDT)
 MIME-Version: 1.0
-X-Mailer: MailMate (1.9.4r5234)
-Subject: Re: About pseudo's chmod
+Received: by 10.107.18.17 with HTTP; Tue, 2 Aug 2016 01:23:58 -0700 (PDT)
+In-Reply-To: <CAHiDW_Hu7dZYxLD0cCEbV_M=-VtQF0s7O_8aZxZrXof2LXa5gw@mail.gmail.com>
+References: <CAHiDW_Hu7dZYxLD0cCEbV_M=-VtQF0s7O_8aZxZrXof2LXa5gw@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 2 Aug 2016 09:23:58 +0100
+Message-ID: <CAJTo0LbZbk_w+=G=EeG1O8U-9-hLH5B2N=MwEczyHcpzuaThxw@mail.gmail.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: augeas: oe-core removal warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,57 +55,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2016 06:50:49 -0000
-Content-Type: text/plain; format=flowed
+X-List-Received-Date: Tue, 02 Aug 2016 08:24:19 -0000
+Content-Type: multipart/alternative; boundary=001a113eccbc6e67fe05391271c3
 
-On 2 Aug 2016, at 1:44, Robert Yang wrote:
+--001a113eccbc6e67fe05391271c3
+Content-Type: text/plain; charset=UTF-8
 
-> Because the stat() gets 0644 on ${B}/version.c in the second run, so 
-> it
-> would run chmod 0644 rather than 0444 on gzip-dbg/version.c.
+On 13 May 2016 at 08:15, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
 
-Why is it calling chmod at all? The goal is apparently to give
-gzip-dbg/version.c the same mode that ${B}/version.c has. Since it's a
-hard link, no chmod call is needed at all.
-
->> time and not the second? If it does it the second time, the fact that
->> the underlying file's mode changed won't matter.
->>
->> But in this case... While I'm fine with modifying things to track the
+> I'm considering removing the augeas recipe from oe-core: it has not
+> really been depended on by anything since Danny (rpm has a non-default
+> PACKAGECONFIG but even that is accompanied by comments about no
+> testing) and we have nothing testing its functionality. Please speak
+> up now if you think augeas should stay in oe-core.
 >
-> Thanks, I will send a patch for it.
 
-I already have a patch for this.
+I think that it really should go and will likely be doing this shortly.
 
->> file linked-to, it still feels like this is a usage error. 
->> Fundamentally,
->> we're unpacking a file (${B}/version.c), then linking to it, changing
->> the link in some way, deleting the link, and expecting the original 
->> file
->> to be unchanged. That doesn't seem right to me.
+Ross
 
-> But that is what the real filesystem works without pseudo:
-> $ touch file1
-> $ ln file1 file2
-> $ chmod 777 file2
-> $ rm -f file2
->
-> file1 will be 777 on the real filesystem.
+--001a113eccbc6e67fe05391271c3
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Yes. But it seems that the mode the file is being changed to is 
-dependant on the original reported mode. And that's the part that I'm 
-confused by;
-we're relying on the mode of the original file, but we're also changing
-the mode of a hard link to it. This makes no sense to me.
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 13 May 2016 at 08:15, Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen@intel.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2ui" cla=
+ss=3D"a3s aXjCH m154a8f9b343210fa">I&#39;m considering removing the <span c=
+lass=3D"il">augeas</span> recipe from oe-core: it has not<br>
+really been depended on by anything since Danny (rpm has a non-default<br>
+PACKAGECONFIG but even that is accompanied by comments about no<br>
+testing) and we have nothing testing its functionality. Please speak<br>
+up now if you think <span class=3D"il">augeas</span> should stay in oe-core=
+.</div></blockquote></div><br>I think that it really should go and will lik=
+ely be doing this shortly.</div><div class=3D"gmail_extra"><br></div><div c=
+lass=3D"gmail_extra">Ross</div></div>
 
-So, I have a likely fix handy. (The difference between mine and the
-version you proposed earlier is that, as I recall, yours does the LINK
-operation on the original file unconditionally, which is in error; it
-should only be done when no existing data was found in the database.) 
-I'll double-check that again and go through looking for loose ends, 
-because
-I have a vague feeling that I'm overlooking a thing, but I haven't 
-figured out what it would be yet.
-
--s
-
+--001a113eccbc6e67fe05391271c3--
