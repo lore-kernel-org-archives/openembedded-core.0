@@ -1,24 +1,21 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 746BE6AC00
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id EA9786612C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Aug 2016 14:55:06 +0000 (UTC)
+	Tue,  2 Aug 2016 15:12:30 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga101.fm.intel.com with ESMTP; 02 Aug 2016 07:55:07 -0700
+	by orsmga101.jf.intel.com with ESMTP; 02 Aug 2016 08:11:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,460,1464678000"; d="scan'208";a="149394295"
-Received: from jlock-mobl1.ger.corp.intel.com ([10.252.8.236])
-	by fmsmga004.fm.intel.com with ESMTP; 02 Aug 2016 07:55:04 -0700
-Message-ID: <1470149703.2984.22.camel@linux.intel.com>
-From: Joshua G Lock <joshua.g.lock@linux.intel.com>
-To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
-Date: Tue, 02 Aug 2016 15:55:03 +0100
-In-Reply-To: <b833d4bb5bd450464c93f49727f0dd31691897a5.1468466649.git.Qi.Chen@windriver.com>
-References: <cover.1468466649.git.Qi.Chen@windriver.com>
-	<b833d4bb5bd450464c93f49727f0dd31691897a5.1468466649.git.Qi.Chen@windriver.com>
-X-Mailer: Evolution 3.20.4 (3.20.4-1.fc24) 
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/1] systemd: split systemd-container
+X-IronPort-AV: E=Sophos;i="5.28,460,1464678000"; d="scan'208";a="149405177"
+Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.jf.intel.com)
+	([10.54.69.56])
+	by fmsmga004.fm.intel.com with ESMTP; 02 Aug 2016 08:11:31 -0700
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  2 Aug 2016 15:08:36 +0000
+Message-Id: <1470150516-16760-1-git-send-email-alejandro.hernandez@linux.intel.com>
+X-Mailer: git-send-email 2.6.6
+Subject: [PATCH v2] cronie: upgrade to 1.5.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,138 +28,222 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2016 14:55:07 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 02 Aug 2016 15:12:31 -0000
 
-On Thu, 2016-07-14 at 11:25 +0800, Chen Qi wrote:
-> Split container/vm related units into a new package, systemd-
-> container.
-> 
-> The split mainly references Fedora 24, with a few differences.
-> Apart from the bash and zsh completion files, the differences include
-> adding systemd-spawn@.service into the systemd-container package.
-> 
-> [YOCTO #9835]
-> 
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  meta/recipes-core/systemd/systemd_230.bb | 35
-> +++++++++++++++++++++++++++++---
->  1 file changed, 32 insertions(+), 3 deletions(-)
-> 
-> diff --git a/meta/recipes-core/systemd/systemd_230.bb b/meta/recipes-
-> core/systemd/systemd_230.bb
-> index 374a197..cf8aec1 100644
-> --- a/meta/recipes-core/systemd/systemd_230.bb
-> +++ b/meta/recipes-core/systemd/systemd_230.bb
-> @@ -291,6 +291,7 @@ PACKAGES =+ "\
->      ${PN}-pam \
->      ${PN}-zsh-completion \
->      ${PN}-xorg-xinitrc \
-> +    ${PN}-container \
->      ${PN}-extra-utils \
->  "
->  
-> @@ -348,6 +349,37 @@ RRECOMMENDS_${PN}-binfmt = "kernel-module-
-> binfmt-misc"
->  
->  RRECOMMENDS_${PN}-vconsole-setup = "kbd kbd-consolefonts kbd-
-> keymaps"
+Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+---
+ .../cronie/cronie/crond_pam_config.patch           | 15 ++--
+ meta/recipes-extended/cronie/cronie_1.5.0.bb       | 81 ----------------------
+ meta/recipes-extended/cronie/cronie_1.5.1.bb       | 81 ++++++++++++++++++++++
+ 3 files changed, 90 insertions(+), 87 deletions(-)
+ delete mode 100644 meta/recipes-extended/cronie/cronie_1.5.0.bb
+ create mode 100644 meta/recipes-extended/cronie/cronie_1.5.1.bb
 
-It would be nice to provide more information about systemd-container to
-package managers with a SUMMARY_${PN}-container and DESCRIPTION_${PN}-
-container
+diff --git a/meta/recipes-extended/cronie/cronie/crond_pam_config.patch b/meta/recipes-extended/cronie/cronie/crond_pam_config.patch
+index 675872c..6c92816 100644
+--- a/meta/recipes-extended/cronie/cronie/crond_pam_config.patch
++++ b/meta/recipes-extended/cronie/cronie/crond_pam_config.patch
+@@ -4,16 +4,19 @@ configure files instead.
+ Upstream-Status: Pending
+ 
+ Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+---- cronie-1.4.7/pam/crond.orig	2010-12-16 16:59:02.000000000 +0800
+-+++ cronie-1.4.7/pam/crond	2011-07-20 09:47:16.080819203 +0800
+-@@ -4,7 +4,7 @@
++Index: cronie-1.5.1/pam/crond
++===================================================================
++--- cronie-1.5.1.orig/pam/crond
+++++ cronie-1.5.1/pam/crond
++@@ -4,8 +4,8 @@
+  #
+- # No PAM authentication called, auth modules not needed
++ # Although no PAM authentication is called, auth modules
++ # are used for credential setting
++-auth       include    password-auth
+++auth       include    common-auth
+  account    required   pam_access.so
+ -account    include    password-auth
+ +account    include    common-account
+  session    required   pam_loginuid.so
+ -session    include    password-auth
+--auth       include    password-auth
+ +session    include    common-session-noninteractive
+-+auth       include    common-auth
+diff --git a/meta/recipes-extended/cronie/cronie_1.5.0.bb b/meta/recipes-extended/cronie/cronie_1.5.0.bb
+deleted file mode 100644
+index 697501a..0000000
+--- a/meta/recipes-extended/cronie/cronie_1.5.0.bb
++++ /dev/null
+@@ -1,81 +0,0 @@
+-SUMMARY = "Cron daemon for executing programs at set times"
+-DESCRIPTION = "Cronie contains the standard UNIX daemon crond that runs \
+-specified programs at scheduled times and related tools. It is based on the \
+-original cron and has security and configuration enhancements like the \
+-ability to use pam and SELinux."
+-HOMEPAGE = "https://fedorahosted.org/cronie/"
+-BUGTRACKER = "https://bugzilla.redhat.com"
+-
+-# Internet Systems Consortium License
+-LICENSE = "ISC & BSD-3-Clause & BSD-2-Clause & GPLv2+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=dd2a592170760e1386c769e1043b3722 \
+-                    file://src/cron.c;endline=20;md5=b425c334265026177128353a142633b4 \
+-                    file://src/popen.c;beginline=3;endline=31;md5=edd50742d8def712e9472dba353668a9"
+-
+-SECTION = "utils"
+-
+-SRC_URI = "https://fedorahosted.org/releases/c/r/cronie/cronie-${PV}.tar.gz \
+-           file://crond.init \
+-           file://crontab \
+-           file://crond.service \
+-           ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
+-
+-PAM_SRC_URI = "file://crond_pam_config.patch"
+-PAM_DEPS = "libpam libpam-runtime pam-plugin-access pam-plugin-loginuid"
+-
+-SRC_URI[md5sum] = "9db75e1884d83a45e002d145c6c54d45"
+-SRC_URI[sha256sum] = "9cf0e3f4f5042a9c09413d62c8e0c055e12401f70b112465f0f81f2c84ebfb3f"
+-
+-inherit autotools update-rc.d useradd systemd
+-
+-PACKAGECONFIG ?= "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
+-
+-PACKAGECONFIG[audit] = "--with-audit,--without-audit,audit,"
+-PACKAGECONFIG[pam] = "--with-pam,--without-pam,libpam,${PAM_DEPS}"
+-
+-INITSCRIPT_NAME = "crond"
+-INITSCRIPT_PARAMS = "start 90 2 3 4 5 . stop 60 0 1 6 ."
+-
+-USERADD_PACKAGES = "${PN}"
+-GROUPADD_PARAM_${PN} = "--system crontab"
+-
+-SYSTEMD_SERVICE_${PN} = "crond.service"
+-
+-do_install_append () {
+-	install -d ${D}${sysconfdir}/sysconfig/
+-	install -d ${D}${sysconfdir}/init.d/
+-	install -m 0644 ${S}/crond.sysconfig ${D}${sysconfdir}/sysconfig/crond
+-	install -m 0755 ${WORKDIR}/crond.init ${D}${sysconfdir}/init.d/crond
+-
+-	# install systemd unit files
+-	install -d ${D}${systemd_unitdir}/system
+-	install -m 0644 ${WORKDIR}/crond.service ${D}${systemd_unitdir}/system
+-	sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
+-	       -e 's,@SBINDIR@,${sbindir},g' \
+-	       ${D}${systemd_unitdir}/system/crond.service
+-
+-	# below are necessary for a complete cron environment
+-	install -d ${D}${localstatedir}/spool/cron
+-	install -m 0755 ${WORKDIR}/crontab ${D}${sysconfdir}/
+-	mkdir -p ${D}${sysconfdir}/cron.d
+-	mkdir -p ${D}${sysconfdir}/cron.hourly
+-	mkdir -p ${D}${sysconfdir}/cron.daily
+-	mkdir -p ${D}${sysconfdir}/cron.weekly
+-	mkdir -p ${D}${sysconfdir}/cron.monthly
+-	touch ${D}${sysconfdir}/cron.deny
+-
+-	# below setting is necessary to allow normal user using crontab
+-
+-	# setgid for crontab binary
+-	chown root:crontab ${D}${bindir}/crontab
+-	chmod 2755 ${D}${bindir}/crontab
+-
+-	# allow 'crontab' group write to /var/spool/cron
+-	chown root:crontab ${D}${localstatedir}/spool/cron
+-	chmod 770 ${D}${localstatedir}/spool/cron
+-
+-	chmod 600 ${D}${sysconfdir}/crontab
+-}
+-
+-FILES_${PN} += "${sysconfdir}/cron*"
+-CONFFILES_${PN} += "${sysconfdir}/crontab"
+diff --git a/meta/recipes-extended/cronie/cronie_1.5.1.bb b/meta/recipes-extended/cronie/cronie_1.5.1.bb
+new file mode 100644
+index 0000000..99b2bb5
+--- /dev/null
++++ b/meta/recipes-extended/cronie/cronie_1.5.1.bb
+@@ -0,0 +1,81 @@
++SUMMARY = "Cron daemon for executing programs at set times"
++DESCRIPTION = "Cronie contains the standard UNIX daemon crond that runs \
++specified programs at scheduled times and related tools. It is based on the \
++original cron and has security and configuration enhancements like the \
++ability to use pam and SELinux."
++HOMEPAGE = "https://fedorahosted.org/cronie/"
++BUGTRACKER = "https://bugzilla.redhat.com"
++
++# Internet Systems Consortium License
++LICENSE = "ISC & BSD-3-Clause & BSD-2-Clause & GPLv2+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=dd2a592170760e1386c769e1043b3722 \
++                    file://src/cron.c;endline=20;md5=b425c334265026177128353a142633b4 \
++                    file://src/popen.c;beginline=3;endline=31;md5=edd50742d8def712e9472dba353668a9"
++
++SECTION = "utils"
++
++SRC_URI = "https://fedorahosted.org/releases/c/r/cronie/cronie-${PV}.tar.gz \
++           file://crond.init \
++           file://crontab \
++           file://crond.service \
++           ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
++
++PAM_SRC_URI = "file://crond_pam_config.patch"
++PAM_DEPS = "libpam libpam-runtime pam-plugin-access pam-plugin-loginuid"
++
++SRC_URI[md5sum] = "910e6effcc032998b0a49fbd46322e18"
++SRC_URI[sha256sum] = "6c73666102a6b5d35e2eaf1bd06925f2d4b0cef8d3323c37286dda3089a85338"
++
++inherit autotools update-rc.d useradd systemd
++
++PACKAGECONFIG ?= "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
++
++PACKAGECONFIG[audit] = "--with-audit,--without-audit,audit,"
++PACKAGECONFIG[pam] = "--with-pam,--without-pam,libpam,${PAM_DEPS}"
++
++INITSCRIPT_NAME = "crond"
++INITSCRIPT_PARAMS = "start 90 2 3 4 5 . stop 60 0 1 6 ."
++
++USERADD_PACKAGES = "${PN}"
++GROUPADD_PARAM_${PN} = "--system crontab"
++
++SYSTEMD_SERVICE_${PN} = "crond.service"
++
++do_install_append () {
++	install -d ${D}${sysconfdir}/sysconfig/
++	install -d ${D}${sysconfdir}/init.d/
++	install -m 0644 ${S}/crond.sysconfig ${D}${sysconfdir}/sysconfig/crond
++	install -m 0755 ${WORKDIR}/crond.init ${D}${sysconfdir}/init.d/crond
++
++	# install systemd unit files
++	install -d ${D}${systemd_unitdir}/system
++	install -m 0644 ${WORKDIR}/crond.service ${D}${systemd_unitdir}/system
++	sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
++	       -e 's,@SBINDIR@,${sbindir},g' \
++	       ${D}${systemd_unitdir}/system/crond.service
++
++	# below are necessary for a complete cron environment
++	install -d ${D}${localstatedir}/spool/cron
++	install -m 0755 ${WORKDIR}/crontab ${D}${sysconfdir}/
++	mkdir -p ${D}${sysconfdir}/cron.d
++	mkdir -p ${D}${sysconfdir}/cron.hourly
++	mkdir -p ${D}${sysconfdir}/cron.daily
++	mkdir -p ${D}${sysconfdir}/cron.weekly
++	mkdir -p ${D}${sysconfdir}/cron.monthly
++	touch ${D}${sysconfdir}/cron.deny
++
++	# below setting is necessary to allow normal user using crontab
++
++	# setgid for crontab binary
++	chown root:crontab ${D}${bindir}/crontab
++	chmod 2755 ${D}${bindir}/crontab
++
++	# allow 'crontab' group write to /var/spool/cron
++	chown root:crontab ${D}${localstatedir}/spool/cron
++	chmod 770 ${D}${localstatedir}/spool/cron
++
++	chmod 600 ${D}${sysconfdir}/crontab
++}
++
++FILES_${PN} += "${sysconfdir}/cron*"
++CONFFILES_${PN} += "${sysconfdir}/crontab"
+-- 
+2.6.6
 
->  
-> +FILES_${PN}-container = "${sysconfdir}/dbus-
-> 1/system.d/org.freedesktop.import1.conf \
-> +                         ${sysconfdir}/dbus-
-> 1/system.d/org.freedesktop.machine1.conf \
-> +                         ${base_bindir}/machinectl \
-> +                         ${bindir}/systemd-nspawn \
-> +                         ${exec_prefix}/lib/systemd/import-
-> pubring.gpg \
-
-any reason you didn't use ${libdir}/systemd/import-pubring.gpg or
-${nonarch_libdir} if the files is always installed in /usr/lib
-regardless of whether libdir is i.e. /usr/lib64
-
-> +                         ${systemd_unitdir}/system/busnames.target.w
-> ants/org.freedesktop.import1.busname \
-> +                         ${systemd_unitdir}/system/busnames.target.w
-> ants/org.freedesktop.machine1.busname \
-> +                         ${systemd_unitdir}/system/local-
-> fs.target.wants/var-lib-machines.mount \
-> +                         ${systemd_unitdir}/system/machine.slice \
-> +                         ${systemd_unitdir}/system/machines.target \
-> +                         ${systemd_unitdir}/system/org.freedesktop.i
-> mport1.busname \
-> +                         ${systemd_unitdir}/system/org.freedesktop.m
-> achine1.busname \
-> +                         ${systemd_unitdir}/system/systemd-
-> importd.service \
-> +                         ${systemd_unitdir}/system/systemd-
-> machined.service \
-> +                         ${systemd_unitdir}/system/var-lib-
-> machines.mount \
-
-I realise these are probably copy/pasted, but you could replace all of
-the ${systemd_unitdir}/system with ${systemd_system_unitdir}
-
-Otherwise this change looks good, thanks!
-
-Joshua
-
-> +                         ${rootlibexecdir}/systemd/systemd-import \
-> +                         ${rootlibexecdir}/systemd/systemd-importd \
-> +                         ${rootlibexecdir}/systemd/systemd-journal-
-> gatewayd \
-> +                         ${rootlibexecdir}/systemd/systemd-journal-
-> remote \
-> +                         ${rootlibexecdir}/systemd/systemd-journal-
-> upload \
-> +                         ${rootlibexecdir}/systemd/systemd-machined
-> \
-> +                         ${rootlibexecdir}/systemd/systemd-pull
-> \+                         ${exec_prefix}/lib/tmpfiles.d/systemd-
-> nspawn.conf \
-> +                         ${systemd_unitdir}/system/systemd-
-> nspawn@.service \
-> +                         ${libdir}/libnss_mymachines.so.2 \
-> +                         ${datadir}/dbus-1/system-
-> services/org.freedesktop.import1.service \
-> +                         ${datadir}/dbus-1/system-
-> services/org.freedesktop.machine1.service \
-> +                         ${datadir}/polkit-
-> 1/actions/org.freedesktop.import1.policy \
-> +                         ${datadir}/polkit-
-> 1/actions/org.freedesktop.machine1.policy \
-> +                        "
-> +
-
-
-
->  FILES_${PN}-extra-utils = "\
->                          ${base_bindir}/systemd-escape \
->                          ${base_bindir}/systemd-inhibit \
-> @@ -371,9 +403,6 @@ FILES_${PN}-extra-utils = "\
->                          ${rootlibexecdir}/systemd/systemd-resolve-
-> host \
->                          ${rootlibexecdir}/systemd/systemd-ac-power \
->                          ${rootlibexecdir}/systemd/systemd-activate \
-> -                        ${bindir}/systemd-nspawn \
-> -                        ${exec_prefix}/lib/tmpfiles.d/systemd-
-> nspawn.conf \
-> -                        ${systemd_unitdir}/system/systemd-
-> nspawn@.service \
->                          ${rootlibexecdir}/systemd/systemd-bus-proxyd 
-> \
->                          ${systemd_unitdir}/system/systemd-bus-
-> proxyd.service \
->                          ${systemd_unitdir}/system/systemd-bus-
-> proxyd.socket \
-> -- 
-> 1.9.1
-> 
 
