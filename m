@@ -1,40 +1,47 @@
-Return-Path: <seebs@seebs.net>
-Received: from mail.plethora.net (mail.plethora.net [184.173.250.112])
-	by mail.openembedded.org (Postfix) with ESMTP id B624E65CC2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F6C865CC2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Aug 2016 19:53:16 +0000 (UTC)
-Received: from [10.10.10.132] (home.seebs.net [74.122.98.108])
-	by mail.plethora.net (Postfix) with ESMTPSA id 34D30C4993
+	Tue,  2 Aug 2016 19:59:47 +0000 (UTC)
+Received: by mail-io0-f170.google.com with SMTP id q83so223678370iod.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Aug 2016 14:53:17 -0500 (CDT)
-From: Seebs <seebs@seebs.net>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 02 Aug 2016 14:53:16 -0500
-Message-ID: <C4E294A6-694F-4505-8B79-1FC5FFA9F346@seebs.net>
-In-Reply-To: <dc38a32e-ba20-f2f3-cd77-73afe3db825a@windriver.com>
-References: <577B8AA9.5040808@windriver.com>
-	<dc216358-8a1f-1490-2fc0-db22f98741c3@windriver.com>
-	<579B07F9.9000708@windriver.com>
-	<B3108E03-1852-4237-8320-E2BFEC66F9B3@seebs.net>
-	<579EE4BB.6070709@windriver.com>
-	<F5BAFB71-1FCC-4F9D-999C-5960E8CD7213@seebs.net>
-	<579F0EE8.3080009@windriver.com>
-	<39329191-8DC4-43B6-9B38-5AD173C8F0DC@seebs.net>
-	<1470081674.9142.108.camel@linuxfoundation.org>
-	<BDA8434F-AE7B-4D8D-B6C3-2D4ED599E9E8@seebs.net>
-	<1470092106.9142.113.camel@linuxfoundation.org>
-	<579FFCEB.6090200@windriver.com>
-	<47AE4E78-D57B-44C1-B5D5-4509B15AD3BC@seebs.net>
-	<57A03888.1@windriver.com>
-	<E145B74B-3968-45C3-A0B0-D557C76ADC38@seebs.net>
-	<57A04154.1050909@windriver.com>
-	<9BFBB743-6513-4791-9046-6BFBED50A347@seebs.net>
-	<9034b8dd-a4dc-e2c4-fcb0-8e488e78296c@windriver.com>
-	<5B4A0BBD-1322-4DE4-85DB-3D7216CB6BC4@seebs.net>
-	<dc38a32e-ba20-f2f3-cd77-73afe3db825a@windriver.com>
+	Tue, 02 Aug 2016 12:59:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=7uGq889RuElWHaHpZ4YcaP8L/E/0qu+QpXpBcx/TXkA=;
+	b=WqybAyYj/akPPb/Qby+6mzBw6mARjo25Ut38H6Sp/v87y28q34a9fKfi2ZqhN7yTSl
+	Z/g7axic3LoUYD4O4Z3bidMbSaCF/JJTNzA6fl3qqtXA0pm9kJBawaIeszJJnoHzRWa1
+	Ct52hw8i0Cuggd/ZXYPVTPjTestyL9smfMW0YOeeXiJsTyxmyT6g6ZfUajbl29OwwkvV
+	NNsV36NeBQsBA/giVMQsgO94KjmggsGB6XtZkrXMKH3nTCvvqh/rgo+vWpBJD8RoJJC9
+	Q9JWN7+9B4VHejYYvmaT8FyF+lnRCTVLGTj8H5wrJVkaAW07UtkJCKdSQRuMYM5RVEG4
+	68XQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=7uGq889RuElWHaHpZ4YcaP8L/E/0qu+QpXpBcx/TXkA=;
+	b=dj6BcZoryDB14b68CFAO1gAJpUUj+JbGEsRmiVt2jW8hYa+4WxxcCe20JKc4+hGHZX
+	Qn2w/aqh65NeuwMWsGKZk2XxS3FUesTNiLGR8dksUQWkQtxEf8kInvdSB5Oy2RGcJ6IW
+	BunftygQqiuR//8O9q2caLBlD0xkqBqvmtoA8qAeojQLerxhl23cjDkwebJcUcUB1/Dn
+	eZG7awcSHNDucL40RE7qZ7sXTjLL1dzmk15Vis1jWpQ8w7ArAcj4prPQAcbYYgJtGoFN
+	ATnGakoFmEVVru8MGL8zUlytyuW0U/bqQhpcd5ipNs4VwsESpQ1vA8cAQ0Dog6K0UkKA
+	4P9w==
+X-Gm-Message-State: AEkoouv5iZGHq6rYqMlDfy0gVtOFJwAUiOD7nNUjqYpduepPOuNlO9QVRcMrzblTDv9tf0aHo2TmN1DtJAtY0n9e
+X-Received: by 10.107.135.142 with SMTP id r14mr70520891ioi.133.1470167988382; 
+	Tue, 02 Aug 2016 12:59:48 -0700 (PDT)
 MIME-Version: 1.0
-X-Mailer: MailMate (1.9.4r5234)
-Subject: Re: About pseudo's chmod
+Received: by 10.107.18.17 with HTTP; Tue, 2 Aug 2016 12:59:28 -0700 (PDT)
+In-Reply-To: <1468332463-4154-7-git-send-email-maxin.john@intel.com>
+References: <1468332463-4154-1-git-send-email-maxin.john@intel.com>
+	<1468332463-4154-7-git-send-email-maxin.john@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 2 Aug 2016 20:59:28 +0100
+Message-ID: <CAJTo0LbsL7GrGM2uoQJegg_=bzFRbGDeWN2KcaxwkaMGnC7GDA@mail.gmail.com>
+To: "Maxin B. John" <maxin.john@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 6/8] packagegroup-core-x11-base.bb: replace pointercal with pointercal-xinput
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,39 +54,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2016 19:53:16 -0000
-Content-Type: text/plain; format=flowed
+X-List-Received-Date: Tue, 02 Aug 2016 19:59:48 -0000
+Content-Type: multipart/alternative; boundary=001a113eccbcb5633405391c28d9
 
-On 2 Aug 2016, at 14:39, Mark Hatle wrote:
+--001a113eccbcb5633405391c28d9
+Content-Type: text/plain; charset=UTF-8
 
-> The alternative to the 'ln' is a 'cp' operation.  This is how it used 
-> to work
-> until optimizations were added a few releases ago.  It was observed 
-> that this
-> saves a large amount of space -- but it had the unintended consequence 
-> of
-> suddenly files are now changes as the do_install/do_package processing
-> manipulates files and modes change...
+On 12 July 2016 at 15:07, Maxin B. John <maxin.john@intel.com> wrote:
 
-Yeah, and I think if we just dropped the copy of permissions, this
-would at least temporarily go away.
+> Replace pointercal with pointercal-xinput since we removed pointercal
+> recipe.
+>
 
-> I almost wonder if in pseudo we should avoid changing any modes 
-> internal to the
-> file -- until something tries to write to the file.  (Can we even 
-> capture that
-> and try to fix it?  If not, what we're doing is likely the only 
-> answer.)
+This exposes the fact that pointercal-xinput doesn't set ALLOW_EMPTY for
+BSPs that don't ship a pointercal.  I'll send a patch :)
 
-I don't think we usefully can.
+Ross
 
-Hmm.
+--001a113eccbcb5633405391c28d9
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-So it occurs to me, there's only a few cases where we actually have any
-reason to make on-filesystem permissions changes at all. Say, execute 
-bits for executables. Otherwise, we could in theory just not bother 
-writing
-changes to the disk, because the disk permissions are irrelevant.
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 12 July 2016 at 15:07, Maxin B. John <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:maxin.john@intel.com" target=3D"_blank">maxin.john@intel.com</a>&gt;</=
+span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2my" class=3D"a3=
+s aXjCH m155df70923c0d412">Replace <span class=3D"il">pointercal</span> wit=
+h <span class=3D"il">pointercal</span>-xinput since we removed <span class=
+=3D"il">pointercal</span> recipe.<br></div></blockquote></div><br>This expo=
+ses the fact that pointercal-xinput doesn&#39;t set ALLOW_EMPTY for BSPs th=
+at don&#39;t ship a pointercal.=C2=A0 I&#39;ll send a patch :)</div><div cl=
+ass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
--s
-
+--001a113eccbcb5633405391c28d9--
