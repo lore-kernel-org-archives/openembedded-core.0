@@ -1,17 +1,17 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 021F5731A5
+Return-Path: <seebs@seebs.net>
+Received: from mail.plethora.net (mail.plethora.net [184.173.250.112])
+	by mail.openembedded.org (Postfix) with ESMTP id B624E65CC2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Aug 2016 19:39:46 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u72JdkLZ017982
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 2 Aug 2016 12:39:46 -0700 (PDT)
-Received: from msp-dhcp4.wrs.com (172.25.34.4) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 2 Aug 2016 12:39:46 -0700
-To: Seebs <seebs@seebs.net>, <openembedded-core@lists.openembedded.org>
+	Tue,  2 Aug 2016 19:53:16 +0000 (UTC)
+Received: from [10.10.10.132] (home.seebs.net [74.122.98.108])
+	by mail.plethora.net (Postfix) with ESMTPSA id 34D30C4993
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  2 Aug 2016 14:53:17 -0500 (CDT)
+From: Seebs <seebs@seebs.net>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 02 Aug 2016 14:53:16 -0500
+Message-ID: <C4E294A6-694F-4505-8B79-1FC5FFA9F346@seebs.net>
+In-Reply-To: <dc38a32e-ba20-f2f3-cd77-73afe3db825a@windriver.com>
 References: <577B8AA9.5040808@windriver.com>
 	<dc216358-8a1f-1490-2fc0-db22f98741c3@windriver.com>
 	<579B07F9.9000708@windriver.com>
@@ -31,14 +31,9 @@ References: <577B8AA9.5040808@windriver.com>
 	<9BFBB743-6513-4791-9046-6BFBED50A347@seebs.net>
 	<9034b8dd-a4dc-e2c4-fcb0-8e488e78296c@windriver.com>
 	<5B4A0BBD-1322-4DE4-85DB-3D7216CB6BC4@seebs.net>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <dc38a32e-ba20-f2f3-cd77-73afe3db825a@windriver.com>
-Date: Tue, 2 Aug 2016 14:39:45 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
-	Gecko/20100101 Thunderbird/45.2.0
+	<dc38a32e-ba20-f2f3-cd77-73afe3db825a@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <5B4A0BBD-1322-4DE4-85DB-3D7216CB6BC4@seebs.net>
+X-Mailer: MailMate (1.9.4r5234)
 Subject: Re: About pseudo's chmod
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -52,46 +47,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2016 19:39:47 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 02 Aug 2016 19:53:16 -0000
+Content-Type: text/plain; format=flowed
 
-On 8/2/16 2:19 PM, Seebs wrote:
-> On 2 Aug 2016, at 10:12, Mark Hatle wrote:
-> 
->> So the problem is -- pseudo is modifying the 'original' file perms, 
->> which on a
->> new instance of the pseudo database then gets inherited.  So we get
->> unpredictable results if this is the first time through -- or not the 
->> first time
->> through.
-> 
-> Yeah. And the problem here is in part that we're calling chmod on a file 
-> linked to a file external to pseudo, but we're also checking that file's 
-> mode to find out what permissions we want it to have. Which is probably 
-> an error.
-> 
-> So, it does look like we need the tracking, but also if we stopped 
-> doing:
-> 
-> 	stat file1 # obtain mode
-> 	ln file1 file2
-> 	chmod <mode> file2
-> 
-> we'd save significant time AND avoid the problem.
-> 
-> -s
-> 
+On 2 Aug 2016, at 14:39, Mark Hatle wrote:
 
-The alternative to the 'ln' is a 'cp' operation.  This is how it used to work
-until optimizations were added a few releases ago.  It was observed that this
-saves a large amount of space -- but it had the unintended consequence of
-suddenly files are now changes as the do_install/do_package processing
-manipulates files and modes change...
+> The alternative to the 'ln' is a 'cp' operation.  This is how it used 
+> to work
+> until optimizations were added a few releases ago.  It was observed 
+> that this
+> saves a large amount of space -- but it had the unintended consequence 
+> of
+> suddenly files are now changes as the do_install/do_package processing
+> manipulates files and modes change...
 
-I almost wonder if in pseudo we should avoid changing any modes internal to the
-file -- until something tries to write to the file.  (Can we even capture that
-and try to fix it?  If not, what we're doing is likely the only answer.)
+Yeah, and I think if we just dropped the copy of permissions, this
+would at least temporarily go away.
 
---Mark
+> I almost wonder if in pseudo we should avoid changing any modes 
+> internal to the
+> file -- until something tries to write to the file.  (Can we even 
+> capture that
+> and try to fix it?  If not, what we're doing is likely the only 
+> answer.)
+
+I don't think we usefully can.
+
+Hmm.
+
+So it occurs to me, there's only a few cases where we actually have any
+reason to make on-filesystem permissions changes at all. Say, execute 
+bits for executables. Otherwise, we could in theory just not bother 
+writing
+changes to the disk, because the disk permissions are irrelevant.
+
+-s
 
