@@ -1,20 +1,20 @@
 Return-Path: <humberto.ibarra.lopez@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 4069260722
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D85A60722
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Aug 2016 20:43:23 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga104.fm.intel.com with ESMTP; 02 Aug 2016 13:43:25 -0700
+	Tue,  2 Aug 2016 20:47:33 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga103.fm.intel.com with ESMTP; 02 Aug 2016 13:47:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,462,1464678000"; d="scan'208";a="858502994"
+X-IronPort-AV: E=Sophos;i="5.28,462,1464678000"; d="scan'208";a="743296123"
 Received: from jhibarra-mobl1.zpn.intel.com ([10.219.26.54])
-	by orsmga003.jf.intel.com with ESMTP; 02 Aug 2016 13:43:23 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 02 Aug 2016 13:47:09 -0700
 From: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Aug 2016 15:45:22 -0500
-Message-Id: <1470170722-9101-1-git-send-email-humberto.ibarra.lopez@intel.com>
+Date: Tue,  2 Aug 2016 15:49:09 -0500
+Message-Id: <1470170949-9224-1-git-send-email-humberto.ibarra.lopez@intel.com>
 X-Mailer: git-send-email 2.4.11
-Subject: [PATCH] oe-selftest: reorganize syntax to use subcommands
+Subject: [PATCH v2] oe-selftest: reorganize syntax to use subcommands
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,7 +27,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2016 20:43:24 -0000
+X-List-Received-Date: Tue, 02 Aug 2016 20:47:36 -0000
 
 The current syntax of oe-selftest is messy. This patch reorganizes it in a clearer way by grouping all functions in a 'run' subcommand and a 'list' subcommand.
 
