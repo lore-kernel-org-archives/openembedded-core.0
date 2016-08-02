@@ -1,44 +1,47 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 77D156612C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
+	[209.85.223.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F4DB6E5CB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Aug 2016 15:12:51 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u72FCphj022179
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue,  2 Aug 2016 16:56:39 +0000 (UTC)
+Received: by mail-io0-f174.google.com with SMTP id m101so218206486ioi.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 2 Aug 2016 08:12:52 -0700 (PDT)
-Received: from soho-mhatle-m.local (172.25.36.229) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 2 Aug 2016 08:12:50 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <577B8AA9.5040808@windriver.com>
-	<dc216358-8a1f-1490-2fc0-db22f98741c3@windriver.com>
-	<579B07F9.9000708@windriver.com>
-	<B3108E03-1852-4237-8320-E2BFEC66F9B3@seebs.net>
-	<579EE4BB.6070709@windriver.com>
-	<F5BAFB71-1FCC-4F9D-999C-5960E8CD7213@seebs.net>
-	<579F0EE8.3080009@windriver.com>
-	<39329191-8DC4-43B6-9B38-5AD173C8F0DC@seebs.net>
-	<1470081674.9142.108.camel@linuxfoundation.org>
-	<BDA8434F-AE7B-4D8D-B6C3-2D4ED599E9E8@seebs.net>
-	<1470092106.9142.113.camel@linuxfoundation.org>
-	<579FFCEB.6090200@windriver.com>
-	<47AE4E78-D57B-44C1-B5D5-4509B15AD3BC@seebs.net>
-	<57A03888.1@windriver.com>
-	<E145B74B-3968-45C3-A0B0-D557C76ADC38@seebs.net>
-	<57A04154.1050909@windriver.com>
-	<9BFBB743-6513-4791-9046-6BFBED50A347@seebs.net>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <9034b8dd-a4dc-e2c4-fcb0-8e488e78296c@windriver.com>
-Date: Tue, 2 Aug 2016 10:12:46 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
-	Gecko/20100101 Thunderbird/45.2.0
+	Tue, 02 Aug 2016 09:56:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=6aBcHfCE50lKkOe839JTeI+HszL4hKYOELT69aVuYCs=;
+	b=ddShpDDGANADJEKyfCqe/tPCCS8Anr9KXQyVbju7dq8A5JodYqdyzMKOdris6Fedas
+	OdRb8/gdTWNZ/uVHm1Z9MIl2ahzI3qlLEMIZ09Zw5V8hTMcGuDYvv1y+J2s5QH47J01Q
+	USaGSsTmY0mq3wCKWR48J8EhMSBbU77sbViqrGRBOrqPuYuAVSISvE3eoDiRpPSG+Opm
+	5s1kXhJSjG2AWWbujIxQgBAN7CAC4BND4KSEzyh+UlPSd5Tuj0BWCFTP50UoqmF5P5DL
+	fo4EOFrXunK/brLFAxMfL8dhwtBEKSpcQicLC9TPX7NbJvx3oOt5crx+sH0gZY22Eg17
+	zdtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=6aBcHfCE50lKkOe839JTeI+HszL4hKYOELT69aVuYCs=;
+	b=gOxR5OvJpCBxPUuJqkQrdAw140M5tTlVg+AqgLvrOeWgvL4qYEMnPivxS1H4us8c7u
+	aTj+U76tvoNOsqqh00eimDjrlTnVE9jcLI3g4AFOcGLT3YW2Ll6xBR/daixDtMlFdR0J
+	vtiAVYRdTHkzSLiH9dUN31A/x1Zbzy8wMNXGX7eiEf6emHk3FmWcumvHmUeO85Z1AMcr
+	ukNzctqXzHHP+2CX2cXiyLs4HHFJfBCS3a0fQqpidDu0MTfbGBnrOUW5btNG/sp2lxkW
+	dkA3PHyV32NzAFgq0xFyoK3RzTKt4FDoqo4ae317JvJsIDvLwvjoaI6EFAJYdfdOJRNT
+	Q08w==
+X-Gm-Message-State: AEkoouuy4FONd6aQHFwsSvAHdKE9Hyyo5Dp8CO6S6vScYjiQ3q3m5Pslu74VdHH7k8O9nmKZKbgKQyFwqJgLxzie
+X-Received: by 10.107.154.196 with SMTP id c187mr59830382ioe.99.1470156999902; 
+	Tue, 02 Aug 2016 09:56:39 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <9BFBB743-6513-4791-9046-6BFBED50A347@seebs.net>
-Subject: Re: About pseudo's chmod
+Received: by 10.107.18.17 with HTTP; Tue, 2 Aug 2016 09:56:19 -0700 (PDT)
+In-Reply-To: <63d457eb9aeb264ae65e31c1e78f8024609a38c3.1469595557.git.dengke.du@windriver.com>
+References: <cover.1469595557.git.dengke.du@windriver.com>
+	<63d457eb9aeb264ae65e31c1e78f8024609a38c3.1469595557.git.dengke.du@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 2 Aug 2016 17:56:19 +0100
+Message-ID: <CAJTo0LaevDthmEf=w4Z0CE3C4d3G4-FUxOu8yJaFX8NjdzZDCg@mail.gmail.com>
+To: Dengke Du <dengke.du@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] perf: enable man pages for 'help' functionality
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,99 +54,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2016 15:12:51 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 02 Aug 2016 16:56:43 -0000
+Content-Type: multipart/alternative; boundary=001a1140e81ebe5e2f053919991a
 
-On 8/2/16 1:50 AM, Seebs wrote:
-> On 2 Aug 2016, at 1:44, Robert Yang wrote:
-> 
->> Because the stat() gets 0644 on ${B}/version.c in the second run, so 
->> it
->> would run chmod 0644 rather than 0444 on gzip-dbg/version.c.
-> 
-> Why is it calling chmod at all? The goal is apparently to give
-> gzip-dbg/version.c the same mode that ${B}/version.c has. Since it's a
-> hard link, no chmod call is needed at all.
-> 
->>> time and not the second? If it does it the second time, the fact that
->>> the underlying file's mode changed won't matter.
->>>
->>> But in this case... While I'm fine with modifying things to track the
->>
->> Thanks, I will send a patch for it.
-> 
-> I already have a patch for this.
-> 
->>> file linked-to, it still feels like this is a usage error. 
->>> Fundamentally,
->>> we're unpacking a file (${B}/version.c), then linking to it, changing
->>> the link in some way, deleting the link, and expecting the original 
->>> file
->>> to be unchanged. That doesn't seem right to me.
-> 
->> But that is what the real filesystem works without pseudo:
->> $ touch file1
->> $ ln file1 file2
->> $ chmod 777 file2
->> $ rm -f file2
->>
->> file1 will be 777 on the real filesystem.
-> 
-> Yes. But it seems that the mode the file is being changed to is 
-> dependant on the original reported mode. And that's the part that I'm 
-> confused by;
-> we're relying on the mode of the original file, but we're also changing
-> the mode of a hard link to it. This makes no sense to me.
-> 
-> So, I have a likely fix handy. (The difference between mine and the
-> version you proposed earlier is that, as I recall, yours does the LINK
-> operation on the original file unconditionally, which is in error; it
-> should only be done when no existing data was found in the database.) 
-> I'll double-check that again and go through looking for loose ends, 
-> because
-> I have a vague feeling that I'm overlooking a thing, but I haven't 
-> figured out what it would be yet.
+--001a1140e81ebe5e2f053919991a
+Content-Type: text/plain; charset=UTF-8
 
-A better way to describe the problem:
+Hi,
 
-I create a file:
+On 27 July 2016 at 06:02, Dengke Du <dengke.du@windriver.com> wrote:
 
-$ touch my-special-file
-$ chmod 0444 my-special-file
+> When using 'perf help <subcommand>', it can't find 'man' command and
+> pages for
+> perf.
+> The perf man pages depends on the xmlto-native and asciidoc-native, so we
+> just
+> need to add the two packages to the DEPENDS variable and add 'man'to
+> RDEPENDS_perf-doc.
+>
 
-I then run pseudo
+Whilst I like the idea of supporting more documentation, and have long
+wanted to integrate doxygen/gtk-doc/etc into Yocto for building SDKs with
+API documentation, I'm not sure we should be making random packages depend
+on tooling to always generate documentation.
 
-$ pseudo ln my-special-file file1
-$ stat file1
-Access: (0444/-r--r--r--)  Uid: (    0/    root)   Gid: (    0/    root)
-$ pseudo rm -f file1
-$ # remove pseudo database
+What do people think of a distro feature / global environment variable for
+"recipe should build the documentation"?  For perf this would mean adding
+asciidoc so it can build the man pages, for GLib it would mean depending on
+gtk-doc so the API docs can be generated, and so on.  But if they're not
+needed then they can be disabled to improve build speeds.
 
-At this point the original 'my-special-file' is now 0644, not 0444.  This is
-because pseudo changes the perms on the file so that it could pretend to be root.
+Ross
 
-So if we repeat the last steps:
+--001a1140e81ebe5e2f053919991a
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-$ pseudo ln my-special-file file1
-$ stat file1
-Access: (0644/-r--r--r--)  Uid: (    0/    root)   Gid: (    0/    root)
-$ pseudo rm -f file1
-$ # remove pseudo database
+<div dir=3D"ltr"><div class=3D"gmail_extra">Hi,</div><div class=3D"gmail_ex=
+tra"><br><div class=3D"gmail_quote">On 27 July 2016 at 06:02, Dengke Du <sp=
+an dir=3D"ltr">&lt;<a href=3D"mailto:dengke.du@windriver.com" target=3D"_bl=
+ank">dengke.du@windriver.com</a>&gt;</span> wrote:<br><blockquote class=3D"=
+gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
+left:1ex"><div>When using &#39;<span>perf</span> help &lt;subcommand&gt;&#3=
+9;, it can&#39;t find &#39;man&#39; command and pages for<br>
+<span>perf</span>.<br>
+The <span>perf</span> man pages depends on the xmlto-native and asciidoc-na=
+tive, so we just<br>
+need to add the two packages to the DEPENDS variable and add &#39;man&#39;t=
+o<br>
+RDEPENDS_perf-doc.</div></blockquote></div><br>Whilst I like the idea of su=
+pporting more documentation, and have long wanted to integrate doxygen/gtk-=
+doc/etc into Yocto for building SDKs with API documentation, I&#39;m not su=
+re we should be making random packages depend on tooling to always generate=
+ documentation.</div><div class=3D"gmail_extra"><br></div><div class=3D"gma=
+il_extra">What do people think of a distro feature / global environment var=
+iable for &quot;recipe should build the documentation&quot;?=C2=A0 For perf=
+ this would mean adding asciidoc so it can build the man pages, for GLib it=
+ would mean depending on gtk-doc so the API docs can be generated, and so o=
+n.=C2=A0 But if they&#39;re not needed then they can be disabled to improve=
+ build speeds.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmai=
+l_extra">Ross</div></div>
 
-So the problem is -- pseudo is modifying the 'original' file perms, which on a
-new instance of the pseudo database then gets inherited.  So we get
-unpredictable results if this is the first time through -- or not the first time
-through.
-
-The problem is 'my-special-file' is never owned by pseudo -- but that isn't
-really what the problem is -- the problem is because it's a hardlink -- and
-pseudo is changing perms to emulate root -- it triggers a QA fault because the
-file is 'changing'.
-
---Mark
-
-> -s
-> 
-
-
+--001a1140e81ebe5e2f053919991a--
