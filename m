@@ -1,29 +1,34 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D19907326D
+Return-Path: <seebs@seebs.net>
+Received: from mail.plethora.net (mail.plethora.net [184.173.250.112])
+	by mail.openembedded.org (Postfix) with ESMTP id 9149F731E5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Aug 2016 06:27:58 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u726RviV029362
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 1 Aug 2016 23:27:57 -0700
-Received: from [128.224.163.140] (128.224.163.140) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
-	Mon, 1 Aug 2016 23:27:56 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1470016499-30815-1-git-send-email-mingli.yu@windriver.com>
-	<CAJTo0LadvrbvgPVpC=-pDSBd6ykYyKX=+MqqkNQhzFtbYo=3Ew@mail.gmail.com>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <57A03CC9.7010802@windriver.com>
-Date: Tue, 2 Aug 2016 14:25:13 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
+	Tue,  2 Aug 2016 06:30:10 +0000 (UTC)
+Received: from [10.10.10.132] (home.seebs.net [74.122.98.108])
+	by mail.plethora.net (Postfix) with ESMTPSA id 2DCBBC495D
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  2 Aug 2016 01:30:11 -0500 (CDT)
+From: Seebs <seebs@seebs.net>
+To: oe-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 02 Aug 2016 01:30:10 -0500
+Message-ID: <E145B74B-3968-45C3-A0B0-D557C76ADC38@seebs.net>
+In-Reply-To: <57A03888.1@windriver.com>
+References: <577B8AA9.5040808@windriver.com>
+	<dc216358-8a1f-1490-2fc0-db22f98741c3@windriver.com>
+	<579B07F9.9000708@windriver.com>
+	<B3108E03-1852-4237-8320-E2BFEC66F9B3@seebs.net>
+	<579EE4BB.6070709@windriver.com>
+	<F5BAFB71-1FCC-4F9D-999C-5960E8CD7213@seebs.net>
+	<579F0EE8.3080009@windriver.com>
+	<39329191-8DC4-43B6-9B38-5AD173C8F0DC@seebs.net>
+	<1470081674.9142.108.camel@linuxfoundation.org>
+	<BDA8434F-AE7B-4D8D-B6C3-2D4ED599E9E8@seebs.net>
+	<1470092106.9142.113.camel@linuxfoundation.org>
+	<579FFCEB.6090200@windriver.com>
+	<47AE4E78-D57B-44C1-B5D5-4509B15AD3BC@seebs.net>
+	<57A03888.1@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LadvrbvgPVpC=-pDSBd6ykYyKX=+MqqkNQhzFtbYo=3Ew@mail.gmail.com>
-X-Originating-IP: [128.224.163.140]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] grub2.inc: run autogen.sh before configure
+X-Mailer: MailMate (1.9.4r5234)
+Subject: Re: About pseudo's chmod
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,53 +41,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2016 06:28:00 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 02 Aug 2016 06:30:10 -0000
+Content-Type: text/plain; format=flowed
 
+On 2 Aug 2016, at 1:07, Robert Yang wrote:
 
-
-On 2016年08月02日 03:22, Burton, Ross wrote:
+> Currently, the problem in oe-core is:
 >
-> On 1 August 2016 at 02:54, <mingli.yu@windriver.com
-> <mailto:mingli.yu@windriver.com>> wrote:
->
->     When adding new source files from upstream the autogen.sh
->     script needs to be run
->
->
-> This results in this change:
->
-> packages/corei7-64-poky-linux/grub-efi/grub-efi: PKGSIZE changed from
-> 6787555 to 7524227 (+10%)
->    * FILELIST: added "/usr/sbin/grub-sparc64-setup"
-> packages/corei7-64-poky-linux/grub-efi/grub-efi: FILELIST: added
-> "/usr/sbin/grub-sparc64-setup"
-> packages/corei7-64-poky-linux/grub/grub-dbg: PKGSIZE changed from
-> 26159624 to 28829025 (+10%)
-> packages/corei7-64-poky-linux/grub/grub: PKGSIZE changed from 5942339 to
-> 6679011 (+12%)
->    * FILELIST: added "/usr/sbin/grub-sparc64-setup"
-> packages/corei7-64-poky-linux/grub/grub: FILELIST: added
-> "/usr/sbin/grub-sparc64-setup"
->
-> Is this intentional?
+>       1) bitbake gzip
+>       2) Edit rpm-native or package.bbclass to make do_package re-run.
+>       3) bitbake gzip
+>       After the first build, build/version.c in gzip-dbg is 0444, but 
+> after
+>       the second build, it will be 0644, this is because do_package 
+> does:
+>       $ ln ${B}/version.c gzip-dbg/version.c,
+>       $ chmod 0444 gzip-dbg/version.c (it runs chmod 0644 on the real 
+> filesystem)
+>       And in the second build, the gzip-dbg/version.c will be removed 
+> and
+>       created again, so that stat() can't get 0444 but 0644 since
+>       ${B}/version.c is not tracked by pseudo.
 
-Thanks Ross! This is unintentional, adding autogen.sh in 
-do_configure_prepend in grub2.inc results this issue, it is because:
+Hmm. I'm a bit confused by this. Wouldn't the second build also do a
+"chmod 0444" on gzip-dbg/version.c? Why is it doing that chmod the first
+time and not the second? If it does it the second time, the fact that
+the underlying file's mode changed won't matter.
 
-* before add autogen.sh in grub2.inc, there is a patch
-./meta/recipes-bsp/grub/files/grub2-remove-sparc64-setup-from-x86-builds.patch
-   used to remove grub-sparc64-setup in Makefile.util.am for x86 builds.
+But in this case... While I'm fine with modifying things to track the
+file linked-to, it still feels like this is a usage error. 
+Fundamentally,
+we're unpacking a file (${B}/version.c), then linking to it, changing
+the link in some way, deleting the link, and expecting the original file
+to be unchanged. That doesn't seem right to me.
 
-* After add autogen.sh in grub2.inc, the previous patch logic to remove
-   grub-sparc64-setup in Makefile.util.am for x86 builds is overwritten 
-  by autogen.sh (Which will regenerate Makefile.util.am) in do_configure 
-phase.
-
-Anyway, resend the V2 patch to remove the side effect.
-
-Thanks,
-Grace
-> Ross
+-s
 
