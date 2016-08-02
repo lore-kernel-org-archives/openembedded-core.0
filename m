@@ -1,51 +1,45 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 57E006612D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 6DBE06612C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Aug 2016 10:46:52 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id q128so30013291wma.1
+	Tue,  2 Aug 2016 13:06:10 +0000 (UTC)
+Received: by mail-wm0-f48.google.com with SMTP id o80so289432218wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Aug 2016 03:46:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=NNdlVs1IrAcY5XZaLoOpbwWFqb3XgYG+2YvA87b4SeQ=;
-	b=YffCc+dN+6rsST4dGiRJyzuE3e0v+7aIlopINN4UAL3SCV4Yx6qkDiKJBKqrGLcvwh
-	+7u0jpgXtYEkC+R5XYd7bNY8vo2NBHeYlwlct96Nr3Wl8LPdgp1C+3iR8VKbkNxAVe6s
-	QF3mvYfKQOU146gwLYngaBAdmCSrA79MImf3hgA6dJymjc56D9L21Q7tZrUu4cOal+WT
-	Hdt1cF+nm84pkIiZYEraogT2h9Zm0EfTnCm0AEgUUkWfmnvFR5LI3OfQTxFbH6qD6CS+
-	PWHCSql820ch9o723xXoMRP5H9i/GY0K2wSERSlzAu/hGz6Ja2vT3vD5sneWarXw6Gtw
-	4T0w==
+	Tue, 02 Aug 2016 06:06:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=OYT4Dmd5e91X/wpalT9/HHxnAxRh8rWdLBcOP4O+8ZY=;
+	b=Hj6j2mk09apJmMT24Uyv1L/tR/cMupmyGqJ8DW4I5cdWfBEcmq4a3pr1JLMPMZCMtj
+	COLA/w6i7kHIr7tqR362E9n0imDGWoW3EnzEy7ungzbAPe7QuwRqEGJDjKiaTZ2cIUkY
+	R+NNHDABgrnuwDYK+Z+UtIiydQiQRQgOS4u8puTVF8fh7GThWonRkvIhn9QA5ecgekHn
+	vHwT5HDED0ahzrfbi8Xb+x/rbUkBntZ1oQJL3+vzPpndaK9fy0vYDFbJAWXvnKdJup41
+	+1HgVIq+BtoFG36kdzG2tivS8jhZWgBVpohSaWekj5sscTIGIi4ym+o7RG2ZWRT/fJDU
+	9JHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=NNdlVs1IrAcY5XZaLoOpbwWFqb3XgYG+2YvA87b4SeQ=;
-	b=hyGyXZPtcZO/9v3qpIWPoqvZ3vkiQkLJntq2AkZIf9fe4lgHkYy0xBUZOoCrgEnYjB
-	OtpKJAwlSrxbgORDHuLegmmWvf4TsFbvjHjjdnPktPgI/hkKu9fsn0OJUTFdwoeTvUUH
-	VLAaA+3jvAI2vPw3JTAEjchbpy65a2auP8iA0wiOewRMGO1XeMFBLEAj/1e87UTCr9LW
-	WI9u/1ZhTbBRltQ0r5ORUMRBrhNRACCQ1GITy0vCwoCzd1xW72GekCq9TTGGpPsqXHTP
-	T0PW/YvbxCyfnX/T+yi5/fmGP11zN3JswTwNftQfF6Fpqhi+psE1+PwamLvSbUjZNwXN
-	HILA==
-X-Gm-Message-State: AEkoouv8sL2rSrj7cPxR5zFGEQxYt76PXU0Lv48Z/jB17l6xjcc3OLUYHTWrcQ0pj89sFA==
-X-Received: by 10.28.163.199 with SMTP id m190mr19096080wme.5.1470134812388;
-	Tue, 02 Aug 2016 03:46:52 -0700 (PDT)
-Received: from localhost (ip-89-176-104-169.net.upcbroadband.cz.
-	[89.176.104.169]) by smtp.gmail.com with ESMTPSA id
-	qe2sm1994852wjc.28.2016.08.02.03.46.51
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 02 Aug 2016 03:46:51 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 2 Aug 2016 12:46:55 +0200
-To: "Maxin B. John" <maxin.john@intel.com>
-Message-ID: <20160802104655.bdw5737btwsjzwyo@jama>
-References: <1470065689-27089-1-git-send-email-maxin.john@intel.com>
-MIME-Version: 1.0
-In-Reply-To: <1470065689-27089-1-git-send-email-maxin.john@intel.com>
-User-Agent: Mutt/1.6.2 (2016-06-11)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] piglit: fix build failure with gold linker
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=OYT4Dmd5e91X/wpalT9/HHxnAxRh8rWdLBcOP4O+8ZY=;
+	b=QqEccYoL2YmnPJ9cfVlORzl4IYISihgz2dshbz7ih3Ilt7MWvRUcdpa5rNX25Hi3OL
+	Ktso+RrN2igCpbd7KDpBzcWonEn6lxFPiFwK8oO/658RXuBgsh8NAn7cRDc+r80PZIGX
+	4fLkltWSsiYJqbrU13/ITrB27lAMkOojKl8Ih3f7SDUBQP1UMvLAz0CedlWEgnIqlygw
+	ypR6sgNr2BaiqMv6HKweTGqFVXl+VZzjOauJR1D+f3dxR6CHoIh2ktQSH4yj9km6RLdb
+	k8ZUeFs4WI222M8gEZsgOhWBqzNPdnePTU4kCJaxm29UCmcUMT2xEZhRA/4pZR/bwDwr
+	hM7g==
+X-Gm-Message-State: AEkoousmTdiG1DDjY6EHDwaTFppoaARMq9CPHbDdVB/0F+SBbJ3fv8MiyMgAjDasTsuLWF+m
+X-Received: by 10.28.93.130 with SMTP id r124mr18275043wmb.92.1470143170109;
+	Tue, 02 Aug 2016 06:06:10 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id p23sm2986914wme.8.2016.08.02.06.06.09
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 02 Aug 2016 06:06:09 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  2 Aug 2016 14:06:06 +0100
+Message-Id: <1470143166-16678-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] augeas: remove from oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,82 +52,174 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2016 10:46:53 -0000
-X-Groupsio-MsgNum: 85231
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="oo72hc2gbrdp6ffq"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 02 Aug 2016 13:06:11 -0000
 
---oo72hc2gbrdp6ffq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Nothing in oe-core uses this, so it's been moved to meta-oe.
 
-On Mon, Aug 01, 2016 at 06:34:49PM +0300, Maxin B. John wrote:
-> When we use gold linker while DISTRO set to "nodistro", piglit build
-> fails with the following error:
->=20
-> | ../../../../lib/libpiglitutil_gl.so.0: error: undefined reference to
-> 'dlsym'
-> | ../../../../lib/libpiglitutil_gl.so.0: error: undefined reference to
-> 'dlerror'
-> | ../../../../lib/libpiglitutil_gl.so.0: error: undefined reference to
-> 'dlopen'
-> | collect2: error: ld returned 1 exit status
->=20
-> Fix it by providing '-ldl' to LDFLAGS.
->=20
-> [YOCTO #9851]
->=20
-> Signed-off-by: Maxin B. John <maxin.john@intel.com>
-> ---
->  meta/recipes-graphics/piglit/piglit_git.bb | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-gr=
-aphics/piglit/piglit_git.bb
-> index 811f7af..df90c4d 100644
-> --- a/meta/recipes-graphics/piglit/piglit_git.bb
-> +++ b/meta/recipes-graphics/piglit/piglit_git.bb
-> @@ -30,6 +30,8 @@ do_compile[dirs] =3D+ "${B}/temp/"
->  PACKAGECONFIG ??=3D ""
->  PACKAGECONFIG[freeglut] =3D "-DPIGLIT_USE_GLUT=3D1,-DPIGLIT_USE_GLUT=3D0=
-,freeglut,"
-> =20
-> +LDFLAGS_append =3D " ${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold=
-', '-ldl', '', d)}"
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/conf/distro/include/distro_alias.inc          |  1 -
+ meta/recipes-extended/augeas/augeas.inc            | 30 ----------------------
+ ...need_charset_alias-when-building-for-musl.patch | 30 ----------------------
+ .../augeas/add-missing-argz-conditional.patch      | 20 ---------------
+ .../augeas/augeas/sepbuildfix.patch                | 22 ----------------
+ meta/recipes-extended/augeas/augeas_1.4.0.bb       |  4 ---
+ 6 files changed, 107 deletions(-)
+ delete mode 100644 meta/recipes-extended/augeas/augeas.inc
+ delete mode 100644 meta/recipes-extended/augeas/augeas/0001-Unset-need_charset_alias-when-building-for-musl.patch
+ delete mode 100644 meta/recipes-extended/augeas/augeas/add-missing-argz-conditional.patch
+ delete mode 100644 meta/recipes-extended/augeas/augeas/sepbuildfix.patch
+ delete mode 100644 meta/recipes-extended/augeas/augeas_1.4.0.bb
 
-Shouldn't this be fixed in piglit itself?
+diff --git a/meta/conf/distro/include/distro_alias.inc b/meta/conf/distro/include/distro_alias.inc
+index 8adafae..5948b75 100644
+--- a/meta/conf/distro/include/distro_alias.inc
++++ b/meta/conf/distro/include/distro_alias.inc
+@@ -13,7 +13,6 @@ DISTRO_PN_ALIAS_pn-alsa-state = "OE-Core"
+ DISTRO_PN_ALIAS_pn-alsa-utils-alsaconf = "OE-Core"
+ DISTRO_PN_ALIAS_pn-alsa-utils-scripts = "OE-Core"
+ DISTRO_PN_ALIAS_pn-atk = "Fedora=atk OpenSuSE=atk"
+-DISTRO_PN_ALIAS_pn-augeas = "Ubuntu=libaugeas0 Debian=libaugeas0"
+ DISTRO_PN_ALIAS_pn-avahi-ui = "Ubuntu=avahi-discover Debian=avahi-discover"
+ DISTRO_PN_ALIAS_pn-babeltrace = "OSPDT"
+ DISTRO_PN_ALIAS_pn-bdwgc = "OSPDT"
+diff --git a/meta/recipes-extended/augeas/augeas.inc b/meta/recipes-extended/augeas/augeas.inc
+deleted file mode 100644
+index 23d12ca..0000000
+--- a/meta/recipes-extended/augeas/augeas.inc
++++ /dev/null
+@@ -1,30 +0,0 @@
+-SUMMARY = "Augeas configuration API"
+-HOMEPAGE = "http://augeas.net/"
+-BUGTRACKER = "https://fedorahosted.org/augeas/report/1"
+-
+-LICENSE = "LGPLv2.1+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=bbb461211a33b134d42ed5ee802b37ff"
+-
+-SRC_URI = "http://download.augeas.net/${BP}.tar.gz \
+-           file://add-missing-argz-conditional.patch \
+-           file://sepbuildfix.patch \
+-           file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
+-          "
+-
+-DEPENDS = "readline libxml2"
+-
+-inherit autotools pkgconfig
+-
+-PACKAGES =+ "${PN}-lenses lib${BPN}"
+-
+-FILES_${PN}-lenses = "${datadir}/augeas/lenses"
+-FILES_lib${BPN} = "${libdir}/lib*${SOLIBS}"
+-
+-RDEPENDS_lib${BPN} += "${PN}-lenses"
+-RRECOMMENDS_lib${BPN} += "${PN}"
+-
+-LEAD_SONAME = "libaugeas.so"
+-
+-do_install_append() {
+-	rm -fr ${D}${datadir}/vim
+-}
+diff --git a/meta/recipes-extended/augeas/augeas/0001-Unset-need_charset_alias-when-building-for-musl.patch b/meta/recipes-extended/augeas/augeas/0001-Unset-need_charset_alias-when-building-for-musl.patch
+deleted file mode 100644
+index 9a19876..0000000
+--- a/meta/recipes-extended/augeas/augeas/0001-Unset-need_charset_alias-when-building-for-musl.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-From b9565dc2fe0c4f7daaec91b7e83bc7313dee2f4a Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Mon, 13 Apr 2015 17:02:13 -0700
+-Subject: [PATCH] Unset need_charset_alias when building for musl
+-
+-localcharset uses ac_cv_gnu_library_2_1 from glibc21.m4
+-which actually shoudl be fixed in gnulib and then all downstream
+-projects will get it eventually. For now we apply the fix to
+-coreutils
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- lib/gnulib.mk | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-Index: augeas-1.2.0/gnulib/lib/Makefile.am
+-===================================================================
+---- augeas-1.2.0.orig/gnulib/lib/Makefile.am
+-+++ augeas-1.2.0/gnulib/lib/Makefile.am
+-@@ -463,7 +463,7 @@ install-exec-localcharset: all-local
+- 	  case '$(host_os)' in \
+- 	    darwin[56]*) \
+- 	      need_charset_alias=true ;; \
+--	    darwin* | cygwin* | mingw* | pw32* | cegcc*) \
+-+	    darwin* | cygwin* | mingw* | pw32* | cegcc* | linux-musl*) \
+- 	      need_charset_alias=false ;; \
+- 	    *) \
+- 	      need_charset_alias=true ;; \
+diff --git a/meta/recipes-extended/augeas/augeas/add-missing-argz-conditional.patch b/meta/recipes-extended/augeas/augeas/add-missing-argz-conditional.patch
+deleted file mode 100644
+index abbdbaa..0000000
+--- a/meta/recipes-extended/augeas/augeas/add-missing-argz-conditional.patch
++++ /dev/null
+@@ -1,20 +0,0 @@
+-Add missing GL_GENERATE_ARGZ_H conditional
+-
+-- GL_GENERATE_ARGZ_H is used in gnulib/lib/Makefile.am
+-
+-Upstream-Status: Pending
+-Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+-
+-Index: augeas-1.0.0/configure.ac
+-===================================================================
+---- augeas-1.0.0.orig/configure.ac
+-+++ augeas-1.0.0/configure.ac
+-@@ -55,6 +55,8 @@ AC_ARG_WITH([failmalloc],
+- 
+- AM_CONDITIONAL([WITH_FAILMALLOC], [test x$with_failmalloc != xno])
+- 
+-+AM_CONDITIONAL([GL_GENERATE_ARGZ_H], [test -n "$ARGZ_H"])
+-+
+- dnl --enable-debug=(yes|no)
+- AC_ARG_ENABLE([debug],
+-               [AC_HELP_STRING([--enable-debug=no/yes],
+diff --git a/meta/recipes-extended/augeas/augeas/sepbuildfix.patch b/meta/recipes-extended/augeas/augeas/sepbuildfix.patch
+deleted file mode 100644
+index b82a3ee..0000000
+--- a/meta/recipes-extended/augeas/augeas/sepbuildfix.patch
++++ /dev/null
+@@ -1,22 +0,0 @@
+-Ensure that builds in separate builddirs (${B} != ${S}) correctly install the 
+-lenses files.
+-
+-Upstream-Status: Pending
+-
+-RP 2013/4/17
+-
+-Index: augeas-1.0.0/Makefile.am
+-===================================================================
+---- augeas-1.0.0.orig/Makefile.am	2012-11-02 15:20:11.000000000 +0000
+-+++ augeas-1.0.0/Makefile.am	2013-04-17 10:36:24.033400125 +0000
+-@@ -5,8 +5,8 @@
+- lensdir=$(datadir)/augeas/lenses/dist
+- lenstestdir=$(datadir)/augeas/lenses/dist/tests
+- 
+--dist_lens_DATA=$(wildcard lenses/*.aug)
+--dist_lenstest_DATA=$(wildcard lenses/tests/*.aug)
+-+dist_lens_DATA=$(wildcard $(top_srcdir)/lenses/*.aug)
+-+dist_lenstest_DATA=$(wildcard $(top_srcdir)lenses/tests/*.aug)
+- 
+- EXTRA_DIST=augeas.spec build/aux/move-if-change Makefile.am HACKING
+- 
+diff --git a/meta/recipes-extended/augeas/augeas_1.4.0.bb b/meta/recipes-extended/augeas/augeas_1.4.0.bb
+deleted file mode 100644
+index 1064ad4..0000000
+--- a/meta/recipes-extended/augeas/augeas_1.4.0.bb
++++ /dev/null
+@@ -1,4 +0,0 @@
+-require augeas.inc
+-
+-SRC_URI[md5sum] = "a2536a9c3d744dc09d234228fe4b0c93"
+-SRC_URI[sha256sum] = "659fae7ac229029e60a869a3b88c616cfd51cf2fba286cdfe3af3a052cb35b30"
+-- 
+2.8.1
 
-And does it need to be applied only for gold?
 
->  do_configure_prepend() {
->     if [ "${@bb.utils.contains('PACKAGECONFIG', 'freeglut', 'yes', 'no', =
-d)}" =3D "no" ]; then
->          sed -i -e "/^#.*include <GL\/freeglut_ext.h>$/d" ${S}/src/piglit=
-/glut_wrap.h
-> --=20
-> 2.4.0
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---oo72hc2gbrdp6ffq
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlegeh4ACgkQN1Ujt2V2gBysJwCgrjSpaipOlSMBVEXK1f4eLsHV
-tU8An165wkqHYYWyNKkWRIueaogqIr+R
-=9JaY
------END PGP SIGNATURE-----
-
---oo72hc2gbrdp6ffq--
