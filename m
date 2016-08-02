@@ -1,54 +1,24 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-it0-f68.google.com (mail-it0-f68.google.com
-	[209.85.214.68])
-	by mail.openembedded.org (Postfix) with ESMTP id BDF326E667
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 746BE6AC00
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Aug 2016 13:52:32 +0000 (UTC)
-Received: by mail-it0-f68.google.com with SMTP id u186so13996057ita.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Aug 2016 06:52:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=Ye8AlGoBF48aHwmbVCAkXxSiUW/13QxnVfnL/RlrJ2s=;
-	b=q4l7BOyu9hSeLA2jJDe43ixcwGtY+PDvbNiXW+EoxNhPnPZkjCxU+7qlQd/GJKtZFd
-	7JnPV9DuXsEUiXQ9800+hbJkhi+evdQrk+MU5Ng614IwasjQV3O7TU5T0uIpCA2DMS3G
-	R5qucISknddYh1JIgHrhgRzbBSZomdCoECe+/OnCNLbf+9DwCeORNlQfTD7j5hzg9u9N
-	RInPBajzW+M2djOaYsGh1ZdZYTERABUWZ29Yn2KV2IwEyQp6zj9xqKTB9AB2QPai+faM
-	dfDecr0G1IAtgM2MqTabMCQ4zwovMk+oDrx2TD2GKHX2hZZJjmG6roRfiGmwzPwWABXg
-	9RKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=Ye8AlGoBF48aHwmbVCAkXxSiUW/13QxnVfnL/RlrJ2s=;
-	b=Gbqa/sdwa68aDRkk9exm4uETCs+vjG5zgEEHn79WNN0y9w3AM773E+T0tGxUkAZES5
-	dxIuwm5NpqQqwaZuFRZ2EYKj3mpJIbZlN4cixO67RwG0EgnZ7mGGN2w/B+jwXobITvsa
-	weqpjCMO6DtqazQjjjsSR6KM6biTiho/jm8+ZYTsU107yFzdGxJznhbCTHpgB4LK1UDU
-	YQeakp2bKObcLkqKpPAwH1+Yewfhjo3P8uNRE4FlNGlXyng4hYEFqoOS6G/HAvfr0SK8
-	aVFfyWIx4oZdj6j/+wZfxAuSpDppxNm83OdIsT+ec83/NwtdA4cV0pE44aHY7XT2iIQ6
-	HIRw==
-X-Gm-Message-State: AEkoous+eKeKsDJFFNOIuDGcByqnGpRDacshTeOUfB715uuI2w4PxECX0f9liGeLsv06BQ==
-X-Received: by 10.36.110.212 with SMTP id w203mr17935132itc.62.1470145953063; 
-	Tue, 02 Aug 2016 06:52:33 -0700 (PDT)
-Received: from openSUSE-i7.site ([108.161.121.178])
-	by smtp.gmail.com with ESMTPSA id
-	140sm10127006itl.4.2016.08.02.06.52.32
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 02 Aug 2016 06:52:32 -0700 (PDT)
-Date: Tue, 2 Aug 2016 09:52:29 -0400
-From: Trevor Woerner <twoerner@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20160802135229.GA14681@openSUSE-i7.site>
-References: <20160801123253.9292-1-twoerner@gmail.com>
-	<CADkTA4Pa0pjQ8HQwAFq6jZUW5TXjfYd=pkdaOoDgU5S7x2hhsQ@mail.gmail.com>
-	<CAJTo0LaXhsr4xJwR05DP2F+mNjJOwGQ+xfGb=d2cTgn2DaTiKw@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LaXhsr4xJwR05DP2F+mNjJOwGQ+xfGb=d2cTgn2DaTiKw@mail.gmail.com>
-User-Agent: Mutt/1.6.0 (2016-04-01)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel.bbclass: add lzop dependency
+	Tue,  2 Aug 2016 14:55:06 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga101.fm.intel.com with ESMTP; 02 Aug 2016 07:55:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,460,1464678000"; d="scan'208";a="149394295"
+Received: from jlock-mobl1.ger.corp.intel.com ([10.252.8.236])
+	by fmsmga004.fm.intel.com with ESMTP; 02 Aug 2016 07:55:04 -0700
+Message-ID: <1470149703.2984.22.camel@linux.intel.com>
+From: Joshua G Lock <joshua.g.lock@linux.intel.com>
+To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
+Date: Tue, 02 Aug 2016 15:55:03 +0100
+In-Reply-To: <b833d4bb5bd450464c93f49727f0dd31691897a5.1468466649.git.Qi.Chen@windriver.com>
+References: <cover.1468466649.git.Qi.Chen@windriver.com>
+	<b833d4bb5bd450464c93f49727f0dd31691897a5.1468466649.git.Qi.Chen@windriver.com>
+X-Mailer: Evolution 3.20.4 (3.20.4-1.fc24) 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/1] systemd: split systemd-container
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,28 +31,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2016 13:52:33 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Tue, 02 Aug 2016 14:55:07 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon 2016-08-01 @ 03:08:36 PM, Burton, Ross wrote:
-> On 1 August 2016 at 15:07, Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+On Thu, 2016-07-14 at 11:25 +0800, Chen Qi wrote:
+> Split container/vm related units into a new package, systemd-
+> container.
 > 
-> > Not a large dependency, but it does bring to mind the question if this
-> > could be conditional on the type of image being built ? via  distro
-> > feature, some other mechanism ?
-> >
+> The split mainly references Fedora 24, with a few differences.
+> Apart from the bash and zsh completion files, the differences include
+> adding systemd-spawn@.service into the systemd-container package.
 > 
-> Exactly this: image building adds dependencies automatically based on what
-> is actually being used, so can the kernel do this too?
+> [YOCTO #9835]
+> 
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/recipes-core/systemd/systemd_230.bb | 35
+> +++++++++++++++++++++++++++++---
+>  1 file changed, 32 insertions(+), 3 deletions(-)
+> 
+> diff --git a/meta/recipes-core/systemd/systemd_230.bb b/meta/recipes-
+> core/systemd/systemd_230.bb
+> index 374a197..cf8aec1 100644
+> --- a/meta/recipes-core/systemd/systemd_230.bb
+> +++ b/meta/recipes-core/systemd/systemd_230.bb
+> @@ -291,6 +291,7 @@ PACKAGES =+ "\
+>      ${PN}-pam \
+>      ${PN}-zsh-completion \
+>      ${PN}-xorg-xinitrc \
+> +    ${PN}-container \
+>      ${PN}-extra-utils \
+>  "
+>  
+> @@ -348,6 +349,37 @@ RRECOMMENDS_${PN}-binfmt = "kernel-module-
+> binfmt-misc"
+>  
+>  RRECOMMENDS_${PN}-vconsole-setup = "kbd kbd-consolefonts kbd-
+> keymaps"
 
-I'm uncertain regarding the status of this patch:
+It would be nice to provide more information about systemd-container to
+package managers with a SUMMARY_${PN}-container and DESCRIPTION_${PN}-
+container
 
-1) will it be applied? (doesn't sound like it)
+>  
+> +FILES_${PN}-container = "${sysconfdir}/dbus-
+> 1/system.d/org.freedesktop.import1.conf \
+> +                         ${sysconfdir}/dbus-
+> 1/system.d/org.freedesktop.machine1.conf \
+> +                         ${base_bindir}/machinectl \
+> +                         ${bindir}/systemd-nspawn \
+> +                         ${exec_prefix}/lib/systemd/import-
+> pubring.gpg \
 
-2) do you want me to work on it some more? (i'll look for other examples of
-conditional DEPENDS, i'm not aware of any off the top of my head)
+any reason you didn't use ${libdir}/systemd/import-pubring.gpg or
+${nonarch_libdir} if the files is always installed in /usr/lib
+regardless of whether libdir is i.e. /usr/lib64
 
-3) should i be looking to push this into a BSP layer? (since BSPs usually
-choose their kernel)
+> +                         ${systemd_unitdir}/system/busnames.target.w
+> ants/org.freedesktop.import1.busname \
+> +                         ${systemd_unitdir}/system/busnames.target.w
+> ants/org.freedesktop.machine1.busname \
+> +                         ${systemd_unitdir}/system/local-
+> fs.target.wants/var-lib-machines.mount \
+> +                         ${systemd_unitdir}/system/machine.slice \
+> +                         ${systemd_unitdir}/system/machines.target \
+> +                         ${systemd_unitdir}/system/org.freedesktop.i
+> mport1.busname \
+> +                         ${systemd_unitdir}/system/org.freedesktop.m
+> achine1.busname \
+> +                         ${systemd_unitdir}/system/systemd-
+> importd.service \
+> +                         ${systemd_unitdir}/system/systemd-
+> machined.service \
+> +                         ${systemd_unitdir}/system/var-lib-
+> machines.mount \
+
+I realise these are probably copy/pasted, but you could replace all of
+the ${systemd_unitdir}/system with ${systemd_system_unitdir}
+
+Otherwise this change looks good, thanks!
+
+Joshua
+
+> +                         ${rootlibexecdir}/systemd/systemd-import \
+> +                         ${rootlibexecdir}/systemd/systemd-importd \
+> +                         ${rootlibexecdir}/systemd/systemd-journal-
+> gatewayd \
+> +                         ${rootlibexecdir}/systemd/systemd-journal-
+> remote \
+> +                         ${rootlibexecdir}/systemd/systemd-journal-
+> upload \
+> +                         ${rootlibexecdir}/systemd/systemd-machined
+> \
+> +                         ${rootlibexecdir}/systemd/systemd-pull
+> \+                         ${exec_prefix}/lib/tmpfiles.d/systemd-
+> nspawn.conf \
+> +                         ${systemd_unitdir}/system/systemd-
+> nspawn@.service \
+> +                         ${libdir}/libnss_mymachines.so.2 \
+> +                         ${datadir}/dbus-1/system-
+> services/org.freedesktop.import1.service \
+> +                         ${datadir}/dbus-1/system-
+> services/org.freedesktop.machine1.service \
+> +                         ${datadir}/polkit-
+> 1/actions/org.freedesktop.import1.policy \
+> +                         ${datadir}/polkit-
+> 1/actions/org.freedesktop.machine1.policy \
+> +                        "
+> +
+
+
+
+>  FILES_${PN}-extra-utils = "\
+>                          ${base_bindir}/systemd-escape \
+>                          ${base_bindir}/systemd-inhibit \
+> @@ -371,9 +403,6 @@ FILES_${PN}-extra-utils = "\
+>                          ${rootlibexecdir}/systemd/systemd-resolve-
+> host \
+>                          ${rootlibexecdir}/systemd/systemd-ac-power \
+>                          ${rootlibexecdir}/systemd/systemd-activate \
+> -                        ${bindir}/systemd-nspawn \
+> -                        ${exec_prefix}/lib/tmpfiles.d/systemd-
+> nspawn.conf \
+> -                        ${systemd_unitdir}/system/systemd-
+> nspawn@.service \
+>                          ${rootlibexecdir}/systemd/systemd-bus-proxyd 
+> \
+>                          ${systemd_unitdir}/system/systemd-bus-
+> proxyd.service \
+>                          ${systemd_unitdir}/system/systemd-bus-
+> proxyd.socket \
+> -- 
+> 1.9.1
+> 
 
