@@ -1,17 +1,17 @@
 Return-Path: <seebs@seebs.net>
 Received: from mail.plethora.net (mail.plethora.net [184.173.250.112])
-	by mail.openembedded.org (Postfix) with ESMTP id 315976E660
+	by mail.openembedded.org (Postfix) with ESMTP id 632636E660
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Aug 2016 03:39:57 +0000 (UTC)
+	Tue,  2 Aug 2016 03:43:49 +0000 (UTC)
 Received: from [10.10.10.132] (home.seebs.net [74.122.98.108])
-	by mail.plethora.net (Postfix) with ESMTPSA id BA4A4C495D
+	by mail.plethora.net (Postfix) with ESMTPSA id E78AEC4E04
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Aug 2016 22:39:58 -0500 (CDT)
+	Mon,  1 Aug 2016 22:43:49 -0500 (CDT)
 From: Seebs <seebs@seebs.net>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 01 Aug 2016 22:39:57 -0500
-Message-ID: <4EB298F7-9562-43AC-B87A-82E32D429705@seebs.net>
-In-Reply-To: <0d7860ce-f28b-a019-d5e5-6c4d3af0e513@windriver.com>
+To: oe-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 01 Aug 2016 22:43:49 -0500
+Message-ID: <47AE4E78-D57B-44C1-B5D5-4509B15AD3BC@seebs.net>
+In-Reply-To: <579FFCEB.6090200@windriver.com>
 References: <577B8AA9.5040808@windriver.com>
 	<dc216358-8a1f-1490-2fc0-db22f98741c3@windriver.com>
 	<579B07F9.9000708@windriver.com>
@@ -23,7 +23,7 @@ References: <577B8AA9.5040808@windriver.com>
 	<1470081674.9142.108.camel@linuxfoundation.org>
 	<BDA8434F-AE7B-4D8D-B6C3-2D4ED599E9E8@seebs.net>
 	<1470092106.9142.113.camel@linuxfoundation.org>
-	<0d7860ce-f28b-a019-d5e5-6c4d3af0e513@windriver.com>
+	<579FFCEB.6090200@windriver.com>
 MIME-Version: 1.0
 X-Mailer: MailMate (1.9.4r5234)
 Subject: Re: About pseudo's chmod
@@ -39,39 +39,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2016 03:39:58 -0000
+X-List-Received-Date: Tue, 02 Aug 2016 03:43:51 -0000
 Content-Type: text/plain; format=flowed
 
-On 1 Aug 2016, at 18:36, Mark Hatle wrote:
+On 1 Aug 2016, at 20:52, Robert Yang wrote:
 
-> Would it makes sense to track the xattrs and linked files and such 
-> using some
-> type of inode reference (virtual or otherwise)?
->
-> Since in the case of a hard link, on a normal Linux style filesystem, 
-> there will
-> be a single inode that has a reference count higher then 1.  Thus you 
-> can know
-> the modes, xattrs, etc for that inode.. then the file points to the 
-> inode with
-> reference counts.  (this might require a rework on internal 
-> structures.. but
-> also might solve the problem.)
+> And when remove file2, but file1's permission is changed, it should
+> be considered as a bug.
 
-Well, that *is* how we track xattrs. And everything else, we do use 
-device and inode, but, we maintain one row for each path, and delete the 
-individual path rows.
+I'm not sure of that. My interpretation would be that hard linking under 
+pseudo to files which weren't created under the same pseudo database is
+user error; that's not how the database is intended to work. That said, 
+it's pretty trivial to add the things to it.
 
-This gets back to one of the original design goals, which was to avoid
-all the horrific things that happen to fakeroot because it's only 
-tracking
-device/inode. We *want* the multiple path entries so we can report 
-apparent database problems.
-
-(Side note: There's some performance optimizations that have reduced 
-stability/robustness, and I have plans involving making pseudo smarter
-about those, and/or allowing configuration to prefer being more 
-cautious.)
+Although I'd like to know more about the use cases for these, because it
+occurs to me that the qualifier "same pseudo database" points out 
+another
+possible failure mode: Would any of those files that are being linked to
+be getting linked to from *more than one* pseudo database? Because if 
+they were, that would be a thing I haven't been planning for and I don't 
+know
+whether it'd work sanely.
 
 -s
 
