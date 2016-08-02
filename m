@@ -1,21 +1,44 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id EA9786612C
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 77D156612C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Aug 2016 15:12:30 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga101.jf.intel.com with ESMTP; 02 Aug 2016 08:11:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,460,1464678000"; d="scan'208";a="149405177"
-Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.jf.intel.com)
-	([10.54.69.56])
-	by fmsmga004.fm.intel.com with ESMTP; 02 Aug 2016 08:11:31 -0700
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Aug 2016 15:08:36 +0000
-Message-Id: <1470150516-16760-1-git-send-email-alejandro.hernandez@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-Subject: [PATCH v2] cronie: upgrade to 1.5.1
+	Tue,  2 Aug 2016 15:12:51 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u72FCphj022179
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 2 Aug 2016 08:12:52 -0700 (PDT)
+Received: from soho-mhatle-m.local (172.25.36.229) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Tue, 2 Aug 2016 08:12:50 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <577B8AA9.5040808@windriver.com>
+	<dc216358-8a1f-1490-2fc0-db22f98741c3@windriver.com>
+	<579B07F9.9000708@windriver.com>
+	<B3108E03-1852-4237-8320-E2BFEC66F9B3@seebs.net>
+	<579EE4BB.6070709@windriver.com>
+	<F5BAFB71-1FCC-4F9D-999C-5960E8CD7213@seebs.net>
+	<579F0EE8.3080009@windriver.com>
+	<39329191-8DC4-43B6-9B38-5AD173C8F0DC@seebs.net>
+	<1470081674.9142.108.camel@linuxfoundation.org>
+	<BDA8434F-AE7B-4D8D-B6C3-2D4ED599E9E8@seebs.net>
+	<1470092106.9142.113.camel@linuxfoundation.org>
+	<579FFCEB.6090200@windriver.com>
+	<47AE4E78-D57B-44C1-B5D5-4509B15AD3BC@seebs.net>
+	<57A03888.1@windriver.com>
+	<E145B74B-3968-45C3-A0B0-D557C76ADC38@seebs.net>
+	<57A04154.1050909@windriver.com>
+	<9BFBB743-6513-4791-9046-6BFBED50A347@seebs.net>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <9034b8dd-a4dc-e2c4-fcb0-8e488e78296c@windriver.com>
+Date: Tue, 2 Aug 2016 10:12:46 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
+	Gecko/20100101 Thunderbird/45.2.0
+MIME-Version: 1.0
+In-Reply-To: <9BFBB743-6513-4791-9046-6BFBED50A347@seebs.net>
+Subject: Re: About pseudo's chmod
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,222 +51,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2016 15:12:31 -0000
+X-List-Received-Date: Tue, 02 Aug 2016 15:12:51 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
----
- .../cronie/cronie/crond_pam_config.patch           | 15 ++--
- meta/recipes-extended/cronie/cronie_1.5.0.bb       | 81 ----------------------
- meta/recipes-extended/cronie/cronie_1.5.1.bb       | 81 ++++++++++++++++++++++
- 3 files changed, 90 insertions(+), 87 deletions(-)
- delete mode 100644 meta/recipes-extended/cronie/cronie_1.5.0.bb
- create mode 100644 meta/recipes-extended/cronie/cronie_1.5.1.bb
+On 8/2/16 1:50 AM, Seebs wrote:
+> On 2 Aug 2016, at 1:44, Robert Yang wrote:
+> 
+>> Because the stat() gets 0644 on ${B}/version.c in the second run, so 
+>> it
+>> would run chmod 0644 rather than 0444 on gzip-dbg/version.c.
+> 
+> Why is it calling chmod at all? The goal is apparently to give
+> gzip-dbg/version.c the same mode that ${B}/version.c has. Since it's a
+> hard link, no chmod call is needed at all.
+> 
+>>> time and not the second? If it does it the second time, the fact that
+>>> the underlying file's mode changed won't matter.
+>>>
+>>> But in this case... While I'm fine with modifying things to track the
+>>
+>> Thanks, I will send a patch for it.
+> 
+> I already have a patch for this.
+> 
+>>> file linked-to, it still feels like this is a usage error. 
+>>> Fundamentally,
+>>> we're unpacking a file (${B}/version.c), then linking to it, changing
+>>> the link in some way, deleting the link, and expecting the original 
+>>> file
+>>> to be unchanged. That doesn't seem right to me.
+> 
+>> But that is what the real filesystem works without pseudo:
+>> $ touch file1
+>> $ ln file1 file2
+>> $ chmod 777 file2
+>> $ rm -f file2
+>>
+>> file1 will be 777 on the real filesystem.
+> 
+> Yes. But it seems that the mode the file is being changed to is 
+> dependant on the original reported mode. And that's the part that I'm 
+> confused by;
+> we're relying on the mode of the original file, but we're also changing
+> the mode of a hard link to it. This makes no sense to me.
+> 
+> So, I have a likely fix handy. (The difference between mine and the
+> version you proposed earlier is that, as I recall, yours does the LINK
+> operation on the original file unconditionally, which is in error; it
+> should only be done when no existing data was found in the database.) 
+> I'll double-check that again and go through looking for loose ends, 
+> because
+> I have a vague feeling that I'm overlooking a thing, but I haven't 
+> figured out what it would be yet.
 
-diff --git a/meta/recipes-extended/cronie/cronie/crond_pam_config.patch b/meta/recipes-extended/cronie/cronie/crond_pam_config.patch
-index 675872c..6c92816 100644
---- a/meta/recipes-extended/cronie/cronie/crond_pam_config.patch
-+++ b/meta/recipes-extended/cronie/cronie/crond_pam_config.patch
-@@ -4,16 +4,19 @@ configure files instead.
- Upstream-Status: Pending
- 
- Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
----- cronie-1.4.7/pam/crond.orig	2010-12-16 16:59:02.000000000 +0800
--+++ cronie-1.4.7/pam/crond	2011-07-20 09:47:16.080819203 +0800
--@@ -4,7 +4,7 @@
-+Index: cronie-1.5.1/pam/crond
-+===================================================================
-+--- cronie-1.5.1.orig/pam/crond
-++++ cronie-1.5.1/pam/crond
-+@@ -4,8 +4,8 @@
-  #
-- # No PAM authentication called, auth modules not needed
-+ # Although no PAM authentication is called, auth modules
-+ # are used for credential setting
-+-auth       include    password-auth
-++auth       include    common-auth
-  account    required   pam_access.so
- -account    include    password-auth
- +account    include    common-account
-  session    required   pam_loginuid.so
- -session    include    password-auth
---auth       include    password-auth
- +session    include    common-session-noninteractive
--+auth       include    common-auth
-diff --git a/meta/recipes-extended/cronie/cronie_1.5.0.bb b/meta/recipes-extended/cronie/cronie_1.5.0.bb
-deleted file mode 100644
-index 697501a..0000000
---- a/meta/recipes-extended/cronie/cronie_1.5.0.bb
-+++ /dev/null
-@@ -1,81 +0,0 @@
--SUMMARY = "Cron daemon for executing programs at set times"
--DESCRIPTION = "Cronie contains the standard UNIX daemon crond that runs \
--specified programs at scheduled times and related tools. It is based on the \
--original cron and has security and configuration enhancements like the \
--ability to use pam and SELinux."
--HOMEPAGE = "https://fedorahosted.org/cronie/"
--BUGTRACKER = "https://bugzilla.redhat.com"
--
--# Internet Systems Consortium License
--LICENSE = "ISC & BSD-3-Clause & BSD-2-Clause & GPLv2+"
--LIC_FILES_CHKSUM = "file://COPYING;md5=dd2a592170760e1386c769e1043b3722 \
--                    file://src/cron.c;endline=20;md5=b425c334265026177128353a142633b4 \
--                    file://src/popen.c;beginline=3;endline=31;md5=edd50742d8def712e9472dba353668a9"
--
--SECTION = "utils"
--
--SRC_URI = "https://fedorahosted.org/releases/c/r/cronie/cronie-${PV}.tar.gz \
--           file://crond.init \
--           file://crontab \
--           file://crond.service \
--           ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
--
--PAM_SRC_URI = "file://crond_pam_config.patch"
--PAM_DEPS = "libpam libpam-runtime pam-plugin-access pam-plugin-loginuid"
--
--SRC_URI[md5sum] = "9db75e1884d83a45e002d145c6c54d45"
--SRC_URI[sha256sum] = "9cf0e3f4f5042a9c09413d62c8e0c055e12401f70b112465f0f81f2c84ebfb3f"
--
--inherit autotools update-rc.d useradd systemd
--
--PACKAGECONFIG ?= "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
--
--PACKAGECONFIG[audit] = "--with-audit,--without-audit,audit,"
--PACKAGECONFIG[pam] = "--with-pam,--without-pam,libpam,${PAM_DEPS}"
--
--INITSCRIPT_NAME = "crond"
--INITSCRIPT_PARAMS = "start 90 2 3 4 5 . stop 60 0 1 6 ."
--
--USERADD_PACKAGES = "${PN}"
--GROUPADD_PARAM_${PN} = "--system crontab"
--
--SYSTEMD_SERVICE_${PN} = "crond.service"
--
--do_install_append () {
--	install -d ${D}${sysconfdir}/sysconfig/
--	install -d ${D}${sysconfdir}/init.d/
--	install -m 0644 ${S}/crond.sysconfig ${D}${sysconfdir}/sysconfig/crond
--	install -m 0755 ${WORKDIR}/crond.init ${D}${sysconfdir}/init.d/crond
--
--	# install systemd unit files
--	install -d ${D}${systemd_unitdir}/system
--	install -m 0644 ${WORKDIR}/crond.service ${D}${systemd_unitdir}/system
--	sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
--	       -e 's,@SBINDIR@,${sbindir},g' \
--	       ${D}${systemd_unitdir}/system/crond.service
--
--	# below are necessary for a complete cron environment
--	install -d ${D}${localstatedir}/spool/cron
--	install -m 0755 ${WORKDIR}/crontab ${D}${sysconfdir}/
--	mkdir -p ${D}${sysconfdir}/cron.d
--	mkdir -p ${D}${sysconfdir}/cron.hourly
--	mkdir -p ${D}${sysconfdir}/cron.daily
--	mkdir -p ${D}${sysconfdir}/cron.weekly
--	mkdir -p ${D}${sysconfdir}/cron.monthly
--	touch ${D}${sysconfdir}/cron.deny
--
--	# below setting is necessary to allow normal user using crontab
--
--	# setgid for crontab binary
--	chown root:crontab ${D}${bindir}/crontab
--	chmod 2755 ${D}${bindir}/crontab
--
--	# allow 'crontab' group write to /var/spool/cron
--	chown root:crontab ${D}${localstatedir}/spool/cron
--	chmod 770 ${D}${localstatedir}/spool/cron
--
--	chmod 600 ${D}${sysconfdir}/crontab
--}
--
--FILES_${PN} += "${sysconfdir}/cron*"
--CONFFILES_${PN} += "${sysconfdir}/crontab"
-diff --git a/meta/recipes-extended/cronie/cronie_1.5.1.bb b/meta/recipes-extended/cronie/cronie_1.5.1.bb
-new file mode 100644
-index 0000000..99b2bb5
---- /dev/null
-+++ b/meta/recipes-extended/cronie/cronie_1.5.1.bb
-@@ -0,0 +1,81 @@
-+SUMMARY = "Cron daemon for executing programs at set times"
-+DESCRIPTION = "Cronie contains the standard UNIX daemon crond that runs \
-+specified programs at scheduled times and related tools. It is based on the \
-+original cron and has security and configuration enhancements like the \
-+ability to use pam and SELinux."
-+HOMEPAGE = "https://fedorahosted.org/cronie/"
-+BUGTRACKER = "https://bugzilla.redhat.com"
-+
-+# Internet Systems Consortium License
-+LICENSE = "ISC & BSD-3-Clause & BSD-2-Clause & GPLv2+"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=dd2a592170760e1386c769e1043b3722 \
-+                    file://src/cron.c;endline=20;md5=b425c334265026177128353a142633b4 \
-+                    file://src/popen.c;beginline=3;endline=31;md5=edd50742d8def712e9472dba353668a9"
-+
-+SECTION = "utils"
-+
-+SRC_URI = "https://fedorahosted.org/releases/c/r/cronie/cronie-${PV}.tar.gz \
-+           file://crond.init \
-+           file://crontab \
-+           file://crond.service \
-+           ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
-+
-+PAM_SRC_URI = "file://crond_pam_config.patch"
-+PAM_DEPS = "libpam libpam-runtime pam-plugin-access pam-plugin-loginuid"
-+
-+SRC_URI[md5sum] = "910e6effcc032998b0a49fbd46322e18"
-+SRC_URI[sha256sum] = "6c73666102a6b5d35e2eaf1bd06925f2d4b0cef8d3323c37286dda3089a85338"
-+
-+inherit autotools update-rc.d useradd systemd
-+
-+PACKAGECONFIG ?= "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
-+
-+PACKAGECONFIG[audit] = "--with-audit,--without-audit,audit,"
-+PACKAGECONFIG[pam] = "--with-pam,--without-pam,libpam,${PAM_DEPS}"
-+
-+INITSCRIPT_NAME = "crond"
-+INITSCRIPT_PARAMS = "start 90 2 3 4 5 . stop 60 0 1 6 ."
-+
-+USERADD_PACKAGES = "${PN}"
-+GROUPADD_PARAM_${PN} = "--system crontab"
-+
-+SYSTEMD_SERVICE_${PN} = "crond.service"
-+
-+do_install_append () {
-+	install -d ${D}${sysconfdir}/sysconfig/
-+	install -d ${D}${sysconfdir}/init.d/
-+	install -m 0644 ${S}/crond.sysconfig ${D}${sysconfdir}/sysconfig/crond
-+	install -m 0755 ${WORKDIR}/crond.init ${D}${sysconfdir}/init.d/crond
-+
-+	# install systemd unit files
-+	install -d ${D}${systemd_unitdir}/system
-+	install -m 0644 ${WORKDIR}/crond.service ${D}${systemd_unitdir}/system
-+	sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
-+	       -e 's,@SBINDIR@,${sbindir},g' \
-+	       ${D}${systemd_unitdir}/system/crond.service
-+
-+	# below are necessary for a complete cron environment
-+	install -d ${D}${localstatedir}/spool/cron
-+	install -m 0755 ${WORKDIR}/crontab ${D}${sysconfdir}/
-+	mkdir -p ${D}${sysconfdir}/cron.d
-+	mkdir -p ${D}${sysconfdir}/cron.hourly
-+	mkdir -p ${D}${sysconfdir}/cron.daily
-+	mkdir -p ${D}${sysconfdir}/cron.weekly
-+	mkdir -p ${D}${sysconfdir}/cron.monthly
-+	touch ${D}${sysconfdir}/cron.deny
-+
-+	# below setting is necessary to allow normal user using crontab
-+
-+	# setgid for crontab binary
-+	chown root:crontab ${D}${bindir}/crontab
-+	chmod 2755 ${D}${bindir}/crontab
-+
-+	# allow 'crontab' group write to /var/spool/cron
-+	chown root:crontab ${D}${localstatedir}/spool/cron
-+	chmod 770 ${D}${localstatedir}/spool/cron
-+
-+	chmod 600 ${D}${sysconfdir}/crontab
-+}
-+
-+FILES_${PN} += "${sysconfdir}/cron*"
-+CONFFILES_${PN} += "${sysconfdir}/crontab"
--- 
-2.6.6
+A better way to describe the problem:
+
+I create a file:
+
+$ touch my-special-file
+$ chmod 0444 my-special-file
+
+I then run pseudo
+
+$ pseudo ln my-special-file file1
+$ stat file1
+Access: (0444/-r--r--r--)  Uid: (    0/    root)   Gid: (    0/    root)
+$ pseudo rm -f file1
+$ # remove pseudo database
+
+At this point the original 'my-special-file' is now 0644, not 0444.  This is
+because pseudo changes the perms on the file so that it could pretend to be root.
+
+So if we repeat the last steps:
+
+$ pseudo ln my-special-file file1
+$ stat file1
+Access: (0644/-r--r--r--)  Uid: (    0/    root)   Gid: (    0/    root)
+$ pseudo rm -f file1
+$ # remove pseudo database
+
+So the problem is -- pseudo is modifying the 'original' file perms, which on a
+new instance of the pseudo database then gets inherited.  So we get
+unpredictable results if this is the first time through -- or not the first time
+through.
+
+The problem is 'my-special-file' is never owned by pseudo -- but that isn't
+really what the problem is -- the problem is because it's a hardlink -- and
+pseudo is changing perms to emulate root -- it triggers a QA fault because the
+file is 'changing'.
+
+--Mark
+
+> -s
+> 
 
 
