@@ -1,47 +1,52 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F4DB6E5CB
+Return-Path: <stephen.arnold42@gmail.com>
+Received: from mail-oi0-f45.google.com (mail-oi0-f45.google.com
+	[209.85.218.45])
+	by mail.openembedded.org (Postfix) with ESMTP id AA37D6E660
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Aug 2016 16:56:39 +0000 (UTC)
-Received: by mail-io0-f174.google.com with SMTP id m101so218206486ioi.2
+	Tue,  2 Aug 2016 17:33:07 +0000 (UTC)
+Received: by mail-oi0-f45.google.com with SMTP id 4so36564607oih.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Aug 2016 09:56:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Tue, 02 Aug 2016 10:33:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=6aBcHfCE50lKkOe839JTeI+HszL4hKYOELT69aVuYCs=;
-	b=ddShpDDGANADJEKyfCqe/tPCCS8Anr9KXQyVbju7dq8A5JodYqdyzMKOdris6Fedas
-	OdRb8/gdTWNZ/uVHm1Z9MIl2ahzI3qlLEMIZ09Zw5V8hTMcGuDYvv1y+J2s5QH47J01Q
-	USaGSsTmY0mq3wCKWR48J8EhMSBbU77sbViqrGRBOrqPuYuAVSISvE3eoDiRpPSG+Opm
-	5s1kXhJSjG2AWWbujIxQgBAN7CAC4BND4KSEzyh+UlPSd5Tuj0BWCFTP50UoqmF5P5DL
-	fo4EOFrXunK/brLFAxMfL8dhwtBEKSpcQicLC9TPX7NbJvx3oOt5crx+sH0gZY22Eg17
-	zdtA==
+	:cc:content-transfer-encoding;
+	bh=+XjbP8YdUzv8FNz0oMb0ps87WZIzptAoTCdNcRooNBk=;
+	b=p5Etp+VEDYpFklpQxdU8/BIWz2RCIKlXwcs9Esy/wkYSELcd1+YCea9XYDwiwm0f3O
+	E/c9jVUKGu3yht9AO1yj35Zlamj/GhJxqv6Uaa14o+sTcgXhtnZzMMkIyrn3bFAOYfcM
+	P0TcZEUf/KQdLkkJ0ZDMsHzPLQh9QhKXWRbBg+EtlI3dtn6ZYNglLxp98EJwBVFXAxyO
+	b9SlUA03kBjW0cBkR0HXlHQsZ8mAoqoYTInz5yaSiGlntdAat+RTLLFj57aI+wF6IkGT
+	wHLYoCP17RWVZrwCfilBwGfKEbLVxFK+KDxlNGTJ2TNmaBBKbLi4kz8dDGSv6VmCWLeh
+	Ytiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=6aBcHfCE50lKkOe839JTeI+HszL4hKYOELT69aVuYCs=;
-	b=gOxR5OvJpCBxPUuJqkQrdAw140M5tTlVg+AqgLvrOeWgvL4qYEMnPivxS1H4us8c7u
-	aTj+U76tvoNOsqqh00eimDjrlTnVE9jcLI3g4AFOcGLT3YW2Ll6xBR/daixDtMlFdR0J
-	vtiAVYRdTHkzSLiH9dUN31A/x1Zbzy8wMNXGX7eiEf6emHk3FmWcumvHmUeO85Z1AMcr
-	ukNzctqXzHHP+2CX2cXiyLs4HHFJfBCS3a0fQqpidDu0MTfbGBnrOUW5btNG/sp2lxkW
-	dkA3PHyV32NzAFgq0xFyoK3RzTKt4FDoqo4ae317JvJsIDvLwvjoaI6EFAJYdfdOJRNT
-	Q08w==
-X-Gm-Message-State: AEkoouuy4FONd6aQHFwsSvAHdKE9Hyyo5Dp8CO6S6vScYjiQ3q3m5Pslu74VdHH7k8O9nmKZKbgKQyFwqJgLxzie
-X-Received: by 10.107.154.196 with SMTP id c187mr59830382ioe.99.1470156999902; 
-	Tue, 02 Aug 2016 09:56:39 -0700 (PDT)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=+XjbP8YdUzv8FNz0oMb0ps87WZIzptAoTCdNcRooNBk=;
+	b=SPfAHhAKdW+cfadLtqRteqngObqo+PbLDtryY+4N3vZczMSGYI/hRi4yNa+cZyNR+6
+	9jMDcP6ZHOdU0xOvA/mMDj21pi1ii2IpbAC/vn9Cl1HzE92smg1Y598o4P9dgnorfKKz
+	OCErurfSCoV3z23LcO7jxRtLhcwxKOKqEnSMOYT6DKakUiHP8sg9IHQSxH+xvdpFlSK8
+	L508QTdzeJCkcymfbca0gQ2m2RgmKUf/ddcZ1LQgPU50dHkN2jmxtgTFGttzGhsC5IRz
+	Is7ki/60yed4NXh8VmJa2+UOZa0cTNz3wQN6sOJ/uFwImHS1UrYAdGeTW1eCWmUN9sQM
+	2viw==
+X-Gm-Message-State: AEkooushsXhGANXmk1drflNjCu+D+GMXWmQ7olO3CDUgmY8T2DVdrg5oeez7IhsEK1HzGPI10hGCUrm9YJBezQ==
+X-Received: by 10.157.46.75 with SMTP id c11mr41183296otd.46.1470159187994;
+	Tue, 02 Aug 2016 10:33:07 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Tue, 2 Aug 2016 09:56:19 -0700 (PDT)
-In-Reply-To: <63d457eb9aeb264ae65e31c1e78f8024609a38c3.1469595557.git.dengke.du@windriver.com>
-References: <cover.1469595557.git.dengke.du@windriver.com>
-	<63d457eb9aeb264ae65e31c1e78f8024609a38c3.1469595557.git.dengke.du@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 2 Aug 2016 17:56:19 +0100
-Message-ID: <CAJTo0LaevDthmEf=w4Z0CE3C4d3G4-FUxOu8yJaFX8NjdzZDCg@mail.gmail.com>
-To: Dengke Du <dengke.du@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] perf: enable man pages for 'help' functionality
+Received: by 10.182.248.164 with HTTP; Tue, 2 Aug 2016 10:33:07 -0700 (PDT)
+In-Reply-To: <8ff3e451-c185-6b95-03e0-9669b838b0dc@jp.fujitsu.com>
+References: <1470049297-6520-1-git-send-email-fan.xin@jp.fujitsu.com>
+	<CAOLEWZVAjfydiq7GwgDKWydZyL_CXDL7+dgn5gsjt+QMhBQzgA@mail.gmail.com>
+	<CAJTo0La6G0jmhMVKu1rGjjWrDkACFWNX70hrgY9rnyk2ifXKFg@mail.gmail.com>
+	<CAOLEWZWbyZXc53TgQijWtxRbTQ9bEnTULpM9uUa4Hp5Px4AYKw@mail.gmail.com>
+	<CAJTo0LbwrLtSG+wv=_379TeQOAAqBHVUet=bD0kfdUUg6_c-yw@mail.gmail.com>
+	<8ff3e451-c185-6b95-03e0-9669b838b0dc@jp.fujitsu.com>
+From: Stephen Arnold <stephen.arnold42@gmail.com>
+Date: Tue, 2 Aug 2016 10:33:07 -0700
+Message-ID: <CAOLEWZX0tzxjWu=xq9+_R87uFWfH9DOMminYBMEu2M-7igcxyg@mail.gmail.com>
+To: Fan Xin <fan.xin@jp.fujitsu.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] Replace foomatic-filters with cups-filters
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,65 +59,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2016 16:56:43 -0000
-Content-Type: multipart/alternative; boundary=001a1140e81ebe5e2f053919991a
-
---001a1140e81ebe5e2f053919991a
+X-List-Received-Date: Tue, 02 Aug 2016 17:33:08 -0000
 Content-Type: text/plain; charset=UTF-8
-
-Hi,
-
-On 27 July 2016 at 06:02, Dengke Du <dengke.du@windriver.com> wrote:
-
-> When using 'perf help <subcommand>', it can't find 'man' command and
-> pages for
-> perf.
-> The perf man pages depends on the xmlto-native and asciidoc-native, so we
-> just
-> need to add the two packages to the DEPENDS variable and add 'man'to
-> RDEPENDS_perf-doc.
->
-
-Whilst I like the idea of supporting more documentation, and have long
-wanted to integrate doxygen/gtk-doc/etc into Yocto for building SDKs with
-API documentation, I'm not sure we should be making random packages depend
-on tooling to always generate documentation.
-
-What do people think of a distro feature / global environment variable for
-"recipe should build the documentation"?  For perf this would mean adding
-asciidoc so it can build the man pages, for GLib it would mean depending on
-gtk-doc so the API docs can be generated, and so on.  But if they're not
-needed then they can be disabled to improve build speeds.
-
-Ross
-
---001a1140e81ebe5e2f053919991a
-Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra">Hi,</div><div class=3D"gmail_ex=
-tra"><br><div class=3D"gmail_quote">On 27 July 2016 at 06:02, Dengke Du <sp=
-an dir=3D"ltr">&lt;<a href=3D"mailto:dengke.du@windriver.com" target=3D"_bl=
-ank">dengke.du@windriver.com</a>&gt;</span> wrote:<br><blockquote class=3D"=
-gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
-left:1ex"><div>When using &#39;<span>perf</span> help &lt;subcommand&gt;&#3=
-9;, it can&#39;t find &#39;man&#39; command and pages for<br>
-<span>perf</span>.<br>
-The <span>perf</span> man pages depends on the xmlto-native and asciidoc-na=
-tive, so we just<br>
-need to add the two packages to the DEPENDS variable and add &#39;man&#39;t=
-o<br>
-RDEPENDS_perf-doc.</div></blockquote></div><br>Whilst I like the idea of su=
-pporting more documentation, and have long wanted to integrate doxygen/gtk-=
-doc/etc into Yocto for building SDKs with API documentation, I&#39;m not su=
-re we should be making random packages depend on tooling to always generate=
- documentation.</div><div class=3D"gmail_extra"><br></div><div class=3D"gma=
-il_extra">What do people think of a distro feature / global environment var=
-iable for &quot;recipe should build the documentation&quot;?=C2=A0 For perf=
- this would mean adding asciidoc so it can build the man pages, for GLib it=
- would mean depending on gtk-doc so the API docs can be generated, and so o=
-n.=C2=A0 But if they&#39;re not needed then they can be disabled to improve=
- build speeds.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmai=
-l_extra">Ross</div></div>
+Hey, don't keep all the fun to yourself  :P
 
---001a1140e81ebe5e2f053919991a--
+Let's take a look at the recipes and marge the best bits together; I
+think I have an update on my end after getting some feedback with a
+zebra label printer.
+
+Fan, can you push/post your recipes somewhere today?  Feel free to
+fork meta-small-arm-extra and we can take a look at merging.
+
+Steve
+
+On Mon, Aug 1, 2016 at 11:48 PM, Fan Xin <fan.xin@jp.fujitsu.com> wrote:
+>
+>
+> On 2016=E5=B9=B408=E6=9C=8802=E6=97=A5 02:24, Burton, Ross wrote:
+>>
+>>
+>> On 1 August 2016 at 18:22, Stephen Arnold <stephen.arnold42@gmail.com
+>> <mailto:stephen.arnold42@gmail.com>> wrote:
+>>
+>>     That's actually not a bad idea, but I need to crank out another
+>>     abstract today (the deadline for special session snuck up on me).  W=
+e
+>>     kinda needed this for a project, but I think a tiny print server is
+>>     always useful.  What's your plan?
+>>
+>>
+>> Well my plan was:
+>>
+>> 1) say that someone should create meta-printing
+>> 2) watch someone create meta-printing
+>> 3) delete everything printing related in oe-core
+>>
+>> I can help a bit on (2) I guess...  Fan Xin, would you or anyone else at
+>> Fujitsu (as you clearly have interest here) be able to help?
+>
+>
+> Yes, Of course. Actually I am very pleased to do this.
+> I am afraid I can not do it very well, but I will try my best.
+>
+> Fan
+>
+> --
+>
+
