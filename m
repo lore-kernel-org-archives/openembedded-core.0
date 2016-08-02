@@ -1,23 +1,40 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 413CB6AC00
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 06A0673212
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Aug 2016 06:41:37 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u726fZRb014370
+	Tue,  2 Aug 2016 06:44:38 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u726id9Y009514
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 1 Aug 2016 23:41:36 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Mon, 1 Aug 2016 23:41:34 -0700
-From: <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 2 Aug 2016 14:38:10 +0800
-Message-ID: <1470119890-29288-1-git-send-email-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.8.1
+	Mon, 1 Aug 2016 23:44:39 -0700 (PDT)
+Received: from [128.224.162.240] (128.224.162.240) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 1 Aug 2016 23:44:38 -0700
+To: Seebs <seebs@seebs.net>, oe-core <openembedded-core@lists.openembedded.org>
+References: <577B8AA9.5040808@windriver.com>
+	<dc216358-8a1f-1490-2fc0-db22f98741c3@windriver.com>
+	<579B07F9.9000708@windriver.com>
+	<B3108E03-1852-4237-8320-E2BFEC66F9B3@seebs.net>
+	<579EE4BB.6070709@windriver.com>
+	<F5BAFB71-1FCC-4F9D-999C-5960E8CD7213@seebs.net>
+	<579F0EE8.3080009@windriver.com>
+	<39329191-8DC4-43B6-9B38-5AD173C8F0DC@seebs.net>
+	<1470081674.9142.108.camel@linuxfoundation.org>
+	<BDA8434F-AE7B-4D8D-B6C3-2D4ED599E9E8@seebs.net>
+	<1470092106.9142.113.camel@linuxfoundation.org>
+	<579FFCEB.6090200@windriver.com>
+	<47AE4E78-D57B-44C1-B5D5-4509B15AD3BC@seebs.net>
+	<57A03888.1@windriver.com>
+	<E145B74B-3968-45C3-A0B0-D557C76ADC38@seebs.net>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <57A04154.1050909@windriver.com>
+Date: Tue, 2 Aug 2016 14:44:36 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.8.0
 MIME-Version: 1.0
-Subject: [PATCH V2] grub2.inc: run autogen.sh before configure
+In-Reply-To: <E145B74B-3968-45C3-A0B0-D557C76ADC38@seebs.net>
+Subject: Re: About pseudo's chmod
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,221 +47,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2016 06:41:40 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 02 Aug 2016 06:44:41 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-* When adding new source files from upstream the autogen.sh
-  script needs to be run
-* Rework grub2-remove-sparc64-setup-from-x86-builds.patch
-  to remove the grub-setup helper program grub-sparc64-setup
-  in Makefile.util.def instead of the previous Makefile.util.am
-  to avoid the update for Makefile.util.am in do_patch phase is
-  overwritten by the autogen.sh in do_configure phase
 
-Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
----
- ...rub2-remove-sparc64-setup-from-x86-builds.patch | 140 ++++++---------------
- meta/recipes-bsp/grub/grub2.inc                    |   4 +-
- meta/recipes-bsp/grub/grub_git.bb                  |   7 --
- 3 files changed, 43 insertions(+), 108 deletions(-)
 
-diff --git a/meta/recipes-bsp/grub/files/grub2-remove-sparc64-setup-from-x86-builds.patch b/meta/recipes-bsp/grub/files/grub2-remove-sparc64-setup-from-x86-builds.patch
-index e15040d..5168d3c 100644
---- a/meta/recipes-bsp/grub/files/grub2-remove-sparc64-setup-from-x86-builds.patch
-+++ b/meta/recipes-bsp/grub/files/grub2-remove-sparc64-setup-from-x86-builds.patch
-@@ -1,104 +1,44 @@
--Upstream-Status: Inappropriate [embedded specific]
-+Subject: [PATCH] grub2: remove grub-sparc64-setup from x86 builds
-+
-+* remove the grub-sparc64-setup files from the x86 builds.
- 
--remove the grub-sparc64-setup files from the x86 builds.
-+Upstream-Status: Inappropriate [embedded specific]
- 
- Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
-+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-+---
-+ Makefile.util.def | 18 ------------------
-+ 1 file changed, 18 deletions(-)
-+
-+diff --git a/Makefile.util.def b/Makefile.util.def
-+index b80187c..a670cf2 100644
-+--- a/Makefile.util.def
-++++ b/Makefile.util.def
-+@@ -321,24 +321,6 @@ program = {
-+ };
-+ 
-+ program = {
-+-  name = grub-sparc64-setup;
-+-  installdir = sbin;
-+-  mansection = 8;
-+-  common = util/grub-setup.c;
-+-  common = util/lvm.c;
-+-  common = grub-core/kern/emu/argp_common.c;
-+-  common = grub-core/lib/reed_solomon.c;
-+-  common = util/ieee1275/ofpath.c;
-+-
-+-  ldadd = libgrubmods.a;
-+-  ldadd = libgrubkern.a;
-+-  ldadd = libgrubgcry.a;
-+-  ldadd = grub-core/gnulib/libgnu.a;
-+-  ldadd = '$(LIBINTL) $(LIBDEVMAPPER) $(LIBUTIL) $(LIBZFS) $(LIBNVPAIR) $(LIBGEOM)';
-+-  cppflags = '-DGRUB_SETUP_SPARC64=1';
-+-};
-+-
-+-program = {
-+   name = grub-ofpathname;
-+   installdir = sbin;
-+   mansection = 8;
-+-- 
-+2.8.1
- 
----- a/Makefile.util.am	2014-08-15 11:41:02.441011278 -0700
--+++ b/Makefile.util.am	2014-08-15 11:44:26.245021142 -0700
--@@ -4692,9 +4692,9 @@
-- endif
-- 
-- if COND_emu
---sbin_PROGRAMS += grub-sparc64-setup
--+sbin_PROGRAMS +=
-- if COND_MAN_PAGES
---man_MANS += grub-sparc64-setup.8
--+man_MANS +=
-- 
-- grub-sparc64-setup.8: grub-sparc64-setup
-- 	chmod a+x grub-sparc64-setup
--@@ -4715,9 +4715,9 @@
-- endif
-- 
-- if COND_i386_pc
---sbin_PROGRAMS += grub-sparc64-setup
--+sbin_PROGRAMS +=
-- if COND_MAN_PAGES
---man_MANS += grub-sparc64-setup.8
--+man_MANS +=
-- 
-- grub-sparc64-setup.8: grub-sparc64-setup
-- 	chmod a+x grub-sparc64-setup
--@@ -4738,9 +4738,9 @@
-- endif
-- 
-- if COND_i386_efi
---sbin_PROGRAMS += grub-sparc64-setup
--+sbin_PROGRAMS +=
-- if COND_MAN_PAGES
---man_MANS += grub-sparc64-setup.8
--+man_MANS +=
-- 
-- grub-sparc64-setup.8: grub-sparc64-setup
-- 	chmod a+x grub-sparc64-setup
--@@ -4761,9 +4761,9 @@
-- endif
-- 
-- if COND_i386_qemu
---sbin_PROGRAMS += grub-sparc64-setup
--+sbin_PROGRAMS +=
-- if COND_MAN_PAGES
---man_MANS += grub-sparc64-setup.8
--+man_MANS +=
-- 
-- grub-sparc64-setup.8: grub-sparc64-setup
-- 	chmod a+x grub-sparc64-setup
--@@ -4784,9 +4784,9 @@
-- endif
-- 
-- if COND_i386_coreboot
---sbin_PROGRAMS += grub-sparc64-setup
--+sbin_PROGRAMS +=
-- if COND_MAN_PAGES
---man_MANS += grub-sparc64-setup.8
--+man_MANS +=
-- 
-- grub-sparc64-setup.8: grub-sparc64-setup
-- 	chmod a+x grub-sparc64-setup
--@@ -4807,9 +4807,9 @@
-- endif
-- 
-- if COND_i386_multiboot
---sbin_PROGRAMS += grub-sparc64-setup
--+sbin_PROGRAMS +=
-- if COND_MAN_PAGES
---man_MANS += grub-sparc64-setup.8
--+man_MANS +=
-- 
-- grub-sparc64-setup.8: grub-sparc64-setup
-- 	chmod a+x grub-sparc64-setup
--@@ -4830,9 +4830,9 @@
-- endif
-- 
-- if COND_i386_ieee1275
---sbin_PROGRAMS += grub-sparc64-setup
--+sbin_PROGRAMS +=
-- if COND_MAN_PAGES
---man_MANS += grub-sparc64-setup.8
--+man_MANS +=
-- 
-- grub-sparc64-setup.8: grub-sparc64-setup
-- 	chmod a+x grub-sparc64-setup
--@@ -4853,9 +4853,9 @@
-- endif
-- 
-- if COND_x86_64_efi
---sbin_PROGRAMS += grub-sparc64-setup
--+sbin_PROGRAMS +=
-- if COND_MAN_PAGES
---man_MANS += grub-sparc64-setup.8
--+man_MANS +=
-- 
-- grub-sparc64-setup.8: grub-sparc64-setup
-- 	chmod a+x grub-sparc64-setup
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index 0b169bf..d77a0d4 100644
---- a/meta/recipes-bsp/grub/grub2.inc
-+++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -33,7 +33,7 @@ SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
-            file://0001-grub-core-gettext-gettext.c-main_context-secondary_c.patch \
-             "
- 
--DEPENDS = "flex-native bison-native"
-+DEPENDS = "flex-native bison-native autogen-native"
- 
- SRC_URI[md5sum] = "e927540b6eda8b024fb0391eeaa4091c"
- SRC_URI[sha256sum] = "65b39a0558f8c802209c574f4d02ca263a804e8a564bc6caf1cd0fd3b3cc11e3"
-@@ -60,6 +60,8 @@ do_configure_prepend() {
- 	# for its own purposes. Remove the OE versions from the environment to
- 	# avoid conflicts.
- 	unset TARGET_CPPFLAGS TARGET_CFLAGS TARGET_CXXFLAGS TARGET_LDFLAGS
-+	( cd ${S}
-+	${S}/autogen.sh )
- }
- 
- # grub and grub-efi's sysroot/${datadir}/grub/grub-mkconfig_lib are
-diff --git a/meta/recipes-bsp/grub/grub_git.bb b/meta/recipes-bsp/grub/grub_git.bb
-index 7a900d0..493b695 100644
---- a/meta/recipes-bsp/grub/grub_git.bb
-+++ b/meta/recipes-bsp/grub/grub_git.bb
-@@ -1,7 +1,5 @@
- require grub2.inc
- 
--DEPENDS += "autogen-native"
--
- DEFAULT_PREFERENCE = "-1"
- DEFAULT_PREFERENCE_arm = "1"
- 
-@@ -34,11 +32,6 @@ EXTRA_OECONF = "--with-platform=${GRUBPLATFORM} --disable-grub-mkfont --program-
- 
- EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'largefile', '--enable-largefile', '--disable-largefile', d)}"
- 
--do_configure_prepend() {
--    ( cd ${S}
--      ${S}/autogen.sh )
--}
--
- do_install_append () {
-     install -d ${D}${sysconfdir}/grub.d
-     rm -rf ${D}${libdir}/charset.alias
--- 
-2.8.1
+On 08/02/2016 02:30 PM, Seebs wrote:
+> On 2 Aug 2016, at 1:07, Robert Yang wrote:
+>
+>> Currently, the problem in oe-core is:
+>>
+>>       1) bitbake gzip
+>>       2) Edit rpm-native or package.bbclass to make do_package re-run.
+>>       3) bitbake gzip
+>>       After the first build, build/version.c in gzip-dbg is 0444, but after
+>>       the second build, it will be 0644, this is because do_package does:
+>>       $ ln ${B}/version.c gzip-dbg/version.c,
+>>       $ chmod 0444 gzip-dbg/version.c (it runs chmod 0644 on the real filesystem)
+>>       And in the second build, the gzip-dbg/version.c will be removed and
+>>       created again, so that stat() can't get 0444 but 0644 since
+>>       ${B}/version.c is not tracked by pseudo.
+>
+> Hmm. I'm a bit confused by this. Wouldn't the second build also do a
+> "chmod 0444" on gzip-dbg/version.c? Why is it doing that chmod the first
 
+Because the stat() gets 0644 on ${B}/version.c in the second run, so it
+would run chmod 0644 rather than 0444 on gzip-dbg/version.c. And why it
+gets 0644 ? pseudo's chmod automatically adds "w" on the real file, so:
+if -e gzip-dbg/version.c; then
+	${B}/version.c = 0444
+else
+	${B}/version.c = 0644
+fi
+
+And in the second run, gzip-dbg/version.c is removed and will be recreated,
+so that it got 0644.
+
+> time and not the second? If it does it the second time, the fact that
+> the underlying file's mode changed won't matter.
+>
+> But in this case... While I'm fine with modifying things to track the
+
+Thanks, I will send a patch for it.
+
+> file linked-to, it still feels like this is a usage error. Fundamentally,
+> we're unpacking a file (${B}/version.c), then linking to it, changing
+> the link in some way, deleting the link, and expecting the original file
+> to be unchanged. That doesn't seem right to me.
+
+But that is what the real filesystem works without pseudo:
+$ touch file1
+$ ln file1 file2
+$ chmod 777 file2
+$ rm -f file2
+
+file1 will be 777 on the real filesystem.
+
+// Robert
+
+>
+> -s
 
