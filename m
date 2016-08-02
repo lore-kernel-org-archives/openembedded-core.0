@@ -1,48 +1,42 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id B46AD7321C
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 99174731A5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Aug 2016 08:24:17 +0000 (UTC)
-Received: by mail-io0-f171.google.com with SMTP id b62so205920651iod.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Aug 2016 01:24:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=8IxYEA2Xngwo5121q/CEs+GA3kR+k9YZM97cnD/g8OM=;
-	b=ywuepxLESd3216t8h02ZbOukRN5Fp78YjCbn7BeuDgKS3guDFGE54+nDCG9oz+7ut2
-	zrBdX21TjuauLL5XiNX1+TuVap7AZ3aJjd1BNwxJ9TjZFy5b9lCego4rCYm2M/cuDq0j
-	ErLas/Vzk6pmjjCrteNnHn4yg+mlveZI0XSJuDHYbihMKUvmLphZQ8RkP/BwGbjdL+oF
-	UimlyHwnAPlZ+LfrLIsIcdtklMS+vPXRw5KCCWqBJm3Y6lHINv2RyOzsrbfqW7RohxkX
-	0ysB9Zf2k5hA0idGw9FbIN0RPTHdCcmDRRWxdTOpe3+FO3SZ9b1u+IvAzw1VNFT5UEKW
-	V9lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=8IxYEA2Xngwo5121q/CEs+GA3kR+k9YZM97cnD/g8OM=;
-	b=VycClUeAzVIKvxUfDR9uiRpDvJ+wC2Bqg/CdmGLEnmYupaAqCUZUqAG7gytGif/GOx
-	v328H6fRSH2HFEbimrJFPo/Ewrld76GtY/7NHfUsKHlvXn04EhG7h+xS8XzkU6CAf/lX
-	fldIA2BOWRz4k/TprbrW9Tb5WOxs9HrvZx0vmL0L9+MSmOAF7FzHHOKSrprfprReZ7eR
-	HwBxQr1UKgCmelOsXkFSkixxii9yJyNVIvgwB8gwolWiVsKClg7Hf/eIX0H+OadAUrR5
-	wVMXGLpFiJSP8gFaSyeUePbip2R9PQolN0Q0poB/pYW5MdhT4bfkLxe0/8FuWsc+HAzz
-	zW5A==
-X-Gm-Message-State: AEkoousKUSku0gf/b005FPhoDp95+4YJH5Wqe32PA7QZ2lgMzD0csdrZcDiO3mbJRoaNZBdQD9RdAsl2vakd3BqS
-X-Received: by 10.107.135.142 with SMTP id r14mr67163777ioi.133.1470126258803; 
-	Tue, 02 Aug 2016 01:24:18 -0700 (PDT)
+	Tue,  2 Aug 2016 08:32:08 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u728W8us010283
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 2 Aug 2016 01:32:08 -0700 (PDT)
+Received: from [128.224.162.240] (128.224.162.240) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Tue, 2 Aug 2016 01:32:07 -0700
+To: Seebs <seebs@seebs.net>, oe-core <openembedded-core@lists.openembedded.org>
+References: <577B8AA9.5040808@windriver.com>
+	<dc216358-8a1f-1490-2fc0-db22f98741c3@windriver.com>
+	<579B07F9.9000708@windriver.com>
+	<B3108E03-1852-4237-8320-E2BFEC66F9B3@seebs.net>
+	<579EE4BB.6070709@windriver.com>
+	<F5BAFB71-1FCC-4F9D-999C-5960E8CD7213@seebs.net>
+	<579F0EE8.3080009@windriver.com>
+	<39329191-8DC4-43B6-9B38-5AD173C8F0DC@seebs.net>
+	<1470081674.9142.108.camel@linuxfoundation.org>
+	<BDA8434F-AE7B-4D8D-B6C3-2D4ED599E9E8@seebs.net>
+	<1470092106.9142.113.camel@linuxfoundation.org>
+	<579FFCEB.6090200@windriver.com>
+	<47AE4E78-D57B-44C1-B5D5-4509B15AD3BC@seebs.net>
+	<57A03888.1@windriver.com>
+	<E145B74B-3968-45C3-A0B0-D557C76ADC38@seebs.net>
+	<57A04154.1050909@windriver.com>
+	<9BFBB743-6513-4791-9046-6BFBED50A347@seebs.net>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <57A05A86.7000701@windriver.com>
+Date: Tue, 2 Aug 2016 16:32:06 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.8.0
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Tue, 2 Aug 2016 01:23:58 -0700 (PDT)
-In-Reply-To: <CAHiDW_Hu7dZYxLD0cCEbV_M=-VtQF0s7O_8aZxZrXof2LXa5gw@mail.gmail.com>
-References: <CAHiDW_Hu7dZYxLD0cCEbV_M=-VtQF0s7O_8aZxZrXof2LXa5gw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 2 Aug 2016 09:23:58 +0100
-Message-ID: <CAJTo0LbZbk_w+=G=EeG1O8U-9-hLH5B2N=MwEczyHcpzuaThxw@mail.gmail.com>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: augeas: oe-core removal warning
+In-Reply-To: <9BFBB743-6513-4791-9046-6BFBED50A347@seebs.net>
+Subject: Re: About pseudo's chmod
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,42 +49,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2016 08:24:19 -0000
-Content-Type: multipart/alternative; boundary=001a113eccbc6e67fe05391271c3
+X-List-Received-Date: Tue, 02 Aug 2016 08:32:13 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a113eccbc6e67fe05391271c3
-Content-Type: text/plain; charset=UTF-8
 
-On 13 May 2016 at 08:15, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
 
-> I'm considering removing the augeas recipe from oe-core: it has not
-> really been depended on by anything since Danny (rpm has a non-default
-> PACKAGECONFIG but even that is accompanied by comments about no
-> testing) and we have nothing testing its functionality. Please speak
-> up now if you think augeas should stay in oe-core.
+On 08/02/2016 02:50 PM, Seebs wrote:
+> On 2 Aug 2016, at 1:44, Robert Yang wrote:
 >
+>> Because the stat() gets 0644 on ${B}/version.c in the second run, so it
+>> would run chmod 0644 rather than 0444 on gzip-dbg/version.c.
+>
+> Why is it calling chmod at all? The goal is apparently to give
+> gzip-dbg/version.c the same mode that ${B}/version.c has. Since it's a
+> hard link, no chmod call is needed at all.
 
-I think that it really should go and will likely be doing this shortly.
+It is worth trying, I will try to remove os.chown() and os.chmod() from
+package.bbclass to see what will happen:
 
-Ross
+             if not cpath.islink(file):
+                 os.link(file, fpath)
+                 fstat = cpath.stat(file)
+                 os.chmod(fpath, fstat.st_mode)
+                 os.chown(fpath, fstat.st_uid, fstat.st_gid)
 
---001a113eccbc6e67fe05391271c3
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+>
+>>> time and not the second? If it does it the second time, the fact that
+>>> the underlying file's mode changed won't matter.
+>>>
+>>> But in this case... While I'm fine with modifying things to track the
+>>
+>> Thanks, I will send a patch for it.
+>
+> I already have a patch for this.
+>
+>>> file linked-to, it still feels like this is a usage error. Fundamentally,
+>>> we're unpacking a file (${B}/version.c), then linking to it, changing
+>>> the link in some way, deleting the link, and expecting the original file
+>>> to be unchanged. That doesn't seem right to me.
+>
+>> But that is what the real filesystem works without pseudo:
+>> $ touch file1
+>> $ ln file1 file2
+>> $ chmod 777 file2
+>> $ rm -f file2
+>>
+>> file1 will be 777 on the real filesystem.
+>
+> Yes. But it seems that the mode the file is being changed to is dependant on the
+> original reported mode. And that's the part that I'm confused by;
+> we're relying on the mode of the original file, but we're also changing
+> the mode of a hard link to it. This makes no sense to me.
+>
+> So, I have a likely fix handy. (The difference between mine and the
+> version you proposed earlier is that, as I recall, yours does the LINK
+> operation on the original file unconditionally, which is in error; it
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 13 May 2016 at 08:15, Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen@intel.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2ui" cla=
-ss=3D"a3s aXjCH m154a8f9b343210fa">I&#39;m considering removing the <span c=
-lass=3D"il">augeas</span> recipe from oe-core: it has not<br>
-really been depended on by anything since Danny (rpm has a non-default<br>
-PACKAGECONFIG but even that is accompanied by comments about no<br>
-testing) and we have nothing testing its functionality. Please speak<br>
-up now if you think <span class=3D"il">augeas</span> should stay in oe-core=
-.</div></blockquote></div><br>I think that it really should go and will lik=
-ely be doing this shortly.</div><div class=3D"gmail_extra"><br></div><div c=
-lass=3D"gmail_extra">Ross</div></div>
+I had checked pseudo's source code, I didn't find any function that can check
+this, and I appreciated that if you can fix it:-).
 
---001a113eccbc6e67fe05391271c3--
+// Robert
+
+> should only be done when no existing data was found in the database.) I'll
+> double-check that again and go through looking for loose ends, because
+> I have a vague feeling that I'm overlooking a thing, but I haven't figured out
+> what it would be yet.
+>
+> -s
+
