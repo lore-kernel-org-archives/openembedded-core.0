@@ -1,47 +1,54 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id DAF316E630
+Return-Path: <stephen.arnold42@gmail.com>
+Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
+	[209.85.218.68])
+	by mail.openembedded.org (Postfix) with ESMTP id CF5AB6612D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Aug 2016 19:32:55 +0000 (UTC)
-Received: by mail-io0-f176.google.com with SMTP id q83so223013648iod.1
+	Tue,  2 Aug 2016 19:39:16 +0000 (UTC)
+Received: by mail-oi0-f68.google.com with SMTP id l9so17753686oih.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Aug 2016 12:32:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Tue, 02 Aug 2016 12:39:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=aeKYgBBj2AGcAH5SBetzQhKAFhF5fMlwZsMtW7wmEOc=;
-	b=bwfUR8LB5FJytPbMAb1FtdisY6wJGVKW/mYIb3wSzoFV9sixA6gHs4SrPBtZxUcP0C
-	OXqfoWXNMS+yc9s9EACkdMvZ6f+653ZJ+wbJqsXihLZ22vJoyiYF5ljDGKQMrG0KirXT
-	XA7dymA7XtGLNwA+roGygf91AXMs2nN3bDAmy5ZALdWk9NK8SI1Y9tcFZejYDjsasaFs
-	IsMUOw/OalP44TQTtHojJSvSAz3hYpOhR/pc+hQr0qbKKb4QiaiJbXO2wQzDRkPiDQlw
-	aGxizoUr7H5f7Qk9yRjI3Uj63AkBKI6TYEwM0joSw46UUbe2FWDrDthRyZ4qqg9Bolyn
-	7pfA==
+	:cc; bh=Pmjpa1kp8XsXM9gOi/ylUn3fydkPtXSa49x91qmRXT4=;
+	b=GY+ghUh5YPxPWs38TwqVF9l+owWbVi51ieg0nG5ctOQJyuvT+xed1wZphOlrQxe0Zu
+	xXpWdQdbu+7GGki0jf4JvizOqqOtOOF7OhJprIZwT0KP8mnzgxvRnJqSYLA6D1W1EhXK
+	mVUW1t9pznJ4vxICW4IMwprTCwVdELNSiHHmCpqgSV7gRVzNnu8f21BhY7fx6CWtDxxk
+	IpPLPI3HHonz6wBsw6+BWy3XM09o6+bg1CFlZLySSMOIu68464ORlrZCB1/DAlKlu1G+
+	lqbyX5bNodWvkycNp9o/2DasuRLq4quSl7ReUGPyWwAvZRAcZ+qnAGWA/uZdLq+ST/cY
+	cL1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=aeKYgBBj2AGcAH5SBetzQhKAFhF5fMlwZsMtW7wmEOc=;
-	b=cxsRyLYPiDBan32P8HCX3Ccw8Oumt3tPZqn29tFx+W1/u8mHDR3TI3hj4mqBtkzoTG
-	+FaQX/0VpUwX0KZNha+CSJcOH/3cmSrUTPFar0oflmCgyG1uGaoMnOuPFkHvtM/6QeOD
-	E5mvNY3BHWPI2OdOht3KAcBIdMfmsCxzTcuCWRZfAe31sFkscuClaNKw9SFxn1L6LQgb
-	ttVgknjJ1pedwB2+/siKm4Wjp5bOaqHE/aZF1Tyu1JKL97SQ28Ii8rnqj9kGoSbqWopU
-	bq9+mdPWoST8psLqSYaFkWuFhjr+5ur24YYZsk/L2k6NLyyixNdR05oyuoPeC6H9r/yF
-	7nLQ==
-X-Gm-Message-State: AEkoouuP4vXk1VCPT5zppaJwjS0ZvgrfEcm+kRsDlN3ZBWFPjlj21XBijSDKUHK/ROO8jDKgfGbgQpQMMU1Zgt/P
-X-Received: by 10.107.154.196 with SMTP id c187mr60464786ioe.99.1470166376101; 
-	Tue, 02 Aug 2016 12:32:56 -0700 (PDT)
+	bh=Pmjpa1kp8XsXM9gOi/ylUn3fydkPtXSa49x91qmRXT4=;
+	b=RoJ50GTk6DfSEed2cUOGlK2qmTM4xXGhxh4f3jKqZ0iGuQ1ybDTLEk+TJqlwjEh3HP
+	NskVkLCjL2hSJ6D0XLtmzIF2Ho1m/IgtVwuCJi+XPp1t/+kD0Y8NwSfIHvlP2ks4eV9j
+	PRIVf4ckWZbdcTcxTtQtg+1pgwhUAwab8/uB+I7QzI47ZL+OhqdvAksQGTIwLCRa02Xn
+	9xj72UZ9C9BBVGNL19tXuwi2/7qNT68BkKRtKwS7hw5xFdy2gHn65ovrPicbXR/O3grC
+	neK7sVAdc2mK3fi0crY/UM2vZOjTbag4r/835XJ177R5+dV8NcsuFD96Aldk1dIFGNa1
+	W0uw==
+X-Gm-Message-State: AEkoouuk7SGIqZU/oTljrXx5VfMMRFwzqRIH6Tm60zB++D5Iw+t03Oaoqf2pFFVmJRXyMknoO8hBNNtZ+QKBxw==
+X-Received: by 10.157.22.153 with SMTP id c25mr42194126ote.111.1470166757522; 
+	Tue, 02 Aug 2016 12:39:17 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Tue, 2 Aug 2016 12:32:35 -0700 (PDT)
-In-Reply-To: <1468332463-4154-6-git-send-email-maxin.john@intel.com>
-References: <1468332463-4154-1-git-send-email-maxin.john@intel.com>
-	<1468332463-4154-6-git-send-email-maxin.john@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 2 Aug 2016 20:32:35 +0100
-Message-ID: <CAJTo0LZfeU9zAdk2tEF9yxPY-4OZ_3LCH_U7e4ggHh1Q53G+jg@mail.gmail.com>
-To: "Maxin B. John" <maxin.john@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/8] tslib: replace pointercal with pointercal-xinput
+Received: by 10.182.248.164 with HTTP; Tue, 2 Aug 2016 12:39:16 -0700 (PDT)
+In-Reply-To: <CAJTo0LaE7EXZCLCrbmUPKrDK2xrmnKDgpLoM+9itbb6Cw7GW9w@mail.gmail.com>
+References: <1470049297-6520-1-git-send-email-fan.xin@jp.fujitsu.com>
+	<CAOLEWZVAjfydiq7GwgDKWydZyL_CXDL7+dgn5gsjt+QMhBQzgA@mail.gmail.com>
+	<CAJTo0La6G0jmhMVKu1rGjjWrDkACFWNX70hrgY9rnyk2ifXKFg@mail.gmail.com>
+	<CAOLEWZWbyZXc53TgQijWtxRbTQ9bEnTULpM9uUa4Hp5Px4AYKw@mail.gmail.com>
+	<CAJTo0LbwrLtSG+wv=_379TeQOAAqBHVUet=bD0kfdUUg6_c-yw@mail.gmail.com>
+	<8ff3e451-c185-6b95-03e0-9669b838b0dc@jp.fujitsu.com>
+	<CAOLEWZX0tzxjWu=xq9+_R87uFWfH9DOMminYBMEu2M-7igcxyg@mail.gmail.com>
+	<CAJTo0LaE7EXZCLCrbmUPKrDK2xrmnKDgpLoM+9itbb6Cw7GW9w@mail.gmail.com>
+From: Stephen Arnold <stephen.arnold42@gmail.com>
+Date: Tue, 2 Aug 2016 12:39:16 -0700
+Message-ID: <CAOLEWZVASN=fVzQMq+HJmMgUujvRtQkoq0gnrUJEOkfoQyGJMw@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	Fan Xin <fan.xin@jp.fujitsu.com>
+Subject: Re: [PATCH v2] Replace foomatic-filters with cups-filters
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,35 +61,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2016 19:32:56 -0000
-Content-Type: multipart/alternative; boundary=001a1140e81e9bcc4505391bc804
-
---001a1140e81e9bcc4505391bc804
+X-List-Received-Date: Tue, 02 Aug 2016 19:39:18 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 12 July 2016 at 15:07, Maxin B. John <maxin.john@intel.com> wrote:
-
-> -RRECOMMENDS_${PN} = "pointercal"
-> +RRECOMMENDS_${PN} = "pointercal-xinput"
+On Tue, Aug 2, 2016 at 12:23 PM, Burton, Ross <ross.burton@intel.com> wrote:
+[snip]
+> In a desperate attempt to keep the ball rolling I propose this repo as a
+> starting point:
 >
-
-Does this actually work though?
-
-Ross
-
---001a1140e81e9bcc4505391bc804
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 12 July 2016 at 15:07, Maxin B. John <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:maxin.john@intel.com" target=3D"_blank">maxin.john@intel.com</a>&gt;</=
-span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
-x;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2le" class=3D"a3=
-s aXjCH m155df71585fa52a1">-RRECOMMENDS_${PN} =3D &quot;pointercal&quot;<br=
+> https://github.com/rossburton/meta-printing
 >
-+RRECOMMENDS_${PN} =3D &quot;pointercal-xinput&quot;</div></blockquote></di=
-v><br>Does this actually work though?</div><div class=3D"gmail_extra"><br><=
-/div><div class=3D"gmail_extra">Ross</div></div>
+> It's basically a new layer containing foomatic, ghostscript and cups from
+> oe-core.  Obviously this shouldn't be the final resting place, but its
+> somewhere where we can start before deciding where it should reside.  If
+> anyone wants commit access then just say.
+>
+> Ross
 
---001a1140e81e9bcc4505391bc804--
+Okay, please add me...
+
+Steve
+
