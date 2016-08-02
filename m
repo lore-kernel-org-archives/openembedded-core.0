@@ -1,54 +1,45 @@
-Return-Path: <stephen.arnold42@gmail.com>
-Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
-	[209.85.218.68])
-	by mail.openembedded.org (Postfix) with ESMTP id CF5AB6612D
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 021F5731A5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Aug 2016 19:39:16 +0000 (UTC)
-Received: by mail-oi0-f68.google.com with SMTP id l9so17753686oih.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Aug 2016 12:39:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Pmjpa1kp8XsXM9gOi/ylUn3fydkPtXSa49x91qmRXT4=;
-	b=GY+ghUh5YPxPWs38TwqVF9l+owWbVi51ieg0nG5ctOQJyuvT+xed1wZphOlrQxe0Zu
-	xXpWdQdbu+7GGki0jf4JvizOqqOtOOF7OhJprIZwT0KP8mnzgxvRnJqSYLA6D1W1EhXK
-	mVUW1t9pznJ4vxICW4IMwprTCwVdELNSiHHmCpqgSV7gRVzNnu8f21BhY7fx6CWtDxxk
-	IpPLPI3HHonz6wBsw6+BWy3XM09o6+bg1CFlZLySSMOIu68464ORlrZCB1/DAlKlu1G+
-	lqbyX5bNodWvkycNp9o/2DasuRLq4quSl7ReUGPyWwAvZRAcZ+qnAGWA/uZdLq+ST/cY
-	cL1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Pmjpa1kp8XsXM9gOi/ylUn3fydkPtXSa49x91qmRXT4=;
-	b=RoJ50GTk6DfSEed2cUOGlK2qmTM4xXGhxh4f3jKqZ0iGuQ1ybDTLEk+TJqlwjEh3HP
-	NskVkLCjL2hSJ6D0XLtmzIF2Ho1m/IgtVwuCJi+XPp1t/+kD0Y8NwSfIHvlP2ks4eV9j
-	PRIVf4ckWZbdcTcxTtQtg+1pgwhUAwab8/uB+I7QzI47ZL+OhqdvAksQGTIwLCRa02Xn
-	9xj72UZ9C9BBVGNL19tXuwi2/7qNT68BkKRtKwS7hw5xFdy2gHn65ovrPicbXR/O3grC
-	neK7sVAdc2mK3fi0crY/UM2vZOjTbag4r/835XJ177R5+dV8NcsuFD96Aldk1dIFGNa1
-	W0uw==
-X-Gm-Message-State: AEkoouuk7SGIqZU/oTljrXx5VfMMRFwzqRIH6Tm60zB++D5Iw+t03Oaoqf2pFFVmJRXyMknoO8hBNNtZ+QKBxw==
-X-Received: by 10.157.22.153 with SMTP id c25mr42194126ote.111.1470166757522; 
-	Tue, 02 Aug 2016 12:39:17 -0700 (PDT)
+	Tue,  2 Aug 2016 19:39:46 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u72JdkLZ017982
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 2 Aug 2016 12:39:46 -0700 (PDT)
+Received: from msp-dhcp4.wrs.com (172.25.34.4) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Tue, 2 Aug 2016 12:39:46 -0700
+To: Seebs <seebs@seebs.net>, <openembedded-core@lists.openembedded.org>
+References: <577B8AA9.5040808@windriver.com>
+	<dc216358-8a1f-1490-2fc0-db22f98741c3@windriver.com>
+	<579B07F9.9000708@windriver.com>
+	<B3108E03-1852-4237-8320-E2BFEC66F9B3@seebs.net>
+	<579EE4BB.6070709@windriver.com>
+	<F5BAFB71-1FCC-4F9D-999C-5960E8CD7213@seebs.net>
+	<579F0EE8.3080009@windriver.com>
+	<39329191-8DC4-43B6-9B38-5AD173C8F0DC@seebs.net>
+	<1470081674.9142.108.camel@linuxfoundation.org>
+	<BDA8434F-AE7B-4D8D-B6C3-2D4ED599E9E8@seebs.net>
+	<1470092106.9142.113.camel@linuxfoundation.org>
+	<579FFCEB.6090200@windriver.com>
+	<47AE4E78-D57B-44C1-B5D5-4509B15AD3BC@seebs.net>
+	<57A03888.1@windriver.com>
+	<E145B74B-3968-45C3-A0B0-D557C76ADC38@seebs.net>
+	<57A04154.1050909@windriver.com>
+	<9BFBB743-6513-4791-9046-6BFBED50A347@seebs.net>
+	<9034b8dd-a4dc-e2c4-fcb0-8e488e78296c@windriver.com>
+	<5B4A0BBD-1322-4DE4-85DB-3D7216CB6BC4@seebs.net>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <dc38a32e-ba20-f2f3-cd77-73afe3db825a@windriver.com>
+Date: Tue, 2 Aug 2016 14:39:45 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
+	Gecko/20100101 Thunderbird/45.2.0
 MIME-Version: 1.0
-Received: by 10.182.248.164 with HTTP; Tue, 2 Aug 2016 12:39:16 -0700 (PDT)
-In-Reply-To: <CAJTo0LaE7EXZCLCrbmUPKrDK2xrmnKDgpLoM+9itbb6Cw7GW9w@mail.gmail.com>
-References: <1470049297-6520-1-git-send-email-fan.xin@jp.fujitsu.com>
-	<CAOLEWZVAjfydiq7GwgDKWydZyL_CXDL7+dgn5gsjt+QMhBQzgA@mail.gmail.com>
-	<CAJTo0La6G0jmhMVKu1rGjjWrDkACFWNX70hrgY9rnyk2ifXKFg@mail.gmail.com>
-	<CAOLEWZWbyZXc53TgQijWtxRbTQ9bEnTULpM9uUa4Hp5Px4AYKw@mail.gmail.com>
-	<CAJTo0LbwrLtSG+wv=_379TeQOAAqBHVUet=bD0kfdUUg6_c-yw@mail.gmail.com>
-	<8ff3e451-c185-6b95-03e0-9669b838b0dc@jp.fujitsu.com>
-	<CAOLEWZX0tzxjWu=xq9+_R87uFWfH9DOMminYBMEu2M-7igcxyg@mail.gmail.com>
-	<CAJTo0LaE7EXZCLCrbmUPKrDK2xrmnKDgpLoM+9itbb6Cw7GW9w@mail.gmail.com>
-From: Stephen Arnold <stephen.arnold42@gmail.com>
-Date: Tue, 2 Aug 2016 12:39:16 -0700
-Message-ID: <CAOLEWZVASN=fVzQMq+HJmMgUujvRtQkoq0gnrUJEOkfoQyGJMw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	Fan Xin <fan.xin@jp.fujitsu.com>
-Subject: Re: [PATCH v2] Replace foomatic-filters with cups-filters
+In-Reply-To: <5B4A0BBD-1322-4DE4-85DB-3D7216CB6BC4@seebs.net>
+Subject: Re: About pseudo's chmod
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,24 +52,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2016 19:39:18 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 02 Aug 2016 19:39:47 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Aug 2, 2016 at 12:23 PM, Burton, Ross <ross.burton@intel.com> wrote:
-[snip]
-> In a desperate attempt to keep the ball rolling I propose this repo as a
-> starting point:
->
-> https://github.com/rossburton/meta-printing
->
-> It's basically a new layer containing foomatic, ghostscript and cups from
-> oe-core.  Obviously this shouldn't be the final resting place, but its
-> somewhere where we can start before deciding where it should reside.  If
-> anyone wants commit access then just say.
->
-> Ross
+On 8/2/16 2:19 PM, Seebs wrote:
+> On 2 Aug 2016, at 10:12, Mark Hatle wrote:
+> 
+>> So the problem is -- pseudo is modifying the 'original' file perms, 
+>> which on a
+>> new instance of the pseudo database then gets inherited.  So we get
+>> unpredictable results if this is the first time through -- or not the 
+>> first time
+>> through.
+> 
+> Yeah. And the problem here is in part that we're calling chmod on a file 
+> linked to a file external to pseudo, but we're also checking that file's 
+> mode to find out what permissions we want it to have. Which is probably 
+> an error.
+> 
+> So, it does look like we need the tracking, but also if we stopped 
+> doing:
+> 
+> 	stat file1 # obtain mode
+> 	ln file1 file2
+> 	chmod <mode> file2
+> 
+> we'd save significant time AND avoid the problem.
+> 
+> -s
+> 
 
-Okay, please add me...
+The alternative to the 'ln' is a 'cp' operation.  This is how it used to work
+until optimizations were added a few releases ago.  It was observed that this
+saves a large amount of space -- but it had the unintended consequence of
+suddenly files are now changes as the do_install/do_package processing
+manipulates files and modes change...
 
-Steve
+I almost wonder if in pseudo we should avoid changing any modes internal to the
+file -- until something tries to write to the file.  (Can we even capture that
+and try to fix it?  If not, what we're doing is likely the only answer.)
+
+--Mark
 
