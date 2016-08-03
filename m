@@ -1,33 +1,33 @@
 Return-Path: <tanuk@iki.fi>
 Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
 	[66.111.4.25])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D8907017B
+	by mail.openembedded.org (Postfix) with ESMTP id 9063775C61
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Aug 2016 20:40:35 +0000 (UTC)
+	Wed,  3 Aug 2016 20:41:34 +0000 (UTC)
 Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id 965C92078B
+	by mailout.nyi.internal (Postfix) with ESMTP id 7AA4B20776
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Aug 2016 16:40:36 -0400 (EDT)
-Received: from frontend2 ([10.202.2.161])
-	by compute1.internal (MEProxy); Wed, 03 Aug 2016 16:40:36 -0400
+	Wed,  3 Aug 2016 16:41:35 -0400 (EDT)
+Received: from frontend1 ([10.202.2.160])
+	by compute1.internal (MEProxy); Wed, 03 Aug 2016 16:41:35 -0400
 DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
 	messagingengine.com; h=date:from:message-id:subject:to
-	:x-sasl-enc:x-sasl-enc; s=smtpout; bh=gDiAIIKpTXsjhOk2AZYN3limN4
-	s=; b=DMHwbl/NFZjsDijib+Ch7uKUUqHLqMqMoS2dnKueUrjUHq4XJxs2GhCuMU
-	e7ayvXqbN82S+X0OSvK8Bd84YRX30jUPUdk6xn3WYxK7Hxk/tyWj35dQz+Dj7tJn
-	LaVs4EotlspJUPgAX7056oWL7bMZh+B44U10BjbD7qmrJNG4o=
-X-Sasl-enc: dYRc33bgFQ6ZsK+Cf+Mxv9rREcqk64cOj8i58sgque3Y 1470256836
+	:x-sasl-enc:x-sasl-enc; s=smtpout; bh=0iBLv6TsXKkcQbKS4JepLMjla5
+	w=; b=BCbCWWCsF85u3LECkQ9S2ogCu+kCaVCMhROKg+6XSRcIv8kaHWW/PIFj9U
+	oOARMzWWI56KXbAx0YnBg+Y4F5OwGckNuya5mVjOu855NOAKXPqEn1PxDpgmJSqW
+	+fbqHm2uktNNQ0R2lr4XJG98Dx5AAC4BdSZVj5/xyCtB1pFN4=
+X-Sasl-enc: JFwpzN0tDSH1vR0hFUzNBC1EjpErpuYQi5kJGn5RPPjs 1470256894
 Received: from laptop.tanuk.dy.fi (a88-113-211-72.elisa-laajakaista.fi
 	[88.113.211.72])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 00E6BCCDA7
+	by mail.messagingengine.com (Postfix) with ESMTPA id ACA67F2D2C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Aug 2016 16:40:35 -0400 (EDT)
+	Wed,  3 Aug 2016 16:41:34 -0400 (EDT)
 From: Tanu Kaskinen <tanuk@iki.fi>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Aug 2016 23:40:09 +0300
-Message-Id: <1470256809-20227-1-git-send-email-tanuk@iki.fi>
+Date: Wed,  3 Aug 2016 23:41:31 +0300
+Message-Id: <1470256891-20386-1-git-send-email-tanuk@iki.fi>
 X-Mailer: git-send-email 2.8.1
-Subject: [PATCH][jethro] pulseaudio: fix crash when disconnecting bluetooth devices
+Subject: [PATCH][krogoth] pulseaudio: fix crash when disconnecting bluetooth devices
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,7 +40,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Aug 2016 20:40:37 -0000
+X-List-Received-Date: Wed, 03 Aug 2016 20:41:35 -0000
 
 [YOCTO #10018]
 
@@ -54,17 +54,17 @@ have 0001-card-add-pa_card_profile.ports.patch.
 Signed-off-by: Tanu Kaskinen <tanuk@iki.fi>
 ---
  ...th-don-t-create-the-HSP-HFP-profile-twice.patch | 343 +++++++++++++++++++++
- .../pulseaudio/pulseaudio_6.0.bb                   |   1 +
+ .../pulseaudio/pulseaudio_8.0.bb                   |   1 +
  2 files changed, 344 insertions(+)
  create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-bluetooth-don-t-create-the-HSP-HFP-profile-twice.patch
 
 diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-bluetooth-don-t-create-the-HSP-HFP-profile-twice.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-bluetooth-don-t-create-the-HSP-HFP-profile-twice.patch
 new file mode 100644
-index 0000000..017dd20
+index 0000000..a5ca325
 --- /dev/null
 +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-bluetooth-don-t-create-the-HSP-HFP-profile-twice.patch
 @@ -0,0 +1,343 @@
-+From 91c50116f1dca6bc2e3dfdcce3399f25478b4287 Mon Sep 17 00:00:00 2001
++From 14ff15bf5acac7b7edd64e2240fc6fe5d227b8c4 Mon Sep 17 00:00:00 2001
 +From: Tanu Kaskinen <tanuk@iki.fi>
 +Date: Sun, 31 Jul 2016 01:03:02 +0300
 +Subject: [PATCH] bluetooth: don't create the HSP/HFP profile twice
@@ -99,10 +99,10 @@ index 0000000..017dd20
 + 2 files changed, 99 insertions(+), 54 deletions(-)
 +
 +diff --git a/src/modules/bluetooth/module-bluez4-device.c b/src/modules/bluetooth/module-bluez4-device.c
-+index 5efc5dc..34ebeb7 100644
++index 5d0d3db..df51168 100644
 +--- a/src/modules/bluetooth/module-bluez4-device.c
 ++++ b/src/modules/bluetooth/module-bluez4-device.c
-+@@ -2165,18 +2165,23 @@ static void create_card_ports(struct userdata *u, pa_hashmap *ports) {
++@@ -2162,18 +2162,23 @@ static void create_card_ports(struct userdata *u, pa_hashmap *ports) {
 + }
 + 
 + /* Run from main thread */
@@ -130,7 +130,7 @@ index 0000000..017dd20
 +         p->priority = 10;
 +         p->n_sinks = 1;
 +         p->n_sources = 0;
-+@@ -2186,9 +2191,10 @@ static pa_card_profile *create_card_profile(struct userdata *u, const char *uuid
++@@ -2183,9 +2188,10 @@ static pa_card_profile *create_card_profile(struct userdata *u, const char *uuid
 +         pa_card_profile_add_port(p, output_port);
 + 
 +         d = PA_CARD_PROFILE_DATA(p);
@@ -144,7 +144,7 @@ index 0000000..017dd20
 +         p->priority = 10;
 +         p->n_sinks = 0;
 +         p->n_sources = 1;
-+@@ -2198,9 +2204,10 @@ static pa_card_profile *create_card_profile(struct userdata *u, const char *uuid
++@@ -2195,9 +2201,10 @@ static pa_card_profile *create_card_profile(struct userdata *u, const char *uuid
 +         pa_card_profile_add_port(p, input_port);
 + 
 +         d = PA_CARD_PROFILE_DATA(p);
@@ -158,7 +158,7 @@ index 0000000..017dd20
 +         p->priority = 20;
 +         p->n_sinks = 1;
 +         p->n_sources = 1;
-+@@ -2212,9 +2219,10 @@ static pa_card_profile *create_card_profile(struct userdata *u, const char *uuid
++@@ -2209,9 +2216,10 @@ static pa_card_profile *create_card_profile(struct userdata *u, const char *uuid
 +         pa_card_profile_add_port(p, output_port);
 + 
 +         d = PA_CARD_PROFILE_DATA(p);
@@ -172,7 +172,7 @@ index 0000000..017dd20
 +         p->priority = 20;
 +         p->n_sinks = 1;
 +         p->n_sources = 1;
-+@@ -2226,19 +2234,35 @@ static pa_card_profile *create_card_profile(struct userdata *u, const char *uuid
++@@ -2223,19 +2231,35 @@ static pa_card_profile *create_card_profile(struct userdata *u, const char *uuid
 +         pa_card_profile_add_port(p, output_port);
 + 
 +         d = PA_CARD_PROFILE_DATA(p);
@@ -214,7 +214,7 @@ index 0000000..017dd20
 + /* Run from main thread */
 + static int add_card(struct userdata *u) {
 +     pa_card_new_data data;
-+@@ -2286,16 +2310,15 @@ static int add_card(struct userdata *u) {
++@@ -2283,16 +2307,15 @@ static int add_card(struct userdata *u) {
 +     create_card_ports(u, data.ports);
 + 
 +     PA_LLIST_FOREACH(uuid, device->uuids) {
@@ -235,7 +235,7 @@ index 0000000..017dd20
 +         pa_hashmap_put(data.profiles, p->name, p);
 +     }
 + 
-+@@ -2385,6 +2408,7 @@ static pa_bluez4_device* find_device(struct userdata *u, const char *address, co
++@@ -2382,6 +2405,7 @@ static pa_bluez4_device* find_device(struct userdata *u, const char *address, co
 + /* Run from main thread */
 + static pa_hook_result_t uuid_added_cb(pa_bluez4_discovery *y, const struct pa_bluez4_hook_uuid_data *data,
 +                                       struct userdata *u) {
@@ -243,7 +243,7 @@ index 0000000..017dd20
 +     pa_card_profile *p;
 + 
 +     pa_assert(data);
-+@@ -2395,16 +2419,13 @@ static pa_hook_result_t uuid_added_cb(pa_bluez4_discovery *y, const struct pa_bl
++@@ -2392,16 +2416,13 @@ static pa_hook_result_t uuid_added_cb(pa_bluez4_discovery *y, const struct pa_bl
 +     if (data->device != u->device)
 +         return PA_HOOK_OK;
 + 
@@ -264,7 +264,7 @@ index 0000000..017dd20
 + 
 +     return PA_HOOK_OK;
 +diff --git a/src/modules/bluetooth/module-bluez5-device.c b/src/modules/bluetooth/module-bluez5-device.c
-+index 0081a21..2529537 100644
++index 7b90a31..db06ac1 100644
 +--- a/src/modules/bluetooth/module-bluez5-device.c
 ++++ b/src/modules/bluetooth/module-bluez5-device.c
 +@@ -1772,8 +1772,9 @@ static void create_card_ports(struct userdata *u, pa_hashmap *ports) {
@@ -407,18 +407,18 @@ index 0000000..017dd20
 +-- 
 +2.8.1
 +
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_6.0.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_6.0.bb
-index ec629aa..67a4e4b 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio_6.0.bb
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_6.0.bb
-@@ -10,6 +10,7 @@ SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/${BP}.tar.xz \
-            file://0002-alsa-bluetooth-fail-if-user-requested-profile-doesn-.patch \
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_8.0.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_8.0.bb
+index b01ba8f..b947c62 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio_8.0.bb
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_8.0.bb
+@@ -9,6 +9,7 @@ SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/${BP}.tar.xz \
             file://0003-card-move-profile-selection-after-pa_card_new.patch \
             file://0004-alsa-set-availability-for-some-unavailable-profiles.patch \
+            file://0001-Revert-module-switch-on-port-available-Route-to-pref.patch \
 +           file://0001-bluetooth-don-t-create-the-HSP-HFP-profile-twice.patch \
  "
- SRC_URI[md5sum] = "b691e83b7434c678dffacfa3a027750e"
- SRC_URI[sha256sum] = "b50640e0b80b1607600accfad2e45aabb79d379bf6354c9671efa2065477f6f6"
+ SRC_URI[md5sum] = "8678442ba0bb4b4c33ac6f62542962df"
+ SRC_URI[sha256sum] = "690eefe28633466cfd1ab9d85ebfa9376f6b622deec6bfee5091ac9737cd1989"
 -- 
 2.8.1
 
