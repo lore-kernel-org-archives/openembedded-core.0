@@ -1,45 +1,23 @@
-Return-Path: <bkylerussell@gmail.com>
-Received: from mail-io0-f195.google.com (mail-io0-f195.google.com
-	[209.85.223.195])
-	by mail.openembedded.org (Postfix) with ESMTP id DD74A6612C
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 125E2607A4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Aug 2016 16:32:51 +0000 (UTC)
-Received: by mail-io0-f195.google.com with SMTP id q83so18525562iod.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Aug 2016 09:32:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=ncZOjdXA/ox1TxkoKaRM3em9wy+1tumbuWMi5Afk8X8=;
-	b=cKaKPkL6F/Jhra24Mgns3Z7d0W7I3Uxo4mV/+cYbuIUpaUybfcqrfvebcpqahQFdo7
-	OkgdrxrZX93GjUc9tThDKc8U82YCQ/PG7STKPBX8yOZ4SiF/HzSjdJqJm1TlJHfGlBgX
-	vcgEBPjeDiu8bhtVYnjOLra8edpNmmez391Wu9jv5ZqMWXDJOW821nqsGPVQRtvgS1sC
-	37rE35VCpn3n6ks8irOPWgqTJp24wA4V9kUUwfmTRNYYiZs3xQoclOH30ttopaWJXlRJ
-	fRqedx2/KL0c5bo7vIinVqgyibln5shce7ItR9HcRijGxlgV2sroJ1UfFS/HhygMjWgs
-	mjGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=ncZOjdXA/ox1TxkoKaRM3em9wy+1tumbuWMi5Afk8X8=;
-	b=EGuFuykh743qHwAGvdKYqi0KQ6O8Gsp36qXtT1zLvV9A54nZ/62pb3JENDe2tGRxDz
-	feAvYU7wO2+UiEI4tmSBAwervwd04TaslmdlSR6uzMHSALC0hzzvrqZoSnEDcb5+PyRX
-	M6RSFuBnnW69j+HY2uYSeTA6eFjhvfZkTFgKPEFPQ8goP5mrZ6a4+OWSxqYVn/yZKS+T
-	ZQ0ziNUxyUsNLm5XDxMHwtY9GB9gVur38Dwi6tPH3RWp2dpzFS1gsNmqPzs4sHp8Q18Q
-	yJipyR07aYvRUGS4gZQDnpDUZtoS+4DnEsQphSdO9BMS/1YaTfvVcNQB5KoriccfKDkq
-	45sQ==
-X-Gm-Message-State: AEkoouuvM33gKf62uZhcpOrPdnApG3n8YAG349LCUabaOH92SvMeldXBEGp6RfJjJ2rEWQ==
-X-Received: by 10.107.186.2 with SMTP id k2mr79985374iof.119.1470241972102;
-	Wed, 03 Aug 2016 09:32:52 -0700 (PDT)
-Received: from brrussell-Latitude-E6530.dhcp.lexmark.com ([192.146.101.8])
-	by smtp.gmail.com with ESMTPSA id
-	c191sm2047256ith.15.2016.08.03.09.32.51
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 03 Aug 2016 09:32:51 -0700 (PDT)
-From: Kyle Russell <bkylerussell@gmail.com>
+	Wed,  3 Aug 2016 18:52:44 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga102.jf.intel.com with ESMTP; 03 Aug 2016 11:52:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,466,1464678000"; d="scan'208";a="150127676"
+Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.jf.intel.com)
+	([10.54.69.56])
+	by fmsmga004.fm.intel.com with ESMTP; 03 Aug 2016 11:52:42 -0700
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Aug 2016 12:32:39 -0400
-Message-Id: <1470241959-16988-1-git-send-email-bkylerussell@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [meta][PATCH] python-3.5-manifest: Add some missing RDEPENDS
+Date: Wed,  3 Aug 2016 18:49:41 +0000
+Message-Id: <94406436e753a3b5c6b85552578f97a704f825be.1470158817.git.alejandro.hernandez@linux.intel.com>
+X-Mailer: git-send-email 2.6.6
+In-Reply-To: <cover.1470158817.git.alejandro.hernandez@linux.intel.com>
+References: <cover.1470158817.git.alejandro.hernandez@linux.intel.com>
+Subject: [PATCH 1/4] Python2-native: Upgrade from 2.7.11 to 2.7.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,100 +30,318 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Aug 2016 16:32:52 -0000
+X-List-Received-Date: Wed, 03 Aug 2016 18:52:48 -0000
 
-ctype's util.py needs subprocess
-lang's inspect.py needs importlib.machinery
-math's random.py needs crypt's hashlib
-subprocess imports threading
+LICENSE did not change, only dates changed.
 
-Signed-off-by: Kyle Russell <bkylerussell@gmail.com>
+Rebases:
+ - debug.patch
+ - multilib.patch
+
+Upstream:
+ - avoid_parallel_make_races_on_pgen.patch
+
+Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 ---
- meta/recipes-devtools/python/python-3.5-manifest.inc | 8 ++++----
- scripts/contrib/python/generate-manifest-3.5.py      | 8 ++++----
- 2 files changed, 8 insertions(+), 8 deletions(-)
+ .../python/python-native/debug.patch               | 17 ++--
+ .../python/python-native/multilib.patch            | 96 +++++++++++-----------
+ ...on-native_2.7.11.bb => python-native_2.7.12.bb} |  2 +-
+ meta/recipes-devtools/python/python.inc            |  6 +-
+ 4 files changed, 62 insertions(+), 59 deletions(-)
+ rename meta/recipes-devtools/python/{python-native_2.7.11.bb => python-native_2.7.12.bb} (97%)
 
-diff --git a/meta/recipes-devtools/python/python-3.5-manifest.inc b/meta/recipes-devtools/python/python-3.5-manifest.inc
-index d0cb98d..c3a24fe 100644
---- a/meta/recipes-devtools/python/python-3.5-manifest.inc
-+++ b/meta/recipes-devtools/python/python-3.5-manifest.inc
-@@ -42,7 +42,7 @@ RDEPENDS_${PN}-crypt="${PN}-core"
- FILES_${PN}-crypt="${libdir}/python3.5/hashlib.* ${libdir}/python3.5/md5.* ${libdir}/python3.5/sha.* ${libdir}/python3.5/lib-dynload/crypt.*.so ${libdir}/python3.5/lib-dynload/_hashlib.*.so ${libdir}/python3.5/lib-dynload/_sha256.*.so ${libdir}/python3.5/lib-dynload/_sha512.*.so "
+diff --git a/meta/recipes-devtools/python/python-native/debug.patch b/meta/recipes-devtools/python/python-native/debug.patch
+index 5ec10d6..3617882 100644
+--- a/meta/recipes-devtools/python/python-native/debug.patch
++++ b/meta/recipes-devtools/python/python-native/debug.patch
+@@ -1,24 +1,27 @@
+ Upstream-Status: Pending
  
- SUMMARY_${PN}-ctypes="Python C types support"
--RDEPENDS_${PN}-ctypes="${PN}-core"
-+RDEPENDS_${PN}-ctypes="${PN}-core ${PN}-subprocess"
- FILES_${PN}-ctypes="${libdir}/python3.5/ctypes ${libdir}/python3.5/lib-dynload/_ctypes.*.so ${libdir}/python3.5/lib-dynload/_ctypes_test.*.so "
+-Index: Python-2.6.1/Lib/distutils/unixccompiler.py
++Index: Python-2.7.12/Lib/distutils/unixccompiler.py
+ ===================================================================
+---- Python-2.6.1.orig/Lib/distutils/unixccompiler.py	2009-11-13 16:04:54.000000000 +0000
+-+++ Python-2.6.1/Lib/distutils/unixccompiler.py	2009-11-13 16:06:27.000000000 +0000
+-@@ -300,6 +300,8 @@
+-         dylib_f = self.library_filename(lib, lib_type='dylib')
+-         static_f = self.library_filename(lib, lib_type='static')
++--- Python-2.7.12.orig/Lib/distutils/unixccompiler.py
+++++ Python-2.7.12/Lib/distutils/unixccompiler.py
++@@ -278,6 +278,8 @@ class UnixCCompiler(CCompiler):
++ 
++ 
+  
+ +        print "Looking in %s for %s" % (lib, dirs)
+ +
+          for dir in dirs:
+              shared = os.path.join(dir, shared_f)
+              dylib = os.path.join(dir, dylib_f)
+-@@ -309,10 +311,13 @@
++@@ -298,12 +300,16 @@ class UnixCCompiler(CCompiler):
+              # assuming that *all* Unix C compilers do.  And of course I'm
+              # ignoring even GCC's "-static" option.  So sue me.
+              if os.path.exists(dylib):
+ +                print "Found %s" % (dylib)
+                  return dylib
++             elif os.path.exists(xcode_stub):
+++                print "Found %s" % (xcode_stub)
++                 return xcode_stub
+              elif os.path.exists(shared):
+ +                print "Found %s" % (shared)
+                  return shared
+diff --git a/meta/recipes-devtools/python/python-native/multilib.patch b/meta/recipes-devtools/python/python-native/multilib.patch
+index 8d475e9..916b40f 100644
+--- a/meta/recipes-devtools/python/python-native/multilib.patch
++++ b/meta/recipes-devtools/python/python-native/multilib.patch
+@@ -12,10 +12,10 @@ Upstream-Status: Inappropriate [oe-specific]
  
- SUMMARY_${PN}-curses="Python curses support"
-@@ -118,7 +118,7 @@ RDEPENDS_${PN}-json="${PN}-core ${PN}-math ${PN}-re"
- FILES_${PN}-json="${libdir}/python3.5/json ${libdir}/python3.5/lib-dynload/_json.*.so "
+ Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
  
- SUMMARY_${PN}-lang="Python low-level language support"
--RDEPENDS_${PN}-lang="${PN}-core"
-+RDEPENDS_${PN}-lang="${PN}-core ${PN}-importlib"
- FILES_${PN}-lang="${libdir}/python3.5/lib-dynload/_bisect.*.so ${libdir}/python3.5/lib-dynload/_collections.*.so ${libdir}/python3.5/lib-dynload/_heapq.*.so ${libdir}/python3.5/lib-dynload/_weakref.*.so ${libdir}/python3.5/lib-dynload/_functools.*.so ${libdir}/python3.5/lib-dynload/array.*.so ${libdir}/python3.5/lib-dynload/itertools.*.so ${libdir}/python3.5/lib-dynload/operator.*.so ${libdir}/python3.5/lib-dynload/parser.*.so ${libdir}/python3.5/atexit.* ${libdir}/python3.5/bisect.* ${libdir}/python3.5/code.* ${libdir}/python3.5/codeop.* ${libdir}/python3.5/collections.* ${libdir}/python3.5/_collections_abc.* ${libdir}/python3.5/contextlib.* ${libdir}/python3.5/dis.* ${libdir}/python3.5/functools.* ${libdir}/python3.5/heapq.* ${libdir}/python3.5/inspect.* ${libdir}/python3.5/keyword.* ${libdir}/python3.5/opcode.* ${libdir}/python3.5/operator.* ${libdir}/python3.5/symbol.* ${libdir}/python3.5/repr.* ${libdir}/python3.5/token.* ${libdir}/python3.5/tokenize.* ${libdir}/python3.5/traceback.* ${libdir}/python3.5/weakref.* "
+-Index: Python-2.7.9/Include/pythonrun.h
++Index: Python-2.7.12/Include/pythonrun.h
+ ===================================================================
+---- Python-2.7.9.orig/Include/pythonrun.h
+-+++ Python-2.7.9/Include/pythonrun.h
++--- Python-2.7.12.orig/Include/pythonrun.h
+++++ Python-2.7.12/Include/pythonrun.h
+ @@ -108,6 +108,7 @@ PyAPI_FUNC(char *) Py_GetPath(void);
+  /* In their own files */
+  PyAPI_FUNC(const char *) Py_GetVersion(void);
+@@ -24,10 +24,10 @@ Index: Python-2.7.9/Include/pythonrun.h
+  PyAPI_FUNC(const char *) Py_GetCopyright(void);
+  PyAPI_FUNC(const char *) Py_GetCompiler(void);
+  PyAPI_FUNC(const char *) Py_GetBuildInfo(void);
+-Index: Python-2.7.9/Lib/distutils/command/install.py
++Index: Python-2.7.12/Lib/distutils/command/install.py
+ ===================================================================
+---- Python-2.7.9.orig/Lib/distutils/command/install.py
+-+++ Python-2.7.9/Lib/distutils/command/install.py
++--- Python-2.7.12.orig/Lib/distutils/command/install.py
+++++ Python-2.7.12/Lib/distutils/command/install.py
+ @@ -22,6 +22,8 @@ from site import USER_BASE
+  from site import USER_SITE
+  
+@@ -46,11 +46,11 @@ Index: Python-2.7.9/Lib/distutils/command/install.py
+          'headers': '$base/include/python$py_version_short/$dist_name',
+          'scripts': '$base/bin',
+          'data'   : '$base',
+-Index: Python-2.7.9/Lib/pydoc.py
++Index: Python-2.7.12/Lib/pydoc.py
+ ===================================================================
+---- Python-2.7.9.orig/Lib/pydoc.py
+-+++ Python-2.7.9/Lib/pydoc.py
+-@@ -383,7 +383,7 @@ class Doc:
++--- Python-2.7.12.orig/Lib/pydoc.py
+++++ Python-2.7.12/Lib/pydoc.py
++@@ -384,7 +384,7 @@ class Doc:
+  
+          docloc = os.environ.get("PYTHONDOCS",
+                                  "http://docs.python.org/library")
+@@ -59,10 +59,10 @@ Index: Python-2.7.9/Lib/pydoc.py
+                                 "python"+sys.version[0:3])
+          if (isinstance(object, type(os)) and
+              (object.__name__ in ('errno', 'exceptions', 'gc', 'imp',
+-Index: Python-2.7.9/Lib/site.py
++Index: Python-2.7.12/Lib/site.py
+ ===================================================================
+---- Python-2.7.9.orig/Lib/site.py
+-+++ Python-2.7.9/Lib/site.py
++--- Python-2.7.12.orig/Lib/site.py
+++++ Python-2.7.12/Lib/site.py
+ @@ -288,13 +288,19 @@ def getsitepackages():
+          if sys.platform in ('os2emx', 'riscos'):
+              sitepackages.append(os.path.join(prefix, "Lib", "site-packages"))
+@@ -86,10 +86,10 @@ Index: Python-2.7.9/Lib/site.py
+          if sys.platform == "darwin":
+              # for framework builds *only* we add the standard Apple
+              # locations.
+-Index: Python-2.7.9/Lib/test/test_dl.py
++Index: Python-2.7.12/Lib/test/test_dl.py
+ ===================================================================
+---- Python-2.7.9.orig/Lib/test/test_dl.py
+-+++ Python-2.7.9/Lib/test/test_dl.py
++--- Python-2.7.12.orig/Lib/test/test_dl.py
+++++ Python-2.7.12/Lib/test/test_dl.py
+ @@ -4,10 +4,11 @@
+  import unittest
+  from test.test_support import verbose, import_module
+@@ -104,10 +104,10 @@ Index: Python-2.7.9/Lib/test/test_dl.py
+      ('/usr/bin/cygwin1.dll', 'getpid'),
+      ('/usr/lib/libc.dylib', 'getpid'),
+      ]
+-Index: Python-2.7.9/Lib/trace.py
++Index: Python-2.7.12/Lib/trace.py
+ ===================================================================
+---- Python-2.7.9.orig/Lib/trace.py
+-+++ Python-2.7.9/Lib/trace.py
++--- Python-2.7.12.orig/Lib/trace.py
+++++ Python-2.7.12/Lib/trace.py
+ @@ -754,10 +754,10 @@ def main(argv=None):
+                  # should I also call expanduser? (after all, could use $HOME)
+  
+@@ -121,11 +121,11 @@ Index: Python-2.7.9/Lib/trace.py
+                                             "python" + sys.version[:3]))
+                  s = os.path.normpath(s)
+                  ignore_dirs.append(s)
+-Index: Python-2.7.9/Makefile.pre.in
++Index: Python-2.7.12/Makefile.pre.in
+ ===================================================================
+---- Python-2.7.9.orig/Makefile.pre.in
+-+++ Python-2.7.9/Makefile.pre.in
+-@@ -87,6 +87,7 @@ PY_CFLAGS=	$(CFLAGS) $(CPPFLAGS) $(CFLAG
++--- Python-2.7.12.orig/Makefile.pre.in
+++++ Python-2.7.12/Makefile.pre.in
++@@ -92,6 +92,7 @@ PY_CFLAGS=	$(CFLAGS) $(CPPFLAGS) $(CFLAG
+  
+  # Machine-dependent subdirectories
+  MACHDEP=	@MACHDEP@
+@@ -133,7 +133,7 @@ Index: Python-2.7.9/Makefile.pre.in
+  
+  # Multiarch directory (may be empty)
+  MULTIARCH=	@MULTIARCH@
+-@@ -106,7 +107,7 @@ LIBDIR=		@libdir@
++@@ -111,7 +112,7 @@ LIBDIR=		@libdir@
+  MANDIR=		@mandir@
+  INCLUDEDIR=	@includedir@
+  CONFINCLUDEDIR=	$(exec_prefix)/include
+@@ -142,7 +142,7 @@ Index: Python-2.7.9/Makefile.pre.in
+  
+  # Detailed destination directories
+  BINLIBDEST=	$(LIBDIR)/python$(VERSION)
+-@@ -597,6 +598,7 @@ Modules/getpath.o: $(srcdir)/Modules/get
++@@ -669,6 +670,7 @@ Modules/getpath.o: $(srcdir)/Modules/get
+  		-DEXEC_PREFIX='"$(exec_prefix)"' \
+  		-DVERSION='"$(VERSION)"' \
+  		-DVPATH='"$(VPATH)"' \
+@@ -150,7 +150,7 @@ Index: Python-2.7.9/Makefile.pre.in
+  		-o $@ $(srcdir)/Modules/getpath.c
+  
+  Modules/python.o: $(srcdir)/Modules/python.c
+-@@ -639,7 +641,7 @@ $(AST_C): $(AST_ASDL) $(ASDLGEN_FILES)
++@@ -720,7 +722,7 @@ $(AST_C): $(AST_ASDL) $(ASDLGEN_FILES)
+  Python/compile.o Python/symtable.o Python/ast.o: $(GRAMMAR_H) $(AST_H)
+  
+  Python/getplatform.o: $(srcdir)/Python/getplatform.c
+@@ -159,25 +159,25 @@ Index: Python-2.7.9/Makefile.pre.in
+  
+  Python/importdl.o: $(srcdir)/Python/importdl.c
+  		$(CC) -c $(PY_CFLAGS) -I$(DLINCLDIR) -o $@ $(srcdir)/Python/importdl.c
+-Index: Python-2.7.9/Modules/getpath.c
++Index: Python-2.7.12/Modules/getpath.c
+ ===================================================================
+---- Python-2.7.9.orig/Modules/getpath.c
+-+++ Python-2.7.9/Modules/getpath.c
+-@@ -116,9 +116,11 @@
+- #define EXEC_PREFIX PREFIX
++--- Python-2.7.12.orig/Modules/getpath.c
+++++ Python-2.7.12/Modules/getpath.c
++@@ -100,6 +100,13 @@
++ #error "PREFIX, EXEC_PREFIX, VERSION, and VPATH must be constant defined"
+  #endif
+  
+ +#define LIB_PYTHON LIB "/python" VERSION
+ +
+- #ifndef PYTHONPATH
+--#define PYTHONPATH PREFIX "/lib/python" VERSION ":" \
+--              EXEC_PREFIX "/lib/python" VERSION "/lib-dynload"
+++#ifndef PYTHONPATH
+ +#define PYTHONPATH PREFIX "/" LIB_PYTHON ":" \
+-+              EXEC_PREFIX "/" LIB_PYTHON "/lib-dynload"
+- #endif
+- 
+++        EXEC_PREFIX "/" LIB_PYTHON "/lib-dynload"
+++#endif
+++
+  #ifndef LANDMARK
+-@@ -129,7 +131,7 @@ static char prefix[MAXPATHLEN+1];
++ #define LANDMARK "os.py"
++ #endif
++@@ -108,7 +115,7 @@ static char prefix[MAXPATHLEN+1];
+  static char exec_prefix[MAXPATHLEN+1];
+  static char progpath[MAXPATHLEN+1];
+  static char *module_search_path = NULL;
+@@ -186,10 +186,10 @@ Index: Python-2.7.9/Modules/getpath.c
+  
+  static void
+  reduce(char *dir)
+-Index: Python-2.7.9/Python/getplatform.c
++Index: Python-2.7.12/Python/getplatform.c
+ ===================================================================
+---- Python-2.7.9.orig/Python/getplatform.c
+-+++ Python-2.7.9/Python/getplatform.c
++--- Python-2.7.12.orig/Python/getplatform.c
+++++ Python-2.7.12/Python/getplatform.c
+ @@ -10,3 +10,13 @@ Py_GetPlatform(void)
+  {
+  	return PLATFORM;
+@@ -204,10 +204,10 @@ Index: Python-2.7.9/Python/getplatform.c
+ +{
+ +	return LIB;
+ +}
+-Index: Python-2.7.9/Python/sysmodule.c
++Index: Python-2.7.12/Python/sysmodule.c
+ ===================================================================
+---- Python-2.7.9.orig/Python/sysmodule.c
+-+++ Python-2.7.9/Python/sysmodule.c
++--- Python-2.7.12.orig/Python/sysmodule.c
+++++ Python-2.7.12/Python/sysmodule.c
+ @@ -1437,6 +1437,8 @@ _PySys_Init(void)
+                          PyString_FromString(Py_GetCopyright()));
+      SET_SYS_FROM_STRING("platform",
+@@ -217,11 +217,11 @@ Index: Python-2.7.9/Python/sysmodule.c
+      SET_SYS_FROM_STRING("executable",
+                          PyString_FromString(Py_GetProgramFullPath()));
+      SET_SYS_FROM_STRING("prefix",
+-Index: Python-2.7.9/configure.ac
++Index: Python-2.7.12/configure.ac
+ ===================================================================
+---- Python-2.7.9.orig/configure.ac
+-+++ Python-2.7.9/configure.ac
+-@@ -736,6 +736,11 @@ SunOS*)
++--- Python-2.7.12.orig/configure.ac
+++++ Python-2.7.12/configure.ac
++@@ -756,6 +756,11 @@ SunOS*)
+      ;;
+  esac
+  
+diff --git a/meta/recipes-devtools/python/python-native_2.7.11.bb b/meta/recipes-devtools/python/python-native_2.7.12.bb
+similarity index 97%
+rename from meta/recipes-devtools/python/python-native_2.7.11.bb
+rename to meta/recipes-devtools/python/python-native_2.7.12.bb
+index 31192ca..de83cbd 100644
+--- a/meta/recipes-devtools/python/python-native_2.7.11.bb
++++ b/meta/recipes-devtools/python/python-native_2.7.12.bb
+@@ -17,8 +17,8 @@ SRC_URI += "\
+             file://builddir.patch \
+             file://parallel-makeinst-create-bindir.patch \
+             file://revert_use_of_sysconfigdata.patch \
+-            file://avoid_parallel_make_races_on_pgen.patch \
+            "
++
+ S = "${WORKDIR}/Python-${PV}"
  
- SUMMARY_${PN}-logging="Python logging support"
-@@ -130,7 +130,7 @@ RDEPENDS_${PN}-mailbox="${PN}-core ${PN}-mime"
- FILES_${PN}-mailbox="${libdir}/python3.5/mailbox.* "
+ FILESEXTRAPATHS =. "${FILE_DIRNAME}/${PN}:"
+diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
+index f4818c6..79a431c 100644
+--- a/meta/recipes-devtools/python/python.inc
++++ b/meta/recipes-devtools/python/python.inc
+@@ -5,12 +5,12 @@ SECTION = "devel/python"
+ # bump this on every change in contrib/python/generate-manifest-2.7.py
+ INC_PR = "r1"
  
- SUMMARY_${PN}-math="Python math support"
--RDEPENDS_${PN}-math="${PN}-core"
-+RDEPENDS_${PN}-math="${PN}-core ${PN}-crypt"
- FILES_${PN}-math="${libdir}/python3.5/lib-dynload/cmath.*.so ${libdir}/python3.5/lib-dynload/math.*.so ${libdir}/python3.5/lib-dynload/_random.*.so ${libdir}/python3.5/random.* ${libdir}/python3.5/sets.* "
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=dd98d01d471fac8d8dbdd975229dba03"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=6b60258130e4ed10d3101517eb5b9385"
  
- SUMMARY_${PN}-mime="Python MIME handling APIs"
-@@ -214,7 +214,7 @@ RDEPENDS_${PN}-stringold="${PN}-core ${PN}-re"
- FILES_${PN}-stringold="${libdir}/python3.5/lib-dynload/strop.*.so ${libdir}/python3.5/string.* ${libdir}/python3.5/stringold.* "
+ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz"
  
- SUMMARY_${PN}-subprocess="Python subprocess support"
--RDEPENDS_${PN}-subprocess="${PN}-core ${PN}-io ${PN}-re ${PN}-fcntl ${PN}-pickle"
-+RDEPENDS_${PN}-subprocess="${PN}-core ${PN}-io ${PN}-re ${PN}-fcntl ${PN}-pickle ${PN}-threading"
- FILES_${PN}-subprocess="${libdir}/python3.5/subprocess.* "
+-SRC_URI[md5sum] = "1dbcc848b4cd8399a8199d000f9f823c"
+-SRC_URI[sha256sum] = "962b4c45af50124ea61f11a30deb4342fc0bc21126790fa1d7f6c79809413f46"
++SRC_URI[md5sum] = "57dffcee9cee8bb2ab5f82af1d8e9a69"
++SRC_URI[sha256sum] = "d7837121dd5652a05fef807c361909d255d173280c4e1a4ded94d73d80a1f978"
  
- SUMMARY_${PN}-syslog="Python syslog interface"
-diff --git a/scripts/contrib/python/generate-manifest-3.5.py b/scripts/contrib/python/generate-manifest-3.5.py
-index 2feea2c..8e3a3d3 100755
---- a/scripts/contrib/python/generate-manifest-3.5.py
-+++ b/scripts/contrib/python/generate-manifest-3.5.py
-@@ -229,7 +229,7 @@ if __name__ == "__main__":
-     m.addPackage( "${PN}-curses", "Python curses support", "${PN}-core",
-     "curses lib-dynload/_curses.*.so lib-dynload/_curses_panel.*.so" ) # directory + low level module
- 
--    m.addPackage( "${PN}-ctypes", "Python C types support", "${PN}-core",
-+    m.addPackage( "${PN}-ctypes", "Python C types support", "${PN}-core ${PN}-subprocess",
-     "ctypes lib-dynload/_ctypes.*.so lib-dynload/_ctypes_test.*.so" ) # directory + low level module
- 
-     m.addPackage( "${PN}-datetime", "Python calendar and time support", "${PN}-core ${PN}-codecs",
-@@ -278,7 +278,7 @@ if __name__ == "__main__":
-     m.addPackage( "${PN}-json", "Python JSON support", "${PN}-core ${PN}-math ${PN}-re",
-     "json lib-dynload/_json.*.so" ) # package
- 
--    m.addPackage( "${PN}-lang", "Python low-level language support", "${PN}-core",
-+    m.addPackage( "${PN}-lang", "Python low-level language support", "${PN}-core ${PN}-importlib",
-     "lib-dynload/_bisect.*.so lib-dynload/_collections.*.so lib-dynload/_heapq.*.so lib-dynload/_weakref.*.so lib-dynload/_functools.*.so " +
-     "lib-dynload/array.*.so lib-dynload/itertools.*.so lib-dynload/operator.*.so lib-dynload/parser.*.so " +
-     "atexit.* bisect.* code.* codeop.* collections.* _collections_abc.* contextlib.* dis.* functools.* heapq.* inspect.* keyword.* opcode.* operator.* symbol.* repr.* token.* " +
-@@ -290,7 +290,7 @@ if __name__ == "__main__":
-     m.addPackage( "${PN}-mailbox", "Python mailbox format support", "${PN}-core ${PN}-mime",
-     "mailbox.*" )
- 
--    m.addPackage( "${PN}-math", "Python math support", "${PN}-core",
-+    m.addPackage( "${PN}-math", "Python math support", "${PN}-core ${PN}-crypt",
-     "lib-dynload/cmath.*.so lib-dynload/math.*.so lib-dynload/_random.*.so random.* sets.*" )
- 
-     m.addPackage( "${PN}-mime", "Python MIME handling APIs", "${PN}-core ${PN}-io",
-@@ -339,7 +339,7 @@ if __name__ == "__main__":
-     m.addPackage( "${PN}-shell", "Python shell-like functionality", "${PN}-core ${PN}-re ${PN}-compression",
-     "cmd.* commands.* dircache.* fnmatch.* glob.* popen2.* shlex.* shutil.*" )
- 
--    m.addPackage( "${PN}-subprocess", "Python subprocess support", "${PN}-core ${PN}-io ${PN}-re ${PN}-fcntl ${PN}-pickle",
-+    m.addPackage( "${PN}-subprocess", "Python subprocess support", "${PN}-core ${PN}-io ${PN}-re ${PN}-fcntl ${PN}-pickle ${PN}-threading",
-     "subprocess.*" )
- 
-     m.addPackage( "${PN}-sqlite3", "Python Sqlite3 database support", "${PN}-core ${PN}-datetime ${PN}-lang ${PN}-crypt ${PN}-io ${PN}-threading",
+ # python recipe is actually python 2.x
+ # also, exclude pre-releases for both python 2.x and 3.x
 -- 
-1.9.1
+2.6.6
 
 
