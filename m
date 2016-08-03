@@ -1,24 +1,24 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F63D73211
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CCA736E64A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Aug 2016 08:37:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u738bsGu015331
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed,  3 Aug 2016 09:26:26 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u739QQ57003675
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 3 Aug 2016 01:37:54 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 3 Aug 2016 01:37:53 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
+	Wed, 3 Aug 2016 02:26:26 -0700
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.248.2; Wed, 3 Aug 2016 02:26:25 -0700
+From: <mingli.yu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 3 Aug 2016 01:37:52 -0700
-Message-ID: <cover.1470213435.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.9.0
+Date: Wed, 3 Aug 2016 17:22:57 +0800
+Message-ID: <1470216177-7146-1-git-send-email-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-Subject: [PATCH 0/1] package.bbclass: remove unneeded chmod() and chown()
+Subject: [PATCH] lzo: update ptest output format
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,25 +31,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Aug 2016 08:37:55 -0000
+X-List-Received-Date: Wed, 03 Aug 2016 09:26:29 -0000
 Content-Type: text/plain
 
-The following changes since commit 986f7fbe37a48d050611f08f7160ed96755ac3dc:
+The output format was updated to match yocto ptest rules:
+<result>: <testname>
+where the result can be PASS, FAIL, or SKIP, and the testname
+can be any identifying string.
 
-  foomatic-filters: Security fixes CVE-2015-8327 (2016-08-01 12:11:09 +0100)
+Signed-off-by: Li Wang <li.wang@windriver.com>
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ meta/recipes-support/lzo/lzo/run-ptest | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/mode
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/mode
-
-Robert Yang (1):
-  package.bbclass: remove unneeded chmod() and chown()
-
- meta/classes/package.bbclass | 3 ---
- 1 file changed, 3 deletions(-)
-
+diff --git a/meta/recipes-support/lzo/lzo/run-ptest b/meta/recipes-support/lzo/lzo/run-ptest
+index 2ea7745..6acb89f 100644
+--- a/meta/recipes-support/lzo/lzo/run-ptest
++++ b/meta/recipes-support/lzo/lzo/run-ptest
+@@ -1,8 +1,33 @@
+ #!/bin/sh
+ 
+ ./lzotest -mavail -n10 -q /etc/services
++if [ $? -eq 0 ]; then
++  echo 'PASS: lzotest'
++else
++  echo 'FAIL: lzotest'
++fi
+ LZOTEST=./lzotest /bin/sh -e "./check.sh" "/etc"
+ ./align
++if [ $? -eq 0 ]; then
++  echo 'PASS: align'
++else
++  echo 'FAIL: align'
++fi
+ ./chksum
++if [ $? -eq 0 ]; then
++  echo 'PASS: chksum'
++else
++  echo 'FAIL: chksum'
++fi
+ ./simple
++if [ $? -eq 0 ]; then
++  echo 'PASS: simple'
++else
++  echo 'FAIL: simple'
++fi
+ ./testmini
++if [ $? -eq 0 ]; then
++  echo 'PASS: testmini'
++else
++  echo 'FAIL: testmini'
++fi
 -- 
-2.9.0
+2.8.1
 
 
