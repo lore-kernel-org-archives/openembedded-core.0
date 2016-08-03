@@ -1,34 +1,20 @@
-Return-Path: <fan.xin@jp.fujitsu.com>
-Received: from mgwkm02.jp.fujitsu.com (mgwkm02.jp.fujitsu.com [202.219.69.169])
-	by mail.openembedded.org (Postfix) with ESMTP id B1CF26AC00
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E13B607A4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Aug 2016 06:16:08 +0000 (UTC)
-Received: from kw-mxq.gw.nic.fujitsu.com (unknown [192.168.231.130]) by
-	mgwkm02.jp.fujitsu.com with smtp
-	id 6c63_74e2_cdbf6e17_d6f5_4a5f_9c41_23a9f06594da;
-	Wed, 03 Aug 2016 15:16:05 +0900
-Received: from g01jpfmpwyt02.exch.g01.fujitsu.local
-	(g01jpfmpwyt02.exch.g01.fujitsu.local [10.128.193.56])
-	by kw-mxq.gw.nic.fujitsu.com (Postfix) with ESMTP id D6675AC00D4
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Aug 2016 15:16:04 +0900 (JST)
-Received: from g01jpexchyt38.g01.fujitsu.local (unknown [10.128.193.4])
-	by g01jpfmpwyt02.exch.g01.fujitsu.local (Postfix) with ESMTP id
-	2655558421B for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Aug 2016 15:16:04 +0900 (JST)
-Received: from localhost.localdomain (10.24.19.99) by
-	g01jpexchyt38.g01.fujitsu.local (10.128.193.68) with Microsoft SMTP
-	Server id 14.3.266.1; Wed, 3 Aug 2016 15:16:03 +0900
-From: Fan Xin <fan.xin@jp.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 3 Aug 2016 15:16:40 +0900
-Message-ID: <1470205000-6321-1-git-send-email-fan.xin@jp.fujitsu.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-X-SecurityPolicyCheck-GC: OK by FENCE-Mail
-X-TM-AS-MML: disable
-Cc: Fan Xin <fan.xin@jp.fujitsu.com>
-Subject: [PATCH] curl: upgrade to 7.50.0
+	Wed,  3 Aug 2016 07:28:42 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga102.jf.intel.com with ESMTP; 03 Aug 2016 00:28:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,465,1464678000"; d="scan'208";a="149808993"
+Received: from marquiz.fi.intel.com ([10.237.72.155])
+	by fmsmga004.fm.intel.com with ESMTP; 03 Aug 2016 00:28:40 -0700
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  3 Aug 2016 10:28:39 +0300
+Message-Id: <1470209320-20006-1-git-send-email-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.6.6
+Subject: [PATCH v3] Add ${S} to do_unpack[cleandirs]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,34 +27,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Aug 2016 06:16:10 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 03 Aug 2016 07:28:47 -0000
 
-Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
----
- meta/recipes-support/curl/{curl_7.49.1.bb => curl_7.50.0.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/curl/{curl_7.49.1.bb => curl_7.50.0.bb} (94%)
+The second version of this patch broke usage of externalsrc. The resason was
+that while externalsrc.bbclass mangles do_unpack[cleandirs] flag in order to
+make sure that the source directory is never wiped, it was not able to cope
+with the complicated Python expression used in the flag value in v2 of this
+patch. Version 3 of the patch fixes the issue by moving Python code outside the
+value assignment.
 
-diff --git a/meta/recipes-support/curl/curl_7.49.1.bb b/meta/recipes-support/curl/curl_7.50.0.bb
-similarity index 94%
-rename from meta/recipes-support/curl/curl_7.49.1.bb
-rename to meta/recipes-support/curl/curl_7.50.0.bb
-index db9dc1a..6a5be25 100644
---- a/meta/recipes-support/curl/curl_7.49.1.bb
-+++ b/meta/recipes-support/curl/curl_7.50.0.bb
-@@ -14,8 +14,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
- #
- SRC_URI += " file://configure_ac.patch"
- 
--SRC_URI[md5sum] = "6bb1f7af5b58b30e4e6414b8c1abccab"
--SRC_URI[sha256sum] = "eb63cec4bef692eab9db459033f409533e6d10e20942f4b060b32819e81885f1"
-+SRC_URI[md5sum] = "9e463ff8fdc1b5daa81c850c514980ec"
-+SRC_URI[sha256sum] = "608dfe2db77f48db792c387e7791aca55a25f0b42385707ad927164199ecfa9a"
- 
- inherit autotools pkgconfig binconfig multilib_header
- 
+Markus Lehtonen (1):
+  base.bbclass wipe ${S} before unpacking source
+
+ meta/classes/base.bbclass | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
+
 -- 
-2.7.4
+2.6.6
 
 
