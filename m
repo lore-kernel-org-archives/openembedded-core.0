@@ -1,33 +1,23 @@
-Return-Path: <tanuk@iki.fi>
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
-	[66.111.4.25])
-	by mail.openembedded.org (Postfix) with ESMTP id 9063775C61
+Return-Path: <mariano.lopez@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 74124731D1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Aug 2016 20:41:34 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id 7AA4B20776
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Aug 2016 16:41:35 -0400 (EDT)
-Received: from frontend1 ([10.202.2.160])
-	by compute1.internal (MEProxy); Wed, 03 Aug 2016 16:41:35 -0400
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=date:from:message-id:subject:to
-	:x-sasl-enc:x-sasl-enc; s=smtpout; bh=0iBLv6TsXKkcQbKS4JepLMjla5
-	w=; b=BCbCWWCsF85u3LECkQ9S2ogCu+kCaVCMhROKg+6XSRcIv8kaHWW/PIFj9U
-	oOARMzWWI56KXbAx0YnBg+Y4F5OwGckNuya5mVjOu855NOAKXPqEn1PxDpgmJSqW
-	+fbqHm2uktNNQ0R2lr4XJG98Dx5AAC4BdSZVj5/xyCtB1pFN4=
-X-Sasl-enc: JFwpzN0tDSH1vR0hFUzNBC1EjpErpuYQi5kJGn5RPPjs 1470256894
-Received: from laptop.tanuk.dy.fi (a88-113-211-72.elisa-laajakaista.fi
-	[88.113.211.72])
-	by mail.messagingengine.com (Postfix) with ESMTPA id ACA67F2D2C
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Aug 2016 16:41:34 -0400 (EDT)
-From: Tanu Kaskinen <tanuk@iki.fi>
+	Wed,  3 Aug 2016 21:24:18 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 03 Aug 2016 14:24:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,467,1464678000"; d="scan'208";a="1019191859"
+Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
+	([10.54.69.55])
+	by fmsmga001.fm.intel.com with ESMTP; 03 Aug 2016 14:24:14 -0700
+From: mariano.lopez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Aug 2016 23:41:31 +0300
-Message-Id: <1470256891-20386-1-git-send-email-tanuk@iki.fi>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH][krogoth] pulseaudio: fix crash when disconnecting bluetooth devices
+Date: Wed,  3 Aug 2016 13:21:30 +0000
+Message-Id: <eb3a646c9f6acc426951a6446246e0f94565d8ac.1470230446.git.mariano.lopez@linux.intel.com>
+X-Mailer: git-send-email 2.6.6
+In-Reply-To: <cover.1470230446.git.mariano.lopez@linux.intel.com>
+References: <cover.1470230446.git.mariano.lopez@linux.intel.com>
+Subject: [PATCH 1/1] python-smartpm_git.bb: Add patch for debugging random errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,386 +30,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Aug 2016 20:41:35 -0000
+X-List-Received-Date: Wed, 03 Aug 2016 21:24:20 -0000
 
-[YOCTO #10018]
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-Add a patch that makes the bluetooth code create the HSP/HFP card
-profile only once. The old behaviour of creating the profile twice
-was not compatible with 0001-card-add-pa_card_profile.ports.patch.
+This will add a patch to debug random errors seen in the
+autobuilders, it won't solve the errors, but will give us
+a better idea of what is happening.
 
-This fix is not needed for master, because master doesn't any more
-have 0001-card-add-pa_card_profile.ports.patch.
+[YOCTO #8383]
 
-Signed-off-by: Tanu Kaskinen <tanuk@iki.fi>
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- ...th-don-t-create-the-HSP-HFP-profile-twice.patch | 343 +++++++++++++++++++++
- .../pulseaudio/pulseaudio_8.0.bb                   |   1 +
- 2 files changed, 344 insertions(+)
- create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-bluetooth-don-t-create-the-HSP-HFP-profile-twice.patch
+ ...art-add-deugging-when-targetpath-is-empty.patch | 47 ++++++++++++++++++++++
+ meta/recipes-devtools/python/python-smartpm_git.bb |  1 +
+ 2 files changed, 48 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python-smartpm/smart-add-deugging-when-targetpath-is-empty.patch
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-bluetooth-don-t-create-the-HSP-HFP-profile-twice.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-bluetooth-don-t-create-the-HSP-HFP-profile-twice.patch
+diff --git a/meta/recipes-devtools/python/python-smartpm/smart-add-deugging-when-targetpath-is-empty.patch b/meta/recipes-devtools/python/python-smartpm/smart-add-deugging-when-targetpath-is-empty.patch
 new file mode 100644
-index 0000000..a5ca325
+index 0000000..5e80804
 --- /dev/null
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-bluetooth-don-t-create-the-HSP-HFP-profile-twice.patch
-@@ -0,0 +1,343 @@
-+From 14ff15bf5acac7b7edd64e2240fc6fe5d227b8c4 Mon Sep 17 00:00:00 2001
-+From: Tanu Kaskinen <tanuk@iki.fi>
-+Date: Sun, 31 Jul 2016 01:03:02 +0300
-+Subject: [PATCH] bluetooth: don't create the HSP/HFP profile twice
++++ b/meta/recipes-devtools/python/python-smartpm/smart-add-deugging-when-targetpath-is-empty.patch
+@@ -0,0 +1,47 @@
++From 01e51afd03131947f8d74b9a23fdbc0078249499 Mon Sep 17 00:00:00 2001
++From: Mariano Lopez <mariano.lopez@linux.intel.com>
++Date: Wed, 3 Aug 2016 07:47:09 +0000
++Subject: [PATCH] fetcher.py: Add debugging when targetpath is empty
 +
-+create_card_profile() used to get called separately for HSP and HFP,
-+so if a headset supports both profiles, a profile named
-+"headset_head_unit" would get created twice. The second instance would
-+get immediately freed, so that wasn't a particularly serious problem.
-+However, I think it makes more sense to create the profile only once.
-+This patch makes things so that before a profile is created, we check
-+what name that profile would have, and if a profile with that name
-+already exists, we don't create the profile.
++There are several errors when openining files or manipulating
++path strings, those errors point targetpath passed to
++setSucceeded() is empty. This patch won't solve the problems,
++but will add debugging to give an idea why is failing.
 +
-+A couple of Yocto releases (jethro and krogoth) have non-upstream
-+patches that suffer from this double creation. The patches add
-+associations between profiles and ports, and those associations use
-+the profile name as the key. When the second profile gets freed, the
-+associations between the profile and its ports get removed, and since
-+the profile name is used as the key, this erroneously affects the
-+first profile too. Crashing ensues.
++Upstream-Status: Inappropriate [debugging]
 +
-+I have tested this only with BlueZ 5.
-+
-+BugLink: https://bugzilla.yoctoproject.org/show_bug.cgi?id=10018
-+
-+Upstream-Status: Submitted [https://patchwork.freedesktop.org/patch/101926/]
-+
-+Signed-off-by: Tanu Kaskinen <tanuk@iki.fi>
++Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 +---
-+ src/modules/bluetooth/module-bluez4-device.c | 81 +++++++++++++++++-----------
-+ src/modules/bluetooth/module-bluez5-device.c | 72 ++++++++++++++++---------
-+ 2 files changed, 99 insertions(+), 54 deletions(-)
++ smart/fetcher.py | 16 ++++++++++++++++
++ 1 file changed, 16 insertions(+)
 +
-+diff --git a/src/modules/bluetooth/module-bluez4-device.c b/src/modules/bluetooth/module-bluez4-device.c
-+index 5d0d3db..df51168 100644
-+--- a/src/modules/bluetooth/module-bluez4-device.c
-++++ b/src/modules/bluetooth/module-bluez4-device.c
-+@@ -2162,18 +2162,23 @@ static void create_card_ports(struct userdata *u, pa_hashmap *ports) {
-+ }
++diff --git a/smart/fetcher.py b/smart/fetcher.py
++index dd3ff6b..64aa979 100644
++--- a/smart/fetcher.py
+++++ b/smart/fetcher.py
++@@ -594,6 +594,22 @@ class FetchItem(object):
++                 self._eta = None
 + 
-+ /* Run from main thread */
-+-static pa_card_profile *create_card_profile(struct userdata *u, const char *uuid, pa_hashmap *ports) {
-++static pa_card_profile *create_card_profile(struct userdata *u, pa_bluez4_profile_t profile, pa_hashmap *ports) {
-+     pa_device_port *input_port, *output_port;
-++    const char *name;
-+     pa_card_profile *p = NULL;
-+-    pa_bluez4_profile_t *d;
-++    pa_bluez4_profile_t *d = NULL;
-++    pa_bluez4_transport *t;
-+ 
-+     pa_assert(u->input_port_name);
-+     pa_assert(u->output_port_name);
-+     pa_assert_se(input_port = pa_hashmap_get(ports, u->input_port_name));
-+     pa_assert_se(output_port = pa_hashmap_get(ports, u->output_port_name));
-+ 
-+-    if (pa_streq(uuid, A2DP_SINK_UUID)) {
-+-        p = pa_card_profile_new("a2dp", _("High Fidelity Playback (A2DP)"), sizeof(pa_bluez4_profile_t));
-++    name = pa_bluez4_profile_to_string(profile);
-++
-++    switch (profile) {
-++    case PA_BLUEZ4_PROFILE_A2DP:
-++        p = pa_card_profile_new(name, _("High Fidelity Playback (A2DP)"), sizeof(pa_bluez4_profile_t));
-+         p->priority = 10;
-+         p->n_sinks = 1;
-+         p->n_sources = 0;
-+@@ -2183,9 +2188,10 @@ static pa_card_profile *create_card_profile(struct userdata *u, const char *uuid
-+         pa_card_profile_add_port(p, output_port);
-+ 
-+         d = PA_CARD_PROFILE_DATA(p);
-+-        *d = PA_BLUEZ4_PROFILE_A2DP;
-+-    } else if (pa_streq(uuid, A2DP_SOURCE_UUID)) {
-+-        p = pa_card_profile_new("a2dp_source", _("High Fidelity Capture (A2DP)"), sizeof(pa_bluez4_profile_t));
-++        break;
-++
-++    case PA_BLUEZ4_PROFILE_A2DP_SOURCE:
-++        p = pa_card_profile_new(name, _("High Fidelity Capture (A2DP)"), sizeof(pa_bluez4_profile_t));
-+         p->priority = 10;
-+         p->n_sinks = 0;
-+         p->n_sources = 1;
-+@@ -2195,9 +2201,10 @@ static pa_card_profile *create_card_profile(struct userdata *u, const char *uuid
-+         pa_card_profile_add_port(p, input_port);
-+ 
-+         d = PA_CARD_PROFILE_DATA(p);
-+-        *d = PA_BLUEZ4_PROFILE_A2DP_SOURCE;
-+-    } else if (pa_streq(uuid, HSP_HS_UUID) || pa_streq(uuid, HFP_HS_UUID)) {
-+-        p = pa_card_profile_new("hsp", _("Telephony Duplex (HSP/HFP)"), sizeof(pa_bluez4_profile_t));
-++        break;
-++
-++    case PA_BLUEZ4_PROFILE_HSP:
-++        p = pa_card_profile_new(name, _("Telephony Duplex (HSP/HFP)"), sizeof(pa_bluez4_profile_t));
-+         p->priority = 20;
-+         p->n_sinks = 1;
-+         p->n_sources = 1;
-+@@ -2209,9 +2216,10 @@ static pa_card_profile *create_card_profile(struct userdata *u, const char *uuid
-+         pa_card_profile_add_port(p, output_port);
-+ 
-+         d = PA_CARD_PROFILE_DATA(p);
-+-        *d = PA_BLUEZ4_PROFILE_HSP;
-+-    } else if (pa_streq(uuid, HFP_AG_UUID)) {
-+-        p = pa_card_profile_new("hfgw", _("Handsfree Gateway"), sizeof(pa_bluez4_profile_t));
-++        break;
-++
-++    case PA_BLUEZ4_PROFILE_HFGW:
-++        p = pa_card_profile_new(name, _("Handsfree Gateway"), sizeof(pa_bluez4_profile_t));
-+         p->priority = 20;
-+         p->n_sinks = 1;
-+         p->n_sources = 1;
-+@@ -2223,19 +2231,35 @@ static pa_card_profile *create_card_profile(struct userdata *u, const char *uuid
-+         pa_card_profile_add_port(p, output_port);
-+ 
-+         d = PA_CARD_PROFILE_DATA(p);
-+-        *d = PA_BLUEZ4_PROFILE_HFGW;
-++        break;
-++
-++    case PA_BLUEZ4_PROFILE_OFF:
-++        pa_assert_not_reached();
-+     }
-+ 
-+-    if (p) {
-+-        pa_bluez4_transport *t;
-++    *d = profile;
-+ 
-+-        if ((t = u->device->transports[*d]))
-+-            p->available = transport_state_to_availability(t->state);
-+-    }
-++    if ((t = u->device->transports[*d]))
-++        p->available = transport_state_to_availability(t->state);
-+ 
-+     return p;
-+ }
-+ 
-++static int uuid_to_profile(const char *uuid, pa_bluez4_profile_t *_r) {
-++    if (pa_streq(uuid, A2DP_SINK_UUID))
-++        *_r = PA_BLUEZ4_PROFILE_A2DP;
-++    else if (pa_streq(uuid, A2DP_SOURCE_UUID))
-++        *_r = PA_BLUEZ4_PROFILE_A2DP_SOURCE;
-++    else if (pa_streq(uuid, HSP_HS_UUID) || pa_streq(uuid, HFP_HS_UUID))
-++        *_r = PA_BLUEZ4_PROFILE_HSP;
-++    else if (pa_streq(uuid, HSP_AG_UUID) || pa_streq(uuid, HFP_AG_UUID))
-++        *_r = PA_BLUEZ4_PROFILE_HFGW;
-++    else
-++        return -PA_ERR_INVALID;
-++
-++    return 0;
-++}
-++
-+ /* Run from main thread */
-+ static int add_card(struct userdata *u) {
-+     pa_card_new_data data;
-+@@ -2283,16 +2307,15 @@ static int add_card(struct userdata *u) {
-+     create_card_ports(u, data.ports);
-+ 
-+     PA_LLIST_FOREACH(uuid, device->uuids) {
-+-        p = create_card_profile(u, uuid->uuid, data.ports);
-++        pa_bluez4_profile_t profile;
-+ 
-+-        if (!p)
-++        if (uuid_to_profile(uuid->uuid, &profile) < 0)
-+             continue;
-+ 
-+-        if (pa_hashmap_get(data.profiles, p->name)) {
-+-            pa_card_profile_free(p);
-++        if (pa_hashmap_get(data.profiles, pa_bluez4_profile_to_string(profile)))
-+             continue;
-+-        }
-+ 
-++        p = create_card_profile(u, profile, data.ports);
-+         pa_hashmap_put(data.profiles, p->name, p);
-+     }
-+ 
-+@@ -2382,6 +2405,7 @@ static pa_bluez4_device* find_device(struct userdata *u, const char *address, co
-+ /* Run from main thread */
-+ static pa_hook_result_t uuid_added_cb(pa_bluez4_discovery *y, const struct pa_bluez4_hook_uuid_data *data,
-+                                       struct userdata *u) {
-++    pa_bluez4_profile_t profile;
-+     pa_card_profile *p;
-+ 
-+     pa_assert(data);
-+@@ -2392,16 +2416,13 @@ static pa_hook_result_t uuid_added_cb(pa_bluez4_discovery *y, const struct pa_bl
-+     if (data->device != u->device)
-+         return PA_HOOK_OK;
-+ 
-+-    p = create_card_profile(u, data->uuid, u->card->ports);
-+-
-+-    if (!p)
-++    if (uuid_to_profile(data->uuid, &profile) < 0)
-+         return PA_HOOK_OK;
-+ 
-+-    if (pa_hashmap_get(u->card->profiles, p->name)) {
-+-        pa_card_profile_free(p);
-++    if (pa_hashmap_get(u->card->profiles, pa_bluez4_profile_to_string(profile)))
-+         return PA_HOOK_OK;
-+-    }
-+ 
-++    p = create_card_profile(u, profile, u->card->ports);
-+     pa_card_add_profile(u->card, p);
-+ 
-+     return PA_HOOK_OK;
-+diff --git a/src/modules/bluetooth/module-bluez5-device.c b/src/modules/bluetooth/module-bluez5-device.c
-+index 7b90a31..db06ac1 100644
-+--- a/src/modules/bluetooth/module-bluez5-device.c
-++++ b/src/modules/bluetooth/module-bluez5-device.c
-+@@ -1772,8 +1772,9 @@ static void create_card_ports(struct userdata *u, pa_hashmap *ports) {
-+ }
-+ 
-+ /* Run from main thread */
-+-static pa_card_profile *create_card_profile(struct userdata *u, const char *uuid, pa_hashmap *ports) {
-++static pa_card_profile *create_card_profile(struct userdata *u, pa_bluetooth_profile_t profile, pa_hashmap *ports) {
-+     pa_device_port *input_port, *output_port;
-++    const char *name;
-+     pa_card_profile *cp = NULL;
-+     pa_bluetooth_profile_t *p;
-+ 
-+@@ -1782,8 +1783,11 @@ static pa_card_profile *create_card_profile(struct userdata *u, const char *uuid
-+     pa_assert_se(input_port = pa_hashmap_get(ports, u->input_port_name));
-+     pa_assert_se(output_port = pa_hashmap_get(ports, u->output_port_name));
-+ 
-+-    if (pa_streq(uuid, PA_BLUETOOTH_UUID_A2DP_SINK)) {
-+-        cp = pa_card_profile_new("a2dp_sink", _("High Fidelity Playback (A2DP Sink)"), sizeof(pa_bluetooth_profile_t));
-++    name = pa_bluetooth_profile_to_string(profile);
-++
-++    switch (profile) {
-++    case PA_BLUETOOTH_PROFILE_A2DP_SINK:
-++        cp = pa_card_profile_new(name, _("High Fidelity Playback (A2DP Sink)"), sizeof(pa_bluetooth_profile_t));
-+         cp->priority = 10;
-+         cp->n_sinks = 1;
-+         cp->n_sources = 0;
-+@@ -1793,9 +1797,10 @@ static pa_card_profile *create_card_profile(struct userdata *u, const char *uuid
-+         pa_card_profile_add_port(cp, output_port);
-+ 
-+         p = PA_CARD_PROFILE_DATA(cp);
-+-        *p = PA_BLUETOOTH_PROFILE_A2DP_SINK;
-+-    } else if (pa_streq(uuid, PA_BLUETOOTH_UUID_A2DP_SOURCE)) {
-+-        cp = pa_card_profile_new("a2dp_source", _("High Fidelity Capture (A2DP Source)"), sizeof(pa_bluetooth_profile_t));
-++        break;
-++
-++    case PA_BLUETOOTH_PROFILE_A2DP_SOURCE:
-++        cp = pa_card_profile_new(name, _("High Fidelity Capture (A2DP Source)"), sizeof(pa_bluetooth_profile_t));
-+         cp->priority = 10;
-+         cp->n_sinks = 0;
-+         cp->n_sources = 1;
-+@@ -1805,9 +1810,10 @@ static pa_card_profile *create_card_profile(struct userdata *u, const char *uuid
-+         pa_card_profile_add_port(cp, input_port);
-+ 
-+         p = PA_CARD_PROFILE_DATA(cp);
-+-        *p = PA_BLUETOOTH_PROFILE_A2DP_SOURCE;
-+-    } else if (pa_streq(uuid, PA_BLUETOOTH_UUID_HSP_HS) || pa_streq(uuid, PA_BLUETOOTH_UUID_HFP_HF)) {
-+-        cp = pa_card_profile_new("headset_head_unit", _("Headset Head Unit (HSP/HFP)"), sizeof(pa_bluetooth_profile_t));
-++        break;
-++
-++    case PA_BLUETOOTH_PROFILE_HEADSET_HEAD_UNIT:
-++        cp = pa_card_profile_new(name, _("Headset Head Unit (HSP/HFP)"), sizeof(pa_bluetooth_profile_t));
-+         cp->priority = 20;
-+         cp->n_sinks = 1;
-+         cp->n_sources = 1;
-+@@ -1819,9 +1825,10 @@ static pa_card_profile *create_card_profile(struct userdata *u, const char *uuid
-+         pa_card_profile_add_port(cp, output_port);
-+ 
-+         p = PA_CARD_PROFILE_DATA(cp);
-+-        *p = PA_BLUETOOTH_PROFILE_HEADSET_HEAD_UNIT;
-+-    } else if (pa_streq(uuid, PA_BLUETOOTH_UUID_HSP_AG) || pa_streq(uuid, PA_BLUETOOTH_UUID_HFP_AG)) {
-+-        cp = pa_card_profile_new("headset_audio_gateway", _("Headset Audio Gateway (HSP/HFP)"), sizeof(pa_bluetooth_profile_t));
-++        break;
-++
-++    case PA_BLUETOOTH_PROFILE_HEADSET_AUDIO_GATEWAY:
-++        cp = pa_card_profile_new(name, _("Headset Audio Gateway (HSP/HFP)"), sizeof(pa_bluetooth_profile_t));
-+         cp->priority = 20;
-+         cp->n_sinks = 1;
-+         cp->n_sources = 1;
-+@@ -1833,16 +1840,19 @@ static pa_card_profile *create_card_profile(struct userdata *u, const char *uuid
-+         pa_card_profile_add_port(cp, output_port);
-+ 
-+         p = PA_CARD_PROFILE_DATA(cp);
-+-        *p = PA_BLUETOOTH_PROFILE_HEADSET_AUDIO_GATEWAY;
-+-    }
-++        break;
-+ 
-+-    if (cp) {
-+-        if (u->device->transports[*p])
-+-            cp->available = transport_state_to_availability(u->device->transports[*p]->state);
-+-        else
-+-            cp->available = PA_AVAILABLE_NO;
-++    case PA_BLUETOOTH_PROFILE_OFF:
-++        pa_assert_not_reached();
-+     }
-+ 
-++    *p = profile;
-++
-++    if (u->device->transports[*p])
-++        cp->available = transport_state_to_availability(u->device->transports[*p]->state);
-++    else
-++        cp->available = PA_AVAILABLE_NO;
-++
-+     return cp;
-+ }
-+ 
-+@@ -1888,6 +1898,21 @@ off:
-+     return -PA_ERR_IO;
-+ }
-+ 
-++static int uuid_to_profile(const char *uuid, pa_bluetooth_profile_t *_r) {
-++    if (pa_streq(uuid, PA_BLUETOOTH_UUID_A2DP_SINK))
-++        *_r = PA_BLUETOOTH_PROFILE_A2DP_SINK;
-++    else if (pa_streq(uuid, PA_BLUETOOTH_UUID_A2DP_SOURCE))
-++        *_r = PA_BLUETOOTH_PROFILE_A2DP_SOURCE;
-++    else if (pa_streq(uuid, PA_BLUETOOTH_UUID_HSP_HS) || pa_streq(uuid, PA_BLUETOOTH_UUID_HFP_HF))
-++        *_r = PA_BLUETOOTH_PROFILE_HEADSET_HEAD_UNIT;
-++    else if (pa_streq(uuid, PA_BLUETOOTH_UUID_HSP_AG) || pa_streq(uuid, PA_BLUETOOTH_UUID_HFP_AG))
-++        *_r = PA_BLUETOOTH_PROFILE_HEADSET_AUDIO_GATEWAY;
-++    else
-++        return -PA_ERR_INVALID;
-++
-++    return 0;
-++}
-++
-+ /* Run from main thread */
-+ static int add_card(struct userdata *u) {
-+     const pa_bluetooth_device *d;
-+@@ -1929,16 +1954,15 @@ static int add_card(struct userdata *u) {
-+     create_card_ports(u, data.ports);
-+ 
-+     PA_HASHMAP_FOREACH(uuid, d->uuids, state) {
-+-        cp = create_card_profile(u, uuid, data.ports);
-++        pa_bluetooth_profile_t profile;
-+ 
-+-        if (!cp)
-++        if (uuid_to_profile(uuid, &profile) < 0)
-+             continue;
-+ 
-+-        if (pa_hashmap_get(data.profiles, cp->name)) {
-+-            pa_card_profile_free(cp);
-++        if (pa_hashmap_get(data.profiles, pa_bluetooth_profile_to_string(profile)))
-+             continue;
-+-        }
-+ 
-++        cp = create_card_profile(u, profile, data.ports);
-+         pa_hashmap_put(data.profiles, cp->name, cp);
-+     }
-+ 
++     def setSucceeded(self, targetpath, fetchedsize=0):
+++        # It seems the in some odd cases targetpath here
+++        # is empty, this will lead to bugs in several places
+++        if not targetpath:
+++            import traceback
+++            tb_str = ""
+++            for threadId, stack in sys._current_frames().items():
+++                tb_str += '\nThreadID: %s' % threadId
+++                for filename, lineno, name, line in traceback.extract_stack(stack):
+++                    tb_str += '\nFile: "%s", line %d, in %s' % (filename, lineno, name)
+++                    if line:
+++                        tb_str += "\n  %s" % line.strip()
+++            error_string = ["No file path specified",
+++                            "URL: %s" % self._url,
+++                            "Status: %s" % self._status,
+++                            "Traceback: %s" % tb_str]
+++            raise Error, _("\n".join(error_string))
++         if self._status is not FAILED:
++             self._status = SUCCEEDED
++             self._targetpath = targetpath
 +-- 
-+2.8.1
++2.6.6
 +
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_8.0.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_8.0.bb
-index b01ba8f..b947c62 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio_8.0.bb
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_8.0.bb
-@@ -9,6 +9,7 @@ SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/${BP}.tar.xz \
-            file://0003-card-move-profile-selection-after-pa_card_new.patch \
-            file://0004-alsa-set-availability-for-some-unavailable-profiles.patch \
-            file://0001-Revert-module-switch-on-port-available-Route-to-pref.patch \
-+           file://0001-bluetooth-don-t-create-the-HSP-HFP-profile-twice.patch \
- "
- SRC_URI[md5sum] = "8678442ba0bb4b4c33ac6f62542962df"
- SRC_URI[sha256sum] = "690eefe28633466cfd1ab9d85ebfa9376f6b622deec6bfee5091ac9737cd1989"
+diff --git a/meta/recipes-devtools/python/python-smartpm_git.bb b/meta/recipes-devtools/python/python-smartpm_git.bb
+index 81e45b7..668d171 100644
+--- a/meta/recipes-devtools/python/python-smartpm_git.bb
++++ b/meta/recipes-devtools/python/python-smartpm_git.bb
+@@ -25,6 +25,7 @@ SRC_URI = "\
+           file://smart-channel-remove-all.patch \
+           file://smart-locale.patch \
+           file://smartpm-rpm5-support-check-signatures.patch \
++          file://smart-add-deugging-when-targetpath-is-empty.patch \
+          "
+ 
+ SRCREV = "407a7eca766431257dcd1da15175cc36a1bb22d0"
 -- 
-2.8.1
+2.6.6
 
 
