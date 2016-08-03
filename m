@@ -1,22 +1,34 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A255731DA
+Return-Path: <fan.xin@jp.fujitsu.com>
+Received: from mgwym02.jp.fujitsu.com (mgwym02.jp.fujitsu.com [211.128.242.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D6C5731C8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Aug 2016 07:28:51 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga101.fm.intel.com with ESMTP; 03 Aug 2016 00:28:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,465,1464678000"; d="scan'208";a="149808999"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by fmsmga004.fm.intel.com with ESMTP; 03 Aug 2016 00:28:41 -0700
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Aug 2016 10:28:40 +0300
-Message-Id: <1470209320-20006-2-git-send-email-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-In-Reply-To: <1470209320-20006-1-git-send-email-markus.lehtonen@linux.intel.com>
-References: <1470209320-20006-1-git-send-email-markus.lehtonen@linux.intel.com>
-Subject: [PATCH v3] base.bbclass wipe ${S} before unpacking source
+	Wed,  3 Aug 2016 07:41:00 +0000 (UTC)
+Received: from yt-mxoi1.gw.nic.fujitsu.com (unknown [192.168.229.67]) by
+	mgwym02.jp.fujitsu.com with smtp
+	id 3008_90c8_1b0b80f6_c3f2_472e_8eec_8a29d8d0a6a7;
+	Wed, 03 Aug 2016 16:40:55 +0900
+Received: from g01jpfmpwyt03.exch.g01.fujitsu.local
+	(g01jpfmpwyt03.exch.g01.fujitsu.local [10.128.193.57])
+	by yt-mxoi1.gw.nic.fujitsu.com (Postfix) with ESMTP id CA86FAC019F
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  3 Aug 2016 16:40:54 +0900 (JST)
+Received: from g01jpexchyt37.g01.fujitsu.local (unknown [10.128.193.4])
+	by g01jpfmpwyt03.exch.g01.fujitsu.local (Postfix) with ESMTP id
+	2788546E4B5 for <openembedded-core@lists.openembedded.org>;
+	Wed,  3 Aug 2016 16:40:54 +0900 (JST)
+Received: from localhost.localdomain (10.24.19.99) by
+	g01jpexchyt37.g01.fujitsu.local (10.128.193.67) with Microsoft SMTP
+	Server id 14.3.266.1; Wed, 3 Aug 2016 16:40:54 +0900
+From: Fan Xin <fan.xin@jp.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 3 Aug 2016 16:41:31 +0900
+Message-ID: <1470210091-6903-1-git-send-email-fan.xin@jp.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+X-SecurityPolicyCheck-GC: OK by FENCE-Mail
+X-TM-AS-MML: disable
+Cc: Fan Xin <fan.xin@jp.fujitsu.com>
+Subject: [PATCH] procps: upgrade to 3.3.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,55 +41,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Aug 2016 07:28:52 -0000
+X-List-Received-Date: Wed, 03 Aug 2016 07:41:02 -0000
+Content-Type: text/plain
 
-Make sure that we have a pristine source tree after do_unpack.
-
-[YOCTO #9064]
-
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
 ---
- meta/classes/base.bbclass | 19 +++++++++----------
- 1 file changed, 9 insertions(+), 10 deletions(-)
+ meta/recipes-extended/procps/{procps_3.3.11.bb => procps_3.3.12.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/procps/{procps_3.3.11.bb => procps_3.3.12.bb} (94%)
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 5d8e8d6..39acd1e 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -136,23 +136,22 @@ python base_do_fetch() {
+diff --git a/meta/recipes-extended/procps/procps_3.3.11.bb b/meta/recipes-extended/procps/procps_3.3.12.bb
+similarity index 94%
+rename from meta/recipes-extended/procps/procps_3.3.11.bb
+rename to meta/recipes-extended/procps/procps_3.3.12.bb
+index c6dccc6..4ca1a50 100644
+--- a/meta/recipes-extended/procps/procps_3.3.11.bb
++++ b/meta/recipes-extended/procps/procps_3.3.12.bb
+@@ -16,8 +16,8 @@ SRC_URI = "http://downloads.sourceforge.net/project/procps-ng/Production/procps-
+            file://sysctl.conf \
+           "
  
- addtask unpack after do_fetch
- do_unpack[dirs] = "${WORKDIR}"
-+
-+python () {
-+    if d.getVar('S', True) != d.getVar('WORKDIR', True):
-+        d.setVarFlag('do_unpack', 'cleandirs', '${S}')
-+    else:
-+        d.setVarFlag('do_unpack', 'cleandirs', os.path.join('${S}', 'patches'))
-+}
-+
- python base_do_unpack() {
-     src_uri = (d.getVar('SRC_URI', True) or "").split()
-     if len(src_uri) == 0:
-         return
+-SRC_URI[md5sum] = "6cc5b94c1c5b8cbc89ad345a7b522f74"
+-SRC_URI[sha256sum] = "e9493169a2d2adc0bc045538707310c8e877b385e4e296143b62607d2bb044ed"
++SRC_URI[md5sum] = "957e42e8b193490b2111252e4a2b443c"
++SRC_URI[sha256sum] = "6ed65ab86318f37904e8f9014415a098bec5bc53653e5d9ab404f95ca5e1a7d4"
  
--    rootdir = d.getVar('WORKDIR', True)
--
--    # Ensure that we cleanup ${S}/patches
--    # TODO: Investigate if we can remove
--    # the entire ${S} in this case.
--    s_dir = d.getVar('S', True)
--    p_dir = os.path.join(s_dir, 'patches')
--    bb.utils.remove(p_dir, True)
--
-     try:
-         fetcher = bb.fetch2.Fetch(src_uri, d)
--        fetcher.unpack(rootdir)
-+        fetcher.unpack(d.getVar('WORKDIR', True))
-     except bb.fetch2.BBFetchException as e:
-         raise bb.build.FuncFailed(e)
- }
+ S = "${WORKDIR}/procps-ng-${PV}"
+ 
 -- 
-2.6.6
+2.7.4
 
 
