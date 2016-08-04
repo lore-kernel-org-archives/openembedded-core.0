@@ -1,22 +1,20 @@
 Return-Path: <s.mueller-klieser@phytec.de>
-X-Greylist: delayed 444 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 04 Aug 2016 13:35:22 UTC
-Received: from root.phytec.de (mail.x-arc.co.uk [217.6.246.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 010DB7665F
+Received: from root.phytec.de (mail.tricorecenter.de [217.6.246.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 01E7A76806
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  4 Aug 2016 13:35:22 +0000 (UTC)
 Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
-	by root.phytec.de (Postfix) with ESMTP id 9AEC7A00419
+	by root.phytec.de (Postfix) with ESMTP id BBC94A00420
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  4 Aug 2016 15:27:58 +0200 (CEST)
 Received: from lws-mklieser.phytec.de ([172.16.10.21])
 	by idefix.phytec.de (IBM Domino Release 9.0.1FP5 HF413)
-	with ESMTP id 2016080415275727-19328 ;
+	with ESMTP id 2016080415275736-19331 ;
 	Thu, 4 Aug 2016 15:27:57 +0200 
 From: =?UTF-8?q?Stefan=20M=C3=BCller-Klieser?= <s.mueller-klieser@phytec.de>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 4 Aug 2016 15:27:50 +0200
-Message-Id: <1470317274-27771-4-git-send-email-s.mueller-klieser@phytec.de>
+Date: Thu, 4 Aug 2016 15:27:53 +0200
+Message-Id: <1470317274-27771-7-git-send-email-s.mueller-klieser@phytec.de>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1470317274-27771-1-git-send-email-s.mueller-klieser@phytec.de>
 References: <1470317274-27771-1-git-send-email-s.mueller-klieser@phytec.de>
@@ -26,7 +24,7 @@ X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP5
 	Serialize by Router on Idefix/Phytec(Release 9.0.1FP5 HF413|March 21,
 	2016) at 04.08.2016 15:27:57
 X-TNEFEvaluated: 1
-Subject: [PATCH 3/7] guile: remove dangling patch
+Subject: [PATCH 6/7] matchbox-desktop: remove dangling patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,74 +43,87 @@ Content-Transfer-Encoding: quoted-printable
 
 Signed-off-by: Stefan M=C3=BCller-Klieser <s.mueller-klieser@phytec.de>
 ---
- .../files/opensuse/guile-turn-off-gc-test.patch    | 49 ------------------=
+ ...thing-on-delete-event-when-not-STANDALONE.patch | 60 ------------------=
 ----
- 1 file changed, 49 deletions(-)
- delete mode 100644 meta/recipes-devtools/guile/files/opensuse/guile-turn-o=
-ff-gc-test.patch
+ 1 file changed, 60 deletions(-)
+ delete mode 100644 meta/recipes-sato/matchbox-desktop/files/0001-Do-nothin=
+g-on-delete-event-when-not-STANDALONE.patch
 
-diff --git a/meta/recipes-devtools/guile/files/opensuse/guile-turn-off-gc-t=
-est.patch b/meta/recipes-devtools/guile/files/opensuse/guile-turn-off-gc-te=
-st.patch
+diff --git a/meta/recipes-sato/matchbox-desktop/files/0001-Do-nothing-on-de=
+lete-event-when-not-STANDALONE.patch b/meta/recipes-sato/matchbox-desktop/f=
+iles/0001-Do-nothing-on-delete-event-when-not-STANDALONE.patch
 deleted file mode 100644
-index e2a353e..0000000
---- a/meta/recipes-devtools/guile/files/opensuse/guile-turn-off-gc-test.pat=
-ch
+index 46397dc..0000000
+--- a/meta/recipes-sato/matchbox-desktop/files/0001-Do-nothing-on-delete-ev=
+ent-when-not-STANDALONE.patch
 +++ /dev/null
-@@ -1,49 +0,0 @@
--Upstream-Status: Inappropriate [opensuse patch]
+@@ -1,60 +0,0 @@
+-From 5fe37ef38500f858a22ecdf9bf69bf06e213bf68 Mon Sep 17 00:00:00 2001
+-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+-Date: Tue, 22 Mar 2016 12:41:35 +0200
+-Subject: [PATCH] Do nothing on delete-event when not STANDALONE
 -
--Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+-This prevents an opportunistic alt-F4 from closing the desktop.
 -
--See http://debbugs.gnu.org/cgi/bugreport.cgi?bug=3D10096
--why this test is turned off.
--Index: guile-2.0.3/test-suite/tests/gc.test
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
----- guile-2.0.3.orig/test-suite/tests/gc.test	2011-10-15 09:34:40.00000000=
-0 -0700
--+++ guile-2.0.3/test-suite/tests/gc.test	2012-01-13 21:52:10.282540355 -08=
-00
--@@ -65,23 +65,23 @@
--       foo)))
+-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-
+-Upstream-Status: Backport
+----
+- src/desktop.c | 12 +++++++++++-
+- 1 file changed, 11 insertions(+), 1 deletion(-)
+-
+-diff --git a/src/desktop.c b/src/desktop.c
+-index d4fc2fb..94b4ddf 100644
+---- a/src/desktop.c
+-+++ b/src/desktop.c
+-@@ -122,6 +122,15 @@ load=5Fitems (TakuMenu *menu)
 -=20
+- }
 -=20
---(with-test-prefix "gc"
---  (pass-if "Unused modules are removed"
---    (let* ((guard (make-guardian))
---           (total 1000))
---
---      (for-each (lambda (x) (guard (make-module))) (iota total))
--+;;(with-test-prefix "gc"
--+;;  (pass-if "Unused modules are removed"
--+;;    (let* ((guard (make-guardian))
--+;;           (total 1000))
--+;;
--+;;      (for-each (lambda (x) (guard (make-module))) (iota total))
+-+#ifndef STANDALONE
+-+static gboolean
+-+delete=5Fevent=5Fcb (GtkWidget *widget, GdkEvent *event, gpointer user=5F=
+data)
+-+{
+-+  /* prevent default handler from destroying the window */
+-+  return TRUE;
+-+}
+-+#endif
+-+
+- static void
+- workarea=5Fchanged (int x, int y, int w, int h)
+- {
+-@@ -144,11 +153,11 @@ create=5Fdesktop (void)
+-   gtk=5Ficon=5Fsize=5Fregister ("taku-icon", 64, 64);
 -=20
--       ;; Avoid false references to the modules on the stack.
---      (stack-cleanup 20)
--+;;      (stack-cleanup 20)
+-   window =3D gtk=5Fwindow=5Fnew (GTK=5FWINDOW=5FTOPLEVEL);
+--  g=5Fsignal=5Fconnect (window, "delete-event", G=5FCALLBACK (gtk=5Fmain=
+=5Fquit), NULL);
+-   gtk=5Fwidget=5Fset=5Fname (window, "TakuWindow");
+-   gtk=5Fwindow=5Fset=5Ftitle (GTK=5FWINDOW (window), =5F("Desktop"));
 -=20
---      (gc)
---      (gc) ;; twice: have to kill the weak vectors.
---      (gc) ;; thrice: because the test doesn't succeed with only
--+;;      (gc)
--+;;      (gc) ;; twice: have to kill the weak vectors.
--+;;      (gc) ;; thrice: because the test doesn't succeed with only
--            ;; one gc round. not sure why.
+- #ifndef STANDALONE
+-+  g=5Fsignal=5Fconnect (window, "delete-event", G=5FCALLBACK (delete=5Fev=
+ent=5Fcb), NULL);
+-   gtk=5Fwindow=5Fset=5Ftype=5Fhint (GTK=5FWINDOW (window), GDK=5FWINDOW=
+=5FTYPE=5FHINT=5FDESKTOP);
+-   gtk=5Fwindow=5Fset=5Fskip=5Ftaskbar=5Fhint (GTK=5FWINDOW (window), TRUE=
+);
 -=20
---      (=3D (let lp ((i 0))
---           (if (guard)
---               (lp (1+ i))
---               i))
---         total))))
--+;;      (=3D (let lp ((i 0))
--+;;           (if (guard)
--+;;               (lp (1+ i))
--+;;               i))
--+;;         total))))
+-@@ -156,6 +165,7 @@ create=5Fdesktop (void)
+-   screen=5Fw =3D gdk=5Fscreen=5Fget=5Fwidth (screen);
+-   screen=5Fh =3D gdk=5Fscreen=5Fget=5Fheight (screen);
+- #else
+-+  g=5Fsignal=5Fconnect (window, "delete-event", G=5FCALLBACK (gtk=5Fmain=
+=5Fquit), NULL);
+-   screen=5Fw =3D 640;
+-   screen=5Fh =3D 480;
+- #endif
+---=20
+-2.7.0
+-
 --=20
 1.9.1
 
