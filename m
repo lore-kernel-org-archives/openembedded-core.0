@@ -1,42 +1,49 @@
-Return-Path: <btv1==024bf9e6ca9==Terry.Boese@vecima.com>
-X-Greylist: delayed 802 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 04 Aug 2016 22:54:11 UTC
-Received: from mx1.vecima.com (mx1.vecima.com [216.65.182.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 3553E731FA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f44.google.com (mail-it0-f44.google.com
+	[209.85.214.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A5E3731D2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Aug 2016 22:54:11 +0000 (UTC)
-X-ASG-Debug-ID: 1470350448-0347d858c52225e0001-7zcVdP
-Received: from ExchangeInt.corp.vcom.com (exchangeint.corp.vcom.com
-	[192.168.50.125]) by mx1.vecima.com with ESMTP id
-	Vuy440w6aGmgw6QP for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Aug 2016 16:40:48 -0600 (CST)
-X-Barracuda-Envelope-From: Terry.Boese@vecima.com
-Received: from PC2170.corp.vcom.com (192.168.216.92) by
-	ExchangeInt.corp.vcom.com (192.168.50.125) with Microsoft SMTP Server
-	id 14.3.279.2; Thu, 4 Aug 2016 16:40:48 -0600
-From: Terry Boese <terry.boese@vecima.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 4 Aug 2016 16:40:20 -0600
-X-ASG-Orig-Subj: [PATCH] Update dnsmasq to version 2.76
-Message-ID: <1470350420-19935-1-git-send-email-terry.boese@vecima.com>
-X-Mailer: git-send-email 2.7.4
+	Thu,  4 Aug 2016 23:19:34 +0000 (UTC)
+Received: by mail-it0-f44.google.com with SMTP id j124so9827802ith.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 04 Aug 2016 16:19:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=GIiVEDsTcQHfgoTNPNKgvIJy1XU0xCceDO2JxWqsOx4=;
+	b=G/o2TkNe+qgMQ3y/fFcIPo+5ULhMTlmJ/bWLc2YenQ4uHHY1TpdPW05RJS898d2irI
+	MnupjlNy7iTzibM7ryIsVBl1kWTGvDmrYJ8RgJ8G84Mmwwf4GjgykILBhUDyXciS6Ydh
+	r4KxjvM3ikTtjUZtrRW76AvsnM6i5Hga073g8Umgx2Spq8m782v+Dfu++ABlwauNtDIO
+	znAy+AKp2k1l1iIiwGMiTNPswiHQD9KPHzBxQ3NAsiOZrbM0xpx4J4NQNVg0RKzeyBiG
+	02hKnJN4w3HfJEJhIVmnbbmb+afquYmR7+csdb4K6MbKx8nTaJptis0uN317pd2qDPJV
+	tsxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=GIiVEDsTcQHfgoTNPNKgvIJy1XU0xCceDO2JxWqsOx4=;
+	b=Ixzc2Ylkz0GSDDjeirF1iiS08hoiRXn2OjFi9fLbcdN0SlL5/w2sQliHdAkOg7uimW
+	H7++/IpAZomqF/7Qr46K7028kWCnRRHT+4sq1oBZ6x4yIqOBurWwP72id2ezrM3G7kul
+	U0+yrv/h/ymg1Ri8GzslHTTTLzHTk2AJ1z2hS1dBRPwaybO94JaylaNvpXJWkAuu8d2G
+	kcQfH0BlLiY1wsxX4a8bIHInn0CXbVpSgelsaZHZLpBTuECVAD4DT7rAj+SBSE5RVNkp
+	U2H8qM3vr1CI3EHksZkVvHNM3hs8fZ1lbmhcTCRUJmYxkgVkuVKUyUYZdzrVq4yjZjK/
+	ylvg==
+X-Gm-Message-State: AEkoousktJcO+1LSGKvcpiSh9bvgARMe0zQjjNXEfjSvJqItIB2oXKJPwRNGo8UB/eQL1koVlJQusWQnRWktT2Sg
+X-Received: by 10.36.129.213 with SMTP id q204mr649525itd.38.1470352774827;
+	Thu, 04 Aug 2016 16:19:34 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [192.168.216.92]
-X-Barracuda-Connect: exchangeint.corp.vcom.com[192.168.50.125]
-X-Barracuda-Start-Time: 1470350448
-X-Barracuda-URL: https://192.168.99.189:443/cgi-mod/mark.cgi
-X-Barracuda-Scan-Msg-Size: 3823
-X-Virus-Scanned: by bsmtpd at vecima.com
-X-Barracuda-BRTS-Status: 1
-X-Barracuda-Spam-Score: 0.00
-X-Barracuda-Spam-Status: No, SCORE=0.00 using global scores of TAG_LEVEL=1000.0
-	QUARANTINE_LEVEL=1000.0 KILL_LEVEL=4.0 tests=
-X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.31757
-	Rule breakdown below
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-Subject: [PATCH] Update dnsmasq to version 2.76
+Received: by 10.107.18.17 with HTTP; Thu, 4 Aug 2016 16:19:14 -0700 (PDT)
+In-Reply-To: <CA+chaQc0hKwRL1rJohYRxTG3GBre8xAqBpqrKzBwd6mnE9_sxQ@mail.gmail.com>
+References: <20160804195645.1254.80390@opal.openembedded.org>
+	<20160804195647.4E7D15017B@opal.openembedded.org>
+	<CA+chaQc0hKwRL1rJohYRxTG3GBre8xAqBpqrKzBwd6mnE9_sxQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 5 Aug 2016 00:19:14 +0100
+Message-ID: <CAJTo0LZRnm8znSGYtYLx_-ar4DZG7Ydhz13RdTTNbqBciky4_A@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe-commits] [openembedded-core] 06/10: tslib: replace pointercal with pointercal-xinput
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,91 +56,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Aug 2016 22:54:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 04 Aug 2016 23:19:34 -0000
+Content-Type: multipart/alternative; boundary=94eb2c08b1fcd6a36d0539472e1f
 
-diff --git a/meta-networking/recipes-support/dnsmasq/dnsmasq.inc b/meta-networking/recipes-support/dnsmasq/dnsmasq.inc
-index cc7f9e3..9ef54fe 100644
---- a/meta-networking/recipes-support/dnsmasq/dnsmasq.inc
-+++ b/meta-networking/recipes-support/dnsmasq/dnsmasq.inc
-@@ -26,10 +26,10 @@ PACKAGECONFIG[conntrack] = ",,libnetfilter-conntrack"
- PACKAGECONFIG[lua] = ",,lua"
- PACKAGECONFIG[resolvconf] = ",,,resolvconf"
- EXTRA_OEMAKE = "\
--    'COPTS=${@base_contains('PACKAGECONFIG', 'dbus', '-DHAVE_DBUS', '', d)} \
--           ${@base_contains('PACKAGECONFIG', 'idn', '-DHAVE_IDN', '', d)} \
--           ${@base_contains('PACKAGECONFIG', 'conntrack', '-DHAVE_CONNTRACK', '', d)} \
--           ${@base_contains('PACKAGECONFIG', 'lua', '-DHAVE_LUASCRIPT', '', d)}' \
-+    'COPTS=${@bb.utils.contains('PACKAGECONFIG', 'dbus', '-DHAVE_DBUS', '', d)} \
-+           ${@bb.utils.contains('PACKAGECONFIG', 'idn', '-DHAVE_IDN', '', d)} \
-+           ${@bb.utils.contains('PACKAGECONFIG', 'conntrack', '-DHAVE_CONNTRACK', '', d)} \
-+           ${@bb.utils.contains('PACKAGECONFIG', 'lua', '-DHAVE_LUASCRIPT', '', d)}' \
-     'CFLAGS=${CFLAGS}' \
-     'LDFLAGS=${LDFLAGS}' \
- "
-@@ -38,7 +38,7 @@ SRC_URI += "${@bb.utils.contains('PACKAGECONFIG', 'resolvconf', 'file://dnsmasq.
- 
- do_compile_append() {
-     # build dhcp_release
--    cd ${S}/contrib/wrt
-+    cd ${S}/contrib/lease-tools
-     oe_runmake
- }
- 
-@@ -53,19 +53,19 @@ do_install () {
- 
-     install -d ${D}${systemd_unitdir}/system
- 
--    if [ "${@base_contains('PACKAGECONFIG', 'resolvconf', 'resolvconf', '', d)}" != "" ]; then
-+    if [ "${@bb.utils.contains('PACKAGECONFIG', 'resolvconf', 'resolvconf', '', d)}" != "" ]; then
-         install -m 0644 ${WORKDIR}/dnsmasq-resolvconf.service ${D}${systemd_unitdir}/system/dnsmasq.service
-     else
-         install -m 0644 ${WORKDIR}/dnsmasq-noresolvconf.service ${D}${systemd_unitdir}/system/dnsmasq.service
-     fi
- 
--    install -m 0755 ${S}/contrib/wrt/dhcp_release ${D}${bindir}
-+    install -m 0755 ${S}/contrib/lease-tools/dhcp_release ${D}${bindir}
- 
--    if [ "${@base_contains('PACKAGECONFIG', 'dbus', 'dbus', '', d)}" != "" ]; then
-+    if [ "${@bb.utils.contains('PACKAGECONFIG', 'dbus', 'dbus', '', d)}" != "" ]; then
-         install -d ${D}${sysconfdir}/dbus-1/system.d
-         install -m 644 dbus/dnsmasq.conf ${D}${sysconfdir}/dbus-1/system.d/
-     fi
--    if [ "${@base_contains('PACKAGECONFIG', 'resolvconf', 'resolvconf', '', d)}" != "" ]; then
-+    if [ "${@bb.utils.contains('PACKAGECONFIG', 'resolvconf', 'resolvconf', '', d)}" != "" ]; then
-         install -d ${D}${sysconfdir}/resolvconf/update.d/
-         install -m 0755 ${WORKDIR}/dnsmasq.resolvconf ${D}${sysconfdir}/resolvconf/update.d/dnsmasq
- 
-diff --git a/meta-networking/recipes-support/dnsmasq/dnsmasq_2.75.bb b/meta-networking/recipes-support/dnsmasq/dnsmasq_2.75.bb
-deleted file mode 100644
-index a11aabb..0000000
---- a/meta-networking/recipes-support/dnsmasq/dnsmasq_2.75.bb
-+++ /dev/null
-@@ -1,9 +0,0 @@
--require dnsmasq.inc
--
--SRC_URI += "\
--    file://lua.patch \
--"
--
--SRC_URI[dnsmasq-2.75.md5sum] = "d99ac126d4fe910c679d88430559669b"
--SRC_URI[dnsmasq-2.75.sha256sum] = "f8252c0a0ba162c2cd45f81140c7c17cc40a5fca2b869d1a420835b74acad294"
--
-diff --git a/meta-networking/recipes-support/dnsmasq/dnsmasq_2.76.bb b/meta-networking/recipes-support/dnsmasq/dnsmasq_2.76.bb
-new file mode 100644
-index 0000000..41573d9
---- /dev/null
-+++ b/meta-networking/recipes-support/dnsmasq/dnsmasq_2.76.bb
-@@ -0,0 +1,8 @@
-+require dnsmasq.inc
-+
-+SRC_URI += "\
-+    file://lua.patch \
-+"
-+
-+SRC_URI[dnsmasq-2.76.md5sum] = "6610f8233ca89b15a1bb47c788ffb84f"
-+SRC_URI[dnsmasq-2.76.sha256sum] = "777c4762d2fee3738a0380401f2d087b47faa41db2317c60660d69ad10a76c32"
--- 
-2.7.4
+--94eb2c08b1fcd6a36d0539472e1f
+Content-Type: text/plain; charset=UTF-8
 
+On 4 August 2016 at 21:08, Martin Jansa <martin.jansa@gmail.com> wrote:
 
+> Since when tslib reads pointercal-xinput file?
+>
+
+That was my comment on the list too, but this series was left in my staging
+branch so ended up getting sucked into master.  I propose a revert for this
+too.
+
+Ross
+
+--94eb2c08b1fcd6a36d0539472e1f
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 4 August 2016 at 21:08, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&g=
+t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">Since w=
+hen tslib reads pointercal-xinput file?</div><div class=3D"gmail_extra"></d=
+iv></blockquote></div><br>That was my comment on the list too, but this ser=
+ies was left in my staging branch so ended up getting sucked into master.=
+=C2=A0 I propose a revert for this too.</div><div class=3D"gmail_extra"><br=
+></div><div class=3D"gmail_extra">Ross</div></div>
+
+--94eb2c08b1fcd6a36d0539472e1f--
