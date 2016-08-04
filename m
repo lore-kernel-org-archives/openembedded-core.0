@@ -1,40 +1,20 @@
-Return-Path: <prvs=9023ee1d74=michael.davis@essvote.com>
-Received: from m2.essvote.com (m2.essvote.com [66.37.226.14])
-	by mail.openembedded.org (Postfix) with ESMTP id 10E34731D1
+Return-Path: <california.l.sullivan@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id D80536E5CB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Aug 2016 21:26:57 +0000 (UTC)
-X-AuditID: 0a00029b-f79b46d000000dc2-a0-57a261a1057c
-Received: from ESS-EX01.essvote.corp.local (Unknown_Domain [172.16.110.40])
-	by m2.essvote.com (Symantec Messaging Gateway) with SMTP id
-	7C.7B.03522.1A162A75; Wed,  3 Aug 2016 16:26:57 -0500 (CDT)
-Received: from ESS-EX01.essvote.corp.local ([::1]) by
-	ESS-EX01.essvote.corp.local ([::1]) with mapi id 14.03.0301.000;
-	Wed, 3 Aug 2016 16:26:57 -0500
-From: "Davis, Michael" <michael.davis@essvote.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core][krogoth][master][PATCHv2] pseudo: Add nobody user
-	and group
-Thread-Index: AQHR7c3DIWbNfSdIKEaxD5luTtg3dQ==
-Date: Wed, 3 Aug 2016 21:26:57 +0000
-Message-ID: <1470259580-15389-1-git-send-email-michael.davis@essvote.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.1.8.93]
-MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrALMWRmVeSWpSXmKPExsWyRiBPQ3dh4qJwg4cTTC3u/HzH7sDocW7j
-	CsYAxihum6TEkrLgzPQ8fbsE7oxpS+IKvnNUXDhxlr2B8SN7FyMnh4SAicSSl4uYIWwxiQv3
-	1rN1MXJxCAkcZZQ41d7PDuHMZJT49egpWBWbgJHEueubGEFsEYFoiaUzZoJNYhYwkHi3eSMr
-	iC0sECBx/xrEBhGBUIkLM+ewQth6EnM2b2MBsVkEVCTOHLkOFucV8JQ43P2YCcRmBLri+6k1
-	TBAzxSVuPZnPBHGdgMSSPeehLhWVePn4HyuELSvxbccUFoh6PYkbU6ewQdjaEssWvmaGmC8o
-	cXLmE5YJjCKzkIydhaRlFpKWWUhaFjCyrGLkyzXSSy0uLssvSdVLzs/dxAgMdy4Gptk7GPdM
-	cDjEKMDBqMTDGxC9KFyINbGsuDL3EKM0B4uSOK+KkFK4kEB6YklqdmpqQWpRfFFpTmrxIUYm
-	Ds5DjBIcXFIixal5KalFiaUlGfGgqIovBsaVVANjtfwR6Zgp/H0TVt1PEcl+9bJO8Xr/4pUp
-	Hu1dM0wsL1++xpAXcrvy8Y1Zp9Y3GPo8UO5323Ca3+fKxiMV/tNc5OKS1hzXyJluwzld0D9n
-	ws1FicxSYYZzwyJZUt9Fyk9ZYV4ZU3HmXPpd9w3dB1QjipXPJ60X7es+mRdvH/05Y/vimxOL
-	TPyVWIozEg21mIuKEwGfWHgucwIAAA==
-Subject: [krogoth][master][PATCHv2] pseudo: Add nobody user and group
+	Wed,  3 Aug 2016 23:39:39 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP; 03 Aug 2016 16:39:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,468,1464678000"; d="scan'208";a="1008007497"
+Received: from clsulliv.jf.intel.com ([10.7.201.156])
+	by orsmga001.jf.intel.com with ESMTP; 03 Aug 2016 16:39:41 -0700
+From: California Sullivan <california.l.sullivan@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  3 Aug 2016 19:36:35 -0700
+Message-Id: <1470278197-30440-1-git-send-email-california.l.sullivan@intel.com>
+X-Mailer: git-send-email 2.5.5
+Subject: [PATCH 0/2] Update SERIAL_CONSOLES_CHECK to allow aliasing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,40 +27,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Aug 2016 21:26:58 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 03 Aug 2016 23:39:42 -0000
 
-Nodejs expects the user and group nobody to exist on global install command=
-s.
-The target build works as base-passwd contained it, however the fallback pa=
-sswd did not.
-This broke the SDK if nodejs was included.
+This patch set fixes the corner case described in [YOCTO #9440] and
+updates its documentation. The documentation was not up to date with
+what the code actually does, and I added to its functionality, so it
+needed to be completely rewritten.
 
-Signed-off-by: Michael Davis <michael.davis@essvote.com>
----
- meta/recipes-devtools/pseudo/files/fallback-group  | 1 +
- meta/recipes-devtools/pseudo/files/fallback-passwd | 1 +
- 2 files changed, 2 insertions(+)
+Scott, please review the documentation patch and feel free to update
+it however you see fit. I'm not the best writer and I'm not confident
+the description I gave is sufficient.
 
-diff --git a/meta/recipes-devtools/pseudo/files/fallback-group b/meta/recip=
-es-devtools/pseudo/files/fallback-group
-index 81bf732..bb3dbca 100644
---- a/meta/recipes-devtools/pseudo/files/fallback-group
-+++ b/meta/recipes-devtools/pseudo/files/fallback-group
-@@ -1,2 +1,3 @@
- root:*:0:
- mail:*:8:
-+nobody:*:99:
-diff --git a/meta/recipes-devtools/pseudo/files/fallback-passwd b/meta/reci=
-pes-devtools/pseudo/files/fallback-passwd
-index c1458dc..0889c57 100644
---- a/meta/recipes-devtools/pseudo/files/fallback-passwd
-+++ b/meta/recipes-devtools/pseudo/files/fallback-passwd
-@@ -1 +1,2 @@
- root::0:0:root:/home/root:/bin/sh
-+nobody:*:65534:65534:nobody:/nonexistent:/bin/sh
---=20
+Thanks,
+Cal Sullivan
+
+California Sullivan (2):
+  sysvinit-inittab_2.88dsf.bb: Allow aliasing with SERIAL_CONSOLES_CHECK
+  documentation/ref-manual: Update SERIAL_CONSOLES_CHECK description
+
+ documentation/ref-manual/ref-variables.xml             | 12 ++++++++----
+ meta/conf/documentation.conf                           |  2 +-
+ meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb |  7 +++++--
+ 3 files changed, 14 insertions(+), 7 deletions(-)
+
+-- 
 2.5.5
+
 
