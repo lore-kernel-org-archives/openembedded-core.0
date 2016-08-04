@@ -1,22 +1,30 @@
-Return-Path: <pascal.bach@siemens.com>
-Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DB886FF78
+Return-Path: <s.mueller-klieser@phytec.de>
+Received: from root.phytec.de (mail.visioncatalog.com [217.6.246.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 0028D76651
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Aug 2016 13:28:53 +0000 (UTC)
-Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
-	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id u74DSr0W017854
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	Thu,  4 Aug 2016 13:35:22 +0000 (UTC)
+Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
+	by root.phytec.de (Postfix) with ESMTP id A32DAA0041A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 4 Aug 2016 15:28:53 +0200
-Received: from dev.sbt.siemens.com (MD1FZU9C.ww002.siemens.net [139.16.77.234])
-	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id u74DSr7S027356;
-	Thu, 4 Aug 2016 15:28:53 +0200
-From: Pascal Bach <pascal.bach@siemens.com>
+	Thu,  4 Aug 2016 15:27:58 +0200 (CEST)
+Received: from lws-mklieser.phytec.de ([172.16.10.21])
+	by idefix.phytec.de (IBM Domino Release 9.0.1FP5 HF413)
+	with ESMTP id 2016080415275730-19329 ;
+	Thu, 4 Aug 2016 15:27:57 +0200 
+From: =?UTF-8?q?Stefan=20M=C3=BCller-Klieser?= <s.mueller-klieser@phytec.de>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Aug 2016 15:28:46 +0200
-Message-Id: <1470317326-1814-1-git-send-email-pascal.bach@siemens.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] util-linux: make prlimit a separate package
+Date: Thu, 4 Aug 2016 15:27:51 +0200
+Message-Id: <1470317274-27771-5-git-send-email-s.mueller-klieser@phytec.de>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1470317274-27771-1-git-send-email-s.mueller-klieser@phytec.de>
+References: <1470317274-27771-1-git-send-email-s.mueller-klieser@phytec.de>
+MIME-Version: 1.0
+X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP5
+	HF413|March 21, 2016) at 04.08.2016 15:27:57,
+	Serialize by Router on Idefix/Phytec(Release 9.0.1FP5 HF413|March 21,
+	2016) at 04.08.2016 15:27:57
+X-TNEFEvaluated: 1
+Subject: [PATCH 4/7] python-numpy: remove dangling patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,52 +37,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Aug 2016 13:28:54 -0000
+X-List-Received-Date: Thu, 04 Aug 2016 13:35:23 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Busybox doesn't provide a similar tool so having it in
-a separate package allows to us it in addition to busybox without having
-to include all of util-linux.
-
-Before it was part of the top level util-linux package.
-Now it is a separate package util-linux-prlimit but the top level package
-still RRECOMMENDS it so for most users nothing should change.
-
-Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+Signed-off-by: Stefan M=C3=BCller-Klieser <s.mueller-klieser@phytec.de>
 ---
- meta/recipes-core/util-linux/util-linux.inc | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ .../python-numpy/files/add-glibc-check.patch       | 36 ------------------=
+----
+ 1 file changed, 36 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python-numpy/files/add-glibc-chec=
+k.patch
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index bac1a37..5236209 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -32,7 +32,7 @@ PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfd
-              util-linux-mkfs util-linux-mcookie util-linux-reset \
-              util-linux-mkfs.cramfs util-linux-fsck.cramfs util-linux-fstrim \
-              util-linux-partx util-linux-hwclock util-linux-mountpoint \
--             util-linux-findfs util-linux-getopt util-linux-sulogin"
-+             util-linux-findfs util-linux-getopt util-linux-sulogin util-linux-prlimit"
- PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'pylibmount', 'util-linux-pylibmount', '', d)}"
- PACKAGES =+ "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'util-linux-runuser', '', d)}"
- 
-@@ -88,6 +88,7 @@ FILES_util-linux-hwclock = "${base_sbindir}/hwclock.${BPN}"
- FILES_util-linux-findfs = "${sbindir}/findfs"
- FILES_util-linux-getopt = "${base_bindir}/getopt.${BPN}"
- FILES_util-linux-runuser = "${sbindir}/runuser"
-+FILES_util-linux-prlimit = "${bindir}/prlimit"
- 
- FILES_util-linux-pylibmount = "${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.so \
-                                ${PYTHON_SITEPACKAGES_DIR}/libmount/__init__.* \
-@@ -116,7 +117,7 @@ RDEPENDS_util-linux-runuser += "libpam"
- RDEPENDS_${PN} = "util-linux-umount util-linux-swaponoff util-linux-losetup util-linux-sulogin"
- RDEPENDS_${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'util-linux-runuser', '', d)}"
- 
--RRECOMMENDS_${PN} = "util-linux-fdisk util-linux-cfdisk util-linux-sfdisk util-linux-mount util-linux-readprofile util-linux-mkfs util-linux-mountpoint"
-+RRECOMMENDS_${PN} = "util-linux-fdisk util-linux-cfdisk util-linux-sfdisk util-linux-mount util-linux-readprofile util-linux-mkfs util-linux-mountpoint util-linux-prlimit"
- 
- RRECOMMENDS_${PN}_class-native = ""
- RRECOMMENDS_${PN}_class-nativesdk = ""
--- 
-2.1.4
+diff --git a/meta/recipes-devtools/python-numpy/files/add-glibc-check.patch=
+ b/meta/recipes-devtools/python-numpy/files/add-glibc-check.patch
+deleted file mode 100644
+index 29768f3..0000000
+--- a/meta/recipes-devtools/python-numpy/files/add-glibc-check.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-Dont punish musl for glibc's trignometeric functions problems
+-additionally ensure that glibc specific macros are not used
+-unconditionally
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Upstream-Status: Pending
+-Index: numpy-1.10.4/numpy/core/src/private/npy=5Fconfig.h
+-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- numpy-1.10.4.orig/numpy/core/src/private/npy=5Fconfig.h
+-+++ numpy-1.10.4/numpy/core/src/private/npy=5Fconfig.h
+-@@ -75,10 +75,12 @@
+-=20
+- #if defined(HAVE=5FFEATURES=5FH)
+- #include <features.h>
+-+#ifdef =5F=5FGLIBC=5F=5F
+- #define TRIG=5FOK =5F=5FGLIBC=5FPREREQ(2, 16)
+- #else
+- #define TRIG=5FOK 0
+- #endif
+-+#endif
+-=20
+- #if !TRIG=5FOK
+- #undef HAVE=5FCASIN
+-Index: numpy-1.10.4/numpy/core/src/npymath/ieee754.c.src
+-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- numpy-1.10.4.orig/numpy/core/src/npymath/ieee754.c.src
+-+++ numpy-1.10.4/numpy/core/src/npymath/ieee754.c.src
+-@@ -612,7 +612,7 @@ void npy=5Fset=5Ffloatstatus=5Finvalid(void)
+- }
+-=20
+-=20
+--#elif defined(=5F=5FGLIBC=5F=5F) || defined(=5F=5FAPPLE=5F=5F) || \
+-+#elif defined(=5F=5Flinux=5F=5F) || defined(=5F=5FAPPLE=5F=5F) || \
+-       defined(=5F=5FCYGWIN=5F=5F) || defined(=5F=5FMINGW32=5F=5F) || \
+-       (defined(=5F=5FFreeBSD=5F=5F) && (=5F=5FFreeBSD=5Fversion >=3D 5021=
+14))
+- #  include <fenv.h>
+--=20
+1.9.1
 
 
