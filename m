@@ -1,20 +1,20 @@
 Return-Path: <s.mueller-klieser@phytec.de>
-Received: from root.phytec.de (mail.tricorecenter.de [217.6.246.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 01E7A76806
+Received: from root.phytec.de (mail.phycard.de [217.6.246.34])
+	by mail.openembedded.org (Postfix) with ESMTP id DE3E67665F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Aug 2016 13:35:22 +0000 (UTC)
+	Thu,  4 Aug 2016 13:35:23 +0000 (UTC)
 Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
-	by root.phytec.de (Postfix) with ESMTP id BBC94A00420
+	by root.phytec.de (Postfix) with ESMTP id 927A4A00414
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  4 Aug 2016 15:27:58 +0200 (CEST)
 Received: from lws-mklieser.phytec.de ([172.16.10.21])
 	by idefix.phytec.de (IBM Domino Release 9.0.1FP5 HF413)
-	with ESMTP id 2016080415275736-19331 ;
+	with ESMTP id 2016080415275724-19327 ;
 	Thu, 4 Aug 2016 15:27:57 +0200 
 From: =?UTF-8?q?Stefan=20M=C3=BCller-Klieser?= <s.mueller-klieser@phytec.de>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 4 Aug 2016 15:27:53 +0200
-Message-Id: <1470317274-27771-7-git-send-email-s.mueller-klieser@phytec.de>
+Date: Thu, 4 Aug 2016 15:27:49 +0200
+Message-Id: <1470317274-27771-3-git-send-email-s.mueller-klieser@phytec.de>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1470317274-27771-1-git-send-email-s.mueller-klieser@phytec.de>
 References: <1470317274-27771-1-git-send-email-s.mueller-klieser@phytec.de>
@@ -24,7 +24,7 @@ X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP5
 	Serialize by Router on Idefix/Phytec(Release 9.0.1FP5 HF413|March 21,
 	2016) at 04.08.2016 15:27:57
 X-TNEFEvaluated: 1
-Subject: [PATCH 6/7] matchbox-desktop: remove dangling patch
+Subject: [PATCH 2/7] openssl: remove dangling patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,93 +37,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Aug 2016 13:35:23 -0000
+X-List-Received-Date: Thu, 04 Aug 2016 13:35:24 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 Signed-off-by: Stefan M=C3=BCller-Klieser <s.mueller-klieser@phytec.de>
 ---
- ...thing-on-delete-event-when-not-STANDALONE.patch | 60 ------------------=
-----
- 1 file changed, 60 deletions(-)
- delete mode 100644 meta/recipes-sato/matchbox-desktop/files/0001-Do-nothin=
-g-on-delete-event-when-not-STANDALONE.patch
+ .../openssl/crypto=5Fuse=5Fbigint=5Fin=5Fx86-64=5Fperl.patch | 35 --------=
+--------------
+ 1 file changed, 35 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/crypto=5Fuse=
+=5Fbigint=5Fin=5Fx86-64=5Fperl.patch
 
-diff --git a/meta/recipes-sato/matchbox-desktop/files/0001-Do-nothing-on-de=
-lete-event-when-not-STANDALONE.patch b/meta/recipes-sato/matchbox-desktop/f=
-iles/0001-Do-nothing-on-delete-event-when-not-STANDALONE.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/crypto=5Fuse=5Fbigin=
+t=5Fin=5Fx86-64=5Fperl.patch b/meta/recipes-connectivity/openssl/openssl/cr=
+ypto=5Fuse=5Fbigint=5Fin=5Fx86-64=5Fperl.patch
 deleted file mode 100644
-index 46397dc..0000000
---- a/meta/recipes-sato/matchbox-desktop/files/0001-Do-nothing-on-delete-ev=
-ent-when-not-STANDALONE.patch
+index 4f81d85..0000000
+--- a/meta/recipes-connectivity/openssl/openssl/crypto=5Fuse=5Fbigint=5Fin=
+=5Fx86-64=5Fperl.patch
 +++ /dev/null
-@@ -1,60 +0,0 @@
--From 5fe37ef38500f858a22ecdf9bf69bf06e213bf68 Mon Sep 17 00:00:00 2001
--From: Jussi Kukkonen <jussi.kukkonen@intel.com>
--Date: Tue, 22 Mar 2016 12:41:35 +0200
--Subject: [PATCH] Do nothing on delete-event when not STANDALONE
--
--This prevents an opportunistic alt-F4 from closing the desktop.
--
--Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
--Signed-off-by: Ross Burton <ross.burton@intel.com>
--
--
+@@ -1,35 +0,0 @@
 -Upstream-Status: Backport
-----
-- src/desktop.c | 12 +++++++++++-
-- 1 file changed, 11 insertions(+), 1 deletion(-)
 -
--diff --git a/src/desktop.c b/src/desktop.c
--index d4fc2fb..94b4ddf 100644
----- a/src/desktop.c
--+++ b/src/desktop.c
--@@ -122,6 +122,15 @@ load=5Fitems (TakuMenu *menu)
--=20
-- }
--=20
--+#ifndef STANDALONE
--+static gboolean
--+delete=5Fevent=5Fcb (GtkWidget *widget, GdkEvent *event, gpointer user=5F=
-data)
--+{
--+  /* prevent default handler from destroying the window */
--+  return TRUE;
--+}
--+#endif
--+
-- static void
-- workarea=5Fchanged (int x, int y, int w, int h)
-- {
--@@ -144,11 +153,11 @@ create=5Fdesktop (void)
--   gtk=5Ficon=5Fsize=5Fregister ("taku-icon", 64, 64);
--=20
--   window =3D gtk=5Fwindow=5Fnew (GTK=5FWINDOW=5FTOPLEVEL);
---  g=5Fsignal=5Fconnect (window, "delete-event", G=5FCALLBACK (gtk=5Fmain=
-=5Fquit), NULL);
--   gtk=5Fwidget=5Fset=5Fname (window, "TakuWindow");
--   gtk=5Fwindow=5Fset=5Ftitle (GTK=5FWINDOW (window), =5F("Desktop"));
--=20
-- #ifndef STANDALONE
--+  g=5Fsignal=5Fconnect (window, "delete-event", G=5FCALLBACK (delete=5Fev=
-ent=5Fcb), NULL);
--   gtk=5Fwindow=5Fset=5Ftype=5Fhint (GTK=5FWINDOW (window), GDK=5FWINDOW=
-=5FTYPE=5FHINT=5FDESKTOP);
--   gtk=5Fwindow=5Fset=5Fskip=5Ftaskbar=5Fhint (GTK=5FWINDOW (window), TRUE=
-);
--=20
--@@ -156,6 +165,7 @@ create=5Fdesktop (void)
--   screen=5Fw =3D gdk=5Fscreen=5Fget=5Fwidth (screen);
--   screen=5Fh =3D gdk=5Fscreen=5Fget=5Fheight (screen);
-- #else
--+  g=5Fsignal=5Fconnect (window, "delete-event", G=5FCALLBACK (gtk=5Fmain=
-=5Fquit), NULL);
--   screen=5Fw =3D 640;
--   screen=5Fh =3D 480;
-- #endif
----=20
--2.7.0
+-When building on x32 systems where the default type is 32bit, make sure
+-we can transparently represent 64bit integers.  Otherwise we end up with
+-build errors like:
+-/usr/bin/perl asm/ghash-x86=5F64.pl elf > ghash-x86=5F64.s
+-Integer overflow in hexadecimal number at asm/../../perlasm/x86=5F64-xlate=
+.pl line 201, <> line 890.
+-...
+-ghash-x86=5F64.s: Assembler messages:
+-ghash-x86=5F64.s:890: Error: junk '.15473355479995e+19' after expression
 -
+-We don't enable this globally as there are some cases where we'd get
+-32bit values interpreted as unsigned when we need them as signed.
+-
+-Reported-by: Bertrand Jacquin <bertrand@jacquin.bzh>
+-URL: https://bugs.gentoo.org/542618
+-
+-Signed-off-by: Armin Kuster <akuster@mvista.com>
+-
+-Index: openssl-1.0.2a/crypto/perlasm/x86=5F64-xlate.pl
+-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- openssl-1.0.2a.orig/crypto/perlasm/x86=5F64-xlate.pl
+-+++ openssl-1.0.2a/crypto/perlasm/x86=5F64-xlate.pl
+-@@ -194,7 +194,10 @@ my %globals;
+-     }
+-     sub out {
+-     	my $self =3D shift;
+--
+-+	# When building on x32 ABIs, the expanded hex value might be too
+-+	# big to fit into 32bits. Enable transparent 64bit support here
+-+	# so we can safely print it out.
+-+	use bigint;
+- 	if ($gas) {
+- 	    # Solaris /usr/ccs/bin/as can't handle multiplications
+- 	    # in $self->{value}
 --=20
 1.9.1
 
