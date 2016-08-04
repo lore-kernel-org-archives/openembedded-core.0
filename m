@@ -1,44 +1,51 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
-	[209.85.220.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 102D175CF1
+Return-Path: <jacob.kroon@gmail.com>
+Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
+	[209.85.215.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 9086F73163
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Aug 2016 01:41:49 +0000 (UTC)
-Received: by mail-qk0-f196.google.com with SMTP id x189so9829490qkd.0
+	Thu,  4 Aug 2016 07:48:15 +0000 (UTC)
+Received: by mail-lf0-f68.google.com with SMTP id l89so13815135lfi.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Aug 2016 18:41:51 -0700 (PDT)
+	Thu, 04 Aug 2016 00:48:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=YbTQNkQcNQDr2Gf97XDfzsERin0rHGwskz4uzQC8ho8=;
-	b=nimUkAVrExfOnw5fXfWiH+eC+bEHDGJU0Sc2jnGK2ioIebdEKLwtNqSUGNfu9pyVju
-	mZzRvhpWDdm/rrGMGpNZ6syl02yB+Vb/TDXfeTg87M2CT25k8Y60PKrHy/+nT3YxLm0p
-	uECLtt3GYlbm4jbBXa4bM3qsk+0sw1gMjgCGlapsSJRnzwBDHKfh/uBkxsoY5hY7CRfM
-	pHEkAyhpP/9ZeU3C57yBlU4Vs6zfPfKuLZpcSdASxvLnaaCP+4KMFZKF+cH5DSL5XTq+
-	palzBYPLrvkJGAdaGjTRIKyHMv+qaIHEIrj4yAWLl6yYEHakVzHs9PcR8ZGHkuIWedmN
-	p/iw==
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding;
+	bh=IQbA9DtxoWd7HfF5tMmbJy5pPGuZ1VCSz9QOHQy5M08=;
+	b=cgfpuSYTE4OQFHn8HrhRupOdY8qz7L0R+Nj3ofi+05uazrVTW52halEC7qsvM+n2Eh
+	6tROBgOikX+Us+HjohLfSj4eDm7wHaSCcndctI5aNMTgAC5rFxN2nNlhxy3UlQY54XGS
+	C03r14Ka2eGn+XIhASY+hdKeUxQdLbVBJIzC/JgQCs7KCHT3HM+z1a3id7yiVg7/62q9
+	JNA+7q4SLuz9iEJpFJS31CynIAs1ALy1qqhmctwYzK+2byHFkLbL+g05e+irycPSdJPz
+	0wuaFf1dBmy6ayZ9Harsgvt7e+bKkdBRL1Fw0yFz7xQz01jZcKNNnUg8aW83A2VheV1N
+	X9lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=YbTQNkQcNQDr2Gf97XDfzsERin0rHGwskz4uzQC8ho8=;
-	b=PysBeEGPcTM+mJ96VTMZ0jWh9oX/wZ6Zv1xPQyf0Hu3UF0dFffMe98YFbwVUPuKKe6
-	b0b/Qdk+zPBflOfUKUvNqmUDmqPjd+CPEaP0IrZvlgm54dSoT3gtnEiM6yJoSKkXTQSC
-	SySAAWf411ac8XoPDS+99XQ/ikz3q9idhJw47/TSdE+FZEj9rMsMT5gR4RNDKNSM8Uue
-	/Zcyylx3a1cByE3EH+urnDK5yxFm8fDqxus0OOv1LAqPup1u8e34YZ4Kj0tHTXA31GMz
-	I0xCiqyXcpnY2G7gaQAjDywHV416rSTXreCv8TW3Ko1lSYDhDuoFsr2o4IonsX2afta+
-	zM4Q==
-X-Gm-Message-State: AEkoouuSH/R+4u/0hRbMzRaSMkZjALRIHhX7qU5LIDt1JNHMOIhPwGu4/DhkkbzBH+W1jdTmsdyM5pN2fegNUg==
-X-Received: by 10.55.106.195 with SMTP id f186mr3456603qkc.92.1470274910490;
-	Wed, 03 Aug 2016 18:41:50 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.200.50.137 with HTTP; Wed, 3 Aug 2016 18:41:50 -0700 (PDT)
-In-Reply-To: <1e6c0615-e39a-e2c3-23dd-992a03e06901@gmail.com>
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=IQbA9DtxoWd7HfF5tMmbJy5pPGuZ1VCSz9QOHQy5M08=;
+	b=bvT9appsdqWfcq5oFIKK05Fzmbc4AZKEEcSPGbfcEJDM4DJes57w6D1Ky3pb84Btgu
+	iT78Fyfm9TmhS67DbbVggEGyGN2NE3h3mCH4uqsCprnlb8lfYEZfadGz4nzdxbdL2XF0
+	hy1wNOaqUV67Fae1OkBT1I+IUpNPoWbTxVCu7wJ1gIfVt8FK8sCZkmA3MfP/jN/vi6zs
+	gDdbNV3kaHCGFwLTG1dW0H4tQsRkyQ3FXWJrxBI7LRzhap9cTbIX//JSQtLV796Nj0sP
+	R/JPamw69spP30lEd8cXEe2AY+jVI5grPb8bOicG0JE456/1VSGv4XMpwQERO5fr7/28
+	XFdA==
+X-Gm-Message-State: AEkoouvQgHF0gsjBajk7cLD2D3U/7wxr1upajnEpEyRsXGPoqpZNd+BFPvFoPwihtq/L8w==
+X-Received: by 10.25.150.141 with SMTP id y135mr20305500lfd.66.1470296894788; 
+	Thu, 04 Aug 2016 00:48:14 -0700 (PDT)
+Received: from skeletor.greyskull ([89.253.118.72])
+	by smtp.gmail.com with ESMTPSA id 67sm2179677ljj.8.2016.08.04.00.48.13
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 04 Aug 2016 00:48:14 -0700 (PDT)
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
 References: <1469552171-8500-1-git-send-email-jacob.kroon@gmail.com>
 	<1e6c0615-e39a-e2c3-23dd-992a03e06901@gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 3 Aug 2016 21:41:50 -0400
-Message-ID: <CADkTA4MYqHCQ0AiR72dxhVAVw0=K7Ui-F3ip3jS9x6gUE_5VqA@mail.gmail.com>
-To: Jacob Kroon <jacob.kroon@gmail.com>
+	<CADkTA4MYqHCQ0AiR72dxhVAVw0=K7Ui-F3ip3jS9x6gUE_5VqA@mail.gmail.com>
+From: Jacob Kroon <jacob.kroon@gmail.com>
+Message-ID: <dfd0136b-fb2a-51a2-b66a-3d5e63c5d2e1@gmail.com>
+Date: Thu, 4 Aug 2016 09:48:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
+MIME-Version: 1.0
+In-Reply-To: <CADkTA4MYqHCQ0AiR72dxhVAVw0=K7Ui-F3ip3jS9x6gUE_5VqA@mail.gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] kernel-devsrc: Don't package kernel meta-data
@@ -54,184 +61,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Aug 2016 01:41:53 -0000
-Content-Type: multipart/alternative; boundary=001a114fddb8c315990539350d34
+X-List-Received-Date: Thu, 04 Aug 2016 07:48:20 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a114fddb8c315990539350d34
-Content-Type: text/plain; charset=UTF-8
-
-On Wed, Aug 3, 2016 at 5:33 AM, Jacob Kroon <jacob.kroon@gmail.com> wrote:
-
-> On 07/26/2016 06:56 PM, Jacob Kroon wrote:
+On 08/04/2016 03:41 AM, Bruce Ashfield wrote:
+> On Wed, Aug 3, 2016 at 5:33 AM, Jacob Kroon <jacob.kroon@gmail.com
+> <mailto:jacob.kroon@gmail.com>> wrote:
+[...]
+>     Ignore this patch, I'm suspecting that .kernel-meta/ directory
+>     shouldn't exist in ${STAGING_KERNEL_DIR} to begin with ?
 >
->>  * The kernel meta-data doesn't need to be distributed in the kernel
->> source
->>    package, so drop it
->>  * Fix a typo
->>  * Split long lines
->>
->> Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
->> ---
->>  meta/recipes-kernel/linux/kernel-devsrc.bb | 10 +++++++---
->>  1 file changed, 7 insertions(+), 3 deletions(-)
->>
->> diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb
->> b/meta/recipes-kernel/linux/kernel-devsrc.bb
->> index 0fdd0ad..2dcf01e 100644
->> --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
->> +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
->> @@ -41,13 +41,17 @@ do_install() {
->>
->>          #
->>          # Copy the staging dir source (and module build support) into
->> the devsrc structure.
->> -        # We can keep this copy simple and take everything, since a
->> we'll clean up any build
->> +        # We can keep this copy simple and take everything, since we'll
->> clean up any build
->>          # artifacts afterwards, and the extra i/o is not significant
->>          #
->>          cd ${B}
->> -        find . -type d -name '.git*' -prune -o -path '.debug' -prune -o
->> -type f -print0 | cpio --null -pdlu $kerneldir
->> +        find . -type d -name '.git*' -prune -o \
->> +               -path '.debug' -prune -o \
->> +               -type f -print0 | cpio --null -pdlu $kerneldir
->>          cd ${S}
->> -        find . -type d -name '.git*' -prune -o -type f -print0 | cpio
->> --null -pdlu $kerneldir
->> +        find . -type d -name '.git*' -prune -o \
->> +               -type d -name '.kernel-meta' -prune -o \
->> +               -type f -print0 | cpio --null -pdlu $kerneldir
->>
->>          # Explicitly set KBUILD_OUTPUT to ensure that the image
->> directory is cleaned and not
->>          # The main build artifacts. We clean the directory to avoid QA
->> errors on mismatched
->>
->>
-> Ignore this patch, I'm suspecting that .kernel-meta/ directory shouldn't
-> exist in ${STAGING_KERNEL_DIR} to begin with ?
 >
+> It doesn't hurt anything by being there, but you can either intercept it
+> at the
+> time we stage the common kernel parts, or when you package devsrc .. either
+> will work.
 
-It doesn't hurt anything by being there, but you can either intercept it at
-the
-time we stage the common kernel parts, or when you package devsrc .. either
-will work.
+Since commit 3b49416fc7a7ee9bfe722f2e6089aa18df41dc58, linux-yocto.inc
+does:
 
-Bruce
+do_install_append(){
+	if [ -n "${KMETA}" ]; then
+		rm -rf ${STAGING_KERNEL_DIR}/${KMETA}
+	fi
+}
 
+But I think this accidentally got broken by a later commit
+3b2b4eef0fd06099342fcc2dfa35ecf37840c090, which changed the directory
+name by conditionally prepending a ".":
 
-> /Jacob
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+kmeta = d.getVar( "KMETA", True ) or "meta"
+if not os.path.exists(kmeta):
+     kmeta = "." + kmeta
 
+So it seems to me that the right thing to do here would be to fix and
+move the do_install_append() to kernel-yocto.bbclass. Bruce, what do
+you think ?
 
+Regards Jacob
 
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
-
---001a114fddb8c315990539350d34
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Wed, Aug 3, 2016 at 5:33 AM, Jacob Kroon <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:jacob.kroon@gmail.com" target=3D"_blank">jacob.kroon@gmail.com=
-</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
-:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"HOEn=
-Zb"><div class=3D"h5">On 07/26/2016 06:56 PM, Jacob Kroon wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-=C2=A0* The kernel meta-data doesn&#39;t need to be distributed in the kern=
-el source<br>
-=C2=A0 =C2=A0package, so drop it<br>
-=C2=A0* Fix a typo<br>
-=C2=A0* Split long lines<br>
-<br>
-Signed-off-by: Jacob Kroon &lt;<a href=3D"mailto:jacob.kroon@gmail.com" tar=
-get=3D"_blank">jacob.kroon@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-kernel/linux/<a href=3D"http://kernel-devsrc.bb" rel=3D"=
-noreferrer" target=3D"_blank">kernel-devsrc.bb</a> | 10 +++++++---<br>
-=C2=A01 file changed, 7 insertions(+), 3 deletions(-)<br>
-<br>
-diff --git a/meta/recipes-kernel/linux/<a href=3D"http://kernel-devsrc.bb" =
-rel=3D"noreferrer" target=3D"_blank">kernel-devsrc.bb</a> b/meta/recipes-ke=
-rnel/linux/<a href=3D"http://kernel-devsrc.bb" rel=3D"noreferrer" target=3D=
-"_blank">kernel-devsrc.bb</a><br>
-index 0fdd0ad..2dcf01e 100644<br>
---- a/meta/recipes-kernel/linux/<a href=3D"http://kernel-devsrc.bb" rel=3D"=
-noreferrer" target=3D"_blank">kernel-devsrc.bb</a><br>
-+++ b/meta/recipes-kernel/linux/<a href=3D"http://kernel-devsrc.bb" rel=3D"=
-noreferrer" target=3D"_blank">kernel-devsrc.bb</a><br>
-@@ -41,13 +41,17 @@ do_install() {<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0#<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Copy the staging dir source (and module=
- build support) into the devsrc structure.<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 # We can keep this copy simple and take everyt=
-hing, since a we&#39;ll clean up any build<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # We can keep this copy simple and take everyt=
-hing, since we&#39;ll clean up any build<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# artifacts afterwards, and the extra i/o=
- is not significant<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0#<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cd ${B}<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 find . -type d -name &#39;.git*&#39; -prune -o=
- -path &#39;.debug&#39; -prune -o -type f -print0 | cpio --null -pdlu $kern=
-eldir<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 find . -type d -name &#39;.git*&#39; -prune -o=
- \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-path &#39;.debug&#=
-39; -prune -o \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-type f -print0 | c=
-pio --null -pdlu $kerneldir<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cd ${S}<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 find . -type d -name &#39;.git*&#39; -prune -o=
- -type f -print0 | cpio --null -pdlu $kerneldir<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 find . -type d -name &#39;.git*&#39; -prune -o=
- \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-type d -name &#39;=
-.kernel-meta&#39; -prune -o \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-type f -print0 | c=
-pio --null -pdlu $kerneldir<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Explicitly set KBUILD_OUTPUT to ensure =
-that the image directory is cleaned and not<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# The main build artifacts. We clean the =
-directory to avoid QA errors on mismatched<br>
-<br>
-</blockquote>
-<br></div></div>
-Ignore this patch, I&#39;m suspecting that .kernel-meta/ directory shouldn&=
-#39;t exist in ${STAGING_KERNEL_DIR} to begin with ?<span class=3D"HOEnZb">=
-<font color=3D"#888888"><br></font></span></blockquote><div><br></div><div>=
-It doesn&#39;t hurt anything by being there, but you can either intercept i=
-t at the<br></div><div>time we stage the common kernel parts, or when you p=
-ackage devsrc .. either <br></div><div>will work.<br><br></div><div>Bruce<b=
-r></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"HOEn=
-Zb"><font color=3D"#888888">
-/Jacob</font></span><div class=3D"HOEnZb"><div class=3D"h5"><br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</div></div></blockquote></div><br><br clear=3D"all"><br>-- <br><div class=
-=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Thou shalt no=
-t follow the NULL pointer, for chaos and madness await thee at its end&quot=
-;</div>
-</div></div>
-
---001a114fddb8c315990539350d34--
