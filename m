@@ -1,54 +1,50 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 2810B762B3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
+	[209.85.223.174])
+	by mail.openembedded.org (Postfix) with ESMTP id EE60276E4A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Aug 2016 15:00:26 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id i5so45343344wmg.2
+	Thu,  4 Aug 2016 15:17:58 +0000 (UTC)
+Received: by mail-io0-f174.google.com with SMTP id 38so273844379iol.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Aug 2016 08:00:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=Li+nkIxglOfRCkErgHt0MNzaMM6NslrY0t83mN96QzQ=;
-	b=Fd7qpg9rWditSq9Tf9BJlszc/cDFrvloR/eMf0oTzg9NRio4/LIUaNfa55BIekIBLu
-	t0n7YGzEx6pCzL9MC3RmS9PZlsSJ94SA+dREIMbypZbgDYxnVUbC3u+dx1NeJ2ZIiqXn
-	dnxiq0CaP2367E01CrZU9fsbCOvIXBRY4Mm4EKPKUbcgYgaGVWwBe8wRej+p2xwNAIBT
-	tyRps99w3fkwKxnZeh/BiqVGei+phiMHmeDBEejvnlUroAMwUcD1ZIIhE8bfTlBhSm49
-	R3fFncn4tuziTxuJdI1pPVMndwa4ehOk9hLghAXFksATxCASm0/HG7J4JmA3c39aqklV
-	JXPQ==
+	Thu, 04 Aug 2016 08:17:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=SJ8bINDe01n48f+UtSJ/BQrCUwnwIiCIPryIie0jDzA=;
+	b=DLG7iPs8cg0VFZ29I8zr77sXz8v2bkZA/UCpJeFQQRVLO7TM5HNre304MJV2Wh5iNk
+	ldrXFFKzKC11hWVR+lW0WB0K8CNxjY/2i1C5t7FLmaRt8OmKQoUxYwnlUvdluByTxXMc
+	mt28OnZD5/EuBs/1KWTaee67gDTgW/UnqOzg/iVVf1CYVRyMInz8HvAGAOz4eN9l2NyG
+	2NDbrAFhHn54SpUNb66gJqo9FAhJwwfotmRCfglWcFaUCNLNf4jd2TRlLRodwpWIb4w8
+	HZ5nnA9r5rL8TlG2CXDI+RnoTPKYtN402iOLVpXfBo8ntAN5+p1lZ8AvEJMSIfjVcS9L
+	2mdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=Li+nkIxglOfRCkErgHt0MNzaMM6NslrY0t83mN96QzQ=;
-	b=gJxeRmsZyGXgOWZ91rWZGgOaQmi8ibMchGAvHuiHD2SCT0oEzv82J5r3SsiOU4qzaV
-	gf+yasDrlKlITZ9ynoqfo5JGlSmRJV7jtunfWRIY33S1dM0VeRTuqzMQge8U/XAUsYQH
-	Hj+zF0gJC8cLcItaLYHzFF4frS0j118YxCB0QggSPVSIjuFtU8w9zSQEXSYKjM0Vwr8J
-	uIcIt+SvFi6iPi9hOGUUPejUoUakbBnq43wEvluyvmbqSxsfDJmH7Bz7uBtkB5yURb1J
-	67GEGgSkhmMUtwrnRgHCH6b1JyPXVHBYn4C9/1bn6oIOho633ET6TROwZZj97Vt3qkO5
-	8VMQ==
-X-Gm-Message-State: AEkoous4Dz+Gp12JiSzhsxRz7coSLfqNtM1Jlfhwxv6+ap7U0/xdrbeZgV8WKC/wdfWszQ==
-X-Received: by 10.28.191.14 with SMTP id p14mr29049340wmf.39.1470322825819;
-	Thu, 04 Aug 2016 08:00:25 -0700 (PDT)
-Received: from localhost (ip-89-176-104-169.net.upcbroadband.cz.
-	[89.176.104.169]) by smtp.gmail.com with ESMTPSA id
-	a2sm13232256wjg.46.2016.08.04.08.00.23
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 04 Aug 2016 08:00:24 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 4 Aug 2016 17:00:32 +0200
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20160804150032.ml77q3vedosk6cqt@jama>
-References: <20160801104924.10815.18743@opal.openembedded.org>
-	<20160801104927.C930350170@opal.openembedded.org>
-	<20160804143423.a6fyiopqmt6abcq7@jama>
-	<CAJTo0LbC0CObxR+5WVOAHqZf0Hd4jztBUcdNZP_tOjX9zctpHQ@mail.gmail.com>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=SJ8bINDe01n48f+UtSJ/BQrCUwnwIiCIPryIie0jDzA=;
+	b=g+ihS80+0ufLERLqg8XbDaYwb0vwY9MKqZHwPkdBZSPXVBlBthPfcE3+zItznSNbGu
+	J+P2HM9+JTwyW/Wdc/I3pnLsQWwqyORZE/U+0kyrBFDAgPcB974VU2Fz/W0FgOniaGJv
+	O2kYD8xsqOngGGwzDsOdO5v4t38W87P0Kkt+5cY8EHq3/E1cHhu3qKsJnlnszOjWBXlz
+	KprGlZQYKnXEL5kNAwv3keYv/+ebhbKypjWVItvJl/AroEQFpi+vcGVyAx6deK8g2+69
+	LGZ46Uv2tl8oWf6svl9kcHUdzJC9Ez84ftoCJ+hz+NPJNVTpnKK9i1krsmoJQEjxzfot
+	P86w==
+X-Gm-Message-State: AEkoouvPS1m4mX/EX+xVnqVNyRzj9/zzeADurO1Cx9icR9j34SYM/+Eqf1tatn4/+6IWMcTZiXn2nr/kWyX8ymwa
+X-Received: by 10.107.138.212 with SMTP id c81mr71476657ioj.148.1470323879244; 
+	Thu, 04 Aug 2016 08:17:59 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbC0CObxR+5WVOAHqZf0Hd4jztBUcdNZP_tOjX9zctpHQ@mail.gmail.com>
-User-Agent: Mutt/1.6.2 (2016-06-11)
+Received: by 10.107.18.17 with HTTP; Thu, 4 Aug 2016 08:17:38 -0700 (PDT)
+In-Reply-To: <BF50BCD4-DC5E-478D-9AF3-24C9E99C36A7@gmail.com>
+References: <cover.1469337362.git.liezhi.yang@windriver.com>
+	<07cae7b73779e89d5e038bf48fbfa204d51b4b68.1469337362.git.liezhi.yang@windriver.com>
+	<CAJTo0LYCEP1nkeZ9-1i+K3YsK0OMAt+axx-4ezQsbxu+VwvyVA@mail.gmail.com>
+	<57980BC4.80208@windriver.com>
+	<BF50BCD4-DC5E-478D-9AF3-24C9E99C36A7@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 4 Aug 2016 16:17:38 +0100
+Message-ID: <CAJTo0LZ_9sp6+tWgoY1NSeh3H-KVWrCJfyCp0LW1YaF6AMS1tg@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe-commits] [openembedded-core] 11/43: libtasn1: upgrade to 4.9
+Subject: Re: [PATCH 1/1] epiphany: inherit perlnative
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,45 +57,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Aug 2016 15:00:27 -0000
-X-Groupsio-MsgNum: 85317
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="52fn55yjfclmknut"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 04 Aug 2016 15:17:59 -0000
+Content-Type: multipart/alternative; boundary=001a113ed932872c2105394074a7
 
---52fn55yjfclmknut
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--001a113ed932872c2105394074a7
+Content-Type: text/plain; charset=UTF-8
+
+On 27 July 2016 at 10:34, Khem Raj <raj.khem@gmail.com> wrote:
+
+> > I still get the same error after your patch applied:
+> >
+> > configure:16513: checking for perl
+> > configure:16531: found /usr/bin/perl
+> > configure:16543: result: /usr/bin/perl
+> > configure:16554: checking for perl >= 5.8.1
+> > configure:16561: result: 5.18.2
+> > configure:16565: checking for XML::Parser
+> > configure:16571: error: XML::Parser perl module is required for intltool
+>
+> same here
+>
+> http://errors.yoctoproject.org/Errors/Details/73330/
+
+
+I don't understand how as my patch literally removes that block of code
+from the intltool macros.  Can you still replicate this, and if so can you
+save the build tree?
+
+Ross
+
+--001a113ed932872c2105394074a7
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 04, 2016 at 03:39:28PM +0100, Burton, Ross wrote:
-> On 4 August 2016 at 15:34, Martin Jansa <martin.jansa@gmail.com> wrote:
->=20
-> > | In file included from ../../libtasn1-4.9/lib/structure.c:32:0:
-> > | ../../libtasn1-4.9/lib/parser_aux.h:97:1: error: inlining failed in
-> > call to '_asn1_set_down': call is unlikely and code size would grow
-> > [-Werror=3Dinline]
-> > |  _asn1_set_down (asn1_node node, asn1_node down)
-> > |  ^~~~~~~~~~~~~~
-> >
->=20
-> Works for me and the AB.  What sort of compiler flags do you have?
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 27 July 2016 at 10:34, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:=
+raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wro=
+te:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
+left:1px #ccc solid;padding-left:1ex"><span class=3D"">&gt; I still get the=
+ same error after your patch applied:<br>
+&gt;<br>
+&gt; configure:16513: checking for perl<br>
+&gt; configure:16531: found /usr/bin/perl<br>
+&gt; configure:16543: result: /usr/bin/perl<br>
+&gt; configure:16554: checking for perl &gt;=3D 5.8.1<br>
+&gt; configure:16561: result: 5.18.2<br>
+&gt; configure:16565: checking for XML::Parser<br>
+&gt; configure:16571: error: XML::Parser perl module is required for <span =
+class=3D"il">intltool</span><br>
+<br>
+</span>same here<br>
+<br>
+<a href=3D"http://errors.yoctoproject.org/Errors/Details/73330/" rel=3D"nor=
+eferrer" target=3D"_blank">http://errors.yoctoproject.org/Errors/Details/73=
+330/</a></blockquote></div><br>I don&#39;t understand how as my patch liter=
+ally removes that block of code from the intltool macros.=C2=A0 Can you sti=
+ll replicate this, and if so can you save the build tree?</div><div class=
+=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
-Might be caused by -Os.
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---52fn55yjfclmknut
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEUEARECAAYFAlejWI8ACgkQN1Ujt2V2gBwP8gCffqb+stJtKMFsACZp1NZbpAsz
-noEAljEpVKgclqBwPGoOoOo3ZNMS3uA=
-=a5Gv
------END PGP SIGNATURE-----
-
---52fn55yjfclmknut--
+--001a113ed932872c2105394074a7--
