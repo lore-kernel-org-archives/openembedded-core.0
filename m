@@ -1,46 +1,51 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 34431731E5
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Aug 2016 14:34:12 +0000 (UTC)
-Received: by mail-io0-f176.google.com with SMTP id b62so272515430iod.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Aug 2016 07:34:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=plVcVEGXqC936UWPun3br3GmEex/3qyKvKwgXyTTJ4g=;
-	b=ll5S2zHq1Vhf/WbMb/V9+U3QDCA23r/IUyatixVvAXwpfLrv6MRPE0gYSHo6f2xt/7
-	ZDVPn2zYxnmXPYWhfscQ1lMytajPy3WBVhRaJ9/ZmUUnBEs6DacCSvW3g8v9w2BLax0M
-	3kudkL6LfZ5kC4IZunK2sbRkIKmtC91YIJEpZ0bIZgvuX0DD57fnf3PIUitJiwcba5F/
-	yj+b/Lqy7yL74vjwHga6MZ4LCFK82WG6EDGgml/IN/iaJEy6KQXSEQkUtSb6iVJ1bkDV
-	qaGN4IgP0hT5bterzMiiZJTbPyBNApdAbT5trgcIAPyR8zcrQFBvzytYi/TvSSq7tyoT
-	xl3Q==
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 33AC97680A;
+	Thu,  4 Aug 2016 14:34:16 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id q128so45115257wma.1;
+	Thu, 04 Aug 2016 07:34:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=aIlUig/9Uh+r9+fpuJRGQmLv3b1L7hBaosKHB1oI874=;
+	b=OcW9D3t49cp31/cepGPFXmU5iUvgev7hmj3JPz+nE9X+XYI9Pktyx8YHvrX4U/nqLx
+	lhiUzDH1BiscNn75Ds7UoI3NlF1yOLBfOb4LRpTDPJmA60I7uabuNFdetNTQI1qVcaMw
+	hI2QM0D7wN658brZXmmfNXewSl45A93tfF8cA4yOwtIx2og+Ho+nYcf+/wNzFbXttmw0
+	2muDGxiUiWlRthvVDJ3p0qJX91hqxV03dm6E22AsSOntoMUgcngUreWEqbugM60zUHj5
+	dvUy3UENfMju10KlRQseTTjFcHVVwtu3WkhHgO2LY8lQDlIk+B98TIT4dQkyXBhSRP+S
+	IqNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=plVcVEGXqC936UWPun3br3GmEex/3qyKvKwgXyTTJ4g=;
-	b=U6M61dJLOr48sXLvRqaCVvQt62VyFgx2ULlRGKweNOruLX3GQTbIARlKZmAjP/m1HW
-	slY8wn4E45ON/C0pev4LFaDLJD/yA5K1jb+XkBXgWb4KyYRDaXqPKVmCn1b4Yw8wJ2OQ
-	eGg6Uc7pZeq6NHAuOHDMJtAGUyuQiGkBjhBYN5AbiYPGQpaGnSMD4SEO2536EB1VK69C
-	DfbPLJCTt+fklOT+53OXMAcJ5cdYHURPZlmNsEoHsSMZuO6AVQICkmW8FiIHL/iJ1Bl3
-	Abp8ONiQVlnrJCYsH08bAf5vWe0BAUw3AFlJAjyxHVU6nZr4kvcRC/O+4VsiJyx8XpSq
-	Kfgw==
-X-Gm-Message-State: AEkoousfngGH0tNRNbAsLSiL5T7ZOXUB7HpqadUFtP8ZmJyIE2CD3wBcHGkDoBakvI+ZsTydPia7zE8ofAFQy9XR
-X-Received: by 10.107.135.142 with SMTP id r14mr81900272ioi.133.1470321252926; 
-	Thu, 04 Aug 2016 07:34:12 -0700 (PDT)
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=aIlUig/9Uh+r9+fpuJRGQmLv3b1L7hBaosKHB1oI874=;
+	b=TsVl9mRHtm5UVMJJc9F+0rJuUxmTBTuChvjcy3eGpUj6KjqLAhgO1iUTFN8I/yzTHV
+	XhrG/AnZoD6EfyZxgPSkKxxvUfvh25ZvZA/Pmoq2ECLUriFR5VmHpU1fFnTJpKxw204u
+	NDxdkR2YLOee3o7NY9J90xEMCw0YfngL8MN+1jMoGtpwHYrX5TEPutDpoPxhA7FPdvjq
+	W9hYSeMYg1b9iWSALCve9ABAEMhrEe3Hp90TWcqvAvEfjGh2sPlAYVjJoq3beqdslePk
+	+7ICfMgS6jSTroLDyf6EAzuRvq6Wns79lmUleLhx1DAWRoR/SSHrEPvL/wVqng8OqNJ6
+	S7pw==
+X-Gm-Message-State: AEkoouswn/HaSFPJdf+EVhSaScowDcOMudrFYF1Sb0wxHOPJtxtk8hHsWomB33bKoW7cEQ==
+X-Received: by 10.194.127.163 with SMTP id nh3mr66840210wjb.74.1470321257268; 
+	Thu, 04 Aug 2016 07:34:17 -0700 (PDT)
+Received: from localhost (ip-89-176-104-169.net.upcbroadband.cz.
+	[89.176.104.169]) by smtp.gmail.com with ESMTPSA id
+	yz6sm13155015wjb.35.2016.08.04.07.34.15
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 04 Aug 2016 07:34:15 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 4 Aug 2016 16:34:23 +0200
+To: openembedded-core@lists.openembedded.org,
+	"Maxin B. John" <maxin.john@intel.com>
+Message-ID: <20160804143423.a6fyiopqmt6abcq7@jama>
+References: <20160801104924.10815.18743@opal.openembedded.org>
+	<20160801104927.C930350170@opal.openembedded.org>
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Thu, 4 Aug 2016 07:33:52 -0700 (PDT)
-In-Reply-To: <1470317274-27771-1-git-send-email-s.mueller-klieser@phytec.de>
-References: <1470317274-27771-1-git-send-email-s.mueller-klieser@phytec.de>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 4 Aug 2016 15:33:52 +0100
-Message-ID: <CAJTo0LZ94KkvfRVUfq5cHFJ6tUKJs_JCMHWFYJACUDUHKg11_Q@mail.gmail.com>
-To: =?UTF-8?Q?Stefan_M=C3=BCller=2DKlieser?= <s.mueller-klieser@phytec.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/7] dangling patches
+In-Reply-To: <20160801104927.C930350170@opal.openembedded.org>
+User-Agent: Mutt/1.6.2 (2016-06-11)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] [openembedded-core] 11/43: libtasn1: upgrade to 4.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,39 +58,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Aug 2016 14:34:15 -0000
-Content-Type: multipart/alternative; boundary=001a113eccbcfcbd1605393fd7e0
+X-List-Received-Date: Thu, 04 Aug 2016 14:34:19 -0000
+X-Groupsio-MsgNum: 85314
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="h2m4cgwbwqx6xbj6"
+Content-Disposition: inline
 
---001a113eccbcfcbd1605393fd7e0
-Content-Type: text/plain; charset=UTF-8
+--h2m4cgwbwqx6xbj6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On 4 August 2016 at 14:27, Stefan M=C3=BCller-Klieser <
-s.mueller-klieser@phytec.de> wrote:
+On Mon, Aug 01, 2016 at 10:49:35AM +0000, git@git.openembedded.org wrote:
+> rpurdie pushed a commit to branch master
+> in repository openembedded-core.
+>=20
+> commit 7ad0009d9282bd2af15b8b5d26a20a321cab0a32
+> Author: Maxin B. John <maxin.john@intel.com>
+> AuthorDate: Wed Jul 27 16:02:51 2016 +0300
+>=20
+>     libtasn1: upgrade to 4.9
+>    =20
+>     4.8 -> 4.9
 
-> There are some patches floating around with no reference to it. I guess
-> one just forgot to delete them during package upgrade. They should be
-> removed for consistency.
->
+This fails to build:
 
-I dont suppose you have tooling to find these, or was it manual review?
+| In file included from ../../libtasn1-4.9/lib/structure.c:32:0:
+| ../../libtasn1-4.9/lib/parser_aux.h:97:1: error: inlining failed in
+call to '_asn1_set_down': call is unlikely and code size would grow
+[-Werror=3Dinline]
+|  _asn1_set_down (asn1_node node, asn1_node down)
+|  ^~~~~~~~~~~~~~
 
-Ross
 
---001a113eccbcfcbd1605393fd7e0
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+>     Signed-off-by: Maxin B. John <maxin.john@intel.com>
+>     Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/recipes-support/gnutls/{libtasn1_4.8.bb =3D> libtasn1_4.9.bb} | 4 +=
++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-support/gnutls/libtasn1_4.8.bb b/meta/recipes-s=
+upport/gnutls/libtasn1_4.9.bb
+> similarity index 81%
+> rename from meta/recipes-support/gnutls/libtasn1_4.8.bb
+> rename to meta/recipes-support/gnutls/libtasn1_4.9.bb
+> index 360d529..5ce06d8 100644
+> --- a/meta/recipes-support/gnutls/libtasn1_4.8.bb
+> +++ b/meta/recipes-support/gnutls/libtasn1_4.9.bb
+> @@ -12,8 +12,8 @@ SRC_URI =3D "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.=
+gz \
+>             file://dont-depend-on-help2man.patch \
+>             "
+> =20
+> -SRC_URI[md5sum] =3D "9a6767705725544f2b86670dcfb34107"
+> -SRC_URI[sha256sum] =3D "fa802fc94d79baa00e7397cedf29eb6827d4bd8b4dd77b57=
+7373577c93a8c513"
+> +SRC_URI[md5sum] =3D "3018d0f466a32b66dde41bb122e6cab6"
+> +SRC_URI[sha256sum] =3D "4f6f7a8fd691ac2b8307c8ca365bad711db607d4ad5966f6=
+938a9d2ecd65c920"
+> =20
+>  inherit autotools texinfo binconfig lib_package
+> =20
+>=20
+> --=20
+> To stop receiving notification emails like this one, please contact
+> the administrator of this repository.
+> --=20
+> _______________________________________________
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 4 August 2016 at 14:27, Stefan M=C3=BCller-Klieser <span dir=3D"ltr">&lt=
-;<a href=3D"mailto:s.mueller-klieser@phytec.de" target=3D"_blank">s.mueller=
--klieser@phytec.de</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
-<div id=3D":5f4" class=3D"a3s aXjCH m15655c5059c0da59">There are some patch=
-es floating around with no reference to it. I guess<br>
-one just forgot to delete them during package upgrade. They should be<br>
-removed for consistency.</div></blockquote></div><br>I dont suppose you hav=
-e tooling to find these, or was it manual review?</div><div class=3D"gmail_=
-extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---001a113eccbcfcbd1605393fd7e0--
+--h2m4cgwbwqx6xbj6
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlejUkgACgkQN1Ujt2V2gBzm5ACgr3hUsu2nf+KiC09GJLa5c6eU
+8E8An0bNpR7mdWv+NpI438qKBcAVAGh7
+=+3DE
+-----END PGP SIGNATURE-----
+
+--h2m4cgwbwqx6xbj6--
