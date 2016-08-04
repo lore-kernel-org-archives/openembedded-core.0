@@ -1,22 +1,22 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id B1D00731D7
+Return-Path: <pascal.bach@siemens.com>
+Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
+	by mail.openembedded.org (Postfix) with ESMTP id 2DB886FF78
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Aug 2016 09:02:15 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 04 Aug 2016 02:02:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,470,1464678000"; d="scan'208";a="1008236816"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by orsmga001.jf.intel.com with ESMTP; 04 Aug 2016 02:02:16 -0700
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+	Thu,  4 Aug 2016 13:28:53 +0000 (UTC)
+Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
+	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id u74DSr0W017854
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 4 Aug 2016 15:28:53 +0200
+Received: from dev.sbt.siemens.com (MD1FZU9C.ww002.siemens.net [139.16.77.234])
+	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id u74DSr7S027356;
+	Thu, 4 Aug 2016 15:28:53 +0200
+From: Pascal Bach <pascal.bach@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Aug 2016 12:02:12 +0300
-Message-Id: <1470301332-6878-3-git-send-email-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-In-Reply-To: <1470301332-6878-1-git-send-email-markus.lehtonen@linux.intel.com>
-References: <1470301332-6878-1-git-send-email-markus.lehtonen@linux.intel.com>
-Subject: [PATCH 2/2] package.bbclass: warn about files under symlinked directories
+Date: Thu,  4 Aug 2016 15:28:46 +0200
+Message-Id: <1470317326-1814-1-git-send-email-pascal.bach@siemens.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] util-linux: make prlimit a separate package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,30 +29,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Aug 2016 09:02:15 -0000
+X-List-Received-Date: Thu, 04 Aug 2016 13:28:54 -0000
 
-[YOCTO #9827]
+Busybox doesn't provide a similar tool so having it in
+a separate package allows to us it in addition to busybox without having
+to include all of util-linux.
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+Before it was part of the top level util-linux package.
+Now it is a separate package util-linux-prlimit but the top level package
+still RRECOMMENDS it so for most users nothing should change.
+
+Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
 ---
- meta/classes/package.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-core/util-linux/util-linux.inc | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index df010e1..a9709ad 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -268,6 +268,9 @@ def files_from_filevars(filevars):
-             if dirname == '.':
-                 continue
-             if cpath.islink(parent):
-+                bb.warn("FILES contains file '%s' which resides under a "
-+                        "directory symlink. Please fix the recipe and use the "
-+                        "real path for the file." % f[1:])
-                 symlink_paths.append(f)
-                 files[ind] = parent
-                 f = parent
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index bac1a37..5236209 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -32,7 +32,7 @@ PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfd
+              util-linux-mkfs util-linux-mcookie util-linux-reset \
+              util-linux-mkfs.cramfs util-linux-fsck.cramfs util-linux-fstrim \
+              util-linux-partx util-linux-hwclock util-linux-mountpoint \
+-             util-linux-findfs util-linux-getopt util-linux-sulogin"
++             util-linux-findfs util-linux-getopt util-linux-sulogin util-linux-prlimit"
+ PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'pylibmount', 'util-linux-pylibmount', '', d)}"
+ PACKAGES =+ "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'util-linux-runuser', '', d)}"
+ 
+@@ -88,6 +88,7 @@ FILES_util-linux-hwclock = "${base_sbindir}/hwclock.${BPN}"
+ FILES_util-linux-findfs = "${sbindir}/findfs"
+ FILES_util-linux-getopt = "${base_bindir}/getopt.${BPN}"
+ FILES_util-linux-runuser = "${sbindir}/runuser"
++FILES_util-linux-prlimit = "${bindir}/prlimit"
+ 
+ FILES_util-linux-pylibmount = "${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.so \
+                                ${PYTHON_SITEPACKAGES_DIR}/libmount/__init__.* \
+@@ -116,7 +117,7 @@ RDEPENDS_util-linux-runuser += "libpam"
+ RDEPENDS_${PN} = "util-linux-umount util-linux-swaponoff util-linux-losetup util-linux-sulogin"
+ RDEPENDS_${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'util-linux-runuser', '', d)}"
+ 
+-RRECOMMENDS_${PN} = "util-linux-fdisk util-linux-cfdisk util-linux-sfdisk util-linux-mount util-linux-readprofile util-linux-mkfs util-linux-mountpoint"
++RRECOMMENDS_${PN} = "util-linux-fdisk util-linux-cfdisk util-linux-sfdisk util-linux-mount util-linux-readprofile util-linux-mkfs util-linux-mountpoint util-linux-prlimit"
+ 
+ RRECOMMENDS_${PN}_class-native = ""
+ RRECOMMENDS_${PN}_class-nativesdk = ""
 -- 
-2.6.6
+2.1.4
 
 
