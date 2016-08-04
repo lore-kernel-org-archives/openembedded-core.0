@@ -1,47 +1,47 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-lf0-f46.google.com (mail-lf0-f46.google.com
-	[209.85.215.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CBB977025
-	for <openembedded-core@openembedded.org>;
-	Thu,  4 Aug 2016 20:06:07 +0000 (UTC)
-Received: by mail-lf0-f46.google.com with SMTP id l69so189379463lfg.1
-	for <openembedded-core@openembedded.org>;
-	Thu, 04 Aug 2016 13:06:08 -0700 (PDT)
+Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
+	[209.85.215.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E9B977026;
+	Thu,  4 Aug 2016 20:07:07 +0000 (UTC)
+Received: by mail-lf0-f67.google.com with SMTP id l69so15857625lfg.1;
+	Thu, 04 Aug 2016 13:07:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=KZjjPhvJ/nDAj1kMoZLRKPbtcyL3x/BgBUlqg6nnRdc=;
-	b=aysoUz+nk55nh2LOX8hBtKxFsSoFyxQ0YU8KeJ11FARN1FJtWYEmEdzr7DPlp7i1mX
-	Pps4LVZCoxAiCVNMn8XTftH7CxtBTdjDPBjaneqUNc6kqRzUHQpGKWK18x8JkaVQfISq
-	TyklckhKZq/vsdtP6yg8/DBZgwfhumLp+txtVU6rFoC5RWUkIWcjEXIC+xqFOVkOJI02
-	S1mvQcEGC7QIQEKuNIpTo2BDmCavkt/z3sWe0AO75uhDx6ZYm5QMtc5OzOPepc7XPlA2
-	FAVESJ8i8s1E5RLCwkmS7Q90XdmHfRlj8ljBgBejxCrHnD93bkG1jfoA9Ce6b8jKsS1j
-	ktTw==
+	:cc; bh=vfSl9U9k7rC8X2jI1G5zAVWghNN446ISPeyjGGuzxSU=;
+	b=TUf3JEqEvjOxBCOJCmCgebopQosCWuZB/WagYqMMg9HLPUeMKZ7rwNBjGhxa5cSD71
+	lh6EzxFpoSSEM9RWscT3OIwduFkGqrQbQYZKPKqU6q8YylDrrbdff648gTvwc7kMbYFy
+	nTk813FCagdZRqTVWWhNOT/gUkbmie23L+j8EDa1h854tQ1JYTSBQlDV360n/QGKoVJd
+	Cwk/8PPI1gJMcHPnHBc863Qb5CCYRkHNrkxSKR7r8OQnLaPl9aJf/1KE+ZZ7/twZ29ZA
+	LyjwZ1XdBBHwqaIhgRUQcvsfmQ45RMaWPGgmmtBaDPz3pgYd21TDtbmymoql2dFtzN+Z
+	KQqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=KZjjPhvJ/nDAj1kMoZLRKPbtcyL3x/BgBUlqg6nnRdc=;
-	b=m6TNqmMPUQfIodNL2gRXDor29Z7I44fm5j3pJDsH5fv28J8jVxCJmiXDxyasDFz8vO
-	fUmhHCu3Rg2Z31GQHRJTybFYorqoThvMK7WIQw4GDc1XcRgXa2TrufXEoy8aLwpJkW1q
-	DFhRDJi4/zwFoLATKcQOKp7zuUHIbAKUCf1vkbW8YPDmRb9gX12DGXoA8ygLggdEF/CS
-	rQudGMEmFWdq34eQmq8UzcWP+JakdWXOgqLPOa/uX9rgZP1l/wy341SVmjOzNW36mMzu
-	DVuN/AqK2Ctkw15mcXZ31/fvoOSWCogn7QuNn+7eGZgmGMtSnpQWCl2w94Cb9Lo+o4g+
-	KJFg==
-X-Gm-Message-State: AEkoousJB5Gc2mkUlpGxpwa1FItf7FGQhYkkU2lFlBQRfD5WRLP7kMcPE1jLWn/ceMj6JoS/6cuki8gaUAex+Q==
-X-Received: by 10.46.1.195 with SMTP id f64mr22091844lji.24.1470341167776;
-	Thu, 04 Aug 2016 13:06:07 -0700 (PDT)
+	bh=vfSl9U9k7rC8X2jI1G5zAVWghNN446ISPeyjGGuzxSU=;
+	b=X6vih2QmL2TfrpGzydP40+36RM/mIKxK5blCKCzV88OIRoIc4RHxJXS/wH3gF3igyY
+	rCFphmHG+RCMUOlJEfSMDoGI7aIjcQcrMo28epygCI1yIm3xw+IWW7a+f0QgvcClvw23
+	2Z9gI/UKrng0pOcPhYxNVbQTZ+kjlsRMsezYVjMBK73VpkRaEaXATbKE1J66hog/ZwKo
+	an0BOw1/4pNZEaokyrPraUPt8eawPAl8UqWkHuBb5vlQmUJeM4TY/98J61bEi6F6lGQU
+	yGruBOVlKYq3wTPk7y2m1ECld6npp13AnANtmyIwLrLN0UzxTYOrWSR6uaG207NF37Rx
+	wWeA==
+X-Gm-Message-State: AEkoouuIFeTc0mrxqhycPOcl6iHDwFLUeDQFWotgBNpmviw2FEsbKOWk4anGc6PeRIgeGwMdzC926yzq5UE9sQ==
+X-Received: by 10.25.215.82 with SMTP id o79mr25509970lfg.132.1470341227898;
+	Thu, 04 Aug 2016 13:07:07 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.25.87.12 with HTTP; Thu, 4 Aug 2016 13:06:07 -0700 (PDT)
-In-Reply-To: <20160804195640.1105.71618@opal.openembedded.org>
-References: <20160804195640.1105.71618@opal.openembedded.org>
+Received: by 10.25.87.12 with HTTP; Thu, 4 Aug 2016 13:07:07 -0700 (PDT)
+In-Reply-To: <20160804195647.196D05017B@opal.openembedded.org>
+References: <20160804195645.1254.80390@opal.openembedded.org>
+	<20160804195647.196D05017B@opal.openembedded.org>
 From: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 4 Aug 2016 22:06:07 +0200
-Message-ID: <CA+chaQc2YTwHbDTG6ABTfVq1Qrv3T9m8SMHPDv2qjL_gEknu=Q@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@openembedded.org
-Cc: "openembedded-commits@lists.openembedded.org"
+Date: Thu, 4 Aug 2016 22:07:07 +0200
+Message-ID: <CA+chaQd-NdfPr0zwcrEewwoEhxqbDk9df23m1+s4EmUvgDvhsA@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	"openembedded-commits@lists.openembedded.org"
 	<openembedded-commits@lists.openembedded.org>
-Subject: Re: [oe-commits] [openembedded-core] branch master updated: Revert "packagegroup-core-x11-base.bb: replace pointercal with pointercal-xinput"
+Subject: Re: [oe-commits] [openembedded-core] 05/10: pointercal-xinput: set ALLOW_EMPTY
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,58 +54,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Aug 2016 20:06:09 -0000
-Content-Type: multipart/alternative; boundary=001a1142bee80108550539447b83
+X-List-Received-Date: Thu, 04 Aug 2016 20:07:10 -0000
+Content-Type: multipart/alternative; boundary=001a11412c36966c3e0539447e42
 
---001a1142bee80108550539447b83
+--001a11412c36966c3e0539447e42
 Content-Type: text/plain; charset=UTF-8
 
-I think it shouldn't be merged at all.
-
-xinput-calibrator already RRECOMMENDS pointercal-xinput
-
-And empty pointercal-xinput (with Ross's ALLOW_EMPTY patch) is as useless
-as pointercal-xinput without xinput-calibrator.
+NAK
 
 On Thu, Aug 4, 2016 at 9:56 PM, <git@git.openembedded.org> wrote:
 
-> rpurdie pushed a commit to branch master
+> rpurdie pushed a commit to branch master-next
 > in repository openembedded-core.
 >
-> The following commit(s) were added to refs/heads/master by this push:
->        new  c4dda05   Revert "packagegroup-core-x11-base.bb: replace
-> pointercal with pointercal-xinput"
-> c4dda05 is described below
+> commit 461a01e4f126d5e45ca720e0e8d0e35afb13672c
+> Author: Ross Burton <ross.burton@intel.com>
+> AuthorDate: Tue Aug 2 21:00:56 2016 +0100
 >
-> commit c4dda05cb9755cb865c1d1bd142196f8a9f45d3d
-> Author: Richard Purdie <richard.purdie@linuxfoundation.org>
-> AuthorDate: Thu Aug 4 20:54:57 2016 +0100
+>     pointercal-xinput: set ALLOW_EMPTY
 >
->     Revert "packagegroup-core-x11-base.bb: replace pointercal with
-> pointercal-xinput"
+>     Many BSPs don't have pointer calibration, so set ALLOW_EMPTY so the
+> package
+>     still exists (for dependencies) even if there isn't a calibration file
+> to
+>     package.
 >
->     This reverts commit a93c45fa77eb7ea31b91d5bad3c64634bd1476ee until we
-> merge
->     the rest of the pointercal patches.
+>     Signed-off-by: Ross Burton <ross.burton@intel.com>
 > ---
->  meta/recipes-graphics/packagegroups/packagegroup-core-x11-base.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> diff --git a/meta/recipes-graphics/packagegroups/packagegroup-
-> core-x11-base.bb b/meta/recipes-graphics/packagegroups/packagegroup-
-> core-x11-base.bb
-> index 6e8e50d..db3dfe3 100644
-> --- a/meta/recipes-graphics/packagegroups/packagegroup-core-x11-base.bb
-> +++ b/meta/recipes-graphics/packagegroups/packagegroup-core-x11-base.bb
-> @@ -10,7 +10,7 @@ RDEPENDS_${PN} = "\
->      packagegroup-core-x11-xserver \
->      packagegroup-core-x11-utils \
->      dbus \
-> -    pointercal-xinput \
-> +    pointercal \
->      matchbox-terminal \
->      matchbox-wm \
->      mini-x-session \
+> diff --git a/meta/recipes-graphics/xinput-calibrator/pointercal-
+> xinput_0.0.bb b/meta/recipes-graphics/xinput-calibrator/pointercal-
+> xinput_0.0.bb
+> index 65348c3..71756c3 100644
+> --- a/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
+> +++ b/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
+> @@ -17,4 +17,5 @@ do_install() {
+>  }
+>
+>  PACKAGE_ARCH = "${MACHINE_ARCH}"
+> +ALLOW_EMPTY_${PN} = "1"
+>  CONFFILES_${PN} = "${sysconfdir}/pointercal.xinput"
 >
 > --
 > To stop receiving notification emails like this one, please contact
@@ -117,67 +107,58 @@ On Thu, Aug 4, 2016 at 9:56 PM, <git@git.openembedded.org> wrote:
 > http://lists.openembedded.org/mailman/listinfo/openembedded-commits
 >
 
---001a1142bee80108550539447b83
+--001a11412c36966c3e0539447e42
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">I think it shouldn&#39;t be merged at all.<div><br></div><=
-div>xinput-calibrator already RRECOMMENDS pointercal-xinput</div><div><br><=
-/div><div>And empty pointercal-xinput (with Ross&#39;s ALLOW_EMPTY patch) i=
-s as useless as pointercal-xinput without xinput-calibrator.</div></div><di=
-v class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Thu, Aug 4, 2016 =
-at 9:56 PM,  <span dir=3D"ltr">&lt;<a href=3D"mailto:git@git.openembedded.o=
-rg" target=3D"_blank">git@git.openembedded.org</a>&gt;</span> wrote:<br><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
-ccc solid;padding-left:1ex">rpurdie pushed a commit to branch master<br>
+<div dir=3D"ltr">NAK</div><div class=3D"gmail_extra"><br><div class=3D"gmai=
+l_quote">On Thu, Aug 4, 2016 at 9:56 PM,  <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:git@git.openembedded.org" target=3D"_blank">git@git.openembedded.org=
+</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
+:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">rpurdie pushed a c=
+ommit to branch master-next<br>
 in repository openembedded-core.<br>
 <br>
-The following commit(s) were added to refs/heads/master by this push:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0new=C2=A0 c4dda05=C2=A0 =C2=A0Revert &quot;<a hr=
-ef=3D"http://packagegroup-core-x11-base.bb" rel=3D"noreferrer" target=3D"_b=
-lank">packagegroup-core-x11-base.bb</a><wbr>: replace pointercal with point=
-ercal-xinput&quot;<br>
-c4dda05 is described below<br>
+commit 461a01e4f126d5e45ca720e0e8d0e3<wbr>5afb13672c<br>
+Author: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com">ross.burto=
+n@intel.com</a>&gt;<br>
+AuthorDate: Tue Aug 2 21:00:56 2016 +0100<br>
 <br>
-commit c4dda05cb9755cb865c1d1bd142196<wbr>f8a9f45d3d<br>
-Author: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation=
-.org">richard.purdie@<wbr>linuxfoundation.org</a>&gt;<br>
-AuthorDate: Thu Aug 4 20:54:57 2016 +0100<br>
+=C2=A0 =C2=A0 pointercal-xinput: set ALLOW_EMPTY<br>
 <br>
-=C2=A0 =C2=A0 Revert &quot;<a href=3D"http://packagegroup-core-x11-base.bb"=
- rel=3D"noreferrer" target=3D"_blank">packagegroup-core-x11-base.bb</a><wbr=
->: replace pointercal with pointercal-xinput&quot;<br>
+=C2=A0 =C2=A0 Many BSPs don&#39;t have pointer calibration, so set ALLOW_EM=
+PTY so the package<br>
+=C2=A0 =C2=A0 still exists (for dependencies) even if there isn&#39;t a cal=
+ibration file to<br>
+=C2=A0 =C2=A0 package.<br>
 <br>
-=C2=A0 =C2=A0 This reverts commit a93c45fa77eb7ea31b91d5bad3c646<wbr>34bd14=
-76ee until we merge<br>
-=C2=A0 =C2=A0 the rest of the pointercal patches.<br>
+=C2=A0 =C2=A0 Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@=
+intel.com">ross.burton@intel.com</a>&gt;<br>
 ---<br>
-=C2=A0meta/recipes-graphics/<wbr>packagegroups/<a href=3D"http://packagegro=
-up-core-x11-base.bb" rel=3D"noreferrer" target=3D"_blank">packagegroup-<wbr=
->core-x11-base.bb</a> | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+=C2=A0meta/recipes-graphics/xinput-<wbr>calibrator/<a href=3D"http://pointe=
+rcal-xinput_0.0.bb" rel=3D"noreferrer" target=3D"_blank">pointercal-xinput_=
+<wbr>0.0.bb</a> | 1 +<br>
+=C2=A01 file changed, 1 insertion(+)<br>
 <br>
-diff --git a/meta/recipes-graphics/<wbr>packagegroups/<a href=3D"http://pac=
-kagegroup-core-x11-base.bb" rel=3D"noreferrer" target=3D"_blank">packagegro=
-up-<wbr>core-x11-base.bb</a> b/meta/recipes-graphics/<wbr>packagegroups/<a =
-href=3D"http://packagegroup-core-x11-base.bb" rel=3D"noreferrer" target=3D"=
-_blank">packagegroup-<wbr>core-x11-base.bb</a><br>
-index 6e8e50d..db3dfe3 100644<br>
---- a/meta/recipes-graphics/<wbr>packagegroups/<a href=3D"http://packagegro=
-up-core-x11-base.bb" rel=3D"noreferrer" target=3D"_blank">packagegroup-<wbr=
->core-x11-base.bb</a><br>
-+++ b/meta/recipes-graphics/<wbr>packagegroups/<a href=3D"http://packagegro=
-up-core-x11-base.bb" rel=3D"noreferrer" target=3D"_blank">packagegroup-<wbr=
->core-x11-base.bb</a><br>
-@@ -10,7 +10,7 @@ RDEPENDS_${PN} =3D &quot;\<br>
-=C2=A0 =C2=A0 =C2=A0packagegroup-core-x11-xserver \<br>
-=C2=A0 =C2=A0 =C2=A0packagegroup-core-x11-utils \<br>
-=C2=A0 =C2=A0 =C2=A0dbus \<br>
--=C2=A0 =C2=A0 pointercal-xinput \<br>
-+=C2=A0 =C2=A0 pointercal \<br>
-=C2=A0 =C2=A0 =C2=A0matchbox-terminal \<br>
-=C2=A0 =C2=A0 =C2=A0matchbox-wm \<br>
-=C2=A0 =C2=A0 =C2=A0mini-x-session \<br>
+diff --git a/meta/recipes-graphics/<wbr>xinput-calibrator/<a href=3D"http:/=
+/pointercal-xinput_0.0.bb" rel=3D"noreferrer" target=3D"_blank">pointercal-=
+<wbr>xinput_0.0.bb</a> b/meta/recipes-graphics/<wbr>xinput-calibrator/<a hr=
+ef=3D"http://pointercal-xinput_0.0.bb" rel=3D"noreferrer" target=3D"_blank"=
+>pointercal-<wbr>xinput_0.0.bb</a><br>
+index 65348c3..71756c3 100644<br>
+--- a/meta/recipes-graphics/<wbr>xinput-calibrator/<a href=3D"http://pointe=
+rcal-xinput_0.0.bb" rel=3D"noreferrer" target=3D"_blank">pointercal-<wbr>xi=
+nput_0.0.bb</a><br>
++++ b/meta/recipes-graphics/<wbr>xinput-calibrator/<a href=3D"http://pointe=
+rcal-xinput_0.0.bb" rel=3D"noreferrer" target=3D"_blank">pointercal-<wbr>xi=
+nput_0.0.bb</a><br>
+@@ -17,4 +17,5 @@ do_install() {<br>
+=C2=A0}<br>
+<br>
+=C2=A0PACKAGE_ARCH =3D &quot;${MACHINE_ARCH}&quot;<br>
++ALLOW_EMPTY_${PN} =3D &quot;1&quot;<br>
+=C2=A0CONFFILES_${PN} =3D &quot;${sysconfdir}/pointercal.<wbr>xinput&quot;<=
+br>
 <span class=3D"HOEnZb"><font color=3D"#888888"><br>
 --<br>
 To stop receiving notification emails like this one, please contact<br>
@@ -192,4 +173,4 @@ its" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wb=
 r>mailman/listinfo/openembedded-<wbr>commits</a><br>
 </font></span></blockquote></div><br></div>
 
---001a1142bee80108550539447b83--
+--001a11412c36966c3e0539447e42--
