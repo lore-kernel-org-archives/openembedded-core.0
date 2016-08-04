@@ -1,20 +1,20 @@
 Return-Path: <s.mueller-klieser@phytec.de>
-Received: from root.phytec.de (mail.visioncatalog.com [217.6.246.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 0028D76651
+Received: from root.phytec.de (mail.phytec.co.uk [217.6.246.34])
+	by mail.openembedded.org (Postfix) with ESMTP id F273E6FF78
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  4 Aug 2016 13:35:22 +0000 (UTC)
 Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
-	by root.phytec.de (Postfix) with ESMTP id A32DAA0041A
+	by root.phytec.de (Postfix) with ESMTP id CB5A1A00427
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  4 Aug 2016 15:27:58 +0200 (CEST)
 Received: from lws-mklieser.phytec.de ([172.16.10.21])
 	by idefix.phytec.de (IBM Domino Release 9.0.1FP5 HF413)
-	with ESMTP id 2016080415275730-19329 ;
+	with ESMTP id 2016080415275739-19332 ;
 	Thu, 4 Aug 2016 15:27:57 +0200 
 From: =?UTF-8?q?Stefan=20M=C3=BCller-Klieser?= <s.mueller-klieser@phytec.de>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 4 Aug 2016 15:27:51 +0200
-Message-Id: <1470317274-27771-5-git-send-email-s.mueller-klieser@phytec.de>
+Date: Thu, 4 Aug 2016 15:27:54 +0200
+Message-Id: <1470317274-27771-8-git-send-email-s.mueller-klieser@phytec.de>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1470317274-27771-1-git-send-email-s.mueller-klieser@phytec.de>
 References: <1470317274-27771-1-git-send-email-s.mueller-klieser@phytec.de>
@@ -24,7 +24,7 @@ X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP5
 	Serialize by Router on Idefix/Phytec(Release 9.0.1FP5 HF413|March 21,
 	2016) at 04.08.2016 15:27:57
 X-TNEFEvaluated: 1
-Subject: [PATCH 4/7] python-numpy: remove dangling patch
+Subject: [PATCH 7/7] matchbox-panel-2: remove dangling patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,60 +43,72 @@ Content-Transfer-Encoding: quoted-printable
 
 Signed-off-by: Stefan M=C3=BCller-Klieser <s.mueller-klieser@phytec.de>
 ---
- .../python-numpy/files/add-glibc-check.patch       | 36 ------------------=
+ ...top-Make-sure-active-state-is-initialized.patch | 50 ------------------=
 ----
- 1 file changed, 36 deletions(-)
- delete mode 100644 meta/recipes-devtools/python-numpy/files/add-glibc-chec=
-k.patch
+ 1 file changed, 50 deletions(-)
+ delete mode 100644 meta/recipes-sato/matchbox-panel-2/files/0001-showdeskt=
+op-Make-sure-active-state-is-initialized.patch
 
-diff --git a/meta/recipes-devtools/python-numpy/files/add-glibc-check.patch=
- b/meta/recipes-devtools/python-numpy/files/add-glibc-check.patch
+diff --git a/meta/recipes-sato/matchbox-panel-2/files/0001-showdesktop-Make=
+-sure-active-state-is-initialized.patch b/meta/recipes-sato/matchbox-panel-=
+2/files/0001-showdesktop-Make-sure-active-state-is-initialized.patch
 deleted file mode 100644
-index 29768f3..0000000
---- a/meta/recipes-devtools/python-numpy/files/add-glibc-check.patch
+index 3bab6d2..0000000
+--- a/meta/recipes-sato/matchbox-panel-2/files/0001-showdesktop-Make-sure-a=
+ctive-state-is-initialized.patch
 +++ /dev/null
-@@ -1,36 +0,0 @@
--Dont punish musl for glibc's trignometeric functions problems
--additionally ensure that glibc specific macros are not used
--unconditionally
+@@ -1,50 +0,0 @@
+-From a0b5fca04da208990f3c40e65dbb045da4cdb35e Mon Sep 17 00:00:00 2001
+-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+-Date: Sun, 20 Mar 2016 13:24:37 +0200
+-Subject: [PATCH] showdesktop: Make sure active state is initialized
 -
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Upstream-Status: Pending
--Index: numpy-1.10.4/numpy/core/src/private/npy=5Fconfig.h
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
----- numpy-1.10.4.orig/numpy/core/src/private/npy=5Fconfig.h
--+++ numpy-1.10.4/numpy/core/src/private/npy=5Fconfig.h
--@@ -75,10 +75,12 @@
--=20
-- #if defined(HAVE=5FFEATURES=5FH)
-- #include <features.h>
--+#ifdef =5F=5FGLIBC=5F=5F
-- #define TRIG=5FOK =5F=5FGLIBC=5FPREREQ(2, 16)
-- #else
-- #define TRIG=5FOK 0
-- #endif
--+#endif
--=20
-- #if !TRIG=5FOK
-- #undef HAVE=5FCASIN
--Index: numpy-1.10.4/numpy/core/src/npymath/ieee754.c.src
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
----- numpy-1.10.4.orig/numpy/core/src/npymath/ieee754.c.src
--+++ numpy-1.10.4/numpy/core/src/npymath/ieee754.c.src
--@@ -612,7 +612,7 @@ void npy=5Fset=5Ffloatstatus=5Finvalid(void)
+-There are cases (in qemu at least) where set=5Factive()
+-is never called on startup. Make sure we initialize the active
+-state so the icon gets loaded and the applet is not confused
+-about the current state.
+-
+-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-
+-Upstream-Status: Backport
+----
+- applets/showdesktop/showdesktop.c | 10 ++++++++++
+- 1 file changed, 10 insertions(+)
+-
+-diff --git a/applets/showdesktop/showdesktop.c b/applets/showdesktop/showd=
+esktop.c
+-index 61dd5c2..33c13e1 100644
+---- a/applets/showdesktop/showdesktop.c
+-+++ b/applets/showdesktop/showdesktop.c
+-@@ -181,6 +181,12 @@ button=5Fclicked=5Fcb (GtkButton         *button,
+- 	            &xev);
 - }
 -=20
+-+static void
+-+realize=5Fcb (GtkWidget *button, ShowDesktopApplet *applet)
+-+{
+-+        sync=5Fapplet (applet);
+-+}
+-+
+- G=5FMODULE=5FEXPORT GtkWidget *
+- mb=5Fpanel=5Fapplet=5Fcreate (const char    *id,
+-                         GtkOrientation orientation)
+-@@ -216,6 +222,10 @@ mb=5Fpanel=5Fapplet=5Fcreate (const char    *id,
+-                           "clicked",
+-                           G=5FCALLBACK (button=5Fclicked=5Fcb),
+-                           applet);
+-+        g=5Fsignal=5Fconnect (button,
+-+                          "realize",
+-+                          G=5FCALLBACK (realize=5Fcb),
+-+                          applet);
 -=20
---#elif defined(=5F=5FGLIBC=5F=5F) || defined(=5F=5FAPPLE=5F=5F) || \
--+#elif defined(=5F=5Flinux=5F=5F) || defined(=5F=5FAPPLE=5F=5F) || \
--       defined(=5F=5FCYGWIN=5F=5F) || defined(=5F=5FMINGW32=5F=5F) || \
--       (defined(=5F=5FFreeBSD=5F=5F) && (=5F=5FFreeBSD=5Fversion >=3D 5021=
-14))
-- #  include <fenv.h>
+-         g=5Fobject=5Fweak=5Fref (G=5FOBJECT (button),
+-                            (GWeakNotify) show=5Fdesktop=5Fapplet=5Ffree,
+---=20
+-2.7.0
+-
 --=20
 1.9.1
 
