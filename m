@@ -1,31 +1,20 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 560B977116
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id E593C7710C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Aug 2016 16:22:46 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u75GMeij013193; Fri, 5 Aug 2016 17:22:40 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id JsScIpNkfLOx; Fri,  5 Aug 2016 17:22:40 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u75GMaTl013190
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 5 Aug 2016 17:22:37 +0100
-Message-ID: <1470414156.8166.18.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, =?ISO-8859-1?Q?An=EDbal_Lim=F3n?=
-	<anibal.limon@linux.intel.com>, openembedded-core@lists.openembedded.org
-Date: Fri, 05 Aug 2016 17:22:36 +0100
-In-Reply-To: <04e8b0bc-8834-52db-8fe7-da7af806a1ba@gmail.com>
-References: <1469821981-6456-1-git-send-email-anibal.limon@linux.intel.com>
-	<04e8b0bc-8834-52db-8fe7-da7af806a1ba@gmail.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Cc: alexander.kanavin@intel.com
-Subject: Re: [PATCH] apt: Upgrade to 1.2.12
+	Fri,  5 Aug 2016 16:24:28 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP; 05 Aug 2016 09:24:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,474,1464678000"; d="scan'208";a="1009128681"
+Received: from marquiz.fi.intel.com ([10.237.72.155])
+	by orsmga001.jf.intel.com with ESMTP; 05 Aug 2016 09:24:28 -0700
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  5 Aug 2016 19:24:27 +0300
+Message-Id: <1470414267-5317-1-git-send-email-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.6.6
+Subject: [PATCH v2] license: improve handling of license files with identical basenames
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,48 +27,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Aug 2016 16:22:47 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 05 Aug 2016 16:24:31 -0000
 
-On Fri, 2016-08-05 at 08:44 -0700, Khem Raj wrote:
-> 
-> On 7/29/16 12:53 PM, Aníbal Limón wrote:
-> > Test was made building core-image-sato with package_deb on qemux86
-> > and
-> > qemuarm then run for two of them testimage and install packages
-> > with
-> > apt-get using PACKAGE_FEED_URI's configuration.
-> > 
-> > Now apt support drop priviligies for install packages using a
-> > sandbox
-> > with _apt user, the useradd class was inherit and configured to
-> > install
-> > _apt user and group.
-> > 
-> > Rebased patches:
-> > 
-> > 	- 0001-Revert-always-run-dpkg-configure-a-at-the-end-of
-> > -our.patch
-> >         - 0001-fix-the-gcc-version-check.patch
-> > 	- 0001-remove-Wsuggest-attribute-from-CFLAGS.patch
-> > 	- disable-test.patch
-> > 	- no-curl.patch
-> 
-> This breaks on musl. Another plea to add a world build on AB for
-> atleast
-> 1 target for musl.
+Previously, find_license_files() in license.bbclass just blindly assumed
+that all different licenses specified in LIC_FILES_CHKSUM have unique
+filenames. As a consequence, only the last one of these similarly named
+license files was copied and the rest were "lost". This patch changes
+the behavior so that all license files get copied. However, if multiple
+identically named files are found, they are renamed to <file>.0,
+<file>.1 etc.
 
-We have nightly-musl which builds "core-image-minimal core-image-full
--cmdline core-image-sato":
+The patch also changes the handling of NO_GENERIC_LICENSE slightly.
+Previously, only basenames of NO_GENERIC_LICENSE and LIC_FILES_CHKSUM
+were compared when searching for the correct license file. After this
+patch NO_GENERIC_LICENSE must have the full path, matching what is
+specified in LIC_FILES_CHKSUM. This is required in order to be able
+to handle identical filenames (basenames) consistently. For example, if
+you have:
+LICENSE = "my-custom-license"
+LIC_FILES_CHKSUM = "file://src/LICENCE;md5=d41d8cd98f00b204e9800998ecf8427e"
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-musl/builds/
-207/steps/BuildImages/logs/stdio
+you must specify:
+NO_GENERIC_LICENSE[my-custom-license] = "src/LICENCE"
 
-Is world known to work for musl now?
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+---
+ meta/classes/license.bbclass | 30 ++++++++++++++++++++++--------
+ 1 file changed, 22 insertions(+), 8 deletions(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index 26c297d..1313fda 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -385,6 +385,7 @@ def find_license_files(d):
+     """
+     import shutil
+     import oe.license
++    from collections import defaultdict, OrderedDict
+ 
+     pn = d.getVar('PN', True)
+     for package in d.getVar('PACKAGES', True):
+@@ -409,6 +410,8 @@ def find_license_files(d):
+     generic_directory = d.getVar('COMMON_LICENSE_DIR', True)
+     # List of basename, path tuples
+     lic_files_paths = []
++    # Entries from LIC_FILES_CHKSUM
++    lic_chksums = {}
+     license_source_dirs = []
+     license_source_dirs.append(generic_directory)
+     try:
+@@ -438,7 +441,6 @@ def find_license_files(d):
+         license_source = None
+         # If the generic does not exist we need to check to see if there is an SPDX mapping to it,
+         # unless NO_GENERIC_LICENSE is set.
+-
+         for lic_dir in license_source_dirs:
+             if not os.path.isfile(os.path.join(lic_dir, license_type)):
+                 if d.getVarFlag('SPDXLICENSEMAP', license_type, True) != None:
+@@ -452,6 +454,7 @@ def find_license_files(d):
+                 license_source = lic_dir
+                 break
+ 
++        non_generic_lic = d.getVarFlag('NO_GENERIC_LICENSE', license_type, True)
+         if spdx_generic and license_source:
+             # we really should copy to generic_ + spdx_generic, however, that ends up messing the manifest
+             # audit up. This should be fixed in emit_pkgdata (or, we actually got and fix all the recipes)
+@@ -463,13 +466,11 @@ def find_license_files(d):
+             if d.getVarFlag('NO_GENERIC_LICENSE', license_type, True):
+                 bb.warn("%s: %s is a generic license, please don't use NO_GENERIC_LICENSE for it." % (pn, license_type))
+ 
+-        elif d.getVarFlag('NO_GENERIC_LICENSE', license_type, True):
++        elif non_generic_lic and non_generic_lic in lic_chksums:
+             # if NO_GENERIC_LICENSE is set, we copy the license files from the fetched source
+             # of the package rather than the license_source_dirs.
+-            for (basename, path) in lic_files_paths:
+-                if d.getVarFlag('NO_GENERIC_LICENSE', license_type, True) == basename:
+-                    lic_files_paths.append(("generic_" + license_type, path))
+-                    break
++            lic_files_paths.append(("generic_" + license_type,
++                                    os.path.join(srcdir, non_generic_lic)))
+         else:
+             # Add explicity avoid of CLOSED license because this isn't generic
+             if license_type != 'CLOSED':
+@@ -492,8 +493,8 @@ def find_license_files(d):
+         except bb.fetch.MalformedUrl:
+             raise bb.build.FuncFailed("%s: LIC_FILES_CHKSUM contains an invalid URL:  %s" % (d.getVar('PF', True), url))
+         # We want the license filename and path
+-        srclicfile = os.path.join(srcdir, path)
+-        lic_files_paths.append((os.path.basename(path), srclicfile))
++        chksum = parm['md5'] if 'md5' in parm else parm['sha256']
++        lic_chksums[path] = chksum
+ 
+     v = FindVisitor()
+     try:
+@@ -503,6 +504,19 @@ def find_license_files(d):
+     except SyntaxError:
+         bb.warn("%s: Failed to parse it's LICENSE field." % (d.getVar('PF', True)))
+ 
++    # Add files from LIC_FILES_CHKSUM to list of license files
++    lic_chksum_paths = defaultdict(OrderedDict)
++    for path, chksum in lic_chksums.items():
++        lic_chksum_paths[os.path.basename(path)][chksum] = os.path.join(srcdir, path)
++    for basename, files in lic_chksum_paths.items():
++        if len(files) == 1:
++            lic_files_paths.append((basename, list(files.values())[0]))
++        else:
++            # If there are multiple different license files with identical
++            # basenames we rename them to <file>.0, <file>.1, ...
++            for i, path in enumerate(files.values()):
++                lic_files_paths.append(("%s.%d" % (basename, i), path))
++
+     return lic_files_paths
+ 
+ def return_spdx(d, license):
+-- 
+2.6.6
 
 
