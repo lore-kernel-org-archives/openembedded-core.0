@@ -1,20 +1,55 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id E593C7710C
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
+	[209.85.220.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C16177117
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Aug 2016 16:24:28 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP; 05 Aug 2016 09:24:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,474,1464678000"; d="scan'208";a="1009128681"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by orsmga001.jf.intel.com with ESMTP; 05 Aug 2016 09:24:28 -0700
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Aug 2016 19:24:27 +0300
-Message-Id: <1470414267-5317-1-git-send-email-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-Subject: [PATCH v2] license: improve handling of license files with identical basenames
+	Fri,  5 Aug 2016 16:25:18 +0000 (UTC)
+Received: by mail-pa0-f65.google.com with SMTP id cf3so19483329pad.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 05 Aug 2016 09:25:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=yD/YIwpbe0ViPziXPgEOgvrrvus5+rGVoeILcvd2SjA=;
+	b=Qb5KK3xqxuL1W27WoeBnCncYy0ie2bvAljjTXpTkS2GfHT7MiGj0Hhrp5LjQ53FyFO
+	Nq6bil/twiFI+QRE9t+8SoA7gezJKIC9+/OOIyeXebSR+o4Ou0gPLzmSj8K0V0XOJMdL
+	ZvqiO6P5FwXO/wuUws/S1p/QLjj4BEOhz6Czk1m9O9diyhfQm6HeO+Ir5/HxXQ23Oar7
+	fc8pQ0ZoUYsBgTdltuLA1OGU9O2hmjJ4EjHi/WwOYkvR2qds0DYkxBudkfXJh5nUDJqs
+	bXEQ8HBC/pKwXPjwZ8WQz1aXsWXjBn2HDv4HW30jpV/0/xE8zGC0m6QbBT+JLYux2qJj
+	KBDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=yD/YIwpbe0ViPziXPgEOgvrrvus5+rGVoeILcvd2SjA=;
+	b=iadYx3nPD0g1rrf6sAaOlsFNvhOVrlgRInd+U59h82Qi617WPjjyj2EkPwMtgpeXLb
+	k+LgjArpp4dN/va0zkiaoaKOjxIZqP4AAPim5Ya7SrZC+Tu9kc4LcZ3S5HqwDu/+3DVS
+	26RhUHF9OkuKftRcQb9YfTJI4o9AWkUxGGH3Di2Eihl0Xip/0l0uq6bYT9Y9iyIm9j0e
+	bohuyoFLd4wlJoZP71JKSaD+ud7IEdHv3ra3PeGIz79Om7mhzbVGP7/17SNke3TXkA0i
+	4A4gSujsZftefQjMixNNeILXbwqOxamvis3oO8D7edOyr8y2dgnDd6aBxvOTDQPgqNLY
+	b9OQ==
+X-Gm-Message-State: AEkoouvARpiBRDeRfBYkOQZLZeOW5irNc5b3jqePZYsbN9V3BiwAPjtaTKusNCe3j5UTIg==
+X-Received: by 10.66.233.38 with SMTP id tt6mr135996465pac.99.1470414319425;
+	Fri, 05 Aug 2016 09:25:19 -0700 (PDT)
+Received: from ?IPv6:2601:646:8882:b8c:41d7:99c1:5cc6:c627?
+	([2601:646:8882:b8c:41d7:99c1:5cc6:c627])
+	by smtp.gmail.com with ESMTPSA id
+	cp11sm29219529pac.28.2016.08.05.09.25.17
+	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 05 Aug 2016 09:25:17 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Pgp-Agent: GPGMail
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <CAJTo0LZUFnurhrmqXuQ=iJSqh=6_zb_M=H6wN=ZnXaZ6Mb+Tvw@mail.gmail.com>
+Date: Fri, 5 Aug 2016 09:25:34 -0700
+Message-Id: <392D9F5C-401C-4C57-85DC-C879B0820709@gmail.com>
+References: <1469821981-6456-1-git-send-email-anibal.limon@linux.intel.com>
+	<04e8b0bc-8834-52db-8fe7-da7af806a1ba@gmail.com>
+	<CAJTo0LZUFnurhrmqXuQ=iJSqh=6_zb_M=H6wN=ZnXaZ6Mb+Tvw@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Mailer: Apple Mail (2.3124)
+Cc: Alexander Kanavin <alexander.kanavin@intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] apt: Upgrade to 1.2.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,120 +62,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Aug 2016 16:24:31 -0000
+X-List-Received-Date: Fri, 05 Aug 2016 16:25:19 -0000
+X-Groupsio-MsgNum: 85383
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_04F73ECC-7E6F-41B1-A40D-F238DB9F3448";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-Previously, find_license_files() in license.bbclass just blindly assumed
-that all different licenses specified in LIC_FILES_CHKSUM have unique
-filenames. As a consequence, only the last one of these similarly named
-license files was copied and the rest were "lost". This patch changes
-the behavior so that all license files get copied. However, if multiple
-identically named files are found, they are renamed to <file>.0,
-<file>.1 etc.
+--Apple-Mail=_04F73ECC-7E6F-41B1-A40D-F238DB9F3448
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_181F6C15-29D9-411C-8F1D-DCE64C3654F5"
 
-The patch also changes the handling of NO_GENERIC_LICENSE slightly.
-Previously, only basenames of NO_GENERIC_LICENSE and LIC_FILES_CHKSUM
-were compared when searching for the correct license file. After this
-patch NO_GENERIC_LICENSE must have the full path, matching what is
-specified in LIC_FILES_CHKSUM. This is required in order to be able
-to handle identical filenames (basenames) consistently. For example, if
-you have:
-LICENSE = "my-custom-license"
-LIC_FILES_CHKSUM = "file://src/LICENCE;md5=d41d8cd98f00b204e9800998ecf8427e"
-
-you must specify:
-NO_GENERIC_LICENSE[my-custom-license] = "src/LICENCE"
-
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
----
- meta/classes/license.bbclass | 30 ++++++++++++++++++++++--------
- 1 file changed, 22 insertions(+), 8 deletions(-)
-
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index 26c297d..1313fda 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -385,6 +385,7 @@ def find_license_files(d):
-     """
-     import shutil
-     import oe.license
-+    from collections import defaultdict, OrderedDict
- 
-     pn = d.getVar('PN', True)
-     for package in d.getVar('PACKAGES', True):
-@@ -409,6 +410,8 @@ def find_license_files(d):
-     generic_directory = d.getVar('COMMON_LICENSE_DIR', True)
-     # List of basename, path tuples
-     lic_files_paths = []
-+    # Entries from LIC_FILES_CHKSUM
-+    lic_chksums = {}
-     license_source_dirs = []
-     license_source_dirs.append(generic_directory)
-     try:
-@@ -438,7 +441,6 @@ def find_license_files(d):
-         license_source = None
-         # If the generic does not exist we need to check to see if there is an SPDX mapping to it,
-         # unless NO_GENERIC_LICENSE is set.
--
-         for lic_dir in license_source_dirs:
-             if not os.path.isfile(os.path.join(lic_dir, license_type)):
-                 if d.getVarFlag('SPDXLICENSEMAP', license_type, True) != None:
-@@ -452,6 +454,7 @@ def find_license_files(d):
-                 license_source = lic_dir
-                 break
- 
-+        non_generic_lic = d.getVarFlag('NO_GENERIC_LICENSE', license_type, True)
-         if spdx_generic and license_source:
-             # we really should copy to generic_ + spdx_generic, however, that ends up messing the manifest
-             # audit up. This should be fixed in emit_pkgdata (or, we actually got and fix all the recipes)
-@@ -463,13 +466,11 @@ def find_license_files(d):
-             if d.getVarFlag('NO_GENERIC_LICENSE', license_type, True):
-                 bb.warn("%s: %s is a generic license, please don't use NO_GENERIC_LICENSE for it." % (pn, license_type))
- 
--        elif d.getVarFlag('NO_GENERIC_LICENSE', license_type, True):
-+        elif non_generic_lic and non_generic_lic in lic_chksums:
-             # if NO_GENERIC_LICENSE is set, we copy the license files from the fetched source
-             # of the package rather than the license_source_dirs.
--            for (basename, path) in lic_files_paths:
--                if d.getVarFlag('NO_GENERIC_LICENSE', license_type, True) == basename:
--                    lic_files_paths.append(("generic_" + license_type, path))
--                    break
-+            lic_files_paths.append(("generic_" + license_type,
-+                                    os.path.join(srcdir, non_generic_lic)))
-         else:
-             # Add explicity avoid of CLOSED license because this isn't generic
-             if license_type != 'CLOSED':
-@@ -492,8 +493,8 @@ def find_license_files(d):
-         except bb.fetch.MalformedUrl:
-             raise bb.build.FuncFailed("%s: LIC_FILES_CHKSUM contains an invalid URL:  %s" % (d.getVar('PF', True), url))
-         # We want the license filename and path
--        srclicfile = os.path.join(srcdir, path)
--        lic_files_paths.append((os.path.basename(path), srclicfile))
-+        chksum = parm['md5'] if 'md5' in parm else parm['sha256']
-+        lic_chksums[path] = chksum
- 
-     v = FindVisitor()
-     try:
-@@ -503,6 +504,19 @@ def find_license_files(d):
-     except SyntaxError:
-         bb.warn("%s: Failed to parse it's LICENSE field." % (d.getVar('PF', True)))
- 
-+    # Add files from LIC_FILES_CHKSUM to list of license files
-+    lic_chksum_paths = defaultdict(OrderedDict)
-+    for path, chksum in lic_chksums.items():
-+        lic_chksum_paths[os.path.basename(path)][chksum] = os.path.join(srcdir, path)
-+    for basename, files in lic_chksum_paths.items():
-+        if len(files) == 1:
-+            lic_files_paths.append((basename, list(files.values())[0]))
-+        else:
-+            # If there are multiple different license files with identical
-+            # basenames we rename them to <file>.0, <file>.1, ...
-+            for i, path in enumerate(files.values()):
-+                lic_files_paths.append(("%s.%d" % (basename, i), path))
-+
-     return lic_files_paths
- 
- def return_spdx(d, license):
--- 
-2.6.6
+--Apple-Mail=_181F6C15-29D9-411C-8F1D-DCE64C3654F5
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
 
+> On Aug 5, 2016, at 8:54 AM, Burton, Ross <ross.burton@intel.com> =
+wrote:
+>=20
+>=20
+> On 5 August 2016 at 16:44, Khem Raj <raj.khem@gmail.com =
+<mailto:raj.khem@gmail.com>> wrote:
+> This breaks on musl. Another plea to add a world build on AB for =
+atleast
+> 1 target for musl.
+>=20
+> Does oe-core world build green with musl now?
+
+yes except qemuarm. eg. see qemux86 build results from last night
+
+http://errors.yoctoproject.org/Errors/Build/19242/ =
+<http://errors.yoctoproject.org/Errors/Build/19242/>
+
+on qemuarm the failure is due to gcc racing against libunwind. when =
+libunwind is staged
+before gcc is built then it fails to find the right unwind.h, strangely =
+this does not happen
+on glibc based builds, I wonder if its just a latent problem which we =
+are yet see on glibc
+based builds
+
+>=20
+> Ross
+
+
+--Apple-Mail=_181F6C15-29D9-411C-8F1D-DCE64C3654F5
+Content-Transfer-Encoding: 7bit
+Content-Type: text/html;
+	charset=us-ascii
+
+<html><head><meta http-equiv="Content-Type" content="text/html charset=us-ascii"></head><body style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" class=""><br class=""><div><blockquote type="cite" class=""><div class="">On Aug 5, 2016, at 8:54 AM, Burton, Ross &lt;<a href="mailto:ross.burton@intel.com" class="">ross.burton@intel.com</a>&gt; wrote:</div><br class="Apple-interchange-newline"><div class=""><div dir="ltr" class=""><div class="gmail_extra"><br class=""><div class="gmail_quote">On 5 August 2016 at 16:44, Khem Raj <span dir="ltr" class="">&lt;<a href="mailto:raj.khem@gmail.com" target="_blank" class="">raj.khem@gmail.com</a>&gt;</span> wrote:<br class=""><blockquote class="gmail_quote" style="margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=":2q0" class="a3s aXjCH m1565b61151f378e0">This breaks on musl. Another plea to add a world build on AB for atleast<br class="">
+1 target for musl.<br class=""></div></blockquote></div><br class="">Does oe-core world build green with musl now?</div></div></div></blockquote><div><br class=""></div><div>yes except qemuarm. eg. see qemux86 build results from last night</div><div><br class=""></div><div><a href="http://errors.yoctoproject.org/Errors/Build/19242/" class="">http://errors.yoctoproject.org/Errors/Build/19242/</a></div><div><br class=""></div><div>on qemuarm the failure is due to gcc racing against libunwind. when libunwind is staged</div><div>before gcc is built then it fails to find the right unwind.h, strangely this does not happen</div><div>on glibc based builds, I wonder if its just a latent problem which we are yet see on glibc</div><div>based builds&nbsp;</div><br class=""><blockquote type="cite" class=""><div class=""><div dir="ltr" class=""><div class="gmail_extra"><br class=""></div><div class="gmail_extra">Ross</div></div>
+</div></blockquote></div><br class=""></body></html>
+
+--Apple-Mail=_181F6C15-29D9-411C-8F1D-DCE64C3654F5--
+
+--Apple-Mail=_04F73ECC-7E6F-41B1-A40D-F238DB9F3448
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlekvgIACgkQuwUzVZGdMxQ4jwCfZG7p4EkHEFXbNQ0fPmI5frP9
+bLEAnjy/sW/zMEXsR9rEwESCgeXJVHVH
+=WkFG
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_04F73ECC-7E6F-41B1-A40D-F238DB9F3448--
