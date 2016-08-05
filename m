@@ -1,47 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
-	[209.85.223.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 1311A7707F
+Return-Path: <andrej.valek@siemens.com>
+Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
+	by mail.openembedded.org (Postfix) with ESMTP id B346D73243
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Aug 2016 11:27:08 +0000 (UTC)
-Received: by mail-io0-f180.google.com with SMTP id 38so297104084iol.0
+	Fri,  5 Aug 2016 11:40:42 +0000 (UTC)
+Received: from mail1.siemens.de (mail1.siemens.de [139.23.33.14])
+	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id u75BGij4016103
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Aug 2016 04:27:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=SYRuLnbMZVlap6YZvKU4sxYEl4Eg8NTqYRX+NKvPegA=;
-	b=CzQUGD9r5MuSUMQNam+8TGBV5FMjGHxuSL6RMB6SMJwiGX3+IMPQwVCouVOgram8sX
-	FtnNZi20aNZSPLhMA6P1NmxjFPVjf3XbMbZ5/GZkriO0lbjSqtptAdkni3u6B5/T3ksF
-	MZW9PcHSsSvBDCA1ELkW3jM/Vs5WGd/B/E6NCANy93l3j2oabYhik7wOqJkgdwHRF3jI
-	XIMIbTZWVBXP51TKUEIzW/Q+/b9jOwsAZLYAcK4rq4musiILaG/D5po9xFefIBxg4pnL
-	i5F7dtGUtHsEBx4EDFDql/q7pwpLtFTbHeW2nhWwZYhPr/mw84cgDZaSeleZw/c0H0ca
-	V1lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=SYRuLnbMZVlap6YZvKU4sxYEl4Eg8NTqYRX+NKvPegA=;
-	b=ShKaeRiodampKb/B4YJh7Q+KOSCORBXnrtPrmpYTRtpVeF+btRvq/l/KCiLRG9yyFr
-	nszMx4Wdj8EsLR/EMVqYemriz1w6TgpjV095sAm2a7xyK/F1deCMQ+vJrmAJ+pO38eXS
-	Q2wp4quPV+CZiuLHUlC4QUEaPb6USvf1aZbonMGO8CNjWOXMUYuWMItlsHYWuRW9Lfx9
-	D3kgOQ/c912mUtdvlqMpF32ZGefHBADjw9L1LsEV5UmM5ysnibjDRkgSd3tFhwBrvuTF
-	rkhr5BNB1KP7PSNq4X1RbL6GXPOn9DI9kVHi+WGiintNaoXyNmsYO/tI0ISJpcPP712o
-	MMJQ==
-X-Gm-Message-State: AEkoouuix7ewZaW2JlqwAdi5mmyzqzd3xQOGnxZD7WI6yHEBTpY/TIPS8c7PJB55IySPWtEjVdZlcNd9eiYMOD3l
-X-Received: by 10.107.154.196 with SMTP id c187mr76133490ioe.99.1470396429338; 
-	Fri, 05 Aug 2016 04:27:09 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Fri, 5 Aug 2016 04:26:48 -0700 (PDT)
-In-Reply-To: <1470390033.4581.6.camel@andred.net>
-References: <1470389692-9787-1-git-send-email-git@andred.net>
-	<1470390033.4581.6.camel@andred.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 5 Aug 2016 12:26:48 +0100
-Message-ID: <CAJTo0LaQk2qcmHM8Bx7evw8WeyfUBSOqv=o46s7tkKKP0F_SCA@mail.gmail.com>
-To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] cml1.bbclass: explicitly set workdir
+	Fri, 5 Aug 2016 13:16:44 +0200
+Received: from dev.sbt.siemens.com ([163.242.50.167])
+	by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id u75BGiWS005709;
+	Fri, 5 Aug 2016 13:16:44 +0200
+Received: from dev.sbt.siemens.com (localhost [127.0.0.1])
+	by dev.sbt.siemens.com (Postfix) with ESMTP id 0610210A5B3;
+	Fri,  5 Aug 2016 13:16:44 +0200 (CEST)
+From: Andrej Valek <andrej.valek@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  5 Aug 2016 13:16:33 +0200
+Message-Id: <1470395793-21638-1-git-send-email-andrej.valek@siemens.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] openssl: fix add missing `make depend` command before `make` library
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,38 +32,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Aug 2016 11:27:09 -0000
-Content-Type: multipart/alternative; boundary=001a1140e81ed9afb50539515818
+X-List-Received-Date: Fri, 05 Aug 2016 11:40:44 -0000
 
---001a1140e81ed9afb50539515818
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Settings from EXTRA_OECONF like en/disable no-ssl3, are transferred
+only into DEPFLAGS. It means that settings have no effect on output files.
+DEPFLAGS will be transferred into output files with make depend command.
 
-On 5 August 2016 at 10:40, Andr=C3=A9 Draszik <git@andred.net> wrote:
+https://wiki.openssl.org/index.php/Compilation_and_Installation#Dependencies
 
-> Sorry, please ignore this! Didn't realise it's fixed in oe-core just not =
-in
-> poky.git yet.
->
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+---
+ meta/recipes-connectivity/openssl/openssl.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Merges happen to both at the same time generally, but you likely missed it
-by hours.
+diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
+index 1a0031e..620673a 100644
+--- a/meta/recipes-connectivity/openssl/openssl.inc
++++ b/meta/recipes-connectivity/openssl/openssl.inc
+@@ -8,7 +8,7 @@ SECTION = "libs/network"
+ LICENSE = "openssl"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=f9a8f968107345e0b75aa8c2ecaa7ec8"
+ 
+-DEPENDS = "hostperl-runtime-native"
++DEPENDS = "makedepend-native hostperl-runtime-native"
+ DEPENDS_append_class-target = " openssl-native"
+ 
+ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+@@ -149,6 +149,7 @@ do_compile_prepend_class-target () {
+ }
+ 
+ do_compile () {
++	oe_runmake depend
+ 	oe_runmake
+ }
+ 
+-- 
+2.1.4
 
-Ross
 
---001a1140e81ed9afb50539515818
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 5 August 2016 at 10:40, Andr=C3=A9 Draszik <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:git@andred.net" target=3D"_blank">git@andred.net</a>&gt;</span> =
-wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
-er-left:1px #ccc solid;padding-left:1ex"><div id=3D":sd" class=3D"a3s aXjCH=
- m1565a13c0e51fb45">Sorry, please ignore this! Didn&#39;t realise it&#39;s =
-fixed in oe-core just not in<br>
-poky.git yet.<br></div></blockquote><div><br></div><div>Merges happen to bo=
-th at the same time generally, but you likely missed it by hours.</div><div=
-><br></div><div>Ross=C2=A0</div></div><br></div></div>
-
---001a1140e81ed9afb50539515818--
