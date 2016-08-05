@@ -1,28 +1,46 @@
-Return-Path: <s.mueller-klieser@phytec.de>
-Received: from root.phytec.de (mail.rapiddevelopmentkit.de [217.6.246.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 52DAC7321C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
+	[209.85.214.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 742977321C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Aug 2016 13:15:39 +0000 (UTC)
-Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
-	by root.phytec.de (Postfix) with ESMTP id 71129A003C9
+	Fri,  5 Aug 2016 13:19:38 +0000 (UTC)
+Received: by mail-it0-f49.google.com with SMTP id u186so21599995ita.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Aug 2016 15:15:41 +0200 (CEST)
-Received: from lws-mklieser.phytec.de ([172.16.10.21])
-	by idefix.phytec.de (IBM Domino Release 9.0.1FP5 HF413)
-	with ESMTP id 2016080515153987-23545 ;
-	Fri, 5 Aug 2016 15:15:39 +0200 
-From: =?UTF-8?q?Stefan=20M=C3=BCller-Klieser?= <s.mueller-klieser@phytec.de>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 5 Aug 2016 15:15:35 +0200
-Message-Id: <1470402935-5261-1-git-send-email-s.mueller-klieser@phytec.de>
-X-Mailer: git-send-email 1.9.1
+	Fri, 05 Aug 2016 06:19:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=VYWipGps3GD77m9SFbHR1lfrrLovuQB9aNDGFAbt740=;
+	b=XUCWlE1ZfTenAm8AKeEQwgtm+jLkJt/cRGAIMz2TPfmVBfDlRtPxISM6kUh1MlKOM3
+	fNXDUvctqWQBXJEga+YHN1H6qA+vWtKhumRGp4DegAXaB+nhtlBsQF+1BPmEwIUa4tXe
+	S2YbSNiMCAwmeVE7K0R8+LstRWUgors+3OU2Ut3HV/9Z2/GJED3u5UQTqJeNeMYHOVkR
+	vyIbH8TjE3reHYZ4x2yGtARYQNVs13cN45nns10rF0oIPFCtQFwsx3VwPt/+/b6dThfW
+	Je2dkGcOJTM/vjqEAvRiX+7P1j1gnM/ryvfa3KATpr7IhyMiL/Ix5AR0BbCaF1ghHAuC
+	lVxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=VYWipGps3GD77m9SFbHR1lfrrLovuQB9aNDGFAbt740=;
+	b=b65euGtFqV92awgcFmmsucOjbDoTjcyyzVNzUslxr8qmy+EIZBji+jtwlsCOy97q40
+	hoz3swzhZorNezFNWoT9ejyinBLxm5CPX8XRMq4QO5b/FLqiOAcB3NEt7Sr7+sJ1gLUt
+	QyD5T4nojQVNpObzehlYok9gNIYpnfw6eIUmEKrohCeTGTyuHoP054u8Wq8HvsEl6yhb
+	ElJe8YFLLn/AmCA12rxFaPm7IdOm8GRP64aY0u2tOPovUqV6Ynlzwa04GrBvMO3Makb2
+	lJAr4NHjW4q7Vz5HfOzAEfa8VnaR+IPiI4hUc6aIifO8lHfcL/nFE6rmntA1MmtWlXRp
+	oe/A==
+X-Gm-Message-State: AEkoouupeP+EsN7i0m14T6rMbKYczbnsNQBaKuNvR1PWkMGZGEwBCL8gZIkRWmk3HCOvA5uRUX+QDCA1xbdo6Ro9
+X-Received: by 10.36.121.204 with SMTP id z195mr4419173itc.22.1470403178750;
+	Fri, 05 Aug 2016 06:19:38 -0700 (PDT)
 MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP5
-	HF413|March 21, 2016) at 05.08.2016 15:15:39,
-	Serialize by Router on Idefix/Phytec(Release 9.0.1FP5 HF413|March 21,
-	2016) at 05.08.2016 15:15:39
-X-TNEFEvaluated: 1
-Subject: [PATCH] alsa-utils: fix installed-vs-shipped for bat
+Received: by 10.107.18.17 with HTTP; Fri, 5 Aug 2016 06:19:18 -0700 (PDT)
+In-Reply-To: <1470402935-5261-1-git-send-email-s.mueller-klieser@phytec.de>
+References: <1470402935-5261-1-git-send-email-s.mueller-klieser@phytec.de>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 5 Aug 2016 14:19:18 +0100
+Message-ID: <CAJTo0LaEA7hroi6fgNrf_3z0MvL5ckBz3cu4YvUqcq7m1GGZpw@mail.gmail.com>
+To: =?UTF-8?Q?Stefan_M=C3=BCller=2DKlieser?= <s.mueller-klieser@phytec.de>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] alsa-utils: fix installed-vs-shipped for bat
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,65 +53,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Aug 2016 13:15:40 -0000
+X-List-Received-Date: Fri, 05 Aug 2016 13:19:38 -0000
+Content-Type: multipart/alternative; boundary=001a114aa466257f1b053952ebaf
+
+--001a114aa466257f1b053952ebaf
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-The bat PACKAGECONFIG does not install the test script correctly. Fix
-this by following the packaging used for the other bash scripts. While
-at it, fix some tabs.
+On 5 August 2016 at 14:15, Stefan M=C3=BCller-Klieser <
+s.mueller-klieser@phytec.de> wrote:
 
-Signed-off-by: Stefan M=C3=BCller-Klieser <s.mueller-klieser@phytec.de>
----
- meta/recipes-multimedia/alsa/alsa-utils-scripts=5F1.1.1.bb | 4 ++++
- meta/recipes-multimedia/alsa/alsa-utils=5F1.1.1.bb         | 7 ++++---
- 2 files changed, 8 insertions(+), 3 deletions(-)
+> +       if ${@bb.utils.contains('PACKAGECONFIG', 'bat', 'false', 'true',
+> d)}; then
+>
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils-scripts=5F1.1.1.bb b/m=
-eta/recipes-multimedia/alsa/alsa-utils-scripts=5F1.1.1.bb
-index a98f9b9..4e28fef 100644
---- a/meta/recipes-multimedia/alsa/alsa-utils-scripts=5F1.1.1.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-utils-scripts=5F1.1.1.bb
-@@ -10,6 +10,7 @@ RDEPENDS=5F${PN} +=3D "bash"
-=20
- FILES=5F${PN} =3D "${sbindir}/alsaconf \
-                ${sbindir}/alsa-info.sh \
-+               ${sbindir}/alsabat-test.sh \
-               "
-=20
- S =3D "${WORKDIR}/alsa-utils-${PV}"
-@@ -18,4 +19,7 @@ do=5Finstall() {
- 	install -d ${D}${sbindir}
- 	install -m 0755 ${B}/alsaconf/alsaconf ${D}${sbindir}/
- 	install -m 0755 ${S}/alsa-info/alsa-info.sh ${D}${sbindir}/
-+	if ${@bb.utils.contains('PACKAGECONFIG', 'bat', 'false', 'true', d)}; then
-+		install -m 0755 ${S}/bat/alsabat-test.sh ${D}${sbindir}/
-+	fi
- }
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils=5F1.1.1.bb b/meta/reci=
-pes-multimedia/alsa/alsa-utils=5F1.1.1.bb
-index 08c4646..ab07fa8 100644
---- a/meta/recipes-multimedia/alsa/alsa-utils=5F1.1.1.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-utils=5F1.1.1.bb
-@@ -99,10 +99,11 @@ do=5Finstall() {
- 	# See alsa-utils-scripts=5F${PV}.bb
- 	rm ${D}${sbindir}/alsaconf
- 	rm ${D}${sbindir}/alsa-info.sh
-+	rm ${D}${sbindir}/alsabat-test.sh
-=20
- 	if ${@bb.utils.contains('PACKAGECONFIG', 'udev', 'false', 'true', d)}; th=
-en
--	   # This is where alsa-utils will install its rules if we don't tell it =
-anything else.
--	   rm -rf ${D}/lib/udev
--	   rmdir --ignore-fail-on-non-empty ${D}/lib
-+		# This is where alsa-utils will install its rules if we don't tell it an=
-ything else.
-+		rm -rf ${D}/lib/udev
-+		rmdir --ignore-fail-on-non-empty ${D}/lib
- 	fi
- }
---=20
-1.9.1
+This means the script is installed if bat isn't selected, which I don't
+think you meant.
 
+Ross
 
+--001a114aa466257f1b053952ebaf
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 5 August 2016 at 14:15, Stefan M=C3=BCller-Klieser <span dir=3D"ltr">&lt=
+;<a href=3D"mailto:s.mueller-klieser@phytec.de" target=3D"_blank">s.mueller=
+-klieser@phytec.de</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
+<div id=3D":1rn" class=3D"a3s aXjCH m1565ad8f9329ca04">+=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0if ${@bb.utils.contains(&#39;<wbr>PACKAGECONFIG&#39;, &#39;bat&#3=
+9;, &#39;false&#39;, &#39;true&#39;, d)}; then<br></div></blockquote></div>=
+<br>This means the script is installed if bat isn&#39;t selected, which I d=
+on&#39;t think you meant.</div><div class=3D"gmail_extra"><br></div><div cl=
+ass=3D"gmail_extra">Ross</div></div>
+
+--001a114aa466257f1b053952ebaf--
