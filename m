@@ -1,49 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 507EC700F0
+Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id B2202770E3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Aug 2016 15:17:15 +0000 (UTC)
-Received: by mail-wm0-f48.google.com with SMTP id o80so41656372wme.1
+	Fri,  5 Aug 2016 15:17:16 +0000 (UTC)
+Received: by mail-wm0-f44.google.com with SMTP id f65so35376997wmi.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Aug 2016 08:17:16 -0700 (PDT)
+	Fri, 05 Aug 2016 08:17:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=FdATh9x0JckCn6ZKQarJZveGG48/yh0tBj3hQN9xmE0=;
-	b=RGg3kjpxAUExPFjQji6i/CM5MpwGKzZICXCWLIlk/UU85eD4jQE29Z34ztXxKZD6ar
-	+bBSzDeFaf43j3vpLSXjjEqnL1sGYtFWKBK6Aj+cdnx0fdIIghWYdBpftAHa815ahOS+
-	UamrF6gc/g6ZzclXunAEJI2ryJoWrOIHV+ha5Y1wZnkZoOiYfUs7H149A/C2U5SIkgUX
-	T0rw+X1yBPILkIKMYoazUQoc6P2T9h/DmGRUWNnrO54wHLNoQYyM9JCIMyfnK3oGW28v
-	py1aQalcl2kktyDEH/TkKtqQvWF7T7/WsJSVDsc2JGwCt4VNvzNnH9dKMeul1dwwDhrU
-	bdKQ==
+	bh=798gJHGa2AzjaZxaDQzdY/o5DdbLEEIlIjjJ//Sc9F0=;
+	b=hHKiY9HA/AWGlBZslKthR1+lR2vKJAqJQpRj6PyvdKdGcoszvCkdFdgoIlmOdL+x8s
+	ExtuqkL0Fu+ARMshYExd0mNhwi0RtDSgeSiAdy2W17DbfnjZKjCyp2MdmUooT9Vcsjtp
+	hXR/Ap664fb0XYdTcmiPNFMwt9gaEQ+kaVJgMMl/W3i/Y4k6bb0so1TA9VDQHT+rVhAJ
+	LTIvkPxSngpkujpq85gIQ6I1nfdrEePrQbERfsxcyOcmRkg6IMNbegvqGDeFtR1+J+4h
+	ddf/dtjQB74DwCoPqPEw1OHYiJ6TV1RcK/+Gugs4Kq3JYIIgJirYYqNqDSZN1A3H3Gbv
+	4Evw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=FdATh9x0JckCn6ZKQarJZveGG48/yh0tBj3hQN9xmE0=;
-	b=i3mDxt6U8cAqwVT+QJli8VUBzE4M4K3oTm1yIYuo3XcECGSOjAYS/PyZRB+Rc669G8
-	ygnNcDn7tXRqtaHyqmfh2X16d209r49ui95DXDFw69573DTJKybFXrsgoSt2BXNOEtzi
-	gtK1YEOV+0DaSZIMPPjb5jNQ3qsHj3Rm4IVMtQt6v58ZdBrP9BMxa5OUbjUvHb6jFFxx
-	zY/Xg5LWIakq+9CFXMwWAzSBqKoWw4CQ3GIzfVEp3wU6svwg4tztPM5cVh884yeiiSP1
-	91LJsTZYvsIPwtD5/Y4fF6Crsdjs0eEze120Fb8IpqsEywpqcwa0ntpvyexSjvDyIDZx
-	qOiw==
-X-Gm-Message-State: AEkoouvDPqGPT/ZuonO7FYTDCjouO6mqjMoNuNDekHgOlnKzJ2ha4z3/WOlcxHaQqLFZR6dW
-X-Received: by 10.28.208.140 with SMTP id h134mr4191759wmg.101.1470410235306; 
-	Fri, 05 Aug 2016 08:17:15 -0700 (PDT)
+	bh=798gJHGa2AzjaZxaDQzdY/o5DdbLEEIlIjjJ//Sc9F0=;
+	b=H+ebuiUq8l/vTPWgOwGBBN3qHbnM3IwrduFZvcebuq052QTPDGMjl64gX0mrujyHli
+	BUaLWz+/DCLL2A63T+cpu1OTMPy0vdTvVu4+K3uZ9BDgmpaCZPkjwEv48B0cVjgyDFyr
+	W4hZArfqsvC5FGeqUWXLAR84YNzfCYDwNz1V17WNa7xGcWPpfn/C6gbzR918YEFHCNtX
+	srnvdX2tsBzvis/NZGETZ9J+s0ZNnkQ4wUZUynBak0ywBVsl5Rguy3pp7R4ZXHDqY7hr
+	TAgc76GDQH8bLuMpz3/OCsSimrDZL/0ejovY+52GcsdFdcmN7z68KE4CjE38lHt/LrWt
+	PiLA==
+X-Gm-Message-State: AEkooutpTYOhsU/lpnycevSvA2nfYQhHGsV41VH29T4ActD+NsGMi6p5fNkTN0iDvSebyjwo
+X-Received: by 10.194.235.229 with SMTP id up5mr79209671wjc.69.1470410236324; 
+	Fri, 05 Aug 2016 08:17:16 -0700 (PDT)
 Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
 	by smtp.gmail.com with ESMTPSA id
-	qe2sm18285249wjc.28.2016.08.05.08.17.14
+	qe2sm18285249wjc.28.2016.08.05.08.17.15
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 05 Aug 2016 08:17:14 -0700 (PDT)
+	Fri, 05 Aug 2016 08:17:15 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Aug 2016 16:17:08 +0100
-Message-Id: <1470410231-21681-2-git-send-email-ross.burton@intel.com>
+Date: Fri,  5 Aug 2016 16:17:09 +0100
+Message-Id: <1470410231-21681-3-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <1470410231-21681-1-git-send-email-ross.burton@intel.com>
 References: <1470410231-21681-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 2/5] intltool: bump serial for aclocal --install
+Subject: [PATCH 3/5] autotools: move aclocal-copy to WORKDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,34 +56,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Aug 2016 15:17:16 -0000
+X-List-Received-Date: Fri, 05 Aug 2016 15:17:17 -0000
 
-We modify this macro and need it to be used over local copies in tarballs.  It
-appears that aclocal doesn't quite want to do the right thing just yet but
-increase the version just in case it does in the future.
-
-Upstream typically increments by one, and autoconf handles point versions fine,
-so bump it by 0.1.
+To save time move the temporary copy of the autoconf macros, aclocal-copy, from
+${B} to ${WORKDIR}.  This ensures that it can't conflict with anything in ${S}
+and means the pruning code doesn't need to know about it.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-devtools/intltool/intltool/remove-perl-check.patch | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/classes/autotools.bbclass | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-devtools/intltool/intltool/remove-perl-check.patch b/meta/recipes-devtools/intltool/intltool/remove-perl-check.patch
-index bea0895..5f57ea3 100644
---- a/meta/recipes-devtools/intltool/intltool/remove-perl-check.patch
-+++ b/meta/recipes-devtools/intltool/intltool/remove-perl-check.patch
-@@ -12,6 +12,9 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
+diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
+index 1c884b4..22359d3 100644
+--- a/meta/classes/autotools.bbclass
++++ b/meta/classes/autotools.bbclass
+@@ -134,7 +134,7 @@ EXTRACONFFUNCS ??= ""
+ do_configure[prefuncs] += "autotools_preconfigure autotools_copy_aclocals ${EXTRACONFFUNCS}"
+ do_configure[postfuncs] += "autotools_postconfigure"
  
- --- a/intltool.m4.orig	2013-07-02 11:22:23.000000000 -0700
- +++ b/intltool.m4	2013-07-02 11:22:32.000000000 -0700
-+@@ -26,1 +26,1 @@ dnl IT_PROG_INTLTOOL([MINIMUM-VERSION], [no-xml])
-+-# serial 42 IT_PROG_INTLTOOL
-++# serial 42.1 IT_PROG_INTLTOOL
- @@ -131,27 +131,6 @@ if test -z "$xgversion" -o -z "$mmversio
-      AC_MSG_ERROR([GNU gettext tools not found; required for intltool])
-  fi
+-ACLOCALDIR = "${B}/aclocal-copy"
++ACLOCALDIR = "${WORKDIR}/aclocal-copy"
+ 
+ python autotools_copy_aclocals () {
+     s = d.getVar("AUTOTOOLS_SCRIPT_PATH", True)
+@@ -248,7 +248,7 @@ autotools_do_configure() {
+ 		if [ x"${acpaths}" = xdefault ]; then
+ 			acpaths=
+ 			for i in `find ${AUTOTOOLS_SCRIPT_PATH} -ignore_readdir_race -maxdepth 2 -name \*.m4|grep -v 'aclocal.m4'| \
+-				grep -v 'acinclude.m4' | grep -v 'aclocal-copy' | sed -e 's,\(.*/\).*$,\1,'|sort -u`; do
++				grep -v 'acinclude.m4' | sed -e 's,\(.*/\).*$,\1,'|sort -u`; do
+ 				acpaths="$acpaths -I $i"
+ 			done
+ 		else
+@@ -288,9 +288,7 @@ autotools_do_configure() {
+ 				fi
+ 			fi
+ 			for i in gettext.m4 iconv.m4 lib-ld.m4 lib-link.m4 lib-prefix.m4 nls.m4 po.m4 progtest.m4; do
+-				for j in `find ${S} -ignore_readdir_race -name $i | grep -v aclocal-copy`; do
+-					rm $j
+-				done
++				find ${S} -ignore_readdir_race -name $i -delete
+ 			done
+ 		fi
+ 		mkdir -p m4
 -- 
 2.8.1
 
