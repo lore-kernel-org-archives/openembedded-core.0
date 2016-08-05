@@ -1,53 +1,22 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id A34D57713D
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 9527E73D46
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Aug 2016 21:18:43 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id h186so20646389pfg.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Aug 2016 14:18:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=2zO+cKhM4EycC0jBoNSdhE8DyLsI/jWiY6Pbx9HLvww=;
-	b=Mha7KcAotATFMeUL+qSaxdsDo6Qo9NkZOVV+5+jBCy9KcJDnnQy+XIwA95V4USw+Si
-	x0GrbI/oDipCRscaZLm1GuS+h7sioOoOUIudyah/0JA2vSSPAArRaTPTc5FeZe5Mcatc
-	9ruJh1/8RYq5lCuhEvRSyazIc6FEZfYvSCxFQvg3xhT22J6/BgeCNmAGXy4Z4QdO2cOr
-	GXGC6T7hiAa+wRIbr213SxNEKMVg+2SIs4YqOh0whrkQ8+Cjbs4mlc+aGPsYUgwf9oPc
-	ThNvjfkx/2JJUlt/9kpIooA+1ybE/dWXFJa70/ZSrKZaghT1nLn0HURjQsi1jpNqaG/0
-	L3iQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=2zO+cKhM4EycC0jBoNSdhE8DyLsI/jWiY6Pbx9HLvww=;
-	b=BVZyTU4Gh6x+n8RN/0RFVV5bctGMgETpjNjbU2wnh5zCYA5BAk7xKPedtxKCGx0NMM
-	lParBLkMK6wY2tM9Adgg96TFP90yzEc4et6sF9BDfTw28W7jSh5c0jaNridQ0KkqTqcn
-	oxThXA0M3KXJ79PDEd2HA98rrq2fgR7alSnoJX5dhdIuAR7L8R7IDLJuC203yP5X8fVD
-	jmFYdMFIhzHKJAGT8vvBto08mREeTNDL4h/qGsnN+ugnDe9UfinezoDOcCAkF546Cg9W
-	q+KC2bQ0qMp22MlVvrC+S+9rZX2U+ftzCju16tN0jzdq0Dy9FpaHWtYMA96fCp9Ym9sc
-	uplQ==
-X-Gm-Message-State: AEkoouu4qDhJOn658uTay0kinCOT+fEgXNngyPL97E/fDwJdZCXYcGmlYuepODYmY89EuQ==
-X-Received: by 10.98.149.131 with SMTP id c3mr140853581pfk.73.1470431923962;
-	Fri, 05 Aug 2016 14:18:43 -0700 (PDT)
-Received: from haswell (c-76-102-32-192.hsd1.ca.comcast.net. [76.102.32.192])
-	by smtp.gmail.com with ESMTPSA id
-	q4sm30149004pfb.18.2016.08.05.14.18.42
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 05 Aug 2016 14:18:42 -0700 (PDT)
-Date: Fri, 5 Aug 2016 14:18:36 -0700
-From: Khem Raj <raj.khem@gmail.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Message-ID: <20160805211836.GA3009@haswell>
-References: <alpine.LFD.2.20.1608051449110.5757@localhost.localdomain>
-	<EA1E233F-E790-4830-A15F-D0FCE8E0A418@gmail.com>
-	<alpine.LFD.2.20.1608051710350.7122@localhost.localdomain>
+	Fri,  5 Aug 2016 21:42:58 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 05 Aug 2016 14:42:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,475,1464678000"; d="scan'208";a="1035977105"
+Received: from pgronows-mobl.amr.corp.intel.com (HELO
+	alimonb-mobl1.zpn.intel.com) ([10.254.134.94])
+	by fmsmga002.fm.intel.com with ESMTP; 05 Aug 2016 14:42:51 -0700
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  5 Aug 2016 16:42:48 -0500
+Message-Id: <1470433368-13508-1-git-send-email-anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-In-Reply-To: <alpine.LFD.2.20.1608051710350.7122@localhost.localdomain>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: what must i supply WRT UBOOT_CONFIG/UBOOT_MACHINE when u-boot isn't in BSP?
+Subject: [PATCH] apt: Fix build in musl it was break due to upgrade to 1.2.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,40 +29,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Aug 2016 21:18:44 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Fri, 05 Aug 2016 21:43:00 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 16-08-05 17:11:34, Robert P. J. Day wrote:
-> On Fri, 5 Aug 2016, Khem Raj wrote:
-> 
-> >
-> > > On Aug 5, 2016, at 11:52 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
-> > >
-> > >
-> > >  i'm in the situation where i want to add the u-boot-fw-utils package
-> > > to my image, but the corresponding u-boot source for the target is not
-> > > part of the BSP layer; in fact, it's not part of a layer at all (built
-> > > manually elsewhere), so it's unsurprising that, if i add that recipe
-> > > to the image, i get:
-> > >
-> > > ERROR: u-boot-fw-utils was skipped: Either UBOOT_MACHINE or
-> > > UBOOT_CONFIG must be set in the ... machine configuration.
-> > > ERROR: u-boot-fw-utils was skipped: Either UBOOT_MACHINE or
-> > > UBOOT_CONFIG must be set in the ... machine configuration.
-> > >
-> > > is there a short doc that explains what i minimally need to supply to
-> > > build that package? i've never been in the situation where u-boot
-> > > wasn't part of the BSP.
-> >
-> > perhaps you need to set UBOOT_MACHINE = "config"
-> 
->   i apologize, but i have no idea what that means. does that mean i
-> want to build that package, and it will consult /etc/fw_env.config
-> when the executables are run?
+methods/connect.cc: Musl doesn't support AI_IDN flag in netdb.h
+header so define it manually.
+apt-pkg/contrib/srvrec.h: Add explicity include of sys/types.h
+to avoid errors in types u_int_SIZE.
 
-well, the errors you reported above are issued when OE is trying to
-build the u-boot-fw-utils recipe and BSP does not define the
-UBOOT_MACHINE, I was merely pointing to a possible solution. I do
-not know your usecase.
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+---
+ meta/recipes-devtools/apt/apt.inc                  |  1 +
+ .../apt/apt/0001-apt-1.2.12-Fix-musl-build.patch   | 50 ++++++++++++++++++++++
+ 2 files changed, 51 insertions(+)
+ create mode 100644 meta/recipes-devtools/apt/apt/0001-apt-1.2.12-Fix-musl-build.patch
+
+diff --git a/meta/recipes-devtools/apt/apt.inc b/meta/recipes-devtools/apt/apt.inc
+index 87cc206..3026370 100644
+--- a/meta/recipes-devtools/apt/apt.inc
++++ b/meta/recipes-devtools/apt/apt.inc
+@@ -12,6 +12,7 @@ SRC_URI = "http://snapshot.debian.org/archive/debian/20160526T162943Z/pool/main/
+            file://disable-configure-in-makefile.patch \
+            file://disable-test.patch \
+            file://0001-environment.mak-musl-based-systems-can-generate-shar.patch \
++           file://0001-apt-1.2.12-Fix-musl-build.patch \
+            "
+ SRC_URI[md5sum] = "80f6f0ef110a45a7e5af8a9d233fb0e7"
+ SRC_URI[sha256sum] = "e820d27cba73476df4abcff27dadd1b5847474bfe85f7e9202a9a07526973ea6"
+diff --git a/meta/recipes-devtools/apt/apt/0001-apt-1.2.12-Fix-musl-build.patch b/meta/recipes-devtools/apt/apt/0001-apt-1.2.12-Fix-musl-build.patch
+new file mode 100644
+index 0000000..04b0406
+--- /dev/null
++++ b/meta/recipes-devtools/apt/apt/0001-apt-1.2.12-Fix-musl-build.patch
+@@ -0,0 +1,50 @@
++From 33b97e089d4a98d3acd20bd78337dd915b989bc2 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
++Date: Fri, 5 Aug 2016 15:24:27 -0500
++Subject: [PATCH] apt 1.2.12: Fix musl build
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++methods/connect.cc: Musl doesn't support AI_IDN flag in netdb.h
++header so define it manually.
++apt-pkg/contrib/srvrec.h: Add explicity include of sys/types.h
++to avoid errors in types u_int_SIZE.
++
++Upstream-status: Pending
++
++Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
++---
++ apt-pkg/contrib/srvrec.h | 1 +
++ methods/connect.cc       | 3 +++
++ 2 files changed, 4 insertions(+)
++
++diff --git a/apt-pkg/contrib/srvrec.h b/apt-pkg/contrib/srvrec.h
++index 01b8102..15b6875 100644
++--- a/apt-pkg/contrib/srvrec.h
+++++ b/apt-pkg/contrib/srvrec.h
++@@ -9,6 +9,7 @@
++ #ifndef SRVREC_H
++ #define SRVREC_H
++ 
+++#include <sys/types.h>
++ #include <arpa/nameser.h>
++ #include <vector>
++ #include <string>
++diff --git a/methods/connect.cc b/methods/connect.cc
++index 07a730b..bb0ab5a 100644
++--- a/methods/connect.cc
+++++ b/methods/connect.cc
++@@ -33,6 +33,9 @@
++ #include <sys/socket.h>
++ #include <arpa/inet.h>
++ #include <netdb.h>
+++#ifndef AI_IDN
+++#define AI_IDN 0x0040
+++#endif
++ 
++ #include "connect.h"
++ #include "rfc2553emu.h"
++-- 
++2.1.4
++
+-- 
+2.1.4
+
 
