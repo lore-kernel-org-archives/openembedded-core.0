@@ -1,28 +1,30 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E87A731D1
-	for <openembedded-core@openembedded.org>;
-	Fri,  5 Aug 2016 20:48:07 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga102.jf.intel.com with ESMTP; 05 Aug 2016 13:48:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,474,1464678000"; d="scan'208";a="1035955189"
-Received: from ggtan-mobl1.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.178.18])
-	by fmsmga002.fm.intel.com with ESMTP; 05 Aug 2016 13:48:04 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: =?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
-Date: Sat, 06 Aug 2016 08:48:01 +1200
-Message-ID: <1505808.fKHZxyACnI@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.6.4-201.fc23.x86_64; KDE/4.14.20; x86_64; ;
-	)
-In-Reply-To: <1470429030-30444-1-git-send-email-anibal.limon@linux.intel.com>
-References: <1470429030-30444-1-git-send-email-anibal.limon@linux.intel.com>
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
+	by mail.openembedded.org (Postfix) with ESMTP id CDD8E75C60
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  5 Aug 2016 21:11:48 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
+	via TCP (outbound) with ESMTPS id 20160805211147342_0486;
+	Fri, 05 Aug 2016 21:11:47 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+Received: from [174.114.62.25] (port=41842 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1bVmQz-0002tm-Q4; Fri, 05 Aug 2016 17:13:37 -0400
+Date: Fri, 5 Aug 2016 17:11:34 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <EA1E233F-E790-4830-A15F-D0FCE8E0A418@gmail.com>
+Message-ID: <alpine.LFD.2.20.1608051710350.7122@localhost.localdomain>
+References: <alpine.LFD.2.20.1608051449110.5757@localhost.localdomain>
+	<EA1E233F-E790-4830-A15F-D0FCE8E0A418@gmail.com>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-Cc: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>,
-	openembedded-core@openembedded.org
-Subject: Re: [PATCH] oeqa/utils/httpserver.py: HTTPServer enable thread connection handling
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: what must i supply WRT UBOOT_CONFIG/UBOOT_MACHINE when u-boot isn't in BSP?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,44 +37,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Aug 2016 20:48:10 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+X-List-Received-Date: Fri, 05 Aug 2016 21:11:52 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-On Fri, 05 Aug 2016 15:30:30 An=EDbal Lim=F3n wrote:
-> HTTPServer now supports multiple connections using Python threads.
->=20
-> Signed-off-by: An=EDbal Lim=F3n <anibal.limon@linux.intel.com>
-> ---
->  meta/lib/oeqa/utils/httpserver.py | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/lib/oeqa/utils/httpserver.py
-> b/meta/lib/oeqa/utils/httpserver.py index bd76f36..7d12331 100644
-> --- a/meta/lib/oeqa/utils/httpserver.py
-> +++ b/meta/lib/oeqa/utils/httpserver.py
-> @@ -1,8 +1,9 @@
->  import http.server
->  import multiprocessing
->  import os
-> +from socketserver import ThreadingMixIn
->=20
-> -class HTTPServer(http.server.HTTPServer):
-> +class HTTPServer(ThreadingMixIn, http.server.HTTPServer):
->=20
->      def server_start(self, root_dir):
->          import signal
+On Fri, 5 Aug 2016, Khem Raj wrote:
 
-This looks like a neat solution to the sstate serving issue Francisco h=
-as been=20
-dealing with - thanks!
+>
+> > On Aug 5, 2016, at 11:52 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+> >
+> >
+> >  i'm in the situation where i want to add the u-boot-fw-utils package
+> > to my image, but the corresponding u-boot source for the target is not
+> > part of the BSP layer; in fact, it's not part of a layer at all (built
+> > manually elsewhere), so it's unsurprising that, if i add that recipe
+> > to the image, i get:
+> >
+> > ERROR: u-boot-fw-utils was skipped: Either UBOOT_MACHINE or
+> > UBOOT_CONFIG must be set in the ... machine configuration.
+> > ERROR: u-boot-fw-utils was skipped: Either UBOOT_MACHINE or
+> > UBOOT_CONFIG must be set in the ... machine configuration.
+> >
+> > is there a short doc that explains what i minimally need to supply to
+> > build that package? i've never been in the situation where u-boot
+> > wasn't part of the BSP.
+>
+> perhaps you need to set UBOOT_MACHINE = "config"
 
-Cheers,
-Paul
+  i apologize, but i have no idea what that means. does that mean i
+want to build that package, and it will consult /etc/fw_env.config
+when the executables are run?
 
+rday
 
---=20
+-- 
 
-Paul Eggleton
-Intel Open Source Technology Centre
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
 
