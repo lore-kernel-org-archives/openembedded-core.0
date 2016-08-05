@@ -1,30 +1,27 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D4A17391A
+Return-Path: <andrej.valek@siemens.com>
+X-Greylist: delayed 556 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 05 Aug 2016 11:26:00 UTC
+Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E89373243
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Aug 2016 10:31:22 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
-	via TCP (outbound) with ESMTPS id 20160805103110756_0486;
-	Fri, 05 Aug 2016 10:31:10 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [216.191.234.70] (port=40546 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1bVcR3-0005H6-O9; Fri, 05 Aug 2016 06:33:01 -0400
-Date: Fri, 5 Aug 2016 06:31:01 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: Gary Thomas <gary@mlbassoc.com>
-In-Reply-To: <57b0c57a-a81c-42fa-0f31-3ea9d2acff56@mlbassoc.com>
-Message-ID: <alpine.LFD.2.20.1608050630250.13682@localhost.localdomain>
-References: <alpine.LFD.2.20.1608050617280.13505@localhost.localdomain>
-	<57b0c57a-a81c-42fa-0f31-3ea9d2acff56@mlbassoc.com>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
-MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: "parted" vs "sfdisk"
+	Fri,  5 Aug 2016 11:26:00 +0000 (UTC)
+Received: from mail1.siemens.de (mail1.siemens.de [139.23.33.14])
+	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id u75BQ0BE007123
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 5 Aug 2016 13:26:00 +0200
+Received: from dev.sbt.siemens.com ([163.242.50.167])
+	by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id u75BQ0K2001800;
+	Fri, 5 Aug 2016 13:26:00 +0200
+Received: from dev.sbt.siemens.com (localhost [127.0.0.1])
+	by dev.sbt.siemens.com (Postfix) with ESMTP id 0BA3910A5B6;
+	Fri,  5 Aug 2016 13:26:00 +0200 (CEST)
+From: Andrej Valek <andrej.valek@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  5 Aug 2016 13:25:52 +0200
+Message-Id: <1470396352-25354-1-git-send-email-andrej.valek@siemens.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] openssl: fix add missing `make depend` command before `make` library
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,39 +34,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Aug 2016 10:31:23 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Fri, 05 Aug 2016 11:26:00 -0000
 
-On Fri, 5 Aug 2016, Gary Thomas wrote:
+Settings from EXTRA_OECONF like en/disable no-ssl3, are transferred
+only into DEPFLAGS. It means that settings have no effect on output files.
+DEPFLAGS will be transferred into output files with make depend command.
 
-> On 2016-08-05 12:19, Robert P. J. Day wrote:
-> >
-> >   your personal opinions, if you would -- i'm working on some scripts
-> > to do automated installs on a target board, currently based on
-> > parted, but parted seems a bit dense at times, and awkward, and i'm
-> > thinking of switching to sfdisk.
-> >
-> >   for people who have done this sort of thing, do you have any strong
-> > opinions either way of parted versus sfdisk? i realize that's not much
-> > to go on, just curious about personal preferences, and why.
->
-> As you know, I went the other way - I started with sfdisk and
-> I find parted more intuitive and easier to use.  I also think
-> it has a better long-term support horizon.
+https://wiki.openssl.org/index.php/Compilation_and_Installation#Dependencies
 
-  i figured you'd weigh in on this. :-) i'm going to experiment both
-ways for a bit.
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+---
+ meta/recipes-connectivity/openssl/openssl.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-rday
-
+diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
+index 1a0031e..620673a 100644
+--- a/meta/recipes-connectivity/openssl/openssl.inc
++++ b/meta/recipes-connectivity/openssl/openssl.inc
+@@ -8,7 +8,7 @@ SECTION = "libs/network"
+ LICENSE = "openssl"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=f9a8f968107345e0b75aa8c2ecaa7ec8"
+ 
+-DEPENDS = "hostperl-runtime-native"
++DEPENDS = "makedepend-native hostperl-runtime-native"
+ DEPENDS_append_class-target = " openssl-native"
+ 
+ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+@@ -149,6 +149,7 @@ do_compile_prepend_class-target () {
+ }
+ 
+ do_compile () {
++	oe_runmake depend
+ 	oe_runmake
+ }
+ 
 -- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+2.1.4
 
 
