@@ -1,28 +1,61 @@
-Return-Path: <s.mueller-klieser@phytec.de>
-Received: from root.phytec.de (mail.microcatalog.org.uk [217.6.246.34])
-	by mail.openembedded.org (Postfix) with ESMTP id E9F66770C6
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B616770A6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Aug 2016 14:27:21 +0000 (UTC)
-Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
-	by root.phytec.de (Postfix) with ESMTP id 242B6A0020E
+	Fri,  5 Aug 2016 14:48:46 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id i6so20290105pfe.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Aug 2016 16:27:23 +0200 (CEST)
-Received: from lws-mklieser.phytec.de ([172.16.10.21])
-	by idefix.phytec.de (IBM Domino Release 9.0.1FP5 HF413)
-	with ESMTP id 2016080516272146-23809 ;
-	Fri, 5 Aug 2016 16:27:21 +0200 
-From: =?UTF-8?q?Stefan=20M=C3=BCller-Klieser?= <s.mueller-klieser@phytec.de>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 5 Aug 2016 16:27:16 +0200
-Message-Id: <1470407236-19201-1-git-send-email-s.mueller-klieser@phytec.de>
-X-Mailer: git-send-email 1.9.1
+	Fri, 05 Aug 2016 07:48:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:cc:from:organization:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=F5wIRtI1MBqERWLQDx0DOr/z/51oQDV2tMhLciGWApg=;
+	b=Fud/TI8QPtT4uSrm8P0/wyvMinmZ+DbPMZbMMuLNnonqRllN06sqiq0YnqSwQs8nZ1
+	DmCC5ZZxjb98KDuq/13v0kkjwS7Avfli4Gqczs4eeZ5LB6ymhaEx/VEgMT8fsX+VCPre
+	QpEA4m2jZPcH7H6AjovXsrlIRysOhK/YYvIHQ9+TNuxh56Ui+JSg5Dq6/byFju/ygjWi
+	i/FwMoQpVVOpkFX2ebkOPb+vd+Ur9ko54VkQUYL7o/fmO5gQzgILom81xS530nLWUzpN
+	xeaS0MOvmdqB9TEFzWo77SVF/LDMYgZnakcC5yJkhUCre4FmB8lF7wSt6cv65mmt5ftb
+	zv5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:subject:to:references:cc:from:organization
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding;
+	bh=F5wIRtI1MBqERWLQDx0DOr/z/51oQDV2tMhLciGWApg=;
+	b=JOExasqUyPw3APc3M42GJx7lHsTlVtpq5ptBfEZcStFDJEaXcTlpxdOd9DT51jTm66
+	h+xJkyza1L59Og1lBtLWN1qncfXZWIwH5S268J7HHDZroH/3I0RvH7ZsSE/9OvdhCCpk
+	kNvCBFo+DGT7W9tJum6aPdBj9rTi+POuCKZ8Rb5dQ2yQ0f/9PmorQSk+uWe4wniFTI9g
+	iFt+8YBmR/NOZNQFlj9KOZ2WdaJ67SPAV5RFyoy5rGFQfEdisZJvXb5jCcStlGGtiNEX
+	eJWbY3ofjwZXDdInIuGCCqhrL23GCdDWLgja/NXZJazKr7cuZHOlTX0WBaEosnJOg/AS
+	tc8w==
+X-Gm-Message-State: AEkoouvwi2CsoI6f/qj04HpNl8/3DiIL2RB0IYuud/Qlcu3g4QVx8bt0+PRV9Bnuc8Xb4A==
+X-Received: by 10.98.22.212 with SMTP id 203mr136275942pfw.74.1470408527135;
+	Fri, 05 Aug 2016 07:48:47 -0700 (PDT)
+Received: from CACSVMO-14452.local ([2601:646:8882:b8c:41d7:99c1:5cc6:c627])
+	by smtp.gmail.com with ESMTPSA id 6sm19504434pab.11.2016.08.05.07.48.46
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 05 Aug 2016 07:48:46 -0700 (PDT)
+To: "Burton, Ross" <ross.burton@intel.com>,
+	Robert Yang <liezhi.yang@windriver.com>
+References: <cover.1469337362.git.liezhi.yang@windriver.com>
+	<07cae7b73779e89d5e038bf48fbfa204d51b4b68.1469337362.git.liezhi.yang@windriver.com>
+	<CAJTo0LYCEP1nkeZ9-1i+K3YsK0OMAt+axx-4ezQsbxu+VwvyVA@mail.gmail.com>
+	<57980BC4.80208@windriver.com>
+	<BF50BCD4-DC5E-478D-9AF3-24C9E99C36A7@gmail.com>
+	<CAJTo0LZ_9sp6+tWgoY1NSeh3H-KVWrCJfyCp0LW1YaF6AMS1tg@mail.gmail.com>
+	<57A3FE58.8010704@windriver.com>
+	<CAJTo0LbsdQVQ3yCsYdEFOoHSRSbSOmV6dSzAPLsH9P252=Zagw@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Organization: himvis.com
+Message-ID: <025b44d4-076f-747e-7d39-15209a3d3df5@gmail.com>
+Date: Fri, 5 Aug 2016 07:49:06 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
+	Gecko/20100101 Thunderbird/45.2.0
 MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP5
-	HF413|March 21, 2016) at 05.08.2016 16:27:21,
-	Serialize by Router on Idefix/Phytec(Release 9.0.1FP5 HF413|March 21,
-	2016) at 05.08.2016 16:27:21
-X-TNEFEvaluated: 1
-Subject: [PATCH v2] alsa-utils: fix installed-vs-shipped for bat
+In-Reply-To: <CAJTo0LbsdQVQ3yCsYdEFOoHSRSbSOmV6dSzAPLsH9P252=Zagw@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] epiphany: inherit perlnative
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,69 +68,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Aug 2016 14:27:23 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 05 Aug 2016 14:48:46 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-The bat PACKAGECONFIG does not install the test script correctly. Fix
-this by following the packaging used for the other bash scripts. While
-at it, fix some tabs.
 
-Signed-off-by: Stefan M=C3=BCller-Klieser <s.mueller-klieser@phytec.de>
----
-v2:
- - fix mixed up install logic
- - retested all PACKAGECONFIG for utils and utils-scripts w/wo bat
 
- meta/recipes-multimedia/alsa/alsa-utils-scripts=5F1.1.1.bb | 4 ++++
- meta/recipes-multimedia/alsa/alsa-utils=5F1.1.1.bb         | 7 ++++---
- 2 files changed, 8 insertions(+), 3 deletions(-)
+On 8/5/16 1:20 AM, Burton, Ross wrote:
+> 
+> On 5 August 2016 at 03:47, Robert Yang <liezhi.yang@windriver.com
+> <mailto:liezhi.yang@windriver.com>> wrote:
+> 
+>     I can reproduce the problem every time on my host Ubuntu 14.04 64bit:
+> 
+> 
+> Just discovered that ephy for some reason ships its own copies of
+> intltool.m4 (and a few others).  We'll need to delete those.  Patch
+> incoming.
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils-scripts=5F1.1.1.bb b/m=
-eta/recipes-multimedia/alsa/alsa-utils-scripts=5F1.1.1.bb
-index a98f9b9..fef79d9 100644
---- a/meta/recipes-multimedia/alsa/alsa-utils-scripts=5F1.1.1.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-utils-scripts=5F1.1.1.bb
-@@ -10,6 +10,7 @@ RDEPENDS=5F${PN} +=3D "bash"
-=20
- FILES=5F${PN} =3D "${sbindir}/alsaconf \
-                ${sbindir}/alsa-info.sh \
-+               ${sbindir}/alsabat-test.sh \
-               "
-=20
- S =3D "${WORKDIR}/alsa-utils-${PV}"
-@@ -18,4 +19,7 @@ do=5Finstall() {
- 	install -d ${D}${sbindir}
- 	install -m 0755 ${B}/alsaconf/alsaconf ${D}${sbindir}/
- 	install -m 0755 ${S}/alsa-info/alsa-info.sh ${D}${sbindir}/
-+	if ${@bb.utils.contains('PACKAGECONFIG', 'bat', 'true', 'false', d)}; then
-+		install -m 0755 ${S}/bat/alsabat-test.sh ${D}${sbindir}/
-+	fi
- }
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils=5F1.1.1.bb b/meta/reci=
-pes-multimedia/alsa/alsa-utils=5F1.1.1.bb
-index 08c4646..ddb1644 100644
---- a/meta/recipes-multimedia/alsa/alsa-utils=5F1.1.1.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-utils=5F1.1.1.bb
-@@ -99,10 +99,11 @@ do=5Finstall() {
- 	# See alsa-utils-scripts=5F${PV}.bb
- 	rm ${D}${sbindir}/alsaconf
- 	rm ${D}${sbindir}/alsa-info.sh
-+	rm -f ${D}${sbindir}/alsabat-test.sh
-=20
- 	if ${@bb.utils.contains('PACKAGECONFIG', 'udev', 'false', 'true', d)}; th=
-en
--	   # This is where alsa-utils will install its rules if we don't tell it =
-anything else.
--	   rm -rf ${D}/lib/udev
--	   rmdir --ignore-fail-on-non-empty ${D}/lib
-+		# This is where alsa-utils will install its rules if we don't tell it an=
-ything else.
-+		rm -rf ${D}/lib/udev
-+		rmdir --ignore-fail-on-non-empty ${D}/lib
- 	fi
- }
---=20
-1.9.1
-
+ah good find. I was still seeing the errors on my boxes.
+> 
+> Ross
 
