@@ -1,51 +1,37 @@
-Return-Path: <max.oss.09@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 5588E73257
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id B7E517319F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Aug 2016 08:58:50 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id o80so2860944wme.0
+	Fri,  5 Aug 2016 09:34:47 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id i5so2975940wmg.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Aug 2016 01:58:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:subject:from:to:date:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=PjsSGLEkEzzszehuuwhZBfILrxsD9pfXEHj06xB5WrE=;
-	b=p32AYWe1uqoG96V747VXtgthcB8aIY1nRC3sr7CTS4gdxrAFd0QXGtkPF9l4F0gPOE
-	ZlOwl+CHhG6shV403sXHkqPcORrrP+KghDi0FMgslYrKSluavKYCGptlYwE+BDM13fwg
-	rGFj1vIEjk2JqASQDvbs1MKvoNGv6umtGdW/ae0fVKhoIHsDC96YvXhCcRxQLeJTJSH7
-	VCCGNrDUDMwwZa9s5YJiWJPhYpOgtvDWZgkRzh7Y8QL8Veig/FqyFBPQQf6Y9MTOfqGi
-	sjKB5lzGYZUfV8Sq0UOhPMlb6E58l3W+UXp/w9nN4EFkkAK5U0k4ZKGc9DAd+psYlGeH
-	kY9A==
+	Fri, 05 Aug 2016 02:34:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=PjsSGLEkEzzszehuuwhZBfILrxsD9pfXEHj06xB5WrE=;
-	b=jXhPwCppDEUOjkR9XpNjNNBdXYW28UZ+r+sP2XbxFxsjkuEDXxsDKmwRPueICzvJVQ
-	cqlLIB18UkCcvTYI8Zs4slIqAzgBru0D1k6G0lU47UtsazLuIg5JGoGIe22AVibIRIb1
-	OBXY7YSEjkuNMjrvFkiT/+LSgwjTICxzISG9D2nT2zWYqJq/c/ZG64z+43JzacIygWQS
-	jJYXJuRoGXHU7v5P2rZzxbJ8FDcsLDb/SQSTWhXdGHGdiPhIewbzfwTMuStzmu58wa+M
-	uff6nkuojktfHfm0H7VQhtb6AxBA11MBDK9tYyiv0Aaxv5LARkot24Lx7EpNfuaYnhdU
-	vlvQ==
-X-Gm-Message-State: AEkoous3+iCbY1WD25LXZlENqnhdhwwxX+y7BrrumSYiwSjs32QRsZ6l7tVgHdD8OMChZA==
-X-Received: by 10.194.240.4 with SMTP id vw4mr4648402wjc.134.1470387531165;
-	Fri, 05 Aug 2016 01:58:51 -0700 (PDT)
-Received: from Saturn.local.all (212-41-96-100.adsl.solnet.ch. [212.41.96.100])
-	by smtp.gmail.com with ESMTPSA id
-	a9sm16808093wjf.16.2016.08.05.01.58.50
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=vrFAyQYkaKUideMnb2/6oZpGuE/cPXBAO9V9AEHFI60=;
+	b=cCRvVyhE3rp3/UyOFquutr+IJRNgOc7LOsnGL3c84dlwP7fbhR6/6FoO1ADMXqiIP9
+	MPvgDXxHKzCrNIqx1zPmxlRJgbkxkUoJAijmE8VricOeWRQsUYM9N2yuTHBgX7AVeJSc
+	d1xf4o1YPzcvCJ6xLTkCvBaMbbdBImHX86oP2cOzYhc8n7P7kZB7nkZYFcYiDXeXBDtT
+	mju1D6SovjQsVOSSM1TEzyaHMIHqkop688w0WKjIde9QKvXyGyXt8DUPCIPxK22MAqZU
+	U10niLjzcu96i6flQk5qPHBotej2XqBpv/HBfDm42YAfi2BdJfsAAZ4xjjHro3UcuEr1
+	Kd9Q==
+X-Gm-Message-State: AEkoout96nGKERZOewpS6DCn7xtK0RqusxLjpCmktWY3/tmICBBS7ASTptaS7zTHsB+qFA==
+X-Received: by 10.194.18.35 with SMTP id t3mr70274943wjd.174.1470389687244;
+	Fri, 05 Aug 2016 02:34:47 -0700 (PDT)
+Received: from tfsielt31850.tycofs.com ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id f3sm16977611wjh.2.2016.08.05.02.34.45
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 05 Aug 2016 01:58:50 -0700 (PDT)
-Message-ID: <1470387529.2393.4.camel@gmail.com>
-From: Max Krummenacher <max.oss.09@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>, Brian Avery <avery.brian@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Fri, 05 Aug 2016 10:58:49 +0200
-In-Reply-To: <b41fd09b-cb0e-8702-d789-27ab70d56787@gmail.com>
-References: <CAKV_0einF1siokeL5FFx2jLbwAk6xYSnb42fCZ75wpfQ3MbqRw@mail.gmail.com>
-	<b41fd09b-cb0e-8702-d789-27ab70d56787@gmail.com>
-X-Mailer: Evolution 3.16.5 
-Mime-Version: 1.0
-Subject: Re: RFC: eclipse debug functionality issue
+	Fri, 05 Aug 2016 02:34:46 -0700 (PDT)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  5 Aug 2016 10:34:52 +0100
+Message-Id: <1470389692-9787-1-git-send-email-git@andred.net>
+X-Mailer: git-send-email 2.8.1
+MIME-Version: 1.0
+Subject: [PATCH] cml1.bbclass: explicitly set workdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,96 +44,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Aug 2016 08:58:51 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 05 Aug 2016 09:34:49 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Brian
+bitbake rev 67a7b8b02 "build: don't use $B as the default cwd for
+functions" (included in current bitbake master) breaks the assumption
+that do_menuconfig / do_diffconfig run inside the build directory.
 
-Am Donnerstag, den 04.08.2016, 19:49 -0700 schrieb Khem Raj:
-> 
-> On 8/4/16 2:20 PM, Brian Avery wrote:
-> > The core issue:
-> > The busybox resize command breaks the eclipse ssh debug stream. 
-> >  This is
-> > because the resize command for busybox sends a set of cursor
-> > control
-> > escape sequences to stderr. The resize cfg was added to Krogoth and
-> > is
-> > still in master.  The point of resize is to set the environment and
-> > terminal settings to the current xterm window size.
-> > 
-> > Additional complexity:
-> > eclipse-debug is an IMAGE_FEATURE.  If it is turned on by a user in
-> > local.conf via EXTRA_IMAGE_FEATURES then I can conditionally turn
-> > off
-> > busybox/resize in the cfg file.  Unfortunately, if a user makes a
-> > new
-> > image with IMAGE_FEATURES += " eclipse-debug " in it, I do not see
-> > this
-> > from the scope of the busybox##.bb recipe.
-> > 
-> > So, there are a couple of ways to solve this and I'm not sure which
-> > is
-> > the best one.
-> > 
-> > 1) conditionally turn off the resize.cfg if eclipse-debug is in
-> > extra-image-features.  Also, make a rm_resize.bbclass to rm the
-> > usr/bin/resize from the rootfs in a do_rootfs[postfuncs] which can
-> > be
-> > inherited by the various sdk images we build.
-> > 
-> > This is problematic since if a user makes a new image recipe of
-> > their
-> > own and includes eclipse-debug but doesn't inherit the
-> > rm_resize.bbclass
-> > eclipse debug will fail.
-> > 
-> > 2) elevate eclipse-debug to a distro feature which would make it
-> > visible
-> > to the busybox###.bb recipe.  Unfortunately, it is really an image
-> > specific set of packages to be included so elevating it doesn't
-> > seem
-> > reasonable.
-> > 
-> > 3)   use the update-alternatives method (busybox is currently doing
-> > this
-> > for syslog) to make a separate busybox-resize package and make an
-> > eclipse friendly resize package that is empty and add the eclipse
-> > one to
-> > the eclipse-debug packagegroup.
-> > 
-> > 4) Just turn off resize or patch it so it doesn't try to control
-> > the
-> > cursor via escape sequences sent to stderr but still sets up the
-> > environment.  It's worth noting that the ubuntu  resize doesn't
-> > send
-> > escape sequences to any of the streams.
-> 
-> this seems to be best option.
+This causes these tasks to fail as they're being executed in the
+wrong directory.
 
-We fixed this by only executing resize if logging in from a serial
-console:
+Set workdir explicitly.
 
-http://git.toradex.com/cgit/meta-toradex.git/commit/?h=V2.6-next&id=9d1
-32ea3cf75562ef5610dd6ff1c89d0cffa334d
+Signed-off-by: André Draszik <git@andred.net>
+---
+ meta/classes/cml1.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-I guess one could apply the same fix to here
-http://cgit.openembedded.org/openembedded-core/tree/meta/recipes-core/b
-ase-files/base-files/profile?h=krogoth
-
-Regards
-Max
-
-> > 
-> > 5) Something else?
-> > 
-> > Thanks,
-> > Brian
-> > an Intel employee
-> > 
-> >  
-> > 
-> > 
+diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
+index 5834806..4b3b916 100644
+--- a/meta/classes/cml1.bbclass
++++ b/meta/classes/cml1.bbclass
+@@ -41,6 +41,7 @@ python do_menuconfig() {
+             bb.build.write_taint('do_compile', d)
+ }
+ do_menuconfig[depends] += "ncurses-native:do_populate_sysroot"
++do_menuconfig[dirs] = "${B}"
+ do_menuconfig[nostamp] = "1"
+ do_menuconfig[dirs] = "${B}"
+ addtask menuconfig after do_configure
+@@ -72,7 +73,7 @@ python do_diffconfig() {
+         if os.path.exists(fragment):
+             os.unlink(fragment)
+ }
+-
++do_diffconfig[dirs] = "${B}"
+ do_diffconfig[nostamp] = "1"
+ do_diffconfig[dirs] = "${B}"
+ addtask diffconfig
+-- 
+2.8.1
 
 
