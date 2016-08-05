@@ -1,46 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id B4979770EF
+Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
+	by mail.openembedded.org (Postfix) with ESMTP id ED988770FF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Aug 2016 15:17:14 +0000 (UTC)
-Received: by mail-wm0-f44.google.com with SMTP id i5so41763587wmg.0
+	Fri,  5 Aug 2016 15:17:17 +0000 (UTC)
+Received: by mail-wm0-f48.google.com with SMTP id o80so41658358wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Aug 2016 08:17:15 -0700 (PDT)
+	Fri, 05 Aug 2016 08:17:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=77HKtcJ8otZyPu0PB2tB4254KChcfwTZcEwmI85fAmM=;
-	b=Ne0wpJnUqZNr7LqZMulTD2856ON4IEVudo+ryXOV+I7e7zIUK7dr8jstAYsCHivUi0
-	g+aJ8GkcLJZEmmc9wijLz9fTRG0XoP9Z97juf7QI2VAX3vVZIhp8W8heFa0Xf0axHUEV
-	Z0VBpXPMxPMV6un9ANtihQMy0+BZWrHt5HfZd7bbX+bqz5EpRz+GHSqcAAx6+QaNQ0hJ
-	f5NnAW7K8wm/seTzSL55tljQVjcJYuYF65t6vrZQimYDv+mgWEaNt4nBNcDuixl1iATG
-	a0VLBs86sH37qq03jh7MmA1E/rjz0uMHSCic0GrG5F32OUWZGCOe7nni2CEsS76aw7kY
-	3hsQ==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=caAotvc9p5z5tmWpqc8JoR2b7TiYvIx0FcawlZVpPzU=;
+	b=ChvSA8dKmo2rm9QsgytSyEgOFICJb0EIzJIQaV0TW6VDRag1DP9DG7M4GZNeZwZ+ZH
+	YYiNdw7vuVMAF8uIMgUcz7L3oIUZWKpYBmA5LcZkQcKUc5LSrXI/3Lbqjodo+YV5NtmZ
+	vJ94YMb9NGCftIoD7vFJE9xJEEURaAUEASDbFdGr513zqUf4DEacekQL0sq1yN5Dzspl
+	yChKKeC3IvcK7eJReJiemN1arK76pROFzRR6DwTnBPxFrIZI4tlgvW5Pd0puset2qJ7i
+	0XwUQv3LNFqz4QQ8XT5g/nc2kGZWESo2e1DVIr5YrctbPIjGwtFsTXO9kuKB2axV+O/l
+	Fj/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=77HKtcJ8otZyPu0PB2tB4254KChcfwTZcEwmI85fAmM=;
-	b=kOoD6c7vFjoR0Pp7+pkhHFTt0njRnJnF850Jna06fAo79NqzO2pfpYhGzhMCw6uEP+
-	EY6gDd7vWXNheDS9izrcyPp46ZNrU3u6nqYgfrK/z5ocI4r9mqUpYqFmAzifCSYWJyBJ
-	EGGY0Yb5rITwxg9fT4iz0fLyMNXOFc8ZTlzHjSKuZ4EXijMisznChbx+tuE1IYz0KA9y
-	ZkVJR0AYsQiOVbOsmL+EHT6Z44rsFN0X5bj+yQD4HPmKFRkYsAteUavi9s2GCua3PVgK
-	DxAACfdcF+IcE+hG9sAkddcYs3gJw5S5a/QR0ubmFHZSGfK7dYRFGnYk1IkM5X3CT0cZ
-	dN7Q==
-X-Gm-Message-State: AEkoouux/HvR9jiOL59IHW06fjRHip4dmfc7iuDkWZjX3waJ7n8bzKamK+wlITNCfcmC++4S
-X-Received: by 10.28.26.5 with SMTP id a5mr4259302wma.27.1470410234373;
-	Fri, 05 Aug 2016 08:17:14 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=caAotvc9p5z5tmWpqc8JoR2b7TiYvIx0FcawlZVpPzU=;
+	b=DVRLpJehXxdUdI1uXNY8G436JoeDe/gSeSIlQLT5WAzMyAC6v+4mljxH7obUqmiTh1
+	btnwCTU+yaRenxEzXh/P5hF6q0gDFktyZJMkbW1PYVq+dlBZX9qZYTrs6VKK6ZPDrPLP
+	iSiI0AgY9fKKVFYTvDdJ3NeDdABzq6jsUWVpG2zfGfX/RO2zcmweWztI8ARrvlEoPsEA
+	kymBuqI8+YWj/SAfiTEOv7jElHBF3B8WaJMIrFkdSrGO9dWFyMLH7pK7wF0gxrvMbyPh
+	0eYPcYRsfGFK8qkGQeo/t4a1lJees7GPXSoCRBy5XnycqRR2NN6j0pEISxRgOBej9hO9
+	hAsw==
+X-Gm-Message-State: AEkoouthM4S5mGV+N3HQpZKzOqGJf0nYU5XGYrL/RYDgGjbmn3z822W/NUUoUAj7RECeqsMR
+X-Received: by 10.28.111.213 with SMTP id c82mr3932037wmi.47.1470410238158;
+	Fri, 05 Aug 2016 08:17:18 -0700 (PDT)
 Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
 	by smtp.gmail.com with ESMTPSA id
-	qe2sm18285249wjc.28.2016.08.05.08.17.13
+	qe2sm18285249wjc.28.2016.08.05.08.17.17
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 05 Aug 2016 08:17:13 -0700 (PDT)
+	Fri, 05 Aug 2016 08:17:17 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Aug 2016 16:17:07 +0100
-Message-Id: <1470410231-21681-1-git-send-email-ross.burton@intel.com>
+Date: Fri,  5 Aug 2016 16:17:11 +0100
+Message-Id: <1470410231-21681-5-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.8.1
-Subject: [PATCH 1/5] yocto-uninative: bump to uninative tarball version 1.2
+In-Reply-To: <1470410231-21681-1-git-send-email-ross.burton@intel.com>
+References: <1470410231-21681-1-git-send-email-ross.burton@intel.com>
+Subject: [PATCH 5/5] hdparm: set LICENSE correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,31 +56,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Aug 2016 15:17:17 -0000
+X-List-Received-Date: Fri, 05 Aug 2016 15:17:18 -0000
 
-This new uninative version includes fixes to use the host locales.
-
-[ YOCTO #9994 ]
+LICENSE is recipe-wide so should be BSD & GPLv2, and then override LICENSE_${PN}
+to just BSD as LICENSE_wiper is GPLv2.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/conf/distro/include/yocto-uninative.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-extended/hdparm/hdparm_9.48.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
-index 8b4e947..48ad283 100644
---- a/meta/conf/distro/include/yocto-uninative.inc
-+++ b/meta/conf/distro/include/yocto-uninative.inc
-@@ -6,6 +6,6 @@
- # to the distro running on the build machine.
- #
- 
--UNINATIVE_URL = "http://downloads.yoctoproject.org/releases/uninative/1.1/"
--UNINATIVE_CHECKSUM[i686] ?= "1973aa8d07ba4fdae197ea3ffba1274c57ff7923679c364ec8e2b66c73483234"
--UNINATIVE_CHECKSUM[x86_64] ?= "84e89ed675156d13a27fe56e8433f5fa9662802349bb0bbe9e6eba577fc140d3"
-+UNINATIVE_URL = "http://downloads.yoctoproject.org/releases/uninative/1.2/"
-+UNINATIVE_CHECKSUM[i686] ?= "8b2f16d16cb037dd9905431875f5c355367dded84b18c3b98ca0e639b96fb8d1"
-+UNINATIVE_CHECKSUM[x86_64] ?= "2919dd81e4cafcc0fe73736363c6232dc8bfc016a8c765481d98ae4de8193d24"
+diff --git a/meta/recipes-extended/hdparm/hdparm_9.48.bb b/meta/recipes-extended/hdparm/hdparm_9.48.bb
+index ec3d26f..93a37ff 100644
+--- a/meta/recipes-extended/hdparm/hdparm_9.48.bb
++++ b/meta/recipes-extended/hdparm/hdparm_9.48.bb
+@@ -2,8 +2,11 @@ SUMMARY = "Utility for viewing/manipulating IDE disk drive/driver parameters"
+ DESCRIPTION = "hdparm is a Linux shell utility for viewing \
+ and manipulating various IDE drive and driver parameters."
+ SECTION = "console/utils"
+-LICENSE = "BSD"
++
++LICENSE = "BSD & GPLv2"
++LICENSE_${PN} = "BSD"
+ LICENSE_wiper = "GPLv2"
++
+ LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=910a8a42c962d238619c75fdb78bdb24 \
+                     file://debian/copyright;md5=a82d7ba3ade9e8ec902749db98c592f3 \
+                     file://wiper/GPLv2.txt;md5=fcb02dc552a041dee27e4b85c7396067 \
 -- 
 2.8.1
 
