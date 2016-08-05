@@ -1,52 +1,28 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id E30A7731D1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Aug 2016 20:38:45 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id g202so20713685pfb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Aug 2016 13:38:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=BNrp0kn1VtnjRa6fjnXlO8zMJiuMW19bq/p/GVERREs=;
-	b=fAQSsHiKvUvfZH/cZk4lR6lIaSOGSjp3G57TUvGM+Uh2uneU0HibOIZs17eNAp3e8W
-	EOMRqnRjirF59U3oFuX/TJLa0KSyYeEHaR5KVzXQyN9kyyTAwJGi9RxxENjFTsLUI7Pe
-	mRU+r745HvnLuWfUHa3tl/LTCHTLYuuguXRAqXOqE5gqa9OXsX6f/OzjfP2Vn3jwYDRf
-	THKoMhQAiwyV/xy7Sj8ib0tjDrUjv2P1kGpCBvcR85S3Ufd1LxKfYoyuMevCgwbh8XP/
-	giof/KnTUOW8rG1A8FtccrLqFI3jfKyvFm3Nt33PAW9No9YKW2UMo4W4YIZVHGWNJ9Ff
-	7G6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=BNrp0kn1VtnjRa6fjnXlO8zMJiuMW19bq/p/GVERREs=;
-	b=AHPiwRDwySuAib2tZ1y2FTcLhCnOVzZ+1tPLhfRRp1RuuSPMsx4fD6TNH3qu7e3Clr
-	DanS2XPogYRQUoNpZgwco9+hfmKNHBZVOUmMBhYVrJUnqS4A5e97gHptSC9ZLc4EBR25
-	yzaSZ+fPJIHkNXfeP5rAAKYkiHVkdI5g7SpfcXLsyFPJksdAACvqEHU+64I5R1ATMRaX
-	2TOOKMEZ4hXFdf9EPGILlu72pk3KpL+H99eMbTvztCuQW9eA+pFtDOcC207qrp0bto3F
-	3VFWuj7gs7nFSjsqzlGMdd/WxDFAqVES0MBN2Y5nwaJu6Hfz1Z+g2iCaD17Bkzs9Ogh2
-	qsPA==
-X-Gm-Message-State: AEkoouugMmo24uboVluFJ0jKwRZfO2bjqoNELhNZPDzAt4IRDcA4W/TfJPuGCFx/x/60wQ==
-X-Received: by 10.98.57.151 with SMTP id u23mr138518273pfj.4.1470429526759;
-	Fri, 05 Aug 2016 13:38:46 -0700 (PDT)
-Received: from ?IPv6:2601:646:8882:b8c:5599:9e28:607a:f1fa?
-	([2601:646:8882:b8c:5599:9e28:607a:f1fa])
-	by smtp.gmail.com with ESMTPSA id
-	r10sm30005435pfk.84.2016.08.05.13.38.45
-	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 05 Aug 2016 13:38:46 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <alpine.LFD.2.20.1608051449110.5757@localhost.localdomain>
-Date: Fri, 5 Aug 2016 13:39:03 -0700
-Message-Id: <EA1E233F-E790-4830-A15F-D0FCE8E0A418@gmail.com>
-References: <alpine.LFD.2.20.1608051449110.5757@localhost.localdomain>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-Mailer: Apple Mail (2.3124)
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: what must i supply WRT UBOOT_CONFIG/UBOOT_MACHINE when u-boot isn't in BSP?
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E87A731D1
+	for <openembedded-core@openembedded.org>;
+	Fri,  5 Aug 2016 20:48:07 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga102.jf.intel.com with ESMTP; 05 Aug 2016 13:48:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,474,1464678000"; d="scan'208";a="1035955189"
+Received: from ggtan-mobl1.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.178.18])
+	by fmsmga002.fm.intel.com with ESMTP; 05 Aug 2016 13:48:04 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: =?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
+Date: Sat, 06 Aug 2016 08:48:01 +1200
+Message-ID: <1505808.fKHZxyACnI@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.6.4-201.fc23.x86_64; KDE/4.14.20; x86_64; ;
+	)
+In-Reply-To: <1470429030-30444-1-git-send-email-anibal.limon@linux.intel.com>
+References: <1470429030-30444-1-git-send-email-anibal.limon@linux.intel.com>
+MIME-Version: 1.0
+Cc: Francisco Pedraza <francisco.j.pedraza.gonzalez@intel.com>,
+	openembedded-core@openembedded.org
+Subject: Re: [PATCH] oeqa/utils/httpserver.py: HTTPServer enable thread connection handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,54 +35,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Aug 2016 20:38:49 -0000
-X-Groupsio-MsgNum: 85391
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_E181E527-93AC-49BC-A8F2-A60147A605D3";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_E181E527-93AC-49BC-A8F2-A60147A605D3
+X-List-Received-Date: Fri, 05 Aug 2016 20:48:10 -0000
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+Content-Type: text/plain; charset="iso-8859-1"
 
-
-> On Aug 5, 2016, at 11:52 AM, Robert P. J. Day <rpjday@crashcourse.ca> =
-wrote:
+On Fri, 05 Aug 2016 15:30:30 An=EDbal Lim=F3n wrote:
+> HTTPServer now supports multiple connections using Python threads.
 >=20
+> Signed-off-by: An=EDbal Lim=F3n <anibal.limon@linux.intel.com>
+> ---
+>  meta/lib/oeqa/utils/httpserver.py | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 >=20
->  i'm in the situation where i want to add the u-boot-fw-utils package
-> to my image, but the corresponding u-boot source for the target is not
-> part of the BSP layer; in fact, it's not part of a layer at all (built
-> manually elsewhere), so it's unsurprising that, if i add that recipe
-> to the image, i get:
+> diff --git a/meta/lib/oeqa/utils/httpserver.py
+> b/meta/lib/oeqa/utils/httpserver.py index bd76f36..7d12331 100644
+> --- a/meta/lib/oeqa/utils/httpserver.py
+> +++ b/meta/lib/oeqa/utils/httpserver.py
+> @@ -1,8 +1,9 @@
+>  import http.server
+>  import multiprocessing
+>  import os
+> +from socketserver import ThreadingMixIn
 >=20
-> ERROR: u-boot-fw-utils was skipped: Either UBOOT_MACHINE or
-> UBOOT_CONFIG must be set in the ... machine configuration.
-> ERROR: u-boot-fw-utils was skipped: Either UBOOT_MACHINE or
-> UBOOT_CONFIG must be set in the ... machine configuration.
+> -class HTTPServer(http.server.HTTPServer):
+> +class HTTPServer(ThreadingMixIn, http.server.HTTPServer):
 >=20
-> is there a short doc that explains what i minimally need to supply to
-> build that package? i've never been in the situation where u-boot
-> wasn't part of the BSP.
+>      def server_start(self, root_dir):
+>          import signal
 
-perhaps you need to set UBOOT_MACHINE =3D "config"
+This looks like a neat solution to the sstate serving issue Francisco h=
+as been=20
+dealing with - thanks!
+
+Cheers,
+Paul
 
 
---Apple-Mail=_E181E527-93AC-49BC-A8F2-A60147A605D3
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
+--=20
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
+Paul Eggleton
+Intel Open Source Technology Centre
 
-iEYEARECAAYFAlek+WsACgkQuwUzVZGdMxR2iACgg6p7EwTvqw1qpQFqYEUD4Ofh
-JaEAnjffS3vzK/ewB6eUl2yERtENPxiR
-=dpeS
------END PGP SIGNATURE-----
-
---Apple-Mail=_E181E527-93AC-49BC-A8F2-A60147A605D3--
