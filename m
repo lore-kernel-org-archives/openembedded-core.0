@@ -1,20 +1,46 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F712770FF
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 27EEE77116
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Aug 2016 16:04:43 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 05 Aug 2016 09:04:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,474,1464678000"; d="scan'208";a="744697738"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by FMSMGA003.fm.intel.com with ESMTP; 05 Aug 2016 09:04:16 -0700
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+	Fri,  5 Aug 2016 16:11:10 +0000 (UTC)
+Received: by mail-wm0-f44.google.com with SMTP id q128so37084233wma.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 05 Aug 2016 09:11:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=A6emAxQ+eolmyntN3MgPKtZrn5lBls6wCpnmX8+68Do=;
+	b=kXIyv4S2DtMbE6z1mfu9YwRn+aKOkRgwKQ6QbxIrkCKgoMLbLEx0ux3TubVSaPURkY
+	lMf9RVUG5dv2LZLUrx8PWBtWo/dGUyaDA7+ur6PIoy+C3TSmhAczbmdPCxyYOzaqWfig
+	thfoYDuPgnzbhf2kgt3tiFt1+fTEsOensA5ydeMKWTj3bqF9CQOKBrA/JPicBp+m0J/v
+	vykMfmuob52OSVbE9av3pnb4nc2dUDRf764X3NfiwOm4T560yG4Fsp+kQrPOJ535wZdI
+	bZ0ePsDYeJjBcNSHjTbOBO/D2WpcQdGdL0VhxxTTQBrlcN7Y7e21E7C1Bs7ic1K2tzoc
+	/DbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=A6emAxQ+eolmyntN3MgPKtZrn5lBls6wCpnmX8+68Do=;
+	b=QHuN56zIIRmzNGWGGs2DNirFnIgi+E8dd4JIRYb/wYBWDyDluiCAlaPn6uVhsuqXfB
+	5OV6IzVB9wazmeqB2P6OuNKEBGIxvCXVHcG0kUq3KhwXPT8xjAQCPT0bp13yzyX5HkH2
+	0EbWKJsoiXsPoYhiuKCPHsfbqjeoT9Ic4luP1NZ+CQb3MEZSfC6P5Y/rFOgMqHSJ5GnR
+	PYQdvE7FHWCxegmozxyGn8Wey62mskUohWmJD639JLzirfcW/hUSq1f+nVqXxsOGIJjo
+	OIF5l+20R10YslIys+SK5px3d29gtBqv7mIL6hqd417JQWRcVrQiChRnjohlb4fQ+C/C
+	cvKA==
+X-Gm-Message-State: AEkoouviqKvaXtPyh5LMJW1a9XpEuSHP0MDF6wYyJub/on6r7/4sIIQ7VoMBPb/C/BV69g6X
+X-Received: by 10.28.29.211 with SMTP id d202mr4059275wmd.64.1470413470753;
+	Fri, 05 Aug 2016 09:11:10 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	jq5sm5389320wjc.20.2016.08.05.09.11.09
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 05 Aug 2016 09:11:09 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Aug 2016 19:04:15 +0300
-Message-Id: <1470413055-3662-1-git-send-email-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.6.6
-Subject: [PATCH] license: improve handling of license files with identical basenames
+Date: Fri,  5 Aug 2016 17:11:07 +0100
+Message-Id: <1470413467-10175-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] consolekit: don't ship /var/log/ConsoleKit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,120 +53,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Aug 2016 16:04:45 -0000
+X-List-Received-Date: Fri, 05 Aug 2016 16:11:11 -0000
 
-Previously, find_license_files() in license.bbclass just blindly assumed
-that all different licenses specified in LIC_FILES_CHKSUM have unique
-filenames. As a consequence, only the last one of these similarly named
-license files was copied and the rest were "lost". This patch changes
-the behavior so that all license files get copied. However, if multiple
-identically names files are found, they are names to <file>.0, <file>.1
-etc.
+This directory is created on demand, and won't be visible if /var/log is a
+tmpfs, so don't bother shipping it.
 
-The patch also changes the handling of NO_GENERIC_LICENSE slightly.
-Previously, only basenames of NO_GENERIC_LICENSE and LIC_FILES_CHKSUM
-were compared when searching for the correct license file. After this
-patch NO_GENERIC_LICENSE must have the full path, matching what is
-specified in LIC_FILES_CHKSUM. This is required in order to be able
-handle identical filenames (basenames) consistently. For example, if
-you have:
-LICENSE = "my-custom-license"
-LIC_FILES_CHKSUM = "file://src/LICENCE;md5=d41d8cd98f00b204e9800998ecf8427e"
-
-you must specify:
-NO_GENERIC_LICENSE[my-custom-license] = "src/LICENCE"
-
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/license.bbclass | 30 ++++++++++++++++++++++--------
- 1 file changed, 22 insertions(+), 8 deletions(-)
+ meta/recipes-support/consolekit/consolekit_0.4.6.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index 26c297d..1313fda 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -385,6 +385,7 @@ def find_license_files(d):
-     """
-     import shutil
-     import oe.license
-+    from collections import defaultdict, OrderedDict
+diff --git a/meta/recipes-support/consolekit/consolekit_0.4.6.bb b/meta/recipes-support/consolekit/consolekit_0.4.6.bb
+index 2974e36..ceac0fe 100644
+--- a/meta/recipes-support/consolekit/consolekit_0.4.6.bb
++++ b/meta/recipes-support/consolekit/consolekit_0.4.6.bb
+@@ -30,7 +30,7 @@ PACKAGECONFIG[pam] = "--enable-pam-module --with-pam-module-dir=${base_libdir}/s
+ PACKAGECONFIG[policykit] = "--with-polkit,--without-polkit,polkit"
+ PACKAGECONFIG[systemd] = "--with-systemdsystemunitdir=${systemd_unitdir}/system/,--with-systemdsystemunitdir="
  
-     pn = d.getVar('PN', True)
-     for package in d.getVar('PACKAGES', True):
-@@ -409,6 +410,8 @@ def find_license_files(d):
-     generic_directory = d.getVar('COMMON_LICENSE_DIR', True)
-     # List of basename, path tuples
-     lic_files_paths = []
-+    # Entries from LIC_FILES_CHKSUM
-+    lic_chksums = {}
-     license_source_dirs = []
-     license_source_dirs.append(generic_directory)
-     try:
-@@ -438,7 +441,6 @@ def find_license_files(d):
-         license_source = None
-         # If the generic does not exist we need to check to see if there is an SPDX mapping to it,
-         # unless NO_GENERIC_LICENSE is set.
--
-         for lic_dir in license_source_dirs:
-             if not os.path.isfile(os.path.join(lic_dir, license_type)):
-                 if d.getVarFlag('SPDXLICENSEMAP', license_type, True) != None:
-@@ -452,6 +454,7 @@ def find_license_files(d):
-                 license_source = lic_dir
-                 break
+-FILES_${PN} += "${localstatedir}/log/ConsoleKit ${exec_prefix}/lib/ConsoleKit \
++FILES_${PN} += "${exec_prefix}/lib/ConsoleKit \
+                 ${libdir}/ConsoleKit  ${systemd_unitdir} ${base_libdir} \
+                 ${datadir}/dbus-1 ${datadir}/PolicyKit ${datadir}/polkit*"
  
-+        non_generic_lic = d.getVarFlag('NO_GENERIC_LICENSE', license_type, True)
-         if spdx_generic and license_source:
-             # we really should copy to generic_ + spdx_generic, however, that ends up messing the manifest
-             # audit up. This should be fixed in emit_pkgdata (or, we actually got and fix all the recipes)
-@@ -463,13 +466,11 @@ def find_license_files(d):
-             if d.getVarFlag('NO_GENERIC_LICENSE', license_type, True):
-                 bb.warn("%s: %s is a generic license, please don't use NO_GENERIC_LICENSE for it." % (pn, license_type))
+@@ -45,6 +45,6 @@ do_install_append() {
+ 			> ${D}${sysconfdir}/tmpfiles.d/consolekit.conf
+ 	fi
  
--        elif d.getVarFlag('NO_GENERIC_LICENSE', license_type, True):
-+        elif non_generic_lic and non_generic_lic in lic_chksums:
-             # if NO_GENERIC_LICENSE is set, we copy the license files from the fetched source
-             # of the package rather than the license_source_dirs.
--            for (basename, path) in lic_files_paths:
--                if d.getVarFlag('NO_GENERIC_LICENSE', license_type, True) == basename:
--                    lic_files_paths.append(("generic_" + license_type, path))
--                    break
-+            lic_files_paths.append(("generic_" + license_type,
-+                                    os.path.join(srcdir, non_generic_lic)))
-         else:
-             # Add explicity avoid of CLOSED license because this isn't generic
-             if license_type != 'CLOSED':
-@@ -492,8 +493,8 @@ def find_license_files(d):
-         except bb.fetch.MalformedUrl:
-             raise bb.build.FuncFailed("%s: LIC_FILES_CHKSUM contains an invalid URL:  %s" % (d.getVar('PF', True), url))
-         # We want the license filename and path
--        srclicfile = os.path.join(srcdir, path)
--        lic_files_paths.append((os.path.basename(path), srclicfile))
-+        chksum = parm['md5'] if 'md5' in parm else parm['sha256']
-+        lic_chksums[path] = chksum
- 
-     v = FindVisitor()
-     try:
-@@ -503,6 +504,19 @@ def find_license_files(d):
-     except SyntaxError:
-         bb.warn("%s: Failed to parse it's LICENSE field." % (d.getVar('PF', True)))
- 
-+    # Add files from LIC_FILES_CHKSUM to list of license files
-+    lic_chksum_paths = defaultdict(OrderedDict)
-+    for path, chksum in lic_chksums.items():
-+        lic_chksum_paths[os.path.basename(path)][chksum] = os.path.join(srcdir, path)
-+    for basename, files in lic_chksum_paths.items():
-+        if len(files) == 1:
-+            lic_files_paths.append((basename, list(files.values())[0]))
-+        else:
-+            # If there are multiple different license files with identical
-+            # basenames we rename them to <file>.0, <file>.1, ...
-+            for i, path in enumerate(files.values()):
-+                lic_files_paths.append(("%s.%d" % (basename, i), path))
-+
-     return lic_files_paths
- 
- def return_spdx(d, license):
+-	# Remove /var/run from package as console-kit-daemon will populate it on startup
+-	rm -fr "${D}${localstatedir}/run"
++	# Remove /var/ directories as the daemon creates them as required
++	rm -rf ${D}${localstatedir}
+ }
 -- 
-2.6.6
+2.8.1
 
 
