@@ -1,52 +1,35 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
-	[209.85.220.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 80510770E3
+Return-Path: <denis@denix.org>
+X-Greylist: delayed 3603 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 05 Aug 2016 22:25:34 UTC
+Received: from vms173025pub.verizon.net (vms173025pub.verizon.net
+	[206.46.173.25])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E89F77161
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Aug 2016 22:18:26 +0000 (UTC)
-Received: by mail-pa0-f65.google.com with SMTP id cf3so19846937pad.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Aug 2016 15:18:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:content-transfer-encoding:in-reply-to
-	:user-agent; bh=ETu3fWyX1q/DgWC6S5UqQhwz8rQJ/Yg8d9ipv2FMiLg=;
-	b=Y/7bSfNax3iObaRb3uXiNP0JmgKpPLaCazCS5Jf/PLKQCB6PNxoFzfaXTIcLDNMtYC
-	m4Zy4w91MmR7IrokbZPDSpu4qXchbptiu1eVUmMmsiVWOW4vLWLv4VY/ggDIdQlBpN1n
-	59WRSBYij5KOvMXxfDV3BY8XELlAHetoneW3/Hd/0Rei/0TktyEMfvnLaU2xXgyMRRbP
-	rFV3F1O/Nx04QrJrhNeKF8aYFGk35MPcJGJKxXwMgOI2BHrUgiPonsATsRXz8pxkSfSW
-	YO1mO65YEBFNlSifnvDQOfHyhLe6sNbKGNA+lTy2W+MRGxYr3KkXEA6zD+93B/qf0UY3
-	yHpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:content-transfer-encoding
-	:in-reply-to:user-agent;
-	bh=ETu3fWyX1q/DgWC6S5UqQhwz8rQJ/Yg8d9ipv2FMiLg=;
-	b=ev1nc103wGRRy+rpk1flTZoEitXMmDL6CUS3p+9qh3oQ5IbRkMqzrp2XDugmP9xdTx
-	9I3PQWxMQYwV4a+E9HzKOT8rU1qCmJePBysjiwlmW3TR1nD8CxezwFx7265jxXKfoteB
-	lRoVdsLS9RlIrda1RBKMrx4wJzG2Rdg5XX0/ZLqqfAsTk9gAvjJWRtvhxR6PL0EVJXZ+
-	SExsVaKme4OWL/FqF7kQnqvt04gz2jRUiN9GfIoZU39dquBe1SZGjsxZJvh6lacK6+S0
-	wn78uahX0vXIlrwp5taYS0EPtRKpvvAJ+c1ZsX2lOWalqEqRKZfdIaKczrxsRg7H5LnD
-	ltFg==
-X-Gm-Message-State: AEkoousU9DZrFw3zBxqls3ngoBbrlJswmGn9MzHFxrHL+jXNqox4J6ZlstVt+zAQtiMnVw==
-X-Received: by 10.66.49.67 with SMTP id s3mr28506833pan.100.1470435507586;
-	Fri, 05 Aug 2016 15:18:27 -0700 (PDT)
-Received: from haswell (c-76-102-32-192.hsd1.ca.comcast.net. [76.102.32.192])
-	by smtp.gmail.com with ESMTPSA id
-	p9sm30297949pfj.3.2016.08.05.15.18.26
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 05 Aug 2016 15:18:26 -0700 (PDT)
-Date: Fri, 5 Aug 2016 15:18:22 -0700
-From: Khem Raj <raj.khem@gmail.com>
-To: =?utf-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
-Message-ID: <20160805221822.GA9968@haswell>
-References: <1470433368-13508-1-git-send-email-anibal.limon@linux.intel.com>
-MIME-Version: 1.0
-In-Reply-To: <1470433368-13508-1-git-send-email-anibal.limon@linux.intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] apt: Fix build in musl it was break due to upgrade to 1.2.12
+	Fri,  5 Aug 2016 22:25:34 +0000 (UTC)
+Received: from vz-proxy-m001.mx.aol.com ([64.236.83.14])
+	by vms173025.mailsrvcs.net
+	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul 16
+	2014)) with ESMTPA id <0OBG00K6MGTZ2F80@vms173025.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Fri, 05 Aug 2016 16:25:17 -0500 (CDT)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.1 cv=btqxfxui c=1 sm=1 tr=0	a=MJxOpqxZADbEbEImuSX/mw==:117
+	a=kj9zAlcOel0A:10 a=7z1cN_iqozsA:10	a=pGLkceISAAAA:8
+	a=iOXC_SvI7piijs__KRUA:9 a=CjuIK1q_8ugA:10
+Received: by 100.15.86.14 with SMTP id 1c1e8013; Fri, 05 Aug 2016 21:25:17 GMT
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 5E4F21620DA; Fri,
+	5 Aug 2016 17:25:11 -0400 (EDT)
+Date: Fri, 05 Aug 2016 17:25:11 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: George McCollister <george.mccollister@gmail.com>
+Message-id: <20160805212511.GO8521@denix.org>
+References: <cover.1468862824.git.george.mccollister@gmail.com>
+	<1c06daa2a3dad03821aff6a7f7502036fb90f2b4.1468862824.git.george.mccollister@gmail.com>
+MIME-version: 1.0
+In-reply-to: <1c06daa2a3dad03821aff6a7f7502036fb90f2b4.1468862824.git.george.mccollister@gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: marex@denx.de, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 1/3] kernel-fitimage: add initramfs support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,96 +42,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Aug 2016 22:18:27 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 05 Aug 2016 22:25:34 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-On 16-08-05 16:42:48, Aníbal Limón wrote:
-> methods/connect.cc: Musl doesn't support AI_IDN flag in netdb.h
-> header so define it manually.
-> apt-pkg/contrib/srvrec.h: Add explicity include of sys/types.h
-> to avoid errors in types u_int_SIZE.
+On Mon, Jul 18, 2016 at 12:57:55PM -0500, George McCollister wrote:
+> If INITRAMFS_IMAGE is set, build an additional fitImage containing the
+> initramfs. Copy the additional fitImage and the source (*.its) file, used
+> to create it to DEPLOYDIR. The fitImage containing the initramfs must be
+> built before do_deploy and after do_install to avoid circular dependencies.
 > 
-
-This patch fixes the musl build issue.
-
-> Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+> UBOOT_RD_LOADADDRESS - Specifies the load address used by u-boot for the
+>                        initramfs.
+> UBOOT_RD_ENTRYPOINT  - Specifies the entry point used by u-boot for the
+>                        initramfs.
+> 
+> Signed-off-by: George McCollister <george.mccollister@gmail.com>
 > ---
->  meta/recipes-devtools/apt/apt.inc                  |  1 +
->  .../apt/apt/0001-apt-1.2.12-Fix-musl-build.patch   | 50 ++++++++++++++++++++++
->  2 files changed, 51 insertions(+)
->  create mode 100644 meta/recipes-devtools/apt/apt/0001-apt-1.2.12-Fix-musl-build.patch
+>  meta/classes/kernel-fitimage.bbclass | 282 +++++++++++++++++++++++------------
+>  1 file changed, 187 insertions(+), 95 deletions(-)
 > 
-> diff --git a/meta/recipes-devtools/apt/apt.inc b/meta/recipes-devtools/apt/apt.inc
-> index 87cc206..3026370 100644
-> --- a/meta/recipes-devtools/apt/apt.inc
-> +++ b/meta/recipes-devtools/apt/apt.inc
-> @@ -12,6 +12,7 @@ SRC_URI = "http://snapshot.debian.org/archive/debian/20160526T162943Z/pool/main/
->             file://disable-configure-in-makefile.patch \
->             file://disable-test.patch \
->             file://0001-environment.mak-musl-based-systems-can-generate-shar.patch \
-> +           file://0001-apt-1.2.12-Fix-musl-build.patch \
->             "
->  SRC_URI[md5sum] = "80f6f0ef110a45a7e5af8a9d233fb0e7"
->  SRC_URI[sha256sum] = "e820d27cba73476df4abcff27dadd1b5847474bfe85f7e9202a9a07526973ea6"
-> diff --git a/meta/recipes-devtools/apt/apt/0001-apt-1.2.12-Fix-musl-build.patch b/meta/recipes-devtools/apt/apt/0001-apt-1.2.12-Fix-musl-build.patch
-> new file mode 100644
-> index 0000000..04b0406
-> --- /dev/null
-> +++ b/meta/recipes-devtools/apt/apt/0001-apt-1.2.12-Fix-musl-build.patch
-> @@ -0,0 +1,50 @@
-> +From 33b97e089d4a98d3acd20bd78337dd915b989bc2 Mon Sep 17 00:00:00 2001
-> +From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
-> +Date: Fri, 5 Aug 2016 15:24:27 -0500
-> +Subject: [PATCH] apt 1.2.12: Fix musl build
-> +MIME-Version: 1.0
-> +Content-Type: text/plain; charset=UTF-8
-> +Content-Transfer-Encoding: 8bit
-> +
-> +methods/connect.cc: Musl doesn't support AI_IDN flag in netdb.h
-> +header so define it manually.
-> +apt-pkg/contrib/srvrec.h: Add explicity include of sys/types.h
-> +to avoid errors in types u_int_SIZE.
-> +
-> +Upstream-status: Pending
-> +
-> +Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
-> +---
-> + apt-pkg/contrib/srvrec.h | 1 +
-> + methods/connect.cc       | 3 +++
-> + 2 files changed, 4 insertions(+)
-> +
-> +diff --git a/apt-pkg/contrib/srvrec.h b/apt-pkg/contrib/srvrec.h
-> +index 01b8102..15b6875 100644
-> +--- a/apt-pkg/contrib/srvrec.h
-> ++++ b/apt-pkg/contrib/srvrec.h
-> +@@ -9,6 +9,7 @@
-> + #ifndef SRVREC_H
-> + #define SRVREC_H
-> + 
-> ++#include <sys/types.h>
-> + #include <arpa/nameser.h>
-> + #include <vector>
-> + #include <string>
-> +diff --git a/methods/connect.cc b/methods/connect.cc
-> +index 07a730b..bb0ab5a 100644
-> +--- a/methods/connect.cc
-> ++++ b/methods/connect.cc
-> +@@ -33,6 +33,9 @@
-> + #include <sys/socket.h>
-> + #include <arpa/inet.h>
-> + #include <netdb.h>
-> ++#ifndef AI_IDN
-> ++#define AI_IDN 0x0040
-> ++#endif
-> + 
-> + #include "connect.h"
-> + #include "rfc2553emu.h"
-> +-- 
-> +2.1.4
-> +
-> -- 
-> 2.1.4
-> 
+> diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+> index 9a3caf5..ede69e7 100644
+> --- a/meta/classes/kernel-fitimage.bbclass
+> +++ b/meta/classes/kernel-fitimage.bbclass
+> @@ -16,7 +16,7 @@ python __anonymous () {
+>  
+
+<snip>
+
+
+> +	#
+> +	# Step 3: Prepare a ramdisk section.
+> +	#
+> +	if [ "x${ramdiskcount}" = "x1" ] ; then
+> +		copy_initramfs
+> +		fitimage_emit_section_ramdisk ${1} "${ramdiskcount}" ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
+
+May I suggest dropping ${B} here to get the ramdisk path shorter and easier to 
+read? It's relative to ${B} anyway - same as all the DTBs...
+
++ fitimage_emit_section_ramdisk ${1} "${ramdiskcount}" usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
+
+
+> +	fi
+>  
+
+<snip>
+
+-- 
+Denys
 
