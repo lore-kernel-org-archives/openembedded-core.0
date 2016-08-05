@@ -1,54 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f66.google.com (mail-pa0-f66.google.com
-	[209.85.220.66])
-	by mail.openembedded.org (Postfix) with ESMTP id AE80B7017B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id A9F117017B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Aug 2016 15:22:16 +0000 (UTC)
-Received: by mail-pa0-f66.google.com with SMTP id cf3so19410382pad.2
+	Fri,  5 Aug 2016 15:26:52 +0000 (UTC)
+Received: by mail-wm0-f47.google.com with SMTP id i5so42148545wmg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Aug 2016 08:22:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:organization:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding;
-	bh=1gWOdEu9fmP0nt3EvfOffqoOL0Ah88zn5DdwFvI5USg=;
-	b=oD6rapJfelL+zpU/RLC6vPSohsxmJeJ3uudMdwfxgGOPZ9vcMhkqSMWSYYp1B2cVWd
-	WWPQloicNk/g4pf6xW5+YtfTuH2xmVd+3ARnIiLEMy+pcZWJBebivEFBEH8/d/0xitrW
-	anJ3fHEAYCrgIVrczf6LYpJgUSt2jnkwoYk6qObrqk4MUzcZjgK1McT2s0y90yxqT1/0
-	i9qYrwg8gO3Y5FsKvQHfFq2zz66a9oy+CPQlnESvACLIWy0TAnfvi2flnilc1N7kst6d
-	Sbrvwwq1eJVTheyZ/88zY1Yuk6rj8vjoA98G4QWR2wDzFDXKqmuPRBkXc5qibBwwCGhR
-	zI4A==
+	Fri, 05 Aug 2016 08:26:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=BhxDV4w7dqEAFWpJlvdlfaLRCUYhxky3oKt4amjJrYE=;
+	b=BJ+7iyJayJKIqgwYb4PXmpQnmHw3eQEGAGc2Kf2axdeYNkmJ1+IQfCE9+VLlIRZa9t
+	fCWZlPfSIAPYfMLyAPUkZNk0hu/xKyLOjtCevR5OiAF2F10blId1usFp5kavzw6vMrqt
+	8NULGsAMv6xsc/BLYpbMe7RNHydUHr+W1MjAVlq9qhR9uPp5Sw+74HfwxF6aVmdZN8kQ
+	MYXjudLQFq3U3rq/R675W9/3h00co+QbigMfvfS2yWXkveNL2PvAyizXZjfR4MaZ9Z0J
+	p+eIo1jn/1CWwVNputYZp/xtYCl19+6wdCGw6oqA7do1tdHej9MGM8J5tr0CzJ3kN/so
+	Jh1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:from:organization
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding;
-	bh=1gWOdEu9fmP0nt3EvfOffqoOL0Ah88zn5DdwFvI5USg=;
-	b=GMOTXy9Bzhx7NMQ4W5KEJicgALziybw9fBls+h8njwgAcxl+52tX45l0sUdtbS5bx8
-	V8jvX3W926AbKxbplnwR8Ox9uRJLk1VXvRTncKvIcrnGPbYapJZVHs7Yq8JgpeCSuEYl
-	Acpya3/8sQ2t+4MqsFA6gptpYksnDfE+7RDKrCenpzCslM1xHFOqoVGZfJUMQS/B4oQx
-	vRc+tphlKBXdGVqp/sQfJOrHga1NIAvdcaFbAfqShMMqgVW7J7e9gvIkR5SgThXCSSFN
-	v0OHSkto9dQsj0wx0fQyYYAfeU0q8rBhQphv+LHLLT+65TtHsYQAaZc6qxVHU4vUYygT
-	iQUw==
-X-Gm-Message-State: AEkooutZVBGB0lbcULFbah2lTAcLXFQ8YsQOALYFncQlhEmUgTHv0cr4dIBHQnwaKtjBCw==
-X-Received: by 10.66.20.166 with SMTP id o6mr135099296pae.96.1470410536925;
-	Fri, 05 Aug 2016 08:22:16 -0700 (PDT)
-Received: from CACSVMO-14452.local ([2601:646:8882:b8c:41d7:99c1:5cc6:c627])
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=BhxDV4w7dqEAFWpJlvdlfaLRCUYhxky3oKt4amjJrYE=;
+	b=l1EXo92kur97F8dlH8P5Lk110bVjqFi6Eaqq7BqtG+oocooQbbwsLEn3zsKn0Nyn2t
+	89+JhoY7cTR7/2DdLM9MG/6Fksn3DEriv0Jfg+Tig6FlvR7uJ9eaf0NDQSHsK2roggbZ
+	OBmqNsjLnUeMntTQ/764w2hW6jljAvoYUrLlMWKYr/UfoUfyjBc/DDWNsAB/NHhvSCO1
+	5ON8ZUZ7WHUlmdg4iFSan48Tf8rTpNFtVcjyVZrOjUdOKfGmArDTr2Rr98pNzj3dhs+c
+	YN3vy3CoCzqkdkp2L8IOpIOuuWZ2h9DLrDM8q674Nxobn8bImELcwz+QLo5dYkfRJx+P
+	p8Mg==
+X-Gm-Message-State: AEkoouvcdDm0fj4Z6MhrqS2gZ83aSHj7bwNUISVnMs/MkAX95Y9wAEBjuM3ewjCTa5J/S1/G
+X-Received: by 10.194.0.211 with SMTP id 19mr2948971wjg.124.1470410812397;
+	Fri, 05 Aug 2016 08:26:52 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
 	by smtp.gmail.com with ESMTPSA id
-	e72sm28881970pfb.49.2016.08.05.08.22.13
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 05 Aug 2016 08:22:15 -0700 (PDT)
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-References: <alpine.LFD.2.20.1608051112190.18419@localhost.localdomain>
-From: Khem Raj <raj.khem@gmail.com>
-Organization: himvis.com
-Message-ID: <7beea6c4-ad50-25ae-a21a-41f113634d92@gmail.com>
-Date: Fri, 5 Aug 2016 08:22:34 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
-	Gecko/20100101 Thunderbird/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <alpine.LFD.2.20.1608051112190.18419@localhost.localdomain>
-Subject: Re: where is the safest place to put a single-shot "run and reboot" script?
+	g184sm9124361wme.15.2016.08.05.08.26.51
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 05 Aug 2016 08:26:51 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  5 Aug 2016 16:26:47 +0100
+Message-Id: <1470410807-22869-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH][V2] hdparm: set LICENSE correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,24 +53,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Aug 2016 15:22:16 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 05 Aug 2016 15:26:53 -0000
 
+LICENSE is recipe-wide so should be BSD & GPLv2, and then override LICENSE_${PN}
+to just BSD as LICENSE_wiper is GPLv2.
 
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-extended/hdparm/hdparm_9.48.bb | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-On 8/5/16 8:14 AM, Robert P. J. Day wrote:
-> 
->   i have a systemd-based image that, after coming up normally, i want
-> to fire off a one-time script which, after completion, reboots. i've
-> been told that using systemd's run-postinsts is discouraged and, for
-> now, i just want the simplest and quickest solution.
-> 
->   suggestions?
+diff --git a/meta/recipes-extended/hdparm/hdparm_9.48.bb b/meta/recipes-extended/hdparm/hdparm_9.48.bb
+index ec3d26f..cd85776 100644
+--- a/meta/recipes-extended/hdparm/hdparm_9.48.bb
++++ b/meta/recipes-extended/hdparm/hdparm_9.48.bb
+@@ -2,8 +2,12 @@ SUMMARY = "Utility for viewing/manipulating IDE disk drive/driver parameters"
+ DESCRIPTION = "hdparm is a Linux shell utility for viewing \
+ and manipulating various IDE drive and driver parameters."
+ SECTION = "console/utils"
+-LICENSE = "BSD"
++
++LICENSE = "BSD & GPLv2"
++LICENSE_${PN} = "BSD"
++LICENSE_${PN}-dbg = "BSD"
+ LICENSE_wiper = "GPLv2"
++
+ LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=910a8a42c962d238619c75fdb78bdb24 \
+                     file://debian/copyright;md5=a82d7ba3ade9e8ec902749db98c592f3 \
+                     file://wiper/GPLv2.txt;md5=fcb02dc552a041dee27e4b85c7396067 \
+-- 
+2.8.1
 
-https://github.com/systemd/systemd/blob/master/units/systemd-firstboot.service.in
-
-> 
-> rday
-> 
 
