@@ -1,30 +1,55 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 9DA8175C51
+Return-Path: <twoerner@gmail.com>
+Received: from mail-io0-f196.google.com (mail-io0-f196.google.com
+	[209.85.223.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 58AA4770A6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Aug 2016 14:02:57 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
-	via TCP (outbound) with ESMTPS id 20160805140244137_0684;
-	Fri, 05 Aug 2016 14:02:44 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [216.191.234.70] (port=16798 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1bVfjn-0000Ww-H6; Fri, 05 Aug 2016 10:04:36 -0400
-Date: Fri, 5 Aug 2016 10:02:35 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: Andrew Bradford <andrew@bradfordembedded.com>
-In-Reply-To: <20160805130018.GD29547@kaim-eeyore.kodakalaris.net>
-Message-ID: <alpine.LFD.2.20.1608051000330.17623@localhost.localdomain>
-References: <alpine.LFD.2.20.1608050617280.13505@localhost.localdomain>
-	<20160805130018.GD29547@kaim-eeyore.kodakalaris.net>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+	Fri,  5 Aug 2016 14:25:00 +0000 (UTC)
+Received: by mail-io0-f196.google.com with SMTP id i199so2146245ioi.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 05 Aug 2016 07:25:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=hc45xCOljfg1govgeuGU0Fl+ISUFwwNd6gGaWkfMOik=;
+	b=of+UoL/F8ERKVUf2DIpoO0p94FZ2vqHjyt4ydZSCmevgIjyvJmlvPUDgrPBZIppKWk
+	Soz6aTXOuRxVQG8FJwBYaTYzNH1GUpt5YsqCCOEYb2cWMLe8W2PBwnr30Nlb0ks+YPrX
+	psuDjRQf2D3EOp+QRgDgSNBFep/5g9TAH5jjWz9I+KyiBLpYBS0VG2TGSd5fFQL7Z/3P
+	LB2Ik6czx+GXuMo8QP2/IBN1AnGLmxIp7/hGa93W/yUJX3Rg8eE5bRjI+CeGnwgjHBix
+	huz3fBA6XhcZ0Rfape5/gl7cO8WY76znvJefJAuw4hDF/CKApERbDv2oD8Y9SVBVddq4
+	2jfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=hc45xCOljfg1govgeuGU0Fl+ISUFwwNd6gGaWkfMOik=;
+	b=jEOv+9jcIrq3Mo3f8ore7w26ue3zZG/DnbJxfWLvLY6thbw+IUTRy0OKKhlL2OfR+L
+	oIl/szjOCSdafRfYew7TwK+QSsUgOCUWbpdQbVHPS8zHeoQO/8tPz0Lu8T/ozF/ZKWXN
+	XO1Iu1EsMggOt969Ef07dGsmlXL7edKfrbNX4YTy02RpTiZHljK4m++Ht9CTPWF53618
+	LR24XZeQXoHMGip6uthV8PSVdtkVymlxNtMQKPRzQ6V4+qQpxIzaz9V3rbqbAUVUYFX6
+	6ooEUATH+8pi/HS6Z5ZXi7kmVgNF5ro5xiCpYvLxutk2yLzVcGosR5veabc3mS5O9aXf
+	hhlQ==
+X-Gm-Message-State: AEkoouue+3/QFoIvLfD4i1HsvdL8XEun+dS2iyDcZJDkVwm0WE3ONyhHhjm0psjkAECtyg==
+X-Received: by 10.107.163.129 with SMTP id m123mr88692026ioe.48.1470407101208; 
+	Fri, 05 Aug 2016 07:25:01 -0700 (PDT)
+Received: from openSUSE-i7.site ([45.72.227.185])
+	by smtp.gmail.com with ESMTPSA id 65sm3897802itl.16.2016.08.05.07.25.00
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 05 Aug 2016 07:25:00 -0700 (PDT)
+Date: Fri, 5 Aug 2016 10:24:58 -0400
+From: Trevor Woerner <twoerner@gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Message-ID: <20160805142458.GA16924@openSUSE-i7.site>
+References: <20160801123253.9292-1-twoerner@gmail.com>
+	<CADkTA4Pa0pjQ8HQwAFq6jZUW5TXjfYd=pkdaOoDgU5S7x2hhsQ@mail.gmail.com>
+	<CAJTo0LaXhsr4xJwR05DP2F+mNjJOwGQ+xfGb=d2cTgn2DaTiKw@mail.gmail.com>
+	<20160803125336.GA24499@openSUSE-i7.site>
+	<CADkTA4NvDf+Wo8fSGiRGirE74z7Bi8EjmFeK-opz=sUzMJLsNw@mail.gmail.com>
 MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: "parted" vs "sfdisk"
+In-Reply-To: <CADkTA4NvDf+Wo8fSGiRGirE74z7Bi8EjmFeK-opz=sUzMJLsNw@mail.gmail.com>
+User-Agent: Mutt/1.6.0 (2016-04-01)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel.bbclass: add lzop dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,74 +62,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Aug 2016 14:02:57 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Fri, 05 Aug 2016 14:25:01 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Fri, 5 Aug 2016, Andrew Bradford wrote:
-
-> Hi Robert,
->
-> On 08/05 06:19, Robert P. J. Day wrote:
+On Wed 2016-08-03 @ 09:39:59 PM, Bruce Ashfield wrote:
+> On Wed, Aug 3, 2016 at 8:53 AM, Trevor Woerner <twoerner@gmail.com> wrote:
+> 
+> > On Mon 2016-08-01 @ 03:08:36 PM, Burton, Ross wrote:
+> > > On 1 August 2016 at 15:07, Bruce Ashfield <bruce.ashfield@gmail.com>
+> > wrote:
+> > >
+> > > > Not a large dependency, but it does bring to mind the question if this
+> > > > could be conditional on the type of image being built ? via  distro
+> > > > feature, some other mechanism ?
+> > > >
+> > >
+> > > Exactly this: image building adds dependencies automatically based on
+> > what
+> > > is actually being used, so can the kernel do this too?
 > >
-> >   your personal opinions, if you would -- i'm working on some scripts
-> > to do automated installs on a target board, currently based on
-> > parted, but parted seems a bit dense at times, and awkward, and i'm
-> > thinking of switching to sfdisk.
+> > The way the build knows which image was built is to build the kernel then
+> > look
+> > in the output directory to see what extension was given to the artifact.
+> > iow,
+> > it only discovers the dependency partway through the build; it doesn't know
+> > the dependency when the build starts.
 > >
-> >   for people who have done this sort of thing, do you have any strong
-> > opinions either way of parted versus sfdisk? i realize that's not much
-> > to go on, just curious about personal preferences, and why.
->
-> sfdisk has changed both its input format and command-line options in
-> recent versions of util-linux.  If you're scripting sfdisk, you need to
-> be aware of this as some of the people who use your scripts will have
-> varying versions of util-linux.  For example, in my experience,
-> util-linux 2.28 in Debian Stretch and util-linux 2.25.2 in Debian Jessie
-> cannot have their sfdisk executables scripted in the same way and then
-> produce the same set of partitions when setting up an SD card for an
-> embedded system.
->
-> The change in input format and command-line options happened around
-> util-linux 2.26-2.27 but I haven't dug into it too much to find out
-> exactly when.
->
-> The newer input format for sfdisk is quite nice, imho, and easy to read.
-> You can do something like this now:
->
-> {
-> echo "label: dos"
-> echo "start=1MiB size=32MiB type=0x0C bootable"
-> echo "start=33MiB"
-> } | sfdisk ${DEVICE}
->
-> While the older sfdisk input format would look something like:
->
-> {
-> echo 1,32,0x0C,*
-> echo 33,,,-
-> } | sfdisk ${DEVICE}
+> > Either bitbake will have to put together the kernel's config at the start
+> > of
+> > the build, then parse through it to try to determine which kernel will be
+> > built, or we need some sort of mechanism that allows us to add dependencies
+> > partway through a build, or we can add (yet another) build variable and
+> > hope
+> > people are able to keep it in sync.
+> >
+> >
+> I'm on vacation for the next two weeks, so sorry for the slow reply.
 
-  ah, now *that* i like ... of course, i'd probably use a here
-document:
+np enjoy! "'tis the season" :-)
 
-sfdisk ${DEVICE} <<-EOF
-	label: dos
-	start=1MiB size=32MiB type=0x0C bootable
-	start=33MiB"
-EOF
+> 
+> Wouldn't something like PACKAGECONFIG work here ? Something automatic
+> is going to be complex (like you describe), but something like this would
+> be an
+> easy way for a BSP (or other) layer to bbappend the kernel and add this as
+> a dependency.
+> 
+> ... but then again, I suppose they could currently just bbappend the kernel
+> recipe
+> and add it directly to the DEPENDS.
 
-pretty sure that would have the same effect, yes?
+I've proposed a change to the kernel.bbclass to add the lzop-native DEPENDS to
+the existing
 
-rday
+	DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native depmodwrapper-cross bc-native"
 
--- 
+because it's in this file that the lzop program is being called.
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
+It seems as though your suggestions are discussing changes to a recipe (?)
+which is fine, I'll propose a patch to the BSP-in-question's kernel recipe.
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
+> 
+> >
+> > ...or we could just add lzop-native as a static dependency in the
+> > off-chance that
+> > it's needed.
+> >
+> 
+> 
+> 
+> -- 
+> "Thou shalt not follow the NULL pointer, for chaos and madness await thee
+> at its end"
 
