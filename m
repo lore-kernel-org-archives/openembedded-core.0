@@ -1,45 +1,23 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 1714C77028
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Aug 2016 20:19:34 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id y134so20643351pfg.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Aug 2016 13:19:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=Y8ecw38egfnHuikCMAcnXP0e8260Roy/9yiB/blytX0=;
-	b=hHw5EUnNf3sj9r9yOu1qPiG4+CkfZtAsfXRpBjFH6ba6olNiUlcLwywukhi0o+Th12
-	n1nh3zclsBtKWR7A6n8bFVolRAlzfgN5MouZUbutO1aQoej77qNEC30H8lQMlJDQraMW
-	YV428v8PzEydpEt//h6EEVsKvDFrgxfEn+I7UPpMik2n99wxDksLDgz6AA1NwfHAIXRH
-	dCI3cP/GbF0dB49hwUZwsXSW1rVurentdN7neqHfGaFKdcpMdycJTxDaV5k2HJ+I5rtj
-	Ifx5LmSD2GB3J9Nc6HiMMAwvJ6brc4duCQP97sd3o9bt2X0/OB5nYR1c07+rWYJ4drIB
-	LBCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Y8ecw38egfnHuikCMAcnXP0e8260Roy/9yiB/blytX0=;
-	b=Wwyz6DWG0h7lrc4a2aTLsUlF4RHiN5Rs5+kc3dULfKxjNtypw/n3bUd6/OxP2rRiEq
-	TGr7gyz4gKZZ8hjw+P4yD4DSA7DOSIuqS0ezquN4ROpHYVJ2XJOZ4GWAOxFUXy8RZneG
-	N6OjykmlA02k3gQohf1b5PKph6Te8+ZyGwE5RyMOAISAsA3VHn7GOnA5aZNK5yFaCH3f
-	Zi0uUKYZGO/6+pb4nkH0ATPNXYnsDZJUgOYQ0AS6F5eW4H+1q39B4+ikkEW0NvwuZhoM
-	ZJZ4fTP26TyOXjn2lkM5Gpgll0nKjMq2Nfg3E2dkqoIcik5E+VD3kRAUhLtD/syEG1y+
-	DG8A==
-X-Gm-Message-State: AEkoouuTK5UqX/IZO4O3/U6qTkFTBnuEvTCmJJANW0I82paUfa2qoUevllcQoaUcG7Yodw==
-X-Received: by 10.98.30.133 with SMTP id e127mr139439686pfe.104.1470428375476; 
-	Fri, 05 Aug 2016 13:19:35 -0700 (PDT)
-Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
-	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
-	q14sm29984246pfi.76.2016.08.05.13.19.34
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 05 Aug 2016 13:19:34 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Aug 2016 13:19:27 -0700
-Message-Id: <20160805201927.32633-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.9.0
-Subject: [PATCH] glibc: Switch to 2.24 release branch
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 4983677011
+	for <openembedded-core@openembedded.org>;
+	Fri,  5 Aug 2016 20:30:33 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga102.jf.intel.com with ESMTP; 05 Aug 2016 13:30:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,474,1464678000"; d="scan'208";a="151353130"
+Received: from pgronows-mobl.amr.corp.intel.com (HELO
+	alimonb-mobl1.zpn.intel.com) ([10.254.134.94])
+	by fmsmga004.fm.intel.com with ESMTP; 05 Aug 2016 13:30:32 -0700
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@openembedded.org
+Date: Fri,  5 Aug 2016 15:30:30 -0500
+Message-Id: <1470429030-30444-1-git-send-email-anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+MIME-Version: 1.0
+Cc: paul.eggleton@linux.intel.com
+Subject: [PATCH] oeqa/utils/httpserver.py: HTTPServer enable thread connection handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,54 +30,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Aug 2016 20:19:35 -0000
+X-List-Received-Date: Fri, 05 Aug 2016 20:30:34 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-glibc 2.24 is released now
-https://www.sourceware.org/ml/libc-alpha/2016-08/msg00212.html
+HTTPServer now supports multiple connections using Python threads.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- meta/recipes-core/glibc/cross-localedef-native_2.24.bb | 5 ++---
- meta/recipes-core/glibc/glibc_2.24.bb                  | 5 ++---
- 2 files changed, 4 insertions(+), 6 deletions(-)
+ meta/lib/oeqa/utils/httpserver.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/glibc/cross-localedef-native_2.24.bb b/meta/recipes-core/glibc/cross-localedef-native_2.24.bb
-index 650c6c3..d4ccced 100644
---- a/meta/recipes-core/glibc/cross-localedef-native_2.24.bb
-+++ b/meta/recipes-core/glibc/cross-localedef-native_2.24.bb
-@@ -17,12 +17,11 @@ inherit autotools
+diff --git a/meta/lib/oeqa/utils/httpserver.py b/meta/lib/oeqa/utils/httpserver.py
+index bd76f36..7d12331 100644
+--- a/meta/lib/oeqa/utils/httpserver.py
++++ b/meta/lib/oeqa/utils/httpserver.py
+@@ -1,8 +1,9 @@
+ import http.server
+ import multiprocessing
+ import os
++from socketserver import ThreadingMixIn
  
- FILESEXTRAPATHS =. "${FILE_DIRNAME}/${PN}:${FILE_DIRNAME}/glibc:"
+-class HTTPServer(http.server.HTTPServer):
++class HTTPServer(ThreadingMixIn, http.server.HTTPServer):
  
--#SRCBRANCH ?= "release/${PV}/master"
-+SRCBRANCH ?= "release/${PV}/master"
- GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
--SRCBRANCH ?= "master"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+(\.\d+)*)"
- 
--SRCREV_glibc ?= "d957c4d3fa48d685ff2726c605c988127ef99395"
-+SRCREV_glibc ?= "ea23815a795f72035262953dad5beb03e09c17dd"
- SRCREV_localedef ?= "29869b6dc11427c5bab839bdb155c85a7c644c71"
- 
- SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-diff --git a/meta/recipes-core/glibc/glibc_2.24.bb b/meta/recipes-core/glibc/glibc_2.24.bb
-index f023272..e446e7a 100644
---- a/meta/recipes-core/glibc/glibc_2.24.bb
-+++ b/meta/recipes-core/glibc/glibc_2.24.bb
-@@ -7,10 +7,9 @@ LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b36d3209f380deb394b213 \
- 
- DEPENDS += "gperf-native"
- 
--SRCREV ?= "d957c4d3fa48d685ff2726c605c988127ef99395"
-+SRCREV ?= "ea23815a795f72035262953dad5beb03e09c17dd"
- 
--#SRCBRANCH ?= "release/${PV}/master"
--SRCBRANCH ?= "master"
-+SRCBRANCH ?= "release/${PV}/master"
- 
- GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+(\.\d+)*)"
+     def server_start(self, root_dir):
+         import signal
 -- 
-2.9.0
+2.1.4
 
 
