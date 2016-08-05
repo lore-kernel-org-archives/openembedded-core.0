@@ -1,26 +1,47 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E7357710D
+Return-Path: <avery.brian@gmail.com>
+Received: from mail-it0-f53.google.com (mail-it0-f53.google.com
+	[209.85.214.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 9184A770FF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Aug 2016 16:17:52 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga104.fm.intel.com with ESMTP; 05 Aug 2016 09:17:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,474,1464678000"; d="scan'208";a="151232472"
-Received: from cmmooney-mobl1.ger.corp.intel.com (HELO [10.252.9.127])
-	([10.252.9.127])
-	by fmsmga004.fm.intel.com with ESMTP; 05 Aug 2016 09:17:52 -0700
-User-Agent: Microsoft-MacOutlook/14.6.5.160527
-Date: Fri, 05 Aug 2016 19:17:48 +0300
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: <openembedded-core@lists.openembedded.org>
-Message-ID: <D3CA951D.6570B%markus.lehtonen@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH] license: improve handling of license files
-	with identical basenames
-References: <1470413055-3662-1-git-send-email-markus.lehtonen@linux.intel.com>
-In-Reply-To: <1470413055-3662-1-git-send-email-markus.lehtonen@linux.intel.com>
-Mime-version: 1.0
-Subject: Re: [PATCH] license: improve handling of license files with identical basenames
+	Fri,  5 Aug 2016 16:19:04 +0000 (UTC)
+Received: by mail-it0-f53.google.com with SMTP id j124so28821201ith.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 05 Aug 2016 09:19:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=8r1EYOX3A6SrO87WDFj1kgj60+DFP7aNOi3ZtOxGBHs=;
+	b=AwAT/dl1QADE6C8thmVHA9NBdlxKNrX+q38oJLb/ljUjZfWdb87RpPeVI3udIhCCpq
+	dFNVtjeu2sB7l1OdowpfLpeRX/rZJhRXO6t/6iY+UA4jIUx+bgWjzAyxFLWO7krFEocC
+	RjjPtxFRzg/fSe1XPfqjXhGm5Z0C3Se8qZoFHUFPkr9yMRQ1dd63EwFPwLBVuX7qUbyk
+	2tvw/Kf1P87H1pCoXgO2GQveKYkZ41yA3GCWCKE+GNtCEZmKYzV/a8GmH35YIuWOHGWE
+	Sprz+UUfmAEG4VUTxPZayobv1seyOCB3vfx78dCbHWdP6DXTlogoBbeeJD8aGgSaR9oQ
+	0A7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=8r1EYOX3A6SrO87WDFj1kgj60+DFP7aNOi3ZtOxGBHs=;
+	b=Eb9Ls/SfbXFRM2QxQlLYS6UUFLoDDtqpDcfnfa/OrTxZB9MR7CtzP6zEEVExAiHIKT
+	uIpx8u8xAhWAd3eYWFd4mVzgpTZ81zAhU2hEr/y23QoryrBGvd7CbTB1KJrNsB0PG69g
+	UxqIrNh4rEOs6bgdbiaySDyiYFXFymnATyUVoEtf9NKm4qVTW63nXissdkaMfaccwXCq
+	2UwE6uc4CjOQx+6AT5i8bNKEYR0q77RtdczyCXrq4tkOuKPOSzZVvvDIV6x9VjJw1tJT
+	+Hslx3tXpQDAObSo/jOTWD5CJ1e17t44ZiHSbbZGJ1gXsYSrCRLpFFdBGaYaPJzNJmMc
+	dwXQ==
+X-Gm-Message-State: AEkoouvEAP2oBSHTAGSx8I75u1XUg2ICOWJ0KZd/4UQZ4C9fhwL5tCdGOMQ+ErcQvj4YW4imVQGDWu0a1fs8ng==
+X-Received: by 10.36.41.205 with SMTP id p196mr5648048itp.76.1470413944251;
+	Fri, 05 Aug 2016 09:19:04 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.18.35 with HTTP; Fri, 5 Aug 2016 09:19:03 -0700 (PDT)
+In-Reply-To: <1470387529.2393.4.camel@gmail.com>
+References: <CAKV_0einF1siokeL5FFx2jLbwAk6xYSnb42fCZ75wpfQ3MbqRw@mail.gmail.com>
+	<b41fd09b-cb0e-8702-d789-27ab70d56787@gmail.com>
+	<1470387529.2393.4.camel@gmail.com>
+From: Brian Avery <avery.brian@gmail.com>
+Date: Fri, 5 Aug 2016 09:19:03 -0700
+Message-ID: <CAKV_0ejeHLYsp4htJdYMt-j=3fG=Gnwb_b5++w_MvxNzOYALfw@mail.gmail.com>
+To: Max Krummenacher <max.oss.09@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: RFC: eclipse debug functionality issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,186 +54,241 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Aug 2016 16:17:53 -0000
-Content-type: text/plain;
-	charset="US-ASCII"
-Content-transfer-encoding: 7bit
+X-List-Received-Date: Fri, 05 Aug 2016 16:19:04 -0000
+Content-Type: multipart/alternative; boundary=001a113f6d5ed1f9930539556c71
 
-Doing a quick check on core-image-minimal I found out that there are many
-recipes whose do_populate_lic did not do the right thing:
-Only in build1/tmp-glibc/deploy/licenses/binutils-cross-i586: COPYING
-Only in build2/tmp-glibc/deploy/licenses/binutils-cross-i586: COPYING.0
-Only in build2/tmp-glibc/deploy/licenses/binutils-cross-i586: COPYING.1
-Only in build1/tmp-glibc/deploy/licenses/binutils-cross-i586: COPYING.LIB
-Only in build2/tmp-glibc/deploy/licenses/binutils-cross-i586: COPYING.LIB.0
-Only in build2/tmp-glibc/deploy/licenses/binutils-cross-i586: COPYING.LIB.1
-Only in build1/tmp-glibc/deploy/licenses/binutils-native: COPYING
-Only in build2/tmp-glibc/deploy/licenses/binutils-native: COPYING.0
-Only in build2/tmp-glibc/deploy/licenses/binutils-native: COPYING.1
-Only in build1/tmp-glibc/deploy/licenses/binutils-native: COPYING.LIB
-Only in build2/tmp-glibc/deploy/licenses/binutils-native: COPYING.LIB.0
-Only in build2/tmp-glibc/deploy/licenses/binutils-native: COPYING.LIB.1
-Only in build1/tmp-glibc/deploy/licenses/glib-2.0: COPYING
-Only in build2/tmp-glibc/deploy/licenses/glib-2.0: COPYING.0
-Only in build2/tmp-glibc/deploy/licenses/glib-2.0: COPYING.1
-Only in build2/tmp-glibc/deploy/licenses/glib-2.0: COPYING.2
-Only in build1/tmp-glibc/deploy/licenses/glib-2.0-native: COPYING
-Only in build2/tmp-glibc/deploy/licenses/glib-2.0-native: COPYING.0
-Only in build2/tmp-glibc/deploy/licenses/glib-2.0-native: COPYING.1
-Only in build2/tmp-glibc/deploy/licenses/glib-2.0-native: COPYING.2
-Only in build1/tmp-glibc/deploy/licenses/m4-native: COPYING
-Only in build2/tmp-glibc/deploy/licenses/m4-native: COPYING.0
-Only in build2/tmp-glibc/deploy/licenses/m4-native: COPYING.1
-Only in build1/tmp-glibc/deploy/licenses/util-linux: COPYING
-Only in build2/tmp-glibc/deploy/licenses/util-linux: COPYING.0
-Only in build2/tmp-glibc/deploy/licenses/util-linux: COPYING.1
-Only in build2/tmp-glibc/deploy/licenses/util-linux: COPYING.2
-Only in build1/tmp-glibc/deploy/licenses/util-linux-native: COPYING
-Only in build2/tmp-glibc/deploy/licenses/util-linux-native: COPYING.0
-Only in build2/tmp-glibc/deploy/licenses/util-linux-native: COPYING.1
-Only in build2/tmp-glibc/deploy/licenses/util-linux-native: COPYING.2
+--001a113f6d5ed1f9930539556c71
+Content-Type: text/plain; charset=UTF-8
 
- 
+Thanks Max!
 
-On 05/08/16 19:04, "Markus Lehtonen"
-<openembedded-core-bounces@lists.openembedded.org on behalf of
-markus.lehtonen@linux.intel.com> wrote:
+I like your approach a lot; and yes, the same fix works in our /etc/profile.
 
->Previously, find_license_files() in license.bbclass just blindly assumed
->that all different licenses specified in LIC_FILES_CHKSUM have unique
->filenames. As a consequence, only the last one of these similarly named
->license files was copied and the rest were "lost". This patch changes
->the behavior so that all license files get copied. However, if multiple
->identically names files are found, they are names to <file>.0, <file>.1
->etc.
+-Brian
+an Intel employee
+
+On Fri, Aug 5, 2016 at 1:58 AM, Max Krummenacher <max.oss.09@gmail.com>
+wrote:
+
+> Hi Brian
 >
->The patch also changes the handling of NO_GENERIC_LICENSE slightly.
->Previously, only basenames of NO_GENERIC_LICENSE and LIC_FILES_CHKSUM
->were compared when searching for the correct license file. After this
->patch NO_GENERIC_LICENSE must have the full path, matching what is
->specified in LIC_FILES_CHKSUM. This is required in order to be able
->handle identical filenames (basenames) consistently. For example, if
->you have:
->LICENSE = "my-custom-license"
->LIC_FILES_CHKSUM =
->"file://src/LICENCE;md5=d41d8cd98f00b204e9800998ecf8427e"
+> Am Donnerstag, den 04.08.2016, 19:49 -0700 schrieb Khem Raj:
+> >
+> > On 8/4/16 2:20 PM, Brian Avery wrote:
+> > > The core issue:
+> > > The busybox resize command breaks the eclipse ssh debug stream.
+> > >  This is
+> > > because the resize command for busybox sends a set of cursor
+> > > control
+> > > escape sequences to stderr. The resize cfg was added to Krogoth and
+> > > is
+> > > still in master.  The point of resize is to set the environment and
+> > > terminal settings to the current xterm window size.
+> > >
+> > > Additional complexity:
+> > > eclipse-debug is an IMAGE_FEATURE.  If it is turned on by a user in
+> > > local.conf via EXTRA_IMAGE_FEATURES then I can conditionally turn
+> > > off
+> > > busybox/resize in the cfg file.  Unfortunately, if a user makes a
+> > > new
+> > > image with IMAGE_FEATURES += " eclipse-debug " in it, I do not see
+> > > this
+> > > from the scope of the busybox##.bb recipe.
+> > >
+> > > So, there are a couple of ways to solve this and I'm not sure which
+> > > is
+> > > the best one.
+> > >
+> > > 1) conditionally turn off the resize.cfg if eclipse-debug is in
+> > > extra-image-features.  Also, make a rm_resize.bbclass to rm the
+> > > usr/bin/resize from the rootfs in a do_rootfs[postfuncs] which can
+> > > be
+> > > inherited by the various sdk images we build.
+> > >
+> > > This is problematic since if a user makes a new image recipe of
+> > > their
+> > > own and includes eclipse-debug but doesn't inherit the
+> > > rm_resize.bbclass
+> > > eclipse debug will fail.
+> > >
+> > > 2) elevate eclipse-debug to a distro feature which would make it
+> > > visible
+> > > to the busybox###.bb recipe.  Unfortunately, it is really an image
+> > > specific set of packages to be included so elevating it doesn't
+> > > seem
+> > > reasonable.
+> > >
+> > > 3)   use the update-alternatives method (busybox is currently doing
+> > > this
+> > > for syslog) to make a separate busybox-resize package and make an
+> > > eclipse friendly resize package that is empty and add the eclipse
+> > > one to
+> > > the eclipse-debug packagegroup.
+> > >
+> > > 4) Just turn off resize or patch it so it doesn't try to control
+> > > the
+> > > cursor via escape sequences sent to stderr but still sets up the
+> > > environment.  It's worth noting that the ubuntu  resize doesn't
+> > > send
+> > > escape sequences to any of the streams.
+> >
+> > this seems to be best option.
 >
->you must specify:
->NO_GENERIC_LICENSE[my-custom-license] = "src/LICENCE"
+> We fixed this by only executing resize if logging in from a serial
+> console:
 >
->Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
->---
-> meta/classes/license.bbclass | 30 ++++++++++++++++++++++--------
-> 1 file changed, 22 insertions(+), 8 deletions(-)
+> http://git.toradex.com/cgit/meta-toradex.git/commit/?h=V2.6-next&id=9d1
+> 32ea3cf75562ef5610dd6ff1c89d0cffa334d
 >
->diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
->index 26c297d..1313fda 100644
->--- a/meta/classes/license.bbclass
->+++ b/meta/classes/license.bbclass
->@@ -385,6 +385,7 @@ def find_license_files(d):
->     """
->     import shutil
->     import oe.license
->+    from collections import defaultdict, OrderedDict
-> 
->     pn = d.getVar('PN', True)
->     for package in d.getVar('PACKAGES', True):
->@@ -409,6 +410,8 @@ def find_license_files(d):
->     generic_directory = d.getVar('COMMON_LICENSE_DIR', True)
->     # List of basename, path tuples
->     lic_files_paths = []
->+    # Entries from LIC_FILES_CHKSUM
->+    lic_chksums = {}
->     license_source_dirs = []
->     license_source_dirs.append(generic_directory)
->     try:
->@@ -438,7 +441,6 @@ def find_license_files(d):
->         license_source = None
->         # If the generic does not exist we need to check to see if there
->is an SPDX mapping to it,
->         # unless NO_GENERIC_LICENSE is set.
->-
->         for lic_dir in license_source_dirs:
->             if not os.path.isfile(os.path.join(lic_dir, license_type)):
->                 if d.getVarFlag('SPDXLICENSEMAP', license_type, True) !=
->None:
->@@ -452,6 +454,7 @@ def find_license_files(d):
->                 license_source = lic_dir
->                 break
-> 
->+        non_generic_lic = d.getVarFlag('NO_GENERIC_LICENSE',
->license_type, True)
->         if spdx_generic and license_source:
->             # we really should copy to generic_ + spdx_generic, however,
->that ends up messing the manifest
->             # audit up. This should be fixed in emit_pkgdata (or, we
->actually got and fix all the recipes)
->@@ -463,13 +466,11 @@ def find_license_files(d):
->             if d.getVarFlag('NO_GENERIC_LICENSE', license_type, True):
->                 bb.warn("%s: %s is a generic license, please don't use
->NO_GENERIC_LICENSE for it." % (pn, license_type))
-> 
->-        elif d.getVarFlag('NO_GENERIC_LICENSE', license_type, True):
->+        elif non_generic_lic and non_generic_lic in lic_chksums:
->             # if NO_GENERIC_LICENSE is set, we copy the license files
->from the fetched source
->             # of the package rather than the license_source_dirs.
->-            for (basename, path) in lic_files_paths:
->-                if d.getVarFlag('NO_GENERIC_LICENSE', license_type,
->True) == basename:
->-                    lic_files_paths.append(("generic_" + license_type,
->path))
->-                    break
->+            lic_files_paths.append(("generic_" + license_type,
->+                                    os.path.join(srcdir,
->non_generic_lic)))
->         else:
->             # Add explicity avoid of CLOSED license because this isn't
->generic
->             if license_type != 'CLOSED':
->@@ -492,8 +493,8 @@ def find_license_files(d):
->         except bb.fetch.MalformedUrl:
->             raise bb.build.FuncFailed("%s: LIC_FILES_CHKSUM contains an
->invalid URL:  %s" % (d.getVar('PF', True), url))
->         # We want the license filename and path
->-        srclicfile = os.path.join(srcdir, path)
->-        lic_files_paths.append((os.path.basename(path), srclicfile))
->+        chksum = parm['md5'] if 'md5' in parm else parm['sha256']
->+        lic_chksums[path] = chksum
-> 
->     v = FindVisitor()
->     try:
->@@ -503,6 +504,19 @@ def find_license_files(d):
->     except SyntaxError:
->         bb.warn("%s: Failed to parse it's LICENSE field." %
->(d.getVar('PF', True)))
-> 
->+    # Add files from LIC_FILES_CHKSUM to list of license files
->+    lic_chksum_paths = defaultdict(OrderedDict)
->+    for path, chksum in lic_chksums.items():
->+        lic_chksum_paths[os.path.basename(path)][chksum] =
->os.path.join(srcdir, path)
->+    for basename, files in lic_chksum_paths.items():
->+        if len(files) == 1:
->+            lic_files_paths.append((basename, list(files.values())[0]))
->+        else:
->+            # If there are multiple different license files with
->identical
->+            # basenames we rename them to <file>.0, <file>.1, ...
->+            for i, path in enumerate(files.values()):
->+                lic_files_paths.append(("%s.%d" % (basename, i), path))
->+
->     return lic_files_paths
-> 
-> def return_spdx(d, license):
->-- 
->2.6.6
+> I guess one could apply the same fix to here
+> http://cgit.openembedded.org/openembedded-core/tree/meta/recipes-core/b
+> ase-files/base-files/profile?h=krogoth
 >
->-- 
->_______________________________________________
->Openembedded-core mailing list
->Openembedded-core@lists.openembedded.org
->http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Regards
+> Max
+>
+> > >
+> > > 5) Something else?
+> > >
+> > > Thanks,
+> > > Brian
+> > > an Intel employee
+> > >
+> > >
+> > >
+> > >
+>
+>
 
+--001a113f6d5ed1f9930539556c71
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Thanks Max!<div><br></div><div>I like your approach a lot;=
+ and yes, the same fix works in our /etc/profile.</div><div><br></div><div>=
+-Brian</div><div>an Intel employee</div></div><div class=3D"gmail_extra"><b=
+r><div class=3D"gmail_quote">On Fri, Aug 5, 2016 at 1:58 AM, Max Krummenach=
+er <span dir=3D"ltr">&lt;<a href=3D"mailto:max.oss.09@gmail.com" target=3D"=
+_blank">max.oss.09@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"=
+gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
+left:1ex">Hi Brian<br>
+<div><div class=3D"h5"><br>
+Am Donnerstag, den 04.08.2016, 19:49 -0700 schrieb Khem Raj:<br>
+&gt;<br>
+&gt; On 8/4/16 2:20 PM, Brian Avery wrote:<br>
+&gt; &gt; The core issue:<br>
+&gt; &gt; The busybox resize command breaks the eclipse ssh debug stream.<b=
+r>
+&gt; &gt;=C2=A0 This is<br>
+&gt; &gt; because the resize command for busybox sends a set of cursor<br>
+&gt; &gt; control<br>
+&gt; &gt; escape sequences to stderr. The resize cfg was added to Krogoth a=
+nd<br>
+&gt; &gt; is<br>
+&gt; &gt; still in master.=C2=A0 The point of resize is to set the environm=
+ent and<br>
+&gt; &gt; terminal settings to the current xterm window size.<br>
+&gt; &gt;<br>
+&gt; &gt; Additional complexity:<br>
+&gt; &gt; eclipse-debug is an IMAGE_FEATURE.=C2=A0 If it is turned on by a =
+user in<br>
+&gt; &gt; local.conf via EXTRA_IMAGE_FEATURES then I can conditionally turn=
+<br>
+&gt; &gt; off<br>
+&gt; &gt; busybox/resize in the cfg file.=C2=A0 Unfortunately, if a user ma=
+kes a<br>
+&gt; &gt; new<br>
+&gt; &gt; image with IMAGE_FEATURES +=3D &quot; eclipse-debug &quot; in it,=
+ I do not see<br>
+&gt; &gt; this<br>
+&gt; &gt; from the scope of the busybox##.bb recipe.<br>
+&gt; &gt;<br>
+&gt; &gt; So, there are a couple of ways to solve this and I&#39;m not sure=
+ which<br>
+&gt; &gt; is<br>
+&gt; &gt; the best one.<br>
+&gt; &gt;<br>
+&gt; &gt; 1) conditionally turn off the resize.cfg if eclipse-debug is in<b=
+r>
+&gt; &gt; extra-image-features.=C2=A0 Also, make a rm_resize.bbclass to rm =
+the<br>
+&gt; &gt; usr/bin/resize from the rootfs in a do_rootfs[postfuncs] which ca=
+n<br>
+&gt; &gt; be<br>
+&gt; &gt; inherited by the various sdk images we build.<br>
+&gt; &gt;<br>
+&gt; &gt; This is problematic since if a user makes a new image recipe of<b=
+r>
+&gt; &gt; their<br>
+&gt; &gt; own and includes eclipse-debug but doesn&#39;t inherit the<br>
+&gt; &gt; rm_resize.bbclass<br>
+&gt; &gt; eclipse debug will fail.<br>
+&gt; &gt;<br>
+&gt; &gt; 2) elevate eclipse-debug to a distro feature which would make it<=
+br>
+&gt; &gt; visible<br>
+&gt; &gt; to the busybox###.bb recipe.=C2=A0 Unfortunately, it is really an=
+ image<br>
+&gt; &gt; specific set of packages to be included so elevating it doesn&#39=
+;t<br>
+&gt; &gt; seem<br>
+&gt; &gt; reasonable.<br>
+&gt; &gt;<br>
+&gt; &gt; 3)=C2=A0 =C2=A0use the update-alternatives method (busybox is cur=
+rently doing<br>
+&gt; &gt; this<br>
+&gt; &gt; for syslog) to make a separate busybox-resize package and make an=
+<br>
+&gt; &gt; eclipse friendly resize package that is empty and add the eclipse=
+<br>
+&gt; &gt; one to<br>
+&gt; &gt; the eclipse-debug packagegroup.<br>
+&gt; &gt;<br>
+&gt; &gt; 4) Just turn off resize or patch it so it doesn&#39;t try to cont=
+rol<br>
+&gt; &gt; the<br>
+&gt; &gt; cursor via escape sequences sent to stderr but still sets up the<=
+br>
+&gt; &gt; environment.=C2=A0 It&#39;s worth noting that the ubuntu=C2=A0 re=
+size doesn&#39;t<br>
+&gt; &gt; send<br>
+&gt; &gt; escape sequences to any of the streams.<br>
+&gt;<br>
+&gt; this seems to be best option.<br>
+<br>
+</div></div>We fixed this by only executing resize if logging in from a ser=
+ial<br>
+console:<br>
+<br>
+<a href=3D"http://git.toradex.com/cgit/meta-toradex.git/commit/?h=3DV2.6-ne=
+xt&amp;id=3D9d1
+32ea3cf75562ef5610dd6ff1c89d0cffa334d" rel=3D"noreferrer" target=3D"_blank"=
+>http://git.toradex.com/cgit/<wbr>meta-toradex.git/commit/?h=3DV2.<wbr>6-ne=
+xt&amp;id=3D9d1<br>
+32ea3cf75562ef5610dd6ff1c89d0c<wbr>ffa334d</a><br>
+<br>
+I guess one could apply the same fix to here<br>
+<a href=3D"http://cgit.openembedded.org/openembedded-core/tree/meta/recipes=
+-core/b
+ase-files/base-files/profile?h=3Dkrogoth" rel=3D"noreferrer" target=3D"_bla=
+nk">http://cgit.openembedded.org/<wbr>openembedded-core/tree/meta/<wbr>reci=
+pes-core/b<br>
+ase-files/base-files/profile?<wbr>h=3Dkrogoth</a><br>
+<br>
+Regards<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">Max<br>
+</font></span><div class=3D"HOEnZb"><div class=3D"h5"><br>
+&gt; &gt;<br>
+&gt; &gt; 5) Something else?<br>
+&gt; &gt;<br>
+&gt; &gt; Thanks,<br>
+&gt; &gt; Brian<br>
+&gt; &gt; an Intel employee<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+<br>
+</div></div></blockquote></div><br></div>
 
+--001a113f6d5ed1f9930539556c71--
