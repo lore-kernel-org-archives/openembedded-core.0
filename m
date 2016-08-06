@@ -1,46 +1,32 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f68.google.com (mail-pa0-f68.google.com
-	[209.85.220.68])
-	by mail.openembedded.org (Postfix) with ESMTP id D4E3A738AE
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
+	by mail.openembedded.org (Postfix) with ESMTP id B30007319F
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Aug 2016 04:09:56 +0000 (UTC)
-Received: by mail-pa0-f68.google.com with SMTP id hh10so20332205pac.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Aug 2016 21:09:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=tCjfAU0XKFkuGlJoBkozYcLgGZYAG5JJRZtB45ZqeNw=;
-	b=lYST6cdUBVXzmWA92Bd89m8H6B+WJqy9H+JGsqikxTgj2Wc8vxoTy948cVgRdgvuq8
-	SgKMhhtuDfz1C8TTsUoAFvZTJimnuWDPNEVeF86f2aAlayQa+VfoW4MN/FhPJlO8KPI8
-	Tqwj8jFVPWoUwYTb77SXW7pL4R1bkd55ZCvdadvwB02XvcVrcB1ey8K3H6+mJJscihs0
-	bCR8pO1fTSZ4zCsq1xWuqlNqarRZ4lecX5+pnhPAvZaH5zoXXSfoKfCsNSS1v/pI7RNC
-	012IXsKAOH1FWSxgpM7V8l9HxsFZbxdSO0ATY8oJUS3nk3gVYLhMEYX21kzdWJG337ph
-	f+ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=tCjfAU0XKFkuGlJoBkozYcLgGZYAG5JJRZtB45ZqeNw=;
-	b=SWKwvnMR6Md9xsi5XTCO6YAHFU2zjrkXUdBy45i389rgO2Kn1DQxJnKqvya0900v+r
-	zgajPdopk2A9t5Ww03JScXMhlL3RQNNZnsIn8vp/TqilQ5/2nzXNYcnMbOZ2goNFG50h
-	PEmlMG0c+WjWV0T6ITcbbFL3cM42nbrW3wZKThe9l52Ifu1IBbOMyjwuMUnQ3kCiSx2Q
-	xjZsBQ6wnDGYEr2dIgqtObHS1dzaGcG3mcSEYDCs0/lPdyHTr5qQODahxzBQjLDFCwId
-	qFNZx+AjozNw5TDlakBkeFGC/+a6BXW+3NgND+CnhfWYei/wPyqZFAB/d+tGDLValeHf
-	E4ug==
-X-Gm-Message-State: AEkoouvtBSjAwxZA8vOIdMy9YPoEcmERF3iiCRPL/VTy8PHG2i/ZTerTTCu2db/OTda9kQ==
-X-Received: by 10.67.7.98 with SMTP id db2mr139813942pad.156.1470456597659;
-	Fri, 05 Aug 2016 21:09:57 -0700 (PDT)
-Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
-	y184sm31177239pfg.94.2016.08.05.21.09.55
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 05 Aug 2016 21:09:56 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: akuster@mvista.com,
-	openembedded-core@lists.openembedded.org
-Date: Fri,  5 Aug 2016 21:09:44 -0700
-Message-Id: <cover.1470456330.git.akuster808@gmail.com>
-X-Mailer: git-send-email 2.3.5
-Subject: [PATCH 0/6] Jethro-next pull request
+	Sat,  6 Aug 2016 11:26:39 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
+	via TCP (outbound) with ESMTPS id 20160806112638072_0684;
+	Sat, 06 Aug 2016 11:26:38 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+Received: from [174.114.62.25] (port=54674 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1bVzmG-0007do-T3; Sat, 06 Aug 2016 07:28:28 -0400
+Date: Sat, 6 Aug 2016 07:26:28 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <20160805211836.GA3009@haswell>
+Message-ID: <alpine.LFD.2.20.1608060722240.30722@localhost.localdomain>
+References: <alpine.LFD.2.20.1608051449110.5757@localhost.localdomain>
+	<EA1E233F-E790-4830-A15F-D0FCE8E0A418@gmail.com>
+	<alpine.LFD.2.20.1608051710350.7122@localhost.localdomain>
+	<20160805211836.GA3009@haswell>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+MIME-Version: 1.0
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: what must i supply WRT UBOOT_CONFIG/UBOOT_MACHINE when u-boot isn't in BSP?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,55 +39,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Aug 2016 04:09:58 -0000
+X-List-Received-Date: Sat, 06 Aug 2016 11:26:41 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-Please consider these changes for the next jethro-next
+On Fri, 5 Aug 2016, Khem Raj wrote:
 
-The following changes since commit 7ed60009e2bcdd2380265ca95eb5de2328825eb5:
+> On 16-08-05 17:11:34, Robert P. J. Day wrote:
+> > On Fri, 5 Aug 2016, Khem Raj wrote:
+> >
+> > >
+> > > > On Aug 5, 2016, at 11:52 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+> > > >
+> > > >
+> > > >  i'm in the situation where i want to add the u-boot-fw-utils package
+> > > > to my image, but the corresponding u-boot source for the target is not
+> > > > part of the BSP layer; in fact, it's not part of a layer at all (built
+> > > > manually elsewhere), so it's unsurprising that, if i add that recipe
+> > > > to the image, i get:
+> > > >
+> > > > ERROR: u-boot-fw-utils was skipped: Either UBOOT_MACHINE or
+> > > > UBOOT_CONFIG must be set in the ... machine configuration.
+> > > > ERROR: u-boot-fw-utils was skipped: Either UBOOT_MACHINE or
+> > > > UBOOT_CONFIG must be set in the ... machine configuration.
+> > > >
+> > > > is there a short doc that explains what i minimally need to supply to
+> > > > build that package? i've never been in the situation where u-boot
+> > > > wasn't part of the BSP.
+> > >
+> > > perhaps you need to set UBOOT_MACHINE = "config"
+> >
+> >   i apologize, but i have no idea what that means. does that mean i
+> > want to build that package, and it will consult /etc/fw_env.config
+> > when the executables are run?
+>
+> well, the errors you reported above are issued when OE is trying to
+> build the u-boot-fw-utils recipe and BSP does not define the
+> UBOOT_MACHINE, I was merely pointing to a possible solution. I do
+> not know your usecase.
 
-  libxml2: Security fix for CVE-2016-4448 (2016-07-09 15:47:51 -0700)
+  i'm trying to add the u-boot-fw-utils package to an image for which
+i don't have a u-boot recipe available for the target board, so i
+can't just set UBOOT_MACHINE. i just want to know what i have to
+provide to the u-boot-fw-utils recipe in terms of u-boot config info
+manually to get a build.
 
-are available in the git repository at:
+  i have the relevant info for the /etc/fw_env.config file that
+fw_printenv and fw_setenv need to run, i just don't know how to add
+that to the build process.
 
-  git://git.yoctoproject.org/poky-contrib akuster/jethro-next
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akuster/jethro-next
-
-Armin Kuster (4):
-  qemu: Security fix for CVE-2016-2858
-  qemu: Security fix for CVE-2016-4001
-  qemu: Security fix for CVE-2016-4020
-  qemu: Security fix for CVE-2016-4037
-
-Ismo Puustinen (1):
-  libpcre: Fix CVE-2016-3191
-
-Jussi Kukkonen (1):
-  bind: CVE-2016-2088
-
- .../bind/bind/CVE-2016-2088.patch                  | 247 +++++++++++++++++++++
- meta/recipes-connectivity/bind/bind_9.10.2-P4.bb   |   1 +
- .../recipes-devtools/qemu/qemu/CVE-2016-2858.patch | 182 +++++++++++++++
- .../qemu/qemu/CVE-2016-2858_pre_1.patch            |  99 +++++++++
- .../qemu/qemu/CVE-2016-2858_pre_2.patch            | 137 ++++++++++++
- .../qemu/qemu/CVE-2016-2858_pre_3.patch            | 165 ++++++++++++++
- .../recipes-devtools/qemu/qemu/CVE-2016-4001.patch |  50 +++++
- .../recipes-devtools/qemu/qemu/CVE-2016-4020.patch |  38 ++++
- .../recipes-devtools/qemu/qemu/CVE-2016-4037.patch |  66 ++++++
- meta/recipes-devtools/qemu/qemu_2.4.0.bb           |   7 +
- .../libpcre/libpcre/CVE-2016-3191.patch            | 174 +++++++++++++++
- meta/recipes-support/libpcre/libpcre_8.38.bb       |   1 +
- 12 files changed, 1167 insertions(+)
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-2088.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-2858.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-2858_pre_1.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-2858_pre_2.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-2858_pre_3.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-4001.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-4020.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-4037.patch
- create mode 100644 meta/recipes-support/libpcre/libpcre/CVE-2016-3191.patch
+rday
 
 -- 
-2.3.5
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
