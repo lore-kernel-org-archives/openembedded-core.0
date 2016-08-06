@@ -1,32 +1,46 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
-	by mail.openembedded.org (Postfix) with ESMTP id B30007319F
+Return-Path: <net147@gmail.com>
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id E8D897680A
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Aug 2016 11:26:39 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
-	via TCP (outbound) with ESMTPS id 20160806112638072_0684;
-	Sat, 06 Aug 2016 11:26:38 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [174.114.62.25] (port=54674 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1bVzmG-0007do-T3; Sat, 06 Aug 2016 07:28:28 -0400
-Date: Sat, 6 Aug 2016 07:26:28 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <20160805211836.GA3009@haswell>
-Message-ID: <alpine.LFD.2.20.1608060722240.30722@localhost.localdomain>
-References: <alpine.LFD.2.20.1608051449110.5757@localhost.localdomain>
-	<EA1E233F-E790-4830-A15F-D0FCE8E0A418@gmail.com>
-	<alpine.LFD.2.20.1608051710350.7122@localhost.localdomain>
-	<20160805211836.GA3009@haswell>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
-MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: what must i supply WRT UBOOT_CONFIG/UBOOT_MACHINE when u-boot isn't in BSP?
+	Sat,  6 Aug 2016 13:51:02 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id h186so21766019pfg.2
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 06 Aug 2016 06:51:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=nyrNmdKZsWygZFYMY1vL+kveChu0a7K2KcuQbV6gCJU=;
+	b=oWYZx9Q3bEAQA4zvLjylDvtfJT40EmmjAaPGCGzWPRi/8Q+k9tB8wCAzpH7tOu79Bm
+	n49J5j7Qd8KUovTPn7dvzsanZJaZTGOyiEVZ3y2zTVUBHS2hE8U8T7KL/K5C+CgZ4Fha
+	ZsjL/2e7z2OEi5omXczc4JjUIu/s3SeTE8NBU28FqfK+6DOsSKArvcrwaxFpghs50Kuo
+	3wmsAPKRF/5R8cl8a13N39J+DnsiV6O3r12gWs+XrPT5l9WN78R0zt8ITZpzjIn4VwOY
+	daLMNMOfXmd/dGa+XP1QgA35Ug1LkC9yDvrzUb6RsKROqA0P7zVc4bpLA4A5cyf6K7bB
+	5YFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=nyrNmdKZsWygZFYMY1vL+kveChu0a7K2KcuQbV6gCJU=;
+	b=mbfTgxnEosTnaNNNF62/M9gZeHasdhI/URG32D3v9ObC8xU5nfhN/mTrVOs58ZLURD
+	Ad2avPXeiD32KQbrHEWc1LQhcLh4+8cGjg0ReJk5nBkgcPzEEywzOcOAFLipYIDsLfnj
+	PKi565YxlPEvCUv3mRyuwG2jq5JYcqi0y6fuO4k+YtWP39xX+y06iAgZOuygQOj3uQXe
+	OM3xgXikvhn28zbOJpBPi5HbBj9waqweKQ7RNpwtx5Km6rCxrej6SUMwW0mnrn40SQU1
+	+1cKSHlWvRGmB4Eq1RWP5YDvzetBRfTnySyZ+AbolayY0t1ijGtFA0uisBMIq//N4QZ6
+	7K0A==
+X-Gm-Message-State: AEkoousDkco+JXitFjqQEwyQEpa1njf08L8ieuIh3bdAOMyWYwbshHuzlcZXZvzCuMKj1g==
+X-Received: by 10.98.204.74 with SMTP id a71mr144971852pfg.149.1470491463308; 
+	Sat, 06 Aug 2016 06:51:03 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by smtp.gmail.com with ESMTPSA id
+	r10sm35539117pfk.84.2016.08.06.06.51.02
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 06 Aug 2016 06:51:02 -0700 (PDT)
+From: Jonathan Liu <net147@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  6 Aug 2016 23:50:16 +1000
+Message-Id: <20160806135016.31822-1-net147@gmail.com>
+X-Mailer: git-send-email 2.9.2
+Subject: [krogoth][master][PATCH] ref-manual: change SYSLINUX_ROOT to ROOT_VM for DISK_SIGNATURE variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,64 +53,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Aug 2016 11:26:41 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Sat, 06 Aug 2016 13:51:03 -0000
 
-On Fri, 5 Aug 2016, Khem Raj wrote:
+The SYSLINUX_ROOT variable was renamed to ROOT_VM in krogoth.
 
-> On 16-08-05 17:11:34, Robert P. J. Day wrote:
-> > On Fri, 5 Aug 2016, Khem Raj wrote:
-> >
-> > >
-> > > > On Aug 5, 2016, at 11:52 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
-> > > >
-> > > >
-> > > >  i'm in the situation where i want to add the u-boot-fw-utils package
-> > > > to my image, but the corresponding u-boot source for the target is not
-> > > > part of the BSP layer; in fact, it's not part of a layer at all (built
-> > > > manually elsewhere), so it's unsurprising that, if i add that recipe
-> > > > to the image, i get:
-> > > >
-> > > > ERROR: u-boot-fw-utils was skipped: Either UBOOT_MACHINE or
-> > > > UBOOT_CONFIG must be set in the ... machine configuration.
-> > > > ERROR: u-boot-fw-utils was skipped: Either UBOOT_MACHINE or
-> > > > UBOOT_CONFIG must be set in the ... machine configuration.
-> > > >
-> > > > is there a short doc that explains what i minimally need to supply to
-> > > > build that package? i've never been in the situation where u-boot
-> > > > wasn't part of the BSP.
-> > >
-> > > perhaps you need to set UBOOT_MACHINE = "config"
-> >
-> >   i apologize, but i have no idea what that means. does that mean i
-> > want to build that package, and it will consult /etc/fw_env.config
-> > when the executables are run?
->
-> well, the errors you reported above are issued when OE is trying to
-> build the u-boot-fw-utils recipe and BSP does not define the
-> UBOOT_MACHINE, I was merely pointing to a possible solution. I do
-> not know your usecase.
+Signed-off-by: Jonathan Liu <net147@gmail.com>
+---
+ documentation/ref-manual/ref-variables.xml | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-  i'm trying to add the u-boot-fw-utils package to an image for which
-i don't have a u-boot recipe available for the target board, so i
-can't just set UBOOT_MACHINE. i just want to know what i have to
-provide to the u-boot-fw-utils recipe in terms of u-boot config info
-manually to get a build.
-
-  i have the relevant info for the /etc/fw_env.config file that
-fw_printenv and fw_setenv need to run, i just don't know how to add
-that to the build process.
-
-rday
-
+diff --git a/documentation/ref-manual/ref-variables.xml b/documentation/ref-manual/ref-variables.xml
+index 1181d64..96ba530 100644
+--- a/documentation/ref-manual/ref-variables.xml
++++ b/documentation/ref-manual/ref-variables.xml
+@@ -3139,15 +3139,15 @@
+                     by UUID to allow the kernel to locate the root device
+                     even if the device name changes due to differences in
+                     hardware configuration.
+-                    By default, <filename>SYSLINUX_ROOT</filename> is set
++                    By default, <filename>ROOT_VM</filename> is set
+                     as follows:
+                     <literallayout class='monospaced'>
+-     SYSLINUX_ROOT = "root=/dev/sda2"
++     ROOT_VM ?= "root=/dev/sda2"
+                     </literallayout>
+                     However, you can change this to locate the root device
+                     using the disk signature instead:
+                     <literallayout class='monospaced'>
+-     SYSLINUX_ROOT = "root=PARTUUID=${DISK_SIGNATURE}-02"
++     ROOT_VM = "root=PARTUUID=${DISK_SIGNATURE}-02"
+                     </literallayout>
+                 </para>
+ 
 -- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+2.9.2
 
 
