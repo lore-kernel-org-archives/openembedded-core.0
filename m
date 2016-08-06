@@ -1,23 +1,23 @@
 Return-Path: <vz@mleia.com>
 Received: from mail.mleia.com (mleia.com [178.79.152.223])
-	by mail.openembedded.org (Postfix) with ESMTP id E5B0F731D2
+	by mail.openembedded.org (Postfix) with ESMTP id E6AA977156
 	for <openembedded-core@lists.openembedded.org>;
 	Sat,  6 Aug 2016 01:52:31 +0000 (UTC)
 Received: from mail.mleia.com (localhost [127.0.0.1])
-	by mail.mleia.com (Postfix) with ESMTP id 565EA432894;
+	by mail.mleia.com (Postfix) with ESMTP id 9AFD5433EC5;
 	Sat,  6 Aug 2016 02:43:31 +0100 (BST)
 From: Vladimir Zapolskiy <vz@mleia.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  6 Aug 2016 04:43:28 +0300
-Message-Id: <1470447809-12186-2-git-send-email-vz@mleia.com>
+Date: Sat,  6 Aug 2016 04:43:29 +0300
+Message-Id: <1470447809-12186-3-git-send-email-vz@mleia.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <1470447809-12186-1-git-send-email-vz@mleia.com>
 References: <1470447809-12186-1-git-send-email-vz@mleia.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-49551924 
-X-CRM114-CacheID: sfid-20160806_024331_375837_974F0245 
-X-CRM114-Status: UNSURE (   9.00  )
+X-CRM114-CacheID: sfid-20160806_024331_657550_79A8DF6B 
+X-CRM114-Status: UNSURE (   9.44  )
 X-CRM114-Notice: Please train this message. 
-Subject: [PATCH 1/2] chrpath: correct subprocess.Popen.communicate() return values
+Subject: [PATCH 2/2] package: correct subprocess.Popen.communicate() return values
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,60 +44,39 @@ The change is desired to have to avoid copy-paste errors in future.
 
 Signed-off-by: Vladimir Zapolskiy <vz@mleia.com>
 ---
- meta/classes/chrpath.bbclass | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ meta/classes/package.bbclass | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/meta/classes/chrpath.bbclass b/meta/classes/chrpath.bbclass
-index cdd7f27..72e8a12 100644
---- a/meta/classes/chrpath.bbclass
-+++ b/meta/classes/chrpath.bbclass
-@@ -5,17 +5,17 @@ def process_file_linux(cmd, fpath, rootdir, baseprefix, tmpdir, d):
-     import subprocess as sub
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index d6204cf..c592ce1 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1557,19 +1557,19 @@ python package_do_shlibs() {
+         if file.endswith('.dylib') or file.endswith('.so'):
+             rpath = []
+             p = sub.Popen([d.expand("${HOST_PREFIX}otool"), '-l', file],stdout=sub.PIPE,stderr=sub.PIPE)
+-            err, out = p.communicate()
+-            # If returned successfully, process stderr for results
++            out, err = p.communicate()
++            # If returned successfully, process stdout for results
+             if p.returncode == 0:
+-                for l in err.split("\n"):
++                for l in out.split("\n"):
+                     l = l.strip()
+                     if l.startswith('path '):
+                         rpath.append(l.split()[1])
  
-     p = sub.Popen([cmd, '-l', fpath],stdout=sub.PIPE,stderr=sub.PIPE)
--    err, out = p.communicate()
--    # If returned successfully, process stderr for results
-+    out, err = p.communicate()
-+    # If returned successfully, process stdout for results
-     if p.returncode != 0:
-         return
- 
--    err = err.decode('utf-8')
-+    out = out.decode('utf-8')
- 
-     # Handle RUNPATH as well as RPATH
--    err = err.replace("RUNPATH=","RPATH=")
-+    out = out.replace("RUNPATH=","RPATH=")
-     # Throw away everything other than the rpath list
--    curr_rpath = err.partition("RPATH=")[2]
-+    curr_rpath = out.partition("RPATH=")[2]
-     #bb.note("Current rpath for %s is %s" % (fpath, curr_rpath.strip()))
-     rpaths = curr_rpath.split(":")
-     new_rpaths = []
-@@ -46,11 +46,11 @@ def process_file_darwin(cmd, fpath, rootdir, baseprefix, tmpdir, d):
-     import subprocess as sub
- 
-     p = sub.Popen([d.expand("${HOST_PREFIX}otool"), '-L', fpath],stdout=sub.PIPE,stderr=sub.PIPE)
--    err, out = p.communicate()
--    # If returned successfully, process stderr for results
-+    out, err = p.communicate()
-+    # If returned successfully, process stdout for results
-     if p.returncode != 0:
-         return
--    for l in err.split("\n"):
-+    for l in out.split("\n"):
-         if "(compatibility" not in l:
-             continue
-         rpath = l.partition("(compatibility")[0].strip()
-@@ -59,7 +59,7 @@ def process_file_darwin(cmd, fpath, rootdir, baseprefix, tmpdir, d):
- 
-         newpath = "@loader_path/" + os.path.relpath(rpath, os.path.dirname(fpath.replace(rootdir, "/")))
-         p = sub.Popen([d.expand("${HOST_PREFIX}install_name_tool"), '-change', rpath, newpath, fpath],stdout=sub.PIPE,stderr=sub.PIPE)
+         p = sub.Popen([d.expand("${HOST_PREFIX}otool"), '-L', file],stdout=sub.PIPE,stderr=sub.PIPE)
 -        err, out = p.communicate()
+-        # If returned successfully, process stderr for results
 +        out, err = p.communicate()
- 
- def process_dir (rootdir, directory, d):
-     import stat
++        # If returned successfully, process stdout for results
+         if p.returncode == 0:
+-            for l in err.split("\n"):
++            for l in out.split("\n"):
+                 l = l.strip()
+                 if not l or l.endswith(":"):
+                     continue
 -- 
 2.8.1
 
