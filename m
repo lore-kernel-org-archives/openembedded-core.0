@@ -1,23 +1,46 @@
-Return-Path: <vz@mleia.com>
-X-Greylist: delayed 541 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sat, 06 Aug 2016 01:52:31 UTC
-Received: from mail.mleia.com (mleia.com [178.79.152.223])
-	by mail.openembedded.org (Postfix) with ESMTP id E788277157
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f68.google.com (mail-pa0-f68.google.com
+	[209.85.220.68])
+	by mail.openembedded.org (Postfix) with ESMTP id D4E3A738AE
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Aug 2016 01:52:31 +0000 (UTC)
-Received: from mail.mleia.com (localhost [127.0.0.1])
-	by mail.mleia.com (Postfix) with ESMTP id 102D3433E79;
-	Sat,  6 Aug 2016 02:43:31 +0100 (BST)
-From: Vladimir Zapolskiy <vz@mleia.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  6 Aug 2016 04:43:27 +0300
-Message-Id: <1470447809-12186-1-git-send-email-vz@mleia.com>
-X-Mailer: git-send-email 2.8.1
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-49551924 
-X-CRM114-CacheID: sfid-20160806_024331_087823_E82A8069 
-X-CRM114-Status: UNSURE (   6.78  )
-X-CRM114-Notice: Please train this message. 
-Subject: [PATCH 0/2] meta/classes: correct subprocess.Popen.communicate() return values
+	Sat,  6 Aug 2016 04:09:56 +0000 (UTC)
+Received: by mail-pa0-f68.google.com with SMTP id hh10so20332205pac.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 05 Aug 2016 21:09:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id;
+	bh=tCjfAU0XKFkuGlJoBkozYcLgGZYAG5JJRZtB45ZqeNw=;
+	b=lYST6cdUBVXzmWA92Bd89m8H6B+WJqy9H+JGsqikxTgj2Wc8vxoTy948cVgRdgvuq8
+	SgKMhhtuDfz1C8TTsUoAFvZTJimnuWDPNEVeF86f2aAlayQa+VfoW4MN/FhPJlO8KPI8
+	Tqwj8jFVPWoUwYTb77SXW7pL4R1bkd55ZCvdadvwB02XvcVrcB1ey8K3H6+mJJscihs0
+	bCR8pO1fTSZ4zCsq1xWuqlNqarRZ4lecX5+pnhPAvZaH5zoXXSfoKfCsNSS1v/pI7RNC
+	012IXsKAOH1FWSxgpM7V8l9HxsFZbxdSO0ATY8oJUS3nk3gVYLhMEYX21kzdWJG337ph
+	f+ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=tCjfAU0XKFkuGlJoBkozYcLgGZYAG5JJRZtB45ZqeNw=;
+	b=SWKwvnMR6Md9xsi5XTCO6YAHFU2zjrkXUdBy45i389rgO2Kn1DQxJnKqvya0900v+r
+	zgajPdopk2A9t5Ww03JScXMhlL3RQNNZnsIn8vp/TqilQ5/2nzXNYcnMbOZ2goNFG50h
+	PEmlMG0c+WjWV0T6ITcbbFL3cM42nbrW3wZKThe9l52Ifu1IBbOMyjwuMUnQ3kCiSx2Q
+	xjZsBQ6wnDGYEr2dIgqtObHS1dzaGcG3mcSEYDCs0/lPdyHTr5qQODahxzBQjLDFCwId
+	qFNZx+AjozNw5TDlakBkeFGC/+a6BXW+3NgND+CnhfWYei/wPyqZFAB/d+tGDLValeHf
+	E4ug==
+X-Gm-Message-State: AEkoouvtBSjAwxZA8vOIdMy9YPoEcmERF3iiCRPL/VTy8PHG2i/ZTerTTCu2db/OTda9kQ==
+X-Received: by 10.67.7.98 with SMTP id db2mr139813942pad.156.1470456597659;
+	Fri, 05 Aug 2016 21:09:57 -0700 (PDT)
+Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
+	y184sm31177239pfg.94.2016.08.05.21.09.55
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 05 Aug 2016 21:09:56 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: akuster@mvista.com,
+	openembedded-core@lists.openembedded.org
+Date: Fri,  5 Aug 2016 21:09:44 -0700
+Message-Id: <cover.1470456330.git.akuster808@gmail.com>
+X-Mailer: git-send-email 2.3.5
+Subject: [PATCH 0/6] Jethro-next pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,32 +53,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Aug 2016 01:52:33 -0000
+X-List-Received-Date: Sat, 06 Aug 2016 04:09:58 -0000
 
-This is a non-functional change, which intends to correct element
-names of a tuple returned by Popen.communicate() in oe-core classes
-chrpath and package.
+Please consider these changes for the next jethro-next
 
-Both in python2 and python3 subprocess.Popen.communicate() method
-returns a tuple (stdoutdata, stderrdata), thus some old assignments
-and collateral comments are incorrect from human's point of view,
-however formally there is no error in the code.
+The following changes since commit 7ed60009e2bcdd2380265ca95eb5de2328825eb5:
 
-The issue was occasionally found by code inspection while investigating
-early build errors due to not installed chrpath utility on a host.
+  libxml2: Security fix for CVE-2016-4448 (2016-07-09 15:47:51 -0700)
 
-The change is desired to have to avoid excessive astonishment while
-reading code and of course copy-paste errors in future.
+are available in the git repository at:
 
-Vladimir Zapolskiy (2):
-  chrpath: correct subprocess.Popen.communicate() return values
-  package: correct subprocess.Popen.communicate() return values
+  git://git.yoctoproject.org/poky-contrib akuster/jethro-next
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akuster/jethro-next
 
- meta/classes/chrpath.bbclass | 18 +++++++++---------
- meta/classes/package.bbclass | 12 ++++++------
- 2 files changed, 15 insertions(+), 15 deletions(-)
+Armin Kuster (4):
+  qemu: Security fix for CVE-2016-2858
+  qemu: Security fix for CVE-2016-4001
+  qemu: Security fix for CVE-2016-4020
+  qemu: Security fix for CVE-2016-4037
+
+Ismo Puustinen (1):
+  libpcre: Fix CVE-2016-3191
+
+Jussi Kukkonen (1):
+  bind: CVE-2016-2088
+
+ .../bind/bind/CVE-2016-2088.patch                  | 247 +++++++++++++++++++++
+ meta/recipes-connectivity/bind/bind_9.10.2-P4.bb   |   1 +
+ .../recipes-devtools/qemu/qemu/CVE-2016-2858.patch | 182 +++++++++++++++
+ .../qemu/qemu/CVE-2016-2858_pre_1.patch            |  99 +++++++++
+ .../qemu/qemu/CVE-2016-2858_pre_2.patch            | 137 ++++++++++++
+ .../qemu/qemu/CVE-2016-2858_pre_3.patch            | 165 ++++++++++++++
+ .../recipes-devtools/qemu/qemu/CVE-2016-4001.patch |  50 +++++
+ .../recipes-devtools/qemu/qemu/CVE-2016-4020.patch |  38 ++++
+ .../recipes-devtools/qemu/qemu/CVE-2016-4037.patch |  66 ++++++
+ meta/recipes-devtools/qemu/qemu_2.4.0.bb           |   7 +
+ .../libpcre/libpcre/CVE-2016-3191.patch            | 174 +++++++++++++++
+ meta/recipes-support/libpcre/libpcre_8.38.bb       |   1 +
+ 12 files changed, 1167 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-2088.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-2858.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-2858_pre_1.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-2858_pre_2.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-2858_pre_3.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-4001.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-4020.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-4037.patch
+ create mode 100644 meta/recipes-support/libpcre/libpcre/CVE-2016-3191.patch
 
 -- 
-2.8.1
+2.3.5
 
 
