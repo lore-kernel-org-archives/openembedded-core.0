@@ -1,54 +1,46 @@
-Return-Path: <max.oss.09@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 2380C731DD
+Return-Path: <net147@gmail.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 63B9973289
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Aug 2016 20:21:59 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id i5so8742574wmg.2
+	Sun,  7 Aug 2016 08:34:57 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id h186so22893567pfg.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 06 Aug 2016 13:22:00 -0700 (PDT)
+	Sun, 07 Aug 2016 01:34:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=V+7C1spF5TIeZGq5UVYWh+/sb0R1cCuRt5lYIAp0TEw=;
-	b=pUKUlxQf2t45WRxb2HVflOkd97oDiEMJXR3LcB2QbrosX0MboMFfuIZvy3lSdHf0JP
-	Us+HaZASzdKr4HSdBKvAAN8XZn7H7k3xwmgdEPk0XJISJRffEUSqyAfPdbp2sfhFuR1N
-	z6A5PZke0yheRUenLrr1UGwhd1pISAUV/t0I5hc9KL8YKiQTW4ZWglLzYAlLMfRG+Z8q
-	7Wib2svy3gY532K1v0mY509P2NpMdqgz3jDOoAJAMMkXIKlPC8x9zvyt51ToqY6XLGjq
-	bvhHDVZq6hDFF49s8n+/ak+qbu1vKrAP/kVQiZtlXSm1wByt8xXhL7dmb9+bTv9SsMiF
-	5OTQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=2BgHhbh4xRGBxvET2y41qyU1I4wYjjZv4uPKyM6nyYA=;
+	b=d/pxpvE7Oy3TVYMtb3QUsKlGA/7CByU0A5eB0GC2pNmyRinEK4MNXi0EobzKRqRt50
+	EstVr6+aAOeqKdPD52dvLGvd7C+VR7LzN3vJIqII9WIJA/XYQsUk1L+Pfsk3Kz7MK6BQ
+	8JkgVUL2o2BwkGSHduj+nONrfztkEcI3whAmePamATpm+85i6Cshq/D7bNEQLLfsDSY2
+	US3Bmr/5gd9JwzUXU9r3DPfmlr2Z5fcJpBNpl8ikBMTSwKMJmSCAjMarGmwwqDue9Mpf
+	mnEcD3qcLkcaMKgRE9J1IdNMzRnP8j0621ivQzQmvHo9boFWULSWMm/u5Yt3KF1eht4V
+	7JyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=V+7C1spF5TIeZGq5UVYWh+/sb0R1cCuRt5lYIAp0TEw=;
-	b=Ih5u32RNXE9fKF+A1jtMwYsCeQwLMDMXoFyQjLXxkUWqN6TvDT54xqQxhHoDjnNgia
-	T21qFbiOQnnhQRIve5H/Ox70SgkFtmIoV6qm2Y2DlLidkogK5Hj3SHqAdYL6MHdLsrv1
-	zEuOL+OoxScf2wdjcARmsBFecdRewoV9Aos256n7tAobpa5NoqmgUQ9dCdXvA25HDJaz
-	V7/Lb5mGzpJnZkh/zBAG+VZt0aggjcqF8y2GlEAfpXQNOXB0Trbt3pMq6tJxqA/4+hE4
-	n3xFQ02cYsdkJNq94GYqIlZfvYYl/dKnpDHYVPjVkxLLcxHQGSUvIcvsjqph9KJIutc5
-	oGOg==
-X-Gm-Message-State: AEkoouu6SRd+9n1ZTlkdPeIFjk/bvbuRe2ZWeqaZuhnj6s0Wl8toKY8JoAgNt8s5ovgtvw==
-X-Received: by 10.28.127.209 with SMTP id a200mr8466923wmd.99.1470514919829;
-	Sat, 06 Aug 2016 13:21:59 -0700 (PDT)
-Received: from Saturn.local.all (212-41-66-28.adsl.solnet.ch. [212.41.66.28])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=2BgHhbh4xRGBxvET2y41qyU1I4wYjjZv4uPKyM6nyYA=;
+	b=JaM5PTrb6xQzKdtoJW2x6vL/l4mXpo/7ZJ9sYrIPtaOR23/falc099Bsy0iifRBfPT
+	yOk7tQn0HDytaaP/UUXOftQUsqKoR0JD2mgw5dxEvtGtA+l7+2+y0vfxPswTefX5z7dV
+	YuIeOajPoMKiq8JyB/jxBjsiJv3HoSCHQpNq9QDS4ZFsrRhFlUlbUOgdm13LkRZp2Hxg
+	rUi6sAjCeJeWCNAMcZRBiRLTXx+akLBnddtSsKl8fQh76dByc2Q4dKcDagXg/26h7eb8
+	rq/erfBf25RfOGxseJNDxBPPwsMa7FkIZFgFPl/AeIigzefMzqXw3z+/7Odjj1kJfD64
+	3IpA==
+X-Gm-Message-State: AEkoouuDYzklHj3TLXCojURqAEQdPIpGwYTf1Ue0HfHIeLF18l6nsisdhUvw/+mZoOlRPA==
+X-Received: by 10.98.222.70 with SMTP id h67mr151524376pfg.128.1470558897483; 
+	Sun, 07 Aug 2016 01:34:57 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
 	by smtp.gmail.com with ESMTPSA id
-	va3sm24483397wjb.18.2016.08.06.13.21.58
+	m24sm39501072pfi.34.2016.08.07.01.34.56
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 06 Aug 2016 13:21:59 -0700 (PDT)
-Message-ID: <1470514917.2250.23.camel@gmail.com>
-From: Max Krummenacher <max.oss.09@gmail.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>, Khem Raj <raj.khem@gmail.com>
-Date: Sat, 06 Aug 2016 22:21:57 +0200
-In-Reply-To: <alpine.LFD.2.20.1608060722240.30722@localhost.localdomain>
-References: <alpine.LFD.2.20.1608051449110.5757@localhost.localdomain>
-	<EA1E233F-E790-4830-A15F-D0FCE8E0A418@gmail.com>
-	<alpine.LFD.2.20.1608051710350.7122@localhost.localdomain>
-	<20160805211836.GA3009@haswell>
-	<alpine.LFD.2.20.1608060722240.30722@localhost.localdomain>
-X-Mailer: Evolution 3.16.5 
-Mime-Version: 1.0
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: what must i supply WRT UBOOT_CONFIG/UBOOT_MACHINE when u-boot isn't in BSP?
+	Sun, 07 Aug 2016 01:34:56 -0700 (PDT)
+From: Jonathan Liu <net147@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  7 Aug 2016 18:34:28 +1000
+Message-Id: <20160807083428.9084-1-net147@gmail.com>
+X-Mailer: git-send-email 2.9.2
+Subject: [PATCH] meta/classes: fix bb.build.FuncFailed typos
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,113 +53,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Aug 2016 20:22:00 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 07 Aug 2016 08:35:00 -0000
 
-Am Samstag, den 06.08.2016, 07:26 -0400 schrieb Robert P. J. Day:
-> On Fri, 5 Aug 2016, Khem Raj wrote:
-> 
-> > On 16-08-05 17:11:34, Robert P. J. Day wrote:
-> > > On Fri, 5 Aug 2016, Khem Raj wrote:
-> > > 
-> > > > 
-> > > > > On Aug 5, 2016, at 11:52 AM, Robert P. J. Day <
-> > > > > rpjday@crashcourse.ca> wrote:
-> > > > > 
-> > > > > 
-> > > > >  i'm in the situation where i want to add the u-boot-fw-utils
-> > > > > package
-> > > > > to my image, but the corresponding u-boot source for the
-> > > > > target is not
-> > > > > part of the BSP layer; in fact, it's not part of a layer at
-> > > > > all (built
-> > > > > manually elsewhere), so it's unsurprising that, if i add that
-> > > > > recipe
-> > > > > to the image, i get:
-> > > > > 
-> > > > > ERROR: u-boot-fw-utils was skipped: Either UBOOT_MACHINE or
-> > > > > UBOOT_CONFIG must be set in the ... machine configuration.
-> > > > > ERROR: u-boot-fw-utils was skipped: Either UBOOT_MACHINE or
-> > > > > UBOOT_CONFIG must be set in the ... machine configuration.
-> > > > > 
-> > > > > is there a short doc that explains what i minimally need to
-> > > > > supply to
-> > > > > build that package? i've never been in the situation where u
-> > > > > -boot
-> > > > > wasn't part of the BSP.
-> > > > 
-> > > > perhaps you need to set UBOOT_MACHINE = "config"
-> > > 
-> > >   i apologize, but i have no idea what that means. does that mean
-> > > i
-> > > want to build that package, and it will consult
-> > > /etc/fw_env.config
-> > > when the executables are run?
-> > 
-> > well, the errors you reported above are issued when OE is trying to
-> > build the u-boot-fw-utils recipe and BSP does not define the
-> > UBOOT_MACHINE, I was merely pointing to a possible solution. I do
-> > not know your usecase.
-> 
->   i'm trying to add the u-boot-fw-utils package to an image for which
-> i don't have a u-boot recipe available for the target board, so i
-> can't just set UBOOT_MACHINE. i just want to know what i have to
-> provide to the u-boot-fw-utils recipe in terms of u-boot config info
-> manually to get a build.
-> 
->   i have the relevant info for the /etc/fw_env.config file that
-> fw_printenv and fw_setenv need to run, i just don't know how to add
-> that to the build process.
-Hi
+Signed-off-by: Jonathan Liu <net147@gmail.com>
+---
+ meta/classes/grub-efi.bbclass     | 2 +-
+ meta/classes/gummiboot.bbclass    | 4 ++--
+ meta/classes/syslinux.bbclass     | 2 +-
+ meta/classes/systemd-boot.bbclass | 4 ++--
+ 4 files changed, 6 insertions(+), 6 deletions(-)
 
-The fw-utils are built by
+diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass
+index b8c20dd..ae8ee38 100644
+--- a/meta/classes/grub-efi.bbclass
++++ b/meta/classes/grub-efi.bbclass
+@@ -95,7 +95,7 @@ python build_efi_cfg() {
+     try:
+          cfgfile = open(cfile, 'w')
+     except OSError:
+-        raise bb.build.funcFailed('Unable to open %s' % (cfile))
++        raise bb.build.FuncFailed('Unable to open %s' % (cfile))
+ 
+     cfgfile.write('# Automatically created by OE\n')
+ 
+diff --git a/meta/classes/gummiboot.bbclass b/meta/classes/gummiboot.bbclass
+index 14fa4cf..e6eba17 100644
+--- a/meta/classes/gummiboot.bbclass
++++ b/meta/classes/gummiboot.bbclass
+@@ -74,7 +74,7 @@ python build_efi_cfg() {
+     try:
+          cfgfile = open(cfile, 'w')
+     except OSError:
+-        raise bb.build.funcFailed('Unable to open %s' % (cfile))
++        raise bb.build.FuncFailed('Unable to open %s' % (cfile))
+ 
+     cfgfile.write('# Automatically created by OE\n')
+     cfgfile.write('default %s\n' % (labels.split()[0]))
+@@ -97,7 +97,7 @@ python build_efi_cfg() {
+         try:
+             entrycfg = open(entryfile, "w")
+         except OSError:
+-            raise bb.build.funcFailed('Unable to open %s' % (entryfile))
++            raise bb.build.FuncFailed('Unable to open %s' % (entryfile))
+         localdata.setVar('OVERRIDES', label + ':' + overrides)
+         bb.data.update_data(localdata)
+ 
+diff --git a/meta/classes/syslinux.bbclass b/meta/classes/syslinux.bbclass
+index 1d310dd..fa3e3ec 100644
+--- a/meta/classes/syslinux.bbclass
++++ b/meta/classes/syslinux.bbclass
+@@ -105,7 +105,7 @@ python build_syslinux_cfg () {
+     try:
+         cfgfile = open(cfile, 'w')
+     except OSError:
+-        raise bb.build.funcFailed('Unable to open %s' % (cfile))
++        raise bb.build.FuncFailed('Unable to open %s' % (cfile))
+ 
+     cfgfile.write('# Automatically created by OE\n')
+ 
+diff --git a/meta/classes/systemd-boot.bbclass b/meta/classes/systemd-boot.bbclass
+index 9e9398a..b550b61 100644
+--- a/meta/classes/systemd-boot.bbclass
++++ b/meta/classes/systemd-boot.bbclass
+@@ -77,7 +77,7 @@ python build_efi_cfg() {
+     try:
+          cfgfile = open(cfile, 'w')
+     except OSError:
+-        raise bb.build.funcFailed('Unable to open %s' % (cfile))
++        raise bb.build.FuncFailed('Unable to open %s' % (cfile))
+ 
+     cfgfile.write('# Automatically created by OE\n')
+     cfgfile.write('default %s\n' % (labels.split()[0]))
+@@ -100,7 +100,7 @@ python build_efi_cfg() {
+         try:
+             entrycfg = open(entryfile, "w")
+         except OSError:
+-            raise bb.build.funcFailed('Unable to open %s' % (entryfile))
++            raise bb.build.FuncFailed('Unable to open %s' % (entryfile))
+         localdata.setVar('OVERRIDES', label + ':' + overrides)
+         bb.data.update_data(localdata)
+ 
+-- 
+2.9.2
 
-- Getting the U-Boot sources
-- Setting CROSS_COMPILE
-- Configure U-Boot by: make <one of the filenames in config>
-- Compiling: make env
-
-So you must provide the config name you want to be used.
-In the absence of a specific U-Boot recipe the one from oe-core
-will be taken. This uses the sources from git.denx.de v2016.03.
-So take your pick of one of the available machines. Try chose
-one which is close to what you actually have, e.g. 
-mx6dlsabresd_defconfig should you use an i.MX6 based SOC.
-http://git.denx.de/?p=u-boot.git;a=tree;f=configs;h=c386b9a5e747dfc2d00
-6265a294890a47647afd6;hb=df61a74e6845ec9bdcdd48d2aff5e9c2c6debeaa
-and then as Khem suggested set in local.conf:
-UBOOT_MACHINE = "mx6dlsabresd_defconfig"
-
-Note that the default U-Boot environment is compiled into your
-fw_getenv, fw_setenv binaries. So if fw_getenv, fw_setenv are not
-able to read a valid environment from the location you configure in
-fw_env.config then the defaults of your substituted U-Boot machine
-will be used.
-e.g. 'fw_setenv foo bar' will write the 'wrong' default environment
-amended with foo=bar.
-
-Likely a source of surprises.
-
-Regards
-Max
-
-> 
-> rday
-> 
-> -- 
-> 
-> =====================================================================
-> ===
-> Robert P. J. Day                                 Ottawa, Ontario,
-> CANADA
->                         http://crashcourse.ca
-> 
-> Twitter:                                       
-> http://twitter.com/rpjday
-> LinkedIn:                               
-> http://ca.linkedin.com/in/rpjday
-> =====================================================================
-> ===
-> 
 
