@@ -1,45 +1,35 @@
 Return-Path: <fan.xin@jp.fujitsu.com>
-Received: from mgwkm03.jp.fujitsu.com (mgwkm03.jp.fujitsu.com [202.219.69.170])
-	by mail.openembedded.org (Postfix) with ESMTP id A3D237002B
+Received: from mgwym02.jp.fujitsu.com (mgwym02.jp.fujitsu.com [211.128.242.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 1EDF97002B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Aug 2016 05:30:06 +0000 (UTC)
-Received: from kw-mxoi2.gw.nic.fujitsu.com (unknown [192.168.231.133]) by
-	mgwkm03.jp.fujitsu.com with smtp
-	id 277b_cb38_71311e5c_c197_4873_beb2_dbe1042a2195;
-	Mon, 08 Aug 2016 14:29:57 +0900
-Received: from m3051.s.css.fujitsu.com (m3051.s.css.fujitsu.com
-	[10.134.21.209])
-	by kw-mxoi2.gw.nic.fujitsu.com (Postfix) with ESMTP id 39864AC00CE
+	Mon,  8 Aug 2016 05:32:23 +0000 (UTC)
+Received: from yt-mxoi1.gw.nic.fujitsu.com (unknown [192.168.229.67]) by
+	mgwym02.jp.fujitsu.com with smtp
+	id 2e85_6735_73e053c2_30bc_406e_807b_2fd83c7e9fa8;
+	Mon, 08 Aug 2016 14:32:16 +0900
+Received: from m3050.s.css.fujitsu.com (msm.b.css.fujitsu.com [10.134.21.208])
+	by yt-mxoi1.gw.nic.fujitsu.com (Postfix) with ESMTP id E65DEAC017A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Aug 2016 14:29:56 +0900 (JST)
+	Mon,  8 Aug 2016 14:32:16 +0900 (JST)
 Received: from omame (omame.fct.css.fujitsu.com [10.24.14.171])
-	by m3051.s.css.fujitsu.com (Postfix) with ESMTP id 23372332;
-	Mon,  8 Aug 2016 14:29:56 +0900 (JST)
+	by m3050.s.css.fujitsu.com (Postfix) with ESMTP id E093A28F;
+	Mon,  8 Aug 2016 14:32:16 +0900 (JST)
 Received: from [10.24.19.99] (fan1.utsfd.cs.fujitsu.co.jp [10.24.19.99])
-	by omame (Postfix) with ESMTPSA id 0A0D21E0088;
-	Mon,  8 Aug 2016 14:29:56 +0900 (JST)
-To: Stephen Arnold <stephen.arnold42@gmail.com>
-References: <1470049297-6520-1-git-send-email-fan.xin@jp.fujitsu.com>
-	<CAOLEWZVAjfydiq7GwgDKWydZyL_CXDL7+dgn5gsjt+QMhBQzgA@mail.gmail.com>
-	<CAJTo0La6G0jmhMVKu1rGjjWrDkACFWNX70hrgY9rnyk2ifXKFg@mail.gmail.com>
-	<CAOLEWZWbyZXc53TgQijWtxRbTQ9bEnTULpM9uUa4Hp5Px4AYKw@mail.gmail.com>
-	<CAJTo0LbwrLtSG+wv=_379TeQOAAqBHVUet=bD0kfdUUg6_c-yw@mail.gmail.com>
-	<8ff3e451-c185-6b95-03e0-9669b838b0dc@jp.fujitsu.com>
-	<CAOLEWZX0tzxjWu=xq9+_R87uFWfH9DOMminYBMEu2M-7igcxyg@mail.gmail.com>
-	<3cdfa22c-ed0b-1e92-7d82-bc81c2e5ee3d@jp.fujitsu.com>
-	<CAOLEWZUjdu23AnHkJzjomH7RqddxaF749UH1cr5vLk0LaPRz9w@mail.gmail.com>
-	<113e4cdc-2c4b-6878-b9ca-d4fb21a68122@jp.fujitsu.com>
+	by omame (Postfix) with ESMTPSA id C6FC31E0088;
+	Mon,  8 Aug 2016 14:32:16 +0900 (JST)
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1470204251-6173-1-git-send-email-fan.xin@jp.fujitsu.com>
+	<CAJTo0LZUT+9Wgf+kvtUJwJj7_W2afRciuW5PA2OfRrXYBRO-qw@mail.gmail.com>
 From: Fan Xin <fan.xin@jp.fujitsu.com>
-Message-ID: <594b8d65-7ae9-f3fa-506c-dfdebde807e2@jp.fujitsu.com>
-Date: Mon, 8 Aug 2016 14:30:37 +0900
+Message-ID: <7c20824b-3ac8-ff2c-208f-78ee85a5f528@jp.fujitsu.com>
+Date: Mon, 8 Aug 2016 14:32:58 +0900
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.2.0
 MIME-Version: 1.0
-In-Reply-To: <113e4cdc-2c4b-6878-b9ca-d4fb21a68122@jp.fujitsu.com>
+In-Reply-To: <CAJTo0LZUT+9Wgf+kvtUJwJj7_W2afRciuW5PA2OfRrXYBRO-qw@mail.gmail.com>
 X-TM-AS-MML: disable
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] Replace foomatic-filters with cups-filters
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] ltp: upgrade to 20160510
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,57 +42,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2016 05:30:07 -0000
+X-List-Received-Date: Mon, 08 Aug 2016 05:32:24 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Hi
 
-I notice that the newest version of cups-filters is 1.10.0 .
-https://www.openprinting.org/download/cups-filters/
+> As this recipe fetches from git if you don't change SRCREV then it's not
+> an upgrade.
 
-So I make a patch to upgrade the cups-filters and make some updates to 
-the recipe file.
-
-https://github.com/fan-xin/meta-printing/commit/cc2981c93c5fdfc1c19cffa031cc7207da5898ed
-
-Could you merge this patch to meta-printing.
+Yes, you are right. I will modify the SRCREV and resend the patch.
+Thanks for your comment.
 
 Best Regards,
 Fan
 
-On 2016年08月03日 10:42, Fan Xin wrote:
->
->
-> On 2016年08月03日 10:12, Stephen Arnold wrote:
->> sorry, you missed a couple of replies I guess...
->>
->> It's in the Ross repo now:
->>
->> https://github.com/rossburton/meta-printing
->>
->> Steve
->>
->
-> Hey, Ross
->
-> If possible, please also add me.
-> Thanks.
->
-> Fan
-
--- 
-=====================================================
-株式会社富士通コンピュータテクノロジーズ
-組込みシステム技術統括部　第一ファームウェア技術部
-樊　昕 Fan Xin
-fan.xin@jp.fujitsu.com
-
-┏┓ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-┗■ 【ubinux V15】のリリースを開始しました！
-「SDN(Open vSwitch)」や「クラウド管理(OpenStack Heat）」などに対応
----------------------------------------------------------------------
-詳細＞＞http://elsc.utsfd.cs.fujitsu.co.jp/location_elsc.php?id=0024
-※"ubinux"は組込み装置向け当社独自のLinuxディストリビューションです
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
