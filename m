@@ -1,55 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
-	[209.85.214.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DD29771D7
+Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
+	[209.85.223.179])
+	by mail.openembedded.org (Postfix) with ESMTP id A5ADB771CE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Aug 2016 23:16:25 +0000 (UTC)
-Received: by mail-it0-f49.google.com with SMTP id n191so141163ith.1
+	Mon,  8 Aug 2016 23:25:55 +0000 (UTC)
+Received: by mail-io0-f179.google.com with SMTP id 38so372314739iol.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Aug 2016 16:16:26 -0700 (PDT)
+	Mon, 08 Aug 2016 16:25:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=su0tfLLVT97z5vkG5MINEll7u/mRR+3LU8XTK/kcYnk=;
-	b=m+9MzFc/r7eVznFFTvAtZBKhfNCjeAZpNpLUldGFrkxFjg+L+7UJDDPsNVaUHFzP8q
-	HbHnT6W+IRmFcVEbV0q88OLnXLrNRHeIqE3ij3eul2f4x6wiV6+Ri11Bb8RSWe0AKzfQ
-	8Pxo2ymvJaz5fIQ1eawtULZkGi4V0/nZmivTPgYrIxmNMNDXNHNs3++kO2zGt3/QUAI5
-	kzkHwZdFVHg7c5PStTZ+nucYoPnhDrqThxTgBhXcVs/8W6C7BHSbNlw2r7sT5OeEM7FI
-	zV7YaAkgjX6BCypJZ+5fU+4i+/lF24igsMYo12wSmWZORZI/+GrszKF+c5b3fP0o8Iad
-	wbEw==
+	:cc; bh=WlHBe6I5HuYqpdvrfQuNKVseu742RFUC9M0+Fexq4ZE=;
+	b=pQMD2qoQM+bW0/gs9qIEH8JTKlq/9hncQh0wJeYVUAPRMxm2IY3FQVtxySAM5u1LzY
+	yUyiWzAxKGMOKHK7K6KpXL9ZaJvVs3v69z3SZfei0PFgETe4IHxgCTTBAlq/YzQ6GvME
+	V7MXUBazjyNzLNxyEh+OSQexzHhz+USDwHaKN/9CcpSUeSqQ93abICmiIO7TFxCeZl3i
+	N7h16C/ZU4wAldZNmKejRFTuiungQxK94JoRIOfT2Cq8plNnGJwLm701gouMAHj/kuIK
+	7JhoTpXs8OgpKsGdMGEMBnCAySUgMyksiijMuExFIQ4fnYQLtEUGxO9EGeD/C1UOaV6J
+	FVsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=su0tfLLVT97z5vkG5MINEll7u/mRR+3LU8XTK/kcYnk=;
-	b=I8w99MnGB9NWmjgOsgSvOl+VII6ft4Gi1Wl5bKoOmExLah/rmN6P8e2W7cceoGDe3d
-	4mYCZCYj/Pb/klCzsJIvVCjeCNIiNi0kogkf1F7GsRul68sB7KS7NR6pJjALXfanj7cO
-	EtNJZINeBS99wcgdnlzXOObZa/5VKNl/0wbBcX0Me2NqAGipxHxnBd6C2CdYnAJeOFjW
-	P5s1+E+c4MJ1qpsSJCH7NTVNtotFVCUysX+k1F04urFmkU5eb2I/24JamlBY3gw0hS+D
-	igf3xKmT51XZ/E59g+8eBVA157Ys7GitrzgaVlhn6sLoA+qlcvNB8NsLLyBxlxNm8wyy
-	3hJQ==
-X-Gm-Message-State: AEkoous8Atod20y4fJ3zTft0DbGvStbPZViPBw4Rr/KpUEuotz8j3wZhJo3Akil6blhfTeF2Yo91wi5D2rOuhdyU
-X-Received: by 10.36.20.75 with SMTP id 72mr20546865itg.83.1470698185183; Mon,
-	08 Aug 2016 16:16:25 -0700 (PDT)
+	bh=WlHBe6I5HuYqpdvrfQuNKVseu742RFUC9M0+Fexq4ZE=;
+	b=V0yleUj4QOZp1GcW3RKHSV1f34r4KfmXqsG5YgQNei44Cj8TKq1MJpHuuYb15iw239
+	B9wyDsgMF4jvfHqpvmRSVMK+KXI6sMbhftyQMEkVbZJ0nrvWEez2nGCPy/2WFIa99JAj
+	nyANmvcy6uMvJ81mwnqJ6jbE7M6YQyJI+T+7je/9Q+PlRPOhT3/TBBw2y4kyPxFGfliJ
+	HjtfelPtaCP5I4/oBOFXJEgk6WKWMsVDKTkCT4qlr0hUHkPxsQxlVO//2c76YqtGSSGO
+	2IdN6VBGrMcYjbhzJNeZnks0LiZrlE/wRUIbcaEkTTWk7R3C/ihEiV0AN08wuUTx1PFS
+	WafA==
+X-Gm-Message-State: AEkoouug/JxJHn9cHdQF8NUMm314h5EXlKdZr7YbMNTccErIg+QVlrTQpw86gjwyDPW10udLpfi1FJhIYye7d/pX
+X-Received: by 10.107.135.142 with SMTP id r14mr106816196ioi.133.1470698755890;
+	Mon, 08 Aug 2016 16:25:55 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Mon, 8 Aug 2016 16:16:04 -0700 (PDT)
-In-Reply-To: <1470671991.8166.44.camel@linuxfoundation.org>
-References: <CC61EFE1-5F39-4848-AD71-8E9C8DEC43C8@gmail.com>
-	<1470637705.8166.29.camel@linuxfoundation.org>
-	<8C207C42-3D61-4C3F-A1DE-F305AA6617BA@gmail.com>
-	<1470644094.8166.37.camel@linuxfoundation.org>
-	<1470646210.8166.38.camel@rpsys.net>
-	<1470647765.4581.23.camel@andred.net>
-	<ACB9AEF7-A7DF-4A88-9762-7569D91AD12D@gmail.com>
-	<1470671991.8166.44.camel@linuxfoundation.org>
+Received: by 10.107.18.17 with HTTP; Mon, 8 Aug 2016 16:25:35 -0700 (PDT)
+In-Reply-To: <20160808225101.32385-2-raj.khem@gmail.com>
+References: <20160808225101.32385-1-raj.khem@gmail.com>
+	<20160808225101.32385-2-raj.khem@gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 9 Aug 2016 00:16:04 +0100
-Message-ID: <CAJTo0LY-MVSANSLRBzBGTL2ZJ=Ga=Xijps6jwAGosLK3aE4QLg@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
-	OE-core <openembedded-core@lists.openembedded.org>,
-	Yocto Discussion Mailing List <yocto@yoctoproject.org>
-Subject: Re: [RFT] binutils 2.27
+Date: Tue, 9 Aug 2016 00:25:35 +0100
+Message-ID: <CAJTo0LYGGyd20Whnox1TCcrROVx24YybiGWkVaS+JX4U+hxiiQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] libunwind: Do not use gold for linking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,81 +54,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2016 23:16:26 -0000
-Content-Type: multipart/alternative; boundary=001a11446942e66d310539979a8e
+X-List-Received-Date: Mon, 08 Aug 2016 23:25:56 -0000
+Content-Type: multipart/alternative; boundary=001a113eccbceab411053997bcfa
 
---001a11446942e66d310539979a8e
+--001a113eccbceab411053997bcfa
 Content-Type: text/plain; charset=UTF-8
 
-On 8 August 2016 at 16:59, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+On 8 August 2016 at 23:51, Khem Raj <raj.khem@gmail.com> wrote:
 
-> FWIW, I think the connmand segfault on mips and powerpc is hinted at
-> with this bug:
+> This effectively reverts the commit
+> 3dd233ac0c80393824100c54bb525236f8290fd2
 >
-> https://bugs.launchpad.net/ubuntu/+source/lua5.3/+bug/1570055
+> gold now emits errors on copy relocs against
+> protected symbols what ld.bfd did in past, however
+> it seems its too conservative.
 >
-> connmand is a binary linked with a linker version-script. If I build
-> connmand without that option, it doesn't segfault, at least on mips.
->
-> The binutils manuals say you shouldn't build binaries with version
-> scripts:
->
-> http://ftp.gnu.org/old-gnu/Manuals/ld-2.9.1/html_node/ld_25.html
->
-> Its suspected connman might do this to limit the function exposure to
-> its plugins.
->
-> Now sure exactly what needs to happen here without more research but it
-> certainly hits at where the problem is. I suspect its the same issue on
-> ppc.
+> This does not fix the case for folks who
+> use gold as default linker, however it
+> does make bintuls 2.27 work with default
+> configuration of OE
 >
 
-I've verified that with binutils 2.26 on x86-64, a minimal test case for an
-executable using a version script to limit exported symbols to dlopen()d
-modules does in fact work.  A toolchain is building now to see what happens
-in different environments.
+Presumably this is blocked by the binutils upgrade and should be merged
+with it and not beforehand?
 
 Ross
 
---001a11446942e66d310539979a8e
+--001a113eccbceab411053997bcfa
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 8 August 2016 at 16:59, Richard Purdie <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.purdie=
-@linuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
-"><div id=3D":37i" class=3D"a3s aXjCH m1566ae22eb3a0c11">FWIW, I think the =
-connmand segfault on mips and powerpc is hinted at<br>
-with this bug:<br>
+On 8 August 2016 at 23:51, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto=
+:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wr=
+ote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
+-left:1px #ccc solid;padding-left:1ex"><div id=3D":1bm" class=3D"a3s aXjCH =
+m1566c5a9a87d5cea">This effectively reverts the commit<br>
+3dd233ac0c80393824100c54bb5252<wbr>36f8290fd2<br>
 <br>
-<a href=3D"https://bugs.launchpad.net/ubuntu/+source/lua5.3/+bug/1570055" r=
-el=3D"noreferrer" target=3D"_blank">https://bugs.launchpad.net/<wbr>ubuntu/=
-+source/lua5.3/+bug/<wbr>1570055</a><br>
+gold now emits errors on copy relocs against<br>
+protected symbols what ld.bfd did in past, however<br>
+it seems its too conservative.<br>
 <br>
-connmand is a binary linked with a linker version-script. If I build<br>
-connmand without that option, it doesn&#39;t segfault, at least on mips.<br=
->
-<br>
-The binutils manuals say you shouldn&#39;t build binaries with version<br>
-scripts:<br>
-<br>
-<a href=3D"http://ftp.gnu.org/old-gnu/Manuals/ld-2.9.1/html_node/ld_25.html=
-" rel=3D"noreferrer" target=3D"_blank">http://ftp.gnu.org/old-gnu/<wbr>Manu=
-als/ld-2.9.1/html_node/ld_<wbr>25.html</a><br>
-<br>
-Its suspected connman might do this to limit the function exposure to<br>
-its plugins.<br>
-<br>
-Now sure exactly what needs to happen here without more research but it<br>
-certainly hits at where the problem is. I suspect its the same issue on<br>
-ppc.</div></blockquote></div><br>I&#39;ve verified that with binutils 2.26 =
-on x86-64, a minimal test case for an executable using a version script to =
-limit exported symbols to dlopen()d modules does in fact work.=C2=A0 A tool=
-chain is building now to see what happens in different environments.</div><=
-div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></=
-div>
+This does not fix the case for folks who<br>
+use gold as default linker, however it<br>
+does make bintuls 2.27 work with default<br>
+configuration of OE</div></blockquote></div><br>Presumably this is blocked =
+by the binutils upgrade and should be merged with it and not beforehand?</d=
+iv><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</di=
+v></div>
 
---001a11446942e66d310539979a8e--
+--001a113eccbceab411053997bcfa--
