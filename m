@@ -1,45 +1,53 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f67.google.com (mail-pa0-f67.google.com
-	[209.85.220.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 19203771CF
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Aug 2016 22:51:08 +0000 (UTC)
-Received: by mail-pa0-f67.google.com with SMTP id cf3so24609149pad.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Aug 2016 15:51:09 -0700 (PDT)
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id A451F771B2;
+	Mon,  8 Aug 2016 23:05:59 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id y134so25764605pfg.3;
+	Mon, 08 Aug 2016 16:06:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=Wwz1GNQr7pil3nIPyuHbGU6HGUW4suG3hYKw43eh5JE=;
-	b=Y5VfqutcmXO/djZl6K2y3NGPuJ7WHfOfjf/v6M5Bq4SB74g80YfoxL+zT8vRAsedZg
-	a+pod1Tz7vcEhvOgSRQaKgZDLuk/F98DOO4xuXUrXMtFNgwSCyKzKEX4sYchj8Q8Ega4
-	BnDaOjmhUuLQm7+n1ZEf5F5CdDsKMuC+4ZziDmdn/shEelsj/e3N8retasySyBxco9lt
-	px0yRHmy4jiC4J+8MifQNGacDvAD8TXj0vXa7SOD+sJpULMqICVXGpEyvwta7FbuBZ1W
-	idWWaweiZFSOz5qHwtISpq7X1AtARxodGEd/JlDw0EKZPiO8XhD953jnEq+bOBTWLyO2
-	m5gw==
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=/b3TYUqYqV7CgKvFrtkoDbTyuGGm7GZbj/M9KbsPgAg=;
+	b=G/XziXZewuzmSjSB1Hth9BZa31Lq8GWuqoJR1ErkeuHpTJh9eZ1renB6qH+EMjToYF
+	PUxkH340/qqNt+o45yM9hHBfx91cAAiZjBPuFseS+KgB7xTjqn7Um7/qgB+qeuMWetNd
+	HeE4z7MfJo77B+msAD26X9+ZJZU+wN6Cle1EdvsdivGa7StTTJbTa5V/IDYMgqRTW4xe
+	mvf1BjKHmZ8J9r7ByQj5OnoYZBu+P7+Hx7d8jIWn44dkVqosrx21TP5IlZrwEIO7scUJ
+	zN+Al0pNI1F9iujcErN25wQWbT6aNVXaAGFfhvu33flBKdoTk+X3eukbmZ6Gcepnx3+h
+	QOuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Wwz1GNQr7pil3nIPyuHbGU6HGUW4suG3hYKw43eh5JE=;
-	b=PNbfmqixDwNlqc9qlCpYg3prnCDaoM7pI/nRXPqn1Wu5AS8uYvuCZ9VqLeElQjyEKB
-	OcFSpB7RzMsD+ev17+9mZW0kerV3OKNsonVW+CzgnLsf83f4wsgHt7bjC1TgRDyMKd+x
-	OXHgmHkoNAFlvhTrnk7euvItMSSs1mQPK5eUhJge/YwcKt7FmvWaEDvMZ1i+Nlnzla7h
-	LDiRwxFo4cA3SlGUx1lfFk5Dq+e65//SYHgyE2H6cB6Tjd2+LZ82t5roGaCLddhKxyO9
-	Hbtycum0nXcZhok4FijJk1imoTs5yDpc9uM1h/XI2HRSMbh2NM0rCdZ/1B96HzU4R+w3
-	nU5A==
-X-Gm-Message-State: AEkoousnZ5aPkekYgUE5Z5qeiuoi2xLAAKdeSKZv0CaQHycx9BgxYvNgwpv4QUmCF2uTEg==
-X-Received: by 10.67.3.197 with SMTP id by5mr23488802pad.119.1470696669539;
-	Mon, 08 Aug 2016 15:51:09 -0700 (PDT)
-Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
-	[76.102.32.192])
-	by smtp.gmail.com with ESMTPSA id i7sm50695359paf.9.2016.08.08.15.51.08
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 08 Aug 2016 15:51:08 -0700 (PDT)
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=/b3TYUqYqV7CgKvFrtkoDbTyuGGm7GZbj/M9KbsPgAg=;
+	b=Tp7ugNiQT6mZxAdPnYwNneHmSyUAPjCq0HeVfWMkAEDvnbl2W7905cEU/TA+0oIgfb
+	QWiLpO8AsuOnnm40fKvxmAH8DsAszSOlBZnSlMkIcL96eupr4niGvyKyii3YaM9x7/4h
+	x4a+nefnrELPaWAfmDaSND0/Eu/21Neo1Eeg0BIpa8FNOr3rmEcqXsKKPerAK4Qf4/gF
+	eF0CZ6wl+CLOTZBORtXu9rs7i+2EfP4bu+iV6K39rZoKCAhwLRhqJA1XH4Qd85S+IvrX
+	y7RCGpxqPnyUnEona755XkyUL8X9gfHefU4M0n2zrM8fzKWuf4HGNc9F2IYfYSyxLAnD
+	uRFQ==
+X-Gm-Message-State: AEkoout4qfLJp8YO9g8OG14cQh/+q3+NQQFFFdE9/38i0WA4h94ylDPjx+ykrx9Nyqry2g==
+X-Received: by 10.98.77.70 with SMTP id a67mr164824177pfb.151.1470697560128;
+	Mon, 08 Aug 2016 16:06:00 -0700 (PDT)
+Received: from ?IPv6:2601:646:8882:b8c:8833:ac66:d76e:6708?
+	([2601:646:8882:b8c:8833:ac66:d76e:6708])
+	by smtp.gmail.com with ESMTPSA id
+	81sm50530787pfm.90.2016.08.08.16.05.59
+	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 08 Aug 2016 16:05:59 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Pgp-Agent: GPGMail
 From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  8 Aug 2016 15:51:00 -0700
-Message-Id: <20160808225101.32385-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.9.2
-Subject: [PATCH 1/2] webkitgtk: Disable gold for mips/mips64
+In-Reply-To: <1470637705.8166.29.camel@linuxfoundation.org>
+Date: Mon, 8 Aug 2016 16:06:35 -0700
+Message-Id: <63866A53-6AA3-417A-9F72-F98288B55039@gmail.com>
+References: <CC61EFE1-5F39-4848-AD71-8E9C8DEC43C8@gmail.com>
+	<1470637705.8166.29.camel@linuxfoundation.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Mailer: Apple Mail (2.3124)
+Cc: Yocto Discussion Mailing List <yocto@yoctoproject.org>,
+	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFT] binutils 2.27
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,31 +60,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2016 22:51:14 -0000
+X-List-Received-Date: Mon, 08 Aug 2016 23:06:00 -0000
+X-Groupsio-MsgNum: 85524
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_4A7663E1-595A-4780-BEB7-95375E53D3CE";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-with binutils 2.27, mips has got the gold support
-but it doesnt work for webkitgtk _yet_ therefore
-disable it for now.
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-sato/webkit/webkitgtk_2.12.3.bb | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.12.3.bb b/meta/recipes-sato/webkit/webkitgtk_2.12.3.bb
-index f2ba8b6..d9f1c30 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.12.3.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.12.3.bb
-@@ -75,6 +75,8 @@ EXTRA_OECMAKE_append_armv4 = " -DENABLE_JIT=OFF "
- # binutils 2.25.1 has a bug on aarch64:
- # https://sourceware.org/bugzilla/show_bug.cgi?id=18430
- EXTRA_OECMAKE_append_aarch64 = " -DUSE_LD_GOLD=OFF "
-+EXTRA_OECMAKE_append_mips = " -DUSE_LD_GOLD=OFF "
-+EXTRA_OECMAKE_append_mips64 = " -DUSE_LD_GOLD=OFF "
- EXTRA_OECMAKE_append_toolchain-clang = " -DUSE_LD_GOLD=OFF "
- 
- # JIT not supported on MIPS either
--- 
-2.9.2
+--Apple-Mail=_4A7663E1-595A-4780-BEB7-95375E53D3CE
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
 
+> On Aug 7, 2016, at 11:28 PM, Richard Purdie =
+<richard.purdie@linuxfoundation.org> wrote:
+>=20
+> On Sun, 2016-08-07 at 01:39 -0700, Khem Raj wrote:
+>> I have put together upgrade for binutils 2.27 here ( kraj/master
+>> branch )
+>>=20
+>> https://github.com/kraj/openembedded-core/commit/b98f5761d2285ffd773e
+>> c6ecb901b799302ebd6b
+>>=20
+>> I have started bunch of test builds. but I would appreciate any help
+>> in testing it out in your
+>> environments and report any issues you see.
+>=20
+> I ran this through the autobuilder:
+>=20
+> bitbake world shows issues in libunwind (from gold?):
+>=20
+> =
+https://autobuilder.yoctoproject.org/main/builders/nightly-world/builds
+> /889/steps/BuildImages/logs/stdio
+>=20
+> bitbake world with no x11 also shows it:
+>=20
+> =
+https://autobuilder.yoctoproject.org/main/builders/nightly-no-x11/build
+> s/231/steps/BuildImages/logs/stdio
+>=20
+> Other than that, things don't seem too bad though.
+>=20
+
+
+I posted couple of patches for libunwind and webkitgtk recipes which =
+should take care of build issues.
+
+https://patchwork.openembedded.org/patch/128733/
+https://patchwork.openembedded.org/patch/128731/
+
+
+
+> Cheers,
+>=20
+> Richard
+>=20
+>=20
+
+
+--Apple-Mail=_4A7663E1-595A-4780-BEB7-95375E53D3CE
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlepEHsACgkQuwUzVZGdMxQGFACePa5a0wPcOYhMMieRfGfR8xim
+n3kAnizI0UZx+n0NzwXr4ce3xfRq8R1X
+=vAuy
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_4A7663E1-595A-4780-BEB7-95375E53D3CE--
