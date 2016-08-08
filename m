@@ -1,49 +1,62 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f46.google.com (mail-it0-f46.google.com
-	[209.85.214.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 9830A7716C
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ua0-f195.google.com (mail-ua0-f195.google.com
+	[209.85.217.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C3D97016E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Aug 2016 10:26:08 +0000 (UTC)
-Received: by mail-it0-f46.google.com with SMTP id x130so70281390ite.1
+	Mon,  8 Aug 2016 10:37:01 +0000 (UTC)
+Received: by mail-ua0-f195.google.com with SMTP id 109so4400733uat.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Aug 2016 03:26:09 -0700 (PDT)
+	Mon, 08 Aug 2016 03:37:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=k23leixPaPSxFOx8fMSSI4g5aZc3gusaLOado4Kj9Ws=;
-	b=pNqc0aS5FVnpQqwCCoL0TxI8tlr/Om2NJpsHIlHAocxtQgOQG1bJQ4xeC3WI2sW6Dl
-	TlnzOppb4jXvcgSorQxJv+0wHUE34VombCXZXSlvEIe5+oVQvxdaEEBRAC+f+RxmYVjJ
-	UxfDqSDVXMU7k4iv9yT7bEGBT8gzk/8CZQWSRIYHfPS6lqoO7ZDVej30XjWUmr/+6VED
-	5DTVJWCtR4JXPcLZYbG7u+XlINShU+YsbXC0m2eI2pm8DQLRlaoP7OaZ/RiTqB63erhB
-	PvQygSRoCIWbUqU+D7+mN3yuVBhq+lkgCHH+5tPUuJN1X+gUPeKIaYvPAPi4x3SQNqs9
-	fByg==
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=9L+Xzeli08UjnIW2WZAKcphrG3ErTGRLyZZShw+Gb5w=;
+	b=Ik7a0aquBtcoqeUe4+zZOfN7r+xz2+JqfQpWVMb3dhPQ9UZjmt6a0m2VCFJznEhW6J
+	9uVsGTuu4y1rcC6wek4OS36YjHPPfRzPQqZlK9+IiQkir8X+aO348JVDwriSwEkGQ3xb
+	tLgXIH6dLJbvuBbyNwLT1yQ2O7gFm1Gn6KHiQ8Dc12A2Ic9KD5FbpyR5KKq3ehDB4yZM
+	TymKBHBiqX9gN/FNrNFIWA8PnsQPPKihEQOYGkLnB+tRqdFDcWE5D6Dm9+5zWdxix/i4
+	suMLbXqqekFqzmp5sY2o52oWEERPQmWZ1TZkmlpsbMKnFLr253rBYiBpH2Jm2Y2ERWUm
+	wxbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc;
-	bh=k23leixPaPSxFOx8fMSSI4g5aZc3gusaLOado4Kj9Ws=;
-	b=iezJkBxVTTtUqPatrV3PqYLvqtDQOj9hmf6fl059XTZ6ph33rUs7GH0rRhaBqsu4SW
-	4R3Rn7bpmMa75+RsugNfvHnm8CwWZhFf+/IgJQddL46+EU9Jaj9piLu2U4JtQbDYp59m
-	FPantXGzcCqmRc8Zb1PeBrCqHApgWhwyEJErCFVgu/cvz6RgxLA+ATKxVyW5ZtDrZTKw
-	5BpYNdZlTxBWTTTuDl7BU1W3HHKqWlgTcNHFGGWz6WLkZIzS8dFtgo1+XypS4bqkMHth
-	R91bqTBtlxSC99xm/sZu5gC9rtRyi7+a58bF4LbuvvMZpOdnpyLSiTO3Beu3ill+zGTU
-	Uo0A==
-X-Gm-Message-State: AEkoout6IadXkFaCAixzA6Q1elwX3okwWN9aRB2gqtBN0wD5+1QNRqbfoVeky0wlT26IQKC6bBB1Pf/q6qLbbH2T
-X-Received: by 10.36.87.140 with SMTP id u134mr17742273ita.38.1470651968957;
-	Mon, 08 Aug 2016 03:26:08 -0700 (PDT)
+	bh=9L+Xzeli08UjnIW2WZAKcphrG3ErTGRLyZZShw+Gb5w=;
+	b=NdnQLC9lrB6aqkAEWxaGPty4VGJaraeOFi5DfZVfTVJ3XVL9HXsv4BfV9fN0oc8zOR
+	tI8HxECixaCAPgADLWZkiTPO9WKF+pK7vORsxDe6TG7fLE2/sCZHyofKlbDKHAwvW1x+
+	HmgQN4vOSihnbfWwWHKRjFryafRPB1hOqbm/WONHwr1zMfw3MOaj9TLWyuGoB25wV/bf
+	awEe/tiOBJ2Y55hVFYw9pPhRoiiMOHLxlyquEeW1/0DS8yJ7u/AA7Aml+kRY30I/QeYm
+	QO2weaZmts8gOwGnf1Er0opQZq7Tl3nDo1lEv3mTvRxgWjyWXzEu0xZ6ZIUjyBr4xHzw
+	STbg==
+X-Gm-Message-State: AEkoouukuxC+u0+DJjzxTZOugNrTuA+/lczip0Mu+uCePM6r9kozxw7rSyw0wo4fZq3VDA==
+X-Received: by 10.176.67.6 with SMTP id k6mr39072700uak.96.1470652621916;
+	Mon, 08 Aug 2016 03:37:01 -0700 (PDT)
+Received: from mail-ua0-f170.google.com (mail-ua0-f170.google.com.
+	[209.85.217.170])
+	by smtp.gmail.com with ESMTPSA id 72sm2574526uad.5.2016.08.08.03.36.58
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 08 Aug 2016 03:37:00 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-ua0-f170.google.com with SMTP id 35so246291410uap.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 08 Aug 2016 03:36:58 -0700 (PDT)
+X-Received: by 10.176.64.72 with SMTP id h66mr45665585uad.97.1470652617196;
+	Mon, 08 Aug 2016 03:36:57 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Mon, 8 Aug 2016 03:25:48 -0700 (PDT)
-In-Reply-To: <CABMQnVLd=-S__w==bheAeTwg_hkdy47F8=b+w0h0ZB7L65qNZw@mail.gmail.com>
-References: <1470581318-33390-1-git-send-email-iwamatsu@debian.org>
-	<1470604793.8166.21.camel@linuxfoundation.org>
-	<CABMQnVLd=-S__w==bheAeTwg_hkdy47F8=b+w0h0ZB7L65qNZw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 8 Aug 2016 11:25:48 +0100
-Message-ID: <CAJTo0LbugaY9L8YZ8ZOooZMYiPy_51fxAe7DTc6j+=1YVtEKjQ@mail.gmail.com>
-To: Nobuhiro Iwamatsu <iwamatsu@debian.org>
-Cc: "openembedded-core@lists.openembedded.org"
+Received: by 10.31.138.78 with HTTP; Mon, 8 Aug 2016 03:36:56 -0700 (PDT)
+In-Reply-To: <917684eb0fc505f6b575ac815188baa7f685cdaf.1470643735.git.maciej.borzecki@rndity.com>
+References: <917684eb0fc505f6b575ac815188baa7f685cdaf.1470643735.git.maciej.borzecki@rndity.com>
+Date: Mon, 8 Aug 2016 07:36:56 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKohXDNzKeWrkcAC7yT5AKJYqCvFBcXkJx0dD7OwO5bcTA@mail.gmail.com>
+Message-ID: <CAP9ODKohXDNzKeWrkcAC7yT5AKJYqCvFBcXkJx0dD7OwO5bcTA@mail.gmail.com>
+To: Maciej Borzecki <maciej.borzecki@rndity.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mmc-utils: update to latest git revision
+Subject: Re: [PATCH] ca-certificates: remove -- separator
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,43 +69,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2016 10:26:11 -0000
-Content-Type: multipart/alternative; boundary=001a1135018c32f86505398cd878
-
---001a1135018c32f86505398cd878
+X-List-Received-Date: Mon, 08 Aug 2016 10:37:02 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 8 August 2016 at 11:09, Nobuhiro Iwamatsu <iwamatsu@debian.org> wrote:
-
-> mmc-utils will change the revision of Git in version 0.1. We are using
-> the now of any revision in PV,
-> we do not know from version of package.
-> Because I want to be seen that this revision from the package, I has
-> been added SRCPV to PV.
+On Mon, Aug 8, 2016 at 5:11 AM, Maciej Borzecki
+<maciej.borzecki@rndity.com> wrote:
+> Options and directory separator -- slipped past the patch removing
+> Debianims, thus resulting in failures on hosts running Fedora.
 >
+> Signed-off-by: Maciej Borzecki <maciej.borzecki@rndity.com>
 
-The question was why should we build an arbitrary git snapshot instead of a
-tested release?
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
-Ross
+Also, this should be backported for Krogoth no?
 
---001a1135018c32f86505398cd878
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 8 August 2016 at 11:09, Nobuhiro Iwamatsu <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:iwamatsu@debian.org" target=3D"_blank">iwamatsu@debian.org</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1pr" class=
-=3D"a3s aXjCH m15669a2b8bdbc072">mmc-utils will change the revision of Git =
-in version 0.1. We are using<br>
-the now of any revision in PV,<br>
-we do not know from version of package.<br>
-Because I want to be seen that this revision from the package, I has<br>
-been added SRCPV to PV.</div></blockquote></div><br>The question was why sh=
-ould we build an arbitrary git snapshot instead of a tested release?</div><=
-div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></=
-div>
-
---001a1135018c32f86505398cd878--
