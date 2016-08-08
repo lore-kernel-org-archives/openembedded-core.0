@@ -1,21 +1,28 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 39E94771C5
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D919771C5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Aug 2016 20:41:24 +0000 (UTC)
+	Mon,  8 Aug 2016 20:45:56 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 08 Aug 2016 13:41:25 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 08 Aug 2016 13:45:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,491,1464678000"; d="scan'208";a="1031974587"
-Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.36])
-	by orsmga002.jf.intel.com with ESMTP; 08 Aug 2016 13:41:23 -0700
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.28,491,1464678000"; d="scan'208";a="1031976814"
+Received: from kwang27-mobl8.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.179.174])
+	by orsmga002.jf.intel.com with ESMTP; 08 Aug 2016 13:45:53 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  8 Aug 2016 15:41:28 -0500
-Message-Id: <1470688888-15751-1-git-send-email-anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
+Date: Tue, 09 Aug 2016 08:45:51 +1200
+Message-ID: <4180524.BjivrXu0U0@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.6.4-201.fc23.x86_64; KDE/4.14.20; x86_64; ;
+	)
+In-Reply-To: <1470643460.8166.35.camel@linuxfoundation.org>
+References: <cover.1470627445.git.brian.avery@intel.com>
+	<db8cc8ef-f243-a2b2-93ed-cd85c8917bce@gmail.com>
+	<1470643460.8166.35.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH] oeqa: start() add remaining args SimpleRemoteTarget and QemuTinyRunner
+Subject: Re: [PATCH 1/2] packagegroup-core-eclipse-debug: add openssh server to support openssh-sftp-server
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,62 +35,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2016 20:41:25 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 08 Aug 2016 20:45:59 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Now Runner's support extra_bootargs for the kernel so add
-extra_bootparams to the start() methods to avoid exception.
+On Mon, 08 Aug 2016 09:04:20 Richard Purdie wrote:
+> On Mon, 2016-08-08 at 08:27 +0200, Jacob Kroon wrote:
+> > On 08/08/2016 05:43 AM, bavery wrote:
+> > > The openssh-sftp-server was already part of the pakagegroup. Adding
+> > > the openssh-server
+> > > lets the sftp server start up correctly.
+> > 
+> > If openssh-sftp-server cannot run without openssh, shouldn't it
+> > RDEPEND
+> > on it instead ?
+> 
+> I suspect you are right and that it needs an RDEPENDS if it doesn't
+> work without it. It also needs a comment explaining the dependency so
+> someone doesn't remove it.
 
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
----
- meta/lib/oeqa/targetcontrol.py        | 4 ++--
- meta/lib/oeqa/utils/qemutinyrunner.py | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+Using openssh-sftp-server with dropbear used to work, so it would be 
+interesting to know when it broke and if it's possible to fix it.
 
-diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
-index d3b49b7..768c463 100644
---- a/meta/lib/oeqa/targetcontrol.py
-+++ b/meta/lib/oeqa/targetcontrol.py
-@@ -66,7 +66,7 @@ class BaseTarget(object, metaclass=ABCMeta):
-         bb.note("SSH log file: %s" %  self.sshlog)
- 
-     @abstractmethod
--    def start(self, params=None, ssh=True):
-+    def start(self, params=None, ssh=True, extra_bootparams=None):
-         pass
- 
-     @abstractmethod
-@@ -230,7 +230,7 @@ class SimpleRemoteTarget(BaseTarget):
-     def deploy(self):
-         super(SimpleRemoteTarget, self).deploy()
- 
--    def start(self, params=None, ssh=True):
-+    def start(self, params=None, ssh=True, extra_bootparams=None):
-         if ssh:
-             self.connection = SSHControl(self.ip, logfile=self.sshlog, port=self.port)
- 
-diff --git a/meta/lib/oeqa/utils/qemutinyrunner.py b/meta/lib/oeqa/utils/qemutinyrunner.py
-index c823157..7f7489d 100644
---- a/meta/lib/oeqa/utils/qemutinyrunner.py
-+++ b/meta/lib/oeqa/utils/qemutinyrunner.py
-@@ -60,7 +60,7 @@ class QemuTinyRunner(QemuRunner):
-             with open(self.logfile, "a") as f:
-                 f.write("%s" % msg)
- 
--    def start(self, qemuparams = None):
-+    def start(self, qemuparams = None, ssh=True, extra_bootparams=None):
- 
-         if self.display:
-             os.environ["DISPLAY"] = self.display
-@@ -167,4 +167,4 @@ class QemuTinyRunner(QemuRunner):
-             basecmd = commands[p].split()[0]
-             basecmd = os.path.basename(basecmd)
-             if "qemu-system" in basecmd and "-serial unix" in commands[p]:
--                return [int(p),commands[p]]
-\ No newline at end of file
-+                return [int(p),commands[p]]
+Cheers,
+Paul
+
 -- 
-2.1.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
