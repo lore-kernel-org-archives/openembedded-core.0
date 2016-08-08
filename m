@@ -1,48 +1,45 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f66.google.com (mail-pa0-f66.google.com
-	[209.85.220.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 60DFA771CF
+Received: from mail-pa0-f67.google.com (mail-pa0-f67.google.com
+	[209.85.220.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 19203771CF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Aug 2016 22:51:09 +0000 (UTC)
-Received: by mail-pa0-f66.google.com with SMTP id ez1so24688299pab.3
+	Mon,  8 Aug 2016 22:51:08 +0000 (UTC)
+Received: by mail-pa0-f67.google.com with SMTP id cf3so24609149pad.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Aug 2016 15:51:10 -0700 (PDT)
+	Mon, 08 Aug 2016 15:51:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Q92SJU53lSg7cFoQG7futFxaxkVjvtrLW4tsh40gUYw=;
-	b=ZNFcznrrAUH6D50JlQif9RpDZpQXaOZmwiIRLES/renp1YGmJpsaARrDOD6vPAWJnY
-	nNkwffui54OrG8PqLBIHopoBG7E2kjNzJeauVX5pW0DMHqR/xKt4r6tnYb1FO/a0z9Ke
-	Fm9qJNfsP7QtO5sfzkZPBDm+k7Xjmx+Tw/EK826p2Eb/rTq5ldyvJnvdXXHzSuXQcBIW
-	eMFT7lCHQeyAUz38Q9Clyj2Kb6CyhcxG075Fywem4bkiVWDaeeu8qS9DNzc7oalZ98yY
-	JhZoy4AewATyXGkfBZePabo7hfS9mk5IY0Ams49A8sA9mR55MaIU+NebjSG/UZLqMcYZ
-	eNjQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=Wwz1GNQr7pil3nIPyuHbGU6HGUW4suG3hYKw43eh5JE=;
+	b=Y5VfqutcmXO/djZl6K2y3NGPuJ7WHfOfjf/v6M5Bq4SB74g80YfoxL+zT8vRAsedZg
+	a+pod1Tz7vcEhvOgSRQaKgZDLuk/F98DOO4xuXUrXMtFNgwSCyKzKEX4sYchj8Q8Ega4
+	BnDaOjmhUuLQm7+n1ZEf5F5CdDsKMuC+4ZziDmdn/shEelsj/e3N8retasySyBxco9lt
+	px0yRHmy4jiC4J+8MifQNGacDvAD8TXj0vXa7SOD+sJpULMqICVXGpEyvwta7FbuBZ1W
+	idWWaweiZFSOz5qHwtISpq7X1AtARxodGEd/JlDw0EKZPiO8XhD953jnEq+bOBTWLyO2
+	m5gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=Q92SJU53lSg7cFoQG7futFxaxkVjvtrLW4tsh40gUYw=;
-	b=NLBkeg+uMxFJWTp25QqLyUGzp7xa9SwZ+D0+RgIk0jprKWXSr3AfIv0KMyWRH/ipYH
-	349ZZ+Fg6t8dW5h8xaLFO85hnRsG9B0ksjB++H1DNb096orO1ubxR0dCp/QXTOTi3Guq
-	tHlr4UILkv4xtnlhegV7JmV4hyGoQ+/9xHGyf6osm8Omql43OY36zYPALvWp63+H0kLw
-	BtqciFkFOM8QcaQCeO0zIWbRThPcSwYaf8bNEF1AljpAbQdz/6iI/mtRPs8H78UMWrLS
-	PHo8kHj1ECJtGizaAzYUf2pQrSkskL+VBPExESx9vZq3+8kk/TH3AKNN/9uYoN/aXNnc
-	wACg==
-X-Gm-Message-State: AEkoousHL/vWlOSdJm5o3saJw1qHilsX+ST4ys3+R5tdP6JQ4XBMW8lk5N/skfAbFUUplA==
-X-Received: by 10.66.90.225 with SMTP id bz1mr9280574pab.80.1470696670318;
-	Mon, 08 Aug 2016 15:51:10 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Wwz1GNQr7pil3nIPyuHbGU6HGUW4suG3hYKw43eh5JE=;
+	b=PNbfmqixDwNlqc9qlCpYg3prnCDaoM7pI/nRXPqn1Wu5AS8uYvuCZ9VqLeElQjyEKB
+	OcFSpB7RzMsD+ev17+9mZW0kerV3OKNsonVW+CzgnLsf83f4wsgHt7bjC1TgRDyMKd+x
+	OXHgmHkoNAFlvhTrnk7euvItMSSs1mQPK5eUhJge/YwcKt7FmvWaEDvMZ1i+Nlnzla7h
+	LDiRwxFo4cA3SlGUx1lfFk5Dq+e65//SYHgyE2H6cB6Tjd2+LZ82t5roGaCLddhKxyO9
+	Hbtycum0nXcZhok4FijJk1imoTs5yDpc9uM1h/XI2HRSMbh2NM0rCdZ/1B96HzU4R+w3
+	nU5A==
+X-Gm-Message-State: AEkoousnZ5aPkekYgUE5Z5qeiuoi2xLAAKdeSKZv0CaQHycx9BgxYvNgwpv4QUmCF2uTEg==
+X-Received: by 10.67.3.197 with SMTP id by5mr23488802pad.119.1470696669539;
+	Mon, 08 Aug 2016 15:51:09 -0700 (PDT)
 Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
 	[76.102.32.192])
-	by smtp.gmail.com with ESMTPSA id i7sm50695359paf.9.2016.08.08.15.51.09
+	by smtp.gmail.com with ESMTPSA id i7sm50695359paf.9.2016.08.08.15.51.08
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 08 Aug 2016 15:51:09 -0700 (PDT)
+	Mon, 08 Aug 2016 15:51:08 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  8 Aug 2016 15:51:01 -0700
-Message-Id: <20160808225101.32385-2-raj.khem@gmail.com>
+Date: Mon,  8 Aug 2016 15:51:00 -0700
+Message-Id: <20160808225101.32385-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.9.2
-In-Reply-To: <20160808225101.32385-1-raj.khem@gmail.com>
-References: <20160808225101.32385-1-raj.khem@gmail.com>
-Subject: [PATCH 2/2] libunwind: Do not use gold for linking
+Subject: [PATCH 1/2] webkitgtk: Disable gold for mips/mips64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,45 +52,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2016 22:51:13 -0000
+X-List-Received-Date: Mon, 08 Aug 2016 22:51:14 -0000
 
-This effectively reverts the commit
-3dd233ac0c80393824100c54bb525236f8290fd2
-
-gold now emits errors on copy relocs against
-protected symbols what ld.bfd did in past, however
-it seems its too conservative.
-
-This does not fix the case for folks who
-use gold as default linker, however it
-does make bintuls 2.27 work with default
-configuration of OE
+with binutils 2.27, mips has got the gold support
+but it doesnt work for webkitgtk _yet_ therefore
+disable it for now.
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-support/libunwind/libunwind.inc | 9 ---------
- 1 file changed, 9 deletions(-)
+ meta/recipes-sato/webkit/webkitgtk_2.12.3.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-support/libunwind/libunwind.inc b/meta/recipes-support/libunwind/libunwind.inc
-index 1c342d3..e4ae8df 100644
---- a/meta/recipes-support/libunwind/libunwind.inc
-+++ b/meta/recipes-support/libunwind/libunwind.inc
-@@ -18,15 +18,6 @@ ATOMICOPS_armv5 = "-DAO_USE_PTHREAD_DEFS=1"
- ATOMICOPS_armv4 = "-DAO_USE_PTHREAD_DEFS=1"
- ATOMICOPS ?= ""
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.12.3.bb b/meta/recipes-sato/webkit/webkitgtk_2.12.3.bb
+index f2ba8b6..d9f1c30 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.12.3.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.12.3.bb
+@@ -75,6 +75,8 @@ EXTRA_OECMAKE_append_armv4 = " -DENABLE_JIT=OFF "
+ # binutils 2.25.1 has a bug on aarch64:
+ # https://sourceware.org/bugzilla/show_bug.cgi?id=18430
+ EXTRA_OECMAKE_append_aarch64 = " -DUSE_LD_GOLD=OFF "
++EXTRA_OECMAKE_append_mips = " -DUSE_LD_GOLD=OFF "
++EXTRA_OECMAKE_append_mips64 = " -DUSE_LD_GOLD=OFF "
+ EXTRA_OECMAKE_append_toolchain-clang = " -DUSE_LD_GOLD=OFF "
  
--LDFLAGS_append_x86 = " -fuse-ld=gold"
--LDFLAGS_append_x86-64 = " -fuse-ld=gold"
--
--LDFLAGS_append_arm = " -fuse-ld=gold"
--LDFLAGS_append_aarch64 = " -fuse-ld=gold"
--
--LDFLAGS_append_powerpc = " -fuse-ld=gold -mbss-plt"
--LDFLAGS_append_powerpc64 = " -fuse-ld=gold -mbss-plt"
--
- SECURITY_LDFLAGS_append_libc-musl = " -lssp_nonshared -lssp"
- 
- BBCLASSEXTEND = "native"
+ # JIT not supported on MIPS either
 -- 
 2.9.2
 
