@@ -1,47 +1,53 @@
 Return-Path: <george.mccollister@gmail.com>
-Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
-	[209.85.218.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E7D29771A6
+Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
+	[209.85.218.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C116771B1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Aug 2016 16:38:57 +0000 (UTC)
-Received: by mail-oi0-f65.google.com with SMTP id t127so2358767oie.1
+	Mon,  8 Aug 2016 16:38:58 +0000 (UTC)
+Received: by mail-oi0-f67.google.com with SMTP id w143so35377747oiw.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Aug 2016 09:38:58 -0700 (PDT)
+	Mon, 08 Aug 2016 09:38:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=0m4nhDxb8JhXZHR1FJ0VcckK2NzAEogTnUOqZR+DhXw=;
-	b=LR08rG1cEAW2rtUKPzjCJlXJCA93+vxgDp0YsW6v5RMjJ78RCM4k6huug52ZyjjmyP
-	jpQH+9LCxCsbs2bs/eYaTE+7Gxt8Yc2v22EhSH/7UBG9LKLnKjyTSkGs/ecEP5UEcaA8
-	wAFsKpM/KulzHV0Rhjh9ndbBxRlktdHYvFihMD2tmDMtLLJv3Tap1xdQ41Zg68GOXBLR
-	QrUuaDWWWT0lMIW5vNgqejXaMFRWN5dySAaXWrt4q91zgCIFxeDPhppJ2xKpjKG6YS5f
-	C3HpzGP+kPnG49lE6ED4Tw53xQrMeTHwG0YgvPDehztpwQwQ8Csf7d/8z89epkRtqSL2
-	P3uA==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:in-reply-to:references;
+	bh=Gragqw5jOGsw9MxWqHZtKAvgFjgVPvwgag6zQfjZfyY=;
+	b=0YWtJ2VD30QpxyPdHL/lxBbiKAj6w3+a5aRI1+BZad8Sl9F1Fa9UaqhWHJYJT8DiI6
+	nt4kFyqMgEg0pASKgeLhlchZH8H21eWuVw6ukfTklNY0n6eB3sKM3nVxeJlZrqspd75c
+	ptLGD2WbUwU84Jha4m3BAP0hJzyn69qWdz0o5ibE7VBFU/OI/t7hAWZXVrPL7i16dgf0
+	VTyqlDfGR+hCKICmGziaIMNc8K5EYuZQbx/qtPWy2H6QKI9FzC4N/z9BZILDqWPvKk8n
+	4U6VLRl3k1MxBN8XJ0bKiyrsdDLkoywdp/UFuZLT5CqCo8hRnFxCYebsRxIIL3omerf4
+	9S6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=0m4nhDxb8JhXZHR1FJ0VcckK2NzAEogTnUOqZR+DhXw=;
-	b=kyRAidcWMFv/LH60Y1uYrFe+/jLGmj0YvAgfDk3YVuCzgUGgYqbvY11/t9NpY+AdUq
-	8AiLXs2uVjKaHKEA+kA6MUpdQ5b5OjEK1XQsEETj4h12M9ZPnOS6UNh9pS8VEHiVCY8e
-	a6ySHpvQFkUzQdhTeJv4G3erD0mrWCUkJMuw/S0Ae1iml3P5kA0Xg9xdhTh8+rPuH9eW
-	T7ehBverBln0SloMqlrkp0dv3PwDKLFjnXxiNAdCeYSoAXghZtrkuGUxUr73wKToC1Ql
-	9S9xNNFVjObg0ZQavguiREObm/57cEHBmd9Ebq9CZ7R4ADxR0H8BLrh4UuVHxWm6lSyF
-	MiBg==
-X-Gm-Message-State: AEkooutjCEfeJd3jozvsKTJqyL2b1xcAmll8V+ZcC8BSf7/utxI/cvojFTOvncL75orgZA==
-X-Received: by 10.157.11.93 with SMTP id p29mr1408732otd.57.1470674338148;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:in-reply-to:references;
+	bh=Gragqw5jOGsw9MxWqHZtKAvgFjgVPvwgag6zQfjZfyY=;
+	b=cKMjcC4JzdVk5tWMnggmUzLCZkq6EsXo4CCWNhp5bEIZ1jnFdmPoLvpjZN95YR87Nv
+	Iihz6rQSc4yZEoXL8ae6dE3tX0b3/AUMYx+lBKtQWEtEShA/yNCeGWhs9k6wtVvp783+
+	DjkkmzHeQgvzsfHyECkGgNAbDly+PWf3yvEcSbfMLjdQKIcUh82SH9QsYt6kL0LL0Xly
+	nGO+JXZwNvHK0Sb1mmFyk60Tczsl2RPtmNaMPAbL2G/x8X9F5K52gRqsfHZw8HrAglEp
+	ZEIYiKyw6mvalFa/Q1yKo1owRtwmuhuEhAot41yEGEbA1SbUvTZhX1VO/g/i5lljjB9J
+	yS1A==
+X-Gm-Message-State: AEkooutSJ8GM3j1EJ+rIoWL9XS8Af/h1SmRhT3vx4iOtVfezcLZURUSkQmgMTOfjFCfmxA==
+X-Received: by 10.157.2.10 with SMTP id 10mr6499811otb.11.1470674338936;
 	Mon, 08 Aug 2016 09:38:58 -0700 (PDT)
 Received: from localhost.localdomain (216-21-169-52.slc.googlefiber.net.
 	[216.21.169.52]) by smtp.gmail.com with ESMTPSA id
-	e195sm12516486oic.21.2016.08.08.09.38.57
+	e195sm12516486oic.21.2016.08.08.09.38.58
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 08 Aug 2016 09:38:57 -0700 (PDT)
+	Mon, 08 Aug 2016 09:38:58 -0700 (PDT)
 From: George McCollister <george.mccollister@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  8 Aug 2016 11:37:52 -0500
-Message-Id: <cover.1470672689.git.george.mccollister@gmail.com>
+Date: Mon,  8 Aug 2016 11:37:53 -0500
+Message-Id: <da75f7dd900ec6188699011a2d49ca8afbaffefb.1470672689.git.george.mccollister@gmail.com>
 X-Mailer: git-send-email 2.8.0
+In-Reply-To: <cover.1470672689.git.george.mccollister@gmail.com>
+References: <cover.1470672689.git.george.mccollister@gmail.com>
+In-Reply-To: <cover.1470672689.git.george.mccollister@gmail.com>
+References: <cover.1470672689.git.george.mccollister@gmail.com>
 Cc: marex@denx.de, trini@konsulko.com, andrew.bradford@kodakalaris.com,
 	denys@ti.com
-Subject: [PATCH v2 0/5] kernel-fitimage: Add initramfs, x86 support
+Subject: [PATCH 1/5] kernel-fitimage.bbclass: do_assemble_fitimage(): cd to $B
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,39 +62,37 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 08 Aug 2016 16:38:58 -0000
 
-Add support for building fitImages that include an initramfs and booting
-on x86.
+From: Andrew Bradford <andrew.bradford@kodakalaris.com>
 
-* V2
- - Include Andrew Bradford's cd to $B patch since it is now required for
-   do_assemble_fitimage to work
- - Fix initramfs support patch to cd to $B in do_assemble_fitimage_initramfs
- - Remove ${B} in call to fitimage_emit_section_ramdisk per
-   Denys Dmytriyenko's suggestion
- - Add patch to cd to $B in do_concat_dtb()
+Prior to assembling the fitimage, ensure that $B is the cwd due to
+bitbake commit 67a7b8b021badc17d8fdf447c250e79d291e75f7 "build: don't
+use $B as the default cwd for functions".
 
-The following changes since commit c4dda05cb9755cb865c1d1bd142196f8a9f45d3d:
+Without this change, do_assemble_fitimage() fails like:
 
-  Revert "packagegroup-core-x11-base.bb: replace pointercal with pointercal-xinput" (2016-08-04 20:54:57 +0100)
+Log data follows:
+| DEBUG: Executing shell function do_assemble_fitimage
+| arm-ka-linux-gnueabi-objcopy: 'vmlinux': No such file
+| WARNING: exit code 1 from a shell command.
+| ERROR: Function failed: do_assemble_fitimage
 
-are available in the git repository at:
+Signed-off-by: Andrew Bradford <andrew.bradford@kodakalaris.com>
+---
+ meta/classes/kernel-fitimage.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-  git://github.com/gmccollister/openembedded-core master-fit
-  https://github.com/gmccollister/openembedded-core/tree/master-fit
-
-Andrew Bradford (1):
-  kernel-fitimage.bbclass: do_assemble_fitimage(): cd to $B
-
-George McCollister (4):
-  kernel-fitimage: add initramfs support
-  kernel-fitimage: Add x86 support
-  uboot-sign: Handle .rom signing the same as .img
-  uboot-sign: do_concat_dtb(): cd to $B
-
- meta/classes/kernel-fitimage.bbclass | 346 +++++++++++++++++++++++++----------
- meta/classes/uboot-sign.bbclass      |   4 +-
- 2 files changed, 249 insertions(+), 101 deletions(-)
-
+diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+index 9a3caf5..7cca180 100644
+--- a/meta/classes/kernel-fitimage.bbclass
++++ b/meta/classes/kernel-fitimage.bbclass
+@@ -189,6 +189,7 @@ EOF
+ }
+ 
+ do_assemble_fitimage() {
++	cd ${B}
+ 	if echo ${KERNEL_IMAGETYPES} | grep -wq "fitImage"; then
+ 		kernelcount=1
+ 		dtbcount=""
 -- 
 2.8.0
 
