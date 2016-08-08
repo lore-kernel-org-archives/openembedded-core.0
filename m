@@ -1,49 +1,57 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-it0-f68.google.com (mail-it0-f68.google.com
-	[209.85.214.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 419D377188
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Aug 2016 14:12:44 +0000 (UTC)
-Received: by mail-it0-f68.google.com with SMTP id f6so6230133ith.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Aug 2016 07:12:46 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 43C62731CB;
+	Mon,  8 Aug 2016 15:21:04 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id g202so25254391pfb.1;
+	Mon, 08 Aug 2016 08:21:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=mzKxcyObYFLPH8u3beIHhXZZ3qXKap9oZQvLApMs8jI=;
-	b=a5lPQm4EJ4JU5BAWW4Hu7S2i+wX1ujGnVWa2Meo7izNMtT33lXFKqld0hyo/8gP+9Q
-	qYdDQJE2eVUl+rmSnylK5rO86IqX1Vn9slJnHQWMmivKL8Rexh3MwAUlsPVpuq/hx+bN
-	PviavFAqzzRlVR7oxC5pSgWZMIGa2K+9eQD3gXW6Rc1dd4vVN5WGglcibuBjnLExBzZC
-	2HISjwBfzt0Z1T1y70POjIDwN4ctRvuMMdkVaf09vEyAFBzy69fJtnsdxpr//LBT3Q/z
-	JieD7VSmxyeqhVV7VhXuG/3CB2BJdJtr4gyHRYJD+3Umo48p6Osh7RUNy9BKDhI9eJcv
-	ZmTw==
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=ljOUMyw3w+Pn8CAqlTkTpeS5VuJMm7JZMe3oQBsPvZM=;
+	b=aUBrqz41/ZMrOiO7nU2tJort5pr9lCS2FvUVQKHWtfaOjsqyokzeh1TrBlZVGzNMWL
+	xtLLiWuRowUB3JafIa6ntGqVAaVHQnIfdSwFm/vafETk8DNU0tJheMpHHg15bmNBBDT0
+	0PRBU6fd8Eg+pgErW0BPQk7VPhkYAwIKN7a9yiy+9SlE2u1VsAAyXNlxwt4t+fMOhBQg
+	CN8JZokoXge1HX+nWdrYTiSxM072y73gBSKDh0Vm3giD0rkOAs/6cQ3SkyFAzEMkKBC1
+	QGYEYAJv9WBnpVjeJv9T+t54UhiiUkBwc3oI8yAJSObjf0maoiFbdgP7xyigsCqDVqPu
+	VAMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=mzKxcyObYFLPH8u3beIHhXZZ3qXKap9oZQvLApMs8jI=;
-	b=df3ZXthIAhBrtEyzpaO0Buk0HhS5qqki6ikCwz7Tyd4qrPnYZwFyG8859Yg/0eOrTW
-	PGjz8Rlu3UlnSEXhAFY0RvWcq5zwq1KvAEl+//qvWbrjefDnd6lq+C0c7mWNEeRHU/US
-	tpWK5944MPjOa2gA8vTkl7X643QnfkCBNcY0chiCGplUCAT15fzOLQolEgKkH+jSbJ2T
-	OHgeNudPjUCgN949HBkqt1O/cdKn7XbRt+1moZT89bQ20Q/uto6Qh52L1de1lDeRVzlQ
-	qvbWU9MPdMjXvhrvYjtBrPzXaL0Jiu2jMoawYnqnfo1xwIAFhaaJqze0pSGbNfIN4Zdq
-	iaQg==
-X-Gm-Message-State: AEkoousVgOoomZlhL1BolUY+SLwM2NRB0ERJBoXdxI8cds0aHEAvn4vzWPEslo9/WcLO8kbRDqxp+rZyY8T59g==
-X-Received: by 10.36.77.145 with SMTP id l139mr18738754itb.19.1470665565484;
-	Mon, 08 Aug 2016 07:12:45 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.79.21.197 with HTTP; Mon, 8 Aug 2016 07:12:25 -0700 (PDT)
-In-Reply-To: <1470663448-5191-1-git-send-email-ejo@pengutronix.de>
-References: <1470663448-5191-1-git-send-email-ejo@pengutronix.de>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Mon, 8 Aug 2016 07:12:25 -0700
-X-Google-Sender-Auth: I8lagODrOFwDmn-MYo4TNE3GRr8
-Message-ID: <CABcZANmAHYLCFWAZ4PTbocpnivgBMAOXbeNde2wFCx+ZDxGWOg@mail.gmail.com>
-To: Enrico Jorns <ejo@pengutronix.de>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd: fix useradd parameter generation
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=ljOUMyw3w+Pn8CAqlTkTpeS5VuJMm7JZMe3oQBsPvZM=;
+	b=GSnDKbX2dxs0PXHA0bj9Fg+2BVf7q/HIE8bvJq0CFrNEv0rDy+FqMljJwCj7CqMPI3
+	RUhpHSS2sVOolzirZoPvRsvpV0LSWIPfJDK/lj3/9AWDUA9rUfZaGKsQTj/KCiqLUaOS
+	sDXihkD4WgN7mnr2Et1un7OEn0kvqKg+FrW4j9WOURbuaXS5XpKYc3G/aCfDNxENb8zC
+	Y6YueE8A5U/o8YKeKOrIIM7xDV5HVuL1XT5iRpbhd3QzpZ5dZF+fZNOGMA5+MELzMvmE
+	Tlos2pQSrhKl1e/qscPzwmDwI/ZYZ7hF0bxl4CHwGbbBKfxmWiCRHWA8Plg1Xfic77uv
+	dZnw==
+X-Gm-Message-State: AEkooutAdQqJEsRbEqbXxnf8AiU6kI4R206qdbV8ajqIZB73NtBacFoFWJyJJvi8rr+qCQ==
+X-Received: by 10.98.79.27 with SMTP id d27mr163447748pfb.127.1470669665501;
+	Mon, 08 Aug 2016 08:21:05 -0700 (PDT)
+Received: from ?IPv6:2601:646:8882:b8c:ddaa:6f66:32b4:378?
+	([2601:646:8882:b8c:ddaa:6f66:32b4:378])
+	by smtp.gmail.com with ESMTPSA id 6sm39845373pab.11.2016.08.08.08.21.02
+	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 08 Aug 2016 08:21:02 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Pgp-Agent: GPGMail
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1470647765.4581.23.camel@andred.net>
+Date: Mon, 8 Aug 2016 08:21:32 -0700
+Message-Id: <ACB9AEF7-A7DF-4A88-9762-7569D91AD12D@gmail.com>
+References: <CC61EFE1-5F39-4848-AD71-8E9C8DEC43C8@gmail.com>
+	<1470637705.8166.29.camel@linuxfoundation.org>
+	<8C207C42-3D61-4C3F-A1DE-F305AA6617BA@gmail.com>
+	<1470644094.8166.37.camel@linuxfoundation.org>
+	<1470646210.8166.38.camel@rpsys.net>
+	<1470647765.4581.23.camel@andred.net>
+To: =?utf-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
+X-Mailer: Apple Mail (2.3124)
+Cc: Yocto Discussion Mailing List <yocto@yoctoproject.org>,
+	Richard Purdie <rpurdie@rpsys.net>,
+	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFT] binutils 2.27
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,82 +64,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2016 14:12:45 -0000
-Content-Type: multipart/alternative; boundary=001a1144d0429d3e1605399002c6
+X-List-Received-Date: Mon, 08 Aug 2016 15:21:06 -0000
+X-Groupsio-MsgNum: 85465
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_1D7B7889-4F56-4E84-B8CA-955F4BE9C89C";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---001a1144d0429d3e1605399002c6
-Content-Type: text/plain; charset=UTF-8
-
-On Mon, Aug 8, 2016 at 6:37 AM, Enrico Jorns <ejo@pengutronix.de> wrote:
-
-> Constructing the USERADD_PARAM_${PN} value with += (as done before)
-> resulted in having a whitespace added for each entry not having its
-> PACKAGECONFIG parameter activated.
->
-> This is not only a cosmetical issue. The useradd class concatenates all
-> useradd commands from all subpackages of a package by doing a
-> ";".join(). When having a useradd command that ends with ";" and some
-> extra spaces, concatenation will result in an empty useradd argument
-> ("commandA;    ;commandB"). The useradd command will be called with this
-> and make the Yocto build break by returning an error code.
->
-> Fortunately, there is no problem when having a "commandA;;commandB" in
-> the useradd string, this will be ignored. Thus using "_append" instead of
-> "+=" is sufficient here.
->
-> Signed-off-by: Enrico Jorns <ejo@pengutronix.de>
->
-
-Use .=, not _append. _append is a postponed operation, .= is immediate like
-+= is.
-
-Also, why not make useradd.bbclass sanitize the input / ignore empty
-entries?
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
-
---001a1144d0429d3e1605399002c6
-Content-Type: text/html; charset=UTF-8
+--Apple-Mail=_1D7B7889-4F56-4E84-B8CA-955F4BE9C89C
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Mon, Aug 8, 2016 at 6:37 AM, Enrico Jorns <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:ejo@pengutronix.de" target=3D"_blank">ejo@pengutronix.de</a>&gt;=
-</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":18y" class=3D"=
-a3s aXjCH m1566a6f2a5aae5e0">Constructing the USERADD_PARAM_${PN} value wit=
-h +=3D (as done before)<br>
-resulted in having a whitespace added for each entry not having its<br>
-PACKAGECONFIG parameter activated.<br>
-<br>
-This is not only a cosmetical issue. The useradd class concatenates all<br>
-useradd commands from all subpackages of a package by doing a<br>
-&quot;;&quot;.join(). When having a useradd command that ends with &quot;;&=
-quot; and some<br>
-extra spaces, concatenation will result in an empty useradd argument<br>
-(&quot;commandA;=C2=A0 =C2=A0 ;commandB&quot;). The useradd command will be=
- called with this<br>
-and make the Yocto build break by returning an error code.<br>
-<br>
-Fortunately, there is no problem when having a &quot;commandA;;commandB&quo=
-t; in<br>
-the useradd string, this will be ignored. Thus using &quot;_append&quot; in=
-stead of<br>
-&quot;+=3D&quot; is sufficient here.<br>
-<br>
-Signed-off-by: Enrico Jorns &lt;<a href=3D"mailto:ejo@pengutronix.de">ejo@p=
-engutronix.de</a>&gt;</div></blockquote></div><br>Use .=3D, not _append. _a=
-ppend is a postponed operation, .=3D is immediate like +=3D is.</div><div c=
-lass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Also, why not mak=
-e useradd.bbclass sanitize the input / ignore empty entries?<br>-- <br><div=
- class=3D"gmail_signature" data-smartmail=3D"gmail_signature">Christopher L=
-arson<br>clarson at kergoth dot com<br>Founder - BitBake, OpenEmbedded, Ope=
-nZaurus<br>Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics<=
-/div>
-</div></div>
 
---001a1144d0429d3e1605399002c6--
+> On Aug 8, 2016, at 2:16 AM, Andr=C3=A9 Draszik <git@andred.net> wrote:
+>=20
+> On Mon, 2016-08-08 at 09:50 +0100, Richard Purdie wrote:
+>> On Mon, 2016-08-08 at 09:14 +0100, Richard Purdie wrote:
+>>>=20
+>>> On Mon, 2016-08-08 at 00:24 -0700, Khem Raj wrote:
+>>>>=20
+>>>>>=20
+>>>>> On Aug 7, 2016, at 11:28 PM, Richard Purdie <
+>>>>> richard.purdie@linuxfoundation.org> wrote:
+>>>>>=20
+>>>>> On Sun, 2016-08-07 at 01:39 -0700, Khem Raj wrote:
+>>>>>>=20
+>>>>>> I have put together upgrade for binutils 2.27 here (
+>>>>>> kraj/master
+>>>>>> branch )
+>>>>>>=20
+>>>>>> https://github.com/kraj/openembedded-core/commit/b98f5761d2285f
+>>>>>> fd
+>>>>>> 773e
+>>>>>> c6ecb901b799302ebd6b
+>>>>>>=20
+>>>>>> I have started bunch of test builds. but I would appreciate any
+>>>>>> help
+>>>>>> in testing it out in your
+>>>>>> environments and report any issues you see.
+>>>>>=20
+>>>>> I ran this through the autobuilder:
+>>>>>=20
+>>>>> bitbake world shows issues in libunwind (from gold?):
+>>>>>=20
+>>>>=20
+>>>> yes, however, use of gold for libunwind in OE was an escape route
+>>>> where we were relying upon gold=E2=80=99s inability to detect this =
+issue
+>>>> while BFD linker
+>>>> was detecting it earlier. Now in 2.27 gold has caught up as well.
+>>>>=20
+>>>> see
+>>>> https://sourceware.org/git/gitweb.cgi?p=3Dbinutils-gdb.git;h=3D6eeb01=
+70
+>>>> bb
+>>>> b43ffb73e8f01b8b481adde8194c21
+>>>>=20
+>>>> so now we have to get to nub of this issue to resolve it.
+>>>=20
+>>> Ok. I think we also have:
+>>>=20
+>>> =
+https://autobuilder.yoctoproject.org/main/builders/nightly-ppc/builds
+>>> /8
+>>> 96
+>>> =
+https://autobuilder.yoctoproject.org/main/builders/nightly-ppc/builds
+>>> /8
+>>> 96
+>>>=20
+>>> in that "connmand --help" is segfaulting on ppc. I've not 100%
+>>> confirmed its the binutils patch but its seeming likely at this
+>>> point.
+>>=20
+>> Its also sefgaulting on all mips builds:
+>>=20
+>> =
+https://autobuilder.yoctoproject.org/main/builders/nightly-mips/builds/883=
+
+>> =
+https://autobuilder.yoctoproject.org/main/builders/nightly-mips-lsb/builds=
+
+>> /863
+>> =
+https://autobuilder.yoctoproject.org/main/builders/nightly-mips64/builds/5=
+
+>> 28
+>>=20
+>> :(
+>=20
+> binutils 2.27 brings GOLD to mips, but debian has disabled GOLD on all =
+MIPS
+> for now due to segfaulting... Maybe the same issue=E2=80=A6
+
+They are different issues. for OE ppc also shows same errors with =
+libunwind.
+
+>=20
+>=20
+> A.
+>=20
+>=20
+
+
+--Apple-Mail=_1D7B7889-4F56-4E84-B8CA-955F4BE9C89C
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAleoo4EACgkQuwUzVZGdMxTCUwCdH4BNyk+k073SzKYQyvyw2nK7
+E+oAnjRU1QEo/OQLZa4TFWiOrgtgzuC6
+=cd+s
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_1D7B7889-4F56-4E84-B8CA-955F4BE9C89C--
