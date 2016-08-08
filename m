@@ -1,53 +1,51 @@
-Return-Path: <george.mccollister@gmail.com>
-Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
-	[209.85.218.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F54D771A6
+Return-Path: <alistair23@gmail.com>
+Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
+	[209.85.218.67])
+	by mail.openembedded.org (Postfix) with ESMTP id B538A77158
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Aug 2016 16:39:01 +0000 (UTC)
-Received: by mail-oi0-f65.google.com with SMTP id a101so5823462oic.3
+	Mon,  8 Aug 2016 17:26:48 +0000 (UTC)
+Received: by mail-oi0-f67.google.com with SMTP id a101so5934681oic.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Aug 2016 09:39:02 -0700 (PDT)
+	Mon, 08 Aug 2016 10:26:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=JxRvGcRgPuTPNEAyL36ImyiKHY4i8DNUfh2Dbhk5ogU=;
-	b=hI0xhlAoEhgQ8kmLjq9HJ8qLj6XWq43eKL79+QhMu3Sfa9N+y1GC8txNT4n4IdNvxL
-	/RGghnrdrrh+AWQMpVjfMrzFdMrxEYLsomfBBnXatyw+7qaDqnOnPjLY9f9wbSWV7ye6
-	raEsY1ajXrSFaDDnA5LQqvQ+6an0D3K8huGUFRJyzshlC0d1PiVLLSnh4f4h9/JsWajX
-	z29Tvsps+n6sU1S3HYibQpWOT4K3a8Zr/jMR6Szc27ERz/WikkytDNBY25osdw77dQTX
-	DL7alZCP47seHVngk/yfnI0Cqy/2vGlCVFP8GTmmIZq1IaGskZcO/lL1E/huR8R8dcng
-	qzyg==
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=+pF566OWKYCr8Th59/90QbsM72XWsOVU87tgl8hS5KY=;
+	b=EJ5JSuaiTuivJoUpS9nhrJamTAVhK5EEaz0X5f+Nl67sfviZUT/PQqg9SagBfOA62D
+	eXphhrojuhrc3iB8/HGJWPbF/C5RWK6tDdimXCFDLJztw8/S++seuqJZcqjXTYSJ8hrp
+	i0fG1XjS5xVGMl+G8rdjq48p4UhlGl0zU3XrPMqxQCcOJ+qKunBb06+ZmJPyqypwC51l
+	+Cb9VhcRL1L1t31eo4lhAd4912o5dfAorZcg9emAqCz59A4C4NEAyyvPSnvhD7ZtVZBn
+	0Nju9iUIWBcTaOHCkZyyI+ulJIFgaXbJJTHwi1t/w9nI/szot3OYWVszK4eRf4AD/zyT
+	X/uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:in-reply-to:references;
-	bh=JxRvGcRgPuTPNEAyL36ImyiKHY4i8DNUfh2Dbhk5ogU=;
-	b=Fzd71eIIXVru9YGw8gmnwM+B0XHTCj+aHPnWkuWd4vY7hwQl+RjHwpaF/hIw5Y7olh
-	a2t3F56PkikucrdlfvVKLaqSFuAUJf8ZYSDokzfpYdOFgJvVPYmIPlUJyiKo7SemOyog
-	Wh+RihSEiI75cv07iGZaVFo8Q5JOrMOgnr1zPn6IpBlWVpWtvEgkPHiow9uLUCAv7O7J
-	gZjN7Njumo5ckpFLwLkIBGRBWzwNZUqco3ojmAHGvudbkKcrvBrLOqKRUGPlg6y+kRbZ
-	AkCvoqIVqi3RNbFZotYjb7ckw+Lpv8jmAvxFj5byRGOePRLteincgcdasWquBsaxLXfd
-	ltAw==
-X-Gm-Message-State: AEkoouv2ZVqZZf3DLrWkK7XZ6o8Ns55fQPcddMv2KPCz20shYK3ajiUy5910YLQ3NVSmCw==
-X-Received: by 10.157.52.176 with SMTP id g45mr16434229otc.195.1470674342339; 
-	Mon, 08 Aug 2016 09:39:02 -0700 (PDT)
-Received: from localhost.localdomain (216-21-169-52.slc.googlefiber.net.
-	[216.21.169.52]) by smtp.gmail.com with ESMTPSA id
-	e195sm12516486oic.21.2016.08.08.09.39.01
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 08 Aug 2016 09:39:01 -0700 (PDT)
-From: George McCollister <george.mccollister@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  8 Aug 2016 11:37:57 -0500
-Message-Id: <d37bec4f77f0670b35347c367371d2cd4887b29a.1470672689.git.george.mccollister@gmail.com>
-X-Mailer: git-send-email 2.8.0
-In-Reply-To: <cover.1470672689.git.george.mccollister@gmail.com>
-References: <cover.1470672689.git.george.mccollister@gmail.com>
-In-Reply-To: <cover.1470672689.git.george.mccollister@gmail.com>
-References: <cover.1470672689.git.george.mccollister@gmail.com>
-Cc: marex@denx.de, trini@konsulko.com, andrew.bradford@kodakalaris.com,
-	denys@ti.com
-Subject: [PATCH 5/5] uboot-sign: do_concat_dtb(): cd to $B
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=+pF566OWKYCr8Th59/90QbsM72XWsOVU87tgl8hS5KY=;
+	b=Ec8FTCXtdVC9fOT5YiEoF4lLfoAvGjauhxChVqAfnyPV/qOuyMaI4g2gljLNZhgyyV
+	V+xN7GaZOPON9ttSNzQzV9DMYCrd6x5K0EhO6819aFmOsnrQHCXTIOp+o+q9Gvxlzo/2
+	nr6pglz3YLumC1/Ji4OVKYbQwvd01g9vaIpyQUsWPmPABOUqaqJPGgGlau2Ca9MjJ3VV
+	+TofWNDfYNlKtx0bPi4oKoV/u+GVHqXRVJm9nR/f1x6+aGCiELVJAuksN78mdBxRd3Ex
+	oY/85vZc4Msn3sZoEw0zx9/IhYcApwTa6Z8THbIqIqXTYY4uomGUbE1a+mLXPSVk9QbD
+	P8Hg==
+X-Gm-Message-State: AEkooutnZPtDzx2ohYpv59udaUtmIuE7KSth0AXj+45xmYjDKUx0tFt1L9yBGTXZGgv01EfMjcUpPqfHwS0R0Q==
+X-Received: by 10.157.24.105 with SMTP id t38mr52246192ott.109.1470677209062; 
+	Mon, 08 Aug 2016 10:26:49 -0700 (PDT)
+MIME-Version: 1.0
+Sender: alistair23@gmail.com
+Received: by 10.182.14.72 with HTTP; Mon, 8 Aug 2016 10:26:18 -0700 (PDT)
+In-Reply-To: <CAJTo0LaD0Rj5O+mJYvv0JbFnjeFUiD_S55MAkMdN9X8J-cuJ1Q@mail.gmail.com>
+References: <1466023403-1976-1-git-send-email-alistair.francis@xilinx.com>
+	<CAKmqyKOviCTZBEnTXgSsWk2s+H6NJHAW490dPLkxy+Lz3Yuj2w@mail.gmail.com>
+	<CAKmqyKNKe=H+GA=EwT=b50vnWKp=K68XJCeiSd4M_UAdEOmF_A@mail.gmail.com>
+	<CAJTo0LaD0Rj5O+mJYvv0JbFnjeFUiD_S55MAkMdN9X8J-cuJ1Q@mail.gmail.com>
+From: Alistair Francis <alistair.francis@xilinx.com>
+Date: Mon, 8 Aug 2016 10:26:18 -0700
+X-Google-Sender-Auth: 0u1fxb2WtdRkTSra-DI51knCdcU
+Message-ID: <CAKmqyKN9+5n_BpQeMNCcfaj=-c-rjfq+2otdQUaEGgsc_AhtNA@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] runqemu: qemuzynqmp: Add Linux boot support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,34 +58,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2016 16:39:01 -0000
+X-List-Received-Date: Mon, 08 Aug 2016 17:26:49 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Prior to running oe_runmake make sure $B is the cwd. This is required
-due to bitbake commit 67a7b8b021badc17d8fdf447c250e79d291e75f7
-"build: don't use $B as the default cwd for functions".
+On Mon, Aug 8, 2016 at 6:37 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> Sorry, staged in my branch now.
 
-Without this change, do_concat_dtb fails with:
-| ERROR: oe_runmake failed
-| make: *** No targets specified and no makefile found.  Stop.
+Great! Thanks
 
-Signed-off-by: George McCollister <george.mccollister@gmail.com>
----
- meta/classes/uboot-sign.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+Alistair
 
-diff --git a/meta/classes/uboot-sign.bbclass b/meta/classes/uboot-sign.bbclass
-index d56ad8e..3c56db8 100644
---- a/meta/classes/uboot-sign.bbclass
-+++ b/meta/classes/uboot-sign.bbclass
-@@ -66,6 +66,7 @@ do_concat_dtb () {
- 	if [ "x${UBOOT_SIGN_ENABLE}" = "x1" ]; then
- 		if [ "x${UBOOT_SUFFIX}" = "ximg" -o "x${UBOOT_SUFFIX}" = "xrom" ] && \
- 			[ -e "${DEPLOYDIR}/${UBOOT_DTB_IMAGE}" ]; then
-+			cd ${B}
- 			oe_runmake EXT_DTB=${DEPLOYDIR}/${UBOOT_DTB_IMAGE}
- 			install ${S}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
- 			install ${S}/${UBOOT_BINARY} ${DEPLOY_DIR_IMAGE}/${UBOOT_IMAGE}
--- 
-2.8.0
-
+>
+> Ross
+>
+> On 3 August 2016 at 21:31, Alistair Francis <alistair.francis@xilinx.com>
+> wrote:
+>>
+>> Ping^2!
+>>
+>> On Wed, Jul 27, 2016 at 11:02 AM, Alistair Francis
+>> <alistair.francis@xilinx.com> wrote:
+>> > Ping!
+>> >
+>> > On Wed, Jun 15, 2016 at 1:43 PM, Alistair Francis
+>> > <alistair.francis@xilinx.com> wrote:
+>> >> Add support to direct boot Linux instead of just booting u-boot.
+>> >>
+>> >> Signed-off-by: Alistair Francis <alistair.francis@xilinx.com>
+>> >> ---
+>> >>  scripts/runqemu          | 3 +--
+>> >>  scripts/runqemu-internal | 2 +-
+>> >>  2 files changed, 2 insertions(+), 3 deletions(-)
+>> >>
+>> >> diff --git a/scripts/runqemu b/scripts/runqemu
+>> >> index de05035..d52ea15 100755
+>> >> --- a/scripts/runqemu
+>> >> +++ b/scripts/runqemu
+>> >> @@ -350,8 +350,7 @@ QEMUMICROBLAZE_DEFAULT_FSTYPE=cpio
+>> >>  QEMUZYNQ_DEFAULT_KERNEL=uImage
+>> >>  QEMUZYNQ_DEFAULT_FSTYPE=cpio
+>> >>
+>> >> -# Default to booting u-boot as a direct Linux boot isn't supported
+>> >> yet.
+>> >> -QEMUZYNQMP_DEFAULT_KERNEL=u-boot-qemuzynqmp.elf
+>> >> +QEMUZYNQMP_DEFAULT_KERNEL=Image
+>> >>  QEMUZYNQMP_DEFAULT_FSTYPE=cpio
+>> >>
+>> >>  setup_path_vars() {
+>> >> diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+>> >> index ea1a307..ecc5e63 100755
+>> >> --- a/scripts/runqemu-internal
+>> >> +++ b/scripts/runqemu-internal
+>> >> @@ -514,7 +514,7 @@ config_qemuzynqmp() {
+>> >>      QEMU_NETWORK_CMD="-net nic -net nic -net nic -net nic -net
+>> >> user,net=10.10.70.0,dhcpstart=10.10.70.1,host=10.10.70.101"
+>> >>      QEMU_SYSTEM_OPTIONS="$QEMU_NETWORK_CMD -M xlnx-ep108 -serial
+>> >> mon:stdio -dtb $DEPLOY_DIR_IMAGE/${QEMU_DTB}.dtb"
+>> >>
+>> >> -    QEMUOPTIONS="$QEMU_SYSTEM_OPTIONS $QEMU_UI_OPTIONS -tftp
+>> >> $DEPLOY_DIR_IMAGE"
+>> >> +    QEMUOPTIONS="$QEMU_SYSTEM_OPTIONS $QEMU_UI_OPTIONS -initrd
+>> >> $ROOTFS"
+>> >>  }
+>> >>
+>> >>  config_qemumicroblaze() {
+>> >> --
+>> >> 2.7.4
+>> >>
+>> >> --
+>> >> _______________________________________________
+>> >> Openembedded-core mailing list
+>> >> Openembedded-core@lists.openembedded.org
+>> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
