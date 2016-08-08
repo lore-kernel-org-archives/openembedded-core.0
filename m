@@ -1,30 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A81F77187;
-	Mon,  8 Aug 2016 06:28:32 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u786STX7018968; Mon, 8 Aug 2016 07:28:29 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 9kyqI4jYGk4J; Mon,  8 Aug 2016 07:28:29 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u786SPFw018965
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 8 Aug 2016 07:28:26 +0100
-Message-ID: <1470637705.8166.29.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, OE-core
-	<openembedded-core@lists.openembedded.org>, OpenEmbedded Devel List
-	<openembedded-devel@lists.openembedded.org>, Yocto Discussion Mailing List
-	<yocto@yoctoproject.org>
-Date: Mon, 08 Aug 2016 07:28:25 +0100
-In-Reply-To: <CC61EFE1-5F39-4848-AD71-8E9C8DEC43C8@gmail.com>
-References: <CC61EFE1-5F39-4848-AD71-8E9C8DEC43C8@gmail.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: [RFT] binutils 2.27
+Return-Path: <Dengke.Du@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 39E6677147
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  8 Aug 2016 06:43:09 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u786hAh1015907
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 7 Aug 2016 23:43:10 -0700 (PDT)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Sun, 7 Aug 2016 23:43:09 -0700
+From: Dengke Du <dengke.du@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 8 Aug 2016 02:43:04 -0400
+Message-ID: <cover.1470637742.git.dengke.du@windriver.com>
+X-Mailer: git-send-email 2.8.1
+MIME-Version: 1.0
+Subject: [PATCH 0/1] bash: fix run-intl ptest failed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,38 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2016 06:28:34 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 08 Aug 2016 06:43:10 -0000
+Content-Type: text/plain
 
-On Sun, 2016-08-07 at 01:39 -0700, Khem Raj wrote:
-> I have put together upgrade for binutils 2.27 here ( kraj/master
-> branch )
-> 
-> https://github.com/kraj/openembedded-core/commit/b98f5761d2285ffd773e
-> c6ecb901b799302ebd6b
-> 
-> I have started bunch of test builds. but I would appreciate any help
-> in testing it out in your
-> environments and report any issues you see.
+The following changes since commit 5b61fa04a335a4fdefd435dc25d4bac41ee21e39:
 
-I ran this through the autobuilder:
+  bitbake: toaster-tests: fix URL given for Chromedriver download (2016-07-29 09:53:32 +0100)
 
-bitbake world shows issues in libunwind (from gold?):
+are available in the git repository at:
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-world/builds
-/889/steps/BuildImages/logs/stdio
+  git://git.openembedded.org/openembedded-core-contrib dengke/fix-bash-ptest-run-intl-failed
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=dengke/fix-bash-ptest-run-intl-failed
 
-bitbake world with no x11 also shows it:
+Dengke Du (1):
+  bash: fix run-intl ptest failed
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-no-x11/build
-s/231/steps/BuildImages/logs/stdio
+ meta/recipes-extended/bash/bash/fix-run-intl.patch | 116 +++++++++++++++++++++
+ meta/recipes-extended/bash/bash_4.3.30.bb          |   3 +-
+ 2 files changed, 118 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/bash/bash/fix-run-intl.patch
 
-Other than that, things don't seem too bad though.
-
-Cheers,
-
-Richard
-
+-- 
+2.8.1
 
 
