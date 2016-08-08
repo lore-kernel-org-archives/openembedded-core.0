@@ -1,30 +1,20 @@
-Return-Path: <ejo@pengutronix.de>
-X-Greylist: delayed 992 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 08 Aug 2016 13:54:06 UTC
-Received: from metis.ext.4.pengutronix.de (metis.ext.4.pengutronix.de
-	[92.198.50.35])
-	by mail.openembedded.org (Postfix) with ESMTP id 25FDC70031
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 750EB77188
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Aug 2016 13:54:06 +0000 (UTC)
-Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
-	by metis.ext.pengutronix.de with esmtps
-	(TLS1.2:RSA_AES_256_CBC_SHA1:256) (Exim 4.80)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1bWkkH-0002sT-7g; Mon, 08 Aug 2016 15:37:33 +0200
-Received: from ejo by dude.hi.pengutronix.de with local (Exim 4.87)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1bWkkG-0008SB-Uc; Mon, 08 Aug 2016 15:37:32 +0200
-From: Enrico Jorns <ejo@pengutronix.de>
+	Mon,  8 Aug 2016 14:09:03 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga104.fm.intel.com with ESMTP; 08 Aug 2016 07:09:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,490,1464678000"; d="scan'208";a="1031771925"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.49])
+	by orsmga002.jf.intel.com with ESMTP; 08 Aug 2016 07:09:03 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  8 Aug 2016 15:37:28 +0200
-Message-Id: <1470663448-5191-1-git-send-email-ejo@pengutronix.de>
+Date: Mon,  8 Aug 2016 17:07:44 +0300
+Message-Id: <1470665264-16321-1-git-send-email-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.8.1
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
-X-SA-Exim-Mail-From: ejo@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
-	SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
-Subject: [PATCH] systemd: fix useradd parameter generation
+Subject: [PATCH] security_flags.inc: enable PIE for a few recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,53 +27,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2016 13:54:08 -0000
+X-List-Received-Date: Mon, 08 Aug 2016 14:09:05 -0000
 
-Constructing the USERADD_PARAM_${PN} value with += (as done before)
-resulted in having a whitespace added for each entry not having its
-PACKAGECONFIG parameter activated.
+They used to fail with PIE enabled, but no longer do.
 
-This is not only a cosmetical issue. The useradd class concatenates all
-useradd commands from all subpackages of a package by doing a
-";".join(). When having a useradd command that ends with ";" and some
-extra spaces, concatenation will result in an empty useradd argument
-("commandA;    ;commandB"). The useradd command will be called with this
-and make the Yocto build break by returning an error code.
-
-Fortunately, there is no problem when having a "commandA;;commandB" in
-the useradd string, this will be ignored. Thus using "_append" instead of
-"+=" is sufficient here.
-
-Signed-off-by: Enrico Jorns <ejo@pengutronix.de>
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-core/systemd/systemd_230.bb | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ meta/conf/distro/include/security_flags.inc | 11 -----------
+ 1 file changed, 11 deletions(-)
 
-diff --git a/meta/recipes-core/systemd/systemd_230.bb b/meta/recipes-core/systemd/systemd_230.bb
-index 374a197..dd21095 100644
---- a/meta/recipes-core/systemd/systemd_230.bb
-+++ b/meta/recipes-core/systemd/systemd_230.bb
-@@ -298,13 +298,13 @@ SYSTEMD_PACKAGES = "${@bb.utils.contains('PACKAGECONFIG', 'binfmt', '${PN}-binfm
- SYSTEMD_SERVICE_${PN}-binfmt = "systemd-binfmt.service"
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+index d953161..20f48de 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -29,7 +29,6 @@ SECURITY_CFLAGS_pn-libmatchbox_powerpc = ""
+ SECURITY_CFLAGS_pn-lttng-tools_arm = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-aspell = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-beecrypt = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-blktrace = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-coreutils = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-cups = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-db = "${SECURITY_NO_PIE_CFLAGS}"
+@@ -40,7 +39,6 @@ SECURITY_CFLAGS_pn-elfutils = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-enchant = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-expect = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-flac = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-flex = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-gcc = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-gcc-runtime = ""
+ SECURITY_CFLAGS_pn-gcc-sanitizers = "${SECURITY_NO_PIE_CFLAGS}"
+@@ -53,8 +51,6 @@ SECURITY_CFLAGS_pn-grub-efi-native = ""
+ SECURITY_CFLAGS_pn-grub-efi-x86-native = ""
+ SECURITY_CFLAGS_pn-grub-efi-i586-native = ""
+ SECURITY_CFLAGS_pn-grub-efi-x86-64-native = ""
+-SECURITY_CFLAGS_pn-gst-plugins-bad = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-gst-plugins-gl = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-gstreamer1.0-plugins-bad = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-gstreamer1.0-plugins-good = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-harfbuzz = "${SECURITY_NO_PIE_CFLAGS}"
+@@ -64,15 +60,12 @@ SECURITY_CFLAGS_pn-libaio = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libcap = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libgcc = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libid3tag = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-libnewt = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libnewt-python = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libglu = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libpcap = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libpcre = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libproxy = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-lttng-ust = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-mesa = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-mesa-gl = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-openssl = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-opensp = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-ppp = "${SECURITY_NO_PIE_CFLAGS}"
+@@ -94,10 +87,6 @@ SECURITY_CFLAGS_pn-uclibc-initial = ""
+ SECURITY_CFLAGS_pn-valgrind = ""
+ SECURITY_CFLAGS_pn-zlib = "${SECURITY_NO_PIE_CFLAGS}"
  
- USERADD_PACKAGES = "${PN} ${PN}-extra-utils"
--USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '--system -d / -M --shell /bin/nologin systemd-journal-gateway;', '', d)}"
--USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '--system -d / -M --shell /bin/nologin systemd-journal-remote;', '', d)}"
--USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'journal-upload', '--system -d / -M --shell /bin/nologin systemd-journal-upload;', '', d)}"
--USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'timesyncd', '--system -d / -M --shell /bin/nologin systemd-timesync;', '', d)}"
--USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'networkd', '--system -d / -M --shell /bin/nologin systemd-network;', '', d)}"
--USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'coredump', '--system -d / -M --shell /bin/nologin systemd-coredump;', '', d)}"
--USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'resolved', '--system -d / -M --shell /bin/nologin systemd-resolve;', '', d)}"
-+USERADD_PARAM_${PN}_append = "${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '--system -d / -M --shell /bin/nologin systemd-journal-gateway;', '', d)}"
-+USERADD_PARAM_${PN}_append = "${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '--system -d / -M --shell /bin/nologin systemd-journal-remote;', '', d)}"
-+USERADD_PARAM_${PN}_append = "${@bb.utils.contains('PACKAGECONFIG', 'journal-upload', '--system -d / -M --shell /bin/nologin systemd-journal-upload;', '', d)}"
-+USERADD_PARAM_${PN}_append = "${@bb.utils.contains('PACKAGECONFIG', 'timesyncd', '--system -d / -M --shell /bin/nologin systemd-timesync;', '', d)}"
-+USERADD_PARAM_${PN}_append = "${@bb.utils.contains('PACKAGECONFIG', 'networkd', '--system -d / -M --shell /bin/nologin systemd-network;', '', d)}"
-+USERADD_PARAM_${PN}_append = "${@bb.utils.contains('PACKAGECONFIG', 'coredump', '--system -d / -M --shell /bin/nologin systemd-coredump;', '', d)}"
-+USERADD_PARAM_${PN}_append = "${@bb.utils.contains('PACKAGECONFIG', 'resolved', '--system -d / -M --shell /bin/nologin systemd-resolve;', '', d)}"
- GROUPADD_PARAM_${PN} = "-r lock; -r systemd-journal"
- USERADD_PARAM_${PN}-extra-utils += "--system -d / -M --shell /bin/nologin systemd-bus-proxy;"
- 
+-# These 2 have text relco errors with the pie options enabled
+-SECURITY_CFLAGS_pn-ltp = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-pulseaudio = "${SECURITY_NO_PIE_CFLAGS}"
+-
+ # Recipes which fail to compile when elevating -Wformat-security to an error
+ SECURITY_STRINGFORMAT_pn-busybox = ""
+ SECURITY_STRINGFORMAT_pn-console-tools = ""
 -- 
 2.8.1
 
