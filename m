@@ -1,26 +1,48 @@
-Return-Path: <Dengke.Du@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D8DD077147
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f67.google.com (mail-pa0-f67.google.com
+	[209.85.220.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D22A77181
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Aug 2016 06:43:11 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u786hBJ9001431
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Mon,  8 Aug 2016 06:48:07 +0000 (UTC)
+Received: by mail-pa0-f67.google.com with SMTP id ez1so23441729pab.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 7 Aug 2016 23:43:11 -0700
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Sun, 7 Aug 2016 23:43:11 -0700
-From: Dengke Du <dengke.du@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 8 Aug 2016 02:43:05 -0400
-Message-ID: <d635e401929354af1c2f14155597d94a16e1af76.1470637742.git.dengke.du@windriver.com>
-X-Mailer: git-send-email 2.8.1
-MIME-Version: 1.0
-In-Reply-To: <cover.1470637742.git.dengke.du@windriver.com>
-References: <cover.1470637742.git.dengke.du@windriver.com>
-Subject: [PATCH 1/1] bash: fix run-intl ptest failed
+	Sun, 07 Aug 2016 23:48:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=1MLNsreOTBdZTubFJ4aHd/0imZcOVt/xfsEyidRBuvg=;
+	b=1FbWRb3vNY91lYo/QTvPpuLs4UtjJjyarDGYXncl8ISRzTOG39P876tmfkJXhHk6ls
+	5HkEG57v2zb4imRJkTwaJ5FJ28t9jrGSHFO7xcLMCP9NLR8nsze/uuPByzpBBbiq4P//
+	qRwS135GiNXzlfWTNV903T5nOlbv0xncVcHjic5m84qoke7aiIGdRVn6b38XhNwp6+s0
+	TPStpF50XvP0qZUQAjWj0JQxu5KGi+yhioQSXFMs5CCJVhDGepJY99HxfO+vL+kE5AOJ
+	dgum0CQdOYrBvWpNELtsvSwgT+WyWN0GF7j5vpGM63wPNaYoNZSHGYWRK5ynOXbhCuMw
+	KB/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=1MLNsreOTBdZTubFJ4aHd/0imZcOVt/xfsEyidRBuvg=;
+	b=CuHusNfxnocyigmwXRuSarrsIiXoh5wub5Z9cfB61ZI/tydtyW1Lrdtzy964RubmHd
+	AjVZUjy4nbI9XQVzrpqAJOR9L/cHJO1PvUEBKwZHTtIXubXMZVUow4mYvF0EbwAh/yU8
+	7GufpzHltXJofOztwqSDfrKM/b0pmRwTHRpZ99UPOOeann6yE3grqsZJSzzR5OG7M4dZ
+	PEDsDcIt1vWkEdIUj7C90i+kc+RphQLL+QqnXgSKpnyDOmSf8zK5ciGr0cn6wgNAsZxx
+	e5rSK/kxR2VIJeZBvjcVXSoqgDfsT80LPb09nCUeZID3mgD5dV4zMi6a+r0IWkd5qVKt
+	38SQ==
+X-Gm-Message-State: AEkoouu4y0flfrTsx8SOTnLTpt6ybl1rGWCrDo5jXyMeQOsoa/0ULS9NKpEBrGD/Lwrv/Q==
+X-Received: by 10.66.74.103 with SMTP id s7mr158025540pav.1.1470638888644;
+	Sun, 07 Aug 2016 23:48:08 -0700 (PDT)
+Received: from localhost.localdomain (c-76-102-32-192.hsd1.ca.comcast.net.
+	[76.102.32.192]) by smtp.gmail.com with ESMTPSA id
+	q1sm44920020pfd.48.2016.08.07.23.48.07
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 07 Aug 2016 23:48:08 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  7 Aug 2016 23:47:58 -0700
+Message-Id: <20160808064758.19267-2-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.9.2
+In-Reply-To: <20160808064758.19267-1-raj.khem@gmail.com>
+References: <20160808064758.19267-1-raj.khem@gmail.com>
+Subject: [PATCH] world-broken: Add libunwind for musl/arm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,189 +55,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2016 06:43:12 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 08 Aug 2016 06:48:08 -0000
 
-1. Filter the extra white space in intl.right
+gcc and libunwind race and when libunwind wins
+results are build fails for gcc as described
+this is only seen on musl/arm since on musl
+/usr/include is search before gcc fixed headers
+and unwind.h is in fixed headers. So it works
+ok on glibc but not on musl due to reversed search
+order.
 
-   When the sub-test unicode2.sub of intl.tests executed, it produced
-   compact results without extra white space, compared to intl.right,
-   it failed.
-
-   So we need to filter the extra white space in intl.right.
-
-2. Delete the '%q' in unicode3.sub
-
-   In sub-test unicode3.sub of intl.tests have this:
-
-		printf %q "$payload"
-
-   The payload variable was assigned by ASCII characters, when using
-   '%q' format strings, it means print the associated argument shell-quoted.
-
-   But when the strings contain the non-alpha && non-digit && non-punctuation &&
-   non-ISO 646 character(7-bit), it would output like this: " $'...', ANSI-C
-   style quoted string. We can check the bash source code at:
-
-	http://git.savannah.gnu.org/cgit/bash.git/tree/builtins/printf.def#n557
-	http://git.savannah.gnu.org/cgit/bash.git/tree/lib/sh/strtrans.c#n331
-
-   So we need to delete the format strings '%q', in this way the comparing
-   could pass.
-
-NOTE:
-   Ensure the system contain fr-fr & de-de locales
-
-   Some tests of intl.tests need to change locales to accomplish. So you need add
-   the following to a conf file:
-
-		IMAGE_LINGUAS = "en-us fr-fr de-de"
-
-Signed-off-by: Dengke Du <dengke.du@windriver.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-extended/bash/bash/fix-run-intl.patch | 116 +++++++++++++++++++++
- meta/recipes-extended/bash/bash_4.3.30.bb          |   3 +-
- 2 files changed, 118 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/bash/bash/fix-run-intl.patch
+ meta/conf/distro/include/world-broken.inc | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/meta/recipes-extended/bash/bash/fix-run-intl.patch b/meta/recipes-extended/bash/bash/fix-run-intl.patch
-new file mode 100644
-index 0000000..5f59066
---- /dev/null
-+++ b/meta/recipes-extended/bash/bash/fix-run-intl.patch
-@@ -0,0 +1,116 @@
-+From 56b869258922da108d35524dc124a1a64daa981a Mon Sep 17 00:00:00 2001
-+From: Dengke Du <dengke.du@windriver.com>
-+Date: Wed, 3 Aug 2016 23:13:00 -0400
-+Subject: [PATCH] fix run-intl failed
-+
-+1. Filter extra white space of intl.right
-+
-+   Due to the extra white space of intl.right, when the result of
-+   sub-test unicode2.sub of intl.tests compared to it, the test
-+   failed.
-+
-+   So we need to filter the extra white space of intl.right.
-+
-+2. Delete the '%q' in unicode3.sub
-+
-+   In sub-test unicode3.sub of intl.tests, the payload value is:
-+
-+	payload=$'\065\247\100\063\231\053\306\123\070\237\242\352\263'
-+
-+   It used quoted string expansion(escaped octal) to assign ASCII
-+   characters to variables. So when the test run the following:
-+
-+	printf %q "$payload"
-+
-+   It produced:
-+
-+	$'5\247@3\231+\306S8\237\242\352\263'
-+
-+   When compared to the intl.right(contain the converted character), it failed.
-+
-+   The format strings '%q' means print the associated argument shell-quoted.
-+   Soucre code is here:
-+
-+	http://git.savannah.gnu.org/cgit/bash.git/tree/builtins/printf.def#n557
-+	http://git.savannah.gnu.org/cgit/bash.git/tree/lib/sh/strtrans.c#n331
-+
-+   If the strings contain the non-alpha && non-digit && non-punctuation &&
-+   non-ISO 646 character(7-bit), it would output like this: " $'...' " ANSI-C
-+   style quoted string, just like the above.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Dengke Du <dengke.du@windriver.com>
-+---
-+ tests/intl.right   | 28 ++++++++++++++--------------
-+ tests/unicode3.sub |  2 +-
-+ 2 files changed, 15 insertions(+), 15 deletions(-)
-+
-+diff --git a/tests/intl.right b/tests/intl.right
-+index acf108a..0c0c571 100644
-+--- a/tests/intl.right
-++++ b/tests/intl.right
-+@@ -18,33 +18,33 @@ a√©b
-+ 1.0000
-+ 1,0000
-+ Passed all 1378 Unicode tests
-+-0000000   303 277 012                                                    
-++0000000 303 277 012
-+ 0000003
-+-0000000   303 277 012                                                    
-++0000000 303 277 012
-+ 0000003
-+-0000000   303 277 012                                                    
-++0000000 303 277 012
-+ 0000003
-+-0000000   303 277 012                                                    
-++0000000 303 277 012
-+ 0000003
-+-0000000   357 277 277 012                                                
-++0000000 357 277 277 012
-+ 0000004
-+-0000000   357 277 277 012                                                
-++0000000 357 277 277 012
-+ 0000004
-+-0000000   012                                                            
-++0000000 012
-+ 0000001
-+-0000000   012                                                            
-++0000000 012
-+ 0000001
-+-0000000   012                                                            
-++0000000 012
-+ 0000001
-+-0000000   012                                                            
-++0000000 012
-+ 0000001
-+-0000000   303 277 012                                                    
-++0000000 303 277 012
-+ 0000003
-+-0000000   303 277 012                                                    
-++0000000 303 277 012
-+ 0000003
-+-0000000   303 277 012                                                    
-++0000000 303 277 012
-+ 0000003
-+-0000000   101 040 302 243 040 305 222 012                                
-++0000000 101 040 302 243 040 305 222 012
-+ 0000010
-+ ./unicode3.sub: line 2: 5ß@3ô+∆S8ü¢Í≥: command not found
-+ 5ß@3ô+∆S8ü¢Í≥
-+diff --git a/tests/unicode3.sub b/tests/unicode3.sub
-+index f79871f..a4b97b2 100644
-+--- a/tests/unicode3.sub
-++++ b/tests/unicode3.sub
-+@@ -1,7 +1,7 @@
-+ payload=$'\065\247\100\063\231\053\306\123\070\237\242\352\263'
-+ "$payload"
-+ 
-+-printf %q "$payload"
-++printf "$payload"
-+ echo
-+ 
-+ set -x ; : "$payload"
-+-- 
-+2.8.1
-+
-diff --git a/meta/recipes-extended/bash/bash_4.3.30.bb b/meta/recipes-extended/bash/bash_4.3.30.bb
-index 95ed392..3f0dd8b 100644
---- a/meta/recipes-extended/bash/bash_4.3.30.bb
-+++ b/meta/recipes-extended/bash/bash_4.3.30.bb
-@@ -20,7 +20,8 @@ SRC_URI = "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
-            file://test-output.patch \
-            file://fix-run-coproc-run-heredoc-run-execscript-run-test-f.patch \
-            file://run-ptest \
--	   file://fix-run-builtins.patch \
-+           file://fix-run-builtins.patch \
-+           file://fix-run-intl.patch \
-            "
+diff --git a/meta/conf/distro/include/world-broken.inc b/meta/conf/distro/include/world-broken.inc
+index a5f6371..d4bdddf 100644
+--- a/meta/conf/distro/include/world-broken.inc
++++ b/meta/conf/distro/include/world-broken.inc
+@@ -47,3 +47,10 @@ EXCLUDE_FROM_WORLD_pn-perf_libc-musl = "1"
  
- SRC_URI[tarball.md5sum] = "a27b3ee9be83bd3ba448c0ff52b28447"
+ # error: 'RTLD_NEXT' was not declared in this scope
+ EXCLUDE_FROM_WORLD_pn-gcc-sanitizers_libc-musl = "1"
++
++# gcc fails to build when libuwind is staged before building gcc since
++# it then finds the unwind.h header from libunwind and not from libgcc
++# and on arm specially they are different since libgcc defines some functions
++# as macros which are functions in libunwind and it fails during linking
++# libbacktrace/backtrace.c:76: undefined reference to `_Unwind_GetIP'
++EXCLUDE_FROM_WORLD_pn-libunwind_libc-musl_arm = "1"
 -- 
-2.8.1
+2.9.2
 
 
