@@ -1,25 +1,45 @@
-Return-Path: <brian.avery@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 86B3E77142
+Return-Path: <fan.xin@jp.fujitsu.com>
+Received: from mgwkm03.jp.fujitsu.com (mgwkm03.jp.fujitsu.com [202.219.69.170])
+	by mail.openembedded.org (Postfix) with ESMTP id A3D237002B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Aug 2016 03:42:06 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga104.fm.intel.com with ESMTP; 07 Aug 2016 20:42:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,487,1464678000"; d="scan'208";a="1031481291"
-Received: from bavery-ws-desk.jf.intel.com ([10.7.201.28])
-	by orsmga002.jf.intel.com with ESMTP; 07 Aug 2016 20:42:06 -0700
-From: bavery <brian.avery@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  7 Aug 2016 20:43:24 -0700
-Message-Id: <fb600061ac4e973335ea017d65fba7ac7a9918f1.1470627445.git.brian.avery@intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <238d43d3704f084f3173624c1e4956246a1044e0.1470627445.git.brian.avery@intel.com>
-References: <238d43d3704f084f3173624c1e4956246a1044e0.1470627445.git.brian.avery@intel.com>
-In-Reply-To: <cover.1470627445.git.brian.avery@intel.com>
-References: <cover.1470627445.git.brian.avery@intel.com>
+	Mon,  8 Aug 2016 05:30:06 +0000 (UTC)
+Received: from kw-mxoi2.gw.nic.fujitsu.com (unknown [192.168.231.133]) by
+	mgwkm03.jp.fujitsu.com with smtp
+	id 277b_cb38_71311e5c_c197_4873_beb2_dbe1042a2195;
+	Mon, 08 Aug 2016 14:29:57 +0900
+Received: from m3051.s.css.fujitsu.com (m3051.s.css.fujitsu.com
+	[10.134.21.209])
+	by kw-mxoi2.gw.nic.fujitsu.com (Postfix) with ESMTP id 39864AC00CE
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  8 Aug 2016 14:29:56 +0900 (JST)
+Received: from omame (omame.fct.css.fujitsu.com [10.24.14.171])
+	by m3051.s.css.fujitsu.com (Postfix) with ESMTP id 23372332;
+	Mon,  8 Aug 2016 14:29:56 +0900 (JST)
+Received: from [10.24.19.99] (fan1.utsfd.cs.fujitsu.co.jp [10.24.19.99])
+	by omame (Postfix) with ESMTPSA id 0A0D21E0088;
+	Mon,  8 Aug 2016 14:29:56 +0900 (JST)
+To: Stephen Arnold <stephen.arnold42@gmail.com>
+References: <1470049297-6520-1-git-send-email-fan.xin@jp.fujitsu.com>
+	<CAOLEWZVAjfydiq7GwgDKWydZyL_CXDL7+dgn5gsjt+QMhBQzgA@mail.gmail.com>
+	<CAJTo0La6G0jmhMVKu1rGjjWrDkACFWNX70hrgY9rnyk2ifXKFg@mail.gmail.com>
+	<CAOLEWZWbyZXc53TgQijWtxRbTQ9bEnTULpM9uUa4Hp5Px4AYKw@mail.gmail.com>
+	<CAJTo0LbwrLtSG+wv=_379TeQOAAqBHVUet=bD0kfdUUg6_c-yw@mail.gmail.com>
+	<8ff3e451-c185-6b95-03e0-9669b838b0dc@jp.fujitsu.com>
+	<CAOLEWZX0tzxjWu=xq9+_R87uFWfH9DOMminYBMEu2M-7igcxyg@mail.gmail.com>
+	<3cdfa22c-ed0b-1e92-7d82-bc81c2e5ee3d@jp.fujitsu.com>
+	<CAOLEWZUjdu23AnHkJzjomH7RqddxaF749UH1cr5vLk0LaPRz9w@mail.gmail.com>
+	<113e4cdc-2c4b-6878-b9ca-d4fb21a68122@jp.fujitsu.com>
+From: Fan Xin <fan.xin@jp.fujitsu.com>
+Message-ID: <594b8d65-7ae9-f3fa-506c-dfdebde807e2@jp.fujitsu.com>
+Date: Mon, 8 Aug 2016 14:30:37 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-Subject: =?UTF-8?B?W1BBVENIIDIvMl0gYmFzZS1maWxlczogcmVzdHJpY3QgcmVzaXplIHRvIHJ1biBvbiBzZXJpYWwgY29uc29sZXMgb25seSBpbiBwcm9maWxlIOKUgsK3?=
+In-Reply-To: <113e4cdc-2c4b-6878-b9ca-d4fb21a68122@jp.fujitsu.com>
+X-TM-AS-MML: disable
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] Replace foomatic-filters with cups-filters
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,48 +52,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2016 03:42:06 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 08 Aug 2016 05:30:07 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-We don't need/wan't to run resize on an ssh connection. It's useless and
-it breaks the Eclipse SSH debug connection. So, we added a check.
+Hi
 
-YOCTO #9362
+I notice that the newest version of cups-filters is 1.10.0 .
+https://www.openprinting.org/download/cups-filters/
 
-Signed-off-by: bavery <brian.avery@intel.com>
----
- recipes-core/base-files/base-files/profile | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+So I make a patch to upgrade the cups-filters and make some updates to 
+the recipe file.
 
-diff --git a/recipes-core/base-files/base-files/profile b/recipes-core/base-files/base-files/profile
-index e98e786..ba1b9ba 100644
---- a/recipes-core/base-files/base-files/profile
-+++ b/recipes-core/base-files/base-files/profile
-@@ -6,7 +6,7 @@ EDITOR="vi"			# needed for packages like cron, git-commit
- test -z "$TERM" && TERM="vt100"	# Basic terminal capab. For screen etc.
- 
- if [ ! -e /etc/localtime -a ! -e /etc/TZ ]; then
--	TZ="UTC"		# Time Zone. Look at http://theory.uwinnipeg.ca/gnu/glibc/libc_303.html 
-+	TZ="UTC"		# Time Zone. Look at http://theory.uwinnipeg.ca/gnu/glibc/libc_303.html
- 				# for an explanation of how to set this to your local timezone.
- 	export TZ
- fi
-@@ -29,10 +29,11 @@ if [ -d /etc/profile.d ]; then
- fi
- 
- if [ -x /usr/bin/resize ];then
--  /usr/bin/resize >/dev/null
-+  # Make sure we are on a serial console (i.e. the device used starts with /dev/tty),
-+  # otherwise we confuse e.g. the eclipse launcher which tries do use ssh
-+  test `tty | cut -c1-8` = "/dev/tty" && resize >/dev/null
- fi
- 
- export PATH PS1 OPIEDIR QPEDIR QTDIR EDITOR TERM
- 
- umask 022
--
+https://github.com/fan-xin/meta-printing/commit/cc2981c93c5fdfc1c19cffa031cc7207da5898ed
+
+Could you merge this patch to meta-printing.
+
+Best Regards,
+Fan
+
+On 2016年08月03日 10:42, Fan Xin wrote:
+>
+>
+> On 2016年08月03日 10:12, Stephen Arnold wrote:
+>> sorry, you missed a couple of replies I guess...
+>>
+>> It's in the Ross repo now:
+>>
+>> https://github.com/rossburton/meta-printing
+>>
+>> Steve
+>>
+>
+> Hey, Ross
+>
+> If possible, please also add me.
+> Thanks.
+>
+> Fan
+
 -- 
-1.9.1
+=====================================================
+株式会社富士通コンピュータテクノロジーズ
+組込みシステム技術統括部　第一ファームウェア技術部
+樊　昕 Fan Xin
+fan.xin@jp.fujitsu.com
 
+┏┓ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+┗■ 【ubinux V15】のリリースを開始しました！
+「SDN(Open vSwitch)」や「クラウド管理(OpenStack Heat）」などに対応
+---------------------------------------------------------------------
+詳細＞＞http://elsc.utsfd.cs.fujitsu.co.jp/location_elsc.php?id=0024
+※"ubinux"は組込み装置向け当社独自のLinuxディストリビューションです
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
