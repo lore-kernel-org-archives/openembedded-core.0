@@ -1,23 +1,48 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 81260758DB
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
+	[209.85.214.49])
+	by mail.openembedded.org (Postfix) with ESMTP id CBDED70031
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Aug 2016 13:13:20 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP; 08 Aug 2016 06:13:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,490,1464678000"; d="scan'208";a="861654210"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by orsmga003.jf.intel.com with ESMTP; 08 Aug 2016 06:13:16 -0700
-Message-ID: <1470661991.2138.73.camel@linux.intel.com>
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 08 Aug 2016 16:13:11 +0300
-In-Reply-To: <1470414267-5317-1-git-send-email-markus.lehtonen@linux.intel.com>
-References: <1470414267-5317-1-git-send-email-markus.lehtonen@linux.intel.com>
-X-Mailer: Evolution 3.16.5 
-Mime-Version: 1.0
-Subject: Re: [PATCH v2] license: improve handling of license files with identical basenames
+	Mon,  8 Aug 2016 13:37:46 +0000 (UTC)
+Received: by mail-it0-f49.google.com with SMTP id u186so73731544ita.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 08 Aug 2016 06:37:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=wonOdvHSPsUcbk4turE5ETT3ky/AN5BVvHuLwyiMoDs=;
+	b=vZODUNOik2Gbsqx/7Kbw236XfsmsuuCEAjMtqGmRNOma/aGBAtw/ambxTko+RZ0Qqv
+	jS3eSMSxxG+hAHo4OEnBY0vWfd9jvStl04ujdxSryi0r3lzE5zhgOQuh7S6ZshWWAN3o
+	XDGjUdYp7nZQ4wghvoPCZzYMHkumYTGcrgQmNH2tYFQK5Z87NM0yhn8y0KIVG6IFKDgm
+	h56PjrOVyjZ7HLwDIRIDsPzkBjpjbQtldrpwh9D0E+uAUvOSSlCEAv7ExSRP+RUvz2OL
+	W/ugRV5WNUw2G6KMKFBqhEIsXlL4lBvzcPpSsvu1d2yb+8uWoSnl76KBkyObRoo2BHTU
+	8Dmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=wonOdvHSPsUcbk4turE5ETT3ky/AN5BVvHuLwyiMoDs=;
+	b=CLoUN4eFYE+eY8E3jyntzVuytsj0XEhXK3uB/umGqqorTU6Z6/D+mvh9Uwl3s87HeI
+	TwOj1vDsFsAxdqBkNuAHn2zyjirfTSzKfOoMfo/0RyF5KL+WhgUCN5ehrkXh2xm3GgnO
+	ACeaRAG6VAgLQGGn2OWQ6T0uW+xEKr3/KcDIMBGWE0qi6daChDfF6lFIhY4+PVUfG4qI
+	fKjFK3JClKQVGPo4v+sylnOefSQSsUOmfxO4DpzuRTfBMMq7mZzRFbWX/ZjDoWVqTEHD
+	7az0tmhqEnLaCZpsVoMyBwHi75KBJTEITfEUAEVMIqYsUyWgVxvjRZjpZgRIfCUnmPZx
+	bcVQ==
+X-Gm-Message-State: AEkoouuujD9S11oORhR19drY6YYGxi74DPNltemnM8M8RtveMxoGWbSVjy4oU/wmdR/zi1I1/4jVm1JAdMudETFs
+X-Received: by 10.36.87.140 with SMTP id u134mr18815832ita.38.1470663467004;
+	Mon, 08 Aug 2016 06:37:47 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.18.17 with HTTP; Mon, 8 Aug 2016 06:37:26 -0700 (PDT)
+In-Reply-To: <CAKmqyKNKe=H+GA=EwT=b50vnWKp=K68XJCeiSd4M_UAdEOmF_A@mail.gmail.com>
+References: <1466023403-1976-1-git-send-email-alistair.francis@xilinx.com>
+	<CAKmqyKOviCTZBEnTXgSsWk2s+H6NJHAW490dPLkxy+Lz3Yuj2w@mail.gmail.com>
+	<CAKmqyKNKe=H+GA=EwT=b50vnWKp=K68XJCeiSd4M_UAdEOmF_A@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 8 Aug 2016 14:37:26 +0100
+Message-ID: <CAJTo0LaD0Rj5O+mJYvv0JbFnjeFUiD_S55MAkMdN9X8J-cuJ1Q@mail.gmail.com>
+To: Alistair Francis <alistair.francis@xilinx.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] runqemu: qemuzynqmp: Add Linux boot support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,160 +55,152 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2016 13:13:20 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 08 Aug 2016 13:37:48 -0000
+Content-Type: multipart/alternative; boundary=001a1135018c89208305398f858e
 
-On Fri, 2016-08-05 at 19:24 +0300, Markus Lehtonen wrote:
-> Previously, find_license_files() in license.bbclass just blindly
-> assumed
-> that all different licenses specified in LIC_FILES_CHKSUM have unique
-> filenames. As a consequence, only the last one of these similarly
-> named
-> license files was copied and the rest were "lost". This patch changes
-> the behavior so that all license files get copied. However, if
-> multiple
-> identically named files are found, they are renamed to <file>.0,
-> <file>.1 etc.
-> 
-> The patch also changes the handling of NO_GENERIC_LICENSE slightly.
-> Previously, only basenames of NO_GENERIC_LICENSE and LIC_FILES_CHKSUM
-> were compared when searching for the correct license file. After this
-> patch NO_GENERIC_LICENSE must have the full path, matching what is
-> specified in LIC_FILES_CHKSUM. This is required in order to be able
-> to handle identical filenames (basenames) consistently. For example,
-> if
-> you have:
-> LICENSE = "my-custom-license"
-> LIC_FILES_CHKSUM =
-> "file://src/LICENCE;md5=d41d8cd98f00b204e9800998ecf8427e"
-> 
-> you must specify:
-> NO_GENERIC_LICENSE[my-custom-license] = "src/LICENCE"
+--001a1135018c89208305398f858e
+Content-Type: text/plain; charset=UTF-8
 
-I forgot to add:
-[YOCTO #9663]
+Sorry, staged in my branch now.
 
-A patch with updated commit message is available at:
-  git://git.openembedded.org/openembedded-core-contrib marquiz/fixes
--9663
-  http://git.openembedded.org/openembedded-core-contrib/log/?h=marquiz/
-fixes-9663
+Ross
 
+On 3 August 2016 at 21:31, Alistair Francis <alistair.francis@xilinx.com>
+wrote:
 
-> 
-> Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-> ---
->  meta/classes/license.bbclass | 30 ++++++++++++++++++++++--------
->  1 file changed, 22 insertions(+), 8 deletions(-)
-> 
-> diff --git a/meta/classes/license.bbclass
-> b/meta/classes/license.bbclass
-> index 26c297d..1313fda 100644
-> --- a/meta/classes/license.bbclass
-> +++ b/meta/classes/license.bbclass
-> @@ -385,6 +385,7 @@ def find_license_files(d):
->      """
->      import shutil
->      import oe.license
-> +    from collections import defaultdict, OrderedDict
->  
->      pn = d.getVar('PN', True)
->      for package in d.getVar('PACKAGES', True):
-> @@ -409,6 +410,8 @@ def find_license_files(d):
->      generic_directory = d.getVar('COMMON_LICENSE_DIR', True)
->      # List of basename, path tuples
->      lic_files_paths = []
-> +    # Entries from LIC_FILES_CHKSUM
-> +    lic_chksums = {}
->      license_source_dirs = []
->      license_source_dirs.append(generic_directory)
->      try:
-> @@ -438,7 +441,6 @@ def find_license_files(d):
->          license_source = None
->          # If the generic does not exist we need to check to see if
-> there is an SPDX mapping to it,
->          # unless NO_GENERIC_LICENSE is set.
-> -
->          for lic_dir in license_source_dirs:
->              if not os.path.isfile(os.path.join(lic_dir,
-> license_type)):
->                  if d.getVarFlag('SPDXLICENSEMAP', license_type,
-> True) != None:
-> @@ -452,6 +454,7 @@ def find_license_files(d):
->                  license_source = lic_dir
->                  break
->  
-> +        non_generic_lic = d.getVarFlag('NO_GENERIC_LICENSE',
-> license_type, True)
->          if spdx_generic and license_source:
->              # we really should copy to generic_ + spdx_generic,
-> however, that ends up messing the manifest
->              # audit up. This should be fixed in emit_pkgdata (or, we
-> actually got and fix all the recipes)
-> @@ -463,13 +466,11 @@ def find_license_files(d):
->              if d.getVarFlag('NO_GENERIC_LICENSE', license_type,
-> True):
->                  bb.warn("%s: %s is a generic license, please don't
-> use NO_GENERIC_LICENSE for it." % (pn, license_type))
->  
-> -        elif d.getVarFlag('NO_GENERIC_LICENSE', license_type, True):
-> +        elif non_generic_lic and non_generic_lic in lic_chksums:
->              # if NO_GENERIC_LICENSE is set, we copy the license
-> files from the fetched source
->              # of the package rather than the license_source_dirs.
-> -            for (basename, path) in lic_files_paths:
-> -                if d.getVarFlag('NO_GENERIC_LICENSE', license_type,
-> True) == basename:
-> -                    lic_files_paths.append(("generic_" +
-> license_type, path))
-> -                    break
-> +            lic_files_paths.append(("generic_" + license_type,
-> +                                    os.path.join(srcdir,
-> non_generic_lic)))
->          else:
->              # Add explicity avoid of CLOSED license because this
-> isn't generic
->              if license_type != 'CLOSED':
-> @@ -492,8 +493,8 @@ def find_license_files(d):
->          except bb.fetch.MalformedUrl:
->              raise bb.build.FuncFailed("%s: LIC_FILES_CHKSUM contains
-> an invalid URL:  %s" % (d.getVar('PF', True), url))
->          # We want the license filename and path
-> -        srclicfile = os.path.join(srcdir, path)
-> -        lic_files_paths.append((os.path.basename(path), srclicfile))
-> +        chksum = parm['md5'] if 'md5' in parm else parm['sha256']
-> +        lic_chksums[path] = chksum
->  
->      v = FindVisitor()
->      try:
-> @@ -503,6 +504,19 @@ def find_license_files(d):
->      except SyntaxError:
->          bb.warn("%s: Failed to parse it's LICENSE field." %
-> (d.getVar('PF', True)))
->  
-> +    # Add files from LIC_FILES_CHKSUM to list of license files
-> +    lic_chksum_paths = defaultdict(OrderedDict)
-> +    for path, chksum in lic_chksums.items():
-> +        lic_chksum_paths[os.path.basename(path)][chksum] =
-> os.path.join(srcdir, path)
-> +    for basename, files in lic_chksum_paths.items():
-> +        if len(files) == 1:
-> +            lic_files_paths.append((basename,
-> list(files.values())[0]))
-> +        else:
-> +            # If there are multiple different license files with
-> identical
-> +            # basenames we rename them to <file>.0, <file>.1, ...
-> +            for i, path in enumerate(files.values()):
-> +                lic_files_paths.append(("%s.%d" % (basename, i),
-> path))
-> +
->      return lic_files_paths
->  
->  def return_spdx(d, license):
-> -- 
-> 2.6.6
-> 
+> Ping^2!
+>
+> On Wed, Jul 27, 2016 at 11:02 AM, Alistair Francis
+> <alistair.francis@xilinx.com> wrote:
+> > Ping!
+> >
+> > On Wed, Jun 15, 2016 at 1:43 PM, Alistair Francis
+> > <alistair.francis@xilinx.com> wrote:
+> >> Add support to direct boot Linux instead of just booting u-boot.
+> >>
+> >> Signed-off-by: Alistair Francis <alistair.francis@xilinx.com>
+> >> ---
+> >>  scripts/runqemu          | 3 +--
+> >>  scripts/runqemu-internal | 2 +-
+> >>  2 files changed, 2 insertions(+), 3 deletions(-)
+> >>
+> >> diff --git a/scripts/runqemu b/scripts/runqemu
+> >> index de05035..d52ea15 100755
+> >> --- a/scripts/runqemu
+> >> +++ b/scripts/runqemu
+> >> @@ -350,8 +350,7 @@ QEMUMICROBLAZE_DEFAULT_FSTYPE=cpio
+> >>  QEMUZYNQ_DEFAULT_KERNEL=uImage
+> >>  QEMUZYNQ_DEFAULT_FSTYPE=cpio
+> >>
+> >> -# Default to booting u-boot as a direct Linux boot isn't supported yet.
+> >> -QEMUZYNQMP_DEFAULT_KERNEL=u-boot-qemuzynqmp.elf
+> >> +QEMUZYNQMP_DEFAULT_KERNEL=Image
+> >>  QEMUZYNQMP_DEFAULT_FSTYPE=cpio
+> >>
+> >>  setup_path_vars() {
+> >> diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+> >> index ea1a307..ecc5e63 100755
+> >> --- a/scripts/runqemu-internal
+> >> +++ b/scripts/runqemu-internal
+> >> @@ -514,7 +514,7 @@ config_qemuzynqmp() {
+> >>      QEMU_NETWORK_CMD="-net nic -net nic -net nic -net nic -net
+> user,net=10.10.70.0,dhcpstart=10.10.70.1,host=10.10.70.101"
+> >>      QEMU_SYSTEM_OPTIONS="$QEMU_NETWORK_CMD -M xlnx-ep108 -serial
+> mon:stdio -dtb $DEPLOY_DIR_IMAGE/${QEMU_DTB}.dtb"
+> >>
+> >> -    QEMUOPTIONS="$QEMU_SYSTEM_OPTIONS $QEMU_UI_OPTIONS -tftp
+> $DEPLOY_DIR_IMAGE"
+> >> +    QEMUOPTIONS="$QEMU_SYSTEM_OPTIONS $QEMU_UI_OPTIONS -initrd
+> $ROOTFS"
+> >>  }
+> >>
+> >>  config_qemumicroblaze() {
+> >> --
+> >> 2.7.4
+> >>
+> >> --
+> >> _______________________________________________
+> >> Openembedded-core mailing list
+> >> Openembedded-core@lists.openembedded.org
+> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
+--001a1135018c89208305398f858e
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Sorry, staged in my branch now.<div><br></div><div>Ross</d=
+iv></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On 3 Aug=
+ust 2016 at 21:31, Alistair Francis <span dir=3D"ltr">&lt;<a href=3D"mailto=
+:alistair.francis@xilinx.com" target=3D"_blank">alistair.francis@xilinx.com=
+</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
+:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Ping^2!<br>
+<div class=3D"HOEnZb"><div class=3D"h5"><br>
+On Wed, Jul 27, 2016 at 11:02 AM, Alistair Francis<br>
+&lt;<a href=3D"mailto:alistair.francis@xilinx.com">alistair.francis@xilinx.=
+com</a>&gt; wrote:<br>
+&gt; Ping!<br>
+&gt;<br>
+&gt; On Wed, Jun 15, 2016 at 1:43 PM, Alistair Francis<br>
+&gt; &lt;<a href=3D"mailto:alistair.francis@xilinx.com">alistair.francis@xi=
+linx.com</a>&gt; wrote:<br>
+&gt;&gt; Add support to direct boot Linux instead of just booting u-boot.<b=
+r>
+&gt;&gt;<br>
+&gt;&gt; Signed-off-by: Alistair Francis &lt;<a href=3D"mailto:alistair.fra=
+ncis@xilinx.com">alistair.francis@xilinx.com</a>&gt;<br>
+&gt;&gt; ---<br>
+&gt;&gt;=C2=A0 scripts/runqemu=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 3 +--<br=
+>
+&gt;&gt;=C2=A0 scripts/runqemu-internal | 2 +-<br>
+&gt;&gt;=C2=A0 2 files changed, 2 insertions(+), 3 deletions(-)<br>
+&gt;&gt;<br>
+&gt;&gt; diff --git a/scripts/runqemu b/scripts/runqemu<br>
+&gt;&gt; index de05035..d52ea15 100755<br>
+&gt;&gt; --- a/scripts/runqemu<br>
+&gt;&gt; +++ b/scripts/runqemu<br>
+&gt;&gt; @@ -350,8 +350,7 @@ QEMUMICROBLAZE_DEFAULT_FSTYPE=3D<wbr>cpio<br>
+&gt;&gt;=C2=A0 QEMUZYNQ_DEFAULT_KERNEL=3DuImage<br>
+&gt;&gt;=C2=A0 QEMUZYNQ_DEFAULT_FSTYPE=3Dcpio<br>
+&gt;&gt;<br>
+&gt;&gt; -# Default to booting u-boot as a direct Linux boot isn&#39;t supp=
+orted yet.<br>
+&gt;&gt; -QEMUZYNQMP_DEFAULT_KERNEL=3Du-<wbr>boot-qemuzynqmp.elf<br>
+&gt;&gt; +QEMUZYNQMP_DEFAULT_KERNEL=3D<wbr>Image<br>
+&gt;&gt;=C2=A0 QEMUZYNQMP_DEFAULT_FSTYPE=3Dcpio<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 setup_path_vars() {<br>
+&gt;&gt; diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal<b=
+r>
+&gt;&gt; index ea1a307..ecc5e63 100755<br>
+&gt;&gt; --- a/scripts/runqemu-internal<br>
+&gt;&gt; +++ b/scripts/runqemu-internal<br>
+&gt;&gt; @@ -514,7 +514,7 @@ config_qemuzynqmp() {<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 QEMU_NETWORK_CMD=3D&quot;-net nic -net nic -ne=
+t nic -net nic -net user,net=3D10.10.70.0,dhcpstart=3D<wbr>10.10.70.1,host=
+=3D10.10.70.101&quot;<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 QEMU_SYSTEM_OPTIONS=3D&quot;$QEMU_<wbr>NETWORK=
+_CMD -M xlnx-ep108 -serial mon:stdio -dtb $DEPLOY_DIR_IMAGE/${QEMU_DTB}.<wb=
+r>dtb&quot;<br>
+&gt;&gt;<br>
+&gt;&gt; -=C2=A0 =C2=A0 QEMUOPTIONS=3D&quot;$QEMU_SYSTEM_<wbr>OPTIONS $QEMU=
+_UI_OPTIONS -tftp $DEPLOY_DIR_IMAGE&quot;<br>
+&gt;&gt; +=C2=A0 =C2=A0 QEMUOPTIONS=3D&quot;$QEMU_SYSTEM_<wbr>OPTIONS $QEMU=
+_UI_OPTIONS -initrd $ROOTFS&quot;<br>
+&gt;&gt;=C2=A0 }<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 config_qemumicroblaze() {<br>
+&gt;&gt; --<br>
+&gt;&gt; 2.7.4<br>
+&gt;&gt;<br>
+&gt;&gt; --<br>
+&gt;&gt; ______________________________<wbr>_________________<br>
+&gt;&gt; Openembedded-core mailing list<br>
+&gt;&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openem=
+bedded-core@lists.<wbr>openembedded.org</a><br>
+&gt;&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembe=
+dded-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.o=
+rg/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
+</div></div></blockquote></div><br></div>
+
+--001a1135018c89208305398f858e--
