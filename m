@@ -1,53 +1,50 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 3447A77187;
-	Mon,  8 Aug 2016 07:23:48 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id g202so24565926pfb.1;
-	Mon, 08 Aug 2016 00:23:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=8TvkB+3scMzEVNEEwSYaRSfXRMPXYZLc+9pOCghj4og=;
-	b=mq2pWNkXpLJ0Uruc4v3RPx+QjcXAao1b4VZU/DPnGMaHvNm2jJoqSng+D5X1j3p8qo
-	ZHePXhFQJcuuY911AdQheQ2fgCSXJMg0jYlkogoWpWW7yUt5Xp4MHFFMytVfFULtgDHz
-	02A582WnlSfFrOej4Q13d0nlSeRJsti+M6NxwcR1tqs3t9xwIWB2bGNsCbxxZ+lSFcKp
-	ftZhZrk3BUrbEkY4UVJvyMKNkGtso2sYyfVS0DZz8Kq4WfVe2lyNBAfsaY1sleuUAR2i
-	lcNX5K1QstAQgL2f516y826DYCXExMDzUalPUWOu0Zh0HLNXODY9JZhYp/alR1zIptz6
-	SlyQ==
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-ua0-f193.google.com (mail-ua0-f193.google.com
+	[209.85.217.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 03C2777183
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  8 Aug 2016 07:31:41 +0000 (UTC)
+Received: by mail-ua0-f193.google.com with SMTP id 74so6860285uau.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 08 Aug 2016 00:31:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=tEP7sNZreiAHgVm2/u3PY2o1nhBSuLtsq9jI1whr+GI=;
+	b=tmoqNZ7sLlWHbbh7fCFGwol09Hg2ATX/aa4U6axVdO9rUD9EA6s4RbFzyvHgmVbDVr
+	LJL2F85OOVHOdRfWLuE0fKNrQ23zo6rf+ZcssD1PS/AAkJfubb8HnMKy+byENzgY1o1R
+	jDDWmD/mnwpllmmOyagA0e4gha3gCyoqhLV2PCzh/ks00+JSx8VXaPTV7n7naLzVzvGm
+	S+k7WpC8S63dQhntJLIuhXpdy9yik1ARgUs07FKbiHK3sjngOyVXERWC8Q1qVhjmDs9u
+	//KS7hjRqVSBhXVrDA4QS6L81JrXW/4kFPvifE3Yt30h4ldIDIXBdrhvEf4TVIJkhLsg
+	lOEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=8TvkB+3scMzEVNEEwSYaRSfXRMPXYZLc+9pOCghj4og=;
-	b=E04J8g/J19tejCrv1uqFcHbtc/7b+/LdK79oBgmwB6z0CkKYZNEY28EDNl/eU3zPzK
-	Z+O2rPIkOvmC7RDCzoVhzOJcs9WVuE5f+EK6UsKXUJgsudiW0nudtbClLpNDLEH7gwGo
-	Jr68eB4Ui9g3Ue/LYS6zDIV8FC8miT0kj/X67I/j4ixkIW3lVHGGonG5zp3j15D+p+fj
-	x984A8J1M2bLyhgFR0tQQ/05RJEtR5CsOPhJ7JAF0gXxIPTk8sihh+5PLSBsWTHnvALJ
-	7vWmg2LDg8ILMtie0f70htx+v43CAVTeLQtDBZrZlIM4BMCtLLt6GTmegH7UKdG7vN2M
-	a7kw==
-X-Gm-Message-State: AEkoouuCBhwlCmraSPPNjzbHi5N2KuftH2Rp1oUrZNfPQ7o6w1zVVeegjVxL7DW935A88Q==
-X-Received: by 10.98.27.200 with SMTP id b191mr159482976pfb.111.1470641029528; 
-	Mon, 08 Aug 2016 00:23:49 -0700 (PDT)
-Received: from ?IPv6:2601:646:8882:b8c:7ced:64fa:b426:f5b4?
-	([2601:646:8882:b8c:7ced:64fa:b426:f5b4])
-	by smtp.gmail.com with ESMTPSA id
-	j2sm45323703paa.46.2016.08.08.00.23.44
-	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 08 Aug 2016 00:23:48 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1470637705.8166.29.camel@linuxfoundation.org>
-Date: Mon, 8 Aug 2016 00:24:13 -0700
-Message-Id: <8C207C42-3D61-4C3F-A1DE-F305AA6617BA@gmail.com>
-References: <CC61EFE1-5F39-4848-AD71-8E9C8DEC43C8@gmail.com>
-	<1470637705.8166.29.camel@linuxfoundation.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Mailer: Apple Mail (2.3124)
-Cc: Yocto Discussion Mailing List <yocto@yoctoproject.org>,
-	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFT] binutils 2.27
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=tEP7sNZreiAHgVm2/u3PY2o1nhBSuLtsq9jI1whr+GI=;
+	b=LxdTK+7E/Y3meZvPZxxAUYGbJ7MqXQQ8guWA0vewz+/eY92qdswES1VvBZd3NvKwfn
+	+wypueDFciL83l8hdWp7bgRAvzFG+KrMQQfrDlh+v2ZB4jreAJdYK8KJKu8svcQbpMlI
+	WST8uGyI7y9Us4oQowHF3mK7jdWPpA5DKnMpFv8I6HNYH2CCHE0lK7qg2FVUm3Xw0d0C
+	OS5YLsx/ctH5Kbz4uwPL7ANfoo0sIgAhqT/hYt0u4SWZd9/XY9SKcy1YQ2dO7271mUQq
+	wZEN5NobarPVF/UpII4QV9BVAGnpsM4gzaZExUbWGiOZ999x0L3HOatJPXhyfJHl3Kpd
+	u+Rg==
+X-Gm-Message-State: AEkoouvWNNIM6S/8P9KFTAHy03pO8MeS8X8ARkQi29r4rqtE8CdnOrbPzfCBfjdRBdaCI/Ub/iqAVuGJsdrSng==
+X-Received: by 10.31.56.73 with SMTP id f70mr46476439vka.135.1470641501721;
+	Mon, 08 Aug 2016 00:31:41 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.176.66.66 with HTTP; Mon, 8 Aug 2016 00:31:41 -0700 (PDT)
+In-Reply-To: <1741854.t2UPzGOPnl@peggleto-mobl.ger.corp.intel.com>
+References: <20160729222801.9806-1-raj.khem@gmail.com>
+	<CAP9ODKr5zc+cB-iGcze7Uq8DswUko=2cReYhWLyURe5DwLuE2Q@mail.gmail.com>
+	<1741854.t2UPzGOPnl@peggleto-mobl.ger.corp.intel.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Date: Mon, 8 Aug 2016 09:31:41 +0200
+Message-ID: <CALbNGRSP+nbV045-UaW_bZXv0iwnTe-MhjMLe3NEqAeg=-6Lyw@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] linux-dtb.inc: Support for .dtbo files for dtb overlays
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,82 +57,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2016 07:23:49 -0000
-X-Groupsio-MsgNum: 85438
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_3EF67517-6E1F-45B8-BEA2-DB52E20A821E";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Mon, 08 Aug 2016 07:31:42 -0000
+Content-Type: text/plain; charset=UTF-8
 
---Apple-Mail=_3EF67517-6E1F-45B8-BEA2-DB52E20A821E
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+On Sun, Jul 31, 2016 at 11:17 PM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> On Sat, 30 Jul 2016 08:00:45 Otavio Salvador wrote:
+>> On Fri, Jul 29, 2016 at 7:27 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>> > From: Herve Jourdain <herve.jourdain@neuf.fr>
+>> >
+>> > Signed-off-by: Herve Jourdain <herve.jourdain@neuf.fr>
+>> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> > ---
+>> >
+>> >  meta/recipes-kernel/linux/linux-dtb.inc | 18 +++++++++++-------
+>> >  1 file changed, 11 insertions(+), 7 deletions(-)
+>> >
+>> > diff --git a/meta/recipes-kernel/linux/linux-dtb.inc
+>> > b/meta/recipes-kernel/linux/linux-dtb.inc index 74f5ef8..8528d64 100644
+>> > --- a/meta/recipes-kernel/linux/linux-dtb.inc
+>> > +++ b/meta/recipes-kernel/linux/linux-dtb.inc
+>> > @@ -33,12 +33,13 @@ do_compile_append() {
+>> >
+>> >  do_install_append() {
+>> >
+>> >         for DTB in ${KERNEL_DEVICETREE}; do
+>> >
+>> >                 DTB=`normalize_dtb "${DTB}"`
+>> >
+>> > -               DTB_BASE_NAME=`basename ${DTB} .dtb`
+>> > +               DTB_EXT=${DTB##*.}
+>>
+>> Bashism, no?
+>
+> No:
+>
+>   http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html
+>
+Anything wrong with this patch. The orinal patch was sent end of May!
 
+Andreas
 
-> On Aug 7, 2016, at 11:28 PM, Richard Purdie =
-<richard.purdie@linuxfoundation.org> wrote:
->=20
-> On Sun, 2016-08-07 at 01:39 -0700, Khem Raj wrote:
->> I have put together upgrade for binutils 2.27 here ( kraj/master
->> branch )
->>=20
->> https://github.com/kraj/openembedded-core/commit/b98f5761d2285ffd773e
->> c6ecb901b799302ebd6b
->>=20
->> I have started bunch of test builds. but I would appreciate any help
->> in testing it out in your
->> environments and report any issues you see.
->=20
-> I ran this through the autobuilder:
->=20
-> bitbake world shows issues in libunwind (from gold?):
->=20
-
-yes, however, use of gold for libunwind in OE was an escape route
-where we were relying upon gold=E2=80=99s inability to detect this issue =
-while BFD linker
-was detecting it earlier. Now in 2.27 gold has caught up as well.
-
-see
-=
-https://sourceware.org/git/gitweb.cgi?p=3Dbinutils-gdb.git;h=3D6eeb0170bbb=
-43ffb73e8f01b8b481adde8194c21
-
-so now we have to get to nub of this issue to resolve it.
-
-> =
-https://autobuilder.yoctoproject.org/main/builders/nightly-world/builds
-> /889/steps/BuildImages/logs/stdio
->=20
-> bitbake world with no x11 also shows it:
->=20
-> =
-https://autobuilder.yoctoproject.org/main/builders/nightly-no-x11/build
-> s/231/steps/BuildImages/logs/stdio
->=20
-> Other than that, things don't seem too bad though.
->=20
-> Cheers,
->=20
-> Richard
->=20
->=20
-
-
---Apple-Mail=_3EF67517-6E1F-45B8-BEA2-DB52E20A821E
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAleoM6IACgkQuwUzVZGdMxROMwCghGSidA3CJlfwF8ro+4w2xkkZ
-6J8An0xUwvG7CDGLUakN8VGjsfX+0IMR
-=HGBo
------END PGP SIGNATURE-----
-
---Apple-Mail=_3EF67517-6E1F-45B8-BEA2-DB52E20A821E--
