@@ -1,28 +1,51 @@
-Return-Path: <alexandre.belloni@free-electrons.com>
-X-Greylist: delayed 497 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 08 Aug 2016 10:04:28 UTC
-Received: from mail.free-electrons.com (down.free-electrons.com
-	[37.187.137.238])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E3CA770CD
+Return-Path: <iwamatsu@nigauri.org>
+Received: from mail-it0-f67.google.com (mail-it0-f67.google.com
+	[209.85.214.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 75A4A770CD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Aug 2016 10:04:28 +0000 (UTC)
-Received: by mail.free-electrons.com (Postfix, from userid 110)
-	id BB494392; Mon,  8 Aug 2016 11:56:11 +0200 (CEST)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-	mail.free-electrons.com
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED,SHORTCIRCUIT,
-	URIBL_BLOCKED shortcircuit=ham autolearn=disabled version=3.4.0
-Received: from localhost (unknown [88.191.26.124])
-	by mail.free-electrons.com (Postfix) with ESMTPSA id 8B1D21CF;
-	Mon,  8 Aug 2016 11:56:11 +0200 (CEST)
-From: Alexandre Belloni <alexandre.belloni@free-electrons.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  8 Aug 2016 11:56:09 +0200
-Message-Id: <1470650169-5252-1-git-send-email-alexandre.belloni@free-electrons.com>
-X-Mailer: git-send-email 2.8.1
-Cc: Nicolas Ferre <nicolas.ferre@atmel.com>
-Subject: [PATCH] dpkg: Avoid automatic target architecture detection
+	Mon,  8 Aug 2016 10:10:29 +0000 (UTC)
+Received: by mail-it0-f67.google.com with SMTP id j124so5890433ith.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 08 Aug 2016 03:10:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=nigauri-org.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=pPS/c+YpxtPP7V5LM4bQYoPUduzQHSVo7P9zIdy4Ouo=;
+	b=kpNpLWopTJPz6TeEIyXWYSHIRt/XbkdpdsZPfdTrZu2Un+waRzrY11rGKMTM6fM0zZ
+	jUYyM3MPZ5j/gUAS/0Awiei3pqrb2LO0Z3YU2xXczNNvZ3jYsO+96B7T5ZYDJrV0o4D0
+	oL74pjgVJ0wXxKeo35UWQKupjmtcjUiX8GVWDxyglwP/0AqeCmNr+CU17T667VFJFMCQ
+	zM/VB6NFQLgLs0PHkpXYOVKqW+6cdOFwN+aPE+/DAMM9PKu0r7H0xVr+y2lauRLrraRj
+	/4IyZjMuhDa9yCtYOpV/S0xaG2HL0Vge9MKHq/G3xAeD/u6cquMCfYWVufMUUc1BqUbZ
+	yGWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=pPS/c+YpxtPP7V5LM4bQYoPUduzQHSVo7P9zIdy4Ouo=;
+	b=cd5BkANmOqmOVETDZAXjIlEELE4NmQXs2rX993aUR3F/S4W//zGcLXvWPpALG78G2l
+	gIBj8VNJJSM9RuzHFRWKpMsZyrBQNklFVjH2ro/3g2GFvcWdtIhz3B5kDfepO4qsLQmx
+	2gAOYTNs5UKskUyc5wfL5dqLgwQ9f61Azyxrlsp87pCN058nDdjfuM8ric/llirlIoeU
+	46n7ZyWhhI9TUbxBGekQQYG4dfN29DZ2EfvKwgkuls4Z+P29mjaBNWQWGXlINQVi1Mmu
+	lWaMwqMIkBwdqjJJbBGsPM8WsjRFPmmkkP6VxuLFmhSc7mDSJVbupKjdPRhtrZsws31U
+	v6wA==
+X-Gm-Message-State: AEkoouv8xYc9X0DytIpgNOPdDhvsvhSVgsQmI2a+uac1GFXpLbt6PikKUoFEZypJbX4BJuZCiiUyITI7tUZpyQ==
+X-Received: by 10.36.3.193 with SMTP id e184mr17438862ite.34.1470651030441;
+	Mon, 08 Aug 2016 03:10:30 -0700 (PDT)
+MIME-Version: 1.0
+Sender: iwamatsu@nigauri.org
+Received: by 10.107.138.86 with HTTP; Mon, 8 Aug 2016 03:09:59 -0700 (PDT)
+In-Reply-To: <1470604793.8166.21.camel@linuxfoundation.org>
+References: <1470581318-33390-1-git-send-email-iwamatsu@debian.org>
+	<1470604793.8166.21.camel@linuxfoundation.org>
+From: Nobuhiro Iwamatsu <iwamatsu@debian.org>
+Date: Mon, 8 Aug 2016 19:09:59 +0900
+X-Google-Sender-Auth: 4eYqOQ9pgRZHNsJHe4mlU8KW0rA
+Message-ID: <CABMQnVLd=-S__w==bheAeTwg_hkdy47F8=b+w0h0ZB7L65qNZw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] mmc-utils: update to latest git revision
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,39 +58,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2016 10:04:29 -0000
+X-List-Received-Date: Mon, 08 Aug 2016 10:10:31 -0000
+Content-Type: text/plain; charset=UTF-8
 
-dpkg is using a script (dpkg-architecture.pl) to detect the target
-architecture automatically.
-Unfortunately, it is using the cross compiler prefix to do the detection
-and for ARM, oe-core is using <vendor>-linux-gnueabi for toolchains with
-and without call-convention hard. The script then always detects
-'armel' and never gets 'armhf' for call-convention hard.
+Hi,
 
-This solves:
-dpkg: error processing archive evtest_1.32+0+b8343ec112-r0_armhf.deb (--install):
- package architecture (armhf) does not match system (armel)
- Errors were encountered while processing:
- evtest_1.32+0+b8343ec112-r0_armhf.deb
+2016-08-08 6:19 GMT+09:00 Richard Purdie <richard.purdie@linuxfoundation.org>:
+> On Sun, 2016-08-07 at 23:48 +0900, Nobuhiro Iwamatsu wrote:
+>> From: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
+>>
+>> This commit update to latest git revision and add SRCPV to PV.
+>
+> Why do we need a git revision of this rather than a released version?
+>
 
-Signed-off-by: Alexandre Belloni <alexandre.belloni@free-electrons.com>
----
- meta/recipes-devtools/dpkg/dpkg.inc | 1 +
- 1 file changed, 1 insertion(+)
+mmc-utils will change the revision of Git in version 0.1. We are using
+the now of any revision in PV,
+we do not know from version of package.
+Because I want to be seen that this revision from the package, I has
+been added SRCPV to PV.
 
-diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
-index 440a500..1f29113 100644
---- a/meta/recipes-devtools/dpkg/dpkg.inc
-+++ b/meta/recipes-devtools/dpkg/dpkg.inc
-@@ -35,6 +35,7 @@ EXTRA_OECONF = "\
- 		"
- 
- EXTRA_OECONF += "TAR=tar"
-+EXTRA_OECONF += "DEB_HOST_ARCH=${DPKG_ARCH}"
- 
- do_configure () {
-     echo >> ${S}/m4/compiler.m4
+Best regards,
+  Nobuhiro
 -- 
-1.9.1
-
+Nobuhiro Iwamatsu
+   iwamatsu at {nigauri.org / debian.org}
+   GPG ID: 40AD1FA6
 
