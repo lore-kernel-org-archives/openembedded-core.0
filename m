@@ -1,51 +1,57 @@
-Return-Path: <alistair23@gmail.com>
-Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
-	[209.85.218.67])
-	by mail.openembedded.org (Postfix) with ESMTP id B538A77158
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+X-Greylist: delayed 320 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 08 Aug 2016 17:47:42 UTC
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id 81B6E771AF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Aug 2016 17:26:48 +0000 (UTC)
-Received: by mail-oi0-f67.google.com with SMTP id a101so5934681oic.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Aug 2016 10:26:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=+pF566OWKYCr8Th59/90QbsM72XWsOVU87tgl8hS5KY=;
-	b=EJ5JSuaiTuivJoUpS9nhrJamTAVhK5EEaz0X5f+Nl67sfviZUT/PQqg9SagBfOA62D
-	eXphhrojuhrc3iB8/HGJWPbF/C5RWK6tDdimXCFDLJztw8/S++seuqJZcqjXTYSJ8hrp
-	i0fG1XjS5xVGMl+G8rdjq48p4UhlGl0zU3XrPMqxQCcOJ+qKunBb06+ZmJPyqypwC51l
-	+Cb9VhcRL1L1t31eo4lhAd4912o5dfAorZcg9emAqCz59A4C4NEAyyvPSnvhD7ZtVZBn
-	0Nju9iUIWBcTaOHCkZyyI+ulJIFgaXbJJTHwi1t/w9nI/szot3OYWVszK4eRf4AD/zyT
-	X/uQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=+pF566OWKYCr8Th59/90QbsM72XWsOVU87tgl8hS5KY=;
-	b=Ec8FTCXtdVC9fOT5YiEoF4lLfoAvGjauhxChVqAfnyPV/qOuyMaI4g2gljLNZhgyyV
-	V+xN7GaZOPON9ttSNzQzV9DMYCrd6x5K0EhO6819aFmOsnrQHCXTIOp+o+q9Gvxlzo/2
-	nr6pglz3YLumC1/Ji4OVKYbQwvd01g9vaIpyQUsWPmPABOUqaqJPGgGlau2Ca9MjJ3VV
-	+TofWNDfYNlKtx0bPi4oKoV/u+GVHqXRVJm9nR/f1x6+aGCiELVJAuksN78mdBxRd3Ex
-	oY/85vZc4Msn3sZoEw0zx9/IhYcApwTa6Z8THbIqIqXTYY4uomGUbE1a+mLXPSVk9QbD
-	P8Hg==
-X-Gm-Message-State: AEkooutnZPtDzx2ohYpv59udaUtmIuE7KSth0AXj+45xmYjDKUx0tFt1L9yBGTXZGgv01EfMjcUpPqfHwS0R0Q==
-X-Received: by 10.157.24.105 with SMTP id t38mr52246192ott.109.1470677209062; 
-	Mon, 08 Aug 2016 10:26:49 -0700 (PDT)
+	Mon,  8 Aug 2016 17:47:41 +0000 (UTC)
+Received: from mail-mta-0.intern.sigma-chemnitz.de
+	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	u78HgK82027981
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=OK) for <openembedded-core@lists.openembedded.org>;
+	Mon, 8 Aug 2016 19:42:20 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1470678140;
+	bh=3GzOs8ud9qLuRcAzA7P5xK7+zk9o5q2jmZsTT68wxU8=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:Sender;
+	b=YfxIf+1VgyNB4e925ruHEWTD2KMum2CWZjFhzW2ZQQBqkNb5iugaUh7eAZImhg1Fu
+	MUFwl2KYxWd+bg8pn24tdYmmf6HVlLKc+6Js+ojPfWHVlEKtul4Ue6lUalOUujSrtM
+	KodiARHDqD36SA5BGLnV68GMYbP4M+uUNofuq4EY=
+Received: from reddoxx.intern.sigma-chemnitz.de
+	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
+	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	u78Hg1m5030087 for <openembedded-core@lists.openembedded.org> from
+	enrico.scholz@sigma-chemnitz.de; Mon, 8 Aug 2016 19:42:03 +0200
+Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
+	reddoxx.intern.sigma-chemnitz.de
+	(Reddoxx engine) with SMTP id 503696EEFEF;
+	Mon, 8 Aug 2016 19:41:21 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	u78Hg0b6030084
+	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org> from
+	ensc@sigma-chemnitz.de; Mon, 8 Aug 2016 19:42:00 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.86_2) (envelope-from <ensc@sigma-chemnitz.de>) id 1bWoYp-0004Ma-DM
+	for openembedded-core@lists.openembedded.org;
+	Mon, 08 Aug 2016 19:42:00 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Mon, 08 Aug 2016 19:41:58 +0200
+Message-ID: <lyzion6tuh.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.0.95 (gnu/linux)
 MIME-Version: 1.0
-Sender: alistair23@gmail.com
-Received: by 10.182.14.72 with HTTP; Mon, 8 Aug 2016 10:26:18 -0700 (PDT)
-In-Reply-To: <CAJTo0LaD0Rj5O+mJYvv0JbFnjeFUiD_S55MAkMdN9X8J-cuJ1Q@mail.gmail.com>
-References: <1466023403-1976-1-git-send-email-alistair.francis@xilinx.com>
-	<CAKmqyKOviCTZBEnTXgSsWk2s+H6NJHAW490dPLkxy+Lz3Yuj2w@mail.gmail.com>
-	<CAKmqyKNKe=H+GA=EwT=b50vnWKp=K68XJCeiSd4M_UAdEOmF_A@mail.gmail.com>
-	<CAJTo0LaD0Rj5O+mJYvv0JbFnjeFUiD_S55MAkMdN9X8J-cuJ1Q@mail.gmail.com>
-From: Alistair Francis <alistair.francis@xilinx.com>
-Date: Mon, 8 Aug 2016 10:26:18 -0700
-X-Google-Sender-Auth: 0u1fxb2WtdRkTSra-DI51knCdcU
-Message-ID: <CAKmqyKN9+5n_BpQeMNCcfaj=-c-rjfq+2otdQUaEGgsc_AhtNA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] runqemu: qemuzynqmp: Add Linux boot support
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-Spam-Score: -1.1
+X-Spam-Level: -
+X-Spam-Tests: AWL,BAYES_00,DKIM_ADSP_ALL,RP_MATCHES_RCVD,SPF_NEUTRAL
+X-Scanned-By: MIMEDefang 2.78
+Subject: python3: use LC_CTYPE, not LC_ALL to set utf-8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,85 +64,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2016 17:26:49 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 08 Aug 2016 17:47:43 -0000
+Content-Type: text/plain
 
-On Mon, Aug 8, 2016 at 6:37 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> Sorry, staged in my branch now.
+Hello,
 
-Great! Thanks
+due to python3's misdesigned string handling, recent bitbake/OE enforces
+'LC_ALL=en_US.utf-8'.  This causes a lot of problems:
 
-Alistair
+* programs are giving out unicode quotes; e.g. look at the filenames in
 
->
-> Ross
->
-> On 3 August 2016 at 21:31, Alistair Francis <alistair.francis@xilinx.com>
-> wrote:
->>
->> Ping^2!
->>
->> On Wed, Jul 27, 2016 at 11:02 AM, Alistair Francis
->> <alistair.francis@xilinx.com> wrote:
->> > Ping!
->> >
->> > On Wed, Jun 15, 2016 at 1:43 PM, Alistair Francis
->> > <alistair.francis@xilinx.com> wrote:
->> >> Add support to direct boot Linux instead of just booting u-boot.
->> >>
->> >> Signed-off-by: Alistair Francis <alistair.francis@xilinx.com>
->> >> ---
->> >>  scripts/runqemu          | 3 +--
->> >>  scripts/runqemu-internal | 2 +-
->> >>  2 files changed, 2 insertions(+), 3 deletions(-)
->> >>
->> >> diff --git a/scripts/runqemu b/scripts/runqemu
->> >> index de05035..d52ea15 100755
->> >> --- a/scripts/runqemu
->> >> +++ b/scripts/runqemu
->> >> @@ -350,8 +350,7 @@ QEMUMICROBLAZE_DEFAULT_FSTYPE=cpio
->> >>  QEMUZYNQ_DEFAULT_KERNEL=uImage
->> >>  QEMUZYNQ_DEFAULT_FSTYPE=cpio
->> >>
->> >> -# Default to booting u-boot as a direct Linux boot isn't supported
->> >> yet.
->> >> -QEMUZYNQMP_DEFAULT_KERNEL=u-boot-qemuzynqmp.elf
->> >> +QEMUZYNQMP_DEFAULT_KERNEL=Image
->> >>  QEMUZYNQMP_DEFAULT_FSTYPE=cpio
->> >>
->> >>  setup_path_vars() {
->> >> diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
->> >> index ea1a307..ecc5e63 100755
->> >> --- a/scripts/runqemu-internal
->> >> +++ b/scripts/runqemu-internal
->> >> @@ -514,7 +514,7 @@ config_qemuzynqmp() {
->> >>      QEMU_NETWORK_CMD="-net nic -net nic -net nic -net nic -net
->> >> user,net=10.10.70.0,dhcpstart=10.10.70.1,host=10.10.70.101"
->> >>      QEMU_SYSTEM_OPTIONS="$QEMU_NETWORK_CMD -M xlnx-ep108 -serial
->> >> mon:stdio -dtb $DEPLOY_DIR_IMAGE/${QEMU_DTB}.dtb"
->> >>
->> >> -    QEMUOPTIONS="$QEMU_SYSTEM_OPTIONS $QEMU_UI_OPTIONS -tftp
->> >> $DEPLOY_DIR_IMAGE"
->> >> +    QEMUOPTIONS="$QEMU_SYSTEM_OPTIONS $QEMU_UI_OPTIONS -initrd
->> >> $ROOTFS"
->> >>  }
->> >>
->> >>  config_qemumicroblaze() {
->> >> --
->> >> 2.7.4
->> >>
->> >> --
->> >> _______________________________________________
->> >> Openembedded-core mailing list
->> >> Openembedded-core@lists.openembedded.org
->> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+  | env LC_ALL=en_US.utf-8 install foo bar
+
+  (it is assmed that 'foo' does not exist).
+
+* every non-C locale seems to have a strange LC_COLLATE behavior:
+
+  - it mixes upper and lowercas ('aword' < 'Bword' < 'cword')
+
+  - it mixes dotfiles and non dotfiles ('aword' < '.bword' < 'cword')
+
+* almost everything in the en_US locale is different from the rest of
+  the world (letter vs A4 paper, 12h vs 24h clock format, sunday instead
+  of monday starts week, lb vs. kg, inch vs. cm)
+
+
+I suggest to set only 'LC_CTYPE=en_US.utf-8' and request perhaaps
+explicitly a language neutral behavior by 'LANG=C'.
+
+I have
+
+| export LC_CTYPE = "en_US.utf-8"
+| LC_ALL[unexport] = "1"     # overrides bitbake.conf setting; might be removed
+
+in my distribution.conf after removing some sanity checks in bitbake and
+OE.
+
+
+
+Enrico
 
