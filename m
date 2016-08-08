@@ -1,27 +1,24 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id C60F5770E3
+Return-Path: <stefan@agner.ch>
+X-Greylist: delayed 560 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 08 Aug 2016 01:40:27 UTC
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id 109CA6FEFA
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  7 Aug 2016 22:21:07 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga104.fm.intel.com with ESMTP; 07 Aug 2016 15:21:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,486,1464678000"; d="scan'208";a="1036802736"
-Received: from mlim14-mobl5.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.150.9])
-	by fmsmga002.fm.intel.com with ESMTP; 07 Aug 2016 15:21:06 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Terry Boese <terry.boese@vecima.com>
-Date: Mon, 08 Aug 2016 10:21:03 +1200
-Message-ID: <2637866.kmUA3NXBsc@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.6.4-201.fc23.x86_64; KDE/4.14.20; x86_64; ;
-	)
-In-Reply-To: <1470350420-19935-1-git-send-email-terry.boese@vecima.com>
-References: <1470350420-19935-1-git-send-email-terry.boese@vecima.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] Update dnsmasq to version 2.76
+	Mon,  8 Aug 2016 01:40:27 +0000 (UTC)
+Received: from trochilidae.toradex.int (unknown
+	[IPv6:2601:602:8802:504f:3e97:eff:fe92:db3b])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 91DB85C141D;
+	Mon,  8 Aug 2016 03:26:40 +0200 (CEST)
+From: Stefan Agner <stefan@agner.ch>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  7 Aug 2016 18:30:58 -0700
+Message-Id: <20160808013058.8636-1-stefan@agner.ch>
+X-Mailer: git-send-email 2.9.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1470619601; bh=6LpeSQjWYDDryCP2H7D0zgyQjI4cgnzqMUF3BjH3yRY=;
+	h=From:To:Cc:Subject:Date:Message-Id;
+	b=IlEKlSUaJr3GTHFfqW30eKPhEW4RSpNK3MJRq5O5DBoE69ol9repAIn3dpXs43kGDMQ2wW20fXQsGDp0c0EuqM9Y/UeS4XkfN8MdbkB3dq6u2ZRkWMYl6J0cdwFfqN3QbGLPDaUK5UVejzwWAVc/8bAP9VRwxwjJIQQLUzaa8c8=
+Subject: [PATCH] busybox: Fix busybox-init on non-tty consoles
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,39 +31,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 07 Aug 2016 22:21:09 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 08 Aug 2016 01:40:29 -0000
 
-Hi Terry,
+When using non-tty consoles (e.g. VirtIO console /dev/hvc0) the
+current init system fails with:
+process '/sbin/getty 115200 hvc0' (pid 545) exited. Scheduling for restart.
+can't open /dev/ttyhvc0: No such file or directory
 
-Some feedback on your patch:
+The first field needs to be a valid device. The BusyBox inittab example
+explains as follows:
+"<id>: WARNING: This field has a non-traditional meaning for BusyBox init!
 
-* The dnsmasq recipe is in meta-networking, not OE-Core. Accordingly this 
-patch should be sent to the openembedded-devel@lists.openembedded.org mailing 
-list rather than this one.
+The id field is used by BusyBox init to specify the controlling tty for
+the specified process to run on.  The contents of this field are
+appended to "/dev/" and used as-is."
 
-* Please include "Signed-off-by" in your commit message.
+Signed-off-by: Stefan Agner <stefan@agner.ch>
+---
+ meta/recipes-core/busybox/busybox.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-* Please use -M with git-format-patch or git-send-email in order to have 
-renames detected and reflected in the patch.
-
-* The shortlog (first line of the commit message) should start with whichever 
-recipe, module or area is being changed. Thus for this patch it should be 
-"dnsmasq: update to version 2.76".
-
-* If you make other changes in the patch that are not directly related to the 
-upgrade (such as base_contains -> bb.utils.contains), please explicitly 
-mention them in the commit message.
-
-If you could please send a v2 of this patch with the above corrected to the 
-openembedded-devel list that would be much appreciated.
-
-Thanks,
-Paul
-
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index 5e91a26..4765c28 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -286,8 +286,8 @@ do_install () {
+                         for i in $tmp
+                         do
+                                 j=`echo ${i} | sed s/\;/\ /g`
+-                                label=`echo ${i} | sed -e 's/tty//' -e 's/^.*;//' -e 's/;.*//'`
+-                                echo "tty$label::respawn:${base_sbindir}/getty ${j}" >> ${D}${sysconfdir}/inittab
++                                id=`echo ${i} | -e 's/^.*;//' -e 's/;.*//'`
++                                echo "$id::respawn:${base_sbindir}/getty ${j}" >> ${D}${sysconfdir}/inittab
+                         done
+                 fi
+         fi
 -- 
+2.9.0
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
