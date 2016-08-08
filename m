@@ -1,26 +1,51 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 967B677184
+Return-Path: <jacob.kroon@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id DFCAB77175
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Aug 2016 06:04:08 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u78648ZR000676
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Mon,  8 Aug 2016 06:28:01 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id i5so13480384wmg.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 7 Aug 2016 23:04:08 -0700
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.229) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Sun, 7 Aug 2016 23:04:07 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 8 Aug 2016 14:04:05 +0800
-Message-ID: <8374cee610f770f4e027f92785bc0bed13334fbb.1470636212.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1470636212.git.Qi.Chen@windriver.com>
-References: <cover.1470636212.git.Qi.Chen@windriver.com>
+	Sun, 07 Aug 2016 23:28:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding;
+	bh=z2Lukdt7oy8wx5fCKM3AWfjiKKTjLCfFaoZmBkxOCXc=;
+	b=UL0WDd9ez+FWIY6+xRsQ9hChuyo0XWEYOXwjF9V//pxqjLdkQ1AhbB2yD3gk8M5twJ
+	Q74UqJsQvR0opw+/xv2FLODe4DjyjcrurVuEgc9mgWhDkRIVdAx+BmODBissZB5A4WB+
+	SbIUD+5SqKjlQ8xucaSgpss46PfeidUI+gvvsDxWpgXDyZ+8RnqxEzmYqydy+wvbp4hJ
+	9ejYA4Lr2t/itBFlECwSVSu9Mc40J4RJxCms1Cf5emAH6NDC3DqhiR/2brMcoWrJBc0O
+	S0Ndvn9H8xG/9ocDLrBeqFEXonL5eHcrAgT2Xo0zS6xs6bwtZSShuOz59AfSVNN1qYDr
+	vTdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=z2Lukdt7oy8wx5fCKM3AWfjiKKTjLCfFaoZmBkxOCXc=;
+	b=CRdS7N7DLrZBzlmscF9CkFQfameK4LaKmMX2N+HUCB35N8bHHLYtR/iXz73LYgdQfy
+	MxbuFEqr2UvIg7PJgwQPNI/Vy3YZjL7on3EU68gP4OWmU6FbiOoN4cQ4y6Y8it/8KTpL
+	OKzRsAOgRDNT+oSTAWce6LrX2gh/QDOvet0DI1xiKuA0thi46jYHfrFShNCUMqtt/kuu
+	DoZxAX2Xf1IAxxLp0J1CnX02Fcm6kBdTH5rQZzB4/OlYxs3VyePtVCglK63f65XU1g2H
+	G5yFbpYMe20Sl46+4pyERhxCtKefCqYA25edoKQNfepe42gmyv6a4z1qzq4TXu/Bm42n
+	H3eg==
+X-Gm-Message-State: AEkoout7w3X+Xvvdn4iWsu0Z93q8tOqg2qWMZWmdUnAXXLSQ6k9TdbgTyig+Ey/taMqOwg==
+X-Received: by 10.46.1.69 with SMTP id 66mr25909393ljb.27.1470637681419;
+	Sun, 07 Aug 2016 23:28:01 -0700 (PDT)
+Received: from skeletor.greyskull ([89.253.118.72])
+	by smtp.gmail.com with ESMTPSA id
+	h13sm5350640lji.33.2016.08.07.23.28.00
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 07 Aug 2016 23:28:00 -0700 (PDT)
+To: bavery <brian.avery@intel.com>, openembedded-core@lists.openembedded.org
+References: <cover.1470627445.git.brian.avery@intel.com>
+	<238d43d3704f084f3173624c1e4956246a1044e0.1470627445.git.brian.avery@intel.com>
+From: Jacob Kroon <jacob.kroon@gmail.com>
+Message-ID: <db8cc8ef-f243-a2b2-93ed-cd85c8917bce@gmail.com>
+Date: Mon, 8 Aug 2016 08:27:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] bitbake.conf: change localedir
+In-Reply-To: <238d43d3704f084f3173624c1e4956246a1044e0.1470627445.git.brian.avery@intel.com>
+Subject: Re: [PATCH 1/2] packagegroup-core-eclipse-debug: add openssh server to support openssh-sftp-server
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,42 +58,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2016 06:04:08 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 08 Aug 2016 06:28:03 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Previously, localedir is set to "${libdir}/locale". This would result
-in locale database installed in '/usr/lib64/locale' in some multilib case.
-For example, if we build out a multilib x86-64 self-hosted image and we try
-to build projects on this host, things broke and the following error appears.
+On 08/08/2016 05:43 AM, bavery wrote:
+> The openssh-sftp-server was already part of the pakagegroup. Adding the openssh-server
+> lets the sftp server start up correctly.
 
-  Please use a locale setting which supports utf-8.
-  Python can't change the filesystem locale after loading so we need a utf-8 when python starts or things won't work.
+If openssh-sftp-server cannot run without openssh, shouldn't it RDEPEND 
+on it instead ?
 
-This is because '/usr/lib/locale' is the default one. And actually the
-nativesdk-glibc is now set to use '/usr/lib/locale'.
-
-Thus, we change the setting of 'localedir' to '${nonarch_libdir}/locale' to
-fix the above problem.
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index c32a3f8..ed77ee3 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -44,7 +44,7 @@ export libdir = "${exec_prefix}/${baselib}"
- export libexecdir = "${exec_prefix}/libexec"
- export includedir = "${exec_prefix}/include"
- export oldincludedir = "${exec_prefix}/include"
--localedir = "${libdir}/locale"
-+localedir = "${nonarch_libdir}/locale"
- 
- # Linkage between native/cross/nativesdk layouts
- base_bindir_native = "/bin"
--- 
-1.9.1
+>
+> YOCTO #9362
+>
+> Signed-off-by: bavery <brian.avery@intel.com>
+> ---
+>  recipes-core/packagegroups/packagegroup-core-eclipse-debug.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/recipes-core/packagegroups/packagegroup-core-eclipse-debug.bb b/recipes-core/packagegroups/packagegroup-core-eclipse-debug.bb
+> index c45463f..c32fef5 100644
+> --- a/recipes-core/packagegroups/packagegroup-core-eclipse-debug.bb
+> +++ b/recipes-core/packagegroups/packagegroup-core-eclipse-debug.bb
+> @@ -6,4 +6,5 @@ RDEPENDS_${PN} = "\
+>      gdbserver \
+>      tcf-agent \
+>      openssh-sftp-server \
+> +    openssh \
+>      "
+>
 
 
