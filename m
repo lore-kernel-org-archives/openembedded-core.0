@@ -1,24 +1,24 @@
 Return-Path: <jose.a.lamego@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 74E0D771D9
+	by mail.openembedded.org (Postfix) with ESMTP id 79569771DC
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  8 Aug 2016 16:23:23 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by orsmga103.jf.intel.com with ESMTP; 08 Aug 2016 09:23:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,490,1464678000"; d="scan'208";a="1037316034"
+X-IronPort-AV: E=Sophos;i="5.28,490,1464678000"; d="scan'208";a="1037316037"
 Received: from yocto-ab03.ostc.intel.com ([10.54.69.73])
 	by fmsmga002.fm.intel.com with ESMTP; 08 Aug 2016 09:23:20 -0700
 From: Jose Lamego <jose.a.lamego@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  8 Aug 2016 09:23:05 -0700
-Message-Id: <8a77a75e55a638fbf63990a33f6c85c0846c0c31.1470671417.git.jose.a.lamego@linux.intel.com>
+Date: Mon,  8 Aug 2016 09:23:06 -0700
+Message-Id: <094f92c9067fed889ee7b12acdcff1d43b8ff577.1470671417.git.jose.a.lamego@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1470671417.git.jose.a.lamego@linux.intel.com>
 References: <cover.1470671417.git.jose.a.lamego@linux.intel.com>
 In-Reply-To: <cover.1470671417.git.jose.a.lamego@linux.intel.com>
 References: <cover.1470671417.git.jose.a.lamego@linux.intel.com>
-Subject: [PATCH 17/20] oeqa.selftest.signing: Split configuration from code
+Subject: [PATCH 18/20] oeqa.selftest.sstatetests: Split configuration from code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,248 +41,379 @@ configuration file.
 
 Signed-off-by: Jose Lamego <jose.a.lamego@linux.intel.com>
 ---
- meta/lib/oeqa/selftest/conf/signing.conf |  15 ++++
- meta/lib/oeqa/selftest/signing.py        | 119 +++++++++++++++++++------------
- 2 files changed, 90 insertions(+), 44 deletions(-)
- create mode 100644 meta/lib/oeqa/selftest/conf/signing.conf
+ meta/lib/oeqa/selftest/conf/sstatetests.conf |  25 +++++
+ meta/lib/oeqa/selftest/sstatetests.py        | 162 ++++++++++++++++++---------
+ 2 files changed, 133 insertions(+), 54 deletions(-)
+ create mode 100644 meta/lib/oeqa/selftest/conf/sstatetests.conf
 
-diff --git a/meta/lib/oeqa/selftest/conf/signing.conf b/meta/lib/oeqa/selftest/conf/signing.conf
+diff --git a/meta/lib/oeqa/selftest/conf/sstatetests.conf b/meta/lib/oeqa/selftest/conf/sstatetests.conf
 new file mode 100644
-index 0000000..c95d247
+index 0000000..23c87c4
 --- /dev/null
-+++ b/meta/lib/oeqa/selftest/conf/signing.conf
-@@ -0,0 +1,15 @@
-+[Signing]
-+setUpClass_prefix = oeqa-signing-
-+# key.secret and key.pub are located in gpg_dir
-+setUpClass_pub_keyname = key.pub
-+setUpClass_secret_keyname = key.secret
-+setUpClass_test_recipe = ed
-+setUpClass_passphrase = test123
-+signing_packages_inherit = sign_rpm
-+signing_packages_name = testuser
-+[LockedSignatures]
-+locked_signatures_locked_sigs_file = locked-sigs.inc
-+locked_signatures_feature = require %(locked_signatures_locked_sigs_file)s
-+                            SIGGEN_LOCKEDSIGS_TASKSIG_CHECK = "warn"
-+locked_signatures_recipe_dir = recipes-test
-+locked_signatures_summary = test locked signature
-diff --git a/meta/lib/oeqa/selftest/signing.py b/meta/lib/oeqa/selftest/signing.py
-index 4c12d6d..8ce45c3 100644
---- a/meta/lib/oeqa/selftest/signing.py
-+++ b/meta/lib/oeqa/selftest/signing.py
-@@ -7,13 +7,12 @@ import shutil
- import tempfile
++++ b/meta/lib/oeqa/selftest/conf/sstatetests.conf
+@@ -0,0 +1,25 @@
++[SStateTests]
++setUpClass_prefix = binutils-cross-
++setUpClass_recipe1 = binutils-native
++setUpClass_recipe2 = glibc-initial
++setupClass_recipe3 = m4
++setupClass_recipe4 = meta-toolchain
++setupClass_recipe5 = meta-environment
++setupClass_recipe6 = cross-canadian
++setUpClass_pattern = populate_lic
++setUpClass_machine1 = qemux86-64
++setupClass_machine2 = qemux86
++setupClass_machine3 = qemuarm
++setUpClass_machine4 = qemux86copy
++setUpClass_image = core-image-sato
++sstate_32_64_same_hash_features_1 = MACHINE = "qemux86"
++                                    BUILD_ARCH = "x86_64"
++                                    BUILD_OS = "linux"
++                                    SDKMACHINE = "x86_64"
++sstate_32_64_same_hash_features_2 = MACHINE = "qemux86"
++                                    BUILD_ARCH = "i686"
++                                    BUILD_OS = "linux"
++                                    SDKMACHINE = "i686"
++sstate_32_64_same_hash_arch2 = i686
++sstate_32_64_same_hash_arch1 = x86_64
++
+diff --git a/meta/lib/oeqa/selftest/sstatetests.py b/meta/lib/oeqa/selftest/sstatetests.py
+index 07212ac..814c6d0 100644
+--- a/meta/lib/oeqa/selftest/sstatetests.py
++++ b/meta/lib/oeqa/selftest/sstatetests.py
+@@ -11,9 +11,29 @@ from oeqa.selftest.base import oeSelfTest
+ from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_test_layer
+ from oeqa.selftest.sstate import SStateBase
  from oeqa.utils.decorators import testcase
- from oeqa.utils.ftools import write_file
 +from oeqa.utils.readconfig import conffile
++
  
- 
- class Signing(oeSelfTest):
- 
-     gpg_dir = ""
--    pub_key_path = ""
--    secret_key_path = ""
- 
-     @classmethod
-     def setUpClass(cls):
-@@ -21,11 +20,19 @@ class Signing(oeSelfTest):
-         if not shutil.which("gpg"):
-             raise AssertionError("This test needs GnuPG")
- 
--        cls.gpg_home_dir = tempfile.TemporaryDirectory(prefix="oeqa-signing-")
-+        cls.config = conffile(__file__)
-+        prefix = cls.config.get('Signing', 'setUpClass_prefix')
-+        pub_keyname = cls.config.get('Signing', 'setUpClass_pub_keyname')
-+        secret_keyname = cls.config.get('Signing', 'setUpClass_secret_keyname')
-+        cls.test_recipe = cls.config.get('Signing', 'setUpClass_test_recipe')
-+        cls.passphrase = cls.config.get('Signing', 'setUpClass_passphrase')
-+        cls.gpg_home_dir = tempfile.TemporaryDirectory(prefix)
-         cls.gpg_dir = cls.gpg_home_dir.name
- 
--        cls.pub_key_path = os.path.join(cls.testlayer_path, 'files', 'signing', "key.pub")
--        cls.secret_key_path = os.path.join(cls.testlayer_path, 'files', 'signing', "key.secret")
-+        cls.pub_key_path = os.path.join(cls.testlayer_path, 'files', 'signing',
-+                                        pub_keyname)
-+        cls.secret_key_path = os.path.join(cls.testlayer_path, 'files',
-+                                           'signing', secret_keyname)
- 
-         runCmd('gpg --homedir %s --import %s %s' % (cls.gpg_dir, cls.pub_key_path, cls.secret_key_path))
- 
-@@ -40,32 +47,36 @@ class Signing(oeSelfTest):
-         """
-         import oe.packagedata
- 
-+        # Test configuration is taken from conf file
-+        inherit = self.config.get('Signing', 'signing_packages_inherit')
-+        passphrase = self.config.get('Signing', 'setupClass_passphrase')
-+        name = self.config.get('Signing', 'signing_packages_name')
-         package_classes = get_bb_var('PACKAGE_CLASSES')
-         if 'package_rpm' not in package_classes:
-             self.skipTest('This test requires RPM Packaging.')
- 
--        test_recipe = 'ed'
--
--        feature = 'INHERIT += "sign_rpm"\n'
--        feature += 'RPM_GPG_PASSPHRASE = "test123"\n'
--        feature += 'RPM_GPG_NAME = "testuser"\n'
-+        feature = 'INHERIT += "%s"\n' % inherit
-+        feature += 'RPM_GPG_PASSPHRASE = "%s"\n' % passphrase
-+        feature += 'RPM_GPG_NAME = "%s"\n' % name
-         feature += 'RPM_GPG_PUBKEY = "%s"\n' % self.pub_key_path
-         feature += 'GPG_PATH = "%s"\n' % self.gpg_dir
- 
-         self.write_config(feature)
- 
--        bitbake('-c cleansstate %s' % test_recipe)
--        bitbake(test_recipe)
--        self.add_command_to_tearDown('bitbake -c clean %s' % test_recipe)
-+        bitbake('-c cleansstate %s' % self.test_recipe)
-+        bitbake(self.test_recipe)
-+        self.add_command_to_tearDown('bitbake -c clean %s' % self.test_recipe)
- 
--        pkgdatadir = get_bb_var('PKGDATA_DIR', test_recipe)
--        pkgdata = oe.packagedata.read_pkgdatafile(pkgdatadir + "/runtime/ed")
-+        pkgdatadir = get_bb_var('PKGDATA_DIR', self.test_recipe)
-+        pkgdata = oe.packagedata.read_pkgdatafile(pkgdatadir + "/runtime/%s"
-+                                                  % self.test_recipe)
-         if 'PKGE' in pkgdata:
-             pf = pkgdata['PN'] + "-" + pkgdata['PKGE'] + pkgdata['PKGV'] + '-' + pkgdata['PKGR']
-         else:
-             pf = pkgdata['PN'] + "-" + pkgdata['PKGV'] + '-' + pkgdata['PKGR']
--        deploy_dir_rpm = get_bb_var('DEPLOY_DIR_RPM', test_recipe)
--        package_arch = get_bb_var('PACKAGE_ARCH', test_recipe).replace('-', '_')
-+        deploy_dir_rpm = get_bb_var('DEPLOY_DIR_RPM', self.test_recipe)
-+        package_arch = get_bb_var(
-+                     'PACKAGE_ARCH', self.test_recipe).replace('-', '_')
-         staging_bindir_native = get_bb_var('STAGING_BINDIR_NATIVE')
- 
-         pkg_deploy = os.path.join(deploy_dir_rpm, package_arch, '.'.join((pf, package_arch, 'rpm')))
-@@ -92,13 +103,12 @@ class Signing(oeSelfTest):
-         AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
-         """
- 
--        test_recipe = 'ed'
--
-         builddir = os.environ.get('BUILDDIR')
-         sstatedir = os.path.join(builddir, 'test-sstate')
- 
--        self.add_command_to_tearDown('bitbake -c clean %s' % test_recipe)
--        self.add_command_to_tearDown('bitbake -c cleansstate %s' % test_recipe)
-+        self.add_command_to_tearDown('bitbake -c clean %s' % self.test_recipe)
-+        self.add_command_to_tearDown('bitbake -c cleansstate %s'
-+                                     % self.test_recipe)
-         self.add_command_to_tearDown('rm -rf %s' % sstatedir)
- 
-         # Determine the pub key signature
-@@ -108,18 +118,20 @@ class Signing(oeSelfTest):
-         pub_key = pub_key.group(1)
- 
-         feature = 'SSTATE_SIG_KEY ?= "%s"\n' % pub_key
--        feature += 'SSTATE_SIG_PASSPHRASE ?= "test123"\n'
-+        feature += 'SSTATE_SIG_PASSPHRASE ?= "%s"\n' % self.passphrase
-         feature += 'SSTATE_VERIFY_SIG ?= "1"\n'
-         feature += 'GPG_PATH = "%s"\n' % self.gpg_dir
-         feature += 'SSTATE_DIR = "%s"\n' % sstatedir
- 
-         self.write_config(feature)
- 
--        bitbake('-c cleansstate %s' % test_recipe)
--        bitbake(test_recipe)
-+        bitbake('-c cleansstate %s' % self.test_recipe)
-+        bitbake(self.test_recipe)
- 
--        recipe_sig = glob.glob(sstatedir + '/*/*:ed:*_package.tgz.sig')
--        recipe_tgz = glob.glob(sstatedir + '/*/*:ed:*_package.tgz')
-+        recipe_sig = glob.glob(
-+                   sstatedir + '/*/*:%s:*_package.tgz.sig' % self.test_recipe)
-+        recipe_tgz = glob.glob(
-+                   sstatedir + '/*/*:%s:*_package.tgz' % self.test_recipe)
- 
-         self.assertEqual(len(recipe_sig), 1, 'Failed to find .sig file.')
-         self.assertEqual(len(recipe_tgz), 1, 'Failed to find .tgz file.')
-@@ -132,6 +144,21 @@ class Signing(oeSelfTest):
- 
- class LockedSignatures(oeSelfTest):
+ class SStateTests(SStateBase):
  
 +    @classmethod
 +    def setUpClass(cls):
 +        # Get test configurations from configuration file
 +        cls.config = conffile(__file__)
-+        cls.test_recipe = cls.config.get(
-+                        'Signing', 'setupClass_test_recipe')
-+        cls.locked_sigs_file = cls.config.get(
-+                    'LockedSignatures', 'locked_signatures_locked_sigs_file')
-+        cls.feature = cls.config.get(
-+                    'LockedSignatures', 'locked_signatures_feature')
-+        cls.recipe_dir = cls.config.get(
-+                       'LockedSignatures', 'locked_signatures_recipe_dir')
-+        cls.summary = cls.config.get(
-+                    'LockedSignatures', 'locked_signatures_summary')
++        cls.prefix = cls.config.get('SStateTests', 'setUpClass_prefix')
++        cls.recipe1 = cls.config.get('SStateTests', 'setUpClass_recipe1')
++        cls.recipe2 = cls.config.get('SStateTests', 'setUpClass_recipe2')
++        cls.recipe3 = cls.config.get('SStateTests', 'setUpClass_recipe3')
++        cls.recipe4 = cls.config.get('SStateTests', 'setUpClass_recipe4')
++        cls.recipe5 = cls.config.get('SStateTests', 'setUpClass_recipe5')
++        cls.recipe6 = cls.config.get('SStateTests', 'setUpClass_recipe6')
++        cls.pattern = cls.config.get('SStateTests', 'setUpClass_pattern')
++        cls.machine1 = cls.config.get('SStateTests', 'setUpClass_machine1')
++        cls.machine2 = cls.config.get('SStateTests', 'setUpClass_machine2')
++        cls.machine3 = cls.config.get('SStateTests', 'setUpClass_machine3')
++        cls.machine4 = cls.config.get('SStateTests', 'setUpClass_machine4')
++        cls.image = cls.config.get('SStateTests', 'setUpClass_image')
 +
-     @testcase(1420)
-     def test_locked_signatures(self):
-         """
-@@ -142,37 +169,41 @@ class LockedSignatures(oeSelfTest):
-         AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
-         """
+     # Test sstate files creation and their location
+     def run_test_sstate_creation(self, targets, distro_specific=True, distro_nonspecific=True, temp_sstate_location=True, should_pass=True):
+         self.config_sstate(temp_sstate_location)
+@@ -42,20 +62,29 @@ class SStateTests(SStateBase):
+     @testcase(975)
+     def test_sstate_creation_distro_specific_pass(self):
+         targetarch = get_bb_var('TUNE_ARCH')
+-        self.run_test_sstate_creation(['binutils-cross-'+ targetarch, 'binutils-native'], distro_specific=True, distro_nonspecific=False, temp_sstate_location=True)
++        self.run_test_sstate_creation(
++            [self.prefix + targetarch, self.recipe1], distro_specific=True,
++            distro_nonspecific=False, temp_sstate_location=True)
  
--        test_recipe = 'ed'
--        locked_sigs_file = 'locked-sigs.inc'
--
--        self.add_command_to_tearDown('rm -f %s' % os.path.join(self.builddir, locked_sigs_file))
-+        self.add_command_to_tearDown(
-+            'rm -f %s' % os.path.join(self.builddir, self.locked_sigs_file))
+     @testcase(1374)
+     def test_sstate_creation_distro_specific_fail(self):
+         targetarch = get_bb_var('TUNE_ARCH')
+-        self.run_test_sstate_creation(['binutils-cross-'+ targetarch, 'binutils-native'], distro_specific=False, distro_nonspecific=True, temp_sstate_location=True, should_pass=False)
++        self.run_test_sstate_creation(
++            [self.prefix + targetarch, self.recipe1],
++            distro_specific=False, distro_nonspecific=True,
++            temp_sstate_location=True, should_pass=False)
  
--        bitbake(test_recipe)
-+        bitbake(self.test_recipe)
-         # Generate locked sigs include file
--        bitbake('-S none %s' % test_recipe)
-+        bitbake('-S none %s' % self.test_recipe)
+     @testcase(976)
+     def test_sstate_creation_distro_nonspecific_pass(self):
+-        self.run_test_sstate_creation(['glibc-initial'], distro_specific=False, distro_nonspecific=True, temp_sstate_location=True)
++        self.run_test_sstate_creation(
++            [self.recipe2], distro_specific=False,
++            distro_nonspecific=True, temp_sstate_location=True)
  
--        feature = 'require %s\n' % locked_sigs_file
--        feature += 'SIGGEN_LOCKEDSIGS_TASKSIG_CHECK = "warn"\n'
--        self.write_config(feature)
-+        self.write_config(self.feature)
+     @testcase(1375)
+     def test_sstate_creation_distro_nonspecific_fail(self):
+-        self.run_test_sstate_creation(['glibc-initial'], distro_specific=True, distro_nonspecific=False, temp_sstate_location=True, should_pass=False)
++        self.run_test_sstate_creation(
++            [self.recipe2], distro_specific=True, distro_nonspecific=False,
++            temp_sstate_location=True, should_pass=False)
  
-         # Build a locked recipe
--        bitbake(test_recipe)
-+        bitbake(self.test_recipe)
  
-         # Make a change that should cause the locked task signature to change
--        recipe_append_file = test_recipe + '_' + get_bb_var('PV', test_recipe) + '.bbappend'
--        recipe_append_path = os.path.join(self.testlayer_path, 'recipes-test', test_recipe, recipe_append_file)
--        feature = 'SUMMARY += "test locked signature"\n'
--
--        os.mkdir(os.path.join(self.testlayer_path, 'recipes-test', test_recipe))
-+        recipe_append_file = self.test_recipe + '_' + get_bb_var(
-+                                        'PV', self.test_recipe) + '.bbappend'
-+        recipe_append_path = os.path.join(
-+                           self.testlayer_path, self.recipe_dir,
-+                           self.test_recipe, recipe_append_file)
-+        feature = 'SUMMARY += "%s"\n' % self.summary
-+
-+        os.mkdir(os.path.join(self.testlayer_path, self.recipe_dir,
-+                              self.test_recipe))
-         write_file(recipe_append_path, feature)
+     # Test the sstate files deletion part of the do_cleansstate task
+@@ -78,16 +107,24 @@ class SStateTests(SStateBase):
+     @testcase(977)
+     def test_cleansstate_task_distro_specific_nonspecific(self):
+         targetarch = get_bb_var('TUNE_ARCH')
+-        self.run_test_cleansstate_task(['binutils-cross-' + targetarch, 'binutils-native', 'glibc-initial'], distro_specific=True, distro_nonspecific=True, temp_sstate_location=True)
++        self.run_test_cleansstate_task(
++            [self.prefix + targetarch, self.recipe1, self.recipe2],
++            distro_specific=True, distro_nonspecific=True,
++            temp_sstate_location=True)
  
--        self.add_command_to_tearDown('rm -rf %s' % os.path.join(self.testlayer_path, 'recipes-test', test_recipe))
-+        self.add_command_to_tearDown(
-+            'rm -rf %s' % os.path.join(self.testlayer_path,
-+                                       self.recipe_dir, self.test_recipe))
+     @testcase(1376)
+     def test_cleansstate_task_distro_nonspecific(self):
+-        self.run_test_cleansstate_task(['glibc-initial'], distro_specific=False, distro_nonspecific=True, temp_sstate_location=True)
++        self.run_test_cleansstate_task(
++            [self.recipe2], distro_specific=False,
++            distro_nonspecific=True, temp_sstate_location=True)
  
-         # Build the recipe again
--        ret = bitbake(test_recipe)
-+        ret = bitbake(self.test_recipe)
+     @testcase(1377)
+     def test_cleansstate_task_distro_specific(self):
+         targetarch = get_bb_var('TUNE_ARCH')
+-        self.run_test_cleansstate_task(['binutils-cross-'+ targetarch, 'binutils-native', 'glibc-initial'], distro_specific=True, distro_nonspecific=False, temp_sstate_location=True)
++        self.run_test_cleansstate_task(
++            [self.prefix + targetarch, self.recipe1, self.recipe2],
++            distro_specific=True, distro_nonspecific=False,
++            temp_sstate_location=True)
  
-         # Verify you get the warning and that the real task *isn't* run (i.e. the locked signature has worked)
--        patt = r'WARNING: The %s:do_package sig is computed to be \S+, but the sig is locked to \S+ in SIGGEN_LOCKEDSIGS\S+' % test_recipe
-+        patt = (r'WARNING: The %s:do_package sig is computed to be \S+, '
-+                r'but the sig is locked to \S+ in SIGGEN_LOCKEDSIGS\S+'
-+                % self.test_recipe)
-         found_warn = re.search(patt, ret.output)
  
-         self.assertIsNotNone(found_warn, "Didn't find the expected warning message. Output: %s" % ret.output)
+     # Test rebuilding of distro-specific sstate files
+@@ -125,16 +162,20 @@ class SStateTests(SStateBase):
+     @testcase(175)
+     def test_rebuild_distro_specific_sstate_cross_native_targets(self):
+         targetarch = get_bb_var('TUNE_ARCH')
+-        self.run_test_rebuild_distro_specific_sstate(['binutils-cross-' + targetarch, 'binutils-native'], temp_sstate_location=True)
++        self.run_test_rebuild_distro_specific_sstate(
++            [self.prefix + targetarch, self.recipe1],
++            temp_sstate_location=True)
+ 
+     @testcase(1372)
+     def test_rebuild_distro_specific_sstate_cross_target(self):
+         targetarch = get_bb_var('TUNE_ARCH')
+-        self.run_test_rebuild_distro_specific_sstate(['binutils-cross-' + targetarch], temp_sstate_location=True)
++        self.run_test_rebuild_distro_specific_sstate(
++            [self.prefix + targetarch], temp_sstate_location=True)
+ 
+     @testcase(1373)
+     def test_rebuild_distro_specific_sstate_native_target(self):
+-        self.run_test_rebuild_distro_specific_sstate(['binutils-native'], temp_sstate_location=True)
++        self.run_test_rebuild_distro_specific_sstate(
++            [self.recipe1], temp_sstate_location=True)
+ 
+ 
+     # Test the sstate-cache-management script. Each element in the global_config list is used with the corresponding element in the target_config list
+@@ -186,7 +227,9 @@ class SStateTests(SStateBase):
+         target_config = []
+         global_config.append('')
+         target_config.append('PR = "0"')
+-        self.run_test_sstate_cache_management_script('m4', global_config,  target_config, ignore_patterns=['populate_lic'])
++        self.run_test_sstate_cache_management_script(
++            self.recipe3, global_config,  target_config,
++            ignore_patterns=[self.pattern])
+ 
+     @testcase(978)
+     def test_sstate_cache_management_script_using_pr_2(self):
+@@ -196,29 +239,35 @@ class SStateTests(SStateBase):
+         target_config.append('PR = "0"')
+         global_config.append('')
+         target_config.append('PR = "1"')
+-        self.run_test_sstate_cache_management_script('m4', global_config,  target_config, ignore_patterns=['populate_lic'])
++        self.run_test_sstate_cache_management_script(
++            self.recipe3, global_config,  target_config,
++            ignore_patterns=[self.pattern])
+ 
+     @testcase(979)
+     def test_sstate_cache_management_script_using_pr_3(self):
+         global_config = []
+         target_config = []
+-        global_config.append('MACHINE = "qemux86-64"')
++        global_config.append('MACHINE = "%s"' % self.machine1)
+         target_config.append('PR = "0"')
+         global_config.append(global_config[0])
+         target_config.append('PR = "1"')
+-        global_config.append('MACHINE = "qemux86"')
++        global_config.append('MACHINE = "%s"' % self.machine2)
+         target_config.append('PR = "1"')
+-        self.run_test_sstate_cache_management_script('m4', global_config,  target_config, ignore_patterns=['populate_lic'])
++        self.run_test_sstate_cache_management_script(
++            self.recipe3, global_config,  target_config,
++            ignore_patterns=[self.pattern])
+ 
+     @testcase(974)
+     def test_sstate_cache_management_script_using_machine(self):
+         global_config = []
+         target_config = []
+-        global_config.append('MACHINE = "qemux86-64"')
++        global_config.append('MACHINE = "%s"' % self.machine1)
+         target_config.append('')
+-        global_config.append('MACHINE = "qemux86"')
++        global_config.append('MACHINE = "%s"' % self.machine2)
+         target_config.append('')
+-        self.run_test_sstate_cache_management_script('m4', global_config,  target_config, ignore_patterns=['populate_lic'])
++        self.run_test_sstate_cache_management_script(
++            self.recipe3, global_config, target_config,
++            ignore_patterns=[self.pattern])
+ 
+     @testcase(1270)
+     def test_sstate_32_64_same_hash(self):
+@@ -231,29 +280,27 @@ class SStateTests(SStateBase):
+ 
+         topdir = get_bb_var('TOPDIR')
+         targetvendor = get_bb_var('TARGET_VENDOR')
+-        self.write_config("""
+-MACHINE = "qemux86"
+-TMPDIR = "${TOPDIR}/tmp-sstatesamehash"
+-BUILD_ARCH = "x86_64"
+-BUILD_OS = "linux"
+-SDKMACHINE = "x86_64"
+-""")
++        features1 = self.config.get(
++                  'SStateTests', 'sstate_32_64_same_hash_features_1')
++        features2 = self.config.get(
++                  'SStateTests', 'sstate_32_64_same_hash_features_2')
++        arch1 = self.config.get(
++              'SStateTests', 'sstate_32_64_same_hash_arch1')
++        arch2 = self.config.get(
++              'SStateTests', 'sstate_32_64_same_hash_arch2')
++        features1 += '\nTMPDIR = \"${TOPDIR}/tmp-sstatesamehash\"'
++        self.write_config(features1)
+         self.track_for_cleanup(topdir + "/tmp-sstatesamehash")
+-        bitbake("core-image-sato -S none")
+-        self.write_config("""
+-MACHINE = "qemux86"
+-TMPDIR = "${TOPDIR}/tmp-sstatesamehash2"
+-BUILD_ARCH = "i686"
+-BUILD_OS = "linux"
+-SDKMACHINE = "i686"
+-""")
++        bitbake("%s -S none" % self.image)
++        features2 += '\nTMPDIR = \"${TOPDIR}/tmp-sstatesamehash2\"'
++        self.write_config(features2)
+         self.track_for_cleanup(topdir + "/tmp-sstatesamehash2")
+-        bitbake("core-image-sato -S none")
++        bitbake("%s -S none" % self.image)
+ 
+         def get_files(d):
+             f = []
+             for root, dirs, files in os.walk(d):
+-                if "core-image-sato" in root:
++                if self.image in root:
+                     # SDKMACHINE changing will change
+                     # do_rootfs/do_testimage/do_build stamps of images which
+                     # is safe to ignore.
+@@ -262,7 +309,14 @@ SDKMACHINE = "i686"
+             return f
+         files1 = get_files(topdir + "/tmp-sstatesamehash/stamps/")
+         files2 = get_files(topdir + "/tmp-sstatesamehash2/stamps/")
+-        files2 = [x.replace("tmp-sstatesamehash2", "tmp-sstatesamehash").replace("i686-linux", "x86_64-linux").replace("i686" + targetvendor + "-linux", "x86_64" + targetvendor + "-linux", ) for x in files2]
++        files2 = [x.replace("tmp-sstatesamehash2",
++                            "tmp-sstatesamehash").replace("%s-linux" % arch2,
++                  "%s-linux" % arch1).replace("%s" % arch2 +
++                                              targetvendor +
++                                              "-linux", "%s" % arch1 +
++                                              targetvendor +
++                                              "-linux", )
++                  for x in files2]
+         self.maxDiff = None
+         self.assertCountEqual(files1, files2)
+ 
+@@ -281,13 +335,13 @@ TMPDIR = \"${TOPDIR}/tmp-sstatesamehash\"
+ NATIVELSBSTRING = \"DistroA\"
+ """)
+         self.track_for_cleanup(topdir + "/tmp-sstatesamehash")
+-        bitbake("core-image-sato -S none")
++        bitbake("%s -S none" % self.image)
+         self.write_config("""
+ TMPDIR = \"${TOPDIR}/tmp-sstatesamehash2\"
+ NATIVELSBSTRING = \"DistroB\"
+ """)
+         self.track_for_cleanup(topdir + "/tmp-sstatesamehash2")
+-        bitbake("core-image-sato -S none")
++        bitbake("%s -S none" % self.image)
+ 
+         def get_files(d):
+             f = []
+@@ -314,22 +368,22 @@ NATIVELSBSTRING = \"DistroB\"
+         targetvendor = get_bb_var('TARGET_VENDOR')
+         self.write_config("""
+ TMPDIR = \"${TOPDIR}/tmp-sstatesamehash\"
+-MACHINE = \"qemux86\"
+-""")
++MACHINE = \"%s\"
++""" % self.machine2)
+         self.track_for_cleanup(topdir + "/tmp-sstatesamehash")
+-        bitbake("world meta-toolchain -S none")
++        bitbake("world %s -S none" % self.recipe4)
+         self.write_config("""
+ TMPDIR = \"${TOPDIR}/tmp-sstatesamehash2\"
+-MACHINE = \"qemuarm\"
+-""")
++MACHINE = \"%s\"
++""" % self.machine3)
+         self.track_for_cleanup(topdir + "/tmp-sstatesamehash2")
+-        bitbake("world meta-toolchain -S none")
++        bitbake("world %s -S none" % self.recipe4)
+ 
+         def get_files(d):
+             f = {}
+             for root, dirs, files in os.walk(d):
+                 for name in files:
+-                    if "meta-environment" in root or "cross-canadian" in root:
++                    if self.recipe5 in root or self.recipe6 in root:
+                         continue
+                     if "do_build" not in name:
+                         # 1.4.1+gitAUTOINC+302fca9f4c-r0.do_package_write_ipk.sigdata.f3a2a38697da743f0dbed8b56aafcf79
+@@ -361,30 +415,30 @@ MACHINE = \"qemuarm\"
+         targetvendor = get_bb_var('TARGET_VENDOR')
+         self.write_config("""
+ TMPDIR = \"${TOPDIR}/tmp-sstatesamehash\"
+-MACHINE = \"qemux86\"
++MACHINE = \"%s\"
+ require conf/multilib.conf
+ MULTILIBS = "multilib:lib32"
+ DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+-""")
++""" % self.machine2)
+         self.track_for_cleanup(topdir + "/tmp-sstatesamehash")
+         bitbake("world meta-toolchain -S none")
+         self.write_config("""
+ TMPDIR = \"${TOPDIR}/tmp-sstatesamehash2\"
+-MACHINE = \"qemux86copy\"
++MACHINE = \"%s\"
+ require conf/multilib.conf
+ MULTILIBS = "multilib:lib32"
+ DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+-""")
++""" % self.machine4)
+         self.track_for_cleanup(topdir + "/tmp-sstatesamehash2")
+-        bitbake("world meta-toolchain -S none")
++        bitbake("world %s -S none" % self.recipe4)
+ 
+         def get_files(d):
+             f = []
+             for root, dirs, files in os.walk(d):
+                 for name in files:
+-                    if "meta-environment" in root or "cross-canadian" in root:
++                    if self.recipe5 in root or self.recipe6 in root:
+                         continue
+-                    if "qemux86copy-" in root or "qemux86-" in root:
++                    if "%s-" % self.machine4 in root or "%s-" % self.machine2 in root:
+                         continue
+                     if "do_build" not in name and "do_populate_sdk" not in name:
+                         f.append(os.path.join(root, name))
+@@ -416,7 +470,7 @@ http_proxy = ""
+ """)
+         self.track_for_cleanup(topdir + "/tmp-sstatesamehash")
+         self.track_for_cleanup(topdir + "/download1")
+-        bitbake("world meta-toolchain -S none")
++        bitbake("world %s -S none" % self.recipe4)
+         self.write_config("""
+ TMPDIR = "${TOPDIR}/tmp-sstatesamehash2"
+ BB_NUMBER_THREADS = "2"
+@@ -431,7 +485,7 @@ http_proxy = "http://example.com/"
+ """)
+         self.track_for_cleanup(topdir + "/tmp-sstatesamehash2")
+         self.track_for_cleanup(topdir + "/download2")
+-        bitbake("world meta-toolchain -S none")
++        bitbake("world %s -S none" % self.recipe4)
+ 
+         def get_files(d):
+             f = {}
 -- 
 1.8.3.1
 
