@@ -1,51 +1,30 @@
-Return-Path: <jacob.kroon@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id DFCAB77175
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Aug 2016 06:28:01 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id i5so13480384wmg.2
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 07 Aug 2016 23:28:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding;
-	bh=z2Lukdt7oy8wx5fCKM3AWfjiKKTjLCfFaoZmBkxOCXc=;
-	b=UL0WDd9ez+FWIY6+xRsQ9hChuyo0XWEYOXwjF9V//pxqjLdkQ1AhbB2yD3gk8M5twJ
-	Q74UqJsQvR0opw+/xv2FLODe4DjyjcrurVuEgc9mgWhDkRIVdAx+BmODBissZB5A4WB+
-	SbIUD+5SqKjlQ8xucaSgpss46PfeidUI+gvvsDxWpgXDyZ+8RnqxEzmYqydy+wvbp4hJ
-	9ejYA4Lr2t/itBFlECwSVSu9Mc40J4RJxCms1Cf5emAH6NDC3DqhiR/2brMcoWrJBc0O
-	S0Ndvn9H8xG/9ocDLrBeqFEXonL5eHcrAgT2Xo0zS6xs6bwtZSShuOz59AfSVNN1qYDr
-	vTdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
-	bh=z2Lukdt7oy8wx5fCKM3AWfjiKKTjLCfFaoZmBkxOCXc=;
-	b=CRdS7N7DLrZBzlmscF9CkFQfameK4LaKmMX2N+HUCB35N8bHHLYtR/iXz73LYgdQfy
-	MxbuFEqr2UvIg7PJgwQPNI/Vy3YZjL7on3EU68gP4OWmU6FbiOoN4cQ4y6Y8it/8KTpL
-	OKzRsAOgRDNT+oSTAWce6LrX2gh/QDOvet0DI1xiKuA0thi46jYHfrFShNCUMqtt/kuu
-	DoZxAX2Xf1IAxxLp0J1CnX02Fcm6kBdTH5rQZzB4/OlYxs3VyePtVCglK63f65XU1g2H
-	G5yFbpYMe20Sl46+4pyERhxCtKefCqYA25edoKQNfepe42gmyv6a4z1qzq4TXu/Bm42n
-	H3eg==
-X-Gm-Message-State: AEkoout7w3X+Xvvdn4iWsu0Z93q8tOqg2qWMZWmdUnAXXLSQ6k9TdbgTyig+Ey/taMqOwg==
-X-Received: by 10.46.1.69 with SMTP id 66mr25909393ljb.27.1470637681419;
-	Sun, 07 Aug 2016 23:28:01 -0700 (PDT)
-Received: from skeletor.greyskull ([89.253.118.72])
-	by smtp.gmail.com with ESMTPSA id
-	h13sm5350640lji.33.2016.08.07.23.28.00
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 07 Aug 2016 23:28:00 -0700 (PDT)
-To: bavery <brian.avery@intel.com>, openembedded-core@lists.openembedded.org
-References: <cover.1470627445.git.brian.avery@intel.com>
-	<238d43d3704f084f3173624c1e4956246a1044e0.1470627445.git.brian.avery@intel.com>
-From: Jacob Kroon <jacob.kroon@gmail.com>
-Message-ID: <db8cc8ef-f243-a2b2-93ed-cd85c8917bce@gmail.com>
-Date: Mon, 8 Aug 2016 08:27:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <238d43d3704f084f3173624c1e4956246a1044e0.1470627445.git.brian.avery@intel.com>
-Subject: Re: [PATCH 1/2] packagegroup-core-eclipse-debug: add openssh server to support openssh-sftp-server
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A81F77187;
+	Mon,  8 Aug 2016 06:28:32 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u786STX7018968; Mon, 8 Aug 2016 07:28:29 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 9kyqI4jYGk4J; Mon,  8 Aug 2016 07:28:29 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u786SPFw018965
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 8 Aug 2016 07:28:26 +0100
+Message-ID: <1470637705.8166.29.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, OE-core
+	<openembedded-core@lists.openembedded.org>, OpenEmbedded Devel List
+	<openembedded-devel@lists.openembedded.org>, Yocto Discussion Mailing List
+	<yocto@yoctoproject.org>
+Date: Mon, 08 Aug 2016 07:28:25 +0100
+In-Reply-To: <CC61EFE1-5F39-4848-AD71-8E9C8DEC43C8@gmail.com>
+References: <CC61EFE1-5F39-4848-AD71-8E9C8DEC43C8@gmail.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [RFT] binutils 2.27
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,35 +37,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2016 06:28:03 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Mon, 08 Aug 2016 06:28:34 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 08/08/2016 05:43 AM, bavery wrote:
-> The openssh-sftp-server was already part of the pakagegroup. Adding the openssh-server
-> lets the sftp server start up correctly.
+On Sun, 2016-08-07 at 01:39 -0700, Khem Raj wrote:
+> I have put together upgrade for binutils 2.27 here ( kraj/master
+> branch )
+> 
+> https://github.com/kraj/openembedded-core/commit/b98f5761d2285ffd773e
+> c6ecb901b799302ebd6b
+> 
+> I have started bunch of test builds. but I would appreciate any help
+> in testing it out in your
+> environments and report any issues you see.
 
-If openssh-sftp-server cannot run without openssh, shouldn't it RDEPEND 
-on it instead ?
+I ran this through the autobuilder:
 
->
-> YOCTO #9362
->
-> Signed-off-by: bavery <brian.avery@intel.com>
-> ---
->  recipes-core/packagegroups/packagegroup-core-eclipse-debug.bb | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/recipes-core/packagegroups/packagegroup-core-eclipse-debug.bb b/recipes-core/packagegroups/packagegroup-core-eclipse-debug.bb
-> index c45463f..c32fef5 100644
-> --- a/recipes-core/packagegroups/packagegroup-core-eclipse-debug.bb
-> +++ b/recipes-core/packagegroups/packagegroup-core-eclipse-debug.bb
-> @@ -6,4 +6,5 @@ RDEPENDS_${PN} = "\
->      gdbserver \
->      tcf-agent \
->      openssh-sftp-server \
-> +    openssh \
->      "
->
+bitbake world shows issues in libunwind (from gold?):
+
+https://autobuilder.yoctoproject.org/main/builders/nightly-world/builds
+/889/steps/BuildImages/logs/stdio
+
+bitbake world with no x11 also shows it:
+
+https://autobuilder.yoctoproject.org/main/builders/nightly-no-x11/build
+s/231/steps/BuildImages/logs/stdio
+
+Other than that, things don't seem too bad though.
+
+Cheers,
+
+Richard
+
 
 
