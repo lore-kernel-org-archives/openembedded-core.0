@@ -1,27 +1,48 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 2ABBB77180
+Return-Path: <george.mccollister@gmail.com>
+Received: from mail-io0-f195.google.com (mail-io0-f195.google.com
+	[209.85.223.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 0FA777716F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Aug 2016 16:13:55 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 08 Aug 2016 09:13:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,490,1464678000"; d="scan'208";a="745853021"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.49])
-	([10.237.68.49])
-	by FMSMGA003.fm.intel.com with ESMTP; 08 Aug 2016 09:13:29 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1470665264-16321-1-git-send-email-alexander.kanavin@linux.intel.com>
-	<CAJTo0LZ5FtoL7__MRMTeSJ59E3_AD=9U5C99W8uV1bppDambWg@mail.gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <273f31f6-c70a-d796-45f6-3dbf9fff4dc0@linux.intel.com>
-Date: Mon, 8 Aug 2016 19:12:14 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Icedove/45.2.0
+	Mon,  8 Aug 2016 16:15:19 +0000 (UTC)
+Received: by mail-io0-f195.google.com with SMTP id i199so6812752ioi.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 08 Aug 2016 09:15:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=PeFDweYUFKmDg1/u8q9lz/3wA5GtUheQNZYEV3w/rzM=;
+	b=kLzg+mTXhlVKcgJYWS0Z4yTdnCrNtnbM9siP7W/UzxCANKrKgFj3AAuUzNTTrduptl
+	6epUNU21CievHhMsr2KdjEZ/AIsmMFzbItPL4N8BKOfnsvtmnAEX8vTw8qPJ2WO+8PLV
+	Cg72jo5rpZ8KnNl78fFUNzW1hdchJThkOPSzE68k4BtzNxCyWWTQDJZNMT8XZUmj3tlE
+	k0VKTIsHSEcImYktdm8j6RaCx15HI10xqFJ7spE6wFqqxcIbgcIesu8SKzmBfVRHpsme
+	R/ChClgT4S1gCpdIhPjjhKkKrXN07/xR8CwQFU++JCsZu3nPUcT9ifrp0tArQgYvRRGV
+	4cBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=PeFDweYUFKmDg1/u8q9lz/3wA5GtUheQNZYEV3w/rzM=;
+	b=eKOY7JImqNNZgWJzM4HFjn0S14wMFYbsKFuvpnEJPQUf9baU2hhQuotvHBlCcH1Tmr
+	Z/ox+GBoXg4K2mjKip8DfPnkW2kXSuqkLMSG6IbJx8K5fWveS1zA4f4oASr1xOpocvbT
+	KFhODLgoW9iMPUJ+A3TjejEjGdJWTxfzRzUQJPd40bVkP+xzcZmkh3xcnndT9YbNLc0I
+	kKBcsFCaB+oxAnPANVHQBli0+F2Bc+h2vF+GRAC0rVJgYvfZabraEbYABBy/lwFem5f0
+	HwLrwR7XiXanIbe6eSAtFBVWcSKIugTv+f6ZcSc49zzFZ81XmgAGgUU6kofJbIEQLL4B
+	0GPQ==
+X-Gm-Message-State: AEkoousvvyH1NLINaapI93QsDGmM3KM/8qarq9uLXEA+WInIMd1sUtz+eFwMqFlVP1fiRmo2bwlWNmn3sv5qSg==
+X-Received: by 10.107.25.14 with SMTP id 14mr91351389ioz.168.1470672920378;
+	Mon, 08 Aug 2016 09:15:20 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZ5FtoL7__MRMTeSJ59E3_AD=9U5C99W8uV1bppDambWg@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] security_flags.inc: enable PIE for a few recipes
+Received: by 10.36.88.4 with HTTP; Mon, 8 Aug 2016 09:15:19 -0700 (PDT)
+In-Reply-To: <20160805212511.GO8521@denix.org>
+References: <cover.1468862824.git.george.mccollister@gmail.com>
+	<1c06daa2a3dad03821aff6a7f7502036fb90f2b4.1468862824.git.george.mccollister@gmail.com>
+	<20160805212511.GO8521@denix.org>
+From: George McCollister <george.mccollister@gmail.com>
+Date: Mon, 8 Aug 2016 11:15:19 -0500
+Message-ID: <CAFSKS=NNMiS+TRRwbpuh2iWChn6DzbE5ZxMgPTEAtoATt5WKsQ@mail.gmail.com>
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: =?UTF-8?B?TWFyZWsgVmHFoXV0?= <marex@denx.de>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 1/3] kernel-fitimage: add initramfs support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,21 +55,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2016 16:13:56 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 08 Aug 2016 16:15:20 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 08/08/2016 06:58 PM, Burton, Ross wrote:
->     -SECURITY_CFLAGS_pn-mesa-gl = "${SECURITY_NO_PIE_CFLAGS}"
+On Fri, Aug 5, 2016 at 4:25 PM, Denys Dmytriyenko <denis@denix.org> wrote:
+> On Mon, Jul 18, 2016 at 12:57:55PM -0500, George McCollister wrote:
+>> If INITRAMFS_IMAGE is set, build an additional fitImage containing the
+>> initramfs. Copy the additional fitImage and the source (*.its) file, used
+>> to create it to DEPLOYDIR. The fitImage containing the initramfs must be
+>> built before do_deploy and after do_install to avoid circular dependencies.
+>>
+>> UBOOT_RD_LOADADDRESS - Specifies the load address used by u-boot for the
+>>                        initramfs.
+>> UBOOT_RD_ENTRYPOINT  - Specifies the entry point used by u-boot for the
+>>                        initramfs.
+>>
+>> Signed-off-by: George McCollister <george.mccollister@gmail.com>
+>> ---
+>>  meta/classes/kernel-fitimage.bbclass | 282 +++++++++++++++++++++++------------
+>>  1 file changed, 187 insertions(+), 95 deletions(-)
+>>
+>> diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+>> index 9a3caf5..ede69e7 100644
+>> --- a/meta/classes/kernel-fitimage.bbclass
+>> +++ b/meta/classes/kernel-fitimage.bbclass
+>> @@ -16,7 +16,7 @@ python __anonymous () {
+>>
+>
+> <snip>
 >
 >
-> Did you test this?
+>> +     #
+>> +     # Step 3: Prepare a ramdisk section.
+>> +     #
+>> +     if [ "x${ramdiskcount}" = "x1" ] ; then
+>> +             copy_initramfs
+>> +             fitimage_emit_section_ramdisk ${1} "${ramdiskcount}" ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
 >
-> For intel-corei7-64 with hardening enabled it fails like this:
+> May I suggest dropping ${B} here to get the ramdisk path shorter and easier to
+> read? It's relative to ${B} anyway - same as all the DTBs...
+>
+> + fitimage_emit_section_ramdisk ${1} "${ramdiskcount}" usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
 
-The world build with this patch was tested several weeks ago, for a i686 
-target. I'll test again.
+Change made, will be included in the new pull request.
+Thanks
 
-Alex
-
+>
+>> +     fi
+>>
+>
+> <snip>
+>
+> --
+> Denys
 
