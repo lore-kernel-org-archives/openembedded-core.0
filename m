@@ -1,26 +1,22 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5EFEF7716E
+Return-Path: <stefan@agner.ch>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F7D077174
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Aug 2016 05:46:56 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u785ku2f000367
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 7 Aug 2016 22:46:56 -0700
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Sun, 7 Aug 2016 22:46:55 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 7 Aug 2016 22:46:54 -0700
-Message-ID: <0b7f903f8c74204bb48cc74ce1a6957534ac9ede.1470635157.git.liezhi.yang@windriver.com>
+	Mon,  8 Aug 2016 05:48:05 +0000 (UTC)
+Received: from trochilidae.toradex.int (unknown
+	[IPv6:2601:602:8802:504f:3e97:eff:fe92:db3b])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 5914A5C0AC1;
+	Mon,  8 Aug 2016 07:43:39 +0200 (CEST)
+From: Stefan Agner <stefan@agner.ch>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  7 Aug 2016 22:47:28 -0700
+Message-Id: <20160808054728.20371-1-stefan@agner.ch>
 X-Mailer: git-send-email 2.9.0
-In-Reply-To: <cover.1470635157.git.liezhi.yang@windriver.com>
-References: <cover.1470635157.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] xmlto: fix depends for native
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1470635020; bh=+3cU4XXZOBu2/iQOQ1u44Quk4QlLVu4x/9oYxGycqcI=;
+	h=From:To:Cc:Subject:Date:Message-Id;
+	b=bd/9dasl1vqY9Dw3P0phaltUpny8jNR2eXsC1KhvbxdxcCyXbOiFvdgEDGrGSl/pUxodb0T6VvSI3hIDKqog+Fq2TCDUc+LxMr5f3H9bWgTKubeqRZxvmV0d3U0XHYA7SzLE0kVA/5DsFnhbBhklMzoqIEHygZkbQiwPqzqvcXc=
+Subject: [PATCH v2] busybox: Fix busybox-init on non-tty consoles
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,33 +29,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2016 05:46:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 08 Aug 2016 05:48:05 -0000
 
-xmlto-native requires xsltproc which is provided by libxslt to run.
-Fixed:
-xmlto: Can't continue, xsltproc tool not found or not executable.
+When using non-tty consoles (e.g. VirtIO console /dev/hvc0) the
+current init system fails with:
+process '/sbin/getty 115200 hvc0' (pid 545) exited. Scheduling for restart.
+can't open /dev/ttyhvc0: No such file or directory
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+The first field needs to be a valid device. The BusyBox inittab example
+explains as follows:
+"<id>: WARNING: This field has a non-traditional meaning for BusyBox init!
+
+The id field is used by BusyBox init to specify the controlling tty for
+the specified process to run on.  The contents of this field are
+appended to "/dev/" and used as-is."
+
+Signed-off-by: Stefan Agner <stefan@agner.ch>
 ---
- meta/recipes-devtools/xmlto/xmlto_0.0.28.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/busybox/busybox.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-index 886e7b4..d6f2e92 100644
---- a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-+++ b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-@@ -20,9 +20,9 @@ RDEPENDS_${PN} = "docbook-xml-dtd4 \
-                   util-linux \
-                   libxml2 \
-                   bash \
-+                  libxslt \
- "
- RDEPENDS_${PN}_append_class-target = " \
--                  libxslt-bin \
-                   coreutils \
- "
- CACHED_CONFIGUREVARS += "ac_cv_path_TAIL=${bindir}/tail"
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index 5e91a26..39c2eef 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -286,8 +286,8 @@ do_install () {
+                         for i in $tmp
+                         do
+                                 j=`echo ${i} | sed s/\;/\ /g`
+-                                label=`echo ${i} | sed -e 's/tty//' -e 's/^.*;//' -e 's/;.*//'`
+-                                echo "tty$label::respawn:${base_sbindir}/getty ${j}" >> ${D}${sysconfdir}/inittab
++                                id=`echo ${i} | sed -e 's/^.*;//' -e 's/;.*//'`
++                                echo "$id::respawn:${base_sbindir}/getty ${j}" >> ${D}${sysconfdir}/inittab
+                         done
+                 fi
+         fi
 -- 
 2.9.0
 
