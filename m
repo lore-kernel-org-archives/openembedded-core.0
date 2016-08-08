@@ -1,50 +1,27 @@
-Return-Path: <maciej.borzecki@rndity.com>
-Received: from mail-ua0-f195.google.com (mail-ua0-f195.google.com
-	[209.85.217.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FF237016E
+Return-Path: <maxin.john@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id EACF77706E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Aug 2016 10:44:46 +0000 (UTC)
-Received: by mail-ua0-f195.google.com with SMTP id u13so1464465uau.0
+	Mon,  8 Aug 2016 11:12:10 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga103.fm.intel.com with ESMTP; 08 Aug 2016 04:12:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,489,1464678000"; d="scan'208";a="152310030"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga004.fm.intel.com with ESMTP; 08 Aug 2016 04:12:12 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 0E3856A4080
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Aug 2016 03:44:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=rndity-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=TDlmC/1qw+bEcz+HOddlZ2z7yMHn3owMUFl+UDEZ8hE=;
-	b=e06ThJ1VmAtbMxxzx+ghQcdnbY115Ak/b/XtL1k/qcd4y9Fg2Xm/9r5f1LhZewkm1e
-	GmTdDqiLxn0FNkV3pyN5KuKBvgBnnQYxnIrvEAxnoqEJkUaLWiMp7VEhUybs9E/YeR/K
-	3jz09nNjLq08qsy7q7db7SkLdqY+SWq4gqs9AWZ56sKsrkfiv3M4KVArnGCCdJ3mVJDd
-	JIpECdgIcmFIsYoqMrpbGhar2/uFBMphcJaX5e09a8nmwy6hGyH7yVHBf0TlNr7tNxMQ
-	GRdK7PYtj+M9NXOQ7i9kpXqT4w05rGfQPl0uvtNeFZcGuzJSVuZVkBYeZOoqke3NzFf/
-	zUpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=TDlmC/1qw+bEcz+HOddlZ2z7yMHn3owMUFl+UDEZ8hE=;
-	b=XJy6ytvVdNA1S2P252fCxHRgvjxVYlExIW3Zjl/dsdxDMtOjZofx9aLPPYiyr/OOjL
-	ayf8SNip3o3Gpl0iHkdNcHvMABFGfw/lM2c3vDPxIk33jnPUTNQhhAr2WKnIy/H+ebCg
-	T1IQp+9fGAvk4sDaZ2EGZwj6bvkkrPn3E1vLc25Hwbc2dDmqPhZyhb120ydm4xhHjWG6
-	epBu1LWufXovRsSXNARn080wUFA93HSEEAItUzH5HR//D+/WrPppLBe+s1wt5NNxNqFa
-	S4+e6JE7nZWFtPbxekXAthzVI96xB3hkaNRRkwwk1TSI1bafIZQjo/6PnHf3KmVBjTfN
-	bTsA==
-X-Gm-Message-State: AEkoouvRRNibti+6D1DA5si/6UWlNhOFUoQNeB4VmXCoByiMcfUCYqRJDz/p0IjTAvPy3OGiW8JYJ/tIdo5pcQ==
-X-Received: by 10.176.68.4 with SMTP id m4mr48027962uam.12.1470653087708; Mon,
-	08 Aug 2016 03:44:47 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.103.40.3 with HTTP; Mon, 8 Aug 2016 03:44:27 -0700 (PDT)
-In-Reply-To: <CAP9ODKohXDNzKeWrkcAC7yT5AKJYqCvFBcXkJx0dD7OwO5bcTA@mail.gmail.com>
-References: <917684eb0fc505f6b575ac815188baa7f685cdaf.1470643735.git.maciej.borzecki@rndity.com>
-	<CAP9ODKohXDNzKeWrkcAC7yT5AKJYqCvFBcXkJx0dD7OwO5bcTA@mail.gmail.com>
-From: =?UTF-8?Q?Maciej_Borz=C4=99cki?= <maciej.borzecki@rndity.com>
-Date: Mon, 8 Aug 2016 12:44:27 +0200
-Message-ID: <CAD4b0_JTawOxo5nLx_Scrbbf42DDihA+V9tH7eXLBMiO3_-WeA@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ca-certificates: remove -- separator
+	Mon,  8 Aug 2016 04:11:55 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  8 Aug 2016 14:13:06 +0300
+Message-Id: <1470654788-8717-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH 1/3] gst-player: update the callback for delete-event
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,25 +34,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2016 10:44:48 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 08 Aug 2016 11:12:12 -0000
 
-On Mon, Aug 8, 2016 at 12:36 PM, Otavio Salvador
-<otavio.salvador@ossystems.com.br> wrote:
-> On Mon, Aug 8, 2016 at 5:11 AM, Maciej Borzecki
-> <maciej.borzecki@rndity.com> wrote:
->> Options and directory separator -- slipped past the patch removing
->> Debianims, thus resulting in failures on hosts running Fedora.
->>
->> Signed-off-by: Maciej Borzecki <maciej.borzecki@rndity.com>
->
-> Acked-by: Otavio Salvador <otavio@ossystems.com.br>
->
-> Also, this should be backported for Krogoth no?
+provide similar behaviour for Media Player's quit and close callback
+functions.
 
-Yes, the problem is there as well.
+[YOCTO #10045]
 
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ ...ovide-similar-behaviour-for-quit-and-clos.patch | 32 ++++++++++++++++++++++
+ .../recipes-multimedia/gstreamer/gst-player_git.bb |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-player/0001-gtk-play-provide-similar-behaviour-for-quit-and-clos.patch
+
+diff --git a/meta/recipes-multimedia/gstreamer/gst-player/0001-gtk-play-provide-similar-behaviour-for-quit-and-clos.patch b/meta/recipes-multimedia/gstreamer/gst-player/0001-gtk-play-provide-similar-behaviour-for-quit-and-clos.patch
+new file mode 100644
+index 0000000..e3f1c4f
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gst-player/0001-gtk-play-provide-similar-behaviour-for-quit-and-clos.patch
+@@ -0,0 +1,32 @@
++From 220c2659a45dd354270a465c45197970dae5f548 Mon Sep 17 00:00:00 2001
++From: "Maxin B. John" <maxin.john@intel.com>
++Date: Fri, 5 Aug 2016 17:52:18 +0300
++Subject: [PATCH] gtk-play: provide similar behaviour for quit and close
++
++In x86 targets, gtk-play just pause rather than quitting the application
++when we click the close button (delete-event). Change the callback function
++to get similar behaviour when we click on "Quit" menu option.
++
++Upstream-Status: Accepted
++
++Signed-off-by: Maxin B. John <maxin.john@intel.com>
++---
++ gtk/gtk-play.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/gtk/gtk-play.c b/gtk/gtk-play.c
++index a520bef..16afc6b 100644
++--- a/gtk/gtk-play.c
+++++ b/gtk/gtk-play.c
++@@ -177,7 +177,7 @@ load_from_builder (const gchar * filename, gboolean register_sig_handler,
++ static void
++ delete_event_cb (GtkWidget * widget, GdkEvent * event, GtkPlay * play)
++ {
++-  gst_player_stop (play->player);
+++  gtk_widget_destroy (GTK_WIDGET (play));
++ }
++ 
++ static void
++-- 
++2.4.0
++
+diff --git a/meta/recipes-multimedia/gstreamer/gst-player_git.bb b/meta/recipes-multimedia/gstreamer/gst-player_git.bb
+index b09244b..00ad941 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-player_git.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-player_git.bb
+@@ -8,6 +8,7 @@ SRC_URI = "git://github.com/sdroege/gst-player.git \
+            file://filechooser.patch;apply=0 \
+            file://Fix-pause-play.patch;apply=0 \
+            file://Add-error-signal-emission-for-missing-plugins.patch;apply=0 \
++           file://0001-gtk-play-provide-similar-behaviour-for-quit-and-clos.patch \
+            file://gst-player.desktop"
+ 
+ SRCREV = "ea90e63c1064503f9ba5d59aa4ca604f13ca5def"
 -- 
-Maciej Borzecki
-RnDity
+2.4.0
+
 
