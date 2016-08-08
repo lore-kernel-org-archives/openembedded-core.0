@@ -1,49 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
-	[209.85.214.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 817B5771AF
+Return-Path: <george.mccollister@gmail.com>
+Received: from mail-io0-f194.google.com (mail-io0-f194.google.com
+	[209.85.223.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 6DADE771C5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Aug 2016 20:13:51 +0000 (UTC)
-Received: by mail-it0-f49.google.com with SMTP id f6so92825964ith.0
+	Mon,  8 Aug 2016 20:16:55 +0000 (UTC)
+Received: by mail-io0-f194.google.com with SMTP id y34so29466713ioi.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Aug 2016 13:13:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Mon, 08 Aug 2016 13:16:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=sCyVEy/76JrfhX33KSSgtOIpS/rMM0sg2h6Z4vl4rPg=;
-	b=VSFdTH1mprZtI4lVidcorgQA525dgNYl3abx/FsBulq1uuWXgQMRIPWhdvSOs8yin7
-	Z6lQv2xYv2m63rdNKaogNze1GKM4qB8bWGKbBCf+uYT+cmtMMwM6Z+w1sBBSuX8ggnvO
-	6GwdJH57LigZ88JoO+Ywskf5vxGKclmCqcoN37BVO6k61wni0wl9b8Y5VxMsPaNoukhE
-	uvr3UEjcVFkd2NKsCb9/x22T6EV30pEDq2EixkaSzYF2R8Kr9S75rw2Ert6XFAJAWBGH
-	qnKJXn97vfIL7An4aud+nUK4MB8SzcqXxpO/seTSkybEbBqN5uBrCSZK7nqQSA1FzEvk
-	XJjw==
+	:cc; bh=q2AmZ4hPlQukTIs5lC5GSyL5NQOd5bsP3TVn3TG8NUM=;
+	b=CuJOsGBKQdHqC8lB/ETC3u3so8iCWKS1JUzjnubrqZi2e+Ib2dXQOTVLQtH+xuVsCp
+	BENM2g93op9EGVfn8U77IS9+b6KtrQLTjCkAoSyaaBGoqHfvZ9mNF0L9ekoxeUh77Dnh
+	ly4QELpjrO8xPicQhC/o++NJzWEAU7pjJei4Ya2Ad93+MRP1oanT4xhuD9BK4Cx583wg
+	Ix9z2WIOO+bPukNGfF4U7FQNup1tD2XaV+Y2Tgfg89tsFHothltu6VLnOmxJtoYTtrYn
+	as7OdMrhqQtgKH36FgksI4RmoTnl6WL0Uh+faDOzYnEzQ4wn4/JM14+JszzcSlhrXd0+
+	iShw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=sCyVEy/76JrfhX33KSSgtOIpS/rMM0sg2h6Z4vl4rPg=;
-	b=TuqX/V9ODB9EHr3WFWHdCVU8AQ8RI0FBRHTGJdegIkKoY0j/h8/+61BG69N95B7hZV
-	wItPKExkbEaYZ/Uwd2xsQlmzaJHgAiGgs86lqvMPWkP6l0LekBL9uZLMJanyoZrmXB8I
-	wCzYcOYooUBKv7qzEeguZNgy7pEhjTdqaCvx2Tg2qjoRLlE6llheN1pL4HSlvXkgjiLv
-	uDClY5WmGXdhG05oBrg5tsMApOUmmlY5no6M22aT7ZC8D/WDDVNKj4HSZX9FYgXF2f9b
-	UKfrOSN76CuZ/6tvIsTiGgo1TvxgfdfDyjaOY8xFIx3mMmBT8Sd3ZXrgnYYD1f8Jqq8a
-	39sQ==
-X-Gm-Message-State: AEkoouvXt4f7B2bmEyrxAN4hpq7qQk8j1ZLT00kuQLH5e8FX2WOcqMoJhDgu/wTA75u6y46Elghbwb2MP3YNBhfs
-X-Received: by 10.36.121.204 with SMTP id z195mr20640955itc.22.1470687231925; 
-	Mon, 08 Aug 2016 13:13:51 -0700 (PDT)
+	bh=q2AmZ4hPlQukTIs5lC5GSyL5NQOd5bsP3TVn3TG8NUM=;
+	b=KYuhFgVccoEhsjYq9PeAlDuiB3t3LVkFW3ikHyRJIIcaGONzvPQTdI63SxiK6+b6B3
+	RBSXdwoCOA2htQIRWWseHOUaYXssL9ZrEwmzlJsH2R+6Npxz8E6guVyoEAX4fgBuViPq
+	z8bpXX8cNCd62iW0OG1BBnMcCvEltawomNLe0wi7Azl1wm9gAJVXrNe1jRDF9WFGApoJ
+	edo/7jBQZxtkGKDKbE6hPc4UySvniduoYalwUVV7LZQ1ZataGUt9ndvfwneUoUqenMWI
+	Fi90pKAgcnByLUzSFNCObL5N8yWpLP9rI+2zbLMLFqDC8/B4jN4fwvSdQzEKVKQgFrnc
+	bgSQ==
+X-Gm-Message-State: AEkoouuvTzkw3cqijNhSv0kk+Rgr2QVRrINtpYSlB4a5z4TRpTcHmNBPFIG8Ray110Ar0dWNwiN9i+sYnR+Dzw==
+X-Received: by 10.107.25.14 with SMTP id 14mr92641960ioz.168.1470687416579;
+	Mon, 08 Aug 2016 13:16:56 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Mon, 8 Aug 2016 13:13:31 -0700 (PDT)
-In-Reply-To: <20160803074939.GB12566@mbabyjoh-desk.ger.corp.intel.com>
-References: <1468332463-4154-1-git-send-email-maxin.john@intel.com>
-	<1468332463-4154-6-git-send-email-maxin.john@intel.com>
-	<CAJTo0LZfeU9zAdk2tEF9yxPY-4OZ_3LCH_U7e4ggHh1Q53G+jg@mail.gmail.com>
-	<20160803074939.GB12566@mbabyjoh-desk.ger.corp.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 8 Aug 2016 21:13:31 +0100
-Message-ID: <CAJTo0LYSyg0E-KpL5v+wVro-5XqC+tMKKQSeAohinxKL+Y6jjg@mail.gmail.com>
-To: "Maxin B. John" <maxin.john@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/8] tslib: replace pointercal with pointercal-xinput
+Received: by 10.36.88.4 with HTTP; Mon, 8 Aug 2016 13:16:56 -0700 (PDT)
+In-Reply-To: <20160808180536.GP8521@denix.org>
+References: <cover.1470672689.git.george.mccollister@gmail.com>
+	<20160808180536.GP8521@denix.org>
+From: George McCollister <george.mccollister@gmail.com>
+Date: Mon, 8 Aug 2016 15:16:56 -0500
+Message-ID: <CAFSKS=M=upTtm_zeHwVAvoka7JQm5h3oDxt1E5Odt6+7xe1CEg@mail.gmail.com>
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: =?UTF-8?B?TWFyZWsgVmHFoXV0?= <marex@denx.de>, trini@konsulko.com,
+	denys@ti.com, Andrew Bradford <andrew.bradford@kodakalaris.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 0/5] kernel-fitimage: Add initramfs, x86 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,50 +55,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2016 20:13:51 -0000
-Content-Type: multipart/alternative; boundary=001a114aa46608f8380539950e37
-
---001a114aa46608f8380539950e37
+X-List-Received-Date: Mon, 08 Aug 2016 20:16:56 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 3 August 2016 at 08:49, Maxin B. John <maxin.john@intel.com> wrote:
-
-> Haven't tested this because of the specific hardware requirement
-> (touchscreen). Since we
-> remove the pointercal recipe, I thought it is appropriate to replace it.
+On Mon, Aug 8, 2016 at 1:05 PM, Denys Dmytriyenko <denis@denix.org> wrote:
+> On Mon, Aug 08, 2016 at 11:37:52AM -0500, George McCollister wrote:
+>> Add support for building fitImages that include an initramfs and booting
+>> on x86.
 >
+> I'm in the process of testing this version now.
+>
+>
+> I'm wondering, if bundling everything in a single patchset will delay
+> acceptance even further? Case in point - I'm mostly interested in initramfs
+> support and it's been in limbo state for several months now. It was a single
+> patch back then and there were no major comments or issues with it. Few months
+> later, 2 extra patches were added with x86 support. Now recent $B change broke
+> few things and we need 2 more patches just to get everything working again...
 
-Just had a look and we've finally shed the last pieces of software from
-oe-core that still use tslib.  I propose shunting tslib to meta-oe along
-with the pointercal recipes so the dependencies are still valid.  Modern
-software tends to use the kernel drivers directly, or libinput, instead of
-tslib.
+I'm surprised it wasn't accepted when it was a single patch. At this
+point I don't know what's keeping it from being accepted since I
+haven't received any feedback. I suspect whoever is maintaining OE
+core doesn't have time to look at it.
 
-(tslib still gets pulled in via the tools-testapps packagegroup, but that's
-something that should be removed from oe-core in the process).
+>
+> The reason I'm bringing this up is because I've been working on this area
+> recently and would like to contribute back some code (fixes, customizations).
+> Since it depends on this patchset, I'm not sure if I should wait for it to get
+> accepted or we'll just end up growing the patchset for another iteration...
 
-Ross
+Your fixes, customizations are welcome however I've had this concern
+as it has grown. Hopefully we can get some feedback soon as to what's
+holding up the acceptance.
 
---001a114aa46608f8380539950e37
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+>
+> --
+> Denys
+>
+>
+>> * V2
+>>  - Include Andrew Bradford's cd to $B patch since it is now required for
+>>    do_assemble_fitimage to work
+>>  - Fix initramfs support patch to cd to $B in do_assemble_fitimage_initramfs
+>>  - Remove ${B} in call to fitimage_emit_section_ramdisk per
+>>    Denys Dmytriyenko's suggestion
+>>  - Add patch to cd to $B in do_concat_dtb()
+>>
+>> The following changes since commit c4dda05cb9755cb865c1d1bd142196f8a9f45d3d:
+>>
+>>   Revert "packagegroup-core-x11-base.bb: replace pointercal with pointercal-xinput" (2016-08-04 20:54:57 +0100)
+>>
+>> are available in the git repository at:
+>>
+>>   git://github.com/gmccollister/openembedded-core master-fit
+>>   https://github.com/gmccollister/openembedded-core/tree/master-fit
+>>
+>> Andrew Bradford (1):
+>>   kernel-fitimage.bbclass: do_assemble_fitimage(): cd to $B
+>>
+>> George McCollister (4):
+>>   kernel-fitimage: add initramfs support
+>>   kernel-fitimage: Add x86 support
+>>   uboot-sign: Handle .rom signing the same as .img
+>>   uboot-sign: do_concat_dtb(): cd to $B
+>>
+>>  meta/classes/kernel-fitimage.bbclass | 346 +++++++++++++++++++++++++----------
+>>  meta/classes/uboot-sign.bbclass      |   4 +-
+>>  2 files changed, 249 insertions(+), 101 deletions(-)
+>>
+>> --
+>> 2.8.0
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 3 August 2016 at 08:49, Maxin B. John <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:maxin.john@intel.com" target=3D"_blank">maxin.john@intel.com</a>&gt;<=
-/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1ou" class=3D"a=
-3s aXjCH m1564f619260d8a7c">Haven&#39;t tested this because of the specific=
- hardware requirement (touchscreen). Since we<br>
-remove the pointercal recipe, I thought it is appropriate to replace it.</d=
-iv></blockquote></div><br>Just had a look and we&#39;ve finally shed the la=
-st pieces of software from oe-core that still use tslib.=C2=A0 I propose sh=
-unting tslib to meta-oe along with the pointercal recipes so the dependenci=
-es are still valid.=C2=A0 Modern software tends to use the kernel drivers d=
-irectly, or libinput, instead of tslib.</div><div class=3D"gmail_extra"><br=
-></div><div class=3D"gmail_extra">(tslib still gets pulled in via the tools=
--testapps packagegroup, but that&#39;s something that should be removed fro=
-m oe-core in the process).</div><div class=3D"gmail_extra"><br></div><div c=
-lass=3D"gmail_extra">Ross</div></div>
-
---001a114aa46608f8380539950e37--
