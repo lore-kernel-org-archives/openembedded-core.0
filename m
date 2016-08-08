@@ -1,57 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 43C62731CB;
-	Mon,  8 Aug 2016 15:21:04 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id g202so25254391pfb.1;
-	Mon, 08 Aug 2016 08:21:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=ljOUMyw3w+Pn8CAqlTkTpeS5VuJMm7JZMe3oQBsPvZM=;
-	b=aUBrqz41/ZMrOiO7nU2tJort5pr9lCS2FvUVQKHWtfaOjsqyokzeh1TrBlZVGzNMWL
-	xtLLiWuRowUB3JafIa6ntGqVAaVHQnIfdSwFm/vafETk8DNU0tJheMpHHg15bmNBBDT0
-	0PRBU6fd8Eg+pgErW0BPQk7VPhkYAwIKN7a9yiy+9SlE2u1VsAAyXNlxwt4t+fMOhBQg
-	CN8JZokoXge1HX+nWdrYTiSxM072y73gBSKDh0Vm3giD0rkOAs/6cQ3SkyFAzEMkKBC1
-	QGYEYAJv9WBnpVjeJv9T+t54UhiiUkBwc3oI8yAJSObjf0maoiFbdgP7xyigsCqDVqPu
-	VAMg==
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
+	[209.85.223.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F7AC731CB
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  8 Aug 2016 15:44:02 +0000 (UTC)
+Received: by mail-io0-f182.google.com with SMTP id 38so361324673iol.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 08 Aug 2016 08:44:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Ozp//gXYEUcW9mwjDV6Dn9U2ga0SrgQa8UoOn62RNJw=;
+	b=iSTxLeJT+eTNZupHQ+vKlmoAqsodwmfLm2cHclAJCWt8aaVirXnMENdy7CCk7e+Zyg
+	gCrVYJLkrGOl8ajawW8R+qzdrmt3ClU3tWaPQ54gIQMIE1mLpDU4O2q1HrdU1T1tyVZL
+	xKfm4fh8r46rNJstS2WFB+hv+WVjompFSPQatrhohJB5YatTj/UGcFZidKSdZUrm91vK
+	t8EohuWzXObDRv2VXfu8v1tVg189bUJXoIps++Gq16K/UG+3KHhOAPGFsf0PGeVeN776
+	LQry5YfUQdEgn5irwsU8n4jBN+ogphqhvBTLSxH0zMqm9iSyKXlWzeKsH17kwWvcSAvI
+	4DjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=ljOUMyw3w+Pn8CAqlTkTpeS5VuJMm7JZMe3oQBsPvZM=;
-	b=GSnDKbX2dxs0PXHA0bj9Fg+2BVf7q/HIE8bvJq0CFrNEv0rDy+FqMljJwCj7CqMPI3
-	RUhpHSS2sVOolzirZoPvRsvpV0LSWIPfJDK/lj3/9AWDUA9rUfZaGKsQTj/KCiqLUaOS
-	sDXihkD4WgN7mnr2Et1un7OEn0kvqKg+FrW4j9WOURbuaXS5XpKYc3G/aCfDNxENb8zC
-	Y6YueE8A5U/o8YKeKOrIIM7xDV5HVuL1XT5iRpbhd3QzpZ5dZF+fZNOGMA5+MELzMvmE
-	Tlos2pQSrhKl1e/qscPzwmDwI/ZYZ7hF0bxl4CHwGbbBKfxmWiCRHWA8Plg1Xfic77uv
-	dZnw==
-X-Gm-Message-State: AEkooutAdQqJEsRbEqbXxnf8AiU6kI4R206qdbV8ajqIZB73NtBacFoFWJyJJvi8rr+qCQ==
-X-Received: by 10.98.79.27 with SMTP id d27mr163447748pfb.127.1470669665501;
-	Mon, 08 Aug 2016 08:21:05 -0700 (PDT)
-Received: from ?IPv6:2601:646:8882:b8c:ddaa:6f66:32b4:378?
-	([2601:646:8882:b8c:ddaa:6f66:32b4:378])
-	by smtp.gmail.com with ESMTPSA id 6sm39845373pab.11.2016.08.08.08.21.02
-	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 08 Aug 2016 08:21:02 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1470647765.4581.23.camel@andred.net>
-Date: Mon, 8 Aug 2016 08:21:32 -0700
-Message-Id: <ACB9AEF7-A7DF-4A88-9762-7569D91AD12D@gmail.com>
-References: <CC61EFE1-5F39-4848-AD71-8E9C8DEC43C8@gmail.com>
-	<1470637705.8166.29.camel@linuxfoundation.org>
-	<8C207C42-3D61-4C3F-A1DE-F305AA6617BA@gmail.com>
-	<1470644094.8166.37.camel@linuxfoundation.org>
-	<1470646210.8166.38.camel@rpsys.net>
-	<1470647765.4581.23.camel@andred.net>
-To: =?utf-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
-X-Mailer: Apple Mail (2.3124)
-Cc: Yocto Discussion Mailing List <yocto@yoctoproject.org>,
-	Richard Purdie <rpurdie@rpsys.net>,
-	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFT] binutils 2.27
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Ozp//gXYEUcW9mwjDV6Dn9U2ga0SrgQa8UoOn62RNJw=;
+	b=R+kB0gAmWMQRRKM0mHqDkNjf4TccD2G0ozp8qYdbdDW87H4ZVVhX0KsVB3P6+55dAD
+	TbpyXvPc2wB3uFQ9xFoMWg7TjSwzzu+RSwB93boGWA7x1VsSXnurvgm9iy+otwG65z32
+	pFgX139ofoXK7CVraHRP+pichmUX6HOa0Ci1aRe8KyCv9gOGwUBd6ILTqnFpImPXiQmM
+	5oFRBGXAXJFFMu2F/mM5sEXDTKlcoBbrpStj2+plXw/6moEXWtEgaN3BHZJPqBuJQGBn
+	tZsAT3QFelfLBvuVPYob1Lj/7h7599M5ki6bKSDKQDp4n5Z0vZRF+HxPnHvOTSN+4p0Z
+	Nt0g==
+X-Gm-Message-State: AEkoouvI7P2qfE9D6ilYE/wrOCGqDSN06xE8WQzEIHxydJyUvf+mJeJ8Su6B/eZxYtCq6kEZBPaxcBpBLcHBxaWW
+X-Received: by 10.107.138.212 with SMTP id c81mr91117998ioj.148.1470671042282; 
+	Mon, 08 Aug 2016 08:44:02 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.18.17 with HTTP; Mon, 8 Aug 2016 08:43:41 -0700 (PDT)
+In-Reply-To: <1470665264-16321-1-git-send-email-alexander.kanavin@linux.intel.com>
+References: <1470665264-16321-1-git-send-email-alexander.kanavin@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 8 Aug 2016 16:43:41 +0100
+Message-ID: <CAJTo0LaJPojCEnOpd-QxW6DX1n9a0EgQgxH1u3Ai3j5+zYeiYQ@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] security_flags.inc: enable PIE for a few recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,123 +53,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2016 15:21:06 -0000
-X-Groupsio-MsgNum: 85465
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_1D7B7889-4F56-4E84-B8CA-955F4BE9C89C";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Mon, 08 Aug 2016 15:44:04 -0000
+Content-Type: multipart/alternative; boundary=001a113ed9320e99e20539914944
 
---Apple-Mail=_1D7B7889-4F56-4E84-B8CA-955F4BE9C89C
+--001a113ed9320e99e20539914944
+Content-Type: text/plain; charset=UTF-8
+
+On 8 August 2016 at 15:07, Alexander Kanavin <
+alexander.kanavin@linux.intel.com> wrote:
+
+> -# These 2 have text relco errors with the pie options enabled
+> -SECURITY_CFLAGS_pn-ltp = "${SECURITY_NO_PIE_CFLAGS}"
+> -SECURITY_CFLAGS_pn-pulseaudio = "${SECURITY_NO_PIE_CFLAGS}"
+>
+
+This is still true for pulseaudio in my builds.
+
+Ross
+
+--001a113ed9320e99e20539914944
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 8 August 2016 at 15:07, Alexander Kanavin <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander.k=
+anavin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_=
+quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
+ex"><div id=3D":1d2" class=3D"a3s aXjCH m1566a7e969ac8278">-# These 2 have =
+text relco errors with the <span class=3D"il">pie</span> options enabled<br=
+>
+-SECURITY_CFLAGS_pn-ltp =3D &quot;${SECURITY_NO_PIE_CFLAGS}&quot;<br>
+-SECURITY_CFLAGS_pn-pulseaudio =3D &quot;${SECURITY_NO_PIE_CFLAGS}&quot;</d=
+iv></blockquote></div><br>This is still true for pulseaudio in my builds.</=
+div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</d=
+iv></div>
 
-> On Aug 8, 2016, at 2:16 AM, Andr=C3=A9 Draszik <git@andred.net> wrote:
->=20
-> On Mon, 2016-08-08 at 09:50 +0100, Richard Purdie wrote:
->> On Mon, 2016-08-08 at 09:14 +0100, Richard Purdie wrote:
->>>=20
->>> On Mon, 2016-08-08 at 00:24 -0700, Khem Raj wrote:
->>>>=20
->>>>>=20
->>>>> On Aug 7, 2016, at 11:28 PM, Richard Purdie <
->>>>> richard.purdie@linuxfoundation.org> wrote:
->>>>>=20
->>>>> On Sun, 2016-08-07 at 01:39 -0700, Khem Raj wrote:
->>>>>>=20
->>>>>> I have put together upgrade for binutils 2.27 here (
->>>>>> kraj/master
->>>>>> branch )
->>>>>>=20
->>>>>> https://github.com/kraj/openembedded-core/commit/b98f5761d2285f
->>>>>> fd
->>>>>> 773e
->>>>>> c6ecb901b799302ebd6b
->>>>>>=20
->>>>>> I have started bunch of test builds. but I would appreciate any
->>>>>> help
->>>>>> in testing it out in your
->>>>>> environments and report any issues you see.
->>>>>=20
->>>>> I ran this through the autobuilder:
->>>>>=20
->>>>> bitbake world shows issues in libunwind (from gold?):
->>>>>=20
->>>>=20
->>>> yes, however, use of gold for libunwind in OE was an escape route
->>>> where we were relying upon gold=E2=80=99s inability to detect this =
-issue
->>>> while BFD linker
->>>> was detecting it earlier. Now in 2.27 gold has caught up as well.
->>>>=20
->>>> see
->>>> https://sourceware.org/git/gitweb.cgi?p=3Dbinutils-gdb.git;h=3D6eeb01=
-70
->>>> bb
->>>> b43ffb73e8f01b8b481adde8194c21
->>>>=20
->>>> so now we have to get to nub of this issue to resolve it.
->>>=20
->>> Ok. I think we also have:
->>>=20
->>> =
-https://autobuilder.yoctoproject.org/main/builders/nightly-ppc/builds
->>> /8
->>> 96
->>> =
-https://autobuilder.yoctoproject.org/main/builders/nightly-ppc/builds
->>> /8
->>> 96
->>>=20
->>> in that "connmand --help" is segfaulting on ppc. I've not 100%
->>> confirmed its the binutils patch but its seeming likely at this
->>> point.
->>=20
->> Its also sefgaulting on all mips builds:
->>=20
->> =
-https://autobuilder.yoctoproject.org/main/builders/nightly-mips/builds/883=
-
->> =
-https://autobuilder.yoctoproject.org/main/builders/nightly-mips-lsb/builds=
-
->> /863
->> =
-https://autobuilder.yoctoproject.org/main/builders/nightly-mips64/builds/5=
-
->> 28
->>=20
->> :(
->=20
-> binutils 2.27 brings GOLD to mips, but debian has disabled GOLD on all =
-MIPS
-> for now due to segfaulting... Maybe the same issue=E2=80=A6
-
-They are different issues. for OE ppc also shows same errors with =
-libunwind.
-
->=20
->=20
-> A.
->=20
->=20
-
-
---Apple-Mail=_1D7B7889-4F56-4E84-B8CA-955F4BE9C89C
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAleoo4EACgkQuwUzVZGdMxTCUwCdH4BNyk+k073SzKYQyvyw2nK7
-E+oAnjRU1QEo/OQLZa4TFWiOrgtgzuC6
-=cd+s
------END PGP SIGNATURE-----
-
---Apple-Mail=_1D7B7889-4F56-4E84-B8CA-955F4BE9C89C--
+--001a113ed9320e99e20539914944--
