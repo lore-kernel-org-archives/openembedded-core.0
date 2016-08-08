@@ -1,57 +1,45 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
+Return-Path: <maciej.borzecki@rndity.com>
 Received: from mail-ua0-f195.google.com (mail-ua0-f195.google.com
 	[209.85.217.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C3D97016E
+	by mail.openembedded.org (Postfix) with ESMTP id 5FF237016E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Aug 2016 10:37:01 +0000 (UTC)
-Received: by mail-ua0-f195.google.com with SMTP id 109so4400733uat.2
+	Mon,  8 Aug 2016 10:44:46 +0000 (UTC)
+Received: by mail-ua0-f195.google.com with SMTP id u13so1464465uau.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Aug 2016 03:37:02 -0700 (PDT)
+	Mon, 08 Aug 2016 03:44:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=9L+Xzeli08UjnIW2WZAKcphrG3ErTGRLyZZShw+Gb5w=;
-	b=Ik7a0aquBtcoqeUe4+zZOfN7r+xz2+JqfQpWVMb3dhPQ9UZjmt6a0m2VCFJznEhW6J
-	9uVsGTuu4y1rcC6wek4OS36YjHPPfRzPQqZlK9+IiQkir8X+aO348JVDwriSwEkGQ3xb
-	tLgXIH6dLJbvuBbyNwLT1yQ2O7gFm1Gn6KHiQ8Dc12A2Ic9KD5FbpyR5KKq3ehDB4yZM
-	TymKBHBiqX9gN/FNrNFIWA8PnsQPPKihEQOYGkLnB+tRqdFDcWE5D6Dm9+5zWdxix/i4
-	suMLbXqqekFqzmp5sY2o52oWEERPQmWZ1TZkmlpsbMKnFLr253rBYiBpH2Jm2Y2ERWUm
-	wxbA==
+	d=rndity-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=TDlmC/1qw+bEcz+HOddlZ2z7yMHn3owMUFl+UDEZ8hE=;
+	b=e06ThJ1VmAtbMxxzx+ghQcdnbY115Ak/b/XtL1k/qcd4y9Fg2Xm/9r5f1LhZewkm1e
+	GmTdDqiLxn0FNkV3pyN5KuKBvgBnnQYxnIrvEAxnoqEJkUaLWiMp7VEhUybs9E/YeR/K
+	3jz09nNjLq08qsy7q7db7SkLdqY+SWq4gqs9AWZ56sKsrkfiv3M4KVArnGCCdJ3mVJDd
+	JIpECdgIcmFIsYoqMrpbGhar2/uFBMphcJaX5e09a8nmwy6hGyH7yVHBf0TlNr7tNxMQ
+	GRdK7PYtj+M9NXOQ7i9kpXqT4w05rGfQPl0uvtNeFZcGuzJSVuZVkBYeZOoqke3NzFf/
+	zUpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=9L+Xzeli08UjnIW2WZAKcphrG3ErTGRLyZZShw+Gb5w=;
-	b=NdnQLC9lrB6aqkAEWxaGPty4VGJaraeOFi5DfZVfTVJ3XVL9HXsv4BfV9fN0oc8zOR
-	tI8HxECixaCAPgADLWZkiTPO9WKF+pK7vORsxDe6TG7fLE2/sCZHyofKlbDKHAwvW1x+
-	HmgQN4vOSihnbfWwWHKRjFryafRPB1hOqbm/WONHwr1zMfw3MOaj9TLWyuGoB25wV/bf
-	awEe/tiOBJ2Y55hVFYw9pPhRoiiMOHLxlyquEeW1/0DS8yJ7u/AA7Aml+kRY30I/QeYm
-	QO2weaZmts8gOwGnf1Er0opQZq7Tl3nDo1lEv3mTvRxgWjyWXzEu0xZ6ZIUjyBr4xHzw
-	STbg==
-X-Gm-Message-State: AEkoouukuxC+u0+DJjzxTZOugNrTuA+/lczip0Mu+uCePM6r9kozxw7rSyw0wo4fZq3VDA==
-X-Received: by 10.176.67.6 with SMTP id k6mr39072700uak.96.1470652621916;
-	Mon, 08 Aug 2016 03:37:01 -0700 (PDT)
-Received: from mail-ua0-f170.google.com (mail-ua0-f170.google.com.
-	[209.85.217.170])
-	by smtp.gmail.com with ESMTPSA id 72sm2574526uad.5.2016.08.08.03.36.58
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 08 Aug 2016 03:37:00 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-ua0-f170.google.com with SMTP id 35so246291410uap.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Aug 2016 03:36:58 -0700 (PDT)
-X-Received: by 10.176.64.72 with SMTP id h66mr45665585uad.97.1470652617196;
-	Mon, 08 Aug 2016 03:36:57 -0700 (PDT)
+	bh=TDlmC/1qw+bEcz+HOddlZ2z7yMHn3owMUFl+UDEZ8hE=;
+	b=XJy6ytvVdNA1S2P252fCxHRgvjxVYlExIW3Zjl/dsdxDMtOjZofx9aLPPYiyr/OOjL
+	ayf8SNip3o3Gpl0iHkdNcHvMABFGfw/lM2c3vDPxIk33jnPUTNQhhAr2WKnIy/H+ebCg
+	T1IQp+9fGAvk4sDaZ2EGZwj6bvkkrPn3E1vLc25Hwbc2dDmqPhZyhb120ydm4xhHjWG6
+	epBu1LWufXovRsSXNARn080wUFA93HSEEAItUzH5HR//D+/WrPppLBe+s1wt5NNxNqFa
+	S4+e6JE7nZWFtPbxekXAthzVI96xB3hkaNRRkwwk1TSI1bafIZQjo/6PnHf3KmVBjTfN
+	bTsA==
+X-Gm-Message-State: AEkoouvRRNibti+6D1DA5si/6UWlNhOFUoQNeB4VmXCoByiMcfUCYqRJDz/p0IjTAvPy3OGiW8JYJ/tIdo5pcQ==
+X-Received: by 10.176.68.4 with SMTP id m4mr48027962uam.12.1470653087708; Mon,
+	08 Aug 2016 03:44:47 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.31.138.78 with HTTP; Mon, 8 Aug 2016 03:36:56 -0700 (PDT)
-In-Reply-To: <917684eb0fc505f6b575ac815188baa7f685cdaf.1470643735.git.maciej.borzecki@rndity.com>
+Received: by 10.103.40.3 with HTTP; Mon, 8 Aug 2016 03:44:27 -0700 (PDT)
+In-Reply-To: <CAP9ODKohXDNzKeWrkcAC7yT5AKJYqCvFBcXkJx0dD7OwO5bcTA@mail.gmail.com>
 References: <917684eb0fc505f6b575ac815188baa7f685cdaf.1470643735.git.maciej.borzecki@rndity.com>
-Date: Mon, 8 Aug 2016 07:36:56 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKohXDNzKeWrkcAC7yT5AKJYqCvFBcXkJx0dD7OwO5bcTA@mail.gmail.com>
-Message-ID: <CAP9ODKohXDNzKeWrkcAC7yT5AKJYqCvFBcXkJx0dD7OwO5bcTA@mail.gmail.com>
-To: Maciej Borzecki <maciej.borzecki@rndity.com>
+	<CAP9ODKohXDNzKeWrkcAC7yT5AKJYqCvFBcXkJx0dD7OwO5bcTA@mail.gmail.com>
+From: =?UTF-8?Q?Maciej_Borz=C4=99cki?= <maciej.borzecki@rndity.com>
+Date: Mon, 8 Aug 2016 12:44:27 +0200
+Message-ID: <CAD4b0_JTawOxo5nLx_Scrbbf42DDihA+V9tH7eXLBMiO3_-WeA@mail.gmail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
 Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
 	Otavio Salvador <otavio@ossystems.com.br>,
 	Patches and discussions about the oe-core layer
@@ -69,22 +57,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2016 10:37:02 -0000
+X-List-Received-Date: Mon, 08 Aug 2016 10:44:48 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Aug 8, 2016 at 5:11 AM, Maciej Borzecki
-<maciej.borzecki@rndity.com> wrote:
-> Options and directory separator -- slipped past the patch removing
-> Debianims, thus resulting in failures on hosts running Fedora.
+On Mon, Aug 8, 2016 at 12:36 PM, Otavio Salvador
+<otavio.salvador@ossystems.com.br> wrote:
+> On Mon, Aug 8, 2016 at 5:11 AM, Maciej Borzecki
+> <maciej.borzecki@rndity.com> wrote:
+>> Options and directory separator -- slipped past the patch removing
+>> Debianims, thus resulting in failures on hosts running Fedora.
+>>
+>> Signed-off-by: Maciej Borzecki <maciej.borzecki@rndity.com>
 >
-> Signed-off-by: Maciej Borzecki <maciej.borzecki@rndity.com>
+> Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+>
+> Also, this should be backported for Krogoth no?
 
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
-
-Also, this should be backported for Krogoth no?
+Yes, the problem is there as well.
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Maciej Borzecki
+RnDity
 
