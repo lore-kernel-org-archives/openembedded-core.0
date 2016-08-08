@@ -1,54 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
-	[209.85.220.49])
-	by mail.openembedded.org (Postfix) with ESMTP id EB8617716F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f53.google.com (mail-it0-f53.google.com
+	[209.85.214.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 12665771A0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Aug 2016 15:57:35 +0000 (UTC)
-Received: by mail-pa0-f49.google.com with SMTP id pp5so114993668pac.3
+	Mon,  8 Aug 2016 15:58:51 +0000 (UTC)
+Received: by mail-it0-f53.google.com with SMTP id f6so12795531ith.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Aug 2016 08:57:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=2wWrcTe6pMkJR98wamquOAzFJHlXxMboXsVzamhv1R8=;
-	b=N4JUOMCKYT46wpySeBDahjTIKhQGsDSSiwGhLAfJnjvS4svlaWGggcmeHFkXylyN4y
-	80FaKAfk/pDFj9j0XPyb+qv5jzhJlTEQ+tX6+TbLaJGGrlD/EOa8m0LZRptjl6rqumXq
-	hUpqT7h4XkEjNw1AVz0eAwP+TBMzP3XD1dgG9wht43nLYJetgq86UHGoYUvbjR/7GUxc
-	VQr3ZO25D93Oof1RiozXeKGMZar4Hh4pMGE4FFwLaFaNXBF+DW/zVBPgV4t00ftmfLNK
-	97NDtg/ZXViFq2h5k8YMBZG/sFJZ0aUlleCg7K3//pe+vUh5TYttKs/t/R2yYh7P5ObP
-	fTpQ==
+	Mon, 08 Aug 2016 08:58:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=QJy7kzzevZkCjqmjxHn2MsXp616Aw+v3GNWtZkAoLrA=;
+	b=yo6bwNVj2H/mjf3xK/CEr9PgdEUXoKOG6uzSKGHB3U3vXrpjgAhCz9gnzX33EA8lzK
+	4VHrHjeX0LN0FZk+cMUdRLCNykyiTsUkBxXaebF6YhjZnuOjqr2MXkQk8Eq+U5h16Tzt
+	DYzdC/gPcm3D0PX1BR1LmsEbjoPD5xP90cTSx817AJZgxkIvmo7Za8FL1NYmgWbPuc81
+	roz9OZE+2zscfnxNRGmCtskZ7VEpdOyMPJupUtLstXqcIoBbz5SBQHy6XNDgZ0IWC3to
+	o3efJ5SymgrmUquHEdBlsq3gudhi/yzbMnD1IucICVhi5rEtBdBcFb/mvJuQU0GV+V6B
+	Uuag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=2wWrcTe6pMkJR98wamquOAzFJHlXxMboXsVzamhv1R8=;
-	b=M5r2ZuE25BXShpo0lw3loIkIzndFgSv13bgIwE/4gpR3APgyHdjwa6821ZRdvwzkzh
-	QPCBFhVaABaJ7dIS4DKoRZZUbglpFmLdVLtgqeAsMKCtuhoeM2DrkDysXxVNMK1vnXZG
-	pxpWJk7NDeM1dHo2SS+9zEq7FIBfso/JW60kPJ1uFiSnNEOX9xur2o+gcwS8cFOCk0oT
-	RUYHgJdyS/JGPNytq2ugC1Kqtu0WQRxPtVdTf/TptI+OhzCw4qKttGV8SdhmNFU5V56+
-	B4uzAQiOPPXhV6a6B5ysKkg7hU8dWjskn/nOpvpOOmfnRr7gbT157z0GSvEqZWSMpeqZ
-	ko6A==
-X-Gm-Message-State: AEkoouu8thIkLYj1ZI57BgHoLDV0sasjOCUjU64HpX/2e7T1Id+ysdfSVRkFjAnblr/kMg==
-X-Received: by 10.66.153.163 with SMTP id vh3mr166287634pab.0.1470671856408;
-	Mon, 08 Aug 2016 08:57:36 -0700 (PDT)
-Received: from ?IPv6:2601:646:8882:b8c:ddaa:6f66:32b4:378?
-	([2601:646:8882:b8c:ddaa:6f66:32b4:378])
-	by smtp.gmail.com with ESMTPSA id
-	f84sm49157737pfd.87.2016.08.08.08.57.33
-	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 08 Aug 2016 08:57:34 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAJTo0LZUT+9Wgf+kvtUJwJj7_W2afRciuW5PA2OfRrXYBRO-qw@mail.gmail.com>
-Date: Mon, 8 Aug 2016 08:58:04 -0700
-Message-Id: <EBA8A76F-AB24-4D00-851D-A8DCD856998C@gmail.com>
-References: <1470204251-6173-1-git-send-email-fan.xin@jp.fujitsu.com>
-	<CAJTo0LZUT+9Wgf+kvtUJwJj7_W2afRciuW5PA2OfRrXYBRO-qw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.3124)
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Fan Xin <fan.xin@jp.fujitsu.com>
-Subject: Re: [PATCH] ltp: upgrade to 20160510
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=QJy7kzzevZkCjqmjxHn2MsXp616Aw+v3GNWtZkAoLrA=;
+	b=bhUdJX1KYUpsNJ/j3oEkhXoGyofNcB07WLqXHwg/n7X9KUOnk3tZFPu+QvHD+NmyJw
+	3ydU/kgYRNG/1uaDHWf/e/5sUGqozuY8aNkc8H6GKDC3NhK+ZflYu8yPB4fUnEzcwbFJ
+	YMDAuGg3leTeQxbZoNFvCSv+TEvJXPO5rokn3/V6NRk9hpht8bm+A+SCTeT11tZXCwyn
+	PN6caDG7hT9OwHMxdABu6Utx17mtjNJz+UkA7vDMdwR/Z+Ycg0ZIWAaCIVY/hVJtBvHk
+	ja9b6e3+dgo+XRKpp916rTE2+o2F917ItbycjZap8/IuI1hxyqiscUKOySpvDbWMRFSy
+	en8Q==
+X-Gm-Message-State: AEkoous31/+4xSj9RwprdqGQQgZ1WfOh8iA6xTH/+SV0H52eXE3SzSwXbp7ctNoWZeQ+4HZSOdyXG1w/iM781oqk
+X-Received: by 10.36.121.204 with SMTP id z195mr19176642itc.22.1470671932320; 
+	Mon, 08 Aug 2016 08:58:52 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.18.17 with HTTP; Mon, 8 Aug 2016 08:58:31 -0700 (PDT)
+In-Reply-To: <1470665264-16321-1-git-send-email-alexander.kanavin@linux.intel.com>
+References: <1470665264-16321-1-git-send-email-alexander.kanavin@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 8 Aug 2016 16:58:31 +0100
+Message-ID: <CAJTo0LZ5FtoL7__MRMTeSJ59E3_AD=9U5C99W8uV1bppDambWg@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] security_flags.inc: enable PIE for a few recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,129 +53,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2016 15:57:37 -0000
-X-Groupsio-MsgNum: 85467
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_3FFD07CB-C9A5-4F77-9C8A-59F00874118D";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Mon, 08 Aug 2016 15:58:53 -0000
+Content-Type: multipart/alternative; boundary=001a114aa4661b815c0539917ef0
 
---Apple-Mail=_3FFD07CB-C9A5-4F77-9C8A-59F00874118D
-Content-Type: multipart/alternative;
-	boundary="Apple-Mail=_72093D7D-6C1C-4448-913D-61727DE7F29E"
+--001a114aa4661b815c0539917ef0
+Content-Type: text/plain; charset=UTF-8
 
---Apple-Mail=_72093D7D-6C1C-4448-913D-61727DE7F29E
+On 8 August 2016 at 15:07, Alexander Kanavin <
+alexander.kanavin@linux.intel.com> wrote:
+
+> -SECURITY_CFLAGS_pn-mesa-gl = "${SECURITY_NO_PIE_CFLAGS}"
+>
+
+Did you test this?
+
+For intel-corei7-64 with hardening enabled it fails like this:
+
+|
+/data/poky-master/tmp-glibc/sysroots/intel-corei7-64/usr/lib/libc_nonshared.a(elf-init.oS):
+In function `__libc_csu_init':
+| /usr/src/debug/glibc/2.24-r0/git/csu/elf-init.c:86: undefined reference
+to `__init_array_start'
+|
+/data/poky-master/tmp-glibc/sysroots/x86_64-linux/usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/6.1.1/ld:
+/data/poky-master/tmp-glibc/sysroots/intel-corei7-64/usr/lib/libc_nonshared.a(elf-init.oS):
+relocation R_X86_64_PC32 against undefined hidden symbol
+`__init_array_start' can not be used when making a shared object
+|
+/data/poky-master/tmp-glibc/sysroots/x86_64-linux/usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/6.1.1/ld:
+final link failed: Bad value
+| collect2: error: ld returned 1 exit status
+| Makefile:678: recipe for target 'mesa_dri_drivers.la' failed
+
+Ross
+
+--001a114aa4661b815c0539917ef0
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 8 August 2016 at 15:07, Alexander Kanavin <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander.k=
+anavin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_=
+quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-=
+color:rgb(204,204,204);border-left-style:solid;padding-left:1ex"><div id=3D=
+":1d2" class=3D"">-SECURITY_CFLAGS_pn-mesa-gl =3D &quot;${SECURITY_NO_PIE_C=
+FLAGS}&quot;<br></div></blockquote></div><br>Did you test this?</div><div c=
+lass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">For intel-corei7-=
+64 with hardening enabled it fails like this:</div><div class=3D"gmail_extr=
+a"><br></div><div class=3D"gmail_extra"><div class=3D"gmail_extra">| /data/=
+poky-master/tmp-glibc/sysroots/intel-corei7-64/usr/lib/libc_nonshared.a(elf=
+-init.oS): In function `__libc_csu_init&#39;:</div><div class=3D"gmail_extr=
+a">| /usr/src/debug/glibc/2.24-r0/git/csu/elf-init.c:86: undefined referenc=
+e to `__init_array_start&#39;</div><div class=3D"gmail_extra">| /data/poky-=
+master/tmp-glibc/sysroots/x86_64-linux/usr/libexec/x86_64-poky-linux/gcc/x8=
+6_64-poky-linux/6.1.1/ld: /data/poky-master/tmp-glibc/sysroots/intel-corei7=
+-64/usr/lib/libc_nonshared.a(elf-init.oS): relocation R_X86_64_PC32 against=
+ undefined hidden symbol `__init_array_start&#39; can not be used when maki=
+ng a shared object</div><div class=3D"gmail_extra">| /data/poky-master/tmp-=
+glibc/sysroots/x86_64-linux/usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-l=
+inux/6.1.1/ld: final link failed: Bad value</div><div class=3D"gmail_extra"=
+>| collect2: error: ld returned 1 exit status</div><div class=3D"gmail_extr=
+a">| Makefile:678: recipe for target &#39;<a href=3D"http://mesa_dri_driver=
+s.la">mesa_dri_drivers.la</a>&#39; failed</div><div class=3D"gmail_extra"><=
+br></div><div class=3D"gmail_extra">Ross</div></div></div>
 
-> On Aug 3, 2016, at 9:22 AM, Burton, Ross <ross.burton@intel.com> =
-wrote:
->=20
->=20
-> On 3 August 2016 at 07:04, Fan Xin <fan.xin@jp.fujitsu.com =
-<mailto:fan.xin@jp.fujitsu.com>> wrote:
-> diff --git a/meta/recipes-extended/ltp/ltp_20160126.bb =
-<http://ltp_20160126.bb/> b/meta/recipes-extended/ltp/ltp_20160510.bb =
-<http://ltp_20160510.bb/>
-> similarity index 100%
-> rename from meta/recipes-extended/ltp/ltp_20160126.bb =
-<http://ltp_20160126.bb/>
-> rename to meta/recipes-extended/ltp/ltp_20160510.bb =
-<http://ltp_20160510.bb/>
-> As this recipe fetches from git if you don't change SRCREV then it's =
-not an upgrade.
->=20
-
-Please look into
-
-https://github.com/kraj/ltp/commits/oe/master =
-<https://github.com/kraj/ltp/commits/oe/master>
-
-The oe/master branch has all the patches needed for OE, you should =
-regenerate those patches from there
-since many of the patches has been upstreamed but not all. That branch =
-carries the latest pending patches
-after rebasing them on ltp master.
-
-
-> Ross
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
---Apple-Mail=_72093D7D-6C1C-4448-913D-61727DE7F29E
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=us-ascii
-
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
-charset=3Dus-ascii"></head><body style=3D"word-wrap: break-word; =
--webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
-class=3D""><br class=3D""><div><blockquote type=3D"cite" class=3D""><div =
-class=3D"">On Aug 3, 2016, at 9:22 AM, Burton, Ross &lt;<a =
-href=3D"mailto:ross.burton@intel.com" =
-class=3D"">ross.burton@intel.com</a>&gt; wrote:</div><br =
-class=3D"Apple-interchange-newline"><div class=3D""><div dir=3D"ltr" =
-class=3D""><div class=3D"gmail_extra"><br class=3D""><div =
-class=3D"gmail_quote">On 3 August 2016 at 07:04, Fan Xin <span dir=3D"ltr"=
- class=3D"">&lt;<a href=3D"mailto:fan.xin@jp.fujitsu.com" =
-target=3D"_blank" class=3D"">fan.xin@jp.fujitsu.com</a>&gt;</span> =
-wrote:<br class=3D""><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3kv" =
-class=3D"a3s aXjCH m1564f019b65e6bf9">diff --git =
-a/meta/recipes-extended/ltp/<a href=3D"http://ltp_20160126.bb/" =
-rel=3D"noreferrer" target=3D"_blank" class=3D"">ltp_20160126.bb</a> =
-b/meta/recipes-extended/ltp/<a href=3D"http://ltp_20160510.bb/" =
-rel=3D"noreferrer" target=3D"_blank" class=3D"">ltp_20160510.bb</a><br =
-class=3D"">
-similarity index 100%<br class=3D"">
-rename from meta/recipes-extended/ltp/<a href=3D"http://ltp_20160126.bb/" =
-rel=3D"noreferrer" target=3D"_blank" class=3D"">ltp_20160126.bb</a><br =
-class=3D"">
-rename to meta/recipes-extended/ltp/<a href=3D"http://ltp_20160510.bb/" =
-rel=3D"noreferrer" target=3D"_blank" =
-class=3D"">ltp_20160510.bb</a></div></blockquote></div><br class=3D"">As =
-this recipe fetches from git if you don't change SRCREV then it's not an =
-upgrade.</div><div class=3D"gmail_extra"><br =
-class=3D""></div></div></div></blockquote><div><br =
-class=3D""></div><div>Please look into&nbsp;</div><div><br =
-class=3D""></div><div><a =
-href=3D"https://github.com/kraj/ltp/commits/oe/master" =
-class=3D"">https://github.com/kraj/ltp/commits/oe/master</a></div><div><br=
- class=3D""></div><div>The oe/master branch has all the patches needed =
-for OE, you should regenerate those patches from there</div><div>since =
-many of the patches has been upstreamed but not all. That branch carries =
-the latest pending patches</div><div>after rebasing them on ltp =
-master.</div><div><br class=3D""></div><br class=3D""><blockquote =
-type=3D"cite" class=3D""><div class=3D""><div dir=3D"ltr" class=3D""><div =
-class=3D"gmail_extra">Ross</div></div>
--- <br class=3D"">_______________________________________________<br =
-class=3D"">Openembedded-core mailing list<br class=3D""><a =
-href=3D"mailto:Openembedded-core@lists.openembedded.org" =
-class=3D"">Openembedded-core@lists.openembedded.org</a><br =
-class=3D"">http://lists.openembedded.org/mailman/listinfo/openembedded-cor=
-e<br class=3D""></div></blockquote></div><br class=3D""></body></html>=
-
---Apple-Mail=_72093D7D-6C1C-4448-913D-61727DE7F29E--
-
---Apple-Mail=_3FFD07CB-C9A5-4F77-9C8A-59F00874118D
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAleorBEACgkQuwUzVZGdMxTfsgCeMefBHscVPtCV9sQEA6E4eptA
-gB8An2DEuvKLNWWuuFvRJag6y52bVTSQ
-=yF3Y
------END PGP SIGNATURE-----
-
---Apple-Mail=_3FFD07CB-C9A5-4F77-9C8A-59F00874118D--
+--001a114aa4661b815c0539917ef0--
