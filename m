@@ -1,28 +1,34 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D919771C5
+Return-Path: <denis@denix.org>
+Received: from vms173025pub.verizon.net (vms173025pub.verizon.net
+	[206.46.173.25])
+	by mail.openembedded.org (Postfix) with ESMTP id 46B0F771A8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Aug 2016 20:45:56 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 08 Aug 2016 13:45:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,491,1464678000"; d="scan'208";a="1031976814"
-Received: from kwang27-mobl8.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.179.174])
-	by orsmga002.jf.intel.com with ESMTP; 08 Aug 2016 13:45:53 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 09 Aug 2016 08:45:51 +1200
-Message-ID: <4180524.BjivrXu0U0@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.6.4-201.fc23.x86_64; KDE/4.14.20; x86_64; ;
-	)
-In-Reply-To: <1470643460.8166.35.camel@linuxfoundation.org>
-References: <cover.1470627445.git.brian.avery@intel.com>
-	<db8cc8ef-f243-a2b2-93ed-cd85c8917bce@gmail.com>
-	<1470643460.8166.35.camel@linuxfoundation.org>
-MIME-Version: 1.0
-Subject: Re: [PATCH 1/2] packagegroup-core-eclipse-debug: add openssh server to support openssh-sftp-server
+	Mon,  8 Aug 2016 21:31:09 +0000 (UTC)
+Received: from vz-proxy-m006.mx.aol.com ([64.236.83.10])
+	by vms173025.mailsrvcs.net
+	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul 16
+	2014)) with ESMTPA id <0OBM006GA13LAU50@vms173025.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Mon, 08 Aug 2016 16:31:08 -0500 (CDT)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.1 cv=J+9Xl1TS c=1 sm=1 tr=0	a=pKq81LsWol7b8sI3Hpopew==:117
+	a=kj9zAlcOel0A:10 a=7z1cN_iqozsA:10	a=SGiVMpSyAAAA:8 a=sozttTNsAAAA:8
+	a=Q4-j1AaZAAAA:8 a=TgLPWmAk6Of_aVH097kA:9	a=CjuIK1q_8ugA:10
+Received: by 100.15.86.14 with SMTP id 087f5d71; Mon, 08 Aug 2016 21:31:08 GMT
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 37FAC1620E6; Mon,
+	8 Aug 2016 17:30:57 -0400 (EDT)
+Date: Mon, 08 Aug 2016 17:30:57 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: George McCollister <george.mccollister@gmail.com>
+Message-id: <20160808213055.GQ8521@denix.org>
+References: <cover.1470672689.git.george.mccollister@gmail.com>
+	<da75f7dd900ec6188699011a2d49ca8afbaffefb.1470672689.git.george.mccollister@gmail.com>
+MIME-version: 1.0
+In-reply-to: <da75f7dd900ec6188699011a2d49ca8afbaffefb.1470672689.git.george.mccollister@gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: marex@denx.de, trini@konsulko.com, denys@ti.com,
+	andrew.bradford@kodakalaris.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/5] kernel-fitimage.bbclass: do_assemble_fitimage(): cd to $B
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,33 +41,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2016 20:45:59 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 08 Aug 2016 21:31:11 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-On Mon, 08 Aug 2016 09:04:20 Richard Purdie wrote:
-> On Mon, 2016-08-08 at 08:27 +0200, Jacob Kroon wrote:
-> > On 08/08/2016 05:43 AM, bavery wrote:
-> > > The openssh-sftp-server was already part of the pakagegroup. Adding
-> > > the openssh-server
-> > > lets the sftp server start up correctly.
-> > 
-> > If openssh-sftp-server cannot run without openssh, shouldn't it
-> > RDEPEND
-> > on it instead ?
+On Mon, Aug 08, 2016 at 11:37:53AM -0500, George McCollister wrote:
+> From: Andrew Bradford <andrew.bradford@kodakalaris.com>
 > 
-> I suspect you are right and that it needs an RDEPENDS if it doesn't
-> work without it. It also needs a comment explaining the dependency so
-> someone doesn't remove it.
+> Prior to assembling the fitimage, ensure that $B is the cwd due to
+> bitbake commit 67a7b8b021badc17d8fdf447c250e79d291e75f7 "build: don't
+> use $B as the default cwd for functions".
+> 
+> Without this change, do_assemble_fitimage() fails like:
+> 
+> Log data follows:
+> | DEBUG: Executing shell function do_assemble_fitimage
+> | arm-ka-linux-gnueabi-objcopy: 'vmlinux': No such file
+> | WARNING: exit code 1 from a shell command.
+> | ERROR: Function failed: do_assemble_fitimage
+> 
+> Signed-off-by: Andrew Bradford <andrew.bradford@kodakalaris.com>
 
-Using openssh-sftp-server with dropbear used to work, so it would be 
-interesting to know when it broke and if it's possible to fix it.
+Tested-by: Denys Dmytriyenko <denys@ti.com>
+Acked-by: Denys Dmytriyenko <denys@ti.com>
 
-Cheers,
-Paul
 
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+> ---
+>  meta/classes/kernel-fitimage.bbclass | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+> index 9a3caf5..7cca180 100644
+> --- a/meta/classes/kernel-fitimage.bbclass
+> +++ b/meta/classes/kernel-fitimage.bbclass
+> @@ -189,6 +189,7 @@ EOF
+>  }
+>  
+>  do_assemble_fitimage() {
+> +	cd ${B}
+>  	if echo ${KERNEL_IMAGETYPES} | grep -wq "fitImage"; then
+>  		kernelcount=1
+>  		dtbcount=""
+> -- 
+> 2.8.0
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
