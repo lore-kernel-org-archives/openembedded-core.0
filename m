@@ -1,48 +1,54 @@
-Return-Path: <george.mccollister@gmail.com>
-Received: from mail-io0-f195.google.com (mail-io0-f195.google.com
-	[209.85.223.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 0FA777716F
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
+	[209.85.220.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 2203C7716F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Aug 2016 16:15:19 +0000 (UTC)
-Received: by mail-io0-f195.google.com with SMTP id i199so6812752ioi.1
+	Mon,  8 Aug 2016 16:17:34 +0000 (UTC)
+Received: by mail-pa0-f53.google.com with SMTP id ti13so36920935pac.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Aug 2016 09:15:20 -0700 (PDT)
+	Mon, 08 Aug 2016 09:17:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=PeFDweYUFKmDg1/u8q9lz/3wA5GtUheQNZYEV3w/rzM=;
-	b=kLzg+mTXhlVKcgJYWS0Z4yTdnCrNtnbM9siP7W/UzxCANKrKgFj3AAuUzNTTrduptl
-	6epUNU21CievHhMsr2KdjEZ/AIsmMFzbItPL4N8BKOfnsvtmnAEX8vTw8qPJ2WO+8PLV
-	Cg72jo5rpZ8KnNl78fFUNzW1hdchJThkOPSzE68k4BtzNxCyWWTQDJZNMT8XZUmj3tlE
-	k0VKTIsHSEcImYktdm8j6RaCx15HI10xqFJ7spE6wFqqxcIbgcIesu8SKzmBfVRHpsme
-	R/ChClgT4S1gCpdIhPjjhKkKrXN07/xR8CwQFU++JCsZu3nPUcT9ifrp0tArQgYvRRGV
-	4cBg==
+	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
+	:to; bh=H7UTJg/0VrZye4ROFb7Sz4zQJWSofuW1HvoblED+pvE=;
+	b=oykK7Fl2cai3DOlHXuox1UA9QVnhKUJH8d4bZjka7S5id6uHwDpwQvwqn8yHsGcYrQ
+	bULF1Wfa9Elt9+zSkiJXZbwfjTOzSrNB5AOmgT6Ug2+9eq+v02r1jyluc5aGJkaq4iuh
+	u5gHveDaiWBhLiaOdHfk0k0Xm9RyPxBzuebKggQ6PnSRLiOLoZvpnoTVY2hCWJI+9Lc9
+	5k9e8yyfjGv4pspXOlY2tyMJ0flXvz6FjskiEr2tYd0Xiqk0pxm2qxk0iK33YjmkdLEk
+	xwZFBZOeaeGI6xVY5zSvsqSwDCgnswIb5CD2kB4tq3SwsMMp98BCoXgukpBeQii1nzUJ
+	XiHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=PeFDweYUFKmDg1/u8q9lz/3wA5GtUheQNZYEV3w/rzM=;
-	b=eKOY7JImqNNZgWJzM4HFjn0S14wMFYbsKFuvpnEJPQUf9baU2hhQuotvHBlCcH1Tmr
-	Z/ox+GBoXg4K2mjKip8DfPnkW2kXSuqkLMSG6IbJx8K5fWveS1zA4f4oASr1xOpocvbT
-	KFhODLgoW9iMPUJ+A3TjejEjGdJWTxfzRzUQJPd40bVkP+xzcZmkh3xcnndT9YbNLc0I
-	kKBcsFCaB+oxAnPANVHQBli0+F2Bc+h2vF+GRAC0rVJgYvfZabraEbYABBy/lwFem5f0
-	HwLrwR7XiXanIbe6eSAtFBVWcSKIugTv+f6ZcSc49zzFZ81XmgAGgUU6kofJbIEQLL4B
-	0GPQ==
-X-Gm-Message-State: AEkoousvvyH1NLINaapI93QsDGmM3KM/8qarq9uLXEA+WInIMd1sUtz+eFwMqFlVP1fiRmo2bwlWNmn3sv5qSg==
-X-Received: by 10.107.25.14 with SMTP id 14mr91351389ioz.168.1470672920378;
-	Mon, 08 Aug 2016 09:15:20 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.36.88.4 with HTTP; Mon, 8 Aug 2016 09:15:19 -0700 (PDT)
-In-Reply-To: <20160805212511.GO8521@denix.org>
-References: <cover.1468862824.git.george.mccollister@gmail.com>
-	<1c06daa2a3dad03821aff6a7f7502036fb90f2b4.1468862824.git.george.mccollister@gmail.com>
-	<20160805212511.GO8521@denix.org>
-From: George McCollister <george.mccollister@gmail.com>
-Date: Mon, 8 Aug 2016 11:15:19 -0500
-Message-ID: <CAFSKS=NNMiS+TRRwbpuh2iWChn6DzbE5ZxMgPTEAtoATt5WKsQ@mail.gmail.com>
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: =?UTF-8?B?TWFyZWsgVmHFoXV0?= <marex@denx.de>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 1/3] kernel-fitimage: add initramfs support
+	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=H7UTJg/0VrZye4ROFb7Sz4zQJWSofuW1HvoblED+pvE=;
+	b=i9OKXry5r+UCJgRDEnHUZ68PW/FaJffXh1bsL2PPV/SDDT1SZS1Z6GQOfThELzCxUV
+	qlEfwLASj+ssjEzpbIpR9znG5S8LUScoPjTJdAUmtNdjel5brqD0Yx2NsNCvnxNfv8H/
+	4EaWNYdIZHWDIgoQq1yoaFSNkIk3oN+vwax4w9AoH05hTjQ9dr0XcAtAJLRusmy1amaw
+	1WJVMUI0GIW+Z5q86msN+IAbnvop9X5eW7qWiZZpurN6TDI0dCido+/Uk/R7atpSqDXD
+	6clMcAtGv2NUAvN38davmsNh4hhBkkMkEyjY9RJbDtmv8wUCZ6v719Ms5/rby6Zjdw4D
+	b0wQ==
+X-Gm-Message-State: AEkoouv3kKY+eTxNuKfGBsuYpTF6ZZRx0j1LZXmo758uLfd5etQnK2L0jWoXvB/oDmFGZw==
+X-Received: by 10.66.72.10 with SMTP id z10mr65754270pau.63.1470673055454;
+	Mon, 08 Aug 2016 09:17:35 -0700 (PDT)
+Received: from ?IPv6:2601:646:8882:b8c:ddaa:6f66:32b4:378?
+	([2601:646:8882:b8c:ddaa:6f66:32b4:378])
+	by smtp.gmail.com with ESMTPSA id
+	y184sm49252190pfg.94.2016.08.08.09.17.33
+	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 08 Aug 2016 09:17:33 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+X-Pgp-Agent: GPGMail
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <273f31f6-c70a-d796-45f6-3dbf9fff4dc0@linux.intel.com>
+Date: Mon, 8 Aug 2016 09:18:04 -0700
+Message-Id: <29B028CB-E4D5-4211-8D9B-D5D20ED57205@gmail.com>
+References: <1470665264-16321-1-git-send-email-alexander.kanavin@linux.intel.com>
+	<CAJTo0LZ5FtoL7__MRMTeSJ59E3_AD=9U5C99W8uV1bppDambWg@mail.gmail.com>
+	<273f31f6-c70a-d796-45f6-3dbf9fff4dc0@linux.intel.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+X-Mailer: Apple Mail (2.3124)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] security_flags.inc: enable PIE for a few recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,57 +61,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2016 16:15:20 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 08 Aug 2016 16:17:35 -0000
+X-Groupsio-MsgNum: 85475
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_719D9EB2-4CD8-47DA-BCCF-0CDBD099FEAF";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-On Fri, Aug 5, 2016 at 4:25 PM, Denys Dmytriyenko <denis@denix.org> wrote:
-> On Mon, Jul 18, 2016 at 12:57:55PM -0500, George McCollister wrote:
->> If INITRAMFS_IMAGE is set, build an additional fitImage containing the
->> initramfs. Copy the additional fitImage and the source (*.its) file, used
->> to create it to DEPLOYDIR. The fitImage containing the initramfs must be
->> built before do_deploy and after do_install to avoid circular dependencies.
->>
->> UBOOT_RD_LOADADDRESS - Specifies the load address used by u-boot for the
->>                        initramfs.
->> UBOOT_RD_ENTRYPOINT  - Specifies the entry point used by u-boot for the
->>                        initramfs.
->>
->> Signed-off-by: George McCollister <george.mccollister@gmail.com>
->> ---
->>  meta/classes/kernel-fitimage.bbclass | 282 +++++++++++++++++++++++------------
->>  1 file changed, 187 insertions(+), 95 deletions(-)
->>
->> diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
->> index 9a3caf5..ede69e7 100644
->> --- a/meta/classes/kernel-fitimage.bbclass
->> +++ b/meta/classes/kernel-fitimage.bbclass
->> @@ -16,7 +16,7 @@ python __anonymous () {
->>
->
-> <snip>
->
->
->> +     #
->> +     # Step 3: Prepare a ramdisk section.
->> +     #
->> +     if [ "x${ramdiskcount}" = "x1" ] ; then
->> +             copy_initramfs
->> +             fitimage_emit_section_ramdisk ${1} "${ramdiskcount}" ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
->
-> May I suggest dropping ${B} here to get the ramdisk path shorter and easier to
-> read? It's relative to ${B} anyway - same as all the DTBs...
->
-> + fitimage_emit_section_ramdisk ${1} "${ramdiskcount}" usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
+--Apple-Mail=_719D9EB2-4CD8-47DA-BCCF-0CDBD099FEAF
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-Change made, will be included in the new pull request.
-Thanks
 
->
->> +     fi
->>
->
-> <snip>
->
+> On Aug 8, 2016, at 9:12 AM, Alexander Kanavin =
+<alexander.kanavin@linux.intel.com> wrote:
+>=20
+> On 08/08/2016 06:58 PM, Burton, Ross wrote:
+>>    -SECURITY_CFLAGS_pn-mesa-gl =3D "${SECURITY_NO_PIE_CFLAGS}"
+>>=20
+>>=20
+>> Did you test this?
+>>=20
+>> For intel-corei7-64 with hardening enabled it fails like this:
+>=20
+> The world build with this patch was tested several weeks ago, for a =
+i686 target. I'll test again.
+
+The error would not show on x86/32bit. x86_64 will find more issues
+
+>=20
+> Alex
+>=20
 > --
-> Denys
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+
+--Apple-Mail=_719D9EB2-4CD8-47DA-BCCF-0CDBD099FEAF
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAleosMEACgkQuwUzVZGdMxSpMACffqEkbwQcvaapOgplHU80BoN+
+AlgAn1xBkQZa7L4o0aHyR/sOX0rJ8ZOK
+=msMs
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_719D9EB2-4CD8-47DA-BCCF-0CDBD099FEAF--
