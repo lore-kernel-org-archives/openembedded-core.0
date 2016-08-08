@@ -1,33 +1,46 @@
-Return-Path: <denis@denix.org>
-Received: from vms173013pub.verizon.net (vms173013pub.verizon.net
-	[206.46.173.13])
-	by mail.openembedded.org (Postfix) with ESMTP id BA05977196
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id BCAE1771B2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Aug 2016 18:05:57 +0000 (UTC)
-Received: from vz-proxy-m001.mx.aol.com ([64.236.83.14])
-	by vms173013.mailsrvcs.net
-	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul 16
-	2014)) with ESMTPA id <0OBL00LT1RLDQO80@vms173013.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Mon, 08 Aug 2016 13:05:37 -0500 (CDT)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.1 cv=btqxfxui c=1 sm=1 tr=0	a=MJxOpqxZADbEbEImuSX/mw==:117
-	a=kj9zAlcOel0A:10 a=7z1cN_iqozsA:10	a=NEAV23lmAAAA:8 a=Q4-j1AaZAAAA:8
-	a=a7i9wNmy_W_54KNtFsgA:9	a=CjuIK1q_8ugA:10
-Received: by 100.15.86.14 with SMTP id 6d16cc27; Mon, 08 Aug 2016 18:05:37 GMT
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id 9AC051620DA; Mon,
-	8 Aug 2016 14:05:36 -0400 (EDT)
-Date: Mon, 08 Aug 2016 14:05:36 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: George McCollister <george.mccollister@gmail.com>
-Message-id: <20160808180536.GP8521@denix.org>
-References: <cover.1470672689.git.george.mccollister@gmail.com>
-MIME-version: 1.0
-In-reply-to: <cover.1470672689.git.george.mccollister@gmail.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: marex@denx.de, trini@konsulko.com, denys@ti.com,
-	andrew.bradford@kodakalaris.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 0/5] kernel-fitimage: Add initramfs, x86 support
+	Mon,  8 Aug 2016 19:40:38 +0000 (UTC)
+Received: by mail-wm0-f51.google.com with SMTP id f65so135835150wmi.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 08 Aug 2016 12:40:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=8muTSKLseTsEIvUXHsY+h49NsnPZAGv06wdXJ7SHyL4=;
+	b=d2R82BJYg7vVPKFiH9xVD7KnnzB+5fdCh1uLRwD/Hs7wBQlwLCIDzIc4Weyns9qwwn
+	c2gb7vcVfIC3oEf0eDpCdHjhdJQHlh4oIgb5uLLYaOtDSUWKCc7Bk2AHwVAZg4Cl3Hwe
+	k/8cQHMh3x8nTxDGJXhLve1CgGaT4+NawaxVQ452pDWoDECbtwDtM1n2Fn3vqopjAHWD
+	S7SDPoXkaPR7iT5DeOkplSbOX/vYbk+W6ajsljpKH+xz7c5rLqhdqbRFKc54R30gTAua
+	gYWxi/6NcCco4Ji3XfbSCnJ7dyvd3BJWlclc+LyOZpoQSpDoS7GAtIMu/77feo+ai/cJ
+	Wpsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=8muTSKLseTsEIvUXHsY+h49NsnPZAGv06wdXJ7SHyL4=;
+	b=e8MQRR2AHuS0GNr8qQn46zEj5xL88LxR7PEKokS0tcwqOsQx6teG0nxvUBy4SuGyu6
+	D1RrQ+nTtot1s8m3QH9IKSypLVSHOviwtFtFV8MpRAoWCyEvIDrHh4HMczmT47iyGZl8
+	/kq6v9J11FKtplXQd2XPpNURikrRp5TWtJiCkuAL2U8AMXw+WkdCLmTxn8SI0+I5w883
+	k/TCwJ8ae2WJ2J94DktNuVwHSX15QEeJXe3Yfw8fg1jyZmReCUlo7gG4N50gHY6dkPbZ
+	KzuJPYR7v6TkZIsW9GpNzV+azicwCVWytLKZAhD4jEkiSG3ZJ8Ma9Dq5mY4kiUwPGAkH
+	n6KQ==
+X-Gm-Message-State: AEkooutUqhr+RXf9pQKgF6xxet8Gg1SGny9aKQP2cN2HEwRIb25R93L9FO/pwM6qc3GfVLcl
+X-Received: by 10.28.32.77 with SMTP id g74mr16673614wmg.45.1470685238265;
+	Mon, 08 Aug 2016 12:40:38 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	kq2sm34392789wjc.41.2016.08.08.12.40.37
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 08 Aug 2016 12:40:37 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  8 Aug 2016 20:40:34 +0100
+Message-Id: <1470685234-21936-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] buildhistory: output package variables in a repeatable order
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,69 +53,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2016 18:06:01 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Mon, 08 Aug 2016 19:40:39 -0000
 
-On Mon, Aug 08, 2016 at 11:37:52AM -0500, George McCollister wrote:
-> Add support for building fitImages that include an initramfs and booting
-> on x86.
+This code was outputting variables by iterating a dictionary.  In Py2 this
+always results in the same iteration order but with Py3 the order changes every
+execution, which resulted in buildhistory having to store diffs where fields
+were simply re-ordered.
 
-I'm in the process of testing this version now.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/buildhistory.bbclass | 18 ++++++++----------
+ 1 file changed, 8 insertions(+), 10 deletions(-)
 
-
-I'm wondering, if bundling everything in a single patchset will delay 
-acceptance even further? Case in point - I'm mostly interested in initramfs 
-support and it's been in limbo state for several months now. It was a single 
-patch back then and there were no major comments or issues with it. Few months 
-later, 2 extra patches were added with x86 support. Now recent $B change broke 
-few things and we need 2 more patches just to get everything working again...
-
-The reason I'm bringing this up is because I've been working on this area 
-recently and would like to contribute back some code (fixes, customizations). 
-Since it depends on this patchset, I'm not sure if I should wait for it to get 
-accepted or we'll just end up growing the patchset for another iteration...
-
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index 2db9145..6e5de0e 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -318,16 +318,14 @@ def write_pkghistory(pkginfo, d):
+         f.write(u"PV = %s\n" %  pkginfo.pv)
+         f.write(u"PR = %s\n" %  pkginfo.pr)
+ 
+-        pkgvars = {}
+-        pkgvars['PKG'] = pkginfo.pkg if pkginfo.pkg != pkginfo.name else ''
+-        pkgvars['PKGE'] = pkginfo.pkge if pkginfo.pkge != pkginfo.pe else ''
+-        pkgvars['PKGV'] = pkginfo.pkgv if pkginfo.pkgv != pkginfo.pv else ''
+-        pkgvars['PKGR'] = pkginfo.pkgr if pkginfo.pkgr != pkginfo.pr else ''
+-        for pkgvar in pkgvars:
+-            val = pkgvars[pkgvar]
+-            if val:
+-                f.write(u"%s = %s\n" % (pkgvar, val))
+-
++        if pkginfo.pkg != pkginfo.name:
++            f.write(u"PKG = %s\n" % pkginfo.pkg)
++        if pkginfo.pkge != pkginfo.pe:
++            f.write(u"PKGE = %s\n" % pkginfo.pkge)
++        if pkginfo.pkgv != pkginfo.pv:
++            f.write(u"PKGV = %s\n" % pkginfo.pkgv)
++        if pkginfo.pkgr != pkginfo.pr:
++            f.write(u"PKGR = %s\n" % pkginfo.pkgr)
+         f.write(u"RPROVIDES = %s\n" %  pkginfo.rprovides)
+         f.write(u"RDEPENDS = %s\n" %  pkginfo.rdepends)
+         f.write(u"RRECOMMENDS = %s\n" %  pkginfo.rrecommends)
 -- 
-Denys
+2.8.1
 
-
-> * V2
->  - Include Andrew Bradford's cd to $B patch since it is now required for
->    do_assemble_fitimage to work
->  - Fix initramfs support patch to cd to $B in do_assemble_fitimage_initramfs
->  - Remove ${B} in call to fitimage_emit_section_ramdisk per
->    Denys Dmytriyenko's suggestion
->  - Add patch to cd to $B in do_concat_dtb()
-> 
-> The following changes since commit c4dda05cb9755cb865c1d1bd142196f8a9f45d3d:
-> 
->   Revert "packagegroup-core-x11-base.bb: replace pointercal with pointercal-xinput" (2016-08-04 20:54:57 +0100)
-> 
-> are available in the git repository at:
-> 
->   git://github.com/gmccollister/openembedded-core master-fit
->   https://github.com/gmccollister/openembedded-core/tree/master-fit
-> 
-> Andrew Bradford (1):
->   kernel-fitimage.bbclass: do_assemble_fitimage(): cd to $B
-> 
-> George McCollister (4):
->   kernel-fitimage: add initramfs support
->   kernel-fitimage: Add x86 support
->   uboot-sign: Handle .rom signing the same as .img
->   uboot-sign: do_concat_dtb(): cd to $B
-> 
->  meta/classes/kernel-fitimage.bbclass | 346 +++++++++++++++++++++++++----------
->  meta/classes/uboot-sign.bbclass      |   4 +-
->  2 files changed, 249 insertions(+), 101 deletions(-)
-> 
-> -- 
-> 2.8.0
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
