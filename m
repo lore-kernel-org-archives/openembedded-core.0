@@ -1,34 +1,38 @@
 Return-Path: <denis@denix.org>
-Received: from vms173025pub.verizon.net (vms173025pub.verizon.net
-	[206.46.173.25])
-	by mail.openembedded.org (Postfix) with ESMTP id 79ED6771A8
+Received: from vms173023pub.verizon.net (vms173023pub.verizon.net
+	[206.46.173.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 320E1771A8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Aug 2016 21:32:43 +0000 (UTC)
-Received: from vz-proxy-m005.mx.aol.com ([64.236.83.15])
-	by vms173025.mailsrvcs.net
+	Mon,  8 Aug 2016 21:34:33 +0000 (UTC)
+Received: from vz-proxy-m006.mx.aol.com ([64.236.83.10])
+	by vms173023.mailsrvcs.net
 	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul 16
-	2014)) with ESMTPA id <0OBM009KL16JUM20@vms173025.mailsrvcs.net> for
+	2014)) with ESMTPA id <0OBM002UW196VG20@vms173023.mailsrvcs.net> for
 	openembedded-core@lists.openembedded.org;
-	Mon, 08 Aug 2016 16:32:44 -0500 (CDT)
+	Mon, 08 Aug 2016 16:34:19 -0500 (CDT)
 X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.1 cv=WpDWSorv c=1 sm=1 tr=0	a=NimJJ1rWho3RDXpqkQh0Zg==:117
-	a=kj9zAlcOel0A:10 a=7z1cN_iqozsA:10	a=pGLkceISAAAA:8 a=sozttTNsAAAA:8
-	a=Q4-j1AaZAAAA:8 a=f0UT9EPOpJK5ekTonXMA:9	a=CjuIK1q_8ugA:10
-Received: by 100.15.86.14 with SMTP id 0aacc688; Mon, 08 Aug 2016 21:32:44 GMT
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id 47DF91620E6; Mon,
-	8 Aug 2016 17:32:43 -0400 (EDT)
-Date: Mon, 08 Aug 2016 17:32:43 -0400
+X-CMAE-Analysis: v=2.1 cv=Nc0brD34 c=1 sm=1 tr=0	a=pKq81LsWol7b8sI3Hpopew==:117
+	a=kj9zAlcOel0A:10 a=7z1cN_iqozsA:10	a=pGLkceISAAAA:8
+	a=hWztiHMNAqJHbWtN8XIA:9 a=CjuIK1q_8ugA:10
+Received: by 100.15.86.14 with SMTP id 1280b7c5; Mon, 08 Aug 2016 21:34:19 GMT
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 730EB1620E6; Mon,
+	8 Aug 2016 17:34:18 -0400 (EDT)
+Date: Mon, 08 Aug 2016 17:34:18 -0400
 From: Denys Dmytriyenko <denis@denix.org>
-To: George McCollister <george.mccollister@gmail.com>
-Message-id: <20160808213243.GS8521@denix.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-id: <20160808213418.GT8521@denix.org>
 References: <cover.1470672689.git.george.mccollister@gmail.com>
-	<d37bec4f77f0670b35347c367371d2cd4887b29a.1470672689.git.george.mccollister@gmail.com>
+	<20160808180536.GP8521@denix.org>
+	<CAFSKS=M=upTtm_zeHwVAvoka7JQm5h3oDxt1E5Odt6+7xe1CEg@mail.gmail.com>
+	<CAJTo0LZBUsQ4qagTYWRwRAKoEoiH44-wGe4NBQFWBsEGOPRRmA@mail.gmail.com>
 MIME-version: 1.0
-In-reply-to: <d37bec4f77f0670b35347c367371d2cd4887b29a.1470672689.git.george.mccollister@gmail.com>
+In-reply-to: <CAJTo0LZBUsQ4qagTYWRwRAKoEoiH44-wGe4NBQFWBsEGOPRRmA@mail.gmail.com>
 User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: marex@denx.de, trini@konsulko.com, denys@ti.com,
-	andrew.bradford@kodakalaris.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 5/5] uboot-sign: do_concat_dtb(): cd to $B
+Cc: Marek =?utf-8?B?VmHFoXV0?= <marex@denx.de>, Tom Rini <trini@konsulko.com>,
+	OE-core <openembedded-core@lists.openembedded.org>,
+	Andrew Bradford <andrew.bradford@kodakalaris.com>, "Dmytriyenko,
+	Denys" <denys@ti.com>
+Subject: Re: [PATCH v2 0/5] kernel-fitimage: Add initramfs, x86 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,47 +45,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2016 21:32:44 -0000
+X-List-Received-Date: Mon, 08 Aug 2016 21:34:34 -0000
 Content-type: text/plain; charset=us-ascii
 Content-disposition: inline
 
-On Mon, Aug 08, 2016 at 11:37:57AM -0500, George McCollister wrote:
-> Prior to running oe_runmake make sure $B is the cwd. This is required
-> due to bitbake commit 67a7b8b021badc17d8fdf447c250e79d291e75f7
-> "build: don't use $B as the default cwd for functions".
+On Mon, Aug 08, 2016 at 09:21:31PM +0100, Burton, Ross wrote:
+> On 8 August 2016 at 21:16, George McCollister <george.mccollister@gmail.com>
+> wrote:
 > 
-> Without this change, do_concat_dtb fails with:
-> | ERROR: oe_runmake failed
-> | make: *** No targets specified and no makefile found.  Stop.
+> > I'm surprised it wasn't accepted when it was a single patch. At this
+> > point I don't know what's keeping it from being accepted since I
+> > haven't received any feedback. I suspect whoever is maintaining OE
+> > core doesn't have time to look at it.
+> >
 > 
-> Signed-off-by: George McCollister <george.mccollister@gmail.com>
+> Yeah that's pretty much the case.  It's now in my staging - thanks for
+> rebasing and incorporating - so assuming the reviews from Denys etc are
+> good then it should be in master soon.
 
-Tested-by: Denys Dmytriyenko <denys@ti.com>
-Acked-by: Denys Dmytriyenko <denys@ti.com>
+Ok, I've tested everything, except x86 support, as I don't have necessary 
+setup.
 
-
-> ---
->  meta/classes/uboot-sign.bbclass | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/meta/classes/uboot-sign.bbclass b/meta/classes/uboot-sign.bbclass
-> index d56ad8e..3c56db8 100644
-> --- a/meta/classes/uboot-sign.bbclass
-> +++ b/meta/classes/uboot-sign.bbclass
-> @@ -66,6 +66,7 @@ do_concat_dtb () {
->  	if [ "x${UBOOT_SIGN_ENABLE}" = "x1" ]; then
->  		if [ "x${UBOOT_SUFFIX}" = "ximg" -o "x${UBOOT_SUFFIX}" = "xrom" ] && \
->  			[ -e "${DEPLOYDIR}/${UBOOT_DTB_IMAGE}" ]; then
-> +			cd ${B}
->  			oe_runmake EXT_DTB=${DEPLOYDIR}/${UBOOT_DTB_IMAGE}
->  			install ${S}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
->  			install ${S}/${UBOOT_BINARY} ${DEPLOY_DIR_IMAGE}/${UBOOT_IMAGE}
-> -- 
-> 2.8.0
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+-- 
+Denys
 
