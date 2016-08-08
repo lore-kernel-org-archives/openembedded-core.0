@@ -1,50 +1,51 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-ua0-f193.google.com (mail-ua0-f193.google.com
-	[209.85.217.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 03C2777183
+Return-Path: <jacob.kroon@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id CA9807718A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Aug 2016 07:31:41 +0000 (UTC)
-Received: by mail-ua0-f193.google.com with SMTP id 74so6860285uau.3
+	Mon,  8 Aug 2016 07:50:40 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id i5so13815945wmg.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Aug 2016 00:31:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=tEP7sNZreiAHgVm2/u3PY2o1nhBSuLtsq9jI1whr+GI=;
-	b=tmoqNZ7sLlWHbbh7fCFGwol09Hg2ATX/aa4U6axVdO9rUD9EA6s4RbFzyvHgmVbDVr
-	LJL2F85OOVHOdRfWLuE0fKNrQ23zo6rf+ZcssD1PS/AAkJfubb8HnMKy+byENzgY1o1R
-	jDDWmD/mnwpllmmOyagA0e4gha3gCyoqhLV2PCzh/ks00+JSx8VXaPTV7n7naLzVzvGm
-	S+k7WpC8S63dQhntJLIuhXpdy9yik1ARgUs07FKbiHK3sjngOyVXERWC8Q1qVhjmDs9u
-	//KS7hjRqVSBhXVrDA4QS6L81JrXW/4kFPvifE3Yt30h4ldIDIXBdrhvEf4TVIJkhLsg
-	lOEQ==
+	Mon, 08 Aug 2016 00:50:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding;
+	bh=331biGub/xbbMLv4cgoVDzCc491xB07qgdfBjAPBYRY=;
+	b=UlH3Px55MNI8FOO/bIsOvfXjWmFRIjUojkkeSMzaxl3pX3YE7p0qALtbhr2RDfXfi3
+	d/3Esj5RzXVEYRxr2TQiz+H51DdFwWS2UfXIVVxkLxlZvCMSIp1bYJ9p8xNoxQo9ZxoX
+	hlDV1Glm7ToimOw6mI0kgLH3VqwPUi+/SEAL77DZz5XUqQHxiXNgWe08nz9paio3X3o8
+	cDLErFb4/dx9nJA0ibvrD5/PDCdhzUmNch5H7Nq/yfYx15UVPHnn72+soHneHZvzk3tY
+	QknMoKvXPFtQb6wKGlwWMdAVLcuzGv3CzW/CnQxOhNDwbwith+cT3fPNzZHH7LNnsGk1
+	pQLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=tEP7sNZreiAHgVm2/u3PY2o1nhBSuLtsq9jI1whr+GI=;
-	b=LxdTK+7E/Y3meZvPZxxAUYGbJ7MqXQQ8guWA0vewz+/eY92qdswES1VvBZd3NvKwfn
-	+wypueDFciL83l8hdWp7bgRAvzFG+KrMQQfrDlh+v2ZB4jreAJdYK8KJKu8svcQbpMlI
-	WST8uGyI7y9Us4oQowHF3mK7jdWPpA5DKnMpFv8I6HNYH2CCHE0lK7qg2FVUm3Xw0d0C
-	OS5YLsx/ctH5Kbz4uwPL7ANfoo0sIgAhqT/hYt0u4SWZd9/XY9SKcy1YQ2dO7271mUQq
-	wZEN5NobarPVF/UpII4QV9BVAGnpsM4gzaZExUbWGiOZ999x0L3HOatJPXhyfJHl3Kpd
-	u+Rg==
-X-Gm-Message-State: AEkoouvWNNIM6S/8P9KFTAHy03pO8MeS8X8ARkQi29r4rqtE8CdnOrbPzfCBfjdRBdaCI/Ub/iqAVuGJsdrSng==
-X-Received: by 10.31.56.73 with SMTP id f70mr46476439vka.135.1470641501721;
-	Mon, 08 Aug 2016 00:31:41 -0700 (PDT)
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding;
+	bh=331biGub/xbbMLv4cgoVDzCc491xB07qgdfBjAPBYRY=;
+	b=S5ivu3TT/QAo8w0TNfW5GXEPEWztPs23vERisIvdz5SW8BFfiH1xCcfpQ8Fkl18O8J
+	yH0BvGhnYZyEWD2uzi1klFVE2LgG6l+bKG+Yt3VuRaHuQ3sZ882ys2+DXincMgIbtmx7
+	SxRsA/hlpM2utrb3Omcfvumb1M1Cw9C/u4hifgqyspo43P8/LXWhJMmDKo5FJWoyRMF/
+	MvxD2uXCE4RDxuTb5q8DstV0Z4YapkXEScY17wECJnFy+yE1UCfmRVH0SGOsMb9+mBT4
+	1UxBus9u9r6N4Bn55CryT8W7BBSQIxarz23tvtpIftf+KtrIpTQUxw9cVldpBKDdZaHg
+	K8Lg==
+X-Gm-Message-State: AEkoouu/J4C2Ut7g55t0r2BlQqCFCc6gp/bjI+w5akNAiLbsZW5vKosN3EtxE6a/qXkklA==
+X-Received: by 10.46.1.163 with SMTP id f35mr25499952lji.52.1470642640533;
+	Mon, 08 Aug 2016 00:50:40 -0700 (PDT)
+Received: from skeletor.greyskull ([89.253.118.72])
+	by smtp.gmail.com with ESMTPSA id f3sm5527331lff.21.2016.08.08.00.50.39
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 08 Aug 2016 00:50:39 -0700 (PDT)
+To: bavery <brian.avery@intel.com>, openembedded-core@lists.openembedded.org
+References: <cover.1470627445.git.brian.avery@intel.com>
+	<238d43d3704f084f3173624c1e4956246a1044e0.1470627445.git.brian.avery@intel.com>
+	<db8cc8ef-f243-a2b2-93ed-cd85c8917bce@gmail.com>
+From: Jacob Kroon <jacob.kroon@gmail.com>
+Message-ID: <69466223-31ca-9ddf-e7f7-5ca6ec5dab27@gmail.com>
+Date: Mon, 8 Aug 2016 09:50:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-Received: by 10.176.66.66 with HTTP; Mon, 8 Aug 2016 00:31:41 -0700 (PDT)
-In-Reply-To: <1741854.t2UPzGOPnl@peggleto-mobl.ger.corp.intel.com>
-References: <20160729222801.9806-1-raj.khem@gmail.com>
-	<CAP9ODKr5zc+cB-iGcze7Uq8DswUko=2cReYhWLyURe5DwLuE2Q@mail.gmail.com>
-	<1741854.t2UPzGOPnl@peggleto-mobl.ger.corp.intel.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-Date: Mon, 8 Aug 2016 09:31:41 +0200
-Message-ID: <CALbNGRSP+nbV045-UaW_bZXv0iwnTe-MhjMLe3NEqAeg=-6Lyw@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] linux-dtb.inc: Support for .dtbo files for dtb overlays
+In-Reply-To: <db8cc8ef-f243-a2b2-93ed-cd85c8917bce@gmail.com>
+Subject: Re: [PATCH 1/2] packagegroup-core-eclipse-debug: add openssh server to support openssh-sftp-server
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,44 +58,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Aug 2016 07:31:42 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 08 Aug 2016 07:50:41 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sun, Jul 31, 2016 at 11:17 PM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> On Sat, 30 Jul 2016 08:00:45 Otavio Salvador wrote:
->> On Fri, Jul 29, 2016 at 7:27 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> > From: Herve Jourdain <herve.jourdain@neuf.fr>
->> >
->> > Signed-off-by: Herve Jourdain <herve.jourdain@neuf.fr>
->> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> > ---
->> >
->> >  meta/recipes-kernel/linux/linux-dtb.inc | 18 +++++++++++-------
->> >  1 file changed, 11 insertions(+), 7 deletions(-)
->> >
->> > diff --git a/meta/recipes-kernel/linux/linux-dtb.inc
->> > b/meta/recipes-kernel/linux/linux-dtb.inc index 74f5ef8..8528d64 100644
->> > --- a/meta/recipes-kernel/linux/linux-dtb.inc
->> > +++ b/meta/recipes-kernel/linux/linux-dtb.inc
->> > @@ -33,12 +33,13 @@ do_compile_append() {
->> >
->> >  do_install_append() {
->> >
->> >         for DTB in ${KERNEL_DEVICETREE}; do
->> >
->> >                 DTB=`normalize_dtb "${DTB}"`
->> >
->> > -               DTB_BASE_NAME=`basename ${DTB} .dtb`
->> > +               DTB_EXT=${DTB##*.}
+On 08/08/2016 08:27 AM, Jacob Kroon wrote:
+> On 08/08/2016 05:43 AM, bavery wrote:
+>> The openssh-sftp-server was already part of the pakagegroup. Adding
+>> the openssh-server
+>> lets the sftp server start up correctly.
+>
+> If openssh-sftp-server cannot run without openssh, shouldn't it RDEPEND
+> on it instead ?
+>
+
+Or rather, since there are multiple providers of ssh-server(openssh and 
+dropbear that I know of), shouldn't there be a 
+PREFERRED_PROVIDER_virtual/ssh-server, that openssh-sftp-server could 
+RDEPEND on ?
+
 >>
->> Bashism, no?
+>> YOCTO #9362
+>>
+>> Signed-off-by: bavery <brian.avery@intel.com>
+>> ---
+>>  recipes-core/packagegroups/packagegroup-core-eclipse-debug.bb | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git
+>> a/recipes-core/packagegroups/packagegroup-core-eclipse-debug.bb
+>> b/recipes-core/packagegroups/packagegroup-core-eclipse-debug.bb
+>> index c45463f..c32fef5 100644
+>> --- a/recipes-core/packagegroups/packagegroup-core-eclipse-debug.bb
+>> +++ b/recipes-core/packagegroups/packagegroup-core-eclipse-debug.bb
+>> @@ -6,4 +6,5 @@ RDEPENDS_${PN} = "\
+>>      gdbserver \
+>>      tcf-agent \
+>>      openssh-sftp-server \
+>> +    openssh \
+>>      "
+>>
 >
-> No:
->
->   http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html
->
-Anything wrong with this patch. The orinal patch was sent end of May!
 
-Andreas
 
