@@ -1,24 +1,24 @@
 Return-Path: <jose.a.lamego@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id D5AFA771C5
+	by mail.openembedded.org (Postfix) with ESMTP id 34E7D771BA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Aug 2016 16:23:22 +0000 (UTC)
+	Mon,  8 Aug 2016 16:23:23 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by orsmga103.jf.intel.com with ESMTP; 08 Aug 2016 09:23:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,490,1464678000"; d="scan'208";a="1037316029"
+X-IronPort-AV: E=Sophos;i="5.28,490,1464678000"; d="scan'208";a="1037316033"
 Received: from yocto-ab03.ostc.intel.com ([10.54.69.73])
 	by fmsmga002.fm.intel.com with ESMTP; 08 Aug 2016 09:23:19 -0700
 From: Jose Lamego <jose.a.lamego@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  8 Aug 2016 09:23:02 -0700
-Message-Id: <6016fc39e4f876a552050807ef92e4c23798d7d7.1470671417.git.jose.a.lamego@linux.intel.com>
+Date: Mon,  8 Aug 2016 09:23:04 -0700
+Message-Id: <707a1cc20791b6a83a2e15c3b8457ebe3af42192.1470671417.git.jose.a.lamego@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1470671417.git.jose.a.lamego@linux.intel.com>
 References: <cover.1470671417.git.jose.a.lamego@linux.intel.com>
 In-Reply-To: <cover.1470671417.git.jose.a.lamego@linux.intel.com>
 References: <cover.1470671417.git.jose.a.lamego@linux.intel.com>
-Subject: [PATCH 14/20] oeqa.selftest.prservice: Split configuration from code
+Subject: [PATCH 16/20] oeqa.selftest.runtime-test: Split configuration from code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,150 +41,154 @@ configuration file.
 
 Signed-off-by: Jose Lamego <jose.a.lamego@linux.intel.com>
 ---
- meta/lib/oeqa/selftest/conf/prservice.conf | 21 +++++++++
- meta/lib/oeqa/selftest/prservice.py        | 71 ++++++++++++++++++++++++++----
- 2 files changed, 83 insertions(+), 9 deletions(-)
- create mode 100644 meta/lib/oeqa/selftest/conf/prservice.conf
+ meta/lib/oeqa/selftest/conf/runtime-test.conf | 13 +++++
+ meta/lib/oeqa/selftest/runtime-test.py        | 80 ++++++++-------------------
+ 2 files changed, 37 insertions(+), 56 deletions(-)
+ create mode 100644 meta/lib/oeqa/selftest/conf/runtime-test.conf
 
-diff --git a/meta/lib/oeqa/selftest/conf/prservice.conf b/meta/lib/oeqa/selftest/conf/prservice.conf
+diff --git a/meta/lib/oeqa/selftest/conf/runtime-test.conf b/meta/lib/oeqa/selftest/conf/runtime-test.conf
 new file mode 100644
-index 0000000..2d5f315
+index 0000000..6c331ba
 --- /dev/null
-+++ b/meta/lib/oeqa/selftest/conf/prservice.conf
-@@ -0,0 +1,21 @@
-+[BitbakePrTests]
-+import_export_replace_db_package = m4
-+import_export_override_db_package = m4
-+pr_service_rpm_arch_dep_package = m4
-+pr_service_rpm_arch_dep_package_type = rpm
-+pr_service_rpm_arch_dep_track_task = do_package
-+pr_service_deb_arch_dep_package = m4
-+pr_service_deb_arch_dep_package_type = deb
-+pr_service_deb_arch_dep_track_task = do_package
-+pr_service_ipk_arch_dep_package = m4
-+pr_service_ipk_arch_dep_package_type = ipk
-+pr_service_ipk_arch_dep_track_task = do_package
-+pr_service_rpm_arch_indep_package = xcursor-transparent-theme
-+pr_service_rpm_arch_indep_package_type = rpm
-+pr_service_rpm_arch_indep_track_task = do_package
-+pr_service_deb_arch_indep_package = xcursor-transparent-theme
-+pr_service_deb_arch_indep_package_type = deb
-+pr_service_deb_arch_indep_track_task = do_package
-+pr_service_ipk_arch_indep_package = xcursor-transparent-theme
-+pr_service_ipk_arch_indep_package_type = ipk
-+pr_service_ipk_arch_indep_track_task = do_package
-diff --git a/meta/lib/oeqa/selftest/prservice.py b/meta/lib/oeqa/selftest/prservice.py
-index 1b9a510..af8ffec 100644
---- a/meta/lib/oeqa/selftest/prservice.py
-+++ b/meta/lib/oeqa/selftest/prservice.py
-@@ -10,9 +10,16 @@ from oeqa.selftest.base import oeSelfTest
- from oeqa.utils.commands import runCmd, bitbake, get_bb_var
++++ b/meta/lib/oeqa/selftest/conf/runtime-test.conf
+@@ -0,0 +1,13 @@
++[TestExport]
++# These aren't the actual IP addresses but testexport class needs something 
++# defined
++setUpClass_features = INHERIT += "testexport"
++                      TEST_SERVER_IP = "192.168.7.1"
++                      TEST_TARGET_IP = "192.168.7.1"
++                      TEST_SUITES = "ping"
++setUpClass_image = core-image-minimal
++[TestImage]
++setUpClass_features = INHERIT += "testimage"
++                      TEST_SUITES = "ping ssh selftest"
++                      TEST_SUITES_TAGS = "selftest_package_install"
++setUpClass_image = core-image-full-cmdline
+diff --git a/meta/lib/oeqa/selftest/runtime-test.py b/meta/lib/oeqa/selftest/runtime-test.py
+index c2d5b45..627716d 100644
+--- a/meta/lib/oeqa/selftest/runtime-test.py
++++ b/meta/lib/oeqa/selftest/runtime-test.py
+@@ -2,9 +2,18 @@ from oeqa.selftest.base import oeSelfTest
+ from oeqa.utils.commands import runCmd, bitbake, get_bb_var, runqemu
  from oeqa.utils.decorators import testcase
- from oeqa.utils.network import get_free_port
+ import os
 +from oeqa.utils.readconfig import conffile
 +
  
- class BitbakePrTests(oeSelfTest):
-- 
-+
+ class TestExport(oeSelfTest):
+ 
 +    @classmethod
 +    def setUpClass(cls):
 +        # Get test configurations from configuration file
 +        cls.config = conffile(__file__)
++        cls.features = cls.config.get('TestExport', 'setUpClass_features')
++        cls.image = cls.config.get('TestExport', 'setUpClass_image')
 +
-     def get_pr_version(self, package_name):
-         pkgdata_dir = get_bb_var('PKGDATA_DIR')
-         package_data_file = os.path.join(pkgdata_dir, 'runtime', package_name)
-@@ -91,35 +98,81 @@ class BitbakePrTests(oeSelfTest):
+     def test_testexport_basic(self):
+         """
+         Summary: Check basic testexport functionality with only ping test enabled.
+@@ -15,23 +24,18 @@ class TestExport(oeSelfTest):
+         Author: Mariano Lopez <mariano.lopez@intel.com>
+         """
  
-     @testcase(930)
-     def test_import_export_replace_db(self):
--        self.run_test_pr_export_import('m4')
-+        package = self.config.get(
-+                'BitbakePrTests', 'import_export_replace_db_package')
-+        self.run_test_pr_export_import(package)
+-        features = 'INHERIT += "testexport"\n'
+-        # These aren't the actual IP addresses but testexport class needs something defined
+-        features += 'TEST_SERVER_IP = "192.168.7.1"\n'
+-        features += 'TEST_TARGET_IP = "192.168.7.1"\n'
+-        features += 'TEST_SUITES = "ping"\n'
+-        self.write_config(features)
++        self.write_config(self.features)
  
-     @testcase(931)
-     def test_import_export_override_db(self):
--        self.run_test_pr_export_import('m4', replace_current_db=False)
-+        package = self.config.get(
-+                'BitbakePrTests', 'import_export_override_db_package')
-+        self.run_test_pr_export_import(package, replace_current_db=False)
+         # Build tesexport for core-image-minimal
+-        bitbake('core-image-minimal')
+-        bitbake('-c testexport core-image-minimal')
++        bitbake(self.image)
++        bitbake('-c testexport %s' % self.image)
  
-     @testcase(932)
-     def test_pr_service_rpm_arch_dep(self):
--        self.run_test_pr_service('m4', 'rpm', 'do_package')
-+        # Test configuration is taken from conf file
-+        package = self.config.get(
-+                'BitbakePrTests', 'pr_service_rpm_arch_dep_package')
-+        package_type = self.config.get(
-+                     'BitbakePrTests', 'pr_service_rpm_arch_dep_package_type')
-+        track_task = self.config.get(
-+                   'BitbakePrTests', 'pr_service_rpm_arch_dep_track_task')
-+        self.run_test_pr_service(package, package_type, track_task)
+         # Verify if TEST_EXPORT_DIR was created
+-        testexport_dir = get_bb_var('TEST_EXPORT_DIR', 'core-image-minimal')
++        testexport_dir = get_bb_var('TEST_EXPORT_DIR', self.image)
+         isdir = os.path.isdir(testexport_dir)
+         self.assertEqual(True, isdir, 'Failed to create testexport dir: %s' % testexport_dir)
  
-     @testcase(934)
-     def test_pr_service_deb_arch_dep(self):
--        self.run_test_pr_service('m4', 'deb', 'do_package')
+-        with runqemu('core-image-minimal') as qemu:
++        with runqemu(self.image) as qemu:
+             # Attempt to run runexported.py to perform ping test
+             runexported_path = os.path.join(testexport_dir, "runexported.py")
+             testdata_path = os.path.join(testexport_dir, "testdata.json")
+@@ -43,49 +47,16 @@ class TestExport(oeSelfTest):
+             failure = True if 'FAIL' in result.output else False
+             self.assertNotEqual(True, failure, 'ping test failed')
+ 
+-    def test_testexport_sdk(self):
+-        """
+-        Summary: Check sdk functionality for testexport.
+-        Expected: 1. testexport directory must be created.
+-                  2. SDK tarball must exists.
+-                  3. Uncompressing of tarball must succeed.
+-                  4. Check if the SDK directory is added to PATH.
+-                  5. Run tar from the SDK directory.
+-        Product: oe-core
+-        Author: Mariano Lopez <mariano.lopez@intel.com>
+-        """
+-
+-        features = 'INHERIT += "testexport"\n'
+-        # These aren't the actual IP addresses but testexport class needs something defined
+-        features += 'TEST_SERVER_IP = "192.168.7.1"\n'
+-        features += 'TEST_TARGET_IP = "192.168.7.1"\n'
+-        features += 'TEST_SUITES = "ping"\n'
+-        features += 'TEST_SUITES_TAGS = "selftest_sdk"\n'
+-        features += 'TEST_EXPORT_SDK_ENABLED = "1"\n'
+-        features += 'TEST_EXPORT_SDK_PACKAGES = "nativesdk-tar"\n'
+-        self.write_config(features)
+-
+-        # Build tesexport for core-image-minimal
+-        bitbake('core-image-minimal')
+-        bitbake('-c testexport core-image-minimal')
+-
+-        # Check for SDK
+-        testexport_dir = get_bb_var('TEST_EXPORT_DIR', 'core-image-minimal')
+-        sdk_dir = get_bb_var('TEST_EXPORT_SDK_DIR', 'core-image-minimal')
+-        tarball_name = "%s.sh" % get_bb_var('TEST_EXPORT_SDK_NAME', 'core-image-minimal')
+-        tarball_path = os.path.join(testexport_dir, sdk_dir, tarball_name)
+-        self.assertEqual(os.path.isfile(tarball_path), True, "Couldn't find SDK tarball: %s" % tarball_path)
+-
+-        # Run runexported.py
+-        runexported_path = os.path.join(testexport_dir, "runexported.py")
+-        testdata_path = os.path.join(testexport_dir, "testdata.json")
+-        cmd = "%s %s" % (runexported_path, testdata_path)
+-        result = runCmd(cmd)
+-        self.assertEqual(0, result.status, 'runexported.py returned a non 0 status')
+-
+ 
+ class TestImage(oeSelfTest):
+ 
++    @classmethod
++    def setUpClass(cls):
 +        # Get test configurations from configuration file
-+        package = self.config.get(
-+                'BitbakePrTests', 'pr_service_deb_arch_dep_package')
-+        package_type = self.config.get(
-+                     'BitbakePrTests', 'pr_service_deb_arch_dep_package_type')
-+        track_task = self.config.get(
-+                   'BitbakePrTests', 'pr_service_deb_arch_dep_track_task')
-+        self.run_test_pr_service(package, package_type, track_task)
++        cls.config = conffile(__file__)
++        cls.features = cls.config.get('TestImage', 'setUpClass_features')
++        cls.image = cls.config.get('TestImage', 'setUpClass_image')
++
+     def test_testimage_install(self):
+         """
+         Summary: Check install packages functionality for testimage/testexport.
+@@ -95,11 +66,8 @@ class TestImage(oeSelfTest):
+         Author: Mariano Lopez <mariano.lopez@intel.com>
+         """
  
-     @testcase(933)
-     def test_pr_service_ipk_arch_dep(self):
--        self.run_test_pr_service('m4', 'ipk', 'do_package')
-+        # Get test configurations from configuration file
-+        package = self.config.get(
-+                'BitbakePrTests', 'pr_service_ipk_arch_dep_package')
-+        package_type = self.config.get(
-+                     'BitbakePrTests', 'pr_service_ipk_arch_dep_package_type')
-+        track_task = self.config.get(
-+                   'BitbakePrTests', 'pr_service_ipk_arch_dep_track_task')
-+        self.run_test_pr_service(package, package_type, track_task)
+-        features = 'INHERIT += "testimage"\n'
+-        features += 'TEST_SUITES = "ping ssh selftest"\n'
+-        features += 'TEST_SUITES_TAGS = "selftest_package_install"\n'
+-        self.write_config(features)
++        self.write_config(self.features)
  
-     @testcase(935)
-     def test_pr_service_rpm_arch_indep(self):
--        self.run_test_pr_service('xcursor-transparent-theme', 'rpm', 'do_package')
-+        # Get test configurations from configuration file
-+        package = self.config.get(
-+                'BitbakePrTests', 'pr_service_rpm_arch_indep_package')
-+        package_type = self.config.get(
-+                    'BitbakePrTests', 'pr_service_rpm_arch_indep_package_type')
-+        track_task = self.config.get(
-+                   'BitbakePrTests', 'pr_service_rpm_arch_indep_track_task')
-+        self.run_test_pr_service(package, package_type, track_task)
- 
-     @testcase(937)
-     def test_pr_service_deb_arch_indep(self):
--        self.run_test_pr_service('xcursor-transparent-theme', 'deb', 'do_package')
-+        # Get test configurations from configuration file
-+        package = self.config.get(
-+                'BitbakePrTests', 'pr_service_deb_arch_indep_package')
-+        package_type = self.config.get(
-+                    'BitbakePrTests', 'pr_service_deb_arch_indep_package_type')
-+        track_task = self.config.get(
-+                   'BitbakePrTests', 'pr_service_deb_arch_indep_track_task')
-+        self.run_test_pr_service(package, package_type, track_task)
- 
-     @testcase(936)
-     def test_pr_service_ipk_arch_indep(self):
--        self.run_test_pr_service('xcursor-transparent-theme', 'ipk', 'do_package')
-+        # Get test configurations from configuration file
-+        package = self.config.get(
-+                'BitbakePrTests', 'pr_service_ipk_arch_indep_package')
-+        package_type = self.config.get(
-+                    'BitbakePrTests', 'pr_service_ipk_arch_indep_package_type')
-+        track_task = self.config.get(
-+                   'BitbakePrTests', 'pr_service_ipk_arch_indep_track_task')
-+        self.run_test_pr_service(package, package_type, track_task)
- 
-     @testcase(1419)
-     def test_stopping_prservice_message(self):
+         # Build core-image-sato and testimage
+-        bitbake('core-image-full-cmdline socat')
+-        bitbake('-c testimage core-image-full-cmdline')
++        bitbake('%s socat' % self.image)
++        bitbake('-c testimage %s' % self.image)
 -- 
 1.8.3.1
 
