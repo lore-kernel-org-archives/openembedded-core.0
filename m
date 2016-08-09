@@ -1,46 +1,53 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f47.google.com (mail-it0-f47.google.com
-	[209.85.214.47])
-	by mail.openembedded.org (Postfix) with ESMTP id D02F765CC2
+Received: from mail-it0-f46.google.com (mail-it0-f46.google.com
+	[209.85.214.46])
+	by mail.openembedded.org (Postfix) with ESMTP id A590B77190
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Aug 2016 10:00:07 +0000 (UTC)
-Received: by mail-it0-f47.google.com with SMTP id x130so8608585ite.1
+	Tue,  9 Aug 2016 10:00:39 +0000 (UTC)
+Received: by mail-it0-f46.google.com with SMTP id x130so8618513ite.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Aug 2016 03:00:08 -0700 (PDT)
+	Tue, 09 Aug 2016 03:00:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=+eRVBNI4UbLtofhGZXWJo19WWkEIF2I6GwkPRKnT04M=;
-	b=kIgspdMFtwi8np7e0Fes2R4qfC3iC4/PeRItVYuMdZPgTcwkQQlhxkwyj81FN4fubT
-	sCz/4qVHXx9jrRDCng0SawZaWajB+IS+P5JjlxwL3bn5tkbB/Jad86Tm2U6Jz4BiQjI+
-	V4rQKBTrtiEqc8pqfCggX1OZxY4VBTyfiuDk7Cp1sjVPUNqB980ImXdFpAyrdD4Mhcig
-	td3u28pulJfXfNcRTjsNtm3cny5HhyUOgnCHdNKYZMQHd8+d7tPGmAYzkHVLdBl4WHG2
-	RGWLSha00tKdtfLZiQ+f/teCjlXcwDeSq/b8IbCJjCpjdcNXYnCw21VgpUt33Gmc7LM3
-	YoYg==
+	:cc; bh=ExHbe9PblPlJrhBrxYHw/qBRGJ46mF0+bGo/LlusKT8=;
+	b=U2rqiqcjHHHaC13w/kkBLTwsrFjqL4ENIMXzo4/1XYZwSRkTLfjbv3zvg8i7DUJFrN
+	YL4loSqJC4qL4D44xUD8yIt3W3lyOPkmBjloGso8ltOE2EzUVd72iYWAuG+ZV6CvOGVE
+	e+OTFAzCmEAggEUWaTHKNXoR9e8RPIvHle0it5RVCKZcoRMcWU50jYiQcHJcob2pdmiY
+	6PBJSteysMXzm11xfsCMpJjl9FcxgvmQ8D51CQ7B5CCUcFQJGGpfrXeJ7qh108tJC4LN
+	cwpvTb1jd7IaeGEPJkPgIR+hrhlHeZyKf2/hwiyl7Zr3j0e/jvtUAN3LpnV0CMG/JK24
+	70Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=+eRVBNI4UbLtofhGZXWJo19WWkEIF2I6GwkPRKnT04M=;
-	b=l5zEd35+WVlZE+7I1/cMKzmINAsN9Iok1evTLrQtvbTBUN/KEVIrTojvlGAl76hpDa
-	K/Mc4iwNGXacHtGjEdvOacn9m4SchCEjdrqYdc6VTh6QVo/YXb6fn5/XBeQLdyeOFnB1
-	0tRMzcdmBhpC/xsiNpZkM437veEnytkvN91PH9TjcHCyFC4b73+o7dlgKfFc/PWJrsY9
-	Q25hE8qvsaTZsf5Zz/ccZCZVdn7NWQzZf/H4vymAv2dAL+uLRW09iekZ57NOLcGuZm2c
-	Vt+S5W2sc5D9zdB4bmmYgYL2OeCCXbG+iTRvTPCXYUDbq+aRhSbXl5bSgYcuXMKuiWd/
-	zgMA==
-X-Gm-Message-State: AEkoouunX63xf/J7NDDv1EDaLHSCfoMPPnz3SNk6SWhNkUrf4M5hlOTV/kIDKmlGtLmMkZEnGt7rTn8ol/McyC0Z
-X-Received: by 10.36.20.75 with SMTP id 72mr22615672itg.83.1470736807750; Tue,
-	09 Aug 2016 03:00:07 -0700 (PDT)
+	bh=ExHbe9PblPlJrhBrxYHw/qBRGJ46mF0+bGo/LlusKT8=;
+	b=TRCMnxIbAnBY4rDoQhPIl4QsR6Ooe3YlMH68NngdUN2W/so4wCnxdlo16zWI8wg4ey
+	srSYFU4EaLVGzlRHaCfg2AyHg6r5w/QR+LJaGJ0WfELIB5EUgoRPO1ymsANSUwq1NOgH
+	EWcBbavcqiq/yuqLWZ/gx8iCWJAD36e1pmrClqCXIuNQKSMI1EZoC+iN6vOnX7n5i/hn
+	Hy1rknX1jpYl/YCK/A5NiMoz4kSd9d9QbEb1n+aj3d+spc0elrjm9lNWPnpQGkV64cah
+	rK+rXvRuWiS94/5DWQ7qEp5wAnIfZwfEPyMBuFQBXTVCSGguVsiAVnnbYpxnmoOj5nqz
+	qnXg==
+X-Gm-Message-State: AEkoouv+VYeG9sF/ASFdp7Vq1dEQZn5KyIItjXS4TdxBJwslOqcBW42OcBN0yjWTSJT9uFGatUgGV5q+yOUitYwo
+X-Received: by 10.36.129.213 with SMTP id q204mr24255536itd.38.1470736839922; 
+	Tue, 09 Aug 2016 03:00:39 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Tue, 9 Aug 2016 02:59:47 -0700 (PDT)
-In-Reply-To: <1470170722-9101-1-git-send-email-humberto.ibarra.lopez@intel.com>
-References: <1470170722-9101-1-git-send-email-humberto.ibarra.lopez@intel.com>
+Received: by 10.107.18.17 with HTTP; Tue, 9 Aug 2016 03:00:19 -0700 (PDT)
+In-Reply-To: <CALbNGRTfPz3h=G3WJG88ShDtCJjgFj1zTk0kT=Ri+k_N6d=tog@mail.gmail.com>
+References: <20160729222801.9806-1-raj.khem@gmail.com>
+	<CAP9ODKr5zc+cB-iGcze7Uq8DswUko=2cReYhWLyURe5DwLuE2Q@mail.gmail.com>
+	<1741854.t2UPzGOPnl@peggleto-mobl.ger.corp.intel.com>
+	<CALbNGRSP+nbV045-UaW_bZXv0iwnTe-MhjMLe3NEqAeg=-6Lyw@mail.gmail.com>
+	<CALbNGRTfPz3h=G3WJG88ShDtCJjgFj1zTk0kT=Ri+k_N6d=tog@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 9 Aug 2016 10:59:47 +0100
-Message-ID: <CAJTo0LaaHoJgHC40zoNTkXuG6CpcELmmQz6XRm_pQgCSTTcJ0w@mail.gmail.com>
-To: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] oe-selftest: reorganize syntax to use subcommands
+Date: Tue, 9 Aug 2016 11:00:19 +0100
+Message-ID: <CAJTo0LbSmfeoTfpsTRgZ4ZUr7B+fkjxHBPAmAWu=UWk3UUAj4Q@mail.gmail.com>
+To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Otavio Salvador <otavio.salvador@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] linux-dtb.inc: Support for .dtbo files for dtb overlays
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,41 +60,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Aug 2016 10:00:08 -0000
-Content-Type: multipart/alternative; boundary=001a11446942fc14540539a09888
+X-List-Received-Date: Tue, 09 Aug 2016 10:00:39 -0000
+Content-Type: multipart/alternative; boundary=94eb2c08b1fce6ebee0539a09a05
 
---001a11446942fc14540539a09888
+--94eb2c08b1fce6ebee0539a09a05
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 2 August 2016 at 21:45, Humberto Ibarra <humberto.ibarra.lopez@intel.com>
+On 9 August 2016 at 10:22, Andreas M=C3=BCller <schnitzeltony@googlemail.co=
+m>
 wrote:
 
-> The current syntax of oe-selftest is messy. This patch reorganizes it in a
-> clearer way by grouping all functions in a 'run' subcommand and a 'list'
-> subcommand.
+> Is there anything wrong with this patch? The original patch was sent
+> end of May, there were pings / a resend but it was never applied. Why
+> I insist: It is necessary for RaspberryPi's open source (VC4) patch
+> series pending for very long time.
 >
 
-This breaks the AB as the commands it invokes don't work anymore.  Is there
-a plan to migrate the autobuilder to support both the old and new commands?
+Just slipped through the net, now in my staging branch for master.
 
 Ross
 
---001a11446942fc14540539a09888
+--94eb2c08b1fce6ebee0539a09a05
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 2 August 2016 at 21:45, Humberto Ibarra <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:humberto.ibarra.lopez@intel.com" target=3D"_blank">humberto.ibarra.=
-lopez@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" =
-style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><di=
-v id=3D":37c" class=3D"a3s aXjCH m1564d0002bf6b6a6">The current syntax of o=
-e-selftest is messy. This patch reorganizes it in a clearer way by grouping=
- all functions in a &#39;run&#39; <span class=3D"il">subcommand</span> and =
-a &#39;list&#39; <span class=3D"il">subcommand</span>.</div></blockquote></=
-div><br>This breaks the AB as the commands it invokes don&#39;t work anymor=
-e.=C2=A0 Is there a plan to migrate the autobuilder to support both the old=
- and new commands?</div><div class=3D"gmail_extra"><br></div><div class=3D"=
-gmail_extra">Ross</div></div>
+On 9 August 2016 at 10:22, Andreas M=C3=BCller <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:schnitzeltony@googlemail.com" target=3D"_blank">schnitzeltony@g=
+ooglemail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div =
+id=3D":1ra" class=3D"a3s aXjCH m1566e9e5ff760697">Is there anything wrong w=
+ith this patch? The original patch was sent<br>
+end of May, there were pings / a resend but it was never applied. Why<br>
+I insist: It is necessary for RaspberryPi&#39;s open source (VC4) patch<br>
+series pending for very long time.</div></blockquote></div><br>Just slipped=
+ through the net, now in my staging branch for master.</div><div class=3D"g=
+mail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a11446942fc14540539a09888--
+--94eb2c08b1fce6ebee0539a09a05--
