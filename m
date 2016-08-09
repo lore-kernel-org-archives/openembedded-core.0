@@ -1,53 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f67.google.com (mail-pa0-f67.google.com
-	[209.85.220.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 76377771EE
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f65.google.com (mail-pa0-f65.google.com
+	[209.85.220.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 0472476E3F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Aug 2016 19:26:27 +0000 (UTC)
-Received: by mail-pa0-f67.google.com with SMTP id vy10so1387212pac.0
+	Tue,  9 Aug 2016 23:44:18 +0000 (UTC)
+Received: by mail-pa0-f65.google.com with SMTP id cf3so1700888pad.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Aug 2016 12:26:28 -0700 (PDT)
+	Tue, 09 Aug 2016 16:44:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=0+UFVso034//tZW61LRYZh4gbHddDNaVR4mtD97ECEw=;
-	b=B2qyLEuG2n1w+6frXmmiBSlpuzVdNKQb2Koz/Iacequ8eVHsOFqywmXHvOzC004HQT
-	lcEFOJVL4VTv4RyFOqDZs0c4+OJxu/Qm67kMjPdJcg7zQ5K3Y24y6dR0EKrhWxNS9VG7
-	bLr1tNezVayhvaICtUqyaHisIsEYYIi/u1bX4JAVDGES1VQsboqG60yVUJ5cyUt38dL7
-	PdEv3yx+kLkb/xMoxoMH2zSigcJAJhTaCXfKWIt5UsAvbUgbOzNzEkqNF4n9sbeE/5Z7
-	Luj35ybnIoUudcM+xhzYQEVjC/TnbH2JquAwQpd9WlNvhMxgSDzZ0t+2IJHzEcrceowK
-	okFw==
+	h=from:to:subject:date:message-id;
+	bh=+Dp3OGwbDrhMikNWbnm7KN5ECdFJBCXYAKB59/XO644=;
+	b=C5aP6oJ8w7pD0rdIIYRf3kq+x5QbMKReXhUPgndH8VqGOYhm4QxRgvs+y/zIc83T+m
+	ZQv+Twu1vpYJ/dYFHzJJF7fURjG3LuYbYSifvkGjIC/aMcI4HQT/O4yhlLZ99a+Wk8AA
+	C8DuTmM16Llqkcssi6EC+G4Gvof5RWEzwCXcw0pzOpOwpxf/fzNe4QFuvMYYsm9gEYlG
+	M9JHWK4WozpIjaXIgMTWFoh67uHAGW9Zl0OIB+KExGSeKvqvbT0RKB7d0eJcwHVw4EkO
+	67illKU25RF98SWektLVF8gTw12qpBKx5eCsOV6uqQ9Wcn8II9JFGQSH2rhuettgcrpC
+	0q9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=0+UFVso034//tZW61LRYZh4gbHddDNaVR4mtD97ECEw=;
-	b=bWxhCGmcx65/EoBxSiy9VcVwZMkpVSRlmTg3ZIHkE+u1VVRkY42lnCtSUbOuHFw2LS
-	d5e+ThrnkGIScs4W3DeGv3ga/qxTm74IsCGStZpUbETs+s6CUYu8Ey3m2Ig++umLYjto
-	yCCdOT+M8FQrR1GfGHRv+JilE03Ax4vNkgZwSBOX3S13fDfCkMPH9jeuGjD9UtmqI0nG
-	ljavnqTu+g4VOv0n6ertKeZ2CjxEtuUtruHhFuc6/Yrrbxza/fLpp/cZ1tBiuKb97fHv
-	Deg2AI0n+3OKYyT4+79l/QZmpIdabO7Cr2mImTbAaggXIqivcr8KajIDW4sSqjb4lxCT
-	zASA==
-X-Gm-Message-State: AEkoouvdfTDksE5S9P80svvp8j61GLz2PDuWaoW2DH6puYv1FIbzX0ATw0zTrcw1jeSAjw==
-X-Received: by 10.66.123.42 with SMTP id lx10mr173699243pab.95.1470770787513; 
-	Tue, 09 Aug 2016 12:26:27 -0700 (PDT)
-Received: from ?IPv6:2601:646:8882:b8c:29dc:cb12:3198:ca66?
-	([2601:646:8882:b8c:29dc:cb12:3198:ca66])
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=+Dp3OGwbDrhMikNWbnm7KN5ECdFJBCXYAKB59/XO644=;
+	b=Tkk7rjUv585crOdtCRLWGwjRHSmYvGSPcJju9W4K9uJqOFtzA9V6unEXRtgPDJSzZs
+	IKNyAKCAe6tr9IHLMen9JI5xbG1xQP04HwNVKKAsJbVKzOcKQ5FjeLZa/oeK4DN6KhkO
+	ht7uuE51wLXWFOJKvXQWU+LiuuKCYKgFAtMVTe9waaJjGnK1W5YSxJZXPt+/VrDZ9di+
+	SABYR+Vw1GFP0oVhEEH18ArlOpR1CEnpp1BpxTDmKmJ83/ltibV+ExfSXYD2LmUSJlm+
+	upGuMGlF0j3RYt6euKsSuiS8YF6pO7nPixH6IDiI+nVcmjVpn+obBnGLNz/Cf5oLofFE
+	UpvA==
+X-Gm-Message-State: AEkoouttKpw31vOLWu1afnJCVr3LUvmIFOt51NG3f3omSJSbQKGcuwjBT1M9p4suNg3eQg==
+X-Received: by 10.66.248.10 with SMTP id yi10mr1693226pac.31.1470786258575;
+	Tue, 09 Aug 2016 16:44:18 -0700 (PDT)
+Received: from Pahoa2.mvista.com ([50.233.148.156])
 	by smtp.gmail.com with ESMTPSA id
-	e72sm57889649pfb.49.2016.08.09.12.26.26
-	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 09 Aug 2016 12:26:26 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <57A9C7AD.9090901@topic.nl>
-Date: Tue, 9 Aug 2016 12:27:01 -0700
-Message-Id: <BA7DFF44-541C-4FEE-B5B2-586FD82ABC60@gmail.com>
-References: <20160801123253.9292-1-twoerner@gmail.com>
-	<57A9C7AD.9090901@topic.nl>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-X-Mailer: Apple Mail (2.3124)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] kernel.bbclass: add lzop dependency
+	tm1sm58692798pac.23.2016.08.09.16.44.17
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 09 Aug 2016 16:44:17 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  9 Aug 2016 16:44:16 -0700
+Message-Id: <1470786256-25154-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.3.5
+Subject: [PATCH][master] curl: Update to 7.50.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,87 +53,179 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Aug 2016 19:26:28 -0000
-X-Groupsio-MsgNum: 85576
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_358EA278-10E0-4233-A1A5-BEB5D163DEE7";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Tue, 09 Aug 2016 23:44:19 -0000
 
---Apple-Mail=_358EA278-10E0-4233-A1A5-BEB5D163DEE7
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+This fixes 3 CVES:
+
+CVE-2016-5419
+CVE-2016-5420
+CVE-2016-5421
+
+Affects curl <= 7.50.0
+
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ meta/recipes-support/curl/curl_7.49.1.bb | 71 --------------------------------
+ meta/recipes-support/curl/curl_7.50.1.bb | 71 ++++++++++++++++++++++++++++++++
+ 2 files changed, 71 insertions(+), 71 deletions(-)
+ delete mode 100644 meta/recipes-support/curl/curl_7.49.1.bb
+ create mode 100644 meta/recipes-support/curl/curl_7.50.1.bb
+
+diff --git a/meta/recipes-support/curl/curl_7.49.1.bb b/meta/recipes-support/curl/curl_7.49.1.bb
+deleted file mode 100644
+index db9dc1a..0000000
+--- a/meta/recipes-support/curl/curl_7.49.1.bb
++++ /dev/null
+@@ -1,71 +0,0 @@
+-SUMMARY = "Command line tool and library for client-side URL transfers"
+-HOMEPAGE = "http://curl.haxx.se/"
+-BUGTRACKER = "http://curl.haxx.se/mail/list.cgi?list=curl-tracker"
+-SECTION = "console/network"
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;beginline=8;md5=3a34942f4ae3fbf1a303160714e664ac"
+-
+-SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+-           file://0001-replace-krb5-config-with-pkg-config.patch \
+-"
+-
+-# curl likes to set -g0 in CFLAGS, so we stop it
+-# from mucking around with debug options
+-#
+-SRC_URI += " file://configure_ac.patch"
+-
+-SRC_URI[md5sum] = "6bb1f7af5b58b30e4e6414b8c1abccab"
+-SRC_URI[sha256sum] = "eb63cec4bef692eab9db459033f409533e6d10e20942f4b060b32819e81885f1"
+-
+-inherit autotools pkgconfig binconfig multilib_header
+-
+-PACKAGECONFIG ??= "${@bb.utils.contains("DISTRO_FEATURES", "ipv6", "ipv6", "", d)} gnutls proxy zlib"
+-PACKAGECONFIG_class-native = "ipv6 proxy ssl zlib"
+-PACKAGECONFIG_class-nativesdk = "ipv6 proxy ssl zlib"
+-
+-PACKAGECONFIG[dict] = "--enable-dict,--disable-dict,"
+-PACKAGECONFIG[gnutls] = "--with-gnutls,--without-gnutls,gnutls"
+-PACKAGECONFIG[gopher] = "--enable-gopher,--disable-gopher,"
+-PACKAGECONFIG[imap] = "--enable-imap,--disable-imap,"
+-PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
+-PACKAGECONFIG[ldap] = "--enable-ldap,--disable-ldap,"
+-PACKAGECONFIG[ldaps] = "--enable-ldaps,--disable-ldaps,"
+-PACKAGECONFIG[libidn] = "--with-libidn,--without-libidn,libidn"
+-PACKAGECONFIG[libssh2] = "--with-libssh2,--without-libssh2,libssh2"
+-PACKAGECONFIG[pop3] = "--enable-pop3,--disable-pop3,"
+-PACKAGECONFIG[proxy] = "--enable-proxy,--disable-proxy,"
+-PACKAGECONFIG[rtmpdump] = "--with-librtmp,--without-librtmp,rtmpdump"
+-PACKAGECONFIG[rtsp] = "--enable-rtsp,--disable-rtsp,"
+-PACKAGECONFIG[smb] = "--enable-smb,--disable-smb,"
+-PACKAGECONFIG[smtp] = "--enable-smtp,--disable-smtp,"
+-PACKAGECONFIG[ssl] = "--with-ssl --with-random=/dev/urandom,--without-ssl,openssl"
+-PACKAGECONFIG[telnet] = "--enable-telnet,--disable-telnet,"
+-PACKAGECONFIG[tftp] = "--enable-tftp,--disable-tftp,"
+-PACKAGECONFIG[zlib] = "--with-zlib=${STAGING_LIBDIR}/../,--without-zlib,zlib"
+-PACKAGECONFIG[krb5] = "--with-gssapi,--without-gssapi,krb5"
+-
+-EXTRA_OECONF = " \
+-    --enable-crypto-auth \
+-    --with-ca-bundle=${sysconfdir}/ssl/certs/ca-certificates.crt \
+-    --without-libmetalink \
+-    --without-libpsl \
+-    --without-nghttp2 \
+-"
+-
+-do_install_append() {
+-	oe_multilib_header curl/curlbuild.h
+-}
+-
+-do_install_append_class-target() {
+-	# cleanup buildpaths from curl-config
+-	sed -i -e 's,${STAGING_DIR_HOST},,g' ${D}${bindir}/curl-config
+-}
+-
+-PACKAGES =+ "lib${BPN}"
+-
+-FILES_lib${BPN} = "${libdir}/lib*.so.*"
+-RRECOMMENDS_lib${BPN} += "ca-certificates"
+-
+-FILES_${PN} += "${datadir}/zsh"
+-
+-BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-support/curl/curl_7.50.1.bb b/meta/recipes-support/curl/curl_7.50.1.bb
+new file mode 100644
+index 0000000..a21419a
+--- /dev/null
++++ b/meta/recipes-support/curl/curl_7.50.1.bb
+@@ -0,0 +1,71 @@
++SUMMARY = "Command line tool and library for client-side URL transfers"
++HOMEPAGE = "http://curl.haxx.se/"
++BUGTRACKER = "http://curl.haxx.se/mail/list.cgi?list=curl-tracker"
++SECTION = "console/network"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://COPYING;beginline=8;md5=3a34942f4ae3fbf1a303160714e664ac"
++
++SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
++           file://0001-replace-krb5-config-with-pkg-config.patch \
++"
++
++# curl likes to set -g0 in CFLAGS, so we stop it
++# from mucking around with debug options
++#
++SRC_URI += " file://configure_ac.patch"
++
++SRC_URI[md5sum] = "015f6a0217ca6f2c5442ca406476920b"
++SRC_URI[sha256sum] = "3c12c5f54ccaa1d40abc65d672107dcc75d3e1fcb38c267484334280096e5156"
++
++inherit autotools pkgconfig binconfig multilib_header
++
++PACKAGECONFIG ??= "${@bb.utils.contains("DISTRO_FEATURES", "ipv6", "ipv6", "", d)} gnutls proxy zlib"
++PACKAGECONFIG_class-native = "ipv6 proxy ssl zlib"
++PACKAGECONFIG_class-nativesdk = "ipv6 proxy ssl zlib"
++
++PACKAGECONFIG[dict] = "--enable-dict,--disable-dict,"
++PACKAGECONFIG[gnutls] = "--with-gnutls,--without-gnutls,gnutls"
++PACKAGECONFIG[gopher] = "--enable-gopher,--disable-gopher,"
++PACKAGECONFIG[imap] = "--enable-imap,--disable-imap,"
++PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
++PACKAGECONFIG[ldap] = "--enable-ldap,--disable-ldap,"
++PACKAGECONFIG[ldaps] = "--enable-ldaps,--disable-ldaps,"
++PACKAGECONFIG[libidn] = "--with-libidn,--without-libidn,libidn"
++PACKAGECONFIG[libssh2] = "--with-libssh2,--without-libssh2,libssh2"
++PACKAGECONFIG[pop3] = "--enable-pop3,--disable-pop3,"
++PACKAGECONFIG[proxy] = "--enable-proxy,--disable-proxy,"
++PACKAGECONFIG[rtmpdump] = "--with-librtmp,--without-librtmp,rtmpdump"
++PACKAGECONFIG[rtsp] = "--enable-rtsp,--disable-rtsp,"
++PACKAGECONFIG[smb] = "--enable-smb,--disable-smb,"
++PACKAGECONFIG[smtp] = "--enable-smtp,--disable-smtp,"
++PACKAGECONFIG[ssl] = "--with-ssl --with-random=/dev/urandom,--without-ssl,openssl"
++PACKAGECONFIG[telnet] = "--enable-telnet,--disable-telnet,"
++PACKAGECONFIG[tftp] = "--enable-tftp,--disable-tftp,"
++PACKAGECONFIG[zlib] = "--with-zlib=${STAGING_LIBDIR}/../,--without-zlib,zlib"
++PACKAGECONFIG[krb5] = "--with-gssapi,--without-gssapi,krb5"
++
++EXTRA_OECONF = " \
++    --enable-crypto-auth \
++    --with-ca-bundle=${sysconfdir}/ssl/certs/ca-certificates.crt \
++    --without-libmetalink \
++    --without-libpsl \
++    --without-nghttp2 \
++"
++
++do_install_append() {
++	oe_multilib_header curl/curlbuild.h
++}
++
++do_install_append_class-target() {
++	# cleanup buildpaths from curl-config
++	sed -i -e 's,${STAGING_DIR_HOST},,g' ${D}${bindir}/curl-config
++}
++
++PACKAGES =+ "lib${BPN}"
++
++FILES_lib${BPN} = "${libdir}/lib*.so.*"
++RRECOMMENDS_lib${BPN} += "ca-certificates"
++
++FILES_${PN} += "${datadir}/zsh"
++
++BBCLASSEXTEND = "native nativesdk"
+-- 
+2.3.5
 
 
-> On Aug 9, 2016, at 5:08 AM, Mike Looijmans <mike.looijmans@topic.nl> =
-wrote:
->=20
-> I've been adding "lzop-native" to a lot of kernel recipes because you =
-also need it when generating an LZO compressed kernel (I like my boot =
-time to be under 1 second).
->=20
-> It's a small dependency which is hard to automatically figure out, =
-since there are a number of ways to trigger it (we just found two). I =
-would welcome this patch very much, and I don't think many will =
-suffer=E2=80=A6
-
-=46rom linux.inc days there is a python snippet which can do this =
-conditionally e.g. see
-
-=
-https://github.com/kraj/meta-raspberrypi/blob/master/recipes-kernel/linux/=
-linux-rpi.inc#L121
-
->=20
->=20
-> On 01-08-16 14:32, Trevor Woerner wrote:
->> If the initramfs image is type lzo, then a native lzop is needed.
->>=20
->> Signed-off-by: Trevor Woerner <twoerner@gmail.com>
->> ---
->>  meta/classes/kernel.bbclass | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>=20
->> diff --git a/meta/classes/kernel.bbclass =
-b/meta/classes/kernel.bbclass
->> index fa76a14..db42744 100644
->> --- a/meta/classes/kernel.bbclass
->> +++ b/meta/classes/kernel.bbclass
->> @@ -1,7 +1,7 @@
->>  inherit linux-kernel-base kernel-module-split
->>=20
->>  PROVIDES +=3D "virtual/kernel"
->> -DEPENDS +=3D "virtual/${TARGET_PREFIX}binutils =
-virtual/${TARGET_PREFIX}gcc kmod-native depmodwrapper-cross bc-native"
->> +DEPENDS +=3D "virtual/${TARGET_PREFIX}binutils =
-virtual/${TARGET_PREFIX}gcc kmod-native depmodwrapper-cross bc-native =
-lzop-native"
->>=20
->>  S =3D "${STAGING_KERNEL_DIR}"
->>  B =3D "${WORKDIR}/build"
->>=20
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
---Apple-Mail=_358EA278-10E0-4233-A1A5-BEB5D163DEE7
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAleqLooACgkQuwUzVZGdMxTabQCfWwOxAQCwyf3oQiF9hpj6qYme
-hb4An1+z2LNdzBuEOj+XqK8+WqysCNc5
-=Vi14
------END PGP SIGNATURE-----
-
---Apple-Mail=_358EA278-10E0-4233-A1A5-BEB5D163DEE7--
