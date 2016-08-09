@@ -1,46 +1,55 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id A791370034
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-ua0-f196.google.com (mail-ua0-f196.google.com
+	[209.85.217.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D8EA77065
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Aug 2016 10:10:11 +0000 (UTC)
-Received: by mail-io0-f175.google.com with SMTP id b62so7021507iod.3
+	Tue,  9 Aug 2016 10:56:28 +0000 (UTC)
+Received: by mail-ua0-f196.google.com with SMTP id d97so690110uad.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Aug 2016 03:10:12 -0700 (PDT)
+	Tue, 09 Aug 2016 03:56:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	d=googlemail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=U4CmNb8q1DquITWD5Riwrvf4pKseXcmNjRVM68Q2NRo=;
-	b=oU+EVz9Piyjuw9ZG7bfUP48e7Ev3ge8ZbgFCcZYpA3SES3UlK1+eJd1Y3jRMOWaMZk
-	Qhps5i8v3t3M+ydVOaKhXGIY+TSDqusChe2ho2ij009z+Ixopqliis6llCEAfW9CtLg/
-	UajzgNuaYeQdl87sxfc0QdLymC48P1SVztPTUnwoOLHphxcuvCA9SFC2iOgOZxwoRi+U
-	DXM6rGyqbNjnIJT39ukDBuMehqxXS+QvdqF8pkviYKkIz6OahRCylJBAtLl2xY60rQ4K
-	5k3fxdX6WUVBq7Vgjs8nctsWedjgPvWf1pliLa2bStg1BEhhAMNNMEI7w4I4V1dNLImG
-	4d1A==
+	:cc:content-transfer-encoding;
+	bh=hwOAKViaWynhStLuWSujIcyC9VaSd8V659llavZpH8Y=;
+	b=PSrb9XohsjKVr7iQIhDo4aGsD4O9WczqI5o+QHba1od62QRT+h5gJhHFFjs0+jJZAr
+	firFP87Dn/MtJr5rKbbLdkZz4DTayRrm6swtWYmCLt1NQZlrTgfh9Jew1YT61bogW9BV
+	+/GKa2FQ0xHH6GatTpV+CCEzQQytl7k54STfkPL/F+bymgmIu9sX2LFx87V5vY5dxcQ5
+	oZcTuFckarfGBxFL8559KtWGx8xIyBweBnzgLlrEnDQ9RhXqN2Kk9VeH1jJXiDw/wUpU
+	Bxx5Ie3MN2COfQJ60IJ7iJzD/JGXlFw0DBD8BMUyfm+jBwV7h32311voukEagSe5VJKG
+	RZpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=U4CmNb8q1DquITWD5Riwrvf4pKseXcmNjRVM68Q2NRo=;
-	b=kn9SmPs2mxgER8sK0VEKeospq+s1DD/sgFpV4Bg7jqjT5tziS0AsXZpPj0lMjaAIRs
-	/H7+8Rm7UZLUL5XCigvC9cJd0UwWeL0R7n7HFGhu9l9RrDj3pniM/F0Jaml7ApCCdmoU
-	M0eUT4EXCfdrO+By6XjC4+IldKpoIRx9U73IU3Teequ12LtXC3EGsOz+4e6kWb4knrGD
-	XvvLTr3L3SNEIcQzdw+9MvxFHV7bxXZxlH+5CZmnSXYb1Wa1Sqb4GamI3YMmEafpIn+G
-	xr6K44ppm4CY/rQjdJVyoHPDsElmmhFBMBujBVIXEinQVgMLdQBwN5FWqrFLEKVRqiVD
-	C7Zw==
-X-Gm-Message-State: AEkooutFq7fPwQyWUCRK9TFrMd4q1OL4NDrSM91yz5MKMes5NhJwA+4V9CaG6ds3EGuKJ5Ta9zZmWqk9VwOql8Ep
-X-Received: by 10.107.138.212 with SMTP id c81mr95340473ioj.148.1470737411838; 
-	Tue, 09 Aug 2016 03:10:11 -0700 (PDT)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=hwOAKViaWynhStLuWSujIcyC9VaSd8V659llavZpH8Y=;
+	b=kYIsArGfh/ShE2sl266RvvaAMIqnr8G2WwdoBd6xky3ue/DtXouPBMpXOfOZM+feHO
+	FipV1pWbYPkxtErkL/PWlTpeHKOQ+RzEUCVGwI1nbyKd4dYKYZl219vEXI2+6sRz/JwC
+	SvTi+2Kz1v88IzzP82G9b0YzCAE+QtNw7yhDBOFcysYSpy+7Mjdo0lYpnamlCGKbvIFR
+	fuu33944YfVRWZxLMizQV6vRhVQmIUI8tpM2PmIyYfwLws4EoIuq5ljGZfJ+XXS9/X/J
+	ArdXgzLGUP+KXMKag0VPc+DtrDMK78BnxbaFQG81fE//Gxj8Iui3JnwIsIWcIuZnzenk
+	7C6A==
+X-Gm-Message-State: AEkoousjnqlknJiODY765W2YQ6FXFxONSg0m/Wauk2QrdUOhuBuLBgmP7izE/F93+wcNmyto/h6YWOoXP+GR4Q==
+X-Received: by 10.176.68.102 with SMTP id m93mr50224943uam.111.1470740189460; 
+	Tue, 09 Aug 2016 03:56:29 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Tue, 9 Aug 2016 03:09:51 -0700 (PDT)
-In-Reply-To: <1470671116-1997-1-git-send-email-tom.hochstein@nxp.com>
-References: <1470671116-1997-1-git-send-email-tom.hochstein@nxp.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 9 Aug 2016 11:09:51 +0100
-Message-ID: <CAJTo0LaWyLEPg5S3=B=H_Gb4XNuhgiAqYMMgOBdf3JRHuE0FMQ@mail.gmail.com>
-To: Tom Hochstein <tom.hochstein@nxp.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [krogoth][PATCH] mesa-demos: Fix OpenGL ES configurability
+Received: by 10.176.66.66 with HTTP; Tue, 9 Aug 2016 03:56:28 -0700 (PDT)
+In-Reply-To: <CAJTo0LbSmfeoTfpsTRgZ4ZUr7B+fkjxHBPAmAWu=UWk3UUAj4Q@mail.gmail.com>
+References: <20160729222801.9806-1-raj.khem@gmail.com>
+	<CAP9ODKr5zc+cB-iGcze7Uq8DswUko=2cReYhWLyURe5DwLuE2Q@mail.gmail.com>
+	<1741854.t2UPzGOPnl@peggleto-mobl.ger.corp.intel.com>
+	<CALbNGRSP+nbV045-UaW_bZXv0iwnTe-MhjMLe3NEqAeg=-6Lyw@mail.gmail.com>
+	<CALbNGRTfPz3h=G3WJG88ShDtCJjgFj1zTk0kT=Ri+k_N6d=tog@mail.gmail.com>
+	<CAJTo0LbSmfeoTfpsTRgZ4ZUr7B+fkjxHBPAmAWu=UWk3UUAj4Q@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Date: Tue, 9 Aug 2016 12:56:28 +0200
+Message-ID: <CALbNGRSpQmP_La5bVxmG_6PE7GVP5aze2c+er=8kNsDz5AmEfA@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Otavio Salvador <otavio.salvador@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] linux-dtb.inc: Support for .dtbo files for dtb overlays
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,38 +62,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Aug 2016 10:10:12 -0000
-Content-Type: multipart/alternative; boundary=001a113ed932fdab5f0539a0bcde
-
---001a113ed932fdab5f0539a0bcde
+X-List-Received-Date: Tue, 09 Aug 2016 10:56:29 -0000
 Content-Type: text/plain; charset=UTF-8
-
-On 8 August 2016 at 16:45, Tom Hochstein <tom.hochstein@nxp.com> wrote:
-
-> The most recent patch 0011-drop-demos-dependant-on-
-> obsolete-MESA_screen_surface.patch
-> incorrectly removed the configuration constructs that allowed the
-> package to be configured without OpenGL ES support.
->
-
-Does this also need to be applied to master?
-
-Ross
-
---001a113ed932fdab5f0539a0bcde
-Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 8 August 2016 at 16:45, Tom Hochstein <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:tom.hochstein@nxp.com" target=3D"_blank">tom.hochstein@nxp.com</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1pi" class=3D=
-"a3s aXjCH m1566e3dd3f929f3d">The most recent patch 0011-drop-demos-dependa=
-nt-on-<wbr>obsolete-MESA_screen_surface.<wbr>patch<br>
-incorrectly removed the configuration constructs that allowed the<br>
-package to be configured without OpenGL ES support.</div></blockquote></div=
-><br>Does this also need to be applied to master?</div><div class=3D"gmail_=
-extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+On Tue, Aug 9, 2016 at 12:00 PM, Burton, Ross <ross.burton@intel.com> wrote=
+:
+>
+> On 9 August 2016 at 10:22, Andreas M=C3=BCller <schnitzeltony@googlemail.=
+com>
+> wrote:
+>>
+>> Is there anything wrong with this patch? The original patch was sent
+>> end of May, there were pings / a resend but it was never applied. Why
+>> I insist: It is necessary for RaspberryPi's open source (VC4) patch
+>> series pending for very long time.
+>
+>
+> Just slipped through the net, now in my staging branch for master.
+>
+> Ross
+Thanks
 
---001a113ed932fdab5f0539a0bcde--
