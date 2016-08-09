@@ -1,21 +1,23 @@
 Return-Path: <brian.avery@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 2421E77122
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 864E3771DB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Aug 2016 00:19:12 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga102.fm.intel.com with ESMTP; 08 Aug 2016 17:19:14 -0700
+	Tue,  9 Aug 2016 00:19:14 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP; 08 Aug 2016 17:19:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,492,1464678000"; d="scan'208";a="1032076110"
+X-IronPort-AV: E=Sophos;i="5.28,492,1464678000"; d="scan'208";a="862012591"
 Received: from bavery-ws-desk.jf.intel.com ([10.7.201.28])
-	by orsmga002.jf.intel.com with ESMTP; 08 Aug 2016 17:19:13 -0700
+	by orsmga003.jf.intel.com with ESMTP; 08 Aug 2016 17:19:14 -0700
 From: bavery <brian.avery@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  8 Aug 2016 17:20:30 -0700
-Message-Id: <cover.1470701968.git.brian.avery@intel.com>
+Date: Mon,  8 Aug 2016 17:20:32 -0700
+Message-Id: <e9d98c1ad6538ac31b45e0ecac9e062f8f85e5ae.1470701968.git.brian.avery@intel.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1470701968.git.brian.avery@intel.com>
+References: <cover.1470701968.git.brian.avery@intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] Fix for Eclipse Qemu debugV2
+Subject: =?UTF-8?B?W1BBVENIIDEvMV0gYmFzZS1maWxlczogcmVzdHJpY3QgcmVzaXplIHRvIHJ1biBvbiBzZXJpYWwgY29uc29sZXMgb25seSBpbiBwcm9maWxlIOKUgsK3?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,36 +30,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Aug 2016 00:19:13 -0000
+X-List-Received-Date: Tue, 09 Aug 2016 00:19:16 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This patch fixes YOCTO #9362.  The busybox resize utility was running on
-ssh connections from Eclipse and causing Eclipse to fail to start gdbserver.
+We don't need/wan't to run resize on an ssh connection. It's useless and
+it breaks the Eclipse SSH debug connection. So, we added a check.
 
-Thanks go to Max Krummenacher <max.oss.09@gmail.com> for suggesting a good solution
-to the serial/ssh connection issue in basefiles:etc/profile!
+YOCTO #9362
 
--Brian
-
-
-The following changes since commit dfc016fbf13e62f7767edaf7abadf1d1b72680b2:
-
-  maintainers.inc: remove augeas (2016-08-04 20:56:11 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib bavery/eclipse-resize-fixup
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=bavery/eclipse-resize-fixup
-
-bavery (1):
-  base-files: restrict resize to run on serial consoles only  in profile
-
-                              │·
-
+Signed-off-by: bavery <brian.avery@intel.com>
+---
  recipes-core/base-files/base-files/profile | 7 ++++---
  1 file changed, 4 insertions(+), 3 deletions(-)
 
---
+diff --git a/recipes-core/base-files/base-files/profile b/recipes-core/base-files/base-files/profile
+index e98e786..ba1b9ba 100644
+--- a/recipes-core/base-files/base-files/profile
++++ b/recipes-core/base-files/base-files/profile
+@@ -6,7 +6,7 @@ EDITOR="vi"			# needed for packages like cron, git-commit
+ test -z "$TERM" && TERM="vt100"	# Basic terminal capab. For screen etc.
+ 
+ if [ ! -e /etc/localtime -a ! -e /etc/TZ ]; then
+-	TZ="UTC"		# Time Zone. Look at http://theory.uwinnipeg.ca/gnu/glibc/libc_303.html 
++	TZ="UTC"		# Time Zone. Look at http://theory.uwinnipeg.ca/gnu/glibc/libc_303.html
+ 				# for an explanation of how to set this to your local timezone.
+ 	export TZ
+ fi
+@@ -29,10 +29,11 @@ if [ -d /etc/profile.d ]; then
+ fi
+ 
+ if [ -x /usr/bin/resize ];then
+-  /usr/bin/resize >/dev/null
++  # Make sure we are on a serial console (i.e. the device used starts with /dev/tty),
++  # otherwise we confuse e.g. the eclipse launcher which tries do use ssh
++  test `tty | cut -c1-8` = "/dev/tty" && resize >/dev/null
+ fi
+ 
+ export PATH PS1 OPIEDIR QPEDIR QTDIR EDITOR TERM
+ 
+ umask 022
+-
+-- 
 1.9.1
+
 
