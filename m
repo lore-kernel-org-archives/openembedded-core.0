@@ -1,26 +1,48 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from atl4mhob22.registeredsite.com (atl4mhob22.registeredsite.com
-	[209.17.115.116])
-	by mail.openembedded.org (Postfix) with ESMTP id C7BAF771F1
+Return-Path: <sona.sarmadi@enea.com>
+X-Greylist: delayed 1393 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 09 Aug 2016 12:20:02 UTC
+Received: from smtp-out10.electric.net (smtp-out10.electric.net
+	[185.38.180.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 0017B771F1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Aug 2016 12:19:16 +0000 (UTC)
-Received: from mailpod.hostingplatform.com ([10.30.71.207])
-	by atl4mhob22.registeredsite.com (8.14.4/8.14.4) with ESMTP id
-	u79CJFLv112147 for <openembedded-core@lists.openembedded.org>;
-	Tue, 9 Aug 2016 08:19:15 -0400
-Received: (qmail 20538 invoked by uid 0); 9 Aug 2016 12:19:15 -0000
-X-TCPREMOTEIP: 37.74.225.130
-X-Authenticated-UID: mike@milosoftware.com
-Received: from unknown (HELO mikebuntu.TOPIC.LOCAL)
-	(mike@milosoftware.com@37.74.225.130)
-	by 0 with ESMTPA; 9 Aug 2016 12:19:14 -0000
-From: Mike Looijmans <mike.looijmans@topic.nl>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Aug 2016 14:19:00 +0200
-Message-Id: <1470745140-1309-1-git-send-email-mike.looijmans@topic.nl>
-X-Mailer: git-send-email 1.9.1
-Cc: Mike Looijmans <mike.looijmans@topic.nl>
-Subject: [PATCH] dropbear/init: Allow extra arguments for key generation
+	Tue,  9 Aug 2016 12:20:02 +0000 (UTC)
+Received: from 1bX5eJ-00018i-TA by out10d.electric.net with emc1-ok (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>)
+	id 1bX5eJ-0001A2-Uo; Tue, 09 Aug 2016 04:56:47 -0700
+Received: by emcmailer; Tue, 09 Aug 2016 04:56:47 -0700
+Received: from [192.36.1.72] (helo=mx-3.enea.com)
+	by out10d.electric.net with esmtps (TLSv1:AES128-SHA:128) (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>)
+	id 1bX5eJ-00018i-TA; Tue, 09 Aug 2016 04:56:47 -0700
+Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
+	SESTOEX03.enea.se ([fe80::6ce7:7b51:1edf:e245%17]) with mapi id
+	14.03.0294.000; Tue, 9 Aug 2016 13:56:25 +0200
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH][krogoth] sudo: CVE-2015-8239
+Thread-Index: AQHR8jAShmJdZfQHDUGbuvynUrsIqqBAY4SAgAAh8oA=
+Date: Tue, 9 Aug 2016 11:56:24 +0000
+Message-ID: <3230301C09DEF9499B442BBE162C5E48ABE242BD@SESTOEX04.enea.se>
+References: <1470740681-54905-1-git-send-email-sona.sarmadi@enea.com>
+	<CAJTo0LZcNHJGMhGivzw5VX0T91NvkUuMbd5V3tND_CW2mjC7dg@mail.gmail.com>
+In-Reply-To: <CAJTo0LZcNHJGMhGivzw5VX0T91NvkUuMbd5V3tND_CW2mjC7dg@mail.gmail.com>
+Accept-Language: sv-SE, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.16.142.231]
+MIME-Version: 1.0
+X-Outbound-IP: 192.36.1.72
+X-Env-From: sona.sarmadi@enea.com
+X-Proto: esmtps
+X-Revdns: mx-3.enea.com
+X-HELO: mx-3.enea.com
+X-TLS: TLSv1:AES128-SHA:128
+X-Authenticated_ID: 
+X-PolicySMART: 6551647
+X-Virus-Status: Scanned by VirusSMART (c)
+X-Virus-Status: Scanned by VirusSMART (s)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][krogoth] sudo: CVE-2015-8239
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,50 +55,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Aug 2016 12:19:17 -0000
+X-List-Received-Date: Tue, 09 Aug 2016 12:20:07 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_3230301C09DEF9499B442BBE162C5E48ABE242BDSESTOEX04enease_"
 
-This patch adds DROPBEAR_RSAKEY_ARGS and DROPBEAR_DSSKEY_ARGS optional
-parameters to /etc/default/dropbear. The contents are simply passed to
-the 'dropbearkey' program when generating a host key.
+--_000_3230301C09DEF9499B442BBE162C5E48ABE242BDSESTOEX04enease_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-The default keysize for RSA is currently 2048 bits. It takes a CortexA9
-running at 700MHz between 4 and 10 seconds to calculate a keypair. The
-board boots Linux in about a second, but you have to wait for several
-seconds because of the keypair generation. This patch allows one to put
-the line DROPBEAR_RSAKEY_ARGS="-s 1024" into /etc/default/dropbear, and
-have a host key generated in about 0.2 seconds on the same CPU. This is
-particulary useful for read-only rootfs systems which generate a key on
-each boot.
+SGkgUm9zcywNCg0KVGhpcyBzZWVtcyB0byBiZSBmaXhlZCBpbiBtYXN0ZXIuIEkgY2hlY2tlZCB0
+aGUgY29kZS4NCg0KLy9Tb25hDQoNCkZyb206IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3MuYnVy
+dG9uQGludGVsLmNvbV0NClNlbnQ6IGRlbiA5IGF1Z3VzdGkgMjAxNiAxMzo1NA0KVG86IFNvbmEg
+U2FybWFkaSA8c29uYS5zYXJtYWRpQGVuZWEuY29tPg0KQ2M6IE9FLWNvcmUgPG9wZW5lbWJlZGRl
+ZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQ
+QVRDSF1ba3JvZ290aF0gc3VkbzogQ1ZFLTIwMTUtODIzOQ0KDQoNCk9uIDkgQXVndXN0IDIwMTYg
+YXQgMTI6MDQsIFNvbmEgU2FybWFkaSA8c29uYS5zYXJtYWRpQGVuZWEuY29tPG1haWx0bzpzb25h
+LnNhcm1hZGlAZW5lYS5jb20+PiB3cm90ZToNCkZpeGVzIHJhY2UgY29uZGl0aW9uIHdoZW4gY2hl
+Y2tpbmcgZGlnZXN0cyBpbiBzdWRvZXJzLg0KDQpSZWZlcmVuY2U6DQpodHRwOi8vc2VjbGlzdHMu
+b3JnL29zcy1zZWMvMjAxNS9xNC8zMjcNCg0KUmVmZXJlbmNlIHRvIHVwc3RyZWFtIGZpeGVzOg0K
+aHR0cHM6Ly93d3cuc3Vkby53cy9yZXBvcy9zdWRvL3Jhdy1yZXYvMzk3NzIyY2RkN2VjDQpodHRw
+czovL3d3dy5zdWRvLndzL3JlcG9zL3N1ZG8vcmF3LXJldi8wY2QzY2M4ZmExOTUNCg0KSXMgdGhp
+cyBhcHBsaWNhYmxlIHRvIG1hc3RlciB0b28sIGFuZCBzaG91bGQgYmUgYmFja3BvcnQgaXQgamV0
+aHJvPw0KDQpSb3NzDQo=
 
-Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
----
+--_000_3230301C09DEF9499B442BBE162C5E48ABE242BDSESTOEX04enease_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-resubmitted: Added the [OE-core] prefix
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
+IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
+Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
+DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
+b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
+Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
+dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxNw0K
+CXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIs
+c2Fucy1zZXJpZjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHls
+ZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30N
+CkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjYxMi4wcHQgNzkyLjBwdDsNCgltYXJnaW46NzAu
+ODVwdCA3MC44NXB0IDcwLjg1cHQgNzAuODVwdDt9DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6
+V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpz
+aGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5k
+aWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRp
+dCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48
+L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxib2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJibHVl
+IiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0i
+TXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVv
+dDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+SGkgUm9zcyw8bzpwPjwv
+bzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1z
+aXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29s
+b3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05v
+cm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2Fs
+aWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPlRoaXMgc2VlbXMgdG8gYmUgZml4
+ZWQgaW4gbWFzdGVyLiBJIGNoZWNrZWQgdGhlIGNvZGUuPG86cD48L286cD48L3NwYW4+PC9wPg0K
+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1m
+YW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxvOnA+
+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxl
+PSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1z
+ZXJpZjtjb2xvcjojMUY0OTdEIj4vL1NvbmE8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFz
+cz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTom
+cXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8
+L286cD48L3NwYW4+PC9wPg0KPGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29s
+aWQgYmx1ZSAxLjVwdDtwYWRkaW5nOjBjbSAwY20gMGNtIDQuMHB0Ij4NCjxkaXY+DQo8ZGl2IHN0
+eWxlPSJib3JkZXI6bm9uZTtib3JkZXItdG9wOnNvbGlkICNFMUUxRTEgMS4wcHQ7cGFkZGluZzoz
+LjBwdCAwY20gMGNtIDBjbSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBzdHlsZT0i
+Zm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2Vy
+aWYiPkZyb206PC9zcGFuPjwvYj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZh
+bWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPiBCdXJ0b24sIFJvc3MgW21haWx0
+bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQo8YnI+DQo8Yj5TZW50OjwvYj4gZGVuIDkgYXVndXN0
+aSAyMDE2IDEzOjU0PGJyPg0KPGI+VG86PC9iPiBTb25hIFNhcm1hZGkgJmx0O3NvbmEuc2FybWFk
+aUBlbmVhLmNvbSZndDs8YnI+DQo8Yj5DYzo8L2I+IE9FLWNvcmUgJmx0O29wZW5lbWJlZGRlZC1j
+b3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcmZ3Q7PGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBb
+T0UtY29yZV0gW1BBVENIXVtrcm9nb3RoXSBzdWRvOiBDVkUtMjAxNS04MjM5PG86cD48L286cD48
+L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5i
+c3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZu
+YnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5PbiA5IEF1Z3VzdCAy
+MDE2IGF0IDEyOjA0LCBTb25hIFNhcm1hZGkgJmx0OzxhIGhyZWY9Im1haWx0bzpzb25hLnNhcm1h
+ZGlAZW5lYS5jb20iIHRhcmdldD0iX2JsYW5rIj5zb25hLnNhcm1hZGlAZW5lYS5jb208L2E+Jmd0
+OyB3cm90ZTo8bzpwPjwvbzpwPjwvcD4NCjxibG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6bm9uZTti
+b3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGNtIDBjbSAwY20gNi4wcHQ7
+bWFyZ2luLWxlZnQ6NC44cHQ7bWFyZ2luLXJpZ2h0OjBjbSI+DQo8ZGl2IGlkPSI6MjEiPg0KPHAg
+Y2xhc3M9Ik1zb05vcm1hbCI+Rml4ZXMgcmFjZSBjb25kaXRpb24gd2hlbiBjaGVja2luZyBkaWdl
+c3RzIGluIHN1ZG9lcnMuPGJyPg0KPGJyPg0KUmVmZXJlbmNlOjxicj4NCjxhIGhyZWY9Imh0dHA6
+Ly9zZWNsaXN0cy5vcmcvb3NzLXNlYy8yMDE1L3E0LzMyNyIgdGFyZ2V0PSJfYmxhbmsiPmh0dHA6
+Ly9zZWNsaXN0cy5vcmcvb3NzLXNlYy8yMDE1L3E0LzMyNzwvYT48YnI+DQo8YnI+DQpSZWZlcmVu
+Y2UgdG8gdXBzdHJlYW0gZml4ZXM6PGJyPg0KPGEgaHJlZj0iaHR0cHM6Ly93d3cuc3Vkby53cy9y
+ZXBvcy9zdWRvL3Jhdy1yZXYvMzk3NzIyY2RkN2VjIiB0YXJnZXQ9Il9ibGFuayI+aHR0cHM6Ly93
+d3cuc3Vkby53cy9yZXBvcy9zdWRvL3Jhdy1yZXYvMzk3NzIyY2RkN2VjPC9hPjxicj4NCjxhIGhy
+ZWY9Imh0dHBzOi8vd3d3LnN1ZG8ud3MvcmVwb3Mvc3Vkby9yYXctcmV2LzBjZDNjYzhmYTE5NSIg
+dGFyZ2V0PSJfYmxhbmsiPmh0dHBzOi8vd3d3LnN1ZG8ud3MvcmVwb3Mvc3Vkby9yYXctcmV2LzBj
+ZDNjYzhmYTE5NTwvYT48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9ibG9ja3F1b3RlPg0KPC9k
+aXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48YnI+DQpJcyB0aGlzIGFwcGxpY2FibGUgdG8gbWFz
+dGVyIHRvbywgYW5kIHNob3VsZCBiZSBiYWNrcG9ydCBpdCBqZXRocm8/PG86cD48L286cD48L3A+
+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwv
+cD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlJvc3M8bzpwPjwvbzpwPjwv
+cD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
 
- meta/recipes-core/dropbear/dropbear/init | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-core/dropbear/dropbear/init b/meta/recipes-core/dropbear/dropbear/init
-index e8fed3f..434bd6b 100755
---- a/meta/recipes-core/dropbear/dropbear/init
-+++ b/meta/recipes-core/dropbear/dropbear/init
-@@ -62,13 +62,13 @@ for t in $DROPBEAR_KEYTYPES; do
-         if [ -f "$DROPBEAR_RSAKEY" -a ! -s "$DROPBEAR_RSAKEY" ]; then
-                 rm $DROPBEAR_RSAKEY || true
-         fi
--        test -f $DROPBEAR_RSAKEY || dropbearkey -t rsa -f $DROPBEAR_RSAKEY
-+        test -f $DROPBEAR_RSAKEY || dropbearkey -t rsa -f $DROPBEAR_RSAKEY $DROPBEAR_RSAKEY_ARGS
- 	;;
-     dsa)
-         if [ -f "$DROPBEAR_DSSKEY" -a ! -s "$DROPBEAR_DSSKEY" ]; then
-                 rm $DROPBEAR_DSSKEY || true
-         fi
--        test -f $DROPBEAR_DSSKEY || dropbearkey -t dss -f $DROPBEAR_DSSKEY
-+        test -f $DROPBEAR_DSSKEY || dropbearkey -t dss -f $DROPBEAR_DSSKEY $DROPBEAR_DSSKEY_ARGS
- 	;;
-   esac
- done
--- 
-1.9.1
-
-
+--_000_3230301C09DEF9499B442BBE162C5E48ABE242BDSESTOEX04enease_--
