@@ -1,46 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
-	[209.85.214.49])
-	by mail.openembedded.org (Postfix) with ESMTP id D88E965CC2
+Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
+	[209.85.223.175])
+	by mail.openembedded.org (Postfix) with ESMTP id A791370034
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Aug 2016 10:01:53 +0000 (UTC)
-Received: by mail-it0-f49.google.com with SMTP id u186so8628176ita.0
+	Tue,  9 Aug 2016 10:10:11 +0000 (UTC)
+Received: by mail-io0-f175.google.com with SMTP id b62so7021507iod.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Aug 2016 03:01:54 -0700 (PDT)
+	Tue, 09 Aug 2016 03:10:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=CiyXqhB/wGTFOZhdQOkRoxvtQorvk/H9dyiIbTmi+HE=;
-	b=AtJgohI0X3NGLR/mQzcUgtNCPUpYJDkVcQsQwZA2n7CuEGdtZUSrLuuRyKCyky9T7U
-	Bi+OBFEdyp4DBVlvnUPc3HAHL5EqFNmR/YojQjGlSgN2nBUf+zCW3VgCE/5VNiv4fjNr
-	uhoaxTFcRG1lJOAAGvNakSW8oOn4BiKCiVYuZQmj92MB1WmObjXciJSUiyjEzrygHC1+
-	matBvbL6w+cCCrVb+t+QyvvdgMLl4+E3j5RoJm5Lazj85YePkoEW2atZM5of1Vm4JOUp
-	OR6rS5GfJ1P4vdEmvFrDc9AJXyosHzmJbWB/KEdtGAL+0BlX1d9K5Nhslwl4ijKgPJ4A
-	p3sg==
+	:cc; bh=U4CmNb8q1DquITWD5Riwrvf4pKseXcmNjRVM68Q2NRo=;
+	b=oU+EVz9Piyjuw9ZG7bfUP48e7Ev3ge8ZbgFCcZYpA3SES3UlK1+eJd1Y3jRMOWaMZk
+	Qhps5i8v3t3M+ydVOaKhXGIY+TSDqusChe2ho2ij009z+Ixopqliis6llCEAfW9CtLg/
+	UajzgNuaYeQdl87sxfc0QdLymC48P1SVztPTUnwoOLHphxcuvCA9SFC2iOgOZxwoRi+U
+	DXM6rGyqbNjnIJT39ukDBuMehqxXS+QvdqF8pkviYKkIz6OahRCylJBAtLl2xY60rQ4K
+	5k3fxdX6WUVBq7Vgjs8nctsWedjgPvWf1pliLa2bStg1BEhhAMNNMEI7w4I4V1dNLImG
+	4d1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=CiyXqhB/wGTFOZhdQOkRoxvtQorvk/H9dyiIbTmi+HE=;
-	b=bry6Kp3YuC544tYNbMXL0JVFprh/xpL+ESOZsn9tM+umc7j8Ct2XkE+Qg8JzTPnEgv
-	Ppc+wyo3vHt4SLpp6Fyj/faYzVLmHHEaCTIIV8tJjdqkXDrZRtVK86eCY/WnGuS/Yrw1
-	DukPJW30o2Ca3V3opxq0LfupsyhInuu0txVEbSsvVNlJzupR7T5FkGFohQ7NTyDileXJ
-	fedzLWA+DpjGX0k3u1lJgM/0UfunJRKhAlH3/Mm9pDqcgSM/7fMbid+KziBPYkS1naym
-	2Jx91cKJXMjtJWLhM2bJEe4T8KmLpdwZIeci4NzHKp8TO+GXgEvkHxo1ka/rVF7HpZK4
-	Z3fA==
-X-Gm-Message-State: AEkooutEvfcdueI+fd/sdia/CHoV698j6h/zpdik5RvgWGBh/BoWq85Xz+IqiUBmISyakTkM5EXyJGaGoqvgyVa+
-X-Received: by 10.36.87.140 with SMTP id u134mr24269025ita.38.1470736914217;
-	Tue, 09 Aug 2016 03:01:54 -0700 (PDT)
+	bh=U4CmNb8q1DquITWD5Riwrvf4pKseXcmNjRVM68Q2NRo=;
+	b=kn9SmPs2mxgER8sK0VEKeospq+s1DD/sgFpV4Bg7jqjT5tziS0AsXZpPj0lMjaAIRs
+	/H7+8Rm7UZLUL5XCigvC9cJd0UwWeL0R7n7HFGhu9l9RrDj3pniM/F0Jaml7ApCCdmoU
+	M0eUT4EXCfdrO+By6XjC4+IldKpoIRx9U73IU3Teequ12LtXC3EGsOz+4e6kWb4knrGD
+	XvvLTr3L3SNEIcQzdw+9MvxFHV7bxXZxlH+5CZmnSXYb1Wa1Sqb4GamI3YMmEafpIn+G
+	xr6K44ppm4CY/rQjdJVyoHPDsElmmhFBMBujBVIXEinQVgMLdQBwN5FWqrFLEKVRqiVD
+	C7Zw==
+X-Gm-Message-State: AEkooutFq7fPwQyWUCRK9TFrMd4q1OL4NDrSM91yz5MKMes5NhJwA+4V9CaG6ds3EGuKJ5Ta9zZmWqk9VwOql8Ep
+X-Received: by 10.107.138.212 with SMTP id c81mr95340473ioj.148.1470737411838; 
+	Tue, 09 Aug 2016 03:10:11 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Tue, 9 Aug 2016 03:01:33 -0700 (PDT)
-In-Reply-To: <1469001221-26502-1-git-send-email-kristian.amlie@mender.io>
-References: <1469001221-26502-1-git-send-email-kristian.amlie@mender.io>
+Received: by 10.107.18.17 with HTTP; Tue, 9 Aug 2016 03:09:51 -0700 (PDT)
+In-Reply-To: <1470671116-1997-1-git-send-email-tom.hochstein@nxp.com>
+References: <1470671116-1997-1-git-send-email-tom.hochstein@nxp.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 9 Aug 2016 11:01:33 +0100
-Message-ID: <CAJTo0LbW8c7V=5vHXML8srwVgzacqGJp2o0M4OOReVE42DnW0g@mail.gmail.com>
-To: Kristian Amlie <kristian.amlie@mender.io>
+Date: Tue, 9 Aug 2016 11:09:51 +0100
+Message-ID: <CAJTo0LaWyLEPg5S3=B=H_Gb4XNuhgiAqYMMgOBdf3JRHuE0FMQ@mail.gmail.com>
+To: Tom Hochstein <tom.hochstein@nxp.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [krogoth] systemd network service fails to start on boot
+Subject: Re: [krogoth][PATCH] mesa-demos: Fix OpenGL ES configurability
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,46 +53,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Aug 2016 10:01:56 -0000
-Content-Type: multipart/alternative; boundary=001a1135018c54b3290539a09fa5
+X-List-Received-Date: Tue, 09 Aug 2016 10:10:12 -0000
+Content-Type: multipart/alternative; boundary=001a113ed932fdab5f0539a0bcde
 
---001a1135018c54b3290539a09fa5
+--001a113ed932fdab5f0539a0bcde
 Content-Type: text/plain; charset=UTF-8
 
-On 20 July 2016 at 08:53, Kristian Amlie <kristian.amlie@mender.io> wrote:
+On 8 August 2016 at 16:45, Tom Hochstein <tom.hochstein@nxp.com> wrote:
 
-> on our krogoth build the systemd network service does not start, and it
-> seems to be because of missing users, which has already been fixed on
-> master. I've cherry-picked the two patches that fixed the problem for
-> us. Note that they are not written by me, but by other people on this
-> list. I hope they can be applied to krogoth.
+> The most recent patch 0011-drop-demos-dependant-on-
+> obsolete-MESA_screen_surface.patch
+> incorrectly removed the configuration constructs that allowed the
+> package to be configured without OpenGL ES support.
 >
 
-Can you send the two patches to this list, with the [krogoth] tag in the
-subject, and your signed-off-by to confirm that you've tested them?
+Does this also need to be applied to master?
 
-Thanks,
 Ross
 
---001a1135018c54b3290539a09fa5
+--001a113ed932fdab5f0539a0bcde
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 20 July 2016 at 08:53, Kristian Amlie <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:kristian.amlie@mender.io" target=3D"_blank">kristian.amlie@mender.io<=
-/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1ih" cl=
-ass=3D"a3s aXjCH m156074d2f31971f8">on our krogoth build the systemd networ=
-k service does not start, and it<br>
-seems to be because of missing users, which has already been fixed on<br>
-master. I&#39;ve cherry-picked the two patches that fixed the problem for<b=
-r>
-us. Note that they are not written by me, but by other people on this<br>
-list. I hope they can be applied to krogoth.</div></blockquote></div><br>Ca=
-n you send the two patches to this list, with the [krogoth] tag in the subj=
-ect, and your signed-off-by to confirm that you&#39;ve tested them?</div><d=
-iv class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Thanks,</div>=
-<div class=3D"gmail_extra">Ross</div></div>
+On 8 August 2016 at 16:45, Tom Hochstein <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:tom.hochstein@nxp.com" target=3D"_blank">tom.hochstein@nxp.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1pi" class=3D=
+"a3s aXjCH m1566e3dd3f929f3d">The most recent patch 0011-drop-demos-dependa=
+nt-on-<wbr>obsolete-MESA_screen_surface.<wbr>patch<br>
+incorrectly removed the configuration constructs that allowed the<br>
+package to be configured without OpenGL ES support.</div></blockquote></div=
+><br>Does this also need to be applied to master?</div><div class=3D"gmail_=
+extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a1135018c54b3290539a09fa5--
+--001a113ed932fdab5f0539a0bcde--
