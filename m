@@ -1,41 +1,58 @@
-Return-Path: <ulfalizer@gmail.com>
-Received: from mail-ua0-f195.google.com (mail-ua0-f195.google.com
-	[209.85.217.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 884B8771EB
+Return-Path: <anders@chargestorm.se>
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C216731C9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Aug 2016 01:48:45 +0000 (UTC)
-Received: by mail-ua0-f195.google.com with SMTP id 109so6263399uat.2
+	Tue,  9 Aug 2016 05:17:32 +0000 (UTC)
+Received: by mail-wm0-f43.google.com with SMTP id i5so9573343wmg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Aug 2016 18:48:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=ZdEqK38b5EI9dKkytkrV/7g9PUymQqXJDObA0+93UP8=;
-	b=bdmG252x4VbG9HYvNArov71WNtgIAelPPfvntY0aeUu2SoEdSoFx6yJwdsAQQwEGWb
-	knsbqFkzS32hMH38ftEko6+e0QUj11R79tM7ph+rJe8DuGv8x09wyPSEWWoauPrVL3+7
-	QpZW/Buxn4gPY4W5+41I6rJcuNZYm8DWLJa35JBf9XzPcH+BFo9hYFiy5Ap8r9ynhT2g
-	LwTExqaVsTD3qy4KJXXrEVcw7FTBf4eqCQv9zDm/vhiec13p5uvboCLIZf6HnsyDygQ5
-	OoMRYSBDHuSorFK6lO1yxki5koJ16EKuZLkCYbJjJ75fl0Y0sz0slV44EYJSfR/rLYiO
-	WLsQ==
+	Mon, 08 Aug 2016 22:17:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
+	h=date:from:to:subject:message-id:mail-followup-to:references
+	:mime-version:content-disposition:in-reply-to:organization
+	:user-agent; bh=L+veEXGyLYcDsqXGOdvfltHz6A3QDCEB6x7W6ef/5ME=;
+	b=sDtXoziOFh4m1HIe6jDN6FXeeU+1HW7caBmic0RHkXje8mFq/4/matXAcl+Y7yFXk1
+	IgkDaRXAxVwSCGVVCcJNBjXP5RAncj4SrfIIu/vzxNRbu1fZcp03l7JM9L6onyeNcGzR
+	X2ERwy5+PHXA8SVcBYvMOveAAWCx4w2+zFOA0MZjFnStaZUbU5L+ZhfBNYYo6svyr6ql
+	zTuhIRaYzieR1thci7yfx4GOtCS5hZ3N/YKXlBaRpqlrS4PsiKPTKDJYaBP7NUomr54e
+	94s8YPfzOjtc9+UADwB21uT2E3wuXZvpNaou8HvOyjbr9DLzP4+WPGntVcCIAbYbs+2Q
+	gNIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=ZdEqK38b5EI9dKkytkrV/7g9PUymQqXJDObA0+93UP8=;
-	b=CV1EQYaRWXF9SpHzj2ZkgxLuGezJNvccBiZtNUMUrArAE2jPRr9w2SKqYWBAJ9Fw9D
-	Zr5f7M4EUtY+B7hckbDjaDI9AKHcKNOu8LXbon/Dzx9+kumlLP8BeNdIgcYJ+XvDKgAe
-	5UlF91Waammr/xj+NVotLCS8vvkt8OSpYTYiTHQ20ycOjGc9Vbadp4l/WbjnEhqTogmU
-	Mx6H4BNO1I48I1ZcAm7RpjD5E5e1FSrm3Vnr6LYpIOqYrIisf/Me0VZNJiEbauIyr88i
-	L4bQvH2Cu+WVJ2ntrlgTIjOVNlgVzjfGtfbDGrW/EsM5myiwYqFfZDrE69nCwMZOWx/K
-	N5Eg==
-X-Gm-Message-State: AEkoouuO+8Kz1ajn4n4MLypRE7cLJf/qZpNnY9Btv1wUqRGZaakF2haHA5jLIMliaScbX/SV+q9lvPDd7H/c6A==
-X-Received: by 10.31.53.75 with SMTP id c72mr49713952vka.62.1470707325585;
-	Mon, 08 Aug 2016 18:48:45 -0700 (PDT)
+	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
+	:references:mime-version:content-disposition:in-reply-to
+	:organization:user-agent;
+	bh=L+veEXGyLYcDsqXGOdvfltHz6A3QDCEB6x7W6ef/5ME=;
+	b=JLCUWvf+YoPLco/mY4RAzcwGc1luV3MRyXp1V5owpn+Ifdx7G3cqWMIu3y98bdDzdb
+	11hvZS7QZ8O3cevLmeKxfnu77PjT3kouyqwx+K44nQ0+P5NZeMPinoOfiK87dhJ51dhn
+	fHVuqiqz40PGPzUlC/cq1aBrWeOkFZbc9IInF4PEDOSKoZtBFqgWfoKnIFSEHDsfCWAU
+	8p7Ed3ObbUoFa17FpM8pGWtH9JvYBQXtflZEIu9l9H4llQEzIuV2KrAA8WIJ1EFJOaB/
+	uJEQcV4LF4QKLzqL2A4AmnJGxeq0om7EkT+vmDLuVYcaPxsJxNxiUKV6A4Zuv04DIxA+
+	ZXog==
+X-Gm-Message-State: AEkoousooOMGU/+D+Idtxq3DzKsauIp4bsiFcUEu0ydTZ2++DF0kc9SjXtdij9lciK4iow==
+X-Received: by 10.25.158.147 with SMTP id h141mr30716814lfe.63.1470719852256; 
+	Mon, 08 Aug 2016 22:17:32 -0700 (PDT)
+Received: from ad.chargestorm.se (213-64-218-130-no126.business.telia.com.
+	[213.64.218.130]) by smtp.gmail.com with ESMTPSA id
+	b71sm6264153lfb.42.2016.08.08.22.17.31
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 08 Aug 2016 22:17:31 -0700 (PDT)
+Date: Tue, 9 Aug 2016 07:17:30 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20160809051730.2j5xuc3tud3mrj6g@ad.chargestorm.se>
+Mail-Followup-To: openembedded-core@lists.openembedded.org
+References: <1470663448-5191-1-git-send-email-ejo@pengutronix.de>
 MIME-Version: 1.0
-Received: by 10.103.124.70 with HTTP; Mon, 8 Aug 2016 18:48:45 -0700 (PDT)
-From: Ulf Magnusson <ulfalizer@gmail.com>
-Date: Tue, 9 Aug 2016 03:48:45 +0200
-Message-ID: <CAFkk2KRmMbNhL=V82H-vuYmvRBDMxKOE7c-J=u2=YGHBPmYYSg@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] useradd.bblass: Simplify target overrides
+In-Reply-To: <1470663448-5191-1-git-send-email-ejo@pengutronix.de>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.6.2-neo (2016-07-23)
+Subject: Re: [PATCH] systemd: fix useradd parameter generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,80 +65,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Aug 2016 01:48:46 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 09 Aug 2016 05:17:35 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The current style might be a leftover from when _class-target did not
-exist.
+* Enrico Jorns <ejo@pengutronix.de> [160808 15:55]:
+> Constructing the USERADD_PARAM_${PN} value with += (as done before)
+> resulted in having a whitespace added for each entry not having its
+> PACKAGECONFIG parameter activated.
 
-Also change the assignment to SSTATECLEANFUNCS to an append, which makes
-more sense. useradd.bbclass is the only user of SSTATECLEANFUNCS as of
-writing, so it won't make any functional difference.
----
- meta/classes/useradd.bbclass | 31 ++++++++-----------------------
- 1 file changed, 8 insertions(+), 23 deletions(-)
+> This is not only a cosmetical issue. The useradd class concatenates all
+> useradd commands from all subpackages of a package by doing a
+> ";".join(). When having a useradd command that ends with ";" and some
+> extra spaces, concatenation will result in an empty useradd argument
+> ("commandA;    ;commandB"). The useradd command will be called with this
+> and make the Yocto build break by returning an error code.
 
-diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
-index 8d51fb5..25526ef 100644
---- a/meta/classes/useradd.bbclass
-+++ b/meta/classes/useradd.bbclass
-@@ -3,11 +3,7 @@ inherit useradd_base
- # base-passwd-cross provides the default passwd and group files in the
- # target sysroot, and shadow -native and -sysroot provide the utilities
- # and support files needed to add and modify user and group accounts
--DEPENDS_append = "${USERADDDEPENDS}"
--USERADDDEPENDS = " base-files shadow-native shadow-sysroot shadow"
--USERADDDEPENDS_class-cross = ""
--USERADDDEPENDS_class-native = ""
--USERADDDEPENDS_class-nativesdk = ""
-+DEPENDS_append_class-target = " base-files shadow-native shadow-sysroot shadow"
+> Fortunately, there is no problem when having a "commandA;;commandB" in
+> the useradd string, this will be ignored. Thus using "_append" instead of
+> "+=" is sufficient here.
 
- # This preinstall function can be run in four different contexts:
- #
-@@ -157,28 +153,17 @@ if test "x${STAGING_DIR_TARGET}" != "x"; then
- fi
- }
+NAK
 
--SSTATECLEANFUNCS = "userdel_sysroot_sstate"
--SSTATECLEANFUNCS_class-cross = ""
--SSTATECLEANFUNCS_class-native = ""
--SSTATECLEANFUNCS_class-nativesdk = ""
-+SSTATECLEANFUNCS_append_class-target = " userdel_sysroot_sstate"
+Fix useradd.bbclass instead. Otherwise, the same issue will happen with
+other recipes. Having a single variable, that you're not allowed to use
+the normal way to add to, would be more confusing. Personally, I would
+find it hard to rember that I need to use .= for USERADD_PARAM...
 
- do_install[prefuncs] += "${SYSROOTFUNC}"
--SYSROOTFUNC = "useradd_sysroot"
--SYSROOTFUNC_class-cross = ""
--SYSROOTFUNC_class-native = ""
--SYSROOTFUNC_class-nativesdk = ""
--SSTATEPREINSTFUNCS += "${SYSROOTPOSTFUNC}"
--SYSROOTPOSTFUNC = "useradd_sysroot_sstate"
--SYSROOTPOSTFUNC_class-cross = ""
--SYSROOTPOSTFUNC_class-native = ""
--SYSROOTPOSTFUNC_class-nativesdk = ""
--
--USERADDSETSCENEDEPS =
-"${MLPREFIX}base-passwd:do_populate_sysroot_setscene
-pseudo-native:do_populate_sysroot_setscene
-shadow-native:do_populate_sysroot_setscene
-${MLPREFIX}shadow-sysroot:do_populate_sysroot_setscene"
--USERADDSETSCENEDEPS_class-cross = ""
--USERADDSETSCENEDEPS_class-native = ""
--USERADDSETSCENEDEPS_class-nativesdk = ""
-+SYSROOTFUNC_class-target = "useradd_sysroot"
-+SYSROOTFUNC = ""
-+
-+SSTATEPREINSTFUNCS_append_class-target = " useradd_sysroot_sstate"
-+
- do_package_setscene[depends] += "${USERADDSETSCENEDEPS}"
- do_populate_sysroot_setscene[depends] += "${USERADDSETSCENEDEPS}"
-+USERADDSETSCENEDEPS_class-target =
-"${MLPREFIX}base-passwd:do_populate_sysroot_setscene
-pseudo-native:do_populate_sysroot_setscene
-shadow-native:do_populate_sysroot_setscene
-${MLPREFIX}shadow-sysroot:do_populate_sysroot_setscene"
+Cheers,
+Anders
 
- # Recipe parse-time sanity checks
- def update_useradd_after_parse(d):
 -- 
-2.5.0
+Anders Darander, Senior System Architect
+ChargeStorm AB / eStorm AB
 
