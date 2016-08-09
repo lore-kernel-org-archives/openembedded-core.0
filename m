@@ -1,39 +1,31 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B16475E80
+Return-Path: <ejo@pengutronix.de>
+Received: from metis.ext.4.pengutronix.de (metis.ext.4.pengutronix.de
+	[92.198.50.35])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FAE8771E9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Aug 2016 08:29:24 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id i5so1648656wmg.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Aug 2016 01:29:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=Rjj1sCZSZbUXmoQoZjKRkinUNc0QQfTuixTGFm7Ax8o=;
-	b=g0yr/harGVATG4x+NCbMmPLWC+2I9OMyZYEt72Wu7APzlvOuEKQjCN9YNRql3jIDMq
-	Y+QJ7BIGRH9Tk44UknYUSRXNnVSW0LQB9cp1XlHSPp6UrZcgH6S1hiy1Z7ZaxL9Szmbv
-	Wk0ilzauSIptZ0GhVBTyDsuhisfrpO1uMpk6Can6pFBfZl/SPI3Sh4Ig0APWpQjs+U4T
-	V0++FfQEhOi+4bByNi7CE+zyI9CAEPDAcA7fG9isQi2qzXnwZYXf8FL5DmoKPD9NWUuB
-	jmAZa98gMl7wyaiWrU45P/KngZTsjTdaeH2gHwg2eLo0OoT7hRVZKnD+ux3wVALHUyPN
-	uoGQ==
-X-Gm-Message-State: AEkoout05ib25OSeqgBjB8wgp6xNivuJPyh0rQoauYhFDVbS2EKCnToE5YyGWY/d5m1ZMg==
-X-Received: by 10.194.63.39 with SMTP id d7mr86890986wjs.13.1470731364308;
-	Tue, 09 Aug 2016 01:29:24 -0700 (PDT)
-Received: from localhost ([185.46.212.59])
-	by smtp.gmail.com with ESMTPSA id g67sm2109926wme.5.2016.08.09.01.29.23
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 09 Aug 2016 01:29:23 -0700 (PDT)
-Message-ID: <1470731376.4581.25.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+	Tue,  9 Aug 2016 08:29:44 +0000 (UTC)
+Received: from mango.hi.pengutronix.de ([2001:67c:670:100:76d4:35ff:fee8:98b3])
+	by metis.ext.pengutronix.de with esmtp (Exim 4.80)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1bX2Px-0003cj-AN; Tue, 09 Aug 2016 10:29:45 +0200
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 09 Aug 2016 09:29:36 +0100
-In-Reply-To: <20160808225101.32385-1-raj.khem@gmail.com>
-References: <20160808225101.32385-1-raj.khem@gmail.com>
-X-Mailer: Evolution 3.20.4-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/2] webkitgtk: Disable gold for mips/mips64
+References: <1470663448-5191-1-git-send-email-ejo@pengutronix.de>
+	<20160809051730.2j5xuc3tud3mrj6g@ad.chargestorm.se>
+	<d615b7c7-2520-9425-06c6-e1e9d14f4abf@pengutronix.de>
+From: Enrico Joerns <ejo@pengutronix.de>
+Message-ID: <e0b9d232-a00e-c8a9-27c8-e3e438ae4833@pengutronix.de>
+Date: Tue, 9 Aug 2016 10:29:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Icedove/45.1.0
+MIME-Version: 1.0
+In-Reply-To: <d615b7c7-2520-9425-06c6-e1e9d14f4abf@pengutronix.de>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:76d4:35ff:fee8:98b3
+X-SA-Exim-Mail-From: ejo@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+	SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Cc: Anders Darander <anders@chargestorm.se>
+Subject: Re: [PATCH] systemd: fix useradd parameter generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,32 +38,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Aug 2016 08:29:25 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 09 Aug 2016 08:29:45 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On Mon, 2016-08-08 at 15:51 -0700, Khem Raj wrote:
-> with binutils 2.27, mips has got the gold support
-> but it doesnt work for webkitgtk _yet_ therefore
-> disable it for now.
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/recipes-sato/webkit/webkitgtk_2.12.3.bb | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.12.3.bb b/meta/recipes-
-> sato/webkit/webkitgtk_2.12.3.bb
-> index f2ba8b6..d9f1c30 100644
-> --- a/meta/recipes-sato/webkit/webkitgtk_2.12.3.bb
-> +++ b/meta/recipes-sato/webkit/webkitgtk_2.12.3.bb
-> @@ -75,6 +75,8 @@ EXTRA_OECMAKE_append_armv4 = " -DENABLE_JIT=OFF "
->  # binutils 2.25.1 has a bug on aarch64:
->  # https://sourceware.org/bugzilla/show_bug.cgi?id=18430
->  EXTRA_OECMAKE_append_aarch64 = " -DUSE_LD_GOLD=OFF "
-> +EXTRA_OECMAKE_append_mips = " -DUSE_LD_GOLD=OFF "
-> +EXTRA_OECMAKE_append_mips64 = " -DUSE_LD_GOLD=OFF "
+On 08/09/2016 10:24 AM, Enrico Joerns wrote:
+> On 08/09/2016 07:17 AM, Anders Darander wrote:
+>> * Enrico Jorns <ejo@pengutronix.de> [160808 15:55]:
+>>> Constructing the USERADD_PARAM_${PN} value with += (as done before)
+>>> resulted in having a whitespace added for each entry not having its
+>>> PACKAGECONFIG parameter activated.
+>>
+>>> This is not only a cosmetical issue. The useradd class concatenates all
+>>> useradd commands from all subpackages of a package by doing a
+>>> ";".join(). When having a useradd command that ends with ";" and some
+>>> extra spaces, concatenation will result in an empty useradd argument
+>>> ("commandA;    ;commandB"). The useradd command will be called with this
+>>> and make the Yocto build break by returning an error code.
+>>
+>>> Fortunately, there is no problem when having a "commandA;;commandB" in
+>>> the useradd string, this will be ignored. Thus using "_append"
+>>> instead of
+>>> "+=" is sufficient here.
+>>
+>> NAK
+>>
+>> Fix useradd.bbclass instead. Otherwise, the same issue will happen with
+>> other recipes. Having a single variable, that you're not allowed to use
+>> the normal way to add to, would be more confusing. Personally, I would
+>> find it hard to rember that I need to use .= for USERADD_PARAM...
+>
+> Yes, I did not have .= in mind when creating this solution, but this
+> would be the better approach.
+> Nevertheless, I also prefer a more general solution, but was not sure
+> about how it could look like. Maybe I've found one now.
+>
+> So, forget about this patch, I will post a useradd class patch in a
+> separate thread instead.
 
-What about mipsel and mips64el? Should need the same I would think...
+Just saw yocto patch 553fa35147adb996d515c3d27f62555d9c969cd8 (oe-core: 
+e8d4356c38e3c2aacd6dc49231c73bcb7d597308) seems to address and fix this 
+problem. Did not find that before... :-|
+
+-- 
+Pengutronix e.K.                           | Enrico J�rns                |
+Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-5080 |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
 
 
