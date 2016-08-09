@@ -1,52 +1,46 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-ua0-f193.google.com (mail-ua0-f193.google.com
-	[209.85.217.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 09C1F7706E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f47.google.com (mail-it0-f47.google.com
+	[209.85.214.47])
+	by mail.openembedded.org (Postfix) with ESMTP id D02F765CC2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Aug 2016 09:22:16 +0000 (UTC)
-Received: by mail-ua0-f193.google.com with SMTP id 109so542214uat.2
+	Tue,  9 Aug 2016 10:00:07 +0000 (UTC)
+Received: by mail-it0-f47.google.com with SMTP id x130so8608585ite.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Aug 2016 02:22:17 -0700 (PDT)
+	Tue, 09 Aug 2016 03:00:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=CH4wxUBGEIZBBckQie4pG76Ba3FEJkfjiNUb+eMvS94=;
-	b=wfXFo0rKoVdbGhbOFxHwZN1vuiCfyPaMQE/XulmI28HvRCn4Q81e6djfycBd6wBaI5
-	/PkyzBzfUwBg8ugiBbm76bA+UC6hMS603DzMOaJ/5B2ljh/aVeAQUvyrpqHY7z0wQhiq
-	yziQtt00IIW0FUjky6Hcgi5pn5f9RfLiV+pUiteSWUud29QrZ9+1dv2mZQGQhfhHwxqF
-	lsrtuTWQpAqYYC98uq0sAP8MNpD+Nsp6f1wYz7lZTrutveMcz2UbVMp9YuZBu51KNHoK
-	dhcruHTiqfADs/O0aQoa/+7GD78zlWY9jztYrIBaKXgf6kqyVKCQrdimA6oSo7E0g6/r
-	PRKw==
+	:cc; bh=+eRVBNI4UbLtofhGZXWJo19WWkEIF2I6GwkPRKnT04M=;
+	b=kIgspdMFtwi8np7e0Fes2R4qfC3iC4/PeRItVYuMdZPgTcwkQQlhxkwyj81FN4fubT
+	sCz/4qVHXx9jrRDCng0SawZaWajB+IS+P5JjlxwL3bn5tkbB/Jad86Tm2U6Jz4BiQjI+
+	V4rQKBTrtiEqc8pqfCggX1OZxY4VBTyfiuDk7Cp1sjVPUNqB980ImXdFpAyrdD4Mhcig
+	td3u28pulJfXfNcRTjsNtm3cny5HhyUOgnCHdNKYZMQHd8+d7tPGmAYzkHVLdBl4WHG2
+	RGWLSha00tKdtfLZiQ+f/teCjlXcwDeSq/b8IbCJjCpjdcNXYnCw21VgpUt33Gmc7LM3
+	YoYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=CH4wxUBGEIZBBckQie4pG76Ba3FEJkfjiNUb+eMvS94=;
-	b=Dpaco9ZdWeV7bD9Pb+K9TZqf4fgMKNdbo6cNr7z6hM9cBMAkJjg8UrqynL77T11R87
-	bZvJZw4mUoCOjUlkZBmWkbZ/LuHUq5YQ0bW6EHLv4RIpzECaI6Czz9H9yp7Tpdw6c8j6
-	DFeNNZFUpVOVzQXwMwWtDr/ETf6zDifNJ0uEzo3/6dkJHHj4HIr2LIJ40Hp5hMtS2QYp
-	zjmi7p5UwDfJ0hEHktYxyoIhZ6SHnFqtE4AyYipXfbYYY24Za5rCWZm8yC7fAGAqpLB4
-	KAZb5W68ayoJUNHp5nV+QZM5uajqiFYfS2Cgh61b1jUWeCuYfbCe29MSPkn5kQSp7e4n
-	R5WA==
-X-Gm-Message-State: AEkoouveBPhpXzqrjfcM4ire5oulb4DT1OEEhQNU50KUNTZ00pNA20Hla7O9+XLX/5UEtBpXdAQpUK1JxJK16w==
-X-Received: by 10.31.218.198 with SMTP id r189mr49051075vkg.30.1470734537067; 
-	Tue, 09 Aug 2016 02:22:17 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=+eRVBNI4UbLtofhGZXWJo19WWkEIF2I6GwkPRKnT04M=;
+	b=l5zEd35+WVlZE+7I1/cMKzmINAsN9Iok1evTLrQtvbTBUN/KEVIrTojvlGAl76hpDa
+	K/Mc4iwNGXacHtGjEdvOacn9m4SchCEjdrqYdc6VTh6QVo/YXb6fn5/XBeQLdyeOFnB1
+	0tRMzcdmBhpC/xsiNpZkM437veEnytkvN91PH9TjcHCyFC4b73+o7dlgKfFc/PWJrsY9
+	Q25hE8qvsaTZsf5Zz/ccZCZVdn7NWQzZf/H4vymAv2dAL+uLRW09iekZ57NOLcGuZm2c
+	Vt+S5W2sc5D9zdB4bmmYgYL2OeCCXbG+iTRvTPCXYUDbq+aRhSbXl5bSgYcuXMKuiWd/
+	zgMA==
+X-Gm-Message-State: AEkoouunX63xf/J7NDDv1EDaLHSCfoMPPnz3SNk6SWhNkUrf4M5hlOTV/kIDKmlGtLmMkZEnGt7rTn8ol/McyC0Z
+X-Received: by 10.36.20.75 with SMTP id 72mr22615672itg.83.1470736807750; Tue,
+	09 Aug 2016 03:00:07 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.176.66.66 with HTTP; Tue, 9 Aug 2016 02:22:16 -0700 (PDT)
-In-Reply-To: <CALbNGRSP+nbV045-UaW_bZXv0iwnTe-MhjMLe3NEqAeg=-6Lyw@mail.gmail.com>
-References: <20160729222801.9806-1-raj.khem@gmail.com>
-	<CAP9ODKr5zc+cB-iGcze7Uq8DswUko=2cReYhWLyURe5DwLuE2Q@mail.gmail.com>
-	<1741854.t2UPzGOPnl@peggleto-mobl.ger.corp.intel.com>
-	<CALbNGRSP+nbV045-UaW_bZXv0iwnTe-MhjMLe3NEqAeg=-6Lyw@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-Date: Tue, 9 Aug 2016 11:22:16 +0200
-Message-ID: <CALbNGRTfPz3h=G3WJG88ShDtCJjgFj1zTk0kT=Ri+k_N6d=tog@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] linux-dtb.inc: Support for .dtbo files for dtb overlays
+Received: by 10.107.18.17 with HTTP; Tue, 9 Aug 2016 02:59:47 -0700 (PDT)
+In-Reply-To: <1470170722-9101-1-git-send-email-humberto.ibarra.lopez@intel.com>
+References: <1470170722-9101-1-git-send-email-humberto.ibarra.lopez@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 9 Aug 2016 10:59:47 +0100
+Message-ID: <CAJTo0LaaHoJgHC40zoNTkXuG6CpcELmmQz6XRm_pQgCSTTcJ0w@mail.gmail.com>
+To: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] oe-selftest: reorganize syntax to use subcommands
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,56 +53,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Aug 2016 09:22:17 -0000
+X-List-Received-Date: Tue, 09 Aug 2016 10:00:08 -0000
+Content-Type: multipart/alternative; boundary=001a11446942fc14540539a09888
+
+--001a11446942fc14540539a09888
 Content-Type: text/plain; charset=UTF-8
+
+On 2 August 2016 at 21:45, Humberto Ibarra <humberto.ibarra.lopez@intel.com>
+wrote:
+
+> The current syntax of oe-selftest is messy. This patch reorganizes it in a
+> clearer way by grouping all functions in a 'run' subcommand and a 'list'
+> subcommand.
+>
+
+This breaks the AB as the commands it invokes don't work anymore.  Is there
+a plan to migrate the autobuilder to support both the old and new commands?
+
+Ross
+
+--001a11446942fc14540539a09888
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 8, 2016 at 9:31 AM, Andreas M=C3=BCller
-<schnitzeltony@googlemail.com> wrote:
-> On Sun, Jul 31, 2016 at 11:17 PM, Paul Eggleton
-> <paul.eggleton@linux.intel.com> wrote:
->> On Sat, 30 Jul 2016 08:00:45 Otavio Salvador wrote:
->>> On Fri, Jul 29, 2016 at 7:27 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>> > From: Herve Jourdain <herve.jourdain@neuf.fr>
->>> >
->>> > Signed-off-by: Herve Jourdain <herve.jourdain@neuf.fr>
->>> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>> > ---
->>> >
->>> >  meta/recipes-kernel/linux/linux-dtb.inc | 18 +++++++++++-------
->>> >  1 file changed, 11 insertions(+), 7 deletions(-)
->>> >
->>> > diff --git a/meta/recipes-kernel/linux/linux-dtb.inc
->>> > b/meta/recipes-kernel/linux/linux-dtb.inc index 74f5ef8..8528d64 1006=
-44
->>> > --- a/meta/recipes-kernel/linux/linux-dtb.inc
->>> > +++ b/meta/recipes-kernel/linux/linux-dtb.inc
->>> > @@ -33,12 +33,13 @@ do_compile_append() {
->>> >
->>> >  do_install_append() {
->>> >
->>> >         for DTB in ${KERNEL_DEVICETREE}; do
->>> >
->>> >                 DTB=3D`normalize_dtb "${DTB}"`
->>> >
->>> > -               DTB_BASE_NAME=3D`basename ${DTB} .dtb`
->>> > +               DTB_EXT=3D${DTB##*.}
->>>
->>> Bashism, no?
->>
->> No:
->>
->>   http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.ht=
-ml
->>
-> Anything wrong with this patch. The orinal patch was sent end of May!
->
-Should read before sending... What I meant:
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 2 August 2016 at 21:45, Humberto Ibarra <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:humberto.ibarra.lopez@intel.com" target=3D"_blank">humberto.ibarra.=
+lopez@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" =
+style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><di=
+v id=3D":37c" class=3D"a3s aXjCH m1564d0002bf6b6a6">The current syntax of o=
+e-selftest is messy. This patch reorganizes it in a clearer way by grouping=
+ all functions in a &#39;run&#39; <span class=3D"il">subcommand</span> and =
+a &#39;list&#39; <span class=3D"il">subcommand</span>.</div></blockquote></=
+div><br>This breaks the AB as the commands it invokes don&#39;t work anymor=
+e.=C2=A0 Is there a plan to migrate the autobuilder to support both the old=
+ and new commands?</div><div class=3D"gmail_extra"><br></div><div class=3D"=
+gmail_extra">Ross</div></div>
 
-Is there anything wrong with this patch? The original patch was sent
-end of May, there were pings / a resend but it was never applied. Why
-I insist: It is necessary for RaspberryPi's open source (VC4) patch
-series pending for very long time.
-
-Andreas
-
+--001a11446942fc14540539a09888--
