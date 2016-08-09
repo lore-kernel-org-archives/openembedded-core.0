@@ -1,60 +1,29 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
-	[209.85.220.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B4EC7720E;
-	Tue,  9 Aug 2016 14:41:36 +0000 (UTC)
-Received: by mail-pa0-f44.google.com with SMTP id ti13so6076209pac.0;
-	Tue, 09 Aug 2016 07:41:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:from:in-reply-to:date:cc:message-id:references
-	:to; bh=TLsJC3pAdesMRpCH0XBow2tJt4ByA02EnY1KpwOXhKA=;
-	b=g9q7gVgrgZ/jc2RN6G0WDZ6HyYvtern3G2W0S7IwK/ZEl5PhBVfctjgL2pojjQJyfY
-	P+2BnsKLFsk4oz7V+bW+HnKwDTjdAbuA19k0cvCd/umn2+wQUdsiL5/18uwlnmIPnnGk
-	4t9RDiKDdm75nzwGOuyyCt0F7WiAwoeNIVGoF2NBhwvAEOT3joN6CVoAHOdqA1Og8Yw5
-	Sp1qZ/9OBA7IKthghVP7CoudXI2Kfw0PJEa4JC/FtZ1fmF70oTQiiD+q3a8P1Q8SLhrj
-	91GuBUyavntCBwKWhmeliBMMTwNIZM2MagJxYzHSyvs+GEx9la3M80sCYYwXFyiqCMpj
-	hmnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:mime-version:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=TLsJC3pAdesMRpCH0XBow2tJt4ByA02EnY1KpwOXhKA=;
-	b=Q1MjSHWHZ8aWuMlnrZYEaakiQvRJ5Eg1eoFLYCPq+QUtJu+KSuAehdpZZBovYeM3zx
-	23JkhueuQA1Tn7Zksv0R1FDk2UEkvP25C1LMs/1hzsa7aevG4D3xwLCSDkwUjJYZr1Dq
-	E7ZMQNMWJv3c0pY63+lftABbDgzVTMEsp+AxDKq1CIenwuAkToZw6AHptfw18ur798C+
-	ucQXSl1lvqZPkMgdT8KwPy0C8YzGx0DTcSAr08UxytxEd+NWn/AiSewzRapQh+BxVWp4
-	h1BG5OfX0Xiv4R6cEw7Wp+SdIrFouxurAHhjWVBHOM/+WsOuXbS5mj0/iYDxqopnjxj0
-	0DTQ==
-X-Gm-Message-State: AEkooutSEO+vTvD9dCrWvWKUJ913wbwbsQHGGbzr4LK/fo7tZdAIAl9FWYuJNHvEX14zQA==
-X-Received: by 10.66.164.70 with SMTP id yo6mr70129104pab.47.1470753697159;
-	Tue, 09 Aug 2016 07:41:37 -0700 (PDT)
-Received: from ?IPv6:2601:646:8882:b8c:29dc:cb12:3198:ca66?
-	([2601:646:8882:b8c:29dc:cb12:3198:ca66])
-	by smtp.gmail.com with ESMTPSA id
-	p64sm56665896pfd.11.2016.08.09.07.41.35
-	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 09 Aug 2016 07:41:36 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-X-Pgp-Agent: GPGMail
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAJTo0LY-MVSANSLRBzBGTL2ZJ=Ga=Xijps6jwAGosLK3aE4QLg@mail.gmail.com>
-Date: Tue, 9 Aug 2016 07:42:10 -0700
-Message-Id: <DC67B803-475F-4992-8DFD-B8F5FA7B1D15@gmail.com>
-References: <CC61EFE1-5F39-4848-AD71-8E9C8DEC43C8@gmail.com>
-	<1470637705.8166.29.camel@linuxfoundation.org>
-	<8C207C42-3D61-4C3F-A1DE-F305AA6617BA@gmail.com>
-	<1470644094.8166.37.camel@linuxfoundation.org>
-	<1470646210.8166.38.camel@rpsys.net>
-	<1470647765.4581.23.camel@andred.net>
-	<ACB9AEF7-A7DF-4A88-9762-7569D91AD12D@gmail.com>
-	<1470671991.8166.44.camel@linuxfoundation.org>
-	<CAJTo0LY-MVSANSLRBzBGTL2ZJ=Ga=Xijps6jwAGosLK3aE4QLg@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.3124)
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
-	Yocto Discussion Mailing List <yocto@yoctoproject.org>
-Subject: Re: [RFT] binutils 2.27
+Return-Path: <jose.a.lamego@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A464731F6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  9 Aug 2016 15:20:16 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga104.fm.intel.com with ESMTP; 09 Aug 2016 08:20:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,495,1464678000"; 
+	d="asc'?scan'208";a="746342280"
+Received: from jalamego-mobl2.zpn.intel.com (HELO [10.219.5.140])
+	([10.219.5.140])
+	by FMSMGA003.fm.intel.com with ESMTP; 09 Aug 2016 08:20:16 -0700
+To: ed.bartosh@linux.intel.com
+References: <cover.1470671417.git.jose.a.lamego@linux.intel.com>
+	<1d31183647c7567646a2804ad8f239a722853789.1470671417.git.jose.a.lamego@linux.intel.com>
+	<20160809072638.GA12414@linux.intel.com>
+From: Jose Lamego <jose.a.lamego@linux.intel.com>
+Message-ID: <dc4b4699-8cde-54ac-3d1b-d9387d35fedd@linux.intel.com>
+Date: Tue, 9 Aug 2016 10:20:12 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
+MIME-Version: 1.0
+In-Reply-To: <20160809072638.GA12414@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 19/20] oeqa.selftest.wic: Split configuration from code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,152 +36,491 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Aug 2016 14:41:37 -0000
-X-Groupsio-MsgNum: 85568
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_4F342F10-D6A3-474D-B1AE-D40F130716F6";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Tue, 09 Aug 2016 15:20:17 -0000
+X-Groupsio-MsgNum: 85569
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature";
+	boundary="kHuFErTukRXcaGdC5XOg9DX7vH93mwgQT"
 
---Apple-Mail=_4F342F10-D6A3-474D-B1AE-D40F130716F6
-Content-Type: multipart/alternative;
-	boundary="Apple-Mail=_92320D99-40F6-410B-BFB8-4A26B349BADF"
+--kHuFErTukRXcaGdC5XOg9DX7vH93mwgQT
+Content-Type: multipart/mixed; boundary="wvmwGMR7Wlt6umUXpLFCI3ruB5NMlRbJA"
+From: Jose Lamego <jose.a.lamego@linux.intel.com>
+To: ed.bartosh@linux.intel.com
+Cc: openembedded-core@lists.openembedded.org
+Message-ID: <dc4b4699-8cde-54ac-3d1b-d9387d35fedd@linux.intel.com>
+Subject: Re: [OE-core] [PATCH 19/20] oeqa.selftest.wic: Split configuration
+ from code
+References: <cover.1470671417.git.jose.a.lamego@linux.intel.com>
+ <1d31183647c7567646a2804ad8f239a722853789.1470671417.git.jose.a.lamego@linux.intel.com>
+ <20160809072638.GA12414@linux.intel.com>
+In-Reply-To: <20160809072638.GA12414@linux.intel.com>
 
---Apple-Mail=_92320D99-40F6-410B-BFB8-4A26B349BADF
+--wvmwGMR7Wlt6umUXpLFCI3ruB5NMlRbJA
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+
+Hi Ed, thanks for your quick response.
+
+On 08/09/2016 02:26 AM, Ed Bartosh wrote:
+> Hi Jose,
+>=20
+> On Mon, Aug 08, 2016 at 09:23:07AM -0700, Jose Lamego wrote:
+>> Improve oeqa-selftest capabilities and UX by placing
+>> test configuration features and variables into a separate
+>> configuration file.
+>>
+>=20
+> Frankly I have mixed feelings about these changes. From the first look
+> splitting configuration and code is a good idea. However, looking at th=
+e
+> result I must say I feel like the test became less readable and harder
+> to understand and maintain.
+>=20
+> May be the changes make sense for other tests, but for this one they ma=
+ke
+> my life as a maintainer of this one less easy I'd say.
+I totally understand you point. But before we drop the idea of this
+change for wic, would there be a way to keep the code  understandable
+while leveraging on the configuration file to be able to easily try
+different input/output combinations without touching the test code
+(which is the basic purpose of the change)? Maybe renaming the conf
+variables (see below proposals)?
+If you still believe there would be no benefits from this change, it
+will be better to skip it for wic.
+>=20
+>> [Yocto 9389]
+>>
+>> Signed-off-by: Jose Lamego <jose.a.lamego@linux.intel.com>
+>> ---
+>>  meta/lib/oeqa/selftest/conf/wic.conf |  10 +++
+>>  meta/lib/oeqa/selftest/wic.py        | 150 ++++++++++++++++++++------=
+---------
+>>  2 files changed, 98 insertions(+), 62 deletions(-)
+>>  create mode 100644 meta/lib/oeqa/selftest/conf/wic.conf
+>>
+>> diff --git a/meta/lib/oeqa/selftest/conf/wic.conf b/meta/lib/oeqa/self=
+test/conf/wic.conf
+>> new file mode 100644
+>> index 0000000..e2afb8d
+>> --- /dev/null
+>> +++ b/meta/lib/oeqa/selftest/conf/wic.conf
+>> @@ -0,0 +1,10 @@
+>> +[Wic]
+>> +setUpClass_image1 =3D core-image-minimal
+>> +setUpClass_image2 =3D minimal
+> setUpClass_image2 is not used in the code.
+>=20
+>> +setUpClass_image3 =3D qemux86-directdisk
+>> +setUpClass_image4 =3D directdisk
+>> +setUpClass_image5 =3D wic-image-minimal
+> setUpClass_image1 is an image produced by bitbake, but setUpClass_image=
+3
+> is a name of wic image. They're not the same. Bitbake image is an input=
+
+> for wic and wic image is an output. setUpClass_image5 is again the name=
+
+> of the bitbake target, but it differs from _image3. Naming doesn't refl=
+ect this fact.
+setUpClass_image1 could be renamed to setUpClass_bitbakeImage1
+setUpClass_image3 could be renamed to setClass_wicImage
+setUpClass_image5 to setUpClass_bitbakeImage2
+>=20
+>=20
+>> +setUpClass_features =3D IMAGE_FSTYPES +=3D " hddimg"
+>> +                      MACHINE_FEATURES_append =3D " efi"
+>> +setUpClass_recipes =3D syslinux syslinux-native parted-native gptfdis=
+k-native dosfstools-native mtools-native bmap-tools-native
+> This list is used only once in the test. Moving it to config file makes=
+
+> it longer to understand what's in the list.
+>=20
+>> diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wi=
+c.py
+>> index e550785..dc81457 100644
+>> --- a/meta/lib/oeqa/selftest/wic.py
+>> +++ b/meta/lib/oeqa/selftest/wic.py
+>> @@ -31,6 +31,7 @@ from shutil import rmtree
+>>  from oeqa.selftest.base import oeSelfTest
+>>  from oeqa.utils.commands import runCmd, bitbake, get_bb_var, runqemu
+>>  from oeqa.utils.decorators import testcase
+>> +from oeqa.utils.readconfig import conffile
+>> =20
+>> =20
+>>  class Wic(oeSelfTest):
+>> @@ -39,6 +40,18 @@ class Wic(oeSelfTest):
+>>      resultdir =3D "/var/tmp/wic/build/"
+>>      image_is_ready =3D False
+>> =20
+>> +    @classmethod
+>> +    def setUpClass(cls):
+>> +        # Get test configurations from configuration file
+>> +        cls.config =3D conffile(__file__)
+>> +        cls.image1 =3D cls.config.get('Wic', 'setUpClass_image1')
+>> +        cls.image2 =3D cls.config.get('Wic', 'setUpClass_image2')
+>> +        cls.image3 =3D cls.config.get('Wic', 'setUpClass_image3')
+>> +        cls.image4 =3D cls.config.get('Wic', 'setUpClass_image4')
+>> +        cls.image5 =3D cls.config.get('Wic', 'setUpClass_image5')
+>> +        cls.features =3D cls.config.get('Wic', 'setUpClass_features')=
+
+>> +        cls.recipes =3D cls.config.get('Wic', 'setUpClass_recipes')
+> This looks like a duplication of code and configuration and also hides =
+real
+> image names and features making test much less readable.
+>=20
+>> +
+>>      def setUpLocal(self):
+>>          """This code is executed before each test method."""
+>>          self.write_config('IMAGE_FSTYPES +=3D " hddimg"\n'
+>> @@ -48,9 +61,8 @@ class Wic(oeSelfTest):
+>>          # clean up which can result in the native tools built earlier=
+ in
+>>          # setUpClass being unavailable.
+>>          if not Wic.image_is_ready:
+>> -            bitbake('syslinux syslinux-native parted-native gptfdisk-=
+native '
+>> -                    'dosfstools-native mtools-native bmap-tools-nativ=
+e')
+>> -            bitbake('core-image-minimal')
+>> +            bitbake(self.recipes)
+>> +            bitbake(self.image1)
+> I'd really prefer to see list of dependencies and the image name right
+> in the test code without having to look into configuration file.
+Could this dependency list be renamed to something that reflects its
+nature? something like "nativeDependencies"? So a different dependency
+group could be used from the conf file.
+
+>=20
+> The same is true for pretty much all the changes.
+>=20
+>>              Wic.image_is_ready =3D True
+>> =20
+>>          rmtree(self.resultdir, ignore_errors=3DTrue)
+>> @@ -73,30 +85,35 @@ class Wic(oeSelfTest):
+>>      @testcase(1211)
+>>      def test_build_image_name(self):
+>>          """Test wic create directdisk --image-name core-image-minimal=
+"""
+>> -        self.assertEqual(0, runCmd("wic create directdisk "
+>> -                                   "--image-name core-image-minimal")=
+=2Estatus)
+>> -        self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.d=
+irect")))
+>> +        self.assertEqual(
+>> +            0, runCmd("wic create %s --image-name %s"
+>> +                      % (self.image4, self.image1)).status)
+>> +        self.assertEqual(
+>> +            1, len(glob(self.resultdir + "%s-*.direct" % self.image4)=
+))
+>> =20
+>>      @testcase(1212)
+>>      def test_build_artifacts(self):
+>>          """Test wic create directdisk providing all artifacts."""
+>> -        bbvars =3D dict((var.lower(), get_bb_var(var, 'core-image-min=
+imal')) \
+>> -                        for var in ('STAGING_DATADIR', 'DEPLOY_DIR_IM=
+AGE',
+>> -                                    'STAGING_DIR_NATIVE', 'IMAGE_ROOT=
+FS'))
+>> +        bbvars =3D dict((var.lower(), get_bb_var(var, self.image1))
+>> +                      for var in ('STAGING_DATADIR', 'DEPLOY_DIR_IMAG=
+E',
+>> +                                  'STAGING_DIR_NATIVE', 'IMAGE_ROOTFS=
+'))
+>>          status =3D runCmd("wic create directdisk "
+>>                          "-b %(staging_datadir)s "
+>>                          "-k %(deploy_dir_image)s "
+>>                          "-n %(staging_dir_native)s "
+>>                          "-r %(image_rootfs)s" % bbvars).status
+>>          self.assertEqual(0, status)
+>> -        self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.d=
+irect")))
+>> +        self.assertEqual(1, len(glob(self.resultdir + "%s-*.direct"
+>> +                         % self.image4)))
+>> =20
+>>      @testcase(1157)
+>>      def test_gpt_image(self):
+>> -        """Test creation of core-image-minimal with gpt table and UUI=
+D boot"""
+>> -        self.assertEqual(0, runCmd("wic create directdisk-gpt "
+>> -                                   "--image-name core-image-minimal")=
+=2Estatus)
+>> -        self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.d=
+irect")))
+>> +        """Test creation of %s with gpt table and UUID boot""" % self=
+=2Eimage1
+>> +        self.assertEqual(0, runCmd("wic create %s-gpt "
+>> +                                   "--image-name %s"
+>> +                                   % (self.image4, self.image1)).stat=
+us)
+>> +        self.assertEqual(1, len(glob(self.resultdir + "%s-*.direct"
+>> +                                     % self.image4)))
+>> =20
+>>      @testcase(1213)
+>>      def test_unsupported_subcommand(self):
+>> @@ -127,55 +144,63 @@ class Wic(oeSelfTest):
+>>      @testcase(1264)
+>>      def test_compress_gzip(self):
+>>          """Test compressing an image with gzip"""
+>> -        self.assertEqual(0, runCmd("wic create directdisk "
+>> -                                   "--image-name core-image-minimal "=
+
+>> -                                   "-c gzip").status)
+>> -        self.assertEqual(1, len(glob(self.resultdir + \
+>> -                                         "directdisk-*.direct.gz")))
+>> +        self.assertEqual(0, runCmd("wic create %s "
+>> +                                   "--image-name %s "
+>> +                                   "-c gzip"
+>> +                                   % (self.image4, self.image1)).stat=
+us)
+>> +        self.assertEqual(1, len(glob(
+>> +                                self.resultdir + "%s-*.direct.gz"
+>> +                                % self.image4)))
+>> =20
+>>      @testcase(1265)
+>>      def test_compress_bzip2(self):
+>>          """Test compressing an image with bzip2"""
+>> -        self.assertEqual(0, runCmd("wic create directdisk "
+>> -                                   "--image-name core-image-minimal "=
+
+>> -                                   "-c bzip2").status)
+>> -        self.assertEqual(1, len(glob(self.resultdir + \
+>> -                                         "directdisk-*.direct.bz2")))=
+
+>> +        self.assertEqual(0, runCmd("wic create %s "
+>> +                                   "--image-name %s "
+>> +                                   "-c bzip2"
+>> +                                   % (self.image4, self.image1)).stat=
+us)
+>> +        self.assertEqual(1, len(glob(
+>> +                                self.resultdir + "%s-*.direct.bz2"
+>> +                                % self.image4)))
+>> =20
+>>      @testcase(1266)
+>>      def test_compress_xz(self):
+>>          """Test compressing an image with xz"""
+>> -        self.assertEqual(0, runCmd("wic create directdisk "
+>> -                                   "--image-name core-image-minimal "=
+
+>> -                                   "-c xz").status)
+>> -        self.assertEqual(1, len(glob(self.resultdir + \
+>> -                                         "directdisk-*.direct.xz")))
+>> +        self.assertEqual(0, runCmd("wic create %s "
+>> +                                   "--image-name %s "
+>> +                                   "-c xz"
+>> +                                   % (self.image4, self.image1)).stat=
+us)
+>> +        self.assertEqual(1, len(glob(
+>> +                                self.resultdir + "%s-*.direct.xz"
+>> +                                % self.image4)))
+>> =20
+>>      @testcase(1267)
+>>      def test_wrong_compressor(self):
+>>          """Test how wic breaks if wrong compressor is provided"""
+>> -        self.assertEqual(2, runCmd("wic create directdisk "
+>> -                                   "--image-name core-image-minimal "=
+
+>> -                                   "-c wrong", ignore_status=3DTrue).=
+status)
+>> +        self.assertEqual(2, runCmd("wic create %s "
+>> +                                   "--image-name %s "
+>> +                                   "-c wrong" % (self.image4, self.im=
+age1),
+>> +                                   ignore_status=3DTrue).status)
+>> =20
+>>      @testcase(1268)
+>>      def test_rootfs_indirect_recipes(self):
+>>          """Test usage of rootfs plugin with rootfs recipes"""
+>>          wks =3D "directdisk-multi-rootfs"
+>>          self.assertEqual(0, runCmd("wic create %s "
+>> -                                   "--image-name core-image-minimal "=
+
+>> -                                   "--rootfs rootfs1=3Dcore-image-min=
+imal "
+>> -                                   "--rootfs rootfs2=3Dcore-image-min=
+imal" \
+>> -                                   % wks).status)
+>> +                                   "--image-name %s "
+>> +                                   "--rootfs rootfs1=3D%s "
+>> +                                   "--rootfs rootfs2=3D%s"
+>> +                                   % (wks, self.image1, self.image1,
+>> +                                      self.image1)).status)
+>>          self.assertEqual(1, len(glob(self.resultdir + "%s*.direct" % =
+wks)))
+>> =20
+>>      @testcase(1269)
+>>      def test_rootfs_artifacts(self):
+>>          """Test usage of rootfs plugin with rootfs paths"""
+>> -        bbvars =3D dict((var.lower(), get_bb_var(var, 'core-image-min=
+imal')) \
+>> -                        for var in ('STAGING_DATADIR', 'DEPLOY_DIR_IM=
+AGE',
+>> -                                    'STAGING_DIR_NATIVE', 'IMAGE_ROOT=
+FS'))
+>> -        bbvars['wks'] =3D "directdisk-multi-rootfs"
+>> +        bbvars =3D dict((var.lower(), get_bb_var(var, self.image1))
+>> +                      for var in ('STAGING_DATADIR', 'DEPLOY_DIR_IMAG=
+E',
+>> +                                  'STAGING_DIR_NATIVE', 'IMAGE_ROOTFS=
+'))
+>> +        bbvars['wks'] =3D "%s-multi-rootfs" % self.image4
+>>          status =3D runCmd("wic create %(wks)s "
+>>                          "-b %(staging_datadir)s "
+>>                          "-k %(deploy_dir_image)s "
+>> @@ -191,14 +216,14 @@ class Wic(oeSelfTest):
+>>      def test_iso_image(self):
+>>          """Test creation of hybrid iso image with legacy and EFI boot=
+"""
+>>          self.assertEqual(0, runCmd("wic create mkhybridiso "
+>> -                                   "--image-name core-image-minimal")=
+=2Estatus)
+>> +                                   "--image-name %s" % self.image1).s=
+tatus)
+>>          self.assertEqual(1, len(glob(self.resultdir + "HYBRID_ISO_IMG=
+-*.direct")))
+>>          self.assertEqual(1, len(glob(self.resultdir + "HYBRID_ISO_IMG=
+-*.iso")))
+>> =20
+>>      @testcase(1347)
+>>      def test_image_env(self):
+>>          """Test generation of <image>.env files."""
+>> -        image =3D 'core-image-minimal'
+>> +        image =3D self.image1
+>>          self.assertEqual(0, bitbake('%s -c do_rootfs_wicenv' % image)=
+=2Estatus)
+>>          stdir =3D get_bb_var('STAGING_DIR_TARGET', image)
+>>          imgdatadir =3D os.path.join(stdir, 'imgdata')
+>> @@ -222,11 +247,11 @@ class Wic(oeSelfTest):
+>>      @testcase(1351)
+>>      def test_wic_image_type(self):
+>>          """Test building wic images by bitbake"""
+>> -        self.assertEqual(0, bitbake('wic-image-minimal').status)
+>> +        self.assertEqual(0, bitbake(self.image5).status)
+>> =20
+>>          deploy_dir =3D get_bb_var('DEPLOY_DIR_IMAGE')
+>>          machine =3D get_bb_var('MACHINE')
+>> -        prefix =3D os.path.join(deploy_dir, 'wic-image-minimal-%s.' %=
+ machine)
+>> +        prefix =3D os.path.join(deploy_dir, '%s-%s.' % (self.image5, =
+machine))
+>>          # check if we have result image and manifests symlinks
+>>          # pointing to existing files
+>>          for suffix in ('wic', 'manifest'):
+>> @@ -236,42 +261,42 @@ class Wic(oeSelfTest):
+>> =20
+>>      @testcase(1348)
+>>      def test_qemux86_directdisk(self):
+>> -        """Test creation of qemux-86-directdisk image"""
+>> -        image =3D "qemux86-directdisk"
+>> -        self.assertEqual(0, runCmd("wic create %s -e core-image-minim=
+al" \
+>> -                                   % image).status)
+>> -        self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % =
+image)))
+>> +        """Test creation of %s image""" % self.image3
+>> +        self.assertEqual(0, runCmd("wic create %s -e %s"
+>> +                                   % (self.image3, self.image1)).stat=
+us)
+>> +        self.assertEqual(1, len(glob(self.resultdir + "%s-*direct"
+>> +                                     % self.image3)))
+>> =20
+>>      @testcase(1349)
+>>      def test_mkgummidisk(self):
+>>          """Test creation of mkgummidisk image"""
+>>          image =3D "mkgummidisk"
+>> -        self.assertEqual(0, runCmd("wic create %s -e core-image-minim=
+al" \
+>> -                                   % image).status)
+>> +        self.assertEqual(0, runCmd("wic create %s -e %s"
+>> +                                   % (image, self.image1)).status)
+>>          self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % =
+image)))
+>> =20
+>>      @testcase(1350)
+>>      def test_mkefidisk(self):
+>>          """Test creation of mkefidisk image"""
+>>          image =3D "mkefidisk"
+>> -        self.assertEqual(0, runCmd("wic create %s -e core-image-minim=
+al" \
+>> -                                   % image).status)
+>> +        self.assertEqual(0, runCmd("wic create %s -e %s"
+>> +                                   % (image, self.image1)).status)
+>>          self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % =
+image)))
+>> =20
+>>      @testcase(1385)
+>>      def test_directdisk_bootloader_config(self):
+>> -        """Test creation of directdisk-bootloader-config image"""
+>> -        image =3D "directdisk-bootloader-config"
+>> -        self.assertEqual(0, runCmd("wic create %s -e core-image-minim=
+al" \
+>> -                                   % image).status)
+>> +        """Test creation of %s-bootloader-config image""" % self.imag=
+e4
+>> +        image =3D "%s-bootloader-config" % self.image4
+>> +        self.assertEqual(0, runCmd("wic create %s -e %s"
+>> +                                   % (image, self.image1)).status)
+>>          self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % =
+image)))
+>> =20
+>>      @testcase(1422)
+>>      def test_qemu(self):
+>> -        """Test wic-image-minimal under qemu"""
+>> -        self.assertEqual(0, bitbake('wic-image-minimal').status)
+>> +        """Test %s under qemu""" % self.image5
+>> +        self.assertEqual(0, bitbake(self.image5).status)
+>> =20
+>> -        with runqemu('wic-image-minimal', ssh=3DFalse) as qemu:
+>> +        with runqemu(self.image5, ssh=3DFalse) as qemu:
+>>              command =3D "mount |grep '^/dev/' | cut -f1,3 -d ' '"
+>>              status, output =3D qemu.run_serial(command)
+>>              self.assertEqual(1, status, 'Failed to run command "%s": =
+%s' % (command, output))
+>> @@ -279,8 +304,9 @@ class Wic(oeSelfTest):
+>> =20
+>>      def test_bmap(self):
+>>          """Test generation of .bmap file"""
+>> -        image =3D "directdisk"
+>> -        status =3D runCmd("wic create %s -e core-image-minimal --bmap=
+" % image).status
+>> +        image =3D self.image4
+>> +        status =3D runCmd("wic create %s -e %s --bmap"
+>> +                        % (image, self.image1)).status
+>>          self.assertEqual(0, status)
+>>          self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % =
+image)))
+>>          self.assertEqual(1, len(glob(self.resultdir + "%s-*direct.bma=
+p" % image)))
+>> --=20
+>> 1.8.3.1
+>>
+>> --=20
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>=20
+
+--=20
+Jose Lamego | OTC Embedded Platforms & Tools | GDC
 
 
-> On Aug 8, 2016, at 4:16 PM, Burton, Ross <ross.burton@intel.com> =
-wrote:
->=20
->=20
-> On 8 August 2016 at 16:59, Richard Purdie =
-<richard.purdie@linuxfoundation.org =
-<mailto:richard.purdie@linuxfoundation.org>> wrote:
-> FWIW, I think the connmand segfault on mips and powerpc is hinted at
-> with this bug:
->=20
-> https://bugs.launchpad.net/ubuntu/+source/lua5.3/+bug/1570055 =
-<https://bugs.launchpad.net/ubuntu/+source/lua5.3/+bug/1570055>
->=20
-> connmand is a binary linked with a linker version-script. If I build
-> connmand without that option, it doesn't segfault, at least on mips.
->=20
-> The binutils manuals say you shouldn't build binaries with version
-> scripts:
->=20
-> http://ftp.gnu.org/old-gnu/Manuals/ld-2.9.1/html_node/ld_25.html =
-<http://ftp.gnu.org/old-gnu/Manuals/ld-2.9.1/html_node/ld_25.html>
->=20
-> Its suspected connman might do this to limit the function exposure to
-> its plugins.
->=20
-> Now sure exactly what needs to happen here without more research but =
-it
-> certainly hits at where the problem is. I suspect its the same issue =
-on
-> ppc.
->=20
-> I've verified that with binutils 2.26 on x86-64, a minimal test case =
-for an executable using a version script to limit exported symbols to =
-dlopen()d modules does in fact work.  A toolchain is building now to see =
-what happens in different environments.
+--wvmwGMR7Wlt6umUXpLFCI3ruB5NMlRbJA--
 
-I could also see it on ppc. backtrace, shows the segfault is in exit =
-path and happens in libc
-at this point, I think the problem is how libc is compiled with binutils =
-2.27, connman itself
-is ok.
-
->=20
-> Ross
-
-
---Apple-Mail=_92320D99-40F6-410B-BFB8-4A26B349BADF
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=us-ascii
-
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
-charset=3Dus-ascii"></head><body style=3D"word-wrap: break-word; =
--webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
-class=3D""><br class=3D""><div><blockquote type=3D"cite" class=3D""><div =
-class=3D"">On Aug 8, 2016, at 4:16 PM, Burton, Ross &lt;<a =
-href=3D"mailto:ross.burton@intel.com" =
-class=3D"">ross.burton@intel.com</a>&gt; wrote:</div><br =
-class=3D"Apple-interchange-newline"><div class=3D""><div dir=3D"ltr" =
-class=3D""><div class=3D"gmail_extra"><br class=3D""><div =
-class=3D"gmail_quote">On 8 August 2016 at 16:59, Richard Purdie <span =
-dir=3D"ltr" class=3D"">&lt;<a =
-href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank" =
-class=3D"">richard.purdie@linuxfoundation.org</a>&gt;</span> wrote:<br =
-class=3D""><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":37i" =
-class=3D"a3s aXjCH m1566ae22eb3a0c11">FWIW, I think the connmand =
-segfault on mips and powerpc is hinted at<br class=3D"">
-with this bug:<br class=3D"">
-<br class=3D"">
-<a href=3D"https://bugs.launchpad.net/ubuntu/+source/lua5.3/+bug/1570055" =
-rel=3D"noreferrer" target=3D"_blank" =
-class=3D"">https://bugs.launchpad.net/<wbr =
-class=3D"">ubuntu/+source/lua5.3/+bug/<wbr class=3D"">1570055</a><br =
-class=3D"">
-<br class=3D"">
-connmand is a binary linked with a linker version-script. If I build<br =
-class=3D"">
-connmand without that option, it doesn't segfault, at least on mips.<br =
-class=3D"">
-<br class=3D"">
-The binutils manuals say you shouldn't build binaries with version<br =
-class=3D"">
-scripts:<br class=3D"">
-<br class=3D"">
-<a =
-href=3D"http://ftp.gnu.org/old-gnu/Manuals/ld-2.9.1/html_node/ld_25.html" =
-rel=3D"noreferrer" target=3D"_blank" =
-class=3D"">http://ftp.gnu.org/old-gnu/<wbr =
-class=3D"">Manuals/ld-2.9.1/html_node/ld_<wbr class=3D"">25.html</a><br =
-class=3D"">
-<br class=3D"">
-Its suspected connman might do this to limit the function exposure to<br =
-class=3D"">
-its plugins.<br class=3D"">
-<br class=3D"">
-Now sure exactly what needs to happen here without more research but =
-it<br class=3D"">
-certainly hits at where the problem is. I suspect its the same issue =
-on<br class=3D"">
-ppc.</div></blockquote></div><br class=3D"">I've verified that with =
-binutils 2.26 on x86-64, a minimal test case for an executable using a =
-version script to limit exported symbols to dlopen()d modules does in =
-fact work.&nbsp; A toolchain is building now to see what happens in =
-different environments.</div></div></div></blockquote><div><br =
-class=3D""></div><div>I could also see it on ppc. backtrace, shows the =
-segfault is in exit path and happens in libc</div><div>at this point, I =
-think the problem is how libc is compiled with binutils 2.27, connman =
-itself</div><div>is ok.&nbsp;</div><br class=3D""><blockquote =
-type=3D"cite" class=3D""><div class=3D""><div dir=3D"ltr" class=3D""><div =
-class=3D"gmail_extra"><br class=3D""></div><div =
-class=3D"gmail_extra">Ross</div></div>
-</div></blockquote></div><br class=3D""></body></html>=
-
---Apple-Mail=_92320D99-40F6-410B-BFB8-4A26B349BADF--
-
---Apple-Mail=_4F342F10-D6A3-474D-B1AE-D40F130716F6
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
+--kHuFErTukRXcaGdC5XOg9DX7vH93mwgQT
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
+Version: GnuPG v2.0.22 (GNU/Linux)
 
-iEYEARECAAYFAlep68YACgkQuwUzVZGdMxRbGACbBFTHTJjM6FUXx74dA5CqqLcw
-BWgAn32xx8eY09ajbzeY/DwiX60N2SZV
-=PtDM
+iQEcBAEBAgAGBQJXqfSwAAoJEFJAtowlSEbnxWoH/Rc64Rqym5A8f8WcuH+obOMc
+TBR7/PGUJC0bqwnMW86T/+HM5wvb6+Phx+Ts0T5pBUlbq7EjDZXRwHJLawTHlJKK
+N01wJdHfE3iIWD/dStwrcDcORPQgWj5MeZTDd/v05I98dlnNqmPE80MnNfJcd1dr
+1jjOFbqwtPaYJyXG780yDlZphvhVjbCYFlybOtIftxWhejdoxDJQAJoJpeIR2j4x
+UZAk9GFygWfJtA+B/vZkOepWkOpYYjxZ8kbLVWuGJ80yrXYiKWlP6FD+cuuyl06/
+9O1FAVOwyY/ExBq5ZUDRlZVGhFTWRjnT+f9KDdgcc0NRmCZaDei/KGpxaw0eWSQ=
+=oX2j
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_4F342F10-D6A3-474D-B1AE-D40F130716F6--
+--kHuFErTukRXcaGdC5XOg9DX7vH93mwgQT--
