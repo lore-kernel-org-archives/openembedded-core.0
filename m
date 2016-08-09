@@ -1,45 +1,32 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id E224A77121
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 033C277121
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Aug 2016 08:01:45 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id o80so1525801wme.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Aug 2016 01:01:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=1bNBE82bIiyMqIxGtM2m5NmML1UQ8MYY4OZx+U7X6es=;
-	b=ySvs8jzV/90mkff0nhryYzrnVcVGWeSQvhTlaBcfOtr4OIggzseSmVNp5Ml0FygzgI
-	XLqaDt9HSbOq4Iw41sVbvCcG8vREvPEDNkBpr6MIoRNhiqwuYqGG3SSgAdf6SMqU5CrR
-	zmBd//V0tFD5OcQn2+ZiESqoSq/RimqAvvOs8iH8iZlnMlGjdvh1j9zwBdMY5uVwrq7c
-	fpfTdMGTg3Jvmr3KZyXvvC7/aGgV+IszSNGXjq4sUK2hxAnRokAnWK9x3XS+ICWkHT0t
-	L1CKxGw0z0MIsgEBt4SHmwzO44cdbzOf8K6wJPwJGm0rlDrDAnosROMMUOWNOg6iabAS
-	PdsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=1bNBE82bIiyMqIxGtM2m5NmML1UQ8MYY4OZx+U7X6es=;
-	b=mgMyzG83/LC0fS2Hb7h/SqC9LmSp7e9/NNPsPiP4kzjshAk395ZacrFPLbj3fKOWBG
-	Ezv9/jLEx5pz65A5Km8DawAN1AmKD8BQmT84FRBZEF94aX//sBLB83thcR9vth71jeyb
-	BBnRqSi5rt3qKb5rwomsqvbYLAB6FUnfJaPtPTlWokEWkaMN0qZO4QSe24itGAKP7hRX
-	lfyEc8ehabNRebJhEr2oaGLwTLTQhj4lPI+iTj9jI/r2tszoCBF2ZcSeqMkzKgqIM9vx
-	9b9rIbJZM6e2uolxnWBc8VryxMsoWdwyzNy6gskLwZ35ZoOD5ekE7wxMGP5JCT02Zf+4
-	VNiQ==
-X-Gm-Message-State: AEkoouszlxVD7JIC1urRpSst/3wgnOgKLn/DYjAMYUhwlblxOOqaHLeMOHsuPN2mhe5TWA==
-X-Received: by 10.25.143.20 with SMTP id r20mr28569486lfd.52.1470729705730;
-	Tue, 09 Aug 2016 01:01:45 -0700 (PDT)
-Received: from localhost.localdomain (m77-218-224-24.cust.tele2.se.
-	[77.218.224.24]) by smtp.gmail.com with ESMTPSA id
-	e73sm6204048lji.31.2016.08.09.01.01.44
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 09 Aug 2016 01:01:45 -0700 (PDT)
-From: Ming Liu <liu.ming50@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Aug 2016 10:01:41 +0200
-Message-Id: <1470729701-27518-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Cc: yue.tao@windriver.com, Ming Liu <peter.x.liu@external.atlascopco.com>
-Subject: [PATCH] Use PYTHON_SITEPACKAGES_DIR insted of hard-coded *site-packages*
+	Tue,  9 Aug 2016 08:03:10 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga102.jf.intel.com with ESMTP; 09 Aug 2016 01:03:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,493,1464678000"; d="scan'208";a="862188329"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga003.jf.intel.com with ESMTP; 09 Aug 2016 01:03:10 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.68])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id BF1DA6A4006;
+	Tue,  9 Aug 2016 01:02:55 -0700 (PDT)
+Date: Tue, 9 Aug 2016 10:26:38 +0300
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Jose Lamego <jose.a.lamego@linux.intel.com>
+Message-ID: <20160809072638.GA12414@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <cover.1470671417.git.jose.a.lamego@linux.intel.com>
+	<1d31183647c7567646a2804ad8f239a722853789.1470671417.git.jose.a.lamego@linux.intel.com>
+MIME-Version: 1.0
+In-Reply-To: <1d31183647c7567646a2804ad8f239a722853789.1470671417.git.jose.a.lamego@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 19/20] oeqa.selftest.wic: Split configuration from code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,279 +39,362 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Aug 2016 08:01:46 -0000
+X-List-Received-Date: Tue, 09 Aug 2016 08:03:11 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Ming Liu <peter.x.liu@external.atlascopco.com>
+Hi Jose,
 
-For thoese recipes that are inheriting python*-dir.bbclass, there is
-already a PYTHON_SITEPACKAGES_DIR present, use that definition replacing
-redundant "${libdir}/python*/site-packages".
+On Mon, Aug 08, 2016 at 09:23:07AM -0700, Jose Lamego wrote:
+> Improve oeqa-selftest capabilities and UX by placing
+> test configuration features and variables into a separate
+> configuration file.
+> 
 
-Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
----
- .../bootchart2/bootchart2_0.14.8.bb                |  2 +-
- meta/recipes-devtools/python/python-setuptools.inc |  2 +-
- .../python/python-setuptools_22.0.5.bb             |  2 +-
- meta/recipes-devtools/python/python-smartpm_git.bb | 36 +++++++++++-----------
- meta/recipes-devtools/python/python3-pip_8.1.2.bb  |  8 ++---
- .../python/python3-setuptools_22.0.5.bb            |  2 +-
- meta/recipes-devtools/rpm/rpm_5.4.16.bb            | 18 +++++------
- meta/recipes-kernel/lttng/lttng-tools_git.bb       | 10 +++---
- meta/recipes-kernel/perf/perf.bb                   |  2 +-
- 9 files changed, 41 insertions(+), 41 deletions(-)
+Frankly I have mixed feelings about these changes. From the first look
+splitting configuration and code is a good idea. However, looking at the
+result I must say I feel like the test became less readable and harder
+to understand and maintain.
 
-diff --git a/meta/recipes-devtools/bootchart2/bootchart2_0.14.8.bb b/meta/recipes-devtools/bootchart2/bootchart2_0.14.8.bb
-index d0555c3..d039b1b 100644
---- a/meta/recipes-devtools/bootchart2/bootchart2_0.14.8.bb
-+++ b/meta/recipes-devtools/bootchart2/bootchart2_0.14.8.bb
-@@ -134,7 +134,7 @@ do_install () {
- }
- 
- PACKAGES =+ "pybootchartgui"
--FILES_pybootchartgui += "${libdir}/python*/site-packages/pybootchartgui ${bindir}/pybootchartgui"
-+FILES_pybootchartgui += "${PYTHON_SITEPACKAGES_DIR}/pybootchartgui ${bindir}/pybootchartgui"
- RDEPENDS_pybootchartgui = "python3-pycairo python3-compression python3-image python3-textutils python3-shell python3-compression python3-codecs"
- RDEPENDS_${PN}_class-target += "${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'sysvinit-pidof', 'procps', d)}"
- RDEPENDS_${PN}_class-target += "lsb"
-diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
-index 53a514b..92ca9a0 100644
---- a/meta/recipes-devtools/python/python-setuptools.inc
-+++ b/meta/recipes-devtools/python/python-setuptools.inc
-@@ -17,5 +17,5 @@ UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/setuptools"
- S = "${WORKDIR}/${SRCNAME}-${PV}"
- 
- do_install_prepend() {
--    install -d ${D}/${libdir}/${PYTHON_DIR}/site-packages
-+    install -d ${D}${PYTHON_SITEPACKAGES_DIR}
- }
-diff --git a/meta/recipes-devtools/python/python-setuptools_22.0.5.bb b/meta/recipes-devtools/python/python-setuptools_22.0.5.bb
-index c172039..526474c 100644
---- a/meta/recipes-devtools/python/python-setuptools_22.0.5.bb
-+++ b/meta/recipes-devtools/python/python-setuptools_22.0.5.bb
-@@ -7,7 +7,7 @@ DEPENDS_class-native += "python-native"
- 
- inherit distutils
- 
--DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${libdir}/${PYTHON_DIR}/site-packages"
-+DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${PYTHON_SITEPACKAGES_DIR}"
- 
- RDEPENDS_${PN} = "\
-   python-stringold \
-diff --git a/meta/recipes-devtools/python/python-smartpm_git.bb b/meta/recipes-devtools/python/python-smartpm_git.bb
-index 81e45b7..0f0cfaa 100644
---- a/meta/recipes-devtools/python/python-smartpm_git.bb
-+++ b/meta/recipes-devtools/python/python-smartpm_git.bb
-@@ -55,41 +55,41 @@ inherit distutils
- 
- do_install_append() {
-    # We don't support the following items
--   rm -rf ${D}${libdir}/python*/site-packages/smart/backends/slack
--   rm -rf ${D}${libdir}/python*/site-packages/smart/backends/arch
--   rm -rf ${D}${libdir}/python*/site-packages/smart/interfaces/qt
-+   rm -rf ${D}${PYTHON_SITEPACKAGES_DIR}/smart/backends/slack
-+   rm -rf ${D}${PYTHON_SITEPACKAGES_DIR}/smart/backends/arch
-+   rm -rf ${D}${PYTHON_SITEPACKAGES_DIR}/smart/interfaces/qt
- 
-    # Temporary, debian support in OE is missing the python module
--   rm -f ${D}${libdir}/python*/site-packages/smart/plugins/aptchannelsync.py*
--   rm -f ${D}${libdir}/python*/site-packages/smart/plugins/debdir.py*
--   rm -rf ${D}${libdir}/python*/site-packages/smart/backends/deb
-+   rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/smart/plugins/aptchannelsync.py*
-+   rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/smart/plugins/debdir.py*
-+   rm -rf ${D}${PYTHON_SITEPACKAGES_DIR}/smart/backends/deb
- 
-    # Disable automatic channel detection
--   rm -f ${D}${libdir}/python*/site-packages/smart/plugins/detectsys.py*
-+   rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/smart/plugins/detectsys.py*
- 
-    # Disable landscape support
--   rm -f ${D}${libdir}/python*/site-packages/smart/plugins/landscape.py*
-+   rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/smart/plugins/landscape.py*
- 
-    # Disable urpmi channel support
--   rm -f ${D}${libdir}/python*/site-packages/smart/plugins/urpmichannelsync.py*
-+   rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/smart/plugins/urpmichannelsync.py*
- 
-    # Disable yum channel support
--   rm -f ${D}${libdir}/python*/site-packages/smart/plugins/yumchannelsync.py*
-+   rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/smart/plugins/yumchannelsync.py*
- 
-    # Disable zypper channel support
--   rm -f ${D}${libdir}/python*/site-packages/smart/plugins/zyppchannelsync.py*
-+   rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/smart/plugins/zyppchannelsync.py*
- 
-    if [ -z "${@bb.utils.contains('PACKAGECONFIG', 'rpm', 'rpm', '', d)}" ]; then
--      rm -f ${D}${libdir}/python*/site-packages/smart/plugins/rpmdir.py*
--      rm -rf ${D}${libdir}/python*/site-packages/smart/backends/rpm
-+      rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/smart/plugins/rpmdir.py*
-+      rm -rf ${D}${PYTHON_SITEPACKAGES_DIR}/smart/backends/rpm
-    fi
- 
-    if [ -z "${@bb.utils.contains('PACKAGECONFIG', 'qt4', 'qt4', '', d)}" ]; then
--      rm -rf ${D}${libdir}/python*/site-packages/smart/interfaces/qt4
-+      rm -rf ${D}${PYTHON_SITEPACKAGES_DIR}/smart/interfaces/qt4
-    fi
- 
-    if [ -z "${@bb.utils.contains('PACKAGECONFIG', 'gtk+', 'gtk', '', d)}" ]; then
--      rm -rf ${D}${libdir}/python*/site-packages/smart/interfaces/gtk
-+      rm -rf ${D}${PYTHON_SITEPACKAGES_DIR}/smart/interfaces/gtk
-    fi
- }
- 
-@@ -129,10 +129,10 @@ RDEPENDS_${PN}-interface-gtk = "gtk+ ${PN}-interface-images"
- 
- FILES_smartpm = "${bindir}/smart"
- 
--FILES_${PN}-backend-rpm = "${libdir}/python*/site-packages/smart/backends/rpm"
-+FILES_${PN}-backend-rpm = "${PYTHON_SITEPACKAGES_DIR}/smart/backends/rpm"
- 
--FILES_${PN}-interface-qt4 = "${libdir}/python*/site-packages/smart/interfaces/qt4"
--FILES_${PN}-interface-gtk = "${libdir}/python*/site-packages/smart/interfaces/gtk"
-+FILES_${PN}-interface-qt4 = "${PYTHON_SITEPACKAGES_DIR}/smart/interfaces/qt4"
-+FILES_${PN}-interface-gtk = "${PYTHON_SITEPACKAGES_DIR}/smart/interfaces/gtk"
- FILES_${PN}-interface-images = "${datadir}/${baselib}/python*/site-packages/smart/interfaces/images"
- 
- BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-pip_8.1.2.bb b/meta/recipes-devtools/python/python3-pip_8.1.2.bb
-index e319dff..eefb4cb 100644
---- a/meta/recipes-devtools/python/python3-pip_8.1.2.bb
-+++ b/meta/recipes-devtools/python/python3-pip_8.1.2.bb
-@@ -18,16 +18,16 @@ S = "${WORKDIR}/${SRCNAME}-${PV}"
- 
- inherit distutils3
- 
--DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${libdir}/${PYTHON_DIR}/site-packages"
-+DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${PYTHON_SITEPACKAGES_DIR}"
- 
- do_install_prepend() {
--    install -d ${D}/${libdir}/${PYTHON_DIR}/site-packages
-+    install -d ${D}${PYTHON_SITEPACKAGES_DIR}
- }
- 
- # Use setuptools site.py instead, avoid shared state issue
- do_install_append() {
--    rm ${D}/${libdir}/${PYTHON_DIR}/site-packages/site.py
--    rm ${D}/${libdir}/${PYTHON_DIR}/site-packages/__pycache__/site.cpython-*.pyc
-+    rm ${D}${PYTHON_SITEPACKAGES_DIR}/site.py
-+    rm ${D}${PYTHON_SITEPACKAGES_DIR}/__pycache__/site.cpython-*.pyc
- 
-     # Install as pip3 and leave pip2 as default
-     rm ${D}/${bindir}/pip
-diff --git a/meta/recipes-devtools/python/python3-setuptools_22.0.5.bb b/meta/recipes-devtools/python/python3-setuptools_22.0.5.bb
-index fb2931c..65af6f0 100644
---- a/meta/recipes-devtools/python/python3-setuptools_22.0.5.bb
-+++ b/meta/recipes-devtools/python/python3-setuptools_22.0.5.bb
-@@ -5,7 +5,7 @@ DEPENDS_class-native += "python3-native"
- 
- inherit distutils3
- 
--DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${libdir}/${PYTHON_DIR}/site-packages"
-+DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${PYTHON_SITEPACKAGES_DIR}"
- 
- # The installer puts the wrong path in the setuptools.pth file.  Correct it.
- do_install_append() {
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.16.bb b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-index d264d50..84adef6 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.16.bb
-@@ -259,7 +259,7 @@ PACKAGECONFIG[xar] = "--with-xar,--without-xar,xar,"
- 
- WITH_PYTHON = " --with-python=${PYTHON_BASEVERSION} \
- 		--with-python-inc-dir=${STAGING_INCDIR}/python${PYTHON_BASEVERSION} \
--		--with-python-lib-dir=${libdir}/python${PYTHON_BASEVERSION}/site-packages \
-+		--with-python-lib-dir=${PYTHON_SITEPACKAGES_DIR} \
- 		--without-pythonembed"
- PACKAGECONFIG[python] = "${WITH_PYTHON},--without-python,python,"
- 
-@@ -477,7 +477,7 @@ RDEPENDS_${PN}-build = "file bash perl"
- 
- RDEPENDS_python-rpm = "${PN} python"
- 
--FILES_python-rpm = "${libdir}/python*/site-packages/rpm"
-+FILES_python-rpm = "${PYTHON_SITEPACKAGES_DIR}/rpm"
- PROVIDES += "python-rpm"
- 
- FILES_perl-module-rpm = "${libdir}/perl/*/* \
-@@ -512,7 +512,7 @@ FILES_${PN}-staticdev = " \
- 		${libdir}/librpmmisc.a \
- 		${libdir}/librpmbuild.a \
- 		${libdir}/rpm/lib/liblua.a \
--		${libdir}/python*/site-packages/rpm/*.a \
-+		${PYTHON_SITEPACKAGES_DIR}/rpm/*.a \
- 		"
- 
- do_configure() {
-@@ -581,10 +581,10 @@ do_install_append() {
- 	rm -f ${D}/${mandir}/man1/lz*.1
- 	rm -f ${D}/${libdir}/pkgconfig/liblzma*
- 
--	rm -f ${D}/${libdir}/python%{with_python_version}/site-packages/*.a
--	rm -f ${D}/${libdir}/python%{with_python_version}/site-packages/*.la
--	rm -f ${D}/${libdir}/python%{with_python_version}/site-packages/rpm/*.a
--	rm -f ${D}/${libdir}/python%{with_python_version}/site-packages/rpm/*.la
-+	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/*.a
-+	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/*.la
-+	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/rpm/*.a
-+	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/rpm/*.la
- 
- 	#find ${D}/${libdir}/perl5 -type f -a \( -name perllocal.pod -o -name .packlist \
- 	#	-o \( -name '*.bs' -a -empty \) \) -exec rm -f {} ';'
-@@ -647,11 +647,11 @@ EOF
- }
- 
- do_install_append_class-native () {
--	sed -i -e 's|^#!.*/usr/bin/python|#! /usr/bin/env nativepython|' ${D}/${libdir}/python2.7/site-packages/rpm/transaction.py
-+	sed -i -e 's|^#!.*/usr/bin/python|#! /usr/bin/env nativepython|' ${D}${PYTHON_SITEPACKAGES_DIR}/rpm/transaction.py
- }
- 
- do_install_append_class-nativesdk () {
--	sed -i -e 's|^#!.*/usr/bin/python|#! /usr/bin/env python|' ${D}/${libdir}/python2.7/site-packages/rpm/transaction.py
-+	sed -i -e 's|^#!.*/usr/bin/python|#! /usr/bin/env python|' ${D}${PYTHON_SITEPACKAGES_DIR}/rpm/transaction.py
- }
- 
- def multilib_rpmmacros(d):
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_git.bb b/meta/recipes-kernel/lttng/lttng-tools_git.bb
-index b0c369c..fe1e2a3 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_git.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_git.bb
-@@ -16,8 +16,8 @@ RDEPENDS_${PN}-ptest += "make perl bash"
- SRCREV = "a90f2c1e10b759782653a81815625e9d1bbb75ca"
- PV = "2.7.1+git${SRCPV}"
- 
--PYTHON_OPTION = "am_cv_python_pyexecdir='${libdir}/python${PYTHON_BASEVERSION}/site-packages' \
--                 am_cv_python_pythondir='${libdir}/python${PYTHON_BASEVERSION}/site-packages' \
-+PYTHON_OPTION = "am_cv_python_pyexecdir='${PYTHON_SITEPACKAGES_DIR}' \
-+                 am_cv_python_pythondir='${PYTHON_SITEPACKAGES_DIR}' \
-                  PYTHON_INCLUDE='-I${STAGING_INCDIR}/python${PYTHON_BASEVERSION}${PYTHON_ABI}' \
- "
- PACKAGECONFIG ??= "lttng-ust"
-@@ -39,9 +39,9 @@ USERADD_PACKAGES = "${PN}"
- GROUPADD_PARAM_${PN} = "tracing"
- 
- FILES_${PN} += "${libdir}/lttng/libexec/* ${datadir}/xml/lttng \
--                ${libdir}/python${PYTHON_BASEVERSION}/site-packages/*"
--FILES_${PN}-staticdev += "${libdir}/python${PYTHON_BASEVERSION}/site-packages/*.a"
--FILES_${PN}-dev += "${libdir}/python${PYTHON_BASEVERSION}/site-packages/*.la"
-+                ${PYTHON_SITEPACKAGES_DIR}/*"
-+FILES_${PN}-staticdev += "${PYTHON_SITEPACKAGES_DIR}/*.a"
-+FILES_${PN}-dev += "${PYTHON_SITEPACKAGES_DIR}/*.la"
- 
- # Since files are installed into ${libdir}/lttng/libexec we match 
- # the libexec insane test so skip it.
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index 1e84a22..d485548 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -217,7 +217,7 @@ RSUGGESTS_${PN} += "${PN}-archive ${PN}-tests ${RSUGGESTS_SCRIPTING}"
- FILES_${PN} += "${libexecdir}/perf-core ${exec_prefix}/libexec/perf-core ${libdir}/traceevent"
- FILES_${PN}-archive = "${libdir}/perf/perf-core/perf-archive"
- FILES_${PN}-tests = "${libdir}/perf/perf-core/tests ${libexecdir}/perf-core/tests"
--FILES_${PN}-python = "${libdir}/python*/site-packages ${libdir}/perf/perf-core/scripts/python"
-+FILES_${PN}-python = "${libdir}/perf/perf-core/scripts/python ${PYTHON_SITEPACKAGES_DIR}"
- FILES_${PN}-python += "${libexecdir}/perf-core/scripts/python/*"
- FILES_${PN}-perl = "${libdir}/perf/perf-core/scripts/perl"
- 
+May be the changes make sense for other tests, but for this one they make
+my life as a maintainer of this one less easy I'd say.
+
+> [Yocto 9389]
+> 
+> Signed-off-by: Jose Lamego <jose.a.lamego@linux.intel.com>
+> ---
+>  meta/lib/oeqa/selftest/conf/wic.conf |  10 +++
+>  meta/lib/oeqa/selftest/wic.py        | 150 ++++++++++++++++++++---------------
+>  2 files changed, 98 insertions(+), 62 deletions(-)
+>  create mode 100644 meta/lib/oeqa/selftest/conf/wic.conf
+> 
+> diff --git a/meta/lib/oeqa/selftest/conf/wic.conf b/meta/lib/oeqa/selftest/conf/wic.conf
+> new file mode 100644
+> index 0000000..e2afb8d
+> --- /dev/null
+> +++ b/meta/lib/oeqa/selftest/conf/wic.conf
+> @@ -0,0 +1,10 @@
+> +[Wic]
+> +setUpClass_image1 = core-image-minimal
+> +setUpClass_image2 = minimal
+setUpClass_image2 is not used in the code.
+
+> +setUpClass_image3 = qemux86-directdisk
+> +setUpClass_image4 = directdisk
+> +setUpClass_image5 = wic-image-minimal
+setUpClass_image1 is an image produced by bitbake, but setUpClass_image3
+is a name of wic image. They're not the same. Bitbake image is an input
+for wic and wic image is an output. setUpClass_image5 is again the name
+of the bitbake target, but it differs from _image3. Naming doesn't reflect this fact.
+
+
+> +setUpClass_features = IMAGE_FSTYPES += " hddimg"
+> +                      MACHINE_FEATURES_append = " efi"
+> +setUpClass_recipes = syslinux syslinux-native parted-native gptfdisk-native dosfstools-native mtools-native bmap-tools-native
+This list is used only once in the test. Moving it to config file makes
+it longer to understand what's in the list.
+
+> diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+> index e550785..dc81457 100644
+> --- a/meta/lib/oeqa/selftest/wic.py
+> +++ b/meta/lib/oeqa/selftest/wic.py
+> @@ -31,6 +31,7 @@ from shutil import rmtree
+>  from oeqa.selftest.base import oeSelfTest
+>  from oeqa.utils.commands import runCmd, bitbake, get_bb_var, runqemu
+>  from oeqa.utils.decorators import testcase
+> +from oeqa.utils.readconfig import conffile
+>  
+>  
+>  class Wic(oeSelfTest):
+> @@ -39,6 +40,18 @@ class Wic(oeSelfTest):
+>      resultdir = "/var/tmp/wic/build/"
+>      image_is_ready = False
+>  
+> +    @classmethod
+> +    def setUpClass(cls):
+> +        # Get test configurations from configuration file
+> +        cls.config = conffile(__file__)
+> +        cls.image1 = cls.config.get('Wic', 'setUpClass_image1')
+> +        cls.image2 = cls.config.get('Wic', 'setUpClass_image2')
+> +        cls.image3 = cls.config.get('Wic', 'setUpClass_image3')
+> +        cls.image4 = cls.config.get('Wic', 'setUpClass_image4')
+> +        cls.image5 = cls.config.get('Wic', 'setUpClass_image5')
+> +        cls.features = cls.config.get('Wic', 'setUpClass_features')
+> +        cls.recipes = cls.config.get('Wic', 'setUpClass_recipes')
+This looks like a duplication of code and configuration and also hides real
+image names and features making test much less readable.
+
+> +
+>      def setUpLocal(self):
+>          """This code is executed before each test method."""
+>          self.write_config('IMAGE_FSTYPES += " hddimg"\n'
+> @@ -48,9 +61,8 @@ class Wic(oeSelfTest):
+>          # clean up which can result in the native tools built earlier in
+>          # setUpClass being unavailable.
+>          if not Wic.image_is_ready:
+> -            bitbake('syslinux syslinux-native parted-native gptfdisk-native '
+> -                    'dosfstools-native mtools-native bmap-tools-native')
+> -            bitbake('core-image-minimal')
+> +            bitbake(self.recipes)
+> +            bitbake(self.image1)
+I'd really prefer to see list of dependencies and the image name right
+in the test code without having to look into configuration file.
+
+The same is true for pretty much all the changes.
+
+>              Wic.image_is_ready = True
+>  
+>          rmtree(self.resultdir, ignore_errors=True)
+> @@ -73,30 +85,35 @@ class Wic(oeSelfTest):
+>      @testcase(1211)
+>      def test_build_image_name(self):
+>          """Test wic create directdisk --image-name core-image-minimal"""
+> -        self.assertEqual(0, runCmd("wic create directdisk "
+> -                                   "--image-name core-image-minimal").status)
+> -        self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
+> +        self.assertEqual(
+> +            0, runCmd("wic create %s --image-name %s"
+> +                      % (self.image4, self.image1)).status)
+> +        self.assertEqual(
+> +            1, len(glob(self.resultdir + "%s-*.direct" % self.image4)))
+>  
+>      @testcase(1212)
+>      def test_build_artifacts(self):
+>          """Test wic create directdisk providing all artifacts."""
+> -        bbvars = dict((var.lower(), get_bb_var(var, 'core-image-minimal')) \
+> -                        for var in ('STAGING_DATADIR', 'DEPLOY_DIR_IMAGE',
+> -                                    'STAGING_DIR_NATIVE', 'IMAGE_ROOTFS'))
+> +        bbvars = dict((var.lower(), get_bb_var(var, self.image1))
+> +                      for var in ('STAGING_DATADIR', 'DEPLOY_DIR_IMAGE',
+> +                                  'STAGING_DIR_NATIVE', 'IMAGE_ROOTFS'))
+>          status = runCmd("wic create directdisk "
+>                          "-b %(staging_datadir)s "
+>                          "-k %(deploy_dir_image)s "
+>                          "-n %(staging_dir_native)s "
+>                          "-r %(image_rootfs)s" % bbvars).status
+>          self.assertEqual(0, status)
+> -        self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
+> +        self.assertEqual(1, len(glob(self.resultdir + "%s-*.direct"
+> +                         % self.image4)))
+>  
+>      @testcase(1157)
+>      def test_gpt_image(self):
+> -        """Test creation of core-image-minimal with gpt table and UUID boot"""
+> -        self.assertEqual(0, runCmd("wic create directdisk-gpt "
+> -                                   "--image-name core-image-minimal").status)
+> -        self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
+> +        """Test creation of %s with gpt table and UUID boot""" % self.image1
+> +        self.assertEqual(0, runCmd("wic create %s-gpt "
+> +                                   "--image-name %s"
+> +                                   % (self.image4, self.image1)).status)
+> +        self.assertEqual(1, len(glob(self.resultdir + "%s-*.direct"
+> +                                     % self.image4)))
+>  
+>      @testcase(1213)
+>      def test_unsupported_subcommand(self):
+> @@ -127,55 +144,63 @@ class Wic(oeSelfTest):
+>      @testcase(1264)
+>      def test_compress_gzip(self):
+>          """Test compressing an image with gzip"""
+> -        self.assertEqual(0, runCmd("wic create directdisk "
+> -                                   "--image-name core-image-minimal "
+> -                                   "-c gzip").status)
+> -        self.assertEqual(1, len(glob(self.resultdir + \
+> -                                         "directdisk-*.direct.gz")))
+> +        self.assertEqual(0, runCmd("wic create %s "
+> +                                   "--image-name %s "
+> +                                   "-c gzip"
+> +                                   % (self.image4, self.image1)).status)
+> +        self.assertEqual(1, len(glob(
+> +                                self.resultdir + "%s-*.direct.gz"
+> +                                % self.image4)))
+>  
+>      @testcase(1265)
+>      def test_compress_bzip2(self):
+>          """Test compressing an image with bzip2"""
+> -        self.assertEqual(0, runCmd("wic create directdisk "
+> -                                   "--image-name core-image-minimal "
+> -                                   "-c bzip2").status)
+> -        self.assertEqual(1, len(glob(self.resultdir + \
+> -                                         "directdisk-*.direct.bz2")))
+> +        self.assertEqual(0, runCmd("wic create %s "
+> +                                   "--image-name %s "
+> +                                   "-c bzip2"
+> +                                   % (self.image4, self.image1)).status)
+> +        self.assertEqual(1, len(glob(
+> +                                self.resultdir + "%s-*.direct.bz2"
+> +                                % self.image4)))
+>  
+>      @testcase(1266)
+>      def test_compress_xz(self):
+>          """Test compressing an image with xz"""
+> -        self.assertEqual(0, runCmd("wic create directdisk "
+> -                                   "--image-name core-image-minimal "
+> -                                   "-c xz").status)
+> -        self.assertEqual(1, len(glob(self.resultdir + \
+> -                                         "directdisk-*.direct.xz")))
+> +        self.assertEqual(0, runCmd("wic create %s "
+> +                                   "--image-name %s "
+> +                                   "-c xz"
+> +                                   % (self.image4, self.image1)).status)
+> +        self.assertEqual(1, len(glob(
+> +                                self.resultdir + "%s-*.direct.xz"
+> +                                % self.image4)))
+>  
+>      @testcase(1267)
+>      def test_wrong_compressor(self):
+>          """Test how wic breaks if wrong compressor is provided"""
+> -        self.assertEqual(2, runCmd("wic create directdisk "
+> -                                   "--image-name core-image-minimal "
+> -                                   "-c wrong", ignore_status=True).status)
+> +        self.assertEqual(2, runCmd("wic create %s "
+> +                                   "--image-name %s "
+> +                                   "-c wrong" % (self.image4, self.image1),
+> +                                   ignore_status=True).status)
+>  
+>      @testcase(1268)
+>      def test_rootfs_indirect_recipes(self):
+>          """Test usage of rootfs plugin with rootfs recipes"""
+>          wks = "directdisk-multi-rootfs"
+>          self.assertEqual(0, runCmd("wic create %s "
+> -                                   "--image-name core-image-minimal "
+> -                                   "--rootfs rootfs1=core-image-minimal "
+> -                                   "--rootfs rootfs2=core-image-minimal" \
+> -                                   % wks).status)
+> +                                   "--image-name %s "
+> +                                   "--rootfs rootfs1=%s "
+> +                                   "--rootfs rootfs2=%s"
+> +                                   % (wks, self.image1, self.image1,
+> +                                      self.image1)).status)
+>          self.assertEqual(1, len(glob(self.resultdir + "%s*.direct" % wks)))
+>  
+>      @testcase(1269)
+>      def test_rootfs_artifacts(self):
+>          """Test usage of rootfs plugin with rootfs paths"""
+> -        bbvars = dict((var.lower(), get_bb_var(var, 'core-image-minimal')) \
+> -                        for var in ('STAGING_DATADIR', 'DEPLOY_DIR_IMAGE',
+> -                                    'STAGING_DIR_NATIVE', 'IMAGE_ROOTFS'))
+> -        bbvars['wks'] = "directdisk-multi-rootfs"
+> +        bbvars = dict((var.lower(), get_bb_var(var, self.image1))
+> +                      for var in ('STAGING_DATADIR', 'DEPLOY_DIR_IMAGE',
+> +                                  'STAGING_DIR_NATIVE', 'IMAGE_ROOTFS'))
+> +        bbvars['wks'] = "%s-multi-rootfs" % self.image4
+>          status = runCmd("wic create %(wks)s "
+>                          "-b %(staging_datadir)s "
+>                          "-k %(deploy_dir_image)s "
+> @@ -191,14 +216,14 @@ class Wic(oeSelfTest):
+>      def test_iso_image(self):
+>          """Test creation of hybrid iso image with legacy and EFI boot"""
+>          self.assertEqual(0, runCmd("wic create mkhybridiso "
+> -                                   "--image-name core-image-minimal").status)
+> +                                   "--image-name %s" % self.image1).status)
+>          self.assertEqual(1, len(glob(self.resultdir + "HYBRID_ISO_IMG-*.direct")))
+>          self.assertEqual(1, len(glob(self.resultdir + "HYBRID_ISO_IMG-*.iso")))
+>  
+>      @testcase(1347)
+>      def test_image_env(self):
+>          """Test generation of <image>.env files."""
+> -        image = 'core-image-minimal'
+> +        image = self.image1
+>          self.assertEqual(0, bitbake('%s -c do_rootfs_wicenv' % image).status)
+>          stdir = get_bb_var('STAGING_DIR_TARGET', image)
+>          imgdatadir = os.path.join(stdir, 'imgdata')
+> @@ -222,11 +247,11 @@ class Wic(oeSelfTest):
+>      @testcase(1351)
+>      def test_wic_image_type(self):
+>          """Test building wic images by bitbake"""
+> -        self.assertEqual(0, bitbake('wic-image-minimal').status)
+> +        self.assertEqual(0, bitbake(self.image5).status)
+>  
+>          deploy_dir = get_bb_var('DEPLOY_DIR_IMAGE')
+>          machine = get_bb_var('MACHINE')
+> -        prefix = os.path.join(deploy_dir, 'wic-image-minimal-%s.' % machine)
+> +        prefix = os.path.join(deploy_dir, '%s-%s.' % (self.image5, machine))
+>          # check if we have result image and manifests symlinks
+>          # pointing to existing files
+>          for suffix in ('wic', 'manifest'):
+> @@ -236,42 +261,42 @@ class Wic(oeSelfTest):
+>  
+>      @testcase(1348)
+>      def test_qemux86_directdisk(self):
+> -        """Test creation of qemux-86-directdisk image"""
+> -        image = "qemux86-directdisk"
+> -        self.assertEqual(0, runCmd("wic create %s -e core-image-minimal" \
+> -                                   % image).status)
+> -        self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
+> +        """Test creation of %s image""" % self.image3
+> +        self.assertEqual(0, runCmd("wic create %s -e %s"
+> +                                   % (self.image3, self.image1)).status)
+> +        self.assertEqual(1, len(glob(self.resultdir + "%s-*direct"
+> +                                     % self.image3)))
+>  
+>      @testcase(1349)
+>      def test_mkgummidisk(self):
+>          """Test creation of mkgummidisk image"""
+>          image = "mkgummidisk"
+> -        self.assertEqual(0, runCmd("wic create %s -e core-image-minimal" \
+> -                                   % image).status)
+> +        self.assertEqual(0, runCmd("wic create %s -e %s"
+> +                                   % (image, self.image1)).status)
+>          self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
+>  
+>      @testcase(1350)
+>      def test_mkefidisk(self):
+>          """Test creation of mkefidisk image"""
+>          image = "mkefidisk"
+> -        self.assertEqual(0, runCmd("wic create %s -e core-image-minimal" \
+> -                                   % image).status)
+> +        self.assertEqual(0, runCmd("wic create %s -e %s"
+> +                                   % (image, self.image1)).status)
+>          self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
+>  
+>      @testcase(1385)
+>      def test_directdisk_bootloader_config(self):
+> -        """Test creation of directdisk-bootloader-config image"""
+> -        image = "directdisk-bootloader-config"
+> -        self.assertEqual(0, runCmd("wic create %s -e core-image-minimal" \
+> -                                   % image).status)
+> +        """Test creation of %s-bootloader-config image""" % self.image4
+> +        image = "%s-bootloader-config" % self.image4
+> +        self.assertEqual(0, runCmd("wic create %s -e %s"
+> +                                   % (image, self.image1)).status)
+>          self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
+>  
+>      @testcase(1422)
+>      def test_qemu(self):
+> -        """Test wic-image-minimal under qemu"""
+> -        self.assertEqual(0, bitbake('wic-image-minimal').status)
+> +        """Test %s under qemu""" % self.image5
+> +        self.assertEqual(0, bitbake(self.image5).status)
+>  
+> -        with runqemu('wic-image-minimal', ssh=False) as qemu:
+> +        with runqemu(self.image5, ssh=False) as qemu:
+>              command = "mount |grep '^/dev/' | cut -f1,3 -d ' '"
+>              status, output = qemu.run_serial(command)
+>              self.assertEqual(1, status, 'Failed to run command "%s": %s' % (command, output))
+> @@ -279,8 +304,9 @@ class Wic(oeSelfTest):
+>  
+>      def test_bmap(self):
+>          """Test generation of .bmap file"""
+> -        image = "directdisk"
+> -        status = runCmd("wic create %s -e core-image-minimal --bmap" % image).status
+> +        image = self.image4
+> +        status = runCmd("wic create %s -e %s --bmap"
+> +                        % (image, self.image1)).status
+>          self.assertEqual(0, status)
+>          self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
+>          self.assertEqual(1, len(glob(self.resultdir + "%s-*direct.bmap" % image)))
+> -- 
+> 1.8.3.1
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 -- 
-1.9.1
-
+--
+Regards,
+Ed
 
