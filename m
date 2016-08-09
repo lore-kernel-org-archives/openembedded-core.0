@@ -1,53 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f46.google.com (mail-it0-f46.google.com
-	[209.85.214.46])
-	by mail.openembedded.org (Postfix) with ESMTP id A590B77190
+Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
+	[209.85.214.49])
+	by mail.openembedded.org (Postfix) with ESMTP id D88E965CC2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Aug 2016 10:00:39 +0000 (UTC)
-Received: by mail-it0-f46.google.com with SMTP id x130so8618513ite.1
+	Tue,  9 Aug 2016 10:01:53 +0000 (UTC)
+Received: by mail-it0-f49.google.com with SMTP id u186so8628176ita.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Aug 2016 03:00:40 -0700 (PDT)
+	Tue, 09 Aug 2016 03:01:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ExHbe9PblPlJrhBrxYHw/qBRGJ46mF0+bGo/LlusKT8=;
-	b=U2rqiqcjHHHaC13w/kkBLTwsrFjqL4ENIMXzo4/1XYZwSRkTLfjbv3zvg8i7DUJFrN
-	YL4loSqJC4qL4D44xUD8yIt3W3lyOPkmBjloGso8ltOE2EzUVd72iYWAuG+ZV6CvOGVE
-	e+OTFAzCmEAggEUWaTHKNXoR9e8RPIvHle0it5RVCKZcoRMcWU50jYiQcHJcob2pdmiY
-	6PBJSteysMXzm11xfsCMpJjl9FcxgvmQ8D51CQ7B5CCUcFQJGGpfrXeJ7qh108tJC4LN
-	cwpvTb1jd7IaeGEPJkPgIR+hrhlHeZyKf2/hwiyl7Zr3j0e/jvtUAN3LpnV0CMG/JK24
-	70Jw==
+	:cc; bh=CiyXqhB/wGTFOZhdQOkRoxvtQorvk/H9dyiIbTmi+HE=;
+	b=AtJgohI0X3NGLR/mQzcUgtNCPUpYJDkVcQsQwZA2n7CuEGdtZUSrLuuRyKCyky9T7U
+	Bi+OBFEdyp4DBVlvnUPc3HAHL5EqFNmR/YojQjGlSgN2nBUf+zCW3VgCE/5VNiv4fjNr
+	uhoaxTFcRG1lJOAAGvNakSW8oOn4BiKCiVYuZQmj92MB1WmObjXciJSUiyjEzrygHC1+
+	matBvbL6w+cCCrVb+t+QyvvdgMLl4+E3j5RoJm5Lazj85YePkoEW2atZM5of1Vm4JOUp
+	OR6rS5GfJ1P4vdEmvFrDc9AJXyosHzmJbWB/KEdtGAL+0BlX1d9K5Nhslwl4ijKgPJ4A
+	p3sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=ExHbe9PblPlJrhBrxYHw/qBRGJ46mF0+bGo/LlusKT8=;
-	b=TRCMnxIbAnBY4rDoQhPIl4QsR6Ooe3YlMH68NngdUN2W/so4wCnxdlo16zWI8wg4ey
-	srSYFU4EaLVGzlRHaCfg2AyHg6r5w/QR+LJaGJ0WfELIB5EUgoRPO1ymsANSUwq1NOgH
-	EWcBbavcqiq/yuqLWZ/gx8iCWJAD36e1pmrClqCXIuNQKSMI1EZoC+iN6vOnX7n5i/hn
-	Hy1rknX1jpYl/YCK/A5NiMoz4kSd9d9QbEb1n+aj3d+spc0elrjm9lNWPnpQGkV64cah
-	rK+rXvRuWiS94/5DWQ7qEp5wAnIfZwfEPyMBuFQBXTVCSGguVsiAVnnbYpxnmoOj5nqz
-	qnXg==
-X-Gm-Message-State: AEkoouv+VYeG9sF/ASFdp7Vq1dEQZn5KyIItjXS4TdxBJwslOqcBW42OcBN0yjWTSJT9uFGatUgGV5q+yOUitYwo
-X-Received: by 10.36.129.213 with SMTP id q204mr24255536itd.38.1470736839922; 
-	Tue, 09 Aug 2016 03:00:39 -0700 (PDT)
+	bh=CiyXqhB/wGTFOZhdQOkRoxvtQorvk/H9dyiIbTmi+HE=;
+	b=bry6Kp3YuC544tYNbMXL0JVFprh/xpL+ESOZsn9tM+umc7j8Ct2XkE+Qg8JzTPnEgv
+	Ppc+wyo3vHt4SLpp6Fyj/faYzVLmHHEaCTIIV8tJjdqkXDrZRtVK86eCY/WnGuS/Yrw1
+	DukPJW30o2Ca3V3opxq0LfupsyhInuu0txVEbSsvVNlJzupR7T5FkGFohQ7NTyDileXJ
+	fedzLWA+DpjGX0k3u1lJgM/0UfunJRKhAlH3/Mm9pDqcgSM/7fMbid+KziBPYkS1naym
+	2Jx91cKJXMjtJWLhM2bJEe4T8KmLpdwZIeci4NzHKp8TO+GXgEvkHxo1ka/rVF7HpZK4
+	Z3fA==
+X-Gm-Message-State: AEkooutEvfcdueI+fd/sdia/CHoV698j6h/zpdik5RvgWGBh/BoWq85Xz+IqiUBmISyakTkM5EXyJGaGoqvgyVa+
+X-Received: by 10.36.87.140 with SMTP id u134mr24269025ita.38.1470736914217;
+	Tue, 09 Aug 2016 03:01:54 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.18.17 with HTTP; Tue, 9 Aug 2016 03:00:19 -0700 (PDT)
-In-Reply-To: <CALbNGRTfPz3h=G3WJG88ShDtCJjgFj1zTk0kT=Ri+k_N6d=tog@mail.gmail.com>
-References: <20160729222801.9806-1-raj.khem@gmail.com>
-	<CAP9ODKr5zc+cB-iGcze7Uq8DswUko=2cReYhWLyURe5DwLuE2Q@mail.gmail.com>
-	<1741854.t2UPzGOPnl@peggleto-mobl.ger.corp.intel.com>
-	<CALbNGRSP+nbV045-UaW_bZXv0iwnTe-MhjMLe3NEqAeg=-6Lyw@mail.gmail.com>
-	<CALbNGRTfPz3h=G3WJG88ShDtCJjgFj1zTk0kT=Ri+k_N6d=tog@mail.gmail.com>
+Received: by 10.107.18.17 with HTTP; Tue, 9 Aug 2016 03:01:33 -0700 (PDT)
+In-Reply-To: <1469001221-26502-1-git-send-email-kristian.amlie@mender.io>
+References: <1469001221-26502-1-git-send-email-kristian.amlie@mender.io>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 9 Aug 2016 11:00:19 +0100
-Message-ID: <CAJTo0LbSmfeoTfpsTRgZ4ZUr7B+fkjxHBPAmAWu=UWk3UUAj4Q@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Otavio Salvador <otavio.salvador@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] linux-dtb.inc: Support for .dtbo files for dtb overlays
+Date: Tue, 9 Aug 2016 11:01:33 +0100
+Message-ID: <CAJTo0LbW8c7V=5vHXML8srwVgzacqGJp2o0M4OOReVE42DnW0g@mail.gmail.com>
+To: Kristian Amlie <kristian.amlie@mender.io>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [krogoth] systemd network service fails to start on boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,42 +53,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Aug 2016 10:00:39 -0000
-Content-Type: multipart/alternative; boundary=94eb2c08b1fce6ebee0539a09a05
+X-List-Received-Date: Tue, 09 Aug 2016 10:01:56 -0000
+Content-Type: multipart/alternative; boundary=001a1135018c54b3290539a09fa5
 
---94eb2c08b1fce6ebee0539a09a05
+--001a1135018c54b3290539a09fa5
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On 9 August 2016 at 10:22, Andreas M=C3=BCller <schnitzeltony@googlemail.co=
-m>
-wrote:
+On 20 July 2016 at 08:53, Kristian Amlie <kristian.amlie@mender.io> wrote:
 
-> Is there anything wrong with this patch? The original patch was sent
-> end of May, there were pings / a resend but it was never applied. Why
-> I insist: It is necessary for RaspberryPi's open source (VC4) patch
-> series pending for very long time.
+> on our krogoth build the systemd network service does not start, and it
+> seems to be because of missing users, which has already been fixed on
+> master. I've cherry-picked the two patches that fixed the problem for
+> us. Note that they are not written by me, but by other people on this
+> list. I hope they can be applied to krogoth.
 >
 
-Just slipped through the net, now in my staging branch for master.
+Can you send the two patches to this list, with the [krogoth] tag in the
+subject, and your signed-off-by to confirm that you've tested them?
 
+Thanks,
 Ross
 
---94eb2c08b1fce6ebee0539a09a05
+--001a1135018c54b3290539a09fa5
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 9 August 2016 at 10:22, Andreas M=C3=BCller <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:schnitzeltony@googlemail.com" target=3D"_blank">schnitzeltony@g=
-ooglemail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div =
-id=3D":1ra" class=3D"a3s aXjCH m1566e9e5ff760697">Is there anything wrong w=
-ith this patch? The original patch was sent<br>
-end of May, there were pings / a resend but it was never applied. Why<br>
-I insist: It is necessary for RaspberryPi&#39;s open source (VC4) patch<br>
-series pending for very long time.</div></blockquote></div><br>Just slipped=
- through the net, now in my staging branch for master.</div><div class=3D"g=
-mail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+On 20 July 2016 at 08:53, Kristian Amlie <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:kristian.amlie@mender.io" target=3D"_blank">kristian.amlie@mender.io<=
+/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
+0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1ih" cl=
+ass=3D"a3s aXjCH m156074d2f31971f8">on our krogoth build the systemd networ=
+k service does not start, and it<br>
+seems to be because of missing users, which has already been fixed on<br>
+master. I&#39;ve cherry-picked the two patches that fixed the problem for<b=
+r>
+us. Note that they are not written by me, but by other people on this<br>
+list. I hope they can be applied to krogoth.</div></blockquote></div><br>Ca=
+n you send the two patches to this list, with the [krogoth] tag in the subj=
+ect, and your signed-off-by to confirm that you&#39;ve tested them?</div><d=
+iv class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Thanks,</div>=
+<div class=3D"gmail_extra">Ross</div></div>
 
---94eb2c08b1fce6ebee0539a09a05--
+--001a1135018c54b3290539a09fa5--
