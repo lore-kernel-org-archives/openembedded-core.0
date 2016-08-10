@@ -1,49 +1,26 @@
-Return-Path: <kristian.amlie@mender.io>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 300CE771F7
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 10 Aug 2016 07:50:29 +0000 (UTC)
-Received: by mail-wm0-f47.google.com with SMTP id f65so74554780wmi.0
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 10 Aug 2016 00:50:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mender-io.20150623.gappssmtp.com; s=20150623;
-	h=to:from:subject:message-id:date:user-agent:mime-version
-	:content-transfer-encoding;
-	bh=nTmRd44m6UgdCX6yiyDLS0aGcwlG7Th8McFZZ8XR50c=;
-	b=Qco9NXU6sWTatRjaSti1H7/E834Xj7hthzaui2DqVNmpcUo4tcnP0DikvcAbs2wNR6
-	V0GijZqit33+vcQ31ZiM52qpQbpbUOZVJWm0ongPvPI7dm0WI4Twa86NfmJnSzEgVy1A
-	rPeSqUm8C4IVn04ybO3OI+vYLXIjk1AiXBfp9I8zqhdCYoAan1dRRkLjXQFwkWkOU5xd
-	ZilJCfVITd6OwrdYqwFxdAaV1BybzU5jVcRkQdcGnj/EZ3XtJajtZtKVNUCWOJ0Vy+Ar
-	/Bf3kK7jZR508xEAGIEDncz9+w+GzNPPmY0jJFJqfByvRN1TzEaFLXOVZG0NXJxrqKUH
-	IY/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:to:from:subject:message-id:date:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=nTmRd44m6UgdCX6yiyDLS0aGcwlG7Th8McFZZ8XR50c=;
-	b=FbG+5xrOYW/PmSINmb0hT4fu8NOHfntswJBudVYKqBn1JhikPROpAcpNCDQsSWegMF
-	V+bU1bDipUfKfkZ+1d1IndoOg2sN+6SDf9scHlQrmXzPT0H0pvvdCQvdpxppVquP89EC
-	LDHvgptWejKTZYZr6lg/5B6d2hraF3HX4n+0WAQAB2Ds/+6mvVd5VrP6GTakF2GE5/8+
-	SFGez5u+3zP3Xohef65fDqlZ9xR7Dl/m3ESpFb1gZAZTFUFlX5p+yWf3Nt2gyaboAhIL
-	18pmpHwSUxW9eVpllrZNcZwzQw2FJPGoyZF+ty6hc8oLRfRAe5WWNBg0sJlVMGaroj0r
-	atEw==
-X-Gm-Message-State: AEkoouszvgDvxx51RbfUsqrorrdOijXW+ICHg3Wxr+gvf5YxhTD+CUiQLkrG/fTpHV5VOQ==
-X-Received: by 10.25.160.205 with SMTP id j196mr396013lfe.80.1470815430184;
-	Wed, 10 Aug 2016 00:50:30 -0700 (PDT)
-Received: from [10.0.0.50] (cm-84.208.242.60.getinternet.no. [84.208.242.60])
-	by smtp.googlemail.com with ESMTPSA id
-	f3sm7394515lff.21.2016.08.10.00.50.28
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 10 Aug 2016 00:50:29 -0700 (PDT)
-To: Openembedded-core@lists.openembedded.org
-From: Kristian Amlie <kristian.amlie@mender.io>
-Message-ID: <0f6f123e-aaa3-a1a2-7824-f489df6fd88a@mender.io>
-Date: Wed, 10 Aug 2016 09:50:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A5250771F1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Aug 2016 08:13:25 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u7A8DOAT005347
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 10 Aug 2016 01:13:24 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Wed, 10 Aug 2016 01:13:23 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>,
+	<qi.chen@windriver.com>
+Date: Wed, 10 Aug 2016 16:12:56 +0800
+Message-ID: <1470816776-17343-1-git-send-email-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.8.1
+In-Reply-To: <8374cee610f770f4e027f92785bc0bed13334fbb.1470636212.git.Qi.Chen@windriver.com>
+References: <8374cee610f770f4e027f92785bc0bed13334fbb.1470636212.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: UBOOT_SUFFIX scope
+Subject: [PATCH V3] glibc: apply complocaledir while localedir changed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,21 +33,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Aug 2016 07:50:32 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 10 Aug 2016 08:13:26 -0000
+Content-Type: text/plain
 
-Hey,
+Since localedir changed
+-----------------------
+commit bbca0646c7b55aa28dbf796ab9135bbc63a92a8d
+Author: Chen Qi <Qi.Chen@windriver.com>
+Date:   Mon Aug 8 13:55:42 2016 +0800
 
-I'm wondering about UBOOT_SUFFIX, this variable is currently set in
-meta/recipes-bsp/u-boot/u-boot.inc. However, to be truly useful, it
-seems to me that it should be available from outside the u-boot recipe
-as well. For example, it is common to refer to the complete file name,
-including the suffix, when building an image that contains a bootloader.
+    bitbake.conf: change localedir
+-----------------------
 
-Does this make sense, or am I missing an obvious way of getting at this
-variable?
+Refer nativesdk, We should apply complocaledir=${localedir} for target.
 
+Build image with IMAGE_LINGUAS="en-us en-gb"
+
+Boot target and display all locales:
+...
+root@localhost:~# locale -a
+C
+POSIX
+en_GB
+en_US
+...
+
+(LOCAL REV: NOT UPSTREAM) -- sent to oe-core on 20160810
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/recipes-core/glibc/glibc_2.24.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/meta/recipes-core/glibc/glibc_2.24.bb b/meta/recipes-core/glibc/glibc_2.24.bb
+index 88bcbef2..c1b5190 100644
+--- a/meta/recipes-core/glibc/glibc_2.24.bb
++++ b/meta/recipes-core/glibc/glibc_2.24.bb
+@@ -134,6 +134,10 @@ do_compile_prepend_class-nativesdk() {
+     echo "complocaledir=/usr/lib/locale" >> ${S}/configparms
+ }
+ 
++do_compile_prepend_class-target() {
++    echo "complocaledir=${localedir}" >> ${S}/configparms
++}
++
+ require glibc-package.inc
+ 
+ BBCLASSEXTEND = "nativesdk"
 -- 
-Kristian
+2.8.1
+
 
