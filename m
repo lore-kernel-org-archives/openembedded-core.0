@@ -1,27 +1,27 @@
 Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 91D18771F1
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B77A771F1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Aug 2016 07:11:44 +0000 (UTC)
+	Wed, 10 Aug 2016 07:11:48 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u7A7BjAT006605
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Wed, 10 Aug 2016 00:11:45 -0700
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u7A7Bmro016929
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 10 Aug 2016 00:11:49 -0700 (PDT)
 Received: from localhost (128.224.162.178) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
-	Wed, 10 Aug 2016 00:11:44 -0700
+	Wed, 10 Aug 2016 00:11:48 -0700
 From: Yi Zhao <yi.zhao@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 10 Aug 2016 15:11:19 +0800
-Message-ID: <c225764f3e16e2bb8864748227294855bac176d5.1470812191.git.yi.zhao@windriver.com>
+Date: Wed, 10 Aug 2016 15:11:20 +0800
+Message-ID: <5215c84af52388404946f6091213c24e99055a00.1470812191.git.yi.zhao@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1470812191.git.yi.zhao@windriver.com>
 References: <cover.1470812191.git.yi.zhao@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.162.178]
 Cc: akuster@mvista.com
-Subject: [PATCH 4/5] tiff: Security fix CVE-2016-5321
+Subject: [PATCH 5/5] tiff: Security fix CVE-2016-5323
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,90 +34,148 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Aug 2016 07:11:44 -0000
+X-List-Received-Date: Wed, 10 Aug 2016 07:11:48 -0000
 Content-Type: text/plain
 
-CVE-2016-5321 libtiff: a maliciously crafted TIFF file could cause the
+CVE-2016-5323 libtiff: a maliciously crafted TIFF file could cause the
 application to crash when using tiffcrop command
 
 External References:
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5321
-http://bugzilla.maptools.org/show_bug.cgi?id=2558
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5323
+http://bugzilla.maptools.org/show_bug.cgi?id=2559
 
 Patch from:
-https://github.com/vadz/libtiff/commit/d9783e4a1476b6787a51c5ae9e9b3156527589f0
+https://github.com/vadz/libtiff/commit/2f79856097f423eb33796a15fcf700d2ea41bf31
 
 Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- .../libtiff/files/CVE-2016-5321.patch              | 49 ++++++++++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.0.6.bb      |  1 +
- 2 files changed, 50 insertions(+)
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-5321.patch
+ .../libtiff/files/CVE-2016-5323.patch              | 107 +++++++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.0.6.bb      |   1 +
+ 2 files changed, 108 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-5323.patch
 
-diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2016-5321.patch b/meta/recipes-multimedia/libtiff/files/CVE-2016-5321.patch
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2016-5323.patch b/meta/recipes-multimedia/libtiff/files/CVE-2016-5323.patch
 new file mode 100644
-index 0000000..63c6650
+index 0000000..41eab91
 --- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/files/CVE-2016-5321.patch
-@@ -0,0 +1,49 @@
-+From d9783e4a1476b6787a51c5ae9e9b3156527589f0 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2016-5323.patch
+@@ -0,0 +1,107 @@
++From 2f79856097f423eb33796a15fcf700d2ea41bf31 Mon Sep 17 00:00:00 2001
 +From: erouault <erouault>
-+Date: Mon, 11 Jul 2016 21:26:03 +0000
-+Subject: [PATCH 1/2] * tools/tiffcrop.c: Avoid access outside of stack
-+ allocated array on a tiled separate TIFF with more than 8 samples per pixel.
-+ Reported by Kaixiang Zhang of the Cloud Security Team, Qihoo 360
-+ (CVE-2016-5321, bugzilla #2558)
++Date: Mon, 11 Jul 2016 21:38:31 +0000
++Subject: [PATCH 2/2] (CVE-2016-5321 / CVE-2016-5323 , bugzilla #2558 / #2559)
 +
-+CVE: CVE-2016-5321
++CVE: CVE-2016-5323
 +Upstream-Status: Backport
-+https://github.com/vadz/libtiff/commit/d9783e4a1476b6787a51c5ae9e9b3156527589f0
++https://github.com/vadz/libtiff/commit/2f79856097f423eb33796a15fcf700d2ea41bf31
 +
 +Signed-off-by: Yi Zhao <yi.zhao@windirver.com>
 +---
-+ ChangeLog        | 7 +++++++
-+ tools/tiffcrop.c | 2 +-
-+ 2 files changed, 8 insertions(+), 1 deletion(-)
++ ChangeLog        |  2 +-
++ tools/tiffcrop.c | 16 ++++++++--------
++ 2 files changed, 9 insertions(+), 9 deletions(-)
 +
 +diff --git a/ChangeLog b/ChangeLog
-+index e98d54d..4e0302f 100644
++index 4e0302f..62dc1b5 100644
 +--- a/ChangeLog
 ++++ b/ChangeLog
-+@@ -1,3 +1,10 @@
-++2016-07-11 Even Rouault <even.rouault at spatialys.com>
-++
-++	* tools/tiffcrop.c: Avoid access outside of stack allocated array
-++	on a tiled separate TIFF with more than 8 samples per pixel.
-++	Reported by Kaixiang Zhang of the Cloud Security Team, Qihoo 360
-++	(CVE-2016-5321, bugzilla #2558)
-++
-+ 2015-12-27  Even Rouault <even.rouault at spatialys.com>
-+
-+	* libtiff/tif_next.c: fix potential out-of-bound write in NeXTDecode()
++@@ -3,7 +3,7 @@
++ 	* tools/tiffcrop.c: Avoid access outside of stack allocated array
++ 	on a tiled separate TIFF with more than 8 samples per pixel.
++ 	Reported by Kaixiang Zhang of the Cloud Security Team, Qihoo 360
++-	(CVE-2016-5321, bugzilla #2558)
+++	(CVE-2016-5321 / CVE-2016-5323 , bugzilla #2558 / #2559)
++ 
++ 2016-07-10 Even Rouault <even.rouault at spatialys.com>
++ 
 +diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
-+index d959ae3..6fc8fc1 100644
++index 6fc8fc1..27abc0b 100644
 +--- a/tools/tiffcrop.c
 ++++ b/tools/tiffcrop.c
-+@@ -989,7 +989,7 @@ static int  readSeparateTilesIntoBuffer (TIFF* in, uint8 *obuf,
-+     nrow = (row + tl > imagelength) ? imagelength - row : tl;
-+     for (col = 0; col < imagewidth; col += tw)
-+       {
++@@ -3738,7 +3738,7 @@ combineSeparateSamples8bits (uint8 *in[], uint8 *out, uint32 cols,
++ 
++       matchbits = maskbits << (8 - src_bit - bps); 
++       /* load up next sample from each plane */
 +-      for (s = 0; s < spp; s++)
-++      for (s = 0; s < spp && s < MAX_SAMPLES; s++)
-+         {  /* Read each plane of a tile set into srcbuffs[s] */
-+ 	tbytes = TIFFReadTile(in, srcbuffs[s], col, row, 0, s);
-+         if (tbytes < 0  && !ignore)
+++      for (s = 0; (s < spp) && (s < MAX_SAMPLES); s++)
++         {
++ 	src = in[s] + src_offset + src_byte;
++         buff1 = ((*src) & matchbits) << (src_bit);
++@@ -3837,7 +3837,7 @@ combineSeparateSamples16bits (uint8 *in[], uint8 *out, uint32 cols,
++       src_bit  = bit_offset % 8;
++ 
++       matchbits = maskbits << (16 - src_bit - bps); 
++-      for (s = 0; s < spp; s++)
+++      for (s = 0; (s < spp) && (s < MAX_SAMPLES); s++)
++         {
++ 	src = in[s] + src_offset + src_byte;
++         if (little_endian)
++@@ -3947,7 +3947,7 @@ combineSeparateSamples24bits (uint8 *in[], uint8 *out, uint32 cols,
++       src_bit  = bit_offset % 8;
++ 
++       matchbits = maskbits << (32 - src_bit - bps); 
++-      for (s = 0; s < spp; s++)
+++      for (s = 0; (s < spp) && (s < MAX_SAMPLES); s++)
++         {
++ 	src = in[s] + src_offset + src_byte;
++         if (little_endian)
++@@ -4073,7 +4073,7 @@ combineSeparateSamples32bits (uint8 *in[], uint8 *out, uint32 cols,
++       src_bit  = bit_offset % 8;
++ 
++       matchbits = maskbits << (64 - src_bit - bps); 
++-      for (s = 0; s < spp; s++)
+++      for (s = 0; (s < spp) && (s < MAX_SAMPLES); s++)
++ 	{
++ 	src = in[s] + src_offset + src_byte;
++ 	if (little_endian)
++@@ -4263,7 +4263,7 @@ combineSeparateTileSamples8bits (uint8 *in[], uint8 *out, uint32 cols,
++ 
++       matchbits = maskbits << (8 - src_bit - bps); 
++       /* load up next sample from each plane */
++-      for (s = 0; s < spp; s++)
+++      for (s = 0; (s < spp) && (s < MAX_SAMPLES); s++)
++         {
++ 	src = in[s] + src_offset + src_byte;
++         buff1 = ((*src) & matchbits) << (src_bit);
++@@ -4362,7 +4362,7 @@ combineSeparateTileSamples16bits (uint8 *in[], uint8 *out, uint32 cols,
++       src_bit  = bit_offset % 8;
++ 
++       matchbits = maskbits << (16 - src_bit - bps); 
++-      for (s = 0; s < spp; s++)
+++      for (s = 0; (s < spp) && (s < MAX_SAMPLES); s++)
++         {
++ 	src = in[s] + src_offset + src_byte;
++         if (little_endian)
++@@ -4471,7 +4471,7 @@ combineSeparateTileSamples24bits (uint8 *in[], uint8 *out, uint32 cols,
++       src_bit  = bit_offset % 8;
++ 
++       matchbits = maskbits << (32 - src_bit - bps); 
++-      for (s = 0; s < spp; s++)
+++      for (s = 0; (s < spp) && (s < MAX_SAMPLES); s++)
++         {
++ 	src = in[s] + src_offset + src_byte;
++         if (little_endian)
++@@ -4597,7 +4597,7 @@ combineSeparateTileSamples32bits (uint8 *in[], uint8 *out, uint32 cols,
++       src_bit  = bit_offset % 8;
++ 
++       matchbits = maskbits << (64 - src_bit - bps); 
++-      for (s = 0; s < spp; s++)
+++      for (s = 0; (s < spp) && (s < MAX_SAMPLES); s++)
++ 	{
++ 	src = in[s] + src_offset + src_byte;
++ 	if (little_endian)
 +-- 
 +2.7.4
 +
 diff --git a/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb b/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb
-index 36cb34e..63df126 100644
+index 63df126..83d88df 100644
 --- a/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb
 +++ b/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb
-@@ -9,6 +9,7 @@ SRC_URI = "ftp://ftp.remotesensing.org/pub/libtiff/tiff-${PV}.tar.gz \
-            file://CVE-2015-8781.patch \
+@@ -10,6 +10,7 @@ SRC_URI = "ftp://ftp.remotesensing.org/pub/libtiff/tiff-${PV}.tar.gz \
             file://CVE-2015-8784.patch \
             file://CVE-2016-3186.patch \
-+           file://CVE-2016-5321.patch \
+            file://CVE-2016-5321.patch \
++           file://CVE-2016-5323.patch \
            "
  
  SRC_URI[md5sum] = "d1d2e940dea0b5ad435f21f03d96dd72"
