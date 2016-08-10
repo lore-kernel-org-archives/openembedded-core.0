@@ -1,24 +1,31 @@
-Return-Path: <Awais_Belal@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 96673771FE
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id CA8846FF78
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Aug 2016 08:14:24 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-01.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1bXOee-00058p-Gy from Awais_Belal@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Wed, 10 Aug 2016 01:14:24 -0700
-Received: from awais-Precision-M4700.pkl.mentorg.com (137.202.0.76) by
-	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
-	Server id 14.3.224.2; Wed, 10 Aug 2016 09:14:23 +0100
-From: Awais Belal <awais_belal@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 10 Aug 2016 13:14:16 +0500
-Message-ID: <1470816856-27919-1-git-send-email-awais_belal@mentor.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH] init-install*: only pick root mmc devices
+	Wed, 10 Aug 2016 08:59:57 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u7A8xubx024301; Wed, 10 Aug 2016 09:59:56 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 2UX_de2T1RDZ; Wed, 10 Aug 2016 09:59:56 +0100 (BST)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u7A8xr2M024298
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 10 Aug 2016 09:59:54 +0100
+Message-ID: <1470819593.8166.68.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, Mike Looijmans <mike.looijmans@topic.nl>
+Date: Wed, 10 Aug 2016 09:59:53 +0100
+In-Reply-To: <BA7DFF44-541C-4FEE-B5B2-586FD82ABC60@gmail.com>
+References: <20160801123253.9292-1-twoerner@gmail.com>
+	<57A9C7AD.9090901@topic.nl>
+	<BA7DFF44-541C-4FEE-B5B2-586FD82ABC60@gmail.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] kernel.bbclass: add lzop dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,62 +38,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Aug 2016 08:14:27 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 10 Aug 2016 09:00:01 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Some eMMC devices show special sub-devices such as mmcblk0boot0
-etc. The installation script currently pick all of them up and
-displays it to the user which makes some confusions because these
-sub-devices are pretty small and complete installation including
-rootfs won't be possible in most cases.
-We simply now drop these sub-devices and only present the user
-with the root of such mmc devices.
+On Tue, 2016-08-09 at 12:27 -0700, Khem Raj wrote:
+> > On Aug 9, 2016, at 5:08 AM, Mike Looijmans <mike.looijmans@topic.nl
+> > > wrote:
+> > 
+> > I've been adding "lzop-native" to a lot of kernel recipes because
+> > you also need it when generating an LZO compressed kernel (I like
+> > my boot time to be under 1 second).
+> > 
+> > It's a small dependency which is hard to automatically figure out,
+> > since there are a number of ways to trigger it (we just found two).
+> > I would welcome this patch very much, and I don't think many will
+> > suffer…
+> 
+> From linux.inc days there is a python snippet which can do this
+> conditionally e.g. see
+> 
+> https://github.com/kraj/meta-raspberrypi/blob/master/recipes-kernel/l
+> inux/linux-rpi.inc#L121
 
-Signed-off-by: Awais Belal <awais_belal@mentor.com>
----
- meta/recipes-core/initrdscripts/files/init-install-efi.sh | 8 +++++++-
- meta/recipes-core/initrdscripts/files/init-install.sh     | 8 +++++++-
- 2 files changed, 14 insertions(+), 2 deletions(-)
+Which is fine if you have a prebuild defconfig file however in many
+cases we don't have that :(
 
-diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-index f564f4e..776dcbb 100644
---- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-@@ -29,7 +29,13 @@ esac
- 
- echo "Searching for hard drives ..."
- 
--for device in `ls /sys/block/`; do
-+# Some eMMC devices have special sub devices such as mmcblk0boot0 etc
-+# we're currently only interested in the root device so pick them wisely
-+devices=`ls /sys/block/ | grep -v mmcblk`
-+mmc_devices=`ls /sys/block/ | grep "mmcblk[0-9]\{1,\}$"`
-+devices="$devices $mmc_devices"
-+
-+for device in $devices; do
-     case $device in
-         loop*)
-             # skip loop device
-diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
-index 72ce92b..9c4189b 100644
---- a/meta/recipes-core/initrdscripts/files/init-install.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-install.sh
-@@ -28,7 +28,13 @@ esac
- 
- echo "Searching for hard drives ..."
- 
--for device in `ls /sys/block/`; do
-+# Some eMMC devices have special sub devices such as mmcblk0boot0 etc
-+# we're currently only interested in the root device so pick them wisely
-+devices=`ls /sys/block/ | grep -v mmcblk`
-+mmc_devices=`ls /sys/block/ | grep "mmcblk[0-9]\{1,\}$"`
-+devices="$devices $mmc_devices"
-+
-+for device in $devices; do
-     case $device in
-         loop*)
-             # skip loop device
--- 
-1.9.1
+Cheers,
 
+Richard
 
