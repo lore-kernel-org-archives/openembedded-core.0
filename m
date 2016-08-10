@@ -1,33 +1,26 @@
-Return-Path: <Awais_Belal@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 343BC771E9
+Return-Path: <maxin.john@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A15C77154
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Aug 2016 11:02:24 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-01.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1bXRHF-0006MU-0M from Awais_Belal@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Wed, 10 Aug 2016 04:02:25 -0700
-Received: from EU-MBX-03.mgc.mentorg.com ([169.254.2.210]) by
-	SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) with mapi id
-	14.03.0224.002; Wed, 10 Aug 2016 11:59:43 +0100
-From: "Belal, Awais" <Awais_Belal@mentor.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [[PATCH v3] init-install*: /etc/mtab make a link
-	rather	than a copy
-Thread-Index: AQHR6+hfdjsa0Swi3EWatLFo0SUxIqBCFLiu
-Date: Wed, 10 Aug 2016 10:59:42 +0000
-Message-ID: <2021B186DC632746BD5A3CE32F12BD28011FCDA296@EU-MBX-03.mgc.mentorg.com>
-References: <1470051103-4924-1-git-send-email-awais_belal@mentor.com>
-In-Reply-To: <1470051103-4924-1-git-send-email-awais_belal@mentor.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.202.0.69]
+	Wed, 10 Aug 2016 11:09:22 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP; 10 Aug 2016 04:09:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,499,1464678000"; d="scan'208";a="1011829852"
+Received: from mbabyjoh-desk.fi.intel.com (HELO
+	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.71])
+	by orsmga001.jf.intel.com with ESMTP; 10 Aug 2016 04:09:23 -0700
+Date: Wed, 10 Aug 2016 14:10:30 +0300
+From: "Maxin B. John" <maxin.john@intel.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Message-ID: <20160810111030.GA8007@mbabyjoh-desk.ger.corp.intel.com>
+References: <1470821429-6094-1-git-send-email-maxin.john@intel.com>
+	<20160810095812.duksmuoyl5r6t5zt@jama>
 MIME-Version: 1.0
-Subject: Re: [[PATCH v3] init-install*: /etc/mtab make a link rather	than a copy
+In-Reply-To: <20160810095812.duksmuoyl5r6t5zt@jama>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 00/10] replace xtscal with xinput-calibrator
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,78 +33,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Aug 2016 11:02:25 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 10 Aug 2016 11:09:24 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Ping!=0A=
-=0A=
-BR,=0A=
-Awais=0A=
-=0A=
-________________________________________=0A=
-From: openembedded-core-bounces@lists.openembedded.org [openembedded-core-b=
-ounces@lists.openembedded.org] on behalf of Belal, Awais=0A=
-Sent: Monday, August 01, 2016 4:31 PM=0A=
-To: openembedded-core@lists.openembedded.org=0A=
-Subject: [OE-core] [[PATCH v3] init-install*: /etc/mtab make a link rather =
-     than a copy=0A=
-=0A=
-Using a copy would only make management of devices erroneous=0A=
-and makes the system unstable in some scenarios as tools will=0A=
-have to manipulate both files separately. A link ensures that=0A=
-both files /proc/mounts and /etc/mtab will have the same=0A=
-information at all times and this is how it is handled=0A=
-on newer systems where there is such a need. Same is=0A=
-suggested by busybox.=0A=
-=0A=
-Signed-off-by: Awais Belal <awais_belal@mentor.com>=0A=
----=0A=
- meta/recipes-core/initrdscripts/files/init-install-efi.sh | 4 ++--=0A=
- meta/recipes-core/initrdscripts/files/init-install.sh     | 4 ++--=0A=
- 2 files changed, 4 insertions(+), 4 deletions(-)=0A=
-=0A=
-diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/me=
-ta/recipes-core/initrdscripts/files/init-install-efi.sh=0A=
-index f564f4e..c5db2f0 100644=0A=
---- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh=0A=
-+++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh=0A=
-@@ -122,8 +122,8 @@ umount ${device}* 2> /dev/null || /bin/true=0A=
- mkdir -p /tmp=0A=
-=0A=
- # Create /etc/mtab if not present=0A=
--if [ ! -e /etc/mtab ]; then=0A=
--    cat /proc/mounts > /etc/mtab=0A=
-+if [ ! -e /etc/mtab ] && [ -e /proc/mounts ]; then=0A=
-+    ln -sf /proc/mounts /etc/mtab=0A=
- fi=0A=
-=0A=
- disk_size=3D$(parted ${device} unit mb print | grep '^Disk .*: .*MB' | cut=
- -d" " -f 3 | sed -e "s/MB//")=0A=
-diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/r=
-ecipes-core/initrdscripts/files/init-install.sh=0A=
-index 72ce92b..bf92acb 100644=0A=
---- a/meta/recipes-core/initrdscripts/files/init-install.sh=0A=
-+++ b/meta/recipes-core/initrdscripts/files/init-install.sh=0A=
-@@ -118,8 +118,8 @@ if [ ! -b /dev/loop0 ] ; then=0A=
- fi=0A=
-=0A=
- mkdir -p /tmp=0A=
--if [ ! -L /etc/mtab ]; then=0A=
--    cat /proc/mounts > /etc/mtab=0A=
-+if [ ! -L /etc/mtab ] && [ -e /proc/mounts ]; then=0A=
-+    ln -sf /proc/mounts /etc/mtab=0A=
- fi=0A=
-=0A=
- disk_size=3D$(parted ${device} unit mb print | grep '^Disk .*: .*MB' | cut=
- -d" " -f 3 | sed -e "s/MB//")=0A=
---=0A=
-1.9.1=0A=
-=0A=
---=0A=
-_______________________________________________=0A=
-Openembedded-core mailing list=0A=
-Openembedded-core@lists.openembedded.org=0A=
-http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
+Hi Martin,
+
+On Wed, Aug 10, 2016 at 11:58:12AM +0200, Martin Jansa wrote:
+> On Wed, Aug 10, 2016 at 12:30:19PM +0300, Maxin B. John wrote:
+> > Remove xtscal in preference of xinput-calibrator
+> > 
+> > [YOCTO #9365]
+> > [YOCTO #8380]
+> > 
+> > Changes in v2:
+> >     1. Removed bash dependency from xinput-calibrator
+> >     2. Moved tslib recipe from oe-core since modern systems tend to use
+> >        kernel driver or libinput
+> >     3. removed pointercal reference from packagegroup-core-x11-base
+> >     4. removed tslib references from packagegroup-core-tools-testapps
+> > 
+> > The following changes since commit dfc016fbf13e62f7767edaf7abadf1d1b72680b2:
+> > 
+> > maintainers.inc: remove augeas (2016-08-02 14:05:58 +0100)
+> 
+> It would be nice to order the changes in this series that the recipes
+> are removed only after the references to them to keep the history
+> bisect-able, e.g. xtscal, tslib and pointercal are removed while they are still
+> referenced from elsewhere.
+
+Sure, I have reordered the patches and force pushed those to "maxin/xtscal" branch:
+
+New order is as below:
+
+ Maxin B. John (10):
+ xtscal: remove recipe
+ tslib: remove recipe
+ pointercal: remove recipe
+ x11-common: replace xtscal with xinput-calibrator
+ pointercal-xinput: add a dummy calibration file for qemu
+ packagegroup-core-x11-base.bb: remove pointercal
+ xinput-calibrator: remove bash dependency
+ packagegroup-core-tools-testapps: remove tslib references
+ distro_alias.inc: remove xtscal, pointercal and tslib references
+ layer.conf: remove pointercal
+
+> > are available in the git repository at:
+> > 
+> > git://git.yoctoproject.org/poky-contrib maxin/xtscal
+> > http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=maxin/xtscal
+> > 
+> > Maxin B. John (10):
+> >   xtscal: remove recipe
+> >   x11-common: replace xtscal with xinput-calibrator
+> >   pointercal-xinput: add a dummy calibration file for qemu
+> >   packagegroup-core-x11-base.bb: remove pointercal
+> >   xinput-calibrator: remove bash dependency
+> >   pointercal: remove recipe
+> >   tslib: remove recipe
+> >   packagegroup-core-tools-testapps: remove tslib references
+> >   distro_alias.inc: remove xtscal, pointercal and tslib references
+> >   layer.conf: remove pointercal
+> > 
+<snip>
+
+Best Regards,
+Maxin
+
 
