@@ -1,29 +1,20 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1455C771BB
+Return-Path: <stephano.cetola@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id CAA22762B3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Aug 2016 20:18:25 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7AKIORL020520
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 10 Aug 2016 13:18:24 -0700 (PDT)
-Received: from msp-dhcp10.wrs.com (172.25.34.10) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 10 Aug 2016 13:18:22 -0700
-To: "Davis, Michael" <michael.davis@essvote.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <1470856303-24490-1-git-send-email-michael.davis@essvote.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <bbf4ea57-5a32-7696-3e70-3c11dc069ef1@windriver.com>
-Date: Wed, 10 Aug 2016 15:18:21 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
-	Gecko/20100101 Thunderbird/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <1470856303-24490-1-git-send-email-michael.davis@essvote.com>
-Subject: Re: [meta-oe][PATCH] pcsc-lite: Seperate GPLV3 portions from BSD
+	Wed, 10 Aug 2016 20:40:13 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga101.jf.intel.com with ESMTP; 10 Aug 2016 13:40:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,501,1464678000"; d="scan'208";a="863269512"
+Received: from pequod.jf.intel.com ([10.7.201.50])
+	by orsmga003.jf.intel.com with ESMTP; 10 Aug 2016 13:40:15 -0700
+From: Stephano Cetola <stephano.cetola@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 10 Aug 2016 13:03:15 -0700
+Message-Id: <20160810200316.28446-1-stephano.cetola@linux.intel.com>
+X-Mailer: git-send-email 2.9.2
+Subject: [PATCH V2] simultaneous do_rootfs tasks with testimage fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,75 +27,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Aug 2016 20:18:26 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 10 Aug 2016 20:40:13 -0000
 
-On 8/10/16 2:12 PM, Davis, Michael wrote:
-> GPLV3 and BSD portions were originally placed in the same package.
-> The GPLv3 portion has been seperated into pcsc-lite-spy so the package can be used with GPLv3 blacklisted.
-> 
-> Signed-off-by: Michael Davis <michael.davis@essvote.com>
-> ---
->  meta-oe/recipes-support/pcsc-lite/pcsc-lite_1.8.13.bb | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
-> 
-> diff --git a/meta-oe/recipes-support/pcsc-lite/pcsc-lite_1.8.13.bb b/meta-oe/recipes-support/pcsc-lite/pcsc-lite_1.8.13.bb
-> index cc72549..e1d405b 100644
-> --- a/meta-oe/recipes-support/pcsc-lite/pcsc-lite_1.8.13.bb
-> +++ b/meta-oe/recipes-support/pcsc-lite/pcsc-lite_1.8.13.bb
-> @@ -1,6 +1,7 @@
->  SUMMARY = "PC/SC Lite smart card framework and applications"
->  HOMEPAGE = "http://pcsclite.alioth.debian.org/"
-> -LICENSE = "BSD & GPLv3+"
-> +LICENSE = "BSD" 
+Changed since V1:
 
-LICENSE should be the overall license(s) of the sources used to produce the
-binaries.
+I've added a fix to the smart tests which creates a fresh index of the RPM
+packages specifically for the tests. This decouples the tests and the rootfs
+processes, which also does some indexing for installation.
 
-So in this case you'd want to do:
+Stephano Cetola (1):
+  Allow for simultaneous do_rootfs tasks with rpm
 
-LICENSE = "BSD & GPLv3+"
-LICENSE_${PN} = "BSD"
-LICENSE_${PN}-lib = "BSD"
-...
-LICENSE_${PN}-spy = "GPLv3+"
-LICENSE_${PN}-dev = "GPLv3+"
+ meta/classes/rootfs_rpm.bbclass |  5 -----
+ meta/lib/oe/package_manager.py  | 17 ++++++++++++++---
+ meta/lib/oeqa/runtime/smart.py  | 41 ++++++++++++++++++++++++++++++++++++++++-
+ 3 files changed, 54 insertions(+), 9 deletions(-)
 
-Once the packages deviate from the overall source code license you need to
-explicitly list them for each package.  (The -dbg usually always matches the
-${PN}, so that isn't necessary.)
-
-In order to allow for the blacklisting, you may have to add some additional code
-to disable the GPL3 pieces if the blacklist is in place.  I think there are some
-examples of this elsewhere in oe-core.
-
---Mark
-
-> +LICENSE_${PN}-spy = "GPLv3+"
->  LICENSE_${PN}-dev = "GPLv3+"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=bcfbd85230ac3c586fb294c8b627cf32"
->  DEPENDS = "udev"
-> @@ -20,14 +21,16 @@ EXTRA_OECONF = " \
->  
->  S = "${WORKDIR}/pcsc-lite-${PV}"
->  
-> -PACKAGES =+ "${PN}-lib"
-> +PACKAGES =+ "${PN}-lib ${PN}-spy"
->  
->  RRECOMMENDS_${PN} = "ccid"
->  
-> -FILES_${PN}-lib = "${libdir}/lib*${SOLIBS}"
-> +FILES_${PN}-spy += "${bindir}/pcsc-spy \
-> +                    ${libdir}/libpcscspy*${SOLIBS}"
-> +FILES_${PN}-lib = "${libdir}/libpcsclite*${SOLIBS}"
->  
->  RPROVIDES_${PN} += "${PN}-systemd"
->  RREPLACES_${PN} += "${PN}-systemd"
->  RCONFLICTS_${PN} += "${PN}-systemd"
->  SYSTEMD_SERVICE_${PN} = "pcscd.socket"
-> -RDEPENDS_${PN} +="python"
-> +RDEPENDS_${PN}-spy +="python"
-> 
+-- 
+2.9.2
 
 
