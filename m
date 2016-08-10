@@ -1,29 +1,20 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id CFEC06011C
+Return-Path: <dmitry.rozhkov@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 198BA77211
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Aug 2016 09:29:48 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga104.fm.intel.com with ESMTP; 10 Aug 2016 02:29:50 -0700
+	Wed, 10 Aug 2016 09:48:16 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP; 10 Aug 2016 02:48:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,499,1464678000"; d="scan'208";a="746760926"
-Received: from linux.intel.com ([10.54.29.200])
-	by FMSMGA003.fm.intel.com with ESMTP; 10 Aug 2016 02:29:49 -0700
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id B6F866A4080
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Aug 2016 02:29:34 -0700 (PDT)
-From: "Maxin B. John" <maxin.john@intel.com>
+X-IronPort-AV: E=Sophos;i="5.28,499,1464678000"; d="scan'208";a="1033030888"
+Received: from drozhkov-desk.fi.intel.com ([10.237.72.185])
+	by orsmga002.jf.intel.com with ESMTP; 10 Aug 2016 02:48:17 -0700
+From: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Aug 2016 12:30:29 +0300
-Message-Id: <1470821429-6094-11-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-In-Reply-To: <1470821429-6094-1-git-send-email-maxin.john@intel.com>
-References: <1470821429-6094-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 10/10] layer.conf: remove pointercal
+Date: Wed, 10 Aug 2016 12:47:56 +0300
+Message-Id: <1470822476-2758-1-git-send-email-dmitry.rozhkov@linux.intel.com>
+X-Mailer: git-send-email 2.5.5
+Subject: [PATCH] systemd: fix typo in avoid-using-system-auth.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,29 +27,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Aug 2016 09:29:49 -0000
+X-List-Received-Date: Wed, 10 Aug 2016 09:48:17 -0000
 
-remove pointercal reference from layer.conf file since we moved the
-pointercal recipe from oe-core.
+The patch 0015-systemd-user-avoid-using-system-auth.patch
+makes PAM session for systemd-user include common-account file
+which doesn't contain any session related lines and that breaks
+launching "systemd --user" with the error:
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
+Jul 29 13:03:24 intel-corei7-64 systemd[691]: user@0.service: Failed
+at step PAM spawning /lib/systemd/systemd: Operation not permitted
+
+This change fixes the patch by including common-session file
+instead.
+
+Signed-off-by: Dmitry Rozhkov <dmitry.rozhkov@linux.intel.com>
 ---
- meta/conf/layer.conf | 1 -
- 1 file changed, 1 deletion(-)
+ .../systemd/systemd/0015-systemd-user-avoid-using-system-auth.patch     | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-index b6d5f1c..24b4df0 100644
---- a/meta/conf/layer.conf
-+++ b/meta/conf/layer.conf
-@@ -26,7 +26,6 @@ SIGGEN_EXCLUDERECIPES_ABISAFE += " \
-   connman-conf \
-   formfactor \
-   xserver-xf86-config \
--  pointercal \
-   pointercal-xinput \
-   base-files \
-   keymaps \
+diff --git a/meta/recipes-core/systemd/systemd/0015-systemd-user-avoid-using-system-auth.patch b/meta/recipes-core/systemd/systemd/0015-systemd-user-avoid-using-system-auth.patch
+index f7a5b19..6e6f344 100644
+--- a/meta/recipes-core/systemd/systemd/0015-systemd-user-avoid-using-system-auth.patch
++++ b/meta/recipes-core/systemd/systemd/0015-systemd-user-avoid-using-system-auth.patch
+@@ -29,7 +29,7 @@ index f188a8e..862d8d7 100644
+  )m4_dnl
+  session  required pam_loginuid.so
+ -session  include system-auth
+-+session  include common-account
+++session  include common-session
+ -- 
+ 2.8.3
+ 
 -- 
-2.4.0
+2.5.5
 
 
