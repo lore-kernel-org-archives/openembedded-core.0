@@ -1,44 +1,49 @@
-Return-Path: <olof.johansson@axis.com>
-X-Greylist: delayed 343 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 10 Aug 2016 07:44:27 UTC
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id E5B7D771F5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Aug 2016 07:44:27 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 4E36C2E276
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Aug 2016 09:38:44 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id PqG+PFw8pjLM
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Aug 2016 09:38:43 +0200 (CEST)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bes.se.axis.com (Postfix) with ESMTP id C0B742E0C3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Aug 2016 09:38:43 +0200 (CEST)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id A1F511BF8
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Aug 2016 09:38:43 +0200 (CEST)
-Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.se.axis.com (Postfix) with ESMTP id 961B51508
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Aug 2016 09:38:43 +0200 (CEST)
-Received: from lnxolofjn.se.axis.com (lnxolofjn.se.axis.com [10.92.17.1])
-	by seth.se.axis.com (Postfix) with ESMTP id 92D1A3E5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Aug 2016 09:38:43 +0200 (CEST)
-Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)
-	id CCD099C09F; Wed, 10 Aug 2016 09:38:48 +0200 (CEST)
-From: Olof Johansson <olof.johansson@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Aug 2016 09:38:48 +0200
-Message-Id: <1470814728-3908-1-git-send-email-olof.johansson@axis.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] sanity.bbclass: Only verify /bin/sh link if it's a link
+Return-Path: <kristian.amlie@mender.io>
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 300CE771F7
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 10 Aug 2016 07:50:29 +0000 (UTC)
+Received: by mail-wm0-f47.google.com with SMTP id f65so74554780wmi.0
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 10 Aug 2016 00:50:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mender-io.20150623.gappssmtp.com; s=20150623;
+	h=to:from:subject:message-id:date:user-agent:mime-version
+	:content-transfer-encoding;
+	bh=nTmRd44m6UgdCX6yiyDLS0aGcwlG7Th8McFZZ8XR50c=;
+	b=Qco9NXU6sWTatRjaSti1H7/E834Xj7hthzaui2DqVNmpcUo4tcnP0DikvcAbs2wNR6
+	V0GijZqit33+vcQ31ZiM52qpQbpbUOZVJWm0ongPvPI7dm0WI4Twa86NfmJnSzEgVy1A
+	rPeSqUm8C4IVn04ybO3OI+vYLXIjk1AiXBfp9I8zqhdCYoAan1dRRkLjXQFwkWkOU5xd
+	ZilJCfVITd6OwrdYqwFxdAaV1BybzU5jVcRkQdcGnj/EZ3XtJajtZtKVNUCWOJ0Vy+Ar
+	/Bf3kK7jZR508xEAGIEDncz9+w+GzNPPmY0jJFJqfByvRN1TzEaFLXOVZG0NXJxrqKUH
+	IY/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=nTmRd44m6UgdCX6yiyDLS0aGcwlG7Th8McFZZ8XR50c=;
+	b=FbG+5xrOYW/PmSINmb0hT4fu8NOHfntswJBudVYKqBn1JhikPROpAcpNCDQsSWegMF
+	V+bU1bDipUfKfkZ+1d1IndoOg2sN+6SDf9scHlQrmXzPT0H0pvvdCQvdpxppVquP89EC
+	LDHvgptWejKTZYZr6lg/5B6d2hraF3HX4n+0WAQAB2Ds/+6mvVd5VrP6GTakF2GE5/8+
+	SFGez5u+3zP3Xohef65fDqlZ9xR7Dl/m3ESpFb1gZAZTFUFlX5p+yWf3Nt2gyaboAhIL
+	18pmpHwSUxW9eVpllrZNcZwzQw2FJPGoyZF+ty6hc8oLRfRAe5WWNBg0sJlVMGaroj0r
+	atEw==
+X-Gm-Message-State: AEkoouszvgDvxx51RbfUsqrorrdOijXW+ICHg3Wxr+gvf5YxhTD+CUiQLkrG/fTpHV5VOQ==
+X-Received: by 10.25.160.205 with SMTP id j196mr396013lfe.80.1470815430184;
+	Wed, 10 Aug 2016 00:50:30 -0700 (PDT)
+Received: from [10.0.0.50] (cm-84.208.242.60.getinternet.no. [84.208.242.60])
+	by smtp.googlemail.com with ESMTPSA id
+	f3sm7394515lff.21.2016.08.10.00.50.28
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 10 Aug 2016 00:50:29 -0700 (PDT)
+To: Openembedded-core@lists.openembedded.org
+From: Kristian Amlie <kristian.amlie@mender.io>
+Message-ID: <0f6f123e-aaa3-a1a2-7824-f489df6fd88a@mender.io>
+Date: Wed, 10 Aug 2016 09:50:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
+MIME-Version: 1.0
+Subject: UBOOT_SUFFIX scope
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,37 +56,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Aug 2016 07:44:30 -0000
+X-List-Received-Date: Wed, 10 Aug 2016 07:50:32 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-If /bin/sh is a regular file (and not a symlink), we assume it's a
-reasonable shell and allow it.
+Hey,
 
-Signed-off-by: Olof Johansson <olof.johansson@axis.com>
----
- meta/classes/sanity.bbclass | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+I'm wondering about UBOOT_SUFFIX, this variable is currently set in
+meta/recipes-bsp/u-boot/u-boot.inc. However, to be truly useful, it
+seems to me that it should be available from outside the u-boot recipe
+as well. For example, it is common to refer to the complete file name,
+including the suffix, when building an image that contains a bootloader.
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 088dd2a..98345ce 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -932,10 +932,11 @@ def check_sanity_everybuild(status, d):
-         with open(checkfile, "w") as f:
-             f.write(tmpdir)
- 
--    # Check /bin/sh links to dash or bash
--    real_sh = os.path.realpath('/bin/sh')
--    if not real_sh.endswith('/dash') and not real_sh.endswith('/bash'):
--        status.addresult("Error, /bin/sh links to %s, must be dash or bash\n" % real_sh)
-+    # If /bin/sh is a symlink, check that it points to dash or bash
-+    if os.path.islink('/bin/sh'):
-+        real_sh = os.path.realpath('/bin/sh')
-+        if not real_sh.endswith('/dash') and not real_sh.endswith('/bash'):
-+            status.addresult("Error, /bin/sh links to %s, must be dash or bash\n" % real_sh)
- 
- def check_sanity(sanity_data):
-     class SanityStatus(object):
+Does this make sense, or am I missing an obvious way of getting at this
+variable?
+
 -- 
-2.1.4
-
+Kristian
 
