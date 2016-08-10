@@ -1,32 +1,33 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id F0C1A77139;
-	Wed, 10 Aug 2016 10:42:39 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u7AAgaUV029934; Wed, 10 Aug 2016 11:42:36 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id WKiw0qc5wNiX; Wed, 10 Aug 2016 11:42:36 +0100 (BST)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u7AAgYgU029931
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 10 Aug 2016 11:42:35 +0100
-Message-ID: <1470825754.18638.3.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>,
-	openembedded-core@lists.openembedded.org, "Maxin B. John"
-	<maxin.john@intel.com>
-Date: Wed, 10 Aug 2016 11:42:34 +0100
-In-Reply-To: <20160810095921.fzwuugxh525z5e4u@jama>
-References: <20160810094725.20395.91512@opal.openembedded.org>
-	<20160810094727.589E850200@opal.openembedded.org>
-	<20160810095921.fzwuugxh525z5e4u@jama>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] [openembedded-core] 01/51: piglit: fix build failure with gold linker
+Return-Path: <Awais_Belal@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 343BC771E9
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Aug 2016 11:02:24 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=SVR-IES-FEM-01.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtp 
+	id 1bXRHF-0006MU-0M from Awais_Belal@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Wed, 10 Aug 2016 04:02:25 -0700
+Received: from EU-MBX-03.mgc.mentorg.com ([169.254.2.210]) by
+	SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) with mapi id
+	14.03.0224.002; Wed, 10 Aug 2016 11:59:43 +0100
+From: "Belal, Awais" <Awais_Belal@mentor.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [[PATCH v3] init-install*: /etc/mtab make a link
+	rather	than a copy
+Thread-Index: AQHR6+hfdjsa0Swi3EWatLFo0SUxIqBCFLiu
+Date: Wed, 10 Aug 2016 10:59:42 +0000
+Message-ID: <2021B186DC632746BD5A3CE32F12BD28011FCDA296@EU-MBX-03.mgc.mentorg.com>
+References: <1470051103-4924-1-git-send-email-awais_belal@mentor.com>
+In-Reply-To: <1470051103-4924-1-git-send-email-awais_belal@mentor.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [137.202.0.69]
+MIME-Version: 1.0
+Subject: Re: [[PATCH v3] init-install*: /etc/mtab make a link rather	than a copy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,67 +40,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Aug 2016 10:42:40 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 10 Aug 2016 11:02:25 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2016-08-10 at 11:59 +0200, Martin Jansa wrote:
-> On Wed, Aug 10, 2016 at 09:47:26AM +0000, git@git.openembedded.org wr
-> ote:
-> > rpurdie pushed a commit to branch master
-> > in repository openembedded-core.
-> > 
-> > commit 79005ff905f8c82a8766af5a927b9a0f8929e24f
-> > Author: Maxin B. John <maxin.john@intel.com>
-> > AuthorDate: Mon Aug 1 18:34:49 2016 +0300
-> > 
-> >     piglit: fix build failure with gold linker
-> >     
-> >     When we use gold linker while DISTRO set to "nodistro", piglit
-> > build
-> >     fails with the following error:
-> >     
-> >     | ../../../../lib/libpiglitutil_gl.so.0: error: undefined
-> > reference to
-> >     'dlsym'
-> >     | ../../../../lib/libpiglitutil_gl.so.0: error: undefined
-> > reference to
-> >     'dlerror'
-> >     | ../../../../lib/libpiglitutil_gl.so.0: error: undefined
-> > reference to
-> >     'dlopen'
-> >     | collect2: error: ld returned 1 exit status
-> >     
-> >     Fix it by providing '-ldl' to LDFLAGS.
-> >     
-> >     [YOCTO #9851]
-> >     
-> >     Signed-off-by: Maxin B. John <maxin.john@intel.com>
-> >     Signed-off-by: Ross Burton <ross.burton@intel.com>
-> > ---
-> >  meta/recipes-graphics/piglit/piglit_git.bb | 2 ++
-> >  1 file changed, 2 insertions(+)
-> > 
-> > diff --git a/meta/recipes-graphics/piglit/piglit_git.bb
-> > b/meta/recipes-graphics/piglit/piglit_git.bb
-> > index 811f7af..df90c4d 100644
-> > --- a/meta/recipes-graphics/piglit/piglit_git.bb
-> > +++ b/meta/recipes-graphics/piglit/piglit_git.bb
-> > @@ -30,6 +30,8 @@ do_compile[dirs] =+ "${B}/temp/"
-> >  PACKAGECONFIG ??= ""
-> >  PACKAGECONFIG[freeglut] = "-DPIGLIT_USE_GLUT=1,
-> > -DPIGLIT_USE_GLUT=0,freeglut,"
-> >  
-> > +LDFLAGS_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'ld-is
-> > -gold', '-ldl', '', d)}"
-> 
-> There was request to fix it properly in piglit code, why was this
-> version merged instead?
-
-Accidentally. It made it into mut and I'd assumed this was a v2. Sadly
-I don't keep all patch context in my head. I can revert it.
-
-Cheers,
-
-Richard
+Ping!=0A=
+=0A=
+BR,=0A=
+Awais=0A=
+=0A=
+________________________________________=0A=
+From: openembedded-core-bounces@lists.openembedded.org [openembedded-core-b=
+ounces@lists.openembedded.org] on behalf of Belal, Awais=0A=
+Sent: Monday, August 01, 2016 4:31 PM=0A=
+To: openembedded-core@lists.openembedded.org=0A=
+Subject: [OE-core] [[PATCH v3] init-install*: /etc/mtab make a link rather =
+     than a copy=0A=
+=0A=
+Using a copy would only make management of devices erroneous=0A=
+and makes the system unstable in some scenarios as tools will=0A=
+have to manipulate both files separately. A link ensures that=0A=
+both files /proc/mounts and /etc/mtab will have the same=0A=
+information at all times and this is how it is handled=0A=
+on newer systems where there is such a need. Same is=0A=
+suggested by busybox.=0A=
+=0A=
+Signed-off-by: Awais Belal <awais_belal@mentor.com>=0A=
+---=0A=
+ meta/recipes-core/initrdscripts/files/init-install-efi.sh | 4 ++--=0A=
+ meta/recipes-core/initrdscripts/files/init-install.sh     | 4 ++--=0A=
+ 2 files changed, 4 insertions(+), 4 deletions(-)=0A=
+=0A=
+diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/me=
+ta/recipes-core/initrdscripts/files/init-install-efi.sh=0A=
+index f564f4e..c5db2f0 100644=0A=
+--- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh=0A=
++++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh=0A=
+@@ -122,8 +122,8 @@ umount ${device}* 2> /dev/null || /bin/true=0A=
+ mkdir -p /tmp=0A=
+=0A=
+ # Create /etc/mtab if not present=0A=
+-if [ ! -e /etc/mtab ]; then=0A=
+-    cat /proc/mounts > /etc/mtab=0A=
++if [ ! -e /etc/mtab ] && [ -e /proc/mounts ]; then=0A=
++    ln -sf /proc/mounts /etc/mtab=0A=
+ fi=0A=
+=0A=
+ disk_size=3D$(parted ${device} unit mb print | grep '^Disk .*: .*MB' | cut=
+ -d" " -f 3 | sed -e "s/MB//")=0A=
+diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/r=
+ecipes-core/initrdscripts/files/init-install.sh=0A=
+index 72ce92b..bf92acb 100644=0A=
+--- a/meta/recipes-core/initrdscripts/files/init-install.sh=0A=
++++ b/meta/recipes-core/initrdscripts/files/init-install.sh=0A=
+@@ -118,8 +118,8 @@ if [ ! -b /dev/loop0 ] ; then=0A=
+ fi=0A=
+=0A=
+ mkdir -p /tmp=0A=
+-if [ ! -L /etc/mtab ]; then=0A=
+-    cat /proc/mounts > /etc/mtab=0A=
++if [ ! -L /etc/mtab ] && [ -e /proc/mounts ]; then=0A=
++    ln -sf /proc/mounts /etc/mtab=0A=
+ fi=0A=
+=0A=
+ disk_size=3D$(parted ${device} unit mb print | grep '^Disk .*: .*MB' | cut=
+ -d" " -f 3 | sed -e "s/MB//")=0A=
+--=0A=
+1.9.1=0A=
+=0A=
+--=0A=
+_______________________________________________=0A=
+Openembedded-core mailing list=0A=
+Openembedded-core@lists.openembedded.org=0A=
+http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
 
