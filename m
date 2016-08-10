@@ -1,53 +1,46 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 575C26FEFA;
-	Wed, 10 Aug 2016 12:12:50 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id q128so9152828wma.1;
-	Wed, 10 Aug 2016 05:12:51 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 163CC74197
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Aug 2016 15:03:37 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id y134so2992885pfg.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Aug 2016 08:03:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=n9uWs+UAS3HiNk4pSKa7uNsY1Qvdfxx2VofCCqiSqWQ=;
-	b=r/lLigKcTKS1abSpYyf39nb3fcX69tP6L5JQFpNPdqyYUcRKTFKEe5/ETr3rggEV9T
-	dqUHcN+MCUpGlYd4ln38egszniV5QxtgDLggEOg7kRI42maKe00hOQIC7e/sUf859G6F
-	tIdn2QiP/sUbRUGHTTF50laBGlmV57kgxwX1i4Q/isjTGvwNyCn+rIweN6+Aw/02Ywa1
-	uhdqb9xqAMTImXMUPu+FtFUG4n3AwKY6HaGENM27ANqqx6aKcG1RIOyVA33LYkYeCuxP
-	LzLThUtN7lFxqpIOLUf9kDwkTC9ucIiAd4QQ+nwc6WxLucgXFwkStunMjxs8DxYe6fXy
-	1pTQ==
+	h=from:to:subject:date:message-id;
+	bh=sEY8wanzPU9NrQRBsqvcMMmAWcRKRF93qtrYb1JlteE=;
+	b=em2uteygMDsXm8auu0EZVYqDPVv+L1a6wWRx1WXA5xJ+QghorgUmlDC/+7PtarJFvo
+	epq18025G3fAEs2tz48ZZ1WWfI+ybZ1rEd1plJAI1VZ7PXPK1GMLKsC9Dn4QkjhGrtqy
+	o083o749KYxwDlwpsGRgjH9K8XNKubTFVm4uSe67ZRJCNy6sKPdNA7IjutZB09KhMNBQ
+	FwTNCjg0ynApxOQ6dzXldTAgGqBT3RA9Z/Myg6wz+W8FX8RCm3nraHB0669fcpJkpdlX
+	tlpm3RtSQl1zjfLjOD8FemeZ5HcN9XH5iYF1uXIPTl5smwdzHy+FVSM/gb26ZfOjYy+6
+	9P/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=n9uWs+UAS3HiNk4pSKa7uNsY1Qvdfxx2VofCCqiSqWQ=;
-	b=Y8gQj46PenqL4osQjf3QcqatmKzK0QkpOaKyEKLLEK5wDiHBYpKN5c9SAqqArWjnU2
-	moVzzeJEGXKrpMnynYPjBpF3bp+B2tmvrH0c+zdnIOPfD4fi/mHfr87EUmJk16VhTJcM
-	ux2VSGuhCDMmLEhLvwrPRmr4O82pBFmDbeOpLOoNSeRRPNOl9oiwsE22DWhycxkutYsl
-	1jUgdgI+JZOnQ8ZuLWzD/THAJikLnymjP90NEZOtPtypZxjiSyzy1/t1M1R0Qz2YKMd2
-	JZTiNN4/V3VoPduRAVm+3rvCEOLrsLm4b8H9vkpGHLn1RgHddOGaeXS+VbpoW0o1tV0Z
-	VOQQ==
-X-Gm-Message-State: AEkoouuE621zkB4uKbbULBo/Cak8tR/j/DvOQp1g23qhRGIF6q1OyjYhBHSPLWMUtcbfig==
-X-Received: by 10.28.107.88 with SMTP id g85mr3007729wmc.49.1470831170317;
-	Wed, 10 Aug 2016 05:12:50 -0700 (PDT)
-Received: from localhost (ip-89-176-104-169.net.upcbroadband.cz.
-	[89.176.104.169]) by smtp.gmail.com with ESMTPSA id
-	o142sm8102945wme.20.2016.08.10.05.12.48
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 10 Aug 2016 05:12:48 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 10 Aug 2016 14:12:54 +0200
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20160810121254.flinpsr7bzwns6ue@jama>
-References: <20160810094725.20395.91512@opal.openembedded.org>
-	<20160810094727.589E850200@opal.openembedded.org>
-	<20160810095921.fzwuugxh525z5e4u@jama>
-	<1470825754.18638.3.camel@linuxfoundation.org>
-MIME-Version: 1.0
-In-Reply-To: <1470825754.18638.3.camel@linuxfoundation.org>
-User-Agent: Mutt/1.6.2 (2016-06-11)
-Cc: openembedded-commits@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe-commits] [openembedded-core] 01/51: piglit: fix build failure with gold linker
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=sEY8wanzPU9NrQRBsqvcMMmAWcRKRF93qtrYb1JlteE=;
+	b=j+oH+VtdbfeICZXE6iYGyQl4Fa1wqawnKqtZeyCnDcp2op7v2C3y8ykOfnQCEm4xGP
+	giEdTdTnBeddoaWK0fe39eLNwuv6RGt/2dcKi44ymXVwdF33DMqVMO7dqg+Bq4DVjsze
+	VJKqLeH6CAHo1LkbjxTZZO46TeElbm/I0iSCZokwuuMAsMODAdiK8fDKo0L7SBs4H/cz
+	4QbWp0kuARAg9M58Hau1SsOaDyOWnGYOZTw7aTd56dZQhn8nYSYUniyQayTI7zeu8bVb
+	ibyH8SltKcWwsd+u6gXok4LxaVAuwU8JNXwpYHwhKMT3d4J1Mwau+29x5AloU8ih7VpI
+	43QA==
+X-Gm-Message-State: AEkoouu62HQXulW4DaZxFaRZvXvk9xNmHCQ6w4dD+YoBlZfwhkw4A0sQRKSWssj1s+xr/A==
+X-Received: by 10.98.34.151 with SMTP id p23mr8046528pfj.102.1470841418259;
+	Wed, 10 Aug 2016 08:03:38 -0700 (PDT)
+Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
+	b64sm64742783pfa.82.2016.08.10.08.03.36
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 10 Aug 2016 08:03:37 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: akuster@mvista.com, openembedded-core@lists.openembedded.org,
+	liezhi.yang@windriver.com
+Date: Wed, 10 Aug 2016 08:03:18 -0700
+Message-Id: <cover.1470841075.git.akuster808@gmail.com>
+X-Mailer: git-send-email 2.3.5
+Subject: [PATCH 0/8] Jethro-next pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,96 +53,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Aug 2016 12:12:50 -0000
-X-Groupsio-MsgNum: 85614
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="rt577pdx5k4rsli4"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 10 Aug 2016 15:03:38 -0000
 
---rt577pdx5k4rsli4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Please consider these changes for jethro-next. 
 
-On Wed, Aug 10, 2016 at 11:42:34AM +0100, Richard Purdie wrote:
-> On Wed, 2016-08-10 at 11:59 +0200, Martin Jansa wrote:
-> > On Wed, Aug 10, 2016 at 09:47:26AM +0000, git@git.openembedded.org wr
-> > ote:
-> > > rpurdie pushed a commit to branch master
-> > > in repository openembedded-core.
-> > >=20
-> > > commit 79005ff905f8c82a8766af5a927b9a0f8929e24f
-> > > Author: Maxin B. John <maxin.john@intel.com>
-> > > AuthorDate: Mon Aug 1 18:34:49 2016 +0300
-> > >=20
-> > >     piglit: fix build failure with gold linker
-> > >    =20
-> > >     When we use gold linker while DISTRO set to "nodistro", piglit
-> > > build
-> > >     fails with the following error:
-> > >    =20
-> > >     | ../../../../lib/libpiglitutil_gl.so.0: error: undefined
-> > > reference to
-> > >     'dlsym'
-> > >     | ../../../../lib/libpiglitutil_gl.so.0: error: undefined
-> > > reference to
-> > >     'dlerror'
-> > >     | ../../../../lib/libpiglitutil_gl.so.0: error: undefined
-> > > reference to
-> > >     'dlopen'
-> > >     | collect2: error: ld returned 1 exit status
-> > >    =20
-> > >     Fix it by providing '-ldl' to LDFLAGS.
-> > >    =20
-> > >     [YOCTO #9851]
-> > >    =20
-> > >     Signed-off-by: Maxin B. John <maxin.john@intel.com>
-> > >     Signed-off-by: Ross Burton <ross.burton@intel.com>
-> > > ---
-> > >  meta/recipes-graphics/piglit/piglit_git.bb | 2 ++
-> > >  1 file changed, 2 insertions(+)
-> > >=20
-> > > diff --git a/meta/recipes-graphics/piglit/piglit_git.bb
-> > > b/meta/recipes-graphics/piglit/piglit_git.bb
-> > > index 811f7af..df90c4d 100644
-> > > --- a/meta/recipes-graphics/piglit/piglit_git.bb
-> > > +++ b/meta/recipes-graphics/piglit/piglit_git.bb
-> > > @@ -30,6 +30,8 @@ do_compile[dirs] =3D+ "${B}/temp/"
-> > >  PACKAGECONFIG ??=3D ""
-> > >  PACKAGECONFIG[freeglut] =3D "-DPIGLIT_USE_GLUT=3D1,
-> > > -DPIGLIT_USE_GLUT=3D0,freeglut,"
-> > > =20
-> > > +LDFLAGS_append =3D " ${@bb.utils.contains('DISTRO_FEATURES', 'ld-is
-> > > -gold', '-ldl', '', d)}"
-> >=20
-> > There was request to fix it properly in piglit code, why was this
-> > version merged instead?
->=20
-> Accidentally. It made it into mut and I'd assumed this was a v2. Sadly
-> I don't keep all patch context in my head. I can revert it.
+The QEMU changes are a second request.
 
-I don't blame you, it's hard to keep all patch context in head without tool=
-s to
-keep it for you (gerrit) :).
+The following changes since commit 7ed60009e2bcdd2380265ca95eb5de2328825eb5:
 
-It can be properly resolved in follow-up change, so I think revert isn't
-necessary for now.
+  libxml2: Security fix for CVE-2016-4448 (2016-07-09 15:47:51 -0700)
 
-Thanks
+are available in the git repository at:
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+  git://git.yoctoproject.org/poky-contrib akuster/jethro-next
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akuster/jethro-next
 
---rt577pdx5k4rsli4
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Armin Kuster (4):
+  qemu: Security fix for CVE-2016-2858
+  qemu: Security fix for CVE-2016-4001
+  qemu: Security fix for CVE-2016-4020
+  qemu: Security fix for CVE-2016-4037
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+Awais Belal (1):
+  python3: fix CROSSPYTHONPATH for cross builds
 
-iEYEARECAAYFAlerGkUACgkQN1Ujt2V2gByfWQCgsbzk/hw3HT75B6pD6OoiiHMC
-e88An3ViggPcRIuhnIXOIsj6/1qPOV24
-=l0uP
------END PGP SIGNATURE-----
+Ismo Puustinen (1):
+  libpcre: Fix CVE-2016-3191
 
---rt577pdx5k4rsli4--
+Jackie Huang (1):
+  python: Fix cross compiling issue
+
+Jussi Kukkonen (1):
+  bind: CVE-2016-2088
+
+ .../bind/bind/CVE-2016-2088.patch                  | 247 +++++++++++++++++++++
+ meta/recipes-connectivity/bind/bind_9.10.2-P4.bb   |   1 +
+ .../add-CROSSPYTHONPATH-for-PYTHON_FOR_BUILD.patch |  31 +++
+ meta/recipes-devtools/python/python3_3.4.3.bb      |   4 +-
+ meta/recipes-devtools/python/python_2.7.9.bb       |   1 +
+ .../recipes-devtools/qemu/qemu/CVE-2016-2858.patch | 182 +++++++++++++++
+ .../qemu/qemu/CVE-2016-2858_pre_1.patch            |  99 +++++++++
+ .../qemu/qemu/CVE-2016-2858_pre_2.patch            | 137 ++++++++++++
+ .../qemu/qemu/CVE-2016-2858_pre_3.patch            | 165 ++++++++++++++
+ .../recipes-devtools/qemu/qemu/CVE-2016-4001.patch |  50 +++++
+ .../recipes-devtools/qemu/qemu/CVE-2016-4020.patch |  38 ++++
+ .../recipes-devtools/qemu/qemu/CVE-2016-4037.patch |  66 ++++++
+ meta/recipes-devtools/qemu/qemu_2.4.0.bb           |   7 +
+ .../libpcre/libpcre/CVE-2016-3191.patch            | 174 +++++++++++++++
+ meta/recipes-support/libpcre/libpcre_8.38.bb       |   1 +
+ 15 files changed, 1201 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-2088.patch
+ create mode 100644 meta/recipes-devtools/python/python/add-CROSSPYTHONPATH-for-PYTHON_FOR_BUILD.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-2858.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-2858_pre_1.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-2858_pre_2.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-2858_pre_3.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-4001.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-4020.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-4037.patch
+ create mode 100644 meta/recipes-support/libpcre/libpcre/CVE-2016-3191.patch
+
+-- 
+2.3.5
+
+
