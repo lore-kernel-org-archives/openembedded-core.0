@@ -1,51 +1,51 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id EEE47771F1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Aug 2016 09:58:08 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id i138so8468054wmf.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Aug 2016 02:58:10 -0700 (PDT)
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 191E5771F1;
+	Wed, 10 Aug 2016 09:59:16 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id q128so8498493wma.1;
+	Wed, 10 Aug 2016 02:59:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:date:to:cc:subject:message-id:references:mime-version
 	:content-disposition:in-reply-to:user-agent;
-	bh=CXUEkxcWSywSeVkmZS00d3gDmpF65V+aMnsHPdNn2RY=;
-	b=XDe2tYF0hy5vj8S122vL3cjP6h2jk5+PECM+OGhi1zPcgzk0kzQ1Q4+p7JUt6mijvU
-	C+qNjKU0yeW5tQMg3kjIJ7XsHjNMp4N415fqvYAoAbm0QdrTNqxj/g1k9beQ4Gh2Z5uv
-	RRMAz+J9pQ+5WF8q1MTtseg0gnIBpesxa2NIq+0HoZ8+xXk3eANc9jJBOvPCCbC8+cJK
-	0ae/ccYUfCtPUQuOsryMBGzoUVH8ztkqydKTh1QfjBcNFCyucI9uSGA0uInsUwEA+oNq
-	w0x5z4QpGk67Ok5phJWafX7OkAU6PQIGqwmfEr0in0IetncfPP5ibVR4ccTzuDRmTnFP
-	lgxw==
+	bh=W31G6JtJMuZ4CX/LLaP07LtROec36+8VuF0U+tsMmA8=;
+	b=ejhFzHX84yE4emk0osXQhiZoQHtZsgxtZHauXLs9yH2VcrB2mMxaFibBnuoIg8ehEZ
+	99l1eIoUrC2s0SklVM/GBt2KBwtqqxx6KCZcq03N6DRpiygwdiZTrkusCKT3zJunUTC7
+	DTNCLlAhZcQNRoKH/N8udX4TYFJZZe5DFjo8I6rWjU4zHUOLUdcF2Z/Zbu6M+TlXCwoD
+	JvCi6ZrufkbP1UU4CyCU+V4WESse+CSnBw58frYrgtbChnFov7Mk1lo6qdpDJYE0+9mV
+	+v3pnTnxiKncGMmjd4dg5Qqn9iY9paAzCDhLQwOWAoIzudYKPhAhNiqqeF/Rw9mEVypv
+	E5YA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=CXUEkxcWSywSeVkmZS00d3gDmpF65V+aMnsHPdNn2RY=;
-	b=k1dVHXUYjpuMH1TnRD1Oaw6v5l9YwC1YrBscz//HKUwJnm7UjMi5er/xwXGob1YrTM
-	M9oYwGsXhlwPu63UHBJZA/IXcxxXgF+5Wtn0d4yXA1roZ47MfY8EbTETq9ozZc6ZiykY
-	pm0fe3oImFj+Zzg95cDp/Z1W6knw6+jlfW6CqX3yAICBKaodBAiI8ZgBEqWTuvjeNvLd
-	YZTDm8dEUetmHfTh8HXgpMSTQeiV3/JbGndyjBhqrWGJpFKNAQ14UosuLWOerb/8TFVx
-	jTQAJdzhy7DXfoVC10fGBoEEUks9xUn+hC7BVCeSd5HleocDz1jheb0Q2ekWjSTMfaMA
-	Q8IA==
-X-Gm-Message-State: AEkoousdEYnWAhniV9JUII8eLM4+5MwlKZ4mPOLamuIQUCPd070uzfRVz8xHS883jLLYeQ==
-X-Received: by 10.194.175.170 with SMTP id cb10mr3063785wjc.17.1470823089053; 
-	Wed, 10 Aug 2016 02:58:09 -0700 (PDT)
+	bh=W31G6JtJMuZ4CX/LLaP07LtROec36+8VuF0U+tsMmA8=;
+	b=Nx/kdh0bZqYSdADN7txZrRImLKsxvP/WYY1cbGbU7v+Oh1LRVHPR1/V9Oe4Hhbtngo
+	Q1yRSkpQVIAIGEsvd7zHzctCv4/ECjtorlWUDMEhssczaUu3TS+cuvbdP1lm0ZRBybao
+	dECm1Zbd02bcrIbFUzeW63/9Tm1siDFD1wumF54pJXi1lqYhIezmZ3R4oCXe77K7BtYV
+	qSx5g962WsojSet8h8yGlE4bzBUndCTuU3EM5v+98ePu1l4W9deLgJTmTbsb9lVETfxe
+	v3oBTcmssZAIY450z0EBDs8bARjr7OIW5E8fhSNKU5FcJhI5Wilg4FvrPKc8cQ/1BoE4
+	ue+Q==
+X-Gm-Message-State: AEkoouutFPBKutl0b5reZOYEerpRICNcY77YN36xWJ3kXcbwKKD3wuLbVccWAkp5nZlBCA==
+X-Received: by 10.28.191.14 with SMTP id p14mr2202183wmf.39.1470823156895;
+	Wed, 10 Aug 2016 02:59:16 -0700 (PDT)
 Received: from localhost (ip-89-176-104-169.net.upcbroadband.cz.
 	[89.176.104.169]) by smtp.gmail.com with ESMTPSA id
-	t185sm4549949wma.2.2016.08.10.02.58.07
+	d80sm7537617wmd.14.2016.08.10.02.59.15
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 10 Aug 2016 02:58:07 -0700 (PDT)
+	Wed, 10 Aug 2016 02:59:15 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 10 Aug 2016 11:58:12 +0200
-To: "Maxin B. John" <maxin.john@intel.com>
-Message-ID: <20160810095812.duksmuoyl5r6t5zt@jama>
-References: <1470821429-6094-1-git-send-email-maxin.john@intel.com>
+Date: Wed, 10 Aug 2016 11:59:21 +0200
+To: openembedded-core@lists.openembedded.org,
+	"Maxin B. John" <maxin.john@intel.com>
+Message-ID: <20160810095921.fzwuugxh525z5e4u@jama>
+References: <20160810094725.20395.91512@opal.openembedded.org>
+	<20160810094727.589E850200@opal.openembedded.org>
 MIME-Version: 1.0
-In-Reply-To: <1470821429-6094-1-git-send-email-maxin.john@intel.com>
+In-Reply-To: <20160810094727.589E850200@opal.openembedded.org>
 User-Agent: Mutt/1.6.2 (2016-06-11)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 00/10] replace xtscal with xinput-calibrator
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] [openembedded-core] 01/51: piglit: fix build failure with gold linker
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,137 +58,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Aug 2016 09:58:10 -0000
-X-Groupsio-MsgNum: 85609
+X-List-Received-Date: Wed, 10 Aug 2016 09:59:17 -0000
+X-Groupsio-MsgNum: 85610
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="w3kn44f2tlcvlhb5"
+	protocol="application/pgp-signature"; boundary="qt257qdwq6dy2wbb"
 Content-Disposition: inline
 
---w3kn44f2tlcvlhb5
+--qt257qdwq6dy2wbb
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 10, 2016 at 12:30:19PM +0300, Maxin B. John wrote:
-> Remove xtscal in preference of xinput-calibrator
+On Wed, Aug 10, 2016 at 09:47:26AM +0000, git@git.openembedded.org wrote:
+> rpurdie pushed a commit to branch master
+> in repository openembedded-core.
 >=20
-> [YOCTO #9365]
-> [YOCTO #8380]
+> commit 79005ff905f8c82a8766af5a927b9a0f8929e24f
+> Author: Maxin B. John <maxin.john@intel.com>
+> AuthorDate: Mon Aug 1 18:34:49 2016 +0300
 >=20
-> Changes in v2:
->     1. Removed bash dependency from xinput-calibrator
->     2. Moved tslib recipe from oe-core since modern systems tend to use
->        kernel driver or libinput
->     3. removed pointercal reference from packagegroup-core-x11-base
->     4. removed tslib references from packagegroup-core-tools-testapps
+>     piglit: fix build failure with gold linker
+>    =20
+>     When we use gold linker while DISTRO set to "nodistro", piglit build
+>     fails with the following error:
+>    =20
+>     | ../../../../lib/libpiglitutil_gl.so.0: error: undefined reference to
+>     'dlsym'
+>     | ../../../../lib/libpiglitutil_gl.so.0: error: undefined reference to
+>     'dlerror'
+>     | ../../../../lib/libpiglitutil_gl.so.0: error: undefined reference to
+>     'dlopen'
+>     | collect2: error: ld returned 1 exit status
+>    =20
+>     Fix it by providing '-ldl' to LDFLAGS.
+>    =20
+>     [YOCTO #9851]
+>    =20
+>     Signed-off-by: Maxin B. John <maxin.john@intel.com>
+>     Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/recipes-graphics/piglit/piglit_git.bb | 2 ++
+>  1 file changed, 2 insertions(+)
 >=20
-> The following changes since commit dfc016fbf13e62f7767edaf7abadf1d1b72680=
-b2:
->=20
-> maintainers.inc: remove augeas (2016-08-02 14:05:58 +0100)
+> diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-gr=
+aphics/piglit/piglit_git.bb
+> index 811f7af..df90c4d 100644
+> --- a/meta/recipes-graphics/piglit/piglit_git.bb
+> +++ b/meta/recipes-graphics/piglit/piglit_git.bb
+> @@ -30,6 +30,8 @@ do_compile[dirs] =3D+ "${B}/temp/"
+>  PACKAGECONFIG ??=3D ""
+>  PACKAGECONFIG[freeglut] =3D "-DPIGLIT_USE_GLUT=3D1,-DPIGLIT_USE_GLUT=3D0=
+,freeglut,"
+> =20
+> +LDFLAGS_append =3D " ${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold=
+', '-ldl', '', d)}"
 
-It would be nice to order the changes in this series that the recipes
-are removed only after the references to them to keep the history
-bisect-able, e.g. xtscal, tslib and pointercal are removed while they are s=
-till
-referenced from elsewhere.
+There was request to fix it properly in piglit code, why was this
+version merged instead?
 
-> are available in the git repository at:
->=20
-> git://git.yoctoproject.org/poky-contrib maxin/xtscal
-> http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=3Dmaxin/xtscal
->=20
-> Maxin B. John (10):
->   xtscal: remove recipe
->   x11-common: replace xtscal with xinput-calibrator
->   pointercal-xinput: add a dummy calibration file for qemu
->   packagegroup-core-x11-base.bb: remove pointercal
->   xinput-calibrator: remove bash dependency
->   pointercal: remove recipe
->   tslib: remove recipe
->   packagegroup-core-tools-testapps: remove tslib references
->   distro_alias.inc: remove xtscal, pointercal and tslib references
->   layer.conf: remove pointercal
->=20
->  meta/conf/distro/include/distro_alias.inc          |   3 -
->  meta/conf/layer.conf                               |   1 -
->  meta/recipes-bsp/pointercal/pointercal/COPYING     |   2 -
->  meta/recipes-bsp/pointercal/pointercal/pointercal  |   0
->  .../pointercal/pointercal/qemuarm/pointercal       |   1 -
->  .../pointercal/pointercal/qemuarmv6/pointercal     |   1 -
->  .../pointercal/pointercal/qemuarmv7/pointercal     |   1 -
->  .../pointercal/pointercal/qemumips/pointercal      |   1 -
->  .../pointercal/pointercal/qemuppc/pointercal       | Bin 36 -> 0 bytes
->  .../pointercal/pointercal/qemux86-64/pointercal    |   1 -
->  .../pointercal/pointercal/qemux86/pointercal       |   1 -
->  meta/recipes-bsp/pointercal/pointercal_0.0.bb      |  22 -
->  .../packagegroup-core-tools-testapps.bb            |   2 -
->  .../packagegroups/packagegroup-core-x11-base.bb    |   1 -
->  meta/recipes-graphics/tslib/tslib/ts.conf          |  25 -
->  meta/recipes-graphics/tslib/tslib/tslib.sh         |   8 -
->  meta/recipes-graphics/tslib/tslib_1.1.bb           |  53 --
->  meta/recipes-graphics/x11-common/x11-common_0.1.bb |   2 +-
->  .../pointercal-xinput/qemuall/pointercal.xinput    |   2 +
->  .../add-geometry-input-when-calibrating.patch      |  31 +-
->  .../xinput-calibrator/xinput-calibrator_git.bb     |   2 +-
->  .../xtscal/xtscal/30xTs_Calibrate.sh               |  13 -
->  .../xtscal/xtscal/change-cross.patch               |  18 -
->  meta/recipes-graphics/xtscal/xtscal/cleanup.patch  | 621 ---------------=
-------
->  .../xtscal/dso_linking_change_build_fix.patch      |  27 -
->  meta/recipes-graphics/xtscal/xtscal_0.6.3.bb       |  33 --
->  26 files changed, 20 insertions(+), 852 deletions(-)
->  delete mode 100644 meta/recipes-bsp/pointercal/pointercal/COPYING
->  delete mode 100644 meta/recipes-bsp/pointercal/pointercal/pointercal
->  delete mode 100644 meta/recipes-bsp/pointercal/pointercal/qemuarm/pointe=
-rcal
->  delete mode 100644 meta/recipes-bsp/pointercal/pointercal/qemuarmv6/poin=
-tercal
->  delete mode 100644 meta/recipes-bsp/pointercal/pointercal/qemuarmv7/poin=
-tercal
->  delete mode 100644 meta/recipes-bsp/pointercal/pointercal/qemumips/point=
-ercal
->  delete mode 100644 meta/recipes-bsp/pointercal/pointercal/qemuppc/pointe=
-rcal
->  delete mode 100644 meta/recipes-bsp/pointercal/pointercal/qemux86-64/poi=
-ntercal
->  delete mode 100644 meta/recipes-bsp/pointercal/pointercal/qemux86/pointe=
-rcal
->  delete mode 100644 meta/recipes-bsp/pointercal/pointercal_0.0.bb
->  delete mode 100644 meta/recipes-graphics/tslib/tslib/ts.conf
->  delete mode 100644 meta/recipes-graphics/tslib/tslib/tslib.sh
->  delete mode 100644 meta/recipes-graphics/tslib/tslib_1.1.bb
->  create mode 100644 meta/recipes-graphics/xinput-calibrator/pointercal-xi=
-nput/qemuall/pointercal.xinput
->  delete mode 100644 meta/recipes-graphics/xtscal/xtscal/30xTs_Calibrate.sh
->  delete mode 100644 meta/recipes-graphics/xtscal/xtscal/change-cross.patch
->  delete mode 100644 meta/recipes-graphics/xtscal/xtscal/cleanup.patch
->  delete mode 100644 meta/recipes-graphics/xtscal/xtscal/dso_linking_chang=
-e_build_fix.patch
->  delete mode 100644 meta/recipes-graphics/xtscal/xtscal_0.6.3.bb
+> +
+>  do_configure_prepend() {
+>     if [ "${@bb.utils.contains('PACKAGECONFIG', 'freeglut', 'yes', 'no', =
+d)}" =3D "no" ]; then
+>          sed -i -e "/^#.*include <GL\/freeglut_ext.h>$/d" ${S}/src/piglit=
+/glut_wrap.h
 >=20
 > --=20
-> 2.4.0
->=20
+> To stop receiving notification emails like this one, please contact
+> the administrator of this repository.
 > --=20
 > _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---w3kn44f2tlcvlhb5
+--qt257qdwq6dy2wbb
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2
 
-iEYEARECAAYFAleq+iEACgkQN1Ujt2V2gBw2bwCaAwQJ/LpKgFWQVcCy0M88DKgr
-d3AAoJr4ZtXZVpzgg2ETaLRP6DGb/R6+
-=9Inc
+iEYEARECAAYFAleq+vgACgkQN1Ujt2V2gBzBwACfQjvWM5KO6feqXIIeLP6FgjmS
+49cAn268BFoxJwtW9eTGXFP8SSfQWK9w
+=59XY
 -----END PGP SIGNATURE-----
 
---w3kn44f2tlcvlhb5--
+--qt257qdwq6dy2wbb--
