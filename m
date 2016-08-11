@@ -1,30 +1,22 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C21F177081
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 9BBAE7705F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2016 17:11:50 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7BHBoYS001296
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 11 Aug 2016 10:11:50 -0700 (PDT)
-Received: from msp-dhcp10.wrs.com (172.25.34.10) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 11 Aug 2016 10:11:49 -0700
-To: "Burton, Ross" <ross.burton@intel.com>, Chen Qi <Qi.Chen@windriver.com>
-References: <cover.1470636212.git.Qi.Chen@windriver.com>
-	<8374cee610f770f4e027f92785bc0bed13334fbb.1470636212.git.Qi.Chen@windriver.com>
-	<CAJTo0LaULRXouHYMfKCMUmtFERseR9vZhWXeC-yK9GLrMTwofQ@mail.gmail.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <6cac214c-b73f-af4d-655f-f911788cdc3e@windriver.com>
-Date: Thu, 11 Aug 2016 12:11:48 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
-	Gecko/20100101 Thunderbird/45.2.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LaULRXouHYMfKCMUmtFERseR9vZhWXeC-yK9GLrMTwofQ@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] bitbake.conf: change localedir
+	Thu, 11 Aug 2016 18:14:14 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 11 Aug 2016 11:14:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,506,1464678000"; d="scan'208";a="1012761233"
+Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.jf.intel.com)
+	([10.54.69.56])
+	by orsmga001.jf.intel.com with ESMTP; 11 Aug 2016 11:14:14 -0700
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 11 Aug 2016 18:10:59 +0000
+Message-Id: <1470939059-32387-1-git-send-email-alejandro.hernandez@linux.intel.com>
+X-Mailer: git-send-email 2.6.6
+Cc: joshua.g.lock@intel.com, Roy Li <rongqing.li@windriver.com>
+Subject: [PATCH][fido] systemd: re-enable mount propagation for udevd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,56 +29,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Aug 2016 17:11:51 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 11 Aug 2016 18:14:17 -0000
 
-On 8/11/16 11:26 AM, Burton, Ross wrote:
-> 
-> On 8 August 2016 at 07:04, Chen Qi <Qi.Chen@windriver.com
-> <mailto:Qi.Chen@windriver.com>> wrote:
-> 
->     Previously, localedir is set to "${libdir}/locale". This would result
->     in locale database installed in '/usr/lib64/locale' in some multilib case.
->     For example, if we build out a multilib x86-64 self-hosted image and we try
->     to build projects on this host, things broke and the following error appears.
-> 
->       Please use a locale setting which supports utf-8.
->       Python can't change the filesystem locale after loading so we need a utf-8
->     when python starts or things won't work.
-> 
->     This is because '/usr/lib/locale' is the default one. And actually the
->     nativesdk-glibc is now set to use '/usr/lib/locale'.
-> 
-> 
-> This is irrelevant as nativesdk-glibc is configured to read the *hosts* locale
-> directory.
->  
-> 
->     Thus, we change the setting of 'localedir' to '${nonarch_libdir}/locale' to
->     fix the above problem.
-> 
-> 
-> I see two issues here:
-> 1) should binary locales be considered shared in multilib environments? (libdir
-> vs nonarch_libdir)
-> 2) what packages are not respecting this variable and hard-coding /usr/lib/locale?
-> 
-> I'm guessing WR think yes to (1), and is the glibc patch you also sent the
-> fundamental fix to (2)?
+From: Roy Li <rongqing.li@windriver.com>
 
-Binary locales have an endian and alignment setting to them.  If a platform
-supports both big and little endian, this common locale would not work.  (That
-is extremely rare....)  Also if a platform supports different alignments in
-different libraries that could cause an impact as well.  (This is also extremely
-unlikely.)
+With MountFlags=slave, those mounts then become private to the systemd-udevd
+namespace and are no longer accessible from outside the namespace, which is
+not expected
 
-The not-binary locales have no such issues BTW.
+[YOCTO #8613]
 
---Mark
+(From OE-Core rev: 73f43d857fe0102033f25491007b6dbe3d5fa8ee)
 
-> Ross
-> 
-> 
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit f2092e67ea880301058396b831a9a18905317d0d)
+Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+---
+ ...dev-re-enable-mount-propagation-for-udevd.patch | 31 ++++++++++++++++++++++
+ meta/recipes-core/systemd/systemd_219.bb           |  1 +
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/udev-re-enable-mount-propagation-for-udevd.patch
+
+diff --git a/meta/recipes-core/systemd/systemd/udev-re-enable-mount-propagation-for-udevd.patch b/meta/recipes-core/systemd/systemd/udev-re-enable-mount-propagation-for-udevd.patch
+new file mode 100644
+index 0000000..23e22d4
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/udev-re-enable-mount-propagation-for-udevd.patch
+@@ -0,0 +1,31 @@
++From: Michael Biebl <biebl@debian.org>
++Date: Sat, 27 Sep 2014 04:19:24 +0200
++Subject: udev: re-enable mount propagation for udevd
++
++Upstream-Status: Backport [http://http.debian.net/debian/pool/main/s/systemd/systemd_215-17+deb8u4.debian.tar.xz]
++
++laptop-mode-tools remounts file systems from within a udev rule to apply
++certain mount options. With MountFlags=slave, those mounts then become private
++to the systemd-udevd namespace and are no longer accessible from outside the
++namespace.
++While the root cause is the broken behaviour of laptop-mode-tools, with mount
++propagation turned off, this can result in a read-only root file system.
++Therefore revert the relevant parts from commit
++c2c13f2df42e0691aecabe3979ea81cd7faa35c7 to re-enable mount propagation for
++udevd.
++
++Once affected packages have been fixed, this patch should be dropped
++again.
++
++Closes: #762018
++diff --git a/units/systemd-udevd.service.in b/units/systemd-udevd.service.in
++index e7216d6..1e9a600 100644
++--- a/units/systemd-udevd.service.in
+++++ b/units/systemd-udevd.service.in
++@@ -21,6 +21,5 @@ Sockets=systemd-udevd-control.socket systemd-udevd-kernel.socket
++ Restart=always
++ RestartSec=0
++ ExecStart=@rootlibexecdir@/systemd-udevd
++-MountFlags=slave
++ KillMode=mixed
++ WatchdogSec=1min
+diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
+index b972dd4..1d08c9e 100644
+--- a/meta/recipes-core/systemd/systemd_219.bb
++++ b/meta/recipes-core/systemd/systemd_219.bb
+@@ -49,6 +49,7 @@ SRC_URI = "git://github.com/systemd/systemd-stable;branch=v219-stable;protocol=g
+            file://00-create-volatile.conf \
+            file://init \
+            file://run-ptest \
++           file://udev-re-enable-mount-propagation-for-udevd.patch \
+           "
+ 
+ S = "${WORKDIR}/git"
+-- 
+2.6.6
 
 
