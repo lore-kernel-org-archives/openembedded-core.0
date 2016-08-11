@@ -1,36 +1,45 @@
-Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 186FC771A8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id A969373695
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2016 11:28:08 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u7BBS8m1007432; Thu, 11 Aug 2016 06:28:08 -0500
-Received: from adi-pc-linux ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016081106280816-930412 ;
-	Thu, 11 Aug 2016 06:28:08 -0500 
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-To: "Burton\, Ross" <ross.burton@intel.com>
-In-Reply-To: <87eg5vmvgx.fsf@ni.com>
-References: <20160811093906.353-1-adrian.ratiu@ni.com>
-	<CAJTo0LZ_Ka0jK8HyaoutN9bw72mhOaO4qVnmS_s-0xLN0qsrpg@mail.gmail.com>
-	<87eg5vmvgx.fsf@ni.com>
-User-Agent: Notmuch/0.22.1 (https://notmuchmail.org) Emacs/25.1.50.1
-	(x86_64-unknown-linux-gnu)
-Date: Thu, 11 Aug 2016 14:26:55 +0300
-Message-ID: <87bn0zmtq8.fsf@ni.com>
-MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 08/11/2016 06:28:08 AM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 08/11/2016 06:28:08 AM,
-	Serialize complete at 08/11/2016 06:28:08 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-08-11_08:, , signatures=0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] kernel.bbclass: fix emit_depmod_pkgdata()	workdir
+	Thu, 11 Aug 2016 12:34:18 +0000 (UTC)
+Received: by mail-wm0-f49.google.com with SMTP id i5so13166954wmg.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Aug 2016 05:34:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=1ZsBn6X0/B8Z3txm5RyPYQmTPBWRKCrVgrQn1m+Lsac=;
+	b=em7NWjDQ+tv97M9ttI1uH6ALLZ8zz8DgV2j3p96gq81AuAHEMlkctV4g2yeIA/5epW
+	T3UEqN1cBlAtqKBXSWiWgHvI5aU5o70rQ9vInsFeYkGnlnl8D+veWMDJ5H0EJ62LPOGm
+	rozrDzzaUSWkV4iSTgTaIjCgGMT45HjL+5gmImt+pcDWbz5ScxSgiEyn4fB98XgcRWY1
+	BHtaUtjqKc9IfFLIx4pkNtfDTHF/kGVjYnHRs2vglr0DUH8Xu7OUqed2DTArhGMzBZr0
+	mznMX90bPLAqntnbtBPryOCZIhpLxO2f2EfFLE2m1LZAkZUmtztrRyNhlfIcwstz4lPs
+	knDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=1ZsBn6X0/B8Z3txm5RyPYQmTPBWRKCrVgrQn1m+Lsac=;
+	b=J4oRTVeEN62I6zoOlR3cQMZ5u7WINsX6hsFJTnqRImziwtTk8YwnTTHoIX7qr8FwPP
+	qmZtE78FPT969UmLxDKi9PdHnh/v5hvisP6sqNkhfUPr+MtEv5iIPiK3mqIY5RQhsYOx
+	RtJ/lLk7F48F+FFdWrPD6YL6GgvwLb7AsFzNmYLUu+LasOOHGCVes8Ud3+0T3zkJ76e5
+	tSM6HJwLlJKecKRIRjh0vwOIf68Kmzr5LEIngfCMjMFRGA4JcxJXU4kzQB7SRsiXuf9P
+	l5YPHYsNsCovAATTLrvTcNaBWP0pVNHjWgJ7XTBqT6WZcqr+Q/jfHvpFyRm1whwYGwPj
+	CXIw==
+X-Gm-Message-State: AEkoouuJZGVV/02on1RZ3ku0ZRAxqfB34CENkCmm2xS8rJbzLecbR5UxiQyjvAkfSLeW1D7K
+X-Received: by 10.28.46.204 with SMTP id u195mr8526476wmu.57.1470918858108;
+	Thu, 11 Aug 2016 05:34:18 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id a9sm2533419wjf.16.2016.08.11.05.34.16
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 11 Aug 2016 05:34:16 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 11 Aug 2016 13:34:15 +0100
+Message-Id: <1470918855-8429-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.8.1
+Subject: [PATCH] lib/oeqa/selftest/bbtests: don't report expected failures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,31 +52,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Aug 2016 11:28:09 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 11 Aug 2016 12:34:20 -0000
 
-On Thu, 11 Aug 2016, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
-> On Thu, 11 Aug 2016, "Burton, Ross" <ross.burton@intel.com> wrote:
->> On 11 August 2016 at 10:39, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
->>
->>> bitbake commit 67a7b8b02 "build: don't use $B as the default cwd for
->>> functions" breaks the assumption that this function is running under
->>> ${B}. This causes build failures because System.map is under ${B}.
->>> Fix this by using an absolute path instead of relying on cwd.
->>>
->>
->> This failed to apply and I noticed that I fixed this myself in July...
->
-> What commit id is the fix on the master branch? I can't find it..
->
+Another instance where expected failures need to be not reported to the error
+reporting service.
 
-I managed to find it d596286bc4cf1977 thanks!
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/lib/oeqa/selftest/bbtests.py | 1 +
+ 1 file changed, 1 insertion(+)
 
->>
->> Ross
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/lib/oeqa/selftest/bbtests.py b/meta/lib/oeqa/selftest/bbtests.py
+index 8698400..d8cb835 100644
+--- a/meta/lib/oeqa/selftest/bbtests.py
++++ b/meta/lib/oeqa/selftest/bbtests.py
+@@ -134,6 +134,7 @@ class BitbakeTests(oeSelfTest):
+         self.write_recipeinc('man', data)
+         self.write_config("""DL_DIR = \"${TOPDIR}/download-selftest\"
+ SSTATE_DIR = \"${TOPDIR}/download-selftest\"
++INHERIT_remove = \"report-error\"
+ """)
+         self.track_for_cleanup(os.path.join(self.builddir, "download-selftest"))
+ 
+-- 
+2.8.1
+
 
