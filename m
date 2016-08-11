@@ -1,31 +1,46 @@
-Return-Path: <clemens.lang@bmw-carit.de>
-Received: from cit-hm8-gw01.bmw-carit.de (cit-hm8-mail01.bmw-carit.de
-	[212.118.206.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 592EF77196
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f43.google.com (mail-it0-f43.google.com
+	[209.85.214.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 0EA2A77196
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2016 10:05:00 +0000 (UTC)
-Received: from [10.40.100.14] (port=53262 helo=cit-hm8-mail01.bmw-carit.de)
-	by cit-hm8-gw01.bmw-carit.de with esmtps (TLSv1.2:AES256-SHA:256)
-	(Exim 4.82_1-5b7a7c0-XX) (envelope-from <Clemens.Lang@bmw-carit.de>)
-	id 1bXmrD-0005Ag-0w for openembedded-core@lists.openembedded.org;
-	Thu, 11 Aug 2016 12:04:59 +0200
-Received: from clang-buildbox.bmw-carit.intra (172.20.20.251) by
-	CIT-HM8-EX02.bmw-carit.intra (10.40.100.14) with Microsoft SMTP Server
-	(TLS) id 15.0.1178.4; Thu, 11 Aug 2016 12:04:57 +0200
-X-CTCH-RefID: str=0001.0A0C0206.57AC4DCB.00C6, ss=1, re=0.000, recu=0.000,
-	reip=0.000, cl=1, cld=1, fgs=0
-From: Clemens Lang <clemens.lang@bmw-carit.de>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 11 Aug 2016 12:04:13 +0200
-Message-ID: <1470909853-22262-2-git-send-email-clemens.lang@bmw-carit.de>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <1470909853-22262-1-git-send-email-clemens.lang@bmw-carit.de>
-References: <1470909853-22262-1-git-send-email-clemens.lang@bmw-carit.de>
+	Thu, 11 Aug 2016 10:20:25 +0000 (UTC)
+Received: by mail-it0-f43.google.com with SMTP id x130so1841793ite.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Aug 2016 03:20:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=ksm6chBh2+d65OAsVLUyt5WqDGUCAyoZGGhOGd3VYaU=;
+	b=X+1uvaazCI+QnXM2QC6NtBG8eHBDf/bmBnL2zM8T6D7IIxChTFO/P68MmHF4jPpPPv
+	9/hUNnKD4iu97VOFxJezyHzYvzE54sHM0JYN6uoeqstGwilAYJzYTQ1gI2rIOyChhYaM
+	Eg7Yg+mF8FCLJzzNVOZqkwXQxIFOYmSsWtQ7lNx5JqNdyWHjpBq29zdtC00R9cibEHGN
+	w2TqW2/r/F7VRoDTpkc2vSiXRiJ58ou/t+mvBZCjmx/spbInEvHJR5L4JUuO39fRcmA6
+	fOx/O7A68KZq66ZaH5kM+pNqxNT5X9BRU9SHrtz7sH+y4H+INiy10m/TO6/vZ/6P6lEC
+	WsaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=ksm6chBh2+d65OAsVLUyt5WqDGUCAyoZGGhOGd3VYaU=;
+	b=fafvXTdSuRihu4UZw+jCZFnzUQlmg9B6HKrubg+RiDJlzutf/MPHcEtr8JEb23ryMK
+	ezbCVpyNLJNY5sKP7dXzCnS6ArlXAvGJwD7O9tKWKaYkNYWH7E+flICA4Qg2H3OPhKF1
+	tS+97Q+hvArufUwGCAG6m/82QgdgcigswbpKh8ycJ2r3ovs8Z1MoEoGuV7k5OPn6e/HJ
+	NaWPHe/UVushWcIzzxW0G7T/Px0gPKuTAXBtY0dwfnwhnN5kkE1xE+UEF74/CHdC3W+3
+	Tc4ZjIs/jPJ+qCymw8bz+FPk4k0Y+25FXTUMih99co+rUQVm7r4ykl+ygahkNfcqGw1O
+	ENEA==
+X-Gm-Message-State: AEkooutb1q3JACq+lt168nc5J2UW4eCn0SjQehKmY5Z1q2VwTXYHC95FXIPLVjR/D41fGZRD4EXCjXW/lf7ZQmCI
+X-Received: by 10.36.129.213 with SMTP id q204mr9027653itd.38.1470910826335;
+	Thu, 11 Aug 2016 03:20:26 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [172.20.20.251]
-X-ClientProxiedBy: CIT-HM8-EX01.bmw-carit.intra (10.40.100.13) To
-	CIT-HM8-EX02.bmw-carit.intra (10.40.100.14)
-Subject: [PATCH] gitpkgv: Fix $GITPKV for a single named git source
+Received: by 10.107.18.17 with HTTP; Thu, 11 Aug 2016 03:20:05 -0700 (PDT)
+In-Reply-To: <20160811093906.353-1-adrian.ratiu@ni.com>
+References: <20160811093906.353-1-adrian.ratiu@ni.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 11 Aug 2016 11:20:05 +0100
+Message-ID: <CAJTo0LZ_Ka0jK8HyaoutN9bw72mhOaO4qVnmS_s-0xLN0qsrpg@mail.gmail.com>
+To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] kernel.bbclass: fix emit_depmod_pkgdata() workdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,45 +53,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Aug 2016 10:05:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 11 Aug 2016 10:20:26 -0000
+Content-Type: multipart/alternative; boundary=94eb2c08b1fc4ce6b80539c91d5b
 
-Recipes that fetch from a single git source, assign a name to this
-source and do not set SRCREV_FORMAT to this name will always get
-a GITPKGV value of "default", which causes version-going-backwards QA
-errors.
+--94eb2c08b1fc4ce6b80539c91d5b
+Content-Type: text/plain; charset=UTF-8
 
-Fix this by automatically determining a suitable SRCREV_FORMAT from the
-SRC_URI if none is set explicitly. This code does not run for multiple
-git sources, because bitbake's fetcher enforces setting SRCREV_FORMAT
-when multiple version-controlled sources are used.
+On 11 August 2016 at 10:39, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
 
-Signed-off-by: Clemens Lang <clemens.lang@bmw-carit.de>
----
- meta-oe/classes/gitpkgv.bbclass | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+> bitbake commit 67a7b8b02 "build: don't use $B as the default cwd for
+> functions" breaks the assumption that this function is running under
+> ${B}. This causes build failures because System.map is under ${B}.
+> Fix this by using an absolute path instead of relying on cwd.
+>
 
-diff --git a/meta-oe/classes/gitpkgv.bbclass b/meta-oe/classes/gitpkgv.bbclass
-index 1cba00c..f73304a 100644
---- a/meta-oe/classes/gitpkgv.bbclass
-+++ b/meta-oe/classes/gitpkgv.bbclass
-@@ -61,7 +61,14 @@ def get_git_pkgv(d, use_tags):
-     #
-     format = d.getVar('SRCREV_FORMAT', True)
-     if not format:
--        format = 'default'
-+        names = []
-+        for url in ud.values():
-+            if url.type == 'git' or url.type == 'gitsm':
-+                names.extend(url.revisions.keys())
-+        if len(names) > 0:
-+            format = '_'.join(names)
-+        else:
-+            format = 'default'
- 
-     found = False
-     for url in ud.values():
--- 
-2.8.1
+This failed to apply and I noticed that I fixed this myself in July...
 
+Ross
 
+--94eb2c08b1fc4ce6b80539c91d5b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 11 August 2016 at 10:39, Ioan-Adrian Ratiu <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:adrian.ratiu@ni.com" target=3D"_blank">adrian.ratiu@ni.com</a>&g=
+t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">bitbake=
+ commit 67a7b8b02 &quot;build: don&#39;t use $B as the default cwd for<br>
+functions&quot; breaks the assumption that this function is running under<b=
+r>
+${B}. This causes build failures because System.map is under ${B}.<br>
+</span>Fix this by using an absolute path instead of relying on cwd.<br></b=
+lockquote></div><br>This failed to apply and I noticed that I fixed this my=
+self in July...=C2=A0</div><div class=3D"gmail_extra"><br></div><div class=
+=3D"gmail_extra">Ross</div></div>
+
+--94eb2c08b1fc4ce6b80539c91d5b--
