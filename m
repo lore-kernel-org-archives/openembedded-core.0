@@ -1,45 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id A969373695
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id F1BD177236
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2016 12:34:18 +0000 (UTC)
-Received: by mail-wm0-f49.google.com with SMTP id i5so13166954wmg.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2016 05:34:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=1ZsBn6X0/B8Z3txm5RyPYQmTPBWRKCrVgrQn1m+Lsac=;
-	b=em7NWjDQ+tv97M9ttI1uH6ALLZ8zz8DgV2j3p96gq81AuAHEMlkctV4g2yeIA/5epW
-	T3UEqN1cBlAtqKBXSWiWgHvI5aU5o70rQ9vInsFeYkGnlnl8D+veWMDJ5H0EJ62LPOGm
-	rozrDzzaUSWkV4iSTgTaIjCgGMT45HjL+5gmImt+pcDWbz5ScxSgiEyn4fB98XgcRWY1
-	BHtaUtjqKc9IfFLIx4pkNtfDTHF/kGVjYnHRs2vglr0DUH8Xu7OUqed2DTArhGMzBZr0
-	mznMX90bPLAqntnbtBPryOCZIhpLxO2f2EfFLE2m1LZAkZUmtztrRyNhlfIcwstz4lPs
-	knDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=1ZsBn6X0/B8Z3txm5RyPYQmTPBWRKCrVgrQn1m+Lsac=;
-	b=J4oRTVeEN62I6zoOlR3cQMZ5u7WINsX6hsFJTnqRImziwtTk8YwnTTHoIX7qr8FwPP
-	qmZtE78FPT969UmLxDKi9PdHnh/v5hvisP6sqNkhfUPr+MtEv5iIPiK3mqIY5RQhsYOx
-	RtJ/lLk7F48F+FFdWrPD6YL6GgvwLb7AsFzNmYLUu+LasOOHGCVes8Ud3+0T3zkJ76e5
-	tSM6HJwLlJKecKRIRjh0vwOIf68Kmzr5LEIngfCMjMFRGA4JcxJXU4kzQB7SRsiXuf9P
-	l5YPHYsNsCovAATTLrvTcNaBWP0pVNHjWgJ7XTBqT6WZcqr+Q/jfHvpFyRm1whwYGwPj
-	CXIw==
-X-Gm-Message-State: AEkoouuJZGVV/02on1RZ3ku0ZRAxqfB34CENkCmm2xS8rJbzLecbR5UxiQyjvAkfSLeW1D7K
-X-Received: by 10.28.46.204 with SMTP id u195mr8526476wmu.57.1470918858108;
-	Thu, 11 Aug 2016 05:34:18 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id a9sm2533419wjf.16.2016.08.11.05.34.16
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 11 Aug 2016 05:34:16 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Thu, 11 Aug 2016 13:31:53 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga103.fm.intel.com with ESMTP; 11 Aug 2016 06:31:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.28,505,1464678000"; d="scan'208";a="747340875"
+Received: from marquiz.fi.intel.com ([10.237.72.155])
+	by FMSMGA003.fm.intel.com with ESMTP; 11 Aug 2016 06:31:54 -0700
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Aug 2016 13:34:15 +0100
-Message-Id: <1470918855-8429-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.8.1
-Subject: [PATCH] lib/oeqa/selftest/bbtests: don't report expected failures
+Date: Thu, 11 Aug 2016 16:31:52 +0300
+Message-Id: <1470922312-28013-1-git-send-email-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.6.6
+Subject: [PATCH] oeqa.buildperf: use oe.path.remove()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,29 +27,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Aug 2016 12:34:20 -0000
+X-List-Received-Date: Thu, 11 Aug 2016 13:31:54 -0000
 
-Another instance where expected failures need to be not reported to the error
-reporting service.
+Drop the self-baked force_rm() method.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- meta/lib/oeqa/selftest/bbtests.py | 1 +
- 1 file changed, 1 insertion(+)
+ meta/lib/oeqa/buildperf/base.py        | 15 ++++-----------
+ meta/lib/oeqa/buildperf/basic_tests.py |  5 +++--
+ 2 files changed, 7 insertions(+), 13 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/bbtests.py b/meta/lib/oeqa/selftest/bbtests.py
-index 8698400..d8cb835 100644
---- a/meta/lib/oeqa/selftest/bbtests.py
-+++ b/meta/lib/oeqa/selftest/bbtests.py
-@@ -134,6 +134,7 @@ class BitbakeTests(oeSelfTest):
-         self.write_recipeinc('man', data)
-         self.write_config("""DL_DIR = \"${TOPDIR}/download-selftest\"
- SSTATE_DIR = \"${TOPDIR}/download-selftest\"
-+INHERIT_remove = \"report-error\"
- """)
-         self.track_for_cleanup(os.path.join(self.builddir, "download-selftest"))
+diff --git a/meta/lib/oeqa/buildperf/base.py b/meta/lib/oeqa/buildperf/base.py
+index 527563b..2af4d25 100644
+--- a/meta/lib/oeqa/buildperf/base.py
++++ b/meta/lib/oeqa/buildperf/base.py
+@@ -21,6 +21,7 @@ import time
+ import traceback
+ from datetime import datetime, timedelta
  
++import oe.path
+ from oeqa.utils.commands import runCmd, get_bb_vars
+ from oeqa.utils.git import GitError, GitRepo
+ 
+@@ -296,29 +297,21 @@ class BuildPerfTest(object):
+         shutil.move(self.bb_vars['BUILDSTATS_BASE'],
+                     os.path.join(self.out_dir, 'buildstats-' + self.name))
+ 
+-    @staticmethod
+-    def force_rm(path):
+-        """Equivalent of 'rm -rf'"""
+-        if os.path.isfile(path) or os.path.islink(path):
+-            os.unlink(path)
+-        elif os.path.isdir(path):
+-            shutil.rmtree(path)
+-
+     def rm_tmp(self):
+         """Cleanup temporary/intermediate files and directories"""
+         log.debug("Removing temporary and cache files")
+         for name in ['bitbake.lock', 'conf/sanity_info',
+                      self.bb_vars['TMPDIR']]:
+-            self.force_rm(name)
++            oe.path.remove(name, recurse=True)
+ 
+     def rm_sstate(self):
+         """Remove sstate directory"""
+         log.debug("Removing sstate-cache")
+-        self.force_rm(self.bb_vars['SSTATE_DIR'])
++        oe.path.remove(self.bb_vars['SSTATE_DIR'], recurse=True)
+ 
+     def rm_cache(self):
+         """Drop bitbake caches"""
+-        self.force_rm(self.bb_vars['PERSISTENT_DIR'])
++        oe.path.remove(self.bb_vars['PERSISTENT_DIR'], recurse=True)
+ 
+     @staticmethod
+     def sync():
+diff --git a/meta/lib/oeqa/buildperf/basic_tests.py b/meta/lib/oeqa/buildperf/basic_tests.py
+index ada5aba..81b2b5f 100644
+--- a/meta/lib/oeqa/buildperf/basic_tests.py
++++ b/meta/lib/oeqa/buildperf/basic_tests.py
+@@ -13,6 +13,7 @@
+ import os
+ import shutil
+ 
++import oe.path
+ from . import BuildPerfTest, perf_test_case
+ from oeqa.utils.commands import get_bb_vars
+ 
+@@ -95,11 +96,11 @@ class Test3(BuildPerfTest):
+     def _run(self):
+         # Drop all caches and parse
+         self.rm_cache()
+-        self.force_rm(os.path.join(self.bb_vars['TMPDIR'], 'cache'))
++        oe.path.remove(os.path.join(self.bb_vars['TMPDIR'], 'cache'), True)
+         self.measure_cmd_resources(['bitbake', '-p'], 'parse_1',
+                                    'bitbake -p (no caches)')
+         # Drop tmp/cache
+-        self.force_rm(os.path.join(self.bb_vars['TMPDIR'], 'cache'))
++        oe.path.remove(os.path.join(self.bb_vars['TMPDIR'], 'cache'), True)
+         self.measure_cmd_resources(['bitbake', '-p'], 'parse_2',
+                                    'bitbake -p (no tmp/cache)')
+         # Parse with fully cached data
 -- 
-2.8.1
+2.6.6
 
 
