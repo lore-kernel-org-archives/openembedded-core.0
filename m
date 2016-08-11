@@ -1,22 +1,21 @@
-Return-Path: <henry.bruce@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id B221276809
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id A3B02731F6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Aug 2016 23:26:39 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP; 10 Aug 2016 16:26:39 -0700
+	Thu, 11 Aug 2016 04:38:03 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP; 10 Aug 2016 21:38:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,502,1464678000"; d="scan'208";a="863358853"
-Received: from hbruce-desk3.jf.intel.com ([10.7.198.166])
-	by orsmga003.jf.intel.com with ESMTP; 10 Aug 2016 16:26:40 -0700
-From: Henry Bruce <henry.bruce@intel.com>
+X-IronPort-AV: E=Sophos;i="5.28,503,1464678000"; d="scan'208";a="1012328484"
+Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com)
+	([10.255.171.53])
+	by orsmga001.jf.intel.com with ESMTP; 10 Aug 2016 21:38:02 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Aug 2016 16:26:37 -0700
-Message-Id: <1470871597-14289-1-git-send-email-henry.bruce@intel.com>
-X-Mailer: git-send-email 2.4.11
-In-Reply-To: <1470867341-12828-1-git-send-email-henry.bruce@intel.com>
-References: <1470867341-12828-1-git-send-email-henry.bruce@intel.com>
-Subject: [PATCH v2] npm: npm.bbclass now adds nodejs to RDEPENDS
+Date: Thu, 11 Aug 2016 16:37:33 +1200
+Message-Id: <cover.1470890224.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.5.5
+Subject: [PATCH 0/1] oe-buildenv-internal: hint at specifying bitbake path in error message
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,27 +28,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Aug 2016 23:26:43 -0000
+X-List-Received-Date: Thu, 11 Aug 2016 04:38:04 -0000
 
-We expect that any package that uses the npm bbclass
-will have a runtime dependency on node.js
+The following changes since commit 5ed0d5a7d9b051a551a6de644bf6a42b87c12471:
 
-Signed-off-by: Henry Bruce <henry.bruce@intel.com>
----
- meta/classes/npm.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+  dbus: backport stdint.h build fix (2016-08-10 10:45:33 +0100)
 
-diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
-index 95be751..55c7c3e 100644
---- a/meta/classes/npm.bbclass
-+++ b/meta/classes/npm.bbclass
-@@ -1,4 +1,5 @@
- DEPENDS_prepend = "nodejs-native "
-+RDEPENDS_${PN}_prepend = "nodejs "
- S = "${WORKDIR}/npmpkg"
- 
- NPM_INSTALLDIR = "${D}${libdir}/node_modules/${PN}"
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/oe-init-bitbake
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/oe-init-bitbake
+
+Paul Eggleton (1):
+  oe-buildenv-internal: hint at specifying bitbake path in error message
+
+ scripts/oe-buildenv-internal | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 -- 
-2.4.11
+2.5.5
 
 
