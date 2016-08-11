@@ -1,23 +1,27 @@
-Return-Path: <brian.avery@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id C2A227706A
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 53CE977226
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2016 22:28:29 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 11 Aug 2016 15:28:30 -0700
+	Thu, 11 Aug 2016 22:47:06 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga102.jf.intel.com with ESMTP; 11 Aug 2016 15:47:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,507,1464678000"; d="scan'208";a="1012885888"
-Received: from bavery-ws-desk.jf.intel.com ([10.7.201.28])
-	by orsmga001.jf.intel.com with ESMTP; 11 Aug 2016 15:28:30 -0700
-From: bavery <brian.avery@intel.com>
+X-IronPort-AV: E=Sophos;i="5.28,507,1464678000"; d="scan'208";a="1039654307"
+Received: from ahuong-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.179.129])
+	by fmsmga002.fm.intel.com with ESMTP; 11 Aug 2016 15:47:05 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Aug 2016 15:29:48 -0700
-Message-Id: <bf71a7aefdce918bc76c185dcb90f570f2f63121.1470954349.git.brian.avery@intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1470954349.git.brian.avery@intel.com>
-References: <cover.1470954349.git.brian.avery@intel.com>
+Date: Fri, 12 Aug 2016 10:47:03 +1200
+Message-ID: <4446501.zJ7lKRIVTe@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.6.5-200.fc23.x86_64; KDE/4.14.20; x86_64; ;
+	)
+In-Reply-To: <8aa96837fb9a30d03e547d7c7d58706f7d7a8aab.1470890478.git.paul.eggleton@linux.intel.com>
+References: <cover.1470890478.git.paul.eggleton@linux.intel.com>
+	<8aa96837fb9a30d03e547d7c7d58706f7d7a8aab.1470890478.git.paul.eggleton@linux.intel.com>
 MIME-Version: 1.0
-Subject: =?UTF-8?B?W1BBVENIIDEvMV0gYmFzZS1maWxlczogcmVzdHJpY3QgcmVzaXplIHRvIHJ1biBvbiBzZXJpYWwgY29uc29sZXMgb25seSBpbiBwcm9maWxlIOKUgsK3?=
+Subject: Re: [PATCH 09/10] classes/populate_sdk_ext: add some pre-install checks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,48 +34,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Aug 2016 22:28:29 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 11 Aug 2016 22:47:07 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-We don't need/wan't to run resize on an ssh connection. It's useless and
-it breaks the Eclipse SSH debug connection. So, we added a check.
+On Thu, 11 Aug 2016 16:45:06 Paul Eggleton wrote:
+> +        # Check setting of LC_ALL set above
+> +	canonicalised_locale=`echo $LC_ALL | sed 's/UTF-8/utf8/'`
+> +	if ! locale -a | grep -q $canonicalised_locale ; then
+> +		echo "ERROR: the installer requires the $LC_ALL locale to be
+> installed (but not selected), please install it first" 
+> +		exit 1
+> +	fi
 
-YOCTO #9362
+Note that this will of course need updating if we go ahead with the fix for
+the issue that Enrico brought up [1] then this will need to be changed as
+well.
 
-Signed-off-by: bavery <brian.avery@intel.com>
----
- recipes-core/base-files/base-files/profile | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+Cheers,
+Paul
 
-diff --git a/recipes-core/base-files/base-files/profile b/recipes-core/base-files/base-files/profile
-index e98e786..ba1b9ba 100644
---- a/recipes-core/base-files/base-files/profile
-+++ b/recipes-core/base-files/base-files/profile
-@@ -6,7 +6,7 @@ EDITOR="vi"			# needed for packages like cron, git-commit
- test -z "$TERM" && TERM="vt100"	# Basic terminal capab. For screen etc.
- 
- if [ ! -e /etc/localtime -a ! -e /etc/TZ ]; then
--	TZ="UTC"		# Time Zone. Look at http://theory.uwinnipeg.ca/gnu/glibc/libc_303.html 
-+	TZ="UTC"		# Time Zone. Look at http://theory.uwinnipeg.ca/gnu/glibc/libc_303.html
- 				# for an explanation of how to set this to your local timezone.
- 	export TZ
- fi
-@@ -29,10 +29,11 @@ if [ -d /etc/profile.d ]; then
- fi
- 
- if [ -x /usr/bin/resize ];then
--  /usr/bin/resize >/dev/null
-+  # Make sure we are on a serial console (i.e. the device used starts with /dev/tty),
-+  # otherwise we confuse e.g. the eclipse launcher which tries do use ssh
-+  test `tty | cut -c1-8` = "/dev/tty" && resize >/dev/null
- fi
- 
- export PATH PS1 OPIEDIR QPEDIR QTDIR EDITOR TERM
- 
- umask 022
--
+[1] http://lists.openembedded.org/pipermail/openembedded-core/2016-August/124896.html
+
 -- 
-1.9.1
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
