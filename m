@@ -1,22 +1,22 @@
 Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BBAE7705F
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 934AF7721C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Aug 2016 18:14:14 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 11 Aug 2016 11:14:15 -0700
+	Thu, 11 Aug 2016 18:15:17 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga103.fm.intel.com with ESMTP; 11 Aug 2016 11:15:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.28,506,1464678000"; d="scan'208";a="1012761233"
+X-IronPort-AV: E=Sophos;i="5.28,506,1464678000"; d="scan'208";a="747462775"
 Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.jf.intel.com)
 	([10.54.69.56])
-	by orsmga001.jf.intel.com with ESMTP; 11 Aug 2016 11:14:14 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 11 Aug 2016 11:15:19 -0700
 From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Aug 2016 18:10:59 +0000
-Message-Id: <1470939059-32387-1-git-send-email-alejandro.hernandez@linux.intel.com>
+Date: Thu, 11 Aug 2016 18:12:02 +0000
+Message-Id: <1470939122-32434-1-git-send-email-alejandro.hernandez@linux.intel.com>
 X-Mailer: git-send-email 2.6.6
-Cc: joshua.g.lock@intel.com, Roy Li <rongqing.li@windriver.com>
-Subject: [PATCH][fido] systemd: re-enable mount propagation for udevd
+Cc: Roy Li <rongqing.li@windriver.com>
+Subject: [PATCH][jethro] systemd: re-enable mount propagation for udevd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,7 +29,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Aug 2016 18:14:17 -0000
+X-List-Received-Date: Thu, 11 Aug 2016 18:15:17 -0000
 
 From: Roy Li <rongqing.li@windriver.com>
 
@@ -48,7 +48,7 @@ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 ---
  ...dev-re-enable-mount-propagation-for-udevd.patch | 31 ++++++++++++++++++++++
- meta/recipes-core/systemd/systemd_219.bb           |  1 +
+ meta/recipes-core/systemd/systemd_225.bb           |  1 +
  2 files changed, 32 insertions(+)
  create mode 100644 meta/recipes-core/systemd/systemd/udev-re-enable-mount-propagation-for-udevd.patch
 
@@ -89,18 +89,18 @@ index 0000000..23e22d4
 +-MountFlags=slave
 + KillMode=mixed
 + WatchdogSec=1min
-diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
-index b972dd4..1d08c9e 100644
---- a/meta/recipes-core/systemd/systemd_219.bb
-+++ b/meta/recipes-core/systemd/systemd_219.bb
-@@ -49,6 +49,7 @@ SRC_URI = "git://github.com/systemd/systemd-stable;branch=v219-stable;protocol=g
-            file://00-create-volatile.conf \
+diff --git a/meta/recipes-core/systemd/systemd_225.bb b/meta/recipes-core/systemd/systemd_225.bb
+index 18c2448..a2122e0 100644
+--- a/meta/recipes-core/systemd/systemd_225.bb
++++ b/meta/recipes-core/systemd/systemd_225.bb
+@@ -46,6 +46,7 @@ SRC_URI = "git://github.com/systemd/systemd.git;protocol=git \
             file://init \
             file://run-ptest \
+            file://rules-whitelist-hd-devices.patch \
 +           file://udev-re-enable-mount-propagation-for-udevd.patch \
            "
+ SRC_URI_append_qemuall = " file://qemuall_io_latency-core-device.c-Change-the-default-device-timeout-to-2.patch"
  
- S = "${WORKDIR}/git"
 -- 
 2.6.6
 
